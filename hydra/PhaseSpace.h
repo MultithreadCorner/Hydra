@@ -66,7 +66,7 @@
 #include <thrust/random.h>
 #include <thrust/distance.h>
 
-#if !(THRUST_DEVICE_SYSTEM==THRUST_DEVICE_BACKEND_OMP || THRUST_DEVICE_SYSTEM==THRUST_DEVICE_BACKEND_TBB)
+#if !(THRUST_DEVICE_SYSTEM==THRUST_DEVICE_SYSTEM_OMP || THRUST_DEVICE_SYSTEM==THRUST_DEVICE_SYSTEM_TBB)
 #include <thrust/system/cuda/execution_policy.h>
 #endif
 
@@ -121,7 +121,7 @@ public:
 			 * in any system of reference. The daughters will be generated in this system.
 			 */
 
-#if !(THRUST_DEVICE_SYSTEM==THRUST_DEVICE_BACKEND_OMP || THRUST_DEVICE_SYSTEM==THRUST_DEVICE_BACKEND_TBB)
+#if !(THRUST_DEVICE_SYSTEM==THRUST_DEVICE_SYSTEM_OMP || THRUST_DEVICE_SYSTEM==THRUST_DEVICE_SYSTEM_TBB)
 	cudaDeviceSetCacheConfig(cudaFuncCachePreferL1);
 #endif
 			typedef detail::BackendTraits<BACKEND> system_t;
@@ -148,7 +148,7 @@ public:
 		 * in any system of reference. The daughters will be generated in this system.
 		 */
 
-#if !(THRUST_DEVICE_SYSTEM==THRUST_DEVICE_BACKEND_OMP || THRUST_DEVICE_SYSTEM==THRUST_DEVICE_BACKEND_TBB)
+#if !(THRUST_DEVICE_SYSTEM==THRUST_DEVICE_SYSTEM_OMP || THRUST_DEVICE_SYSTEM==THRUST_DEVICE_SYSTEM_TBB)
 	cudaDeviceSetCacheConfig(cudaFuncCachePreferL1);
 #endif
 		typedef detail::BackendTraits<BACKEND> system_t;
