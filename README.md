@@ -57,7 +57,7 @@ Installation and requirements
 Hydra is a header only library, so no build process is necessary to install it. 
 Just place the `hydra` folder and its contents where your system can find it.
 The library run on Linux systems and requires C++11 and the varidadic version of the 
-[Thrust library](https://github.com/andrewcorrigan/thrust-multi-permutation-iterator/tree/variadic). 
+[Thrust library](https://github.com/andrewcorrigan/thrust-multi-permutation-iterator/tree/variadic) and [boost::format](http://www.boost.org/doc/libs/1_61_0/libs/format/doc/format.html). 
 
 Some examples demonstrating the basic features of the library are included in the `src` folder. 
 These code samples require [ROOT](https://root.cern.ch/) and [TCLAP](http://tclap.sourceforge.net/) library. 
