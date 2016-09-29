@@ -8,8 +8,8 @@ What is it?
 Hydra is an header only library designed for data analysis. The library makes use of Thrust and can deploy OpenMP
 threads, CUDA and Xeon Phi cores. It is focused on performance and precision. 
 
-The libray core algorithms follow as close as is possible the implementations widely available in framworks like ROOT, and libraries 
-like GSL
+The library core algorithms follow as close as is possible the implementations widely available in frameworks like ROOT, and libraries 
+like GSL.
 
 Main features
 -------------
@@ -20,23 +20,23 @@ Currently Hydra supports:
 * Generation of sequential decays (phase-space).
 * Sampling of multidimensional pdfs.
 * Multidimensional fitting using binned and unbinned data sets.
-* Evaluation of multidimensional functions over heterogeneos data sets. 
+* Evaluation of multidimensional functions over heterogeneous data sets. 
 * Numerical integration of multidimensional functions using plain or self-adaptive (Vegas-like) Monte Carlo methods.
 
 Hydra also provides a bunch of custom types, containers and an increasing number of algorithms
-to maximaze performance, avoid unecessary usage of memory and grant flexibility and protability between 
+to maximize performance, avoid unnecessary usage of memory and grant flexibility and portability between 
 host and device calculations and deployment scenarios. 
 
-Just changing .cu to .cpp in any source code writen only using the Hydra cosntructs is enough
+Just changing `.cu` to `.cpp` in any source code written only using the Hydra constructs is enough
 to compile your application for OpenMP using GCC in a machine without a NVIDIA GPU installed.
 
-Many other possibilities and functionaties can be achivied combining the core components, bounded only by the creativity of the users. 
+Many other possibilities and functionalities can be achieved combining the core components, bounded only by the creativity of the users. 
 
 The Latest Version
 ------------------
 
 The latest version can be found on the 
-[project relases page](https://github.com/MultithreadCorner/Hydra/releases).
+[project releases page](https://github.com/MultithreadCorner/Hydra/releases).
 
 Documentation
 -------------
@@ -69,7 +69,7 @@ The CUDA installation is not required to use OpemMP.
 Examples
 --------
 
-Some example code samples demonstrating the basic usage of the library are stored in the src directory, in the project source tree. 
+Some example code samples demonstrating the basic usage of the library are stored in the `src` directory, in the project source tree. 
 These samples can be built using [CMAKE](https://cmake.org/) according the following instructions:
 
 1. clone the git repository: `git clone https://github.com/MultithreadCorner/Hydra.git`
@@ -84,17 +84,17 @@ The examples are named according to the convention `HYDRA_Example_<BACKEND AND C
 The examples are described below:
 
 1. __PhaseSpace__ : Takes arguments from the command line and generates a 3-body decay and calculates some observables.   
-The program print some events and timing information to sdtout.
+The program print some events and timing information to stdout.
 
 2. __Evaluate__ : Takes arguments from the command line, generates some samples and perform calculations 
 using lambda functions (requires CUDA 8.0 to run on the GPU). 
-The program print some results and timing information to sdtout.
+The program print some results and timing information to stdout.
 
 3. __Fit__: Takes arguments from the command line, generates a samples and perform a extended likelihood fit. 
-The program print some results and timing information to sdtout.
+The program print some results and timing information to stdout.
 
 4. __Random__: Takes arguments from the command line, generates some samples  in one, two and three. 
-The program print some results, draw plots and timing information to sdtout.
+The program print some results, draw plots and timing information to stdout.
 
 
 Licensing
@@ -115,7 +115,7 @@ Here’s what you should do if you need help or would like to contribute:
 Author
 --------
 
-Hydra was created and is mantained by [Antonio Augusto Alves Jr](@AAAlvesJr).
+Hydra was created and is maintained by [Antonio Augusto Alves Jr](@AAAlvesJr).
 
 Acknowledgement
 ---------------
