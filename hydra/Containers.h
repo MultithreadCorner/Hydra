@@ -50,7 +50,7 @@
 #include <thrust/host_vector.h>
 #include <thrust/complex.h>
 
-#if !(THRUST_DEVICE_SYSTEM==THRUST_DEVICE_BACKEND_OMP || THRUST_DEVICE_SYSTEM==THRUST_DEVICE_BACKEND_TBB)
+#if !(THRUST_DEVICE_SYSTEM==THRUST_DEVICE_SYSTEM_OMP || THRUST_DEVICE_SYSTEM==THRUST_DEVICE_SYSTEM_TBB)
 #include <thrust/system/cuda/experimental/pinned_allocator.h>
 #endif
 
@@ -59,7 +59,7 @@ using namespace std;
 namespace hydra
 {
 
-#if (THRUST_DEVICE_SYSTEM==THRUST_DEVICE_BACKEND_OMP || THRUST_DEVICE_SYSTEM==THRUST_DEVICE_BACKEND_TBB)
+#if (THRUST_DEVICE_SYSTEM==THRUST_DEVICE_SYSTEM_OMP || THRUST_DEVICE_SYSTEM==THRUST_DEVICE_SYSTEM_TBB)
 /*!
  * Generic template typedef for thrust::host_vector. Use it instead of Thrust implementation
  * in order to avoid problems to compile OpenMP based applications using gcc and without a cuda runtime installation.
