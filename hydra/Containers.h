@@ -49,7 +49,7 @@
 #include <thrust/device_vector.h>
 #include <thrust/host_vector.h>
 #include <thrust/complex.h>
-#include <thrust/system/cuda/experimental/pinned_allocator.h>
+
 
 
 using namespace std;
