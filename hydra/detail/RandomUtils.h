@@ -29,7 +29,7 @@
 #ifndef RANDOMUTILS_H_
 #define RANDOMUTILS_H_
 
-#include <math_constants.h>
+#include <hydra/detail/Config.h>
 #include <thrust/functional.h>
 #include <thrust/distance.h>
 #include <thrust/extrema.h>
