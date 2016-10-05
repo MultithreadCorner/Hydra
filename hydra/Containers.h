@@ -49,7 +49,6 @@
 #include <thrust/device_vector.h>
 #include <thrust/host_vector.h>
 #include <thrust/complex.h>
-#include <thrust/system/cuda/experimental/pinned_allocator.h>
 
 
 using namespace std;
@@ -57,23 +56,8 @@ using namespace std;
 namespace hydra
 {
 
-#if (THRUST_DEVICE_SYSTEM==THRUST_DEVICE_BACKEND_OMP || THRUST_DEVICE_SYSTEM==THRUST_DEVICE_BACKEND_TBB)
-/*!
- * Generic template typedef for thrust::host_vector. Use it instead of Thrust implementation
- * in order to avoid problems to compile OpenMP based applications using gcc and without a cuda runtime installation.
- */
-	template <typename T>
-		using  mc_device_vector = thrust::device_vector<T>;
-/*!
- * Generic template typedef for thrust::host_vector. Use it instead of Thrust implementation
- * in order to avoid problems to compile OpenMP based applications using gcc and without a cuda runtime installation.
- * mc_host_vectot will always allocate page locked memory on CUDA backends in order to maximize speed in memory transfers
- * to the device.
- */
-	template <typename T>
-		using  mc_host_vector   = thrust::host_vector<T>;
 
-#else
+#if THRUST_DEVICE_SYSTEM==THRUST_DEVICE_SYSTEM_CUDA
 	/*!
 	 * Generic template typedef for thrust::host_vector. Use it instead of Thrust implementation
 	 * in order to avoid problems to compile OpenMP based applications using gcc and without a cuda runtime installation.
@@ -88,8 +72,22 @@ namespace hydra
 	 */
 	template <typename T>
 		using  mc_host_vector = thrust::host_vector<T,
-				thrust::cuda::experimental::pinned_allocator<T>>;
-
+				thrust::system::cuda::experimental::pinned_allocator<T>>;
+#else
+/*!
+ * Generic template typedef for thrust::host_vector. Use it instead of Thrust implementation
+ * in order to avoid problems to compile OpenMP based applications using gcc and without a cuda runtime installation.
+ */
+	template <typename T>
+		using  mc_device_vector = thrust::device_vector<T>;
+/*!
+ * Generic template typedef for thrust::host_vector. Use it instead of Thrust implementation
+ * in order to avoid problems to compile OpenMP based applications using gcc and without a cuda runtime installation.
+ * mc_host_vectot will always allocate page locked memory on CUDA backends in order to maximize speed in memory transfers
+ * to the device.
+ */
+	template <typename T>
+		using  mc_host_vector   = thrust::host_vector<T>;
 #endif
 
 
