@@ -66,9 +66,6 @@
 #include <thrust/random.h>
 #include <thrust/distance.h>
 
-#if !(THRUST_DEVICE_SYSTEM==THRUST_DEVICE_BACKEND_OMP || THRUST_DEVICE_SYSTEM==THRUST_DEVICE_BACKEND_TBB)
-#include <thrust/system/cuda/execution_policy.h>
-#endif
 
 #include <thrust/system/omp/execution_policy.h>
 

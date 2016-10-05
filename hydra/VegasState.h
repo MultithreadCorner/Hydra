@@ -38,7 +38,6 @@
 #include <hydra/Types.h>
 
 
-#include <thrust/system/cuda/execution_policy.h>
 #include <thrust/copy.h>
 #include <chrono>
 

@@ -50,9 +50,7 @@
 #include <thrust/host_vector.h>
 #include <thrust/complex.h>
 
-#if !(THRUST_DEVICE_SYSTEM==THRUST_DEVICE_BACKEND_OMP || THRUST_DEVICE_SYSTEM==THRUST_DEVICE_BACKEND_TBB)
-#include <thrust/system/cuda/experimental/pinned_allocator.h>
-#endif
+
 
 using namespace std;
 

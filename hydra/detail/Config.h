@@ -53,6 +53,7 @@
  #include <cuda_runtime.h>
  #include <cuda_runtime_api.h>
  #include <math_functions.h>
+ #include <thrust/system/cuda/execution_policy.h>
 #endif
 
 #ifndef HYDRA_CERROR_LOG
