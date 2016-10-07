@@ -124,7 +124,7 @@ namespace hydra {
 
 		for(auto v:Array) v=value;
 
-		return make_tuple_helper( Array, make_index_sequence<N>{});
+		return make_tuple_helper<T>( Array, make_index_sequence<N>{});
 	}
 
 
