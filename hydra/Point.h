@@ -194,7 +194,7 @@ struct Point: public ValueError<T, HasValueError>, public PointError<T, N, HasPo
 	__host__
 	Point(value_type coord, value_type weight=0,
 			const typename std::enable_if< !U && !V , void>::type* dummy=0 ):
-			fCoordinates( detail::make_tuple(coord)),
+			fCoordinates( detail::make_tuple<N>(coord)),
 			fWeight(weight),
 			fWeight2(weight*weight)
 	{ }
