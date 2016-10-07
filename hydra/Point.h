@@ -192,7 +192,7 @@ struct Point: public ValueError<T, HasValueError>, public PointError<T, N, HasPo
 
 	template<bool U = HasValueError, bool V=HasPointError>
 	__host__
-	Point(value_type coord, value_type weight,
+	Point(value_type coord, value_type weight=0,
 			const typename std::enable_if< !U && !V , void>::type* dummy=0 ):
 			fCoordinates( detail::make_tuple(coord)),
 			fWeight(weight),
