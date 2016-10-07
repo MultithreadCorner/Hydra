@@ -106,6 +106,26 @@ namespace hydra {
 		return get_zip_iterator_helper(head, array_of_iterators , make_index_sequence<N> { } );
 
 	}
+	//----------------------------------------
+	//make a homogeneous tuple with same value in all elements
+	template <typename T,  size_t... Is >
+	auto make_tuple_helper(std::array<T, sizeof ...(Is)>& Array, index_sequence<Is...>)
+	-> decltype(thrust::make_tuple(Array[Is]...))
+	{
+		return thrust::make_tuple(Array[Is]...);
+	}
+
+
+	template <typename T,  size_t N>
+	auto make_tuple(T value)
+	-> decltype(make_tuple_helper(value,  make_index_sequence<N>{}))
+	{
+		std::array<T,N> Array;
+
+		for(auto v:Array) v=value;
+
+		return make_tuple_helper( Array, make_index_sequence<N>{});
+	}
 
 
 	//---------------------------------------

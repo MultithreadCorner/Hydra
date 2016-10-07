@@ -192,6 +192,15 @@ struct Point: public ValueError<T, HasValueError>, public PointError<T, N, HasPo
 
 	template<bool U = HasValueError, bool V=HasPointError>
 	__host__
+	Point(value_type coord, value_type weight,
+			const typename std::enable_if< !U && !V , void>::type* dummy=0 ):
+			fCoordinates( detail::make_tuple(coord)),
+			fWeight(weight),
+			fWeight2(weight*weight)
+	{ }
+
+	template<bool U = HasValueError, bool V=HasPointError>
+	__host__
 	Point(std::array<value_type,N> coordinates, value_type weight,
 			const typename std::enable_if< !U && !V , void>::type* dummy=0 ):
 	fCoordinates( detail::arrayToTuple<value_type,N>(const_cast<value_type*>(coordinates.data() ) )),
@@ -228,15 +237,6 @@ struct Point: public ValueError<T, HasValueError>, public PointError<T, N, HasPo
 		fWeight2(weight*weight)
 	{ }
 
-	/*
-	template<size_t M=N, bool U = HasValueError, bool V=HasPointError>
-		__host__  __device__
-		Point(value_type coordinate, value_type weight=1.0,
-				const typename std::enable_if< M==1 && !U && !V , void>::type* dummy=0 ):
-			fCoordinates( thrust::make_tuple(coordinate) ),
-			fWeight(weight),
-			fWeight2(weight*weight)
-		{ }*/
 
 
 
