@@ -88,11 +88,15 @@ public:
 	 */
 	PhaseSpace(GReal_t _MotherMass, vector<GReal_t> _Masses) :
 		fNDaughters(_Masses.size()),
-		fMassesD(_Masses),
-		fMassesH(_Masses),
 		fSeed(1)
 
 {
+
+		fMassesD.resize(_Masses.size());
+		thrust::copy(_Masses.begin(), _Masses.end(), fMassesD.begin());
+
+		fMassesH.resize(_Masses.size());
+		thrust::copy(_Masses.begin(), _Masses.end(), fMassesH.begin());
 
 		GReal_t fTeCmTm = 0.0;
 

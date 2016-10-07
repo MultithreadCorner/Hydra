@@ -192,6 +192,7 @@ struct DecayMother
 		#pragma unroll N
 		for (size_t n = 0; n < fNDaughters; n++)
 		{
+			printf("%d mass=%f \n",n, fMasses[n]);
 			sum += fMasses[n];
 			invMas[n] = rno[n] * fTeCmTm + sum;
 		}
