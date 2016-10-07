@@ -56,6 +56,7 @@
 #include <hydra/detail/functors/DecayMothers.h>
 #include <hydra/detail/functors/FlagAcceptReject.h>
 #include <hydra/detail/functors/IsAccepted.h>
+#include <hydra/detail/utility/Generic.h>
 #include <hydra/strided_iterator.h>
 #include <hydra/detail/launch_decayers.inl>
 
@@ -87,11 +88,11 @@ public:
 	 */
 	PhaseSpace(GReal_t _MotherMass, vector<GReal_t> _Masses) :
 		fNDaughters(_Masses.size()),
+		fMassesD(_Masses),
+		fMassesH(_Masses),
 		fSeed(1)
 
 {
-		fMasses.resize(_Masses.size());
-		thrust::copy(_Masses.begin(), _Masses.end(), fMasses.begin());
 
 		GReal_t fTeCmTm = 0.0;
 
@@ -118,22 +119,15 @@ public:
 			 * in any system of reference. The daughters will be generated in this system.
 			 */
 
-#if !(THRUST_DEVICE_SYSTEM==THRUST_DEVICE_BACKEND_OMP || THRUST_DEVICE_SYSTEM==THRUST_DEVICE_BACKEND_TBB)
+#if(THRUST_DEVICE_SYSTEM==THRUST_DEVICE_BACKEND_CUDA && (BACKEND==device))
 	cudaDeviceSetCacheConfig(cudaFuncCachePreferL1);
 #endif
-			typedef detail::BackendTraits<BACKEND> system_t;
 
-			typedef typename system_t::template container<GReal_t> vector_real;
 
-			vector_real masses(fMasses);
-
-			DecayMother<N, BACKEND,GRND> decayer(mother, masses, fNDaughters, fSeed);
+			DecayMother<N, BACKEND,GRND> decayer(mother,
+					detail::ObjSelector<BACKEND==host>::select(fMassesH,fMassesD), fNDaughters, fSeed);
 			detail::launch_decayer(decayer, events );
 
-			//setting maximum weight
-			auto w = thrust::max_element(events.WeightsBegin(),
-					events.WeightsEnd());
-			events.SetMaxWeight(*w);
 	}
 
 	template<unsigned int BACKEND>
@@ -145,14 +139,9 @@ public:
 		 * in any system of reference. The daughters will be generated in this system.
 		 */
 
-#if !(THRUST_DEVICE_SYSTEM==THRUST_DEVICE_BACKEND_OMP || THRUST_DEVICE_SYSTEM==THRUST_DEVICE_BACKEND_TBB)
+#if(THRUST_DEVICE_SYSTEM==THRUST_DEVICE_BACKEND_CUDA && (BACKEND==device))
 	cudaDeviceSetCacheConfig(cudaFuncCachePreferL1);
 #endif
-		typedef detail::BackendTraits<BACKEND> system_t;
-
-		typedef typename system_t::template container<GReal_t> vector_real;
-
-		vector_real masses(fMasses);
 
 		size_t n_mothers= thrust::distance(mothers_end,mothers_begin);
 
@@ -162,12 +151,10 @@ public:
 			exit(1);
 		}
 
-		DecayMothers<N, BACKEND,GRND> decayer(masses, fNDaughters, fSeed);
+		DecayMothers<N, BACKEND,GRND> decayer(detail::ObjSelector<BACKEND==host>::select(fMassesH,fMassesD), fNDaughters, fSeed);
 		detail::launch_decayer(decayer,mothers_begin, events );
 
-		RealVector_d::iterator w = thrust::max_element(events.WeightsBegin(),
-				events.WeightsEnd());
-		events.SetMaxWeight(*w);
+
 
 	}
 
@@ -192,9 +179,12 @@ public:
 
 private:
 
+
 	GInt_t  fNDaughters;///< Number of daughters.
 	GInt_t  fSeed;///< seed.
-	vector<GReal_t> fMasses;///<  vector of daughter masses.
+	mc_device_vector<GReal_t> fMassesD;
+	mc_host_vector<GReal_t> fMassesH;
+
 
 
 };

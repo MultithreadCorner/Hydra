@@ -279,6 +279,8 @@ struct Events {
 		 * Flag the accepted and rejected events
 		 */
 
+
+
 		GULong_t count = 0;
 		if(N==2)
 		{
@@ -288,6 +290,8 @@ struct Events {
 		else
 		{
 
+		auto w = thrust::max_element(fWeights.begin(),fWeights.end());
+		fMaxWeight=*w;
 		// create iterators
 		thrust::counting_iterator<GLong_t> first(0);
 		thrust::counting_iterator<GLong_t> last = first + fNEvents;

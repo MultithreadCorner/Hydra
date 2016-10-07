@@ -125,6 +125,28 @@ template<class R, class...Ts>
 	struct repeat<T, 0, TT>
 	{ using type = TT<>; };
 
+	//--------------------------------
+	template<bool FLAG>
+	struct ObjSelector;
+
+	template<>
+	struct ObjSelector<true>
+	{
+		template<typename T1, typename T2>
+		static T1 select(T1 const& obj1, T2 const& obj2 ){ return obj1;}
+	};
+
+	template<>
+	struct ObjSelector<false>
+	{
+		template<typename T1, typename T2>
+		static T2 select(T1 const& obj1, T2 const& obj2 ){ return obj2;}
+	};
+
+
+
+
+
 	}//namespace detail
 }//namespace hydra
 

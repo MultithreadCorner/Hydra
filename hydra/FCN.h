@@ -46,7 +46,7 @@
 #include <vector>
 #include <unordered_map>
 #include <cassert>
-#include <mutex>
+
 
 namespace hydra {
 
@@ -244,7 +244,7 @@ private:
 	GBool_t fWeighted;
 	GBool_t fCached;
 	mutable std::unordered_map<size_t, GReal_t> fFCNCache;
-	mutable std::mutex g_pages_mutex;
+
 };
 
 } //namespace hydra
