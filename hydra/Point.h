@@ -182,6 +182,7 @@ struct Point: public ValueError<T, HasValueError>, public PointError<T, N, HasPo
 	/*
 	 * no errors
 	 */
+
 	template<bool U = HasValueError, bool V=HasPointError>
 	__host__  __device__
 	Point(const typename std::enable_if< !U && !V , void>::type* dummy=0 ):
@@ -190,6 +191,7 @@ struct Point: public ValueError<T, HasValueError>, public PointError<T, N, HasPo
 	fWeight2(0)
 	{ }
 
+   /*
 	template<bool U = HasValueError, bool V=HasPointError>
 	__host__
 	Point(value_type coord, value_type weight=0,
@@ -198,6 +200,7 @@ struct Point: public ValueError<T, HasValueError>, public PointError<T, N, HasPo
 			fWeight(weight),
 			fWeight2(weight*weight)
 	{ }
+	*/
 
 	template<bool U = HasValueError, bool V=HasPointError>
 	__host__
@@ -250,6 +253,18 @@ struct Point: public ValueError<T, HasValueError>, public PointError<T, N, HasPo
 	fCoordinates(),
 	fWeight(0)
 	{ }
+
+	/*
+	template<bool U = HasValueError, bool V=HasPointError>
+	__host__
+	Point(value_type coord, value_type weight=0, value_type error=0,
+			const typename std::enable_if< U && !V , void>::type* dummy=0 ):
+			ValueError<T, HasValueError>(error),
+			fCoordinates( detail::make_tuple<N>(coord)),
+			fWeight(weight),
+			fWeight2(weight*weight)
+			{ }
+    */
 
 	template<bool U = HasValueError, bool V=HasPointError>
 	__host__
@@ -307,6 +322,18 @@ struct Point: public ValueError<T, HasValueError>, public PointError<T, N, HasPo
 			fWeight2(0)
 			{ }
 
+	/*
+	template<bool U=HasValueError, bool V=HasPointError>
+		__host__
+		Point(value_type coord, value_type coord_errors, value_type weight, value_type error,
+				const typename std::enable_if< U&&V, void >::type* dummy=0 ):
+		ValueError<T, HasValueError>(error),
+		PointError<T, N, HasPointError>(detail::make_tuple<N>(coord_errors)),
+		fCoordinates( detail::make_tuple<N>(coord)),
+		fWeight(weight),
+		fWeight2(weight*weight)
+		{ }
+    */
 	template<bool U=HasValueError, bool V=HasPointError>
 	__host__
 	Point(std::array<value_type,N> coordinates, std::array<value_type,N> coordinates_errors, value_type weight, value_type error,

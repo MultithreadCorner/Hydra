@@ -117,14 +117,14 @@ namespace hydra {
 
 
 	template <typename T,  size_t N>
-	tuple_type<N, T> make_tuple(T value)
-	//-> decltype(make_tuple_helper(std::array<T,N>(),  make_index_sequence<N>{}))
+	auto make_tuple(T value)
+	-> decltype(make_tuple_helper(std::array<T,N>(),  make_index_sequence<N>{}))
 	{
 		std::array<T,N> Array;
 
 		for(auto v:Array) v=value;
 
-		return make_tuple_helper<T>( Array, make_index_sequence<N>{});
+		return make_tuple_helper( Array, make_index_sequence<N>{});
 	}
 
 

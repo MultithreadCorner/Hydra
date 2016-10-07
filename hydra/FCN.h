@@ -64,7 +64,9 @@ public:
 		fCached(kFalse),
 		fFCNCache(std::unordered_map<size_t, GReal_t>())
 {
-		auto point = thrust::reduce(begin, end );
+		typename IteratorData::value_type init;
+
+		auto point = thrust::reduce(begin, end, init);
 		fSumW  = point.GetWeight() ;
 		fSumW2 = point.GetWeight2();
 }
@@ -79,7 +81,9 @@ public:
 		fCached(kTrue),
 		fFCNCache(std::unordered_map<size_t, GReal_t>())
 	{
-		auto point = thrust::reduce(begin, end );
+		typename IteratorData::value_type init;
+
+		auto point = thrust::reduce(begin, end, init);
 		fSumW  = point.GetWeight() ;
 		fSumW2 = point.GetWeight2();
 	}
