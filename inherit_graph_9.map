@@ -1,0 +1,7 @@
+<map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
+<area shape="rect" id="node2" href="$structhydra_1_1detail_1_1_add_pdf_base.html" title="hydra::detail::AddPdfBase\l\&lt; PDF1, PDF2, PDFs... \&gt;" alt="" coords="144,5,320,47"/>
+<area shape="rect" id="node4" href="$structhydra_1_1detail_1_1_add_pdf_base.html" title="hydra::detail::AddPdfBase\l\&lt; PDF1, PDF2, PDFs \&gt;" alt="" coords="145,71,319,112"/>
+<area shape="rect" id="node5" href="$structhydra_1_1detail_1_1_pdf_base.html" title="hydra::detail::PdfBase\l\&lt; FUNCTOR, INTEGRATOR \&gt;" alt="" coords="128,136,336,177"/>
+<area shape="rect" id="node3" href="$structhydra_1_1_add_pdf.html" title="hydra::AddPdf\&lt; PDF1,\l PDF2, PDFs \&gt;" alt="" coords="389,5,543,47"/>
+<area shape="rect" id="node6" href="$structhydra_1_1_pdf.html" title="hydra::Pdf\&lt; FUNCTOR,\l INTEGRATOR \&gt;" alt="" coords="384,136,548,177"/>
+</map>

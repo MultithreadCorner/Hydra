@@ -1,0 +1,7 @@
+<map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
+<area shape="rect" id="node2" href="$structhydra_1_1detail_1_1are__base__of.html" title="hydra::detail::are\l_base_of\&lt; Base, T, Ts \&gt;" alt="" coords="115,5,283,47"/>
+<area shape="rect" id="node3" href="$structhydra_1_1detail_1_1conditions__and_3_01_cond_00_01_conds_8_8_8_01_4.html" title="hydra::detail::conditions\l_and\&lt; Cond, Conds... \&gt;" alt="" coords="118,71,281,112"/>
+<area shape="rect" id="node4" href="$structhydra_1_1detail_1_1is__homogeneous__base.html" title="hydra::detail::is_homogeneous\l_base\&lt; A, Tp, I \&gt;" alt="" coords="100,136,299,177"/>
+<area shape="rect" id="node5" href="$structhydra_1_1detail_1_1is__homogeneous__base.html" title="hydra::detail::is_homogeneous\l_base\&lt; A, Tuple, thrust::\ltuple_size\&lt; Tuple \&gt;::value \&gt;" alt="" coords="100,202,299,258"/>
+<area shape="rect" id="node6" href="$structhydra_1_1detail_1_1is__homogeneous.html" title="hydra::detail::is_homogeneous\l\&lt; A, Tuple \&gt;" alt="" coords="347,209,545,251"/>
+</map>

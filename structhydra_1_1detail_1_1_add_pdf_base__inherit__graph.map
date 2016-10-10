@@ -1,0 +1,4 @@
+<map id="hydra::detail::AddPdfBase&lt; PDF1, PDF2, PDFs &gt;" name="hydra::detail::AddPdfBase&lt; PDF1, PDF2, PDFs &gt;">
+<area shape="rect" id="node3" href="$structhydra_1_1detail_1_1_add_pdf_base.html" title="{hydra::detail::AddPdfBase\l\&lt; PDF1, PDF2, PDFs... \&gt;\n||}" alt="" coords="19,316,195,408"/>
+<area shape="rect" id="node4" href="$structhydra_1_1_add_pdf.html" title="{hydra::AddPdf\&lt; PDF1,\l PDF2, PDFs \&gt;\n|+ npdfs\l|+ AddPdf()\l+ AddPdf()\l+ AddPdf()\l+ operator=()\l+ SetParameters()\l+ PrintRegisteredParameters()\l+ GetCoeficient()\l+ IsExtended()\l+ GetPdFs()\l+ GetCoefSum()\l+ IsFractioned()\l+ operator()()\l+ operator()()\l+ operator()()\l}" alt="" coords="8,457,207,740"/>
+</map>

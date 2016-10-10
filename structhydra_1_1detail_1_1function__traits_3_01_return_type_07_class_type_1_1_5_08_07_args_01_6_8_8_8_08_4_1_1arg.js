@@ -1,0 +1,4 @@
+var structhydra_1_1detail_1_1function__traits_3_01_return_type_07_class_type_1_1_5_08_07_args_01_6_8_8_8_08_4_1_1arg =
+[
+    [ "type", "structhydra_1_1detail_1_1function__traits_3_01_return_type_07_class_type_1_1_5_08_07_args_01_6_8_8_8_08_4_1_1arg.html#a0c1e07b6f813df0cf11587c389cc693e", null ]
+];
