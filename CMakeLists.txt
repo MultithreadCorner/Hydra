@@ -33,7 +33,7 @@ include_directories(${TCLAP_INCLUDE_DIR})
 
 # get THRUST
 find_package(Thrust 1.8 REQUIRED)
-include_directories(${THRUST_INCLUDE_DIR})
+include_directories(./thrust)
 
 # get ROOT
 find_package(ROOT REQUIRED)
@@ -60,6 +60,7 @@ set(CMAKE_CXX_FLAGS "-D_GLIBCXX_USE_CXX11_ABI=0 -DTHRUST_VARIADIC_TUPLE --std=c+
 #including directories
 
 include_directories(include;  ${PROJECT_SOURCE_DIR})
+
 
 
 if(CUDA_FOUND)
@@ -103,10 +104,13 @@ MESSAGE(STATUS "ROOT Library path: ${ROOT_LIBRARY_DIR}" )
 MESSAGE(STATUS "ROOT Libraries: ${ROOT_LIBRARIES}")
 MESSAGE(STATUS "project source dir: " ${PROJECT_SOURCE_DIR} )
 MESSAGE(STATUS "project build dir: " ${PROJECT_BINARY_DIR} )
+MESSAGE(STATUS "CUDA include: " ${CUDA_INCLUDE_DIRS})
 MESSAGE(STATUS "CUDA libraries: " ${CUDA_LIBRARIES}  )
 MESSAGE(STATUS "nvcc cflags: " ${CUDA_NVCC_FLAGS} )
 MESSAGE(STATUS "gcc cflags: " ${CMAKE_CXX_FLAGS} )
+MESSAGE(STATUS "Include directories: " ${INCLUDE_DIRECTORIES} )
 MESSAGE(STATUS "Install diretory: " ${CMAKE_INSTALL_PREFIX}  )
+
 
 if(BUILD_CUDA_TARGETS)
 
