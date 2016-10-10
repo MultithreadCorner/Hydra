@@ -39,7 +39,7 @@ namespace sequential
 {
 
 
-__thrust_hd_warning_disable__
+__thrust_exec_check_disable__
 template<typename DerivedPolicy,
          typename InputIterator,
          typename OutputIterator,
@@ -61,7 +61,7 @@ __host__ __device__
   //   TemporaryType = OutputIterator::value_type
   //
   // XXX upon c++0x, TemporaryType needs to be:
-  // result_of<BinaryFunction>::type
+  // result_of_adaptable_function<BinaryFunction>::type
   
   using namespace thrust::detail;
 
@@ -95,7 +95,7 @@ __host__ __device__
 }
 
 
-__thrust_hd_warning_disable__
+__thrust_exec_check_disable__
 template<typename DerivedPolicy,
          typename InputIterator,
          typename OutputIterator,
@@ -119,7 +119,7 @@ __host__ __device__
   //   TemporaryType = OutputIterator::value_type
   //
   // XXX upon c++0x, TemporaryType needs to be:
-  // result_of<BinaryFunction>::type
+  // result_of_adaptable_function<BinaryFunction>::type
 
   using namespace thrust::detail;
 

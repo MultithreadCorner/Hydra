@@ -138,25 +138,25 @@ GInt_t main(int argv, char** argc)
 
     	//uniform
     	Generator.Uniform(-5.0, 5.0, gen_data_d.begin(), gen_data_d.end());
-    	cout<< gen_data_d[0] << endl;
+    	//cout<< gen_data_d[0] << endl;
     	thrust::copy(gen_data_d.begin(), gen_data_d.end(), gen_data_h.begin());
     	for(auto value: gen_data_h) hist_uniform_DEVICE.Fill( value);
 
     	//gaussian
     	Generator.Gauss(0.0, 1.0, gen_data_d.begin(), gen_data_d.end());
-    	cout<< gen_data_d[0] << endl;
+    	//cout<< gen_data_d[0] << endl;
     	thrust::copy(gen_data_d.begin(), gen_data_d.end(), gen_data_h.begin());
     	for(auto value: hydra::mc_host_vector<GReal_t>(gen_data_d)) hist_gaussian_DEVICE.Fill( value);
 
     	//exponential
     	Generator.Exp(1.0, gen_data_d.begin(), gen_data_d.end());
-    	cout<< gen_data_d[0] << endl;
+    	//cout<< gen_data_d[0] << endl;
     	thrust::copy(gen_data_d.begin(), gen_data_d.end(), gen_data_h.begin());
     	for(auto value: gen_data_h) hist_exp_DEVICE.Fill( value);
 
     	//breit-wigner
     	Generator.BreitWigner(2.0, 0.2, gen_data_d.begin(), gen_data_d.end());
-    	cout<< gen_data_d[0] << endl;
+    	//cout<< gen_data_d[0] << endl;
     	thrust::copy(gen_data_d.begin(), gen_data_d.end(), gen_data_h.begin());
     	for(auto value: gen_data_h) hist_bw_DEVICE.Fill( value);
 

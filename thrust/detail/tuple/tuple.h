@@ -819,6 +819,7 @@ inline bool eq(const T1& lhs, const T2& rhs) {
          eq(lhs.get_tail(), rhs.get_tail());
 }
 template<>
+__host__ __device__
 inline bool eq<null_type,null_type>(const null_type&, const null_type&) { return true; }
 
 template<class T1, class T2>

@@ -265,7 +265,7 @@ if(BUILD_DOCUMENTATION)
 
     add_custom_target(doc
         COMMAND ${DOXYGEN_EXECUTABLE} ${doxyfile}
-        WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/doc
+        WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
         COMMENT "Generating API documentation with Doxygen"
         VERBATIM)
 
