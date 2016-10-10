@@ -38,6 +38,7 @@
 #include <hydra/detail/utility/Utility_Tuple.h>
 #include <hydra/Containers.h>
 #include <hydra/PointVector.h>
+//
 #include <thrust/copy.h>
 #include <thrust/random.h>
 #include <thrust/distance.h>

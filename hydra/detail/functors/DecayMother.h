@@ -66,17 +66,20 @@ struct DecayMother
 	GReal_t fBeta2;
 
 
-	const GReal_t* __restrict__ fMasses;
+	//const GReal_t* __restrict__ fMasses;
+	GReal_t fMasses[N];
 
 	//constructor
 	DecayMother(Vector4R const& mother,
 			vector_real const& _masses,
 			const GInt_t _ndaughters, const GInt_t _seed):
-			fMasses(thrust::raw_pointer_cast(_masses.data())),
+			//fMasses(thrust::raw_pointer_cast(_masses.data())),
 			fNDaughters(_ndaughters),
 			fSeed(_seed)
 
 	{
+
+		for(size_t i=0; i<N; i++) fMasses[i]=_masses[i];
 
 		GReal_t _fTeCmTm = mother.mass(); // total energy in C.M. minus the sum of the masses
 
@@ -113,6 +116,19 @@ struct DecayMother
 
 
 	}
+
+	__host__ __device__
+	DecayMother( DecayMother<N, BACKEND, GRND> const& other ):
+	fSeed(other.fSeed ),
+	fNDaughters(other.fNDaughters ),
+	fTeCmTm(other.fTeCmTm ),
+	fWtMax(other.fWtMax ),
+	fBeta0(other.fBeta0 ),
+	fBeta1(other.fBeta1 ),
+	fBeta2(other.fBeta2 )
+	{ for(size_t i=0; i<N; i++) fMasses[i]=other.fMasses[i]; }
+
+
 
 	__host__      __device__ inline
 	GReal_t pdk(const GReal_t a, const GReal_t b,
@@ -192,7 +208,7 @@ struct DecayMother
 		#pragma unroll N
 		for (size_t n = 0; n < fNDaughters; n++)
 		{
-			printf("%d mass=%f \n",n, fMasses[n]);
+			//printf("%d mass=%f \n",n, fMasses[n]);
 			sum += fMasses[n];
 			invMas[n] = rno[n] * fTeCmTm + sum;
 		}

@@ -92,11 +92,9 @@ public:
 
 {
 
-		fMassesD.resize(_Masses.size());
-		thrust::copy(_Masses.begin(), _Masses.end(), fMassesD.begin());
+		fMasses.resize(_Masses.size());
+		thrust::copy(_Masses.begin(), _Masses.end(), fMasses.begin());
 
-		fMassesH.resize(_Masses.size());
-		thrust::copy(_Masses.begin(), _Masses.end(), fMassesH.begin());
 
 		GReal_t fTeCmTm = 0.0;
 
@@ -128,8 +126,7 @@ public:
 #endif
 
 
-			DecayMother<N, BACKEND,GRND> decayer(mother,
-					detail::ObjSelector<BACKEND==host>::select(fMassesH,fMassesD), fNDaughters, fSeed);
+			DecayMother<N, BACKEND,GRND> decayer(mother,fMasses, fNDaughters, fSeed);
 			detail::launch_decayer(decayer, events );
 
 	}
@@ -155,7 +152,7 @@ public:
 			exit(1);
 		}
 
-		DecayMothers<N, BACKEND,GRND> decayer(detail::ObjSelector<BACKEND==host>::select(fMassesH,fMassesD), fNDaughters, fSeed);
+		DecayMothers<N, BACKEND,GRND> decayer(fMasses, fNDaughters, fSeed);
 		detail::launch_decayer(decayer,mothers_begin, events );
 
 
@@ -186,8 +183,8 @@ private:
 
 	GInt_t  fNDaughters;///< Number of daughters.
 	GInt_t  fSeed;///< seed.
-	mc_device_vector<GReal_t> fMassesD;
-	mc_host_vector<GReal_t> fMassesH;
+	vector<GReal_t> fMasses;
+
 
 
 
