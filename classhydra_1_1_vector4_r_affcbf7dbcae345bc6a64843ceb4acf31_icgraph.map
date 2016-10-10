@@ -1,9 +1,0 @@
-<map id="hydra::Vector4R::get" name="hydra::Vector4R::get">
-<area shape="rect" id="node2" href="$structhydra_1_1_decay_mother.html#aae39e61930903a9164d31d590ea583f0" title="hydra::DecayMother\l::DecayMother" alt="" coords="229,5,369,47"/>
-<area shape="rect" id="node3" href="$structhydra_1_1_decay_mother.html#a6a6394b7f9379537cd51122949b45463" title="hydra::DecayMother\l::process" alt="" coords="453,56,593,97"/>
-<area shape="rect" id="node4" href="$structhydra_1_1_decay_mothers.html#a2a57eb5a3b47dc976ec7d8794d408a6b" title="hydra::DecayMothers\l::process" alt="" coords="449,173,596,215"/>
-<area shape="rect" id="node5" href="$classhydra_1_1_vector4_r.html#a6e77570e4c93ffcb019d81ec8144122d" title="hydra::Vector4R::operator=" alt="" coords="209,223,389,250"/>
-<area shape="rect" id="node6" href="$classhydra_1_1_vector4_r.html#a3fddb244df8e2bd1cff7027bc5f2d891" title="hydra::Vector4R::Vector4R" alt="" coords="209,274,389,301"/>
-<area shape="rect" id="node7" href="$classhydra_1_1_vector4_r.html#ac30a0beccf6db256aa597c079ee4e2f2" title="hydra::Vector4R::applyBoostTo" alt="" coords="196,122,401,149"/>
-<area shape="rect" id="node8" href="$namespacehydra.html#a52d2bb64b855258800238a7263f26699" title="hydra::boostTo" alt="" coords="468,122,577,149"/>
-</map>
