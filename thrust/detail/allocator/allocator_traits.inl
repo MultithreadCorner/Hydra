@@ -71,7 +71,7 @@ template<typename Alloc, typename T>
     : has_member_construct1_impl<Alloc, void(T*)>
 {};
 
-__thrust_hd_warning_disable__
+__thrust_exec_check_disable__
 template<typename Alloc, typename T>
   inline __host__ __device__
     typename enable_if<
@@ -178,7 +178,7 @@ __host__ __device__
     has_member_max_size<Alloc>::value,
     typename allocator_traits<Alloc>::size_type
   >::type
-    max_size(const Alloc &a)
+    max_size(const Alloc &)
 {
   typedef typename allocator_traits<Alloc>::size_type size_type;
   return thrust::detail::integer_traits<size_type>::const_max;
@@ -202,7 +202,7 @@ __host__ __device__
     has_member_system<Alloc>::value,
     typename allocator_system<Alloc>::type
   >::type
-    system(Alloc &a)
+    system(Alloc &)
 {
   // return a copy of a default-constructed system
   typename allocator_system<Alloc>::type result;
@@ -221,7 +221,7 @@ __host__ __device__
 {
   struct workaround_warnings
   {
-    __thrust_hd_warning_disable__
+    __thrust_exec_check_disable__
     static __host__ __device__ 
     typename allocator_traits<Alloc>::pointer
       allocate(Alloc &a, typename allocator_traits<Alloc>::size_type n)
@@ -249,7 +249,7 @@ __host__ __device__
 {
   struct workaround_warnings
   {
-    __thrust_hd_warning_disable__
+    __thrust_exec_check_disable__
     static __host__ __device__
     void deallocate(Alloc &a, typename allocator_traits<Alloc>::pointer p, typename allocator_traits<Alloc>::size_type n)
     {

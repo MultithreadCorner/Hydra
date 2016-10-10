@@ -271,7 +271,8 @@ template<typename T>
   struct is_non_const_reference
     : thrust::detail::and_<
         thrust::detail::not_<thrust::detail::is_const<T> >,
-        thrust::detail::is_reference<T>
+        thrust::detail::or_<thrust::detail::is_reference<T>,
+                            thrust::detail::is_proxy_reference<T> >
       >
 {};
 
@@ -308,7 +309,7 @@ template<typename UnaryFunction>
     : f(f)
   {}
 
-  __thrust_hd_warning_disable__
+  __thrust_exec_check_disable__
   template<typename Tuple>
   inline __host__ __device__
   typename enable_if_non_const_reference_or_tuple_of_iterator_references<
@@ -331,7 +332,7 @@ template<typename BinaryFunction>
     : f(f)
   {}
 
-  __thrust_hd_warning_disable__
+  __thrust_exec_check_disable__
   template<typename Tuple>
   inline __host__ __device__
   typename enable_if_non_const_reference_or_tuple_of_iterator_references<
@@ -355,7 +356,7 @@ struct unary_transform_if_functor
     : unary_op(unary_op), pred(pred)
   {}
 
-  __thrust_hd_warning_disable__
+  __thrust_exec_check_disable__
   template<typename Tuple>
   inline __host__ __device__
   typename enable_if_non_const_reference_or_tuple_of_iterator_references<
@@ -382,7 +383,7 @@ struct unary_transform_if_with_stencil_functor
     : unary_op(unary_op), pred(pred)
   {}
 
-  __thrust_hd_warning_disable__
+  __thrust_exec_check_disable__
   template<typename Tuple>
   inline __host__ __device__
   typename enable_if_non_const_reference_or_tuple_of_iterator_references<
@@ -406,7 +407,7 @@ struct binary_transform_if_functor
   binary_transform_if_functor(BinaryFunction binary_op, Predicate pred)
     : binary_op(binary_op), pred(pred) {} 
 
-  __thrust_hd_warning_disable__
+  __thrust_exec_check_disable__
   template<typename Tuple>
   inline __host__ __device__
   typename enable_if_non_const_reference_or_tuple_of_iterator_references<

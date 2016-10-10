@@ -71,8 +71,7 @@ namespace hydra
 	 * to the device.
 	 */
 	template <typename T>
-		using  mc_host_vector = thrust::host_vector<T,
-				thrust::system::cuda::experimental::pinned_allocator<T>>;
+		using  mc_host_vector = thrust::host_vector<T>;//, thrust::system::cuda::experimental::pinned_allocator<T>>;
 #else
 /*!
  * Generic template typedef for thrust::host_vector. Use it instead of Thrust implementation
@@ -127,8 +126,8 @@ template <size_t  N>
 template <size_t N>
 		using VariableSet_d = std::array<RealVector_d*, N>  ;
 
-template<typename...T>
-using   tuple_refs_t = thrust::detail::tuple_of_iterator_references<T&...>;
+//template<typename...T>
+//using   tuple_refs_t = thrust::detail::tuple_of_iterator_references<T&...>;
 
 
 }

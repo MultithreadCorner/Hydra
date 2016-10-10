@@ -14,21 +14,21 @@
  *  limitations under the License.
  */
 
-/*! \file hd_warning_disable.h
- *  \brief Defines __thrust_hd_warning_disable__
+/*! \file exec_check_disable.h
+ *  \brief Defines __thrust_exec_check_disable__
  */
 
 #pragma once
 
 #include <thrust/detail/config.h>
 
-#if defined(__CUDACC__)
+#if defined(__CUDACC__) && !(defined(__CUDA__) && defined(__clang__))
 
-#define __thrust_hd_warning_disable__ \
-#pragma hd_warning_disable
+#define __thrust_exec_check_disable__ #pragma nv_exec_check_disable
+
 #else
 
-#define __thrust_hd_warning_disable__
+#define __thrust_exec_check_disable__
 
 #endif
 
