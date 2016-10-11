@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['bins_5fmax',['BINS_MAX',['../de/df7/namespacehydra.html#ad87c68ca6adb981f4c31ae73ef97de3baba2629d0445cc7ef401fd6793f047da0',1,'hydra']]]
+  ['device',['device',['../d7/dd4/a00013.html#affa98535d8b843dd9ff514f9adf208fda5f25d739f545c5173b09c144f23312c2',1,'hydra']]]
 ];

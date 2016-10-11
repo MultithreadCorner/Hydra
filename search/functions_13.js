@@ -1,7 +1,12 @@
 var searchData=
 [
-  ['weightsbegin',['WeightsBegin',['../d5/d79/structhydra_1_1_events.html#a81acb98e6856035e548612a0b76627fc',1,'hydra::Events::WeightsBegin() const '],['../d5/d79/structhydra_1_1_events.html#a6d25836dda816fc31493bc9f5ec4ac97',1,'hydra::Events::WeightsBegin()']]],
-  ['weightsend',['WeightsEnd',['../d5/d79/structhydra_1_1_events.html#a4af0795dbfe9812be3f4e530237f0e09',1,'hydra::Events::WeightsEnd() const '],['../d5/d79/structhydra_1_1_events.html#a722f170896a91ac875bafba1edbcaa92',1,'hydra::Events::WeightsEnd()']]],
-  ['wrap_5flambda',['wrap_lambda',['../de/df7/namespacehydra.html#a53506830108537bc49811415296ba738',1,'hydra']]],
-  ['wrap_5flambda_5fhelper',['wrap_lambda_helper',['../d2/d1d/namespacehydra_1_1detail.html#a6202972904c1968fe7b0dd09c1fdeb01',1,'hydra::detail']]]
+  ['_7ebasefunctor',['~BaseFunctor',['../d0/d0b/a00004.html#afec62fc691e8a3f9908c65a8402a8b8e',1,'hydra::BaseFunctor']]],
+  ['_7eevents',['~Events',['../d2/de7/a00014.html#adee702c56aeb4bd8b3c4944655b4f403',1,'hydra::Events']]],
+  ['_7ehyrndtrial',['~HyRndTrial',['../d7/de0/a00022.html#a0e1a6d7fbb8fa924c77252345bdd06ab',1,'hydra::HyRndTrial']]],
+  ['_7eloglikelihood',['~LogLikelihood',['../d0/d33/a00027.html#a3f4ee844e7c7fc7629a869dde5b4b397',1,'hydra::LogLikelihood']]],
+  ['_7epdf',['~Pdf',['../dc/d87/a00032.html#a574288060a5cbdae706a85ac747f5a4b',1,'hydra::Pdf']]],
+  ['_7ephasespace',['~PhaseSpace',['../d0/dc0/a00033.html#a1c9e44472db8f827cb97701a7a0ae195',1,'hydra::PhaseSpace']]],
+  ['_7epointvector',['~PointVector',['../d8/d41/a00038.html#ad3b8f2f1f8932631537dd80a96b3747f',1,'hydra::PointVector']]],
+  ['_7eprocesscallsvegas',['~ProcessCallsVegas',['../d6/d42/a00043.html#a5fee971f8634c708370960253fb3e771',1,'hydra::ProcessCallsVegas']]],
+  ['_7erandom',['~Random',['../d5/df9/a00044.html#abd8e96c690c86807455b92f641b1ad0e',1,'hydra::Random']]]
 ];

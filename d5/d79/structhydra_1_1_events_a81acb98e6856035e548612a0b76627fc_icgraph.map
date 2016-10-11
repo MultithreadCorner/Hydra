@@ -1,6 +1,0 @@
-<map id="hydra::Events::WeightsBegin" name="hydra::Events::WeightsBegin">
-<area shape="rect" id="node2" href="$d5/d79/structhydra_1_1_events.html#a4bc30bbd45a57a1724f16f60b1353cf5" title="hydra::Events::Events" alt="" coords="253,5,405,32"/>
-<area shape="rect" id="node3" href="$d5/d79/structhydra_1_1_events.html#ace3fe647bf093ad875cc1568ac8bdb53" title="hydra::Events::operator=" alt="" coords="245,56,412,83"/>
-<area shape="rect" id="node4" href="$d2/d1d/namespacehydra_1_1detail.html#ab9ff11feecf1326d0b788d755293c639" title="hydra::detail::launch\l_decayer" alt="" coords="259,107,398,149"/>
-<area shape="rect" id="node5" href="$df/d7a/classhydra_1_1_phase_space.html#a4ca0a20cd6c56424099b22b2bee2fa7e" title="hydra::PhaseSpace::\lGenerate" alt="" coords="460,107,604,149"/>
-</map>

@@ -1,14 +1,13 @@
 var searchData=
 [
-  ['uniform',['Uniform',['../d2/d3f/classhydra_1_1_random.html#aff81053c79f3cfbb30b212127d2c73ef',1,'hydra::Random']]],
-  ['unweight',['Unweight',['../d5/d79/structhydra_1_1_events.html#a91ead2381dde2e31b15f127f85ec060a',1,'hydra::Events']]],
-  ['up',['Up',['../db/dd9/classhydra_1_1_f_c_n.html#a09576df1fba3b54f082ce2544f017ad1',1,'hydra::FCN']]],
-  ['updatenorm',['UpdateNorm',['../db/d0a/structhydra_1_1_pdf.html#a147a726e743f6647f32ac604065ad58e',1,'hydra::Pdf']]],
-  ['updateparameterlimits',['UpdateParameterLimits',['../db/de3/classhydra_1_1_user_parameters.html#a1c811d0b261dc8b6e73996e9a84903ab',1,'hydra::UserParameters']]],
-  ['updateparameters',['UpdateParameters',['../db/de3/classhydra_1_1_user_parameters.html#a71455f390ac736ed22332ae528be687b',1,'hydra::UserParameters']]],
-  ['use_5foriginal_5fchisq_5fformula',['USE_ORIGINAL_CHISQ_FORMULA',['../dc/d2b/_vegas_8inl.html#aaf9633a53643415c9a0fd7f6cbdd75b7',1,'Vegas.inl']]],
-  ['userparameters',['UserParameters',['../db/de3/classhydra_1_1_user_parameters.html#ab5c5fd6bdeb6f4daba3a3bf49d1cf7f5',1,'hydra::UserParameters::UserParameters()'],['../db/de3/classhydra_1_1_user_parameters.html#ad801fc9e5287c209b3d8bd1c55fa43a0',1,'hydra::UserParameters::UserParameters(UserParameters const &amp;other)']]],
-  ['userparameters',['UserParameters',['../db/de3/classhydra_1_1_user_parameters.html',1,'hydra']]],
-  ['userparameters_2eh',['UserParameters.h',['../da/dd5/_user_parameters_8h.html',1,'']]],
-  ['utility_5ftuple_2eh',['Utility_Tuple.h',['../da/df9/_utility___tuple_8h.html',1,'']]]
+  ['uniform',['Uniform',['../d5/df9/a00044.html#aff81053c79f3cfbb30b212127d2c73ef',1,'hydra::Random']]],
+  ['unweight',['Unweight',['../d2/de7/a00014.html#a91ead2381dde2e31b15f127f85ec060a',1,'hydra::Events']]],
+  ['up',['Up',['../dd/d1b/a00015.html#a09576df1fba3b54f082ce2544f017ad1',1,'hydra::FCN']]],
+  ['updatenorm',['UpdateNorm',['../dc/d87/a00032.html#a147a726e743f6647f32ac604065ad58e',1,'hydra::Pdf']]],
+  ['updateparameterlimits',['UpdateParameterLimits',['../d5/de0/a00050.html#a1c811d0b261dc8b6e73996e9a84903ab',1,'hydra::UserParameters']]],
+  ['updateparameters',['UpdateParameters',['../d5/de0/a00050.html#a71455f390ac736ed22332ae528be687b',1,'hydra::UserParameters']]],
+  ['userparameters',['UserParameters',['../d5/de0/a00050.html',1,'hydra']]],
+  ['userparameters',['UserParameters',['../d5/de0/a00050.html#ab5c5fd6bdeb6f4daba3a3bf49d1cf7f5',1,'hydra::UserParameters::UserParameters()'],['../d5/de0/a00050.html#ad801fc9e5287c209b3d8bd1c55fa43a0',1,'hydra::UserParameters::UserParameters(UserParameters const &amp;other)']]],
+  ['userparameters_2eh',['UserParameters.h',['../d5/d1e/a00103.html',1,'']]],
+  ['utility_5ftuple_2eh',['Utility_Tuple.h',['../d0/dc2/a00104.html',1,'']]]
 ];

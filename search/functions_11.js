@@ -1,10 +1,11 @@
 var searchData=
 [
-  ['uniform',['Uniform',['../d2/d3f/classhydra_1_1_random.html#aff81053c79f3cfbb30b212127d2c73ef',1,'hydra::Random']]],
-  ['unweight',['Unweight',['../d5/d79/structhydra_1_1_events.html#a91ead2381dde2e31b15f127f85ec060a',1,'hydra::Events']]],
-  ['up',['Up',['../db/dd9/classhydra_1_1_f_c_n.html#a09576df1fba3b54f082ce2544f017ad1',1,'hydra::FCN']]],
-  ['updatenorm',['UpdateNorm',['../db/d0a/structhydra_1_1_pdf.html#a147a726e743f6647f32ac604065ad58e',1,'hydra::Pdf']]],
-  ['updateparameterlimits',['UpdateParameterLimits',['../db/de3/classhydra_1_1_user_parameters.html#a1c811d0b261dc8b6e73996e9a84903ab',1,'hydra::UserParameters']]],
-  ['updateparameters',['UpdateParameters',['../db/de3/classhydra_1_1_user_parameters.html#a71455f390ac736ed22332ae528be687b',1,'hydra::UserParameters']]],
-  ['userparameters',['UserParameters',['../db/de3/classhydra_1_1_user_parameters.html#ab5c5fd6bdeb6f4daba3a3bf49d1cf7f5',1,'hydra::UserParameters::UserParameters()'],['../db/de3/classhydra_1_1_user_parameters.html#ad801fc9e5287c209b3d8bd1c55fa43a0',1,'hydra::UserParameters::UserParameters(UserParameters const &amp;other)']]]
+  ['value',['Value',['../df/d61/a00031.html#a706c308f57ea396e2cfe6c22f1b6b442',1,'hydra::Parameter']]],
+  ['valueerror',['ValueError',['../d2/d79/a00051.html#a669cd8a56a4c0dfe30436c05687c8b5d',1,'hydra::ValueError&lt; T, true &gt;::ValueError()'],['../d2/d79/a00051.html#a0ac7e00dcc7f6756a60aca850fce8cb2',1,'hydra::ValueError&lt; T, true &gt;::ValueError(value_type const error)'],['../d2/d79/a00051.html#a171e6edf34db044c16c390fb7e92d49f',1,'hydra::ValueError&lt; T, true &gt;::ValueError(ValueError&lt; value_type, true &gt; const &amp;other)']]],
+  ['variance',['variance',['../d4/d8c/a00035.html#a4276a30286beeb83fa4f46d15655271b',1,'hydra::PlainState']]],
+  ['variance_5fn',['variance_n',['../d4/d8c/a00035.html#a2fbdffccf1beb384934e6474eb7555a5',1,'hydra::PlainState']]],
+  ['vector3r',['Vector3R',['../d1/d84/a00052.html#ac59a96f4c24d4fefb51b7fa9d6390b0c',1,'hydra::Vector3R::Vector3R()'],['../d1/d84/a00052.html#a455b74fbd76b89f9aacf4cb79432bc60',1,'hydra::Vector3R::Vector3R(GReal_t x, GReal_t y, GReal_t z)'],['../d1/d84/a00052.html#ae3095f5336c993baad368460f4d39553',1,'hydra::Vector3R::Vector3R(const Vector3R &amp;other)']]],
+  ['vector4r',['Vector4R',['../dc/dee/a00053.html#a7d3a89e2a4c66862be35405478dcbb83',1,'hydra::Vector4R::Vector4R()'],['../dc/dee/a00053.html#a1062c4f0402f819216b0ee5850188b9b',1,'hydra::Vector4R::Vector4R(GReal_t e, GReal_t px, GReal_t py, GReal_t pz)'],['../dc/dee/a00053.html#a3fddb244df8e2bd1cff7027bc5f2d891',1,'hydra::Vector4R::Vector4R(const Vector4R &amp;other)']]],
+  ['vegas',['Vegas',['../d1/dea/a00054.html#aa3f36dfbe9a8021fc259406a44b824b8',1,'hydra::Vegas::Vegas()'],['../d1/dea/a00054.html#a9455bc8be8276b8231a930eead89e584',1,'hydra::Vegas::Vegas(VegasState&lt; N &gt; *state, size_t calls)'],['../d1/dea/a00054.html#a93dc7dcfa985d3b47edeb355e4c3f947',1,'hydra::Vegas::Vegas(Vegas&lt; N, GRND2 &gt; const &amp;other)']]],
+  ['vegasstate',['VegasState',['../d4/d6d/a00055.html#acc37e524d2fddf712443873383886ab9',1,'hydra::VegasState::VegasState(std::array&lt; GReal_t, N &gt; const &amp;xlower, std::array&lt; GReal_t, N &gt; const &amp;xupper)'],['../d4/d6d/a00055.html#a5c80e7dd0508e62d7f14593edeabb7a5',1,'hydra::VegasState::VegasState(const VegasState &amp;state)']]]
 ];

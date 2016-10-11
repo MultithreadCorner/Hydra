@@ -1,0 +1,37 @@
+<map id="hydra::VegasState::VegasState" name="hydra::VegasState::VegasState">
+<area shape="rect" id="node2" href="$d1/dea/a00054.html#a5dda58349f01578f0957d2433e317394" title="hydra::VegasState::\lGetAlpha" alt="" coords="195,5,333,47"/>
+<area shape="rect" id="node3" href="$d1/dea/a00054.html#ad9efe843c4d289706a8bc12a3e6cddb1" title="hydra::VegasState::\lGetCallsPerBox" alt="" coords="195,71,333,112"/>
+<area shape="rect" id="node4" href="$d1/dea/a00054.html#a284afc16ff48f08666072b09ff1c8cea" title="hydra::VegasState::\lGetChiSquare" alt="" coords="195,136,333,177"/>
+<area shape="rect" id="node5" href="$d1/dea/a00054.html#aa4750f9f2571e172069fa26af6ef8bd2" title="hydra::VegasState::\lGetChiSum" alt="" coords="195,201,333,243"/>
+<area shape="rect" id="node6" href="$d1/dea/a00054.html#aae51730b80bc4849ce073b864edb1afa" title="hydra::VegasState::\lGetCumulatedResult" alt="" coords="192,267,336,308"/>
+<area shape="rect" id="node7" href="$d1/dea/a00054.html#a2b2eb7a083edd5895c7bc1ea60bddad1" title="hydra::VegasState::\lGetCumulatedSigma" alt="" coords="193,332,335,373"/>
+<area shape="rect" id="node8" href="$d1/dea/a00054.html#a2f46c57e1acacfc46d08f2e2d652d578" title="hydra::VegasState::\lGetDeltaX" alt="" coords="195,397,333,439"/>
+<area shape="rect" id="node9" href="$d1/dea/a00054.html#ab066bbc7db96a1a8935014be942eda95" title="hydra::VegasState::\lGetDistribution" alt="" coords="195,463,333,504"/>
+<area shape="rect" id="node10" href="$d1/dea/a00054.html#af03792081b0a8c3c46f6b3bbe86c59e4" title="hydra::VegasState::\lGetIterationDuration" alt="" coords="195,528,333,569"/>
+<area shape="rect" id="node11" href="$d1/dea/a00054.html#a132d0379450076017d64d74a483841c0" title="hydra::VegasState::\lGetIterationResult" alt="" coords="195,593,333,635"/>
+<area shape="rect" id="node12" href="$d1/dea/a00054.html#a9a38245ce5866fc854173eb7c774697d" title="hydra::VegasState::\lGetIterations" alt="" coords="195,659,333,700"/>
+<area shape="rect" id="node13" href="$d1/dea/a00054.html#a6d034212de39390629acc947b831a499" title="hydra::VegasState::\lGetIterationSigma" alt="" coords="195,724,333,765"/>
+<area shape="rect" id="node14" href="$d1/dea/a00054.html#acb7c813e190dee3f9758bba6f133baeb" title="hydra::VegasState::\lGetItNum" alt="" coords="195,789,333,831"/>
+<area shape="rect" id="node15" href="$d1/dea/a00054.html#ab49db820d0b8913db207ada73c787c88" title="hydra::VegasState::\lGetItStart" alt="" coords="195,855,333,896"/>
+<area shape="rect" id="node16" href="$d1/dea/a00054.html#af321bac1b1f898eefb4f637abbc1d0ee" title="hydra::VegasState::\lGetJacobian" alt="" coords="195,920,333,961"/>
+<area shape="rect" id="node17" href="$d1/dea/a00054.html#aa63aaed93cd0fb5a728f59ad7e4ef156" title="hydra::VegasState::\lGetMaxError" alt="" coords="195,985,333,1027"/>
+<area shape="rect" id="node18" href="$d1/dea/a00054.html#a45ab58950d0cc01099cfbebf2abae9df" title="hydra::VegasState::\lGetMode" alt="" coords="195,1051,333,1092"/>
+<area shape="rect" id="node19" href="$d1/dea/a00054.html#afeb7967b835f8adac57c05b0e15ddf37" title="hydra::VegasState::\lGetNBins" alt="" coords="195,1116,333,1157"/>
+<area shape="rect" id="node20" href="$d1/dea/a00054.html#a6ef3d293b5060c45c754d14f7fce9cfb" title="hydra::VegasState::\lGetNBinsMax" alt="" coords="195,1181,333,1223"/>
+<area shape="rect" id="node21" href="$d1/dea/a00054.html#ae0f63e03c70792199f8d224063260c21" title="hydra::VegasState::\lGetNBoxes" alt="" coords="195,1247,333,1288"/>
+<area shape="rect" id="node22" href="$d1/dea/a00054.html#a1a146cc216172590c708c8dd9e8305c1" title="hydra::VegasState::\lGetNDimensions" alt="" coords="195,1312,333,1353"/>
+<area shape="rect" id="node23" href="$d1/dea/a00054.html#a21863d89a2cf8a8b947f3186af9104e1" title="hydra::VegasState::\lGetResult" alt="" coords="195,1377,333,1419"/>
+<area shape="rect" id="node24" href="$d1/dea/a00054.html#a1266fc265c6d84679f3d6d89660db728" title="hydra::VegasState::\lGetSamples" alt="" coords="195,1443,333,1484"/>
+<area shape="rect" id="node25" href="$d1/dea/a00054.html#a606126125e2f7c69c1c24ac305351d50" title="hydra::VegasState::\lGetSigma" alt="" coords="195,1508,333,1549"/>
+<area shape="rect" id="node26" href="$d1/dea/a00054.html#accf56ce9e19a08e932defe0f18934f1d" title="hydra::VegasState::\lGetStage" alt="" coords="195,1573,333,1615"/>
+<area shape="rect" id="node27" href="$d1/dea/a00054.html#a3bb98da6a71362d582db7632eb9085b6" title="hydra::VegasState::\lGetSumOfWeights" alt="" coords="195,1639,333,1680"/>
+<area shape="rect" id="node28" href="$d1/dea/a00054.html#aca60cfcd691f1e52619b89f67af810e8" title="hydra::VegasState::\lGetVerbose" alt="" coords="195,1704,333,1745"/>
+<area shape="rect" id="node29" href="$d1/dea/a00054.html#a9013aabd556ae9a7660aa1986ab8054e" title="hydra::VegasState::\lGetVolume" alt="" coords="195,1769,333,1811"/>
+<area shape="rect" id="node30" href="$d1/dea/a00054.html#a8895a200878761de8a205117e4e84734" title="hydra::VegasState::\lGetWeight" alt="" coords="195,1835,333,1876"/>
+<area shape="rect" id="node31" href="$d1/dea/a00054.html#ab4ac2cf157dd0371bd100ef7cd762635" title="hydra::VegasState::\lGetWeightedIntSum" alt="" coords="194,1900,334,1941"/>
+<area shape="rect" id="node32" href="$d1/dea/a00054.html#a07ab995a892f19f93c29bdb89dadd171" title="hydra::VegasState::\lGetXi" alt="" coords="195,1965,333,2007"/>
+<area shape="rect" id="node33" href="$d1/dea/a00054.html#aa460940da6567200d0cb32ee8ffc0aa9" title="hydra::VegasState::\lGetXin" alt="" coords="195,2031,333,2072"/>
+<area shape="rect" id="node34" href="$d1/dea/a00054.html#a46e93c49c4fde800eafdb6dac95fe9e0" title="hydra::VegasState::\lGetXLow" alt="" coords="195,2096,333,2137"/>
+<area shape="rect" id="node35" href="$d1/dea/a00054.html#a1579fb513030b374b4c762630aa7803a" title="hydra::VegasState::\lGetXUp" alt="" coords="195,2161,333,2203"/>
+<area shape="rect" id="node36" href="$d1/dea/a00054.html#a6ebe3ebc6603c5b03e66278ee73ac7ae" title="hydra::VegasState::\lIsUseRelativeError" alt="" coords="195,2227,333,2268"/>
+</map>

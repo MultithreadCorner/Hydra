@@ -1,7 +1,10 @@
 var searchData=
 [
-  ['stride_5ffunctor',['stride_functor',['../d0/d47/structstrided__range_1_1stride__functor.html',1,'strided_range']]],
-  ['strided_5frange',['strided_range',['../d3/dfe/classstrided__range.html',1,'']]],
-  ['sum',['Sum',['../d4/d03/structhydra_1_1_sum.html',1,'hydra']]],
-  ['sum_5fresult',['sum_result',['../d1/d0a/structhydra_1_1detail_1_1sum__result.html',1,'hydra::detail']]]
+  ['valueerror',['ValueError',['../d7/dd4/a00013.html#d2/da3/a00115',1,'hydra']]],
+  ['valueerror_3c_20t_2c_20hasvalueerror_20_3e',['ValueError&lt; T, HasValueError &gt;',['../d7/dd4/a00013.html',1,'hydra']]],
+  ['valueerror_3c_20t_2c_20true_20_3e',['ValueError&lt; T, true &gt;',['../d2/d79/a00051.html',1,'hydra']]],
+  ['vector3r',['Vector3R',['../d1/d84/a00052.html',1,'hydra']]],
+  ['vector4r',['Vector4R',['../dc/dee/a00053.html',1,'hydra']]],
+  ['vegas',['Vegas',['../d1/dea/a00054.html',1,'hydra']]],
+  ['vegasstate',['VegasState',['../d4/d6d/a00055.html',1,'hydra']]]
 ];

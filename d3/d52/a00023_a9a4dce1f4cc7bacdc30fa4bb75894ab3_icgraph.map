@@ -1,0 +1,6 @@
+<map id="hydra::Events::GetNEvents" name="hydra::Events::GetNEvents">
+<area shape="rect" id="node2" href="$d1/d6f/a00063.html#a348046a32bafabb2280d8ae55785e613" title="hydra::PhaseSpace::\lGenerate" alt="" coords="247,5,391,47"/>
+<area shape="rect" id="node3" href="$d8/d84/a00001.html#ab9ff11feecf1326d0b788d755293c639" title="hydra::detail::launch\l_decayer" alt="" coords="250,71,389,112"/>
+<area shape="rect" id="node5" href="$d3/d52/a00023.html#ace3fe647bf093ad875cc1568ac8bdb53" title="hydra::Events::operator=" alt="" coords="236,137,403,163"/>
+<area shape="rect" id="node4" href="$d1/d6f/a00063.html#a4ca0a20cd6c56424099b22b2bee2fa7e" title="hydra::PhaseSpace::\lGenerate" alt="" coords="451,71,595,112"/>
+</map>
