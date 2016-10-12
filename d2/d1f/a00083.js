@@ -1,8 +1,6 @@
 var a00083 =
 [
-    [ "Minus", "d5/d16/a00029.html", "d5/d16/a00029" ],
-    [ "minus", "d2/d1f/a00083.html#aa9c135b2a31b8adc650408759756cd30", null ],
-    [ "operator-", "d2/d1f/a00083.html#afd8d70910231348dc233cc60f55c07ae", null ],
-    [ "operator-", "d2/d1f/a00083.html#a44ae849dd2d74a7d93322306d7679750", null ],
-    [ "operator-", "d2/d1f/a00083.html#a8f3c44006ca3b703c77189d746e6323d", null ]
+    [ "Hydra_VERSION_MAJOR", "d2/d1f/a00083.html#a95d1abb83d001dc9cae163236910c439", null ],
+    [ "Hydra_VERSION_MINOR", "d2/d1f/a00083.html#aca82490e4d49651a1d802f1cdb8b1e9b", null ],
+    [ "Hydra_VERSION_PATCH", "d2/d1f/a00083.html#acb4a3b573ee645982d76cf1cf3c68bd8", null ]
 ];

@@ -1,7 +1,7 @@
 var searchData=
 [
-  ['lambdawrapper',['LambdaWrapper',['../d7/dd4/a00013.html#db/d57/a00112',1,'hydra']]],
-  ['lambdawrapper_3c_20returntype_28argtype_29_2c_20l_20_3e',['LambdaWrapper&lt; ReturnType(ArgType), L &gt;',['../d6/d5b/a00026.html',1,'hydra']]],
-  ['loglikelihood',['LogLikelihood',['../d0/d33/a00027.html',1,'hydra']]],
-  ['loglikelihoodfcn',['LogLikelihoodFCN',['../dc/d3c/a00028.html',1,'hydra']]]
+  ['integrator',['Integrator',['../d5/d79/a00030.html',1,'hydra']]],
+  ['integrator_3c_20vegas_3c_20n_2c_20grnd_20_3e_2c_20n_20_3e',['Integrator&lt; Vegas&lt; N, GRND &gt;, N &gt;',['../d5/d79/a00030.html',1,'hydra']]],
+  ['invexp',['InvExp',['../df/d61/a00031.html',1,'']]],
+  ['isaccepted',['isAccepted',['../dc/d87/a00032.html',1,'hydra']]]
 ];

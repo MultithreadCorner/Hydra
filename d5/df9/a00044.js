@@ -1,15 +1,15 @@
 var a00044 =
 [
-    [ "Random", "d5/df9/a00044.html#a15c8e7b83092354d3e9e5e4bea7b5d01", null ],
-    [ "Random", "d5/df9/a00044.html#a036724d7827e97caf7963e5daffde5fd", null ],
-    [ "~Random", "d5/df9/a00044.html#abd8e96c690c86807455b92f641b1ad0e", null ],
-    [ "BreitWigner", "d5/df9/a00044.html#a1d1d32fe3630bb302342c6dffae639f3", null ],
-    [ "Exp", "d5/df9/a00044.html#a3dbc414994aa19965b7ff815300aff96", null ],
-    [ "Gauss", "d5/df9/a00044.html#aeafd0b8dd2740a3943457b8c8e06d1dd", null ],
-    [ "GetSeed", "d5/df9/a00044.html#a54f7a7d5dc3853559ef1665ccd1265e9", null ],
-    [ "InverseCDF", "d5/df9/a00044.html#aca3224e0c691d1503b25ac318b5b4f4d", null ],
-    [ "Sample", "d5/df9/a00044.html#a2f6f0199659a7a31b893da88809f0d4b", null ],
-    [ "Sample", "d5/df9/a00044.html#ad03545cd4d346f8639caa3acf293e9e8", null ],
-    [ "SetSeed", "d5/df9/a00044.html#ade43b0c4c234c35cd10b5b984a6a555e", null ],
-    [ "Uniform", "d5/df9/a00044.html#aff81053c79f3cfbb30b212127d2c73ef", null ]
+    [ "type", "d5/df9/a00044.html#aefaa461409a068f5d059fdb88a967396", null ],
+    [ "value_type", "d5/df9/a00044.html#a27d197c3632fe74bb8ad75a93c5e2466", null ],
+    [ "PointError", "d5/df9/a00044.html#aeda20c2ccb3e0816c145df4ceaf78afa", null ],
+    [ "PointError", "d5/df9/a00044.html#a5435f4d001d9e2adc13482a2ec5d7580", null ],
+    [ "PointError", "d5/df9/a00044.html#a1623f94d9d35c1b952ffa14cf20c742f", null ],
+    [ "PointError", "d5/df9/a00044.html#a14831a2ba9bcee385ed614c97f299ce6", null ],
+    [ "PointError", "d5/df9/a00044.html#a303a367b29360f90554efa62c0d8d3b9", null ],
+    [ "PointError", "d5/df9/a00044.html#add2d290d872554832c0e94b08c08adb4", null ],
+    [ "GetError", "d5/df9/a00044.html#a413f6e93d07823aacb58205ee6fdaf24", null ],
+    [ "GetErrors", "d5/df9/a00044.html#aff18320fb80bf3df2f20858499b44a15", null ],
+    [ "GetErrors", "d5/df9/a00044.html#aaaea46faaeea724e24cbab1ff10f9210", null ],
+    [ "SetErrors", "d5/df9/a00044.html#a1f60ab2b82a17784d98826969e21a6ee", null ]
 ];

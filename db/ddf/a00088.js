@@ -1,5 +1,6 @@
 var a00088 =
 [
-    [ "Pdf", "df/d61/a00031.html", "df/d61/a00031" ],
-    [ "make_pdf", "db/ddf/a00088.html#a4ead364d19ac428f89101477057e61db", null ]
+    [ "Hydra_VERSION_MAJOR", "db/ddf/a00088.html#a95d1abb83d001dc9cae163236910c439", null ],
+    [ "Hydra_VERSION_MINOR", "db/ddf/a00088.html#aca82490e4d49651a1d802f1cdb8b1e9b", null ],
+    [ "Hydra_VERSION_PATCH", "db/ddf/a00088.html#acb4a3b573ee645982d76cf1cf3c68bd8", null ]
 ];

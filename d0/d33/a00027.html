@@ -4,7 +4,7 @@
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.11"/>
-<title>Hydra: hydra::LogLikelihood&lt; FUNCTOR, IteratorData, IteratorCache &gt; Struct Template Reference</title>
+<title>Hydra: hydra::HyRndGauss&lt; GRND &gt; Struct Template Reference</title>
 <link href="../../tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="../../jquery.js"></script>
 <script type="text/javascript" src="../../dynsections.js"></script>
@@ -58,6 +58,7 @@ var searchBox = new SearchBox("searchBox", "../../search",false,'Search');
       <li><a href="../../namespaces.html"><span>Namespaces</span></a></li>
       <li class="current"><a href="../../annotated.html"><span>Classes</span></a></li>
       <li><a href="../../files.html"><span>Files</span></a></li>
+      <li><a href="../../examples.html"><span>Examples</span></a></li>
       <li>
         <div id="MSearchBox" class="MSearchBoxInactive">
         <span class="left">
@@ -115,131 +116,70 @@ $(document).ready(function(){initNavTree('d0/d33/a00027.html','../../');});
 
 <div class="header">
   <div class="summary">
-<a href="#pub-types">Public Types</a> &#124;
 <a href="#pub-methods">Public Member Functions</a> &#124;
-<a href="../../d5/d35/a00266.html">List of all members</a>  </div>
+<a href="#pub-attribs">Public Attributes</a> &#124;
+<a href="../../d9/d0d/a00298.html">List of all members</a>  </div>
   <div class="headertitle">
-<div class="title">hydra::LogLikelihood&lt; FUNCTOR, IteratorData, IteratorCache &gt; Struct Template Reference</div>  </div>
+<div class="title">hydra::HyRndGauss&lt; GRND &gt; Struct Template Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
 <div class="dynheader">
-Collaboration diagram for hydra::LogLikelihood&lt; FUNCTOR, IteratorData, IteratorCache &gt;:</div>
+Collaboration diagram for hydra::HyRndGauss&lt; GRND &gt;:</div>
 <div class="dyncontent">
-<div class="center"><iframe scrolling="no" frameborder="0" src="../../d1/dd4/a00267.svg" width="192" height="176"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+<div class="center"><iframe scrolling="no" frameborder="0" src="../../df/d95/a00299.svg" width="160" height="162"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 </div>
 <table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-types"></a>
-Public Types</h2></td></tr>
-<tr class="memitem:a82e605b999cecea1976dda762a642083"><td class="memItemLeft" align="right" valign="top">typedef thrust::iterator_traits&lt; IteratorData &gt;::value_type&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/d33/a00027.html#a82e605b999cecea1976dda762a642083">data_value_type</a></td></tr>
-<tr class="separator:a82e605b999cecea1976dda762a642083"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a1d7075e41d99c634b7fc3e755718e495"><td class="memItemLeft" align="right" valign="top">typedef thrust::iterator_traits&lt; IteratorCache &gt;::value_type&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/d33/a00027.html#a1d7075e41d99c634b7fc3e755718e495">cache_value_type</a></td></tr>
-<tr class="separator:a1d7075e41d99c634b7fc3e755718e495"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:ae79521eda55419322f23ae767b3a30b1"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/d33/a00027.html#ae79521eda55419322f23ae767b3a30b1">LogLikelihood</a> (FUNCTOR const &amp;functor, <a class="el" href="../../d7/dd4/a00013.html#a971e94bcb8c43741d11f9d8eb98f5fab">GReal_t</a> sumW, <a class="el" href="../../d7/dd4/a00013.html#a971e94bcb8c43741d11f9d8eb98f5fab">GReal_t</a> sumW2, IteratorData dbegin, IteratorCache cbegin, <a class="el" href="../../d7/dd4/a00013.html#aa8c251ed5017d0638da929130062bcad">GBool_t</a> weighted, <a class="el" href="../../d7/dd4/a00013.html#aa8c251ed5017d0638da929130062bcad">GBool_t</a> cached)</td></tr>
-<tr class="separator:ae79521eda55419322f23ae767b3a30b1"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a8a212c4e6f65d8df49bcf4b9a9d76bbe"><td class="memItemLeft" align="right" valign="top">__host__ __device__&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/d33/a00027.html#a8a212c4e6f65d8df49bcf4b9a9d76bbe">LogLikelihood</a> (<a class="el" href="../../d0/d33/a00027.html">LogLikelihood</a>&lt; FUNCTOR, IteratorData, IteratorCache &gt; const &amp;other)</td></tr>
-<tr class="separator:a8a212c4e6f65d8df49bcf4b9a9d76bbe"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a3f4ee844e7c7fc7629a869dde5b4b397"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../d4/de8/a00061.html#a0916cfff5efbb734ef0bc4dc20ffa31a">__hydra_exec_check_disable__</a> __host__ __device__&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/d33/a00027.html#a3f4ee844e7c7fc7629a869dde5b4b397">~LogLikelihood</a> ()</td></tr>
-<tr class="separator:a3f4ee844e7c7fc7629a869dde5b4b397"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a46c111c088c17e59539dca835e1bd68d"><td class="memTemplParams" colspan="2">template&lt;typename U  = cache_value_type&gt; </td></tr>
-<tr class="memitem:a46c111c088c17e59539dca835e1bd68d"><td class="memTemplItemLeft" align="right" valign="top">__host__ __device__ <a class="el" href="../../d7/dd4/a00013.html#a971e94bcb8c43741d11f9d8eb98f5fab">GReal_t</a>&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="../../d0/d33/a00027.html#a46c111c088c17e59539dca835e1bd68d">operator()</a> (size_t index, const typename std::enable_if&lt; !std::is_same&lt; U, <a class="el" href="../../d7/dd4/a00013.html#d3/d00/a00113">null_type</a> &gt;::value, void &gt;::type *dummy=0)</td></tr>
-<tr class="separator:a46c111c088c17e59539dca835e1bd68d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a2a9e765e64c62301946c4262417f7b92"><td class="memTemplParams" colspan="2">template&lt;typename U  = cache_value_type&gt; </td></tr>
-<tr class="memitem:a2a9e765e64c62301946c4262417f7b92"><td class="memTemplItemLeft" align="right" valign="top">__host__ __device__ <a class="el" href="../../d7/dd4/a00013.html#a971e94bcb8c43741d11f9d8eb98f5fab">GReal_t</a>&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="../../d0/d33/a00027.html#a2a9e765e64c62301946c4262417f7b92">operator()</a> (size_t index, const typename std::enable_if&lt; std::is_same&lt; U, <a class="el" href="../../d7/dd4/a00013.html#d3/d00/a00113">null_type</a> &gt;::value, void &gt;::type *dummy=0)</td></tr>
-<tr class="separator:a2a9e765e64c62301946c4262417f7b92"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac4800dbc25294ad69a18ef3b31606d2a"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/d33/a00027.html#ac4800dbc25294ad69a18ef3b31606d2a">HyRndGauss</a> (size_t seed, <a class="el" href="../../d4/d51/a00017.html#a971e94bcb8c43741d11f9d8eb98f5fab">GReal_t</a> mean, <a class="el" href="../../d4/d51/a00017.html#a971e94bcb8c43741d11f9d8eb98f5fab">GReal_t</a> sigma)</td></tr>
+<tr class="separator:ac4800dbc25294ad69a18ef3b31606d2a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a33eeb5881fd9087cc10bde6989989aab"><td class="memItemLeft" align="right" valign="top">__host__ __device__&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/d33/a00027.html#a33eeb5881fd9087cc10bde6989989aab">HyRndGauss</a> (<a class="el" href="../../d0/d33/a00027.html">HyRndGauss</a>&lt; GRND &gt; const &amp;other)</td></tr>
+<tr class="separator:a33eeb5881fd9087cc10bde6989989aab"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab86fc72857e448adde5914965c1779cb"><td class="memItemLeft" align="right" valign="top">__host__ __device__ <a class="el" href="../../d4/d51/a00017.html#a971e94bcb8c43741d11f9d8eb98f5fab">GReal_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/d33/a00027.html#ab86fc72857e448adde5914965c1779cb">operator()</a> (size_t index)</td></tr>
+<tr class="separator:ab86fc72857e448adde5914965c1779cb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-attribs"></a>
+Public Attributes</h2></td></tr>
+<tr class="memitem:a3f2e01fbd6daccd8535b99985b5cefa5"><td class="memItemLeft" align="right" valign="top">size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/d33/a00027.html#a3f2e01fbd6daccd8535b99985b5cefa5">fSeed</a></td></tr>
+<tr class="separator:a3f2e01fbd6daccd8535b99985b5cefa5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa3caa995b304e7047a2ef9af19fc2aad"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../d4/d51/a00017.html#a971e94bcb8c43741d11f9d8eb98f5fab">GReal_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/d33/a00027.html#aa3caa995b304e7047a2ef9af19fc2aad">fMean</a></td></tr>
+<tr class="separator:aa3caa995b304e7047a2ef9af19fc2aad"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a00bcbf6a05ef747d8f2fdd49d753bcf4"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../d4/d51/a00017.html#a971e94bcb8c43741d11f9d8eb98f5fab">GReal_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/d33/a00027.html#a00bcbf6a05ef747d8f2fdd49d753bcf4">fSigma</a></td></tr>
+<tr class="separator:a00bcbf6a05ef747d8f2fdd49d753bcf4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><h3>template&lt;typename FUNCTOR, typename IteratorData, typename IteratorCache&gt;<br />
-struct hydra::LogLikelihood&lt; FUNCTOR, IteratorData, IteratorCache &gt;</h3>
+<div class="textblock"><h3>template&lt;typename GRND&gt;<br />
+struct hydra::HyRndGauss&lt; GRND &gt;</h3>
 
 
-<p>Definition at line <a class="el" href="../../d8/d53/a00081_source.html#l00048">48</a> of file <a class="el" href="../../d8/d53/a00081_source.html">LogLikelihood.h</a>.</p>
-</div><h2 class="groupheader">Member Typedef Documentation</h2>
-<a class="anchor" id="a1d7075e41d99c634b7fc3e755718e495"></a>
+<p>Definition at line <a class="el" href="../../db/d57/a00112_source.html#l00069">69</a> of file <a class="el" href="../../db/d57/a00112_source.html">RandomUtils.h</a>.</p>
+</div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
+<a class="anchor" id="ac4800dbc25294ad69a18ef3b31606d2a"></a>
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;typename FUNCTOR, typename IteratorData, typename IteratorCache&gt; </div>
-      <table class="memname">
-        <tr>
-          <td class="memname">typedef thrust::iterator_traits&lt;IteratorCache&gt;::value_type <a class="el" href="../../d0/d33/a00027.html">hydra::LogLikelihood</a>&lt; FUNCTOR, IteratorData, IteratorCache &gt;::<a class="el" href="../../d0/d33/a00027.html#a1d7075e41d99c634b7fc3e755718e495">cache_value_type</a></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Definition at line <a class="el" href="../../d8/d53/a00081_source.html#l00051">51</a> of file <a class="el" href="../../d8/d53/a00081_source.html">LogLikelihood.h</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="a82e605b999cecea1976dda762a642083"></a>
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;typename FUNCTOR, typename IteratorData, typename IteratorCache&gt; </div>
-      <table class="memname">
-        <tr>
-          <td class="memname">typedef thrust::iterator_traits&lt;IteratorData&gt;::value_type <a class="el" href="../../d0/d33/a00027.html">hydra::LogLikelihood</a>&lt; FUNCTOR, IteratorData, IteratorCache &gt;::<a class="el" href="../../d0/d33/a00027.html#a82e605b999cecea1976dda762a642083">data_value_type</a></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Definition at line <a class="el" href="../../d8/d53/a00081_source.html#l00050">50</a> of file <a class="el" href="../../d8/d53/a00081_source.html">LogLikelihood.h</a>.</p>
-
-</div>
-</div>
-<h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
-<a class="anchor" id="ae79521eda55419322f23ae767b3a30b1"></a>
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;typename FUNCTOR, typename IteratorData, typename IteratorCache&gt; </div>
+template&lt;typename GRND&gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="../../d0/d33/a00027.html">hydra::LogLikelihood</a>&lt; FUNCTOR, IteratorData, IteratorCache &gt;::<a class="el" href="../../d0/d33/a00027.html">LogLikelihood</a> </td>
+          <td class="memname"><a class="el" href="../../d0/d33/a00027.html">hydra::HyRndGauss</a>&lt; GRND &gt;::<a class="el" href="../../d0/d33/a00027.html">HyRndGauss</a> </td>
           <td>(</td>
-          <td class="paramtype">FUNCTOR const &amp;&#160;</td>
-          <td class="paramname"><em>functor</em>, </td>
+          <td class="paramtype">size_t&#160;</td>
+          <td class="paramname"><em>seed</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype"><a class="el" href="../../d7/dd4/a00013.html#a971e94bcb8c43741d11f9d8eb98f5fab">GReal_t</a>&#160;</td>
-          <td class="paramname"><em>sumW</em>, </td>
+          <td class="paramtype"><a class="el" href="../../d4/d51/a00017.html#a971e94bcb8c43741d11f9d8eb98f5fab">GReal_t</a>&#160;</td>
+          <td class="paramname"><em>mean</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype"><a class="el" href="../../d7/dd4/a00013.html#a971e94bcb8c43741d11f9d8eb98f5fab">GReal_t</a>&#160;</td>
-          <td class="paramname"><em>sumW2</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">IteratorData&#160;</td>
-          <td class="paramname"><em>dbegin</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">IteratorCache&#160;</td>
-          <td class="paramname"><em>cbegin</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"><a class="el" href="../../d7/dd4/a00013.html#aa8c251ed5017d0638da929130062bcad">GBool_t</a>&#160;</td>
-          <td class="paramname"><em>weighted</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"><a class="el" href="../../d7/dd4/a00013.html#aa8c251ed5017d0638da929130062bcad">GBool_t</a>&#160;</td>
-          <td class="paramname"><em>cached</em>&#160;</td>
+          <td class="paramtype"><a class="el" href="../../d4/d51/a00017.html#a971e94bcb8c43741d11f9d8eb98f5fab">GReal_t</a>&#160;</td>
+          <td class="paramname"><em>sigma</em>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -254,23 +194,23 @@ template&lt;typename FUNCTOR, typename IteratorData, typename IteratorCache&gt; 
 </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="../../d8/d53/a00081_source.html#l00054">54</a> of file <a class="el" href="../../d8/d53/a00081_source.html">LogLikelihood.h</a>.</p>
+<p>Definition at line <a class="el" href="../../db/d57/a00112_source.html#l00071">71</a> of file <a class="el" href="../../db/d57/a00112_source.html">RandomUtils.h</a>.</p>
 
 </div>
 </div>
-<a class="anchor" id="a8a212c4e6f65d8df49bcf4b9a9d76bbe"></a>
+<a class="anchor" id="a33eeb5881fd9087cc10bde6989989aab"></a>
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;typename FUNCTOR, typename IteratorData, typename IteratorCache&gt; </div>
+template&lt;typename GRND&gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">__host__ __device__ <a class="el" href="../../d0/d33/a00027.html">hydra::LogLikelihood</a>&lt; FUNCTOR, IteratorData, IteratorCache &gt;::<a class="el" href="../../d0/d33/a00027.html">LogLikelihood</a> </td>
+          <td class="memname">__host__ __device__ <a class="el" href="../../d0/d33/a00027.html">hydra::HyRndGauss</a>&lt; GRND &gt;::<a class="el" href="../../d0/d33/a00027.html">HyRndGauss</a> </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="../../d0/d33/a00027.html">LogLikelihood</a>&lt; FUNCTOR, IteratorData, IteratorCache &gt; const &amp;&#160;</td>
+          <td class="paramtype"><a class="el" href="../../d0/d33/a00027.html">HyRndGauss</a>&lt; GRND &gt; const &amp;&#160;</td>
           <td class="paramname"><em>other</em></td><td>)</td>
           <td></td>
         </tr>
@@ -282,67 +222,26 @@ template&lt;typename FUNCTOR, typename IteratorData, typename IteratorCache&gt; 
 </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="../../d8/d53/a00081_source.html#l00066">66</a> of file <a class="el" href="../../d8/d53/a00081_source.html">LogLikelihood.h</a>.</p>
-
-<p>References <a class="el" href="../../d4/de8/a00061_source.html#l00047">__hydra_exec_check_disable__</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="a3f4ee844e7c7fc7629a869dde5b4b397"></a>
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;typename FUNCTOR, typename IteratorData, typename IteratorCache&gt; </div>
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="../../d4/de8/a00061.html#a0916cfff5efbb734ef0bc4dc20ffa31a">__hydra_exec_check_disable__</a> __host__ __device__ <a class="el" href="../../d0/d33/a00027.html">hydra::LogLikelihood</a>&lt; FUNCTOR, IteratorData, IteratorCache &gt;::~<a class="el" href="../../d0/d33/a00027.html">LogLikelihood</a> </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Definition at line <a class="el" href="../../d8/d53/a00081_source.html#l00078">78</a> of file <a class="el" href="../../d8/d53/a00081_source.html">LogLikelihood.h</a>.</p>
+<p>Definition at line <a class="el" href="../../db/d57/a00112_source.html#l00077">77</a> of file <a class="el" href="../../db/d57/a00112_source.html">RandomUtils.h</a>.</p>
 
 </div>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
-<a class="anchor" id="a46c111c088c17e59539dca835e1bd68d"></a>
+<a class="anchor" id="ab86fc72857e448adde5914965c1779cb"></a>
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;typename FUNCTOR, typename IteratorData, typename IteratorCache&gt; </div>
-<div class="memtemplate">
-template&lt;typename U  = cache_value_type&gt; </div>
+template&lt;typename GRND&gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">__host__ __device__ <a class="el" href="../../d7/dd4/a00013.html#a971e94bcb8c43741d11f9d8eb98f5fab">GReal_t</a> <a class="el" href="../../d0/d33/a00027.html">hydra::LogLikelihood</a>&lt; FUNCTOR, IteratorData, IteratorCache &gt;::operator() </td>
+          <td class="memname">__host__ __device__ <a class="el" href="../../d4/d51/a00017.html#a971e94bcb8c43741d11f9d8eb98f5fab">GReal_t</a> <a class="el" href="../../d0/d33/a00027.html">hydra::HyRndGauss</a>&lt; GRND &gt;::operator() </td>
           <td>(</td>
           <td class="paramtype">size_t&#160;</td>
-          <td class="paramname"><em>index</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
+          <td class="paramname"><em>index</em></td><td>)</td>
           <td></td>
-          <td class="paramtype">const typename std::enable_if&lt; !std::is_same&lt; U, <a class="el" href="../../d7/dd4/a00013.html#d3/d00/a00113">null_type</a> &gt;::value, void &gt;::type *&#160;</td>
-          <td class="paramname"><em>dummy</em> = <code>0</code>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
         </tr>
       </table>
   </td>
@@ -352,60 +251,71 @@ template&lt;typename U  = cache_value_type&gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="../../d8/d53/a00081_source.html#l00082">82</a> of file <a class="el" href="../../d8/d53/a00081_source.html">LogLikelihood.h</a>.</p>
+<p>Definition at line <a class="el" href="../../db/d57/a00112_source.html#l00084">84</a> of file <a class="el" href="../../db/d57/a00112_source.html">RandomUtils.h</a>.</p>
+
+<p>References <a class="el" href="../../db/d57/a00112_source.html#l00064">hydra::HyRndCDF&lt; GRND, FUNCTOR &gt;::fSeed</a>.</p>
 
 </div>
 </div>
-<a class="anchor" id="a2a9e765e64c62301946c4262417f7b92"></a>
+<h2 class="groupheader">Member Data Documentation</h2>
+<a class="anchor" id="aa3caa995b304e7047a2ef9af19fc2aad"></a>
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;typename FUNCTOR, typename IteratorData, typename IteratorCache&gt; </div>
-<div class="memtemplate">
-template&lt;typename U  = cache_value_type&gt; </div>
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
+template&lt;typename GRND&gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname">__host__ __device__ <a class="el" href="../../d7/dd4/a00013.html#a971e94bcb8c43741d11f9d8eb98f5fab">GReal_t</a> <a class="el" href="../../d0/d33/a00027.html">hydra::LogLikelihood</a>&lt; FUNCTOR, IteratorData, IteratorCache &gt;::operator() </td>
-          <td>(</td>
-          <td class="paramtype">size_t&#160;</td>
-          <td class="paramname"><em>index</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">const typename std::enable_if&lt; std::is_same&lt; U, <a class="el" href="../../d7/dd4/a00013.html#d3/d00/a00113">null_type</a> &gt;::value, void &gt;::type *&#160;</td>
-          <td class="paramname"><em>dummy</em> = <code>0</code>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
+          <td class="memname"><a class="el" href="../../d4/d51/a00017.html#a971e94bcb8c43741d11f9d8eb98f5fab">GReal_t</a> <a class="el" href="../../d0/d33/a00027.html">hydra::HyRndGauss</a>&lt; GRND &gt;::fMean</td>
         </tr>
       </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
-  </tr>
-</table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="../../d8/d53/a00081_source.html#l00095">95</a> of file <a class="el" href="../../d8/d53/a00081_source.html">LogLikelihood.h</a>.</p>
+<p>Definition at line <a class="el" href="../../db/d57/a00112_source.html#l00095">95</a> of file <a class="el" href="../../db/d57/a00112_source.html">RandomUtils.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a3f2e01fbd6daccd8535b99985b5cefa5"></a>
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename GRND&gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">size_t <a class="el" href="../../d0/d33/a00027.html">hydra::HyRndGauss</a>&lt; GRND &gt;::fSeed</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="../../db/d57/a00112_source.html#l00094">94</a> of file <a class="el" href="../../db/d57/a00112_source.html">RandomUtils.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a00bcbf6a05ef747d8f2fdd49d753bcf4"></a>
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename GRND&gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="../../d4/d51/a00017.html#a971e94bcb8c43741d11f9d8eb98f5fab">GReal_t</a> <a class="el" href="../../d0/d33/a00027.html">hydra::HyRndGauss</a>&lt; GRND &gt;::fSigma</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="../../db/d57/a00112_source.html#l00096">96</a> of file <a class="el" href="../../db/d57/a00112_source.html">RandomUtils.h</a>.</p>
 
 </div>
 </div>
 <hr/>The documentation for this struct was generated from the following file:<ul>
-<li><a class="el" href="../../d8/d53/a00081_source.html">LogLikelihood.h</a></li>
+<li><a class="el" href="../../db/d57/a00112_source.html">RandomUtils.h</a></li>
 </ul>
 </div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="../../d7/dd4/a00013.html">hydra</a></li><li class="navelem"><a class="el" href="../../d0/d33/a00027.html">LogLikelihood</a></li>
-    <li class="footer">Generated on Tue Oct 11 2016 04:51:50 for Hydra by
+    <li class="navelem"><a class="el" href="../../d4/d51/a00017.html">hydra</a></li><li class="navelem"><a class="el" href="../../d0/d33/a00027.html">HyRndGauss</a></li>
+    <li class="footer">Generated on Wed Oct 12 2016 06:08:16 for Hydra by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="../../doxygen.png" alt="doxygen"/></a> 1.8.11 </li>
   </ul>

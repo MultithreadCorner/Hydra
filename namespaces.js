@@ -1,4 +1,4 @@
 var namespaces =
 [
-    [ "hydra", "d7/dd4/a00013.html", null ]
+    [ "hydra", "d4/d51/a00017.html", null ]
 ];

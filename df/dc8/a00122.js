@@ -1,6 +1,14 @@
 var a00122 =
 [
-    [ "PdfBase", "df/d03/a00062.html", null ],
-    [ "Pdf", "d4/de8/a00061.html", "d4/de8/a00061" ],
-    [ "make_pdf", "df/dc8/a00122.html#a4ead364d19ac428f89101477057e61db", null ]
+    [ "Vector4R", "d9/d73/a00060.html", "d9/d73/a00060" ],
+    [ "boostTo", "df/dc8/a00122.html#a52d2bb64b855258800238a7263f26699", null ],
+    [ "boostTo", "df/dc8/a00122.html#a56aaad7de821363b5a3f6a3853688a5f", null ],
+    [ "operator*", "df/dc8/a00122.html#ab8059091b90cfa8bfd6a7bbabf84e851", null ],
+    [ "operator*", "df/dc8/a00122.html#a8ea48ebde3804da5519a849fd697a9ed", null ],
+    [ "operator*", "df/dc8/a00122.html#acc68502df5d8b6b8f5fba9b1ba7ac2e9", null ],
+    [ "operator+", "df/dc8/a00122.html#a8d67c62da7414fa54685256891397394", null ],
+    [ "operator-", "df/dc8/a00122.html#ab920ce4c223b458acbce8f3dec8a4a77", null ],
+    [ "operator/", "df/dc8/a00122.html#a50088fd950900d64d11e9de4bbc0267e", null ],
+    [ "operator<<", "df/dc8/a00122.html#aaacce78528c9499de97312cbe606ece4", null ],
+    [ "rotateEuler", "df/dc8/a00122.html#ab53a2a0ba453b6b2a3372941b6e17fbc", null ]
 ];

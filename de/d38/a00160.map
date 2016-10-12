@@ -1,3 +1,11 @@
-<map id="IsAccepted.h" name="IsAccepted.h">
-<area shape="rect" id="node2" href="$d1/d1e/a00087.html" title="Implements the struct Events and the class PhaseSpace. " alt="" coords="5,80,112,107"/>
+<map id="Events.h" name="Events.h">
+<area shape="rect" id="node13" href="$da/d24/a00068.html" title="hydra/detail/Config.h" alt="" coords="1078,512,1221,539"/>
+<area shape="rect" id="node22" href="$d9/d4b/a00117.html" title="hydra/Types.h" alt="" coords="654,512,759,539"/>
+<area shape="rect" id="node23" href="$d2/db1/a00070.html" title="Typedef for useful container classes used in MCBooster. " alt="" coords="877,266,1009,293"/>
+<area shape="rect" id="node24" href="$d8/dfa/a00121.html" title="hydra/Vector3R.h" alt="" coords="237,430,361,457"/>
+<area shape="rect" id="node28" href="$df/dc8/a00122.html" title="hydra/Vector4R.h" alt="" coords="447,348,571,375"/>
+<area shape="rect" id="node33" href="$d4/d98/a00120.html" title="hydra/detail/utility\l/Utility_Tuple.h" alt="" coords="1557,80,1681,121"/>
+<area shape="rect" id="node41" href="$da/dec/a00080.html" title="Implements FlagAcceptReject. " alt="" coords="924,423,1065,464"/>
+<area shape="rect" id="node34" href="$da/d2a/a00086.html" title="hydra/detail/utility\l/Generic.h" alt="" coords="1775,169,1899,211"/>
+<area shape="rect" id="node36" href="$d8/d87/a00118.html" title="hydra/detail/TypeTraits.h" alt="" coords="1135,177,1302,203"/>
 </map>

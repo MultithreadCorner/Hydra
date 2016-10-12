@@ -1,11 +1,2 @@
-<map id="Print.h" name="Print.h">
-<area shape="rect" id="node2" href="$d7/d70/a00106.html" title="Function.h" alt="" coords="128,80,211,107"/>
-<area shape="rect" id="node7" href="$d9/d4b/a00117.html" title="LogLikelihoodFCN.h" alt="" coords="237,80,377,107"/>
-<area shape="rect" id="node8" href="$df/dc8/a00122.html" title="Pdf.h" alt="" coords="401,80,455,107"/>
-<area shape="rect" id="node10" href="$d5/d4e/a00141.html" title="UserParameters.h" alt="" coords="479,80,607,107"/>
-<area shape="rect" id="node3" href="$d4/ddd/a00138.html" title="Sum.h" alt="" coords="43,155,103,181"/>
-<area shape="rect" id="node5" href="$d4/d3a/a00101.html" title="Evaluate.h" alt="" coords="127,155,211,181"/>
-<area shape="rect" id="node6" href="$df/d98/a00107.html" title="FunctionWrapper.h" alt="" coords="235,155,367,181"/>
-<area shape="rect" id="node4" href="$d1/dd6/a00108.html" title="FunctorArithmetic.h" alt="" coords="5,229,141,256"/>
-<area shape="rect" id="node9" href="$db/dab/a00089.html" title="AddPdf.h" alt="" coords="391,155,467,181"/>
+<map id="hydra::Constant&lt; ReturnType &gt;" name="hydra::Constant&lt; ReturnType &gt;">
 </map>

@@ -1,3 +1,5 @@
 <map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
-<area shape="rect" id="node1" href="$d1/d84/a00052.html" title="hydra::Vector3R" alt="" coords="5,5,123,32"/>
+<area shape="rect" id="node1" href="$d4/d51/a00017.html" title="hydra::PointError\&lt;\l T, N, HasPointError \&gt;" alt="" coords="5,5,160,47"/>
+<area shape="rect" id="node2" href="$d6/d42/a00043.html" title="hydra::Point\&lt; T, N,\l HasValueError, HasPointError \&gt;" alt="" coords="208,39,421,80"/>
+<area shape="rect" id="node3" href="$d4/d51/a00017.html" title="hydra::ValueError\&lt;\l T, HasValueError \&gt;" alt="" coords="13,71,152,112"/>
 </map>

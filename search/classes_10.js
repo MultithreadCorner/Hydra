@@ -1,7 +1,10 @@
 var searchData=
 [
-  ['tag_5ftype',['tag_type',['../d8/d84/a00001.html#d8/d64/a00181',1,'hydra::detail']]],
-  ['tuple_5ftype',['tuple_type',['../d8/d84/a00001.html#d7/d25/a00182',1,'hydra::detail']]],
-  ['typetraits',['TypeTraits',['../d8/d53/a00081.html',1,'hydra::detail']]],
-  ['typetraits_3c_20thrust_3a_3acomplex_3c_20t_20_3e_20_3e',['TypeTraits&lt; thrust::complex&lt; T &gt; &gt;',['../d4/d63/a00082.html',1,'hydra::detail']]]
+  ['valueerror',['ValueError',['../d4/d51/a00017.html#d5/deb/a00132',1,'hydra']]],
+  ['valueerror_3c_20t_2c_20hasvalueerror_20_3e',['ValueError&lt; T, HasValueError &gt;',['../d4/d51/a00017.html',1,'hydra']]],
+  ['valueerror_3c_20t_2c_20true_20_3e',['ValueError&lt; T, true &gt;',['../d7/df7/a00058.html',1,'hydra']]],
+  ['vector3r',['Vector3R',['../d3/d8b/a00059.html',1,'hydra']]],
+  ['vector4r',['Vector4R',['../d9/d73/a00060.html',1,'hydra']]],
+  ['vegas',['Vegas',['../d4/de8/a00061.html',1,'hydra']]],
+  ['vegasstate',['VegasState',['../df/d03/a00062.html',1,'hydra']]]
 ];

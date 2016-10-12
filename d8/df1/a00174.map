@@ -1,4 +1,10 @@
-<map id="PlainState.h" name="PlainState.h">
-<area shape="rect" id="node3" href="$d4/de8/a00061.html" title="hydra/detail/Config.h" alt="" coords="476,80,619,107"/>
-<area shape="rect" id="node13" href="$d4/d3a/a00101.html" title="hydra/Types.h" alt="" coords="643,80,748,107"/>
+<map id="FunctorArithmetic.h" name="FunctorArithmetic.h">
+<area shape="rect" id="node2" href="$d1/d7c/a00003.html" title="HydraEvaluateExample take parameters from the command line, fill a range with random numbers and eval..." alt="" coords="5,80,189,107"/>
+<area shape="rect" id="node3" href="$d8/d84/a00001.html" title="HydraEvaluateExample takes parameters from the command line, fill a range with random numbers and eva..." alt="" coords="214,80,391,107"/>
+<area shape="rect" id="node4" href="$db/dab/a00089.html" title="HydraFitExample.cpp" alt="" coords="415,80,563,107"/>
+<area shape="rect" id="node5" href="$d9/dec/a00090.html" title="HydraFitExample.cu" alt="" coords="588,80,729,107"/>
+<area shape="rect" id="node6" href="$da/d82/a00091.html" title="HydraPhaseSpaceExample.cpp" alt="" coords="754,80,961,107"/>
+<area shape="rect" id="node7" href="$d1/dc1/a00092.html" title="HydraPhaseSpaceExample.cu" alt="" coords="985,80,1185,107"/>
+<area shape="rect" id="node8" href="$d4/d7d/a00093.html" title="HydraRandomExample.cpp" alt="" coords="1210,80,1393,107"/>
+<area shape="rect" id="node9" href="$dc/d54/a00094.html" title="HydraRandomExample.cu" alt="" coords="1417,80,1591,107"/>
 </map>

@@ -4,7 +4,7 @@
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.11"/>
-<title>Hydra: hydra::Compose&lt; F0, F1, Fs &gt; Struct Template Reference</title>
+<title>Hydra: hydra::BaseFunctor&lt; Functor, ReturnType, NPARAM &gt; Struct Template Reference</title>
 <link href="../../tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="../../jquery.js"></script>
 <script type="text/javascript" src="../../dynsections.js"></script>
@@ -58,6 +58,7 @@ var searchBox = new SearchBox("searchBox", "../../search",false,'Search');
       <li><a href="../../namespaces.html"><span>Namespaces</span></a></li>
       <li class="current"><a href="../../annotated.html"><span>Classes</span></a></li>
       <li><a href="../../files.html"><span>Files</span></a></li>
+      <li><a href="../../examples.html"><span>Examples</span></a></li>
       <li>
         <div id="MSearchBox" class="MSearchBoxInactive">
         <span class="left">
@@ -117,142 +118,150 @@ $(document).ready(function(){initNavTree('d4/dee/a00008.html','../../');});
   <div class="summary">
 <a href="#pub-types">Public Types</a> &#124;
 <a href="#pub-methods">Public Member Functions</a> &#124;
-<a href="../../dc/d55/a00226.html">List of all members</a>  </div>
+<a href="#pub-static-attribs">Static Public Attributes</a> &#124;
+<a href="../../d5/d42/a00269.html">List of all members</a>  </div>
   <div class="headertitle">
-<div class="title">hydra::Compose&lt; F0, F1, Fs &gt; Struct Template Reference</div>  </div>
+<div class="title">hydra::BaseFunctor&lt; Functor, ReturnType, NPARAM &gt; Struct Template Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
 <div class="dynheader">
-Collaboration diagram for hydra::Compose&lt; F0, F1, Fs &gt;:</div>
+Inheritance diagram for hydra::BaseFunctor&lt; Functor, ReturnType, NPARAM &gt;:</div>
 <div class="dyncontent">
-<div class="center"><iframe scrolling="no" frameborder="0" src="../../d9/d01/a00227.svg" width="160" height="279"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="../../d9/d2a/a00270.svg" width="100%" height="600"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
+</div>
+<div class="dynheader">
+Collaboration diagram for hydra::BaseFunctor&lt; Functor, ReturnType, NPARAM &gt;:</div>
+<div class="dyncontent">
+<div class="center"><iframe scrolling="no" frameborder="0" src="../../dd/d86/a00271.svg" width="170" height="264"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 </div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-types"></a>
 Public Types</h2></td></tr>
-<tr class="memitem:a4fa7b4bffd3c0b7905304769937ec5e9"><td class="memItemLeft" align="right" valign="top">typedef void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d4/dee/a00008.html#a4fa7b4bffd3c0b7905304769937ec5e9">hydra_functor_tag</a></td></tr>
-<tr class="separator:a4fa7b4bffd3c0b7905304769937ec5e9"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae7a9bfb68231a76d8b82ca8f985c4617"><td class="memItemLeft" align="right" valign="top">typedef F0::return_type&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d4/dee/a00008.html#ae7a9bfb68231a76d8b82ca8f985c4617">return_type</a></td></tr>
-<tr class="separator:ae7a9bfb68231a76d8b82ca8f985c4617"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a5105fbe32c4cd5bd3dc2a3ee3982acf0"><td class="memItemLeft" align="right" valign="top">typedef thrust::tuple&lt; typename F1::return_type, typename Fs::return_type... &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d4/dee/a00008.html#a5105fbe32c4cd5bd3dc2a3ee3982acf0">argument_type</a></td></tr>
-<tr class="separator:a5105fbe32c4cd5bd3dc2a3ee3982acf0"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:abadccc9043d3a0491ee20896c675d0e8"><td class="memItemLeft" align="right" valign="top">typedef thrust::tuple&lt; F1, Fs... &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d4/dee/a00008.html#abadccc9043d3a0491ee20896c675d0e8">functors_type</a></td></tr>
-<tr class="separator:abadccc9043d3a0491ee20896c675d0e8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9eb43b40102a67bf3d838f3cd13b5b29"><td class="memItemLeft" align="right" valign="top">typedef void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d4/dee/a00008.html#a9eb43b40102a67bf3d838f3cd13b5b29">hydra_functor_tag</a></td></tr>
+<tr class="separator:a9eb43b40102a67bf3d838f3cd13b5b29"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6f086a61951fecd03bb12a7588efc5e9"><td class="memItemLeft" align="right" valign="top">typedef ReturnType&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d4/dee/a00008.html#a6f086a61951fecd03bb12a7588efc5e9">return_type</a></td></tr>
+<tr class="separator:a6f086a61951fecd03bb12a7588efc5e9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2425580530e0d2e7a0f3687cf47c511d"><td class="memItemLeft" align="right" valign="top">typedef std::true_type&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d4/dee/a00008.html#a2425580530e0d2e7a0f3687cf47c511d">is_functor</a></td></tr>
+<tr class="separator:a2425580530e0d2e7a0f3687cf47c511d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a9142bdbe10036d1849bd6b7d59662820"><td class="memItemLeft" align="right" valign="top">__host__&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d4/dee/a00008.html#a9142bdbe10036d1849bd6b7d59662820">Compose</a> ()</td></tr>
-<tr class="separator:a9142bdbe10036d1849bd6b7d59662820"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a127c9c95f434ccd57470c78f73490c68"><td class="memItemLeft" align="right" valign="top">__host__&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d4/dee/a00008.html#a127c9c95f434ccd57470c78f73490c68">Compose</a> (F0 const &amp;f0, F1 const &amp;f1, Fs const &amp;...fs)</td></tr>
-<tr class="separator:a127c9c95f434ccd57470c78f73490c68"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a192f242d950e5163279b3249142dad84"><td class="memItemLeft" align="right" valign="top">__host__ __device__&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d4/dee/a00008.html#a192f242d950e5163279b3249142dad84">Compose</a> (<a class="el" href="../../d4/dee/a00008.html">Compose</a>&lt; F0, F1, Fs... &gt; const &amp;other)</td></tr>
-<tr class="separator:a192f242d950e5163279b3249142dad84"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a0a11d997d38da5b17c4f9f1089bafa1b"><td class="memItemLeft" align="right" valign="top">__host__ __device__ <a class="el" href="../../d4/dee/a00008.html">Compose</a>&lt; F0, F1, Fs... &gt; &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d4/dee/a00008.html#a0a11d997d38da5b17c4f9f1089bafa1b">operator=</a> (<a class="el" href="../../d4/dee/a00008.html">Compose</a>&lt; F0, F1, Fs... &gt; const &amp;other)</td></tr>
-<tr class="separator:a0a11d997d38da5b17c4f9f1089bafa1b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:acdf49e99af0dbb9499fc9006d4677d59"><td class="memItemLeft" align="right" valign="top">__host__ void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d4/dee/a00008.html#acdf49e99af0dbb9499fc9006d4677d59">SetParameters</a> (const std::vector&lt; double &gt; &amp;parameters)</td></tr>
-<tr class="separator:acdf49e99af0dbb9499fc9006d4677d59"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a0d5197f73968cbce1a8a443dbd8c5a96"><td class="memItemLeft" align="right" valign="top">__host__ __device__ <a class="el" href="../../d4/dee/a00008.html#abadccc9043d3a0491ee20896c675d0e8">functors_type</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d4/dee/a00008.html#a0d5197f73968cbce1a8a443dbd8c5a96">GetFunctors</a> () const </td></tr>
-<tr class="separator:a0d5197f73968cbce1a8a443dbd8c5a96"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a712c74cde3db093f89ec8395f70aba4d"><td class="memItemLeft" align="right" valign="top">__host__ __device__ F0&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d4/dee/a00008.html#a712c74cde3db093f89ec8395f70aba4d">GetF0</a> () const </td></tr>
-<tr class="separator:a712c74cde3db093f89ec8395f70aba4d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae7fb5bc27ee04e599cfe22969bbf2ccc"><td class="memItemLeft" align="right" valign="top">__host__ __device__ int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d4/dee/a00008.html#ae7fb5bc27ee04e599cfe22969bbf2ccc">GetIndex</a> () const </td></tr>
-<tr class="separator:ae7fb5bc27ee04e599cfe22969bbf2ccc"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a2f5e536d4af825799e9a5f4646b4a752"><td class="memItemLeft" align="right" valign="top">__host__ __device__ void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d4/dee/a00008.html#a2f5e536d4af825799e9a5f4646b4a752">SetIndex</a> (int index)</td></tr>
-<tr class="separator:a2f5e536d4af825799e9a5f4646b4a752"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aca2ac2fe5c731f655fdb29c7704b4d91"><td class="memItemLeft" align="right" valign="top">__host__ __device__ bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d4/dee/a00008.html#aca2ac2fe5c731f655fdb29c7704b4d91">IsCached</a> () const </td></tr>
-<tr class="separator:aca2ac2fe5c731f655fdb29c7704b4d91"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a33b17d24208c21129ac3b7caba444b48"><td class="memItemLeft" align="right" valign="top">__host__ __device__ void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d4/dee/a00008.html#a33b17d24208c21129ac3b7caba444b48">SetCached</a> (bool cached=true)</td></tr>
-<tr class="separator:a33b17d24208c21129ac3b7caba444b48"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa016a9a1701066ebe3e5cfc98905fe08"><td class="memTemplParams" colspan="2">template&lt;typename T1 &gt; </td></tr>
-<tr class="memitem:aa016a9a1701066ebe3e5cfc98905fe08"><td class="memTemplItemLeft" align="right" valign="top">__host__ __device__ <a class="el" href="../../d4/dee/a00008.html#ae7a9bfb68231a76d8b82ca8f985c4617">return_type</a>&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="../../d4/dee/a00008.html#aa016a9a1701066ebe3e5cfc98905fe08">operator()</a> (T1 &amp;t)</td></tr>
-<tr class="separator:aa016a9a1701066ebe3e5cfc98905fe08"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:add0e09ca8015dca9336bf00d53aaa1a9"><td class="memTemplParams" colspan="2">template&lt;typename T1 , typename T2 &gt; </td></tr>
-<tr class="memitem:add0e09ca8015dca9336bf00d53aaa1a9"><td class="memTemplItemLeft" align="right" valign="top">__host__ __device__ <a class="el" href="../../d4/dee/a00008.html#ae7a9bfb68231a76d8b82ca8f985c4617">return_type</a>&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="../../d4/dee/a00008.html#add0e09ca8015dca9336bf00d53aaa1a9">operator()</a> (T1 &amp;t, T2 &amp;cache)</td></tr>
-<tr class="separator:add0e09ca8015dca9336bf00d53aaa1a9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0c0be9dd53a27b84117fb8c2d8b6210f"><td class="memItemLeft" align="right" valign="top">__host__ __device__&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d4/dee/a00008.html#a0c0be9dd53a27b84117fb8c2d8b6210f">BaseFunctor</a> ()</td></tr>
+<tr class="separator:a0c0be9dd53a27b84117fb8c2d8b6210f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a37483aee0fe228b0de4a268c3b838b08"><td class="memItemLeft" align="right" valign="top">__host__ __device__&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d4/dee/a00008.html#a37483aee0fe228b0de4a268c3b838b08">BaseFunctor</a> (<a class="el" href="../../d4/dee/a00008.html">BaseFunctor</a>&lt; Functor, ReturnType, NPARAM &gt; const &amp;other)</td></tr>
+<tr class="separator:a37483aee0fe228b0de4a268c3b838b08"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac534f12bffd178eb953b613142b11cef"><td class="memItemLeft" align="right" valign="top">__host__ __device__ <a class="el" href="../../d4/dee/a00008.html">BaseFunctor</a>&lt; Functor, ReturnType, NPARAM &gt; &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d4/dee/a00008.html#ac534f12bffd178eb953b613142b11cef">operator=</a> (<a class="el" href="../../d4/dee/a00008.html">BaseFunctor</a>&lt; Functor, ReturnType, NPARAM &gt; const &amp;other)</td></tr>
+<tr class="separator:ac534f12bffd178eb953b613142b11cef"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afec62fc691e8a3f9908c65a8402a8b8e"><td class="memItemLeft" align="right" valign="top">__host__ __device__&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d4/dee/a00008.html#afec62fc691e8a3f9908c65a8402a8b8e">~BaseFunctor</a> ()</td></tr>
+<tr class="separator:afec62fc691e8a3f9908c65a8402a8b8e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9a28492d966813137b22daaf545c65b0"><td class="memItemLeft" align="right" valign="top">__host__ __device__ Functor &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d4/dee/a00008.html#a9a28492d966813137b22daaf545c65b0">GetFunctor</a> ()</td></tr>
+<tr class="separator:a9a28492d966813137b22daaf545c65b0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a89169035f79ac67daa965e5da6e5dfb2"><td class="memItemLeft" align="right" valign="top">__host__ __device__ int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d4/dee/a00008.html#a89169035f79ac67daa965e5da6e5dfb2">GetCacheIndex</a> () const </td></tr>
+<tr class="separator:a89169035f79ac67daa965e5da6e5dfb2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9f28f137b52aa839dfbe861cebf1ea80"><td class="memItemLeft" align="right" valign="top">__host__ __device__ void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d4/dee/a00008.html#a9f28f137b52aa839dfbe861cebf1ea80">SetCacheIndex</a> (int index)</td></tr>
+<tr class="separator:a9f28f137b52aa839dfbe861cebf1ea80"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab9bacd69761e78fd208fdaef70e03b23"><td class="memItemLeft" align="right" valign="top">__host__ __device__ bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d4/dee/a00008.html#ab9bacd69761e78fd208fdaef70e03b23">IsCached</a> () const </td></tr>
+<tr class="separator:ab9bacd69761e78fd208fdaef70e03b23"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2b5708f0ff105a98f18677f4e0cb8619"><td class="memItemLeft" align="right" valign="top">__host__ __device__ void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d4/dee/a00008.html#a2b5708f0ff105a98f18677f4e0cb8619">SetCached</a> (bool cached=true)</td></tr>
+<tr class="separator:a2b5708f0ff105a98f18677f4e0cb8619"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af626df0a771c88657cff2c96297a13cf"><td class="memItemLeft" align="right" valign="top">__host__ __device__ void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d4/dee/a00008.html#af626df0a771c88657cff2c96297a13cf">RegistryParameters</a> (std::initializer_list&lt; <a class="el" href="../../d8/d41/a00038.html">Parameter</a> * &gt; var_list)</td></tr>
+<tr class="separator:af626df0a771c88657cff2c96297a13cf"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a85cbce733ead7b16656ef2cd0c4ae22c"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d4/dee/a00008.html#a85cbce733ead7b16656ef2cd0c4ae22c">PrintRegisteredParameters</a> ()</td></tr>
+<tr class="separator:a85cbce733ead7b16656ef2cd0c4ae22c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1626ed818255626d007def610b3e9801"><td class="memItemLeft" align="right" valign="top">__host__ void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d4/dee/a00008.html#a1626ed818255626d007def610b3e9801">SetParameters</a> (const std::vector&lt; double &gt; &amp;parameters)</td></tr>
+<tr class="separator:a1626ed818255626d007def610b3e9801"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a05300c08819c707064306fc5406c54bc"><td class="memItemLeft" align="right" valign="top">__host__ const <a class="el" href="../../d8/d41/a00038.html">Parameter</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d4/dee/a00008.html#a05300c08819c707064306fc5406c54bc">GetParameter</a> (size_t i) const </td></tr>
+<tr class="separator:a05300c08819c707064306fc5406c54bc"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1e1b71cc1d1dfb0ea14afb4c83b01551"><td class="memItemLeft" align="right" valign="top">__host__ <a class="el" href="../../d8/d41/a00038.html">Parameter</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d4/dee/a00008.html#a1e1b71cc1d1dfb0ea14afb4c83b01551">GetParameter</a> (size_t i)</td></tr>
+<tr class="separator:a1e1b71cc1d1dfb0ea14afb4c83b01551"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3da55bfa4e01e60f874af6e0361ee87e"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
+<tr class="memitem:a3da55bfa4e01e60f874af6e0361ee87e"><td class="memTemplItemLeft" align="right" valign="top">__host__ __device__ thrust::detail::enable_if&lt; detail::is_homogeneous&lt; typename thrust::tuple_element&lt; 0, typename std::remove_reference&lt; T &gt;::type &gt;::type, typename std::remove_reference&lt; T &gt;::type &gt;::value, <a class="el" href="../../d4/dee/a00008.html#a6f086a61951fecd03bb12a7588efc5e9">return_type</a> &gt;::type&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="../../d4/dee/a00008.html#a3da55bfa4e01e60f874af6e0361ee87e">interface</a> (T &amp;&amp;x)</td></tr>
+<tr class="separator:a3da55bfa4e01e60f874af6e0361ee87e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af3852df9a2b47366b4c45359229c6e36"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
+<tr class="memitem:af3852df9a2b47366b4c45359229c6e36"><td class="memTemplItemLeft" align="right" valign="top">__host__ __device__ thrust::detail::enable_if&lt;!detail::is_homogeneous&lt; typename thrust::tuple_element&lt; 0, typename std::remove_reference&lt; T &gt;::type &gt;::type, typename std::remove_reference&lt; T &gt;::type &gt;::value, <a class="el" href="../../d4/dee/a00008.html#a6f086a61951fecd03bb12a7588efc5e9">return_type</a> &gt;::type&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="../../d4/dee/a00008.html#af3852df9a2b47366b4c45359229c6e36">interface</a> (T &amp;&amp;x)</td></tr>
+<tr class="separator:af3852df9a2b47366b4c45359229c6e36"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab4ea5ca2fe72adc7a9291c8bbf5366a7"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
+<tr class="memitem:ab4ea5ca2fe72adc7a9291c8bbf5366a7"><td class="memTemplItemLeft" align="right" valign="top">__host__ __device__ <a class="el" href="../../d4/dee/a00008.html#a6f086a61951fecd03bb12a7588efc5e9">return_type</a>&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="../../d4/dee/a00008.html#ab4ea5ca2fe72adc7a9291c8bbf5366a7">operator()</a> (T *x, T *p=0)</td></tr>
+<tr class="separator:ab4ea5ca2fe72adc7a9291c8bbf5366a7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab1401d548e112dbf4650f6edd24bd4ea"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
+<tr class="memitem:ab1401d548e112dbf4650f6edd24bd4ea"><td class="memTemplItemLeft" align="right" valign="top">__host__ __device__ <a class="el" href="../../d4/dee/a00008.html#a6f086a61951fecd03bb12a7588efc5e9">return_type</a>&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="../../d4/dee/a00008.html#ab1401d548e112dbf4650f6edd24bd4ea">operator()</a> (T &amp;&amp;x)</td></tr>
+<tr class="separator:ab1401d548e112dbf4650f6edd24bd4ea"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac326699c724a5beb3918f6e17aaf3971"><td class="memTemplParams" colspan="2">template&lt;typename T1 , typename T2 &gt; </td></tr>
+<tr class="memitem:ac326699c724a5beb3918f6e17aaf3971"><td class="memTemplItemLeft" align="right" valign="top">__host__ __device__ <a class="el" href="../../d4/dee/a00008.html#a6f086a61951fecd03bb12a7588efc5e9">return_type</a>&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="../../d4/dee/a00008.html#ac326699c724a5beb3918f6e17aaf3971">operator()</a> (T1 &amp;&amp;x, T2 &amp;&amp;cache)</td></tr>
+<tr class="separator:ac326699c724a5beb3918f6e17aaf3971"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-static-attribs"></a>
+Static Public Attributes</h2></td></tr>
+<tr class="memitem:ae82fa8e70e3b78e1dc1dcdcc6509d348"><td class="memItemLeft" align="right" valign="top">static const size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d4/dee/a00008.html#ae82fa8e70e3b78e1dc1dcdcc6509d348">parameter_count</a> =NPARAM</td></tr>
+<tr class="separator:ae82fa8e70e3b78e1dc1dcdcc6509d348"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><h3>template&lt;typename F0, typename F1, typename... Fs&gt;<br />
-struct hydra::Compose&lt; F0, F1, Fs &gt;</h3>
+<div class="textblock"><h3>template&lt;typename Functor, typename ReturnType, size_t NPARAM&gt;<br />
+struct hydra::BaseFunctor&lt; Functor, ReturnType, NPARAM &gt;</h3>
 
 
-<p>Definition at line <a class="el" href="../../d9/d73/a00060_source.html#l00046">46</a> of file <a class="el" href="../../d9/d73/a00060_source.html">Compose.h</a>.</p>
+<p>Definition at line <a class="el" href="../../d8/d53/a00081_source.html#l00246">246</a> of file <a class="el" href="../../d8/d53/a00081_source.html">Function.h</a>.</p>
 </div><h2 class="groupheader">Member Typedef Documentation</h2>
-<a class="anchor" id="a5105fbe32c4cd5bd3dc2a3ee3982acf0"></a>
+<a class="anchor" id="a9eb43b40102a67bf3d838f3cd13b5b29"></a>
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;typename F0, typename F1, typename... Fs&gt; </div>
+template&lt;typename Functor, typename ReturnType, size_t NPARAM&gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname">typedef thrust::tuple&lt;typename F1::return_type, typename Fs::return_type...&gt; <a class="el" href="../../d4/dee/a00008.html">hydra::Compose</a>&lt; F0, F1, Fs &gt;::<a class="el" href="../../d4/dee/a00008.html#a5105fbe32c4cd5bd3dc2a3ee3982acf0">argument_type</a></td>
+          <td class="memname">typedef void <a class="el" href="../../d4/dee/a00008.html">hydra::BaseFunctor</a>&lt; Functor, ReturnType, NPARAM &gt;::<a class="el" href="../../d4/dee/a00008.html#a9eb43b40102a67bf3d838f3cd13b5b29">hydra_functor_tag</a></td>
         </tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="../../d9/d73/a00060_source.html#l00052">52</a> of file <a class="el" href="../../d9/d73/a00060_source.html">Compose.h</a>.</p>
+<p>Definition at line <a class="el" href="../../d8/d53/a00081_source.html#l00249">249</a> of file <a class="el" href="../../d8/d53/a00081_source.html">Function.h</a>.</p>
 
 </div>
 </div>
-<a class="anchor" id="abadccc9043d3a0491ee20896c675d0e8"></a>
+<a class="anchor" id="a2425580530e0d2e7a0f3687cf47c511d"></a>
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;typename F0, typename F1, typename... Fs&gt; </div>
+template&lt;typename Functor, typename ReturnType, size_t NPARAM&gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname">typedef thrust::tuple&lt;F1, Fs...&gt; <a class="el" href="../../d4/dee/a00008.html">hydra::Compose</a>&lt; F0, F1, Fs &gt;::<a class="el" href="../../d4/dee/a00008.html#abadccc9043d3a0491ee20896c675d0e8">functors_type</a></td>
+          <td class="memname">typedef std::true_type <a class="el" href="../../d4/dee/a00008.html">hydra::BaseFunctor</a>&lt; Functor, ReturnType, NPARAM &gt;::<a class="el" href="../../d4/dee/a00008.html#a2425580530e0d2e7a0f3687cf47c511d">is_functor</a></td>
         </tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="../../d9/d73/a00060_source.html#l00053">53</a> of file <a class="el" href="../../d9/d73/a00060_source.html">Compose.h</a>.</p>
+<p>Definition at line <a class="el" href="../../d8/d53/a00081_source.html#l00252">252</a> of file <a class="el" href="../../d8/d53/a00081_source.html">Function.h</a>.</p>
 
 </div>
 </div>
-<a class="anchor" id="a4fa7b4bffd3c0b7905304769937ec5e9"></a>
+<a class="anchor" id="a6f086a61951fecd03bb12a7588efc5e9"></a>
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;typename F0, typename F1, typename... Fs&gt; </div>
+template&lt;typename Functor, typename ReturnType, size_t NPARAM&gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname">typedef void <a class="el" href="../../d4/dee/a00008.html">hydra::Compose</a>&lt; F0, F1, Fs &gt;::<a class="el" href="../../d4/dee/a00008.html#a4fa7b4bffd3c0b7905304769937ec5e9">hydra_functor_tag</a></td>
+          <td class="memname">typedef ReturnType <a class="el" href="../../d4/dee/a00008.html">hydra::BaseFunctor</a>&lt; Functor, ReturnType, NPARAM &gt;::<a class="el" href="../../d4/dee/a00008.html#a6f086a61951fecd03bb12a7588efc5e9">return_type</a></td>
         </tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="../../d9/d73/a00060_source.html#l00049">49</a> of file <a class="el" href="../../d9/d73/a00060_source.html">Compose.h</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="ae7a9bfb68231a76d8b82ca8f985c4617"></a>
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;typename F0, typename F1, typename... Fs&gt; </div>
-      <table class="memname">
-        <tr>
-          <td class="memname">typedef F0::return_type <a class="el" href="../../d4/dee/a00008.html">hydra::Compose</a>&lt; F0, F1, Fs &gt;::<a class="el" href="../../d4/dee/a00008.html#ae7a9bfb68231a76d8b82ca8f985c4617">return_type</a></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Definition at line <a class="el" href="../../d9/d73/a00060_source.html#l00051">51</a> of file <a class="el" href="../../d9/d73/a00060_source.html">Compose.h</a>.</p>
+<p>Definition at line <a class="el" href="../../d8/d53/a00081_source.html#l00251">251</a> of file <a class="el" href="../../d8/d53/a00081_source.html">Function.h</a>.</p>
 
 </div>
 </div>
 <h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
-<a class="anchor" id="a9142bdbe10036d1849bd6b7d59662820"></a>
+<a class="anchor" id="a0c0be9dd53a27b84117fb8c2d8b6210f"></a>
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;typename F0, typename F1, typename... Fs&gt; </div>
+template&lt;typename Functor, typename ReturnType, size_t NPARAM&gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">__host__ <a class="el" href="../../d4/dee/a00008.html">hydra::Compose</a>&lt; F0, F1, Fs &gt;::<a class="el" href="../../d4/dee/a00008.html">Compose</a> </td>
+          <td class="memname">__host__ __device__ <a class="el" href="../../d4/dee/a00008.html">hydra::BaseFunctor</a>&lt; Functor, ReturnType, NPARAM &gt;::<a class="el" href="../../d4/dee/a00008.html">BaseFunctor</a> </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td></td>
@@ -265,36 +274,303 @@ template&lt;typename F0, typename F1, typename... Fs&gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="../../d9/d73/a00060_source.html#l00056">56</a> of file <a class="el" href="../../d9/d73/a00060_source.html">Compose.h</a>.</p>
+<p>Definition at line <a class="el" href="../../d8/d53/a00081_source.html#l00256">256</a> of file <a class="el" href="../../d8/d53/a00081_source.html">Function.h</a>.</p>
 
 </div>
 </div>
-<a class="anchor" id="a127c9c95f434ccd57470c78f73490c68"></a>
+<a class="anchor" id="a37483aee0fe228b0de4a268c3b838b08"></a>
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;typename F0, typename F1, typename... Fs&gt; </div>
+template&lt;typename Functor, typename ReturnType, size_t NPARAM&gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">__host__ <a class="el" href="../../d4/dee/a00008.html">hydra::Compose</a>&lt; F0, F1, Fs &gt;::<a class="el" href="../../d4/dee/a00008.html">Compose</a> </td>
+          <td class="memname">__host__ __device__ <a class="el" href="../../d4/dee/a00008.html">hydra::BaseFunctor</a>&lt; Functor, ReturnType, NPARAM &gt;::<a class="el" href="../../d4/dee/a00008.html">BaseFunctor</a> </td>
           <td>(</td>
-          <td class="paramtype">F0 const &amp;&#160;</td>
-          <td class="paramname"><em>f0</em>, </td>
+          <td class="paramtype"><a class="el" href="../../d4/dee/a00008.html">BaseFunctor</a>&lt; Functor, ReturnType, NPARAM &gt; const &amp;&#160;</td>
+          <td class="paramname"><em>other</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="../../d8/d53/a00081_source.html#l00264">264</a> of file <a class="el" href="../../d8/d53/a00081_source.html">Function.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="afec62fc691e8a3f9908c65a8402a8b8e"></a>
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename Functor, typename ReturnType, size_t NPARAM&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">__host__ __device__ <a class="el" href="../../d4/dee/a00008.html">hydra::BaseFunctor</a>&lt; Functor, ReturnType, NPARAM &gt;::~<a class="el" href="../../d4/dee/a00008.html">BaseFunctor</a> </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="../../d8/d53/a00081_source.html#l00288">288</a> of file <a class="el" href="../../d8/d53/a00081_source.html">Function.h</a>.</p>
+
+</div>
+</div>
+<h2 class="groupheader">Member Function Documentation</h2>
+<a class="anchor" id="a89169035f79ac67daa965e5da6e5dfb2"></a>
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename Functor, typename ReturnType, size_t NPARAM&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">__host__ __device__ int <a class="el" href="../../d4/dee/a00008.html">hydra::BaseFunctor</a>&lt; Functor, ReturnType, NPARAM &gt;::GetCacheIndex </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="../../d8/d53/a00081_source.html#l00295">295</a> of file <a class="el" href="../../d8/d53/a00081_source.html">Function.h</a>.</p>
+
+<p>Referenced by <a class="el" href="../../d8/d53/a00081_source.html#l00273">hydra::BaseFunctor&lt; LambdaWrapper&lt; ReturnType(ArgType), L &gt;, ReturnType, 0 &gt;::operator=()</a>.</p>
+
+<p><div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><iframe scrolling="no" frameborder="0" src="../../d4/dee/a00008_a89169035f79ac67daa965e5da6e5dfb2_icgraph.svg" width="404" height="82"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+</div>
+</p>
+
+</div>
+</div>
+<a class="anchor" id="a9a28492d966813137b22daaf545c65b0"></a>
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename Functor, typename ReturnType, size_t NPARAM&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">__host__ __device__ Functor&amp; <a class="el" href="../../d4/dee/a00008.html">hydra::BaseFunctor</a>&lt; Functor, ReturnType, NPARAM &gt;::GetFunctor </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="../../d8/d53/a00081_source.html#l00292">292</a> of file <a class="el" href="../../d8/d53/a00081_source.html">Function.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a05300c08819c707064306fc5406c54bc"></a>
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename Functor, typename ReturnType, size_t NPARAM&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">__host__ const <a class="el" href="../../d8/d41/a00038.html">Parameter</a>* <a class="el" href="../../d4/dee/a00008.html">hydra::BaseFunctor</a>&lt; Functor, ReturnType, NPARAM &gt;::GetParameter </td>
+          <td>(</td>
+          <td class="paramtype">size_t&#160;</td>
+          <td class="paramname"><em>i</em></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="../../d8/d53/a00081_source.html#l00368">368</a> of file <a class="el" href="../../d8/d53/a00081_source.html">Function.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a1e1b71cc1d1dfb0ea14afb4c83b01551"></a>
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename Functor, typename ReturnType, size_t NPARAM&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">__host__ <a class="el" href="../../d8/d41/a00038.html">Parameter</a>* <a class="el" href="../../d4/dee/a00008.html">hydra::BaseFunctor</a>&lt; Functor, ReturnType, NPARAM &gt;::GetParameter </td>
+          <td>(</td>
+          <td class="paramtype">size_t&#160;</td>
+          <td class="paramname"><em>i</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="../../d8/d53/a00081_source.html#l00374">374</a> of file <a class="el" href="../../d8/d53/a00081_source.html">Function.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a3da55bfa4e01e60f874af6e0361ee87e"></a>
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename Functor, typename ReturnType, size_t NPARAM&gt; </div>
+<div class="memtemplate">
+template&lt;typename T &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">__host__ __device__ thrust::detail::enable_if&lt; detail::is_homogeneous&lt; typename thrust::tuple_element&lt;0, typename std::remove_reference&lt;T&gt;::type&gt;::type, typename std::remove_reference&lt;T&gt;::type&gt;::value, <a class="el" href="../../d4/dee/a00008.html#a6f086a61951fecd03bb12a7588efc5e9">return_type</a>&gt;::type <a class="el" href="../../d4/dee/a00008.html">hydra::BaseFunctor</a>&lt; Functor, ReturnType, NPARAM &gt;::interface </td>
+          <td>(</td>
+          <td class="paramtype">T &amp;&amp;&#160;</td>
+          <td class="paramname"><em>x</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="../../d8/d53/a00081_source.html#l00384">384</a> of file <a class="el" href="../../d8/d53/a00081_source.html">Function.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="af3852df9a2b47366b4c45359229c6e36"></a>
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename Functor, typename ReturnType, size_t NPARAM&gt; </div>
+<div class="memtemplate">
+template&lt;typename T &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">__host__ __device__ thrust::detail::enable_if&lt;!detail::is_homogeneous&lt; typename thrust::tuple_element&lt;0, typename std::remove_reference&lt;T&gt;::type&gt;::type, typename std::remove_reference&lt;T&gt;::type&gt;::value, <a class="el" href="../../d4/dee/a00008.html#a6f086a61951fecd03bb12a7588efc5e9">return_type</a>&gt;::type <a class="el" href="../../d4/dee/a00008.html">hydra::BaseFunctor</a>&lt; Functor, ReturnType, NPARAM &gt;::interface </td>
+          <td>(</td>
+          <td class="paramtype">T &amp;&amp;&#160;</td>
+          <td class="paramname"><em>x</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="../../d8/d53/a00081_source.html#l00403">403</a> of file <a class="el" href="../../d8/d53/a00081_source.html">Function.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="ab9bacd69761e78fd208fdaef70e03b23"></a>
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename Functor, typename ReturnType, size_t NPARAM&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">__host__ __device__ bool <a class="el" href="../../d4/dee/a00008.html">hydra::BaseFunctor</a>&lt; Functor, ReturnType, NPARAM &gt;::IsCached </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="../../d8/d53/a00081_source.html#l00301">301</a> of file <a class="el" href="../../d8/d53/a00081_source.html">Function.h</a>.</p>
+
+<p>Referenced by <a class="el" href="../../d8/d53/a00081_source.html#l00273">hydra::BaseFunctor&lt; LambdaWrapper&lt; ReturnType(ArgType), L &gt;, ReturnType, 0 &gt;::operator=()</a>.</p>
+
+<p><div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><iframe scrolling="no" frameborder="0" src="../../d4/dee/a00008_ab9bacd69761e78fd208fdaef70e03b23_icgraph.svg" width="404" height="82"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+</div>
+</p>
+
+</div>
+</div>
+<a class="anchor" id="ab4ea5ca2fe72adc7a9291c8bbf5366a7"></a>
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename Functor, typename ReturnType, size_t NPARAM&gt; </div>
+<div class="memtemplate">
+template&lt;typename T &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">__host__ __device__ <a class="el" href="../../d4/dee/a00008.html#a6f086a61951fecd03bb12a7588efc5e9">return_type</a> <a class="el" href="../../d4/dee/a00008.html">hydra::BaseFunctor</a>&lt; Functor, ReturnType, NPARAM &gt;::operator() </td>
+          <td>(</td>
+          <td class="paramtype">T *&#160;</td>
+          <td class="paramname"><em>x</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">F1 const &amp;&#160;</td>
-          <td class="paramname"><em>f1</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">Fs const &amp;...&#160;</td>
-          <td class="paramname"><em>fs</em>&#160;</td>
+          <td class="paramtype">T *&#160;</td>
+          <td class="paramname"><em>p</em> = <code>0</code>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -309,24 +585,26 @@ template&lt;typename F0, typename F1, typename... Fs&gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="../../d9/d73/a00060_source.html#l00062">62</a> of file <a class="el" href="../../d9/d73/a00060_source.html">Compose.h</a>.</p>
+<p>Definition at line <a class="el" href="../../d8/d53/a00081_source.html#l00415">415</a> of file <a class="el" href="../../d8/d53/a00081_source.html">Function.h</a>.</p>
 
 </div>
 </div>
-<a class="anchor" id="a192f242d950e5163279b3249142dad84"></a>
+<a class="anchor" id="ab1401d548e112dbf4650f6edd24bd4ea"></a>
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;typename F0, typename F1, typename... Fs&gt; </div>
+template&lt;typename Functor, typename ReturnType, size_t NPARAM&gt; </div>
+<div class="memtemplate">
+template&lt;typename T &gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">__host__ __device__ <a class="el" href="../../d4/dee/a00008.html">hydra::Compose</a>&lt; F0, F1, Fs &gt;::<a class="el" href="../../d4/dee/a00008.html">Compose</a> </td>
+          <td class="memname">__host__ __device__ <a class="el" href="../../d4/dee/a00008.html#a6f086a61951fecd03bb12a7588efc5e9">return_type</a> <a class="el" href="../../d4/dee/a00008.html">hydra::BaseFunctor</a>&lt; Functor, ReturnType, NPARAM &gt;::operator() </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="../../d4/dee/a00008.html">Compose</a>&lt; F0, F1, Fs... &gt; const &amp;&#160;</td>
-          <td class="paramname"><em>other</em></td><td>)</td>
+          <td class="paramtype">T &amp;&amp;&#160;</td>
+          <td class="paramname"><em>x</em></td><td>)</td>
           <td></td>
         </tr>
       </table>
@@ -337,190 +615,15 @@ template&lt;typename F0, typename F1, typename... Fs&gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="../../d9/d73/a00060_source.html#l00070">70</a> of file <a class="el" href="../../d9/d73/a00060_source.html">Compose.h</a>.</p>
+<p>Definition at line <a class="el" href="../../d8/d53/a00081_source.html#l00421">421</a> of file <a class="el" href="../../d8/d53/a00081_source.html">Function.h</a>.</p>
 
 </div>
 </div>
-<h2 class="groupheader">Member Function Documentation</h2>
-<a class="anchor" id="a712c74cde3db093f89ec8395f70aba4d"></a>
+<a class="anchor" id="ac326699c724a5beb3918f6e17aaf3971"></a>
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;typename F0, typename F1, typename... Fs&gt; </div>
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">__host__ __device__ F0 <a class="el" href="../../d4/dee/a00008.html">hydra::Compose</a>&lt; F0, F1, Fs &gt;::GetF0 </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td> const</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Definition at line <a class="el" href="../../d9/d73/a00060_source.html#l00100">100</a> of file <a class="el" href="../../d9/d73/a00060_source.html">Compose.h</a>.</p>
-
-<p>Referenced by <a class="el" href="../../d9/d73/a00060_source.html#l00078">hydra::Compose&lt; F0, F1, Fs &gt;::operator=()</a>.</p>
-
-<p><div class="dynheader">
-Here is the caller graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><iframe scrolling="no" frameborder="0" src="../../d4/dee/a00008_a712c74cde3db093f89ec8395f70aba4d_icgraph.svg" width="403" height="38"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
-</div>
-</p>
-
-</div>
-</div>
-<a class="anchor" id="a0d5197f73968cbce1a8a443dbd8c5a96"></a>
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;typename F0, typename F1, typename... Fs&gt; </div>
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">__host__ __device__ <a class="el" href="../../d4/dee/a00008.html#abadccc9043d3a0491ee20896c675d0e8">functors_type</a> <a class="el" href="../../d4/dee/a00008.html">hydra::Compose</a>&lt; F0, F1, Fs &gt;::GetFunctors </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td> const</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Definition at line <a class="el" href="../../d9/d73/a00060_source.html#l00097">97</a> of file <a class="el" href="../../d9/d73/a00060_source.html">Compose.h</a>.</p>
-
-<p>Referenced by <a class="el" href="../../d9/d73/a00060_source.html#l00078">hydra::Compose&lt; F0, F1, Fs &gt;::operator=()</a>.</p>
-
-<p><div class="dynheader">
-Here is the caller graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><iframe scrolling="no" frameborder="0" src="../../d4/dee/a00008_a0d5197f73968cbce1a8a443dbd8c5a96_icgraph.svg" width="439" height="38"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
-</div>
-</p>
-
-</div>
-</div>
-<a class="anchor" id="ae7fb5bc27ee04e599cfe22969bbf2ccc"></a>
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;typename F0, typename F1, typename... Fs&gt; </div>
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">__host__ __device__ int <a class="el" href="../../d4/dee/a00008.html">hydra::Compose</a>&lt; F0, F1, Fs &gt;::GetIndex </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td> const</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Definition at line <a class="el" href="../../d9/d73/a00060_source.html#l00103">103</a> of file <a class="el" href="../../d9/d73/a00060_source.html">Compose.h</a>.</p>
-
-<p>Referenced by <a class="el" href="../../d9/d73/a00060_source.html#l00078">hydra::Compose&lt; F0, F1, Fs &gt;::operator=()</a>.</p>
-
-<p><div class="dynheader">
-Here is the caller graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><iframe scrolling="no" frameborder="0" src="../../d4/dee/a00008_ae7fb5bc27ee04e599cfe22969bbf2ccc_icgraph.svg" width="419" height="38"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
-</div>
-</p>
-
-</div>
-</div>
-<a class="anchor" id="aca2ac2fe5c731f655fdb29c7704b4d91"></a>
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;typename F0, typename F1, typename... Fs&gt; </div>
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">__host__ __device__ bool <a class="el" href="../../d4/dee/a00008.html">hydra::Compose</a>&lt; F0, F1, Fs &gt;::IsCached </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td> const</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Definition at line <a class="el" href="../../d9/d73/a00060_source.html#l00109">109</a> of file <a class="el" href="../../d9/d73/a00060_source.html">Compose.h</a>.</p>
-
-<p>Referenced by <a class="el" href="../../d9/d73/a00060_source.html#l00078">hydra::Compose&lt; F0, F1, Fs &gt;::operator=()</a>.</p>
-
-<p><div class="dynheader">
-Here is the caller graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><iframe scrolling="no" frameborder="0" src="../../d4/dee/a00008_aca2ac2fe5c731f655fdb29c7704b4d91_icgraph.svg" width="423" height="38"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
-</div>
-</p>
-
-</div>
-</div>
-<a class="anchor" id="aa016a9a1701066ebe3e5cfc98905fe08"></a>
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;typename F0, typename F1, typename... Fs&gt; </div>
-<div class="memtemplate">
-template&lt;typename T1 &gt; </div>
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">__host__ __device__ <a class="el" href="../../d4/dee/a00008.html#ae7a9bfb68231a76d8b82ca8f985c4617">return_type</a> <a class="el" href="../../d4/dee/a00008.html">hydra::Compose</a>&lt; F0, F1, Fs &gt;::operator() </td>
-          <td>(</td>
-          <td class="paramtype">T1 &amp;&#160;</td>
-          <td class="paramname"><em>t</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Definition at line <a class="el" href="../../d9/d73/a00060_source.html#l00119">119</a> of file <a class="el" href="../../d9/d73/a00060_source.html">Compose.h</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="add0e09ca8015dca9336bf00d53aaa1a9"></a>
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;typename F0, typename F1, typename... Fs&gt; </div>
+template&lt;typename Functor, typename ReturnType, size_t NPARAM&gt; </div>
 <div class="memtemplate">
 template&lt;typename T1 , typename T2 &gt; </div>
 <table class="mlabels">
@@ -528,15 +631,15 @@ template&lt;typename T1 , typename T2 &gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">__host__ __device__ <a class="el" href="../../d4/dee/a00008.html#ae7a9bfb68231a76d8b82ca8f985c4617">return_type</a> <a class="el" href="../../d4/dee/a00008.html">hydra::Compose</a>&lt; F0, F1, Fs &gt;::operator() </td>
+          <td class="memname">__host__ __device__ <a class="el" href="../../d4/dee/a00008.html#a6f086a61951fecd03bb12a7588efc5e9">return_type</a> <a class="el" href="../../d4/dee/a00008.html">hydra::BaseFunctor</a>&lt; Functor, ReturnType, NPARAM &gt;::operator() </td>
           <td>(</td>
-          <td class="paramtype">T1 &amp;&#160;</td>
-          <td class="paramname"><em>t</em>, </td>
+          <td class="paramtype">T1 &amp;&amp;&#160;</td>
+          <td class="paramname"><em>x</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">T2 &amp;&#160;</td>
+          <td class="paramtype">T2 &amp;&amp;&#160;</td>
           <td class="paramname"><em>cache</em>&#160;</td>
         </tr>
         <tr>
@@ -552,23 +655,23 @@ template&lt;typename T1 , typename T2 &gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="../../d9/d73/a00060_source.html#l00126">126</a> of file <a class="el" href="../../d9/d73/a00060_source.html">Compose.h</a>.</p>
+<p>Definition at line <a class="el" href="../../d8/d53/a00081_source.html#l00427">427</a> of file <a class="el" href="../../d8/d53/a00081_source.html">Function.h</a>.</p>
 
 </div>
 </div>
-<a class="anchor" id="a0a11d997d38da5b17c4f9f1089bafa1b"></a>
+<a class="anchor" id="ac534f12bffd178eb953b613142b11cef"></a>
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;typename F0, typename F1, typename... Fs&gt; </div>
+template&lt;typename Functor, typename ReturnType, size_t NPARAM&gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">__host__ __device__ <a class="el" href="../../d4/dee/a00008.html">Compose</a>&lt;F0,F1,Fs...&gt;&amp; <a class="el" href="../../d4/dee/a00008.html">hydra::Compose</a>&lt; F0, F1, Fs &gt;::operator= </td>
+          <td class="memname">__host__ __device__ <a class="el" href="../../d4/dee/a00008.html">BaseFunctor</a>&lt;Functor,ReturnType, NPARAM&gt;&amp; <a class="el" href="../../d4/dee/a00008.html">hydra::BaseFunctor</a>&lt; Functor, ReturnType, NPARAM &gt;::operator= </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="../../d4/dee/a00008.html">Compose</a>&lt; F0, F1, Fs... &gt; const &amp;&#160;</td>
+          <td class="paramtype"><a class="el" href="../../d4/dee/a00008.html">BaseFunctor</a>&lt; Functor, ReturnType, NPARAM &gt; const &amp;&#160;</td>
           <td class="paramname"><em>other</em></td><td>)</td>
           <td></td>
         </tr>
@@ -580,30 +683,85 @@ template&lt;typename F0, typename F1, typename... Fs&gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="../../d9/d73/a00060_source.html#l00078">78</a> of file <a class="el" href="../../d9/d73/a00060_source.html">Compose.h</a>.</p>
+<p>Definition at line <a class="el" href="../../d8/d53/a00081_source.html#l00273">273</a> of file <a class="el" href="../../d8/d53/a00081_source.html">Function.h</a>.</p>
 
-<p>References <a class="el" href="../../d9/d73/a00060_source.html#l00100">hydra::Compose&lt; F0, F1, Fs &gt;::GetF0()</a>, <a class="el" href="../../d9/d73/a00060_source.html#l00097">hydra::Compose&lt; F0, F1, Fs &gt;::GetFunctors()</a>, <a class="el" href="../../d9/d73/a00060_source.html#l00103">hydra::Compose&lt; F0, F1, Fs &gt;::GetIndex()</a>, and <a class="el" href="../../d9/d73/a00060_source.html#l00109">hydra::Compose&lt; F0, F1, Fs &gt;::IsCached()</a>.</p>
+<p>Referenced by <a class="el" href="../../d9/da4/a00078_source.html#l00035">Exp::operator=()</a>, and <a class="el" href="../../df/d13/a00085_source.html#l00039">Gauss&lt; N &gt;::operator=()</a>.</p>
 
 <p><div class="dynheader">
-Here is the call graph for this function:</div>
+Here is the caller graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><iframe scrolling="no" frameborder="0" src="../../d4/dee/a00008_a0a11d997d38da5b17c4f9f1089bafa1b_cgraph.svg" width="439" height="190"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+<div class="center"><iframe scrolling="no" frameborder="0" src="../../d4/dee/a00008_ac534f12bffd178eb953b613142b11cef_icgraph.svg" width="318" height="88"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 </div>
 </p>
 
 </div>
 </div>
-<a class="anchor" id="a33b17d24208c21129ac3b7caba444b48"></a>
+<a class="anchor" id="a85cbce733ead7b16656ef2cd0c4ae22c"></a>
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;typename F0, typename F1, typename... Fs&gt; </div>
+template&lt;typename Functor, typename ReturnType, size_t NPARAM&gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">__host__ __device__ void <a class="el" href="../../d4/dee/a00008.html">hydra::Compose</a>&lt; F0, F1, Fs &gt;::SetCached </td>
+          <td class="memname">void <a class="el" href="../../d4/dee/a00008.html">hydra::BaseFunctor</a>&lt; Functor, ReturnType, NPARAM &gt;::PrintRegisteredParameters </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="../../d8/d53/a00081_source.html#l00325">325</a> of file <a class="el" href="../../d8/d53/a00081_source.html">Function.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="af626df0a771c88657cff2c96297a13cf"></a>
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename Functor, typename ReturnType, size_t NPARAM&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">__host__ __device__ void <a class="el" href="../../d4/dee/a00008.html">hydra::BaseFunctor</a>&lt; Functor, ReturnType, NPARAM &gt;::RegistryParameters </td>
+          <td>(</td>
+          <td class="paramtype">std::initializer_list&lt; <a class="el" href="../../d8/d41/a00038.html">Parameter</a> * &gt;&#160;</td>
+          <td class="paramname"><em>var_list</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="../../d8/d53/a00081_source.html#l00309">309</a> of file <a class="el" href="../../d8/d53/a00081_source.html">Function.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a2b5708f0ff105a98f18677f4e0cb8619"></a>
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename Functor, typename ReturnType, size_t NPARAM&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">__host__ __device__ void <a class="el" href="../../d4/dee/a00008.html">hydra::BaseFunctor</a>&lt; Functor, ReturnType, NPARAM &gt;::SetCached </td>
           <td>(</td>
           <td class="paramtype">bool&#160;</td>
           <td class="paramname"><em>cached</em> = <code>true</code></td><td>)</td>
@@ -617,21 +775,21 @@ template&lt;typename F0, typename F1, typename... Fs&gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="../../d9/d73/a00060_source.html#l00113">113</a> of file <a class="el" href="../../d9/d73/a00060_source.html">Compose.h</a>.</p>
+<p>Definition at line <a class="el" href="../../d8/d53/a00081_source.html#l00305">305</a> of file <a class="el" href="../../d8/d53/a00081_source.html">Function.h</a>.</p>
 
 </div>
 </div>
-<a class="anchor" id="a2f5e536d4af825799e9a5f4646b4a752"></a>
+<a class="anchor" id="a9f28f137b52aa839dfbe861cebf1ea80"></a>
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;typename F0, typename F1, typename... Fs&gt; </div>
+template&lt;typename Functor, typename ReturnType, size_t NPARAM&gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">__host__ __device__ void <a class="el" href="../../d4/dee/a00008.html">hydra::Compose</a>&lt; F0, F1, Fs &gt;::SetIndex </td>
+          <td class="memname">__host__ __device__ void <a class="el" href="../../d4/dee/a00008.html">hydra::BaseFunctor</a>&lt; Functor, ReturnType, NPARAM &gt;::SetCacheIndex </td>
           <td>(</td>
           <td class="paramtype">int&#160;</td>
           <td class="paramname"><em>index</em></td><td>)</td>
@@ -645,21 +803,21 @@ template&lt;typename F0, typename F1, typename... Fs&gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="../../d9/d73/a00060_source.html#l00106">106</a> of file <a class="el" href="../../d9/d73/a00060_source.html">Compose.h</a>.</p>
+<p>Definition at line <a class="el" href="../../d8/d53/a00081_source.html#l00298">298</a> of file <a class="el" href="../../d8/d53/a00081_source.html">Function.h</a>.</p>
 
 </div>
 </div>
-<a class="anchor" id="acdf49e99af0dbb9499fc9006d4677d59"></a>
+<a class="anchor" id="a1626ed818255626d007def610b3e9801"></a>
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;typename F0, typename F1, typename... Fs&gt; </div>
+template&lt;typename Functor, typename ReturnType, size_t NPARAM&gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">__host__ void <a class="el" href="../../d4/dee/a00008.html">hydra::Compose</a>&lt; F0, F1, Fs &gt;::SetParameters </td>
+          <td class="memname">__host__ void <a class="el" href="../../d4/dee/a00008.html">hydra::BaseFunctor</a>&lt; Functor, ReturnType, NPARAM &gt;::SetParameters </td>
           <td>(</td>
           <td class="paramtype">const std::vector&lt; double &gt; &amp;&#160;</td>
           <td class="paramname"><em>parameters</em></td><td>)</td>
@@ -673,20 +831,47 @@ template&lt;typename F0, typename F1, typename... Fs&gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="../../d9/d73/a00060_source.html#l00090">90</a> of file <a class="el" href="../../d9/d73/a00060_source.html">Compose.h</a>.</p>
+<p>Definition at line <a class="el" href="../../d8/d53/a00081_source.html#l00343">343</a> of file <a class="el" href="../../d8/d53/a00081_source.html">Function.h</a>.</p>
+
+</div>
+</div>
+<h2 class="groupheader">Member Data Documentation</h2>
+<a class="anchor" id="ae82fa8e70e3b78e1dc1dcdcc6509d348"></a>
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename Functor, typename ReturnType, size_t NPARAM&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">const size_t <a class="el" href="../../d4/dee/a00008.html">hydra::BaseFunctor</a>&lt; Functor, ReturnType, NPARAM &gt;::parameter_count =NPARAM</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="../../d8/d53/a00081_source.html#l00253">253</a> of file <a class="el" href="../../d8/d53/a00081_source.html">Function.h</a>.</p>
+
+<p>Referenced by <a class="el" href="../../d8/d53/a00081_source.html#l00325">hydra::BaseFunctor&lt; LambdaWrapper&lt; ReturnType(ArgType), L &gt;, ReturnType, 0 &gt;::PrintRegisteredParameters()</a>, and <a class="el" href="../../d8/d53/a00081_source.html#l00343">hydra::BaseFunctor&lt; LambdaWrapper&lt; ReturnType(ArgType), L &gt;, ReturnType, 0 &gt;::SetParameters()</a>.</p>
 
 </div>
 </div>
 <hr/>The documentation for this struct was generated from the following file:<ul>
-<li><a class="el" href="../../d9/d73/a00060_source.html">Compose.h</a></li>
+<li><a class="el" href="../../d8/d53/a00081_source.html">Function.h</a></li>
 </ul>
 </div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="../../d7/dd4/a00013.html">hydra</a></li><li class="navelem"><a class="el" href="../../d4/dee/a00008.html">Compose</a></li>
-    <li class="footer">Generated on Tue Oct 11 2016 04:51:50 for Hydra by
+    <li class="navelem"><a class="el" href="../../d4/d51/a00017.html">hydra</a></li><li class="navelem"><a class="el" href="../../d4/dee/a00008.html">BaseFunctor</a></li>
+    <li class="footer">Generated on Wed Oct 12 2016 06:08:16 for Hydra by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="../../doxygen.png" alt="doxygen"/></a> 1.8.11 </li>
   </ul>

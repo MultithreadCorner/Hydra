@@ -4,7 +4,7 @@
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.11"/>
-<title>Hydra: Evaluate.h File Reference</title>
+<title>Hydra: Config.h File Reference</title>
 <link href="../../tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="../../jquery.js"></script>
 <script type="text/javascript" src="../../dynsections.js"></script>
@@ -58,6 +58,7 @@ var searchBox = new SearchBox("searchBox", "../../search",false,'Search');
       <li><a href="../../namespaces.html"><span>Namespaces</span></a></li>
       <li><a href="../../annotated.html"><span>Classes</span></a></li>
       <li class="current"><a href="../../files.html"><span>Files</span></a></li>
+      <li><a href="../../examples.html"><span>Examples</span></a></li>
       <li>
         <div id="MSearchBox" class="MSearchBoxInactive">
         <span class="left">
@@ -113,76 +114,76 @@ $(document).ready(function(){initNavTree('da/d24/a00068.html','../../');});
 
 <div class="header">
   <div class="summary">
-<a href="#nested-classes">Classes</a> &#124;
-<a href="#namespaces">Namespaces</a> &#124;
-<a href="#func-members">Functions</a>  </div>
+<a href="#define-members">Macros</a>  </div>
   <div class="headertitle">
-<div class="title">Evaluate.h File Reference</div>  </div>
+<div class="title">Config.h File Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
 <div class="textblock"><div class="dynheader">
-Include dependency graph for Evaluate.h:</div>
+Include dependency graph for Config.h:</div>
 <div class="dyncontent">
-<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="../../d4/ddd/a00138.svg" width="100%" height="600"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
+<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="../../d7/dce/a00143.svg" width="100%" height="406"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
+</div>
+</div><div class="textblock"><div class="dynheader">
+This graph shows which files directly or indirectly include this file:</div>
+<div class="dyncontent">
+<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="../../d5/da7/a00144.svg" width="100%" height="600"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+</div>
 </div>
 </div>
 <p><a href="../../da/d24/a00068_source.html">Go to the source code of this file.</a></p>
 <table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="nested-classes"></a>
-Classes</h2></td></tr>
-<tr class="memitem:dd/d6d/a00111"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d7/dd4/a00013.html#dd/d6d/a00111">hydra::EvalReturnType&lt; V, T &gt;</a></td></tr>
-<tr class="separator:dd/d6d/a00111"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="namespaces"></a>
-Namespaces</h2></td></tr>
-<tr class="memitem:d7/dd4/a00013"><td class="memItemLeft" align="right" valign="top"> &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d7/dd4/a00013.html">hydra</a></td></tr>
-<tr class="memdesc:d7/dd4/a00013"><td class="mdescLeft">&#160;</td><td class="mdescRight">Variable object to use on types convertible to double. <br /></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
-Functions</h2></td></tr>
-<tr class="memitem:a792f64fe5b6422f76bcf028f92ac2861"><td class="memTemplParams" colspan="2">template&lt;typename Iterator , typename... Iterators, typename Functor , typename thrust::detail::enable_if&lt; hydra::detail::are_all_same&lt; typename Range&lt; Iterator &gt;::system, typename Range&lt; Iterators &gt;::system... &gt;::value, int &gt;::type  = 0&gt; </td></tr>
-<tr class="memitem:a792f64fe5b6422f76bcf028f92ac2861"><td class="memTemplItemLeft" align="right" valign="top">auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="../../d7/dd4/a00013.html#a792f64fe5b6422f76bcf028f92ac2861">hydra::Eval</a> (Functor const &amp;t, Range&lt; Iterator &gt;const &amp;range, Range&lt; Iterators &gt;const &amp;...ranges) -&gt; typename detail::if_then_else&lt; std::is_same&lt; thrust::device_system_tag, typename Range&lt; Iterator &gt;::system &gt;::value, mc_device_vector&lt; typename Functor::return_type &gt;, mc_host_vector&lt; typename Functor::return_type &gt;&gt;::type</td></tr>
-<tr class="separator:a792f64fe5b6422f76bcf028f92ac2861"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a8196aec8ca6395bb4e08f85054fd2a0f"><td class="memTemplParams" colspan="2">template&lt;typename Iterator , typename... Iterators, typename... Functors, typename thrust::detail::enable_if&lt; hydra::detail::are_all_same&lt; typename Range&lt; Iterator &gt;::system, typename Range&lt; Iterators &gt;::system... &gt;::value, int &gt;::type  = 0&gt; </td></tr>
-<tr class="memitem:a8196aec8ca6395bb4e08f85054fd2a0f"><td class="memTemplItemLeft" align="right" valign="top">auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="../../d7/dd4/a00013.html#a8196aec8ca6395bb4e08f85054fd2a0f">hydra::Eval</a> (thrust::tuple&lt; Functors... &gt; const &amp;t, Range&lt; Iterator &gt;const &amp;range, Range&lt; Iterators &gt;const &amp;...ranges) -&gt; typename detail::if_then_else&lt; std::is_same&lt; thrust::device_system_tag, typename Range&lt; Iterator &gt;::system &gt;::value, typename EvalReturnType&lt; mc_device_vector, typename Functors::return_type... &gt;::type, typename EvalReturnType&lt; mc_host_vector, typename Functors::return_type... &gt;::type &gt;::type</td></tr>
-<tr class="separator:a8196aec8ca6395bb4e08f85054fd2a0f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa1f02c03b9fd39e22a7395fa50ef9846"><td class="memTemplParams" colspan="2">template&lt;typename Tuple , typename Iterator , typename... Iterators, typename Functor , typename thrust::detail::enable_if&lt; hydra::detail::are_all_same&lt; typename Range&lt; Iterator &gt;::system, typename Range&lt; Iterators &gt;::system... &gt;::value, int &gt;::type  = 0&gt; </td></tr>
-<tr class="memitem:aa1f02c03b9fd39e22a7395fa50ef9846"><td class="memTemplItemLeft" align="right" valign="top">auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="../../d7/dd4/a00013.html#aa1f02c03b9fd39e22a7395fa50ef9846">hydra::Eval</a> (Functor const &amp;t, typename detail::if_then_else&lt; std::is_same&lt; thrust::device_system_tag, typename Range&lt; Iterator &gt;::system &gt;::value, mc_device_vector&lt; Tuple &gt;, mc_host_vector&lt; Tuple &gt;&gt; const &amp;Cache, Range&lt; Iterator &gt;const &amp;range, Range&lt; Iterators &gt;const &amp;...ranges) -&gt; typename detail::if_then_else&lt; std::is_same&lt; thrust::device_system_tag, typename Range&lt; Iterator &gt;::system &gt;::value, typename EvalReturnType&lt; mc_device_vector, typename Functor::return_type &gt;::type, typename EvalReturnType&lt; mc_host_vector, typename Functor::return_type &gt;::type &gt;::type</td></tr>
-<tr class="separator:aa1f02c03b9fd39e22a7395fa50ef9846"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a25eaefdcef6ef586e4797fddf3d3c8db"><td class="memTemplParams" colspan="2">template&lt;typename Tuple , typename Iterator , typename... Iterators, typename... Functors, typename thrust::detail::enable_if&lt; hydra::detail::are_all_same&lt; typename Range&lt; Iterator &gt;::system, typename Range&lt; Iterators &gt;::system... &gt;::value, int &gt;::type  = 0&gt; </td></tr>
-<tr class="memitem:a25eaefdcef6ef586e4797fddf3d3c8db"><td class="memTemplItemLeft" align="right" valign="top">auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="../../d7/dd4/a00013.html#a25eaefdcef6ef586e4797fddf3d3c8db">hydra::Eval</a> (thrust::tuple&lt; Functors... &gt; const &amp;t, typename detail::if_then_else&lt; std::is_same&lt; thrust::device_system_tag, typename Range&lt; Iterator &gt;::system &gt;::value, mc_device_vector&lt; Tuple &gt;, mc_host_vector&lt; Tuple &gt;&gt; const &amp;Cache, Range&lt; Iterator &gt;const &amp;range, Range&lt; Iterators &gt;const &amp;...ranges) -&gt; typename detail::if_then_else&lt; std::is_same&lt; thrust::device_system_tag, typename Range&lt; Iterator &gt;::system &gt;::value, typename EvalReturnType&lt; mc_device_vector, typename Functors::return_type... &gt;::type, typename EvalReturnType&lt; mc_host_vector, typename Functors::return_type... &gt;::type &gt;::type</td></tr>
-<tr class="separator:a25eaefdcef6ef586e4797fddf3d3c8db"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="define-members"></a>
+Macros</h2></td></tr>
+<tr class="memitem:a2a1de18eafc5d4cfda05de797f974211"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../da/d24/a00068.html#a2a1de18eafc5d4cfda05de797f974211">CUDA_API_PER_THREAD_DEFAULT_STREAM</a></td></tr>
+<tr class="separator:a2a1de18eafc5d4cfda05de797f974211"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0916cfff5efbb734ef0bc4dc20ffa31a"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../da/d24/a00068.html#a0916cfff5efbb734ef0bc4dc20ffa31a">__hydra_exec_check_disable__</a></td></tr>
+<tr class="separator:a0916cfff5efbb734ef0bc4dc20ffa31a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7c57d4e5beb85a3cb6b4e721e1f39790"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../da/d24/a00068.html#a7c57d4e5beb85a3cb6b4e721e1f39790">HYDRA_OS</a>&#160;&#160;&#160;std::cerr</td></tr>
+<tr class="separator:a7c57d4e5beb85a3cb6b4e721e1f39790"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<hr/><h2 class="groupheader">Class Documentation</h2>
-<a name="dd/d6d/a00111" id="dd/d6d/a00111"></a>
+<h2 class="groupheader">Macro Definition Documentation</h2>
+<a class="anchor" id="a0916cfff5efbb734ef0bc4dc20ffa31a"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">struct hydra::EvalReturnType</td>
+          <td class="memname">#define __hydra_exec_check_disable__</td>
         </tr>
       </table>
 </div><div class="memdoc">
-<div class="textblock"><h3>template&lt;template&lt; class, class... &gt; class V = mc_device_vector, typename... T&gt;<br />
-struct hydra::EvalReturnType&lt; V, T &gt;</h3>
 
+<p>Definition at line <a class="el" href="../../da/d24/a00068_source.html#l00047">47</a> of file <a class="el" href="../../da/d24/a00068_source.html">Config.h</a>.</p>
 
-<p>Definition at line <a class="el" href="../../da/d24/a00068_source.html#l00050">50</a> of file <a class="el" href="../../da/d24/a00068_source.html">Evaluate.h</a>.</p>
-</div><div class="dynheader">
-Collaboration diagram for hydra::EvalReturnType&lt; V, T &gt;:</div>
-<div class="dyncontent">
-<div class="center"><iframe scrolling="no" frameborder="0" src="../../de/d14/a00139.svg" width="118" height="112"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+<p>Referenced by <a class="el" href="../../db/d57/a00112_source.html#l00234">hydra::HyRndTrial&lt; GRND, FUNCTOR, N &gt;::HyRndTrial()</a>, and <a class="el" href="../../d1/d84/a00097_source.html#l00066">hydra::LogLikelihood&lt; FUNCTOR, IteratorData, IteratorCache &gt;::LogLikelihood()</a>.</p>
+
 </div>
-<table class="fieldtable">
-<tr><th colspan="3">Class Members</th></tr>
-<tr><td class="fieldtype">
-<a class="anchor" id="aab46b3ca1e5206415015ae83367d3f4b"></a></td>
-<td class="fieldname">
-type</td>
-<td class="fielddoc">
-</td></tr>
-</table>
+</div>
+<a class="anchor" id="a2a1de18eafc5d4cfda05de797f974211"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define CUDA_API_PER_THREAD_DEFAULT_STREAM</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="../../da/d24/a00068_source.html#l00034">34</a> of file <a class="el" href="../../da/d24/a00068_source.html">Config.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a7c57d4e5beb85a3cb6b4e721e1f39790"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define HYDRA_OS&#160;&#160;&#160;std::cerr</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="../../da/d24/a00068_source.html#l00061">61</a> of file <a class="el" href="../../da/d24/a00068_source.html">Config.h</a>.</p>
 
 </div>
 </div>
@@ -191,8 +192,8 @@ type</td>
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="../../dir_92a1ff494355b06c14c0e1fe7b982d29.html">Hydra</a></li><li class="navelem"><a class="el" href="../../dir_108162cc96056bf8ace3602d16680a1c.html">hydra</a></li><li class="navelem"><a class="el" href="../../da/d24/a00068.html">Evaluate.h</a></li>
-    <li class="footer">Generated on Tue Oct 11 2016 04:51:50 for Hydra by
+    <li class="navelem"><a class="el" href="../../dir_92a1ff494355b06c14c0e1fe7b982d29.html">Hydra</a></li><li class="navelem"><a class="el" href="../../dir_108162cc96056bf8ace3602d16680a1c.html">hydra</a></li><li class="navelem"><a class="el" href="../../dir_3834ae61da54c887219d23c23fa56bea.html">detail</a></li><li class="navelem"><a class="el" href="../../da/d24/a00068.html">Config.h</a></li>
+    <li class="footer">Generated on Wed Oct 12 2016 06:08:16 for Hydra by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="../../doxygen.png" alt="doxygen"/></a> 1.8.11 </li>
   </ul>

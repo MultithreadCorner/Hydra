@@ -1,4 +1,4 @@
-<map id="hydra::FCN&lt; ESTIMATOR, IteratorData, IteratorCache &gt;" name="hydra::FCN&lt; ESTIMATOR, IteratorData, IteratorCache &gt;">
-<area shape="rect" id="node3" href="$dd/d1b/a00015.html" title="{hydra::FCN\&lt; LogLikelihood\lFCN\&lt; FUNCTOR, IteratorData,\l IteratorCache \&gt;, IteratorData,\l IteratorCache \&gt;\n||+ FCN()\l+ FCN()\l+ FCN()\l+ operator=()\l+ Up()\l+ operator()()\l+ isCached()\l+ SetCached()\l+ GetCacheBegin()\l+ GetCacheEnd()\land 12 more...\l}" alt="" coords="5,477,215,745"/>
-<area shape="rect" id="node4" href="$dc/d3c/a00028.html" title="{hydra::LogLikelihoodFCN\l\&lt; FUNCTOR, IteratorData,\l IteratorCache \&gt;\n||+ LogLikelihoodFCN()\l+ LogLikelihoodFCN()\l+ LogLikelihoodFCN()\l+ operator=()\l+ Eval()\l+ Eval()\l+ GetFunctor()\l+ GetMAxValue()\l}" alt="" coords="19,795,201,1004"/>
+<map id="UserParameters.h" name="UserParameters.h">
+<area shape="rect" id="node2" href="$db/dab/a00089.html" title="HydraFitExample.cpp" alt="" coords="5,80,153,107"/>
+<area shape="rect" id="node3" href="$d9/dec/a00090.html" title="HydraFitExample.cu" alt="" coords="178,80,319,107"/>
 </map>

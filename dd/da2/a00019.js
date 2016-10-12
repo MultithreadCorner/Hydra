@@ -1,8 +1,9 @@
 var a00019 =
 [
-    [ "HyRndExp", "dd/da2/a00019.html#afb829d2fb2df202d10790cd32c7cc224", null ],
-    [ "HyRndExp", "dd/da2/a00019.html#aca3f778eb2cf8e0ae724998f56add925", null ],
-    [ "operator()", "dd/da2/a00019.html#a65387f34854cc67b5211da37bc3b5d3f", null ],
-    [ "fSeed", "dd/da2/a00019.html#a4f1889f383c78fe99aa4eb3062370806", null ],
-    [ "fTau", "dd/da2/a00019.html#a636160a84442a2d7f792918d7e22b6c3", null ]
+    [ "Exp", "dd/da2/a00019.html#a27297d40106a437034f60247fbd19e70", null ],
+    [ "Exp", "dd/da2/a00019.html#a5643db3bc22460933ad9c5cb6d1c41d6", null ],
+    [ "Evaluate", "dd/da2/a00019.html#aec1ea602308e8bab0f92d159b8836203", null ],
+    [ "operator=", "dd/da2/a00019.html#a93dca258ff5ab6db9340b9b1e7aa9741", null ],
+    [ "fPosition", "dd/da2/a00019.html#a332aced697cd249f38896a7efaa80d0c", null ],
+    [ "fTau", "dd/da2/a00019.html#acee0dd36d72e0cb59cb86333a12873f1", null ]
 ];

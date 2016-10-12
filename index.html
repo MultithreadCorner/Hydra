@@ -58,6 +58,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
       <li><a href="namespaces.html"><span>Namespaces</span></a></li>
       <li><a href="annotated.html"><span>Classes</span></a></li>
       <li><a href="files.html"><span>Files</span></a></li>
+      <li><a href="examples.html"><span>Examples</span></a></li>
       <li>
         <div id="MSearchBox" class="MSearchBoxInactive">
         <span class="left">
@@ -129,6 +130,25 @@ $(document).ready(function(){initNavTree('index.html','');});
 <p>Hydra also provides a bunch of custom types, containers and an increasing number of algorithms to maximaze performance, avoid unecessary usage of memory and grant flexibility and protability between host and device calculations and deployment scenarios.</p>
 <p>Just changing .cu to .cpp in any source code writen only using the Hydra cosntructs is enough to compile your application for OpenMP using GCC in a machine without a NVIDIA GPU installed.</p>
 <p>Many other possibilities and functionaties can be achivied combining the core components, bounded only by the creativity of the users.</p>
+<h2>Hydra and Thrust </h2>
+<p>Hydra is implemented on top of the <a href="https://thrust.github.io/">Thrust library</a> and rely strongly on Thrust's containers, algorithms and backend managment systems. The function evaluation algorithms implemented in Hydra uses tuples to build and process datasets with mixed different types. This allow to manage performance degradation associated to memory access and at same time keep flexibility.</p>
+<p>The official version of Thrust supports tuples with maximum ten elements. In order to overcome this limitation, Hydra uses the <a href="https://github.com/andrewcorrigan/thrust-multi-permutation-iterator">unoficial version, forked from the original, by Andrew Currigan and collaborators</a>. This version implements variadic tuples and related classes, as well as provides some additional functionalities, which are missing in the official Thrust.</p>
+<p>The version of Thrust distributed with Hydra is maintained by <a href="https://github.com/MultithreadCorner">MultithreadCorner</a>. It is basically a fork of Currigan's repository, which is merged with the latest official release, distributed with the <a href="https://developer.nvidia.com/cuda-toolkit">CUDA Tookit</a>.</p>
+<p>***Hydra does not compile against the official Thrust library.***</p>
+<h2>Supported Paralels Backends </h2>
+<p>Hydra uses the Thrust's "backend systems" to control how the algorithms algorithms get mapped to and executed on the parallel processors available to a given application. There are two basic ways to access Thrust's systems: by specifying the global "device" system associated with types like <code>thrust::device_vector</code>, or by selecting a specific container associated with a particular system, such as <code>thrust::cuda::vector</code>. These two approaches are complementary and may be used together within the same program. Hydra library defines the symbols <code><a class="el" href="d4/d51/a00017.html#affa98535d8b843dd9ff514f9adf208fda5f25d739f545c5173b09c144f23312c2">hydra::device</a></code> and <code><a class="el" href="d4/d51/a00017.html#affa98535d8b843dd9ff514f9adf208fdac1a062b9d21f1006cfcc920792730bc4">hydra::host</a></code> that controls where some algorithms are executed and Hydra's specialized containers are allocated. The backends are selected in compile time using the macros <code>THRUST_HOST_SYSTEM</code> and <code>THRUST_DEVICE_SYSTEM</code>. The following backdends are available:</p>
+<ul>
+<li>host: THRUST_HOST_SYSTEM_CPP, THRUST_HOST_SYSTEM_OMP, THRUST_HOST_SYSTEM_TBB</li>
+<li>device: THRUST_DEVICE_SYSTEM_CPP, THRUST_DEVICE_SYSTEM_OMP, THRUST_DEVICE_SYSTEM_TBB, THRUST_DEVICE_SYSTEM_CUDA</li>
+</ul>
+<p>For example, this will compile <code>my_program.cu</code> using OpenMP as host backend and CUDA as device backend:</p>
+<div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;nvcc -Xcompiler -fopenmp -DTHRUST_HOST_SYSTEM=THRUST_HOST_SYSTEM_OMP -DTHRUST_DEVICE_SYSTEM=THRUST_DEVICE_SYSTEM_CUDA  my_program.cu</div></div><!-- fragment --><p> The available "host" and "device" backends can be freely combined. Two important features related to the Hydra's design and the backend configuration:</p>
+<ul>
+<li>If CUDA backend is not used, <a href="https://developer.nvidia.com/cuda-toolkit">NVCC and the CUDA runtime</a> are not necessary. The programs can be compiled with GCC directly.</li>
+<li>Programs written using only Hydra, Thrust, STL and standard c++ constructs, it means without any raw CUDA code or raw calls to the CUDA runtime API, can be compiled with NVCC, to run on CUDA backends, or gcc to run on OpenMP and TBB backends. <b>Just change the source file extention from .cu to .cpp, or something else GCC understands.</b></li>
+</ul>
+<h3>Thrust Backends</h3>
+<p>Thrust supports CUDA, OpenMP and TBB enabled devices, so as well Hydra. Read more about backend configuration on Thrust library <a href="https://github.com/thrust/thrust/wiki/Device-Backends">here</a> and <a href="https://github.com/thrust/thrust/wiki/Host-Backends">here</a></p>
 <h2>The Latest Version </h2>
 <p>The latest version can be found on the <a href="https://github.com/MultithreadCorner/Hydra/releases">project relases page</a>.</p>
 <h2>Documentation </h2>
@@ -137,8 +157,8 @@ $(document).ready(function(){initNavTree('index.html','');});
 <p>2.<a href="http://multithreadcorner.github.io/Hydra/files.html">files</a></p>
 <p>3.<a href="http://multithreadcorner.github.io/Hydra/namespacemembers.html">names</a></p>
 <h2>Installation and requirements </h2>
-<p>Hydra is a header only library, so no build process is necessary to install it. Just place the <code>hydra</code> folder and its contents where your system can find it. The library run on Linux systems and requires C++11 and the varidadic version of the <a href="https://github.com/andrewcorrigan/thrust-multi-permutation-iterator/tree/variadic">Thrust library</a> and <a href="http://www.boost.org/doc/libs/1_61_0/libs/format/doc/format.html">boost::format</a>.</p>
-<p>Some examples demonstrating the basic features of the library are included in the <code>src</code> folder. These code samples require <a href="https://root.cern.ch/">ROOT</a> and <a href="http://tclap.sourceforge.net/">TCLAP</a> library. CUDA based projects will require a local installation of <a href="https://developer.nvidia.com/cuda-toolkit">CUDA Tookit</a> with version 6.5 or higher. Alternatively, projects targeting <a href="http://openmp.org/wp/">OpenMP</a> backend can be compiled with either nvcc or gcc. The CUDA installation is not required to use OpemMP.</p>
+<p>Hydra is a header only library, so no build process is necessary to install it. Just place the <code>hydra</code> folder and its contents where your system can find it. The library run on Linux systems and requires C++11 and the varidadic version of the <a href="https://github.com/MultithreadCorner/thrust-multi-permutation-iterator">Thrust library</a> and <a href="http://www.boost.org/doc/libs/1_61_0/libs/format/doc/format.html">boost::format</a>.</p>
+<p>Some examples demonstrating the basic features of the library are included in the <code>src</code> folder. These code samples require <a href="https://root.cern.ch/">ROOT</a> and <a href="http://tclap.sourceforge.net/">TCLAP</a> library. CUDA based targets will require a local installation of <a href="https://developer.nvidia.com/cuda-toolkit">CUDA Tookit</a> with version 7.5 or higher. Alternatively, projects targeting <a href="http://openmp.org/wp/">OpenMP</a> backend can be compiled with either nvcc or gcc. The CUDA installation is not required to build the OpemMP based targets.</p>
 <h2>Examples </h2>
 <p>Some example code samples demonstrating the basic usage of the library are stored in the src directory, in the project source tree. These samples can be built using <a href="https://cmake.org/">CMAKE</a> according the following instructions:</p>
 <ol type="1">
@@ -177,7 +197,7 @@ $(document).ready(function(){initNavTree('index.html','');});
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="footer">Generated on Tue Oct 11 2016 04:51:50 for Hydra by
+    <li class="footer">Generated on Wed Oct 12 2016 06:08:16 for Hydra by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.11 </li>
   </ul>

@@ -1,8 +1,25 @@
 var a00020 =
 [
-    [ "HyRndFlag", "db/db2/a00020.html#ab7dc1b27ce8993376ea1c9623499d512", null ],
-    [ "HyRndFlag", "db/db2/a00020.html#a0257a1b971cae02e861cd047d7905a22", null ],
-    [ "operator()", "db/db2/a00020.html#a232b59fbaedb6462b851e74989ba185e", null ],
-    [ "fSeed", "db/db2/a00020.html#a47eb69aad00a830fc77e5ebac8897248", null ],
-    [ "fValMax", "db/db2/a00020.html#a156a2e868e1646b270b6fb238601b556", null ]
+    [ "FCN", "db/db2/a00020.html#a528dd742e8e1d544aa81af92b35ba2d9", null ],
+    [ "FCN", "db/db2/a00020.html#acda59ee23b6361768e4211a4b1c0f854", null ],
+    [ "FCN", "db/db2/a00020.html#a41be915abea847d49b9b168ca3d6660e", null ],
+    [ "GetCacheBegin", "db/db2/a00020.html#a2ceeba06f1eb9d820f8499262e536bf2", null ],
+    [ "GetCacheEnd", "db/db2/a00020.html#a156777f7401e2f6c081d1d11b8b7cede", null ],
+    [ "GetDataBegin", "db/db2/a00020.html#a4a200b009dea92aebcd736215b738263", null ],
+    [ "GetDataEnd", "db/db2/a00020.html#a409493e1c7cb1f7f4fc1960ddb493abb", null ],
+    [ "GetErrorDef", "db/db2/a00020.html#a4864c1393bbcf3822bf5d04ff3d9501f", null ],
+    [ "GetFcnCache", "db/db2/a00020.html#aff54aa81e56d6c0292c86516f792ecc7", null ],
+    [ "GetNEvents", "db/db2/a00020.html#a54c88c115e2c2da2f0fbf118c0ecf4f9", null ],
+    [ "GetSumW", "db/db2/a00020.html#a79871bfff713041bf6ece3f68f42f002", null ],
+    [ "GetSumW2", "db/db2/a00020.html#a1166208c68b5ee7340344f5145e4420a", null ],
+    [ "isCached", "db/db2/a00020.html#a9840a60c22a24b9974b562c12c5c40d3", null ],
+    [ "isWeighted", "db/db2/a00020.html#af0c8152f43015d5aa4c783fad76b57b2", null ],
+    [ "operator()", "db/db2/a00020.html#ad60ac73087cff4f5cfdada4bc746bc11", null ],
+    [ "operator=", "db/db2/a00020.html#a5c6cb36f11d4ed61acbd28990cdca3da", null ],
+    [ "SetCached", "db/db2/a00020.html#a6deb6e2800f78b845d63f99876783500", null ],
+    [ "SetErrorDef", "db/db2/a00020.html#a39bc39c92295430317e5517390349c1f", null ],
+    [ "SetSumW", "db/db2/a00020.html#a76c976f867c28595feeff72ebc5571cb", null ],
+    [ "SetSumW2", "db/db2/a00020.html#a147b200f3dcb6d39f9718f8d429373b5", null ],
+    [ "SetWeighted", "db/db2/a00020.html#a31c6f20b72309c07d35d381df8184ee2", null ],
+    [ "Up", "db/db2/a00020.html#a09576df1fba3b54f082ce2544f017ad1", null ]
 ];

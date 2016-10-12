@@ -1,11 +1,15 @@
-<map id="Print.h" name="Print.h">
-<area shape="rect" id="node2" href="$d6/d2c/a00072.html" title="Function.h" alt="" coords="128,80,211,107"/>
-<area shape="rect" id="node7" href="$d4/d63/a00082.html" title="LogLikelihoodFCN.h" alt="" coords="237,80,377,107"/>
-<area shape="rect" id="node8" href="$da/d2a/a00086.html" title="Pdf.h" alt="" coords="401,80,455,107"/>
-<area shape="rect" id="node10" href="$d5/d1e/a00103.html" title="UserParameters.h" alt="" coords="479,80,607,107"/>
-<area shape="rect" id="node3" href="$d0/d61/a00100.html" title="Sum.h" alt="" coords="43,155,103,181"/>
-<area shape="rect" id="node5" href="$da/d24/a00068.html" title="Evaluate.h" alt="" coords="127,155,211,181"/>
-<area shape="rect" id="node6" href="$d1/d6e/a00073.html" title="FunctionWrapper.h" alt="" coords="235,155,367,181"/>
-<area shape="rect" id="node4" href="$db/db6/a00074.html" title="FunctorArithmetic.h" alt="" coords="5,229,141,256"/>
-<area shape="rect" id="node9" href="$d9/d2e/a00056.html" title="AddPdf.h" alt="" coords="391,155,467,181"/>
+<map id="HydraPhaseSpaceExample.cpp" name="HydraPhaseSpaceExample.cpp">
+<area shape="rect" id="node16" href="$d9/d4b/a00117.html" title="hydra/Types.h" alt="" coords="1531,379,1637,405"/>
+<area shape="rect" id="node17" href="$df/dc8/a00122.html" title="hydra/Vector4R.h" alt="" coords="513,229,637,256"/>
+<area shape="rect" id="node23" href="$d5/d1e/a00103.html" title="Implements the struct Events and the class PhaseSpace. " alt="" coords="617,80,759,107"/>
+<area shape="rect" id="node26" href="$d2/db1/a00070.html" title="Typedef for useful container classes used in MCBooster. " alt="" coords="1059,155,1191,181"/>
+<area shape="rect" id="node27" href="$db/df8/a00076.html" title="hydra/Evaluate.h" alt="" coords="1376,80,1496,107"/>
+<area shape="rect" id="node28" href="$d8/d53/a00081.html" title="hydra/Function.h" alt="" coords="1779,155,1898,181"/>
+<area shape="rect" id="node29" href="$d2/d1f/a00083.html" title="hydra/FunctorArithmetic.h" alt="" coords="1814,80,1986,107"/>
+<area shape="rect" id="node30" href="$d4/d63/a00082.html" title="hydra/FunctionWrapper.h" alt="" coords="1571,80,1739,107"/>
+<area shape="rect" id="node31" href="$d0/d89/a00071.html" title="hydra/Copy.h" alt="" coords="1201,80,1301,107"/>
+<area shape="rect" id="node49" href="$df/d13/a00085.html" title="src/Gauss.h" alt="" coords="2011,80,2104,107"/>
+<area shape="rect" id="node50" href="$d9/da4/a00078.html" title="src/Exp.h" alt="" coords="2129,80,2207,107"/>
+<area shape="rect" id="node19" href="$da/d24/a00068.html" title="hydra/detail/Config.h" alt="" coords="1054,379,1197,405"/>
+<area shape="rect" id="node21" href="$d8/dfa/a00121.html" title="hydra/Vector3R.h" alt="" coords="663,304,787,331"/>
 </map>

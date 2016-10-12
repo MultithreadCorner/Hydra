@@ -1,9 +1,9 @@
 var a00023 =
 [
-    [ "HyRndUniform", "d3/d52/a00023.html#a30e57cef8af03e5bd1fa4b76292262e9", null ],
-    [ "HyRndUniform", "d3/d52/a00023.html#aca12572b95d041bd35c9d1a400de7c56", null ],
-    [ "operator()", "d3/d52/a00023.html#a4f6a5147a39306308f334ee661bac1d6", null ],
-    [ "fMax", "d3/d52/a00023.html#ac3e53cd0bbbe8d89c4dc812334c7bb5e", null ],
-    [ "fMin", "d3/d52/a00023.html#a2c581a827332c59a8f06d91fb6a1b0aa", null ],
-    [ "fSeed", "d3/d52/a00023.html#ac6246d387b0558fcf56fabfb1ecee09d", null ]
+    [ "HyRndBreitWigner", "d3/d52/a00023.html#af436f0b9f31a273e0235a786669557f8", null ],
+    [ "HyRndBreitWigner", "d3/d52/a00023.html#aca8d72177166fc1b1ab6b326d8bb23df", null ],
+    [ "operator()", "d3/d52/a00023.html#ac9b1f402da9c30d670ce3c1b3f1de769", null ],
+    [ "fGamma", "d3/d52/a00023.html#ac175e9f9e1eb43742bc20145c31e2c2b", null ],
+    [ "fMean", "d3/d52/a00023.html#ae6a2914c34fdd6498da5e5fc3c0d9f9f", null ],
+    [ "fSeed", "d3/d52/a00023.html#a27d99e8b0e9f7b9e8c106fa905c1ae8b", null ]
 ];

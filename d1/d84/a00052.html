@@ -4,7 +4,7 @@
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.11"/>
-<title>Hydra: hydra::Vector3R Class Reference</title>
+<title>Hydra: hydra::Range&lt; Iterator &gt; Struct Template Reference</title>
 <link href="../../tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="../../jquery.js"></script>
 <script type="text/javascript" src="../../dynsections.js"></script>
@@ -58,6 +58,7 @@ var searchBox = new SearchBox("searchBox", "../../search",false,'Search');
       <li><a href="../../namespaces.html"><span>Namespaces</span></a></li>
       <li class="current"><a href="../../annotated.html"><span>Classes</span></a></li>
       <li><a href="../../files.html"><span>Files</span></a></li>
+      <li><a href="../../examples.html"><span>Examples</span></a></li>
       <li>
         <div id="MSearchBox" class="MSearchBoxInactive">
         <span class="left">
@@ -115,85 +116,117 @@ $(document).ready(function(){initNavTree('d1/d84/a00052.html','../../');});
 
 <div class="header">
   <div class="summary">
+<a href="#pub-types">Public Types</a> &#124;
 <a href="#pub-methods">Public Member Functions</a> &#124;
-<a href="#friends">Friends</a> &#124;
-<a href="../../da/de0/a00317.html">List of all members</a>  </div>
+<a href="../../db/ddc/a00353.html">List of all members</a>  </div>
   <div class="headertitle">
-<div class="title">hydra::Vector3R Class Reference</div>  </div>
+<div class="title">hydra::Range&lt; Iterator &gt; Struct Template Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
+
+<p><a class="el" href="../../d1/d84/a00052.html" title="Range helper class to use with hydra::Eval. ">Range</a> helper class to use with <a class="el" href="../../d4/d51/a00017.html#a792f64fe5b6422f76bcf028f92ac2861">hydra::Eval</a>.  
+ <a href="../../d1/d84/a00052.html#details">More...</a></p>
 <div class="dynheader">
-Collaboration diagram for hydra::Vector3R:</div>
+Collaboration diagram for hydra::Range&lt; Iterator &gt;:</div>
 <div class="dyncontent">
-<div class="center"><iframe scrolling="no" frameborder="0" src="../../d2/d41/a00318.svg" width="154" height="264"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+<div class="center"><iframe scrolling="no" frameborder="0" src="../../d0/dc3/a00354.svg" width="176" height="206"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 </div>
 <table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-types"></a>
+Public Types</h2></td></tr>
+<tr class="memitem:ab3c10b3fa6c465a320e12139eca3c4dc"><td class="memItemLeft" align="right" valign="top">typedef thrust::iterator_value&lt; Iterator &gt;::type&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/d84/a00052.html#ab3c10b3fa6c465a320e12139eca3c4dc">value_type</a></td></tr>
+<tr class="separator:ab3c10b3fa6c465a320e12139eca3c4dc"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3d1ff476ba9cf6a4ac076d8fbf61e5fb"><td class="memItemLeft" align="right" valign="top">typedef thrust::iterator_system&lt; Iterator &gt;::type&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/d84/a00052.html#a3d1ff476ba9cf6a4ac076d8fbf61e5fb">system</a></td></tr>
+<tr class="separator:a3d1ff476ba9cf6a4ac076d8fbf61e5fb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:ac59a96f4c24d4fefb51b7fa9d6390b0c"><td class="memItemLeft" align="right" valign="top">__host__ __device__&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/d84/a00052.html#ac59a96f4c24d4fefb51b7fa9d6390b0c">Vector3R</a> ()</td></tr>
-<tr class="separator:ac59a96f4c24d4fefb51b7fa9d6390b0c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a455b74fbd76b89f9aacf4cb79432bc60"><td class="memItemLeft" align="right" valign="top">__host__ __device__&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/d84/a00052.html#a455b74fbd76b89f9aacf4cb79432bc60">Vector3R</a> (<a class="el" href="../../d7/dd4/a00013.html#a971e94bcb8c43741d11f9d8eb98f5fab">GReal_t</a> x, <a class="el" href="../../d7/dd4/a00013.html#a971e94bcb8c43741d11f9d8eb98f5fab">GReal_t</a> y, <a class="el" href="../../d7/dd4/a00013.html#a971e94bcb8c43741d11f9d8eb98f5fab">GReal_t</a> z)</td></tr>
-<tr class="separator:a455b74fbd76b89f9aacf4cb79432bc60"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae3095f5336c993baad368460f4d39553"><td class="memItemLeft" align="right" valign="top">__host__ __device__&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/d84/a00052.html#ae3095f5336c993baad368460f4d39553">Vector3R</a> (const <a class="el" href="../../d1/d84/a00052.html">Vector3R</a> &amp;other)</td></tr>
-<tr class="separator:ae3095f5336c993baad368460f4d39553"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa144ef6484f690b73f4d50f3925f433c"><td class="memItemLeft" align="right" valign="top">__host__ __device__ <a class="el" href="../../d1/d84/a00052.html">Vector3R</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/d84/a00052.html#aa144ef6484f690b73f4d50f3925f433c">operator*=</a> (const <a class="el" href="../../d7/dd4/a00013.html#a971e94bcb8c43741d11f9d8eb98f5fab">GReal_t</a> c)</td></tr>
-<tr class="separator:aa144ef6484f690b73f4d50f3925f433c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae99a7ca4795334a2526fee347682ddbf"><td class="memItemLeft" align="right" valign="top">__host__ __device__ <a class="el" href="../../d1/d84/a00052.html">Vector3R</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/d84/a00052.html#ae99a7ca4795334a2526fee347682ddbf">operator/=</a> (const <a class="el" href="../../d7/dd4/a00013.html#a971e94bcb8c43741d11f9d8eb98f5fab">GReal_t</a> c)</td></tr>
-<tr class="separator:ae99a7ca4795334a2526fee347682ddbf"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a3cf0a99e8e1b5b68ab66031625e7672d"><td class="memItemLeft" align="right" valign="top">__host__ __device__ <a class="el" href="../../d1/d84/a00052.html">Vector3R</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/d84/a00052.html#a3cf0a99e8e1b5b68ab66031625e7672d">operator+=</a> (const <a class="el" href="../../d1/d84/a00052.html">Vector3R</a> &amp;v2)</td></tr>
-<tr class="separator:a3cf0a99e8e1b5b68ab66031625e7672d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a92e3d9b4c503edb6a0a542b95c87e618"><td class="memItemLeft" align="right" valign="top">__host__ __device__ <a class="el" href="../../d1/d84/a00052.html">Vector3R</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/d84/a00052.html#a92e3d9b4c503edb6a0a542b95c87e618">operator-=</a> (const <a class="el" href="../../d1/d84/a00052.html">Vector3R</a> &amp;v2)</td></tr>
-<tr class="separator:a92e3d9b4c503edb6a0a542b95c87e618"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a384a339d384f1cc4994d98ea1a28fa02"><td class="memItemLeft" align="right" valign="top">__host__ __device__ void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/d84/a00052.html#a384a339d384f1cc4994d98ea1a28fa02">set</a> (<a class="el" href="../../d7/dd4/a00013.html#a0c9fb4d7195ab952da10a82d5c4ad30e">GInt_t</a> i, <a class="el" href="../../d7/dd4/a00013.html#a971e94bcb8c43741d11f9d8eb98f5fab">GReal_t</a> d)</td></tr>
-<tr class="separator:a384a339d384f1cc4994d98ea1a28fa02"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a6daebe5ebbdd7277984e888628fd9c90"><td class="memItemLeft" align="right" valign="top">__host__ __device__ void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/d84/a00052.html#a6daebe5ebbdd7277984e888628fd9c90">set</a> (<a class="el" href="../../d7/dd4/a00013.html#a971e94bcb8c43741d11f9d8eb98f5fab">GReal_t</a> x, <a class="el" href="../../d7/dd4/a00013.html#a971e94bcb8c43741d11f9d8eb98f5fab">GReal_t</a> y, <a class="el" href="../../d7/dd4/a00013.html#a971e94bcb8c43741d11f9d8eb98f5fab">GReal_t</a> z)</td></tr>
-<tr class="separator:a6daebe5ebbdd7277984e888628fd9c90"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa411783727d3dab9a424333896e32ec8"><td class="memItemLeft" align="right" valign="top">__host__ __device__ void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/d84/a00052.html#aa411783727d3dab9a424333896e32ec8">applyRotateEuler</a> (<a class="el" href="../../d7/dd4/a00013.html#a971e94bcb8c43741d11f9d8eb98f5fab">GReal_t</a> phi, <a class="el" href="../../d7/dd4/a00013.html#a971e94bcb8c43741d11f9d8eb98f5fab">GReal_t</a> theta, <a class="el" href="../../d7/dd4/a00013.html#a971e94bcb8c43741d11f9d8eb98f5fab">GReal_t</a> ksi)</td></tr>
-<tr class="separator:aa411783727d3dab9a424333896e32ec8"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a6da4ad6a2422d7746ed2e98806ca230b"><td class="memItemLeft" align="right" valign="top">__host__ __device__ <a class="el" href="../../d7/dd4/a00013.html#a971e94bcb8c43741d11f9d8eb98f5fab">GReal_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/d84/a00052.html#a6da4ad6a2422d7746ed2e98806ca230b">get</a> (<a class="el" href="../../d7/dd4/a00013.html#a0c9fb4d7195ab952da10a82d5c4ad30e">GInt_t</a> i) const </td></tr>
-<tr class="separator:a6da4ad6a2422d7746ed2e98806ca230b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ada37669375482bd839a31bc4d4c34320"><td class="memItemLeft" align="right" valign="top">__host__ __device__ <a class="el" href="../../d7/dd4/a00013.html#a971e94bcb8c43741d11f9d8eb98f5fab">GReal_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/d84/a00052.html#ada37669375482bd839a31bc4d4c34320">dot</a> (const <a class="el" href="../../d1/d84/a00052.html">Vector3R</a> &amp;v2)</td></tr>
-<tr class="separator:ada37669375482bd839a31bc4d4c34320"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:afe8471c99dbc55c9033ed169ff595a46"><td class="memItemLeft" align="right" valign="top">__host__ __device__ <a class="el" href="../../d7/dd4/a00013.html#a971e94bcb8c43741d11f9d8eb98f5fab">GReal_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/d84/a00052.html#afe8471c99dbc55c9033ed169ff595a46">d3mag</a> () const </td></tr>
-<tr class="separator:afe8471c99dbc55c9033ed169ff595a46"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="friends"></a>
-Friends</h2></td></tr>
-<tr class="memitem:a6b60fa786aea48a7fcc8466a19a49a4a"><td class="memItemLeft" align="right" valign="top">__host__ __device__ friend <a class="el" href="../../d1/d84/a00052.html">Vector3R</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/d84/a00052.html#a6b60fa786aea48a7fcc8466a19a49a4a">rotateEuler</a> (const <a class="el" href="../../d1/d84/a00052.html">Vector3R</a> &amp;v, <a class="el" href="../../d7/dd4/a00013.html#a971e94bcb8c43741d11f9d8eb98f5fab">GReal_t</a> phi, <a class="el" href="../../d7/dd4/a00013.html#a971e94bcb8c43741d11f9d8eb98f5fab">GReal_t</a> theta, <a class="el" href="../../d7/dd4/a00013.html#a971e94bcb8c43741d11f9d8eb98f5fab">GReal_t</a> ksi)</td></tr>
-<tr class="separator:a6b60fa786aea48a7fcc8466a19a49a4a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a42f51311d29ba5c2631d2ac24e50a9f7"><td class="memItemLeft" align="right" valign="top">__host__ __device__ friend <a class="el" href="../../d1/d84/a00052.html">Vector3R</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/d84/a00052.html#a42f51311d29ba5c2631d2ac24e50a9f7">operator*</a> (<a class="el" href="../../d7/dd4/a00013.html#a971e94bcb8c43741d11f9d8eb98f5fab">GReal_t</a> c, const <a class="el" href="../../d1/d84/a00052.html">Vector3R</a> &amp;v2)</td></tr>
-<tr class="separator:a42f51311d29ba5c2631d2ac24e50a9f7"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a9c282233e0c872df6e2a3dbe923ca06e"><td class="memItemLeft" align="right" valign="top">__host__ __device__ friend <a class="el" href="../../d7/dd4/a00013.html#a971e94bcb8c43741d11f9d8eb98f5fab">GReal_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/d84/a00052.html#a9c282233e0c872df6e2a3dbe923ca06e">operator*</a> (const <a class="el" href="../../d1/d84/a00052.html">Vector3R</a> &amp;v1, const <a class="el" href="../../d1/d84/a00052.html">Vector3R</a> &amp;v2)</td></tr>
-<tr class="separator:a9c282233e0c872df6e2a3dbe923ca06e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a3b3e9c1d2c93535dceb1c5e34cf3967b"><td class="memItemLeft" align="right" valign="top">__host__ __device__ friend <a class="el" href="../../d1/d84/a00052.html">Vector3R</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/d84/a00052.html#a3b3e9c1d2c93535dceb1c5e34cf3967b">operator+</a> (const <a class="el" href="../../d1/d84/a00052.html">Vector3R</a> &amp;v1, const <a class="el" href="../../d1/d84/a00052.html">Vector3R</a> &amp;v2)</td></tr>
-<tr class="separator:a3b3e9c1d2c93535dceb1c5e34cf3967b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a58732a0e39512d90ee709b63ecf0dd2b"><td class="memItemLeft" align="right" valign="top">__host__ __device__ friend <a class="el" href="../../d1/d84/a00052.html">Vector3R</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/d84/a00052.html#a58732a0e39512d90ee709b63ecf0dd2b">operator-</a> (const <a class="el" href="../../d1/d84/a00052.html">Vector3R</a> &amp;v1, const <a class="el" href="../../d1/d84/a00052.html">Vector3R</a> &amp;v2)</td></tr>
-<tr class="separator:a58732a0e39512d90ee709b63ecf0dd2b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a6050d56557a8edf8394a05262aa57a86"><td class="memItemLeft" align="right" valign="top">__host__ __device__ friend <a class="el" href="../../d1/d84/a00052.html">Vector3R</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/d84/a00052.html#a6050d56557a8edf8394a05262aa57a86">operator*</a> (const <a class="el" href="../../d1/d84/a00052.html">Vector3R</a> &amp;v1, <a class="el" href="../../d7/dd4/a00013.html#a971e94bcb8c43741d11f9d8eb98f5fab">GReal_t</a> c)</td></tr>
-<tr class="separator:a6050d56557a8edf8394a05262aa57a86"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af7380c4ab1cdffa3c7e0d9b933f1a865"><td class="memItemLeft" align="right" valign="top">__host__ __device__ friend <a class="el" href="../../d1/d84/a00052.html">Vector3R</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/d84/a00052.html#af7380c4ab1cdffa3c7e0d9b933f1a865">operator/</a> (const <a class="el" href="../../d1/d84/a00052.html">Vector3R</a> &amp;v1, <a class="el" href="../../d7/dd4/a00013.html#a971e94bcb8c43741d11f9d8eb98f5fab">GReal_t</a> c)</td></tr>
-<tr class="separator:af7380c4ab1cdffa3c7e0d9b933f1a865"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a5a6b90fe79972df783ad3359d0e1b0a2"><td class="memItemLeft" align="right" valign="top">__host__ __device__ friend <a class="el" href="../../d1/d84/a00052.html">Vector3R</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/d84/a00052.html#a5a6b90fe79972df783ad3359d0e1b0a2">cross</a> (const <a class="el" href="../../d1/d84/a00052.html">Vector3R</a> &amp;v1, const <a class="el" href="../../d1/d84/a00052.html">Vector3R</a> &amp;v2)</td></tr>
-<tr class="separator:a5a6b90fe79972df783ad3359d0e1b0a2"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a6762890287a9dcdfc3f9459d6e2ba2f7"><td class="memItemLeft" align="right" valign="top">__host__ friend std::ostream &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/d84/a00052.html#a6762890287a9dcdfc3f9459d6e2ba2f7">operator&lt;&lt;</a> (std::ostream &amp;s, const <a class="el" href="../../d1/d84/a00052.html">Vector3R</a> &amp;v)</td></tr>
-<tr class="separator:a6762890287a9dcdfc3f9459d6e2ba2f7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5dc48cd8f01a6f195aabe4c9758fc487"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/d84/a00052.html#a5dc48cd8f01a6f195aabe4c9758fc487">Range</a> (Iterator <a class="el" href="../../d1/d84/a00052.html#afadbbfb8b604a4fa704674dfdbbec25d">begin</a>, Iterator <a class="el" href="../../d1/d84/a00052.html#ac2150681c29eaf23b4fb7c373bd75817">end</a>)</td></tr>
+<tr class="memdesc:a5dc48cd8f01a6f195aabe4c9758fc487"><td class="mdescLeft">&#160;</td><td class="mdescRight">ctor taking begin and end iterators  <a href="#a5dc48cd8f01a6f195aabe4c9758fc487">More...</a><br /></td></tr>
+<tr class="separator:a5dc48cd8f01a6f195aabe4c9758fc487"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8ebd56675d4a104c78ed6b206f6536f0"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/d84/a00052.html#a8ebd56675d4a104c78ed6b206f6536f0">Range</a> (Iterator <a class="el" href="../../d1/d84/a00052.html#afadbbfb8b604a4fa704674dfdbbec25d">begin</a>, size_t n)</td></tr>
+<tr class="memdesc:a8ebd56675d4a104c78ed6b206f6536f0"><td class="mdescLeft">&#160;</td><td class="mdescRight">ctor taking begin iterator and number of elements end iterator will be (begin + n)  <a href="#a8ebd56675d4a104c78ed6b206f6536f0">More...</a><br /></td></tr>
+<tr class="separator:a8ebd56675d4a104c78ed6b206f6536f0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a39e73b6c55bec7e7d1e300ea4c363d46"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../d1/d84/a00052.html#ab3c10b3fa6c465a320e12139eca3c4dc">value_type</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/d84/a00052.html#a39e73b6c55bec7e7d1e300ea4c363d46">operator()</a> (const size_t idx)</td></tr>
+<tr class="separator:a39e73b6c55bec7e7d1e300ea4c363d46"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3e250b764bb405499e87da7980c527e5"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../d1/d84/a00052.html#ab3c10b3fa6c465a320e12139eca3c4dc">value_type</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/d84/a00052.html#a3e250b764bb405499e87da7980c527e5">operator[]</a> (const size_t idx)</td></tr>
+<tr class="separator:a3e250b764bb405499e87da7980c527e5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1b03fd45f75f3b6d101f7dacb9a16727"><td class="memItemLeft" align="right" valign="top">size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/d84/a00052.html#a1b03fd45f75f3b6d101f7dacb9a16727">size</a> ()</td></tr>
+<tr class="separator:a1b03fd45f75f3b6d101f7dacb9a16727"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afadbbfb8b604a4fa704674dfdbbec25d"><td class="memItemLeft" align="right" valign="top">const Iterator&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/d84/a00052.html#afadbbfb8b604a4fa704674dfdbbec25d">begin</a> () const </td></tr>
+<tr class="separator:afadbbfb8b604a4fa704674dfdbbec25d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac2150681c29eaf23b4fb7c373bd75817"><td class="memItemLeft" align="right" valign="top">const Iterator&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/d84/a00052.html#ac2150681c29eaf23b4fb7c373bd75817">end</a> () const </td></tr>
+<tr class="separator:ac2150681c29eaf23b4fb7c373bd75817"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0e2634f7832012283e164522232498b2"><td class="memItemLeft" align="right" valign="top">Iterator&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/d84/a00052.html#a0e2634f7832012283e164522232498b2">begin</a> ()</td></tr>
+<tr class="separator:a0e2634f7832012283e164522232498b2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a98aa9762067de937e4eb65cd483bcb89"><td class="memItemLeft" align="right" valign="top">Iterator&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/d84/a00052.html#a98aa9762067de937e4eb65cd483bcb89">end</a> ()</td></tr>
+<tr class="separator:a98aa9762067de937e4eb65cd483bcb89"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock">
-<p>Definition at line <a class="el" href="../../d3/d32/a00105_source.html#l00046">46</a> of file <a class="el" href="../../d3/d32/a00105_source.html">Vector3R.h</a>.</p>
-</div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
-<a class="anchor" id="ac59a96f4c24d4fefb51b7fa9d6390b0c"></a>
+<div class="textblock"><h3>template&lt;typename Iterator&gt;<br />
+struct hydra::Range&lt; Iterator &gt;</h3>
+
+
+<p>Definition at line <a class="el" href="../../d3/d00/a00113_source.html#l00042">42</a> of file <a class="el" href="../../d3/d00/a00113_source.html">Range.h</a>.</p>
+</div><h2 class="groupheader">Member Typedef Documentation</h2>
+<a class="anchor" id="a3d1ff476ba9cf6a4ac076d8fbf61e5fb"></a>
 <div class="memitem">
 <div class="memproto">
+<div class="memtemplate">
+template&lt;typename Iterator&gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">typedef thrust::iterator_system&lt;Iterator&gt;::type <a class="el" href="../../d1/d84/a00052.html">hydra::Range</a>&lt; Iterator &gt;::<a class="el" href="../../d1/d84/a00052.html#a3d1ff476ba9cf6a4ac076d8fbf61e5fb">system</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="../../d3/d00/a00113_source.html#l00045">45</a> of file <a class="el" href="../../d3/d00/a00113_source.html">Range.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="ab3c10b3fa6c465a320e12139eca3c4dc"></a>
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename Iterator&gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">typedef thrust::iterator_value&lt;Iterator&gt;::type <a class="el" href="../../d1/d84/a00052.html">hydra::Range</a>&lt; Iterator &gt;::<a class="el" href="../../d1/d84/a00052.html#ab3c10b3fa6c465a320e12139eca3c4dc">value_type</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="../../d3/d00/a00113_source.html#l00044">44</a> of file <a class="el" href="../../d3/d00/a00113_source.html">Range.h</a>.</p>
+
+</div>
+</div>
+<h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
+<a class="anchor" id="a5dc48cd8f01a6f195aabe4c9758fc487"></a>
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename Iterator&gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">__host__ __device__ hydra::Vector3R::Vector3R </td>
+          <td class="memname"><a class="el" href="../../d1/d84/a00052.html">hydra::Range</a>&lt; Iterator &gt;::<a class="el" href="../../d1/d84/a00052.html">Range</a> </td>
           <td>(</td>
-          <td class="paramname"></td><td>)</td>
+          <td class="paramtype">Iterator&#160;</td>
+          <td class="paramname"><em>begin</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
           <td></td>
+          <td class="paramtype">Iterator&#160;</td>
+          <td class="paramname"><em>end</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
         </tr>
       </table>
   </td>
@@ -203,69 +236,98 @@ Friends</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Referenced by <a class="el" href="../../d3/d32/a00105_source.html#l00141">hydra::cross()</a>, <a class="el" href="../../d3/d32/a00105_source.html#l00094">hydra::operator*()</a>, <a class="el" href="../../d3/d32/a00105_source.html#l00118">hydra::operator+()</a>, <a class="el" href="../../d3/d32/a00105_source.html#l00124">hydra::operator-()</a>, and <a class="el" href="../../d3/d32/a00105_source.html#l00106">hydra::operator/()</a>.</p>
+<p>Definition at line <a class="el" href="../../d3/d00/a00113_source.html#l00050">50</a> of file <a class="el" href="../../d3/d00/a00113_source.html">Range.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a8ebd56675d4a104c78ed6b206f6536f0"></a>
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename Iterator&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="../../d1/d84/a00052.html">hydra::Range</a>&lt; Iterator &gt;::<a class="el" href="../../d1/d84/a00052.html">Range</a> </td>
+          <td>(</td>
+          <td class="paramtype">Iterator&#160;</td>
+          <td class="paramname"><em>begin</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">size_t&#160;</td>
+          <td class="paramname"><em>n</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="../../d3/d00/a00113_source.html#l00059">59</a> of file <a class="el" href="../../d3/d00/a00113_source.html">Range.h</a>.</p>
+
+</div>
+</div>
+<h2 class="groupheader">Member Function Documentation</h2>
+<a class="anchor" id="afadbbfb8b604a4fa704674dfdbbec25d"></a>
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename Iterator&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">const Iterator <a class="el" href="../../d1/d84/a00052.html">hydra::Range</a>&lt; Iterator &gt;::begin </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="../../d3/d00/a00113_source.html#l00081">81</a> of file <a class="el" href="../../d3/d00/a00113_source.html">Range.h</a>.</p>
+
+<p>Referenced by <a class="el" href="../../d3/d00/a00113_source.html#l00107">hydra::make_range()</a>.</p>
 
 <p><div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><iframe scrolling="no" frameborder="0" src="../../d1/d84/a00052_ac59a96f4c24d4fefb51b7fa9d6390b0c_icgraph.svg" width="356" height="240"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+<div class="center"><iframe scrolling="no" frameborder="0" src="../../d1/d84/a00052_afadbbfb8b604a4fa704674dfdbbec25d_icgraph.svg" width="430" height="38"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 </div>
 </p>
 
 </div>
 </div>
-<a class="anchor" id="a455b74fbd76b89f9aacf4cb79432bc60"></a>
+<a class="anchor" id="a0e2634f7832012283e164522232498b2"></a>
 <div class="memitem">
 <div class="memproto">
+<div class="memtemplate">
+template&lt;typename Iterator&gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">__host__ __device__ hydra::Vector3R::Vector3R </td>
+          <td class="memname">Iterator <a class="el" href="../../d1/d84/a00052.html">hydra::Range</a>&lt; Iterator &gt;::begin </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="../../d7/dd4/a00013.html#a971e94bcb8c43741d11f9d8eb98f5fab">GReal_t</a>&#160;</td>
-          <td class="paramname"><em>x</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"><a class="el" href="../../d7/dd4/a00013.html#a971e94bcb8c43741d11f9d8eb98f5fab">GReal_t</a>&#160;</td>
-          <td class="paramname"><em>y</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"><a class="el" href="../../d7/dd4/a00013.html#a971e94bcb8c43741d11f9d8eb98f5fab">GReal_t</a>&#160;</td>
-          <td class="paramname"><em>z</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a class="anchor" id="ae3095f5336c993baad368460f4d39553"></a>
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">__host__ __device__ hydra::Vector3R::Vector3R </td>
-          <td>(</td>
-          <td class="paramtype">const <a class="el" href="../../d1/d84/a00052.html">Vector3R</a> &amp;&#160;</td>
-          <td class="paramname"><em>other</em></td><td>)</td>
+          <td class="paramname"></td><td>)</td>
           <td></td>
         </tr>
       </table>
@@ -276,58 +338,21 @@ Here is the caller graph for this function:</div>
 </table>
 </div><div class="memdoc">
 
-</div>
-</div>
-<h2 class="groupheader">Member Function Documentation</h2>
-<a class="anchor" id="aa411783727d3dab9a424333896e32ec8"></a>
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">__host__ __device__ void hydra::Vector3R::applyRotateEuler </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="../../d7/dd4/a00013.html#a971e94bcb8c43741d11f9d8eb98f5fab">GReal_t</a>&#160;</td>
-          <td class="paramname"><em>phi</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"><a class="el" href="../../d7/dd4/a00013.html#a971e94bcb8c43741d11f9d8eb98f5fab">GReal_t</a>&#160;</td>
-          <td class="paramname"><em>theta</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"><a class="el" href="../../d7/dd4/a00013.html#a971e94bcb8c43741d11f9d8eb98f5fab">GReal_t</a>&#160;</td>
-          <td class="paramname"><em>ksi</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
+<p>Definition at line <a class="el" href="../../d3/d00/a00113_source.html#l00090">90</a> of file <a class="el" href="../../d3/d00/a00113_source.html">Range.h</a>.</p>
 
 </div>
 </div>
-<a class="anchor" id="afe8471c99dbc55c9033ed169ff595a46"></a>
+<a class="anchor" id="ac2150681c29eaf23b4fb7c373bd75817"></a>
 <div class="memitem">
 <div class="memproto">
+<div class="memtemplate">
+template&lt;typename Iterator&gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">__host__ __device__ <a class="el" href="../../d7/dd4/a00013.html#a971e94bcb8c43741d11f9d8eb98f5fab">GReal_t</a> hydra::Vector3R::d3mag </td>
+          <td class="memname">const Iterator <a class="el" href="../../d1/d84/a00052.html">hydra::Range</a>&lt; Iterator &gt;::end </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td> const</td>
@@ -340,20 +365,32 @@ Here is the caller graph for this function:</div>
 </table>
 </div><div class="memdoc">
 
+<p>Definition at line <a class="el" href="../../d3/d00/a00113_source.html#l00086">86</a> of file <a class="el" href="../../d3/d00/a00113_source.html">Range.h</a>.</p>
+
+<p>Referenced by <a class="el" href="../../d3/d00/a00113_source.html#l00107">hydra::make_range()</a>.</p>
+
+<p><div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><iframe scrolling="no" frameborder="0" src="../../d1/d84/a00052_ac2150681c29eaf23b4fb7c373bd75817_icgraph.svg" width="420" height="38"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+</div>
+</p>
+
 </div>
 </div>
-<a class="anchor" id="ada37669375482bd839a31bc4d4c34320"></a>
+<a class="anchor" id="a98aa9762067de937e4eb65cd483bcb89"></a>
 <div class="memitem">
 <div class="memproto">
+<div class="memtemplate">
+template&lt;typename Iterator&gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">__host__ __device__ <a class="el" href="../../d7/dd4/a00013.html#a971e94bcb8c43741d11f9d8eb98f5fab">GReal_t</a> hydra::Vector3R::dot </td>
+          <td class="memname">Iterator <a class="el" href="../../d1/d84/a00052.html">hydra::Range</a>&lt; Iterator &gt;::end </td>
           <td>(</td>
-          <td class="paramtype">const <a class="el" href="../../d1/d84/a00052.html">Vector3R</a> &amp;&#160;</td>
-          <td class="paramname"><em>v2</em></td><td>)</td>
+          <td class="paramname"></td><td>)</td>
           <td></td>
         </tr>
       </table>
@@ -364,44 +401,24 @@ Here is the caller graph for this function:</div>
 </table>
 </div><div class="memdoc">
 
-</div>
-</div>
-<a class="anchor" id="a6da4ad6a2422d7746ed2e98806ca230b"></a>
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">__host__ __device__ <a class="el" href="../../d7/dd4/a00013.html#a971e94bcb8c43741d11f9d8eb98f5fab">GReal_t</a> hydra::Vector3R::get </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="../../d7/dd4/a00013.html#a0c9fb4d7195ab952da10a82d5c4ad30e">GInt_t</a>&#160;</td>
-          <td class="paramname"><em>i</em></td><td>)</td>
-          <td> const</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
+<p>Definition at line <a class="el" href="../../d3/d00/a00113_source.html#l00095">95</a> of file <a class="el" href="../../d3/d00/a00113_source.html">Range.h</a>.</p>
 
 </div>
 </div>
-<a class="anchor" id="aa144ef6484f690b73f4d50f3925f433c"></a>
+<a class="anchor" id="a39e73b6c55bec7e7d1e300ea4c363d46"></a>
 <div class="memitem">
 <div class="memproto">
+<div class="memtemplate">
+template&lt;typename Iterator&gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">__host__ __device__ <a class="el" href="../../d1/d84/a00052.html">Vector3R</a>&amp; hydra::Vector3R::operator*= </td>
+          <td class="memname"><a class="el" href="../../d1/d84/a00052.html#ab3c10b3fa6c465a320e12139eca3c4dc">value_type</a>&amp; <a class="el" href="../../d1/d84/a00052.html">hydra::Range</a>&lt; Iterator &gt;::operator() </td>
           <td>(</td>
-          <td class="paramtype">const <a class="el" href="../../d7/dd4/a00013.html#a971e94bcb8c43741d11f9d8eb98f5fab">GReal_t</a>&#160;</td>
-          <td class="paramname"><em>c</em></td><td>)</td>
+          <td class="paramtype">const size_t&#160;</td>
+          <td class="paramname"><em>idx</em></td><td>)</td>
           <td></td>
         </tr>
       </table>
@@ -412,20 +429,24 @@ Here is the caller graph for this function:</div>
 </table>
 </div><div class="memdoc">
 
+<p>Definition at line <a class="el" href="../../d3/d00/a00113_source.html#l00066">66</a> of file <a class="el" href="../../d3/d00/a00113_source.html">Range.h</a>.</p>
+
 </div>
 </div>
-<a class="anchor" id="a3cf0a99e8e1b5b68ab66031625e7672d"></a>
+<a class="anchor" id="a3e250b764bb405499e87da7980c527e5"></a>
 <div class="memitem">
 <div class="memproto">
+<div class="memtemplate">
+template&lt;typename Iterator&gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">__host__ __device__ <a class="el" href="../../d1/d84/a00052.html">Vector3R</a>&amp; hydra::Vector3R::operator+= </td>
+          <td class="memname"><a class="el" href="../../d1/d84/a00052.html#ab3c10b3fa6c465a320e12139eca3c4dc">value_type</a>&amp; <a class="el" href="../../d1/d84/a00052.html">hydra::Range</a>&lt; Iterator &gt;::operator[] </td>
           <td>(</td>
-          <td class="paramtype">const <a class="el" href="../../d1/d84/a00052.html">Vector3R</a> &amp;&#160;</td>
-          <td class="paramname"><em>v2</em></td><td>)</td>
+          <td class="paramtype">const size_t&#160;</td>
+          <td class="paramname"><em>idx</em></td><td>)</td>
           <td></td>
         </tr>
       </table>
@@ -436,20 +457,23 @@ Here is the caller graph for this function:</div>
 </table>
 </div><div class="memdoc">
 
+<p>Definition at line <a class="el" href="../../d3/d00/a00113_source.html#l00072">72</a> of file <a class="el" href="../../d3/d00/a00113_source.html">Range.h</a>.</p>
+
 </div>
 </div>
-<a class="anchor" id="a92e3d9b4c503edb6a0a542b95c87e618"></a>
+<a class="anchor" id="a1b03fd45f75f3b6d101f7dacb9a16727"></a>
 <div class="memitem">
 <div class="memproto">
+<div class="memtemplate">
+template&lt;typename Iterator&gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">__host__ __device__ <a class="el" href="../../d1/d84/a00052.html">Vector3R</a>&amp; hydra::Vector3R::operator-= </td>
+          <td class="memname">size_t <a class="el" href="../../d1/d84/a00052.html">hydra::Range</a>&lt; Iterator &gt;::size </td>
           <td>(</td>
-          <td class="paramtype">const <a class="el" href="../../d1/d84/a00052.html">Vector3R</a> &amp;&#160;</td>
-          <td class="paramname"><em>v2</em></td><td>)</td>
+          <td class="paramname"></td><td>)</td>
           <td></td>
         </tr>
       </table>
@@ -460,451 +484,20 @@ Here is the caller graph for this function:</div>
 </table>
 </div><div class="memdoc">
 
-</div>
-</div>
-<a class="anchor" id="ae99a7ca4795334a2526fee347682ddbf"></a>
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">__host__ __device__ <a class="el" href="../../d1/d84/a00052.html">Vector3R</a>&amp; hydra::Vector3R::operator/= </td>
-          <td>(</td>
-          <td class="paramtype">const <a class="el" href="../../d7/dd4/a00013.html#a971e94bcb8c43741d11f9d8eb98f5fab">GReal_t</a>&#160;</td>
-          <td class="paramname"><em>c</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
+<p>Definition at line <a class="el" href="../../d3/d00/a00113_source.html#l00077">77</a> of file <a class="el" href="../../d3/d00/a00113_source.html">Range.h</a>.</p>
 
 </div>
 </div>
-<a class="anchor" id="a384a339d384f1cc4994d98ea1a28fa02"></a>
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">__host__ __device__ void hydra::Vector3R::set </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="../../d7/dd4/a00013.html#a0c9fb4d7195ab952da10a82d5c4ad30e">GInt_t</a>&#160;</td>
-          <td class="paramname"><em>i</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"><a class="el" href="../../d7/dd4/a00013.html#a971e94bcb8c43741d11f9d8eb98f5fab">GReal_t</a>&#160;</td>
-          <td class="paramname"><em>d</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a class="anchor" id="a6daebe5ebbdd7277984e888628fd9c90"></a>
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">__host__ __device__ void hydra::Vector3R::set </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="../../d7/dd4/a00013.html#a971e94bcb8c43741d11f9d8eb98f5fab">GReal_t</a>&#160;</td>
-          <td class="paramname"><em>x</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"><a class="el" href="../../d7/dd4/a00013.html#a971e94bcb8c43741d11f9d8eb98f5fab">GReal_t</a>&#160;</td>
-          <td class="paramname"><em>y</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"><a class="el" href="../../d7/dd4/a00013.html#a971e94bcb8c43741d11f9d8eb98f5fab">GReal_t</a>&#160;</td>
-          <td class="paramname"><em>z</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<h2 class="groupheader">Friends And Related Function Documentation</h2>
-<a class="anchor" id="a5a6b90fe79972df783ad3359d0e1b0a2"></a>
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">__host__ __device__ friend <a class="el" href="../../d1/d84/a00052.html">Vector3R</a> cross </td>
-          <td>(</td>
-          <td class="paramtype">const <a class="el" href="../../d1/d84/a00052.html">Vector3R</a> &amp;&#160;</td>
-          <td class="paramname"><em>v1</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">const <a class="el" href="../../d1/d84/a00052.html">Vector3R</a> &amp;&#160;</td>
-          <td class="paramname"><em>v2</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">friend</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Definition at line <a class="el" href="../../d3/d32/a00105_source.html#l00141">141</a> of file <a class="el" href="../../d3/d32/a00105_source.html">Vector3R.h</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="a42f51311d29ba5c2631d2ac24e50a9f7"></a>
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">__host__ __device__ friend <a class="el" href="../../d1/d84/a00052.html">Vector3R</a> operator* </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="../../d7/dd4/a00013.html#a971e94bcb8c43741d11f9d8eb98f5fab">GReal_t</a>&#160;</td>
-          <td class="paramname"><em>c</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">const <a class="el" href="../../d1/d84/a00052.html">Vector3R</a> &amp;&#160;</td>
-          <td class="paramname"><em>v2</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">friend</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Definition at line <a class="el" href="../../d3/d32/a00105_source.html#l00094">94</a> of file <a class="el" href="../../d3/d32/a00105_source.html">Vector3R.h</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="a9c282233e0c872df6e2a3dbe923ca06e"></a>
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">__host__ __device__ friend <a class="el" href="../../d7/dd4/a00013.html#a971e94bcb8c43741d11f9d8eb98f5fab">GReal_t</a> operator* </td>
-          <td>(</td>
-          <td class="paramtype">const <a class="el" href="../../d1/d84/a00052.html">Vector3R</a> &amp;&#160;</td>
-          <td class="paramname"><em>v1</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">const <a class="el" href="../../d1/d84/a00052.html">Vector3R</a> &amp;&#160;</td>
-          <td class="paramname"><em>v2</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">friend</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Definition at line <a class="el" href="../../d3/d32/a00105_source.html#l00112">112</a> of file <a class="el" href="../../d3/d32/a00105_source.html">Vector3R.h</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="a6050d56557a8edf8394a05262aa57a86"></a>
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">__host__ __device__ friend <a class="el" href="../../d1/d84/a00052.html">Vector3R</a> operator* </td>
-          <td>(</td>
-          <td class="paramtype">const <a class="el" href="../../d1/d84/a00052.html">Vector3R</a> &amp;&#160;</td>
-          <td class="paramname"><em>v1</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"><a class="el" href="../../d7/dd4/a00013.html#a971e94bcb8c43741d11f9d8eb98f5fab">GReal_t</a>&#160;</td>
-          <td class="paramname"><em>c</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">friend</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Definition at line <a class="el" href="../../d3/d32/a00105_source.html#l00100">100</a> of file <a class="el" href="../../d3/d32/a00105_source.html">Vector3R.h</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="a3b3e9c1d2c93535dceb1c5e34cf3967b"></a>
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">__host__ __device__ friend <a class="el" href="../../d1/d84/a00052.html">Vector3R</a> operator+ </td>
-          <td>(</td>
-          <td class="paramtype">const <a class="el" href="../../d1/d84/a00052.html">Vector3R</a> &amp;&#160;</td>
-          <td class="paramname"><em>v1</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">const <a class="el" href="../../d1/d84/a00052.html">Vector3R</a> &amp;&#160;</td>
-          <td class="paramname"><em>v2</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">friend</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Definition at line <a class="el" href="../../d3/d32/a00105_source.html#l00118">118</a> of file <a class="el" href="../../d3/d32/a00105_source.html">Vector3R.h</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="a58732a0e39512d90ee709b63ecf0dd2b"></a>
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">__host__ __device__ friend <a class="el" href="../../d1/d84/a00052.html">Vector3R</a> operator- </td>
-          <td>(</td>
-          <td class="paramtype">const <a class="el" href="../../d1/d84/a00052.html">Vector3R</a> &amp;&#160;</td>
-          <td class="paramname"><em>v1</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">const <a class="el" href="../../d1/d84/a00052.html">Vector3R</a> &amp;&#160;</td>
-          <td class="paramname"><em>v2</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">friend</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Definition at line <a class="el" href="../../d3/d32/a00105_source.html#l00124">124</a> of file <a class="el" href="../../d3/d32/a00105_source.html">Vector3R.h</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="af7380c4ab1cdffa3c7e0d9b933f1a865"></a>
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">__host__ __device__ friend <a class="el" href="../../d1/d84/a00052.html">Vector3R</a> operator/ </td>
-          <td>(</td>
-          <td class="paramtype">const <a class="el" href="../../d1/d84/a00052.html">Vector3R</a> &amp;&#160;</td>
-          <td class="paramname"><em>v1</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"><a class="el" href="../../d7/dd4/a00013.html#a971e94bcb8c43741d11f9d8eb98f5fab">GReal_t</a>&#160;</td>
-          <td class="paramname"><em>c</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">friend</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Definition at line <a class="el" href="../../d3/d32/a00105_source.html#l00106">106</a> of file <a class="el" href="../../d3/d32/a00105_source.html">Vector3R.h</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="a6762890287a9dcdfc3f9459d6e2ba2f7"></a>
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">__host__ friend std::ostream&amp; operator&lt;&lt; </td>
-          <td>(</td>
-          <td class="paramtype">std::ostream &amp;&#160;</td>
-          <td class="paramname"><em>s</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">const <a class="el" href="../../d1/d84/a00052.html">Vector3R</a> &amp;&#160;</td>
-          <td class="paramname"><em>v</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">friend</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Definition at line <a class="el" href="../../d3/d32/a00105_source.html#l00132">132</a> of file <a class="el" href="../../d3/d32/a00105_source.html">Vector3R.h</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="a6b60fa786aea48a7fcc8466a19a49a4a"></a>
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">__host__ __device__ friend <a class="el" href="../../d1/d84/a00052.html">Vector3R</a> rotateEuler </td>
-          <td>(</td>
-          <td class="paramtype">const <a class="el" href="../../d1/d84/a00052.html">Vector3R</a> &amp;&#160;</td>
-          <td class="paramname"><em>v</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"><a class="el" href="../../d7/dd4/a00013.html#a971e94bcb8c43741d11f9d8eb98f5fab">GReal_t</a>&#160;</td>
-          <td class="paramname"><em>phi</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"><a class="el" href="../../d7/dd4/a00013.html#a971e94bcb8c43741d11f9d8eb98f5fab">GReal_t</a>&#160;</td>
-          <td class="paramname"><em>theta</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"><a class="el" href="../../d7/dd4/a00013.html#a971e94bcb8c43741d11f9d8eb98f5fab">GReal_t</a>&#160;</td>
-          <td class="paramname"><em>ksi</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">friend</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<hr/>The documentation for this class was generated from the following file:<ul>
-<li><a class="el" href="../../d3/d32/a00105_source.html">Vector3R.h</a></li>
+<hr/>The documentation for this struct was generated from the following file:<ul>
+<li><a class="el" href="../../d3/d00/a00113_source.html">Range.h</a></li>
 </ul>
 </div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="../../d7/dd4/a00013.html">hydra</a></li><li class="navelem"><a class="el" href="../../d1/d84/a00052.html">Vector3R</a></li>
-    <li class="footer">Generated on Tue Oct 11 2016 04:51:50 for Hydra by
+    <li class="navelem"><a class="el" href="../../d4/d51/a00017.html">hydra</a></li><li class="navelem"><a class="el" href="../../d1/d84/a00052.html">Range</a></li>
+    <li class="footer">Generated on Wed Oct 12 2016 06:08:16 for Hydra by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="../../doxygen.png" alt="doxygen"/></a> 1.8.11 </li>
   </ul>

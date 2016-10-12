@@ -4,7 +4,7 @@
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.11"/>
-<title>Hydra: hydra::Argument&lt; ReturnType &gt; Struct Template Reference</title>
+<title>Hydra: HydraEvaluateExample.cpp File Reference</title>
 <link href="../../tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="../../jquery.js"></script>
 <script type="text/javascript" src="../../dynsections.js"></script>
@@ -56,8 +56,9 @@ var searchBox = new SearchBox("searchBox", "../../search",false,'Search');
     <ul class="tablist">
       <li><a href="../../index.html"><span>Main&#160;Page</span></a></li>
       <li><a href="../../namespaces.html"><span>Namespaces</span></a></li>
-      <li class="current"><a href="../../annotated.html"><span>Classes</span></a></li>
-      <li><a href="../../files.html"><span>Files</span></a></li>
+      <li><a href="../../annotated.html"><span>Classes</span></a></li>
+      <li class="current"><a href="../../files.html"><span>Files</span></a></li>
+      <li><a href="../../examples.html"><span>Examples</span></a></li>
       <li>
         <div id="MSearchBox" class="MSearchBoxInactive">
         <span class="left">
@@ -78,10 +79,8 @@ var searchBox = new SearchBox("searchBox", "../../search",false,'Search');
   </div>
   <div id="navrow2" class="tabs2">
     <ul class="tablist">
-      <li><a href="../../annotated.html"><span>Class&#160;List</span></a></li>
-      <li><a href="../../classes.html"><span>Class&#160;Index</span></a></li>
-      <li><a href="../../inherits.html"><span>Class&#160;Hierarchy</span></a></li>
-      <li><a href="../../functions.html"><span>Class&#160;Members</span></a></li>
+      <li><a href="../../files.html"><span>File&#160;List</span></a></li>
+      <li><a href="../../globals.html"><span>File&#160;Members</span></a></li>
     </ul>
   </div>
 </div><!-- top -->
@@ -115,157 +114,82 @@ $(document).ready(function(){initNavTree('d1/d7c/a00003.html','../../');});
 
 <div class="header">
   <div class="summary">
-<a href="#pub-types">Public Types</a> &#124;
-<a href="#pub-methods">Public Member Functions</a> &#124;
-<a href="../../dd/d52/a00221.html">List of all members</a>  </div>
+<a href="#func-members">Functions</a>  </div>
   <div class="headertitle">
-<div class="title">hydra::Argument&lt; ReturnType &gt; Struct Template Reference</div>  </div>
+<div class="title">HydraEvaluateExample.cpp File Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="dynheader">
-Collaboration diagram for hydra::Argument&lt; ReturnType &gt;:</div>
+
+<p>HydraEvaluateExample take parameters from the command line, fill a range with random numbers and evaluate C++11 lambdas in parallel using the OpenMP backend.  
+<a href="#details">More...</a></p>
+<div class="textblock"><div class="dynheader">
+Include dependency graph for HydraEvaluateExample.cpp:</div>
 <div class="dyncontent">
-<div class="center"><iframe scrolling="no" frameborder="0" src="../../d0/d24/a00222.svg" width="222" height="103"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="../../dc/d52/a00183.svg" width="100%" height="600"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
 </div>
+</div>
+<p><a href="../../d1/d7c/a00003_source.html">Go to the source code of this file.</a></p>
 <table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-types"></a>
-Public Types</h2></td></tr>
-<tr class="memitem:a6b5181815568cf022d3e5b28ba8986c0"><td class="memItemLeft" align="right" valign="top">typedef void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/d7c/a00003.html#a6b5181815568cf022d3e5b28ba8986c0">hydra_functor_tag</a></td></tr>
-<tr class="separator:a6b5181815568cf022d3e5b28ba8986c0"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af05c469ace97c62cf43e7c853317085f"><td class="memItemLeft" align="right" valign="top">typedef ReturnType&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/d7c/a00003.html#af05c469ace97c62cf43e7c853317085f">return_type</a></td></tr>
-<tr class="separator:af05c469ace97c62cf43e7c853317085f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a4e5aabce1dda4a4058143b1585dcec16"><td class="memItemLeft" align="right" valign="top">typedef std::true_type&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/d7c/a00003.html#a4e5aabce1dda4a4058143b1585dcec16">is_functor</a></td></tr>
-<tr class="separator:a4e5aabce1dda4a4058143b1585dcec16"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
-Public Member Functions</h2></td></tr>
-<tr class="memitem:a55b168fac1cb22258652d7334d9adacf"><td class="memItemLeft" align="right" valign="top">__host__&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/d7c/a00003.html#a55b168fac1cb22258652d7334d9adacf">Argument</a> ()</td></tr>
-<tr class="separator:a55b168fac1cb22258652d7334d9adacf"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a26a303d3d6b9be832a70271043b971e7"><td class="memItemLeft" align="right" valign="top">__host__ __device__ <a class="el" href="../../d1/d7c/a00003.html#af05c469ace97c62cf43e7c853317085f">return_type</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/d7c/a00003.html#a26a303d3d6b9be832a70271043b971e7">operator()</a> (<a class="el" href="../../d1/d7c/a00003.html#af05c469ace97c62cf43e7c853317085f">return_type</a> arg)</td></tr>
-<tr class="separator:a26a303d3d6b9be832a70271043b971e7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
+Functions</h2></td></tr>
+<tr class="memitem:a32c166bdb75e9b204c87878f510ea1c5"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../d4/d51/a00017.html#a0c9fb4d7195ab952da10a82d5c4ad30e">GInt_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/d7c/a00003.html#a32c166bdb75e9b204c87878f510ea1c5">main</a> (int argv, char **argc)</td></tr>
+<tr class="separator:a32c166bdb75e9b204c87878f510ea1c5"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><h3>template&lt;typename ReturnType&gt;<br />
-struct hydra::Argument&lt; ReturnType &gt;</h3>
+<div class="textblock"><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">-n</td><td>( &ndash;number-of-events) is number of events to run the example </td></tr>
+  </table>
+  </dd>
+</dl>
 
-
-<p>Definition at line <a class="el" href="../../d1/d22/a00057_source.html#l00042">42</a> of file <a class="el" href="../../d1/d22/a00057_source.html">Argument.h</a>.</p>
-</div><h2 class="groupheader">Member Typedef Documentation</h2>
-<a class="anchor" id="a6b5181815568cf022d3e5b28ba8986c0"></a>
+<p>Definition in file <a class="el" href="../../d1/d7c/a00003_source.html">HydraEvaluateExample.cpp</a>.</p>
+</div><h2 class="groupheader">Function Documentation</h2>
+<a class="anchor" id="a32c166bdb75e9b204c87878f510ea1c5"></a>
 <div class="memitem">
 <div class="memproto">
-<div class="memtemplate">
-template&lt;typename ReturnType &gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname">typedef void <a class="el" href="../../d1/d7c/a00003.html">hydra::Argument</a>&lt; ReturnType &gt;::<a class="el" href="../../d1/d7c/a00003.html#a6b5181815568cf022d3e5b28ba8986c0">hydra_functor_tag</a></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Definition at line <a class="el" href="../../d1/d22/a00057_source.html#l00048">48</a> of file <a class="el" href="../../d1/d22/a00057_source.html">Argument.h</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="a4e5aabce1dda4a4058143b1585dcec16"></a>
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;typename ReturnType &gt; </div>
-      <table class="memname">
-        <tr>
-          <td class="memname">typedef std::true_type <a class="el" href="../../d1/d7c/a00003.html">hydra::Argument</a>&lt; ReturnType &gt;::<a class="el" href="../../d1/d7c/a00003.html#a4e5aabce1dda4a4058143b1585dcec16">is_functor</a></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Definition at line <a class="el" href="../../d1/d22/a00057_source.html#l00051">51</a> of file <a class="el" href="../../d1/d22/a00057_source.html">Argument.h</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="af05c469ace97c62cf43e7c853317085f"></a>
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;typename ReturnType &gt; </div>
-      <table class="memname">
-        <tr>
-          <td class="memname">typedef ReturnType <a class="el" href="../../d1/d7c/a00003.html">hydra::Argument</a>&lt; ReturnType &gt;::<a class="el" href="../../d1/d7c/a00003.html#af05c469ace97c62cf43e7c853317085f">return_type</a></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Definition at line <a class="el" href="../../d1/d22/a00057_source.html#l00049">49</a> of file <a class="el" href="../../d1/d22/a00057_source.html">Argument.h</a>.</p>
-
-</div>
-</div>
-<h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
-<a class="anchor" id="a55b168fac1cb22258652d7334d9adacf"></a>
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;typename ReturnType &gt; </div>
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">__host__ <a class="el" href="../../d1/d7c/a00003.html">hydra::Argument</a>&lt; ReturnType &gt;::<a class="el" href="../../d1/d7c/a00003.html">Argument</a> </td>
+          <td class="memname"><a class="el" href="../../d4/d51/a00017.html#a0c9fb4d7195ab952da10a82d5c4ad30e">GInt_t</a> main </td>
           <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>argv</em>, </td>
         </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Definition at line <a class="el" href="../../d1/d22/a00057_source.html#l00052">52</a> of file <a class="el" href="../../d1/d22/a00057_source.html">Argument.h</a>.</p>
-
-</div>
-</div>
-<h2 class="groupheader">Member Function Documentation</h2>
-<a class="anchor" id="a26a303d3d6b9be832a70271043b971e7"></a>
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;typename ReturnType &gt; </div>
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
         <tr>
-          <td class="memname">__host__ __device__ <a class="el" href="../../d1/d7c/a00003.html#af05c469ace97c62cf43e7c853317085f">return_type</a> <a class="el" href="../../d1/d7c/a00003.html">hydra::Argument</a>&lt; ReturnType &gt;::operator() </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="../../d1/d7c/a00003.html#af05c469ace97c62cf43e7c853317085f">return_type</a>&#160;</td>
-          <td class="paramname"><em>arg</em></td><td>)</td>
+          <td class="paramkey"></td>
           <td></td>
+          <td class="paramtype">char **&#160;</td>
+          <td class="paramname"><em>argc</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
         </tr>
       </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
-  </tr>
-</table>
 </div><div class="memdoc">
+<dl><dt><b>Examples: </b></dt><dd><a class="el" href="../../d0/d0b/a00004.html#a0">HydraEvaluateExample.cpp</a>.</dd>
+</dl>
+<p>Definition at line <a class="el" href="../../d1/d7c/a00003_source.html#l00070">70</a> of file <a class="el" href="../../d1/d7c/a00003_source.html">HydraEvaluateExample.cpp</a>.</p>
 
-<p>Definition at line <a class="el" href="../../d1/d22/a00057_source.html#l00056">56</a> of file <a class="el" href="../../d1/d22/a00057_source.html">Argument.h</a>.</p>
+<p>References <a class="el" href="../../db/df8/a00076_source.html#l00063">hydra::Eval()</a>, <a class="el" href="../../d3/d00/a00113_source.html#l00107">hydra::make_range()</a>, <a class="el" href="../../d9/d4b/a00117_source.html#l00070">PI</a>, <a class="el" href="../../d2/d79/a00051.html#aff81053c79f3cfbb30b212127d2c73ef">hydra::Random&lt; GRND &gt;::Uniform()</a>, and <a class="el" href="../../d4/d63/a00082_source.html#l00085">hydra::wrap_lambda()</a>.</p>
+
+<p><div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><iframe scrolling="no" frameborder="0" src="../../d1/d7c/a00003_a32c166bdb75e9b204c87878f510ea1c5_cgraph.svg" width="462" height="190"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+</div>
+</p>
 
 </div>
 </div>
-<hr/>The documentation for this struct was generated from the following file:<ul>
-<li><a class="el" href="../../d1/d22/a00057_source.html">Argument.h</a></li>
-</ul>
 </div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="../../d7/dd4/a00013.html">hydra</a></li><li class="navelem"><a class="el" href="../../d1/d7c/a00003.html">Argument</a></li>
-    <li class="footer">Generated on Tue Oct 11 2016 04:51:50 for Hydra by
+    <li class="navelem"><a class="el" href="../../dir_92a1ff494355b06c14c0e1fe7b982d29.html">Hydra</a></li><li class="navelem"><a class="el" href="../../dir_459308fd93161996409217d5ca7d39d3.html">src</a></li><li class="navelem"><a class="el" href="../../d1/d7c/a00003.html">HydraEvaluateExample.cpp</a></li>
+    <li class="footer">Generated on Wed Oct 12 2016 06:08:16 for Hydra by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="../../doxygen.png" alt="doxygen"/></a> 1.8.11 </li>
   </ul>

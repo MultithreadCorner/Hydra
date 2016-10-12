@@ -4,7 +4,7 @@
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.11"/>
-<title>Hydra: LogLikelihoodFCN.h File Reference</title>
+<title>Hydra: FunctionWrapper.h File Reference</title>
 <link href="../../tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="../../jquery.js"></script>
 <script type="text/javascript" src="../../dynsections.js"></script>
@@ -58,6 +58,7 @@ var searchBox = new SearchBox("searchBox", "../../search",false,'Search');
       <li><a href="../../namespaces.html"><span>Namespaces</span></a></li>
       <li><a href="../../annotated.html"><span>Classes</span></a></li>
       <li class="current"><a href="../../files.html"><span>Files</span></a></li>
+      <li><a href="../../examples.html"><span>Examples</span></a></li>
       <li>
         <div id="MSearchBox" class="MSearchBoxInactive">
         <span class="left">
@@ -117,44 +118,72 @@ $(document).ready(function(){initNavTree('d4/d63/a00082.html','../../');});
 <a href="#namespaces">Namespaces</a> &#124;
 <a href="#func-members">Functions</a>  </div>
   <div class="headertitle">
-<div class="title">LogLikelihoodFCN.h File Reference</div>  </div>
+<div class="title">FunctionWrapper.h File Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
 <div class="textblock"><div class="dynheader">
-Include dependency graph for LogLikelihoodFCN.h:</div>
+Include dependency graph for FunctionWrapper.h:</div>
 <div class="dyncontent">
-<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="../../dd/dae/a00163.svg" width="100%" height="600"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
+<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="../../d5/dcb/a00170.svg" width="100%" height="600"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
+</div>
+</div><div class="textblock"><div class="dynheader">
+This graph shows which files directly or indirectly include this file:</div>
+<div class="dyncontent">
+<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="../../d1/d0d/a00171.svg" width="100%" height="384"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+</div>
 </div>
 </div>
 <p><a href="../../d4/d63/a00082_source.html">Go to the source code of this file.</a></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="nested-classes"></a>
 Classes</h2></td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dc/d3c/a00028.html">hydra::LogLikelihoodFCN&lt; FUNCTOR, IteratorData, IteratorCache &gt;</a></td></tr>
+<tr class="memitem:d9/d47/a00129"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d4/d51/a00017.html#d9/d47/a00129">hydra::LambdaWrapper&lt; Sig, L, typename &gt;</a></td></tr>
+<tr class="separator:d9/d47/a00129"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/dc0/a00033.html">hydra::LambdaWrapper&lt; ReturnType(ArgType), L &gt;</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="namespaces"></a>
 Namespaces</h2></td></tr>
-<tr class="memitem:d7/dd4/a00013"><td class="memItemLeft" align="right" valign="top"> &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d7/dd4/a00013.html">hydra</a></td></tr>
-<tr class="memdesc:d7/dd4/a00013"><td class="mdescLeft">&#160;</td><td class="mdescRight">Variable object to use on types convertible to double. <br /></td></tr>
+<tr class="memitem:d4/d51/a00017"><td class="memItemLeft" align="right" valign="top"> &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d4/d51/a00017.html">hydra</a></td></tr>
+<tr class="memdesc:d4/d51/a00017"><td class="mdescLeft">&#160;</td><td class="mdescRight">Variable object to use on types convertible to double. <br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:a0a0d4c1f486d6286929d31f9844f13fb"><td class="memTemplParams" colspan="2">template&lt;typename FUNCTOR , typename IteratorData &gt; </td></tr>
-<tr class="memitem:a0a0d4c1f486d6286929d31f9844f13fb"><td class="memTemplItemLeft" align="right" valign="top">LogLikelihoodFCN&lt; FUNCTOR, IteratorData, thrust::constant_iterator&lt; null_type &gt; &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="../../d7/dd4/a00013.html#a0a0d4c1f486d6286929d31f9844f13fb">hydra::make_loglikehood_fcn</a> (FUNCTOR &amp;functor, IteratorData begin, IteratorData end)</td></tr>
-<tr class="separator:a0a0d4c1f486d6286929d31f9844f13fb"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af3643760e6defde83dcdc47746378f82"><td class="memTemplParams" colspan="2">template&lt;typename FUNCTOR , typename IteratorData , typename IteratorCache &gt; </td></tr>
-<tr class="memitem:af3643760e6defde83dcdc47746378f82"><td class="memTemplItemLeft" align="right" valign="top">LogLikelihoodFCN&lt; FUNCTOR, IteratorData, IteratorCache &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="../../d7/dd4/a00013.html#af3643760e6defde83dcdc47746378f82">hydra::make_loglikehood_fcn</a> (FUNCTOR &amp;functor, IteratorData begin, IteratorData end, IteratorCache cache)</td></tr>
-<tr class="separator:af3643760e6defde83dcdc47746378f82"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a53506830108537bc49811415296ba738"><td class="memTemplParams" colspan="2">template&lt;typename L &gt; </td></tr>
+<tr class="memitem:a53506830108537bc49811415296ba738"><td class="memTemplItemLeft" align="right" valign="top">auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="../../d4/d51/a00017.html#a53506830108537bc49811415296ba738">hydra::wrap_lambda</a> (L const &amp;f) -&gt; decltype(detail::wrap_lambda_helper(f, typename detail::function_traits&lt; L &gt;::return_type(), typename detail::function_traits&lt; L &gt;::args_type()))</td></tr>
+<tr class="separator:a53506830108537bc49811415296ba738"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
+<hr/><h2 class="groupheader">Class Documentation</h2>
+<a name="d9/d47/a00129" id="d9/d47/a00129"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">struct hydra::LambdaWrapper</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<div class="textblock"><h3>template&lt;typename Sig, typename L, typename = typename std::enable_if&lt;std::is_constructible&lt;std::function&lt;Sig&gt;, L&gt;::value&gt;::type&gt;<br />
+struct hydra::LambdaWrapper&lt; Sig, L, typename &gt;</h3>
+
+
+<p>Definition at line <a class="el" href="../../d4/d63/a00082_source.html#l00044">44</a> of file <a class="el" href="../../d4/d63/a00082_source.html">FunctionWrapper.h</a>.</p>
+</div><div class="dynheader">
+Collaboration diagram for hydra::LambdaWrapper&lt; Sig, L, typename &gt;:</div>
+<div class="dyncontent">
+<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="../../d6/dfb/a00172.svg" width="100%" height="600"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
+</div>
+
+</div>
+</div>
 </div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="../../dir_92a1ff494355b06c14c0e1fe7b982d29.html">Hydra</a></li><li class="navelem"><a class="el" href="../../dir_108162cc96056bf8ace3602d16680a1c.html">hydra</a></li><li class="navelem"><a class="el" href="../../d4/d63/a00082.html">LogLikelihoodFCN.h</a></li>
-    <li class="footer">Generated on Tue Oct 11 2016 04:51:50 for Hydra by
+    <li class="navelem"><a class="el" href="../../dir_92a1ff494355b06c14c0e1fe7b982d29.html">Hydra</a></li><li class="navelem"><a class="el" href="../../dir_108162cc96056bf8ace3602d16680a1c.html">hydra</a></li><li class="navelem"><a class="el" href="../../d4/d63/a00082.html">FunctionWrapper.h</a></li>
+    <li class="footer">Generated on Wed Oct 12 2016 06:08:16 for Hydra by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="../../doxygen.png" alt="doxygen"/></a> 1.8.11 </li>
   </ul>

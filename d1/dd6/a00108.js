@@ -1,8 +1,12 @@
 var a00108 =
 [
-    [ "VegasState", "d4/d6d/a00055.html", "d4/d6d/a00055" ],
-    [ "MODE_IMPORTANCE", "d1/dd6/a00108.html#ad87c68ca6adb981f4c31ae73ef97de3baae772e8b4c5ada0e1e4c65495702176a", null ],
-    [ "MODE_IMPORTANCE_ONLY", "d1/dd6/a00108.html#ad87c68ca6adb981f4c31ae73ef97de3ba28550661921a3af1306fa74a26b8569c", null ],
-    [ "MODE_STRATIFIED", "d1/dd6/a00108.html#ad87c68ca6adb981f4c31ae73ef97de3bacb2c0124fecbf6c1182f1cf7cd9bc37a", null ],
-    [ "BINS_MAX", "d1/dd6/a00108.html#ad87c68ca6adb981f4c31ae73ef97de3baba2629d0445cc7ef401fd6793f047da0", null ]
+    [ "Print", "d3/dea/a00046.html", null ],
+    [ "HYDRA_CALLER", "d1/dd6/a00108.html#adce7e06d35dfc3cbe321824b650d7d7c", null ],
+    [ "HYDRA_ENDL", "d1/dd6/a00108.html#a91c614cede5ff154b5c29a405d23c0c4", null ],
+    [ "HYDRA_LOG", "d1/dd6/a00108.html#a1036315778d5f77a9bc3f8febf449568", null ],
+    [ "HYDRA_MSG", "d1/dd6/a00108.html#a3ac4ae8d1f7d698b15cf4ba2dc950c02", null ],
+    [ "INFO", "d1/dd6/a00108.html#aed873b1b84fbec3791e721b22a52d1fea4517ec382985cb7a39393c0da09e58d5", null ],
+    [ "WARNING", "d1/dd6/a00108.html#aed873b1b84fbec3791e721b22a52d1fea1bf857a06d5b8463494a6fcac6f4ea26", null ],
+    [ "ERROR", "d1/dd6/a00108.html#aed873b1b84fbec3791e721b22a52d1feadbc96f88184ea3a51f68df95e2b44851", null ],
+    [ "PrintLevel", "d1/dd6/a00108.html#a5afb8f1b6ea1ba2b8fc79444e5d20f20", null ]
 ];

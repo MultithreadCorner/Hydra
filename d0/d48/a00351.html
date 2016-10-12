@@ -58,6 +58,7 @@ var searchBox = new SearchBox("searchBox", "../../search",false,'Search');
       <li><a href="../../namespaces.html"><span>Namespaces</span></a></li>
       <li class="current"><a href="../../annotated.html"><span>Classes</span></a></li>
       <li><a href="../../files.html"><span>Files</span></a></li>
+      <li><a href="../../examples.html"><span>Examples</span></a></li>
       <li>
         <div id="MSearchBox" class="MSearchBoxInactive">
         <span class="left">
@@ -96,7 +97,7 @@ var searchBox = new SearchBox("searchBox", "../../search",false,'Search');
   </div>
 </div>
 <script type="text/javascript">
-$(document).ready(function(){initNavTree('de/d21/a00006.html','../../');});
+$(document).ready(function(){initNavTree('d2/d79/a00051.html','../../');});
 </script>
 <div id="doc-content">
 <!-- window showing the filter options -->
@@ -115,19 +116,30 @@ $(document).ready(function(){initNavTree('de/d21/a00006.html','../../');});
 
 <div class="header">
   <div class="headertitle">
-<div class="title">std::common_type&lt; thrust::complex&lt; U &gt;, T &gt; Member List</div>  </div>
+<div class="title">hydra::Random&lt; GRND &gt; Member List</div>  </div>
 </div><!--header-->
 <div class="contents">
 
-<p>This is the complete list of members for <a class="el" href="../../de/d21/a00006.html">std::common_type&lt; thrust::complex&lt; U &gt;, T &gt;</a>, including all inherited members.</p>
+<p>This is the complete list of members for <a class="el" href="../../d2/d79/a00051.html">hydra::Random&lt; GRND &gt;</a>, including all inherited members.</p>
 <table class="directory">
-  <tr class="even"><td class="entry"><a class="el" href="../../de/d21/a00006.html#a8087b719d90529a4a081839f9201e530">type</a> typedef</td><td class="entry"><a class="el" href="../../de/d21/a00006.html">std::common_type&lt; thrust::complex&lt; U &gt;, T &gt;</a></td><td class="entry"></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="../../d2/d79/a00051.html#a1d1d32fe3630bb302342c6dffae639f3">BreitWigner</a>(GReal_t mean, GReal_t gamma, Iterator begin, Iterator end)</td><td class="entry"><a class="el" href="../../d2/d79/a00051.html">hydra::Random&lt; GRND &gt;</a></td><td class="entry"></td></tr>
+  <tr><td class="entry"><a class="el" href="../../d2/d79/a00051.html#a3dbc414994aa19965b7ff815300aff96">Exp</a>(GReal_t tau, Iterator begin, Iterator end)</td><td class="entry"><a class="el" href="../../d2/d79/a00051.html">hydra::Random&lt; GRND &gt;</a></td><td class="entry"></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="../../d2/d79/a00051.html#aeafd0b8dd2740a3943457b8c8e06d1dd">Gauss</a>(GReal_t mean, GReal_t sigma, Iterator begin, Iterator end)</td><td class="entry"><a class="el" href="../../d2/d79/a00051.html">hydra::Random&lt; GRND &gt;</a></td><td class="entry"></td></tr>
+  <tr><td class="entry"><a class="el" href="../../d2/d79/a00051.html#a54f7a7d5dc3853559ef1665ccd1265e9">GetSeed</a>() const </td><td class="entry"><a class="el" href="../../d2/d79/a00051.html">hydra::Random&lt; GRND &gt;</a></td><td class="entry"><span class="mlabel">inline</span></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="../../d2/d79/a00051.html#aca3224e0c691d1503b25ac318b5b4f4d">InverseCDF</a>(FUNCTOR const &amp;invcdf, Iterator begin, Iterator end)</td><td class="entry"><a class="el" href="../../d2/d79/a00051.html">hydra::Random&lt; GRND &gt;</a></td><td class="entry"></td></tr>
+  <tr><td class="entry"><a class="el" href="../../d2/d79/a00051.html#a15c8e7b83092354d3e9e5e4bea7b5d01">Random</a>(GUInt_t seed)</td><td class="entry"><a class="el" href="../../d2/d79/a00051.html">hydra::Random&lt; GRND &gt;</a></td><td class="entry"><span class="mlabel">inline</span></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="../../d2/d79/a00051.html#a036724d7827e97caf7963e5daffde5fd">Random</a>(Random const &amp;other)</td><td class="entry"><a class="el" href="../../d2/d79/a00051.html">hydra::Random&lt; GRND &gt;</a></td><td class="entry"><span class="mlabel">inline</span></td></tr>
+  <tr><td class="entry"><a class="el" href="../../d2/d79/a00051.html#a2f6f0199659a7a31b893da88809f0d4b">Sample</a>(FUNCTOR const &amp;functor, std::array&lt; GReal_t, N &gt; min, std::array&lt; GReal_t, N &gt; max, size_t trials) -&gt; typename detail::if_then_else&lt; BACKEND, mc_device_vector&lt; typename detail::tuple_type&lt; N, GReal_t &gt;::type &gt;, mc_host_vector&lt; typename detail::tuple_type&lt; N, GReal_t &gt;::type &gt; &gt;::type</td><td class="entry"><a class="el" href="../../d2/d79/a00051.html">hydra::Random&lt; GRND &gt;</a></td><td class="entry"></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="../../d2/d79/a00051.html#ad03545cd4d346f8639caa3acf293e9e8">Sample</a>(FUNCTOR const &amp;functor, std::array&lt; GReal_t, N &gt; min, std::array&lt; GReal_t, N &gt; max, PointVector&lt; BACKEND, GReal_t, N, false, false &gt; &amp;result, size_t trials)</td><td class="entry"><a class="el" href="../../d2/d79/a00051.html">hydra::Random&lt; GRND &gt;</a></td><td class="entry"></td></tr>
+  <tr><td class="entry"><a class="el" href="../../d2/d79/a00051.html#ade43b0c4c234c35cd10b5b984a6a555e">SetSeed</a>(GUInt_t seed)</td><td class="entry"><a class="el" href="../../d2/d79/a00051.html">hydra::Random&lt; GRND &gt;</a></td><td class="entry"><span class="mlabel">inline</span></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="../../d2/d79/a00051.html#aff81053c79f3cfbb30b212127d2c73ef">Uniform</a>(GReal_t min, GReal_t max, Iterator begin, Iterator end)</td><td class="entry"><a class="el" href="../../d2/d79/a00051.html">hydra::Random&lt; GRND &gt;</a></td><td class="entry"></td></tr>
+  <tr><td class="entry"><a class="el" href="../../d2/d79/a00051.html#abd8e96c690c86807455b92f641b1ad0e">~Random</a>()</td><td class="entry"><a class="el" href="../../d2/d79/a00051.html">hydra::Random&lt; GRND &gt;</a></td><td class="entry"><span class="mlabel">inline</span></td></tr>
 </table></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="footer">Generated on Tue Oct 11 2016 03:12:42 for Hydra by
+    <li class="footer">Generated on Wed Oct 12 2016 06:08:16 for Hydra by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="../../doxygen.png" alt="doxygen"/></a> 1.8.11 </li>
   </ul>

@@ -4,7 +4,7 @@
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.11"/>
-<title>Hydra: hydra::Range&lt; Iterator &gt; Struct Template Reference</title>
+<title>Hydra: hydra::PointVector&lt; BACKEND, T, N, V_ERROR, C_ERROR &gt; Class Template Reference</title>
 <link href="../../tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="../../jquery.js"></script>
 <script type="text/javascript" src="../../dynsections.js"></script>
@@ -58,6 +58,7 @@ var searchBox = new SearchBox("searchBox", "../../search",false,'Search');
       <li><a href="../../namespaces.html"><span>Namespaces</span></a></li>
       <li class="current"><a href="../../annotated.html"><span>Classes</span></a></li>
       <li><a href="../../files.html"><span>Files</span></a></li>
+      <li><a href="../../examples.html"><span>Examples</span></a></li>
       <li>
         <div id="MSearchBox" class="MSearchBoxInactive">
         <span class="left">
@@ -117,115 +118,175 @@ $(document).ready(function(){initNavTree('d6/d97/a00045.html','../../');});
   <div class="summary">
 <a href="#pub-types">Public Types</a> &#124;
 <a href="#pub-methods">Public Member Functions</a> &#124;
-<a href="../../d0/da2/a00307.html">List of all members</a>  </div>
+<a href="../../d4/dce/a00337.html">List of all members</a>  </div>
   <div class="headertitle">
-<div class="title">hydra::Range&lt; Iterator &gt; Struct Template Reference</div>  </div>
+<div class="title">hydra::PointVector&lt; BACKEND, T, N, V_ERROR, C_ERROR &gt; Class Template Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
 
-<p><a class="el" href="../../d6/d97/a00045.html" title="Range helper class to use with hydra::Eval. ">Range</a> helper class to use with <a class="el" href="../../d7/dd4/a00013.html#a792f64fe5b6422f76bcf028f92ac2861">hydra::Eval</a>.  
+<p><a class="el" href="../../d6/d97/a00045.html" title="PointVector wraps a thrust::vector&lt;Points&lt;T,N&gt;&gt; and provide methods. ">PointVector</a> wraps a thrust::vector&lt;Points&lt;T,N&gt;&gt; and provide methods.  
  <a href="../../d6/d97/a00045.html#details">More...</a></p>
 <div class="dynheader">
-Collaboration diagram for hydra::Range&lt; Iterator &gt;:</div>
+Collaboration diagram for hydra::PointVector&lt; BACKEND, T, N, V_ERROR, C_ERROR &gt;:</div>
 <div class="dyncontent">
-<div class="center"><iframe scrolling="no" frameborder="0" src="../../d5/d0f/a00308.svg" width="176" height="206"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+<div class="center"><iframe scrolling="no" frameborder="0" src="../../dc/d84/a00338.svg" width="222" height="323"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 </div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-types"></a>
 Public Types</h2></td></tr>
-<tr class="memitem:ab3c10b3fa6c465a320e12139eca3c4dc"><td class="memItemLeft" align="right" valign="top">typedef thrust::iterator_value&lt; Iterator &gt;::type&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d6/d97/a00045.html#ab3c10b3fa6c465a320e12139eca3c4dc">value_type</a></td></tr>
-<tr class="separator:ab3c10b3fa6c465a320e12139eca3c4dc"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a3d1ff476ba9cf6a4ac076d8fbf61e5fb"><td class="memItemLeft" align="right" valign="top">typedef thrust::iterator_system&lt; Iterator &gt;::type&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d6/d97/a00045.html#a3d1ff476ba9cf6a4ac076d8fbf61e5fb">system</a></td></tr>
-<tr class="separator:a3d1ff476ba9cf6a4ac076d8fbf61e5fb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a42f93155dacf6e5a5991254c07d5cde4"><td class="memItemLeft" align="right" valign="top">typedef detail::BackendTraits&lt; BACKEND &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d6/d97/a00045.html#a42f93155dacf6e5a5991254c07d5cde4">system_t</a></td></tr>
+<tr class="separator:a42f93155dacf6e5a5991254c07d5cde4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a55930b3d4b822dd7a9d63b676f514344"><td class="memItemLeft" align="right" valign="top">typedef system_t::template container&lt; <a class="el" href="../../d6/d42/a00043.html">Point</a>&lt; T, N, V_ERROR, C_ERROR &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d6/d97/a00045.html#a55930b3d4b822dd7a9d63b676f514344">type</a></td></tr>
+<tr class="separator:a55930b3d4b822dd7a9d63b676f514344"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3b7f1377161eb315d0b7a7f6cae42f70"><td class="memItemLeft" align="right" valign="top">typedef <a class="el" href="../../d6/d42/a00043.html">Point</a>&lt; T, N, V_ERROR, C_ERROR &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d6/d97/a00045.html#a3b7f1377161eb315d0b7a7f6cae42f70">value_type</a></td></tr>
+<tr class="separator:a3b7f1377161eb315d0b7a7f6cae42f70"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae801a5e2ec80d8b77955ea5abb4eee35"><td class="memItemLeft" align="right" valign="top">typedef type::const_iterator&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d6/d97/a00045.html#ae801a5e2ec80d8b77955ea5abb4eee35">const_iterator</a></td></tr>
+<tr class="separator:ae801a5e2ec80d8b77955ea5abb4eee35"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abdd47cfbf4500e3ee65aba2c1e53c4d0"><td class="memItemLeft" align="right" valign="top">typedef type::iterator&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d6/d97/a00045.html#abdd47cfbf4500e3ee65aba2c1e53c4d0">iterator</a></td></tr>
+<tr class="separator:abdd47cfbf4500e3ee65aba2c1e53c4d0"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a5dc48cd8f01a6f195aabe4c9758fc487"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d6/d97/a00045.html#a5dc48cd8f01a6f195aabe4c9758fc487">Range</a> (Iterator <a class="el" href="../../d6/d97/a00045.html#afadbbfb8b604a4fa704674dfdbbec25d">begin</a>, Iterator <a class="el" href="../../d6/d97/a00045.html#ac2150681c29eaf23b4fb7c373bd75817">end</a>)</td></tr>
-<tr class="memdesc:a5dc48cd8f01a6f195aabe4c9758fc487"><td class="mdescLeft">&#160;</td><td class="mdescRight">ctor taking begin and end iterators  <a href="#a5dc48cd8f01a6f195aabe4c9758fc487">More...</a><br /></td></tr>
-<tr class="separator:a5dc48cd8f01a6f195aabe4c9758fc487"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a8ebd56675d4a104c78ed6b206f6536f0"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d6/d97/a00045.html#a8ebd56675d4a104c78ed6b206f6536f0">Range</a> (Iterator <a class="el" href="../../d6/d97/a00045.html#afadbbfb8b604a4fa704674dfdbbec25d">begin</a>, size_t n)</td></tr>
-<tr class="memdesc:a8ebd56675d4a104c78ed6b206f6536f0"><td class="mdescLeft">&#160;</td><td class="mdescRight">ctor taking begin iterator and number of elements end iterator will be (begin + n)  <a href="#a8ebd56675d4a104c78ed6b206f6536f0">More...</a><br /></td></tr>
-<tr class="separator:a8ebd56675d4a104c78ed6b206f6536f0"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a39e73b6c55bec7e7d1e300ea4c363d46"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../d6/d97/a00045.html#ab3c10b3fa6c465a320e12139eca3c4dc">value_type</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d6/d97/a00045.html#a39e73b6c55bec7e7d1e300ea4c363d46">operator()</a> (const size_t idx)</td></tr>
-<tr class="separator:a39e73b6c55bec7e7d1e300ea4c363d46"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a3e250b764bb405499e87da7980c527e5"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../d6/d97/a00045.html#ab3c10b3fa6c465a320e12139eca3c4dc">value_type</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d6/d97/a00045.html#a3e250b764bb405499e87da7980c527e5">operator[]</a> (const size_t idx)</td></tr>
-<tr class="separator:a3e250b764bb405499e87da7980c527e5"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a1b03fd45f75f3b6d101f7dacb9a16727"><td class="memItemLeft" align="right" valign="top">size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d6/d97/a00045.html#a1b03fd45f75f3b6d101f7dacb9a16727">size</a> ()</td></tr>
-<tr class="separator:a1b03fd45f75f3b6d101f7dacb9a16727"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:afadbbfb8b604a4fa704674dfdbbec25d"><td class="memItemLeft" align="right" valign="top">const Iterator&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d6/d97/a00045.html#afadbbfb8b604a4fa704674dfdbbec25d">begin</a> () const </td></tr>
-<tr class="separator:afadbbfb8b604a4fa704674dfdbbec25d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac2150681c29eaf23b4fb7c373bd75817"><td class="memItemLeft" align="right" valign="top">const Iterator&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d6/d97/a00045.html#ac2150681c29eaf23b4fb7c373bd75817">end</a> () const </td></tr>
-<tr class="separator:ac2150681c29eaf23b4fb7c373bd75817"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a0e2634f7832012283e164522232498b2"><td class="memItemLeft" align="right" valign="top">Iterator&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d6/d97/a00045.html#a0e2634f7832012283e164522232498b2">begin</a> ()</td></tr>
-<tr class="separator:a0e2634f7832012283e164522232498b2"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a98aa9762067de937e4eb65cd483bcb89"><td class="memItemLeft" align="right" valign="top">Iterator&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d6/d97/a00045.html#a98aa9762067de937e4eb65cd483bcb89">end</a> ()</td></tr>
-<tr class="separator:a98aa9762067de937e4eb65cd483bcb89"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5ac07313cff38cbdc43921e0e6300263"><td class="memItemLeft" align="right" valign="top">__host__&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d6/d97/a00045.html#a5ac07313cff38cbdc43921e0e6300263">PointVector</a> ()</td></tr>
+<tr class="separator:a5ac07313cff38cbdc43921e0e6300263"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a59d23e549c35e6f49555920721458e00"><td class="memItemLeft" align="right" valign="top">__host__&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d6/d97/a00045.html#a59d23e549c35e6f49555920721458e00">PointVector</a> (size_t n)</td></tr>
+<tr class="separator:a59d23e549c35e6f49555920721458e00"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8b1cfd469819ae428a50d872d0a9685d"><td class="memTemplParams" colspan="2">template&lt;unsigned int BACKEND2&gt; </td></tr>
+<tr class="memitem:a8b1cfd469819ae428a50d872d0a9685d"><td class="memTemplItemLeft" align="right" valign="top">__host__&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="../../d6/d97/a00045.html#a8b1cfd469819ae428a50d872d0a9685d">PointVector</a> (<a class="el" href="../../d6/d97/a00045.html">PointVector</a>&lt; BACKEND2, T, N, V_ERROR, C_ERROR &gt; const &amp;other)</td></tr>
+<tr class="separator:a8b1cfd469819ae428a50d872d0a9685d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad3b8f2f1f8932631537dd80a96b3747f"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d6/d97/a00045.html#ad3b8f2f1f8932631537dd80a96b3747f">~PointVector</a> ()</td></tr>
+<tr class="separator:ad3b8f2f1f8932631537dd80a96b3747f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae28e61569eba74a655ba5ab31f18607d"><td class="memItemLeft" align="right" valign="top">__host__ const <a class="el" href="../../d6/d97/a00045.html#a55930b3d4b822dd7a9d63b676f514344">type</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d6/d97/a00045.html#ae28e61569eba74a655ba5ab31f18607d">GetPoints</a> () const </td></tr>
+<tr class="memdesc:ae28e61569eba74a655ba5ab31f18607d"><td class="mdescLeft">&#160;</td><td class="mdescRight">get access to the underlying container  <a href="#ae28e61569eba74a655ba5ab31f18607d">More...</a><br /></td></tr>
+<tr class="separator:ae28e61569eba74a655ba5ab31f18607d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad90e8de616316848fb5deb9878115d9c"><td class="memItemLeft" align="right" valign="top">__host__ <a class="el" href="../../d6/d97/a00045.html#a55930b3d4b822dd7a9d63b676f514344">type</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d6/d97/a00045.html#ad90e8de616316848fb5deb9878115d9c">GetPoints</a> ()</td></tr>
+<tr class="separator:ad90e8de616316848fb5deb9878115d9c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a17e12e1ea66db466a04b6118e61c628d"><td class="memItemLeft" align="right" valign="top">__host__ void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d6/d97/a00045.html#a17e12e1ea66db466a04b6118e61c628d">AddPoint</a> (<a class="el" href="../../d6/d97/a00045.html#a3b7f1377161eb315d0b7a7f6cae42f70">value_type</a> const &amp;point)</td></tr>
+<tr class="memdesc:a17e12e1ea66db466a04b6118e61c628d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Add a new point.  <a href="#a17e12e1ea66db466a04b6118e61c628d">More...</a><br /></td></tr>
+<tr class="separator:a17e12e1ea66db466a04b6118e61c628d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2f67e5552530c5090d16bba717afa114"><td class="memItemLeft" align="right" valign="top">__host__ <a class="el" href="../../d6/d97/a00045.html#a3b7f1377161eb315d0b7a7f6cae42f70">value_type</a> const &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d6/d97/a00045.html#a2f67e5552530c5090d16bba717afa114">GetPoint</a> (size_t i) const </td></tr>
+<tr class="separator:a2f67e5552530c5090d16bba717afa114"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0ffe74b37ca6de1bf3ae775a7e57a74f"><td class="memItemLeft" align="right" valign="top">__host__ <a class="el" href="../../d6/d97/a00045.html#ae801a5e2ec80d8b77955ea5abb4eee35">const_iterator</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d6/d97/a00045.html#a0ffe74b37ca6de1bf3ae775a7e57a74f">begin</a> () const </td></tr>
+<tr class="memdesc:a0ffe74b37ca6de1bf3ae775a7e57a74f"><td class="mdescLeft">&#160;</td><td class="mdescRight">constant iterator access  <a href="#a0ffe74b37ca6de1bf3ae775a7e57a74f">More...</a><br /></td></tr>
+<tr class="separator:a0ffe74b37ca6de1bf3ae775a7e57a74f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1f73f2ef01b12db0eb5e3bd8b9d9dc7a"><td class="memItemLeft" align="right" valign="top">__host__ <a class="el" href="../../d6/d97/a00045.html#ae801a5e2ec80d8b77955ea5abb4eee35">const_iterator</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d6/d97/a00045.html#a1f73f2ef01b12db0eb5e3bd8b9d9dc7a">end</a> () const </td></tr>
+<tr class="separator:a1f73f2ef01b12db0eb5e3bd8b9d9dc7a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1ee3130ecd24163a89ed4117e562cb55"><td class="memItemLeft" align="right" valign="top">__host__ <a class="el" href="../../d6/d97/a00045.html#abdd47cfbf4500e3ee65aba2c1e53c4d0">iterator</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d6/d97/a00045.html#a1ee3130ecd24163a89ed4117e562cb55">begin</a> ()</td></tr>
+<tr class="memdesc:a1ee3130ecd24163a89ed4117e562cb55"><td class="mdescLeft">&#160;</td><td class="mdescRight">non-const iterator access  <a href="#a1ee3130ecd24163a89ed4117e562cb55">More...</a><br /></td></tr>
+<tr class="separator:a1ee3130ecd24163a89ed4117e562cb55"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a473dd9a02d513f4baac5696039982a7f"><td class="memItemLeft" align="right" valign="top">__host__ <a class="el" href="../../d6/d97/a00045.html#abdd47cfbf4500e3ee65aba2c1e53c4d0">iterator</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d6/d97/a00045.html#a473dd9a02d513f4baac5696039982a7f">end</a> ()</td></tr>
+<tr class="separator:a473dd9a02d513f4baac5696039982a7f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:acfba6a70bd180fd5cb7ab335c5f8b444"><td class="memItemLeft" align="right" valign="top">__host__ const <a class="el" href="../../d6/d97/a00045.html#a3b7f1377161eb315d0b7a7f6cae42f70">value_type</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d6/d97/a00045.html#acfba6a70bd180fd5cb7ab335c5f8b444">operator[]</a> (size_t i) const </td></tr>
+<tr class="memdesc:acfba6a70bd180fd5cb7ab335c5f8b444"><td class="mdescLeft">&#160;</td><td class="mdescRight">access to the point  <a href="#acfba6a70bd180fd5cb7ab335c5f8b444">More...</a><br /></td></tr>
+<tr class="separator:acfba6a70bd180fd5cb7ab335c5f8b444"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6ebfbc333c0402a1950e6d5d9439f81b"><td class="memItemLeft" align="right" valign="top">__host__ <a class="el" href="../../d6/d97/a00045.html#a3b7f1377161eb315d0b7a7f6cae42f70">value_type</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d6/d97/a00045.html#a6ebfbc333c0402a1950e6d5d9439f81b">operator[]</a> (size_t i)</td></tr>
+<tr class="separator:a6ebfbc333c0402a1950e6d5d9439f81b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2a667fefdb06891793078da57a5716a6"><td class="memItemLeft" align="right" valign="top">__host__ size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d6/d97/a00045.html#a2a667fefdb06891793078da57a5716a6">Size</a> ()</td></tr>
+<tr class="memdesc:a2a667fefdb06891793078da57a5716a6"><td class="mdescLeft">&#160;</td><td class="mdescRight">size  <a href="#a2a667fefdb06891793078da57a5716a6">More...</a><br /></td></tr>
+<tr class="separator:a2a667fefdb06891793078da57a5716a6"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><h3>template&lt;typename Iterator&gt;<br />
-struct hydra::Range&lt; Iterator &gt;</h3>
+<div class="textblock"><h3>template&lt;unsigned int BACKEND = 0, typename T = GReal_t, size_t N = 1, bool V_ERROR = false, bool C_ERROR = false&gt;<br />
+class hydra::PointVector&lt; BACKEND, T, N, V_ERROR, C_ERROR &gt;</h3>
 
 
-<p>Definition at line <a class="el" href="../../d1/d84/a00097_source.html#l00042">42</a> of file <a class="el" href="../../d1/d84/a00097_source.html">Range.h</a>.</p>
+<p>Definition at line <a class="el" href="../../df/d98/a00107_source.html#l00052">52</a> of file <a class="el" href="../../df/d98/a00107_source.html">PointVector.h</a>.</p>
 </div><h2 class="groupheader">Member Typedef Documentation</h2>
-<a class="anchor" id="a3d1ff476ba9cf6a4ac076d8fbf61e5fb"></a>
+<a class="anchor" id="ae801a5e2ec80d8b77955ea5abb4eee35"></a>
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;typename Iterator&gt; </div>
+template&lt;unsigned int BACKEND = 0, typename T = GReal_t, size_t N = 1, bool V_ERROR = false, bool C_ERROR = false&gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname">typedef thrust::iterator_system&lt;Iterator&gt;::type <a class="el" href="../../d6/d97/a00045.html">hydra::Range</a>&lt; Iterator &gt;::<a class="el" href="../../d6/d97/a00045.html#a3d1ff476ba9cf6a4ac076d8fbf61e5fb">system</a></td>
+          <td class="memname">typedef type::const_iterator <a class="el" href="../../d6/d97/a00045.html">hydra::PointVector</a>&lt; BACKEND, T, N, V_ERROR, C_ERROR &gt;::<a class="el" href="../../d6/d97/a00045.html#ae801a5e2ec80d8b77955ea5abb4eee35">const_iterator</a></td>
         </tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="../../d1/d84/a00097_source.html#l00045">45</a> of file <a class="el" href="../../d1/d84/a00097_source.html">Range.h</a>.</p>
+<p>Definition at line <a class="el" href="../../df/d98/a00107_source.html#l00061">61</a> of file <a class="el" href="../../df/d98/a00107_source.html">PointVector.h</a>.</p>
 
 </div>
 </div>
-<a class="anchor" id="ab3c10b3fa6c465a320e12139eca3c4dc"></a>
+<a class="anchor" id="abdd47cfbf4500e3ee65aba2c1e53c4d0"></a>
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;typename Iterator&gt; </div>
+template&lt;unsigned int BACKEND = 0, typename T = GReal_t, size_t N = 1, bool V_ERROR = false, bool C_ERROR = false&gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname">typedef thrust::iterator_value&lt;Iterator&gt;::type <a class="el" href="../../d6/d97/a00045.html">hydra::Range</a>&lt; Iterator &gt;::<a class="el" href="../../d6/d97/a00045.html#ab3c10b3fa6c465a320e12139eca3c4dc">value_type</a></td>
+          <td class="memname">typedef type::iterator <a class="el" href="../../d6/d97/a00045.html">hydra::PointVector</a>&lt; BACKEND, T, N, V_ERROR, C_ERROR &gt;::<a class="el" href="../../d6/d97/a00045.html#abdd47cfbf4500e3ee65aba2c1e53c4d0">iterator</a></td>
         </tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="../../d1/d84/a00097_source.html#l00044">44</a> of file <a class="el" href="../../d1/d84/a00097_source.html">Range.h</a>.</p>
+<p>Definition at line <a class="el" href="../../df/d98/a00107_source.html#l00062">62</a> of file <a class="el" href="../../df/d98/a00107_source.html">PointVector.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a42f93155dacf6e5a5991254c07d5cde4"></a>
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;unsigned int BACKEND = 0, typename T = GReal_t, size_t N = 1, bool V_ERROR = false, bool C_ERROR = false&gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">typedef detail::BackendTraits&lt;BACKEND&gt; <a class="el" href="../../d6/d97/a00045.html">hydra::PointVector</a>&lt; BACKEND, T, N, V_ERROR, C_ERROR &gt;::<a class="el" href="../../d6/d97/a00045.html#a42f93155dacf6e5a5991254c07d5cde4">system_t</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="../../df/d98/a00107_source.html#l00056">56</a> of file <a class="el" href="../../df/d98/a00107_source.html">PointVector.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a55930b3d4b822dd7a9d63b676f514344"></a>
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;unsigned int BACKEND = 0, typename T = GReal_t, size_t N = 1, bool V_ERROR = false, bool C_ERROR = false&gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">typedef system_t::template container&lt; <a class="el" href="../../d6/d42/a00043.html">Point</a>&lt;T, N, V_ERROR, C_ERROR&gt; &gt; <a class="el" href="../../d6/d97/a00045.html">hydra::PointVector</a>&lt; BACKEND, T, N, V_ERROR, C_ERROR &gt;::<a class="el" href="../../d6/d97/a00045.html#a55930b3d4b822dd7a9d63b676f514344">type</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="../../df/d98/a00107_source.html#l00059">59</a> of file <a class="el" href="../../df/d98/a00107_source.html">PointVector.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a3b7f1377161eb315d0b7a7f6cae42f70"></a>
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;unsigned int BACKEND = 0, typename T = GReal_t, size_t N = 1, bool V_ERROR = false, bool C_ERROR = false&gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">typedef <a class="el" href="../../d6/d42/a00043.html">Point</a>&lt;T, N, V_ERROR, C_ERROR&gt; <a class="el" href="../../d6/d97/a00045.html">hydra::PointVector</a>&lt; BACKEND, T, N, V_ERROR, C_ERROR &gt;::<a class="el" href="../../d6/d97/a00045.html#a3b7f1377161eb315d0b7a7f6cae42f70">value_type</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="../../df/d98/a00107_source.html#l00060">60</a> of file <a class="el" href="../../df/d98/a00107_source.html">PointVector.h</a>.</p>
 
 </div>
 </div>
 <h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
-<a class="anchor" id="a5dc48cd8f01a6f195aabe4c9758fc487"></a>
+<a class="anchor" id="a5ac07313cff38cbdc43921e0e6300263"></a>
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;typename Iterator&gt; </div>
+template&lt;unsigned int BACKEND = 0, typename T = GReal_t, size_t N = 1, bool V_ERROR = false, bool C_ERROR = false&gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="../../d6/d97/a00045.html">hydra::Range</a>&lt; Iterator &gt;::<a class="el" href="../../d6/d97/a00045.html">Range</a> </td>
+          <td class="memname">__host__ <a class="el" href="../../d6/d97/a00045.html">hydra::PointVector</a>&lt; BACKEND, T, N, V_ERROR, C_ERROR &gt;::<a class="el" href="../../d6/d97/a00045.html">PointVector</a> </td>
           <td>(</td>
-          <td class="paramtype">Iterator&#160;</td>
-          <td class="paramname"><em>begin</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
+          <td class="paramname"></td><td>)</td>
           <td></td>
-          <td class="paramtype">Iterator&#160;</td>
-          <td class="paramname"><em>end</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
         </tr>
       </table>
   </td>
@@ -235,35 +296,25 @@ template&lt;typename Iterator&gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="../../d1/d84/a00097_source.html#l00050">50</a> of file <a class="el" href="../../d1/d84/a00097_source.html">Range.h</a>.</p>
+<p>Definition at line <a class="el" href="../../df/d98/a00107_source.html#l00065">65</a> of file <a class="el" href="../../df/d98/a00107_source.html">PointVector.h</a>.</p>
 
 </div>
 </div>
-<a class="anchor" id="a8ebd56675d4a104c78ed6b206f6536f0"></a>
+<a class="anchor" id="a59d23e549c35e6f49555920721458e00"></a>
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;typename Iterator&gt; </div>
+template&lt;unsigned int BACKEND = 0, typename T = GReal_t, size_t N = 1, bool V_ERROR = false, bool C_ERROR = false&gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="../../d6/d97/a00045.html">hydra::Range</a>&lt; Iterator &gt;::<a class="el" href="../../d6/d97/a00045.html">Range</a> </td>
+          <td class="memname">__host__ <a class="el" href="../../d6/d97/a00045.html">hydra::PointVector</a>&lt; BACKEND, T, N, V_ERROR, C_ERROR &gt;::<a class="el" href="../../d6/d97/a00045.html">PointVector</a> </td>
           <td>(</td>
-          <td class="paramtype">Iterator&#160;</td>
-          <td class="paramname"><em>begin</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
           <td class="paramtype">size_t&#160;</td>
-          <td class="paramname"><em>n</em>&#160;</td>
-        </tr>
-        <tr>
+          <td class="paramname"><em>n</em></td><td>)</td>
           <td></td>
-          <td>)</td>
-          <td></td><td></td>
         </tr>
       </table>
   </td>
@@ -273,22 +324,107 @@ template&lt;typename Iterator&gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="../../d1/d84/a00097_source.html#l00059">59</a> of file <a class="el" href="../../d1/d84/a00097_source.html">Range.h</a>.</p>
+<p>Definition at line <a class="el" href="../../df/d98/a00107_source.html#l00069">69</a> of file <a class="el" href="../../df/d98/a00107_source.html">PointVector.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a8b1cfd469819ae428a50d872d0a9685d"></a>
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;unsigned int BACKEND = 0, typename T = GReal_t, size_t N = 1, bool V_ERROR = false, bool C_ERROR = false&gt; </div>
+<div class="memtemplate">
+template&lt;unsigned int BACKEND2&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">__host__ <a class="el" href="../../d6/d97/a00045.html">hydra::PointVector</a>&lt; BACKEND, T, N, V_ERROR, C_ERROR &gt;::<a class="el" href="../../d6/d97/a00045.html">PointVector</a> </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="../../d6/d97/a00045.html">PointVector</a>&lt; BACKEND2, T, N, V_ERROR, C_ERROR &gt; const &amp;&#160;</td>
+          <td class="paramname"><em>other</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="../../df/d98/a00107_source.html#l00075">75</a> of file <a class="el" href="../../df/d98/a00107_source.html">PointVector.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="ad3b8f2f1f8932631537dd80a96b3747f"></a>
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;unsigned int BACKEND = 0, typename T = GReal_t, size_t N = 1, bool V_ERROR = false, bool C_ERROR = false&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="../../d6/d97/a00045.html">hydra::PointVector</a>&lt; BACKEND, T, N, V_ERROR, C_ERROR &gt;::~<a class="el" href="../../d6/d97/a00045.html">PointVector</a> </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="../../df/d98/a00107_source.html#l00079">79</a> of file <a class="el" href="../../df/d98/a00107_source.html">PointVector.h</a>.</p>
 
 </div>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
-<a class="anchor" id="afadbbfb8b604a4fa704674dfdbbec25d"></a>
+<a class="anchor" id="a17e12e1ea66db466a04b6118e61c628d"></a>
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;typename Iterator&gt; </div>
+template&lt;unsigned int BACKEND = 0, typename T = GReal_t, size_t N = 1, bool V_ERROR = false, bool C_ERROR = false&gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">const Iterator <a class="el" href="../../d6/d97/a00045.html">hydra::Range</a>&lt; Iterator &gt;::begin </td>
+          <td class="memname">__host__ void <a class="el" href="../../d6/d97/a00045.html">hydra::PointVector</a>&lt; BACKEND, T, N, V_ERROR, C_ERROR &gt;::AddPoint </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="../../d6/d97/a00045.html#a3b7f1377161eb315d0b7a7f6cae42f70">value_type</a> const &amp;&#160;</td>
+          <td class="paramname"><em>point</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="../../df/d98/a00107_source.html#l00095">95</a> of file <a class="el" href="../../df/d98/a00107_source.html">PointVector.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a0ffe74b37ca6de1bf3ae775a7e57a74f"></a>
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;unsigned int BACKEND = 0, typename T = GReal_t, size_t N = 1, bool V_ERROR = false, bool C_ERROR = false&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">__host__ <a class="el" href="../../d6/d97/a00045.html#ae801a5e2ec80d8b77955ea5abb4eee35">const_iterator</a> <a class="el" href="../../d6/d97/a00045.html">hydra::PointVector</a>&lt; BACKEND, T, N, V_ERROR, C_ERROR &gt;::begin </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td> const</td>
@@ -301,30 +437,30 @@ template&lt;typename Iterator&gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="../../d1/d84/a00097_source.html#l00081">81</a> of file <a class="el" href="../../d1/d84/a00097_source.html">Range.h</a>.</p>
+<p>Definition at line <a class="el" href="../../df/d98/a00107_source.html#l00111">111</a> of file <a class="el" href="../../df/d98/a00107_source.html">PointVector.h</a>.</p>
 
-<p>Referenced by <a class="el" href="../../d1/d84/a00097_source.html#l00107">hydra::make_range()</a>.</p>
+<p>Referenced by <a class="el" href="../../db/dab/a00089_source.html#l00085">main()</a>.</p>
 
 <p><div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><iframe scrolling="no" frameborder="0" src="../../d6/d97/a00045_afadbbfb8b604a4fa704674dfdbbec25d_icgraph.svg" width="331" height="38"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+<div class="center"><iframe scrolling="no" frameborder="0" src="../../d6/d97/a00045_a0ffe74b37ca6de1bf3ae775a7e57a74f_icgraph.svg" width="240" height="52"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 </div>
 </p>
 
 </div>
 </div>
-<a class="anchor" id="a0e2634f7832012283e164522232498b2"></a>
+<a class="anchor" id="a1ee3130ecd24163a89ed4117e562cb55"></a>
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;typename Iterator&gt; </div>
+template&lt;unsigned int BACKEND = 0, typename T = GReal_t, size_t N = 1, bool V_ERROR = false, bool C_ERROR = false&gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">Iterator <a class="el" href="../../d6/d97/a00045.html">hydra::Range</a>&lt; Iterator &gt;::begin </td>
+          <td class="memname">__host__ <a class="el" href="../../d6/d97/a00045.html#abdd47cfbf4500e3ee65aba2c1e53c4d0">iterator</a> <a class="el" href="../../d6/d97/a00045.html">hydra::PointVector</a>&lt; BACKEND, T, N, V_ERROR, C_ERROR &gt;::begin </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td></td>
@@ -337,21 +473,21 @@ template&lt;typename Iterator&gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="../../d1/d84/a00097_source.html#l00090">90</a> of file <a class="el" href="../../d1/d84/a00097_source.html">Range.h</a>.</p>
+<p>Definition at line <a class="el" href="../../df/d98/a00107_source.html#l00119">119</a> of file <a class="el" href="../../df/d98/a00107_source.html">PointVector.h</a>.</p>
 
 </div>
 </div>
-<a class="anchor" id="ac2150681c29eaf23b4fb7c373bd75817"></a>
+<a class="anchor" id="a1f73f2ef01b12db0eb5e3bd8b9d9dc7a"></a>
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;typename Iterator&gt; </div>
+template&lt;unsigned int BACKEND = 0, typename T = GReal_t, size_t N = 1, bool V_ERROR = false, bool C_ERROR = false&gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">const Iterator <a class="el" href="../../d6/d97/a00045.html">hydra::Range</a>&lt; Iterator &gt;::end </td>
+          <td class="memname">__host__ <a class="el" href="../../d6/d97/a00045.html#ae801a5e2ec80d8b77955ea5abb4eee35">const_iterator</a> <a class="el" href="../../d6/d97/a00045.html">hydra::PointVector</a>&lt; BACKEND, T, N, V_ERROR, C_ERROR &gt;::end </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td> const</td>
@@ -364,30 +500,30 @@ template&lt;typename Iterator&gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="../../d1/d84/a00097_source.html#l00086">86</a> of file <a class="el" href="../../d1/d84/a00097_source.html">Range.h</a>.</p>
+<p>Definition at line <a class="el" href="../../df/d98/a00107_source.html#l00113">113</a> of file <a class="el" href="../../df/d98/a00107_source.html">PointVector.h</a>.</p>
 
-<p>Referenced by <a class="el" href="../../d1/d84/a00097_source.html#l00107">hydra::make_range()</a>.</p>
+<p>Referenced by <a class="el" href="../../db/dab/a00089_source.html#l00085">main()</a>.</p>
 
 <p><div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><iframe scrolling="no" frameborder="0" src="../../d6/d97/a00045_ac2150681c29eaf23b4fb7c373bd75817_icgraph.svg" width="322" height="38"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+<div class="center"><iframe scrolling="no" frameborder="0" src="../../d6/d97/a00045_a1f73f2ef01b12db0eb5e3bd8b9d9dc7a_icgraph.svg" width="268" height="38"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 </div>
 </p>
 
 </div>
 </div>
-<a class="anchor" id="a98aa9762067de937e4eb65cd483bcb89"></a>
+<a class="anchor" id="a473dd9a02d513f4baac5696039982a7f"></a>
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;typename Iterator&gt; </div>
+template&lt;unsigned int BACKEND = 0, typename T = GReal_t, size_t N = 1, bool V_ERROR = false, bool C_ERROR = false&gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">Iterator <a class="el" href="../../d6/d97/a00045.html">hydra::Range</a>&lt; Iterator &gt;::end </td>
+          <td class="memname">__host__ <a class="el" href="../../d6/d97/a00045.html#abdd47cfbf4500e3ee65aba2c1e53c4d0">iterator</a> <a class="el" href="../../d6/d97/a00045.html">hydra::PointVector</a>&lt; BACKEND, T, N, V_ERROR, C_ERROR &gt;::end </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td></td>
@@ -400,25 +536,25 @@ template&lt;typename Iterator&gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="../../d1/d84/a00097_source.html#l00095">95</a> of file <a class="el" href="../../d1/d84/a00097_source.html">Range.h</a>.</p>
+<p>Definition at line <a class="el" href="../../df/d98/a00107_source.html#l00121">121</a> of file <a class="el" href="../../df/d98/a00107_source.html">PointVector.h</a>.</p>
 
 </div>
 </div>
-<a class="anchor" id="a39e73b6c55bec7e7d1e300ea4c363d46"></a>
+<a class="anchor" id="a2f67e5552530c5090d16bba717afa114"></a>
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;typename Iterator&gt; </div>
+template&lt;unsigned int BACKEND = 0, typename T = GReal_t, size_t N = 1, bool V_ERROR = false, bool C_ERROR = false&gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="../../d6/d97/a00045.html#ab3c10b3fa6c465a320e12139eca3c4dc">value_type</a>&amp; <a class="el" href="../../d6/d97/a00045.html">hydra::Range</a>&lt; Iterator &gt;::operator() </td>
+          <td class="memname">__host__ <a class="el" href="../../d6/d97/a00045.html#a3b7f1377161eb315d0b7a7f6cae42f70">value_type</a> const&amp; <a class="el" href="../../d6/d97/a00045.html">hydra::PointVector</a>&lt; BACKEND, T, N, V_ERROR, C_ERROR &gt;::GetPoint </td>
           <td>(</td>
-          <td class="paramtype">const size_t&#160;</td>
-          <td class="paramname"><em>idx</em></td><td>)</td>
-          <td></td>
+          <td class="paramtype">size_t&#160;</td>
+          <td class="paramname"><em>i</em></td><td>)</td>
+          <td> const</td>
         </tr>
       </table>
   </td>
@@ -428,25 +564,24 @@ template&lt;typename Iterator&gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="../../d1/d84/a00097_source.html#l00066">66</a> of file <a class="el" href="../../d1/d84/a00097_source.html">Range.h</a>.</p>
+<p>Definition at line <a class="el" href="../../df/d98/a00107_source.html#l00101">101</a> of file <a class="el" href="../../df/d98/a00107_source.html">PointVector.h</a>.</p>
 
 </div>
 </div>
-<a class="anchor" id="a3e250b764bb405499e87da7980c527e5"></a>
+<a class="anchor" id="ae28e61569eba74a655ba5ab31f18607d"></a>
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;typename Iterator&gt; </div>
+template&lt;unsigned int BACKEND = 0, typename T = GReal_t, size_t N = 1, bool V_ERROR = false, bool C_ERROR = false&gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="../../d6/d97/a00045.html#ab3c10b3fa6c465a320e12139eca3c4dc">value_type</a>&amp; <a class="el" href="../../d6/d97/a00045.html">hydra::Range</a>&lt; Iterator &gt;::operator[] </td>
+          <td class="memname">__host__ const <a class="el" href="../../d6/d97/a00045.html#a55930b3d4b822dd7a9d63b676f514344">type</a>&amp; <a class="el" href="../../d6/d97/a00045.html">hydra::PointVector</a>&lt; BACKEND, T, N, V_ERROR, C_ERROR &gt;::GetPoints </td>
           <td>(</td>
-          <td class="paramtype">const size_t&#160;</td>
-          <td class="paramname"><em>idx</em></td><td>)</td>
-          <td></td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
         </tr>
       </table>
   </td>
@@ -456,21 +591,21 @@ template&lt;typename Iterator&gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="../../d1/d84/a00097_source.html#l00072">72</a> of file <a class="el" href="../../d1/d84/a00097_source.html">Range.h</a>.</p>
+<p>Definition at line <a class="el" href="../../df/d98/a00107_source.html#l00085">85</a> of file <a class="el" href="../../df/d98/a00107_source.html">PointVector.h</a>.</p>
 
 </div>
 </div>
-<a class="anchor" id="a1b03fd45f75f3b6d101f7dacb9a16727"></a>
+<a class="anchor" id="ad90e8de616316848fb5deb9878115d9c"></a>
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;typename Iterator&gt; </div>
+template&lt;unsigned int BACKEND = 0, typename T = GReal_t, size_t N = 1, bool V_ERROR = false, bool C_ERROR = false&gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">size_t <a class="el" href="../../d6/d97/a00045.html">hydra::Range</a>&lt; Iterator &gt;::size </td>
+          <td class="memname">__host__ <a class="el" href="../../d6/d97/a00045.html#a55930b3d4b822dd7a9d63b676f514344">type</a>&amp; <a class="el" href="../../d6/d97/a00045.html">hydra::PointVector</a>&lt; BACKEND, T, N, V_ERROR, C_ERROR &gt;::GetPoints </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td></td>
@@ -483,20 +618,103 @@ template&lt;typename Iterator&gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="../../d1/d84/a00097_source.html#l00077">77</a> of file <a class="el" href="../../d1/d84/a00097_source.html">Range.h</a>.</p>
+<p>Definition at line <a class="el" href="../../df/d98/a00107_source.html#l00088">88</a> of file <a class="el" href="../../df/d98/a00107_source.html">PointVector.h</a>.</p>
 
 </div>
 </div>
-<hr/>The documentation for this struct was generated from the following file:<ul>
-<li><a class="el" href="../../d1/d84/a00097_source.html">Range.h</a></li>
+<a class="anchor" id="acfba6a70bd180fd5cb7ab335c5f8b444"></a>
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;unsigned int BACKEND = 0, typename T = GReal_t, size_t N = 1, bool V_ERROR = false, bool C_ERROR = false&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">__host__ const <a class="el" href="../../d6/d97/a00045.html#a3b7f1377161eb315d0b7a7f6cae42f70">value_type</a>&amp; <a class="el" href="../../d6/d97/a00045.html">hydra::PointVector</a>&lt; BACKEND, T, N, V_ERROR, C_ERROR &gt;::operator[] </td>
+          <td>(</td>
+          <td class="paramtype">size_t&#160;</td>
+          <td class="paramname"><em>i</em></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="../../df/d98/a00107_source.html#l00127">127</a> of file <a class="el" href="../../df/d98/a00107_source.html">PointVector.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a6ebfbc333c0402a1950e6d5d9439f81b"></a>
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;unsigned int BACKEND = 0, typename T = GReal_t, size_t N = 1, bool V_ERROR = false, bool C_ERROR = false&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">__host__ <a class="el" href="../../d6/d97/a00045.html#a3b7f1377161eb315d0b7a7f6cae42f70">value_type</a>&amp; <a class="el" href="../../d6/d97/a00045.html">hydra::PointVector</a>&lt; BACKEND, T, N, V_ERROR, C_ERROR &gt;::operator[] </td>
+          <td>(</td>
+          <td class="paramtype">size_t&#160;</td>
+          <td class="paramname"><em>i</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="../../df/d98/a00107_source.html#l00129">129</a> of file <a class="el" href="../../df/d98/a00107_source.html">PointVector.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a2a667fefdb06891793078da57a5716a6"></a>
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;unsigned int BACKEND = 0, typename T = GReal_t, size_t N = 1, bool V_ERROR = false, bool C_ERROR = false&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">__host__ size_t <a class="el" href="../../d6/d97/a00045.html">hydra::PointVector</a>&lt; BACKEND, T, N, V_ERROR, C_ERROR &gt;::Size </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="../../df/d98/a00107_source.html#l00136">136</a> of file <a class="el" href="../../df/d98/a00107_source.html">PointVector.h</a>.</p>
+
+</div>
+</div>
+<hr/>The documentation for this class was generated from the following file:<ul>
+<li><a class="el" href="../../df/d98/a00107_source.html">PointVector.h</a></li>
 </ul>
 </div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="../../d7/dd4/a00013.html">hydra</a></li><li class="navelem"><a class="el" href="../../d6/d97/a00045.html">Range</a></li>
-    <li class="footer">Generated on Tue Oct 11 2016 04:51:50 for Hydra by
+    <li class="navelem"><a class="el" href="../../d4/d51/a00017.html">hydra</a></li><li class="navelem"><a class="el" href="../../d6/d97/a00045.html">PointVector</a></li>
+    <li class="footer">Generated on Wed Oct 12 2016 06:08:16 for Hydra by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="../../doxygen.png" alt="doxygen"/></a> 1.8.11 </li>
   </ul>

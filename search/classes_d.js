@@ -1,6 +1,6 @@
 var searchData=
 [
-  ['stride_5ffunctor',['stride_functor',['../d6/d2d/a00047.html',1,'strided_range']]],
-  ['strided_5frange',['strided_range',['../d4/dca/a00048.html',1,'']]],
-  ['sum',['Sum',['../d2/dee/a00049.html',1,'hydra']]]
+  ['random',['Random',['../d2/d79/a00051.html',1,'hydra']]],
+  ['range',['Range',['../d1/d84/a00052.html',1,'hydra']]],
+  ['resultvegas',['ResultVegas',['../dc/dee/a00053.html',1,'hydra']]]
 ];

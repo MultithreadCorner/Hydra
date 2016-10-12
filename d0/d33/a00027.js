@@ -1,10 +1,9 @@
 var a00027 =
 [
-    [ "cache_value_type", "d0/d33/a00027.html#a1d7075e41d99c634b7fc3e755718e495", null ],
-    [ "data_value_type", "d0/d33/a00027.html#a82e605b999cecea1976dda762a642083", null ],
-    [ "LogLikelihood", "d0/d33/a00027.html#ae79521eda55419322f23ae767b3a30b1", null ],
-    [ "LogLikelihood", "d0/d33/a00027.html#a8a212c4e6f65d8df49bcf4b9a9d76bbe", null ],
-    [ "~LogLikelihood", "d0/d33/a00027.html#a3f4ee844e7c7fc7629a869dde5b4b397", null ],
-    [ "operator()", "d0/d33/a00027.html#a46c111c088c17e59539dca835e1bd68d", null ],
-    [ "operator()", "d0/d33/a00027.html#a2a9e765e64c62301946c4262417f7b92", null ]
+    [ "HyRndGauss", "d0/d33/a00027.html#ac4800dbc25294ad69a18ef3b31606d2a", null ],
+    [ "HyRndGauss", "d0/d33/a00027.html#a33eeb5881fd9087cc10bde6989989aab", null ],
+    [ "operator()", "d0/d33/a00027.html#ab86fc72857e448adde5914965c1779cb", null ],
+    [ "fMean", "d0/d33/a00027.html#aa3caa995b304e7047a2ef9af19fc2aad", null ],
+    [ "fSeed", "d0/d33/a00027.html#a3f2e01fbd6daccd8535b99985b5cefa5", null ],
+    [ "fSigma", "d0/d33/a00027.html#a00bcbf6a05ef747d8f2fdd49d753bcf4", null ]
 ];

@@ -1,4 +1,2 @@
-<map id="hydra::LambdaWrapper&lt; ReturnType(ArgType), L &gt;" name="hydra::LambdaWrapper&lt; ReturnType(ArgType), L &gt;">
-<area shape="rect" id="node2" href="$da/d45/a00011.html" title="{hydra::BaseFunctor\l\&lt; LambdaWrapper\&lt; ReturnType\l(ArgType), L \&gt;, ReturnType, 0 \&gt;\n|+ parameter_count\l|+ BaseFunctor()\l+ BaseFunctor()\l+ operator=()\l+ ~BaseFunctor()\l+ GetFunctor()\l+ GetCacheIndex()\l+ SetCacheIndex()\l+ IsCached()\l+ SetCached()\l+ RegistryParameters()\land 9 more...\l}" alt="" coords="5,336,215,589"/>
-<area shape="rect" id="node3" href="$da/d45/a00011.html" title="{hydra::BaseFunctor\l\&lt; Functor, ReturnType,\l NPARAM \&gt;\n|+ parameter_count\l|+ BaseFunctor()\l+ BaseFunctor()\l+ operator=()\l+ ~BaseFunctor()\l+ GetFunctor()\l+ GetCacheIndex()\l+ SetCacheIndex()\l+ IsCached()\l+ SetCached()\l+ RegistryParameters()\land 9 more...\l}" alt="" coords="31,5,189,259"/>
+<map id="std::common_type&lt; T, thrust::complex&lt; U &gt; &gt;" name="std::common_type&lt; T, thrust::complex&lt; U &gt; &gt;">
 </map>

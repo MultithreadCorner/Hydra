@@ -4,7 +4,7 @@
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.11"/>
-<title>Hydra: Vector4R.h File Reference</title>
+<title>Hydra: Point.h File Reference</title>
 <link href="../../tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="../../jquery.js"></script>
 <script type="text/javascript" src="../../dynsections.js"></script>
@@ -58,6 +58,7 @@ var searchBox = new SearchBox("searchBox", "../../search",false,'Search');
       <li><a href="../../namespaces.html"><span>Namespaces</span></a></li>
       <li><a href="../../annotated.html"><span>Classes</span></a></li>
       <li class="current"><a href="../../files.html"><span>Files</span></a></li>
+      <li><a href="../../examples.html"><span>Examples</span></a></li>
       <li>
         <div id="MSearchBox" class="MSearchBoxInactive">
         <span class="left">
@@ -117,63 +118,152 @@ $(document).ready(function(){initNavTree('d7/d70/a00106.html','../../');});
 <a href="#namespaces">Namespaces</a> &#124;
 <a href="#func-members">Functions</a>  </div>
   <div class="headertitle">
-<div class="title">Vector4R.h File Reference</div>  </div>
+<div class="title">Point.h File Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
 <div class="textblock"><div class="dynheader">
-Include dependency graph for Vector4R.h:</div>
+Include dependency graph for Point.h:</div>
 <div class="dyncontent">
-<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="../../dc/d31/a00208.svg" width="100%" height="518"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
+<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="../../dd/dc1/a00212.svg" width="100%" height="600"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
 </div>
 </div><div class="textblock"><div class="dynheader">
 This graph shows which files directly or indirectly include this file:</div>
 <div class="dyncontent">
-<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="../../d3/de5/a00209.svg" width="100%" height="600"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
+<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="../../d1/de1/a00213.svg" width="100%" height="600"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+</div>
 </div>
 </div>
 <p><a href="../../d7/d70/a00106_source.html">Go to the source code of this file.</a></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="nested-classes"></a>
 Classes</h2></td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dc/dee/a00053.html">hydra::Vector4R</a></td></tr>
+<tr class="memitem:d5/deb/a00132"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d4/d51/a00017.html#d5/deb/a00132">hydra::ValueError&lt; T, bool &gt;</a></td></tr>
+<tr class="memdesc:d5/deb/a00132"><td class="mdescLeft">&#160;</td><td class="mdescRight">Value error to be interpreted as error on bin content or point weight depending on the case.  <a href="../../d4/d51/a00017.html#d5/deb/a00132">More...</a><br /></td></tr>
+<tr class="separator:d5/deb/a00132"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d7/df7/a00058.html">hydra::ValueError&lt; T, true &gt;</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:d7/d06/a00131"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d4/d51/a00017.html#d7/d06/a00131">hydra::PointError&lt; T, N, bool &gt;</a></td></tr>
+<tr class="memdesc:d7/d06/a00131"><td class="mdescLeft">&#160;</td><td class="mdescRight"><a class="el" href="../../d4/d51/a00017.html#d7/d06/a00131" title="PointError add symmetric error to data points, just in case someone comes to need of it PointError is...">PointError</a> add symmetric error to data points, just in case someone comes to need of it <a class="el" href="../../d4/d51/a00017.html#d7/d06/a00131" title="PointError add symmetric error to data points, just in case someone comes to need of it PointError is...">PointError</a> is base class for <a class="el" href="../../d6/d42/a00043.html">Point</a> and provides conditional methods and members to save space in device memory.  <a href="../../d4/d51/a00017.html#d7/d06/a00131">More...</a><br /></td></tr>
+<tr class="separator:d7/d06/a00131"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d5/df9/a00044.html">hydra::PointError&lt; T, N, true &gt;</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d6/d42/a00043.html">hydra::Point&lt; T, N, HasValueError, HasPointError &gt;</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="namespaces"></a>
 Namespaces</h2></td></tr>
-<tr class="memitem:d7/dd4/a00013"><td class="memItemLeft" align="right" valign="top"> &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d7/dd4/a00013.html">hydra</a></td></tr>
-<tr class="memdesc:d7/dd4/a00013"><td class="mdescLeft">&#160;</td><td class="mdescRight">Variable object to use on types convertible to double. <br /></td></tr>
+<tr class="memitem:d4/d51/a00017"><td class="memItemLeft" align="right" valign="top"> &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d4/d51/a00017.html">hydra</a></td></tr>
+<tr class="memdesc:d4/d51/a00017"><td class="mdescLeft">&#160;</td><td class="mdescRight">Variable object to use on types convertible to double. <br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:ab53a2a0ba453b6b2a3372941b6e17fbc"><td class="memItemLeft" align="right" valign="top">__host__ __device__ Vector4R&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d7/dd4/a00013.html#ab53a2a0ba453b6b2a3372941b6e17fbc">hydra::rotateEuler</a> (const Vector4R &amp;rs, GReal_t alpha, GReal_t beta, GReal_t gamma)</td></tr>
-<tr class="separator:ab53a2a0ba453b6b2a3372941b6e17fbc"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a52d2bb64b855258800238a7263f26699"><td class="memItemLeft" align="right" valign="top">__host__ __device__ Vector4R&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d7/dd4/a00013.html#a52d2bb64b855258800238a7263f26699">hydra::boostTo</a> (const Vector4R &amp;rs, const Vector4R &amp;p4, bool inverse=false)</td></tr>
-<tr class="separator:a52d2bb64b855258800238a7263f26699"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a56aaad7de821363b5a3f6a3853688a5f"><td class="memItemLeft" align="right" valign="top">__host__ __device__ Vector4R&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d7/dd4/a00013.html#a56aaad7de821363b5a3f6a3853688a5f">hydra::boostTo</a> (const Vector4R &amp;rs, const Vector3R &amp;boost, bool inverse=false)</td></tr>
-<tr class="separator:a56aaad7de821363b5a3f6a3853688a5f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab8059091b90cfa8bfd6a7bbabf84e851"><td class="memItemLeft" align="right" valign="top">__host__ __device__ Vector4R&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d7/dd4/a00013.html#ab8059091b90cfa8bfd6a7bbabf84e851">hydra::operator*</a> (GReal_t c, const Vector4R &amp;v2)</td></tr>
-<tr class="separator:ab8059091b90cfa8bfd6a7bbabf84e851"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a8ea48ebde3804da5519a849fd697a9ed"><td class="memItemLeft" align="right" valign="top">__host__ __device__ Vector4R&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d7/dd4/a00013.html#a8ea48ebde3804da5519a849fd697a9ed">hydra::operator*</a> (const Vector4R &amp;v2, GReal_t c)</td></tr>
-<tr class="separator:a8ea48ebde3804da5519a849fd697a9ed"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a50088fd950900d64d11e9de4bbc0267e"><td class="memItemLeft" align="right" valign="top">__host__ __device__ Vector4R&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d7/dd4/a00013.html#a50088fd950900d64d11e9de4bbc0267e">hydra::operator/</a> (const Vector4R &amp;v2, GReal_t c)</td></tr>
-<tr class="separator:a50088fd950900d64d11e9de4bbc0267e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:acc68502df5d8b6b8f5fba9b1ba7ac2e9"><td class="memItemLeft" align="right" valign="top">__host__ __device__ GReal_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d7/dd4/a00013.html#acc68502df5d8b6b8f5fba9b1ba7ac2e9">hydra::operator*</a> (const Vector4R &amp;v1, const Vector4R &amp;v2)</td></tr>
-<tr class="separator:acc68502df5d8b6b8f5fba9b1ba7ac2e9"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab920ce4c223b458acbce8f3dec8a4a77"><td class="memItemLeft" align="right" valign="top">__host__ __device__ Vector4R&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d7/dd4/a00013.html#ab920ce4c223b458acbce8f3dec8a4a77">hydra::operator-</a> (const Vector4R &amp;v1, const Vector4R &amp;v2)</td></tr>
-<tr class="separator:ab920ce4c223b458acbce8f3dec8a4a77"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a8d67c62da7414fa54685256891397394"><td class="memItemLeft" align="right" valign="top">__host__ __device__ Vector4R&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d7/dd4/a00013.html#a8d67c62da7414fa54685256891397394">hydra::operator+</a> (const Vector4R &amp;v1, const Vector4R &amp;v2)</td></tr>
-<tr class="separator:a8d67c62da7414fa54685256891397394"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aaacce78528c9499de97312cbe606ece4"><td class="memItemLeft" align="right" valign="top">ostream &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d7/dd4/a00013.html#aaacce78528c9499de97312cbe606ece4">hydra::operator&lt;&lt;</a> (ostream &amp;s, const Vector4R &amp;v)</td></tr>
-<tr class="separator:aaacce78528c9499de97312cbe606ece4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac3d2b9b5f3dc7f930f9d6307002c284c"><td class="memTemplParams" colspan="2">template&lt;typename T , size_t N&gt; </td></tr>
+<tr class="memitem:ac3d2b9b5f3dc7f930f9d6307002c284c"><td class="memTemplItemLeft" align="right" valign="top">__host__ __device__ Point&lt; T, N, false, false &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="../../d4/d51/a00017.html#ac3d2b9b5f3dc7f930f9d6307002c284c">hydra::operator+</a> (Point&lt; T, N, false, false &gt; const &amp;point1, Point&lt; T, N, false, false &gt; const &amp;point2)</td></tr>
+<tr class="separator:ac3d2b9b5f3dc7f930f9d6307002c284c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a699a2aecc2ce647693a9c10714c98668"><td class="memTemplParams" colspan="2">template&lt;typename T , size_t N&gt; </td></tr>
+<tr class="memitem:a699a2aecc2ce647693a9c10714c98668"><td class="memTemplItemLeft" align="right" valign="top">__host__ std::ostream &amp;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="../../d4/d51/a00017.html#a699a2aecc2ce647693a9c10714c98668">hydra::operator&lt;&lt;</a> (std::ostream &amp;os, Point&lt; T, N, false, false &gt; const &amp;point)</td></tr>
+<tr class="separator:a699a2aecc2ce647693a9c10714c98668"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad6844fcc012a9868f63b93c4e0dbd6a2"><td class="memTemplParams" colspan="2">template&lt;typename T , size_t N&gt; </td></tr>
+<tr class="memitem:ad6844fcc012a9868f63b93c4e0dbd6a2"><td class="memTemplItemLeft" align="right" valign="top">__host__ std::ostream &amp;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="../../d4/d51/a00017.html#ad6844fcc012a9868f63b93c4e0dbd6a2">hydra::operator&lt;&lt;</a> (std::ostream &amp;os, Point&lt; T, N, true, false &gt; const &amp;point)</td></tr>
+<tr class="separator:ad6844fcc012a9868f63b93c4e0dbd6a2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a80c3d60e5208290e157629b2953b6e80"><td class="memTemplParams" colspan="2">template&lt;typename T , size_t N&gt; </td></tr>
+<tr class="memitem:a80c3d60e5208290e157629b2953b6e80"><td class="memTemplItemLeft" align="right" valign="top">__host__ std::ostream &amp;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="../../d4/d51/a00017.html#a80c3d60e5208290e157629b2953b6e80">hydra::operator&lt;&lt;</a> (std::ostream &amp;os, Point&lt; T, N, true, true &gt; const &amp;point)</td></tr>
+<tr class="separator:a80c3d60e5208290e157629b2953b6e80"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
+<hr/><h2 class="groupheader">Class Documentation</h2>
+<a name="d5/deb/a00132" id="d5/deb/a00132"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">struct hydra::ValueError</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<div class="textblock"><h3>template&lt;typename T, bool&gt;<br />
+struct hydra::ValueError&lt; T, bool &gt;</h3>
+
+<p><a class="el" href="../../d4/d51/a00017.html#d5/deb/a00132" title="Value error to be interpreted as error on bin content or point weight depending on the case...">ValueError</a> is base class for <a class="el" href="../../d6/d42/a00043.html">Point</a> and provides conditional methods and members to save space in device memory </p>
+
+<p>Definition at line <a class="el" href="../../d7/d70/a00106_source.html#l00056">56</a> of file <a class="el" href="../../d7/d70/a00106_source.html">Point.h</a>.</p>
+</div><div class="dynheader">
+Inheritance diagram for hydra::ValueError&lt; T, bool &gt;:</div>
+<div class="dyncontent">
+<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="../../d3/dd1/a00214.svg" width="100%" height="600"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
+</div>
+<div class="dynheader">
+Collaboration diagram for hydra::ValueError&lt; T, bool &gt;:</div>
+<div class="dyncontent">
+<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="../../d3/dd5/a00215.svg" width="100%" height="600"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
+</div>
+<table class="fieldtable">
+<tr><th colspan="3">Class Members</th></tr>
+<tr><td class="fieldtype">
+<a class="anchor" id="ac14413b9184a4d4c61f785078cf9c357"></a>typedef <a class="el" href="../../d4/d51/a00017.html#d5/deb/a00132">ValueError</a>&lt; T, true &gt;</td>
+<td class="fieldname">
+type</td>
+<td class="fielddoc">
+</td></tr>
+<tr><td class="fieldtype">
+<a class="anchor" id="a45fe549890a6a7ce717b7d1183e60adf"></a>typedef T</td>
+<td class="fieldname">
+value_type</td>
+<td class="fielddoc">
+</td></tr>
+</table>
+
+</div>
+</div>
+<a name="d7/d06/a00131" id="d7/d06/a00131"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">struct hydra::PointError</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<div class="textblock"><h3>template&lt;typename T, size_t N, bool&gt;<br />
+struct hydra::PointError&lt; T, N, bool &gt;</h3>
+
+
+<p>Definition at line <a class="el" href="../../d7/d70/a00106_source.html#l00106">106</a> of file <a class="el" href="../../d7/d70/a00106_source.html">Point.h</a>.</p>
+</div><div class="dynheader">
+Inheritance diagram for hydra::PointError&lt; T, N, bool &gt;:</div>
+<div class="dyncontent">
+<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="../../d6/d43/a00216.svg" width="100%" height="600"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
+</div>
+<div class="dynheader">
+Collaboration diagram for hydra::PointError&lt; T, N, bool &gt;:</div>
+<div class="dyncontent">
+<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="../../df/d24/a00217.svg" width="100%" height="600"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
+</div>
+<table class="fieldtable">
+<tr><th colspan="3">Class Members</th></tr>
+<tr><td class="fieldtype">
+<a class="anchor" id="aee8a2dfcdd709c5da688cdb5ba45a6c6"></a>typedef tuple_type&lt; N, T &gt;::<a class="el" href="../../d4/d51/a00017.html#aee8a2dfcdd709c5da688cdb5ba45a6c6">type</a></td>
+<td class="fieldname">
+type</td>
+<td class="fielddoc">
+</td></tr>
+<tr><td class="fieldtype">
+<a class="anchor" id="a09f7ef7e91ef8cb8e47c1d7bced86a69"></a>typedef T</td>
+<td class="fieldname">
+value_type</td>
+<td class="fielddoc">
+</td></tr>
+</table>
+
+</div>
+</div>
 </div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="../../dir_92a1ff494355b06c14c0e1fe7b982d29.html">Hydra</a></li><li class="navelem"><a class="el" href="../../dir_108162cc96056bf8ace3602d16680a1c.html">hydra</a></li><li class="navelem"><a class="el" href="../../d7/d70/a00106.html">Vector4R.h</a></li>
-    <li class="footer">Generated on Tue Oct 11 2016 04:51:50 for Hydra by
+    <li class="navelem"><a class="el" href="../../dir_92a1ff494355b06c14c0e1fe7b982d29.html">Hydra</a></li><li class="navelem"><a class="el" href="../../dir_108162cc96056bf8ace3602d16680a1c.html">hydra</a></li><li class="navelem"><a class="el" href="../../d7/d70/a00106.html">Point.h</a></li>
+    <li class="footer">Generated on Wed Oct 12 2016 06:08:16 for Hydra by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="../../doxygen.png" alt="doxygen"/></a> 1.8.11 </li>
   </ul>

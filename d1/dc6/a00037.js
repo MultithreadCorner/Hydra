@@ -1,15 +1,20 @@
 var a00037 =
 [
-    [ "type", "d1/dc6/a00037.html#aefaa461409a068f5d059fdb88a967396", null ],
-    [ "value_type", "d1/dc6/a00037.html#a27d197c3632fe74bb8ad75a93c5e2466", null ],
-    [ "PointError", "d1/dc6/a00037.html#aeda20c2ccb3e0816c145df4ceaf78afa", null ],
-    [ "PointError", "d1/dc6/a00037.html#a5435f4d001d9e2adc13482a2ec5d7580", null ],
-    [ "PointError", "d1/dc6/a00037.html#a1623f94d9d35c1b952ffa14cf20c742f", null ],
-    [ "PointError", "d1/dc6/a00037.html#a14831a2ba9bcee385ed614c97f299ce6", null ],
-    [ "PointError", "d1/dc6/a00037.html#a303a367b29360f90554efa62c0d8d3b9", null ],
-    [ "PointError", "d1/dc6/a00037.html#add2d290d872554832c0e94b08c08adb4", null ],
-    [ "GetError", "d1/dc6/a00037.html#a413f6e93d07823aacb58205ee6fdaf24", null ],
-    [ "GetErrors", "d1/dc6/a00037.html#aff18320fb80bf3df2f20858499b44a15", null ],
-    [ "GetErrors", "d1/dc6/a00037.html#aaaea46faaeea724e24cbab1ff10f9210", null ],
-    [ "SetErrors", "d1/dc6/a00037.html#a1f60ab2b82a17784d98826969e21a6ee", null ]
+    [ "functors_type", "d1/dc6/a00037.html#a2ef36f9f2e9e2e8d824ecce2314c3882", null ],
+    [ "hydra_functor_tag", "d1/dc6/a00037.html#a8735bbd9257e290c1c6d409cad16cfd4", null ],
+    [ "is_functor", "d1/dc6/a00037.html#acfeb52d8e514898ca410352f45511160", null ],
+    [ "return_type", "d1/dc6/a00037.html#a34316a346801b61d813d45cc2364bc80", null ],
+    [ "Multiply", "d1/dc6/a00037.html#a7e58e8c0f8797fcdd5317a21f24d18c9", null ],
+    [ "Multiply", "d1/dc6/a00037.html#a049c9e47cbb5ca0baa96f030b264847d", null ],
+    [ "Multiply", "d1/dc6/a00037.html#a77307cc750dce20ae196282bccb6e3fb", null ],
+    [ "GetFunctors", "d1/dc6/a00037.html#a85a55ef7321707bbe70ce3391311a8d2", null ],
+    [ "GetIndex", "d1/dc6/a00037.html#aed836c7846962d5d06e9c607c2ef822d", null ],
+    [ "IsCached", "d1/dc6/a00037.html#ab1165bccc95d46a6770afea7245c3eaf", null ],
+    [ "operator()", "d1/dc6/a00037.html#a1b1d616f3f375174b40f31324b9e04e4", null ],
+    [ "operator()", "d1/dc6/a00037.html#a34e152d73605432cd627e72cb46a7c0a", null ],
+    [ "operator=", "d1/dc6/a00037.html#a4fdc55e70a03354359d363480ab0d9e4", null ],
+    [ "PrintRegisteredParameters", "d1/dc6/a00037.html#a700bee3a984983bd29c91adae99afef8", null ],
+    [ "SetCached", "d1/dc6/a00037.html#afa65f4f4e77117d6666b64c7130df0f6", null ],
+    [ "SetIndex", "d1/dc6/a00037.html#a8e554c762fcbcffd49368cb6e431c365", null ],
+    [ "SetParameters", "d1/dc6/a00037.html#a4382b4c1357ef57195f975952dd9d13b", null ]
 ];

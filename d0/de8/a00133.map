@@ -1,3 +1,14 @@
-<map id="DecayMother.h" name="DecayMother.h">
-<area shape="rect" id="node2" href="$d1/d1e/a00087.html" title="Implements the struct Events and the class PhaseSpace. " alt="" coords="7,80,114,107"/>
+<map id="AddPdf.h" name="AddPdf.h">
+<area shape="rect" id="node2" href="$da/d24/a00068.html" title="hydra/detail/Config.h" alt="" coords="1158,572,1301,599"/>
+<area shape="rect" id="node12" href="$d9/d4b/a00117.html" title="hydra/Types.h" alt="" coords="329,572,434,599"/>
+<area shape="rect" id="node13" href="$d4/d3a/a00101.html" title="hydra/Parameter.h" alt="" coords="190,162,319,189"/>
+<area shape="rect" id="node33" href="$d9/dcc/a00102.html" title="hydra/Pdf.h" alt="" coords="930,80,1019,107"/>
+<area shape="rect" id="node35" href="$d4/d98/a00120.html" title="hydra/detail/utility\l/Utility_Tuple.h" alt="" coords="1182,155,1306,196"/>
+<area shape="rect" id="node36" href="$da/d2a/a00086.html" title="hydra/detail/utility\l/Generic.h" alt="" coords="1313,244,1437,285"/>
+<area shape="rect" id="node39" href="$df/d5d/a00084.html" title="hydra/detail/FunctorTraits.h" alt="" coords="368,251,549,278"/>
+<area shape="rect" id="node14" href="$d8/d87/a00118.html" title="hydra/detail/TypeTraits.h" alt="" coords="745,251,911,278"/>
+<area shape="rect" id="node15" href="$d2/db1/a00070.html" title="Typedef for useful container classes used in MCBooster. " alt="" coords="609,341,741,367"/>
+<area shape="rect" id="node18" href="$d8/dfa/a00121.html" title="hydra/Vector3R.h" alt="" coords="915,497,1039,524"/>
+<area shape="rect" id="node23" href="$df/dc8/a00122.html" title="hydra/Vector4R.h" alt="" coords="521,423,645,449"/>
+<area shape="rect" id="node34" href="$d1/dd6/a00108.html" title="hydra/detail/Print.h" alt="" coords="520,497,651,524"/>
 </map>

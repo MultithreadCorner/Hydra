@@ -1,13 +1,6 @@
-<map id="LogLikelihood.h" name="LogLikelihood.h">
-<area shape="rect" id="node2" href="$d4/de8/a00061.html" title="hydra/detail/Config.h" alt="" coords="1333,647,1475,673"/>
-<area shape="rect" id="node12" href="$d4/d3a/a00101.html" title="hydra/Types.h" alt="" coords="469,647,574,673"/>
-<area shape="rect" id="node13" href="$d0/dc2/a00104.html" title="hydra/detail/utility\l/Utility_Tuple.h" alt="" coords="1013,229,1137,271"/>
-<area shape="rect" id="node17" href="$d9/dcc/a00102.html" title="hydra/detail/TypeTraits.h" alt="" coords="585,326,751,353"/>
-<area shape="rect" id="node34" href="$d9/dec/a00090.html" title="hydra/Point.h" alt="" coords="680,155,779,181"/>
-<area shape="rect" id="node36" href="$da/d82/a00091.html" title="hydra/PointVector.h" alt="" coords="574,80,711,107"/>
-<area shape="rect" id="node14" href="$db/df8/a00076.html" title="hydra/detail/utility\l/Generic.h" alt="" coords="1225,319,1349,360"/>
-<area shape="rect" id="node18" href="$d1/d6f/a00063.html" title="Typedef for useful container classes used in MCBooster. " alt="" coords="827,415,959,442"/>
-<area shape="rect" id="node20" href="$d3/d32/a00105.html" title="hydra/Vector3R.h" alt="" coords="725,572,849,599"/>
-<area shape="rect" id="node25" href="$d7/d70/a00106.html" title="hydra/Vector4R.h" alt="" coords="922,497,1046,524"/>
-<area shape="rect" id="node35" href="$d7/df7/a00058.html" title="hydra/detail/utility\l/Arithmetic_Tuple.h" alt="" coords="854,229,989,271"/>
+<map id="Events.h" name="Events.h">
+<area shape="rect" id="node2" href="$d5/d1e/a00103.html" title="Implements the struct Events and the class PhaseSpace. " alt="" coords="227,80,334,107"/>
+<area shape="rect" id="node3" href="$db/dab/a00089.html" title="HydraFitExample.cpp" alt="" coords="5,155,153,181"/>
+<area shape="rect" id="node4" href="$da/d82/a00091.html" title="HydraPhaseSpaceExample.cpp" alt="" coords="177,155,384,181"/>
+<area shape="rect" id="node5" href="$d1/dc1/a00092.html" title="HydraPhaseSpaceExample.cu" alt="" coords="409,155,609,181"/>
 </map>

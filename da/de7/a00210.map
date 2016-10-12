@@ -1,13 +1,4 @@
-<map id="Vegas.h" name="Vegas.h">
-<area shape="rect" id="node3" href="$d4/de8/a00061.html" title="hydra/detail/Config.h" alt="" coords="823,587,966,613"/>
-<area shape="rect" id="node13" href="$d4/d3a/a00101.html" title="hydra/Types.h" alt="" coords="1734,587,1839,613"/>
-<area shape="rect" id="node14" href="$d1/dd6/a00108.html" title="hydra/VegasState.h" alt="" coords="551,266,689,293"/>
-<area shape="rect" id="node32" href="$dc/d54/a00094.html" title="hydra/detail/functors\l/ProcessCallsVegas.h" alt="" coords="1233,80,1385,121"/>
-<area shape="rect" id="node42" href="$d1/d51/a00079.html" title="hydra/detail/Integrator.h" alt="" coords="17,512,175,539"/>
-<area shape="rect" id="node17" href="$d1/d6f/a00063.html" title="Typedef for useful container classes used in MCBooster. " alt="" coords="1266,355,1398,382"/>
-<area shape="rect" id="node20" href="$d3/d32/a00105.html" title="hydra/Vector3R.h" alt="" coords="1409,512,1533,539"/>
-<area shape="rect" id="node24" href="$d7/d70/a00106.html" title="hydra/Vector4R.h" alt="" coords="1009,437,1133,464"/>
-<area shape="rect" id="node33" href="$d0/dc2/a00104.html" title="hydra/detail/utility\l/Utility_Tuple.h" alt="" coords="1790,169,1914,211"/>
-<area shape="rect" id="node34" href="$db/df8/a00076.html" title="hydra/detail/utility\l/Generic.h" alt="" coords="1966,259,2090,300"/>
-<area shape="rect" id="node36" href="$d9/dcc/a00102.html" title="hydra/detail/TypeTraits.h" alt="" coords="1622,266,1789,293"/>
+<map id="PlainState.h" name="PlainState.h">
+<area shape="rect" id="node3" href="$da/d24/a00068.html" title="hydra/detail/Config.h" alt="" coords="476,80,619,107"/>
+<area shape="rect" id="node13" href="$d9/d4b/a00117.html" title="hydra/Types.h" alt="" coords="643,80,748,107"/>
 </map>

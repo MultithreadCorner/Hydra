@@ -1,6 +1,6 @@
 var a00078 =
 [
-    [ "Hydra_VERSION_MAJOR", "d9/da4/a00078.html#a95d1abb83d001dc9cae163236910c439", null ],
-    [ "Hydra_VERSION_MINOR", "d9/da4/a00078.html#aca82490e4d49651a1d802f1cdb8b1e9b", null ],
-    [ "Hydra_VERSION_PATCH", "d9/da4/a00078.html#acb4a3b573ee645982d76cf1cf3c68bd8", null ]
+    [ "LambdaWrapper", "d7/dd4/a00013.html#df/dcd/a00127", null ],
+    [ "LambdaWrapper< ReturnType(ArgType), L >", "d5/d16/a00029.html", "d5/d16/a00029" ],
+    [ "wrap_lambda", "d9/da4/a00078.html#a53506830108537bc49811415296ba738", null ]
 ];

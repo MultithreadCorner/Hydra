@@ -1,8 +1,8 @@
 var a00074 =
 [
-    [ "ProcessCallsVegas", "db/db6/a00074.html#a0dc1ff4a6690a4568d1392f11d060258", null ],
-    [ "ProcessCallsVegas", "db/db6/a00074.html#a01908236db55b720562eda8af3cbbd6d", null ],
-    [ "~ProcessCallsVegas", "db/db6/a00074.html#a5fee971f8634c708370960253fb3e771", null ],
-    [ "GetBoxCoordinate", "db/db6/a00074.html#a0299b9e8e6a1b8cf6c41ff06ef1e6103", null ],
-    [ "operator()", "db/db6/a00074.html#aeea42943e0d6a290d923ab903547675d", null ]
+    [ "Divide", "d7/d7a/a00016.html", "d7/d7a/a00016" ],
+    [ "divide", "db/db6/a00074.html#a762ed9329b60137d5230242c159b0c6d", null ],
+    [ "operator/", "db/db6/a00074.html#a54dc58e9b41feba5a89a93826fd73c22", null ],
+    [ "operator/", "db/db6/a00074.html#ad5e44113c8c7fad75c3e8322730d0056", null ],
+    [ "operator/", "db/db6/a00074.html#a6fb214ec121e9fe94216ea14a5969980", null ]
 ];
