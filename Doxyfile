@@ -3,7 +3,7 @@ PROJECT_NUMBER         =  1.0.0
 
 STRIP_FROM_PATH        = /home/augalves/Development/Development/Hydra_Variadic_Github/Hydra
  
-INPUT                  = /home/augalves/Development/Development/Hydra_Variadic_Github/Hydra/hydra /home/augalves/Development/Development/Hydra_Variadic_Github/Hydra/README.md
+INPUT                  = /home/augalves/Development/Development/Hydra_Variadic_Github/Hydra/hydra /home/augalves/Development/Development/Hydra_Variadic_Github/Hydra/src /home/augalves/Development/Development/Hydra_Variadic_Github/Hydra/README.md
 
 USE_MDFILE_AS_MAINPAGE = /home/augalves/Development/Development/Hydra_Variadic_Github/Hydra/README.md
 PROJECT_LOGO           = /home/augalves/Development/Development/Hydra_Variadic_Github/Hydra/Hydra.jpg
@@ -52,14 +52,14 @@ OPTIMIZE_OUTPUT_FOR_C  = NO
 OPTIMIZE_OUTPUT_JAVA   = NO
 OPTIMIZE_FOR_FORTRAN   = NO
 OPTIMIZE_OUTPUT_VHDL   = NO
-EXTENSION_MAPPING      = 
+EXTENSION_MAPPING      = cu=C
 MARKDOWN_SUPPORT       = YES
 AUTOLINK_SUPPORT       = YES
 BUILTIN_STL_SUPPORT    = YES
 CPP_CLI_SUPPORT        = NO
 SIP_SUPPORT            = NO
 IDL_PROPERTY_SUPPORT   = NO
-DISTRIBUTE_GROUP_DOC   = NO
+DISTRIBUTE_GROUP_DOC   = YES
 GROUP_NESTED_COMPOUNDS = NO
 SUBGROUPING            = YES
 INLINE_GROUPED_CLASSES = YES
@@ -85,7 +85,7 @@ CASE_SENSE_NAMES       = YES
 HIDE_SCOPE_NAMES       = NO
 HIDE_COMPOUND_REFERENCE= NO
 SHOW_INCLUDE_FILES     = NO
-SHOW_GROUPED_MEMB_INC  = NO
+SHOW_GROUPED_MEMB_INC  = YES
 FORCE_LOCAL_INCLUDES   = NO
 INLINE_INFO            = YES
 SORT_MEMBER_DOCS       = YES
@@ -121,7 +121,8 @@ WARN_LOGFILE           =
 # Configuration options related to the input files
 #---------------------------------------------------------------------------
 INPUT_ENCODING         = UTF-8
-FILE_PATTERNS          = *.c \
+FILE_PATTERNS          = *.cu \
+						 *.c \
                          *.cc \
                          *.cxx \
                          *.cpp \
@@ -169,13 +170,13 @@ EXCLUDE                =
 EXCLUDE_SYMLINKS       = NO
 EXCLUDE_PATTERNS       = 
 EXCLUDE_SYMBOLS        = detail
-EXAMPLE_PATH           = 
+EXAMPLE_PATH           = /home/augalves/Development/Development/Hydra_Variadic_Github/Hydra/src
 EXAMPLE_PATTERNS       = *
-EXAMPLE_RECURSIVE      = NO
+EXAMPLE_RECURSIVE      = YES
 IMAGE_PATH             = 
 INPUT_FILTER           = 
 FILTER_PATTERNS        = 
-FILTER_SOURCE_FILES    = YES
+FILTER_SOURCE_FILES    = NO
 FILTER_SOURCE_PATTERNS = 
 #---------------------------------------------------------------------------
 # Configuration options related to source browsing

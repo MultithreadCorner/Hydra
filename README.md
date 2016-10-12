@@ -32,6 +32,59 @@ to compile your application for OpenMP using GCC in a machine without a NVIDIA G
 
 Many other possibilities and functionaties can be achivied combining the core components, bounded only by the creativity of the users. 
 
+Hydra and Thrust
+----------------
+
+Hydra is implemented on top of the [Thrust library](https://thrust.github.io/) and rely strongly on Thrust's containers, algorithms and backend managment systems.
+The function evaluation algorithms implemented in Hydra uses tuples to build and process datasets with mixed different types. This allow to manage  
+performance degradation associated to memory access and at same time keep flexibility.   
+
+The official version of Thrust supports tuples with maximum ten elements. In order to overcome this limitation, Hydra uses the 
+[unoficial version, forked from the original, by Andrew Currigan and collaborators](https://github.com/andrewcorrigan/thrust-multi-permutation-iterator). 
+This version implements variadic tuples and related classes, as well as provides some additional functionalities, which are missing in the official Thrust.
+
+The version of Thrust distributed with Hydra is maintained by [MultithreadCorner](https://github.com/MultithreadCorner). It is basically 
+a fork of Currigan's repository, which is merged with the latest official release, distributed with the 
+[CUDA Tookit](https://developer.nvidia.com/cuda-toolkit). 
+
+***Hydra does not compile against the official Thrust library.***
+
+
+Supported Paralels Backends
+---------------------------
+
+Hydra uses the Thrust's "backend systems" to control how the algorithms algorithms get
+mapped to and executed on the parallel processors available to a given application. 
+There are two basic ways to access Thrust's systems: by specifying the global "device" system associated with types like ```thrust::device_vector```,
+or by selecting a specific container associated with a particular system, such as ```thrust::cuda::vector```. 
+These two approaches are complementary and may be used together within the same program.
+Hydra library defines the symbols ```hydra::device``` and ```hydra::host``` that controls where some algorithms are executed and 
+Hydra's specialized containers are allocated. 
+The backends are selected in compile time using the macros ```THRUST_HOST_SYSTEM``` and ```THRUST_DEVICE_SYSTEM```.
+The following backdends are available:
+ 
+* host: THRUST_HOST_SYSTEM_CPP, THRUST_HOST_SYSTEM_OMP, THRUST_HOST_SYSTEM_TBB
+* device: THRUST_DEVICE_SYSTEM_CPP, THRUST_DEVICE_SYSTEM_OMP, THRUST_DEVICE_SYSTEM_TBB, THRUST_DEVICE_SYSTEM_CUDA
+
+For example, this will compile ```my_program.cu``` using OpenMP as host backend and CUDA as device backend:
+
+```bash
+nvcc -Xcompiler -fopenmp -DTHRUST_HOST_SYSTEM=THRUST_HOST_SYSTEM_OMP -DTHRUST_DEVICE_SYSTEM=THRUST_DEVICE_SYSTEM_CUDA  my_program.cu
+```
+The available "host" and "device" backends can be freely combined. 
+Two important features related to the Hydra's design and the backend configuration:
+
+* If CUDA backend is not used, [NVCC and the CUDA runtime](https://developer.nvidia.com/cuda-toolkit) are not necessary. The programs can be compiled with GCC directly.
+* Programs written using only Hydra, Thrust, STL and standard c++ constructs, it means without any raw CUDA code or raw calls to the CUDA runtime API,
+can be compiled with NVCC, to run on CUDA backends, or gcc to run on OpenMP and TBB backends. **Just change the source file extention from .cu to .cpp, or something else GCC understands.**        
+
+###Thrust Backends###
+
+Thrust supports CUDA, OpenMP and TBB enabled devices, so as well Hydra.
+Read more about backend configuration on Thrust library [here](https://github.com/thrust/thrust/wiki/Device-Backends)  
+and [here](https://github.com/thrust/thrust/wiki/Host-Backends)
+
+
 The Latest Version
 ------------------
 
@@ -57,14 +110,15 @@ Installation and requirements
 Hydra is a header only library, so no build process is necessary to install it. 
 Just place the `hydra` folder and its contents where your system can find it.
 The library run on Linux systems and requires C++11 and the varidadic version of the 
-[Thrust library](https://github.com/andrewcorrigan/thrust-multi-permutation-iterator/tree/variadic) and [boost::format](http://www.boost.org/doc/libs/1_61_0/libs/format/doc/format.html). 
+[Thrust library](https://github.com/MultithreadCorner/thrust-multi-permutation-iterator) 
+and [boost::format](http://www.boost.org/doc/libs/1_61_0/libs/format/doc/format.html). 
 
 Some examples demonstrating the basic features of the library are included in the `src` folder. 
 These code samples require [ROOT](https://root.cern.ch/) and [TCLAP](http://tclap.sourceforge.net/) library. 
-CUDA based projects will require a local installation of [CUDA Tookit](https://developer.nvidia.com/cuda-toolkit)
- with version 6.5 or higher.   
+CUDA based targets will require a local installation of [CUDA Tookit](https://developer.nvidia.com/cuda-toolkit)
+with version 7.5 or higher.   
 Alternatively, projects targeting [OpenMP](http://openmp.org/wp/) backend can be compiled with either nvcc or gcc. 
-The CUDA installation is not required to use OpemMP. 
+The CUDA installation is not required to build the OpemMP based targets. 
 
 Examples
 --------
