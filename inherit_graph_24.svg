@@ -10,7 +10,7 @@
 <title>Graphical Class Hierarchy</title>
 <!-- Node1 -->
 <g id="node1" class="node"><title>Node1</title>
-<g id="a_node1"><a xlink:href="d4/d51/a00017.html#d9/d47/a00129" target="_top" xlink:title="hydra::LambdaWrapper\l\&lt; Sig, L, typename \&gt;">
+<g id="a_node1"><a xlink:href="d5/d16/a00029.html#d5/d4e/a00141" target="_top" xlink:title="hydra::LambdaWrapper\l\&lt; Sig, L, typename \&gt;">
 <polygon fill="none" stroke="black" points="0,-0.5 0,-30.5 118,-30.5 118,-0.5 0,-0.5"/>
 <text text-anchor="start" x="8" y="-18.5" font-family="Helvetica,sans-Serif" font-size="10.00">hydra::LambdaWrapper</text>
 <text text-anchor="middle" x="59" y="-7.5" font-family="Helvetica,sans-Serif" font-size="10.00">&lt; Sig, L, typename &gt;</text>

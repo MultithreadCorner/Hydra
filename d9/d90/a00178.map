@@ -1,6 +1,4 @@
-<map id="Gauss.h" name="Gauss.h">
-<area shape="rect" id="node2" href="$db/dab/a00089.html" title="HydraFitExample.cpp" alt="" coords="5,80,153,107"/>
-<area shape="rect" id="node3" href="$d9/dec/a00090.html" title="HydraFitExample.cu" alt="" coords="178,80,319,107"/>
-<area shape="rect" id="node4" href="$da/d82/a00091.html" title="HydraPhaseSpaceExample.cpp" alt="" coords="344,80,551,107"/>
-<area shape="rect" id="node5" href="$d1/dc1/a00092.html" title="HydraPhaseSpaceExample.cu" alt="" coords="575,80,775,107"/>
+<map id="FlagAcceptReject.h" name="FlagAcceptReject.h">
+<area shape="rect" id="node2" href="$da/dec/a00080.html" title="hydra/detail/Config.h" alt="" coords="476,80,619,107"/>
+<area shape="rect" id="node12" href="$de/d36/a00123.html" title="hydra/Types.h" alt="" coords="643,80,748,107"/>
 </map>

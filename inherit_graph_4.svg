@@ -10,7 +10,7 @@
 <title>Graphical Class Hierarchy</title>
 <!-- Node1 -->
 <g id="node1" class="node"><title>Node1</title>
-<g id="a_node1"><a xlink:href="d4/dee/a00008.html" target="_top" xlink:title="hydra::BaseFunctor\l\&lt; LambdaWrapper\&lt; ReturnType\l(ArgType), L \&gt;, ReturnType, 0 \&gt;">
+<g id="a_node1"><a xlink:href="db/db2/a00020.html" target="_top" xlink:title="hydra::BaseFunctor\l\&lt; LambdaWrapper\&lt; ReturnType\l(ArgType), L \&gt;, ReturnType, 0 \&gt;">
 <polygon fill="none" stroke="black" points="0,-0.5 0,-41.5 157,-41.5 157,-0.5 0,-0.5"/>
 <text text-anchor="start" x="8" y="-29.5" font-family="Helvetica,sans-Serif" font-size="10.00">hydra::BaseFunctor</text>
 <text text-anchor="start" x="8" y="-18.5" font-family="Helvetica,sans-Serif" font-size="10.00">&lt; LambdaWrapper&lt; ReturnType</text>
@@ -20,7 +20,7 @@
 </g>
 <!-- Node2 -->
 <g id="node2" class="node"><title>Node2</title>
-<g id="a_node2"><a xlink:href="d0/dc0/a00033.html" target="_top" xlink:title="hydra::LambdaWrapper\l\&lt; ReturnType(ArgType), L \&gt;">
+<g id="a_node2"><a xlink:href="d6/d97/a00045.html" target="_top" xlink:title="hydra::LambdaWrapper\l\&lt; ReturnType(ArgType), L \&gt;">
 <polygon fill="none" stroke="black" points="193,-6 193,-36 333,-36 333,-6 193,-6"/>
 <text text-anchor="start" x="201" y="-24" font-family="Helvetica,sans-Serif" font-size="10.00">hydra::LambdaWrapper</text>
 <text text-anchor="middle" x="263" y="-13" font-family="Helvetica,sans-Serif" font-size="10.00">&lt; ReturnType(ArgType), L &gt;</text>

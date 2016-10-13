@@ -1,5 +1,6 @@
 var a00091 =
 [
-    [ "CUDA_API_PER_THREAD_DEFAULT_STREAM", "da/d82/a00091.html#a2a1de18eafc5d4cfda05de797f974211", null ],
-    [ "main", "da/d82/a00091.html#a32c166bdb75e9b204c87878f510ea1c5", null ]
+    [ "LambdaWrapper", "d0/d33/a00027.html#de/d14/a00139", null ],
+    [ "LambdaWrapper< ReturnType(ArgType), L >", "d6/d42/a00043.html", "d6/d42/a00043" ],
+    [ "wrap_lambda", "da/d82/a00091.html#a53506830108537bc49811415296ba738", null ]
 ];

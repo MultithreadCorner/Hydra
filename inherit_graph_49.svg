@@ -10,7 +10,7 @@
 <title>Graphical Class Hierarchy</title>
 <!-- Node1 -->
 <g id="node1" class="node"><title>Node1</title>
-<g id="a_node1"><a xlink:href="d3/d8b/a00059.html" target="_top" xlink:title="hydra::Vector3R">
+<g id="a_node1"><a xlink:href="d0/d89/a00071.html" target="_top" xlink:title="hydra::Vector3R">
 <polygon fill="none" stroke="black" points="0,-0.5 0,-19.5 88,-19.5 88,-0.5 0,-0.5"/>
 <text text-anchor="middle" x="44" y="-7.5" font-family="Helvetica,sans-Serif" font-size="10.00">hydra::Vector3R</text>
 </a>

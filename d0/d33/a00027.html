@@ -4,7 +4,7 @@
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.11"/>
-<title>Hydra: hydra::HyRndGauss&lt; GRND &gt; Struct Template Reference</title>
+<title>Hydra: hydra::DecayMothers&lt; N, BACKEND, GRND &gt; Struct Template Reference</title>
 <link href="../../tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="../../jquery.js"></script>
 <script type="text/javascript" src="../../dynsections.js"></script>
@@ -55,6 +55,7 @@ var searchBox = new SearchBox("searchBox", "../../search",false,'Search');
   <div id="navrow1" class="tabs">
     <ul class="tablist">
       <li><a href="../../index.html"><span>Main&#160;Page</span></a></li>
+      <li><a href="../../modules.html"><span>Modules</span></a></li>
       <li><a href="../../namespaces.html"><span>Namespaces</span></a></li>
       <li class="current"><a href="../../annotated.html"><span>Classes</span></a></li>
       <li><a href="../../files.html"><span>Files</span></a></li>
@@ -116,70 +117,118 @@ $(document).ready(function(){initNavTree('d0/d33/a00027.html','../../');});
 
 <div class="header">
   <div class="summary">
+<a href="#pub-types">Public Types</a> &#124;
 <a href="#pub-methods">Public Member Functions</a> &#124;
 <a href="#pub-attribs">Public Attributes</a> &#124;
-<a href="../../d9/d0d/a00298.html">List of all members</a>  </div>
+<a href="../../da/dd4/a00291.html">List of all members</a>  </div>
   <div class="headertitle">
-<div class="title">hydra::HyRndGauss&lt; GRND &gt; Struct Template Reference</div>  </div>
+<div class="title">hydra::DecayMothers&lt; N, BACKEND, GRND &gt; Struct Template Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
 <div class="dynheader">
-Collaboration diagram for hydra::HyRndGauss&lt; GRND &gt;:</div>
+Collaboration diagram for hydra::DecayMothers&lt; N, BACKEND, GRND &gt;:</div>
 <div class="dyncontent">
-<div class="center"><iframe scrolling="no" frameborder="0" src="../../df/d95/a00299.svg" width="160" height="162"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+<div class="center"><iframe scrolling="no" frameborder="0" src="../../d8/d0a/a00292.svg" width="190" height="206"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 </div>
 <table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-types"></a>
+Public Types</h2></td></tr>
+<tr class="memitem:a0ed4ac8556fd192f97bf3671221826e0"><td class="memItemLeft" align="right" valign="top">typedef detail::BackendTraits&lt; BACKEND &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/d33/a00027.html#a0ed4ac8556fd192f97bf3671221826e0">system_t</a></td></tr>
+<tr class="separator:a0ed4ac8556fd192f97bf3671221826e0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6ee37290b1e0d571ee23f41f11aa87ca"><td class="memItemLeft" align="right" valign="top">typedef system_t::template container&lt; <a class="el" href="../../d5/d16/a00029.html#a971e94bcb8c43741d11f9d8eb98f5fab">GReal_t</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/d33/a00027.html#a6ee37290b1e0d571ee23f41f11aa87ca">vector_real</a></td></tr>
+<tr class="separator:a6ee37290b1e0d571ee23f41f11aa87ca"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:ac4800dbc25294ad69a18ef3b31606d2a"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/d33/a00027.html#ac4800dbc25294ad69a18ef3b31606d2a">HyRndGauss</a> (size_t seed, <a class="el" href="../../d4/d51/a00017.html#a971e94bcb8c43741d11f9d8eb98f5fab">GReal_t</a> mean, <a class="el" href="../../d4/d51/a00017.html#a971e94bcb8c43741d11f9d8eb98f5fab">GReal_t</a> sigma)</td></tr>
-<tr class="separator:ac4800dbc25294ad69a18ef3b31606d2a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a33eeb5881fd9087cc10bde6989989aab"><td class="memItemLeft" align="right" valign="top">__host__ __device__&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/d33/a00027.html#a33eeb5881fd9087cc10bde6989989aab">HyRndGauss</a> (<a class="el" href="../../d0/d33/a00027.html">HyRndGauss</a>&lt; GRND &gt; const &amp;other)</td></tr>
-<tr class="separator:a33eeb5881fd9087cc10bde6989989aab"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab86fc72857e448adde5914965c1779cb"><td class="memItemLeft" align="right" valign="top">__host__ __device__ <a class="el" href="../../d4/d51/a00017.html#a971e94bcb8c43741d11f9d8eb98f5fab">GReal_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/d33/a00027.html#ab86fc72857e448adde5914965c1779cb">operator()</a> (size_t index)</td></tr>
-<tr class="separator:ab86fc72857e448adde5914965c1779cb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0de6060e994d75d9331977b49faa97c2"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/d33/a00027.html#a0de6060e994d75d9331977b49faa97c2">DecayMothers</a> (<a class="el" href="../../d0/d33/a00027.html#a6ee37290b1e0d571ee23f41f11aa87ca">vector_real</a> const &amp;_masses, const <a class="el" href="../../d5/d16/a00029.html#a0c9fb4d7195ab952da10a82d5c4ad30e">GInt_t</a> _ndaughters, const <a class="el" href="../../d5/d16/a00029.html#a0c9fb4d7195ab952da10a82d5c4ad30e">GInt_t</a> _seed)</td></tr>
+<tr class="separator:a0de6060e994d75d9331977b49faa97c2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7f7ea8810347c34670352b2ef10e4231"><td class="memItemLeft" align="right" valign="top">__host__ __device__ void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/d33/a00027.html#a7f7ea8810347c34670352b2ef10e4231">bbsort</a> (<a class="el" href="../../d5/d16/a00029.html#a971e94bcb8c43741d11f9d8eb98f5fab">GReal_t</a> *array, <a class="el" href="../../d5/d16/a00029.html#a0c9fb4d7195ab952da10a82d5c4ad30e">GInt_t</a> n)</td></tr>
+<tr class="separator:a7f7ea8810347c34670352b2ef10e4231"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a273279dc4e731ed278b0b6224b2497e2"><td class="memItemLeft" align="right" valign="top">__host__ __device__ size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/d33/a00027.html#a273279dc4e731ed278b0b6224b2497e2">hash</a> (size_t a, size_t b)</td></tr>
+<tr class="separator:a273279dc4e731ed278b0b6224b2497e2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9aca189a3fd086fa12e869e922cfee52"><td class="memTemplParams" colspan="2">template&lt;typename Tuple &gt; </td></tr>
+<tr class="memitem:a9aca189a3fd086fa12e869e922cfee52"><td class="memTemplItemLeft" align="right" valign="top">__host__ __device__ <a class="el" href="../../d5/d16/a00029.html#a971e94bcb8c43741d11f9d8eb98f5fab">GReal_t</a>&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="../../d0/d33/a00027.html#a9aca189a3fd086fa12e869e922cfee52">operator()</a> (const <a class="el" href="../../d5/d16/a00029.html#a0c9fb4d7195ab952da10a82d5c4ad30e">GInt_t</a> evt, Tuple &amp;particles)</td></tr>
+<tr class="separator:a9aca189a3fd086fa12e869e922cfee52"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac2cdb510af0c1f3e6efc9219d36e7fc2"><td class="memItemLeft" align="right" valign="top">__host__ __device__ <a class="el" href="../../d5/d16/a00029.html#a971e94bcb8c43741d11f9d8eb98f5fab">GReal_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/d33/a00027.html#ac2cdb510af0c1f3e6efc9219d36e7fc2">pdk</a> (const <a class="el" href="../../d5/d16/a00029.html#a971e94bcb8c43741d11f9d8eb98f5fab">GReal_t</a> a, const <a class="el" href="../../d5/d16/a00029.html#a971e94bcb8c43741d11f9d8eb98f5fab">GReal_t</a> b, const <a class="el" href="../../d5/d16/a00029.html#a971e94bcb8c43741d11f9d8eb98f5fab">GReal_t</a> c) const </td></tr>
+<tr class="separator:ac2cdb510af0c1f3e6efc9219d36e7fc2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2a57eb5a3b47dc976ec7d8794d408a6b"><td class="memItemLeft" align="right" valign="top">__host__ __device__ <a class="el" href="../../d5/d16/a00029.html#a971e94bcb8c43741d11f9d8eb98f5fab">GReal_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/d33/a00027.html#a2a57eb5a3b47dc976ec7d8794d408a6b">process</a> (const <a class="el" href="../../d5/d16/a00029.html#a0c9fb4d7195ab952da10a82d5c4ad30e">GInt_t</a> evt, <a class="el" href="../../d6/d2c/a00072.html">Vector4R</a> **particles)</td></tr>
+<tr class="separator:a2a57eb5a3b47dc976ec7d8794d408a6b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-attribs"></a>
 Public Attributes</h2></td></tr>
-<tr class="memitem:a3f2e01fbd6daccd8535b99985b5cefa5"><td class="memItemLeft" align="right" valign="top">size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/d33/a00027.html#a3f2e01fbd6daccd8535b99985b5cefa5">fSeed</a></td></tr>
-<tr class="separator:a3f2e01fbd6daccd8535b99985b5cefa5"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa3caa995b304e7047a2ef9af19fc2aad"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../d4/d51/a00017.html#a971e94bcb8c43741d11f9d8eb98f5fab">GReal_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/d33/a00027.html#aa3caa995b304e7047a2ef9af19fc2aad">fMean</a></td></tr>
-<tr class="separator:aa3caa995b304e7047a2ef9af19fc2aad"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a00bcbf6a05ef747d8f2fdd49d753bcf4"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../d4/d51/a00017.html#a971e94bcb8c43741d11f9d8eb98f5fab">GReal_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/d33/a00027.html#a00bcbf6a05ef747d8f2fdd49d753bcf4">fSigma</a></td></tr>
-<tr class="separator:a00bcbf6a05ef747d8f2fdd49d753bcf4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae54ae37ce68858c0bcd08dc78b348603"><td class="memItemLeft" align="right" valign="top">const <a class="el" href="../../d5/d16/a00029.html#a971e94bcb8c43741d11f9d8eb98f5fab">GReal_t</a> *__restrict__&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/d33/a00027.html#ae54ae37ce68858c0bcd08dc78b348603">fMasses</a></td></tr>
+<tr class="separator:ae54ae37ce68858c0bcd08dc78b348603"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a979b00b843e125d0891110da86dc96c0"><td class="memItemLeft" align="right" valign="top">const <a class="el" href="../../d5/d16/a00029.html#a0c9fb4d7195ab952da10a82d5c4ad30e">GInt_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/d33/a00027.html#a979b00b843e125d0891110da86dc96c0">fNDaughters</a></td></tr>
+<tr class="separator:a979b00b843e125d0891110da86dc96c0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a71bbd2662af98a82f60d811a0d498fbe"><td class="memItemLeft" align="right" valign="top">const <a class="el" href="../../d5/d16/a00029.html#a0c9fb4d7195ab952da10a82d5c4ad30e">GInt_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/d33/a00027.html#a71bbd2662af98a82f60d811a0d498fbe">fSeed</a></td></tr>
+<tr class="separator:a71bbd2662af98a82f60d811a0d498fbe"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><h3>template&lt;typename GRND&gt;<br />
-struct hydra::HyRndGauss&lt; GRND &gt;</h3>
+<div class="textblock"><h3>template&lt;size_t N, unsigned int BACKEND, typename GRND&gt;<br />
+struct hydra::DecayMothers&lt; N, BACKEND, GRND &gt;</h3>
 
 
-<p>Definition at line <a class="el" href="../../db/d57/a00112_source.html#l00069">69</a> of file <a class="el" href="../../db/d57/a00112_source.html">RandomUtils.h</a>.</p>
-</div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
-<a class="anchor" id="ac4800dbc25294ad69a18ef3b31606d2a"></a>
+<p>Definition at line <a class="el" href="../../df/d13/a00085_source.html#l00059">59</a> of file <a class="el" href="../../df/d13/a00085_source.html">DecayMothers.h</a>.</p>
+</div><h2 class="groupheader">Member Typedef Documentation</h2>
+<a class="anchor" id="a0ed4ac8556fd192f97bf3671221826e0"></a>
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;typename GRND&gt; </div>
+template&lt;size_t N, unsigned int BACKEND, typename GRND&gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">typedef detail::BackendTraits&lt;BACKEND&gt; <a class="el" href="../../d0/d33/a00027.html">hydra::DecayMothers</a>&lt; N, BACKEND, GRND &gt;::<a class="el" href="../../d0/d33/a00027.html#a0ed4ac8556fd192f97bf3671221826e0">system_t</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="../../df/d13/a00085_source.html#l00061">61</a> of file <a class="el" href="../../df/d13/a00085_source.html">DecayMothers.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a6ee37290b1e0d571ee23f41f11aa87ca"></a>
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;size_t N, unsigned int BACKEND, typename GRND&gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">typedef system_t::template container&lt;<a class="el" href="../../d5/d16/a00029.html#a971e94bcb8c43741d11f9d8eb98f5fab">GReal_t</a>&gt; <a class="el" href="../../d0/d33/a00027.html">hydra::DecayMothers</a>&lt; N, BACKEND, GRND &gt;::<a class="el" href="../../d0/d33/a00027.html#a6ee37290b1e0d571ee23f41f11aa87ca">vector_real</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="../../df/d13/a00085_source.html#l00062">62</a> of file <a class="el" href="../../df/d13/a00085_source.html">DecayMothers.h</a>.</p>
+
+</div>
+</div>
+<h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
+<a class="anchor" id="a0de6060e994d75d9331977b49faa97c2"></a>
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;size_t N, unsigned int BACKEND, typename GRND&gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="../../d0/d33/a00027.html">hydra::HyRndGauss</a>&lt; GRND &gt;::<a class="el" href="../../d0/d33/a00027.html">HyRndGauss</a> </td>
+          <td class="memname"><a class="el" href="../../d0/d33/a00027.html">hydra::DecayMothers</a>&lt; N, BACKEND, GRND &gt;::<a class="el" href="../../d0/d33/a00027.html">DecayMothers</a> </td>
           <td>(</td>
-          <td class="paramtype">size_t&#160;</td>
-          <td class="paramname"><em>seed</em>, </td>
+          <td class="paramtype"><a class="el" href="../../d0/d33/a00027.html#a6ee37290b1e0d571ee23f41f11aa87ca">vector_real</a> const &amp;&#160;</td>
+          <td class="paramname"><em>_masses</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype"><a class="el" href="../../d4/d51/a00017.html#a971e94bcb8c43741d11f9d8eb98f5fab">GReal_t</a>&#160;</td>
-          <td class="paramname"><em>mean</em>, </td>
+          <td class="paramtype">const <a class="el" href="../../d5/d16/a00029.html#a0c9fb4d7195ab952da10a82d5c4ad30e">GInt_t</a>&#160;</td>
+          <td class="paramname"><em>_ndaughters</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype"><a class="el" href="../../d4/d51/a00017.html#a971e94bcb8c43741d11f9d8eb98f5fab">GReal_t</a>&#160;</td>
-          <td class="paramname"><em>sigma</em>&#160;</td>
+          <td class="paramtype">const <a class="el" href="../../d5/d16/a00029.html#a0c9fb4d7195ab952da10a82d5c4ad30e">GInt_t</a>&#160;</td>
+          <td class="paramname"><em>_seed</em>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -194,54 +243,36 @@ template&lt;typename GRND&gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="../../db/d57/a00112_source.html#l00071">71</a> of file <a class="el" href="../../db/d57/a00112_source.html">RandomUtils.h</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="a33eeb5881fd9087cc10bde6989989aab"></a>
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;typename GRND&gt; </div>
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">__host__ __device__ <a class="el" href="../../d0/d33/a00027.html">hydra::HyRndGauss</a>&lt; GRND &gt;::<a class="el" href="../../d0/d33/a00027.html">HyRndGauss</a> </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="../../d0/d33/a00027.html">HyRndGauss</a>&lt; GRND &gt; const &amp;&#160;</td>
-          <td class="paramname"><em>other</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Definition at line <a class="el" href="../../db/d57/a00112_source.html#l00077">77</a> of file <a class="el" href="../../db/d57/a00112_source.html">RandomUtils.h</a>.</p>
+<p>Definition at line <a class="el" href="../../df/d13/a00085_source.html#l00069">69</a> of file <a class="el" href="../../df/d13/a00085_source.html">DecayMothers.h</a>.</p>
 
 </div>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
-<a class="anchor" id="ab86fc72857e448adde5914965c1779cb"></a>
+<a class="anchor" id="a7f7ea8810347c34670352b2ef10e4231"></a>
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;typename GRND&gt; </div>
+template&lt;size_t N, unsigned int BACKEND, typename GRND&gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">__host__ __device__ <a class="el" href="../../d4/d51/a00017.html#a971e94bcb8c43741d11f9d8eb98f5fab">GReal_t</a> <a class="el" href="../../d0/d33/a00027.html">hydra::HyRndGauss</a>&lt; GRND &gt;::operator() </td>
+          <td class="memname">__host__ __device__ void <a class="el" href="../../d0/d33/a00027.html">hydra::DecayMothers</a>&lt; N, BACKEND, GRND &gt;::bbsort </td>
           <td>(</td>
-          <td class="paramtype">size_t&#160;</td>
-          <td class="paramname"><em>index</em></td><td>)</td>
+          <td class="paramtype"><a class="el" href="../../d5/d16/a00029.html#a971e94bcb8c43741d11f9d8eb98f5fab">GReal_t</a> *&#160;</td>
+          <td class="paramname"><em>array</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
           <td></td>
+          <td class="paramtype"><a class="el" href="../../d5/d16/a00029.html#a0c9fb4d7195ab952da10a82d5c4ad30e">GInt_t</a>&#160;</td>
+          <td class="paramname"><em>n</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
         </tr>
       </table>
   </td>
@@ -251,71 +282,238 @@ template&lt;typename GRND&gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="../../db/d57/a00112_source.html#l00084">84</a> of file <a class="el" href="../../db/d57/a00112_source.html">RandomUtils.h</a>.</p>
+<p>Definition at line <a class="el" href="../../df/d13/a00085_source.html#l00086">86</a> of file <a class="el" href="../../df/d13/a00085_source.html">DecayMothers.h</a>.</p>
 
-<p>References <a class="el" href="../../db/d57/a00112_source.html#l00064">hydra::HyRndCDF&lt; GRND, FUNCTOR &gt;::fSeed</a>.</p>
+</div>
+</div>
+<a class="anchor" id="a273279dc4e731ed278b0b6224b2497e2"></a>
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;size_t N, unsigned int BACKEND, typename GRND&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">__host__ __device__ size_t <a class="el" href="../../d0/d33/a00027.html">hydra::DecayMothers</a>&lt; N, BACKEND, GRND &gt;::hash </td>
+          <td>(</td>
+          <td class="paramtype">size_t&#160;</td>
+          <td class="paramname"><em>a</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">size_t&#160;</td>
+          <td class="paramname"><em>b</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="../../df/d13/a00085_source.html#l00110">110</a> of file <a class="el" href="../../df/d13/a00085_source.html">DecayMothers.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a9aca189a3fd086fa12e869e922cfee52"></a>
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;size_t N, unsigned int BACKEND, typename GRND&gt; </div>
+<div class="memtemplate">
+template&lt;typename Tuple &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">__host__ __device__ <a class="el" href="../../d5/d16/a00029.html#a971e94bcb8c43741d11f9d8eb98f5fab">GReal_t</a> <a class="el" href="../../d0/d33/a00027.html">hydra::DecayMothers</a>&lt; N, BACKEND, GRND &gt;::operator() </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="../../d5/d16/a00029.html#a0c9fb4d7195ab952da10a82d5c4ad30e">GInt_t</a>&#160;</td>
+          <td class="paramname"><em>evt</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">Tuple &amp;&#160;</td>
+          <td class="paramname"><em>particles</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="../../df/d13/a00085_source.html#l00269">269</a> of file <a class="el" href="../../df/d13/a00085_source.html">DecayMothers.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="ac2cdb510af0c1f3e6efc9219d36e7fc2"></a>
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;size_t N, unsigned int BACKEND, typename GRND&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">__host__ __device__ <a class="el" href="../../d5/d16/a00029.html#a971e94bcb8c43741d11f9d8eb98f5fab">GReal_t</a> <a class="el" href="../../d0/d33/a00027.html">hydra::DecayMothers</a>&lt; N, BACKEND, GRND &gt;::pdk </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="../../d5/d16/a00029.html#a971e94bcb8c43741d11f9d8eb98f5fab">GReal_t</a>&#160;</td>
+          <td class="paramname"><em>a</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="../../d5/d16/a00029.html#a971e94bcb8c43741d11f9d8eb98f5fab">GReal_t</a>&#160;</td>
+          <td class="paramname"><em>b</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="../../d5/d16/a00029.html#a971e94bcb8c43741d11f9d8eb98f5fab">GReal_t</a>&#160;</td>
+          <td class="paramname"><em>c</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="../../df/d13/a00085_source.html#l00077">77</a> of file <a class="el" href="../../df/d13/a00085_source.html">DecayMothers.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a2a57eb5a3b47dc976ec7d8794d408a6b"></a>
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;size_t N, unsigned int BACKEND, typename GRND&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">__host__ __device__ <a class="el" href="../../d5/d16/a00029.html#a971e94bcb8c43741d11f9d8eb98f5fab">GReal_t</a> <a class="el" href="../../d0/d33/a00027.html">hydra::DecayMothers</a>&lt; N, BACKEND, GRND &gt;::process </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="../../d5/d16/a00029.html#a0c9fb4d7195ab952da10a82d5c4ad30e">GInt_t</a>&#160;</td>
+          <td class="paramname"><em>evt</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="../../d6/d2c/a00072.html">Vector4R</a> **&#160;</td>
+          <td class="paramname"><em>particles</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="../../df/d13/a00085_source.html#l00121">121</a> of file <a class="el" href="../../df/d13/a00085_source.html">DecayMothers.h</a>.</p>
+
+<p>References <a class="el" href="../../d6/d2c/a00072.html#ac30a0beccf6db256aa597c079ee4e2f2">hydra::Vector4R::applyBoostTo()</a>, <a class="el" href="../../d6/d2c/a00072.html#aed169ea89402df7bb648390bbcb644d2">hydra::Vector4R::d3mag()</a>, <a class="el" href="../../d6/d2c/a00072.html#affcbf7dbcae345bc6a64843ceb4acf31">hydra::Vector4R::get()</a>, <a class="el" href="../../de/d36/a00123_source.html#l00073">kMAXP</a>, <a class="el" href="../../d6/d2c/a00072.html#ad6b0fdc4930ca1fb61b6f2e2b8f3a6fc">hydra::Vector4R::mass()</a>, <a class="el" href="../../de/d36/a00123_source.html#l00074">PI</a>, <a class="el" href="../../d6/d2c/a00072.html#aba4a62b4e823cc5797b99a6275e08e0a">hydra::Vector4R::set()</a>, and <a class="el" href="../../df/dc8/a00122_source.html#l00187">hydra::sum()</a>.</p>
+
+<p><div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><iframe scrolling="no" frameborder="0" src="../../d0/d33/a00027_a2a57eb5a3b47dc976ec7d8794d408a6b_cgraph.svg" width="411" height="291"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+</div>
+</p>
 
 </div>
 </div>
 <h2 class="groupheader">Member Data Documentation</h2>
-<a class="anchor" id="aa3caa995b304e7047a2ef9af19fc2aad"></a>
+<a class="anchor" id="ae54ae37ce68858c0bcd08dc78b348603"></a>
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;typename GRND&gt; </div>
+template&lt;size_t N, unsigned int BACKEND, typename GRND&gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="../../d4/d51/a00017.html#a971e94bcb8c43741d11f9d8eb98f5fab">GReal_t</a> <a class="el" href="../../d0/d33/a00027.html">hydra::HyRndGauss</a>&lt; GRND &gt;::fMean</td>
+          <td class="memname">const <a class="el" href="../../d5/d16/a00029.html#a971e94bcb8c43741d11f9d8eb98f5fab">GReal_t</a>* __restrict__ <a class="el" href="../../d0/d33/a00027.html">hydra::DecayMothers</a>&lt; N, BACKEND, GRND &gt;::fMasses</td>
         </tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="../../db/d57/a00112_source.html#l00095">95</a> of file <a class="el" href="../../db/d57/a00112_source.html">RandomUtils.h</a>.</p>
+<p>Definition at line <a class="el" href="../../df/d13/a00085_source.html#l00066">66</a> of file <a class="el" href="../../df/d13/a00085_source.html">DecayMothers.h</a>.</p>
 
 </div>
 </div>
-<a class="anchor" id="a3f2e01fbd6daccd8535b99985b5cefa5"></a>
+<a class="anchor" id="a979b00b843e125d0891110da86dc96c0"></a>
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;typename GRND&gt; </div>
+template&lt;size_t N, unsigned int BACKEND, typename GRND&gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname">size_t <a class="el" href="../../d0/d33/a00027.html">hydra::HyRndGauss</a>&lt; GRND &gt;::fSeed</td>
+          <td class="memname">const <a class="el" href="../../d5/d16/a00029.html#a0c9fb4d7195ab952da10a82d5c4ad30e">GInt_t</a> <a class="el" href="../../d0/d33/a00027.html">hydra::DecayMothers</a>&lt; N, BACKEND, GRND &gt;::fNDaughters</td>
         </tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="../../db/d57/a00112_source.html#l00094">94</a> of file <a class="el" href="../../db/d57/a00112_source.html">RandomUtils.h</a>.</p>
+<p>Definition at line <a class="el" href="../../df/d13/a00085_source.html#l00065">65</a> of file <a class="el" href="../../df/d13/a00085_source.html">DecayMothers.h</a>.</p>
 
 </div>
 </div>
-<a class="anchor" id="a00bcbf6a05ef747d8f2fdd49d753bcf4"></a>
+<a class="anchor" id="a71bbd2662af98a82f60d811a0d498fbe"></a>
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;typename GRND&gt; </div>
+template&lt;size_t N, unsigned int BACKEND, typename GRND&gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="../../d4/d51/a00017.html#a971e94bcb8c43741d11f9d8eb98f5fab">GReal_t</a> <a class="el" href="../../d0/d33/a00027.html">hydra::HyRndGauss</a>&lt; GRND &gt;::fSigma</td>
+          <td class="memname">const <a class="el" href="../../d5/d16/a00029.html#a0c9fb4d7195ab952da10a82d5c4ad30e">GInt_t</a> <a class="el" href="../../d0/d33/a00027.html">hydra::DecayMothers</a>&lt; N, BACKEND, GRND &gt;::fSeed</td>
         </tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="../../db/d57/a00112_source.html#l00096">96</a> of file <a class="el" href="../../db/d57/a00112_source.html">RandomUtils.h</a>.</p>
+<p>Definition at line <a class="el" href="../../df/d13/a00085_source.html#l00064">64</a> of file <a class="el" href="../../df/d13/a00085_source.html">DecayMothers.h</a>.</p>
 
 </div>
 </div>
 <hr/>The documentation for this struct was generated from the following file:<ul>
-<li><a class="el" href="../../db/d57/a00112_source.html">RandomUtils.h</a></li>
+<li><a class="el" href="../../df/d13/a00085_source.html">DecayMothers.h</a></li>
 </ul>
 </div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="../../d4/d51/a00017.html">hydra</a></li><li class="navelem"><a class="el" href="../../d0/d33/a00027.html">HyRndGauss</a></li>
-    <li class="footer">Generated on Wed Oct 12 2016 06:08:16 for Hydra by
+    <li class="navelem"><a class="el" href="../../d5/d16/a00029.html">hydra</a></li><li class="navelem"><a class="el" href="../../d0/d33/a00027.html">DecayMothers</a></li>
+    <li class="footer">Generated on Thu Oct 13 2016 03:01:48 for Hydra by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="../../doxygen.png" alt="doxygen"/></a> 1.8.11 </li>
   </ul>

@@ -1,2 +1,4 @@
-<map id="hydra::HyRndGauss&lt; GRND &gt;" name="hydra::HyRndGauss&lt; GRND &gt;">
+<map id="hydra::FCN&lt; ESTIMATOR, IteratorData, IteratorCache &gt;" name="hydra::FCN&lt; ESTIMATOR, IteratorData, IteratorCache &gt;">
+<area shape="rect" id="node3" href="$dc/d87/a00032.html" title="{hydra::FCN\&lt; LogLikelihood\lFCN\&lt; FUNCTOR, IteratorData,\l IteratorCache \&gt;, IteratorData,\l IteratorCache \&gt;\n||+ FCN()\l+ FCN()\l+ FCN()\l+ GetCacheBegin()\l+ GetCacheEnd()\l+ GetDataBegin()\l+ GetDataEnd()\l+ GetErrorDef()\l+ GetFcnCache()\l+ GetNEvents()\land 12 more...\l}" alt="" coords="5,477,215,745"/>
+<area shape="rect" id="node4" href="$d6/d2d/a00047.html" title="{hydra::LogLikelihoodFCN\l\&lt; FUNCTOR, IteratorData,\l IteratorCache \&gt;\n||+ LogLikelihoodFCN()\l+ LogLikelihoodFCN()\l+ LogLikelihoodFCN()\l+ Eval()\l+ Eval()\l+ GetFunctor()\l+ GetMAxValue()\l+ operator=()\l}" alt="" coords="19,795,201,1004"/>
 </map>

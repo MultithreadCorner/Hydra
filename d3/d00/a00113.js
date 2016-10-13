@@ -1,8 +1,18 @@
 var a00113 =
 [
-    [ "Range", "d1/d84/a00052.html", "d1/d84/a00052" ],
-    [ "make_range", "d3/d00/a00113.html#aed731c061feb7b22667628e351da610b", null ],
-    [ "make_range", "d3/d00/a00113.html#a29ebae3eade535d165598db7926d2805", null ],
-    [ "make_range", "d3/d00/a00113.html#aff7b02660997297940d1417489ea8729", null ],
-    [ "make_range", "d3/d00/a00113.html#a9b047ed09aa20fee3419e3493a448396", null ]
+    [ "Point", "d4/d6d/a00055.html", "d4/d6d/a00055" ],
+    [ "PointError", "d5/d16/a00029.html#d5/da7/a00144", [
+      [ "type", "d5/d16/a00029.html#aee8a2dfcdd709c5da688cdb5ba45a6c6", null ],
+      [ "value_type", "d5/d16/a00029.html#a09f7ef7e91ef8cb8e47c1d7bced86a69", null ]
+    ] ],
+    [ "PointError< T, N, true >", "d9/d2e/a00056.html", "d9/d2e/a00056" ],
+    [ "ValueError", "d5/d16/a00029.html#da/ddb/a00145", [
+      [ "type", "d5/d16/a00029.html#ac14413b9184a4d4c61f785078cf9c357", null ],
+      [ "value_type", "d5/d16/a00029.html#a45fe549890a6a7ce717b7d1183e60adf", null ]
+    ] ],
+    [ "ValueError< T, true >", "d2/db1/a00070.html", "d2/db1/a00070" ],
+    [ "operator+", "d3/d00/a00113.html#ac3d2b9b5f3dc7f930f9d6307002c284c", null ],
+    [ "operator<<", "d3/d00/a00113.html#a699a2aecc2ce647693a9c10714c98668", null ],
+    [ "operator<<", "d3/d00/a00113.html#ad6844fcc012a9868f63b93c4e0dbd6a2", null ],
+    [ "operator<<", "d3/d00/a00113.html#a80c3d60e5208290e157629b2953b6e80", null ]
 ];

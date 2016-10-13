@@ -55,9 +55,11 @@ var searchBox = new SearchBox("searchBox", "../../search",false,'Search');
   <div id="navrow1" class="tabs">
     <ul class="tablist">
       <li><a href="../../index.html"><span>Main&#160;Page</span></a></li>
+      <li><a href="../../modules.html"><span>Modules</span></a></li>
       <li><a href="../../namespaces.html"><span>Namespaces</span></a></li>
       <li class="current"><a href="../../annotated.html"><span>Classes</span></a></li>
       <li><a href="../../files.html"><span>Files</span></a></li>
+      <li><a href="../../examples.html"><span>Examples</span></a></li>
       <li>
         <div id="MSearchBox" class="MSearchBoxInactive">
         <span class="left">
@@ -96,7 +98,7 @@ var searchBox = new SearchBox("searchBox", "../../search",false,'Search');
   </div>
 </div>
 <script type="text/javascript">
-$(document).ready(function(){initNavTree('de/d8c/a00036.html','../../');});
+$(document).ready(function(){initNavTree('d3/dea/a00046.html','../../');});
 </script>
 <div id="doc-content">
 <!-- window showing the filter options -->
@@ -115,25 +117,25 @@ $(document).ready(function(){initNavTree('de/d8c/a00036.html','../../');});
 
 <div class="header">
   <div class="headertitle">
-<div class="title">hydra::PhaseSpace&lt; N, GRND &gt; Member List</div>  </div>
+<div class="title">hydra::LogLikelihood&lt; FUNCTOR, IteratorData, IteratorCache &gt; Member List</div>  </div>
 </div><!--header-->
 <div class="contents">
 
-<p>This is the complete list of members for <a class="el" href="../../de/d8c/a00036.html">hydra::PhaseSpace&lt; N, GRND &gt;</a>, including all inherited members.</p>
+<p>This is the complete list of members for <a class="el" href="../../d3/dea/a00046.html">hydra::LogLikelihood&lt; FUNCTOR, IteratorData, IteratorCache &gt;</a>, including all inherited members.</p>
 <table class="directory">
-  <tr class="even"><td class="entry"><a class="el" href="../../de/d8c/a00036.html#a4ca0a20cd6c56424099b22b2bee2fa7e">Generate</a>(Vector4R const &amp;mother, Events&lt; N, BACKEND &gt; &amp;events)</td><td class="entry"><a class="el" href="../../de/d8c/a00036.html">hydra::PhaseSpace&lt; N, GRND &gt;</a></td><td class="entry"><span class="mlabel">inline</span></td></tr>
-  <tr><td class="entry"><a class="el" href="../../de/d8c/a00036.html#a348046a32bafabb2280d8ae55785e613">Generate</a>(typename Events&lt; N, BACKEND &gt;::vector_particles_iterator mothers_begin, typename Events&lt; N, BACKEND &gt;::vector_particles_iterator mothers_end, Events&lt; N, BACKEND &gt; &amp;events)</td><td class="entry"><a class="el" href="../../de/d8c/a00036.html">hydra::PhaseSpace&lt; N, GRND &gt;</a></td><td class="entry"><span class="mlabel">inline</span></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="../../de/d8c/a00036.html#aefac1af443b1e192203940c72dc60844">GetSeed</a>() const </td><td class="entry"><a class="el" href="../../de/d8c/a00036.html">hydra::PhaseSpace&lt; N, GRND &gt;</a></td><td class="entry"><span class="mlabel">inline</span></td></tr>
-  <tr><td class="entry"><a class="el" href="../../de/d8c/a00036.html#a5c688b457b865b8440a938fa228ee891">PDK</a>(const GReal_t a, const GReal_t b, const GReal_t c) const </td><td class="entry"><a class="el" href="../../de/d8c/a00036.html">hydra::PhaseSpace&lt; N, GRND &gt;</a></td><td class="entry"><span class="mlabel">inline</span></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="../../de/d8c/a00036.html#aa6bc2388046a436042d3d223de49e446">PhaseSpace</a>(GReal_t _MotherMass, vector&lt; GReal_t &gt; _Masses)</td><td class="entry"><a class="el" href="../../de/d8c/a00036.html">hydra::PhaseSpace&lt; N, GRND &gt;</a></td><td class="entry"><span class="mlabel">inline</span></td></tr>
-  <tr><td class="entry"><a class="el" href="../../de/d8c/a00036.html#a00f0513cf6da8c4d0cd6fdee265c0ff3">SetSeed</a>(GInt_t _seed)</td><td class="entry"><a class="el" href="../../de/d8c/a00036.html">hydra::PhaseSpace&lt; N, GRND &gt;</a></td><td class="entry"><span class="mlabel">inline</span></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="../../de/d8c/a00036.html#a1c9e44472db8f827cb97701a7a0ae195">~PhaseSpace</a>()</td><td class="entry"><a class="el" href="../../de/d8c/a00036.html">hydra::PhaseSpace&lt; N, GRND &gt;</a></td><td class="entry"><span class="mlabel">inline</span></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="../../d3/dea/a00046.html#a1d7075e41d99c634b7fc3e755718e495">cache_value_type</a> typedef</td><td class="entry"><a class="el" href="../../d3/dea/a00046.html">hydra::LogLikelihood&lt; FUNCTOR, IteratorData, IteratorCache &gt;</a></td><td class="entry"></td></tr>
+  <tr><td class="entry"><a class="el" href="../../d3/dea/a00046.html#a82e605b999cecea1976dda762a642083">data_value_type</a> typedef</td><td class="entry"><a class="el" href="../../d3/dea/a00046.html">hydra::LogLikelihood&lt; FUNCTOR, IteratorData, IteratorCache &gt;</a></td><td class="entry"></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="../../d3/dea/a00046.html#ae79521eda55419322f23ae767b3a30b1">LogLikelihood</a>(FUNCTOR const &amp;functor, GReal_t sumW, GReal_t sumW2, IteratorData dbegin, IteratorCache cbegin, GBool_t weighted, GBool_t cached)</td><td class="entry"><a class="el" href="../../d3/dea/a00046.html">hydra::LogLikelihood&lt; FUNCTOR, IteratorData, IteratorCache &gt;</a></td><td class="entry"><span class="mlabel">inline</span></td></tr>
+  <tr><td class="entry"><a class="el" href="../../d3/dea/a00046.html#a8a212c4e6f65d8df49bcf4b9a9d76bbe">LogLikelihood</a>(LogLikelihood&lt; FUNCTOR, IteratorData, IteratorCache &gt; const &amp;other)</td><td class="entry"><a class="el" href="../../d3/dea/a00046.html">hydra::LogLikelihood&lt; FUNCTOR, IteratorData, IteratorCache &gt;</a></td><td class="entry"><span class="mlabel">inline</span></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="../../d3/dea/a00046.html#a46c111c088c17e59539dca835e1bd68d">operator()</a>(size_t index, const typename std::enable_if&lt; !std::is_same&lt; U, null_type &gt;::value, void &gt;::type *dummy=0)</td><td class="entry"><a class="el" href="../../d3/dea/a00046.html">hydra::LogLikelihood&lt; FUNCTOR, IteratorData, IteratorCache &gt;</a></td><td class="entry"><span class="mlabel">inline</span></td></tr>
+  <tr><td class="entry"><a class="el" href="../../d3/dea/a00046.html#a2a9e765e64c62301946c4262417f7b92">operator()</a>(size_t index, const typename std::enable_if&lt; std::is_same&lt; U, null_type &gt;::value, void &gt;::type *dummy=0)</td><td class="entry"><a class="el" href="../../d3/dea/a00046.html">hydra::LogLikelihood&lt; FUNCTOR, IteratorData, IteratorCache &gt;</a></td><td class="entry"><span class="mlabel">inline</span></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="../../d3/dea/a00046.html#a3f4ee844e7c7fc7629a869dde5b4b397">~LogLikelihood</a>()</td><td class="entry"><a class="el" href="../../d3/dea/a00046.html">hydra::LogLikelihood&lt; FUNCTOR, IteratorData, IteratorCache &gt;</a></td><td class="entry"><span class="mlabel">inline</span></td></tr>
 </table></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="footer">Generated on Wed Oct 12 2016 05:55:01 for Hydra by
+    <li class="footer">Generated on Thu Oct 13 2016 02:30:48 for Hydra by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="../../doxygen.png" alt="doxygen"/></a> 1.8.11 </li>
   </ul>

@@ -1,8 +1,10 @@
 var a00138 =
 [
-    [ "Sum", "da/dec/a00080.html", "da/dec/a00080" ],
-    [ "operator+", "d4/ddd/a00138.html#ac71a6353509fb42628cb8cb677b1e580", null ],
-    [ "operator+", "d4/ddd/a00138.html#a38fefe9fcea2b9c4770e7ee42c98dfa7", null ],
-    [ "operator+", "d4/ddd/a00138.html#a099a6b58b45d6bcb7a10985101771603", null ],
-    [ "sum", "d4/ddd/a00138.html#aee5273a252e7fa6761ec8e77f8b713ef", null ]
+    [ "Integrator.h", "d4/d3a/a00101.html", null ],
+    [ "Plain.h", "d4/d81/a00110.html", null ],
+    [ "PlainState.h", "dd/d6d/a00111.html", null ],
+    [ "ProcessCallsPlain.h", "d2/da3/a00115.html", null ],
+    [ "ProcessCallsVegas.h", "d4/d3e/a00116.html", null ],
+    [ "Vegas.h", "d9/d47/a00129.html", null ],
+    [ "VegasState.h", "d6/db3/a00130.html", null ]
 ];

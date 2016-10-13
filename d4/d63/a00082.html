@@ -4,7 +4,7 @@
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.11"/>
-<title>Hydra: FunctionWrapper.h File Reference</title>
+<title>Hydra: Containers.h File Reference</title>
 <link href="../../tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="../../jquery.js"></script>
 <script type="text/javascript" src="../../dynsections.js"></script>
@@ -55,6 +55,7 @@ var searchBox = new SearchBox("searchBox", "../../search",false,'Search');
   <div id="navrow1" class="tabs">
     <ul class="tablist">
       <li><a href="../../index.html"><span>Main&#160;Page</span></a></li>
+      <li><a href="../../modules.html"><span>Modules</span></a></li>
       <li><a href="../../namespaces.html"><span>Namespaces</span></a></li>
       <li><a href="../../annotated.html"><span>Classes</span></a></li>
       <li class="current"><a href="../../files.html"><span>Files</span></a></li>
@@ -114,76 +115,101 @@ $(document).ready(function(){initNavTree('d4/d63/a00082.html','../../');});
 
 <div class="header">
   <div class="summary">
-<a href="#nested-classes">Classes</a> &#124;
 <a href="#namespaces">Namespaces</a> &#124;
-<a href="#func-members">Functions</a>  </div>
+<a href="#typedef-members">Typedefs</a>  </div>
   <div class="headertitle">
-<div class="title">FunctionWrapper.h File Reference</div>  </div>
+<div class="title">Containers.h File Reference<div class="ingroups"><a class="el" href="../../de/d14/a00139.html">Generic</a></div></div>  </div>
 </div><!--header-->
 <div class="contents">
+
+<p>Typedef for useful container classes used in MCBooster.  
+<a href="#details">More...</a></p>
 <div class="textblock"><div class="dynheader">
-Include dependency graph for FunctionWrapper.h:</div>
+Include dependency graph for Containers.h:</div>
 <div class="dyncontent">
-<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="../../d5/dcb/a00170.svg" width="100%" height="600"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
+<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="../../de/db9/a00159.svg" width="100%" height="574"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
 </div>
 </div><div class="textblock"><div class="dynheader">
 This graph shows which files directly or indirectly include this file:</div>
 <div class="dyncontent">
-<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="../../d1/d0d/a00171.svg" width="100%" height="384"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="../../de/d38/a00160.svg" width="100%" height="600"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 </div>
 </div>
 </div>
 <p><a href="../../d4/d63/a00082_source.html">Go to the source code of this file.</a></p>
 <table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="nested-classes"></a>
-Classes</h2></td></tr>
-<tr class="memitem:d9/d47/a00129"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d4/d51/a00017.html#d9/d47/a00129">hydra::LambdaWrapper&lt; Sig, L, typename &gt;</a></td></tr>
-<tr class="separator:d9/d47/a00129"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/dc0/a00033.html">hydra::LambdaWrapper&lt; ReturnType(ArgType), L &gt;</a></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="namespaces"></a>
 Namespaces</h2></td></tr>
-<tr class="memitem:d4/d51/a00017"><td class="memItemLeft" align="right" valign="top"> &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d4/d51/a00017.html">hydra</a></td></tr>
-<tr class="memdesc:d4/d51/a00017"><td class="mdescLeft">&#160;</td><td class="mdescRight">Variable object to use on types convertible to double. <br /></td></tr>
+<tr class="memitem:d5/d16/a00029"><td class="memItemLeft" align="right" valign="top"> &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d5/d16/a00029.html">hydra</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
-Functions</h2></td></tr>
-<tr class="memitem:a53506830108537bc49811415296ba738"><td class="memTemplParams" colspan="2">template&lt;typename L &gt; </td></tr>
-<tr class="memitem:a53506830108537bc49811415296ba738"><td class="memTemplItemLeft" align="right" valign="top">auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="../../d4/d51/a00017.html#a53506830108537bc49811415296ba738">hydra::wrap_lambda</a> (L const &amp;f) -&gt; decltype(detail::wrap_lambda_helper(f, typename detail::function_traits&lt; L &gt;::return_type(), typename detail::function_traits&lt; L &gt;::args_type()))</td></tr>
-<tr class="separator:a53506830108537bc49811415296ba738"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="typedef-members"></a>
+Typedefs</h2></td></tr>
+<tr class="memitem:a9fa75a3de2ad0fc8f3a5c8850fa2d9bc"><td class="memItemLeft" align="right" valign="top">typedef mc_device_vector&lt; GBool_t &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d5/d16/a00029.html#a9fa75a3de2ad0fc8f3a5c8850fa2d9bc">hydra::BoolVector_d</a></td></tr>
+<tr class="separator:a9fa75a3de2ad0fc8f3a5c8850fa2d9bc"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a274b1c32d255fc13e78a08e96de133f0"><td class="memItemLeft" align="right" valign="top">typedef mc_host_vector&lt; GBool_t &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d5/d16/a00029.html#a274b1c32d255fc13e78a08e96de133f0">hydra::BoolVector_h</a></td></tr>
+<tr class="memdesc:a274b1c32d255fc13e78a08e96de133f0"><td class="mdescLeft">&#160;</td><td class="mdescRight"><a class="el" href="../../d0/d89/a00071.html">Vector3R</a> host vector.  <a href="../../d5/d16/a00029.html#a274b1c32d255fc13e78a08e96de133f0">More...</a><br /></td></tr>
+<tr class="separator:a274b1c32d255fc13e78a08e96de133f0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7670b2993eb064d9c192d9200ab82b89"><td class="memItemLeft" align="right" valign="top">typedef mc_device_vector&lt; GComplex_t &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d5/d16/a00029.html#a7670b2993eb064d9c192d9200ab82b89">hydra::ComplexVector_d</a></td></tr>
+<tr class="memdesc:a7670b2993eb064d9c192d9200ab82b89"><td class="mdescLeft">&#160;</td><td class="mdescRight">Typedef for a GReal_t device vector.  <a href="../../d5/d16/a00029.html#a7670b2993eb064d9c192d9200ab82b89">More...</a><br /></td></tr>
+<tr class="separator:a7670b2993eb064d9c192d9200ab82b89"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af30019aaf18d88f73acd61f2f363f9f6"><td class="memItemLeft" align="right" valign="top">typedef mc_host_vector&lt; GComplex_t &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d5/d16/a00029.html#af30019aaf18d88f73acd61f2f363f9f6">hydra::ComplexVector_h</a></td></tr>
+<tr class="memdesc:af30019aaf18d88f73acd61f2f363f9f6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Typedef for a GReal_t host vector.  <a href="../../d5/d16/a00029.html#af30019aaf18d88f73acd61f2f363f9f6">More...</a><br /></td></tr>
+<tr class="separator:af30019aaf18d88f73acd61f2f363f9f6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ada2d81895ace081c5204b9adc76a2808"><td class="memItemLeft" align="right" valign="top">typedef mc_host_vector&lt; Vector4R &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d5/d16/a00029.html#ada2d81895ace081c5204b9adc76a2808">hydra::FourVectors_h</a></td></tr>
+<tr class="memdesc:ada2d81895ace081c5204b9adc76a2808"><td class="mdescLeft">&#160;</td><td class="mdescRight">Typedef for complex number.  <a href="../../d5/d16/a00029.html#ada2d81895ace081c5204b9adc76a2808">More...</a><br /></td></tr>
+<tr class="separator:ada2d81895ace081c5204b9adc76a2808"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a901a782c7e7d23f6891919b08b0be225"><td class="memItemLeft" align="right" valign="top">typedef thrust::complex&lt; GReal_t &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d5/d16/a00029.html#a901a782c7e7d23f6891919b08b0be225">hydra::GComplex_t</a></td></tr>
+<tr class="separator:a901a782c7e7d23f6891919b08b0be225"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4ec5fdac39f2803f87519d502006e389"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
+<tr class="memitem:a4ec5fdac39f2803f87519d502006e389"><td class="memTemplItemLeft" align="right" valign="top">using&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="../../d5/d16/a00029.html#a4ec5fdac39f2803f87519d502006e389">hydra::mc_device_vector</a> = thrust::device_vector&lt; T &gt;</td></tr>
+<tr class="memdesc:a4ec5fdac39f2803f87519d502006e389"><td class="mdescLeft">&#160;</td><td class="mdescRight">Generic template typedef for thrust::host_vector.  <a href="../../d5/d16/a00029.html#a4ec5fdac39f2803f87519d502006e389">More...</a><br /></td></tr>
+<tr class="separator:a4ec5fdac39f2803f87519d502006e389"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:acadb242e1b7e250e3feba652e45087dc"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
+<tr class="memitem:acadb242e1b7e250e3feba652e45087dc"><td class="memTemplItemLeft" align="right" valign="top">using&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="../../d5/d16/a00029.html#acadb242e1b7e250e3feba652e45087dc">hydra::mc_host_vector</a> = thrust::host_vector&lt; T, thrust::system::cuda::experimental::pinned_allocator&lt; T &gt;&gt;</td></tr>
+<tr class="memdesc:acadb242e1b7e250e3feba652e45087dc"><td class="mdescLeft">&#160;</td><td class="mdescRight">Generic template typedef for thrust::host_vector.  <a href="../../d5/d16/a00029.html#acadb242e1b7e250e3feba652e45087dc">More...</a><br /></td></tr>
+<tr class="separator:acadb242e1b7e250e3feba652e45087dc"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae34184a169c185689e065d0c30f9ffba"><td class="memItemLeft" align="right" valign="top">typedef mc_device_vector&lt; Vector4R &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d5/d16/a00029.html#ae34184a169c185689e065d0c30f9ffba">hydra::Particles_d</a></td></tr>
+<tr class="memdesc:ae34184a169c185689e065d0c30f9ffba"><td class="mdescLeft">&#160;</td><td class="mdescRight">Typedef for a GComplex_t device vector.  <a href="../../d5/d16/a00029.html#ae34184a169c185689e065d0c30f9ffba">More...</a><br /></td></tr>
+<tr class="separator:ae34184a169c185689e065d0c30f9ffba"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9df2f3d6dc63cf297b0f74ba228f6c89"><td class="memItemLeft" align="right" valign="top">typedef mc_host_vector&lt; Vector4R &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d5/d16/a00029.html#a9df2f3d6dc63cf297b0f74ba228f6c89">hydra::Particles_h</a></td></tr>
+<tr class="memdesc:a9df2f3d6dc63cf297b0f74ba228f6c89"><td class="mdescLeft">&#160;</td><td class="mdescRight">Typedef for a GComplex_t host vector.  <a href="../../d5/d16/a00029.html#a9df2f3d6dc63cf297b0f74ba228f6c89">More...</a><br /></td></tr>
+<tr class="separator:a9df2f3d6dc63cf297b0f74ba228f6c89"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a65baa492bb35f81a20516af04f33bf7e"><td class="memTemplParams" colspan="2">template&lt;size_t N&gt; </td></tr>
+<tr class="memitem:a65baa492bb35f81a20516af04f33bf7e"><td class="memTemplItemLeft" align="right" valign="top">using&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="../../d5/d16/a00029.html#a65baa492bb35f81a20516af04f33bf7e">hydra::ParticlesSet_d</a> = std::array&lt; Particles_d *, N &gt;</td></tr>
+<tr class="memdesc:a65baa492bb35f81a20516af04f33bf7e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Typedef for a <a class="el" href="../../d6/d2c/a00072.html">Vector4R</a> device vector.  <a href="../../d5/d16/a00029.html#a65baa492bb35f81a20516af04f33bf7e">More...</a><br /></td></tr>
+<tr class="separator:a65baa492bb35f81a20516af04f33bf7e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae1617a8a1f00fa21f3311f8b8b636356"><td class="memTemplParams" colspan="2">template&lt;int N&gt; </td></tr>
+<tr class="memitem:ae1617a8a1f00fa21f3311f8b8b636356"><td class="memTemplItemLeft" align="right" valign="top">using&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="../../d5/d16/a00029.html#ae1617a8a1f00fa21f3311f8b8b636356">hydra::ParticlesSet_h</a> = std::array&lt; Particles_h *, N &gt;</td></tr>
+<tr class="memdesc:ae1617a8a1f00fa21f3311f8b8b636356"><td class="mdescLeft">&#160;</td><td class="mdescRight">Typedef for a <a class="el" href="../../d6/d2c/a00072.html">Vector4R</a> host vector.  <a href="../../d5/d16/a00029.html#ae1617a8a1f00fa21f3311f8b8b636356">More...</a><br /></td></tr>
+<tr class="separator:ae1617a8a1f00fa21f3311f8b8b636356"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a79fd090c6e39cfcdd744f369dacffabe"><td class="memItemLeft" align="right" valign="top">typedef mc_device_vector&lt; GReal_t &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d5/d16/a00029.html#a79fd090c6e39cfcdd744f369dacffabe">hydra::RealVector_d</a></td></tr>
+<tr class="memdesc:a79fd090c6e39cfcdd744f369dacffabe"><td class="mdescLeft">&#160;</td><td class="mdescRight">Typedef for a GBool_t device vector.  <a href="../../d5/d16/a00029.html#a79fd090c6e39cfcdd744f369dacffabe">More...</a><br /></td></tr>
+<tr class="separator:a79fd090c6e39cfcdd744f369dacffabe"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6d21da5996b50a240e6f400025e3b139"><td class="memItemLeft" align="right" valign="top">typedef mc_host_vector&lt; GReal_t &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d5/d16/a00029.html#a6d21da5996b50a240e6f400025e3b139">hydra::RealVector_h</a></td></tr>
+<tr class="memdesc:a6d21da5996b50a240e6f400025e3b139"><td class="mdescLeft">&#160;</td><td class="mdescRight">Typedef for a GBool_t host vector.  <a href="../../d5/d16/a00029.html#a6d21da5996b50a240e6f400025e3b139">More...</a><br /></td></tr>
+<tr class="separator:a6d21da5996b50a240e6f400025e3b139"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7dcdb1155222988a4250114d880e8b46"><td class="memItemLeft" align="right" valign="top">typedef mc_host_vector&lt; Vector3R &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d5/d16/a00029.html#a7dcdb1155222988a4250114d880e8b46">hydra::ThreeVectors_h</a></td></tr>
+<tr class="memdesc:a7dcdb1155222988a4250114d880e8b46"><td class="mdescLeft">&#160;</td><td class="mdescRight"><a class="el" href="../../d6/d2c/a00072.html">Vector4R</a> host vector.  <a href="../../d5/d16/a00029.html#a7dcdb1155222988a4250114d880e8b46">More...</a><br /></td></tr>
+<tr class="separator:a7dcdb1155222988a4250114d880e8b46"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aad861e2db12841464af12efab7328130"><td class="memTemplParams" colspan="2">template&lt;size_t N&gt; </td></tr>
+<tr class="memitem:aad861e2db12841464af12efab7328130"><td class="memTemplItemLeft" align="right" valign="top">using&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="../../d5/d16/a00029.html#aad861e2db12841464af12efab7328130">hydra::VariableSet_d</a> = std::array&lt; RealVector_d *, N &gt;</td></tr>
+<tr class="separator:aad861e2db12841464af12efab7328130"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1c402cfd897199655b8d594f352438b0"><td class="memTemplParams" colspan="2">template&lt;int N&gt; </td></tr>
+<tr class="memitem:a1c402cfd897199655b8d594f352438b0"><td class="memTemplItemLeft" align="right" valign="top">using&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="../../d5/d16/a00029.html#a1c402cfd897199655b8d594f352438b0">hydra::VariableSet_h</a> = std::array&lt; RealVector_h *, N &gt;</td></tr>
+<tr class="separator:a1c402cfd897199655b8d594f352438b0"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<hr/><h2 class="groupheader">Class Documentation</h2>
-<a name="d9/d47/a00129" id="d9/d47/a00129"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">struct hydra::LambdaWrapper</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<div class="textblock"><h3>template&lt;typename Sig, typename L, typename = typename std::enable_if&lt;std::is_constructible&lt;std::function&lt;Sig&gt;, L&gt;::value&gt;::type&gt;<br />
-struct hydra::LambdaWrapper&lt; Sig, L, typename &gt;</h3>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><p>Containers defined here should be used in users application also. </p>
 
-
-<p>Definition at line <a class="el" href="../../d4/d63/a00082_source.html#l00044">44</a> of file <a class="el" href="../../d4/d63/a00082_source.html">FunctionWrapper.h</a>.</p>
-</div><div class="dynheader">
-Collaboration diagram for hydra::LambdaWrapper&lt; Sig, L, typename &gt;:</div>
-<div class="dyncontent">
-<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="../../d6/dfb/a00172.svg" width="100%" height="600"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
-</div>
-
-</div>
-</div>
-</div><!-- contents -->
+<p>Definition in file <a class="el" href="../../d4/d63/a00082_source.html">Containers.h</a>.</p>
+</div></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="../../dir_92a1ff494355b06c14c0e1fe7b982d29.html">Hydra</a></li><li class="navelem"><a class="el" href="../../dir_108162cc96056bf8ace3602d16680a1c.html">hydra</a></li><li class="navelem"><a class="el" href="../../d4/d63/a00082.html">FunctionWrapper.h</a></li>
-    <li class="footer">Generated on Wed Oct 12 2016 06:08:16 for Hydra by
+    <li class="navelem"><a class="el" href="../../dir_92a1ff494355b06c14c0e1fe7b982d29.html">Hydra</a></li><li class="navelem"><a class="el" href="../../dir_108162cc96056bf8ace3602d16680a1c.html">hydra</a></li><li class="navelem"><a class="el" href="../../d4/d63/a00082.html">Containers.h</a></li>
+    <li class="footer">Generated on Thu Oct 13 2016 03:01:48 for Hydra by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="../../doxygen.png" alt="doxygen"/></a> 1.8.11 </li>
   </ul>

@@ -1,8 +1,8 @@
 var a00116 =
 [
-    [ "Sum", "d9/d2e/a00056.html", "d9/d2e/a00056" ],
-    [ "operator+", "d4/d3e/a00116.html#ac71a6353509fb42628cb8cb677b1e580", null ],
-    [ "operator+", "d4/d3e/a00116.html#a38fefe9fcea2b9c4770e7ee42c98dfa7", null ],
-    [ "operator+", "d4/d3e/a00116.html#a099a6b58b45d6bcb7a10985101771603", null ],
-    [ "sum", "d4/d3e/a00116.html#aee5273a252e7fa6761ec8e77f8b713ef", null ]
+    [ "Range", "d7/df7/a00058.html", "d7/df7/a00058" ],
+    [ "make_range", "d4/d3e/a00116.html#aed731c061feb7b22667628e351da610b", null ],
+    [ "make_range", "d4/d3e/a00116.html#a29ebae3eade535d165598db7926d2805", null ],
+    [ "make_range", "d4/d3e/a00116.html#aff7b02660997297940d1417489ea8729", null ],
+    [ "make_range", "d4/d3e/a00116.html#a9b047ed09aa20fee3419e3493a448396", null ]
 ];

@@ -10,7 +10,7 @@
 <title>Graphical Class Hierarchy</title>
 <!-- Node1 -->
 <g id="node1" class="node"><title>Node1</title>
-<g id="a_node1"><a xlink:href="df/d03/a00062.html" target="_top" xlink:title="hydra::VegasState\&lt; N \&gt;">
+<g id="a_node1"><a xlink:href="db/db6/a00074.html" target="_top" xlink:title="hydra::VegasState\&lt; N \&gt;">
 <polygon fill="none" stroke="black" points="0,-0.5 0,-19.5 123,-19.5 123,-0.5 0,-0.5"/>
 <text text-anchor="middle" x="61.5" y="-7.5" font-family="Helvetica,sans-Serif" font-size="10.00">hydra::VegasState&lt; N &gt;</text>
 </a>

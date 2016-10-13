@@ -10,7 +10,7 @@
 <title>Graphical Class Hierarchy</title>
 <!-- Node1 -->
 <g id="node1" class="node"><title>Node1</title>
-<g id="a_node1"><a xlink:href="d5/d79/a00030.html" target="_top" xlink:title="hydra::Integrator\&lt;\l Vegas\&lt; N, GRND \&gt;, N \&gt;">
+<g id="a_node1"><a xlink:href="d5/db6/a00042.html" target="_top" xlink:title="hydra::Integrator\&lt;\l Vegas\&lt; N, GRND \&gt;, N \&gt;">
 <polygon fill="none" stroke="black" points="0,-0.5 0,-30.5 131,-30.5 131,-0.5 0,-0.5"/>
 <text text-anchor="start" x="8" y="-18.5" font-family="Helvetica,sans-Serif" font-size="10.00">hydra::Integrator&lt;</text>
 <text text-anchor="middle" x="65.5" y="-7.5" font-family="Helvetica,sans-Serif" font-size="10.00"> Vegas&lt; N, GRND &gt;, N &gt;</text>
@@ -19,7 +19,7 @@
 </g>
 <!-- Node2 -->
 <g id="node2" class="node"><title>Node2</title>
-<g id="a_node2"><a xlink:href="d4/de8/a00061.html" target="_top" xlink:title="hydra::Vegas\&lt; N, GRND \&gt;">
+<g id="a_node2"><a xlink:href="d1/d6e/a00073.html" target="_top" xlink:title="hydra::Vegas\&lt; N, GRND \&gt;">
 <polygon fill="none" stroke="black" points="167,-6 167,-25 303,-25 303,-6 167,-6"/>
 <text text-anchor="middle" x="235" y="-13" font-family="Helvetica,sans-Serif" font-size="10.00">hydra::Vegas&lt; N, GRND &gt;</text>
 </a>

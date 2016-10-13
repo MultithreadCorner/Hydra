@@ -1,4 +1,2 @@
-<map id="hydra::LambdaWrapper&lt; ReturnType(ArgType), L &gt;" name="hydra::LambdaWrapper&lt; ReturnType(ArgType), L &gt;">
-<area shape="rect" id="node2" href="$de/d21/a00006.html" title="{hydra::BaseFunctor\l\&lt; LambdaWrapper\&lt; ReturnType\l(ArgType), L \&gt;, ReturnType, 0 \&gt;\n|+ parameter_count\l|+ BaseFunctor()\l+ BaseFunctor()\l+ operator=()\l+ ~BaseFunctor()\l+ GetFunctor()\l+ GetCacheIndex()\l+ SetCacheIndex()\l+ IsCached()\l+ SetCached()\l+ RegistryParameters()\land 9 more...\l}" alt="" coords="5,336,215,589"/>
-<area shape="rect" id="node3" href="$de/d21/a00006.html" title="{hydra::BaseFunctor\l\&lt; Functor, ReturnType,\l NPARAM \&gt;\n|+ parameter_count\l|+ BaseFunctor()\l+ BaseFunctor()\l+ operator=()\l+ ~BaseFunctor()\l+ GetFunctor()\l+ GetCacheIndex()\l+ SetCacheIndex()\l+ IsCached()\l+ SetCached()\l+ RegistryParameters()\land 9 more...\l}" alt="" coords="31,5,189,259"/>
+<map id="hydra::HyRndExp&lt; GRND &gt;" name="hydra::HyRndExp&lt; GRND &gt;">
 </map>

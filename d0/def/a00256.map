@@ -1,6 +1,4 @@
-<map id="Gauss&lt; N &gt;" name="Gauss&lt; N &gt;">
-<area shape="rect" id="node2" href="$d4/dee/a00008.html" title="{hydra::BaseFunctor\l\&lt; Gauss\&lt; N \&gt;, GReal\l_t, 0 \&gt;\n|+ parameter_count\l|+ BaseFunctor()\l+ BaseFunctor()\l+ operator=()\l+ ~BaseFunctor()\l+ GetFunctor()\l+ GetCacheIndex()\l+ SetCacheIndex()\l+ IsCached()\l+ SetCached()\l+ RegistryParameters()\land 9 more...\l}" alt="" coords="5,336,164,589"/>
-<area shape="rect" id="node3" href="$d4/dee/a00008.html" title="{hydra::BaseFunctor\l\&lt; Functor, ReturnType,\l NPARAM \&gt;\n|+ parameter_count\l|+ BaseFunctor()\l+ BaseFunctor()\l+ operator=()\l+ ~BaseFunctor()\l+ GetFunctor()\l+ GetCacheIndex()\l+ SetCacheIndex()\l+ IsCached()\l+ SetCached()\l+ RegistryParameters()\land 9 more...\l}" alt="" coords="99,5,257,259"/>
-<area shape="rect" id="node4" href="$d4/dee/a00008.html" title="{hydra::BaseFunctor\l\&lt; Gauss, GReal_t, 2 \&gt;\n|+ parameter_count\l|+ BaseFunctor()\l+ BaseFunctor()\l+ operator=()\l+ ~BaseFunctor()\l+ GetFunctor()\l+ GetCacheIndex()\l+ SetCacheIndex()\l+ IsCached()\l+ SetCached()\l+ RegistryParameters()\land 9 more...\l}" alt="" coords="188,343,347,582"/>
-<area shape="rect" id="node5" href="$d8/d41/a00038.html" title="{hydra::Parameter\n||+ Parameter()\l+ Parameter()\l+ Parameter()\l+ Parameter()\l+ Parameter()\l+ operator=()\l+ operator=()\l+ operator+=()\l+ operator+=()\l+ operator&#45;=()\land 29 more...\l+ Create()\l}" alt="" coords="371,343,494,582"/>
+<map id="Vector3R.h" name="Vector3R.h">
+<area shape="rect" id="node2" href="$da/dec/a00080.html" title="hydra/detail/Config.h" alt="" coords="476,80,619,107"/>
+<area shape="rect" id="node12" href="$de/d36/a00123.html" title="hydra/Types.h" alt="" coords="643,80,748,107"/>
 </map>

@@ -1,10 +1,9 @@
 var a00031 =
 [
-    [ "InvExp", "df/d61/a00031.html#a656b47615da4474cfd0b70a24742a3dd", null ],
-    [ "InvExp", "df/d61/a00031.html#abdfe669b9456bee29dd830aa1c75232a", null ],
-    [ "operator()", "df/d61/a00031.html#a00b0c3ab29c01ace7026dfd1a4a8c738", null ],
-    [ "operator=", "df/d61/a00031.html#a147e43dafa9ddeff166c834832e39201", null ],
-    [ "fPosition", "df/d61/a00031.html#ad4609422821bc23013d0dcfc1e9a6780", null ],
-    [ "fTau", "df/d61/a00031.html#a3d00776133d756f41f30fc7e1e0cde2f", null ],
-    [ "fX0", "df/d61/a00031.html#a32aee6a1ff9887e4820aa35b08c3da63", null ]
+    [ "Exp", "df/d61/a00031.html#a27297d40106a437034f60247fbd19e70", null ],
+    [ "Exp", "df/d61/a00031.html#a5643db3bc22460933ad9c5cb6d1c41d6", null ],
+    [ "Evaluate", "df/d61/a00031.html#aec1ea602308e8bab0f92d159b8836203", null ],
+    [ "operator=", "df/d61/a00031.html#a93dca258ff5ab6db9340b9b1e7aa9741", null ],
+    [ "fPosition", "df/d61/a00031.html#a332aced697cd249f38896a7efaa80d0c", null ],
+    [ "fTau", "df/d61/a00031.html#acee0dd36d72e0cb59cb86333a12873f1", null ]
 ];

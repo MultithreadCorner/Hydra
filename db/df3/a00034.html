@@ -4,7 +4,7 @@
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.11"/>
-<title>Hydra: hydra::LogLikelihood&lt; FUNCTOR, IteratorData, IteratorCache &gt; Struct Template Reference</title>
+<title>Hydra: Gauss&lt; N &gt; Struct Template Reference</title>
 <link href="../../tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="../../jquery.js"></script>
 <script type="text/javascript" src="../../dynsections.js"></script>
@@ -55,6 +55,7 @@ var searchBox = new SearchBox("searchBox", "../../search",false,'Search');
   <div id="navrow1" class="tabs">
     <ul class="tablist">
       <li><a href="../../index.html"><span>Main&#160;Page</span></a></li>
+      <li><a href="../../modules.html"><span>Modules</span></a></li>
       <li><a href="../../namespaces.html"><span>Namespaces</span></a></li>
       <li class="current"><a href="../../annotated.html"><span>Classes</span></a></li>
       <li><a href="../../files.html"><span>Files</span></a></li>
@@ -116,131 +117,205 @@ $(document).ready(function(){initNavTree('db/df3/a00034.html','../../');});
 
 <div class="header">
   <div class="summary">
-<a href="#pub-types">Public Types</a> &#124;
 <a href="#pub-methods">Public Member Functions</a> &#124;
-<a href="../../d7/df2/a00312.html">List of all members</a>  </div>
+<a href="#pub-attribs">Public Attributes</a> &#124;
+<a href="../../d1/dd4/a00267.html">List of all members</a>  </div>
   <div class="headertitle">
-<div class="title">hydra::LogLikelihood&lt; FUNCTOR, IteratorData, IteratorCache &gt; Struct Template Reference</div>  </div>
+<div class="title">Gauss&lt; N &gt; Struct Template Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
+
+<p>Multidimensional Gaussian distribution.  
+ <a href="../../db/df3/a00034.html#details">More...</a></p>
 <div class="dynheader">
-Collaboration diagram for hydra::LogLikelihood&lt; FUNCTOR, IteratorData, IteratorCache &gt;:</div>
+Inheritance diagram for Gauss&lt; N &gt;:</div>
 <div class="dyncontent">
-<div class="center"><iframe scrolling="no" frameborder="0" src="../../dd/db3/a00313.svg" width="192" height="176"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="../../db/d12/a00268.svg" width="100%" height="600"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
+</div>
+<div class="dynheader">
+Collaboration diagram for Gauss&lt; N &gt;:</div>
+<div class="dyncontent">
+<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="../../d5/d42/a00269.svg" width="100%" height="600"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
 </div>
 <table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-types"></a>
-Public Types</h2></td></tr>
-<tr class="memitem:a82e605b999cecea1976dda762a642083"><td class="memItemLeft" align="right" valign="top">typedef thrust::iterator_traits&lt; IteratorData &gt;::value_type&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../db/df3/a00034.html#a82e605b999cecea1976dda762a642083">data_value_type</a></td></tr>
-<tr class="separator:a82e605b999cecea1976dda762a642083"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a1d7075e41d99c634b7fc3e755718e495"><td class="memItemLeft" align="right" valign="top">typedef thrust::iterator_traits&lt; IteratorCache &gt;::value_type&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../db/df3/a00034.html#a1d7075e41d99c634b7fc3e755718e495">cache_value_type</a></td></tr>
-<tr class="separator:a1d7075e41d99c634b7fc3e755718e495"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:ae79521eda55419322f23ae767b3a30b1"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../db/df3/a00034.html#ae79521eda55419322f23ae767b3a30b1">LogLikelihood</a> (FUNCTOR const &amp;functor, <a class="el" href="../../d4/d51/a00017.html#a971e94bcb8c43741d11f9d8eb98f5fab">GReal_t</a> sumW, <a class="el" href="../../d4/d51/a00017.html#a971e94bcb8c43741d11f9d8eb98f5fab">GReal_t</a> sumW2, IteratorData dbegin, IteratorCache cbegin, <a class="el" href="../../d4/d51/a00017.html#aa8c251ed5017d0638da929130062bcad">GBool_t</a> weighted, <a class="el" href="../../d4/d51/a00017.html#aa8c251ed5017d0638da929130062bcad">GBool_t</a> cached)</td></tr>
-<tr class="separator:ae79521eda55419322f23ae767b3a30b1"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a8a212c4e6f65d8df49bcf4b9a9d76bbe"><td class="memItemLeft" align="right" valign="top">__host__ __device__&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../db/df3/a00034.html#a8a212c4e6f65d8df49bcf4b9a9d76bbe">LogLikelihood</a> (<a class="el" href="../../db/df3/a00034.html">LogLikelihood</a>&lt; FUNCTOR, IteratorData, IteratorCache &gt; const &amp;other)</td></tr>
-<tr class="separator:a8a212c4e6f65d8df49bcf4b9a9d76bbe"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a3f4ee844e7c7fc7629a869dde5b4b397"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../da/d24/a00068.html#a0916cfff5efbb734ef0bc4dc20ffa31a">__hydra_exec_check_disable__</a> __host__ __device__&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../db/df3/a00034.html#a3f4ee844e7c7fc7629a869dde5b4b397">~LogLikelihood</a> ()</td></tr>
-<tr class="separator:a3f4ee844e7c7fc7629a869dde5b4b397"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a46c111c088c17e59539dca835e1bd68d"><td class="memTemplParams" colspan="2">template&lt;typename U  = cache_value_type&gt; </td></tr>
-<tr class="memitem:a46c111c088c17e59539dca835e1bd68d"><td class="memTemplItemLeft" align="right" valign="top">__host__ __device__ <a class="el" href="../../d4/d51/a00017.html#a971e94bcb8c43741d11f9d8eb98f5fab">GReal_t</a>&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="../../db/df3/a00034.html#a46c111c088c17e59539dca835e1bd68d">operator()</a> (size_t index, const typename std::enable_if&lt; !std::is_same&lt; U, <a class="el" href="../../d4/d51/a00017.html#d6/db3/a00130">null_type</a> &gt;::value, void &gt;::type *dummy=0)</td></tr>
-<tr class="separator:a46c111c088c17e59539dca835e1bd68d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a2a9e765e64c62301946c4262417f7b92"><td class="memTemplParams" colspan="2">template&lt;typename U  = cache_value_type&gt; </td></tr>
-<tr class="memitem:a2a9e765e64c62301946c4262417f7b92"><td class="memTemplItemLeft" align="right" valign="top">__host__ __device__ <a class="el" href="../../d4/d51/a00017.html#a971e94bcb8c43741d11f9d8eb98f5fab">GReal_t</a>&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="../../db/df3/a00034.html#a2a9e765e64c62301946c4262417f7b92">operator()</a> (size_t index, const typename std::enable_if&lt; std::is_same&lt; U, <a class="el" href="../../d4/d51/a00017.html#d6/db3/a00130">null_type</a> &gt;::value, void &gt;::type *dummy=0)</td></tr>
-<tr class="separator:a2a9e765e64c62301946c4262417f7b92"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae2e2fd67154769a20fbded45dca8a811"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../db/df3/a00034.html#ae2e2fd67154769a20fbded45dca8a811">Gauss</a> (<a class="el" href="../../d5/de0/a00050.html">Parameter</a> const &amp;mean, <a class="el" href="../../d5/de0/a00050.html">Parameter</a> const &amp;sigma, <a class="el" href="../../d5/d16/a00029.html#a251a7b1f515ac1ed9409afd67252a32b">GUInt_t</a> position=0)</td></tr>
+<tr class="separator:ae2e2fd67154769a20fbded45dca8a811"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a30b09388cfe8ebf6a24e566ab3782a07"><td class="memItemLeft" align="right" valign="top">__host__ __device__&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../db/df3/a00034.html#a30b09388cfe8ebf6a24e566ab3782a07">Gauss</a> (<a class="el" href="../../db/df3/a00034.html">Gauss</a> const &amp;other)</td></tr>
+<tr class="separator:a30b09388cfe8ebf6a24e566ab3782a07"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a447ed598a9d757f14ad2bb09c865ac01"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../db/df3/a00034.html#a447ed598a9d757f14ad2bb09c865ac01">Gauss</a> ()</td></tr>
+<tr class="separator:a447ed598a9d757f14ad2bb09c865ac01"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad7f6c15d9526e06dfa668421cab76dbe"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../db/df3/a00034.html#ad7f6c15d9526e06dfa668421cab76dbe">Gauss</a> (std::array&lt; <a class="el" href="../../d5/d16/a00029.html#a971e94bcb8c43741d11f9d8eb98f5fab">GReal_t</a>, N &gt; const &amp;means, std::array&lt; <a class="el" href="../../d5/d16/a00029.html#a971e94bcb8c43741d11f9d8eb98f5fab">GReal_t</a>, N &gt; const &amp;sigmas)</td></tr>
+<tr class="separator:ad7f6c15d9526e06dfa668421cab76dbe"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a447ed598a9d757f14ad2bb09c865ac01"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../db/df3/a00034.html#a447ed598a9d757f14ad2bb09c865ac01">Gauss</a> ()</td></tr>
+<tr class="separator:a447ed598a9d757f14ad2bb09c865ac01"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad7f6c15d9526e06dfa668421cab76dbe"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../db/df3/a00034.html#ad7f6c15d9526e06dfa668421cab76dbe">Gauss</a> (std::array&lt; <a class="el" href="../../d5/d16/a00029.html#a971e94bcb8c43741d11f9d8eb98f5fab">GReal_t</a>, N &gt; const &amp;means, std::array&lt; <a class="el" href="../../d5/d16/a00029.html#a971e94bcb8c43741d11f9d8eb98f5fab">GReal_t</a>, N &gt; const &amp;sigmas)</td></tr>
+<tr class="separator:ad7f6c15d9526e06dfa668421cab76dbe"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a53ed27d272da97572a183358a48aff25"><td class="memItemLeft" align="right" valign="top">__host__ __device__&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../db/df3/a00034.html#a53ed27d272da97572a183358a48aff25">Gauss</a> (<a class="el" href="../../db/df3/a00034.html">Gauss</a>&lt; N &gt; const &amp;other)</td></tr>
+<tr class="separator:a53ed27d272da97572a183358a48aff25"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a53ed27d272da97572a183358a48aff25"><td class="memItemLeft" align="right" valign="top">__host__ __device__&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../db/df3/a00034.html#a53ed27d272da97572a183358a48aff25">Gauss</a> (<a class="el" href="../../db/df3/a00034.html">Gauss</a>&lt; N &gt; const &amp;other)</td></tr>
+<tr class="separator:a53ed27d272da97572a183358a48aff25"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2bae0bfb28ad36a59f6f7d55bd23fe2f"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
+<tr class="memitem:a2bae0bfb28ad36a59f6f7d55bd23fe2f"><td class="memTemplItemLeft" align="right" valign="top">__host__ __device__ <a class="el" href="../../d5/d16/a00029.html#a971e94bcb8c43741d11f9d8eb98f5fab">GReal_t</a>&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="../../db/df3/a00034.html#a2bae0bfb28ad36a59f6f7d55bd23fe2f">Evaluate</a> (T *x, T *p=0)</td></tr>
+<tr class="separator:a2bae0bfb28ad36a59f6f7d55bd23fe2f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a652a86a660a6d96ec80e0dcd30a470c2"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
+<tr class="memitem:a652a86a660a6d96ec80e0dcd30a470c2"><td class="memTemplItemLeft" align="right" valign="top">__host__ __device__ <a class="el" href="../../d5/d16/a00029.html#a971e94bcb8c43741d11f9d8eb98f5fab">GReal_t</a>&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="../../db/df3/a00034.html#a652a86a660a6d96ec80e0dcd30a470c2">Evaluate</a> (T *X)</td></tr>
+<tr class="separator:a652a86a660a6d96ec80e0dcd30a470c2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a652a86a660a6d96ec80e0dcd30a470c2"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
+<tr class="memitem:a652a86a660a6d96ec80e0dcd30a470c2"><td class="memTemplItemLeft" align="right" valign="top">__host__ __device__ <a class="el" href="../../d5/d16/a00029.html#a971e94bcb8c43741d11f9d8eb98f5fab">GReal_t</a>&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="../../db/df3/a00034.html#a652a86a660a6d96ec80e0dcd30a470c2">Evaluate</a> (T *X)</td></tr>
+<tr class="separator:a652a86a660a6d96ec80e0dcd30a470c2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a76a0d99e651d8c0de2062ceef518072b"><td class="memItemLeft" align="right" valign="top">__host__ __device__ <a class="el" href="../../db/df3/a00034.html">Gauss</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../db/df3/a00034.html#a76a0d99e651d8c0de2062ceef518072b">operator=</a> (<a class="el" href="../../db/df3/a00034.html">Gauss</a> const &amp;other)</td></tr>
+<tr class="separator:a76a0d99e651d8c0de2062ceef518072b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="inherit_header pub_methods_a00020"><td colspan="2" onclick="javascript:toggleInherit('pub_methods_a00020')"><img src="../../closed.png" alt="-"/>&#160;Public Member Functions inherited from <a class="el" href="../../db/db2/a00020.html">hydra::BaseFunctor&lt; Gauss&lt; N &gt;, GReal_t, 0 &gt;</a></td></tr>
+<tr class="memitem:a0c0be9dd53a27b84117fb8c2d8b6210f inherit pub_methods_a00020"><td class="memItemLeft" align="right" valign="top">__host__ __device__&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../db/db2/a00020.html#a0c0be9dd53a27b84117fb8c2d8b6210f">BaseFunctor</a> ()</td></tr>
+<tr class="separator:a0c0be9dd53a27b84117fb8c2d8b6210f inherit pub_methods_a00020"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a37483aee0fe228b0de4a268c3b838b08 inherit pub_methods_a00020"><td class="memItemLeft" align="right" valign="top">__host__ __device__&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../db/db2/a00020.html#a37483aee0fe228b0de4a268c3b838b08">BaseFunctor</a> (<a class="el" href="../../db/db2/a00020.html">BaseFunctor</a>&lt; <a class="el" href="../../db/df3/a00034.html">Gauss</a>&lt; N &gt;, <a class="el" href="../../d5/d16/a00029.html#a971e94bcb8c43741d11f9d8eb98f5fab">GReal_t</a>, NPARAM &gt; const &amp;other)</td></tr>
+<tr class="separator:a37483aee0fe228b0de4a268c3b838b08 inherit pub_methods_a00020"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afec62fc691e8a3f9908c65a8402a8b8e inherit pub_methods_a00020"><td class="memItemLeft" align="right" valign="top">__host__ __device__&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../db/db2/a00020.html#afec62fc691e8a3f9908c65a8402a8b8e">~BaseFunctor</a> ()</td></tr>
+<tr class="separator:afec62fc691e8a3f9908c65a8402a8b8e inherit pub_methods_a00020"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a89169035f79ac67daa965e5da6e5dfb2 inherit pub_methods_a00020"><td class="memItemLeft" align="right" valign="top">__host__ __device__ int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../db/db2/a00020.html#a89169035f79ac67daa965e5da6e5dfb2">GetCacheIndex</a> () const</td></tr>
+<tr class="separator:a89169035f79ac67daa965e5da6e5dfb2 inherit pub_methods_a00020"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9a28492d966813137b22daaf545c65b0 inherit pub_methods_a00020"><td class="memItemLeft" align="right" valign="top">__host__ __device__ <a class="el" href="../../db/df3/a00034.html">Gauss</a>&lt; N &gt; &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../db/db2/a00020.html#a9a28492d966813137b22daaf545c65b0">GetFunctor</a> ()</td></tr>
+<tr class="separator:a9a28492d966813137b22daaf545c65b0 inherit pub_methods_a00020"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a05300c08819c707064306fc5406c54bc inherit pub_methods_a00020"><td class="memItemLeft" align="right" valign="top">__host__ const <a class="el" href="../../d5/de0/a00050.html">Parameter</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../db/db2/a00020.html#a05300c08819c707064306fc5406c54bc">GetParameter</a> (size_t i) const</td></tr>
+<tr class="separator:a05300c08819c707064306fc5406c54bc inherit pub_methods_a00020"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1e1b71cc1d1dfb0ea14afb4c83b01551 inherit pub_methods_a00020"><td class="memItemLeft" align="right" valign="top">__host__ <a class="el" href="../../d5/de0/a00050.html">Parameter</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../db/db2/a00020.html#a1e1b71cc1d1dfb0ea14afb4c83b01551">GetParameter</a> (size_t i)</td></tr>
+<tr class="separator:a1e1b71cc1d1dfb0ea14afb4c83b01551 inherit pub_methods_a00020"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3da55bfa4e01e60f874af6e0361ee87e inherit pub_methods_a00020"><td class="memItemLeft" align="right" valign="top">__host__ __device__ thrust::detail::enable_if&lt; detail::is_homogeneous&lt; typename thrust::tuple_element&lt; 0, typename std::remove_reference&lt; T &gt;::type &gt;::type, typename std::remove_reference&lt; T &gt;::type &gt;::value, <a class="el" href="../../db/db2/a00020.html#a6f086a61951fecd03bb12a7588efc5e9">return_type</a> &gt;::type&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../db/db2/a00020.html#a3da55bfa4e01e60f874af6e0361ee87e">interface</a> (T &amp;&amp;x)</td></tr>
+<tr class="separator:a3da55bfa4e01e60f874af6e0361ee87e inherit pub_methods_a00020"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af3852df9a2b47366b4c45359229c6e36 inherit pub_methods_a00020"><td class="memItemLeft" align="right" valign="top">__host__ __device__ thrust::detail::enable_if&lt;!detail::is_homogeneous&lt; typename thrust::tuple_element&lt; 0, typename std::remove_reference&lt; T &gt;::type &gt;::type, typename std::remove_reference&lt; T &gt;::type &gt;::value, <a class="el" href="../../db/db2/a00020.html#a6f086a61951fecd03bb12a7588efc5e9">return_type</a> &gt;::type&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../db/db2/a00020.html#af3852df9a2b47366b4c45359229c6e36">interface</a> (T &amp;&amp;x)</td></tr>
+<tr class="separator:af3852df9a2b47366b4c45359229c6e36 inherit pub_methods_a00020"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab9bacd69761e78fd208fdaef70e03b23 inherit pub_methods_a00020"><td class="memItemLeft" align="right" valign="top">__host__ __device__ bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../db/db2/a00020.html#ab9bacd69761e78fd208fdaef70e03b23">IsCached</a> () const</td></tr>
+<tr class="separator:ab9bacd69761e78fd208fdaef70e03b23 inherit pub_methods_a00020"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab4ea5ca2fe72adc7a9291c8bbf5366a7 inherit pub_methods_a00020"><td class="memItemLeft" align="right" valign="top">__host__ __device__ <a class="el" href="../../db/db2/a00020.html#a6f086a61951fecd03bb12a7588efc5e9">return_type</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../db/db2/a00020.html#ab4ea5ca2fe72adc7a9291c8bbf5366a7">operator()</a> (T *x, T *p=0)</td></tr>
+<tr class="separator:ab4ea5ca2fe72adc7a9291c8bbf5366a7 inherit pub_methods_a00020"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab1401d548e112dbf4650f6edd24bd4ea inherit pub_methods_a00020"><td class="memItemLeft" align="right" valign="top">__host__ __device__ <a class="el" href="../../db/db2/a00020.html#a6f086a61951fecd03bb12a7588efc5e9">return_type</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../db/db2/a00020.html#ab1401d548e112dbf4650f6edd24bd4ea">operator()</a> (T &amp;&amp;x)</td></tr>
+<tr class="separator:ab1401d548e112dbf4650f6edd24bd4ea inherit pub_methods_a00020"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac326699c724a5beb3918f6e17aaf3971 inherit pub_methods_a00020"><td class="memItemLeft" align="right" valign="top">__host__ __device__ <a class="el" href="../../db/db2/a00020.html#a6f086a61951fecd03bb12a7588efc5e9">return_type</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../db/db2/a00020.html#ac326699c724a5beb3918f6e17aaf3971">operator()</a> (T1 &amp;&amp;x, T2 &amp;&amp;cache)</td></tr>
+<tr class="separator:ac326699c724a5beb3918f6e17aaf3971 inherit pub_methods_a00020"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac534f12bffd178eb953b613142b11cef inherit pub_methods_a00020"><td class="memItemLeft" align="right" valign="top">__host__ __device__ <a class="el" href="../../db/db2/a00020.html">BaseFunctor</a>&lt; <a class="el" href="../../db/df3/a00034.html">Gauss</a>&lt; N &gt;, <a class="el" href="../../d5/d16/a00029.html#a971e94bcb8c43741d11f9d8eb98f5fab">GReal_t</a>, NPARAM &gt; &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../db/db2/a00020.html#ac534f12bffd178eb953b613142b11cef">operator=</a> (<a class="el" href="../../db/db2/a00020.html">BaseFunctor</a>&lt; <a class="el" href="../../db/df3/a00034.html">Gauss</a>&lt; N &gt;, <a class="el" href="../../d5/d16/a00029.html#a971e94bcb8c43741d11f9d8eb98f5fab">GReal_t</a>, NPARAM &gt; const &amp;other)</td></tr>
+<tr class="separator:ac534f12bffd178eb953b613142b11cef inherit pub_methods_a00020"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a85cbce733ead7b16656ef2cd0c4ae22c inherit pub_methods_a00020"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../db/db2/a00020.html#a85cbce733ead7b16656ef2cd0c4ae22c">PrintRegisteredParameters</a> ()</td></tr>
+<tr class="separator:a85cbce733ead7b16656ef2cd0c4ae22c inherit pub_methods_a00020"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af626df0a771c88657cff2c96297a13cf inherit pub_methods_a00020"><td class="memItemLeft" align="right" valign="top">__host__ __device__ void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../db/db2/a00020.html#af626df0a771c88657cff2c96297a13cf">RegistryParameters</a> (std::initializer_list&lt; <a class="el" href="../../d5/de0/a00050.html">Parameter</a> * &gt; var_list)</td></tr>
+<tr class="separator:af626df0a771c88657cff2c96297a13cf inherit pub_methods_a00020"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2b5708f0ff105a98f18677f4e0cb8619 inherit pub_methods_a00020"><td class="memItemLeft" align="right" valign="top">__host__ __device__ void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../db/db2/a00020.html#a2b5708f0ff105a98f18677f4e0cb8619">SetCached</a> (bool cached=true)</td></tr>
+<tr class="separator:a2b5708f0ff105a98f18677f4e0cb8619 inherit pub_methods_a00020"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9f28f137b52aa839dfbe861cebf1ea80 inherit pub_methods_a00020"><td class="memItemLeft" align="right" valign="top">__host__ __device__ void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../db/db2/a00020.html#a9f28f137b52aa839dfbe861cebf1ea80">SetCacheIndex</a> (int index)</td></tr>
+<tr class="separator:a9f28f137b52aa839dfbe861cebf1ea80 inherit pub_methods_a00020"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1626ed818255626d007def610b3e9801 inherit pub_methods_a00020"><td class="memItemLeft" align="right" valign="top">__host__ void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../db/db2/a00020.html#a1626ed818255626d007def610b3e9801">SetParameters</a> (const std::vector&lt; double &gt; &amp;parameters)</td></tr>
+<tr class="separator:a1626ed818255626d007def610b3e9801 inherit pub_methods_a00020"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="inherit_header pub_methods_a00020"><td colspan="2" onclick="javascript:toggleInherit('pub_methods_a00020')"><img src="../../closed.png" alt="-"/>&#160;Public Member Functions inherited from <a class="el" href="../../db/db2/a00020.html">hydra::BaseFunctor&lt; Gauss, GReal_t, 2 &gt;</a></td></tr>
+<tr class="memitem:a0c0be9dd53a27b84117fb8c2d8b6210f inherit pub_methods_a00020"><td class="memItemLeft" align="right" valign="top">__host__ __device__&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../db/db2/a00020.html#a0c0be9dd53a27b84117fb8c2d8b6210f">BaseFunctor</a> ()</td></tr>
+<tr class="separator:a0c0be9dd53a27b84117fb8c2d8b6210f inherit pub_methods_a00020"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a37483aee0fe228b0de4a268c3b838b08 inherit pub_methods_a00020"><td class="memItemLeft" align="right" valign="top">__host__ __device__&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../db/db2/a00020.html#a37483aee0fe228b0de4a268c3b838b08">BaseFunctor</a> (<a class="el" href="../../db/db2/a00020.html">BaseFunctor</a>&lt; <a class="el" href="../../db/df3/a00034.html">Gauss</a>, <a class="el" href="../../d5/d16/a00029.html#a971e94bcb8c43741d11f9d8eb98f5fab">GReal_t</a>, NPARAM &gt; const &amp;other)</td></tr>
+<tr class="separator:a37483aee0fe228b0de4a268c3b838b08 inherit pub_methods_a00020"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afec62fc691e8a3f9908c65a8402a8b8e inherit pub_methods_a00020"><td class="memItemLeft" align="right" valign="top">__host__ __device__&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../db/db2/a00020.html#afec62fc691e8a3f9908c65a8402a8b8e">~BaseFunctor</a> ()</td></tr>
+<tr class="separator:afec62fc691e8a3f9908c65a8402a8b8e inherit pub_methods_a00020"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a89169035f79ac67daa965e5da6e5dfb2 inherit pub_methods_a00020"><td class="memItemLeft" align="right" valign="top">__host__ __device__ int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../db/db2/a00020.html#a89169035f79ac67daa965e5da6e5dfb2">GetCacheIndex</a> () const</td></tr>
+<tr class="separator:a89169035f79ac67daa965e5da6e5dfb2 inherit pub_methods_a00020"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9a28492d966813137b22daaf545c65b0 inherit pub_methods_a00020"><td class="memItemLeft" align="right" valign="top">__host__ __device__ <a class="el" href="../../db/df3/a00034.html">Gauss</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../db/db2/a00020.html#a9a28492d966813137b22daaf545c65b0">GetFunctor</a> ()</td></tr>
+<tr class="separator:a9a28492d966813137b22daaf545c65b0 inherit pub_methods_a00020"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a05300c08819c707064306fc5406c54bc inherit pub_methods_a00020"><td class="memItemLeft" align="right" valign="top">__host__ const <a class="el" href="../../d5/de0/a00050.html">Parameter</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../db/db2/a00020.html#a05300c08819c707064306fc5406c54bc">GetParameter</a> (size_t i) const</td></tr>
+<tr class="separator:a05300c08819c707064306fc5406c54bc inherit pub_methods_a00020"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1e1b71cc1d1dfb0ea14afb4c83b01551 inherit pub_methods_a00020"><td class="memItemLeft" align="right" valign="top">__host__ <a class="el" href="../../d5/de0/a00050.html">Parameter</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../db/db2/a00020.html#a1e1b71cc1d1dfb0ea14afb4c83b01551">GetParameter</a> (size_t i)</td></tr>
+<tr class="separator:a1e1b71cc1d1dfb0ea14afb4c83b01551 inherit pub_methods_a00020"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3da55bfa4e01e60f874af6e0361ee87e inherit pub_methods_a00020"><td class="memItemLeft" align="right" valign="top">__host__ __device__ thrust::detail::enable_if&lt; detail::is_homogeneous&lt; typename thrust::tuple_element&lt; 0, typename std::remove_reference&lt; T &gt;::type &gt;::type, typename std::remove_reference&lt; T &gt;::type &gt;::value, <a class="el" href="../../db/db2/a00020.html#a6f086a61951fecd03bb12a7588efc5e9">return_type</a> &gt;::type&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../db/db2/a00020.html#a3da55bfa4e01e60f874af6e0361ee87e">interface</a> (T &amp;&amp;x)</td></tr>
+<tr class="separator:a3da55bfa4e01e60f874af6e0361ee87e inherit pub_methods_a00020"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af3852df9a2b47366b4c45359229c6e36 inherit pub_methods_a00020"><td class="memItemLeft" align="right" valign="top">__host__ __device__ thrust::detail::enable_if&lt;!detail::is_homogeneous&lt; typename thrust::tuple_element&lt; 0, typename std::remove_reference&lt; T &gt;::type &gt;::type, typename std::remove_reference&lt; T &gt;::type &gt;::value, <a class="el" href="../../db/db2/a00020.html#a6f086a61951fecd03bb12a7588efc5e9">return_type</a> &gt;::type&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../db/db2/a00020.html#af3852df9a2b47366b4c45359229c6e36">interface</a> (T &amp;&amp;x)</td></tr>
+<tr class="separator:af3852df9a2b47366b4c45359229c6e36 inherit pub_methods_a00020"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab9bacd69761e78fd208fdaef70e03b23 inherit pub_methods_a00020"><td class="memItemLeft" align="right" valign="top">__host__ __device__ bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../db/db2/a00020.html#ab9bacd69761e78fd208fdaef70e03b23">IsCached</a> () const</td></tr>
+<tr class="separator:ab9bacd69761e78fd208fdaef70e03b23 inherit pub_methods_a00020"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab4ea5ca2fe72adc7a9291c8bbf5366a7 inherit pub_methods_a00020"><td class="memItemLeft" align="right" valign="top">__host__ __device__ <a class="el" href="../../db/db2/a00020.html#a6f086a61951fecd03bb12a7588efc5e9">return_type</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../db/db2/a00020.html#ab4ea5ca2fe72adc7a9291c8bbf5366a7">operator()</a> (T *x, T *p=0)</td></tr>
+<tr class="separator:ab4ea5ca2fe72adc7a9291c8bbf5366a7 inherit pub_methods_a00020"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab1401d548e112dbf4650f6edd24bd4ea inherit pub_methods_a00020"><td class="memItemLeft" align="right" valign="top">__host__ __device__ <a class="el" href="../../db/db2/a00020.html#a6f086a61951fecd03bb12a7588efc5e9">return_type</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../db/db2/a00020.html#ab1401d548e112dbf4650f6edd24bd4ea">operator()</a> (T &amp;&amp;x)</td></tr>
+<tr class="separator:ab1401d548e112dbf4650f6edd24bd4ea inherit pub_methods_a00020"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac326699c724a5beb3918f6e17aaf3971 inherit pub_methods_a00020"><td class="memItemLeft" align="right" valign="top">__host__ __device__ <a class="el" href="../../db/db2/a00020.html#a6f086a61951fecd03bb12a7588efc5e9">return_type</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../db/db2/a00020.html#ac326699c724a5beb3918f6e17aaf3971">operator()</a> (T1 &amp;&amp;x, T2 &amp;&amp;cache)</td></tr>
+<tr class="separator:ac326699c724a5beb3918f6e17aaf3971 inherit pub_methods_a00020"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac534f12bffd178eb953b613142b11cef inherit pub_methods_a00020"><td class="memItemLeft" align="right" valign="top">__host__ __device__ <a class="el" href="../../db/db2/a00020.html">BaseFunctor</a>&lt; <a class="el" href="../../db/df3/a00034.html">Gauss</a>, <a class="el" href="../../d5/d16/a00029.html#a971e94bcb8c43741d11f9d8eb98f5fab">GReal_t</a>, NPARAM &gt; &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../db/db2/a00020.html#ac534f12bffd178eb953b613142b11cef">operator=</a> (<a class="el" href="../../db/db2/a00020.html">BaseFunctor</a>&lt; <a class="el" href="../../db/df3/a00034.html">Gauss</a>, <a class="el" href="../../d5/d16/a00029.html#a971e94bcb8c43741d11f9d8eb98f5fab">GReal_t</a>, NPARAM &gt; const &amp;other)</td></tr>
+<tr class="separator:ac534f12bffd178eb953b613142b11cef inherit pub_methods_a00020"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a85cbce733ead7b16656ef2cd0c4ae22c inherit pub_methods_a00020"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../db/db2/a00020.html#a85cbce733ead7b16656ef2cd0c4ae22c">PrintRegisteredParameters</a> ()</td></tr>
+<tr class="separator:a85cbce733ead7b16656ef2cd0c4ae22c inherit pub_methods_a00020"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af626df0a771c88657cff2c96297a13cf inherit pub_methods_a00020"><td class="memItemLeft" align="right" valign="top">__host__ __device__ void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../db/db2/a00020.html#af626df0a771c88657cff2c96297a13cf">RegistryParameters</a> (std::initializer_list&lt; <a class="el" href="../../d5/de0/a00050.html">Parameter</a> * &gt; var_list)</td></tr>
+<tr class="separator:af626df0a771c88657cff2c96297a13cf inherit pub_methods_a00020"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2b5708f0ff105a98f18677f4e0cb8619 inherit pub_methods_a00020"><td class="memItemLeft" align="right" valign="top">__host__ __device__ void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../db/db2/a00020.html#a2b5708f0ff105a98f18677f4e0cb8619">SetCached</a> (bool cached=true)</td></tr>
+<tr class="separator:a2b5708f0ff105a98f18677f4e0cb8619 inherit pub_methods_a00020"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9f28f137b52aa839dfbe861cebf1ea80 inherit pub_methods_a00020"><td class="memItemLeft" align="right" valign="top">__host__ __device__ void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../db/db2/a00020.html#a9f28f137b52aa839dfbe861cebf1ea80">SetCacheIndex</a> (int index)</td></tr>
+<tr class="separator:a9f28f137b52aa839dfbe861cebf1ea80 inherit pub_methods_a00020"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1626ed818255626d007def610b3e9801 inherit pub_methods_a00020"><td class="memItemLeft" align="right" valign="top">__host__ void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../db/db2/a00020.html#a1626ed818255626d007def610b3e9801">SetParameters</a> (const std::vector&lt; double &gt; &amp;parameters)</td></tr>
+<tr class="separator:a1626ed818255626d007def610b3e9801 inherit pub_methods_a00020"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-attribs"></a>
+Public Attributes</h2></td></tr>
+<tr class="memitem:ac3fdd0385d0f77008dfe5000ef432ac3"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../d5/de0/a00050.html">Parameter</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../db/df3/a00034.html#ac3fdd0385d0f77008dfe5000ef432ac3">fM</a></td></tr>
+<tr class="separator:ac3fdd0385d0f77008dfe5000ef432ac3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9253099fba15de7f650c9c594cfda736"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../d5/d16/a00029.html#a971e94bcb8c43741d11f9d8eb98f5fab">GReal_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../db/df3/a00034.html#a9253099fba15de7f650c9c594cfda736">fM</a> [N]</td></tr>
+<tr class="separator:a9253099fba15de7f650c9c594cfda736"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae5189c554f06debba247b03b953313d7"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../d5/d16/a00029.html#a251a7b1f515ac1ed9409afd67252a32b">GUInt_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../db/df3/a00034.html#ae5189c554f06debba247b03b953313d7">fPosition</a></td></tr>
+<tr class="separator:ae5189c554f06debba247b03b953313d7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa0ea04542297291dc703b28b0596a71f"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../d5/de0/a00050.html">Parameter</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../db/df3/a00034.html#aa0ea04542297291dc703b28b0596a71f">fS</a></td></tr>
+<tr class="separator:aa0ea04542297291dc703b28b0596a71f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a031b82e8fece1f442c5994b19d74db98"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../d5/d16/a00029.html#a971e94bcb8c43741d11f9d8eb98f5fab">GReal_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../db/df3/a00034.html#a031b82e8fece1f442c5994b19d74db98">fS</a> [N]</td></tr>
+<tr class="separator:a031b82e8fece1f442c5994b19d74db98"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="inherited"></a>
+Additional Inherited Members</h2></td></tr>
+<tr class="inherit_header pub_types_a00020"><td colspan="2" onclick="javascript:toggleInherit('pub_types_a00020')"><img src="../../closed.png" alt="-"/>&#160;Public Types inherited from <a class="el" href="../../db/db2/a00020.html">hydra::BaseFunctor&lt; Gauss&lt; N &gt;, GReal_t, 0 &gt;</a></td></tr>
+<tr class="memitem:a9eb43b40102a67bf3d838f3cd13b5b29 inherit pub_types_a00020"><td class="memItemLeft" align="right" valign="top">typedef void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../db/db2/a00020.html#a9eb43b40102a67bf3d838f3cd13b5b29">hydra_functor_tag</a></td></tr>
+<tr class="separator:a9eb43b40102a67bf3d838f3cd13b5b29 inherit pub_types_a00020"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2425580530e0d2e7a0f3687cf47c511d inherit pub_types_a00020"><td class="memItemLeft" align="right" valign="top">typedef std::true_type&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../db/db2/a00020.html#a2425580530e0d2e7a0f3687cf47c511d">is_functor</a></td></tr>
+<tr class="separator:a2425580530e0d2e7a0f3687cf47c511d inherit pub_types_a00020"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6f086a61951fecd03bb12a7588efc5e9 inherit pub_types_a00020"><td class="memItemLeft" align="right" valign="top">typedef <a class="el" href="../../d5/d16/a00029.html#a971e94bcb8c43741d11f9d8eb98f5fab">GReal_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../db/db2/a00020.html#a6f086a61951fecd03bb12a7588efc5e9">return_type</a></td></tr>
+<tr class="separator:a6f086a61951fecd03bb12a7588efc5e9 inherit pub_types_a00020"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="inherit_header pub_types_a00020"><td colspan="2" onclick="javascript:toggleInherit('pub_types_a00020')"><img src="../../closed.png" alt="-"/>&#160;Public Types inherited from <a class="el" href="../../db/db2/a00020.html">hydra::BaseFunctor&lt; Gauss, GReal_t, 2 &gt;</a></td></tr>
+<tr class="memitem:a9eb43b40102a67bf3d838f3cd13b5b29 inherit pub_types_a00020"><td class="memItemLeft" align="right" valign="top">typedef void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../db/db2/a00020.html#a9eb43b40102a67bf3d838f3cd13b5b29">hydra_functor_tag</a></td></tr>
+<tr class="separator:a9eb43b40102a67bf3d838f3cd13b5b29 inherit pub_types_a00020"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2425580530e0d2e7a0f3687cf47c511d inherit pub_types_a00020"><td class="memItemLeft" align="right" valign="top">typedef std::true_type&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../db/db2/a00020.html#a2425580530e0d2e7a0f3687cf47c511d">is_functor</a></td></tr>
+<tr class="separator:a2425580530e0d2e7a0f3687cf47c511d inherit pub_types_a00020"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6f086a61951fecd03bb12a7588efc5e9 inherit pub_types_a00020"><td class="memItemLeft" align="right" valign="top">typedef <a class="el" href="../../d5/d16/a00029.html#a971e94bcb8c43741d11f9d8eb98f5fab">GReal_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../db/db2/a00020.html#a6f086a61951fecd03bb12a7588efc5e9">return_type</a></td></tr>
+<tr class="separator:a6f086a61951fecd03bb12a7588efc5e9 inherit pub_types_a00020"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="inherit_header pub_static_attribs_a00020"><td colspan="2" onclick="javascript:toggleInherit('pub_static_attribs_a00020')"><img src="../../closed.png" alt="-"/>&#160;Static Public Attributes inherited from <a class="el" href="../../db/db2/a00020.html">hydra::BaseFunctor&lt; Gauss&lt; N &gt;, GReal_t, 0 &gt;</a></td></tr>
+<tr class="memitem:ae82fa8e70e3b78e1dc1dcdcc6509d348 inherit pub_static_attribs_a00020"><td class="memItemLeft" align="right" valign="top">static const size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../db/db2/a00020.html#ae82fa8e70e3b78e1dc1dcdcc6509d348">parameter_count</a></td></tr>
+<tr class="separator:ae82fa8e70e3b78e1dc1dcdcc6509d348 inherit pub_static_attribs_a00020"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="inherit_header pub_static_attribs_a00020"><td colspan="2" onclick="javascript:toggleInherit('pub_static_attribs_a00020')"><img src="../../closed.png" alt="-"/>&#160;Static Public Attributes inherited from <a class="el" href="../../db/db2/a00020.html">hydra::BaseFunctor&lt; Gauss, GReal_t, 2 &gt;</a></td></tr>
+<tr class="memitem:ae82fa8e70e3b78e1dc1dcdcc6509d348 inherit pub_static_attribs_a00020"><td class="memItemLeft" align="right" valign="top">static const size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../db/db2/a00020.html#ae82fa8e70e3b78e1dc1dcdcc6509d348">parameter_count</a></td></tr>
+<tr class="separator:ae82fa8e70e3b78e1dc1dcdcc6509d348 inherit pub_static_attribs_a00020"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><h3>template&lt;typename FUNCTOR, typename IteratorData, typename IteratorCache&gt;<br />
-struct hydra::LogLikelihood&lt; FUNCTOR, IteratorData, IteratorCache &gt;</h3>
+<div class="textblock"><h3>template&lt;size_t N = 1&gt;<br />
+struct Gauss&lt; N &gt;</h3>
 
-
-<p>Definition at line <a class="el" href="../../d1/d84/a00097_source.html#l00048">48</a> of file <a class="el" href="../../d1/d84/a00097_source.html">LogLikelihood.h</a>.</p>
-</div><h2 class="groupheader">Member Typedef Documentation</h2>
-<a class="anchor" id="a1d7075e41d99c634b7fc3e755718e495"></a>
+<dl><dt><b>Examples: </b></dt><dd><a class="el" href="../../de/d21/a00006.html#_a10">HydraFitExample.cpp</a>, <a class="el" href="../../d4/dee/a00008.html#_a10">HydraFitExample.cu</a>, <a class="el" href="../../d2/de7/a00014.html#_a0">HydraRandomExample.cpp</a>, and <a class="el" href="../../d7/d7a/a00016.html#_a0">HydraRandomExample.cu</a>.</dd>
+</dl>
+<p>Definition at line <a class="el" href="../../d9/df8/a00096_source.html#l00019">19</a> of file <a class="el" href="../../d9/df8/a00096_source.html">Gauss.h</a>.</p>
+</div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
+<a class="anchor" id="ae2e2fd67154769a20fbded45dca8a811"></a>
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;typename FUNCTOR, typename IteratorData, typename IteratorCache&gt; </div>
-      <table class="memname">
-        <tr>
-          <td class="memname">typedef thrust::iterator_traits&lt;IteratorCache&gt;::value_type <a class="el" href="../../db/df3/a00034.html">hydra::LogLikelihood</a>&lt; FUNCTOR, IteratorData, IteratorCache &gt;::<a class="el" href="../../db/df3/a00034.html#a1d7075e41d99c634b7fc3e755718e495">cache_value_type</a></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Definition at line <a class="el" href="../../d1/d84/a00097_source.html#l00051">51</a> of file <a class="el" href="../../d1/d84/a00097_source.html">LogLikelihood.h</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="a82e605b999cecea1976dda762a642083"></a>
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;typename FUNCTOR, typename IteratorData, typename IteratorCache&gt; </div>
-      <table class="memname">
-        <tr>
-          <td class="memname">typedef thrust::iterator_traits&lt;IteratorData&gt;::value_type <a class="el" href="../../db/df3/a00034.html">hydra::LogLikelihood</a>&lt; FUNCTOR, IteratorData, IteratorCache &gt;::<a class="el" href="../../db/df3/a00034.html#a82e605b999cecea1976dda762a642083">data_value_type</a></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Definition at line <a class="el" href="../../d1/d84/a00097_source.html#l00050">50</a> of file <a class="el" href="../../d1/d84/a00097_source.html">LogLikelihood.h</a>.</p>
-
-</div>
-</div>
-<h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
-<a class="anchor" id="ae79521eda55419322f23ae767b3a30b1"></a>
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;typename FUNCTOR, typename IteratorData, typename IteratorCache&gt; </div>
+template&lt;size_t N = 1&gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="../../db/df3/a00034.html">hydra::LogLikelihood</a>&lt; FUNCTOR, IteratorData, IteratorCache &gt;::<a class="el" href="../../db/df3/a00034.html">LogLikelihood</a> </td>
+          <td class="memname"><a class="el" href="../../db/df3/a00034.html">Gauss</a>&lt; N &gt;::<a class="el" href="../../db/df3/a00034.html">Gauss</a> </td>
           <td>(</td>
-          <td class="paramtype">FUNCTOR const &amp;&#160;</td>
-          <td class="paramname"><em>functor</em>, </td>
+          <td class="paramtype"><a class="el" href="../../d5/de0/a00050.html">Parameter</a> const &amp;&#160;</td>
+          <td class="paramname"><em>mean</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype"><a class="el" href="../../d4/d51/a00017.html#a971e94bcb8c43741d11f9d8eb98f5fab">GReal_t</a>&#160;</td>
-          <td class="paramname"><em>sumW</em>, </td>
+          <td class="paramtype"><a class="el" href="../../d5/de0/a00050.html">Parameter</a> const &amp;&#160;</td>
+          <td class="paramname"><em>sigma</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype"><a class="el" href="../../d4/d51/a00017.html#a971e94bcb8c43741d11f9d8eb98f5fab">GReal_t</a>&#160;</td>
-          <td class="paramname"><em>sumW2</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">IteratorData&#160;</td>
-          <td class="paramname"><em>dbegin</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">IteratorCache&#160;</td>
-          <td class="paramname"><em>cbegin</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"><a class="el" href="../../d4/d51/a00017.html#aa8c251ed5017d0638da929130062bcad">GBool_t</a>&#160;</td>
-          <td class="paramname"><em>weighted</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"><a class="el" href="../../d4/d51/a00017.html#aa8c251ed5017d0638da929130062bcad">GBool_t</a>&#160;</td>
-          <td class="paramname"><em>cached</em>&#160;</td>
+          <td class="paramtype"><a class="el" href="../../d5/d16/a00029.html#a251a7b1f515ac1ed9409afd67252a32b">GUInt_t</a>&#160;</td>
+          <td class="paramname"><em>position</em> = <code>0</code>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -255,23 +330,23 @@ template&lt;typename FUNCTOR, typename IteratorData, typename IteratorCache&gt; 
 </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="../../d1/d84/a00097_source.html#l00054">54</a> of file <a class="el" href="../../d1/d84/a00097_source.html">LogLikelihood.h</a>.</p>
+<p>Definition at line <a class="el" href="../../d9/df8/a00096_source.html#l00022">22</a> of file <a class="el" href="../../d9/df8/a00096_source.html">Gauss.h</a>.</p>
 
 </div>
 </div>
-<a class="anchor" id="a8a212c4e6f65d8df49bcf4b9a9d76bbe"></a>
+<a class="anchor" id="a30b09388cfe8ebf6a24e566ab3782a07"></a>
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;typename FUNCTOR, typename IteratorData, typename IteratorCache&gt; </div>
+template&lt;size_t N = 1&gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">__host__ __device__ <a class="el" href="../../db/df3/a00034.html">hydra::LogLikelihood</a>&lt; FUNCTOR, IteratorData, IteratorCache &gt;::<a class="el" href="../../db/df3/a00034.html">LogLikelihood</a> </td>
+          <td class="memname">__host__ __device__ <a class="el" href="../../db/df3/a00034.html">Gauss</a>&lt; N &gt;::<a class="el" href="../../db/df3/a00034.html">Gauss</a> </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="../../db/df3/a00034.html">LogLikelihood</a>&lt; FUNCTOR, IteratorData, IteratorCache &gt; const &amp;&#160;</td>
+          <td class="paramtype"><a class="el" href="../../db/df3/a00034.html">Gauss</a>&lt; N &gt; const &amp;&#160;</td>
           <td class="paramname"><em>other</em></td><td>)</td>
           <td></td>
         </tr>
@@ -283,23 +358,21 @@ template&lt;typename FUNCTOR, typename IteratorData, typename IteratorCache&gt; 
 </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="../../d1/d84/a00097_source.html#l00066">66</a> of file <a class="el" href="../../d1/d84/a00097_source.html">LogLikelihood.h</a>.</p>
-
-<p>References <a class="el" href="../../da/d24/a00068_source.html#l00047">__hydra_exec_check_disable__</a>.</p>
+<p>Definition at line <a class="el" href="../../d9/df8/a00096_source.html#l00030">30</a> of file <a class="el" href="../../d9/df8/a00096_source.html">Gauss.h</a>.</p>
 
 </div>
 </div>
-<a class="anchor" id="a3f4ee844e7c7fc7629a869dde5b4b397"></a>
+<a class="anchor" id="a447ed598a9d757f14ad2bb09c865ac01"></a>
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;typename FUNCTOR, typename IteratorData, typename IteratorCache&gt; </div>
+template&lt;size_t N = 1&gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="../../da/d24/a00068.html#a0916cfff5efbb734ef0bc4dc20ffa31a">__hydra_exec_check_disable__</a> __host__ __device__ <a class="el" href="../../db/df3/a00034.html">hydra::LogLikelihood</a>&lt; FUNCTOR, IteratorData, IteratorCache &gt;::~<a class="el" href="../../db/df3/a00034.html">LogLikelihood</a> </td>
+          <td class="memname"><a class="el" href="../../db/df3/a00034.html">Gauss</a>&lt; N &gt;::<a class="el" href="../../db/df3/a00034.html">Gauss</a> </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td></td>
@@ -312,33 +385,196 @@ template&lt;typename FUNCTOR, typename IteratorData, typename IteratorCache&gt; 
 </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="../../d1/d84/a00097_source.html#l00078">78</a> of file <a class="el" href="../../d1/d84/a00097_source.html">LogLikelihood.h</a>.</p>
+<p>Definition at line <a class="el" href="../../d7/dd4/a00013_source.html#l00075">75</a> of file <a class="el" href="../../d7/dd4/a00013_source.html">HydraRandomExample.cpp</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="ad7f6c15d9526e06dfa668421cab76dbe"></a>
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;size_t N = 1&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="../../db/df3/a00034.html">Gauss</a>&lt; N &gt;::<a class="el" href="../../db/df3/a00034.html">Gauss</a> </td>
+          <td>(</td>
+          <td class="paramtype">std::array&lt; <a class="el" href="../../d5/d16/a00029.html#a971e94bcb8c43741d11f9d8eb98f5fab">GReal_t</a>, N &gt; const &amp;&#160;</td>
+          <td class="paramname"><em>means</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::array&lt; <a class="el" href="../../d5/d16/a00029.html#a971e94bcb8c43741d11f9d8eb98f5fab">GReal_t</a>, N &gt; const &amp;&#160;</td>
+          <td class="paramname"><em>sigmas</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="../../d7/dd4/a00013_source.html#l00076">76</a> of file <a class="el" href="../../d7/dd4/a00013_source.html">HydraRandomExample.cpp</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a53ed27d272da97572a183358a48aff25"></a>
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;size_t N = 1&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">__host__ __device__ <a class="el" href="../../db/df3/a00034.html">Gauss</a>&lt; N &gt;::<a class="el" href="../../db/df3/a00034.html">Gauss</a> </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="../../db/df3/a00034.html">Gauss</a>&lt; N &gt; const &amp;&#160;</td>
+          <td class="paramname"><em>other</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="../../d7/dd4/a00013_source.html#l00085">85</a> of file <a class="el" href="../../d7/dd4/a00013_source.html">HydraRandomExample.cpp</a>.</p>
+
+<p>References <a class="el" href="../../d9/df8/a00096_source.html#l00061">Gauss&lt; N &gt;::fM</a>, and <a class="el" href="../../d9/df8/a00096_source.html#l00062">Gauss&lt; N &gt;::fS</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a447ed598a9d757f14ad2bb09c865ac01"></a>
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;size_t N = 1&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="../../db/df3/a00034.html">Gauss</a>&lt; N &gt;::<a class="el" href="../../db/df3/a00034.html">Gauss</a> </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="../../dd/d1b/a00015_source.html#l00072">72</a> of file <a class="el" href="../../dd/d1b/a00015_source.html">HydraRandomExample.cu</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="ad7f6c15d9526e06dfa668421cab76dbe"></a>
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;size_t N = 1&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="../../db/df3/a00034.html">Gauss</a>&lt; N &gt;::<a class="el" href="../../db/df3/a00034.html">Gauss</a> </td>
+          <td>(</td>
+          <td class="paramtype">std::array&lt; <a class="el" href="../../d5/d16/a00029.html#a971e94bcb8c43741d11f9d8eb98f5fab">GReal_t</a>, N &gt; const &amp;&#160;</td>
+          <td class="paramname"><em>means</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::array&lt; <a class="el" href="../../d5/d16/a00029.html#a971e94bcb8c43741d11f9d8eb98f5fab">GReal_t</a>, N &gt; const &amp;&#160;</td>
+          <td class="paramname"><em>sigmas</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="../../dd/d1b/a00015_source.html#l00073">73</a> of file <a class="el" href="../../dd/d1b/a00015_source.html">HydraRandomExample.cu</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a53ed27d272da97572a183358a48aff25"></a>
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;size_t N = 1&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">__host__ __device__ <a class="el" href="../../db/df3/a00034.html">Gauss</a>&lt; N &gt;::<a class="el" href="../../db/df3/a00034.html">Gauss</a> </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="../../db/df3/a00034.html">Gauss</a>&lt; N &gt; const &amp;&#160;</td>
+          <td class="paramname"><em>other</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="../../dd/d1b/a00015_source.html#l00082">82</a> of file <a class="el" href="../../dd/d1b/a00015_source.html">HydraRandomExample.cu</a>.</p>
+
+<p>References <a class="el" href="../../d9/df8/a00096_source.html#l00061">Gauss&lt; N &gt;::fM</a>, and <a class="el" href="../../d9/df8/a00096_source.html#l00062">Gauss&lt; N &gt;::fS</a>.</p>
 
 </div>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
-<a class="anchor" id="a46c111c088c17e59539dca835e1bd68d"></a>
+<a class="anchor" id="a2bae0bfb28ad36a59f6f7d55bd23fe2f"></a>
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;typename FUNCTOR, typename IteratorData, typename IteratorCache&gt; </div>
+template&lt;size_t N = 1&gt; </div>
 <div class="memtemplate">
-template&lt;typename U  = cache_value_type&gt; </div>
+template&lt;typename T &gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">__host__ __device__ <a class="el" href="../../d4/d51/a00017.html#a971e94bcb8c43741d11f9d8eb98f5fab">GReal_t</a> <a class="el" href="../../db/df3/a00034.html">hydra::LogLikelihood</a>&lt; FUNCTOR, IteratorData, IteratorCache &gt;::operator() </td>
+          <td class="memname">__host__ __device__ <a class="el" href="../../d5/d16/a00029.html#a971e94bcb8c43741d11f9d8eb98f5fab">GReal_t</a> <a class="el" href="../../db/df3/a00034.html">Gauss</a>&lt; N &gt;::Evaluate </td>
           <td>(</td>
-          <td class="paramtype">size_t&#160;</td>
-          <td class="paramname"><em>index</em>, </td>
+          <td class="paramtype">T *&#160;</td>
+          <td class="paramname"><em>x</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">const typename std::enable_if&lt; !std::is_same&lt; U, <a class="el" href="../../d4/d51/a00017.html#d6/db3/a00130">null_type</a> &gt;::value, void &gt;::type *&#160;</td>
-          <td class="paramname"><em>dummy</em> = <code>0</code>&#160;</td>
+          <td class="paramtype">T *&#160;</td>
+          <td class="paramname"><em>p</em> = <code>0</code>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -353,37 +589,27 @@ template&lt;typename U  = cache_value_type&gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="../../d1/d84/a00097_source.html#l00082">82</a> of file <a class="el" href="../../d1/d84/a00097_source.html">LogLikelihood.h</a>.</p>
+<p>Definition at line <a class="el" href="../../d9/df8/a00096_source.html#l00054">54</a> of file <a class="el" href="../../d9/df8/a00096_source.html">Gauss.h</a>.</p>
 
 </div>
 </div>
-<a class="anchor" id="a2a9e765e64c62301946c4262417f7b92"></a>
+<a class="anchor" id="a652a86a660a6d96ec80e0dcd30a470c2"></a>
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;typename FUNCTOR, typename IteratorData, typename IteratorCache&gt; </div>
+template&lt;size_t N = 1&gt; </div>
 <div class="memtemplate">
-template&lt;typename U  = cache_value_type&gt; </div>
+template&lt;typename T &gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">__host__ __device__ <a class="el" href="../../d4/d51/a00017.html#a971e94bcb8c43741d11f9d8eb98f5fab">GReal_t</a> <a class="el" href="../../db/df3/a00034.html">hydra::LogLikelihood</a>&lt; FUNCTOR, IteratorData, IteratorCache &gt;::operator() </td>
+          <td class="memname">__host__ __device__ <a class="el" href="../../d5/d16/a00029.html#a971e94bcb8c43741d11f9d8eb98f5fab">GReal_t</a> <a class="el" href="../../db/df3/a00034.html">Gauss</a>&lt; N &gt;::Evaluate </td>
           <td>(</td>
-          <td class="paramtype">size_t&#160;</td>
-          <td class="paramname"><em>index</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
+          <td class="paramtype">T *&#160;</td>
+          <td class="paramname"><em>X</em></td><td>)</td>
           <td></td>
-          <td class="paramtype">const typename std::enable_if&lt; std::is_same&lt; U, <a class="el" href="../../d4/d51/a00017.html#d6/db3/a00130">null_type</a> &gt;::value, void &gt;::type *&#160;</td>
-          <td class="paramname"><em>dummy</em> = <code>0</code>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
         </tr>
       </table>
   </td>
@@ -393,20 +619,176 @@ template&lt;typename U  = cache_value_type&gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="../../d1/d84/a00097_source.html#l00095">95</a> of file <a class="el" href="../../d1/d84/a00097_source.html">LogLikelihood.h</a>.</p>
+<p>Definition at line <a class="el" href="../../dd/d1b/a00015_source.html#l00092">92</a> of file <a class="el" href="../../dd/d1b/a00015_source.html">HydraRandomExample.cu</a>.</p>
 
 </div>
 </div>
-<hr/>The documentation for this struct was generated from the following file:<ul>
-<li><a class="el" href="../../d1/d84/a00097_source.html">LogLikelihood.h</a></li>
+<a class="anchor" id="a652a86a660a6d96ec80e0dcd30a470c2"></a>
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;size_t N = 1&gt; </div>
+<div class="memtemplate">
+template&lt;typename T &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">__host__ __device__ <a class="el" href="../../d5/d16/a00029.html#a971e94bcb8c43741d11f9d8eb98f5fab">GReal_t</a> <a class="el" href="../../db/df3/a00034.html">Gauss</a>&lt; N &gt;::Evaluate </td>
+          <td>(</td>
+          <td class="paramtype">T *&#160;</td>
+          <td class="paramname"><em>X</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="../../d7/dd4/a00013_source.html#l00095">95</a> of file <a class="el" href="../../d7/dd4/a00013_source.html">HydraRandomExample.cpp</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a76a0d99e651d8c0de2062ceef518072b"></a>
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;size_t N = 1&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">__host__ __device__ <a class="el" href="../../db/df3/a00034.html">Gauss</a>&amp; <a class="el" href="../../db/df3/a00034.html">Gauss</a>&lt; N &gt;::operator= </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="../../db/df3/a00034.html">Gauss</a>&lt; N &gt; const &amp;&#160;</td>
+          <td class="paramname"><em>other</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="../../d9/df8/a00096_source.html#l00039">39</a> of file <a class="el" href="../../d9/df8/a00096_source.html">Gauss.h</a>.</p>
+
+<p>References <a class="el" href="../../d9/df8/a00096_source.html#l00061">Gauss&lt; N &gt;::fM</a>, <a class="el" href="../../d9/df8/a00096_source.html#l00060">Gauss&lt; N &gt;::fPosition</a>, <a class="el" href="../../d9/df8/a00096_source.html#l00062">Gauss&lt; N &gt;::fS</a>, and <a class="el" href="../../d1/dc1/a00092_source.html#l00279">hydra::BaseFunctor&lt; Functor, ReturnType, NPARAM &gt;::operator=()</a>.</p>
+
+<p><div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><iframe scrolling="no" frameborder="0" src="../../db/df3/a00034_a76a0d99e651d8c0de2062ceef518072b_cgraph.svg" width="318" height="52"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+</div>
+</p>
+
+</div>
+</div>
+<h2 class="groupheader">Member Data Documentation</h2>
+<a class="anchor" id="ac3fdd0385d0f77008dfe5000ef432ac3"></a>
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;size_t N = 1&gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="../../d5/d16/a00029.html#a971e94bcb8c43741d11f9d8eb98f5fab">GReal_t</a> <a class="el" href="../../db/df3/a00034.html">Gauss</a>&lt; N &gt;::fM</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="../../d9/df8/a00096_source.html#l00061">61</a> of file <a class="el" href="../../d9/df8/a00096_source.html">Gauss.h</a>.</p>
+
+<p>Referenced by <a class="el" href="../../d7/dd4/a00013_source.html#l00085">Gauss&lt; N &gt;::Gauss()</a>, and <a class="el" href="../../d9/df8/a00096_source.html#l00039">Gauss&lt; N &gt;::operator=()</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a9253099fba15de7f650c9c594cfda736"></a>
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;size_t N = 1&gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="../../d5/d16/a00029.html#a971e94bcb8c43741d11f9d8eb98f5fab">GReal_t</a> <a class="el" href="../../db/df3/a00034.html">Gauss</a>&lt; N &gt;::fM[N]</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="../../d7/dd4/a00013_source.html#l00108">108</a> of file <a class="el" href="../../d7/dd4/a00013_source.html">HydraRandomExample.cpp</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="ae5189c554f06debba247b03b953313d7"></a>
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;size_t N = 1&gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="../../d5/d16/a00029.html#a251a7b1f515ac1ed9409afd67252a32b">GUInt_t</a> <a class="el" href="../../db/df3/a00034.html">Gauss</a>&lt; N &gt;::fPosition</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="../../d9/df8/a00096_source.html#l00060">60</a> of file <a class="el" href="../../d9/df8/a00096_source.html">Gauss.h</a>.</p>
+
+<p>Referenced by <a class="el" href="../../d9/df8/a00096_source.html#l00039">Gauss&lt; N &gt;::operator=()</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="aa0ea04542297291dc703b28b0596a71f"></a>
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;size_t N = 1&gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="../../d5/d16/a00029.html#a971e94bcb8c43741d11f9d8eb98f5fab">GReal_t</a> <a class="el" href="../../db/df3/a00034.html">Gauss</a>&lt; N &gt;::fS</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="../../d9/df8/a00096_source.html#l00062">62</a> of file <a class="el" href="../../d9/df8/a00096_source.html">Gauss.h</a>.</p>
+
+<p>Referenced by <a class="el" href="../../d7/dd4/a00013_source.html#l00085">Gauss&lt; N &gt;::Gauss()</a>, and <a class="el" href="../../d9/df8/a00096_source.html#l00039">Gauss&lt; N &gt;::operator=()</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a031b82e8fece1f442c5994b19d74db98"></a>
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;size_t N = 1&gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="../../d5/d16/a00029.html#a971e94bcb8c43741d11f9d8eb98f5fab">GReal_t</a> <a class="el" href="../../db/df3/a00034.html">Gauss</a>&lt; N &gt;::fS[N]</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="../../d7/dd4/a00013_source.html#l00109">109</a> of file <a class="el" href="../../d7/dd4/a00013_source.html">HydraRandomExample.cpp</a>.</p>
+
+</div>
+</div>
+<hr/>The documentation for this struct was generated from the following files:<ul>
+<li><a class="el" href="../../d9/df8/a00096_source.html">Gauss.h</a></li>
+<li><a class="el" href="../../d7/dd4/a00013_source.html">HydraRandomExample.cpp</a></li>
+<li><a class="el" href="../../dd/d1b/a00015_source.html">HydraRandomExample.cu</a></li>
 </ul>
 </div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="../../d4/d51/a00017.html">hydra</a></li><li class="navelem"><a class="el" href="../../db/df3/a00034.html">LogLikelihood</a></li>
-    <li class="footer">Generated on Wed Oct 12 2016 06:08:16 for Hydra by
+    <li class="navelem"><a class="el" href="../../db/df3/a00034.html">Gauss</a></li>
+    <li class="footer">Generated on Thu Oct 13 2016 03:01:48 for Hydra by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="../../doxygen.png" alt="doxygen"/></a> 1.8.11 </li>
   </ul>

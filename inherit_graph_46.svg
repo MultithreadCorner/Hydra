@@ -10,7 +10,7 @@
 <title>Graphical Class Hierarchy</title>
 <!-- Node1 -->
 <g id="node1" class="node"><title>Node1</title>
-<g id="a_node1"><a xlink:href="d4/d51/a00017.html#d5/deb/a00132" target="_top" xlink:title="Value error to be interpreted as error on bin content or point weight depending on the case...">
+<g id="a_node1"><a xlink:href="d5/d16/a00029.html#d5/da7/a00144" target="_top" xlink:title="Value error to be interpreted as error on bin content or point weight depending on the case...">
 <polygon fill="none" stroke="black" points="0,-0.5 0,-30.5 98,-30.5 98,-0.5 0,-0.5"/>
 <text text-anchor="start" x="8" y="-18.5" font-family="Helvetica,sans-Serif" font-size="10.00">hydra::ValueError&lt;</text>
 <text text-anchor="middle" x="49" y="-7.5" font-family="Helvetica,sans-Serif" font-size="10.00"> T, bool &gt;</text>

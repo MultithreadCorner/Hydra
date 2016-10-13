@@ -1,5 +1,6 @@
 var a00102 =
 [
-    [ "Pdf", "d3/de7/a00039.html", "d3/de7/a00039" ],
-    [ "make_pdf", "d9/dcc/a00102.html#a4ead364d19ac428f89101477057e61db", null ]
+    [ "LogLikelihoodFCN", "d6/d42/a00043.html", "d6/d42/a00043" ],
+    [ "make_loglikehood_fcn", "d9/dcc/a00102.html#a0a0d4c1f486d6286929d31f9844f13fb", null ],
+    [ "make_loglikehood_fcn", "d9/dcc/a00102.html#af3643760e6defde83dcdc47746378f82", null ]
 ];

@@ -1,10 +1,4 @@
-<map id="base_functor.h" name="base_functor.h">
-<area shape="rect" id="node3" href="$da/d24/a00068.html" title="hydra/detail/Config.h" alt="" coords="476,497,619,524"/>
-<area shape="rect" id="node13" href="$d9/d4b/a00117.html" title="hydra/Types.h" alt="" coords="1244,497,1349,524"/>
-<area shape="rect" id="node14" href="$d4/d98/a00120.html" title="hydra/detail/utility\l/Utility_Tuple.h" alt="" coords="828,80,952,121"/>
-<area shape="rect" id="node15" href="$da/d2a/a00086.html" title="hydra/detail/utility\l/Generic.h" alt="" coords="677,169,801,211"/>
-<area shape="rect" id="node17" href="$d8/d87/a00118.html" title="hydra/detail/TypeTraits.h" alt="" coords="384,177,551,203"/>
-<area shape="rect" id="node18" href="$d2/db1/a00070.html" title="Typedef for useful container classes used in MCBooster. " alt="" coords="228,266,360,293"/>
-<area shape="rect" id="node20" href="$d8/dfa/a00121.html" title="hydra/Vector3R.h" alt="" coords="952,423,1076,449"/>
-<area shape="rect" id="node25" href="$df/dc8/a00122.html" title="hydra/Vector4R.h" alt="" coords="849,348,973,375"/>
+<map id="Generic" name="Generic">
+<area shape="rect" id="node1" href="$d2/df5/a00137.html" title="Functor base types and arithmetic operations. " alt="" coords="192,5,321,32"/>
+<area shape="rect" id="node2" href="$de/d76/a00134.html" title="Data fit functionalities of Hydra. " alt="" coords="213,56,300,83"/>
 </map>

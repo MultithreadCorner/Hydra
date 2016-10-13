@@ -1,9 +1,6 @@
-<map id="FunctionWrapper.h" name="FunctionWrapper.h">
-<area shape="rect" id="node2" href="$d1/d7c/a00003.html" title="HydraEvaluateExample take parameters from the command line, fill a range with random numbers and eval..." alt="" coords="5,80,189,107"/>
-<area shape="rect" id="node3" href="$d8/d84/a00001.html" title="HydraEvaluateExample takes parameters from the command line, fill a range with random numbers and eva..." alt="" coords="214,80,391,107"/>
-<area shape="rect" id="node4" href="$db/dab/a00089.html" title="HydraFitExample.cpp" alt="" coords="415,80,563,107"/>
-<area shape="rect" id="node5" href="$da/d82/a00091.html" title="HydraPhaseSpaceExample.cpp" alt="" coords="587,80,794,107"/>
-<area shape="rect" id="node6" href="$d1/dc1/a00092.html" title="HydraPhaseSpaceExample.cu" alt="" coords="819,80,1019,107"/>
-<area shape="rect" id="node7" href="$d4/d7d/a00093.html" title="HydraRandomExample.cpp" alt="" coords="1043,80,1226,107"/>
-<area shape="rect" id="node8" href="$dc/d54/a00094.html" title="HydraRandomExample.cu" alt="" coords="1250,80,1425,107"/>
+<map id="Evaluate.h" name="Evaluate.h">
+<area shape="rect" id="node2" href="$d4/d3a/a00101.html" title="HydraEvaluateExample.cpp" alt="" coords="5,80,189,107"/>
+<area shape="rect" id="node3" href="$d1/d7c/a00003.html" title="HydraEvaluateExample.cu" alt="" coords="214,80,391,107"/>
+<area shape="rect" id="node4" href="$da/da0/a00009.html" title="HydraPhaseSpaceExample.cpp" alt="" coords="415,80,622,107"/>
+<area shape="rect" id="node5" href="$da/d45/a00011.html" title="HydraPhaseSpaceExample.cu" alt="" coords="647,80,847,107"/>
 </map>

@@ -4,7 +4,7 @@
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.11"/>
-<title>Hydra: hydra::DecayMother&lt; N, BACKEND, GRND &gt; Struct Template Reference</title>
+<title>Hydra: HydraRandomExample.cpp</title>
 <link href="../../tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="../../jquery.js"></script>
 <script type="text/javascript" src="../../dynsections.js"></script>
@@ -55,8 +55,9 @@ var searchBox = new SearchBox("searchBox", "../../search",false,'Search');
   <div id="navrow1" class="tabs">
     <ul class="tablist">
       <li><a href="../../index.html"><span>Main&#160;Page</span></a></li>
+      <li><a href="../../modules.html"><span>Modules</span></a></li>
       <li><a href="../../namespaces.html"><span>Namespaces</span></a></li>
-      <li class="current"><a href="../../annotated.html"><span>Classes</span></a></li>
+      <li><a href="../../annotated.html"><span>Classes</span></a></li>
       <li><a href="../../files.html"><span>Files</span></a></li>
       <li><a href="../../examples.html"><span>Examples</span></a></li>
       <li>
@@ -75,14 +76,6 @@ var searchBox = new SearchBox("searchBox", "../../search",false,'Search');
           </span>
         </div>
       </li>
-    </ul>
-  </div>
-  <div id="navrow2" class="tabs2">
-    <ul class="tablist">
-      <li><a href="../../annotated.html"><span>Class&#160;List</span></a></li>
-      <li><a href="../../classes.html"><span>Class&#160;Index</span></a></li>
-      <li><a href="../../inherits.html"><span>Class&#160;Hierarchy</span></a></li>
-      <li><a href="../../functions.html"><span>Class&#160;Members</span></a></li>
     </ul>
   </div>
 </div><!-- top -->
@@ -115,543 +108,62 @@ $(document).ready(function(){initNavTree('d2/de7/a00014.html','../../');});
 </div>
 
 <div class="header">
-  <div class="summary">
-<a href="#pub-types">Public Types</a> &#124;
-<a href="#pub-methods">Public Member Functions</a> &#124;
-<a href="#pub-attribs">Public Attributes</a> &#124;
-<a href="../../dc/d28/a00276.html">List of all members</a>  </div>
   <div class="headertitle">
-<div class="title">hydra::DecayMother&lt; N, BACKEND, GRND &gt; Struct Template Reference</div>  </div>
+<div class="title">HydraRandomExample.cpp</div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="dynheader">
-Collaboration diagram for hydra::DecayMother&lt; N, BACKEND, GRND &gt;:</div>
-<div class="dyncontent">
-<div class="center"><iframe scrolling="no" frameborder="0" src="../../d6/d4b/a00277.svg" width="190" height="294"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+<p>HydraRandomExample take parameters from the command line and generates random samples in one, two, three dimensions.</p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">-n=&lt;long&gt;</td><td>number of events to generate.</td></tr>
+  </table>
+  </dd>
+</dl>
+<p>Usage:</p>
+<p>./Hydra_Example_GCC_DEVICE_OMP_HOST_CPP_Random -n=&lt;long&gt;</p>
+<p>For example, the command below:</p>
+<div class="fragment"><div class="line">./Hydra_Example_GCC_DEVICE_OMP_HOST_CPP_Random -n=10000000</div></div><!-- fragment --><p> will print some stuff to standard output and produce the plot:</p>
+<div class="image">
+<img src="../../HIST_2D_gaussians_CCP_OMP_DEVICE.png" alt="HIST_2D_gaussians_CCP_OMP_DEVICE.png"/>
 </div>
-<table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-types"></a>
-Public Types</h2></td></tr>
-<tr class="memitem:a73f7a72091da38cfc0af0905286756a1"><td class="memItemLeft" align="right" valign="top">typedef detail::BackendTraits&lt; BACKEND &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d2/de7/a00014.html#a73f7a72091da38cfc0af0905286756a1">system_t</a></td></tr>
-<tr class="separator:a73f7a72091da38cfc0af0905286756a1"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a675c928e10513224e55b414621570484"><td class="memItemLeft" align="right" valign="top">typedef system_t::template container&lt; <a class="el" href="../../d4/d51/a00017.html#a971e94bcb8c43741d11f9d8eb98f5fab">GReal_t</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d2/de7/a00014.html#a675c928e10513224e55b414621570484">vector_real</a></td></tr>
-<tr class="separator:a675c928e10513224e55b414621570484"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
-Public Member Functions</h2></td></tr>
-<tr class="memitem:aae39e61930903a9164d31d590ea583f0"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d2/de7/a00014.html#aae39e61930903a9164d31d590ea583f0">DecayMother</a> (<a class="el" href="../../d9/d73/a00060.html">Vector4R</a> const &amp;mother, <a class="el" href="../../d2/de7/a00014.html#a675c928e10513224e55b414621570484">vector_real</a> const &amp;_masses, const <a class="el" href="../../d4/d51/a00017.html#a0c9fb4d7195ab952da10a82d5c4ad30e">GInt_t</a> _ndaughters, const <a class="el" href="../../d4/d51/a00017.html#a0c9fb4d7195ab952da10a82d5c4ad30e">GInt_t</a> _seed)</td></tr>
-<tr class="separator:aae39e61930903a9164d31d590ea583f0"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a0e7f368769fa7ce4610c1ceb6d60a24c"><td class="memItemLeft" align="right" valign="top">__host__ __device__&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d2/de7/a00014.html#a0e7f368769fa7ce4610c1ceb6d60a24c">DecayMother</a> (<a class="el" href="../../d2/de7/a00014.html">DecayMother</a>&lt; N, BACKEND, GRND &gt; const &amp;other)</td></tr>
-<tr class="separator:a0e7f368769fa7ce4610c1ceb6d60a24c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aeabe1a11b857688ee592dcf7bf21b1ff"><td class="memItemLeft" align="right" valign="top">__host__ __device__ <a class="el" href="../../d4/d51/a00017.html#a971e94bcb8c43741d11f9d8eb98f5fab">GReal_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d2/de7/a00014.html#aeabe1a11b857688ee592dcf7bf21b1ff">pdk</a> (const <a class="el" href="../../d4/d51/a00017.html#a971e94bcb8c43741d11f9d8eb98f5fab">GReal_t</a> a, const <a class="el" href="../../d4/d51/a00017.html#a971e94bcb8c43741d11f9d8eb98f5fab">GReal_t</a> b, const <a class="el" href="../../d4/d51/a00017.html#a971e94bcb8c43741d11f9d8eb98f5fab">GReal_t</a> c) const </td></tr>
-<tr class="separator:aeabe1a11b857688ee592dcf7bf21b1ff"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa49647c3ca8a69189bdbe7fd85bb8707"><td class="memItemLeft" align="right" valign="top">__host__ __device__ void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d2/de7/a00014.html#aa49647c3ca8a69189bdbe7fd85bb8707">bbsort</a> (<a class="el" href="../../d4/d51/a00017.html#a971e94bcb8c43741d11f9d8eb98f5fab">GReal_t</a> *array, <a class="el" href="../../d4/d51/a00017.html#a0c9fb4d7195ab952da10a82d5c4ad30e">GInt_t</a> n)</td></tr>
-<tr class="separator:aa49647c3ca8a69189bdbe7fd85bb8707"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a831cf16a26d68b873c3afc42038e8518"><td class="memItemLeft" align="right" valign="top">__host__ __device__ size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d2/de7/a00014.html#a831cf16a26d68b873c3afc42038e8518">hash</a> (size_t a, size_t b)</td></tr>
-<tr class="separator:a831cf16a26d68b873c3afc42038e8518"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a6a6394b7f9379537cd51122949b45463"><td class="memItemLeft" align="right" valign="top">__host__ __device__ <a class="el" href="../../d4/d51/a00017.html#a971e94bcb8c43741d11f9d8eb98f5fab">GReal_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d2/de7/a00014.html#a6a6394b7f9379537cd51122949b45463">process</a> (const <a class="el" href="../../d4/d51/a00017.html#a0c9fb4d7195ab952da10a82d5c4ad30e">GInt_t</a> evt, <a class="el" href="../../d9/d73/a00060.html">Vector4R</a> **daugters)</td></tr>
-<tr class="separator:a6a6394b7f9379537cd51122949b45463"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a0641a168fd464992197d785a9147af4f"><td class="memTemplParams" colspan="2">template&lt;typename Tuple &gt; </td></tr>
-<tr class="memitem:a0641a168fd464992197d785a9147af4f"><td class="memTemplItemLeft" align="right" valign="top">__host__ __device__ <a class="el" href="../../d4/d51/a00017.html#a971e94bcb8c43741d11f9d8eb98f5fab">GReal_t</a>&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="../../d2/de7/a00014.html#a0641a168fd464992197d785a9147af4f">operator()</a> (const <a class="el" href="../../d4/d51/a00017.html#a0c9fb4d7195ab952da10a82d5c4ad30e">GInt_t</a> evt, Tuple &amp;particles)</td></tr>
-<tr class="separator:a0641a168fd464992197d785a9147af4f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-attribs"></a>
-Public Attributes</h2></td></tr>
-<tr class="memitem:a6021e1871f1b2f269e32fb3b4a14abf5"><td class="memItemLeft" align="right" valign="top">const <a class="el" href="../../d4/d51/a00017.html#a0c9fb4d7195ab952da10a82d5c4ad30e">GInt_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d2/de7/a00014.html#a6021e1871f1b2f269e32fb3b4a14abf5">fSeed</a></td></tr>
-<tr class="separator:a6021e1871f1b2f269e32fb3b4a14abf5"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a7aabee7164bda8d5fba493c21a83e2d4"><td class="memItemLeft" align="right" valign="top">const <a class="el" href="../../d4/d51/a00017.html#a0c9fb4d7195ab952da10a82d5c4ad30e">GInt_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d2/de7/a00014.html#a7aabee7164bda8d5fba493c21a83e2d4">fNDaughters</a></td></tr>
-<tr class="separator:a7aabee7164bda8d5fba493c21a83e2d4"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a5e60b4f8f32505243391448c71b592aa"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../d4/d51/a00017.html#a971e94bcb8c43741d11f9d8eb98f5fab">GReal_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d2/de7/a00014.html#a5e60b4f8f32505243391448c71b592aa">fTeCmTm</a></td></tr>
-<tr class="separator:a5e60b4f8f32505243391448c71b592aa"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad36fdd6b9b8b1814543c9c8b062fcfbf"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../d4/d51/a00017.html#a971e94bcb8c43741d11f9d8eb98f5fab">GReal_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d2/de7/a00014.html#ad36fdd6b9b8b1814543c9c8b062fcfbf">fWtMax</a></td></tr>
-<tr class="separator:ad36fdd6b9b8b1814543c9c8b062fcfbf"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:afd64a0f9f8f2b00d739b835a7c650b64"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../d4/d51/a00017.html#a971e94bcb8c43741d11f9d8eb98f5fab">GReal_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d2/de7/a00014.html#afd64a0f9f8f2b00d739b835a7c650b64">fBeta0</a></td></tr>
-<tr class="separator:afd64a0f9f8f2b00d739b835a7c650b64"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:acddae819434035a9ec258f1594aa2ca1"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../d4/d51/a00017.html#a971e94bcb8c43741d11f9d8eb98f5fab">GReal_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d2/de7/a00014.html#acddae819434035a9ec258f1594aa2ca1">fBeta1</a></td></tr>
-<tr class="separator:acddae819434035a9ec258f1594aa2ca1"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aabe51b7005caeb620d30b748b00d6229"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../d4/d51/a00017.html#a971e94bcb8c43741d11f9d8eb98f5fab">GReal_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d2/de7/a00014.html#aabe51b7005caeb620d30b748b00d6229">fBeta2</a></td></tr>
-<tr class="separator:aabe51b7005caeb620d30b748b00d6229"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:acafb6a52309c3c2e1b8c5491c58c30bc"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../d4/d51/a00017.html#a971e94bcb8c43741d11f9d8eb98f5fab">GReal_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d2/de7/a00014.html#acafb6a52309c3c2e1b8c5491c58c30bc">fMasses</a> [N]</td></tr>
-<tr class="separator:acafb6a52309c3c2e1b8c5491c58c30bc"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table>
-<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><h3>template&lt;size_t N, unsigned int BACKEND, typename GRND&gt;<br />
-struct hydra::DecayMother&lt; N, BACKEND, GRND &gt;</h3>
-
-
-<p>Definition at line <a class="el" href="../../d6/d2c/a00072_source.html#l00055">55</a> of file <a class="el" href="../../d6/d2c/a00072_source.html">DecayMother.h</a>.</p>
-</div><h2 class="groupheader">Member Typedef Documentation</h2>
-<a class="anchor" id="a73f7a72091da38cfc0af0905286756a1"></a>
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;size_t N, unsigned int BACKEND, typename GRND&gt; </div>
-      <table class="memname">
-        <tr>
-          <td class="memname">typedef detail::BackendTraits&lt;BACKEND&gt; <a class="el" href="../../d2/de7/a00014.html">hydra::DecayMother</a>&lt; N, BACKEND, GRND &gt;::<a class="el" href="../../d2/de7/a00014.html#a73f7a72091da38cfc0af0905286756a1">system_t</a></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Definition at line <a class="el" href="../../d6/d2c/a00072_source.html#l00057">57</a> of file <a class="el" href="../../d6/d2c/a00072_source.html">DecayMother.h</a>.</p>
-
+ <div class="image">
+<img src="../../HIST_2D_lambda_CCP_OMP_DEVICE.png" alt="HIST_2D_lambda_CCP_OMP_DEVICE.png"/>
 </div>
+ <div class="image">
+<img src="../../HIST_2D_gaussians_CCP_OMP_HOST.png" alt="HIST_2D_gaussians_CCP_OMP_HOST.png"/>
 </div>
-<a class="anchor" id="a675c928e10513224e55b414621570484"></a>
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;size_t N, unsigned int BACKEND, typename GRND&gt; </div>
-      <table class="memname">
-        <tr>
-          <td class="memname">typedef system_t::template container&lt;<a class="el" href="../../d4/d51/a00017.html#a971e94bcb8c43741d11f9d8eb98f5fab">GReal_t</a>&gt; <a class="el" href="../../d2/de7/a00014.html">hydra::DecayMother</a>&lt; N, BACKEND, GRND &gt;::<a class="el" href="../../d2/de7/a00014.html#a675c928e10513224e55b414621570484">vector_real</a></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Definition at line <a class="el" href="../../d6/d2c/a00072_source.html#l00058">58</a> of file <a class="el" href="../../d6/d2c/a00072_source.html">DecayMother.h</a>.</p>
-
+ <div class="image">
+<img src="../../HIST_2D_lambda_CCP_OMP_HOST.png" alt="HIST_2D_lambda_CCP_OMP_HOST.png"/>
 </div>
+ <div class="image">
+<img src="../../HIST_1D_uniform_CCP_OMP_DEVICE.png" alt="HIST_1D_uniform_CCP_OMP_DEVICE.png"/>
 </div>
-<h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
-<a class="anchor" id="aae39e61930903a9164d31d590ea583f0"></a>
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;size_t N, unsigned int BACKEND, typename GRND&gt; </div>
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="../../d2/de7/a00014.html">hydra::DecayMother</a>&lt; N, BACKEND, GRND &gt;::<a class="el" href="../../d2/de7/a00014.html">DecayMother</a> </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="../../d9/d73/a00060.html">Vector4R</a> const &amp;&#160;</td>
-          <td class="paramname"><em>mother</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"><a class="el" href="../../d2/de7/a00014.html#a675c928e10513224e55b414621570484">vector_real</a> const &amp;&#160;</td>
-          <td class="paramname"><em>_masses</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">const <a class="el" href="../../d4/d51/a00017.html#a0c9fb4d7195ab952da10a82d5c4ad30e">GInt_t</a>&#160;</td>
-          <td class="paramname"><em>_ndaughters</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">const <a class="el" href="../../d4/d51/a00017.html#a0c9fb4d7195ab952da10a82d5c4ad30e">GInt_t</a>&#160;</td>
-          <td class="paramname"><em>_seed</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Definition at line <a class="el" href="../../d6/d2c/a00072_source.html#l00073">73</a> of file <a class="el" href="../../d6/d2c/a00072_source.html">DecayMother.h</a>.</p>
-
-<p>References <a class="el" href="../../d9/d73/a00060.html#aed169ea89402df7bb648390bbcb644d2">hydra::Vector4R::d3mag()</a>, <a class="el" href="../../d9/d73/a00060.html#affcbf7dbcae345bc6a64843ceb4acf31">hydra::Vector4R::get()</a>, and <a class="el" href="../../d9/d73/a00060.html#ad6b0fdc4930ca1fb61b6f2e2b8f3a6fc">hydra::Vector4R::mass()</a>.</p>
-
-<p><div class="dynheader">
-Here is the call graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><iframe scrolling="no" frameborder="0" src="../../d2/de7/a00014_aae39e61930903a9164d31d590ea583f0_cgraph.svg" width="363" height="139"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+ <div class="image">
+<img src="../../HIST_1D_gaussian_CCP_OMP_DEVICE.png" alt="HIST_1D_gaussian_CCP_OMP_DEVICE.png"/>
 </div>
-</p>
-
+ <div class="image">
+<img src="../../HIST_1D_breit_wigner_CCP_OMP_DEVICE.png" alt="HIST_1D_breit_wigner_CCP_OMP_DEVICE.png"/>
 </div>
+ <div class="image">
+<img src="../../HIST_1D_exponential_CCP_OMP_DEVICE.png" alt="HIST_1D_exponential_CCP_OMP_DEVICE.png"/>
 </div>
-<a class="anchor" id="a0e7f368769fa7ce4610c1ceb6d60a24c"></a>
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;size_t N, unsigned int BACKEND, typename GRND&gt; </div>
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">__host__ __device__ <a class="el" href="../../d2/de7/a00014.html">hydra::DecayMother</a>&lt; N, BACKEND, GRND &gt;::<a class="el" href="../../d2/de7/a00014.html">DecayMother</a> </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="../../d2/de7/a00014.html">DecayMother</a>&lt; N, BACKEND, GRND &gt; const &amp;&#160;</td>
-          <td class="paramname"><em>other</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Definition at line <a class="el" href="../../d6/d2c/a00072_source.html#l00121">121</a> of file <a class="el" href="../../d6/d2c/a00072_source.html">DecayMother.h</a>.</p>
-
-<p>References <a class="el" href="../../d6/d2c/a00072_source.html#l00070">hydra::DecayMother&lt; N, BACKEND, GRND &gt;::fMasses</a>.</p>
-
+ <div class="image">
+<img src="../../HIST_1D_uniform_CCP_OMP_HOST.png" alt="HIST_1D_uniform_CCP_OMP_HOST.png"/>
 </div>
+ <div class="image">
+<img src="../../HIST_1D_gaussian_CCP_OMP_HOST.png" alt="HIST_1D_gaussian_CCP_OMP_HOST.png"/>
 </div>
-<h2 class="groupheader">Member Function Documentation</h2>
-<a class="anchor" id="aa49647c3ca8a69189bdbe7fd85bb8707"></a>
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;size_t N, unsigned int BACKEND, typename GRND&gt; </div>
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">__host__ __device__ void <a class="el" href="../../d2/de7/a00014.html">hydra::DecayMother</a>&lt; N, BACKEND, GRND &gt;::bbsort </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="../../d4/d51/a00017.html#a971e94bcb8c43741d11f9d8eb98f5fab">GReal_t</a> *&#160;</td>
-          <td class="paramname"><em>array</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"><a class="el" href="../../d4/d51/a00017.html#a0c9fb4d7195ab952da10a82d5c4ad30e">GInt_t</a>&#160;</td>
-          <td class="paramname"><em>n</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Definition at line <a class="el" href="../../d6/d2c/a00072_source.html#l00144">144</a> of file <a class="el" href="../../d6/d2c/a00072_source.html">DecayMother.h</a>.</p>
-
+ <div class="image">
+<img src="../../HIST_1D_breit_wigner_CCP_OMP_HOST.png" alt="HIST_1D_breit_wigner_CCP_OMP_HOST.png"/>
 </div>
+ <div class="image">
+<img src="../../HIST_1D_exponential_CCP_OMP_HOST.png" alt="HIST_1D_exponential_CCP_OMP_HOST.png"/>
 </div>
-<a class="anchor" id="a831cf16a26d68b873c3afc42038e8518"></a>
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;size_t N, unsigned int BACKEND, typename GRND&gt; </div>
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">__host__ __device__ size_t <a class="el" href="../../d2/de7/a00014.html">hydra::DecayMother</a>&lt; N, BACKEND, GRND &gt;::hash </td>
-          <td>(</td>
-          <td class="paramtype">size_t&#160;</td>
-          <td class="paramname"><em>a</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">size_t&#160;</td>
-          <td class="paramname"><em>b</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Definition at line <a class="el" href="../../d6/d2c/a00072_source.html#l00170">170</a> of file <a class="el" href="../../d6/d2c/a00072_source.html">DecayMother.h</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="a0641a168fd464992197d785a9147af4f"></a>
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;size_t N, unsigned int BACKEND, typename GRND&gt; </div>
-<div class="memtemplate">
-template&lt;typename Tuple &gt; </div>
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">__host__ __device__ <a class="el" href="../../d4/d51/a00017.html#a971e94bcb8c43741d11f9d8eb98f5fab">GReal_t</a> <a class="el" href="../../d2/de7/a00014.html">hydra::DecayMother</a>&lt; N, BACKEND, GRND &gt;::operator() </td>
-          <td>(</td>
-          <td class="paramtype">const <a class="el" href="../../d4/d51/a00017.html#a0c9fb4d7195ab952da10a82d5c4ad30e">GInt_t</a>&#160;</td>
-          <td class="paramname"><em>evt</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">Tuple &amp;&#160;</td>
-          <td class="paramname"><em>particles</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Definition at line <a class="el" href="../../d6/d2c/a00072_source.html#l00297">297</a> of file <a class="el" href="../../d6/d2c/a00072_source.html">DecayMother.h</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="aeabe1a11b857688ee592dcf7bf21b1ff"></a>
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;size_t N, unsigned int BACKEND, typename GRND&gt; </div>
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">__host__ __device__ <a class="el" href="../../d4/d51/a00017.html#a971e94bcb8c43741d11f9d8eb98f5fab">GReal_t</a> <a class="el" href="../../d2/de7/a00014.html">hydra::DecayMother</a>&lt; N, BACKEND, GRND &gt;::pdk </td>
-          <td>(</td>
-          <td class="paramtype">const <a class="el" href="../../d4/d51/a00017.html#a971e94bcb8c43741d11f9d8eb98f5fab">GReal_t</a>&#160;</td>
-          <td class="paramname"><em>a</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">const <a class="el" href="../../d4/d51/a00017.html#a971e94bcb8c43741d11f9d8eb98f5fab">GReal_t</a>&#160;</td>
-          <td class="paramname"><em>b</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">const <a class="el" href="../../d4/d51/a00017.html#a971e94bcb8c43741d11f9d8eb98f5fab">GReal_t</a>&#160;</td>
-          <td class="paramname"><em>c</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td> const</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Definition at line <a class="el" href="../../d6/d2c/a00072_source.html#l00134">134</a> of file <a class="el" href="../../d6/d2c/a00072_source.html">DecayMother.h</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="a6a6394b7f9379537cd51122949b45463"></a>
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;size_t N, unsigned int BACKEND, typename GRND&gt; </div>
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">__host__ __device__ <a class="el" href="../../d4/d51/a00017.html#a971e94bcb8c43741d11f9d8eb98f5fab">GReal_t</a> <a class="el" href="../../d2/de7/a00014.html">hydra::DecayMother</a>&lt; N, BACKEND, GRND &gt;::process </td>
-          <td>(</td>
-          <td class="paramtype">const <a class="el" href="../../d4/d51/a00017.html#a0c9fb4d7195ab952da10a82d5c4ad30e">GInt_t</a>&#160;</td>
-          <td class="paramname"><em>evt</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"><a class="el" href="../../d9/d73/a00060.html">Vector4R</a> **&#160;</td>
-          <td class="paramname"><em>daugters</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Definition at line <a class="el" href="../../d6/d2c/a00072_source.html#l00182">182</a> of file <a class="el" href="../../d6/d2c/a00072_source.html">DecayMother.h</a>.</p>
-
-<p>References <a class="el" href="../../d9/d73/a00060.html#ac30a0beccf6db256aa597c079ee4e2f2">hydra::Vector4R::applyBoostTo()</a>, <a class="el" href="../../d9/d73/a00060.html#affcbf7dbcae345bc6a64843ceb4acf31">hydra::Vector4R::get()</a>, <a class="el" href="../../d9/d4b/a00117_source.html#l00069">kMAXP</a>, <a class="el" href="../../d9/d4b/a00117_source.html#l00070">PI</a>, <a class="el" href="../../d9/d73/a00060.html#aba4a62b4e823cc5797b99a6275e08e0a">hydra::Vector4R::set()</a>, and <a class="el" href="../../d4/d3e/a00116_source.html#l00181">hydra::sum()</a>.</p>
-
-<p><div class="dynheader">
-Here is the call graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><iframe scrolling="no" frameborder="0" src="../../d2/de7/a00014_a6a6394b7f9379537cd51122949b45463_cgraph.svg" width="404" height="190"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
-</div>
-</p>
-
-</div>
-</div>
-<h2 class="groupheader">Member Data Documentation</h2>
-<a class="anchor" id="afd64a0f9f8f2b00d739b835a7c650b64"></a>
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;size_t N, unsigned int BACKEND, typename GRND&gt; </div>
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="../../d4/d51/a00017.html#a971e94bcb8c43741d11f9d8eb98f5fab">GReal_t</a> <a class="el" href="../../d2/de7/a00014.html">hydra::DecayMother</a>&lt; N, BACKEND, GRND &gt;::fBeta0</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Definition at line <a class="el" href="../../d6/d2c/a00072_source.html#l00064">64</a> of file <a class="el" href="../../d6/d2c/a00072_source.html">DecayMother.h</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="acddae819434035a9ec258f1594aa2ca1"></a>
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;size_t N, unsigned int BACKEND, typename GRND&gt; </div>
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="../../d4/d51/a00017.html#a971e94bcb8c43741d11f9d8eb98f5fab">GReal_t</a> <a class="el" href="../../d2/de7/a00014.html">hydra::DecayMother</a>&lt; N, BACKEND, GRND &gt;::fBeta1</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Definition at line <a class="el" href="../../d6/d2c/a00072_source.html#l00065">65</a> of file <a class="el" href="../../d6/d2c/a00072_source.html">DecayMother.h</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="aabe51b7005caeb620d30b748b00d6229"></a>
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;size_t N, unsigned int BACKEND, typename GRND&gt; </div>
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="../../d4/d51/a00017.html#a971e94bcb8c43741d11f9d8eb98f5fab">GReal_t</a> <a class="el" href="../../d2/de7/a00014.html">hydra::DecayMother</a>&lt; N, BACKEND, GRND &gt;::fBeta2</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Definition at line <a class="el" href="../../d6/d2c/a00072_source.html#l00066">66</a> of file <a class="el" href="../../d6/d2c/a00072_source.html">DecayMother.h</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="acafb6a52309c3c2e1b8c5491c58c30bc"></a>
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;size_t N, unsigned int BACKEND, typename GRND&gt; </div>
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="../../d4/d51/a00017.html#a971e94bcb8c43741d11f9d8eb98f5fab">GReal_t</a> <a class="el" href="../../d2/de7/a00014.html">hydra::DecayMother</a>&lt; N, BACKEND, GRND &gt;::fMasses[N]</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Definition at line <a class="el" href="../../d6/d2c/a00072_source.html#l00070">70</a> of file <a class="el" href="../../d6/d2c/a00072_source.html">DecayMother.h</a>.</p>
-
-<p>Referenced by <a class="el" href="../../d6/d2c/a00072_source.html#l00121">hydra::DecayMother&lt; N, BACKEND, GRND &gt;::DecayMother()</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="a7aabee7164bda8d5fba493c21a83e2d4"></a>
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;size_t N, unsigned int BACKEND, typename GRND&gt; </div>
-      <table class="memname">
-        <tr>
-          <td class="memname">const <a class="el" href="../../d4/d51/a00017.html#a0c9fb4d7195ab952da10a82d5c4ad30e">GInt_t</a> <a class="el" href="../../d2/de7/a00014.html">hydra::DecayMother</a>&lt; N, BACKEND, GRND &gt;::fNDaughters</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Definition at line <a class="el" href="../../d6/d2c/a00072_source.html#l00061">61</a> of file <a class="el" href="../../d6/d2c/a00072_source.html">DecayMother.h</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="a6021e1871f1b2f269e32fb3b4a14abf5"></a>
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;size_t N, unsigned int BACKEND, typename GRND&gt; </div>
-      <table class="memname">
-        <tr>
-          <td class="memname">const <a class="el" href="../../d4/d51/a00017.html#a0c9fb4d7195ab952da10a82d5c4ad30e">GInt_t</a> <a class="el" href="../../d2/de7/a00014.html">hydra::DecayMother</a>&lt; N, BACKEND, GRND &gt;::fSeed</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Definition at line <a class="el" href="../../d6/d2c/a00072_source.html#l00060">60</a> of file <a class="el" href="../../d6/d2c/a00072_source.html">DecayMother.h</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="a5e60b4f8f32505243391448c71b592aa"></a>
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;size_t N, unsigned int BACKEND, typename GRND&gt; </div>
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="../../d4/d51/a00017.html#a971e94bcb8c43741d11f9d8eb98f5fab">GReal_t</a> <a class="el" href="../../d2/de7/a00014.html">hydra::DecayMother</a>&lt; N, BACKEND, GRND &gt;::fTeCmTm</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Definition at line <a class="el" href="../../d6/d2c/a00072_source.html#l00062">62</a> of file <a class="el" href="../../d6/d2c/a00072_source.html">DecayMother.h</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="ad36fdd6b9b8b1814543c9c8b062fcfbf"></a>
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;size_t N, unsigned int BACKEND, typename GRND&gt; </div>
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="../../d4/d51/a00017.html#a971e94bcb8c43741d11f9d8eb98f5fab">GReal_t</a> <a class="el" href="../../d2/de7/a00014.html">hydra::DecayMother</a>&lt; N, BACKEND, GRND &gt;::fWtMax</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Definition at line <a class="el" href="../../d6/d2c/a00072_source.html#l00063">63</a> of file <a class="el" href="../../d6/d2c/a00072_source.html">DecayMother.h</a>.</p>
-
-</div>
-</div>
-<hr/>The documentation for this struct was generated from the following file:<ul>
-<li><a class="el" href="../../d6/d2c/a00072_source.html">DecayMother.h</a></li>
-</ul>
-</div><!-- contents -->
+<div class="fragment"><div class="line"><span class="comment">/*----------------------------------------------------------------------------</span></div><div class="line"><span class="comment"> *</span></div><div class="line"><span class="comment"> *   Copyright (C) 2016 Antonio Augusto Alves Junior</span></div><div class="line"><span class="comment"> *</span></div><div class="line"><span class="comment"> *   This file is part of Hydra Data Analysis Framework.</span></div><div class="line"><span class="comment"> *</span></div><div class="line"><span class="comment"> *   Hydra is free software: you can redistribute it and/or modify</span></div><div class="line"><span class="comment"> *   it under the terms of the GNU General Public License as published by</span></div><div class="line"><span class="comment"> *   the Free Software Foundation, either version 3 of the License, or</span></div><div class="line"><span class="comment"> *   (at your option) any later version.</span></div><div class="line"><span class="comment"> *</span></div><div class="line"><span class="comment"> *   Hydra is distributed in the hope that it will be useful,</span></div><div class="line"><span class="comment"> *   but WITHOUT ANY WARRANTY; without even the implied warranty of</span></div><div class="line"><span class="comment"> *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the</span></div><div class="line"><span class="comment"> *   GNU General Public License for more details.</span></div><div class="line"><span class="comment"> *</span></div><div class="line"><span class="comment"> *   You should have received a copy of the GNU General Public License</span></div><div class="line"><span class="comment"> *   along with Hydra.  If not, see &lt;http://www.gnu.org/licenses/&gt;.</span></div><div class="line"><span class="comment"> *</span></div><div class="line"><span class="comment"> *---------------------------------------------------------------------------*/</span></div><div class="line"></div><div class="line"><span class="comment">/*</span></div><div class="line"><span class="comment"> * HydraRandomExample.cpp</span></div><div class="line"><span class="comment"> *</span></div><div class="line"><span class="comment"> *  Created on: Jun 21, 2016</span></div><div class="line"><span class="comment"> *      Author: Antonio Augusto Alves Junior</span></div><div class="line"><span class="comment"> */</span></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"><span class="preprocessor">#include &lt;stdio.h&gt;</span></div><div class="line"><span class="preprocessor">#include &lt;stdlib.h&gt;</span></div><div class="line"><span class="preprocessor">#include &lt;iostream&gt;</span></div><div class="line"><span class="preprocessor">#include &lt;assert.h&gt;</span></div><div class="line"><span class="preprocessor">#include &lt;time.h&gt;</span></div><div class="line"><span class="preprocessor">#include &lt;string&gt;</span></div><div class="line"><span class="preprocessor">#include &lt;vector&gt;</span></div><div class="line"><span class="preprocessor">#include &lt;array&gt;</span></div><div class="line"><span class="preprocessor">#include &lt;chrono&gt;</span></div><div class="line"><span class="comment">//command line</span></div><div class="line"><span class="preprocessor">#include &lt;tclap/CmdLine.h&gt;</span></div><div class="line"></div><div class="line"><span class="comment">//this lib</span></div><div class="line"><span class="preprocessor">#include &lt;<a class="code" href="../../de/d36/a00123.html">hydra/Types.h</a>&gt;</span></div><div class="line"><span class="preprocessor">#include &lt;<a class="code" href="../../d1/d88/a00128.html">hydra/Vector4R.h</a>&gt;</span></div><div class="line"><span class="preprocessor">#include &lt;<a class="code" href="../../d4/d63/a00082.html">hydra/Containers.h</a>&gt;</span></div><div class="line"><span class="preprocessor">#include &lt;<a class="code" href="../../dc/d54/a00094.html">hydra/FunctorArithmetic.h</a>&gt;</span></div><div class="line"><span class="preprocessor">#include &lt;<a class="code" href="../../d1/dc1/a00092.html">hydra/Function.h</a>&gt;</span></div><div class="line"><span class="preprocessor">#include &lt;<a class="code" href="../../d4/d7d/a00093.html">hydra/FunctionWrapper.h</a>&gt;</span></div><div class="line"><span class="preprocessor">#include &lt;<a class="code" href="../../d9/d4b/a00117.html">hydra/Random.h</a>&gt;</span></div><div class="line"></div><div class="line"><span class="comment">//root</span></div><div class="line"><span class="preprocessor">#include &lt;TROOT.h&gt;</span></div><div class="line"><span class="preprocessor">#include &lt;TH1D.h&gt;</span></div><div class="line"><span class="preprocessor">#include &lt;TH2D.h&gt;</span></div><div class="line"><span class="preprocessor">#include &lt;TH3D.h&gt;</span></div><div class="line"><span class="preprocessor">#include &lt;TApplication.h&gt;</span></div><div class="line"><span class="preprocessor">#include &lt;TCanvas.h&gt;</span></div><div class="line"><span class="preprocessor">#include &lt;TColor.h&gt;</span></div><div class="line"><span class="preprocessor">#include &lt;TString.h&gt;</span></div><div class="line"><span class="preprocessor">#include &lt;TStyle.h&gt;</span></div><div class="line"></div><div class="line"></div><div class="line"><span class="keyword">using namespace </span><a class="code" href="../../d0/de8/a00133.html">std</a>;</div><div class="line"></div><div class="line"><span class="keyword">using namespace </span><a class="code" href="../../d5/d16/a00029.html">hydra</a>;</div><div class="line"></div><div class="line"><span class="keyword">template</span>&lt;<span class="keywordtype">size_t</span> N=1&gt;</div><div class="line"><span class="keyword">struct </span><a name="_a0"></a><a class="code" href="../../db/df3/a00034.html">Gauss</a>:<span class="keyword">public</span> <a name="_a1"></a><a class="code" href="../../db/db2/a00020.html">BaseFunctor</a>&lt; Gauss&lt;N&gt;, GReal_t, 0&gt;</div><div class="line">{</div><div class="line">    <a class="code" href="../../db/df3/a00034.html">Gauss</a>(){};</div><div class="line">    <a class="code" href="../../db/df3/a00034.html">Gauss</a>(std::array&lt;GReal_t, N&gt; <span class="keyword">const</span>&amp; means, std::array&lt;GReal_t, N&gt; <span class="keyword">const</span>&amp; sigmas ) {</div><div class="line">        <span class="keywordflow">for</span>(<span class="keywordtype">size_t</span> i=0;i&lt;N;i++) {</div><div class="line"></div><div class="line">            fM[i] = means[i];</div><div class="line">            fS[i] = sigmas[i];</div><div class="line">        }</div><div class="line">    }</div><div class="line"></div><div class="line">    __host__ __device__</div><div class="line">    <span class="keyword">inline</span> <a class="code" href="../../db/df3/a00034.html">Gauss</a>(<a class="code" href="../../db/df3/a00034.html">Gauss&lt;N&gt;</a> <span class="keyword">const</span>&amp; other) {</div><div class="line">        <span class="keywordflow">for</span>(<span class="keywordtype">size_t</span> i=0;i&lt;N;i++) {</div><div class="line"></div><div class="line">            fM[i] = other.<a name="a2"></a><a class="code" href="../../db/df3/a00034.html#ac3fdd0385d0f77008dfe5000ef432ac3">fM</a>[i];</div><div class="line">            fS[i] = other.<a name="a3"></a><a class="code" href="../../db/df3/a00034.html#aa0ea04542297291dc703b28b0596a71f">fS</a>[i];</div><div class="line">        }</div><div class="line">    }</div><div class="line"></div><div class="line">    <span class="keyword">template</span>&lt;<span class="keyword">typename</span> T&gt;</div><div class="line">    __host__ __device__</div><div class="line">    <span class="keyword">inline</span> <a class="code" href="../../d5/d16/a00029.html#a971e94bcb8c43741d11f9d8eb98f5fab">GReal_t</a> Evaluate(T* X)</div><div class="line">    {</div><div class="line">        <a class="code" href="../../d5/d16/a00029.html#a971e94bcb8c43741d11f9d8eb98f5fab">GReal_t</a> gi=1.0;</div><div class="line">        <span class="keywordflow">for</span> (<span class="keywordtype">size_t</span> i = 0; i &lt; N; i++){</div><div class="line"></div><div class="line">            <a class="code" href="../../d5/d16/a00029.html#a971e94bcb8c43741d11f9d8eb98f5fab">GReal_t</a> x = X[i];</div><div class="line">            gi *= exp(-((x - fM[i]) * (x - fM[i])) / (2 * fS[i] * fS[i]));</div><div class="line">                        <span class="comment">// / (sqrt(2.0 * 3.14159265358979323846) * fS[i]);</span></div><div class="line">        }</div><div class="line"></div><div class="line">        <span class="keywordflow">return</span> gi;</div><div class="line">    }</div><div class="line"></div><div class="line">    <a class="code" href="../../d5/d16/a00029.html#a971e94bcb8c43741d11f9d8eb98f5fab">GReal_t</a> fM[N];</div><div class="line">    <a class="code" href="../../d5/d16/a00029.html#a971e94bcb8c43741d11f9d8eb98f5fab">GReal_t</a> fS[N];</div><div class="line">};</div><div class="line"></div><div class="line"></div><div class="line"><a class="code" href="../../d5/d16/a00029.html#a0c9fb4d7195ab952da10a82d5c4ad30e">GInt_t</a> <a name="a4"></a><a class="code" href="../../d7/dd4/a00013.html#a32c166bdb75e9b204c87878f510ea1c5">main</a>(<span class="keywordtype">int</span> argv, <span class="keywordtype">char</span>** argc)</div><div class="line">{</div><div class="line">    <span class="keywordtype">size_t</span> nentries = 0;</div><div class="line"></div><div class="line">    <span class="keywordflow">try</span> {</div><div class="line"></div><div class="line">        TCLAP::CmdLine cmd(<span class="stringliteral">&quot;Command line arguments for HydraRandomExample&quot;</span>, <span class="charliteral">&#39;=&#39;</span>);</div><div class="line"></div><div class="line">        TCLAP::ValueArg&lt;GULong_t&gt; EArg(<span class="stringliteral">&quot;n&quot;</span>, <span class="stringliteral">&quot;number-of-events&quot;</span>,</div><div class="line">                <span class="stringliteral">&quot;Number of events&quot;</span>,</div><div class="line">                <span class="keyword">true</span>, 5e6, <span class="stringliteral">&quot;long&quot;</span>);</div><div class="line">        cmd.add(EArg);</div><div class="line"></div><div class="line">        <span class="comment">// Parse the argv array.</span></div><div class="line">        cmd.parse(argv, argc);</div><div class="line"></div><div class="line">        <span class="comment">// Get the value parsed by each arg.</span></div><div class="line">        nentries = EArg.getValue();</div><div class="line"></div><div class="line">    }</div><div class="line">    <span class="keywordflow">catch</span> (TCLAP::ArgException &amp;e)  {</div><div class="line">        std::cerr &lt;&lt; <span class="stringliteral">&quot;error: &quot;</span> &lt;&lt; e.error() &lt;&lt; <span class="stringliteral">&quot; for arg &quot;</span> &lt;&lt; e.argId()</div><div class="line">                                                        &lt;&lt; std::endl;</div><div class="line">    }</div><div class="line"></div><div class="line"></div><div class="line">    <span class="comment">//HyRandom object with current time count as seed.</span></div><div class="line">    <a name="_a5"></a><a class="code" href="../../d1/d6f/a00063.html">Random&lt;thrust::random::default_random_engine&gt;</a></div><div class="line">    Generator( std::chrono::system_clock::now().time_since_epoch().count() );</div><div class="line"></div><div class="line">    <span class="comment">//------------------------</span></div><div class="line">    <span class="comment">//Default distributions with thrust vector</span></div><div class="line">    <span class="comment">//------------------------</span></div><div class="line">    TH1D hist_uniform_DEVICE(<span class="stringliteral">&quot;uniform_CCP_OMP_DEVICE&quot;</span>, <span class="stringliteral">&quot;Uniform distribution (DEVICE)&quot;</span>, 100, -5.5, 5.5);</div><div class="line">    TH1D hist_gaussian_DEVICE(<span class="stringliteral">&quot;gaussian_CCP_OMP_DEVICE&quot;</span>, <span class="stringliteral">&quot;Gaussian distribution (DEVICE)&quot;</span>, 100, -5, 5);</div><div class="line">    TH1D hist_exp_DEVICE(<span class="stringliteral">&quot;exponential_CCP_OMP_DEVICE&quot;</span>, <span class="stringliteral">&quot;Exponential distribution (DEVICE)&quot;</span>, 100, 0, 5);</div><div class="line">    TH1D hist_bw_DEVICE(<span class="stringliteral">&quot;breit_wigner_CCP_OMP_DEVICE&quot;</span>, <span class="stringliteral">&quot;Breit-Wigner distribution (DEVICE)&quot;</span>, 100, 0, 5);</div><div class="line">    TH1D hist_ucdf_DEVICE(<span class="stringliteral">&quot;ucdf_DEVICE&quot;</span>, <span class="stringliteral">&quot;Custom inverse CDF (DEVICE)&quot;</span>, 500, 0, 1);</div><div class="line"></div><div class="line">    {</div><div class="line">        <span class="comment">//1D device buffer</span></div><div class="line">        <a class="code" href="../../d5/d16/a00029.html#a4ec5fdac39f2803f87519d502006e389">hydra::mc_device_vector&lt;GReal_t&gt;</a> gen_data_d(nentries);</div><div class="line">        <a class="code" href="../../d5/d16/a00029.html#acadb242e1b7e250e3feba652e45087dc">hydra::mc_host_vector&lt;GReal_t&gt;</a>   gen_data_h(nentries);</div><div class="line"></div><div class="line">        <span class="comment">//uniform</span></div><div class="line">        Generator.<a name="a6"></a><a class="code" href="../../d1/d6f/a00063.html#aff81053c79f3cfbb30b212127d2c73ef">Uniform</a>(-5.0, 5.0, gen_data_d.begin(), gen_data_d.end());</div><div class="line">        thrust::copy(gen_data_d.begin(), gen_data_d.end(), gen_data_h.begin());</div><div class="line">        <span class="keywordflow">for</span>(<span class="keyword">auto</span> value: gen_data_h) hist_uniform_DEVICE.Fill( value);</div><div class="line"></div><div class="line">        <span class="comment">//gaussian</span></div><div class="line">        Generator.<a name="a7"></a><a class="code" href="../../d1/d6f/a00063.html#aeafd0b8dd2740a3943457b8c8e06d1dd">Gauss</a>(0.0, 1.0, gen_data_d.begin(), gen_data_d.end());</div><div class="line">        thrust::copy(gen_data_d.begin(), gen_data_d.end(), gen_data_h.begin());</div><div class="line">        <span class="keywordflow">for</span>(<span class="keyword">auto</span> value: <a class="code" href="../../d5/d16/a00029.html#acadb242e1b7e250e3feba652e45087dc">hydra::mc_host_vector&lt;GReal_t&gt;</a>(gen_data_d)) hist_gaussian_DEVICE.Fill( value);</div><div class="line"></div><div class="line">        <span class="comment">//exponential</span></div><div class="line">        Generator.<a name="a8"></a><a class="code" href="../../d1/d6f/a00063.html#a3dbc414994aa19965b7ff815300aff96">Exp</a>(1.0, gen_data_d.begin(), gen_data_d.end());</div><div class="line">        thrust::copy(gen_data_d.begin(), gen_data_d.end(), gen_data_h.begin());</div><div class="line">        <span class="keywordflow">for</span>(<span class="keyword">auto</span> value: gen_data_h) hist_exp_DEVICE.Fill( value);</div><div class="line"></div><div class="line">        <span class="comment">//breit-wigner</span></div><div class="line">        Generator.<a name="a9"></a><a class="code" href="../../d1/d6f/a00063.html#a1d1d32fe3630bb302342c6dffae639f3">BreitWigner</a>(2.0, 0.2, gen_data_d.begin(), gen_data_d.end());</div><div class="line">        thrust::copy(gen_data_d.begin(), gen_data_d.end(), gen_data_h.begin());</div><div class="line">        <span class="keywordflow">for</span>(<span class="keyword">auto</span> value: gen_data_h) hist_bw_DEVICE.Fill( value);</div><div class="line"></div><div class="line">      }</div><div class="line"></div><div class="line">    TList List_1D_Histo;</div><div class="line">    List_1D_Histo.Add(&amp;hist_uniform_DEVICE );</div><div class="line">    List_1D_Histo.Add(&amp;hist_gaussian_DEVICE );</div><div class="line">    List_1D_Histo.Add(&amp;hist_bw_DEVICE );</div><div class="line">    List_1D_Histo.Add(&amp;hist_exp_DEVICE );</div><div class="line">    List_1D_Histo.Add(&amp;hist_ucdf_DEVICE );</div><div class="line"></div><div class="line"></div><div class="line">    TH1D hist_uniform_HOST(<span class="stringliteral">&quot;uniform_CCP_OMP_HOST&quot;</span>, <span class="stringliteral">&quot;Uniform distribution (HOST)&quot;</span>, 100, -5.5, 5.5);</div><div class="line">    TH1D hist_gaussian_HOST(<span class="stringliteral">&quot;gaussian_CCP_OMP_HOST&quot;</span>, <span class="stringliteral">&quot;Gaussian distribution (HOST)&quot;</span>, 100, -5, 5);</div><div class="line">    TH1D hist_exp_HOST(<span class="stringliteral">&quot;exponential_CCP_OMP_HOST&quot;</span>, <span class="stringliteral">&quot;Exponential distribution (HOST)&quot;</span>, 100, 0, 5);</div><div class="line">    TH1D hist_bw_HOST(<span class="stringliteral">&quot;breit_wigner_CCP_OMP_HOST&quot;</span>, <span class="stringliteral">&quot;Breit-Wigner distribution (HOST)&quot;</span>, 100, 0, 5);</div><div class="line">    TH1D hist_ucdf_HOST(<span class="stringliteral">&quot;ucdf&quot;</span>, <span class="stringliteral">&quot;Custom inverse CDF (HOST)&quot;</span>, 500, 0, 1);</div><div class="line"></div><div class="line"></div><div class="line">    {</div><div class="line">        <span class="comment">//1D host buffer</span></div><div class="line">        <a class="code" href="../../d5/d16/a00029.html#acadb242e1b7e250e3feba652e45087dc">hydra::mc_host_vector&lt;GReal_t&gt;</a>   gen_data_h(nentries);</div><div class="line"></div><div class="line">        <span class="comment">//uniform</span></div><div class="line">        Generator.<a class="code" href="../../d1/d6f/a00063.html#aff81053c79f3cfbb30b212127d2c73ef">Uniform</a>(-5.0, 5.0, gen_data_h.begin(), gen_data_h.end());</div><div class="line">        <span class="keywordflow">for</span>(<span class="keyword">auto</span> value: gen_data_h) hist_uniform_HOST.Fill( value);</div><div class="line"></div><div class="line">        <span class="comment">//gaussian</span></div><div class="line">        Generator.<a class="code" href="../../d1/d6f/a00063.html#aeafd0b8dd2740a3943457b8c8e06d1dd">Gauss</a>(0.0, 1.0, gen_data_h.begin(), gen_data_h.end());</div><div class="line">        <span class="keywordflow">for</span>(<span class="keyword">auto</span> value: gen_data_h) hist_gaussian_HOST.Fill( value);</div><div class="line"></div><div class="line">        <span class="comment">//exponential</span></div><div class="line">        Generator.<a class="code" href="../../d1/d6f/a00063.html#a3dbc414994aa19965b7ff815300aff96">Exp</a>(1.0, gen_data_h.begin(), gen_data_h.end());</div><div class="line">        <span class="keywordflow">for</span>(<span class="keyword">auto</span> value: gen_data_h) hist_exp_HOST.Fill( value);</div><div class="line"></div><div class="line">        <span class="comment">//breit-wigner</span></div><div class="line">        Generator.<a class="code" href="../../d1/d6f/a00063.html#a1d1d32fe3630bb302342c6dffae639f3">BreitWigner</a>(2.0, 0.2, gen_data_h.begin(), gen_data_h.end());</div><div class="line">        <span class="keywordflow">for</span>(<span class="keyword">auto</span> value: gen_data_h) hist_bw_HOST.Fill( value);</div><div class="line"></div><div class="line">    }</div><div class="line"></div><div class="line">    List_1D_Histo.Add(&amp;hist_uniform_HOST );</div><div class="line">    List_1D_Histo.Add(&amp;hist_gaussian_HOST );</div><div class="line">    List_1D_Histo.Add(&amp;hist_bw_HOST );</div><div class="line">    List_1D_Histo.Add(&amp;hist_exp_HOST );</div><div class="line">    List_1D_Histo.Add(&amp;hist_ucdf_HOST );</div><div class="line"></div><div class="line">    <span class="comment">//-----------------</span></div><div class="line">    <span class="comment">// two gaussians hit-and-miss</span></div><div class="line">    <span class="comment">//-----------------</span></div><div class="line"></div><div class="line">    <span class="comment">//gaussian one</span></div><div class="line">    std::array&lt;GReal_t, 2&gt;  means1  ={2.0, 2.0 };</div><div class="line">    std::array&lt;GReal_t, 2&gt;  sigmas1 ={1.5, 0.5 };</div><div class="line">    <a class="code" href="../../db/df3/a00034.html">Gauss&lt;2&gt;</a> Gaussian1(means1, sigmas1 );</div><div class="line"></div><div class="line">    <span class="comment">//gaussian two</span></div><div class="line">    std::array&lt;GReal_t, 2&gt;  means2  ={-2.0, -2.0 };</div><div class="line">    std::array&lt;GReal_t, 2&gt;  sigmas2 ={0.5, 1.5 };</div><div class="line">    <a class="code" href="../../db/df3/a00034.html">Gauss&lt;2&gt;</a> Gaussian2(means2, sigmas2 );</div><div class="line"></div><div class="line">    <span class="keyword">auto</span> Gaussians = Gaussian1+Gaussian2;</div><div class="line"></div><div class="line">    <span class="comment">//2D range</span></div><div class="line">    std::array&lt;GReal_t, 2&gt;  min  ={-5.0, -5.0 };</div><div class="line">    std::array&lt;GReal_t, 2&gt;  max  ={ 5.0,  5.0 };</div><div class="line"></div><div class="line"></div><div class="line">    TH2D hist_gaussians_DEVICE(<span class="stringliteral">&quot;gaussians_CCP_OMP_DEVICE&quot;</span>, <span class="stringliteral">&quot;Sum of gaussians (DEVICE)&quot;</span>, 100, -6, 6, 100, -6, 6);</div><div class="line"></div><div class="line">        {   <span class="keyword">auto</span> start = std::chrono::high_resolution_clock::now();</div><div class="line">            <span class="keyword">auto</span> gaussians_data_d = Generator.<a name="a10"></a><a class="code" href="../../d1/d6f/a00063.html#a2f6f0199659a7a31b893da88809f0d4b">Sample</a>&lt;<a name="a11"></a><a class="code" href="../../d5/d16/a00029.html#affa98535d8b843dd9ff514f9adf208fda5f25d739f545c5173b09c144f23312c2">hydra::device</a>&gt;(Gaussians,min, max, nentries );</div><div class="line">            <span class="keyword">auto</span> end = std::chrono::high_resolution_clock::now();</div><div class="line">            <span class="keyword">auto</span> elapsed = std::chrono::duration_cast&lt;std::chrono::microseconds&gt;(end - start);</div><div class="line">            <span class="comment">//time</span></div><div class="line">            std::cout &lt;&lt; <span class="stringliteral">&quot;-----------------------------------------&quot;</span>&lt;&lt;std::endl;</div><div class="line">            std::cout &lt;&lt; <span class="stringliteral">&quot;| 2D sampling device Time (s) =&quot;</span>&lt;&lt; <a name="a12"></a><a class="code" href="../../d5/d16/a00029.html#a971e94bcb8c43741d11f9d8eb98f5fab">GReal_t</a>(elapsed.count())/1000000 &lt;&lt;std::endl;</div><div class="line">            std::cout &lt;&lt; <span class="stringliteral">&quot;-----------------------------------------&quot;</span>&lt;&lt;std::endl;</div><div class="line"></div><div class="line">            <a class="code" href="../../d5/d16/a00029.html#acadb242e1b7e250e3feba652e45087dc">hydra::mc_host_vector&lt;thrust::tuple&lt;GReal_t, GReal_t&gt;</a>&gt; gaussians_data_h( gaussians_data_d);</div><div class="line"></div><div class="line">            <span class="keywordflow">for</span>(<span class="keyword">auto</span> t:gaussians_data_h )</div><div class="line">            {</div><div class="line">                <a class="code" href="../../d5/d16/a00029.html#a971e94bcb8c43741d11f9d8eb98f5fab">GReal_t</a> x= thrust::get&lt;0&gt;(t);</div><div class="line">                <a class="code" href="../../d5/d16/a00029.html#a971e94bcb8c43741d11f9d8eb98f5fab">GReal_t</a> y= thrust::get&lt;1&gt;(t);</div><div class="line">                hist_gaussians_DEVICE.Fill(x,y);</div><div class="line">            }</div><div class="line"></div><div class="line">        }</div><div class="line"></div><div class="line">        TH2D hist_gaussians_HOST(<span class="stringliteral">&quot;gaussians_CCP_OMP_HOST&quot;</span>, <span class="stringliteral">&quot;Sum of gaussians (HOST)&quot;</span>, 100, -6, 6, 100, -6, 6);</div><div class="line">        {</div><div class="line">            <span class="keyword">auto</span> start = std::chrono::high_resolution_clock::now();</div><div class="line">            <span class="keyword">auto</span> gaussians_data_h = Generator.<a class="code" href="../../d1/d6f/a00063.html#a2f6f0199659a7a31b893da88809f0d4b">Sample</a>&lt;<a name="a13"></a><a class="code" href="../../d5/d16/a00029.html#affa98535d8b843dd9ff514f9adf208fdac1a062b9d21f1006cfcc920792730bc4">hydra::host</a>&gt;(Gaussians,min, max, nentries );</div><div class="line">            <span class="keyword">auto</span> end = std::chrono::high_resolution_clock::now();</div><div class="line">            <span class="keyword">auto</span> elapsed = std::chrono::duration_cast&lt;std::chrono::microseconds&gt;(end - start);</div><div class="line">            <span class="comment">//time</span></div><div class="line">            std::cout &lt;&lt; <span class="stringliteral">&quot;-----------------------------------------&quot;</span>&lt;&lt;std::endl;</div><div class="line">            std::cout &lt;&lt; <span class="stringliteral">&quot;| 2D sampling host Time (s) =&quot;</span>&lt;&lt; <a class="code" href="../../d5/d16/a00029.html#a971e94bcb8c43741d11f9d8eb98f5fab">GReal_t</a>(elapsed.count())/1000000 &lt;&lt;std::endl;</div><div class="line">            std::cout &lt;&lt; <span class="stringliteral">&quot;-----------------------------------------&quot;</span>&lt;&lt;std::endl;</div><div class="line"></div><div class="line">            <span class="keywordflow">for</span>(<span class="keyword">auto</span> t:gaussians_data_h )</div><div class="line">            {</div><div class="line">                <a class="code" href="../../d5/d16/a00029.html#a971e94bcb8c43741d11f9d8eb98f5fab">GReal_t</a> x= thrust::get&lt;0&gt;(t);</div><div class="line">                <a class="code" href="../../d5/d16/a00029.html#a971e94bcb8c43741d11f9d8eb98f5fab">GReal_t</a> y= thrust::get&lt;1&gt;(t);</div><div class="line">                hist_gaussians_HOST.Fill(x,y);</div><div class="line">            }</div><div class="line"></div><div class="line">        }</div><div class="line"></div><div class="line"></div><div class="line">    <span class="comment">//-----------------</span></div><div class="line">    <span class="comment">// 3D lambda!</span></div><div class="line">    <span class="comment">//-----------------</span></div><div class="line"></div><div class="line">    <span class="comment">//-----------------------------------------------------------------------------------</span></div><div class="line">    <span class="keyword">auto</span> lambda = [] __host__ __device__ (<a class="code" href="../../d5/d16/a00029.html#a971e94bcb8c43741d11f9d8eb98f5fab">GReal_t</a>* x)</div><div class="line">    {</div><div class="line"></div><div class="line">        <a class="code" href="../../d5/d16/a00029.html#a971e94bcb8c43741d11f9d8eb98f5fab">GReal_t</a> t=0;</div><div class="line">        <span class="keywordflow">for</span>(<span class="keywordtype">int</span> i=0; i&lt;3; i++)</div><div class="line">            t+= x[i]*x[i];</div><div class="line"></div><div class="line">        <span class="keywordflow">return</span> exp(-t/sqrt(2.0*<a name="a14"></a><a class="code" href="../../de/d36/a00123.html#a598a3330b3c21701223ee0ca14316eca">PI</a>));</div><div class="line"></div><div class="line">    };</div><div class="line"></div><div class="line">    <span class="keyword">auto</span> lambaW  = <a name="_a15"></a><a class="code" href="../../d5/d16/a00029.html#d5/d4e/a00141">LambdaWrapper&lt;GReal_t(GReal_t* x), decltype(lambda) &gt;</a>(lambda);</div><div class="line"></div><div class="line">    <span class="comment">//3D range</span></div><div class="line">    std::array&lt;GReal_t, 3&gt;  min3  ={-5.0, -5.0, -5.0 };</div><div class="line">    std::array&lt;GReal_t, 3&gt;  max3  ={ 5.0,  5.0,  5.0 };</div><div class="line"></div><div class="line">    TH3D hist_lambda_DEVICE(<span class="stringliteral">&quot;lambda_CCP_OMP_DEVICE&quot;</span>, <span class="stringliteral">&quot;Lambda 3D Gaussian (DEVICE)&quot;</span>, 20, -6, 6, 20, -6, 6, 20, -6, 6);</div><div class="line"></div><div class="line">    {</div><div class="line">        <span class="keyword">auto</span> lambda_data_d = Generator.<a class="code" href="../../d1/d6f/a00063.html#a2f6f0199659a7a31b893da88809f0d4b">Sample</a>&lt;<a class="code" href="../../d5/d16/a00029.html#affa98535d8b843dd9ff514f9adf208fda5f25d739f545c5173b09c144f23312c2">hydra::device</a>&gt;(lambaW,min3, max3, nentries );</div><div class="line">        <a class="code" href="../../d5/d16/a00029.html#acadb242e1b7e250e3feba652e45087dc">hydra::mc_host_vector&lt;thrust::tuple&lt;GReal_t, GReal_t, GReal_t&gt;</a>&gt; lambda_data_h(lambda_data_d);</div><div class="line">        <span class="keywordflow">for</span>(<span class="keyword">auto</span> t : lambda_data_h){</div><div class="line"></div><div class="line">            <a class="code" href="../../d5/d16/a00029.html#a971e94bcb8c43741d11f9d8eb98f5fab">GReal_t</a> x = thrust::get&lt;0&gt;(t);</div><div class="line">            <a class="code" href="../../d5/d16/a00029.html#a971e94bcb8c43741d11f9d8eb98f5fab">GReal_t</a> y = thrust::get&lt;1&gt;(t);</div><div class="line">            <a class="code" href="../../d5/d16/a00029.html#a971e94bcb8c43741d11f9d8eb98f5fab">GReal_t</a> z = thrust::get&lt;2&gt;(t);</div><div class="line"></div><div class="line">            hist_lambda_DEVICE.Fill(x,y,z);</div><div class="line"></div><div class="line">        }</div><div class="line">    }</div><div class="line"></div><div class="line">    TH3D hist_lambda_HOST(<span class="stringliteral">&quot;lambda_CCP_OMP_HOST&quot;</span>, <span class="stringliteral">&quot;Lambda 3D Gaussian (HOST)&quot;</span>, 20, -6, 6, 20, -6, 6, 20, -6, 6);</div><div class="line"></div><div class="line">    {</div><div class="line">        <span class="keyword">auto</span> lambda_data_h = Generator.<a class="code" href="../../d1/d6f/a00063.html#a2f6f0199659a7a31b893da88809f0d4b">Sample</a>&lt;<a class="code" href="../../d5/d16/a00029.html#affa98535d8b843dd9ff514f9adf208fdac1a062b9d21f1006cfcc920792730bc4">hydra::host</a>&gt;(lambaW,min3, max3, nentries );</div><div class="line"></div><div class="line">        <span class="keywordflow">for</span>(<span class="keyword">auto</span> t : lambda_data_h){</div><div class="line"></div><div class="line">            <a class="code" href="../../d5/d16/a00029.html#a971e94bcb8c43741d11f9d8eb98f5fab">GReal_t</a> x = thrust::get&lt;0&gt;(t);</div><div class="line">            <a class="code" href="../../d5/d16/a00029.html#a971e94bcb8c43741d11f9d8eb98f5fab">GReal_t</a> y = thrust::get&lt;1&gt;(t);</div><div class="line">            <a class="code" href="../../d5/d16/a00029.html#a971e94bcb8c43741d11f9d8eb98f5fab">GReal_t</a> z = thrust::get&lt;2&gt;(t);</div><div class="line"></div><div class="line">            hist_lambda_HOST.Fill(x,y,z);</div><div class="line"></div><div class="line">        }</div><div class="line">    }</div><div class="line"></div><div class="line"></div><div class="line">    <span class="comment">/***********************************</span></div><div class="line"><span class="comment">     * RootApp, Drawing...</span></div><div class="line"><span class="comment">     ***********************************/</span></div><div class="line">    TApplication *myapp=<span class="keyword">new</span> TApplication(<span class="stringliteral">&quot;myapp&quot;</span>,0,0);</div><div class="line"></div><div class="line">    <span class="comment">//draw histograms</span></div><div class="line">    TCanvas canvas_gaussians_DEVICE(<span class="stringliteral">&quot;canvas_gaussians_DEVICE&quot;</span> ,<span class="stringliteral">&quot;&quot;</span>, 500, 500);</div><div class="line">    hist_gaussians_DEVICE.Draw(<span class="stringliteral">&quot;colz&quot;</span>);</div><div class="line">    canvas_gaussians_DEVICE.Print(TString::Format(<span class="stringliteral">&quot;plots/HIST_2D_%s.png&quot;</span>, hist_gaussians_DEVICE.GetName()  ));</div><div class="line"></div><div class="line">    <span class="comment">//draw histograms</span></div><div class="line">    TCanvas canvas_lambda_DEVICE(<span class="stringliteral">&quot;canvas_lambda_DEVICE&quot;</span> ,<span class="stringliteral">&quot;&quot;</span>, 500, 500);</div><div class="line">    hist_lambda_DEVICE.Draw(<span class="stringliteral">&quot;box&quot;</span>);</div><div class="line">    canvas_lambda_DEVICE.Print(TString::Format(<span class="stringliteral">&quot;plots/HIST_2D_%s.png&quot;</span>, hist_lambda_DEVICE.GetName()  ));</div><div class="line"></div><div class="line"></div><div class="line">    TCanvas canvas_gaussians_HOST(<span class="stringliteral">&quot;canvas_gaussians_HOST&quot;</span> ,<span class="stringliteral">&quot;&quot;</span>, 500, 500);</div><div class="line">    hist_gaussians_HOST.Draw(<span class="stringliteral">&quot;colz&quot;</span>);</div><div class="line">    canvas_gaussians_HOST.Print(TString::Format(<span class="stringliteral">&quot;plots/HIST_2D_%s.png&quot;</span>, hist_gaussians_HOST.GetName()  ));</div><div class="line"></div><div class="line"></div><div class="line">    <span class="comment">//draw histograms</span></div><div class="line">    TCanvas canvas_lambda_HOST(<span class="stringliteral">&quot;canvas_lambda_HOST&quot;</span> ,<span class="stringliteral">&quot;&quot;</span>, 500, 500);</div><div class="line">    hist_lambda_HOST.Draw(<span class="stringliteral">&quot;box&quot;</span>);</div><div class="line">    canvas_lambda_HOST.Print(TString::Format(<span class="stringliteral">&quot;plots/HIST_2D_%s.png&quot;</span>, hist_lambda_HOST.GetName()  ));</div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line">    TCanvas* Canvas;</div><div class="line">    TIter next( &amp;List_1D_Histo );</div><div class="line">    TObject *obj;</div><div class="line">    <span class="keywordflow">while</span>((obj = next()))</div><div class="line">    {</div><div class="line">        Canvas = <span class="keyword">new</span> TCanvas(</div><div class="line">                TString::Format(<span class="stringliteral">&quot;hist_1D_%s&quot;</span>   , obj-&gt;GetName() )</div><div class="line">        , TString::Format(<span class="stringliteral">&quot;hist_1D_%s&quot;</span>   , obj-&gt;GetName() )</div><div class="line">        , 550, 500 );</div><div class="line"></div><div class="line">        obj-&gt;Draw(<span class="stringliteral">&quot;HIST&quot;</span>);</div><div class="line">        ((TH1* ) obj)-&gt;SetMinimum(0);</div><div class="line"></div><div class="line">            Canvas-&gt;Print(TString::Format(<span class="stringliteral">&quot;plots/HIST_1D_%s.png&quot;</span>, obj-&gt;GetName()  ));</div><div class="line"></div><div class="line">    }</div><div class="line">    myapp-&gt;Run();</div><div class="line"></div><div class="line">    <span class="keywordflow">return</span> 0;</div><div class="line"></div><div class="line">}</div><div class="line"></div><div class="line"></div><div class="line"></div></div><!-- fragment --> </div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="../../d4/d51/a00017.html">hydra</a></li><li class="navelem"><a class="el" href="../../d2/de7/a00014.html">DecayMother</a></li>
-    <li class="footer">Generated on Wed Oct 12 2016 06:08:16 for Hydra by
+    <li class="footer">Generated on Thu Oct 13 2016 03:01:47 for Hydra by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="../../doxygen.png" alt="doxygen"/></a> 1.8.11 </li>
   </ul>

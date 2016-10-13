@@ -1,6 +1,6 @@
 var searchData=
 [
-  ['random',['Random',['../d2/d79/a00051.html',1,'hydra']]],
-  ['range',['Range',['../d1/d84/a00052.html',1,'hydra']]],
-  ['resultvegas',['ResultVegas',['../dc/dee/a00053.html',1,'hydra']]]
+  ['random',['Random',['../d1/d6f/a00063.html',1,'hydra']]],
+  ['range',['Range',['../df/d5f/a00064.html',1,'hydra']]],
+  ['resultvegas',['ResultVegas',['../de/de1/a00065.html',1,'hydra']]]
 ];

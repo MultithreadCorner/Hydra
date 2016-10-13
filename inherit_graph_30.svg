@@ -37,7 +37,7 @@
 </g>
 <!-- Node3 -->
 <g id="node3" class="node"><title>Node3</title>
-<g id="a_node3"><a xlink:href="de/d21/a00006.html" target="_top" xlink:title="hydra::AddPdf\&lt; PDF1,\l PDF2, PDFs \&gt;">
+<g id="a_node3"><a xlink:href="d1/d2b/a00018.html" target="_top" xlink:title="Build a pdf adding other pdfs. ">
 <polygon fill="none" stroke="black" points="287.5,-49.5 287.5,-79.5 403.5,-79.5 403.5,-49.5 287.5,-49.5"/>
 <text text-anchor="start" x="295.5" y="-67.5" font-family="Helvetica,sans-Serif" font-size="10.00">hydra::AddPdf&lt; PDF1,</text>
 <text text-anchor="middle" x="345.5" y="-56.5" font-family="Helvetica,sans-Serif" font-size="10.00"> PDF2, PDFs &gt;</text>
@@ -51,7 +51,7 @@
 </g>
 <!-- Node5 -->
 <g id="node5" class="node"><title>Node5</title>
-<g id="a_node5"><a xlink:href="d3/de7/a00039.html" target="_top" xlink:title="hydra::Pdf\&lt; FUNCTOR,\l INTEGRATOR \&gt;">
+<g id="a_node5"><a xlink:href="d2/d79/a00051.html" target="_top" xlink:title="hydra::Pdf\&lt; FUNCTOR,\l INTEGRATOR \&gt;">
 <polygon fill="none" stroke="black" points="284,-0.5 284,-30.5 407,-30.5 407,-0.5 284,-0.5"/>
 <text text-anchor="start" x="292" y="-18.5" font-family="Helvetica,sans-Serif" font-size="10.00">hydra::Pdf&lt; FUNCTOR,</text>
 <text text-anchor="middle" x="345.5" y="-7.5" font-family="Helvetica,sans-Serif" font-size="10.00"> INTEGRATOR &gt;</text>

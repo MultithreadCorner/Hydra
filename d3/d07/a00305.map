@@ -1,4 +1,2 @@
-<map id="hydra::Integrator&lt; ALGORITHM, N &gt;" name="hydra::Integrator&lt; ALGORITHM, N &gt;">
-<area shape="rect" id="node2" href="$d5/d79/a00030.html" title="{hydra::Integrator\&lt;\l Vegas\&lt; N, GRND \&gt;, N \&gt;\n|+ dimension\l|+ Integrator()\l+ GetIntegral()\l+ GetLimits()\l}" alt="" coords="9,189,183,311"/>
-<area shape="rect" id="node3" href="$d4/de8/a00061.html" title="{hydra::Vegas\&lt; N, GRND \&gt;\n||+ Vegas()\l+ Vegas()\l+ Vegas()\l+ Integrate()\l+ PrintLimits()\l+ PrintHead()\l+ PrintResults()\l+ PrintDistribution()\l+ PrintGrid()\l+ GetAbsError()\land 9 more...\l}" alt="" coords="5,360,187,584"/>
+<map id="hydra::HyRndBreitWigner&lt; GRND &gt;" name="hydra::HyRndBreitWigner&lt; GRND &gt;">
 </map>

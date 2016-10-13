@@ -1,6 +1,6 @@
 var a00066 =
 [
-    [ "__hydra_exec_check_disable__", "d9/db3/a00066.html#a0916cfff5efbb734ef0bc4dc20ffa31a", null ],
-    [ "CUDA_API_PER_THREAD_DEFAULT_STREAM", "d9/db3/a00066.html#a2a1de18eafc5d4cfda05de797f974211", null ],
-    [ "HYDRA_OS", "d9/db3/a00066.html#a7c57d4e5beb85a3cb6b4e721e1f39790", null ]
+    [ "stride_functor", "d9/db3/a00066.html#a860956039fc7e31e236c60bc43bb45a4", null ],
+    [ "operator()", "d9/db3/a00066.html#a802f7f8ce11c8c0669f84652298f4980", null ],
+    [ "stride", "d9/db3/a00066.html#af0ea35fb2c7df023f805f70b90927148", null ]
 ];

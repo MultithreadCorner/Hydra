@@ -1,6 +1,8 @@
 var a00086 =
 [
-    [ "Hydra_VERSION_MAJOR", "da/d2a/a00086.html#a95d1abb83d001dc9cae163236910c439", null ],
-    [ "Hydra_VERSION_MINOR", "da/d2a/a00086.html#aca82490e4d49651a1d802f1cdb8b1e9b", null ],
-    [ "Hydra_VERSION_PATCH", "da/d2a/a00086.html#acb4a3b573ee645982d76cf1cf3c68bd8", null ]
+    [ "Divide", "dc/d3c/a00028.html", "dc/d3c/a00028" ],
+    [ "divide", "da/d2a/a00086.html#a762ed9329b60137d5230242c159b0c6d", null ],
+    [ "operator/", "da/d2a/a00086.html#a54dc58e9b41feba5a89a93826fd73c22", null ],
+    [ "operator/", "da/d2a/a00086.html#ad5e44113c8c7fad75c3e8322730d0056", null ],
+    [ "operator/", "da/d2a/a00086.html#a6fb214ec121e9fe94216ea14a5969980", null ]
 ];

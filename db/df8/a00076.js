@@ -1,10 +1,6 @@
 var a00076 =
 [
-    [ "EvalReturnType", "d4/d51/a00017.html#d1/d88/a00128", [
-      [ "type", "d4/d51/a00017.html#aab46b3ca1e5206415015ae83367d3f4b", null ]
-    ] ],
-    [ "Eval", "db/df8/a00076.html#a792f64fe5b6422f76bcf028f92ac2861", null ],
-    [ "Eval", "db/df8/a00076.html#a8196aec8ca6395bb4e08f85054fd2a0f", null ],
-    [ "Eval", "db/df8/a00076.html#aa1f02c03b9fd39e22a7395fa50ef9846", null ],
-    [ "Eval", "db/df8/a00076.html#a25eaefdcef6ef586e4797fddf3d3c8db", null ]
+    [ "__hydra_exec_check_disable__", "db/df8/a00076.html#a0916cfff5efbb734ef0bc4dc20ffa31a", null ],
+    [ "CUDA_API_PER_THREAD_DEFAULT_STREAM", "db/df8/a00076.html#a2a1de18eafc5d4cfda05de797f974211", null ],
+    [ "HYDRA_OS", "db/df8/a00076.html#a7c57d4e5beb85a3cb6b4e721e1f39790", null ]
 ];

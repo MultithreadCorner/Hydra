@@ -10,7 +10,7 @@
 <title>Graphical Class Hierarchy</title>
 <!-- Node1 -->
 <g id="node1" class="node"><title>Node1</title>
-<g id="a_node1"><a xlink:href="d4/dee/a00008.html" target="_top" xlink:title="hydra::BaseFunctor\l\&lt; Exp, GReal_t, 1 \&gt;">
+<g id="a_node1"><a xlink:href="db/db2/a00020.html" target="_top" xlink:title="hydra::BaseFunctor\l\&lt; Exp, GReal_t, 1 \&gt;">
 <polygon fill="none" stroke="black" points="0,-0.5 0,-30.5 105,-30.5 105,-0.5 0,-0.5"/>
 <text text-anchor="start" x="8" y="-18.5" font-family="Helvetica,sans-Serif" font-size="10.00">hydra::BaseFunctor</text>
 <text text-anchor="middle" x="52.5" y="-7.5" font-family="Helvetica,sans-Serif" font-size="10.00">&lt; Exp, GReal_t, 1 &gt;</text>
@@ -19,7 +19,7 @@
 </g>
 <!-- Node2 -->
 <g id="node2" class="node"><title>Node2</title>
-<g id="a_node2"><a xlink:href="dd/da2/a00019.html" target="_top" xlink:title="Exp">
+<g id="a_node2"><a xlink:href="df/d61/a00031.html" target="_top" xlink:title="Exp">
 <polygon fill="none" stroke="black" points="141,-6 141,-25 175,-25 175,-6 141,-6"/>
 <text text-anchor="middle" x="158" y="-13" font-family="Helvetica,sans-Serif" font-size="10.00">Exp</text>
 </a>

@@ -1,2 +1,6 @@
-<map id="Generic.h" name="Generic.h">
+<map id="FlagAcceptReject.h" name="FlagAcceptReject.h">
+<area shape="rect" id="node2" href="$db/ddf/a00088.html" title="Events.h" alt="" coords="147,80,222,107"/>
+<area shape="rect" id="node3" href="$dd/d42/a00109.html" title="PhaseSpace.h" alt="" coords="169,155,275,181"/>
+<area shape="rect" id="node4" href="$da/da0/a00009.html" title="HydraPhaseSpaceExample take parameters from the command line and generates sample of 3&#45;body phase&#45;spa..." alt="" coords="5,229,212,256"/>
+<area shape="rect" id="node5" href="$da/d45/a00011.html" title="HydraPhaseSpaceExample take parameters from the command line and generates sample of 3&#45;body phase&#45;spa..." alt="" coords="237,229,437,256"/>
 </map>

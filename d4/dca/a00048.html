@@ -4,7 +4,7 @@
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.11"/>
-<title>Hydra: hydra::ProcessCallsPlainBinary Struct Reference</title>
+<title>Hydra: hydra::Minus&lt; F1, F2 &gt; Struct Template Reference</title>
 <link href="../../tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="../../jquery.js"></script>
 <script type="text/javascript" src="../../dynsections.js"></script>
@@ -55,6 +55,7 @@ var searchBox = new SearchBox("searchBox", "../../search",false,'Search');
   <div id="navrow1" class="tabs">
     <ul class="tablist">
       <li><a href="../../index.html"><span>Main&#160;Page</span></a></li>
+      <li><a href="../../modules.html"><span>Modules</span></a></li>
       <li><a href="../../namespaces.html"><span>Namespaces</span></a></li>
       <li class="current"><a href="../../annotated.html"><span>Classes</span></a></li>
       <li><a href="../../files.html"><span>Files</span></a></li>
@@ -116,50 +117,180 @@ $(document).ready(function(){initNavTree('d4/dca/a00048.html','../../');});
 
 <div class="header">
   <div class="summary">
+<a href="#pub-types">Public Types</a> &#124;
 <a href="#pub-methods">Public Member Functions</a> &#124;
-<a href="../../d8/d8e/a00344.html">List of all members</a>  </div>
+<a href="../../dd/dbb/a00330.html">List of all members</a>  </div>
   <div class="headertitle">
-<div class="title">hydra::ProcessCallsPlainBinary Struct Reference</div>  </div>
+<div class="title">hydra::Minus&lt; F1, F2 &gt; Struct Template Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
 <div class="dynheader">
-Inheritance diagram for hydra::ProcessCallsPlainBinary:</div>
+Collaboration diagram for hydra::Minus&lt; F1, F2 &gt;:</div>
 <div class="dyncontent">
-<div class="center"><iframe scrolling="no" frameborder="0" src="../../d9/d48/a00345.svg" width="226" height="258"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
-</div>
-<div class="dynheader">
-Collaboration diagram for hydra::ProcessCallsPlainBinary:</div>
-<div class="dyncontent">
-<div class="center"><iframe scrolling="no" frameborder="0" src="../../d2/daf/a00346.svg" width="226" height="258"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+<div class="center"><iframe scrolling="no" frameborder="0" src="../../d8/df7/a00331.svg" width="210" height="264"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 </div>
 <table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-types"></a>
+Public Types</h2></td></tr>
+<tr class="memitem:a5b8fab4f7585cf50d7ba016ac4b812de"><td class="memItemLeft" align="right" valign="top">typedef thrust::tuple&lt; F1, F2 &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d4/dca/a00048.html#a5b8fab4f7585cf50d7ba016ac4b812de">functors_type</a></td></tr>
+<tr class="separator:a5b8fab4f7585cf50d7ba016ac4b812de"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a171c24d8f3690197ab4b819efd75db9d"><td class="memItemLeft" align="right" valign="top">typedef void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d4/dca/a00048.html#a171c24d8f3690197ab4b819efd75db9d">hydra_functor_tag</a></td></tr>
+<tr class="separator:a171c24d8f3690197ab4b819efd75db9d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a28573aa4424bdd86bdd1133d31cf58d9"><td class="memItemLeft" align="right" valign="top">typedef std::true_type&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d4/dca/a00048.html#a28573aa4424bdd86bdd1133d31cf58d9">is_functor</a></td></tr>
+<tr class="separator:a28573aa4424bdd86bdd1133d31cf58d9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a64d0251ad7a753892b2999170e2e9320"><td class="memItemLeft" align="right" valign="top">typedef detail::minus_result&lt; typename F1::return_type, typename F2::return_type &gt;::type&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d4/dca/a00048.html#a64d0251ad7a753892b2999170e2e9320">return_type</a></td></tr>
+<tr class="separator:a64d0251ad7a753892b2999170e2e9320"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:afc2f48e2d00bad910d2230c1e581fe30"><td class="memItemLeft" align="right" valign="top">__host__ __device__ <a class="el" href="../../d5/db6/a00042.html">PlainState</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d4/dca/a00048.html#afc2f48e2d00bad910d2230c1e581fe30">operator()</a> (const <a class="el" href="../../d5/db6/a00042.html">PlainState</a> &amp;x, const <a class="el" href="../../d5/db6/a00042.html">PlainState</a> &amp;y)</td></tr>
-<tr class="separator:afc2f48e2d00bad910d2230c1e581fe30"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aec21daf052095a0ab7b3300d40c3f016"><td class="memItemLeft" align="right" valign="top">__host__&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d4/dca/a00048.html#aec21daf052095a0ab7b3300d40c3f016">Minus</a> ()</td></tr>
+<tr class="separator:aec21daf052095a0ab7b3300d40c3f016"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9ef1fbb6d484b67293e2619c7964f62b"><td class="memItemLeft" align="right" valign="top">__host__&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d4/dca/a00048.html#a9ef1fbb6d484b67293e2619c7964f62b">Minus</a> (F1 const &amp;f1, F2 const &amp;f2)</td></tr>
+<tr class="separator:a9ef1fbb6d484b67293e2619c7964f62b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5076874207420f7029abcfd917ccb97d"><td class="memItemLeft" align="right" valign="top">__host__ __device__&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d4/dca/a00048.html#a5076874207420f7029abcfd917ccb97d">Minus</a> (<a class="el" href="../../d4/dca/a00048.html">Minus</a>&lt; F1, F2 &gt; const &amp;other)</td></tr>
+<tr class="separator:a5076874207420f7029abcfd917ccb97d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a774995c96a9900aefdf5e3f53296537d"><td class="memItemLeft" align="right" valign="top">__host__ __device__ <a class="el" href="../../d4/dca/a00048.html#a5b8fab4f7585cf50d7ba016ac4b812de">functors_type</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d4/dca/a00048.html#a774995c96a9900aefdf5e3f53296537d">GetFunctors</a> () const </td></tr>
+<tr class="separator:a774995c96a9900aefdf5e3f53296537d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1c5917625cce0bce19518fe27934ac6d"><td class="memItemLeft" align="right" valign="top">__host__ __device__ int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d4/dca/a00048.html#a1c5917625cce0bce19518fe27934ac6d">GetIndex</a> () const </td></tr>
+<tr class="separator:a1c5917625cce0bce19518fe27934ac6d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5847e13718706f897a45325ab2032444"><td class="memItemLeft" align="right" valign="top">__host__ __device__ bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d4/dca/a00048.html#a5847e13718706f897a45325ab2032444">IsCached</a> () const </td></tr>
+<tr class="separator:a5847e13718706f897a45325ab2032444"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac31dfebb486881d1b6ec757086b1b841"><td class="memTemplParams" colspan="2">template&lt;typename T1 &gt; </td></tr>
+<tr class="memitem:ac31dfebb486881d1b6ec757086b1b841"><td class="memTemplItemLeft" align="right" valign="top">__host__ __device__ <a class="el" href="../../d4/dca/a00048.html#a64d0251ad7a753892b2999170e2e9320">return_type</a>&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="../../d4/dca/a00048.html#ac31dfebb486881d1b6ec757086b1b841">operator()</a> (T1 &amp;t)</td></tr>
+<tr class="separator:ac31dfebb486881d1b6ec757086b1b841"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a64ab8f79da4c67887e3ca2d7c0e90e44"><td class="memTemplParams" colspan="2">template&lt;typename T1 , typename T2 &gt; </td></tr>
+<tr class="memitem:a64ab8f79da4c67887e3ca2d7c0e90e44"><td class="memTemplItemLeft" align="right" valign="top">__host__ __device__ <a class="el" href="../../d4/dca/a00048.html#a64d0251ad7a753892b2999170e2e9320">return_type</a>&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="../../d4/dca/a00048.html#a64ab8f79da4c67887e3ca2d7c0e90e44">operator()</a> (T1 &amp;t, T2 &amp;cache)</td></tr>
+<tr class="separator:a64ab8f79da4c67887e3ca2d7c0e90e44"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1aef6e8f4bd246464535f21384e84e2b"><td class="memItemLeft" align="right" valign="top">__host__ __device__ <a class="el" href="../../d4/dca/a00048.html">Minus</a>&lt; F1, F2 &gt; &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d4/dca/a00048.html#a1aef6e8f4bd246464535f21384e84e2b">operator=</a> (<a class="el" href="../../d4/dca/a00048.html">Minus</a>&lt; F1, F2 &gt; const &amp;other)</td></tr>
+<tr class="separator:a1aef6e8f4bd246464535f21384e84e2b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a21b27260797ffd037776028a91be0841"><td class="memItemLeft" align="right" valign="top">__host__ void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d4/dca/a00048.html#a21b27260797ffd037776028a91be0841">PrintRegisteredParameters</a> ()</td></tr>
+<tr class="separator:a21b27260797ffd037776028a91be0841"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a966c64b75e6993fa10a8064dfb50a632"><td class="memItemLeft" align="right" valign="top">__host__ __device__ void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d4/dca/a00048.html#a966c64b75e6993fa10a8064dfb50a632">SetCached</a> (bool cached=true)</td></tr>
+<tr class="separator:a966c64b75e6993fa10a8064dfb50a632"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0edc8f28f8cb618424965dd0547b55aa"><td class="memItemLeft" align="right" valign="top">__host__ __device__ void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d4/dca/a00048.html#a0edc8f28f8cb618424965dd0547b55aa">SetIndex</a> (int index)</td></tr>
+<tr class="separator:a0edc8f28f8cb618424965dd0547b55aa"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a881804955106a1b143d463b37063f84e"><td class="memItemLeft" align="right" valign="top">__host__ void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d4/dca/a00048.html#a881804955106a1b143d463b37063f84e">SetParameters</a> (const std::vector&lt; double &gt; &amp;parameters)</td></tr>
+<tr class="separator:a881804955106a1b143d463b37063f84e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock">
-<p>Definition at line <a class="el" href="../../dd/d42/a00109_source.html#l00098">98</a> of file <a class="el" href="../../dd/d42/a00109_source.html">ProcessCallsPlain.h</a>.</p>
-</div><h2 class="groupheader">Member Function Documentation</h2>
-<a class="anchor" id="afc2f48e2d00bad910d2230c1e581fe30"></a>
+<div class="textblock"><h3>template&lt;typename F1, typename F2&gt;<br />
+struct hydra::Minus&lt; F1, F2 &gt;</h3>
+
+
+<p>Definition at line <a class="el" href="../../d3/d32/a00105_source.html#l00050">50</a> of file <a class="el" href="../../d3/d32/a00105_source.html">Minus.h</a>.</p>
+</div><h2 class="groupheader">Member Typedef Documentation</h2>
+<a class="anchor" id="a5b8fab4f7585cf50d7ba016ac4b812de"></a>
 <div class="memitem">
 <div class="memproto">
+<div class="memtemplate">
+template&lt;typename F1, typename F2&gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">typedef thrust::tuple&lt;F1, F2&gt; <a class="el" href="../../d4/dca/a00048.html">hydra::Minus</a>&lt; F1, F2 &gt;::<a class="el" href="../../d4/dca/a00048.html#a5b8fab4f7585cf50d7ba016ac4b812de">functors_type</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="../../d3/d32/a00105_source.html#l00056">56</a> of file <a class="el" href="../../d3/d32/a00105_source.html">Minus.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a171c24d8f3690197ab4b819efd75db9d"></a>
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename F1, typename F2&gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">typedef void <a class="el" href="../../d4/dca/a00048.html">hydra::Minus</a>&lt; F1, F2 &gt;::<a class="el" href="../../d4/dca/a00048.html#a171c24d8f3690197ab4b819efd75db9d">hydra_functor_tag</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="../../d3/d32/a00105_source.html#l00053">53</a> of file <a class="el" href="../../d3/d32/a00105_source.html">Minus.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a28573aa4424bdd86bdd1133d31cf58d9"></a>
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename F1, typename F2&gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">typedef std::true_type <a class="el" href="../../d4/dca/a00048.html">hydra::Minus</a>&lt; F1, F2 &gt;::<a class="el" href="../../d4/dca/a00048.html#a28573aa4424bdd86bdd1133d31cf58d9">is_functor</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="../../d3/d32/a00105_source.html#l00054">54</a> of file <a class="el" href="../../d3/d32/a00105_source.html">Minus.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a64d0251ad7a753892b2999170e2e9320"></a>
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename F1, typename F2&gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">typedef detail::minus_result&lt;typename F1::return_type,typename F2::return_type&gt;::type <a class="el" href="../../d4/dca/a00048.html">hydra::Minus</a>&lt; F1, F2 &gt;::<a class="el" href="../../d4/dca/a00048.html#a64d0251ad7a753892b2999170e2e9320">return_type</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="../../d3/d32/a00105_source.html#l00055">55</a> of file <a class="el" href="../../d3/d32/a00105_source.html">Minus.h</a>.</p>
+
+</div>
+</div>
+<h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
+<a class="anchor" id="aec21daf052095a0ab7b3300d40c3f016"></a>
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename F1, typename F2&gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">__host__ __device__ <a class="el" href="../../d5/db6/a00042.html">PlainState</a> hydra::ProcessCallsPlainBinary::operator() </td>
+          <td class="memname">__host__ <a class="el" href="../../d4/dca/a00048.html">hydra::Minus</a>&lt; F1, F2 &gt;::<a class="el" href="../../d4/dca/a00048.html">Minus</a> </td>
           <td>(</td>
-          <td class="paramtype">const <a class="el" href="../../d5/db6/a00042.html">PlainState</a> &amp;&#160;</td>
-          <td class="paramname"><em>x</em>, </td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="../../d3/d32/a00105_source.html#l00059">59</a> of file <a class="el" href="../../d3/d32/a00105_source.html">Minus.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a9ef1fbb6d484b67293e2619c7964f62b"></a>
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename F1, typename F2&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">__host__ <a class="el" href="../../d4/dca/a00048.html">hydra::Minus</a>&lt; F1, F2 &gt;::<a class="el" href="../../d4/dca/a00048.html">Minus</a> </td>
+          <td>(</td>
+          <td class="paramtype">F1 const &amp;&#160;</td>
+          <td class="paramname"><em>f1</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">const <a class="el" href="../../d5/db6/a00042.html">PlainState</a> &amp;&#160;</td>
-          <td class="paramname"><em>y</em>&#160;</td>
+          <td class="paramtype">F2 const &amp;&#160;</td>
+          <td class="paramname"><em>f2</em>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -174,22 +305,377 @@ Public Member Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="../../dd/d42/a00109_source.html#l00104">104</a> of file <a class="el" href="../../dd/d42/a00109_source.html">ProcessCallsPlain.h</a>.</p>
+<p>Definition at line <a class="el" href="../../d3/d32/a00105_source.html#l00065">65</a> of file <a class="el" href="../../d3/d32/a00105_source.html">Minus.h</a>.</p>
 
-<p>References <a class="el" href="../../d3/d32/a00105_source.html#l00049">hydra::PlainState::fM2</a>, <a class="el" href="../../d3/d32/a00105_source.html#l00047">hydra::PlainState::fMax</a>, <a class="el" href="../../d3/d32/a00105_source.html#l00048">hydra::PlainState::fMean</a>, <a class="el" href="../../d3/d32/a00105_source.html#l00046">hydra::PlainState::fMin</a>, and <a class="el" href="../../d3/d32/a00105_source.html#l00045">hydra::PlainState::fN</a>.</p>
+</div>
+</div>
+<a class="anchor" id="a5076874207420f7029abcfd917ccb97d"></a>
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename F1, typename F2&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">__host__ __device__ <a class="el" href="../../d4/dca/a00048.html">hydra::Minus</a>&lt; F1, F2 &gt;::<a class="el" href="../../d4/dca/a00048.html">Minus</a> </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="../../d4/dca/a00048.html">Minus</a>&lt; F1, F2 &gt; const &amp;&#160;</td>
+          <td class="paramname"><em>other</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="../../d3/d32/a00105_source.html#l00072">72</a> of file <a class="el" href="../../d3/d32/a00105_source.html">Minus.h</a>.</p>
+
+</div>
+</div>
+<h2 class="groupheader">Member Function Documentation</h2>
+<a class="anchor" id="a774995c96a9900aefdf5e3f53296537d"></a>
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename F1, typename F2&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">__host__ __device__ <a class="el" href="../../d4/dca/a00048.html#a5b8fab4f7585cf50d7ba016ac4b812de">functors_type</a> <a class="el" href="../../d4/dca/a00048.html">hydra::Minus</a>&lt; F1, F2 &gt;::GetFunctors </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="../../d3/d32/a00105_source.html#l00104">104</a> of file <a class="el" href="../../d3/d32/a00105_source.html">Minus.h</a>.</p>
+
+<p>Referenced by <a class="el" href="../../d3/d32/a00105_source.html#l00079">hydra::Minus&lt; F1, F2 &gt;::operator=()</a>.</p>
+
+<p><div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><iframe scrolling="no" frameborder="0" src="../../d4/dca/a00048_a774995c96a9900aefdf5e3f53296537d_icgraph.svg" width="396" height="38"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+</div>
+</p>
+
+</div>
+</div>
+<a class="anchor" id="a1c5917625cce0bce19518fe27934ac6d"></a>
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename F1, typename F2&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">__host__ __device__ int <a class="el" href="../../d4/dca/a00048.html">hydra::Minus</a>&lt; F1, F2 &gt;::GetIndex </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="../../d3/d32/a00105_source.html#l00107">107</a> of file <a class="el" href="../../d3/d32/a00105_source.html">Minus.h</a>.</p>
+
+<p>Referenced by <a class="el" href="../../d3/d32/a00105_source.html#l00079">hydra::Minus&lt; F1, F2 &gt;::operator=()</a>.</p>
+
+<p><div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><iframe scrolling="no" frameborder="0" src="../../d4/dca/a00048_a1c5917625cce0bce19518fe27934ac6d_icgraph.svg" width="378" height="38"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+</div>
+</p>
+
+</div>
+</div>
+<a class="anchor" id="a5847e13718706f897a45325ab2032444"></a>
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename F1, typename F2&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">__host__ __device__ bool <a class="el" href="../../d4/dca/a00048.html">hydra::Minus</a>&lt; F1, F2 &gt;::IsCached </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="../../d3/d32/a00105_source.html#l00113">113</a> of file <a class="el" href="../../d3/d32/a00105_source.html">Minus.h</a>.</p>
+
+<p>Referenced by <a class="el" href="../../d3/d32/a00105_source.html#l00079">hydra::Minus&lt; F1, F2 &gt;::operator=()</a>.</p>
+
+<p><div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><iframe scrolling="no" frameborder="0" src="../../d4/dca/a00048_a5847e13718706f897a45325ab2032444_icgraph.svg" width="380" height="38"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+</div>
+</p>
+
+</div>
+</div>
+<a class="anchor" id="ac31dfebb486881d1b6ec757086b1b841"></a>
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename F1, typename F2&gt; </div>
+<div class="memtemplate">
+template&lt;typename T1 &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">__host__ __device__ <a class="el" href="../../d4/dca/a00048.html#a64d0251ad7a753892b2999170e2e9320">return_type</a> <a class="el" href="../../d4/dca/a00048.html">hydra::Minus</a>&lt; F1, F2 &gt;::operator() </td>
+          <td>(</td>
+          <td class="paramtype">T1 &amp;&#160;</td>
+          <td class="paramname"><em>t</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="../../d3/d32/a00105_source.html#l00123">123</a> of file <a class="el" href="../../d3/d32/a00105_source.html">Minus.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a64ab8f79da4c67887e3ca2d7c0e90e44"></a>
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename F1, typename F2&gt; </div>
+<div class="memtemplate">
+template&lt;typename T1 , typename T2 &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">__host__ __device__ <a class="el" href="../../d4/dca/a00048.html#a64d0251ad7a753892b2999170e2e9320">return_type</a> <a class="el" href="../../d4/dca/a00048.html">hydra::Minus</a>&lt; F1, F2 &gt;::operator() </td>
+          <td>(</td>
+          <td class="paramtype">T1 &amp;&#160;</td>
+          <td class="paramname"><em>t</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">T2 &amp;&#160;</td>
+          <td class="paramname"><em>cache</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="../../d3/d32/a00105_source.html#l00130">130</a> of file <a class="el" href="../../d3/d32/a00105_source.html">Minus.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a1aef6e8f4bd246464535f21384e84e2b"></a>
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename F1, typename F2&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">__host__ __device__ <a class="el" href="../../d4/dca/a00048.html">Minus</a>&lt;F1,F2&gt;&amp; <a class="el" href="../../d4/dca/a00048.html">hydra::Minus</a>&lt; F1, F2 &gt;::operator= </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="../../d4/dca/a00048.html">Minus</a>&lt; F1, F2 &gt; const &amp;&#160;</td>
+          <td class="paramname"><em>other</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="../../d3/d32/a00105_source.html#l00079">79</a> of file <a class="el" href="../../d3/d32/a00105_source.html">Minus.h</a>.</p>
+
+<p>References <a class="el" href="../../d3/d32/a00105_source.html#l00104">hydra::Minus&lt; F1, F2 &gt;::GetFunctors()</a>, <a class="el" href="../../d3/d32/a00105_source.html#l00107">hydra::Minus&lt; F1, F2 &gt;::GetIndex()</a>, and <a class="el" href="../../d3/d32/a00105_source.html#l00113">hydra::Minus&lt; F1, F2 &gt;::IsCached()</a>.</p>
+
+<p><div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><iframe scrolling="no" frameborder="0" src="../../d4/dca/a00048_a1aef6e8f4bd246464535f21384e84e2b_cgraph.svg" width="396" height="139"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+</div>
+</p>
+
+</div>
+</div>
+<a class="anchor" id="a21b27260797ffd037776028a91be0841"></a>
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename F1, typename F2&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">__host__ void <a class="el" href="../../d4/dca/a00048.html">hydra::Minus</a>&lt; F1, F2 &gt;::PrintRegisteredParameters </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="../../d3/d32/a00105_source.html#l00094">94</a> of file <a class="el" href="../../d3/d32/a00105_source.html">Minus.h</a>.</p>
+
+<p>References <a class="el" href="../../d8/d17/a00114_source.html#l00098">HYDRA_CALLER</a>, <a class="el" href="../../d8/d17/a00114_source.html#l00105">HYDRA_ENDL</a>, and <a class="el" href="../../d8/d17/a00114_source.html#l00102">HYDRA_MSG</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a966c64b75e6993fa10a8064dfb50a632"></a>
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename F1, typename F2&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">__host__ __device__ void <a class="el" href="../../d4/dca/a00048.html">hydra::Minus</a>&lt; F1, F2 &gt;::SetCached </td>
+          <td>(</td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>cached</em> = <code>true</code></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="../../d3/d32/a00105_source.html#l00117">117</a> of file <a class="el" href="../../d3/d32/a00105_source.html">Minus.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a0edc8f28f8cb618424965dd0547b55aa"></a>
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename F1, typename F2&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">__host__ __device__ void <a class="el" href="../../d4/dca/a00048.html">hydra::Minus</a>&lt; F1, F2 &gt;::SetIndex </td>
+          <td>(</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>index</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="../../d3/d32/a00105_source.html#l00110">110</a> of file <a class="el" href="../../d3/d32/a00105_source.html">Minus.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a881804955106a1b143d463b37063f84e"></a>
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename F1, typename F2&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">__host__ void <a class="el" href="../../d4/dca/a00048.html">hydra::Minus</a>&lt; F1, F2 &gt;::SetParameters </td>
+          <td>(</td>
+          <td class="paramtype">const std::vector&lt; double &gt; &amp;&#160;</td>
+          <td class="paramname"><em>parameters</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="../../d3/d32/a00105_source.html#l00088">88</a> of file <a class="el" href="../../d3/d32/a00105_source.html">Minus.h</a>.</p>
 
 </div>
 </div>
 <hr/>The documentation for this struct was generated from the following file:<ul>
-<li><a class="el" href="../../dd/d42/a00109_source.html">ProcessCallsPlain.h</a></li>
+<li><a class="el" href="../../d3/d32/a00105_source.html">Minus.h</a></li>
 </ul>
 </div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="../../d4/d51/a00017.html">hydra</a></li><li class="navelem"><a class="el" href="../../d4/dca/a00048.html">ProcessCallsPlainBinary</a></li>
-    <li class="footer">Generated on Wed Oct 12 2016 06:08:16 for Hydra by
+    <li class="navelem"><a class="el" href="../../d5/d16/a00029.html">hydra</a></li><li class="navelem"><a class="el" href="../../d4/dca/a00048.html">Minus</a></li>
+    <li class="footer">Generated on Thu Oct 13 2016 03:01:48 for Hydra by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="../../doxygen.png" alt="doxygen"/></a> 1.8.11 </li>
   </ul>

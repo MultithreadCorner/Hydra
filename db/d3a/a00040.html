@@ -4,7 +4,7 @@
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.11"/>
-<title>Hydra: hydra::PhaseSpace&lt; N, GRND &gt; Class Template Reference</title>
+<title>Hydra: hydra::HyRndTrial&lt; GRND, FUNCTOR, N &gt; Struct Template Reference</title>
 <link href="../../tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="../../jquery.js"></script>
 <script type="text/javascript" src="../../dynsections.js"></script>
@@ -55,6 +55,7 @@ var searchBox = new SearchBox("searchBox", "../../search",false,'Search');
   <div id="navrow1" class="tabs">
     <ul class="tablist">
       <li><a href="../../index.html"><span>Main&#160;Page</span></a></li>
+      <li><a href="../../modules.html"><span>Modules</span></a></li>
       <li><a href="../../namespaces.html"><span>Namespaces</span></a></li>
       <li class="current"><a href="../../annotated.html"><span>Classes</span></a></li>
       <li><a href="../../files.html"><span>Files</span></a></li>
@@ -117,65 +118,80 @@ $(document).ready(function(){initNavTree('db/d3a/a00040.html','../../');});
 <div class="header">
   <div class="summary">
 <a href="#pub-methods">Public Member Functions</a> &#124;
-<a href="../../d8/d23/a00326.html">List of all members</a>  </div>
+<a href="#pub-attribs">Public Attributes</a> &#124;
+<a href="../../dd/db3/a00313.html">List of all members</a>  </div>
   <div class="headertitle">
-<div class="title">hydra::PhaseSpace&lt; N, GRND &gt; Class Template Reference</div>  </div>
+<div class="title">hydra::HyRndTrial&lt; GRND, FUNCTOR, N &gt; Struct Template Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
 <div class="dynheader">
-Collaboration diagram for hydra::PhaseSpace&lt; N, GRND &gt;:</div>
+Collaboration diagram for hydra::HyRndTrial&lt; GRND, FUNCTOR, N &gt;:</div>
 <div class="dyncontent">
-<div class="center"><iframe scrolling="no" frameborder="0" src="../../d8/dfc/a00327.svg" width="155" height="191"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+<div class="center"><iframe scrolling="no" frameborder="0" src="../../d0/d39/a00314.svg" width="182" height="191"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 </div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:aa6bc2388046a436042d3d223de49e446"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../db/d3a/a00040.html#aa6bc2388046a436042d3d223de49e446">PhaseSpace</a> (<a class="el" href="../../d4/d51/a00017.html#a971e94bcb8c43741d11f9d8eb98f5fab">GReal_t</a> _MotherMass, vector&lt; <a class="el" href="../../d4/d51/a00017.html#a971e94bcb8c43741d11f9d8eb98f5fab">GReal_t</a> &gt; _Masses)</td></tr>
-<tr class="memdesc:aa6bc2388046a436042d3d223de49e446"><td class="mdescLeft">&#160;</td><td class="mdescRight"><a class="el" href="../../db/d3a/a00040.html">PhaseSpace</a> ctor.  <a href="#aa6bc2388046a436042d3d223de49e446">More...</a><br /></td></tr>
-<tr class="separator:aa6bc2388046a436042d3d223de49e446"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a1c9e44472db8f827cb97701a7a0ae195"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../db/d3a/a00040.html#a1c9e44472db8f827cb97701a7a0ae195">~PhaseSpace</a> ()</td></tr>
-<tr class="separator:a1c9e44472db8f827cb97701a7a0ae195"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a4ca0a20cd6c56424099b22b2bee2fa7e"><td class="memTemplParams" colspan="2">template&lt;unsigned int BACKEND&gt; </td></tr>
-<tr class="memitem:a4ca0a20cd6c56424099b22b2bee2fa7e"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="../../db/d3a/a00040.html#a4ca0a20cd6c56424099b22b2bee2fa7e">Generate</a> (<a class="el" href="../../d9/d73/a00060.html">Vector4R</a> const &amp;mother, <a class="el" href="../../d1/d2b/a00018.html">Events</a>&lt; N, BACKEND &gt; &amp;events)</td></tr>
-<tr class="separator:a4ca0a20cd6c56424099b22b2bee2fa7e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a348046a32bafabb2280d8ae55785e613"><td class="memTemplParams" colspan="2">template&lt;unsigned int BACKEND&gt; </td></tr>
-<tr class="memitem:a348046a32bafabb2280d8ae55785e613"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="../../db/d3a/a00040.html#a348046a32bafabb2280d8ae55785e613">Generate</a> (typename <a class="el" href="../../d1/d2b/a00018.html">Events</a>&lt; N, BACKEND &gt;::vector_particles_iterator mothers_begin, typename <a class="el" href="../../d1/d2b/a00018.html">Events</a>&lt; N, BACKEND &gt;::vector_particles_iterator mothers_end, <a class="el" href="../../d1/d2b/a00018.html">Events</a>&lt; N, BACKEND &gt; &amp;events)</td></tr>
-<tr class="separator:a348046a32bafabb2280d8ae55785e613"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aefac1af443b1e192203940c72dc60844"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../d4/d51/a00017.html#a0c9fb4d7195ab952da10a82d5c4ad30e">GInt_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../db/d3a/a00040.html#aefac1af443b1e192203940c72dc60844">GetSeed</a> () const </td></tr>
-<tr class="separator:aefac1af443b1e192203940c72dc60844"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a00f0513cf6da8c4d0cd6fdee265c0ff3"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../db/d3a/a00040.html#a00f0513cf6da8c4d0cd6fdee265c0ff3">SetSeed</a> (<a class="el" href="../../d4/d51/a00017.html#a0c9fb4d7195ab952da10a82d5c4ad30e">GInt_t</a> _seed)</td></tr>
-<tr class="separator:a00f0513cf6da8c4d0cd6fdee265c0ff3"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a5c688b457b865b8440a938fa228ee891"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../d4/d51/a00017.html#a971e94bcb8c43741d11f9d8eb98f5fab">GReal_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../db/d3a/a00040.html#a5c688b457b865b8440a938fa228ee891">PDK</a> (const <a class="el" href="../../d4/d51/a00017.html#a971e94bcb8c43741d11f9d8eb98f5fab">GReal_t</a> a, const <a class="el" href="../../d4/d51/a00017.html#a971e94bcb8c43741d11f9d8eb98f5fab">GReal_t</a> b, const <a class="el" href="../../d4/d51/a00017.html#a971e94bcb8c43741d11f9d8eb98f5fab">GReal_t</a> c) const </td></tr>
-<tr class="memdesc:a5c688b457b865b8440a938fa228ee891"><td class="mdescLeft">&#160;</td><td class="mdescRight">PDK function.  <a href="#a5c688b457b865b8440a938fa228ee891">More...</a><br /></td></tr>
-<tr class="separator:a5c688b457b865b8440a938fa228ee891"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7deab2100c6af767c89048d9e412f5a4"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../db/d3a/a00040.html#a7deab2100c6af767c89048d9e412f5a4">HyRndTrial</a> (size_t seed, FUNCTOR const &amp;functor, std::array&lt; <a class="el" href="../../d5/d16/a00029.html#a971e94bcb8c43741d11f9d8eb98f5fab">GReal_t</a>, N &gt; min, std::array&lt; <a class="el" href="../../d5/d16/a00029.html#a971e94bcb8c43741d11f9d8eb98f5fab">GReal_t</a>, N &gt; max)</td></tr>
+<tr class="separator:a7deab2100c6af767c89048d9e412f5a4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a12b86e39cbb26342509ecccc815c05c3"><td class="memItemLeft" align="right" valign="top">__host__ __device__&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../db/d3a/a00040.html#a12b86e39cbb26342509ecccc815c05c3">HyRndTrial</a> (<a class="el" href="../../db/d3a/a00040.html">HyRndTrial</a>&lt; GRND, FUNCTOR, N &gt; const &amp;other)</td></tr>
+<tr class="separator:a12b86e39cbb26342509ecccc815c05c3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0e1a6d7fbb8fa924c77252345bdd06ab"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../da/dec/a00080.html#a0916cfff5efbb734ef0bc4dc20ffa31a">__hydra_exec_check_disable__</a> __host__ __device__&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../db/d3a/a00040.html#a0e1a6d7fbb8fa924c77252345bdd06ab">~HyRndTrial</a> ()</td></tr>
+<tr class="separator:a0e1a6d7fbb8fa924c77252345bdd06ab"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ada23cf08810fc2aa96dda7efbf67e961"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
+<tr class="memitem:ada23cf08810fc2aa96dda7efbf67e961"><td class="memTemplItemLeft" align="right" valign="top">__host__ __device__ <a class="el" href="../../d5/d16/a00029.html#a971e94bcb8c43741d11f9d8eb98f5fab">GReal_t</a>&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="../../db/d3a/a00040.html#ada23cf08810fc2aa96dda7efbf67e961">operator()</a> (size_t index, T &amp;t)</td></tr>
+<tr class="separator:ada23cf08810fc2aa96dda7efbf67e961"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-attribs"></a>
+Public Attributes</h2></td></tr>
+<tr class="memitem:a36acfabdaf39f58cc7bf34d53994180e"><td class="memItemLeft" align="right" valign="top">FUNCTOR&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../db/d3a/a00040.html#a36acfabdaf39f58cc7bf34d53994180e">fFunctor</a></td></tr>
+<tr class="separator:a36acfabdaf39f58cc7bf34d53994180e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2690a4ce12761777c8c032541f5cb0c1"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../d5/d16/a00029.html#a971e94bcb8c43741d11f9d8eb98f5fab">GReal_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../db/d3a/a00040.html#a2690a4ce12761777c8c032541f5cb0c1">fMax</a> [N]</td></tr>
+<tr class="separator:a2690a4ce12761777c8c032541f5cb0c1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a47e907ec0d80e4968708eea311eb76e0"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../d5/d16/a00029.html#a971e94bcb8c43741d11f9d8eb98f5fab">GReal_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../db/d3a/a00040.html#a47e907ec0d80e4968708eea311eb76e0">fMin</a> [N]</td></tr>
+<tr class="separator:a47e907ec0d80e4968708eea311eb76e0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aba7ce92fb84fd14b3cfea10b96268f30"><td class="memItemLeft" align="right" valign="top">size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../db/d3a/a00040.html#aba7ce92fb84fd14b3cfea10b96268f30">fSeed</a></td></tr>
+<tr class="separator:aba7ce92fb84fd14b3cfea10b96268f30"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><h3>template&lt;size_t N, typename GRND = thrust::random::default_random_engine&gt;<br />
-class hydra::PhaseSpace&lt; N, GRND &gt;</h3>
+<div class="textblock"><h3>template&lt;typename GRND, typename FUNCTOR, size_t N&gt;<br />
+struct hydra::HyRndTrial&lt; GRND, FUNCTOR, N &gt;</h3>
 
 
-<p>Definition at line <a class="el" href="../../d5/d1e/a00103_source.html#l00080">80</a> of file <a class="el" href="../../d5/d1e/a00103_source.html">PhaseSpace.h</a>.</p>
+<p>Definition at line <a class="el" href="../../d8/d87/a00118_source.html#l00227">227</a> of file <a class="el" href="../../d8/d87/a00118_source.html">RandomUtils.h</a>.</p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
-<a class="anchor" id="aa6bc2388046a436042d3d223de49e446"></a>
+<a class="anchor" id="a7deab2100c6af767c89048d9e412f5a4"></a>
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;size_t N, typename GRND = thrust::random::default_random_engine&gt; </div>
+template&lt;typename GRND, typename FUNCTOR, size_t N&gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="../../db/d3a/a00040.html">hydra::PhaseSpace</a>&lt; N, GRND &gt;::<a class="el" href="../../db/d3a/a00040.html">PhaseSpace</a> </td>
+          <td class="memname"><a class="el" href="../../db/d3a/a00040.html">hydra::HyRndTrial</a>&lt; GRND, FUNCTOR, N &gt;::<a class="el" href="../../db/d3a/a00040.html">HyRndTrial</a> </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="../../d4/d51/a00017.html#a971e94bcb8c43741d11f9d8eb98f5fab">GReal_t</a>&#160;</td>
-          <td class="paramname"><em>_MotherMass</em>, </td>
+          <td class="paramtype">size_t&#160;</td>
+          <td class="paramname"><em>seed</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">vector&lt; <a class="el" href="../../d4/d51/a00017.html#a971e94bcb8c43741d11f9d8eb98f5fab">GReal_t</a> &gt;&#160;</td>
-          <td class="paramname"><em>_Masses</em>&#160;</td>
+          <td class="paramtype">FUNCTOR const &amp;&#160;</td>
+          <td class="paramname"><em>functor</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::array&lt; <a class="el" href="../../d5/d16/a00029.html#a971e94bcb8c43741d11f9d8eb98f5fab">GReal_t</a>, N &gt;&#160;</td>
+          <td class="paramname"><em>min</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::array&lt; <a class="el" href="../../d5/d16/a00029.html#a971e94bcb8c43741d11f9d8eb98f5fab">GReal_t</a>, N &gt;&#160;</td>
+          <td class="paramname"><em>max</em>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -189,26 +205,52 @@ template&lt;size_t N, typename GRND = thrust::random::default_random_engine&gt; 
   </tr>
 </table>
 </div><div class="memdoc">
-<p>Constructor of the phase-space generator takes as input parameters:</p><ul>
-<li>_MotherMass: the mass of the mother particle in Gev/c*c</li>
-<li>_Masses: STL vector with the mass of the daughter particles. </li>
-</ul>
 
-<p>Definition at line <a class="el" href="../../d5/d1e/a00103_source.html#l00089">89</a> of file <a class="el" href="../../d5/d1e/a00103_source.html">PhaseSpace.h</a>.</p>
+<p>Definition at line <a class="el" href="../../d8/d87/a00118_source.html#l00229">229</a> of file <a class="el" href="../../d8/d87/a00118_source.html">RandomUtils.h</a>.</p>
 
 </div>
 </div>
-<a class="anchor" id="a1c9e44472db8f827cb97701a7a0ae195"></a>
+<a class="anchor" id="a12b86e39cbb26342509ecccc815c05c3"></a>
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;size_t N, typename GRND = thrust::random::default_random_engine&gt; </div>
+template&lt;typename GRND, typename FUNCTOR, size_t N&gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="../../db/d3a/a00040.html">hydra::PhaseSpace</a>&lt; N, GRND &gt;::~<a class="el" href="../../db/d3a/a00040.html">PhaseSpace</a> </td>
+          <td class="memname">__host__ __device__ <a class="el" href="../../db/d3a/a00040.html">hydra::HyRndTrial</a>&lt; GRND, FUNCTOR, N &gt;::<a class="el" href="../../db/d3a/a00040.html">HyRndTrial</a> </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="../../db/d3a/a00040.html">HyRndTrial</a>&lt; GRND, FUNCTOR, N &gt; const &amp;&#160;</td>
+          <td class="paramname"><em>other</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="../../d8/d87/a00118_source.html#l00240">240</a> of file <a class="el" href="../../d8/d87/a00118_source.html">RandomUtils.h</a>.</p>
+
+<p>References <a class="el" href="../../da/dec/a00080_source.html#l00047">__hydra_exec_check_disable__</a>, <a class="el" href="../../d8/d87/a00118_source.html#l00276">hydra::HyRndTrial&lt; GRND, FUNCTOR, N &gt;::fMax</a>, and <a class="el" href="../../d8/d87/a00118_source.html#l00275">hydra::HyRndTrial&lt; GRND, FUNCTOR, N &gt;::fMin</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a0e1a6d7fbb8fa924c77252345bdd06ab"></a>
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename GRND, typename FUNCTOR, size_t N&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="../../da/dec/a00080.html#a0916cfff5efbb734ef0bc4dc20ffa31a">__hydra_exec_check_disable__</a> __host__ __device__ <a class="el" href="../../db/d3a/a00040.html">hydra::HyRndTrial</a>&lt; GRND, FUNCTOR, N &gt;::~<a class="el" href="../../db/d3a/a00040.html">HyRndTrial</a> </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td></td>
@@ -221,33 +263,33 @@ template&lt;size_t N, typename GRND = thrust::random::default_random_engine&gt; 
 </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="../../d5/d1e/a00103_source.html#l00114">114</a> of file <a class="el" href="../../d5/d1e/a00103_source.html">PhaseSpace.h</a>.</p>
+<p>Definition at line <a class="el" href="../../d8/d87/a00118_source.html#l00252">252</a> of file <a class="el" href="../../d8/d87/a00118_source.html">RandomUtils.h</a>.</p>
 
 </div>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
-<a class="anchor" id="a4ca0a20cd6c56424099b22b2bee2fa7e"></a>
+<a class="anchor" id="ada23cf08810fc2aa96dda7efbf67e961"></a>
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;size_t N, typename GRND = thrust::random::default_random_engine&gt; </div>
+template&lt;typename GRND, typename FUNCTOR, size_t N&gt; </div>
 <div class="memtemplate">
-template&lt;unsigned int BACKEND&gt; </div>
+template&lt;typename T &gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">void <a class="el" href="../../db/d3a/a00040.html">hydra::PhaseSpace</a>&lt; N, GRND &gt;::Generate </td>
+          <td class="memname">__host__ __device__ <a class="el" href="../../d5/d16/a00029.html#a971e94bcb8c43741d11f9d8eb98f5fab">GReal_t</a> <a class="el" href="../../db/d3a/a00040.html">hydra::HyRndTrial</a>&lt; GRND, FUNCTOR, N &gt;::operator() </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="../../d9/d73/a00060.html">Vector4R</a> const &amp;&#160;</td>
-          <td class="paramname"><em>mother</em>, </td>
+          <td class="paramtype">size_t&#160;</td>
+          <td class="paramname"><em>index</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype"><a class="el" href="../../d1/d2b/a00018.html">Events</a>&lt; N, BACKEND &gt; &amp;&#160;</td>
-          <td class="paramname"><em>events</em>&#160;</td>
+          <td class="paramtype">T &amp;&#160;</td>
+          <td class="paramname"><em>t</em>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -261,177 +303,92 @@ template&lt;unsigned int BACKEND&gt; </div>
   </tr>
 </table>
 </div><div class="memdoc">
-<p>Run the generator and calculate the maximum weight. It takes as input the fourvector of the mother particle in any system of reference. The daughters will be generated in this system.</p>
 
-<p>Definition at line <a class="el" href="../../d5/d1e/a00103_source.html#l00117">117</a> of file <a class="el" href="../../d5/d1e/a00103_source.html">PhaseSpace.h</a>.</p>
+<p>Definition at line <a class="el" href="../../d8/d87/a00118_source.html#l00256">256</a> of file <a class="el" href="../../d8/d87/a00118_source.html">RandomUtils.h</a>.</p>
+
+<p>References <a class="el" href="../../d8/d87/a00118_source.html#l00071">hydra::HyRndCDF&lt; GRND, FUNCTOR &gt;::fFunctor</a>, and <a class="el" href="../../d8/d87/a00118_source.html#l00070">hydra::HyRndCDF&lt; GRND, FUNCTOR &gt;::fSeed</a>.</p>
 
 </div>
 </div>
-<a class="anchor" id="a348046a32bafabb2280d8ae55785e613"></a>
+<h2 class="groupheader">Member Data Documentation</h2>
+<a class="anchor" id="a36acfabdaf39f58cc7bf34d53994180e"></a>
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;size_t N, typename GRND = thrust::random::default_random_engine&gt; </div>
-<div class="memtemplate">
-template&lt;unsigned int BACKEND&gt; </div>
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
+template&lt;typename GRND, typename FUNCTOR, size_t N&gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname">void <a class="el" href="../../db/d3a/a00040.html">hydra::PhaseSpace</a>&lt; N, GRND &gt;::Generate </td>
-          <td>(</td>
-          <td class="paramtype">typename <a class="el" href="../../d1/d2b/a00018.html">Events</a>&lt; N, BACKEND &gt;::vector_particles_iterator&#160;</td>
-          <td class="paramname"><em>mothers_begin</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">typename <a class="el" href="../../d1/d2b/a00018.html">Events</a>&lt; N, BACKEND &gt;::vector_particles_iterator&#160;</td>
-          <td class="paramname"><em>mothers_end</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"><a class="el" href="../../d1/d2b/a00018.html">Events</a>&lt; N, BACKEND &gt; &amp;&#160;</td>
-          <td class="paramname"><em>events</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
+          <td class="memname">FUNCTOR <a class="el" href="../../db/d3a/a00040.html">hydra::HyRndTrial</a>&lt; GRND, FUNCTOR, N &gt;::fFunctor</td>
         </tr>
       </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
-  </tr>
-</table>
 </div><div class="memdoc">
-<p>Run the generator and calculate the maximum weight. It takes as input the device vector with the four-vectors of the mother particle in any system of reference. The daughters will be generated in this system.</p>
 
-<p>Definition at line <a class="el" href="../../d5/d1e/a00103_source.html#l00135">135</a> of file <a class="el" href="../../d5/d1e/a00103_source.html">PhaseSpace.h</a>.</p>
-
-<p>References <a class="el" href="../../d1/d09/a00077_source.html#l00199">hydra::Events&lt; N, BACKEND &gt;::GetNEvents()</a>.</p>
-
-<p><div class="dynheader">
-Here is the call graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><iframe scrolling="no" frameborder="0" src="../../db/d3a/a00040_a348046a32bafabb2280d8ae55785e613_cgraph.svg" width="386" height="52"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
-</div>
-</p>
+<p>Definition at line <a class="el" href="../../d8/d87/a00118_source.html#l00273">273</a> of file <a class="el" href="../../d8/d87/a00118_source.html">RandomUtils.h</a>.</p>
 
 </div>
 </div>
-<a class="anchor" id="aefac1af443b1e192203940c72dc60844"></a>
+<a class="anchor" id="a2690a4ce12761777c8c032541f5cb0c1"></a>
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;size_t N, typename GRND = thrust::random::default_random_engine&gt; </div>
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
+template&lt;typename GRND, typename FUNCTOR, size_t N&gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="../../d4/d51/a00017.html#a0c9fb4d7195ab952da10a82d5c4ad30e">GInt_t</a> <a class="el" href="../../db/d3a/a00040.html">hydra::PhaseSpace</a>&lt; N, GRND &gt;::GetSeed </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td> const</td>
+          <td class="memname"><a class="el" href="../../d5/d16/a00029.html#a971e94bcb8c43741d11f9d8eb98f5fab">GReal_t</a> <a class="el" href="../../db/d3a/a00040.html">hydra::HyRndTrial</a>&lt; GRND, FUNCTOR, N &gt;::fMax[N]</td>
         </tr>
       </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
-  </tr>
-</table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="../../d5/d1e/a00103_source.html#l00162">162</a> of file <a class="el" href="../../d5/d1e/a00103_source.html">PhaseSpace.h</a>.</p>
+<p>Definition at line <a class="el" href="../../d8/d87/a00118_source.html#l00276">276</a> of file <a class="el" href="../../d8/d87/a00118_source.html">RandomUtils.h</a>.</p>
+
+<p>Referenced by <a class="el" href="../../d8/d87/a00118_source.html#l00240">hydra::HyRndTrial&lt; GRND, FUNCTOR, N &gt;::HyRndTrial()</a>.</p>
 
 </div>
 </div>
-<a class="anchor" id="a5c688b457b865b8440a938fa228ee891"></a>
+<a class="anchor" id="a47e907ec0d80e4968708eea311eb76e0"></a>
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;size_t N, typename GRND = thrust::random::default_random_engine&gt; </div>
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
+template&lt;typename GRND, typename FUNCTOR, size_t N&gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="../../d4/d51/a00017.html#a971e94bcb8c43741d11f9d8eb98f5fab">GReal_t</a> <a class="el" href="../../db/d3a/a00040.html">hydra::PhaseSpace</a>&lt; N, GRND &gt;::PDK </td>
-          <td>(</td>
-          <td class="paramtype">const <a class="el" href="../../d4/d51/a00017.html#a971e94bcb8c43741d11f9d8eb98f5fab">GReal_t</a>&#160;</td>
-          <td class="paramname"><em>a</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">const <a class="el" href="../../d4/d51/a00017.html#a971e94bcb8c43741d11f9d8eb98f5fab">GReal_t</a>&#160;</td>
-          <td class="paramname"><em>b</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">const <a class="el" href="../../d4/d51/a00017.html#a971e94bcb8c43741d11f9d8eb98f5fab">GReal_t</a>&#160;</td>
-          <td class="paramname"><em>c</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td> const</td>
+          <td class="memname"><a class="el" href="../../d5/d16/a00029.html#a971e94bcb8c43741d11f9d8eb98f5fab">GReal_t</a> <a class="el" href="../../db/d3a/a00040.html">hydra::HyRndTrial</a>&lt; GRND, FUNCTOR, N &gt;::fMin[N]</td>
         </tr>
       </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
-  </tr>
-</table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="../../d5/d1e/a00103_source.html#l00174">174</a> of file <a class="el" href="../../d5/d1e/a00103_source.html">PhaseSpace.h</a>.</p>
+<p>Definition at line <a class="el" href="../../d8/d87/a00118_source.html#l00275">275</a> of file <a class="el" href="../../d8/d87/a00118_source.html">RandomUtils.h</a>.</p>
+
+<p>Referenced by <a class="el" href="../../d8/d87/a00118_source.html#l00240">hydra::HyRndTrial&lt; GRND, FUNCTOR, N &gt;::HyRndTrial()</a>.</p>
 
 </div>
 </div>
-<a class="anchor" id="a00f0513cf6da8c4d0cd6fdee265c0ff3"></a>
+<a class="anchor" id="aba7ce92fb84fd14b3cfea10b96268f30"></a>
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;size_t N, typename GRND = thrust::random::default_random_engine&gt; </div>
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
+template&lt;typename GRND, typename FUNCTOR, size_t N&gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname">void <a class="el" href="../../db/d3a/a00040.html">hydra::PhaseSpace</a>&lt; N, GRND &gt;::SetSeed </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="../../d4/d51/a00017.html#a0c9fb4d7195ab952da10a82d5c4ad30e">GInt_t</a>&#160;</td>
-          <td class="paramname"><em>_seed</em></td><td>)</td>
-          <td></td>
+          <td class="memname">size_t <a class="el" href="../../db/d3a/a00040.html">hydra::HyRndTrial</a>&lt; GRND, FUNCTOR, N &gt;::fSeed</td>
         </tr>
       </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
-  </tr>
-</table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="../../d5/d1e/a00103_source.html#l00166">166</a> of file <a class="el" href="../../d5/d1e/a00103_source.html">PhaseSpace.h</a>.</p>
+<p>Definition at line <a class="el" href="../../d8/d87/a00118_source.html#l00274">274</a> of file <a class="el" href="../../d8/d87/a00118_source.html">RandomUtils.h</a>.</p>
 
 </div>
 </div>
-<hr/>The documentation for this class was generated from the following file:<ul>
-<li><a class="el" href="../../d5/d1e/a00103_source.html">PhaseSpace.h</a></li>
+<hr/>The documentation for this struct was generated from the following file:<ul>
+<li><a class="el" href="../../d8/d87/a00118_source.html">RandomUtils.h</a></li>
 </ul>
 </div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="../../d4/d51/a00017.html">hydra</a></li><li class="navelem"><a class="el" href="../../db/d3a/a00040.html">PhaseSpace</a></li>
-    <li class="footer">Generated on Wed Oct 12 2016 06:08:16 for Hydra by
+    <li class="navelem"><a class="el" href="../../d5/d16/a00029.html">hydra</a></li><li class="navelem"><a class="el" href="../../db/d3a/a00040.html">HyRndTrial</a></li>
+    <li class="footer">Generated on Thu Oct 13 2016 03:01:48 for Hydra by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="../../doxygen.png" alt="doxygen"/></a> 1.8.11 </li>
   </ul>

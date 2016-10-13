@@ -1,20 +1,20 @@
-<map id="HydraRandomExample.cpp" name="HydraRandomExample.cpp">
-<area shape="rect" id="node16" href="$d9/d4b/a00117.html" title="hydra/Types.h" alt="" coords="1427,401,1533,427"/>
-<area shape="rect" id="node17" href="$df/dc8/a00122.html" title="hydra/Vector4R.h" alt="" coords="2795,229,2919,256"/>
-<area shape="rect" id="node22" href="$d2/db1/a00070.html" title="Typedef for useful container classes used in MCBooster. " alt="" coords="2094,155,2226,181"/>
-<area shape="rect" id="node26" href="$d2/d1f/a00083.html" title="hydra/FunctorArithmetic.h" alt="" coords="1126,80,1298,107"/>
-<area shape="rect" id="node28" href="$d8/d53/a00081.html" title="hydra/Function.h" alt="" coords="1231,229,1350,256"/>
-<area shape="rect" id="node39" href="$d4/d63/a00082.html" title="hydra/FunctionWrapper.h" alt="" coords="641,155,809,181"/>
-<area shape="rect" id="node40" href="$dd/d6d/a00111.html" title="hydra/Random.h" alt="" coords="1881,80,1999,107"/>
-<area shape="rect" id="node19" href="$da/d24/a00068.html" title="hydra/detail/Config.h" alt="" coords="1890,401,2033,427"/>
-<area shape="rect" id="node20" href="$d8/dfa/a00121.html" title="hydra/Vector3R.h" alt="" coords="2507,311,2631,338"/>
-<area shape="rect" id="node27" href="$d4/d3e/a00116.html" title="hydra/detail/Sum.h" alt="" coords="1200,155,1331,181"/>
-<area shape="rect" id="node35" href="$da/d74/a00099.html" title="hydra/detail/Minus.h" alt="" coords="1068,229,1207,256"/>
-<area shape="rect" id="node36" href="$d0/d61/a00100.html" title="hydra/detail/Multiply.h" alt="" coords="844,229,993,256"/>
-<area shape="rect" id="node37" href="$db/db6/a00074.html" title="hydra/detail/Divide.h" alt="" coords="1660,229,1801,256"/>
-<area shape="rect" id="node38" href="$dc/ddf/a00067.html" title="hydra/detail/Compose.h" alt="" coords="1476,229,1636,256"/>
-<area shape="rect" id="node31" href="$d4/d98/a00120.html" title="hydra/detail/utility\l/Utility_Tuple.h" alt="" coords="1494,304,1618,345"/>
-<area shape="rect" id="node29" href="$d1/dd6/a00108.html" title="hydra/detail/Print.h" alt="" coords="1845,311,1976,338"/>
-<area shape="rect" id="node30" href="$d4/d3a/a00101.html" title="hydra/Parameter.h" alt="" coords="942,311,1071,338"/>
-<area shape="rect" id="node33" href="$df/d5d/a00084.html" title="hydra/detail/FunctorTraits.h" alt="" coords="533,311,715,338"/>
+<map id="FunctorTraits.h" name="FunctorTraits.h">
+<area shape="rect" id="node2" href="$d9/da5/a00075.html" title="AddPdf.h" alt="" coords="1548,229,1624,256"/>
+<area shape="rect" id="node5" href="$d1/dc1/a00092.html" title="Function.h" alt="" coords="891,80,974,107"/>
+<area shape="rect" id="node18" href="$d0/dc2/a00104.html" title="LogLikelihoodFCN.h" alt="" coords="1332,229,1472,256"/>
+<area shape="rect" id="node19" href="$d1/dd6/a00108.html" title="Pdf.h" alt="" coords="1469,155,1522,181"/>
+<area shape="rect" id="node3" href="$dd/dad/a00005.html" title="HydraFitExample take parameters from the command line, fill a range with random numbers sampled from ..." alt="" coords="1276,304,1424,331"/>
+<area shape="rect" id="node4" href="$de/d5e/a00007.html" title="HydraFitExample take parameters from the command line, fill a range with random numbers sampled from ..." alt="" coords="1449,304,1590,331"/>
+<area shape="rect" id="node6" href="$df/dc8/a00122.html" title="Sum.h" alt="" coords="849,155,909,181"/>
+<area shape="rect" id="node8" href="$d8/d84/a00001.html" title="This is an example of how to use hydra::Eval to evaluate C++11 lambdas using the OpenMP backend..." alt="" coords="438,304,622,331"/>
+<area shape="rect" id="node9" href="$d1/d7c/a00003.html" title="This is an example of how to use hydra::Eval to evaluate C++11 lambdas using the CUDA backend..." alt="" coords="5,304,183,331"/>
+<area shape="rect" id="node10" href="$da/da0/a00009.html" title="HydraPhaseSpaceExample take parameters from the command line and generates sample of 3&#45;body phase&#45;spa..." alt="" coords="207,304,413,331"/>
+<area shape="rect" id="node11" href="$da/d45/a00011.html" title="HydraPhaseSpaceExample take parameters from the command line and generates sample of 3&#45;body phase&#45;spa..." alt="" coords="646,304,846,331"/>
+<area shape="rect" id="node12" href="$d7/dd4/a00013.html" title="HydraRandomExample take parameters from the command line and generates random samples in one..." alt="" coords="1069,304,1252,331"/>
+<area shape="rect" id="node13" href="$dd/d1b/a00015.html" title="HydraRandomExample take parameters from the command line and generates random samples in one..." alt="" coords="871,304,1045,331"/>
+<area shape="rect" id="node14" href="$d1/d1e/a00087.html" title="Evaluate.h" alt="" coords="425,229,509,256"/>
+<area shape="rect" id="node15" href="$d4/d7d/a00093.html" title="FunctionWrapper.h" alt="" coords="585,229,717,256"/>
+<area shape="rect" id="node16" href="$db/dab/a00089.html" title="Exp.h" alt="" coords="1201,229,1257,256"/>
+<area shape="rect" id="node17" href="$d9/df8/a00096.html" title="Gauss.h" alt="" coords="1105,229,1176,256"/>
+<area shape="rect" id="node7" href="$dc/d54/a00094.html" title="FunctorArithmetic.h" alt="" coords="793,229,929,256"/>
 </map>

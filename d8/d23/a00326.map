@@ -1,2 +1,2 @@
-<map id="hydra::PhaseSpace&lt; N, GRND &gt;" name="hydra::PhaseSpace&lt; N, GRND &gt;">
+<map id="hydra::LogLikelihood&lt; FUNCTOR, IteratorData, IteratorCache &gt;" name="hydra::LogLikelihood&lt; FUNCTOR, IteratorData, IteratorCache &gt;">
 </map>

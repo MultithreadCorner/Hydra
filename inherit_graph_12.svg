@@ -15,7 +15,7 @@
 </g>
 <!-- Node2 -->
 <g id="node2" class="node"><title>Node2</title>
-<g id="a_node2"><a xlink:href="db/db2/a00020.html" target="_top" xlink:title="hydra::FCN\&lt; LogLikelihood\lFCN\&lt; FUNCTOR, IteratorData,\l IteratorCache \&gt;, IteratorData,\l IteratorCache \&gt;">
+<g id="a_node2"><a xlink:href="dc/d87/a00032.html" target="_top" xlink:title="hydra::FCN\&lt; LogLikelihood\lFCN\&lt; FUNCTOR, IteratorData,\l IteratorCache \&gt;, IteratorData,\l IteratorCache \&gt;">
 <polygon fill="none" stroke="black" points="96,-49.5 96,-101.5 253,-101.5 253,-49.5 96,-49.5"/>
 <text text-anchor="start" x="104" y="-89.5" font-family="Helvetica,sans-Serif" font-size="10.00">hydra::FCN&lt; LogLikelihood</text>
 <text text-anchor="start" x="104" y="-78.5" font-family="Helvetica,sans-Serif" font-size="10.00">FCN&lt; FUNCTOR, IteratorData,</text>
@@ -31,7 +31,7 @@
 </g>
 <!-- Node4 -->
 <g id="node4" class="node"><title>Node4</title>
-<g id="a_node4"><a xlink:href="db/db2/a00020.html" target="_top" xlink:title="hydra::FCN\&lt; ESTIMATOR,\l IteratorData, IteratorCache \&gt;">
+<g id="a_node4"><a xlink:href="dc/d87/a00032.html" target="_top" xlink:title="hydra::FCN\&lt; ESTIMATOR,\l IteratorData, IteratorCache \&gt;">
 <polygon fill="none" stroke="black" points="101.5,-0.5 101.5,-30.5 247.5,-30.5 247.5,-0.5 101.5,-0.5"/>
 <text text-anchor="start" x="109.5" y="-18.5" font-family="Helvetica,sans-Serif" font-size="10.00">hydra::FCN&lt; ESTIMATOR,</text>
 <text text-anchor="middle" x="174.5" y="-7.5" font-family="Helvetica,sans-Serif" font-size="10.00"> IteratorData, IteratorCache &gt;</text>
@@ -45,7 +45,7 @@
 </g>
 <!-- Node3 -->
 <g id="node3" class="node"><title>Node3</title>
-<g id="a_node3"><a xlink:href="d4/d8c/a00035.html" target="_top" xlink:title="hydra::LogLikelihoodFCN\l\&lt; FUNCTOR, IteratorData,\l IteratorCache \&gt;">
+<g id="a_node3"><a xlink:href="d6/d2d/a00047.html" target="_top" xlink:title="hydra::LogLikelihoodFCN\l\&lt; FUNCTOR, IteratorData,\l IteratorCache \&gt;">
 <polygon fill="none" stroke="black" points="289,-55 289,-96 425,-96 425,-55 289,-55"/>
 <text text-anchor="start" x="297" y="-84" font-family="Helvetica,sans-Serif" font-size="10.00">hydra::LogLikelihoodFCN</text>
 <text text-anchor="start" x="297" y="-73" font-family="Helvetica,sans-Serif" font-size="10.00">&lt; FUNCTOR, IteratorData,</text>

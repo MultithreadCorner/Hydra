@@ -1,20 +1,20 @@
-<map id="Parameter.h" name="Parameter.h">
-<area shape="rect" id="node2" href="$d1/d6f/a00063.html" title="AddPdf.h" alt="" coords="278,229,354,256"/>
-<area shape="rect" id="node3" href="$db/dab/a00089.html" title="HydraFitExample.cpp" alt="" coords="358,304,506,331"/>
-<area shape="rect" id="node4" href="$d9/dec/a00090.html" title="HydraFitExample.cu" alt="" coords="192,304,334,331"/>
-<area shape="rect" id="node5" href="$d8/d53/a00081.html" title="Function.h" alt="" coords="755,80,838,107"/>
-<area shape="rect" id="node16" href="$d9/da4/a00078.html" title="Exp.h" alt="" coords="531,229,587,256"/>
-<area shape="rect" id="node17" href="$df/d13/a00085.html" title="Gauss.h" alt="" coords="612,229,682,256"/>
-<area shape="rect" id="node18" href="$d9/dcc/a00102.html" title="Pdf.h" alt="" coords="214,155,267,181"/>
-<area shape="rect" id="node19" href="$df/d6a/a00119.html" title="UserParameters.h" alt="" coords="24,229,152,256"/>
-<area shape="rect" id="node6" href="$d4/d3e/a00116.html" title="Sum.h" alt="" coords="914,155,974,181"/>
-<area shape="rect" id="node8" href="$d1/d7c/a00003.html" title="HydraEvaluateExample take parameters from the command line, fill a range with random numbers and eval..." alt="" coords="986,304,1170,331"/>
-<area shape="rect" id="node9" href="$d8/d84/a00001.html" title="HydraEvaluateExample takes parameters from the command line, fill a range with random numbers and eva..." alt="" coords="1194,304,1372,331"/>
-<area shape="rect" id="node10" href="$da/d82/a00091.html" title="HydraPhaseSpaceExample.cpp" alt="" coords="530,304,737,331"/>
-<area shape="rect" id="node11" href="$d1/dc1/a00092.html" title="HydraPhaseSpaceExample.cu" alt="" coords="762,304,962,331"/>
-<area shape="rect" id="node12" href="$d4/d7d/a00093.html" title="HydraRandomExample.cpp" alt="" coords="1396,304,1578,331"/>
-<area shape="rect" id="node13" href="$dc/d54/a00094.html" title="HydraRandomExample.cu" alt="" coords="1602,304,1777,331"/>
-<area shape="rect" id="node14" href="$db/df8/a00076.html" title="Evaluate.h" alt="" coords="809,229,893,256"/>
-<area shape="rect" id="node15" href="$d4/d63/a00082.html" title="FunctionWrapper.h" alt="" coords="1129,229,1261,256"/>
-<area shape="rect" id="node7" href="$d2/d1f/a00083.html" title="FunctorArithmetic.h" alt="" coords="918,229,1054,256"/>
+<map id="HydraRandomExample.cu" name="HydraRandomExample.cu">
+<area shape="rect" id="node10" href="$de/d36/a00123.html" title="hydra/Types.h" alt="" coords="829,401,935,427"/>
+<area shape="rect" id="node11" href="$d1/d88/a00128.html" title="hydra/Vector4R.h" alt="" coords="2785,229,2909,256"/>
+<area shape="rect" id="node16" href="$d4/d63/a00082.html" title="Typedef for useful container classes used in MCBooster. " alt="" coords="2435,155,2567,181"/>
+<area shape="rect" id="node20" href="$dc/d54/a00094.html" title="hydra/FunctorArithmetic.h" alt="" coords="511,80,683,107"/>
+<area shape="rect" id="node23" href="$d1/dc1/a00092.html" title="hydra/Function.h" alt="" coords="1300,229,1419,256"/>
+<area shape="rect" id="node37" href="$d4/d7d/a00093.html" title="hydra/FunctionWrapper.h" alt="" coords="1669,155,1837,181"/>
+<area shape="rect" id="node40" href="$d9/d4b/a00117.html" title="hydra/Random.h" alt="" coords="1747,80,1865,107"/>
+<area shape="rect" id="node13" href="$da/dec/a00080.html" title="hydra/detail/Config.h" alt="" coords="1728,401,1871,427"/>
+<area shape="rect" id="node14" href="$df/dcd/a00127.html" title="hydra/Vector3R.h" alt="" coords="2527,311,2651,338"/>
+<area shape="rect" id="node21" href="$df/dc8/a00122.html" title="hydra/detail/Sum.h" alt="" coords="319,155,450,181"/>
+<area shape="rect" id="node33" href="$d3/d32/a00105.html" title="hydra/detail/Minus.h" alt="" coords="694,229,833,256"/>
+<area shape="rect" id="node34" href="$d7/d70/a00106.html" title="hydra/detail/Multiply.h" alt="" coords="162,229,311,256"/>
+<area shape="rect" id="node35" href="$da/d2a/a00086.html" title="hydra/detail/Divide.h" alt="" coords="529,229,670,256"/>
+<area shape="rect" id="node36" href="$d1/d51/a00079.html" title="hydra/detail/Compose.h" alt="" coords="857,229,1017,256"/>
+<area shape="rect" id="node26" href="$d7/d12/a00126.html" title="hydra/detail/utility\l/Utility_Tuple.h" alt="" coords="337,304,461,345"/>
+<area shape="rect" id="node24" href="$d8/d17/a00114.html" title="hydra/detail/Print.h" alt="" coords="2017,311,2147,338"/>
+<area shape="rect" id="node25" href="$df/d98/a00107.html" title="hydra/Parameter.h" alt="" coords="1863,311,1992,338"/>
+<area shape="rect" id="node29" href="$d9/d77/a00095.html" title="hydra/detail/FunctorTraits.h" alt="" coords="537,311,718,338"/>
 </map>

@@ -55,6 +55,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
   <div id="navrow1" class="tabs">
     <ul class="tablist">
       <li class="current"><a href="index.html"><span>Main&#160;Page</span></a></li>
+      <li><a href="modules.html"><span>Modules</span></a></li>
       <li><a href="namespaces.html"><span>Namespaces</span></a></li>
       <li><a href="annotated.html"><span>Classes</span></a></li>
       <li><a href="files.html"><span>Files</span></a></li>
@@ -136,7 +137,7 @@ $(document).ready(function(){initNavTree('index.html','');});
 <p>The version of Thrust distributed with Hydra is maintained by <a href="https://github.com/MultithreadCorner">MultithreadCorner</a>. It is basically a fork of Currigan's repository, which is merged with the latest official release, distributed with the <a href="https://developer.nvidia.com/cuda-toolkit">CUDA Tookit</a>.</p>
 <p>***Hydra does not compile against the official Thrust library.***</p>
 <h2>Supported Paralels Backends </h2>
-<p>Hydra uses the Thrust's "backend systems" to control how the algorithms algorithms get mapped to and executed on the parallel processors available to a given application. There are two basic ways to access Thrust's systems: by specifying the global "device" system associated with types like <code>thrust::device_vector</code>, or by selecting a specific container associated with a particular system, such as <code>thrust::cuda::vector</code>. These two approaches are complementary and may be used together within the same program. Hydra library defines the symbols <code><a class="el" href="d4/d51/a00017.html#affa98535d8b843dd9ff514f9adf208fda5f25d739f545c5173b09c144f23312c2">hydra::device</a></code> and <code><a class="el" href="d4/d51/a00017.html#affa98535d8b843dd9ff514f9adf208fdac1a062b9d21f1006cfcc920792730bc4">hydra::host</a></code> that controls where some algorithms are executed and Hydra's specialized containers are allocated. The backends are selected in compile time using the macros <code>THRUST_HOST_SYSTEM</code> and <code>THRUST_DEVICE_SYSTEM</code>. The following backdends are available:</p>
+<p>Hydra uses the Thrust's "backend systems" to control how the algorithms algorithms get mapped to and executed on the parallel processors available to a given application. There are two basic ways to access Thrust's systems: by specifying the global "device" system associated with types like <code>thrust::device_vector</code>, or by selecting a specific container associated with a particular system, such as <code>thrust::cuda::vector</code>. These two approaches are complementary and may be used together within the same program. Hydra library defines the symbols <code><a class="el" href="d5/d16/a00029.html#affa98535d8b843dd9ff514f9adf208fda5f25d739f545c5173b09c144f23312c2">hydra::device</a></code> and <code><a class="el" href="d5/d16/a00029.html#affa98535d8b843dd9ff514f9adf208fdac1a062b9d21f1006cfcc920792730bc4">hydra::host</a></code> that controls where some algorithms are executed and Hydra's specialized containers are allocated. The backends are selected in compile time using the macros <code>THRUST_HOST_SYSTEM</code> and <code>THRUST_DEVICE_SYSTEM</code>. The following backdends are available:</p>
 <ul>
 <li>host: THRUST_HOST_SYSTEM_CPP, THRUST_HOST_SYSTEM_OMP, THRUST_HOST_SYSTEM_TBB</li>
 <li>device: THRUST_DEVICE_SYSTEM_CPP, THRUST_DEVICE_SYSTEM_OMP, THRUST_DEVICE_SYSTEM_TBB, THRUST_DEVICE_SYSTEM_CUDA</li>
@@ -197,7 +198,7 @@ $(document).ready(function(){initNavTree('index.html','');});
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="footer">Generated on Wed Oct 12 2016 06:08:16 for Hydra by
+    <li class="footer">Generated on Thu Oct 13 2016 03:01:48 for Hydra by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.11 </li>
   </ul>

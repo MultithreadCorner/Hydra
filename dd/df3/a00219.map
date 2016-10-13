@@ -1,12 +1,5 @@
-<map id="PointVector.h" name="PointVector.h">
-<area shape="rect" id="node2" href="$d1/d84/a00097.html" title="LogLikelihood.h" alt="" coords="146,80,258,107"/>
-<area shape="rect" id="node5" href="$db/dab/a00089.html" title="HydraFitExample.cpp" alt="" coords="5,304,153,331"/>
-<area shape="rect" id="node6" href="$d9/dec/a00090.html" title="HydraFitExample.cu" alt="" coords="178,304,319,331"/>
-<area shape="rect" id="node7" href="$dd/d6d/a00111.html" title="Random.h" alt="" coords="394,229,477,256"/>
-<area shape="rect" id="node3" href="$d1/d51/a00079.html" title="FCN.h" alt="" coords="131,155,193,181"/>
-<area shape="rect" id="node4" href="$d1/d44/a00098.html" title="LogLikelihoodFCN.h" alt="" coords="117,229,257,256"/>
-<area shape="rect" id="node8" href="$d1/d7c/a00003.html" title="HydraEvaluateExample take parameters from the command line, fill a range with random numbers and eval..." alt="" coords="750,304,934,331"/>
-<area shape="rect" id="node9" href="$d8/d84/a00001.html" title="HydraEvaluateExample takes parameters from the command line, fill a range with random numbers and eva..." alt="" coords="959,304,1136,331"/>
-<area shape="rect" id="node10" href="$d4/d7d/a00093.html" title="HydraRandomExample.cpp" alt="" coords="344,304,527,331"/>
-<area shape="rect" id="node11" href="$dc/d54/a00094.html" title="HydraRandomExample.cu" alt="" coords="551,304,725,331"/>
+<map id="Pdf.h" name="Pdf.h">
+<area shape="rect" id="node2" href="$d9/da5/a00075.html" title="AddPdf.h" alt="" coords="124,80,200,107"/>
+<area shape="rect" id="node3" href="$dd/dad/a00005.html" title="HydraFitExample take parameters from the command line, fill a range with random numbers sampled from ..." alt="" coords="5,155,153,181"/>
+<area shape="rect" id="node4" href="$de/d5e/a00007.html" title="HydraFitExample take parameters from the command line, fill a range with random numbers sampled from ..." alt="" coords="178,155,319,181"/>
 </map>

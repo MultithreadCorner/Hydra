@@ -1,14 +1,8 @@
 var a00122 =
 [
-    [ "Vector4R", "d9/d73/a00060.html", "d9/d73/a00060" ],
-    [ "boostTo", "df/dc8/a00122.html#a52d2bb64b855258800238a7263f26699", null ],
-    [ "boostTo", "df/dc8/a00122.html#a56aaad7de821363b5a3f6a3853688a5f", null ],
-    [ "operator*", "df/dc8/a00122.html#ab8059091b90cfa8bfd6a7bbabf84e851", null ],
-    [ "operator*", "df/dc8/a00122.html#a8ea48ebde3804da5519a849fd697a9ed", null ],
-    [ "operator*", "df/dc8/a00122.html#acc68502df5d8b6b8f5fba9b1ba7ac2e9", null ],
-    [ "operator+", "df/dc8/a00122.html#a8d67c62da7414fa54685256891397394", null ],
-    [ "operator-", "df/dc8/a00122.html#ab920ce4c223b458acbce8f3dec8a4a77", null ],
-    [ "operator/", "df/dc8/a00122.html#a50088fd950900d64d11e9de4bbc0267e", null ],
-    [ "operator<<", "df/dc8/a00122.html#aaacce78528c9499de97312cbe606ece4", null ],
-    [ "rotateEuler", "df/dc8/a00122.html#ab53a2a0ba453b6b2a3372941b6e17fbc", null ]
+    [ "Sum", "da/d24/a00068.html", "da/d24/a00068" ],
+    [ "operator+", "df/dc8/a00122.html#ac71a6353509fb42628cb8cb677b1e580", null ],
+    [ "operator+", "df/dc8/a00122.html#a38fefe9fcea2b9c4770e7ee42c98dfa7", null ],
+    [ "operator+", "df/dc8/a00122.html#a099a6b58b45d6bcb7a10985101771603", null ],
+    [ "sum", "df/dc8/a00122.html#aee5273a252e7fa6761ec8e77f8b713ef", null ]
 ];

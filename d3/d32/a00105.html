@@ -4,7 +4,7 @@
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.11"/>
-<title>Hydra: PlainState.h File Reference</title>
+<title>Hydra: Minus.h File Reference</title>
 <link href="../../tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="../../jquery.js"></script>
 <script type="text/javascript" src="../../dynsections.js"></script>
@@ -55,6 +55,7 @@ var searchBox = new SearchBox("searchBox", "../../search",false,'Search');
   <div id="navrow1" class="tabs">
     <ul class="tablist">
       <li><a href="../../index.html"><span>Main&#160;Page</span></a></li>
+      <li><a href="../../modules.html"><span>Modules</span></a></li>
       <li><a href="../../namespaces.html"><span>Namespaces</span></a></li>
       <li><a href="../../annotated.html"><span>Classes</span></a></li>
       <li class="current"><a href="../../files.html"><span>Files</span></a></li>
@@ -115,42 +116,58 @@ $(document).ready(function(){initNavTree('d3/d32/a00105.html','../../');});
 <div class="header">
   <div class="summary">
 <a href="#nested-classes">Classes</a> &#124;
-<a href="#namespaces">Namespaces</a>  </div>
+<a href="#namespaces">Namespaces</a> &#124;
+<a href="#func-members">Functions</a>  </div>
   <div class="headertitle">
-<div class="title">PlainState.h File Reference</div>  </div>
+<div class="title">Minus.h File Reference<div class="ingroups"><a class="el" href="../../d2/df5/a00137.html">Functor Arithmetic</a></div></div>  </div>
 </div><!--header-->
 <div class="contents">
 <div class="textblock"><div class="dynheader">
-Include dependency graph for PlainState.h:</div>
+Include dependency graph for Minus.h:</div>
 <div class="dyncontent">
-<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="../../da/de7/a00210.svg" width="100%" height="462"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
+<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="../../dd/dc1/a00212.svg" width="100%" height="600"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
 </div>
 </div><div class="textblock"><div class="dynheader">
 This graph shows which files directly or indirectly include this file:</div>
 <div class="dyncontent">
-<div class="center"><iframe scrolling="no" frameborder="0" src="../../dd/ded/a00211.svg" width="208" height="262"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="../../d1/de1/a00213.svg" width="100%" height="440"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+</div>
 </div>
 </div>
 <p><a href="../../d3/d32/a00105_source.html">Go to the source code of this file.</a></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="nested-classes"></a>
 Classes</h2></td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d5/db6/a00042.html">hydra::PlainState</a></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d4/dca/a00048.html">hydra::Minus&lt; F1, F2 &gt;</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="namespaces"></a>
 Namespaces</h2></td></tr>
-<tr class="memitem:d4/d51/a00017"><td class="memItemLeft" align="right" valign="top"> &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d4/d51/a00017.html">hydra</a></td></tr>
-<tr class="memdesc:d4/d51/a00017"><td class="mdescLeft">&#160;</td><td class="mdescRight">Variable object to use on types convertible to double. <br /></td></tr>
+<tr class="memitem:d5/d16/a00029"><td class="memItemLeft" align="right" valign="top"> &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d5/d16/a00029.html">hydra</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
+Functions</h2></td></tr>
+<tr class="memitem:aa9c135b2a31b8adc650408759756cd30"><td class="memTemplParams" colspan="2">template&lt;typename T1 , typename T2 , typename  = typename std::enable_if&lt; T1::is_functor::value &amp;&amp; T2::is_functor::value&gt;::type&gt; </td></tr>
+<tr class="memitem:aa9c135b2a31b8adc650408759756cd30"><td class="memTemplItemLeft" align="right" valign="top">__host__ __device__ Minus&lt; T1, T2 &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="../../d5/d16/a00029.html#aa9c135b2a31b8adc650408759756cd30">hydra::minus</a> (T1 const &amp;F1, T1 const &amp;F2)</td></tr>
+<tr class="separator:aa9c135b2a31b8adc650408759756cd30"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afd8d70910231348dc233cc60f55c07ae"><td class="memTemplParams" colspan="2">template&lt;typename T1 , typename T2 , typename  = typename std::enable_if&lt; T1::is_functor::value &amp;&amp; T2::is_functor::value&gt;&gt; </td></tr>
+<tr class="memitem:afd8d70910231348dc233cc60f55c07ae"><td class="memTemplItemLeft" align="right" valign="top">__host__ Minus&lt; T1, T2 &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="../../d5/d16/a00029.html#afd8d70910231348dc233cc60f55c07ae">hydra::operator-</a> (T1 const &amp;F1, T2 const &amp;F2)</td></tr>
+<tr class="separator:afd8d70910231348dc233cc60f55c07ae"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a44ae849dd2d74a7d93322306d7679750"><td class="memTemplParams" colspan="2">template&lt;typename T1 , typename T2 , typename  = typename std::enable_if&lt; (std::is_convertible&lt;T1, double&gt;::value ||		std::is_constructible&lt;thrust::complex&lt;double&gt;,T1&gt;::value) &amp;&amp; T2::is_functor::value&gt;::type&gt; </td></tr>
+<tr class="memitem:a44ae849dd2d74a7d93322306d7679750"><td class="memTemplItemLeft" align="right" valign="top">__host__ Minus&lt; Constant&lt; T1 &gt;, T2 &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="../../d5/d16/a00029.html#a44ae849dd2d74a7d93322306d7679750">hydra::operator-</a> (T1 const cte, T2 const &amp;F2)</td></tr>
+<tr class="separator:a44ae849dd2d74a7d93322306d7679750"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8f3c44006ca3b703c77189d746e6323d"><td class="memTemplParams" colspan="2">template&lt;typename T1 , typename T2 , typename  = typename std::enable_if&lt; (std::is_convertible&lt;T1, double&gt;::value ||		std::is_constructible&lt;thrust::complex&lt;double&gt;,T1&gt;::value) &amp;&amp; T2::is_functor::value&gt;::type&gt; </td></tr>
+<tr class="memitem:a8f3c44006ca3b703c77189d746e6323d"><td class="memTemplItemLeft" align="right" valign="top">__host__ Minus&lt; T2, Constant&lt; T1 &gt; &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="../../d5/d16/a00029.html#a8f3c44006ca3b703c77189d746e6323d">hydra::operator-</a> (T2 const &amp;F2, T1 const cte)</td></tr>
+<tr class="separator:a8f3c44006ca3b703c77189d746e6323d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 </div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="../../dir_92a1ff494355b06c14c0e1fe7b982d29.html">Hydra</a></li><li class="navelem"><a class="el" href="../../dir_108162cc96056bf8ace3602d16680a1c.html">hydra</a></li><li class="navelem"><a class="el" href="../../d3/d32/a00105.html">PlainState.h</a></li>
-    <li class="footer">Generated on Wed Oct 12 2016 06:08:16 for Hydra by
+    <li class="navelem"><a class="el" href="../../dir_92a1ff494355b06c14c0e1fe7b982d29.html">Hydra</a></li><li class="navelem"><a class="el" href="../../dir_108162cc96056bf8ace3602d16680a1c.html">hydra</a></li><li class="navelem"><a class="el" href="../../dir_3834ae61da54c887219d23c23fa56bea.html">detail</a></li><li class="navelem"><a class="el" href="../../d3/d32/a00105.html">Minus.h</a></li>
+    <li class="footer">Generated on Thu Oct 13 2016 03:01:48 for Hydra by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="../../doxygen.png" alt="doxygen"/></a> 1.8.11 </li>
   </ul>

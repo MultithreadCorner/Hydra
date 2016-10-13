@@ -10,7 +10,7 @@
 <title>Graphical Class Hierarchy</title>
 <!-- Node1 -->
 <g id="node1" class="node"><title>Node1</title>
-<g id="a_node1"><a xlink:href="d4/dee/a00008.html" target="_top" xlink:title="hydra::BaseFunctor\l\&lt; Gauss, GReal_t, 2 \&gt;">
+<g id="a_node1"><a xlink:href="db/db2/a00020.html" target="_top" xlink:title="hydra::BaseFunctor\l\&lt; Gauss, GReal_t, 2 \&gt;">
 <polygon fill="none" stroke="black" points="0,-61 0,-91 116,-91 116,-61 0,-61"/>
 <text text-anchor="start" x="8" y="-79" font-family="Helvetica,sans-Serif" font-size="10.00">hydra::BaseFunctor</text>
 <text text-anchor="middle" x="58" y="-68" font-family="Helvetica,sans-Serif" font-size="10.00">&lt; Gauss, GReal_t, 2 &gt;</text>
@@ -19,7 +19,7 @@
 </g>
 <!-- Node2 -->
 <g id="node2" class="node"><title>Node2</title>
-<g id="a_node2"><a xlink:href="d7/de0/a00022.html" target="_top" xlink:title="Gauss\&lt; N \&gt;">
+<g id="a_node2"><a xlink:href="db/df3/a00034.html" target="_top" xlink:title="Multidimensional Gaussian distribution. ">
 <polygon fill="none" stroke="black" points="152,-38.5 152,-57.5 223,-57.5 223,-38.5 152,-38.5"/>
 <text text-anchor="middle" x="187.5" y="-45.5" font-family="Helvetica,sans-Serif" font-size="10.00">Gauss&lt; N &gt;</text>
 </a>
@@ -32,7 +32,7 @@
 </g>
 <!-- Node3 -->
 <g id="node3" class="node"><title>Node3</title>
-<g id="a_node3"><a xlink:href="d4/dee/a00008.html" target="_top" xlink:title="hydra::BaseFunctor\l\&lt; Gauss\&lt; N \&gt;, GReal\l_t, 0 \&gt;">
+<g id="a_node3"><a xlink:href="db/db2/a00020.html" target="_top" xlink:title="hydra::BaseFunctor\l\&lt; Gauss\&lt; N \&gt;, GReal\l_t, 0 \&gt;">
 <polygon fill="none" stroke="black" points="1.5,-0.5 1.5,-41.5 114.5,-41.5 114.5,-0.5 1.5,-0.5"/>
 <text text-anchor="start" x="9.5" y="-29.5" font-family="Helvetica,sans-Serif" font-size="10.00">hydra::BaseFunctor</text>
 <text text-anchor="start" x="9.5" y="-18.5" font-family="Helvetica,sans-Serif" font-size="10.00">&lt; Gauss&lt; N &gt;, GReal</text>

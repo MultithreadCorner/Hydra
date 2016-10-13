@@ -4,7 +4,7 @@
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.11"/>
-<title>Hydra: HydraEvaluateExample.cpp File Reference</title>
+<title>Hydra: HydraEvaluateExample.cu File Reference</title>
 <link href="../../tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="../../jquery.js"></script>
 <script type="text/javascript" src="../../dynsections.js"></script>
@@ -55,6 +55,7 @@ var searchBox = new SearchBox("searchBox", "../../search",false,'Search');
   <div id="navrow1" class="tabs">
     <ul class="tablist">
       <li><a href="../../index.html"><span>Main&#160;Page</span></a></li>
+      <li><a href="../../modules.html"><span>Modules</span></a></li>
       <li><a href="../../namespaces.html"><span>Namespaces</span></a></li>
       <li><a href="../../annotated.html"><span>Classes</span></a></li>
       <li class="current"><a href="../../files.html"><span>Files</span></a></li>
@@ -116,41 +117,35 @@ $(document).ready(function(){initNavTree('d1/d7c/a00003.html','../../');});
   <div class="summary">
 <a href="#func-members">Functions</a>  </div>
   <div class="headertitle">
-<div class="title">HydraEvaluateExample.cpp File Reference</div>  </div>
+<div class="title">HydraEvaluateExample.cu File Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
 
-<p>HydraEvaluateExample take parameters from the command line, fill a range with random numbers and evaluate C++11 lambdas in parallel using the OpenMP backend.  
+<p>This is an example of how to use <a class="el" href="../../d5/d16/a00029.html#a792f64fe5b6422f76bcf028f92ac2861">hydra::Eval</a> to evaluate C++11 lambdas using the CUDA backend.  
 <a href="#details">More...</a></p>
 <div class="textblock"><div class="dynheader">
-Include dependency graph for HydraEvaluateExample.cpp:</div>
+Include dependency graph for HydraEvaluateExample.cu:</div>
 <div class="dyncontent">
-<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="../../dc/d52/a00183.svg" width="100%" height="600"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
+<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="../../d7/ded/a00196.svg" width="100%" height="600"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
 </div>
 </div>
 <p><a href="../../d1/d7c/a00003_source.html">Go to the source code of this file.</a></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:a32c166bdb75e9b204c87878f510ea1c5"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../d4/d51/a00017.html#a0c9fb4d7195ab952da10a82d5c4ad30e">GInt_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/d7c/a00003.html#a32c166bdb75e9b204c87878f510ea1c5">main</a> (int argv, char **argc)</td></tr>
+<tr class="memitem:a32c166bdb75e9b204c87878f510ea1c5"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../d5/d16/a00029.html#a0c9fb4d7195ab952da10a82d5c4ad30e">GInt_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/d7c/a00003.html#a32c166bdb75e9b204c87878f510ea1c5">main</a> (int argv, char **argc)</td></tr>
 <tr class="separator:a32c166bdb75e9b204c87878f510ea1c5"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">-n</td><td>( &ndash;number-of-events) is number of events to run the example </td></tr>
-  </table>
-  </dd>
-</dl>
-
-<p>Definition in file <a class="el" href="../../d1/d7c/a00003_source.html">HydraEvaluateExample.cpp</a>.</p>
+<div class="textblock"><p>The usage and the expected output is something like this: </p><div class="fragment"><div class="line"> ./Hydra_Example_NVCC_DEVICE_CUDA_HOST_OMP_Eval -n=10000000</div><div class="line"></div><div class="line">--------------------------------------------------------------</div><div class="line">| Evaluation of [sin(x), cos(x)]</div><div class="line">| Time (ms) = 0.268075</div><div class="line">--------------------------------------------------------------</div><div class="line">--------------------------------------------------------------</div><div class="line">| Evaluation of [sin(x)^2 + cos(x)^2]</div><div class="line">| Time (ms) = 0.213697</div><div class="line">--------------------------------------------------------------</div><div class="line">|&gt;   0 [sin(x), cos(x)] = (-0.252592278 -0.967572809) ............... [sin(x)^2 + cos(x)^2] = 1</div><div class="line">|&gt;   1 [sin(x), cos(x)] = (0.932195527 -0.361955107) ............... [sin(x)^2 + cos(x)^2] = 1</div><div class="line">|&gt;   2 [sin(x), cos(x)] = (0.585050502 0.810996862) ............... [sin(x)^2 + cos(x)^2] = 1</div><div class="line">|&gt;   3 [sin(x), cos(x)] = (0.851355528 0.524589139) ............... [sin(x)^2 + cos(x)^2] = 1</div><div class="line">|&gt;   4 [sin(x), cos(x)] = (0.921620144 0.388093171) ............... [sin(x)^2 + cos(x)^2] = 1</div><div class="line">|&gt;   5 [sin(x), cos(x)] = (-0.989926331 0.141583398) ............... [sin(x)^2 + cos(x)^2] = 1</div><div class="line">|&gt;   6 [sin(x), cos(x)] = (-0.775938693 -0.630808327) ............... [sin(x)^2 + cos(x)^2] = 1</div><div class="line">|&gt;   7 [sin(x), cos(x)] = (0.879555884 0.475795593) ............... [sin(x)^2 + cos(x)^2] = 1</div><div class="line">|&gt;   8 [sin(x), cos(x)] = (0.964678017 0.263431819) ............... [sin(x)^2 + cos(x)^2] = 1</div><div class="line">|&gt;   9 [sin(x), cos(x)] = (-0.999776981 -0.0211184451) ............... [sin(x)^2 + cos(x)^2] = 1</div></div><!-- fragment --> 
+<p>Definition in file <a class="el" href="../../d1/d7c/a00003_source.html">HydraEvaluateExample.cu</a>.</p>
 </div><h2 class="groupheader">Function Documentation</h2>
 <a class="anchor" id="a32c166bdb75e9b204c87878f510ea1c5"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="../../d4/d51/a00017.html#a0c9fb4d7195ab952da10a82d5c4ad30e">GInt_t</a> main </td>
+          <td class="memname"><a class="el" href="../../d5/d16/a00029.html#a0c9fb4d7195ab952da10a82d5c4ad30e">GInt_t</a> main </td>
           <td>(</td>
           <td class="paramtype">int&#160;</td>
           <td class="paramname"><em>argv</em>, </td>
@@ -168,11 +163,12 @@ Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<dl><dt><b>Examples: </b></dt><dd><a class="el" href="../../d0/d0b/a00004.html#a0">HydraEvaluateExample.cpp</a>.</dd>
+<p>number of entries or trials </p>
+<dl><dt><b>Examples: </b></dt><dd><a class="el" href="../../d0/d0b/a00004.html#a0">HydraEvaluateExample.cu</a>.</dd>
 </dl>
-<p>Definition at line <a class="el" href="../../d1/d7c/a00003_source.html#l00070">70</a> of file <a class="el" href="../../d1/d7c/a00003_source.html">HydraEvaluateExample.cpp</a>.</p>
+<p>Definition at line <a class="el" href="../../d1/d7c/a00003_source.html#l00115">115</a> of file <a class="el" href="../../d1/d7c/a00003_source.html">HydraEvaluateExample.cu</a>.</p>
 
-<p>References <a class="el" href="../../db/df8/a00076_source.html#l00063">hydra::Eval()</a>, <a class="el" href="../../d3/d00/a00113_source.html#l00107">hydra::make_range()</a>, <a class="el" href="../../d9/d4b/a00117_source.html#l00070">PI</a>, <a class="el" href="../../d2/d79/a00051.html#aff81053c79f3cfbb30b212127d2c73ef">hydra::Random&lt; GRND &gt;::Uniform()</a>, and <a class="el" href="../../d4/d63/a00082_source.html#l00085">hydra::wrap_lambda()</a>.</p>
+<p>References <a class="el" href="../../d1/d1e/a00087_source.html#l00068">hydra::Eval()</a>, <a class="el" href="../../df/d6a/a00119_source.html#l00117">hydra::make_range()</a>, <a class="el" href="../../de/d36/a00123_source.html#l00074">PI</a>, <a class="el" href="../../d1/d6f/a00063.html#aff81053c79f3cfbb30b212127d2c73ef">hydra::Random&lt; GRND &gt;::Uniform()</a>, and <a class="el" href="../../d4/d7d/a00093_source.html#l00091">hydra::wrap_lambda()</a>.</p>
 
 <p><div class="dynheader">
 Here is the call graph for this function:</div>
@@ -188,8 +184,8 @@ Here is the call graph for this function:</div>
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="../../dir_92a1ff494355b06c14c0e1fe7b982d29.html">Hydra</a></li><li class="navelem"><a class="el" href="../../dir_459308fd93161996409217d5ca7d39d3.html">src</a></li><li class="navelem"><a class="el" href="../../d1/d7c/a00003.html">HydraEvaluateExample.cpp</a></li>
-    <li class="footer">Generated on Wed Oct 12 2016 06:08:16 for Hydra by
+    <li class="navelem"><a class="el" href="../../dir_92a1ff494355b06c14c0e1fe7b982d29.html">Hydra</a></li><li class="navelem"><a class="el" href="../../dir_459308fd93161996409217d5ca7d39d3.html">src</a></li><li class="navelem"><a class="el" href="../../d1/d7c/a00003.html">HydraEvaluateExample.cu</a></li>
+    <li class="footer">Generated on Thu Oct 13 2016 03:01:48 for Hydra by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="../../doxygen.png" alt="doxygen"/></a> 1.8.11 </li>
   </ul>

@@ -1,6 +1,6 @@
 var a00096 =
 [
-    [ "LogLikelihoodFCN", "df/d61/a00031.html", "df/d61/a00031" ],
-    [ "make_loglikehood_fcn", "d9/df8/a00096.html#a0a0d4c1f486d6286929d31f9844f13fb", null ],
-    [ "make_loglikehood_fcn", "d9/df8/a00096.html#af3643760e6defde83dcdc47746378f82", null ]
+    [ "Hydra_VERSION_MAJOR", "d9/df8/a00096.html#a95d1abb83d001dc9cae163236910c439", null ],
+    [ "Hydra_VERSION_MINOR", "d9/df8/a00096.html#aca82490e4d49651a1d802f1cdb8b1e9b", null ],
+    [ "Hydra_VERSION_PATCH", "d9/df8/a00096.html#acb4a3b573ee645982d76cf1cf3c68bd8", null ]
 ];

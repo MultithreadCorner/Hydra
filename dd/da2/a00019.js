@@ -1,9 +1,8 @@
 var a00019 =
 [
-    [ "Exp", "dd/da2/a00019.html#a27297d40106a437034f60247fbd19e70", null ],
-    [ "Exp", "dd/da2/a00019.html#a5643db3bc22460933ad9c5cb6d1c41d6", null ],
-    [ "Evaluate", "dd/da2/a00019.html#aec1ea602308e8bab0f92d159b8836203", null ],
-    [ "operator=", "dd/da2/a00019.html#a93dca258ff5ab6db9340b9b1e7aa9741", null ],
-    [ "fPosition", "dd/da2/a00019.html#a332aced697cd249f38896a7efaa80d0c", null ],
-    [ "fTau", "dd/da2/a00019.html#acee0dd36d72e0cb59cb86333a12873f1", null ]
+    [ "hydra_functor_tag", "dd/da2/a00019.html#a6b5181815568cf022d3e5b28ba8986c0", null ],
+    [ "is_functor", "dd/da2/a00019.html#a4e5aabce1dda4a4058143b1585dcec16", null ],
+    [ "return_type", "dd/da2/a00019.html#af05c469ace97c62cf43e7c853317085f", null ],
+    [ "Argument", "dd/da2/a00019.html#a55b168fac1cb22258652d7334d9adacf", null ],
+    [ "operator()", "dd/da2/a00019.html#a26a303d3d6b9be832a70271043b971e7", null ]
 ];

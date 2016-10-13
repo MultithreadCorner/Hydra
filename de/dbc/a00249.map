@@ -1,7 +1,11 @@
-<map id="VegasState.h" name="VegasState.h">
-<area shape="rect" id="node4" href="$da/d24/a00068.html" title="hydra/detail/Config.h" alt="" coords="476,304,619,331"/>
-<area shape="rect" id="node14" href="$d2/db1/a00070.html" title="Typedef for useful container classes used in MCBooster. " alt="" coords="837,80,969,107"/>
-<area shape="rect" id="node17" href="$d9/d4b/a00117.html" title="hydra/Types.h" alt="" coords="1309,304,1415,331"/>
-<area shape="rect" id="node18" href="$d8/dfa/a00121.html" title="hydra/Vector3R.h" alt="" coords="832,229,956,256"/>
-<area shape="rect" id="node22" href="$df/dc8/a00122.html" title="hydra/Vector4R.h" alt="" coords="1225,155,1349,181"/>
+<map id="Sum.h" name="Sum.h">
+<area shape="rect" id="node2" href="$dc/d54/a00094.html" title="FunctorArithmetic.h" alt="" coords="689,80,825,107"/>
+<area shape="rect" id="node3" href="$d4/d3a/a00101.html" title="HydraEvaluateExample.cpp" alt="" coords="5,155,189,181"/>
+<area shape="rect" id="node4" href="$d1/d7c/a00003.html" title="HydraEvaluateExample.cu" alt="" coords="214,155,391,181"/>
+<area shape="rect" id="node5" href="$dd/dad/a00005.html" title="HydraFitExample.cpp" alt="" coords="415,155,563,181"/>
+<area shape="rect" id="node6" href="$de/d5e/a00007.html" title="HydraFitExample.cu" alt="" coords="588,155,729,181"/>
+<area shape="rect" id="node7" href="$da/da0/a00009.html" title="HydraPhaseSpaceExample.cpp" alt="" coords="754,155,961,181"/>
+<area shape="rect" id="node8" href="$da/d45/a00011.html" title="HydraPhaseSpaceExample.cu" alt="" coords="985,155,1185,181"/>
+<area shape="rect" id="node9" href="$d7/dd4/a00013.html" title="HydraRandomExample.cpp" alt="" coords="1210,155,1393,181"/>
+<area shape="rect" id="node10" href="$dd/d1b/a00015.html" title="HydraRandomExample.cu" alt="" coords="1417,155,1591,181"/>
 </map>

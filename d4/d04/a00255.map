@@ -1,5 +1,41 @@
-<map id="Gauss&lt; N &gt;" name="Gauss&lt; N &gt;">
-<area shape="rect" id="node2" href="$d4/dee/a00008.html" title="{hydra::BaseFunctor\l\&lt; Gauss\&lt; N \&gt;, GReal\l_t, 0 \&gt;\n|+ parameter_count\l|+ BaseFunctor()\l+ BaseFunctor()\l+ operator=()\l+ ~BaseFunctor()\l+ GetFunctor()\l+ GetCacheIndex()\l+ SetCacheIndex()\l+ IsCached()\l+ SetCached()\l+ RegistryParameters()\land 9 more...\l}" alt="" coords="5,336,164,589"/>
-<area shape="rect" id="node3" href="$d4/dee/a00008.html" title="{hydra::BaseFunctor\l\&lt; Functor, ReturnType,\l NPARAM \&gt;\n|+ parameter_count\l|+ BaseFunctor()\l+ BaseFunctor()\l+ operator=()\l+ ~BaseFunctor()\l+ GetFunctor()\l+ GetCacheIndex()\l+ SetCacheIndex()\l+ IsCached()\l+ SetCached()\l+ RegistryParameters()\land 9 more...\l}" alt="" coords="99,5,257,259"/>
-<area shape="rect" id="node4" href="$d4/dee/a00008.html" title="{hydra::BaseFunctor\l\&lt; Gauss, GReal_t, 2 \&gt;\n|+ parameter_count\l|+ BaseFunctor()\l+ BaseFunctor()\l+ operator=()\l+ ~BaseFunctor()\l+ GetFunctor()\l+ GetCacheIndex()\l+ SetCacheIndex()\l+ IsCached()\l+ SetCached()\l+ RegistryParameters()\land 9 more...\l}" alt="" coords="188,343,347,582"/>
+<map id="Utility_Tuple.h" name="Utility_Tuple.h">
+<area shape="rect" id="node2" href="$d9/da5/a00075.html" title="AddPdf.h" alt="" coords="355,379,431,405"/>
+<area shape="rect" id="node5" href="$db/df8/a00076.html" title="Argument.h" alt="" coords="1206,155,1295,181"/>
+<area shape="rect" id="node6" href="$d7/d70/a00106.html" title="Multiply.h" alt="" coords="1081,229,1159,256"/>
+<area shape="rect" id="node14" href="$d9/da4/a00078.html" title="base_functor.h" alt="" coords="1059,80,1167,107"/>
+<area shape="rect" id="node15" href="$d1/d51/a00079.html" title="Compose.h" alt="" coords="789,229,878,256"/>
+<area shape="rect" id="node16" href="$d8/d53/a00081.html" title="Constant.h" alt="" coords="891,155,978,181"/>
+<area shape="rect" id="node17" href="$da/d2a/a00086.html" title="Divide.h" alt="" coords="902,229,973,256"/>
+<area shape="rect" id="node18" href="$df/dc8/a00122.html" title="Sum.h" alt="" coords="997,229,1057,256"/>
+<area shape="rect" id="node19" href="$d3/d32/a00105.html" title="Minus.h" alt="" coords="1371,155,1439,181"/>
+<area shape="rect" id="node20" href="$df/d5d/a00084.html" title="DecayMother.h" alt="" coords="1794,80,1905,107"/>
+<area shape="rect" id="node22" href="$df/d13/a00085.html" title="DecayMothers.h" alt="" coords="1929,80,2047,107"/>
+<area shape="rect" id="node23" href="$d5/d1e/a00103.html" title="LogLikelihood.h" alt="" coords="93,229,205,256"/>
+<area shape="rect" id="node24" href="$d9/dec/a00090.html" title="FCN.h" alt="" coords="51,304,112,331"/>
+<area shape="rect" id="node25" href="$d0/dc2/a00104.html" title="LogLikelihoodFCN.h" alt="" coords="38,379,178,405"/>
+<area shape="rect" id="node26" href="$d2/da3/a00115.html" title="ProcessCallsPlain.h" alt="" coords="2171,80,2311,107"/>
+<area shape="rect" id="node28" href="$d4/d3e/a00116.html" title="ProcessCallsVegas.h" alt="" coords="465,80,613,107"/>
+<area shape="rect" id="node30" href="$d8/d87/a00118.html" title="RandomUtils.h" alt="" coords="655,229,764,256"/>
+<area shape="rect" id="node31" href="$d9/d4b/a00117.html" title="Random.h" alt="" coords="1120,304,1203,331"/>
+<area shape="rect" id="node32" href="$d1/d1e/a00087.html" title="Evaluate.h" alt="" coords="1747,304,1831,331"/>
+<area shape="rect" id="node33" href="$db/ddf/a00088.html" title="Events.h" alt="" coords="2072,80,2147,107"/>
+<area shape="rect" id="node34" href="$d1/dc1/a00092.html" title="Function.h" alt="" coords="1464,155,1547,181"/>
+<area shape="rect" id="node38" href="$d1/dd6/a00108.html" title="Pdf.h" alt="" coords="447,304,500,331"/>
+<area shape="rect" id="node39" href="$db/d57/a00112.html" title="Point.h" alt="" coords="225,80,287,107"/>
+<area shape="rect" id="node40" href="$d3/d00/a00113.html" title="PointVector.h" alt="" coords="237,155,339,181"/>
+<area shape="rect" id="node3" href="$dd/dad/a00005.html" title="HydraFitExample take parameters from the command line, fill a range with random numbers sampled from ..." alt="" coords="415,453,563,480"/>
+<area shape="rect" id="node4" href="$de/d5e/a00007.html" title="HydraFitExample take parameters from the command line, fill a range with random numbers sampled from ..." alt="" coords="628,453,769,480"/>
+<area shape="rect" id="node7" href="$dc/d54/a00094.html" title="FunctorArithmetic.h" alt="" coords="1277,304,1413,331"/>
+<area shape="rect" id="node8" href="$d8/d84/a00001.html" title="This is an example of how to use hydra::Eval to evaluate C++11 lambdas using the OpenMP backend..." alt="" coords="1440,379,1624,405"/>
+<area shape="rect" id="node9" href="$d1/d7c/a00003.html" title="This is an example of how to use hydra::Eval to evaluate C++11 lambdas using the CUDA backend..." alt="" coords="1649,379,1826,405"/>
+<area shape="rect" id="node10" href="$da/da0/a00009.html" title="HydraPhaseSpaceExample take parameters from the command line and generates sample of 3&#45;body phase&#45;spa..." alt="" coords="1850,379,2057,405"/>
+<area shape="rect" id="node11" href="$da/d45/a00011.html" title="HydraPhaseSpaceExample take parameters from the command line and generates sample of 3&#45;body phase&#45;spa..." alt="" coords="2081,379,2281,405"/>
+<area shape="rect" id="node12" href="$d7/dd4/a00013.html" title="HydraRandomExample take parameters from the command line and generates random samples in one..." alt="" coords="931,379,1114,405"/>
+<area shape="rect" id="node13" href="$dd/d1b/a00015.html" title="HydraRandomExample take parameters from the command line and generates random samples in one..." alt="" coords="1241,379,1415,405"/>
+<area shape="rect" id="node21" href="$dd/d42/a00109.html" title="PhaseSpace.h" alt="" coords="1996,155,2103,181"/>
+<area shape="rect" id="node27" href="$d4/d81/a00110.html" title="Plain.h" alt="" coords="2210,155,2273,181"/>
+<area shape="rect" id="node29" href="$d9/d47/a00129.html" title="Vegas.h" alt="" coords="507,379,578,405"/>
+<area shape="rect" id="node35" href="$d4/d7d/a00093.html" title="FunctionWrapper.h" alt="" coords="1539,304,1671,331"/>
+<area shape="rect" id="node36" href="$db/dab/a00089.html" title="Exp.h" alt="" coords="603,379,659,405"/>
+<area shape="rect" id="node37" href="$d9/df8/a00096.html" title="Gauss.h" alt="" coords="683,379,754,405"/>
 </map>

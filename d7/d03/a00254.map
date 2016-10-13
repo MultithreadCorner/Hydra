@@ -1,5 +1,9 @@
-<map id="Gauss&lt; N &gt;" name="Gauss&lt; N &gt;">
-<area shape="rect" id="node2" href="$de/d21/a00006.html" title="{hydra::BaseFunctor\l\&lt; Gauss\&lt; N \&gt;, GReal\l_t, 0 \&gt;\n|+ parameter_count\l|+ BaseFunctor()\l+ BaseFunctor()\l+ operator=()\l+ ~BaseFunctor()\l+ GetFunctor()\l+ GetCacheIndex()\l+ SetCacheIndex()\l+ IsCached()\l+ SetCached()\l+ RegistryParameters()\land 9 more...\l}" alt="" coords="5,336,164,589"/>
-<area shape="rect" id="node3" href="$de/d21/a00006.html" title="{hydra::BaseFunctor\l\&lt; Functor, ReturnType,\l NPARAM \&gt;\n|+ parameter_count\l|+ BaseFunctor()\l+ BaseFunctor()\l+ operator=()\l+ ~BaseFunctor()\l+ GetFunctor()\l+ GetCacheIndex()\l+ SetCacheIndex()\l+ IsCached()\l+ SetCached()\l+ RegistryParameters()\land 9 more...\l}" alt="" coords="99,5,257,259"/>
-<area shape="rect" id="node4" href="$de/d21/a00006.html" title="{hydra::BaseFunctor\l\&lt; Gauss, GReal_t, 2 \&gt;\n|+ parameter_count\l|+ BaseFunctor()\l+ BaseFunctor()\l+ operator=()\l+ ~BaseFunctor()\l+ GetFunctor()\l+ GetCacheIndex()\l+ SetCacheIndex()\l+ IsCached()\l+ SetCached()\l+ RegistryParameters()\land 9 more...\l}" alt="" coords="188,343,347,582"/>
+<map id="Utility_Tuple.h" name="Utility_Tuple.h">
+<area shape="rect" id="node2" href="$da/dec/a00080.html" title="hydra/detail/Config.h" alt="" coords="476,408,619,435"/>
+<area shape="rect" id="node12" href="$de/d36/a00123.html" title="hydra/Types.h" alt="" coords="1264,408,1369,435"/>
+<area shape="rect" id="node13" href="$d1/d84/a00097.html" title="hydra/detail/utility\l/Generic.h" alt="" coords="263,80,387,121"/>
+<area shape="rect" id="node16" href="$da/d72/a00124.html" title="hydra/detail/TypeTraits.h" alt="" coords="531,87,697,114"/>
+<area shape="rect" id="node17" href="$d4/d63/a00082.html" title="Typedef for useful container classes used in MCBooster. " alt="" coords="644,177,776,203"/>
+<area shape="rect" id="node19" href="$df/dcd/a00127.html" title="hydra/Vector3R.h" alt="" coords="792,333,916,360"/>
+<area shape="rect" id="node24" href="$d1/d88/a00128.html" title="hydra/Vector4R.h" alt="" coords="792,259,916,285"/>
 </map>

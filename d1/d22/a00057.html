@@ -4,7 +4,7 @@
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.11"/>
-<title>Hydra: hydra::UserParameters Class Reference</title>
+<title>Hydra: hydra::PointVector&lt; BACKEND, T, N, V_ERROR, C_ERROR &gt; Class Template Reference</title>
 <link href="../../tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="../../jquery.js"></script>
 <script type="text/javascript" src="../../dynsections.js"></script>
@@ -55,6 +55,7 @@ var searchBox = new SearchBox("searchBox", "../../search",false,'Search');
   <div id="navrow1" class="tabs">
     <ul class="tablist">
       <li><a href="../../index.html"><span>Main&#160;Page</span></a></li>
+      <li><a href="../../modules.html"><span>Modules</span></a></li>
       <li><a href="../../namespaces.html"><span>Namespaces</span></a></li>
       <li class="current"><a href="../../annotated.html"><span>Classes</span></a></li>
       <li><a href="../../files.html"><span>Files</span></a></li>
@@ -116,62 +117,175 @@ $(document).ready(function(){initNavTree('d1/d22/a00057.html','../../');});
 
 <div class="header">
   <div class="summary">
+<a href="#pub-types">Public Types</a> &#124;
 <a href="#pub-methods">Public Member Functions</a> &#124;
-<a href="../../d4/def/a00359.html">List of all members</a>  </div>
+<a href="../../db/d10/a00350.html">List of all members</a>  </div>
   <div class="headertitle">
-<div class="title">hydra::UserParameters Class Reference</div>  </div>
+<div class="title">hydra::PointVector&lt; BACKEND, T, N, V_ERROR, C_ERROR &gt; Class Template Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
+
+<p><a class="el" href="../../d1/d22/a00057.html" title="PointVector wraps a thrust::vector&lt;Points&lt;T,N&gt;&gt; and provide methods. ">PointVector</a> wraps a thrust::vector&lt;Points&lt;T,N&gt;&gt; and provide methods.  
+ <a href="../../d1/d22/a00057.html#details">More...</a></p>
 <div class="dynheader">
-Collaboration diagram for hydra::UserParameters:</div>
+Collaboration diagram for hydra::PointVector&lt; BACKEND, T, N, V_ERROR, C_ERROR &gt;:</div>
 <div class="dyncontent">
-<div class="center"><iframe scrolling="no" frameborder="0" src="../../d0/d65/a00360.svg" width="190" height="279"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+<div class="center"><iframe scrolling="no" frameborder="0" src="../../d0/d48/a00351.svg" width="222" height="323"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 </div>
 <table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-types"></a>
+Public Types</h2></td></tr>
+<tr class="memitem:ae801a5e2ec80d8b77955ea5abb4eee35"><td class="memItemLeft" align="right" valign="top">typedef type::const_iterator&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/d22/a00057.html#ae801a5e2ec80d8b77955ea5abb4eee35">const_iterator</a></td></tr>
+<tr class="separator:ae801a5e2ec80d8b77955ea5abb4eee35"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abdd47cfbf4500e3ee65aba2c1e53c4d0"><td class="memItemLeft" align="right" valign="top">typedef type::iterator&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/d22/a00057.html#abdd47cfbf4500e3ee65aba2c1e53c4d0">iterator</a></td></tr>
+<tr class="separator:abdd47cfbf4500e3ee65aba2c1e53c4d0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a42f93155dacf6e5a5991254c07d5cde4"><td class="memItemLeft" align="right" valign="top">typedef detail::BackendTraits&lt; BACKEND &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/d22/a00057.html#a42f93155dacf6e5a5991254c07d5cde4">system_t</a></td></tr>
+<tr class="separator:a42f93155dacf6e5a5991254c07d5cde4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a55930b3d4b822dd7a9d63b676f514344"><td class="memItemLeft" align="right" valign="top">typedef system_t::template container&lt; <a class="el" href="../../d4/d6d/a00055.html">Point</a>&lt; T, N, V_ERROR, C_ERROR &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/d22/a00057.html#a55930b3d4b822dd7a9d63b676f514344">type</a></td></tr>
+<tr class="separator:a55930b3d4b822dd7a9d63b676f514344"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3b7f1377161eb315d0b7a7f6cae42f70"><td class="memItemLeft" align="right" valign="top">typedef <a class="el" href="../../d4/d6d/a00055.html">Point</a>&lt; T, N, V_ERROR, C_ERROR &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/d22/a00057.html#a3b7f1377161eb315d0b7a7f6cae42f70">value_type</a></td></tr>
+<tr class="separator:a3b7f1377161eb315d0b7a7f6cae42f70"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:ab5c5fd6bdeb6f4daba3a3bf49d1cf7f5"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/d22/a00057.html#ab5c5fd6bdeb6f4daba3a3bf49d1cf7f5">UserParameters</a> ()</td></tr>
-<tr class="separator:ab5c5fd6bdeb6f4daba3a3bf49d1cf7f5"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad801fc9e5287c209b3d8bd1c55fa43a0"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/d22/a00057.html#ad801fc9e5287c209b3d8bd1c55fa43a0">UserParameters</a> (<a class="el" href="../../d1/d22/a00057.html">UserParameters</a> const &amp;other)</td></tr>
-<tr class="separator:ad801fc9e5287c209b3d8bd1c55fa43a0"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a1669e2daa6d9cf66d16d64636d2d8e32"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../d1/d22/a00057.html">UserParameters</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/d22/a00057.html#a1669e2daa6d9cf66d16d64636d2d8e32">operator=</a> (<a class="el" href="../../d1/d22/a00057.html">UserParameters</a> const &amp;other)</td></tr>
-<tr class="separator:a1669e2daa6d9cf66d16d64636d2d8e32"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a891111b3ecb2c6ed41a9d00eba3fbf6d"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/d22/a00057.html#a891111b3ecb2c6ed41a9d00eba3fbf6d">AddParameter</a> (<a class="el" href="../../d8/d41/a00038.html">hydra::Parameter</a> *param)</td></tr>
-<tr class="separator:a891111b3ecb2c6ed41a9d00eba3fbf6d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a71455f390ac736ed22332ae528be687b"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/d22/a00057.html#a71455f390ac736ed22332ae528be687b">UpdateParameters</a> (ROOT::Minuit2::FunctionMinimum const &amp;minimum)</td></tr>
-<tr class="separator:a71455f390ac736ed22332ae528be687b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a1c811d0b261dc8b6e73996e9a84903ab"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/d22/a00057.html#a1c811d0b261dc8b6e73996e9a84903ab">UpdateParameterLimits</a> (ROOT::Minuit2::MinosError const &amp;minos_error)</td></tr>
-<tr class="separator:a1c811d0b261dc8b6e73996e9a84903ab"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af60d73d61e66c5d859da032fa0756048"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/d22/a00057.html#af60d73d61e66c5d859da032fa0756048">PrintParameters</a> ()</td></tr>
-<tr class="separator:af60d73d61e66c5d859da032fa0756048"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae827fda081825eb09704bc35e289fdf3"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/d22/a00057.html#ae827fda081825eb09704bc35e289fdf3">PrintMinuitParameters</a> ()</td></tr>
-<tr class="separator:ae827fda081825eb09704bc35e289fdf3"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a3bfd91565b7f9a4c5cfb3ac6b3433f14"><td class="memItemLeft" align="right" valign="top">const std::vector&lt; <a class="el" href="../../d8/d41/a00038.html">hydra::Parameter</a> * &gt; &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/d22/a00057.html#a3bfd91565b7f9a4c5cfb3ac6b3433f14">GetVariables</a> () const </td></tr>
-<tr class="separator:a3bfd91565b7f9a4c5cfb3ac6b3433f14"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a81f19d94a564c50dd674eae1146af91a"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/d22/a00057.html#a81f19d94a564c50dd674eae1146af91a">SetVariables</a> (const std::vector&lt; <a class="el" href="../../d8/d41/a00038.html">hydra::Parameter</a> * &gt; &amp;variables)</td></tr>
-<tr class="separator:a81f19d94a564c50dd674eae1146af91a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a58541b387566f846e3d0940e0b8d609b"><td class="memItemLeft" align="right" valign="top">const ROOT::Minuit2::MnUserParameters &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/d22/a00057.html#a58541b387566f846e3d0940e0b8d609b">GetState</a> () const </td></tr>
-<tr class="separator:a58541b387566f846e3d0940e0b8d609b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a379e4abd6f0345083c977e405da380a2"><td class="memItemLeft" align="right" valign="top">ROOT::Minuit2::MnUserParameters &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/d22/a00057.html#a379e4abd6f0345083c977e405da380a2">GetState</a> ()</td></tr>
-<tr class="separator:a379e4abd6f0345083c977e405da380a2"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a17e791cc7395bdf0560dba0a9d74ef7b"><td class="memItemLeft" align="right" valign="top">const std::unique_ptr&lt; ROOT::Minuit2::MnUserParameters &gt; &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/d22/a00057.html#a17e791cc7395bdf0560dba0a9d74ef7b">GetStatePtr</a> () const </td></tr>
-<tr class="separator:a17e791cc7395bdf0560dba0a9d74ef7b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac29685d74dcdedada2d04911172b3d41"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/d22/a00057.html#ac29685d74dcdedada2d04911172b3d41">SetState</a> (ROOT::Minuit2::MnUserParameters const &amp;state)</td></tr>
-<tr class="separator:ac29685d74dcdedada2d04911172b3d41"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5ac07313cff38cbdc43921e0e6300263"><td class="memItemLeft" align="right" valign="top">__host__&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/d22/a00057.html#a5ac07313cff38cbdc43921e0e6300263">PointVector</a> ()</td></tr>
+<tr class="separator:a5ac07313cff38cbdc43921e0e6300263"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a59d23e549c35e6f49555920721458e00"><td class="memItemLeft" align="right" valign="top">__host__&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/d22/a00057.html#a59d23e549c35e6f49555920721458e00">PointVector</a> (size_t n)</td></tr>
+<tr class="separator:a59d23e549c35e6f49555920721458e00"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8b1cfd469819ae428a50d872d0a9685d"><td class="memTemplParams" colspan="2">template&lt;unsigned int BACKEND2&gt; </td></tr>
+<tr class="memitem:a8b1cfd469819ae428a50d872d0a9685d"><td class="memTemplItemLeft" align="right" valign="top">__host__&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="../../d1/d22/a00057.html#a8b1cfd469819ae428a50d872d0a9685d">PointVector</a> (<a class="el" href="../../d1/d22/a00057.html">PointVector</a>&lt; BACKEND2, T, N, V_ERROR, C_ERROR &gt; const &amp;other)</td></tr>
+<tr class="separator:a8b1cfd469819ae428a50d872d0a9685d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad3b8f2f1f8932631537dd80a96b3747f"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/d22/a00057.html#ad3b8f2f1f8932631537dd80a96b3747f">~PointVector</a> ()</td></tr>
+<tr class="separator:ad3b8f2f1f8932631537dd80a96b3747f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a17e12e1ea66db466a04b6118e61c628d"><td class="memItemLeft" align="right" valign="top">__host__ void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/d22/a00057.html#a17e12e1ea66db466a04b6118e61c628d">AddPoint</a> (<a class="el" href="../../d1/d22/a00057.html#a3b7f1377161eb315d0b7a7f6cae42f70">value_type</a> const &amp;point)</td></tr>
+<tr class="memdesc:a17e12e1ea66db466a04b6118e61c628d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Add a new point.  <a href="#a17e12e1ea66db466a04b6118e61c628d">More...</a><br /></td></tr>
+<tr class="separator:a17e12e1ea66db466a04b6118e61c628d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0ffe74b37ca6de1bf3ae775a7e57a74f"><td class="memItemLeft" align="right" valign="top">__host__ <a class="el" href="../../d1/d22/a00057.html#ae801a5e2ec80d8b77955ea5abb4eee35">const_iterator</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/d22/a00057.html#a0ffe74b37ca6de1bf3ae775a7e57a74f">begin</a> () const </td></tr>
+<tr class="memdesc:a0ffe74b37ca6de1bf3ae775a7e57a74f"><td class="mdescLeft">&#160;</td><td class="mdescRight">constant iterator access  <a href="#a0ffe74b37ca6de1bf3ae775a7e57a74f">More...</a><br /></td></tr>
+<tr class="separator:a0ffe74b37ca6de1bf3ae775a7e57a74f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1ee3130ecd24163a89ed4117e562cb55"><td class="memItemLeft" align="right" valign="top">__host__ <a class="el" href="../../d1/d22/a00057.html#abdd47cfbf4500e3ee65aba2c1e53c4d0">iterator</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/d22/a00057.html#a1ee3130ecd24163a89ed4117e562cb55">begin</a> ()</td></tr>
+<tr class="memdesc:a1ee3130ecd24163a89ed4117e562cb55"><td class="mdescLeft">&#160;</td><td class="mdescRight">non-const iterator access  <a href="#a1ee3130ecd24163a89ed4117e562cb55">More...</a><br /></td></tr>
+<tr class="separator:a1ee3130ecd24163a89ed4117e562cb55"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1f73f2ef01b12db0eb5e3bd8b9d9dc7a"><td class="memItemLeft" align="right" valign="top">__host__ <a class="el" href="../../d1/d22/a00057.html#ae801a5e2ec80d8b77955ea5abb4eee35">const_iterator</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/d22/a00057.html#a1f73f2ef01b12db0eb5e3bd8b9d9dc7a">end</a> () const </td></tr>
+<tr class="separator:a1f73f2ef01b12db0eb5e3bd8b9d9dc7a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a473dd9a02d513f4baac5696039982a7f"><td class="memItemLeft" align="right" valign="top">__host__ <a class="el" href="../../d1/d22/a00057.html#abdd47cfbf4500e3ee65aba2c1e53c4d0">iterator</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/d22/a00057.html#a473dd9a02d513f4baac5696039982a7f">end</a> ()</td></tr>
+<tr class="separator:a473dd9a02d513f4baac5696039982a7f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2f67e5552530c5090d16bba717afa114"><td class="memItemLeft" align="right" valign="top">__host__ <a class="el" href="../../d1/d22/a00057.html#a3b7f1377161eb315d0b7a7f6cae42f70">value_type</a> const &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/d22/a00057.html#a2f67e5552530c5090d16bba717afa114">GetPoint</a> (size_t i) const </td></tr>
+<tr class="separator:a2f67e5552530c5090d16bba717afa114"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae28e61569eba74a655ba5ab31f18607d"><td class="memItemLeft" align="right" valign="top">__host__ const <a class="el" href="../../d1/d22/a00057.html#a55930b3d4b822dd7a9d63b676f514344">type</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/d22/a00057.html#ae28e61569eba74a655ba5ab31f18607d">GetPoints</a> () const </td></tr>
+<tr class="memdesc:ae28e61569eba74a655ba5ab31f18607d"><td class="mdescLeft">&#160;</td><td class="mdescRight">get access to the underlying container  <a href="#ae28e61569eba74a655ba5ab31f18607d">More...</a><br /></td></tr>
+<tr class="separator:ae28e61569eba74a655ba5ab31f18607d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad90e8de616316848fb5deb9878115d9c"><td class="memItemLeft" align="right" valign="top">__host__ <a class="el" href="../../d1/d22/a00057.html#a55930b3d4b822dd7a9d63b676f514344">type</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/d22/a00057.html#ad90e8de616316848fb5deb9878115d9c">GetPoints</a> ()</td></tr>
+<tr class="separator:ad90e8de616316848fb5deb9878115d9c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:acfba6a70bd180fd5cb7ab335c5f8b444"><td class="memItemLeft" align="right" valign="top">__host__ const <a class="el" href="../../d1/d22/a00057.html#a3b7f1377161eb315d0b7a7f6cae42f70">value_type</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/d22/a00057.html#acfba6a70bd180fd5cb7ab335c5f8b444">operator[]</a> (size_t i) const </td></tr>
+<tr class="memdesc:acfba6a70bd180fd5cb7ab335c5f8b444"><td class="mdescLeft">&#160;</td><td class="mdescRight">access to the point  <a href="#acfba6a70bd180fd5cb7ab335c5f8b444">More...</a><br /></td></tr>
+<tr class="separator:acfba6a70bd180fd5cb7ab335c5f8b444"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6ebfbc333c0402a1950e6d5d9439f81b"><td class="memItemLeft" align="right" valign="top">__host__ <a class="el" href="../../d1/d22/a00057.html#a3b7f1377161eb315d0b7a7f6cae42f70">value_type</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/d22/a00057.html#a6ebfbc333c0402a1950e6d5d9439f81b">operator[]</a> (size_t i)</td></tr>
+<tr class="separator:a6ebfbc333c0402a1950e6d5d9439f81b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2a667fefdb06891793078da57a5716a6"><td class="memItemLeft" align="right" valign="top">__host__ size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/d22/a00057.html#a2a667fefdb06891793078da57a5716a6">Size</a> ()</td></tr>
+<tr class="memdesc:a2a667fefdb06891793078da57a5716a6"><td class="mdescLeft">&#160;</td><td class="mdescRight">size  <a href="#a2a667fefdb06891793078da57a5716a6">More...</a><br /></td></tr>
+<tr class="separator:a2a667fefdb06891793078da57a5716a6"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock">
-<p>Definition at line <a class="el" href="../../df/d6a/a00119_source.html#l00052">52</a> of file <a class="el" href="../../df/d6a/a00119_source.html">UserParameters.h</a>.</p>
-</div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
-<a class="anchor" id="ab5c5fd6bdeb6f4daba3a3bf49d1cf7f5"></a>
+<div class="textblock"><h3>template&lt;unsigned int BACKEND = 0, typename T = GReal_t, size_t N = 1, bool V_ERROR = false, bool C_ERROR = false&gt;<br />
+class hydra::PointVector&lt; BACKEND, T, N, V_ERROR, C_ERROR &gt;</h3>
+
+<dl><dt><b>Examples: </b></dt><dd><a class="el" href="../../de/d21/a00006.html#_a25">HydraFitExample.cpp</a>, and <a class="el" href="../../d4/dee/a00008.html#_a25">HydraFitExample.cu</a>.</dd>
+</dl>
+<p>Definition at line <a class="el" href="../../d3/d00/a00113_source.html#l00057">57</a> of file <a class="el" href="../../d3/d00/a00113_source.html">PointVector.h</a>.</p>
+</div><h2 class="groupheader">Member Typedef Documentation</h2>
+<a class="anchor" id="ae801a5e2ec80d8b77955ea5abb4eee35"></a>
 <div class="memitem">
 <div class="memproto">
+<div class="memtemplate">
+template&lt;unsigned int BACKEND = 0, typename T = GReal_t, size_t N = 1, bool V_ERROR = false, bool C_ERROR = false&gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">typedef type::const_iterator <a class="el" href="../../d1/d22/a00057.html">hydra::PointVector</a>&lt; BACKEND, T, N, V_ERROR, C_ERROR &gt;::<a class="el" href="../../d1/d22/a00057.html#ae801a5e2ec80d8b77955ea5abb4eee35">const_iterator</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="../../d3/d00/a00113_source.html#l00066">66</a> of file <a class="el" href="../../d3/d00/a00113_source.html">PointVector.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="abdd47cfbf4500e3ee65aba2c1e53c4d0"></a>
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;unsigned int BACKEND = 0, typename T = GReal_t, size_t N = 1, bool V_ERROR = false, bool C_ERROR = false&gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">typedef type::iterator <a class="el" href="../../d1/d22/a00057.html">hydra::PointVector</a>&lt; BACKEND, T, N, V_ERROR, C_ERROR &gt;::<a class="el" href="../../d1/d22/a00057.html#abdd47cfbf4500e3ee65aba2c1e53c4d0">iterator</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="../../d3/d00/a00113_source.html#l00067">67</a> of file <a class="el" href="../../d3/d00/a00113_source.html">PointVector.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a42f93155dacf6e5a5991254c07d5cde4"></a>
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;unsigned int BACKEND = 0, typename T = GReal_t, size_t N = 1, bool V_ERROR = false, bool C_ERROR = false&gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">typedef detail::BackendTraits&lt;BACKEND&gt; <a class="el" href="../../d1/d22/a00057.html">hydra::PointVector</a>&lt; BACKEND, T, N, V_ERROR, C_ERROR &gt;::<a class="el" href="../../d1/d22/a00057.html#a42f93155dacf6e5a5991254c07d5cde4">system_t</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="../../d3/d00/a00113_source.html#l00061">61</a> of file <a class="el" href="../../d3/d00/a00113_source.html">PointVector.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a55930b3d4b822dd7a9d63b676f514344"></a>
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;unsigned int BACKEND = 0, typename T = GReal_t, size_t N = 1, bool V_ERROR = false, bool C_ERROR = false&gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">typedef system_t::template container&lt; <a class="el" href="../../d4/d6d/a00055.html">Point</a>&lt;T, N, V_ERROR, C_ERROR&gt; &gt; <a class="el" href="../../d1/d22/a00057.html">hydra::PointVector</a>&lt; BACKEND, T, N, V_ERROR, C_ERROR &gt;::<a class="el" href="../../d1/d22/a00057.html#a55930b3d4b822dd7a9d63b676f514344">type</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="../../d3/d00/a00113_source.html#l00064">64</a> of file <a class="el" href="../../d3/d00/a00113_source.html">PointVector.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a3b7f1377161eb315d0b7a7f6cae42f70"></a>
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;unsigned int BACKEND = 0, typename T = GReal_t, size_t N = 1, bool V_ERROR = false, bool C_ERROR = false&gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">typedef <a class="el" href="../../d4/d6d/a00055.html">Point</a>&lt;T, N, V_ERROR, C_ERROR&gt; <a class="el" href="../../d1/d22/a00057.html">hydra::PointVector</a>&lt; BACKEND, T, N, V_ERROR, C_ERROR &gt;::<a class="el" href="../../d1/d22/a00057.html#a3b7f1377161eb315d0b7a7f6cae42f70">value_type</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="../../d3/d00/a00113_source.html#l00065">65</a> of file <a class="el" href="../../d3/d00/a00113_source.html">PointVector.h</a>.</p>
+
+</div>
+</div>
+<h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
+<a class="anchor" id="a5ac07313cff38cbdc43921e0e6300263"></a>
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;unsigned int BACKEND = 0, typename T = GReal_t, size_t N = 1, bool V_ERROR = false, bool C_ERROR = false&gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">hydra::UserParameters::UserParameters </td>
+          <td class="memname">__host__ <a class="el" href="../../d1/d22/a00057.html">hydra::PointVector</a>&lt; BACKEND, T, N, V_ERROR, C_ERROR &gt;::<a class="el" href="../../d1/d22/a00057.html">PointVector</a> </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td></td>
@@ -184,21 +298,53 @@ Public Member Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="../../df/d6a/a00119_source.html#l00057">57</a> of file <a class="el" href="../../df/d6a/a00119_source.html">UserParameters.h</a>.</p>
+<p>Definition at line <a class="el" href="../../d3/d00/a00113_source.html#l00070">70</a> of file <a class="el" href="../../d3/d00/a00113_source.html">PointVector.h</a>.</p>
 
 </div>
 </div>
-<a class="anchor" id="ad801fc9e5287c209b3d8bd1c55fa43a0"></a>
+<a class="anchor" id="a59d23e549c35e6f49555920721458e00"></a>
 <div class="memitem">
 <div class="memproto">
+<div class="memtemplate">
+template&lt;unsigned int BACKEND = 0, typename T = GReal_t, size_t N = 1, bool V_ERROR = false, bool C_ERROR = false&gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">hydra::UserParameters::UserParameters </td>
+          <td class="memname">__host__ <a class="el" href="../../d1/d22/a00057.html">hydra::PointVector</a>&lt; BACKEND, T, N, V_ERROR, C_ERROR &gt;::<a class="el" href="../../d1/d22/a00057.html">PointVector</a> </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="../../d1/d22/a00057.html">UserParameters</a> const &amp;&#160;</td>
+          <td class="paramtype">size_t&#160;</td>
+          <td class="paramname"><em>n</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="../../d3/d00/a00113_source.html#l00074">74</a> of file <a class="el" href="../../d3/d00/a00113_source.html">PointVector.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a8b1cfd469819ae428a50d872d0a9685d"></a>
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;unsigned int BACKEND = 0, typename T = GReal_t, size_t N = 1, bool V_ERROR = false, bool C_ERROR = false&gt; </div>
+<div class="memtemplate">
+template&lt;unsigned int BACKEND2&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">__host__ <a class="el" href="../../d1/d22/a00057.html">hydra::PointVector</a>&lt; BACKEND, T, N, V_ERROR, C_ERROR &gt;::<a class="el" href="../../d1/d22/a00057.html">PointVector</a> </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="../../d1/d22/a00057.html">PointVector</a>&lt; BACKEND2, T, N, V_ERROR, C_ERROR &gt; const &amp;&#160;</td>
           <td class="paramname"><em>other</em></td><td>)</td>
           <td></td>
         </tr>
@@ -210,23 +356,52 @@ Public Member Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="../../df/d6a/a00119_source.html#l00062">62</a> of file <a class="el" href="../../df/d6a/a00119_source.html">UserParameters.h</a>.</p>
+<p>Definition at line <a class="el" href="../../d3/d00/a00113_source.html#l00080">80</a> of file <a class="el" href="../../d3/d00/a00113_source.html">PointVector.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="ad3b8f2f1f8932631537dd80a96b3747f"></a>
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;unsigned int BACKEND = 0, typename T = GReal_t, size_t N = 1, bool V_ERROR = false, bool C_ERROR = false&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="../../d1/d22/a00057.html">hydra::PointVector</a>&lt; BACKEND, T, N, V_ERROR, C_ERROR &gt;::~<a class="el" href="../../d1/d22/a00057.html">PointVector</a> </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="../../d3/d00/a00113_source.html#l00084">84</a> of file <a class="el" href="../../d3/d00/a00113_source.html">PointVector.h</a>.</p>
 
 </div>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
-<a class="anchor" id="a891111b3ecb2c6ed41a9d00eba3fbf6d"></a>
+<a class="anchor" id="a17e12e1ea66db466a04b6118e61c628d"></a>
 <div class="memitem">
 <div class="memproto">
+<div class="memtemplate">
+template&lt;unsigned int BACKEND = 0, typename T = GReal_t, size_t N = 1, bool V_ERROR = false, bool C_ERROR = false&gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">void hydra::UserParameters::AddParameter </td>
+          <td class="memname">__host__ void <a class="el" href="../../d1/d22/a00057.html">hydra::PointVector</a>&lt; BACKEND, T, N, V_ERROR, C_ERROR &gt;::AddPoint </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="../../d8/d41/a00038.html">hydra::Parameter</a> *&#160;</td>
-          <td class="paramname"><em>param</em></td><td>)</td>
+          <td class="paramtype"><a class="el" href="../../d1/d22/a00057.html#a3b7f1377161eb315d0b7a7f6cae42f70">value_type</a> const &amp;&#160;</td>
+          <td class="paramname"><em>point</em></td><td>)</td>
           <td></td>
         </tr>
       </table>
@@ -237,37 +412,21 @@ Public Member Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="../../df/d6a/a00119_source.html#l00080">80</a> of file <a class="el" href="../../df/d6a/a00119_source.html">UserParameters.h</a>.</p>
-
-<p>References <a class="el" href="../../d4/d3a/a00101_source.html#l00275">hydra::Parameter::GetError()</a>, <a class="el" href="../../d4/d3a/a00101_source.html#l00208">hydra::Parameter::GetLowerLim()</a>, <a class="el" href="../../d4/d3a/a00101_source.html#l00252">hydra::Parameter::GetName()</a>, <a class="el" href="../../d4/d3a/a00101_source.html#l00229">hydra::Parameter::GetUpperLim()</a>, <a class="el" href="../../d4/d3a/a00101_source.html#l00263">hydra::Parameter::GetValue()</a>, <a class="el" href="../../d4/d3a/a00101_source.html#l00296">hydra::Parameter::HasError()</a>, <a class="el" href="../../d4/d3a/a00101_source.html#l00286">hydra::Parameter::IsLimited()</a>, and <a class="el" href="../../d4/d3a/a00101_source.html#l00224">hydra::Parameter::SetIndex()</a>.</p>
-
-<p>Referenced by <a class="el" href="../../db/dab/a00089_source.html#l00085">main()</a>.</p>
-
-<p><div class="dynheader">
-Here is the call graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><iframe scrolling="no" frameborder="0" src="../../d1/d22/a00057_a891111b3ecb2c6ed41a9d00eba3fbf6d_cgraph.svg" width="423" height="392"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
-</div>
-</p>
-
-<p><div class="dynheader">
-Here is the caller graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><iframe scrolling="no" frameborder="0" src="../../d1/d22/a00057_a891111b3ecb2c6ed41a9d00eba3fbf6d_icgraph.svg" width="267" height="52"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
-</div>
-</p>
+<p>Definition at line <a class="el" href="../../d3/d00/a00113_source.html#l00100">100</a> of file <a class="el" href="../../d3/d00/a00113_source.html">PointVector.h</a>.</p>
 
 </div>
 </div>
-<a class="anchor" id="a58541b387566f846e3d0940e0b8d609b"></a>
+<a class="anchor" id="a0ffe74b37ca6de1bf3ae775a7e57a74f"></a>
 <div class="memitem">
 <div class="memproto">
+<div class="memtemplate">
+template&lt;unsigned int BACKEND = 0, typename T = GReal_t, size_t N = 1, bool V_ERROR = false, bool C_ERROR = false&gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">const ROOT::Minuit2::MnUserParameters&amp; hydra::UserParameters::GetState </td>
+          <td class="memname">__host__ <a class="el" href="../../d1/d22/a00057.html#ae801a5e2ec80d8b77955ea5abb4eee35">const_iterator</a> <a class="el" href="../../d1/d22/a00057.html">hydra::PointVector</a>&lt; BACKEND, T, N, V_ERROR, C_ERROR &gt;::begin </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td> const</td>
@@ -280,28 +439,30 @@ Here is the caller graph for this function:</div>
 </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="../../df/d6a/a00119_source.html#l00161">161</a> of file <a class="el" href="../../df/d6a/a00119_source.html">UserParameters.h</a>.</p>
+<p>Definition at line <a class="el" href="../../d3/d00/a00113_source.html#l00116">116</a> of file <a class="el" href="../../d3/d00/a00113_source.html">PointVector.h</a>.</p>
 
-<p>Referenced by <a class="el" href="../../db/dab/a00089_source.html#l00085">main()</a>, <a class="el" href="../../df/d6a/a00119_source.html#l00193">hydra::operator&lt;&lt;()</a>, and <a class="el" href="../../df/d6a/a00119_source.html#l00148">PrintMinuitParameters()</a>.</p>
+<p>Referenced by <a class="el" href="../../dd/dad/a00005_source.html#l00135">main()</a>.</p>
 
 <p><div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><iframe scrolling="no" frameborder="0" src="../../d1/d22/a00057_a58541b387566f846e3d0940e0b8d609b_icgraph.svg" width="375" height="155"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+<div class="center"><iframe scrolling="no" frameborder="0" src="../../d1/d22/a00057_a0ffe74b37ca6de1bf3ae775a7e57a74f_icgraph.svg" width="240" height="52"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 </div>
 </p>
 
 </div>
 </div>
-<a class="anchor" id="a379e4abd6f0345083c977e405da380a2"></a>
+<a class="anchor" id="a1ee3130ecd24163a89ed4117e562cb55"></a>
 <div class="memitem">
 <div class="memproto">
+<div class="memtemplate">
+template&lt;unsigned int BACKEND = 0, typename T = GReal_t, size_t N = 1, bool V_ERROR = false, bool C_ERROR = false&gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">ROOT::Minuit2::MnUserParameters&amp; hydra::UserParameters::GetState </td>
+          <td class="memname">__host__ <a class="el" href="../../d1/d22/a00057.html#abdd47cfbf4500e3ee65aba2c1e53c4d0">iterator</a> <a class="el" href="../../d1/d22/a00057.html">hydra::PointVector</a>&lt; BACKEND, T, N, V_ERROR, C_ERROR &gt;::begin </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td></td>
@@ -314,19 +475,21 @@ Here is the caller graph for this function:</div>
 </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="../../df/d6a/a00119_source.html#l00166">166</a> of file <a class="el" href="../../df/d6a/a00119_source.html">UserParameters.h</a>.</p>
+<p>Definition at line <a class="el" href="../../d3/d00/a00113_source.html#l00124">124</a> of file <a class="el" href="../../d3/d00/a00113_source.html">PointVector.h</a>.</p>
 
 </div>
 </div>
-<a class="anchor" id="a17e791cc7395bdf0560dba0a9d74ef7b"></a>
+<a class="anchor" id="a1f73f2ef01b12db0eb5e3bd8b9d9dc7a"></a>
 <div class="memitem">
 <div class="memproto">
+<div class="memtemplate">
+template&lt;unsigned int BACKEND = 0, typename T = GReal_t, size_t N = 1, bool V_ERROR = false, bool C_ERROR = false&gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">const std::unique_ptr&lt;ROOT::Minuit2::MnUserParameters&gt;&amp; hydra::UserParameters::GetStatePtr </td>
+          <td class="memname">__host__ <a class="el" href="../../d1/d22/a00057.html#ae801a5e2ec80d8b77955ea5abb4eee35">const_iterator</a> <a class="el" href="../../d1/d22/a00057.html">hydra::PointVector</a>&lt; BACKEND, T, N, V_ERROR, C_ERROR &gt;::end </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td> const</td>
@@ -339,28 +502,85 @@ Here is the caller graph for this function:</div>
 </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="../../df/d6a/a00119_source.html#l00171">171</a> of file <a class="el" href="../../df/d6a/a00119_source.html">UserParameters.h</a>.</p>
+<p>Definition at line <a class="el" href="../../d3/d00/a00113_source.html#l00118">118</a> of file <a class="el" href="../../d3/d00/a00113_source.html">PointVector.h</a>.</p>
 
-<p>Referenced by <a class="el" href="../../df/d6a/a00119_source.html#l00067">operator=()</a>.</p>
+<p>Referenced by <a class="el" href="../../dd/dad/a00005_source.html#l00135">main()</a>.</p>
 
 <p><div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><iframe scrolling="no" frameborder="0" src="../../d1/d22/a00057_a17e791cc7395bdf0560dba0a9d74ef7b_icgraph.svg" width="374" height="52"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+<div class="center"><iframe scrolling="no" frameborder="0" src="../../d1/d22/a00057_a1f73f2ef01b12db0eb5e3bd8b9d9dc7a_icgraph.svg" width="268" height="38"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 </div>
 </p>
 
 </div>
 </div>
-<a class="anchor" id="a3bfd91565b7f9a4c5cfb3ac6b3433f14"></a>
+<a class="anchor" id="a473dd9a02d513f4baac5696039982a7f"></a>
 <div class="memitem">
 <div class="memproto">
+<div class="memtemplate">
+template&lt;unsigned int BACKEND = 0, typename T = GReal_t, size_t N = 1, bool V_ERROR = false, bool C_ERROR = false&gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">const std::vector&lt;<a class="el" href="../../d8/d41/a00038.html">hydra::Parameter</a>* &gt;&amp; hydra::UserParameters::GetVariables </td>
+          <td class="memname">__host__ <a class="el" href="../../d1/d22/a00057.html#abdd47cfbf4500e3ee65aba2c1e53c4d0">iterator</a> <a class="el" href="../../d1/d22/a00057.html">hydra::PointVector</a>&lt; BACKEND, T, N, V_ERROR, C_ERROR &gt;::end </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="../../d3/d00/a00113_source.html#l00126">126</a> of file <a class="el" href="../../d3/d00/a00113_source.html">PointVector.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a2f67e5552530c5090d16bba717afa114"></a>
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;unsigned int BACKEND = 0, typename T = GReal_t, size_t N = 1, bool V_ERROR = false, bool C_ERROR = false&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">__host__ <a class="el" href="../../d1/d22/a00057.html#a3b7f1377161eb315d0b7a7f6cae42f70">value_type</a> const&amp; <a class="el" href="../../d1/d22/a00057.html">hydra::PointVector</a>&lt; BACKEND, T, N, V_ERROR, C_ERROR &gt;::GetPoint </td>
+          <td>(</td>
+          <td class="paramtype">size_t&#160;</td>
+          <td class="paramname"><em>i</em></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="../../d3/d00/a00113_source.html#l00106">106</a> of file <a class="el" href="../../d3/d00/a00113_source.html">PointVector.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="ae28e61569eba74a655ba5ab31f18607d"></a>
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;unsigned int BACKEND = 0, typename T = GReal_t, size_t N = 1, bool V_ERROR = false, bool C_ERROR = false&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">__host__ const <a class="el" href="../../d1/d22/a00057.html#a55930b3d4b822dd7a9d63b676f514344">type</a>&amp; <a class="el" href="../../d1/d22/a00057.html">hydra::PointVector</a>&lt; BACKEND, T, N, V_ERROR, C_ERROR &gt;::GetPoints </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td> const</td>
@@ -373,63 +593,21 @@ Here is the caller graph for this function:</div>
 </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="../../df/d6a/a00119_source.html#l00153">153</a> of file <a class="el" href="../../df/d6a/a00119_source.html">UserParameters.h</a>.</p>
-
-<p>Referenced by <a class="el" href="../../df/d6a/a00119_source.html#l00067">operator=()</a>.</p>
-
-<p><div class="dynheader">
-Here is the caller graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><iframe scrolling="no" frameborder="0" src="../../d1/d22/a00057_a3bfd91565b7f9a4c5cfb3ac6b3433f14_icgraph.svg" width="374" height="52"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
-</div>
-</p>
+<p>Definition at line <a class="el" href="../../d3/d00/a00113_source.html#l00090">90</a> of file <a class="el" href="../../d3/d00/a00113_source.html">PointVector.h</a>.</p>
 
 </div>
 </div>
-<a class="anchor" id="a1669e2daa6d9cf66d16d64636d2d8e32"></a>
+<a class="anchor" id="ad90e8de616316848fb5deb9878115d9c"></a>
 <div class="memitem">
 <div class="memproto">
+<div class="memtemplate">
+template&lt;unsigned int BACKEND = 0, typename T = GReal_t, size_t N = 1, bool V_ERROR = false, bool C_ERROR = false&gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="../../d1/d22/a00057.html">UserParameters</a>&amp; hydra::UserParameters::operator= </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="../../d1/d22/a00057.html">UserParameters</a> const &amp;&#160;</td>
-          <td class="paramname"><em>other</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Definition at line <a class="el" href="../../df/d6a/a00119_source.html#l00067">67</a> of file <a class="el" href="../../df/d6a/a00119_source.html">UserParameters.h</a>.</p>
-
-<p>References <a class="el" href="../../df/d6a/a00119_source.html#l00171">GetStatePtr()</a>, and <a class="el" href="../../df/d6a/a00119_source.html#l00153">GetVariables()</a>.</p>
-
-<p><div class="dynheader">
-Here is the call graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><iframe scrolling="no" frameborder="0" src="../../d1/d22/a00057_a1669e2daa6d9cf66d16d64636d2d8e32_cgraph.svg" width="374" height="118"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
-</div>
-</p>
-
-</div>
-</div>
-<a class="anchor" id="ae827fda081825eb09704bc35e289fdf3"></a>
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">void hydra::UserParameters::PrintMinuitParameters </td>
+          <td class="memname">__host__ <a class="el" href="../../d1/d22/a00057.html#a55930b3d4b822dd7a9d63b676f514344">type</a>&amp; <a class="el" href="../../d1/d22/a00057.html">hydra::PointVector</a>&lt; BACKEND, T, N, V_ERROR, C_ERROR &gt;::GetPoints </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td></td>
@@ -442,28 +620,77 @@ Here is the call graph for this function:</div>
 </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="../../df/d6a/a00119_source.html#l00148">148</a> of file <a class="el" href="../../df/d6a/a00119_source.html">UserParameters.h</a>.</p>
-
-<p>References <a class="el" href="../../df/d6a/a00119_source.html#l00161">GetState()</a>.</p>
-
-<p><div class="dynheader">
-Here is the call graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><iframe scrolling="no" frameborder="0" src="../../d1/d22/a00057_ae827fda081825eb09704bc35e289fdf3_cgraph.svg" width="375" height="52"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
-</div>
-</p>
+<p>Definition at line <a class="el" href="../../d3/d00/a00113_source.html#l00093">93</a> of file <a class="el" href="../../d3/d00/a00113_source.html">PointVector.h</a>.</p>
 
 </div>
 </div>
-<a class="anchor" id="af60d73d61e66c5d859da032fa0756048"></a>
+<a class="anchor" id="acfba6a70bd180fd5cb7ab335c5f8b444"></a>
 <div class="memitem">
 <div class="memproto">
+<div class="memtemplate">
+template&lt;unsigned int BACKEND = 0, typename T = GReal_t, size_t N = 1, bool V_ERROR = false, bool C_ERROR = false&gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">void hydra::UserParameters::PrintParameters </td>
+          <td class="memname">__host__ const <a class="el" href="../../d1/d22/a00057.html#a3b7f1377161eb315d0b7a7f6cae42f70">value_type</a>&amp; <a class="el" href="../../d1/d22/a00057.html">hydra::PointVector</a>&lt; BACKEND, T, N, V_ERROR, C_ERROR &gt;::operator[] </td>
+          <td>(</td>
+          <td class="paramtype">size_t&#160;</td>
+          <td class="paramname"><em>i</em></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="../../d3/d00/a00113_source.html#l00132">132</a> of file <a class="el" href="../../d3/d00/a00113_source.html">PointVector.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a6ebfbc333c0402a1950e6d5d9439f81b"></a>
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;unsigned int BACKEND = 0, typename T = GReal_t, size_t N = 1, bool V_ERROR = false, bool C_ERROR = false&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">__host__ <a class="el" href="../../d1/d22/a00057.html#a3b7f1377161eb315d0b7a7f6cae42f70">value_type</a>&amp; <a class="el" href="../../d1/d22/a00057.html">hydra::PointVector</a>&lt; BACKEND, T, N, V_ERROR, C_ERROR &gt;::operator[] </td>
+          <td>(</td>
+          <td class="paramtype">size_t&#160;</td>
+          <td class="paramname"><em>i</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="../../d3/d00/a00113_source.html#l00134">134</a> of file <a class="el" href="../../d3/d00/a00113_source.html">PointVector.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a2a667fefdb06891793078da57a5716a6"></a>
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;unsigned int BACKEND = 0, typename T = GReal_t, size_t N = 1, bool V_ERROR = false, bool C_ERROR = false&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">__host__ size_t <a class="el" href="../../d1/d22/a00057.html">hydra::PointVector</a>&lt; BACKEND, T, N, V_ERROR, C_ERROR &gt;::Size </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td></td>
@@ -476,137 +703,20 @@ Here is the call graph for this function:</div>
 </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="../../df/d6a/a00119_source.html#l00130">130</a> of file <a class="el" href="../../df/d6a/a00119_source.html">UserParameters.h</a>.</p>
-
-<p>References <a class="el" href="../../d1/dd6/a00108_source.html#l00098">HYDRA_CALLER</a>, <a class="el" href="../../d1/dd6/a00108_source.html#l00105">HYDRA_ENDL</a>, and <a class="el" href="../../d1/dd6/a00108_source.html#l00102">HYDRA_MSG</a>.</p>
-
-<p>Referenced by <a class="el" href="../../d9/dec/a00090_source.html#l00074">main()</a>.</p>
-
-<p><div class="dynheader">
-Here is the caller graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><iframe scrolling="no" frameborder="0" src="../../d1/d22/a00057_af60d73d61e66c5d859da032fa0756048_icgraph.svg" width="267" height="52"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
-</div>
-</p>
-
-</div>
-</div>
-<a class="anchor" id="ac29685d74dcdedada2d04911172b3d41"></a>
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">void hydra::UserParameters::SetState </td>
-          <td>(</td>
-          <td class="paramtype">ROOT::Minuit2::MnUserParameters const &amp;&#160;</td>
-          <td class="paramname"><em>state</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Definition at line <a class="el" href="../../df/d6a/a00119_source.html#l00176">176</a> of file <a class="el" href="../../df/d6a/a00119_source.html">UserParameters.h</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="a81f19d94a564c50dd674eae1146af91a"></a>
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">void hydra::UserParameters::SetVariables </td>
-          <td>(</td>
-          <td class="paramtype">const std::vector&lt; <a class="el" href="../../d8/d41/a00038.html">hydra::Parameter</a> * &gt; &amp;&#160;</td>
-          <td class="paramname"><em>variables</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Definition at line <a class="el" href="../../df/d6a/a00119_source.html#l00157">157</a> of file <a class="el" href="../../df/d6a/a00119_source.html">UserParameters.h</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="a1c811d0b261dc8b6e73996e9a84903ab"></a>
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">void hydra::UserParameters::UpdateParameterLimits </td>
-          <td>(</td>
-          <td class="paramtype">ROOT::Minuit2::MinosError const &amp;&#160;</td>
-          <td class="paramname"><em>minos_error</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Definition at line <a class="el" href="../../df/d6a/a00119_source.html#l00113">113</a> of file <a class="el" href="../../df/d6a/a00119_source.html">UserParameters.h</a>.</p>
-
-<p>References <a class="el" href="../../d1/dd6/a00108_source.html#l00092">HYDRA_LOG</a>, and <a class="el" href="../../d1/dd6/a00108_source.html#l00042">hydra::WARNING</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="a71455f390ac736ed22332ae528be687b"></a>
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">void hydra::UserParameters::UpdateParameters </td>
-          <td>(</td>
-          <td class="paramtype">ROOT::Minuit2::FunctionMinimum const &amp;&#160;</td>
-          <td class="paramname"><em>minimum</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Definition at line <a class="el" href="../../df/d6a/a00119_source.html#l00102">102</a> of file <a class="el" href="../../df/d6a/a00119_source.html">UserParameters.h</a>.</p>
+<p>Definition at line <a class="el" href="../../d3/d00/a00113_source.html#l00141">141</a> of file <a class="el" href="../../d3/d00/a00113_source.html">PointVector.h</a>.</p>
 
 </div>
 </div>
 <hr/>The documentation for this class was generated from the following file:<ul>
-<li><a class="el" href="../../df/d6a/a00119_source.html">UserParameters.h</a></li>
+<li><a class="el" href="../../d3/d00/a00113_source.html">PointVector.h</a></li>
 </ul>
 </div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="../../d4/d51/a00017.html">hydra</a></li><li class="navelem"><a class="el" href="../../d1/d22/a00057.html">UserParameters</a></li>
-    <li class="footer">Generated on Wed Oct 12 2016 06:08:16 for Hydra by
+    <li class="navelem"><a class="el" href="../../d5/d16/a00029.html">hydra</a></li><li class="navelem"><a class="el" href="../../d1/d22/a00057.html">PointVector</a></li>
+    <li class="footer">Generated on Thu Oct 13 2016 03:01:48 for Hydra by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="../../doxygen.png" alt="doxygen"/></a> 1.8.11 </li>
   </ul>

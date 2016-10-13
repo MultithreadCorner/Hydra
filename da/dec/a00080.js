@@ -1,6 +1,6 @@
 var a00080 =
 [
-    [ "LambdaWrapper", "dd/d1b/a00015.html#d1/d88/a00128", null ],
-    [ "LambdaWrapper< ReturnType(ArgType), L >", "df/d61/a00031.html", "df/d61/a00031" ],
-    [ "wrap_lambda", "da/dec/a00080.html#a53506830108537bc49811415296ba738", null ]
+    [ "__hydra_exec_check_disable__", "da/dec/a00080.html#a0916cfff5efbb734ef0bc4dc20ffa31a", null ],
+    [ "CUDA_API_PER_THREAD_DEFAULT_STREAM", "da/dec/a00080.html#a2a1de18eafc5d4cfda05de797f974211", null ],
+    [ "HYDRA_OS", "da/dec/a00080.html#a7c57d4e5beb85a3cb6b4e721e1f39790", null ]
 ];

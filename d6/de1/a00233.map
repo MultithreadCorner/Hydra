@@ -1,6 +1,4 @@
-<map id="strided_iterator.h" name="strided_iterator.h">
-<area shape="rect" id="node2" href="$d5/d1e/a00103.html" title="Implements the struct Events and the class PhaseSpace. " alt="" coords="227,80,334,107"/>
-<area shape="rect" id="node3" href="$db/dab/a00089.html" title="HydraFitExample.cpp" alt="" coords="5,155,153,181"/>
-<area shape="rect" id="node4" href="$da/d82/a00091.html" title="HydraPhaseSpaceExample.cpp" alt="" coords="177,155,384,181"/>
-<area shape="rect" id="node5" href="$d1/dc1/a00092.html" title="HydraPhaseSpaceExample.cu" alt="" coords="409,155,609,181"/>
+<map id="Print.h" name="Print.h">
+<area shape="rect" id="node2" href="$da/dec/a00080.html" title="hydra/detail/Config.h" alt="" coords="476,80,619,107"/>
+<area shape="rect" id="node12" href="$de/d36/a00123.html" title="hydra/Types.h" alt="" coords="643,80,748,107"/>
 </map>

@@ -1,6 +1,6 @@
 var a00094 =
 [
-    [ "Gauss", "d7/de0/a00022.html", "d7/de0/a00022" ],
-    [ "CUDA_API_PER_THREAD_DEFAULT_STREAM", "dc/d54/a00094.html#a2a1de18eafc5d4cfda05de797f974211", null ],
-    [ "main", "dc/d54/a00094.html#a32c166bdb75e9b204c87878f510ea1c5", null ]
+    [ "Hydra_VERSION_MAJOR", "dc/d54/a00094.html#a95d1abb83d001dc9cae163236910c439", null ],
+    [ "Hydra_VERSION_MINOR", "dc/d54/a00094.html#aca82490e4d49651a1d802f1cdb8b1e9b", null ],
+    [ "Hydra_VERSION_PATCH", "dc/d54/a00094.html#acb4a3b573ee645982d76cf1cf3c68bd8", null ]
 ];

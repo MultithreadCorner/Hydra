@@ -1,6 +1,6 @@
 var a00093 =
 [
-    [ "Gauss", "d7/de0/a00022.html", "d7/de0/a00022" ],
-    [ "CUDA_API_PER_THREAD_DEFAULT_STREAM", "d4/d7d/a00093.html#a2a1de18eafc5d4cfda05de797f974211", null ],
-    [ "main", "d4/d7d/a00093.html#a32c166bdb75e9b204c87878f510ea1c5", null ]
+    [ "LambdaWrapper", "d5/d16/a00029.html#d5/d4e/a00141", null ],
+    [ "LambdaWrapper< ReturnType(ArgType), L >", "d6/d97/a00045.html", "d6/d97/a00045" ],
+    [ "wrap_lambda", "d4/d7d/a00093.html#a53506830108537bc49811415296ba738", null ]
 ];

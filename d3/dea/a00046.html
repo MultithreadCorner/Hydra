@@ -4,7 +4,7 @@
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.11"/>
-<title>Hydra: hydra::Print Class Reference</title>
+<title>Hydra: hydra::LogLikelihood&lt; FUNCTOR, IteratorData, IteratorCache &gt; Struct Template Reference</title>
 <link href="../../tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="../../jquery.js"></script>
 <script type="text/javascript" src="../../dynsections.js"></script>
@@ -55,6 +55,7 @@ var searchBox = new SearchBox("searchBox", "../../search",false,'Search');
   <div id="navrow1" class="tabs">
     <ul class="tablist">
       <li><a href="../../index.html"><span>Main&#160;Page</span></a></li>
+      <li><a href="../../modules.html"><span>Modules</span></a></li>
       <li><a href="../../namespaces.html"><span>Namespaces</span></a></li>
       <li class="current"><a href="../../annotated.html"><span>Classes</span></a></li>
       <li><a href="../../files.html"><span>Files</span></a></li>
@@ -116,66 +117,190 @@ $(document).ready(function(){initNavTree('d3/dea/a00046.html','../../');});
 
 <div class="header">
   <div class="summary">
-<a href="#pub-static-methods">Static Public Member Functions</a> &#124;
-<a href="../../d0/d01/a00339.html">List of all members</a>  </div>
+<a href="#pub-types">Public Types</a> &#124;
+<a href="#pub-methods">Public Member Functions</a> &#124;
+<a href="../../de/dc8/a00325.html">List of all members</a>  </div>
   <div class="headertitle">
-<div class="title">hydra::Print Class Reference</div>  </div>
+<div class="title">hydra::LogLikelihood&lt; FUNCTOR, IteratorData, IteratorCache &gt; Struct Template Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
 <div class="dynheader">
-Collaboration diagram for hydra::Print:</div>
+Collaboration diagram for hydra::LogLikelihood&lt; FUNCTOR, IteratorData, IteratorCache &gt;:</div>
 <div class="dyncontent">
-<div class="center"><iframe scrolling="no" frameborder="0" src="../../df/df1/a00340.svg" width="104" height="118"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+<div class="center"><iframe scrolling="no" frameborder="0" src="../../d8/d23/a00326.svg" width="192" height="176"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 </div>
 <table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-static-methods"></a>
-Static Public Member Functions</h2></td></tr>
-<tr class="memitem:a03a2522e2192b2509284f25b4b899c7c"><td class="memItemLeft" align="right" valign="top">static int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d3/dea/a00046.html#a03a2522e2192b2509284f25b4b899c7c">SetLevel</a> (int level)</td></tr>
-<tr class="separator:a03a2522e2192b2509284f25b4b899c7c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a8420ebe5433589b26123013d567a887a"><td class="memItemLeft" align="right" valign="top">static int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d3/dea/a00046.html#a8420ebe5433589b26123013d567a887a">Level</a> ()</td></tr>
-<tr class="separator:a8420ebe5433589b26123013d567a887a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a92abedcb3fd91bc7f6ac01b0ea420fd9"><td class="memItemLeft" align="right" valign="top">static const char *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d3/dea/a00046.html#a92abedcb3fd91bc7f6ac01b0ea420fd9">Label</a> (int level)</td></tr>
-<tr class="separator:a92abedcb3fd91bc7f6ac01b0ea420fd9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-types"></a>
+Public Types</h2></td></tr>
+<tr class="memitem:a1d7075e41d99c634b7fc3e755718e495"><td class="memItemLeft" align="right" valign="top">typedef thrust::iterator_traits&lt; IteratorCache &gt;::value_type&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d3/dea/a00046.html#a1d7075e41d99c634b7fc3e755718e495">cache_value_type</a></td></tr>
+<tr class="separator:a1d7075e41d99c634b7fc3e755718e495"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a82e605b999cecea1976dda762a642083"><td class="memItemLeft" align="right" valign="top">typedef thrust::iterator_traits&lt; IteratorData &gt;::value_type&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d3/dea/a00046.html#a82e605b999cecea1976dda762a642083">data_value_type</a></td></tr>
+<tr class="separator:a82e605b999cecea1976dda762a642083"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
+Public Member Functions</h2></td></tr>
+<tr class="memitem:ae79521eda55419322f23ae767b3a30b1"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d3/dea/a00046.html#ae79521eda55419322f23ae767b3a30b1">LogLikelihood</a> (FUNCTOR const &amp;functor, <a class="el" href="../../d5/d16/a00029.html#a971e94bcb8c43741d11f9d8eb98f5fab">GReal_t</a> sumW, <a class="el" href="../../d5/d16/a00029.html#a971e94bcb8c43741d11f9d8eb98f5fab">GReal_t</a> sumW2, IteratorData dbegin, IteratorCache cbegin, <a class="el" href="../../d5/d16/a00029.html#aa8c251ed5017d0638da929130062bcad">GBool_t</a> weighted, <a class="el" href="../../d5/d16/a00029.html#aa8c251ed5017d0638da929130062bcad">GBool_t</a> cached)</td></tr>
+<tr class="separator:ae79521eda55419322f23ae767b3a30b1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8a212c4e6f65d8df49bcf4b9a9d76bbe"><td class="memItemLeft" align="right" valign="top">__host__ __device__&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d3/dea/a00046.html#a8a212c4e6f65d8df49bcf4b9a9d76bbe">LogLikelihood</a> (<a class="el" href="../../d3/dea/a00046.html">LogLikelihood</a>&lt; FUNCTOR, IteratorData, IteratorCache &gt; const &amp;other)</td></tr>
+<tr class="separator:a8a212c4e6f65d8df49bcf4b9a9d76bbe"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3f4ee844e7c7fc7629a869dde5b4b397"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../da/dec/a00080.html#a0916cfff5efbb734ef0bc4dc20ffa31a">__hydra_exec_check_disable__</a> __host__ __device__&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d3/dea/a00046.html#a3f4ee844e7c7fc7629a869dde5b4b397">~LogLikelihood</a> ()</td></tr>
+<tr class="separator:a3f4ee844e7c7fc7629a869dde5b4b397"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a46c111c088c17e59539dca835e1bd68d"><td class="memTemplParams" colspan="2">template&lt;typename U  = cache_value_type&gt; </td></tr>
+<tr class="memitem:a46c111c088c17e59539dca835e1bd68d"><td class="memTemplItemLeft" align="right" valign="top">__host__ __device__ <a class="el" href="../../d5/d16/a00029.html#a971e94bcb8c43741d11f9d8eb98f5fab">GReal_t</a>&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="../../d3/dea/a00046.html#a46c111c088c17e59539dca835e1bd68d">operator()</a> (size_t index, const typename std::enable_if&lt; !std::is_same&lt; U, <a class="el" href="../../d5/d16/a00029.html#d2/d82/a00142">null_type</a> &gt;::value, void &gt;::type *dummy=0)</td></tr>
+<tr class="separator:a46c111c088c17e59539dca835e1bd68d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2a9e765e64c62301946c4262417f7b92"><td class="memTemplParams" colspan="2">template&lt;typename U  = cache_value_type&gt; </td></tr>
+<tr class="memitem:a2a9e765e64c62301946c4262417f7b92"><td class="memTemplItemLeft" align="right" valign="top">__host__ __device__ <a class="el" href="../../d5/d16/a00029.html#a971e94bcb8c43741d11f9d8eb98f5fab">GReal_t</a>&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="../../d3/dea/a00046.html#a2a9e765e64c62301946c4262417f7b92">operator()</a> (size_t index, const typename std::enable_if&lt; std::is_same&lt; U, <a class="el" href="../../d5/d16/a00029.html#d2/d82/a00142">null_type</a> &gt;::value, void &gt;::type *dummy=0)</td></tr>
+<tr class="separator:a2a9e765e64c62301946c4262417f7b92"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock">
-<p>Definition at line <a class="el" href="../../d1/dd6/a00108_source.html#l00051">51</a> of file <a class="el" href="../../d1/dd6/a00108_source.html">Print.h</a>.</p>
-</div><h2 class="groupheader">Member Function Documentation</h2>
-<a class="anchor" id="a92abedcb3fd91bc7f6ac01b0ea420fd9"></a>
+<div class="textblock"><h3>template&lt;typename FUNCTOR, typename IteratorData, typename IteratorCache&gt;<br />
+struct hydra::LogLikelihood&lt; FUNCTOR, IteratorData, IteratorCache &gt;</h3>
+
+
+<p>Definition at line <a class="el" href="../../d5/d1e/a00103_source.html#l00054">54</a> of file <a class="el" href="../../d5/d1e/a00103_source.html">LogLikelihood.h</a>.</p>
+</div><h2 class="groupheader">Member Typedef Documentation</h2>
+<a class="anchor" id="a1d7075e41d99c634b7fc3e755718e495"></a>
 <div class="memitem">
 <div class="memproto">
+<div class="memtemplate">
+template&lt;typename FUNCTOR, typename IteratorData, typename IteratorCache&gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">typedef thrust::iterator_traits&lt;IteratorCache&gt;::value_type <a class="el" href="../../d3/dea/a00046.html">hydra::LogLikelihood</a>&lt; FUNCTOR, IteratorData, IteratorCache &gt;::<a class="el" href="../../d3/dea/a00046.html#a1d7075e41d99c634b7fc3e755718e495">cache_value_type</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="../../d5/d1e/a00103_source.html#l00057">57</a> of file <a class="el" href="../../d5/d1e/a00103_source.html">LogLikelihood.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a82e605b999cecea1976dda762a642083"></a>
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename FUNCTOR, typename IteratorData, typename IteratorCache&gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">typedef thrust::iterator_traits&lt;IteratorData&gt;::value_type <a class="el" href="../../d3/dea/a00046.html">hydra::LogLikelihood</a>&lt; FUNCTOR, IteratorData, IteratorCache &gt;::<a class="el" href="../../d3/dea/a00046.html#a82e605b999cecea1976dda762a642083">data_value_type</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="../../d5/d1e/a00103_source.html#l00056">56</a> of file <a class="el" href="../../d5/d1e/a00103_source.html">LogLikelihood.h</a>.</p>
+
+</div>
+</div>
+<h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
+<a class="anchor" id="ae79521eda55419322f23ae767b3a30b1"></a>
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename FUNCTOR, typename IteratorData, typename IteratorCache&gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">static const char* hydra::Print::Label </td>
+          <td class="memname"><a class="el" href="../../d3/dea/a00046.html">hydra::LogLikelihood</a>&lt; FUNCTOR, IteratorData, IteratorCache &gt;::<a class="el" href="../../d3/dea/a00046.html">LogLikelihood</a> </td>
           <td>(</td>
-          <td class="paramtype">int&#160;</td>
-          <td class="paramname"><em>level</em></td><td>)</td>
+          <td class="paramtype">FUNCTOR const &amp;&#160;</td>
+          <td class="paramname"><em>functor</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="../../d5/d16/a00029.html#a971e94bcb8c43741d11f9d8eb98f5fab">GReal_t</a>&#160;</td>
+          <td class="paramname"><em>sumW</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="../../d5/d16/a00029.html#a971e94bcb8c43741d11f9d8eb98f5fab">GReal_t</a>&#160;</td>
+          <td class="paramname"><em>sumW2</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">IteratorData&#160;</td>
+          <td class="paramname"><em>dbegin</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">IteratorCache&#160;</td>
+          <td class="paramname"><em>cbegin</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="../../d5/d16/a00029.html#aa8c251ed5017d0638da929130062bcad">GBool_t</a>&#160;</td>
+          <td class="paramname"><em>weighted</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="../../d5/d16/a00029.html#aa8c251ed5017d0638da929130062bcad">GBool_t</a>&#160;</td>
+          <td class="paramname"><em>cached</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="../../d5/d1e/a00103_source.html#l00060">60</a> of file <a class="el" href="../../d5/d1e/a00103_source.html">LogLikelihood.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a8a212c4e6f65d8df49bcf4b9a9d76bbe"></a>
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename FUNCTOR, typename IteratorData, typename IteratorCache&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">__host__ __device__ <a class="el" href="../../d3/dea/a00046.html">hydra::LogLikelihood</a>&lt; FUNCTOR, IteratorData, IteratorCache &gt;::<a class="el" href="../../d3/dea/a00046.html">LogLikelihood</a> </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="../../d3/dea/a00046.html">LogLikelihood</a>&lt; FUNCTOR, IteratorData, IteratorCache &gt; const &amp;&#160;</td>
+          <td class="paramname"><em>other</em></td><td>)</td>
           <td></td>
         </tr>
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">static</span></span>  </td>
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="../../d1/dd6/a00108_source.html#l00067">67</a> of file <a class="el" href="../../d1/dd6/a00108_source.html">Print.h</a>.</p>
+<p>Definition at line <a class="el" href="../../d5/d1e/a00103_source.html#l00072">72</a> of file <a class="el" href="../../d5/d1e/a00103_source.html">LogLikelihood.h</a>.</p>
+
+<p>References <a class="el" href="../../da/dec/a00080_source.html#l00047">__hydra_exec_check_disable__</a>.</p>
 
 </div>
 </div>
-<a class="anchor" id="a8420ebe5433589b26123013d567a887a"></a>
+<a class="anchor" id="a3f4ee844e7c7fc7629a869dde5b4b397"></a>
 <div class="memitem">
 <div class="memproto">
+<div class="memtemplate">
+template&lt;typename FUNCTOR, typename IteratorData, typename IteratorCache&gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">static int hydra::Print::Level </td>
+          <td class="memname"><a class="el" href="../../da/dec/a00080.html#a0916cfff5efbb734ef0bc4dc20ffa31a">__hydra_exec_check_disable__</a> __host__ __device__ <a class="el" href="../../d3/dea/a00046.html">hydra::LogLikelihood</a>&lt; FUNCTOR, IteratorData, IteratorCache &gt;::~<a class="el" href="../../d3/dea/a00046.html">LogLikelihood</a> </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td></td>
@@ -183,64 +308,106 @@ Static Public Member Functions</h2></td></tr>
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">static</span></span>  </td>
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="../../d1/dd6/a00108_source.html#l00063">63</a> of file <a class="el" href="../../d1/dd6/a00108_source.html">Print.h</a>.</p>
-
-<p>References <a class="el" href="../../d1/dd6/a00108_source.html#l00048">hydra::PrintLevel</a>.</p>
-
-<p>Referenced by <a class="el" href="../../d1/d44/a00098_source.html#l00098">hydra::LogLikelihoodFCN&lt; FUNCTOR, IteratorData, IteratorCache &gt;::Eval()</a>, <a class="el" href="../../d8/d53/a00081_source.html#l00343">hydra::BaseFunctor&lt; LambdaWrapper&lt; ReturnType(ArgType), L &gt;, ReturnType, 0 &gt;::SetParameters()</a>, and <a class="el" href="../../d9/dcc/a00102_source.html#l00155">hydra::Pdf&lt; FUNCTOR, INTEGRATOR &gt;::UpdateNorm()</a>.</p>
-
-<p><div class="dynheader">
-Here is the caller graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><iframe scrolling="no" frameborder="0" src="../../d3/dea/a00046_a8420ebe5433589b26123013d567a887a_icgraph.svg" width="396" height="199"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
-</div>
-</p>
+<p>Definition at line <a class="el" href="../../d5/d1e/a00103_source.html#l00084">84</a> of file <a class="el" href="../../d5/d1e/a00103_source.html">LogLikelihood.h</a>.</p>
 
 </div>
 </div>
-<a class="anchor" id="a03a2522e2192b2509284f25b4b899c7c"></a>
+<h2 class="groupheader">Member Function Documentation</h2>
+<a class="anchor" id="a46c111c088c17e59539dca835e1bd68d"></a>
 <div class="memitem">
 <div class="memproto">
+<div class="memtemplate">
+template&lt;typename FUNCTOR, typename IteratorData, typename IteratorCache&gt; </div>
+<div class="memtemplate">
+template&lt;typename U  = cache_value_type&gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">static int hydra::Print::SetLevel </td>
+          <td class="memname">__host__ __device__ <a class="el" href="../../d5/d16/a00029.html#a971e94bcb8c43741d11f9d8eb98f5fab">GReal_t</a> <a class="el" href="../../d3/dea/a00046.html">hydra::LogLikelihood</a>&lt; FUNCTOR, IteratorData, IteratorCache &gt;::operator() </td>
           <td>(</td>
-          <td class="paramtype">int&#160;</td>
-          <td class="paramname"><em>level</em></td><td>)</td>
+          <td class="paramtype">size_t&#160;</td>
+          <td class="paramname"><em>index</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
           <td></td>
+          <td class="paramtype">const typename std::enable_if&lt; !std::is_same&lt; U, <a class="el" href="../../d5/d16/a00029.html#d2/d82/a00142">null_type</a> &gt;::value, void &gt;::type *&#160;</td>
+          <td class="paramname"><em>dummy</em> = <code>0</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
         </tr>
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">static</span></span>  </td>
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="../../d1/dd6/a00108_source.html#l00056">56</a> of file <a class="el" href="../../d1/dd6/a00108_source.html">Print.h</a>.</p>
-
-<p>References <a class="el" href="../../d1/dd6/a00108_source.html#l00048">hydra::PrintLevel</a>.</p>
+<p>Definition at line <a class="el" href="../../d5/d1e/a00103_source.html#l00088">88</a> of file <a class="el" href="../../d5/d1e/a00103_source.html">LogLikelihood.h</a>.</p>
 
 </div>
 </div>
-<hr/>The documentation for this class was generated from the following file:<ul>
-<li><a class="el" href="../../d1/dd6/a00108_source.html">Print.h</a></li>
+<a class="anchor" id="a2a9e765e64c62301946c4262417f7b92"></a>
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename FUNCTOR, typename IteratorData, typename IteratorCache&gt; </div>
+<div class="memtemplate">
+template&lt;typename U  = cache_value_type&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">__host__ __device__ <a class="el" href="../../d5/d16/a00029.html#a971e94bcb8c43741d11f9d8eb98f5fab">GReal_t</a> <a class="el" href="../../d3/dea/a00046.html">hydra::LogLikelihood</a>&lt; FUNCTOR, IteratorData, IteratorCache &gt;::operator() </td>
+          <td>(</td>
+          <td class="paramtype">size_t&#160;</td>
+          <td class="paramname"><em>index</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const typename std::enable_if&lt; std::is_same&lt; U, <a class="el" href="../../d5/d16/a00029.html#d2/d82/a00142">null_type</a> &gt;::value, void &gt;::type *&#160;</td>
+          <td class="paramname"><em>dummy</em> = <code>0</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="../../d5/d1e/a00103_source.html#l00101">101</a> of file <a class="el" href="../../d5/d1e/a00103_source.html">LogLikelihood.h</a>.</p>
+
+</div>
+</div>
+<hr/>The documentation for this struct was generated from the following file:<ul>
+<li><a class="el" href="../../d5/d1e/a00103_source.html">LogLikelihood.h</a></li>
 </ul>
 </div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="../../d4/d51/a00017.html">hydra</a></li><li class="navelem"><a class="el" href="../../d3/dea/a00046.html">Print</a></li>
-    <li class="footer">Generated on Wed Oct 12 2016 06:08:16 for Hydra by
+    <li class="navelem"><a class="el" href="../../d5/d16/a00029.html">hydra</a></li><li class="navelem"><a class="el" href="../../d3/dea/a00046.html">LogLikelihood</a></li>
+    <li class="footer">Generated on Thu Oct 13 2016 03:01:48 for Hydra by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="../../doxygen.png" alt="doxygen"/></a> 1.8.11 </li>
   </ul>

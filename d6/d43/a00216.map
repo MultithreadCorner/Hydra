@@ -1,12 +1,8 @@
-<map id="PointVector.h" name="PointVector.h">
-<area shape="rect" id="node2" href="$df/d5f/a00064.html" title="hydra/detail/Config.h" alt="" coords="476,572,619,599"/>
-<area shape="rect" id="node12" href="$d2/da3/a00115.html" title="hydra/Types.h" alt="" coords="1300,572,1405,599"/>
-<area shape="rect" id="node13" href="$d0/dc2/a00104.html" title="hydra/Point.h" alt="" coords="1502,80,1601,107"/>
-<area shape="rect" id="node14" href="$d8/d87/a00118.html" title="hydra/detail/utility\l/Utility_Tuple.h" alt="" coords="1077,155,1201,196"/>
-<area shape="rect" id="node18" href="$d4/d3e/a00116.html" title="hydra/detail/TypeTraits.h" alt="" coords="511,251,677,278"/>
-<area shape="rect" id="node35" href="$d4/de8/a00061.html" title="hydra/detail/utility\l/Arithmetic_Tuple.h" alt="" coords="1225,155,1360,196"/>
-<area shape="rect" id="node15" href="$d4/d63/a00082.html" title="hydra/detail/utility\l/Generic.h" alt="" coords="1079,244,1203,285"/>
-<area shape="rect" id="node19" href="$d9/db3/a00066.html" title="Typedef for useful container classes used in MCBooster. " alt="" coords="1065,341,1197,367"/>
-<area shape="rect" id="node21" href="$df/d6a/a00119.html" title="hydra/Vector3R.h" alt="" coords="799,497,923,524"/>
-<area shape="rect" id="node26" href="$d4/d98/a00120.html" title="hydra/Vector4R.h" alt="" coords="1065,423,1189,449"/>
+<map id="Parameter.h" name="Parameter.h">
+<area shape="rect" id="node2" href="$da/dec/a00080.html" title="hydra/detail/Config.h" alt="" coords="476,393,619,420"/>
+<area shape="rect" id="node12" href="$de/d36/a00123.html" title="hydra/Types.h" alt="" coords="1112,393,1217,420"/>
+<area shape="rect" id="node13" href="$da/d72/a00124.html" title="hydra/detail/TypeTraits.h" alt="" coords="577,80,744,107"/>
+<area shape="rect" id="node14" href="$d4/d63/a00082.html" title="Typedef for useful container classes used in MCBooster. " alt="" coords="935,162,1067,189"/>
+<area shape="rect" id="node17" href="$df/dcd/a00127.html" title="hydra/Vector3R.h" alt="" coords="664,319,788,345"/>
+<area shape="rect" id="node22" href="$d1/d88/a00128.html" title="hydra/Vector4R.h" alt="" coords="1004,244,1128,271"/>
 </map>
