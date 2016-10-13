@@ -50,11 +50,64 @@ using namespace hydra;
 
 /**
  * @file
- * @brief HydraEvaluateExample take parameters from the command line, fill a range with random numbers and
- * evaluate C++11 lambdas in parallel using the OpenMP backend.
- * @param -n ( --number-of-events) is number of events to run the example
+ * @example HydraEvaluateExample.cpp
+ * @brief This is an example of how to use hydra::Eval to evaluate C++11 lambdas using the OpenMP backend.
+ * The usage and the expected output is something like this:
+```
+./Hydra_Example_GCC_DEVICE_OMP_HOST_CPP_Eval -n=10000000
+
+--------------------------------------------------------------
+| Evaluation of [sin(x), cos(x)]
+| Time (ms) = 534.884
+--------------------------------------------------------------
+--------------------------------------------------------------
+| Evaluation of [sin(x)^2 + cos(x)^2]
+| Time (ms) = 21.6937
+--------------------------------------------------------------
+|>   0 [sin(x), cos(x)] = (-0.303346204 -0.952880412) ............... [sin(x)^2 + cos(x)^2] = 1
+|>   1 [sin(x), cos(x)] = (0.974836209 -0.222922333) ............... [sin(x)^2 + cos(x)^2] = 1
+|>   2 [sin(x), cos(x)] = (-0.69576933 0.718265299) ............... [sin(x)^2 + cos(x)^2] = 1
+|>   3 [sin(x), cos(x)] = (0.853703285 -0.520759734) ............... [sin(x)^2 + cos(x)^2] = 1
+|>   4 [sin(x), cos(x)] = (-0.941210424 0.337820866) ............... [sin(x)^2 + cos(x)^2] = 1
+|>   5 [sin(x), cos(x)] = (-0.8711111 -0.491085992) ............... [sin(x)^2 + cos(x)^2] = 1
+|>   6 [sin(x), cos(x)] = (-0.0704802093 -0.997513178) ............... [sin(x)^2 + cos(x)^2] = 1
+|>   7 [sin(x), cos(x)] = (0.490961891 -0.87118105) ............... [sin(x)^2 + cos(x)^2] = 1
+|>   8 [sin(x), cos(x)] = (-0.78756139 0.616236202) ............... [sin(x)^2 + cos(x)^2] = 1
+|>   9 [sin(x), cos(x)] = (0.715995247 0.698105154) ............... [sin(x)^2 + cos(x)^2] = 1
+
+```
  */
 
+
+
+/**
+ * @file
+ * @brief This is an example of how to use hydra::Eval to evaluate C++11 lambdas using the OpenMP backend.
+ * The usage and the expected output is something like this:
+```
+./Hydra_Example_GCC_DEVICE_OMP_HOST_CPP_Eval -n=10000000
+
+--------------------------------------------------------------
+| Evaluation of [sin(x), cos(x)]
+| Time (ms) = 534.884
+--------------------------------------------------------------
+--------------------------------------------------------------
+| Evaluation of [sin(x)^2 + cos(x)^2]
+| Time (ms) = 21.6937
+--------------------------------------------------------------
+|>   0 [sin(x), cos(x)] = (-0.303346204 -0.952880412) ............... [sin(x)^2 + cos(x)^2] = 1
+|>   1 [sin(x), cos(x)] = (0.974836209 -0.222922333) ............... [sin(x)^2 + cos(x)^2] = 1
+|>   2 [sin(x), cos(x)] = (-0.69576933 0.718265299) ............... [sin(x)^2 + cos(x)^2] = 1
+|>   3 [sin(x), cos(x)] = (0.853703285 -0.520759734) ............... [sin(x)^2 + cos(x)^2] = 1
+|>   4 [sin(x), cos(x)] = (-0.941210424 0.337820866) ............... [sin(x)^2 + cos(x)^2] = 1
+|>   5 [sin(x), cos(x)] = (-0.8711111 -0.491085992) ............... [sin(x)^2 + cos(x)^2] = 1
+|>   6 [sin(x), cos(x)] = (-0.0704802093 -0.997513178) ............... [sin(x)^2 + cos(x)^2] = 1
+|>   7 [sin(x), cos(x)] = (0.490961891 -0.87118105) ............... [sin(x)^2 + cos(x)^2] = 1
+|>   8 [sin(x), cos(x)] = (-0.78756139 0.616236202) ............... [sin(x)^2 + cos(x)^2] = 1
+|>   9 [sin(x), cos(x)] = (0.715995247 0.698105154) ............... [sin(x)^2 + cos(x)^2] = 1
+
+```
+ */
 GInt_t main(int argv, char** argc)
 {
 

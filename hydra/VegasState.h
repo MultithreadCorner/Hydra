@@ -26,6 +26,11 @@
  *      Author: Antonio Augusto Alves Junior
  */
 
+/**
+ * \file
+ * \ingroup numerical_integration
+ */
+
 #ifndef VEGASSTATE_H_
 #define VEGASSTATE_H_
 
@@ -576,6 +581,8 @@ public:
 	inline void CopyStateToDevice()
 	{
 		thrust::copy(fXi.begin(), fXi.end(), fDeviceXi.begin());
+		thrust::copy( fDistribution.begin(),
+						  						  fDistribution.end(), fDeviceDistribution.begin());
 
 	}
 	__host__

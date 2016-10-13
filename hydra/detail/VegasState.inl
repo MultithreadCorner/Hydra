@@ -26,6 +26,12 @@
  *      Author: Antonio Augusto Alves Junior
  */
 
+/**
+ * \file
+ * \ingroup numerical_integration
+ */
+
+
 #ifndef VEGASSTATE_INL_
 #define VEGASSTATE_INL_
 

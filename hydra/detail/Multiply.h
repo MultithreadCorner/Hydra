@@ -27,6 +27,12 @@
  *      Author: Antonio Augusto Alves Junior
  */
 
+/**
+ * \file
+ * \ingroup functor
+ */
+
+
 #ifndef MULTIPLY_H_
 #define MULTIPLY_H_
 

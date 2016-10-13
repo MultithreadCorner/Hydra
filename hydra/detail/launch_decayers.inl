@@ -26,6 +26,12 @@
  *      Author: Antonio Augusto Alves Junior
  */
 
+/**
+ * \file
+ * \ingroup phsp
+ */
+
+
 #ifndef LAUNCH_DECAYER_INC
 #define LAUNCH_DECAYER_INC
 

@@ -27,9 +27,11 @@
  */
 
 
-/*!\file PhaseSpace.h
- * Implements the struct Events and the class PhaseSpace
+/**
+ * \file
+ * \ingroup phsp
  */
+
 
 #ifndef PHASESPACE_H_
 #define PHASESPACE_H_

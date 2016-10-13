@@ -29,6 +29,11 @@
  *      Author: Antonio Augusto Alves Junior
  */
 
+/**
+ * \file
+ * \ingroup phsp
+ */
+
 #ifndef VECTOR4R_H_
 #define VECTOR4R_H_
 

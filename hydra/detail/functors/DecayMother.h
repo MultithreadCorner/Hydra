@@ -30,6 +30,11 @@
  *      Author: Antonio Augusto Alves Junior
  */
 
+/**
+ * \file
+ * \ingroup phsp
+ */
+
 #ifndef DECAYMOTHER_H_
 #define DECAYMOTHER_H_
 

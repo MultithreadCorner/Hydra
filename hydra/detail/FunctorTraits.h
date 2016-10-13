@@ -26,6 +26,12 @@
  *      Author: Antonio Augusto Alves Junior
  */
 
+/**
+ * \file
+ * \ingroup functor
+ */
+
+
 #ifndef FUNCTORTRAITS_H_
 #define FUNCTORTRAITS_H_
 

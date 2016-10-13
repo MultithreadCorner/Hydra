@@ -28,7 +28,10 @@
  *      Author: Antonio Augusto Alves Junior
  */
 
-
+/**
+ * \file
+ * \ingroup generic
+ */
 
 /*! \file Containers.h
  *  Typedef for useful container classes used in MCBooster.

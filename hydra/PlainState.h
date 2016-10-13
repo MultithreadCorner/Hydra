@@ -26,6 +26,12 @@
  *      Author: Antonio Augusto Alves Junior
  */
 
+/**
+ * \file
+ * \ingroup numerical_integration
+ */
+
+
 #ifndef PLAINSTATE_H_
 #define PLAINSTATE_H_
 

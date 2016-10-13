@@ -27,6 +27,12 @@
  *      Author: Antonio Augusto Alves Junior
  */
 
+/**
+ * \file
+ * \ingroup functor
+ */
+
+
 #ifndef SUM_H_
 #define SUM_H_
 

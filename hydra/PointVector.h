@@ -26,6 +26,11 @@
  *      Author: Antonio Augusto Alves Junior
  */
 
+/**
+ * \file
+ * \ingroup generic
+ */
+
 #ifndef POINTVECTOR_H_
 #define POINTVECTOR_H_
 

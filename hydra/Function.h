@@ -27,6 +27,12 @@
  *      Author: Antonio Augusto Alves Junior
  */
 
+/**
+ * \file
+ * \ingroup functor
+ */
+
+
 #ifndef FUNCTION_H_
 #define FUNCTION_H_
 

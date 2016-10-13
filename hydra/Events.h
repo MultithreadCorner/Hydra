@@ -26,6 +26,12 @@
  *      Author: Antonio Augusto Alves Junior
  */
 
+/**
+ * \file
+ * \ingroup phsp
+ */
+
+
 #ifndef EVENTS_H_
 #define EVENTS_H_
 

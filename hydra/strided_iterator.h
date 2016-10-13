@@ -30,7 +30,10 @@
 
 
 
-
+/**
+ * \file
+ * \ingroup generic
+ */
 
 #ifndef STRIDED_ITERATOR_H_
 #define STRIDED_ITERATOR_H_

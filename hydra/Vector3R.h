@@ -29,6 +29,12 @@
  */
 
 
+/**
+ * \file
+ * \ingroup phsp
+ */
+
+
 #ifndef VECTOR3R_H_
 #define VECTOR3R_H_
 

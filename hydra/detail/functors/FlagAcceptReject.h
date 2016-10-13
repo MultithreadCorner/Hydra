@@ -30,9 +30,12 @@
  *      Author: Antonio Augusto Alves Junior
  */
 
-/**\file FlagAcceptReject.h
- * Implements FlagAcceptReject.
+
+/**
+ * \file
+ * \ingroup phsp
  */
+
 #ifndef FLAGACCEPTEDREJECTED_H_
 #define FLAGACCEPTEDREJECTED_H_
 

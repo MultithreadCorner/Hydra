@@ -26,6 +26,16 @@
  *      Author: Antonio Augusto Alves Junior
  */
 
+/**
+ * \file
+ * \ingroup functor
+ */
+
+/**
+ * \file
+ * \ingroup generic
+ */
+
 #ifndef RANGE_H_
 #define RANGE_H_
 

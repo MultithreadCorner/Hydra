@@ -23,8 +23,14 @@
  * LogLikelihood.h
  *
  *  Created on: 06/08/2016
- *      Author: augalves
+ *      Author: Antonio Augusto Alves Junior
  */
+
+/**
+ * \file
+ * \ingroup fit
+ */
+
 
 #ifndef LOGLIKELIHOOD_H_
 #define LOGLIKELIHOOD_H_

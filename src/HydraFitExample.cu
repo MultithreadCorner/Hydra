@@ -1,27 +1,41 @@
+/*----------------------------------------------------------------------------
+ *
+ *   Copyright (C) 2016 Antonio Augusto Alves Junior
+ *
+ *   This file is part of Hydra Data Analysis Framework.
+ *
+ *   Hydra is free software: you can redistribute it and/or modify
+ *   it under the terms of the GNU General Public License as published by
+ *   the Free Software Foundation, either version 3 of the License, or
+ *   (at your option) any later version.
+ *
+ *   Hydra is distributed in the hope that it will be useful,
+ *   but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *   GNU General Public License for more details.
+ *
+ *   You should have received a copy of the GNU General Public License
+ *   along with Hydra.  If not, see <http://www.gnu.org/licenses/>.
+ *
+ *---------------------------------------------------------------------------*/
+
 /*
- * TestHydra.cu
+ * HydraFitExample.cu
  *
  *  Created on: Jun 21, 2016
- *      Author: augalves
+ *      Author: Antonio Augusto Alves Junior
  */
 
-#include <stdio.h>
-#include <stdlib.h>
 #include <iostream>
 #include <assert.h>
 #include <time.h>
 #include <string>
 #include <vector>
 #include <array>
-#include <tuple>
-#include <chrono>
-#include <type_traits>
-#include <typeinfo>
 #include <chrono>
 
 //command line arguments
 #include <tclap/CmdLine.h>
-#define CUDA_API_PER_THREAD_DEFAULT_STREAM
 
 //this lib
 #include <hydra/Types.h>
@@ -70,7 +84,53 @@ using namespace std;
 using namespace ROOT::Minuit2;
 using namespace hydra;
 
+/**
+ * @file
+ * @example HydraFitExample.cu
+ * @brief HydraFitExample take parameters from the command line, fill a range with random numbers sampled from
+ * the model and perform a extended likelihood fit in parallel using the OpenMP backend.
+ * @param -c (--combined-minimizer):  Use Migrad + Simplex for minimization
+ * @param -i=<double> (--max-iterations=<double>) : Maximum number of iterations for migrad and minimize call.
+ * @param -t=<double> (--tolerance=<double>) : Tolerance parameter for migrad and minimize call.
+ * @param -n=<long> (--number-of-events=<long>) (required):  Number of events for each component.
+ *
+ * Usage:
+ * ./Hydra_Example_NVCC_DEVICE_CUDA_HOST_OMP_Fit  [-c] [-i=<double>]
+ *                                      [-t=<double>] -n=<long> [--]
+ *                                      [--version] [-h]
+ *
+ * For example, the command below:
+ * ```
+ * ./Hydra_Example_NVCC_DEVICE_CUDA_HOST_OMP_Fit -n=1000000
+ * ```
+ * will print some stuff to standard output and produce the plot:
+ *
+ * @image html Fit_CUDA.png
+ */
 
+
+/**
+ * @file
+ * @brief HydraFitExample take parameters from the command line, fill a range with random numbers sampled from
+ * the model and perform a extended likelihood fit in parallel using the OpenMP backend.
+ * @param -c (--combined-minimizer):  Use Migrad + Simplex for minimization
+ * @param -i=<double> (--max-iterations=<double>) : Maximum number of iterations for migrad and minimize call.
+ * @param -t=<double> (--tolerance=<double>) : Tolerance parameter for migrad and minimize call.
+ * @param -n=<long> (--number-of-events=<long>) (required):  Number of events for each component.
+ *
+ * Usage:
+ * ./Hydra_Example_NVCC_DEVICE_CUDA_HOST_OMP_Fit  [-c] [-i=<double>]
+ *                                      [-t=<double>] -n=<long> [--]
+ *                                      [--version] [-h]
+ *
+ * For example, the command below:
+ * ```
+ * ./Hydra_Example_NVCC_DEVICE_CUDA_HOST_OMP_Fit -n=1000000
+ * ```
+ * will print some stuff to standard output and produce the plot:
+ *
+ * @image html Fit_CUDA.png
+ */
 GInt_t main(int argv, char** argc)
 {
 
@@ -285,14 +345,14 @@ GInt_t main(int argv, char** argc)
 	}
 
 	auto end = std::chrono::high_resolution_clock::now();
-	auto elapsed = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
+	std::chrono::duration<double, std::milli> elapsed = end - start;
 
 	// output
 	std::cout<<"minimum: "<<*minimum<<std::endl;
 
 	//time
 	std::cout << "-----------------------------------------"<<std::endl;
-	std::cout << "| Time (s) ="<< GReal_t(elapsed.count())/1000000 <<std::endl;
+	std::cout << "| Time (ms) ="<< elapsed.count() <<std::endl;
 	std::cout << "-----------------------------------------"<<std::endl;
 
 	//------------------------------------------------------
@@ -350,7 +410,7 @@ GInt_t main(int argv, char** argc)
 	hist_gaussian_plot.SetLineColor(2);
 	hist_gaussian_plot.SetLineWidth(2);
 
-	canvas_gauss.Print("Fit_gaussian.pdf");
+	canvas_gauss.SaveAs("./plots/Fit_CUDA.png");
 
 	myapp->Run();
 

@@ -26,6 +26,12 @@
  *      Author: Antonio Augusto Alves Junior
  */
 
+/**
+ * \file
+ * \ingroup functor
+ */
+
+
 #ifndef FUNCTORARITHMETIC_H_
 #define FUNCTORARITHMETIC_H_
 

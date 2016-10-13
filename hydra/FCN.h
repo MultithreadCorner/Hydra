@@ -25,6 +25,10 @@
  *  Created on: 14/08/2016
  *      Author: Antonio Augusto Alves Junior
  */
+/**
+ * \file
+ * \ingroup fit
+ */
 
 #ifndef FCN_H_
 #define FCN_H_

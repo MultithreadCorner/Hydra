@@ -26,6 +26,11 @@
  *      Author: Antonio Augusto Alves Junior
  */
 
+/**
+ * \file
+ * \ingroup fit
+ */
+
 #ifndef LOGLIKELIHOODFCN_H_
 #define LOGLIKELIHOODFCN_H_
 

@@ -26,6 +26,12 @@
  *      Author: Antonio Augusto Alves Junior
  */
 
+/**
+ * \file
+ * \ingroup numerical_integration
+ */
+
+
 #ifndef PROCESSCALLSPLAIN_H_
 #define PROCESSCALLSPLAIN_H_
 

@@ -28,9 +28,12 @@
  *      Author: Antonio Augusto Alves Junior
  */
 
-/**\file IsAccepted.h
- * Implements isAccepted.
+
+/**
+ * \file
+ * \ingroup phsp
  */
+
 
 #ifndef ISACCEPTED_H_
 #define ISACCEPTED_H_

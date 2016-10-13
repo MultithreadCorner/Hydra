@@ -26,6 +26,12 @@
  *      Author: Antonio Augusto Alves Junior
  */
 
+/**
+ * \file
+ * \ingroup random
+ */
+
+
 #ifndef RANDOMUTILS_H_
 #define RANDOMUTILS_H_
 

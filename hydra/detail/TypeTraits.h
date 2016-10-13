@@ -25,7 +25,10 @@
  *  Created on: 09/06/2016
  *      Author: Antonio Augusto Alves Junior
  */
-
+/**
+ * \file
+ * \ingroup generic
+ */
 #ifndef TYPETRAITS_H_
 #define TYPETRAITS_H_
 

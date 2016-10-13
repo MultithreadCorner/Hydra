@@ -27,6 +27,12 @@
  *      Author: Antonio Augusto Alves Junior
  */
 
+/**
+ * \file
+ * \ingroup numerical_integration
+ */
+
+
 #ifndef PLAIN_H_
 #define PLAIN_H_
 
