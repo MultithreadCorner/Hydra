@@ -175,9 +175,12 @@ GInt_t main(int argv, char** argc)
 	PhaseSpace<3> phsp(B0.mass(), massesB0);
 
 	Events<3, device> B02JpsiKpi_Events_d(nentries);
+	//static_assert( thrust::iterator_system<typename Events<3, device>::iterator>::type::dummy, "<=============");
+
+
 
 	auto start = std::chrono::high_resolution_clock::now();
-	phsp.Generate(B0, B02JpsiKpi_Events_d);
+	phsp.Generate(B0, B02JpsiKpi_Events_d.begin(), B02JpsiKpi_Events_d.end());
 	auto end = std::chrono::high_resolution_clock::now();
 	std::chrono::duration<double, std::milli> elapsed = end - start;
 	//time

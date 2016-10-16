@@ -51,61 +51,46 @@
 namespace hydra {
 
 	namespace detail {
-/*
-		template<size_t ...Index>
-		__host__
-		inline auto get_zip_iterator(std::array<Particles_d, sizeof ...(Index)>& particles,	index_sequence<Index...>)
-				-> decltype( thrust::make_zip_iterator( thrust::make_tuple( particles[Index].begin()...)) )
-		{
-			return thrust::make_zip_iterator(
-			thrust::make_tuple(particles[Index].begin()...));
-		}
 
-		template<size_t ...Index>
-		__host__
-		inline auto get_zip_iterator(Particles_d& mothers, std::array<Particles_d, sizeof ...(Index)>& particles,	index_sequence<Index...>)
-		-> decltype( thrust::make_zip_iterator( thrust::make_tuple(mothers.begin() , particles[Index].begin()...)) )
-		{
-			return thrust::make_zip_iterator(
-					thrust::make_tuple(mothers.begin() , particles[Index].begin()...));
-		}
-*/
-		template<size_t N, unsigned int BACKEND, typename GRND>
+
+	template<size_t N, unsigned int BACKEND, typename GRND, typename Iterator>
+	__host__ inline
+	void launch_decayer(Iterator begin, Iterator end, DecayMother<N, BACKEND, GRND> const& decayer)
+	{
+
+		size_t nevents = thrust::distance(begin, end);
+		thrust::counting_iterator<GLong_t> first(0);
+		thrust::counting_iterator<GLong_t> last = first + nevents;
+
+		auto begin_weights = thrust::get<0>(begin.get_iterator_tuple());
+
+		auto begin_temp = detail::dropFirst( begin.get_iterator_tuple() );
+
+		auto begin_particles = thrust::make_zip_iterator(begin_temp);
+
+		thrust::transform(first, last, begin_particles, begin_weights, decayer);
+
+		return;
+	}
+
+
+		template<size_t N, unsigned int BACKEND, typename GRND, typename Iterator, typename Iterator2>
 		__host__ inline
-		void launch_decayer(DecayMother<N, BACKEND, GRND> const& decayer, Events<N, BACKEND>& events)
+		void launch_decayer(Iterator begin, Iterator end, Iterator2 begin_mothers,
+				DecayMothers<N, BACKEND,GRND> const& decayer)
 		{
 
+			size_t nevents = thrust::distance(begin, end);
 			thrust::counting_iterator<GLong_t> first(0);
-			thrust::counting_iterator<GLong_t> last = first + events.GetNEvents();
+			thrust::counting_iterator<GLong_t> last = first + nevents;
 
-			std::array< typename Events<N, BACKEND>::vector_particles_iterator,N> begins;
-					for(int i =0; i < N; i++)
-						begins[i]= events.DaughtersBegin(i);
+			auto begin_weights = thrust::get<0>(begin.get_iterator_tuple());
 
-			auto zip_begin = get_zip_iterator(begins);
+			auto begin_temp = detail::changeFirst(  begin_mothers, begin.get_iterator_tuple() );
 
-			thrust::transform(first, last, zip_begin, events.WeightsBegin(), decayer);
+			auto begin_particles = thrust::make_zip_iterator(begin_temp);
 
-			return;
-		}
-
-		template<size_t N, unsigned int BACKEND, typename GRND>
-		__host__ inline
-		void launch_decayer(DecayMothers<N, BACKEND,GRND> const& decayer,
-				typename Events<N, BACKEND>::vector_particles_iterator mothers_begin,
-				Events<N, BACKEND>& events)
-		{
-
-			thrust::counting_iterator<GLong_t> first(0);
-			thrust::counting_iterator<GLong_t> last = first + events.GetNEvents();
-
-			std::array< typename Events<N, BACKEND>::vector_particles_iterator,N> begins;
-			for(int i =0; i < N; i++)
-				begins[i]= events.DaughtersBegin(i);
-
-			auto zip_begin = get_zip_iterator(mothers_begin, begins);
-
-			thrust::transform(first, last, zip_begin, events.WeightsBegin(), decayer);
+			thrust::transform(first, last, begin_particles, begin_weights, decayer);
 
 			return;
 		}

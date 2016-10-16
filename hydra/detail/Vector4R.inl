@@ -368,7 +368,7 @@ inline GReal_t Vector4R::dot(const Vector4R& p2) const
 
 	GReal_t temp;
 
-	temp = v[1] * p2.v[1];
+	temp  = v[1] * p2.v[1];
 	temp += v[2] * p2.v[2];
 	temp += v[3] * p2.v[3];
 

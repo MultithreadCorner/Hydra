@@ -115,27 +115,26 @@ public:
 
 	~PhaseSpace() {}
 
-	template<unsigned int BACKEND>
-	void Generate(Vector4R const& mother, Events<N, BACKEND>& events)
+	template<typename Iterator>
+	void Generate(Vector4R const& mother, Iterator begin, Iterator end)
 	{
 		/**
-			 * Run the generator and calculate the maximum weight. It takes as input the fourvector of the mother particle
-			 * in any system of reference. The daughters will be generated in this system.
-			 */
+		 * Run the generator and calculate the maximum weight. It takes as input the fourvector of the mother particle
+		 * in any system of reference. The daughters will be generated in this system.
+		*/
 
 #if(THRUST_DEVICE_SYSTEM==THRUST_DEVICE_BACKEND_CUDA && (BACKEND==device))
 	cudaDeviceSetCacheConfig(cudaFuncCachePreferL1);
 #endif
 
 
-			DecayMother<N, BACKEND,GRND> decayer(mother,fMasses, fNDaughters, fSeed);
-			detail::launch_decayer(decayer, events );
+			DecayMother<N, detail::IteratorTraits<Iterator>::type::backend,GRND> decayer(mother,fMasses, fNDaughters, fSeed);
+			detail::launch_decayer(begin, end, decayer );
 
 	}
 
-	template<unsigned int BACKEND>
-	void Generate(typename Events<N, BACKEND>::vector_particles_iterator mothers_begin,
-			typename Events<N, BACKEND>::vector_particles_iterator mothers_end, Events<N, BACKEND>& events)
+	template<typename Iterator1, typename Iterator2>
+	void Generate( Iterator1 begin, Iterator1 end, Iterator1 mothers_begin)
 	{
 		/**
 		 * Run the generator and calculate the maximum weight. It takes as input the device vector with the four-vectors of the mother particle
@@ -146,16 +145,9 @@ public:
 	cudaDeviceSetCacheConfig(cudaFuncCachePreferL1);
 #endif
 
-		size_t n_mothers= thrust::distance(mothers_end,mothers_begin);
 
-
-		if ( events.GetNEvents()  != n_mothers){
-			cout << "NEvents != NMothers" << endl;
-			exit(1);
-		}
-
-		DecayMothers<N, BACKEND,GRND> decayer(fMasses, fNDaughters, fSeed);
-		detail::launch_decayer(decayer,mothers_begin, events );
+		DecayMothers<N, detail::IteratorTraits<Iterator1>::type::backend,GRND> decayer(fMasses, fNDaughters, fSeed);
+		detail::launch_decayer(begin, end, mothers_begin, decayer );
 
 
 

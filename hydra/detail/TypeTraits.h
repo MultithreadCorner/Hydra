@@ -40,6 +40,8 @@
 #include <thrust/complex.h>
 #include <thrust/detail/type_traits.h>
 #include <thrust/execution_policy.h>
+#include <thrust/iterator/iterator_categories.h>
+#include <thrust/iterator/detail/is_iterator_category.h>
 
 namespace std {
 
@@ -64,6 +66,43 @@ namespace hydra {
 
 	namespace detail {
 
+	//----------------------
+	template<bool Condition, template<typename ...> class T1, template<typename ...> class T2>
+	struct if_then_else_tt;
+
+	template<template<typename ...> class T1, template<typename ...> class T2>
+	struct if_then_else_tt<true, T1, T2>
+	{
+		template<typename ...T>
+		using type=T1<T...>;
+	};
+
+	template<template<typename ...> class T1, template<typename ...> class T2>
+	struct if_then_else_tt<false, T1, T2>
+	{
+		template<typename ...T>
+		using type=T2<T...>;
+	};
+
+
+	//----------------------
+
+	template<bool C, typename T1, typename T2>
+	class if_then_else;
+
+	template<typename T1, typename T2>
+	class if_then_else<true, T1, T2>
+	{
+	public:
+		typedef T1 type;
+	};
+
+	template<typename T1, typename T2>
+	class if_then_else<false, T1, T2>
+	{
+	public:
+		typedef T2 type;
+	};
 		enum {kInvalidNumber = -111};
 
 		template<typename T>
@@ -89,12 +128,13 @@ namespace hydra {
 		};
 
 		//--------------------------------
-		template< int BACKEND>
+		template<unsigned int BACKEND>
 		struct BackendTraits;
 
 		template<>
 		struct BackendTraits<device>: thrust::execution_policy<thrust::detail::device_t>
 		{
+			constexpr static unsigned int backend= device;
 			template<typename T>
 			using   container = mc_device_vector<T>;
 			//typedef thrust::execution_policy<thrust::detail::device_t> policy;
@@ -104,49 +144,20 @@ namespace hydra {
 		template<>
 		struct BackendTraits<host>: thrust::execution_policy<thrust::detail::host_t>
 		{
+			constexpr static unsigned int backend= host;
 			template<typename T>
 			using   container = mc_host_vector<T>;
 			//typedef thrust::execution_policy<thrust::detail::host_t> policy;
 		};
 
-
-
-		//----------------------
-		template<bool Condition, template<typename ...> class T1, template<typename ...> class T2>
-		struct if_then_else_tt;
-
-		template<template<typename ...> class T1, template<typename ...> class T2>
-		struct if_then_else_tt<true, T1, T2>
+		//--------------------------------
+		template<typename Iterator>
+		struct IteratorTraits
 		{
-			template<typename ...T>
-			using type=T1<T...>;
-		};
-
-		template<template<typename ...> class T1, template<typename ...> class T2>
-		struct if_then_else_tt<false, T1, T2>
-		{
-			template<typename ...T>
-			using type=T2<T...>;
-		};
-
-
-		//----------------------
-
-		template<bool C, typename T1, typename T2>
-		class if_then_else;
-
-		template<typename T1, typename T2>
-		class if_then_else<true, T1, T2>
-		{
-		public:
-			typedef T1 type;
-		};
-
-		template<typename T1, typename T2>
-		class if_then_else<false, T1, T2>
-		{
-		public:
-			typedef T2 type;
+			typedef typename if_then_else<thrust::detail::is_host_iterator_category<
+					typename thrust::iterator_traits<Iterator>::iterator_category>::value,
+					BackendTraits<host>,
+					BackendTraits<device> >::type type;
 		};
 
 		//----------------------

@@ -176,9 +176,12 @@ GInt_t main(int argv, char** argc)
 	PhaseSpace<3> phsp(B0.mass(), massesB0);
 
 	Events<3, device> B02JpsiKpi_Events_d(nentries);
+	//static_assert( thrust::iterator_system<typename Events<3, device>::iterator>::type::dummy, "<=============");
+
+
 
 	auto start = std::chrono::high_resolution_clock::now();
-	phsp.Generate(B0, B02JpsiKpi_Events_d);
+	phsp.Generate(B0, B02JpsiKpi_Events_d.begin(), B02JpsiKpi_Events_d.end());
 	auto end = std::chrono::high_resolution_clock::now();
 	std::chrono::duration<double, std::milli> elapsed = end - start;
 	//time
@@ -240,8 +243,6 @@ GInt_t main(int argv, char** argc)
 			pow(daughter2_mass+daughter3_mass,2), pow(mother_mass - daughter1_mass,2),
 			100, 	pow(daughter1_mass+daughter3_mass,2), pow(mother_mass - daughter2_mass,2));
 
-
-
 	for(auto event: B02JpsiKpi_Events_h){
 
 		GReal_t weight = thrust::get<0>(event);
@@ -257,9 +258,6 @@ GInt_t main(int argv, char** argc)
 
 		dalitz.Fill(mass1*mass1 , mass2*mass2,  weight);
 	}
-
-
-
 
 
 	TApplication *myapp=new TApplication("myapp",0,0);

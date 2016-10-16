@@ -107,6 +107,37 @@ namespace hydra {
 
 	}
 	//----------------------------------------
+	template<typename Head,  typename ...Tail,  size_t... Is >
+	auto dropFirstHelper(thrust::tuple<Head, Tail...> const& t  , index_sequence<Is...> )
+	-> thrust::tuple<Tail...>
+	{
+		return thrust::tie( thrust::get<Is+1>(t)... );
+	}
+
+	template< typename Head,  typename ...Tail>
+	auto dropFirst( thrust::tuple<Head, Tail...> const& t)
+	-> decltype(dropFirstHelper( t, make_index_sequence<sizeof...(Tail) >{} ))
+	{
+		return dropFirstHelper(t , make_index_sequence<sizeof ...(Tail)>{} );
+	}
+
+	//----------------------------------------
+	template<typename T, typename Head,  typename ...Tail,  size_t... Is >
+	auto changeFirstHelper(T& new_first, thrust::tuple<Head, Tail...> const& t  , index_sequence<Is...> )
+	-> thrust::tuple<Tail...>
+	{
+		return thrust::tie(new_first, thrust::get<Is+1>(t)... );
+	}
+
+	template<typename T, typename Head,  typename ...Tail>
+	auto changeFirst(T& new_first, thrust::tuple<Head, Tail...> const& t)
+	-> decltype(dropFirstHelper(new_first, t, make_index_sequence<sizeof...(Tail) + 1>{} ))
+	{
+		return changeFirstHelper(new_first, t , make_index_sequence<sizeof ...(Tail)>{} );
+	}
+
+
+	//----------------------------------------
 	//make a homogeneous tuple with same value in all elements
 	template <typename T,  size_t... Is >
 	auto make_tuple_helper(std::array<T, sizeof ...(Is)>& Array, index_sequence<Is...>)
