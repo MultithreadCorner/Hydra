@@ -164,7 +164,7 @@ Here’s what you should do if you need help or would like to contribute:
 1. If you need help or would like to ask a general question, subscribe and use https://groups.google.com/forum/#!forum/hydra-libray-users.
 2. If you found a bug, use GitHub issues.
 3. If you have an idea, use GitHub issues.
-4. If you want to contribute, submit a pull request.
+4. If you want to contribute, submit a pull request https://github.com/AAAlvesJr/Hydra.
 
 Author
 --------
