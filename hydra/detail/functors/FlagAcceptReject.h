@@ -30,9 +30,12 @@
  *      Author: Antonio Augusto Alves Junior
  */
 
-/**\file FlagAcceptReject.h
- * Implements FlagAcceptReject.
+
+/**
+ * \file
+ * \ingroup phsp
  */
+
 #ifndef FLAGACCEPTEDREJECTED_H_
 #define FLAGACCEPTEDREJECTED_H_
 
@@ -45,6 +48,10 @@
 
 namespace hydra
 {
+namespace detail
+{
+
+
 /**\struct FlagAcceptReject
  * Flags generated events as accepted (1) or rejected (0).
  */
@@ -93,7 +100,8 @@ struct FlagAcceptReject
 	}
 
 };
-}
+}//namespace detail
+}//namespace hydra
 
 
 

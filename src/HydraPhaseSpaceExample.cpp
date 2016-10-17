@@ -1,26 +1,39 @@
+/*----------------------------------------------------------------------------
+ *
+ *   Copyright (C) 2016 Antonio Augusto Alves Junior
+ *
+ *   This file is part of Hydra Data Analysis Framework.
+ *
+ *   Hydra is free software: you can redistribute it and/or modify
+ *   it under the terms of the GNU General Public License as published by
+ *   the Free Software Foundation, either version 3 of the License, or
+ *   (at your option) any later version.
+ *
+ *   Hydra is distributed in the hope that it will be useful,
+ *   but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *   GNU General Public License for more details.
+ *
+ *   You should have received a copy of the GNU General Public License
+ *   along with Hydra.  If not, see <http://www.gnu.org/licenses/>.
+ *
+ *---------------------------------------------------------------------------*/
 /*
  * HydraPhaseSpaceExample.cu
  *
  *  Created on: Sep 22, 2016
- *      Author: augalves
+ *      Author: Antonio Augusto Alves Junior
  */
 
-#include <stdio.h>
-#include <stdlib.h>
 #include <iostream>
 #include <assert.h>
 #include <time.h>
-#include <string>
-#include <map>
 #include <vector>
 #include <array>
-#include <tuple>
 #include <chrono>
-#include <type_traits>
-#include <typeinfo>
 //command line
 #include <tclap/CmdLine.h>
-#define CUDA_API_PER_THREAD_DEFAULT_STREAM
+
 
 //this lib
 #include <hydra/Types.h>
@@ -44,21 +57,61 @@
 #include <TColor.h>
 #include <TString.h>
 #include <TStyle.h>
-#include "RooGlobalFunc.h"
-#include "RooRealVar.h"
-#include "RooDataSet.h"
-#include "RooDataHist.h"
-#include "RooCFunction1Binding.h"
-#include "RooTFnBinding.h"
-#include "RooPlot.h"
-
-#include <src/Gauss.h>
-#include <src/Exp.h>
 
 using namespace std;
 using namespace hydra;
 
 
+/**
+ * @file
+ * @example HydraPhaseSpaceExample.cpp
+ * @brief HydraPhaseSpaceExample take parameters from the command line and generates sample of 3-body phase-space decays
+ * in parallel using the OpenMP backend.
+ * @param -m=<double> invariant mass of the mother particle
+ * @param -a=<double> invariant mass of the first daughter particle
+ * @param -b=<double> invariant mass of the second daughter particle
+ * @param -c=<double> invariant mass of the third daughter particle
+ * @param -n=<long> number of events to generate.
+ *
+ * Usage:
+ *
+ *./Hydra_Example_GCC_DEVICE_OMP_HOST_CPP_PHSP  -c=<double> -b=<double>
+ *   -a=<double> -m=<double> -n=<long>
+ *
+ * For example, the command below:
+ *
+ * ```
+ * ./Hydra_Example_GCC_DEVICE_OMP_HOST_CPP_PHSP -n=10000000 -m=5.2795 -a=3.096916 -b=0.493677 -c=0.13957018
+ * ```
+ * will print some stuff to standard output and produce the plot:
+ *
+ * @image html PHSP_OpenMP.png
+ */
+
+/**
+ * @file
+ * @brief HydraPhaseSpaceExample take parameters from the command line and generates sample of 3-body phase-space decays
+ * in parallel using the OpenMP backend.
+ * @param -m=<double> invariant mass of the mother particle
+ * @param -a=<double> invariant mass of the first daughter particle
+ * @param -b=<double> invariant mass of the second daughter particle
+ * @param -c=<double> invariant mass of the third daughter particle
+ * @param -n=<long> number of events to generate.
+ *
+ * Usage:
+ *
+ *./Hydra_Example_GCC_DEVICE_OMP_HOST_CPP_PHSP  -c=<double> -b=<double>
+ *   -a=<double> -m=<double> -n=<long>
+ *
+ * For example, the command below:
+ *
+ * ```
+ * ./Hydra_Example_GCC_DEVICE_OMP_HOST_CPP_PHSP -n=10000000 -m=5.2795 -a=3.096916 -b=0.493677 -c=0.13957018
+ * ```
+ * will print some stuff to standard output and produce the plot:
+ *
+ * @image html PHSP_OpenMP.png
+ */
 GInt_t main(int argv, char** argc)
 {
 
@@ -123,14 +176,17 @@ GInt_t main(int argv, char** argc)
 	PhaseSpace<3> phsp(B0.mass(), massesB0);
 
 	Events<3, device> B02JpsiKpi_Events_d(nentries);
+	//static_assert( thrust::iterator_system<typename Events<3, device>::iterator>::type::dummy, "<=============");
+
+
 
 	auto start = std::chrono::high_resolution_clock::now();
-	phsp.Generate(B0, B02JpsiKpi_Events_d);
+	phsp.Generate(B0, B02JpsiKpi_Events_d.begin(), B02JpsiKpi_Events_d.end());
 	auto end = std::chrono::high_resolution_clock::now();
-	auto elapsed = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
+	std::chrono::duration<double, std::milli> elapsed = end - start;
 	//time
 	std::cout << "-----------------------------------------"<<std::endl;
-	std::cout << "| Time (s) ="<< GReal_t(elapsed.count())/1000000 <<std::endl;
+	std::cout << "| Time (ms) ="<< elapsed.count() <<std::endl;
 	std::cout << "-----------------------------------------"<<std::endl;
 
 	for( size_t i=0; i<10; i++ ){
@@ -153,20 +209,11 @@ GInt_t main(int argv, char** argc)
 	auto M23 = [] __host__ __device__( Events<3, device>::value_type event)
 	{ return  (thrust::get<2>(event)+ thrust::get<3>(event)).mass2(); };
 
-	auto Weight_W  = LambdaWrapper<GReal_t( Events<3, device>::value_type),
-					decltype(Weight) >(Weight);
-
-	auto MB0_W  = LambdaWrapper<GReal_t( Events<3, device>::value_type),
-				decltype(MB0) >(MB0);
-
-	auto M12_W  = LambdaWrapper<GReal_t( Events<3, device>::value_type),
-			decltype(M12) >(M12);
-
-	auto M13_W  = LambdaWrapper<GReal_t( Events<3, device>::value_type),
-				decltype(M13) >(M13);
-
-	auto M23_W  = LambdaWrapper<GReal_t( Events<3, device>::value_type),
-					decltype(M23) >(M23);
+	auto Weight_W  = wrap_lambda(Weight);
+	auto MB0_W     = wrap_lambda(MB0);
+	auto M12_W     = wrap_lambda(M12);
+	auto M13_W     = wrap_lambda(M13);
+	auto M23_W     = wrap_lambda(M23);
 
 
 
@@ -221,9 +268,10 @@ GInt_t main(int argv, char** argc)
 	TApplication *myapp=new TApplication("myapp",0,0);
 	TCanvas canvas_gauss("canvas_gauss", "Gaussian distribution", 500, 500);
 	dalitz.Draw("colz");
-	canvas_gauss.Print("PHSP.pdf");
+	canvas_gauss.Print("plots/PHSP_OpenMP.png");
 	myapp->Run();
 
 
 return 0;
+
 }

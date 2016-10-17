@@ -26,6 +26,10 @@
  *  Created on: 10/06/2016
  *      Author: Antonio Augusto Alves Junior
  */
+/**
+ * \file
+ * \ingroup functor
+ */
 
 #ifndef DIVIDE_H_
 #define DIVIDE_H_

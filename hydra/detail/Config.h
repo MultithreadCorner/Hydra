@@ -48,11 +48,19 @@
 
 #endif
 
+#if defined(__CUDACC__)
+#define __hydra_align__(n) __align__(n)
+#else
+  #define       __hydra_align__(n) __attribute__((aligned(n)))
+#endif
+
 #if THRUST_DEVICE_SYSTEM==THRUST_DEVICE_SYSTEM_CUDA
  #include <cuda.h>
  #include <cuda_runtime.h>
  #include <cuda_runtime_api.h>
  #include <math_functions.h>
+ #include <thrust/system/cuda/execution_policy.h>
+ #include <thrust/system/cuda/experimental/pinned_allocator.h>
 #endif
 
 #ifndef HYDRA_CERROR_LOG

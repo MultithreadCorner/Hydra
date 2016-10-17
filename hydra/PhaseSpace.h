@@ -27,9 +27,11 @@
  */
 
 
-/*!\file PhaseSpace.h
- * Implements the struct Events and the class PhaseSpace
+/**
+ * \file
+ * \ingroup phsp
  */
+
 
 #ifndef PHASESPACE_H_
 #define PHASESPACE_H_
@@ -56,6 +58,7 @@
 #include <hydra/detail/functors/DecayMothers.h>
 #include <hydra/detail/functors/FlagAcceptReject.h>
 #include <hydra/detail/functors/IsAccepted.h>
+#include <hydra/detail/utility/Generic.h>
 #include <hydra/strided_iterator.h>
 #include <hydra/detail/launch_decayers.inl>
 
@@ -66,9 +69,6 @@
 #include <thrust/random.h>
 #include <thrust/distance.h>
 
-#if !(THRUST_DEVICE_SYSTEM==THRUST_DEVICE_BACKEND_OMP || THRUST_DEVICE_SYSTEM==THRUST_DEVICE_BACKEND_TBB)
-#include <thrust/system/cuda/execution_policy.h>
-#endif
 
 #include <thrust/system/omp/execution_policy.h>
 
@@ -93,8 +93,10 @@ public:
 		fSeed(1)
 
 {
+
 		fMasses.resize(_Masses.size());
 		thrust::copy(_Masses.begin(), _Masses.end(), fMasses.begin());
+
 
 		GReal_t fTeCmTm = 0.0;
 
@@ -113,64 +115,41 @@ public:
 
 	~PhaseSpace() {}
 
-	template<unsigned int BACKEND>
-	void Generate(Vector4R const& mother, Events<N, BACKEND>& events)
+	template<typename Iterator>
+	void Generate(Vector4R const& mother, Iterator begin, Iterator end)
 	{
 		/**
-			 * Run the generator and calculate the maximum weight. It takes as input the fourvector of the mother particle
-			 * in any system of reference. The daughters will be generated in this system.
-			 */
+		 * Run the generator and calculate the maximum weight. It takes as input the fourvector of the mother particle
+		 * in any system of reference. The daughters will be generated in this system.
+		*/
 
-#if !(THRUST_DEVICE_SYSTEM==THRUST_DEVICE_BACKEND_OMP || THRUST_DEVICE_SYSTEM==THRUST_DEVICE_BACKEND_TBB)
+#if(THRUST_DEVICE_SYSTEM==THRUST_DEVICE_BACKEND_CUDA && (BACKEND==device))
 	cudaDeviceSetCacheConfig(cudaFuncCachePreferL1);
 #endif
-			typedef detail::BackendTraits<BACKEND> system_t;
 
-			typedef typename system_t::template container<GReal_t> vector_real;
 
-			vector_real masses(fMasses);
+	detail::DecayMother<N, detail::IteratorTraits<Iterator>::type::backend,GRND> decayer(mother,fMasses, fNDaughters, fSeed);
+			detail::launch_decayer(begin, end, decayer );
 
-			DecayMother<N, BACKEND,GRND> decayer(mother, masses, fNDaughters, fSeed);
-			detail::launch_decayer(decayer, events );
-
-			//setting maximum weight
-			auto w = thrust::max_element(events.WeightsBegin(),
-					events.WeightsEnd());
-			events.SetMaxWeight(*w);
 	}
 
-	template<unsigned int BACKEND>
-	void Generate(typename Events<N, BACKEND>::vector_particles_iterator mothers_begin,
-			typename Events<N, BACKEND>::vector_particles_iterator mothers_end, Events<N, BACKEND>& events)
+	template<typename Iterator1, typename Iterator2>
+	void Generate( Iterator1 begin, Iterator1 end, Iterator1 mothers_begin)
 	{
 		/**
 		 * Run the generator and calculate the maximum weight. It takes as input the device vector with the four-vectors of the mother particle
 		 * in any system of reference. The daughters will be generated in this system.
 		 */
 
-#if !(THRUST_DEVICE_SYSTEM==THRUST_DEVICE_BACKEND_OMP || THRUST_DEVICE_SYSTEM==THRUST_DEVICE_BACKEND_TBB)
+#if(THRUST_DEVICE_SYSTEM==THRUST_DEVICE_BACKEND_CUDA && (BACKEND==device))
 	cudaDeviceSetCacheConfig(cudaFuncCachePreferL1);
 #endif
-		typedef detail::BackendTraits<BACKEND> system_t;
-
-		typedef typename system_t::template container<GReal_t> vector_real;
-
-		vector_real masses(fMasses);
-
-		size_t n_mothers= thrust::distance(mothers_end,mothers_begin);
 
 
-		if ( events.GetNEvents()  != n_mothers){
-			cout << "NEvents != NMothers" << endl;
-			exit(1);
-		}
+	detail::DecayMothers<N, detail::IteratorTraits<Iterator1>::type::backend,GRND> decayer(fMasses, fNDaughters, fSeed);
+		detail::launch_decayer(begin, end, mothers_begin, decayer );
 
-		DecayMothers<N, BACKEND,GRND> decayer(masses, fNDaughters, fSeed);
-		detail::launch_decayer(decayer,mothers_begin, events );
 
-		RealVector_d::iterator w = thrust::max_element(events.WeightsBegin(),
-				events.WeightsEnd());
-		events.SetMaxWeight(*w);
 
 	}
 
@@ -195,9 +174,12 @@ public:
 
 private:
 
+
 	GInt_t  fNDaughters;///< Number of daughters.
 	GInt_t  fSeed;///< seed.
-	vector<GReal_t> fMasses;///<  vector of daughter masses.
+	vector<GReal_t> fMasses;
+
+
 
 
 };

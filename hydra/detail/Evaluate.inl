@@ -26,6 +26,12 @@
  *      Author: Antonio Augusto Alves Junior
  */
 
+/**
+ * \file
+ * \ingroup functor
+ */
+
+
 #ifndef EVALUATE_INL_
 #define EVALUATE_INL_
 
@@ -77,172 +83,6 @@ inline 	size_t get_size(std::array<V<T>*, N>const & Array)
 
 }/* namespace detail */
 
-/*
-template< typename Iterator,typename ...Iterators, typename ...Functors,
-typename thrust::detail::enable_if<
-hydra::detail::are_all_same<typename Range<Iterator>::system ,
-typename Range<Iterators>::system...>::value, int>::type=0>
-inline auto Eval(thrust::tuple<Functors...> const& t,Range<Iterator>const& range, Range<Iterators>const&...  ranges) ->
-typename detail::if_then_else<std::is_same<thrust::device_system_tag,typename Range<Iterator>::system>::value,
-typename EvalReturnType<mc_device_vector,typename Functors::return_type ...>::type,
-typename EvalReturnType<mc_host_vector,typename Functors::return_type ...>::type>::type
-{
-	typedef typename detail::if_then_else<
-			std::is_same<thrust::device_system_tag,typename  Range<Iterator>::system>::value,
-			mc_device_vector< thrust::tuple<typename Functors::return_type ...> >,
-			mc_host_vector< thrust::tuple<typename Functors::return_type ...> > >::type container;
-
-	auto begin = thrust::make_zip_iterator(thrust::make_tuple(range.begin(), ranges.begin()...) );
-	auto end   = thrust::make_zip_iterator(thrust::make_tuple(range.end(), ranges.end()...) );
-
-	container Table( thrust::distance(begin, end) );
-
-	thrust::transform(begin, end ,  Table.begin(),
-			detail::process< thrust::tuple<typename Functors::return_type ...>, thrust::tuple<Functors...>>(t) );
-
-	return Table;
-}
-*/
-/*
-template< typename ...Iterators, typename ...Functors,
-typename U =typename thrust::detail::enable_if<
-hydra::detail::are_all_same< thrust::host_system_tag,typename Range<Iterators>::system...>::value,	void>::type>
-inline auto Eval(thrust::tuple<Functors...> const& t, Range<Iterators> const&... ranges)
--> typename EvalReturnType<mc_host_vector,typename Functors::return_type ...>::type
-{
-	auto begin = thrust::make_zip_iterator(thrust::make_tuple(ranges.begin()...) );
-	auto end   = thrust::make_zip_iterator(thrust::make_tuple(ranges.end()...) );
-
-	mc_host_vector< thrust::tuple<typename Functors::return_type ...> > Table( thrust::distance(begin, end) );
-
-	thrust::transform(begin, end ,  Table.begin(),
-			detail::process< thrust::tuple<typename Functors::return_type ...>, thrust::tuple<Functors...>>(t) );
-
-	return Table;
-}*/
-
-/*
-template< template <class, class...> class V, typename T,  size_t N, typename ...Functors>
-inline auto Eval( std::array<V<T>*,N>const & Array, thrust::tuple<Functors...> const& t)
-->	typename EvalReturnType<V, typename Functors::return_type ...>::type
-{
-
-
-	size_t entries = detail::get_size<T, V, N>(Array);
-	V< thrust::tuple<typename Functors::return_type ...> > Table(entries);
-
-	std::array<typename V<T>::iterator, N> Array_Begin;
-	std::array<typename V<T>::iterator, N> Array_End;
-
-	for(size_t i=0;i<N;i++)
-	{
-		Array_Begin[i] = Array[i]->begin();
-		Array_End[i]   = Array[i]->end();
-
-	}
-
-	auto begin = thrust::make_zip_iterator( detail::arrayToTuple(Array_Begin));
-	auto end   = thrust::make_zip_iterator( detail::arrayToTuple(Array_End));
-
-	thrust::transform(begin, end ,  Table.begin(),
-			detail::process< thrust::tuple<typename Functors::return_type ...>, thrust::tuple<Functors...>>(t) );
-
-	return Table;
-
-
-}
-
-template< template <class, class...> class V, typename T,   size_t N, typename ...Functors>
-inline void Eval( std::array<V<T>*, N>const & Array, thrust::tuple<Functors...> const& t,
-		V< thrust::tuple<typename Functors::return_type ...> >& Table)
-{
-
-
-	size_t entries = detail::get_size<T, V, N>(Array);
-
-
-	std::array<typename V<T>::iterator, N> Array_Begin;
-	std::array<typename V<T>::iterator, N> Array_End;
-
-	for(size_t i=0;i<N;i++)
-	{
-		Array_Begin[i] = Array[i]->begin();
-		Array_End[i]   = Array[i]->end();
-
-	}
-
-	auto begin = thrust::make_zip_iterator( detail::arrayToTuple(Array_Begin));
-	auto end   = thrust::make_zip_iterator( detail::arrayToTuple(Array_End));
-
-	thrust::transform(begin, end , Table.begin(),
-			detail::process< thrust::tuple<typename Functors::return_type ...>,
-			thrust::tuple<Functors...>>(t) );
-
-
-}
-
-
-template< template <class, class...> class V, typename T,typename Tuple,  size_t N, typename ...Functors>
-inline auto Eval( std::array<V<T>*,N>const & Array,
-		V<Tuple> const& Cache, thrust::tuple<Functors...> const& t)
-->	typename EvalReturnType<V, typename Functors::return_type ...>::type
-{
-
-
-	size_t entries = detail::get_size<T, V, N>(Array);
-	V< thrust::tuple<typename Functors::return_type ...> > Table(entries);
-
-	std::array<typename V<T>::iterator, N> Array_Begin;
-	std::array<typename V<T>::iterator, N> Array_End;
-
-	for(size_t i=0;i<N;i++)
-	{
-		Array_Begin[i] = Array[i]->begin();
-		Array_End[i]   = Array[i]->end();
-
-	}
-
-	auto begin = thrust::make_zip_iterator( detail::arrayToTuple(Array_Begin));
-	auto end   = thrust::make_zip_iterator( detail::arrayToTuple(Array_End));
-
-	thrust::transform(begin, end , Cache.begin(), Table.begin(),
-			detail::process< thrust::tuple<typename Functors::return_type ...>, thrust::tuple<Functors...>>(t) );
-
-	return Table;
-
-
-}
-
-template< template <class, class...> class V, typename T,  typename Tuple, size_t N, typename ...Functors>
-inline void Eval( std::array<V<T>*, N>const & Array, V<Tuple> const& Cache,	thrust::tuple<Functors...> const& t,
-		V< thrust::tuple<typename Functors::return_type ...> >& Table)
-{
-
-
-	size_t entries = detail::get_size<T, V, N>(Array);
-
-
-	std::array<typename V<T>::iterator, N> Array_Begin;
-	std::array<typename V<T>::iterator, N> Array_End;
-
-	for(size_t i=0;i<N;i++)
-	{
-		Array_Begin[i] = Array[i]->begin();
-		Array_End[i]   = Array[i]->end();
-
-	}
-
-	auto begin = thrust::make_zip_iterator( detail::arrayToTuple(Array_Begin));
-	auto end   = thrust::make_zip_iterator( detail::arrayToTuple(Array_End));
-
-	thrust::transform(begin, end ,Cache.begin(), Table.begin(),
-			detail::process< thrust::tuple<typename Functors::return_type ...>,
-			thrust::tuple<Functors...>>(t) );
-
-
-}
-
-*/
 
 }// namespace hydra
 

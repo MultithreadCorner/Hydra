@@ -30,6 +30,11 @@
  *      Author: Antonio Augusto Alves Junior
  */
 
+/**
+ * \file
+ * \ingroup phsp
+ */
+
 #ifndef DECAYMOTHERS_H_
 #define DECAYMOTHERS_H_
 
@@ -45,9 +50,11 @@
 #include <thrust/tuple.h>
 #include <thrust/iterator/zip_iterator.h>
 
-using namespace std;
 
 namespace hydra
+{
+
+namespace detail
 {
 
 template <size_t N, unsigned int BACKEND, typename GRND>
@@ -276,7 +283,7 @@ struct DecayMothers
 
 
 };
-
-}
+}//namespace detail
+}//namespace hydra
 
 #endif /* DECAYMOTHERS_H_ */

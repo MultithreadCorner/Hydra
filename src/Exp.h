@@ -14,6 +14,7 @@
 
 using namespace hydra;
 
+namespace examples {
 struct Exp:public BaseFunctor<Exp, GReal_t, 1>
 {
 
@@ -110,6 +111,6 @@ struct InvExp
 
 
 };
-
+}
 
 #endif /* EXP_H_ */

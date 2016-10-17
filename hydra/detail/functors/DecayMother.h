@@ -30,6 +30,11 @@
  *      Author: Antonio Augusto Alves Junior
  */
 
+/**
+ * \file
+ * \ingroup phsp
+ */
+
 #ifndef DECAYMOTHER_H_
 #define DECAYMOTHER_H_
 
@@ -51,13 +56,17 @@ using namespace std;
 namespace hydra
 {
 
+namespace detail
+{
+
+
 template <size_t N, unsigned int BACKEND, typename GRND>
 struct DecayMother
 {
 	typedef detail::BackendTraits<BACKEND> system_t;
 	typedef typename system_t::template container<GReal_t>  vector_real;
 
-    const GInt_t fSeed;
+	const GInt_t fSeed;
 	const GInt_t fNDaughters;
 	GReal_t fTeCmTm;
 	GReal_t fWtMax;
@@ -66,17 +75,20 @@ struct DecayMother
 	GReal_t fBeta2;
 
 
-	const GReal_t* __restrict__ fMasses;
+	//const GReal_t* __restrict__ fMasses;
+	GReal_t fMasses[N];
 
 	//constructor
 	DecayMother(Vector4R const& mother,
 			vector_real const& _masses,
 			const GInt_t _ndaughters, const GInt_t _seed):
-			fMasses(thrust::raw_pointer_cast(_masses.data())),
-			fNDaughters(_ndaughters),
-			fSeed(_seed)
+				//fMasses(thrust::raw_pointer_cast(_masses.data())),
+				fNDaughters(_ndaughters),
+				fSeed(_seed)
 
 	{
+
+		for(size_t i=0; i<N; i++) fMasses[i]=_masses[i];
 
 		GReal_t _fTeCmTm = mother.mass(); // total energy in C.M. minus the sum of the masses
 
@@ -113,6 +125,19 @@ struct DecayMother
 
 
 	}
+
+	__host__ __device__
+	DecayMother( DecayMother<N, BACKEND, GRND> const& other ):
+	fSeed(other.fSeed ),
+	fNDaughters(other.fNDaughters ),
+	fTeCmTm(other.fTeCmTm ),
+	fWtMax(other.fWtMax ),
+	fBeta0(other.fBeta0 ),
+	fBeta1(other.fBeta1 ),
+	fBeta2(other.fBeta2 )
+	{ for(size_t i=0; i<N; i++) fMasses[i]=other.fMasses[i]; }
+
+
 
 	__host__      __device__ inline
 	GReal_t pdk(const GReal_t a, const GReal_t b,
@@ -159,7 +184,7 @@ struct DecayMother
 		size_t  A = 2 * a ;
 		size_t  B = 2 * b ;
 		size_t  C = ((A >= B ? A * A + A + B : A + B * B) / 2);
-	    return  C ;
+		return  C ;
 	}
 
 	__host__   __device__ inline
@@ -175,7 +200,7 @@ struct DecayMother
 
 		if (fNDaughters > 2)
 		{
-			#pragma unroll N
+#pragma unroll N
 			for (GInt_t n = 1; n < fNDaughters - 1; n++)
 			{
 				rno[n] =  uniDist(randEng) ;
@@ -187,11 +212,12 @@ struct DecayMother
 		}
 
 
-		 GReal_t invMas[kMAXP], sum = 0.0;
+		GReal_t invMas[kMAXP], sum = 0.0;
 
-		#pragma unroll N
+#pragma unroll N
 		for (size_t n = 0; n < fNDaughters; n++)
 		{
+			//printf("%d mass=%f \n",n, fMasses[n]);
 			sum += fMasses[n];
 			invMas[n] = rno[n] * fTeCmTm + sum;
 		}
@@ -200,11 +226,11 @@ struct DecayMother
 		//-----> compute the weight of the current event
 		//
 
-		 GReal_t wt = fWtMax;
+		GReal_t wt = fWtMax;
 
-		 GReal_t pd[N];
+		GReal_t pd[N];
 
-		#pragma unroll N
+#pragma unroll N
 		for (size_t n = 0; n < fNDaughters - 1; n++)
 		{
 			pd[n] = pdk(invMas[n + 1], invMas[n], fMasses[n + 1]);
@@ -218,7 +244,7 @@ struct DecayMother
 		daugters[0]->set(sqrt((GReal_t) pd[0] * pd[0] + fMasses[0] * fMasses[0]), 0.0,
 				pd[0], 0.0);
 
-		#pragma unroll N
+#pragma unroll N
 		for (size_t i = 1; i < fNDaughters; i++)
 		{
 
@@ -227,20 +253,20 @@ struct DecayMother
 					-pd[i - 1], 0.0);
 
 			GReal_t cZ = 2 * uniDist(randEng) -1 ;
-			 GReal_t sZ = sqrt(1 - cZ * cZ);
-			 GReal_t angY = 2 * PI* uniDist(randEng);
-			 GReal_t cY = cos(angY);
-			 GReal_t sY = sin(angY);
+			GReal_t sZ = sqrt(1 - cZ * cZ);
+			GReal_t angY = 2 * PI* uniDist(randEng);
+			GReal_t cY = cos(angY);
+			GReal_t sY = sin(angY);
 			for (size_t j = 0; j <= i; j++)
 			{
 
-				 GReal_t x = daugters[j]->get(1);
-				 GReal_t y = daugters[j]->get(2);
+				GReal_t x = daugters[j]->get(1);
+				GReal_t y = daugters[j]->get(2);
 				daugters[j]->set(1, cZ * x - sZ * y);
 				daugters[j]->set(2, sZ * x + cZ * y); // rotation around Z
 
 				x = daugters[j]->get(1);
-				 GReal_t z = daugters[j]->get(3);
+				GReal_t z = daugters[j]->get(3);
 				daugters[j]->set(1, cY * x - sY * z);
 				daugters[j]->set(3, sY * x + cY * z); // rotation around Y
 			}
@@ -248,7 +274,7 @@ struct DecayMother
 			if (i == (fNDaughters - 1))
 				break;
 
-			 GReal_t beta = pd[i] / sqrt(pd[i] * pd[i] + invMas[i] * invMas[i]);
+			GReal_t beta = pd[i] / sqrt(pd[i] * pd[i] + invMas[i] * invMas[i]);
 			for (size_t j = 0; j <= i; j++)
 			{
 
@@ -260,7 +286,7 @@ struct DecayMother
 		//
 		//---> final boost of all particles to the mother's frame
 		//
-		#pragma unroll N
+#pragma unroll N
 		for (size_t n = 0; n < fNDaughters; n++)
 		{
 
@@ -278,7 +304,7 @@ struct DecayMother
 
 	template<typename Tuple>
 	__host__      __device__ inline GReal_t operator()(const GInt_t evt, Tuple &particles)
-		{
+	{
 
 		constexpr size_t SIZE = thrust::tuple_size<Tuple>::value;
 
@@ -287,11 +313,12 @@ struct DecayMother
 
 		return process(evt, Particles);
 
-		}
+	}
 
 
 };
 
-}
+}//namespace detail
+}//namespace hydra
 
 #endif /* DECAYMOTHER_H_ */

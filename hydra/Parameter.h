@@ -20,10 +20,20 @@
  *---------------------------------------------------------------------------*/
 
 /*
- * Variable.h
+ * Parameter.h
  *
  *  Created on: 26/08/2016
  *      Author: Antonio Augusto Alves Junior
+ */
+
+/**
+ * \file
+ * \ingroup fit
+ */
+
+/**
+ * \file
+ * \ingroup generic
  */
 
 #ifndef PARAMETER_H_
@@ -34,9 +44,7 @@
 #include <hydra/detail/TypeTraits.h>
 #include <string>
 #include <ostream>
-/**
- * Variable object to use on types convertible to double
- */
+
 
 namespace hydra {
 

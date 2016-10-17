@@ -26,6 +26,10 @@
  *      Author: Antonio Augusto Alves Junior
  */
 
+/**
+ * \file
+ * \ingroup generic
+ */
 
 #ifndef TYPES_H_
 #define TYPES_H_

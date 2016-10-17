@@ -1,27 +1,41 @@
+/*----------------------------------------------------------------------------
+ *
+ *   Copyright (C) 2016 Antonio Augusto Alves Junior
+ *
+ *   This file is part of Hydra Data Analysis Framework.
+ *
+ *   Hydra is free software: you can redistribute it and/or modify
+ *   it under the terms of the GNU General Public License as published by
+ *   the Free Software Foundation, either version 3 of the License, or
+ *   (at your option) any later version.
+ *
+ *   Hydra is distributed in the hope that it will be useful,
+ *   but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *   GNU General Public License for more details.
+ *
+ *   You should have received a copy of the GNU General Public License
+ *   along with Hydra.  If not, see <http://www.gnu.org/licenses/>.
+ *
+ *---------------------------------------------------------------------------*/
+
 /*
- * TestHydra.cu
+ * HydraFitExample.cu
  *
  *  Created on: Jun 21, 2016
- *      Author: augalves
+ *      Author: Antonio Augusto Alves Junior
  */
 
-#include <stdio.h>
-#include <stdlib.h>
 #include <iostream>
 #include <assert.h>
 #include <time.h>
 #include <string>
 #include <vector>
 #include <array>
-#include <tuple>
-#include <chrono>
-#include <type_traits>
-#include <typeinfo>
 #include <chrono>
 
 //command line arguments
 #include <tclap/CmdLine.h>
-#define CUDA_API_PER_THREAD_DEFAULT_STREAM
 
 //this lib
 #include <hydra/Types.h>
@@ -69,8 +83,55 @@
 using namespace std;
 using namespace ROOT::Minuit2;
 using namespace hydra;
+using namespace examples;
+
+/**
+ * @file
+ * @example HydraFitExample.cu
+ * @brief HydraFitExample take parameters from the command line, fill a range with random numbers sampled from
+ * the model and perform a extended likelihood fit in parallel using the OpenMP backend.
+ * @param -c (--combined-minimizer):  Use Migrad + Simplex for minimization
+ * @param -i=<double> (--max-iterations=<double>) : Maximum number of iterations for migrad and minimize call.
+ * @param -t=<double> (--tolerance=<double>) : Tolerance parameter for migrad and minimize call.
+ * @param -n=<long> (--number-of-events=<long>) (required):  Number of events for each component.
+ *
+ * Usage:
+ * ./Hydra_Example_NVCC_DEVICE_CUDA_HOST_OMP_Fit  [-c] [-i=<double>]
+ *                                      [-t=<double>] -n=<long> [--]
+ *                                      [--version] [-h]
+ *
+ * For example, the command below:
+ * ```
+ * ./Hydra_Example_NVCC_DEVICE_CUDA_HOST_OMP_Fit -n=1000000
+ * ```
+ * will print some stuff to standard output and produce the plot:
+ *
+ * @image html Fit_CUDA.png
+ */
 
 
+/**
+ * @file
+ * @brief HydraFitExample take parameters from the command line, fill a range with random numbers sampled from
+ * the model and perform a extended likelihood fit in parallel using the OpenMP backend.
+ * @param -c (--combined-minimizer):  Use Migrad + Simplex for minimization
+ * @param -i=<double> (--max-iterations=<double>) : Maximum number of iterations for migrad and minimize call.
+ * @param -t=<double> (--tolerance=<double>) : Tolerance parameter for migrad and minimize call.
+ * @param -n=<long> (--number-of-events=<long>) (required):  Number of events for each component.
+ *
+ * Usage:
+ * ./Hydra_Example_NVCC_DEVICE_CUDA_HOST_OMP_Fit  [-c] [-i=<double>]
+ *                                      [-t=<double>] -n=<long> [--]
+ *                                      [--version] [-h]
+ *
+ * For example, the command below:
+ * ```
+ * ./Hydra_Example_NVCC_DEVICE_CUDA_HOST_OMP_Fit -n=1000000
+ * ```
+ * will print some stuff to standard output and produce the plot:
+ *
+ * @image html Fit_CUDA.png
+ */
 GInt_t main(int argv, char** argc)
 {
 
@@ -85,7 +146,7 @@ GInt_t main(int argv, char** argc)
 
 		TCLAP::ValueArg<size_t> NEventsArg("n", "number-of-events",
 				"Number of events for each component.",
-				true, 1e6, "long");
+				true, 1e6, "long int");
 		cmd.add(NEventsArg);
 
 		TCLAP::ValueArg<GReal_t> ToleranceArg("t", "tolerance",
@@ -95,7 +156,7 @@ GInt_t main(int argv, char** argc)
 
 		TCLAP::ValueArg<size_t> IterationsArg("i", "max-iterations",
 				"Maximum number of iterations for migrad and minimize call.",
-				false, 5000, "double");
+				false, 50000, "long int");
 		cmd.add(IterationsArg);
 
 		TCLAP::SwitchArg MinimizeArg("c","combined-minimizer",
@@ -118,7 +179,7 @@ GInt_t main(int argv, char** argc)
 	}
 
 	//Print::SetLevel(0);
-	//ROOT::Minuit2::MnPrint::SetLevel(2);
+	ROOT::Minuit2::MnPrint::SetLevel(3);
 	//----------------------------------------------
 
 	//Generator with current time count as seed.
@@ -192,15 +253,15 @@ GInt_t main(int argv, char** argc)
 	//----------------------------------------------------------------------
 	//get integration
     //Vegas state hold the resources for performing the integration
-    VegasState<1> *state = new VegasState<1>( min, max); // nota bene: the same range of the analisys
-	state->SetVerbose(-1);
-	state->SetAlpha(1.75);
-	state->SetIterations(5);
-	state->SetUseRelativeError(1);
-	state->SetMaxError(1e-3);
+    VegasState<1> state = VegasState<1>( min, max); // nota bene: the same range of the analisys
+	state.SetVerbose(-1);
+	state.SetAlpha(1.75);
+	state.SetIterations(5);
+	state.SetUseRelativeError(1);
+	state.SetMaxError(1e-3);
 
     //5,000 calls (fast convergence and precise result)
-	Vegas<1> vegas( state,5000);
+	Vegas<1> vegas( state,10000);
 
 	auto Gaussian1_PDF   = make_pdf(Gaussian1, &vegas);
 	auto Gaussian2_PDF   = make_pdf(Gaussian2, &vegas);
@@ -213,21 +274,21 @@ GInt_t main(int argv, char** argc)
 	vegas.Integrate(Gaussian1_PDF);
 	cout << ">>> GaussianA intetgral prior fit "<< endl;
 	cout << "Result: " << vegas.GetResult() << " +/- "
-		 << vegas.GetAbsError() << " Chi2: "<< state->GetChiSquare() << endl;
+		 << vegas.GetAbsError() << " Chi2: "<< vegas.GetState().GetChiSquare() << endl;
 
 	Gaussian2_PDF.PrintRegisteredParameters();
 
 	vegas.Integrate(Gaussian2_PDF);
 	cout << ">>> GaussianB intetgral prior fit "<< endl;
 	cout << "Result: " << vegas.GetResult() << " +/- "
-			<< vegas.GetAbsError() << " Chi2: "<< state->GetChiSquare() << endl;
+			<< vegas.GetAbsError() << " Chi2: "<< vegas.GetState().GetChiSquare() << endl;
 
 	Exponential_PDF.PrintRegisteredParameters();
 
 	vegas.Integrate(Exponential_PDF);
 	cout << ">>> Exponential intetgral prior fit "<< endl;
 	cout << "Result: " << vegas.GetResult() << " +/- "
-			<< vegas.GetAbsError() << " Chi2: "<< state->GetChiSquare() << endl;
+			<< vegas.GetAbsError() << " Chi2: "<< vegas.GetState().GetChiSquare() << endl;
 
 	//----------------------------------------------------------------------
 	//add the pds to make a extended pdf model
@@ -245,7 +306,6 @@ GInt_t main(int argv, char** argc)
 	Generator.Gauss(mean1_p , sigma1_p, data_d.begin(), data_d.begin() + nentries );
 	Generator.Gauss(mean2_p , sigma2_p, data_d.begin()+ nentries, data_d.begin() + 2*nentries );
 	Generator.Uniform(min[0], max[0], data_d.begin()+ 2*nentries, data_d.end() );
-
 
 	//---------------------------
 	//get data from device and fill histogram
@@ -266,7 +326,7 @@ GInt_t main(int argv, char** argc)
 	std::cout << upar << endl;
 
     //minimization strategy
-	MnStrategy strategy(1);
+	MnStrategy strategy(2);
 
 	// create Migrad minimizer
 	MnMigrad migrad(modelFCN, upar.GetState() ,  strategy);
@@ -285,14 +345,14 @@ GInt_t main(int argv, char** argc)
 	}
 
 	auto end = std::chrono::high_resolution_clock::now();
-	auto elapsed = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
+	std::chrono::duration<double, std::milli> elapsed = end - start;
 
 	// output
 	std::cout<<"minimum: "<<*minimum<<std::endl;
 
 	//time
 	std::cout << "-----------------------------------------"<<std::endl;
-	std::cout << "| Time (s) ="<< GReal_t(elapsed.count())/1000000 <<std::endl;
+	std::cout << "| Time (ms) ="<< elapsed.count() <<std::endl;
 	std::cout << "-----------------------------------------"<<std::endl;
 
 	//------------------------------------------------------
@@ -350,7 +410,7 @@ GInt_t main(int argv, char** argc)
 	hist_gaussian_plot.SetLineColor(2);
 	hist_gaussian_plot.SetLineWidth(2);
 
-	canvas_gauss.Print("Fit_gaussian.pdf");
+	canvas_gauss.SaveAs("./plots/Fit_CUDA.png");
 
 	myapp->Run();
 
@@ -358,8 +418,8 @@ GInt_t main(int argv, char** argc)
 
 	return 0;
 
-}
 
+}
 
 
 

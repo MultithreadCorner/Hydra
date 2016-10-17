@@ -26,6 +26,11 @@
  *      Author: Antonio Augusto Alves Junior
  */
 
+/**
+ * \file
+ * \ingroup generic
+ */
+
 #ifndef HASH_H_
 #define HASH_H_
 
@@ -46,13 +51,13 @@ namespace hydra {
 			std::size_t seed = 0;
 
 			for (; first != last; ++first) {
-				hash_combine(seed, *first);
+				hash_combine(seed, (typename It::value_type)*first);
 			}
 
 			return seed;
 		}
 
-		template<class It>
+		template< class It>
 		inline void hash_range(std::size_t& seed, It first, It last) {
 			for (; first != last; ++first) {
 				hash_combine(seed, *first);

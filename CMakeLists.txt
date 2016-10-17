@@ -33,7 +33,7 @@ include_directories(${TCLAP_INCLUDE_DIR})
 
 # get THRUST
 find_package(Thrust 1.8 REQUIRED)
-include_directories(${THRUST_INCLUDE_DIR})
+include_directories(./thrust)
 
 # get ROOT
 find_package(ROOT REQUIRED)
@@ -62,12 +62,14 @@ set(CMAKE_CXX_FLAGS "-D_GLIBCXX_USE_CXX11_ABI=0 -DTHRUST_VARIADIC_TUPLE --std=c+
 include_directories(include;  ${PROJECT_SOURCE_DIR})
 
 
+
 if(CUDA_FOUND)
 
 	#set cuda flags
 	
-	SET(CUDA_NVCC_FLAGS ${CUDA_NVCC_FLAGS} --cudart ;  static ; -O3 ;--expt-relaxed-constexpr; -ftemplate-backtrace-limit=0; --expt-extended-lambda;--relocatable-device-code=false ; --generate-line-info ; -Xptxas --opt-level=4) 
-#--debug ; --device-debug   ) 
+	SET(CUDA_NVCC_FLAGS ${CUDA_NVCC_FLAGS} --cudart ;  static ; -O4 ;--expt-relaxed-constexpr; -ftemplate-backtrace-limit=0; --expt-extended-lambda;--relocatable-device-code=false ; --generate-line-info ;
+	 -Xptxas -fmad=true ;-Xptxas -dlcm=cg; -Xptxas --opt-level=4   ) #) 
+# 
 	SET(CUDA_SEPARABLE_COMPILATION OFF)
 	SET(CUDA_VERBOSE_BUILD ON)
 	
@@ -103,10 +105,14 @@ MESSAGE(STATUS "ROOT Library path: ${ROOT_LIBRARY_DIR}" )
 MESSAGE(STATUS "ROOT Libraries: ${ROOT_LIBRARIES}")
 MESSAGE(STATUS "project source dir: " ${PROJECT_SOURCE_DIR} )
 MESSAGE(STATUS "project build dir: " ${PROJECT_BINARY_DIR} )
+MESSAGE(STATUS "CUDA include: " ${CUDA_INCLUDE_DIRS})
 MESSAGE(STATUS "CUDA libraries: " ${CUDA_LIBRARIES}  )
 MESSAGE(STATUS "nvcc cflags: " ${CUDA_NVCC_FLAGS} )
 MESSAGE(STATUS "gcc cflags: " ${CMAKE_CXX_FLAGS} )
+MESSAGE(STATUS "Include directories: " ${INCLUDE_DIRECTORIES} )
 MESSAGE(STATUS "Install diretory: " ${CMAKE_INSTALL_PREFIX}  )
+
+file(MAKE_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/plots)
 
 if(BUILD_CUDA_TARGETS)
 
@@ -258,8 +264,8 @@ if(BUILD_DOCUMENTATION)
         message(FALTAL_ERROR "Doxygen is needed to build the documentation.")
     endif()
 
-    set(doxyfile_in ${CMAKE_CURRENT_SOURCE_DIR}/doc/Doxyfile.in)
-    set(doxyfile ${CMAKE_CURRENT_BINARY_DIR}/doc/Doxyfile)
+    set(doxyfile_in ${CMAKE_CURRENT_SOURCE_DIR}/Doxyfile.in)
+    set(doxyfile    ${CMAKE_CURRENT_SOURCE_DIR}/Doxyfile)
 
     configure_file(${doxyfile_in} ${doxyfile} @ONLY)
 

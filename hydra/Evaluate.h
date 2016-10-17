@@ -26,6 +26,11 @@
  *      Author: Antonio Augusto Alves Junior
  */
 
+/**
+ * \file
+ * \ingroup generic
+ */
+
 #ifndef EVALUATE_H_
 #define EVALUATE_H_
 

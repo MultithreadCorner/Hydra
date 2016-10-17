@@ -26,6 +26,11 @@
  *      Author: Antonio Augusto Alves Junior
  */
 
+/**
+ * \file
+ * \ingroup fit
+ */
+
 #ifndef LOGLIKELIHOODFCN_H_
 #define LOGLIKELIHOODFCN_H_
 
@@ -124,7 +129,7 @@ public:
 
 
 		final=thrust::transform_reduce(select_system(system), first, last,
-				LogLikelihood<U, IteratorData, IteratorCache>(fFunctor, fFunctor.GetNorm(),
+				detail::LogLikelihood<U, IteratorData, IteratorCache>(fFunctor, fFunctor.GetNorm(),
 						this->GetSumW()     , this->GetSumW2() ,
 						this->GetDataBegin(), this->GetCacheBegin(),
 						this->isWeighted()  , this->isCached()),
@@ -174,15 +179,16 @@ public:
 
 
 		final=thrust::transform_reduce(select_system(system), first, last,
-				LogLikelihood<U, IteratorData, IteratorCache>(fFunctor,
+				detail::LogLikelihood<U, IteratorData, IteratorCache>(fFunctor,
 						this->GetSumW()     , this->GetSumW2() ,
 						this->GetDataBegin(), this->GetCacheBegin(),
 						this->isWeighted()  , this->isCached()),
 						init, thrust::plus<GReal_t>());
 
-		GReal_t  r= this->GetSumW()+ fFunctor.IsExtended()*(fFunctor.GetCoefSum() -this->GetSumW()*log(fFunctor.GetCoefSum())) - final;
+		GReal_t  r= this->GetSumW() + fFunctor.IsExtended()*(fFunctor.GetCoefSum() -this->GetSumW()*log(fFunctor.GetCoefSum())) - final;
 
 		fMAxValue = fMAxValue<r?r:fMAxValue;
+
 
 		return r ;
 	}
@@ -200,6 +206,7 @@ public:
 private:
 	FUNCTOR& fFunctor;
 	mutable GReal_t fMAxValue;
+
 
 };
 

@@ -27,6 +27,12 @@
  *      Author: Antonio Augusto Alves Junior
  */
 
+/**
+ * \file
+ * \ingroup functor
+ */
+
+
 #ifndef MINUS_H_
 #define MINUS_H_
 

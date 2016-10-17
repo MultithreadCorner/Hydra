@@ -26,6 +26,12 @@
  *      Author: Antonio Augusto Alves Junior
  */
 
+/**
+ * \file
+ * \ingroup numerical_integration
+ */
+
+
 #ifndef PROCESSCALLSPLAIN_H_
 #define PROCESSCALLSPLAIN_H_
 
@@ -37,6 +43,8 @@
 #include <hydra/detail/utility/Utility_Tuple.h>
 
 namespace hydra {
+namespace detail {
+
 // ProcessCallsPlainUnary is a functor that takes in a value x and
 // returns a PlainState whose mean value is initialized to f(x).
 template <typename FUNCTOR, size_t N, typename GRND=thrust::random::default_random_engine>
@@ -124,5 +132,9 @@ struct ProcessCallsPlainBinary
         return result;
     }
 };
-}
+
+}// namespace detail
+
+}// namespace hydra
+
 #endif /* PROCESSCALLSPLAIN_H_ */

@@ -26,6 +26,12 @@
  *      Author: Antonio Augusto Alves Junior
  */
 
+/**
+ * \file
+ * \ingroup numerical_integration
+ */
+
+
 #ifndef VEGASSTATE_INL_
 #define VEGASSTATE_INL_
 
@@ -125,6 +131,10 @@ VegasState<N>::VegasState(VegasState const& other) :
 		fCumulatedResult(other.GetCumulatedResult()),
 		fCumulatedSigma(other.GetCumulatedSigma()),
 		fIterationDuration(other.GetIterationDuration()),
+		fDeviceDeltaX(other.GetDeviceDeltaX()),
+		fDeviceXi(other.GetDeviceXi()),
+		fDeviceXLow(other.GetDeviceXLow()),
+		fDeviceDistribution(other.GetDeviceDistribution()),
 		fOStream(std::cout) {}
 
 

@@ -25,6 +25,10 @@
  *  Created on: 14/08/2016
  *      Author: Antonio Augusto Alves Junior
  */
+/**
+ * \file
+ * \ingroup fit
+ */
 
 #ifndef FCN_H_
 #define FCN_H_
@@ -46,7 +50,7 @@
 #include <vector>
 #include <unordered_map>
 #include <cassert>
-#include <mutex>
+
 
 namespace hydra {
 
@@ -64,7 +68,9 @@ public:
 		fCached(kFalse),
 		fFCNCache(std::unordered_map<size_t, GReal_t>())
 {
-		auto point = thrust::reduce(begin, end );
+		typename IteratorData::value_type init;
+
+		auto point = thrust::reduce(begin, end, init);
 		fSumW  = point.GetWeight() ;
 		fSumW2 = point.GetWeight2();
 }
@@ -79,7 +85,9 @@ public:
 		fCached(kTrue),
 		fFCNCache(std::unordered_map<size_t, GReal_t>())
 	{
-		auto point = thrust::reduce(begin, end );
+		typename IteratorData::value_type init;
+
+		auto point = thrust::reduce(begin, end, init);
 		fSumW  = point.GetWeight() ;
 		fSumW2 = point.GetWeight2();
 	}
@@ -213,16 +221,20 @@ private:
 		auto search = fFCNCache.find(key);
 		GReal_t value = 0.0;
 
+		//bool fnd=0;
+
 		if (search != fFCNCache.end() && fFCNCache.size()>0) {
 			value = search->second;
+			//fnd=1;
 		} else {
-			//g_pages_mutex.lock();
+
 			value = EvalFCN(parameters);
 
 			fFCNCache[key] = value;
-			//g_pages_mutex.unlock();
+
 		}
 
+		//cout << "Found: " << fnd << " Key: " << key << " Value: "<< std::setprecision(16) <<value << endl;
 		return value;
 	}
 
@@ -240,7 +252,7 @@ private:
 	GBool_t fWeighted;
 	GBool_t fCached;
 	mutable std::unordered_map<size_t, GReal_t> fFCNCache;
-	mutable std::mutex g_pages_mutex;
+
 };
 
 } //namespace hydra

@@ -26,11 +26,7 @@
 #
 
 find_path( THRUST_INCLUDE_DIR
-  HINTS
-    /usr/include/cuda
-    /usr/local/include
-    /usr/local/cuda/include
-    ${CUDA_INCLUDE_DIRS}
+  HINTS ./  
   NAMES thrust/version.h
   DOC "Thrust headers"
   )

@@ -26,6 +26,11 @@
  *      Author: Antonio Augusto Alves Junior
  */
 
+/**
+ * \file
+ * \ingroup numerical_integration
+ */
+
 #ifndef INTEGRATOR_H_
 #define INTEGRATOR_H_
 

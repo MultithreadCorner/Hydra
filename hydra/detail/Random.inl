@@ -26,6 +26,12 @@
  *      Author: Antonio Augusto Alves Junior
  */
 
+/**
+ * \file
+ * \ingroup random
+ */
+
+
 #ifndef RANDOM_INL_
 #define RANDOM_INL_
 
@@ -47,7 +53,7 @@ void Random<GRND>::InverseCDF(FUNCTOR const& invcdf, Iterator begin, Iterator en
 	thrust::counting_iterator<size_t> last = first + fNEvents;
 
 	thrust::transform(select_system(system), first, last, begin,
-			HyRndCDF<GRND, FUNCTOR >(invcdf, fSeed ));
+			detail::RndCDF<GRND, FUNCTOR >(invcdf, fSeed ));
 
 
 }
@@ -69,7 +75,7 @@ void  Random<GRND>::Gauss(GReal_t mean, GReal_t sigma, Iterator begin, Iterator 
 	thrust::counting_iterator<size_t> last = first + fNEvents;
 
 	thrust::transform(select_system(system), first, last, begin,
-			HyRndGauss<GRND>(fSeed,  mean, sigma));
+			detail::RndGauss<GRND>(fSeed,  mean, sigma));
 
 }
 
@@ -92,7 +98,7 @@ void Random<GRND>::Uniform(GReal_t min, GReal_t max, Iterator begin, Iterator en
 	thrust::counting_iterator<size_t> first(0);
 	thrust::counting_iterator<size_t> last = first + fNEvents;
 
-	thrust::transform(select_system(system),  first, last, begin, HyRndUniform<GRND>(fSeed+1, min, max));
+	thrust::transform(select_system(system),  first, last, begin, detail::RndUniform<GRND>(fSeed+1, min, max));
 
 }
 
@@ -114,7 +120,7 @@ void  Random<GRND>::Exp(GReal_t tau,  Iterator begin, Iterator end)
 	thrust::counting_iterator<size_t> first(0);
 	thrust::counting_iterator<size_t> last = first + fNEvents;
 
-	thrust::transform(select_system(system), first, last, begin, HyRndExp<GRND>(fSeed+2, tau));
+	thrust::transform(select_system(system), first, last, begin, detail::RndExp<GRND>(fSeed+2, tau));
 
 }
 
@@ -136,7 +142,7 @@ void  Random<GRND>::BreitWigner(GReal_t mean, GReal_t gamma, Iterator begin, Ite
 	thrust::counting_iterator<size_t> first(0);
 	thrust::counting_iterator<size_t> last = first + fNEvents;
 
-	thrust::transform(select_system(system), first, last, begin, HyRndBreitWigner<GRND>(fSeed+3,  mean, gamma));
+	thrust::transform(select_system(system), first, last, begin, detail::RndBreitWigner<GRND>(fSeed+3,  mean, gamma));
 
 }
 
@@ -167,11 +173,11 @@ mc_host_vector< typename detail::tuple_type<N,GReal_t>::type> >::type
 
 
 	thrust::transform( system_t(), first, last, points.begin(), values.begin(),
-			HyRndTrial<GRND,FUNCTOR,N>(fSeed+4, functor, min, max));
+			detail::RndTrial<GRND,FUNCTOR,N>(fSeed+4, functor, min, max));
 
 	GReal_t max_value = *( thrust::max_element( system_t(),values.begin(), values.end()) );
 
-	thrust::transform( system_t(),first, last, values.begin(), flags.begin(), HyRndFlag<GRND>(fSeed+trials, max_value) );
+	thrust::transform( system_t(),first, last, values.begin(), flags.begin(), detail::RndFlag<GRND>(fSeed+trials, max_value) );
 
 	size_t count = thrust::count( system_t(), flags.begin(), flags.end(), kTrue);
 
@@ -207,11 +213,11 @@ void Random<GRND>::Sample(FUNCTOR const& functor, std::array<GReal_t,N> min, std
 
 
 	thrust::transform(system_t(),  first, last, points.begin(), values.begin(),
-			HyRndTrial<GRND,FUNCTOR,N>(fSeed+4, functor, min, max));
+			detail::RndTrial<GRND,FUNCTOR,N>(fSeed+4, functor, min, max));
 
 	GReal_t max_value = *( thrust::max_element(system_t(), values.begin(), values.end()) );
 
-	thrust::transform(system_t(), first, last, values.begin(), flags.begin(), HyRndFlag<GRND>(fSeed+trials, max_value) );
+	thrust::transform(system_t(), first, last, values.begin(), flags.begin(), detail::RndFlag<GRND>(fSeed+trials, max_value) );
 
 	size_t count = thrust::count(system_t(), flags.begin(), flags.end(), kTrue);
 

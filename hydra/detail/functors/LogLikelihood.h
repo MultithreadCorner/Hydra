@@ -23,8 +23,14 @@
  * LogLikelihood.h
  *
  *  Created on: 06/08/2016
- *      Author: augalves
+ *      Author: Antonio Augusto Alves Junior
  */
+
+/**
+ * \file
+ * \ingroup fit
+ */
+
 
 #ifndef LOGLIKELIHOOD_H_
 #define LOGLIKELIHOOD_H_
@@ -43,6 +49,9 @@
 
 
 namespace hydra{
+
+namespace detail{
+
 
 template<typename FUNCTOR, typename IteratorData, typename IteratorCache>
 struct LogLikelihood
@@ -114,8 +123,9 @@ private:
 	GReal_t fSumW2;
 };
 
+}//namespace detail
 
-}
+}//namespace hydra
 
 
 #endif /* LOGLIKELIHOOD_H_*/

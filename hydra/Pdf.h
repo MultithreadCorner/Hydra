@@ -26,6 +26,12 @@
  *      Author: Antonio Augusto Alves Junior
  */
 
+/**
+ * \file
+ * \ingroup fit
+ */
+
+
 #ifndef PDF_H_
 #define PDF_H_
 

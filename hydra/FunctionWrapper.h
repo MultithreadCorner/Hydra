@@ -26,6 +26,12 @@
  *      Author: Antonio Augusto Alves Junior
  */
 
+/**
+ * \file
+ * \ingroup functor
+ */
+
+
 #ifndef FUNCTIONWRAPPER_H_
 #define FUNCTIONWRAPPER_H_
 

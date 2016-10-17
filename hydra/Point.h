@@ -26,6 +26,11 @@
  *      Author: Antonio Augusto Alves Junior
  */
 
+/**
+ * \file
+ * \ingroup generic
+ */
+
 #ifndef POINT_H_
 #define POINT_H_
 
@@ -182,6 +187,7 @@ struct Point: public ValueError<T, HasValueError>, public PointError<T, N, HasPo
 	/*
 	 * no errors
 	 */
+
 	template<bool U = HasValueError, bool V=HasPointError>
 	__host__  __device__
 	Point(const typename std::enable_if< !U && !V , void>::type* dummy=0 ):
@@ -189,6 +195,17 @@ struct Point: public ValueError<T, HasValueError>, public PointError<T, N, HasPo
 	fWeight(0),
 	fWeight2(0)
 	{ }
+
+   /*
+	template<bool U = HasValueError, bool V=HasPointError>
+	__host__
+	Point(value_type coord, value_type weight=0,
+			const typename std::enable_if< !U && !V , void>::type* dummy=0 ):
+			fCoordinates( detail::make_tuple<N>(coord)),
+			fWeight(weight),
+			fWeight2(weight*weight)
+	{ }
+	*/
 
 	template<bool U = HasValueError, bool V=HasPointError>
 	__host__
@@ -228,15 +245,6 @@ struct Point: public ValueError<T, HasValueError>, public PointError<T, N, HasPo
 		fWeight2(weight*weight)
 	{ }
 
-	/*
-	template<size_t M=N, bool U = HasValueError, bool V=HasPointError>
-		__host__  __device__
-		Point(value_type coordinate, value_type weight=1.0,
-				const typename std::enable_if< M==1 && !U && !V , void>::type* dummy=0 ):
-			fCoordinates( thrust::make_tuple(coordinate) ),
-			fWeight(weight),
-			fWeight2(weight*weight)
-		{ }*/
 
 
 
@@ -250,6 +258,18 @@ struct Point: public ValueError<T, HasValueError>, public PointError<T, N, HasPo
 	fCoordinates(),
 	fWeight(0)
 	{ }
+
+	/*
+	template<bool U = HasValueError, bool V=HasPointError>
+	__host__
+	Point(value_type coord, value_type weight=0, value_type error=0,
+			const typename std::enable_if< U && !V , void>::type* dummy=0 ):
+			ValueError<T, HasValueError>(error),
+			fCoordinates( detail::make_tuple<N>(coord)),
+			fWeight(weight),
+			fWeight2(weight*weight)
+			{ }
+    */
 
 	template<bool U = HasValueError, bool V=HasPointError>
 	__host__
@@ -307,6 +327,18 @@ struct Point: public ValueError<T, HasValueError>, public PointError<T, N, HasPo
 			fWeight2(0)
 			{ }
 
+	/*
+	template<bool U=HasValueError, bool V=HasPointError>
+		__host__
+		Point(value_type coord, value_type coord_errors, value_type weight, value_type error,
+				const typename std::enable_if< U&&V, void >::type* dummy=0 ):
+		ValueError<T, HasValueError>(error),
+		PointError<T, N, HasPointError>(detail::make_tuple<N>(coord_errors)),
+		fCoordinates( detail::make_tuple<N>(coord)),
+		fWeight(weight),
+		fWeight2(weight*weight)
+		{ }
+    */
 	template<bool U=HasValueError, bool V=HasPointError>
 	__host__
 	Point(std::array<value_type,N> coordinates, std::array<value_type,N> coordinates_errors, value_type weight, value_type error,
@@ -481,7 +513,7 @@ __host__
 std::ostream& operator<<(std::ostream& os, Point<T,N,false,false> const& point)
 {
 	 return os <<"X["<< point.Dimension <<"]-> Coord: " << point.GetCoordinates() <<
-			                            " Value "       << point.GetWeight() ;
+			                            " Weight "       << point.GetWeight() ;
 
 }
 
@@ -490,8 +522,8 @@ __host__
 std::ostream& operator<<(std::ostream& os, Point<T,N,true,false> const& point)
 {
 	 return os <<"X["<< point.Dimension <<"]-> Coord: " << point.GetCoordinates() <<
-			                            " Value "       << point.GetWeight() <<
-			                            " ValueError "  << point.GetValueError();
+			                            " Weight "       << point.GetWeight() <<
+			                            " WeightError "  << point.GetValueError();
 
 }
 
@@ -501,8 +533,8 @@ std::ostream& operator<<(std::ostream& os, Point<T,N,true,true> const& point)
 {
 	 return os <<"X["<< point.Dimension <<"]-> Coord: " << point.GetCoordinates() <<
 			                            " CoordError: " << point.GetErrors() <<
-			                            " Value "       << point.GetWeight() <<
-			                            " ValueError "  << point.GetValueError();
+			                            " Weight "       << point.GetWeight() <<
+			                            " WeightError "  << point.GetValueError();
 
 }
 

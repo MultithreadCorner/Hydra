@@ -106,6 +106,57 @@ namespace hydra {
 		return get_zip_iterator_helper(head, array_of_iterators , make_index_sequence<N> { } );
 
 	}
+	//----------------------------------------
+	template<typename Head,  typename ...Tail,  size_t... Is >
+	auto dropFirstHelper(thrust::tuple<Head, Tail...> const& t  , index_sequence<Is...> )
+	-> thrust::tuple<Tail...>
+	{
+		return thrust::tie( thrust::get<Is+1>(t)... );
+	}
+
+	template< typename Head,  typename ...Tail>
+	auto dropFirst( thrust::tuple<Head, Tail...> const& t)
+	-> decltype(dropFirstHelper( t, make_index_sequence<sizeof...(Tail) >{} ))
+	{
+		return dropFirstHelper(t , make_index_sequence<sizeof ...(Tail)>{} );
+	}
+
+	//----------------------------------------
+	template<typename T, typename Head,  typename ...Tail,  size_t... Is >
+	auto changeFirstHelper(T& new_first, thrust::tuple<Head, Tail...> const& t  , index_sequence<Is...> )
+	-> thrust::tuple<Tail...>
+	{
+		return thrust::tie(new_first, thrust::get<Is+1>(t)... );
+	}
+
+	template<typename T, typename Head,  typename ...Tail>
+	auto changeFirst(T& new_first, thrust::tuple<Head, Tail...> const& t)
+	-> decltype(dropFirstHelper(new_first, t, make_index_sequence<sizeof...(Tail) + 1>{} ))
+	{
+		return changeFirstHelper(new_first, t , make_index_sequence<sizeof ...(Tail)>{} );
+	}
+
+
+	//----------------------------------------
+	//make a homogeneous tuple with same value in all elements
+	template <typename T,  size_t... Is >
+	auto make_tuple_helper(std::array<T, sizeof ...(Is)>& Array, index_sequence<Is...>)
+	-> decltype(thrust::make_tuple(Array[Is]...))
+	{
+		return thrust::make_tuple(Array[Is]...);
+	}
+
+
+	template <typename T,  size_t N>
+	auto make_tuple(T value)
+	-> decltype(make_tuple_helper(std::array<T,N>(),  make_index_sequence<N>{}))
+	{
+		std::array<T,N> Array;
+
+		for(auto v:Array) v=value;
+
+		return make_tuple_helper( Array, make_index_sequence<N>{});
+	}
 
 
 	//---------------------------------------

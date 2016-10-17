@@ -26,6 +26,12 @@
  *      Author: Antonio Augusto Alves Junior
  */
 
+/**
+ * \file
+ * \ingroup fit
+ */
+
+
 #ifndef USERPARAMETERS_H_
 #define USERPARAMETERS_H_
 

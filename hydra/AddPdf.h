@@ -26,6 +26,12 @@
  *      Author: Antonio Augusto Alves Junior
  */
 
+
+/**
+ * \file
+ * \ingroup fit
+ */
+
 #ifndef ADDPDF_H_
 #define ADDPDF_H_
 
@@ -57,22 +63,42 @@ struct AddPdfBase: std::enable_if<AddPdfChecker<PDF1,PDF2,PDFs...>::value>{};
 }  // namespace detail
 
 
-
+/**
+ * \brief Build a pdf adding other pdfs.
+ * Given N unnormalized pdfs \f$F_i\f$ , this class define a object representing the sum
+ * \f[ F_t = \sum_i^N c_i \times F_i \f]
+ * The coefficients of the pdfs can represent fractions or yields. If the number of coefficients is equal to
+ * the number of pdfs, the coefficients are interpreted as yields. If the number of coefficients is \f$(N-1)\f$,
+ * the coefficients are interpreted as fractions defined in the interval [0,1].
+ * The coefficient of the last term is calculated as \f$ c_N=1 -\sum_i^{(N-1)} c_i \f$.
+ */
 template<typename PDF1, typename PDF2, typename ...PDFs>
 struct AddPdf: detail::AddPdfBase<PDF1,PDF2,PDFs...>
 {
 	//tag
-	typedef void hydra_sum_pdf_tag;
+	typedef void hydra_sum_pdf_tag; //!< tag
 
 	//this typedef is actually a check. If the AddPdf is not built with
 	//hydra::pdf, AddPdfBase::type will not be defined and compilation
 	//will fail
-	typedef typename detail::AddPdfBase<PDF1,PDF2,PDFs...>::type base_type;
+	typedef typename detail::AddPdfBase<PDF1,PDF2,PDFs...>::type base_type; //!< base class type
 
-	constexpr static size_t npdfs = sizeof...(PDFs)+2;
-	typedef thrust::tuple<PDF1, PDF2, PDFs...> pdfs_tuple_type;
+	constexpr static size_t npdfs = sizeof...(PDFs)+2; //!< number of pdfs
+
+	typedef thrust::tuple<PDF1, PDF2, PDFs...> pdfs_tuple_type;//!< type of the tuple of pdfs
 
 
+	/**
+	 * \brief Ctor for used to build AddPdf usable in extended likelihood fits.
+	 * \param pdf1 first pdf object,
+	 * \param pdf2 second pdf object,
+	 * \param pdfs remaining pdfs.
+	 * \param coef arrary of Parameters, each parameter correspond to a coefficient
+	 * \param extend build pdf to be used in extended fit. Default is true.
+	 *
+	 * Each component pdf is normalized properly before evaluation each time SetParameters(const std::vector<double>& parameters) is called.
+	 * The sum is normalized also.
+	 */
 	AddPdf( PDF1 const& pdf1, PDF2 const& pdf2, PDFs const& ...pdfs,
 			std::array<Parameter*, npdfs>const& coef, GBool_t extend=kTrue ):
 			fPDFs(thrust::make_tuple(pdf1,pdf2,pdfs...) ),
@@ -89,7 +115,16 @@ struct AddPdf: detail::AddPdfBase<PDF1,PDF2,PDFs...>
 
 	}
 
-
+	/**
+	 * \brief Ctor for used to build AddPdf __not-usable__ in extended likelihood fits.
+	 * \param pdf1 first pdf object,
+	 * \param pdf2 second pdf object,
+	 * \param pdfs remaining pdfs.
+	 * \param coef arrary of Parameters, each parameter correspond to a fractional coefficient
+	 *
+	 * Each component pdf is normalized properly before evaluation each time SetParameters(const std::vector<double>& parameters) is called.
+	 * The sum is normalized also.
+	 */
 	AddPdf(PDF1 const& pdf1, PDF2 const& pdf2, PDFs const& ...pdfs,
 			std::array<Parameter*, npdfs-1>const& coef):
 			fPDFs(thrust::make_tuple(pdf1,pdf2,pdfs...) ),
@@ -117,6 +152,9 @@ struct AddPdf: detail::AddPdfBase<PDF1,PDF2,PDFs...>
 		fCoeficients[npdfs-1]= 1.0 - fCoefSum;
 	}
 
+	/**
+	 * \brief copy ctor.
+	 */
 	__host__ __device__
 	AddPdf(AddPdf<PDF1, PDF2, PDFs...> const& other ):
 	fPDFs(other.GetPdFs() ),
@@ -129,6 +167,9 @@ struct AddPdf: detail::AddPdfBase<PDF1,PDF2,PDFs...>
 			}
 	}
 
+	/**
+	 *  \brief assignment operator.
+	 */
 	__host__ __device__ inline
 	AddPdf<PDF1, PDF2, PDFs...>&
 	operator=( AddPdf<PDF1, PDF2, PDFs...> const& other )
@@ -144,6 +185,11 @@ struct AddPdf: detail::AddPdfBase<PDF1,PDF2,PDFs...>
 	}
 
 
+/**
+ * \brief Set the coefficients and parameters of all pdfs.
+ * This method sets the values of all coefficients and parameters of pdfs stored in the AddPdf object.
+ * User should ensure this method is called before the object evaluation.
+ */
 	__host__ inline
 	void SetParameters(const std::vector<double>& parameters){
 
@@ -160,6 +206,9 @@ struct AddPdf: detail::AddPdfBase<PDF1,PDF2,PDFs...>
 
 	}
 
+	/**
+	 * \brief print all registered parameters
+	 */
 	__host__ inline
 	void PrintRegisteredParameters()
 	{
@@ -264,6 +313,9 @@ private:
 
 };
 
+/**
+ *\brief Convenience function to add pdfs without set template parameters explicitly.
+ */
 template<size_t N, typename PDF1, typename PDF2, typename ...PDFs>
 AddPdf<PDF1, PDF2, PDFs...>
 add_pdfs(std::array<Parameter*, N> var_list, PDF1 const& pdf1, PDF2 const& pdf2, PDFs const& ...pdfs )

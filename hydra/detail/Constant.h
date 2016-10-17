@@ -25,6 +25,10 @@
  *  Created on: 10/07/2016
  *      Author: Antonio Augusto Alves Junior
  */
+/**
+ * \file
+ * \ingroup functor
+ */
 
 #ifndef CONSTANT_H_
 #define CONSTANT_H_

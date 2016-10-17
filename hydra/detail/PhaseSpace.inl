@@ -26,6 +26,11 @@
  *      Author: Antonio Augusto Alves Junior
  */
 
+/**
+ * \file
+ * \ingroup phsp
+ */
+
 #ifndef GENERATE_INL_
 #define GENERATE_INL_
 

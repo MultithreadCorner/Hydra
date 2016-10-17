@@ -26,6 +26,11 @@
  *      Author: Antonio Augusto Alves Junior
  */
 
+/**
+ * \file
+ * \ingroup random
+ */
+
 #ifndef RANDOM_H_
 #define RANDOM_H_
 
@@ -33,11 +38,12 @@
 
 #include <hydra/detail/Config.h>
 #include <hydra/Types.h>
-#include <hydra/detail/RandomUtils.h>
+#include <hydra/detail/functors/RandomUtils.h>
 #include <hydra/detail/TypeTraits.h>
 #include <hydra/detail/utility/Utility_Tuple.h>
 #include <hydra/Containers.h>
 #include <hydra/PointVector.h>
+//
 #include <thrust/copy.h>
 #include <thrust/random.h>
 #include <thrust/distance.h>
@@ -55,10 +61,10 @@ class Random{
 public:
 	Random(GUInt_t seed):
 		fSeed(seed)
-    {}
+{}
 
 	Random( Random const& other):
-			fSeed(other.fSeed)
+		fSeed(other.fSeed)
 	{}
 
 	~Random(){};
@@ -71,31 +77,50 @@ public:
 		fSeed = seed;
 	}
 
-template<typename Iterator>
-void Gauss(GReal_t mean, GReal_t sigma, Iterator begin, Iterator end ) ;//-> decltype(*begin);
+	/**
+	 * \warning{ the implementation of thrust::random::normal_distribution
+	 * is different between nvcc and gcc. Do not expect the same
+	 * numbers event by event.
+	 * Possible: implement myself ? (que inferno! :0)
+	 * Refs: see in thrust/random/detail/normal_distribution_base.h
+	 * ```
+	 * template<typename RealType>
+	 * struct normal_distribution_base
+	 * {
+	 *	#if THRUST_DEVICE_COMPILER == THRUST_DEVICE_COMPILER_NVCC
+	 *  typedef normal_distribution_nvcc<RealType> type;
+	 *	#else
+	 *  typedef normal_distribution_portable<RealType> type;
+	 *  #endif
+	 * };
+	 *	```
+	 *}
+	 */
+	template<typename Iterator>
+	void Gauss(GReal_t mean, GReal_t sigma, Iterator begin, Iterator end ) ;//-> decltype(*begin);
 
-template<typename Iterator>
-void Exp(GReal_t tau, Iterator begin, Iterator end)  ;//-> decltype(*begin);
+	template<typename Iterator>
+	void Exp(GReal_t tau, Iterator begin, Iterator end)  ;//-> decltype(*begin);
 
-template<typename Iterator>
-void BreitWigner(GReal_t mean, GReal_t gamma, Iterator begin, Iterator end)  ;//-> decltype(*begin);
+	template<typename Iterator>
+	void BreitWigner(GReal_t mean, GReal_t gamma, Iterator begin, Iterator end)  ;//-> decltype(*begin);
 
-template<typename Iterator>
-void Uniform(GReal_t min, GReal_t max, Iterator begin, Iterator end) ;// -> decltype(*begin);
+	template<typename Iterator>
+	void Uniform(GReal_t min, GReal_t max, Iterator begin, Iterator end) ;// -> decltype(*begin);
 
-template<typename FUNCTOR, typename Iterator>
-void InverseCDF(FUNCTOR const& invcdf, Iterator begin, Iterator end)  ;//-> decltype(*begin);
+	template<typename FUNCTOR, typename Iterator>
+	void InverseCDF(FUNCTOR const& invcdf, Iterator begin, Iterator end)  ;//-> decltype(*begin);
 
-template<unsigned int BACKEND, typename FUNCTOR, size_t N>
-auto Sample(FUNCTOR const& functor, std::array<GReal_t,N> min,	std::array<GReal_t,N> max, size_t trials)
-->	typename detail::if_then_else<BACKEND,
-		 mc_device_vector< typename detail::tuple_type<N,GReal_t>::type >,
-		 mc_host_vector< typename detail::tuple_type<N,GReal_t>::type> >::type;
-//-> typename detail::BackendTraits<BACKEND>::template container<detail::tuple_type<N,GReal_t>::type>;
+	template<unsigned int BACKEND, typename FUNCTOR, size_t N>
+	auto Sample(FUNCTOR const& functor, std::array<GReal_t,N> min,	std::array<GReal_t,N> max, size_t trials)
+	->	typename detail::if_then_else<BACKEND,
+	mc_device_vector< typename detail::tuple_type<N,GReal_t>::type >,
+	mc_host_vector< typename detail::tuple_type<N,GReal_t>::type> >::type;
+	//-> typename detail::BackendTraits<BACKEND>::template container<detail::tuple_type<N,GReal_t>::type>;
 
-template<unsigned int BACKEND=device, typename FUNCTOR, size_t N >
-void Sample(FUNCTOR const& functor, std::array<GReal_t,N> min, std::array<GReal_t,N> max,
-		 PointVector<BACKEND, GReal_t, N, false, false>& result, size_t trials);
+	template<unsigned int BACKEND=device, typename FUNCTOR, size_t N >
+	void Sample(FUNCTOR const& functor, std::array<GReal_t,N> min, std::array<GReal_t,N> max,
+			PointVector<BACKEND, GReal_t, N, false, false>& result, size_t trials);
 private:
 	GUInt_t fSeed;
 

@@ -28,9 +28,12 @@
  *      Author: Antonio Augusto Alves Junior
  */
 
-/**\file IsAccepted.h
- * Implements isAccepted.
+
+/**
+ * \file
+ * \ingroup phsp
  */
+
 
 #ifndef ISACCEPTED_H_
 #define ISACCEPTED_H_
@@ -41,6 +44,9 @@
 
 namespace hydra
 {
+namespace detail
+{
+
 
 struct isAccepted
 {
@@ -51,8 +57,8 @@ struct isAccepted
   }
 };
 
-
-}
+}//namespace detail
+}//namespace hydra
 
 
 #endif /* ISACCEPTED_H_ */

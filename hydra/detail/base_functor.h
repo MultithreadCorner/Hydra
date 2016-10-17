@@ -26,6 +26,11 @@
  *      Author: Antonio Augusto Alves Junior
  */
 
+/**
+ * \file
+ * \ingroup functor
+ */
+
 #ifndef BASE_FUNCTOR_H_
 #define BASE_FUNCTOR_H_
 

@@ -26,6 +26,12 @@
  *      Author: Antonio Augusto Alves Junior
  */
 
+/**
+ * \file
+ * \ingroup numerical_integration
+ */
+
+
 #ifndef PROCESSCALLSVEGAS_H_
 #define PROCESSCALLSVEGAS_H_
 
@@ -38,6 +44,8 @@
 
 
 namespace hydra{
+
+namespace detail {
 
 
 struct ResultVegas
@@ -186,10 +194,17 @@ struct ProcessCallsVegas
 			{
 				for (GUInt_t j = 0; j < NDimensions; j++) {
 #ifdef __CUDA_ARCH__
-					atomicAdd((fDistribution + bin[j]* NDimensions + j) , static_cast<GFloat_t>(fval*fval));
+
+#if __CUDA_ARCH__ >= 600
+					atomicAdd((fDistribution + bin[j]* NDimensions + j) ,  static_cast<double>>(fval*fval));
 #else
+					atomicAdd((fDistribution + bin[j]* NDimensions + j) , static_cast<float>(fval*fval));
+#endif
+
+#else
+
 #pragma omp atomic
-					*(fDistribution  + bin[j]* NDimensions + j) += static_cast<GFloat_t>(fval*fval);
+					*(fDistribution  + bin[j]* NDimensions + j) += static_cast<double>(fval*fval);
 #endif
 				}
 			}
@@ -202,10 +217,17 @@ struct ProcessCallsVegas
 		if (fMode == MODE_STRATIFIED) {
 			for (GUInt_t j = 0; j < NDimensions; j++) {
 #ifdef __CUDA_ARCH__
-				atomicAdd((fDistribution + bin[j]*NDimensions+j), static_cast<GFloat_t>(f_sq_sum));
+
+#if __CUDA_ARCH__ >= 600
+				atomicAdd((fDistribution + bin[j]*NDimensions+j), static_cast<double>(f_sq_sum));
 #else
+				atomicAdd((fDistribution + bin[j]*NDimensions+j), static_cast<float>(f_sq_sum));
+#endif
+
+#else
+
 #pragma omp atomic
-				*(fDistribution  + bin[j]* NDimensions + j) += static_cast<GReal_t>(f_sq_sum);
+				*(fDistribution  + bin[j]* NDimensions + j) += static_cast<double>(f_sq_sum);
 #endif
 			}
 		}
@@ -233,8 +255,9 @@ private:
 
 };
 
+}// namespace detail
 
-}
+}// namespace hydra
 
 
 #endif
