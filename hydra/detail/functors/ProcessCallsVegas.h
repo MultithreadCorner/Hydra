@@ -196,7 +196,7 @@ struct ProcessCallsVegas
 #ifdef __CUDA_ARCH__
 
 #if __CUDA_ARCH__ >= 600
-					atomicAdd((fDistribution + bin[j]* NDimensions + j) ,  static_cast<double>>(fval*fval));
+					atomicAdd((fDistribution + bin[j]* NDimensions + j) ,  static_cast<double>(fval*fval));
 #else
 					atomicAdd((fDistribution + bin[j]* NDimensions + j) , static_cast<float>(fval*fval));
 #endif
