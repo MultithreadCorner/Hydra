@@ -1,0 +1,8 @@
+<map id="hydra::Events::Events" name="hydra::Events::Events">
+<area shape="rect" id="node2" href="$dc/d3c/a00028.html#a7424b190a4c812ee893086df70f3792a" title="hydra::Events::Daughters\lBegin" alt="" coords="217,5,388,47"/>
+<area shape="rect" id="node3" href="$dc/d3c/a00028.html#ad61a31f6a9ebedfb25198b49de978e3c" title="hydra::Events::DaughtersEnd" alt="" coords="205,71,400,98"/>
+<area shape="rect" id="node4" href="$dc/d3c/a00028.html#ad93e6690e08e08c53aa890616e2093fc" title="hydra::Events::FlagsBegin" alt="" coords="215,122,391,149"/>
+<area shape="rect" id="node5" href="$dc/d3c/a00028.html#ab634fcf28a5253706f8d32e0f9fde20f" title="hydra::Events::FlagsEnd" alt="" coords="219,173,386,199"/>
+<area shape="rect" id="node6" href="$dc/d3c/a00028.html#a81acb98e6856035e548612a0b76627fc" title="hydra::Events::WeightsBegin" alt="" coords="207,223,399,250"/>
+<area shape="rect" id="node7" href="$dc/d3c/a00028.html#a4af0795dbfe9812be3f4e530237f0e09" title="hydra::Events::WeightsEnd" alt="" coords="211,274,394,301"/>
+</map>

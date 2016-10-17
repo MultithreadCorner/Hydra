@@ -1,0 +1,42 @@
+<map id="Vector3R.inl" name="Vector3R.inl">
+<area shape="rect" id="node2" href="$a00143.html" title="Vector3R.h" alt="" coords="2647,80,2735,107"/>
+<area shape="rect" id="node3" href="$a00096.html" title="Typedef for useful container classes used in MCBooster. " alt="" coords="2407,229,2503,256"/>
+<area shape="rect" id="node5" href="$a00098.html" title="DecayMother.h" alt="" coords="2467,453,2578,480"/>
+<area shape="rect" id="node7" href="$a00123.html" title="Implements the struct Events and the class PhaseSpace. " alt="" coords="2563,603,2669,629"/>
+<area shape="rect" id="node8" href="$a00099.html" title="DecayMothers.h" alt="" coords="2654,453,2773,480"/>
+<area shape="rect" id="node32" href="$a00103.html" title="Events.h" alt="" coords="2797,453,2872,480"/>
+<area shape="rect" id="node41" href="$a00145.html" title="Vector4R.h" alt="" coords="2705,155,2793,181"/>
+<area shape="rect" id="node4" href="$a00097.html" title="Copy.h" alt="" coords="2121,379,2185,405"/>
+<area shape="rect" id="node6" href="$a00115.html" title="launch_decayers.inl" alt="" coords="2547,528,2685,555"/>
+<area shape="rect" id="node9" href="$a00140.html" title="TypeTraits.h" alt="" coords="1423,304,1518,331"/>
+<area shape="rect" id="node30" href="$a00133.html" title="Random.h" alt="" coords="119,603,201,629"/>
+<area shape="rect" id="node31" href="$a00101.html" title="Evaluate.h" alt="" coords="331,528,415,555"/>
+<area shape="rect" id="node40" href="$a00149.html" title="VegasState.h" alt="" coords="2189,453,2291,480"/>
+<area shape="rect" id="node10" href="$a00092.html" title="base_functor.h" alt="" coords="1630,453,1738,480"/>
+<area shape="rect" id="node12" href="$a00120.html" title="Multiply.h" alt="" coords="1746,603,1825,629"/>
+<area shape="rect" id="node14" href="$a00093.html" title="Compose.h" alt="" coords="1325,603,1414,629"/>
+<area shape="rect" id="node16" href="$a00100.html" title="Divide.h" alt="" coords="1539,603,1610,629"/>
+<area shape="rect" id="node18" href="$a00119.html" title="Minus.h" alt="" coords="1947,528,2015,555"/>
+<area shape="rect" id="node19" href="$a00116.html" title="LogLikelihood.h" alt="" coords="887,603,999,629"/>
+<area shape="rect" id="node22" href="$a00142.html" title="Utility_Tuple.h" alt="" coords="1297,379,1404,405"/>
+<area shape="rect" id="node37" href="$a00129.html" title="PointVector.h" alt="" coords="848,528,949,555"/>
+<area shape="rect" id="node38" href="$a00121.html" title="Parameter.h" alt="" coords="493,379,587,405"/>
+<area shape="rect" id="node11" href="$a00090.html" title="Argument.h" alt="" coords="1782,528,1871,555"/>
+<area shape="rect" id="node15" href="$a00095.html" title="Constant.h" alt="" coords="1417,528,1503,555"/>
+<area shape="rect" id="node17" href="$a00138.html" title="Sum.h" alt="" coords="1438,603,1498,629"/>
+<area shape="rect" id="node13" href="$a00108.html" title="FunctorArithmetic.h" alt="" coords="1507,677,1643,704"/>
+<area shape="rect" id="node20" href="$a00104.html" title="FCN.h" alt="" coords="877,677,939,704"/>
+<area shape="rect" id="node21" href="$a00117.html" title="LogLikelihoodFCN.h" alt="" coords="906,752,1046,779"/>
+<area shape="rect" id="node23" href="$a00089.html" title="AddPdf.h" alt="" coords="595,528,671,555"/>
+<area shape="rect" id="node24" href="$a00131.html" title="ProcessCallsPlain.h" alt="" coords="1227,453,1367,480"/>
+<area shape="rect" id="node26" href="$a00132.html" title="ProcessCallsVegas.h" alt="" coords="2017,453,2165,480"/>
+<area shape="rect" id="node29" href="$a00135.html" title="RandomUtils.h" alt="" coords="197,528,307,555"/>
+<area shape="rect" id="node33" href="$a00106.html" title="Function.h" alt="" coords="499,453,581,480"/>
+<area shape="rect" id="node35" href="$a00122.html" title="Pdf.h" alt="" coords="605,453,659,480"/>
+<area shape="rect" id="node36" href="$a00128.html" title="Point.h" alt="" coords="937,453,999,480"/>
+<area shape="rect" id="node25" href="$a00125.html" title="Plain.h" alt="" coords="1227,528,1290,555"/>
+<area shape="rect" id="node27" href="$a00148.html" title="Vegas.inl" alt="" coords="2142,528,2218,555"/>
+<area shape="rect" id="node28" href="$a00147.html" title="Vegas.h" alt="" coords="2145,603,2215,629"/>
+<area shape="rect" id="node34" href="$a00107.html" title="FunctionWrapper.h" alt="" coords="439,528,571,555"/>
+<area shape="rect" id="node39" href="$a00141.html" title="UserParameters.h" alt="" coords="144,453,272,480"/>
+</map>

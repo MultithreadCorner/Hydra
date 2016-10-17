@@ -1,0 +1,38 @@
+<map id="main" name="main">
+<area shape="rect" id="node2" href="$dd/da2/a00019.html#a8b107fcd843f6c26b301b793378bf856" title="hydra::add_pdfs" alt="" coords="142,137,257,164"/>
+<area shape="rect" id="node3" href="$d3/d8b/a00059.html#a891111b3ecb2c6ed41a9d00eba3fbf6d" title="hydra::UserParameters\l::AddParameter" alt="" coords="121,189,278,230"/>
+<area shape="rect" id="node12" href="$d6/d2d/a00047.html#a0ffe74b37ca6de1bf3ae775a7e57a74f" title="constant iterator access " alt="" coords="134,254,265,295"/>
+<area shape="rect" id="node13" href="$d6/d2d/a00047.html#a1f73f2ef01b12db0eb5e3bd8b9d9dc7a" title="hydra::PointVector::end" alt="" coords="120,320,279,347"/>
+<area shape="rect" id="node14" href="$db/d3a/a00040.html#a9faea07ef7ea36231838f227f8c8a1c7" title="hydra::Parameter::Error" alt="" coords="120,371,279,397"/>
+<area shape="rect" id="node15" href="$dc/dee/a00053.html#aeafd0b8dd2740a3943457b8c8e06d1dd" title="hydra::Random::Gauss" alt="" coords="367,421,525,448"/>
+<area shape="rect" id="node16" href="$d1/d6f/a00063.html#a6401ac522961f5c13421cc693e5ec036" title="hydra::Vegas::GetAbsError" alt="" coords="110,624,289,651"/>
+<area shape="rect" id="node17" href="$df/d5f/a00064.html#a284afc16ff48f08666072b09ff1c8cea" title="hydra::VegasState::\lGetChiSquare" alt="" coords="130,675,269,717"/>
+<area shape="rect" id="node18" href="$d1/d6f/a00063.html#a1c9963d02564f2424d4da9443cca5bf4" title="hydra::Vegas::GetResult" alt="" coords="116,741,283,768"/>
+<area shape="rect" id="node19" href="$d3/d8b/a00059.html#a58541b387566f846e3d0940e0b8d609b" title="hydra::UserParameters\l::GetState" alt="" coords="121,793,278,834"/>
+<area shape="rect" id="node20" href="$d1/d6f/a00063.html#a87f00c841d243f5aed0de39c3d1efaea" title="hydra::Vegas::Integrate" alt="" coords="120,859,279,885"/>
+<area shape="rect" id="node21" href="$db/d3a/a00040.html#a19bbd8c8155327bbd2d2a689c6eaad9f" title="hydra::Parameter::Limits" alt="" coords="117,909,282,936"/>
+<area shape="rect" id="node22" href="$dd/da2/a00019.html#a0a0d4c1f486d6286929d31f9844f13fb" title="hydra::make_loglikehood_fcn" alt="" coords="104,960,295,987"/>
+<area shape="rect" id="node23" href="$dd/da2/a00019.html#a4ead364d19ac428f89101477057e61db" title="hydra::make_pdf" alt="" coords="140,1011,259,1037"/>
+<area shape="rect" id="node24" href="$db/d3a/a00040.html#a47861993e8a8e57b88324d7d060e31b5" title="hydra::Parameter::Name" alt="" coords="117,1061,282,1088"/>
+<area shape="rect" id="node25" href="$d3/d8b/a00059.html#af60d73d61e66c5d859da032fa0756048" title="hydra::UserParameters\l::PrintParameters" alt="" coords="121,1113,278,1154"/>
+<area shape="rect" id="node26" href="$dc/dee/a00053.html#a2f6f0199659a7a31b893da88809f0d4b" title="hydra::Random::Sample" alt="" coords="365,472,527,499"/>
+<area shape="rect" id="node27" href="$df/d5f/a00064.html#aa1a7dc1c74419f0a322af3d68eca2a3e" title="hydra::VegasState::\lSetAlpha" alt="" coords="130,1178,269,1219"/>
+<area shape="rect" id="node28" href="$df/d5f/a00064.html#a4d91962dca67901d8ff5c1000fada9c6" title="hydra::VegasState::\lSetIterations" alt="" coords="130,1243,269,1285"/>
+<area shape="rect" id="node29" href="$df/d5f/a00064.html#af164af6f10de0a38f0dfa1b0d060f4a9" title="hydra::VegasState::\lSetMaxError" alt="" coords="130,1309,269,1350"/>
+<area shape="rect" id="node30" href="$dc/dee/a00053.html#ade43b0c4c234c35cd10b5b984a6a555e" title="hydra::Random::SetSeed" alt="" coords="115,523,284,549"/>
+<area shape="rect" id="node33" href="$dc/dee/a00053.html#aff81053c79f3cfbb30b212127d2c73ef" title="hydra::Random::Uniform" alt="" coords="363,675,529,701"/>
+<area shape="rect" id="node35" href="$df/d5f/a00064.html#a36723599e427e86be110a41abdf9bae9" title="hydra::VegasState::\lSetUseRelativeError" alt="" coords="128,1374,271,1415"/>
+<area shape="rect" id="node36" href="$df/d5f/a00064.html#afc7617c7670d7709d51460c5b57c4e2f" title="hydra::VegasState::\lSetVerbose" alt="" coords="130,1439,269,1481"/>
+<area shape="rect" id="node37" href="$db/d3a/a00040.html#a706c308f57ea396e2cfe6c22f1b6b442" title="hydra::Parameter::Value" alt="" coords="118,1505,281,1532"/>
+<area shape="rect" id="node4" href="$db/d3a/a00040.html#a0a616888aa5b273ec869cc96410d16de" title="hydra::Parameter::HasError" alt="" coords="355,107,537,133"/>
+<area shape="rect" id="node5" href="$db/d3a/a00040.html#ac498997822bc5c5108762c4c967049c3" title="hydra::Parameter::IsLimited" alt="" coords="355,157,537,184"/>
+<area shape="rect" id="node6" href="$db/d3a/a00040.html#ae20415be2a8b909f5d923378d6adddc8" title="hydra::Parameter::GetName" alt="" coords="353,208,539,235"/>
+<area shape="rect" id="node7" href="$db/d3a/a00040.html#aa64ab407a0f8742246242104ce5ba15e" title="hydra::Parameter::GetValue" alt="" coords="354,259,538,285"/>
+<area shape="rect" id="node8" href="$db/d3a/a00040.html#af56d5e633053e233710c396ccf14fdaf" title="hydra::Parameter::GetError" alt="" coords="357,309,535,336"/>
+<area shape="rect" id="node9" href="$db/d3a/a00040.html#a252b5deac6db4a342d38f4292f3ec854" title="hydra::Parameter::GetLowerLim" alt="" coords="343,360,549,387"/>
+<area shape="rect" id="node10" href="$db/d3a/a00040.html#a6bb2a4631ccf836934032449543356ed" title="hydra::Parameter::GetUpperLim" alt="" coords="343,5,549,32"/>
+<area shape="rect" id="node11" href="$db/d3a/a00040.html#aa2efc24e9bd8286c4bc91f4ca21b6387" title="hydra::Parameter::SetIndex" alt="" coords="355,56,537,83"/>
+<area shape="rect" id="node31" href="$dc/dee/a00053.html#a3dbc414994aa19965b7ff815300aff96" title="hydra::Random::Exp" alt="" coords="375,523,517,549"/>
+<area shape="rect" id="node32" href="$dc/dee/a00053.html#a1d1d32fe3630bb302342c6dffae639f3" title="hydra::Random::BreitWigner" alt="" coords="353,573,539,600"/>
+<area shape="rect" id="node34" href="$dc/dee/a00053.html#aca3224e0c691d1503b25ac318b5b4f4d" title="hydra::Random::InverseCDF" alt="" coords="351,624,541,651"/>
+</map>

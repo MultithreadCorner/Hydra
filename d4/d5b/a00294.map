@@ -1,0 +1,4 @@
+<map id="hydra::Integrator&lt; ALGORITHM, N &gt;" name="hydra::Integrator&lt; ALGORITHM, N &gt;">
+<area shape="rect" id="node2" href="$d4/d8c/a00035.html" title="{hydra::Integrator\&lt;\l Vegas\&lt; N, GRND \&gt;, N \&gt;\n|+ dimension\l|+ Integrator()\l+ GetIntegral()\l+ GetLimits()\l}" alt="" coords="9,189,183,311"/>
+<area shape="rect" id="node3" href="$d3/d8b/a00059.html" title="{hydra::Vegas\&lt; N, GRND \&gt;\n||+ Vegas()\l+ Vegas()\l+ Vegas()\l+ Vegas()\l+ GetAbsError()\l+ GetLowerLimit()\l+ GetNCalls()\l+ GetResult()\l+ GetState()\l+ GetUpperLimit()\land 10 more...\l}" alt="" coords="5,360,187,584"/>
+</map>

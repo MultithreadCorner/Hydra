@@ -1,0 +1,10 @@
+<map id="hydra::Events::operator=" name="hydra::Events::operator=">
+<area shape="rect" id="node2" href="$d2/de7/a00014.html#a7424b190a4c812ee893086df70f3792a" title="hydra::Events::Daughters\lBegin" alt="" coords="234,5,405,47"/>
+<area shape="rect" id="node3" href="$d2/de7/a00014.html#ad61a31f6a9ebedfb25198b49de978e3c" title="hydra::Events::DaughtersEnd" alt="" coords="222,71,417,98"/>
+<area shape="rect" id="node4" href="$d2/de7/a00014.html#ad93e6690e08e08c53aa890616e2093fc" title="hydra::Events::FlagsBegin" alt="" coords="231,122,407,149"/>
+<area shape="rect" id="node5" href="$d2/de7/a00014.html#ab634fcf28a5253706f8d32e0f9fde20f" title="hydra::Events::FlagsEnd" alt="" coords="236,173,403,199"/>
+<area shape="rect" id="node6" href="$d2/de7/a00014.html#a42fa6730eacc8e4be21e12487d19bd61" title="hydra::Events::GetMaxWeight" alt="" coords="220,223,419,250"/>
+<area shape="rect" id="node7" href="$d2/de7/a00014.html#a9a4dce1f4cc7bacdc30fa4bb75894ab3" title="hydra::Events::GetNEvents" alt="" coords="228,274,411,301"/>
+<area shape="rect" id="node8" href="$d2/de7/a00014.html#a81acb98e6856035e548612a0b76627fc" title="hydra::Events::WeightsBegin" alt="" coords="223,325,415,351"/>
+<area shape="rect" id="node9" href="$d2/de7/a00014.html#a4af0795dbfe9812be3f4e530237f0e09" title="hydra::Events::WeightsEnd" alt="" coords="228,375,411,402"/>
+</map>
