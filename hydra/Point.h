@@ -513,7 +513,7 @@ __host__
 std::ostream& operator<<(std::ostream& os, Point<T,N,false,false> const& point)
 {
 	 return os <<"X["<< point.Dimension <<"]-> Coord: " << point.GetCoordinates() <<
-			                            " Value "       << point.GetWeight() ;
+			                            " Weight "       << point.GetWeight() ;
 
 }
 
@@ -522,8 +522,8 @@ __host__
 std::ostream& operator<<(std::ostream& os, Point<T,N,true,false> const& point)
 {
 	 return os <<"X["<< point.Dimension <<"]-> Coord: " << point.GetCoordinates() <<
-			                            " Value "       << point.GetWeight() <<
-			                            " ValueError "  << point.GetValueError();
+			                            " Weight "       << point.GetWeight() <<
+			                            " WeightError "  << point.GetValueError();
 
 }
 
@@ -533,8 +533,8 @@ std::ostream& operator<<(std::ostream& os, Point<T,N,true,true> const& point)
 {
 	 return os <<"X["<< point.Dimension <<"]-> Coord: " << point.GetCoordinates() <<
 			                            " CoordError: " << point.GetErrors() <<
-			                            " Value "       << point.GetWeight() <<
-			                            " ValueError "  << point.GetValueError();
+			                            " Weight "       << point.GetWeight() <<
+			                            " WeightError "  << point.GetValueError();
 
 }
 

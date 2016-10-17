@@ -49,9 +49,9 @@ GInt_t Plain<N,GRND>::Integrate(FUNCTOR const& fFunctor)
 
 	// compute summary statistics
 	PlainState result = thrust::transform_reduce(first, last,
-			ProcessCallsPlainUnary<FUNCTOR,N,GRND>(const_cast<GReal_t*>(thrust::raw_pointer_cast(fXLow.data())),
+			detail::ProcessCallsPlainUnary<FUNCTOR,N,GRND>(const_cast<GReal_t*>(thrust::raw_pointer_cast(fXLow.data())),
 					const_cast<GReal_t*>(thrust::raw_pointer_cast(fDeltaX.data())), fFunctor),
-			PlainState(), ProcessCallsPlainBinary() );
+			PlainState(), detail::ProcessCallsPlainBinary() );
 
 	fResult   = fVolume*result.fMean;
 	fAbsError = fVolume*sqrt( result.fM2/(fNCalls*(fNCalls-1)) );

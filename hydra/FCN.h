@@ -221,16 +221,20 @@ private:
 		auto search = fFCNCache.find(key);
 		GReal_t value = 0.0;
 
+		//bool fnd=0;
+
 		if (search != fFCNCache.end() && fFCNCache.size()>0) {
 			value = search->second;
+			//fnd=1;
 		} else {
-			//g_pages_mutex.lock();
+
 			value = EvalFCN(parameters);
 
 			fFCNCache[key] = value;
-			//g_pages_mutex.unlock();
+
 		}
 
+		//cout << "Found: " << fnd << " Key: " << key << " Value: "<< std::setprecision(16) <<value << endl;
 		return value;
 	}
 

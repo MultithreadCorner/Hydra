@@ -45,6 +45,8 @@
 
 namespace hydra{
 
+namespace detail {
+
 
 struct ResultVegas
 {
@@ -202,7 +204,7 @@ struct ProcessCallsVegas
 #else
 
 #pragma omp atomic
-					*(fDistribution  + bin[j]* NDimensions + j) += (fval*fval);
+					*(fDistribution  + bin[j]* NDimensions + j) += static_cast<double>(fval*fval);
 #endif
 				}
 			}
@@ -225,7 +227,7 @@ struct ProcessCallsVegas
 #else
 
 #pragma omp atomic
-				*(fDistribution  + bin[j]* NDimensions + j) += (f_sq_sum);
+				*(fDistribution  + bin[j]* NDimensions + j) += static_cast<double>(f_sq_sum);
 #endif
 			}
 		}
@@ -253,8 +255,9 @@ private:
 
 };
 
+}// namespace detail
 
-}
+}// namespace hydra
 
 
 #endif

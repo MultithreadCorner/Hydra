@@ -44,15 +44,17 @@
 
 namespace hydra{
 
-template<typename GRND, typename FUNCTOR>
-struct HyRndCDF{
+namespace detail {
 
-	HyRndCDF(FUNCTOR const& functor, size_t seed):
+template<typename GRND, typename FUNCTOR>
+struct RndCDF{
+
+	RndCDF(FUNCTOR const& functor, size_t seed):
 		fSeed(seed),
 		fFunctor(functor)
 	{}
 	__host__ __device__
-	HyRndCDF( HyRndCDF<GRND, FUNCTOR> const& other):
+	RndCDF( RndCDF<GRND, FUNCTOR> const& other):
 		fSeed(other.fSeed),
 		fFunctor(other.fFunctor)
 	{}
@@ -72,15 +74,34 @@ struct HyRndCDF{
 };
 
 template<typename GRND>
-struct HyRndGauss{
+struct RndGauss{
 
-	HyRndGauss(size_t seed, GReal_t mean, GReal_t  sigma):
+	/**
+	 * \warning: the implementation of thrust::random::normal_distribution
+	 * is different between nvcc and gcc. Do not expect the same
+	 * numbers event by event.
+	 * Possible: implement myself ? (que inferno! :0)
+	 * Refs: thrust/random/detail/normal_distribution_base.h
+	 * ```
+	 * template<typename RealType>
+  	 * struct normal_distribution_base
+	 * {
+	 *	#if THRUST_DEVICE_COMPILER == THRUST_DEVICE_COMPILER_NVCC
+  	 *  typedef normal_distribution_nvcc<RealType> type;
+	 *	#else
+  	 *  typedef normal_distribution_portable<RealType> type;
+	 *  #endif
+	 * };
+	 *	```
+	 *
+	 */
+	RndGauss(size_t seed, GReal_t mean, GReal_t  sigma):
 		fSeed(seed),
 		fMean(mean),
 		fSigma(sigma)
 	{}
 	__host__ __device__
-	HyRndGauss( HyRndGauss<GRND> const& other):
+	RndGauss( RndGauss<GRND> const& other):
 		fSeed(other.fSeed),
 		fMean(other.fMean),
 		fSigma(other.fSigma)
@@ -103,15 +124,15 @@ struct HyRndGauss{
 };
 
 template<typename GRND>
-struct HyRndUniform{
+struct RndUniform{
 
-	HyRndUniform(size_t seed, GReal_t min, GReal_t max):
+	RndUniform(size_t seed, GReal_t min, GReal_t max):
 		fSeed(seed),
 		fMin(min),
 		fMax(max)
 	{}
 	__host__ __device__
-	HyRndUniform( HyRndUniform<GRND> const& other):
+	RndUniform( RndUniform<GRND> const& other):
 		fSeed(other.fSeed),
 		fMin(other.fMin),
 		fMax(other.fMax)
@@ -134,14 +155,14 @@ struct HyRndUniform{
 
 
 template<typename GRND>
-struct HyRndExp{
+struct RndExp{
 
-	HyRndExp(size_t seed, GReal_t tau):
+	RndExp(size_t seed, GReal_t tau):
 		fSeed(seed),
 		fTau(tau)
 	{}
 	__host__ __device__
-	HyRndExp( HyRndExp<GRND> const& other):
+	RndExp( RndExp<GRND> const& other):
 		fSeed(other.fSeed),
 		fTau(other.fTau)
 	{}
@@ -160,16 +181,16 @@ struct HyRndExp{
 };
 
 template<typename GRND>
-struct HyRndBreitWigner{
+struct RndBreitWigner{
 
-	HyRndBreitWigner(size_t seed, GReal_t mean, GReal_t gamma):
+	RndBreitWigner(size_t seed, GReal_t mean, GReal_t gamma):
 		fSeed(seed),
 		fMean(mean),
 		fGamma(gamma)
 	{}
 
 	__host__ __device__
-	HyRndBreitWigner( HyRndBreitWigner<GRND> const& other):
+	RndBreitWigner( RndBreitWigner<GRND> const& other):
 		fSeed(other.fSeed),
 		fMean(other.fMean),
 		fGamma(other.fGamma)
@@ -194,15 +215,15 @@ struct HyRndBreitWigner{
 };
 
 template<typename GRND>
-struct HyRndFlag{
+struct RndFlag{
 
-	HyRndFlag(const size_t seed, const GReal_t max_value):
+	RndFlag(const size_t seed, const GReal_t max_value):
 		fSeed(seed),
 		fValMax(max_value)
 	{}
 
 	__host__ __device__
-	HyRndFlag(HyRndFlag<GRND> const& other):
+	RndFlag(RndFlag<GRND> const& other):
 		fSeed(other.fSeed),
 		fValMax(other.fValMax)
 	{}
@@ -224,9 +245,9 @@ struct HyRndFlag{
 
 
 template<typename GRND, typename FUNCTOR, size_t N>
-struct HyRndTrial{
+struct RndTrial{
 
-	HyRndTrial(size_t seed, FUNCTOR const& functor, std::array<GReal_t,N> min, std::array<GReal_t,N> max):
+	RndTrial(size_t seed, FUNCTOR const& functor, std::array<GReal_t,N> min, std::array<GReal_t,N> max):
 		fSeed(seed),
 		fFunctor(functor)
 	{
@@ -237,7 +258,7 @@ struct HyRndTrial{
 	}
 
 	__host__ __device__
-	HyRndTrial(HyRndTrial<GRND,FUNCTOR, N> const& other):
+	RndTrial(RndTrial<GRND,FUNCTOR, N> const& other):
 		fSeed(other.fSeed),
 		fFunctor(other.fFunctor)
 	{
@@ -249,7 +270,7 @@ struct HyRndTrial{
 
 	__hydra_exec_check_disable__
 	__host__ __device__
-	~HyRndTrial(){};
+	~RndTrial(){};
 
 	template<typename T>
 	__host__ __device__
@@ -276,7 +297,8 @@ struct HyRndTrial{
 	GReal_t fMax[N];
 };
 
+} // namespace detail
 
+}// namespace hydra
 
-}
 #endif /* RANDOMUTILS_H_ */

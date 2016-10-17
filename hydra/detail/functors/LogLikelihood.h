@@ -50,6 +50,9 @@
 
 namespace hydra{
 
+namespace detail{
+
+
 template<typename FUNCTOR, typename IteratorData, typename IteratorCache>
 struct LogLikelihood
 {
@@ -120,8 +123,9 @@ private:
 	GReal_t fSumW2;
 };
 
+}//namespace detail
 
-}
+}//namespace hydra
 
 
 #endif /* LOGLIKELIHOOD_H_*/

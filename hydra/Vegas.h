@@ -53,9 +53,25 @@ namespace hydra {
 template<size_t N, typename GRND=thrust::random::default_random_engine >
 class Vegas : public Integrator<Vegas<N,GRND>, N>{
 public:
-	Vegas();
-	Vegas(VegasState<N> *state, size_t calls);
 
+	Vegas()=delete;
+
+	/**
+	 *\brief Vegas ctor taking the region of integration and the number of calls
+	 * Look the documentation of VegasState to see the state parameters initialization
+	 */
+	Vegas(std::array<GReal_t,N> const& xlower,
+			std::array<GReal_t,N> const& xupper, size_t calls);
+
+	/**
+	 *\brief Vegas ctor taking a VegasState object and the number of calls
+	 * Look the documentation of VegasState to see how to set the state parameters
+	 */
+	Vegas(VegasState<N> const& state, size_t calls);
+
+	/**
+	 *\brief Vegas copy-ctor
+	 */
 	template<typename GRND2>
 	Vegas( Vegas<N, GRND2> const& other):
 		fNCalls(other.GetNCalls()),
@@ -64,6 +80,12 @@ public:
 		fState(other.GetState())
 	{}
 
+	/**
+	 *\brief Integrate the functor in the volume defined in construction time.
+	 *\param functor: integrand.
+	 *\param reset: reset the integrator state between calls,
+	 * it is the desiderable behavior of the integrator in during fits.
+	 */
 	template<typename FUNCTOR >
 	GInt_t Integrate(FUNCTOR const& functor, GBool_t reset=kTrue);
 	void PrintLimits() const;
@@ -99,7 +121,7 @@ public:
 		fResult = result;
 	}
 
-	inline VegasState<N>* GetState() const {
+	inline VegasState<N>& GetState()  {
 		return fState;
 	}
 
@@ -109,12 +131,12 @@ public:
 
 	__host__
 		inline const GReal_t* GetLowerLimit() const {
-			return fState->GetXLow().data();
+			return fState.GetXLow().data();
 		}
 
 	__host__
 	inline const GReal_t* GetUpperLimit() const {
-		return fState->GetXUp().data();
+		return fState.GetXUp().data();
 	}
 
 
@@ -131,35 +153,35 @@ private:
 
 
 	inline GReal_t GetCoordinate(const GUInt_t i, const GUInt_t j) const {
-		return fState->GetXi()[i * N + j];
+		return fState.GetXi()[i * N + j];
 	}
 
 	inline void SetCoordinate(const GUInt_t i, const GUInt_t j, const GReal_t x) {
-		fState->SetXi(i * N + j, x);
+		fState.SetXi(i * N + j, x);
 	}
 
 	inline GReal_t GetNewCoordinate(const GUInt_t i) const {
-		return fState->GetXin()[i];
+		return fState.GetXin()[i];
 	}
 
 	inline void SetNewCoordinate(const GUInt_t i, const GReal_t x) {
-		fState->SetXin(i, x);
+		fState.SetXin(i, x);
 	}
 
 	inline GReal_t GetDistributionValue(const GUInt_t i, const GUInt_t j) const {
-		return fState->GetDistribution()[i * N + j];
+		return fState.GetDistribution()[i * N + j];
 	}
 
 	inline void SetDistributionValue(const GUInt_t i, const GUInt_t j,
 			const GReal_t x) {
-		fState->SetDistribution(i * N + j, x);
+		fState.SetDistribution(i * N + j, x);
 	}
 
 
 	size_t fNCalls;
 	GReal_t fResult;
 	GReal_t fAbsError;
-	VegasState<N> *fState;
+	VegasState<N> fState;
 };
 
 }

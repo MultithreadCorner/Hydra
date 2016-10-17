@@ -48,6 +48,10 @@
 
 namespace hydra
 {
+namespace detail
+{
+
+
 /**\struct FlagAcceptReject
  * Flags generated events as accepted (1) or rejected (0).
  */
@@ -96,7 +100,8 @@ struct FlagAcceptReject
 	}
 
 };
-}
+}//namespace detail
+}//namespace hydra
 
 
 

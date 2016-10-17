@@ -128,7 +128,7 @@ public:
 #endif
 
 
-			DecayMother<N, detail::IteratorTraits<Iterator>::type::backend,GRND> decayer(mother,fMasses, fNDaughters, fSeed);
+	detail::DecayMother<N, detail::IteratorTraits<Iterator>::type::backend,GRND> decayer(mother,fMasses, fNDaughters, fSeed);
 			detail::launch_decayer(begin, end, decayer );
 
 	}
@@ -146,7 +146,7 @@ public:
 #endif
 
 
-		DecayMothers<N, detail::IteratorTraits<Iterator1>::type::backend,GRND> decayer(fMasses, fNDaughters, fSeed);
+	detail::DecayMothers<N, detail::IteratorTraits<Iterator1>::type::backend,GRND> decayer(fMasses, fNDaughters, fSeed);
 		detail::launch_decayer(begin, end, mothers_begin, decayer );
 
 

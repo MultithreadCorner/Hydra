@@ -83,6 +83,7 @@
 using namespace std;
 using namespace ROOT::Minuit2;
 using namespace hydra;
+using namespace examples;
 
 /**
  * @file
@@ -179,7 +180,7 @@ GInt_t main(int argv, char** argc)
 	}
 
 	//Print::SetLevel(0);
-	//ROOT::Minuit2::MnPrint::SetLevel(2);
+	ROOT::Minuit2::MnPrint::SetLevel(2);
 	//----------------------------------------------
 
 	//Generator with current time count as seed.
@@ -253,15 +254,15 @@ GInt_t main(int argv, char** argc)
 	//----------------------------------------------------------------------
 	//get integration
     //Vegas state hold the resources for performing the integration
-    VegasState<1> *state = new VegasState<1>( min, max); // nota bene: the same range of the analisys
-	state->SetVerbose(-1);
-	state->SetAlpha(1.75);
-	state->SetIterations(5);
-	state->SetUseRelativeError(1);
-	state->SetMaxError(1e-3);
+    VegasState<1> state = VegasState<1>( min, max); // nota bene: the same range of the analisys
+	state.SetVerbose(-1);
+	state.SetAlpha(1.75);
+	state.SetIterations(5);
+	state.SetUseRelativeError(1);
+	state.SetMaxError(1e-3);
 
     //5,000 calls (fast convergence and precise result)
-	Vegas<1> vegas( state,5000);
+	Vegas<1> vegas( state,10000);
 
 	auto Gaussian1_PDF   = make_pdf(Gaussian1, &vegas);
 	auto Gaussian2_PDF   = make_pdf(Gaussian2, &vegas);
@@ -274,21 +275,21 @@ GInt_t main(int argv, char** argc)
 	vegas.Integrate(Gaussian1_PDF);
 	cout << ">>> GaussianA intetgral prior fit "<< endl;
 	cout << "Result: " << vegas.GetResult() << " +/- "
-		 << vegas.GetAbsError() << " Chi2: "<< state->GetChiSquare() << endl;
+		 << vegas.GetAbsError() << " Chi2: "<< state.GetChiSquare() << endl;
 
 	Gaussian2_PDF.PrintRegisteredParameters();
 
 	vegas.Integrate(Gaussian2_PDF);
 	cout << ">>> GaussianB intetgral prior fit "<< endl;
 	cout << "Result: " << vegas.GetResult() << " +/- "
-			<< vegas.GetAbsError() << " Chi2: "<< state->GetChiSquare() << endl;
+			<< vegas.GetAbsError() << " Chi2: "<< state.GetChiSquare() << endl;
 
 	Exponential_PDF.PrintRegisteredParameters();
 
 	vegas.Integrate(Exponential_PDF);
 	cout << ">>> Exponential intetgral prior fit "<< endl;
 	cout << "Result: " << vegas.GetResult() << " +/- "
-			<< vegas.GetAbsError() << " Chi2: "<< state->GetChiSquare() << endl;
+			<< vegas.GetAbsError() << " Chi2: "<< state.GetChiSquare() << endl;
 
 	//----------------------------------------------------------------------
 	//add the pds to make a extended pdf model
@@ -327,7 +328,7 @@ GInt_t main(int argv, char** argc)
 	std::cout << upar << endl;
 
     //minimization strategy
-	MnStrategy strategy(1);
+	MnStrategy strategy(2);
 
 	// create Migrad minimizer
 	MnMigrad migrad(modelFCN, upar.GetState() ,  strategy);
@@ -414,5 +415,5 @@ GInt_t main(int argv, char** argc)
 
 	return 0;
 
-}
 
+}

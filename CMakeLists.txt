@@ -67,9 +67,9 @@ if(CUDA_FOUND)
 
 	#set cuda flags
 	
-	SET(CUDA_NVCC_FLAGS ${CUDA_NVCC_FLAGS} --cudart ;  static ; -O3 ;--expt-relaxed-constexpr; -ftemplate-backtrace-limit=0; --expt-extended-lambda;--relocatable-device-code=false ; --generate-line-info ;
-	 -Xptxas -fmad=true ;-Xptxas -dlcm=cg; -Xptxas --opt-level=4) 
-#--debug ; --device-debug   ) 
+	SET(CUDA_NVCC_FLAGS ${CUDA_NVCC_FLAGS} --cudart ;  static ; -O4 ;--expt-relaxed-constexpr; -ftemplate-backtrace-limit=0; --expt-extended-lambda;--relocatable-device-code=false ; --generate-line-info ;
+	 -Xptxas -fmad=true ;-Xptxas -dlcm=cg; -Xptxas --opt-level=4   ) #) 
+# 
 	SET(CUDA_SEPARABLE_COMPILATION OFF)
 	SET(CUDA_VERBOSE_BUILD ON)
 	

@@ -65,10 +65,14 @@ using namespace std;
 
 using namespace hydra;
 
+
+
+namespace examples{
 /**
  * \brief Multidimensional Gaussian distribution
  *
  */
+
 template<size_t N=1>
 struct Gauss:public BaseFunctor< Gauss<N>, GReal_t, 0>
 {
@@ -109,7 +113,9 @@ struct Gauss:public BaseFunctor< Gauss<N>, GReal_t, 0>
 	GReal_t fS[N];
 };
 
+}
 
+using namespace examples;
 /**
  * @file
  * @example HydraRandomExample.cpp
@@ -450,7 +456,6 @@ GInt_t main(int argv, char** argc)
 
 	return 0;
 
+
+
 }
-
-
-

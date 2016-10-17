@@ -44,6 +44,9 @@
 
 namespace hydra
 {
+namespace detail
+{
+
 
 struct isAccepted
 {
@@ -54,8 +57,8 @@ struct isAccepted
   }
 };
 
-
-}
+}//namespace detail
+}//namespace hydra
 
 
 #endif /* ISACCEPTED_H_ */

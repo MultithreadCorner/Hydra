@@ -304,7 +304,7 @@ struct Events {
 
 
 		thrust::transform(first, last, fWeights.begin(),
-				fFlags.begin(), FlagAcceptReject(seed, fMaxWeight));
+				fFlags.begin(), detail::FlagAcceptReject(seed, fMaxWeight));
 
 		count = thrust::count(fFlags.begin(), fFlags.end(),
 				kTrue);

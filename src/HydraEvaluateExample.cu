@@ -49,7 +49,6 @@
 using namespace std;
 using namespace hydra;
 
-
 /**
  * @file
  * @example HydraEvaluateExample.cu
@@ -221,9 +220,8 @@ GInt_t main(int argv, char** argc)
 
 return 0;
 
+
+
 }
-
-
-
 
 
