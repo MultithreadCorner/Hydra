@@ -62,7 +62,7 @@ var sectionId = 'dynsection-3';
 </g>
 <!-- Node2 -->
 <g id="node2" class="node"><title>Node2</title>
-<g id="a_node2"><a xlink:href="../../db/db2/a00020.html#a2ceeba06f1eb9d820f8499262e536bf2" target="_top" xlink:title="hydra::FCN\&lt; LogLikelihood\lFCN\&lt; FUNCTOR, IteratorData,\l IteratorCache \&gt;, IteratorData,\l IteratorCache \&gt;::GetCacheBegin">
+<g id="a_node2"><a xlink:href="../../d5/d79/a00030.html#a2ceeba06f1eb9d820f8499262e536bf2" target="_top" xlink:title="hydra::FCN\&lt; LogLikelihood\lFCN\&lt; FUNCTOR, IteratorData,\l IteratorCache \&gt;, IteratorData,\l IteratorCache \&gt;::GetCacheBegin">
 <polygon fill="none" stroke="black" points="163,-465 163,-517 326,-517 326,-465 163,-465"/>
 <text text-anchor="start" x="171" y="-505" font-family="Helvetica,sans-Serif" font-size="10.00">hydra::FCN&lt; LogLikelihood</text>
 <text text-anchor="start" x="171" y="-494" font-family="Helvetica,sans-Serif" font-size="10.00">FCN&lt; FUNCTOR, IteratorData,</text>
@@ -78,7 +78,7 @@ var sectionId = 'dynsection-3';
 </g>
 <!-- Node3 -->
 <g id="node3" class="node"><title>Node3</title>
-<g id="a_node3"><a xlink:href="../../db/db2/a00020.html#a4a200b009dea92aebcd736215b738263" target="_top" xlink:title="hydra::FCN\&lt; LogLikelihood\lFCN\&lt; FUNCTOR, IteratorData,\l IteratorCache \&gt;, IteratorData,\l IteratorCache \&gt;::GetDataBegin">
+<g id="a_node3"><a xlink:href="../../d5/d79/a00030.html#a4a200b009dea92aebcd736215b738263" target="_top" xlink:title="hydra::FCN\&lt; LogLikelihood\lFCN\&lt; FUNCTOR, IteratorData,\l IteratorCache \&gt;, IteratorData,\l IteratorCache \&gt;::GetDataBegin">
 <polygon fill="none" stroke="black" points="166,-394 166,-446 323,-446 323,-394 166,-394"/>
 <text text-anchor="start" x="174" y="-434" font-family="Helvetica,sans-Serif" font-size="10.00">hydra::FCN&lt; LogLikelihood</text>
 <text text-anchor="start" x="174" y="-423" font-family="Helvetica,sans-Serif" font-size="10.00">FCN&lt; FUNCTOR, IteratorData,</text>
@@ -94,7 +94,7 @@ var sectionId = 'dynsection-3';
 </g>
 <!-- Node4 -->
 <g id="node4" class="node"><title>Node4</title>
-<g id="a_node4"><a xlink:href="../../db/db2/a00020.html#a54c88c115e2c2da2f0fbf118c0ecf4f9" target="_top" xlink:title="hydra::FCN\&lt; LogLikelihood\lFCN\&lt; FUNCTOR, IteratorData,\l IteratorCache \&gt;, IteratorData,\l IteratorCache \&gt;::GetNEvents">
+<g id="a_node4"><a xlink:href="../../d5/d79/a00030.html#a54c88c115e2c2da2f0fbf118c0ecf4f9" target="_top" xlink:title="hydra::FCN\&lt; LogLikelihood\lFCN\&lt; FUNCTOR, IteratorData,\l IteratorCache \&gt;, IteratorData,\l IteratorCache \&gt;::GetNEvents">
 <polygon fill="none" stroke="black" points="166,-323 166,-375 323,-375 323,-323 166,-323"/>
 <text text-anchor="start" x="174" y="-363" font-family="Helvetica,sans-Serif" font-size="10.00">hydra::FCN&lt; LogLikelihood</text>
 <text text-anchor="start" x="174" y="-352" font-family="Helvetica,sans-Serif" font-size="10.00">FCN&lt; FUNCTOR, IteratorData,</text>
@@ -110,7 +110,7 @@ var sectionId = 'dynsection-3';
 </g>
 <!-- Node5 -->
 <g id="node5" class="node"><title>Node5</title>
-<g id="a_node5"><a xlink:href="../../db/db2/a00020.html#a79871bfff713041bf6ece3f68f42f002" target="_top" xlink:title="hydra::FCN\&lt; LogLikelihood\lFCN\&lt; FUNCTOR, IteratorData,\l IteratorCache \&gt;, IteratorData,\l IteratorCache \&gt;::GetSumW">
+<g id="a_node5"><a xlink:href="../../d5/d79/a00030.html#a79871bfff713041bf6ece3f68f42f002" target="_top" xlink:title="hydra::FCN\&lt; LogLikelihood\lFCN\&lt; FUNCTOR, IteratorData,\l IteratorCache \&gt;, IteratorData,\l IteratorCache \&gt;::GetSumW">
 <polygon fill="none" stroke="black" points="166,-252 166,-304 323,-304 323,-252 166,-252"/>
 <text text-anchor="start" x="174" y="-292" font-family="Helvetica,sans-Serif" font-size="10.00">hydra::FCN&lt; LogLikelihood</text>
 <text text-anchor="start" x="174" y="-281" font-family="Helvetica,sans-Serif" font-size="10.00">FCN&lt; FUNCTOR, IteratorData,</text>
@@ -126,7 +126,7 @@ var sectionId = 'dynsection-3';
 </g>
 <!-- Node6 -->
 <g id="node6" class="node"><title>Node6</title>
-<g id="a_node6"><a xlink:href="../../db/db2/a00020.html#a1166208c68b5ee7340344f5145e4420a" target="_top" xlink:title="hydra::FCN\&lt; LogLikelihood\lFCN\&lt; FUNCTOR, IteratorData,\l IteratorCache \&gt;, IteratorData,\l IteratorCache \&gt;::GetSumW2">
+<g id="a_node6"><a xlink:href="../../d5/d79/a00030.html#a1166208c68b5ee7340344f5145e4420a" target="_top" xlink:title="hydra::FCN\&lt; LogLikelihood\lFCN\&lt; FUNCTOR, IteratorData,\l IteratorCache \&gt;, IteratorData,\l IteratorCache \&gt;::GetSumW2">
 <polygon fill="none" stroke="black" points="166,-181 166,-233 323,-233 323,-181 166,-181"/>
 <text text-anchor="start" x="174" y="-221" font-family="Helvetica,sans-Serif" font-size="10.00">hydra::FCN&lt; LogLikelihood</text>
 <text text-anchor="start" x="174" y="-210" font-family="Helvetica,sans-Serif" font-size="10.00">FCN&lt; FUNCTOR, IteratorData,</text>
@@ -142,7 +142,7 @@ var sectionId = 'dynsection-3';
 </g>
 <!-- Node7 -->
 <g id="node7" class="node"><title>Node7</title>
-<g id="a_node7"><a xlink:href="../../db/db2/a00020.html#a9840a60c22a24b9974b562c12c5c40d3" target="_top" xlink:title="hydra::FCN\&lt; LogLikelihood\lFCN\&lt; FUNCTOR, IteratorData,\l IteratorCache \&gt;, IteratorData,\l IteratorCache \&gt;::isCached">
+<g id="a_node7"><a xlink:href="../../d5/d79/a00030.html#a9840a60c22a24b9974b562c12c5c40d3" target="_top" xlink:title="hydra::FCN\&lt; LogLikelihood\lFCN\&lt; FUNCTOR, IteratorData,\l IteratorCache \&gt;, IteratorData,\l IteratorCache \&gt;::isCached">
 <polygon fill="none" stroke="black" points="166,-110 166,-162 323,-162 323,-110 166,-110"/>
 <text text-anchor="start" x="174" y="-150" font-family="Helvetica,sans-Serif" font-size="10.00">hydra::FCN&lt; LogLikelihood</text>
 <text text-anchor="start" x="174" y="-139" font-family="Helvetica,sans-Serif" font-size="10.00">FCN&lt; FUNCTOR, IteratorData,</text>
@@ -158,7 +158,7 @@ var sectionId = 'dynsection-3';
 </g>
 <!-- Node8 -->
 <g id="node8" class="node"><title>Node8</title>
-<g id="a_node8"><a xlink:href="../../db/db2/a00020.html#af0c8152f43015d5aa4c783fad76b57b2" target="_top" xlink:title="hydra::FCN\&lt; LogLikelihood\lFCN\&lt; FUNCTOR, IteratorData,\l IteratorCache \&gt;, IteratorData,\l IteratorCache \&gt;::isWeighted">
+<g id="a_node8"><a xlink:href="../../d5/d79/a00030.html#af0c8152f43015d5aa4c783fad76b57b2" target="_top" xlink:title="hydra::FCN\&lt; LogLikelihood\lFCN\&lt; FUNCTOR, IteratorData,\l IteratorCache \&gt;, IteratorData,\l IteratorCache \&gt;::isWeighted">
 <polygon fill="none" stroke="black" points="166,-39 166,-91 323,-91 323,-39 166,-39"/>
 <text text-anchor="start" x="174" y="-79" font-family="Helvetica,sans-Serif" font-size="10.00">hydra::FCN&lt; LogLikelihood</text>
 <text text-anchor="start" x="174" y="-68" font-family="Helvetica,sans-Serif" font-size="10.00">FCN&lt; FUNCTOR, IteratorData,</text>

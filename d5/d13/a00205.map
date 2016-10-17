@@ -1,5 +1,4 @@
-<map id="Integrator.h" name="Integrator.h">
-<area shape="rect" id="node2" href="$d9/d47/a00129.html" title="Vegas.h" alt="" coords="128,80,199,107"/>
-<area shape="rect" id="node3" href="$dd/dad/a00005.html" title="HydraFitExample take parameters from the command line, fill a range with random numbers sampled from ..." alt="" coords="5,155,153,181"/>
-<area shape="rect" id="node4" href="$de/d5e/a00007.html" title="HydraFitExample take parameters from the command line, fill a range with random numbers sampled from ..." alt="" coords="178,155,319,181"/>
+<map id="PhaseSpace.h" name="PhaseSpace.h">
+<area shape="rect" id="node2" href="$da/da0/a00009.html" title="HydraPhaseSpaceExample take parameters from the command line and generates sample of 3&#45;body phase&#45;spa..." alt="" coords="5,80,212,107"/>
+<area shape="rect" id="node3" href="$da/d45/a00011.html" title="HydraPhaseSpaceExample take parameters from the command line and generates sample of 3&#45;body phase&#45;spa..." alt="" coords="237,80,437,107"/>
 </map>

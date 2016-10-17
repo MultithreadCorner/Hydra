@@ -15,7 +15,7 @@
 </g>
 <!-- Node2 -->
 <g id="node2" class="node"><title>Node2</title>
-<g id="a_node2"><a xlink:href="../../d2/db1/a00070.html#a6a39a2271379205a9284e0a124d55f45" target="_top" xlink:title="hydra::Vector4R::applyRotate\lEuler">
+<g id="a_node2"><a xlink:href="../../d4/d6d/a00055.html#a6a39a2271379205a9284e0a124d55f45" target="_top" xlink:title="hydra::Vector4R::applyRotate\lEuler">
 <polygon fill="none" stroke="black" points="130,-0.5 130,-30.5 276,-30.5 276,-0.5 130,-0.5"/>
 <text text-anchor="start" x="138" y="-18.5" font-family="Helvetica,sans-Serif" font-size="10.00">hydra::Vector4R::applyRotate</text>
 <text text-anchor="middle" x="203" y="-7.5" font-family="Helvetica,sans-Serif" font-size="10.00">Euler</text>

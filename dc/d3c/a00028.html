@@ -4,7 +4,7 @@
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.11"/>
-<title>Hydra: hydra::Divide&lt; F1, F2 &gt; Struct Template Reference</title>
+<title>Hydra: hydra::Events&lt; N, BACKEND &gt; Struct Template Reference</title>
 <link href="../../tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="../../jquery.js"></script>
 <script type="text/javascript" src="../../dynsections.js"></script>
@@ -119,142 +119,305 @@ $(document).ready(function(){initNavTree('dc/d3c/a00028.html','../../');});
   <div class="summary">
 <a href="#pub-types">Public Types</a> &#124;
 <a href="#pub-methods">Public Member Functions</a> &#124;
-<a href="../../d6/d82/a00293.html">List of all members</a>  </div>
+<a href="#pub-attribs">Public Attributes</a> &#124;
+<a href="../../d9/d2a/a00270.html">List of all members</a>  </div>
   <div class="headertitle">
-<div class="title">hydra::Divide&lt; F1, F2 &gt; Struct Template Reference</div>  </div>
+<div class="title">hydra::Events&lt; N, BACKEND &gt; Struct Template Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
+
+<p><a class="el" href="../../dc/d3c/a00028.html" title="Events is a container struct to hold all the information corresponding the generated events...">Events</a> is a container struct to hold all the information corresponding the generated events.  
+ <a href="../../dc/d3c/a00028.html#details">More...</a></p>
 <div class="dynheader">
-Collaboration diagram for hydra::Divide&lt; F1, F2 &gt;:</div>
+Collaboration diagram for hydra::Events&lt; N, BACKEND &gt;:</div>
 <div class="dyncontent">
-<div class="center"><iframe scrolling="no" frameborder="0" src="../../d4/d5b/a00294.svg" width="210" height="264"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="../../d9/dd6/a00272.svg" width="100%" height="600"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+</div>
 </div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-types"></a>
 Public Types</h2></td></tr>
-<tr class="memitem:af10aba8c5eea6bd671452331b3431171"><td class="memItemLeft" align="right" valign="top">typedef thrust::tuple&lt; F1, F2 &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dc/d3c/a00028.html#af10aba8c5eea6bd671452331b3431171">functors_type</a></td></tr>
-<tr class="separator:af10aba8c5eea6bd671452331b3431171"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a761d4583d94ad370ceefe458c253c3d8"><td class="memItemLeft" align="right" valign="top">typedef void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dc/d3c/a00028.html#a761d4583d94ad370ceefe458c253c3d8">hydra_functor_tag</a></td></tr>
-<tr class="separator:a761d4583d94ad370ceefe458c253c3d8"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a5791380ef0da323af4569c6102f1f465"><td class="memItemLeft" align="right" valign="top">typedef std::true_type&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dc/d3c/a00028.html#a5791380ef0da323af4569c6102f1f465">is_functor</a></td></tr>
-<tr class="separator:a5791380ef0da323af4569c6102f1f465"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:abdbf4e83f55ac3d1e2268bce7adc04c1"><td class="memItemLeft" align="right" valign="top">typedef detail::divide_result&lt; typename F1::return_type, typename F2::return_type &gt;::type&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dc/d3c/a00028.html#abdbf4e83f55ac3d1e2268bce7adc04c1">return_type</a></td></tr>
-<tr class="separator:abdbf4e83f55ac3d1e2268bce7adc04c1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a74aff269c7c8d892a7c6dd5b0ee307ce"><td class="memItemLeft" align="right" valign="top">typedef detail::BackendTraits&lt; BACKEND &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dc/d3c/a00028.html#a74aff269c7c8d892a7c6dd5b0ee307ce">system_t</a></td></tr>
+<tr class="separator:a74aff269c7c8d892a7c6dd5b0ee307ce"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:adfa993663e5da6dc10153880ce6e5652"><td class="memItemLeft" align="right" valign="top">typedef iterator::value_type&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dc/d3c/a00028.html#adfa993663e5da6dc10153880ce6e5652">value_type</a></td></tr>
+<tr class="separator:adfa993663e5da6dc10153880ce6e5652"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9a90c3489b3c38b27a4a8ed1e4611af8"><td class="memItemLeft" align="right" valign="top">typedef system_t::template container&lt; <a class="el" href="../../d0/d33/a00027.html#aa8c251ed5017d0638da929130062bcad">GBool_t</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dc/d3c/a00028.html#a9a90c3489b3c38b27a4a8ed1e4611af8">vector_bool</a></td></tr>
+<tr class="separator:a9a90c3489b3c38b27a4a8ed1e4611af8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae920ad4689d5063a54ed99413c02ac18"><td class="memItemLeft" align="right" valign="top">typedef system_t::template container&lt; <a class="el" href="../../d0/d33/a00027.html#aa8c251ed5017d0638da929130062bcad">GBool_t</a> &gt;::const_iterator&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dc/d3c/a00028.html#ae920ad4689d5063a54ed99413c02ac18">vector_bool_const_iterator</a></td></tr>
+<tr class="separator:ae920ad4689d5063a54ed99413c02ac18"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abfef1245b1bf70f6aabab56a190ea047"><td class="memItemLeft" align="right" valign="top">typedef system_t::template container&lt; <a class="el" href="../../d0/d33/a00027.html#aa8c251ed5017d0638da929130062bcad">GBool_t</a> &gt;::<a class="el" href="../../dc/d3c/a00028.html#af561fe7959a3bfae6982044a0a59fa2b">iterator</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dc/d3c/a00028.html#abfef1245b1bf70f6aabab56a190ea047">vector_bool_iterator</a></td></tr>
+<tr class="separator:abfef1245b1bf70f6aabab56a190ea047"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac714b321c7ee6538378ae83c57a3f435"><td class="memItemLeft" align="right" valign="top">typedef system_t::template container&lt; <a class="el" href="../../d4/d6d/a00055.html">Vector4R</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dc/d3c/a00028.html#ac714b321c7ee6538378ae83c57a3f435">vector_particles</a></td></tr>
+<tr class="separator:ac714b321c7ee6538378ae83c57a3f435"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a875a79095afb94a15be63aa65f1ecbf4"><td class="memItemLeft" align="right" valign="top">typedef system_t::template container&lt; <a class="el" href="../../d4/d6d/a00055.html">Vector4R</a> &gt;::const_iterator&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dc/d3c/a00028.html#a875a79095afb94a15be63aa65f1ecbf4">vector_particles_const_iterator</a></td></tr>
+<tr class="separator:a875a79095afb94a15be63aa65f1ecbf4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a774f23e937323404e2d2554083cd0f25"><td class="memItemLeft" align="right" valign="top">typedef system_t::template container&lt; <a class="el" href="../../d4/d6d/a00055.html">Vector4R</a> &gt;::<a class="el" href="../../dc/d3c/a00028.html#af561fe7959a3bfae6982044a0a59fa2b">iterator</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dc/d3c/a00028.html#a774f23e937323404e2d2554083cd0f25">vector_particles_iterator</a></td></tr>
+<tr class="separator:a774f23e937323404e2d2554083cd0f25"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad2a85ed4f6d3a5566bd8d279c14347e7"><td class="memItemLeft" align="right" valign="top">typedef system_t::template container&lt; <a class="el" href="../../d0/d33/a00027.html#a971e94bcb8c43741d11f9d8eb98f5fab">GReal_t</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dc/d3c/a00028.html#ad2a85ed4f6d3a5566bd8d279c14347e7">vector_real</a></td></tr>
+<tr class="separator:ad2a85ed4f6d3a5566bd8d279c14347e7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aaee51bb03993c27dcd2fd6a2af09068f"><td class="memItemLeft" align="right" valign="top">typedef system_t::template container&lt; <a class="el" href="../../d0/d33/a00027.html#a971e94bcb8c43741d11f9d8eb98f5fab">GReal_t</a> &gt;::const_iterator&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dc/d3c/a00028.html#aaee51bb03993c27dcd2fd6a2af09068f">vector_real_const_iterator</a></td></tr>
+<tr class="separator:aaee51bb03993c27dcd2fd6a2af09068f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7631663f5be0b0031ead0587ee75acdd"><td class="memItemLeft" align="right" valign="top">typedef system_t::template container&lt; <a class="el" href="../../d0/d33/a00027.html#a971e94bcb8c43741d11f9d8eb98f5fab">GReal_t</a> &gt;::<a class="el" href="../../dc/d3c/a00028.html#af561fe7959a3bfae6982044a0a59fa2b">iterator</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dc/d3c/a00028.html#a7631663f5be0b0031ead0587ee75acdd">vector_real_iterator</a></td></tr>
+<tr class="separator:a7631663f5be0b0031ead0587ee75acdd"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:aaf60121ca8d41a4a190120071f9020c8"><td class="memItemLeft" align="right" valign="top">__host__&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dc/d3c/a00028.html#aaf60121ca8d41a4a190120071f9020c8">Divide</a> ()</td></tr>
-<tr class="separator:aaf60121ca8d41a4a190120071f9020c8"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a16c1cd84fe1b0364c423cd68466f66eb"><td class="memItemLeft" align="right" valign="top">__host__&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dc/d3c/a00028.html#a16c1cd84fe1b0364c423cd68466f66eb">Divide</a> (F1 const &amp;f1, F2 const &amp;f2)</td></tr>
-<tr class="separator:a16c1cd84fe1b0364c423cd68466f66eb"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a32c0c0eb0a25ef1d6e68aeda32b3b878"><td class="memItemLeft" align="right" valign="top">__host__ __device__&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dc/d3c/a00028.html#a32c0c0eb0a25ef1d6e68aeda32b3b878">Divide</a> (<a class="el" href="../../dc/d3c/a00028.html">Divide</a>&lt; F1, F2 &gt; const &amp;other)</td></tr>
-<tr class="separator:a32c0c0eb0a25ef1d6e68aeda32b3b878"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af0898cbdd263536c7b0c0bacc0202b57"><td class="memItemLeft" align="right" valign="top">__host__ __device__ <a class="el" href="../../dc/d3c/a00028.html#af10aba8c5eea6bd671452331b3431171">functors_type</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dc/d3c/a00028.html#af0898cbdd263536c7b0c0bacc0202b57">GetFunctors</a> () const </td></tr>
-<tr class="separator:af0898cbdd263536c7b0c0bacc0202b57"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a6fc409404e6d3d0b8eeff06db126dea0"><td class="memItemLeft" align="right" valign="top">__host__ __device__ int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dc/d3c/a00028.html#a6fc409404e6d3d0b8eeff06db126dea0">GetIndex</a> () const </td></tr>
-<tr class="separator:a6fc409404e6d3d0b8eeff06db126dea0"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa77eb26cc582ad183090de1439d8e99d"><td class="memItemLeft" align="right" valign="top">__host__ __device__ bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dc/d3c/a00028.html#aa77eb26cc582ad183090de1439d8e99d">IsCached</a> () const </td></tr>
-<tr class="separator:aa77eb26cc582ad183090de1439d8e99d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a5c7f78a166bb7c79e6be28d4e56a75d0"><td class="memTemplParams" colspan="2">template&lt;typename T1 &gt; </td></tr>
-<tr class="memitem:a5c7f78a166bb7c79e6be28d4e56a75d0"><td class="memTemplItemLeft" align="right" valign="top">__host__ __device__ <a class="el" href="../../dc/d3c/a00028.html#abdbf4e83f55ac3d1e2268bce7adc04c1">return_type</a>&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="../../dc/d3c/a00028.html#a5c7f78a166bb7c79e6be28d4e56a75d0">operator()</a> (T1 &amp;t)</td></tr>
-<tr class="separator:a5c7f78a166bb7c79e6be28d4e56a75d0"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a9f82aabecb1875b2611268cd3f235ad9"><td class="memTemplParams" colspan="2">template&lt;typename T1 , typename T2 &gt; </td></tr>
-<tr class="memitem:a9f82aabecb1875b2611268cd3f235ad9"><td class="memTemplItemLeft" align="right" valign="top">__host__ __device__ <a class="el" href="../../dc/d3c/a00028.html#abdbf4e83f55ac3d1e2268bce7adc04c1">return_type</a>&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="../../dc/d3c/a00028.html#a9f82aabecb1875b2611268cd3f235ad9">operator()</a> (T1 &amp;t, T2 &amp;cache)</td></tr>
-<tr class="separator:a9f82aabecb1875b2611268cd3f235ad9"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a72159390974a33c5a45f508782d3e9f6"><td class="memItemLeft" align="right" valign="top">__host__ __device__ <a class="el" href="../../dc/d3c/a00028.html">Divide</a>&lt; F1, F2 &gt; &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dc/d3c/a00028.html#a72159390974a33c5a45f508782d3e9f6">operator=</a> (<a class="el" href="../../dc/d3c/a00028.html">Divide</a>&lt; F1, F2 &gt; const &amp;other)</td></tr>
-<tr class="separator:a72159390974a33c5a45f508782d3e9f6"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a9b6272e2c192680c62789a185803d52d"><td class="memItemLeft" align="right" valign="top">__host__ void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dc/d3c/a00028.html#a9b6272e2c192680c62789a185803d52d">PrintRegisteredParameters</a> ()</td></tr>
-<tr class="separator:a9b6272e2c192680c62789a185803d52d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a0d116dd61b9b3da478ed3ece5cbe003f"><td class="memItemLeft" align="right" valign="top">__host__ __device__ void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dc/d3c/a00028.html#a0d116dd61b9b3da478ed3ece5cbe003f">SetCached</a> (bool cached=true)</td></tr>
-<tr class="separator:a0d116dd61b9b3da478ed3ece5cbe003f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a894682e6910ce2c0cd3e173b12cc4848"><td class="memItemLeft" align="right" valign="top">__host__ __device__ void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dc/d3c/a00028.html#a894682e6910ce2c0cd3e173b12cc4848">SetIndex</a> (int index)</td></tr>
-<tr class="separator:a894682e6910ce2c0cd3e173b12cc4848"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac55163540e36a64e51a1d4d5fc7167bb"><td class="memItemLeft" align="right" valign="top">__host__ void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dc/d3c/a00028.html#ac55163540e36a64e51a1d4d5fc7167bb">SetParameters</a> (const std::vector&lt; double &gt; &amp;parameters)</td></tr>
-<tr class="separator:ac55163540e36a64e51a1d4d5fc7167bb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a89717278f21c484fa8595ef59b09dd15"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dc/d3c/a00028.html#a89717278f21c484fa8595ef59b09dd15">Events</a> ()</td></tr>
+<tr class="memdesc:a89717278f21c484fa8595ef59b09dd15"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructor takes as parameters the number of particles and number of events.  <a href="#a89717278f21c484fa8595ef59b09dd15">More...</a><br /></td></tr>
+<tr class="separator:a89717278f21c484fa8595ef59b09dd15"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5ab93fc4938347f998143d541f3c5ded"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dc/d3c/a00028.html#a5ab93fc4938347f998143d541f3c5ded">Events</a> (<a class="el" href="../../d0/d33/a00027.html#a5f57a4025b40929c2708cd544c3a1ccd">GLong_t</a> nevents)</td></tr>
+<tr class="separator:a5ab93fc4938347f998143d541f3c5ded"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4bc30bbd45a57a1724f16f60b1353cf5"><td class="memTemplParams" colspan="2">template&lt;unsigned int BACKEND2&gt; </td></tr>
+<tr class="memitem:a4bc30bbd45a57a1724f16f60b1353cf5"><td class="memTemplItemLeft" align="right" valign="top">&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="../../dc/d3c/a00028.html#a4bc30bbd45a57a1724f16f60b1353cf5">Events</a> (<a class="el" href="../../dc/d3c/a00028.html">Events</a>&lt; N, BACKEND2 &gt; const &amp;other)</td></tr>
+<tr class="separator:a4bc30bbd45a57a1724f16f60b1353cf5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:adee702c56aeb4bd8b3c4944655b4f403"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dc/d3c/a00028.html#adee702c56aeb4bd8b3c4944655b4f403">~Events</a> ()</td></tr>
+<tr class="separator:adee702c56aeb4bd8b3c4944655b4f403"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0fb1f6daec1efb04a21517820f291a64"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../dc/d3c/a00028.html#af561fe7959a3bfae6982044a0a59fa2b">iterator</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dc/d3c/a00028.html#a0fb1f6daec1efb04a21517820f291a64">begin</a> ()</td></tr>
+<tr class="separator:a0fb1f6daec1efb04a21517820f291a64"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7424b190a4c812ee893086df70f3792a"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../dc/d3c/a00028.html#a875a79095afb94a15be63aa65f1ecbf4">vector_particles_const_iterator</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dc/d3c/a00028.html#a7424b190a4c812ee893086df70f3792a">DaughtersBegin</a> (<a class="el" href="../../d0/d33/a00027.html#a0c9fb4d7195ab952da10a82d5c4ad30e">GInt_t</a> i) const </td></tr>
+<tr class="separator:a7424b190a4c812ee893086df70f3792a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7d671242e6bc1bc66a6dedd871fbcc01"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../dc/d3c/a00028.html#a774f23e937323404e2d2554083cd0f25">vector_particles_iterator</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dc/d3c/a00028.html#a7d671242e6bc1bc66a6dedd871fbcc01">DaughtersBegin</a> (<a class="el" href="../../d0/d33/a00027.html#a0c9fb4d7195ab952da10a82d5c4ad30e">GInt_t</a> i)</td></tr>
+<tr class="separator:a7d671242e6bc1bc66a6dedd871fbcc01"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad61a31f6a9ebedfb25198b49de978e3c"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../dc/d3c/a00028.html#a875a79095afb94a15be63aa65f1ecbf4">vector_particles_const_iterator</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dc/d3c/a00028.html#ad61a31f6a9ebedfb25198b49de978e3c">DaughtersEnd</a> (<a class="el" href="../../d0/d33/a00027.html#a0c9fb4d7195ab952da10a82d5c4ad30e">GInt_t</a> i) const </td></tr>
+<tr class="separator:ad61a31f6a9ebedfb25198b49de978e3c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a602149f0d72ee7ca6c3b9f89ae8103ef"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../dc/d3c/a00028.html#a774f23e937323404e2d2554083cd0f25">vector_particles_iterator</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dc/d3c/a00028.html#a602149f0d72ee7ca6c3b9f89ae8103ef">DaughtersEnd</a> (<a class="el" href="../../d0/d33/a00027.html#a0c9fb4d7195ab952da10a82d5c4ad30e">GInt_t</a> i)</td></tr>
+<tr class="separator:a602149f0d72ee7ca6c3b9f89ae8103ef"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a56d6101235a61b95ba79d0c64983084f"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../dc/d3c/a00028.html#af561fe7959a3bfae6982044a0a59fa2b">iterator</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dc/d3c/a00028.html#a56d6101235a61b95ba79d0c64983084f">end</a> ()</td></tr>
+<tr class="separator:a56d6101235a61b95ba79d0c64983084f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad93e6690e08e08c53aa890616e2093fc"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../dc/d3c/a00028.html#ae920ad4689d5063a54ed99413c02ac18">vector_bool_const_iterator</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dc/d3c/a00028.html#ad93e6690e08e08c53aa890616e2093fc">FlagsBegin</a> () const </td></tr>
+<tr class="separator:ad93e6690e08e08c53aa890616e2093fc"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a66a91d706bb50807478ec3d21a9bcc1b"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../dc/d3c/a00028.html#abfef1245b1bf70f6aabab56a190ea047">vector_bool_iterator</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dc/d3c/a00028.html#a66a91d706bb50807478ec3d21a9bcc1b">FlagsBegin</a> ()</td></tr>
+<tr class="separator:a66a91d706bb50807478ec3d21a9bcc1b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab634fcf28a5253706f8d32e0f9fde20f"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../dc/d3c/a00028.html#ae920ad4689d5063a54ed99413c02ac18">vector_bool_const_iterator</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dc/d3c/a00028.html#ab634fcf28a5253706f8d32e0f9fde20f">FlagsEnd</a> () const </td></tr>
+<tr class="separator:ab634fcf28a5253706f8d32e0f9fde20f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a09163572c42ad56322caa28cab7719cd"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../dc/d3c/a00028.html#abfef1245b1bf70f6aabab56a190ea047">vector_bool_iterator</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dc/d3c/a00028.html#a09163572c42ad56322caa28cab7719cd">FlagsEnd</a> ()</td></tr>
+<tr class="separator:a09163572c42ad56322caa28cab7719cd"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a42fa6730eacc8e4be21e12487d19bd61"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../d0/d33/a00027.html#a971e94bcb8c43741d11f9d8eb98f5fab">GReal_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dc/d3c/a00028.html#a42fa6730eacc8e4be21e12487d19bd61">GetMaxWeight</a> () const </td></tr>
+<tr class="separator:a42fa6730eacc8e4be21e12487d19bd61"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9a4dce1f4cc7bacdc30fa4bb75894ab3"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../d0/d33/a00027.html#a5f57a4025b40929c2708cd544c3a1ccd">GLong_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dc/d3c/a00028.html#a9a4dce1f4cc7bacdc30fa4bb75894ab3">GetNEvents</a> () const </td></tr>
+<tr class="separator:a9a4dce1f4cc7bacdc30fa4bb75894ab3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ace3fe647bf093ad875cc1568ac8bdb53"><td class="memTemplParams" colspan="2">template&lt;unsigned int BACKEND2&gt; </td></tr>
+<tr class="memitem:ace3fe647bf093ad875cc1568ac8bdb53"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="../../dc/d3c/a00028.html">Events</a>&lt; N, BACKEND &gt; &amp;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="../../dc/d3c/a00028.html#ace3fe647bf093ad875cc1568ac8bdb53">operator=</a> (<a class="el" href="../../dc/d3c/a00028.html">Events</a>&lt; N, BACKEND2 &gt; const &amp;other)</td></tr>
+<tr class="separator:ace3fe647bf093ad875cc1568ac8bdb53"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:adadae1cf8103673a6ee8502dcbbf3b2e"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../dc/d3c/a00028.html#adfa993663e5da6dc10153880ce6e5652">value_type</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dc/d3c/a00028.html#adadae1cf8103673a6ee8502dcbbf3b2e">operator[]</a> (size_t i)</td></tr>
+<tr class="separator:adadae1cf8103673a6ee8502dcbbf3b2e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af755d95b802bef5a7630cf7a1d5b5529"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dc/d3c/a00028.html#af755d95b802bef5a7630cf7a1d5b5529">SetMaxWeight</a> (<a class="el" href="../../d0/d33/a00027.html#a971e94bcb8c43741d11f9d8eb98f5fab">GReal_t</a> maxWeight)</td></tr>
+<tr class="separator:af755d95b802bef5a7630cf7a1d5b5529"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac01aa063e388f22ac8217014ea98b251"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dc/d3c/a00028.html#ac01aa063e388f22ac8217014ea98b251">SetNEvents</a> (<a class="el" href="../../d0/d33/a00027.html#a5f57a4025b40929c2708cd544c3a1ccd">GLong_t</a> nEvents)</td></tr>
+<tr class="separator:ac01aa063e388f22ac8217014ea98b251"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a91ead2381dde2e31b15f127f85ec060a"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../d0/d33/a00027.html#abf9a0d54fd4ed46052939549edd086c5">GULong_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dc/d3c/a00028.html#a91ead2381dde2e31b15f127f85ec060a">Unweight</a> (size_t seed)</td></tr>
+<tr class="separator:a91ead2381dde2e31b15f127f85ec060a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a81acb98e6856035e548612a0b76627fc"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../dc/d3c/a00028.html#aaee51bb03993c27dcd2fd6a2af09068f">vector_real_const_iterator</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dc/d3c/a00028.html#a81acb98e6856035e548612a0b76627fc">WeightsBegin</a> () const </td></tr>
+<tr class="separator:a81acb98e6856035e548612a0b76627fc"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6d25836dda816fc31493bc9f5ec4ac97"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../dc/d3c/a00028.html#a7631663f5be0b0031ead0587ee75acdd">vector_real_iterator</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dc/d3c/a00028.html#a6d25836dda816fc31493bc9f5ec4ac97">WeightsBegin</a> ()</td></tr>
+<tr class="separator:a6d25836dda816fc31493bc9f5ec4ac97"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4af0795dbfe9812be3f4e530237f0e09"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../dc/d3c/a00028.html#aaee51bb03993c27dcd2fd6a2af09068f">vector_real_const_iterator</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dc/d3c/a00028.html#a4af0795dbfe9812be3f4e530237f0e09">WeightsEnd</a> () const </td></tr>
+<tr class="separator:a4af0795dbfe9812be3f4e530237f0e09"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a722f170896a91ac875bafba1edbcaa92"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../dc/d3c/a00028.html#a7631663f5be0b0031ead0587ee75acdd">vector_real_iterator</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dc/d3c/a00028.html#a722f170896a91ac875bafba1edbcaa92">WeightsEnd</a> ()</td></tr>
+<tr class="separator:a722f170896a91ac875bafba1edbcaa92"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-attribs"></a>
+Public Attributes</h2></td></tr>
+<tr class="memitem:af561fe7959a3bfae6982044a0a59fa2b"><td class="memItemLeft" align="right" valign="top">decltype(detail::get_zip_iterator(<a class="el" href="../../dc/d3c/a00028.html#a7631663f5be0b0031ead0587ee75acdd">vector_real_iterator</a>(), std::array&lt; <a class="el" href="../../dc/d3c/a00028.html#a774f23e937323404e2d2554083cd0f25">vector_particles_iterator</a>, N &gt;())) typedef&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dc/d3c/a00028.html#af561fe7959a3bfae6982044a0a59fa2b">iterator</a></td></tr>
+<tr class="separator:af561fe7959a3bfae6982044a0a59fa2b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><h3>template&lt;typename F1, typename F2&gt;<br />
-struct hydra::Divide&lt; F1, F2 &gt;</h3>
+<div class="textblock"><h3>template&lt;size_t N, unsigned int BACKEND&gt;<br />
+struct hydra::Events&lt; N, BACKEND &gt;</h3>
 
-
-<p>Definition at line <a class="el" href="../../da/d2a/a00086_source.html#l00049">49</a> of file <a class="el" href="../../da/d2a/a00086_source.html">Divide.h</a>.</p>
+<p>Mother four-vectors are not stored. </p>
+<dl><dt><b>Examples: </b></dt><dd><a class="el" href="../../d7/dec/a00010.html#_a4">HydraPhaseSpaceExample.cpp</a>, and <a class="el" href="../../df/d86/a00012.html#_a4">HydraPhaseSpaceExample.cu</a>.</dd>
+</dl>
+<p>Definition at line <a class="el" href="../../d0/d89/a00071_source.html#l00068">68</a> of file <a class="el" href="../../d0/d89/a00071_source.html">Events.h</a>.</p>
 </div><h2 class="groupheader">Member Typedef Documentation</h2>
-<a class="anchor" id="af10aba8c5eea6bd671452331b3431171"></a>
+<a class="anchor" id="a74aff269c7c8d892a7c6dd5b0ee307ce"></a>
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;typename F1, typename F2&gt; </div>
+template&lt;size_t N, unsigned int BACKEND&gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname">typedef thrust::tuple&lt;F1, F2&gt; <a class="el" href="../../dc/d3c/a00028.html">hydra::Divide</a>&lt; F1, F2 &gt;::<a class="el" href="../../dc/d3c/a00028.html#af10aba8c5eea6bd671452331b3431171">functors_type</a></td>
+          <td class="memname">typedef detail::BackendTraits&lt;BACKEND&gt; <a class="el" href="../../dc/d3c/a00028.html">hydra::Events</a>&lt; N, BACKEND &gt;::<a class="el" href="../../dc/d3c/a00028.html#a74aff269c7c8d892a7c6dd5b0ee307ce">system_t</a></td>
         </tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="../../da/d2a/a00086_source.html#l00055">55</a> of file <a class="el" href="../../da/d2a/a00086_source.html">Divide.h</a>.</p>
+<p>Definition at line <a class="el" href="../../d0/d89/a00071_source.html#l00070">70</a> of file <a class="el" href="../../d0/d89/a00071_source.html">Events.h</a>.</p>
 
 </div>
 </div>
-<a class="anchor" id="a761d4583d94ad370ceefe458c253c3d8"></a>
+<a class="anchor" id="adfa993663e5da6dc10153880ce6e5652"></a>
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;typename F1, typename F2&gt; </div>
+template&lt;size_t N, unsigned int BACKEND&gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname">typedef void <a class="el" href="../../dc/d3c/a00028.html">hydra::Divide</a>&lt; F1, F2 &gt;::<a class="el" href="../../dc/d3c/a00028.html#a761d4583d94ad370ceefe458c253c3d8">hydra_functor_tag</a></td>
+          <td class="memname">typedef iterator::value_type <a class="el" href="../../dc/d3c/a00028.html">hydra::Events</a>&lt; N, BACKEND &gt;::<a class="el" href="../../dc/d3c/a00028.html#adfa993663e5da6dc10153880ce6e5652">value_type</a></td>
         </tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="../../da/d2a/a00086_source.html#l00052">52</a> of file <a class="el" href="../../da/d2a/a00086_source.html">Divide.h</a>.</p>
+<p>Definition at line <a class="el" href="../../d0/d89/a00071_source.html#l00085">85</a> of file <a class="el" href="../../d0/d89/a00071_source.html">Events.h</a>.</p>
 
 </div>
 </div>
-<a class="anchor" id="a5791380ef0da323af4569c6102f1f465"></a>
+<a class="anchor" id="a9a90c3489b3c38b27a4a8ed1e4611af8"></a>
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;typename F1, typename F2&gt; </div>
+template&lt;size_t N, unsigned int BACKEND&gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname">typedef std::true_type <a class="el" href="../../dc/d3c/a00028.html">hydra::Divide</a>&lt; F1, F2 &gt;::<a class="el" href="../../dc/d3c/a00028.html#a5791380ef0da323af4569c6102f1f465">is_functor</a></td>
+          <td class="memname">typedef system_t::template container&lt;<a class="el" href="../../d0/d33/a00027.html#aa8c251ed5017d0638da929130062bcad">GBool_t</a>&gt; <a class="el" href="../../dc/d3c/a00028.html">hydra::Events</a>&lt; N, BACKEND &gt;::<a class="el" href="../../dc/d3c/a00028.html#a9a90c3489b3c38b27a4a8ed1e4611af8">vector_bool</a></td>
         </tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="../../da/d2a/a00086_source.html#l00053">53</a> of file <a class="el" href="../../da/d2a/a00086_source.html">Divide.h</a>.</p>
+<p>Definition at line <a class="el" href="../../d0/d89/a00071_source.html#l00080">80</a> of file <a class="el" href="../../d0/d89/a00071_source.html">Events.h</a>.</p>
 
 </div>
 </div>
-<a class="anchor" id="abdbf4e83f55ac3d1e2268bce7adc04c1"></a>
+<a class="anchor" id="ae920ad4689d5063a54ed99413c02ac18"></a>
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;typename F1, typename F2&gt; </div>
+template&lt;size_t N, unsigned int BACKEND&gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname">typedef detail::divide_result&lt;typename F1::return_type, typename F2::return_type&gt;::type <a class="el" href="../../dc/d3c/a00028.html">hydra::Divide</a>&lt; F1, F2 &gt;::<a class="el" href="../../dc/d3c/a00028.html#abdbf4e83f55ac3d1e2268bce7adc04c1">return_type</a></td>
+          <td class="memname">typedef system_t::template container&lt;<a class="el" href="../../d0/d33/a00027.html#aa8c251ed5017d0638da929130062bcad">GBool_t</a>&gt;::const_iterator <a class="el" href="../../dc/d3c/a00028.html">hydra::Events</a>&lt; N, BACKEND &gt;::<a class="el" href="../../dc/d3c/a00028.html#ae920ad4689d5063a54ed99413c02ac18">vector_bool_const_iterator</a></td>
         </tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="../../da/d2a/a00086_source.html#l00054">54</a> of file <a class="el" href="../../da/d2a/a00086_source.html">Divide.h</a>.</p>
+<p>Definition at line <a class="el" href="../../d0/d89/a00071_source.html#l00082">82</a> of file <a class="el" href="../../d0/d89/a00071_source.html">Events.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="abfef1245b1bf70f6aabab56a190ea047"></a>
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;size_t N, unsigned int BACKEND&gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">typedef system_t::template container&lt;<a class="el" href="../../d0/d33/a00027.html#aa8c251ed5017d0638da929130062bcad">GBool_t</a>&gt;::<a class="el" href="../../dc/d3c/a00028.html#af561fe7959a3bfae6982044a0a59fa2b">iterator</a> <a class="el" href="../../dc/d3c/a00028.html">hydra::Events</a>&lt; N, BACKEND &gt;::<a class="el" href="../../dc/d3c/a00028.html#abfef1245b1bf70f6aabab56a190ea047">vector_bool_iterator</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="../../d0/d89/a00071_source.html#l00081">81</a> of file <a class="el" href="../../d0/d89/a00071_source.html">Events.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="ac714b321c7ee6538378ae83c57a3f435"></a>
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;size_t N, unsigned int BACKEND&gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">typedef system_t::template container&lt;<a class="el" href="../../d4/d6d/a00055.html">Vector4R</a>&gt; <a class="el" href="../../dc/d3c/a00028.html">hydra::Events</a>&lt; N, BACKEND &gt;::<a class="el" href="../../dc/d3c/a00028.html#ac714b321c7ee6538378ae83c57a3f435">vector_particles</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="../../d0/d89/a00071_source.html#l00072">72</a> of file <a class="el" href="../../d0/d89/a00071_source.html">Events.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a875a79095afb94a15be63aa65f1ecbf4"></a>
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;size_t N, unsigned int BACKEND&gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">typedef system_t::template container&lt;<a class="el" href="../../d4/d6d/a00055.html">Vector4R</a>&gt;::const_iterator <a class="el" href="../../dc/d3c/a00028.html">hydra::Events</a>&lt; N, BACKEND &gt;::<a class="el" href="../../dc/d3c/a00028.html#a875a79095afb94a15be63aa65f1ecbf4">vector_particles_const_iterator</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="../../d0/d89/a00071_source.html#l00074">74</a> of file <a class="el" href="../../d0/d89/a00071_source.html">Events.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a774f23e937323404e2d2554083cd0f25"></a>
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;size_t N, unsigned int BACKEND&gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">typedef system_t::template container&lt;<a class="el" href="../../d4/d6d/a00055.html">Vector4R</a>&gt;::<a class="el" href="../../dc/d3c/a00028.html#af561fe7959a3bfae6982044a0a59fa2b">iterator</a> <a class="el" href="../../dc/d3c/a00028.html">hydra::Events</a>&lt; N, BACKEND &gt;::<a class="el" href="../../dc/d3c/a00028.html#a774f23e937323404e2d2554083cd0f25">vector_particles_iterator</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="../../d0/d89/a00071_source.html#l00073">73</a> of file <a class="el" href="../../d0/d89/a00071_source.html">Events.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="ad2a85ed4f6d3a5566bd8d279c14347e7"></a>
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;size_t N, unsigned int BACKEND&gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">typedef system_t::template container&lt;<a class="el" href="../../d0/d33/a00027.html#a971e94bcb8c43741d11f9d8eb98f5fab">GReal_t</a>&gt; <a class="el" href="../../dc/d3c/a00028.html">hydra::Events</a>&lt; N, BACKEND &gt;::<a class="el" href="../../dc/d3c/a00028.html#ad2a85ed4f6d3a5566bd8d279c14347e7">vector_real</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="../../d0/d89/a00071_source.html#l00076">76</a> of file <a class="el" href="../../d0/d89/a00071_source.html">Events.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="aaee51bb03993c27dcd2fd6a2af09068f"></a>
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;size_t N, unsigned int BACKEND&gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">typedef system_t::template container&lt;<a class="el" href="../../d0/d33/a00027.html#a971e94bcb8c43741d11f9d8eb98f5fab">GReal_t</a>&gt;::const_iterator <a class="el" href="../../dc/d3c/a00028.html">hydra::Events</a>&lt; N, BACKEND &gt;::<a class="el" href="../../dc/d3c/a00028.html#aaee51bb03993c27dcd2fd6a2af09068f">vector_real_const_iterator</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="../../d0/d89/a00071_source.html#l00078">78</a> of file <a class="el" href="../../d0/d89/a00071_source.html">Events.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a7631663f5be0b0031ead0587ee75acdd"></a>
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;size_t N, unsigned int BACKEND&gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">typedef system_t::template container&lt;<a class="el" href="../../d0/d33/a00027.html#a971e94bcb8c43741d11f9d8eb98f5fab">GReal_t</a>&gt;::<a class="el" href="../../dc/d3c/a00028.html#af561fe7959a3bfae6982044a0a59fa2b">iterator</a> <a class="el" href="../../dc/d3c/a00028.html">hydra::Events</a>&lt; N, BACKEND &gt;::<a class="el" href="../../dc/d3c/a00028.html#a7631663f5be0b0031ead0587ee75acdd">vector_real_iterator</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="../../d0/d89/a00071_source.html#l00077">77</a> of file <a class="el" href="../../d0/d89/a00071_source.html">Events.h</a>.</p>
 
 </div>
 </div>
 <h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
-<a class="anchor" id="aaf60121ca8d41a4a190120071f9020c8"></a>
+<a class="anchor" id="a89717278f21c484fa8595ef59b09dd15"></a>
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;typename F1, typename F2&gt; </div>
+template&lt;size_t N, unsigned int BACKEND&gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">__host__ <a class="el" href="../../dc/d3c/a00028.html">hydra::Divide</a>&lt; F1, F2 &gt;::<a class="el" href="../../dc/d3c/a00028.html">Divide</a> </td>
+          <td class="memname"><a class="el" href="../../dc/d3c/a00028.html">hydra::Events</a>&lt; N, BACKEND &gt;::<a class="el" href="../../dc/d3c/a00028.html">Events</a> </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td></td>
@@ -267,35 +430,25 @@ template&lt;typename F1, typename F2&gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="../../da/d2a/a00086_source.html#l00058">58</a> of file <a class="el" href="../../da/d2a/a00086_source.html">Divide.h</a>.</p>
+<p>Definition at line <a class="el" href="../../d0/d89/a00071_source.html#l00090">90</a> of file <a class="el" href="../../d0/d89/a00071_source.html">Events.h</a>.</p>
 
 </div>
 </div>
-<a class="anchor" id="a16c1cd84fe1b0364c423cd68466f66eb"></a>
+<a class="anchor" id="a5ab93fc4938347f998143d541f3c5ded"></a>
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;typename F1, typename F2&gt; </div>
+template&lt;size_t N, unsigned int BACKEND&gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">__host__ <a class="el" href="../../dc/d3c/a00028.html">hydra::Divide</a>&lt; F1, F2 &gt;::<a class="el" href="../../dc/d3c/a00028.html">Divide</a> </td>
+          <td class="memname"><a class="el" href="../../dc/d3c/a00028.html">hydra::Events</a>&lt; N, BACKEND &gt;::<a class="el" href="../../dc/d3c/a00028.html">Events</a> </td>
           <td>(</td>
-          <td class="paramtype">F1 const &amp;&#160;</td>
-          <td class="paramname"><em>f1</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
+          <td class="paramtype"><a class="el" href="../../d0/d33/a00027.html#a5f57a4025b40929c2708cd544c3a1ccd">GLong_t</a>&#160;</td>
+          <td class="paramname"><em>nevents</em></td><td>)</td>
           <td></td>
-          <td class="paramtype">F2 const &amp;&#160;</td>
-          <td class="paramname"><em>f2</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
         </tr>
       </table>
   </td>
@@ -305,23 +458,25 @@ template&lt;typename F1, typename F2&gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="../../da/d2a/a00086_source.html#l00064">64</a> of file <a class="el" href="../../da/d2a/a00086_source.html">Divide.h</a>.</p>
+<p>Definition at line <a class="el" href="../../d0/d89/a00071_source.html#l00095">95</a> of file <a class="el" href="../../d0/d89/a00071_source.html">Events.h</a>.</p>
 
 </div>
 </div>
-<a class="anchor" id="a32c0c0eb0a25ef1d6e68aeda32b3b878"></a>
+<a class="anchor" id="a4bc30bbd45a57a1724f16f60b1353cf5"></a>
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;typename F1, typename F2&gt; </div>
+template&lt;size_t N, unsigned int BACKEND&gt; </div>
+<div class="memtemplate">
+template&lt;unsigned int BACKEND2&gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">__host__ __device__ <a class="el" href="../../dc/d3c/a00028.html">hydra::Divide</a>&lt; F1, F2 &gt;::<a class="el" href="../../dc/d3c/a00028.html">Divide</a> </td>
+          <td class="memname"><a class="el" href="../../dc/d3c/a00028.html">hydra::Events</a>&lt; N, BACKEND &gt;::<a class="el" href="../../dc/d3c/a00028.html">Events</a> </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="../../dc/d3c/a00028.html">Divide</a>&lt; F1, F2 &gt; const &amp;&#160;</td>
+          <td class="paramtype"><a class="el" href="../../dc/d3c/a00028.html">Events</a>&lt; N, BACKEND2 &gt; const &amp;&#160;</td>
           <td class="paramname"><em>other</em></td><td>)</td>
           <td></td>
         </tr>
@@ -333,237 +488,30 @@ template&lt;typename F1, typename F2&gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="../../da/d2a/a00086_source.html#l00071">71</a> of file <a class="el" href="../../da/d2a/a00086_source.html">Divide.h</a>.</p>
+<p>Definition at line <a class="el" href="../../d0/d89/a00071_source.html#l00123">123</a> of file <a class="el" href="../../d0/d89/a00071_source.html">Events.h</a>.</p>
 
-</div>
-</div>
-<h2 class="groupheader">Member Function Documentation</h2>
-<a class="anchor" id="af0898cbdd263536c7b0c0bacc0202b57"></a>
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;typename F1, typename F2&gt; </div>
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">__host__ __device__ <a class="el" href="../../dc/d3c/a00028.html#af10aba8c5eea6bd671452331b3431171">functors_type</a> <a class="el" href="../../dc/d3c/a00028.html">hydra::Divide</a>&lt; F1, F2 &gt;::GetFunctors </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td> const</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Definition at line <a class="el" href="../../da/d2a/a00086_source.html#l00105">105</a> of file <a class="el" href="../../da/d2a/a00086_source.html">Divide.h</a>.</p>
-
-<p>Referenced by <a class="el" href="../../da/d2a/a00086_source.html#l00078">hydra::Divide&lt; F1, F2 &gt;::operator=()</a>.</p>
-
-<p><div class="dynheader">
-Here is the caller graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><iframe scrolling="no" frameborder="0" src="../../dc/d3c/a00028_af0898cbdd263536c7b0c0bacc0202b57_icgraph.svg" width="400" height="38"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
-</div>
-</p>
-
-</div>
-</div>
-<a class="anchor" id="a6fc409404e6d3d0b8eeff06db126dea0"></a>
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;typename F1, typename F2&gt; </div>
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">__host__ __device__ int <a class="el" href="../../dc/d3c/a00028.html">hydra::Divide</a>&lt; F1, F2 &gt;::GetIndex </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td> const</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Definition at line <a class="el" href="../../da/d2a/a00086_source.html#l00108">108</a> of file <a class="el" href="../../da/d2a/a00086_source.html">Divide.h</a>.</p>
-
-<p>Referenced by <a class="el" href="../../da/d2a/a00086_source.html#l00078">hydra::Divide&lt; F1, F2 &gt;::operator=()</a>.</p>
-
-<p><div class="dynheader">
-Here is the caller graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><iframe scrolling="no" frameborder="0" src="../../dc/d3c/a00028_a6fc409404e6d3d0b8eeff06db126dea0_icgraph.svg" width="382" height="38"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
-</div>
-</p>
-
-</div>
-</div>
-<a class="anchor" id="aa77eb26cc582ad183090de1439d8e99d"></a>
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;typename F1, typename F2&gt; </div>
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">__host__ __device__ bool <a class="el" href="../../dc/d3c/a00028.html">hydra::Divide</a>&lt; F1, F2 &gt;::IsCached </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td> const</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Definition at line <a class="el" href="../../da/d2a/a00086_source.html#l00114">114</a> of file <a class="el" href="../../da/d2a/a00086_source.html">Divide.h</a>.</p>
-
-<p>Referenced by <a class="el" href="../../da/d2a/a00086_source.html#l00078">hydra::Divide&lt; F1, F2 &gt;::operator=()</a>.</p>
-
-<p><div class="dynheader">
-Here is the caller graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><iframe scrolling="no" frameborder="0" src="../../dc/d3c/a00028_aa77eb26cc582ad183090de1439d8e99d_icgraph.svg" width="384" height="38"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
-</div>
-</p>
-
-</div>
-</div>
-<a class="anchor" id="a5c7f78a166bb7c79e6be28d4e56a75d0"></a>
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;typename F1, typename F2&gt; </div>
-<div class="memtemplate">
-template&lt;typename T1 &gt; </div>
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">__host__ __device__ <a class="el" href="../../dc/d3c/a00028.html#abdbf4e83f55ac3d1e2268bce7adc04c1">return_type</a> <a class="el" href="../../dc/d3c/a00028.html">hydra::Divide</a>&lt; F1, F2 &gt;::operator() </td>
-          <td>(</td>
-          <td class="paramtype">T1 &amp;&#160;</td>
-          <td class="paramname"><em>t</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Definition at line <a class="el" href="../../da/d2a/a00086_source.html#l00124">124</a> of file <a class="el" href="../../da/d2a/a00086_source.html">Divide.h</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="a9f82aabecb1875b2611268cd3f235ad9"></a>
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;typename F1, typename F2&gt; </div>
-<div class="memtemplate">
-template&lt;typename T1 , typename T2 &gt; </div>
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">__host__ __device__ <a class="el" href="../../dc/d3c/a00028.html#abdbf4e83f55ac3d1e2268bce7adc04c1">return_type</a> <a class="el" href="../../dc/d3c/a00028.html">hydra::Divide</a>&lt; F1, F2 &gt;::operator() </td>
-          <td>(</td>
-          <td class="paramtype">T1 &amp;&#160;</td>
-          <td class="paramname"><em>t</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">T2 &amp;&#160;</td>
-          <td class="paramname"><em>cache</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Definition at line <a class="el" href="../../da/d2a/a00086_source.html#l00131">131</a> of file <a class="el" href="../../da/d2a/a00086_source.html">Divide.h</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="a72159390974a33c5a45f508782d3e9f6"></a>
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;typename F1, typename F2&gt; </div>
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">__host__ __device__ <a class="el" href="../../dc/d3c/a00028.html">Divide</a>&lt;F1,F2&gt;&amp; <a class="el" href="../../dc/d3c/a00028.html">hydra::Divide</a>&lt; F1, F2 &gt;::operator= </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="../../dc/d3c/a00028.html">Divide</a>&lt; F1, F2 &gt; const &amp;&#160;</td>
-          <td class="paramname"><em>other</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Definition at line <a class="el" href="../../da/d2a/a00086_source.html#l00078">78</a> of file <a class="el" href="../../da/d2a/a00086_source.html">Divide.h</a>.</p>
-
-<p>References <a class="el" href="../../da/d2a/a00086_source.html#l00105">hydra::Divide&lt; F1, F2 &gt;::GetFunctors()</a>, <a class="el" href="../../da/d2a/a00086_source.html#l00108">hydra::Divide&lt; F1, F2 &gt;::GetIndex()</a>, and <a class="el" href="../../da/d2a/a00086_source.html#l00114">hydra::Divide&lt; F1, F2 &gt;::IsCached()</a>.</p>
+<p>References <a class="el" href="../../d0/d89/a00071_source.html#l00229">hydra::Events&lt; N, BACKEND &gt;::DaughtersBegin()</a>, <a class="el" href="../../d0/d89/a00071_source.html#l00234">hydra::Events&lt; N, BACKEND &gt;::DaughtersEnd()</a>, <a class="el" href="../../d0/d89/a00071_source.html#l00213">hydra::Events&lt; N, BACKEND &gt;::FlagsBegin()</a>, <a class="el" href="../../d0/d89/a00071_source.html#l00217">hydra::Events&lt; N, BACKEND &gt;::FlagsEnd()</a>, <a class="el" href="../../d0/d89/a00071_source.html#l00221">hydra::Events&lt; N, BACKEND &gt;::WeightsBegin()</a>, and <a class="el" href="../../d0/d89/a00071_source.html#l00225">hydra::Events&lt; N, BACKEND &gt;::WeightsEnd()</a>.</p>
 
 <p><div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><iframe scrolling="no" frameborder="0" src="../../dc/d3c/a00028_a72159390974a33c5a45f508782d3e9f6_cgraph.svg" width="400" height="139"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+<div class="center"><iframe scrolling="no" frameborder="0" src="../../dc/d3c/a00028_a4bc30bbd45a57a1724f16f60b1353cf5_cgraph.svg" width="406" height="307"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 </div>
 </p>
 
 </div>
 </div>
-<a class="anchor" id="a9b6272e2c192680c62789a185803d52d"></a>
+<a class="anchor" id="adee702c56aeb4bd8b3c4944655b4f403"></a>
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;typename F1, typename F2&gt; </div>
+template&lt;size_t N, unsigned int BACKEND&gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">__host__ void <a class="el" href="../../dc/d3c/a00028.html">hydra::Divide</a>&lt; F1, F2 &gt;::PrintRegisteredParameters </td>
+          <td class="memname"><a class="el" href="../../dc/d3c/a00028.html">hydra::Events</a>&lt; N, BACKEND &gt;::~<a class="el" href="../../dc/d3c/a00028.html">Events</a> </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td></td>
@@ -576,26 +524,24 @@ template&lt;typename F1, typename F2&gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="../../da/d2a/a00086_source.html#l00095">95</a> of file <a class="el" href="../../da/d2a/a00086_source.html">Divide.h</a>.</p>
-
-<p>References <a class="el" href="../../d8/d17/a00114_source.html#l00098">HYDRA_CALLER</a>, <a class="el" href="../../d8/d17/a00114_source.html#l00105">HYDRA_ENDL</a>, and <a class="el" href="../../d8/d17/a00114_source.html#l00102">HYDRA_MSG</a>.</p>
+<p>Definition at line <a class="el" href="../../d0/d89/a00071_source.html#l00199">199</a> of file <a class="el" href="../../d0/d89/a00071_source.html">Events.h</a>.</p>
 
 </div>
 </div>
-<a class="anchor" id="a0d116dd61b9b3da478ed3ece5cbe003f"></a>
+<h2 class="groupheader">Member Function Documentation</h2>
+<a class="anchor" id="a0fb1f6daec1efb04a21517820f291a64"></a>
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;typename F1, typename F2&gt; </div>
+template&lt;size_t N, unsigned int BACKEND&gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">__host__ __device__ void <a class="el" href="../../dc/d3c/a00028.html">hydra::Divide</a>&lt; F1, F2 &gt;::SetCached </td>
+          <td class="memname"><a class="el" href="../../dc/d3c/a00028.html#af561fe7959a3bfae6982044a0a59fa2b">iterator</a> <a class="el" href="../../dc/d3c/a00028.html">hydra::Events</a>&lt; N, BACKEND &gt;::begin </td>
           <td>(</td>
-          <td class="paramtype">bool&#160;</td>
-          <td class="paramname"><em>cached</em> = <code>true</code></td><td>)</td>
+          <td class="paramname"></td><td>)</td>
           <td></td>
         </tr>
       </table>
@@ -606,24 +552,61 @@ template&lt;typename F1, typename F2&gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="../../da/d2a/a00086_source.html#l00118">118</a> of file <a class="el" href="../../da/d2a/a00086_source.html">Divide.h</a>.</p>
+<p>Definition at line <a class="el" href="../../d0/d89/a00071_source.html#l00278">278</a> of file <a class="el" href="../../d0/d89/a00071_source.html">Events.h</a>.</p>
 
 </div>
 </div>
-<a class="anchor" id="a894682e6910ce2c0cd3e173b12cc4848"></a>
+<a class="anchor" id="a7424b190a4c812ee893086df70f3792a"></a>
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;typename F1, typename F2&gt; </div>
+template&lt;size_t N, unsigned int BACKEND&gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">__host__ __device__ void <a class="el" href="../../dc/d3c/a00028.html">hydra::Divide</a>&lt; F1, F2 &gt;::SetIndex </td>
+          <td class="memname"><a class="el" href="../../dc/d3c/a00028.html#a875a79095afb94a15be63aa65f1ecbf4">vector_particles_const_iterator</a> <a class="el" href="../../dc/d3c/a00028.html">hydra::Events</a>&lt; N, BACKEND &gt;::DaughtersBegin </td>
           <td>(</td>
-          <td class="paramtype">int&#160;</td>
-          <td class="paramname"><em>index</em></td><td>)</td>
+          <td class="paramtype"><a class="el" href="../../d0/d33/a00027.html#a0c9fb4d7195ab952da10a82d5c4ad30e">GInt_t</a>&#160;</td>
+          <td class="paramname"><em>i</em></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="../../d0/d89/a00071_source.html#l00229">229</a> of file <a class="el" href="../../d0/d89/a00071_source.html">Events.h</a>.</p>
+
+<p>Referenced by <a class="el" href="../../d0/d89/a00071_source.html#l00123">hydra::Events&lt; N, BACKEND &gt;::Events()</a>, and <a class="el" href="../../d0/d89/a00071_source.html#l00160">hydra::Events&lt; N, BACKEND &gt;::operator=()</a>.</p>
+
+<p><div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><iframe scrolling="no" frameborder="0" src="../../dc/d3c/a00028_a7424b190a4c812ee893086df70f3792a_icgraph.svg" width="396" height="88"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+</div>
+</p>
+
+</div>
+</div>
+<a class="anchor" id="a7d671242e6bc1bc66a6dedd871fbcc01"></a>
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;size_t N, unsigned int BACKEND&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="../../dc/d3c/a00028.html#a774f23e937323404e2d2554083cd0f25">vector_particles_iterator</a> <a class="el" href="../../dc/d3c/a00028.html">hydra::Events</a>&lt; N, BACKEND &gt;::DaughtersBegin </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="../../d0/d33/a00027.html#a0c9fb4d7195ab952da10a82d5c4ad30e">GInt_t</a>&#160;</td>
+          <td class="paramname"><em>i</em></td><td>)</td>
           <td></td>
         </tr>
       </table>
@@ -634,24 +617,61 @@ template&lt;typename F1, typename F2&gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="../../da/d2a/a00086_source.html#l00111">111</a> of file <a class="el" href="../../da/d2a/a00086_source.html">Divide.h</a>.</p>
+<p>Definition at line <a class="el" href="../../d0/d89/a00071_source.html#l00255">255</a> of file <a class="el" href="../../d0/d89/a00071_source.html">Events.h</a>.</p>
 
 </div>
 </div>
-<a class="anchor" id="ac55163540e36a64e51a1d4d5fc7167bb"></a>
+<a class="anchor" id="ad61a31f6a9ebedfb25198b49de978e3c"></a>
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;typename F1, typename F2&gt; </div>
+template&lt;size_t N, unsigned int BACKEND&gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">__host__ void <a class="el" href="../../dc/d3c/a00028.html">hydra::Divide</a>&lt; F1, F2 &gt;::SetParameters </td>
+          <td class="memname"><a class="el" href="../../dc/d3c/a00028.html#a875a79095afb94a15be63aa65f1ecbf4">vector_particles_const_iterator</a> <a class="el" href="../../dc/d3c/a00028.html">hydra::Events</a>&lt; N, BACKEND &gt;::DaughtersEnd </td>
           <td>(</td>
-          <td class="paramtype">const std::vector&lt; double &gt; &amp;&#160;</td>
-          <td class="paramname"><em>parameters</em></td><td>)</td>
+          <td class="paramtype"><a class="el" href="../../d0/d33/a00027.html#a0c9fb4d7195ab952da10a82d5c4ad30e">GInt_t</a>&#160;</td>
+          <td class="paramname"><em>i</em></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="../../d0/d89/a00071_source.html#l00234">234</a> of file <a class="el" href="../../d0/d89/a00071_source.html">Events.h</a>.</p>
+
+<p>Referenced by <a class="el" href="../../d0/d89/a00071_source.html#l00123">hydra::Events&lt; N, BACKEND &gt;::Events()</a>, and <a class="el" href="../../d0/d89/a00071_source.html#l00160">hydra::Events&lt; N, BACKEND &gt;::operator=()</a>.</p>
+
+<p><div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><iframe scrolling="no" frameborder="0" src="../../dc/d3c/a00028_ad61a31f6a9ebedfb25198b49de978e3c_icgraph.svg" width="420" height="88"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+</div>
+</p>
+
+</div>
+</div>
+<a class="anchor" id="a602149f0d72ee7ca6c3b9f89ae8103ef"></a>
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;size_t N, unsigned int BACKEND&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="../../dc/d3c/a00028.html#a774f23e937323404e2d2554083cd0f25">vector_particles_iterator</a> <a class="el" href="../../dc/d3c/a00028.html">hydra::Events</a>&lt; N, BACKEND &gt;::DaughtersEnd </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="../../d0/d33/a00027.html#a0c9fb4d7195ab952da10a82d5c4ad30e">GInt_t</a>&#160;</td>
+          <td class="paramname"><em>i</em></td><td>)</td>
           <td></td>
         </tr>
       </table>
@@ -662,20 +682,544 @@ template&lt;typename F1, typename F2&gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="../../da/d2a/a00086_source.html#l00089">89</a> of file <a class="el" href="../../da/d2a/a00086_source.html">Divide.h</a>.</p>
+<p>Definition at line <a class="el" href="../../d0/d89/a00071_source.html#l00260">260</a> of file <a class="el" href="../../d0/d89/a00071_source.html">Events.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a56d6101235a61b95ba79d0c64983084f"></a>
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;size_t N, unsigned int BACKEND&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="../../dc/d3c/a00028.html#af561fe7959a3bfae6982044a0a59fa2b">iterator</a> <a class="el" href="../../dc/d3c/a00028.html">hydra::Events</a>&lt; N, BACKEND &gt;::end </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="../../d0/d89/a00071_source.html#l00280">280</a> of file <a class="el" href="../../d0/d89/a00071_source.html">Events.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="ad93e6690e08e08c53aa890616e2093fc"></a>
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;size_t N, unsigned int BACKEND&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="../../dc/d3c/a00028.html#ae920ad4689d5063a54ed99413c02ac18">vector_bool_const_iterator</a> <a class="el" href="../../dc/d3c/a00028.html">hydra::Events</a>&lt; N, BACKEND &gt;::FlagsBegin </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="../../d0/d89/a00071_source.html#l00213">213</a> of file <a class="el" href="../../d0/d89/a00071_source.html">Events.h</a>.</p>
+
+<p>Referenced by <a class="el" href="../../d0/d89/a00071_source.html#l00123">hydra::Events&lt; N, BACKEND &gt;::Events()</a>, and <a class="el" href="../../d0/d89/a00071_source.html#l00160">hydra::Events&lt; N, BACKEND &gt;::operator=()</a>.</p>
+
+<p><div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><iframe scrolling="no" frameborder="0" src="../../dc/d3c/a00028_ad93e6690e08e08c53aa890616e2093fc_icgraph.svg" width="402" height="88"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+</div>
+</p>
+
+</div>
+</div>
+<a class="anchor" id="a66a91d706bb50807478ec3d21a9bcc1b"></a>
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;size_t N, unsigned int BACKEND&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="../../dc/d3c/a00028.html#abfef1245b1bf70f6aabab56a190ea047">vector_bool_iterator</a> <a class="el" href="../../dc/d3c/a00028.html">hydra::Events</a>&lt; N, BACKEND &gt;::FlagsBegin </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="../../d0/d89/a00071_source.html#l00239">239</a> of file <a class="el" href="../../d0/d89/a00071_source.html">Events.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="ab634fcf28a5253706f8d32e0f9fde20f"></a>
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;size_t N, unsigned int BACKEND&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="../../dc/d3c/a00028.html#ae920ad4689d5063a54ed99413c02ac18">vector_bool_const_iterator</a> <a class="el" href="../../dc/d3c/a00028.html">hydra::Events</a>&lt; N, BACKEND &gt;::FlagsEnd </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="../../d0/d89/a00071_source.html#l00217">217</a> of file <a class="el" href="../../d0/d89/a00071_source.html">Events.h</a>.</p>
+
+<p>Referenced by <a class="el" href="../../d0/d89/a00071_source.html#l00123">hydra::Events&lt; N, BACKEND &gt;::Events()</a>, and <a class="el" href="../../d0/d89/a00071_source.html#l00160">hydra::Events&lt; N, BACKEND &gt;::operator=()</a>.</p>
+
+<p><div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><iframe scrolling="no" frameborder="0" src="../../dc/d3c/a00028_ab634fcf28a5253706f8d32e0f9fde20f_icgraph.svg" width="392" height="88"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+</div>
+</p>
+
+</div>
+</div>
+<a class="anchor" id="a09163572c42ad56322caa28cab7719cd"></a>
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;size_t N, unsigned int BACKEND&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="../../dc/d3c/a00028.html#abfef1245b1bf70f6aabab56a190ea047">vector_bool_iterator</a> <a class="el" href="../../dc/d3c/a00028.html">hydra::Events</a>&lt; N, BACKEND &gt;::FlagsEnd </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="../../d0/d89/a00071_source.html#l00243">243</a> of file <a class="el" href="../../d0/d89/a00071_source.html">Events.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a42fa6730eacc8e4be21e12487d19bd61"></a>
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;size_t N, unsigned int BACKEND&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="../../d0/d33/a00027.html#a971e94bcb8c43741d11f9d8eb98f5fab">GReal_t</a> <a class="el" href="../../dc/d3c/a00028.html">hydra::Events</a>&lt; N, BACKEND &gt;::GetMaxWeight </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="../../d0/d89/a00071_source.html#l00201">201</a> of file <a class="el" href="../../d0/d89/a00071_source.html">Events.h</a>.</p>
+
+<p>Referenced by <a class="el" href="../../d0/d89/a00071_source.html#l00160">hydra::Events&lt; N, BACKEND &gt;::operator=()</a>.</p>
+
+<p><div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><iframe scrolling="no" frameborder="0" src="../../dc/d3c/a00028_a42fa6730eacc8e4be21e12487d19bd61_icgraph.svg" width="424" height="38"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+</div>
+</p>
+
+</div>
+</div>
+<a class="anchor" id="a9a4dce1f4cc7bacdc30fa4bb75894ab3"></a>
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;size_t N, unsigned int BACKEND&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="../../d0/d33/a00027.html#a5f57a4025b40929c2708cd544c3a1ccd">GLong_t</a> <a class="el" href="../../dc/d3c/a00028.html">hydra::Events</a>&lt; N, BACKEND &gt;::GetNEvents </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="../../d0/d89/a00071_source.html#l00205">205</a> of file <a class="el" href="../../d0/d89/a00071_source.html">Events.h</a>.</p>
+
+<p>Referenced by <a class="el" href="../../d0/d89/a00071_source.html#l00160">hydra::Events&lt; N, BACKEND &gt;::operator=()</a>.</p>
+
+<p><div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><iframe scrolling="no" frameborder="0" src="../../dc/d3c/a00028_a9a4dce1f4cc7bacdc30fa4bb75894ab3_icgraph.svg" width="408" height="38"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+</div>
+</p>
+
+</div>
+</div>
+<a class="anchor" id="ace3fe647bf093ad875cc1568ac8bdb53"></a>
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;size_t N, unsigned int BACKEND&gt; </div>
+<div class="memtemplate">
+template&lt;unsigned int BACKEND2&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="../../dc/d3c/a00028.html">Events</a>&lt;N,BACKEND&gt;&amp; <a class="el" href="../../dc/d3c/a00028.html">hydra::Events</a>&lt; N, BACKEND &gt;::operator= </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="../../dc/d3c/a00028.html">Events</a>&lt; N, BACKEND2 &gt; const &amp;&#160;</td>
+          <td class="paramname"><em>other</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="../../d0/d89/a00071_source.html#l00160">160</a> of file <a class="el" href="../../d0/d89/a00071_source.html">Events.h</a>.</p>
+
+<p>References <a class="el" href="../../d0/d89/a00071_source.html#l00229">hydra::Events&lt; N, BACKEND &gt;::DaughtersBegin()</a>, <a class="el" href="../../d0/d89/a00071_source.html#l00234">hydra::Events&lt; N, BACKEND &gt;::DaughtersEnd()</a>, <a class="el" href="../../d0/d89/a00071_source.html#l00213">hydra::Events&lt; N, BACKEND &gt;::FlagsBegin()</a>, <a class="el" href="../../d0/d89/a00071_source.html#l00217">hydra::Events&lt; N, BACKEND &gt;::FlagsEnd()</a>, <a class="el" href="../../d0/d89/a00071_source.html#l00201">hydra::Events&lt; N, BACKEND &gt;::GetMaxWeight()</a>, <a class="el" href="../../d0/d89/a00071_source.html#l00205">hydra::Events&lt; N, BACKEND &gt;::GetNEvents()</a>, <a class="el" href="../../d0/d89/a00071_source.html#l00221">hydra::Events&lt; N, BACKEND &gt;::WeightsBegin()</a>, and <a class="el" href="../../d0/d89/a00071_source.html#l00225">hydra::Events&lt; N, BACKEND &gt;::WeightsEnd()</a>.</p>
+
+<p><div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><iframe scrolling="no" frameborder="0" src="../../dc/d3c/a00028_ace3fe647bf093ad875cc1568ac8bdb53_cgraph.svg" width="424" height="408"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+</div>
+</p>
+
+</div>
+</div>
+<a class="anchor" id="adadae1cf8103673a6ee8502dcbbf3b2e"></a>
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;size_t N, unsigned int BACKEND&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="../../dc/d3c/a00028.html#adfa993663e5da6dc10153880ce6e5652">value_type</a> <a class="el" href="../../dc/d3c/a00028.html">hydra::Events</a>&lt; N, BACKEND &gt;::operator[] </td>
+          <td>(</td>
+          <td class="paramtype">size_t&#160;</td>
+          <td class="paramname"><em>i</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="../../d0/d89/a00071_source.html#l00271">271</a> of file <a class="el" href="../../d0/d89/a00071_source.html">Events.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="af755d95b802bef5a7630cf7a1d5b5529"></a>
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;size_t N, unsigned int BACKEND&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void <a class="el" href="../../dc/d3c/a00028.html">hydra::Events</a>&lt; N, BACKEND &gt;::SetMaxWeight </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="../../d0/d33/a00027.html#a971e94bcb8c43741d11f9d8eb98f5fab">GReal_t</a>&#160;</td>
+          <td class="paramname"><em>maxWeight</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="../../d0/d89/a00071_source.html#l00265">265</a> of file <a class="el" href="../../d0/d89/a00071_source.html">Events.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="ac01aa063e388f22ac8217014ea98b251"></a>
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;size_t N, unsigned int BACKEND&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void <a class="el" href="../../dc/d3c/a00028.html">hydra::Events</a>&lt; N, BACKEND &gt;::SetNEvents </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="../../d0/d33/a00027.html#a5f57a4025b40929c2708cd544c3a1ccd">GLong_t</a>&#160;</td>
+          <td class="paramname"><em>nEvents</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="../../d0/d89/a00071_source.html#l00209">209</a> of file <a class="el" href="../../d0/d89/a00071_source.html">Events.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a91ead2381dde2e31b15f127f85ec060a"></a>
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;size_t N, unsigned int BACKEND&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="../../d0/d33/a00027.html#abf9a0d54fd4ed46052939549edd086c5">GULong_t</a> <a class="el" href="../../dc/d3c/a00028.html">hydra::Events</a>&lt; N, BACKEND &gt;::Unweight </td>
+          <td>(</td>
+          <td class="paramtype">size_t&#160;</td>
+          <td class="paramname"><em>seed</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Flag the accepted and rejected events</p>
+
+<p>Definition at line <a class="el" href="../../d0/d89/a00071_source.html#l00282">282</a> of file <a class="el" href="../../d0/d89/a00071_source.html">Events.h</a>.</p>
+
+<p>References <a class="el" href="../../d0/d89/a00071_source.html#l00084">hydra::Events&lt; N, BACKEND &gt;::iterator</a>, and <a class="el" href="../../d7/d70/a00106_source.html#l00069">hydra::kTrue</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a81acb98e6856035e548612a0b76627fc"></a>
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;size_t N, unsigned int BACKEND&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="../../dc/d3c/a00028.html#aaee51bb03993c27dcd2fd6a2af09068f">vector_real_const_iterator</a> <a class="el" href="../../dc/d3c/a00028.html">hydra::Events</a>&lt; N, BACKEND &gt;::WeightsBegin </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="../../d0/d89/a00071_source.html#l00221">221</a> of file <a class="el" href="../../d0/d89/a00071_source.html">Events.h</a>.</p>
+
+<p>Referenced by <a class="el" href="../../d0/d89/a00071_source.html#l00123">hydra::Events&lt; N, BACKEND &gt;::Events()</a>, and <a class="el" href="../../d0/d89/a00071_source.html#l00160">hydra::Events&lt; N, BACKEND &gt;::operator=()</a>.</p>
+
+<p><div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><iframe scrolling="no" frameborder="0" src="../../dc/d3c/a00028_a81acb98e6856035e548612a0b76627fc_icgraph.svg" width="418" height="88"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+</div>
+</p>
+
+</div>
+</div>
+<a class="anchor" id="a6d25836dda816fc31493bc9f5ec4ac97"></a>
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;size_t N, unsigned int BACKEND&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="../../dc/d3c/a00028.html#a7631663f5be0b0031ead0587ee75acdd">vector_real_iterator</a> <a class="el" href="../../dc/d3c/a00028.html">hydra::Events</a>&lt; N, BACKEND &gt;::WeightsBegin </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="../../d0/d89/a00071_source.html#l00247">247</a> of file <a class="el" href="../../d0/d89/a00071_source.html">Events.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a4af0795dbfe9812be3f4e530237f0e09"></a>
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;size_t N, unsigned int BACKEND&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="../../dc/d3c/a00028.html#aaee51bb03993c27dcd2fd6a2af09068f">vector_real_const_iterator</a> <a class="el" href="../../dc/d3c/a00028.html">hydra::Events</a>&lt; N, BACKEND &gt;::WeightsEnd </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="../../d0/d89/a00071_source.html#l00225">225</a> of file <a class="el" href="../../d0/d89/a00071_source.html">Events.h</a>.</p>
+
+<p>Referenced by <a class="el" href="../../d0/d89/a00071_source.html#l00123">hydra::Events&lt; N, BACKEND &gt;::Events()</a>, and <a class="el" href="../../d0/d89/a00071_source.html#l00160">hydra::Events&lt; N, BACKEND &gt;::operator=()</a>.</p>
+
+<p><div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><iframe scrolling="no" frameborder="0" src="../../dc/d3c/a00028_a4af0795dbfe9812be3f4e530237f0e09_icgraph.svg" width="408" height="88"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+</div>
+</p>
+
+</div>
+</div>
+<a class="anchor" id="a722f170896a91ac875bafba1edbcaa92"></a>
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;size_t N, unsigned int BACKEND&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="../../dc/d3c/a00028.html#a7631663f5be0b0031ead0587ee75acdd">vector_real_iterator</a> <a class="el" href="../../dc/d3c/a00028.html">hydra::Events</a>&lt; N, BACKEND &gt;::WeightsEnd </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="../../d0/d89/a00071_source.html#l00251">251</a> of file <a class="el" href="../../d0/d89/a00071_source.html">Events.h</a>.</p>
+
+</div>
+</div>
+<h2 class="groupheader">Member Data Documentation</h2>
+<a class="anchor" id="af561fe7959a3bfae6982044a0a59fa2b"></a>
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;size_t N, unsigned int BACKEND&gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">decltype( detail::get_zip_iterator( <a class="el" href="../../dc/d3c/a00028.html#a7631663f5be0b0031ead0587ee75acdd">vector_real_iterator</a>(), std::array&lt; <a class="el" href="../../dc/d3c/a00028.html#a774f23e937323404e2d2554083cd0f25">vector_particles_iterator</a>,N&gt;() )) typedef <a class="el" href="../../dc/d3c/a00028.html">hydra::Events</a>&lt; N, BACKEND &gt;::iterator</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="../../d0/d89/a00071_source.html#l00084">84</a> of file <a class="el" href="../../d0/d89/a00071_source.html">Events.h</a>.</p>
+
+<p>Referenced by <a class="el" href="../../d0/d89/a00071_source.html#l00282">hydra::Events&lt; N, BACKEND &gt;::Unweight()</a>.</p>
 
 </div>
 </div>
 <hr/>The documentation for this struct was generated from the following file:<ul>
-<li><a class="el" href="../../da/d2a/a00086_source.html">Divide.h</a></li>
+<li><a class="el" href="../../d0/d89/a00071_source.html">Events.h</a></li>
 </ul>
 </div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="../../d5/d16/a00029.html">hydra</a></li><li class="navelem"><a class="el" href="../../dc/d3c/a00028.html">Divide</a></li>
-    <li class="footer">Generated on Thu Oct 13 2016 03:01:48 for Hydra by
+    <li class="navelem"><a class="el" href="../../d0/d33/a00027.html">hydra</a></li><li class="navelem"><a class="el" href="../../dc/d3c/a00028.html">Events</a></li>
+    <li class="footer">Generated on Mon Oct 17 2016 03:52:13 for Hydra by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="../../doxygen.png" alt="doxygen"/></a> 1.8.11 </li>
   </ul>

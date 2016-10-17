@@ -1,6 +1,8 @@
 var a00102 =
 [
-    [ "LogLikelihoodFCN", "d6/d42/a00043.html", "d6/d42/a00043" ],
-    [ "make_loglikehood_fcn", "d9/dcc/a00102.html#a0a0d4c1f486d6286929d31f9844f13fb", null ],
-    [ "make_loglikehood_fcn", "d9/dcc/a00102.html#af3643760e6defde83dcdc47746378f82", null ]
+    [ "Range", "d4/dca/a00048.html", "d4/dca/a00048" ],
+    [ "make_range", "d9/dcc/a00102.html#aed731c061feb7b22667628e351da610b", null ],
+    [ "make_range", "d9/dcc/a00102.html#a29ebae3eade535d165598db7926d2805", null ],
+    [ "make_range", "d9/dcc/a00102.html#aff7b02660997297940d1417489ea8729", null ],
+    [ "make_range", "d9/dcc/a00102.html#a9b047ed09aa20fee3419e3493a448396", null ]
 ];

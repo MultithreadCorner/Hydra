@@ -1,5 +1,7 @@
-<map id="strided_iterator.h" name="strided_iterator.h">
-<area shape="rect" id="node2" href="$dd/d42/a00109.html" title="PhaseSpace.h" alt="" coords="169,80,275,107"/>
-<area shape="rect" id="node3" href="$da/da0/a00009.html" title="HydraPhaseSpaceExample take parameters from the command line and generates sample of 3&#45;body phase&#45;spa..." alt="" coords="5,155,212,181"/>
-<area shape="rect" id="node4" href="$da/d45/a00011.html" title="HydraPhaseSpaceExample take parameters from the command line and generates sample of 3&#45;body phase&#45;spa..." alt="" coords="237,155,437,181"/>
+<map id="VegasState.h" name="VegasState.h">
+<area shape="rect" id="node4" href="$d1/d6f/a00063.html" title="hydra/detail/Config.h" alt="" coords="476,304,619,331"/>
+<area shape="rect" id="node14" href="$de/de1/a00065.html" title="Typedef for useful container classes used in MCBooster. " alt="" coords="837,80,969,107"/>
+<area shape="rect" id="node17" href="$d7/d70/a00106.html" title="hydra/Types.h" alt="" coords="1309,304,1415,331"/>
+<area shape="rect" id="node18" href="$d4/d81/a00110.html" title="hydra/Vector3R.h" alt="" coords="832,229,956,256"/>
+<area shape="rect" id="node22" href="$dd/d6d/a00111.html" title="hydra/Vector4R.h" alt="" coords="1225,155,1349,181"/>
 </map>

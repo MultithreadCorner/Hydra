@@ -4,7 +4,7 @@
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.11"/>
-<title>Hydra: Multiply.h File Reference</title>
+<title>Hydra: Types.h File Reference</title>
 <link href="../../tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="../../jquery.js"></script>
 <script type="text/javascript" src="../../dynsections.js"></script>
@@ -117,57 +117,176 @@ $(document).ready(function(){initNavTree('d7/d70/a00106.html','../../');});
   <div class="summary">
 <a href="#nested-classes">Classes</a> &#124;
 <a href="#namespaces">Namespaces</a> &#124;
-<a href="#func-members">Functions</a>  </div>
+<a href="#define-members">Macros</a> &#124;
+<a href="#typedef-members">Typedefs</a> &#124;
+<a href="#enum-members">Enumerations</a> &#124;
+<a href="#var-members">Variables</a>  </div>
   <div class="headertitle">
-<div class="title">Multiply.h File Reference<div class="ingroups"><a class="el" href="../../d2/df5/a00137.html">Functor Arithmetic</a></div></div>  </div>
+<div class="title">Types.h File Reference<div class="ingroups"><a class="el" href="../../de/d36/a00123.html">Generic</a></div></div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><div class="dynheader">
-Include dependency graph for Multiply.h:</div>
-<div class="dyncontent">
-<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="../../d3/dd1/a00214.svg" width="100%" height="600"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
-</div>
-</div><div class="textblock"><div class="dynheader">
-This graph shows which files directly or indirectly include this file:</div>
-<div class="dyncontent">
-<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="../../d3/dd5/a00215.svg" width="100%" height="440"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
-</div>
-</div>
-</div>
+
 <p><a href="../../d7/d70/a00106_source.html">Go to the source code of this file.</a></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="nested-classes"></a>
 Classes</h2></td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d2/dee/a00049.html">hydra::Multiply&lt; F1, F2, Fs &gt;</a></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:d7/d12/a00126"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/d33/a00027.html#d7/d12/a00126">hydra::null_type</a></td></tr>
+<tr class="separator:d7/d12/a00126"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="namespaces"></a>
 Namespaces</h2></td></tr>
-<tr class="memitem:d5/d16/a00029"><td class="memItemLeft" align="right" valign="top"> &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d5/d16/a00029.html">hydra</a></td></tr>
+<tr class="memitem:d0/d33/a00027"><td class="memItemLeft" align="right" valign="top"> &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/d33/a00027.html">hydra</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
-Functions</h2></td></tr>
-<tr class="memitem:a65f97f9f6121581970f8d4c56c04ef33"><td class="memTemplParams" colspan="2">template&lt;typename F1 , typename F2 , typename... Fs&gt; </td></tr>
-<tr class="memitem:a65f97f9f6121581970f8d4c56c04ef33"><td class="memTemplItemLeft" align="right" valign="top">__host__ Multiply&lt; F1, F2, Fs... &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="../../d5/d16/a00029.html#a65f97f9f6121581970f8d4c56c04ef33">hydra::multiply</a> (F1 const &amp;f1, F2 const &amp;f2, Fs const &amp;...functors)</td></tr>
-<tr class="separator:a65f97f9f6121581970f8d4c56c04ef33"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a4041f5a5f507aa261b2e722d8aea605c"><td class="memTemplParams" colspan="2">template&lt;typename T1 , typename T2 , typename  = typename std::enable_if&lt; T1::is_functor::value &amp;&amp; T2::is_functor::value&gt;::type&gt; </td></tr>
-<tr class="memitem:a4041f5a5f507aa261b2e722d8aea605c"><td class="memTemplItemLeft" align="right" valign="top">__host__ Multiply&lt; T1, T2 &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="../../d5/d16/a00029.html#a4041f5a5f507aa261b2e722d8aea605c">hydra::operator*</a> (T1 const &amp;F1, T2 const &amp;F2)</td></tr>
-<tr class="separator:a4041f5a5f507aa261b2e722d8aea605c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aef450a625d3a4b0d301d4cc516024e7e"><td class="memTemplParams" colspan="2">template&lt;typename T1 , typename T2 , typename  = typename std::enable_if&lt; (std::is_convertible&lt;T1, double&gt;::value ||		std::is_constructible&lt;thrust::complex&lt;double&gt;,T1&gt;::value) &amp;&amp; T2::is_functor::value&gt;::type&gt; </td></tr>
-<tr class="memitem:aef450a625d3a4b0d301d4cc516024e7e"><td class="memTemplItemLeft" align="right" valign="top">__host__ Multiply&lt; Constant&lt; T1 &gt;, T2 &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="../../d5/d16/a00029.html#aef450a625d3a4b0d301d4cc516024e7e">hydra::operator*</a> (T1 const cte, T2 const &amp;F2)</td></tr>
-<tr class="separator:aef450a625d3a4b0d301d4cc516024e7e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a02e1e189bc887ae3654818288261ad66"><td class="memTemplParams" colspan="2">template&lt;typename T1 , typename T2 , typename  = typename std::enable_if&lt; (std::is_convertible&lt;T1, double&gt;::value ||		std::is_constructible&lt;thrust::complex&lt;double&gt;,T1&gt;::value) &amp;&amp; T2::is_functor::value&gt;::type&gt; </td></tr>
-<tr class="memitem:a02e1e189bc887ae3654818288261ad66"><td class="memTemplItemLeft" align="right" valign="top">__host__ Multiply&lt; Constant&lt; T1 &gt;, T2 &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="../../d5/d16/a00029.html#a02e1e189bc887ae3654818288261ad66">hydra::operator*</a> (T2 const &amp;F2, T1 const cte)</td></tr>
-<tr class="separator:a02e1e189bc887ae3654818288261ad66"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="define-members"></a>
+Macros</h2></td></tr>
+<tr class="memitem:ada3de365a782c082b34944db7c16fbed"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d7/d70/a00106.html#ada3de365a782c082b34944db7c16fbed">kMAXP</a>&#160;&#160;&#160;20</td></tr>
+<tr class="separator:ada3de365a782c082b34944db7c16fbed"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a070d2ce7b6bb7e5c05602aa8c308d0c4"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d7/d70/a00106.html#a070d2ce7b6bb7e5c05602aa8c308d0c4">NULL</a>&#160;&#160;&#160;0</td></tr>
+<tr class="separator:a070d2ce7b6bb7e5c05602aa8c308d0c4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a598a3330b3c21701223ee0ca14316eca"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d7/d70/a00106.html#a598a3330b3c21701223ee0ca14316eca">PI</a>&#160;&#160;&#160;3.1415926535897932384626422832795028841971</td></tr>
+<tr class="separator:a598a3330b3c21701223ee0ca14316eca"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="typedef-members"></a>
+Typedefs</h2></td></tr>
+<tr class="memitem:aa8c251ed5017d0638da929130062bcad"><td class="memItemLeft" align="right" valign="top">typedef bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/d33/a00027.html#aa8c251ed5017d0638da929130062bcad">hydra::GBool_t</a></td></tr>
+<tr class="memdesc:aa8c251ed5017d0638da929130062bcad"><td class="mdescLeft">&#160;</td><td class="mdescRight">Boolean (0=false, 1=true) (bool)  <a href="../../d0/d33/a00027.html#aa8c251ed5017d0638da929130062bcad">More...</a><br /></td></tr>
+<tr class="separator:aa8c251ed5017d0638da929130062bcad"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae2da2ab0037e6bca3cb7c15adc5c4125"><td class="memItemLeft" align="right" valign="top">typedef unsigned char&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/d33/a00027.html#ae2da2ab0037e6bca3cb7c15adc5c4125">hydra::GByte_t</a></td></tr>
+<tr class="memdesc:ae2da2ab0037e6bca3cb7c15adc5c4125"><td class="mdescLeft">&#160;</td><td class="mdescRight">Byte (8 bits) (unsigned char)  <a href="../../d0/d33/a00027.html#ae2da2ab0037e6bca3cb7c15adc5c4125">More...</a><br /></td></tr>
+<tr class="separator:ae2da2ab0037e6bca3cb7c15adc5c4125"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7ab04a199389c4989174dc115507fa89"><td class="memItemLeft" align="right" valign="top">typedef char&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/d33/a00027.html#a7ab04a199389c4989174dc115507fa89">hydra::GChar_t</a></td></tr>
+<tr class="memdesc:a7ab04a199389c4989174dc115507fa89"><td class="mdescLeft">&#160;</td><td class="mdescRight">Signed Character 1 byte (char)  <a href="../../d0/d33/a00027.html#a7ab04a199389c4989174dc115507fa89">More...</a><br /></td></tr>
+<tr class="separator:a7ab04a199389c4989174dc115507fa89"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af986267d40d932c5cbf0ae874a506f83"><td class="memItemLeft" align="right" valign="top">typedef double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/d33/a00027.html#af986267d40d932c5cbf0ae874a506f83">hydra::GDouble_t</a></td></tr>
+<tr class="memdesc:af986267d40d932c5cbf0ae874a506f83"><td class="mdescLeft">&#160;</td><td class="mdescRight">Double 8 bytes.  <a href="../../d0/d33/a00027.html#af986267d40d932c5cbf0ae874a506f83">More...</a><br /></td></tr>
+<tr class="separator:af986267d40d932c5cbf0ae874a506f83"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a71bab7b854d7b3c3042fe47201b765eb"><td class="memItemLeft" align="right" valign="top">typedef float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/d33/a00027.html#a71bab7b854d7b3c3042fe47201b765eb">hydra::GFloat_t</a></td></tr>
+<tr class="memdesc:a71bab7b854d7b3c3042fe47201b765eb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Float 4 bytes (float)  <a href="../../d0/d33/a00027.html#a71bab7b854d7b3c3042fe47201b765eb">More...</a><br /></td></tr>
+<tr class="separator:a71bab7b854d7b3c3042fe47201b765eb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0c9fb4d7195ab952da10a82d5c4ad30e"><td class="memItemLeft" align="right" valign="top">typedef int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/d33/a00027.html#a0c9fb4d7195ab952da10a82d5c4ad30e">hydra::GInt_t</a></td></tr>
+<tr class="memdesc:a0c9fb4d7195ab952da10a82d5c4ad30e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Signed integer 4 bytes (int)  <a href="../../d0/d33/a00027.html#a0c9fb4d7195ab952da10a82d5c4ad30e">More...</a><br /></td></tr>
+<tr class="separator:a0c9fb4d7195ab952da10a82d5c4ad30e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9d68c21fb715bbfb1edc5b1933b173e9"><td class="memItemLeft" align="right" valign="top">typedef long long&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/d33/a00027.html#a9d68c21fb715bbfb1edc5b1933b173e9">hydra::GLong64_t</a></td></tr>
+<tr class="memdesc:a9d68c21fb715bbfb1edc5b1933b173e9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Portable signed long integer 8 bytes.  <a href="../../d0/d33/a00027.html#a9d68c21fb715bbfb1edc5b1933b173e9">More...</a><br /></td></tr>
+<tr class="separator:a9d68c21fb715bbfb1edc5b1933b173e9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5f57a4025b40929c2708cd544c3a1ccd"><td class="memItemLeft" align="right" valign="top">typedef long&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/d33/a00027.html#a5f57a4025b40929c2708cd544c3a1ccd">hydra::GLong_t</a></td></tr>
+<tr class="memdesc:a5f57a4025b40929c2708cd544c3a1ccd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Signed long integer 4 bytes (long)  <a href="../../d0/d33/a00027.html#a5f57a4025b40929c2708cd544c3a1ccd">More...</a><br /></td></tr>
+<tr class="separator:a5f57a4025b40929c2708cd544c3a1ccd"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a751abe69b482cde879c718fd4775733f"><td class="memItemLeft" align="right" valign="top">typedef long double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/d33/a00027.html#a751abe69b482cde879c718fd4775733f">hydra::GLongDouble_t</a></td></tr>
+<tr class="memdesc:a751abe69b482cde879c718fd4775733f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Long Double.  <a href="../../d0/d33/a00027.html#a751abe69b482cde879c718fd4775733f">More...</a><br /></td></tr>
+<tr class="separator:a751abe69b482cde879c718fd4775733f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a971e94bcb8c43741d11f9d8eb98f5fab"><td class="memItemLeft" align="right" valign="top">typedef double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/d33/a00027.html#a971e94bcb8c43741d11f9d8eb98f5fab">hydra::GReal_t</a></td></tr>
+<tr class="memdesc:a971e94bcb8c43741d11f9d8eb98f5fab"><td class="mdescLeft">&#160;</td><td class="mdescRight">Double 8 bytes or float 4 bytes.  <a href="../../d0/d33/a00027.html#a971e94bcb8c43741d11f9d8eb98f5fab">More...</a><br /></td></tr>
+<tr class="separator:a971e94bcb8c43741d11f9d8eb98f5fab"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a589c60d92ba893c28d814edd6e149a9c"><td class="memItemLeft" align="right" valign="top">typedef short&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/d33/a00027.html#a589c60d92ba893c28d814edd6e149a9c">hydra::GShort_t</a></td></tr>
+<tr class="memdesc:a589c60d92ba893c28d814edd6e149a9c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Signed Short integer 2 bytes (short)  <a href="../../d0/d33/a00027.html#a589c60d92ba893c28d814edd6e149a9c">More...</a><br /></td></tr>
+<tr class="separator:a589c60d92ba893c28d814edd6e149a9c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abc842c1ec8321e9637dee714dcdaebff"><td class="memItemLeft" align="right" valign="top">typedef char&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/d33/a00027.html#abc842c1ec8321e9637dee714dcdaebff">hydra::GText_t</a></td></tr>
+<tr class="memdesc:abc842c1ec8321e9637dee714dcdaebff"><td class="mdescLeft">&#160;</td><td class="mdescRight">General string (char)  <a href="../../d0/d33/a00027.html#abc842c1ec8321e9637dee714dcdaebff">More...</a><br /></td></tr>
+<tr class="separator:abc842c1ec8321e9637dee714dcdaebff"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a51ef97faee95aa79f3839eb7abdf5238"><td class="memItemLeft" align="right" valign="top">typedef unsigned char&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/d33/a00027.html#a51ef97faee95aa79f3839eb7abdf5238">hydra::GUChar_t</a></td></tr>
+<tr class="memdesc:a51ef97faee95aa79f3839eb7abdf5238"><td class="mdescLeft">&#160;</td><td class="mdescRight">Unsigned Character 1 byte (unsigned char)  <a href="../../d0/d33/a00027.html#a51ef97faee95aa79f3839eb7abdf5238">More...</a><br /></td></tr>
+<tr class="separator:a51ef97faee95aa79f3839eb7abdf5238"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a251a7b1f515ac1ed9409afd67252a32b"><td class="memItemLeft" align="right" valign="top">typedef unsigned int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/d33/a00027.html#a251a7b1f515ac1ed9409afd67252a32b">hydra::GUInt_t</a></td></tr>
+<tr class="memdesc:a251a7b1f515ac1ed9409afd67252a32b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Unsigned integer 4 bytes (unsigned int)  <a href="../../d0/d33/a00027.html#a251a7b1f515ac1ed9409afd67252a32b">More...</a><br /></td></tr>
+<tr class="separator:a251a7b1f515ac1ed9409afd67252a32b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a55e8443cd746900da90cb1f77807e7c0"><td class="memItemLeft" align="right" valign="top">typedef unsigned long long&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/d33/a00027.html#a55e8443cd746900da90cb1f77807e7c0">hydra::GULong64_t</a></td></tr>
+<tr class="memdesc:a55e8443cd746900da90cb1f77807e7c0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Portable unsigned long integer 8 bytes.  <a href="../../d0/d33/a00027.html#a55e8443cd746900da90cb1f77807e7c0">More...</a><br /></td></tr>
+<tr class="separator:a55e8443cd746900da90cb1f77807e7c0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abf9a0d54fd4ed46052939549edd086c5"><td class="memItemLeft" align="right" valign="top">typedef unsigned long&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/d33/a00027.html#abf9a0d54fd4ed46052939549edd086c5">hydra::GULong_t</a></td></tr>
+<tr class="separator:abf9a0d54fd4ed46052939549edd086c5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a911a3042526fac189d0c87a089f52955"><td class="memItemLeft" align="right" valign="top">typedef unsigned short&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/d33/a00027.html#a911a3042526fac189d0c87a089f52955">hydra::GUShort_t</a></td></tr>
+<tr class="memdesc:a911a3042526fac189d0c87a089f52955"><td class="mdescLeft">&#160;</td><td class="mdescRight">Unsigned Short integer 2 bytes (unsigned short)  <a href="../../d0/d33/a00027.html#a911a3042526fac189d0c87a089f52955">More...</a><br /></td></tr>
+<tr class="separator:a911a3042526fac189d0c87a089f52955"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="enum-members"></a>
+Enumerations</h2></td></tr>
+<tr class="memitem:affa98535d8b843dd9ff514f9adf208fd"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom">{ <a class="el" href="../../d0/d33/a00027.html#affa98535d8b843dd9ff514f9adf208fda5f25d739f545c5173b09c144f23312c2">hydra::device</a> =1, 
+<a class="el" href="../../d0/d33/a00027.html#affa98535d8b843dd9ff514f9adf208fdac1a062b9d21f1006cfcc920792730bc4">hydra::host</a> =0
+ }</td></tr>
+<tr class="separator:affa98535d8b843dd9ff514f9adf208fd"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="var-members"></a>
+Variables</h2></td></tr>
+<tr class="memitem:ab14adaa26f703b8c130df530167ebd23"><td class="memItemLeft" align="right" valign="top">const GBool_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/d33/a00027.html#ab14adaa26f703b8c130df530167ebd23">hydra::kFalse</a> = false</td></tr>
+<tr class="separator:ab14adaa26f703b8c130df530167ebd23"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1556536d7a73fa95e5a9c9610f76a3c1"><td class="memItemLeft" align="right" valign="top">const GBool_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/d33/a00027.html#a1556536d7a73fa95e5a9c9610f76a3c1">hydra::kTrue</a> = true</td></tr>
+<tr class="separator:a1556536d7a73fa95e5a9c9610f76a3c1"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
+<hr/><h2 class="groupheader">Class Documentation</h2>
+<a name="d7/d12/a00126" id="d7/d12/a00126"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">struct hydra::null_type</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<div class="textblock">
+<p>Definition at line <a class="el" href="../../d7/d70/a00106_source.html#l00076">76</a> of file <a class="el" href="../../d7/d70/a00106_source.html">Types.h</a>.</p>
+</div><div class="dynheader">
+Collaboration diagram for hydra::null_type:</div>
+<div class="dyncontent">
+<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="../../d6/de1/a00233.svg" width="100%" height="440"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
+</div>
+
+</div>
+</div>
+<h2 class="groupheader">Macro Definition Documentation</h2>
+<a class="anchor" id="ada3de365a782c082b34944db7c16fbed"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define kMAXP&#160;&#160;&#160;20</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="../../d7/d70/a00106_source.html#l00073">73</a> of file <a class="el" href="../../d7/d70/a00106_source.html">Types.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a070d2ce7b6bb7e5c05602aa8c308d0c4"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define NULL&#160;&#160;&#160;0</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="../../d7/d70/a00106_source.html#l00066">66</a> of file <a class="el" href="../../d7/d70/a00106_source.html">Types.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a598a3330b3c21701223ee0ca14316eca"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define PI&#160;&#160;&#160;3.1415926535897932384626422832795028841971</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<dl><dt><b>Examples: </b></dt><dd><a class="el" href="../../d7/d46/a00002.html#a2">HydraEvaluateExample.cpp</a>, <a class="el" href="../../d0/d0b/a00004.html#a2">HydraEvaluateExample.cu</a>, <a class="el" href="../../d2/de7/a00014.html#a11">HydraRandomExample.cpp</a>, and <a class="el" href="../../d7/d7a/a00016.html#a11">HydraRandomExample.cu</a>.</dd>
+</dl>
+<p>Definition at line <a class="el" href="../../d7/d70/a00106_source.html#l00074">74</a> of file <a class="el" href="../../d7/d70/a00106_source.html">Types.h</a>.</p>
+
+<p>Referenced by <a class="el" href="../../d8/d84/a00001_source.html#l00113">main()</a>.</p>
+
+</div>
+</div>
 </div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="../../dir_92a1ff494355b06c14c0e1fe7b982d29.html">Hydra</a></li><li class="navelem"><a class="el" href="../../dir_108162cc96056bf8ace3602d16680a1c.html">hydra</a></li><li class="navelem"><a class="el" href="../../dir_3834ae61da54c887219d23c23fa56bea.html">detail</a></li><li class="navelem"><a class="el" href="../../d7/d70/a00106.html">Multiply.h</a></li>
-    <li class="footer">Generated on Thu Oct 13 2016 03:01:48 for Hydra by
+    <li class="navelem"><a class="el" href="../../dir_92a1ff494355b06c14c0e1fe7b982d29.html">Hydra</a></li><li class="navelem"><a class="el" href="../../dir_108162cc96056bf8ace3602d16680a1c.html">hydra</a></li><li class="navelem"><a class="el" href="../../d7/d70/a00106.html">Types.h</a></li>
+    <li class="footer">Generated on Mon Oct 17 2016 03:52:13 for Hydra by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="../../doxygen.png" alt="doxygen"/></a> 1.8.11 </li>
   </ul>

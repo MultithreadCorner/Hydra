@@ -19,18 +19,18 @@
 <text text-anchor="start" x="13.5" y="-592.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ FCN()</text>
 <text text-anchor="start" x="13.5" y="-581.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ FCN()</text>
 <text text-anchor="start" x="13.5" y="-570.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ FCN()</text>
-<text text-anchor="start" x="13.5" y="-559.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ operator=()</text>
-<text text-anchor="start" x="13.5" y="-548.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ Up()</text>
-<text text-anchor="start" x="13.5" y="-537.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ operator()()</text>
-<text text-anchor="start" x="13.5" y="-526.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ isCached()</text>
-<text text-anchor="start" x="13.5" y="-515.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ SetCached()</text>
-<text text-anchor="start" x="13.5" y="-504.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ GetCacheBegin()</text>
-<text text-anchor="start" x="13.5" y="-493.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ GetCacheEnd()</text>
+<text text-anchor="start" x="13.5" y="-559.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ GetCacheBegin()</text>
+<text text-anchor="start" x="13.5" y="-548.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ GetCacheEnd()</text>
+<text text-anchor="start" x="13.5" y="-537.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ GetDataBegin()</text>
+<text text-anchor="start" x="13.5" y="-526.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ GetDataEnd()</text>
+<text text-anchor="start" x="13.5" y="-515.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ GetErrorDef()</text>
+<text text-anchor="start" x="13.5" y="-504.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ GetFcnCache()</text>
+<text text-anchor="start" x="13.5" y="-493.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ GetNEvents()</text>
 <text text-anchor="start" x="13.5" y="-482.5" font-family="Helvetica,sans-Serif" font-size="10.00">and 12 more...</text>
 </g>
 <!-- Node3 -->
 <g id="node3" class="node"><title>Node3</title>
-<g id="a_node3"><a xlink:href="../../dc/de2/a00024.html" target="_top" xlink:title="{hydra::FCN\&lt; LogLikelihood\lFCN\&lt; FUNCTOR, IteratorData,\l IteratorCache \&gt;, IteratorData,\l IteratorCache \&gt;\n||+ FCN()\l+ FCN()\l+ FCN()\l+ operator=()\l+ Up()\l+ operator()()\l+ isCached()\l+ SetCached()\l+ GetCacheBegin()\l+ GetCacheEnd()\land 12 more...\l}">
+<g id="a_node3"><a xlink:href="../../dc/d87/a00032.html" target="_top" xlink:title="{hydra::FCN\&lt; LogLikelihood\lFCN\&lt; FUNCTOR, IteratorData,\l IteratorCache \&gt;, IteratorData,\l IteratorCache \&gt;\n||+ FCN()\l+ FCN()\l+ FCN()\l+ GetCacheBegin()\l+ GetCacheEnd()\l+ GetDataBegin()\l+ GetDataEnd()\l+ GetErrorDef()\l+ GetFcnCache()\l+ GetNEvents()\land 12 more...\l}">
 <polygon fill="none" stroke="black" points="0,-194.5 0,-394.5 157,-394.5 157,-194.5 0,-194.5"/>
 <text text-anchor="start" x="8" y="-382.5" font-family="Helvetica,sans-Serif" font-size="10.00">hydra::FCN&lt; LogLikelihood</text>
 <text text-anchor="start" x="8" y="-371.5" font-family="Helvetica,sans-Serif" font-size="10.00">FCN&lt; FUNCTOR, IteratorData,</text>
@@ -42,13 +42,13 @@
 <text text-anchor="start" x="8" y="-311.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ FCN()</text>
 <text text-anchor="start" x="8" y="-300.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ FCN()</text>
 <text text-anchor="start" x="8" y="-289.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ FCN()</text>
-<text text-anchor="start" x="8" y="-278.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ operator=()</text>
-<text text-anchor="start" x="8" y="-267.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ Up()</text>
-<text text-anchor="start" x="8" y="-256.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ operator()()</text>
-<text text-anchor="start" x="8" y="-245.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ isCached()</text>
-<text text-anchor="start" x="8" y="-234.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ SetCached()</text>
-<text text-anchor="start" x="8" y="-223.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ GetCacheBegin()</text>
-<text text-anchor="start" x="8" y="-212.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ GetCacheEnd()</text>
+<text text-anchor="start" x="8" y="-278.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ GetCacheBegin()</text>
+<text text-anchor="start" x="8" y="-267.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ GetCacheEnd()</text>
+<text text-anchor="start" x="8" y="-256.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ GetDataBegin()</text>
+<text text-anchor="start" x="8" y="-245.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ GetDataEnd()</text>
+<text text-anchor="start" x="8" y="-234.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ GetErrorDef()</text>
+<text text-anchor="start" x="8" y="-223.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ GetFcnCache()</text>
+<text text-anchor="start" x="8" y="-212.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ GetNEvents()</text>
 <text text-anchor="start" x="8" y="-201.5" font-family="Helvetica,sans-Serif" font-size="10.00">and 12 more...</text>
 </a>
 </g>
@@ -78,7 +78,7 @@
 </g>
 <!-- Node4 -->
 <g id="node4" class="node"><title>Node4</title>
-<g id="a_node4"><a xlink:href="../../d3/de7/a00039.html" target="_top" xlink:title="{hydra::LogLikelihoodFCN\l\&lt; FUNCTOR, IteratorData,\l IteratorCache \&gt;\n||+ LogLikelihoodFCN()\l+ LogLikelihoodFCN()\l+ LogLikelihoodFCN()\l+ operator=()\l+ Eval()\l+ Eval()\l+ GetFunctor()\l+ GetMAxValue()\l}">
+<g id="a_node4"><a xlink:href="../../d8/d41/a00038.html" target="_top" xlink:title="{hydra::LogLikelihoodFCN\l\&lt; FUNCTOR, IteratorData,\l IteratorCache \&gt;\n||+ LogLikelihoodFCN()\l+ LogLikelihoodFCN()\l+ LogLikelihoodFCN()\l+ Eval()\l+ Eval()\l+ GetFunctor()\l+ GetMAxValue()\l+ operator=()\l}">
 <polygon fill="none" stroke="black" points="10.5,-0.5 10.5,-156.5 146.5,-156.5 146.5,-0.5 10.5,-0.5"/>
 <text text-anchor="start" x="18.5" y="-144.5" font-family="Helvetica,sans-Serif" font-size="10.00">hydra::LogLikelihoodFCN</text>
 <text text-anchor="start" x="18.5" y="-133.5" font-family="Helvetica,sans-Serif" font-size="10.00">&lt; FUNCTOR, IteratorData,</text>
@@ -89,11 +89,11 @@
 <text text-anchor="start" x="18.5" y="-84.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ LogLikelihoodFCN()</text>
 <text text-anchor="start" x="18.5" y="-73.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ LogLikelihoodFCN()</text>
 <text text-anchor="start" x="18.5" y="-62.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ LogLikelihoodFCN()</text>
-<text text-anchor="start" x="18.5" y="-51.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ operator=()</text>
+<text text-anchor="start" x="18.5" y="-51.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ Eval()</text>
 <text text-anchor="start" x="18.5" y="-40.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ Eval()</text>
-<text text-anchor="start" x="18.5" y="-29.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ Eval()</text>
-<text text-anchor="start" x="18.5" y="-18.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ GetFunctor()</text>
-<text text-anchor="start" x="18.5" y="-7.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ GetMAxValue()</text>
+<text text-anchor="start" x="18.5" y="-29.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ GetFunctor()</text>
+<text text-anchor="start" x="18.5" y="-18.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ GetMAxValue()</text>
+<text text-anchor="start" x="18.5" y="-7.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ operator=()</text>
 </a>
 </g>
 </g>

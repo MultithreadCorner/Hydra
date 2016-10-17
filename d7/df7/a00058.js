@@ -1,4 +1,5 @@
 var a00058 =
 [
-    [ "operator()", "d7/df7/a00058.html#afc2f48e2d00bad910d2230c1e581fe30", null ]
+    [ "AddPdf", "d1/d2b/a00018.html", "d1/d2b/a00018" ],
+    [ "add_pdfs", "d7/df7/a00058.html#a8b107fcd843f6c26b301b793378bf856", null ]
 ];

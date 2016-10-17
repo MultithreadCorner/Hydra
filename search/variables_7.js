@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['stride',['stride',['../d9/db3/a00066.html#af0ea35fb2c7df023f805f70b90927148',1,'strided_range::stride_functor::stride()'],['../dc/ddf/a00067.html#af7c38531f9d2bb6048f3ec13a812ab2b',1,'strided_range::stride()']]]
+  ['stride',['stride',['../d2/dee/a00049.html#a6a899713c0b99eb5206bf09557e767ba',1,'hydra::strided_range::stride_functor::stride()'],['../d5/de0/a00050.html#a7ff3b3ab16bfe2eabf0d0893233362a9',1,'hydra::strided_range::stride()']]]
 ];

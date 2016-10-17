@@ -1,8 +1,10 @@
 var a00122 =
 [
-    [ "Sum", "da/d24/a00068.html", "da/d24/a00068" ],
-    [ "operator+", "df/dc8/a00122.html#ac71a6353509fb42628cb8cb677b1e580", null ],
-    [ "operator+", "df/dc8/a00122.html#a38fefe9fcea2b9c4770e7ee42c98dfa7", null ],
-    [ "operator+", "df/dc8/a00122.html#a099a6b58b45d6bcb7a10985101771603", null ],
-    [ "sum", "df/dc8/a00122.html#aee5273a252e7fa6761ec8e77f8b713ef", null ]
+    [ "Integrator.h", "df/d5d/a00084.html", null ],
+    [ "Plain.h", "d4/d7d/a00093.html", null ],
+    [ "PlainState.h", "dc/d54/a00094.html", null ],
+    [ "ProcessCallsPlain.h", "d1/d44/a00098.html", null ],
+    [ "ProcessCallsVegas.h", "da/d74/a00099.html", null ],
+    [ "Vegas.h", "db/d57/a00112.html", null ],
+    [ "VegasState.h", "d3/d00/a00113.html", null ]
 ];

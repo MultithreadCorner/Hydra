@@ -1,7 +1,13 @@
-<map id="Range.h" name="Range.h">
-<area shape="rect" id="node2" href="$d1/d1e/a00087.html" title="Evaluate.h" alt="" coords="369,80,453,107"/>
-<area shape="rect" id="node3" href="$d8/d84/a00001.html" title="This is an example of how to use hydra::Eval to evaluate C++11 lambdas using the OpenMP backend..." alt="" coords="5,155,189,181"/>
-<area shape="rect" id="node4" href="$d1/d7c/a00003.html" title="This is an example of how to use hydra::Eval to evaluate C++11 lambdas using the CUDA backend..." alt="" coords="214,155,391,181"/>
-<area shape="rect" id="node5" href="$da/da0/a00009.html" title="HydraPhaseSpaceExample take parameters from the command line and generates sample of 3&#45;body phase&#45;spa..." alt="" coords="415,155,622,181"/>
-<area shape="rect" id="node6" href="$da/d45/a00011.html" title="HydraPhaseSpaceExample take parameters from the command line and generates sample of 3&#45;body phase&#45;spa..." alt="" coords="647,155,847,181"/>
+<map id="Vegas.h" name="Vegas.h">
+<area shape="rect" id="node3" href="$d1/d6f/a00063.html" title="hydra/detail/Config.h" alt="" coords="878,587,1021,613"/>
+<area shape="rect" id="node13" href="$d7/d70/a00106.html" title="hydra/Types.h" alt="" coords="1813,587,1918,613"/>
+<area shape="rect" id="node14" href="$d3/d00/a00113.html" title="hydra/VegasState.h" alt="" coords="593,266,730,293"/>
+<area shape="rect" id="node32" href="$da/d74/a00099.html" title="hydra/detail/functors\l/ProcessCallsVegas.h" alt="" coords="1936,80,2088,121"/>
+<area shape="rect" id="node44" href="$df/d5d/a00084.html" title="hydra/detail/Integrator.h" alt="" coords="50,512,209,539"/>
+<area shape="rect" id="node17" href="$de/de1/a00065.html" title="Typedef for useful container classes used in MCBooster. " alt="" coords="1110,355,1242,382"/>
+<area shape="rect" id="node20" href="$d4/d81/a00110.html" title="hydra/Vector3R.h" alt="" coords="1275,512,1399,539"/>
+<area shape="rect" id="node24" href="$dd/d6d/a00111.html" title="hydra/Vector4R.h" alt="" coords="1606,437,1730,464"/>
+<area shape="rect" id="node33" href="$dd/d42/a00109.html" title="hydra/detail/utility\l/Utility_Tuple.h" alt="" coords="1423,169,1547,211"/>
+<area shape="rect" id="node34" href="$da/dec/a00080.html" title="hydra/detail/utility\l/Generic.h" alt="" coords="1263,259,1387,300"/>
+<area shape="rect" id="node36" href="$df/d98/a00107.html" title="hydra/detail/TypeTraits.h" alt="" coords="1463,266,1630,293"/>
 </map>

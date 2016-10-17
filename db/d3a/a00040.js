@@ -1,11 +1,10 @@
 var a00040 =
 [
-    [ "HyRndTrial", "db/d3a/a00040.html#a7deab2100c6af767c89048d9e412f5a4", null ],
-    [ "HyRndTrial", "db/d3a/a00040.html#a12b86e39cbb26342509ecccc815c05c3", null ],
-    [ "~HyRndTrial", "db/d3a/a00040.html#a0e1a6d7fbb8fa924c77252345bdd06ab", null ],
-    [ "operator()", "db/d3a/a00040.html#ada23cf08810fc2aa96dda7efbf67e961", null ],
-    [ "fFunctor", "db/d3a/a00040.html#a36acfabdaf39f58cc7bf34d53994180e", null ],
-    [ "fMax", "db/d3a/a00040.html#a2690a4ce12761777c8c032541f5cb0c1", null ],
-    [ "fMin", "db/d3a/a00040.html#a47e907ec0d80e4968708eea311eb76e0", null ],
-    [ "fSeed", "db/d3a/a00040.html#aba7ce92fb84fd14b3cfea10b96268f30", null ]
+    [ "PhaseSpace", "db/d3a/a00040.html#aa6bc2388046a436042d3d223de49e446", null ],
+    [ "~PhaseSpace", "db/d3a/a00040.html#a1c9e44472db8f827cb97701a7a0ae195", null ],
+    [ "Generate", "db/d3a/a00040.html#a2bc929273f54d8e7e45f90aff2813194", null ],
+    [ "Generate", "db/d3a/a00040.html#ad878741a51d0297f8b22a13ec5e10e1e", null ],
+    [ "GetSeed", "db/d3a/a00040.html#aefac1af443b1e192203940c72dc60844", null ],
+    [ "PDK", "db/d3a/a00040.html#a5c688b457b865b8440a938fa228ee891", null ],
+    [ "SetSeed", "db/d3a/a00040.html#a00f0513cf6da8c4d0cd6fdee265c0ff3", null ]
 ];

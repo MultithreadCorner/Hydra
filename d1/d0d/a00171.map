@@ -1,6 +1,3 @@
-<map id="Evaluate.h" name="Evaluate.h">
-<area shape="rect" id="node2" href="$d4/d3a/a00101.html" title="HydraEvaluateExample.cpp" alt="" coords="5,80,189,107"/>
-<area shape="rect" id="node3" href="$d1/d7c/a00003.html" title="HydraEvaluateExample.cu" alt="" coords="214,80,391,107"/>
-<area shape="rect" id="node4" href="$da/da0/a00009.html" title="HydraPhaseSpaceExample.cpp" alt="" coords="415,80,622,107"/>
-<area shape="rect" id="node5" href="$da/d45/a00011.html" title="HydraPhaseSpaceExample.cu" alt="" coords="647,80,847,107"/>
+<map id="FunctorTraits.h" name="FunctorTraits.h">
+<area shape="rect" id="node3" href="$d7/d70/a00106.html" title="hydra/Types.h" alt="" coords="113,80,218,107"/>
 </map>

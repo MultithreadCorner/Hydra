@@ -1,9 +1,9 @@
 var modules =
 [
-    [ "Data fitting", "de/d76/a00134.html", "de/d76/a00134" ],
-    [ "Random number generation", "d5/d5b/a00135.html", "d5/d5b/a00135" ],
-    [ "Phase-Space Monte Carlo", "d0/d5e/a00136.html", "d0/d5e/a00136" ],
-    [ "Functor Arithmetic", "d2/df5/a00137.html", "d2/df5/a00137" ],
-    [ "Numerical integration", "d4/ddd/a00138.html", "d4/ddd/a00138" ],
-    [ "Generic", "de/d14/a00139.html", "de/d14/a00139" ]
+    [ "Data fitting", "d8/d87/a00118.html", "d8/d87/a00118" ],
+    [ "Random number generation", "df/d6a/a00119.html", "df/d6a/a00119" ],
+    [ "Phase-Space Monte Carlo", "d4/d98/a00120.html", "d4/d98/a00120" ],
+    [ "Functor Arithmetic", "d8/dfa/a00121.html", "d8/dfa/a00121" ],
+    [ "Numerical integration", "df/dc8/a00122.html", "df/dc8/a00122" ],
+    [ "Generic", "de/d36/a00123.html", "de/d36/a00123" ]
 ];

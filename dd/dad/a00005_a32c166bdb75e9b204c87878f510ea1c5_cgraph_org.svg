@@ -15,7 +15,7 @@
 </g>
 <!-- Node2 -->
 <g id="node2" class="node"><title>Node2</title>
-<g id="a_node2"><a xlink:href="../../d5/d16/a00029.html#a8b107fcd843f6c26b301b793378bf856" target="_top" xlink:title="Convenience function to add pdfs without set template parameters explicitly. ">
+<g id="a_node2"><a xlink:href="../../d0/d33/a00027.html#a8b107fcd843f6c26b301b793378bf856" target="_top" xlink:title="Convenience function to add pdfs without set template parameters explicitly. ">
 <polygon fill="none" stroke="black" points="102.5,-1026.5 102.5,-1045.5 188.5,-1045.5 188.5,-1026.5 102.5,-1026.5"/>
 <text text-anchor="middle" x="145.5" y="-1033.5" font-family="Helvetica,sans-Serif" font-size="10.00">hydra::add_pdfs</text>
 </a>
@@ -28,7 +28,7 @@
 </g>
 <!-- Node3 -->
 <g id="node3" class="node"><title>Node3</title>
-<g id="a_node3"><a xlink:href="../../d4/d31/a00069.html#a891111b3ecb2c6ed41a9d00eba3fbf6d" target="_top" xlink:title="hydra::UserParameters\l::AddParameter">
+<g id="a_node3"><a xlink:href="../../d1/d84/a00052.html#a891111b3ecb2c6ed41a9d00eba3fbf6d" target="_top" xlink:title="hydra::UserParameters\l::AddParameter">
 <polygon fill="none" stroke="black" points="86.5,-977 86.5,-1007 204.5,-1007 204.5,-977 86.5,-977"/>
 <text text-anchor="start" x="94.5" y="-995" font-family="Helvetica,sans-Serif" font-size="10.00">hydra::UserParameters</text>
 <text text-anchor="middle" x="145.5" y="-984" font-family="Helvetica,sans-Serif" font-size="10.00">::AddParameter</text>
@@ -42,7 +42,7 @@
 </g>
 <!-- Node12 -->
 <g id="node12" class="node"><title>Node12</title>
-<g id="a_node12"><a xlink:href="../../d1/d22/a00057.html#a0ffe74b37ca6de1bf3ae775a7e57a74f" target="_top" xlink:title="constant iterator access ">
+<g id="a_node12"><a xlink:href="../../d6/d97/a00045.html#a0ffe74b37ca6de1bf3ae775a7e57a74f" target="_top" xlink:title="constant iterator access ">
 <polygon fill="none" stroke="black" points="96.5,-928 96.5,-958 194.5,-958 194.5,-928 96.5,-928"/>
 <text text-anchor="start" x="104.5" y="-946" font-family="Helvetica,sans-Serif" font-size="10.00">hydra::PointVector</text>
 <text text-anchor="middle" x="145.5" y="-935" font-family="Helvetica,sans-Serif" font-size="10.00">::begin</text>
@@ -56,7 +56,7 @@
 </g>
 <!-- Node13 -->
 <g id="node13" class="node"><title>Node13</title>
-<g id="a_node13"><a xlink:href="../../d1/d22/a00057.html#a1f73f2ef01b12db0eb5e3bd8b9d9dc7a" target="_top" xlink:title="hydra::PointVector::end">
+<g id="a_node13"><a xlink:href="../../d6/d97/a00045.html#a1f73f2ef01b12db0eb5e3bd8b9d9dc7a" target="_top" xlink:title="hydra::PointVector::end">
 <polygon fill="none" stroke="black" points="86,-889.5 86,-908.5 205,-908.5 205,-889.5 86,-889.5"/>
 <text text-anchor="middle" x="145.5" y="-896.5" font-family="Helvetica,sans-Serif" font-size="10.00">hydra::PointVector::end</text>
 </a>
@@ -69,7 +69,7 @@
 </g>
 <!-- Node14 -->
 <g id="node14" class="node"><title>Node14</title>
-<g id="a_node14"><a xlink:href="../../d5/de0/a00050.html#a9faea07ef7ea36231838f227f8c8a1c7" target="_top" xlink:title="hydra::Parameter::Error">
+<g id="a_node14"><a xlink:href="../../d8/d41/a00038.html#a9faea07ef7ea36231838f227f8c8a1c7" target="_top" xlink:title="hydra::Parameter::Error">
 <polygon fill="none" stroke="black" points="86,-851.5 86,-870.5 205,-870.5 205,-851.5 86,-851.5"/>
 <text text-anchor="middle" x="145.5" y="-858.5" font-family="Helvetica,sans-Serif" font-size="10.00">hydra::Parameter::Error</text>
 </a>
@@ -82,7 +82,7 @@
 </g>
 <!-- Node15 -->
 <g id="node15" class="node"><title>Node15</title>
-<g id="a_node15"><a xlink:href="../../d1/d6f/a00063.html#aeafd0b8dd2740a3943457b8c8e06d1dd" target="_top" xlink:title="hydra::Random::Gauss">
+<g id="a_node15"><a xlink:href="../../d6/d2d/a00047.html#aeafd0b8dd2740a3943457b8c8e06d1dd" target="_top" xlink:title="hydra::Random::Gauss">
 <polygon fill="none" stroke="black" points="271.5,-813.5 271.5,-832.5 389.5,-832.5 389.5,-813.5 271.5,-813.5"/>
 <text text-anchor="middle" x="330.5" y="-820.5" font-family="Helvetica,sans-Serif" font-size="10.00">hydra::Random::Gauss</text>
 </a>
@@ -95,7 +95,7 @@
 </g>
 <!-- Node16 -->
 <g id="node16" class="node"><title>Node16</title>
-<g id="a_node16"><a xlink:href="../../d1/d6e/a00073.html#a6401ac522961f5c13421cc693e5ec036" target="_top" xlink:title="hydra::Vegas::GetAbsError">
+<g id="a_node16"><a xlink:href="../../d9/d2e/a00056.html#a6401ac522961f5c13421cc693e5ec036" target="_top" xlink:title="hydra::Vegas::GetAbsError">
 <polygon fill="none" stroke="black" points="78.5,-661.5 78.5,-680.5 212.5,-680.5 212.5,-661.5 78.5,-661.5"/>
 <text text-anchor="middle" x="145.5" y="-668.5" font-family="Helvetica,sans-Serif" font-size="10.00">hydra::Vegas::GetAbsError</text>
 </a>
@@ -108,7 +108,7 @@
 </g>
 <!-- Node17 -->
 <g id="node17" class="node"><title>Node17</title>
-<g id="a_node17"><a xlink:href="../../db/db6/a00074.html#a284afc16ff48f08666072b09ff1c8cea" target="_top" xlink:title="hydra::VegasState::\lGetChiSquare">
+<g id="a_node17"><a xlink:href="../../d1/d22/a00057.html#a284afc16ff48f08666072b09ff1c8cea" target="_top" xlink:title="hydra::VegasState::\lGetChiSquare">
 <polygon fill="none" stroke="black" points="93.5,-612 93.5,-642 197.5,-642 197.5,-612 93.5,-612"/>
 <text text-anchor="start" x="101.5" y="-630" font-family="Helvetica,sans-Serif" font-size="10.00">hydra::VegasState::</text>
 <text text-anchor="middle" x="145.5" y="-619" font-family="Helvetica,sans-Serif" font-size="10.00">GetChiSquare</text>
@@ -122,7 +122,7 @@
 </g>
 <!-- Node18 -->
 <g id="node18" class="node"><title>Node18</title>
-<g id="a_node18"><a xlink:href="../../d1/d6e/a00073.html#a1c9963d02564f2424d4da9443cca5bf4" target="_top" xlink:title="hydra::Vegas::GetResult">
+<g id="a_node18"><a xlink:href="../../d9/d2e/a00056.html#a1c9963d02564f2424d4da9443cca5bf4" target="_top" xlink:title="hydra::Vegas::GetResult">
 <polygon fill="none" stroke="black" points="83,-573.5 83,-592.5 208,-592.5 208,-573.5 83,-573.5"/>
 <text text-anchor="middle" x="145.5" y="-580.5" font-family="Helvetica,sans-Serif" font-size="10.00">hydra::Vegas::GetResult</text>
 </a>
@@ -135,7 +135,7 @@
 </g>
 <!-- Node19 -->
 <g id="node19" class="node"><title>Node19</title>
-<g id="a_node19"><a xlink:href="../../d4/d31/a00069.html#a58541b387566f846e3d0940e0b8d609b" target="_top" xlink:title="hydra::UserParameters\l::GetState">
+<g id="a_node19"><a xlink:href="../../d1/d84/a00052.html#a58541b387566f846e3d0940e0b8d609b" target="_top" xlink:title="hydra::UserParameters\l::GetState">
 <polygon fill="none" stroke="black" points="86.5,-524 86.5,-554 204.5,-554 204.5,-524 86.5,-524"/>
 <text text-anchor="start" x="94.5" y="-542" font-family="Helvetica,sans-Serif" font-size="10.00">hydra::UserParameters</text>
 <text text-anchor="middle" x="145.5" y="-531" font-family="Helvetica,sans-Serif" font-size="10.00">::GetState</text>
@@ -149,7 +149,7 @@
 </g>
 <!-- Node20 -->
 <g id="node20" class="node"><title>Node20</title>
-<g id="a_node20"><a xlink:href="../../d1/d6e/a00073.html#a87f00c841d243f5aed0de39c3d1efaea" target="_top" xlink:title="hydra::Vegas::Integrate">
+<g id="a_node20"><a xlink:href="../../d9/d2e/a00056.html#a87f00c841d243f5aed0de39c3d1efaea" target="_top" xlink:title="Integrate the functor in the volume defined in construction time. ">
 <polygon fill="none" stroke="black" points="86,-485.5 86,-504.5 205,-504.5 205,-485.5 86,-485.5"/>
 <text text-anchor="middle" x="145.5" y="-492.5" font-family="Helvetica,sans-Serif" font-size="10.00">hydra::Vegas::Integrate</text>
 </a>
@@ -162,7 +162,7 @@
 </g>
 <!-- Node21 -->
 <g id="node21" class="node"><title>Node21</title>
-<g id="a_node21"><a xlink:href="../../d5/de0/a00050.html#a19bbd8c8155327bbd2d2a689c6eaad9f" target="_top" xlink:title="hydra::Parameter::Limits">
+<g id="a_node21"><a xlink:href="../../d8/d41/a00038.html#a19bbd8c8155327bbd2d2a689c6eaad9f" target="_top" xlink:title="hydra::Parameter::Limits">
 <polygon fill="none" stroke="black" points="83.5,-447.5 83.5,-466.5 207.5,-466.5 207.5,-447.5 83.5,-447.5"/>
 <text text-anchor="middle" x="145.5" y="-454.5" font-family="Helvetica,sans-Serif" font-size="10.00">hydra::Parameter::Limits</text>
 </a>
@@ -175,7 +175,7 @@
 </g>
 <!-- Node22 -->
 <g id="node22" class="node"><title>Node22</title>
-<g id="a_node22"><a xlink:href="../../d5/d16/a00029.html#a0a0d4c1f486d6286929d31f9844f13fb" target="_top" xlink:title="hydra::make_loglikehood_fcn">
+<g id="a_node22"><a xlink:href="../../d0/d33/a00027.html#a0a0d4c1f486d6286929d31f9844f13fb" target="_top" xlink:title="hydra::make_loglikehood_fcn">
 <polygon fill="none" stroke="black" points="74,-409.5 74,-428.5 217,-428.5 217,-409.5 74,-409.5"/>
 <text text-anchor="middle" x="145.5" y="-416.5" font-family="Helvetica,sans-Serif" font-size="10.00">hydra::make_loglikehood_fcn</text>
 </a>
@@ -188,7 +188,7 @@
 </g>
 <!-- Node23 -->
 <g id="node23" class="node"><title>Node23</title>
-<g id="a_node23"><a xlink:href="../../d5/d16/a00029.html#a4ead364d19ac428f89101477057e61db" target="_top" xlink:title="hydra::make_pdf">
+<g id="a_node23"><a xlink:href="../../d0/d33/a00027.html#a4ead364d19ac428f89101477057e61db" target="_top" xlink:title="hydra::make_pdf">
 <polygon fill="none" stroke="black" points="101,-371.5 101,-390.5 190,-390.5 190,-371.5 101,-371.5"/>
 <text text-anchor="middle" x="145.5" y="-378.5" font-family="Helvetica,sans-Serif" font-size="10.00">hydra::make_pdf</text>
 </a>
@@ -201,7 +201,7 @@
 </g>
 <!-- Node24 -->
 <g id="node24" class="node"><title>Node24</title>
-<g id="a_node24"><a xlink:href="../../d5/de0/a00050.html#a47861993e8a8e57b88324d7d060e31b5" target="_top" xlink:title="hydra::Parameter::Name">
+<g id="a_node24"><a xlink:href="../../d8/d41/a00038.html#a47861993e8a8e57b88324d7d060e31b5" target="_top" xlink:title="hydra::Parameter::Name">
 <polygon fill="none" stroke="black" points="83.5,-333.5 83.5,-352.5 207.5,-352.5 207.5,-333.5 83.5,-333.5"/>
 <text text-anchor="middle" x="145.5" y="-340.5" font-family="Helvetica,sans-Serif" font-size="10.00">hydra::Parameter::Name</text>
 </a>
@@ -214,7 +214,7 @@
 </g>
 <!-- Node25 -->
 <g id="node25" class="node"><title>Node25</title>
-<g id="a_node25"><a xlink:href="../../d4/d31/a00069.html#af60d73d61e66c5d859da032fa0756048" target="_top" xlink:title="hydra::UserParameters\l::PrintParameters">
+<g id="a_node25"><a xlink:href="../../d1/d84/a00052.html#af60d73d61e66c5d859da032fa0756048" target="_top" xlink:title="hydra::UserParameters\l::PrintParameters">
 <polygon fill="none" stroke="black" points="86.5,-284 86.5,-314 204.5,-314 204.5,-284 86.5,-284"/>
 <text text-anchor="start" x="94.5" y="-302" font-family="Helvetica,sans-Serif" font-size="10.00">hydra::UserParameters</text>
 <text text-anchor="middle" x="145.5" y="-291" font-family="Helvetica,sans-Serif" font-size="10.00">::PrintParameters</text>
@@ -228,7 +228,7 @@
 </g>
 <!-- Node26 -->
 <g id="node26" class="node"><title>Node26</title>
-<g id="a_node26"><a xlink:href="../../d1/d6f/a00063.html#a2f6f0199659a7a31b893da88809f0d4b" target="_top" xlink:title="hydra::Random::Sample">
+<g id="a_node26"><a xlink:href="../../d6/d2d/a00047.html#a2f6f0199659a7a31b893da88809f0d4b" target="_top" xlink:title="hydra::Random::Sample">
 <polygon fill="none" stroke="black" points="269.5,-775.5 269.5,-794.5 391.5,-794.5 391.5,-775.5 269.5,-775.5"/>
 <text text-anchor="middle" x="330.5" y="-782.5" font-family="Helvetica,sans-Serif" font-size="10.00">hydra::Random::Sample</text>
 </a>
@@ -241,7 +241,7 @@
 </g>
 <!-- Node27 -->
 <g id="node27" class="node"><title>Node27</title>
-<g id="a_node27"><a xlink:href="../../db/db6/a00074.html#aa1a7dc1c74419f0a322af3d68eca2a3e" target="_top" xlink:title="hydra::VegasState::\lSetAlpha">
+<g id="a_node27"><a xlink:href="../../d1/d22/a00057.html#aa1a7dc1c74419f0a322af3d68eca2a3e" target="_top" xlink:title="hydra::VegasState::\lSetAlpha">
 <polygon fill="none" stroke="black" points="93.5,-235 93.5,-265 197.5,-265 197.5,-235 93.5,-235"/>
 <text text-anchor="start" x="101.5" y="-253" font-family="Helvetica,sans-Serif" font-size="10.00">hydra::VegasState::</text>
 <text text-anchor="middle" x="145.5" y="-242" font-family="Helvetica,sans-Serif" font-size="10.00">SetAlpha</text>
@@ -255,7 +255,7 @@
 </g>
 <!-- Node28 -->
 <g id="node28" class="node"><title>Node28</title>
-<g id="a_node28"><a xlink:href="../../db/db6/a00074.html#a4d91962dca67901d8ff5c1000fada9c6" target="_top" xlink:title="hydra::VegasState::\lSetIterations">
+<g id="a_node28"><a xlink:href="../../d1/d22/a00057.html#a4d91962dca67901d8ff5c1000fada9c6" target="_top" xlink:title="hydra::VegasState::\lSetIterations">
 <polygon fill="none" stroke="black" points="93.5,-186 93.5,-216 197.5,-216 197.5,-186 93.5,-186"/>
 <text text-anchor="start" x="101.5" y="-204" font-family="Helvetica,sans-Serif" font-size="10.00">hydra::VegasState::</text>
 <text text-anchor="middle" x="145.5" y="-193" font-family="Helvetica,sans-Serif" font-size="10.00">SetIterations</text>
@@ -269,7 +269,7 @@
 </g>
 <!-- Node29 -->
 <g id="node29" class="node"><title>Node29</title>
-<g id="a_node29"><a xlink:href="../../db/db6/a00074.html#af164af6f10de0a38f0dfa1b0d060f4a9" target="_top" xlink:title="hydra::VegasState::\lSetMaxError">
+<g id="a_node29"><a xlink:href="../../d1/d22/a00057.html#af164af6f10de0a38f0dfa1b0d060f4a9" target="_top" xlink:title="hydra::VegasState::\lSetMaxError">
 <polygon fill="none" stroke="black" points="93.5,-137 93.5,-167 197.5,-167 197.5,-137 93.5,-137"/>
 <text text-anchor="start" x="101.5" y="-155" font-family="Helvetica,sans-Serif" font-size="10.00">hydra::VegasState::</text>
 <text text-anchor="middle" x="145.5" y="-144" font-family="Helvetica,sans-Serif" font-size="10.00">SetMaxError</text>
@@ -283,7 +283,7 @@
 </g>
 <!-- Node30 -->
 <g id="node30" class="node"><title>Node30</title>
-<g id="a_node30"><a xlink:href="../../d1/d6f/a00063.html#ade43b0c4c234c35cd10b5b984a6a555e" target="_top" xlink:title="hydra::Random::SetSeed">
+<g id="a_node30"><a xlink:href="../../d6/d2d/a00047.html#ade43b0c4c234c35cd10b5b984a6a555e" target="_top" xlink:title="hydra::Random::SetSeed">
 <polygon fill="none" stroke="black" points="82,-737.5 82,-756.5 209,-756.5 209,-737.5 82,-737.5"/>
 <text text-anchor="middle" x="145.5" y="-744.5" font-family="Helvetica,sans-Serif" font-size="10.00">hydra::Random::SetSeed</text>
 </a>
@@ -296,7 +296,7 @@
 </g>
 <!-- Node33 -->
 <g id="node33" class="node"><title>Node33</title>
-<g id="a_node33"><a xlink:href="../../d1/d6f/a00063.html#aff81053c79f3cfbb30b212127d2c73ef" target="_top" xlink:title="hydra::Random::Uniform">
+<g id="a_node33"><a xlink:href="../../d6/d2d/a00047.html#aff81053c79f3cfbb30b212127d2c73ef" target="_top" xlink:title="hydra::Random::Uniform">
 <polygon fill="none" stroke="black" points="268.5,-623.5 268.5,-642.5 392.5,-642.5 392.5,-623.5 268.5,-623.5"/>
 <text text-anchor="middle" x="330.5" y="-630.5" font-family="Helvetica,sans-Serif" font-size="10.00">hydra::Random::Uniform</text>
 </a>
@@ -309,7 +309,7 @@
 </g>
 <!-- Node35 -->
 <g id="node35" class="node"><title>Node35</title>
-<g id="a_node35"><a xlink:href="../../db/db6/a00074.html#a36723599e427e86be110a41abdf9bae9" target="_top" xlink:title="hydra::VegasState::\lSetUseRelativeError">
+<g id="a_node35"><a xlink:href="../../d1/d22/a00057.html#a36723599e427e86be110a41abdf9bae9" target="_top" xlink:title="hydra::VegasState::\lSetUseRelativeError">
 <polygon fill="none" stroke="black" points="92,-88 92,-118 199,-118 199,-88 92,-88"/>
 <text text-anchor="start" x="100" y="-106" font-family="Helvetica,sans-Serif" font-size="10.00">hydra::VegasState::</text>
 <text text-anchor="middle" x="145.5" y="-95" font-family="Helvetica,sans-Serif" font-size="10.00">SetUseRelativeError</text>
@@ -323,7 +323,7 @@
 </g>
 <!-- Node36 -->
 <g id="node36" class="node"><title>Node36</title>
-<g id="a_node36"><a xlink:href="../../db/db6/a00074.html#afc7617c7670d7709d51460c5b57c4e2f" target="_top" xlink:title="hydra::VegasState::\lSetVerbose">
+<g id="a_node36"><a xlink:href="../../d1/d22/a00057.html#afc7617c7670d7709d51460c5b57c4e2f" target="_top" xlink:title="hydra::VegasState::\lSetVerbose">
 <polygon fill="none" stroke="black" points="93.5,-39 93.5,-69 197.5,-69 197.5,-39 93.5,-39"/>
 <text text-anchor="start" x="101.5" y="-57" font-family="Helvetica,sans-Serif" font-size="10.00">hydra::VegasState::</text>
 <text text-anchor="middle" x="145.5" y="-46" font-family="Helvetica,sans-Serif" font-size="10.00">SetVerbose</text>
@@ -337,7 +337,7 @@
 </g>
 <!-- Node37 -->
 <g id="node37" class="node"><title>Node37</title>
-<g id="a_node37"><a xlink:href="../../d5/de0/a00050.html#a706c308f57ea396e2cfe6c22f1b6b442" target="_top" xlink:title="hydra::Parameter::Value">
+<g id="a_node37"><a xlink:href="../../d8/d41/a00038.html#a706c308f57ea396e2cfe6c22f1b6b442" target="_top" xlink:title="hydra::Parameter::Value">
 <polygon fill="none" stroke="black" points="84.5,-0.5 84.5,-19.5 206.5,-19.5 206.5,-0.5 84.5,-0.5"/>
 <text text-anchor="middle" x="145.5" y="-7.5" font-family="Helvetica,sans-Serif" font-size="10.00">hydra::Parameter::Value</text>
 </a>
@@ -350,7 +350,7 @@
 </g>
 <!-- Node4 -->
 <g id="node4" class="node"><title>Node4</title>
-<g id="a_node4"><a xlink:href="../../d5/de0/a00050.html#a0a616888aa5b273ec869cc96410d16de" target="_top" xlink:title="hydra::Parameter::HasError">
+<g id="a_node4"><a xlink:href="../../d8/d41/a00038.html#a0a616888aa5b273ec869cc96410d16de" target="_top" xlink:title="hydra::Parameter::HasError">
 <polygon fill="none" stroke="black" points="262,-1049.5 262,-1068.5 399,-1068.5 399,-1049.5 262,-1049.5"/>
 <text text-anchor="middle" x="330.5" y="-1056.5" font-family="Helvetica,sans-Serif" font-size="10.00">hydra::Parameter::HasError</text>
 </a>
@@ -363,7 +363,7 @@
 </g>
 <!-- Node5 -->
 <g id="node5" class="node"><title>Node5</title>
-<g id="a_node5"><a xlink:href="../../d5/de0/a00050.html#ac498997822bc5c5108762c4c967049c3" target="_top" xlink:title="hydra::Parameter::IsLimited">
+<g id="a_node5"><a xlink:href="../../d8/d41/a00038.html#ac498997822bc5c5108762c4c967049c3" target="_top" xlink:title="hydra::Parameter::IsLimited">
 <polygon fill="none" stroke="black" points="262,-1011.5 262,-1030.5 399,-1030.5 399,-1011.5 262,-1011.5"/>
 <text text-anchor="middle" x="330.5" y="-1018.5" font-family="Helvetica,sans-Serif" font-size="10.00">hydra::Parameter::IsLimited</text>
 </a>
@@ -376,7 +376,7 @@
 </g>
 <!-- Node6 -->
 <g id="node6" class="node"><title>Node6</title>
-<g id="a_node6"><a xlink:href="../../d5/de0/a00050.html#ae20415be2a8b909f5d923378d6adddc8" target="_top" xlink:title="hydra::Parameter::GetName">
+<g id="a_node6"><a xlink:href="../../d8/d41/a00038.html#ae20415be2a8b909f5d923378d6adddc8" target="_top" xlink:title="hydra::Parameter::GetName">
 <polygon fill="none" stroke="black" points="260.5,-973.5 260.5,-992.5 400.5,-992.5 400.5,-973.5 260.5,-973.5"/>
 <text text-anchor="middle" x="330.5" y="-980.5" font-family="Helvetica,sans-Serif" font-size="10.00">hydra::Parameter::GetName</text>
 </a>
@@ -389,7 +389,7 @@
 </g>
 <!-- Node7 -->
 <g id="node7" class="node"><title>Node7</title>
-<g id="a_node7"><a xlink:href="../../d5/de0/a00050.html#aa64ab407a0f8742246242104ce5ba15e" target="_top" xlink:title="hydra::Parameter::GetValue">
+<g id="a_node7"><a xlink:href="../../d8/d41/a00038.html#aa64ab407a0f8742246242104ce5ba15e" target="_top" xlink:title="hydra::Parameter::GetValue">
 <polygon fill="none" stroke="black" points="261.5,-935.5 261.5,-954.5 399.5,-954.5 399.5,-935.5 261.5,-935.5"/>
 <text text-anchor="middle" x="330.5" y="-942.5" font-family="Helvetica,sans-Serif" font-size="10.00">hydra::Parameter::GetValue</text>
 </a>
@@ -402,7 +402,7 @@
 </g>
 <!-- Node8 -->
 <g id="node8" class="node"><title>Node8</title>
-<g id="a_node8"><a xlink:href="../../d5/de0/a00050.html#af56d5e633053e233710c396ccf14fdaf" target="_top" xlink:title="hydra::Parameter::GetError">
+<g id="a_node8"><a xlink:href="../../d8/d41/a00038.html#af56d5e633053e233710c396ccf14fdaf" target="_top" xlink:title="hydra::Parameter::GetError">
 <polygon fill="none" stroke="black" points="263.5,-897.5 263.5,-916.5 397.5,-916.5 397.5,-897.5 263.5,-897.5"/>
 <text text-anchor="middle" x="330.5" y="-904.5" font-family="Helvetica,sans-Serif" font-size="10.00">hydra::Parameter::GetError</text>
 </a>
@@ -415,7 +415,7 @@
 </g>
 <!-- Node9 -->
 <g id="node9" class="node"><title>Node9</title>
-<g id="a_node9"><a xlink:href="../../d5/de0/a00050.html#a252b5deac6db4a342d38f4292f3ec854" target="_top" xlink:title="hydra::Parameter::GetLowerLim">
+<g id="a_node9"><a xlink:href="../../d8/d41/a00038.html#a252b5deac6db4a342d38f4292f3ec854" target="_top" xlink:title="hydra::Parameter::GetLowerLim">
 <polygon fill="none" stroke="black" points="253,-859.5 253,-878.5 408,-878.5 408,-859.5 253,-859.5"/>
 <text text-anchor="middle" x="330.5" y="-866.5" font-family="Helvetica,sans-Serif" font-size="10.00">hydra::Parameter::GetLowerLim</text>
 </a>
@@ -428,7 +428,7 @@
 </g>
 <!-- Node10 -->
 <g id="node10" class="node"><title>Node10</title>
-<g id="a_node10"><a xlink:href="../../d5/de0/a00050.html#a6bb2a4631ccf836934032449543356ed" target="_top" xlink:title="hydra::Parameter::GetUpperLim">
+<g id="a_node10"><a xlink:href="../../d8/d41/a00038.html#a6bb2a4631ccf836934032449543356ed" target="_top" xlink:title="hydra::Parameter::GetUpperLim">
 <polygon fill="none" stroke="black" points="253,-1125.5 253,-1144.5 408,-1144.5 408,-1125.5 253,-1125.5"/>
 <text text-anchor="middle" x="330.5" y="-1132.5" font-family="Helvetica,sans-Serif" font-size="10.00">hydra::Parameter::GetUpperLim</text>
 </a>
@@ -441,7 +441,7 @@
 </g>
 <!-- Node11 -->
 <g id="node11" class="node"><title>Node11</title>
-<g id="a_node11"><a xlink:href="../../d5/de0/a00050.html#aa2efc24e9bd8286c4bc91f4ca21b6387" target="_top" xlink:title="hydra::Parameter::SetIndex">
+<g id="a_node11"><a xlink:href="../../d8/d41/a00038.html#aa2efc24e9bd8286c4bc91f4ca21b6387" target="_top" xlink:title="hydra::Parameter::SetIndex">
 <polygon fill="none" stroke="black" points="262,-1087.5 262,-1106.5 399,-1106.5 399,-1087.5 262,-1087.5"/>
 <text text-anchor="middle" x="330.5" y="-1094.5" font-family="Helvetica,sans-Serif" font-size="10.00">hydra::Parameter::SetIndex</text>
 </a>
@@ -464,7 +464,7 @@
 </g>
 <!-- Node31 -->
 <g id="node31" class="node"><title>Node31</title>
-<g id="a_node31"><a xlink:href="../../d1/d6f/a00063.html#a3dbc414994aa19965b7ff815300aff96" target="_top" xlink:title="hydra::Random::Exp">
+<g id="a_node31"><a xlink:href="../../d6/d2d/a00047.html#a3dbc414994aa19965b7ff815300aff96" target="_top" xlink:title="hydra::Random::Exp">
 <polygon fill="none" stroke="black" points="277,-737.5 277,-756.5 384,-756.5 384,-737.5 277,-737.5"/>
 <text text-anchor="middle" x="330.5" y="-744.5" font-family="Helvetica,sans-Serif" font-size="10.00">hydra::Random::Exp</text>
 </a>
@@ -477,7 +477,7 @@
 </g>
 <!-- Node32 -->
 <g id="node32" class="node"><title>Node32</title>
-<g id="a_node32"><a xlink:href="../../d1/d6f/a00063.html#a1d1d32fe3630bb302342c6dffae639f3" target="_top" xlink:title="hydra::Random::BreitWigner">
+<g id="a_node32"><a xlink:href="../../d6/d2d/a00047.html#a1d1d32fe3630bb302342c6dffae639f3" target="_top" xlink:title="hydra::Random::BreitWigner">
 <polygon fill="none" stroke="black" points="260.5,-699.5 260.5,-718.5 400.5,-718.5 400.5,-699.5 260.5,-699.5"/>
 <text text-anchor="middle" x="330.5" y="-706.5" font-family="Helvetica,sans-Serif" font-size="10.00">hydra::Random::BreitWigner</text>
 </a>
@@ -495,7 +495,7 @@
 </g>
 <!-- Node34 -->
 <g id="node34" class="node"><title>Node34</title>
-<g id="a_node34"><a xlink:href="../../d1/d6f/a00063.html#aca3224e0c691d1503b25ac318b5b4f4d" target="_top" xlink:title="hydra::Random::InverseCDF">
+<g id="a_node34"><a xlink:href="../../d6/d2d/a00047.html#aca3224e0c691d1503b25ac318b5b4f4d" target="_top" xlink:title="hydra::Random::InverseCDF">
 <polygon fill="none" stroke="black" points="259,-661.5 259,-680.5 402,-680.5 402,-661.5 259,-661.5"/>
 <text text-anchor="middle" x="330.5" y="-668.5" font-family="Helvetica,sans-Serif" font-size="10.00">hydra::Random::InverseCDF</text>
 </a>

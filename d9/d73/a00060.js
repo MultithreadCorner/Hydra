@@ -1,4 +1,4 @@
 var a00060 =
 [
-    [ "operator()", "d9/d73/a00060.html#afc2f48e2d00bad910d2230c1e581fe30", null ]
+    [ "operator+", "d9/d73/a00060.html#a0a8274fbbbbe6c610c7233441a053058", null ]
 ];

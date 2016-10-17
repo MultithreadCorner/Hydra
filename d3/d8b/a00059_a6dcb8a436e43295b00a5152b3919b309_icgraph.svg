@@ -15,7 +15,7 @@
 </g>
 <!-- Node2 -->
 <g id="node2" class="node"><title>Node2</title>
-<g id="a_node2"><a xlink:href="../../d3/d8b/a00059.html#a93dc7dcfa985d3b47edeb355e4c3f947" target="_top" xlink:title="hydra::Vegas::Vegas">
+<g id="a_node2"><a xlink:href="../../d3/d8b/a00059.html#a93dc7dcfa985d3b47edeb355e4c3f947" target="_top" xlink:title="Vegas copy&#45;ctor. ">
 <polygon fill="none" stroke="black" points="186,-0.5 186,-19.5 294,-19.5 294,-0.5 186,-0.5"/>
 <text text-anchor="middle" x="240" y="-7.5" font-family="Helvetica,sans-Serif" font-size="10.00">hydra::Vegas::Vegas</text>
 </a>

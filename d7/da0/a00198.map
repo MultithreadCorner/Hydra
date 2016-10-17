@@ -1,20 +1,13 @@
-<map id="HydraFitExample.cpp" name="HydraFitExample.cpp">
-<area shape="rect" id="node10" href="$de/d36/a00123.html" title="hydra/Types.h" alt="" coords="1200,453,1305,480"/>
-<area shape="rect" id="node11" href="$d1/d88/a00128.html" title="hydra/Vector4R.h" alt="" coords="178,304,302,331"/>
-<area shape="rect" id="node15" href="$d4/d63/a00082.html" title="Typedef for useful container classes used in MCBooster. " alt="" coords="429,229,561,256"/>
-<area shape="rect" id="node16" href="$d1/dc1/a00092.html" title="hydra/Function.h" alt="" coords="1360,229,1478,256"/>
-<area shape="rect" id="node17" href="$df/d98/a00107.html" title="hydra/Parameter.h" alt="" coords="1309,304,1438,331"/>
-<area shape="rect" id="node18" href="$dc/d54/a00094.html" title="hydra/FunctorArithmetic.h" alt="" coords="1042,80,1214,107"/>
-<area shape="rect" id="node19" href="$d9/d4b/a00117.html" title="hydra/Random.h" alt="" coords="717,155,836,181"/>
-<area shape="rect" id="node20" href="$d3/d00/a00113.html" title="hydra/PointVector.h" alt="" coords="860,379,997,405"/>
-<area shape="rect" id="node21" href="$d6/db3/a00130.html" title="hydra/VegasState.h" alt="" coords="322,155,460,181"/>
-<area shape="rect" id="node22" href="$d9/d47/a00129.html" title="hydra/Vegas.h" alt="" coords="676,80,783,107"/>
-<area shape="rect" id="node23" href="$d0/dc2/a00104.html" title="hydra/LogLikelihoodFCN.h" alt="" coords="1764,229,1940,256"/>
-<area shape="rect" id="node24" href="$dc/dfe/a00125.html" title="hydra/UserParameters.h" alt="" coords="1645,80,1809,107"/>
-<area shape="rect" id="node29" href="$d1/dd6/a00108.html" title="hydra/Pdf.h" alt="" coords="992,229,1081,256"/>
-<area shape="rect" id="node30" href="$d9/da5/a00075.html" title="hydra/AddPdf.h" alt="" coords="1164,155,1276,181"/>
-<area shape="rect" id="node49" href="$d9/df8/a00096.html" title="src/Gauss.h" alt="" coords="1402,155,1495,181"/>
-<area shape="rect" id="node50" href="$db/dab/a00089.html" title="src/Exp.h" alt="" coords="1520,155,1598,181"/>
-<area shape="rect" id="node13" href="$da/dec/a00080.html" title="hydra/detail/Config.h" alt="" coords="857,453,1000,480"/>
-<area shape="rect" id="node14" href="$df/dcd/a00127.html" title="hydra/Vector3R.h" alt="" coords="204,379,328,405"/>
+<map id="Multiply.h" name="Multiply.h">
+<area shape="rect" id="node3" href="$d1/d6f/a00063.html" title="hydra/detail/Config.h" alt="" coords="1415,647,1558,673"/>
+<area shape="rect" id="node13" href="$d7/d70/a00106.html" title="hydra/Types.h" alt="" coords="842,647,947,673"/>
+<area shape="rect" id="node14" href="$df/d98/a00107.html" title="hydra/detail/TypeTraits.h" alt="" coords="543,326,710,353"/>
+<area shape="rect" id="node32" href="$dd/d42/a00109.html" title="hydra/detail/utility\l/Utility_Tuple.h" alt="" coords="1159,229,1283,271"/>
+<area shape="rect" id="node36" href="$d4/de8/a00061.html" title="hydra/detail/base_functor.h" alt="" coords="1309,155,1488,181"/>
+<area shape="rect" id="node37" href="$df/d5f/a00064.html" title="hydra/detail/Constant.h" alt="" coords="1320,80,1477,107"/>
+<area shape="rect" id="node38" href="$d3/d8b/a00059.html" title="hydra/detail/Argument.h" alt="" coords="1645,80,1805,107"/>
+<area shape="rect" id="node15" href="$de/de1/a00065.html" title="Typedef for useful container classes used in MCBooster. " alt="" coords="387,415,519,442"/>
+<area shape="rect" id="node18" href="$d4/d81/a00110.html" title="hydra/Vector3R.h" alt="" coords="166,572,290,599"/>
+<area shape="rect" id="node23" href="$dd/d6d/a00111.html" title="hydra/Vector4R.h" alt="" coords="437,497,561,524"/>
+<area shape="rect" id="node33" href="$da/dec/a00080.html" title="hydra/detail/utility\l/Generic.h" alt="" coords="1285,319,1409,360"/>
 </map>

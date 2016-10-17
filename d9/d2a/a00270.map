@@ -1,6 +1,2 @@
-<map id="Gauss&lt; N &gt;" name="Gauss&lt; N &gt;">
-<area shape="rect" id="node2" href="$db/db2/a00020.html" title="{hydra::BaseFunctor\l\&lt; Gauss\&lt; N \&gt;, GReal\l_t, 0 \&gt;\n|+ parameter_count\l|+ BaseFunctor()\l+ BaseFunctor()\l+ ~BaseFunctor()\l+ GetCacheIndex()\l+ GetFunctor()\l+ GetParameter()\l+ GetParameter()\l+ interface()\l+ interface()\l+ IsCached()\land 9 more...\l}" alt="" coords="5,336,156,589"/>
-<area shape="rect" id="node3" href="$db/db2/a00020.html" title="{hydra::BaseFunctor\l\&lt; Functor, ReturnType,\l NPARAM \&gt;\n|+ parameter_count\l|+ BaseFunctor()\l+ BaseFunctor()\l+ ~BaseFunctor()\l+ GetCacheIndex()\l+ GetFunctor()\l+ GetParameter()\l+ GetParameter()\l+ interface()\l+ interface()\l+ IsCached()\land 9 more...\l}" alt="" coords="91,5,249,259"/>
-<area shape="rect" id="node4" href="$db/db2/a00020.html" title="{hydra::BaseFunctor\l\&lt; Gauss, GReal_t, 2 \&gt;\n|+ parameter_count\l|+ BaseFunctor()\l+ BaseFunctor()\l+ ~BaseFunctor()\l+ GetCacheIndex()\l+ GetFunctor()\l+ GetParameter()\l+ GetParameter()\l+ interface()\l+ interface()\l+ IsCached()\land 9 more...\l}" alt="" coords="181,343,335,582"/>
-<area shape="rect" id="node5" href="$d5/de0/a00050.html" title="{hydra::Parameter\n||+ Parameter()\l+ Parameter()\l+ Parameter()\l+ Parameter()\l+ Parameter()\l+ Error()\l+ GetError()\l+ GetIndex()\l+ GetLowerLim()\l+ GetName()\land 29 more...\l+ Create()\l}" alt="" coords="359,343,482,582"/>
+<map id="hydra::Compose&lt; F0, F1, Fs &gt;" name="hydra::Compose&lt; F0, F1, Fs &gt;">
 </map>

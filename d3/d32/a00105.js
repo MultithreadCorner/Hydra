@@ -1,8 +1,8 @@
 var a00105 =
 [
-    [ "Minus", "d4/dca/a00048.html", "d4/dca/a00048" ],
-    [ "minus", "d3/d32/a00105.html#aa9c135b2a31b8adc650408759756cd30", null ],
-    [ "operator-", "d3/d32/a00105.html#afd8d70910231348dc233cc60f55c07ae", null ],
-    [ "operator-", "d3/d32/a00105.html#a44ae849dd2d74a7d93322306d7679750", null ],
-    [ "operator-", "d3/d32/a00105.html#a8f3c44006ca3b703c77189d746e6323d", null ]
+    [ "Sum", "d2/d79/a00051.html", "d2/d79/a00051" ],
+    [ "operator+", "d3/d32/a00105.html#ac71a6353509fb42628cb8cb677b1e580", null ],
+    [ "operator+", "d3/d32/a00105.html#a38fefe9fcea2b9c4770e7ee42c98dfa7", null ],
+    [ "operator+", "d3/d32/a00105.html#a099a6b58b45d6bcb7a10985101771603", null ],
+    [ "sum", "d3/d32/a00105.html#aee5273a252e7fa6761ec8e77f8b713ef", null ]
 ];

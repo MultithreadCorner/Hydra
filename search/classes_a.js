@@ -1,5 +1,4 @@
 var searchData=
 [
-  ['minus',['Minus',['../d4/dca/a00048.html',1,'hydra']]],
-  ['multiply',['Multiply',['../d2/dee/a00049.html',1,'hydra']]]
+  ['null_5ftype',['null_type',['../d0/d33/a00027.html#d7/d12/a00126',1,'hydra']]]
 ];

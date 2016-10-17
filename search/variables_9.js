@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['value',['value',['../d6/d5b/a00026.html#ab88527bd471ab28e1184da9143642ff4',1,'hydra::detail::has_analytical_integral&lt; C, Ret(Args...)&gt;']]]
+  ['w',['w',['../d0/dc0/a00033.html#ae3ef7af10eec7945566a363866321e26',1,'float4::w()'],['../d2/db1/a00070.html#afb3248bab1c7ee0ad97e9d4c275b4c67',1,'w():&#160;cuda_sse.h']]]
 ];

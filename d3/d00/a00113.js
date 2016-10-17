@@ -1,18 +1,8 @@
 var a00113 =
 [
-    [ "Point", "d4/d6d/a00055.html", "d4/d6d/a00055" ],
-    [ "PointError", "d5/d16/a00029.html#d5/da7/a00144", [
-      [ "type", "d5/d16/a00029.html#aee8a2dfcdd709c5da688cdb5ba45a6c6", null ],
-      [ "value_type", "d5/d16/a00029.html#a09f7ef7e91ef8cb8e47c1d7bced86a69", null ]
-    ] ],
-    [ "PointError< T, N, true >", "d9/d2e/a00056.html", "d9/d2e/a00056" ],
-    [ "ValueError", "d5/d16/a00029.html#da/ddb/a00145", [
-      [ "type", "d5/d16/a00029.html#ac14413b9184a4d4c61f785078cf9c357", null ],
-      [ "value_type", "d5/d16/a00029.html#a45fe549890a6a7ce717b7d1183e60adf", null ]
-    ] ],
-    [ "ValueError< T, true >", "d2/db1/a00070.html", "d2/db1/a00070" ],
-    [ "operator+", "d3/d00/a00113.html#ac3d2b9b5f3dc7f930f9d6307002c284c", null ],
-    [ "operator<<", "d3/d00/a00113.html#a699a2aecc2ce647693a9c10714c98668", null ],
-    [ "operator<<", "d3/d00/a00113.html#ad6844fcc012a9868f63b93c4e0dbd6a2", null ],
-    [ "operator<<", "d3/d00/a00113.html#a80c3d60e5208290e157629b2953b6e80", null ]
+    [ "VegasState", "d1/d22/a00057.html", "d1/d22/a00057" ],
+    [ "MODE_IMPORTANCE", "d3/d00/a00113.html#ad87c68ca6adb981f4c31ae73ef97de3baae772e8b4c5ada0e1e4c65495702176a", null ],
+    [ "MODE_IMPORTANCE_ONLY", "d3/d00/a00113.html#ad87c68ca6adb981f4c31ae73ef97de3ba28550661921a3af1306fa74a26b8569c", null ],
+    [ "MODE_STRATIFIED", "d3/d00/a00113.html#ad87c68ca6adb981f4c31ae73ef97de3bacb2c0124fecbf6c1182f1cf7cd9bc37a", null ],
+    [ "BINS_MAX", "d3/d00/a00113.html#ad87c68ca6adb981f4c31ae73ef97de3baba2629d0445cc7ef401fd6793f047da0", null ]
 ];

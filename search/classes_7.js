@@ -1,10 +1,6 @@
 var searchData=
 [
-  ['hyrndbreitwigner',['HyRndBreitWigner',['../d4/d8c/a00035.html',1,'hydra']]],
-  ['hyrndcdf',['HyRndCDF',['../de/d8c/a00036.html',1,'hydra']]],
-  ['hyrndexp',['HyRndExp',['../d1/dc6/a00037.html',1,'hydra']]],
-  ['hyrndflag',['HyRndFlag',['../d8/d41/a00038.html',1,'hydra']]],
-  ['hyrndgauss',['HyRndGauss',['../d3/de7/a00039.html',1,'hydra']]],
-  ['hyrndtrial',['HyRndTrial',['../db/d3a/a00040.html',1,'hydra']]],
-  ['hyrnduniform',['HyRndUniform',['../dd/d32/a00041.html',1,'hydra']]]
+  ['integrator',['Integrator',['../dc/d87/a00032.html',1,'hydra']]],
+  ['integrator_3c_20vegas_3c_20n_2c_20grnd_20_3e_2c_20n_20_3e',['Integrator&lt; Vegas&lt; N, GRND &gt;, N &gt;',['../dc/d87/a00032.html',1,'hydra']]],
+  ['invexp',['InvExp',['../d0/dc0/a00033.html',1,'examples']]]
 ];

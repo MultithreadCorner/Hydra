@@ -4,7 +4,7 @@
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.11"/>
-<title>Hydra: ProcessCallsVegas.h File Reference</title>
+<title>Hydra: Vector4R.h File Reference</title>
 <link href="../../tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="../../jquery.js"></script>
 <script type="text/javascript" src="../../dynsections.js"></script>
@@ -116,20 +116,22 @@ $(document).ready(function(){initNavTree('d4/d3e/a00116.html','../../');});
 <div class="header">
   <div class="summary">
 <a href="#nested-classes">Classes</a> &#124;
-<a href="#namespaces">Namespaces</a>  </div>
+<a href="#namespaces">Namespaces</a> &#124;
+<a href="#func-members">Functions</a>  </div>
   <div class="headertitle">
-<div class="title">ProcessCallsVegas.h File Reference<div class="ingroups"><a class="el" href="../../d4/ddd/a00138.html">Numerical integration</a></div></div>  </div>
+<div class="title">Vector4R.h File Reference<div class="ingroups"><a class="el" href="../../dc/dfe/a00125.html">Phase-Space Monte Carlo</a></div></div>  </div>
 </div><!--header-->
 <div class="contents">
 <div class="textblock"><div class="dynheader">
-Include dependency graph for ProcessCallsVegas.h:</div>
+Include dependency graph for Vector4R.h:</div>
 <div class="dyncontent">
-<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="../../d4/d08/a00237.svg" width="100%" height="600"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
+<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="../../dd/dd7/a00248.svg" width="100%" height="518"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+</div>
 </div>
 </div><div class="textblock"><div class="dynheader">
 This graph shows which files directly or indirectly include this file:</div>
 <div class="dyncontent">
-<div class="center"><iframe scrolling="no" frameborder="0" src="../../da/d2e/a00238.svg" width="326" height="187"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe>
+<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="../../de/dbc/a00249.svg" width="100%" height="600"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 </div>
 </div>
 </div>
@@ -137,25 +139,44 @@ This graph shows which files directly or indirectly include this file:</div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="nested-classes"></a>
 Classes</h2></td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d3/d8b/a00059.html">hydra::ProcessBoxesVegas</a></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../df/d03/a00062.html">hydra::ProcessCallsVegas&lt; FUNCTOR, NDimensions, GRND &gt;</a></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../de/de1/a00065.html">hydra::ResultVegas</a></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d7/df7/a00058.html">hydra::Vector4R</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="namespaces"></a>
 Namespaces</h2></td></tr>
 <tr class="memitem:d5/d16/a00029"><td class="memItemLeft" align="right" valign="top"> &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d5/d16/a00029.html">hydra</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
+Functions</h2></td></tr>
+<tr class="memitem:a52d2bb64b855258800238a7263f26699"><td class="memItemLeft" align="right" valign="top">__host__ __device__ Vector4R&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d5/d16/a00029.html#a52d2bb64b855258800238a7263f26699">hydra::boostTo</a> (const Vector4R &amp;rs, const Vector4R &amp;p4, bool inverse=false)</td></tr>
+<tr class="separator:a52d2bb64b855258800238a7263f26699"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a56aaad7de821363b5a3f6a3853688a5f"><td class="memItemLeft" align="right" valign="top">__host__ __device__ Vector4R&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d5/d16/a00029.html#a56aaad7de821363b5a3f6a3853688a5f">hydra::boostTo</a> (const Vector4R &amp;rs, const Vector3R &amp;boost, bool inverse=false)</td></tr>
+<tr class="separator:a56aaad7de821363b5a3f6a3853688a5f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab8059091b90cfa8bfd6a7bbabf84e851"><td class="memItemLeft" align="right" valign="top">__host__ __device__ Vector4R&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d5/d16/a00029.html#ab8059091b90cfa8bfd6a7bbabf84e851">hydra::operator*</a> (GReal_t c, const Vector4R &amp;v2)</td></tr>
+<tr class="separator:ab8059091b90cfa8bfd6a7bbabf84e851"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8ea48ebde3804da5519a849fd697a9ed"><td class="memItemLeft" align="right" valign="top">__host__ __device__ Vector4R&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d5/d16/a00029.html#a8ea48ebde3804da5519a849fd697a9ed">hydra::operator*</a> (const Vector4R &amp;v2, GReal_t c)</td></tr>
+<tr class="separator:a8ea48ebde3804da5519a849fd697a9ed"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:acc68502df5d8b6b8f5fba9b1ba7ac2e9"><td class="memItemLeft" align="right" valign="top">__host__ __device__ GReal_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d5/d16/a00029.html#acc68502df5d8b6b8f5fba9b1ba7ac2e9">hydra::operator*</a> (const Vector4R &amp;v1, const Vector4R &amp;v2)</td></tr>
+<tr class="separator:acc68502df5d8b6b8f5fba9b1ba7ac2e9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8d67c62da7414fa54685256891397394"><td class="memItemLeft" align="right" valign="top">__host__ __device__ Vector4R&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d5/d16/a00029.html#a8d67c62da7414fa54685256891397394">hydra::operator+</a> (const Vector4R &amp;v1, const Vector4R &amp;v2)</td></tr>
+<tr class="separator:a8d67c62da7414fa54685256891397394"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab920ce4c223b458acbce8f3dec8a4a77"><td class="memItemLeft" align="right" valign="top">__host__ __device__ Vector4R&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d5/d16/a00029.html#ab920ce4c223b458acbce8f3dec8a4a77">hydra::operator-</a> (const Vector4R &amp;v1, const Vector4R &amp;v2)</td></tr>
+<tr class="separator:ab920ce4c223b458acbce8f3dec8a4a77"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a50088fd950900d64d11e9de4bbc0267e"><td class="memItemLeft" align="right" valign="top">__host__ __device__ Vector4R&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d5/d16/a00029.html#a50088fd950900d64d11e9de4bbc0267e">hydra::operator/</a> (const Vector4R &amp;v2, GReal_t c)</td></tr>
+<tr class="separator:a50088fd950900d64d11e9de4bbc0267e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aaacce78528c9499de97312cbe606ece4"><td class="memItemLeft" align="right" valign="top">ostream &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d5/d16/a00029.html#aaacce78528c9499de97312cbe606ece4">hydra::operator&lt;&lt;</a> (ostream &amp;s, const Vector4R &amp;v)</td></tr>
+<tr class="separator:aaacce78528c9499de97312cbe606ece4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab53a2a0ba453b6b2a3372941b6e17fbc"><td class="memItemLeft" align="right" valign="top">__host__ __device__ Vector4R&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d5/d16/a00029.html#ab53a2a0ba453b6b2a3372941b6e17fbc">hydra::rotateEuler</a> (const Vector4R &amp;rs, GReal_t alpha, GReal_t beta, GReal_t gamma)</td></tr>
+<tr class="separator:ab53a2a0ba453b6b2a3372941b6e17fbc"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 </div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="../../dir_92a1ff494355b06c14c0e1fe7b982d29.html">Hydra</a></li><li class="navelem"><a class="el" href="../../dir_108162cc96056bf8ace3602d16680a1c.html">hydra</a></li><li class="navelem"><a class="el" href="../../dir_3834ae61da54c887219d23c23fa56bea.html">detail</a></li><li class="navelem"><a class="el" href="../../dir_35ca0ad8653ac3849130d5ccd34a6c7d.html">functors</a></li><li class="navelem"><a class="el" href="../../d4/d3e/a00116.html">ProcessCallsVegas.h</a></li>
-    <li class="footer">Generated on Thu Oct 13 2016 03:01:48 for Hydra by
+    <li class="navelem"><a class="el" href="../../dir_92a1ff494355b06c14c0e1fe7b982d29.html">Hydra</a></li><li class="navelem"><a class="el" href="../../dir_108162cc96056bf8ace3602d16680a1c.html">hydra</a></li><li class="navelem"><a class="el" href="../../d4/d3e/a00116.html">Vector4R.h</a></li>
+    <li class="footer">Generated on Mon Oct 17 2016 03:49:18 for Hydra by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="../../doxygen.png" alt="doxygen"/></a> 1.8.11 </li>
   </ul>

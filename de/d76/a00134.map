@@ -1,3 +1,14 @@
-<map id="Data fitting" name="Data fitting">
-<area shape="rect" id="node2" href="$de/d14/a00139.html" title="Generic types, definitions and algorithms. " alt="" coords="212,7,279,33"/>
+<map id="Arithmetic_Tuple.h" name="Arithmetic_Tuple.h">
+<area shape="rect" id="node2" href="$d9/d77/a00095.html" title="Point.h" alt="" coords="215,80,277,107"/>
+<area shape="rect" id="node3" href="$da/d2a/a00086.html" title="LogLikelihood.h" alt="" coords="146,229,258,256"/>
+<area shape="rect" id="node8" href="$d9/df8/a00096.html" title="PointVector.h" alt="" coords="239,155,341,181"/>
+<area shape="rect" id="node4" href="$d1/d6e/a00073.html" title="FCN.h" alt="" coords="185,304,246,331"/>
+<area shape="rect" id="node5" href="$d1/d1e/a00087.html" title="LogLikelihoodFCN.h" alt="" coords="117,379,257,405"/>
+<area shape="rect" id="node6" href="$dd/dad/a00005.html" title="HydraFitExample take parameters from the command line, fill a range with random numbers sampled from ..." alt="" coords="5,453,153,480"/>
+<area shape="rect" id="node7" href="$de/d5e/a00007.html" title="HydraFitExample take parameters from the command line, fill a range with random numbers sampled from ..." alt="" coords="178,453,319,480"/>
+<area shape="rect" id="node9" href="$d0/d61/a00100.html" title="Random.h" alt="" coords="394,379,477,405"/>
+<area shape="rect" id="node10" href="$d8/d84/a00001.html" title="This is an example of how to use hydra::Eval to evaluate C++11 lambdas using the OpenMP backend..." alt="" coords="343,453,527,480"/>
+<area shape="rect" id="node11" href="$d1/d7c/a00003.html" title="This is an example of how to use hydra::Eval to evaluate C++11 lambdas using the CUDA backend..." alt="" coords="552,453,729,480"/>
+<area shape="rect" id="node12" href="$d7/dd4/a00013.html" title="HydraRandomExample take parameters from the command line and generates random samples in one..." alt="" coords="753,453,936,480"/>
+<area shape="rect" id="node13" href="$dd/d1b/a00015.html" title="HydraRandomExample take parameters from the command line and generates random samples in one..." alt="" coords="960,453,1135,480"/>
 </map>

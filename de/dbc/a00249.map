@@ -1,11 +1,4 @@
-<map id="Sum.h" name="Sum.h">
-<area shape="rect" id="node2" href="$dc/d54/a00094.html" title="FunctorArithmetic.h" alt="" coords="689,80,825,107"/>
-<area shape="rect" id="node3" href="$d4/d3a/a00101.html" title="HydraEvaluateExample.cpp" alt="" coords="5,155,189,181"/>
-<area shape="rect" id="node4" href="$d1/d7c/a00003.html" title="HydraEvaluateExample.cu" alt="" coords="214,155,391,181"/>
-<area shape="rect" id="node5" href="$dd/dad/a00005.html" title="HydraFitExample.cpp" alt="" coords="415,155,563,181"/>
-<area shape="rect" id="node6" href="$de/d5e/a00007.html" title="HydraFitExample.cu" alt="" coords="588,155,729,181"/>
-<area shape="rect" id="node7" href="$da/da0/a00009.html" title="HydraPhaseSpaceExample.cpp" alt="" coords="754,155,961,181"/>
-<area shape="rect" id="node8" href="$da/d45/a00011.html" title="HydraPhaseSpaceExample.cu" alt="" coords="985,155,1185,181"/>
-<area shape="rect" id="node9" href="$d7/dd4/a00013.html" title="HydraRandomExample.cpp" alt="" coords="1210,155,1393,181"/>
-<area shape="rect" id="node10" href="$dd/d1b/a00015.html" title="HydraRandomExample.cu" alt="" coords="1417,155,1591,181"/>
+<map id="examples::Exp" name="examples::Exp">
+<area shape="rect" id="node2" href="$db/db2/a00020.html" title="{hydra::BaseFunctor\l\&lt; Exp, GReal_t, 1 \&gt;\n|+ parameter_count\l|+ BaseFunctor()\l+ BaseFunctor()\l+ ~BaseFunctor()\l+ GetCacheIndex()\l+ GetFunctor()\l+ GetParameter()\l+ GetParameter()\l+ interface()\l+ interface()\l+ IsCached()\land 9 more...\l}" alt="" coords="15,321,155,560"/>
+<area shape="rect" id="node3" href="$db/db2/a00020.html" title="{hydra::BaseFunctor\l\&lt; Functor, ReturnType,\l NPARAM \&gt;\n|+ parameter_count\l|+ BaseFunctor()\l+ BaseFunctor()\l+ ~BaseFunctor()\l+ GetCacheIndex()\l+ GetFunctor()\l+ GetParameter()\l+ GetParameter()\l+ interface()\l+ interface()\l+ IsCached()\land 9 more...\l}" alt="" coords="5,5,164,259"/>
 </map>

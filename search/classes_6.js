@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['gauss',['Gauss',['../db/df3/a00034.html',1,'']]]
+  ['gauss',['Gauss',['../df/d61/a00031.html',1,'examples']]]
 ];

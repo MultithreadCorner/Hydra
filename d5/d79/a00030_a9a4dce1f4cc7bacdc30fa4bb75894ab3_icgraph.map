@@ -1,4 +1,3 @@
 <map id="hydra::Events::GetNEvents" name="hydra::Events::GetNEvents">
-<area shape="rect" id="node2" href="$d1/d84/a00052.html#a348046a32bafabb2280d8ae55785e613" title="hydra::PhaseSpace::\lGenerate" alt="" coords="247,5,391,47"/>
-<area shape="rect" id="node3" href="$d5/d79/a00030.html#ace3fe647bf093ad875cc1568ac8bdb53" title="hydra::Events::operator=" alt="" coords="236,71,403,98"/>
+<area shape="rect" id="node2" href="$d5/d79/a00030.html#ace3fe647bf093ad875cc1568ac8bdb53" title="hydra::Events::operator=" alt="" coords="236,5,403,32"/>
 </map>

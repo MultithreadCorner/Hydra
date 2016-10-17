@@ -1,6 +1,9 @@
 var a00090 =
 [
-    [ "Hydra_VERSION_MAJOR", "d9/dec/a00090.html#a95d1abb83d001dc9cae163236910c439", null ],
-    [ "Hydra_VERSION_MINOR", "d9/dec/a00090.html#aca82490e4d49651a1d802f1cdb8b1e9b", null ],
-    [ "Hydra_VERSION_PATCH", "d9/dec/a00090.html#acb4a3b573ee645982d76cf1cf3c68bd8", null ]
+    [ "Parameter", "d8/d41/a00038.html", "d8/d41/a00038" ],
+    [ "operator*", "d9/dec/a00090.html#af587b7c92737fe70358655f15e30ccc7", null ],
+    [ "operator+", "d9/dec/a00090.html#a8fb1d38b677c0b1cd04e858dfd2b1743", null ],
+    [ "operator-", "d9/dec/a00090.html#aa13bdd7709888a806c275753d12ea503", null ],
+    [ "operator/", "d9/dec/a00090.html#a3880b822ca1424ffb23cb57d9a0f5b5a", null ],
+    [ "operator<<", "d9/dec/a00090.html#a8a067a6647c6343cc50dee7a51fabb68", null ]
 ];

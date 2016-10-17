@@ -1,12 +1,10 @@
 var a00127 =
 [
-    [ "Vector3R", "d0/d89/a00071.html", "d0/d89/a00071" ],
-    [ "cross", "df/dcd/a00127.html#aeafa4366407089182878f1f595038b13", null ],
-    [ "operator*", "df/dcd/a00127.html#abb35eb14984b6f9d742e7184f98fb4a8", null ],
-    [ "operator*", "df/dcd/a00127.html#ad56864f196d50c23d6ef4bd0fa5320ee", null ],
-    [ "operator*", "df/dcd/a00127.html#a16922c01d5d589efdcafaf9f3c4c852e", null ],
-    [ "operator+", "df/dcd/a00127.html#a7ee0958a1405d293624a05ff2d16ae60", null ],
-    [ "operator-", "df/dcd/a00127.html#a8f6293979d93d4a451cd1d1e52bad055", null ],
-    [ "operator/", "df/dcd/a00127.html#aaf636c5faf60ed3d1a5f999262252b4f", null ],
-    [ "operator<<", "df/dcd/a00127.html#a3fa8037907332bf633dfc1bc3b40865c", null ]
+    [ "Integrator.h", "db/ddf/a00088.html", null ],
+    [ "Plain.h", "d1/d84/a00097.html", null ],
+    [ "PlainState.h", "d1/d44/a00098.html", null ],
+    [ "ProcessCallsPlain.h", "d9/dcc/a00102.html", null ],
+    [ "ProcessCallsVegas.h", "d5/d1e/a00103.html", null ],
+    [ "Vegas.h", "d9/d4b/a00117.html", null ],
+    [ "VegasState.h", "d8/d87/a00118.html", null ]
 ];
