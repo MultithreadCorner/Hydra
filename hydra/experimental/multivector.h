@@ -46,28 +46,35 @@ namespace experimental {
 
 namespace detail {
 
-_GenerateVoidMember(shrink_to_fit)
-_GenerateVoidMember(clear)
-_GenerateVoidMember(reserve)
-_GenerateVoidMember(resize)
-
-_GenerateVoidMemberArgs(push_back)
-
-_GenerateVoidMemberTuple(push_back)
-
-_GenerateNonVoidMember(size)
-_GenerateNonVoidMember(begin)
-_GenerateNonVoidMember(end)
-_GenerateNonVoidMember(cbegin)
-_GenerateNonVoidMember(cend)
-_GenerateNonVoidMember(rbegin)
-_GenerateNonVoidMember(rend)
-_GenerateNonVoidMember(crbegin)
-_GenerateNonVoidMember(crend)
-_GenerateNonVoidMember(data)
-_GenerateNonVoidMember(capacity)
-
+_GenerateVoidCallArgs(shrink_to_fit)
+_GenerateVoidCallArgs(clear)
+_GenerateVoidCallArgs(pop_back )
+_GenerateVoidCallArgs(reserve)
+_GenerateVoidCallArgs(resize)
+_GenerateVoidCallTuple(push_back)
+_GenerateNonVoidCallArgs(size)
+_GenerateNonVoidCallArgs(empty)
+_GenerateNonVoidCallArgs(front)
+_GenerateNonVoidCallArgs(back)
+_GenerateNonVoidCallArgs(begin)
+_GenerateNonVoidCallArgs(end)
+_GenerateNonVoidCallArgs(cbegin)
+_GenerateNonVoidCallArgs(cend)
+_GenerateNonVoidCallArgs(rbegin)
+_GenerateNonVoidCallArgs(rend)
+_GenerateNonVoidCallArgs(crbegin)
+_GenerateNonVoidCallArgs(crend)
+_GenerateNonVoidCallArgs(data)
+_GenerateNonVoidCallArgs(capacity)
+_GenerateNonVoidCallArgs(erase)
 }
+
+/**
+ * The correct thing to do here is to define policies to Vector, Tuple and Zipping
+ * providing the ::methods make_tuple, ::make_zip_iterator, ::get<I>, copy,
+ * etc...
+ * This is only a preliminary version and will work only inside thrust
+ */
 
 template< template<typename...> class V, template<typename...> class Alloc, typename ...T>
 class multivector{
@@ -97,135 +104,172 @@ public:
 	typedef thrust::zip_iterator<reverse_iterator_tuple>         reverse_iterator;
 	typedef thrust::zip_iterator<const_reverse_iterator_tuple>   const_reverse_iterator;
 
+	/**
+	 * default constructor
+	 */
 	explicit multivector():
-		fStorage(thrust::make_tuple( V<T, Alloc<T>>()... ) )
+				fStorage(thrust::make_tuple( V<T, Alloc<T>>()... ) )
 	{}
 
-
+	/**
+	 * constructor size_t n
+	 */
 	explicit multivector(size_t n):
-		fStorage(thrust::make_tuple( V<T, Alloc<T>>(n)... ) )
+				fStorage(thrust::make_tuple( V<T, Alloc<T>>(n)... ) )
 	{}
 
+	/**
+	 * copy constructor
+	 */
 	template< template<typename...> class V2, template<typename...> class Alloc2>
-	multivector( multivector< V2, Alloc2, T... > const&  v)
+	multivector( multivector< V2, Alloc2, T... > const&  other)
 	{
-		this->resize(v.size());
-		thrust::copy(v.begin(), v.end(), begin() );
+		resize(other.size());
+		thrust::copy(other.begin(), other.end(), begin() );
 	}
 
+	/**
+	 * assignment operator=
+	 */
 	template< template<typename...> class V2, template<typename...> class Alloc2>
 	multivector< V, Alloc, T... >& operator=( multivector< V2, Alloc2, T... > const&  v)
 	{
-			this->resize(v.size());
-			thrust::copy(v.begin(), v.end(), this->begin() );
-			return *this;
+		this->resize(v.size());
+		thrust::copy(v.begin(), v.end(), this->begin() );
+		return *this;
 	}
-
 
 
 	void push_back(T const&... args)
 	{
-		push_back_invoke_with_args( fStorage, args...);
+		push_back_call_tuple(fStorage, thrust::make_tuple(args...) );
 	}
 
 	void push_back(thrust::tuple<T...> const& args)
 	{
-		push_back_invoke_with_tuple( fStorage, args);
+		push_back_call_tuple( fStorage, args);
 	}
 
 	pointer_tuple_type data()
 	{
-		return detail::data_invoke(fStorage );
+		return detail::data_call_args( fStorage );
 	}
 
 	const_pointer_tuple_type data() const
 	{
-		return detail::data_invoke(fStorage );
+		return detail::data_call_args( fStorage );
 	}
 
 	const size_t size()
 	{
-		auto sizes = detail::size_invoke(fStorage );
+		auto sizes = detail::size_call_args( fStorage );
 		return thrust::get<0>(sizes);
 	}
 
 	size_t capacity() const
 	{
-		auto sizes = detail::capacity_invoke(fStorage );
+		auto sizes = detail::capacity_call_args( fStorage );
 		return thrust::get<0>(sizes);
 	}
 
+	bool empty() const
+	{
+		auto empties = detail::empty_call_args( fStorage );
+		return thrust::get<0>(empties);
+	}
+
+
+
 	void resize(size_t size)
 	{
-		detail::resize_in_tuple(fStorage, size );
+		detail::resize_call_args( fStorage, size );
 	}
 
 	void clear()
 	{
-		detail::clear_in_tuple(fStorage);
+		detail::clear_call_args(fStorage);
 	}
 
 	void shrink_to_fit()
 	{
-		detail::shrink_to_fit_in_tuple(fStorage);
+		detail::shrink_to_fit_call_args(fStorage);
 	}
 
 	void reserve(size_t size)
 	{
-		detail::reserve_in_tuple(fStorage, size );
+		detail::reserve_call_args(fStorage, size );
 	}
 
-   void swap( multivector< V, Alloc, T... >&  v	)
-   {
+	__host__
+	reference_tuple front()
+	{
+		return  detail::front_call_args(fStorage);
+	}
 
-    }
+	__host__
+	const_reference_tuple front() const
+	{
+		return  detail::front_call_args(fStorage);
+	}
+
+	__host__
+	reference_tuple back()
+	{
+		return  detail::back_call_args(fStorage);
+	}
+
+	__host__
+	const_reference_tuple back() const
+	{
+		return  detail::back_call_args(fStorage);
+	}
 
     __host__
 	iterator begin()
 	{
-		return	thrust::make_zip_iterator( detail::begin_invoke(fStorage) );
+		return	thrust::make_zip_iterator( detail::begin_call_args(fStorage) );
 	}
 
 	__host__
 	iterator end()
 	{
-		return	thrust::make_zip_iterator( detail::end_invoke(fStorage) );
+		return	thrust::make_zip_iterator( detail::end_call_args(fStorage) );
 	}
 
 	__host__
 	const_iterator cbegin() const
 	{
-		return	thrust::make_zip_iterator( detail::cbegin_invoke(fStorage) );
+		return	thrust::make_zip_iterator( detail::cbegin_call_args(fStorage) );
 	}
 
 	__host__
 	const_iterator cend() const
 	{
-		return	thrust::make_zip_iterator( detail::cend_invoke(fStorage) );
+		return	thrust::make_zip_iterator( detail::cend_call_args(fStorage) );
 	}
 
 	__host__
 	reverse_iterator rbegin()
 	{
-		return	thrust::make_zip_iterator( detail::rbegin_invoke(fStorage) );
+		return	thrust::make_zip_iterator( detail::rbegin_call_args(fStorage) );
 	}
 
 	__host__
 	reverse_iterator rend()
 	{
-		return	thrust::make_zip_iterator( detail::rend_invoke(fStorage) );
+		return	thrust::make_zip_iterator( detail::rend_call_args(fStorage) );
 	}
 
 	__host__
 	const_reverse_iterator crbegin() const
 	{
-		return	thrust::make_zip_iterator( detail::crbegin_invoke(fStorage) );
+		return	thrust::make_zip_iterator( detail::crbegin_call_args(fStorage) );
 	}
 
 	__host__
 	const_reverse_iterator crend() const
 	{
-		return	thrust::make_zip_iterator( detail::crend_invoke(fStorage) );
+		return	thrust::make_zip_iterator( detail::crend_call_args(fStorage) );
 	}
 
 	__host__

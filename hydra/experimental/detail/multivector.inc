@@ -35,52 +35,52 @@ namespace experimental {
 
 namespace detail {
 
-
-#define _GenerateVoidMember(function) \
-template<size_t I = 0, typename Tuple, typename ...Args> __host__ __device__ \
-inline typename thrust::detail::enable_if<I == thrust::tuple_size<Tuple>::value, void>::type \
-function##_in_tuple( Tuple&, Args&... ){} \
- \
-template<size_t I = 0, typename Tuple, typename ...Args> __host__ __device__ \
-inline typename thrust::detail::enable_if<(I < thrust::tuple_size<Tuple>::value),void >::type \
-function##_in_tuple( Tuple& tpl, Args&... args) \
-{ \
-thrust::get<I>(tpl).function(args...); \
-function##_in_tuple<I + 1, Tuple>( tpl, args... ); \
-}
-
-
-#define _GenerateVoidMemberArgs(function) \
+/**
+ * this macros expands with pattern:
+ * void get<j>(storage).function(args...);
+ * for j=0,1,2...N
+ */
+#define _GenerateVoidCallArgs(function) \
 template<size_t I = 0, typename Tuple, typename ...Args> __host__ __device__ \
 inline typename thrust::detail::enable_if<( (I == thrust::tuple_size<Tuple>::value) && (thrust::tuple_size<Tuple>::value==sizeof...(Args))), void>::type \
-function##_invoke_with_args( Tuple&, Args const&... ){} \
+function##_call_args( Tuple&, Args const&... ){} \
  \
 template<size_t I = 0, typename Tuple, typename ...Args> __host__ __device__ \
 inline typename thrust::detail::enable_if<( (I < thrust::tuple_size<Tuple>::value) && (thrust::tuple_size<Tuple>::value==sizeof...(Args)) ),void >::type \
-function##_invoke_with_args( Tuple& tpl, Args const&... args) \
+function##_call_args( Tuple& tpl, Args const&... args) \
 { \
 thrust::get<I>(tpl).function( thrust::get<I>(thrust::make_tuple(args...)) ); \
-function##_invoke_with_args<I + 1, Tuple>( tpl, args... ); \
+function##_call_args<I + 1, Tuple>( tpl, args... ); \
 }
 
-#define _GenerateVoidMemberTuple(function) \
+/**
+ * this macros expands with pattern:
+ * void get<j>(storage).function( get<j>(args));
+ * for j=0,1,2...N
+ */
+#define _GenerateVoidCallTuple(function) \
 template<size_t I = 0, typename Tuple, typename ...Args> __host__ __device__ \
 inline typename thrust::detail::enable_if<( (I == thrust::tuple_size<Tuple>::value) && (thrust::tuple_size<Tuple>::value==sizeof...(Args))), void>::type \
-function##_invoke_with_tuple( Tuple&, thrust::tuple<Args...> const& ){} \
+function##_call_tuple( Tuple&, thrust::tuple<Args...> const& ){} \
  \
 template<size_t I = 0, typename Tuple, typename ...Args> __host__ __device__ \
 inline typename thrust::detail::enable_if<( (I < thrust::tuple_size<Tuple>::value) && (thrust::tuple_size<Tuple>::value==sizeof...(Args)) ),void >::type \
-function##_invoke_with_tuple( Tuple& tpl, thrust::tuple<Args...> const& args) \
+function##_call_tuple( Tuple& tpl, thrust::tuple<Args...> const& args) \
 { \
 thrust::get<I>(tpl).function( thrust::get<I>(args) ); \
-function##_invoke_with_tuple<I + 1, Tuple, Args...>( tpl, args ); \
+function##_call_tuple<I + 1, Tuple, Args...>( tpl, args ); \
 }
 
-
-#define _GenerateNonVoidMember(function) \
+/**
+ * this macros expands with pattern:
+ * r<j> = get<j>(storage).function( args...);
+ * return tuple< r<0>, r<1>, r<2>... >;
+ * for j=0,1,2...N
+ */
+#define _GenerateNonVoidCallArgs(function) \
 template< typename Tuple, typename ...Args, size_t ...index > \
 __host__ __device__ inline auto \
-function##_invoke_helper(hydra::detail::index_sequence<index...>, Tuple& tpl, Args& ...args ) \
+function##_call_args_helper(hydra::detail::index_sequence<index...>, Tuple& tpl, Args& ...args ) \
 -> decltype( thrust::make_tuple(thrust::get<index>(tpl).function(args...)...) ) \
 { \
 	return thrust::make_tuple(thrust::get<index>(tpl).function(args...) ...); \
@@ -88,13 +88,39 @@ function##_invoke_helper(hydra::detail::index_sequence<index...>, Tuple& tpl, Ar
   \
 template< typename Tuple, typename ...Args > \
 __host__  __device__ inline auto \
-function##_invoke( Tuple& tpl, Args& ...args) \
--> decltype(function##_invoke_helper( hydra::detail::make_index_sequence< thrust::tuple_size<Tuple>::value> { }, tpl, args...)) \
+function##_call_args( Tuple& tpl, Args& ...args) \
+-> decltype(function##_call_args_helper( hydra::detail::make_index_sequence< thrust::tuple_size<Tuple>::value> { }, tpl, args...)) \
 { \
 	constexpr size_t Size = thrust::tuple_size<Tuple>::value; \
     \
-	return function##_invoke_helper( hydra::detail::make_index_sequence<Size> { }, tpl, args...); \
+	return function##_call_args_helper( hydra::detail::make_index_sequence<Size> { }, tpl, args...); \
+}
+
+
+/**
+ * this macros expands with pattern:
+ * r<j> = get<j>(storage).function( args...);
+ * return tuple< r<0>, r<1>, r<2>... >;
+ * for j=0,1,2...N
+ */
+#define _GenerateNonVoidCallTuple(function) \
+template< typename Tuple, typename ...Args, size_t ...index > \
+__host__ __device__ inline auto \
+function##_call_tuple_helper(hydra::detail::index_sequence<index...>, Tuple& tpl, thrust::tuple<Args...> const& args ) \
+-> decltype( thrust::make_tuple( thrust::get<index>(tpl).function( thrust::get<index>(args) )...) ) \
+{ \
+	return thrust::make_tuple(thrust::get<index>(tpl).function( thrust::get<index>(args) ) ...); \
 } \
+  \
+template< typename Tuple, typename ...Args > \
+__host__  __device__ inline auto \
+function##_call_tuple( Tuple& tpl, thrust::tuple<Args...> const& args ) \
+-> decltype(function##_call_tuple_helper( hydra::detail::make_index_sequence< thrust::tuple_size<Tuple>::value> { }, tpl, thrust::tuple<Args...> const& args)) \
+{\
+	constexpr size_t Size = thrust::tuple_size<Tuple>::value; \
+ \
+	return function##_call_tuple_helper( hydra::detail::make_index_sequence<Size> { }, tpl, args); \
+}
 
 
 
