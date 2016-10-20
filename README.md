@@ -5,7 +5,7 @@ Hydra
 
 What is it?
 -----------
-Hydra is an header only library designed for data analysis. The library makes use of Thrust and can deploy OpenMP
+Hydra is a header only library designed for data analysis. The library makes use of Thrust and can deploy OpenMP
 threads, CUDA and Xeon Phi cores. It is focused on performance and precision. 
 
 The libray core algorithms follow as close as is possible the implementations widely available in framworks like ROOT, and libraries 
