@@ -29,47 +29,80 @@
 #ifndef MULTIVECTOR_INC_
 #define MULTIVECTOR_INC_
 
+namespace hydra {
 
-#define MultiVector_GEN_MEMBER_V(function) \
-template<size_t I = 0, typename ...Tp, typename ...Args> __host__ __device__ \
-inline typename thrust::detail::enable_if<I == sizeof...(Tp), void>::type \
-function##_in_tuple(thrust::tuple<Tp...>&, Args&& ...args){} \
+namespace experimental {
+
+namespace detail {
+
+
+#define _GenerateVoidMember(function) \
+template<size_t I = 0, typename Tuple, typename ...Args> __host__ __device__ \
+inline typename thrust::detail::enable_if<I == thrust::tuple_size<Tuple>::value, void>::type \
+function##_in_tuple( Tuple&, Args&... ){} \
  \
-template<size_t I = 0, typename ...Tp, typename ...Args> __host__ __device__ \
-inline typename thrust::detail::enable_if<(I < sizeof...(Tp)),void >::type \
-function##_in_tuple(thrust::tuple<Tp...>& t,  Args&& ...args) \
+template<size_t I = 0, typename Tuple, typename ...Args> __host__ __device__ \
+inline typename thrust::detail::enable_if<(I < thrust::tuple_size<Tuple>::value),void >::type \
+function##_in_tuple( Tuple& tpl, Args&... args) \
 { \
-thrust::get<I>(t).function(args...); \
-function##_in_tuple<I + 1,Tp...>( t, args... ); \
-}
-
-#define MULTIVECTOR_MEMBER(function) \
-template< typename Tup, typename ArgType, size_t ... index>
-__host__ __device__
-inline auto invoke_helper( ArgType& x, Tup& tup, index_sequence<index...>)
--> decltype(thrust::make_tuple(thrust::get<index>(tup)(x)...))
-{
-	return thrust::make_tuple(thrust::get<index>(tup)(x)...);
-}
-
-template< typename Tup, typename ArgType>
-__host__  __device__
-inline auto invoke(ArgType& x, Tup& tup)
--> decltype(invoke_helper(x, tup, make_index_sequence< thrust::tuple_size<Tup>::value> { }))
-{
-	constexpr size_t Size = thrust::tuple_size<Tup>::value;
-	return invoke_helper( x, tup, make_index_sequence<Size> { });
+thrust::get<I>(tpl).function(args...); \
+function##_in_tuple<I + 1, Tuple>( tpl, args... ); \
 }
 
 
-MULTIVECTOR_MEMBER(resize)
-
-int main() {
-
-   return;
-
-
+#define _GenerateVoidMemberArgs(function) \
+template<size_t I = 0, typename Tuple, typename ...Args> __host__ __device__ \
+inline typename thrust::detail::enable_if<( (I == thrust::tuple_size<Tuple>::value) && (thrust::tuple_size<Tuple>::value==sizeof...(Args))), void>::type \
+function##_invoke_with_args( Tuple&, Args const&... ){} \
+ \
+template<size_t I = 0, typename Tuple, typename ...Args> __host__ __device__ \
+inline typename thrust::detail::enable_if<( (I < thrust::tuple_size<Tuple>::value) && (thrust::tuple_size<Tuple>::value==sizeof...(Args)) ),void >::type \
+function##_invoke_with_args( Tuple& tpl, Args const&... args) \
+{ \
+thrust::get<I>(tpl).function( thrust::get<I>(thrust::make_tuple(args...)) ); \
+function##_invoke_with_args<I + 1, Tuple>( tpl, args... ); \
 }
+
+#define _GenerateVoidMemberTuple(function) \
+template<size_t I = 0, typename Tuple, typename ...Args> __host__ __device__ \
+inline typename thrust::detail::enable_if<( (I == thrust::tuple_size<Tuple>::value) && (thrust::tuple_size<Tuple>::value==sizeof...(Args))), void>::type \
+function##_invoke_with_tuple( Tuple&, thrust::tuple<Args...> const& ){} \
+ \
+template<size_t I = 0, typename Tuple, typename ...Args> __host__ __device__ \
+inline typename thrust::detail::enable_if<( (I < thrust::tuple_size<Tuple>::value) && (thrust::tuple_size<Tuple>::value==sizeof...(Args)) ),void >::type \
+function##_invoke_with_tuple( Tuple& tpl, thrust::tuple<Args...> const& args) \
+{ \
+thrust::get<I>(tpl).function( thrust::get<I>(args) ); \
+function##_invoke_with_tuple<I + 1, Tuple, Args...>( tpl, args ); \
+}
+
+
+#define _GenerateNonVoidMember(function) \
+template< typename Tuple, typename ...Args, size_t ...index > \
+__host__ __device__ inline auto \
+function##_invoke_helper(hydra::detail::index_sequence<index...>, Tuple& tpl, Args& ...args ) \
+-> decltype( thrust::make_tuple(thrust::get<index>(tpl).function(args...)...) ) \
+{ \
+	return thrust::make_tuple(thrust::get<index>(tpl).function(args...) ...); \
+} \
+  \
+template< typename Tuple, typename ...Args > \
+__host__  __device__ inline auto \
+function##_invoke( Tuple& tpl, Args& ...args) \
+-> decltype(function##_invoke_helper( hydra::detail::make_index_sequence< thrust::tuple_size<Tuple>::value> { }, tpl, args...)) \
+{ \
+	constexpr size_t Size = thrust::tuple_size<Tuple>::value; \
+    \
+	return function##_invoke_helper( hydra::detail::make_index_sequence<Size> { }, tpl, args...); \
+} \
+
+
+
+}  // namespace detail
+
+}  // namespace experimental
+
+}  // namespace hydra
 
 
 

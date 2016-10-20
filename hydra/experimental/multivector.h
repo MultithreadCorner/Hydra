@@ -29,32 +29,65 @@
 #ifndef MULTIVECTOR_H_
 #define MULTIVECTOR_H_
 
-#include<thrust/iterator/zip_iterator.h>
+#include <hydra/detail/Config.h>
+#include <hydra/Types.h>
+#include <hydra/experimental/detail/multivector.inc>
+
+#include <thrust/iterator/zip_iterator.h>
+#include <thrust/tuple.h>
+#include <hydra/detail/utility/Utility_Tuple.h>
+#include <hydra/detail/utility/Generic.h>
+
+
 
 namespace hydra {
 
 namespace experimental {
 
-template< template<typename T, typename A> class V, typename A, typename ...Ts>
+namespace detail {
+
+_GenerateVoidMember(shrink_to_fit)
+_GenerateVoidMember(clear)
+_GenerateVoidMember(reserve)
+_GenerateVoidMember(resize)
+
+_GenerateVoidMemberArgs(push_back)
+
+_GenerateVoidMemberTuple(push_back)
+
+_GenerateNonVoidMember(size)
+_GenerateNonVoidMember(begin)
+_GenerateNonVoidMember(end)
+_GenerateNonVoidMember(cbegin)
+_GenerateNonVoidMember(cend)
+_GenerateNonVoidMember(rbegin)
+_GenerateNonVoidMember(rend)
+_GenerateNonVoidMember(crbegin)
+_GenerateNonVoidMember(crend)
+_GenerateNonVoidMember(data)
+_GenerateNonVoidMember(capacity)
+
+}
+
+template< template<typename...> class V, template<typename...> class Alloc, typename ...T>
 class multivector{
 
 public:
 
 	//allocator
-    typedef A  allocator_type;
 
     //tuples of types
-	typedef thrust::tuple<Ts...> 			                        value_tuple_type;
-	typedef thrust::tuple<V<Ts, A>...> 		                        storage_tuple_type;
-	typedef thrust::tuple<typename V<Ts, A>::pointer...> 	        pointer_tuple_type;
-	typedef thrust::tuple<typename V<Ts, A>::const_pointer...> 	    const_pointer_tuple_type;
-	typedef thrust::tuple<typename V<Ts, A>::reference...> 	        reference_tuple;
-	typedef thrust::tuple<typename V<Ts, A>::const_reference...>    const_reference_tuple;
-	typedef thrust::tuple<typename V<Ts, A>::size_type...> 	        size_type_tuple;
-	typedef thrust::tuple<typename V<Ts, A>::iterator...> 	        iterator_tuple;
-	typedef thrust::tuple<typename V<Ts, A>::const_iterator...>     const_iterator_tuple;
-	typedef thrust::tuple<typename V<Ts, A>::reverse_iterator...>   reverse_iterator_tuple;
-	typedef thrust::tuple<typename V<Ts, A>::const_reverse_iterator...> const_reverse_iterator_tuple;
+	typedef thrust::tuple<T...> 			                                  value_tuple_type;
+	typedef thrust::tuple<V<T, Alloc<T>>...> 		                          storage_tuple_type;
+	typedef thrust::tuple<typename V<T, Alloc<T>>::pointer...> 	              pointer_tuple_type;
+	typedef thrust::tuple<typename V<T, Alloc<T>>::const_pointer...> 	      const_pointer_tuple_type;
+	typedef thrust::tuple<typename V<T, Alloc<T>>::reference...> 	          reference_tuple;
+	typedef thrust::tuple<typename V<T, Alloc<T>>::const_reference...>        const_reference_tuple;
+	typedef thrust::tuple<typename V<T, Alloc<T>>::size_type...> 	          size_type_tuple;
+	typedef thrust::tuple<typename V<T, Alloc<T>>::iterator...> 	          iterator_tuple;
+	typedef thrust::tuple<typename V<T, Alloc<T>>::const_iterator...>         const_iterator_tuple;
+	typedef thrust::tuple<typename V<T, Alloc<T>>::reverse_iterator...>       reverse_iterator_tuple;
+	typedef thrust::tuple<typename V<T, Alloc<T>>::const_reverse_iterator...> const_reverse_iterator_tuple;
 
 	//zipped iterators
 	typedef thrust::zip_iterator<iterator_tuple>                 iterator;
@@ -64,8 +97,154 @@ public:
 	typedef thrust::zip_iterator<reverse_iterator_tuple>         reverse_iterator;
 	typedef thrust::zip_iterator<const_reverse_iterator_tuple>   const_reverse_iterator;
 
+	explicit multivector():
+		fStorage(thrust::make_tuple( V<T, Alloc<T>>()... ) )
+	{}
 
 
+	explicit multivector(size_t n):
+		fStorage(thrust::make_tuple( V<T, Alloc<T>>(n)... ) )
+	{}
+
+	template< template<typename...> class V2, template<typename...> class Alloc2>
+	multivector( multivector< V2, Alloc2, T... > const&  v)
+	{
+		this->resize(v.size());
+		thrust::copy(v.begin(), v.end(), begin() );
+	}
+
+	template< template<typename...> class V2, template<typename...> class Alloc2>
+	multivector< V, Alloc, T... >& operator=( multivector< V2, Alloc2, T... > const&  v)
+	{
+			this->resize(v.size());
+			thrust::copy(v.begin(), v.end(), this->begin() );
+			return *this;
+	}
+
+
+
+	void push_back(T const&... args)
+	{
+		push_back_invoke_with_args( fStorage, args...);
+	}
+
+	void push_back(thrust::tuple<T...> const& args)
+	{
+		push_back_invoke_with_tuple( fStorage, args);
+	}
+
+	pointer_tuple_type data()
+	{
+		return detail::data_invoke(fStorage );
+	}
+
+	const_pointer_tuple_type data() const
+	{
+		return detail::data_invoke(fStorage );
+	}
+
+	const size_t size()
+	{
+		auto sizes = detail::size_invoke(fStorage );
+		return thrust::get<0>(sizes);
+	}
+
+	size_t capacity() const
+	{
+		auto sizes = detail::capacity_invoke(fStorage );
+		return thrust::get<0>(sizes);
+	}
+
+	void resize(size_t size)
+	{
+		detail::resize_in_tuple(fStorage, size );
+	}
+
+	void clear()
+	{
+		detail::clear_in_tuple(fStorage);
+	}
+
+	void shrink_to_fit()
+	{
+		detail::shrink_to_fit_in_tuple(fStorage);
+	}
+
+	void reserve(size_t size)
+	{
+		detail::reserve_in_tuple(fStorage, size );
+	}
+
+   void swap( multivector< V, Alloc, T... >&  v	)
+   {
+
+    }
+
+    __host__
+	iterator begin()
+	{
+		return	thrust::make_zip_iterator( detail::begin_invoke(fStorage) );
+	}
+
+	__host__
+	iterator end()
+	{
+		return	thrust::make_zip_iterator( detail::end_invoke(fStorage) );
+	}
+
+	__host__
+	const_iterator cbegin() const
+	{
+		return	thrust::make_zip_iterator( detail::cbegin_invoke(fStorage) );
+	}
+
+	__host__
+	const_iterator cend() const
+	{
+		return	thrust::make_zip_iterator( detail::cend_invoke(fStorage) );
+	}
+
+	__host__
+	reverse_iterator rbegin()
+	{
+		return	thrust::make_zip_iterator( detail::rbegin_invoke(fStorage) );
+	}
+
+	__host__
+	reverse_iterator rend()
+	{
+		return	thrust::make_zip_iterator( detail::rend_invoke(fStorage) );
+	}
+
+	__host__
+	const_reverse_iterator crbegin() const
+	{
+		return	thrust::make_zip_iterator( detail::crbegin_invoke(fStorage) );
+	}
+
+	__host__
+	const_reverse_iterator crend() const
+	{
+		return	thrust::make_zip_iterator( detail::crend_invoke(fStorage) );
+	}
+
+	__host__
+	reference_tuple operator[](size_t n)
+	{
+		return *(begin() + (n < size() ? n : size()-1) );
+	}
+
+	__host__
+	const_reference_tuple operator[](size_t n) const
+	{
+		return *(begin() + (n < size() ? n : size()-1) );
+	}
+
+
+
+private:
+
+	storage_tuple_type fStorage;
 
 };
 
