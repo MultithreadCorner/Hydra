@@ -52,21 +52,25 @@ _GenerateVoidCallArgs(pop_back )
 _GenerateVoidCallArgs(reserve)
 _GenerateVoidCallArgs(resize)
 _GenerateVoidCallTuple(push_back)
-_GenerateNonVoidCallArgs(size)
-_GenerateNonVoidCallArgs(empty)
+
+_GenerateNonVoidCallArgsC(size)
+_GenerateNonVoidCallArgsC(empty)
 _GenerateNonVoidCallArgs(front)
+_GenerateNonVoidCallArgsC(front)
 _GenerateNonVoidCallArgs(back)
 _GenerateNonVoidCallArgs(begin)
 _GenerateNonVoidCallArgs(end)
-_GenerateNonVoidCallArgs(cbegin)
-_GenerateNonVoidCallArgs(cend)
+_GenerateNonVoidCallArgsC(cbegin)
+_GenerateNonVoidCallArgsC(cend)
 _GenerateNonVoidCallArgs(rbegin)
 _GenerateNonVoidCallArgs(rend)
-_GenerateNonVoidCallArgs(crbegin)
-_GenerateNonVoidCallArgs(crend)
+_GenerateNonVoidCallArgsC(crbegin)
+_GenerateNonVoidCallArgsC(crend)
 _GenerateNonVoidCallArgs(data)
-_GenerateNonVoidCallArgs(capacity)
+_GenerateNonVoidCallArgsC(data)
+_GenerateNonVoidCallArgsC(capacity)
 _GenerateNonVoidCallArgs(erase)
+
 }
 
 /**
@@ -124,8 +128,8 @@ public:
 	template< template<typename...> class V2, template<typename...> class Alloc2>
 	multivector( multivector< V2, Alloc2, T... > const&  other)
 	{
-		resize(other.size());
-		thrust::copy(other.begin(), other.end(), begin() );
+		this->resize(other.size());
+		thrust::copy(other.begin(), other.end(), this->begin() );
 	}
 
 	/**
@@ -139,15 +143,20 @@ public:
 		return *this;
 	}
 
+	void pop_back()
+	{
+		detail::pop_back_call_args(fStorage);
+	}
+
 
 	void push_back(T const&... args)
 	{
-		push_back_call_tuple(fStorage, thrust::make_tuple(args...) );
+		detail::push_back_call_tuple(fStorage, thrust::make_tuple(args...) );
 	}
 
 	void push_back(thrust::tuple<T...> const& args)
 	{
-		push_back_call_tuple( fStorage, args);
+		detail::push_back_call_tuple( fStorage, args);
 	}
 
 	pointer_tuple_type data()
@@ -160,7 +169,7 @@ public:
 		return detail::data_call_args( fStorage );
 	}
 
-	const size_t size()
+	const size_t size() const
 	{
 		auto sizes = detail::size_call_args( fStorage );
 		return thrust::get<0>(sizes);
@@ -177,8 +186,6 @@ public:
 		auto empties = detail::empty_call_args( fStorage );
 		return thrust::get<0>(empties);
 	}
-
-
 
 	void resize(size_t size)
 	{
@@ -275,13 +282,15 @@ public:
 	__host__
 	reference_tuple operator[](size_t n)
 	{
-		return *(begin() + (n < size() ? n : size()-1) );
+		iterator t = begin();
+		return t[ n < size() ? n : size()-1 ];
 	}
 
 	__host__
 	const_reference_tuple operator[](size_t n) const
 	{
-		return *(begin() + (n < size() ? n : size()-1) );
+		const_iterator t = cbegin();
+		return t[n < size() ? n : size()-1];
 	}
 
 

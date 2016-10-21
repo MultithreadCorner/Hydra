@@ -29,6 +29,7 @@
 
 
 #include <thrust/device_malloc_allocator.h>
+#include <thrust/host_vector.h>
 #include <hydra/experimental/multivector.h>
 
 using namespace std;
@@ -42,7 +43,7 @@ int main(int argv, char** argc)
 	storage ms(10);
 
 	cout << ms.size() << endl;
-
+	ms.empty();
 	for(int i =0; i<ms.size(); i++ ){
 		ms[i] = thrust::make_tuple(0.5+i, 1.5+i);
 	}

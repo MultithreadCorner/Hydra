@@ -247,6 +247,19 @@ ${ROOT_LIBRARIES}
 rt
 )
 
+add_executable(Hydra_Multivector_Test
+${CMAKE_CURRENT_SOURCE_DIR}/src/multivector_testing.cpp
+)
+
+set_target_properties(Hydra_Multivector_Test PROPERTIES 
+COMPILE_FLAGS  "-fopenmp -DTHRUST_DEVICE_SYSTEM=THRUST_DEVICE_SYSTEM_CPP -DTHRUST_HOST_SYSTEM=THRUST_HOST_SYSTEM_OMP -lgomp" )
+
+target_link_libraries(Hydra_Multivector_Test
+${ROOT_LIBRARIES}
+rt
+)
+
+
 
 install(DIRECTORY Hydra
   DESTINATION include)
