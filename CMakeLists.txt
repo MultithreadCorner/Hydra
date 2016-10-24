@@ -169,8 +169,32 @@ if(BUILD_CUDA_TARGETS)
     )
     
 	
-    
+#--------------
+#testing
 	
+    cuda_add_executable(Hydra_Multivector_Test_CUDA
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/multivector_testing.cu
+    OPTIONS -Xcompiler -fopenmp -DTHRUST_DEVICE_SYSTEM=THRUST_DEVICE_SYSTEM_CUDA -DTHRUST_HOST_SYSTEM=THRUST_HOST_SYSTEM_OMP  -lgomp
+    )
+    
+    target_link_libraries(Hydra_Multivector_Test_CUDA
+    ${ROOT_LIBRARIES}
+    rt
+    )    
+	
+#--------------
+#performance
+	
+    cuda_add_executable(Hydra_Multivector_Perf_CUDA
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/multivector_performance.cu
+    OPTIONS -Xcompiler -fopenmp -DTHRUST_DEVICE_SYSTEM=THRUST_DEVICE_SYSTEM_CUDA -DTHRUST_HOST_SYSTEM=THRUST_HOST_SYSTEM_OMP  -lgomp
+    )
+    
+    target_link_libraries(Hydra_Multivector_Perf_CUDA
+    rt
+    )    
+	
+  
 	
 endif(BUILD_CUDA_TARGETS)
 
@@ -259,6 +283,14 @@ ${ROOT_LIBRARIES}
 rt
 )
 
+add_executable(Hydra_Multivector_Perf
+${CMAKE_CURRENT_SOURCE_DIR}/src/multivector_performance.cpp
+)
+
+set_target_properties(Hydra_Multivector_Perf PROPERTIES 
+COMPILE_FLAGS  "-pthread -fopenmp -DTHRUST_DEVICE_SYSTEM=THRUST_DEVICE_SYSTEM_OMP -DTHRUST_HOST_SYSTEM=THRUST_HOST_SYSTEM_OMP -lgomp" )
+
+target_link_libraries(Hydra_Multivector_Perf)
 
 
 install(DIRECTORY Hydra
