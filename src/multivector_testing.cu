@@ -40,12 +40,13 @@
 using namespace std;
 using namespace hydra;
 
+
 TEST_CASE( "multivector<thrust::host_vector, std::allocator, unsigned int, float, double> ",
 		"[hydra::multivector]" ) {
 
 	typedef experimental::multivector<thrust::device_vector, thrust::device_malloc_allocator, unsigned int, float, double> table_t;
 
-
+size_t N=1000;
 
 	SECTION( "multivector(): size, capacity, emptiness, resize, reserve" )
 	{
@@ -58,13 +59,14 @@ TEST_CASE( "multivector<thrust::host_vector, std::allocator, unsigned int, float
 
 		REQUIRE( table.empty() == false );
 		REQUIRE( table.size()  == 10 );
-		REQUIRE( table.capacity() >= 10 );
+		REQUIRE( table.capacity() >= 10  );
 
-		table.reserve(20);
+		table.reserve(N);
 
 		REQUIRE( table.empty() == false );
 		REQUIRE( table.size()  == 10 );
-		REQUIRE( table.capacity() >= 20 );
+		REQUIRE( table.capacity() >= N );
+
 	}
 
 	SECTION( "multivector(size_t n): size, capacity, emptiness, resize, reserve" )
@@ -74,25 +76,25 @@ TEST_CASE( "multivector<thrust::host_vector, std::allocator, unsigned int, float
 		REQUIRE( table.size()  == 10 );
 		REQUIRE( table.capacity() >= 10 );
 
-		table.resize(20);
+		table.resize(N);
 
 		REQUIRE( table.empty() == false );
-		REQUIRE( table.size()  == 20 );
-		REQUIRE( table.capacity() >= 20 );
+		REQUIRE( table.size()  == N );
+		REQUIRE( table.capacity() >= N );
 
-		table.reserve(30);
+		table.reserve(N);
 
 		REQUIRE( table.empty() == false );
-		REQUIRE( table.size()  == 20 );
-		REQUIRE( table.capacity() >= 30 );
+		REQUIRE( table.size()  == N );
+		REQUIRE( table.capacity() >= N );
 	}
 
 	SECTION( "multivector(multivector other ): size, capacity, emptiness, resize, reserve" )
 	{
-		table_t table(10);
+		table_t table(N);
 		REQUIRE( table.empty() == false );
-		REQUIRE( table.size()  == 10 );
-		REQUIRE( table.capacity() >= 10 );
+		REQUIRE( table.size()  == N );
+		REQUIRE( table.capacity() >= N );
 
 		for(int i =0; i< table.size(); i++ ){
 			table[i] = thrust::make_tuple(i,
@@ -103,8 +105,8 @@ TEST_CASE( "multivector<thrust::host_vector, std::allocator, unsigned int, float
 		table_t other( table);
 
 		REQUIRE( other.empty() == false );
-		REQUIRE( other.size()  == 10 );
-		REQUIRE( other.capacity() >= 10 );
+		REQUIRE( other.size()  == N );
+		REQUIRE( other.capacity() >= N );
 
 		for(int i =0; i< table.size(); i++ ){
 			REQUIRE( thrust::get<0>(table[i]) ==  Approx(thrust::get<0>(other[i])) );
@@ -120,9 +122,9 @@ TEST_CASE( "multivector<thrust::host_vector, std::allocator, unsigned int, float
 			REQUIRE( table1.size()  == 0 );
 			REQUIRE( table1.capacity() >= 0 );
 
-			table_t table2(10);
+			table_t table2(N);
 
-			for(int i =0; i< 10; i++ ){
+			for(int i =0; i< N; i++ ){
 
 				table1.push_back(thrust::make_tuple( i,
 						i+std::numeric_limits<float>::lowest(),
@@ -134,33 +136,33 @@ TEST_CASE( "multivector<thrust::host_vector, std::allocator, unsigned int, float
 			}
 
 			REQUIRE( table1.empty() == false );
-			REQUIRE( table1.size()  == 10 );
-			REQUIRE( table1.capacity() >= 10 );
+			REQUIRE( table1.size()  == N );
+			REQUIRE( table1.capacity() >= N );
 
-			for(int i =0; i< 10; i++ ){
+			for(int i =0; i< N; i++ ){
 				REQUIRE( thrust::get<0>(table1[i]) ==  Approx(thrust::get<0>(table2[i])) );
 				REQUIRE( thrust::get<1>(table1[i]) ==  Approx(thrust::get<1>(table2[i])) );
 				REQUIRE( thrust::get<2>(table1[i]) ==  Approx(thrust::get<2>(table2[i])) );
 			}
 
-			for(int i =0; i< 10; i++ )
+			for(int i =0; i< N; i++ )
 				table1.pop_back();
 
 			REQUIRE( table1.empty() == true );
 			REQUIRE( table1.size()  == 0 );
-			REQUIRE( table1.capacity() >= 10 );
+			REQUIRE( table1.capacity() >= N );
 
-			for(int i =0; i< 10; i++ ){
+			for(int i =0; i< N; i++ ){
 
 				table1.push_back(i,	i+std::numeric_limits<float>::lowest(),
 						i+std::numeric_limits<double>::lowest());
 			}
 
 			REQUIRE( table1.empty() == false );
-			REQUIRE( table1.size()  == 10 );
-			REQUIRE( table1.capacity() >= 10 );
+			REQUIRE( table1.size()  == N );
+			REQUIRE( table1.capacity() >= N );
 
-			for(int i =0; i< 10; i++ ){
+			for(int i =0; i< N; i++ ){
 				REQUIRE( thrust::get<0>(table1[i]) ==  Approx(thrust::get<0>(table2[i])) );
 				REQUIRE( thrust::get<1>(table1[i]) ==  Approx(thrust::get<1>(table2[i])) );
 				REQUIRE( thrust::get<2>(table1[i]) ==  Approx(thrust::get<2>(table2[i])) );
@@ -178,9 +180,9 @@ TEST_CASE( "multivector<thrust::host_vector, std::allocator, unsigned int, float
 
 			table1.back()=thrust::make_tuple( 0,1,2);
 
-			REQUIRE( thrust::get<0>(table1[9]) ==  0 );
-			REQUIRE( thrust::get<1>(table1[9]) ==  1 );
-			REQUIRE( thrust::get<2>(table1[9]) ==  2 );
+			REQUIRE( thrust::get<0>(table1[N-1]) ==  0 );
+			REQUIRE( thrust::get<1>(table1[N-1]) ==  1 );
+			REQUIRE( thrust::get<2>(table1[N-1]) ==  2 );
 
 		}
 
@@ -192,7 +194,7 @@ TEST_CASE( "multivector<thrust::host_vector, std::allocator, unsigned int, float
 			REQUIRE( table.capacity() >= 0 );
 
 			//fill
-			for(int i =0; i< 10; i++ ){
+			for(int i =0; i< N; i++ ){
 
 				table.push_back(i,i,i);
 			}
@@ -232,7 +234,7 @@ TEST_CASE( "multivector<thrust::host_vector, std::allocator, unsigned int, float
 			}
 
 			//reverse iterators
-			i=9;
+			i=N-1;
 			for(auto row = table.rbegin(); row!= table.rend(); row++)
 			{
 				REQUIRE( thrust::get<0>(*row) == i );
@@ -242,7 +244,7 @@ TEST_CASE( "multivector<thrust::host_vector, std::allocator, unsigned int, float
 				i--;
 			}
 
-			i=9;
+			i=N-1;
 			for(auto row = table.crbegin(); row!= table.crend(); row++)
 			{
 				REQUIRE( thrust::get<0>(*row) == i );
@@ -263,7 +265,7 @@ TEST_CASE( "multivector<thrust::host_vector, std::allocator, unsigned int, float
 			REQUIRE( table.capacity() >= 0 );
 
 			//fill
-			for(int i =0; i< 10; i++ ){
+			for(int i =0; i< N; i++ ){
 
 				table.push_back(i,i,i);
 			}
@@ -272,13 +274,13 @@ TEST_CASE( "multivector<thrust::host_vector, std::allocator, unsigned int, float
 
 			REQUIRE( table.empty() == true );
 			REQUIRE( table.size()  == 0 );
-			REQUIRE( table.capacity() >= 10 );
+			REQUIRE( table.capacity() >= N );
 
 			table.shrink_to_fit();
 
 			REQUIRE( table.empty() == true );
 			REQUIRE( table.size()  == 0 );
-			REQUIRE_FALSE( table.capacity() >= 10 );
+			REQUIRE_FALSE( table.capacity() >= N );
 
 		}
 

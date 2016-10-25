@@ -49,13 +49,13 @@ option(BUILD_DOCUMENTATION "Create and install the HTML based API documentation 
 
 #options to gcc
 include(CheckCXXCompilerFlag)
-CHECK_CXX_COMPILER_FLAG("-std=c++11" COMPILER_SUPPORTS_CXX11)
+CHECK_CXX_COMPILER_FLAG("--std=c++11" COMPILER_SUPPORTS_CXX11)
 if(NOT COMPILER_SUPPORTS_CXX11)
  message(FATAL "The compiler ${CMAKE_CXX_COMPILER} has no C++11 support. Please use a different C++ compiler.")
 endif()
 
 #options to gcc
-set(CMAKE_CXX_FLAGS "-D_GLIBCXX_USE_CXX11_ABI=0 -DTHRUST_VARIADIC_TUPLE --std=c++11  -march=native -fPIC -O3 -fopenmp -lgomp -Wl,--no-undefined,--no-allow-shlib-undefined" CACHE STRING "compile flags" FORCE)
+set(CMAKE_CXX_FLAGS "-D_GLIBCXX_USE_CXX11_ABI=0 -DTHRUST_VARIADIC_TUPLE --std=c++11  -march=native -fPIC -O4 -fopenmp -lgomp" CACHE STRING "compile flags" FORCE)
 
 #including directories
 
@@ -67,7 +67,7 @@ if(CUDA_FOUND)
 
 	#set cuda flags
 	
-	SET(CUDA_NVCC_FLAGS ${CUDA_NVCC_FLAGS} --cudart ;  static ; -O4 ;--expt-relaxed-constexpr; -ftemplate-backtrace-limit=0; --expt-extended-lambda;--relocatable-device-code=false ; --generate-line-info ;
+	SET(CUDA_NVCC_FLAGS ${CUDA_NVCC_FLAGS} --cudart ;  static ; -O4 ;--expt-relaxed-constexpr; -ftemplate-backtrace-limit=0; --expt-extended-lambda;--relocatable-device-code=false ;
 	 -Xptxas -fmad=true ;-Xptxas -dlcm=cg; -Xptxas --opt-level=4   ) #) 
 # 
 	SET(CUDA_SEPARABLE_COMPILATION OFF)
@@ -178,8 +178,7 @@ if(BUILD_CUDA_TARGETS)
     )
     
     target_link_libraries(Hydra_Multivector_Test_CUDA
-    ${ROOT_LIBRARIES}
-    rt
+  rt
     )    
 	
 #--------------
@@ -199,7 +198,7 @@ if(BUILD_CUDA_TARGETS)
 	
     cuda_add_executable(Hydra_Multivector_CUDA
     ${CMAKE_CURRENT_SOURCE_DIR}/src/multivector.cu
-    OPTIONS -Xcompiler -fopenmp -DTHRUST_DEVICE_SYSTEM=THRUST_DEVICE_SYSTEM_CUDA -DTHRUST_HOST_SYSTEM=THRUST_HOST_SYSTEM_OMP  -lgomp
+    OPTIONS -Xcompiler -fopenmp -DTHRUST_DEVICE_SYSTEM=THRUST_DEVICE_SYSTEM_CUDA -DTHRUST_HOST_SYSTEM=THRUST_HOST_SYSTEM_CPP  -lgomp
     )
     
     target_link_libraries(Hydra_Multivector_CUDA
@@ -247,7 +246,7 @@ ${CMAKE_CURRENT_SOURCE_DIR}/src/HydraFitExample.cpp
 )
 
 set_target_properties(Hydra_Example_GCC_DEVICE_OMP_HOST_CPP_Fit PROPERTIES 
-COMPILE_FLAGS "-fopenmp -DTHRUST_HOST_SYSTEM=THRUST_HOST_SYSTEM_CPP -DTHRUST_DEVICE_SYSTEM=THRUST_DEVICE_SYSTEM_OMP -lgomp")
+COMPILE_FLAGS "-pg -fopenmp -DTHRUST_HOST_SYSTEM=THRUST_HOST_SYSTEM_CPP -DTHRUST_DEVICE_SYSTEM=THRUST_DEVICE_SYSTEM_OMP -lgomp")
 
 target_link_libraries(Hydra_Example_GCC_DEVICE_OMP_HOST_CPP_Fit
 ${ROOT_LIBRARIES}
@@ -270,15 +269,14 @@ ${ROOT_LIBRARIES}
 rt
 )
 
-add_executable(Hydra_Experimental
+add_executable(Hydra_Multivector
 ${CMAKE_CURRENT_SOURCE_DIR}/src/multivector.cpp
 )
 
-set_target_properties(Hydra_Experimental PROPERTIES 
+set_target_properties(Hydra_Multivector PROPERTIES 
 COMPILE_FLAGS  "-fopenmp -DTHRUST_DEVICE_SYSTEM=THRUST_DEVICE_SYSTEM_CPP -DTHRUST_HOST_SYSTEM=THRUST_HOST_SYSTEM_OMP -lgomp" )
 
-target_link_libraries(Hydra_Experimental
-${ROOT_LIBRARIES}
+target_link_libraries(Hydra_Multivector
 rt
 )
 

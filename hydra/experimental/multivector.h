@@ -347,7 +347,7 @@ public:
 	__host__ inline
 	reference_tuple operator[](size_t n)
 	{
-		//iterator t = begin();
+
 		return fBegin[n] ;
 	}
 

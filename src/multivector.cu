@@ -28,78 +28,151 @@
 
 #include <chrono>
 #include <time.h>
+
+#include <thrust/tuple.h>
+#include <thrust/for_each.h>
+#include <thrust/random.h>
+
 #include <hydra/detail/Config.h>
 #include <thrust/device_malloc_allocator.h>
 #include <thrust/host_vector.h>
 #include <hydra/experimental/multivector.h>
-#include <thrust/tuple.h>
-#include <thrust/for_each.h>
+
 
 using namespace std;
 using namespace hydra;
 
-struct change
+struct ConvertA
 {
 
 	template<typename T>
-	__host__ __device__ void operator()(T t){
-		thrust::get<0>(t)= sqrt((double)sin((double)thrust::get<2>(t)));
+	__host__ __device__ void operator()(T t)
+	{
+		thrust::default_random_engine rng(thrust::default_random_engine::default_seed);
+		thrust::uniform_real_distribution<double> UniRng(0.0f, 1.0f);
 
+
+		double x= UniRng(rng);
+		double y= UniRng(rng);
+		double z= UniRng(rng);
+
+		double r     = sqrt( x*x + y*y + z*z);
+		double theta = acos(z/r);
+		double phi   = atan(y/x);
+
+		thrust::get<0>(t) = r;
+		thrust::get<1>(t) = theta;
+		thrust::get<2>(t) = phi;
+
+		thrust::get<3>(t) = x;
+		thrust::get<4>(t) = y;
+		thrust::get<5>(t) = z;
+
+	}
+
+};
+
+struct ConvertB
+{
+
+	template<typename T>
+	__host__ __device__ void operator()(T& t)
+	{
+		thrust::default_random_engine rng(thrust::default_random_engine::default_seed);
+		thrust::uniform_real_distribution<double> UniRng(0.0f, 1.0f);
+
+
+		double x= UniRng(rng);
+		double y= UniRng(rng);
+		double z= UniRng(rng);
+
+		double r     = sqrt( x*x + y*y + z*z);
+		double theta = acos(z/r);
+		double phi   = atan(y/x);
+
+		thrust::get<0>(t) = r;
+		thrust::get<1>(t) = theta;
+		thrust::get<2>(t) = phi;
+
+		thrust::get<3>(t) = x;
+		thrust::get<4>(t) = y;
+		thrust::get<5>(t) = z;
 
 	}
 
 };
 
 
+
+
 template<typename T>
-void _for_each(T& storage)
+double _for_each1(T& storage)
 {
-	thrust::for_each(storage.begin(), storage.end(), change() );
+	auto start1 = std::chrono::high_resolution_clock::now();
+	thrust::for_each(storage.begin(), storage.end(), ConvertA() );
+	auto end1 = std::chrono::high_resolution_clock::now();
+	std::chrono::duration<double, std::micro> elapsed1 = end1 - start1;
+	return elapsed1.count();
 }
 
-size_t n=1000;
+template<typename T>
+double _for_each2(T& storage)
+{
+	auto start1 = std::chrono::high_resolution_clock::now();
+	thrust::for_each(storage.begin(), storage.end(), ConvertB() );
+	auto end1 = std::chrono::high_resolution_clock::now();
+	std::chrono::duration<double, std::micro> elapsed1 = end1 - start1;
+	return elapsed1.count();
+}
+
+
+
+size_t n=10000000;
 
 int main(int argv, char** argc)
 {
 
 	typedef hydra::experimental::multivector<thrust::device_vector,
-			thrust::device_malloc_allocator,
-			unsigned int, float, double> table_t;
+			thrust::device_malloc_allocator,double, double, double,double, double, double> table_t;
 
-	typedef thrust::device_vector<thrust::tuple<unsigned int, float, double>> vector_t;
+	typedef thrust::device_vector<thrust::tuple<double, double, double, double, double, double>> vector_t;
+
 
 	{
-		table_t  storage;
-		for (auto j = 0u; j < n; ++j)
-			storage.push_back(j,j,j);
-
+		table_t  storage(n);
 		//start time
-		auto start1 = std::chrono::high_resolution_clock::now();
-		_for_each(storage);
-		auto end1 = std::chrono::high_resolution_clock::now();
-		std::chrono::duration<double, std::milli> elapsed1 = end1 - start1;
+		//auto start1 = std::chrono::high_resolution_clock::now();
+	    double t=_for_each1(storage);
+		//auto end1 = std::chrono::high_resolution_clock::now();
+		//std::chrono::duration<double, std::milli> elapsed1 = end1 - start1;
 		//time
 		std::cout << "--------------------------------------------------------------"<<std::endl;
 		std::cout << "| multivector "<<std::endl;
-		std::cout << "| Time (ms) = "<< elapsed1.count() <<std::endl;
+		std::cout << "| Time (ms) = "<< t <<std::endl;//elapsed1.count() <<std::endl;
 		std::cout << "--------------------------------------------------------------"<<std::endl;
+		for(size_t i=0; i<10; i++)
+			std::cout<< storage[i] << std::endl;
 
 	}
-	{
-		vector_t  storage;
-		for (auto j = 0u; j < n; ++j)
-			storage.push_back(thrust::make_tuple(j,j,j));
 
+	//---
+	{
+		vector_t  storage(n);
 		//start time
-		auto start1 = std::chrono::high_resolution_clock::now();
-		_for_each(storage);
-		auto end1 = std::chrono::high_resolution_clock::now();
-		std::chrono::duration<double, std::milli> elapsed1 = end1 - start1;
+		//auto start1 = std::chrono::high_resolution_clock::now();
+		double t= _for_each2(storage);
+		//auto end1 = std::chrono::high_resolution_clock::now();
+		//std::chrono::duration<double, std::milli> elapsed1 = end1 - start1;
 		//time
 		std::cout << "--------------------------------------------------------------"<<std::endl;
 		std::cout << "| vector "<<std::endl;
-		std::cout << "| Time (ms) = "<< elapsed1.count() <<std::endl;
+		std::cout << "| Time (ms) = "<<  t <<std::endl;//elapsed1.count() <<std::endl;
 		std::cout << "--------------------------------------------------------------"<<std::endl;
+		for(size_t i=0; i<10; i++)
+					std::cout<< storage[i] << std::endl;
 
 	}
+
+
+
 }
