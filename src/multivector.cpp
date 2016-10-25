@@ -42,6 +42,36 @@
 using namespace std;
 using namespace hydra;
 
+struct ConvertC
+{
+
+	template<typename T>
+	__host__ __device__ void operator()(T t)
+	{
+		thrust::default_random_engine rng(thrust::default_random_engine::default_seed);
+		thrust::uniform_real_distribution<double> UniRng(0.0f, 1.0f);
+
+
+		double x= UniRng(rng);
+		double y= UniRng(rng);
+		double z= UniRng(rng);
+
+		double r     = sqrt( x*x + y*y + z*z);
+		double theta = acos(z/r);
+		double phi   = atan(y/x);
+
+		thrust::get<0>(t) = r;
+		thrust::get<1>(t) = theta;
+		thrust::get<2>(t) = phi;
+
+		thrust::get<3>(t) = x;
+		thrust::get<4>(t) = y;
+		thrust::get<5>(t) = z;
+
+	}
+
+};
+
 struct ConvertA
 {
 
