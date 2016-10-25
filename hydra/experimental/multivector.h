@@ -299,49 +299,49 @@ public:
     __host__ inline
 	iterator begin()
 	{
-		return	fBegin;//thrust::make_zip_iterator( detail::begin_call_args(fStorage) );
+		return	fBegin;
 	}
 
 	__host__ inline
 	iterator end()
 	{
-		return	fBegin+fSize;//thrust::make_zip_iterator( detail::end_call_args(fStorage) );
+		return	fBegin+fSize;
 	}
 
 	__host__ inline
 	const_iterator cbegin() const
 	{
-		return	fConstBegin;//thrust::make_zip_iterator( detail::cbegin_call_args(fStorage) );
+		return	fConstBegin;
 	}
 
 	__host__ inline
 	const_iterator cend() const
 	{
-		return	fConstBegin+fSize;//thrust::make_zip_iterator( detail::cend_call_args(fStorage) );
+		return	fConstBegin+fSize;
 	}
 
 	__host__ inline
 	reverse_iterator rbegin()
 	{
-		return	fReverseBegin;//thrust::make_zip_iterator( detail::rbegin_call_args(fStorage) );
+		return	fReverseBegin;
 	}
 
 	__host__ inline
 	reverse_iterator rend()
 	{
-		return	fReverseBegin+fSize;//thrust::make_zip_iterator( detail::rend_call_args(fStorage) );
+		return	fReverseBegin+fSize;
 	}
 
 	__host__ inline
 	const_reverse_iterator crbegin() const
 	{
-		return	fConstReverseBegin;//thrust::make_zip_iterator( detail::crbegin_call_args(fStorage) );
+		return	fConstReverseBegin;
 	}
 
 	__host__ inline
 	const_reverse_iterator crend() const
 	{
-		return	fConstReverseBegin+fSize;//thrust::make_zip_iterator( detail::crend_call_args(fStorage) );
+		return	fConstReverseBegin+fSize;
 	}
 
 	__host__ inline

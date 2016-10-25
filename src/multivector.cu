@@ -26,7 +26,8 @@
  *      Author: Antonio Augusto Alves Junior
  */
 
-
+#include <chrono>
+#include <time.h>
 #include <hydra/detail/Config.h>
 #include <thrust/device_malloc_allocator.h>
 #include <thrust/host_vector.h>
@@ -39,12 +40,11 @@ using namespace hydra;
 
 struct change
 {
+
 	template<typename T>
-	__host__ __device__
-	void operator()(T t){
-		thrust::get<0>(t)= sqrt(sin(thrust::get<2>(t)));
-		thrust::get<1>(t)= sqrt(sin(thrust::get<1>(t)));
-		thrust::get<2>(t)= sqrt(sin(thrust::get<0>(t)));
+	__host__ __device__ void operator()(T t){
+		thrust::get<0>(t)= sqrt((double)sin((double)thrust::get<2>(t)));
+
 
 	}
 
@@ -57,7 +57,7 @@ void _for_each(T& storage)
 	thrust::for_each(storage.begin(), storage.end(), change() );
 }
 
-size_t n=1e6;
+size_t n=1000;
 
 int main(int argv, char** argc)
 {
@@ -68,14 +68,38 @@ int main(int argv, char** argc)
 
 	typedef thrust::device_vector<thrust::tuple<unsigned int, float, double>> vector_t;
 
-	table_t  storage;
-	for (auto j = 0u; j < n; ++j)
-					storage.push_back(j,j,j);
-	_for_each(storage);
+	{
+		table_t  storage;
+		for (auto j = 0u; j < n; ++j)
+			storage.push_back(j,j,j);
 
-	vector_t  storage;
-	for (auto j = 0u; j < n; ++j)
-					storage.push_back(thrust::make_tuple(j,j,j));
-	_for_each(storage);
+		//start time
+		auto start1 = std::chrono::high_resolution_clock::now();
+		_for_each(storage);
+		auto end1 = std::chrono::high_resolution_clock::now();
+		std::chrono::duration<double, std::milli> elapsed1 = end1 - start1;
+		//time
+		std::cout << "--------------------------------------------------------------"<<std::endl;
+		std::cout << "| multivector "<<std::endl;
+		std::cout << "| Time (ms) = "<< elapsed1.count() <<std::endl;
+		std::cout << "--------------------------------------------------------------"<<std::endl;
 
+	}
+	{
+		vector_t  storage;
+		for (auto j = 0u; j < n; ++j)
+			storage.push_back(thrust::make_tuple(j,j,j));
+
+		//start time
+		auto start1 = std::chrono::high_resolution_clock::now();
+		_for_each(storage);
+		auto end1 = std::chrono::high_resolution_clock::now();
+		std::chrono::duration<double, std::milli> elapsed1 = end1 - start1;
+		//time
+		std::cout << "--------------------------------------------------------------"<<std::endl;
+		std::cout << "| vector "<<std::endl;
+		std::cout << "| Time (ms) = "<< elapsed1.count() <<std::endl;
+		std::cout << "--------------------------------------------------------------"<<std::endl;
+
+	}
 }

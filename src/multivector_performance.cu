@@ -33,8 +33,9 @@
 
 #include <memory>
 #include <limits>
-
+#include <hydra/detail/Config.h>
 #include <hydra/experimental/multivector.h>
+
 #include <thrust/tuple.h>
 #include <thrust/for_each.h>
 #include <thrust/iterator/counting_iterator.h>
@@ -51,19 +52,12 @@ struct change
 {
 	template<typename T>
 	__host__ __device__
-	void operator()(T t){ thrust::get<1>(t)=1.0; }
+	void operator()(T t){
+		thrust::get<0>(t)= sqrt(sin(thrust::get<2>(t)));
+		thrust::get<1>(t)= sqrt(sin(thrust::get<1>(t)));
+		thrust::get<2>(t)= sqrt(sin(thrust::get<0>(t)));
 
-};
-
-struct change2
-{
-	change2(double* _ptr):
-		ptr(_ptr){}
-
-	double* ptr;
-
-	__host__ __device__
-	void operator()(const size_t i){ ptr[i]=1.0; }
+	}
 
 };
 
@@ -72,17 +66,6 @@ template<typename T>
 void _for_each(T& storage)
 {
 	thrust::for_each(storage.begin(), storage.end(), change() );
-}
-
-template<typename T>
-void _for_each2(T& storage)
-{
-
-	size_t nevents = thrust::distance( storage.end(), storage.begin());
-	thrust::counting_iterator<size_t> first(0);
-	thrust::counting_iterator<size_t> last = first + nevents;
-
-	thrust::for_each(first , last, change2( thrust::raw_pointer_cast( thrust::get<2>( storage.data()) ) ) );
 }
 
 
@@ -101,7 +84,7 @@ NONIUS_BENCHMARK("multivector<thrust::host_vector, std::allocator,unsigned int, 
 		table_t  storage;
 		meter.measure([&]() {
 			for (auto j = 0u; j < 100; ++j)
-				storage.push_back(t);
+				storage.push_back(j,j,j);
 		});
 	};
 })
@@ -116,9 +99,9 @@ NONIUS_BENCHMARK("multivector<thrust::host_vector, std::allocator,unsigned int, 
 	return [=](nonius::chronometer meter) {
 		table_t  storage;
 		for (auto j = 0u; j < n; ++j)
-			storage.push_back(t);
+			storage.push_back(j,j,j);
 
-		meter.measure([&]() { _for_each2(storage);});
+		meter.measure([&]() { _for_each(storage);});
 
 	};
 })
@@ -136,7 +119,7 @@ NONIUS_BENCHMARK("thrust::host_vector<thrust::tuple<unsigned int, float, double>
 		meter.measure([&]() {
 
 			for (auto j = 0u; j < n; ++j)
-				storage.push_back(t);
+				storage.push_back(thrust::make_tuple(j,j,j));
 		});
 	};
 })
@@ -154,7 +137,7 @@ NONIUS_BENCHMARK("thrust::host_vector<thrust::tuple<unsigned int, float, double>
 		vector_t  storage;
 
 		for (auto j = 0u; j < n; ++j)
-				storage.push_back(t);
+				storage.push_back(thrust::make_tuple(j,j,j));
 
 		meter.measure([&]() { _for_each(storage);});
 

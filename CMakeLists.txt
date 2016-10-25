@@ -194,7 +194,18 @@ if(BUILD_CUDA_TARGETS)
     rt
     )    
 	
-  
+#--------------
+#performance
+	
+    cuda_add_executable(Hydra_Multivector_CUDA
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/multivector.cu
+    OPTIONS -Xcompiler -fopenmp -DTHRUST_DEVICE_SYSTEM=THRUST_DEVICE_SYSTEM_CUDA -DTHRUST_HOST_SYSTEM=THRUST_HOST_SYSTEM_OMP  -lgomp
+    )
+    
+    target_link_libraries(Hydra_Multivector_CUDA
+    rt
+    )    
+	
 	
 endif(BUILD_CUDA_TARGETS)
 
