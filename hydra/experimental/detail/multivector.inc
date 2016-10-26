@@ -29,11 +29,30 @@
 #ifndef MULTIVECTOR_INC_
 #define MULTIVECTOR_INC_
 
+#include <thrust/tuple.h>
+#include <hydra/detail/utility/Utility_Tuple.h>
+#include <hydra/detail/utility/Generic.h>
+
 namespace hydra {
 
 namespace experimental {
 
 namespace detail {
+
+
+template< typename V, typename ...Args, size_t ...index >
+auto _vctor_helper(hydra::detail::index_sequence<index...>, const size_t n, thrust::tuple<Args...> const& args )
+-> decltype( thrust::make_tuple( V(n, thrust::get<index>(args))... ))
+{
+	return  thrust::make_tuple( V(n, thrust::get<index>(args))... );
+}
+
+template<typename V, typename ...Args>
+auto _vctor( size_t n, thrust::tuple<Args...> const& args )
+-> decltype( _vctor_helper( hydra::detail::make_index_sequence< sizeof ...(Args)> { }, n , args) )
+{
+	return _vctor_helper( hydra::detail::make_index_sequence< sizeof ...(Args) > { }, n, args);
+}
 
 /**
  * this macros expands with pattern:

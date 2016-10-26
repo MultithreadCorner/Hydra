@@ -39,6 +39,7 @@
 #include <hydra/experimental/multivector.h>
 
 
+
 using namespace std;
 using namespace hydra;
 
@@ -136,23 +137,26 @@ struct AccessAllB
 };
 
 
-template<unsigned int I=0, typename T>
+template<int I=0, typename T>
 double _for_each_AccessOne1(T& storage)
 {
+	auto begin = storage.template vbegin<I>();
+	auto end   = storage.template vend<I>();
+
 	auto start1 = std::chrono::high_resolution_clock::now();
-	thrust::for_each(storage.vbegin<I>(), storage.vend<I>(), AccessOneA() );
+	thrust::for_each( begin, end, AccessOneA() );
 	auto end1 = std::chrono::high_resolution_clock::now();
-	std::chrono::duration<double, std::micro> elapsed1 = end1 - start1;
+	std::chrono::duration<double, std::milli> elapsed1 = end1 - start1;
 	return elapsed1.count();
 }
 
-template<unsigned int I=0,typename T>
+template<int I=0,typename T>
 double _for_each_AccessOne2(T& storage)
 {
 	auto start1 = std::chrono::high_resolution_clock::now();
 	thrust::for_each(storage.begin(), storage.end(), AccessOneB<I>() );
 	auto end1 = std::chrono::high_resolution_clock::now();
-	std::chrono::duration<double, std::micro> elapsed1 = end1 - start1;
+	std::chrono::duration<double, std::milli> elapsed1 = end1 - start1;
 	return elapsed1.count();
 }
 
@@ -163,7 +167,7 @@ double _for_each1(T& storage)
 	auto start1 = std::chrono::high_resolution_clock::now();
 	thrust::for_each(storage.begin(), storage.end(), AccessAllA() );
 	auto end1 = std::chrono::high_resolution_clock::now();
-	std::chrono::duration<double, std::micro> elapsed1 = end1 - start1;
+	std::chrono::duration<double, std::milli> elapsed1 = end1 - start1;
 	return elapsed1.count();
 }
 
@@ -173,7 +177,7 @@ double _for_each2(T& storage)
 	auto start1 = std::chrono::high_resolution_clock::now();
 	thrust::for_each(storage.begin(), storage.end(), AccessAllB() );
 	auto end1 = std::chrono::high_resolution_clock::now();
-	std::chrono::duration<double, std::micro> elapsed1 = end1 - start1;
+	std::chrono::duration<double, std::milli> elapsed1 = end1 - start1;
 	return elapsed1.count();
 }
 
@@ -194,17 +198,19 @@ int main(int argv, char** argc)
 		table_t  storage(n);
 		double t=_for_each1(storage);
 		std::cout << "--------------------------------------------------------------"<<std::endl;
-		std::cout << "| multivector "<<std::endl;
+		std::cout << "| multivector (acces all) "<<std::endl;
 		std::cout << "| Time (ms) = "<< t <<std::endl;//elapsed1.count() <<std::endl;
 		std::cout << "--------------------------------------------------------------"<<std::endl;
+		 t=_for_each_AccessOne1<1, table_t >(storage);
+		std::cout << "--------------------------------------------------------------"<<std::endl;
+		std::cout << "| multivector (access one)"<<std::endl;
+		std::cout << "| Time (ms) = "<< t <<std::endl;//elapsed1.count() <<std::endl;
+		std::cout << "--------------------------------------------------------------"<<std::endl;
+
 		for(size_t i=0; i<10; i++)
 			std::cout<< storage[i] << std::endl;
 
-	    t=_for_each_AccessOne1<0>(storage);
-		std::cout << "--------------------------------------------------------------"<<std::endl;
-		std::cout << "| multivector "<<std::endl;
-		std::cout << "| Time (ms) = "<< t <<std::endl;//elapsed1.count() <<std::endl;
-		std::cout << "--------------------------------------------------------------"<<std::endl;
+
 
 	}
 
@@ -218,14 +224,22 @@ int main(int argv, char** argc)
 		//std::chrono::duration<double, std::milli> elapsed1 = end1 - start1;
 		//time
 		std::cout << "--------------------------------------------------------------"<<std::endl;
-		std::cout << "| vector "<<std::endl;
+		std::cout << "| vector (acces all) "<<std::endl;
 		std::cout << "| Time (ms) = "<<  t <<std::endl;//elapsed1.count() <<std::endl;
+		std::cout << "--------------------------------------------------------------"<<std::endl;
+		t=_for_each_AccessOne2<1,vector_t >(storage);
+		std::cout << "--------------------------------------------------------------"<<std::endl;
+		std::cout << "| vector (access one)"<<std::endl;
+		std::cout << "| Time (ms) = "<< t <<std::endl;//elapsed1.count() <<std::endl;
 		std::cout << "--------------------------------------------------------------"<<std::endl;
 		for(size_t i=0; i<10; i++)
 					std::cout<< storage[i] << std::endl;
+
 
 	}
 
 
 
 }
+
+

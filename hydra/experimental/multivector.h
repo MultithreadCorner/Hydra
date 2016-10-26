@@ -141,6 +141,40 @@ public:
 	{}
 
 	/**
+	 * constructor size_t n, ...values
+	 */
+
+	explicit multivector(size_t n, T... value):
+				fStorage( detail::_vctor(n, thrust::make_tuple( value... ) )),
+				fBegin(thrust::make_zip_iterator( detail::begin_call_args(fStorage) )),
+				fReverseBegin(thrust::make_zip_iterator( detail::rbegin_call_args(fStorage) )),
+				fConstBegin(thrust::make_zip_iterator( detail::cbegin_call_args(fStorage) )),
+				fConstReverseBegin(thrust::make_zip_iterator( detail::crbegin_call_args(fStorage) )),
+				fTBegin(detail::begin_call_args(fStorage) ),
+				fTReverseBegin( detail::rbegin_call_args(fStorage) ),
+				fTConstBegin( detail::cbegin_call_args(fStorage) ),
+				fTConstReverseBegin( detail::crbegin_call_args(fStorage) ),
+				fSize( thrust::get<0>(fStorage ).size())
+	{ }
+
+	/**
+	 * constructor size_t n, ...values
+	 */
+	explicit multivector(size_t n, value_tuple_type value):
+				fStorage( detail::_vctor(n,  value )),
+				fBegin(thrust::make_zip_iterator( detail::begin_call_args(fStorage) )),
+				fReverseBegin(thrust::make_zip_iterator( detail::rbegin_call_args(fStorage) )),
+				fConstBegin(thrust::make_zip_iterator( detail::cbegin_call_args(fStorage) )),
+				fConstReverseBegin(thrust::make_zip_iterator( detail::crbegin_call_args(fStorage) )),
+				fTBegin(detail::begin_call_args(fStorage) ),
+				fTReverseBegin( detail::rbegin_call_args(fStorage) ),
+				fTConstBegin( detail::cbegin_call_args(fStorage) ),
+				fTConstReverseBegin( detail::crbegin_call_args(fStorage) ),
+				fSize( thrust::get<0>(fStorage ).size())
+	{ }
+
+
+	/**
 	 * copy constructor
 	 */
 
@@ -308,150 +342,107 @@ public:
 		this->fSize = thrust::get<0>(fStorage ).size();
 	}
 
-	__host__ inline
-	reference_tuple front()
+	inline	reference_tuple front()
 	{
 		return  detail::front_call_args(fStorage);
 	}
 
-	__host__ inline
-	const_reference_tuple front() const
+	 inline	const_reference_tuple front() const
 	{
 		return  detail::front_call_args(fStorage);
 	}
 
-	__host__ inline
-	reference_tuple back()
+	 inline	reference_tuple back()
 	{
 		return  detail::back_call_args(fStorage);
 	}
 
-	__host__ inline
-	const_reference_tuple back() const
+	 inline	const_reference_tuple back() const
 	{
 		return  detail::back_call_args(fStorage);
 	}
 
-    __host__ inline
-	iterator begin()
+    inline	iterator begin()
 	{
 		return	fBegin;
 	}
 
-	__host__ inline
-	iterator end()
+	 inline	iterator end()
 	{
 		return	fBegin+fSize;
 	}
 
-	__host__ inline
-	const_iterator cbegin() const
+	 inline	const_iterator cbegin() const
 	{
 		return	fConstBegin;
 	}
 
-	__host__ inline
-	const_iterator cend() const
+	 inline	const_iterator cend() const
 	{
 		return	fConstBegin+fSize;
 	}
 
-	__host__ inline
-	reverse_iterator rbegin()
+	 inline	reverse_iterator rbegin()
 	{
 		return	fReverseBegin;
 	}
 
-	__host__ inline
-	reverse_iterator rend()
+	 inline	reverse_iterator rend()
 	{
 		return	fReverseBegin+fSize;
 	}
 
-	__host__ inline
-	const_reverse_iterator crbegin() const
+	 inline	const_reverse_iterator crbegin() const
 	{
 		return	fConstReverseBegin;
 	}
 
-	__host__ inline
-	const_reverse_iterator crend() const
+	inline	const_reverse_iterator crend() const
 	{
 		return	fConstReverseBegin+fSize;
 	}
 
 	//----------------------
-	template<int I >
-    __host__ inline
-	typename thrust::tuple_element<I, iterator_tuple>::type& vbegin();
+	template<unsigned int I>
+	inline	auto vbegin()
+	-> typename thrust::tuple_element<I, iterator_tuple>::type;
 
+	template<unsigned int I>
+	inline	auto vend()
+	-> typename thrust::tuple_element<I, iterator_tuple>::type;
 
-	template<int I >
-	__host__ inline
-	auto vend()
-	-> typename thrust::tuple_element<I, iterator_tuple>::type&
-	{
-		return	thrust::get<I>(fTBegin)+fSize;
-	}
+	template<unsigned int I>
+	inline	auto vcbegin() const
+	-> typename thrust::tuple_element<I, const_iterator_tuple>::type;
 
-	template<int I >
-	__host__ inline
-	auto vcbegin() const
-	-> typename thrust::tuple_element<I, const_iterator_tuple>::type
-	{
-		return	thrust::get<I>(fTConstBegin);
-	}
+	template<unsigned int I>
+	inline	auto vcend() const
+	-> typename thrust::tuple_element<I, const_iterator_tuple>::type;
 
-	template<int I >
-	__host__ inline
-	auto vcend() const
-	-> typename thrust::tuple_element<I, const_iterator_tuple>::type
-	{
-		return thrust::get<I>(fTConstBegin)+fSize;
-	}
+	template<unsigned int I>
+	inline	auto vrbegin()
+	-> typename thrust::tuple_element<I, reverse_iterator_tuple>::type;
 
-	template<int I >
-	__host__ inline
-	auto vrbegin()
-	-> typename thrust::tuple_element<I, reverse_iterator_tuple>::type
-	{
-		return	thrust::get<I>(fTReverseBegin);
-	}
+	template<unsigned int I>
+	inline auto vrend()
+	-> typename thrust::tuple_element<I, reverse_iterator_tuple>::type;
 
-	template<int I >
-	__host__ inline
-	auto vrend()
-	-> typename thrust::tuple_element<I, reverse_iterator_tuple>::type
-	{
-		return	thrust::get<I>(fTReverseBegin)+fSize;
-	}
+	template<unsigned int I>
+	inline auto vcrbegin() const
+	-> typename thrust::tuple_element<I, const_reverse_iterator_tuple>::type;
 
-	template<int I >
-	__host__ inline
-	auto vcrbegin() const
-	-> typename thrust::tuple_element<I, const_reverse_iterator_tuple>::type
-	{
-		return	thrust::get<I>(fTConstReverseBegin);
-	}
-
-	template<int I >
-	__host__ inline
-	auto vcrend() const
-	-> typename thrust::tuple_element<I, const_reverse_iterator_tuple>::type
-	{
-		return	thrust::get<I>(fTConstReverseBegin)+fSize;
-	}
+	template<unsigned int I>
+	inline auto vcrend() const
+	-> typename thrust::tuple_element<I, const_reverse_iterator_tuple>::type;
 
 	//-------------------------------------
-	__host__ inline
-	reference_tuple operator[](size_t n)
+	inline	reference_tuple operator[](size_t n)
 	{
 
 		return fBegin[n] ;
 	}
 
-	__host__ inline
-	const_reference_tuple operator[](size_t n) const
+	 inline const_reference_tuple operator[](size_t n) const
 	{
 		//const_iterator t = cbegin();
 		return fConstBegin[n];
@@ -460,6 +451,8 @@ public:
 
 
 private:
+
+
 
 	storage_tuple_type fStorage;
 	iterator fBegin;
@@ -476,20 +469,11 @@ private:
 
 };
 
-template< template<typename...> class Vector,
-template<typename...> class Allocator, typename ...T>
-template<int I>
-__host__ inline
-typename thrust::tuple_element<I,typename multivector<Vector, Allocator, T...>::iterator_tuple>::type&
-multivector<Vector, Allocator, T...>::vbegin()
-	{
-		return	thrust::get<I>(fTBegin);
-	}
-
 
 }  // namespace experimental
 
 }  // namespace hydra
 
+#include <hydra/experimental/detail/multivector.inl>
 
 #endif /* MULTIVECTOR_H_ */
