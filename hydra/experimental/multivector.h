@@ -117,6 +117,10 @@ public:
 				fReverseBegin(thrust::make_zip_iterator( detail::rbegin_call_args(fStorage) )),
 				fConstBegin(thrust::make_zip_iterator( detail::cbegin_call_args(fStorage) )),
 				fConstReverseBegin(thrust::make_zip_iterator( detail::crbegin_call_args(fStorage) )),
+				fTBegin(detail::begin_call_args(fStorage) ),
+				fTReverseBegin( detail::rbegin_call_args(fStorage) ),
+				fTConstBegin( detail::cbegin_call_args(fStorage) ),
+				fTConstReverseBegin( detail::crbegin_call_args(fStorage) ),
 				fSize( thrust::get<0>(fStorage ).size())
 	{}
 
@@ -129,7 +133,11 @@ public:
 				fReverseBegin(thrust::make_zip_iterator( detail::rbegin_call_args(fStorage) )),
 				fConstBegin(thrust::make_zip_iterator( detail::cbegin_call_args(fStorage) )),
 				fConstReverseBegin(thrust::make_zip_iterator( detail::crbegin_call_args(fStorage) )),
-	            fSize( thrust::get<0>(fStorage ).size())
+				fTBegin(detail::begin_call_args(fStorage) ),
+				fTReverseBegin( detail::rbegin_call_args(fStorage) ),
+				fTConstBegin( detail::cbegin_call_args(fStorage) ),
+				fTConstReverseBegin( detail::crbegin_call_args(fStorage) ),
+				fSize( thrust::get<0>(fStorage ).size())
 	{}
 
 	/**
@@ -167,6 +175,10 @@ public:
 		this->fReverseBegin=thrust::make_zip_iterator( detail::rbegin_call_args(fStorage) );
 		this->fConstBegin = thrust::make_zip_iterator( detail::cbegin_call_args(fStorage) );
 		this->fConstReverseBegin=thrust::make_zip_iterator( detail::crbegin_call_args(fStorage) );
+		this->fTBegin =  detail::begin_call_args(fStorage) ;
+		this->fTReverseBegin =  detail::rbegin_call_args(fStorage) ;
+		this->fTConstBegin   =  detail::cbegin_call_args(fStorage) ;
+		this->fTConstReverseBegin =  detail::crbegin_call_args(fStorage) ;
 		this->fSize = thrust::get<0>(fStorage ).size();
 	}
 
@@ -178,6 +190,10 @@ public:
 		this->fReverseBegin =thrust::make_zip_iterator( detail::rbegin_call_args(fStorage) );
 		this->fConstBegin = thrust::make_zip_iterator( detail::cbegin_call_args(fStorage) );
 		this->fConstReverseBegin =thrust::make_zip_iterator( detail::crbegin_call_args(fStorage) );
+		this->fTBegin =  detail::begin_call_args(fStorage) ;
+		this->fTReverseBegin =  detail::rbegin_call_args(fStorage) ;
+		this->fTConstBegin   =  detail::cbegin_call_args(fStorage) ;
+		this->fTConstReverseBegin =  detail::crbegin_call_args(fStorage) ;
 		this->fSize = thrust::get<0>(fStorage ).size();
 	}
 
@@ -189,6 +205,10 @@ public:
 		this->fReverseBegin =thrust::make_zip_iterator( detail::rbegin_call_args(fStorage) );
 		this->fConstBegin = thrust::make_zip_iterator( detail::cbegin_call_args(fStorage) );
 		this->fConstReverseBegin =thrust::make_zip_iterator( detail::crbegin_call_args(fStorage) );
+		this->fTBegin =  detail::begin_call_args(fStorage) ;
+		this->fTReverseBegin =  detail::rbegin_call_args(fStorage) ;
+		this->fTConstBegin   =  detail::cbegin_call_args(fStorage) ;
+		this->fTConstReverseBegin =  detail::crbegin_call_args(fStorage) ;
 		this->fSize = thrust::get<0>(fStorage ).size();
 	}
 
@@ -237,6 +257,10 @@ public:
 		this->fReverseBegin =thrust::make_zip_iterator( detail::rbegin_call_args(fStorage) );
 		this->fConstBegin = thrust::make_zip_iterator( detail::cbegin_call_args(fStorage) );
 		this->fConstReverseBegin =thrust::make_zip_iterator( detail::crbegin_call_args(fStorage) );
+		this->fTBegin =  detail::begin_call_args(fStorage) ;
+		this->fTReverseBegin =  detail::rbegin_call_args(fStorage) ;
+		this->fTConstBegin   =  detail::cbegin_call_args(fStorage) ;
+		this->fTConstReverseBegin =  detail::crbegin_call_args(fStorage) ;
 		this->fSize = thrust::get<0>(fStorage ).size();
 	}
 
@@ -248,6 +272,10 @@ public:
 		this->fReverseBegin =thrust::make_zip_iterator( detail::rbegin_call_args(fStorage) );
 		this->fConstBegin = thrust::make_zip_iterator( detail::cbegin_call_args(fStorage) );
 		this->fConstReverseBegin =thrust::make_zip_iterator( detail::crbegin_call_args(fStorage) );
+		this->fTBegin =  detail::begin_call_args(fStorage) ;
+		this->fTReverseBegin =  detail::rbegin_call_args(fStorage) ;
+		this->fTConstBegin   =  detail::cbegin_call_args(fStorage) ;
+		this->fTConstReverseBegin =  detail::crbegin_call_args(fStorage) ;
 		this->fSize = thrust::get<0>(fStorage ).size();
 	}
 
@@ -259,6 +287,10 @@ public:
 		this->fReverseBegin =thrust::make_zip_iterator( detail::rbegin_call_args(fStorage) );
 		this->fConstBegin = thrust::make_zip_iterator( detail::cbegin_call_args(fStorage) );
 		this->fConstReverseBegin =thrust::make_zip_iterator( detail::crbegin_call_args(fStorage) );
+		this->fTBegin =  detail::begin_call_args(fStorage) ;
+		this->fTReverseBegin =  detail::rbegin_call_args(fStorage) ;
+		this->fTConstBegin   =  detail::cbegin_call_args(fStorage) ;
+		this->fTConstReverseBegin =  detail::crbegin_call_args(fStorage) ;
 		this->fSize = thrust::get<0>(fStorage ).size();
 	}
 	__host__
@@ -269,6 +301,10 @@ public:
 		this->fReverseBegin =thrust::make_zip_iterator( detail::rbegin_call_args(fStorage) );
 		this->fConstBegin = thrust::make_zip_iterator( detail::cbegin_call_args(fStorage) );
 		this->fConstReverseBegin =thrust::make_zip_iterator( detail::crbegin_call_args(fStorage) );
+		this->fTBegin =  detail::begin_call_args(fStorage) ;
+		this->fTReverseBegin =  detail::rbegin_call_args(fStorage) ;
+		this->fTConstBegin   =  detail::cbegin_call_args(fStorage) ;
+		this->fTConstReverseBegin =  detail::crbegin_call_args(fStorage) ;
 		this->fSize = thrust::get<0>(fStorage ).size();
 	}
 
@@ -344,6 +380,69 @@ public:
 		return	fConstReverseBegin+fSize;
 	}
 
+	//----------------------
+	template<int I >
+    __host__ inline
+	typename thrust::tuple_element<I, iterator_tuple>::type& vbegin();
+
+
+	template<int I >
+	__host__ inline
+	auto vend()
+	-> typename thrust::tuple_element<I, iterator_tuple>::type&
+	{
+		return	thrust::get<I>(fTBegin)+fSize;
+	}
+
+	template<int I >
+	__host__ inline
+	auto vcbegin() const
+	-> typename thrust::tuple_element<I, const_iterator_tuple>::type
+	{
+		return	thrust::get<I>(fTConstBegin);
+	}
+
+	template<int I >
+	__host__ inline
+	auto vcend() const
+	-> typename thrust::tuple_element<I, const_iterator_tuple>::type
+	{
+		return thrust::get<I>(fTConstBegin)+fSize;
+	}
+
+	template<int I >
+	__host__ inline
+	auto vrbegin()
+	-> typename thrust::tuple_element<I, reverse_iterator_tuple>::type
+	{
+		return	thrust::get<I>(fTReverseBegin);
+	}
+
+	template<int I >
+	__host__ inline
+	auto vrend()
+	-> typename thrust::tuple_element<I, reverse_iterator_tuple>::type
+	{
+		return	thrust::get<I>(fTReverseBegin)+fSize;
+	}
+
+	template<int I >
+	__host__ inline
+	auto vcrbegin() const
+	-> typename thrust::tuple_element<I, const_reverse_iterator_tuple>::type
+	{
+		return	thrust::get<I>(fTConstReverseBegin);
+	}
+
+	template<int I >
+	__host__ inline
+	auto vcrend() const
+	-> typename thrust::tuple_element<I, const_reverse_iterator_tuple>::type
+	{
+		return	thrust::get<I>(fTConstReverseBegin)+fSize;
+	}
+
+	//-------------------------------------
 	__host__ inline
 	reference_tuple operator[](size_t n)
 	{
@@ -368,9 +467,25 @@ private:
 	const_iterator fConstBegin;
 	const_reverse_iterator fConstReverseBegin;
 
+	iterator_tuple fTBegin;
+	const_iterator_tuple fTConstBegin;
+	reverse_iterator_tuple fTReverseBegin;
+	const_reverse_iterator_tuple fTConstReverseBegin;
+
 	size_t   fSize;
 
 };
+
+template< template<typename...> class Vector,
+template<typename...> class Allocator, typename ...T>
+template<int I>
+__host__ inline
+typename thrust::tuple_element<I,typename multivector<Vector, Allocator, T...>::iterator_tuple>::type&
+multivector<Vector, Allocator, T...>::vbegin()
+	{
+		return	thrust::get<I>(fTBegin);
+	}
+
 
 }  // namespace experimental
 

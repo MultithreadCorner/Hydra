@@ -76,25 +76,6 @@ function##_call_tuple<I + 1, Tuple, Args...>( tpl, args ); \
  * r<j> = get<j>(storage).function( args...);
  * return tuple< r<0>, r<1>, r<2>... >;
  * for j=0,1,2...N
-
-#define _GenerateNonVoidCallArgs(function) \
-template< typename Tuple, typename ...Args, size_t ...index > \
-__host__  inline auto \
-function##_call_args_helper(hydra::detail::index_sequence<index...>, Tuple& tpl, Args& ...args ) \
--> decltype( thrust::make_tuple(thrust::get<index>(tpl).function(args...)...) ) \
-{ \
-	return thrust::make_tuple(thrust::get<index>(tpl).function(args...) ...); \
-} \
-  \
-template< typename Tuple, typename ...Args > \
-__host__   inline auto \
-function##_call_args( Tuple& tpl, Args& ...args) \
--> decltype(function##_call_args_helper( hydra::detail::make_index_sequence< thrust::tuple_size<Tuple>::value> { }, tpl, args...)) \
-{ \
-	constexpr size_t Size = thrust::tuple_size<Tuple>::value; \
-    \
-	return function##_call_args_helper( hydra::detail::make_index_sequence<Size> { }, tpl, args...); \
-}
 */
 #define _GenerateNonVoidCallArgs(function) \
 template< typename Tuple, typename ...Args, size_t ...index > \
@@ -121,26 +102,6 @@ function##_call_args( Tuple& tpl, Args& ...args) \
  * return tuple< r<0>, r<1>, r<2>... >;
  * for j=0,1,2...N
  */
-/*
-#define _GenerateNonVoidCallTuple(function) \
-template< typename Tuple, typename ...Args, size_t ...index > \
-__host__  inline auto \
-function##_call_tuple_helper(hydra::detail::index_sequence<index...>, Tuple& tpl, thrust::tuple<Args...> const& args ) \
--> decltype( thrust::make_tuple( thrust::get<index>(tpl).function( thrust::get<index>(args) )...) ) \
-{ \
-	return thrust::make_tuple(thrust::get<index>(tpl).function( thrust::get<index>(args) ) ...); \
-} \
-  \
-template< typename Tuple, typename ...Args > \
-__host__   inline auto \
-function##_call_tuple( Tuple& tpl, thrust::tuple<Args...> const& args ) \
--> decltype(function##_call_tuple_helper( hydra::detail::make_index_sequence< thrust::tuple_size<Tuple>::value> { }, tpl, thrust::tuple<Args...> const& args)) \
-{\
-	constexpr size_t Size = thrust::tuple_size<Tuple>::value; \
- \
-	return function##_call_tuple_helper( hydra::detail::make_index_sequence<Size> { }, tpl, args); \
-}
-*/
 #define _GenerateNonVoidCallTuple(function) \
 template< typename Tuple, typename ...Args, size_t ...index > \
 __host__  inline auto \
@@ -166,26 +127,6 @@ function##_call_tuple( Tuple& tpl, thrust::tuple<Args...> const& args ) \
  * return tuple< r<0>, r<1>, r<2>... >;
  * for j=0,1,2...N
  */
-/*
-#define _GenerateNonVoidCallArgsC(function) \
-template< typename Tuple, typename ...Args, size_t ...index > \
-__host__  inline auto \
-function##_call_args_helper(hydra::detail::index_sequence<index...>, Tuple const& tpl, Args& ...args ) \
--> decltype( thrust::make_tuple(thrust::get<index>(tpl).function(args...)...) ) \
-{ \
-	return thrust::make_tuple(thrust::get<index>(tpl).function(args...) ...); \
-} \
-  \
-template< typename Tuple, typename ...Args > \
-__host__   inline auto \
-function##_call_args( Tuple const& tpl, Args& ...args) \
--> decltype(function##_call_args_helper( hydra::detail::make_index_sequence< thrust::tuple_size<Tuple>::value> { }, tpl, args...)) \
-{ \
-	constexpr size_t Size = thrust::tuple_size<Tuple>::value; \
-    \
-	return function##_call_args_helper( hydra::detail::make_index_sequence<Size> { }, tpl, args...); \
-}
-*/
 #define _GenerateNonVoidCallArgsC(function) \
 template< typename Tuple, typename ...Args, size_t ...index > \
 __host__  inline auto \
@@ -211,26 +152,6 @@ function##_call_args( Tuple const& tpl, Args& ...args) \
  * return tuple< r<0>, r<1>, r<2>... >;
  * for j=0,1,2...N
  */
-/*
-#define _GenerateNonVoidCallTupleC(function) \
-template< typename Tuple, typename ...Args, size_t ...index > \
-__host__  inline auto \
-function##_call_tuple_helper(hydra::detail::index_sequence<index...>, Tuple const& tpl, thrust::tuple<Args...> const& args ) \
--> decltype( thrust::make_tuple( thrust::get<index>(tpl).function( thrust::get<index>(args) )...) ) \
-{ \
-	return thrust::make_tuple(thrust::get<index>(tpl).function( thrust::get<index>(args) ) ...); \
-} \
-  \
-template< typename Tuple, typename ...Args > \
-__host__   inline auto \
-function##_call_tuple( Tuple const& tpl, thrust::tuple<Args...> const& args ) \
--> decltype(function##_call_tuple_helper( hydra::detail::make_index_sequence< thrust::tuple_size<Tuple>::value> { }, tpl, thrust::tuple<Args...> const& args)) \
-{\
-	constexpr size_t Size = thrust::tuple_size<Tuple>::value; \
- \
-	return function##_call_tuple_helper( hydra::detail::make_index_sequence<Size> { }, tpl, args); \
-}
-*/
 #define _GenerateNonVoidCallTupleC(function) \
 template< typename Tuple, typename ...Args, size_t ...index > \
 __host__ inline auto \

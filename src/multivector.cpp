@@ -39,10 +39,44 @@
 #include <hydra/experimental/multivector.h>
 
 
+
 using namespace std;
 using namespace hydra;
 
-struct ConvertC
+
+
+struct AccessOneA
+{
+	template<typename T>
+	__host__ __device__ void operator()(T& e)
+	{
+		thrust::default_random_engine rng(thrust::default_random_engine::default_seed);
+		thrust::uniform_real_distribution<double> UniRng(0.0f, 1.0f);
+
+		e = UniRng(rng);
+
+	}
+
+};
+
+template<unsigned int I >
+struct AccessOneB
+{
+	template<typename T>
+	__host__ __device__ void operator()(T& e)
+	{
+		thrust::default_random_engine rng(thrust::default_random_engine::default_seed);
+		thrust::uniform_real_distribution<double> UniRng(0.0f, 1.0f);
+
+		double x = UniRng(rng);
+		thrust::get<I>(e) = x;
+
+	}
+
+};
+
+
+struct AccessAllA
 {
 
 	template<typename T>
@@ -72,37 +106,7 @@ struct ConvertC
 
 };
 
-struct ConvertA
-{
-
-	template<typename T>
-	__host__ __device__ void operator()(T t)
-	{
-		thrust::default_random_engine rng(thrust::default_random_engine::default_seed);
-		thrust::uniform_real_distribution<double> UniRng(0.0f, 1.0f);
-
-
-		double x= UniRng(rng);
-		double y= UniRng(rng);
-		double z= UniRng(rng);
-
-		double r     = sqrt( x*x + y*y + z*z);
-		double theta = acos(z/r);
-		double phi   = atan(y/x);
-
-		thrust::get<0>(t) = r;
-		thrust::get<1>(t) = theta;
-		thrust::get<2>(t) = phi;
-
-		thrust::get<3>(t) = x;
-		thrust::get<4>(t) = y;
-		thrust::get<5>(t) = z;
-
-	}
-
-};
-
-struct ConvertB
+struct AccessAllB
 {
 
 	template<typename T>
@@ -133,15 +137,34 @@ struct ConvertB
 };
 
 
+template<int I=0, typename T>
+double _for_each_AccessOne1(T& storage)
+{
+	auto start1 = std::chrono::high_resolution_clock::now();
+	thrust::for_each(storage.vbegin< I>(), storage.vend<I>(), AccessOneA() );
+	auto end1 = std::chrono::high_resolution_clock::now();
+	std::chrono::duration<double, std::micro> elapsed1 = end1 - start1;
+	return elapsed1.count();
+}
+
+template<int I=0,typename T>
+double _for_each_AccessOne2(T& storage)
+{
+	auto start1 = std::chrono::high_resolution_clock::now();
+	thrust::for_each(storage.begin(), storage.end(), AccessOneB<I>() );
+	auto end1 = std::chrono::high_resolution_clock::now();
+	std::chrono::duration<double, std::micro> elapsed1 = end1 - start1;
+	return elapsed1.count();
+}
 
 
 template<typename T>
 double _for_each1(T& storage)
 {
 	auto start1 = std::chrono::high_resolution_clock::now();
-	thrust::for_each(storage.begin(), storage.end(), ConvertA() );
+	thrust::for_each(storage.begin(), storage.end(), AccessAllA() );
 	auto end1 = std::chrono::high_resolution_clock::now();
-	std::chrono::duration<double, std::milli> elapsed1 = end1 - start1;
+	std::chrono::duration<double, std::micro> elapsed1 = end1 - start1;
 	return elapsed1.count();
 }
 
@@ -149,39 +172,40 @@ template<typename T>
 double _for_each2(T& storage)
 {
 	auto start1 = std::chrono::high_resolution_clock::now();
-	thrust::for_each(storage.begin(), storage.end(), ConvertB() );
+	thrust::for_each(storage.begin(), storage.end(), AccessAllB() );
 	auto end1 = std::chrono::high_resolution_clock::now();
-	std::chrono::duration<double, std::milli> elapsed1 = end1 - start1;
+	std::chrono::duration<double, std::micro> elapsed1 = end1 - start1;
 	return elapsed1.count();
 }
 
 
 
-size_t n=100000000;
+size_t n=10000000;
 
 int main(int argv, char** argc)
 {
 
-	typedef hydra::experimental::multivector<thrust::host_vector,
-			std::allocator,double, double, double,double, double, double> table_t;
+	typedef hydra::experimental::multivector<thrust::device_vector,
+			thrust::device_malloc_allocator,double, double, double,double, double, double> table_t;
 
-	typedef thrust::host_vector<thrust::tuple<double, double, double,double, double, double>> vector_t;
+	typedef thrust::device_vector<thrust::tuple<double, double, double, double, double, double>> vector_t;
 
 
 	{
 		table_t  storage(n);
-		//start time
-		//auto start1 = std::chrono::high_resolution_clock::now();
-	    double t=_for_each1(storage);
-		//auto end1 = std::chrono::high_resolution_clock::now();
-		//std::chrono::duration<double, std::milli> elapsed1 = end1 - start1;
-		//time
+		double t=_for_each1(storage);
 		std::cout << "--------------------------------------------------------------"<<std::endl;
 		std::cout << "| multivector "<<std::endl;
 		std::cout << "| Time (ms) = "<< t <<std::endl;//elapsed1.count() <<std::endl;
 		std::cout << "--------------------------------------------------------------"<<std::endl;
 		for(size_t i=0; i<10; i++)
 			std::cout<< storage[i] << std::endl;
+
+	    t=_for_each_AccessOne1<0>(storage);
+		std::cout << "--------------------------------------------------------------"<<std::endl;
+		std::cout << "| multivector "<<std::endl;
+		std::cout << "| Time (ms) = "<< t <<std::endl;//elapsed1.count() <<std::endl;
+		std::cout << "--------------------------------------------------------------"<<std::endl;
 
 	}
 
@@ -206,3 +230,4 @@ int main(int argv, char** argc)
 
 
 }
+
