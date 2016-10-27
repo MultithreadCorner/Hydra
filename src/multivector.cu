@@ -138,7 +138,7 @@ struct AccessAllB
 
 
 template<int I=0, typename T>
-double _for_each_AccessOne1(T& storage)
+inline double _for_each_AccessOne1(T& storage)
 {
 	auto begin = storage.template vbegin<I>();
 	auto end   = storage.template vend<I>();
@@ -151,7 +151,7 @@ double _for_each_AccessOne1(T& storage)
 }
 
 template<int I=0,typename T>
-double _for_each_AccessOne2(T& storage)
+inline double _for_each_AccessOne2(T& storage)
 {
 	auto start1 = std::chrono::high_resolution_clock::now();
 	thrust::for_each(storage.begin(), storage.end(), AccessOneB<I>() );
@@ -162,7 +162,7 @@ double _for_each_AccessOne2(T& storage)
 
 
 template<typename T>
-double _for_each1(T& storage)
+inline double _for_each1(T& storage)
 {
 	auto start1 = std::chrono::high_resolution_clock::now();
 	thrust::for_each(storage.begin(), storage.end(), AccessAllA() );
@@ -172,7 +172,7 @@ double _for_each1(T& storage)
 }
 
 template<typename T>
-double _for_each2(T& storage)
+inline double _for_each2(T& storage)
 {
 	auto start1 = std::chrono::high_resolution_clock::now();
 	thrust::for_each(storage.begin(), storage.end(), AccessAllB() );
@@ -183,7 +183,7 @@ double _for_each2(T& storage)
 
 
 
-size_t n=10000000;
+size_t n=100000000;
 
 int main(int argv, char** argc)
 {

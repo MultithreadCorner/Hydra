@@ -68,7 +68,7 @@ if(CUDA_FOUND)
 	#set cuda flags
 	
 	SET(CUDA_NVCC_FLAGS ${CUDA_NVCC_FLAGS} --cudart ;  static ; -O4 ;--expt-relaxed-constexpr; -ftemplate-backtrace-limit=0; --expt-extended-lambda;--relocatable-device-code=false ;
-	 -Xptxas -fmad=true ;-Xptxas -dlcm=cg; -Xptxas --opt-level=4   ) #) 
+	-Xptxas -dlcm=cg; -Xptxas --opt-level=4   ) #) 
 # 
 	SET(CUDA_SEPARABLE_COMPILATION OFF)
 	SET(CUDA_VERBOSE_BUILD ON)
@@ -198,7 +198,7 @@ if(BUILD_CUDA_TARGETS)
 	
     cuda_add_executable(Hydra_Multivector_CUDA
     ${CMAKE_CURRENT_SOURCE_DIR}/src/multivector.cu
-    OPTIONS -Xcompiler -fopenmp -DTHRUST_DEVICE_SYSTEM=THRUST_DEVICE_SYSTEM_CUDA -DTHRUST_HOST_SYSTEM=THRUST_HOST_SYSTEM_CPP  -lgomp
+    OPTIONS -Xcompiler -fopenmp -DTHRUST_DEVICE_SYSTEM=THRUST_DEVICE_SYSTEM_CUDA -DTHRUST_HOST_SYSTEM=THRUST_HOST_SYSTEM_OMP  -lgomp
     )
     
     target_link_libraries(Hydra_Multivector_CUDA
