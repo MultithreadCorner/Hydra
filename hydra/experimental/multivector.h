@@ -31,7 +31,7 @@
 
 #include <hydra/detail/Config.h>
 #include <hydra/Types.h>
-
+#include <hydra/experimental/detail/multivector.inc>
 #include <thrust/iterator/zip_iterator.h>
 #include <thrust/tuple.h>
 #include <hydra/detail/utility/Utility_Tuple.h>
@@ -96,7 +96,7 @@ public:
 	/**
 	 * constructor size_t n, ...values
 	 */
-	explicit multivector(size_t n, value_tuple_type value);
+	explicit multivector(size_t n, value_tuple_type  value);
 
 	/**
 	 * copy constructor

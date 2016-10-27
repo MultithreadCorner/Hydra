@@ -40,18 +40,23 @@ namespace experimental {
 namespace detail {
 
 
-template< typename V, typename ...Args, size_t ...index >
+template< template<typename...> class Vector,
+template<typename...> class Allocator,
+typename ...Args, size_t ...index >
 auto _vctor_helper(hydra::detail::index_sequence<index...>, const size_t n, thrust::tuple<Args...> const& args )
--> decltype( thrust::make_tuple( V(n, thrust::get<index>(args))... ))
+-> decltype( thrust::make_tuple(
+		Vector<typename thrust::tuple_element<index, thrust::tuple<Args...>>::type
+         , Allocator< typename thrust::tuple_element<index, thrust::tuple<Args...>>::type >>(n, thrust::get<index>(args))... ))
 {
-	return  thrust::make_tuple( V(n, thrust::get<index>(args))... );
+	return  thrust::make_tuple( Vector<typename thrust::tuple_element<index, thrust::tuple<Args...>>::type
+			, Allocator<typename thrust::tuple_element<index, thrust::tuple<Args...>>::type >>(n, thrust::get<index>(args))... );
 }
 
-template<typename V, typename ...Args>
+template<template<typename...> class Vector, template<typename...> class Allocator, typename ...Args>
 auto _vctor( size_t n, thrust::tuple<Args...> const& args )
--> decltype( _vctor_helper( hydra::detail::make_index_sequence< sizeof ...(Args)> { }, n , args) )
+-> decltype( _vctor_helper<Vector, Allocator, Args...>( hydra::detail::make_index_sequence< sizeof ...(Args)> { }, n , args) )
 {
-	return _vctor_helper( hydra::detail::make_index_sequence< sizeof ...(Args) > { }, n, args);
+	return _vctor_helper<Vector, Allocator, Args...>( hydra::detail::make_index_sequence< sizeof ...(Args) > { }, n, args);
 }
 
 /**

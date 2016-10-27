@@ -193,9 +193,11 @@ int main(int argv, char** argc)
 
 	typedef thrust::host_vector<thrust::tuple<double, double, double, double, double, double>> vector_t;
 
+	thrust::tuple<double, double, double, double, double, double> init(0.0,0.0,0.0,2.0,2.0,2.0);
+
 
 	{
-		table_t  storage(n);
+		table_t  storage(n, init);
 		double t=_for_each1(storage);
 		std::cout << "--------------------------------------------------------------"<<std::endl;
 		std::cout << "| multivector (acces all) "<<std::endl;
@@ -216,7 +218,7 @@ int main(int argv, char** argc)
 
 	//---
 	{
-		vector_t  storage(n);
+		vector_t  storage(n,init);
 		//start time
 		//auto start1 = std::chrono::high_resolution_clock::now();
 		double t= _for_each2(storage);

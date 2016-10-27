@@ -288,7 +288,6 @@ set_target_properties(Hydra_Multivector_Test PROPERTIES
 COMPILE_FLAGS  "-fopenmp -DTHRUST_DEVICE_SYSTEM=THRUST_DEVICE_SYSTEM_CPP -DTHRUST_HOST_SYSTEM=THRUST_HOST_SYSTEM_OMP -lgomp" )
 
 target_link_libraries(Hydra_Multivector_Test
-${ROOT_LIBRARIES}
 rt
 )
 

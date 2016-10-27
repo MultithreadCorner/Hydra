@@ -130,8 +130,9 @@ fSize( thrust::get<0>(fStorage ).size())
  template< template<typename...> class Vector,
  template<typename...> class Allocator,
  typename ...T>
- multivector<Vector,Allocator,T...>::multivector(size_t n, value_tuple_type value):
- fStorage( detail::_vctor(n,  value )),
+ multivector<Vector,Allocator,T...>::multivector(size_t n,
+		 typename  multivector<Vector,Allocator,T...>::value_tuple_type value):
+ fStorage( detail::_vctor<Vector,Allocator,  T...>(n,  value )),
  fBegin(thrust::make_zip_iterator( detail::begin_call_args(fStorage) )),
  fReverseBegin(thrust::make_zip_iterator( detail::rbegin_call_args(fStorage) )),
  fConstBegin(thrust::make_zip_iterator( detail::cbegin_call_args(fStorage) )),

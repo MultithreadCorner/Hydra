@@ -51,7 +51,7 @@ struct AccessOneA
 	__host__ __device__ void operator()(T& e)
 	{
 		thrust::default_random_engine rng(thrust::default_random_engine::default_seed);
-		thrust::uniform_real_distribution<double> UniRng(0.0f, 1.0f);
+		thrust::uniform_real_distribution<float> UniRng(0.0f, 1.0f);
 
 		e = UniRng(rng);
 
@@ -66,9 +66,9 @@ struct AccessOneB
 	__host__ __device__ void operator()(T& e)
 	{
 		thrust::default_random_engine rng(thrust::default_random_engine::default_seed);
-		thrust::uniform_real_distribution<double> UniRng(0.0f, 1.0f);
+		thrust::uniform_real_distribution<float> UniRng(0.0f, 1.0f);
 
-		double x = UniRng(rng);
+		float x = UniRng(rng);
 		thrust::get<I>(e) = x;
 
 	}
@@ -83,16 +83,16 @@ struct AccessAllA
 	__host__ __device__ void operator()(T t)
 	{
 		thrust::default_random_engine rng(thrust::default_random_engine::default_seed);
-		thrust::uniform_real_distribution<double> UniRng(0.0f, 1.0f);
+		thrust::uniform_real_distribution<float> UniRng(0.0f, 1.0f);
 
 
-		double x= UniRng(rng);
-		double y= UniRng(rng);
-		double z= UniRng(rng);
+		float x= thrust::get<3>(t) + 2*UniRng(rng);
+		float y= thrust::get<4>(t) + 2*UniRng(rng);
+		float z= thrust::get<5>(t) + 2*UniRng(rng);
 
-		double r     = sqrt( x*x + y*y + z*z);
-		double theta = acos(z/r);
-		double phi   = atan(y/x);
+		float r     = sqrt( x*x + y*y + z*z);
+		float theta = acos(z/r);
+		float phi   = atan(y/x);
 
 		thrust::get<0>(t) = r;
 		thrust::get<1>(t) = theta;
@@ -113,16 +113,16 @@ struct AccessAllB
 	__host__ __device__ void operator()(T& t)
 	{
 		thrust::default_random_engine rng(thrust::default_random_engine::default_seed);
-		thrust::uniform_real_distribution<double> UniRng(0.0f, 1.0f);
+		thrust::uniform_real_distribution<float> UniRng(0.0f, 1.0f);
 
 
-		double x= UniRng(rng);
-		double y= UniRng(rng);
-		double z= UniRng(rng);
+		float x= thrust::get<3>(t) + 2*UniRng(rng);
+		float y= thrust::get<4>(t) + 2*UniRng(rng);
+		float z= thrust::get<5>(t) + 2*UniRng(rng);
 
-		double r     = sqrt( x*x + y*y + z*z);
-		double theta = acos(z/r);
-		double phi   = atan(y/x);
+		float r     = sqrt( x*x + y*y + z*z);
+		float theta = acos(z/r);
+		float phi   = atan(y/x);
 
 		thrust::get<0>(t) = r;
 		thrust::get<1>(t) = theta;
@@ -138,7 +138,7 @@ struct AccessAllB
 
 
 template<int I=0, typename T>
-inline double _for_each_AccessOne1(T& storage)
+inline float _for_each_AccessOne1(T& storage)
 {
 	auto begin = storage.template vbegin<I>();
 	auto end   = storage.template vend<I>();
@@ -146,57 +146,59 @@ inline double _for_each_AccessOne1(T& storage)
 	auto start1 = std::chrono::high_resolution_clock::now();
 	thrust::for_each( begin, end, AccessOneA() );
 	auto end1 = std::chrono::high_resolution_clock::now();
-	std::chrono::duration<double, std::milli> elapsed1 = end1 - start1;
+	std::chrono::duration<float, std::milli> elapsed1 = end1 - start1;
 	return elapsed1.count();
 }
 
 template<int I=0,typename T>
-inline double _for_each_AccessOne2(T& storage)
+inline float _for_each_AccessOne2(T& storage)
 {
 	auto start1 = std::chrono::high_resolution_clock::now();
 	thrust::for_each(storage.begin(), storage.end(), AccessOneB<I>() );
 	auto end1 = std::chrono::high_resolution_clock::now();
-	std::chrono::duration<double, std::milli> elapsed1 = end1 - start1;
+	std::chrono::duration<float, std::milli> elapsed1 = end1 - start1;
 	return elapsed1.count();
 }
 
 
 template<typename T>
-inline double _for_each1(T& storage)
+inline float _for_each1(T& storage)
 {
 	auto start1 = std::chrono::high_resolution_clock::now();
 	thrust::for_each(storage.begin(), storage.end(), AccessAllA() );
 	auto end1 = std::chrono::high_resolution_clock::now();
-	std::chrono::duration<double, std::milli> elapsed1 = end1 - start1;
+	std::chrono::duration<float, std::milli> elapsed1 = end1 - start1;
 	return elapsed1.count();
 }
 
 template<typename T>
-inline double _for_each2(T& storage)
+inline float _for_each2(T& storage)
 {
 	auto start1 = std::chrono::high_resolution_clock::now();
 	thrust::for_each(storage.begin(), storage.end(), AccessAllB() );
 	auto end1 = std::chrono::high_resolution_clock::now();
-	std::chrono::duration<double, std::milli> elapsed1 = end1 - start1;
+	std::chrono::duration<float, std::milli> elapsed1 = end1 - start1;
 	return elapsed1.count();
 }
 
 
 
-size_t n=100000000;
+size_t n=10000000;
 
 int main(int argv, char** argc)
 {
 
 	typedef hydra::experimental::multivector<thrust::device_vector,
-			thrust::device_malloc_allocator,double, double, double,double, double, double> table_t;
+			thrust::device_malloc_allocator,float, float, float,float, float, float> table_t;
 
-	typedef thrust::device_vector<thrust::tuple<double, double, double, double, double, double>> vector_t;
-
+	typedef thrust::device_vector<thrust::tuple<float, float, float, float, float, float>> vector_t;
+    thrust::tuple<float, float, float, float, float, float> init(0.0,0.0,0.0,2.0,2.0,2.0);
 
 	{
-		table_t  storage(n);
-		double t=_for_each1(storage);
+
+
+		table_t  storage(n, init);
+		float t=_for_each1(storage);
 		std::cout << "--------------------------------------------------------------"<<std::endl;
 		std::cout << "| multivector (acces all) "<<std::endl;
 		std::cout << "| Time (ms) = "<< t <<std::endl;//elapsed1.count() <<std::endl;
@@ -216,12 +218,12 @@ int main(int argv, char** argc)
 
 	//---
 	{
-		vector_t  storage(n);
+		vector_t  storage(n, init);
 		//start time
 		//auto start1 = std::chrono::high_resolution_clock::now();
-		double t= _for_each2(storage);
+		float t= _for_each2(storage);
 		//auto end1 = std::chrono::high_resolution_clock::now();
-		//std::chrono::duration<double, std::milli> elapsed1 = end1 - start1;
+		//std::chrono::duration<float, std::milli> elapsed1 = end1 - start1;
 		//time
 		std::cout << "--------------------------------------------------------------"<<std::endl;
 		std::cout << "| vector (acces all) "<<std::endl;
