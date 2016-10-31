@@ -44,7 +44,11 @@ using namespace hydra;
 TEST_CASE( "multivector<thrust::host_vector, std::allocator, unsigned int, float, double> ",
 		"[hydra::multivector]" ) {
 
-	typedef experimental::multivector<thrust::device_vector, thrust::device_malloc_allocator, unsigned int, float, double> table_t;
+	typedef  thrust::tuple<unsigned int, float, double> tuple_t;
+
+	typedef thrust::host_vector<tuple_t> vector_t;
+
+	typedef hydra::experimental::multivector<vector_t> table_t;
 
 	size_t N=1000;
 

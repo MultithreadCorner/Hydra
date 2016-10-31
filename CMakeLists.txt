@@ -291,6 +291,19 @@ target_link_libraries(Hydra_Multivector_Test
 rt
 )
 
+add_executable(Hydra_Events_Test
+${CMAKE_CURRENT_SOURCE_DIR}/src/events_testing.cpp
+)
+
+set_target_properties(Hydra_Events_Test PROPERTIES 
+COMPILE_FLAGS  "-fopenmp -DTHRUST_DEVICE_SYSTEM=THRUST_DEVICE_SYSTEM_CPP -DTHRUST_HOST_SYSTEM=THRUST_HOST_SYSTEM_OMP -lgomp" )
+
+target_link_libraries(Hydra_Events_Test
+rt
+)
+
+
+
 add_executable(Hydra_Multivector_Perf
 ${CMAKE_CURRENT_SOURCE_DIR}/src/multivector_performance.cpp
 )
@@ -299,6 +312,7 @@ set_target_properties(Hydra_Multivector_Perf PROPERTIES
 COMPILE_FLAGS  "-pthread -fopenmp -DTHRUST_DEVICE_SYSTEM=THRUST_DEVICE_SYSTEM_OMP -DTHRUST_HOST_SYSTEM=THRUST_HOST_SYSTEM_OMP -lgomp" )
 
 target_link_libraries(Hydra_Multivector_Perf)
+
 
 
 install(DIRECTORY Hydra

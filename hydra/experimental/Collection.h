@@ -29,86 +29,28 @@
 #ifndef COLLECTION_H_
 #define COLLECTION_H_
 
-/**
-
-#include <iostream>
-#include <tuple>
-
-#define _DeclareClass(class_name, args...) \
-template<typename ...T> \
-class_name(std::tuple<T...> const& t) \
-{ std::tie(args) = t; } \
-template<typename ...T> \
-class_name& operator= ( std::tuple<T...> const& t ) \
-{std::tie(args) = t;\
-return *this; } \
-template<typename ...T> \
-operator std::tuple<T...> () { return std::make_tuple(args); }
-
-
-
-struct Obj
-{
-    Obj();
-
-
-    Obj(int a, int b, double c):
-    fA(a),
-    fB(b),
-    fC(c)
-    {}
-
-    _DeclareClass(Obj, fA, fB, fC)
-
-
-  void Print()
-  {
-      std::cout << " fA = "<< fA << " fB = "<< fB << " fC = "<< fC << std::endl;
-  }
-
-
-  int fA;
-  int fB;
-  double fC;
-};
-
-int main() {
-
-    // ctor
-    Obj A(1,1,1);
-    A.Print();
-
-    // conversion tuple -> Obj
-    A= std::make_tuple(1,2,3);
-    A.Print();
-
-    std::tuple<int, int, int> t(0,0,0);
-    // conversion Obj -> tuple
-    t = A;
-
-    std::cout << " conversion Obj -> tuple " << std::get<0>(t) << "  " <<  std::get<1>(t)  << "  " <<  std::get<2>(t)  << std::endl;
-
-
-
-
-}
- */
 
 
 namespace hydra {
 
 namespace experimental {
 
+#define _DeclareStorable(class_name, args...) \
+public: \
+typedef decltype( thrust::make_tuple(args)) args_type; \
+template<typename ...T> \
+__host__ __device__ \
+class_name( thrust::tuple<T...> const& t) \
+{ thrust::tie(args) = t; } \
+template<typename ...T> \
+__host__ __device__ \
+class_name& operator= ( thrust::tuple<T...> const& t ) \
+{thrust::tie(args) = t;\
+return *this; } \
+__host__ __device__ \
+template<typename ...T> \
+operator thrust::tuple<T...> () { return thrust::make_tuple(args); } \
 
-template<typename> struct RemoveBrackets;
-template<typename T> struct RemoveBrackets<void (T)> {
-    typedef T Type;
-};
-
-
-#define _DeclCollectable(ClassName, ...)\
-\
-ClassName(typename ClassName::members_type const& tpl)\
 
 
 }  // namespace experimental

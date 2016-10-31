@@ -187,13 +187,15 @@ size_t n=100000000;
 
 int main(int argv, char** argc)
 {
+	typedef  thrust::tuple<double, double, double, double, double, double> tuple_t;
 
-	typedef hydra::experimental::multivector<thrust::host_vector,
-			std::allocator,double, double, double,double, double, double> table_t;
+	typedef thrust::host_vector<tuple_t> vector_t;
 
-	typedef thrust::host_vector<thrust::tuple<double, double, double, double, double, double>> vector_t;
+	typedef hydra::experimental::multivector<vector_t> table_t;
 
-	thrust::tuple<double, double, double, double, double, double> init(0.0,0.0,0.0,2.0,2.0,2.0);
+
+
+	 tuple_t init(0.0,0.0,0.0,2.0,2.0,2.0);
 
 
 	{

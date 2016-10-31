@@ -22,209 +22,79 @@
 /*
  * multivector.h
  *
- *  Created on: 18/10/2016
+ *  Created on: 29/10/2016
  *      Author: Antonio Augusto Alves Junior
  */
 
 #ifndef MULTIVECTOR_H_
 #define MULTIVECTOR_H_
 
-#include <hydra/detail/Config.h>
-#include <hydra/Types.h>
-#include <hydra/experimental/detail/multivector.inc>
-#include <thrust/iterator/zip_iterator.h>
+#include <hydra/experimental/detail/multivector_base.h>
 #include <thrust/tuple.h>
-#include <hydra/detail/utility/Utility_Tuple.h>
-#include <hydra/detail/utility/Generic.h>
-
-
 
 namespace hydra {
 
+
 namespace experimental {
 
-/**
- * The correct thing to do here is to define policies to Vector, Tuple and Zipping
- * providing the ::methods make_tuple, ::make_zip_iterator, ::get<I>, copy,
- * etc...
- * This is only a preliminary version and will work only inside thrust
- */
+template<typename T>
+class multivector;
 
-template< template<typename...> class Vector, template<typename...> class Allocator, typename ...T>
-class multivector{
-
+template< template<typename...> class Vector, template<typename...> class Allocator,  typename ...T>
+class multivector<Vector<thrust::tuple<T...>, Allocator<thrust::tuple<T...>>>> : public multivector_base<Vector, Allocator, T...>
+{
 public:
-
-
-    //tuples of types
-	typedef thrust::tuple<T...> 			                                          value_tuple_type;
-	typedef thrust::tuple<Vector<T, Allocator<T>>...> 		                          storage_tuple_type;
-	typedef thrust::tuple<typename Vector<T, Allocator<T>>::pointer...> 	          pointer_tuple_type;
-	typedef thrust::tuple<typename Vector<T, Allocator<T>>::const_pointer...> 	      const_pointer_tuple_type;
-	typedef thrust::tuple<typename Vector<T, Allocator<T>>::reference...> 	          reference_tuple;
-	typedef thrust::tuple<typename Vector<T, Allocator<T>>::const_reference...>       const_reference_tuple;
-	typedef thrust::tuple<typename Vector<T, Allocator<T>>::size_type...> 	          size_type_tuple;
-	typedef thrust::tuple<typename Vector<T, Allocator<T>>::iterator...> 	          iterator_tuple;
-	typedef thrust::tuple<typename Vector<T, Allocator<T>>::const_iterator...>         const_iterator_tuple;
-	typedef thrust::tuple<typename Vector<T, Allocator<T>>::reverse_iterator...>       reverse_iterator_tuple;
-	typedef thrust::tuple<typename Vector<T, Allocator<T>>::const_reverse_iterator...> const_reverse_iterator_tuple;
-
-	//zipped iterators
-	typedef thrust::zip_iterator<iterator_tuple>                 iterator;
-	typedef thrust::zip_iterator<const_iterator_tuple>           const_iterator;
-
-	//zipped reverse_iterators
-	typedef thrust::zip_iterator<reverse_iterator_tuple>         reverse_iterator;
-	typedef thrust::zip_iterator<const_reverse_iterator_tuple>   const_reverse_iterator;
-
 	/**
 	 * default constructor
 	 */
-	explicit multivector();
+	explicit  multivector():
+			multivector_base<Vector, Allocator, T...>()
+	{ }
 
 	/**
 	 * constructor size_t n
 	 */
-	explicit multivector(size_t n);
+	explicit multivector(size_t n):
+			multivector_base<Vector, Allocator, T...>( n)
+	{}
 
 	/**
 	 * constructor size_t n, ...values
 	 */
-
-	explicit multivector(size_t n, T... value);
+	explicit multivector(size_t n, T... value):
+			multivector_base<Vector, Allocator, T...>(n, value...)
+	{}
 
 	/**
 	 * constructor size_t n, ...values
 	 */
-	explicit multivector(size_t n, value_tuple_type  value);
+	explicit multivector(size_t n, typename multivector_base<Vector, Allocator, T...>::value_tuple_type  value):
+		multivector_base<Vector, Allocator, T...>(n, value)
+	{}
 
 	/**
 	 * copy constructor
 	 */
 	template< template<typename...> class Vector2,
 	template<typename...> class Allocator2>
-	multivector( multivector< Vector2, Allocator2, T... >const&  other);
+	multivector( multivector<Vector2<thrust::tuple<T...>, Allocator2<thrust::tuple<T...>>>>const&  other):
+	multivector_base<Vector, Allocator, T...>(other)
+	{}
 
 
 	/**
 	 * assignment operator=
 	 */
-
-	template< template<typename...> class Vector2, template<typename...> class Allocator2>
-	multivector< Vector, Allocator, T... >&
-	operator=( multivector< Vector2, Allocator2, T... > const&  v);
-
-	inline void pop_back();
-
-	inline void push_back(T const&... args);
-
-	inline void push_back(thrust::tuple<T...> const& args);
-
-	pointer_tuple_type data();
-
-	const_pointer_tuple_type data() const;
-
-	size_t size() const;
-
-	size_t capacity() const;
-
-	bool empty() const;
-
-	void resize(size_t size);
-
-	void clear();
-
-	void shrink_to_fit();
-
-	void reserve(size_t size);
-
-	reference_tuple front();
-
-	const_reference_tuple front() const;
-
-	reference_tuple back();
-
-	const_reference_tuple back() const;
-
-    iterator begin();
-
-	iterator end();
-
-	const_iterator cbegin() const;
-
-    const_iterator cend() const;
-
-	reverse_iterator rbegin();
-
-	reverse_iterator rend();
-
-	const_reverse_iterator crbegin() const;
-
-	const_reverse_iterator crend() const;
-
-	//----------------------
-	template<unsigned int I>
-	auto vbegin()
-	-> typename thrust::tuple_element<I, iterator_tuple>::type;
-
-	template<unsigned int I>
-	auto vend()
-	-> typename thrust::tuple_element<I, iterator_tuple>::type;
-
-	template<unsigned int I>
-	auto vcbegin() const
-	-> typename thrust::tuple_element<I, const_iterator_tuple>::type;
-
-	template<unsigned int I>
-	auto vcend() const
-	-> typename thrust::tuple_element<I, const_iterator_tuple>::type;
-
-	template<unsigned int I>
-	auto vrbegin()
-	-> typename thrust::tuple_element<I, reverse_iterator_tuple>::type;
-
-	template<unsigned int I>
-	auto vrend()
-	-> typename thrust::tuple_element<I, reverse_iterator_tuple>::type;
-
-	template<unsigned int I>
-	auto vcrbegin() const
-	-> typename thrust::tuple_element<I, const_reverse_iterator_tuple>::type;
-
-	template<unsigned int I>
-	auto vcrend() const
-	-> typename thrust::tuple_element<I, const_reverse_iterator_tuple>::type;
-
-	//-------------------------------------
-	inline	reference_tuple operator[](size_t n)
-	{	return fBegin[n] ;	}
-
-	 inline const_reference_tuple operator[](size_t n) const
-	{	return fConstBegin[n]; }
-
-
-private:
-
-	storage_tuple_type fStorage;
-	iterator fBegin;
-	reverse_iterator fReverseBegin;
-	const_iterator fConstBegin;
-	const_reverse_iterator fConstReverseBegin;
-
-	iterator_tuple fTBegin;
-	const_iterator_tuple fTConstBegin;
-	reverse_iterator_tuple fTReverseBegin;
-	const_reverse_iterator_tuple fTConstReverseBegin;
-
-	size_t   fSize;
-
+	template< template<typename...> class Vector2,
+	template<typename...> class Allocator2>
+	multivector<Vector<thrust::tuple<T...>, Allocator<thrust::tuple<T...>>>>&
+	operator=( multivector<Vector2<thrust::tuple<T...>, Allocator2<thrust::tuple<T...>>>> const&  v)
+	{
+		multivector_base<Vector, Allocator, T...>::operator=(v);
+	}
 };
 
-
 }  // namespace experimental
-
 }  // namespace hydra
-
-#include <hydra/experimental/detail/multivector.inl>
 
 #endif /* MULTIVECTOR_H_ */
