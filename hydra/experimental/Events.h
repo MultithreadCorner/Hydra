@@ -32,8 +32,8 @@
  */
 
 
-#ifndef EVENTS_H_
-#define EVENTS_H_
+#ifndef _EVENTS_H_
+#define _EVENTS_H_
 
 #include <array>
 #include <vector>
@@ -229,12 +229,12 @@ struct Events {
 
 	vector_particles_const_iterator DaughtersBegin(GInt_t i)const{
 
-		return fDaughters[i].begin();
+		return fDaughters[i].cbegin();
 	}
 
 	vector_particles_const_iterator DaughtersEnd(GInt_t i)	const{
 
-		return fDaughters[i].end();
+		return fDaughters[i].cend();
 	}
 
 	vector_bool_iterator FlagsBegin() {

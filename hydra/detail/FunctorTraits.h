@@ -79,6 +79,13 @@ struct is_hydra_integrator: std::false_type {};
 template<class T>
 struct is_hydra_integrator<T, typename tag_type< typename T::hydra_integrator_tag>::type>: std::true_type {};
 
+//storable
+template<class T, class Enable = void>
+struct is_hydra_convertible_to_tuple: std::false_type {};
+
+template<class T>
+struct is_hydra_convertible_to_tuple<T, typename tag_type< typename T::hydra_convertible_to_tuple_tag>::type>: std::true_type {};
+
 
 
 // hint from http://stackoverflow.com/a/16824239/6147498

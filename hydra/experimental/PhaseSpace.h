@@ -33,8 +33,8 @@
  */
 
 
-#ifndef PHASESPACE_H_
-#define PHASESPACE_H_
+#ifndef _PHASESPACE_H_
+#define _PHASESPACE_H_
 
 #include <array>
 #include <vector>
@@ -51,16 +51,16 @@
 #include <hydra/detail/Config.h>
 #include <hydra/Types.h>
 #include <hydra/Containers.h>
-#include <hydra/Vector3R.h>
-#include <hydra/Vector4R.h>
-#include <hydra/Events.h>
-#include <hydra/detail/functors/DecayMother.h>
-#include <hydra/detail/functors/DecayMothers.h>
+#include <hydra/experimental/Vector3R.h>
+#include <hydra/experimental/Vector4R.h>
+#include <hydra/experimental/Events.h>
+#include <hydra/experimental/detail/functors/DecayMother.h>
+#include <hydra/experimental/detail/functors/DecayMothers.h>
 #include <hydra/detail/functors/FlagAcceptReject.h>
 #include <hydra/detail/functors/IsAccepted.h>
 #include <hydra/detail/utility/Generic.h>
 #include <hydra/strided_iterator.h>
-#include <hydra/detail/launch_decayers.inl>
+#include <hydra/experimental/detail/launch_decayers.inl>
 
 #include <thrust/iterator/zip_iterator.h>
 #include <thrust/iterator/counting_iterator.h>
@@ -117,7 +117,7 @@ public:
 	~PhaseSpace() {}
 
 	template<typename Iterator>
-	void Generate(Vector4R const& mother, Iterator begin, Iterator end)
+	void Generate(experimental::Vector4R const& mother, Iterator begin, Iterator end)
 	{
 		/**
 		 * Run the generator and calculate the maximum weight. It takes as input the fourvector of the mother particle
@@ -129,7 +129,7 @@ public:
 #endif
 
 
-	detail::DecayMother<N, detail::IteratorTraits<Iterator>::type::backend,GRND> decayer(mother,fMasses, fNDaughters, fSeed);
+	detail::DecayMother<N, hydra::detail::IteratorTraits<Iterator>::type::backend,GRND> decayer(mother,fMasses, fNDaughters, fSeed);
 			detail::launch_decayer(begin, end, decayer );
 
 	}
@@ -147,7 +147,7 @@ public:
 #endif
 
 
-	detail::DecayMothers<N, detail::IteratorTraits<Iterator1>::type::backend,GRND> decayer(fMasses, fNDaughters, fSeed);
+	detail::DecayMothers<N, hydra::detail::IteratorTraits<Iterator1>::type::backend,GRND> decayer(fMasses, fNDaughters, fSeed);
 		detail::launch_decayer(begin, end, mothers_begin, decayer );
 
 

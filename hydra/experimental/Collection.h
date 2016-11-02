@@ -29,8 +29,8 @@
 #ifndef COLLECTION_H_
 #define COLLECTION_H_
 
-
-
+#include <thrust/tuple.h>
+#include <thrust/iterator/detail/tuple_of_iterator_references.h>
 namespace hydra {
 
 namespace experimental {
@@ -38,6 +38,7 @@ namespace experimental {
 #define _DeclareStorable(class_name, args...) \
 public: \
 typedef decltype( thrust::make_tuple(args)) args_type; \
+typedef void hydra_convertible_to_tuple_tag; \
 template<typename ...T> \
 __host__ __device__ \
 class_name( thrust::tuple<T...> const& t) \
@@ -47,8 +48,13 @@ __host__ __device__ \
 class_name& operator= ( thrust::tuple<T...> const& t ) \
 {thrust::tie(args) = t;\
 return *this; } \
-__host__ __device__ \
 template<typename ...T> \
+__host__ __device__ \
+class_name& operator= (thrust::detail::tuple_of_iterator_references<T&...> const&  t ) \
+{thrust::tie(args) = t; \
+return *this; } \
+template<typename ...T> \
+__host__ __device__ \
 operator thrust::tuple<T...> () { return thrust::make_tuple(args); } \
 
 

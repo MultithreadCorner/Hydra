@@ -193,12 +193,12 @@ namespace hydra {
 				enum { argument_count = sizeof...(Args) };
 
 				typedef ReturnType return_type;
-				typedef thrust::tuple<Args...> args_type;
+				typedef thrust::tuple<Args&...> args_type;
 
 				template <size_t i>
 				struct arg
 				{
-					typedef typename std::tuple_element<i, std::tuple<Args...>>::type type;
+					typedef typename std::tuple_element<i, std::tuple<Args&...>>::type type;
 				 };
 			};
 

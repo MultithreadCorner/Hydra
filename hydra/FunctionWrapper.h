@@ -77,8 +77,9 @@ private:
 
 namespace detail {
 
+
 template<typename L, typename ReturnType, typename ...Args>
-auto wrap_lambda_helper(L const& f, ReturnType r, thrust::tuple<Args...> t)
+auto wrap_lambda_helper(L const& f, ReturnType r, thrust::tuple<Args...>const& t)
 -> LambdaWrapper<ReturnType(Args...), L>
 {
 	return LambdaWrapper<ReturnType(Args...), L>(f);
@@ -90,13 +91,16 @@ auto wrap_lambda_helper(L const& f, ReturnType r, thrust::tuple<Args...> t)
 template<typename L>
 auto wrap_lambda(L const& f)
 -> decltype(detail::wrap_lambda_helper(f, typename detail::function_traits<L>::return_type() ,
-		typename detail::function_traits<L>::args_type() ))
+		typename detail::function_traits<L>::args_type()) )
 {
 	typedef detail::function_traits<L> traits;
 	typename traits::return_type r = typename traits::return_type();
 	typename traits::args_type t;
+	//static_assert(traits::args_type::dummy , "<<<+++++++++++++++++++");
 	return detail::wrap_lambda_helper(f, r, t);
 }
+
+
 
 }
 

@@ -39,8 +39,8 @@
 #include <hydra/Types.h>
 #include <hydra/Containers.h>
 #include <hydra/experimental/Events.h>
-#include <hydra/detail/functors/experimental/DecayMother.h>
-#include <hydra/detail/functors/experimental/DecayMothers.h>
+#include <hydra/experimental/detail/functors/DecayMother.h>
+#include <hydra/experimental/detail/functors/DecayMothers.h>
 #include <hydra/detail/utility/Utility_Tuple.h>
 
 #include <thrust/iterator/counting_iterator.h>
@@ -64,7 +64,7 @@ namespace experimental {
 
 		auto begin_weights = thrust::get<0>(begin.get_iterator_tuple());
 
-		auto begin_temp = detail::dropFirst( begin.get_iterator_tuple() );
+		auto begin_temp = hydra::detail::dropFirst( begin.get_iterator_tuple() );
 
 		auto begin_particles = thrust::make_zip_iterator(begin_temp);
 
@@ -86,7 +86,7 @@ namespace experimental {
 
 			auto begin_weights = thrust::get<0>(begin.get_iterator_tuple());
 
-			auto begin_temp = detail::changeFirst(  begin_mothers, begin.get_iterator_tuple() );
+			auto begin_temp = hydra::detail::changeFirst(  begin_mothers, begin.get_iterator_tuple() );
 
 			auto begin_particles = thrust::make_zip_iterator(begin_temp);
 

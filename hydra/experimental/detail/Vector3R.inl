@@ -26,11 +26,10 @@
  *      Author: Antonio Augusto Alves Junior
  */
 
-#ifndef VECTOR3R_INL_
-#define VECTOR3R_INL_
+#ifndef _VECTOR3R_INL_
+#define _VECTOR3R_INL_
 
-namespace hydra
-{
+namespace hydra {
 namespace experimental {
 
 __host__ __device__

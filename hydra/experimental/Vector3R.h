@@ -35,8 +35,8 @@
  */
 
 
-#ifndef VECTOR3R_H_
-#define VECTOR3R_H_
+#ifndef _VECTOR3R_H_
+#define _VECTOR3R_H_
 
 
 #include <hydra/detail/Config.h>
@@ -48,8 +48,7 @@
 
 using std::ostream;
 
-namespace hydra
-{
+namespace hydra {
 
 namespace experimental {
 
@@ -164,6 +163,6 @@ inline Vector3R cross(const Vector3R& p1, const Vector3R& p2)
 }  // namespace experimental
 
 }// namespace hydra
-#endif /* VECTOR3R_H_ */
+#endif /* _VECTOR3R_H_ */
 
 #include <hydra/experimental/detail/Vector3R.inl>

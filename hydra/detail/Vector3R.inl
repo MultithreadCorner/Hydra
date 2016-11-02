@@ -29,8 +29,8 @@
 #ifndef VECTOR3R_INL_
 #define VECTOR3R_INL_
 
-namespace hydra
-{
+namespace hydra {
+
 __host__ __device__
 inline Vector3R& Vector3R::operator*=(const GReal_t c)
 {

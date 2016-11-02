@@ -156,7 +156,7 @@ inline Vector3R cross(const Vector3R& p1, const Vector3R& p2)
 
 }
 
-}
+}// namespace hydra
 #endif /* VECTOR3R_H_ */
 
 #include <hydra/detail/Vector3R.inl>

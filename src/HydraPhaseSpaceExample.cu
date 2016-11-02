@@ -198,7 +198,7 @@ GInt_t main(int argv, char** argc)
 	{ return thrust::get<0>(event) ; };
 
 	auto MB0 = [] __host__ __device__ (Events<3, device>::value_type event )
-	{ return (thrust::get<1>(event) + thrust::get<2>(event) +	thrust::get<3>(event) ).mass();	};
+	{ return ( thrust::get<1>(event) + thrust::get<2>(event) +	thrust::get<3>(event) ).mass();	};
 
 	auto M12 = [] __host__ __device__ ( Events<3, device>::value_type event)
 	{ return  (thrust::get<1>(event)+ thrust::get<2>(event)).mass2(); };

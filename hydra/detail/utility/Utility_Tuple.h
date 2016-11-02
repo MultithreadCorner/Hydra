@@ -34,6 +34,7 @@
 #include <hydra/Types.h>
 #include <hydra/detail/utility/Generic.h>
 #include <hydra/detail/TypeTraits.h>
+#include <hydra/detail/FunctorTraits.h>
 //thrust
 #include <thrust/tuple.h>
 #include <thrust/detail/type_traits.h>
@@ -195,6 +196,27 @@ namespace hydra {
 	}
 
 	//---------------------------------------
+	// set a generic array with tuple values
+	template<size_t I = 0,  typename ArrayType, typename FistType, typename ...OtherTypes>
+	__host__  __device__
+	inline typename thrust::detail::enable_if<I == (sizeof...(OtherTypes) + 1) &&
+	 is_hydra_convertible_to_tuple<ArrayType>::value &&
+	are_all_same<FistType,OtherTypes...>::value, void>::type
+	assignArrayToTuple(thrust::tuple<FistType, OtherTypes...> &,  ArrayType (&Array)[sizeof...(OtherTypes)+1])
+	{}
+
+	template<size_t I = 0, typename ArrayType, typename FistType, typename ...OtherTypes>
+	__host__  __device__
+	inline typename thrust::detail::enable_if<(I < sizeof...(OtherTypes)+1) &&
+	 is_hydra_convertible_to_tuple<ArrayType>::value &&
+	are_all_same<FistType,OtherTypes...>::value, void >::type
+	assignArrayToTuple(thrust::tuple<FistType, OtherTypes...> & t, ArrayType (&Array)[sizeof...(OtherTypes)+1] )
+	{
+		thrust::get<I>(t) = (typename ArrayType::args_type) Array[I];
+		assignArrayToTuple<I + 1,ArrayType,FistType, OtherTypes... >( t, Array);
+	}
+
+	//---------------------------------------
 	// set a std::array with tuple values
 	 template<size_t I = 0, typename FistType, typename ...OtherTypes>
 	 inline typename thrust::detail::enable_if<I == (sizeof...(OtherTypes) + 1) &&
@@ -211,6 +233,32 @@ namespace hydra {
 		 Array[I] = thrust::get<I>(t);
 		 tupleToArray<I + 1,FistType, OtherTypes... >( t, Array);
 	 }
+
+
+	 //---------------------------------------
+	 // set a std::array with tuple values
+	 template<size_t I = 0, typename ArrayType, typename FistType, typename ...OtherTypes>
+	 __host__  __device__
+	 inline typename thrust::detail::enable_if<I == (sizeof...(OtherTypes) + 1) &&
+	 is_hydra_convertible_to_tuple<ArrayType>::value &&
+	 are_all_same<FistType,OtherTypes...>::value, void>::type
+	 assignTupleToArray(thrust::tuple<FistType, OtherTypes...> const&,
+			 ArrayType (&Array)[sizeof...(OtherTypes)+1])
+	 {}
+
+	 template<size_t I = 0, typename  ArrayType, typename FistType, typename ...OtherTypes>
+	 __host__  __device__
+	 inline typename thrust::detail::enable_if<(I < sizeof...(OtherTypes)+1) &&
+	 is_hydra_convertible_to_tuple<ArrayType>::value &&
+	 are_all_same<FistType,OtherTypes...>::value, void >::type
+	 assignTupleToArray(thrust::tuple<FistType, OtherTypes...> const& t,
+			 ArrayType (&Array)[sizeof...(OtherTypes)+1])
+	 {
+
+		 Array[I] = thrust::get<I>(t);
+		 assignTupleToArray<I + 1,ArrayType,FistType, OtherTypes... >( t, Array);
+	 }
+
 
 	 //---------------------------------------
 	 // set a generic array with tuple values

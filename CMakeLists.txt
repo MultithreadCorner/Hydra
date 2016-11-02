@@ -129,6 +129,20 @@ if(BUILD_CUDA_TARGETS)
     ${ROOT_LIBRARIES}
     rt    
     )
+ 
+ #--------------------
+#phsp generation
+ 
+    cuda_add_executable(Hydra_Experimental_PHSP_CUDA
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/HydraPhaseSpaceExperimental.cu
+    OPTIONS -Xcompiler -fopenmp -DTHRUST_DEVICE_SYSTEM=THRUST_DEVICE_SYSTEM_CUDA  -DTHRUST_HOST_SYSTEM=THRUST_HOST_SYSTEM_OMP -lgomp
+    )
+    
+    target_link_libraries(Hydra_Experimental_PHSP_CUDA
+    ${ROOT_LIBRARIES}
+    rt    
+    )
+ 
 
 #random number generation
  
@@ -208,6 +222,19 @@ if(BUILD_CUDA_TARGETS)
 	
 endif(BUILD_CUDA_TARGETS)
 
+#--------------
+#phsp  generation
+add_executable(Hydra_Experimental_PHSP
+${CMAKE_CURRENT_SOURCE_DIR}/src/HydraPhaseSpaceExperimental.cpp
+)
+
+set_target_properties(Hydra_Experimental_PHSP PROPERTIES 
+COMPILE_FLAGS "-fopenmp -DTHRUST_HOST_SYSTEM=THRUST_HOST_SYSTEM_CPP -DTHRUST_DEVICE_SYSTEM=THRUST_DEVICE_SYSTEM_OMP -lgomp")
+
+target_link_libraries(Hydra_Experimental_PHSP
+${ROOT_LIBRARIES}
+rt
+)
 
 #--------------
 #phsp  generation

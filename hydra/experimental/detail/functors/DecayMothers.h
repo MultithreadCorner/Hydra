@@ -35,8 +35,8 @@
  * \ingroup phsp
  */
 
-#ifndef DECAYMOTHERS_H_
-#define DECAYMOTHERS_H_
+#ifndef _DECAYMOTHERS_H_
+#define _DECAYMOTHERS_H_
 
 //hydra
 #include <hydra/detail/Config.h>
@@ -51,16 +51,14 @@
 #include <thrust/iterator/zip_iterator.h>
 
 
-namespace hydra
-{
-
-namespace detail
-{
+namespace hydra {
+namespace experimental {
+namespace detail {
 
 template <size_t N, unsigned int BACKEND, typename GRND>
 struct DecayMothers
 {
-	typedef detail::BackendTraits<BACKEND> system_t;
+	typedef hydra::detail::BackendTraits<BACKEND> system_t;
 	typedef typename system_t::template container<GReal_t>  vector_real;
 
 	const GInt_t fSeed;
@@ -120,7 +118,7 @@ struct DecayMothers
 		    return  C ;
 		}
 
-	__host__      __device__ GReal_t process(const GInt_t evt, experimental::Vector4R* particles)
+	__host__      __device__ GReal_t process(const GInt_t evt, experimental::Vector4R (&particles)[N])
 	{
 
 		GRND randEng( hash(evt,fSeed) );
@@ -129,7 +127,7 @@ struct DecayMothers
 
 		GReal_t fTeCmTm = 0.0;//, fWtMax = 0.0;
 
-		fTeCmTm = particles[0]->mass(); // total energy in C.M. minus the sum of the masses
+		fTeCmTm = particles[0].mass(); // total energy in C.M. minus the sum of the masses
 
 		#pragma unroll N
 		for (size_t n = 0; n < fNDaughters; n++)
@@ -155,14 +153,14 @@ struct DecayMothers
 		//GReal_t fBeta[3];
 		//fBeta[0]=0, fBeta[1]=0, fBeta[2] = 0.0;
 
-		GReal_t _beta = particles[0]->d3mag() / particles[0]->get(0);
+		GReal_t _beta = particles[0].d3mag() / particles[0].get(0);
 
 		if (_beta)
 		{
-			GReal_t w = _beta / particles[0]->d3mag();
-			//fBeta[0] = particles[0]->get(0) * w;
-			//fBeta[1] = particles[0]->get(1) * w;
-			//fBeta[2] = particles[0]->get(2) * w;
+			GReal_t w = _beta / particles[0].d3mag();
+			//fBeta[0] = particles[0].get(0) * w;
+			//fBeta[1] = particles[0].get(1) * w;
+			//fBeta[2] = particles[0].get(2) * w;
 		}
 
 		GReal_t rno[N];
@@ -206,14 +204,14 @@ struct DecayMothers
 		//-----> complete specification of event (Raubold-Lynch method)
 		//
 
-		particles[1]->set(sqrt(pd[0] * pd[0] + fMasses[0] * fMasses[0]), 0.0,
+		particles[1].set(sqrt(pd[0] * pd[0] + fMasses[0] * fMasses[0]), 0.0,
 				pd[0], 0.0);
 
 		#pragma unroll N
 		for (size_t i = 1; i < fNDaughters; i++)
 		{
 
-			particles[i + 1]->set(
+			particles[i + 1].set(
 					sqrt(pd[i - 1] * pd[i - 1] + fMasses[i] * fMasses[i]), 0.0,
 					-pd[i - 1], 0.0);
 
@@ -225,15 +223,15 @@ struct DecayMothers
 			for (size_t j = 0; j <= i; j++)
 			{
 
-				GReal_t x = particles[j + 1]->get(1);
-				GReal_t y = particles[j + 1]->get(2);
-				particles[j + 1]->set(1, cZ * x - sZ * y);
-				particles[j + 1]->set(2, sZ * x + cZ * y); // rotation around Z
+				GReal_t x = particles[j + 1].get(1);
+				GReal_t y = particles[j + 1].get(2);
+				particles[j + 1].set(1, cZ * x - sZ * y);
+				particles[j + 1].set(2, sZ * x + cZ * y); // rotation around Z
 
-				x = particles[j + 1]->get(1);
-				GReal_t z = particles[j + 1]->get(3);
-				particles[j + 1]->set(1, cY * x - sY * z);
-				particles[j + 1]->set(3, sY * x + cY * z); // rotation around Y
+				x = particles[j + 1].get(1);
+				GReal_t z = particles[j + 1].get(3);
+				particles[j + 1].set(1, cY * x - sY * z);
+				particles[j + 1].set(3, sY * x + cY * z); // rotation around Y
 			}
 
 			if (i == (fNDaughters - 1))
@@ -243,7 +241,7 @@ struct DecayMothers
 			for (size_t j = 0; j <= i; j++)
 			{
 
-				particles[j + 1]->applyBoostTo(0, beta, 0);
+				particles[j + 1].applyBoostTo(0, beta, 0);
 			}
 
 			//i++;
@@ -256,7 +254,7 @@ struct DecayMothers
 		for (size_t n = 0; n < fNDaughters; n++)
 		{
 
-			particles[n + 1]->applyBoostTo(*particles[0]);
+			particles[n + 1].applyBoostTo(particles[0]);
 
 		}
 
@@ -273,17 +271,20 @@ struct DecayMothers
 
 			constexpr size_t SIZE = thrust::tuple_size<Tuple>::value;
 
-			experimental::Vector4R Particles[SIZE];
-			//detail::set_ptrs_to_tuple(Particles,  particles);
-			detail::tupleToArray(particles,  &Particles[0] );
-			return process(evt, Particles);
+			hydra::experimental::Vector4R Particles[SIZE];
+			tupleToArray(particles,  Particles );
+			GReal_t weight = process(evt, Particles);
+			assignArrayToTuple(particles, Particles );
+			return weight;
 
 			}
 
 
 
 };
+
 }//namespace detail
+}
 }//namespace hydra
 
 #endif /* DECAYMOTHERS_H_ */

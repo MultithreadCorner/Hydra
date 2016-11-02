@@ -35,8 +35,8 @@
  * \ingroup phsp
  */
 
-#ifndef DECAYMOTHER_H_
-#define DECAYMOTHER_H_
+#ifndef _DECAYMOTHER_H_
+#define _DECAYMOTHER_H_
 
 //hydra
 #include <hydra/detail/Config.h>
@@ -63,7 +63,7 @@ namespace detail {
 template <size_t N, unsigned int BACKEND, typename GRND>
 struct DecayMother
 {
-	typedef detail::BackendTraits<BACKEND> system_t;
+	typedef hydra::detail::BackendTraits<BACKEND> system_t;
 	typedef typename system_t::template container<GReal_t>  vector_real;
 
 	const GInt_t fSeed;
@@ -188,7 +188,7 @@ struct DecayMother
 	}
 
 	__host__   __device__ inline
-	GReal_t process(const GInt_t evt, experimental::Vector4R* daugters)
+	GReal_t process(const GInt_t evt, experimental::Vector4R (&daugters)[N])
 	{
 
 		GRND randEng( hash(evt,fSeed) );
@@ -241,14 +241,14 @@ struct DecayMother
 		//-----> complete specification of event (Raubold-Lynch method)
 		//
 
-		daugters[0]->set(sqrt((GReal_t) pd[0] * pd[0] + fMasses[0] * fMasses[0]), 0.0,
+		daugters[0].set(sqrt((GReal_t) pd[0] * pd[0] + fMasses[0] * fMasses[0]), 0.0,
 				pd[0], 0.0);
 
 #pragma unroll N
 		for (size_t i = 1; i < fNDaughters; i++)
 		{
 
-			daugters[i]->set(
+			daugters[i].set(
 					sqrt(pd[i - 1] * pd[i - 1] + fMasses[i] * fMasses[i]), 0.0,
 					-pd[i - 1], 0.0);
 
@@ -260,15 +260,15 @@ struct DecayMother
 			for (size_t j = 0; j <= i; j++)
 			{
 
-				GReal_t x = daugters[j]->get(1);
-				GReal_t y = daugters[j]->get(2);
-				daugters[j]->set(1, cZ * x - sZ * y);
-				daugters[j]->set(2, sZ * x + cZ * y); // rotation around Z
+				GReal_t x = daugters[j].get(1);
+				GReal_t y = daugters[j].get(2);
+				daugters[j].set(1, cZ * x - sZ * y);
+				daugters[j].set(2, sZ * x + cZ * y); // rotation around Z
 
-				x = daugters[j]->get(1);
-				GReal_t z = daugters[j]->get(3);
-				daugters[j]->set(1, cY * x - sY * z);
-				daugters[j]->set(3, sY * x + cY * z); // rotation around Y
+				x = daugters[j].get(1);
+				GReal_t z = daugters[j].get(3);
+				daugters[j].set(1, cY * x - sY * z);
+				daugters[j].set(3, sY * x + cY * z); // rotation around Y
 			}
 
 			if (i == (fNDaughters - 1))
@@ -278,7 +278,7 @@ struct DecayMother
 			for (size_t j = 0; j <= i; j++)
 			{
 
-				daugters[j]->applyBoostTo(Vector3R(0, beta, 0));
+				daugters[j].applyBoostTo(Vector3R(0, beta, 0));
 			}
 
 		}
@@ -290,7 +290,7 @@ struct DecayMother
 		for (size_t n = 0; n < fNDaughters; n++)
 		{
 
-			daugters[n]->applyBoostTo(Vector3R(fBeta0, fBeta1, fBeta2));
+			daugters[n].applyBoostTo(Vector3R(fBeta0, fBeta1, fBeta2));
 
 		}
 
@@ -303,16 +303,16 @@ struct DecayMother
 	}
 
 	template<typename Tuple>
-	__host__      __device__ inline GReal_t operator()(const GInt_t evt, Tuple &particles)
+	__host__  __device__ inline GReal_t operator()(const GInt_t evt, Tuple &particles)
 	{
 
 		constexpr size_t SIZE = thrust::tuple_size<Tuple>::value;
+		hydra::experimental::Vector4R Particles[SIZE];
+		hydra::detail::assignTupleToArray(particles,  Particles );
+		GReal_t weight = process(evt, Particles);
+		hydra::detail::assignArrayToTuple(particles,  Particles );
 
-		experimental::Vector4R Particles[SIZE];
-		//detail::set_ptrs_to_tuple(particles, &Particles[0]  );
-		detail::tupleToArray(particles,  &Particles[0] );
-		return process(evt, Particles);
-
+		return weight;
 	}
 
 
