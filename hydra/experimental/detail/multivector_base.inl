@@ -411,6 +411,24 @@ fSize( thrust::get<0>(fStorage ).size())
  template<typename...> class Allocator,
  typename ...T>
  typename multivector_base<Vector,Allocator,T...>::const_iterator
+ multivector_base<Vector,Allocator,T...>::begin() const
+ {
+	 return	fConstBegin;
+ }
+
+ template< template<typename...> class Vector,
+ template<typename...> class Allocator,
+ typename ...T>
+ typename multivector_base<Vector,Allocator,T...>::const_iterator
+ multivector_base<Vector,Allocator,T...>::end() const
+ {
+	 return	fConstBegin+fSize;
+ }
+
+ template< template<typename...> class Vector,
+ template<typename...> class Allocator,
+ typename ...T>
+ typename multivector_base<Vector,Allocator,T...>::const_iterator
  multivector_base<Vector,Allocator,T...>::cbegin() const
  {
 	 return	fConstBegin;

@@ -101,6 +101,8 @@ GInt_t main(int argv, char** argc)
 				true, 0.0, "double");
 		cmd.add(MassDaughter3Arg);
 
+
+
 		// Parse the argv array.
 		cmd.parse(argv, argc);
 
@@ -143,64 +145,58 @@ GInt_t main(int argv, char** argc)
 	}
 
 
+	auto Weight = [] __host__ __device__ (hydra::experimental::Events<3, device>::value_type event )
+		{ return thrust::get<0>(event) ; };
 
-	auto Weight = [] __host__ __device__ (hydra::experimental::Events<3, device>::reference_type event )
-	{ return thrust::get<0>(event) ; };
+		auto MB0 = [] __host__ __device__ (hydra::experimental::Events<3, device>::value_type event )
+		{
+			hydra::experimental::Vector4R p1 = thrust::get<1>(event);
+			hydra::experimental::Vector4R p2 = thrust::get<2>(event);
+			hydra::experimental::Vector4R p3 = thrust::get<3>(event);
 
-	auto MB0 = [] __host__ __device__ (hydra::experimental::Events<3, device>::reference_type event )
-	{
-		hydra::experimental::Vector4R p1 = thrust::get<1>(event);
-		hydra::experimental::Vector4R p2 = thrust::get<2>(event);
-		hydra::experimental::Vector4R p3 = thrust::get<2>(event);
+			return ( p1 + p2 + p3 ).mass();
+		};
 
-		return ( p1 + p2 + p3 ).mass();
-	};
+		auto M12 = [] __host__ __device__ ( hydra::experimental::Events<3, device>::value_type event)
+		{
+			hydra::experimental::Vector4R p1 = thrust::get<1>(event);
+			hydra::experimental::Vector4R p2 = thrust::get<2>(event);
 
-	auto M12 = [] __host__ __device__ ( hydra::experimental::Events<3, device>::reference_type event)
-	{
-		hydra::experimental::Vector4R p1 = thrust::get<1>(event);
-		hydra::experimental::Vector4R p2 = thrust::get<2>(event);
+			return  ( p1 + p2).mass2();
 
-		return  ( p1 + p2).mass2();
+		};
 
-	};
+		auto M13 = [] __host__ __device__( hydra::experimental::Events<3, device>::value_type event)
+		{
+			hydra::experimental::Vector4R p1 = thrust::get<1>(event);
+			hydra::experimental::Vector4R p3 = thrust::get<3>(event);
 
-	auto M13 = [] __host__ __device__( hydra::experimental::Events<3, device>::reference_type event)
-	{
-		hydra::experimental::Vector4R p1 = thrust::get<1>(event);
-		hydra::experimental::Vector4R p3 = thrust::get<3>(event);
+			return  ( p1 + p3 ).mass2();
+		};
 
-		return  ( p1 + p3 ).mass2();
-	};
+		auto M23 = [] __host__ __device__( hydra::experimental::Events<3, device>::value_type event)
+		{
+			hydra::experimental::Vector4R p2 = thrust::get<2>(event);
+			hydra::experimental::Vector4R p3 = thrust::get<3>(event);
 
-	auto M23 = [] __host__ __device__( hydra::experimental::Events<3, device>::reference_type event)
-	{
-		hydra::experimental::Vector4R p2 = thrust::get<2>(event);
-		hydra::experimental::Vector4R p3 = thrust::get<3>(event);
+			return  ( p2 + p3 ).mass2();
+		};
 
-		return  ( p2 + p3 ).mass2();
-	};
+		auto Weight_W  = wrap_lambda(Weight);
 
-	auto Weight_W  = wrap_lambda(Weight);
-	auto MB0_W     = wrap_lambda(MB0);
-	auto M12_W     = wrap_lambda(M12);
-	auto M13_W     = wrap_lambda(M13);
-	auto M23_W     = wrap_lambda(M23);
+		auto MB0_W     = wrap_lambda(MB0);
+		auto M12_W     = wrap_lambda(M12);
+		auto M13_W     = wrap_lambda(M13);
+		auto M23_W     = wrap_lambda(M23);
 
 
 
-	auto functors = thrust::make_tuple(Weight_W, MB0_W, M12_W, M13_W, M23_W);
-	auto range_0 =make_range( B02JpsiKpi_Events_d.begin(), B02JpsiKpi_Events_d.end());
-	auto range_1 =make_range( B02JpsiKpi_Events_d.DaughtersBegin(1), B02JpsiKpi_Events_d.DaughtersBegin(1));
-	auto range_2 =make_range( B02JpsiKpi_Events_d.DaughtersBegin(2), B02JpsiKpi_Events_d.DaughtersBegin(2));
-	auto range_3 =make_range( B02JpsiKpi_Events_d.DaughtersBegin(3), B02JpsiKpi_Events_d.DaughtersBegin(3));
+		auto functors = thrust::make_tuple(Weight_W, MB0_W, M12_W, M13_W, M23_W);
+		auto result_d = eval( functors,  B02JpsiKpi_Events_d.begin(), B02JpsiKpi_Events_d.end());
 
-	auto result_d = Eval( functors, range_0 );
-
-	for( size_t i=0; i<10; i++ ){
-			cout << result_d[i] << endl;
-	}
-
+		for( size_t i=0; i<10; i++ ){
+					cout << result_d[i] << endl;
+			}
 
 	auto result_h = get_copy<host>(result_d);
 

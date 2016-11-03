@@ -138,21 +138,21 @@ GInt_t main(int argv, char** argc)
 	std::cout << "| Time (ms) ="<< elapsed.count() <<std::endl;
 	std::cout << "-----------------------------------------"<<std::endl;
 
-	return 0;
+
 
 	for( size_t i=0; i<10; i++ ){
 		cout << B02JpsiKpi_Events_d[i] << endl;
 	}
 
-	//static_assert(hydra::experimental::Events<3, device>::reference_type::dummy, "<<<<++++++++" );
+
 	auto Weight = [] __host__ __device__ (hydra::experimental::Events<3, device>::value_type event )
 	{ return thrust::get<0>(event) ; };
-/*
+
 	auto MB0 = [] __host__ __device__ (hydra::experimental::Events<3, device>::value_type event )
 	{
 		hydra::experimental::Vector4R p1 = thrust::get<1>(event);
 		hydra::experimental::Vector4R p2 = thrust::get<2>(event);
-		hydra::experimental::Vector4R p3 = thrust::get<2>(event);
+		hydra::experimental::Vector4R p3 = thrust::get<3>(event);
 
 		return ( p1 + p2 + p3 ).mass();
 	};
@@ -181,9 +181,9 @@ GInt_t main(int argv, char** argc)
 
 		return  ( p2 + p3 ).mass2();
 	};
-*/
+
 	auto Weight_W  = wrap_lambda(Weight);
-	/*
+
 	auto MB0_W     = wrap_lambda(MB0);
 	auto M12_W     = wrap_lambda(M12);
 	auto M13_W     = wrap_lambda(M13);
@@ -191,14 +191,12 @@ GInt_t main(int argv, char** argc)
 
 
 
-	auto functors = thrust::make_tuple(Weight_W, MB0_W, M12_W, M13_W, M23_W);*/
-	auto range_0 =make_range( B02JpsiKpi_Events_d.begin(), B02JpsiKpi_Events_d.end());
+	auto functors = thrust::make_tuple(Weight_W, MB0_W, M12_W, M13_W, M23_W);
+	auto result_d = eval( functors,  B02JpsiKpi_Events_d.begin(), B02JpsiKpi_Events_d.end());
 
-/*	auto range_1 =make_range( B02JpsiKpi_Events_d.DaughtersBegin(1), B02JpsiKpi_Events_d.DaughtersBegin(1));
-	auto range_2 =make_range( B02JpsiKpi_Events_d.DaughtersBegin(2), B02JpsiKpi_Events_d.DaughtersBegin(2));
-	auto range_3 =make_range( B02JpsiKpi_Events_d.DaughtersBegin(3), B02JpsiKpi_Events_d.DaughtersBegin(3));
-*/
-	auto result_d = Eval( Weight_W, range_0 );
+	for( size_t i=0; i<10; i++ ){
+				cout << result_d[i] << endl;
+		}
 
 	hydra::experimental::Events<3, host> B02JpsiKpi_Events_h(B02JpsiKpi_Events_d);
 

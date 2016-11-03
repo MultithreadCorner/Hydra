@@ -38,7 +38,7 @@
 #include <hydra/Types.h>
 #include <hydra/Containers.h>
 #include <hydra/detail/TypeTraits.h>
-
+#include <hydra/experimental/multivector.h>
 #include <thrust/device_vector.h>
 #include <thrust/host_vector.h>
 
@@ -70,6 +70,21 @@ typename detail::copy_type<CONTAINER, T, BACKEND>::type
 	typedef typename detail::copy_type<CONTAINER, T, BACKEND>::type vector_t;
 	return 	vector_t(other);
 }
+
+template<unsigned int BACKEND, template<typename...> class CONTAINER, typename T>
+auto get_copy(CONTAINER<T>& other )
+->typename  std::enable_if<
+detail::is_specialization< CONTAINER<T> ,hydra::experimental::multivector>::value,
+hydra::experimental::multivector<typename
+detail::BackendTraits<BACKEND>::template container<typename CONTAINER<T>::value_tuple_type> > >::type
+
+{
+	typedef typename  hydra::experimental::multivector<typename
+			detail::BackendTraits<BACKEND>::template container<typename CONTAINER<T>::value_tuple_type> > vector_t;
+	return 	vector_t(other);
+}
+
+
 
 }  // namespace hydra
 

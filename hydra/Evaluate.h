@@ -47,6 +47,7 @@
 #include <hydra/Range.h>
 #include <thrust/tuple.h>
 #include <hydra/detail/Evaluate.inl>
+#include <hydra/experimental/multivector.h>
 
 namespace hydra {
 
@@ -59,27 +60,102 @@ struct EvalReturnType{ typedef V<thrust::tuple<T...>> type; };
 // Non cached functions
 //--------------------------------------
 
-template< typename Functor, typename Iterator, typename ...Iterators>
-auto Eval(Functor const& t, Iterator begin, Iterator end, Iterators... begins) ->
-typename detail::if_then_else<
-std::is_same<thrust::device_system_tag, typename thrust::iterator_system<Iterator>::type>::value,
+template< typename Functor, typename Iterator>
+auto eval(Functor const& functor, Iterator begin, Iterator end)
+-> typename detail::if_then_else< std::is_same<thrust::device_system_tag,
+typename thrust::iterator_system<Iterator>::type>::value,
 mc_device_vector<typename Functor::return_type>,
 mc_host_vector<typename Functor::return_type>>::type
 {
-	typedef typename detail::if_then_else<
-		std::is_same<thrust::device_system_tag, typename thrust::iterator_system<Iterator>::type>::value,
-		mc_device_vector<typename Functor::return_type>,
-		mc_host_vector<typename Functor::return_type>>::type container;
+	typedef typename detail::if_then_else<std::is_same<thrust::device_system_tag,
+			typename thrust::iterator_system<Iterator>::type>::value,
+			mc_device_vector<typename Functor::return_type>,
+			mc_host_vector<typename Functor::return_type> >::type container;
 
-	auto begin = thrust::make_zip_iterator(thrust::make_tuple(range.begin(), ranges.begin()...) );
-	auto end   = thrust::make_zip_iterator(thrust::make_tuple(range.end(), ranges.end()...) );
+	size_t size = thrust::distance(begin, end) ;
+	container Table( size );
 
-	container Table( thrust::distance(begin, end) );
 
-	thrust::transform(begin, end ,  Table.begin(),t );
+	thrust::transform(begin, end ,  Table.begin(), functor );
 
 	return Table;
 }
+
+template<typename Iterator, typename ...Functors>
+auto eval(thrust::tuple<Functors...> const& functors, Iterator begin, Iterator end)
+-> typename detail::if_then_else<
+std::is_same<thrust::device_system_tag,typename  thrust::iterator_system<Iterator>::type>::value,
+experimental::multivector<mc_device_vector< thrust::tuple<typename Functors::return_type ...> >>,
+experimental::multivector<mc_host_vector< thrust::tuple<typename Functors::return_type ...> > >>::type
+{
+	typedef
+		typename detail::if_then_else<
+		std::is_same<thrust::device_system_tag,typename  thrust::iterator_system<Iterator>::type>::value,
+		experimental::multivector<mc_device_vector< thrust::tuple<typename Functors::return_type ...> >>,
+		experimental::multivector<mc_host_vector< thrust::tuple<typename Functors::return_type ...> > >>::type container;
+
+
+	size_t size = thrust::distance(begin, end) ;
+	container Table( size );
+
+	thrust::transform(begin, end ,  Table.begin(),
+			detail::process< thrust::tuple<typename Functors::return_type ...>,
+			thrust::tuple<Functors...>>(functors) );
+
+	return Table;
+}
+
+template< typename Functor, typename Iterator, typename ...Iterators>
+auto eval(Functor const& functor, Iterator begin, Iterator end, Iterators... begins)
+-> typename detail::if_then_else< std::is_same<thrust::device_system_tag,
+typename thrust::iterator_system<Iterator>::type>::value,
+mc_device_vector<typename Functor::return_type>,
+mc_host_vector<typename Functor::return_type>>::type
+{
+	typedef typename detail::if_then_else<std::is_same<thrust::device_system_tag,
+			typename thrust::iterator_system<Iterator>::type>::value,
+			mc_device_vector<typename Functor::return_type>,
+			mc_host_vector<typename Functor::return_type> >::type container;
+
+	size_t size = thrust::distance(begin, end) ;
+	container Table( size );
+
+	auto fBegin = thrust::make_zip_iterator(thrust::make_tuple(begin, begins...) );
+	auto fEnd   = thrust::make_zip_iterator(thrust::make_tuple(end  , (begins+size)...) );
+
+	thrust::transform(fBegin, fEnd ,  Table.begin(), functor );
+
+	return Table;
+}
+
+
+template<typename Iterator,  typename ...Iterators, typename ...Functors>
+auto eval(thrust::tuple<Functors...> const& functors, Iterator begin, Iterator end, Iterators... begins)
+-> typename detail::if_then_else<
+std::is_same<thrust::device_system_tag,typename  Range<Iterator>::system>::value,
+experimental::multivector<mc_device_vector< thrust::tuple<typename Functors::return_type ...> >>,
+experimental::multivector<mc_host_vector< thrust::tuple<typename Functors::return_type ...> > >>::type
+{
+	typedef
+		typename detail::if_then_else<
+		std::is_same<thrust::device_system_tag,typename  Range<Iterator>::system>::value,
+		experimental::multivector<mc_device_vector< thrust::tuple<typename Functors::return_type ...> >>,
+		experimental::multivector<mc_host_vector< thrust::tuple<typename Functors::return_type ...> > >>::type container;
+
+
+	size_t size = thrust::distance(begin, end) ;
+	container Table( size );
+
+	auto fBegin = thrust::make_zip_iterator(thrust::make_tuple(begin, begins...) );
+	auto fEnd   = thrust::make_zip_iterator(thrust::make_tuple(end  , (begins+size)...) );
+
+	thrust::transform(fBegin, fEnd ,  Table.begin(),
+			detail::process< thrust::tuple<typename Functors::return_type ...>,
+			thrust::tuple<Functors...>>(functors) );
+
+	return Table;
+}
+
 
 //--------------------------------------
 // Non cached functions

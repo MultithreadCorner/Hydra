@@ -287,6 +287,12 @@ struct Events {
 
 	iterator  end(){ return fEnd; }
 
+	const iterator begin() const{ return fBegin; }
+
+	const iterator  end() const{ return fEnd; }
+
+
+
 	GULong_t Unweight(size_t seed)
 	{
 		/**

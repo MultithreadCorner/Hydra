@@ -385,8 +385,9 @@ struct BaseFunctor
 
 	template<typename T  >
 	__host__ __device__ inline
-	typename thrust::detail::enable_if< detail::is_homogeneous<
-	typename thrust::tuple_element<0, typename std::remove_reference<T>::type>::type, typename std::remove_reference<T>::type>::value, return_type>::type
+	typename thrust::detail::enable_if<detail::is_homogeneous<
+	typename thrust::tuple_element<0, typename std::remove_reference<T>::type>::type,
+	typename std::remove_reference<T>::type>::value, return_type>::type
 	interface(T&& x)
 	{
 		typedef typename std::remove_reference<T>::type Tprime;
@@ -404,14 +405,12 @@ struct BaseFunctor
 
 	template<typename T >
 	__host__ __device__ inline
-	typename thrust::detail::enable_if<!detail::is_homogeneous<
-	typename thrust::tuple_element<0, typename std::remove_reference<T>::type>::type, typename std::remove_reference<T>::type>::value, return_type>::type
+	typename thrust::detail::enable_if<!(detail::is_homogeneous<
+	typename thrust::tuple_element<0, typename std::remove_reference<T>::type>::type,
+	typename std::remove_reference<T>::type>::value), return_type>::type
 	interface(T&& x)
 	{
-
 		return static_cast<Functor*>(this)->Evaluate(x);
-
-
 	}
 
 
@@ -425,7 +424,10 @@ struct BaseFunctor
 	template<typename T>
 	__host__ __device__ inline
 	return_type operator()( T&&  x )
-	{return interface< T>(std::forward< T >(x));}
+	{
+
+		return interface< T>(std::forward< T >(x));
+	}
 
 
 	template<typename T1, typename T2>
