@@ -81,6 +81,19 @@ public:
 	multivector_base<Vector, Allocator, T...>(other)
 	{}
 
+	multivector( multivector<Vector<thrust::tuple<T...>, Allocator<thrust::tuple<T...>>>>const&  other):
+	multivector_base<Vector, Allocator, T...>(other)
+	{}
+
+
+	/**
+	 * move constructor
+	 */
+	multivector( multivector<Vector<thrust::tuple<T...>,
+			Allocator<thrust::tuple<T...>>>> &&  other):
+	multivector_base<Vector, Allocator, T...>(std::move(other))
+	{}
+
 
 	/**
 	 * assignment operator=

@@ -74,9 +74,11 @@ namespace experimental {
 	}
 
 
-		template<size_t N, unsigned int BACKEND, typename GRND, typename Iterator, typename Iterator2>
+		template<size_t N, unsigned int BACKEND, typename GRND,
+		typename IteratorMother, typename IteratorDaughter>
 		__host__ inline
-		void launch_decayer(Iterator begin, Iterator end, Iterator2 begin_mothers,
+		void launch_decayer(IteratorMother begin, IteratorMother end
+				, IteratorDaughter begin_daugters,
 				DecayMothers<N, BACKEND,GRND> const& decayer)
 		{
 
@@ -84,9 +86,9 @@ namespace experimental {
 			thrust::counting_iterator<GLong_t> first(0);
 			thrust::counting_iterator<GLong_t> last = first + nevents;
 
-			auto begin_weights = thrust::get<0>(begin.get_iterator_tuple());
+			auto begin_weights = thrust::get<0>(begin_daugters.get_iterator_tuple());
 
-			auto begin_temp = hydra::detail::changeFirst(  begin_mothers, begin.get_iterator_tuple() );
+			auto begin_temp = hydra::detail::changeFirst(  begin, begin_daugters.get_iterator_tuple() );
 
 			auto begin_particles = thrust::make_zip_iterator(begin_temp);
 

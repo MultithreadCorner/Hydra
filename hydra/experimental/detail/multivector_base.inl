@@ -156,10 +156,43 @@ fSize( thrust::get<0>(fStorage ).size())
  multivector_base<Vector,Allocator,T...>::multivector_base( multivector_base< Vector2, Allocator2, T... > const&  other)
  {
 	 this->resize(other.size());
-
 	 thrust::copy(other.begin(), other.end(), this->begin() );
 
  }
+
+  template< template<typename...> class Vector,
+  template<typename...> class Allocator,
+  typename ...T>
+  multivector_base<Vector,Allocator,T...>::multivector_base( multivector_base< Vector, Allocator, T... > const&  other)
+  {
+ 	 this->resize(other.size());
+ 	 thrust::copy(other.begin(), other.end(), this->begin() );
+
+  }
+
+
+
+ /**
+   * move constructor
+   */
+  template< template<typename...> class Vector,
+  template<typename...> class Allocator,
+  typename ...T>
+   multivector_base<Vector,Allocator,T...>::multivector_base( multivector_base< Vector, Allocator, T... >&&  other)
+  {
+	 detail::_move_storage(fStorage, other.MoveStorage());
+ 	 this->fBegin = thrust::make_zip_iterator( detail::begin_call_args(fStorage) );
+ 	 this->fReverseBegin=thrust::make_zip_iterator( detail::rbegin_call_args(fStorage) );
+ 	 this->fConstBegin = thrust::make_zip_iterator( detail::cbegin_call_args(fStorage) );
+ 	 this->fConstReverseBegin=thrust::make_zip_iterator( detail::crbegin_call_args(fStorage) );
+ 	 this->fTBegin =  detail::begin_call_args(fStorage) ;
+ 	 this->fTReverseBegin =  detail::rbegin_call_args(fStorage) ;
+ 	 this->fTConstBegin   =  detail::cbegin_call_args(fStorage) ;
+ 	 this->fTConstReverseBegin =  detail::crbegin_call_args(fStorage) ;
+ 	 this->fSize = thrust::get<0>(fStorage ).size();
+
+
+  }
 
  /**
   * assignment operator=
@@ -229,6 +262,7 @@ fSize( thrust::get<0>(fStorage ).size())
 	 this->fTConstBegin   =  detail::cbegin_call_args(fStorage) ;
 	 this->fTConstReverseBegin =  detail::crbegin_call_args(fStorage) ;
 	 this->fSize = thrust::get<0>(fStorage ).size();
+
  }
 
 
@@ -259,8 +293,8 @@ fSize( thrust::get<0>(fStorage ).size())
  size_t multivector_base<Vector,Allocator,T...>::size() const
  {
 	 //auto sizes = detail::size_call_args( fStorage );
-	 //return thrust::get<0>(fStorage ).size();
-	 return fSize;
+	 //thrust::get<0>(fStorage ).size();
+	 return thrust::get<0>(fStorage ).size();
  }
 
 

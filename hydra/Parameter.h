@@ -58,7 +58,7 @@ struct Parameter{
 	fError(detail::TypeTraits<GReal_t>::invalid()),
 	fLowerLim(detail::TypeTraits<GReal_t>::invalid()),
 	fUpperLim(detail::TypeTraits<GReal_t>::invalid()),
-	fIndex(detail::TypeTraits<GReal_t>::invalid()),
+	fIndex(detail::TypeTraits<GInt_t>::invalid()),
 	fLimited(0),
     fHasError(0)
 	{}
@@ -70,7 +70,7 @@ struct Parameter{
 	fError(error),
 	fLowerLim(downlim),
 	fUpperLim(uplim),
-	fIndex(detail::TypeTraits<GReal_t>::invalid()),
+	fIndex(detail::TypeTraits<GInt_t>::invalid()),
 	fLimited(1),
 	fHasError(1)
 	{ }
@@ -81,7 +81,7 @@ struct Parameter{
 		fError(error),
 		fLowerLim(detail::TypeTraits<GReal_t>::invalid()),
 		fUpperLim(detail::TypeTraits<GReal_t>::invalid()),
-		fIndex(detail::TypeTraits<GReal_t>::invalid()),
+		fIndex(detail::TypeTraits<GInt_t>::invalid()),
 		fLimited(0),
 		fHasError(1)
 	{ }
@@ -93,7 +93,7 @@ struct Parameter{
 		fError(detail::TypeTraits<GReal_t>::invalid()),
 		fLowerLim(detail::TypeTraits<GReal_t>::invalid()),
 		fUpperLim(detail::TypeTraits<GReal_t>::invalid()),
-		fIndex(detail::TypeTraits<GReal_t>::invalid()),
+		fIndex(detail::TypeTraits<GInt_t>::invalid()),
 		fLimited(0),
 		fHasError(0)
 	{ }

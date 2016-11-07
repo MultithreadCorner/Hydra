@@ -134,7 +134,7 @@ public:
 	}
 
 	template<typename Iterator1, typename Iterator2>
-	void Generate( Iterator1 begin, Iterator1 end, Iterator1 mothers_begin)
+	void Generate( Iterator1 begin, Iterator1 end, Iterator2 mothers_begin)
 	{
 		/**
 		 * Run the generator and calculate the maximum weight. It takes as input the device vector with the four-vectors of the mother particle

@@ -34,6 +34,7 @@
 
 #include <memory>
 #include <limits>
+#include <utility>
 
 #include <hydra/experimental/multivector.h>
 
@@ -101,9 +102,7 @@ TEST_CASE( "multivector<thrust::host_vector, std::allocator, unsigned int, float
 		REQUIRE( table.capacity() >= 10 );
 
 		for(int i =0; i< table.size(); i++ ){
-			table[i] = thrust::make_tuple(i,
-					i+std::numeric_limits<float>::lowest(),
-					i+std::numeric_limits<double>::lowest());
+			table[i] = thrust::make_tuple(i,i,i);
 		}
 
 		table_t other( table);
@@ -119,174 +118,221 @@ TEST_CASE( "multivector<thrust::host_vector, std::allocator, unsigned int, float
 		}
 	}
 
-	SECTION( "multivector: push_back, pop_back,front, back" )
-		{
-			table_t table1;
-			REQUIRE( table1.empty() == true );
-			REQUIRE( table1.size()  == 0 );
-			REQUIRE( table1.capacity() >= 0 );
+	SECTION( "move multivector(multivector other ): size, capacity, emptiness, resize, reserve" )
+	{
+		table_t table(10);
+		REQUIRE( table.empty() == false );
+		REQUIRE( table.size()  == 10 );
+		REQUIRE( table.capacity() >= 10 );
 
-			table_t table2(10);
+		for(int i =0; i< table.size(); i++ ){
+			table[i] = thrust::make_tuple(i,i,i);
+		}
 
-			for(int i =0; i< 10; i++ ){
+		table_t other( std::move(table));
 
-				table1.push_back(thrust::make_tuple( i,
-						i+std::numeric_limits<float>::lowest(),
-						i+std::numeric_limits<double>::lowest()));
+		REQUIRE( other.empty() == false );
+		REQUIRE( other.size()  == 10 );
+		REQUIRE( other.capacity() >= 10 );
 
-				table2[i] = thrust::make_tuple( i,
-							i+std::numeric_limits<float>::lowest(),
-							i+std::numeric_limits<double>::lowest());
-			}
+		REQUIRE( table.empty() == true );
+		REQUIRE( table.size()  == 0 );
+		REQUIRE( table.capacity() == 0 );
 
-			REQUIRE( table1.empty() == false );
-			REQUIRE( table1.size()  == 10 );
-			REQUIRE( table1.capacity() >= 10 );
+		for(int i =0; i< 10; i++ ){
 
-			for(int i =0; i< 10; i++ ){
-				REQUIRE( thrust::get<0>(table1[i]) ==  Approx(thrust::get<0>(table2[i])) );
-				REQUIRE( thrust::get<1>(table1[i]) ==  Approx(thrust::get<1>(table2[i])) );
-				REQUIRE( thrust::get<2>(table1[i]) ==  Approx(thrust::get<2>(table2[i])) );
-			}
-
-			for(int i =0; i< 10; i++ )
-				table1.pop_back();
-
-			REQUIRE( table1.empty() == true );
-			REQUIRE( table1.size()  == 0 );
-			REQUIRE( table1.capacity() >= 10 );
-
-			for(int i =0; i< 10; i++ ){
-
-				table1.push_back(i,	i+std::numeric_limits<float>::lowest(),
-						i+std::numeric_limits<double>::lowest());
-			}
-
-			REQUIRE( table1.empty() == false );
-			REQUIRE( table1.size()  == 10 );
-			REQUIRE( table1.capacity() >= 10 );
-
-			for(int i =0; i< 10; i++ ){
-				REQUIRE( thrust::get<0>(table1[i]) ==  Approx(thrust::get<0>(table2[i])) );
-				REQUIRE( thrust::get<1>(table1[i]) ==  Approx(thrust::get<1>(table2[i])) );
-				REQUIRE( thrust::get<2>(table1[i]) ==  Approx(thrust::get<2>(table2[i])) );
-			}
-
-			REQUIRE( table1.front() == table2.front() );
-
-			table1.front()=thrust::make_tuple( 0,1,2);
-
-			REQUIRE( thrust::get<0>(table1[0]) ==  0 );
-			REQUIRE( thrust::get<1>(table1[0]) ==  1 );
-			REQUIRE( thrust::get<2>(table1[0]) ==  2 );
-
-			REQUIRE( table1.back() == table2.back() );
-
-			table1.back()=thrust::make_tuple( 0,1,2);
-
-			REQUIRE( thrust::get<0>(table1[9]) ==  0 );
-			REQUIRE( thrust::get<1>(table1[9]) ==  1 );
-			REQUIRE( thrust::get<2>(table1[9]) ==  2 );
+			table.push_back(thrust::make_tuple( i+1, (i+1.0),(i+1.0)));
 
 		}
+
+		for(int i =0; i< 10; i++ ){
+
+			REQUIRE( thrust::get<0>(table[i]) !=  Approx(thrust::get<0>(other[i])) );
+			REQUIRE( thrust::get<1>(table[i]) !=  Approx(thrust::get<1>(other[i])) );
+			REQUIRE( thrust::get<2>(table[i]) !=  Approx(thrust::get<2>(other[i])) );
+		}
+
+		for(int i =0; i< 10; i++ ){
+
+			REQUIRE( thrust::get<0>(table[i]) ==  Approx(i+1)) ;
+			REQUIRE( thrust::get<1>(table[i]) ==  Approx(i+1)) ;
+			REQUIRE( thrust::get<2>(table[i]) ==  Approx(i+1)) ;
+		}
+
+		for(int i =0; i< 10; i++ ){
+
+			REQUIRE( thrust::get<0>(other[i]) ==  Approx(i)) ;
+			REQUIRE( thrust::get<1>(other[i]) ==  Approx(i)) ;
+			REQUIRE( thrust::get<2>(other[i]) ==  Approx(i)) ;
+		}
+
+
+
+	}
+
+	SECTION( "multivector: push_back, pop_back,front, back" )
+	{
+		table_t table1;
+		REQUIRE( table1.empty() == true );
+		REQUIRE( table1.size()  == 0 );
+		REQUIRE( table1.capacity() >= 0 );
+
+		table_t table2(10);
+
+		for(int i =0; i< 10; i++ ){
+
+			table1.push_back(thrust::make_tuple( i,i,i));
+
+			table2[i] = thrust::make_tuple( i,i,i);
+		}
+
+		REQUIRE( table1.empty() == false );
+		REQUIRE( table1.size()  == 10 );
+		REQUIRE( table1.capacity() >= 10 );
+
+		for(int i =0; i< 10; i++ ){
+			REQUIRE( thrust::get<0>(table1[i]) ==  Approx(thrust::get<0>(table2[i])) );
+			REQUIRE( thrust::get<1>(table1[i]) ==  Approx(thrust::get<1>(table2[i])) );
+			REQUIRE( thrust::get<2>(table1[i]) ==  Approx(thrust::get<2>(table2[i])) );
+		}
+
+		for(int i =0; i< 10; i++ )
+			table1.pop_back();
+
+		REQUIRE( table1.empty() == true );
+		REQUIRE( table1.size()  == 0 );
+		REQUIRE( table1.capacity() >= 10 );
+
+		for(int i =0; i< 10; i++ ){
+
+			table1.push_back(i,	i,i);
+		}
+
+		REQUIRE( table1.empty() == false );
+		REQUIRE( table1.size()  == 10 );
+		REQUIRE( table1.capacity() >= 10 );
+
+		for(int i =0; i< 10; i++ ){
+			REQUIRE( thrust::get<0>(table1[i]) ==  Approx(thrust::get<0>(table2[i])) );
+			REQUIRE( thrust::get<1>(table1[i]) ==  Approx(thrust::get<1>(table2[i])) );
+			REQUIRE( thrust::get<2>(table1[i]) ==  Approx(thrust::get<2>(table2[i])) );
+		}
+
+		REQUIRE( table1.front() == table2.front() );
+
+		table1.front()=thrust::make_tuple( 0,1,2);
+
+		REQUIRE( thrust::get<0>(table1[0]) ==  0 );
+		REQUIRE( thrust::get<1>(table1[0]) ==  1 );
+		REQUIRE( thrust::get<2>(table1[0]) ==  2 );
+
+		REQUIRE( table1.back() == table2.back() );
+
+		table1.back()=thrust::make_tuple( 0,1,2);
+
+		REQUIRE( thrust::get<0>(table1[9]) ==  0 );
+		REQUIRE( thrust::get<1>(table1[9]) ==  1 );
+		REQUIRE( thrust::get<2>(table1[9]) ==  2 );
+
+	}
 
 	SECTION( "multivector: iterators" )
-		{
-			table_t table;
-			REQUIRE( table.empty() == true );
-			REQUIRE( table.size()  == 0 );
-			REQUIRE( table.capacity() >= 0 );
+	{
+		table_t table;
+		REQUIRE( table.empty() == true );
+		REQUIRE( table.size()  == 0 );
+		REQUIRE( table.capacity() >= 0 );
 
-			//fill
-			for(int i =0; i< 10; i++ ){
+		//fill
+		for(int i =0; i< 10; i++ ){
 
-				table.push_back(i,i,i);
-			}
-
-
-			//test c++11 semantics
-
-			int i=0;
-			for(auto row:table )
-			{
-				REQUIRE( thrust::get<0>(row) == i );
-				REQUIRE( thrust::get<1>(row) == Approx(i) );
-				REQUIRE( thrust::get<2>(row) == Approx(i) );
-
-				i++;
-			}
-
-			//direct iterators
-			i=0;
-			for(auto row = table.begin(); row!= table.end(); row++)
-			{
-				REQUIRE( thrust::get<0>(*row) == i );
-				REQUIRE( thrust::get<1>(*row) == Approx(i) );
-				REQUIRE( thrust::get<2>(*row) == Approx(i) );
-
-				i++;
-			}
-
-			i=0;
-			for(auto row = table.cbegin(); row!= table.cend(); row++)
-			{
-				REQUIRE( thrust::get<0>(*row) == i );
-				REQUIRE( thrust::get<1>(*row) == Approx(i) );
-				REQUIRE( thrust::get<2>(*row) == Approx(i) );
-
-				i++;
-			}
-
-			//reverse iterators
-			i=9;
-			for(auto row = table.rbegin(); row!= table.rend(); row++)
-			{
-				REQUIRE( thrust::get<0>(*row) == i );
-				REQUIRE( thrust::get<1>(*row) == Approx(i) );
-				REQUIRE( thrust::get<2>(*row) == Approx(i) );
-
-				i--;
-			}
-
-			i=9;
-			for(auto row = table.crbegin(); row!= table.crend(); row++)
-			{
-				REQUIRE( thrust::get<0>(*row) == i );
-				REQUIRE( thrust::get<1>(*row) == Approx(i) );
-				REQUIRE( thrust::get<2>(*row) == Approx(i) );
-
-				i--;
-			}
-
-
+			table.push_back(i,i,i);
 		}
+
+
+		//test c++11 semantics
+
+		int i=0;
+		for(auto row:table )
+		{
+			REQUIRE( thrust::get<0>(row) == i );
+			REQUIRE( thrust::get<1>(row) == Approx(i) );
+			REQUIRE( thrust::get<2>(row) == Approx(i) );
+
+			i++;
+		}
+
+		//direct iterators
+		i=0;
+		for(auto row = table.begin(); row!= table.end(); row++)
+		{
+			REQUIRE( thrust::get<0>(*row) == i );
+			REQUIRE( thrust::get<1>(*row) == Approx(i) );
+			REQUIRE( thrust::get<2>(*row) == Approx(i) );
+
+			i++;
+		}
+
+		i=0;
+		for(auto row = table.cbegin(); row!= table.cend(); row++)
+		{
+			REQUIRE( thrust::get<0>(*row) == i );
+			REQUIRE( thrust::get<1>(*row) == Approx(i) );
+			REQUIRE( thrust::get<2>(*row) == Approx(i) );
+
+			i++;
+		}
+
+		//reverse iterators
+		i=9;
+		for(auto row = table.rbegin(); row!= table.rend(); row++)
+		{
+			REQUIRE( thrust::get<0>(*row) == i );
+			REQUIRE( thrust::get<1>(*row) == Approx(i) );
+			REQUIRE( thrust::get<2>(*row) == Approx(i) );
+
+			i--;
+		}
+
+		i=9;
+		for(auto row = table.crbegin(); row!= table.crend(); row++)
+		{
+			REQUIRE( thrust::get<0>(*row) == i );
+			REQUIRE( thrust::get<1>(*row) == Approx(i) );
+			REQUIRE( thrust::get<2>(*row) == Approx(i) );
+
+			i--;
+		}
+
+
+	}
 
 	SECTION( "multivector: clear, capacity, shrink_to_fit" )
-		{
-			table_t table;
-			REQUIRE( table.empty() == true );
-			REQUIRE( table.size()  == 0 );
-			REQUIRE( table.capacity() >= 0 );
+	{
+		table_t table;
+		REQUIRE( table.empty() == true );
+		REQUIRE( table.size()  == 0 );
+		REQUIRE( table.capacity() >= 0 );
 
-			//fill
-			for(int i =0; i< 10; i++ ){
+		//fill
+		for(int i =0; i< 10; i++ ){
 
-				table.push_back(i,i,i);
-			}
-
-			table.clear();
-
-			REQUIRE( table.empty() == true );
-			REQUIRE( table.size()  == 0 );
-			REQUIRE( table.capacity() >= 10 );
-
-			table.shrink_to_fit();
-
-			REQUIRE( table.empty() == true );
-			REQUIRE( table.size()  == 0 );
-			REQUIRE_FALSE( table.capacity() >= 10 );
-
+			table.push_back(i,i,i);
 		}
+
+		table.clear();
+
+		REQUIRE( table.empty() == true );
+		REQUIRE( table.size()  == 0 );
+		REQUIRE( table.capacity() >= 10 );
+
+		table.shrink_to_fit();
+
+		REQUIRE( table.empty() == true );
+		REQUIRE( table.size()  == 0 );
+		REQUIRE_FALSE( table.capacity() >= 10 );
+
+	}
 
 }
 

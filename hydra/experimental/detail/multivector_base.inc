@@ -29,6 +29,7 @@
 #ifndef MULTIVECTOR_BASE_INC_
 #define MULTIVECTOR_BASE_INC_
 
+#include <utility>
 #include <thrust/tuple.h>
 #include <hydra/detail/utility/Utility_Tuple.h>
 #include <hydra/detail/utility/Generic.h>
@@ -57,6 +58,24 @@ auto _vctor( size_t n, thrust::tuple<Args...> const& args )
 -> decltype( _vctor_helper<Vector, Allocator, Args...>( hydra::detail::make_index_sequence< sizeof ...(Args)> { }, n , args) )
 {
 	return _vctor_helper<Vector, Allocator, Args...>( hydra::detail::make_index_sequence< sizeof ...(Args) > { }, n, args);
+}
+
+
+template<size_t I = 0,
+template<typename...> class Vector, template<typename...> class Allocator,typename ...T>
+inline typename thrust::detail::enable_if< (I == sizeof...(T)) ,void >::type
+_move_storage(thrust::tuple<Vector<T, Allocator<T>>...>& This,
+		thrust::tuple<Vector<T, Allocator<T>>...>&& Other )
+{ }
+
+template<size_t I = 0,
+template<typename...> class Vector, template<typename...> class Allocator, typename ...T>
+inline typename thrust::detail::enable_if< (I < sizeof...(T)) ,void >::type
+_move_storage(thrust::tuple<Vector<T, Allocator<T>>...>& This,
+		thrust::tuple<Vector<T, Allocator<T>>...>&& Other )
+{
+	thrust::get<I>(This)=std::move(thrust::get<I>(Other));
+	_move_storage<I + 1>( This, std::forward<thrust::tuple<Vector<T, Allocator<T>>...>&&>(Other));
 }
 
 /**

@@ -108,6 +108,15 @@ public:
 	multivector_base( multivector_base< Vector2, Allocator2, T... >const&  other);
 
 
+	multivector_base( multivector_base< Vector, Allocator, T... >const&  other);
+
+
+	/**
+	 * move constructor
+	 */
+	multivector_base( multivector_base< Vector, Allocator, T... >&&  other);
+
+
 	/**
 	 * assignment operator=
 	 */
@@ -208,6 +217,9 @@ public:
 	 inline const_reference_tuple operator[](size_t n) const
 	{	return fConstBegin[n]; }
 
+	 storage_tuple_type MoveStorage(){
+		 return std::move(fStorage);
+	 }
 
 private:
 
