@@ -85,24 +85,29 @@ struct Chain< hydra::experimental::Events<N,BACKEND >...>{
 	Chain(hydra::experimental::Events<N,BACKEND >&& ...events):
 		fStorage(std::move(thrust::make_tuple( std::move(events)...)))
 	{
-		fBegin = thrust::make_zip_iterator( detail::begin_call_args(fStorage) );
-		fConstBegin = thrust::make_zip_iterator( detail::cbegin_call_args(fStorage) );
+
+		auto begin  = thrust::make_zip_iterator( detail::begin_call_args(fStorage) );
+		auto end    = thrust::make_zip_iterator( detail::end_call_args(fStorage) );
+
+		fSize=(size_t) thrust::distance(begin, end);
+		fWeights( fSize ,1.0);
+		fFlags( fSize, 1.0 );
+
+		fBegin = thrust::make_zip_iterator(thrust:: tuple_cat(fWeights.begin(),
+				detail::begin_call_args(fStorage)) );
+		fConstBegin = thrust::make_zip_iterator( thrust:: tuple_cat(fWeights.cbegin(),
+				detail::cbegin_call_args(fStorage) ));
 		fEnd = thrust::make_zip_iterator( detail::end_call_args(fStorage) );
 		fConstEnd = thrust::make_zip_iterator( detail::cend_call_args(fStorage) );
 		fSize=(size_t) thrust::distance(fBegin, fEnd);
 
-		fWeights( fSize ,1.0);
-		fFlags( fSize, 1.0 );
-
 
 	}
 
+
 	iterator begin(){ return fBegin; }
-
 	iterator  end(){ return fEnd; }
-
 	const_iterator begin() const{ return fConstBegin; }
-
 	const_iterator  end() const{ return fConstEnd; }
 
 private:
