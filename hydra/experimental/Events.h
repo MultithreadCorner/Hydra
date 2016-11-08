@@ -95,7 +95,7 @@ struct Events {
 	 */
     Events() = delete;
 
-	Events(GLong_t nevents) :
+	Events(size_t nevents) :
 		fNEvents(nevents),
 		fMaxWeight(0)
 	{
@@ -331,7 +331,7 @@ struct Events {
 		return fMaxWeight;
 	}
 
-	GLong_t GetNEvents() const {
+	size_t GetNEvents() const {
 		return fFlags.size();
 	}
 
@@ -438,8 +438,8 @@ struct Events {
 		auto w = thrust::max_element(fWeights.begin(),fWeights.end());
 		fMaxWeight=*w;
 		// create iterators
-		thrust::counting_iterator<GLong_t> first(0);
-		thrust::counting_iterator<GLong_t> last = first + fNEvents;
+		thrust::counting_iterator<size_t> first(0);
+		thrust::counting_iterator<size_t> last = first + fNEvents;
 
 
 		thrust::transform(first, last, fWeights.begin(),
@@ -471,7 +471,7 @@ private:
 
 
 
-	GLong_t fNEvents;    ///< Number of events.
+	size_t fNEvents;    ///< Number of events.
 	GReal_t fMaxWeight;  ///< Maximum weight of the generated events.
 	vector_bool fFlags; ///< Vector of flags. Accepted events are flagged 1 and rejected 0.
 	vector_real fWeights; ///< Vector of event weights.
