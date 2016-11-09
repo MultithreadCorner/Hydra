@@ -41,12 +41,47 @@ using namespace std;
 using namespace hydra;
 TEST_CASE( "Events ","[hydra::experimental::multivector]" ) {
 
-	typedef  experimental::Events<3, host> events_t;
+	typedef  experimental::Events<3, host> events3_t;
+	typedef  experimental::Events<2, host> events2_t;
+
+
+	SECTION( "experimental::events : move semantics " )
+	{
+		events3_t events(10);
+		REQUIRE( events.GetNEvents()  == 10 );
+
+		size_t i = 0;
+		for(auto ev:events )
+		{
+			thrust::get<0>(ev) = i;
+			thrust::get<1>(ev) = (typename experimental::Vector4R::args_type) experimental::Vector4R(1+i, 1+i, 1+i, 1+i);
+			thrust::get<2>(ev) = (typename experimental::Vector4R::args_type) experimental::Vector4R(2+i, 2+i, 2+i, 2+i);
+			thrust::get<3>(ev) = (typename experimental::Vector4R::args_type) experimental::Vector4R(3+i, 3+i, 3+i, 3+i);
+			i++;
+		}
+
+		events3_t other( std::move(events) );
+
+		i = 0;
+		for(auto ev:other )
+		{
+			REQUIRE( thrust::get<0>(ev) == i );
+			REQUIRE( thrust::get<1>(ev) == thrust::make_tuple(1+i, 1+i, 1+i, 1+i) );
+			REQUIRE( thrust::get<2>(ev) == thrust::make_tuple(2+i, 2+i, 2+i, 2+i) );
+			REQUIRE( thrust::get<3>(ev) == thrust::make_tuple(3+i, 3+i, 3+i, 3+i) );
+			i++;
+		}
+
+
+
+
+	}
+
 
 
 	SECTION( "experimental::events : conversion Vector4R -> tuple, iterator access " )
 	{
-		events_t events(10);
+		events3_t events(10);
 		REQUIRE( events.GetNEvents()  == 10 );
 
 		size_t i = 0;
@@ -74,7 +109,7 @@ TEST_CASE( "Events ","[hydra::experimental::multivector]" ) {
 
 	SECTION( "experimental::events : conversion Vector4R -> tuple, subscript operator access " )
 	{
-		events_t events(10);
+		events3_t events(10);
 		REQUIRE( events.GetNEvents()  == 10 );
 
 		size_t i = 0;
@@ -99,7 +134,7 @@ TEST_CASE( "Events ","[hydra::experimental::multivector]" ) {
 
 	SECTION( "experimental::events : conversion Vector4R -> tuple, subscript operator access " )
 	{
-		events_t events(10);
+		events3_t events(10);
 		REQUIRE( events.GetNEvents()  == 10 );
 
 		size_t i = 0;

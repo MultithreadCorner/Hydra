@@ -242,9 +242,9 @@ struct Events {
 	Events(Events<N,BACKEND> && other):
 	fNEvents(other.GetNEvents()),
 	fMaxWeight(other.GetMaxWeight()),
-	fWeights(std::move(other.WeightsMove())),
-	fFlags(std::move(other.FlagsMove())),
-	fDaughters(std::move(other.DaughtersMove()))
+	fWeights(std::move(other.MoveWeights())),
+	fFlags(std::move(other.MoveFlags())),
+	fDaughters(std::move(other.MoveDaughters()))
 	{
 
 		std::array< vector_particles_iterator,N> begins;
