@@ -103,8 +103,30 @@ public:
 	multivector<Vector<thrust::tuple<T...>, Allocator<thrust::tuple<T...>>>>&
 	operator=( multivector<Vector2<thrust::tuple<T...>, Allocator2<thrust::tuple<T...>>>> const&  v)
 	{
+		if(this==&v) return *this;
 		multivector_base<Vector, Allocator, T...>::operator=(v);
+		return *this;
 	}
+
+
+	multivector<Vector<thrust::tuple<T...>, Allocator<thrust::tuple<T...>>>>&
+	operator=( multivector<Vector<thrust::tuple<T...>, Allocator<thrust::tuple<T...>>>> const&  v)
+	{
+		if(this==&v) return *this;
+		multivector_base<Vector, Allocator, T...>::operator=(v);
+		return *this;
+	}
+
+	multivector<Vector<thrust::tuple<T...>, Allocator<thrust::tuple<T...>>>>&
+	operator=( multivector<Vector<thrust::tuple<T...>, Allocator<thrust::tuple<T...>>>> &&  v)
+	{
+		if(this==&v) return *this;
+		multivector_base<Vector, Allocator, T...>::operator=(std::move(v));
+		return *this;
+	}
+
+
+
 };
 
 }  // namespace experimental

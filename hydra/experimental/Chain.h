@@ -185,9 +185,6 @@ struct Chain< hydra::experimental::Events<N,BACKEND >...>{
 
 	}
 
-	event_tuple MoveStorage(){
-		return std::move(fStorage);
-	}
 
 	template<unsigned int I>
 	auto GetDecay()
@@ -245,6 +242,10 @@ struct Chain< hydra::experimental::Events<N,BACKEND >...>{
 	const_iterator  end() const{ return fConstEnd; }
 
 private:
+
+	event_tuple MoveStorage(){
+		return std::move(fStorage);
+	}
 
 	size_t	CheckSizes(std::initializer_list<size_t> sizes)
 	{

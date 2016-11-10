@@ -100,6 +100,8 @@ public:
 	 */
 	explicit multivector_base(size_t n, value_tuple_type  value);
 
+	multivector_base( multivector_base< Vector, Allocator, T... >const&  other);
+
 	/**
 	 * copy constructor
 	 */
@@ -108,7 +110,7 @@ public:
 	multivector_base( multivector_base< Vector2, Allocator2, T... >const&  other);
 
 
-	multivector_base( multivector_base< Vector, Allocator, T... >const&  other);
+
 
 
 	/**
@@ -118,12 +120,32 @@ public:
 
 
 	/**
-	 * assignment operator=
+	 * Generic assignment operator
+	 * @param v
+	 * @return
 	 */
-
 	template< template<typename...> class Vector2, template<typename...> class Allocator2>
 	multivector_base< Vector, Allocator, T... >&
 	operator=( multivector_base< Vector2, Allocator2, T... > const&  v);
+
+	/**
+	 * Real assignment operator
+	 * @param v
+	 * @return
+	 */
+	multivector_base< Vector, Allocator, T... >&
+	operator=( multivector_base< Vector, Allocator, T... > const&  v);
+
+
+	/**
+	 * Assignment move operator
+	 * @param v
+	 * @return
+	 */
+	multivector_base< Vector, Allocator, T... >&
+	operator=( multivector_base< Vector, Allocator, T... > &&  v);
+
+
 
 	inline void pop_back();
 

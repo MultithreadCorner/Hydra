@@ -68,6 +68,7 @@ _GenerateNonVoidCallArgsC(capacity)
 _GenerateNonVoidCallArgs(erase)
 
 }
+
 template< template<typename...> class Vector,
 template<typename...> class Allocator,
 typename ...T>
@@ -124,9 +125,11 @@ fSize( thrust::get<0>(fStorage ).size())
  fSize( thrust::get<0>(fStorage ).size())
  { }
 
- /**
-  * constructor size_t n, ...values
-  */
+/**
+ * Constructor build multivector with <n> elements equal to <value>
+ * @param n
+ * @param value
+ */
  template< template<typename...> class Vector,
  template<typename...> class Allocator,
  typename ...T>
@@ -146,7 +149,8 @@ fSize( thrust::get<0>(fStorage ).size())
 
 
  /**
-  * copy constructor
+  * Cross backend copy constructor
+  * @param multivector_base< Vector2, Allocator2, T... > const& other
   */
  template< template<typename...> class Vector,
  template<typename...> class Allocator,
@@ -160,6 +164,10 @@ fSize( thrust::get<0>(fStorage ).size())
 
  }
 
+/**
+ * Real copy constructor
+ * @param other
+ */
   template< template<typename...> class Vector,
   template<typename...> class Allocator,
   typename ...T>
@@ -170,11 +178,10 @@ fSize( thrust::get<0>(fStorage ).size())
 
   }
 
-
-
- /**
-   * move constructor
-   */
+/**
+ * Move constructor
+ * @param other
+ */
   template< template<typename...> class Vector,
   template<typename...> class Allocator,
   typename ...T>
@@ -190,12 +197,12 @@ fSize( thrust::get<0>(fStorage ).size())
  	 this->fTConstBegin   =  detail::cbegin_call_args(fStorage) ;
  	 this->fTConstReverseBegin =  detail::crbegin_call_args(fStorage) ;
  	 this->fSize = thrust::get<0>(fStorage ).size();
-
-
   }
 
  /**
-  * assignment operator=
+  * Generic assignment operator
+  * @param v
+  * @return
   */
  template< template<typename...> class Vector,
  template<typename...> class Allocator,
@@ -205,12 +212,60 @@ fSize( thrust::get<0>(fStorage ).size())
  multivector_base< Vector, Allocator, T... >&
  multivector_base<Vector,Allocator,T...>::operator=( multivector_base< Vector2, Allocator2, T... > const&  v)
  {
+	 if(this==&v) return *this;
 	 this->resize(v.size());
 
 	 thrust::copy(v.begin(), v.end(), this->begin() );
 
 	 return *this;
  }
+
+/**
+ * Real assignment operator
+ * @param v
+ * @return
+ */
+ template< template<typename...> class Vector,
+  template<typename...> class Allocator,
+  typename ...T>
+  multivector_base< Vector, Allocator, T... >&
+  multivector_base<Vector,Allocator,T...>::operator=( multivector_base< Vector, Allocator, T... > const&  v)
+  {
+	 if(this==&v) return *this;
+
+ 	 this->resize(v.size());
+
+ 	 thrust::copy(v.begin(), v.end(), this->begin() );
+
+ 	 return *this;
+  }
+
+ /**
+  * Move assinment operator
+  * @param v
+  * @return
+  */
+ template< template<typename...> class Vector,
+ template<typename...> class Allocator,
+ typename ...T>
+ multivector_base< Vector, Allocator, T... >&
+ multivector_base<Vector,Allocator,T...>::operator=( multivector_base< Vector, Allocator, T... > &&  other)
+ {
+	 if(this==&other) return *this;
+
+	 detail::_move_storage(this->fStorage, other.MoveStorage());
+	 this->fBegin = thrust::make_zip_iterator( detail::begin_call_args(fStorage) );
+	 this->fReverseBegin=thrust::make_zip_iterator( detail::rbegin_call_args(fStorage) );
+	 this->fConstBegin = thrust::make_zip_iterator( detail::cbegin_call_args(fStorage) );
+	 this->fConstReverseBegin=thrust::make_zip_iterator( detail::crbegin_call_args(fStorage) );
+	 this->fTBegin =  detail::begin_call_args(fStorage) ;
+	 this->fTReverseBegin =  detail::rbegin_call_args(fStorage) ;
+	 this->fTConstBegin   =  detail::cbegin_call_args(fStorage) ;
+	 this->fTConstReverseBegin =  detail::crbegin_call_args(fStorage) ;
+	 this->fSize = thrust::get<0>(fStorage ).size();
+	 return *this;
+ }
+
 
 
  template< template<typename...> class Vector,

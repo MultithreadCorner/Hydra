@@ -32,6 +32,7 @@
 
 #include <memory>
 #include <limits>
+#include <utility>
 
 #include <hydra/experimental/Events.h>
 #include <hydra/experimental/multivector.h>
@@ -45,7 +46,7 @@ TEST_CASE( "Events ","[hydra::experimental::multivector]" ) {
 	typedef  experimental::Events<2, host> events2_t;
 
 
-	SECTION( "experimental::events : move semantics " )
+	SECTION( "experimental::events : move semantics, constructors " )
 	{
 		events3_t events(10);
 		REQUIRE( events.GetNEvents()  == 10 );
@@ -62,6 +63,19 @@ TEST_CASE( "Events ","[hydra::experimental::multivector]" ) {
 
 		events3_t other( std::move(events) );
 
+
+		events.resize(10);
+
+		i = 1;
+		for(auto ev:events )
+		{
+			thrust::get<0>(ev) = i;
+			thrust::get<1>(ev) = (typename experimental::Vector4R::args_type) experimental::Vector4R(1+i, 1+i, 1+i, 1+i);
+			thrust::get<2>(ev) = (typename experimental::Vector4R::args_type) experimental::Vector4R(2+i, 2+i, 2+i, 2+i);
+			thrust::get<3>(ev) = (typename experimental::Vector4R::args_type) experimental::Vector4R(3+i, 3+i, 3+i, 3+i);
+			i++;
+		}
+
 		i = 0;
 		for(auto ev:other )
 		{
@@ -72,11 +86,51 @@ TEST_CASE( "Events ","[hydra::experimental::multivector]" ) {
 			i++;
 		}
 
-
-
-
 	}
 
+
+	SECTION( "experimental::events : move semantics, assignment " )
+	{
+		events3_t events(10);
+		REQUIRE( events.GetNEvents()  == 10 );
+
+		size_t i = 0;
+		for(auto ev:events )
+		{
+			thrust::get<0>(ev) = i;
+			thrust::get<1>(ev) = (typename experimental::Vector4R::args_type) experimental::Vector4R(1+i, 1+i, 1+i, 1+i);
+			thrust::get<2>(ev) = (typename experimental::Vector4R::args_type) experimental::Vector4R(2+i, 2+i, 2+i, 2+i);
+			thrust::get<3>(ev) = (typename experimental::Vector4R::args_type) experimental::Vector4R(3+i, 3+i, 3+i, 3+i);
+			i++;
+		}
+
+		events3_t other = std::move(events) ;
+
+		REQUIRE( events.capacity()==0);
+
+
+		events.resize(10);
+		i = 1;
+		for(auto ev:events )
+		{
+			thrust::get<0>(ev) = i;
+			thrust::get<1>(ev) = (typename experimental::Vector4R::args_type) experimental::Vector4R(1+i, 1+i, 1+i, 1+i);
+			thrust::get<2>(ev) = (typename experimental::Vector4R::args_type) experimental::Vector4R(2+i, 2+i, 2+i, 2+i);
+			thrust::get<3>(ev) = (typename experimental::Vector4R::args_type) experimental::Vector4R(3+i, 3+i, 3+i, 3+i);
+			i++;
+		}
+
+		i = 0;
+		for(auto ev:other )
+		{
+			REQUIRE( thrust::get<0>(ev) == i );
+			REQUIRE( thrust::get<1>(ev) == thrust::make_tuple(1+i, 1+i, 1+i, 1+i) );
+			REQUIRE( thrust::get<2>(ev) == thrust::make_tuple(2+i, 2+i, 2+i, 2+i) );
+			REQUIRE( thrust::get<3>(ev) == thrust::make_tuple(3+i, 3+i, 3+i, 3+i) );
+			i++;
+		}
+
+	}
 
 
 	SECTION( "experimental::events : conversion Vector4R -> tuple, iterator access " )

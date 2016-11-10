@@ -83,263 +83,105 @@ struct Events {
 	typedef typename system_t::template container<GBool_t>::iterator  vector_bool_iterator;
 	typedef typename system_t::template container<GBool_t>::const_iterator  vector_bool_const_iterator;
 
-    typedef  decltype( hydra::detail::get_zip_iterator( vector_real_iterator(), std::array< vector_particles_iterator,N>() )) iterator;
-    typedef  decltype( hydra::detail::get_zip_iterator( vector_real_const_iterator(),
-    		                       std::array< vector_particles_const_iterator,N>() )) const_iterator;
-    typedef   typename iterator::value_type value_type;
-    typedef   typename iterator::reference  reference_type;
+	typedef  decltype( hydra::detail::get_zip_iterator( vector_real_iterator(), std::array< vector_particles_iterator,N>() )) iterator;
+	typedef  decltype( hydra::detail::get_zip_iterator( vector_real_const_iterator(),
+			std::array< vector_particles_const_iterator,N>() )) const_iterator;
+	typedef   typename iterator::value_type value_type;
+	typedef   typename iterator::reference  reference_type;
 
 
-    /*!
-	 * Constructor takes as parameters the number of particles and number of events.
+    /**
+     * Default constructor.
+     */
+	Events():
+		fNEvents(0),
+		fMaxWeight(0){}
+
+	/**
+	 * \brief Constructor with n elements.
+	 * @param size_t nevents
 	 */
-    Events() = delete;
+	Events(size_t nevents);
 
-	Events(size_t nevents) :
-		fNEvents(nevents),
-		fMaxWeight(0)
-	{
-
-		for (GInt_t d = 0; d < N; d++)
-		{
-			fDaughters[d].resize(fNEvents);
-		}
-
-		fWeights.resize(fNEvents);
-		fFlags.resize(fNEvents);
-
-		std::array< vector_particles_iterator,N> begins;
-		std::array< vector_particles_iterator,N> ends;
-
-		std::array< vector_particles_const_iterator,N> cbegins;
-		std::array< vector_particles_const_iterator,N> cends;
-
-
-
-#pragma unroll N
-		for(int i =0; i < N; i++){
-			begins[i]= fDaughters[i].begin();
-			ends[i]= fDaughters[i].end();
-
-			cbegins[i]= fDaughters[i].cbegin();
-			cends[i]= fDaughters[i].cend();
-
-
-		}
-		 fBegin = hydra::detail::get_zip_iterator(fWeights.begin(), begins );
-		 fEnd = hydra::detail::get_zip_iterator(fWeights.end(), ends );
-
-		 fConstBegin = hydra::detail::get_zip_iterator(fWeights.cbegin(), cbegins );
-		 fConstEnd = hydra::detail::get_zip_iterator(fWeights.cend(), cends );
-
-	}
-//---------
-	// copy
-
+	/**
+	 * \brief Cross-backend copy constructor.
+	 * @param Events<N,BACKEND2> const& other
+	 */
 	template<unsigned int BACKEND2>
-	Events(Events<N,BACKEND2> const& other):
-			fNEvents(other.GetNEvents()),
-			fMaxWeight(other.GetMaxWeight())
-		{
+	Events(Events<N,BACKEND2> const& other);
 
-#pragma unroll N
-		for (GInt_t d = 0; d < N; d++)
-		{
-			fDaughters[d].resize(fNEvents);
-		}
+	/**
+	 * \brief Copy constructor.
+	 * @param Events<N,BACKEND> const& other
+	 */
+	Events(Events<N,BACKEND> const& other);
 
-		fWeights.resize(fNEvents);
-		fFlags.resize(fNEvents);
+	/**
+	 * \brief Move constructor.
+	 * Move the resources from other to *this and set other=default.
+	 * @param Events<N,BACKEND> && other
+	 */
+	Events(Events<N,BACKEND> && other);
 
-			for (GInt_t i = 0; i < N; i++)
-			{
-				thrust::copy(other.DaughtersBegin(i), other.DaughtersEnd(i), this->DaughtersBegin(i));
-			}
+	/**
+	 * \brief Assignment operator
+	 * Assignment operator.
+	 * @param Events<N,BACKEND> other
+	 * @return Events<N,BACKEND>
+	 */
+	Events<N,BACKEND>& operator=(Events<N,BACKEND> const& other);
 
-			thrust::copy(other.WeightsBegin(), other.WeightsEnd(), this->WeightsBegin());
-			thrust::copy(other.FlagsBegin(), other.FlagsEnd(), this->FlagsBegin());
-
-			std::array< vector_particles_iterator,N> begins;
-			std::array< vector_particles_iterator,N> ends;
-
-			std::array< vector_particles_const_iterator,N> cbegins;
-			std::array< vector_particles_const_iterator,N> cends;
-
-
-
-#pragma unroll N
-			for(int i =0; i < N; i++){
-				begins[i]= fDaughters[i].begin();
-				ends[i]= fDaughters[i].end();
-
-				cbegins[i]= fDaughters[i].cbegin();
-				cends[i]= fDaughters[i].cend();
-
-
-			}
-			fBegin = hydra::detail::get_zip_iterator(fWeights.begin(), begins );
-			fEnd = hydra::detail::get_zip_iterator(fWeights.end(), ends );
-
-			fConstBegin = hydra::detail::get_zip_iterator(fWeights.cbegin(), cbegins );
-			fConstEnd = hydra::detail::get_zip_iterator(fWeights.cend(), cends );
-
-		}
-	//---------
-		// copy
-
-
-		Events(Events<N,BACKEND> const& other):
-				fNEvents(other.GetNEvents()),
-				fMaxWeight(other.GetMaxWeight())
-			{
-
-	#pragma unroll N
-			for (GInt_t d = 0; d < N; d++)
-			{
-				fDaughters[d].resize(fNEvents);
-			}
-
-			fWeights.resize(fNEvents);
-			fFlags.resize(fNEvents);
-
-				for (GInt_t i = 0; i < N; i++)
-				{
-					thrust::copy(other.DaughtersBegin(i), other.DaughtersEnd(i), this->DaughtersBegin(i));
-				}
-
-				thrust::copy(other.WeightsBegin(), other.WeightsEnd(), this->WeightsBegin());
-				thrust::copy(other.FlagsBegin(), other.FlagsEnd(), this->FlagsBegin());
-
-				std::array< vector_particles_iterator,N> begins;
-				std::array< vector_particles_iterator,N> ends;
-
-				std::array< vector_particles_const_iterator,N> cbegins;
-				std::array< vector_particles_const_iterator,N> cends;
-
-
-
-	#pragma unroll N
-				for(int i =0; i < N; i++){
-					begins[i]= fDaughters[i].begin();
-					ends[i]= fDaughters[i].end();
-
-					cbegins[i]= fDaughters[i].cbegin();
-					cends[i]= fDaughters[i].cend();
-
-
-				}
-				fBegin = hydra::detail::get_zip_iterator(fWeights.begin(), begins );
-				fEnd = hydra::detail::get_zip_iterator(fWeights.end(), ends );
-
-				fConstBegin = hydra::detail::get_zip_iterator(fWeights.cbegin(), cbegins );
-				fConstEnd = hydra::detail::get_zip_iterator(fWeights.cend(), cends );
-
-			}
-/*
- * move
- */
-
-	Events(Events<N,BACKEND> && other):
-	fNEvents(other.GetNEvents()),
-	fMaxWeight(other.GetMaxWeight()),
-	fWeights(std::move(other.MoveWeights())),
-	fFlags(std::move(other.MoveFlags())),
-	fDaughters(std::move(other.MoveDaughters()))
-	{
-
-		std::array< vector_particles_iterator,N> begins;
-		std::array< vector_particles_iterator,N> ends;
-
-		std::array< vector_particles_const_iterator,N> cbegins;
-		std::array< vector_particles_const_iterator,N> cends;
-
-
-
-#pragma unroll N
-		for(int i =0; i < N; i++){
-			begins[i]= fDaughters[i].begin();
-			ends[i]= fDaughters[i].end();
-
-			cbegins[i]= fDaughters[i].cbegin();
-			cends[i]= fDaughters[i].cend();
-
-
-		}
-		fBegin = hydra::detail::get_zip_iterator(fWeights.begin(), begins );
-		fEnd = hydra::detail::get_zip_iterator(fWeights.end(), ends );
-
-		fConstBegin = hydra::detail::get_zip_iterator(fWeights.cbegin(), cbegins );
-		fConstEnd = hydra::detail::get_zip_iterator(fWeights.cend(), cends );
-	}
-
+	/**
+	 * \brief Generic assignment operator
+	 * Cross-backend assignment operator.
+	 * @param Events<N,BACKEND2>const& other
+	 * @return
+	 */
 	template<unsigned int BACKEND2>
-	Events<N,BACKEND>& operator=(Events<N,BACKEND2> const& other)
-	{
+	Events<N,BACKEND>& operator=(Events<N,BACKEND2> const& other);
 
-		this->fNEvents=other.GetNEvents();
-		this->fMaxWeight=other.GetMaxWeight();
+	/**
+	 * \brief Move assignment operator
+	 * Move the resources from other to *this and set other=default.
+	 * @param Events<N,BACKEND2>&& other
+	 * @return
+	 */
 
-#pragma unroll N
-		for (GInt_t d = 0; d < N; d++)
-		{
-			fDaughters[d].resize(fNEvents);
-		}
-
-		fWeights.resize(fNEvents);
-		fFlags.resize(fNEvents);
-
-
-		for (GInt_t i = 0; i < N; i++)
-		{
-			thrust::copy(other.DaughtersBegin(i), other.DaughtersEnd(i), this->DaughtersBegin(i));
-		}
-
-		thrust::copy(other.WeightsBegin(), other.WeightsEnd(), this->WeightsBegin());
-		thrust::copy(other.FlagsBegin(), other.FlagsEnd(), this->FlagsBegin());
-
-		std::array< vector_particles_iterator,N> begins;
-		std::array< vector_particles_iterator,N> ends;
-
-		std::array< vector_particles_const_iterator,N> cbegins;
-		std::array< vector_particles_const_iterator,N> cends;
-
-
-
-#pragma unroll N
-		for(int i =0; i < N; i++){
-			begins[i]= fDaughters[i].begin();
-			ends[i]= fDaughters[i].end();
-
-			cbegins[i]= fDaughters[i].cbegin();
-			cends[i]= fDaughters[i].cend();
-
-
-		}
-		this->fBegin = hydra::detail::get_zip_iterator(this->fWeights.begin(), begins );
-		this->fEnd = hydra::detail::get_zip_iterator(this->fWeights.end(), ends );
-
-		this->fConstBegin = hydra::detail::get_zip_iterator(this->fWeights.cbegin(), cbegins );
-		this->fConstEnd = hydra::detail::get_zip_iterator(this->fWeights.cend(), cends );
-
-
-		return *this;
-	}
+	Events<N,BACKEND>& operator=(Events<N,BACKEND>&& other);
 
 	~Events(){};
 
+	/**
+	 * \brief Get maximum weight in the container.
+	 * Get maximum weight in the container.
+	 * @return fMaxWeight
+	 */
 	GReal_t GetMaxWeight() const {
 		return fMaxWeight;
 	}
 
+	/**
+	 * \brief Get number of events in the container.
+	 *
+	 * @return size of the container.
+	 */
 	size_t GetNEvents() const {
 		return fFlags.size();
 	}
 
-
+    /**
+     * \brief Get flags begin
+     * Get begin iterator to accepted-rejected flags.
+     * @return
+     */
 	vector_bool_const_iterator FlagsBegin() const{
 		return fFlags.begin();
 	}
 
+	/**
+	 * \brief Get flags end
+	 * @return
+	 */
 	vector_bool_const_iterator FlagsEnd() const{
 		return fFlags.end();
 	}
@@ -401,10 +243,10 @@ struct Events {
 	}
 
 	reference_type operator[](size_t i) const
-		{
+	{
 
-			return fConstBegin[i];
-		}
+		return fConstBegin[i];
+	}
 
 
 
@@ -416,43 +258,19 @@ struct Events {
 
 	const_iterator  end() const{ return fConstEnd; }
 
+	size_t capacity() const  {
 
-
-	GULong_t Unweight(size_t seed)
-	{
-		/**
-		 * Flag the accepted and rejected events
-		 */
-
-
-
-		GULong_t count = 0;
-		if(N==2)
-		{
-			thrust::fill(fFlags.begin(), fFlags.end(), kTrue);
-			count = fNEvents;
-		}
-		else
-		{
-
-		auto w = thrust::max_element(fWeights.begin(),fWeights.end());
-		fMaxWeight=*w;
-		// create iterators
-		thrust::counting_iterator<size_t> first(0);
-		thrust::counting_iterator<size_t> last = first + fNEvents;
-
-
-		thrust::transform(first, last, fWeights.begin(),
-				fFlags.begin(), hydra::detail::FlagAcceptReject(seed, fMaxWeight));
-
-		count = thrust::count(fFlags.begin(), fFlags.end(),
-				kTrue);
-
-		}
-
-		return count;
-
+		return fFlags.capacity();
 	}
+
+	void resize(size_t n);
+
+	size_t Unweight(size_t seed);
+
+
+
+
+private:
 
 	vector_bool MoveFlags()	{
 		return std::move(fFlags);
@@ -465,11 +283,6 @@ struct Events {
 	std::array<vector_particles,N> MoveDaughters(){
 		return std::move(fDaughters);
 	}
-
-
-private:
-
-
 
 	size_t fNEvents;    ///< Number of events.
 	GReal_t fMaxWeight;  ///< Maximum weight of the generated events.
@@ -486,5 +299,7 @@ private:
 }  // namespace experimental
 
 }// namespace hydra
+
+#include <hydra/experimental/detail/Events.inl>
 
 #endif /* EVENT_H_ */
