@@ -32,16 +32,20 @@ find_package(TCLAP REQUIRED)
 include_directories(${TCLAP_INCLUDE_DIR})
 
 # get THRUST
-find_package(Thrust 1.8 REQUIRED)
+find_package(Thrust 1.8.3 REQUIRED)
 include_directories(./thrust)
 
 # get ROOT
 find_package(ROOT REQUIRED)
 include_directories(${ROOT_INCLUDE_DIR})
-link_directories(${ROOT_LIBRARY_DIR})
+#link_directories(${ROOT_LIBRARY_DIR})
 
-#cuda
-find_package(CUDA 6.5) 
+#get CUDA
+find_package(CUDA 8.0) 
+
+#get TBB
+find_package(TBB )
+link_directories(${TBB_LIBRARY})
 
 #generate API documentation with Doxygen
 find_package(Doxygen)
@@ -55,7 +59,7 @@ if(NOT COMPILER_SUPPORTS_CXX11)
 endif()
 
 #options to gcc
-set(CMAKE_CXX_FLAGS "-D_GLIBCXX_USE_CXX11_ABI=0 -DTHRUST_VARIADIC_TUPLE --std=c++11  -march=native -fPIC -O4 -fopenmp -lgomp" CACHE STRING "compile flags" FORCE)
+set(CMAKE_CXX_FLAGS "-D_GLIBCXX_USE_CXX11_ABI=0 -DTHRUST_VARIADIC_TUPLE --std=c++11  -march=native -fPIC -O4 -fopenmp" CACHE STRING "compile flags" FORCE)
 
 #including directories
 
@@ -68,8 +72,8 @@ if(CUDA_FOUND)
 	#set cuda flags
 	
 	SET(CUDA_NVCC_FLAGS ${CUDA_NVCC_FLAGS} --cudart ;  static ; -O4 ;--expt-relaxed-constexpr; -ftemplate-backtrace-limit=0; --expt-extended-lambda;--relocatable-device-code=false ;
-	-Xptxas -dlcm=cg; -Xptxas --opt-level=4   ) #) 
-# 
+	-Xptxas -dlcm=cg; -Xptxas --opt-level=4   )
+
 	SET(CUDA_SEPARABLE_COMPILATION OFF)
 	SET(CUDA_VERBOSE_BUILD ON)
 	
@@ -80,21 +84,23 @@ if(CUDA_FOUND)
 	SELECT_NVCC_ARCH_FLAGS(NVCC_FLAGS_EXTRA)
 	
 	LIST(APPEND CUDA_NVCC_FLAGS ${NVCC_FLAGS_EXTRA})
-	#hack for gcc 5.x.x
-	if(CMAKE_CXX_COMPILER_VERSION VERSION_GREATER 4.9)
+
+	if(CMAKE_CXX_COMPILER_VERSION VERSION_GREATER 4.8)
 	    LIST(APPEND CUDA_NVCC_FLAGS " -D_MWAITXINTRIN_H_INCLUDED ")
     	endif()
 endif(CUDA_FOUND)
 
 if( CUDA_FOUND )
-
 	SET(BUILD_CUDA_TARGETS  ON)
-
 else()
-
 	SET(BUILD_CUDA_TARGETS  OFF)
-
 endif()
+
+if(TBB_FOUND)
+    SET(BUILD_TBB_TARGETS  ON)
+else()
+    SET(BUILD_TBB_TARGETS  OFF)
+endif(TBB_FOUND)
 
 # messages
 MESSAGE(STATUS "Build CUDA/NVCC-based targets: ${BUILD_CUDA_TARGETS}")
@@ -114,231 +120,67 @@ MESSAGE(STATUS "Install diretory: " ${CMAKE_INSTALL_PREFIX}  )
 
 file(MAKE_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/plots)
 
+
+#+++++++++++++++++++++++++++
+#        TESTING           +
+#+++++++++++++++++++++++++++
+
+enable_testing()
+
+add_subdirectory(testing)
+
+add_custom_target(Hydra_Test)
+
+add_dependencies(Hydra_Test 
+Hydra_Test_Host_OMP_Device_CUDA
+Hydra_Test_Host_CPP_Device_CUDA
+Hydra_Test_Host_OMP_Device_OMP
+Hydra_Test_Host_CPP_Device_OMP
+)
+
+
+#+++++++++++++++++++++++++++
+#        EXAMPLES          +
+#+++++++++++++++++++++++++++
+
+add_subdirectory(examples)
+
+add_custom_target(Hydra_Examples)
+
+
+# CUDA
 if(BUILD_CUDA_TARGETS)
-
-#make cuda targets
-#--------------------
-#phsp generation
- 
-    cuda_add_executable(Hydra_Example_NVCC_DEVICE_CUDA_HOST_OMP_PHSP
-    ${CMAKE_CURRENT_SOURCE_DIR}/src/HydraPhaseSpaceExample.cu
-    OPTIONS -Xcompiler -fopenmp -DTHRUST_DEVICE_SYSTEM=THRUST_DEVICE_SYSTEM_CUDA  -DTHRUST_HOST_SYSTEM=THRUST_HOST_SYSTEM_OMP -lgomp
-    )
-    
-    target_link_libraries(Hydra_Example_NVCC_DEVICE_CUDA_HOST_OMP_PHSP
-    ${ROOT_LIBRARIES}
-    rt    
-    )
- 
- #--------------------
-#phsp generation
- 
-    cuda_add_executable(Hydra_Experimental_PHSP_CUDA
-    ${CMAKE_CURRENT_SOURCE_DIR}/src/HydraPhaseSpaceExperimental.cu
-    OPTIONS -Xcompiler -fopenmp -DTHRUST_DEVICE_SYSTEM=THRUST_DEVICE_SYSTEM_CUDA  -DTHRUST_HOST_SYSTEM=THRUST_HOST_SYSTEM_OMP -lgomp
-    )
-    
-    target_link_libraries(Hydra_Experimental_PHSP_CUDA
-    ${ROOT_LIBRARIES}
-    rt    
-    )
- 
-
-#random number generation
- 
-    cuda_add_executable(Hydra_Example_NVCC_DEVICE_CUDA_HOST_OMP_Random
-    ${CMAKE_CURRENT_SOURCE_DIR}/src/HydraRandomExample.cu
-    OPTIONS -Xcompiler -fopenmp -DTHRUST_DEVICE_SYSTEM=THRUST_DEVICE_SYSTEM_CUDA  -DTHRUST_HOST_SYSTEM=THRUST_HOST_SYSTEM_OMP -lgomp
-    )
-    
-    target_link_libraries(Hydra_Example_NVCC_DEVICE_CUDA_HOST_OMP_Random
-    ${ROOT_LIBRARIES}
-    rt    
-    )
-    
-#--------------
-#Data fitting
-
-    cuda_add_executable(Hydra_Example_NVCC_DEVICE_CUDA_HOST_OMP_Fit
-    ${CMAKE_CURRENT_SOURCE_DIR}/src/HydraFitExample.cu
-    OPTIONS -Xcompiler -fopenmp -DTHRUST_DEVICE_SYSTEM=THRUST_DEVICE_SYSTEM_CUDA  -DTHRUST_HOST_SYSTEM=THRUST_HOST_SYSTEM_OMP -lgomp
-    )
-    
-    target_link_libraries(Hydra_Example_NVCC_DEVICE_CUDA_HOST_OMP_Fit
-    ${ROOT_LIBRARIES}
-    rt
-    )
-
-#--------------
-#Lambda function evaluation
-	
-    cuda_add_executable(Hydra_Example_NVCC_DEVICE_CUDA_HOST_OMP_Eval
-    ${CMAKE_CURRENT_SOURCE_DIR}/src/HydraEvaluateExample.cu
-    OPTIONS -Xcompiler -fopenmp -DTHRUST_DEVICE_SYSTEM=THRUST_DEVICE_SYSTEM_CUDA -DTHRUST_HOST_SYSTEM=THRUST_HOST_SYSTEM_OMP  -lgomp
-    )
-    
-    target_link_libraries(Hydra_Example_NVCC_DEVICE_CUDA_HOST_OMP_Eval
-    ${ROOT_LIBRARIES}
-    rt
-    )
-    
-	
-#--------------
-#testing
-	
-    cuda_add_executable(Hydra_Multivector_Test_CUDA
-    ${CMAKE_CURRENT_SOURCE_DIR}/src/multivector_testing.cu
-    OPTIONS -Xcompiler -fopenmp -DTHRUST_DEVICE_SYSTEM=THRUST_DEVICE_SYSTEM_CUDA -DTHRUST_HOST_SYSTEM=THRUST_HOST_SYSTEM_OMP  -lgomp
-    )
-    
-    target_link_libraries(Hydra_Multivector_Test_CUDA
-  rt
-    )    
-	
-#--------------
-#performance
-	
-    cuda_add_executable(Hydra_Multivector_Perf_CUDA
-    ${CMAKE_CURRENT_SOURCE_DIR}/src/multivector_performance.cu
-    OPTIONS -Xcompiler -fopenmp -DTHRUST_DEVICE_SYSTEM=THRUST_DEVICE_SYSTEM_CUDA -DTHRUST_HOST_SYSTEM=THRUST_HOST_SYSTEM_OMP  -lgomp
-    )
-    
-    target_link_libraries(Hydra_Multivector_Perf_CUDA
-    rt
-    )    
-	
-#--------------
-#performance
-	
-    cuda_add_executable(Hydra_Multivector_CUDA
-    ${CMAKE_CURRENT_SOURCE_DIR}/src/multivector.cu
-    OPTIONS -Xcompiler -fopenmp -DTHRUST_DEVICE_SYSTEM=THRUST_DEVICE_SYSTEM_CUDA -DTHRUST_HOST_SYSTEM=THRUST_HOST_SYSTEM_OMP  -lgomp
-    )
-    
-    target_link_libraries(Hydra_Multivector_CUDA
-    rt
-    )    
-	
-	
+add_dependencies(Hydra_Examples
+Hydra_Example_PHSP_Host_OMP_Device_CUDA
+Hydra_Example_Experimental_PHSP_CUDA
+Hydra_Example_Random_Host_OMP_Device_CUDA
+Hydra_Example_Fit_Host_OMP_Device_CUDA
+Hydra_Example_Eval_Host_OMP_Device_CUDA
+)
 endif(BUILD_CUDA_TARGETS)
 
-#--------------
-#phsp  generation
-add_executable(Hydra_Experimental_PHSP
-${CMAKE_CURRENT_SOURCE_DIR}/src/HydraPhaseSpaceExperimental.cpp
+# TBB
+if(BUILD_TBB_TARGETS)
+
+add_dependencies(Hydra_Examples
+Hydra_Example_Experimental_TBB_PHSP
+Hydra_Example_PHSP_Host_CPP_Device_TBB
+Hydra_Example_Random_Host_CPP_Device_TBB
+Hydra_Example_Fit_Host_CPP_Device_TBB
+Hydra_Example_Eval_Host_CPP_Device_TBB
 )
+endif(BUILD_TBB_TARGETS)
 
-set_target_properties(Hydra_Experimental_PHSP PROPERTIES 
-COMPILE_FLAGS "-fopenmp -DTHRUST_HOST_SYSTEM=THRUST_HOST_SYSTEM_CPP -DTHRUST_DEVICE_SYSTEM=THRUST_DEVICE_SYSTEM_OMP -lgomp")
-
-target_link_libraries(Hydra_Experimental_PHSP
-${ROOT_LIBRARIES}
-rt
+# OMP
+add_dependencies(Hydra_Examples
+Hydra_Example_Experimental_PHSP_OMP
+Hydra_Example_PHSP_Host_CPP_Device_OMP
+Hydra_Example_PHSP_Host_CPP_Device_OMP
+Hydra_Example_Random_Host_CPP_Device_OMP
+Hydra_Example_Fit_Host_CPP_Device_OMP
+Hydra_Example_Fit_Host_CPP_Device_OMP
+Hydra_Example_Eval_Host_CPP_Device_OMP
 )
-
-#--------------
-#phsp  generation
-add_executable(Hydra_Example_GCC_DEVICE_OMP_HOST_CPP_PHSP
-${CMAKE_CURRENT_SOURCE_DIR}/src/HydraPhaseSpaceExample.cpp
-)
-
-set_target_properties(Hydra_Example_GCC_DEVICE_OMP_HOST_CPP_PHSP PROPERTIES 
-COMPILE_FLAGS "-fopenmp -DTHRUST_HOST_SYSTEM=THRUST_HOST_SYSTEM_CPP -DTHRUST_DEVICE_SYSTEM=THRUST_DEVICE_SYSTEM_OMP -lgomp")
-
-target_link_libraries(Hydra_Example_GCC_DEVICE_OMP_HOST_CPP_PHSP
-${ROOT_LIBRARIES}
-rt
-)
-
-
-#--------------
-#random number generation
-add_executable(Hydra_Example_GCC_DEVICE_OMP_HOST_CPP_Random
-${CMAKE_CURRENT_SOURCE_DIR}/src/HydraRandomExample.cpp
-)
-
-set_target_properties(Hydra_Example_GCC_DEVICE_OMP_HOST_CPP_Random PROPERTIES 
-COMPILE_FLAGS "-fopenmp -DTHRUST_HOST_SYSTEM=THRUST_HOST_SYSTEM_CPP -DTHRUST_DEVICE_SYSTEM=THRUST_DEVICE_SYSTEM_OMP -lgomp")
-
-target_link_libraries(Hydra_Example_GCC_DEVICE_OMP_HOST_CPP_Random
-${ROOT_LIBRARIES}
-rt
-)
-
-
-#--------------
-#Fit
-add_executable(Hydra_Example_GCC_DEVICE_OMP_HOST_CPP_Fit
-${CMAKE_CURRENT_SOURCE_DIR}/src/HydraFitExample.cpp
-)
-
-set_target_properties(Hydra_Example_GCC_DEVICE_OMP_HOST_CPP_Fit PROPERTIES 
-COMPILE_FLAGS "-pg -fopenmp -DTHRUST_HOST_SYSTEM=THRUST_HOST_SYSTEM_CPP -DTHRUST_DEVICE_SYSTEM=THRUST_DEVICE_SYSTEM_OMP -lgomp")
-
-target_link_libraries(Hydra_Example_GCC_DEVICE_OMP_HOST_CPP_Fit
-${ROOT_LIBRARIES}
-rt
-)
-
-
-#--------------
-#Lambda function evaluation
-
-add_executable(Hydra_Example_GCC_DEVICE_OMP_HOST_CPP_Eval
-${CMAKE_CURRENT_SOURCE_DIR}/src/HydraEvaluateExample.cpp
-)
-
-set_target_properties(Hydra_Example_GCC_DEVICE_OMP_HOST_CPP_Eval PROPERTIES 
-COMPILE_FLAGS  "-fopenmp -DTHRUST_DEVICE_SYSTEM=THRUST_DEVICE_SYSTEM_CPP -DTHRUST_HOST_SYSTEM=THRUST_HOST_SYSTEM_OMP -lgomp" )
-
-target_link_libraries(Hydra_Example_GCC_DEVICE_OMP_HOST_CPP_Eval
-${ROOT_LIBRARIES}
-rt
-)
-
-add_executable(Hydra_Multivector
-${CMAKE_CURRENT_SOURCE_DIR}/src/multivector.cpp
-)
-
-set_target_properties(Hydra_Multivector PROPERTIES 
-COMPILE_FLAGS  "-fopenmp -DTHRUST_DEVICE_SYSTEM=THRUST_DEVICE_SYSTEM_OMP -DTHRUST_HOST_SYSTEM=THRUST_HOST_SYSTEM_OMP -lgomp" )
-
-target_link_libraries(Hydra_Multivector
-rt
-)
-
-add_executable(Hydra_Multivector_Test
-${CMAKE_CURRENT_SOURCE_DIR}/src/multivector_testing.cpp
-)
-
-set_target_properties(Hydra_Multivector_Test PROPERTIES 
-COMPILE_FLAGS  "-fopenmp -DTHRUST_DEVICE_SYSTEM=THRUST_DEVICE_SYSTEM_CPP -DTHRUST_HOST_SYSTEM=THRUST_HOST_SYSTEM_OMP -lgomp" )
-
-target_link_libraries(Hydra_Multivector_Test
-rt
-)
-
-add_executable(Hydra_Events_Test
-${CMAKE_CURRENT_SOURCE_DIR}/src/events_testing.cpp
-)
-
-set_target_properties(Hydra_Events_Test PROPERTIES 
-COMPILE_FLAGS  "-fopenmp -DTHRUST_DEVICE_SYSTEM=THRUST_DEVICE_SYSTEM_CPP -DTHRUST_HOST_SYSTEM=THRUST_HOST_SYSTEM_OMP -lgomp" )
-
-target_link_libraries(Hydra_Events_Test
-rt
-)
-
-
-
-add_executable(Hydra_Multivector_Perf
-${CMAKE_CURRENT_SOURCE_DIR}/src/multivector_performance.cpp
-)
-
-set_target_properties(Hydra_Multivector_Perf PROPERTIES 
-COMPILE_FLAGS  "-pthread -fopenmp -DTHRUST_DEVICE_SYSTEM=THRUST_DEVICE_SYSTEM_OMP -DTHRUST_HOST_SYSTEM=THRUST_HOST_SYSTEM_OMP -lgomp" )
-
-target_link_libraries(Hydra_Multivector_Perf)
 
 
 

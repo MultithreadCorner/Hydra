@@ -75,7 +75,7 @@ _move_storage(thrust::tuple<Vector<T, Allocator<T>>...>& This,
 		thrust::tuple<Vector<T, Allocator<T>>...>&& Other )
 {
 	thrust::get<I>(This)=std::move(thrust::get<I>(Other));
-	_move_storage<I + 1>( This, std::forward<thrust::tuple<Vector<T, Allocator<T>>...>&&>(Other));
+	detail::_move_storage<I + 1,Vector, Allocator, T... >( This, std::forward<thrust::tuple<Vector<T, Allocator<T>>...>&&>(Other));
 }
 
 /**

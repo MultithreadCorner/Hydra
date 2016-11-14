@@ -89,6 +89,7 @@ struct Events {
 	typedef   typename iterator::value_type value_type;
 	typedef   typename iterator::reference  reference_type;
 
+	constexpr static size_t particles = N ;
 
     /**
      * Default constructor.
@@ -257,6 +258,12 @@ struct Events {
 	const_iterator begin() const{ return fConstBegin; }
 
 	const_iterator  end() const{ return fConstEnd; }
+
+	const_iterator cbegin() const{ return fConstBegin; }
+
+		const_iterator  cend() const{ return fConstEnd; }
+
+
 
 	size_t capacity() const  {
 

@@ -36,12 +36,14 @@
 
 #include <hydra/detail/Config.h>
 #include <hydra/Types.h>
+#include <hydra/Containers.h>
 #include <hydra/experimental/Events.h>
 #include <hydra/detail/utility/Utility_Tuple.h>
+#include <hydra/detail/utility/Generic.h>
 #include <hydra/detail/functors/FlagAcceptReject.h>
 //thrust
 #include <thrust/tuple.h>
-#include <thrust/zip_iterator.h>
+#include <thrust/iterator/zip_iterator.h>
 #include <thrust/distance.h>
 
 namespace hydra {
@@ -54,6 +56,8 @@ struct Chain;
 template<size_t ...N,  unsigned int BACKEND>
 struct Chain< hydra::experimental::Events<N,BACKEND >...>{
 
+	typedef hydra::detail::BackendTraits<BACKEND> system_t;
+
 	typedef thrust::tuple<typename
 				hydra::experimental::Events<N,BACKEND >...> event_tuple;
 
@@ -63,135 +67,218 @@ struct Chain< hydra::experimental::Events<N,BACKEND >...>{
 			hydra::experimental::Events<N,BACKEND >::const_iterator...> const_iterator_tuple;
 
 	typedef typename system_t::template container<GReal_t>  vector_real;
+	typedef typename system_t::template container<GReal_t>::iterator vector_real_iterator;
+	typedef typename system_t::template container<GReal_t>::const_iterator vector_real_const_iterator;
+
 	typedef typename system_t::template container<GBool_t>  vector_bool;
+	typedef typename system_t::template container<GBool_t>::iterator  vector_bool_iterator;
+	typedef typename system_t::template container<GBool_t>::const_iterator  vector_bool_const_iterator;
+
 	//zipped iterators
-	typedef thrust::zip_iterator<iterator_tuple>        iterator;
-	typedef thrust::zip_iterator<const_iterator_tuple>  const_iterator;
+	typedef thrust::zip_iterator<
+			decltype(thrust:: tuple_cat(thrust::tuple<vector_real_iterator>(), iterator_tuple()))>  iterator;
+	typedef thrust::zip_iterator<
+			decltype(thrust:: tuple_cat(thrust::tuple<vector_real_const_iterator>(), const_iterator_tuple()))>  const_iterator;
 
 	typedef   typename iterator::value_type value_type;
 	typedef   typename iterator::reference  reference_type;
 
-	Chain() = delete;
+	typedef decltype(hydra::detail::make_index_sequence<sizeof...(N)> { }) indexing_type;
+
+	Chain(){};
 
 	Chain(size_t nevents):
-	fStorage(thrust::make_tuple(hydra::experimental::Events<N,BACKEND >(n)...) ),
+	fStorage(thrust::make_tuple(hydra::experimental::Events<N,BACKEND >(nevents)...) ),
 	fSize(nevents)
 	{
 
 		fWeights.resize(fSize);
 		fFlags.resize(fSize);
 
-		fBegin = thrust::make_zip_iterator(thrust:: tuple_cat(fWeights.begin(),
+		fBegin = thrust::make_zip_iterator(thrust::tuple_cat(thrust::make_tuple(fWeights.begin()),
 				detail::begin_call_args(fStorage)) );
-		fEnd = thrust::make_zip_iterator( thrust:: tuple_cat(fWeights.end(),
+		fEnd = thrust::make_zip_iterator( thrust::tuple_cat(thrust::make_tuple(fWeights.end()),
 				detail::end_call_args(fStorage)) );
 
-		fConstBegin = thrust::make_zip_iterator( thrust:: tuple_cat(fWeights.cbegin(),
+		fConstBegin = thrust::make_zip_iterator(thrust::tuple_cat(thrust::make_tuple(fWeights.cbegin()),
 				detail::cbegin_call_args(fStorage) ));
-		fConstEnd = thrust::make_zip_iterator(thrust:: tuple_cat(fWeights.cend(),
+		fConstEnd = thrust::make_zip_iterator(thrust::tuple_cat(thrust::make_tuple(fWeights.cend()),
 				detail::cend_call_args(fStorage) ) );
 
 	}
 
 
-	Chain(hydra::experimental::Chain<N...,BACKEND >const& other):
-		fStorage(thrust::make_tuple(other.template GetDecay<N>()...) )
+	Chain(hydra::experimental::Chain<hydra::experimental::Events<N,BACKEND >...>const& other):
+		fStorage(CopyOtherStorage(other) ),
+		fSize (other.GetNEvents())
+		{
+
+
+
+			fWeights = vector_real(fSize , 1.0);
+			fFlags = vector_bool( fSize, 1.0 );
+
+			fBegin = thrust::make_zip_iterator(thrust:: tuple_cat(thrust::make_tuple(fWeights.begin()),
+					detail::begin_call_args(fStorage)) );
+			fEnd = thrust::make_zip_iterator( thrust:: tuple_cat(thrust::make_tuple(fWeights.end()),
+					detail::end_call_args(fStorage)) );
+
+			fConstBegin = thrust::make_zip_iterator( thrust:: tuple_cat(thrust::make_tuple(fWeights.cbegin()),
+					detail::cbegin_call_args(fStorage) ));
+			fConstEnd = thrust::make_zip_iterator(thrust:: tuple_cat(thrust::make_tuple(fWeights.cend()),
+					detail::cend_call_args(fStorage) ) );
+
+
+		}
+
+	template<unsigned int BACKEND2>
+	Chain(hydra::experimental::Chain<hydra::experimental::Events<N,BACKEND2 >...>const& other):
+	fStorage(CopyOtherStorage(other) ),
+	fSize (other.GetNEvents())
 	{
 
-		fSize= GetNEvents() ;
 
-		fWeights.resize(fSize);
-		fFlags.resize(fSize);
 
-		thrust::copy(other.WeightsBegin(), other.WeightsEnd(), this->WeightsBegin());
-		thrust::copy(other.FlagsBegin(), other.FlagsEnd(), this->FlagsBegin());
+		fWeights = vector_real(fSize , 1.0);
+		fFlags = vector_bool( fSize, 1.0 );
 
-		fBegin = thrust::make_zip_iterator(thrust:: tuple_cat(fWeights.begin(),
+		fBegin = thrust::make_zip_iterator(thrust:: tuple_cat(thrust::make_tuple(fWeights.begin()),
 				detail::begin_call_args(fStorage)) );
-		fEnd = thrust::make_zip_iterator( thrust:: tuple_cat(fWeights.end(),
+		fEnd = thrust::make_zip_iterator( thrust:: tuple_cat(thrust::make_tuple(fWeights.end()),
 				detail::end_call_args(fStorage)) );
 
-		fConstBegin = thrust::make_zip_iterator( thrust:: tuple_cat(fWeights.cbegin(),
+		fConstBegin = thrust::make_zip_iterator( thrust:: tuple_cat(thrust::make_tuple(fWeights.cbegin()),
 				detail::cbegin_call_args(fStorage) ));
-		fConstEnd = thrust::make_zip_iterator(thrust:: tuple_cat(fWeights.cend(),
+		fConstEnd = thrust::make_zip_iterator(thrust:: tuple_cat(thrust::make_tuple(fWeights.cend()),
+				detail::cend_call_args(fStorage) ) );
+
+
+	}
+
+
+
+	Chain(hydra::experimental::Chain<hydra::experimental::Events<N,BACKEND >...>&& other):
+		fStorage(std::move(other.MoveStorage())),
+		fSize (other.GetNEvents())
+	{
+
+
+		other.resize(0);
+		fWeights = vector_real(fSize , 1.0);
+		fFlags = vector_bool( fSize, 1.0 );
+
+		fBegin = thrust::make_zip_iterator(thrust:: tuple_cat(thrust::make_tuple(fWeights.begin()),
+				detail::begin_call_args(fStorage)) );
+		fEnd = thrust::make_zip_iterator( thrust:: tuple_cat(thrust::make_tuple(fWeights.end()),
+				detail::end_call_args(fStorage)) );
+
+		fConstBegin = thrust::make_zip_iterator( thrust:: tuple_cat(thrust::make_tuple(fWeights.cbegin()),
+				detail::cbegin_call_args(fStorage) ));
+		fConstEnd = thrust::make_zip_iterator(thrust:: tuple_cat(thrust::make_tuple(fWeights.cend()),
+				detail::cend_call_args(fStorage) ) );
+
+
+	}
+
+
+	//************************
+
+	hydra::experimental::Chain<hydra::experimental::Events<N,BACKEND >...>&
+	operator=(hydra::experimental::Chain<hydra::experimental::Events<N,BACKEND >...> const& other)
+	{
+
+		this->fStorage = CopyOtherStorage(other) ;
+		this->fSize = other.GetNEvents();
+
+		this->fWeights = vector_real(this->fSize , 1.0);
+		this->fFlags = vector_bool( this->fSize, 1.0 );
+
+		this->fBegin = thrust::make_zip_iterator(thrust:: tuple_cat(thrust::make_tuple(this->fWeights.begin()),
+				detail::begin_call_args(this->fStorage)) );
+		this->fEnd = thrust::make_zip_iterator( thrust:: tuple_cat(thrust::make_tuple(this->fWeights.end()),
+				detail::end_call_args(this->fStorage)) );
+
+		this->fConstBegin = thrust::make_zip_iterator( thrust:: tuple_cat(thrust::make_tuple(this->fWeights.cbegin()),
+				detail::cbegin_call_args(this->fStorage) ));
+		this->fConstEnd = thrust::make_zip_iterator(thrust:: tuple_cat(thrust::make_tuple(this->fWeights.cend()),
+				detail::cend_call_args(this->fStorage) ) );
+
+		return *this;
+
+	}
+
+	template<unsigned int BACKEND2>
+	hydra::experimental::Chain<hydra::experimental::Events<N,BACKEND >...>&
+	operator=(hydra::experimental::Chain<hydra::experimental::Events<N,BACKEND2 >...>const& other)
+	{
+
+		this->fStorage=CopyOtherStorage(other, other.indexes);
+		this->fSize = other.GetNEvents();
+
+		this->fWeights = vector_real(this->fSize , 1.0);
+		this->fFlags = vector_bool( this->fSize, 1.0 );
+
+		this->fBegin = thrust::make_zip_iterator(thrust:: tuple_cat(thrust::make_tuple(this->fWeights.begin()),
+				detail::begin_call_args(this->fStorage)) );
+		this->fEnd = thrust::make_zip_iterator( thrust:: tuple_cat(thrust::make_tuple(this->fWeights.end()),
+				detail::end_call_args(this->fStorage)) );
+
+		this->fConstBegin = thrust::make_zip_iterator( thrust:: tuple_cat(thrust::make_tuple(this->fWeights.cbegin()),
+				detail::cbegin_call_args(this->fStorage) ));
+		this->fConstEnd = thrust::make_zip_iterator(thrust:: tuple_cat(thrust::make_tuple(this->fWeights.cend()),
+				detail::cend_call_args(this->fStorage) ) );
+
+		return *this;
+	}
+
+
+	hydra::experimental::Chain<hydra::experimental::Events<N,BACKEND >...>&
+	operator=(hydra::experimental::Chain<hydra::experimental::Events<N,BACKEND >...>&& other)
+	{
+
+		this->fStorage = std::move(other.MoveStorage());
+		this->fSize = other.GetNEvents();
+
+		other= hydra::experimental::Chain<hydra::experimental::Events<N,BACKEND >...>();
+
+		this->fWeights = vector_real(this->fSize , 1.0);
+		this->fFlags = vector_bool( this->fSize, 1.0 );
+
+		this->fBegin = thrust::make_zip_iterator(thrust:: tuple_cat(thrust::make_tuple(this->fWeights.begin()),
+				detail::begin_call_args(this->fStorage)) );
+		this->fEnd = thrust::make_zip_iterator( thrust:: tuple_cat(thrust::make_tuple(this->fWeights.end()),
+				detail::end_call_args(this->fStorage)) );
+
+		this->fConstBegin = thrust::make_zip_iterator( thrust:: tuple_cat(thrust::make_tuple(fWeights.cbegin()),
+				detail::cbegin_call_args(this->fStorage) ));
+		this->fConstEnd = thrust::make_zip_iterator(thrust:: tuple_cat(thrust::make_tuple(this->fWeights.cend()),
+				detail::cend_call_args(this->fStorage) ) );
+
+		return *this;
+	}
+
+
+
+	Chain(hydra::experimental::Events<N,BACKEND >& ...events):
+		fStorage(std::move(thrust::make_tuple( std::move(events)...))),
+		fSize ( CheckSizes({events.GetNEvents()...}))
+	{
+
+		fWeights = vector_real(fSize , 1.0);
+		fFlags = vector_bool( fSize, 1.0 );
+
+		fBegin = thrust::make_zip_iterator(thrust:: tuple_cat(thrust::make_tuple(fWeights.begin()),
+				detail::begin_call_args(fStorage)) );
+		fEnd = thrust::make_zip_iterator( thrust:: tuple_cat(thrust::make_tuple(fWeights.end()),
+				detail::end_call_args(fStorage)) );
+
+		fConstBegin = thrust::make_zip_iterator( thrust:: tuple_cat(thrust::make_tuple(fWeights.cbegin()),
+				detail::cbegin_call_args(fStorage) ));
+		fConstEnd = thrust::make_zip_iterator(thrust:: tuple_cat(thrust::make_tuple(fWeights.cend()),
 				detail::cend_call_args(fStorage) ) );
 
 	}
 
-	template<typename BACKEND2>
-	Chain(hydra::experimental::Chain<N...,BACKEND2 >const& other):
-	fStorage(thrust::make_tuple(other.template GetDecay<N>()...) )
-	{
-		fSize = CheckSizes({events.GetNEvents()...});
-
-		fWeights.resize(fSize);
-		fFlags.resize(fSize);
-
-		thrust::copy(other.WeightsBegin(), other.WeightsEnd(), this->WeightsBegin());
-		thrust::copy(other.FlagsBegin(), other.FlagsEnd(), this->FlagsBegin());
-
-		fBegin = thrust::make_zip_iterator(thrust:: tuple_cat(fWeights.begin(),
-				detail::begin_call_args(fStorage)) );
-		fEnd = thrust::make_zip_iterator( thrust:: tuple_cat(fWeights.end(),
-				detail::end_call_args(fStorage)) );
-
-		fConstBegin = thrust::make_zip_iterator( thrust:: tuple_cat(fWeights.cbegin(),
-				detail::cbegin_call_args(fStorage) ));
-		fConstEnd = thrust::make_zip_iterator(thrust:: tuple_cat(fWeights.cend(),
-				detail::cend_call_args(fStorage) ) );
-
-	}
-
-
-
-	Chain(hydra::experimental::Chain<N...,BACKEND >&& other):
-		fStorage(std::move(other.MoveStorage()))
-	{
-
-		fSize = CheckSizes({events.GetNEvents()...});
-
-		fWeights( fSize ,1.0);
-		fFlags( fSize, 1.0 );
-
-		fBegin = thrust::make_zip_iterator(thrust:: tuple_cat(fWeights.begin(),
-				detail::begin_call_args(fStorage)) );
-		fEnd = thrust::make_zip_iterator( thrust:: tuple_cat(fWeights.end(),
-				detail::end_call_args(fStorage)) );
-
-		fConstBegin = thrust::make_zip_iterator( thrust:: tuple_cat(fWeights.cbegin(),
-				detail::cbegin_call_args(fStorage) ));
-		fConstEnd = thrust::make_zip_iterator(thrust:: tuple_cat(fWeights.cend(),
-				detail::cend_call_args(fStorage) ) );
-
-	}
-
-	Chain(hydra::experimental::Events<N,BACKEND >&& ...events):
-		fStorage(std::move(thrust::make_tuple( std::move(events)...)))
-	{
-		fSize = CheckSizes({events.GetNEvents()...});
-
-		fWeights( fSize ,1.0);
-		fFlags( fSize, 1.0 );
-
-		fBegin = thrust::make_zip_iterator(thrust:: tuple_cat(fWeights.begin(),
-				detail::begin_call_args(fStorage)) );
-		fEnd = thrust::make_zip_iterator( thrust:: tuple_cat(fWeights.end(),
-				detail::end_call_args(fStorage)) );
-
-		fConstBegin = thrust::make_zip_iterator( thrust:: tuple_cat(fWeights.cbegin(),
-				detail::cbegin_call_args(fStorage) ));
-		fConstEnd = thrust::make_zip_iterator(thrust:: tuple_cat(fWeights.cend(),
-				detail::cend_call_args(fStorage) ) );
-
-	}
-
-
-	template<unsigned int I>
-	auto GetDecay()
-	-> typename thrust::tuple_element<I, event_tuple>::type&
-	{
-		return thrust::get<I>(fStorage);
-	}
 
 	template<unsigned int I>
 	auto GetDecay() const
@@ -199,6 +286,8 @@ struct Chain< hydra::experimental::Events<N,BACKEND >...>{
 	{
 		return thrust::get<I>(fStorage);
 	}
+
+
 
 	size_t GetNEvents() const {
 			return fSize;
@@ -240,8 +329,75 @@ struct Chain< hydra::experimental::Events<N,BACKEND >...>{
 	iterator  end(){ return fEnd; }
 	const_iterator begin() const{ return fConstBegin; }
 	const_iterator  end() const{ return fConstEnd; }
+	const_iterator cbegin() const{ return fConstBegin; }
+	const_iterator  cend() const{ return fConstEnd; }
 
+	template<unsigned int I>
+	iterator begin(){ return thrust::get<I>(fStorage).begin(); }
+
+	template<unsigned int I>
+	iterator  end(){ return thrust::get<I>(fStorage).end() ; }
+
+	template<unsigned int I>
+	const_iterator begin() const{ return thrust::get<I>(fStorage).cbegin() ; }
+
+	template<unsigned int I>
+	const_iterator  end() const{ return thrust::get<I>(fStorage).cend() ; }
+
+	template<unsigned int I>
+	const_iterator cbegin() const{ return thrust::get<I>(fStorage).cbegin() ; }
+
+	template<unsigned int I>
+	const_iterator  cend() const{ return thrust::get<I>(fStorage).cend() ; }
+
+	size_t capacity() const  {
+		return fFlags.capacity();
+	}
+
+	void resize(size_t n){
+
+		fSize=n;
+		fWeights.resize(n);
+		fFlags.resize(n);
+		detail::resize_call_args(fStorage, n);
+
+		fBegin = thrust::make_zip_iterator(thrust:: tuple_cat(thrust::make_tuple(fWeights.begin()),
+				detail::begin_call_args(fStorage)) );
+		fEnd = thrust::make_zip_iterator( thrust:: tuple_cat(thrust::make_tuple(fWeights.end()),
+				detail::end_call_args(fStorage)) );
+
+		fConstBegin = thrust::make_zip_iterator( thrust:: tuple_cat(thrust::make_tuple(fWeights.cbegin()),
+				detail::cbegin_call_args(fStorage) ));
+		fConstEnd = thrust::make_zip_iterator(thrust:: tuple_cat(thrust::make_tuple(fWeights.cend()),
+				detail::cend_call_args(fStorage) ) );
+
+	}
+
+	reference_type operator[](size_t i)
+	{
+
+		return fBegin[i];
+	}
+
+	reference_type operator[](size_t i) const
+	{
+
+		return fConstBegin[i];
+	}
 private:
+
+	template<unsigned int  BACKEND2, size_t ...index>
+	event_tuple _CopyStorage(hydra::experimental::Chain<hydra::experimental::Events<N, BACKEND2>...> const& other,
+			hydra::detail::index_sequence<index...> indexes)
+	{
+		return thrust::make_tuple(hydra::experimental::Events<N,BACKEND >(other.template GetDecay<index>())...);
+	}
+
+	template<unsigned int  BACKEND2>
+	event_tuple CopyOtherStorage(hydra::experimental::Chain<hydra::experimental::Events<N, BACKEND2>...> const& other)
+	{
+		return _CopyStorage(other, typename hydra::experimental::Chain<hydra::experimental::Events<N, BACKEND2>...>::indexing_type() );
+	}
 
 	event_tuple MoveStorage(){
 		return std::move(fStorage);
@@ -251,7 +407,8 @@ private:
 	{
 		assert(std::adjacent_find( sizes.begin(), sizes.end(),
 				std::not_equal_to<size_t>() ) == sizes.end());
-	 return	sizes.end();
+		size_t s=*sizes.end();
+	 return	s;
 	}
 
 	event_tuple fStorage;

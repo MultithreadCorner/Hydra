@@ -41,7 +41,7 @@
 #include <stdio.h>
 #include <utility>
 #include <thrust/copy.h>
-
+#include <thrust/extrema.h>
 #include <hydra/detail/Config.h>
 #include <hydra/Types.h>
 #include <hydra/Containers.h>
@@ -198,7 +198,7 @@ fDaughters(std::move(other.MoveDaughters()))
 	std::array< vector_particles_const_iterator,N> cbegins;
 	std::array< vector_particles_const_iterator,N> cends;
 
-	other=Events<N, BACKEND>();
+	other= Events<N,BACKEND>(0);
 
 #pragma unroll N
 	for(int i =0; i < N; i++){
@@ -234,6 +234,7 @@ Events<N,BACKEND>& Events<N, BACKEND>::operator=(hydra::experimental::Events<N,B
 	fWeights.resize(fNEvents);
 	fFlags.resize(fNEvents);
 
+	if(fNEvents==0) return *this;
 
 	for (GInt_t i = 0; i < N; i++)
 	{
@@ -290,6 +291,7 @@ Events<N,BACKEND>& Events<N, BACKEND>::operator=(hydra::experimental::Events<N,B
 			this->fWeights.resize(fNEvents);
 			this->fFlags.resize(fNEvents);
 
+			if(fNEvents==0) return *this;
 
 			for (GInt_t i = 0; i < N; i++)
 			{
@@ -331,7 +333,7 @@ template<size_t N, unsigned int BACKEND>
 Events<N,BACKEND>& Events<N, BACKEND>::operator=(hydra::experimental::Events<N,BACKEND> && other)
 {
 
-	if(this==&other) return *this;
+	if(this==&other || fNEvents==0 ) return *this;
 
 	this->fNEvents=other.GetNEvents();
 	this->fMaxWeight=other.GetMaxWeight();

@@ -26,27 +26,23 @@
  *      Author: Antonio Augusto Alves Junior
  */
 
-
-#define CATCH_CONFIG_MAIN  // This tells Catch to provide a main() - only do this in one cpp file
-#include "catch/catch.hpp"
-
 #include <memory>
 #include <limits>
 #include <utility>
-
+#include "catch/catch.hpp"
+#include <hydra/experimental/Chain.h>
 #include <hydra/experimental/Events.h>
 #include <hydra/experimental/multivector.h>
 #include <hydra/experimental/Vector4R.h>
 
 using namespace std;
 using namespace hydra;
-TEST_CASE( "Events ","[hydra::experimental::multivector]" ) {
 
-	typedef  experimental::Events<3, host> events3_t;
-	typedef  experimental::Events<2, host> events2_t;
+TEST_CASE( "Events","hydra::Events" ) {
 
+	typedef  experimental::Events<3,  host> events3_t;
 
-	SECTION( "experimental::events : move semantics, constructors " )
+	SECTION( "move semantics: constructor" )
 	{
 		events3_t events(10);
 		REQUIRE( events.GetNEvents()  == 10 );
@@ -89,7 +85,7 @@ TEST_CASE( "Events ","[hydra::experimental::multivector]" ) {
 	}
 
 
-	SECTION( "experimental::events : move semantics, assignment " )
+	SECTION( "move semantics: assignment" )
 	{
 		events3_t events(10);
 		REQUIRE( events.GetNEvents()  == 10 );
@@ -133,7 +129,7 @@ TEST_CASE( "Events ","[hydra::experimental::multivector]" ) {
 	}
 
 
-	SECTION( "experimental::events : conversion Vector4R -> tuple, iterator access " )
+	SECTION( "conversion Vector4R -> tuple at iterator level access" )
 	{
 		events3_t events(10);
 		REQUIRE( events.GetNEvents()  == 10 );
@@ -161,7 +157,7 @@ TEST_CASE( "Events ","[hydra::experimental::multivector]" ) {
 	}
 
 
-	SECTION( "experimental::events : conversion Vector4R -> tuple, subscript operator access " )
+	SECTION( "conversion Vector4R -> tuple via subscript operator access " )
 	{
 		events3_t events(10);
 		REQUIRE( events.GetNEvents()  == 10 );
@@ -186,7 +182,8 @@ TEST_CASE( "Events ","[hydra::experimental::multivector]" ) {
 		}
 	}
 
-	SECTION( "experimental::events : conversion Vector4R -> tuple, subscript operator access " )
+
+	SECTION( "conversion tuple -> Vector4R via subscript operator access" )
 	{
 		events3_t events(10);
 		REQUIRE( events.GetNEvents()  == 10 );
@@ -223,5 +220,6 @@ TEST_CASE( "Events ","[hydra::experimental::multivector]" ) {
 		}
 
 	}
+
 
 }

@@ -29,6 +29,7 @@
 #ifndef MULTIVECTOR_H_
 #define MULTIVECTOR_H_
 
+#include <hydra/detail/Config.h>
 #include <hydra/experimental/detail/multivector_base.h>
 #include <thrust/tuple.h>
 

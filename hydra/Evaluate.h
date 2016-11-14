@@ -110,7 +110,7 @@ auto eval(Functor const& functor, Iterator begin, Iterator end, Iterators... beg
 -> typename detail::if_then_else< std::is_same<thrust::device_system_tag,
 typename thrust::iterator_system<Iterator>::type>::value,
 mc_device_vector<typename Functor::return_type>,
-mc_host_vector<typename Functor::return_type>>::type
+mc_host_vector<typename Functor::return_type>>::type&
 {
 	typedef typename detail::if_then_else<std::is_same<thrust::device_system_tag,
 			typename thrust::iterator_system<Iterator>::type>::value,
