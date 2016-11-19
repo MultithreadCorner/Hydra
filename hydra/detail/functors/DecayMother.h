@@ -75,7 +75,7 @@ struct DecayMother
 	GReal_t fBeta2;
 
 
-	//const GReal_t* __restrict__ fMasses;
+	//const GReal_t __restrict__ *fMasses;
 	GReal_t fMasses[N];
 
 	//constructor
