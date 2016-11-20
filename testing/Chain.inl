@@ -26,23 +26,25 @@
  *      Author: Antonio Augusto Alves Junior
  */
 
+#pragma once
+
 #include <memory>
 #include <limits>
 #include <utility>
-#include "catch/catch.hpp"
+
+#include <hydra/detail/Config.h>
+#include <hydra/Types.h>
 #include <hydra/experimental/Chain.h>
 #include <hydra/experimental/Events.h>
 #include <hydra/experimental/multivector.h>
 #include <hydra/experimental/Vector4R.h>
 
-using namespace std;
-using namespace hydra;
 
 TEST_CASE( "Chain","hydra::Chain" ) {
 
-	typedef  experimental::Events<3,  host> events3_t;
-	typedef  experimental::Events<2,  host> events2_t;
-	typedef  experimental::Chain<events3_t, events2_t> chain_t;
+	typedef  hydra::experimental::Events<3,  hydra::host> events3_t;
+	typedef  hydra::experimental::Events<2,  hydra::host> events2_t;
+	typedef  hydra::experimental::Chain<events3_t, events2_t> chain_t;
 
 	SECTION( "constructor Chain(n)" )
 	{

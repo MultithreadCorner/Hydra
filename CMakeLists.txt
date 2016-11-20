@@ -47,6 +47,10 @@ find_package(CUDA 8.0)
 find_package(TBB )
 link_directories(${TBB_LIBRARY})
 
+#get OpenMP
+find_package(OpenMP)
+
+
 #generate API documentation with Doxygen
 find_package(Doxygen)
 option(BUILD_DOCUMENTATION "Create and install the HTML based API documentation (requires Doxygen)" NO)
@@ -59,7 +63,7 @@ if(NOT COMPILER_SUPPORTS_CXX11)
 endif()
 
 #options to gcc
-set(CMAKE_CXX_FLAGS "-D_GLIBCXX_USE_CXX11_ABI=0 -DTHRUST_VARIADIC_TUPLE --std=c++11  -march=native -fPIC -O4 -fopenmp" CACHE STRING "compile flags" FORCE)
+set(CMAKE_CXX_FLAGS "-D_GLIBCXX_USE_CXX11_ABI=0 -DTHRUST_VARIADIC_TUPLE --std=c++11  -march=native -fPIC -O4 ${OpenMP_CXX_FLAGS}" CACHE STRING "compile flags" FORCE)
 
 #including directories
 
@@ -150,38 +154,38 @@ add_custom_target(Hydra_Examples)
 
 # CUDA
 if(BUILD_CUDA_TARGETS)
-add_dependencies(Hydra_Examples
-Hydra_Example_PHSP_Host_OMP_Device_CUDA
-Hydra_Example_Experimental_PHSP_CUDA
-Hydra_Example_Random_Host_OMP_Device_CUDA
-Hydra_Example_Fit_Host_OMP_Device_CUDA
-Hydra_Example_Eval_Host_OMP_Device_CUDA
-)
+    add_dependencies(Hydra_Examples
+    Hydra_Example_PHSP_Host_OMP_Device_CUDA
+    Hydra_Example_Experimental_PHSP_CUDA
+    Hydra_Example_Random_Host_OMP_Device_CUDA
+    Hydra_Example_Fit_Host_OMP_Device_CUDA
+    Hydra_Example_Eval_Host_OMP_Device_CUDA
+    )
 endif(BUILD_CUDA_TARGETS)
 
 # TBB
 if(BUILD_TBB_TARGETS)
 
 add_dependencies(Hydra_Examples
-Hydra_Example_Experimental_TBB_PHSP
-Hydra_Example_PHSP_Host_CPP_Device_TBB
-Hydra_Example_Random_Host_CPP_Device_TBB
-Hydra_Example_Fit_Host_CPP_Device_TBB
-Hydra_Example_Eval_Host_CPP_Device_TBB
-)
+    Hydra_Example_Experimental_PHSP_TBB
+    Hydra_Example_PHSP_Host_CPP_Device_TBB
+    Hydra_Example_Random_Host_CPP_Device_TBB
+    Hydra_Example_Fit_Host_CPP_Device_TBB
+    Hydra_Example_Eval_Host_CPP_Device_TBB
+    )
 endif(BUILD_TBB_TARGETS)
 
 # OMP
-add_dependencies(Hydra_Examples
-Hydra_Example_Experimental_PHSP_OMP
-Hydra_Example_PHSP_Host_CPP_Device_OMP
-Hydra_Example_PHSP_Host_CPP_Device_OMP
-Hydra_Example_Random_Host_CPP_Device_OMP
-Hydra_Example_Fit_Host_CPP_Device_OMP
-Hydra_Example_Fit_Host_CPP_Device_OMP
-Hydra_Example_Eval_Host_CPP_Device_OMP
-)
-
+IF(OPENMP_FOUND)
+    add_dependencies(Hydra_Examples
+    Hydra_Example_Experimental_PHSP_OMP
+    Hydra_Example_PHSP_Host_CPP_Device_OMP
+    Hydra_Example_PHSP_Host_CPP_Device_OMP
+    Hydra_Example_Random_Host_CPP_Device_OMP
+    Hydra_Example_Fit_Host_CPP_Device_OMP
+    Hydra_Example_Fit_Host_CPP_Device_OMP
+    Hydra_Example_Eval_Host_CPP_Device_OMP)   
+ENDIF(OPENMP_FOUND)
 
 
 install(DIRECTORY Hydra

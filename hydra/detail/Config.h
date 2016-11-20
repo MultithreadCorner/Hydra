@@ -35,7 +35,7 @@
 
 #include <thrust/detail/config.h>
 #include <thrust/detail/config/host_device.h>
-#include <omp.h>
+
 
 
 #if defined(__CUDACC__) && !(defined(__CUDA__) && defined(__clang__))
@@ -62,6 +62,10 @@
  #include <vector_functions.h>
  #include <thrust/system/cuda/execution_policy.h>
  #include <thrust/system/cuda/experimental/pinned_allocator.h>
+#endif
+
+#if THRUST_DEVICE_SYSTEM==THRUST_DEVICE_SYSTEM_OMP || THRUST_HOST_SYSTEM==THRUST_HOST_SYSTEM_OMP
+ #include <omp.h>
 #endif
 
 #ifndef HYDRA_CERROR_LOG

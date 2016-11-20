@@ -82,14 +82,14 @@ if(BUILD_TBB_TARGETS)
     #+++++++++++++++++++++++++++++++
     # PHSP generation              |
     #+++++++++++++++++++++++++++++++
-    add_executable(Hydra_Example_Experimental_TBB_PHSP EXCLUDE_FROM_ALL
+    add_executable(Hydra_Example_Experimental_PHSP_TBB EXCLUDE_FROM_ALL
     HydraPhaseSpaceExperimental.cpp
     )
     
-    set_target_properties(Hydra_Example_Experimental_TBB_PHSP PROPERTIES 
+    set_target_properties(Hydra_Example_Experimental_PHSP_TBB PROPERTIES 
     COMPILE_FLAGS "-DTHRUST_HOST_SYSTEM=THRUST_HOST_SYSTEM_CPP -DTHRUST_DEVICE_SYSTEM=THRUST_DEVICE_SYSTEM_TBB ")
     
-    target_link_libraries(Hydra_Example_Experimental_TBB_PHSP
+    target_link_libraries(Hydra_Example_Experimental_PHSP_TBB
     ${ROOT_LIBRARIES}
     tbb
     )
@@ -168,88 +168,89 @@ endif(BUILD_TBB_TARGETS)
 
 
 #+++++++++++++++++++++++++
-# OMP TARGETS           |
+# OMP TARGETS            |
 #+++++++++++++++++++++++++
+IF(OPENMP_FOUND)
 
-#+++++++++++++++++++++++++++++++
-# PHSP generation              |
-#+++++++++++++++++++++++++++++++
-add_executable(Hydra_Example_Experimental_PHSP_OMP EXCLUDE_FROM_ALL
-HydraPhaseSpaceExperimental.cpp
-)
-
-set_target_properties(Hydra_Example_Experimental_PHSP_OMP PROPERTIES 
-COMPILE_FLAGS "-fopenmp -DTHRUST_HOST_SYSTEM=THRUST_HOST_SYSTEM_CPP -DTHRUST_DEVICE_SYSTEM=THRUST_DEVICE_SYSTEM_OMP -lgomp")
-
-target_link_libraries(Hydra_Example_Experimental_PHSP_OMP
-${ROOT_LIBRARIES}
-rt
-)
-
-#+++++++++++++++++++++++++++++++
-# PHSP generation              |
-#+++++++++++++++++++++++++++++++
-add_executable(Hydra_Example_PHSP_Host_CPP_Device_OMP EXCLUDE_FROM_ALL
-HydraPhaseSpaceExample.cpp
-)
-
-set_target_properties(Hydra_Example_PHSP_Host_CPP_Device_OMP PROPERTIES 
-COMPILE_FLAGS "-fopenmp -DTHRUST_HOST_SYSTEM=THRUST_HOST_SYSTEM_CPP -DTHRUST_DEVICE_SYSTEM=THRUST_DEVICE_SYSTEM_OMP -lgomp")
-
-target_link_libraries(Hydra_Example_PHSP_Host_CPP_Device_OMP
-${ROOT_LIBRARIES}
-rt
-)
-
-
-#+++++++++++++++++++++++++++++++
-# PDF sampling                 |
-#+++++++++++++++++++++++++++++++     
-add_executable(Hydra_Example_Random_Host_CPP_Device_OMP EXCLUDE_FROM_ALL
-HydraRandomExample.cpp
-)
-
-set_target_properties(Hydra_Example_Random_Host_CPP_Device_OMP PROPERTIES 
-COMPILE_FLAGS "-fopenmp -DTHRUST_HOST_SYSTEM=THRUST_HOST_SYSTEM_CPP -DTHRUST_DEVICE_SYSTEM=THRUST_DEVICE_SYSTEM_OMP -lgomp")
-
-target_link_libraries(Hydra_Example_Random_Host_CPP_Device_OMP
-${ROOT_LIBRARIES}
-rt
-)
-
-
-#+++++++++++++++++++++++++++++++
-# Data fitting                 |
-#+++++++++++++++++++++++++++++++
-add_executable(Hydra_Example_Fit_Host_CPP_Device_OMP EXCLUDE_FROM_ALL
-HydraFitExample.cpp
-)
-
-set_target_properties(Hydra_Example_Fit_Host_CPP_Device_OMP PROPERTIES 
-COMPILE_FLAGS "-pg -fopenmp -DTHRUST_HOST_SYSTEM=THRUST_HOST_SYSTEM_CPP -DTHRUST_DEVICE_SYSTEM=THRUST_DEVICE_SYSTEM_OMP -lgomp")
-
-target_link_libraries(Hydra_Example_Fit_Host_CPP_Device_OMP
-${ROOT_LIBRARIES}
-rt
-)
-
-
-
-#+++++++++++++++++++++++++++++++
-# Lambda function evaluation   |
-#+++++++++++++++++++++++++++++++	
-add_executable(Hydra_Example_Eval_Host_CPP_Device_OMP EXCLUDE_FROM_ALL
-HydraEvaluateExample.cpp
-)
-
-set_target_properties(Hydra_Example_Eval_Host_CPP_Device_OMP PROPERTIES 
-COMPILE_FLAGS  "-fopenmp -DTHRUST_DEVICE_SYSTEM=THRUST_DEVICE_SYSTEM_CPP -DTHRUST_HOST_SYSTEM=THRUST_HOST_SYSTEM_OMP -lgomp" )
-
-target_link_libraries(Hydra_Example_Eval_Host_CPP_Device_OMP
-${ROOT_LIBRARIES}
-rt
-)
-
+    #+++++++++++++++++++++++++++++++
+    # PHSP generation              |
+    #+++++++++++++++++++++++++++++++
+    add_executable(Hydra_Example_Experimental_PHSP_OMP EXCLUDE_FROM_ALL
+    HydraPhaseSpaceExperimental.cpp
+    )
+    
+    set_target_properties(Hydra_Example_Experimental_PHSP_OMP PROPERTIES 
+    COMPILE_FLAGS "-fopenmp -DTHRUST_HOST_SYSTEM=THRUST_HOST_SYSTEM_CPP -DTHRUST_DEVICE_SYSTEM=THRUST_DEVICE_SYSTEM_OMP -lgomp")
+    
+    target_link_libraries(Hydra_Example_Experimental_PHSP_OMP
+    ${ROOT_LIBRARIES}
+    rt
+    )
+    
+    #+++++++++++++++++++++++++++++++
+    # PHSP generation              |
+    #+++++++++++++++++++++++++++++++
+    add_executable(Hydra_Example_PHSP_Host_CPP_Device_OMP EXCLUDE_FROM_ALL
+    HydraPhaseSpaceExample.cpp
+    )
+    
+    set_target_properties(Hydra_Example_PHSP_Host_CPP_Device_OMP PROPERTIES 
+    COMPILE_FLAGS "-fopenmp -DTHRUST_HOST_SYSTEM=THRUST_HOST_SYSTEM_CPP -DTHRUST_DEVICE_SYSTEM=THRUST_DEVICE_SYSTEM_OMP -lgomp")
+    
+    target_link_libraries(Hydra_Example_PHSP_Host_CPP_Device_OMP
+    ${ROOT_LIBRARIES}
+    rt
+    )
+    
+    
+    #+++++++++++++++++++++++++++++++
+    # PDF sampling                 |
+    #+++++++++++++++++++++++++++++++     
+    add_executable(Hydra_Example_Random_Host_CPP_Device_OMP EXCLUDE_FROM_ALL
+    HydraRandomExample.cpp
+    )
+    
+    set_target_properties(Hydra_Example_Random_Host_CPP_Device_OMP PROPERTIES 
+    COMPILE_FLAGS "-fopenmp -DTHRUST_HOST_SYSTEM=THRUST_HOST_SYSTEM_CPP -DTHRUST_DEVICE_SYSTEM=THRUST_DEVICE_SYSTEM_OMP -lgomp")
+    
+    target_link_libraries(Hydra_Example_Random_Host_CPP_Device_OMP
+    ${ROOT_LIBRARIES}
+    rt
+    )
+    
+    
+    #+++++++++++++++++++++++++++++++
+    # Data fitting                 |
+    #+++++++++++++++++++++++++++++++
+    add_executable(Hydra_Example_Fit_Host_CPP_Device_OMP EXCLUDE_FROM_ALL
+    HydraFitExample.cpp
+    )
+    
+    set_target_properties(Hydra_Example_Fit_Host_CPP_Device_OMP PROPERTIES 
+    COMPILE_FLAGS "-pg -fopenmp -DTHRUST_HOST_SYSTEM=THRUST_HOST_SYSTEM_CPP -DTHRUST_DEVICE_SYSTEM=THRUST_DEVICE_SYSTEM_OMP -lgomp")
+    
+    target_link_libraries(Hydra_Example_Fit_Host_CPP_Device_OMP
+    ${ROOT_LIBRARIES}
+    rt
+    )
+    
+    
+    
+    #+++++++++++++++++++++++++++++++
+    # Lambda function evaluation   |
+    #+++++++++++++++++++++++++++++++	
+    add_executable(Hydra_Example_Eval_Host_CPP_Device_OMP EXCLUDE_FROM_ALL
+    HydraEvaluateExample.cpp
+    )
+    
+    set_target_properties(Hydra_Example_Eval_Host_CPP_Device_OMP PROPERTIES 
+    COMPILE_FLAGS  "-fopenmp -DTHRUST_DEVICE_SYSTEM=THRUST_DEVICE_SYSTEM_CPP -DTHRUST_HOST_SYSTEM=THRUST_HOST_SYSTEM_OMP -lgomp" )
+    
+    target_link_libraries(Hydra_Example_Eval_Host_CPP_Device_OMP
+    ${ROOT_LIBRARIES}
+    rt
+    )
+endif(OPENMP_FOUND)
 
 
 

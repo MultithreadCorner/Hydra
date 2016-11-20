@@ -350,8 +350,6 @@ GInt_t main(int argv, char** argc)
 			cout << result_d[i] << endl;
 		}
 
-		return 0;
-
 
 		hydra::experimental::Events<3, host> P2ABC_Events_h(P2ABC_Events_d);
 

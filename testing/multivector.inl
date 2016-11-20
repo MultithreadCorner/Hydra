@@ -26,15 +26,16 @@
  *      Author: Antonio Augusto Alves Junior
  */
 
-#include "catch/catch.hpp"
+#pragma once
+
 #include <memory>
 #include <limits>
 #include <utility>
 
+#include <hydra/detail/Config.h>
+#include <hydra/Types.h>
 #include <hydra/experimental/multivector.h>
 
-using namespace std;
-using namespace hydra;
 
 TEST_CASE( "multivector","hydra::multivector" ) {
 
