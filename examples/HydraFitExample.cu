@@ -254,7 +254,7 @@ GInt_t main(int argv, char** argc)
 	//get integration
     //Vegas state hold the resources for performing the integration
     VegasState<1> state = VegasState<1>( min, max); // nota bene: the same range of the analisys
-	state.SetVerbose(-1);
+	state.SetVerbose(2);
 	state.SetAlpha(1.75);
 	state.SetIterations(5);
 	state.SetUseRelativeError(1);

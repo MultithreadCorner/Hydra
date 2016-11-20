@@ -51,7 +51,7 @@
 #include <thrust/random.h>
 
 
-using namespace std;
+
 
 namespace hydra {
 

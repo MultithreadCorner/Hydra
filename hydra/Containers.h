@@ -53,7 +53,7 @@
 #include <thrust/complex.h>
 
 
-using namespace std;
+
 
 namespace hydra
 {

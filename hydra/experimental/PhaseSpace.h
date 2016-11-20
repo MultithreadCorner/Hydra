@@ -73,7 +73,7 @@
 #include <thrust/system/omp/execution_policy.h>
 
 
-using namespace std;
+
 
 namespace hydra {
 
@@ -103,7 +103,7 @@ public:
 			fTeCmTm -= daughtersMasses[n];
 
 		if (fTeCmTm < 0.0) {
-			cout << "Not enough energy for this decay. Exit." << endl;
+			std::cout << "Not enough energy for this decay. Exit." << std::endl;
 			exit(1);
 		}
 

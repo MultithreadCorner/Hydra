@@ -40,7 +40,7 @@
 #include <hydra/detail/utility/Utility_Tuple.h>
 #include <thrust/tuple.h>
 #include <thrust/functional.h>
-
+#include <mutex>
 
 
 namespace hydra{
@@ -90,8 +90,9 @@ struct ProcessCallsVegas
 			GReal_t* Xi,
 			GReal_t* XLow,
 			GReal_t* DeltaX,
-			GFloat_t* Distribution/*FunctionCalls*/,
+			GReal_t* Distribution/*FunctionCalls*/,
 			GInt_t Mode,
+			std::mutex *Mutex,
 			FUNCTOR const& functor):
 		fMode(Mode),
 		fSeed(Seed),
@@ -104,7 +105,8 @@ struct ProcessCallsVegas
 		fXLow(XLow),
 		fDeltaX(DeltaX),
 		fDistribution(Distribution),
-		fFunctor(functor)
+		fFunctor(functor),
+		fMutex(Mutex)
 	{}
 
 	__host__ __device__
@@ -120,7 +122,8 @@ struct ProcessCallsVegas
 	fXLow(other.fXLow),
 	fDeltaX(other.fDeltaX),
 	fDistribution(other.fDistribution),
-	fFunctor(other.fFunctor)
+	fFunctor(other.fFunctor),
+	fMutex(other.fMutex)
 	{}
 
 	__host__ __device__
@@ -198,12 +201,12 @@ struct ProcessCallsVegas
 #if __CUDA_ARCH__ >= 600
 					atomicAdd((fDistribution + bin[j]* NDimensions + j) ,  static_cast<double>>(fval*fval));
 #else
-					atomicAdd((fDistribution + bin[j]* NDimensions + j) , static_cast<float>(fval*fval));
+					atomicAdd( (float*)(fDistribution + bin[j]* NDimensions + j) , static_cast<float>(fval*fval));
 #endif
 
 #else
+					std::lock_guard<std::mutex> lock(*fMutex);
 
-#pragma omp atomic
 					*(fDistribution  + bin[j]* NDimensions + j) += static_cast<double>(fval*fval);
 #endif
 				}
@@ -221,12 +224,12 @@ struct ProcessCallsVegas
 #if __CUDA_ARCH__ >= 600
 				atomicAdd((fDistribution + bin[j]*NDimensions+j), static_cast<double>(f_sq_sum));
 #else
-				atomicAdd((fDistribution + bin[j]*NDimensions+j), static_cast<float>(f_sq_sum));
+				atomicAdd((float*)(fDistribution + bin[j]*NDimensions+j), static_cast<float>(f_sq_sum));
 #endif
 
 #else
-
-#pragma omp atomic
+				std::lock_guard<std::mutex> lock(*fMutex);
+//#pragma omp atomic
 				*(fDistribution  + bin[j]* NDimensions + j) += static_cast<double>(f_sq_sum);
 #endif
 			}
@@ -243,13 +246,14 @@ private:
 	size_t  fNBoxesPerDimension;
 	size_t  fNCallsPerBox;
     GReal_t fJacobian;
-    GInt_t  fSeed ;
-    GInt_t fMode;
+    GInt_t  fSeed;
+    GInt_t  fMode;
 
-   GReal_t __restrict__ *fXi;
-   GReal_t __restrict__ *fXLow;
-   GReal_t __restrict__ *fDeltaX;
-   GFloat_t  __restrict__ *fDistribution;
+   GReal_t   __restrict__ *fXi;
+   GReal_t   __restrict__ *fXLow;
+   GReal_t   __restrict__ *fDeltaX;
+   GReal_t  __restrict__ *fDistribution;
+   std::mutex *fMutex;
 
     FUNCTOR fFunctor;
 

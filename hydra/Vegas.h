@@ -42,9 +42,9 @@
 #include <hydra/VegasState.h>
 #include <hydra/detail/functors/ProcessCallsVegas.h>
 #include <hydra/detail/Integrator.h>
+#include <iostream>
 
-
-using boost::format;
+//using boost::format;
 
 namespace hydra {
 
@@ -87,14 +87,14 @@ public:
 	 * it is the desiderable behavior of the integrator in during fits.
 	 */
 	template<typename FUNCTOR >
-	GInt_t Integrate(FUNCTOR const& functor, GBool_t reset=kTrue);
-	void PrintLimits() const;
-	void PrintHead() const;
+	GInt_t Integrate(FUNCTOR const& functor, GBool_t reset=0);
+	void PrintLimits() ;
+	void PrintHead() ;
 	void PrintResults(GReal_t integral, GReal_t sigma,
 			GReal_t cumulated_integral, GReal_t cumulated_sigma,
-			GReal_t time) const;
-	void PrintDistribution() const;
-	void PrintGrid() const;
+			GReal_t time) ;
+	void PrintDistribution() ;
+	void PrintGrid() ;
 
 	inline GReal_t GetAbsError() const {
 		return fAbsError;
@@ -139,7 +139,7 @@ public:
 		return fState.GetXUp().data();
 	}
 
-
+VegasState<N> fState;
 private:
 
 	void InitGrid();
@@ -181,7 +181,7 @@ private:
 	size_t fNCalls;
 	GReal_t fResult;
 	GReal_t fAbsError;
-	VegasState<N> fState;
+
 };
 
 }

@@ -40,8 +40,9 @@
 #include<hydra/detail/functors/ProcessCallsVegas.h>
 #include <chrono>
 #include <thrust/transform_reduce.h>
+#include <iostream>
 
-#define  USE_ORIGINAL_CHISQ_FORMULA 0
+#define  USE_ORIGINAL_CHISQ_FORMULA 1
 
 namespace hydra {
 
@@ -67,13 +68,14 @@ template<size_t N , typename GRND>
 template<typename FUNCTOR >
 GInt_t Vegas< N, GRND >::Integrate(FUNCTOR const& fFunctor, GBool_t reset) {
 
+	//std::cout << "---> Verbose " << fState.GetVerbose() << std::endl;
+
 	if(reset){
 			fState.SetStage(0);
-			fState.ResetState();
+			//fState.ResetState();
 	}
 
 	GReal_t cum_int, cum_sig;
-	//cout <<"stage " <<fState.GetStage() << endl;
 
 
 	if( fState.GetStage() == 0) {
@@ -294,46 +296,46 @@ GInt_t Vegas< N, GRND >::Integrate(FUNCTOR const& fFunctor, GBool_t reset) {
 
 	fResult=cum_int;
 	fAbsError=cum_sig;
-
+std::flush(fState.GetOStream());
 	return 0;
 
 
 }
 
 template<size_t N , typename GRND>
-void Vegas< N , GRND>::PrintLimits() const {
+void Vegas< N , GRND>::PrintLimits() {
 
 
-	fState.GetOStream() << format("The limits of Int_tegration are:\n");
+	fState.GetOStream() << boost::format("The limits of Int_tegration are:\n");
 	for (size_t j = 0; j < N; ++j)
-		fState.GetOStream() <<  format("\nxl[%lu]=%f    xu[%lu]=%f") % j % fState.GetXLow()[j] % j % fState.GetXUp()[j] ;
+		fState.GetOStream() <<  boost::format("\nxl[%lu]=%f    xu[%lu]=%f") % j % fState.GetXLow()[j] % j % fState.GetXUp()[j] ;
 	fState.GetOStream() << std::endl;
 
 
 }
 
 template<size_t N , typename GRND>
-void Vegas< N , GRND>::PrintHead() const {
+void Vegas< N , GRND>::PrintHead() {
 
-	fState.GetOStream() << format("\nnum_dim=%lu, calls=%lu, it_num=%d, max_it_num=%d ") % N
-				% fNCalls % fState.GetItNum() % fState.GetIterations() << endl;
+	fState.GetOStream() << boost::format("\nnum_dim=%lu, calls=%lu, it_num=%d, max_it_num=%d ") % N
+				% fNCalls % fState.GetItNum() % fState.GetIterations() << std::endl;
 
-	fState.GetOStream() <<  format("verb=%d, alph=%.2f,\nmode=%d, bins=%d, boxes=%d\n")
+	fState.GetOStream() <<  boost::format("verb=%d, alph=%.2f,\nmode=%d, bins=%d, boxes=%d\n")
 			% fState.fVerbose % fState.GetAlpha() % fState.GetMode()
-			% fState.GetNBins() % fState.GetNBoxes() << endl;
+			% fState.GetNBins() % fState.GetNBoxes() << std::endl;
 
-	fState.GetOStream() << format("\n            |-------  single iteration  -------|       |------  accumulated results  ------|  \n")<< endl;
+	fState.GetOStream() << boost::format("\n            |-------  single iteration  -------|       |------  accumulated results  ------|  \n")<< std::endl;
 
-	fState.GetOStream() << format("iteration          Integral          Sigma                    Integral        Sigma            chi-sq/it     duration (ms)/it\n\n") << endl;
+	fState.GetOStream() << boost::format("iteration          Integral          Sigma                    Integral        Sigma            chi-sq/it     duration (ms)/it\n\n") << std::endl;
 
 
 }
 
 template<size_t N , typename GRND>
 void Vegas< N , GRND>::PrintResults(GReal_t integral, GReal_t sigma,
-		GReal_t cumulated_integral, GReal_t cumulated_sigma, GReal_t time) const {
+		GReal_t cumulated_integral, GReal_t cumulated_sigma, GReal_t time){
 
-	fState.GetOStream() << format( "%4d           %6.4e          %10.4e              %6.4e           %10.4e           %10.4e        %10.4e ms\n")
+	fState.GetOStream() << boost::format( "%4d           %6.4e          %10.4e              %6.4e           %10.4e           %10.4e        %10.4e ms\n")
 			% fState.GetItNum() % integral % sigma % cumulated_integral
 			% cumulated_sigma % fState.GetChiSquare() % time ;
 
@@ -341,43 +343,46 @@ void Vegas< N , GRND>::PrintResults(GReal_t integral, GReal_t sigma,
 }
 
 template<size_t N, typename GRND >
-void Vegas< N , GRND>::PrintDistribution() const {
+void Vegas< N , GRND>::PrintDistribution() {
 
 	size_t i, j;
+
+	/*
 	if (!fState.GetVerbose())
-		return;
+		return;*/
+
 	for (j = 0; j < N; ++j) {
 
-		fState.GetOStream() << format("\n axis %lu \n") % j ;
-		fState.GetOStream() << format("      x   g\n");
+		fState.GetOStream() << boost::format("\n axis %lu \n") % j ;
+		fState.GetOStream() << boost::format("      x   g\n");
 		for (i = 0; i < fState.GetNBins(); i++) {
-			fState.GetOStream() << format("weight [%11.2e , %11.2e] = ")
+			fState.GetOStream() << boost::format("weight [%11.2e , %11.2e] = ")
 								% GetCoordinate(i, j) % GetCoordinate(i + 1, j);
-			fState.GetOStream() << format(" %11.2e\n") % GetDistributionValue(i, j);
+			fState.GetOStream() << boost::format(" %11.2e\n") % GetDistributionValue(i, j);
 		}
-		fState.GetOStream() << endl ;
+		fState.GetOStream() << std::endl ;
 	}
-	fState.GetOStream() << endl ;
+	fState.GetOStream() << std::endl ;
 
 }
 
 template<size_t N , typename GRND>
-void Vegas< N , GRND>::PrintGrid() const {
+void Vegas< N , GRND>::PrintGrid()  {
 
-
+/*
 	if (!fState.GetVerbose())
-		return;
+		return;*/
 
 	for (size_t j = 0; j < N; ++j) {
-	fState.GetOStream() << format("\n axis %lu \n") % j ;
+	fState.GetOStream() << boost::format("\n axis %lu \n") % j ;
 	fState.GetOStream() << "      x   \n";
 	for (size_t i = 0; i <= fState.GetNBins(); i++) {
-		fState.GetOStream() << format("%11.2e") % GetCoordinate(i, j);
-		if (i % 5 == 4) fState.GetOStream() << endl;
+		fState.GetOStream() << boost::format("%11.2e") % GetCoordinate(i, j);
+		if (i % 5 == 4) fState.GetOStream() << std::endl;
 	}
-	fState.GetOStream() << endl;
+	fState.GetOStream() << std::endl;
 	}
-	fState.GetOStream() << endl;
+	fState.GetOStream() << std::endl;
 
 
 }
@@ -562,8 +567,9 @@ void Vegas< N , GRND>::ProcessFuncionCalls(FUNCTOR const& fFunctor, GReal_t& int
 			const_cast<GReal_t*>(thrust::raw_pointer_cast(fState.GetDeviceXi().data())),
 			const_cast<GReal_t*>(thrust::raw_pointer_cast(fState.GetDeviceXLow().data())),
 			const_cast<GReal_t*>(thrust::raw_pointer_cast(fState.GetDeviceDeltaX().data())),
-			const_cast<GFloat_t*>(thrust::raw_pointer_cast(fState.GetDeviceDistribution().data())),
+			const_cast<GReal_t*>(thrust::raw_pointer_cast(fState.GetDeviceDistribution().data())),
 			fState.GetMode(),
+			fState.GetMutex(),
 			fFunctor),
 			init,
 			detail::ProcessBoxesVegas());

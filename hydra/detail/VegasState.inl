@@ -47,7 +47,7 @@ VegasState<N>::VegasState(std::array<GReal_t,N> const& xlower,
 		fVolume(0),
 		fAlpha(1.7),
 		fMode(MODE_IMPORTANCE),
-		fVerbose(-1),
+		fVerbose(2),
 		fIterations(5),
 		fStage(0),
 		fJacobian(0),
@@ -150,7 +150,7 @@ void VegasState<N>::ResetState()
 		fVolume=0;
 		fAlpha=1.7;
 		fMode=MODE_IMPORTANCE;
-		fVerbose=-1;
+		fVerbose=1;
 		fIterations=5;
 		fStage=0;
 		fJacobian=0;

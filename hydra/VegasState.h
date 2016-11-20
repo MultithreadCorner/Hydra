@@ -36,7 +36,6 @@
 
 
 #include <iostream>
-#include <ostream>
 
 #include <hydra/detail/Config.h>
 #include <hydra/Containers.h>
@@ -45,6 +44,7 @@
 
 #include <thrust/copy.h>
 #include <chrono>
+#include <mutex>
 
 namespace hydra {
 
@@ -77,7 +77,6 @@ public:
 	inline void SetAlpha(GReal_t alpha) {
 		fAlpha = alpha;
 	}
-
 
 	//-----------------------------
 	//CallsPerBox
@@ -166,7 +165,7 @@ public:
 	//Distribution
 
 	__host__
-	inline const mc_host_vector<GFloat_t>& GetDistribution() const {
+	inline const mc_host_vector<GReal_t>& GetDistribution() const {
 		return fDistribution;
 	}
 
@@ -358,8 +357,7 @@ public:
 	//----------------
 	//OStream
 
-	__host__
-	inline std::ostream& GetOStream() const {
+	inline std::ostream& GetOStream()  {
 		return fOStream;
 	}
 
@@ -634,12 +632,16 @@ public:
 		fDeviceXLow = deviceXLow;
 	}
 
-	const mc_device_vector<GFloat_t>& GetDeviceDistribution() const {
+	const mc_device_vector<GReal_t>& GetDeviceDistribution() const {
 		return fDeviceDistribution;
 	}
 
-	GInt_t fVerbose;
+	std::mutex* GetMutex()  {
+		return &fMutex;
+	}
 
+	GInt_t fVerbose;
+std::ostream &fOStream;
 private:
 	/* grid */
 	size_t fNDimensions;
@@ -655,7 +657,8 @@ private:
 	mc_host_vector<GReal_t> fDeltaX;
 	mc_host_vector<GReal_t> fWeight;
 	//mc_host_vector<GReal_t> fX;
-	mc_host_vector<GFloat_t> fDistribution;
+	//mc_host_vector<GFloat_t> fDistribution;
+	mc_host_vector<GReal_t> fDistribution;
 	mc_host_vector<GReal_t> fIterationResult; ///< vector with the result per iteration
 	mc_host_vector<GReal_t> fIterationSigma; ///< vector with the result per iteration
 	mc_host_vector<GReal_t> fCumulatedResult; ///< vector of cumulated results per iteration
@@ -664,7 +667,8 @@ private:
 	//mc_host_vector<GUInt_t> fBox;
 
 	//device
-	mc_device_vector<GFloat_t> fDeviceDistribution;
+
+	mc_device_vector<GReal_t> fDeviceDistribution;
 	mc_device_vector<GReal_t> fDeviceXLow;//initgrid
 	mc_device_vector<GReal_t> fDeviceXi;//CopyStateToDevice
 	mc_device_vector<GReal_t> fDeviceDeltaX;//initgrid
@@ -693,7 +697,8 @@ private:
 	GReal_t fMaxError; ///< max error
 	GBool_t fUseRelativeError; ///< use relative error as convergence criteria
 
-	std::ostream &fOStream;
+	std::mutex fMutex;
+
 
 };
 
