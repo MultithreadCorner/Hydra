@@ -50,8 +50,9 @@ namespace hydra {
 
 
 
-template<size_t N, typename GRND=thrust::random::default_random_engine >
-class Vegas : public Integrator<Vegas<N,GRND>, N>{
+template<size_t N, typename FUNCTOR, typename GRND=thrust::random::default_random_engine >
+class Vegas : public Integrator<Vegas<N,FUNCTOR,GRND>, N>
+{
 public:
 
 	//tag
@@ -64,7 +65,8 @@ public:
 	 * Look the documentation of VegasState to see the state parameters initialization
 	 */
 	Vegas(std::array<GReal_t,N> const& xlower,
-			std::array<GReal_t,N> const& xupper, size_t calls);
+		  std::array<GReal_t,N> const& xupper,
+		  size_t calls);
 
 	/**
 	 *\brief Vegas ctor taking a VegasState object and the number of calls
@@ -89,8 +91,12 @@ public:
 	 *\param reset: reset the integrator state between calls,
 	 * it is the desiderable behavior of the integrator in during fits.
 	 */
-	template<typename FUNCTOR >
-	GInt_t Integrate(FUNCTOR const& functor, GBool_t reset=0);
+
+	GInt_t Integrate(FUNCTOR const& functor,
+			std::array<GReal_t,N> const& xlower,
+			std::array<GReal_t,N> const& xupper,
+			size_t calls );
+
 	void PrintLimits() ;
 	void PrintHead() ;
 	void PrintResults(GReal_t integral, GReal_t sigma,
@@ -142,7 +148,6 @@ public:
 		return fState.GetXUp().data();
 	}
 
-VegasState<N> fState;
 private:
 
 	void InitGrid();
@@ -180,8 +185,8 @@ private:
 		fState.SetDistribution(i * N + j, x);
 	}
 
-
-	size_t fNCalls;
+	VegasState<N> fState;
+	size_t  fNCalls;
 	GReal_t fResult;
 	GReal_t fAbsError;
 

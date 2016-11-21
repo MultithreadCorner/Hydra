@@ -50,8 +50,8 @@ struct Integrator{
 	{};
 
 	template<typename FUNCTOR>
-	__host__ inline
-	thrust::pair<GReal_t, GReal_t> GetIntegral( FUNCTOR const& fFunctor ){
+	__host__
+	inline thrust::pair<GReal_t, GReal_t> GetIntegral( FUNCTOR const& fFunctor ){
 
 	   static_cast<ALGORITHM*>(this)->Integrate(fFunctor );
 
