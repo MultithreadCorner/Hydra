@@ -36,8 +36,8 @@
 #define VEGAS_INL_
 
 #include "boost/format.hpp"
-#include<hydra/VegasState.h>
-#include<hydra/detail/functors/ProcessCallsVegas.h>
+#include <hydra/VegasState.h>
+#include <hydra/detail/functors/ProcessCallsVegas.h>
 #include <chrono>
 #include <thrust/transform_reduce.h>
 #include <iostream>
@@ -72,7 +72,6 @@ GInt_t Vegas< N, GRND >::Integrate(FUNCTOR const& fFunctor, GBool_t reset) {
 
 	if(reset){
 			fState.SetStage(0);
-			//fState.ResetState();
 	}
 
 	GReal_t cum_int, cum_sig;

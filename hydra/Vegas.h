@@ -54,6 +54,9 @@ template<size_t N, typename GRND=thrust::random::default_random_engine >
 class Vegas : public Integrator<Vegas<N,GRND>, N>{
 public:
 
+	//tag
+	typedef void hydra_numerical_integrator_tag;
+
 	Vegas()=delete;
 
 	/**

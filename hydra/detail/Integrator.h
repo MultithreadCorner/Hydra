@@ -43,8 +43,6 @@ namespace hydra {
 template<typename ALGORITHM, size_t N>
 struct Integrator{
 
-	//tag
-	typedef void hydra_integrator_tag;
 
 	static const size_t dimension=N;
 
@@ -70,10 +68,8 @@ struct Integrator{
 
 	}
 
-
-
-
 };
+
 
 
 }  // namespace hydra
