@@ -45,6 +45,7 @@
 #include <hydra/PointVector.h>
 //
 #include <thrust/copy.h>
+#include <thrust/count.h>
 #include <thrust/random.h>
 #include <thrust/distance.h>
 #include <thrust/extrema.h>
