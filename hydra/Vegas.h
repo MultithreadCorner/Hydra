@@ -50,52 +50,22 @@ namespace hydra {
 
 
 
-template<size_t N, typename FUNCTOR, typename GRND=thrust::random::default_random_engine >
-class Vegas : public Integrator<Vegas<N,FUNCTOR,GRND>, N>
+template<typename FUNCTOR, size_t N,  typename GRND=thrust::random::default_random_engine >
+class Vegas : public Integrator<Vegas<FUNCTOR,N,GRND>, N>
 {
 public:
 
 	//tag
 	typedef void hydra_numerical_integrator_tag;
 
-	Vegas()=delete;
+	Vegas(){};
 
-	/**
-	 *\brief Vegas ctor taking the region of integration and the number of calls
-	 * Look the documentation of VegasState to see the state parameters initialization
-	 */
-	Vegas(std::array<GReal_t,N> const& xlower,
-		  std::array<GReal_t,N> const& xupper,
-		  size_t calls);
-
-	/**
-	 *\brief Vegas ctor taking a VegasState object and the number of calls
-	 * Look the documentation of VegasState to see how to set the state parameters
-	 */
-	Vegas(VegasState<N> const& state, size_t calls);
-
-	/**
-	 *\brief Vegas copy-ctor
-	 */
-	template<typename GRND2>
-	Vegas( Vegas<N, GRND2> const& other):
-		fNCalls(other.GetNCalls()),
-		fResult(other.GetResult()),
-		fAbsError(other.GetAbsError()),
-		fState(other.GetState())
+	template<typename FUNCTOR, size_t N, typename GRND2>
+	Vegas( Vegas<FUNCTOR, N, GRND2> const& other):
+	Integrator<Vegas<FUNCTOR,N,GRND>, N>(other),
+	fState(other.GetState())
 	{}
 
-	/**
-	 *\brief Integrate the functor in the volume defined in construction time.
-	 *\param functor: integrand.
-	 *\param reset: reset the integrator state between calls,
-	 * it is the desiderable behavior of the integrator in during fits.
-	 */
-
-	GInt_t Integrate(FUNCTOR const& functor,
-			std::array<GReal_t,N> const& xlower,
-			std::array<GReal_t,N> const& xupper,
-			size_t calls );
 
 	void PrintLimits() ;
 	void PrintHead() ;
@@ -105,50 +75,21 @@ public:
 	void PrintDistribution() ;
 	void PrintGrid() ;
 
-	inline GReal_t GetAbsError() const {
-		return fAbsError;
-	}
 
-	inline void SetAbsError(GReal_t absError) {
-		fAbsError = absError;
-	}
-
-	inline size_t GetNCalls() const {
-		return fNCalls;
-	}
-
-	inline void SetNCalls(size_t nCalls) {
-		fNCalls = nCalls;
-	}
-
-
-	inline GReal_t GetResult() const {
-		return fResult;
-	}
-
-	inline void SetResult(GReal_t result) {
-		fResult = result;
-	}
-
-	inline VegasState<N>& GetState()  {
+	VegasState<N>& GetState()  {
 		return fState;
 	}
 
-	inline void SetState(const VegasState<N>* state) {
+	void SetState(VegasState<N> const& state) {
 		fState = state;
 	}
 
-	__host__
-		inline const GReal_t* GetLowerLimit() const {
-			return fState.GetXLow().data();
-		}
-
-	__host__
-	inline const GReal_t* GetUpperLimit() const {
-		return fState.GetXUp().data();
-	}
-
 private:
+
+	thrust::pair<GReal_t, GReal_t> Integrate(FUNCTOR const& functor,
+			std::array<GReal_t,N> const& xlower,
+			std::array<GReal_t,N> const& xupper,
+			size_t calls );
 
 	void InitGrid();
 	void ResetGridValues();
@@ -156,7 +97,7 @@ private:
 
 	void ResizeGrid(const GInt_t bins);
 	void RefineGrid();
-	template<typename FUNCTOR >
+
 	void ProcessFuncionCalls(FUNCTOR const& functor, GReal_t& integral, GReal_t& tss);
 
 
@@ -186,9 +127,6 @@ private:
 	}
 
 	VegasState<N> fState;
-	size_t  fNCalls;
-	GReal_t fResult;
-	GReal_t fAbsError;
 
 };
 

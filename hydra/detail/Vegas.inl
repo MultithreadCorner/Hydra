@@ -46,29 +46,11 @@
 
 namespace hydra {
 
-template<size_t N , typename GRND>
-Vegas< N, GRND>::Vegas(std::array<GReal_t,N> const& xlower,
-		std::array<GReal_t,N> const& xupper, size_t calls):
-		fNCalls(calls),
-		fState(VegasState<N>(xlower, xupper)),
-		fResult(-1.0),
-		fAbsError(-1.0)
-		{}
 
 
-template<size_t N, typename GRND >
-Vegas< N , GRND>::Vegas( VegasState<N> const& state, size_t calls) :
-				 fNCalls(calls),
-				 fState(state),
-				 fResult(-1.0),
-				 fAbsError(-1.0){}
+template<typename FUNCTOR, size_t N , typename GRND>
+GInt_t Vegas<FUNCTOR, N, GRND >::Integrate(FUNCTOR const& fFunctor, GBool_t reset) {
 
-
-template<size_t N , typename GRND>
-template<typename FUNCTOR >
-GInt_t Vegas< N, GRND >::Integrate(FUNCTOR const& fFunctor, GBool_t reset) {
-
-	//std::cout << "---> Verbose " << fState.GetVerbose() << std::endl;
 
 	if(reset){
 			fState.SetStage(0);
@@ -293,16 +275,14 @@ GInt_t Vegas< N, GRND >::Integrate(FUNCTOR const& fFunctor, GBool_t reset) {
 	}
 	else fState.SetStage(1);
 
-	fResult=cum_int;
-	fAbsError=cum_sig;
-std::flush(fState.GetOStream());
-	return 0;
+
+	return thrust::make_pair(um_int, cum_sig);
 
 
 }
 
-template<size_t N , typename GRND>
-void Vegas< N , GRND>::PrintLimits() {
+template<typename FUNCTOR, size_t N , typename GRND>
+void Vegas< FUNCTOR, N , GRND>::PrintLimits() {
 
 
 	fState.GetOStream() << boost::format("The limits of Int_tegration are:\n");
@@ -313,8 +293,8 @@ void Vegas< N , GRND>::PrintLimits() {
 
 }
 
-template<size_t N , typename GRND>
-void Vegas< N , GRND>::PrintHead() {
+template<typename FUNCTOR, size_t N , typename GRND>
+void Vegas<FUNCTOR,  N , GRND>::PrintHead() {
 
 	fState.GetOStream() << boost::format("\nnum_dim=%lu, calls=%lu, it_num=%d, max_it_num=%d ") % N
 				% fNCalls % fState.GetItNum() % fState.GetIterations() << std::endl;
@@ -330,8 +310,8 @@ void Vegas< N , GRND>::PrintHead() {
 
 }
 
-template<size_t N , typename GRND>
-void Vegas< N , GRND>::PrintResults(GReal_t integral, GReal_t sigma,
+template<typename FUNCTOR, size_t N , typename GRND>
+void Vegas< FUNCTOR, N , GRND>::PrintResults(GReal_t integral, GReal_t sigma,
 		GReal_t cumulated_integral, GReal_t cumulated_sigma, GReal_t time){
 
 	fState.GetOStream() << boost::format( "%4d           %6.4e          %10.4e              %6.4e           %10.4e           %10.4e        %10.4e ms\n")
@@ -341,8 +321,8 @@ void Vegas< N , GRND>::PrintResults(GReal_t integral, GReal_t sigma,
 
 }
 
-template<size_t N, typename GRND >
-void Vegas< N , GRND>::PrintDistribution() {
+template<typename FUNCTOR, size_t N, typename GRND >
+void Vegas<FUNCTOR,  N , GRND>::PrintDistribution() {
 
 	size_t i, j;
 
@@ -365,8 +345,8 @@ void Vegas< N , GRND>::PrintDistribution() {
 
 }
 
-template<size_t N , typename GRND>
-void Vegas< N , GRND>::PrintGrid()  {
+template<typename FUNCTOR, size_t N , typename GRND>
+void Vegas< FUNCTOR, N , GRND>::PrintGrid()  {
 
 /*
 	if (!fState.GetVerbose())
@@ -386,8 +366,8 @@ void Vegas< N , GRND>::PrintGrid()  {
 
 }
 
-template<size_t N , typename GRND>
-void Vegas< N , GRND>::InitGrid() {
+template<typename FUNCTOR, size_t N , typename GRND>
+void Vegas< FUNCTOR, N , GRND>::InitGrid() {
 
 	GReal_t vol = 1.0;
 
@@ -406,8 +386,8 @@ void Vegas< N , GRND>::InitGrid() {
 	fState.SendGridToDevice();
 }
 
-template<size_t N, typename GRND >
-void Vegas< N , GRND>::ResetGridValues() {
+template<typename FUNCTOR, size_t N, typename GRND >
+void Vegas<FUNCTOR,  N , GRND>::ResetGridValues() {
 
 	for (size_t i = 0; i < fState.GetNBins(); i++) {
 		for (size_t j = 0; j < N; j++) {
@@ -416,16 +396,16 @@ void Vegas< N , GRND>::ResetGridValues() {
 	}
 }
 
-template<size_t N , typename GRND>
-void Vegas< N , GRND>::InitBoxCoordinates() {
+template<typename FUNCTOR, size_t N , typename GRND>
+void Vegas< FUNCTOR, N , GRND>::InitBoxCoordinates() {
 
 	//for (size_t i = 0; i < N; i++)
 		//fState.SetBox(i, 0);
 }
 
 
-template<size_t N, typename GRND >
-void Vegas< N , GRND>::ResizeGrid(const GInt_t bins) {
+template<typename FUNCTOR, size_t N, typename GRND >
+void Vegas< FUNCTOR, N , GRND>::ResizeGrid(const GInt_t bins) {
 
 
 
@@ -461,8 +441,8 @@ void Vegas< N , GRND>::ResizeGrid(const GInt_t bins) {
 
 }
 
-template<size_t N , typename GRND>
-void Vegas< N, GRND >::RefineGrid() {
+template<typename FUNCTOR, size_t N , typename GRND>
+void Vegas<FUNCTOR,  N, GRND >::RefineGrid() {
 
 
 		for (size_t j = 0; j < N; j++) {
@@ -542,9 +522,8 @@ void Vegas< N, GRND >::RefineGrid() {
 
 }
 
-template<size_t N , typename GRND>
-template<typename FUNCTOR>
-void Vegas< N , GRND>::ProcessFuncionCalls(FUNCTOR const& fFunctor, GReal_t& integral, GReal_t& tss)
+template<typename FUNCTOR, size_t N , typename GRND>
+void Vegas<FUNCTOR,  N , GRND>::ProcessFuncionCalls(FUNCTOR const& fFunctor, GReal_t& integral, GReal_t& tss)
 {
 	size_t NBoxes_Total     = fState.GetCallsPerBox()*pow(fState.GetNBoxes(), N);
 
