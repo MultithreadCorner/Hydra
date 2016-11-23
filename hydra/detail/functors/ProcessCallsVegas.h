@@ -246,10 +246,10 @@ private:
     GInt_t  fSeed ;
     GInt_t fMode;
 
-   GReal_t __restrict__ *fXi;
-   GReal_t __restrict__ *fXLow;
-   GReal_t __restrict__ *fDeltaX;
-   GFloat_t  __restrict__ *fDistribution;
+   GReal_t* __restrict__ fXi;
+   GReal_t* __restrict__ fXLow;
+   GReal_t* __restrict__ fDeltaX;
+   GFloat_t*  __restrict__ fDistribution;
 
     FUNCTOR fFunctor;
 
