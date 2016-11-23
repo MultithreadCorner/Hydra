@@ -93,8 +93,8 @@ struct ProcessCallsPlainUnary
 	}
 
 	FUNCTOR fFunctor;
-	GReal_t __restrict__ *fXLow;
-	GReal_t __restrict__ *fDeltaX;
+	GReal_t* __restrict__ fXLow;
+	GReal_t* __restrict__ fDeltaX;
 };
 
 
