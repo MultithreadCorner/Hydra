@@ -47,6 +47,8 @@
 #include <stdio.h>
 
 #include <thrust/copy.h>
+#include <thrust/count.h>
+#include <thrust/extrema.h>
 
 #include <hydra/detail/Config.h>
 #include <hydra/Types.h>
