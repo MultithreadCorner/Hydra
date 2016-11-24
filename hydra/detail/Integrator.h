@@ -44,29 +44,17 @@ template<typename ALGORITHM, size_t N>
 struct Integrator{
 
 
-	static const size_t dimension=N;
-
-	Integrator()
-	{};
-
 	template<typename FUNCTOR>
-	__host__
-	inline thrust::pair<GReal_t, GReal_t> GetIntegral( FUNCTOR const& fFunctor ){
+	inline thrust::pair<GReal_t, GReal_t> operator()( FUNCTOR const& functor,
+			std::array<GReal_t,N> const& xlower,
+			std::array<GReal_t,N> const& xupper,
+			size_t calls ){
 
-	   static_cast<ALGORITHM*>(this)->Integrate(fFunctor );
-
-	   return thrust::make_pair( static_cast<ALGORITHM*>(this)->GetResult(),
-	    		static_cast<ALGORITHM*>(this)->GetAbsError() );
-	}
-
-
-	__host__ inline
-	thrust::pair<const GReal_t*, const GReal_t*> GetLimits( )
-	{
-		return thrust::make_pair( static_cast<ALGORITHM*>(this)->GetLowerLimit(),
-				static_cast<ALGORITHM*>(this)->GetUpperLimit() );
+	return static_cast<ALGORITHM*>(this)->Integrate(functor, xlower, xupper, calls);
 
 	}
+
+
 
 };
 

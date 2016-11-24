@@ -50,8 +50,8 @@ namespace hydra {
 
 
 
-template<typename FUNCTOR, size_t N,  typename GRND=thrust::random::default_random_engine >
-class Vegas : public Integrator<Vegas<FUNCTOR,N,GRND>, N>
+template<size_t N,  typename GRND=thrust::random::default_random_engine >
+class Vegas : public Integrator<Vegas<N,GRND>, N>
 {
 public:
 
@@ -60,9 +60,9 @@ public:
 
 	Vegas(){};
 
-	template<typename FUNCTOR, size_t N, typename GRND2>
-	Vegas( Vegas<FUNCTOR, N, GRND2> const& other):
-	Integrator<Vegas<FUNCTOR,N,GRND>, N>(other),
+	template<size_t N, typename GRND2>
+	Vegas( Vegas< N, GRND2> const& other):
+	Integrator<Vegas<N,GRND>, N>(other),
 	fState(other.GetState())
 	{}
 
@@ -85,7 +85,7 @@ public:
 	}
 
 private:
-
+	template<typename FUNCTOR>
 	thrust::pair<GReal_t, GReal_t> Integrate(FUNCTOR const& functor,
 			std::array<GReal_t,N> const& xlower,
 			std::array<GReal_t,N> const& xupper,

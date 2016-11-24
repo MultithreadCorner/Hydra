@@ -54,15 +54,24 @@ namespace hydra
 
 namespace detail {
 
-template<typename FUNCTOR, typename INTEGRATOR>
+template< typename FUNCTOR, typename INTEGRATOR, size_t N>
 struct PdfBase: std::enable_if< detail::is_hydra_functor<FUNCTOR>::value &&
-detail::is_hydra_integrator<INTEGRATOR>::value>{};
+detail::is_hydra_numerical_integrator<INTEGRATOR>::value &&(N>0)>{};
 
 
 }// namespace detail
 
-template<typename FUNCTOR, typename INTEGRATOR>
-struct Pdf:detail::PdfBase<FUNCTOR, INTEGRATOR>
+
+/**
+ * \brief Class describing probability density functions.
+ * In Hydra, a PDF has 3 componontes
+ *
+ *  1. not normalized functor, describing the shape
+ *  2. integration algorithm, normalizes the functor
+ *  3. volume of integration
+ */
+template<typename FUNCTOR, typename INTEGRATOR, size_t N>
+struct Pdf:detail::PdfBase<FUNCTOR, INTEGRATOR,N>
 {
 	//tag
 	typedef void hydra_pdf_tag;
@@ -70,75 +79,49 @@ struct Pdf:detail::PdfBase<FUNCTOR, INTEGRATOR>
 	//this typedef is actually a check. If the Pdf is not built with
 	//hydra::functor, PdfBase::type will not be defined and compilation
 	//will fail
-	typedef typename detail::PdfBase<FUNCTOR, INTEGRATOR>::type base_type;
+	typedef typename detail::PdfBase<FUNCTOR, INTEGRATOR, N>::type base_type;
 
 
-
-	template<typename U=FUNCTOR>
-	__host__ __device__
-	Pdf(U const& functor,  INTEGRATOR* integrator):
+	Pdf(FUNCTOR const& functor,  INTEGRATOR const& integrator,
+			std::array<GReal_t,N> const& xlower,
+			std::array<GReal_t,N> const& xupper,
+			size_t calls = 10000):
 	fIntegrator(integrator),
 	fFunctor(functor),
-	fNorm(1.0)
-	{
-/*
-#ifndef __CUDA_ARCH__
-		fNormCache = norm_cache_type(new std::unordered_map<size_t, GReal_t>());
-		//fIntegrator->Integrate(functor, 1);
-		//fNorm=fIntegrator->GetResult();
-
-#endif
-*/
-	}
-
-	//__hydra_exec_check_disable__
-	__host__ __device__
-	Pdf(Pdf<FUNCTOR,INTEGRATOR> const& other):
-	fIntegrator(other.GetIntegrator()),
-	fFunctor(other.GetFunctor()),
-	fNorm(other.GetNorm())
-	{
-/*
-#ifndef __CUDA_ARCH__
-		fNormCache= other.GetNormCache();
-#endif
-*/
-	}
+	fXLow(xlower),
+	fXUp(xupper),
+	fNorm(1.0),
+	fCalls(calls)
+	{ }
 
 
-	__host__ __device__
-	~Pdf(){	}
+	Pdf(Pdf<FUNCTOR,INTEGRATOR,N> const& other):
+		fIntegrator(other.GetIntegrator()),
+		fFunctor(other.GetFunctor()),
+		fXLow(other.GetXLow() ),
+		fXUp(other.GetXUp() ),
+		fNorm(other.GetNorm() ),
+		fCalls(other.GetCalls() )
+	{ }
 
-	__host__ __device__ inline
-	Pdf<FUNCTOR,INTEGRATOR>&
-	operator=(Pdf<FUNCTOR, INTEGRATOR> const & other )
+
+	inline Pdf<FUNCTOR,INTEGRATOR,N>&
+	operator=(Pdf<FUNCTOR, INTEGRATOR,N> const & other )
 	{
 		if(this == &other) return *this;
 
-		this->fNorm = other.GetNorm();
-		this->fFunctor=other.GetFunctor();
+		this->fXLow  = other.GetXLow() ;
+		this->fXUp   = other.GetXUp() ;
+		this->fNorm  = other.GetNorm() ;
+		this->fCalls = other.GetCalls() ;
+		this->fFunctor    = other.GetFunctor();
 		this->fIntegrator = other.GetIntegrator();
-		/*
-#ifndef __CUDA_ARCH__
-		this->fNormCache=other.GetNormCache();
-#endif
-*/
+
 		return *this;
 	}
 
-/*
-	norm_cache_type GetNormCache() const {
-		return fNormCache;
-	}
 
-	__host__ inline
-	void SetNormCache(norm_cache_type normCache) {
-		fNormCache = normCache;
-	}
-*/
-
-	__host__ inline
-	void PrintRegisteredParameters()
+	inline	void PrintRegisteredParameters()
 	{
 		HYDRA_CALLER ;
 		HYDRA_MSG << "Registered parameters begin:" << HYDRA_ENDL;
@@ -147,18 +130,17 @@ struct Pdf:detail::PdfBase<FUNCTOR, INTEGRATOR>
 		HYDRA_MSG << HYDRA_ENDL;
 	}
 
-	__host__ inline
-	void SetParameters(const std::vector<double>& parameters){
+	inline	void SetParameters(const std::vector<double>& parameters){
 
 		fFunctor.SetParameters(parameters);
-		UpdateNorm(parameters);
+		fNorm =	thrust::get<0>(fIntegrator(fFunctor, fXLow, fXUp, fCalls));
+
 
 		return;
 	}
 
 
-	__host__ inline
-	void UpdateNorm( const std::vector<double>& parameters ) const
+	inline void UpdateNorm( const std::vector<double>& parameters ) const
 	{
 
 		GReal_t value = EvalIntegral();
@@ -171,19 +153,24 @@ struct Pdf:detail::PdfBase<FUNCTOR, INTEGRATOR>
 
 
 	}
-	__host__ __device__ inline
-	INTEGRATOR* GetIntegrator() const {
+
+	inline	INTEGRATOR& GetIntegrator() {
 		return fIntegrator;
 	}
 
-	__host__ inline
-	void SetIntegrator(INTEGRATOR* integrator) {
+	inline	INTEGRATOR& GetIntegrator() const {
+		return fIntegrator;
+	}
+
+	inline 	void SetIntegrator(INTEGRATOR const& integrator) {
 		fIntegrator = integrator;
 	}
-	__host__ __device__ inline
-	FUNCTOR GetFunctor() const {
+
+	inline	FUNCTOR GetFunctor() const {
 		return fFunctor;
 	}
+
+
 	__host__ __device__ inline
 	void SetFunctor(FUNCTOR functor) {
 		fFunctor = functor;
@@ -269,10 +256,13 @@ private:
 		return 1.0;
 	}
 
-	mutable GReal_t fNorm;
+
 	FUNCTOR fFunctor;
-	INTEGRATOR* fIntegrator;
-	//norm_cache_type fNormCache;
+	INTEGRATOR fIntegrator;
+	std::array<GReal_t,N> fXLow;
+	std::array<GReal_t,N> fXUp;
+	mutable GReal_t fNorm;
+	size_t fCalls;
 };
 
 //get pdf from functor expression
