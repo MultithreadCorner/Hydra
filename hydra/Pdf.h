@@ -162,19 +162,11 @@ struct Pdf:detail::PdfBase<FUNCTOR, INTEGRATOR,N>
 		return fIntegrator;
 	}
 
-	inline 	void SetIntegrator(INTEGRATOR const& integrator) {
-		fIntegrator = integrator;
-	}
-
 	inline	FUNCTOR GetFunctor() const {
 		return fFunctor;
 	}
 
 
-	__host__ __device__ inline
-	void SetFunctor(FUNCTOR functor) {
-		fFunctor = functor;
-	}
 	__host__ __device__ inline
 	GReal_t GetNorm() const {
 		return fNorm;

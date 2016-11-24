@@ -46,20 +46,17 @@
 
 namespace hydra {
 
-
-
-template< size_t N , typename GRND>
-template<typename FUNCTOR>
-thrust::pair<GReal_t, GReal_t> Vegas< N, GRND >::Integrate(FUNCTOR const& functor,
+template<typename FUNCTOR, size_t N , typename GRND>
+thrust::pair<GReal_t, GReal_t>  Vegas<FUNCTOR, N, GRND >::Integrate(FUNCTOR const& functor,
 		std::array<GReal_t,N> const& xlower,
 		std::array<GReal_t,N> const& xupper,
-		size_t calls ) {
+		size_t calls )
+{
 
-/*
-	if(reset){
-			fState.SetStage(0);
-	}
-	*/
+
+
+	fState.SetStage(0);
+
 
 	GReal_t cum_int, cum_sig;
 
@@ -274,13 +271,17 @@ thrust::pair<GReal_t, GReal_t> Vegas< N, GRND >::Integrate(FUNCTOR const& functo
 
 	/* By setting stage to 1 further calls will generate independent
 	 estimates based on the same grid, although it may be rebinned. */
-/*
+
+
+	/*
+
 	if(reset){
 		fState.SetStage(0);
-	}*/
+	}
 
 	else fState.SetStage(1);
-
+	*/
+	fState.SetStage(1);
 
 	return thrust::make_pair(um_int, cum_sig);
 

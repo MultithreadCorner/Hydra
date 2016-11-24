@@ -34,7 +34,7 @@
 #ifndef VEGAS_H_
 #define VEGAS_H_
 
-
+#include <iostream>
 #include "boost/format.hpp"
 
 #include <hydra/detail/Config.h>
@@ -42,9 +42,7 @@
 #include <hydra/VegasState.h>
 #include <hydra/detail/functors/ProcessCallsVegas.h>
 #include <hydra/detail/Integrator.h>
-#include <iostream>
 
-//using boost::format;
 
 namespace hydra {
 
@@ -67,13 +65,10 @@ public:
 	{}
 
 
-	void PrintLimits() ;
-	void PrintHead() ;
-	void PrintResults(GReal_t integral, GReal_t sigma,
-			GReal_t cumulated_integral, GReal_t cumulated_sigma,
-			GReal_t time) ;
-	void PrintDistribution() ;
-	void PrintGrid() ;
+	void PrintLimits() const ;
+	void PrintHead() const  ;
+	void PrintDistribution()  const ;
+	void PrintGrid()  const ;
 
 
 	VegasState<N>& GetState()  {
@@ -90,6 +85,10 @@ private:
 			std::array<GReal_t,N> const& xlower,
 			std::array<GReal_t,N> const& xupper,
 			size_t calls );
+
+	void PrintResults(GReal_t integral, GReal_t sigma,
+			GReal_t cumulated_integral, GReal_t cumulated_sigma,
+			GReal_t time) const  ;
 
 	void InitGrid();
 	void ResetGridValues();
