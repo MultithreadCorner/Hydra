@@ -70,6 +70,7 @@ detail::is_hydra_numerical_integrator<INTEGRATOR>::value &&(N>0)>{};
  *  2. integration algorithm, normalizes the functor
  *  3. volume of integration
  */
+
 template<typename FUNCTOR, typename INTEGRATOR, size_t N>
 struct Pdf:detail::PdfBase<FUNCTOR, INTEGRATOR,N>
 {
@@ -90,9 +91,10 @@ struct Pdf:detail::PdfBase<FUNCTOR, INTEGRATOR,N>
 	fFunctor(functor),
 	fXLow(xlower),
 	fXUp(xupper),
-	fNorm(1.0),
 	fCalls(calls)
-	{ }
+	{
+		fNorm =	thrust::get<0>( fIntegrator(fFunctor, fXLow, fXUp, fCalls) );
+	}
 
 
 	Pdf(Pdf<FUNCTOR,INTEGRATOR,N> const& other):
@@ -133,26 +135,11 @@ struct Pdf:detail::PdfBase<FUNCTOR, INTEGRATOR,N>
 	inline	void SetParameters(const std::vector<double>& parameters){
 
 		fFunctor.SetParameters(parameters);
-		fNorm =	thrust::get<0>(fIntegrator(fFunctor, fXLow, fXUp, fCalls));
-
+		fNorm =	thrust::get<0>( fIntegrator(fFunctor, fXLow, fXUp, fCalls) );
 
 		return;
 	}
 
-
-	inline void UpdateNorm( const std::vector<double>& parameters ) const
-	{
-
-		GReal_t value = EvalIntegral();
-		fNorm = value;
-		if (INFO >= hydra::Print::Level()){
-			std::ostringstream stringStream;
-			stringStream << "Setting fNorm to value " << fNorm ;
-			HYDRA_LOG(INFO, stringStream.str().c_str() )
-		}
-
-
-	}
 
 	inline	INTEGRATOR& GetIntegrator() {
 		return fIntegrator;
@@ -162,39 +149,67 @@ struct Pdf:detail::PdfBase<FUNCTOR, INTEGRATOR,N>
 		return fIntegrator;
 	}
 
-	inline	FUNCTOR GetFunctor() const {
+	inline	FUNCTOR& GetFunctor() const {
 		return fFunctor;
 	}
 
 
-	__host__ __device__ inline
-	GReal_t GetNorm() const {
+	 inline GReal_t GetNorm() const {
 		return fNorm;
 	}
-	__host__ __device__ inline
-	void SetNorm( GReal_t norm) {
-		fNorm = norm;
+
+	inline	void SetNorm( )
+	{
+		fNorm = thrust::get<0>( fIntegrator(fFunctor, fXLow, fXUp, fCalls) );
+	}
+
+	size_t GetCalls() const
+	{
+		return fCalls;
+	}
+
+	void SetCalls(size_t calls)
+	{
+		fCalls = calls;
+	}
+
+
+	std::array<GReal_t,N> GetXLow() const
+	{
+		return fXLow;
+	}
+
+	void SetXLow(std::array<GReal_t,N> const& xLow)
+	{
+		fXLow = xLow;
+	}
+
+	std::array<GReal_t,N> GetXUp() const
+	{
+		return fXUp;
+	}
+
+	void SetXUp(std::array<GReal_t,N> const& xUp)
+	{
+		fXUp = xUp;
 	}
 
  	template<typename T1>
-  	__host__ __device__ inline
-  	GReal_t operator()(T1&& t )
+  	inline  	GReal_t operator()(T1&& t )
   	{
   		return fFunctor(t)/fNorm;
 
   	}
 
   	template<typename T1, typename T2>
-  	__host__ __device__  inline
-  	GReal_t operator()( T1&& t, T2&& cache)
+  	inline  	GReal_t operator()( T1&& t, T2&& cache)
   	{
 
   		return fFunctor(t, cache)/fNorm;
   	}
 
   	template<typename T>
-  	  	__host__ __device__ inline
-  	  GReal_t operator()( T* x, T* p)
+   inline  GReal_t operator()( T* x, T* p)
   	  	{
 
   	  		return fFunctor(x,p)/fNorm;
@@ -202,51 +217,6 @@ struct Pdf:detail::PdfBase<FUNCTOR, INTEGRATOR,N>
 
 
 private:
-
-	__host__ inline
-	GReal_t EvalIntegral( ) const
-	{
-		 constexpr bool has_ana_integral =  detail::has_analytical_integral<
-				FUNCTOR, GReal_t(const GReal_t*,  const GReal_t*)>::value;
-
-		if( has_ana_integral ){
-
-			return	this->EvalAnalyticIntegral<FUNCTOR>(fIntegrator->GetLimits().first,
-					fIntegrator->GetLimits().second );
-		}
-		else{
-
-			return	this->EvalNumericalIntegral();
-		}
-	}
-
-	__host__ inline
-	GReal_t EvalNumericalIntegral( ) const {
-
-		HYDRA_LOG(INFO, "Calculating integral numerically" )
-
-		fIntegrator->Integrate(fFunctor, 1);
-		return fIntegrator->GetResult();
-	}
-
-	template<typename U=FUNCTOR>
-	__host__ inline
-	typename thrust::detail::enable_if<
-	detail::has_analytical_integral<U, GReal_t(const GReal_t*,  const GReal_t*)>::value, GReal_t >::type
-	EvalAnalyticIntegral(const GReal_t* down,  const GReal_t* up) const{
-
-		HYDRA_LOG(INFO, "Calculating integral analytically. Calling ClientFunctor::AnalyticalIntegral( down, up )" )
-		return static_cast<U*>(this)->AnalyticalIntegral( down, up );
-	}
-
-	template<typename U=FUNCTOR>
-	__host__ inline
-	typename thrust::detail::enable_if<
-	!detail::has_analytical_integral<U, GReal_t(const GReal_t*,  const GReal_t*)>::value, GReal_t >::type
-	EvalAnalyticIntegral(const GReal_t*,  const GReal_t* ) const{
-		HYDRA_LOG(INFO, "ClientFunctor::AnalyticalIntegral( down, up ) not implemented. This message shoul never show up..." )
-		return 1.0;
-	}
 
 
 	FUNCTOR fFunctor;
@@ -259,10 +229,11 @@ private:
 
 //get pdf from functor expression
 
-template<typename FUNCTOR, typename INTEGRATOR>
-Pdf<FUNCTOR, INTEGRATOR > make_pdf( FUNCTOR const& functor,  INTEGRATOR* integrator	)
-{
-	return Pdf<FUNCTOR, INTEGRATOR >(functor, integrator);
+template<typename FUNCTOR, typename INTEGRATOR, size_t N>
+Pdf<FUNCTOR, INTEGRATOR, N > make_pdf( FUNCTOR const& functor,  INTEGRATOR integrator,
+		std::array<GReal_t,N> const& xlower,	std::array<GReal_t,N> const& xupper){
+
+	return Pdf<FUNCTOR, INTEGRATOR, N >(functor, integrator,  xlower, xupper);
 }
 
 }//namespace hydra
