@@ -69,16 +69,16 @@ struct BaseFunctor
 	BaseFunctor():
 	fCacheIndex(-1),
 	fCached(0),
-	fParamResgistered(0)
-	//fNorm(1.0)
+	fParamResgistered(0),
+	fNorm(1.0)
 	{	}
 
 	__host__ __device__
 	BaseFunctor(BaseFunctor<Functor,ReturnType, NPARAM> const& other):
 	fCacheIndex( other.GetCacheIndex() ),
 	fCached( other.IsCached() ),
-	fParamResgistered(0)
-	//fNorm(other.GetNorm())
+	fParamResgistered(0),
+	fNorm(other.GetNorm())
 	{ }
 
 	__host__ __device__ inline
@@ -90,7 +90,7 @@ struct BaseFunctor
 			this->fCacheIndex     = other.GetCacheIndex();
 			this->fCached         = other.IsCached();
 			//this->fParameterIndex = other.GetParameterIndex();
-			//this->fNorm = other.GetNorm();
+			this->fNorm = other.GetNorm();
 			this->fParamResgistered =0;
 
          }
@@ -188,7 +188,13 @@ struct BaseFunctor
 		return fParameters[i];
 	}
 
+	GReal_t GetNorm() const {
+		return fNorm;
+	}
 
+	void SetNorm(GReal_t norm) {
+		fNorm = norm;
+	}
 
 	template<typename T  >
 	__host__ __device__ inline
@@ -249,7 +255,7 @@ struct BaseFunctor
 
 private:
 
-   // mutable GReal_t fNorm;
+    GReal_t fNorm;
 	int  fCacheIndex;
 	bool fCached;
 	bool fParamResgistered;

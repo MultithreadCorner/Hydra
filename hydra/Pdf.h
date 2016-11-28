@@ -45,6 +45,7 @@
 #include <thrust/iterator/zip_iterator.h>
 #include <thrust/tuple.h>
 #include <array>
+#include <pair>
 #include <initializer_list>
 #include <memory>
 #include <unordered_map>
@@ -91,9 +92,11 @@ struct Pdf:detail::PdfBase<FUNCTOR, INTEGRATOR,N>
 	fFunctor(functor),
 	fXLow(xlower),
 	fXUp(xupper),
-	fCalls(calls)
+	fCalls(calls),
+	fNormCache(std::unordered_map<size_t, std::pair<GReal_t, GReal_t>>() )
 	{
-		fNorm =	thrust::get<0>( fIntegrator(fFunctor, fXLow, fXUp, fCalls) );
+		std::tie(fNorm, fNormError) = fIntegrator(fFunctor, fXLow, fXUp, fCalls) ;
+
 	}
 
 
@@ -103,8 +106,12 @@ struct Pdf:detail::PdfBase<FUNCTOR, INTEGRATOR,N>
 		fXLow(other.GetXLow() ),
 		fXUp(other.GetXUp() ),
 		fNorm(other.GetNorm() ),
-		fCalls(other.GetCalls() )
-	{ }
+		fNormError(other.GetNormError() ),
+		fCalls(other.GetCalls() ),
+		fNormCache(other.GetNormCache())
+	{
+
+	}
 
 
 	inline Pdf<FUNCTOR,INTEGRATOR,N>&
@@ -115,10 +122,11 @@ struct Pdf:detail::PdfBase<FUNCTOR, INTEGRATOR,N>
 		this->fXLow  = other.GetXLow() ;
 		this->fXUp   = other.GetXUp() ;
 		this->fNorm  = other.GetNorm() ;
+		this->fNormError  = other.GetNormError() ;
 		this->fCalls = other.GetCalls() ;
 		this->fFunctor    = other.GetFunctor();
 		this->fIntegrator = other.GetIntegrator();
-
+		this->fNormCache  = other.GetNormCache();
 		return *this;
 	}
 
@@ -135,8 +143,23 @@ struct Pdf:detail::PdfBase<FUNCTOR, INTEGRATOR,N>
 	inline	void SetParameters(const std::vector<double>& parameters){
 
 		fFunctor.SetParameters(parameters);
-		fNorm =	thrust::get<0>( fIntegrator(fFunctor, fXLow, fXUp, fCalls) );
 
+		size_t key = detail::hash_range(parameters.begin(),
+						parameters.end());
+
+		auto search = fNormCache.find(key);
+		if (search != fNormCache.end() && fNormCache.size()>0) {
+
+			std::tie(fNorm, fNormError) = *(search);
+		}
+		else {
+
+			std::tie(fNorm, fNormError) =  fIntegrator(fFunctor, fXLow, fXUp, fCalls) ;
+			fNormCache[key] = std::make_pair(fNorm, fNormError);
+		}
+
+
+		fFunctor.SetNorm(fNorm);
 		return;
 	}
 
@@ -194,6 +217,11 @@ struct Pdf:detail::PdfBase<FUNCTOR, INTEGRATOR,N>
 		fXUp = xUp;
 	}
 
+	std::unordered_map<size_t,std::pair<GReal_t,GReal_t> >& GetNormCache() const
+	{
+		return fNormCache;
+	}
+
  	template<typename T1>
   	inline  	GReal_t operator()(T1&& t )
   	{
@@ -224,6 +252,9 @@ private:
 	std::array<GReal_t,N> fXLow;
 	std::array<GReal_t,N> fXUp;
 	mutable GReal_t fNorm;
+	mutable GReal_t fNormError;
+	mutable std::unordered_map<size_t, std::pair<GReal_t, GReal_t>> fNormCache;
+
 	size_t fCalls;
 };
 
