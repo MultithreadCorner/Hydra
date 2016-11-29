@@ -86,6 +86,8 @@ struct AddPdf: detail::AddPdfBase<PDF1,PDF2,PDFs...>
 	constexpr static size_t npdfs = sizeof...(PDFs)+2; //!< number of pdfs
 
 	typedef thrust::tuple<PDF1, PDF2, PDFs...> pdfs_tuple_type;//!< type of the tuple of pdfs
+	typedef thrust::tuple<typename PDF1::functor_type,
+			typename  PDF2::functor_type,typename  PDFs::functor_type...> functors_tuple_type;//!< type of the tuple of pdf::functors
 
 
 	/**
@@ -308,6 +310,7 @@ private:
     GReal_t     fCoefSum;
 	Parameter    fCoeficients[npdfs];
 	pdfs_tuple_type fPDFs;
+	functors_tuple_type fFunctors;
 	GBool_t fExtended;
 	GBool_t fFractioned;
 

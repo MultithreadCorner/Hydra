@@ -50,6 +50,7 @@
 #include <memory>
 #include <unordered_map>
 
+
 namespace hydra
 {
 
@@ -57,7 +58,11 @@ namespace detail {
 
 template< typename FUNCTOR, typename INTEGRATOR, size_t N>
 struct PdfBase: std::enable_if< detail::is_hydra_functor<FUNCTOR>::value &&
-detail::is_hydra_numerical_integrator<INTEGRATOR>::value &&(N>0)>{};
+detail::is_hydra_numerical_integrator<INTEGRATOR>::value &&(N>0)>{
+
+	typedef FUNCTOR functor_type;
+
+};
 
 
 }// namespace detail
@@ -82,6 +87,7 @@ struct Pdf:detail::PdfBase<FUNCTOR, INTEGRATOR,N>
 	//hydra::functor, PdfBase::type will not be defined and compilation
 	//will fail
 	typedef typename detail::PdfBase<FUNCTOR, INTEGRATOR, N>::type base_type;
+
 
 
 	Pdf(FUNCTOR const& functor,  INTEGRATOR const& integrator,
@@ -145,7 +151,8 @@ struct Pdf:detail::PdfBase<FUNCTOR, INTEGRATOR,N>
 		fFunctor.SetParameters(parameters);
 
 		size_t key = detail::hash_range(parameters.begin(),
-						parameters.end());
+				parameters.end());
+
 
 		auto search = fNormCache.find(key);
 		if (search != fNormCache.end() && fNormCache.size()>0) {
@@ -156,6 +163,7 @@ struct Pdf:detail::PdfBase<FUNCTOR, INTEGRATOR,N>
 
 			std::tie(fNorm, fNormError) =  fIntegrator(fFunctor, fXLow, fXUp, fCalls) ;
 			fNormCache[key] = std::make_pair(fNorm, fNormError);
+
 		}
 
 
@@ -254,7 +262,6 @@ private:
 	mutable GReal_t fNorm;
 	mutable GReal_t fNormError;
 	mutable std::unordered_map<size_t, std::pair<GReal_t, GReal_t>> fNormCache;
-
 	size_t fCalls;
 };
 

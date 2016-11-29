@@ -86,6 +86,16 @@ struct Parameter{
 		fHasError(1)
 	{ }
 
+	Parameter(const GChar_t *name, GReal_t value, GReal_t error):
+			fName(name),
+			fValue(value),
+			fError(error),
+			fLowerLim(detail::TypeTraits<GReal_t>::invalid()),
+			fUpperLim(detail::TypeTraits<GReal_t>::invalid()),
+			fIndex(detail::TypeTraits<GInt_t>::invalid()),
+			fLimited(0),
+			fHasError(1)
+		{ }
 
 	Parameter(std::string const& name, GReal_t value):
 		fName(const_cast<GChar_t*>(name.data())),
