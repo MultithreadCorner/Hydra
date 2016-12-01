@@ -43,6 +43,7 @@
 #include <hydra/detail/utility/Utility_Tuple.h>
 #include <hydra/detail/utility/Generic.h>
 #include <hydra/detail/FunctorTraits.h>
+#include <hydra/detail/functors/AddPdfFunctor.h>
 #include <thrust/tuple.h>
 #include <initializer_list>
 
@@ -86,6 +87,7 @@ struct AddPdf: detail::AddPdfBase<PDF1,PDF2,PDFs...>
 	constexpr static size_t npdfs = sizeof...(PDFs)+2; //!< number of pdfs
 
 	typedef thrust::tuple<PDF1, PDF2, PDFs...> pdfs_tuple_type;//!< type of the tuple of pdfs
+
 	typedef thrust::tuple<typename PDF1::functor_type,
 			typename  PDF2::functor_type,typename  PDFs::functor_type...> functors_tuple_type;//!< type of the tuple of pdf::functors
 
@@ -104,6 +106,7 @@ struct AddPdf: detail::AddPdfBase<PDF1,PDF2,PDFs...>
 	AddPdf( PDF1 const& pdf1, PDF2 const& pdf2, PDFs const& ...pdfs,
 			std::array<Parameter*, npdfs>const& coef, GBool_t extend=kTrue ):
 			fPDFs(thrust::make_tuple(pdf1,pdf2,pdfs...) ),
+			fFunctors(thrust::make_tuple(pdf1.GetFunctor(),pdf2.GetFunctor(),pdfs.GetFunctor() ...) ),
 			fExtended(kTrue),
 			fFractioned(kFalse),
 			fCoefSum(0.0)
@@ -130,6 +133,7 @@ struct AddPdf: detail::AddPdfBase<PDF1,PDF2,PDFs...>
 	AddPdf(PDF1 const& pdf1, PDF2 const& pdf2, PDFs const& ...pdfs,
 			std::array<Parameter*, npdfs-1>const& coef):
 			fPDFs(thrust::make_tuple(pdf1,pdf2,pdfs...) ),
+			fFunctors(thrust::make_tuple(pdf1.GetFunctor(),pdf2.GetFunctor(),pdfs.GetFunctor() ...) ),
 			fExtended(kFalse),
 			fFractioned(kTrue),
 			fCoefSum(0.0)
@@ -157,9 +161,9 @@ struct AddPdf: detail::AddPdfBase<PDF1,PDF2,PDFs...>
 	/**
 	 * \brief copy ctor.
 	 */
-	__host__ __device__
 	AddPdf(AddPdf<PDF1, PDF2, PDFs...> const& other ):
 	fPDFs(other.GetPdFs() ),
+	fFunctors(other.GetFunctors() ),
 	fExtended(other.IsExtended()),
 	fCoefSum(other.GetCoefSum()),
 	fFractioned(other.IsFractioned())
@@ -172,7 +176,6 @@ struct AddPdf: detail::AddPdfBase<PDF1,PDF2,PDFs...>
 	/**
 	 *  \brief assignment operator.
 	 */
-	__host__ __device__ inline
 	AddPdf<PDF1, PDF2, PDFs...>&
 	operator=( AddPdf<PDF1, PDF2, PDFs...> const& other )
 	{
@@ -192,13 +195,14 @@ struct AddPdf: detail::AddPdfBase<PDF1,PDF2,PDFs...>
  * This method sets the values of all coefficients and parameters of pdfs stored in the AddPdf object.
  * User should ensure this method is called before the object evaluation.
  */
-	__host__ inline
-	void SetParameters(const std::vector<double>& parameters){
+	inline	void SetParameters(const std::vector<double>& parameters){
 
 		for(size_t i=0; i< npdfs-(!fExtended); i++)
 			      fCoeficients[i].Reset(parameters );
 
 		detail::set_functors_in_tuple(fPDFs, parameters);
+		detail::set_functors_in_tuple(fFunctors, parameters);
+
 		fCoefSum=0;
 		for(size_t i=0; i< npdfs -(!fExtended); i++)
 			fCoefSum+=fCoeficients[i];
@@ -211,8 +215,7 @@ struct AddPdf: detail::AddPdfBase<PDF1,PDF2,PDFs...>
 	/**
 	 * \brief print all registered parameters
 	 */
-	__host__ inline
-	void PrintRegisteredParameters()
+	inline	void PrintRegisteredParameters()
 	{
 		HYDRA_CALLER ;
 		HYDRA_MSG << "Registered parameters begin:" << HYDRA_ENDL;
@@ -223,38 +226,43 @@ struct AddPdf: detail::AddPdfBase<PDF1,PDF2,PDFs...>
 
 
 
-	__host__ __device__ inline
-	const Parameter& GetCoeficient(size_t i) const
+	inline	const Parameter& GetCoeficient(size_t i) const
 	{
 		return fCoeficients[i];
 	}
 
-	__host__ __device__ inline
-	GBool_t IsExtended() const
+	inline	GBool_t IsExtended() const
 	{
 		return fExtended;
 	}
 
-	__host__ __device__ inline
-	const thrust::tuple<PDF1,PDF2,PDFs...>& GetPdFs() const
+	inline detail::AddPdfFunctor< PDF1, PDF2, PDFs...>  GetFunctor() const
+	{
+		return detail::AddPdfFunctor<PDF1, PDF2, PDFs...>(fFunctors,
+				fCoeficients,fCoefSum,fExtended,fFractioned );
+	}
+
+	inline const functors_tuple_type& GetFunctors() const
+	{
+			return fFunctors;
+	}
+
+	inline const pdfs_tuple_type& GetPdFs() const
 	{
 		return fPDFs;
 	}
 
-	__host__ __device__ inline
-	GReal_t GetCoefSum() const
+	inline	GReal_t GetCoefSum() const
 	{
 		return fCoefSum;
 	}
 
-	__host__ __device__ inline
-	GBool_t IsFractioned() const
+	inline	GBool_t IsFractioned() const
 	{
 		return fFractioned;
 	}
 
-	template<typename T1>
-	__host__ __device__ inline
+	template<typename T1> inline
 	GReal_t operator()(T1&& t )
 	{
 
@@ -270,8 +278,7 @@ struct AddPdf: detail::AddPdfBase<PDF1,PDF2,PDFs...>
 	}
 
 	template<typename T1, typename T2>
-	__host__ __device__  inline
-	GReal_t operator()( T1&& t, T2&& cache)
+	inline	GReal_t operator()( T1&& t, T2&& cache)
 	{
 
 		auto pdf_res_tuple = detail::invoke<GReal_t,pdfs_tuple_type, T1, T2>( t, cache, fPDFs);
@@ -286,8 +293,7 @@ struct AddPdf: detail::AddPdfBase<PDF1,PDF2,PDFs...>
 	}
 
 	template<typename T>
-	__host__ __device__ inline
-	GReal_t operator()( T* x, T* p)
+    inline	GReal_t operator()( T* x, T* p)
 	{
 
 

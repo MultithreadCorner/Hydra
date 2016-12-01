@@ -262,11 +262,11 @@ GInt_t main(int argv, char** argc)
 	state.SetMaxError(1e-3);
 
     //5,000 calls (fast convergence and precise result)
-	Vegas<1> vegas( state,50000);
+	Vegas<1> vegas(state);
 
-	auto Gaussian1_PDF   = make_pdf(Gaussian1, &vegas);
-	auto Gaussian2_PDF   = make_pdf(Gaussian2, &vegas);
-	auto Exponential_PDF = make_pdf(Exponential, &vegas);
+	auto Gaussian1_PDF   = make_pdf(Gaussian1, vegas);
+	auto Gaussian2_PDF   = make_pdf(Gaussian2, vegas);
+	auto Exponential_PDF = make_pdf(Exponential, vegas );
 
 	Gaussian1_PDF.PrintRegisteredParameters();
 
@@ -274,8 +274,8 @@ GInt_t main(int argv, char** argc)
 	//integrate with the current parameters just to test
 	vegas.Integrate(Gaussian1_PDF);
 	cout << ">>> GaussianA intetgral prior fit "<< endl;
-	cout << "Result: " << vegas.GetResult() << " +/- "
-		 << vegas.GetAbsError() << " Chi2: "<< vegas.GetState().GetChiSquare()
+	cout << "Result: " << vegas.GetState().GetResult() << " +/- "
+		 << vegas.GetState().GetSigma() << " Chi2: "<< vegas.GetState().GetChiSquare()
 
 	<< endl;
 
@@ -283,15 +283,16 @@ GInt_t main(int argv, char** argc)
 
 	vegas.Integrate(Gaussian2_PDF);
 	cout << ">>> GaussianB intetgral prior fit "<< endl;
-	cout << "Result: " << vegas.GetResult() << " +/- "
-			<< vegas.GetAbsError() << " Chi2: "<< vegas.GetState().GetChiSquare() << endl;
+	cout << "Result: " << vegas.GetState().GetResult() << " +/- "
+			<< vegas.GetState().GetSigma() << " Chi2: "<< vegas.GetState().GetChiSquare() << endl;
 
 	Exponential_PDF.PrintRegisteredParameters();
 
 	vegas.Integrate(Exponential_PDF);
 	cout << ">>> Exponential intetgral prior fit "<< endl;
-	cout << "Result: " << vegas.GetResult() << " +/- "
-			<< vegas.GetAbsError() << " Chi2: "<< vegas.GetState().GetChiSquare() << endl;
+	cout << "Result: " << vegas.GetState().GetResult() << " +/- "
+			<< vegas.GetState().GetSigma() << " Chi2: "<< vegas.GetState().GetChiSquare() << endl;
+
 
 	//----------------------------------------------------------------------
 	//add the pds to make a extended pdf model

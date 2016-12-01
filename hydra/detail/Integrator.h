@@ -36,21 +36,18 @@
 
 #include <hydra/detail/Config.h>
 #include <hydra/Types.h>
-#include <thrust/pair.h>
+#include <utility>
 
 namespace hydra {
 
-template<typename ALGORITHM, size_t N>
+template<typename ALGORITHM>
 struct Integrator{
 
 
 	template<typename FUNCTOR>
-	inline thrust::pair<GReal_t, GReal_t> operator()( FUNCTOR const& functor,
-			std::array<GReal_t,N> const& xlower,
-			std::array<GReal_t,N> const& xupper,
-			size_t calls ){
+	inline std::pair<GReal_t, GReal_t> operator()( FUNCTOR const& functor){
 
-	return static_cast<ALGORITHM*>(this)->Integrate(functor, xlower, xupper, calls);
+	return static_cast<ALGORITHM*>(this)->Integrate(functor);
 
 	}
 

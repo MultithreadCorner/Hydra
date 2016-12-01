@@ -129,7 +129,7 @@ public:
 
 
 		final=thrust::transform_reduce(select_system(system), first, last,
-				detail::LogLikelihood<U, IteratorData, IteratorCache>(fFunctor, fFunctor.GetNorm(),
+				detail::LogLikelihood<U, IteratorData, IteratorCache>(fFunctor.GetFunctor(),
 						this->GetSumW()     , this->GetSumW2() ,
 						this->GetDataBegin(), this->GetCacheBegin(),
 						this->isWeighted()  , this->isCached()),
@@ -179,7 +179,7 @@ public:
 
 
 		final=thrust::transform_reduce(select_system(system), first, last,
-				detail::LogLikelihood<U, IteratorData, IteratorCache>(fFunctor,
+				detail::LogLikelihood<U, IteratorData, IteratorCache>(fFunctor.GetFunctor(),
 						this->GetSumW()     , this->GetSumW2() ,
 						this->GetDataBegin(), this->GetCacheBegin(),
 						this->isWeighted()  , this->isCached()),

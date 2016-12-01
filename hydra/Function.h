@@ -231,7 +231,7 @@ struct BaseFunctor
 	template<typename T>
 	__host__  __device__ inline
 	return_type operator()( T* x, T* p=0  )
-	{return static_cast<Functor*>(this)->Evaluate(x); }
+	{return static_cast<Functor*>(this)->Evaluate(x)/fNorm; }
 
 
 	template<typename T>
@@ -239,7 +239,7 @@ struct BaseFunctor
 	return_type operator()( T&&  x )
 	{
 
-		return interface< T>(std::forward< T >(x));
+		return interface< T>(std::forward< T >(x))/fNorm;
 	}
 
 
@@ -248,9 +248,9 @@ struct BaseFunctor
 	return_type operator()( T1&& x, T2 && cache)
 	{
 
-		return fCached ?\
+		return (fCached ?\
 				detail::extract<return_type, T2 >(fCacheIndex, std::forward<T2>(cache)):\
-				operator()<T1>( std::forward<T1>(x) );
+				operator()<T1>( std::forward<T1>(x) ))/fNorm;
 	}
 
 private:

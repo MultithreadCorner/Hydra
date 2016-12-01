@@ -86,7 +86,7 @@ struct Parameter{
 		fHasError(1)
 	{ }
 
-	Parameter(const GChar_t *name, GReal_t value, GReal_t error):
+	Parameter(GChar_t *name, GReal_t value, GReal_t error):
 			fName(name),
 			fValue(value),
 			fError(error),

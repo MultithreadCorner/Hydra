@@ -41,16 +41,15 @@
 #include <chrono>
 #include <thrust/transform_reduce.h>
 #include <iostream>
+#include <utility>
 
 #define  USE_ORIGINAL_CHISQ_FORMULA 1
 
 namespace hydra {
 
-template<typename FUNCTOR, size_t N , typename GRND>
-thrust::pair<GReal_t, GReal_t>  Vegas<FUNCTOR, N, GRND >::Integrate(FUNCTOR const& functor,
-		std::array<GReal_t,N> const& xlower,
-		std::array<GReal_t,N> const& xupper,
-		size_t calls )
+template<size_t N , typename GRND>
+template<typename FUNCTOR>
+std::pair<GReal_t, GReal_t>  Vegas<N, GRND >::Integrate(FUNCTOR const& fFunctor )
 {
 
 
@@ -87,7 +86,7 @@ thrust::pair<GReal_t, GReal_t>  Vegas<FUNCTOR, N, GRND >::Integrate(FUNCTOR cons
 		if (fState.GetMode() != MODE_IMPORTANCE_ONLY) {
 			/* shooting for 2 calls/box */
 
-			boxes = floor( pow(fNCalls / 2.0, 1.0 / N ));
+			boxes = floor( pow(fState.GetCalls() / 2.0, 1.0 / N ));
 			//if(boxes==1) boxes++;
 			fState.SetMode(MODE_IMPORTANCE);
 
@@ -103,12 +102,12 @@ thrust::pair<GReal_t, GReal_t>  Vegas<FUNCTOR, N, GRND >::Integrate(FUNCTOR cons
 
 		{
 			size_t tot_boxes = pow( boxes,   N);
-			fState.SetCallsPerBox(std::max(  this->GetNCalls() / tot_boxes, (size_t)2) );
-			this->SetNCalls( fState.GetCallsPerBox() * tot_boxes);
+			fState.SetCallsPerBox(std::max(  fState.GetCalls() / tot_boxes, (size_t)2) );
+			fState.SetCalls( fState.GetCallsPerBox() * tot_boxes);
 		}
 
 		/* total volume of x-space/(avg num of calls/bin) */
-		fState.SetJacobian( fState.GetVolume() * pow((GReal_t) bins, (GReal_t)N)/ GetNCalls());
+		fState.SetJacobian( fState.GetVolume() * pow((GReal_t) bins, (GReal_t)N)/ fState.GetCalls());
 
 		fState.SetNBoxes(boxes);
 
@@ -136,10 +135,6 @@ thrust::pair<GReal_t, GReal_t>  Vegas<FUNCTOR, N, GRND >::Integrate(FUNCTOR cons
 
 	size_t calls_per_box = fState.GetCallsPerBox();
 	GReal_t jacbin = fState.GetJacobian();
-	//GReal_t *x = fState.GetX().data();
-	//GInt_t *bin = fState.GetBin().data();
-
-	//fState.AllocateResources();
 
 
 	for (size_t it = 0; it < fState.GetIterations(); it++) {
@@ -272,24 +267,15 @@ thrust::pair<GReal_t, GReal_t>  Vegas<FUNCTOR, N, GRND >::Integrate(FUNCTOR cons
 	/* By setting stage to 1 further calls will generate independent
 	 estimates based on the same grid, although it may be rebinned. */
 
-
-	/*
-
-	if(reset){
-		fState.SetStage(0);
-	}
-
-	else fState.SetStage(1);
-	*/
 	fState.SetStage(1);
 
-	return thrust::make_pair(um_int, cum_sig);
+	return std::make_pair(cum_int, cum_sig);
 
 
 }
 
 template< size_t N , typename GRND>
-void Vegas< N , GRND>::PrintLimits() {
+void Vegas< N , GRND>::PrintLimits()  {
 
 
 	fState.GetOStream() << boost::format("The limits of Int_tegration are:\n");
@@ -301,10 +287,10 @@ void Vegas< N , GRND>::PrintLimits() {
 }
 
 template< size_t N , typename GRND>
-void Vegas< N , GRND>::PrintHead() {
+void Vegas< N , GRND>::PrintHead()  {
 
 	fState.GetOStream() << boost::format("\nnum_dim=%lu, calls=%lu, it_num=%d, max_it_num=%d ") % N
-				% fNCalls % fState.GetItNum() % fState.GetIterations() << std::endl;
+				% fState.GetCalls() % fState.GetItNum() % fState.GetIterations() << std::endl;
 
 	fState.GetOStream() <<  boost::format("verb=%d, alph=%.2f,\nmode=%d, bins=%d, boxes=%d\n")
 			% fState.fVerbose % fState.GetAlpha() % fState.GetMode()
@@ -319,7 +305,7 @@ void Vegas< N , GRND>::PrintHead() {
 
 template< size_t N , typename GRND>
 void Vegas<  N , GRND>::PrintResults(GReal_t integral, GReal_t sigma,
-		GReal_t cumulated_integral, GReal_t cumulated_sigma, GReal_t time){
+		GReal_t cumulated_integral, GReal_t cumulated_sigma, GReal_t time)  {
 
 	fState.GetOStream() << boost::format( "%4d           %6.4e          %10.4e              %6.4e           %10.4e           %10.4e        %10.4e ms\n")
 			% fState.GetItNum() % integral % sigma % cumulated_integral
@@ -329,7 +315,7 @@ void Vegas<  N , GRND>::PrintResults(GReal_t integral, GReal_t sigma,
 }
 
 template< size_t N, typename GRND >
-void Vegas< N , GRND>::PrintDistribution() {
+void Vegas< N , GRND>::PrintDistribution()   {
 
 	size_t i, j;
 
@@ -353,7 +339,7 @@ void Vegas< N , GRND>::PrintDistribution() {
 }
 
 template< size_t N , typename GRND>
-void Vegas< N , GRND>::PrintGrid()  {
+void Vegas< N , GRND>::PrintGrid()   {
 
 /*
 	if (!fState.GetVerbose())

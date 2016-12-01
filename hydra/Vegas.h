@@ -49,27 +49,44 @@ namespace hydra {
 
 
 template<size_t N,  typename GRND=thrust::random::default_random_engine >
-class Vegas : public Integrator<Vegas<N,GRND>, N>
+class Vegas : public Integrator<Vegas<N,GRND>>
 {
 public:
 
 	//tag
-	typedef void hydra_numerical_integrator_tag;
+	typedef void hydra_integrator_tag;
 
-	Vegas(){};
+	Vegas()=delete;
 
-	template<size_t N, typename GRND2>
+	Vegas(std::array<GReal_t,N> const& xlower,	std::array<GReal_t,N> const& xupper, size_t ncalls):
+		Integrator<Vegas<N,GRND>>(),
+		fState(xlower,xupper)
+		{
+		fState.SetCalls(ncalls);
+		}
+
+
+		Vegas(VegasState<N> const& state):
+		Integrator<Vegas<N,GRND>>(),
+		fState(state)
+		{}
+
+
+	template<typename GRND2>
 	Vegas( Vegas< N, GRND2> const& other):
-	Integrator<Vegas<N,GRND>, N>(other),
+	Integrator<Vegas<N,GRND>>(other),
 	fState(other.GetState())
 	{}
 
 
-	void PrintLimits() const ;
-	void PrintHead() const  ;
-	void PrintDistribution()  const ;
-	void PrintGrid()  const ;
+	void PrintLimits()  ;
+	void PrintHead()   ;
+	void PrintDistribution()  ;
+	void PrintGrid()  ;
 
+	void PrintResults(GReal_t integral, GReal_t sigma,
+			GReal_t cumulated_integral, GReal_t cumulated_sigma,
+			GReal_t time) ;
 
 	VegasState<N>& GetState()  {
 		return fState;
@@ -79,16 +96,13 @@ public:
 		fState = state;
 	}
 
-private:
 	template<typename FUNCTOR>
-	thrust::pair<GReal_t, GReal_t> Integrate(FUNCTOR const& functor,
-			std::array<GReal_t,N> const& xlower,
-			std::array<GReal_t,N> const& xupper,
-			size_t calls );
+	std::pair<GReal_t, GReal_t> Integrate(FUNCTOR const& functor);
 
-	void PrintResults(GReal_t integral, GReal_t sigma,
-			GReal_t cumulated_integral, GReal_t cumulated_sigma,
-			GReal_t time) const  ;
+private:
+
+
+
 
 	void InitGrid();
 	void ResetGridValues();
@@ -97,6 +111,7 @@ private:
 	void ResizeGrid(const GInt_t bins);
 	void RefineGrid();
 
+	template<typename FUNCTOR>
 	void ProcessFuncionCalls(FUNCTOR const& functor, GReal_t& integral, GReal_t& tss);
 
 

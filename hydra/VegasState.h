@@ -64,29 +64,36 @@ public:
 
 	VegasState(std::array<GReal_t,N> const& xlower,
 			std::array<GReal_t,N> const& xupper);
+
 	VegasState(const VegasState &state);
 
 	void ResetState();
 
-	__host__
 	inline GReal_t GetAlpha() const {
 		return fAlpha;
 	}
 
-	__host__
 	inline void SetAlpha(GReal_t alpha) {
 		fAlpha = alpha;
+	}
+	//-----------------------------
+	//Calls
+
+	inline size_t GetCalls() const {
+		return fCalls;
+	}
+
+	inline void SetCalls(size_t calls) {
+		fCalls = calls;
 	}
 
 	//-----------------------------
 	//CallsPerBox
 
-	__host__
 	inline size_t GetCallsPerBox() const {
 		return fCallsPerBox;
 	}
 
-	__host__
 	inline void SetCallsPerBox(size_t callsPerBox) {
 		fCallsPerBox = callsPerBox;
 	}
@@ -94,12 +101,10 @@ public:
 	//-----------------------------
 	//ChiSquare
 
-	__host__
 	inline GReal_t GetChiSquare() const {
 		return fChiSquare;
 	}
 
-	__host__
 	inline void SetChiSquare(GReal_t chiSquare) {
 		fChiSquare = chiSquare;
 	}
@@ -107,12 +112,11 @@ public:
 	//-----------------------------
 	//ChiSum
 
-	__host__
 	inline GReal_t GetChiSum() const {
 		return fChiSum;
 	}
 
-	__host__
+
 	inline void SetChiSum(GReal_t chiSum) {
 		fChiSum = chiSum;
 	}
@@ -120,12 +124,10 @@ public:
 	//-----------------------------
 	//CumulatedResult
 
-	__host__
 	inline const mc_host_vector<GReal_t>& GetCumulatedResult() const {
 		return fCumulatedResult;
 	}
 
-	__host__
 	inline void SetCumulatedResult(const mc_host_vector<GReal_t>& cumulatedResult) {
 		fCumulatedResult = cumulatedResult;
 	}
@@ -133,12 +135,10 @@ public:
 	//-----------------------------
 	//CumulatedSigma
 
-	__host__
 	inline const mc_host_vector<GReal_t>& GetCumulatedSigma() const {
 		return fCumulatedSigma;
 	}
 
-	__host__
 	inline void SetCumulatedSigma(const mc_host_vector<GReal_t>& cumulatedSigma) {
 		fCumulatedSigma = cumulatedSigma;
 	}
@@ -146,17 +146,14 @@ public:
 	//----------------
 	//DeltaX
 
-	__host__
 	inline const mc_host_vector<GReal_t>& GetDeltaX() const {
 		return fDeltaX;
 	}
 
-	__host__
 	inline void SetDeltaX(const mc_host_vector<GReal_t>& deltaX) {
 		fDeltaX = deltaX;
 	}
 
-	__host__
 	inline void SetDeltaX(GUInt_t i, GReal_t dx) {
 			fDeltaX[i] = dx;
 	}
@@ -164,22 +161,18 @@ public:
 	//----------------
 	//Distribution
 
-	__host__
 	inline const mc_host_vector<GReal_t>& GetDistribution() const {
 		return fDistribution;
 	}
 
-	__host__
 	inline void SetDistribution(const mc_host_vector<GReal_t>& distribution) {
 		fDistribution = distribution;
 	}
 
-	__host__
 	inline void SetDistribution(GUInt_t i,  GReal_t x) {
 			fDistribution[i] = x;
 	}
 
-	__host__
 	inline void SetDistribution(GUInt_t bin, GUInt_t dim,  GReal_t x) {
 			fDistribution[bin*N+dim] = x;
 	}
@@ -187,12 +180,12 @@ public:
 	//----------------
 	//IterationDuration
 
-	__host__
+
 	inline const mc_host_vector<GReal_t>& GetIterationDuration() const {
 		return fIterationDuration;
 	}
 
-	__host__
+
 	inline void SetIterationDuration(
 			const mc_host_vector<GReal_t>& iterationDuration) {
 		fIterationDuration = iterationDuration;
@@ -201,12 +194,10 @@ public:
 	//----------------
 	//IterationResult
 
-	__host__
 	inline const mc_host_vector<GReal_t>& GetIterationResult() const {
 		return fIterationResult;
 	}
 
-	__host__
 	inline void SetIterationResult(const mc_host_vector<GReal_t>& iterationResult) {
 		fIterationResult = iterationResult;
 	}
@@ -214,12 +205,10 @@ public:
 	//----------------
 	//Iterations
 
-	__host__
 	inline GUInt_t GetIterations() const {
 		return fIterations;
 	}
 
-	__host__
 	inline void SetIterations(GUInt_t iterations) {
 		fIterations = iterations;
 	}
@@ -227,12 +216,11 @@ public:
 	//----------------
 	//IterationSigma
 
-	__host__
 	inline const mc_host_vector<GReal_t>& GetIterationSigma() const {
 		return fIterationSigma;
 	}
 
-	__host__
+
 	inline void SetIterationSigma(const mc_host_vector<GReal_t>& iterationSigma) {
 		fIterationSigma = iterationSigma;
 	}
@@ -240,12 +228,11 @@ public:
 	//----------------
 	//ItNum
 
-	__host__
+
 	inline GUInt_t GetItNum() const {
 		return fItNum;
 	}
 
-	__host__
 	inline void SetItNum(GUInt_t itNum) {
 		fItNum = itNum;
 	}
@@ -253,12 +240,11 @@ public:
 	//----------------
 	//ItStart
 
-	__host__
 	inline GUInt_t GetItStart() const {
 		return fItStart;
 	}
 
-	__host__
+
 	inline void SetItStart(GUInt_t itStart) {
 		fItStart = itStart;
 	}
@@ -266,12 +252,12 @@ public:
 	//----------------
 	//Jacobian
 
-	__host__
+
 	inline GReal_t GetJacobian() const {
 		return fJacobian;
 	}
 
-	__host__
+
 	inline void SetJacobian(GReal_t jacobian) {
 		fJacobian = jacobian;
 	}
@@ -279,12 +265,12 @@ public:
 	//----------------
 	//MaxError
 
-	__host__
+
 	inline GReal_t GetMaxError() const {
 		return fMaxError;
 	}
 
-	__host__
+
 	inline void SetMaxError(GReal_t maxError) {
 		fMaxError = maxError;
 	}
@@ -292,12 +278,12 @@ public:
 	//----------------
 	//Mode
 
-	__host__
+
 	inline GInt_t GetMode() const {
 		return fMode;
 	}
 
-	__host__
+
 	inline void SetMode(GInt_t mode) {
 		fMode = mode;
 	}
@@ -305,12 +291,11 @@ public:
 	//----------------
 	//NBins
 
-	__host__
 	inline size_t GetNBins() const {
 		return fNBins;
 	}
 
-	__host__
+
 	inline void SetNBins(size_t nBins) {
 		fNBins = nBins;
 	}
@@ -318,12 +303,11 @@ public:
 	//----------------
 	//NBinsMax
 
-	__host__
 	inline size_t GetNBinsMax() const {
 		return fNBinsMax;
 	}
 
-	__host__
+
 	inline void SetNBinsMax(size_t nBinsMax) {
 		fNBinsMax = nBinsMax;
 	}
@@ -331,12 +315,12 @@ public:
 	//----------------
 	//NBoxes
 
-	__host__
+
 	inline size_t GetNBoxes() const {
 		return fNBoxes;
 	}
 
-	__host__
+
 	inline void SetNBoxes(size_t nBoxes) {
 		fNBoxes = nBoxes;
 	}
@@ -344,12 +328,12 @@ public:
 	//----------------
 	//NDimensions
 
-	__host__
+
 	inline size_t GetNDimensions() const {
 		return fNDimensions;
 	}
 
-	__host__
+
 	inline void SetNDimensions(size_t nDimensions) {
 		fNDimensions = nDimensions;
 	}
@@ -364,12 +348,12 @@ public:
 	//----------------
 	//Result
 
-	__host__
+
 	inline GReal_t GetResult() const {
 		return fResult;
 	}
 
-	__host__
+
 	inline void SetResult(GReal_t result) {
 		fResult = result;
 	}
@@ -377,12 +361,12 @@ public:
 	//----------------
 	//Samples
 
-	__host__
+
 	inline GUInt_t GetSamples() const {
 		return fSamples;
 	}
 
-	__host__
+
 	inline void SetSamples(GUInt_t samples) {
 		fSamples = samples;
 	}
@@ -390,12 +374,12 @@ public:
 	//----------------
 	//Sigma
 
-	__host__
+
 	inline GReal_t GetSigma() const {
 		return fSigma;
 	}
 
-	__host__
+
 	inline void SetSigma(GReal_t sigma) {
 		fSigma = sigma;
 	}
@@ -403,12 +387,12 @@ public:
 	//----------------
 	//Stage
 
-	__host__
+
 	inline GInt_t GetStage() const {
 		return fStage;
 	}
 
-	__host__
+
 	inline void SetStage(GInt_t stage) {
 		fStage = stage;
 	}
@@ -416,12 +400,12 @@ public:
 	//----------------
 	//SumOfWeights
 
-	__host__
+
 	inline GReal_t GetSumOfWeights() const {
 		return fSumOfWeights;
 	}
 
-	__host__
+
 	inline void SetSumOfWeights(GReal_t sumOfWeights) {
 		fSumOfWeights = sumOfWeights;
 	}
@@ -429,12 +413,12 @@ public:
 	//----------------
 	//UseRelativeError
 
-	__host__
+
 	inline GBool_t IsUseRelativeError() const {
 		return fUseRelativeError;
 	}
 
-	__host__
+
 	inline void SetUseRelativeError(GBool_t useRelativeError) {
 		fUseRelativeError = useRelativeError;
 	}
@@ -442,12 +426,12 @@ public:
 	//----------------
 	//Verbose
 
-	__host__
+
 	inline GInt_t GetVerbose() const {
 		return fVerbose;
 	}
 
-	__host__
+
 	inline void SetVerbose(GInt_t verbose) {
 		fVerbose = verbose;
 	}
@@ -455,12 +439,12 @@ public:
 	//----------------
 	//Volume
 
-	__host__
+
 	inline GReal_t GetVolume() const {
 		return fVolume;
 	}
 
-	__host__
+
 	inline void SetVolume(GReal_t volume) {
 		fVolume = volume;
 	}
@@ -468,17 +452,17 @@ public:
 	//----------------
 	//Weight
 
-	__host__
+
 	inline const mc_host_vector<GReal_t>& GetWeight() const {
 		return fWeight;
 	}
 
-	__host__
+
 	inline void SetWeight(const mc_host_vector<GReal_t>& weight) {
 		fWeight = weight;
 	}
 
-	__host__
+
 	inline void SetWeight(GUInt_t i, GReal_t weight) {
 		fWeight[i] = weight;
 	}
@@ -486,12 +470,12 @@ public:
 	//----------------
 	//WeightedIntSum
 
-	__host__
+
 	inline GReal_t GetWeightedIntSum() const {
 		return fWeightedIntSum;
 	}
 
-	__host__
+
 	inline void SetWeightedIntSum(GReal_t weightedIntSum) {
 		fWeightedIntSum = weightedIntSum;
 	}
@@ -499,17 +483,17 @@ public:
 	//----------------
 	//Xi
 
-	__host__
+
 	inline const mc_host_vector<GReal_t>& GetXi() const {
 		return fXi;
 	}
 
-	__host__
+
 	inline void SetXi(const mc_host_vector<GReal_t>& xi) {
 		fXi = xi;
 	}
 
-	__host__
+
 	inline void SetXi(GInt_t i, GReal_t xi) {
 		fXi[i] = xi;
 	}
@@ -517,17 +501,17 @@ public:
 	//----------------
 	//	Xin
 
-	__host__
+
 	inline const mc_host_vector<GReal_t>& GetXin() const {
 		return fXin;
 	}
 
-	__host__
+
 	inline void SetXin(const mc_host_vector<GReal_t>& xin) {
 		fXin = xin;
 	}
 
-	__host__
+
 	inline void SetXin(GUInt_t i, GReal_t xin) {
 		fXin[i] = xin;
 	}
@@ -535,47 +519,47 @@ public:
 	//----------------
 	//Store...
 
-	__host__
+
 	inline void StoreIterationResult(const GReal_t integral,
 			const GReal_t sigma) {
 		fIterationResult.push_back(integral);
 		fIterationSigma.push_back(sigma);
 	}
 
-	__host__
+
 	inline void StoreCumulatedResult(const GReal_t integral,
 			const GReal_t sigma) {
 		fCumulatedResult.push_back(integral);
 		fCumulatedSigma.push_back(sigma);
 	}
 
-	__host__
+
 	inline void StoreIterationDuration(const GReal_t timing) {
 		fIterationDuration.push_back(timing);
 	}
 
-	__host__
+
 	inline const mc_host_vector<GReal_t>& GetXLow() const {
 		return fXLow;
 	}
 
-	__host__
+
 	inline void SetXLow(const mc_host_vector<GReal_t>& xLow) {
 		fXLow = xLow;
 	}
 
-	__host__
+
 	inline const mc_host_vector<GReal_t>& GetXUp() const {
 		return fXUp;
 	}
 
-	__host__
+
 	inline void SetXUp(const mc_host_vector<GReal_t>& xUp) {
 		fXUp = xUp;
 	}
 
 
-	__host__
+
 	inline void CopyStateToDevice()
 	{
 		thrust::copy(fXi.begin(), fXi.end(), fDeviceXi.begin());
@@ -583,7 +567,7 @@ public:
 						  						  fDistribution.end(), fDeviceDistribution.begin());
 
 	}
-	__host__
+
 	inline void CopyStateToHost()
 	{
 
@@ -591,7 +575,7 @@ public:
 				  						  fDeviceDistribution.end(), fDistribution.begin());
 	}
 
-	__host__
+
 	inline void SendGridToDevice()
 		{
 
@@ -692,8 +676,8 @@ private:
 	GUInt_t fItStart;
 	GUInt_t fItNum;
 	GUInt_t fSamples;
-	size_t fCallsPerBox; ///< number of call per box
-
+	size_t  fCallsPerBox; ///< number of call per box
+	size_t  fCalls;
 	GReal_t fMaxError; ///< max error
 	GBool_t fUseRelativeError; ///< use relative error as convergence criteria
 

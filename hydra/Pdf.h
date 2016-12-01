@@ -45,7 +45,7 @@
 #include <thrust/iterator/zip_iterator.h>
 #include <thrust/tuple.h>
 #include <array>
-#include <pair>
+#include <utility>
 #include <initializer_list>
 #include <memory>
 #include <unordered_map>
@@ -56,9 +56,9 @@ namespace hydra
 
 namespace detail {
 
-template< typename FUNCTOR, typename INTEGRATOR, size_t N>
+template< typename FUNCTOR, typename INTEGRATOR>
 struct PdfBase: std::enable_if< detail::is_hydra_functor<FUNCTOR>::value &&
-detail::is_hydra_numerical_integrator<INTEGRATOR>::value &&(N>0)>{
+detail::is_hydra_integrator<INTEGRATOR>::value>{
 
 	typedef FUNCTOR functor_type;
 
@@ -77,8 +77,8 @@ detail::is_hydra_numerical_integrator<INTEGRATOR>::value &&(N>0)>{
  *  3. volume of integration
  */
 
-template<typename FUNCTOR, typename INTEGRATOR, size_t N>
-struct Pdf:detail::PdfBase<FUNCTOR, INTEGRATOR,N>
+template<typename FUNCTOR, typename INTEGRATOR>
+struct Pdf:detail::PdfBase<FUNCTOR, INTEGRATOR>
 {
 	//tag
 	typedef void hydra_pdf_tag;
@@ -86,50 +86,38 @@ struct Pdf:detail::PdfBase<FUNCTOR, INTEGRATOR,N>
 	//this typedef is actually a check. If the Pdf is not built with
 	//hydra::functor, PdfBase::type will not be defined and compilation
 	//will fail
-	typedef typename detail::PdfBase<FUNCTOR, INTEGRATOR, N>::type base_type;
+	typedef typename detail::PdfBase<FUNCTOR, INTEGRATOR>::type base_type;
 
 
 
-	Pdf(FUNCTOR const& functor,  INTEGRATOR const& integrator,
-			std::array<GReal_t,N> const& xlower,
-			std::array<GReal_t,N> const& xupper,
-			size_t calls = 10000):
+	Pdf(FUNCTOR const& functor,  INTEGRATOR const& integrator):
 	fIntegrator(integrator),
 	fFunctor(functor),
-	fXLow(xlower),
-	fXUp(xupper),
-	fCalls(calls),
 	fNormCache(std::unordered_map<size_t, std::pair<GReal_t, GReal_t>>() )
 	{
-		std::tie(fNorm, fNormError) = fIntegrator(fFunctor, fXLow, fXUp, fCalls) ;
+		std::tie(fNorm, fNormError) = fIntegrator(fFunctor) ;
 
 	}
 
 
-	Pdf(Pdf<FUNCTOR,INTEGRATOR,N> const& other):
+	Pdf(Pdf<FUNCTOR,INTEGRATOR> const& other):
 		fIntegrator(other.GetIntegrator()),
 		fFunctor(other.GetFunctor()),
-		fXLow(other.GetXLow() ),
-		fXUp(other.GetXUp() ),
 		fNorm(other.GetNorm() ),
 		fNormError(other.GetNormError() ),
-		fCalls(other.GetCalls() ),
 		fNormCache(other.GetNormCache())
 	{
 
 	}
 
 
-	inline Pdf<FUNCTOR,INTEGRATOR,N>&
-	operator=(Pdf<FUNCTOR, INTEGRATOR,N> const & other )
+	inline Pdf<FUNCTOR,INTEGRATOR>&
+	operator=(Pdf<FUNCTOR, INTEGRATOR> const & other )
 	{
 		if(this == &other) return *this;
 
-		this->fXLow  = other.GetXLow() ;
-		this->fXUp   = other.GetXUp() ;
 		this->fNorm  = other.GetNorm() ;
 		this->fNormError  = other.GetNormError() ;
-		this->fCalls = other.GetCalls() ;
 		this->fFunctor    = other.GetFunctor();
 		this->fIntegrator = other.GetIntegrator();
 		this->fNormCache  = other.GetNormCache();
@@ -157,11 +145,11 @@ struct Pdf:detail::PdfBase<FUNCTOR, INTEGRATOR,N>
 		auto search = fNormCache.find(key);
 		if (search != fNormCache.end() && fNormCache.size()>0) {
 
-			std::tie(fNorm, fNormError) = *(search);
+			std::tie(fNorm, fNormError) = search->second;
 		}
 		else {
 
-			std::tie(fNorm, fNormError) =  fIntegrator(fFunctor, fXLow, fXUp, fCalls) ;
+			std::tie(fNorm, fNormError) =  fIntegrator(fFunctor) ;
 			fNormCache[key] = std::make_pair(fNorm, fNormError);
 
 		}
@@ -176,54 +164,34 @@ struct Pdf:detail::PdfBase<FUNCTOR, INTEGRATOR,N>
 		return fIntegrator;
 	}
 
-	inline	INTEGRATOR& GetIntegrator() const {
+	inline  const 	INTEGRATOR& GetIntegrator() const {
 		return fIntegrator;
 	}
 
-	inline	FUNCTOR& GetFunctor() const {
+	inline	const FUNCTOR& GetFunctor() const {
 		return fFunctor;
 	}
 
+	inline	FUNCTOR& GetFunctor() {
+			return fFunctor;
+		}
 
-	 inline GReal_t GetNorm() const {
+
+	inline GReal_t GetNorm() const {
 		return fNorm;
 	}
 
-	inline	void SetNorm( )
-	{
-		fNorm = thrust::get<0>( fIntegrator(fFunctor, fXLow, fXUp, fCalls) );
+	inline GReal_t GetNormError() const {
+			return fNormError;
 	}
 
-	size_t GetCalls() const
+	inline	void Normalize( )
 	{
-		return fCalls;
-	}
+		std::tie(fNorm, fNormError )  =  fIntegrator(fFunctor) ;
 
-	void SetCalls(size_t calls)
-	{
-		fCalls = calls;
 	}
 
 
-	std::array<GReal_t,N> GetXLow() const
-	{
-		return fXLow;
-	}
-
-	void SetXLow(std::array<GReal_t,N> const& xLow)
-	{
-		fXLow = xLow;
-	}
-
-	std::array<GReal_t,N> GetXUp() const
-	{
-		return fXUp;
-	}
-
-	void SetXUp(std::array<GReal_t,N> const& xUp)
-	{
-		fXUp = xUp;
-	}
 
 	std::unordered_map<size_t,std::pair<GReal_t,GReal_t> >& GetNormCache() const
 	{
@@ -257,21 +225,18 @@ private:
 
 	FUNCTOR fFunctor;
 	INTEGRATOR fIntegrator;
-	std::array<GReal_t,N> fXLow;
-	std::array<GReal_t,N> fXUp;
 	mutable GReal_t fNorm;
 	mutable GReal_t fNormError;
 	mutable std::unordered_map<size_t, std::pair<GReal_t, GReal_t>> fNormCache;
-	size_t fCalls;
+
 };
 
 //get pdf from functor expression
 
-template<typename FUNCTOR, typename INTEGRATOR, size_t N>
-Pdf<FUNCTOR, INTEGRATOR, N > make_pdf( FUNCTOR const& functor,  INTEGRATOR integrator,
-		std::array<GReal_t,N> const& xlower,	std::array<GReal_t,N> const& xupper){
+template<typename FUNCTOR, typename INTEGRATOR>
+Pdf<FUNCTOR, INTEGRATOR> make_pdf( FUNCTOR const& functor,  INTEGRATOR integrator){
 
-	return Pdf<FUNCTOR, INTEGRATOR, N >(functor, integrator,  xlower, xupper);
+	return Pdf<FUNCTOR, INTEGRATOR>(functor, integrator);
 }
 
 }//namespace hydra
