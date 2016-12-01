@@ -58,7 +58,7 @@ struct AddPdfFunctor
 
 	AddPdfFunctor(thrust::tuple<typename PDF1::functor_type,
 			typename PDF2::functor_type, typename PDFs::functor_type...> const& functors,
-			Parameter  (&coeficients)[sizeof...(PDFs)+2],
+			const Parameter (&coeficients)[sizeof...(PDFs)+2],
 			GReal_t coef_sum, GBool_t extended,	GBool_t fractioned ):
 				fFunctors( functors ),
 				fExtended(extended),
@@ -133,7 +133,7 @@ struct AddPdfFunctor
 		fFractioned = fractioned;
 	}
 
-	functors_tuple_type& GetFunctors() const
+	const functors_tuple_type& GetFunctors() const
 	{
 		return fFunctors;
 	}

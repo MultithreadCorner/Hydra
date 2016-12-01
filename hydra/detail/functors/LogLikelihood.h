@@ -60,8 +60,10 @@ struct LogLikelihood
 	typedef typename thrust::iterator_traits<IteratorCache>::value_type cache_value_type;
 
 
-	LogLikelihood(FUNCTOR const& functor, GReal_t sumW, GReal_t sumW2, IteratorData dbegin, IteratorCache cbegin,
-		GBool_t weighted, GBool_t cached):
+	LogLikelihood(FUNCTOR const& functor,
+			GReal_t sumW, GReal_t sumW2,
+			IteratorData dbegin, IteratorCache cbegin,
+		    GBool_t weighted, GBool_t cached):
 		fDataBegin(dbegin),
 		fCacheBegin(cbegin),
 		fFunctor(functor),

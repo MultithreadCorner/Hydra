@@ -1,13 +1,13 @@
 PROJECT_NAME           = "Hydra"
 PROJECT_NUMBER         =  1.0.0
 
-STRIP_FROM_PATH        = /home/augalves/Development/Development/Hydra_Variadic_Github/Hydra
+STRIP_FROM_PATH        = /home/augalves/Development/Devel/Hydra_Variadic_Github/Hydra
  
-INPUT                  = /home/augalves/Development/Development/Hydra_Variadic_Github/Hydra/hydra /home/augalves/Development/Development/Hydra_Variadic_Github/Hydra/doxydefs /home/augalves/Development/Development/Hydra_Variadic_Github/Hydra/src /home/augalves/Development/Development/Hydra_Variadic_Github/Hydra/README.md
+INPUT                  = /home/augalves/Development/Devel/Hydra_Variadic_Github/Hydra/hydra /home/augalves/Development/Devel/Hydra_Variadic_Github/Hydra/doxydefs /home/augalves/Development/Devel/Hydra_Variadic_Github/Hydra/src /home/augalves/Development/Devel/Hydra_Variadic_Github/Hydra/README.md
 
-USE_MDFILE_AS_MAINPAGE = /home/augalves/Development/Development/Hydra_Variadic_Github/Hydra/README.md
-PROJECT_LOGO           = /home/augalves/Development/Development/Hydra_Variadic_Github/Hydra/Hydra.jpg
-OUTPUT_DIRECTORY       = /home/augalves/Development/Development/Hydra_Variadic_Github/Eclipse_Hydra/doc
+USE_MDFILE_AS_MAINPAGE = /home/augalves/Development/Devel/Hydra_Variadic_Github/Hydra/README.md
+PROJECT_LOGO           = /home/augalves/Development/Devel/Hydra_Variadic_Github/Hydra/Hydra.jpg
+OUTPUT_DIRECTORY       = /home/augalves/Development/Devel/Hydra_Variadic_Github/Eclipse_Hydra/doc
 
 # Doxyfile 1.8.11
 
@@ -170,10 +170,10 @@ EXCLUDE                =
 EXCLUDE_SYMLINKS       = NO
 EXCLUDE_PATTERNS       = 
 EXCLUDE_SYMBOLS        = detail
-EXAMPLE_PATH           = /home/augalves/Development/Development/Hydra_Variadic_Github/Hydra/src
+EXAMPLE_PATH           = /home/augalves/Development/Devel/Hydra_Variadic_Github/Hydra/src
 EXAMPLE_PATTERNS       = *
 EXAMPLE_RECURSIVE      = YES
-IMAGE_PATH             = /home/augalves/Development/Development/Hydra_Variadic_Github/Eclipse_Hydra/plots
+IMAGE_PATH             = /home/augalves/Development/Devel/Hydra_Variadic_Github/Eclipse_Hydra/plots
 INPUT_FILTER           = 
 FILTER_PATTERNS        = 
 FILTER_SOURCE_FILES    = NO

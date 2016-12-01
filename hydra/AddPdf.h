@@ -89,8 +89,10 @@ struct AddPdf: detail::AddPdfBase<PDF1,PDF2,PDFs...>
 	typedef thrust::tuple<PDF1, PDF2, PDFs...> pdfs_tuple_type;//!< type of the tuple of pdfs
 
 	typedef thrust::tuple<typename PDF1::functor_type,
-			typename  PDF2::functor_type,typename  PDFs::functor_type...> functors_tuple_type;//!< type of the tuple of pdf::functors
+			typename  PDF2::functor_type,
+			typename  PDFs::functor_type...> functors_tuple_type;//!< type of the tuple of pdf::functors
 
+	typedef detail::AddPdfFunctor< PDF1, PDF2, PDFs...> functor_type;
 
 	/**
 	 * \brief Ctor for used to build AddPdf usable in extended likelihood fits.
