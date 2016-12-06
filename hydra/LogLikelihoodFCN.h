@@ -178,6 +178,7 @@ public:
 		if( fFunctor.IsFractioned() && (fFunctor.GetCoefSum() < 0.0 || fFunctor.GetCoefSum() > 0.0))
 			return fMAxValue;
 
+		//fFunctor.GetFunctor().PrintRegisteredParameters();
 
 		final=thrust::transform_reduce(select_system(system), first, last,
 				detail::LogLikelihood<typename U::functor_type,
@@ -191,8 +192,7 @@ public:
 
 		fMAxValue = fMAxValue<r?r:fMAxValue;
 
-
-		return r ;
+		return r;
 	}
 
 

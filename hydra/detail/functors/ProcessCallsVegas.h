@@ -78,7 +78,7 @@ struct ProcessBoxesVegas
 	}
 };
 
-template<typename FUNCTOR, size_t NDimensions, typename GRND=thrust::random::default_random_engine>
+template<typename FUNCTOR, size_t NDimensions, typename Precision, typename GRND=thrust::random::default_random_engine>
 struct ProcessCallsVegas
 {
 	ProcessCallsVegas( size_t NBins,
@@ -90,7 +90,7 @@ struct ProcessCallsVegas
 			GReal_t* Xi,
 			GReal_t* XLow,
 			GReal_t* DeltaX,
-			GReal_t* Distribution/*FunctionCalls*/,
+			Precision* Distribution/*FunctionCalls*/,
 			GInt_t Mode,
 			std::mutex *Mutex,
 			FUNCTOR const& functor):
@@ -110,7 +110,7 @@ struct ProcessCallsVegas
 	{}
 
 	__host__ __device__
-	ProcessCallsVegas( ProcessCallsVegas<FUNCTOR,NDimensions, GRND> const& other):
+	ProcessCallsVegas( ProcessCallsVegas<FUNCTOR,NDimensions,Precision, GRND> const& other):
 	fMode(other.fMode),
 	fSeed(other.fSeed),
 	fNBins(other.fNBins),
@@ -124,7 +124,9 @@ struct ProcessCallsVegas
 	fDistribution(other.fDistribution),
 	fFunctor(other.fFunctor),
 	fMutex(other.fMutex)
-	{}
+	{
+
+	}
 
 	__host__ __device__
 	~ProcessCallsVegas(){
@@ -147,6 +149,17 @@ struct ProcessCallsVegas
 		return _coordinate;
 	}
 
+	__host__   __device__ inline
+	size_t hash(size_t a, size_t b)
+	{
+		//Matthew Szudzik pairing
+		//http://szudzik.com/ElegantPairing.pdf
+
+		size_t  A = 2 * a ;
+		size_t  B = 2 * b ;
+		size_t  C = ((A >= B ? A * A + A + B : A + B * B) / 2);
+		return  C ;
+	}
 	__host__ __device__
 	inline ResultVegas operator()( size_t box)
 	{
@@ -155,7 +168,9 @@ struct ProcessCallsVegas
 		GReal_t x[NDimensions];
 		volatile GInt_t bin[NDimensions];
 		ResultVegas result;
-		GRND randEng( fSeed+box);
+
+		GRND randEng( hash(fSeed,box));
+
 		thrust::uniform_real_distribution<GReal_t> uniDist(0.0, 1.0);
 
 		GReal_t m = 0, q = 0;
@@ -198,16 +213,16 @@ struct ProcessCallsVegas
 				for (GUInt_t j = 0; j < NDimensions; j++) {
 #ifdef __CUDA_ARCH__
 
-#if __CUDA_ARCH__ >= 600
-					atomicAdd((fDistribution + bin[j]* NDimensions + j) ,  static_cast<double>>(fval*fval));
-#else
-					atomicAdd( (float*)(fDistribution + bin[j]* NDimensions + j) , static_cast<float>(fval*fval));
-#endif
+//#if __CUDA_ARCH__ >= 600
+	//				atomicAdd((fDistribution + bin[j]* NDimensions + j) ,  static_cast<double>>(fval*fval));
+//#else
+					atomicAdd( (fDistribution + bin[j]* NDimensions + j) , static_cast<Precision>(fval*fval));
+//#endif
 
 #else
 					std::lock_guard<std::mutex> lock(*fMutex);
 
-					*(fDistribution  + bin[j]* NDimensions + j) += static_cast<double>(fval*fval);
+					*(fDistribution  + bin[j]* NDimensions + j) += static_cast<Precision>(fval*fval);
 #endif
 				}
 			}
@@ -221,16 +236,16 @@ struct ProcessCallsVegas
 			for (GUInt_t j = 0; j < NDimensions; j++) {
 #ifdef __CUDA_ARCH__
 
-#if __CUDA_ARCH__ >= 600
-				atomicAdd((fDistribution + bin[j]*NDimensions+j), static_cast<double>(f_sq_sum));
-#else
-				atomicAdd((float*)(fDistribution + bin[j]*NDimensions+j), static_cast<float>(f_sq_sum));
-#endif
+//#if __CUDA_ARCH__ >= 600
+//				atomicAdd((fDistribution + bin[j]*NDimensions+j), static_cast<double>(f_sq_sum));
+//#else
+				atomicAdd((fDistribution + bin[j]*NDimensions+j), static_cast<Precision>(f_sq_sum));
+//#endif
 
 #else
 				std::lock_guard<std::mutex> lock(*fMutex);
 //#pragma omp atomic
-				*(fDistribution  + bin[j]* NDimensions + j) += static_cast<double>(f_sq_sum);
+				*(fDistribution  + bin[j]* NDimensions + j) += static_cast<Precision>(f_sq_sum);
 #endif
 			}
 		}
@@ -252,7 +267,7 @@ private:
    GReal_t*   __restrict__ fXi;
    GReal_t*   __restrict__ fXLow;
    GReal_t*   __restrict__ fDeltaX;
-   GReal_t*  __restrict__ fDistribution;
+   Precision*  __restrict__ fDistribution;
    std::mutex *fMutex;
 
     FUNCTOR fFunctor;

@@ -69,16 +69,20 @@ struct BaseFunctor
 	BaseFunctor():
 	fCacheIndex(-1),
 	fCached(0),
-	fParamResgistered(0),
-	fNorm(1.0)
+	fParamResgistered(1),
+	fNorm(1.0),
+	fNormalized(1),
+	_par(*this)
 	{	}
 
 	__host__ __device__
 	BaseFunctor(BaseFunctor<Functor,ReturnType, NPARAM> const& other):
 	fCacheIndex( other.GetCacheIndex() ),
 	fCached( other.IsCached() ),
-	fParamResgistered(0),
-	fNorm(other.GetNorm())
+	fParamResgistered(1),
+	fNorm(other.GetNorm()),
+	fNormalized(other.GetNormalized() ),
+	_par(*this)
 	{ }
 
 	__host__ __device__ inline
@@ -91,15 +95,14 @@ struct BaseFunctor
 			this->fCached         = other.IsCached();
 			//this->fParameterIndex = other.GetParameterIndex();
 			this->fNorm = other.GetNorm();
-			this->fParamResgistered =0;
+			this->fNormalized =other.GetNormalized();
+			this->fParamResgistered =1;
+			_par=*this;
 
          }
 		return *this;
 	}
 
-	__host__ __device__
-	~BaseFunctor()
-	{ }
 
 	__host__ __device__ inline
 	Functor& GetFunctor() {return *static_cast<Functor*>(this);}
@@ -118,6 +121,7 @@ struct BaseFunctor
 	void SetCached(bool cached=true)
 	{ fCached = cached; }
 
+	/*
 	__host__ __device__ inline
 	void RegistryParameters( std::initializer_list<Parameter*> var_list){
 
@@ -133,7 +137,7 @@ struct BaseFunctor
 #endif
 
 	}
-
+*/
 
 	void PrintRegisteredParameters()
 	{
@@ -146,7 +150,8 @@ struct BaseFunctor
 		HYDRA_MSG <<HYDRA_ENDL;
 		HYDRA_MSG << "Registered parameters begin:" << HYDRA_ENDL;
 		for(size_t i=0; i<parameter_count; i++ )
-		HYDRA_MSG <<"  >> Parameter " << i <<") "<< *fParameters[i] << HYDRA_ENDL;
+		HYDRA_MSG <<"  >> Parameter " << i <<") "<< fParameters[i] << HYDRA_ENDL;
+		HYDRA_MSG <<"Normalization " << fNorm << HYDRA_ENDL;
 		HYDRA_MSG <<"Registered parameters end." << HYDRA_ENDL;
 		HYDRA_MSG <<HYDRA_ENDL;
 		return;
@@ -161,14 +166,15 @@ struct BaseFunctor
 		            return;
 				}
 		for(size_t i=0; i< parameter_count; i++){
-			*(fParameters[i])= parameters[fParameters[i]->GetIndex()];
+			fParameters[i] = parameters[fParameters[i].GetIndex()];
 		}
 
 		if (INFO >= hydra::Print::Level()  )
 		{
 			std::ostringstream stringStream;
 			for(size_t i=0; i< parameter_count; i++){
-			     stringStream << "Parameter["<< fParameters[i]->GetIndex() <<"] :  " << parameters[fParameters[i]->GetIndex() ] << "  " << *fParameters[i] << "\n";
+			     stringStream << "Parameter["<< fParameters[i].GetIndex() <<"] :  "
+			    		 << parameters[fParameters[i].GetIndex() ] << "  " << fParameters[i] << "\n";
 			}
 			HYDRA_LOG(INFO, stringStream.str().c_str() )
 		}
@@ -177,24 +183,44 @@ struct BaseFunctor
 	}
 
 
-	__host__  inline
-	 const Parameter* GetParameter(size_t i) const {
+
+	__host__ __device__ inline
+	 Parameter& GetParameter(size_t i)  {
 		return fParameters[i];
 	}
 
 
-	__host__  inline
-	Parameter* GetParameter(size_t i) {
+	__host__ __device__ inline
+	const Parameter& GetParameter(size_t i) const {
 		return fParameters[i];
 	}
 
+	__host__ __device__ inline
+	void SetParameter(size_t i, Parameter const& value) {
+		fParameters[i]=value;
+	}
+
+
+	__host__ __device__  inline
 	GReal_t GetNorm() const {
 		return fNorm;
 	}
 
+	__host__ __device__  inline
 	void SetNorm(GReal_t norm) {
 		fNorm = norm;
 	}
+
+	__host__ __device__  inline
+	void SetNormalized( bool flag ) {
+		fNormalized = flag;
+	}
+
+	__host__ __device__  inline
+	bool GetNormalized(  ) const {
+		return fNormalized;
+	}
+
 
 	template<typename T  >
 	__host__ __device__ inline
@@ -231,15 +257,20 @@ struct BaseFunctor
 	template<typename T>
 	__host__  __device__ inline
 	return_type operator()( T* x, T* p=0  )
-	{return static_cast<Functor*>(this)->Evaluate(x)/fNorm; }
+	{
+		GReal_t norm = fNormalized? fNorm : 1.0;
+
+		return norm>0.0?static_cast<Functor*>(this)->Evaluate(x)*norm:0;
+	}
 
 
 	template<typename T>
 	__host__ __device__ inline
 	return_type operator()( T&&  x )
 	{
+		GReal_t norm = fNormalized ? fNorm : 1.0;
 
-		return interface< T>(std::forward< T >(x))/fNorm;
+		return  norm>0.0? interface< T>(std::forward< T >(x))*norm:0;
 	}
 
 
@@ -247,11 +278,22 @@ struct BaseFunctor
 	__host__ __device__  inline
 	return_type operator()( T1&& x, T2 && cache)
 	{
+		GReal_t norm = fNormalized? fNorm : 1.0;
 
-		return (fCached ?\
+		return fCached ?\
 				detail::extract<return_type, T2 >(fCacheIndex, std::forward<T2>(cache)):\
-				operator()<T1>( std::forward<T1>(x) ))/fNorm;
+				norm>0.0?operator()<T1>( std::forward<T1>(x) )*norm:0;
 	}
+
+
+	__host__ __device__  inline
+    Parameter& operator[](size_t i)
+	{
+		return fParameters[i];
+	}
+
+protected:
+	BaseFunctor<Functor,ReturnType, NPARAM>& _par;
 
 private:
 
@@ -259,7 +301,8 @@ private:
 	int  fCacheIndex;
 	bool fCached;
 	bool fParamResgistered;
-	Parameter* fParameters[NPARAM];
+	bool fNormalized;
+	Parameter fParameters[NPARAM];
 
 
 };

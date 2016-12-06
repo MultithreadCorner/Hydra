@@ -54,11 +54,14 @@ typedef bool GBool_t;      ///< Boolean (0=false, 1=true) (bool)
 typedef unsigned char GByte_t;      ///< Byte (8 bits) (unsigned char)
 typedef long long GLong64_t; ///< Portable signed long integer 8 bytes
 typedef unsigned long long GULong64_t; ///< Portable unsigned long integer 8 bytes
+
 #ifdef FP_SINGLE
 typedef float GReal_t;///< Double 8 bytes or float 4 bytes
 #else
 typedef double GReal_t;///< Double 8 bytes or float 4 bytes
 #endif
+
+
 
 //---- constants ---------------------------------------------------------------
 

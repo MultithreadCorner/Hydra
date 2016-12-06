@@ -31,6 +31,7 @@
 
 #include <hydra/detail/Config.h>
 #include <hydra/Types.h>
+#include <hydra/detail/Print.h>
 #include <hydra/Parameter.h>
 #include <hydra/detail/utility/Utility_Tuple.h>
 #include <hydra/detail/utility/Generic.h>
@@ -41,7 +42,21 @@ namespace hydra {
 
 namespace detail {
 
+//evaluate a tuple of functors and return a tuple of results
+template< typename Tup, size_t ... index>
+inline auto get_functor_tuple_helper(Tup& pdfs, index_sequence<index...>)
+-> decltype(thrust::make_tuple(thrust::get<index>(pdfs).GetFunctor()...))
+{
+	return thrust::make_tuple(thrust::get<index>(pdfs).GetFunctor() ...);
+}
 
+template< typename Tup>
+inline auto get_functor_tuple(Tup& pdfs)
+-> decltype(get_functor_tuple_helper(pdfs, make_index_sequence< thrust::tuple_size<Tup>::value> { }))
+{
+	constexpr size_t Size = thrust::tuple_size<Tup>::value;
+	return get_functor_tuple_helper(pdfs, make_index_sequence<Size> { });
+}
 
 template<typename PDF1, typename PDF2, typename ...PDFs>
 struct AddPdfFunctor
@@ -96,48 +111,61 @@ struct AddPdfFunctor
     	return *this;
     }
 
-
-
+    __host__
+    void PrintRegisteredParameters()
+    {
+    	HYDRA_CALLER ;
+    	HYDRA_MSG << "Registered parameters begin:" << HYDRA_ENDL;
+    	HYDRA_MSG << "Coeficients: "<< HYDRA_ENDL;
+    			for(size_t i=0;i< sizeof...(PDFs)+2;i++ )
+    			{
+    				HYDRA_MSG << "["<<i<<"]" <<	fCoeficients[i]<<HYDRA_ENDL;
+    			}
+    			detail::print_parameters_in_tuple(fFunctors);
+    	HYDRA_MSG <<"Registered parameters end."<< HYDRA_ENDL;
+    	HYDRA_MSG << HYDRA_ENDL;
+    }
+    __host__ __device__
 	const GReal_t* GetCoeficients() const
 	{
 		return fCoeficients;
 	}
-
+    __host__ __device__
 	GReal_t GetCoefSum() const
 	{
 		return fCoefSum;
 	}
-
+    __host__ __device__
 	void SetCoefSum(GReal_t coefSum)
 	{
 		fCoefSum = coefSum;
 	}
-
+    __host__ __device__
 	GBool_t IsExtended() const
 	{
 		return fExtended;
 	}
-
+    __host__ __device__
 	void SetExtended(GBool_t extended)
 	{
 		fExtended = extended;
 	}
-
+    __host__ __device__
 	GBool_t IsFractioned() const
 	{
 		return fFractioned;
 	}
-
+    __host__ __device__
 	void SetFractioned(GBool_t fractioned)
 	{
 		fFractioned = fractioned;
 	}
-
+    __host__ __device__
 	const functors_tuple_type& GetFunctors() const
 	{
 		return fFunctors;
 	}
-
+    __host__ __device__
 	void SetFunctors(functors_tuple_type functors)
 	{
 		fFunctors = functors;
@@ -145,6 +173,7 @@ struct AddPdfFunctor
 
 
 	template<typename T1> inline
+	 __host__ __device__
 	GReal_t operator()(T1&& t )
 	{
 
@@ -156,10 +185,13 @@ struct AddPdfFunctor
 		for(size_t i=0; i< npdfs; i++)
 			result += fCoeficients[i]*pdf_res_array[i];
 
-		return result/fCoefSum;
+		//printf("%f %f %f %f %f  \n", pdf_res_array[0], pdf_res_array[1], pdf_res_array[2], result, fCoefSum );
+
+		return result*fCoefSum;
 	}
 
 	template<typename T1, typename T2>
+	 __host__ __device__
 	inline	GReal_t operator()( T1&& t, T2&& cache)
 	{
 
@@ -171,10 +203,11 @@ struct AddPdfFunctor
 		for(size_t i=0; i< npdfs; i++)
 			result += fCoeficients[i]*pdf_res_array[i];
 
-		return result/fCoefSum;
+		return result*fCoefSum;
 	}
 
 	template<typename T>
+	 __host__ __device__
 	inline	GReal_t operator()( T* x, T* p)
 	{
 
@@ -190,8 +223,9 @@ struct AddPdfFunctor
 			result += fCoeficients[i]*pdf_res_array[i];
 		}
 
-		return result/fCoefSum;
+		return result*fCoefSum;
 	}
+
 
 private:
 	GReal_t fCoefSum;

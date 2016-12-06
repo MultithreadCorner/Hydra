@@ -51,7 +51,7 @@ namespace hydra {
 			std::size_t seed = 0;
 
 			for (; first != last; ++first) {
-				hash_combine(seed, (typename It::value_type)*first);
+				hash_combine(seed, *first);
 			}
 
 			return seed;

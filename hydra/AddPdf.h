@@ -199,19 +199,25 @@ struct AddPdf: detail::AddPdfBase<PDF1,PDF2,PDFs...>
  */
 	inline	void SetParameters(const std::vector<double>& parameters){
 
-		for(size_t i=0; i< npdfs-(!fExtended); i++)
+		for(size_t i=0; i< npdfs-(fFractioned); i++)
 			      fCoeficients[i].Reset(parameters );
 
 		detail::set_functors_in_tuple(fPDFs, parameters);
-		detail::set_functors_in_tuple(fFunctors, parameters);
+		fFunctors = get_functor_tuple(fPDFs);
 
 		fCoefSum=0;
-		for(size_t i=0; i< npdfs -(!fExtended); i++)
-			fCoefSum+=fCoeficients[i];
 
-		if(!fExtended)
+		if(!fFractioned){
+			for(size_t i=0; i< npdfs ; i++)
+				fCoefSum+=fCoeficients[i];
+		}
+		else
+		{
+			for(size_t i=0; i< npdfs-1 ; i++)
+							fCoefSum+=fCoeficients[i];
+
 			fCoeficients[npdfs -1] = 1.0 - fCoefSum;
-
+		}
 	}
 
 	/**
@@ -238,10 +244,14 @@ struct AddPdf: detail::AddPdfBase<PDF1,PDF2,PDFs...>
 		return fExtended;
 	}
 
+
+
 	inline detail::AddPdfFunctor< PDF1, PDF2, PDFs...>  GetFunctor() const
 	{
+
+
 		return detail::AddPdfFunctor<PDF1, PDF2, PDFs...>(fFunctors,
-				fCoeficients,fCoefSum,fExtended,fFractioned );
+				fCoeficients,1.0/fCoefSum,fExtended,fFractioned );
 	}
 
 	inline const functors_tuple_type& GetFunctors() const
@@ -262,6 +272,11 @@ struct AddPdf: detail::AddPdfBase<PDF1,PDF2,PDFs...>
 	inline	GBool_t IsFractioned() const
 	{
 		return fFractioned;
+	}
+
+	void SetExtended(GBool_t extended)
+	{
+		fExtended = extended;
 	}
 
 	template<typename T1> inline

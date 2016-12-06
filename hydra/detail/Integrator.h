@@ -45,10 +45,11 @@ struct Integrator{
 
 
 	template<typename FUNCTOR>
-	inline std::pair<GReal_t, GReal_t> operator()( FUNCTOR const& functor){
-
-	return static_cast<ALGORITHM*>(this)->Integrate(functor);
-
+	inline std::pair<GReal_t, GReal_t> operator()( FUNCTOR& functor){
+	functor.SetNormalized(0);
+	auto result = static_cast<ALGORITHM*>(this)->Integrate(functor);
+	functor.SetNormalized(1);
+	return result;
 	}
 
 

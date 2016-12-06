@@ -43,7 +43,7 @@
 #include <iostream>
 #include <utility>
 
-#define  USE_ORIGINAL_CHISQ_FORMULA 1
+#define  USE_ORIGINAL_CHISQ_FORMULA 0
 
 namespace hydra {
 
@@ -529,7 +529,7 @@ void Vegas<  N , GRND>::ProcessFuncionCalls(FUNCTOR const& fFunctor, GReal_t& in
 
 	detail::ResultVegas init;
 	detail::ResultVegas result = thrust::transform_reduce(first, last,
-			detail::ProcessCallsVegas<FUNCTOR,N, GRND>(
+			detail::ProcessCallsVegas<FUNCTOR,N,typename VegasState<N>::vegas_pdf_type, GRND>(
 			fState.GetNBins(),
 			NBoxes_Total,
 			fState.GetNBoxes(),
@@ -539,7 +539,7 @@ void Vegas<  N , GRND>::ProcessFuncionCalls(FUNCTOR const& fFunctor, GReal_t& in
 			const_cast<GReal_t*>(thrust::raw_pointer_cast(fState.GetDeviceXi().data())),
 			const_cast<GReal_t*>(thrust::raw_pointer_cast(fState.GetDeviceXLow().data())),
 			const_cast<GReal_t*>(thrust::raw_pointer_cast(fState.GetDeviceDeltaX().data())),
-			const_cast<GReal_t*>(thrust::raw_pointer_cast(fState.GetDeviceDistribution().data())),
+			const_cast<typename VegasState<N>::vegas_pdf_type*>(thrust::raw_pointer_cast(fState.GetDeviceDistribution().data())),
 			fState.GetMode(),
 			fState.GetMutex(),
 			fFunctor),

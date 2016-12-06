@@ -218,16 +218,16 @@ GInt_t main(int argv, char** argc)
 	//	tau  = 1.0
 
 	// 1) using named parameter idiom
-	Parameter  mean1_p  = Parameter::Create().Name(Mean1).Value(3.0) .Error(0.001).Limits( 1.0, 4.0);
-	Parameter  sigma1_p = Parameter::Create().Name(Sigma1).Value(0.5).Error(0.001).Limits(0.1, 1.5);
-	Parameter  mean2_p  = Parameter::Create().Name(Mean2).Value(5.0).Error(0.001).Limits(4.0, 6.0);
-	Parameter  sigma2_p = Parameter::Create().Name(Sigma2).Value(1.0).Error(0.001).Limits(0.5, 1.5);
-    Parameter  tau_p    = Parameter::Create().Name(Tau).Value(0).Error(0.001).Limits( -1.0, 1.0);
+	Parameter  mean1_p  = Parameter::Create().Name(Mean1).Value(3.0) .Error(0.01).Limits( 1.0, 4.0);
+	Parameter  sigma1_p = Parameter::Create().Name(Sigma1).Value(0.5).Error(0.01).Limits(0.1, 1.5);
+	Parameter  mean2_p  = Parameter::Create().Name(Mean2).Value(5.0).Error(0.01).Limits(4.0, 6.0);
+	Parameter  sigma2_p = Parameter::Create().Name(Sigma2).Value(1.0).Error(0.01).Limits(0.5, 1.5);
+    Parameter  tau_p    = Parameter::Create().Name(Tau).Value(0).Error(0.01).Limits( -1.0, 1.0);
 
     // 2) using unnamed parameter idiom
-    Parameter NA_p(na ,nentries, sqrt(nentries), nentries - nentries/2, nentries + nentries/2) ;
-	Parameter NB_p(nb ,nentries, sqrt(nentries), nentries - nentries/2, nentries + nentries/2) ;
-	Parameter NC_p(nc ,nentries, sqrt(nentries), nentries - nentries/2, nentries + nentries/2) ;
+    Parameter NA_p(na ,nentries, sqrt(nentries)/1000, nentries - nentries/2, nentries + nentries/2) ;
+	Parameter NB_p(nb ,nentries, sqrt(nentries)/1000, nentries - nentries/2, nentries + nentries/2) ;
+	Parameter NC_p(nc ,nentries, sqrt(nentries)/1000, nentries - nentries/2, nentries + nentries/2) ;
 
 	//----------------------------------------------------------------------
     // registry the parameters
@@ -241,9 +241,13 @@ GInt_t main(int argv, char** argc)
     upar.AddParameter(&NA_p);
     upar.AddParameter(&NB_p);
     upar.AddParameter(&NC_p);
-
+    upar.GetState().SetPrecision( 1000*upar.GetState().Precision().Eps());
+    ROOT::Minuit2::MnPrint::SetLevel(3);
     //check all is fine
     upar.PrintParameters();
+
+    cout << "======>"<<upar.GetState().Precision().Eps() << endl;
+
 
     //----------------------------------------------------------------------
 	// create functors
@@ -260,7 +264,7 @@ GInt_t main(int argv, char** argc)
 	state.SetIterations(15);
 	state.SetUseRelativeError(1);
 	state.SetMaxError(1e-3);
-
+	state.SetCalls(10000);
     //5,000 calls (fast convergence and precise result)
 	Vegas<1> vegas(state);
 
@@ -272,7 +276,7 @@ GInt_t main(int argv, char** argc)
 
 	//----------------------------------------------------------------------
 	//integrate with the current parameters just to test
-	vegas.Integrate(Gaussian1_PDF);
+	vegas.Integrate(Gaussian1_PDF.GetFunctor());
 	cout << ">>> GaussianA intetgral prior fit "<< endl;
 	cout << "Result: " << vegas.GetState().GetResult() << " +/- "
 		 << vegas.GetState().GetSigma() << " Chi2: "<< vegas.GetState().GetChiSquare()
@@ -281,14 +285,14 @@ GInt_t main(int argv, char** argc)
 
 	Gaussian2_PDF.PrintRegisteredParameters();
 
-	vegas.Integrate(Gaussian2_PDF);
+	vegas.Integrate(Gaussian2_PDF.GetFunctor());
 	cout << ">>> GaussianB intetgral prior fit "<< endl;
 	cout << "Result: " << vegas.GetState().GetResult() << " +/- "
 			<< vegas.GetState().GetSigma() << " Chi2: "<< vegas.GetState().GetChiSquare() << endl;
 
 	Exponential_PDF.PrintRegisteredParameters();
 
-	vegas.Integrate(Exponential_PDF);
+	vegas.Integrate(Exponential_PDF.GetFunctor());
 	cout << ">>> Exponential intetgral prior fit "<< endl;
 	cout << "Result: " << vegas.GetState().GetResult() << " +/- "
 			<< vegas.GetState().GetSigma() << " Chi2: "<< vegas.GetState().GetChiSquare() << endl;
@@ -317,7 +321,7 @@ GInt_t main(int argv, char** argc)
 	PointVector<host> data_h(data_d);
 
 	TH1D hist_gaussian("gaussian", "", 100, min[0], max[0]);
-
+	 hist_gaussian.Sumw2();
 	for(auto point: data_h )
 		hist_gaussian.Fill(point.GetCoordinate(0));
 
@@ -369,15 +373,16 @@ GInt_t main(int argv, char** argc)
 	//sample fit function on the host nentries trials
 	PointVector<host, GReal_t, 1> data2_h(0);
 	Generator.SetSeed(std::chrono::system_clock::now().time_since_epoch().count()+1);//+1 because all can run very fast sometimes
-	Generator.Sample(model, min, max, data2_h, nentries );
+	Generator.Sample(model, min, max, data2_h, 10*nentries );
 
 	TH1D hist_gaussian_fit("gaussian_fit", "", 100, min[0], max[0]);
-
+	hist_gaussian_fit.Sumw2();
 	// histogram it for graphics representation
 	for(auto point: data2_h )
 			hist_gaussian_fit.Fill(point.GetCoordinate(0));
 
 	TH1D hist_gaussian_plot("gaussian_plot", "", 100,  min[0], max[0]);
+	hist_gaussian_plot.Sumw2();
 	for (size_t i=0 ; i<=100 ; i++) {
 		GReal_t x = hist_gaussian_plot.GetBinCenter(i);
 		hist_gaussian_plot.SetBinContent(i, model(&x) );

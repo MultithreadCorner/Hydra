@@ -225,6 +225,7 @@ private:
 
 		if (search != fFCNCache.end() && fFCNCache.size()>0) {
 			value = search->second;
+			//std::cout << "found NLL!" << std::endl;
 			//fnd=1;
 		} else {
 

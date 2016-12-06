@@ -22,18 +22,21 @@ struct Gauss:public BaseFunctor<Gauss,GReal_t, 2>
 
 	Gauss(Parameter const& mean, Parameter const& sigma, GUInt_t position=0 ):
 		BaseFunctor<Gauss,GReal_t,2>(),
-		fPosition(position),
-		fM(mean),
-		fS(sigma)
-		{ RegistryParameters({&fM, &fS}); }
+		fPosition(position)
+		{
+		SetParameter(0, mean);
+		SetParameter(1, sigma);
+
+		}
 
 	__host__ __device__
 	inline Gauss(Gauss const& other):
 	BaseFunctor<Gauss,GReal_t,2>(other),
-	fPosition(other.fPosition),
-	fM(other.fM),
-	fS(other.fS)
-	{ RegistryParameters({&(this->fM), &(this->fS)}); }
+	fPosition(other.fPosition)
+	{
+		SetParameter(0, other.GetParameter(0) );
+		SetParameter(1, other.GetParameter(1) );
+	}
 
 
 	__host__ __device__
@@ -42,10 +45,9 @@ struct Gauss:public BaseFunctor<Gauss,GReal_t, 2>
 		if(this == &other) return *this;
 
 		BaseFunctor<Gauss,GReal_t,2>::operator=(other);
-		this->fM = other.fM;
-		this->fS = other.fS;
 		this->fPosition = other.fPosition;
-		this->RegistryParameters({&(this->fM), &(this->fS)});
+		this->SetParameter(0, other.GetParameter(0) );
+		this->SetParameter(1, other.GetParameter(1) );
 
 		return *this;
 	}
@@ -54,13 +56,10 @@ struct Gauss:public BaseFunctor<Gauss,GReal_t, 2>
 	__host__ __device__
 	inline GReal_t Evaluate(T* x, T* p=0)
 	{
-		//printf(" Gauss : fM %f fS %f\n", fM(),  fS());
-		return exp(-((x[fPosition] - fM) * (x[fPosition] - fM)) / (2 * fS * fS));
+		return exp(-((x[fPosition] - _par[0] ) * (x[fPosition] - _par[0])) / (2 * _par[1]*_par[1] ));
 	}
 
 	GUInt_t  fPosition;
-	Parameter fM;
-	Parameter fS;
 
 };
 

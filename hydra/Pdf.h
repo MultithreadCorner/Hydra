@@ -96,6 +96,13 @@ struct Pdf:detail::PdfBase<FUNCTOR, INTEGRATOR>
 	fNormCache(std::unordered_map<size_t, std::pair<GReal_t, GReal_t>>() )
 	{
 		std::tie(fNorm, fNormError) = fIntegrator(fFunctor) ;
+		fFunctor.SetNorm(1.0/fNorm);
+		for(size_t i=0; i< FUNCTOR::parameter_count; i++)
+			fParameters[i]=fFunctor.GetParameter(i);
+		size_t key = detail::hash_range(fParameters.begin(),
+						fParameters.end());
+
+		fNormCache[key] = std::make_pair(fNorm, fNormError);
 
 	}
 
@@ -108,6 +115,14 @@ struct Pdf:detail::PdfBase<FUNCTOR, INTEGRATOR>
 		fNormCache(other.GetNormCache())
 	{
 
+		for(size_t i=0; i< FUNCTOR::parameter_count; i++)
+			fParameters[i]=fFunctor.GetParameter(i);
+
+		size_t key = detail::hash_range(fParameters.begin(),
+				fParameters.end());
+
+		fNormCache[key] = std::make_pair(fNorm, fNormError);
+		//fFunctor.SetNorm(1.0/fNorm);
 	}
 
 
@@ -121,9 +136,20 @@ struct Pdf:detail::PdfBase<FUNCTOR, INTEGRATOR>
 		this->fFunctor    = other.GetFunctor();
 		this->fIntegrator = other.GetIntegrator();
 		this->fNormCache  = other.GetNormCache();
+		for(size_t i=0; i< FUNCTOR::parameter_count; i++)
+			this->fParameters[i]=fFunctor.GetParameter(i);
+
+
+		size_t key = detail::hash_range(fParameters.begin(),
+				fParameters.end());
+
+		fNormCache[key] = std::make_pair(fNorm, fNormError);
+
+		//fFunctor.SetNorm(1.0/fNorm);
 		return *this;
 	}
 
+	~Pdf(){}
 
 	inline	void PrintRegisteredParameters()
 	{
@@ -138,14 +164,19 @@ struct Pdf:detail::PdfBase<FUNCTOR, INTEGRATOR>
 
 		fFunctor.SetParameters(parameters);
 
-		size_t key = detail::hash_range(parameters.begin(),
-				parameters.end());
+		for(size_t i=0; i< FUNCTOR::parameter_count; i++)
+							fParameters[i]=fFunctor.GetParameter(i);
+
+		size_t key = detail::hash_range(fParameters.begin(),
+				fParameters.end());
 
 
 		auto search = fNormCache.find(key);
 		if (search != fNormCache.end() && fNormCache.size()>0) {
 
 			std::tie(fNorm, fNormError) = search->second;
+			//std::cout << "found norm!" << std::endl;
+
 		}
 		else {
 
@@ -154,8 +185,8 @@ struct Pdf:detail::PdfBase<FUNCTOR, INTEGRATOR>
 
 		}
 
+		fFunctor.SetNorm(1.0/fNorm);
 
-		fFunctor.SetNorm(fNorm);
 		return;
 	}
 
@@ -201,7 +232,7 @@ struct Pdf:detail::PdfBase<FUNCTOR, INTEGRATOR>
  	template<typename T1>
   	inline  	GReal_t operator()(T1&& t )
   	{
-  		return fFunctor(t)/fNorm;
+  		return fFunctor(t);
 
   	}
 
@@ -209,24 +240,24 @@ struct Pdf:detail::PdfBase<FUNCTOR, INTEGRATOR>
   	inline  	GReal_t operator()( T1&& t, T2&& cache)
   	{
 
-  		return fFunctor(t, cache)/fNorm;
+  		return fFunctor(t, cache);
   	}
 
   	template<typename T>
    inline  GReal_t operator()( T* x, T* p)
   	  	{
 
-  	  		return fFunctor(x,p)/fNorm;
+  	  		return fFunctor(x,p);
   	  	}
 
 
 private:
 
-
-	FUNCTOR fFunctor;
-	INTEGRATOR fIntegrator;
-	mutable GReal_t fNorm;
-	mutable GReal_t fNormError;
+  	std::array<GReal_t, FUNCTOR::parameter_count> fParameters;
+  	FUNCTOR fFunctor;
+  	INTEGRATOR fIntegrator;
+	GReal_t fNorm;
+	GReal_t fNormError;
 	mutable std::unordered_map<size_t, std::pair<GReal_t, GReal_t>> fNormCache;
 
 };

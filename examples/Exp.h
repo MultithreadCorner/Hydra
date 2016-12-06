@@ -20,16 +20,18 @@ struct Exp:public BaseFunctor<Exp, GReal_t, 1>
 
 	Exp(Parameter const& tau, GUInt_t position=0 ):
 		BaseFunctor<Exp,GReal_t,1>(),
-		fPosition(position),
-		fTau(tau)
-		{ RegistryParameters({&fTau}); }
+		fPosition(position)
+		{
+			SetParameter(0, tau);
+		}
 
 	__host__ __device__
 	inline Exp(Exp const& other):
 	BaseFunctor<Exp,GReal_t,1>(other),
-	fPosition(other.fPosition),
-	fTau(other.fTau)
-	{ RegistryParameters({&(this->fTau)}); }
+	fPosition(other.fPosition)
+	{
+		SetParameter(0, other.GetParameter(0) );
+	}
 
 
 	__host__ __device__
@@ -38,9 +40,8 @@ struct Exp:public BaseFunctor<Exp, GReal_t, 1>
 		if(this == &other) return *this;
 
 		BaseFunctor<Exp,GReal_t,1>::operator=(other);
-		this->fTau = other.fTau;
 		this->fPosition = other.fPosition;
-		this->RegistryParameters({&(this->fTau)});
+		this->SetParameter(0, other.GetParameter(0) );
 
 		return *this;
 
@@ -55,14 +56,15 @@ struct Exp:public BaseFunctor<Exp, GReal_t, 1>
 
 
 
-		return exp(x[fPosition]*fTau);
+		return exp(x[fPosition]*_par[0] );
 
 	}
 
 	GUInt_t  fPosition;
-	Parameter fTau;
+
 };
 
+/*
 struct InvExp
 {
 
@@ -111,6 +113,7 @@ struct InvExp
 
 
 };
+*/
 }
 
 #endif /* EXP_H_ */

@@ -54,13 +54,21 @@ enum {
 	MODE_IMPORTANCE = 1,
 	MODE_IMPORTANCE_ONLY = 0,
 	MODE_STRATIFIED = -1,
-	BINS_MAX = 50
+	BINS_MAX = 100
 };
 
 template<size_t N >
 class VegasState {
 
+
 public:
+
+#if THRUST_DEVICE_SYSTEM==THRUST_DEVICE_SYSTEM_CUDA
+	typedef float vegas_pdf_type;
+#else
+	typedef double vegas_pdf_type;
+#endif
+
 
 	VegasState(std::array<GReal_t,N> const& xlower,
 			std::array<GReal_t,N> const& xupper);
@@ -161,19 +169,19 @@ public:
 	//----------------
 	//Distribution
 
-	inline const mc_host_vector<GReal_t>& GetDistribution() const {
+	inline const mc_host_vector<vegas_pdf_type>& GetDistribution() const {
 		return fDistribution;
 	}
 
-	inline void SetDistribution(const mc_host_vector<GReal_t>& distribution) {
+	inline void SetDistribution(const mc_host_vector<vegas_pdf_type>& distribution) {
 		fDistribution = distribution;
 	}
 
-	inline void SetDistribution(GUInt_t i,  GReal_t x) {
+	inline void SetDistribution(GUInt_t i, vegas_pdf_type x) {
 			fDistribution[i] = x;
 	}
 
-	inline void SetDistribution(GUInt_t bin, GUInt_t dim,  GReal_t x) {
+	inline void SetDistribution(GUInt_t bin, GUInt_t dim, vegas_pdf_type x) {
 			fDistribution[bin*N+dim] = x;
 	}
 
@@ -298,6 +306,16 @@ public:
 
 	inline void SetNBins(size_t nBins) {
 		fNBins = nBins;
+/*
+		fDistribution.resize(N * fNBins);
+		fDeviceDistribution.resize(N * fNBins);
+
+		fXi.resize((fNBins + 1) * N);
+		fDeviceXi.resize((fNBins + 1) * N);
+
+
+		fXin.resize(fNBins + 1);
+		fWeight.resize(fNBins);*/
 	}
 
 	//----------------
@@ -612,11 +630,11 @@ public:
 		return fDeviceXLow;
 	}
 
-	void SetDeviceXLow(const mc_device_vector<GReal_t>& deviceXLow) {
+	void SetDeviceXLow(const mc_device_vector<vegas_pdf_type>& deviceXLow) {
 		fDeviceXLow = deviceXLow;
 	}
 
-	const mc_device_vector<GReal_t>& GetDeviceDistribution() const {
+	const mc_device_vector<vegas_pdf_type>& GetDeviceDistribution() const {
 		return fDeviceDistribution;
 	}
 
@@ -642,7 +660,7 @@ private:
 	mc_host_vector<GReal_t> fWeight;
 	//mc_host_vector<GReal_t> fX;
 	//mc_host_vector<GFloat_t> fDistribution;
-	mc_host_vector<GReal_t> fDistribution;
+	mc_host_vector<vegas_pdf_type> fDistribution;
 	mc_host_vector<GReal_t> fIterationResult; ///< vector with the result per iteration
 	mc_host_vector<GReal_t> fIterationSigma; ///< vector with the result per iteration
 	mc_host_vector<GReal_t> fCumulatedResult; ///< vector of cumulated results per iteration
@@ -652,7 +670,7 @@ private:
 
 	//device
 
-	mc_device_vector<GReal_t> fDeviceDistribution;
+	mc_device_vector<vegas_pdf_type> fDeviceDistribution;
 	mc_device_vector<GReal_t> fDeviceXLow;//initgrid
 	mc_device_vector<GReal_t> fDeviceXi;//CopyStateToDevice
 	mc_device_vector<GReal_t> fDeviceDeltaX;//initgrid
