@@ -40,13 +40,13 @@
 #include <hydra/detail/utility/Utility_Tuple.h>
 #include <thrust/tuple.h>
 #include <thrust/functional.h>
+#include <thrust/random.h>
 #include <mutex>
 
 
 namespace hydra{
 
 namespace detail {
-
 
 struct ResultVegas
 {

@@ -258,17 +258,18 @@ GInt_t main(int argv, char** argc)
 	    //Vegas state hold the resources for performing the integration
 	    VegasState<1> state = VegasState<1>( min, max); // nota bene: the same range of the analisys
 		state.SetVerbose(1);
-		state.SetAlpha(2.0);
-		state.SetIterations(50);
+		state.SetAlpha(1.5);
+		state.SetIterations(10);
 		state.SetUseRelativeError(1);
 		state.SetMaxError(1e-3);
-		state.SetCalls(1000);
+		state.SetCalls(100000);
 	    //5,000 calls (fast convergence and precise result)
 		Vegas<1> vegas(state);
 
 		auto Gaussian1_PDF   = make_pdf(Gaussian1, vegas);
 		auto Gaussian2_PDF   = make_pdf(Gaussian2, vegas);
 		auto Exponential_PDF = make_pdf(Exponential, vegas );
+
 
 		Gaussian1_PDF.PrintRegisteredParameters();
 

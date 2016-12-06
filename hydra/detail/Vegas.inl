@@ -54,7 +54,7 @@ std::pair<GReal_t, GReal_t>  Vegas<N, GRND >::Integrate(FUNCTOR const& fFunctor 
 
 
 
-	fState.SetStage(0);
+	//fState.SetStage(0);
 
 
 	GReal_t cum_int, cum_sig;
@@ -133,8 +133,6 @@ std::pair<GReal_t, GReal_t>  Vegas<N, GRND >::Integrate(FUNCTOR const& fFunctor 
 	cum_int = 0.0;
 	cum_sig = 0.0;
 
-	size_t calls_per_box = fState.GetCallsPerBox();
-	GReal_t jacbin = fState.GetJacobian();
 
 
 	for (size_t it = 0; it < fState.GetIterations(); it++) {
@@ -146,6 +144,8 @@ std::pair<GReal_t, GReal_t>  Vegas<N, GRND >::Integrate(FUNCTOR const& fFunctor 
 		GReal_t tss = 0.0;
 		GReal_t wgt, var, sig;
 
+		size_t calls_per_box = fState.GetCallsPerBox();
+		GReal_t jacbin = fState.GetJacobian();
 
 		fState.SetItNum(fState.GetItStart() + it);
 
@@ -526,6 +526,7 @@ void Vegas<  N , GRND>::ProcessFuncionCalls(FUNCTOR const& fFunctor, GReal_t& in
 	thrust::counting_iterator<size_t> last = first + NBoxes_Total;
 
 	fState.CopyStateToDevice();
+
 
 	detail::ResultVegas init;
 	detail::ResultVegas result = thrust::transform_reduce(first, last,
