@@ -179,7 +179,7 @@ GInt_t main(int argv, char** argc)
 	//get integration
 	//Vegas state hold the resources for performing the integration
 	VegasState<1> state = VegasState<1>(min, max); // nota bene: the same range of the analisys
-	state.SetVerbose(2);
+	state.SetVerbose(-1);
 	state.SetAlpha(1.5);
 	state.SetIterations( iterations );
 	state.SetUseRelativeError(1);
@@ -199,7 +199,29 @@ GInt_t main(int argv, char** argc)
 		 << " Chi2: "  << vegas.GetState().GetChiSquare()
 		 << endl;
 
+	TApplication *myapp=new TApplication("myapp",0,0);
+	TH1D hist_uniform("uniform", "Initial grid",vegas.GetState().GetNBins(), 0, 1);
+	TH1D hist_adapted("adapted", "Adapted  grid", vegas.GetState().GetNBins(), 0, 1);
+	hist_adapted.SetBins( vegas.GetState().GetNBins(),  vegas.GetState().GetXi().data() );
 
+	for(size_t i=0; i<state.GetNBins()+1;i++ ){
+
+		std::cout<< vegas.GetState().GetXi().data()[i]<< std::endl;
+		hist_uniform.SetBinContent(i, vegas.GetState().GetCallsPerBox());
+		hist_adapted.SetBinContent(i, vegas.GetState().GetCallsPerBox());
+	}
+
+	TCanvas canvas("canvas", "", 1000, 500);
+	canvas.Divide(2,1);
+	canvas.cd(1);
+	hist_uniform.Draw("bar");
+	hist_uniform.SetFillColor(0);
+	hist_uniform.SetFillStyle(0);
+	canvas.cd(2);
+	hist_adapted.Draw("bar");
+	hist_adapted.SetFillColor(0);
+	hist_adapted.SetFillStyle(0);
+	myapp->Run();
 	return 0;
 
 

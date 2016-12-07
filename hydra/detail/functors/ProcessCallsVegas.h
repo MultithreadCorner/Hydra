@@ -41,6 +41,11 @@
 #include <thrust/tuple.h>
 #include <thrust/functional.h>
 #include <thrust/random.h>
+
+#if THRUST_DEVICE_SYSTEM==THRUST_DEVICE_SYSTEM_CUDA
+#include <curand_kernel.h>
+#endif
+
 #include <mutex>
 
 
@@ -169,9 +174,15 @@ struct ProcessCallsVegas
 		volatile GInt_t bin[NDimensions];
 		ResultVegas result;
 
-		GRND randEng( hash(fSeed,box));
+#ifdef __CUDA_ARCH__
 
+
+
+#else
+		GRND randEng( hash(fSeed,box));
 		thrust::uniform_real_distribution<GReal_t> uniDist(0.0, 1.0);
+#endif
+
 
 		GReal_t m = 0, q = 0;
 		GReal_t f_sq_sum = 0.0;
