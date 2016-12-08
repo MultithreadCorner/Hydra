@@ -171,13 +171,14 @@ struct ProcessCallsVegas
 
 		GReal_t volume = 1.0;
 		GReal_t x[NDimensions];
-		volatile GInt_t bin[NDimensions];
+		GInt_t bin[NDimensions];
 		ResultVegas result;
 
 #ifdef __CUDA_ARCH__
-		curandStateSobol32_t state;
-		curandDirectionVectors32_t dvector;
-		curand_init(&dvector, ,&state)
+
+		curandStateSobol64_t state;
+		curandDirectionVectors64_t dvector;
+		curand_init(dvector, fSeed+box, &state);
 
 
 #else
@@ -189,13 +190,18 @@ struct ProcessCallsVegas
 		GReal_t m = 0, q = 0;
 		GReal_t f_sq_sum = 0.0;
 
-		for (size_t call = 0; call < fNCallsPerBox; call++) {
+		/*for (size_t call = 0; call < fNCallsPerBox; call++) */{
 
 			for (size_t j = 0; j < NDimensions; j++) {
 
+#ifdef __CUDA_ARCH__
+				x[j] = 	curand_uniform_double(&state);
+#else
 				x[j] = uniDist(randEng);
+#endif
 
 				GInt_t b = GetBoxCoordinate(box, NDimensions, fNBoxesPerDimension, j);
+			//	printf("fNCallsPerBox = %i\n", call	);
 
 				GReal_t z = ((b + x[j]) / fNBoxesPerDimension) * fNBins;
 

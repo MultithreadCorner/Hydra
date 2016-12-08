@@ -163,8 +163,8 @@ GInt_t main(int argv, char** argc)
 	//fit paremeters
 
 	// 1) using named parameter idiom
-	Parameter   mean_p = Parameter::Create().Name(Mean).Value(3.0) .Error(0.0001).Limits( 1.0, 4.0);
-	Parameter  sigma_p = Parameter::Create().Name(Sigma).Value(1.5).Error(0.0001).Limits(0.1, 1.5);
+	Parameter   mean_p = Parameter::Create().Name(Mean).Value(0.0) .Error(0.0001).Limits( 1.0, 4.0);
+	Parameter  sigma_p = Parameter::Create().Name(Sigma).Value(1.0).Error(0.0001).Limits(0.1, 1.5);
 
 	//----------------------------------------------------------------------
 	// create functors
@@ -172,19 +172,20 @@ GInt_t main(int argv, char** argc)
 
 	//-------------------------------------------
 	//range of the analysis
-	std::array<GReal_t, 1>  min   ={ 0.0};
-	std::array<GReal_t, 1>  max   ={ 6.0};
+	std::array<GReal_t, 1>  min   ={-5.0};
+	std::array<GReal_t, 1>  max   ={ 5.0};
 
 	//----------------------------------------------------------------------
 	//get integration
 	//Vegas state hold the resources for performing the integration
 	VegasState<1> state = VegasState<1>(min, max); // nota bene: the same range of the analisys
-	state.SetVerbose(-1);
-	state.SetAlpha(1.5);
+	state.SetVerbose(1);
+	state.SetAlpha(1.75);
 	state.SetIterations( iterations );
 	state.SetUseRelativeError(1);
 	state.SetMaxError( max_error );
 	state.SetCalls( calls );
+	state.SetMode(1);
 	//5,000 calls (fast convergence and precise result)
 	Vegas<1> vegas(state);
 

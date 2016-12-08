@@ -87,6 +87,7 @@ std::pair<GReal_t, GReal_t>  Vegas<N, GRND >::Integrate(FUNCTOR const& fFunctor 
 			/* shooting for 2 calls/box */
 
 			boxes = floor( pow(fState.GetCalls() / 2.0, 1.0 / N ));
+			std::cout << "boxes  " << boxes << std::endl;
 			//if(boxes==1) boxes++;
 			fState.SetMode(MODE_IMPORTANCE);
 
@@ -253,7 +254,7 @@ std::pair<GReal_t, GReal_t>  Vegas<N, GRND >::Integrate(FUNCTOR const& fFunctor 
 			PrintDistribution();
 		}
 
-		RefineGrid();
+		 RefineGrid();
 
 		if (fState.GetVerbose() > 1) {
 			PrintGrid();
@@ -439,6 +440,7 @@ void Vegas<  N, GRND >::RefineGrid() {
 
 
 		for (size_t j = 0; j < N; j++) {
+
 			GReal_t grid_tot_j, tot_weight;
 			//GReal_t *weight = fState.GetWeight();
 
@@ -526,7 +528,7 @@ void Vegas<  N , GRND>::ProcessFuncionCalls(FUNCTOR const& fFunctor, GReal_t& in
 	thrust::counting_iterator<size_t> last = first + NBoxes_Total;
 
 	fState.CopyStateToDevice();
-
+	//std::cout << "fState.GetCallsPerBox() "<< fState.GetCallsPerBox() << std::endl;
 
 	detail::ResultVegas init;
 	detail::ResultVegas result = thrust::transform_reduce(first, last,
