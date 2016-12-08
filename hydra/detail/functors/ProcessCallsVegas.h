@@ -175,7 +175,9 @@ struct ProcessCallsVegas
 		ResultVegas result;
 
 #ifdef __CUDA_ARCH__
-
+		curandStateSobol32_t state;
+		curandDirectionVectors32_t dvector;
+		curand_init(&dvector, ,&state)
 
 
 #else
