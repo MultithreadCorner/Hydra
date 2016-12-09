@@ -43,7 +43,7 @@
 #include <iostream>
 #include <utility>
 
-#define  USE_ORIGINAL_CHISQ_FORMULA 0
+#define  USE_ORIGINAL_CHISQ_FORMULA 1
 
 namespace hydra {
 
@@ -86,12 +86,12 @@ std::pair<GReal_t, GReal_t>  Vegas<N, GRND >::Integrate(FUNCTOR const& fFunctor 
 		if (fState.GetMode() != MODE_IMPORTANCE_ONLY) {
 			/* shooting for 2 calls/box */
 
-			boxes = floor( pow(fState.GetCalls() / 2.0, 1.0 / N ));
+			boxes = floor( pow(fState.GetCalls() / 5.0, 1.0 / N ));
 			std::cout << "boxes  " << boxes << std::endl;
 			//if(boxes==1) boxes++;
 			fState.SetMode(MODE_IMPORTANCE);
 
-			if (2 * boxes >= fState.GetNBinsMax() ) {
+			if (5 * boxes >= fState.GetNBinsMax() ) {
 				/* if bins/box < 2 */
 				GInt_t box_per_bin = std::max(GInt_t(boxes/fState.GetNBinsMax()), 1);
 
@@ -103,7 +103,7 @@ std::pair<GReal_t, GReal_t>  Vegas<N, GRND >::Integrate(FUNCTOR const& fFunctor 
 
 		{
 			size_t tot_boxes = pow( boxes,   N);
-			fState.SetCallsPerBox(std::max(  fState.GetCalls() / tot_boxes, (size_t)2) );
+			fState.SetCallsPerBox(std::max(  fState.GetCalls() / tot_boxes, (size_t)5) );
 			fState.SetCalls( fState.GetCallsPerBox() * tot_boxes);
 		}
 
@@ -521,7 +521,7 @@ template< size_t N , typename GRND>
 template<typename FUNCTOR>
 void Vegas<  N , GRND>::ProcessFuncionCalls(FUNCTOR const& fFunctor, GReal_t& integral, GReal_t& tss)
 {
-	size_t NBoxes_Total     = fState.GetCallsPerBox()*pow(fState.GetNBoxes(), N);
+	size_t NBoxes_Total     = /*fState.GetCallsPerBox()*/pow(fState.GetNBoxes(), N);
 
 	// create iterators
 	thrust::counting_iterator<size_t> first(0);

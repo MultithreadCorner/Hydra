@@ -173,7 +173,7 @@ struct ProcessCallsVegas
 		GReal_t x[NDimensions];
 		GInt_t bin[NDimensions];
 		ResultVegas result;
-
+/*
 #ifdef __CUDA_ARCH__
 
 		curandStateSobol64_t state;
@@ -182,26 +182,33 @@ struct ProcessCallsVegas
 
 
 #else
+*/
 		GRND randEng( hash(fSeed,box));
 		thrust::uniform_real_distribution<GReal_t> uniDist(0.0, 1.0);
-#endif
+//#endif
 
 
 		GReal_t m = 0, q = 0;
 		GReal_t f_sq_sum = 0.0;
 
-		/*for (size_t call = 0; call < fNCallsPerBox; call++) */{
+		for (size_t call = 0; call < fNCallsPerBox; call++)
+		{
+//size_t call = box%fNCallsPerBox;
+
 
 			for (size_t j = 0; j < NDimensions; j++) {
 
+				/*
 #ifdef __CUDA_ARCH__
 				x[j] = 	curand_uniform_double(&state);
 #else
+*/
+				randEng.discard(call +call*j);
 				x[j] = uniDist(randEng);
-#endif
+//#endif
 
 				GInt_t b = GetBoxCoordinate(box, NDimensions, fNBoxesPerDimension, j);
-			//	printf("fNCallsPerBox = %i\n", call	);
+
 
 				GReal_t z = ((b + x[j]) / fNBoxesPerDimension) * fNBins;
 
@@ -220,9 +227,11 @@ struct ProcessCallsVegas
 				x[j] = fXLow[j] + y * fDeltaX[j];
 
 				volume *= bin_width;
+				//printf("bin[j]=%d x[j]=%f box=%d  fNCallsPerBox = %f\n", bin[j],x[j],b ,double(call)	);
 			}
 
 			GReal_t fval = fJacobian*volume*fFunctor( detail::arrayToTuple<GReal_t, NDimensions>(x));
+
 			GReal_t d =  fval - m;
 			m += d / (call + 1.0);
 			q += d * d * (call / (call + 1.0));
