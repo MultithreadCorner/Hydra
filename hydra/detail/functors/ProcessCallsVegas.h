@@ -191,9 +191,9 @@ struct ProcessCallsVegas
 		GReal_t m = 0, q = 0;
 		GReal_t f_sq_sum = 0.0;
 
-		for (size_t call = 0; call < fNCallsPerBox; call++)
+		//for (size_t call = 0; call < fNCallsPerBox; call++)
 		{
-//size_t call = box%fNCallsPerBox;
+size_t call = box%fNCallsPerBox;
 
 
 			for (size_t j = 0; j < NDimensions; j++) {
@@ -232,9 +232,12 @@ struct ProcessCallsVegas
 
 			GReal_t fval = fJacobian*volume*fFunctor( detail::arrayToTuple<GReal_t, NDimensions>(x));
 
+			/*
 			GReal_t d =  fval - m;
-			m += d / (call + 1.0);
+			m +=  d / (call + 1.0);
 			q += d * d * (call / (call + 1.0));
+*/
+			m = fval;
 
 			if (fMode != MODE_STRATIFIED)
 			{

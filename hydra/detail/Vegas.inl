@@ -44,6 +44,7 @@
 #include <utility>
 
 #define  USE_ORIGINAL_CHISQ_FORMULA 1
+#define CALLS_PER_BOX 2
 
 namespace hydra {
 
@@ -86,12 +87,12 @@ std::pair<GReal_t, GReal_t>  Vegas<N, GRND >::Integrate(FUNCTOR const& fFunctor 
 		if (fState.GetMode() != MODE_IMPORTANCE_ONLY) {
 			/* shooting for 2 calls/box */
 
-			boxes = floor( pow(fState.GetCalls() / 5.0, 1.0 / N ));
+			boxes = floor( pow(fState.GetCalls() / CALLS_PER_BOX, 1.0 / N ));
 			std::cout << "boxes  " << boxes << std::endl;
 			//if(boxes==1) boxes++;
 			fState.SetMode(MODE_IMPORTANCE);
 
-			if (5 * boxes >= fState.GetNBinsMax() ) {
+			if (CALLS_PER_BOX * boxes >= fState.GetNBinsMax() ) {
 				/* if bins/box < 2 */
 				GInt_t box_per_bin = std::max(GInt_t(boxes/fState.GetNBinsMax()), 1);
 
@@ -103,7 +104,7 @@ std::pair<GReal_t, GReal_t>  Vegas<N, GRND >::Integrate(FUNCTOR const& fFunctor 
 
 		{
 			size_t tot_boxes = pow( boxes,   N);
-			fState.SetCallsPerBox(std::max(  fState.GetCalls() / tot_boxes, (size_t)5) );
+			fState.SetCallsPerBox(std::max(  fState.GetCalls() / tot_boxes, (size_t)CALLS_PER_BOX) );
 			fState.SetCalls( fState.GetCallsPerBox() * tot_boxes);
 		}
 
