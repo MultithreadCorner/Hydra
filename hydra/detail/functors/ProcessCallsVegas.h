@@ -173,7 +173,7 @@ struct ProcessCallsVegas
 		GReal_t x[NDimensions];
 		GInt_t bin[NDimensions];
 		ResultVegas result;
-/*
+
 #ifdef __CUDA_ARCH__
 
 		curandStateSobol64_t state;
@@ -182,30 +182,31 @@ struct ProcessCallsVegas
 
 
 #else
-*/
+
 		GRND randEng( hash(fSeed,box));
 		thrust::uniform_real_distribution<GReal_t> uniDist(0.0, 1.0);
-//#endif
+#endif
 
 
-		GReal_t m = 0, q = 0;
+		GReal_t m    = 0.0, q = 0;
+		GReal_t mean = 0.0;
 		GReal_t f_sq_sum = 0.0;
-
-		//for (size_t call = 0; call < fNCallsPerBox; call++)
+		GReal_t m2=0.0;
+		for (size_t call = 0; call < fNCallsPerBox; call++)
 		{
-size_t call = box%fNCallsPerBox;
+//size_t call = box%fNCallsPerBox;
 
 
 			for (size_t j = 0; j < NDimensions; j++) {
 
-				/*
+
 #ifdef __CUDA_ARCH__
 				x[j] = 	curand_uniform_double(&state);
 #else
-*/
+
 				randEng.discard(call +call*j);
 				x[j] = uniDist(randEng);
-//#endif
+#endif
 
 				GInt_t b = GetBoxCoordinate(box, NDimensions, fNBoxesPerDimension, j);
 
@@ -232,23 +233,18 @@ size_t call = box%fNCallsPerBox;
 
 			GReal_t fval = fJacobian*volume*fFunctor( detail::arrayToTuple<GReal_t, NDimensions>(x));
 
-			/*
-			GReal_t d =  fval - m;
-			m +=  d / (call + 1.0);
-			q += d * d * (call / (call + 1.0));
-*/
-			m = fval;
+
+			GReal_t  delta  =  fval - mean;
+			mean +=  delta / (double(call) + 1.0);
+			GReal_t  delta2  =  fval - mean;
+			m2 +=  delta * delta2 ;
 
 			if (fMode != MODE_STRATIFIED)
 			{
 				for (GUInt_t j = 0; j < NDimensions; j++) {
 #ifdef __CUDA_ARCH__
 
-//#if __CUDA_ARCH__ >= 600
-	//				atomicAdd((fDistribution + bin[j]* NDimensions + j) ,  static_cast<double>>(fval*fval));
-//#else
 					atomicAdd( (fDistribution + bin[j]* NDimensions + j) , static_cast<Precision>(fval*fval));
-//#endif
 
 #else
 					std::lock_guard<std::mutex> lock(*fMutex);
@@ -257,26 +253,28 @@ size_t call = box%fNCallsPerBox;
 #endif
 				}
 			}
+
+
 		}
 
+		/*
 		result.integral += m*fNCallsPerBox;
 		f_sq_sum = q*fNCallsPerBox;
 		result.tss += f_sq_sum;
+		*/
+		result.integral = mean*fNCallsPerBox;
+		result.tss = m2*fNCallsPerBox;
 
 		if (fMode == MODE_STRATIFIED) {
 			for (GUInt_t j = 0; j < NDimensions; j++) {
 #ifdef __CUDA_ARCH__
 
-//#if __CUDA_ARCH__ >= 600
-//				atomicAdd((fDistribution + bin[j]*NDimensions+j), static_cast<double>(f_sq_sum));
-//#else
-				atomicAdd((fDistribution + bin[j]*NDimensions+j), static_cast<Precision>(f_sq_sum));
-//#endif
+				atomicAdd((fDistribution + bin[j]*NDimensions+j), static_cast<Precision>(m2));
 
 #else
 				std::lock_guard<std::mutex> lock(*fMutex);
 //#pragma omp atomic
-				*(fDistribution  + bin[j]* NDimensions + j) += static_cast<Precision>(f_sq_sum);
+				*(fDistribution  + bin[j]* NDimensions + j) += static_cast<Precision>(m2);
 #endif
 			}
 		}

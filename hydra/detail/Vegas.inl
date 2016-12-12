@@ -169,7 +169,7 @@ std::pair<GReal_t, GReal_t>  Vegas<N, GRND >::Integrate(FUNCTOR const& fFunctor 
 		if (var > 0) {
 			wgt = 1.0 / var;
 		} else if (fState.GetSumOfWeights() > 0) {
-			wgt = fState.GetSumOfWeights() / fState.GetSamples();
+			wgt = fState.GetSumOfWeights()/ fState.GetSamples();
 		} else {
 			wgt = 0.0;
 		}
@@ -522,7 +522,7 @@ template< size_t N , typename GRND>
 template<typename FUNCTOR>
 void Vegas<  N , GRND>::ProcessFuncionCalls(FUNCTOR const& fFunctor, GReal_t& integral, GReal_t& tss)
 {
-	size_t NBoxes_Total     = /*fState.GetCallsPerBox()*/pow(fState.GetNBoxes(), N);
+	size_t NBoxes_Total     = pow(fState.GetNBoxes(), N);
 
 	// create iterators
 	thrust::counting_iterator<size_t> first(0);
@@ -553,7 +553,7 @@ void Vegas<  N , GRND>::ProcessFuncionCalls(FUNCTOR const& fFunctor, GReal_t& in
 	fState.CopyStateToHost();
 
 
-	integral=result.integral;
+	integral=result.integral*fState.GetCallsPerBox();
 	tss=result.tss;
 
 

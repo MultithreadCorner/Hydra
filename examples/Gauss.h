@@ -57,7 +57,7 @@ struct Gauss:public BaseFunctor<Gauss,GReal_t, 2>
 	inline GReal_t Evaluate(T* x, T* p=0)
 	{
 		return exp(-((x[fPosition] - _par[0] ) * (x[fPosition] - _par[0]))
-				/ (2 * _par[1]*_par[1] ))/( _par[1]*sqrt(2 *PI));
+				/ (2.0 * _par[1]*_par[1] ))/( _par[1]*sqrt(2.0 *PI));
 	}
 
 	GUInt_t  fPosition;
