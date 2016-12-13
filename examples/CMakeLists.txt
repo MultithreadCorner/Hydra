@@ -93,6 +93,11 @@ endif(BUILD_CUDA_TARGETS)
 if(BUILD_TBB_TARGETS)
 
     #+++++++++++++++++++++++++++++++
+    # Numerical Integration        |
+    #+++++++++++++++++++++++++++++++
+    
+
+    #+++++++++++++++++++++++++++++++
     # PHSP generation              |
     #+++++++++++++++++++++++++++++++
     add_executable(Hydra_Example_Experimental_PHSP_TBB EXCLUDE_FROM_ALL
@@ -184,6 +189,21 @@ endif(BUILD_TBB_TARGETS)
 # OMP TARGETS            |
 #+++++++++++++++++++++++++
 IF(OPENMP_FOUND)
+
+    #+++++++++++++++++++++++++++++++
+    # Numerical Integration        |
+    #+++++++++++++++++++++++++++++++
+    add_executable(Hydra_Example_Numerical_Integration_OMP EXCLUDE_FROM_ALL
+     HydraNumericalIntegrationExample.cpp
+    )
+    
+    set_target_properties(Hydra_Example_Numerical_Integration_OMP PROPERTIES 
+    COMPILE_FLAGS "-fopenmp -DTHRUST_HOST_SYSTEM=THRUST_HOST_SYSTEM_CPP -DTHRUST_DEVICE_SYSTEM=THRUST_DEVICE_SYSTEM_OMP -lgomp")
+    
+    target_link_libraries(Hydra_Example_Numerical_Integration_OMP
+    ${ROOT_LIBRARIES}
+    rt
+    )
 
     #+++++++++++++++++++++++++++++++
     # PHSP generation              |

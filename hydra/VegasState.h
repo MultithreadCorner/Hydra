@@ -54,7 +54,7 @@ enum {
 	MODE_IMPORTANCE = 1,
 	MODE_IMPORTANCE_ONLY = 0,
 	MODE_STRATIFIED = -1,
-	BINS_MAX = 25
+	BINS_MAX = 50
 };
 
 template<size_t N >
@@ -549,6 +549,8 @@ public:
 			const GReal_t sigma) {
 		fCumulatedResult.push_back(integral);
 		fCumulatedSigma.push_back(sigma);
+		fResult=integral;
+		fSigma=sigma;
 	}
 
 

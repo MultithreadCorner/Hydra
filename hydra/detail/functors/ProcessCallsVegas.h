@@ -173,7 +173,7 @@ struct ProcessCallsVegas
 		GReal_t x[NDimensions];
 		GInt_t bin[NDimensions];
 		ResultVegas result;
-/*
+
 #ifdef __CUDA_ARCH__
 
 		curandStateSobol64_t state;
@@ -182,14 +182,17 @@ struct ProcessCallsVegas
 
 
 #else
-*/
+
 		GRND randEng( hash(fSeed,box));
 		thrust::uniform_real_distribution<GReal_t> uniDist(0.0, 1.0);
-//#endif
+#endif
 
 
-		GReal_t m = 0, q = 0;
+		GReal_t m    = 0.0, q = 0;
+		GReal_t mean = 0.0;
 		GReal_t f_sq_sum = 0.0;
+
+		GReal_t m2=0.0;
 
 		for (size_t call = 0; call < fNCallsPerBox; call++)
 		{
@@ -198,14 +201,14 @@ struct ProcessCallsVegas
 
 			for (size_t j = 0; j < NDimensions; j++) {
 
-				/*
+
 #ifdef __CUDA_ARCH__
 				x[j] = 	curand_uniform_double(&state);
 #else
-*/
+
 				randEng.discard(call +call*j);
 				x[j] = uniDist(randEng);
-//#endif
+#endif
 
 				GInt_t b = GetBoxCoordinate(box, NDimensions, fNBoxesPerDimension, j);
 
@@ -232,10 +235,10 @@ struct ProcessCallsVegas
 
 			GReal_t fval = fJacobian*volume*fFunctor( detail::arrayToTuple<GReal_t, NDimensions>(x));
 
-
-			GReal_t d =  fval - m;
-			m +=  d / (call + 1.0);
-			q += d * d * (call / (call + 1.0));
+			GReal_t  delta  =  fval - mean;
+			mean +=  delta / (double(call) + 1.0);
+			GReal_t  delta2  =  fval - mean;
+			m2 +=  delta * delta2 ;
 
 
 			if (fMode != MODE_STRATIFIED)
@@ -256,20 +259,26 @@ struct ProcessCallsVegas
 
 		}
 
+		/*
 		result.integral += m*fNCallsPerBox;
 		f_sq_sum = q*fNCallsPerBox;
 		result.tss += f_sq_sum;
+		*/
+		result.integral = mean*fNCallsPerBox;
+		result.tss = m2*fNCallsPerBox;
 
 		if (fMode == MODE_STRATIFIED) {
 			for (GUInt_t j = 0; j < NDimensions; j++) {
 #ifdef __CUDA_ARCH__
 
-				atomicAdd((fDistribution + bin[j]*NDimensions+j), static_cast<Precision>(f_sq_sum));
+
+				atomicAdd((fDistribution + bin[j]*NDimensions+j), static_cast<Precision>(m2));
+
 
 #else
 				std::lock_guard<std::mutex> lock(*fMutex);
 //#pragma omp atomic
-				*(fDistribution  + bin[j]* NDimensions + j) += static_cast<Precision>(f_sq_sum);
+				*(fDistribution  + bin[j]* NDimensions + j) += static_cast<Precision>(m2);
 #endif
 			}
 		}

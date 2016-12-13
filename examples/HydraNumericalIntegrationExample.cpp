@@ -180,7 +180,7 @@ GInt_t main(int argv, char** argc)
 	//Vegas state hold the resources for performing the integration
 	VegasState<1> state = VegasState<1>(min, max); // nota bene: the same range of the analisys
 	state.SetVerbose(0);
-	state.SetAlpha(1.5);
+	state.SetAlpha(1.75);
 	state.SetIterations( iterations );
 	state.SetUseRelativeError(1);
 	state.SetMaxError( max_error );
