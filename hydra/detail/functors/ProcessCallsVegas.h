@@ -52,7 +52,7 @@
 namespace hydra{
 
 namespace detail {
-
+/*
 template<size_t N>
 struct ResultVegas
 {
@@ -81,12 +81,62 @@ struct ResultVegas
 
 
 };
+*/
+
+template<size_t N>
+struct ResultVegas
+{
+
+
+    size_t  fN;
+    GReal_t fMin;
+    GReal_t fMax;
+    GReal_t fMean;
+    GReal_t fM2;
+    GReal_t fDistribution[N*BINS_MAX];
+
+    __host__ __device__
+    ResultVegas():
+    fN(0),
+    fMean(0),
+    fM2(0),
+    fMin(std::numeric_limits<GReal_t>::min() ),
+    fMax(std::numeric_limits<GReal_t>::max() )
+    {
+    	for(size_t i=0; i< N*BINS_MAX; i++)
+    		fDistribution[i]=0;
+    }
+
+    __host__ __device__
+    ResultVegas( ResultVegas<N> const& other):
+    fN(other.fN),
+    fMean(other.fMean ),
+    fM2(other.fM2 ),
+    fMin(other.fMin  ),
+    fMax(other.fMax  )
+    {
+    	for(size_t i=0; i< N*BINS_MAX; i++)
+    		fDistribution[i]=other.fDistribution[i];
+    }
+
+
+
+    __host__ __device__ inline
+    GReal_t variance()   { return fM2 / (fN - 1); }
+
+    __host__ __device__ inline
+    GReal_t variance_n() { return fM2 / fN; }
+
+};
+
+
 
 template<size_t N>
 struct ProcessBoxesVegas
 		:public thrust::binary_function< ResultVegas<N> const&, ResultVegas<N> const& , ResultVegas<N> >
 {
 
+	/*
 	__host__ __device__ inline
 	ResultVegas<N> operator()(ResultVegas<N> const& x, ResultVegas<N> const& y)
 	{
@@ -99,6 +149,35 @@ struct ProcessBoxesVegas
 		return result;
 
 	}
+	*/
+
+    __host__ __device__ inline
+    ResultVegas<N> operator()(ResultVegas<N> const& x, ResultVegas<N> const& y)
+    {
+    	ResultVegas<N> result;
+
+        // precompute some common subexpressions
+        size_t n  = x.fN + y.fN;
+
+        GReal_t delta  = y.fMean - x.fMean;
+        GReal_t delta2 = delta  * delta;
+
+        //Basic number of samples (n), min, and max
+        result.fN   = n;
+        result.fMin = thrust::min(x.fMin, y.fMin);
+        result.fMax = thrust::max(x.fMax, y.fMax);
+
+        result.fMean = x.fMean + delta * y.fN / n;
+
+        result.fM2  = x.fM2 + y.fM2;
+        result.fM2 += delta2 * x.fN * y.fN / n;
+
+        for(size_t i=0; i< N*BINS_MAX; i++)
+        			result.fDistribution[i] += x.fDistribution[i] + y.fDistribution[i];
+
+        return result;
+    }
+
 };
 
 template<typename FUNCTOR, size_t NDimensions,  typename GRND=thrust::random::default_random_engine>
@@ -187,92 +266,69 @@ struct ProcessCallsVegas
 	inline ResultVegas<NDimensions> operator()( size_t box)
 	{
 
+
 		GReal_t volume = 1.0;
 		GReal_t x[NDimensions];
 		GInt_t bin[NDimensions];
 		ResultVegas<NDimensions> result;
 
-#ifdef __CUDA_ARCH__
-
-		curandStateSobol32_t state;
-		curandDirectionVectors32_t dvector;
-		curand_init(dvector, fSeed+box, &state);
-
-
-#else
-
-		GRND randEng( hash(fSeed,box));
+		GRND randEng( hash(fSeed,box) );
+		randEng.discard(NDimensions + box*fNCallsPerBox);
 		thrust::uniform_real_distribution<GReal_t> uniDist(0.0, 1.0);
-#endif
-
-		GReal_t mean = 0.0;
-		GReal_t m2=0.0;
-
-		for (size_t call = 0; call < fNCallsPerBox; call++)
-		{
-
-			for (size_t j = 0; j < NDimensions; j++) {
 
 
-#ifdef __CUDA_ARCH__
+		//	for (size_t call = 0; call < fNCallsPerBox; call++)
+		//	{
 
-				x[j] = 	curand_uniform_double(&state);
-#else
+		for (size_t j = 0; j < NDimensions; j++) {
 
-				//randEng.discard(call +call*j);
-				x[j] = uniDist(randEng);
-#endif
+			x[j] = uniDist(randEng);
 
-				GInt_t b = GetBoxCoordinate(box, NDimensions, fNBoxesPerDimension, j);
+			GInt_t b = GetBoxCoordinate(box, NDimensions, fNBoxesPerDimension, j);
 
 
-				GReal_t z = ((b + x[j]) / fNBoxesPerDimension) * fNBins;
+			GReal_t z = ((b + x[j]) / fNBoxesPerDimension) * fNBins;
 
-				GInt_t k = static_cast<GInt_t>(z);
+			GInt_t k = static_cast<GInt_t>(z);
 
-				GReal_t y = 0;
-				GReal_t bin_width = 0;
+			GReal_t y = 0;
+			GReal_t bin_width = 0;
 
-				bin[j] = k;
+			bin[j] = k;
 
-				bin_width = fXi[(k + 1)*NDimensions + j]
-				                - (k != 0) * fXi[k*NDimensions + j];
+			bin_width = fXi[(k + 1)*NDimensions + j]
+			                - (k != 0) * fXi[k*NDimensions + j];
 
-				y = (k != 0) * fXi[k*NDimensions + j] + (z - k) * bin_width;
+			y = (k != 0) * fXi[k*NDimensions + j] + (z - k) * bin_width;
 
-				x[j] = fXLow[j] + y * fDeltaX[j];
+			x[j] = fXLow[j] + y * fDeltaX[j];
 
-				volume *= bin_width;
-				printf(" index=%f  box=%d  fNCallsPerBox = %f\n", double(box), b , double(call)	);
-			}
+			volume *= bin_width;
 
-
-			GReal_t fval = fJacobian*volume*fFunctor( detail::arrayToTuple<GReal_t, NDimensions>(x));
-
-			GReal_t  delta  =  fval - mean;
-			mean +=  delta / (double(call) + 1.0);
-			m2 +=  delta * delta *double(call) / (double(call) + 1.0) ;
-
-
-			if (fMode != MODE_STRATIFIED)
-			{
-				for (GUInt_t j = 0; j < NDimensions; j++) {
-					result.fDistribution[ bin[j]* NDimensions + j ]+= fval*fval;
-				}
-			}
-
+			//	printf("index=%f call=%f x[j]=%f \n",  double(box) , double(call), x[j] );
 
 		}
 
 
-		result.integral = mean*fNCallsPerBox;
-		result.tss = m2*fNCallsPerBox;
+		GReal_t fval = fJacobian*volume*fFunctor( detail::arrayToTuple<GReal_t, NDimensions>(x));
 
-		if (fMode == MODE_STRATIFIED) {
-			for (GUInt_t j = 0; j < NDimensions; j++) {
-				result.fDistribution[ bin[j]* NDimensions + j ]+= m2;
-			}
+
+		//	if (fMode != MODE_STRATIFIED){
+		for (GUInt_t j = 0; j < NDimensions; j++) {
+			result.fDistribution[ bin[j]* NDimensions + j ]+= fval*fval;
 		}
+		//	}
+
+		result.fN    = 1;
+		result.fMin  = fval;
+		result.fMax  = fval;
+		result.fMean = fval;
+		result.fM2   = 0;
+
+		//	}
+
+
+
 
 		return result;
 
@@ -291,8 +347,6 @@ private:
    GReal_t*   __restrict__ fXi;
    GReal_t*   __restrict__ fXLow;
    GReal_t*   __restrict__ fDeltaX;
-   //Precision*  __restrict__ fDistribution;
-   //std::mutex *fMutex;
 
     FUNCTOR fFunctor;
 

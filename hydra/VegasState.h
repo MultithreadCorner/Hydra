@@ -54,7 +54,7 @@ enum {
 	MODE_IMPORTANCE = 1,
 	MODE_IMPORTANCE_ONLY = 0,
 	MODE_STRATIFIED = -1,
-	BINS_MAX = 40
+	BINS_MAX = 50
 };
 
 template<size_t N >

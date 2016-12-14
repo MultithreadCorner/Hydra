@@ -53,10 +53,7 @@ template<typename FUNCTOR>
 std::pair<GReal_t, GReal_t>  Vegas<N, GRND >::Integrate(FUNCTOR const& fFunctor )
 {
 
-
-
 	//fState.SetStage(0);
-
 
 	GReal_t cum_int, cum_sig;
 
@@ -92,6 +89,7 @@ std::pair<GReal_t, GReal_t>  Vegas<N, GRND >::Integrate(FUNCTOR const& fFunctor 
 			//if(boxes==1) boxes++;
 			fState.SetMode(MODE_IMPORTANCE);
 
+			/*
 			if (2 * boxes >= fState.GetNBinsMax() ) {
 
 				GInt_t box_per_bin = std::max(GInt_t(boxes/fState.GetNBinsMax()), 1);
@@ -100,6 +98,7 @@ std::pair<GReal_t, GReal_t>  Vegas<N, GRND >::Integrate(FUNCTOR const& fFunctor 
 				boxes = box_per_bin * bins;
 				fState.SetMode(MODE_STRATIFIED);
 			}
+			*/
 		}
 
 
@@ -109,7 +108,9 @@ std::pair<GReal_t, GReal_t>  Vegas<N, GRND >::Integrate(FUNCTOR const& fFunctor 
 
 
 		/* total volume of x-space/(avg num of calls/bin) */
-		fState.SetJacobian( fState.GetVolume() * pow((GReal_t) bins, (GReal_t)N)/ fState.GetCalls());
+		fState.SetJacobian( fState.GetVolume() * pow((GReal_t) bins, (GReal_t)N)/ fState.GetCalls() );
+
+		std::cout << "fState.GetVolume() " << fState.GetVolume() << std::endl;
 
 		fState.SetNBoxes(boxes);
 
@@ -522,7 +523,7 @@ template< size_t N , typename GRND>
 template<typename FUNCTOR>
 void Vegas<  N , GRND>::ProcessFuncionCalls(FUNCTOR const& fFunctor, GReal_t& integral, GReal_t& tss)
 {
-	size_t NBoxes_Total     = pow(fState.GetNBoxes(), N);
+	size_t NBoxes_Total     = fState.GetCallsPerBox()*pow(fState.GetNBoxes(), N);
 
 	// create iterators
 	thrust::counting_iterator<size_t> first(0);
@@ -543,9 +544,7 @@ void Vegas<  N , GRND>::ProcessFuncionCalls(FUNCTOR const& fFunctor, GReal_t& in
 			const_cast<GReal_t*>(thrust::raw_pointer_cast(fState.GetDeviceXi().data())),
 			const_cast<GReal_t*>(thrust::raw_pointer_cast(fState.GetDeviceXLow().data())),
 			const_cast<GReal_t*>(thrust::raw_pointer_cast(fState.GetDeviceDeltaX().data())),
-			//const_cast<typename VegasState<N>::vegas_pdf_type*>(thrust::raw_pointer_cast(fState.GetDeviceDistribution().data())),
 			fState.GetMode(),
-			//fState.GetMutex(),
 			fFunctor),
 			init,
 			detail::ProcessBoxesVegas<N>());
@@ -553,56 +552,11 @@ void Vegas<  N , GRND>::ProcessFuncionCalls(FUNCTOR const& fFunctor, GReal_t& in
 	//fState.CopyStateToHost();
 
 	thrust::copy(&result.fDistribution[0],&result.fDistribution[0]+ N*BINS_MAX, fState.GetDistribution().begin());
-	integral=result.integral;
-	tss=result.tss;
-
-
-}
-
-/*
-template< size_t N , typename GRND>
-template<typename FUNCTOR>
-void Vegas<  N , GRND>::ProcessFuncionCalls2(FUNCTOR const& fFunctor, GReal_t& integral, GReal_t& tss)
-{
-	size_t NCalls_Total = fState.GetCallsPerBox()*pow( fState.GetNBoxes(), N);
-
-	// create iterators
-	thrust::counting_iterator<size_t> first(0);
-	thrust::counting_iterator<size_t> last = first + NBoxes_Total;
-
-	fState.CopyStateToDevice();
-	//std::cout << "fState.GetCallsPerBox() "<< fState.GetCallsPerBox() << std::endl;
-
-
-
-	detail::ResultVegas init;
-	detail::ResultVegas result = thrust::transform_reduce(first, last,
-			detail::ProcessCallsVegas<FUNCTOR,N,typename VegasState<N>::vegas_pdf_type, GRND>(
-			fState.GetNBins(),
-			NBoxes_Total,
-			fState.GetNBoxes(),
-			fState.GetCallsPerBox(),
-			fState.GetJacobian(),
-			fState.GetItNum(),
-			const_cast<GReal_t*>(thrust::raw_pointer_cast(fState.GetDeviceXi().data())),
-			const_cast<GReal_t*>(thrust::raw_pointer_cast(fState.GetDeviceXLow().data())),
-			const_cast<GReal_t*>(thrust::raw_pointer_cast(fState.GetDeviceDeltaX().data())),
-			const_cast<typename VegasState<N>::vegas_pdf_type*>(thrust::raw_pointer_cast(fState.GetDeviceDistribution().data())),
-			fState.GetMode(),
-			fState.GetMutex(),
-			fFunctor),
-			init,
-			detail::ProcessBoxesVegas());
-
-	fState.CopyStateToHost();
-
-
-	integral=result.integral*fState.GetCallsPerBox();
-	tss=result.tss;
-
+	integral=result.fMean*result.fN  ;
+	tss=sqrt( result.fM2/(result.fN*(result.fN-1)) );
 
 }
-*/
+
 
 }
 
