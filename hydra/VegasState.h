@@ -54,7 +54,7 @@ enum {
 	MODE_IMPORTANCE = 1,
 	MODE_IMPORTANCE_ONLY = 0,
 	MODE_STRATIFIED = -1,
-	BINS_MAX = 50
+	BINS_MAX = 40
 };
 
 template<size_t N >
@@ -64,7 +64,7 @@ class VegasState {
 public:
 
 #if THRUST_DEVICE_SYSTEM==THRUST_DEVICE_SYSTEM_CUDA
-	typedef float vegas_pdf_type;
+	typedef double vegas_pdf_type;
 #else
 	typedef double vegas_pdf_type;
 #endif
@@ -172,6 +172,10 @@ public:
 	inline const mc_host_vector<vegas_pdf_type>& GetDistribution() const {
 		return fDistribution;
 	}
+
+	inline  mc_host_vector<vegas_pdf_type>& GetDistribution() {
+			return fDistribution;
+		}
 
 	inline void SetDistribution(const mc_host_vector<vegas_pdf_type>& distribution) {
 		fDistribution = distribution;
@@ -583,8 +587,7 @@ public:
 	inline void CopyStateToDevice()
 	{
 		thrust::copy(fXi.begin(), fXi.end(), fDeviceXi.begin());
-		thrust::copy( fDistribution.begin(),
-						  						  fDistribution.end(), fDeviceDistribution.begin());
+		//thrust::copy( fDistribution.begin(), fDistribution.end(), fDeviceDistribution.begin());
 
 	}
 

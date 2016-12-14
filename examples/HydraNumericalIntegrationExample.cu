@@ -172,8 +172,8 @@ GInt_t main(int argv, char** argc)
 
 	//-------------------------------------------
 	//range of the analysis
-	std::array<GReal_t, 1>  min   ={-5.0};
-	std::array<GReal_t, 1>  max   ={ 5.0};
+	std::array<GReal_t, 1>  min   ={-6.0};
+	std::array<GReal_t, 1>  max   ={ 6.0};
 
 	//----------------------------------------------------------------------
 	//get integration
