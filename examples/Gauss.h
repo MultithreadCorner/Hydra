@@ -17,25 +17,37 @@ using namespace hydra;
 
 namespace examples{
 
-struct Gauss:public BaseFunctor<Gauss,GReal_t, 2>
+template<size_t DIM=1>
+struct Gauss:public BaseFunctor<Gauss,GReal_t, 2*DIM>
 {
 
-	Gauss(Parameter const& mean, Parameter const& sigma, GUInt_t position=0 ):
-		BaseFunctor<Gauss,GReal_t,2>(),
-		fPosition(position)
+
+	Gauss(const Parameter (&mean)[DIM], 	const Parameter (& sigma)[DIM],	const GUInt_t (&position)[DIM] ):
+		BaseFunctor<Gauss,GReal_t,2*DIM>()
 		{
-		SetParameter(0, mean);
-		SetParameter(1, sigma);
+
+		for(size_t i=0; i<DIM; i+=2){
+
+			fPosition[i]=position[i];
+			SetParameter(i, mean[i] );
+			SetParameter(i+1, sigma[i] );
+		}
 
 		}
 
 	__host__ __device__
-	inline Gauss(Gauss const& other):
-	BaseFunctor<Gauss,GReal_t,2>(other),
-	fPosition(other.fPosition)
+	inline Gauss(Gauss<DIM>const& other):
+	BaseFunctor<Gauss,GReal_t,2*DIM>(other)
 	{
 		SetParameter(0, other.GetParameter(0) );
 		SetParameter(1, other.GetParameter(1) );
+
+		for(size_t i=0; i<DIM; i+=2){
+
+					fPosition[i]= other.fPosition[i];
+					SetParameter(i, other.GetParameter(i)  );
+					SetParameter(i+1, other.GetParameter(i+1)  );
+				}
 	}
 
 
@@ -62,7 +74,7 @@ struct Gauss:public BaseFunctor<Gauss,GReal_t, 2>
 		return g;
 	}
 
-	GUInt_t  fPosition;
+	GUInt_t  fPosition[DIM];
 
 };
 
