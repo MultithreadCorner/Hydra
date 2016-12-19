@@ -155,20 +155,32 @@ GInt_t main(int argv, char** argc)
 		std::cerr << "error: " << e.error() << " for arg " << e.argId() << std::endl;
 	}
 
+
+	constexpr size_t N = 2;
+
 	//------------------------------------
-	//parameters names
-	std::string Mean("Mean"); 	// mean of gaussian 1
-	std::string Sigma("Sigma"); 	// sigma of gaussian 1
+	//parameters
+	//------------------------------------
 
-	//fit paremeters
+	std::string  Mean_s[N];
+	std::string Sigma_s[N];
+	GUInt_t    position[N];
+	Parameter    Mean_p[N];
+	Parameter   Sigma_p[N];
 
-	// 1) using named parameter idiom
-	Parameter   mean_p = Parameter::Create().Name(Mean).Value(0.0) .Error(0.0001).Limits( 1.0, 4.0);
-	Parameter  sigma_p = Parameter::Create().Name(Sigma).Value(1.0).Error(0.0001).Limits(0.1, 1.5);
+	for(size_t i=0; i< N; i++){
+
+		 Mean_s[i] = "mean_"  + std::to_string(i);
+		Sigma_s[i] = "sigma_" + std::to_string(i);
+		 Mean_p[i] = Parameter::Create().Name(Mean_s[i]).Value(0.0) .Error(0.0001).Limits( -5.0, 5.0);
+		Sigma_p[i] = Parameter::Create().Name(Sigma_s[i]).Value(1.0) .Error(0.0001).Limits( 0.5, 1.5);
+	}
 
 	//----------------------------------------------------------------------
-	// create functors
-	Gauss Gaussian(mean_p, sigma_p,0);
+	// create functor
+	//------------------------------------
+
+	Gauss<N> Gaussian(mean_p, sigma_p,0);
 
 	//-------------------------------------------
 	//range of the analysis

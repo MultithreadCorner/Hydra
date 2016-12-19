@@ -237,7 +237,7 @@ struct BaseFunctor
 
 		detail::tupleToArray(x, &Array[0] );
 
-		return static_cast<Functor*>(this)->Evaluate(&Array[0]);
+		return static_cast<Functor*>(this)->Evaluate(N, &Array[0]);
 
 
 	}
@@ -256,7 +256,7 @@ struct BaseFunctor
 
 	template<typename T>
 	__host__  __device__ inline
-	return_type operator()( T* x, T* p=0  )
+	return_type operator()( T* x  )
 	{
 		GReal_t norm = fNormalized? fNorm : 1.0;
 
@@ -286,14 +286,16 @@ struct BaseFunctor
 	}
 
 
-	__host__ __device__  inline
-    Parameter& operator[](size_t i)
-	{
-		return fParameters[i];
-	}
+
 
 protected:
 	BaseFunctor<Functor,ReturnType, NPARAM>& _par;
+
+	__host__ __device__  inline
+	Parameter& operator[](size_t i)
+	{
+		return fParameters[i];
+	}
 
 private:
 
