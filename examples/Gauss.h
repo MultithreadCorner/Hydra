@@ -17,39 +17,38 @@ using namespace hydra;
 namespace examples{
 
 template<size_t DIM=1>
-struct Gauss:public BaseFunctor<Gauss,GReal_t, 2*DIM>
+struct Gauss: public BaseFunctor<Gauss<DIM>,GReal_t, DIM+DIM>
 {
 
-
 	Gauss(const Parameter   (&mean)[DIM], const Parameter (& sigma)[DIM], const GUInt_t (&position)[DIM] ):
-		BaseFunctor<Gauss,GReal_t,2*DIM>(){
+		BaseFunctor<Gauss,GReal_t,DIM+DIM>(){
 
 		for(size_t i=0; i<DIM; i+=2){
 			fPosition[i]=position[i];
-			SetParameter(i, mean[i] );
-			SetParameter(i+1, sigma[i] );
+			this->SetParameter(i, mean[i] );
+			this->SetParameter(i+1, sigma[i] );
 		}
 
 	}
 
 	__host__ __device__
 	inline Gauss(Gauss<DIM>const& other):
-	BaseFunctor<Gauss,GReal_t,2*DIM>(other)
+	BaseFunctor<Gauss,GReal_t,DIM+DIM>(other)
 	{
 		for(size_t i=0; i<DIM; i+=2){
 			fPosition[i]= other.fPosition[i];
-			SetParameter(i, other.GetParameter(i)  );
-			SetParameter(i+1, other.GetParameter(i+1)  );
+			this->SetParameter(i, other.GetParameter(i)  );
+			this->SetParameter(i+1, other.GetParameter(i+1)  );
 		}
 	}
 
 
 	__host__ __device__
-	inline Gauss& operator=( Gauss const& other)
+	inline Gauss<DIM>& operator=( Gauss<DIM> const& other)
 	{
 		if(this == &other) return *this;
 
-		BaseFunctor<Gauss,GReal_t,2>::operator=(other);
+		BaseFunctor<Gauss<DIM>,GReal_t,DIM+DIM>::operator=(other);
 		for(size_t i=0; i<DIM; i+=2){
 
 			this->fPosition[i]= other.fPosition[i];
@@ -67,8 +66,8 @@ struct Gauss:public BaseFunctor<Gauss,GReal_t, 2*DIM>
 
 		for(size_t i=0; i<DIM; i+=2)
 		{
-			GReal_t m2 = (x[fPosition[i]] - _par[i] )*(x[fPosition] - _par[i] );
-			GReal_t s2 = _par[i+1]*_par[i+1];
+			GReal_t m2 = (x[fPosition[i]] - Fun._par[i] )*(x[fPosition] - this->_par[i] );
+			GReal_t s2 = this->_par[i+1]*this->_par[i+1];
 			g *= exp(-m2/(2.0 * s2 ))/( sqrt(2.0*s2*PI));
 		}
 		return g;

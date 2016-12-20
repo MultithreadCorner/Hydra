@@ -164,12 +164,20 @@ GInt_t main(int argv, char** argc)
 
 	std::string  Mean_s[N];
 	std::string Sigma_s[N];
-	GUInt_t    position[N];
+	GUInt_t  Position_p[N];
 	Parameter    Mean_p[N];
 	Parameter   Sigma_p[N];
 
+    //-------------------------------------------
+	//range of the analysis
+	std::array<GReal_t, N>  min;
+	std::array<GReal_t, N>  max;
+
 	for(size_t i=0; i< N; i++){
 
+		    min[i] = -5.0;
+		    max[i] = 5.0;
+	 Position_p[i] = 0;
 		 Mean_s[i] = "mean_"  + std::to_string(i);
 		Sigma_s[i] = "sigma_" + std::to_string(i);
 		 Mean_p[i] = Parameter::Create().Name(Mean_s[i]).Value(0.0) .Error(0.0001).Limits( -5.0, 5.0);
@@ -180,17 +188,12 @@ GInt_t main(int argv, char** argc)
 	// create functor
 	//------------------------------------
 
-	Gauss<N> Gaussian(mean_p, sigma_p,0);
-
-	//-------------------------------------------
-	//range of the analysis
-	std::array<GReal_t, 1>  min   ={-5.0};
-	std::array<GReal_t, 1>  max   ={ 5.0};
+	Gauss<N> Gaussian(Mean_p, Sigma_p, Position_p);
 
 	//----------------------------------------------------------------------
 	//get integration
 	//Vegas state hold the resources for performing the integration
-	VegasState<1> state = VegasState<1>(min, max); // nota bene: the same range of the analisys
+	VegasState<N> state = VegasState<N>(min, max); // nota bene: the same range of the analisys
 	state.SetVerbose(0);
 	state.SetAlpha(1.5);
 	state.SetIterations( iterations );
@@ -199,10 +202,10 @@ GInt_t main(int argv, char** argc)
 	state.SetCalls( calls );
 	state.SetMode(1);
 	//5,000 calls (fast convergence and precise result)
-	Vegas<1> vegas(state);
+	Vegas<N> vegas(state);
 
 	Gaussian.PrintRegisteredParameters();
-
+/*
 	//----------------------------------------------------------------------
 	//integrate with the current parameters just to test
 	vegas.Integrate(Gaussian);
@@ -211,7 +214,8 @@ GInt_t main(int argv, char** argc)
 		 << " +/- "    << vegas.GetState().GetSigma()
 		 << " Chi2: "  << vegas.GetState().GetChiSquare()
 		 << endl;
-
+*/
+	/*
 	TApplication *myapp=new TApplication("myapp",0,0);
 	TH1D hist_uniform("uniform", "Initial grid",vegas.GetState().GetNBins(), 0, 1);
 	TH1D hist_adapted("adapted", "Adapted  grid", vegas.GetState().GetNBins(), 0, 1);
@@ -235,6 +239,7 @@ GInt_t main(int argv, char** argc)
 	hist_adapted.SetFillColor(0);
 	hist_adapted.SetFillStyle(0);
 	myapp->Run();
+	*/
 	return 0;
 
 

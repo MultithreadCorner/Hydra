@@ -60,7 +60,7 @@ struct BaseFunctor
 {
 	//tag
     typedef void hydra_functor_tag;
-
+    typedef   BaseFunctor<Functor, ReturnType, NPARAM>  Fun;
 	typedef   ReturnType return_type;
 	typedef   std::true_type is_functor;
     static const size_t parameter_count =NPARAM;
@@ -287,15 +287,16 @@ struct BaseFunctor
 
 
 
-
-protected:
-	BaseFunctor<Functor,ReturnType, NPARAM>& _par;
-
-	__host__ __device__  inline
+__host__ __device__  inline
 	Parameter& operator[](size_t i)
 	{
 		return fParameters[i];
 	}
+
+protected:
+
+    Fun& _par;
+
 
 private:
 
