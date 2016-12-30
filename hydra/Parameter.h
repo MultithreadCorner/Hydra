@@ -223,6 +223,11 @@ struct Parameter{
 	}
 
 	__host__ __device__
+	inline GReal_t operator()() const {
+			return this->fValue;
+		}
+
+	__host__ __device__
 	inline GReal_t GetLowerLim() const {
 		return fLowerLim;
 	}
@@ -323,6 +328,9 @@ struct Parameter{
 	__host__ __device__
 	inline operator GReal_t() { return fValue; }
 
+	__host__ __device__
+		inline operator GReal_t() const { return fValue; }
+
 
 	__host__
 	static Parameter Create() {
@@ -368,6 +376,8 @@ private:
 	GBool_t fHasError;
 
 };
+
+
 
 __host__ __device__
 inline Parameter operator+(Parameter par1, Parameter const& par2)

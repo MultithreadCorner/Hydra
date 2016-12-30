@@ -64,7 +64,7 @@ class VegasState {
 public:
 
 #if THRUST_DEVICE_SYSTEM==THRUST_DEVICE_SYSTEM_CUDA
-	typedef double vegas_pdf_type;
+	typedef float  vegas_pdf_type;
 #else
 	typedef double vegas_pdf_type;
 #endif
@@ -587,7 +587,7 @@ public:
 	inline void CopyStateToDevice()
 	{
 		thrust::copy(fXi.begin(), fXi.end(), fDeviceXi.begin());
-		//thrust::copy( fDistribution.begin(), fDistribution.end(), fDeviceDistribution.begin());
+		thrust::copy( fDistribution.begin(), fDistribution.end(), fDeviceDistribution.begin());
 
 	}
 
@@ -644,7 +644,7 @@ public:
 	}
 
 	std::mutex* GetMutex()  {
-		return &fMutex;
+			return &fMutex;
 	}
 
 	GInt_t fVerbose;
@@ -705,7 +705,6 @@ private:
 	GBool_t fUseRelativeError; ///< use relative error as convergence criteria
 
 	std::mutex fMutex;
-
 
 };
 

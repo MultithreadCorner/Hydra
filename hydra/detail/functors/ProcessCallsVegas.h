@@ -93,7 +93,7 @@ struct ResultVegas
     GReal_t fMax;
     GReal_t fMean;
     GReal_t fM2;
-    GReal_t fDistribution[N*BINS_MAX];
+   // GReal_t fDistribution[N*BINS_MAX];
 
     __host__ __device__
     ResultVegas():
@@ -103,8 +103,10 @@ struct ResultVegas
     fMin(std::numeric_limits<GReal_t>::min() ),
     fMax(std::numeric_limits<GReal_t>::max() )
     {
+    	/*
     	for(size_t i=0; i< N*BINS_MAX; i++)
     		fDistribution[i]=0;
+    		*/
     }
 
     __host__ __device__
@@ -115,8 +117,10 @@ struct ResultVegas
     fMin(other.fMin  ),
     fMax(other.fMax  )
     {
+    	/*
     	for(size_t i=0; i< N*BINS_MAX; i++)
     		fDistribution[i]=other.fDistribution[i];
+    		*/
     }
 
 
@@ -136,20 +140,6 @@ struct ProcessBoxesVegas
 		:public thrust::binary_function< ResultVegas<N> const&, ResultVegas<N> const& , ResultVegas<N> >
 {
 
-	/*
-	__host__ __device__ inline
-	ResultVegas<N> operator()(ResultVegas<N> const& x, ResultVegas<N> const& y)
-	{
-		ResultVegas<N> result;
-
-		result.integral += x.integral + y.integral ;
-		result.tss      += x.tss + y.tss ;
-		for(size_t i=0; i< N*BINS_MAX; i++)
-			result.fDistribution[i] += x.fDistribution[i] + y.fDistribution[i];
-		return result;
-
-	}
-	*/
 
     __host__ __device__ inline
     ResultVegas<N> operator()(ResultVegas<N> const& x, ResultVegas<N> const& y)
@@ -172,15 +162,16 @@ struct ProcessBoxesVegas
         result.fM2  = x.fM2 + y.fM2;
         result.fM2 += delta2 * x.fN * y.fN / n;
 
+        /*
         for(size_t i=0; i< N*BINS_MAX; i++)
         			result.fDistribution[i] += x.fDistribution[i] + y.fDistribution[i];
-
+        */
         return result;
     }
 
 };
 
-template<typename FUNCTOR, size_t NDimensions,  typename GRND=thrust::random::default_random_engine>
+template<typename FUNCTOR, size_t NDimensions, typename Precision,  typename GRND=thrust::random::default_random_engine>
 struct ProcessCallsVegas
 {
 	ProcessCallsVegas( size_t NBins,
@@ -192,9 +183,9 @@ struct ProcessCallsVegas
 			GReal_t* Xi,
 			GReal_t* XLow,
 			GReal_t* DeltaX,
-			//Precision* Distribution/*FunctionCalls*/,
+			Precision* Distribution/*FunctionCalls*/,
 			GInt_t Mode,
-			//std::mutex *Mutex,
+			std::mutex *Mutex,
 			FUNCTOR const& functor):
 		fMode(Mode),
 		fSeed(Seed),
@@ -206,13 +197,13 @@ struct ProcessCallsVegas
 		fXi(Xi),
 		fXLow(XLow),
 		fDeltaX(DeltaX),
-		//fDistribution(Distribution),
-		fFunctor(functor)
-		//fMutex(Mutex)
+		fDistribution(Distribution),
+		fFunctor(functor),
+		fMutex(Mutex)
 	{}
 
 	__host__ __device__
-	ProcessCallsVegas( ProcessCallsVegas<FUNCTOR,NDimensions, GRND> const& other):
+	ProcessCallsVegas( ProcessCallsVegas<FUNCTOR,NDimensions, Precision, GRND> const& other):
 	fMode(other.fMode),
 	fSeed(other.fSeed),
 	fNBins(other.fNBins),
@@ -223,17 +214,13 @@ struct ProcessCallsVegas
 	fXi(other.fXi),
 	fXLow(other.fXLow),
 	fDeltaX(other.fDeltaX),
-	//fDistribution(other.fDistribution),
-	fFunctor(other.fFunctor)
-	//fMutex(other.fMutex)
-	{
-
-	}
+	fDistribution(other.fDistribution),
+	fFunctor(other.fFunctor),
+	fMutex(other.fMutex)
+	{}
 
 	__host__ __device__
-	~ProcessCallsVegas(){
-
-	};
+	~ProcessCallsVegas(){ };
 
 	__host__ __device__
 	inline GInt_t GetBoxCoordinate(GInt_t idx, GInt_t dim, GInt_t nboxes, GInt_t j)
@@ -262,6 +249,24 @@ struct ProcessCallsVegas
 		size_t  C = ((A >= B ? A * A + A + B : A + B * B) / 2);
 		return  C ;
 	}
+
+	__host__   __device__ inline
+	void fill_distribution(size_t bin, size_t dimension, GReal_t fval )
+	{
+#ifdef __CUDA_ARCH__
+
+#if __CUDA_ARCH__ >= 600
+					atomicAdd((fDistribution + bin*NDimensions + dimension) ,  static_cast<Precision>(fval*fval));
+#else
+					atomicAdd((fDistribution + bin*NDimensions + dimension) , static_cast<Precision>(fval*fval));
+#endif
+
+#else
+					std::lock_guard<std::mutex> lock(*fMutex);
+					*(fDistribution + bin* NDimensions + dimension) += static_cast<Precision>(fval*fval);
+#endif
+	}
+
 	__host__ __device__
 	inline ResultVegas<NDimensions> operator()( size_t box)
 	{
@@ -314,9 +319,11 @@ struct ProcessCallsVegas
 
 
 		//	if (fMode != MODE_STRATIFIED){
+
 		for (GUInt_t j = 0; j < NDimensions; j++) {
-			result.fDistribution[ bin[j]* NDimensions + j ]+= fval*fval;
+					fill_distribution( bin[j], j,  fval );
 		}
+
 		//	}
 
 		result.fN    = 1;
@@ -344,11 +351,13 @@ private:
     GInt_t  fSeed;
     GInt_t  fMode;
 
+   Precision*   fDistribution;
    GReal_t*   __restrict__ fXi;
    GReal_t*   __restrict__ fXLow;
    GReal_t*   __restrict__ fDeltaX;
 
-    FUNCTOR fFunctor;
+   std::mutex *fMutex;
+   FUNCTOR fFunctor;
 
 };
 

@@ -60,7 +60,6 @@ struct BaseFunctor
 {
 	//tag
     typedef void hydra_functor_tag;
-    typedef   BaseFunctor<Functor, ReturnType, NPARAM>  Fun;
 	typedef   ReturnType return_type;
 	typedef   std::true_type is_functor;
     static const size_t parameter_count =NPARAM;
@@ -121,23 +120,7 @@ struct BaseFunctor
 	void SetCached(bool cached=true)
 	{ fCached = cached; }
 
-	/*
-	__host__ __device__ inline
-	void RegistryParameters( std::initializer_list<Parameter*> var_list){
 
-#ifndef __CUDA_ARCH__
-		int i=0;
-		for(Parameter* var: var_list)
-		{
-			//var->SetIndex(fParameterIndex +i+fParameterIndex);
-			fParameters[i]=var;
-			i++;
-		}
-		fParamResgistered=1;
-#endif
-
-	}
-*/
 
 	void PrintRegisteredParameters()
 	{
@@ -293,9 +276,20 @@ __host__ __device__  inline
 		return fParameters[i];
 	}
 
+__host__ __device__  inline
+	Parameter const& operator[](size_t i) const
+	{
+		return fParameters[i];
+	}
+
+
+
+
+
+
 protected:
 
-    Fun& _par;
+    BaseFunctor<Functor, ReturnType, NPARAM>& _par;
 
 
 private:

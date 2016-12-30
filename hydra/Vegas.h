@@ -56,6 +56,8 @@ public:
 	//tag
 	typedef void hydra_integrator_tag;
 
+	typedef  typename VegasState<N>::vegas_pdf_type precision;
+
 	Vegas()=delete;
 
 	Vegas(std::array<GReal_t,N> const& xlower,	std::array<GReal_t,N> const& xupper, size_t ncalls):

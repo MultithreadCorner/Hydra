@@ -42,7 +42,7 @@
 #include <thrust/transform_reduce.h>
 #include <hydra/PlainState.h>
 #include <hydra/detail/functors/ProcessCallsPlain.h>
-
+#include <utility>
 
 namespace hydra {
 
@@ -73,7 +73,11 @@ public:
 	}
 
 	template<typename FUNCTOR>
-	GInt_t Integrate(FUNCTOR const& fFunctor );
+	std::pair<GReal_t, GReal_t>  Integrate(FUNCTOR const& fFunctor );
+
+	GReal_t GetSigma() const {
+			return fAbsError;
+		}
 
 	GReal_t GetAbsError() const {
 		return fAbsError;

@@ -45,6 +45,7 @@
 #include <hydra/FunctorArithmetic.h>
 #include <hydra/VegasState.h>
 #include <hydra/Vegas.h>
+#include <hydra/Plain.h>
 #include <hydra/Parameter.h>
 
 
@@ -155,7 +156,8 @@ GInt_t main(int argv, char** argc)
 		std::cerr << "error: " << e.error() << " for arg " << e.argId() << std::endl;
 	}
 
-	constexpr size_t N = 2;
+
+	constexpr size_t N = 50;
 
 	//------------------------------------
 	//parameters
@@ -176,11 +178,13 @@ GInt_t main(int argv, char** argc)
 
 		    min[i] = -5.0;
 		    max[i] = 5.0;
-	 Position_p[i] = 0;
-		 Mean_s[i] = "mean_"  + std::to_string(i);
-		Sigma_s[i] = "sigma_" + std::to_string(i);
-		 Mean_p[i] = Parameter::Create().Name(Mean_s[i]).Value(0.0) .Error(0.0001).Limits( -5.0, 5.0);
-		Sigma_p[i] = Parameter::Create().Name(Sigma_s[i]).Value(1.0) .Error(0.0001).Limits( 0.5, 1.5);
+	 Position_p[i] = i;
+		 Mean_s[i] = "mean_"  ;
+		 Mean_s[i] += std::to_string(i);
+		Sigma_s[i] = "sigma_" ;
+		Sigma_s[i] += std::to_string(i);
+		 Mean_p[i].Name(Mean_s[i]).Value(0.0) .Error(0.0001).Limits( -5.0, 5.0);
+		Sigma_p[i].Name(Sigma_s[i]).Value(1.0) .Error(0.0001).Limits( 0.5, 1.5);
 	}
 
 	//----------------------------------------------------------------------
@@ -193,7 +197,7 @@ GInt_t main(int argv, char** argc)
 	//get integration
 	//Vegas state hold the resources for performing the integration
 	VegasState<N> state = VegasState<N>(min, max); // nota bene: the same range of the analisys
-	state.SetVerbose(0);
+	state.SetVerbose(-1);
 	state.SetAlpha(1.5);
 	state.SetIterations( iterations );
 	state.SetUseRelativeError(1);
@@ -204,16 +208,31 @@ GInt_t main(int argv, char** argc)
 	Vegas<N> vegas(state);
 
 	Gaussian.PrintRegisteredParameters();
-/*
+
 	//----------------------------------------------------------------------
 	//integrate with the current parameters just to test
+	auto start_vegas = std::chrono::high_resolution_clock::now();
 	vegas.Integrate(Gaussian);
-	cout << ">>> Gaussian intetgral prior fit "<< endl;
+	auto end_vegas = std::chrono::high_resolution_clock::now();
+	std::chrono::duration<double, std::milli> elapsed_vegas = end_vegas - start_vegas;
+	cout << ">>> Gaussian intetgral [Vegas]"<< endl;
 	cout << "Result: " << vegas.GetState().GetResult()
-		 << " +/- "    << vegas.GetState().GetSigma()
-		 << " Chi2: "  << vegas.GetState().GetChiSquare()
-		 << endl;
+		 << " +/- "    << vegas.GetState().GetSigma() <<std::endl
+		 << "Time (ms): "<< elapsed_vegas.count() <<std::endl;
+
+/*
+	Plain<N> plain( min, max, 10000000);
+	auto start_plain = std::chrono::high_resolution_clock::now();
+	plain.Integrate(Gaussian);
+	auto end_plain = std::chrono::high_resolution_clock::now();
+	std::chrono::duration<double, std::milli> elapsed_plain = end_plain- start_plain;
+
+	cout << ">>> Gaussian intetgral [Plain]"<< endl;
+		cout << "Result: " << plain.GetResult()
+			 << " +/- "    << plain.GetSigma() <<std::endl
+			 << "Time (ms): "<< elapsed_plain.count() <<std::endl;
 */
+
 	/*
 	TApplication *myapp=new TApplication("myapp",0,0);
 	TH1D hist_uniform("uniform", "Initial grid",vegas.GetState().GetNBins(), 0, 1);
@@ -243,3 +262,4 @@ GInt_t main(int argv, char** argc)
 
 
 	}
+

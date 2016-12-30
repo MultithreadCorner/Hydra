@@ -45,6 +45,7 @@
 #include <hydra/FunctorArithmetic.h>
 #include <hydra/VegasState.h>
 #include <hydra/Vegas.h>
+#include <hydra/Plain.h>
 #include <hydra/Parameter.h>
 
 
@@ -156,7 +157,7 @@ GInt_t main(int argv, char** argc)
 	}
 
 
-	constexpr size_t N = 2;
+	constexpr size_t N = 5;
 
 	//------------------------------------
 	//parameters
@@ -175,13 +176,15 @@ GInt_t main(int argv, char** argc)
 
 	for(size_t i=0; i< N; i++){
 
-		    min[i] = -5.0;
-		    max[i] = 5.0;
-	 Position_p[i] = 0;
-		 Mean_s[i] = "mean_"  + std::to_string(i);
-		Sigma_s[i] = "sigma_" + std::to_string(i);
-		 Mean_p[i] = Parameter::Create().Name(Mean_s[i]).Value(0.0) .Error(0.0001).Limits( -5.0, 5.0);
-		Sigma_p[i] = Parameter::Create().Name(Sigma_s[i]).Value(1.0) .Error(0.0001).Limits( 0.5, 1.5);
+		    min[i] = -6.0;
+		    max[i] =  6.0;
+	 Position_p[i] = i;
+		 Mean_s[i] = "mean_"  ;
+		 Mean_s[i] += std::to_string(i);
+		Sigma_s[i] = "sigma_" ;
+		Sigma_s[i] += std::to_string(i);
+		 Mean_p[i].Name(Mean_s[i]).Value(0.0) .Error(0.0001).Limits( -5.0, 5.0);
+		Sigma_p[i].Name(Sigma_s[i]).Value(1.0) .Error(0.0001).Limits( 0.5, 1.5);
 	}
 
 	//----------------------------------------------------------------------
@@ -194,7 +197,7 @@ GInt_t main(int argv, char** argc)
 	//get integration
 	//Vegas state hold the resources for performing the integration
 	VegasState<N> state = VegasState<N>(min, max); // nota bene: the same range of the analisys
-	state.SetVerbose(0);
+	state.SetVerbose(-2);
 	state.SetAlpha(1.5);
 	state.SetIterations( iterations );
 	state.SetUseRelativeError(1);
@@ -205,18 +208,65 @@ GInt_t main(int argv, char** argc)
 	Vegas<N> vegas(state);
 
 	Gaussian.PrintRegisteredParameters();
-/*
+
 	//----------------------------------------------------------------------
-	//integrate with the current parameters just to test
+	//VEGAS
+	//----------------------------------------------------------------------
+	auto start_vegas = std::chrono::high_resolution_clock::now();
 	vegas.Integrate(Gaussian);
-	cout << ">>> Gaussian intetgral prior fit "<< endl;
+	auto end_vegas = std::chrono::high_resolution_clock::now();
+	std::chrono::duration<double, std::milli> elapsed_vegas = end_vegas - start_vegas;
+	cout << ">>> Gaussian intetgral [Vegas]"<< endl;
 	cout << "Result: " << vegas.GetState().GetResult()
-		 << " +/- "    << vegas.GetState().GetSigma()
-		 << " Chi2: "  << vegas.GetState().GetChiSquare()
-		 << endl;
-*/
+		 << " +/- "    << vegas.GetState().GetSigma() <<std::endl
+		 << "Time (ms): "<< elapsed_vegas.count() <<std::endl;
+
+	TH1D Hist_Iterations_Results("Hist_Iterations_Results", "",
+			vegas.GetState().GetIterationResult().size(), 0.0,
+			vegas.GetState().GetIterationResult().size());
+
+	TH1D Hist_Cumulative_Results("Hist_Cumulative_Results", "",
+				vegas.GetState().GetCumulatedResult().size(), 0.0,
+				vegas.GetState().GetCumulatedResult().size());
+
+	for(size_t i=1; i<= Hist_Iterations_Results.GetNbinsX(); i++)
+	{
+		Hist_Cumulative_Results.SetBinContent(i, vegas.GetState().GetCumulatedResult()[i-1]);
+		Hist_Cumulative_Results.SetBinError(i, vegas.GetState().GetCumulatedSigma()[i-1]);
+		Hist_Iterations_Results.SetBinContent(i, vegas.GetState().GetIterationResult()[i-1]);
+		Hist_Iterations_Results.SetBinError(i, vegas.GetState().GetIterationSigma()[i-1]);
+
+	}
+
+	//----------------------------------------------------------------------
+	//PLAIN
+	//----------------------------------------------------------------------
 	/*
+	Plain<N> plain( min, max, vegas.GetState().GetIterationResult().size()*calls);
+	auto start_plain = std::chrono::high_resolution_clock::now();
+	plain.Integrate(Gaussian);
+	auto end_plain = std::chrono::high_resolution_clock::now();
+	std::chrono::duration<double, std::milli> elapsed_plain = end_plain- start_plain;
+
+	cout << ">>> Gaussian intetgral [Plain]"<< endl;
+		cout << "Result: " << plain.GetResult()
+			 << " +/- "    << plain.GetSigma() <<std::endl
+			 << "Time (ms): "<< elapsed_plain.count() <<std::endl;
+*/
+
+	//----------------------------------------------------------------------
+	//ANALYTIC
+	//----------------------------------------------------------------------
+	GaussAnalyticIntegral<N> gaussianAnaInt(min, max);
+	auto result = gaussianAnaInt.Integrate(Gaussian);
+
+	cout << ">>> Gaussian intetgral [Analytic]"<< endl;
+	cout << "Result: " << std::setprecision(9)<<result.first
+					   << " +/- "    << result.second <<std::endl;
+
+
 	TApplication *myapp=new TApplication("myapp",0,0);
+		/*
 	TH1D hist_uniform("uniform", "Initial grid",vegas.GetState().GetNBins(), 0, 1);
 	TH1D hist_adapted("adapted", "Adapted  grid", vegas.GetState().GetNBins(), 0, 1);
 	hist_adapted.SetBins( vegas.GetState().GetNBins(),  vegas.GetState().GetXi().data() );
@@ -228,7 +278,7 @@ GInt_t main(int argv, char** argc)
 		hist_adapted.SetBinContent(i, vegas.GetState().GetCallsPerBox());
 	}
 
-	TCanvas canvas("canvas", "", 1000, 500);
+
 	canvas.Divide(2,1);
 	canvas.cd(1);
 	hist_uniform.Draw("bar");
@@ -238,8 +288,16 @@ GInt_t main(int argv, char** argc)
 	hist_adapted.Draw("bar");
 	hist_adapted.SetFillColor(0);
 	hist_adapted.SetFillStyle(0);
-	myapp->Run();
 	*/
+	TCanvas canvas("canvas", "", 1000, 500);
+    Hist_Iterations_Results.Draw("E0");
+    Hist_Iterations_Results.SetMarkerSize(1);
+    Hist_Iterations_Results.SetMarkerStyle(20);
+	Hist_Cumulative_Results.Draw("hist same");
+	Hist_Cumulative_Results.SetLineColor(kRed);
+	Hist_Cumulative_Results.SetLineWidth(2);
+	myapp->Run();
+
 	return 0;
 
 

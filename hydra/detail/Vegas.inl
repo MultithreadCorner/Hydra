@@ -43,7 +43,7 @@
 #include <iostream>
 #include <utility>
 
-#define  USE_ORIGINAL_CHISQ_FORMULA 0
+#define USE_ORIGINAL_CHISQ_FORMULA 0
 #define CALLS_PER_BOX 2.0
 
 namespace hydra {
@@ -80,6 +80,8 @@ std::pair<GReal_t, GReal_t>  Vegas<N, GRND >::Integrate(FUNCTOR const& fFunctor 
 
 		size_t bins = fState.GetNBinsMax();
 		size_t boxes = 1;
+		//if(fState.GetItNum()>2) fState.SetCalls(fState.GetCalls()*10);
+		//else fState.SetCalls(fState.GetCalls()/2);
 
 		if (fState.GetMode() != MODE_IMPORTANCE_ONLY) {
 			/* shooting for 2 calls/box */
@@ -255,7 +257,7 @@ std::pair<GReal_t, GReal_t>  Vegas<N, GRND >::Integrate(FUNCTOR const& fFunctor 
 		if (fState.GetVerbose() > 1) {
 			PrintDistribution();
 		}
-
+		//if (it <= 2)
 		 RefineGrid();
 
 		if (fState.GetVerbose() > 1) {
@@ -263,7 +265,7 @@ std::pair<GReal_t, GReal_t>  Vegas<N, GRND >::Integrate(FUNCTOR const& fFunctor 
 		}
 
 		if(    (fState.IsUseRelativeError())  && (cum_sig/cum_int < fState.GetMaxError()) ) break;
-		if(   it > 1 &&  (!fState.IsUseRelativeError()) && (fabs(cum_int - intgrl )/cum_int < fState.GetMaxError()) ) break;
+		if( it > 1 &&  (!fState.IsUseRelativeError()) && (fabs(cum_int - intgrl )/cum_int< fState.GetMaxError()) ) break;
 
 	}
 
@@ -534,7 +536,7 @@ void Vegas<  N , GRND>::ProcessFuncionCalls(FUNCTOR const& fFunctor, GReal_t& in
 
 	detail::ResultVegas<N> init;
 	detail::ResultVegas<N> result = thrust::transform_reduce(first, last,
-			detail::ProcessCallsVegas<FUNCTOR,N, GRND>(
+			detail::ProcessCallsVegas<FUNCTOR,N, precision, GRND>(
 			fState.GetNBins(),
 			NBoxes_Total,
 			fState.GetNBoxes(),
@@ -544,16 +546,18 @@ void Vegas<  N , GRND>::ProcessFuncionCalls(FUNCTOR const& fFunctor, GReal_t& in
 			const_cast<GReal_t*>(thrust::raw_pointer_cast(fState.GetDeviceXi().data())),
 			const_cast<GReal_t*>(thrust::raw_pointer_cast(fState.GetDeviceXLow().data())),
 			const_cast<GReal_t*>(thrust::raw_pointer_cast(fState.GetDeviceDeltaX().data())),
+			const_cast<precision*>(thrust::raw_pointer_cast(fState.GetDeviceDistribution().data())),
 			fState.GetMode(),
+	    	fState.GetMutex(),
 			fFunctor),
 			init,
 			detail::ProcessBoxesVegas<N>());
 
-	//fState.CopyStateToHost();
+	fState.CopyStateToHost();
 
-	thrust::copy(&result.fDistribution[0],&result.fDistribution[0]+ N*BINS_MAX, fState.GetDistribution().begin());
+	//thrust::copy(&result.fDistribution[0],&result.fDistribution[0]+ N*BINS_MAX, fState.GetDistribution().begin());
 	integral=result.fMean*result.fN  ;
-	tss=sqrt( result.fM2/(result.fN*(result.fN-1)) );
+	tss=N*sqrt( result.fM2/(result.fN-1) );
 
 }
 

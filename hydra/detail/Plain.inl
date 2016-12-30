@@ -39,7 +39,7 @@ namespace hydra {
 
 template< size_t N, typename GRND>
 template<typename FUNCTOR>
-GInt_t Plain<N,GRND>::Integrate(FUNCTOR const& fFunctor)
+std::pair<GReal_t, GReal_t> Plain<N,GRND>::Integrate(FUNCTOR const& fFunctor)
 {
 
 	// create iterators
@@ -57,7 +57,7 @@ GInt_t Plain<N,GRND>::Integrate(FUNCTOR const& fFunctor)
 	fAbsError = fVolume*sqrt( result.fM2/(fNCalls*(fNCalls-1)) );
 
 
-	return 0;
+	return std::make_pair(fResult, fAbsError);
 
 }
 
