@@ -114,7 +114,7 @@ public:
 		GReal_t init=0;
 
 		//set functor with the new parameters
-		if (INFO >= hydra::Print::Level()  )
+		if (1/*INFO >= hydra::Print::Level() */ )
 		{
 			std::ostringstream stringStream;
 			for(size_t i=0; i< parameters.size(); i++){
@@ -125,7 +125,7 @@ public:
 
 		//std::cout << "Mean1 " << parameters[0] << std::endl;
 		fFunctor.SetParameters(parameters);
-		//fFunctor.PrintRegisteredParameters();
+		fFunctor.PrintRegisteredParameters();
 
 
 		final=thrust::transform_reduce(select_system(system), first, last,
@@ -191,6 +191,7 @@ public:
 		GReal_t  r= this->GetSumW() + fFunctor.IsExtended()*(fFunctor.GetCoefSum() -this->GetSumW()*log(fFunctor.GetCoefSum())) - final;
 
 		fMAxValue = fMAxValue<r?r:fMAxValue;
+	//	std::cout << std::setprecision(16)<<r << std::endl;
 
 		return r;
 	}

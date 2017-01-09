@@ -50,8 +50,9 @@ struct Exp:public BaseFunctor<Exp, GReal_t, 1>
 
 	template<typename T>
 	__host__ __device__
-	inline GReal_t Evaluate(T* x, T* p=0)
+	inline GReal_t Evaluate(T* x)
 	{
+
 		//printf(" Exp : fM %f fS %f\n", fM(),  fS());
 
 
@@ -64,56 +65,50 @@ struct Exp:public BaseFunctor<Exp, GReal_t, 1>
 
 };
 
-/*
-struct InvExp
+
+struct ExpAnalyticIntegral:public Integrator<ExpAnalyticIntegral>
 {
+	typedef void hydra_integrator_tag;
 
-	InvExp(GReal_t const& tau, GReal_t const& x0, GUInt_t position=0 ):
-		fPosition(position),
-		fTau(tau),
-		fX0(x0)
-		{ }
-
-	__host__ __device__
-	inline InvExp(InvExp const& other):
-	fPosition(other.fPosition),
-	fTau(other.fTau),
-	fX0(other.fX0)
-	{ }
+	ExpAnalyticIntegral(GReal_t const& lower_lim , GReal_t const& upper_lim):
+	fLowerLim(lower_lim),
+	fUpperLim(upper_lim)
+	{}
 
 
-	__host__ __device__
-	inline InvExp& operator=( InvExp const& other)
+	inline ExpAnalyticIntegral(ExpAnalyticIntegral const& other):
+	fLowerLim(other.fLowerLim),
+	fUpperLim(other.fUpperLim)
+	{}
+
+
+	inline ExpAnalyticIntegral& operator=( ExpAnalyticIntegral const& other)
 	{
 		if(this == &other) return *this;
-		this->fTau = other.fTau;
-		this->fPosition = other.fPosition;
-		this->fX0=other.fX0;
+
+
+		this->fLowerLim = other.fLowerLim;
+		this->fUpperLim = other.fUpperLim;
 
 		return *this;
-
 	}
 
-	__host__ __device__
-	inline GReal_t operator()(GReal_t x )
+
+
+	template<typename FUNCTOR>
+	inline std::pair<GReal_t, GReal_t> Integrate(FUNCTOR const& functor)
 	{
-		//printf(" Exp : fM %f fS %f\n", fM(),  fS());
-
-
-
-		return x-exp(fTau*fX0)/fTau;
-
-
+		GReal_t tau = functor[0];
+		GReal_t r   =  (exp(fUpperLim*tau) - exp(fLowerLim*tau))/tau ;
+		return std::make_pair(r,0.0);
 	}
 
-	GUInt_t  fPosition;
-	GReal_t fTau;
-	GReal_t fX0;
-
-
+	GReal_t fLowerLim;
+	GReal_t fUpperLim;
 
 };
-*/
+
+
 }
 
 #endif /* EXP_H_ */

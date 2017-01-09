@@ -196,15 +196,15 @@ GInt_t main(int argv, char** argc)
 	//----------------------------------------------------------------------
 	//get integration
 	//Vegas state hold the resources for performing the integration
-	VegasState<N> state = VegasState<N>(min, max); // nota bene: the same range of the analisys
+	VegasState<N> state(min, max);
+
 	state.SetVerbose(-2);
 	state.SetAlpha(1.5);
 	state.SetIterations( iterations );
 	state.SetUseRelativeError(1);
 	state.SetMaxError( max_error );
 	state.SetCalls( calls );
-	state.SetMode(1);
-	//5,000 calls (fast convergence and precise result)
+	state.SetDiscardIterations(2);
 	Vegas<N> vegas(state);
 
 	Gaussian.PrintRegisteredParameters();
@@ -241,7 +241,6 @@ GInt_t main(int argv, char** argc)
 	//----------------------------------------------------------------------
 	//PLAIN
 	//----------------------------------------------------------------------
-	/*
 	Plain<N> plain( min, max, vegas.GetState().GetIterationResult().size()*calls);
 	auto start_plain = std::chrono::high_resolution_clock::now();
 	plain.Integrate(Gaussian);
@@ -252,12 +251,11 @@ GInt_t main(int argv, char** argc)
 		cout << "Result: " << plain.GetResult()
 			 << " +/- "    << plain.GetSigma() <<std::endl
 			 << "Time (ms): "<< elapsed_plain.count() <<std::endl;
-*/
 
 	//----------------------------------------------------------------------
 	//ANALYTIC
 	//----------------------------------------------------------------------
-	GaussAnalyticIntegral<N> gaussianAnaInt(min, max);
+	GaussNAnalyticIntegral<N> gaussianAnaInt(min, max);
 	auto result = gaussianAnaInt.Integrate(Gaussian);
 
 	cout << ">>> Gaussian intetgral [Analytic]"<< endl;

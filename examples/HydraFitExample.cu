@@ -179,7 +179,7 @@ GInt_t main(int argv, char** argc)
 	}
 
 	//Print::SetLevel(0);
-	ROOT::Minuit2::MnPrint::SetLevel(3);
+	//ROOT::Minuit2::MnPrint::SetLevel(0);
 	//----------------------------------------------
 
 	//Generator with current time count as seed.
@@ -224,9 +224,9 @@ GInt_t main(int argv, char** argc)
     Parameter  tau_p    = Parameter::Create().Name(Tau).Value(0).Error(0.0001).Limits( -1.0, 1.0);
 
     // 2) using unnamed parameter idiom
-    Parameter NA_p(na ,nentries, 0, nentries - nentries/10, nentries + nentries/10) ;
-	Parameter NB_p(nb ,nentries, 0, nentries - nentries/10, nentries + nentries/10) ;
-	Parameter NC_p(nc ,nentries, 0, nentries - nentries/10, nentries + nentries/10) ;
+    Parameter NA_p(na ,nentries, sqrt(nentries), nentries-nentries/2 , nentries+nentries/2) ;
+   	Parameter NB_p(nb ,nentries, sqrt(nentries), nentries-nentries/2 , nentries+nentries/2) ;
+   	Parameter NC_p(nc ,nentries, sqrt(nentries), nentries-nentries/2 , nentries+nentries/2) ;
 
 	//----------------------------------------------------------------------
     // registry the parameters
@@ -240,7 +240,7 @@ GInt_t main(int argv, char** argc)
     upar.AddParameter(&NA_p);
     upar.AddParameter(&NB_p);
     upar.AddParameter(&NC_p);
-   // upar.GetState().SetPrecision( 1.0e-16);
+   // upar.GetState().SetPrecision( 1.0e-6);
         ROOT::Minuit2::MnPrint::SetLevel(3);
         //check all is fine
         upar.PrintParameters();
@@ -249,33 +249,39 @@ GInt_t main(int argv, char** argc)
 
     //----------------------------------------------------------------------
 	// create functors
-	Gauss Gaussian1(mean1_p, sigma1_p,0);
-	Gauss Gaussian2(mean2_p, sigma2_p,0);
-	Exp   Exponential(tau_p);
+    mean1_p=3.5;
+    mean2_p=5.5;
+	Gauss Gaussian1(mean1_p, sigma1_p,0,kFalse);
+	Gauss Gaussian2(mean2_p, sigma2_p,0,kFalse);
+	Exp   Exponential(tau_p,0);
 
 	//----------------------------------------------------------------------
 		//get integration
 	    //Vegas state hold the resources for performing the integration
 	    VegasState<1> state = VegasState<1>( min, max); // nota bene: the same range of the analisys
-		state.SetVerbose(1);
-		state.SetAlpha(1.5);
+		state.SetVerbose(-1);
+		state.SetAlpha(1.7);
 		state.SetIterations(10);
 		state.SetUseRelativeError(1);
-		state.SetMaxError(1e-3);
-		state.SetCalls(100000);
+		state.SetMaxError(1e-10);
+		state.SetDiscardIterations(2);
+		state.SetCalls(50000);
 	    //5,000 calls (fast convergence and precise result)
 		Vegas<1> vegas(state);
 
-		auto Gaussian1_PDF   = make_pdf(Gaussian1, vegas);
-		auto Gaussian2_PDF   = make_pdf(Gaussian2, vegas);
-		auto Exponential_PDF = make_pdf(Exponential, vegas );
+		GaussAnalyticIntegral GaussIntegral(min[0], max[0]);
+		ExpAnalyticIntegral   ExpIntegral(min[0], max[0]);
+
+		auto Gaussian1_PDF   = make_pdf(Gaussian1, GaussIntegral);//vegas);
+		auto Gaussian2_PDF   = make_pdf(Gaussian2, GaussIntegral);//vegas);
+		auto Exponential_PDF = make_pdf(Exponential, ExpIntegral);//vegas );
 
 
 		Gaussian1_PDF.PrintRegisteredParameters();
 
 		//----------------------------------------------------------------------
 		//integrate with the current parameters just to test
-		vegas.Integrate(Gaussian1_PDF.GetFunctor());
+		vegas(Gaussian1_PDF.GetFunctor());
 		cout << ">>> GaussianA intetgral prior fit "<< endl;
 		cout << "Result: " << vegas.GetState().GetResult() << " +/- "
 			 << vegas.GetState().GetSigma() << " Chi2: "<< vegas.GetState().GetChiSquare()
@@ -284,14 +290,14 @@ GInt_t main(int argv, char** argc)
 
 		Gaussian2_PDF.PrintRegisteredParameters();
 
-		vegas.Integrate(Gaussian2_PDF.GetFunctor());
+		vegas(Gaussian2_PDF.GetFunctor());
 		cout << ">>> GaussianB intetgral prior fit "<< endl;
 		cout << "Result: " << vegas.GetState().GetResult() << " +/- "
 				<< vegas.GetState().GetSigma() << " Chi2: "<< vegas.GetState().GetChiSquare() << endl;
 
 		Exponential_PDF.PrintRegisteredParameters();
 
-		vegas.Integrate(Exponential_PDF.GetFunctor());
+		vegas(Exponential_PDF.GetFunctor());
 		cout << ">>> Exponential intetgral prior fit "<< endl;
 		cout << "Result: " << vegas.GetState().GetResult() << " +/- "
 				<< vegas.GetState().GetSigma() << " Chi2: "<< vegas.GetState().GetChiSquare() << endl;
@@ -385,14 +391,14 @@ GInt_t main(int argv, char** argc)
 		hist_gaussian_plot.Sumw2();
 		for (size_t i=0 ; i<=100 ; i++) {
 			GReal_t x = hist_gaussian_plot.GetBinCenter(i);
-			hist_gaussian_plot.SetBinContent(i, model.GetFunctor()(&x) );
+			hist_gaussian_plot.SetBinContent(i, model.GetFunctor()( &x) );
 		}
 
 		//scale
 		hist_gaussian_fit.Scale(hist_gaussian.Integral()/hist_gaussian_fit.Integral() );
 		hist_gaussian_plot.Scale(hist_gaussian.Integral()/hist_gaussian_plot.Integral() );
 
-
+		return 0;
 		TApplication *myapp=new TApplication("myapp",0,0);
 
 

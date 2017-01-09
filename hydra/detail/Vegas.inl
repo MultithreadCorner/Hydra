@@ -1,6 +1,6 @@
 /*----------------------------------------------------------------------------
  *
- *   Copyright (C) 2016 Antonio Augusto Alves Junior
++9 *   Copyright (C) 2016 Antonio Augusto Alves Junior
  *
  *   This file is part of Hydra Data Analysis Framework.
  *
@@ -80,39 +80,28 @@ std::pair<GReal_t, GReal_t>  Vegas<N, GRND >::Integrate(FUNCTOR const& fFunctor 
 
 		size_t bins = fState.GetNBinsMax();
 		size_t boxes = 1;
-		//if(fState.GetItNum()>2) fState.SetCalls(fState.GetCalls()*10);
-		//else fState.SetCalls(fState.GetCalls()/2);
 
 		if (fState.GetMode() != MODE_IMPORTANCE_ONLY) {
 			/* shooting for 2 calls/box */
 
-			boxes = floor( pow(fState.GetCalls() /2.0, 1.0 / N ));
-			std::cout << "boxes  " << boxes << " bins " <<fState.GetNBinsMax()<< std::endl;
-			//if(boxes==1) boxes++;
+			boxes = floor( pow(fState.GetCalls()/2.0, 1.0 / N ));
+			if(boxes==1) boxes++;
+		//	std::cout << "boxes  " << boxes << " bins " <<fState.GetNBinsMax()<< std::endl;
+
 			fState.SetMode(MODE_IMPORTANCE);
 
-			/*
-			if (2 * boxes >= fState.GetNBinsMax() ) {
-
-				GInt_t box_per_bin = std::max(GInt_t(boxes/fState.GetNBinsMax()), 1);
-
-				bins = std::min(GInt_t(boxes / box_per_bin), GInt_t(fState.GetNBinsMax()));
-				boxes = box_per_bin * bins;
-				fState.SetMode(MODE_STRATIFIED);
-			}
-			*/
 		}
 
 
 		/*size_t*/GReal_t tot_boxes = pow( (GReal_t)boxes,  N);
 		fState.SetCallsPerBox(std::max(  GInt_t(fState.GetCalls() / tot_boxes), 2) );
 		fState.SetCalls( fState.GetCallsPerBox() * tot_boxes);
-
+		//std::cout << "fState.GetCalls "<< fState.GetCalls()<< std::endl;
 
 		/* total volume of x-space/(avg num of calls/bin) */
 		fState.SetJacobian( fState.GetVolume() * pow((GReal_t) bins, (GReal_t)N)/ fState.GetCalls() );
 
-		std::cout << "fState.GetVolume() " << fState.GetVolume() << std::endl;
+		//std::cout << "fState.GetVolume() " << fState.GetVolume() << std::endl;
 
 		fState.SetNBoxes(boxes);
 
@@ -140,7 +129,8 @@ std::pair<GReal_t, GReal_t>  Vegas<N, GRND >::Integrate(FUNCTOR const& fFunctor 
 
 
 
-	for (size_t it = 0; it < fState.GetIterations(); it++) {
+	for (size_t it = 0; it < fState.GetIterations()+fState.GetDiscardIterations(); it++)
+	{
 
 		auto start = std::chrono::high_resolution_clock::now();
 
@@ -152,7 +142,7 @@ std::pair<GReal_t, GReal_t>  Vegas<N, GRND >::Integrate(FUNCTOR const& fFunctor 
 		size_t calls_per_box = fState.GetCallsPerBox();
 		GReal_t jacbin = fState.GetJacobian();
 
-		fState.SetItNum(fState.GetItStart() + it);
+		if(it >=fState.GetDiscardIterations())	fState.SetItNum(fState.GetItStart() + it);
 
 		ResetGridValues();
 
@@ -165,93 +155,96 @@ std::pair<GReal_t, GReal_t>  Vegas<N, GRND >::Integrate(FUNCTOR const& fFunctor 
 		/*
 		 * Compute final results for this iteration
 		 */
+		if(fState.GetItNum() >= fState.GetDiscardIterations())
+		{
 
-		var = tss / (calls_per_box - 1.0);
-
-
-		if (var > 0) {
-			wgt = 1.0 / var;
-		} else if (fState.GetSumOfWeights() > 0) {
-			wgt = fState.GetSumOfWeights()/ fState.GetSamples();
-		} else {
-			wgt = 0.0;
-		}
-
-		intgrl_sq = intgrl * intgrl;
-
-		sig = sqrt(var);
+			var = tss / (calls_per_box - 1.0);
 
 
-		if (wgt > 0.0) {
+			if (var > 0) {
+				wgt = 1.0 / var;
+			} else if (fState.GetSumOfWeights() > 0) {
+				wgt = fState.GetSumOfWeights()/ fState.GetSamples();
+			} else {
+				wgt = 0.0;
+			}
 
-			GReal_t sum_wgts = fState.GetSumOfWeights();
-			GReal_t wtd_int_sum = fState.GetWeightedIntSum();
-			GReal_t m = (sum_wgts > 0) ? (wtd_int_sum / sum_wgts) : 0;
-			GReal_t q = intgrl - m;
+			intgrl_sq = intgrl * intgrl;
 
-			fState.SetSamples(fState.GetSamples()+1);
-			fState.SetSumOfWeights(fState.GetSumOfWeights() + wgt);
-			fState.SetWeightedIntSum(fState.GetWeightedIntSum() + intgrl * wgt);
-			fState.SetChiSum(fState.GetChiSum()  + intgrl_sq * wgt );
+			sig = sqrt(var);
 
-			cum_int = fState.GetWeightedIntSum() / fState.GetSumOfWeights();
-			cum_sig = sqrt(1.0/fState.GetSumOfWeights() );
+
+			if (wgt > 0.0) {
+
+				GReal_t sum_wgts = fState.GetSumOfWeights();
+				GReal_t wtd_int_sum = fState.GetWeightedIntSum();
+				GReal_t m = (sum_wgts > 0) ? (wtd_int_sum / sum_wgts) : 0;
+				GReal_t q = intgrl - m;
+
+				fState.SetSamples(fState.GetSamples()+1);
+				fState.SetSumOfWeights(fState.GetSumOfWeights() + wgt);
+				fState.SetWeightedIntSum(fState.GetWeightedIntSum() + intgrl * wgt);
+				fState.SetChiSum(fState.GetChiSum()  + intgrl_sq * wgt );
+
+				cum_int = fState.GetWeightedIntSum() / fState.GetSumOfWeights();
+				cum_sig = sqrt(1.0/fState.GetSumOfWeights() );
 
 #if USE_ORIGINAL_CHISQ_FORMULA
 
-			/*
-			 * This is the chisq formula from the original Lepage paper.  It
-			 * computes the variance from <x^2> - <x>^2 and can suffer from
-			 * catastrophic cancellations, e.g. returning negative chisq.
-			 */
+				/*
+				 * This is the chisq formula from the original Lepage paper.  It
+				 * computes the variance from <x^2> - <x>^2 and can suffer from
+				 * catastrophic cancellations, e.g. returning negative chisq.
+				 */
 
-			if (fState.GetSamples() > 1)
-			{
-				fState.SetChiSquare((fState.GetChiSum() - fState.GetWeightedIntSum() * cum_int)/(fState.GetSamples() - 1.0));
-			}
+				if (fState.GetSamples() > 1)
+				{
+					fState.SetChiSquare((fState.GetChiSum() - fState.GetWeightedIntSum() * cum_int)/(fState.GetSamples() - 1.0));
+				}
 #else
-			/*
-			 * The new formula below computes exactly the same quantity as above
-			 * but using a stable recurrence
-			 */
+				/*
+				 * The new formula below computes exactly the same quantity as above
+				 * but using a stable recurrence
+				 */
 
-			if (fState.GetSamples() == 1) {
-				fState.SetChiSquare(0.0);
-			} else {
+				if (fState.GetSamples() == 1) {
+					fState.SetChiSquare(0.0);
+				} else {
 
-				GReal_t chi2 = fState.GetChiSquare();
+					GReal_t chi2 = fState.GetChiSquare();
 
-				chi2 *= (fState.GetSamples() - 2.0);
-				chi2 += (wgt / (1 + (wgt / sum_wgts))) * q * q;
-				chi2 /= (fState.GetSamples() - 1.0);
+					chi2 *= (fState.GetSamples() - 2.0);
+					chi2 += (wgt / (1 + (wgt / sum_wgts))) * q * q;
+					chi2 /= (fState.GetSamples() - 1.0);
 
-				fState.SetChiSquare(chi2);
+					fState.SetChiSquare(chi2);
 
-			}
+				}
 #endif
-		} else {
-			cum_int += (intgrl - cum_int) / (it + 1.0);
-			cum_sig = 0.0;
-		}
-
-		auto end = std::chrono::high_resolution_clock::now();
-		auto elapsed = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
-
-		fState.SetResult(intgrl);
-		fState.SetSigma(sig);
-
-
-		fState.StoreIterationResult(intgrl, sig);
-		fState.StoreCumulatedResult(cum_int, cum_sig);
-		fState.StoreIterationDuration( GReal_t(elapsed.count())/1000 );
-
-
-		if (fState.GetVerbose() >= 0) {
-			PrintResults( intgrl, sig, cum_int, cum_sig, GReal_t(elapsed.count())/1000);
-
-			if (it + 1 == fState.GetIterations() && fState.GetVerbose() > 0) {
-				PrintGrid();
+			} else {
+				cum_int += (intgrl - cum_int) / (it + 1.0);
+				cum_sig = 0.0;
 			}
+
+			auto end = std::chrono::high_resolution_clock::now();
+			auto elapsed = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
+
+			fState.SetResult(intgrl);
+			fState.SetSigma(sig);
+			fState.StoreIterationResult(intgrl, sig);
+			fState.StoreCumulatedResult(cum_int, cum_sig);
+			fState.StoreIterationDuration( GReal_t(elapsed.count())/1000 );
+
+
+			if (fState.GetVerbose() >= 0) {
+				PrintResults( intgrl, sig, cum_int, cum_sig, GReal_t(elapsed.count())/1000);
+
+				if (it + 1 == fState.GetIterations() && fState.GetVerbose() > 0) {
+					PrintGrid();
+				}
+			}
+
+
 		}
 
 		if (fState.GetVerbose() > 1) {
@@ -264,9 +257,12 @@ std::pair<GReal_t, GReal_t>  Vegas<N, GRND >::Integrate(FUNCTOR const& fFunctor 
 			PrintGrid();
 		}
 
-		if(    (fState.IsUseRelativeError())  && (cum_sig/cum_int < fState.GetMaxError()) ) break;
-		if( it > 1 &&  (!fState.IsUseRelativeError()) && (fabs(cum_int - intgrl )/cum_int< fState.GetMaxError()) ) break;
+		if(it >=fState.GetDiscardIterations())
+		{
 
+			if(    (fState.IsUseRelativeError())  && (cum_sig/cum_int < fState.GetMaxError()) ) break;
+			if( it > 1 &&  (!fState.IsUseRelativeError()) && (fabs(cum_int - intgrl )/cum_int< fState.GetMaxError()) ) break;
+		}
 	}
 
 	/* By setting stage to 1 further calls will generate independent
@@ -532,7 +528,6 @@ void Vegas<  N , GRND>::ProcessFuncionCalls(FUNCTOR const& fFunctor, GReal_t& in
 	thrust::counting_iterator<size_t> last = first + NBoxes_Total;
 
 	fState.CopyStateToDevice();
-	//std::cout << "fState.GetCallsPerBox() "<< fState.GetCallsPerBox() << std::endl;
 
 	detail::ResultVegas<N> init;
 	detail::ResultVegas<N> result = thrust::transform_reduce(first, last,
@@ -548,14 +543,15 @@ void Vegas<  N , GRND>::ProcessFuncionCalls(FUNCTOR const& fFunctor, GReal_t& in
 			const_cast<GReal_t*>(thrust::raw_pointer_cast(fState.GetDeviceDeltaX().data())),
 			const_cast<precision*>(thrust::raw_pointer_cast(fState.GetDeviceDistribution().data())),
 			fState.GetMode(),
+#if THRUST_DEVICE_SYSTEM!=THRUST_DEVICE_SYSTEM_CUDA
 	    	fState.GetMutex(),
+#endif
 			fFunctor),
 			init,
 			detail::ProcessBoxesVegas<N>());
 
 	fState.CopyStateToHost();
 
-	//thrust::copy(&result.fDistribution[0],&result.fDistribution[0]+ N*BINS_MAX, fState.GetDistribution().begin());
 	integral=result.fMean*result.fN  ;
 	tss=N*sqrt( result.fM2/(result.fN-1) );
 

@@ -63,7 +63,7 @@ if(NOT COMPILER_SUPPORTS_CXX11)
 endif()
 
 #options to gcc
-set(CMAKE_CXX_FLAGS "-D_GLIBCXX_USE_CXX11_ABI=0 -DTHRUST_VARIADIC_TUPLE --std=c++11  -march=native -fPIC -O4 ${OpenMP_CXX_FLAGS}" CACHE STRING "compile flags" FORCE)
+set(CMAKE_CXX_FLAGS " -DTHRUST_VARIADIC_TUPLE --std=c++11  -march=native -fPIC -O4 ${OpenMP_CXX_FLAGS}" CACHE STRING "compile flags" FORCE)
 
 #including directories
 
