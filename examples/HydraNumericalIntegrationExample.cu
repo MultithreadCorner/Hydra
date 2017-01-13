@@ -157,7 +157,7 @@ GInt_t main(int argv, char** argc)
 	}
 
 
-	constexpr size_t N = 5;
+	constexpr size_t N = 10;
 
 	//------------------------------------
 	//parameters
