@@ -500,7 +500,25 @@ namespace hydra {
 		 product_tuple3<I + 1,N, Return_Type, ArgType1, ArgType2,  Tp...>( r , t,arg1, arg2 );
 	 }
 
+/*
+	 //evaluate a tuple of functors and return a tuple of results
+	 template< typename Tup, typename ArgType, size_t ... index>
+	 __host__ __device__
+	 inline auto invoke_helper(size_t n, ArgType* x, Tup& tup, index_sequence<index...>)
+	 -> decltype(thrust::make_tuple(thrust::get<index>(tup)(n,x)...))
+	 {
+		 return thrust::make_tuple(thrust::get<index>(tup)(n,x)...);
+	 }
 
+	 template< typename Tup, typename ArgType>
+	 __host__  __device__
+	 inline auto invoke(size_t n, ArgType* x, Tup& tup)
+	 -> decltype(invoke_helper2(n, x, tup, make_index_sequence< thrust::tuple_size<Tup>::value> { }))
+	 {
+		 constexpr size_t Size = thrust::tuple_size<Tup>::value;
+		 return invoke_helper2(n, x, tup, make_index_sequence<Size> { });
+	 }
+*/
 	 //evaluate a tuple of functors and return a tuple of results
 	 template< typename Tup, typename ArgType, size_t ... index>
 	 __host__ __device__

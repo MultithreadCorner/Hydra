@@ -58,7 +58,7 @@ typedef unsigned long long GULong64_t; ///< Portable unsigned long integer 8 byt
 #ifdef FP_SINGLE
 typedef float GReal_t;///< Double 8 bytes or float 4 bytes
 #else
-typedef double GReal_t;///< Double 8 bytes or float 4 bytes
+typedef double GReal_t;///< Double 16 bytes or float 4 bytes
 #endif
 
 

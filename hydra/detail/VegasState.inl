@@ -40,6 +40,7 @@ namespace hydra {
 template<size_t N>
 VegasState<N>::VegasState(std::array<GReal_t,N> const& xlower,
 		std::array<GReal_t,N> const& xupper) :
+		fDiscardIterations(1),
 		fNDimensions(N),
 		fNBinsMax(BINS_MAX),
 		fNBins(BINS_MAX),
@@ -64,39 +65,36 @@ VegasState<N>::VegasState(std::array<GReal_t,N> const& xlower,
 		fCalls(5000),
 		fMaxError(0.5e-3),
 		fUseRelativeError(kTrue),
-		fOStream(std::cout)
+		fOStream(std::cout),
+		//-------
+		fDeviceXLow(N),
+		fDeviceDeltaX(N),
+		fDeviceDistribution(N * BINS_MAX),
+		fDeviceXi((BINS_MAX + 1) * N),
+		//-------
+		fDistribution(N * BINS_MAX),
+		fDeltaX(N),
+		fXi((BINS_MAX + 1) * N),
+		fXin(BINS_MAX + 1),
+		fWeight(BINS_MAX),
+		fXUp(N),
+		fXLow(N)
 {
 
 	for(size_t i=0; i<N; i++)
 	{
-		fXUp.push_back(xupper[i]);
-		fXLow.push_back(xlower[i]);
-		fDeltaX.push_back(xupper[i]-xlower[i]);
-
+		fXUp[i]=xupper[i];
+		fXLow[i]=xlower[i];
+		fDeltaX[i] = xupper[i]-xlower[i];
+		fDeviceDeltaX[i]= xupper[i]-xlower[i];
 	}
-	fDeviceXLow.resize(N);
-	fDeviceDeltaX.resize(N);
 
-	fDistribution.resize(N * BINS_MAX);
-	fDeviceDistribution.resize(N * BINS_MAX);
-
-	fXi.resize((BINS_MAX + 1) * N);
-	fDeviceXi.resize((BINS_MAX + 1) * N);
-
-
-	fXin.resize(BINS_MAX + 1);
-	fWeight.resize(BINS_MAX);
-
-	fIterationResult.resize(0);
-	fIterationSigma.resize(0);
-	fCumulatedResult.resize(0);
-	fCumulatedSigma.resize(0);
-	fIterationDuration.resize(0);
 
 }
 
 template<size_t N>
 VegasState<N>::VegasState(VegasState const& other) :
+        fDiscardIterations(other.GetDiscardIterations()),
 		fAlpha(other.GetAlpha()),
 		fNDimensions(other.GetNDimensions()),
 		fNBinsMax(other.GetNBinsMax()),

@@ -312,7 +312,7 @@ struct DecayMother
 };
 
 }//namespace detail
-}  // namespace experimental
+} // namespace experimental
 }//namespace hydra
 
 #endif /* DECAYMOTHER_H_ */

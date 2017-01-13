@@ -203,6 +203,8 @@ struct AddPdf: detail::AddPdfBase<PDF1,PDF2,PDFs...>
 			      fCoeficients[i].Reset(parameters );
 
 		detail::set_functors_in_tuple(fPDFs, parameters);
+		//detail::set_functors_in_tuple(fFunctors, parameters);
+
 		fFunctors = get_functor_tuple(fPDFs);
 
 		fCoefSum=0;

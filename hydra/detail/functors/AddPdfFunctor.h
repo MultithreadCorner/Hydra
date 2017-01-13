@@ -172,12 +172,12 @@ struct AddPdfFunctor
 	}
 
 
-	template<typename T1> inline
+	template<typename T> inline
 	 __host__ __device__
-	GReal_t operator()(T1&& t )
+	GReal_t operator()(T&& t )
 	{
 
-		auto pdf_res_tuple = detail::invoke<functors_tuple_type, T1>( t, fFunctors);
+		auto pdf_res_tuple = detail::invoke<functors_tuple_type, T>( t, fFunctors);
 		GReal_t pdf_res_array[npdfs];
 		detail::tupleToArray( pdf_res_tuple, pdf_res_array );
 
@@ -192,10 +192,11 @@ struct AddPdfFunctor
 
 	template<typename T1, typename T2>
 	 __host__ __device__
-	inline	GReal_t operator()( T1&& t, T2&& cache)
+	inline	GReal_t operator()(T1&& x, T2&& cache)
 	{
 
-		auto pdf_res_tuple = detail::invoke<GReal_t,functors_tuple_type, T1, T2>( t, cache, fFunctors);
+
+		auto pdf_res_tuple = detail::invoke<GReal_t,functors_tuple_type, T1, T2>( x, cache, fFunctors);
 		GReal_t pdf_res_array[npdfs];
 		detail::tupleToArray( pdf_res_tuple, pdf_res_array );
 
@@ -208,11 +209,11 @@ struct AddPdfFunctor
 
 	template<typename T>
 	 __host__ __device__
-	inline	GReal_t operator()( T* x, T* p)
+	inline	GReal_t operator()(T *x)
 	{
 
 
-		auto pdf_res_tuple = detail::invoke<GReal_t,functors_tuple_type, T*, T*>( x, p, fFunctors);
+		auto pdf_res_tuple = detail::invoke(x, fFunctors);
 		GReal_t pdf_res_array[npdfs];
 		detail::tupleToArray( pdf_res_tuple, pdf_res_array );
 

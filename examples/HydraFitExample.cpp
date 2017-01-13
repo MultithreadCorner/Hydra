@@ -180,248 +180,250 @@ GInt_t main(int argv, char** argc)
 	}
 
 	//Print::SetLevel(0);
-	//ROOT::Minuit2::MnPrint::SetLevel(2);
-	//----------------------------------------------
+		ROOT::Minuit2::MnPrint::SetLevel(3);
+		//----------------------------------------------
 
-	//Generator with current time count as seed.
-	size_t seed = 0;//std::chrono::system_clock::now().time_since_epoch().count();
-	Random<thrust::random::default_random_engine> Generator( seed  );
-
-
-	//-------------------------------------------
-	//range of the analysis
-	std::array<GReal_t, 1>  min   ={ 0.0};
-	std::array<GReal_t, 1>  max   ={ 15.0};
-
-	//------------------------------------
-	//parameters names
-	std::string Mean1("Mean_1"); 	// mean of gaussian 1
-	std::string Mean2("Mean_2"); 	// mean of gaussian 2
-	std::string Sigma1("Sigma_1"); 	// sigma of gaussian 1
-	std::string Sigma2("Sigma_2"); 	// sigma of gaussian 2
-	std::string Tau("Tau"); 		//tau of exponential
-	std::string na("Yield_1"); 		//yield #1
-	std::string nb("Yield_2"); 		//yield #2
-	std::string nc("Yield_3"); 		//yield #3
-	//fit paremeters
+		//Generator with current time count as seed.
+		size_t seed = 0;//std::chrono::system_clock::now().time_since_epoch().count();
+		Random<thrust::random::default_random_engine> Generator( seed  );
 
 
-	//----------------------------------------------------------------------
-	//create parameters
-	//	Gaussian #1:
-	//	mean = 3.0,	sigma = 0.5, yield = N1_p
-	//
-	//	Gaussian #2:
-	//	mean  = 5.0, sigma = 1.0, yield = N2_p
-	//
-	//	Exponential:
-	//	tau  = 1.0
+		//-------------------------------------------
+		//range of the analysis
+		std::array<GReal_t, 1>  min   ={ 0.0};
+		std::array<GReal_t, 1>  max   ={ 15.0};
 
-	// 1) using named parameter idiom
-	Parameter  mean1_p  = Parameter::Create().Name(Mean1).Value(3.0) .Error(0.01).Limits( 1.0, 4.0);
-	Parameter  sigma1_p = Parameter::Create().Name(Sigma1).Value(0.5).Error(0.01).Limits(0.1, 1.5);
-	Parameter  mean2_p  = Parameter::Create().Name(Mean2).Value(5.0).Error(0.01).Limits(4.0, 6.0);
-	Parameter  sigma2_p = Parameter::Create().Name(Sigma2).Value(1.0).Error(0.01).Limits(0.5, 1.5);
-    Parameter  tau_p    = Parameter::Create().Name(Tau).Value(0).Error(0.01).Limits( -1.0, 1.0);
-
-    // 2) using unnamed parameter idiom
-    Parameter NA_p(na ,nentries, sqrt(nentries)/1000, nentries - nentries/2, nentries + nentries/2) ;
-	Parameter NB_p(nb ,nentries, sqrt(nentries)/1000, nentries - nentries/2, nentries + nentries/2) ;
-	Parameter NC_p(nc ,nentries, sqrt(nentries)/1000, nentries - nentries/2, nentries + nentries/2) ;
-
-	//----------------------------------------------------------------------
-    // registry the parameters
-	UserParameters upar;
-
-    upar.AddParameter(&mean1_p);
-    upar.AddParameter(&sigma1_p);
-    upar.AddParameter(&mean2_p);
-    upar.AddParameter(&sigma2_p);
-    upar.AddParameter(&tau_p);
-    upar.AddParameter(&NA_p);
-    upar.AddParameter(&NB_p);
-    upar.AddParameter(&NC_p);
-    upar.GetState().SetPrecision( 1000*upar.GetState().Precision().Eps());
-    ROOT::Minuit2::MnPrint::SetLevel(3);
-    //check all is fine
-    upar.PrintParameters();
-
-    cout << "======>"<<upar.GetState().Precision().Eps() << endl;
+		//------------------------------------
+		//parameters names
+		std::string Mean1("Mean_1"); 	// mean of gaussian 1
+		std::string Mean2("Mean_2"); 	// mean of gaussian 2
+		std::string Sigma1("Sigma_1"); 	// sigma of gaussian 1
+		std::string Sigma2("Sigma_2"); 	// sigma of gaussian 2
+		std::string Tau("Tau"); 		//tau of exponential
+		std::string na("Yield_1"); 		//yield #1
+		std::string nb("Yield_2"); 		//yield #2
+		std::string nc("Yield_3"); 		//yield #3
+		//fit paremeters
 
 
-    //----------------------------------------------------------------------
-	// create functors
-	Gauss Gaussian1(mean1_p, sigma1_p,0);
-	Gauss Gaussian2(mean2_p, sigma2_p,0);
-	Exp   Exponential(tau_p);
+		//----------------------------------------------------------------------
+		//create parameters
+		//	Gaussian #1:
+		//	mean = 3.0,	sigma = 0.5, yield = N1_p
+		//
+		//	Gaussian #2:
+		//	mean  = 5.0, sigma = 1.0, yield = N2_p
+		//
+		//	Exponential:
+		//	tau  = 1.0
 
-	//----------------------------------------------------------------------
-	//get integration
-    //Vegas state hold the resources for performing the integration
-    VegasState<1> state = VegasState<1>( min, max); // nota bene: the same range of the analisys
-	state.SetVerbose(-1);
-	state.SetAlpha(1.5);
-	state.SetIterations(15);
-	state.SetUseRelativeError(1);
-	state.SetMaxError(1e-3);
-	state.SetCalls(10000);
-    //5,000 calls (fast convergence and precise result)
-	Vegas<1> vegas(state);
+		// 1) using named parameter idiom
+		Parameter  mean1_p  = Parameter::Create().Name(Mean1).Value(3.0) .Error(0.0001).Limits( 1.0, 4.0);
+		Parameter  sigma1_p = Parameter::Create().Name(Sigma1).Value(0.5).Error(0.0001).Limits(0.1, 1.5);
+		Parameter  mean2_p  = Parameter::Create().Name(Mean2).Value(5.0).Error(0.0001).Limits(4.0, 6.0);
+		Parameter  sigma2_p = Parameter::Create().Name(Sigma2).Value(1.0).Error(0.0001).Limits(0.5, 1.5);
+	    Parameter  tau_p    = Parameter::Create().Name(Tau).Value(0).Error(0.0001).Limits( -1.0, 1.0);
 
-	auto Gaussian1_PDF   = make_pdf(Gaussian1, vegas);
-	auto Gaussian2_PDF   = make_pdf(Gaussian2, vegas);
-	auto Exponential_PDF = make_pdf(Exponential, vegas );
+	    // 2) using unnamed parameter idiom
+	    Parameter NA_p(na ,nentries, sqrt(nentries), nentries/10 , 2*nentries) ;
+		Parameter NB_p(nb ,nentries, sqrt(nentries), nentries/10 , 2*nentries) ;
+		Parameter NC_p(nc ,nentries, sqrt(nentries), nentries/10 , 2*nentries) ;
 
-	Gaussian1_PDF.PrintRegisteredParameters();
+		//----------------------------------------------------------------------
+	    // registry the parameters
+		UserParameters upar;
 
-	//----------------------------------------------------------------------
-	//integrate with the current parameters just to test
-	vegas.Integrate(Gaussian1_PDF.GetFunctor());
-	cout << ">>> GaussianA intetgral prior fit "<< endl;
-	cout << "Result: " << vegas.GetState().GetResult() << " +/- "
-		 << vegas.GetState().GetSigma() << " Chi2: "<< vegas.GetState().GetChiSquare()
+	    upar.AddParameter(&mean1_p);
+	    upar.AddParameter(&sigma1_p);
+	    upar.AddParameter(&mean2_p);
+	    upar.AddParameter(&sigma2_p);
+	    upar.AddParameter(&tau_p);
+	    upar.AddParameter(&NA_p);
+	    upar.AddParameter(&NB_p);
+	    upar.AddParameter(&NC_p);
+	   // upar.GetState().SetPrecision( 1.0e-16);
+	        ROOT::Minuit2::MnPrint::SetLevel(3);
+	        //check all is fine
+	        upar.PrintParameters();
 
-	<< endl;
+	        cout << "======>"<<upar.GetState().Precision().Eps() << endl;
 
-	Gaussian2_PDF.PrintRegisteredParameters();
+	    //----------------------------------------------------------------------
+		// create functors
+		Gauss Gaussian1(mean1_p, sigma1_p,0);
+		Gauss Gaussian2(mean2_p, sigma2_p,0);
+		Exp   Exponential(tau_p);
 
-	vegas.Integrate(Gaussian2_PDF.GetFunctor());
-	cout << ">>> GaussianB intetgral prior fit "<< endl;
-	cout << "Result: " << vegas.GetState().GetResult() << " +/- "
-			<< vegas.GetState().GetSigma() << " Chi2: "<< vegas.GetState().GetChiSquare() << endl;
+		//----------------------------------------------------------------------
+			//get integration
+		    //Vegas state hold the resources for performing the integration
+		    VegasState<1> state = VegasState<1>( min, max); // nota bene: the same range of the analisys
+			state.SetVerbose(-1);
+			state.SetAlpha(1.5);
+			state.SetIterations(10);
+			state.SetUseRelativeError(1);
+			state.SetMaxError(1e-3);
+			state.SetCalls(1000);
+		    //5,000 calls (fast convergence and precise result)
+			Vegas<1> vegas(state);
 
-	Exponential_PDF.PrintRegisteredParameters();
-
-	vegas.Integrate(Exponential_PDF.GetFunctor());
-	cout << ">>> Exponential intetgral prior fit "<< endl;
-	cout << "Result: " << vegas.GetState().GetResult() << " +/- "
-			<< vegas.GetState().GetSigma() << " Chi2: "<< vegas.GetState().GetChiSquare() << endl;
-
-
-	//----------------------------------------------------------------------
-	//add the pds to make a extended pdf model
-
-	//list of yields
-	std::array<Parameter*, 3>  yields{&NA_p, &NB_p, &NC_p};
-
-	auto model = add_pdfs(yields, Gaussian1_PDF, Gaussian2_PDF, Exponential_PDF );
-
-	//--------------------------------------------------------------------
-	//Generate data on the device with the original parameters
-	//
-	PointVector<device, GReal_t, 1> data_d(3*nentries);
-
-	Generator.Gauss(mean1_p , sigma1_p, data_d.begin(), data_d.begin() + nentries );
-	Generator.Gauss(mean2_p , sigma2_p, data_d.begin()+ nentries, data_d.begin() + 2*nentries );
-	Generator.Uniform(min[0], max[0], data_d.begin()+ 2*nentries, data_d.end() );
-
-
-	//---------------------------
-	//get data from device and fill histogram
-	PointVector<host> data_h(data_d);
-
-	TH1D hist_gaussian("gaussian", "", 100, min[0], max[0]);
-	 hist_gaussian.Sumw2();
-	for(auto point: data_h )
-		hist_gaussian.Fill(point.GetCoordinate(0));
-
-	//-------------------------------------------------
-    //minimization
-
-	//get the FCN
-	auto modelFCN = make_loglikehood_fcn(model, data_d.begin(), data_d.end() );
-
-    //print minuit parameters before the fit
-	std::cout << upar << endl;
-
-    //minimization strategy
-	MnStrategy strategy(2);
-
-	// create Migrad minimizer
-	MnMigrad migrad(modelFCN, upar.GetState() ,  strategy);
-
-	// create Minimize minimizer
-	MnMinimize minimize(modelFCN,upar.GetState() ,  strategy);
-	FunctionMinimum *minimum=0;
-
-	// ... Minimize and profile the time
-	auto start = std::chrono::high_resolution_clock::now();
-	if(use_comb_minimizer){
-		 minimum = new FunctionMinimum(minimize(iterations, tolerance));
-	}
-	else{
-		 minimum = new FunctionMinimum(migrad(iterations, tolerance));
-	}
-
-	auto end = std::chrono::high_resolution_clock::now();
-	std::chrono::duration<double, std::milli> elapsed = end - start;
-
-	// output
-	std::cout<<"minimum: "<<*minimum<<std::endl;
-
-	//time
-	std::cout << "-----------------------------------------"<<std::endl;
-	std::cout << "| Time (ms) ="<< elapsed.count() <<std::endl;
-	std::cout << "-----------------------------------------"<<std::endl;
-
-	//------------------------------------------------------
-	//Sampling the fitted model
-    //Set the function with the fitted parameters
-	model.SetParameters(minimum->UserParameters().Params());
-	model.PrintRegisteredParameters();
-
-	//sample fit function on the host nentries trials
-	PointVector<host, GReal_t, 1> data2_h(0);
-	Generator.SetSeed(std::chrono::system_clock::now().time_since_epoch().count()+1);//+1 because all can run very fast sometimes
-	Generator.Sample(model, min, max, data2_h, 10*nentries );
-
-	TH1D hist_gaussian_fit("gaussian_fit", "", 100, min[0], max[0]);
-	hist_gaussian_fit.Sumw2();
-	// histogram it for graphics representation
-	for(auto point: data2_h )
-			hist_gaussian_fit.Fill(point.GetCoordinate(0));
-
-	TH1D hist_gaussian_plot("gaussian_plot", "", 100,  min[0], max[0]);
-	hist_gaussian_plot.Sumw2();
-	for (size_t i=0 ; i<=100 ; i++) {
-		GReal_t x = hist_gaussian_plot.GetBinCenter(i);
-		hist_gaussian_plot.SetBinContent(i, model(&x) );
-	}
-
-	//scale
-	hist_gaussian_fit.Scale(hist_gaussian.Integral()/hist_gaussian_fit.Integral() );
-	hist_gaussian_plot.Scale(hist_gaussian.Integral()/hist_gaussian_plot.Integral() );
+			auto Gaussian1_PDF   = make_pdf(Gaussian1, vegas);
+			auto Gaussian2_PDF   = make_pdf(Gaussian2, vegas);
+			auto Exponential_PDF = make_pdf(Exponential, vegas );
 
 
-	TApplication *myapp=new TApplication("myapp",0,0);
+			Gaussian1_PDF.PrintRegisteredParameters();
+
+			//----------------------------------------------------------------------
+			//integrate with the current parameters just to test
+			vegas.Integrate(Gaussian1_PDF.GetFunctor());
+			cout << ">>> GaussianA intetgral prior fit "<< endl;
+			cout << "Result: " << vegas.GetState().GetResult() << " +/- "
+				 << vegas.GetState().GetSigma() << " Chi2: "<< vegas.GetState().GetChiSquare()
+
+			<< endl;
+
+			Gaussian2_PDF.PrintRegisteredParameters();
+
+			vegas.Integrate(Gaussian2_PDF.GetFunctor());
+			cout << ">>> GaussianB intetgral prior fit "<< endl;
+			cout << "Result: " << vegas.GetState().GetResult() << " +/- "
+					<< vegas.GetState().GetSigma() << " Chi2: "<< vegas.GetState().GetChiSquare() << endl;
+
+			Exponential_PDF.PrintRegisteredParameters();
+
+			vegas.Integrate(Exponential_PDF.GetFunctor());
+			cout << ">>> Exponential intetgral prior fit "<< endl;
+			cout << "Result: " << vegas.GetState().GetResult() << " +/- "
+					<< vegas.GetState().GetSigma() << " Chi2: "<< vegas.GetState().GetChiSquare() << endl;
 
 
-	TCanvas canvas_gauss("canvas_gauss", "Gaussian distribution", 500, 500);
-	hist_gaussian.Draw("e0");
-	hist_gaussian.SetMarkerSize(1);
-	hist_gaussian.SetMarkerStyle(20);
+			//----------------------------------------------------------------------
+			//add the pds to make a extended pdf model
 
-	//sampled data after fit
-	hist_gaussian_fit.Draw("barSAME");
-	hist_gaussian_fit.SetLineColor(4);
-	hist_gaussian_fit.SetFillColor(4);
-	hist_gaussian_fit.SetFillStyle(3001);
+			//list of yields
+			std::array<Parameter*, 3>  yields{&NA_p, &NB_p, &NC_p};
 
-	//original data
-	hist_gaussian.Draw("e0SAME");
+			auto model = add_pdfs(yields, Gaussian1_PDF, Gaussian2_PDF, Exponential_PDF );
+			model.SetExtended(1);
+			//--------------------------------------------------------------------
+			//Generate data on the device with the original parameters
+			//
+			PointVector<device, GReal_t, 1> data_d(3*nentries);
 
-	//plot
-	hist_gaussian_plot.Draw("csame");
-	hist_gaussian_plot.SetLineColor(2);
-	hist_gaussian_plot.SetLineWidth(2);
-
-	canvas_gauss.SaveAs("./plots/Fit_OpenMP.png");
-
-	myapp->Run();
-
-	delete minimum;
-
-	return 0;
+			Generator.Gauss(mean1_p , sigma1_p, data_d.begin(), data_d.begin() + nentries );
+			Generator.Gauss(mean2_p , sigma2_p, data_d.begin()+ nentries, data_d.begin() + 2*nentries );
+			Generator.Uniform(min[0], max[0], data_d.begin()+ 2*nentries, data_d.end() );
 
 
-}
+			//---------------------------
+			//get data from device and fill histogram
+			PointVector<host> data_h(data_d);
+
+			TH1D hist_gaussian("gaussian", "", 100, min[0], max[0]);
+			 hist_gaussian.Sumw2();
+			for(auto point: data_h )
+				hist_gaussian.Fill(point.GetCoordinate(0));
+
+			//-------------------------------------------------
+		    //minimization
+
+			//get the FCN
+			auto modelFCN = make_loglikehood_fcn(model, data_d.begin(), data_d.end() );
+
+		    //print minuit parameters before the fit
+			std::cout << upar << endl;
+
+		    //minimization strategy
+			MnStrategy strategy(1);
+
+			// create Migrad minimizer
+			MnMigrad migrad(modelFCN, upar.GetState() ,  strategy);
+
+			// create Minimize minimizer
+			MnMinimize minimize(modelFCN,upar.GetState() ,  strategy);
+			FunctionMinimum *minimum=0;
+
+			// ... Minimize and profile the time
+			auto start = std::chrono::high_resolution_clock::now();
+			if(use_comb_minimizer){
+				 minimum = new FunctionMinimum(minimize(iterations, tolerance));
+			}
+			else{
+
+				 minimum = new FunctionMinimum(migrad(std::numeric_limits<unsigned int>::max(), tolerance));
+			}
+
+			auto end = std::chrono::high_resolution_clock::now();
+			std::chrono::duration<double, std::milli> elapsed = end - start;
+
+			// output
+			std::cout<<"minimum: "<<*minimum<<std::endl;
+
+			//time
+			std::cout << "-----------------------------------------"<<std::endl;
+			std::cout << "| Time (ms) ="<< elapsed.count() <<std::endl;
+			std::cout << "-----------------------------------------"<<std::endl;
+
+			//------------------------------------------------------
+			//Sampling the fitted model
+		    //Set the function with the fitted parameters
+			model.SetParameters(minimum->UserParameters().Params());
+			model.PrintRegisteredParameters();
+
+			//sample fit function on the host nentries trials
+			PointVector<host, GReal_t, 1> data2_h(0);
+			Generator.SetSeed(std::chrono::system_clock::now().time_since_epoch().count()+1);//+1 because all can run very fast sometimes
+			Generator.Sample(model.GetFunctor(), min, max, data2_h, 10*nentries );
+
+			TH1D hist_gaussian_fit("gaussian_fit", "", 100, min[0], max[0]);
+			hist_gaussian_fit.Sumw2();
+			// histogram it for graphics representation
+			for(auto point: data2_h )
+					hist_gaussian_fit.Fill(point.GetCoordinate(0));
+
+			TH1D hist_gaussian_plot("gaussian_plot", "", 100,  min[0], max[0]);
+			hist_gaussian_plot.Sumw2();
+			for (size_t i=0 ; i<=100 ; i++) {
+				GReal_t x = hist_gaussian_plot.GetBinCenter(i);
+				hist_gaussian_plot.SetBinContent(i, model.GetFunctor()( &x) );
+			}
+
+			//scale
+			hist_gaussian_fit.Scale(hist_gaussian.Integral()/hist_gaussian_fit.Integral() );
+			hist_gaussian_plot.Scale(hist_gaussian.Integral()/hist_gaussian_plot.Integral() );
+
+
+			TApplication *myapp=new TApplication("myapp",0,0);
+
+
+			TCanvas canvas_gauss("canvas_gauss", "Gaussian distribution", 500, 500);
+			hist_gaussian.Draw("e0");
+			hist_gaussian.SetMarkerSize(1);
+			hist_gaussian.SetMarkerStyle(20);
+
+			//sampled data after fit
+			hist_gaussian_fit.Draw("barSAME");
+			hist_gaussian_fit.SetLineColor(4);
+			hist_gaussian_fit.SetFillColor(4);
+			hist_gaussian_fit.SetFillStyle(3001);
+
+			//original data
+			hist_gaussian.Draw("e0SAME");
+
+			//plot
+			hist_gaussian_plot.Draw("csame");
+			hist_gaussian_plot.SetLineColor(2);
+			hist_gaussian_plot.SetLineWidth(2);
+
+			canvas_gauss.SaveAs("./plots/Fit_OpenMP.png");
+
+			myapp->Run();
+
+			delete minimum;
+
+			return 0;
+
+
+		}
+

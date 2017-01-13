@@ -164,8 +164,10 @@ struct Pdf:detail::PdfBase<FUNCTOR, INTEGRATOR>
 
 		fFunctor.SetParameters(parameters);
 
-		for(size_t i=0; i< FUNCTOR::parameter_count; i++)
-							fParameters[i]=fFunctor.GetParameter(i);
+		for(size_t i=0; i< FUNCTOR::parameter_count; i++){
+			fParameters[i]=fFunctor.GetParameter(i);
+			}
+
 
 		size_t key = detail::hash_range(fParameters.begin(),
 				fParameters.end());
@@ -175,7 +177,7 @@ struct Pdf:detail::PdfBase<FUNCTOR, INTEGRATOR>
 		if (search != fNormCache.end() && fNormCache.size()>0) {
 
 			std::tie(fNorm, fNormError) = search->second;
-			//std::cout << "found norm!" << std::endl;
+			//std::cout << "found norm! key="<<key << std::endl;
 
 		}
 		else {

@@ -41,10 +41,13 @@
 #include <hydra/Containers.h>
 #include <hydra/Types.h>
 
-
+#include <vector>
 #include <thrust/copy.h>
 #include <chrono>
+
+#if THRUST_DEVICE_SYSTEM!=THRUST_DEVICE_SYSTEM_CUDA
 #include <mutex>
+#endif
 
 namespace hydra {
 
@@ -132,22 +135,24 @@ public:
 	//-----------------------------
 	//CumulatedResult
 
-	inline const mc_host_vector<GReal_t>& GetCumulatedResult() const {
+	inline const std::vector<GReal_t>& GetCumulatedResult() const {
 		return fCumulatedResult;
 	}
 
-	inline void SetCumulatedResult(const mc_host_vector<GReal_t>& cumulatedResult) {
+	inline void SetCumulatedResult(const std::vector<GReal_t>& cumulatedResult)
+	{
 		fCumulatedResult = cumulatedResult;
 	}
 
 	//-----------------------------
 	//CumulatedSigma
 
-	inline const mc_host_vector<GReal_t>& GetCumulatedSigma() const {
+	inline const std::vector<GReal_t>& GetCumulatedSigma() const {
 		return fCumulatedSigma;
 	}
 
-	inline void SetCumulatedSigma(const mc_host_vector<GReal_t>& cumulatedSigma) {
+	inline void SetCumulatedSigma(const std::vector<GReal_t>& cumulatedSigma)
+	{
 		fCumulatedSigma = cumulatedSigma;
 	}
 
@@ -192,25 +197,25 @@ public:
 	//----------------
 	//IterationDuration
 
-
-	inline const mc_host_vector<GReal_t>& GetIterationDuration() const {
+	inline const std::vector<GReal_t>& GetIterationDuration() const {
 		return fIterationDuration;
 	}
 
 
-	inline void SetIterationDuration(
-			const mc_host_vector<GReal_t>& iterationDuration) {
+	inline void SetIterationDuration(const std::vector<GReal_t>& iterationDuration)
+	{
 		fIterationDuration = iterationDuration;
 	}
 
 	//----------------
 	//IterationResult
 
-	inline const mc_host_vector<GReal_t>& GetIterationResult() const {
+	inline const std::vector<GReal_t>& GetIterationResult() const {
 		return fIterationResult;
 	}
 
-	inline void SetIterationResult(const mc_host_vector<GReal_t>& iterationResult) {
+	inline void SetIterationResult(const std::vector<GReal_t>& iterationResult)
+	{
 		fIterationResult = iterationResult;
 	}
 
@@ -228,12 +233,13 @@ public:
 	//----------------
 	//IterationSigma
 
-	inline const mc_host_vector<GReal_t>& GetIterationSigma() const {
+	inline const std::vector<GReal_t>& GetIterationSigma() const {
 		return fIterationSigma;
 	}
 
 
-	inline void SetIterationSigma(const mc_host_vector<GReal_t>& iterationSigma) {
+	inline void SetIterationSigma(const std::vector<GReal_t>& iterationSigma)
+	{
 		fIterationSigma = iterationSigma;
 	}
 
@@ -642,9 +648,18 @@ public:
 	const mc_device_vector<vegas_pdf_type>& GetDeviceDistribution() const {
 		return fDeviceDistribution;
 	}
-
+#if THRUST_DEVICE_SYSTEM!=THRUST_DEVICE_SYSTEM_CUDA
 	std::mutex* GetMutex()  {
 			return &fMutex;
+	}
+#endif
+
+	GUInt_t GetDiscardIterations() const {
+		return fDiscardIterations;
+	}
+
+	void SetDiscardIterations(GUInt_t discardIterations) {
+		fDiscardIterations = discardIterations;
 	}
 
 	GInt_t fVerbose;
@@ -663,22 +678,23 @@ private:
 	mc_host_vector<GReal_t> fXin;
 	mc_host_vector<GReal_t> fDeltaX;
 	mc_host_vector<GReal_t> fWeight;
-	//mc_host_vector<GReal_t> fX;
-	//mc_host_vector<GFloat_t> fDistribution;
 	mc_host_vector<vegas_pdf_type> fDistribution;
-	mc_host_vector<GReal_t> fIterationResult; ///< vector with the result per iteration
-	mc_host_vector<GReal_t> fIterationSigma; ///< vector with the result per iteration
-	mc_host_vector<GReal_t> fCumulatedResult; ///< vector of cumulated results per iteration
-	mc_host_vector<GReal_t> fCumulatedSigma; ///< vector of cumulated sigmas per iteration
-	mc_host_vector<GReal_t> fIterationDuration; ///< vector with the time per iteration
-	//mc_host_vector<GUInt_t> fBox;
 
 	//device
-
 	mc_device_vector<vegas_pdf_type> fDeviceDistribution;
 	mc_device_vector<GReal_t> fDeviceXLow;//initgrid
 	mc_device_vector<GReal_t> fDeviceXi;//CopyStateToDevice
 	mc_device_vector<GReal_t> fDeviceDeltaX;//initgrid
+
+	//std
+	std::vector<GReal_t> fIterationResult; ///< vector with the result per iteration
+	std::vector<GReal_t> fIterationSigma; ///< vector with the result per iteration
+	std::vector<GReal_t> fCumulatedResult; ///< vector of cumulated results per iteration
+	std::vector<GReal_t> fCumulatedSigma; ///< vector of cumulated sigmas per iteration
+	std::vector<GReal_t> fIterationDuration; ///< vector with the time per iteration
+	//mc_host_vector<GUInt_t> fBox;
+
+
 
 	GReal_t fVolume;
 	/* control variables */
@@ -696,6 +712,7 @@ private:
 	GReal_t fResult;
 	GReal_t fSigma;
 
+	GUInt_t fDiscardIterations;
 	GUInt_t fItStart;
 	GUInt_t fItNum;
 	GUInt_t fSamples;
@@ -703,9 +720,9 @@ private:
 	size_t  fCalls;
 	GReal_t fMaxError; ///< max error
 	GBool_t fUseRelativeError; ///< use relative error as convergence criteria
-
+#if THRUST_DEVICE_SYSTEM!=THRUST_DEVICE_SYSTEM_CUDA
 	std::mutex fMutex;
-
+#endif
 };
 
 

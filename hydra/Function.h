@@ -220,7 +220,7 @@ struct BaseFunctor
 
 		detail::tupleToArray(x, &Array[0] );
 
-		return static_cast<Functor*>(this)->Evaluate(N, &Array[0]);
+		return static_cast<Functor*>(this)->Evaluate(&Array[0]);
 
 
 	}
@@ -239,7 +239,7 @@ struct BaseFunctor
 
 	template<typename T>
 	__host__  __device__ inline
-	return_type operator()( T* x  )
+	return_type operator()(T* x)
 	{
 		GReal_t norm = fNormalized? fNorm : 1.0;
 
@@ -259,9 +259,11 @@ struct BaseFunctor
 
 	template<typename T1, typename T2>
 	__host__ __device__  inline
-	return_type operator()( T1&& x, T2 && cache)
+	return_type operator()( T1&& x, T2&& cache)
 	{
+
 		GReal_t norm = fNormalized? fNorm : 1.0;
+
 
 		return fCached ?\
 				detail::extract<return_type, T2 >(fCacheIndex, std::forward<T2>(cache)):\
