@@ -178,7 +178,7 @@ std::pair<GReal_t, GReal_t>  Vegas<N, GRND >::Integrate(FUNCTOR const& fFunctor 
 
 				GReal_t sum_wgts = fState.GetSumOfWeights();
 				GReal_t wtd_int_sum = fState.GetWeightedIntSum();
-				GReal_t m = (sum_wgts > 0) ? (wtd_int_sum / sum_wgts) : 0;
+				GReal_t m = (sum_wgts > 0.0) ? (wtd_int_sum / sum_wgts) : 0.0;
 				GReal_t q = intgrl - m;
 
 				fState.SetSamples(fState.GetSamples()+1);

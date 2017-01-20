@@ -138,20 +138,20 @@ struct ProcessCallsVegas
 			std::mutex *Mutex,
 #endif
 			FUNCTOR const& functor):
-		fMode(Mode),
-		fSeed(Seed),
-		fNBins(NBins),
-		fNBoxes(NBoxes),
-		fNBoxesPerDimension(NBoxesPerDimension),
-		fNCallsPerBox(NCallsPerBox),
-		fJacobian(Jacobian),
-		fXi(Xi),
-		fXLow(XLow),
-		fDeltaX(DeltaX),
-		fDistribution(Distribution),
-		fFunctor(functor)
+				fMode(Mode),
+				fSeed(Seed),
+				fNBins(NBins),
+				fNBoxes(NBoxes),
+				fNBoxesPerDimension(NBoxesPerDimension),
+				fNCallsPerBox(NCallsPerBox),
+				fJacobian(Jacobian),
+				fXi(Xi),
+				fXLow(XLow),
+				fDeltaX(DeltaX),
+				fDistribution(Distribution),
+				fFunctor(functor)
 #if THRUST_DEVICE_SYSTEM!=THRUST_DEVICE_SYSTEM_CUDA
-		,fMutex(Mutex)
+	,fMutex(Mutex)
 #endif
 	{}
 
@@ -209,87 +209,81 @@ struct ProcessCallsVegas
 	void fill_distribution(size_t bin, size_t dimension, GReal_t fval )
 	{
 #ifdef __CUDA_ARCH__
-
-#if __CUDA_ARCH__ >= 600
-					atomicAdd((fDistribution + bin*NDimensions + dimension) ,  static_cast<Precision>(fval*fval));
-#else
-					atomicAdd((fDistribution + bin*NDimensions + dimension) , static_cast<Precision>(fval*fval));
-#endif
-
+		atomicAdd((fDistribution + bin*NDimensions + dimension) , static_cast<Precision>(fval*fval));
 #else
 #if THRUST_DEVICE_SYSTEM!=THRUST_DEVICE_SYSTEM_CUDA
-					std::lock_guard<std::mutex> lock(*fMutex);
-					*(fDistribution + bin* NDimensions + dimension) += static_cast<Precision>(fval*fval);
+		std::lock_guard<std::mutex> lock(*fMutex);
+		*(fDistribution + bin* NDimensions + dimension) += static_cast<Precision>(fval*fval);
 #endif
 #endif
 	}
 
 
+
+	__host__   __device__ inline
+	void get_point(const size_t  index, GReal_t &volume, GInt_t (&bin)[NDimensions], GReal_t (&x)[NDimensions] )
+	{
+
+		size_t box = index/fNCallsPerBox;
+		GRND randEng( hash(fSeed,index) );
+		thrust::uniform_real_distribution<GReal_t> uniDist(0.0, 1.0);
+
+		for (size_t j = 0; j < NDimensions; j++)
+		{
+
+			x[j] = uniDist(randEng);
+
+			GInt_t b = fNBoxesPerDimension > 1? GetBoxCoordinate(box, NDimensions, fNBoxesPerDimension, j):box;
+
+
+			GReal_t z = ((b + x[j]) / fNBoxesPerDimension) * fNBins;
+
+			GInt_t k = static_cast<GInt_t>(z);
+
+			GReal_t y = 0;
+			GReal_t bin_width = 0;
+
+			bin[j] = k;
+
+			bin_width = fXi[(k + 1)*NDimensions + j]
+			                - (k != 0) * fXi[k*NDimensions + j];
+
+			y = (k != 0) * fXi[k*NDimensions + j] + (z - k) * bin_width;
+
+			x[j] = fXLow[j] + y * fDeltaX[j];
+
+			volume *= bin_width;
+
+			//	printf("index=%f call=%f x[j]=%f \n",  double(box) , double(call), x[j] );
+
+		}
+
+	}
+
+
+
+
 	__host__ __device__
 	inline ResultVegas<NDimensions> operator()( size_t index)
 	{
-
-
-		size_t box = index/fNCallsPerBox;
+		//	size_t box = index/fNCallsPerBox;
 
 		GReal_t volume = 1.0;
 		GReal_t x[NDimensions];
 		GInt_t bin[NDimensions];
 		ResultVegas<NDimensions> result;
 
-		GRND randEng( hash(fSeed,index) );
-		//randEng.discard(NDimensions + box*fNCallsPerBox);
-		thrust::uniform_real_distribution<GReal_t> uniDist(0.0, 1.0);
+		get_point( index, volume, bin, x );
 
+		GReal_t fval = fJacobian*volume*fFunctor( detail::arrayToTuple<GReal_t, NDimensions>(x));
 
-		for (size_t j = 0; j < NDimensions; j++) {
-
-				x[j] = uniDist(randEng);
-
-				GInt_t b = fNBoxesPerDimension > 1? GetBoxCoordinate(box, NDimensions, fNBoxesPerDimension, j):box;
-
-
-				GReal_t z = ((b + x[j]) / fNBoxesPerDimension) * fNBins;
-
-				GInt_t k = static_cast<GInt_t>(z);
-
-				GReal_t y = 0;
-				GReal_t bin_width = 0;
-
-				bin[j] = k;
-
-				bin_width = fXi[(k + 1)*NDimensions + j]
-				                - (k != 0) * fXi[k*NDimensions + j];
-
-				y = (k != 0) * fXi[k*NDimensions + j] + (z - k) * bin_width;
-
-				x[j] = fXLow[j] + y * fDeltaX[j];
-
-				volume *= bin_width;
-
-				//	printf("index=%f call=%f x[j]=%f \n",  double(box) , double(call), x[j] );
-
-			}
-
-
-			GReal_t fval = fJacobian*volume*fFunctor( detail::arrayToTuple<GReal_t, NDimensions>(x));
-
-
-
-			for (GUInt_t j = 0; j < NDimensions; j++) {
-				fill_distribution( bin[j], j,  fval );
-			}
-
-
+		for (GUInt_t j = 0; j < NDimensions; j++) {
+			fill_distribution( bin[j], j,  fval );
+		}
 
 		result.fN    = 1;
 		result.fMean = fval;
 		result.fM2   = 0;
-
-		//	}
-
-
-
 
 		return result;
 
@@ -301,18 +295,18 @@ private:
 	size_t  fNBoxes;
 	size_t  fNBoxesPerDimension;
 	size_t  fNCallsPerBox;
-    GReal_t fJacobian;
-    GInt_t  fSeed;
-    GInt_t  fMode;
+	GReal_t fJacobian;
+	GInt_t  fSeed;
+	GInt_t  fMode;
 
-   Precision*   fDistribution;
-   GReal_t*   __restrict__ fXi;
-   GReal_t*   __restrict__ fXLow;
-   GReal_t*   __restrict__ fDeltaX;
+	Precision*   fDistribution;
+	GReal_t*   __restrict__ fXi;
+	GReal_t*   __restrict__ fXLow;
+	GReal_t*   __restrict__ fDeltaX;
 #if THRUST_DEVICE_SYSTEM!=THRUST_DEVICE_SYSTEM_CUDA
-   std::mutex *fMutex;
+	std::mutex *fMutex;
 #endif
-   FUNCTOR fFunctor;
+	FUNCTOR fFunctor;
 
 };
 

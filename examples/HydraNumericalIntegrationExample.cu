@@ -191,7 +191,7 @@ GInt_t main(int argv, char** argc)
 	// create functor
 	//------------------------------------
 
-	Gauss<N> Gaussian(Mean_p, Sigma_p, Position_p);
+	GaussN<N> Gaussian(Mean_p, Sigma_p, Position_p);
 
 	//----------------------------------------------------------------------
 	//get integration
