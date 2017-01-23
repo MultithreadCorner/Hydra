@@ -230,11 +230,9 @@ struct ProcessCallsVegas
 
 		for (size_t j = 0; j < NDimensions; j++)
 		{
-
 			x[j] = uniDist(randEng);
 
 			GInt_t b = fNBoxesPerDimension > 1? GetBoxCoordinate(box, NDimensions, fNBoxesPerDimension, j):box;
-
 
 			GReal_t z = ((b + x[j]) / fNBoxesPerDimension) * fNBins;
 

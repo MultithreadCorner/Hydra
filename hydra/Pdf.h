@@ -177,8 +177,13 @@ struct Pdf:detail::PdfBase<FUNCTOR, INTEGRATOR>
 		if (search != fNormCache.end() && fNormCache.size()>0) {
 
 			std::tie(fNorm, fNormError) = search->second;
-			//std::cout << "found norm! key="<<key << std::endl;
-
+			/*
+			std::cout << ">>> Found cached norm key="<<key << std::endl;
+			std::cout << ">>> Parameters values: "<< std::endl;
+			for(size_t i=0; i< FUNCTOR::parameter_count; i++){
+				std::cout <<">>> [" << i << "]" << std::setprecision(10)<< fParameters[i] << std::endl;
+			}
+			*/
 		}
 		else {
 
