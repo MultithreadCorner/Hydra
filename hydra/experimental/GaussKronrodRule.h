@@ -141,6 +141,17 @@ struct GaussKronrodRule
 		HYDRA_MSG << "Gauss-Kronrod Rule #" << KronrodN << " end." << HYDRA_ENDL;
 	}
 
+	thrust::pair<GReal_t, GReal_t> GetAbscissa(size_t index, GReal_t xlower, GReal_t xupper  )
+	{
+
+		GReal_t a = (xupper - xlower)/2.0;
+		GReal_t b = (xupper + xlower)/2.0;
+	    GReal_t x = a*X[index] + b;
+
+	    return thrust::make_pair(x, a);
+
+	}
+
 	GReal_t X[KronrodN] ;
 	GReal_t GaussWeight[GaussN] ;
 	GReal_t KronrodWeight[KronrodN] ;

@@ -36,15 +36,17 @@ namespace hydra {
 
 namespace experimental {
 
-}
 template<size_t NRULE, size_t NBIN=200>
 class GaussKronrodQuadrature: public Integrator< GaussKronrodQuadrature<NRULE, NBIN > >
 {
 public:
 
 	GaussKronrodQuadrature(GReal_t xlower, GReal_t xupper):
+		fXLower(xlower),
+		fXUpper(xupper)
 	{
 
+		this->SetBins();
 	}
 
 	template<typename FUNCTOR>
@@ -52,10 +54,24 @@ public:
 
 private:
 
+    void SetBins()
+    {
+
+    	GReal_t delta = fXUpper - fXLower;
+
+    	for(size_t i=0; i<NBIN; i++ )
+    	{
+    		fBins[i] = fXLower + i*delta;
+    	}
+
+    	fBins[NBIN] = fXUpper;
+
+    }
 
 
-	GReal_t fXlower;
-	GReal_t fXupper;
+
+	GReal_t fXLower;
+	GReal_t fXUpper;
 	GReal_t fBins[NBIN+1];
 };
 
