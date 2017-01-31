@@ -20,65 +20,49 @@
  *---------------------------------------------------------------------------*/
 
 /*
- * GaussKronrodQuad.h
+ * GaussKronrodQuadrature.h
  *
- *  Created on: Jan 25, 2017
+ *  Created on: 31/01/2017
  *      Author: Antonio Augusto Alves Junior
  */
 
-#ifndef GAUSSKRONRODQUAD_H_
-#define GAUSSKRONRODQUAD_H_
+#ifndef GAUSSKRONRODQUADRATURE_H_
+#define GAUSSKRONRODQUADRATURE_H_
 
-
+#include <hydra/experimental/GaussKronrodRule.h>
+#include <hydra/detail/Integrator.h>
 
 namespace hydra {
 
 namespace experimental {
 
-
-template<size_t N>
-struct GaussKronrodRules
+}
+template<size_t NRULE, size_t NBIN=200>
+class GaussKronrodQuadrature: public Integrator< GaussKronrodQuadrature<NRULE, NBIN > >
 {
-	GReal_t X[N];
-	GReal_t GaussWeight[(N -1)/2];
-	GReal_t KronrodWeight[N];
+public:
 
+	GaussKronrodQuadrature(GReal_t xlower, GReal_t xupper):
+	{
+
+	}
+
+	template<typename FUNCTOR>
+	std::pair<GReal_t, GReal_t> Integrate(FUNCTOR const& functor);
+
+private:
+
+
+
+	GReal_t fXlower;
+	GReal_t fXupper;
+	GReal_t fBins[NBIN+1];
 };
 
-/*
- template<size_t GaussN, size_t KronrodN>
-struct GaussKronrodRules
-{
-	double X[ (KronrodN-1)/2 + 1 ];
-	double GaussWeight[(GaussN-1)/2 +1 ];
-    double KronrodWeight[(KronrodN-1)/2 + 1 ];
-
-};
-
-template<size_t GaussN, size_t KronrodN>
-void print_rule( GaussKronrodRules<GaussN, KronrodN> const& rule )
-{
-
-    for(size_t i=0; i<(KronrodN-1)/2+1; i++ )
-    {
-        std::cout << "Gauss-Konrod x[" << i << "] = " << rule.X[i] << std::endl;
-        std::cout << "Gauss-Konrod w[" << i << "] = " << rule.KronrodWeight[i] << std::endl;
-    }
-
-    for(size_t i=0; i<(GaussN-1)/2+1; i++ )
-    {
-        std::cout << "Gauss x[" << i << "] = " << rule.X[2*i] << std::endl;
-        std::cout << "Gauss w[" << i << "] = " << rule.GaussWeight[i] << std::endl;
-    }
-
-
-}
-
-*/
-
 }
 
 }
 
 
-#endif /* GAUSSKRONRODQUAD_H_ */
+
+#endif /* GAUSSKRONRODQUADRATURE_H_ */

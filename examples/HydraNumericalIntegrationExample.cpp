@@ -47,7 +47,7 @@
 #include <hydra/Vegas.h>
 #include <hydra/Plain.h>
 #include <hydra/Parameter.h>
-
+#include <hydra/experimental/GaussKronrodRule.h>
 
 //root
 #include <TROOT.h>
@@ -262,6 +262,7 @@ GInt_t main(int argv, char** argc)
 	cout << "Result: " << std::setprecision(9)<<result.first
 					   << " +/- "    << result.second <<std::endl;
 
+	hydra::experimental::GaussKronrodRule15.Print();
 
 	TApplication *myapp=new TApplication("myapp",0,0);
 		/*

@@ -159,7 +159,7 @@ struct Events {
 	template<unsigned int BACKEND2>
 	Events<N,BACKEND>& operator=(Events<N,BACKEND2> const& other)
 	{
-
+		if(this == &other) return *this;
 		this->fNEvents=other.GetNEvents();
 		this->fMaxWeight=other.GetMaxWeight();
 
