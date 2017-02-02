@@ -33,6 +33,7 @@
 #include <hydra/Types.h>
 #include <hydra/detail/Print.h>
 
+#include <thrust/pair.h>
 #include <initializer_list>
 
 
@@ -45,7 +46,7 @@ template<size_t N>
 struct GaussKronrodRule
 {
 	constexpr static size_t KronrodN = (N+1)/2;
-	constexpr static size_t GaussN   = (KronrodN+1)/2;
+	constexpr static size_t GaussN   = (N+1)/2;
 
 
 	GaussKronrodRule()=delete;
@@ -59,10 +60,6 @@ struct GaussKronrodRule
 		{
 			X[i]=x.begin()[i];
 			KronrodWeight[i]=kronrod_weight.begin()[i];
-		}
-
-		for(size_t i=0; i<(((N+1)/2)+1)/2;i++ )
-		{
 			GaussWeight[i]=gauss_weight.begin()[i];
 		}
 
@@ -71,7 +68,7 @@ struct GaussKronrodRule
 
 
 	GaussKronrodRule( GReal_t const (&x)[(N+1)/2],
-			GReal_t const (&gauss_weight)[(((N+1)/2)+1)/2],
+			GReal_t const (&gauss_weight)[(N+1)/2],
 			GReal_t const (&kronrod_weight)[(N+1)/2]	)
 	{
 
@@ -79,12 +76,10 @@ struct GaussKronrodRule
 		{
 			X[i]=x[i];
 			KronrodWeight[i]=kronrod_weight[i];
-		}
-
-		for(size_t i=0; i<(((N+1)/2)+1)/2;i++ )
-		{
 			GaussWeight[i]=gauss_weight[i];
 		}
+
+
 	}
 	__host__  __device__
 	GaussKronrodRule(GaussKronrodRule<N> const& other	)
@@ -94,12 +89,9 @@ struct GaussKronrodRule
 		{
 			this->X[i] = other.X[i];
 			this->KronrodWeight[i] = other.KronrodWeight[i];
-		}
-
-		for(size_t i=0; i<(((N+1)/2)+1)/2;i++ )
-		{
 			this->GaussWeight[i] = other.GaussWeight[i];
 		}
+
 	}
 	__host__  __device__
 	GaussKronrodRule& operator=(GaussKronrodRule<N> const& other	)
@@ -110,12 +102,9 @@ struct GaussKronrodRule
 		{
 			this->X[i] = other.X[i];
 			this->KronrodWeight[i] = other.KronrodWeight[i];
-		}
-
-		for(size_t i=0; i<(((N+1)/2)+1)/2;i++ )
-		{
 			this->GaussWeight[i] = other.GaussWeight[i];
 		}
+
 
 		return *this;
 	}
@@ -126,31 +115,32 @@ struct GaussKronrodRule
 		HYDRA_MSG << "Gauss-Kronrod Rule #" << 2*KronrodN-1 << " begin:" << HYDRA_ENDL;
 		HYDRA_MSG << "Kronrod nodes #" << 2*KronrodN-1 << " begin:" << HYDRA_ENDL;
 		for(size_t i=0; i<KronrodN; i++ )
-		    {
-		        HYDRA_MSG << "X[" << i << "] = " << (i?"+-":"") << X[i]
-		        		  << " Weight[" << i << "] = " << KronrodWeight[i]
-		        		  << HYDRA_ENDL;
-		    }
+		{
+			HYDRA_MSG << std::setprecision(50) << "X[" << i << "] = " << (i?"+-":"") << X[i]
+			                                                     << " Weight[" << i << "] = " << KronrodWeight[i]
+			                                                                                                   << HYDRA_ENDL;
+		}
 		HYDRA_MSG << "Gauss nodes #" << 2*GaussN-1 << HYDRA_ENDL;
-		    for(size_t i=0; i<GaussN; i++ )
-		    {
-		        HYDRA_MSG << "X[" << i << "] = "<< (i?"+-":"") << X[2*i]
-		                  << " Weight[" << i << "] = " << GaussWeight[i]
-		                  << HYDRA_ENDL;
-		    }
+		for(size_t i=0; i<GaussN; i++ )
+		{
+			HYDRA_MSG << std::setprecision(50) <<"X[" << i << "] = "<< (i?"+-":"") << X[i]
+			                                                    << " Weight[" << i << "] = " << GaussWeight[i]
+			                                                                                                << HYDRA_ENDL;
+		}
 		HYDRA_MSG << "Gauss-Kronrod Rule #" << KronrodN << " end." << HYDRA_ENDL;
 	}
 
+	__host__  __device__
 	thrust::pair<GReal_t, GReal_t> GetAbscissa(size_t index, GReal_t xlower, GReal_t xupper  )
-	{
+		{
 
 		GReal_t a = (xupper - xlower)/2.0;
 		GReal_t b = (xupper + xlower)/2.0;
-	    GReal_t x = a*X[index] + b;
+		GReal_t x = a*X[index] + b;
 
-	    return thrust::make_pair(x, a);
+		return thrust::make_pair(x, a);
 
-	}
+		}
 
 	GReal_t X[KronrodN] ;
 	GReal_t GaussWeight[GaussN] ;
@@ -158,42 +148,9 @@ struct GaussKronrodRule
 
 };
 
+}//namespace experimental
 
-    GaussKronrodRule<15> GaussKronrodRule15(
-    		{
-					0.00000000000000000000000000000000000000000000000000,
-					0.20778495500789846760068940377324491347978440714517,
-					0.40584515137739716690660641207696146334738201409937,
-					0.58608723546769113029414483825872959843678075060436,
-					0.74153118559939443986386477328078840707414764714139,
-					0.86486442335976907278971278864092620121097230707409,
-					0.94910791234275852452618968404785126240077093767062,
-					0.99145537112081263920685469752632851664204433837033
-    		},
-    		//--------------------
-    		{
-    				0.00000000000000000000000000000000000000000000000000,
-    				0.40584515137739716690660641207696146334738201409937,
-    				0.74153118559939443986386477328078840707414764714139,
-    				0.94910791234275852452618968404785126240077093767062
-    		},
-    		//--------------------
-    		{
-    				0.20948214108472782801299917489171426369776208022370,
-    				0.20443294007529889241416199923464908471651760418072,
-    				0.19035057806478540991325640242101368282607807545536,
-    				0.16900472663926790282658342659855028410624490030294,
-    				0.14065325971552591874518959051023792039988975724800,
-    				0.10479001032225018383987632254151801744375665421383,
-    				0.06309209262997855329070066318920428666507115721155,
-    				0.02293532201052922496373200805896959199356081127575
-    		}
-    );
-
-
-}
-
-}
+}//namespace hydra
 
 
 #endif /* GAUSSKRONRODRULE_H_ */
