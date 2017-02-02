@@ -48,6 +48,37 @@ struct GaussKronrodCall
 template <typename FUNCTOR>
 struct GaussKronrodUnary
 {
+	GaussKronrodUnary()=delete;
+
+	GaussKronrodUnary(FUNCTOR fFunctor):
+	fFunctor(functor)
+	{}
+
+	__host__ __device__ inline
+	GaussKronrodUnary(GaussKronrodUnary<FUNCTOR> const& other ):
+	fFunctor(other.fFunctor)
+	{}
+	__host__ __device__ inline
+	GaussKronrodUnary& operator=(GaussKronrodUnary<FUNCTOR> const& other )
+	{
+		if( this== &other) return *this;
+
+		fFunctor=other.fFunctor;
+		return *this;
+	}
+
+	template<typename ROW>
+	__host__ __device__ inline
+	operator()
+	{
+
+	}
+
+
+
+
+
+	FUNCTOR fFunctor;
 
 };
 
