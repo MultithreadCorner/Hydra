@@ -65,6 +65,8 @@
 #include "Minuit2/MinosError.h"
 #include "Minuit2/ContoursError.h"
 #include "Minuit2/VariableMetricMinimizer.h"
+#include <hydra/experimental/GaussKronrodQuadrature.h>
+
 //root
 #include <TROOT.h>
 #include <TH1D.h>
@@ -311,9 +313,15 @@ GInt_t main(int argv, char** argc)
 		GaussAnalyticIntegral GaussIntegral(min[0], max[0]);
 		ExpAnalyticIntegral   ExpIntegral(min[0], max[0]);
 
+		hydra::experimental::GaussKronrodQuadrature<21,100> quad(min[0], max[0]);
+		/*
 		auto Gaussian1_PDF   = make_pdf(Gaussian1, vegas);
 		auto Gaussian2_PDF   = make_pdf(Gaussian2, vegas);
 		auto Exponential_PDF = make_pdf(Exponential, vegas );
+		*/
+		auto Gaussian1_PDF   = make_pdf(Gaussian1, quad);
+		auto Gaussian2_PDF   = make_pdf(Gaussian2, quad);
+		auto Exponential_PDF = make_pdf(Exponential,  quad);
 
 
 		Gaussian1_PDF.PrintRegisteredParameters();
@@ -472,7 +480,7 @@ GInt_t main(int argv, char** argc)
 		// ... Minimize and profile the time
 		auto start = std::chrono::high_resolution_clock::now();
 		if(use_comb_minimizer){
-			minimum = new FunctionMinimum(minimize(iterations, tolerance/1000));
+			minimum = new FunctionMinimum(minimize(iterations, tolerance));
 		}
 		else{
 

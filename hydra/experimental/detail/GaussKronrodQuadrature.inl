@@ -31,7 +31,9 @@
 
 #include <hydra/detail/Config.h>
 #include <hydra/Types.h>
+#include <cmath>
 #include <tuple>
+#include <limits>
 
 namespace hydra {
 
@@ -41,24 +43,18 @@ template<size_t NRULE, size_t NBIN>
 template<typename FUNCTOR>
 std::pair<GReal_t, GReal_t> GaussKronrodQuadrature<NRULE,NBIN>::Integrate(FUNCTOR const& functor)
 {
-/*
- * total number of function calls = NRULE*NBIN
- * global index = call
- * rule index   = call % NRULE
- * bin  index   = call / NRULE
- *
- * - Setup the call
- *
- * each thread needs: [rule_index, abiscisa-x, abiscisa-weight ]
- */
 
+	GaussKronrodCall result = thrust::transform_reduce(fCallTable.begin(), fCallTable.end(),
+			GaussKronrodUnary<FUNCTOR>(functor),  GaussKronrodCall(), GaussKronrodBinary() );
 
-return std::pair<GReal_t, GReal_t>(0.0, 0.0);
+GReal_t error = std::max(std::numeric_limits<GReal_t>::epsilon(),
+		std::pow(200.0*std::fabs(result.fGaussCall- result.fGaussKronrodCall ), 1.5));
+
+return std::pair<GReal_t, GReal_t>(result.fGaussKronrodCall, error);
 }
 
 }  // namespace experimental
 
 }  // namespace hydra
-
 
 #endif /* GAUSSKRONRODQUADRATURE_INL_ */

@@ -39,10 +39,35 @@ namespace experimental {
 
 struct GaussKronrodCall
 {
+	__host__ __device__ inline
+	GaussKronrodCall():
+		fGaussCall(0),
+		fGaussKronrodCall(0)
+	{}
+
+	__host__ __device__ inline
+	GaussKronrodCall(GReal_t gaussCall, GReal_t gaussKronrodCall):
+		fGaussCall( gaussCall ),
+		fGaussKronrodCall(gaussKronrodCall)
+	{}
+	__host__ __device__ inline
+	GaussKronrodCall(GaussKronrodCall const& other):
+		fGaussCall(other.fGaussCall),
+		fGaussKronrodCall(other.fGaussKronrodCall ){}
+
+	__host__ __device__ inline
+	GaussKronrodCall& operator=(GaussKronrodCall const& other)
+	{
+		if( this == &other) return *this;
+
+		fGaussCall = other.fGaussCall;
+		fGaussKronrodCall = other.fGaussKronrodCall ;
+		return *this;
+	}
+
 	GReal_t fGaussCall;
 	GReal_t fGaussKronrodCall;
 
-	//_DeclareStorable(GaussKronrodCall, fGaussCall, fGaussKronrodCall)
 };
 
 template <typename FUNCTOR>
@@ -50,7 +75,7 @@ struct GaussKronrodUnary
 {
 	GaussKronrodUnary()=delete;
 
-	GaussKronrodUnary(FUNCTOR fFunctor):
+	GaussKronrodUnary(FUNCTOR functor):
 	fFunctor(functor)
 	{}
 
@@ -58,6 +83,7 @@ struct GaussKronrodUnary
 	GaussKronrodUnary(GaussKronrodUnary<FUNCTOR> const& other ):
 	fFunctor(other.fFunctor)
 	{}
+
 	__host__ __device__ inline
 	GaussKronrodUnary& operator=(GaussKronrodUnary<FUNCTOR> const& other )
 	{
@@ -67,24 +93,45 @@ struct GaussKronrodUnary
 		return *this;
 	}
 
-	template<typename ROW>
+	template<typename T>
 	__host__ __device__ inline
-	operator()
+	GaussKronrodCall operator()(T row)
 	{
+		GReal_t abscissa_X_P               = thrust::get<0>(row);
+		GReal_t abscissa_X_M               = thrust::get<1>(row);
+		GReal_t abscissa_Weight          = thrust::get<2>(row);
+		GReal_t rule_GaussKronrod_Weight = thrust::get<3>(row);
+		GReal_t rule_Gauss_Weight        = thrust::get<4>(row);
 
+		GaussKronrodCall result;
+
+		GReal_t function_call    = abscissa_Weight*(fFunctor(thrust::make_tuple(abscissa_X_M))
+				+ fFunctor(thrust::make_tuple(abscissa_X_M)) ) ;
+		result.fGaussCall        = function_call*rule_Gauss_Weight;
+		result.fGaussKronrodCall = function_call*rule_GaussKronrod_Weight;
+
+		return result;
 	}
-
-
-
-
 
 	FUNCTOR fFunctor;
 
 };
 
 
-struct GaussKronrodBinary
+struct GaussKronrodBinary: public thrust::binary_function<GaussKronrodCall const&,
+		GaussKronrodCall const&, GaussKronrodCall>
 {
+	 __host__ __device__ inline
+	 GaussKronrodCall  operator()( GaussKronrodCall const& x, GaussKronrodCall const& y)
+	 {
+		 GaussKronrodCall result;
+
+		 result.fGaussCall         =  x.fGaussCall + y.fGaussCall;
+		 result.fGaussKronrodCall  =  x.fGaussKronrodCall + y.fGaussKronrodCall;
+
+		 return result;
+	 }
+
 
 };
 

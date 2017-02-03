@@ -157,7 +157,7 @@ GInt_t main(int argv, char** argc)
 	}
 
 
-	constexpr size_t N = 10;
+	constexpr size_t N = 1;
 
 	//------------------------------------
 	//parameters
@@ -259,11 +259,15 @@ GInt_t main(int argv, char** argc)
 	auto result = gaussianAnaInt.Integrate(Gaussian);
 
 	cout << ">>> Gaussian intetgral [Analytic]"<< endl;
-	cout << "Result: " << std::setprecision(9)<<result.first
+	cout << "Result: " << std::setprecision(50)<<result.first
 					   << " +/- "    << result.second <<std::endl;
 
-	hydra::experimental::GaussKronrodQuadrature<15,100> quad(0, 10 );
+	hydra::experimental::GaussKronrodQuadrature<21,100> quad(min[0], max[0]);
 	quad.Print();
+	auto r = quad.Integrate(Gaussian);
+	cout << "Result: " <<r.first << " " << r.second <<std::endl;
+
+
 
 	TApplication *myapp=new TApplication("myapp",0,0);
 		/*

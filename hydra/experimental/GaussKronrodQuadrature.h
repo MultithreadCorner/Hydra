@@ -32,8 +32,10 @@
 #include <hydra/detail/Config.h>
 #include <hydra/Types.h>
 #include <hydra/experimental/GaussKronrodRules.h>
+#include <hydra/experimental/detail/functors/ProcessGaussKronrodQuadrature.h>
 #include <hydra/experimental/multivector.h>
 #include <hydra/detail/Integrator.h>
+
 #include <hydra/detail/Print.h>
 #include <tuple>
 
@@ -45,8 +47,9 @@ template<size_t NRULE, size_t NBIN=200>
 class GaussKronrodQuadrature: public Integrator< GaussKronrodQuadrature<NRULE, NBIN > >
 {
 public:
-
-	    typedef thrust::tuple<unsigned int, double, double, double, double> row_t;
+	//tag
+		typedef void hydra_integrator_tag;
+	    typedef thrust::tuple<double, double, double, double, double> row_t;
 
 		typedef thrust::host_vector<row_t>   row_list_h;
 		typedef thrust::device_vector<row_t> row_list_d;
@@ -112,14 +115,18 @@ private:
     		{
     			GReal_t lower_lim = fBins[bin];
     			GReal_t upper_lim = fBins[bin+1];
-    			GReal_t abscissa_X       = fRule.GetAbscissa(call , lower_lim, upper_lim).first;
-    			GReal_t abscissa_Weight  = fRule.GetAbscissa(call , lower_lim, upper_lim).second;
+    			GReal_t abscissa_X_P = 0;
+    			GReal_t abscissa_X_M = 0;
+    			GReal_t abscissa_Weight = 0;
+
+    			thrust::tie(abscissa_X_P, abscissa_X_M, abscissa_Weight) = fRule.GetAbscissa(call , lower_lim, upper_lim);
+
     			GReal_t rule_GaussKronrod_Weight   = fRule.KronrodWeight[call];
     			GReal_t rule_Gauss_Weight          = fRule.GaussWeight[call];
 
     			size_t index = call*NBIN + bin;
 
-    			temp_table[index]= row_t(call, abscissa_X, abscissa_Weight, rule_GaussKronrod_Weight, rule_Gauss_Weight);
+    			temp_table[index]= row_t( abscissa_X_P, abscissa_X_M, abscissa_Weight, rule_GaussKronrod_Weight, rule_Gauss_Weight);
     		}
     	}
 

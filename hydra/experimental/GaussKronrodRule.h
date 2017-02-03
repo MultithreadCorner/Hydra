@@ -131,14 +131,15 @@ struct GaussKronrodRule
 	}
 
 	__host__  __device__
-	thrust::pair<GReal_t, GReal_t> GetAbscissa(size_t index, GReal_t xlower, GReal_t xupper  )
+	thrust::tuple<GReal_t, GReal_t, GReal_t> GetAbscissa(size_t index, GReal_t xlower, GReal_t xupper  )
 		{
 
 		GReal_t a = (xupper - xlower)/2.0;
 		GReal_t b = (xupper + xlower)/2.0;
-		GReal_t x = a*X[index] + b;
+		GReal_t x_p =  a*X[index] + b;
+		GReal_t x_m = -a*X[index] + b;
 
-		return thrust::make_pair(x, a);
+		return thrust::make_tuple(x_p, x_m, index==0?a/2:a);
 
 		}
 
