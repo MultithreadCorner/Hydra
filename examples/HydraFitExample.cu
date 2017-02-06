@@ -66,6 +66,8 @@
 #include "Minuit2/ContoursError.h"
 #include "Minuit2/VariableMetricMinimizer.h"
 #include <hydra/experimental/GaussKronrodQuadrature.h>
+#include <hydra/experimental/GaussKronrodAdaptiveQuadrature.h>
+
 
 //root
 #include <TROOT.h>
