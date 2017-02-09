@@ -58,12 +58,6 @@ std::pair<GReal_t, GReal_t> GaussKronrodAdaptiveQuadrature<NRULE,NBIN>::Accumula
 			size_t index = call*nNodes + node;
 			auto row = fCallTableHost[index];
 
-			//if(node==thrust::get<0>(row) )
-			//{
-				//bin_delta  += thrust::get<1>(row)-thrust::get<2>(row);
-				//bin_result += thrust::get<2>(row) ;
-
-			//}
 			thrust::get<5>(fNodesTable[ thrust::get<0>(row)])
 					+= thrust::get<1>(row)-thrust::get<2>(row);
 
