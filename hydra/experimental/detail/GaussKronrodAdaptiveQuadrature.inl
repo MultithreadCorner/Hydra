@@ -45,48 +45,49 @@ namespace experimental {
 template<size_t NRULE, size_t NBIN>
 std::pair<GReal_t, GReal_t> GaussKronrodAdaptiveQuadrature<NRULE,NBIN>::Accumulate()
 {
-	fIterationResultTable.clear();
-	fIterationResultTable.resize( fUpperLimits.size() );
 
-	GReal_t delta_rule = 0;
-	GReal_t sum_rule   = 0;
-	size_t nbins       =  fUpperLimits.size();
+	size_t nNodes   = CountNodesToProcess();
 
-	for(size_t bin=0; bin<nbins; bin++ )
+	for(size_t node=0; node<nNodes; node++ )
 	{
 		GReal_t bin_delta  =0;
 		GReal_t bin_result =0;
 
 		for(size_t call=0; call<(NRULE+1)/2; call++)
 		{
-			size_t index = call*nbins + bin;
-			auto row = fResultTableHost[index];
+			size_t index = call*nNodes + node;
+			auto row = fCallTableHost[index];
 
-			if(bin==thrust::get<0>(row) )
-			{
-				bin_delta  += thrust::get<1>(row)-thrust::get<2>(row);
-				bin_result +=thrust::get<2>(row) ;
-			}
+			//if(node==thrust::get<0>(row) )
+			//{
+				//bin_delta  += thrust::get<1>(row)-thrust::get<2>(row);
+				//bin_result += thrust::get<2>(row) ;
+
+			//}
+			thrust::get<5>(fNodesTable[ thrust::get<0>(row)])
+					+= thrust::get<1>(row)-thrust::get<2>(row);
+
+			thrust::get<4>(fNodesTable[ thrust::get<0>(row)])
+					+=thrust::get<2>(row) ;
+
 		}
 
-		fIterationResultTable[bin]=result_row_t(bin, bin_result,  GetError(bin_delta));
 
-		sum_rule   +=bin_result;
-		delta_rule +=bin_delta;
+		thrust::get<5>(fNodesTable[node])= GetError(thrust::get<5>(fNodesTable[node]) );
+
+
 	}
 
-	GReal_t error = GetError(delta_rule);
+	GReal_t result=0;
+	GReal_t error2=0;
 
+	for(size_t node=0; node<fNodesTable.size(); node++ )
+	{
+		result    += thrust::get<4>(fNodesTable[node]);
+		error2    += thrust::get<5>(fNodesTable[node])*thrust::get<5>(fNodesTable[node]);
+	}
 
-	thrust::sort(thrust::host, fIterationResultTable.begin(),
-			fIterationResultTable.end(),
-			hydra::detail::CompareTuples<2,	thrust::greater >());
-
-	for(auto row:fIterationResultTable ) std::cout << std::setprecision(50)<< row << std::endl;
-
-	fSplit= ((error/sum_rule) > 1.0e-6);
-
-	return std::pair<GReal_t, GReal_t>(sum_rule, error);
+	return std::pair<GReal_t, GReal_t>(result, sqrt(error2) );
 }
 
 template<size_t NRULE, size_t NBIN>
@@ -94,25 +95,92 @@ template<typename FUNCTOR>
 std::pair<GReal_t, GReal_t>
 GaussKronrodAdaptiveQuadrature<NRULE,NBIN>::Integrate(FUNCTOR const& functor)
 {
-	SetCallTable();
+	std::pair<GReal_t, GReal_t> result(0,0);
 
-	fCallTableHost.resize( fParametersTable.size());
-	fCallTableDevice.resize( fParametersTable.size());
+	fIterationNumber=0;
 
-	thrust::transform(fParametersTable.begin(), fParametersTable.end(),
-			fCallTableDevice.begin(),
-			ProcessGaussKronrodAdaptiveQuadrature<FUNCTOR>(functor) );
+	InitNodes();
 
-	//for(auto row: fResultTableDevice) std::cout << row << std::endl;
+	do{
 
-	thrust::copy(fResultTableDevice.begin(),  fResultTableDevice.end(),
-			fResultTableHost.begin());
+		if( fIterationNumber>0 )UpdateNodes();
+		SetParametersTable( );
 
-	return Accumulate();
+		fCallTableHost.resize( fParametersTable.size());
+		fCallTableDevice.resize( fParametersTable.size());
+
+		thrust::transform(fParametersTable.begin(), fParametersTable.end(),
+				fCallTableDevice.begin(),
+				ProcessGaussKronrodAdaptiveQuadrature<FUNCTOR>(functor) );
+
+	//	for(auto row: fCallTableDevice) std::cout << row << std::endl;
+
+		thrust::copy(fCallTableDevice.begin(),  fCallTableDevice.end(),
+				fCallTableHost.begin());
+
+		result = Accumulate();
+
+		std::cout<< fIterationNumber << "  " << result.first << "  "<< result.second << std::endl;
+		fIterationNumber++;
+
+	} while( result.second > fMaxRelativeError &&
+			result.second > std::numeric_limits<GReal_t>::epsilon() );
+
+	return result;
 }
 
 
+template<size_t NRULE, size_t NBIN>
+void GaussKronrodAdaptiveQuadrature<NRULE,NBIN>::UpdateNodes()
+{
 
+
+
+	node_table_h temp;
+	for(auto node: fNodesTable)
+	{
+		GReal_t lower_limits = thrust::get<2>(node);
+		GReal_t upper_limits = thrust::get<3>(node);
+		GReal_t delta = upper_limits-lower_limits;
+		GReal_t integral = thrust::get<4>(node);
+		GReal_t error    = thrust::get<5>(node);
+
+
+
+		if(   error > fMaxRelativeError   )
+		{
+
+			GReal_t delta2 = delta/2.0;
+
+			node_t new_node1(1, 0,lower_limits ,lower_limits+delta2, 0, 0);
+			node_t new_node2(1, 0,lower_limits+delta2, upper_limits, 0, 0);
+			temp.push_back( new_node1);
+			temp.push_back( new_node2);
+
+		}
+		else
+		{
+			thrust::get<0>(node)=0;
+			temp.push_back(node);
+		}
+	}
+
+	fNodesTable.resize(temp.size());
+
+	fNodesTable = temp;
+
+	thrust::sort(thrust::host,
+			fNodesTable.begin(),
+		    fNodesTable.end(),
+			hydra::detail::CompareTuples<2,	thrust::less >());
+
+
+	for(auto i = 0; i<fNodesTable.size(); i++)
+	thrust::get<1>(fNodesTable[i])=i;
+
+	//for(auto row: fNodesTable) std::cout << row << std::endl;
+
+}
 
 }  // namespace experimental
 

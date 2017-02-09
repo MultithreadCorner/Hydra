@@ -76,13 +76,14 @@ struct ProcessGaussKronrodAdaptiveQuadrature
 		GReal_t rule_GaussKronrod_Weight = thrust::get<4>(row);
 		GReal_t rule_Gauss_Weight        = thrust::get<5>(row);
 
-		GaussKronrodCall result;
+	//	GaussKronrodCall result;
 
 		GReal_t function_call    = abscissa_Weight*(fFunctor(thrust::make_tuple(abscissa_X_M))
 				+ fFunctor(thrust::make_tuple(abscissa_X_M)) ) ;
 		GReal_t fGaussCall        = function_call*rule_Gauss_Weight;
 		GReal_t fGaussKronrodCall = function_call*rule_GaussKronrod_Weight;
 
+		//printf("%d %f %f\n", bin, fGaussCall, fGaussKronrodCall);
 		return result_row_t(bin, fGaussCall, fGaussKronrodCall);
 	}
 

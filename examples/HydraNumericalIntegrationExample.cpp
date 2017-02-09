@@ -268,9 +268,10 @@ GInt_t main(int argv, char** argc)
 	auto r = quad.Integrate(Gaussian);
 	cout << "Result: " <<r.first << " " << r.second <<std::endl;
 
-	hydra::experimental::GaussKronrodAdaptiveQuadrature<21,100> adaquad(min[0], max[0]);
+	hydra::experimental::GaussKronrodAdaptiveQuadrature<21,10> adaquad(min[0], max[0]);
 	adaquad.Print();
 	auto adar = adaquad.Integrate(Gaussian);
+	adaquad.Print();
 	cout << "Result: " <<adar.first << " " << adar.second <<std::endl;
 
 

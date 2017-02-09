@@ -56,7 +56,7 @@ public:
 	 */
 	typedef thrust::tuple<
 			GBool_t, // process
-			GUInt_t, // bin
+			GUInt_t,  // bin
 			double,  // lower
 			double,  // upper
 			double,  // integral
@@ -81,8 +81,8 @@ public:
 	typedef thrust::host_vector<parameters_t>   parameters_list_h;
 	typedef thrust::device_vector<parameters_t> parameters_list_d;
 
-	typedef hydra::experimental::multivector<table_list_h> parameters_table_h;
-	typedef hydra::experimental::multivector<table_list_d> parameters_table_d;
+	typedef hydra::experimental::multivector<parameters_list_h> parameters_table_h;
+	typedef hydra::experimental::multivector<parameters_list_d> parameters_table_d;
 
 	/*
 	 * call results
@@ -102,13 +102,12 @@ public:
 
 
 	GaussKronrodAdaptiveQuadrature(GReal_t xlower, GReal_t xupper):
+		fIterationNumber(0),
 		fXLower(xlower),
 		fXUpper(xupper),
+		fMaxRelativeError(1.0e-9),
 		fRule(GaussKronrodRuleSelector<NRULE>().fRule)
-	{
-
-		this->InitNodes();
-	}
+	{	InitNodes();}
 
 	template<typename FUNCTOR>
 	std::pair<GReal_t, GReal_t> Integrate(FUNCTOR const& functor);
@@ -117,19 +116,26 @@ public:
 
 	void Print()
 	{
-		size_t nbins =  fUpperLimits.size();
-
+		size_t nNodes   =  fNodesTable.size();
 		HYDRA_CALLER ;
 		HYDRA_MSG << "GaussKronrodAdaptiveQuadrature begin: " << HYDRA_ENDL;
 		HYDRA_MSG << "XLower: " << fXLower << HYDRA_ENDL;
 		HYDRA_MSG << "XUpper: " << fXUpper << HYDRA_ENDL;
-		HYDRA_MSG << "NBins: " << nbins << HYDRA_ENDL;
-		for(size_t i=0; i< nbins; i++ ){
-			HYDRA_MSG << "bin " << i <<" = ["
-					  << fLowerLimits[i]
+		HYDRA_MSG << "#Nodes: " << nNodes << HYDRA_ENDL;
+		for(size_t i=0; i< nNodes; i++ ){
+			auto node = this->fNodesTable[i];
+			HYDRA_MSG << "Node ID #" << thrust::get<1>(node) <<" Interval ["
+					  << thrust::get<2>(node)
 					  <<", "
-					  << fUpperLimits[i]
-					  << "]"<< HYDRA_ENDL;
+					  << thrust::get<3>(node)
+					  << "] Result ["
+					  << thrust::get<4>(node)
+					  << ", "
+					  << thrust::get<5>(node)
+					  << "]"
+					  << " Process "
+					  << thrust::get<0>(node)
+					  << HYDRA_ENDL;
 		}
 		fRule.Print();
 		HYDRA_MSG << "GaussKronrodAdaptiveQuadrature end. " << HYDRA_ENDL;
@@ -169,11 +175,12 @@ private:
 		auto end   = fNodesTable.template vend<0>();
 
 	    size_t n=0;
-		for(auto i = begin; i!=end; i++) n+=*i;
+		for(auto i = begin; i!=end; i++)
+		if(*i)n++;
 		return n;
 	}
 
-	void SetCallTable()
+	void SetParametersTable( )
 	{
 
 		size_t nNodes =  CountNodesToProcess();
@@ -182,11 +189,15 @@ private:
 		fParametersTable.resize(nNodes*(NRULE+1)/2);
 		parameters_table_h temp_table(nNodes*(NRULE+1)/2);
 
-		for(size_t node=0; node<nbins; node++)
+		for(size_t i=0; i<nNodes; i++)
 		{
 			auto node = this->fNodesTable[i];
-
-			if(thrust::get<0>(node)) continue;
+			std::cout << "node "<< thrust::get<1>(node) << std::endl;
+			if(!thrust::get<0>(node))
+			{
+				std::cout << " >>>>>>>> no process"<< std::endl;
+				continue;
+			}
 
 			for(size_t call=0; call<(NRULE+1)/2; call++)
 			{
@@ -196,33 +207,35 @@ private:
 				GReal_t fLowerLimits= thrust::get<2>(node);
 				GReal_t fUpperLimits= thrust::get<3>(node);
 
-				thrust::tie(abscissa_X_P, abscissa_X_M, abscissa_Weight)
+				thrust::tie(abscissa_X_P, abscissa_X_M, jacobian)
 				= fRule.GetAbscissa(call , fLowerLimits, fUpperLimits);
 
 				GReal_t rule_GaussKronrod_Weight   = fRule.KronrodWeight[call];
 				GReal_t rule_Gauss_Weight          = fRule.GaussWeight[call];
 
-				size_t index = call*nNodes + node;
+				size_t index = call*nNodes + i;
 
-				temp_table[index]= table_row_t(node, abscissa_X_P, abscissa_X_M,
+
+				temp_table[index]= parameters_t(thrust::get<1>(node), abscissa_X_P, abscissa_X_M,
 						jacobian, rule_GaussKronrod_Weight, rule_Gauss_Weight);
 			}
 		}
 
-		//for(auto row: temp_table) std::cout << row << std::endl;
+		for(auto row: temp_table) std::cout << row << std::endl;
 		thrust::copy( temp_table.begin(), temp_table.end(), fParametersTable.begin() );
 
 	}
 
+	void UpdateNodes();
 
-
+	GUInt_t fIterationNumber;
 	GReal_t fXLower;
 	GReal_t fXUpper;
-
+	GReal_t fMaxRelativeError;
+	node_table_h  fNodesTable;
 	parameters_table_d fParametersTable;
-	node_table_h       fNodesTable;
-	call_table_h       fCallTableHost;
-	call_table_d       fCallTableDevice;
+	call_table_h fCallTableHost;
+	call_table_d fCallTableDevice;
 
 	/*
 	GBool_t fSplit;
