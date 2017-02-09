@@ -189,9 +189,11 @@ private:
 		fParametersTable.resize(nNodes*(NRULE+1)/2);
 		parameters_table_h temp_table(nNodes*(NRULE+1)/2);
 
-		for(size_t i=0; i<nNodes; i++)
+		//for(size_t i=0; i<nNodes; i++)
+		size_t i=0;
+		for(auto node : this->fNodesTable)
 		{
-			auto node = this->fNodesTable[i];
+		//	auto node = this->fNodesTable[i];
 			std::cout << "node "<< thrust::get<1>(node) << std::endl;
 			if(!thrust::get<0>(node))
 			{
@@ -219,6 +221,8 @@ private:
 				temp_table[index]= parameters_t(thrust::get<1>(node), abscissa_X_P, abscissa_X_M,
 						jacobian, rule_GaussKronrod_Weight, rule_Gauss_Weight);
 			}
+
+			i++;
 		}
 
 		for(auto row: temp_table) std::cout << row << std::endl;
