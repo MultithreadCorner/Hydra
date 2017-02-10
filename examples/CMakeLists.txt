@@ -75,12 +75,12 @@ if(BUILD_CUDA_TARGETS)
     #+++++++++++++++++++++++++++++++
     # Numerical Integration        |
     #+++++++++++++++++++++++++++++++	
-    cuda_add_executable(Hydra_Example_Numerical_Integration_Host_OMP_Device_CUDA EXCLUDE_FROM_ALL
+    cuda_add_executable(Hydra_Example_Numerical_Integration_CUDA EXCLUDE_FROM_ALL
     HydraNumericalIntegrationExample.cu
     OPTIONS -Xcompiler -fopenmp -DTHRUST_DEVICE_SYSTEM=THRUST_DEVICE_SYSTEM_CUDA -DTHRUST_HOST_SYSTEM=THRUST_HOST_SYSTEM_OMP  -lgomp
     )
     
-    target_link_libraries(Hydra_Example_Numerical_Integration_Host_OMP_Device_CUDA
+    target_link_libraries(Hydra_Example_Numerical_Integration_CUDA
     ${ROOT_LIBRARIES}
     rt
     )   
@@ -95,7 +95,17 @@ if(BUILD_TBB_TARGETS)
     #+++++++++++++++++++++++++++++++
     # Numerical Integration        |
     #+++++++++++++++++++++++++++++++
+    add_executable(Hydra_Example_Numerical_Integration_TBB EXCLUDE_FROM_ALL
+    HydraNumericalIntegrationExample.cpp
+    )
     
+    set_target_properties(Hydra_Example_Numerical_Integration_TBB PROPERTIES 
+    COMPILE_FLAGS "-DTHRUST_HOST_SYSTEM=THRUST_HOST_SYSTEM_CPP -DTHRUST_DEVICE_SYSTEM=THRUST_DEVICE_SYSTEM_TBB ")
+    
+    target_link_libraries(Hydra_Example_Numerical_Integration_TBB
+    ${ROOT_LIBRARIES}
+    tbb
+    )
 
     #+++++++++++++++++++++++++++++++
     # PHSP generation              |

@@ -63,6 +63,19 @@ namespace hydra {
 		typedef decltype(thrust::tuple<>()) type;
 	};
     */
+
+	template <size_t N,template<typename> class COM>
+	struct CompareTuples{
+
+
+
+		template<typename Tuple1, typename Tuple2>
+		GBool_t operator( )(Tuple1 t1, Tuple2 t2 )
+		{
+			return COM< typename thrust::tuple_element<N, Tuple1>::type>()(thrust::get<N>(t1) , thrust::get<N>(t2) );
+		}
+	};
+
 	template <size_t N, typename T>
 	struct tuple_type {
 		typedef typename repeat<T, N, thrust::tuple>::type type;

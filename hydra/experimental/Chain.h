@@ -186,7 +186,7 @@ struct Chain< hydra::experimental::Events<N,BACKEND >...>{
 	hydra::experimental::Chain<hydra::experimental::Events<N,BACKEND >...>&
 	operator=(hydra::experimental::Chain<hydra::experimental::Events<N,BACKEND >...> const& other)
 	{
-
+		if(this == &other) return *this;
 		this->fStorage = CopyOtherStorage(other) ;
 		this->fSize = other.GetNEvents();
 
@@ -211,7 +211,7 @@ struct Chain< hydra::experimental::Events<N,BACKEND >...>{
 	hydra::experimental::Chain<hydra::experimental::Events<N,BACKEND >...>&
 	operator=(hydra::experimental::Chain<hydra::experimental::Events<N,BACKEND2 >...>const& other)
 	{
-
+		if(this == &other) return *this;
 		this->fStorage=CopyOtherStorage(other, other.indexes);
 		this->fSize = other.GetNEvents();
 
@@ -235,7 +235,7 @@ struct Chain< hydra::experimental::Events<N,BACKEND >...>{
 	hydra::experimental::Chain<hydra::experimental::Events<N,BACKEND >...>&
 	operator=(hydra::experimental::Chain<hydra::experimental::Events<N,BACKEND >...>&& other)
 	{
-
+		if(this == &other) return *this;
 		this->fStorage = std::move(other.MoveStorage());
 		this->fSize = other.GetNEvents();
 
