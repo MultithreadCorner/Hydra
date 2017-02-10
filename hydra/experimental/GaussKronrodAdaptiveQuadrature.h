@@ -105,7 +105,7 @@ public:
 		fIterationNumber(0),
 		fXLower(xlower),
 		fXUpper(xupper),
-		fMaxRelativeError(1.0e-9),
+		fMaxRelativeError(1.0e-11),
 		fRule(GaussKronrodRuleSelector<NRULE>().fRule)
 	{	InitNodes();}
 
@@ -124,7 +124,7 @@ public:
 		HYDRA_MSG << "#Nodes: " << nNodes << HYDRA_ENDL;
 		for(size_t i=0; i< nNodes; i++ ){
 			auto node = this->fNodesTable[i];
-			HYDRA_MSG << "Node ID #" << thrust::get<1>(node) <<" Interval ["
+			HYDRA_MSG <<std::setprecision(10)<< "Node ID #" << thrust::get<1>(node) <<" Interval ["
 					  << thrust::get<2>(node)
 					  <<", "
 					  << thrust::get<3>(node)
@@ -191,15 +191,11 @@ private:
 
 		//for(size_t i=0; i<nNodes; i++)
 		size_t i=0;
-		for(auto node : this->fNodesTable)
+		for(auto node : fNodesTable)
 		{
-		//	auto node = this->fNodesTable[i];
-			std::cout << "node "<< thrust::get<1>(node) << std::endl;
+
 			if(!thrust::get<0>(node))
-			{
-				std::cout << " >>>>>>>> no process"<< std::endl;
 				continue;
-			}
 
 			for(size_t call=0; call<(NRULE+1)/2; call++)
 			{
@@ -217,7 +213,6 @@ private:
 
 				size_t index = call*nNodes + i;
 
-
 				temp_table[index]= parameters_t(thrust::get<1>(node), abscissa_X_P, abscissa_X_M,
 						jacobian, rule_GaussKronrod_Weight, rule_Gauss_Weight);
 			}
@@ -225,8 +220,9 @@ private:
 			i++;
 		}
 
-		for(auto row: temp_table) std::cout << row << std::endl;
-		thrust::copy( temp_table.begin(), temp_table.end(), fParametersTable.begin() );
+	//	for(auto row: temp_table) std::cout << row << std::endl;
+		thrust::copy( temp_table.begin(), temp_table.end(),
+				fParametersTable.begin() );
 
 	}
 

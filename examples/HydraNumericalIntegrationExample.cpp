@@ -260,7 +260,7 @@ GInt_t main(int argv, char** argc)
 	auto result = gaussianAnaInt.Integrate(Gaussian);
 
 	cout << ">>> Gaussian intetgral [Analytic]"<< endl;
-	cout << "Result: " << std::setprecision(50)<<result.first
+	cout << "Result: " << std::setprecision(10)<<result.first
 					   << " +/- "    << result.second <<std::endl;
 
 	hydra::experimental::GaussKronrodQuadrature<21,200> quad(min[0], max[0]);

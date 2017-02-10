@@ -139,7 +139,7 @@ struct GaussKronrodRule
 		GReal_t x_p =  a*X[index] + b;
 		GReal_t x_m = -a*X[index] + b;
 
-		return thrust::make_tuple(x_p, x_m, index==0?a/2:a);
+		return thrust::make_tuple(x_p, x_m, index==0?a/2.0:a);
 
 		}
 

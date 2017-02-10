@@ -46,39 +46,36 @@ template<size_t NRULE, size_t NBIN>
 std::pair<GReal_t, GReal_t> GaussKronrodAdaptiveQuadrature<NRULE,NBIN>::Accumulate()
 {
 
-	size_t nNodes   = CountNodesToProcess();
-
-	for(size_t node=0; node<nNodes; node++ )
-	{
-		GReal_t bin_delta  =0;
-		GReal_t bin_result =0;
-
-		for(size_t call=0; call<(NRULE+1)/2; call++)
+	for(size_t index=0; index<fCallTableHost.size() ; index++ )
 		{
-			size_t index = call*nNodes + node;
+
 			auto row = fCallTableHost[index];
 
-			thrust::get<5>(fNodesTable[ thrust::get<0>(row)])
-					+= thrust::get<1>(row)-thrust::get<2>(row);
-
-			thrust::get<4>(fNodesTable[ thrust::get<0>(row)])
-					+=thrust::get<2>(row) ;
-
+			size_t  bin        = thrust::get<0>(row);
+			GReal_t bin_delta  = thrust::get<1>(row)-thrust::get<2>(row);
+			GReal_t bin_result = thrust::get<2>(row);
+			thrust::get<4>(fNodesTable[bin])   +=  bin_result;
+			thrust::get<5>(fNodesTable[bin])   +=  bin_delta;
 		}
-
-
-		thrust::get<5>(fNodesTable[node])= GetError(thrust::get<5>(fNodesTable[node]) );
-
-
-	}
 
 	GReal_t result=0;
 	GReal_t error2=0;
 
+	//for(auto row: fNodesTable ) std::cout <<std::setprecision(10)<< row << std::endl;
+
 	for(size_t node=0; node<fNodesTable.size(); node++ )
 	{
+		//std::cout <<std::setprecision(10)<< fNodesTable[node]<< std::endl;
+		if(thrust::get<0>(fNodesTable[node])==1 )
+		{
+			thrust::get<5>(fNodesTable[node])= GetError(thrust::get<5>(fNodesTable[node]) );
+			thrust::get<0>(fNodesTable[node])=0;
+			//std::cout << "====>"<< std::setprecision(10)<< fNodesTable[node]<< std::endl;
+		}
+
 		result    += thrust::get<4>(fNodesTable[node]);
 		error2    += thrust::get<5>(fNodesTable[node])*thrust::get<5>(fNodesTable[node]);
+
 	}
 
 	return std::pair<GReal_t, GReal_t>(result, sqrt(error2) );
@@ -114,11 +111,13 @@ GaussKronrodAdaptiveQuadrature<NRULE,NBIN>::Integrate(FUNCTOR const& functor)
 
 		result = Accumulate();
 
-		std::cout<< fIterationNumber << "  " << result.first << "  "<< result.second << std::endl;
+		//std::cout<<"|=========> fIterationNumber " << fIterationNumber << "  " << result.first << "  "<< result.second << std::endl;
+		//for(auto row: fNodesTable ) std::cout << row << std::endl;
+
 		fIterationNumber++;
 
-	} while( result.second > fMaxRelativeError &&
-			result.second > std::numeric_limits<GReal_t>::epsilon() );
+	} while(  result.second > sqrt(result.first*result.first)*fMaxRelativeError &&
+			  result.second > std::numeric_limits<GReal_t>::epsilon() );
 
 	return result;
 }
@@ -128,40 +127,24 @@ template<size_t NRULE, size_t NBIN>
 void GaussKronrodAdaptiveQuadrature<NRULE,NBIN>::UpdateNodes()
 {
 
+	thrust::sort(thrust::host,
+				fNodesTable.begin(),
+			    fNodesTable.end(),
+				hydra::detail::CompareTuples<5,	thrust::greater >());
 
+	auto node = fNodesTable[0];
 
-	node_table_h temp;
-	for(auto node: fNodesTable)
-	{
-		GReal_t lower_limits = thrust::get<2>(node);
-		GReal_t upper_limits = thrust::get<3>(node);
-		GReal_t delta = upper_limits-lower_limits;
-		GReal_t integral = thrust::get<4>(node);
-		GReal_t error    = thrust::get<5>(node);
+	GReal_t lower_limits = thrust::get<2>(node);
+	GReal_t upper_limits = thrust::get<3>(node);
+	GReal_t delta = upper_limits-lower_limits;
 
+	GReal_t delta2 = delta/2.0;
+	node_t new_node1(1, 0, lower_limits ,lower_limits+delta2, 0, 0);
+	node_t new_node2(1, 0, lower_limits+delta2, upper_limits, 0, 0);
 
+	fNodesTable[0] =  new_node1;
+	fNodesTable.push_back( new_node2);
 
-		if(   error > fMaxRelativeError   )
-		{
-
-			GReal_t delta2 = delta/2.0;
-
-			node_t new_node1(1, 0,lower_limits ,lower_limits+delta2, 0, 0);
-			node_t new_node2(1, 0,lower_limits+delta2, upper_limits, 0, 0);
-			temp.push_back( new_node1);
-			temp.push_back( new_node2);
-
-		}
-		else
-		{
-			thrust::get<0>(node)=0;
-			temp.push_back(node);
-		}
-	}
-
-	fNodesTable.resize(temp.size());
-
-	fNodesTable = temp;
 
 	thrust::sort(thrust::host,
 			fNodesTable.begin(),
@@ -170,7 +153,9 @@ void GaussKronrodAdaptiveQuadrature<NRULE,NBIN>::UpdateNodes()
 
 
 	for(auto i = 0; i<fNodesTable.size(); i++)
-	thrust::get<1>(fNodesTable[i])=i;
+	{
+		thrust::get<1>(fNodesTable[i])=i;
+	}
 
 	//for(auto row: fNodesTable) std::cout << row << std::endl;
 
