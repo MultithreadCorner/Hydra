@@ -398,7 +398,7 @@ GInt_t main(int argv, char** argc)
 		hist_gaussian_fit.Scale(hist_gaussian.Integral()/hist_gaussian_fit.Integral() );
 		hist_gaussian_plot.Scale(hist_gaussian.Integral()/hist_gaussian_plot.Integral() );
 
-		return 0;
+		//return 0;
 		TApplication *myapp=new TApplication("myapp",0,0);
 
 
