@@ -73,7 +73,7 @@ std::pair<GReal_t, GReal_t> GaussKronrodAdaptiveQuadrature<NRULE,NBIN>::Accumula
 			//std::cout << "====>"<< std::setprecision(10)<< fNodesTable[node]<< std::endl;
 		}
 
-		result    += thrust::get<4>(fNodesTable[node]);
+		result     += thrust::get<4>(fNodesTable[node]);
 		error2    += thrust::get<5>(fNodesTable[node])*thrust::get<5>(fNodesTable[node]);
 
 	}
@@ -89,35 +89,45 @@ GaussKronrodAdaptiveQuadrature<NRULE,NBIN>::Integrate(FUNCTOR const& functor)
 	std::pair<GReal_t, GReal_t> result(0,0);
 
 	fIterationNumber=0;
+	GBool_t  condition1=0;
+	GBool_t  condition2=0;
 
-	InitNodes();
 
 	do{
 
-		if( fIterationNumber>0 )UpdateNodes();
+		// do  not split nodes at first iteration
+		if( fIterationNumber>0 ) UpdateNodes();
+
+		//set parameters table
 		SetParametersTable( );
 
+		//set the call table to hold the evaluation results
 		fCallTableHost.resize( fParametersTable.size());
 		fCallTableDevice.resize( fParametersTable.size());
 
+		//call function in parallel
 		thrust::transform(fParametersTable.begin(), fParametersTable.end(),
 				fCallTableDevice.begin(),
 				ProcessGaussKronrodAdaptiveQuadrature<FUNCTOR>(functor) );
 
-	//	for(auto row: fCallTableDevice) std::cout << row << std::endl;
-
+		//copy to evaluation result back to the host
 		thrust::copy(fCallTableDevice.begin(),  fCallTableDevice.end(),
 				fCallTableHost.begin());
 
 		result = Accumulate();
 
-		//std::cout<<"|=========> fIterationNumber " << fIterationNumber << "  " << result.first << "  "<< result.second << std::endl;
-		//for(auto row: fNodesTable ) std::cout << row << std::endl;
-
 		fIterationNumber++;
 
-	} while(  result.second > sqrt(result.first*result.first)*fMaxRelativeError &&
-			  result.second > std::numeric_limits<GReal_t>::epsilon() );
+		/*
+		 * keep iterating while the error is larger than the required or
+		 * larger than the numerical double precision
+		 */
+
+		condition1 =  result.second > sqrt(result.first*result.first)*fMaxRelativeError;
+		condition2 =  result.second > std::numeric_limits<GReal_t>::epsilon();
+
+	}
+	while( condition1 &&  condition2 );
 
 	return result;
 }

@@ -99,15 +99,46 @@ public:
 	typedef hydra::experimental::multivector<call_list_h> call_table_h;
 	typedef hydra::experimental::multivector<call_list_d> call_table_d;
 
+	GaussKronrodAdaptiveQuadrature()=delete;
 
-
-	GaussKronrodAdaptiveQuadrature(GReal_t xlower, GReal_t xupper):
+	GaussKronrodAdaptiveQuadrature(GReal_t xlower, GReal_t xupper, GReal_t tolerance=1e-15):
 		fIterationNumber(0),
 		fXLower(xlower),
 		fXUpper(xupper),
-		fMaxRelativeError(1.0e-11),
+		fMaxRelativeError( tolerance ),
 		fRule(GaussKronrodRuleSelector<NRULE>().fRule)
-	{	InitNodes();}
+	{
+		InitNodes();
+	}
+
+
+	GaussKronrodAdaptiveQuadrature( GaussKronrodAdaptiveQuadrature<NRULE,NBIN> const& other ):
+			fIterationNumber( other.GetIterationNumber() ),
+			fXLower(other.GetXLower() ),
+			fXUpper(other.GetXUpper()),
+			fMaxRelativeError(other.GetMaxRelativeError() )
+		{
+			InitNodes();
+		}
+
+
+	GaussKronrodAdaptiveQuadrature&  operator= ( GaussKronrodAdaptiveQuadrature<NRULE,NBIN> const& other )
+	{
+		if(this ==&other) return *this;
+
+		this->fIterationNumber = other.GetIterationNumber() ;
+		this->fXLower = other.GetXLower() ;
+		this->fXUpper = other.GetXUpper();
+		this->fMaxRelativeError = other.GetMaxRelativeError() ;
+		this->InitNodes();
+
+		return *this;
+	}
+
+
+
+
+
 
 	template<typename FUNCTOR>
 	std::pair<GReal_t, GReal_t> Integrate(FUNCTOR const& functor);
@@ -133,7 +164,7 @@ public:
 					  << ", "
 					  << thrust::get<5>(node)
 					  << "]"
-					  << " Process "
+					  << " Process  "
 					  << thrust::get<0>(node)
 					  << HYDRA_ENDL;
 		}
@@ -141,6 +172,42 @@ public:
 		HYDRA_MSG << "GaussKronrodAdaptiveQuadrature end. " << HYDRA_ENDL;
 	}
 
+	GUInt_t GetIterationNumber() const
+	{
+		return fIterationNumber;
+	}
+
+	GReal_t GetMaxRelativeError() const
+	{
+		return fMaxRelativeError;
+	}
+
+	void SetMaxRelativeError(GReal_t maxRelativeError)
+	{
+		fMaxRelativeError = maxRelativeError;
+	}
+
+	GReal_t GetXLower() const
+	{
+		return fXLower;
+	}
+
+	void SetXLower(GReal_t xLower)
+	{
+		fXLower = xLower;
+		InitNodes();
+	}
+
+	GReal_t GetXUpper() const
+	{
+		return fXUpper;
+	}
+
+	void SetXUpper(GReal_t xUpper)
+	{
+		fXUpper = xUpper;
+		InitNodes();
+	}
 
 private:
 
@@ -194,8 +261,7 @@ private:
 		for(auto node : fNodesTable)
 		{
 
-			if(!thrust::get<0>(node))
-				continue;
+			if(!thrust::get<0>(node)) 	continue;
 
 			for(size_t call=0; call<(NRULE+1)/2; call++)
 			{
@@ -209,7 +275,7 @@ private:
 				= fRule.GetAbscissa(call , fLowerLimits, fUpperLimits);
 
 				GReal_t rule_GaussKronrod_Weight   = fRule.KronrodWeight[call];
-				GReal_t rule_Gauss_Weight          = fRule.GaussWeight[call];
+				GReal_t rule_Gauss_Weight                = fRule.GaussWeight[call];
 
 				size_t index = call*nNodes + i;
 
@@ -237,14 +303,6 @@ private:
 	call_table_h fCallTableHost;
 	call_table_d fCallTableDevice;
 
-	/*
-	GBool_t fSplit;
-	RealVector_h fUpperLimits;
-	RealVector_h fLowerLimits;
-	result_table_h fResultTableHost;
-	result_table_d fResultTableDevice;
-	result_table_d fIterationResultTable;
-	*/
 	GaussKronrodRule<NRULE> fRule;
 
 };

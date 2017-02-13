@@ -270,10 +270,14 @@ GInt_t main(int argv, char** argc)
 
 	hydra::experimental::GaussKronrodAdaptiveQuadrature<21,10> adaquad(min[0], max[0]);
 	adaquad.Print();
+	auto start_adaquad = std::chrono::high_resolution_clock::now();
 	auto adar = adaquad.Integrate(Gaussian);
-	adaquad.Print();
-	cout << "Result: " <<adar.first << " " << adar.second <<std::endl;
+	auto end_adaquad = std::chrono::high_resolution_clock::now();
+	std::chrono::duration<double, std::milli> elapsed_adaquad= end_adaquad - start_adaquad;
 
+	adaquad.Print();
+	cout << "Result: " <<adar.first << "+/- " << adar.second <<std::endl
+	<< " Time (ms): "<< elapsed_adaquad.count() <<std::endl;
 
 
 	TApplication *myapp=new TApplication("myapp",0,0);
