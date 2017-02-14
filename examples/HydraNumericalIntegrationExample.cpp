@@ -185,7 +185,7 @@ GInt_t main(int argv, char** argc)
 		Sigma_s[i] = "sigma_" ;
 		Sigma_s[i] += std::to_string(i);
 		 Mean_p[i].Name(Mean_s[i]).Value(0.0) .Error(0.0001).Limits( -5.0, 5.0);
-		Sigma_p[i].Name(Sigma_s[i]).Value(0.1) .Error(0.0001).Limits( 0.5, 1.5);
+		Sigma_p[i].Name(Sigma_s[i]).Value(0.01) .Error(0.0001).Limits( 0.5, 1.5);
 	}
 
 	//----------------------------------------------------------------------
@@ -263,12 +263,12 @@ GInt_t main(int argv, char** argc)
 	cout << "Result: " << std::setprecision(10)<<result.first
 					   << " +/- "    << result.second <<std::endl;
 
-	hydra::experimental::GaussKronrodQuadrature<21,200> quad(min[0], max[0]);
+	hydra::experimental::GaussKronrodQuadrature<61,200> quad(min[0], max[0]);
 	quad.Print();
 	auto r = quad.Integrate(Gaussian);
 	cout << "Result: " <<r.first << " " << r.second <<std::endl;
 
-	hydra::experimental::GaussKronrodAdaptiveQuadrature<21,10> adaquad(min[0], max[0]);
+	hydra::experimental::GaussKronrodAdaptiveQuadrature<61,10> adaquad(min[0], max[0]);
 	adaquad.Print();
 	auto start_adaquad = std::chrono::high_resolution_clock::now();
 	auto adar = adaquad.Integrate(Gaussian);

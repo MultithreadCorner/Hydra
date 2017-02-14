@@ -92,7 +92,7 @@ GaussKronrodAdaptiveQuadrature<NRULE,NBIN>::Integrate(FUNCTOR const& functor)
 	GBool_t  condition1=0;
 	GBool_t  condition2=0;
 
-
+	InitNodes();
 	do{
 
 		// do  not split nodes at first iteration

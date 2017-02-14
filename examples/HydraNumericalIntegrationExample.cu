@@ -48,6 +48,7 @@
 #include <hydra/Plain.h>
 #include <hydra/Parameter.h>
 #include <hydra/experimental/GaussKronrodQuadrature.h>
+#include <hydra/experimental/GaussKronrodAdaptiveQuadrature.h>
 
 //root
 #include <TROOT.h>
@@ -157,6 +158,7 @@ GInt_t main(int argv, char** argc)
 	}
 
 
+
 	constexpr size_t N = 1;
 
 	//------------------------------------
@@ -184,7 +186,7 @@ GInt_t main(int argv, char** argc)
 		Sigma_s[i] = "sigma_" ;
 		Sigma_s[i] += std::to_string(i);
 		 Mean_p[i].Name(Mean_s[i]).Value(0.0) .Error(0.0001).Limits( -5.0, 5.0);
-		Sigma_p[i].Name(Sigma_s[i]).Value(1.0) .Error(0.0001).Limits( 0.5, 1.5);
+		Sigma_p[i].Name(Sigma_s[i]).Value(0.01) .Error(0.0001).Limits( 0.5, 1.5);
 	}
 
 	//----------------------------------------------------------------------
@@ -237,7 +239,7 @@ GInt_t main(int argv, char** argc)
 		Hist_Iterations_Results.SetBinError(i, vegas.GetState().GetIterationSigma()[i-1]);
 
 	}
-
+	 std::cout.precision(51);
 	//----------------------------------------------------------------------
 	//PLAIN
 	//----------------------------------------------------------------------
@@ -248,7 +250,7 @@ GInt_t main(int argv, char** argc)
 	std::chrono::duration<double, std::milli> elapsed_plain = end_plain- start_plain;
 
 	cout << ">>> Gaussian intetgral [Plain]"<< endl;
-		cout << "Result: " << plain.GetResult()
+		cout << setiosflags(ios::fixed)<< "Result: " << plain.GetResult()
 			 << " +/- "    << plain.GetSigma() <<std::endl
 			 << "Time (ms): "<< elapsed_plain.count() <<std::endl;
 
@@ -259,14 +261,26 @@ GInt_t main(int argv, char** argc)
 	auto result = gaussianAnaInt.Integrate(Gaussian);
 
 	cout << ">>> Gaussian intetgral [Analytic]"<< endl;
-	cout << "Result: " << std::setprecision(50)<<result.first
+	cout << setiosflags(ios::fixed)<<"Result: " << result.first
 					   << " +/- "    << result.second <<std::endl;
 
-	hydra::experimental::GaussKronrodQuadrature<15,100> quad(min[0], max[0]);
-		quad.Print();
-		auto r = quad.Integrate(Gaussian);
-		cout << "Result: " <<r.first << " " << r.second <<std::endl;
+	hydra::experimental::GaussKronrodQuadrature<61,200> quad(min[0], max[0]);
+	quad.Print();
+	auto r = quad.Integrate(Gaussian);
+	cout <<"Result: " <<r.first << " " << r.second <<std::endl;
 
+	hydra::experimental::GaussKronrodAdaptiveQuadrature<61,10> adaquad(min[0], max[0]);
+	adaquad.Print();
+	auto start_adaquad = std::chrono::high_resolution_clock::now();
+	auto adar = adaquad.Integrate(Gaussian);
+	auto end_adaquad = std::chrono::high_resolution_clock::now();
+	std::chrono::duration<double, std::milli> elapsed_adaquad= end_adaquad - start_adaquad;
+
+	adaquad.Print();
+	cout << setiosflags(ios::fixed)<< "Result: "<< adar.first << "+/- " << adar.second <<std::endl
+	<< " Time (ms): "<< elapsed_adaquad.count() <<std::endl;
+
+	return 0;
 	TApplication *myapp=new TApplication("myapp",0,0);
 		/*
 	TH1D hist_uniform("uniform", "Initial grid",vegas.GetState().GetNBins(), 0, 1);
@@ -304,5 +318,4 @@ GInt_t main(int argv, char** argc)
 
 
 	}
-
 

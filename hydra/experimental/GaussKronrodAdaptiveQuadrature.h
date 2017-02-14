@@ -135,11 +135,6 @@ public:
 		return *this;
 	}
 
-
-
-
-
-
 	template<typename FUNCTOR>
 	std::pair<GReal_t, GReal_t> Integrate(FUNCTOR const& functor);
 
@@ -155,7 +150,7 @@ public:
 		HYDRA_MSG << "#Nodes: " << nNodes << HYDRA_ENDL;
 		for(size_t i=0; i< nNodes; i++ ){
 			auto node = this->fNodesTable[i];
-			HYDRA_MSG <<std::setprecision(10)<< "Node ID #" << thrust::get<1>(node) <<" Interval ["
+			HYDRA_MSG <<std::setprecision(50)<< "Node ID #" << thrust::get<1>(node) <<" Interval ["
 					  << thrust::get<2>(node)
 					  <<", "
 					  << thrust::get<3>(node)
