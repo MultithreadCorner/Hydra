@@ -106,7 +106,7 @@ GaussKronrodAdaptiveQuadrature<NRULE,NBIN>::Integrate(FUNCTOR const& functor)
 		fCallTableDevice.resize( fParametersTable.size());
 
 		//call function in parallel
-		thrust::transform(fParametersTable.begin(), fParametersTable.end(),
+		thrust::transform(thrust::device,fParametersTable.begin(), fParametersTable.end(),
 				fCallTableDevice.begin(),
 				ProcessGaussKronrodAdaptiveQuadrature<FUNCTOR>(functor) );
 
