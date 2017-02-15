@@ -120,6 +120,29 @@ namespace hydra {
 		return get_zip_iterator_helper(head, array_of_iterators , make_index_sequence<N> { } );
 
 	}
+
+	//----------------------------------------
+	template<typename ...T1, typename ...T2, size_t... I1, size_t... I2 >
+	void split_tuple_helper(thrust::tuple<T1...> &t1, thrust::tuple<T2...> &t2,
+			thrust::tuple<T1..., T2...> const& t , thrust::index_sequence<I1...>, thrust::index_sequence<I2...>)
+	{
+		t1 = thrust::tie( thrust::get<I1>(t)... );
+		t2 = thrust::tie( thrust::get<I2+ sizeof...(T1)>(t)... );
+
+	}
+
+	template< typename ...T1,  typename ...T2>
+	void split_tuple(thrust::tuple<T1...> &t1, thrust::tuple<T2...> &t2,
+			thrust::tuple<T1..., T2...> const& t)
+	{
+	    return split_tuple_helper(t1, t2, t ,
+	    		thrust::make_index_sequence<sizeof...(T1)>{},
+	    		thrust::make_index_sequence<sizeof...(T2)>{} );
+	}
+
+
+
+
 	//----------------------------------------
 	template<typename Head,  typename ...Tail,  size_t... Is >
 	auto dropFirstHelper(thrust::tuple<Head, Tail...> const& t  , index_sequence<Is...> )

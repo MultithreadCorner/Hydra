@@ -204,7 +204,7 @@ IF(OPENMP_FOUND)
     # Numerical Integration        |
     #+++++++++++++++++++++++++++++++
     add_executable(Hydra_Example_Numerical_Integration_OMP EXCLUDE_FROM_ALL
-     HydraNumericalIntegrationExample.cpp
+    HydraNumericalIntegrationExample.cpp
     )
     
     set_target_properties(Hydra_Example_Numerical_Integration_OMP PROPERTIES 
