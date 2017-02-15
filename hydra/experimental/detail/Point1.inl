@@ -152,12 +152,21 @@ struct Point<T, DIM, false, false>
 
 
 	__host__  __device__
-	inline type& GetCoordinates() {
+	inline void SetCoordinate(coordinate_type const& coordinates,
+			value_type weight=1.0) const{
+
+		auto weights = thrust::make_tuple(weight, weight*weight );
+		fData = thrust::tuple_cat(weights, coordinates  );
+
+	}
+
+	__host__  __device__
+	inline coordinate_type& GetCoordinates() {
 		return fCoordinates;
 	}
 
 	__host__  __device__
-	inline type const& GetCoordinates() const{
+	inline coordinate_type const& GetCoordinates() const{
 		return fCoordinates;
 	}
 
@@ -166,10 +175,26 @@ struct Point<T, DIM, false, false>
 		return detail::extract<value_type, type>(i+2, fData);
 	}
 
+
+
+
+
 	__host__  __device__
-	inline void SetCoordinates(type coordinates) {
-		fCoordinates = coordinates;
+	inline void SetData(type data) {
+		fData = data;
 	}
+
+	__host__  __device__
+	inline type& GetData() {
+			return fData;
+		}
+
+	__host__  __device__
+	inline type const& GetData() const {
+		return fData;
+	}
+
+
 
 
 	__host__  __device__
