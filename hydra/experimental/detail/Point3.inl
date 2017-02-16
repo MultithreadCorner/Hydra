@@ -55,7 +55,7 @@ struct Point<T, DIM, true, true>
 	constexpr static const size_t Dimension=DIM;
 
 	typedef typename hydra::detail::tuple_type<N, T>::type type;
-	typedef typename hydra::detail::tuple_type<DIM, T>::type coordinate_type;
+	typedef typename hydra::detail::tuple_type<2*DIM, T>::type coordinate_type;
 	typedef  T value_type;
 
 	/**
@@ -88,8 +88,8 @@ struct Point<T, DIM, true, true>
 	{
 		auto weights = thrust::make_tuple(weight, weight*weight, error );
 		auto coords  = hydra::detail::arrayToTuple<value_type,DIM>(const_cast<value_type*>(coordinates.data() ));
-		auto coords_errors  = hydra::detail::arrayToTuple<value_type,DIM>(const_cast<value_type*>(coordinates_errors.data() ));
-		fData = thrust::tuple_cat(weights, coords  );
+		auto coords_errors  = hydra::detail::arrayToTuple<value_type,DIM>(const_cast<value_type*>(coordinate_errors.data() ));
+		fData = thrust::tuple_cat(weights, thrust::tuple_cat(coords, coords_errors ) );
 	}
 
 	/**
@@ -104,7 +104,7 @@ struct Point<T, DIM, true, true>
 		auto weights = thrust::make_tuple(weight, weight*weight, error );
 		auto coords  = hydra::detail::arrayToTuple<value_type,DIM>(const_cast<value_type*>( &coordinates[0] ));
 		auto coords_errors  = hydra::detail::arrayToTuple<value_type,DIM>(const_cast<value_type*>( &coordinates_errors[0] ));
-		fData = thrust::tuple_cat(weights, coords  );
+		fData = thrust::tuple_cat(weights,  thrust::tuple_cat(coords, coords_errors )  );
 	}
 
 	/**
@@ -192,16 +192,14 @@ struct Point<T, DIM, true, true>
 	}
 
 	__host__  __device__
-	inline auto GetCoordinates()
-	-> decltype( hydra::detail::split_tuple<3>(type()).second )
+	inline coordinate_type GetCoordinates()
 	{
 
 		return hydra::detail::split_tuple<3>(fData).second;
 	}
 
 	__host__  __device__
-	inline auto GetCoordinates() const
-	-> const decltype( hydra::detail::split_tuple<3>(type()).second )
+	inline coordinate_type GetCoordinates() const
 	{
 
 		return hydra::detail::split_tuple<3>(fData).second;
@@ -253,7 +251,7 @@ struct Point<T, DIM, true, true>
 
 	__host__  __device__
 	inline const value_type GetWeight() const {
-		return fWeight;
+		return thrust::get<0>(fData);
 	}
 
 	__host__  __device__

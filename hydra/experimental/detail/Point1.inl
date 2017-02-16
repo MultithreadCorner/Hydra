@@ -69,6 +69,7 @@ struct Point<T, DIM, false, false>
 	/**
 	 * Trivial constructor for points
 	 * without errors in coordinates and value
+	 * @param data: tuple [w, w*w, x_1, x_2... x_N ], with N=Dim
 	 */
 	__host__ __device__
 	Point(type const& data):
@@ -95,7 +96,7 @@ struct Point<T, DIM, false, false>
 	 * @param weight: weight of this point
 	 */
 	__host__ __device__
-	Point(value_type (&coordinates)[DIM],  value_type weight=1.0 )
+	explicit Point(const value_type (&coordinates)[DIM],  value_type weight=1.0 )
 	{
 		auto weights = thrust::make_tuple(weight, weight*weight );
 		auto coords  = hydra::detail::arrayToTuple<value_type,DIM>(const_cast<value_type*>( &coordinates[0] ));
@@ -137,7 +138,7 @@ struct Point<T, DIM, false, false>
 	 * @return
 	 */
 	__host__  __device__
-	explicit Point(value_type* coordinates,	value_type weight=1.0 )
+	explicit Point( const value_type* coordinates,	value_type weight=1.0 )
 	{
 		auto weights = thrust::make_tuple(weight, weight*weight );
 		auto coords  = hydra::detail::arrayToTuple<value_type,DIM>(const_cast<value_type*>( coordinates));
@@ -173,7 +174,7 @@ struct Point<T, DIM, false, false>
 
 	__host__  __device__
 	inline void SetCoordinate(coordinate_type const& coordinates,
-			value_type weight=1.0) const{
+			value_type weight=1.0){
 
 		auto weights = thrust::make_tuple(weight, weight*weight );
 		fData = thrust::tuple_cat(weights, coordinates  );
@@ -181,16 +182,14 @@ struct Point<T, DIM, false, false>
 	}
 
 	__host__  __device__
-	inline auto GetCoordinates()
-	-> decltype( hydra::detail::split_tuple<2>(type()).second )
+	inline coordinate_type GetCoordinates()
 	{
 
 		return hydra::detail::split_tuple<2>(fData).second;
 	}
 
 	__host__  __device__
-	inline auto  GetCoordinates() const
-	-> const decltype( hydra::detail::split_tuple<2>(type()).second )
+	inline const coordinate_type  GetCoordinates() const
 	{
 
 		return hydra::detail::split_tuple<2>(fData).second;
