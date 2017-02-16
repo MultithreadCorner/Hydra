@@ -124,7 +124,7 @@ namespace hydra {
 	//----------------------------------------
 	template<typename ...T1, typename ...T2, size_t... I1, size_t... I2 >
 	void split_tuple_helper(thrust::tuple<T1...> &t1, thrust::tuple<T2...> &t2,
-			thrust::tuple<T1..., T2...> const& t , thrust::index_sequence<I1...>, thrust::index_sequence<I2...>)
+			thrust::tuple<T1..., T2...> const& t , index_sequence<I1...>, index_sequence<I2...>)
 	{
 		t1 = thrust::tie( thrust::get<I1>(t)... );
 		t2 = thrust::tie( thrust::get<I2+ sizeof...(T1)>(t)... );
@@ -136,10 +136,27 @@ namespace hydra {
 			thrust::tuple<T1..., T2...> const& t)
 	{
 	    return split_tuple_helper(t1, t2, t ,
-	    		thrust::make_index_sequence<sizeof...(T1)>{},
-	    		thrust::make_index_sequence<sizeof...(T2)>{} );
+	    		make_index_sequence<sizeof...(T1)>{},
+	    		make_index_sequence<sizeof...(T2)>{} );
 	}
 
+	//----------------------------------------
+	template<typename ...T, size_t... I1, size_t... I2 >
+	auto split_tuple_helper(thrust::tuple<T...> &t, index_sequence<I1...>, index_sequence<I2...>)
+	-> decltype( thrust::make_pair(thrust::tie( thrust::get<I1>(t)... ), thrust::tie( thrust::get<I2+ + sizeof...(I1)>(t)... ) ) )
+	{
+		auto t1 = thrust::tie( thrust::get<I1>(t)... );
+		auto t2 = thrust::tie( thrust::get<I2+ sizeof...(I1)>(t)... );
+
+		return thrust::make_pair(t1, t2);
+	}
+
+	template< size_t N, typename ...T>
+	auto split_tuple(thrust::tuple<T...>& t)
+	-> decltype( split_tuple_helper( t, make_index_sequence<N>{}, make_index_sequence<sizeof...(T)-N>{} ) )
+	{
+	    return split_tuple_helper( t, make_index_sequence<N>{}, make_index_sequence<sizeof...(T)-N>{} );
+	}
 
 
 

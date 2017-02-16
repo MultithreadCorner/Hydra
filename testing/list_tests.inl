@@ -32,5 +32,6 @@
 #include <testing/Events.inl>
 #include <testing/Chain.inl>
 #include <testing/multivector.inl>
+#include <testing/Point.inl>
 
 #endif /* LIST_TESTS_INL_ */

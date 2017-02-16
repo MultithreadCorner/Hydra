@@ -20,49 +20,48 @@
  *---------------------------------------------------------------------------*/
 
 /*
- * Point.h
+ * Point.inl
  *
- *  Created on: 14/08/2016
+ *  Created on: 16/02/2017
  *      Author: Antonio Augusto Alves Junior
  */
 
-/**
- * \file
- * \ingroup generic
- */
+#pragma once
 
-#ifndef _POINT_H_
-#define _POINT_H_
-
+#include <memory>
+#include <limits>
+#include <utility>
 
 #include <hydra/detail/Config.h>
 #include <hydra/Types.h>
-#include <hydra/detail/utility/Utility_Tuple.h>
-#include <hydra/detail/utility/Arithmetic_Tuple.h>
-
-//std
-#include <array>
-
-//thrust
+#include <hydra/experimental/Point.h>
 #include <thrust/tuple.h>
-#include <thrust/device_vector.h>
-#include <thrust/host_vector.h>
 
 
-namespace hydra {
-namespace experimental {
 
-template<typename T, size_t DIM, bool VALUE_ERROR=false, bool CO0RDINATE_ERROR=false>
-struct Point;
+TEST_CASE( "Point","hydra::experimental::Point" ) {
 
+	typedef  hydra::experimental::Point<double, 3> point1;
 
-}  // namespace experimental
+	typedef  hydra::experimental::Point<double, 3, true> point2;
 
-} // namespace hydra
-
-#include <hydra/experimental/detail/Point1.inl>
-#include <hydra/experimental/detail/Point2.inl>
-#include <hydra/experimental/detail/Point3.inl>
+	typedef  hydra::experimental::Point<double, 3, true, true> point3;
 
 
-#endif /* POINT_H_ */
+	SECTION( "default constructor, " )
+	{
+		point1 point;
+
+		auto data = point.GetData();
+
+		REQUIRE( point.GetWeight()    ==  Approx(0.0) );
+		REQUIRE( point.GetWeight2()   ==  Approx(0.0) );
+		REQUIRE( thrust::get<0>(data) ==  Approx(0.0) );
+		REQUIRE( thrust::get<1>(data) ==  Approx(0.0) );
+		REQUIRE( thrust::get<2>(data) ==  Approx(0.0) );
+
+
+	}
+
+
+}
