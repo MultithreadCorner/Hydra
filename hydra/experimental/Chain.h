@@ -260,9 +260,10 @@ struct Chain< hydra::experimental::Events<N,BACKEND >...>{
 
 
 	Chain(hydra::experimental::Events<N,BACKEND >& ...events):
-		fStorage(std::move(thrust::make_tuple( std::move(events)...))),
-		fSize ( CheckSizes({events.GetNEvents()...}))
+		fSize ( CheckSizes({events.GetNEvents()...})),
+	fStorage(thrust::tie( events...))
 	{
+
 
 		fWeights = vector_real(fSize , 1.0);
 		fFlags = vector_bool( fSize, 1.0 );
@@ -379,7 +380,7 @@ struct Chain< hydra::experimental::Events<N,BACKEND >...>{
 		return fBegin[i];
 	}
 
-	reference_type operator[](size_t i) const
+	const reference_type operator[](size_t i) const
 	{
 
 		return fConstBegin[i];
@@ -407,7 +408,11 @@ private:
 	{
 		assert(std::adjacent_find( sizes.begin(), sizes.end(),
 				std::not_equal_to<size_t>() ) == sizes.end());
-		size_t s=*sizes.end();
+		std::cout << "  ===> CheckSizes"<<std::endl;
+		for(s:sizes)
+			std::cout << s <<std::endl;
+
+		size_t s=*sizes.begin();
 	 return	s;
 	}
 

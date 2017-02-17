@@ -40,13 +40,9 @@
 #include <array>
 
 
-TEST_CASE( "Point","hydra::experimental::Point" ) {
+TEST_CASE( "Point<double, 3>","hydra::experimental::Point without value error" ) {
 
-	typedef  hydra::experimental::Point<double, 3> point1;
-
-	typedef  hydra::experimental::Point<double, 3, true> point2;
-
-	typedef  hydra::experimental::Point<double, 3, true, true> point3;
+	typedef  hydra::experimental::Point<double, 3> Point_t;
 
 
 	SECTION( "Constructors " )
@@ -55,7 +51,7 @@ TEST_CASE( "Point","hydra::experimental::Point" ) {
 		SECTION( "default constructor" )
 		{
 
-			point1 point;
+			Point_t point;
 
 			auto data = point.GetData();
 
@@ -68,7 +64,7 @@ TEST_CASE( "Point","hydra::experimental::Point" ) {
 
 		SECTION( "trivial constructor" )
 		{
-			point1 point( typename point1::type(2.0, 4.0, 1.0, 2.0, 3.0) );
+			Point_t point( typename Point_t::type(2.0, 4.0, 1.0, 2.0, 3.0) );
 
 			auto data = point.GetData();
 
@@ -83,7 +79,7 @@ TEST_CASE( "Point","hydra::experimental::Point" ) {
 		SECTION( "constructor from std::array" )
 		{
 			std::array<double, 3> array{1.0, 2.0, 3.0};
-			point1 point( array , 2.0 );
+			Point_t point( array , 2.0 );
 
 			auto data = point.GetData();
 
@@ -98,7 +94,7 @@ TEST_CASE( "Point","hydra::experimental::Point" ) {
 		SECTION( "constructor from static array" )
 		{
 			double array[3] = {1.0, 2.0, 3.0};
-			point1 point( array, 2.0 );
+			Point_t point( array, 2.0 );
 
 			auto data = point.GetData();
 
@@ -112,7 +108,7 @@ TEST_CASE( "Point","hydra::experimental::Point" ) {
 
 		SECTION( "constructor from std::initializer_list" )
 		{
-			point1 point( {1.0, 2.0, 3.0} , 2.0 );
+			Point_t point( {1.0, 2.0, 3.0} , 2.0 );
 
 			auto data = point.GetData();
 
@@ -126,7 +122,7 @@ TEST_CASE( "Point","hydra::experimental::Point" ) {
 
 		SECTION( "constructor from  coordinate_type" )
 		{
-			point1 point( typename point1::coordinate_type(1.0, 2.0, 3.0) , 2.0 );
+			Point_t point( typename Point_t::coordinate_type(1.0, 2.0, 3.0) , 2.0 );
 
 			auto data = point.GetData();
 
@@ -142,7 +138,7 @@ TEST_CASE( "Point","hydra::experimental::Point" ) {
 		SECTION( "constructor from pointer array" )
 		{
 			double array[3] = {1.0, 2.0, 3.0};
-			point1 point( &array[0], 2.0 );
+			Point_t point( &array[0], 2.0 );
 
 			auto data = point.GetData();
 
@@ -157,8 +153,8 @@ TEST_CASE( "Point","hydra::experimental::Point" ) {
 		SECTION( "copy constructor" )
 		{
 			double array[3] = {1.0, 2.0, 3.0};
-			point1 pointA( &array[0], 2.0 );
-			point1 pointB( pointA);
+			Point_t pointA( &array[0], 2.0 );
+			Point_t pointB( pointA);
 
 
 			auto data = pointB.GetData();
@@ -183,8 +179,8 @@ TEST_CASE( "Point","hydra::experimental::Point" ) {
 			double arrayA[3] = {1.0, 2.0, 3.0};
 			double arrayB[3] = {2.0, 4.0, 6.0};
 
-			point1 pointA( &arrayA[0], 2.0 );
-			point1 pointB( &arrayB[0], 4.0 );
+			Point_t pointA( &arrayA[0], 2.0 );
+			Point_t pointB( &arrayB[0], 4.0 );
 
 			pointB = pointA;
 
@@ -203,7 +199,7 @@ TEST_CASE( "Point","hydra::experimental::Point" ) {
 			double arrayA[3] = {1.0, 2.0, 3.0};
 			auto tpl = thrust::make_tuple(2.0, 4.0, 2.0, 4.0, 6.0);
 
-			point1 pointA( &arrayA[0], 2.0 );
+			Point_t pointA( &arrayA[0], 2.0 );
 
 			pointA = pointA;
 
@@ -222,7 +218,7 @@ TEST_CASE( "Point","hydra::experimental::Point" ) {
 			double arrayA[3] = {1.0, 2.0, 3.0};
 			auto tpl = thrust::make_tuple(2.0, 4.0, 2.0, 4.0, 6.0);
 
-			point1 pointA( &arrayA[0], 2.0 );
+			Point_t pointA( &arrayA[0], 2.0 );
 
 		    tpl = pointA;
 
@@ -245,7 +241,7 @@ TEST_CASE( "Point","hydra::experimental::Point" ) {
 		SECTION( "getters" )
 		{
 			double array[3] = {1.0, 2.0, 3.0};
-			point1 point( &array[0], 2.0 );
+			Point_t point( &array[0], 2.0 );
 
 			auto data = point.GetData();
 
@@ -268,7 +264,7 @@ TEST_CASE( "Point","hydra::experimental::Point" ) {
 		SECTION( "setters" )
 		{
 			double array[3] = {1.0, 2.0, 3.0};
-			point1 point;
+			Point_t point;
 
 			point.SetData( thrust::make_tuple( 2.0, 4.0, 1.0, 2.0, 3.0 ) );
 
@@ -291,6 +287,285 @@ TEST_CASE( "Point","hydra::experimental::Point" ) {
 			REQUIRE( thrust::get<2>(data) ==  Approx(2.0) );
 			REQUIRE( thrust::get<3>(data) ==  Approx(4.0) );
 			REQUIRE( thrust::get<4>(data) ==  Approx(6.0) );
+
+		}
+
+	}
+
+}
+
+
+
+TEST_CASE( "Point<double, 3, true>","hydra::experimental::Point with value error" ) {
+
+	typedef  hydra::experimental::Point<double, 3, true> Point_t;
+
+
+	SECTION( "Constructors " )
+	{
+
+		SECTION( "default constructor" )
+		{
+
+			Point_t point;
+
+			auto data = point.GetData();
+
+			REQUIRE( thrust::get<0>(data) ==  Approx(0.0) );
+			REQUIRE( thrust::get<1>(data) ==  Approx(0.0) );
+			REQUIRE( thrust::get<2>(data) ==  Approx(0.0) );
+			REQUIRE( thrust::get<3>(data) ==  Approx(0.0) );
+			REQUIRE( thrust::get<4>(data) ==  Approx(0.0) );
+			REQUIRE( thrust::get<4>(data) ==  Approx(0.0) );
+
+	    }
+
+		SECTION( "trivial constructor" )
+		{
+			Point_t point( typename Point_t::type(2.0, 4.0, 1.5, 1.0, 2.0, 3.0) );
+
+			auto data = point.GetData();
+
+			REQUIRE( thrust::get<0>(data) ==  Approx(2.0) );
+			REQUIRE( thrust::get<1>(data) ==  Approx(4.0) );
+			REQUIRE( thrust::get<2>(data) ==  Approx(1.5) );
+			REQUIRE( thrust::get<3>(data) ==  Approx(1.0) );
+			REQUIRE( thrust::get<4>(data) ==  Approx(2.0) );
+			REQUIRE( thrust::get<5>(data) ==  Approx(3.0) );
+
+		}
+
+		SECTION( "constructor from std::array" )
+		{
+			std::array<double, 3> array{1.0, 2.0, 3.0};
+			Point_t point( array, 1.5 , 2.0 );
+
+			auto data = point.GetData();
+
+			REQUIRE( thrust::get<0>(data) ==  Approx(2.0) );
+			REQUIRE( thrust::get<1>(data) ==  Approx(4.0) );
+			REQUIRE( thrust::get<2>(data) ==  Approx(1.5) );
+			REQUIRE( thrust::get<3>(data) ==  Approx(1.0) );
+			REQUIRE( thrust::get<4>(data) ==  Approx(2.0) );
+			REQUIRE( thrust::get<5>(data) ==  Approx(3.0) );
+
+		}
+
+		SECTION( "constructor from static array" )
+		{
+			double array[3] = {1.0, 2.0, 3.0};
+			Point_t point( array,1.5, 2.0 );
+
+			auto data = point.GetData();
+
+			REQUIRE( thrust::get<0>(data) ==  Approx(2.0) );
+			REQUIRE( thrust::get<1>(data) ==  Approx(4.0) );
+			REQUIRE( thrust::get<2>(data) ==  Approx(1.5) );
+			REQUIRE( thrust::get<3>(data) ==  Approx(1.0) );
+			REQUIRE( thrust::get<4>(data) ==  Approx(2.0) );
+			REQUIRE( thrust::get<5>(data) ==  Approx(3.0) );
+
+		}
+
+		SECTION( "constructor from std::initializer_list" )
+		{
+			Point_t point( {1.0, 2.0, 3.0} , 1.5, 2.0 );
+
+			auto data = point.GetData();
+
+			REQUIRE( thrust::get<0>(data) ==  Approx(2.0) );
+			REQUIRE( thrust::get<1>(data) ==  Approx(4.0) );
+			REQUIRE( thrust::get<2>(data) ==  Approx(1.5) );
+			REQUIRE( thrust::get<3>(data) ==  Approx(1.0) );
+			REQUIRE( thrust::get<4>(data) ==  Approx(2.0) );
+			REQUIRE( thrust::get<5>(data) ==  Approx(3.0) );
+
+
+		}
+
+		SECTION( "constructor from  coordinate_type" )
+		{
+			Point_t point( typename Point_t::coordinate_type(1.0, 2.0, 3.0), 1.5, 2.0 );
+
+			auto data = point.GetData();
+
+
+			REQUIRE( thrust::get<0>(data) ==  Approx(2.0) );
+			REQUIRE( thrust::get<1>(data) ==  Approx(4.0) );
+			REQUIRE( thrust::get<2>(data) ==  Approx(1.5) );
+			REQUIRE( thrust::get<3>(data) ==  Approx(1.0) );
+			REQUIRE( thrust::get<4>(data) ==  Approx(2.0) );
+			REQUIRE( thrust::get<5>(data) ==  Approx(3.0) );
+
+		}
+
+
+		SECTION( "constructor from pointer array" )
+		{
+			double array[3] = {1.0, 2.0, 3.0};
+			Point_t point( &array[0], 1.5, 2.0 );
+
+			auto data = point.GetData();
+
+			REQUIRE( thrust::get<0>(data) ==  Approx(2.0) );
+			REQUIRE( thrust::get<1>(data) ==  Approx(4.0) );
+			REQUIRE( thrust::get<2>(data) ==  Approx(1.5) );
+			REQUIRE( thrust::get<3>(data) ==  Approx(1.0) );
+			REQUIRE( thrust::get<4>(data) ==  Approx(2.0) );
+			REQUIRE( thrust::get<5>(data) ==  Approx(3.0) );
+
+		}
+
+		SECTION( "copy constructor" )
+		{
+			double array[3] = {1.0, 2.0, 3.0};
+			Point_t pointA( &array[0], 1.5, 2.0 );
+			Point_t pointB( pointA);
+
+
+			auto data = pointB.GetData();
+
+
+			REQUIRE( thrust::get<0>(data) ==  Approx(2.0) );
+			REQUIRE( thrust::get<1>(data) ==  Approx(4.0) );
+			REQUIRE( thrust::get<2>(data) ==  Approx(1.5) );
+			REQUIRE( thrust::get<3>(data) ==  Approx(1.0) );
+			REQUIRE( thrust::get<4>(data) ==  Approx(2.0) );
+			REQUIRE( thrust::get<5>(data) ==  Approx(3.0) );
+
+		}
+
+
+
+	}
+
+	SECTION( "Operators" )
+	{
+
+		SECTION( "assignment to another point" )
+		{
+			double arrayA[3] = {1.0, 2.0, 3.0};
+			double arrayB[3] = {2.0, 4.0, 6.0};
+
+			Point_t pointA( &arrayA[0], 1.5, 2.0 );
+			Point_t pointB( &arrayB[0], 3.5, 4.0 );
+
+			pointB = pointA;
+
+			auto data = pointB.GetData();
+
+
+			REQUIRE( thrust::get<0>(data) ==  Approx(2.0) );
+			REQUIRE( thrust::get<1>(data) ==  Approx(4.0) );
+			REQUIRE( thrust::get<2>(data) ==  Approx(1.5) );
+			REQUIRE( thrust::get<3>(data) ==  Approx(1.0) );
+			REQUIRE( thrust::get<4>(data) ==  Approx(2.0) );
+			REQUIRE( thrust::get<5>(data) ==  Approx(3.0) );
+
+		}
+
+		SECTION( "assignment to tuple" )
+		{
+			double arrayA[3] = {1.0, 2.0, 3.0};
+			auto tpl = thrust::make_tuple(2.0, 4.0, 1.5, 2.0, 4.0, 6.0);
+
+			Point_t pointA( &arrayA[0], 2.5, 2.0 );
+
+			pointA = tpl;
+
+			auto data = pointA.GetData();
+
+
+			REQUIRE( thrust::get<0>(data) ==  Approx(2.0) );
+			REQUIRE( thrust::get<1>(data) ==  Approx(4.0) );
+			REQUIRE( thrust::get<2>(data) ==  Approx(1.5) );
+			REQUIRE( thrust::get<3>(data) ==  Approx(2.0) );
+			REQUIRE( thrust::get<4>(data) ==  Approx(4.0) );
+			REQUIRE( thrust::get<5>(data) ==  Approx(6.0) );
+
+		}
+
+		SECTION( "conversion to tuple" )
+		{
+			double arrayA[3] = {1.0, 2.0, 3.0};
+			auto tpl = thrust::make_tuple(2.0, 4.0, 3.0, 2.0, 4.0, 6.0);
+
+			Point_t pointA( &arrayA[0], 3.0, 2.0 );
+
+		    tpl = pointA;
+
+			auto data = pointA.GetData();
+
+
+			REQUIRE( thrust::get<0>(data) ==  Approx(2.0) );
+			REQUIRE( thrust::get<1>(data) ==  Approx(4.0) );
+			REQUIRE( thrust::get<2>(data) ==  Approx(3.0) );
+			REQUIRE( thrust::get<3>(data) ==  Approx(1.0) );
+			REQUIRE( thrust::get<4>(data) ==  Approx(2.0) );
+			REQUIRE( thrust::get<5>(data) ==  Approx(3.0) );
+
+		}
+
+
+	}
+
+
+	SECTION( "Setters and getters" )
+	{
+		SECTION( "getters" )
+		{
+			double array[3] = {1.0, 2.0, 3.0};
+			Point_t point( &array[0], 1.5, 2.0 );
+
+			auto data = point.GetData();
+
+
+			REQUIRE( thrust::get<0>(data) ==  Approx(2.0) );
+			REQUIRE( thrust::get<1>(data) ==  Approx(4.0) );
+			REQUIRE( thrust::get<2>(data) ==  Approx(1.5) );
+			REQUIRE( thrust::get<3>(data) ==  Approx(1.0) );
+			REQUIRE( thrust::get<4>(data) ==  Approx(2.0) );
+			REQUIRE( thrust::get<5>(data) ==  Approx(3.0) );
+
+			auto coordinates =  point.GetCoordinates();
+
+			REQUIRE( point.GetWeight()  ==  Approx(2.0) );
+			REQUIRE( point.GetWeight2() ==  Approx(4.0) );
+			REQUIRE( point.GetError()   ==  Approx(1.5) );
+			REQUIRE( thrust::get<0>(coordinates) ==  Approx(1.0) );
+			REQUIRE( thrust::get<1>(coordinates) ==  Approx(2.0) );
+			REQUIRE( thrust::get<2>(coordinates) ==  Approx(3.0) );
+
+		}
+
+		SECTION( "setters" )
+		{
+			double array[3] = {1.0, 2.0, 3.0};
+			Point_t point;
+
+			point.SetData( thrust::make_tuple( 2.0, 4.0, 1.5, 1.0, 2.0, 3.0 ) );
+
+			auto data = point.GetData();
+
+			REQUIRE( thrust::get<0>(data) ==  Approx(2.0) );
+			REQUIRE( thrust::get<1>(data) ==  Approx(4.0) );
+			REQUIRE( thrust::get<2>(data) ==  Approx(1.5) );
+			REQUIRE( thrust::get<3>(data) ==  Approx(1.0) );
+			REQUIRE( thrust::get<4>(data) ==  Approx(2.0) );
+			REQUIRE( thrust::get<5>(data) ==  Approx(3.0) );
+
+			point.SetCoordinate( thrust::make_tuple( 2.0, 4.0, 6.0) );
+			point.SetWeight( 3.0 )  ;
+			point.SetWeight2( 9.0 ) ;
+			point.SetError(3.0) ;
+			data = point.GetData();
+
+			REQUIRE( thrust::get<0>(data) ==  Approx(3.0) );
+			REQUIRE( thrust::get<1>(data) ==  Approx(9.0) );
+			REQUIRE( thrust::get<2>(data) ==  Approx(3.0) );
+			REQUIRE( thrust::get<3>(data) ==  Approx(2.0) );
+			REQUIRE( thrust::get<4>(data) ==  Approx(4.0) );
+			REQUIRE( thrust::get<5>(data) ==  Approx(6.0) );
 
 		}
 

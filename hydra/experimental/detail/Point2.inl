@@ -95,7 +95,7 @@ struct Point<T, DIM, true, false>
 	 * @param weight: weight of this point
 	 */
 	__host__ __device__
-	Point(value_type (&coordinates)[DIM], value_type error=0.0 ,  value_type weight=1.0)
+	Point(const value_type (&coordinates)[DIM], const value_type error=0.0 , const  value_type weight=1.0)
 	{
 		auto weights = thrust::make_tuple(weight, weight*weight, error );
 		auto coords  = hydra::detail::arrayToTuple<value_type,DIM>(const_cast<value_type*>( &coordinates[0] ));
@@ -124,7 +124,7 @@ struct Point<T, DIM, true, false>
 	 * @return
 	 */
 	__host__  __device__
-	Point(  coordinate_type coordinates, value_type error=0.0, value_type weight=1.0)
+	Point(const   coordinate_type coordinates, const value_type error=0.0, const value_type weight=1.0)
 	{
 		auto weights = thrust::make_tuple(weight, weight*weight, error );
 		fData = thrust::tuple_cat(weights, coordinates  );
@@ -137,7 +137,7 @@ struct Point<T, DIM, true, false>
 	 * @return
 	 */
 	__host__  __device__
-	explicit Point(value_type* coordinates, value_type error=0.0,	value_type weight=1.0 )
+	explicit Point(const value_type* coordinates, const value_type error=0.0,	const value_type weight=1.0 )
 	{
 		auto weights = thrust::make_tuple(weight, weight*weight, error  );
 		auto coords  = hydra::detail::arrayToTuple<value_type,DIM>(const_cast<value_type*>( coordinates));
@@ -153,7 +153,7 @@ struct Point<T, DIM, true, false>
 	__host__  __device__ inline
 	Point<value_type,DIM, true,false>& operator=( Point<value_type,DIM, true,false> const& other)
 	{
-		if( this == &other) return *this;
+		if( this == &other ) return *this;
 
 		fData=other.GetData() ;
 
@@ -163,7 +163,7 @@ struct Point<T, DIM, true, false>
 	__host__  __device__ inline
 	Point<value_type,DIM, true,false>& operator=(type const& other)
 	{
-		if( this == &other) return *this;
+		if( (const type*) this == &other) return *this;
 
 		fData=other ;
 
@@ -173,26 +173,22 @@ struct Point<T, DIM, true, false>
 
 	__host__  __device__
 	inline void SetCoordinate(coordinate_type const& coordinates, value_type error=0.0,
-			value_type weight=1.0) const{
+			value_type weight=1.0) {
 
-		auto weights = thrust::make_tuple(weight, weight*weight );
+		auto weights = thrust::make_tuple(weight, weight*weight,  error);
 		fData = thrust::tuple_cat(weights, coordinates  );
 
 	}
 
 	__host__  __device__
-	inline auto GetCoordinates()
-	-> decltype( hydra::detail::split_tuple<3>(type()).second )
+	inline coordinate_type GetCoordinates()
 	{
-
 		return hydra::detail::split_tuple<3>(fData).second;
 	}
 
 	__host__  __device__
-	inline  auto GetCoordinates() const
-	-> const decltype( hydra::detail::split_tuple<3>(type()).second )
+	inline  coordinate_type GetCoordinates() const
 	{
-
 		return hydra::detail::split_tuple<3>(fData).second;
 	}
 

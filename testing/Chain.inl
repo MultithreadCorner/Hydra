@@ -95,7 +95,7 @@ TEST_CASE( "Chain","hydra::Chain" ) {
 		events3_t events3(10);
 		events2_t events2(10);
 
-		size_t i = 0;
+
 		for( size_t i = 0; i< events3.GetNEvents(); i++ )
 		{
 			thrust::get<0>( events3[i]) = i;

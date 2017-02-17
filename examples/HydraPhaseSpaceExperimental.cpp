@@ -40,6 +40,7 @@
 #include <hydra/experimental/Vector4R.h>
 #include <hydra/experimental/PhaseSpace.h>
 #include <hydra/experimental/Events.h>
+#include <hydra/experimental/Chain.h>
 #include <hydra/Evaluate.h>
 #include <hydra/Function.h>
 #include <hydra/FunctorArithmetic.h>
@@ -185,10 +186,18 @@ GInt_t main(int argv, char** argc)
 	for( size_t i=0; i<10; i++ ){
 		cout << C2ab_Events_d[i] << endl;
 	}
+	cout << P2ABC_Events_d.GetNEvents() <<endl;
+	typedef hydra::experimental::Events<3, device> event3_t;
+	typedef hydra::experimental::Events<2, device> event2_t;
+	hydra::experimental::Chain<event3_t, event2_t> chain(P2ABC_Events_d, C2ab_Events_d);
+
+	for(auto row:chain ){
+		cout<< row<<endl;
+	}
 
 
-	typedef hydra::experimental::Events<3, device>::value_type event3_t;
-	typedef hydra::experimental::Events<2, device>::value_type event2_t;
+/*
+
 	typedef thrust::tuple< event3_t, event2_t> chain_t;
 
 
@@ -454,14 +463,14 @@ GInt_t main(int argv, char** argc)
 	delta_angle.Draw("hist");
 	delta_angle.SetMinimum(0.0);
 		canvas_delta_angle.Print("plots/delta_angle.png");
+myapp->Run();
+
+*/
 
 
 
 
 
-
-
-	myapp->Run();
 
 	return 0;
 }
