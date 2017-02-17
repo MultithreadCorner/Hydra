@@ -189,7 +189,7 @@ GInt_t main(int argv, char** argc)
 	cout << P2ABC_Events_d.GetNEvents() <<endl;
 	typedef hydra::experimental::Events<3, device> event3_t;
 	typedef hydra::experimental::Events<2, device> event2_t;
-	hydra::experimental::Chain<event3_t, event2_t> chain(P2ABC_Events_d, C2ab_Events_d);
+	hydra::experimental::Chain<event3_t, event2_t> chain(std::move(P2ABC_Events_d), std::move(C2ab_Events_d));
 
 	for(auto row:chain ){
 		cout<< row<<endl;

@@ -259,23 +259,23 @@ struct Chain< hydra::experimental::Events<N,BACKEND >...>{
 
 
 
-	Chain(hydra::experimental::Events<N,BACKEND >& ...events):
+	Chain(hydra::experimental::Events<N,BACKEND > const& ...events):
 		fSize ( CheckSizes({events.GetNEvents()...})),
-	fStorage(thrust::tie( events...))
+		fStorage( thrust::make_tuple( events... ))
 	{
 
 
 		fWeights = vector_real(fSize , 1.0);
 		fFlags = vector_bool( fSize, 1.0 );
 
-		fBegin = thrust::make_zip_iterator(thrust:: tuple_cat(thrust::make_tuple(fWeights.begin()),
+		fBegin = thrust::make_zip_iterator(thrust::tuple_cat(thrust::make_tuple(fWeights.begin()),
 				detail::begin_call_args(fStorage)) );
-		fEnd = thrust::make_zip_iterator( thrust:: tuple_cat(thrust::make_tuple(fWeights.end()),
+		fEnd = thrust::make_zip_iterator( thrust::tuple_cat(thrust::make_tuple(fWeights.end()),
 				detail::end_call_args(fStorage)) );
 
-		fConstBegin = thrust::make_zip_iterator( thrust:: tuple_cat(thrust::make_tuple(fWeights.cbegin()),
+		fConstBegin = thrust::make_zip_iterator( thrust::tuple_cat(thrust::make_tuple(fWeights.cbegin()),
 				detail::cbegin_call_args(fStorage) ));
-		fConstEnd = thrust::make_zip_iterator(thrust:: tuple_cat(thrust::make_tuple(fWeights.cend()),
+		fConstEnd = thrust::make_zip_iterator(thrust::tuple_cat(thrust::make_tuple(fWeights.cend()),
 				detail::cend_call_args(fStorage) ) );
 
 	}

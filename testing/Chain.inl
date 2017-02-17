@@ -112,14 +112,12 @@ TEST_CASE( "Chain","hydra::Chain" ) {
 		REQUIRE( events3.capacity()==10);
 		REQUIRE( events2.capacity()==10);
 
-
 		chain_t chain(events3, events2);
 
-		REQUIRE( events3.capacity()==0);
-		REQUIRE( events2.capacity()==0);
+		REQUIRE( events3.capacity()==10);
+		REQUIRE( events2.capacity()==10);
 
 
-		i = 0;
 		for( size_t i = 0; i< chain.GetNEvents(); i++ )
 		{
 			auto weight = thrust::get<0>(chain[i]);
@@ -137,6 +135,46 @@ TEST_CASE( "Chain","hydra::Chain" ) {
 			REQUIRE( thrust::get<2>( decay2) == thrust::make_tuple(2+i, 2+i, 2+i, 2+i));
 
 		}
+
+		for( size_t i = 0; i< chain.GetNEvents(); i++ )
+		{
+			auto weight = thrust::get<0>(chain[i]);
+			auto decay1 = thrust::get<1>(chain[i]);
+			auto decay2 = thrust::get<2>(chain[i]);
+
+
+		    thrust::get<0>( decay1) = 2*i;
+			thrust::get<1>( decay1) = thrust::make_tuple(1+2*i, 1+2*i, 1+2*i, 1+2*i);
+			thrust::get<2>( decay1) = thrust::make_tuple(2+2*i, 2+2*i, 2+2*i, 2+2*i);
+			thrust::get<3>( decay1) = thrust::make_tuple(3+2*i, 3+2*i, 3+2*i, 3+2*i);
+
+			thrust::get<0>( decay2) = 2*i;
+			thrust::get<1>( decay2) = thrust::make_tuple(1+2*i, 1+2*i, 1+2*i, 1+2*i);
+			thrust::get<2>( decay2) = thrust::make_tuple(2+2*i, 2+2*i, 2+2*i, 2+2*i);
+
+		}
+
+
+		for( size_t i = 0; i< events3.GetNEvents(); i++ )
+		{
+			auto weight = thrust::get<0>(chain[i]);
+			auto decay1 = thrust::get<1>(chain[i]);
+			auto decay2 = thrust::get<2>(chain[i]);
+
+
+			REQUIRE( thrust::get<0>( decay1) == 2*i);
+			REQUIRE( thrust::get<1>( decay1) == thrust::make_tuple(1+2*i, 1+2*i, 1+2*i, 1+2*i));
+			REQUIRE( thrust::get<2>( decay1) == thrust::make_tuple(2+2*i, 2+2*i, 2+2*i, 2+2*i));
+			REQUIRE( thrust::get<3>( decay1) == thrust::make_tuple(3+2*i, 3+2*i, 3+2*i, 3+2*i));
+
+			REQUIRE( thrust::get<0>( decay2) == 2*i);
+			REQUIRE( thrust::get<1>( decay2) == thrust::make_tuple(1+2*i, 1+2*i, 1+2*i, 1+2*i));
+			REQUIRE( thrust::get<2>( decay2) == thrust::make_tuple(2+2*i, 2+2*i, 2+2*i, 2+2*i));
+
+		}
+
+
+
 	}
 
 	SECTION( "move constructor Chain(other)" )
