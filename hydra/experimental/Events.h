@@ -261,20 +261,15 @@ struct Events {
 
 	const_iterator cbegin() const{ return fConstBegin; }
 
-		const_iterator  cend() const{ return fConstEnd; }
+	const_iterator  cend() const{ return fConstEnd; }
 
-
-
-	size_t capacity() const  {
-
-		return fFlags.capacity();
-	}
+	size_t capacity() const  {return fFlags.capacity();}
 
 	void resize(size_t n);
 
 	size_t Unweight(size_t seed);
 
-
+	size_t size() const { return fFlags.size(); }
 
 
 private:

@@ -192,7 +192,7 @@ GInt_t main(int argv, char** argc)
 	hydra::experimental::Chain<event3_t, event2_t> chain(std::move(P2ABC_Events_d), std::move(C2ab_Events_d));
 
 	for(auto row:chain ){
-		cout<< row<<endl;
+		cout<< row <<endl;
 	}
 
 

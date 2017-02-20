@@ -248,7 +248,9 @@ TEST_CASE( "Chain","hydra::Chain" ) {
 
 		chain_t events2 = std::move(events);
 		REQUIRE( events.GetNEvents()  == 0 );
-		i = 0;
+
+
+
 		for( size_t i = 0; i< events2.GetNEvents(); i++ )
 		{
 			auto weight = thrust::get<0>(events2[i]);
