@@ -49,7 +49,7 @@
 #include <hydra/Parameter.h>
 #include <hydra/experimental/GaussKronrodQuadrature.h>
 #include <hydra/experimental/GaussKronrodAdaptiveQuadrature.h>
-
+#include <hydra/experimental/GenzMalikRule.h>
 //root
 #include <TROOT.h>
 #include <TH1D.h>
@@ -279,6 +279,7 @@ GInt_t main(int argv, char** argc)
 	cout << "Result: " <<adar.first << "+/- " << adar.second <<std::endl
 	<< " Time (ms): "<< elapsed_adaquad.count() <<std::endl;
 
+	auto GMRule=  hydra::experimental::GenzMalikRule<3>();
 
 	TApplication *myapp=new TApplication("myapp",0,0);
 		/*
