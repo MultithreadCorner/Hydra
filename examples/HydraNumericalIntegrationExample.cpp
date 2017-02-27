@@ -279,7 +279,9 @@ GInt_t main(int argv, char** argc)
 	cout << "Result: " <<adar.first << "+/- " << adar.second <<std::endl
 	<< " Time (ms): "<< elapsed_adaquad.count() <<std::endl;
 
-	auto GMRule=  hydra::experimental::GenzMalikRule<3>();
+	auto GMRule=  hydra::experimental::GenzMalikRule<4>();
+
+	GMRule.Print();
 
 	TApplication *myapp=new TApplication("myapp",0,0);
 		/*

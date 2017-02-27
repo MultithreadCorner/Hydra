@@ -99,8 +99,21 @@ struct GenzMalikRule: GenzMalikRuleBase<typename std::enable_if< (DIM>1), void >
 			fRule5Weight3= factor*GReal_t(265.0 - 100.0*DIM)/1458.0;
 			fRule5Weight4= factor*GReal_t(25.0/729.0);
 
+			set_abscissas();
 
+			}
 
+		void Print()
+			{
+				HYDRA_MSG << HYDRA_ENDL;
+				HYDRA_MSG << "Genz-Malik Rule begin:"              << HYDRA_ENDL;
+				HYDRA_MSG << "(weight #5, weight #7, ...{abscissas})" << HYDRA_ENDL;
+				for(auto row:fAbscissas)
+				{
+					std::cout << row << std::endl;
+				}
+				HYDRA_MSG << "Number of function calls: "<< fAbscissas.size() << HYDRA_ENDL;
+				HYDRA_MSG << "Genz-Malik Rule end."              << HYDRA_ENDL;
 			}
 
 	private:
@@ -117,8 +130,14 @@ struct GenzMalikRule: GenzMalikRuleBase<typename std::enable_if< (DIM>1), void >
 			return 2*twoN<N-1>();
 		}
 
+		void set_abscissas()
+		{
+			for(unsigned int odr=0; odr<6; odr++)
+			add_abscissas<GReal_t, DIM>(odr);
+		}
+
 		template<typename T, size_t N=1>
-		void permute_abscissae(GReal_t rule5_weight, GReal_t rule7_weight,
+		void permute_abscissas(GReal_t rule5_weight, GReal_t rule7_weight,
 				std::array<T, N> const& seed, vector_abscissa_t& container)
 		{
 
@@ -138,7 +157,7 @@ struct GenzMalikRule: GenzMalikRuleBase<typename std::enable_if< (DIM>1), void >
 
 
 		template<typename T, size_t N=1>
-		void get_seed( unsigned int order)
+		void add_abscissas( unsigned int order)
 		{
 		  typedef std::array<T, N> X_t;
 
@@ -147,20 +166,20 @@ struct GenzMalikRule: GenzMalikRuleBase<typename std::enable_if< (DIM>1), void >
 		  case 0:
 		  {
 
-			  typename vector_abscissa_t::value_type x();
+			  abscissa_t x;
 			  thrust::get<0>(x)= fRule5Weight1;
 			  thrust::get<1>(x)= fRule7Weight1;
-			  fAbscissae.push_back(x);
+			  fAbscissas.push_back(x);
 			  break;
 		  }
 			  // order = 2
 		  case 2:
 		  {
 			  auto x = X_t();
-			  x[0]= T(2);
-			  permute_abscissae(fRule5Weight2, fRule7Weight2, x,  fAbscissae);
-			  x[0]= T(-2);
-			  permute_abscissae(fRule5Weight2, fRule7Weight2, x,  fAbscissae);
+			  x[0]= T(fLambda2);
+			  permute_abscissas(fRule5Weight2, fRule7Weight2, x,  fAbscissas);
+			  x[0]= T(-fLambda2);
+			  permute_abscissas(fRule5Weight2, fRule7Weight2, x,  fAbscissas);
 
 			  break;
 		  }
@@ -168,10 +187,10 @@ struct GenzMalikRule: GenzMalikRuleBase<typename std::enable_if< (DIM>1), void >
 		  case 3:
 		  {
 			  auto  x = X_t();
-			  x[0]= T(3);
-			  permute_abscissae(fRule5Weight3, fRule7Weight3, x,  fAbscissae);
-			  x[0]= T(-3);
-			  permute_abscissae(fRule5Weight3, fRule7Weight3, x,  fAbscissae);
+			  x[0]= T(fLambda3);
+			  permute_abscissas(fRule5Weight3, fRule7Weight3, x,  fAbscissas);
+			  x[0]= T(-fLambda3);
+			  permute_abscissas(fRule5Weight3, fRule7Weight3, x,  fAbscissas);
 
 			  break;
 		  }
@@ -179,14 +198,14 @@ struct GenzMalikRule: GenzMalikRuleBase<typename std::enable_if< (DIM>1), void >
 		  case 4:
 		  {
 			  auto 	  x = X_t();
-			  x[0]= T(4); x[1]= T(4);
-			  permute_abscissae(fRule5Weight4, fRule7Weight4, x,  fAbscissae);
+			  x[0]= T(fLambda4); x[1]= T(fLambda4);
+			  permute_abscissas(fRule5Weight4, fRule7Weight4, x,  fAbscissas);
 
-			  x[0]= T(-4); x[1]= T(-4);
-			  permute_abscissae(fRule5Weight4, fRule7Weight4, x,  fAbscissae);
+			  x[0]= T(-fLambda4); x[1]= T(-fLambda4);
+			  permute_abscissas(fRule5Weight4, fRule7Weight4, x,  fAbscissas);
 
-			  x[0]= T(4); x[1]= T(-4);
-			  permute_abscissae(fRule5Weight4, fRule7Weight4, x,  fAbscissae);
+			  x[0]= T(fLambda4); x[1]= T(-fLambda4);
+			  permute_abscissas(fRule5Weight4, fRule7Weight4, x,  fAbscissas);
 
 			  break;
 		  }
@@ -198,11 +217,10 @@ struct GenzMalikRule: GenzMalikRuleBase<typename std::enable_if< (DIM>1), void >
 			  {
 				  for(size_t j=0;j<N;j++)
 				  {
-					  x[j]= T(j<i?-5:5);
+					  x[j]= T(j<i?-fLambda5:fLambda5);
 				  }
-				  permute_abscissae(0, fRule7Weight5, x,  fAbscissae);
+				  permute_abscissas(0.0, fRule7Weight5, x,  fAbscissas);
 			  }
-
 
 			  break;
 		  }
@@ -230,7 +248,7 @@ struct GenzMalikRule: GenzMalikRuleBase<typename std::enable_if< (DIM>1), void >
 		GReal_t fRule5Weight3;
 		GReal_t fRule5Weight4;
 
-		vector_abscissa_t fAbscissae;
+		vector_abscissa_t fAbscissas;
 
 	};
 
