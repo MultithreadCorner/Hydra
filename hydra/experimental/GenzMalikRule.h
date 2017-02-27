@@ -99,6 +99,8 @@ struct GenzMalikRule: GenzMalikRuleBase<typename std::enable_if< (DIM>1), void >
 			fRule5Weight3= factor*GReal_t(265.0 - 100.0*DIM)/1458.0;
 			fRule5Weight4= factor*GReal_t(25.0/729.0);
 
+
+
 			}
 
 	private:
