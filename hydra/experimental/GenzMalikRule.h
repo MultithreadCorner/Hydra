@@ -228,9 +228,7 @@ struct GenzMalikRule: GenzMalikRuleBase<typename std::enable_if< (DIM>1), void >
 			  break;
 
 		  }
-
 		}
-
 
 		GReal_t fLambda2;
 		GReal_t fLambda3;
