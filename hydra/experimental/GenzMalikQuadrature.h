@@ -39,13 +39,21 @@ namespace hydra {
 
 namespace experimental {
 
-template< unsigned int BACKEND=hydra::host, size_t ...N>
+template< unsigned int BACKEND, size_t ...N>
 class  GenzMalikQuadrature: public Integrator<GenzMalikQuadrature<BACKEND, N...> >
 {
 
 public:
 	//tag
 	typedef void hydra_integrator_tag;
+
+	constexpr static size_t NDIM = sizeof ...(N);
+
+
+
+
+private:
+	GenzMalikRule<  NDIM,  BACKEND> fGenzMalikRule;
 
 
 };
