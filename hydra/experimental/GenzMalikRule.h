@@ -103,6 +103,46 @@ struct GenzMalikRule: GenzMalikRuleBase<typename std::enable_if< (DIM>1), void >
 
 			}
 
+		GenzMalikRule( GenzMalikRule<DIM,BACKEND> const& other):
+			fLambda2( other.GetLambda2() ),
+			fLambda3( other.GetLambda3() ),
+			fLambda4( other.GetLambda4() ),
+			fLambda5( other.GetLambda5() ),
+			fRule7Weight1( other.GetRule7Weight1() ),
+			fRule7Weight2( other.GetRule7Weight2() ),
+			fRule7Weight3( other.GetRule7Weight3() ),
+			fRule7Weight4( other.GetRule7Weight4() ),
+			fRule7Weight5( other.GetRule7Weight5() ),
+			fRule5Weight1( other.GetRule5Weight1() ),
+			fRule5Weight2( other.GetRule5Weight2() ),
+			fRule5Weight3( other.GetRule5Weight3() ),
+			fRule5Weight4( other.GetRule5Weight4() ),
+			fAbscissas( other.GetAbscissas() )
+		{}
+
+		GenzMalikRule<DIM,BACKEND>& operator= ( GenzMalikRule<DIM,BACKEND> const& other)
+		{
+
+			if(this==&other) return *this;
+
+			fLambda2 = other.GetLambda2() ;
+			fLambda3 = other.GetLambda3() ;
+			fLambda4 = other.GetLambda4() ;
+			fLambda5 = other.GetLambda5() ;
+			fRule7Weight1 = other.GetRule7Weight1() ;
+			fRule7Weight2 = other.GetRule7Weight2() ;
+			fRule7Weight3 = other.GetRule7Weight3() ;
+			fRule7Weight4 = other.GetRule7Weight4() ;
+			fRule7Weight5 = other.GetRule7Weight5() ;
+			fRule5Weight1 = other.GetRule5Weight1() ;
+			fRule5Weight2 = other.GetRule5Weight2() ;
+			fRule5Weight3 = other.GetRule5Weight3() ;
+			fRule5Weight4 = other.GetRule5Weight4() ;
+			fAbscissas = other.GetAbscissas() ;
+
+			return *this;
+		}
+
 		void Print()
 			{
 				HYDRA_MSG << HYDRA_ENDL;
@@ -110,11 +150,151 @@ struct GenzMalikRule: GenzMalikRuleBase<typename std::enable_if< (DIM>1), void >
 				HYDRA_MSG << "(weight #5, weight #7, ...{abscissas})" << HYDRA_ENDL;
 				for(auto row:fAbscissas)
 				{
-					std::cout << row << std::endl;
+					HYDRA_MSG << row << HYDRA_ENDL;
 				}
 				HYDRA_MSG << "Number of function calls: "<< fAbscissas.size() << HYDRA_ENDL;
 				HYDRA_MSG << "Genz-Malik Rule end."              << HYDRA_ENDL;
 			}
+
+	const vector_abscissa_t& GetAbscissas() const
+	{
+		return fAbscissas;
+	}
+
+	void SetAbscissas(const vector_abscissa_t& abscissas)
+	{
+		fAbscissas = abscissas;
+	}
+
+	GReal_t GetLambda2() const
+	{
+		return fLambda2;
+	}
+
+	void SetLambda2(GReal_t lambda2)
+	{
+		fLambda2 = lambda2;
+	}
+
+	GReal_t GetLambda3() const
+	{
+		return fLambda3;
+	}
+
+	void SetLambda3(GReal_t lambda3)
+	{
+		fLambda3 = lambda3;
+	}
+
+	GReal_t GetLambda4() const
+	{
+		return fLambda4;
+	}
+
+	void SetLambda4(GReal_t lambda4)
+	{
+		fLambda4 = lambda4;
+	}
+
+	GReal_t GetLambda5() const
+	{
+		return fLambda5;
+	}
+
+	void SetLambda5(GReal_t lambda5)
+	{
+		fLambda5 = lambda5;
+	}
+
+	GReal_t GetRule5Weight1() const
+	{
+		return fRule5Weight1;
+	}
+
+	void SetRule5Weight1(GReal_t rule5Weight1)
+	{
+		fRule5Weight1 = rule5Weight1;
+	}
+
+	GReal_t GetRule5Weight2() const
+	{
+		return fRule5Weight2;
+	}
+
+	void SetRule5Weight2(GReal_t rule5Weight2)
+	{
+		fRule5Weight2 = rule5Weight2;
+	}
+
+	GReal_t GetRule5Weight3() const
+	{
+		return fRule5Weight3;
+	}
+
+	void SetRule5Weight3(GReal_t rule5Weight3)
+	{
+		fRule5Weight3 = rule5Weight3;
+	}
+
+	GReal_t GetRule5Weight4() const
+	{
+		return fRule5Weight4;
+	}
+
+	void SetRule5Weight4(GReal_t rule5Weight4)
+	{
+		fRule5Weight4 = rule5Weight4;
+	}
+
+	GReal_t GetRule7Weight1() const
+	{
+		return fRule7Weight1;
+	}
+
+	void SetRule7Weight1(GReal_t rule7Weight1)
+	{
+		fRule7Weight1 = rule7Weight1;
+	}
+
+	GReal_t GetRule7Weight2() const
+	{
+		return fRule7Weight2;
+	}
+
+	void SetRule7Weight2(GReal_t rule7Weight2)
+	{
+		fRule7Weight2 = rule7Weight2;
+	}
+
+	GReal_t GetRule7Weight3() const
+	{
+		return fRule7Weight3;
+	}
+
+	void SetRule7Weight3(GReal_t rule7Weight3)
+	{
+		fRule7Weight3 = rule7Weight3;
+	}
+
+	GReal_t GetRule7Weight4() const
+	{
+		return fRule7Weight4;
+	}
+
+	void SetRule7Weight4(GReal_t rule7Weight4)
+	{
+		fRule7Weight4 = rule7Weight4;
+	}
+
+	GReal_t GetRule7Weight5() const
+	{
+		return fRule7Weight5;
+	}
+
+	void SetRule7Weight5(GReal_t rule7Weight5)
+	{
+		fRule7Weight5 = rule7Weight5;
+	}
 
 	private:
 

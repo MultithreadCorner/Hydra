@@ -32,6 +32,7 @@
 #include <hydra/detail/Config.h>
 #include <hydra/Types.h>
 #include <hydra/experimental/GenzMalikRule.h>
+#include <hydra/experimental/GenzMalikBox.h>
 #include <hydra/experimental/multivector.h>
 #include <hydra/detail/Integrator.h>
 
@@ -39,22 +40,22 @@ namespace hydra {
 
 namespace experimental {
 
-template< unsigned int BACKEND, size_t ...N>
-class  GenzMalikQuadrature: public Integrator<GenzMalikQuadrature<BACKEND, N...> >
+template< unsigned int BACKEND, size_t N>
+class  GenzMalikQuadrature: public Integrator<GenzMalikQuadrature<BACKEND, N> >
 {
 
 public:
 	//tag
 	typedef void hydra_integrator_tag;
 
-	constexpr static size_t NDIM = sizeof ...(N);
+	typedef hydra::mc_host_vector<GenzMalikBox> box_list_type;
 
 
 
 
 private:
 	GenzMalikRule<  NDIM,  BACKEND> fGenzMalikRule;
-
+	box_list_type fBoxList;
 
 };
 
