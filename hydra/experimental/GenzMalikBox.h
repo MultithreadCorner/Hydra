@@ -31,9 +31,10 @@
 
 #include <hydra/detail/Config.h>
 #include <hydra/Types.h>
-#include <hydra/experimental/GenzMalikRule.h>
-#include <hydra/experimental/multivector.h>
-#include <hydra/detail/Integrator.h>
+#include <array>
+#include <initializer_list>
+#include <math.h>
+#include <cmath>
 
 namespace hydra {
 
@@ -43,7 +44,8 @@ template<size_t N>
 struct GenzMalikBox
 {
 	GenzMalikBox()=delete;
-	GenzMalikBox(GReal_t LowerLimit[N], GReal_t UpperLimit[N]):
+
+	GenzMalikBox(GReal_t (&LowerLimit)[N], GReal_t (&UpperLimit)[N]):
 		fRule7(0),
 		fRule5(0),
 		fVolume(1.0)
@@ -57,21 +59,9 @@ struct GenzMalikBox
 		}
 	}
 
-	GenzMalikBox(GReal_t LowerLimit[N], GReal_t UpperLimit[N]):
-			fRule7(0),
-			fRule5(0),
-			fVolume(1.0)
-		{
-			for(size_t i=0; i<N; i++)
-			{
-				fFourDifference[N]=0;
-				fUpperLimit[N]=UpperLimit[N];
-				fLowerLimit[N]=LowerLimit[N];
-				fVolume*=(UpperLimit[N]-LowerLimit[N]);
-			}
-		}
 
-	GenzMalikBox(std::array<GReal,N> LowerLimit, std::array<GReal,N> UpperLimit[N]):
+
+	GenzMalikBox(std::array<GReal_t,N> const& LowerLimit, std::array<GReal_t,N> const&  UpperLimit[N]):
 				fRule7(0),
 				fRule5(0),
 				fVolume(1.0)

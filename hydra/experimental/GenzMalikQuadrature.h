@@ -50,10 +50,19 @@ public:
 
 	typedef hydra::mc_host_vector<GenzMalikBox> box_list_type;
 
+	GenzMalikQuadrature(std::array<GReal_t,N> const& LowerLimit, std::array<GReal_t,N> const& UpperLimit[N])
+	{
 
+	}
 
 
 private:
+
+	GUInt_t DivisionsPerDimension(GUInt_t nboxes, GUInt_t ndim) const
+	{
+		return std::nearbyint(std::pow(2.0, std::log2(nboxes+1)/ ndim));
+	}
+
 	GenzMalikRule<  NDIM,  BACKEND> fGenzMalikRule;
 	box_list_type fBoxList;
 
