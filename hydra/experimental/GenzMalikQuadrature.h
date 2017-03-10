@@ -36,6 +36,8 @@
 #include <hydra/experimental/multivector.h>
 #include <hydra/detail/Integrator.h>
 
+#include <cmath>
+
 namespace hydra {
 
 namespace experimental {
@@ -50,7 +52,7 @@ public:
 
 	typedef hydra::mc_host_vector<GenzMalikBox> box_list_type;
 
-	GenzMalikQuadrature(std::array<GReal_t,N> const& LowerLimit, std::array<GReal_t,N> const& UpperLimit[N])
+	GenzMalikQuadrature(std::array<GReal_t,N> const& LowerLimit, std::array<GReal_t,N> const& UpperLimit[N], GUInt_t nboxes)
 	{
 
 	}
@@ -58,9 +60,9 @@ public:
 
 private:
 
-	GUInt_t DivisionsPerDimension(GUInt_t nboxes, GUInt_t ndim) const
+	GUInt_t DivisionsPerDimension(GUInt_t nboxes) const
 	{
-		return std::nearbyint(std::pow(2.0, std::log2(nboxes+1)/ ndim));
+		return std::nearbyint(std::pow(2.0, std::log2(nboxes+1)/ N));
 	}
 
 	GenzMalikRule<  NDIM,  BACKEND> fGenzMalikRule;
