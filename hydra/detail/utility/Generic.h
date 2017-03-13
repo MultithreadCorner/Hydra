@@ -222,7 +222,7 @@ template<class R, class...Ts>
 	//begin of the recursion
 	template<typename T, size_t DIM, size_t I=0>
 	constexpr typename std::enable_if< (I<DIM) && (std::is_integral<T>::value), void  >::type
-	get_indexes(size_t index, T ( &detpths)[DIM], T (&indexes)[DIM] )
+	get_indexes(size_t index, T ( &depths)[DIM], T (&indexes)[DIM] )
 	{
 
 		size_t factor    =  1;
