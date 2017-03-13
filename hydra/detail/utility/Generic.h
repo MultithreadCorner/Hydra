@@ -144,8 +144,97 @@ template<class R, class...Ts>
 	};
 
 
+/*
+ *  conversion of one-dimensional index to multidimensional one
+ * ____________________________________________________________
+ */
+
+	//----------------------------------------
+	// multiply  std::array elements
+	//----------------------------------------
+	template<typename T, size_t N, size_t I>
+	constexpr typename std::enable_if< (I==N), void  >::type
+	multiply( std::array<T, N> const&  obj, T& result )
+	{ }
+
+	template<typename T, size_t N, size_t I=0>
+	constexpr typename std::enable_if< (I<N), void  >::type
+	multiply( std::array<T, N> const&  obj, T& result )
+	{
+		result = I==0? 1.0: result;
+		result *= obj[I];
+		multiply< T, N, I+1>( obj, result );
+	}
+
+	//----------------------------------------
+	// multiply static array elements
+	//----------------------------------------
+	template<typename T, size_t N, size_t I>
+	constexpr typename std::enable_if< (I==N), void  >::type
+	multiply( T (&obj)[N] , T& result )
+	{ }
+
+	template<typename T, size_t N, size_t I=0>
+	constexpr typename std::enable_if< (I<N), void  >::type
+	multiply( T (&obj)[N], T& result )
+	{
+		result = I==0? 1.0: result;
+		result *= obj[I];
+		multiply< T, N, I+1>( obj, result );
+	}
 
 
+	//-------------------------
+	// std::array version
+	//-------------------------
+	//end of recursion
+	template<typename T, size_t DIM, size_t I>
+	constexpr typename std::enable_if< (I==DIM) && (std::is_integral<T>::value), void  >::type
+	get_indexes(size_t index, std::array<T, DIM> const& depths, std::array<T,DIM>& indexes)
+	{}
+
+	//begin of the recursion
+	template<typename T, size_t DIM, size_t I=0>
+	constexpr typename std::enable_if< (I<DIM) && (std::is_integral<T>::value), void  >::type
+	get_indexes(size_t index, std::array<T, DIM> const& depths, std::array<T,DIM>& indexes)
+	{
+
+		size_t factor    =  1;
+	    multiply<size_t, DIM, I+1>(depths, factor );
+
+		indexes[I]  =  index/factor;
+
+	    size_t next_index =  index%factor;
+
+		get_indexes<T, DIM, I+1>(next_index, depths, indexes );
+
+	}
+
+	//-------------------------
+	// static array version
+	//-------------------------
+	//end of recursion
+	template<typename T, size_t DIM, size_t I>
+	constexpr typename std::enable_if< (I==DIM) && (std::is_integral<T>::value), void  >::type
+	get_indexes(size_t index, T ( &detpths)[DIM], T (&indexes)[DIM])
+	{}
+
+	//begin of the recursion
+	template<typename T, size_t DIM, size_t I=0>
+	constexpr typename std::enable_if< (I<DIM) && (std::is_integral<T>::value), void  >::type
+	get_indexes(size_t index, T ( &detpths)[DIM], T (&indexes)[DIM] )
+	{
+
+		size_t factor    =  1;
+	    multiply<size_t, DIM, I+1>(depths, factor );
+
+		indexes[I]  =  index/factor;
+
+	    size_t next_index =  index%factor;
+
+		get_indexes<T, DIM, I+1>(next_index, depths, indexes );
+
+	}
 
 	}//namespace detail
 }//namespace hydra

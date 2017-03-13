@@ -35,8 +35,8 @@
 #include <hydra/experimental/GenzMalikBox.h>
 #include <hydra/experimental/multivector.h>
 #include <hydra/detail/Integrator.h>
+#include <hydra/detail/utility/Generic.h>
 
-#include <cmath>
 
 namespace hydra {
 
@@ -50,20 +50,46 @@ public:
 	//tag
 	typedef void hydra_integrator_tag;
 
-	typedef hydra::mc_host_vector<GenzMalikBox> box_list_type;
+	typedef hydra::mc_host_vector<GenzMalikBox<N>> box_list_type;
 
-	GenzMalikQuadrature(std::array<GReal_t,N> const& LowerLimit, std::array<GReal_t,N> const& UpperLimit[N], GUInt_t nboxes)
+	GenzMalikQuadrature(std::array<GReal_t,N> const& LowerLimit,
+			std::array<GReal_t,N> const& UpperLimit,
+			std::array<size_t, N> const& grid)
 	{
 
+		size_t nboxes = 1;
+	    hydra::detail::multiply(grid, nboxes );
+	    fBoxList.resize(nboxes);
+
+	    std::array<GReal_t, N> widths;
+
+	    for( size_t i=0; i<N; i++)
+	    	width[i] = UpperLimit[i] -  LowerLimit[i];
+
+	    std::array<size_t, N> mindex;
+	    std::array<GReal_t,N>  lower_limit;
+	    std::array<GReal_t,N>  upper_limit;
+
+		for(size_t index=0; index<nboxes; index++)
+		{
+			hydra::detail::get_indexes( index, grid,  mindex );
+
+			for( size_t dim=0; dim<N; dim++)
+			{
+				lower_limit[dim] =   LowerLimit[dim] + width[dim]*mindex[dim];
+				upper_limit[dim] =   LowerLimit[dim] + width[dim]*(mindex[dim]+1);
+
+			}
+
+			fBoxList.push_back(GenzMalikBox(lower_limit, upper_limit));
+
+		}
 	}
 
 
 private:
 
-	GUInt_t DivisionsPerDimension(GUInt_t nboxes) const
-	{
-		return std::nearbyint(std::pow(2.0, std::log2(nboxes+1)/ N));
-	}
+
 
 	GenzMalikRule<  NDIM,  BACKEND> fGenzMalikRule;
 	box_list_type fBoxList;

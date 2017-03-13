@@ -61,7 +61,7 @@ struct GenzMalikBox
 
 
 
-	GenzMalikBox(std::array<GReal_t,N> const& LowerLimit, std::array<GReal_t,N> const&  UpperLimit[N]):
+	GenzMalikBox(std::array<GReal_t,N> const& LowerLimit, std::array<GReal_t,N> const&  UpperLimit):
 				fRule7(0),
 				fRule5(0),
 				fVolume(1.0)
