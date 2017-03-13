@@ -62,32 +62,32 @@ struct GenzMalikBox
 
 
 	GenzMalikBox(std::array<GReal_t,N> const& LowerLimit, std::array<GReal_t,N> const&  UpperLimit):
-				fRule7(0),
-				fRule5(0),
-				fVolume(1.0)
-			{
-				for(size_t i=0; i<N; i++)
-				{
-					fFourDifference[N]=0;
-					fUpperLimit[N]=UpperLimit[N];
-					fLowerLimit[N]=LowerLimit[N];
-					fVolume*=(UpperLimit[N]-LowerLimit[N]);
-				}
-			}
+		fRule7(0),
+		fRule5(0),
+		fVolume(1.0)
+	{
+		for(size_t i=0; i<N; i++)
+		{
+			fFourDifference[N]=0;
+			fUpperLimit[N]=UpperLimit[N];
+			fLowerLimit[N]=LowerLimit[N];
+			fVolume*=(UpperLimit[N]-LowerLimit[N]);
+		}
+	}
 
 	GenzMalikBox(GenzMalikBox<N> const& other):
-					fRule7(other.GetRule7() ),
-					fRule5(other.GetRule5() ),
-					fVolume(other.GetVolume() )
-				{
-					for(size_t i=0; i<N; i++)
-					{
-						fFourDifference[i]=other.GetFourDifference()[i];
-						fUpperLimit[i]=other.GetUpperLimit()[i];
-						fLowerLimit[i]=other.GetLowerLimit()[i];
-						fVolume*=(fUpperLimit[i]-fLowerLimit[i]);
-					}
-				}
+		fRule7(other.GetRule7() ),
+		fRule5(other.GetRule5() ),
+		fVolume(other.GetVolume() )
+	{
+		for(size_t i=0; i<N; i++)
+		{
+			fFourDifference[i]=other.GetFourDifference()[i];
+			fUpperLimit[i]=other.GetUpperLimit()[i];
+			fLowerLimit[i]=other.GetLowerLimit()[i];
+			fVolume*=(fUpperLimit[i]-fLowerLimit[i]);
+		}
+	}
 
 	GenzMalikBox<N>& operator=(GenzMalikBox<N> const& other)
 	{
@@ -108,6 +108,25 @@ struct GenzMalikBox
 		return *this;
 	}
 
+
+	void Print()
+	{
+		HYDRA_MSG << HYDRA_ENDL;
+		HYDRA_MSG << "Genz-Malik hyperbox begin: " << HYDRA_ENDL;
+		HYDRA_MSG << "Volume: "  << fVolume << HYDRA_ENDL;
+		HYDRA_MSG << "Rule7: "   << fRule7  << HYDRA_ENDL;
+		HYDRA_MSG << "Rule5: "   << fRule5  << HYDRA_ENDL;
+		for(size_t i=0; i<N; i++ )
+		{
+			HYDRA_MSG <<"FourDifference[" << i << "]" << fFourDifference[N] << HYDRA_ENDL;
+			HYDRA_MSG <<"UpperLimit["     << i << "]" << fUpperLimit[N]     << HYDRA_ENDL;
+			HYDRA_MSG <<"LowerLimit["     << i << "]" << fLowerLimit[N]     << HYDRA_ENDL;
+		}
+
+		HYDRA_MSG << HYDRA_ENDL;
+		HYDRA_MSG << "Genz-Malik hyperbox endl." << HYDRA_ENDL;
+
+	}
 
 	const GReal_t* GetFourDifference() const {
 		return fFourDifference;
@@ -147,21 +166,15 @@ struct GenzMalikBox
 
 private:
 
-GReal_t fVolume;
-GReal_t fRule7;
-GReal_t fRule5;
-GReal_t fFourDifference[N];
-GReal_t fUpperLimit[N];
-GReal_t fLowerLimit[N];
+	GReal_t fVolume;
+	GReal_t fRule7;
+	GReal_t fRule5;
+	GReal_t fFourDifference[N];
+	GReal_t fUpperLimit[N];
+	GReal_t fLowerLimit[N];
 
 };
 
-/* stream arrays element by element to ostream */
-template<size_t N, typename T>
-std::ostream& operator<<(std::ostream& os, std::array<T, N> const&  obj)
-{
-
-}
 
 }  // namespace experimental
 
