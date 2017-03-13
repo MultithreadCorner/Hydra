@@ -156,6 +156,12 @@ GReal_t fLowerLimit[N];
 
 };
 
+/* stream arrays element by element to ostream */
+template<size_t N, typename T>
+std::ostream& operator<<(std::ostream& os, std::array<T, N> const&  obj)
+{
+
+}
 
 }  // namespace experimental
 
