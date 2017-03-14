@@ -42,7 +42,7 @@ namespace hydra {
 
 namespace experimental {
 
-template< unsigned int BACKEND, size_t N>
+template<  size_t N, unsigned int BACKEND=hydra::host>
 class  GenzMalikQuadrature: public Integrator<GenzMalikQuadrature<BACKEND, N> >
 {
 
@@ -59,12 +59,12 @@ public:
 
 		size_t nboxes = 1;
 	    hydra::detail::multiply(grid, nboxes );
-	    fBoxList.resize(nboxes);
+	    //fBoxList.resize(nboxes);
 
-	    std::array<GReal_t, N> widths;
+	    std::array<GReal_t, N> width;
 
 	    for( size_t i=0; i<N; i++)
-	    	width[i] = UpperLimit[i] -  LowerLimit[i];
+	    { width[i] = (UpperLimit[i] -  LowerLimit[i])/grid[i];  }
 
 	    std::array<size_t, N> mindex;
 	    std::array<GReal_t,N>  lower_limit;
@@ -78,24 +78,27 @@ public:
 			{
 				lower_limit[dim] =   LowerLimit[dim] + width[dim]*mindex[dim];
 				upper_limit[dim] =   LowerLimit[dim] + width[dim]*(mindex[dim]+1);
-
 			}
+            GenzMalikBox<N> box(lower_limit, upper_limit);
 
-			fBoxList.push_back(GenzMalikBox(lower_limit, upper_limit));
+			fBoxList.push_back(box);
 
 		}
 	}
 
 	void Print()
 	{
-		for( )
+
+		for(auto box: fBoxList )
+			box.Print();
+
 	}
 
 private:
 
 
 
-	GenzMalikRule<  NDIM,  BACKEND> fGenzMalikRule;
+	GenzMalikRule<  N,  BACKEND> fGenzMalikRule;
 	box_list_type fBoxList;
 
 };

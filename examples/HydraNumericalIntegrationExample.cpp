@@ -50,6 +50,7 @@
 #include <hydra/experimental/GaussKronrodQuadrature.h>
 #include <hydra/experimental/GaussKronrodAdaptiveQuadrature.h>
 #include <hydra/experimental/GenzMalikRule.h>
+#include <hydra/experimental/GenzMalikQuadrature.h>
 //root
 #include <TROOT.h>
 #include <TH1D.h>
@@ -264,24 +265,32 @@ GInt_t main(int argv, char** argc)
 					   << " +/- "    << result.second <<std::endl;
 
 	hydra::experimental::GaussKronrodQuadrature<61,200> quad(min[0], max[0]);
-	quad.Print();
+	//quad.Print();
+	auto start_quad = std::chrono::high_resolution_clock::now();
 	auto r = quad.Integrate(Gaussian);
-	cout << "Result: " <<r.first << " " << r.second <<std::endl;
+	auto end_quad = std::chrono::high_resolution_clock::now();
+	std::chrono::duration<double, std::milli> elapsed_quad= end_quad - start_quad;
+	cout << ">>> Gaussian intetgral [ GaussKronrodQuadrature]"<< endl;
+	cout << "Result: " <<r.first << " " << r.second <<std::endl
+	<< " Time (ms): "<< elapsed_quad.count() <<std::endl;
 
 	hydra::experimental::GaussKronrodAdaptiveQuadrature<61,10> adaquad(min[0], max[0]);
-	adaquad.Print();
+	//adaquad.Print();
 	auto start_adaquad = std::chrono::high_resolution_clock::now();
 	auto adar = adaquad.Integrate(Gaussian);
 	auto end_adaquad = std::chrono::high_resolution_clock::now();
 	std::chrono::duration<double, std::milli> elapsed_adaquad= end_adaquad - start_adaquad;
 
-	adaquad.Print();
+	//adaquad.Print();
+	cout << ">>> Gaussian intetgral [ GaussKronrodAdaptiveQuadrature]"<< endl;
 	cout << "Result: " <<adar.first << "+/- " << adar.second <<std::endl
 	<< " Time (ms): "<< elapsed_adaquad.count() <<std::endl;
 
-	auto GMRule=  hydra::experimental::GenzMalikRule<4>();
-
-	GMRule.Print();
+	std::array<size_t, 3>  _grid{2,2,2};
+	std::array<GReal_t, 3>  _min{-6,-6,-6};
+	std::array<GReal_t, 3>   _max{6,6,6};
+	auto GMIntegrator = hydra::experimental::GenzMalikQuadrature<3>(_min, _max, _grid);
+	GMIntegrator.Print();
 
 	TApplication *myapp=new TApplication("myapp",0,0);
 		/*

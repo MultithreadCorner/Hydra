@@ -45,17 +45,18 @@ struct GenzMalikBox
 {
 	GenzMalikBox()=delete;
 
+	__host__ __device__
 	GenzMalikBox(GReal_t (&LowerLimit)[N], GReal_t (&UpperLimit)[N]):
 		fRule7(0),
-		fRule5(0),
-		fVolume(1.0)
+		fRule5(0)
 	{
+		fVolume =1.0;
 		for(size_t i=0; i<N; i++)
 		{
-			fFourDifference[N]=0;
-			fUpperLimit[N]=UpperLimit[N];
-			fLowerLimit[N]=LowerLimit[N];
-			fVolume*=(UpperLimit[N]-LowerLimit[N]);
+			fFourDifference[i]=0;
+			fUpperLimit[i]=UpperLimit[i];
+			fLowerLimit[i]=LowerLimit[i];
+			fVolume*=(UpperLimit[i]-LowerLimit[i]);
 		}
 	}
 
@@ -63,18 +64,21 @@ struct GenzMalikBox
 
 	GenzMalikBox(std::array<GReal_t,N> const& LowerLimit, std::array<GReal_t,N> const&  UpperLimit):
 		fRule7(0),
-		fRule5(0),
-		fVolume(1.0)
+		fRule5(0)
 	{
+		fVolume =1.0;
 		for(size_t i=0; i<N; i++)
 		{
-			fFourDifference[N]=0;
-			fUpperLimit[N]=UpperLimit[N];
-			fLowerLimit[N]=LowerLimit[N];
-			fVolume*=(UpperLimit[N]-LowerLimit[N]);
+			fFourDifference[i]=0;
+			fUpperLimit[i]=UpperLimit[i];
+			fLowerLimit[i]=LowerLimit[i];
+			fVolume *=(UpperLimit[i]-LowerLimit[i]);
 		}
+
+
 	}
 
+	__host__ __device__
 	GenzMalikBox(GenzMalikBox<N> const& other):
 		fRule7(other.GetRule7() ),
 		fRule5(other.GetRule5() ),
@@ -82,13 +86,14 @@ struct GenzMalikBox
 	{
 		for(size_t i=0; i<N; i++)
 		{
-			fFourDifference[i]=other.GetFourDifference()[i];
-			fUpperLimit[i]=other.GetUpperLimit()[i];
-			fLowerLimit[i]=other.GetLowerLimit()[i];
-			fVolume*=(fUpperLimit[i]-fLowerLimit[i]);
+			fFourDifference[i]=other.GetFourDifference(i);
+			fUpperLimit[i]=other.GetUpperLimit(i);
+			fLowerLimit[i]=other.GetLowerLimit(i);
+
 		}
 	}
 
+	__host__ __device__
 	GenzMalikBox<N>& operator=(GenzMalikBox<N> const& other)
 	{
 		if(this==&other) return *this;
@@ -99,10 +104,9 @@ struct GenzMalikBox
 
 		for(size_t i=0; i<N; i++)
 		{
-			this->fFourDifference[i]=other.GetFourDifference()[i];
-			this->fUpperLimit[i]=other.GetUpperLimit()[i];
-			this->fLowerLimit[i]=other.GetLowerLimit()[i];
-			this->fVolume*=(fUpperLimit[i]-fLowerLimit[i]);
+			this->fFourDifference[i]=other.GetFourDifference(i);
+			this->fUpperLimit[i]=other.GetUpperLimit(i);
+			this->fLowerLimit[i]=other.GetLowerLimit(i);
 		}
 
 		return *this;
@@ -113,53 +117,56 @@ struct GenzMalikBox
 	{
 		HYDRA_MSG << HYDRA_ENDL;
 		HYDRA_MSG << "Genz-Malik hyperbox begin: " << HYDRA_ENDL;
-		HYDRA_MSG << "Volume: "  << fVolume << HYDRA_ENDL;
-		HYDRA_MSG << "Rule7: "   << fRule7  << HYDRA_ENDL;
-		HYDRA_MSG << "Rule5: "   << fRule5  << HYDRA_ENDL;
+		HYDRA_SPACED_MSG << "Volume: "  << fVolume << HYDRA_ENDL;
+		HYDRA_SPACED_MSG << "Rule7: "   << fRule7  << HYDRA_ENDL;
+		HYDRA_SPACED_MSG << "Rule5: "   << fRule5  << HYDRA_ENDL;
 		for(size_t i=0; i<N; i++ )
 		{
-			HYDRA_MSG <<"FourDifference[" << i << "]" << fFourDifference[N] << HYDRA_ENDL;
-			HYDRA_MSG <<"UpperLimit["     << i << "]" << fUpperLimit[N]     << HYDRA_ENDL;
-			HYDRA_MSG <<"LowerLimit["     << i << "]" << fLowerLimit[N]     << HYDRA_ENDL;
+			HYDRA_SPACED_MSG <<"Dimension: " << i << ", Limits: [ "
+					<< fLowerLimit[i] << ", "
+					<< fUpperLimit[i] <<  "] , Four Difference: "
+					<< fFourDifference[i] << HYDRA_ENDL;
 		}
-
-		HYDRA_MSG << HYDRA_ENDL;
-		HYDRA_MSG << "Genz-Malik hyperbox endl." << HYDRA_ENDL;
+		HYDRA_MSG << "Genz-Malik hyperbox end." << HYDRA_ENDL;
 
 	}
 
-	const GReal_t* GetFourDifference() const {
-		return fFourDifference;
+	__host__ __device__
+	const GReal_t GetFourDifference(size_t i) const {
+		return fFourDifference[i];
 	}
 
-	const GReal_t* GetLowerLimit() const {
-		return fLowerLimit;
+	__host__ __device__
+	const GReal_t GetLowerLimit(size_t i) const {
+		return fLowerLimit[i];
 	}
 
+	__host__ __device__
 	GReal_t GetRule5() const {
 		return fRule5;
 	}
 
+	__host__ __device__
 	void SetRule5(GReal_t rule5) {
 		fRule5 = rule5;
 	}
-
+	__host__ __device__
 	GReal_t GetRule7() const {
 		return fRule7;
 	}
-
+	__host__ __device__
 	void SetRule7(GReal_t rule7) {
 		fRule7 = rule7;
 	}
-
-	const GReal_t* GetUpperLimit() const {
-		return fUpperLimit;
+	__host__ __device__
+	const GReal_t GetUpperLimit(size_t i) const {
+		return fUpperLimit[i];
 	}
-
+	__host__ __device__
 	GReal_t GetVolume() const {
 		return fVolume;
 	}
-
+	__host__ __device__
 	void SetVolume(GReal_t volume) {
 		fVolume = volume;
 	}

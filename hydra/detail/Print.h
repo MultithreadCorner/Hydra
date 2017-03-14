@@ -28,7 +28,7 @@
 
 #ifndef PRINT_H_
 #define PRINT_H_
-
+#include <hydra/detail/utility/StreamSTL.h>
 #include <hydra/detail/Config.h>
 #include <hydra/Types.h>
 #include <iostream>
@@ -100,7 +100,10 @@ public:
   << __PRETTY_FUNCTION__<<"\033[0m"<< std::endl
 
 #define HYDRA_MSG \
-  std::cout << "\033[1;32m"<< "|--- Hydra --->: " <<"\033[0;36m"
+  std::cout << "\033[1;33m"<< "|--- Hydra --->: " <<"\033[0;36m"
+
+#define HYDRA_SPACED_MSG \
+  std::cout << "\033[1;33m"<< "|--- Hydra ------>: " <<"\033[0;36m"
 
 #define HYDRA_ENDL "\033[0m"<< std::endl
 
