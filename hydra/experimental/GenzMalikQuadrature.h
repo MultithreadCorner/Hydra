@@ -37,6 +37,8 @@
 #include <hydra/detail/Integrator.h>
 #include <hydra/detail/utility/Generic.h>
 
+#include <algorithm>
+#include <cmath>
 
 namespace hydra {
 
@@ -91,9 +93,9 @@ public:
 				size_t nboxes)
 		{
 
-			size_t nboxes = 1;
-		    hydra::detail::multiply(grid, nboxes );
-		    //fBoxList.resize(nboxes);
+		    std::array<GReal_t, N> grid;
+
+		    GetGrid( nboxes, grid) ;
 
 		    std::array<GReal_t, N> width;
 
@@ -123,13 +125,21 @@ public:
 
 	void Print()
 	{
-
-		for(auto box: fBoxList )
-			box.Print();
+		fGenzMalikRule.Print();
+		for(auto box: fBoxList )	box.Print();
 
 	}
 
 private:
+
+
+	constexpr void GetGrid( size_t nboxes , std::array<size_t, N>& grid )
+	{
+		size_t ndivsion = std::llround( std::pow( 2.0, std::log2(double(nboxes))/double(N) ) );
+
+		std::fill_n( grid.begin(), N,  ndivsion );
+	}
+
 
 	GenzMalikRule<  N,  BACKEND> fGenzMalikRule;
 	box_list_type fBoxList;

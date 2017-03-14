@@ -206,7 +206,7 @@ GInt_t main(int argv, char** argc)
 	state.SetUseRelativeError(1);
 	state.SetMaxError( max_error );
 	state.SetCalls( calls );
-	state.SetDiscardIterations(2);
+	state.SetDiscardIterations(0);
 	Vegas<N> vegas(state);
 
 	Gaussian.PrintRegisteredParameters();
