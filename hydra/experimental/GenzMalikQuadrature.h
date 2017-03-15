@@ -89,39 +89,70 @@ public:
 	}
 
 	GenzMalikQuadrature(std::array<GReal_t,N> const& LowerLimit,
-				std::array<GReal_t,N> const& UpperLimit,
-				size_t nboxes)
+			std::array<GReal_t,N> const& UpperLimit,
+			size_t nboxes=10)
+	{
+
+		std::array<GReal_t, N> grid;
+
+		GetGrid( nboxes, grid) ;
+
+		std::array<GReal_t, N> width;
+
+		for( size_t i=0; i<N; i++)
+			width[i] = (UpperLimit[i] -  LowerLimit[i])/grid[i];
+
+		std::array< size_t,N> mindex;
+		std::array<GReal_t,N> lower_limit;
+		std::array<GReal_t,N> upper_limit;
+
+		for(size_t index=0; index<nboxes; index++)
 		{
+			hydra::detail::get_indexes( index, grid,  mindex );
 
-		    std::array<GReal_t, N> grid;
-
-		    GetGrid( nboxes, grid) ;
-
-		    std::array<GReal_t, N> width;
-
-		    for( size_t i=0; i<N; i++)
-		    { width[i] = (UpperLimit[i] -  LowerLimit[i])/grid[i];  }
-
-		    std::array<size_t, N> mindex;
-		    std::array<GReal_t,N>  lower_limit;
-		    std::array<GReal_t,N>  upper_limit;
-
-			for(size_t index=0; index<nboxes; index++)
+			for( size_t dim=0; dim<N; dim++)
 			{
-				hydra::detail::get_indexes( index, grid,  mindex );
-
-				for( size_t dim=0; dim<N; dim++)
-				{
-					lower_limit[dim] =   LowerLimit[dim] + width[dim]*mindex[dim];
-					upper_limit[dim] =   LowerLimit[dim] + width[dim]*(mindex[dim]+1);
-				}
-	            GenzMalikBox<N> box(lower_limit, upper_limit);
-
-				fBoxList.push_back(box);
-
+				lower_limit[dim] =   LowerLimit[dim] + width[dim]*mindex[dim];
+				upper_limit[dim] =   LowerLimit[dim] + width[dim]*(mindex[dim]+1);
 			}
-		}
+			GenzMalikBox<N> box(lower_limit, upper_limit);
 
+			fBoxList.push_back(box);
+
+		}
+	}
+
+	GenzMalikQuadrature( GenzMalikQuadrature<N,BACKEND> const& other)
+	{
+
+		std::array<GReal_t, N> grid;
+
+		GetGrid( nboxes, grid) ;
+
+		std::array<GReal_t, N> width;
+
+		for( size_t i=0; i<N; i++)
+			width[i] = (UpperLimit[i] -  LowerLimit[i])/grid[i];
+
+		std::array< size_t,N> mindex;
+		std::array<GReal_t,N> lower_limit;
+		std::array<GReal_t,N> upper_limit;
+
+		for(size_t index=0; index<nboxes; index++)
+		{
+			hydra::detail::get_indexes( index, grid,  mindex );
+
+			for( size_t dim=0; dim<N; dim++)
+			{
+				lower_limit[dim] =   LowerLimit[dim] + width[dim]*mindex[dim];
+				upper_limit[dim] =   LowerLimit[dim] + width[dim]*(mindex[dim]+1);
+			}
+			GenzMalikBox<N> box(lower_limit, upper_limit);
+
+			fBoxList.push_back(box);
+
+		}
+	}
 
 	void Print()
 	{
