@@ -93,9 +93,10 @@ public:
 			size_t nboxes=10)
 	{
 
-		std::array<GReal_t, N> grid;
+		std::array<size_t, N> grid;
 
 		GetGrid( nboxes, grid) ;
+		hydra::detail::multiply(grid, nboxes );
 
 		std::array<GReal_t, N> width;
 
@@ -122,37 +123,23 @@ public:
 		}
 	}
 
-	GenzMalikQuadrature( GenzMalikQuadrature<N,BACKEND> const& other)
+	template<unsigned int BACKEND2>
+	GenzMalikQuadrature( GenzMalikQuadrature<N,BACKEND2> const& other):
+	fBoxList(other.GetBoxList() ),
+	fGenzMalikRule(other.GetGenzMalikRule() )
+	{}
+
+	template<unsigned int BACKEND2>
+	GenzMalikQuadrature<N,BACKEND>& operator=( GenzMalikQuadrature<N,BACKEND2> const& other)
 	{
+		if(this==&other) return *this;
 
-		std::array<GReal_t, N> grid;
+		this->fBoxList=other.GetBoxList() ;
+		this->fGenzMalikRule = other.GetGenzMalikRule() ;
 
-		GetGrid( nboxes, grid) ;
-
-		std::array<GReal_t, N> width;
-
-		for( size_t i=0; i<N; i++)
-			width[i] = (UpperLimit[i] -  LowerLimit[i])/grid[i];
-
-		std::array< size_t,N> mindex;
-		std::array<GReal_t,N> lower_limit;
-		std::array<GReal_t,N> upper_limit;
-
-		for(size_t index=0; index<nboxes; index++)
-		{
-			hydra::detail::get_indexes( index, grid,  mindex );
-
-			for( size_t dim=0; dim<N; dim++)
-			{
-				lower_limit[dim] =   LowerLimit[dim] + width[dim]*mindex[dim];
-				upper_limit[dim] =   LowerLimit[dim] + width[dim]*(mindex[dim]+1);
-			}
-			GenzMalikBox<N> box(lower_limit, upper_limit);
-
-			fBoxList.push_back(box);
-
-		}
+		return *this;
 	}
+
 
 	void Print()
 	{
@@ -161,8 +148,24 @@ public:
 
 	}
 
-private:
+	const box_list_type& GetBoxList() const {
+		return fBoxList;
+	}
 
+	const GenzMalikRule<N, BACKEND>& GetGenzMalikRule() const {
+		return fGenzMalikRule;
+	}
+
+	void SetBoxList(const box_list_type& boxList) {
+		fBoxList = boxList;
+	}
+
+	void SetGenzMalikRule(const GenzMalikRule<N, BACKEND>& genzMalikRule) {
+		fGenzMalikRule = genzMalikRule;
+	}
+
+
+private:
 
 	constexpr void GetGrid( size_t nboxes , std::array<size_t, N>& grid )
 	{

@@ -103,7 +103,8 @@ struct GenzMalikRule: GenzMalikRuleBase<typename std::enable_if< (DIM>1), void >
 
 			}
 
-		GenzMalikRule( GenzMalikRule<DIM,BACKEND> const& other):
+		template<unsigned int BACKEND2>
+		GenzMalikRule( GenzMalikRule<DIM,BACKEND2> const& other):
 			fLambda2( other.GetLambda2() ),
 			fLambda3( other.GetLambda3() ),
 			fLambda4( other.GetLambda4() ),
@@ -120,7 +121,8 @@ struct GenzMalikRule: GenzMalikRuleBase<typename std::enable_if< (DIM>1), void >
 			fAbscissas( other.GetAbscissas() )
 		{}
 
-		GenzMalikRule<DIM,BACKEND>& operator= ( GenzMalikRule<DIM,BACKEND> const& other)
+		template<unsigned int BACKEND2>
+		GenzMalikRule<DIM,BACKEND>& operator= ( GenzMalikRule<DIM,BACKEND2> const& other)
 		{
 
 			if(this==&other) return *this;

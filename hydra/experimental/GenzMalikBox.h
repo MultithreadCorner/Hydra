@@ -40,12 +40,30 @@ namespace hydra {
 
 namespace experimental {
 
-template<size_t N>
+template<size_t N, unsigned int BACKEND=hydra::host>
 struct GenzMalikBox
 {
+
+	//abscissa<0> -> degree five  weight
+	//abscissa<1> -> degree seven weight
+	//abscissa<(Index >=2)> -> multidimensional abscissa values
+	typedef typename hydra::detail::tuple_type<N+2,GReal_t >::type abscissa_t;
+
+	//system selection
+	typedef hydra::detail::BackendTraits<BACKEND> system_t;
+
+	//container template vector<abscissa> on device or host memory
+	typedef typename system_t::template container<abscissa_t> super_t;
+
+	//container
+	typedef multivector<super_t> vector_abscissa_t;
+	typedef typename multivector<super_t>::iterator vector_abscissa_iterator;
+	typedef typename multivector<super_t>::const_iterator vector_abscissa_const_iterator;
+
+
 	GenzMalikBox()=delete;
 
-	__host__ __device__
+
 	GenzMalikBox(GReal_t (&LowerLimit)[N], GReal_t (&UpperLimit)[N]):
 		fRule7(0),
 		fRule5(0)
@@ -58,6 +76,16 @@ struct GenzMalikBox
 			fLowerLimit[i]=LowerLimit[i];
 			fVolume*=(UpperLimit[i]-LowerLimit[i]);
 		}
+
+		GenzMalikRule< N, BACKEND> GenzMalikRule;
+		abscissa_t abscissa;
+
+		for( auto original_abscissa: GenzMalikRule.GetAbscissas() )
+		{
+			GetTransformedAbscissa(original_abscissa, abscissa);
+			fAbscissas.push_back(abscissa);
+		}
+
 	}
 
 
@@ -75,14 +103,23 @@ struct GenzMalikBox
 			fVolume *=(UpperLimit[i]-LowerLimit[i]);
 		}
 
+		GenzMalikRule< N, BACKEND> GenzMalikRule;
+		abscissa_t abscissa;
+
+		for( auto original_abscissa: GenzMalikRule.GetAbscissas() )
+		{
+			GetTransformedAbscissa(original_abscissa, abscissa);
+			fAbscissas.push_back(abscissa);
+		}
 
 	}
 
-	__host__ __device__
+
 	GenzMalikBox(GenzMalikBox<N> const& other):
 		fRule7(other.GetRule7() ),
 		fRule5(other.GetRule5() ),
-		fVolume(other.GetVolume() )
+		fVolume(other.GetVolume() ),
+		fAbscissas(other.GetAbscissas())
 	{
 		for(size_t i=0; i<N; i++)
 		{
@@ -93,7 +130,7 @@ struct GenzMalikBox
 		}
 	}
 
-	__host__ __device__
+
 	GenzMalikBox<N>& operator=(GenzMalikBox<N> const& other)
 	{
 		if(this==&other) return *this;
@@ -101,6 +138,7 @@ struct GenzMalikBox
 		this->fRule7 = other.GetRule7() ;
 		this->fRule5 = other.GetRule5() ;
 		this->fVolume = other.GetVolume() ;
+		this->fAbscissas = other.GetAbscissas();
 
 		for(size_t i=0; i<N; i++)
 		{
@@ -127,51 +165,88 @@ struct GenzMalikBox
 					<< fUpperLimit[i] <<  "] , Four Difference: "
 					<< fFourDifference[i] << HYDRA_ENDL;
 		}
+		HYDRA_MSG << HYDRA_ENDL;
+		HYDRA_MSG << "Abscissas Rule begin:"              << HYDRA_ENDL;
+		HYDRA_MSG << "(weight #5, weight #7, ...{abscissas})" << HYDRA_ENDL;
+		for(auto row:fAbscissas)
+		{
+			HYDRA_SPACED_MSG << row << HYDRA_ENDL;
+		}
+		HYDRA_SPACED_MSG << "Number of function calls: "<< fAbscissas.size() << HYDRA_ENDL;
+
 		HYDRA_MSG << "Genz-Malik hyperbox end." << HYDRA_ENDL;
 
 	}
 
-	__host__ __device__
 	const GReal_t GetFourDifference(size_t i) const {
 		return fFourDifference[i];
 	}
 
-	__host__ __device__
 	const GReal_t GetLowerLimit(size_t i) const {
 		return fLowerLimit[i];
 	}
 
-	__host__ __device__
 	GReal_t GetRule5() const {
 		return fRule5;
 	}
 
-	__host__ __device__
+
 	void SetRule5(GReal_t rule5) {
 		fRule5 = rule5;
 	}
-	__host__ __device__
+
+
 	GReal_t GetRule7() const {
 		return fRule7;
 	}
-	__host__ __device__
+
+
 	void SetRule7(GReal_t rule7) {
 		fRule7 = rule7;
 	}
-	__host__ __device__
+
+
 	const GReal_t GetUpperLimit(size_t i) const {
 		return fUpperLimit[i];
 	}
-	__host__ __device__
+
 	GReal_t GetVolume() const {
 		return fVolume;
 	}
-	__host__ __device__
+
 	void SetVolume(GReal_t volume) {
 		fVolume = volume;
 	}
 
+	const vector_abscissa_t& GetAbscissas() const {
+		return fAbscissas;
+	}
+
+	void SetAbscissas(const vector_abscissa_t& abscissas) {
+		fAbscissas = abscissas;
+	}
+
 private:
+
+	template<size_t I>
+	typename std::enable_if< (I==N), void  >::type
+	GetTransformedAbscissa( abscissa_t const& original_abscissa, abscissa_t& transformed_abscissa )
+	{	}
+
+	template<size_t I=0>
+	typename std::enable_if< (I<N), void  >::type
+	GetTransformedAbscissa( abscissa_t const& original_abscissa, abscissa_t& transformed_abscissa  )
+	{
+		GReal_t a = (fUpperLimit[I] - fLowerLimit[I])/2.0;
+		GReal_t b = (fUpperLimit[I] + fLowerLimit[I])/2.0;
+
+		thrust::get<I>(transformed_abscissa)  = (I>1) ? a*thrust::get<I>(original_abscissa ) + b
+				: thrust::get<I>(original_abscissa);
+
+		GetTransformedAbscissa<I+1>(original_abscissa,transformed_abscissa );
+	}
+
+
 
 	GReal_t fVolume;
 	GReal_t fRule7;
@@ -179,6 +254,7 @@ private:
 	GReal_t fFourDifference[N];
 	GReal_t fUpperLimit[N];
 	GReal_t fLowerLimit[N];
+	vector_abscissa_t fAbscissas;
 
 };
 
