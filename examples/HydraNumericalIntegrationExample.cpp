@@ -291,7 +291,8 @@ GInt_t main(int argv, char** argc)
 	std::array<GReal_t, 3>   _max{6,6,6};
 	auto GMIntegrator = hydra::experimental::GenzMalikQuadrature<3>(_min, _max, _grid);
 	GMIntegrator.Print();
-
+	hydra::experimental::GenzMalikRule<3> gmrule;
+	gmrule.Print();
 	TApplication *myapp=new TApplication("myapp",0,0);
 		/*
 	TH1D hist_uniform("uniform", "Initial grid",vegas.GetState().GetNBins(), 0, 1);

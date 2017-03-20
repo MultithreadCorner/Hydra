@@ -49,6 +49,7 @@
 #include <vector>
 #include <tuple>
 #include <utility>
+#include <algorithm>
 
 namespace hydra {
 
@@ -65,8 +66,13 @@ struct GenzMalikRule: GenzMalikRuleBase<typename std::enable_if< (DIM>1), void >
 
 	//abscissa<0> -> degree five  weight
 	//abscissa<1> -> degree seven weight
+	//abscissa<2> -> Lambda
+
 	//abscissa<(Index >=2)> -> multidimensional abscissa values
-	typedef typename hydra::detail::tuple_type<DIM+2,GReal_t >::type abscissa_t;
+	//typedef typename hydra::detail::tuple_type<DIM+2,GReal_t >::type abscissa_t;
+	typedef typename hydra::detail::tuple_type<DIM+2,GChar_t >::type char_abscissa_t;
+	typedef thrust::tuple<GReal_t,GReal_t, GReal_t> real_abscissa_t;
+	typedef decltype( thrust::tuple_cat(real_abscissa_t(), char_abscissa_t() )) abscissa_t;
 
 	//system selection
 	typedef hydra::detail::BackendTraits<BACKEND> system_t;
@@ -78,6 +84,10 @@ struct GenzMalikRule: GenzMalikRuleBase<typename std::enable_if< (DIM>1), void >
 	typedef multivector<super_t> vector_abscissa_t;
 	typedef typename multivector<super_t>::iterator vector_abscissa_iterator;
 	typedef typename multivector<super_t>::const_iterator vector_abscissa_const_iterator;
+
+	enum AbscissaCategory_t
+	{ Central = 0, FirstLeft, SecondLeft, FirstRight, SecondRight, Multidimensional };
+
 
 
 		GenzMalikRule():
@@ -315,30 +325,72 @@ struct GenzMalikRule: GenzMalikRuleBase<typename std::enable_if< (DIM>1), void >
 		void set_abscissas()
 		{
 			for(unsigned int odr=0; odr<6; odr++)
-			add_abscissas<GReal_t, DIM>(odr);
+			add_abscissas<GChar_t, DIM>(odr);
 		}
 
 		template<typename T, size_t N=1>
-		void permute_abscissas(GReal_t rule5_weight, GReal_t rule7_weight,
-				std::array<T, N> const& seed, vector_abscissa_t& container)
+		void permute_abscissas( AbscissaCategory_t category, GReal_t rule5_weight, GReal_t rule7_weight, GReal_t lambda,
+			 std::array<T, N> const& seed, vector_abscissa_t& container)
 		{
 
 			auto abscissa_temp = seed;
+
 			std::sort(abscissa_temp.begin(), abscissa_temp.end());
+
 			do{
+				GChar_t index = -1;
+				GChar_t four_difference_weight = 0;
+				switch (category) {
+
+				case Central:
+					index = N;
+					four_difference_weight = 4;
+					break;
+
+				case FirstRight:
+					index = std::distance( abscissa_temp.begin(), std::max_element ( abscissa_temp.begin(), abscissa_temp.end())   );
+					four_difference_weight = -4;
+					break;
+
+				case SecondRight:
+					index = std::distance( abscissa_temp.begin(),  std::max_element ( abscissa_temp.begin(), abscissa_temp.end()) );
+					four_difference_weight = 1;
+					break;
+
+				case FirstLeft:
+					index = std::distance(  abscissa_temp.begin(), std::min_element( abscissa_temp.begin(), abscissa_temp.end()) );
+					four_difference_weight = -4;
+					break;
+
+				case SecondLeft:
+					index = std::distance(  abscissa_temp.begin(), std::min_element( abscissa_temp.begin(), abscissa_temp.end()) );
+					four_difference_weight = 1;
+					break;
+
+				case Multidimensional:
+					index = -1;
+					four_difference_weight = 0;
+					break;
+
+				default:
+					break;
+				}
+
 
 				auto abscissa_tuple =
-					thrust::tuple_cat(thrust::make_tuple(rule5_weight,rule7_weight),
+					thrust::tuple_cat(thrust::make_tuple(rule5_weight,rule7_weight, lambda, four_difference_weight, index),
 						hydra::detail::arrayToTuple(abscissa_temp));
 
+				std::cout<< thrust::make_tuple(rule5_weight,rule7_weight, lambda) << std::endl;
 				container.push_back(abscissa_tuple);
+
 
 			}while(std::next_permutation(abscissa_temp.begin(), abscissa_temp.end()));
 
 		}
 
 
-		template<typename T, size_t N=1>
+		template<typename T, size_t N>
 		void add_abscissas( unsigned int order)
 		{
 		  typedef std::array<T, N> X_t;
@@ -351,6 +403,9 @@ struct GenzMalikRule: GenzMalikRuleBase<typename std::enable_if< (DIM>1), void >
 			  abscissa_t x;
 			  thrust::get<0>(x)= fRule5Weight1;
 			  thrust::get<1>(x)= fRule7Weight1;
+			  thrust::get<2>(x)= 1.0;
+			  thrust::get<4>(x)= N;
+			  thrust::get<3>(x)= 4;
 			  fAbscissas.push_back(x);
 			  break;
 		  }
@@ -358,10 +413,10 @@ struct GenzMalikRule: GenzMalikRuleBase<typename std::enable_if< (DIM>1), void >
 		  case 2:
 		  {
 			  auto x = X_t();
-			  x[0]= T(fLambda2);
-			  permute_abscissas(fRule5Weight2, fRule7Weight2, x,  fAbscissas);
-			  x[0]= T(-fLambda2);
-			  permute_abscissas(fRule5Weight2, fRule7Weight2, x,  fAbscissas);
+			  x[0]= 1;
+			  permute_abscissas( SecondRight, fRule5Weight2, fRule7Weight2, fLambda2, x,  fAbscissas);
+			  x[0]= -1;
+			  permute_abscissas( SecondLeft,fRule5Weight2, fRule7Weight2, fLambda2, x,  fAbscissas);
 
 			  break;
 		  }
@@ -369,10 +424,10 @@ struct GenzMalikRule: GenzMalikRuleBase<typename std::enable_if< (DIM>1), void >
 		  case 3:
 		  {
 			  auto  x = X_t();
-			  x[0]= T(fLambda3);
-			  permute_abscissas(fRule5Weight3, fRule7Weight3, x,  fAbscissas);
-			  x[0]= T(-fLambda3);
-			  permute_abscissas(fRule5Weight3, fRule7Weight3, x,  fAbscissas);
+			  x[0]= 1;
+			  permute_abscissas( FirstRight, fRule5Weight3, fRule7Weight3, fLambda3, x,  fAbscissas);
+			  x[0]= -1;
+			  permute_abscissas( FirstLeft, fRule5Weight3, fRule7Weight3, fLambda3, x,  fAbscissas);
 
 			  break;
 		  }
@@ -380,14 +435,14 @@ struct GenzMalikRule: GenzMalikRuleBase<typename std::enable_if< (DIM>1), void >
 		  case 4:
 		  {
 			  auto 	  x = X_t();
-			  x[0]= T(fLambda4); x[1]= T(fLambda4);
-			  permute_abscissas(fRule5Weight4, fRule7Weight4, x,  fAbscissas);
+			  x[0]= 1; x[1]= 1;
+			  permute_abscissas(Multidimensional, fRule5Weight4, fRule7Weight4, fLambda4, x,  fAbscissas);
 
-			  x[0]= T(-fLambda4); x[1]= T(-fLambda4);
-			  permute_abscissas(fRule5Weight4, fRule7Weight4, x,  fAbscissas);
+			  x[0]= -1; x[1]= -1;
+			  permute_abscissas(Multidimensional,fRule5Weight4, fRule7Weight4, fLambda4, x,  fAbscissas);
 
-			  x[0]= T(fLambda4); x[1]= T(-fLambda4);
-			  permute_abscissas(fRule5Weight4, fRule7Weight4, x,  fAbscissas);
+			  x[0]= 1; x[1]= -1;
+			  permute_abscissas(Multidimensional, fRule5Weight4, fRule7Weight4,  fLambda4, x,  fAbscissas);
 
 			  break;
 		  }
@@ -399,9 +454,9 @@ struct GenzMalikRule: GenzMalikRuleBase<typename std::enable_if< (DIM>1), void >
 			  {
 				  for(size_t j=0;j<N;j++)
 				  {
-					  x[j]= T(j<i?-fLambda5:fLambda5);
+					  x[j]= T(j<i?-1:1);
 				  }
-				  permute_abscissas(0.0, fRule7Weight5, x,  fAbscissas);
+				  permute_abscissas(Multidimensional, 0.0, fRule7Weight5, fLambda5, x,  fAbscissas);
 			  }
 
 			  break;

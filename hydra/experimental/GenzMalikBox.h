@@ -47,9 +47,9 @@ struct GenzMalikBox
 	//abscissa<0> -> degree five  weight
 	//abscissa<1> -> degree seven weight
 	//abscissa<(Index >=2)> -> multidimensional abscissa values
-	typedef typename hydra::detail::tuple_type<N+2,GReal_t >::type abscissa_t;
-
-	//system selection
+    typedef typename GenzMalikRule< N, BACKEND>::abscissa_t rule_abscissa_t;
+    typedef typename hydra::detail::tuple_type<N+4,GReal_t >::type abscissa_t;
+    //system selection
 	typedef hydra::detail::BackendTraits<BACKEND> system_t;
 
 	//container template vector<abscissa> on device or host memory
@@ -77,11 +77,15 @@ struct GenzMalikBox
 			fVolume*=(UpperLimit[i]-LowerLimit[i]);
 		}
 
-		GenzMalikRule< N, BACKEND> GenzMalikRule;
 		abscissa_t abscissa;
 
-		for( auto original_abscissa: GenzMalikRule.GetAbscissas() )
+		for( auto original_abscissa: GenzMalikRule< N, BACKEND>().GetAbscissas() )
 		{
+			thrust::get<0>(abscissa)  = thrust::get<0>(original_abscissa);
+			thrust::get<1>(abscissa)  = thrust::get<1>(original_abscissa);
+			thrust::get<2>(abscissa)  = thrust::get<3>(original_abscissa);
+			thrust::get<3>(abscissa)  = thrust::get<4>(original_abscissa);
+
 			GetTransformedAbscissa(original_abscissa, abscissa);
 			fAbscissas.push_back(abscissa);
 		}
@@ -108,6 +112,11 @@ struct GenzMalikBox
 
 		for( auto original_abscissa: GenzMalikRule.GetAbscissas() )
 		{
+			thrust::get<0>(abscissa)  = thrust::get<0>(original_abscissa);
+		thrust::get<1>(abscissa)  = thrust::get<1>(original_abscissa);
+		thrust::get<2>(abscissa)  = thrust::get<3>(original_abscissa);
+		thrust::get<3>(abscissa)  = thrust::get<4>(original_abscissa);
+
 			GetTransformedAbscissa(original_abscissa, abscissa);
 			fAbscissas.push_back(abscissa);
 		}
@@ -230,18 +239,25 @@ private:
 
 	template<size_t I>
 	typename std::enable_if< (I==N), void  >::type
-	GetTransformedAbscissa( abscissa_t const& original_abscissa, abscissa_t& transformed_abscissa )
+	GetTransformedAbscissa( rule_abscissa_t const& original_abscissa, abscissa_t& transformed_abscissa )
 	{	}
 
 	template<size_t I=0>
 	typename std::enable_if< (I<N), void  >::type
-	GetTransformedAbscissa( abscissa_t const& original_abscissa, abscissa_t& transformed_abscissa  )
+	GetTransformedAbscissa( rule_abscissa_t const& original_abscissa, abscissa_t& transformed_abscissa  )
 	{
 		GReal_t a = (fUpperLimit[I] - fLowerLimit[I])/2.0;
 		GReal_t b = (fUpperLimit[I] + fLowerLimit[I])/2.0;
+/*
+		I==0? thrust::get<0>(transformed_abscissa)  = thrust::get<0>(original_abscissa):0;
+		I==0? thrust::get<1>(transformed_abscissa)  = thrust::get<1>(original_abscissa):0;
+		I==0? thrust::get<2>(transformed_abscissa)  = thrust::get<3>(original_abscissa):0;
+		I==0? thrust::get<3>(transformed_abscissa)  = thrust::get<4>(original_abscissa):0;
+*/
+		thrust::get<I+4>(transformed_abscissa)  =  a*thrust::get<2>(original_abscissa )*thrust::get<I+5>(original_abscissa )+ b;
 
-		thrust::get<I>(transformed_abscissa)  = (I>1) ? a*thrust::get<I>(original_abscissa ) + b
-				: thrust::get<I>(original_abscissa);
+
+		//std::cout<< I << " " <<  1.0*thrust::get<I>(original_abscissa )<< std::endl;
 
 		GetTransformedAbscissa<I+1>(original_abscissa,transformed_abscissa );
 	}
