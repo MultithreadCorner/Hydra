@@ -68,13 +68,15 @@ struct ProcessGenzMalikUnaryCall
 
 	ProcessGenzMalikUnaryCall()=delete;
 
-	ProcessGenzMalikUnaryCall(GenzMalikBox<N, BACKEND> const& fBox, FUNCTOR const& functor):
-			fFunctor(functor)
+	ProcessGenzMalikUnaryCall(GenzMalikBox<N, BACKEND> const& box, FUNCTOR const& functor):
+			fFunctor(functor),
+	        fBox(box)
 		{ }
 
 	__host__ __device__
 	ProcessGenzMalikUnaryCall(ProcessGenzMalikUnaryCall<FUNCTOR, N, BACKEND> const& other ):
-	fFunctor(other.fFunctor)
+	fFunctor(other.fFunctor),
+	fBox(box)
 	{}
 
 	__host__ __device__
@@ -84,6 +86,8 @@ struct ProcessGenzMalikUnaryCall
 		if( this== &other) return *this;
 
 		fFunctor=other.fFunctor;
+		fBox=other.fBox;
+
 		return *this;
 	}
 
@@ -91,7 +95,7 @@ struct ProcessGenzMalikUnaryCall
 
 	template<typename T>
 	__host__ __device__
-	inline GenzMalikBoxResult<N> operator()(T box)
+	inline GenzMalikBoxResult<N> operator()(T rule_abscissa)
 	{
 		GenzMalikBoxResult<N> box_result;
 
