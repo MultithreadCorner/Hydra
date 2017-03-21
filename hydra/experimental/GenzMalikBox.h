@@ -49,6 +49,7 @@ struct GenzMalikBox
 	//abscissa<(Index >=2)> -> multidimensional abscissa values
     typedef typename GenzMalikRule< N, BACKEND>::abscissa_t rule_abscissa_t;
     typedef typename hydra::detail::tuple_type<N+4,GReal_t >::type abscissa_t;
+
     //system selection
 	typedef hydra::detail::BackendTraits<BACKEND> system_t;
 
@@ -248,16 +249,7 @@ private:
 	{
 		GReal_t a = (fUpperLimit[I] - fLowerLimit[I])/2.0;
 		GReal_t b = (fUpperLimit[I] + fLowerLimit[I])/2.0;
-/*
-		I==0? thrust::get<0>(transformed_abscissa)  = thrust::get<0>(original_abscissa):0;
-		I==0? thrust::get<1>(transformed_abscissa)  = thrust::get<1>(original_abscissa):0;
-		I==0? thrust::get<2>(transformed_abscissa)  = thrust::get<3>(original_abscissa):0;
-		I==0? thrust::get<3>(transformed_abscissa)  = thrust::get<4>(original_abscissa):0;
-*/
-		thrust::get<I+4>(transformed_abscissa)  =  a*thrust::get<2>(original_abscissa )*thrust::get<I+5>(original_abscissa )+ b;
-
-
-		//std::cout<< I << " " <<  1.0*thrust::get<I>(original_abscissa )<< std::endl;
+     	thrust::get<I+4>(transformed_abscissa)  =  a*thrust::get<2>(original_abscissa )*thrust::get<I+5>(original_abscissa )+ b;
 
 		GetTransformedAbscissa<I+1>(original_abscissa,transformed_abscissa );
 	}

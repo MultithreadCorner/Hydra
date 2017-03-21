@@ -59,29 +59,84 @@ struct GenzMalikBoxResult
 
 };
 
-template< typename FUNCTOR, size_t N>
+template< typename FUNCTOR, size_t N, unsigned int BACKEND=hydra::host>
 struct ProcessGenzMalikUnaryCall
 {
+
+	typedef typename GenzMalikRule< N, BACKEND>::abscissa_t rule_abscissa_t;
+	typedef typename hydra::detail::tuple_type<N+4,GReal_t >::type abscissa_t;
+
 	ProcessGenzMalikUnaryCall()=delete;
 
-	ProcessGenzMalikUnaryCall(FUNCTOR const& functor):
+	ProcessGenzMalikUnaryCall(GenzMalikBox<N, BACKEND> const& fBox, FUNCTOR const& functor):
 			fFunctor(functor)
 		{ }
 
 	__host__ __device__
-	ProcessGenzMalikUnaryCall(ProcessGenzMalikUnaryCall<FUNCTOR, N> const& other ):
+	ProcessGenzMalikUnaryCall(ProcessGenzMalikUnaryCall<FUNCTOR, N, BACKEND> const& other ):
 	fFunctor(other.fFunctor)
 	{}
 
-	__host__ __device__ inline
-	ProcessGenzMalikUnaryCall<FUNCTOR, N>&
-	operator=(ProcessGenzMalikUnaryCall<FUNCTOR, N> const& other )
+	__host__ __device__
+	ProcessGenzMalikUnaryCall<FUNCTOR, N, BACKEND>&
+	operator=(ProcessGenzMalikUnaryCall<FUNCTOR, N, BACKEND> const& other )
 	{
 		if( this== &other) return *this;
 
 		fFunctor=other.fFunctor;
 		return *this;
 	}
+
+
+
+	template<typename T>
+	__host__ __device__
+	inline GenzMalikBoxResult<N> operator()(T box)
+	{
+		GenzMalikBoxResult<N> box_result;
+
+		GReal_t w5          = thrust::get<0>(box);
+		GReal_t w7          = thrust::get<1>(box);
+		GChar_t w_four_diff = thrust::get<3>(box);
+		GChar_t index       = thrust::get<4>(box);
+
+
+
+		auto args = hydra::detail::split_tuple<4>(box);
+
+		GReal_t fval          = fFunctor(args.second);
+		box_result.fRule7     = fval*w7;
+		box_result.fRule5     = fval*w5;
+		GReal_t fourdiff      = fval*w_four_diff;
+
+		(index==N) ? set_four_difference_central(fourdiff, box_result.fFourDifference  ):0;
+		(index>=0)&(index<N) ? set_four_difference_unilateral(index,fourdiff, box_result.fFourDifference  ):0;
+		(index<0) ? set_four_difference_multilateral(index,fourdiff, box_result.fFourDifference  ):0;
+
+		return box_result;
+	}
+
+private:
+
+	template<size_t I>
+	typename std::enable_if< (I==N), void  >::type
+	GetTransformedAbscissa( GReal_t (&lowerLimit)[N], GReal_t (&upperLimit)[N],
+			rule_abscissa_t const& original_abscissa, abscissa_t& transformed_abscissa )
+	{	}
+
+	template<size_t I=0>
+	typename std::enable_if< (I<N), void  >::type
+	GetTransformedAbscissa( GReal_t (&lowerLimit)[N], GReal_t (&upperLimit)[N],
+			rule_abscissa_t const& original_abscissa,
+			abscissa_t& transformed_abscissa  )
+	{
+		GReal_t a = (upperLimit[I] - lowerLimit[I])/2.0;
+		GReal_t b = (upperLimit[I] + lowerLimit[I])/2.0;
+		thrust::get<I+4>(transformed_abscissa)  =  a*thrust::get<2>(original_abscissa )*thrust::get<I+5>(original_abscissa )+ b;
+
+		GetTransformedAbscissa<I+1>(original_abscissa,transformed_abscissa );
+	}
+
 
 	void set_four_difference_central(GReal_t value, GReal_t (&fdarray)[N])
 	{
@@ -110,32 +165,15 @@ struct ProcessGenzMalikUnaryCall
 
 		}
 
-	template<typename T>
-	__host__ __device__
-	inline GenzMalikBoxResult<N> operator()(T box)
-	{
-		GenzMalikBoxResult<N> box_result;
-
-		GReal_t w5          = thrust::get<0>(box);
-		GReal_t w7          = thrust::get<1>(box);
-		GChar_t w_four_diff = thrust::get<2>(box);
-		GChar_t index       = thrust::get<3>(box);
-
-		auto args = hydra::detail::split_tuple<4>(box);
-
-		GReal_t fval          = fFunctor(args.second);
-		box_result.fRule7     = fval*w7;
-		box_result.fRule5     = fval*w5;
-		GReal_t fourdiff      = fval*w_four_diff;
-
-		(index==N) ? set_four_difference_central(fourdiff, box_result.fFourDifference  ):0;
-		(index>=0)&(index<N) ? set_four_difference_unilateral(index,fourdiff, box_result.fFourDifference  ):0;
-		(index<0) ? set_four_difference_multilateral(index,fourdiff, box_result.fFourDifference  ):0;
-
-		return box_result;
-	}
 	FUNCTOR fFunctor;
+	GenzMalikBox<N, BACKEND> fBox;
+
 };
+
+//-----------------------------------------------------
+//
+//
+//-----------------------------------------------------
 
 template< size_t N>
 struct ProcessGenzMalikBinaryCall
@@ -196,10 +234,12 @@ struct ProcessGenzMalikBox
 		auto abscissa_end   = box.GetAbscissas().end();
 
 		GenzMalikBoxResult<N> box_result =
-				thrust::transform_reduce(system_t(), abscissa_begin, abscissa_end,
-				ProcessGenzMalikUnaryCall<N>(fFunctor),
+				thrust::transform_reduce(system_t(),abscissa_begin, abscissa_end,
+				ProcessGenzMalikUnaryCall<N>(box, fFunctor),
 				GenzMalikBoxResult<N>() ,
 				ProcessGenzMalikBinaryCall<N>());
+
+
 
 		return box_result;
 
