@@ -39,9 +39,19 @@ namespace hydra {
 
 namespace experimental {
 
+namespace detail {
+
 template <size_t N>
 struct GenzMalikBoxResult
 {
+	GenzMalikBoxResult():
+		fRule7(0),
+		fRule5(0)
+	{
+#pragma unroll N
+		for(size_t i=0; i<N; i++)
+			fFourDifference[i]=0.0;
+	}
 
 	GReal_t fRule7;
 	GReal_t fRule5;
@@ -58,7 +68,7 @@ struct ProcessGenzMalikUnaryCall
 			fFunctor(functor)
 		{ }
 
-	__host__ __device__  inline
+	__host__ __device__
 	ProcessGenzMalikUnaryCall(ProcessGenzMalikUnaryCall<FUNCTOR, N> const& other ):
 	fFunctor(other.fFunctor)
 	{}
@@ -94,7 +104,7 @@ struct ProcessGenzMalikUnaryCall
 	void set_four_difference_multilateral(GReal_t (&fdarray)[N])
 		{
 
-	#pragma unroll N
+#pragma unroll N
 			for(size_t i=0; i<N; i++)
 			fdarray[i]= 0.0;
 
@@ -132,7 +142,20 @@ struct ProcessGenzMalikBinaryCall
 {
 	ProcessGenzMalikBinaryCall();
 
+	__host__ __device__
+	inline GenzMalikBoxResult<N> operator()(GenzMalikBoxResult<N> box1, GenzMalikBoxResult<N> box2)
+	{
+		GenzMalikBoxResult<N> box_result;
 
+		box_result.fRule5       = box1.fRule5 + box2.fRule5;
+		box_result.fRule7       = box1.fRule7 + box2.fRule7;
+
+#pragma unroll N
+			for(size_t i=0; i<N; i++)
+				box_result.fFourDifference[i]= box1.fFourDifference[i] + box2.fFourDifference[i];
+
+		return box_result;
+	}
 
 };
 
@@ -149,14 +172,14 @@ struct ProcessGenzMalikBox
 		fFunctor(functor)
 	{}
 
-	__host__ __device__ inline
-	ProcessGenzMalikBox(ProcessGenzMalikBox<FUNCTOR, AbscissaIterator, N, BACKEND> const& other ):
+	__host__ __device__
+	ProcessGenzMalikBox(ProcessGenzMalikBox<FUNCTOR, N, BACKEND> const& other ):
 	fFunctor(other.fFunctor)
 	{}
 
 	__host__ __device__ inline
-	ProcessGenzMalikBox<FUNCTOR, AbscissaIterator, N, BACKEND>&
-	operator=(ProcessGenzMalikBox<FUNCTOR, AbscissaIterator, N, BACKEND> const& other )
+	ProcessGenzMalikBox<FUNCTOR, N, BACKEND>&
+	operator=(ProcessGenzMalikBox<FUNCTOR, N, BACKEND> const& other )
 	{
 		if( this== &other) return *this;
 
@@ -168,11 +191,9 @@ struct ProcessGenzMalikBox
 	__host__ __device__
 	inline GenzMalikBoxResult<N> operator()(T box)
 	{
-
 		typedef detail::BackendTraits<BACKEND> system_t;
 		auto abscissa_begin = box.GetAbscissas().begin();
 		auto abscissa_end   = box.GetAbscissas().end();
-
 
 		GenzMalikBoxResult<N> box_result =
 				thrust::transform_reduce(system_t(), abscissa_begin, abscissa_end,
@@ -188,9 +209,10 @@ struct ProcessGenzMalikBox
 	FUNCTOR fFunctor;
 };
 
-
+}  // namespace detail
 
 }  // namespace experimental
 
 } // namespace hydra
+
 #endif /* PROCESSGENZMALIKQUADRATURE_H_ */
