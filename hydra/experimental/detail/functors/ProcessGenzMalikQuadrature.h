@@ -32,6 +32,8 @@
 #include <thrust/transform_reduce.h>
 #include <thrust/functional.h>
 #include <thrust/execution_policy.h>
+#include <hydra/detail/utility/Utility_Tuple.h>
+#include <hydra/detail/utility/Generic.h>
 
 namespace hydra {
 
@@ -47,16 +49,103 @@ struct GenzMalikBoxResult
 
 };
 
-template < typename FUNCTOR, typename AbscissaIterator, size_t N, unsigned int BACKEND=hydra::host>
+template< typename FUNCTOR, size_t N>
+struct ProcessGenzMalikUnaryCall
+{
+	ProcessGenzMalikUnaryCall()=delete;
+
+	ProcessGenzMalikUnaryCall(FUNCTOR const& functor):
+			fFunctor(functor)
+		{ }
+
+	__host__ __device__  inline
+	ProcessGenzMalikUnaryCall(ProcessGenzMalikUnaryCall<FUNCTOR, N> const& other ):
+	fFunctor(other.fFunctor)
+	{}
+
+	__host__ __device__ inline
+	ProcessGenzMalikUnaryCall<FUNCTOR, N>&
+	operator=(ProcessGenzMalikUnaryCall<FUNCTOR, N> const& other )
+	{
+		if( this== &other) return *this;
+
+		fFunctor=other.fFunctor;
+		return *this;
+	}
+
+	void set_four_difference_central(GReal_t value, GReal_t (&fdarray)[N])
+	{
+
+#pragma unroll N
+		for(size_t i=0; i<N; i++)
+			fdarray[i]=value;
+
+	}
+
+	void set_four_difference_unilateral(GChar_t index, GReal_t value, GReal_t (&fdarray)[N])
+	{
+
+#pragma unroll N
+		for(size_t i=0; i<N; i++)
+		fdarray[i]= (index==i)?value:0.0;
+
+	}
+
+	void set_four_difference_multilateral(GReal_t (&fdarray)[N])
+		{
+
+	#pragma unroll N
+			for(size_t i=0; i<N; i++)
+			fdarray[i]= 0.0;
+
+		}
+
+	template<typename T>
+	__host__ __device__
+	inline GenzMalikBoxResult<N> operator()(T box)
+	{
+		GenzMalikBoxResult<N> box_result;
+
+		GReal_t w5          = thrust::get<0>(box);
+		GReal_t w7          = thrust::get<1>(box);
+		GChar_t w_four_diff = thrust::get<2>(box);
+		GChar_t index       = thrust::get<3>(box);
+
+		auto args = hydra::detail::split_tuple<4>(box);
+
+		GReal_t fval          = fFunctor(args.second);
+		box_result.fRule7     = fval*w7;
+		box_result.fRule5     = fval*w5;
+		GReal_t fourdiff      = fval*w_four_diff;
+
+		(index==N) ? set_four_difference_central(fourdiff, box_result.fFourDifference  ):0;
+		(index>=0)&(index<N) ? set_four_difference_unilateral(index,fourdiff, box_result.fFourDifference  ):0;
+		(index<0) ? set_four_difference_multilateral(index,fourdiff, box_result.fFourDifference  ):0;
+
+		return box_result;
+	}
+	FUNCTOR fFunctor;
+};
+
+template< size_t N>
+struct ProcessGenzMalikBinaryCall
+{
+	ProcessGenzMalikBinaryCall();
+
+
+
+};
+
+
+
+
+template < typename FUNCTOR, size_t N, unsigned int BACKEND=hydra::host>
 struct ProcessGenzMalikBox
 {
-	typedef typename AbscissaIterator::value_type abscissa_t;
 
 	ProcessGenzMalikBox()=delete;
 
-	ProcessGenzMalikBox(FUNCTOR const& functor,
-			AbscissaIterator begin,
-			AbscissaIterator end):
+	ProcessGenzMalikBox(FUNCTOR const& functor):
 		fFunctor(functor)
 	{}
 
@@ -77,13 +166,17 @@ struct ProcessGenzMalikBox
 
 	template<typename T>
 	__host__ __device__
-	inline GenzMalikBoxResult<N>	operator()(size_t i)
+	inline GenzMalikBoxResult<N> operator()(T box)
 	{
 
 		typedef detail::BackendTraits<BACKEND> system_t;
+		auto abscissa_begin = box.GetAbscissas().begin();
+		auto abscissa_end   = box.GetAbscissas().end();
+
+
 		GenzMalikBoxResult<N> box_result =
-				thrust::transform_reduce(system_t(),
-				fBegin, fEnd, ProcessGenzMalikUnaryCall<N>(fFunctor),
+				thrust::transform_reduce(system_t(), abscissa_begin, abscissa_end,
+				ProcessGenzMalikUnaryCall<N>(fFunctor),
 				GenzMalikBoxResult<N>() ,
 				ProcessGenzMalikBinaryCall<N>());
 
@@ -92,8 +185,6 @@ struct ProcessGenzMalikBox
 
 	}
 
-	AbscissaIterator fEnd;
-	AbscissaIterator fBegin;
 	FUNCTOR fFunctor;
 };
 
