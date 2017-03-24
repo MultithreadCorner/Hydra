@@ -84,6 +84,21 @@ if(BUILD_CUDA_TARGETS)
     ${ROOT_LIBRARIES}
     rt
     )   
+    
+      #+++++++++++++++++++++++++++++++
+    # Numerical Integration        |
+    #+++++++++++++++++++++++++++++++	
+    cuda_add_executable(Hydra_Example_Numerical_Integration_GenzMalik_CUDA EXCLUDE_FROM_ALL
+    HydraNumericalIntegrationGenzMalikExample.cu
+    OPTIONS -Xcompiler -fopenmp -DTHRUST_DEVICE_SYSTEM=THRUST_DEVICE_SYSTEM_CUDA -DTHRUST_HOST_SYSTEM=THRUST_HOST_SYSTEM_OMP  -lgomp
+    )
+    
+    target_link_libraries(Hydra_Example_Numerical_Integration_GenzMalik_CUDA
+    ${ROOT_LIBRARIES}
+    rt
+    )   
+    
+    
        
 endif(BUILD_CUDA_TARGETS)
 
@@ -199,6 +214,21 @@ endif(BUILD_TBB_TARGETS)
 # OMP TARGETS            |
 #+++++++++++++++++++++++++
 IF(OPENMP_FOUND)
+
+    #+++++++++++++++++++++++++++++++
+    # Numerical Integration        |
+    #+++++++++++++++++++++++++++++++
+    add_executable(Hydra_Example_Numerical_Integration_GenzMalik_OMP EXCLUDE_FROM_ALL
+    HydraNumericalIntegrationGenzMalikExample.cpp
+    )
+    
+    set_target_properties(Hydra_Example_Numerical_Integration_GenzMalik_OMP PROPERTIES 
+    COMPILE_FLAGS "-fopenmp -DTHRUST_HOST_SYSTEM=THRUST_HOST_SYSTEM_OMP -DTHRUST_DEVICE_SYSTEM=THRUST_DEVICE_SYSTEM_OMP -lgomp")
+    
+    target_link_libraries(Hydra_Example_Numerical_Integration_GenzMalik_OMP
+    ${ROOT_LIBRARIES}
+    rt
+    )
 
     #+++++++++++++++++++++++++++++++
     # Numerical Integration        |

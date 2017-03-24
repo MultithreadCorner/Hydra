@@ -34,6 +34,11 @@
 #include <thrust/execution_policy.h>
 #include <hydra/detail/utility/Utility_Tuple.h>
 #include <hydra/detail/utility/Generic.h>
+#include <hydra/experimental/detail/GenzMalikBox.h>
+#include <hydra/experimental/GenzMalikQuadrature.h>
+
+
+
 
 namespace hydra {
 
@@ -41,57 +46,57 @@ namespace experimental {
 
 namespace detail {
 
-template <size_t N>
-struct GenzMalikBoxResult
-{
-	GenzMalikBoxResult():
-		fRule7(0),
-		fRule5(0)
-	{
-#pragma unroll N
-		for(size_t i=0; i<N; i++)
-			fFourDifference[i]=0.0;
-	}
 
-	GReal_t fRule7;
-	GReal_t fRule5;
-	GReal_t fFourDifference[N];
-
-};
-
-template< typename FUNCTOR, size_t N, unsigned int BACKEND=hydra::host>
+template<  size_t N, typename FUNCTOR, typename RuleIterator>
 struct ProcessGenzMalikUnaryCall
 {
 
-	typedef typename GenzMalikRule< N, BACKEND>::abscissa_t rule_abscissa_t;
-	typedef typename hydra::detail::tuple_type<N+4,GReal_t >::type abscissa_t;
+	typedef typename RuleIterator::value_type rule_abscissa_t;
+	typedef typename hydra::detail::tuple_type<N,GReal_t >::type abscissa_t;
 
 	ProcessGenzMalikUnaryCall()=delete;
 
-	ProcessGenzMalikUnaryCall(GenzMalikBox<N, BACKEND> const& box, FUNCTOR const& functor):
-			fFunctor(functor),
-	        fBox(box)
-		{ }
+	ProcessGenzMalikUnaryCall(GReal_t *lowerLimit, GReal_t *upperLimit, FUNCTOR const& functor):
+			fFunctor(functor)
+
+	{
+#pragma unroll N
+		for(size_t i=0; i<N; i++)
+		{
+			fA[i] = (upperLimit[i] - lowerLimit[i])/2.0;
+		    fB[i] = (upperLimit[i] + lowerLimit[i])/2.0;
+
+		}
+	}
 
 	__host__ __device__
-	ProcessGenzMalikUnaryCall(ProcessGenzMalikUnaryCall<FUNCTOR, N, BACKEND> const& other ):
-	fFunctor(other.fFunctor),
-	fBox(box)
-	{}
+	ProcessGenzMalikUnaryCall(ProcessGenzMalikUnaryCall< N, FUNCTOR, RuleIterator> const& other ):
+	fFunctor(other.GetFunctor())
+	{
+#pragma unroll N
+		for(size_t i=0; i<N; i++)
+		{
+			this->fA[i]=other.fA[i];
+			this->fB[i]=other.fB[i];
+		}
+	}
 
 	__host__ __device__
-	ProcessGenzMalikUnaryCall<FUNCTOR, N, BACKEND>&
-	operator=(ProcessGenzMalikUnaryCall<FUNCTOR, N, BACKEND> const& other )
+	ProcessGenzMalikUnaryCall< N, FUNCTOR, RuleIterator>&
+	operator=(ProcessGenzMalikUnaryCall< N, FUNCTOR, RuleIterator> const& other )
 	{
 		if( this== &other) return *this;
 
-		fFunctor=other.fFunctor;
-		fBox=other.fBox;
+		fFunctor=other.GetFunctor();
+#pragma unroll N
+		for(size_t i=0; i<N; i++)
+		{
+			this->fA[i]=other.fA[i];
+			this->fB[i]=other.fB[i];
+		}
 
 		return *this;
 	}
-
-
 
 	template<typename T>
 	__host__ __device__
@@ -99,78 +104,93 @@ struct ProcessGenzMalikUnaryCall
 	{
 		GenzMalikBoxResult<N> box_result;
 
-		GReal_t w5          = thrust::get<0>(box);
-		GReal_t w7          = thrust::get<1>(box);
-		GChar_t w_four_diff = thrust::get<3>(box);
-		GChar_t index       = thrust::get<4>(box);
+		GReal_t w5          = thrust::get<0>(rule_abscissa);
+		GReal_t w7          = thrust::get<1>(rule_abscissa);
+		GChar_t w_four_diff = thrust::get<3>(rule_abscissa);
+		GChar_t index       = thrust::get<4>(rule_abscissa);
 
+		abscissa_t args;
+		get_transformed_abscissa( rule_abscissa, args  );
 
-
-		auto args = hydra::detail::split_tuple<4>(box);
-
-		GReal_t fval          = fFunctor(args.second);
+		GReal_t fval          = fFunctor(args);
 		box_result.fRule7     = fval*w7;
 		box_result.fRule5     = fval*w5;
-		GReal_t fourdiff      = fval*w_four_diff;
+		//GReal_t fourdiff      = fval*w_four_diff;
 
-		(index==N) ? set_four_difference_central(fourdiff, box_result.fFourDifference  ):0;
-		(index>=0)&(index<N) ? set_four_difference_unilateral(index,fourdiff, box_result.fFourDifference  ):0;
-		(index<0) ? set_four_difference_multilateral(index,fourdiff, box_result.fFourDifference  ):0;
+	//	(index==N) ? set_four_difference_central(fourdiff, box_result.fFourDifference  ):0;
+		//(index>=0)&(index<N) ? set_four_difference_unilateral(index,fourdiff, box_result.fFourDifference  ):0;
+		//(index<0) ? set_four_difference_multilateral( box_result.fFourDifference  ):0;
 
 		return box_result;
+	}
+
+
+	__host__ __device__
+	FUNCTOR GetFunctor() const {
+		return fFunctor;
+	}
+
+	__host__ __device__
+	void SetFunctor(FUNCTOR functor) {
+		fFunctor = functor;
 	}
 
 private:
 
 	template<size_t I>
 	typename std::enable_if< (I==N), void  >::type
-	GetTransformedAbscissa( GReal_t (&lowerLimit)[N], GReal_t (&upperLimit)[N],
-			rule_abscissa_t const& original_abscissa, abscissa_t& transformed_abscissa )
+	__host__ __device__
+	get_transformed_abscissa( rule_abscissa_t const& original_abscissa, abscissa_t& transformed_abscissa )
 	{	}
 
 	template<size_t I=0>
 	typename std::enable_if< (I<N), void  >::type
-	GetTransformedAbscissa( GReal_t (&lowerLimit)[N], GReal_t (&upperLimit)[N],
-			rule_abscissa_t const& original_abscissa,
+	__host__ __device__
+	get_transformed_abscissa( rule_abscissa_t const& original_abscissa,
 			abscissa_t& transformed_abscissa  )
 	{
-		GReal_t a = (upperLimit[I] - lowerLimit[I])/2.0;
-		GReal_t b = (upperLimit[I] + lowerLimit[I])/2.0;
-		thrust::get<I+4>(transformed_abscissa)  =  a*thrust::get<2>(original_abscissa )*thrust::get<I+5>(original_abscissa )+ b;
 
-		GetTransformedAbscissa<I+1>(original_abscissa,transformed_abscissa );
+		thrust::get<I>(transformed_abscissa)  =
+				fA[I]*thrust::get<2>(original_abscissa )*thrust::get<I+5>(original_abscissa )+ fB[I];
+
+		get_transformed_abscissa<I+1>(original_abscissa, transformed_abscissa );
 	}
 
-
-	void set_four_difference_central(GReal_t value, GReal_t (&fdarray)[N])
+	__host__ __device__
+	GBool_t set_four_difference_central(GReal_t value, GReal_t (&fdarray)[N])
 	{
 
 #pragma unroll N
 		for(size_t i=0; i<N; i++)
 			fdarray[i]=value;
-
+return 1;
 	}
 
-	void set_four_difference_unilateral(GChar_t index, GReal_t value, GReal_t (&fdarray)[N])
+	__host__ __device__
+	GBool_t set_four_difference_unilateral(GChar_t index, GReal_t value, GReal_t (&fdarray)[N])
 	{
 
 #pragma unroll N
 		for(size_t i=0; i<N; i++)
 		fdarray[i]= (index==i)?value:0.0;
 
+		return 1;
 	}
 
-	void set_four_difference_multilateral(GReal_t (&fdarray)[N])
+	__host__ __device__
+	GBool_t set_four_difference_multilateral(GReal_t (&fdarray)[N])
 		{
 
 #pragma unroll N
 			for(size_t i=0; i<N; i++)
 			fdarray[i]= 0.0;
-
+			return 1;
 		}
 
 	FUNCTOR fFunctor;
-	GenzMalikBox<N, BACKEND> fBox;
+	//GenzMalikBox<N> fBox;
+	GReal_t fA[N];
+	GReal_t fB[N];
 
 };
 
@@ -182,10 +202,9 @@ private:
 template< size_t N>
 struct ProcessGenzMalikBinaryCall
 {
-	ProcessGenzMalikBinaryCall();
 
 	__host__ __device__
-	inline GenzMalikBoxResult<N> operator()(GenzMalikBoxResult<N> box1, GenzMalikBoxResult<N> box2)
+	inline GenzMalikBoxResult<N> operator()(GenzMalikBoxResult<N>const& box1, GenzMalikBoxResult<N>const& box2)
 	{
 		GenzMalikBoxResult<N> box_result;
 
@@ -196,6 +215,7 @@ struct ProcessGenzMalikBinaryCall
 			for(size_t i=0; i<N; i++)
 				box_result.fFourDifference[i]= box1.fFourDifference[i] + box2.fFourDifference[i];
 
+
 		return box_result;
 	}
 
@@ -204,54 +224,61 @@ struct ProcessGenzMalikBinaryCall
 
 
 
-template < typename FUNCTOR, size_t N, unsigned int BACKEND=hydra::host>
+template <size_t N, typename FUNCTOR, typename RuleIterator>
 struct ProcessGenzMalikBox
 {
 
 	ProcessGenzMalikBox()=delete;
 
-	ProcessGenzMalikBox(FUNCTOR const& functor):
-		fFunctor(functor)
+	ProcessGenzMalikBox(FUNCTOR const& functor,
+			RuleIterator begin, RuleIterator end):
+		fFunctor(functor),
+		fBegin(begin),
+		fEnd(end)
 	{}
 
 	__host__ __device__
-	ProcessGenzMalikBox(ProcessGenzMalikBox<FUNCTOR, N, BACKEND> const& other ):
-	fFunctor(other.fFunctor)
+	ProcessGenzMalikBox(ProcessGenzMalikBox< N, FUNCTOR, RuleIterator> const& other ):
+	fFunctor(other.fFunctor),
+	fBegin(other.fBegin),
+	fEnd(other.fEnd)
 	{}
 
 	__host__ __device__ inline
-	ProcessGenzMalikBox<FUNCTOR, N, BACKEND>&
-	operator=(ProcessGenzMalikBox<FUNCTOR, N, BACKEND> const& other )
+	ProcessGenzMalikBox< N, FUNCTOR, RuleIterator>&
+	operator=(ProcessGenzMalikBox< N, FUNCTOR, RuleIterator> const& other )
 	{
 		if( this== &other) return *this;
 
 		fFunctor=other.fFunctor;
+		fBegin=other.fBegin;
+		fEnd=other.fEnd;
 		return *this;
 	}
 
 	template<typename T>
-	__host__ __device__
-	inline GenzMalikBoxResult<N> operator()(T box)
+	__host__
+	inline void operator()(T& box)
 	{
-		typedef detail::BackendTraits<BACKEND> system_t;
-		auto abscissa_begin = box.GetAbscissas().begin();
-		auto abscissa_end   = box.GetAbscissas().end();
+
 
 		GenzMalikBoxResult<N> box_result =
-				thrust::transform_reduce(system_t(),abscissa_begin, abscissa_end,
-				ProcessGenzMalikUnaryCall<N>(box, fFunctor),
+				thrust::transform_reduce(thrust::device, fBegin,fEnd,
+				ProcessGenzMalikUnaryCall<N, FUNCTOR, RuleIterator>(box.GetLowerLimit(), box.GetUpperLimit(), fFunctor),
 				GenzMalikBoxResult<N>() ,
 				ProcessGenzMalikBinaryCall<N>());
 
 
-
-		return box_result;
-
+		box=box_result;
 
 	}
 
 	FUNCTOR fFunctor;
+	RuleIterator fBegin;
+	RuleIterator fEnd;
 };
+
+
 
 }  // namespace detail
 

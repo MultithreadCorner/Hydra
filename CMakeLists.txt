@@ -161,6 +161,7 @@ add_custom_target(Hydra_Examples)
 # CUDA
 if(BUILD_CUDA_TARGETS)
     add_dependencies(Hydra_Examples
+    Hydra_Example_Numerical_Integration_GenzMalik_CUDA
     Hydra_Example_Numerical_Integration_CUDA
     Hydra_Example_PHSP_Host_OMP_Device_CUDA
     Hydra_Example_Experimental_PHSP_CUDA
@@ -186,6 +187,7 @@ endif(BUILD_TBB_TARGETS)
 # OMP
 IF(OPENMP_FOUND)
     add_dependencies(Hydra_Examples
+    Hydra_Example_Numerical_Integration_GenzMalik_OMP
     Hydra_Example_Numerical_Integration_OMP
     Hydra_Example_Experimental_PHSP_OMP
     Hydra_Example_PHSP_Host_CPP_Device_OMP

@@ -33,10 +33,11 @@
 #include <hydra/detail/Config.h>
 #include <hydra/Types.h>
 #include <hydra/experimental/GenzMalikRule.h>
-#include <hydra/experimental/GenzMalikBox.h>
+#include <hydra/experimental/detail/GenzMalikBox.h>
 #include <hydra/experimental/multivector.h>
 #include <hydra/detail/Integrator.h>
 #include <hydra/detail/utility/Generic.h>
+#include <hydra/experimental/detail/functors/ProcessGenzMalikQuadrature.h>
 
 #include <algorithm>
 #include <cmath>
@@ -72,7 +73,7 @@ GenzMalikQuadrature<N,BACKEND>::GenzMalikQuadrature(std::array<GReal_t,N> const&
 					lower_limit[dim] =   LowerLimit[dim] + width[dim]*mindex[dim];
 					upper_limit[dim] =   LowerLimit[dim] + width[dim]*(mindex[dim]+1);
 				}
-				GenzMalikBox<N> box(lower_limit, upper_limit);
+				detail::GenzMalikBox<N> box(lower_limit, upper_limit);
 
 				fBoxList.push_back(box);
 
@@ -108,7 +109,8 @@ GenzMalikQuadrature<N,BACKEND>::GenzMalikQuadrature(std::array<GReal_t,N> const&
 					lower_limit[dim] =   LowerLimit[dim] + width[dim]*mindex[dim];
 					upper_limit[dim] =   LowerLimit[dim] + width[dim]*(mindex[dim]+1);
 				}
-				GenzMalikBox<N> box(lower_limit, upper_limit);
+
+				detail::GenzMalikBox<N> box(lower_limit, upper_limit);
 
 				fBoxList.push_back(box);
 
@@ -142,7 +144,26 @@ std::pair<GReal_t, GReal_t> GenzMalikQuadrature<N,BACKEND>::Integrate(FUNCTOR co
 {
 
 
-	return std::pair<GReal_t, GReal_t>(0.0,0.0);
+	thrust::for_each(fBoxList.begin(), fBoxList.end(),
+			detail::ProcessGenzMalikBox<N, FUNCTOR,const_rule_iterator>(functor,
+					fGenzMalikRule.GetAbscissas().begin(),
+					fGenzMalikRule.GetAbscissas().end()));
+
+	//static_assert( decltype(fGenzMalikRule.GetAbscissas().begin())::dymmy, "<<<<<<<<<");
+	    GReal_t integral=0;
+		GReal_t    error=0;
+
+		for(auto box:fBoxList)
+		{
+			integral+= box.GetIntegral();
+			error   +=  box.GetErrorSq();
+
+		}
+
+		error=std::sqrt(error);
+
+
+	return std::pair<GReal_t, GReal_t>(integral, error);
 }
 
 

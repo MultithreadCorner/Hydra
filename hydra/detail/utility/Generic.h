@@ -144,6 +144,17 @@ template<class R, class...Ts>
 	};
 
 
+	//pow c-time
+
+	template<int B, unsigned int E>
+	struct power {
+	    enum{ value = B*power<B, E-1>::value };
+	};
+
+	template< int B >
+	struct power<B, 0> {
+	    enum{ value = 1 };
+	};
 /*
  *  conversion of one-dimensional index to multidimensional one
  * ____________________________________________________________
@@ -153,12 +164,12 @@ template<class R, class...Ts>
 	// multiply  std::array elements
 	//----------------------------------------
 	template<typename T, size_t N, size_t I>
-	constexpr typename std::enable_if< (I==N), void  >::type
+	typename std::enable_if< (I==N), void  >::type
 	multiply( std::array<T, N> const&  obj, T& result )
 	{ }
 
 	template<typename T, size_t N, size_t I=0>
-	constexpr typename std::enable_if< (I<N), void  >::type
+	typename std::enable_if< (I<N), void  >::type
 	multiply( std::array<T, N> const&  obj, T& result )
 	{
 		result = I==0? 1.0: result;
@@ -170,12 +181,12 @@ template<class R, class...Ts>
 	// multiply static array elements
 	//----------------------------------------
 	template<typename T, size_t N, size_t I>
-	constexpr typename std::enable_if< (I==N), void  >::type
+	typename std::enable_if< (I==N), void  >::type
 	multiply( T (&obj)[N] , T& result )
 	{ }
 
 	template<typename T, size_t N, size_t I=0>
-	constexpr typename std::enable_if< (I<N), void  >::type
+	typename std::enable_if< (I<N), void  >::type
 	multiply( T (&obj)[N], T& result )
 	{
 		result = I==0? 1.0: result;
@@ -184,18 +195,19 @@ template<class R, class...Ts>
 	}
 
 
+
 	//-------------------------
 	// std::array version
 	//-------------------------
 	//end of recursion
 	template<typename T, size_t DIM, size_t I>
-	constexpr typename std::enable_if< (I==DIM) && (std::is_integral<T>::value), void  >::type
+	typename std::enable_if< (I==DIM) && (std::is_integral<T>::value), void  >::type
 	get_indexes(size_t index, std::array<T, DIM> const& depths, std::array<T,DIM>& indexes)
 	{}
 
 	//begin of the recursion
 	template<typename T, size_t DIM, size_t I=0>
-	constexpr typename std::enable_if< (I<DIM) && (std::is_integral<T>::value), void  >::type
+	typename std::enable_if< (I<DIM) && (std::is_integral<T>::value), void  >::type
 	get_indexes(size_t index, std::array<T, DIM> const& depths, std::array<T,DIM>& indexes)
 	{
 
@@ -215,13 +227,13 @@ template<class R, class...Ts>
 	//-------------------------
 	//end of recursion
 	template<typename T, size_t DIM, size_t I>
-	constexpr typename std::enable_if< (I==DIM) && (std::is_integral<T>::value), void  >::type
+	typename std::enable_if< (I==DIM) && (std::is_integral<T>::value), void  >::type
 	get_indexes(size_t index, T ( &detpths)[DIM], T (&indexes)[DIM])
 	{}
 
 	//begin of the recursion
 	template<typename T, size_t DIM, size_t I=0>
-	constexpr typename std::enable_if< (I<DIM) && (std::is_integral<T>::value), void  >::type
+	typename std::enable_if< (I<DIM) && (std::is_integral<T>::value), void  >::type
 	get_indexes(size_t index, T ( &depths)[DIM], T (&indexes)[DIM] )
 	{
 

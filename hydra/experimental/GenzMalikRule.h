@@ -59,7 +59,7 @@ namespace experimental {
 template<typename T>
 struct GenzMalikRuleBase{};
 
-template<size_t DIM, unsigned int BACKEND=hydra::host>
+template<size_t DIM, unsigned int BACKEND>
 struct GenzMalikRule: GenzMalikRuleBase<typename std::enable_if< (DIM>1), void >::type >
 	{
 
@@ -82,8 +82,8 @@ struct GenzMalikRule: GenzMalikRuleBase<typename std::enable_if< (DIM>1), void >
 
 	//container
 	typedef multivector<super_t> vector_abscissa_t;
-	typedef typename multivector<super_t>::iterator vector_abscissa_iterator;
-	typedef typename multivector<super_t>::const_iterator vector_abscissa_const_iterator;
+	typedef typename vector_abscissa_t::iterator abscissa_iterator;
+	typedef typename vector_abscissa_t::const_iterator const_abscissa_iterator;
 
 	enum AbscissaCategory_t
 	{ Central = 0, FirstLeft, SecondLeft, FirstRight, SecondRight, Multidimensional };
@@ -102,7 +102,7 @@ struct GenzMalikRule: GenzMalikRuleBase<typename std::enable_if< (DIM>1), void >
 			fRule7Weight2= factor*GReal_t(980.0/6561.0);
 			fRule7Weight3= factor*GReal_t(1820.0 - 400.0*DIM)/19683.0;
 			fRule7Weight4= factor*GReal_t(200.0/19683.0);
-			fRule7Weight5= factor*GReal_t(6859.0/19683.0);
+			fRule7Weight5= GReal_t(6859.0/19683.0);
 
 			fRule5Weight1= factor*GReal_t(729.0 - 950.0*DIM + 50.0*DIM*DIM)/729.0;
 			fRule5Weight2= factor*GReal_t(245.0/486.0);
@@ -311,13 +311,13 @@ struct GenzMalikRule: GenzMalikRuleBase<typename std::enable_if< (DIM>1), void >
 	private:
 
 		template<size_t N=0>
-		constexpr typename std::enable_if< (N==0), GULong64_t>::type twoN()
+	    typename std::enable_if< (N==0), GULong64_t>::type twoN()
 		{
 			return 1;
 		}
 
 		template<size_t N=0>
-		constexpr typename std::enable_if< (N>0), GULong64_t>::type twoN()
+		typename std::enable_if< (N>0), GULong64_t>::type twoN()
 		{
 			return 2*twoN<N-1>();
 		}
@@ -344,7 +344,7 @@ struct GenzMalikRule: GenzMalikRuleBase<typename std::enable_if< (DIM>1), void >
 
 				case Central:
 					index = N;
-					four_difference_weight = 4;
+					four_difference_weight = 6;
 					break;
 
 				case FirstRight:
@@ -381,7 +381,6 @@ struct GenzMalikRule: GenzMalikRuleBase<typename std::enable_if< (DIM>1), void >
 					thrust::tuple_cat(thrust::make_tuple(rule5_weight,rule7_weight, lambda, four_difference_weight, index),
 						hydra::detail::arrayToTuple(abscissa_temp));
 
-				std::cout<< thrust::make_tuple(rule5_weight,rule7_weight, lambda) << std::endl;
 				container.push_back(abscissa_tuple);
 
 
@@ -405,7 +404,7 @@ struct GenzMalikRule: GenzMalikRuleBase<typename std::enable_if< (DIM>1), void >
 			  thrust::get<1>(x)= fRule7Weight1;
 			  thrust::get<2>(x)= 1.0;
 			  thrust::get<4>(x)= N;
-			  thrust::get<3>(x)= 4;
+			  thrust::get<3>(x)= 6;
 			  fAbscissas.push_back(x);
 			  break;
 		  }

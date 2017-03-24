@@ -35,31 +35,61 @@
 #include <initializer_list>
 #include <math.h>
 #include <cmath>
+#include <hydra/detail/utility/Generic.h>
 
 namespace hydra {
 
 namespace experimental {
 
-template<size_t N, unsigned int BACKEND=hydra::host>
+namespace detail {
+
+template <size_t N>
+struct GenzMalikBoxResult
+{
+	__host__ __device__
+	GenzMalikBoxResult():
+		fRule7(0),
+		fRule5(0)
+	{
+#pragma unroll N
+		for(size_t i=0; i<N; i++)
+			fFourDifference[i]=0.0;
+	}
+
+	__host__ __device__
+	GenzMalikBoxResult( GenzMalikBoxResult<N>const & other):
+	fRule7(other.fRule7),
+	fRule5(other.fRule5)
+	{
+#pragma unroll N
+		for(size_t i=0; i<N; i++)
+			fFourDifference[i]=other.fFourDifference[i];
+	}
+
+	__host__ __device__
+	GenzMalikBoxResult<N>& operator=( GenzMalikBoxResult<N>const & other)
+	{
+		if(this==&other) return *this;
+
+		fRule7=other.fRule7;
+	    fRule5=other.fRule5;
+
+#pragma unroll N
+		for(size_t i=0; i<N; i++)
+			fFourDifference[i]=other.fFourDifference[i];
+
+		return *this;
+	}
+
+	GReal_t fRule7;
+	GReal_t fRule5;
+	GReal_t fFourDifference[N];
+
+};
+
+template<size_t N>
 struct GenzMalikBox
 {
-
-	//abscissa<0> -> degree five  weight
-	//abscissa<1> -> degree seven weight
-	//abscissa<(Index >=2)> -> multidimensional abscissa values
-    typedef typename GenzMalikRule< N, BACKEND>::abscissa_t rule_abscissa_t;
-    typedef typename hydra::detail::tuple_type<N+4,GReal_t >::type abscissa_t;
-
-    //system selection
-	typedef hydra::detail::BackendTraits<BACKEND> system_t;
-
-	//container template vector<abscissa> on device or host memory
-	typedef typename system_t::template container<abscissa_t> super_t;
-
-	//container
-	typedef multivector<super_t> vector_abscissa_t;
-	typedef typename multivector<super_t>::iterator vector_abscissa_iterator;
-	typedef typename multivector<super_t>::const_iterator vector_abscissa_const_iterator;
 
 
 	GenzMalikBox()=delete;
@@ -67,7 +97,10 @@ struct GenzMalikBox
 
 	GenzMalikBox(GReal_t (&LowerLimit)[N], GReal_t (&UpperLimit)[N]):
 		fRule7(0),
-		fRule5(0)
+		fRule5(0),
+		fIntegral(0),
+		fError(0),
+		fErrorSq(0)
 	{
 		fVolume =1.0;
 		for(size_t i=0; i<N; i++)
@@ -78,26 +111,14 @@ struct GenzMalikBox
 			fVolume*=(UpperLimit[i]-LowerLimit[i]);
 		}
 
-		abscissa_t abscissa;
-
-		for( auto original_abscissa: GenzMalikRule< N, BACKEND>().GetAbscissas() )
-		{
-			thrust::get<0>(abscissa)  = thrust::get<0>(original_abscissa);
-			thrust::get<1>(abscissa)  = thrust::get<1>(original_abscissa);
-			thrust::get<2>(abscissa)  = thrust::get<3>(original_abscissa);
-			thrust::get<3>(abscissa)  = thrust::get<4>(original_abscissa);
-
-			GetTransformedAbscissa(original_abscissa, abscissa);
-			fAbscissas.push_back(abscissa);
-		}
-
 	}
-
-
 
 	GenzMalikBox(std::array<GReal_t,N> const& LowerLimit, std::array<GReal_t,N> const&  UpperLimit):
 		fRule7(0),
-		fRule5(0)
+		fRule5(0),
+		fIntegral(0),
+		fError(0),
+		fErrorSq(0)
 	{
 		fVolume =1.0;
 		for(size_t i=0; i<N; i++)
@@ -108,28 +129,18 @@ struct GenzMalikBox
 			fVolume *=(UpperLimit[i]-LowerLimit[i]);
 		}
 
-		GenzMalikRule< N, BACKEND> GenzMalikRule;
-		abscissa_t abscissa;
-
-		for( auto original_abscissa: GenzMalikRule.GetAbscissas() )
-		{
-			thrust::get<0>(abscissa)  = thrust::get<0>(original_abscissa);
-		thrust::get<1>(abscissa)  = thrust::get<1>(original_abscissa);
-		thrust::get<2>(abscissa)  = thrust::get<3>(original_abscissa);
-		thrust::get<3>(abscissa)  = thrust::get<4>(original_abscissa);
-
-			GetTransformedAbscissa(original_abscissa, abscissa);
-			fAbscissas.push_back(abscissa);
-		}
 
 	}
 
-
+	__host__ __device__
 	GenzMalikBox(GenzMalikBox<N> const& other):
 		fRule7(other.GetRule7() ),
 		fRule5(other.GetRule5() ),
 		fVolume(other.GetVolume() ),
-		fAbscissas(other.GetAbscissas())
+		fIntegral(other.GetIntegral()),
+		fError(other.GetError()),
+		fErrorSq(other.GetErrorSq())
+
 	{
 		for(size_t i=0; i<N; i++)
 		{
@@ -140,7 +151,7 @@ struct GenzMalikBox
 		}
 	}
 
-
+	__host__ __device__
 	GenzMalikBox<N>& operator=(GenzMalikBox<N> const& other)
 	{
 		if(this==&other) return *this;
@@ -148,7 +159,9 @@ struct GenzMalikBox
 		this->fRule7 = other.GetRule7() ;
 		this->fRule5 = other.GetRule5() ;
 		this->fVolume = other.GetVolume() ;
-		this->fAbscissas = other.GetAbscissas();
+		this->fIntegral = other.GetIntegral();
+		this->fError = other.GetError();
+		this->fErrorSq = other.GetErrorSq();
 
 		for(size_t i=0; i<N; i++)
 		{
@@ -159,12 +172,32 @@ struct GenzMalikBox
 
 		return *this;
 	}
+	__host__ __device__
+	GenzMalikBox<N>& operator=(GenzMalikBoxResult<N> const& other)
+	{
 
+			this->fRule7 = other.fRule7 ;
+			this->fRule5 = other.fRule5 ;
+
+			for(size_t i=0; i<N; i++)
+			{
+				this->fFourDifference[i]=other.fFourDifference[i];
+			}
+
+			GReal_t factor = this->fVolume/hydra::detail::power<2, N>::value;
+
+			this->fIntegral = factor*this->fRule7;
+			this->fError    = factor*std::abs(this->fRule7-this->fRule5);
+			this->fErrorSq  = this->fError*this->fError;
+
+			return *this;
+	}
 
 	void Print()
 	{
 		HYDRA_MSG << HYDRA_ENDL;
 		HYDRA_MSG << "Genz-Malik hyperbox begin: " << HYDRA_ENDL;
+		HYDRA_SPACED_MSG << "Integral: "  << fIntegral << HYDRA_ENDL;
 		HYDRA_SPACED_MSG << "Volume: "  << fVolume << HYDRA_ENDL;
 		HYDRA_SPACED_MSG << "Rule7: "   << fRule7  << HYDRA_ENDL;
 		HYDRA_SPACED_MSG << "Rule5: "   << fRule5  << HYDRA_ENDL;
@@ -176,96 +209,113 @@ struct GenzMalikBox
 					<< fFourDifference[i] << HYDRA_ENDL;
 		}
 		HYDRA_MSG << HYDRA_ENDL;
-		HYDRA_MSG << "Abscissas Rule begin:"              << HYDRA_ENDL;
-		HYDRA_MSG << "(weight #5, weight #7, ...{abscissas})" << HYDRA_ENDL;
-		for(auto row:fAbscissas)
-		{
-			HYDRA_SPACED_MSG << row << HYDRA_ENDL;
-		}
-		HYDRA_SPACED_MSG << "Number of function calls: "<< fAbscissas.size() << HYDRA_ENDL;
 
 		HYDRA_MSG << "Genz-Malik hyperbox end." << HYDRA_ENDL;
 
 	}
 
-	const GReal_t GetFourDifference(size_t i) const {
+	__host__ __device__
+	GReal_t GetFourDifference(size_t i) const {
 		return fFourDifference[i];
 	}
 
-	const GReal_t GetLowerLimit(size_t i) const {
-		return fLowerLimit[i];
-	}
-
+	__host__ __device__
 	GReal_t GetRule5() const {
 		return fRule5;
 	}
 
-
+	__host__ __device__
 	void SetRule5(GReal_t rule5) {
 		fRule5 = rule5;
 	}
 
-
+	__host__ __device__
 	GReal_t GetRule7() const {
 		return fRule7;
 	}
 
-
+	__host__ __device__
 	void SetRule7(GReal_t rule7) {
 		fRule7 = rule7;
 	}
 
-
-	const GReal_t GetUpperLimit(size_t i) const {
-		return fUpperLimit[i];
-	}
-
+	__host__ __device__
 	GReal_t GetVolume() const {
 		return fVolume;
 	}
 
+	__host__ __device__
 	void SetVolume(GReal_t volume) {
 		fVolume = volume;
 	}
 
-	const vector_abscissa_t& GetAbscissas() const {
-		return fAbscissas;
+	__host__ __device__
+	GReal_t GetLowerLimit(size_t i) const {
+		return fLowerLimit[i];
 	}
 
-	void SetAbscissas(const vector_abscissa_t& abscissas) {
-		fAbscissas = abscissas;
+	__host__ __device__
+	GReal_t GetUpperLimit(size_t i) const {
+			return fUpperLimit[i];
+		}
+
+	__host__ __device__
+	GReal_t* GetLowerLimit()  {
+		return fLowerLimit;
+	}
+
+	__host__ __device__
+	GReal_t* GetUpperLimit()  {
+		return fUpperLimit;
+	}
+
+	__host__ __device__
+	GReal_t GetError() const {
+
+		return fError;
+	}
+
+	__host__ __device__
+	void SetError(GReal_t error) {
+		fError = error;
+	}
+
+	__host__ __device__
+	GReal_t GetIntegral() const {
+
+		return fIntegral;
+	}
+
+	__host__ __device__
+	void SetIntegral(GReal_t integral) {
+		fIntegral = integral;
+	}
+
+	__host__ __device__
+	GReal_t GetErrorSq() const {
+		return fErrorSq;
+	}
+
+	__host__ __device__
+	void SetErrorSq(GReal_t errorSq) {
+		fErrorSq = errorSq;
 	}
 
 private:
 
-	template<size_t I>
-	typename std::enable_if< (I==N), void  >::type
-	GetTransformedAbscissa( rule_abscissa_t const& original_abscissa, abscissa_t& transformed_abscissa )
-	{	}
-
-	template<size_t I=0>
-	typename std::enable_if< (I<N), void  >::type
-	GetTransformedAbscissa( rule_abscissa_t const& original_abscissa, abscissa_t& transformed_abscissa  )
-	{
-		GReal_t a = (fUpperLimit[I] - fLowerLimit[I])/2.0;
-		GReal_t b = (fUpperLimit[I] + fLowerLimit[I])/2.0;
-     	thrust::get<I+4>(transformed_abscissa)  =  a*thrust::get<2>(original_abscissa )*thrust::get<I+5>(original_abscissa )+ b;
-
-		GetTransformedAbscissa<I+1>(original_abscissa,transformed_abscissa );
-	}
-
-
-
+	GReal_t fIntegral;
+	GReal_t fError;
+	GReal_t fErrorSq;
 	GReal_t fVolume;
 	GReal_t fRule7;
 	GReal_t fRule5;
 	GReal_t fFourDifference[N];
 	GReal_t fUpperLimit[N];
 	GReal_t fLowerLimit[N];
-	vector_abscissa_t fAbscissas;
 
 };
 
+}  // namespace detail
 
 }  // namespace experimental
 

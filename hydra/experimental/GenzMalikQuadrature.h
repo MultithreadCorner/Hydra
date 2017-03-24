@@ -32,7 +32,7 @@
 #include <hydra/detail/Config.h>
 #include <hydra/Types.h>
 #include <hydra/experimental/GenzMalikRule.h>
-#include <hydra/experimental/GenzMalikBox.h>
+#include <hydra/experimental/detail/GenzMalikBox.h>
 #include <hydra/experimental/multivector.h>
 #include <hydra/detail/Integrator.h>
 #include <hydra/detail/utility/Generic.h>
@@ -44,15 +44,17 @@ namespace hydra {
 
 namespace experimental {
 
-template<  size_t N, unsigned int BACKEND=hydra::host>
-class  GenzMalikQuadrature: public Integrator<GenzMalikQuadrature<BACKEND, N> >
+template<  size_t N, unsigned int BACKEND>
+class  GenzMalikQuadrature: public Integrator<typename std::enable_if< (N>1),GenzMalikQuadrature<N, BACKEND>>::type  >
 {
 
 public:
 	//tag
 	typedef void hydra_integrator_tag;
 
-	typedef hydra::mc_host_vector<GenzMalikBox<N>> box_list_type;
+	typedef hydra::mc_host_vector<detail::GenzMalikBox<N>> box_list_type;
+	typedef typename GenzMalikRule<  N,  BACKEND>::abscissa_iterator rule_iterator;
+	typedef typename GenzMalikRule<  N,  BACKEND>::const_abscissa_iterator const_rule_iterator;
 
 	GenzMalikQuadrature(std::array<GReal_t,N> const& LowerLimit,
 			std::array<GReal_t,N> const& UpperLimit,
@@ -100,11 +102,12 @@ public:
 
 private:
 
-	constexpr void GetGrid( size_t nboxes , std::array<size_t, N>& grid )
+	void GetGrid( size_t nboxes , std::array<size_t, N>& grid )
 	{
 		size_t ndivsion = std::llround( std::pow( 2.0, std::log2(double(nboxes))/double(N) ) );
 
 		std::fill_n( grid.begin(), N,  ndivsion );
+
 	}
 
 

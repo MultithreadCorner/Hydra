@@ -288,11 +288,18 @@ GInt_t main(int argv, char** argc)
 
 	std::array<size_t, 3>  _grid{2,2,2};
 	std::array<GReal_t, 3>  _min{-6,-6,-6};
-	std::array<GReal_t, 3>   _max{6,6,6};
+	std::array<GReal_t, 3>  _max{6,6,6};
+	Parameter  _mean[3]{0.0, 0.0, 0.0};
+	Parameter  _sigma[3]{1.0, 1.0, 1.0};
+    GUInt_t  _position[3]{0, 1, 2};
+
+	GaussN<3> Gaussian3(_mean, _sigma, _position );
+
 	auto GMIntegrator = hydra::experimental::GenzMalikQuadrature<3>(_min, _max, _grid);
 	GMIntegrator.Print();
-	hydra::experimental::GenzMalikRule<3> gmrule;
-	gmrule.Print();
+
+
+
 	TApplication *myapp=new TApplication("myapp",0,0);
 		/*
 	TH1D hist_uniform("uniform", "Initial grid",vegas.GetState().GetNBins(), 0, 1);

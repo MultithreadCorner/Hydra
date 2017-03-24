@@ -16,6 +16,8 @@ using namespace hydra;
 
 namespace examples{
 
+
+
 struct Gauss:public BaseFunctor<Gauss,GReal_t, 2>
 {
 
