@@ -29,13 +29,23 @@
 #ifndef PROCESSGENZMALIKQUADRATURE_H_
 #define PROCESSGENZMALIKQUADRATURE_H_
 
-#include <thrust/transform_reduce.h>
-#include <thrust/functional.h>
-#include <thrust/execution_policy.h>
+#include <hydra/detail/Config.h>
+#include <hydra/Types.h>
+#include <hydra/Containers.h>
 #include <hydra/detail/utility/Utility_Tuple.h>
 #include <hydra/detail/utility/Generic.h>
 #include <hydra/experimental/detail/GenzMalikBox.h>
 #include <hydra/experimental/GenzMalikQuadrature.h>
+#include <hydra/detail/TypeTraits.h>
+
+#include <thrust/functional.h>
+#include <thrust/transform_reduce.h>
+#include <thrust/reduce.h>
+#include <thrust/transform.h>
+#include <thrust/functional.h>
+#include <thrust/copy.h>
+#include <thrust/execution_policy.h>
+
 
 
 
@@ -115,11 +125,11 @@ struct ProcessGenzMalikUnaryCall
 		GReal_t fval          = fFunctor(args);
 		box_result.fRule7     = fval*w7;
 		box_result.fRule5     = fval*w5;
-		//GReal_t fourdiff      = fval*w_four_diff;
+		GReal_t fourdiff      = fval*w_four_diff;
 
-	//	(index==N) ? set_four_difference_central(fourdiff, box_result.fFourDifference  ):0;
-		//(index>=0)&(index<N) ? set_four_difference_unilateral(index,fourdiff, box_result.fFourDifference  ):0;
-		//(index<0) ? set_four_difference_multilateral( box_result.fFourDifference  ):0;
+	(index==N) ? set_four_difference_central(fourdiff, box_result.fFourDifference  ):0;
+	(index>=0)&(index<N) ? set_four_difference_unilateral(index,fourdiff, box_result.fFourDifference  ):0;
+	(index<0) ? set_four_difference_multilateral( box_result.fFourDifference  ):0;
 
 		return box_result;
 	}
@@ -188,7 +198,6 @@ return 1;
 		}
 
 	FUNCTOR fFunctor;
-	//GenzMalikBox<N> fBox;
 	GReal_t fA[N];
 	GReal_t fB[N];
 
@@ -200,7 +209,9 @@ return 1;
 //-----------------------------------------------------
 
 template< size_t N>
-struct ProcessGenzMalikBinaryCall
+struct ProcessGenzMalikBinaryCall: public thrust::binary_function<   GenzMalikBoxResult<N> const&,
+		                                     GenzMalikBoxResult<N> const&,
+		                                     GenzMalikBoxResult<N> >
 {
 
 	__host__ __device__
@@ -224,58 +235,84 @@ struct ProcessGenzMalikBinaryCall
 
 
 
-template <size_t N, typename FUNCTOR, typename RuleIterator>
+template <size_t N, typename FUNCTOR, typename RuleIterator, typename BoxIterator>
 struct ProcessGenzMalikBox
 {
 
 	ProcessGenzMalikBox()=delete;
 
 	ProcessGenzMalikBox(FUNCTOR const& functor,
-			RuleIterator begin, RuleIterator end):
-		fFunctor(functor),
-		fBegin(begin),
-		fEnd(end)
-	{}
+				RuleIterator begin, RuleIterator end, BoxIterator box_begin, BoxIterator box_end):
+			fFunctor(functor),
+			fBoxBegin(box_begin),
+			fBoxEnd(box_end),
+			fRuleBegin(begin),
+			fRuleEnd(end)
+		{}
 
 	__host__ __device__
-	ProcessGenzMalikBox(ProcessGenzMalikBox< N, FUNCTOR, RuleIterator> const& other ):
+	ProcessGenzMalikBox(ProcessGenzMalikBox< N, FUNCTOR, RuleIterator,BoxIterator > const& other ):
 	fFunctor(other.fFunctor),
-	fBegin(other.fBegin),
-	fEnd(other.fEnd)
+	fBoxBegin(other.fBoxBegin),
+	fBoxEnd(other.fBoxEnd),
+	fRuleBegin(other.fRuleBegin),
+	fRuleEnd(other.fRuleEnd)
 	{}
 
 	__host__ __device__ inline
-	ProcessGenzMalikBox< N, FUNCTOR, RuleIterator>&
-	operator=(ProcessGenzMalikBox< N, FUNCTOR, RuleIterator> const& other )
+	ProcessGenzMalikBox< N, FUNCTOR, RuleIterator,BoxIterator >&
+	operator=(ProcessGenzMalikBox< N, FUNCTOR, RuleIterator,BoxIterator > const& other )
 	{
 		if( this== &other) return *this;
 
 		fFunctor=other.fFunctor;
-		fBegin=other.fBegin;
-		fEnd=other.fEnd;
+		fBoxBegin=other.fBoxBegin;
+		fBoxEnd=other.fBoxEnd;
+		fRuleBegin=other.fRuleBegin;
+		fRuleEnd=other.fRuleEnd;
+
 		return *this;
 	}
 
-	template<typename T>
 	__host__
-	inline void operator()(T& box)
+	inline void operator()(size_t index)
 	{
 
+#if THRUST_DEVICE_SYSTEM==THRUST_DEVICE_SYSTEM_CUDA
+	cudaStream_t cstream;
+
+	cudaStreamCreate(&cstream);
+
+	GenzMalikBoxResult<N> box_result =
+			thrust::transform_reduce( thrust::cuda::par.on(cstream),fRuleBegin, fRuleEnd,
+			ProcessGenzMalikUnaryCall<N, FUNCTOR, RuleIterator>(fBoxBegin[index].GetLowerLimit(), fBoxBegin[index].GetUpperLimit(), fFunctor),
+			GenzMalikBoxResult<N>() ,
+			ProcessGenzMalikBinaryCall<N>());
+
+	cudaStreamSynchronize(cstream);
+
+	cudaStreamDestroy(cstream);
+
+#else
 
 		GenzMalikBoxResult<N> box_result =
-				thrust::transform_reduce(thrust::device, fBegin,fEnd,
-				ProcessGenzMalikUnaryCall<N, FUNCTOR, RuleIterator>(box.GetLowerLimit(), box.GetUpperLimit(), fFunctor),
+				thrust::transform_reduce( fRuleBegin, fRuleEnd,
+				ProcessGenzMalikUnaryCall<N, FUNCTOR, RuleIterator>(fBoxBegin[index].GetLowerLimit(), fBoxBegin[index].GetUpperLimit(), fFunctor),
 				GenzMalikBoxResult<N>() ,
 				ProcessGenzMalikBinaryCall<N>());
+#endif
 
-
-		box=box_result;
+		fBoxBegin[index]=box_result;
 
 	}
 
 	FUNCTOR fFunctor;
-	RuleIterator fBegin;
-	RuleIterator fEnd;
+	BoxIterator  fBoxBegin;
+	BoxIterator  fBoxEnd;
+	RuleIterator fRuleBegin;
+	RuleIterator fRuleEnd;
+
+
 };
 
 

@@ -38,7 +38,7 @@
 #include <hydra/detail/Integrator.h>
 #include <hydra/detail/utility/Generic.h>
 #include <hydra/experimental/detail/functors/ProcessGenzMalikQuadrature.h>
-
+#include <thrust/iterator/counting_iterator.h>
 #include <algorithm>
 #include <cmath>
 
@@ -144,10 +144,14 @@ std::pair<GReal_t, GReal_t> GenzMalikQuadrature<N,BACKEND>::Integrate(FUNCTOR co
 {
 
 
-	thrust::for_each(fBoxList.begin(), fBoxList.end(),
-			detail::ProcessGenzMalikBox<N, FUNCTOR,const_rule_iterator>(functor,
-					fGenzMalikRule.GetAbscissas().begin(),
-					fGenzMalikRule.GetAbscissas().end()));
+	thrust::counting_iterator<size_t> first(0);
+	thrust::counting_iterator<size_t> last = first + fBoxList.size();
+
+
+	thrust::for_each(thrust::host,first, last,
+				detail::ProcessGenzMalikBox<N, FUNCTOR,const_rule_iterator, box_iterator>(functor,
+						fGenzMalikRule.GetAbscissas().begin(),fGenzMalikRule.GetAbscissas().end(),
+						fBoxList.begin(), fBoxList.end()));
 
 	//static_assert( decltype(fGenzMalikRule.GetAbscissas().begin())::dymmy, "<<<<<<<<<");
 	    GReal_t integral=0;

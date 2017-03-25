@@ -162,8 +162,7 @@ GInt_t main(int argv, char** argc)
 	auto result2 = GMIntegrator.Integrate(Gaussian);
 	auto end = std::chrono::high_resolution_clock::now();
 			std::chrono::duration<double, std::milli> elapsed = end - start;
-
-
+			//GMIntegrator.Print();
 	cout << ">>> Gaussian intetgral [Genz-Malik]"<< endl;
 	cout << "Result: " << std::setprecision(10)<<result2.first
 					   << " +/- "    << result2.second <<std::endl <<
