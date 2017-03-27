@@ -108,8 +108,13 @@ struct GenzMalikRule: GenzMalikRuleBase<typename std::enable_if< (DIM>1), void >
 			fRule5Weight2= factor*GReal_t(245.0/486.0);
 			fRule5Weight3= factor*GReal_t(265.0 - 100.0*DIM)/1458.0;
 			fRule5Weight4= factor*GReal_t(25.0/729.0);
+			fAbscissas.reserve( hydra::detail::power<2,DIM>::value
+					+ 2*hydra::detail::power<DIM,2>::value
+					+ 2*DIM +1);
 
 			set_abscissas();
+
+
 
 			}
 

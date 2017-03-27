@@ -38,9 +38,12 @@
 #include <hydra/detail/Integrator.h>
 #include <hydra/detail/utility/Generic.h>
 #include <hydra/experimental/detail/functors/ProcessGenzMalikQuadrature.h>
-
+#include <thrust/iterator/counting_iterator.h>
 #include <algorithm>
 #include <cmath>
+#include <future>
+
+
 
 namespace hydra {
 
@@ -143,15 +146,50 @@ template<typename FUNCTOR>
 std::pair<GReal_t, GReal_t> GenzMalikQuadrature<N,BACKEND>::Integrate(FUNCTOR const& functor)
 {
 
+/*
+#if THRUST_DEVICE_SYSTEM==THRUST_DEVICE_SYSTEM_CUDA
 
-	thrust::for_each(thrust::host , fBoxList.begin(), fBoxList.end(),
-			detail::ProcessGenzMalikBox<N, FUNCTOR,const_rule_iterator>(functor,
-					fGenzMalikRule.GetAbscissas().begin(),
-					fGenzMalikRule.GetAbscissas().end()));
+	typedef std::future<void> future_t;
 
-	//static_assert( decltype(fGenzMalikRule.GetAbscissas().begin())::dymmy, "<<<<<<<<<");
-	    GReal_t integral=0;
-		GReal_t    error=0;
+	future_t futures[fBoxList.size()];
+
+	auto funct = detail::ProcessGenzMalikBox<N, FUNCTOR,const_rule_iterator, box_iterator>(functor,
+				fGenzMalikRule.GetAbscissas().begin(),fGenzMalikRule.GetAbscissas().end(),
+				fBoxList.begin(), fBoxList.end());
+
+	for(size_t i=0; i<fBoxList.size(); i++)
+	{
+
+		futures[i]=std::async(std::launch::async,funct, i );
+	}
+
+	for(size_t i=0; i<fBoxList.size(); i++)
+		{
+
+			futures[i].wait();
+		}
+#else*/
+	thrust::counting_iterator<size_t> first(0);
+	thrust::counting_iterator<size_t> last = first + fBoxList.size();
+
+//	auto start = std::chrono::high_resolution_clock::now();
+#if THRUST_DEVICE_SYSTEM==THRUST_DEVICE_SYSTEM_CUDA
+	cudaDeviceSetCacheConfig( cudaFuncCachePreferShared );
+#endif
+	thrust::for_each(thrust::host,first, last,
+				detail::ProcessGenzMalikBox<N, FUNCTOR,const_rule_iterator, box_iterator>(functor,
+						fGenzMalikRule.GetAbscissas().begin(),fGenzMalikRule.GetAbscissas().end(),
+						fBoxList.begin(), fBoxList.end()));
+
+	//auto end = std::chrono::high_resolution_clock::now();
+	//std::chrono::duration<double, std::milli> elapsed = end - start;
+	//std::cout << ">>>> ::Integrate [Genz-Malik]"<< std::endl;
+	//std::cout <<">>>> Time (ms): "<< elapsed.count() <<std::endl;
+//#endif
+
+	GReal_t integral=0;
+
+	GReal_t    error=0;
 
 		for(auto box:fBoxList)
 		{

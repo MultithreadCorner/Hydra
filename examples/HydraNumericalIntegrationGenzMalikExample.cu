@@ -45,6 +45,8 @@
 #include <hydra/FunctorArithmetic.h>
 #include <hydra/Parameter.h>
 #include <hydra/experimental/GenzMalikQuadrature.h>
+#include <hydra/detail/utility/Permute.h>
+#include <hydra/detail/utility/StreamSTL.h>
 //root
 #include <TROOT.h>
 #include <TH1D.h>
@@ -157,20 +159,25 @@ GInt_t main(int argv, char** argc)
 	//Genz-Malik
 	//----------------------------------------------------------------------
 
-	auto GMIntegrator = hydra::experimental::GenzMalikQuadrature<N, hydra::device>(min, max, nboxes);
+	auto GMIntegrator = hydra::experimental::GenzMalikQuadrature<N,hydra::device>(min, max, nboxes);
 	auto start = std::chrono::high_resolution_clock::now();
 	auto result2 = GMIntegrator.Integrate(Gaussian);
 	auto end = std::chrono::high_resolution_clock::now();
-			std::chrono::duration<double, std::milli> elapsed = end - start;
+	std::chrono::duration<double, std::milli> elapsed = end - start;
 
-
+			//GMIntegrator.Print();
 	cout << ">>> Gaussian intetgral [Genz-Malik]"<< endl;
 	cout << "Result: " << std::setprecision(10)<<result2.first
 					   << " +/- "    << result2.second <<std::endl <<
 					   " Time (ms): "<< elapsed.count() <<std::endl;
 
-
-
+	/*
+    std::array<int,5> A={0,1,2,3,4};
+    for(size_t i=0; i<125; i++){
+    hydra::detail::nth_permutation(A.begin(), A.end(), i, thrust::less<int>() );
+    std::cout<< A <<   endl;
+    }
+*/
 	return 0;
 
 
