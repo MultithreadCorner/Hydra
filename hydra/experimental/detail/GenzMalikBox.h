@@ -46,6 +46,7 @@ namespace detail {
 template <size_t N>
 struct GenzMalikBoxResult
 {
+	/*
 	__host__ __device__
 	GenzMalikBoxResult():
 		fRule7(0),
@@ -80,7 +81,7 @@ struct GenzMalikBoxResult
 
 		return *this;
 	}
-
+*/
 	GReal_t fRule7;
 	GReal_t fRule5;
 	GReal_t fFourDifference[N];

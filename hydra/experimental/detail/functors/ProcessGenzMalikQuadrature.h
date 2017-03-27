@@ -115,11 +115,11 @@ struct ProcessGenzMalikUnaryCall
 		GReal_t fval          = fFunctor(args);
 		box_result.fRule7     = fval*w7;
 		box_result.fRule5     = fval*w5;
-		//GReal_t fourdiff      = fval*w_four_diff;
+		GReal_t fourdiff      = fval*w_four_diff;
 
-	//	(index==N) ? set_four_difference_central(fourdiff, box_result.fFourDifference  ):0;
-		//(index>=0)&(index<N) ? set_four_difference_unilateral(index,fourdiff, box_result.fFourDifference  ):0;
-		//(index<0) ? set_four_difference_multilateral( box_result.fFourDifference  ):0;
+	    (index==N) ? set_four_difference_central(fourdiff, box_result.fFourDifference  ):0;
+		(index>=0)&(index<N) ? set_four_difference_unilateral(index,fourdiff, box_result.fFourDifference  ):0;
+		(index<0) ? set_four_difference_multilateral( box_result.fFourDifference  ):0;
 
 		return box_result;
 	}
@@ -160,7 +160,7 @@ private:
 	GBool_t set_four_difference_central(GReal_t value, GReal_t (&fdarray)[N])
 	{
 
-#pragma unroll N
+//#pragma unroll N
 		for(size_t i=0; i<N; i++)
 			fdarray[i]=value;
 return 1;
@@ -170,7 +170,7 @@ return 1;
 	GBool_t set_four_difference_unilateral(GChar_t index, GReal_t value, GReal_t (&fdarray)[N])
 	{
 
-#pragma unroll N
+//#pragma unroll N
 		for(size_t i=0; i<N; i++)
 		fdarray[i]= (index==i)?value:0.0;
 
@@ -181,7 +181,7 @@ return 1;
 	GBool_t set_four_difference_multilateral(GReal_t (&fdarray)[N])
 		{
 
-#pragma unroll N
+//#pragma unroll N
 			for(size_t i=0; i<N; i++)
 			fdarray[i]= 0.0;
 			return 1;
@@ -211,7 +211,7 @@ struct ProcessGenzMalikBinaryCall
 		box_result.fRule5       = box1.fRule5 + box2.fRule5;
 		box_result.fRule7       = box1.fRule7 + box2.fRule7;
 
-#pragma unroll N
+//#pragma unroll N
 			for(size_t i=0; i<N; i++)
 				box_result.fFourDifference[i]= box1.fFourDifference[i] + box2.fFourDifference[i];
 

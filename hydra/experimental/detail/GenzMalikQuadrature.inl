@@ -144,7 +144,7 @@ std::pair<GReal_t, GReal_t> GenzMalikQuadrature<N,BACKEND>::Integrate(FUNCTOR co
 {
 
 
-	thrust::for_each(fBoxList.begin(), fBoxList.end(),
+	thrust::for_each(thrust::host , fBoxList.begin(), fBoxList.end(),
 			detail::ProcessGenzMalikBox<N, FUNCTOR,const_rule_iterator>(functor,
 					fGenzMalikRule.GetAbscissas().begin(),
 					fGenzMalikRule.GetAbscissas().end()));
