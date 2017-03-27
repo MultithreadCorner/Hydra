@@ -51,9 +51,11 @@ struct GenzMalikBoxResult
 		fRule7(0),
 		fRule5(0)
 	{
-#pragma unroll N
+
+//#pragma unroll N
 		for(size_t i=0; i<N; i++)
 			fFourDifference[i]=0.0;
+
 	}
 
 	__host__ __device__
@@ -61,9 +63,12 @@ struct GenzMalikBoxResult
 	fRule7(other.fRule7),
 	fRule5(other.fRule5)
 	{
-#pragma unroll N
+
+
+//#pragma unroll N
 		for(size_t i=0; i<N; i++)
 			fFourDifference[i]=other.fFourDifference[i];
+
 	}
 
 	__host__ __device__
@@ -74,7 +79,7 @@ struct GenzMalikBoxResult
 		fRule7=other.fRule7;
 	    fRule5=other.fRule5;
 
-#pragma unroll N
+//#pragma unroll N
 		for(size_t i=0; i<N; i++)
 			fFourDifference[i]=other.fFourDifference[i];
 
@@ -268,6 +273,9 @@ struct GenzMalikBox
 	GReal_t* GetUpperLimit()  {
 		return fUpperLimit;
 	}
+
+
+
 
 	__host__ __device__
 	GReal_t GetError() const {

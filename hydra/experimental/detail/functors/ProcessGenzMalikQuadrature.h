@@ -66,11 +66,11 @@ struct ProcessGenzMalikUnaryCall
 
 	ProcessGenzMalikUnaryCall()=delete;
 
-	ProcessGenzMalikUnaryCall(GReal_t *lowerLimit, GReal_t *upperLimit, FUNCTOR const& functor):
+	ProcessGenzMalikUnaryCall(GReal_t * __restrict__ lowerLimit, GReal_t * __restrict__ upperLimit, FUNCTOR const& functor):
 			fFunctor(functor)
 
 	{
-#pragma unroll N
+//#pragma unroll N
 		for(size_t i=0; i<N; i++)
 		{
 			fA[i] = (upperLimit[i] - lowerLimit[i])/2.0;
@@ -83,7 +83,7 @@ struct ProcessGenzMalikUnaryCall
 	ProcessGenzMalikUnaryCall(ProcessGenzMalikUnaryCall< N, FUNCTOR, RuleIterator> const& other ):
 	fFunctor(other.GetFunctor())
 	{
-#pragma unroll N
+//#pragma unroll N
 		for(size_t i=0; i<N; i++)
 		{
 			this->fA[i]=other.fA[i];
@@ -98,7 +98,7 @@ struct ProcessGenzMalikUnaryCall
 		if( this== &other) return *this;
 
 		fFunctor=other.GetFunctor();
-#pragma unroll N
+//#pragma unroll N
 		for(size_t i=0; i<N; i++)
 		{
 			this->fA[i]=other.fA[i];
@@ -110,37 +110,36 @@ struct ProcessGenzMalikUnaryCall
 
 	template<typename T>
 	__host__ __device__
-	inline GenzMalikBoxResult<N> operator()(T rule_abscissa)
+	inline GenzMalikBoxResult<N> operator()(T& rule_abscissa)
 	{
 		GenzMalikBoxResult<N> box_result;
-
-		GReal_t w5          = thrust::get<0>(rule_abscissa);
-		GReal_t w7          = thrust::get<1>(rule_abscissa);
-		GChar_t w_four_diff = thrust::get<3>(rule_abscissa);
+/*
 		GChar_t index       = thrust::get<4>(rule_abscissa);
 
 		abscissa_t args;
 		get_transformed_abscissa( rule_abscissa, args  );
 
 		GReal_t fval          = fFunctor(args);
-		box_result.fRule7     = fval*w7;
-		box_result.fRule5     = fval*w5;
-		GReal_t fourdiff      = fval*w_four_diff;
+		box_result.fRule7     = fval*thrust::get<1>(rule_abscissa);//w7;
+		box_result.fRule5     = fval*thrust::get<0>(rule_abscissa);//w5;
 
-	(index==N) ? set_four_difference_central(fourdiff, box_result.fFourDifference  ):0;
-	(index>=0)&(index<N) ? set_four_difference_unilateral(index,fourdiff, box_result.fFourDifference  ):0;
-	(index<0) ? set_four_difference_multilateral( box_result.fFourDifference  ):0;
 
+		 GReal_t fourdiff      = fval*thrust::get<3>(rule_abscissa);//w_four_diff;
+
+		(index==N) ? set_four_difference_central(fourdiff, box_result.fFourDifference  ):0;
+		(index>=0)&(index<N) ? set_four_difference_unilateral(index,fourdiff, box_result.fFourDifference  ):0;
+		(index<0) ? set_four_difference_multilateral( box_result.fFourDifference  ):0;
+*/
 		return box_result;
 	}
 
 
-	__host__ __device__
+	__host__ __device__ inline
 	FUNCTOR GetFunctor() const {
 		return fFunctor;
 	}
 
-	__host__ __device__
+	__host__ __device__ inline
 	void SetFunctor(FUNCTOR functor) {
 		fFunctor = functor;
 	}
@@ -149,13 +148,13 @@ private:
 
 	template<size_t I>
 	typename std::enable_if< (I==N), void  >::type
-	__host__ __device__
+	__host__ __device__ inline
 	get_transformed_abscissa( rule_abscissa_t const& original_abscissa, abscissa_t& transformed_abscissa )
 	{	}
 
 	template<size_t I=0>
 	typename std::enable_if< (I<N), void  >::type
-	__host__ __device__
+	__host__ __device__ inline
 	get_transformed_abscissa( rule_abscissa_t const& original_abscissa,
 			abscissa_t& transformed_abscissa  )
 	{
@@ -166,32 +165,32 @@ private:
 		get_transformed_abscissa<I+1>(original_abscissa, transformed_abscissa );
 	}
 
-	__host__ __device__
-	GBool_t set_four_difference_central(GReal_t value, GReal_t (&fdarray)[N])
+	__host__ __device__ inline
+	GBool_t set_four_difference_central(GReal_t value,  GReal_t * const __restrict__ fdarray)
 	{
 
-#pragma unroll N
+//#pragma unroll N
 		for(size_t i=0; i<N; i++)
 			fdarray[i]=value;
 return 1;
 	}
 
-	__host__ __device__
-	GBool_t set_four_difference_unilateral(GChar_t index, GReal_t value, GReal_t (&fdarray)[N])
+	__host__ __device__ inline
+	GBool_t set_four_difference_unilateral(GChar_t index, GReal_t value, GReal_t* const __restrict__  fdarray)
 	{
 
-#pragma unroll N
+//#pragma unroll N
 		for(size_t i=0; i<N; i++)
 		fdarray[i]= (index==i)?value:0.0;
 
 		return 1;
 	}
 
-	__host__ __device__
-	GBool_t set_four_difference_multilateral(GReal_t (&fdarray)[N])
+	__host__ __device__ inline
+	GBool_t set_four_difference_multilateral( GReal_t * const __restrict__ fdarray)
 		{
 
-#pragma unroll N
+//#pragma unroll N
 			for(size_t i=0; i<N; i++)
 			fdarray[i]= 0.0;
 			return 1;
@@ -222,7 +221,7 @@ struct ProcessGenzMalikBinaryCall: public thrust::binary_function<   GenzMalikBo
 		box_result.fRule5       = box1.fRule5 + box2.fRule5;
 		box_result.fRule7       = box1.fRule7 + box2.fRule7;
 
-#pragma unroll N
+//#pragma unroll N
 			for(size_t i=0; i<N; i++)
 				box_result.fFourDifference[i]= box1.fFourDifference[i] + box2.fFourDifference[i];
 
@@ -279,19 +278,15 @@ struct ProcessGenzMalikBox
 	{
 
 #if THRUST_DEVICE_SYSTEM==THRUST_DEVICE_SYSTEM_CUDA
-	cudaStream_t cstream;
 
-	cudaStreamCreate(&cstream);
+		thrust::counting_iterator<size_t> first(0);
+		thrust::counting_iterator<size_t> last =first+ thrust::distance(fRuleBegin, fRuleEnd);
 
-	GenzMalikBoxResult<N> box_result =
-			thrust::transform_reduce( thrust::cuda::par.on(cstream),fRuleBegin, fRuleEnd,
+	   GenzMalikBoxResult<N> box_result =
+			thrust::transform_reduce(first, last,
 			ProcessGenzMalikUnaryCall<N, FUNCTOR, RuleIterator>(fBoxBegin[index].GetLowerLimit(), fBoxBegin[index].GetUpperLimit(), fFunctor),
 			GenzMalikBoxResult<N>() ,
 			ProcessGenzMalikBinaryCall<N>());
-
-	cudaStreamSynchronize(cstream);
-
-	cudaStreamDestroy(cstream);
 
 #else
 
