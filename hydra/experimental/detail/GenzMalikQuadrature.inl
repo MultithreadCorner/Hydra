@@ -157,7 +157,6 @@ std::pair<GReal_t, GReal_t> GenzMalikQuadrature<N,BACKEND>::Integrate(FUNCTOR co
 				fGenzMalikRule.GetAbscissas().begin(),fGenzMalikRule.GetAbscissas().end(),
 				fBoxList.begin(), fBoxList.end());
 
-
 	for(size_t i=0; i<fBoxList.size(); i++)
 	{
 

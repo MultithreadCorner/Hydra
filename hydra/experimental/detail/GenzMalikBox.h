@@ -46,6 +46,7 @@ namespace detail {
 template <size_t N>
 struct GenzMalikBoxResult
 {
+
 	__host__ __device__
 	GenzMalikBoxResult():
 		fRule7(0),

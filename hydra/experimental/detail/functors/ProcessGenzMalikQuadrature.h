@@ -113,7 +113,7 @@ struct ProcessGenzMalikUnaryCall
 	inline GenzMalikBoxResult<N> operator()(T& rule_abscissa)
 	{
 		GenzMalikBoxResult<N> box_result;
-/*
+
 		GChar_t index       = thrust::get<4>(rule_abscissa);
 
 		abscissa_t args;
@@ -123,13 +123,12 @@ struct ProcessGenzMalikUnaryCall
 		box_result.fRule7     = fval*thrust::get<1>(rule_abscissa);//w7;
 		box_result.fRule5     = fval*thrust::get<0>(rule_abscissa);//w5;
 
-
 		 GReal_t fourdiff      = fval*thrust::get<3>(rule_abscissa);//w_four_diff;
 
 		(index==N) ? set_four_difference_central(fourdiff, box_result.fFourDifference  ):0;
 		(index>=0)&(index<N) ? set_four_difference_unilateral(index,fourdiff, box_result.fFourDifference  ):0;
 		(index<0) ? set_four_difference_multilateral( box_result.fFourDifference  ):0;
-*/
+
 		return box_result;
 	}
 
@@ -144,7 +143,6 @@ struct ProcessGenzMalikUnaryCall
 		fFunctor = functor;
 	}
 
-private:
 
 	template<size_t I>
 	typename std::enable_if< (I==N), void  >::type
@@ -283,7 +281,7 @@ struct ProcessGenzMalikBox
 		thrust::counting_iterator<size_t> last =first+ thrust::distance(fRuleBegin, fRuleEnd);
 
 	   GenzMalikBoxResult<N> box_result =
-			thrust::transform_reduce(first, last,
+			thrust::transform_reduce(fRuleBegin, fRuleEnd,
 			ProcessGenzMalikUnaryCall<N, FUNCTOR, RuleIterator>(fBoxBegin[index].GetLowerLimit(), fBoxBegin[index].GetUpperLimit(), fFunctor),
 			GenzMalikBoxResult<N>() ,
 			ProcessGenzMalikBinaryCall<N>());

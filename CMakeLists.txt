@@ -45,8 +45,10 @@ find_package(CUDA 8.0)
 
 #get TBB
 find_package(TBB )
+if(TBB_FOUND)
 include_directories(${TBB_INCLUDE_DIRS})
 link_directories(${TBB_LIBRARY})
+endif(TBB_FOUND)
 
 #get OpenMP
 find_package(OpenMP)
@@ -77,7 +79,7 @@ if(CUDA_FOUND)
 	#set cuda flags
 	
 	SET(CUDA_NVCC_FLAGS ${CUDA_NVCC_FLAGS} --cudart ;  static ; -O4 ;--expt-relaxed-constexpr; -ftemplate-backtrace-limit=0; --expt-extended-lambda;--relocatable-device-code=false ;
-	-Xptxas -dlcm=cg;--maxrregcount=16; -Xptxas --opt-level=4  )
+	-Xptxas -dlcm=cg; -Xptxas --opt-level=4;  -Xptxas -v )
 
 	SET(CUDA_SEPARABLE_COMPILATION OFF)
 	SET(CUDA_VERBOSE_BUILD ON)

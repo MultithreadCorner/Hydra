@@ -52,8 +52,10 @@ public:
 	//tag
 	typedef void hydra_integrator_tag;
 
+
 	typedef hydra::mc_host_vector<detail::GenzMalikBox<N>> box_list_type;
 	typedef  typename hydra::mc_host_vector<detail::GenzMalikBox<N>>::iterator box_iterator;
+
 
 	typedef typename GenzMalikRule<  N,  BACKEND>::abscissa_iterator rule_iterator;
 	typedef typename GenzMalikRule<  N,  BACKEND>::const_abscissa_iterator const_rule_iterator;
