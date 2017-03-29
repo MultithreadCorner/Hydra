@@ -25,12 +25,13 @@ struct Gauss:public BaseFunctor<Gauss,GReal_t, 2>
 		, Parameter const& sigma
 		, GUInt_t position=0
 		, GBool_t auto_normalize=kTrue ):
-		BaseFunctor<Gauss,GReal_t,2>(),
+		BaseFunctor<Gauss,GReal_t,2>({mean, sigma}),
 		fPosition(position),
 		fAutoNormalize(auto_normalize)
 		{
-			this->SetParameter(0, mean );
-			this->SetParameter(1, sigma );
+
+			//this->SetParameter(0, mean );
+			//this->SetParameter(1, sigma );
 		}
 
 	__host__ __device__
@@ -39,8 +40,8 @@ struct Gauss:public BaseFunctor<Gauss,GReal_t, 2>
 	fPosition(other.fPosition),
 	fAutoNormalize(other.fAutoNormalize)
 	{
-		this->SetParameter(0, other.GetParameter(0));
-	    this->SetParameter(1, other.GetParameter(1));
+		//this->SetParameter(0, other.GetParameter(0));
+	    //this->SetParameter(1, other.GetParameter(1));
 	}
 
 
@@ -53,8 +54,8 @@ struct Gauss:public BaseFunctor<Gauss,GReal_t, 2>
 
 		this->fAutoNormalize = other.fAutoNormalize;
 		this->fPosition = other.fPosition;
-		this->SetParameter(0, other.GetParameter(0));
-		this->SetParameter(1, other.GetParameter(1));
+		//this->SetParameter(0, other.GetParameter(0));
+		//this->SetParameter(1, other.GetParameter(1));
 
 		return *this;
 	}

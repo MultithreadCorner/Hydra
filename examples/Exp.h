@@ -19,10 +19,10 @@ struct Exp:public BaseFunctor<Exp, GReal_t, 1>
 {
 
 	Exp(Parameter const& tau, GUInt_t position=0 ):
-		BaseFunctor<Exp,GReal_t,1>(),
+		BaseFunctor<Exp,GReal_t,1>({tau}),
 		fPosition(position)
 		{
-			SetParameter(0, tau);
+			//SetParameter(0, tau);
 		}
 
 	__host__ __device__
@@ -30,7 +30,7 @@ struct Exp:public BaseFunctor<Exp, GReal_t, 1>
 	BaseFunctor<Exp,GReal_t,1>(other),
 	fPosition(other.fPosition)
 	{
-		SetParameter(0, other.GetParameter(0) );
+	//	SetParameter(0, other.GetParameter(0) );
 	}
 
 
@@ -41,7 +41,7 @@ struct Exp:public BaseFunctor<Exp, GReal_t, 1>
 
 		BaseFunctor<Exp,GReal_t,1>::operator=(other);
 		this->fPosition = other.fPosition;
-		this->SetParameter(0, other.GetParameter(0) );
+		//this->SetParameter(0, other.GetParameter(0) );
 
 		return *this;
 
