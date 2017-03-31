@@ -316,7 +316,7 @@ private:
 
 	inline GReal_t cumulative(const GReal_t mean, const GReal_t sigma, const GReal_t x)
 	{
-		return 0.5*(1.0 + erf( (x-mean)/( sigma*sqrt(2) ) ) );
+		return sqrt(M_PI_2)*sigma*(1.0 + erf( (x-mean)/( sigma*sqrt(2) ) ) );
 	}
 
 };
