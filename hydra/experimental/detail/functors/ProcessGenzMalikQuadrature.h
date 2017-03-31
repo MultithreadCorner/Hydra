@@ -280,11 +280,25 @@ struct ProcessGenzMalikBox
 		thrust::counting_iterator<size_t> first(0);
 		thrust::counting_iterator<size_t> last =first+ thrust::distance(fRuleBegin, fRuleEnd);
 
+		hydra::mc_device_vector<GenzMalikBoxResult<N>>  fResult( thrust::distance(fRuleBegin, fRuleEnd));
+
+
+
+		thrust::transform(fRuleBegin, fRuleEnd, fResult.begin(),
+					ProcessGenzMalikUnaryCall<N, FUNCTOR, RuleIterator>(fBoxBegin[index].GetLowerLimit(), fBoxBegin[index].GetUpperLimit(), fFunctor));
+
+		GenzMalikBoxResult<N> box_result =
+					thrust::reduce(fResult.begin(), fResult.end(), GenzMalikBoxResult<N>(),	ProcessGenzMalikBinaryCall<N>());
+
+
+
+/*
 	   GenzMalikBoxResult<N> box_result =
 			thrust::transform_reduce(fRuleBegin, fRuleEnd,
 			ProcessGenzMalikUnaryCall<N, FUNCTOR, RuleIterator>(fBoxBegin[index].GetLowerLimit(), fBoxBegin[index].GetUpperLimit(), fFunctor),
 			GenzMalikBoxResult<N>() ,
 			ProcessGenzMalikBinaryCall<N>());
+*/
 
 #else
 

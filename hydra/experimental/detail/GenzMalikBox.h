@@ -31,11 +31,16 @@
 
 #include <hydra/detail/Config.h>
 #include <hydra/Types.h>
+#include <hydra/detail/utility/Generic.h>
+#include <thrust/tuple.h>
+#include <thrust/iterator/detail/tuple_of_iterator_references.h>
 #include <array>
 #include <initializer_list>
 #include <math.h>
 #include <cmath>
-#include <hydra/detail/utility/Generic.h>
+
+
+
 
 namespace hydra {
 
@@ -46,6 +51,10 @@ namespace detail {
 template <size_t N>
 struct GenzMalikBoxResult
 {
+	typedef void hydra_convertible_to_tuple_tag;
+
+	typedef typename hydra::detail::tuple_type<N+2, GReal_t>::type args_type;
+
 
 	__host__ __device__
 	GenzMalikBoxResult():
@@ -86,6 +95,41 @@ struct GenzMalikBoxResult
 
 		return *this;
 	}
+
+
+	template<typename ...T>
+	__host__ __device__
+	GenzMalikBoxResult( thrust::tuple<T...> const& t)
+	{
+		thrust::tie(args) = t;
+	}
+
+	template<typename ...T>
+	__host__ __device__
+	GenzMalikBoxResult<N>& operator= ( thrust::tuple<T...> const& t )
+	{
+		thrust::tie(args) = t;
+	    return *this;
+	}
+
+	template<typename ...T>
+	__host__ __device__
+    GenzMalikBoxResult<N>& operator= (thrust::detail::tuple_of_iterator_references<T&...> const&  t )
+	{
+		thrust::tie(args) = t;
+		return *this;
+	}
+
+	template<typename ...T>
+	__host__ __device__
+	operator thrust::tuple<T...> ( )
+	{
+		auto four_diff_tuple = hydra::detail::arrayToTuple<N>(fFourDifference);
+		auto rules_tuple     = thrust::make_tuple(fRule5, fRule7);
+		return  thrust::tuple_cat( rules_tuple, four_diff_tuple );
+
+	}
+
 
 	GReal_t fRule7;
 	GReal_t fRule5;
