@@ -28,12 +28,11 @@
 
 #include <iostream>
 #include <assert.h>
-#include <time.h>
 #include <string>
 #include <vector>
 #include <array>
 #include <chrono>
-#include <limits>
+
 //command line arguments
 #include <tclap/CmdLine.h>
 
@@ -106,7 +105,7 @@ GInt_t main(int argv, char** argc)
 	}
 
 
-	constexpr size_t N = 5;
+	constexpr size_t N = 2;
 
 	//------------------------------------
 	//parameters
@@ -160,9 +159,11 @@ GInt_t main(int argv, char** argc)
 	//----------------------------------------------------------------------
 
 	auto GMIntegrator = hydra::experimental::GenzMalikQuadrature<N,hydra::device>(min, max, nboxes);
+
 	auto start = std::chrono::high_resolution_clock::now();
 	auto result2 = GMIntegrator.Integrate(Gaussian);
 	auto end = std::chrono::high_resolution_clock::now();
+
 	std::chrono::duration<double, std::milli> elapsed = end - start;
 
 			//GMIntegrator.Print();
@@ -171,13 +172,6 @@ GInt_t main(int argv, char** argc)
 					   << " +/- "    << result2.second <<std::endl <<
 					   " Time (ms): "<< elapsed.count() <<std::endl;
 
-	/*
-    std::array<int,5> A={0,1,2,3,4};
-    for(size_t i=0; i<125; i++){
-    hydra::detail::nth_permutation(A.begin(), A.end(), i, thrust::less<int>() );
-    std::cout<< A <<   endl;
-    }
-*/
 	return 0;
 
 

@@ -414,7 +414,7 @@ inline Parameter operator/(Parameter par1, Parameter const& par2)
 
 
 __host__
-std::ostream& operator<<(std::ostream& os, Parameter const& var){
+inline std::ostream& operator<<(std::ostream& os, Parameter const& var){
 
 	return os<< "Hydra::Variable: "<< var.GetName()  << "[ " << var.GetValue()
 			 << ", " << var.GetError() << ", " << var.GetLowerLim()

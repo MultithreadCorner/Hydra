@@ -85,12 +85,12 @@ if(BUILD_CUDA_TARGETS)
     rt
     )   
     
-      #+++++++++++++++++++++++++++++++
+    #+++++++++++++++++++++++++++++++
     # Numerical Integration        |
     #+++++++++++++++++++++++++++++++	
     cuda_add_executable(Hydra_Example_Numerical_Integration_GenzMalik_CUDA EXCLUDE_FROM_ALL
     HydraNumericalIntegrationGenzMalikExample.cu
-    OPTIONS -Xcompiler  -DTHRUST_DEVICE_SYSTEM=THRUST_DEVICE_SYSTEM_CUDA -DTHRUST_HOST_SYSTEM=THRUST_HOST_SYSTEM_CPP
+    OPTIONS -Xcompiler -fopenmp -DTHRUST_DEVICE_SYSTEM=THRUST_DEVICE_SYSTEM_CUDA -DTHRUST_HOST_SYSTEM=THRUST_HOST_SYSTEM_OMP -lgomp
     )
     
     target_link_libraries(Hydra_Example_Numerical_Integration_GenzMalik_CUDA
