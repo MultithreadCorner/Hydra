@@ -312,6 +312,51 @@ namespace hydra {
 		 assignTupleToArray<I + 1,ArrayType,FistType, OtherTypes... >( t, Array);
 	 }
 
+	 // set a std::array with tuple values
+	 template<size_t I = 0, typename ArrayType, typename FistType, typename ...OtherTypes>
+	 __host__  __device__
+	 inline typename thrust::detail::enable_if<I == (sizeof...(OtherTypes) + 1) &&
+	 is_hydra_convertible_to_tuple<ArrayType>::value &&
+	 are_all_same<FistType,OtherTypes...>::value, void>::type
+	 assignTupleToArray(thrust::tuple<FistType&, OtherTypes&...> const&,
+			 ArrayType (&Array)[sizeof...(OtherTypes)+1])
+	 {}
+
+	 template<size_t I = 0, typename  ArrayType, typename FistType, typename ...OtherTypes>
+	 __host__  __device__
+	 inline typename thrust::detail::enable_if<(I < sizeof...(OtherTypes)+1) &&
+	 is_hydra_convertible_to_tuple<ArrayType>::value &&
+	 are_all_same<FistType,OtherTypes...>::value, void >::type
+	 assignTupleToArray(thrust::tuple<FistType&, OtherTypes&...> const& t,
+			 ArrayType (&Array)[sizeof...(OtherTypes)+1])
+	 {
+
+		 Array[I] = thrust::get<I>(t);
+		 assignTupleToArray<I + 1,ArrayType,FistType, OtherTypes... >( t, Array);
+	 }
+
+	 // set a std::array with tuple values
+	 template<size_t I = 0, typename ArrayType, typename FistType, typename ...OtherTypes>
+	 __host__  __device__
+	 inline typename thrust::detail::enable_if<I == (sizeof...(OtherTypes) + 1) &&
+	 is_hydra_convertible_to_tuple<ArrayType>::value &&
+	 are_all_same<FistType,OtherTypes...>::value, void>::type
+	 assignTupleToArray(thrust::detail::tuple_of_iterator_references<FistType, OtherTypes...> const&,
+			 ArrayType (&Array)[sizeof...(OtherTypes)+1])
+	 {}
+
+	 template<size_t I = 0, typename  ArrayType, typename FistType, typename ...OtherTypes>
+	 __host__  __device__
+	 inline typename thrust::detail::enable_if<(I < sizeof...(OtherTypes)+1) &&
+	 is_hydra_convertible_to_tuple<ArrayType>::value &&
+	 are_all_same<FistType,OtherTypes...>::value, void >::type
+	 assignTupleToArray(thrust::detail::tuple_of_iterator_references<FistType, OtherTypes...> const& t,
+			 ArrayType (&Array)[sizeof...(OtherTypes)+1])
+	 {
+
+		 Array[I] = thrust::get<I>(t);
+		 assignTupleToArray<I + 1,ArrayType,FistType, OtherTypes... >( t, Array);
+	 }
 
 	 //---------------------------------------
 	 // set a generic array with tuple values

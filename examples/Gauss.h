@@ -191,8 +191,8 @@ struct GaussN: public BaseFunctor<GaussN<DIM>,GReal_t, DIM+DIM>
 		fAutoNormalize = other.fAutoNormalize;
 		for(size_t i=0; i<DIM; i++){
 			fPosition[i] = other.fPosition[i];
-			this->SetParameter(2*i, other.GetParameter(2*i)  );
-			this->SetParameter(2*i+1, other.GetParameter(2*i+1)  );
+		//	this->SetParameter(2*i, other.GetParameter(2*i)  );
+		//	this->SetParameter(2*i+1, other.GetParameter(2*i+1)  );
 		}
 	}
 
@@ -207,8 +207,8 @@ struct GaussN: public BaseFunctor<GaussN<DIM>,GReal_t, DIM+DIM>
 		this->fAutoNormalize = other.fAutoNormalize;
 		for(size_t i=0; i<DIM; i++){
 			this->fPosition[i]= other.fPosition[i];
-			this->SetParameter(2*i, other.GetParameter(2*i)  );
-			this->SetParameter(2*i+1, other.GetParameter(2*i+1)  );
+			//this->SetParameter(2*i, other.GetParameter(2*i)  );
+			//this->SetParameter(2*i+1, other.GetParameter(2*i+1)  );
 		}
 		return *this;
 	}
@@ -306,7 +306,7 @@ private:
 
 	inline GReal_t cumulative(const GReal_t mean, const GReal_t sigma, const GReal_t x)
 	{
-		return sqrt(M_PI_2)*sigma*(1.0 + erf( (x-mean)/( sigma*sqrt(2) ) ) );
+		return 0.5*(1.0 + erf( (x-mean)/( sigma*sqrt(2) ) ) );
 	}
 
 };

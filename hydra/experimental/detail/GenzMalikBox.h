@@ -48,67 +48,50 @@ namespace experimental {
 
 namespace detail {
 
+/*
 template <size_t N>
 struct GenzMalikBoxResult
 {
 	typedef void hydra_convertible_to_tuple_tag;
 
-	typedef typename hydra::detail::tuple_type<N+2, GReal_t>::type args_type;
+	typedef typename hydra::detail::tuple_type<N+2, GReal_t>::type data_type;
 
 
 	__host__ __device__
 	GenzMalikBoxResult():
-		fRule7(0),
-		fRule5(0)
-	{
-
-//#pragma unroll N
-		for(size_t i=0; i<N; i++)
-			fFourDifference[i]=0.0;
-
-	}
+	fData( data_type() )
+	{	}
 
 	__host__ __device__
-	GenzMalikBoxResult( GenzMalikBoxResult<N>const & other):
-	fRule7(other.fRule7),
-	fRule5(other.fRule5)
+	GenzMalikBoxResult( GenzMalikBoxResult<N>const & other)
 	{
-
-
-//#pragma unroll N
-		for(size_t i=0; i<N; i++)
-			fFourDifference[i]=other.fFourDifference[i];
-
+        this->fData = other.fData;
 	}
+
+	template<typename ...T>
+	__host__ __device__
+	GenzMalikBoxResult( thrust::tuple<T...> const& t):
+	fData(t)
+	{	}
 
 	__host__ __device__
 	GenzMalikBoxResult<N>& operator=( GenzMalikBoxResult<N>const & other)
 	{
 		if(this==&other) return *this;
 
-		fRule7=other.fRule7;
-	    fRule5=other.fRule5;
-
-//#pragma unroll N
-		for(size_t i=0; i<N; i++)
-			fFourDifference[i]=other.fFourDifference[i];
+		this->fData = other.fData;
 
 		return *this;
 	}
 
 
-	template<typename ...T>
-	__host__ __device__
-	GenzMalikBoxResult( thrust::tuple<T...> const& t)
-	{
-		thrust::tie(args) = t;
-	}
+
 
 	template<typename ...T>
 	__host__ __device__
 	GenzMalikBoxResult<N>& operator= ( thrust::tuple<T...> const& t )
 	{
-		thrust::tie(args) = t;
+		this->fData = t;
 	    return *this;
 	}
 
@@ -116,31 +99,40 @@ struct GenzMalikBoxResult
 	__host__ __device__
     GenzMalikBoxResult<N>& operator= (thrust::detail::tuple_of_iterator_references<T&...> const&  t )
 	{
-		thrust::tie(args) = t;
+		this->fData = t;
 		return *this;
 	}
+
+
 
 	template<typename ...T>
 	__host__ __device__
 	operator thrust::tuple<T...> ( )
 	{
-		auto four_diff_tuple = hydra::detail::arrayToTuple<N>(fFourDifference);
-		auto rules_tuple     = thrust::make_tuple(fRule5, fRule7);
-		return  thrust::tuple_cat( rules_tuple, four_diff_tuple );
+
+		return  fData;
 
 	}
 
+	template<typename ...T>
+	__host__ __device__
+	operator thrust::detail::tuple_of_iterator_references<T &...> ( )
+	{
 
-	GReal_t fRule7;
-	GReal_t fRule5;
-	GReal_t fFourDifference[N];
+			return  fData;
+	}
+
+
+	data_type fData;
+
 
 };
+*/
 
 template<size_t N>
 struct GenzMalikBox
 {
-
+	typedef typename hydra::detail::tuple_type<N+2, GReal_t>::type data_type;
 
 	GenzMalikBox()=delete;
 
@@ -222,16 +214,20 @@ struct GenzMalikBox
 
 		return *this;
 	}
+
 	__host__ __device__
-	GenzMalikBox<N>& operator=(GenzMalikBoxResult<N> const& other)
+	GenzMalikBox<N>& operator=(data_type & other)
 	{
 
-			this->fRule7 = other.fRule7 ;
-			this->fRule5 = other.fRule5 ;
+		GReal_t _temp[N+2];
+		hydra::detail::tupleToArray(other, &_temp[0]);
+
+			this->fRule5 = _temp[0] ;
+			this->fRule7 = _temp[1] ;
 
 			for(size_t i=0; i<N; i++)
 			{
-				this->fFourDifference[i]=other.fFourDifference[i];
+				this->fFourDifference[i]=_temp[i+2];
 			}
 
 			GReal_t factor = this->fVolume/hydra::detail::power<2, N>::value;

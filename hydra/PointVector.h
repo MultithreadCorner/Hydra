@@ -93,6 +93,10 @@ public:
 	type& GetPoints() { return fPoints; }
 
 
+	/**Todo
+	 * add simple point
+	 */
+
 	/**
 	 * Add a new point
 	 */
