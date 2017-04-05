@@ -173,9 +173,7 @@ std::pair<GReal_t, GReal_t> GenzMalikQuadrature<N,BACKEND>::Integrate(FUNCTOR co
 	thrust::counting_iterator<size_t> last = first + fBoxList.size();
 
 //	auto start = std::chrono::high_resolution_clock::now();
-#if THRUST_DEVICE_SYSTEM==THRUST_DEVICE_SYSTEM_CUDA
-	cudaDeviceSetCacheConfig( cudaFuncCachePreferShared );
-#endif
+
 	thrust::for_each(thrust::host,first, last,
 				detail::ProcessGenzMalikBox<N, FUNCTOR,const_rule_iterator, box_iterator>(functor,
 						fGenzMalikRule.GetAbscissas().begin(),fGenzMalikRule.GetAbscissas().end(),

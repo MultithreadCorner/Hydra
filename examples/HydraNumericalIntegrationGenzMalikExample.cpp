@@ -105,7 +105,7 @@ GInt_t main(int argv, char** argc)
 	}
 
 
-	constexpr size_t N = 10;
+	constexpr size_t N = 2;
 
 	//------------------------------------
 	//parameters
@@ -139,7 +139,7 @@ GInt_t main(int argv, char** argc)
 	// create functor
 	//------------------------------------
 
-	GaussN<N> Gaussian(Mean_p, Sigma_p, Position_p);
+	GaussN<N> Gaussian(Mean_p, Sigma_p, Position_p,kTrue);
 
 
 
