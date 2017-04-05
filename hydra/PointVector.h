@@ -138,7 +138,7 @@ public:
 	 * size
 	 */
 	__host__
-	size_t Size(){ return fPoints.Size(); }
+	size_t Size(){ return fPoints.size(); }
 
 private:
 	
