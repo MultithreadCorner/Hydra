@@ -120,6 +120,47 @@ namespace hydra {
 		return get_zip_iterator_helper(head, array_of_iterators , make_index_sequence<N> { } );
 
 	}
+	//----------------------------------------
+	// make a tuple of references to a existing tuple
+	template<typename ...T, size_t... I>
+	auto make_rtuple_helper(thrust::tuple<T...>& t , index_sequence<I...>)
+	-> thrust::tuple<T&...>
+	{ return thrust::tie(thrust::get<I>(t)...) ;}
+
+	template<typename ...T>
+	auto  make_rtuple( thrust::tuple<T...>& t )
+	-> thrust::tuple<T&...>
+	{
+		return make_rtuple_helper( t, make_index_sequence<sizeof...(T)> {});
+	}
+
+	//---------------------------------------------
+	// get a reference to a tuple object by index
+	template<typename R, typename T, size_t I>
+	typename thrust::detail::enable_if<(I == thrust::tuple_size<T>::value), void>::type
+	_get_element(const size_t index, T& t, R*& ptr )
+	{ }
+
+	template<typename R, typename T, size_t I=0>
+	typename thrust::detail::enable_if<( I < thrust::tuple_size<T>::value), void>::type
+	_get_element(const size_t index, T& t, R*& ptr )
+	{
+
+	    index==I ? ptr=&thrust::get<I>(t):0;
+
+	    get_tuple_element<R,T,I+1>(index, t, ptr);
+	}
+
+	template<typename R, typename ...T>
+	R& get_element(const size_t index, thrust::tuple<T...>& t)
+	{
+	    R* ptr;
+	    _get_element( index, t, ptr );
+
+	    return *ptr;
+
+
+	}
 
 	//----------------------------------------
 	template<typename ...T1, typename ...T2, size_t... I1, size_t... I2 >

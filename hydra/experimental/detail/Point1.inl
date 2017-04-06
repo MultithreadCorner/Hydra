@@ -197,9 +197,14 @@ struct Point<T, DIM, false, false>
 
 
 	__host__  __device__
-	inline value_type GetCoordinate(const int i) const{
-		return hydra::detail::extract<value_type, type>(i+2, fData);
-	}
+		inline value_type& GetCoordinate(unsigned int i) {
+			return hydra::detail::get_element<value_type>(i+3, fData);
+		}
+
+		__host__  __device__
+			inline value_type const& GetCoordinate(unsigned int i) const {
+				return hydra::detail::get_element<value_type>(i+3, fData);
+		}
 
 
 	__host__  __device__
@@ -219,12 +224,12 @@ struct Point<T, DIM, false, false>
 
 
 	__host__  __device__
-	inline value_type GetWeight() {
+	inline value_type& GetWeight() {
 		return thrust::get<0>(fData);
 	}
 
 	__host__  __device__
-	inline const value_type GetWeight() const {
+	inline const value_type& GetWeight() const {
 		return thrust::get<0>(fData);
 	}
 
@@ -234,12 +239,12 @@ struct Point<T, DIM, false, false>
 	}
 
 	__host__  __device__
-	inline value_type GetWeight2()  {
+	inline value_type& GetWeight2()  {
 		return thrust::get<1>(fData);
 	}
 
 	__host__  __device__
-	inline value_type GetWeight2() const {
+	inline value_type& GetWeight2() const {
 		return thrust::get<1>(fData);
 	}
 

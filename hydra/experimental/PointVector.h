@@ -31,8 +31,8 @@
  * \ingroup generic
  */
 
-#ifndef POINTVECTOR_H_
-#define POINTVECTOR_H_
+#ifndef _POINTVECTOR_H_
+#define _POINTVECTOR_H_
 
 //hydra
 #include <hydra/detail/Config.h>
@@ -54,51 +54,49 @@ namespace experimental {
  * PointVector wraps a thrust::vector<Points<T,N>> and provide methods
  *
  */
-template<typename T, unsigned int BACKEND=0>
+template<typename T, unsigned int BACKEND>
 class PointVector;
 
-
-template< unsigned int BACKEND, typename T=GReal_t, size_t N=1, bool V_ERROR=false, bool C_ERROR=false >
-class PointVector< Point<T, N, V_ERROR, C_ERROR>, BACKEND >
+template<unsigned int BACKEND, typename T, size_t N, bool V_ERROR, bool C_ERROR >
+class PointVector< Point<T, N, V_ERROR, C_ERROR>,  BACKEND >
 {
 
 public:
 
 	typedef hydra::detail::BackendTraits<BACKEND> system_t;
 
+    typedef Point<T, N, V_ERROR, C_ERROR> point_t;
+    typedef typename point_t::type super_t;
 
-	typedef typename system_t::template container< typename Point<T, N, V_ERROR, C_ERROR>::type > type;
+	typedef typename system_t::template container< super_t > prototype_t;
+
+	typedef hydra::experimental::multivector<prototype_t> data_t;
 
 
-	typedef Point<T, N, V_ERROR, C_ERROR> value_type;
-	typedef typename type::const_iterator const_iterator;
-	typedef typename type::iterator iterator;
+	typedef typename data_t::const_iterator const_iterator;
+	typedef typename data_t::iterator iterator;
 
 	__host__
 	PointVector():
-		fPoints(type()){}
+		fData(type()){}
 
 	__host__
 	PointVector(size_t n):
-		fPoints(type(n)) {}
+		fData(type(n)) {}
 	
 
 	template<unsigned int BACKEND2 >
 	__host__
-	PointVector( PointVector<BACKEND2, T, N, V_ERROR, C_ERROR > const& other):
-	fPoints(other.GetPoints()){}
+	PointVector( PointVector<Point<T, N, V_ERROR, C_ERROR>, BACKEND2> const& other):
+	fData(other.GetData()){}
 	
 	
-	~PointVector(){};
 
 	/**
 	 * get access to the underlying container
 	 */
 	__host__
-	const type& GetPoints() const { return fPoints; }
-
-	__host__
-	type& GetPoints() { return fPoints; }
+	const data_t& GetData() const { return fData; }
 
 
 	/**Todo
@@ -109,52 +107,70 @@ public:
 	 * Add a new point
 	 */
 	__host__
-	void AddPoint( value_type const& point)
+	void AddPoint( point_t const& point)
 	{
-		fPoints.push_back(point);
+		fData.push_back(point);
+	}
+
+
+	__host__
+	point_t& GetPoint(size_t i)
+	{
+		return fData[i];
+	}
+
+
+	__host__
+	point_t const& GetPoint(size_t i) const
+	{
+		return fData[i];
 	}
 
 	__host__
-	value_type const& GetPoint(size_t i) const
-	{
-		return fPoints[i];
-	}
+	size_t Size(){ return fData.size(); }
 
+	/*
+	 * stl like inteface
+	 */
+
+	__host__
+	size_t size() const { return fData.size(); }
 
 	/**
 	 *  constant iterator access
 	 */
 	__host__
-	const_iterator begin() const { return fPoints.begin(); }
+	const_iterator begin() const { return fData.cbegin(); }
 	__host__
-	const_iterator end() const { return fPoints.begin()+fPoints.size(); }
+	const_iterator end() const { return fData.cend(); }
+
+
 
 	/**
 	 *   non-const iterator access
 	 */
 	__host__
-	iterator begin() { return fPoints.begin(); }
+	iterator begin() { return fData.begin(); }
 	__host__
-	iterator end()   { return fPoints.end(); }
+	iterator end()   { return fData.end(); }
 	
 	/**
-	 *   access to the point
+	 *  subscript operator
 	 */
 	__host__
-	const value_type& operator[] (size_t i)  const { return fPoints[i]; }
+	const super_t& operator[] (size_t i)  const { return fData[i]; }
 	__host__
-	value_type& operator[] (size_t i) { return fPoints[i]; }
+	super_t& operator[] (size_t i) { return fData[i]; }
 
 
 	/**
 	 * size
 	 */
-	__host__
-	size_t Size(){ return fPoints.size(); }
+
 
 private:
 	
-	type fPoints;
+	data_t fData;
 	
 
 };
