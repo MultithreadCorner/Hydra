@@ -55,7 +55,7 @@ struct Point<T, DIM, true, true>
 	constexpr static const size_t Dimension=DIM;
 
 	typedef typename hydra::detail::tuple_type<N, T>::type type;
-	typedef typename hydra::detail::tuple_type<2*DIM, T>::type coordinate_type;
+	typedef typename hydra::detail::tuple_type<DIM, T>::type coordinate_type;
 	typedef  T value_type;
 
 	/**
@@ -72,7 +72,7 @@ struct Point<T, DIM, true, true>
 	 * without errors in coordinates and value
 	 */
 	__host__ __device__
-	Point(type const& data):
+	explicit Point(type const& data):
 	fData(data)
 	{ }
 
@@ -83,7 +83,7 @@ struct Point<T, DIM, true, true>
 	 * @param weight: weight of this point
 	 */
 	__host__
-	Point(std::array<value_type,DIM> const& coordinates,
+	explicit Point(std::array<value_type,DIM> const& coordinates,
 			std::array<value_type,DIM> const& coordinate_errors, value_type error=0.0, value_type weight=1.0 )
 	{
 		auto weights = thrust::make_tuple(weight, weight*weight, error );
@@ -98,8 +98,8 @@ struct Point<T, DIM, true, true>
 	 * @param weight: weight of this point
 	 */
 	__host__ __device__
-	Point(value_type (&coordinates)[DIM],
-			value_type (&coordinates_errors)[DIM], value_type error=0.0 ,  value_type weight=1.0)
+	explicit Point(const  value_type (&coordinates)[DIM],
+			const value_type (&coordinates_errors)[DIM], value_type error=0.0 ,  value_type weight=1.0)
 	{
 		auto weights = thrust::make_tuple(weight, weight*weight, error );
 		auto coords  = hydra::detail::arrayToTuple<value_type,DIM>(const_cast<value_type*>( &coordinates[0] ));
@@ -113,7 +113,7 @@ struct Point<T, DIM, true, true>
 	 * @param weight: weight of this point
 	 */
 	__host__
-	Point(std::initializer_list<value_type> coordinates,
+	explicit Point(std::initializer_list<value_type> coordinates,
 			std::initializer_list<value_type> coordinates_errors, value_type error=0.0, value_type weight=1.0 )
 	{
 		std::vector<value_type> v(coordinates);
@@ -121,7 +121,7 @@ struct Point<T, DIM, true, true>
 		auto weights = thrust::make_tuple(weight, weight*weight, error  );
 		auto coords  = hydra::detail::arrayToTuple<value_type,DIM>(const_cast<value_type*>(v.data() ));
 		auto coords_errors  = hydra::detail::arrayToTuple<value_type,DIM>(const_cast<value_type*>(ve.data() ));
-		fData = thrust::tuple_cat(weights, coords  );
+		fData = thrust::tuple_cat(weights, thrust::tuple_cat(coords, coords_errors ) );
 	}
 
 
@@ -132,11 +132,11 @@ struct Point<T, DIM, true, true>
 	 * @return
 	 */
 	__host__  __device__
-	Point(  coordinate_type coordinates,
+	explicit Point(  coordinate_type coordinates,
 			coordinate_type coordinates_errors, value_type error=0.0, value_type weight=1.0)
 	{
 		auto weights = thrust::make_tuple(weight, weight*weight, error );
-		fData = thrust::tuple_cat(weights, coordinates  );
+		fData = thrust::tuple_cat(weights, thrust::tuple_cat(coordinates, coordinates_errors )  );
 	}
 
 	/**
@@ -146,12 +146,13 @@ struct Point<T, DIM, true, true>
 	 * @return
 	 */
 	__host__  __device__
-	explicit Point(value_type* coordinates,
-			value_type* coordinates_errors, value_type error=0.0,	value_type weight=1.0 )
+	explicit Point(const  value_type* coordinates,
+			const value_type* coordinates_errors, value_type error=0.0,	value_type weight=1.0 )
 	{
 		auto weights = thrust::make_tuple(weight, weight*weight, error  );
-		auto coords  = hydra::detail::arrayToTuple<value_type,DIM>(const_cast<value_type*>( coordinates));
-		fData = thrust::tuple_cat(weights, coords  );
+		auto coords         = hydra::detail::arrayToTuple<value_type,DIM>(const_cast<value_type*>( coordinates));
+		auto coords_errors  = hydra::detail::arrayToTuple<value_type,DIM>(const_cast<value_type*>( coordinates_errors));
+		fData = thrust::tuple_cat(weights, thrust::tuple_cat(coords, coords_errors )   );
 	}
 
 
@@ -173,7 +174,7 @@ struct Point<T, DIM, true, true>
 	__host__  __device__ inline
 	Point<value_type,DIM, true, true>& operator=(type const& other)
 	{
-		if( this == &other) return *this;
+		//if( this == &other) return *this;
 
 		fData=other ;
 

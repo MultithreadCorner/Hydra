@@ -286,7 +286,7 @@ TEST_CASE( "Point<double, 3>","hydra::experimental::Point without value error" )
 			REQUIRE( thrust::get<0>(data) ==  Approx(3.0) );
 			REQUIRE( thrust::get<1>(data) ==  Approx(9.0) );
 			REQUIRE( thrust::get<2>(data) ==  Approx(2.0) );
-			REQUIRE( thrust::get<6>(data) ==  Approx(4.0) );
+			REQUIRE( thrust::get<3>(data) ==  Approx(4.0) );
 			REQUIRE( thrust::get<4>(data) ==  Approx(6.0) );
 
 		}
@@ -348,7 +348,7 @@ TEST_CASE( "Point<double, 3, true>","hydra::experimental::Point with value error
 			REQUIRE( thrust::get<2>(data) ==  Approx(0.0) );
 			REQUIRE( thrust::get<3>(data) ==  Approx(0.0) );
 			REQUIRE( thrust::get<4>(data) ==  Approx(0.0) );
-			REQUIRE( thrust::get<4>(data) ==  Approx(0.0) );
+			REQUIRE( thrust::get<5>(data) ==  Approx(0.0) );
 
 	    }
 
@@ -513,7 +513,7 @@ TEST_CASE( "Point<double, 3, true>","hydra::experimental::Point with value error
 			REQUIRE( thrust::get<2>(data) ==  Approx(1.5) );
 			REQUIRE( thrust::get<3>(data) ==  Approx(2.0) );
 			REQUIRE( thrust::get<4>(data) ==  Approx(4.0) );
-			REQUIRE( thrust::get<8>(data) ==  Approx(6.0) );
+			REQUIRE( thrust::get<5>(data) ==  Approx(6.0) );
 
 		}
 
@@ -597,7 +597,7 @@ TEST_CASE( "Point<double, 3, true>","hydra::experimental::Point with value error
 			REQUIRE( thrust::get<2>(data) ==  Approx(3.0) );
 			REQUIRE( thrust::get<3>(data) ==  Approx(2.0) );
 			REQUIRE( thrust::get<4>(data) ==  Approx(4.0) );
-			REQUIRE( thrust::get<8>(data) ==  Approx(6.0) );
+			REQUIRE( thrust::get<5>(data) ==  Approx(6.0) );
 
 		}
 
@@ -685,8 +685,9 @@ TEST_CASE( "Point<double, 3, true>","hydra::experimental::Point with value error
 
 		SECTION( "constructor from std::array" )
 		{
-			std::array<double, 6> array{1.0, 2.0, 3.0, 4.0, 5.0, 6.0};
-			Point_t point( array, 1.5 , 2.0 );
+			std::array<double, 3> array{1.0, 2.0, 3.0};
+			std::array<double, 3> array_error{ 4.0, 5.0, 6.0};
+			Point_t point( array,  array_error, 1.5 , 2.0 );
 
 			auto data = point.GetData();
 
@@ -704,8 +705,9 @@ TEST_CASE( "Point<double, 3, true>","hydra::experimental::Point with value error
 
 		SECTION( "constructor from static array" )
 		{
-			double array[3] = {1.0, 2.0, 3.0, 4.0, 5.0, 6.0};
-			Point_t point( array,1.5, 2.0 );
+			double array[3] = {1.0, 2.0, 3.0};
+			double array_error[3] = {4.0, 5.0, 6.0};
+			Point_t point( array,array_error,1.5, 2.0 );
 
 			auto data = point.GetData();
 
@@ -722,7 +724,7 @@ TEST_CASE( "Point<double, 3, true>","hydra::experimental::Point with value error
 
 		SECTION( "constructor from std::initializer_list" )
 		{
-			Point_t point( {1.0, 2.0, 3.0, 4.0, 5.0, 6.0} , 1.5, 2.0 );
+			Point_t point( {1.0, 2.0, 3.0}, {4.0, 5.0, 6.0} , 1.5, 2.0 );
 
 			auto data = point.GetData();
 
@@ -740,7 +742,9 @@ TEST_CASE( "Point<double, 3, true>","hydra::experimental::Point with value error
 
 		SECTION( "constructor from  coordinate_type" )
 		{
-			Point_t point( typename Point_t::coordinate_type(1.0, 2.0, 3.0, 4.0, 5.0, 6.0), 1.5, 2.0 );
+
+			Point_t point(  typename Point_t::coordinate_type(1.0, 2.0, 3.0),
+					typename Point_t::coordinate_type(4.0, 5.0, 6.0), 1.5, 2.0 );
 
 			auto data = point.GetData();
 
@@ -760,8 +764,9 @@ TEST_CASE( "Point<double, 3, true>","hydra::experimental::Point with value error
 
 		SECTION( "constructor from pointer array" )
 		{
-			double array[3] = {1.0, 2.0, 3.0, 4.0, 5.0, 6.0};
-			Point_t point( &array[0], 1.5, 2.0 );
+			double array[3] = {1.0, 2.0, 3.0};
+			double array_errors[3] =  {4.0, 5.0, 6.0};
+			Point_t point( &array[0], &array_errors[0],  1.5, 2.0 );
 
 			auto data = point.GetData();
 
@@ -779,8 +784,9 @@ TEST_CASE( "Point<double, 3, true>","hydra::experimental::Point with value error
 
 		SECTION( "copy constructor" )
 		{
-			double array[3] = {1.0, 2.0, 3.0, 4.0, 5.0, 6.0};
-			Point_t pointA( &array[0], 1.5, 2.0 );
+			double array[3] = {1.0, 2.0, 3.0};
+			double array_errors[3] = {4.0, 5.0, 6.0};
+			Point_t pointA( &array[0],  &array_errors[0], 1.5, 2.0 );
 			Point_t pointB( pointA);
 
 
@@ -808,11 +814,13 @@ TEST_CASE( "Point<double, 3, true>","hydra::experimental::Point with value error
 
 		SECTION( "assignment to another point" )
 		{
-			double arrayA[3] = {1.0, 2.0, 3.0, 4.0, 5.0, 6.0};
-			double arrayB[3] = {2.0, 4.0, 6.0, 8.0, 10.0, 12.0};
+			double arrayA[3]       = {1.0, 2.0, 3.0};
+			double arrayA_error[3] =	{ 4.0, 5.0, 6.0};
+			double arrayB[3] = {2.0, 4.0, 6.0};
+			double arrayB_error[3] = { 8.0, 10.0, 12.0};
 
-			Point_t pointA( &arrayA[0], 1.5, 2.0 );
-			Point_t pointB( &arrayB[0], 3.5, 4.0 );
+			Point_t pointA( &arrayA[0],  &arrayA_error[0], 1.5, 2.0 );
+			Point_t pointB( &arrayB[0], &arrayB_error[0], 3.5, 4.0 );
 
 			pointB = pointA;
 
@@ -834,10 +842,11 @@ TEST_CASE( "Point<double, 3, true>","hydra::experimental::Point with value error
 
 		SECTION( "assignment to tuple" )
 		{
-			double arrayA[3] = {1.0, 2.0, 3.0, 4.0, 5.0, 6.0};
+			double arrayA[3]       = {1.0, 2.0, 3.0};
+			double arrayA_error[3] = {4.0, 5.0, 6.0};
 			auto tpl = thrust::make_tuple(2.0, 4.0, 1.5, 2.0, 4.0, 6.0, 8.0, 10.0, 12.0);
 
-			Point_t pointA( &arrayA[0], 2.5, 2.0 );
+			Point_t pointA( &arrayA[0], &arrayA_error[0] , 2.5, 2.0 );
 
 			pointA = tpl;
 
@@ -858,10 +867,11 @@ TEST_CASE( "Point<double, 3, true>","hydra::experimental::Point with value error
 
 		SECTION( "conversion to tuple" )
 		{
-			double arrayA[3] = {1.0, 2.0, 3.0, 4.0, 5.0, 6.0};
-			auto tpl = thrust::make_tuple(0.0, 0.0, 0.0, 0.0, 0.0, 0.0,0,00);
+			double arrayA[3]       = {1.0, 2.0, 3.0};
+			double arrayA_error[3] = {4.0, 5.0, 6.0};
+			auto tpl = thrust::make_tuple(0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0);
 
-			Point_t pointA( &arrayA[0], 3.0, 2.0 );
+			Point_t pointA( &arrayA[0], &arrayA_error[0] , 2.5, 2.0 );
 
 		    tpl = pointA;
 
@@ -887,8 +897,9 @@ TEST_CASE( "Point<double, 3, true>","hydra::experimental::Point with value error
 	{
 		SECTION( "getters" )
 		{
-			double array[3] = {1.0, 2.0, 3.0, 4.0, 5.0, 6.0};
-			Point_t point( &array[0], 1.5, 2.0 );
+			double array[3]       = {1.0, 2.0, 3.0};
+			double array_error[3] = {4.0, 5.0, 6.0};
+			Point_t point( &array[0], &array_error[0], 1.5, 2.0 );
 
 			auto data = point.GetData();
 
@@ -912,18 +923,20 @@ TEST_CASE( "Point<double, 3, true>","hydra::experimental::Point with value error
 			REQUIRE( thrust::get<0>(coordinates) ==  Approx(1.0) );
 			REQUIRE( thrust::get<1>(coordinates) ==  Approx(2.0) );
 			REQUIRE( thrust::get<2>(coordinates) ==  Approx(3.0) );
+			/*
 			REQUIRE( thrust::get<3>(coordinates) ==  Approx(4.0) );
 			REQUIRE( thrust::get<4>(coordinates) ==  Approx(5.0) );
 			REQUIRE( thrust::get<5>(coordinates) ==  Approx(6.0) );
+			*/
 
 		}
 
 		SECTION( "setters" )
 		{
-			double array[3] = {1.0, 2.0, 3.0};
+
 			Point_t point;
 
-			point.SetData( thrust::make_tuple( 2.0, 4.0, 1.5, 1.0, 2.0, 3.0 ) );
+			point.SetData( thrust::make_tuple( 2.0, 4.0, 1.5, 1.0, 2.0, 3.0, 4.0, 5.0, 6.0 ) );
 
 			auto data = point.GetData();
 
@@ -933,8 +946,12 @@ TEST_CASE( "Point<double, 3, true>","hydra::experimental::Point with value error
 			REQUIRE( thrust::get<3>(data) ==  Approx(1.0) );
 			REQUIRE( thrust::get<4>(data) ==  Approx(2.0) );
 			REQUIRE( thrust::get<5>(data) ==  Approx(3.0) );
+			REQUIRE( thrust::get<6>(data) ==  Approx(4.0) );
+			REQUIRE( thrust::get<7>(data) ==  Approx(5.0) );
+			REQUIRE( thrust::get<8>(data) ==  Approx(6.0) );
 
-			point.SetCoordinate( thrust::make_tuple( 2.0, 4.0, 6.0, 8.0, 10.0, 12.0) );
+			point.SetCoordinate( thrust::make_tuple( 2.0, 4.0, 6.0),
+					thrust::make_tuple( 8.0, 10.0, 12.0) );
 			point.SetWeight( 3.0 )  ;
 			point.SetWeight2( 9.0 ) ;
 			point.SetError(3.0) ;
@@ -945,7 +962,10 @@ TEST_CASE( "Point<double, 3, true>","hydra::experimental::Point with value error
 			REQUIRE( thrust::get<2>(data) ==  Approx(3.0) );
 			REQUIRE( thrust::get<3>(data) ==  Approx(2.0) );
 			REQUIRE( thrust::get<4>(data) ==  Approx(4.0) );
-			REQUIRE( thrust::get<8>(data) ==  Approx(6.0) );
+			REQUIRE( thrust::get<5>(data) ==  Approx(6.0) );
+			REQUIRE( thrust::get<6>(data) ==  Approx(8.0) );
+			REQUIRE( thrust::get<7>(data) ==  Approx(10.0) );
+			REQUIRE( thrust::get<8>(data) ==  Approx(12.0) );
 
 		}
 
@@ -954,7 +974,7 @@ TEST_CASE( "Point<double, 3, true>","hydra::experimental::Point with value error
 
 				Point_t point;
 
-				point.SetData( thrust::make_tuple( 2.0, 4.0, 1.5, 1.0, 2.0, 3.0 ) );
+				point.SetData( thrust::make_tuple( 2.0, 4.0, 1.5, 1.0, 2.0, 3.0, 4.0, 5.0, 6.0 ) );
 
 				auto data = point.GetData();
 
@@ -964,6 +984,9 @@ TEST_CASE( "Point<double, 3, true>","hydra::experimental::Point with value error
 				REQUIRE( thrust::get<3>(data) ==  Approx(1.0) );
 				REQUIRE( thrust::get<4>(data) ==  Approx(2.0) );
 				REQUIRE( thrust::get<5>(data) ==  Approx(3.0) );
+				REQUIRE( thrust::get<6>(data) ==  Approx(4.0) );
+				REQUIRE( thrust::get<7>(data) ==  Approx(5.0) );
+				REQUIRE( thrust::get<8>(data) ==  Approx(6.0) );
 
 				for(size_t i=0; i<3; i++)
 					point.GetCoordinate(i)=10+i;
@@ -976,6 +999,9 @@ TEST_CASE( "Point<double, 3, true>","hydra::experimental::Point with value error
 				REQUIRE( thrust::get<3>(data) ==  Approx(10.0) );
 				REQUIRE( thrust::get<4>(data) ==  Approx(11.0) );
 				REQUIRE( thrust::get<5>(data) ==  Approx(12.0) );
+				REQUIRE( thrust::get<6>(data) ==  Approx(4.0) );
+				REQUIRE( thrust::get<7>(data) ==  Approx(5.0) );
+				REQUIRE( thrust::get<8>(data) ==  Approx(6.0) );
 
 		}
 
