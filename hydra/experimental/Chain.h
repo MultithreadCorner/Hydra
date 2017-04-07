@@ -29,6 +29,7 @@
 #ifndef CHAIN_H_
 #define CHAIN_H_
 
+#include <utility>
 #include <algorithm>
 #include <functional>
 #include <initializer_list>
@@ -109,7 +110,7 @@ struct Chain< hydra::experimental::Events<N,BACKEND >...>{
 
 
 	Chain(hydra::experimental::Chain<hydra::experimental::Events<N,BACKEND >...>const& other):
-		fStorage(CopyOtherStorage(other) ),
+		fStorage(std::move(other.CopyStorage()) ),
 		fSize (other.GetNEvents())
 		{
 
@@ -130,7 +131,7 @@ struct Chain< hydra::experimental::Events<N,BACKEND >...>{
 
 	template<unsigned int BACKEND2>
 	Chain(hydra::experimental::Chain<hydra::experimental::Events<N,BACKEND2 >...>const& other):
-	fStorage(CopyOtherStorage(other) ),
+	fStorage(std::move(other.CopyStorage()) ),
 	fSize (other.GetNEvents())
 	{
 
@@ -178,7 +179,7 @@ struct Chain< hydra::experimental::Events<N,BACKEND >...>{
 	operator=(hydra::experimental::Chain<hydra::experimental::Events<N,BACKEND >...> const& other)
 	{
 		if(this == &other) return *this;
-		this->fStorage = CopyOtherStorage(other) ;
+		this->fStorage = std::move(other.CopyStorage()) ;
 		this->fSize = other.GetNEvents();
 
 		this->fWeights = vector_real(this->fSize , 1.0);
@@ -203,7 +204,7 @@ struct Chain< hydra::experimental::Events<N,BACKEND >...>{
 	operator=(hydra::experimental::Chain<hydra::experimental::Events<N,BACKEND2 >...>const& other)
 	{
 		if(this == &other) return *this;
-		this->fStorage=CopyOtherStorage(other, other.indexes);
+		this->fStorage=std::move(other.CopyStorage());
 		this->fSize = other.GetNEvents();
 
 		this->fWeights = vector_real(this->fSize , 1.0);
@@ -273,12 +274,12 @@ struct Chain< hydra::experimental::Events<N,BACKEND >...>{
 
 	template<unsigned int I>
 	auto GetDecay() const
-	-> typename thrust::tuple_element<I+1, event_tuple>::type const&
+	-> typename thrust::tuple_element<I+1, event_tuple>::type&
 	{ return thrust::get<I+1>(fStorage);	}
 
 	template<unsigned int I>
 	auto GetDecay()
-	-> typename thrust::tuple_element<I+1, event_tuple>::type &
+	-> typename thrust::tuple_element<I+1, event_tuple>::type&
 	{ return thrust::get<I+1>(fStorage);	}
 
 
@@ -355,18 +356,28 @@ struct Chain< hydra::experimental::Events<N,BACKEND >...>{
 	const reference_type operator[](size_t i) const
 	{ return fConstBegin[i]; }
 
-private:
+	event_tuple const& CopyStorage() const { return fStorage;}
 
-	template<unsigned int  BACKEND2, size_t ...index>
-	event_tuple _CopyStorage(hydra::experimental::Chain<hydra::experimental::Events<N, BACKEND2>...> const& other,
-			hydra::detail::index_sequence<index...> indexes)
-	{ return thrust::make_tuple(hydra::experimental::Events<N,BACKEND >(other.template GetDecay<index>())...); }
+private:
+/*
+	template<size_t N2, unsigned int  BACKEND2>
+	hydra::experimental::Events<N2,BACKEND >
+	_CopyEvents(hydra::experimental::Events<N2, BACKEND2>const& other )
+	{
+		return std::move(hydra::experimental::Events<N2,BACKEND >(other));
+	}
+
+	template<typename C, size_t ...index>
+	event_tuple _CopyStorage(C const& other, hydra::detail::index_sequence<index...> indexes)
+	{
+		return thrust::make_tuple(_CopyEvents(other.template GetDecay<index>()...)); }
 
 	template<unsigned int  BACKEND2>
 	event_tuple CopyOtherStorage(hydra::experimental::Chain<hydra::experimental::Events<N, BACKEND2>...> const& other)
-	{ return _CopyStorage(other, typename hydra::experimental::Chain<hydra::experimental::Events<N, BACKEND2>...>::indexing_type() );}
-
+	{ return _CopyStorage(other, indexing_type() );}
+*/
 	event_tuple MoveStorage(){ return std::move(fStorage);}
+
 
 	size_t	CheckSizes(std::initializer_list<size_t> sizes)
 	{

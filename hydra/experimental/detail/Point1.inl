@@ -184,15 +184,19 @@ struct Point<T, DIM, false, false>
 	__host__  __device__
 	inline coordinate_type GetCoordinates()
 	{
-
-		return hydra::detail::split_tuple<2>(fData).second;
+		coordinate_type coord;
+		thrust::tuple<GReal_t,GReal_t > weights;
+		hydra::detail::split_tuple( weights ,coord, fData);
+		return coord;
 	}
 
 	__host__  __device__
-	inline const coordinate_type  GetCoordinates() const
+	inline  coordinate_type GetCoordinates() const
 	{
-
-		return hydra::detail::split_tuple<2>(fData).second;
+		coordinate_type coord;
+		thrust::tuple<GReal_t,GReal_t > weights;
+		hydra::detail::split_tuple( weights ,coord, fData);
+		return coord;
 	}
 
 

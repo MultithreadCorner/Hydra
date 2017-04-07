@@ -148,7 +148,7 @@ namespace hydra {
 
 	    index==I ? ptr=&thrust::get<I>(t):0;
 
-	    get_tuple_element<R,T,I+1>(index, t, ptr);
+	    _get_element<R,T,I+1>(index, t, ptr);
 	}
 
 	template<typename R, typename ...T>
@@ -164,6 +164,7 @@ namespace hydra {
 
 	//----------------------------------------
 	template<typename ...T1, typename ...T2, size_t... I1, size_t... I2 >
+	__host__  __device__ inline
 	void split_tuple_helper(thrust::tuple<T1...> &t1, thrust::tuple<T2...> &t2,
 			thrust::tuple<T1..., T2...> const& t , index_sequence<I1...>, index_sequence<I2...>)
 	{
@@ -173,6 +174,7 @@ namespace hydra {
 	}
 
 	template< typename ...T1,  typename ...T2>
+	__host__  __device__ inline
 	void split_tuple(thrust::tuple<T1...> &t1, thrust::tuple<T2...> &t2,
 			thrust::tuple<T1..., T2...> const& t)
 	{
@@ -183,6 +185,7 @@ namespace hydra {
 
 	//----------------------------------------
 	template<typename ...T, size_t... I1, size_t... I2 >
+	__host__  __device__ inline
 	auto split_tuple_helper(thrust::tuple<T...> &t, index_sequence<I1...>, index_sequence<I2...>)
 	-> decltype( thrust::make_pair(thrust::tie( thrust::get<I1>(t)... ), thrust::tie( thrust::get<I2+ + sizeof...(I1)>(t)... ) ) )
 	{
@@ -193,6 +196,7 @@ namespace hydra {
 	}
 
 	template< size_t N, typename ...T>
+	__host__  __device__ inline
 	auto split_tuple(thrust::tuple<T...>& t)
 	-> decltype( split_tuple_helper( t, make_index_sequence<N>{}, make_index_sequence<sizeof...(T)-N>{} ) )
 	{
@@ -292,8 +296,8 @@ namespace hydra {
 	//---------------------------------------
 	// set a generic array with tuple values
 	template<size_t I = 0,  typename ArrayType, typename FistType, typename ...OtherTypes>
-	__host__  __device__
-	inline typename thrust::detail::enable_if<I == (sizeof...(OtherTypes) + 1) &&
+	__host__  __device__ inline
+	typename thrust::detail::enable_if<I == (sizeof...(OtherTypes) + 1) &&
 	 is_hydra_convertible_to_tuple<ArrayType>::value &&
 	are_all_same<FistType,OtherTypes...>::value, void>::type
 	assignArrayToTuple(thrust::tuple<FistType, OtherTypes...> &,  ArrayType (&Array)[sizeof...(OtherTypes)+1])
