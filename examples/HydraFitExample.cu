@@ -53,6 +53,7 @@
 #include <hydra/Pdf.h>
 #include <hydra/AddPdf.h>
 
+
 #include "Minuit2/FunctionMinimum.h"
 #include "Minuit2/MnUserParameterState.h"
 #include "Minuit2/MnPrint.h"
@@ -67,7 +68,7 @@
 #include "Minuit2/VariableMetricMinimizer.h"
 #include <hydra/experimental/GaussKronrodQuadrature.h>
 #include <hydra/experimental/GaussKronrodAdaptiveQuadrature.h>
-
+#include <hydra/experimental/PointVector.h>
 
 //root
 #include <TROOT.h>
@@ -266,7 +267,13 @@ GInt_t main(int argv, char** argc)
 
 	//--------------------------------------------------------------------
 	//Generate data on the device with the original parameters
-	PointVector<device, GReal_t, 1> data_d(3*nentries);
+	//PointVector<device, GReal_t, 1> data_d(3*nentries);
+
+
+	typedef  hydra::experimental::Point<GReal_t, 1> Point_t;
+
+
+	hydra::experimental::PointVector<Point_t, device> data_d(3*nentries);
 
 	Generator.Gauss(mean1_p , sigma1_p, data_d.begin(), data_d.begin() + nentries );
 	Generator.Gauss(mean2_p , sigma2_p, data_d.begin()+ nentries, data_d.begin() + 2*nentries );
@@ -275,7 +282,8 @@ GInt_t main(int argv, char** argc)
 
 	//------------------------------------------------------
 	//get data from device and fill histogram
-	PointVector<host> data_h(data_d);
+	//PointVector<host> data_h(data_d);
+	hydra::experimental::PointVector<Point_t, host> data_h(data_d);
 
 	TH1D hist_data("data", "", 100, min[0], max[0]);
 	hist_data.Sumw2();
@@ -284,7 +292,9 @@ GInt_t main(int argv, char** argc)
 
 	//------------------------------------------------------
 	//container to sample fit function on the host nentries trials
-	PointVector<host, GReal_t, 1> data_fit_vegas_h(0);
+	//PointVector<host, GReal_t, 1> data_fit_vegas_h(0);
+	hydra::experimental::PointVector<Point_t, host> data_fit_vegas_h(0);
+
 
 	//------------------------------------------------------
 	//histogram to plot the sampled data
