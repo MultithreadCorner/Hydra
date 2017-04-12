@@ -120,7 +120,7 @@ TEST_CASE( "PointVector","hydra::experimental::PointVector 1D case" ) {
 			}
 
 			/**
-			 * via subscript iterator with type conversion
+			 * getting points via subscript iterator with type conversion
 			 */
 			for(size_t i=0; i<points.size() ; i++)
 			{
@@ -128,7 +128,7 @@ TEST_CASE( "PointVector","hydra::experimental::PointVector 1D case" ) {
 			}
 
 			/**
-			 * via GetPoint
+			 * getting points via GetPoint
 			 */
 			for(size_t i=0; i<points.size() ; i++)
 			{
@@ -140,10 +140,44 @@ TEST_CASE( "PointVector","hydra::experimental::PointVector 1D case" ) {
 
 	}
 
+	SECTION( "Adding, getting and modifying points with subscript operator" )
+		{
+
+			SECTION( "adding and getting points" )
+			{
+				typedef typename PointVector_h::point_t point_t;
+
+				PointVector_h  points(10);
+				for(size_t i=0; i<10 ; i++)
+				{
+					points[i] = point_t({i+ 1.0, i+ 2.0, i+ 3.0}, i ).GetData() ;
+				}
+
+				/**
+				 * getting points via subscript iterator with type conversion
+				 */
+				for(size_t i=0; i<points.size() ; i++)
+				{
+					REQUIRE( (point_t) points[i] == point_t({i+ 1.0, i+ 2.0, i+ 3.0}, i ) );
+				}
+
+				/**
+				 * getting points via GetPoint
+				 */
+				for(size_t i=0; i<points.size() ; i++)
+				{
+					REQUIRE( points.GetPoint(i) == point_t({i+ 1.0, i+ 2.0, i+ 3.0}, i ) );
+				}
+
+			}
+
+
+		}
+
 	SECTION( "lambdas..." )
 		{
 
-			SECTION( "std::for_each" )
+			SECTION( "std::for_each on host" )
 			{
 				typedef typename PointVector_h::point_t point_t;
 
@@ -161,13 +195,14 @@ TEST_CASE( "PointVector","hydra::experimental::PointVector 1D case" ) {
 
 			}
 
-			SECTION( "thrust::for_each" )
+			SECTION( "thrust::for_each on device" )
 			{
 				typedef typename PointVector_d::point_t point_t;
 
 				PointVector_d  points(10);
 				thrust::for_each(points.begin(), points.end(),
-						[]__host__ __device__(PointVector_h::reference point){ point=point_t({1.0, 2.0, 3.0}, 1.5 ).GetData(); });
+						[]__host__ __device__(PointVector_h::reference point)
+				{ point=point_t({1.0, 2.0, 3.0}, 1.5 ).GetData(); });
 
 				/**
 				 * via GetPoint
