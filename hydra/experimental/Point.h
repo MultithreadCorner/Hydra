@@ -39,7 +39,7 @@
 #include <hydra/Types.h>
 #include <hydra/detail/utility/Utility_Tuple.h>
 #include <hydra/detail/utility/Arithmetic_Tuple.h>
-
+#include <ostream>
 //std
 #include <array>
 
@@ -55,6 +55,19 @@ namespace experimental {
 template<typename T, size_t DIM, bool VALUE_ERROR=false, bool CO0RDINATE_ERROR=false>
 struct Point;
 
+template<typename T, size_t DIM, bool VALUE_ERROR, bool CO0RDINATE_ERROR>
+__host__ __device__
+inline bool operator==(Point<T,DIM,VALUE_ERROR,CO0RDINATE_ERROR> const& lhs,
+		Point<T,DIM,VALUE_ERROR,CO0RDINATE_ERROR> const& rhs)
+{ return lhs.GetData()==rhs.GetData(); }
+
+
+template<typename T, size_t DIM, bool VALUE_ERROR, bool CO0RDINATE_ERROR>
+__host__
+inline std::ostream& operator<<(std::ostream& os, Point<T,DIM,VALUE_ERROR,CO0RDINATE_ERROR > const& point){
+
+	return os<<point.GetData() ;
+}
 
 }  // namespace experimental
 

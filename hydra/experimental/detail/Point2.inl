@@ -107,12 +107,12 @@ struct Point<T, DIM, true, false>
 	 * @param coordinates: std::initializer_list
 	 * @param weight: weight of this point
 	 */
-	__host__
+	__host__ __device__
 	Point(std::initializer_list<value_type> coordinates, value_type error=0.0, value_type weight=1.0 )
 	{
-		std::vector<value_type> v(coordinates);
+		//std::vector<value_type> v(coordinates);
 		auto weights = thrust::make_tuple(weight, weight*weight, error  );
-		auto coords  = hydra::detail::arrayToTuple<value_type,DIM>(const_cast<value_type*>(v.data() ));
+		auto coords  = hydra::detail::arrayToTuple<value_type,DIM>(const_cast<value_type*>(coordinates.begin()));//v.data() ));
 		fData = thrust::tuple_cat(weights, coords  );
 	}
 
@@ -179,6 +179,17 @@ struct Point<T, DIM, true, false>
 		fData = thrust::tuple_cat(weights, coordinates  );
 
 	}
+
+	__host__  __device__
+	inline void SetCoordinate(coordinate_type && coordinates, value_type error=0.0,
+			value_type weight=1.0) {
+
+		auto weights = thrust::make_tuple(weight, weight*weight,  error);
+		fData = thrust::tuple_cat(weights, coordinates  );
+
+	}
+
+
 
 	__host__  __device__
 	inline coordinate_type GetCoordinates()

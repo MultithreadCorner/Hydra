@@ -328,9 +328,9 @@ TEST_CASE( "Point<double, 3>","hydra::experimental::Point without value error" )
 
 
 
-TEST_CASE( "Point<double, 3, true>","hydra::experimental::Point with value error" ) {
+TEST_CASE( "Point<double, 3, true,false>","hydra::experimental::Point with value error" ) {
 
-	typedef  hydra::experimental::Point<double, 3, true> Point_t;
+	typedef  hydra::experimental::Point<double, 3, true, false> Point_t;
 
 
 	SECTION( "Constructors " )
@@ -638,7 +638,7 @@ TEST_CASE( "Point<double, 3, true>","hydra::experimental::Point with value error
 
 
 
-TEST_CASE( "Point<double, 3, true>","hydra::experimental::Point with value error" ) {
+TEST_CASE( "Point<double, 3, true, true>","hydra::experimental::Point with value error" ) {
 
 	typedef  hydra::experimental::Point<double, 3, true, true> Point_t;
 

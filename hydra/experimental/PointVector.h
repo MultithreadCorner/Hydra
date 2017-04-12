@@ -75,15 +75,21 @@ public:
 
 	typedef typename data_t::const_iterator const_iterator;
 	typedef typename data_t::iterator iterator;
+	typedef typename data_t::reference_tuple reference;
+	typedef typename data_t::const_reference_tuple const_reference;
 
 	__host__
 	PointVector():
-		fData(type()){}
+		fData(data_t()){}
 
 	__host__
 	PointVector(size_t n):
-		fData(type(n)) {}
+		fData(data_t(n)) {}
 	
+
+	__host__
+	PointVector( PointVector<Point<T, N, V_ERROR, C_ERROR>, BACKEND> const& other):
+		fData(other.GetData()){}
 
 	template<unsigned int BACKEND2 >
 	__host__
@@ -114,16 +120,9 @@ public:
 
 
 	__host__
-	point_t& GetPoint(size_t i)
+	point_t GetPoint(size_t i) const
 	{
-		return fData[i];
-	}
-
-
-	__host__
-	point_t const& GetPoint(size_t i) const
-	{
-		return fData[i];
+		return point_t(fData[i]);
 	}
 
 	__host__
@@ -158,9 +157,11 @@ public:
 	 *  subscript operator
 	 */
 	__host__
-	const super_t& operator[] (size_t i)  const { return fData[i]; }
+    const_reference operator[] (size_t i)  const { return (fData.begin()[i]); }
+
 	__host__
-	super_t& operator[] (size_t i) { return fData[i]; }
+	reference operator[] (size_t i) { return (fData.begin()[i]); }
+
 
 
 	/**

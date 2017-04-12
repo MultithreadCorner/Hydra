@@ -81,6 +81,12 @@ namespace hydra {
 		typedef typename repeat<T, N, thrust::tuple>::type type;
 	};
 
+	template <size_t N, typename T>
+	struct references_tuple_type {
+		typedef typename repeat<T, N, thrust::detail::tuple_of_iterator_references>::type type;
+	};
+
+
 	//--------------------------------------
 	//get zip iterator
 	template<typename Iterator, size_t ...Index>
@@ -137,11 +143,13 @@ namespace hydra {
 	//---------------------------------------------
 	// get a reference to a tuple object by index
 	template<typename R, typename T, size_t I>
+	__host__  __device__ inline
 	typename thrust::detail::enable_if<(I == thrust::tuple_size<T>::value), void>::type
 	_get_element(const size_t index, T& t, R*& ptr )
 	{ }
 
 	template<typename R, typename T, size_t I=0>
+	__host__  __device__ inline
 	typename thrust::detail::enable_if<( I < thrust::tuple_size<T>::value), void>::type
 	_get_element(const size_t index, T& t, R*& ptr )
 	{
@@ -152,6 +160,7 @@ namespace hydra {
 	}
 
 	template<typename R, typename ...T>
+	__host__  __device__ inline
 	R& get_element(const size_t index, thrust::tuple<T...>& t)
 	{
 	    R* ptr;

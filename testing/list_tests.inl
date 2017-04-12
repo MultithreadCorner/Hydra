@@ -32,7 +32,7 @@
 //#include <testing/Events.inl>
 //#include <testing/Chain.inl>
 //#include <testing/multivector.inl>
-#include <testing/Point.inl>
-//#include <testing/PointVector.inl>
+//#include <testing/Point.inl>
+#include <testing/PointVector.inl>
 
 #endif /* LIST_TESTS_INL_ */

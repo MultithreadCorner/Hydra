@@ -54,6 +54,7 @@ struct Point<T, DIM, false, false>
 	constexpr static const size_t Dimension=DIM;
 
 	typedef typename hydra::detail::tuple_type<N, T>::type type;
+	typedef typename hydra::detail::references_tuple_type<N, T>::type ref_type;
 	typedef typename hydra::detail::tuple_type<DIM, T>::type coordinate_type;
 	typedef  T value_type;
 
@@ -108,12 +109,12 @@ struct Point<T, DIM, false, false>
 	 * @param coordinates: std::initializer_list
 	 * @param weight: weight of this point
 	 */
-	__host__
+	__host__ __device__
 	Point(std::initializer_list<value_type> coordinates, value_type weight=1.0 )
 	{
-		std::vector<value_type> v(coordinates);
+	//	std::vector<value_type> v(coordinates);
 		auto weights = thrust::make_tuple(weight, weight*weight );
-		auto coords  = hydra::detail::arrayToTuple<value_type,DIM>(const_cast<value_type*>(v.data() ));
+		auto coords  = hydra::detail::arrayToTuple<value_type,DIM>(const_cast<value_type*>(coordinates.begin()));//v.data() ));
 		fData = thrust::tuple_cat(weights, coords  );
 	}
 
@@ -164,12 +165,32 @@ struct Point<T, DIM, false, false>
 	__host__  __device__ inline
 	Point<value_type,DIM,false,false>& operator=(type const& other)
 	{
-		if( this == &other) return *this;
+		//if( this == &other) return *this;
 
 		fData=other ;
 
 		return *this;
 	}
+
+	__host__  __device__ inline
+		Point<value_type,DIM,false,false>& operator=(ref_type& other)
+		{
+			//if( this == &other) return *this;
+
+			fData=other ;
+
+			return *this;
+		}
+
+	__host__  __device__ inline
+			Point<value_type,DIM,false,false>& operator=(ref_type const& other)
+			{
+				//if( this == &other) return *this;
+
+				fData=other ;
+
+				return *this;
+			}
 
 
 	__host__  __device__
@@ -202,12 +223,12 @@ struct Point<T, DIM, false, false>
 
 	__host__  __device__
 		inline value_type& GetCoordinate(unsigned int i) {
-			return hydra::detail::get_element<value_type>(i+3, fData);
+			return hydra::detail::get_element<value_type>(i+2, fData);
 		}
 
 		__host__  __device__
 			inline value_type const& GetCoordinate(unsigned int i) const {
-				return hydra::detail::get_element<value_type>(i+3, fData);
+				return hydra::detail::get_element<value_type>(i+2, fData);
 		}
 
 
@@ -260,10 +281,14 @@ struct Point<T, DIM, false, false>
 
 	operator type() const { return fData; }
 	operator type() { return fData; }
+	operator ref_type() { return ref_type(fData); }
+	operator ref_type()const { return ref_type(fData); }
 
 private:
 	type fData;
 };
+
+
 
 }  // namespace experimental
 
