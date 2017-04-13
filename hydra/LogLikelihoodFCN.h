@@ -60,35 +60,35 @@
 namespace hydra{
 
 
-template<typename FUNCTOR, typename PointType, typename IteratorData,typename IteratorCache >
-class LogLikelihoodFCN:public FCN<LogLikelihoodFCN<FUNCTOR,PointType,IteratorData, IteratorCache>,IteratorData, IteratorCache>
+template<typename FUNCTOR, typename IteratorData,typename IteratorCache >
+class LogLikelihoodFCN:public FCN<LogLikelihoodFCN<FUNCTOR, IteratorData, IteratorCache>,IteratorData, IteratorCache>
 {
 
 public:
 
 
 	LogLikelihoodFCN(FUNCTOR& functor, IteratorData begin, IteratorData end):
-		FCN<LogLikelihoodFCN<FUNCTOR,PointType,IteratorData, IteratorCache>,IteratorData, IteratorCache>(begin, end),
+		FCN<LogLikelihoodFCN<FUNCTOR, IteratorData, IteratorCache>,IteratorData, IteratorCache>(begin, end),
 		fFunctor(functor),
 		fMAxValue(std::numeric_limits<GReal_t>::min() )
 	{}
 
 	LogLikelihoodFCN(FUNCTOR& functor, IteratorData begin, IteratorData end, IteratorCache cend):
-		FCN<LogLikelihoodFCN<FUNCTOR,PointType,IteratorData, IteratorCache>,IteratorData, IteratorCache>(begin, end, cend),
+		FCN<LogLikelihoodFCN<FUNCTOR, IteratorData, IteratorCache>,IteratorData, IteratorCache>(begin, end, cend),
 		fFunctor(functor),
 		fMAxValue(std::numeric_limits<GReal_t>::min() )
 		{}
 
-	LogLikelihoodFCN( LogLikelihoodFCN<FUNCTOR,PointType,IteratorData, IteratorCache> const& other):
-		FCN<LogLikelihoodFCN<FUNCTOR,PointType,IteratorData, IteratorCache>,IteratorData, IteratorCache>(other),
+	LogLikelihoodFCN( LogLikelihoodFCN<FUNCTOR, IteratorData, IteratorCache> const& other):
+		FCN<LogLikelihoodFCN<FUNCTOR, IteratorData, IteratorCache>,IteratorData, IteratorCache>(other),
 		fFunctor(other.GetFunctor()),
 		fMAxValue(other.GetMAxValue())
 		{}
 
-	LogLikelihoodFCN<FUNCTOR,IteratorData, IteratorCache>&
-	operator=(LogLikelihoodFCN<FUNCTOR,PointType,IteratorData, IteratorCache> const& other)
+	LogLikelihoodFCN<FUNCTOR, IteratorData, IteratorCache>&
+	operator=(LogLikelihoodFCN<FUNCTOR, IteratorData, IteratorCache> const& other)
 	{
-		FCN<LogLikelihoodFCN<FUNCTOR,PointType,IteratorData, IteratorCache>,IteratorData, IteratorCache>::operator=(other);
+		FCN<LogLikelihoodFCN<FUNCTOR, IteratorData, IteratorCache>,IteratorData, IteratorCache>::operator=(other);
 		this->fFunctor=other.GetFunctor();
 		this->fMAxValue=other.GetMAxValue();
 		return *this;
@@ -129,7 +129,7 @@ public:
 
 
 		final=thrust::transform_reduce(select_system(system), first, last,
-				detail::LogLikelihood<typename U::functor_type, PointType,
+				detail::LogLikelihood<typename U::functor_type,
 				IteratorData, IteratorCache>(fFunctor.GetFunctor(),
 						this->GetSumW()     , this->GetSumW2() ,
 						this->GetDataBegin(), this->GetCacheBegin(),
@@ -181,7 +181,7 @@ public:
 		//fFunctor.GetFunctor().PrintRegisteredParameters();
 
 		final=thrust::transform_reduce(select_system(system), first, last,
-				detail::LogLikelihood<typename U::functor_type,PointType,
+				detail::LogLikelihood<typename U::functor_type,
 				IteratorData, IteratorCache>(fFunctor.GetFunctor(),
 						this->GetSumW()     , this->GetSumW2() ,
 						this->GetDataBegin(), this->GetCacheBegin(),
