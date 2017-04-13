@@ -288,6 +288,26 @@ private:
 	type fData;
 };
 
+//output stream operators
+template<typename T , size_t N>
+__host__ __device__ inline
+Point<T,N,false,false>
+operator+(Point<T,N,false,false> const& point1,
+		Point<T,N,false,false> const& point2)
+{
+	 typedef typename detail::tuple_type<N, T>::type type;
+
+	 Point<T,N,false,false> point(type(), 0);
+
+	 point.SetWeight( point1.GetWeight() + point2.GetWeight());
+	 point.SetWeight2( point1.GetWeight2() + point2.GetWeight2());
+
+	 for(size_t i = 0; i<N; i++)
+	 point.SetCoordinates( point1.GetCoordinates() + point2.GetCoordinates() );
+
+	 return point ;
+
+}
 
 
 }  // namespace experimental

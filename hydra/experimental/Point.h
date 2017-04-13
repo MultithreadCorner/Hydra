@@ -62,6 +62,10 @@ inline bool operator==(Point<T,DIM,VALUE_ERROR,CO0RDINATE_ERROR> const& lhs,
 { return lhs.GetData()==rhs.GetData(); }
 
 
+
+
+
+//output stream operators
 template<typename T, size_t DIM, bool VALUE_ERROR, bool CO0RDINATE_ERROR>
 __host__
 inline std::ostream& operator<<(std::ostream& os, Point<T,DIM,VALUE_ERROR,CO0RDINATE_ERROR > const& point){
