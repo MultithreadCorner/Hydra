@@ -117,8 +117,17 @@ operator+(Point<T,N,true,true> const& point1,
 	 point.SetWeight( point1.GetWeight() + point2.GetWeight());
 	 point.SetWeight2( point1.GetWeight2() + point2.GetWeight2());
 	 point.SetError( sqrt(  point1.GetError()*point1.GetError() + point2.GetError()*point2.GetError() ));
+     point.SetCoordinates( point1.GetCoordinates() + point2.GetCoordinates() );
 
-	 point.SetCoordinates( point1.GetCoordinates() + point2.GetCoordinates() );
+     auto errors1Sq =  (point1.GetCoordinateErrors())*(point1.GetCoordinateErrors());
+	 auto errors2Sq =  (point2.GetCoordinateErrors())*(point2.GetCoordinateErrors());
+
+	 auto errorSq   = errors1Sq + errors2Sq;
+
+	 auto Sqrt = [ = ] __host__ __device__ ( T x ){ return sqrt(x); };
+
+	 point.SetCoordinatesErrors(  hydra::detail::callOnTuple( [ = ] __host__ __device__
+			 ( T x ){ return sqrt(x); }  ,  errorSq));
 
 	 return point ;
 

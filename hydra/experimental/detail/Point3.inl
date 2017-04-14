@@ -206,7 +206,6 @@ struct Point<T, DIM, true, true>
 		}
 
 
-
 	__host__  __device__
 	inline coordinate_type GetCoordinates()
 	{
@@ -232,6 +231,34 @@ struct Point<T, DIM, true, true>
 		hydra::detail::split_tuple(coord, error,coord_and_error);
 		return coord;
 	}
+
+
+	__host__  __device__
+	inline coordinate_type GetCoordinateErrors()
+	{
+		coordinate_type coord;
+		coordinate_type error;
+		coordinate_and_error_type coord_and_error;
+
+		thrust::tuple<GReal_t,GReal_t,GReal_t > weights;
+		hydra::detail::split_tuple( weights , coord_and_error, fData);
+		hydra::detail::split_tuple(coord, error, coord_and_error);
+		return error;
+	}
+
+	__host__  __device__
+	inline  coordinate_type GetCoordinateErrors() const
+	{
+		coordinate_type coord;
+		coordinate_type error;
+		coordinate_and_error_type coord_and_error;
+
+		thrust::tuple<GReal_t,GReal_t,GReal_t > weights;
+		hydra::detail::split_tuple( weights , coord_and_error, fData);
+		hydra::detail::split_tuple(coord, error,coord_and_error);
+		return error;
+	}
+
 
 	__host__  __device__
 		inline value_type& GetCoordinate(unsigned int i) {
