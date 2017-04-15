@@ -322,7 +322,20 @@ IF(OPENMP_FOUND)
     rt
     )
     
+    #+++++++++++++++++++++++++++++++
+    # Data fitting                 |
+    #+++++++++++++++++++++++++++++++
+    add_executable(Hydra_Experimental_Example_Fit_Host_CPP_Device_OMP EXCLUDE_FROM_ALL
+    HydraFitExperimentalExample.cpp
+    )
     
+    set_target_properties(Hydra_Experimental_Example_Fit_Host_CPP_Device_OMP PROPERTIES 
+    COMPILE_FLAGS "-pg -fopenmp -DTHRUST_HOST_SYSTEM=THRUST_HOST_SYSTEM_CPP -DTHRUST_DEVICE_SYSTEM=THRUST_DEVICE_SYSTEM_OMP -lgomp")
+    
+    target_link_libraries(Hydra_Experimental_Example_Fit_Host_CPP_Device_OMP
+    ${ROOT_LIBRARIES}
+    rt
+    )
     
     #+++++++++++++++++++++++++++++++
     # Lambda function evaluation   |
