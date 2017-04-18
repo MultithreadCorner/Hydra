@@ -190,12 +190,12 @@ GInt_t main(int argv, char** argc)
 	typedef hydra::experimental::Events<3, device> event3_t;
 	typedef hydra::experimental::Events<2, device> event2_t;
 	hydra::experimental::Chain<event3_t, event2_t> chain(std::move(P2ABC_Events_d), std::move(C2ab_Events_d));
-
+/*
 	for(auto row:chain ){
 		cout<< row <<endl;
 	}
 
-
+*/
 /*
 
 	typedef thrust::tuple< event3_t, event2_t> chain_t;

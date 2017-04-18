@@ -42,6 +42,8 @@
 #include <hydra/detail/TypeTraits.h>
 #include <hydra/experimental/multivector.h>
 //thrust
+
+
 #include <thrust/tuple.h>
 #include <thrust/device_vector.h>
 #include <thrust/host_vector.h>
@@ -67,10 +69,15 @@ public:
 
     typedef Point<T, N, V_ERROR, C_ERROR> point_t;
     typedef typename point_t::type super_t;
+    typedef T cell_type;
+    typedef typename system_t::template container< cell_type > column_type;
 
 	typedef typename system_t::template container< super_t > prototype_t;
 
 	typedef hydra::experimental::multivector<prototype_t> data_t;
+
+	typedef typename column_type::iterator column_iterator;
+	typedef typename column_type::const_iterator const_column_iterator;
 
 
 	typedef typename data_t::const_iterator const_iterator;
@@ -84,7 +91,7 @@ public:
 
 	__host__
 	PointVector(size_t n):
-		fData(data_t(n)) {}
+		fData(data_t(n, point_t().GetData())) {}
 	
 
 	__host__
@@ -103,6 +110,9 @@ public:
 	 */
 	__host__
 	const data_t& GetData() const { return fData; }
+
+	__host__
+	data_t& GetData(){ return fData; }
 
 
 	/**Todo
@@ -143,6 +153,11 @@ public:
 	__host__
 	const_iterator end() const { return fData.cend(); }
 
+	__host__
+	const_iterator cbegin() const { return fData.cbegin(); }
+	__host__
+	const_iterator cend() const { return fData.cend(); }
+
 
 
 	/**
@@ -175,6 +190,49 @@ private:
 	
 
 };
+
+
+template<size_t I, typename T, size_t N, unsigned int BACKEND>
+auto GetCoordinateBegin(PointVector<Point<T,N,false,false>,BACKEND >& container )
+-> typename PointVector<Point<T,N,false,false>, BACKEND>::column_iterator
+{
+	auto begin= container.GetData().template vbegin<I+2>();
+	return begin;
+}
+/*
+template<size_t I, typename T, size_t N, unsigned int BACKEND>
+auto GetCoordinateBegin(PointVector<Point<T,N,false,false>,
+		BACKEND >& container )
+-> decltype( container.GetData().template vbegin<I+2>())
+{
+	auto begin= container.GetData().template vbegin<I+2>();
+	return begin;
+}
+*/
+
+template<size_t I, typename T, size_t N, unsigned int BACKEND>
+auto GetCoordinateEnd(PointVector<Point<T,N,false,false>,  BACKEND >& container )
+-> typename PointVector<Point<T,N,false,false>, BACKEND>::column_iterator
+{
+	auto begin= container.GetData().template vend<I+2>();
+	return begin;
+}
+
+template<size_t I, typename T, size_t N, bool CERROR, unsigned int BACKEND>
+auto GetCoordinateBegin(PointVector<Point<T,N,true,CERROR>,  BACKEND >& container )
+-> decltype(container.GetData().template vbegin<I+3>())
+{
+	auto begin= container.GetData().template vbegin<I+3>();
+	return begin;
+}
+
+template<size_t I, typename T, size_t N, bool CERROR, unsigned int BACKEND>
+auto GetCoordinateEnd(PointVector<Point<T,N,true,CERROR>,  BACKEND >& container )
+-> decltype( container.GetData().template vend<I+3>())
+{
+	auto begin= container.GetData().template vend<I+3>();
+	return begin;
+}
 
 }  // namespace experimental
 

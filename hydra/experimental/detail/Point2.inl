@@ -64,7 +64,9 @@ struct Point<T, DIM, true, false>
 	__host__ __device__
 	Point():
 	fData()
-	{ }
+	{
+		SetCoordinate(coordinate_type());
+	}
 
 	/**
 	 * Trivial constructor for points
@@ -251,6 +253,7 @@ struct Point<T, DIM, true, false>
 	__host__  __device__
 	inline void SetError(value_type weight) {
 		thrust::get<2>(fData) = weight;
+
 	}
 
 	__host__  __device__
@@ -268,6 +271,7 @@ struct Point<T, DIM, true, false>
 	__host__  __device__
 	inline void SetWeight(value_type weight) {
 		thrust::get<0>(fData) = weight;
+		thrust::get<1>(fData) = weight*weight;
 	}
 
 	__host__  __device__
@@ -276,7 +280,7 @@ struct Point<T, DIM, true, false>
 	}
 
 	__host__  __device__
-	inline value_type& GetWeight2() const {
+	inline value_type const& GetWeight2() const {
 		return thrust::get<1>(fData);
 	}
 
@@ -293,6 +297,27 @@ struct Point<T, DIM, true, false>
 private:
 	type fData;
 };
+
+/*
+//output stream operators
+template<typename T , size_t N>
+__host__ __device__ inline
+Point<T,N,true,false>
+operator+(Point<T,N,true,false> const& point1,
+		Point<T,N,true,false> const& point2)
+{
+
+	 Point<T,N,true,false> point;
+
+	 point.SetWeight( point1.GetWeight() + point2.GetWeight());
+	 point.SetWeight2( point1.GetWeight2() + point2.GetWeight2());
+	 point.SetError( sqrt(  point1.GetError()*point1.GetError() + point2.GetError()*point2.GetError() ));
+	 point.SetCoordinates( point1.GetCoordinates() + point2.GetCoordinates() );
+
+	 return point ;
+
+}
+*/
 
 }  // namespace experimental
 

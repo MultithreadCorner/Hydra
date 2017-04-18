@@ -129,11 +129,11 @@ namespace hydra {
 			__host__ __device__
 			inline thrust::tuple<T...>
 			divideTuples(const thrust::tuple<T...>&a, const thrust::tuple<T...>&b) {
-				return devideTuples<T...>(a, b, make_index_sequence<sizeof...(T)> {} );
+				return divideTuples<T...>(a, b, make_index_sequence<sizeof...(T)> {} );
 			}
 
 			//evaluate functor on tuples element by element
-			template<typename ... T, size_t ... I>
+			template<typename F, typename ... T, size_t ... I>
 			__host__ __device__
 			inline thrust::tuple<T...>
 			callOnTupleHelper(F const& f, const thrust::tuple<T...>&tuple, index_sequence<I...>) {
@@ -144,7 +144,7 @@ namespace hydra {
 			__host__ __device__
 			inline thrust::tuple<T...>
 			callOnTuple(F const& f, const thrust::tuple<T...>& tuple) {
-				return callOnTupleHelper<F, T..., I... >(f, tuple, make_index_sequence<sizeof...(T)> {} );
+				return callOnTupleHelper<F, T...>(f, tuple, make_index_sequence<sizeof...(T)> {} );
 			}
 
 

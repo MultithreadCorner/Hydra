@@ -30,8 +30,8 @@
  * \ingroup fit
  */
 
-#ifndef FCN_H_
-#define FCN_H_
+#ifndef _FCN_H_
+#define _FCN_H_
 
 #include <hydra/detail/Config.h>
 
@@ -39,6 +39,8 @@
 #include <hydra/detail/utility/Utility_Tuple.h>
 #include <hydra/detail/Hash.h>
 #include <hydra/detail/functors/LogLikelihood.h>
+#include <hydra/detail/utility/Arithmetic_Tuple.h>
+#include <hydra/experimental/Point.h>
 
 #include <thrust/distance.h>
 #include <thrust/tuple.h>
@@ -57,9 +59,45 @@ namespace hydra {
 namespace experimental {
 
 
-template<typename ESTIMATOR, typename IteratorData, typename IteratorCache>
-class FCN: public ROOT::Minuit2::FCNBase {
+template<typename T>
+class FCN;
+
+template<template<typename... > class ESTIMATOR, typename FUNCTOR,  typename PointType, typename IteratorData, typename IteratorCache>
+class FCN<ESTIMATOR<FUNCTOR, PointType, IteratorData, IteratorCache>>: public ROOT::Minuit2::FCNBase {
 public:
+
+	typedef ESTIMATOR<FUNCTOR, PointType, IteratorData, IteratorCache> estimator_type;
+	typedef PointType point_type;
+	typedef typename thrust::iterator_traits<IteratorData>::value_type data_value_type;
+	typedef typename thrust::iterator_traits<IteratorCache>::value_type cache_value_type;
+
+	struct Weights { GReal_t fSumW; GReal_t fSumW2; };
+
+	struct UnaryWeights
+	{
+		template<typename T>
+		__host__ __device__
+		Weights operator()(T data )
+		{
+			Weights weights;
+			weights.fSumW  = thrust::get<0>(data);
+			weights.fSumW2 = thrust::get<1>(data);
+			return weights;
+		}
+	};
+
+	struct BinaryWeights
+	{
+		__host__ __device__
+		Weights operator()(Weights const& w1,  Weights const& w2)
+		{
+			Weights weights;
+			weights.fSumW  = w1.fSumW + w2.fSumW;
+			weights.fSumW2 = w1.fSumW2 + w2.fSumW2;
+			return weights;
+		}
+	};
+
 
 	FCN(IteratorData begin, IteratorData end) :
 		fDataBegin(begin),
@@ -71,11 +109,16 @@ public:
 		fCached(kFalse),
 		fFCNCache(std::unordered_map<size_t, GReal_t>())
 {
-		typename IteratorData::value_type init;
+		Weights init;
 
-		auto point = thrust::reduce(begin, end, init);
-		fSumW  = point.GetWeight() ;
-		fSumW2 = point.GetWeight2();
+		Weights  result = thrust::transform_reduce(begin, end, UnaryWeights(),
+				init, BinaryWeights() );
+
+		fSumW  =  result.fSumW;
+		fSumW2 =  result.fSumW2;
+
+		std::cout << "=======> fSumW " << fSumW <<std::endl;
+
 }
 
 	FCN(IteratorData begin, IteratorData end, IteratorCache cbegin) :
@@ -88,14 +131,18 @@ public:
 		fCached(kTrue),
 		fFCNCache(std::unordered_map<size_t, GReal_t>())
 	{
-		typename IteratorData::value_type init;
+		//typename IteratorData::value_type init;
 
-		auto point = thrust::reduce(begin, end, init);
-		fSumW  = point.GetWeight() ;
-		fSumW2 = point.GetWeight2();
+		Weights init;
+
+		Weights  result = thrust::transform_reduce(begin, end, UnaryWeights(),
+				init, BinaryWeights() );
+
+		fSumW  =  result.fSumW;
+		fSumW2 =  result.fSumW2;
 	}
 
-	FCN(FCN<ESTIMATOR, IteratorData, IteratorCache> const& other) :
+	FCN(FCN<estimator_type> const& other) :
 		ROOT::Minuit2::FCNBase(other),
 		fDataBegin(other.GetDataBegin()),
 		fDataEnd(other.GetDataEnd()),
@@ -109,8 +156,8 @@ public:
 		fSumW2(other.GetSumW2())
 	{}
 
-	FCN<ESTIMATOR, IteratorData, IteratorCache>&
-	operator=(FCN<ESTIMATOR, IteratorData, IteratorCache> const& other)
+	FCN<estimator_type>&
+	operator=(FCN<estimator_type> const& other)
 	{
 		ROOT::Minuit2::FCNBase::operator = (other);
 		this->fDataBegin = other.GetDataBegin();
@@ -218,7 +265,7 @@ private:
 
 	GReal_t GetFCNValue(const std::vector<double>& parameters) const {
 
-		size_t key = detail::hash_range(parameters.begin(),
+		size_t key = hydra::detail::hash_range(parameters.begin(),
 				parameters.end());
 
 		auto search = fFCNCache.find(key);
@@ -243,7 +290,7 @@ private:
 	}
 
 	GReal_t EvalFCN(const std::vector<double>& parameters) const {
-		return static_cast<const ESTIMATOR*>(this)->Eval(parameters);
+		return static_cast<const estimator_type*>(this)->Eval(parameters);
 	}
 
 	IteratorData fDataBegin;

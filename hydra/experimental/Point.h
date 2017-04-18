@@ -77,11 +77,12 @@ operator+(Point<T,N,false,false> const& point1,
 	 point.SetWeight( point1.GetWeight() + point2.GetWeight());
 	 point.SetWeight2( point1.GetWeight2() + point2.GetWeight2());
 
-	 point.SetCoordinates( point1.GetCoordinates() + point2.GetCoordinates() );
+	 point.SetCoordinate(hydra::operator+(point1.GetCoordinates() , point2.GetCoordinates())  );
 
 	 return point ;
 
 }
+
 
 
 //output stream operators
@@ -97,11 +98,12 @@ operator+(Point<T,N,true,false> const& point1,
 	 point.SetWeight( point1.GetWeight() + point2.GetWeight());
 	 point.SetWeight2( point1.GetWeight2() + point2.GetWeight2());
 	 point.SetError( sqrt(  point1.GetError()*point1.GetError() + point2.GetError()*point2.GetError() ));
-	 point.SetCoordinates( point1.GetCoordinates() + point2.GetCoordinates() );
+	 point.SetCoordinate( hydra::operator+(point1.GetCoordinates() , point2.GetCoordinates()) );
 
 	 return point ;
 
 }
+
 
 //output stream operators
 template<typename T , size_t N>
@@ -117,8 +119,17 @@ operator+(Point<T,N,true,true> const& point1,
 	 point.SetWeight( point1.GetWeight() + point2.GetWeight());
 	 point.SetWeight2( point1.GetWeight2() + point2.GetWeight2());
 	 point.SetError( sqrt(  point1.GetError()*point1.GetError() + point2.GetError()*point2.GetError() ));
+     point.SetCoordinates( hydra::operator+(point1.GetCoordinates() , point2.GetCoordinates())  );
 
-	 point.SetCoordinates( point1.GetCoordinates() + point2.GetCoordinates() );
+     auto errors1Sq =  hydra::operator*(point1.GetCoordinateErrors() , point1.GetCoordinateErrors());
+	 auto errors2Sq =  hydra::operator*(point2.GetCoordinateErrors() , point2.GetCoordinateErrors());
+
+	 auto errorSq   = errors1Sq + errors2Sq;
+
+	 auto Sqrt = [ = ] __host__ __device__ ( T x ){ return sqrt(x); };
+
+	 point.SetCoordinatesErrors(  hydra::detail::callOnTuple( [ = ] __host__ __device__
+			 ( T x ){ return sqrt(x); }  ,  errorSq));
 
 	 return point ;
 

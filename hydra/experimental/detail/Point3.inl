@@ -66,7 +66,7 @@ struct Point<T, DIM, true, true>
 	__host__ __device__
 	Point():
 	fData()
-	{ }
+	{ this->SetWeight(1.0) ;}
 
 	/**
 	 * Trivial constructor for points
@@ -206,7 +206,6 @@ struct Point<T, DIM, true, true>
 		}
 
 
-
 	__host__  __device__
 	inline coordinate_type GetCoordinates()
 	{
@@ -232,6 +231,34 @@ struct Point<T, DIM, true, true>
 		hydra::detail::split_tuple(coord, error,coord_and_error);
 		return coord;
 	}
+
+
+	__host__  __device__
+	inline coordinate_type GetCoordinateErrors()
+	{
+		coordinate_type coord;
+		coordinate_type error;
+		coordinate_and_error_type coord_and_error;
+
+		thrust::tuple<GReal_t,GReal_t,GReal_t > weights;
+		hydra::detail::split_tuple( weights , coord_and_error, fData);
+		hydra::detail::split_tuple(coord, error, coord_and_error);
+		return error;
+	}
+
+	__host__  __device__
+	inline  coordinate_type GetCoordinateErrors() const
+	{
+		coordinate_type coord;
+		coordinate_type error;
+		coordinate_and_error_type coord_and_error;
+
+		thrust::tuple<GReal_t,GReal_t,GReal_t > weights;
+		hydra::detail::split_tuple( weights , coord_and_error, fData);
+		hydra::detail::split_tuple(coord, error,coord_and_error);
+		return error;
+	}
+
 
 	__host__  __device__
 		inline value_type& GetCoordinate(unsigned int i) {
@@ -288,6 +315,7 @@ struct Point<T, DIM, true, true>
 	__host__  __device__
 	inline void SetWeight(value_type weight) {
 		thrust::get<0>(fData) = weight;
+		thrust::get<1>(fData) = weight*weight;
 	}
 
 	__host__  __device__
@@ -296,7 +324,7 @@ struct Point<T, DIM, true, true>
 	}
 
 	__host__  __device__
-	inline value_type& GetWeight2() const {
+	inline value_type const& GetWeight2() const {
 		return thrust::get<1>(fData);
 	}
 
@@ -313,7 +341,37 @@ struct Point<T, DIM, true, true>
 private:
 	type fData;
 };
+/*
+//output stream operators
+template<typename T , size_t N>
+__host__ __device__ inline
+Point<T,N,true,true>
+operator+(Point<T,N,true,true> const& point1,
+		Point<T,N,true,true> const& point2)
+{
+	 //typedef typename detail::tuple_type<N, T>::type type;
 
+	 Point<T,N,true,true> point;//(type(), 0);
+
+	 point.SetWeight( point1.GetWeight() + point2.GetWeight());
+	 point.SetWeight2( point1.GetWeight2() + point2.GetWeight2());
+	 point.SetError( sqrt(  point1.GetError()*point1.GetError() + point2.GetError()*point2.GetError() ));
+     point.SetCoordinates( point1.GetCoordinates() + point2.GetCoordinates() );
+
+     auto errors1Sq =  (point1.GetCoordinateErrors())*(point1.GetCoordinateErrors());
+	 auto errors2Sq =  (point2.GetCoordinateErrors())*(point2.GetCoordinateErrors());
+
+	 auto errorSq   = errors1Sq + errors2Sq;
+
+	 auto Sqrt = [ = ] __host__ __device__ ( T x ){ return sqrt(x); };
+
+	 point.SetCoordinatesErrors(  hydra::detail::callOnTuple( [ = ] __host__ __device__
+			 ( T x ){ return sqrt(x); }  ,  errorSq));
+
+	 return point ;
+
+}
+*/
 }  // namespace experimental
 
 } // namespace hydra

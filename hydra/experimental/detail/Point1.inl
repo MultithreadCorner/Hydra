@@ -65,7 +65,9 @@ struct Point<T, DIM, false, false>
 	__host__ __device__
 	Point():
 	fData()
-	{ }
+	{
+		this->SetWeight(1.0) ;
+	}
 
 	/**
 	 * Trivial constructor for points
@@ -261,6 +263,8 @@ struct Point<T, DIM, false, false>
 	__host__  __device__
 	inline void SetWeight(value_type weight) {
 		thrust::get<0>(fData) = weight;
+		thrust::get<1>(fData) = weight*weight;
+
 	}
 
 	__host__  __device__
@@ -269,7 +273,7 @@ struct Point<T, DIM, false, false>
 	}
 
 	__host__  __device__
-	inline value_type& GetWeight2() const {
+	inline value_type const& GetWeight2() const {
 		return thrust::get<1>(fData);
 	}
 
@@ -277,6 +281,7 @@ struct Point<T, DIM, false, false>
 	inline void SetWeight2(value_type weight2) {
 		thrust::get<1>(fData) = weight2;
 	}
+
 
 
 	operator type() const { return fData; }
@@ -288,27 +293,27 @@ private:
 	type fData;
 };
 
-//output stream operators
+/*
+//operator+
 template<typename T , size_t N>
 __host__ __device__ inline
 Point<T,N,false,false>
 operator+(Point<T,N,false,false> const& point1,
 		Point<T,N,false,false> const& point2)
 {
-	 typedef typename detail::tuple_type<N, T>::type type;
+	// typedef typename detail::tuple_type<N, T>::type type;
 
-	 Point<T,N,false,false> point(type(), 0);
+	 Point<T,N,false,false> point;//(type(), 0);
 
 	 point.SetWeight( point1.GetWeight() + point2.GetWeight());
 	 point.SetWeight2( point1.GetWeight2() + point2.GetWeight2());
 
-	 for(size_t i = 0; i<N; i++)
 	 point.SetCoordinates( point1.GetCoordinates() + point2.GetCoordinates() );
 
 	 return point ;
 
 }
-
+*/
 
 }  // namespace experimental
 

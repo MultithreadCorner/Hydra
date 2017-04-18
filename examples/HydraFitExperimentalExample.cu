@@ -20,7 +20,7 @@
  *---------------------------------------------------------------------------*/
 
 /*
- * HydraFitExample.cu
+ * HydraFitExample.cpp
  *
  *  Created on: Jun 21, 2016
  *      Author: Antonio Augusto Alves Junior
@@ -33,7 +33,7 @@
 #include <vector>
 #include <array>
 #include <chrono>
-#include <limits>
+
 //command line arguments
 #include <tclap/CmdLine.h>
 
@@ -46,13 +46,14 @@
 #include <hydra/Random.h>
 #include <hydra/VegasState.h>
 #include <hydra/Vegas.h>
-#include <hydra/LogLikelihoodFCN.h>
-#include <hydra/PointVector.h>
+
+#include <hydra/experimental/LogLikelihoodFCN.h>
+#include <hydra/experimental/PointVector.h>
+
 #include <hydra/Parameter.h>
 #include <hydra/UserParameters.h>
 #include <hydra/Pdf.h>
 #include <hydra/AddPdf.h>
-
 
 #include "Minuit2/FunctionMinimum.h"
 #include "Minuit2/MnUserParameterState.h"
@@ -66,10 +67,6 @@
 #include "Minuit2/MinosError.h"
 #include "Minuit2/ContoursError.h"
 #include "Minuit2/VariableMetricMinimizer.h"
-#include <hydra/experimental/GaussKronrodQuadrature.h>
-#include <hydra/experimental/GaussKronrodAdaptiveQuadrature.h>
-#include <hydra/PointVector.h>
-
 //root
 #include <TROOT.h>
 #include <TH1D.h>
@@ -90,53 +87,7 @@ using namespace ROOT::Minuit2;
 using namespace hydra;
 using namespace examples;
 
-/**
- * @file
- * @example HydraFitExample.cu
- * @brief HydraFitExample take parameters from the command line, fill a range with random numbers sampled from
- * the model and perform a extended likelihood fit in parallel using the OpenMP backend.
- * @param -c (--combined-minimizer):  Use Migrad + Simplex for minimization
- * @param -i=<double> (--max-iterations=<double>) : Maximum number of iterations for migrad and minimize call.
- * @param -t=<double> (--tolerance=<double>) : Tolerance parameter for migrad and minimize call.
- * @param -n=<long> (--number-of-events=<long>) (required):  Number of events for each component.
- *
- * Usage:
- * ./Hydra_Example_NVCC_DEVICE_CUDA_HOST_OMP_Fit  [-c] [-i=<double>]
- *                                      [-t=<double>] -n=<long> [--]
- *                                      [--version] [-h]
- *
- * For example, the command below:
- * ```
- * ./Hydra_Example_NVCC_DEVICE_CUDA_HOST_OMP_Fit -n=1000000
- * ```
- * will print some stuff to standard output and produce the plot:
- *
- * @image html Fit_CUDA.png
- */
 
-
-/**
- * @file
- * @brief HydraFitExample take parameters from the command line, fill a range with random numbers sampled from
- * the model and perform a extended likelihood fit in parallel using the OpenMP backend.
- * @param -c (--combined-minimizer):  Use Migrad + Simplex for minimization
- * @param -i=<double> (--max-iterations=<double>) : Maximum number of iterations for migrad and minimize call.
- * @param -t=<double> (--tolerance=<double>) : Tolerance parameter for migrad and minimize call.
- * @param -n=<long> (--number-of-events=<long>) (required):  Number of events for each component.
- *
- * Usage:
- * ./Hydra_Example_NVCC_DEVICE_CUDA_HOST_OMP_Fit  [-c] [-i=<double>]
- *                                      [-t=<double>] -n=<long> [--]
- *                                      [--version] [-h]
- *
- * For example, the command below:
- * ```
- * ./Hydra_Example_NVCC_DEVICE_CUDA_HOST_OMP_Fit -n=1000000
- * ```
- * will print some stuff to standard output and produce the plot:
- *
- * @image html Fit_CUDA.png
- */
 GInt_t main(int argv, char** argc)
 {
 
@@ -265,179 +216,46 @@ GInt_t main(int argv, char** argc)
 	Gauss Gaussian2(mean2_p, sigma2_p,0,kFalse);
 	Exp   Exponential(tau_p,0);
 
+
+	typedef hydra::experimental::Point<GReal_t, 1> point_t;
+
 	//--------------------------------------------------------------------
 	//Generate data on the device with the original parameters
-	PointVector<device, GReal_t, 1> data_d(3*nentries);
+	hydra::experimental::PointVector<point_t , device> data_d(3*nentries);
 
 
-	//typedef  hydra::experimental::Point<GReal_t, 1> Point_t;
 
+	Generator.Gauss(mean1_p , sigma1_p,
+			hydra::experimental::GetCoordinateBegin<0>(data_d),
+			hydra::experimental::GetCoordinateBegin<0>(data_d) + nentries );
 
-	//hydra::experimental::PointVector<Point_t, device> data_d(3*nentries);
+	Generator.Gauss(mean2_p , sigma2_p,
+			hydra::experimental::GetCoordinateBegin<0>(data_d) + nentries,
+			hydra::experimental::GetCoordinateBegin<0>(data_d) + 2*nentries );
 
-	Generator.Gauss(mean1_p , sigma1_p, data_d.begin(), data_d.begin() + nentries );
-	Generator.Gauss(mean2_p , sigma2_p, data_d.begin()+ nentries, data_d.begin() + 2*nentries );
-	Generator.Uniform(min[0], max[0], data_d.begin()+ 2*nentries, data_d.end() );
+	Generator.Uniform(min[0], max[0],
+			hydra::experimental::GetCoordinateBegin<0>(data_d)+ 2*nentries,
+			hydra::experimental::GetCoordinateEnd<0>(data_d) );
 
 
 	//------------------------------------------------------
 	//get data from device and fill histogram
-	PointVector<host> data_h(data_d);
-	//PointVector<Point_t, host> data_h(data_d);
+
+	hydra::experimental::PointVector<point_t ,host> data_h(data_d);
+
 
 	TH1D hist_data("data", "", 100, min[0], max[0]);
 	hist_data.Sumw2();
 	for(auto point: data_h )
-		hist_data.Fill(point.GetCoordinate(0));
+		hist_data.Fill(((point_t)point).GetCoordinate(0));
 
 	//------------------------------------------------------
 	//container to sample fit function on the host nentries trials
-	PointVector<host, GReal_t, 1> data_fit_vegas_h(0);
-	//hydra::experimental::PointVector<Point_t, host> data_fit_vegas_h(0);
+
+	hydra::experimental::PointVector<point_t ,host> data_fit_vegas_h(0);
 
 
-	//------------------------------------------------------
-	//histogram to plot the sampled data
-	TH1D hist_fit_vegas("fit_vegas", "", 100, min[0], max[0]);
 
-	//------------------------------------------------------
-	// histogram to plot the fit result
-	TH1D hist_fit_vegas_plot("fit_vegas_plot", "", 100,  min[0], max[0]);
-/*
-	//----------------------------------------
-	//fit using vegas integration algorithm
-	{
-
-		//----------------------------------------------------------------------
-		//Vegas state hold the resources and configuration to perform the integration
-
-		VegasState<1> state = VegasState<1>( min, max); // nota bene: the same range of the analisys
-		state.SetVerbose(-1);
-		state.SetAlpha(1.7);
-		state.SetIterations(10);
-		state.SetUseRelativeError(1);
-		state.SetMaxError(1e-10);
-		state.SetDiscardIterations(2);
-		state.SetCalls(50000);
-		//5,000 calls (fast convergence and precise result)
-		Vegas<1> vegas(state);
-
-		GaussAnalyticIntegral GaussIntegral(min[0], max[0]);
-		ExpAnalyticIntegral   ExpIntegral(min[0], max[0]);
-
-		hydra::experimental::GaussKronrodQuadrature<21,100> quad(min[0], max[0]);
-		/*
-		auto Gaussian1_PDF   = make_pdf(Gaussian1, vegas);
-		auto Gaussian2_PDF   = make_pdf(Gaussian2, vegas);
-		auto Exponential_PDF = make_pdf(Exponential, vegas );
-		*/
-	/*
-		auto Gaussian1_PDF   = make_pdf(Gaussian1, quad);
-		auto Gaussian2_PDF   = make_pdf(Gaussian2, quad);
-		auto Exponential_PDF = make_pdf(Exponential,  quad);
-
-
-		Gaussian1_PDF.PrintRegisteredParameters();
-
-		//----------------------------------------------------------------------
-		//integrate with the current parameters just to test
-		vegas(Gaussian1_PDF.GetFunctor());
-		cout << ">>> GaussianA intetgral prior fit "<< endl;
-		cout << "Result: " << vegas.GetState().GetResult() << " +/- "
-				<< vegas.GetState().GetSigma() << " Chi2: "<< vegas.GetState().GetChiSquare()
-
-				<< endl;
-
-		Gaussian2_PDF.PrintRegisteredParameters();
-
-		vegas(Gaussian2_PDF.GetFunctor());
-		cout << ">>> GaussianB intetgral prior fit "<< endl;
-		cout << "Result: " << vegas.GetState().GetResult() << " +/- "
-				<< vegas.GetState().GetSigma() << " Chi2: "<< vegas.GetState().GetChiSquare() << endl;
-
-		Exponential_PDF.PrintRegisteredParameters();
-
-		vegas(Exponential_PDF.GetFunctor());
-		cout << ">>> Exponential intetgral prior fit "<< endl;
-		cout << "Result: " << vegas.GetState().GetResult() << " +/- "
-				<< vegas.GetState().GetSigma() << " Chi2: "<< vegas.GetState().GetChiSquare() << endl;
-
-
-		//----------------------------------------------------------------------
-		//add the pds to make a extended pdf model
-
-		//list of yields
-		std::array<Parameter*, 3>  yields{&NA_p, &NB_p, &NC_p};
-
-		auto model = add_pdfs(yields, Gaussian1_PDF, Gaussian2_PDF, Exponential_PDF );
-		model.SetExtended(1);
-
-		//-------------------------------------------------
-		//minimization
-
-		//get the FCN
-		auto modelFCN = make_loglikehood_fcn(model, data_d.begin(), data_d.end() );
-
-		//print minuit parameters before the fit
-		std::cout << upar << endl;
-
-		//minimization strategy
-		MnStrategy strategy(2);
-
-		// create Migrad minimizer
-		MnMigrad migrad(modelFCN, upar.GetState() ,  strategy);
-
-		// create Minimize minimizer
-		MnMinimize minimize(modelFCN,upar.GetState() ,  strategy);
-		FunctionMinimum *minimum=0;
-
-		// ... Minimize and profile the time
-		auto start = std::chrono::high_resolution_clock::now();
-		if(use_comb_minimizer){
-			minimum = new FunctionMinimum(minimize(iterations, tolerance));
-		}
-		else{
-
-			minimum = new FunctionMinimum(migrad(std::numeric_limits<unsigned int>::max(), tolerance));
-		}
-
-		auto end = std::chrono::high_resolution_clock::now();
-		std::chrono::duration<double, std::milli> elapsed = end - start;
-
-		// output
-		std::cout<<"minimum: "<<*minimum<<std::endl;
-
-		//time
-		std::cout << "-----------------------------------------"<<std::endl;
-		std::cout << "| Time (ms) ="<< elapsed.count() <<std::endl;
-		std::cout << "-----------------------------------------"<<std::endl;
-
-		//------------------------------------------------------
-		//Sampling the fitted model
-		//Set the function with the fitted parameters
-		model.SetParameters(minimum->UserParameters().Params());
-		model.PrintRegisteredParameters();
-
-
-		Generator.SetSeed(std::chrono::system_clock::now().time_since_epoch().count()+1);//+1 because all can run very fast sometimes
-		Generator.Sample(model.GetFunctor(), min, max, data_fit_vegas_h, nentries );
-
-		hist_fit_vegas.Sumw2();
-		for(auto point: data_fit_vegas_h )
-			hist_fit_vegas.Fill(point.GetCoordinate(0));
-
-		hist_fit_vegas_plot.Sumw2();
-		for (size_t i=0 ; i<=100 ; i++) {
-			GReal_t x = hist_fit_vegas_plot.GetBinCenter(i);
-			hist_fit_vegas_plot.SetBinContent(i, model.GetFunctor()( &x) );
-		}
-
-		//scale
-		hist_fit_vegas.Scale(hist_data.Integral()/hist_fit_vegas.Integral() );
-		hist_fit_vegas_plot.Scale(hist_data.Integral()/hist_fit_vegas_plot.Integral() );
-		delete minimum;
-	}
-*/
 	//------------------------------------------------------
 	//sample fit function on the host nentries trials
 	PointVector<host, GReal_t, 1> data_fit_analytic_h(0);
@@ -475,7 +293,7 @@ GInt_t main(int argv, char** argc)
 		//minimization
 
 		//get the FCN
-		auto modelFCN = make_loglikehood_fcn(model, data_d.begin(), data_d.end() );
+		auto modelFCN = hydra::experimental::make_loglikehood_fcn(model, data_d);//.begin(), data_d.end() );
 
 		//print minuit parameters before the fit
 		std::cout << upar << endl;
@@ -493,7 +311,7 @@ GInt_t main(int argv, char** argc)
 		// ... Minimize and profile the time
 		auto start = std::chrono::high_resolution_clock::now();
 		if(use_comb_minimizer){
-			minimum = new FunctionMinimum(minimize(iterations, tolerance));
+			minimum = new FunctionMinimum(minimize(iterations, tolerance/1000));
 		}
 		else{
 
@@ -542,26 +360,6 @@ GInt_t main(int argv, char** argc)
 	TApplication *myapp=new TApplication("myapp",0,0);
 
 
-	TCanvas canvas_vegas("canvas_vegas", "VEGAS", 500, 500);
-	hist_data.Draw("e0");
-	hist_data.SetMarkerSize(1);
-	hist_data.SetMarkerStyle(20);
-
-	//sampled data after fit
-	hist_fit_vegas.Draw("barSAME");
-	hist_fit_vegas.SetLineColor(4);
-	hist_fit_vegas.SetFillColor(4);
-	hist_fit_vegas.SetFillStyle(3001);
-
-	//original data
-	hist_data.Draw("e0SAME");
-
-	//plot
-	hist_fit_vegas_plot.Draw("csame");
-	hist_fit_vegas_plot.SetLineColor(2);
-	hist_fit_vegas_plot.SetLineWidth(2);
-
-	canvas_vegas.SaveAs("./plots/Fit_Vegas_Host_OpenMP_Device_OpenMP.png");
 
 
 	TCanvas canvas_analytic("canvas_analytic", "ANALYTIC", 500, 500);
@@ -583,7 +381,7 @@ GInt_t main(int argv, char** argc)
 	hist_fit_analytic_plot.SetLineColor(2);
 	hist_fit_analytic_plot.SetLineWidth(2);
 
-	canvas_vegas.SaveAs("./plots/Fit_Analytic_Host_CPP_Device_OpenMP.png");
+	canvas_analytic.SaveAs("./plots/Fit_Analytic_Host_CPP_Device_OpenMP.png");
 
 
 	myapp->Run();
@@ -594,4 +392,8 @@ GInt_t main(int argv, char** argc)
 
 
 }
+
+
+
+
 

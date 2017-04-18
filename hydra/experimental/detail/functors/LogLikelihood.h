@@ -32,8 +32,8 @@
  */
 
 
-#ifndef LOGLIKELIHOOD_H_
-#define LOGLIKELIHOOD_H_
+#ifndef _LOGLIKELIHOOD_H_
+#define _LOGLIKELIHOOD_H_
 
 
 #include <hydra/detail/Config.h>
@@ -55,12 +55,13 @@ namespace experimental {
 namespace detail{
 
 
-template<typename FUNCTOR, typename IteratorData, typename IteratorCache>
+template<typename FUNCTOR, typename PointType, typename IteratorData, typename IteratorCache>
 struct LogLikelihood
 {
 	typedef typename thrust::iterator_traits<IteratorData>::value_type data_value_type;
 	typedef typename thrust::iterator_traits<IteratorCache>::value_type cache_value_type;
 
+	typedef PointType point_type;
 
 	LogLikelihood(FUNCTOR const& functor,
 			GReal_t sumW, GReal_t sumW2,
@@ -76,7 +77,7 @@ struct LogLikelihood
 	{}
 
 	__host__ __device__ inline
-	LogLikelihood( LogLikelihood<FUNCTOR, IteratorData, IteratorCache> const& other):
+	LogLikelihood( LogLikelihood<FUNCTOR, PointType,IteratorData, IteratorCache> const& other):
 	  fDataBegin(other.fDataBegin),
 	  fCacheBegin(other.fCacheBegin),
 	  fFunctor(other.fFunctor),
@@ -96,8 +97,8 @@ struct LogLikelihood
 	       	null_type>::value, void >::type* dummy=0 ){
 
     	          cache_value_type      C = (cache_value_type) fCacheBegin[index];
-    	 typename data_value_type::type X = ((data_value_type) fDataBegin[index]).GetCoordinates() ;
-    	        GReal_t                 W = ((data_value_type) fDataBegin[index]).GetWeight() ;
+    	          auto      X = ((point_type) fDataBegin[index]).GetCoordinates() ;
+    	        GReal_t                 W = ((point_type) fDataBegin[index]).GetWeight() ;
 
 
 		return fCached? W*log(fFunctor( X, C )) :  W*log(fFunctor( X ));
@@ -109,8 +110,8 @@ struct LogLikelihood
    	       	null_type>::value, void >::type* dummy=0 ){
 
 
-        typename data_value_type::type X = ((data_value_type) fDataBegin[index]).GetCoordinates() ;
-        GReal_t                        W = ((data_value_type) fDataBegin[index]).GetWeight() ;
+        auto X = ((point_type) fDataBegin[index]).GetCoordinates() ;
+        GReal_t  W = ((point_type) fDataBegin[index]).GetWeight() ;
 
 		return  W*log(fFunctor( X ));
 	}

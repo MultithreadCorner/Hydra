@@ -46,8 +46,10 @@
 #include <hydra/Random.h>
 #include <hydra/VegasState.h>
 #include <hydra/Vegas.h>
+
 #include <hydra/experimental/LogLikelihoodFCN.h>
 #include <hydra/experimental/PointVector.h>
+
 #include <hydra/Parameter.h>
 #include <hydra/UserParameters.h>
 #include <hydra/Pdf.h>
@@ -84,7 +86,6 @@ using namespace std;
 using namespace ROOT::Minuit2;
 using namespace hydra;
 using namespace examples;
-
 
 
 GInt_t main(int argv, char** argc)
@@ -215,28 +216,41 @@ GInt_t main(int argv, char** argc)
 	Gauss Gaussian2(mean2_p, sigma2_p,0,kFalse);
 	Exp   Exponential(tau_p,0);
 
+
 	typedef hydra::experimental::Point<GReal_t, 1> point_t;
 
 	//--------------------------------------------------------------------
 	//Generate data on the device with the original parameters
 	hydra::experimental::PointVector<point_t , device> data_d(3*nentries);
 
-	Generator.Gauss(mean1_p , sigma1_p, data_d.begin(), data_d.begin() + nentries );
-	Generator.Gauss(mean2_p , sigma2_p, data_d.begin()+ nentries, data_d.begin() + 2*nentries );
-	Generator.Uniform(min[0], max[0], data_d.begin()+ 2*nentries, data_d.end() );
+
+	Generator.Gauss(mean1_p , sigma1_p,
+			hydra::experimental::GetCoordinateBegin<0>(data_d),
+			hydra::experimental::GetCoordinateBegin<0>(data_d) + nentries );
+
+	Generator.Gauss(mean2_p , sigma2_p,
+			hydra::experimental::GetCoordinateBegin<0>(data_d) + nentries,
+			hydra::experimental::GetCoordinateBegin<0>(data_d) + 2*nentries );
+
+	Generator.Uniform(min[0], max[0],
+			hydra::experimental::GetCoordinateBegin<0>(data_d)+ 2*nentries,
+			hydra::experimental::GetCoordinateEnd<0>(data_d) );
 
 
 	//------------------------------------------------------
 	//get data from device and fill histogram
+
 	hydra::experimental::PointVector<point_t ,host> data_h(data_d);
+
 
 	TH1D hist_data("data", "", 100, min[0], max[0]);
 	hist_data.Sumw2();
 	for(auto point: data_h )
-		hist_data.Fill(point.GetCoordinate(0));
+		hist_data.Fill(((point_t)point).GetCoordinate(0));
 
 	//------------------------------------------------------
 	//container to sample fit function on the host nentries trials
+
 	hydra::experimental::PointVector<point_t ,host> data_fit_vegas_h(0);
 
 
@@ -278,7 +292,7 @@ GInt_t main(int argv, char** argc)
 		//minimization
 
 		//get the FCN
-		auto modelFCN = make_loglikehood_fcn(model, data_d.begin(), data_d.end() );
+		auto modelFCN = hydra::experimental::make_loglikehood_fcn(model, data_d);//.begin(), data_d.end() );
 
 		//print minuit parameters before the fit
 		std::cout << upar << endl;
@@ -346,6 +360,7 @@ GInt_t main(int argv, char** argc)
 
 
 
+
 	TCanvas canvas_analytic("canvas_analytic", "ANALYTIC", 500, 500);
 	hist_data.Draw("e0");
 	hist_data.SetMarkerSize(1);
@@ -365,7 +380,7 @@ GInt_t main(int argv, char** argc)
 	hist_fit_analytic_plot.SetLineColor(2);
 	hist_fit_analytic_plot.SetLineWidth(2);
 
-	canvas_vegas.SaveAs("./plots/Fit_Analytic_Host_CPP_Device_OpenMP.png");
+	canvas_analytic.SaveAs("./plots/Fit_Analytic_Host_CPP_Device_OpenMP.png");
 
 
 	myapp->Run();
