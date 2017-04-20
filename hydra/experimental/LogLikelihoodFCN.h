@@ -217,9 +217,11 @@ private:
 
 //conveniency function
 template<typename FUNCTOR, typename PointType, unsigned int BACKEND>
-auto make_loglikehood_fcn(FUNCTOR& functor, hydra::experimental::PointVector< PointType, BACKEND> const& data)
--> LogLikelihoodFCN<FUNCTOR, PointType, typename hydra::experimental::PointVector< PointType, BACKEND>::const_iterator,
-				thrust::constant_iterator<null_type> >
+auto make_loglikehood_fcn(FUNCTOR& functor,
+		hydra::experimental::PointVector< PointType, BACKEND> const& data)
+-> LogLikelihoodFCN<FUNCTOR, PointType,
+typename hydra::experimental::PointVector< PointType, BACKEND>::const_iterator,
+thrust::constant_iterator<null_type> >
 {
 	return LogLikelihoodFCN<FUNCTOR, PointType,
 			typename hydra::experimental::PointVector< PointType, BACKEND>::const_iterator,
@@ -228,14 +230,15 @@ auto make_loglikehood_fcn(FUNCTOR& functor, hydra::experimental::PointVector< Po
 
 template<typename FUNCTOR,  typename PointType,	template<typename...> class Vector,
 template<typename...> class Allocator, typename Tuple,  unsigned int BACKEND>
-auto make_loglikehood_fcn(FUNCTOR& functor,	typename hydra::experimental::PointVector< PointType, BACKEND>::iterator begin,
-		typename hydra::experimental::PointVector< PointType, BACKEND>::iterator end,
-		typename hydra::experimental::multivector<Vector<Tuple, Allocator< Tuple >>>::iterator cbegin )
+auto make_loglikehood_fcn(FUNCTOR& functor,
+		hydra::experimental::PointVector< PointType, BACKEND> const& data,
+		hydra::experimental::multivector<Vector<Tuple, Allocator< Tuple >>> const& cache )
 -> LogLikelihoodFCN<FUNCTOR,  PointType, typename hydra::experimental::PointVector< PointType, BACKEND>::iterator,
 typename hydra::experimental::multivector<Vector<Tuple, Allocator< Tuple >>>::iterator >
 {
-	return LogLikelihoodFCN<FUNCTOR, PointType, typename hydra::experimental::PointVector< PointType,BACKEND>::iterator,
-			typename hydra::experimental::multivector<Vector<Tuple, Allocator< Tuple >>>::iterator >( functor, begin, end, cbegin);
+	return LogLikelihoodFCN<FUNCTOR, PointType,
+			typename hydra::experimental::PointVector<PointType,BACKEND>::iterator,
+			typename hydra::experimental::multivector<Vector<Tuple, Allocator< Tuple >>>::iterator >( functor, data.cbegin(), data.cend(), cache.cbegin());
 }
 
 }  // namespace experimental

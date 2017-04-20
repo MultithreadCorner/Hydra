@@ -96,9 +96,9 @@ struct LogLikelihood
 	GReal_t operator()(size_t index, const typename std::enable_if< !std::is_same<U,
 	       	null_type>::value, void >::type* dummy=0 ){
 
-    	          cache_value_type      C = (cache_value_type) fCacheBegin[index];
+    	          auto      C = (cache_value_type) fCacheBegin[index];
     	          auto      X = ((point_type) fDataBegin[index]).GetCoordinates() ;
-    	        GReal_t                 W = ((point_type) fDataBegin[index]).GetWeight() ;
+    	        GReal_t     W = ((point_type) fDataBegin[index]).GetWeight() ;
 
 
 		return fCached? W*log(fFunctor( X, C )) :  W*log(fFunctor( X ));

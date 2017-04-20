@@ -45,12 +45,8 @@
 #include <thrust/copy.h>
 #include <chrono>
 
-#if THRUST_DEVICE_SYSTEM!=THRUST_DEVICE_SYSTEM_CUDA
-#include <mutex>
-#endif
 
 namespace hydra {
-
 
 enum {
 
@@ -60,18 +56,17 @@ enum {
 	BINS_MAX = 50
 };
 
-template<size_t N >
+template<size_t N , unsigned int BACKEND>
 class VegasState {
 
 
 public:
 
-#if THRUST_DEVICE_SYSTEM==THRUST_DEVICE_SYSTEM_CUDA
-	typedef float  vegas_pdf_type;
-#else
-	typedef double vegas_pdf_type;
-#endif
-
+	typedef hydra::detail::BackendTraits<BACKEND> system_t;
+	typedef typename system_t::template container<GReal_t>  rvector_backend;
+	typedef typename system_t::template container<GUInt_t>  uvector_backend;
+	typedef typename rvector_backend::iterator rvector_iterator;
+	typedef typename uvector_backend::iterator uvector_iterator;
 
 	VegasState(std::array<GReal_t,N> const& xlower,
 			std::array<GReal_t,N> const& xupper);
@@ -80,286 +75,163 @@ public:
 
 	void ResetState();
 
-	inline GReal_t GetAlpha() const {
-		return fAlpha;
-	}
+	inline GReal_t GetAlpha() const { return fAlpha; }
 
-	inline void SetAlpha(GReal_t alpha) {
-		fAlpha = alpha;
-	}
+	inline void SetAlpha(GReal_t alpha)	{ fAlpha = alpha;	}
 	//-----------------------------
 	//Calls
 
-	inline size_t GetCalls() const {
-		return fCalls;
-	}
+	inline size_t GetCalls() const {return fCalls;}
 
-	inline void SetCalls(size_t calls) {
-		fCalls = calls;
-	}
+	inline void SetCalls(size_t calls) {fCalls = calls;}
 
 	//-----------------------------
 	//CallsPerBox
 
-	inline size_t GetCallsPerBox() const {
-		return fCallsPerBox;
-	}
+	inline size_t GetCallsPerBox() const {return fCallsPerBox;}
 
-	inline void SetCallsPerBox(size_t callsPerBox) {
-		fCallsPerBox = callsPerBox;
-	}
+	inline void SetCallsPerBox(size_t callsPerBox) {fCallsPerBox = callsPerBox;}
 
 	//-----------------------------
 	//ChiSquare
 
-	inline GReal_t GetChiSquare() const {
-		return fChiSquare;
-	}
+	inline GReal_t GetChiSquare() const {return fChiSquare;}
 
-	inline void SetChiSquare(GReal_t chiSquare) {
-		fChiSquare = chiSquare;
-	}
+	inline void SetChiSquare(GReal_t chiSquare) { fChiSquare = chiSquare;}
 
 	//-----------------------------
 	//ChiSum
 
-	inline GReal_t GetChiSum() const {
-		return fChiSum;
-	}
+	inline GReal_t GetChiSum() const {return fChiSum;}
 
-
-	inline void SetChiSum(GReal_t chiSum) {
-		fChiSum = chiSum;
-	}
+	inline void SetChiSum(GReal_t chiSum) { fChiSum = chiSum;}
 
 	//-----------------------------
 	//CumulatedResult
 
-	inline const std::vector<GReal_t>& GetCumulatedResult() const {
-		return fCumulatedResult;
-	}
+	inline const std::vector<GReal_t>& GetCumulatedResult() const {return fCumulatedResult;}
 
-	inline void SetCumulatedResult(const std::vector<GReal_t>& cumulatedResult)
-	{
-		fCumulatedResult = cumulatedResult;
-	}
+	inline void SetCumulatedResult(const std::vector<GReal_t>& cumulatedResult) {fCumulatedResult = cumulatedResult }
 
 	//-----------------------------
 	//CumulatedSigma
 
-	inline const std::vector<GReal_t>& GetCumulatedSigma() const {
-		return fCumulatedSigma;
-	}
+	inline const std::vector<GReal_t>& GetCumulatedSigma() const {return fCumulatedSigma;}
 
-	inline void SetCumulatedSigma(const std::vector<GReal_t>& cumulatedSigma)
-	{
-		fCumulatedSigma = cumulatedSigma;
-	}
+	inline void SetCumulatedSigma(const std::vector<GReal_t>& cumulatedSigma){ fCumulatedSigma = cumulatedSigma;}
 
 	//----------------
 	//DeltaX
 
-	inline const mc_host_vector<GReal_t>& GetDeltaX() const {
-		return fDeltaX;
-	}
+	inline const RealVector_h& GetDeltaX() const {return fDeltaX;	}
 
-	inline void SetDeltaX(const mc_host_vector<GReal_t>& deltaX) {
-		fDeltaX = deltaX;
-	}
+	inline void SetDeltaX(const RealVector_h& deltaX) {fDeltaX = deltaX;}
 
-	inline void SetDeltaX(GUInt_t i, GReal_t dx) {
-			fDeltaX[i] = dx;
-	}
+	inline void SetDeltaX(GUInt_t i, GReal_t dx) {fDeltaX[i] = dx;}
 
 	//----------------
 	//Distribution
 
-	inline const mc_host_vector<vegas_pdf_type>& GetDistribution() const {
-		return fDistribution;
-	}
+	inline const mc_host_vector<vegas_pdf_type>& GetDistribution() const {return fDistribution;}
 
-	inline  mc_host_vector<vegas_pdf_type>& GetDistribution() {
-			return fDistribution;
-		}
+	inline  mc_host_vector<vegas_pdf_type>& GetDistribution() {return fDistribution;}
 
-	inline void SetDistribution(const mc_host_vector<vegas_pdf_type>& distribution) {
-		fDistribution = distribution;
-	}
+	inline void SetDistribution(const mc_host_vector<vegas_pdf_type>& distribution) {fDistribution = distribution; }
 
-	inline void SetDistribution(GUInt_t i, vegas_pdf_type x) {
-			fDistribution[i] = x;
-	}
+	inline void SetDistribution(GUInt_t i, vegas_pdf_type x) {fDistribution[i] = x;}
 
-	inline void SetDistribution(GUInt_t bin, GUInt_t dim, vegas_pdf_type x) {
-			fDistribution[bin*N+dim] = x;
-	}
+	inline void SetDistribution(GUInt_t bin, GUInt_t dim, vegas_pdf_type x) {fDistribution[bin*N+dim] = x;}
 
 	//----------------
 	//IterationDuration
 
-	inline const std::vector<GReal_t>& GetIterationDuration() const {
-		return fIterationDuration;
-	}
+	inline const std::vector<GReal_t>& GetIterationDuration() const {return fIterationDuration;}
 
-
-	inline void SetIterationDuration(const std::vector<GReal_t>& iterationDuration)
-	{
-		fIterationDuration = iterationDuration;
-	}
+	inline void SetIterationDuration(const std::vector<GReal_t>& iterationDuration) {fIterationDuration = iterationDuration;}
 
 	//----------------
 	//IterationResult
 
-	inline const std::vector<GReal_t>& GetIterationResult() const {
-		return fIterationResult;
-	}
+	inline const std::vector<GReal_t>& GetIterationResult() const {return fIterationResult;}
 
-	inline void SetIterationResult(const std::vector<GReal_t>& iterationResult)
-	{
-		fIterationResult = iterationResult;
-	}
+	inline void SetIterationResult(const std::vector<GReal_t>& iterationResult){fIterationResult = iterationResult;}
 
 	//----------------
 	//Iterations
 
-	inline GUInt_t GetIterations() const {
-		return fIterations;
-	}
+	inline GUInt_t GetIterations() const {return fIterations;	}
 
-	inline void SetIterations(GUInt_t iterations) {
-		fIterations = iterations;
-	}
+	inline void SetIterations(GUInt_t iterations) {fIterations = iterations;}
 
 	//----------------
 	//IterationSigma
 
-	inline const std::vector<GReal_t>& GetIterationSigma() const {
-		return fIterationSigma;
-	}
+	inline const std::vector<GReal_t>& GetIterationSigma() const {return fIterationSigma;}
 
-
-	inline void SetIterationSigma(const std::vector<GReal_t>& iterationSigma)
-	{
-		fIterationSigma = iterationSigma;
-	}
+	inline void SetIterationSigma(const std::vector<GReal_t>& iterationSigma) {fIterationSigma = iterationSigma;}
 
 	//----------------
 	//ItNum
 
+	inline GUInt_t GetItNum() const {return fItNum;}
 
-	inline GUInt_t GetItNum() const {
-		return fItNum;
-	}
-
-	inline void SetItNum(GUInt_t itNum) {
-		fItNum = itNum;
-	}
+	inline void SetItNum(GUInt_t itNum) {fItNum = itNum;}
 
 	//----------------
 	//ItStart
 
-	inline GUInt_t GetItStart() const {
-		return fItStart;
-	}
+	inline GUInt_t GetItStart() const {return fItStart;}
 
-
-	inline void SetItStart(GUInt_t itStart) {
-		fItStart = itStart;
-	}
+	inline void SetItStart(GUInt_t itStart) {fItStart = itStart;	}
 
 	//----------------
 	//Jacobian
 
-
-	inline GReal_t GetJacobian() const {
-		return fJacobian;
-	}
+	inline GReal_t GetJacobian() const {return fJacobian;	}
 
 
-	inline void SetJacobian(GReal_t jacobian) {
-		fJacobian = jacobian;
-	}
+	inline void SetJacobian(GReal_t jacobian) {fJacobian = jacobian;}
 
 	//----------------
 	//MaxError
 
+	inline GReal_t GetMaxError() const {return fMaxError;	}
 
-	inline GReal_t GetMaxError() const {
-		return fMaxError;
-	}
-
-
-	inline void SetMaxError(GReal_t maxError) {
-		fMaxError = maxError;
-	}
+	inline void SetMaxError(GReal_t maxError) {fMaxError = maxError;	}
 
 	//----------------
 	//Mode
 
+	inline GInt_t GetMode() const {return fMode;	}
 
-	inline GInt_t GetMode() const {
-		return fMode;
-	}
-
-
-	inline void SetMode(GInt_t mode) {
-		fMode = mode;
-	}
+	inline void SetMode(GInt_t mode) {fMode = mode;}
 
 	//----------------
 	//NBins
 
-	inline size_t GetNBins() const {
-		return fNBins;
-	}
+	inline size_t GetNBins() const {return fNBins;}
 
-
-	inline void SetNBins(size_t nBins) {
-		fNBins = nBins;
-/*
-		fDistribution.resize(N * fNBins);
-		fDeviceDistribution.resize(N * fNBins);
-
-		fXi.resize((fNBins + 1) * N);
-		fDeviceXi.resize((fNBins + 1) * N);
-
-
-		fXin.resize(fNBins + 1);
-		fWeight.resize(fNBins);*/
-	}
+	inline void SetNBins(size_t nBins) { fNBins = nBins;	}
 
 	//----------------
 	//NBinsMax
 
-	inline size_t GetNBinsMax() const {
-		return fNBinsMax;
-	}
+	inline size_t GetNBinsMax() const {	return fNBinsMax;}
 
 
-	inline void SetNBinsMax(size_t nBinsMax) {
-		fNBinsMax = nBinsMax;
-	}
+	inline void SetNBinsMax(size_t nBinsMax) {fNBinsMax = nBinsMax;}
 
 	//----------------
 	//NBoxes
 
+	inline size_t GetNBoxes() const {return fNBoxes;}
 
-	inline size_t GetNBoxes() const {
-		return fNBoxes;
-	}
-
-
-	inline void SetNBoxes(size_t nBoxes) {
-		fNBoxes = nBoxes;
-	}
+	inline void SetNBoxes(size_t nBoxes) {fNBoxes = nBoxes;}
 
 	//----------------
 	//NDimensions
 
-
-	inline size_t GetNDimensions() const {
-		return fNDimensions;
-	}
+	inline size_t GetNDimensions() const {return fNDimensions;}
 
 
 	inline void SetNDimensions(size_t nDimensions) {
@@ -369,194 +241,112 @@ public:
 	//----------------
 	//OStream
 
-	inline std::ostream& GetOStream()  {
-		return fOStream;
-	}
+	inline std::ostream& GetOStream()  {return fOStream;}
 
 	//----------------
 	//Result
 
+	inline GReal_t GetResult() const {return fResult;}
 
-	inline GReal_t GetResult() const {
-		return fResult;
-	}
-
-
-	inline void SetResult(GReal_t result) {
-		fResult = result;
-	}
+	inline void SetResult(GReal_t result) {fResult = result;}
 
 	//----------------
 	//Samples
 
 
-	inline GUInt_t GetSamples() const {
-		return fSamples;
-	}
+	inline GUInt_t GetSamples() const {return fSamples;}
 
-
-	inline void SetSamples(GUInt_t samples) {
-		fSamples = samples;
-	}
+	inline void SetSamples(GUInt_t samples) {fSamples = samples;}
 
 	//----------------
 	//Sigma
 
+	inline GReal_t GetSigma() const {return fSigma;}
 
-	inline GReal_t GetSigma() const {
-		return fSigma;
-	}
-
-
-	inline void SetSigma(GReal_t sigma) {
-		fSigma = sigma;
-	}
+	inline void SetSigma(GReal_t sigma) {fSigma = sigma;}
 
 	//----------------
 	//Stage
 
+	inline GInt_t GetStage() const {return fStage;	}
 
-	inline GInt_t GetStage() const {
-		return fStage;
-	}
-
-
-	inline void SetStage(GInt_t stage) {
-		fStage = stage;
-	}
+	inline void SetStage(GInt_t stage) {fStage = stage;}
 
 	//----------------
 	//SumOfWeights
 
+	inline GReal_t GetSumOfWeights() const {return fSumOfWeights;}
 
-	inline GReal_t GetSumOfWeights() const {
-		return fSumOfWeights;
-	}
-
-
-	inline void SetSumOfWeights(GReal_t sumOfWeights) {
-		fSumOfWeights = sumOfWeights;
-	}
+	inline void SetSumOfWeights(GReal_t sumOfWeights) {fSumOfWeights = sumOfWeights;}
 
 	//----------------
 	//UseRelativeError
 
+	inline GBool_t IsUseRelativeError() const {return fUseRelativeError;}
 
-	inline GBool_t IsUseRelativeError() const {
-		return fUseRelativeError;
-	}
-
-
-	inline void SetUseRelativeError(GBool_t useRelativeError) {
-		fUseRelativeError = useRelativeError;
-	}
+	inline void SetUseRelativeError(GBool_t useRelativeError) {fUseRelativeError = useRelativeError;	}
 
 	//----------------
 	//Verbose
 
+	inline GInt_t GetVerbose() const {return fVerbose;}
 
-	inline GInt_t GetVerbose() const {
-		return fVerbose;
-	}
-
-
-	inline void SetVerbose(GInt_t verbose) {
-		fVerbose = verbose;
-	}
+	inline void SetVerbose(GInt_t verbose) {fVerbose = verbose;}
 
 	//----------------
 	//Volume
 
+	inline GReal_t GetVolume() const {return fVolume;}
 
-	inline GReal_t GetVolume() const {
-		return fVolume;
-	}
-
-
-	inline void SetVolume(GReal_t volume) {
-		fVolume = volume;
-	}
+	inline void SetVolume(GReal_t volume) {fVolume = volume;}
 
 	//----------------
 	//Weight
 
 
-	inline const mc_host_vector<GReal_t>& GetWeight() const {
-		return fWeight;
-	}
+	inline const RealVector_h& GetWeight() const {return fWeight;}
 
+	inline void SetWeight(const RealVector_h& weight) {fWeight = weight;}
 
-	inline void SetWeight(const mc_host_vector<GReal_t>& weight) {
-		fWeight = weight;
-	}
-
-
-	inline void SetWeight(GUInt_t i, GReal_t weight) {
-		fWeight[i] = weight;
-	}
+	inline void SetWeight(GUInt_t i, GReal_t weight) {fWeight[i] = weight;}
 
 	//----------------
 	//WeightedIntSum
 
+	inline GReal_t GetWeightedIntSum() const { return fWeightedIntSum;}
 
-	inline GReal_t GetWeightedIntSum() const {
-		return fWeightedIntSum;
-	}
-
-
-	inline void SetWeightedIntSum(GReal_t weightedIntSum) {
-		fWeightedIntSum = weightedIntSum;
-	}
+	inline void SetWeightedIntSum(GReal_t weightedIntSum) {fWeightedIntSum = weightedIntSum;}
 
 	//----------------
 	//Xi
 
+	inline const RealVector_h& GetXi() const {return fXi;}
 
-	inline const mc_host_vector<GReal_t>& GetXi() const {
-		return fXi;
-	}
+	inline void SetXi(const RealVector_h& xi) {fXi = xi;}
 
-
-	inline void SetXi(const mc_host_vector<GReal_t>& xi) {
-		fXi = xi;
-	}
-
-
-	inline void SetXi(GInt_t i, GReal_t xi) {
-		fXi[i] = xi;
-	}
+	inline void SetXi(GInt_t i, GReal_t xi) {fXi[i] = xi;}
 
 	//----------------
 	//	Xin
 
+	inline const RealVector_h& GetXin() const {return fXin;}
 
-	inline const mc_host_vector<GReal_t>& GetXin() const {
-		return fXin;
-	}
+	inline void SetXin(const RealVector_h& xin) {fXin = xin;}
 
-
-	inline void SetXin(const mc_host_vector<GReal_t>& xin) {
-		fXin = xin;
-	}
-
-
-	inline void SetXin(GUInt_t i, GReal_t xin) {
-		fXin[i] = xin;
-	}
+	inline void SetXin(GUInt_t i, GReal_t xin) {fXin[i] = xin;}
 
 	//----------------
 	//Store...
 
-
-	inline void StoreIterationResult(const GReal_t integral,
-			const GReal_t sigma) {
+	inline void StoreIterationResult(const GReal_t integral, const GReal_t sigma)
+	{
 		fIterationResult.push_back(integral);
 		fIterationSigma.push_back(sigma);
 	}
 
 
-	inline void StoreCumulatedResult(const GReal_t integral,
-			const GReal_t sigma) {
+	inline void StoreCumulatedResult(const GReal_t integral, const GReal_t sigma)
+	{
 		fCumulatedResult.push_back(integral);
 		fCumulatedSigma.push_back(sigma);
 		fResult=integral;
@@ -564,106 +354,70 @@ public:
 	}
 
 
-	inline void StoreIterationDuration(const GReal_t timing) {
-		fIterationDuration.push_back(timing);
-	}
+	inline void StoreIterationDuration(const GReal_t timing) { fIterationDuration.push_back(timing);}
+
+	inline const RealVector_h& GetXLow() const { return fXLow; }
+
+	inline void SetXLow(const RealVector_h& xLow) {fXLow = xLow;}
+
+	inline const RealVector_h& GetXUp() const {return fXUp;}
+
+	inline void SetXUp(const RealVector_h& xUp) {fXUp = xUp;}
 
 
-	inline const mc_host_vector<GReal_t>& GetXLow() const {
-		return fXLow;
-	}
+	GUInt_t GetDiscardIterations() const {return fDiscardIterations;}
 
-
-	inline void SetXLow(const mc_host_vector<GReal_t>& xLow) {
-		fXLow = xLow;
-	}
-
-
-	inline const mc_host_vector<GReal_t>& GetXUp() const {
-		return fXUp;
-	}
-
-
-	inline void SetXUp(const mc_host_vector<GReal_t>& xUp) {
-		fXUp = xUp;
-	}
-
+	void SetDiscardIterations(GUInt_t discardIterations) {fDiscardIterations = discardIterations; }
 
 
 	inline void CopyStateToDevice()
 	{
-		thrust::copy(fXi.begin(), fXi.end(), fDeviceXi.begin());
-		thrust::copy( fDistribution.begin(), fDistribution.end(), fDeviceDistribution.begin());
+		thrust::copy(fXi.begin(), fXi.end(), fBackendXi.begin());
+		thrust::copy( fDistribution.begin(), fDistribution.end(), fBackendDistribution.begin());
 
 	}
 
 	inline void CopyStateToHost()
+	{	thrust::copy(
+			fBackendDistribution.begin(),
+			fBackendDistribution.end(),
+			fDistribution.begin());
+	}
+
+
+	inline void SendGridToBackend()
 	{
+		thrust::copy(fDeltaX.begin(),
+				fDeltaX.end(),
+				fBackendDeltaX.begin());
 
-		thrust::copy( fDeviceDistribution.begin(),
-				  						  fDeviceDistribution.end(), fDistribution.begin());
+		//checar
+		thrust::copy(fXLow.begin(),
+				fXLow.end(),
+				fBackendXLow.begin());
 	}
 
 
-	inline void SendGridToDevice()
-		{
+	const rvector_backend& GetBackendDeltaX() const {return fBackendDeltaX;	}
 
-					  thrust::copy(fDeltaX.begin(), fDeltaX.end(),
-							  fDeviceDeltaX.begin());
+	void SetBackendDeltaX(const rvector_backend& deviceDeltaX) {fBackendDeltaX = deviceDeltaX;}
 
-					  //checar
-					  thrust::copy(fXLow.begin(),
-							  fXLow.end(), fDeviceXLow.begin());
+	const rvector_backend& GetBackendXi() const {return fBackendXi;}
 
+	void SetBackendXi(const rvector_backend& deviceXi) {fBackendXi = deviceXi;}
 
+	const rvector_backend& GetBackendXLow() const { return fBackendXLow;}
 
-		}
+	void SetBackendXLow(const mc_device_vector<vegas_pdf_type>& deviceXLow) {fBackendXLow = deviceXLow;}
 
-
-	const mc_device_vector<GReal_t>& GetDeviceDeltaX() const {
-		return fDeviceDeltaX;
-	}
-
-	void SetDeviceDeltaX(const mc_device_vector<GReal_t>& deviceDeltaX) {
-		fDeviceDeltaX = deviceDeltaX;
-	}
+	const mc_device_vector<vegas_pdf_type>& GetBackendDistribution() const {	return fBackendDistribution;}
 
 
-	const mc_device_vector<GReal_t>& GetDeviceXi() const {
-		return fDeviceXi;
-	}
 
-	void SetDeviceXi(const mc_device_vector<GReal_t>& deviceXi) {
-		fDeviceXi = deviceXi;
-	}
-
-	const mc_device_vector<GReal_t>& GetDeviceXLow() const {
-		return fDeviceXLow;
-	}
-
-	void SetDeviceXLow(const mc_device_vector<vegas_pdf_type>& deviceXLow) {
-		fDeviceXLow = deviceXLow;
-	}
-
-	const mc_device_vector<vegas_pdf_type>& GetDeviceDistribution() const {
-		return fDeviceDistribution;
-	}
-#if THRUST_DEVICE_SYSTEM!=THRUST_DEVICE_SYSTEM_CUDA
-	std::mutex* GetMutex()  {
-			return &fMutex;
-	}
-#endif
-
-	GUInt_t GetDiscardIterations() const {
-		return fDiscardIterations;
-	}
-
-	void SetDiscardIterations(GUInt_t discardIterations) {
-		fDiscardIterations = discardIterations;
-	}
 
 	GInt_t fVerbose;
-std::ostream &fOStream;
+	std::ostream &fOStream;
+
 private:
 	/* grid */
 	size_t fNDimensions;
@@ -672,21 +426,22 @@ private:
 	size_t fNBoxes; /* these are both counted along the axes */
 
 	//host
-	mc_host_vector<GReal_t> fXUp;
-	mc_host_vector<GReal_t> fXLow;
-	mc_host_vector<GReal_t> fXi;
-	mc_host_vector<GReal_t> fXin;
-	mc_host_vector<GReal_t> fDeltaX;
-	mc_host_vector<GReal_t> fWeight;
-	mc_host_vector<vegas_pdf_type> fDistribution;
 
-	//device
-	mc_device_vector<vegas_pdf_type> fDeviceDistribution;
-	mc_device_vector<GReal_t> fDeviceXLow;//initgrid
-	mc_device_vector<GReal_t> fDeviceXi;//CopyStateToDevice
-	mc_device_vector<GReal_t> fDeviceDeltaX;//initgrid
+
+	//backend
+	rvector_backend fBackendDistribution;
+	rvector_backend fBackendXLow;//initgrid
+	rvector_backend fBackendXi;//CopyStateToDevice
+	rvector_backend fBackendDeltaX;//initgrid
 
 	//std
+	std::vector<GReal_t> fXUp;
+	std::vector<GReal_t> fXLow;
+	std::vector<GReal_t> fXi;
+	std::vector<GReal_t> fXin;
+	std::vector<GReal_t> fDeltaX;
+	std::vector<GReal_t> fWeight;
+	std::vector<GReal_t> fDistribution;
 	std::vector<GReal_t> fIterationResult; ///< vector with the result per iteration
 	std::vector<GReal_t> fIterationSigma; ///< vector with the result per iteration
 	std::vector<GReal_t> fCumulatedResult; ///< vector of cumulated results per iteration
@@ -720,9 +475,7 @@ private:
 	size_t  fCalls;
 	GReal_t fMaxError; ///< max error
 	GBool_t fUseRelativeError; ///< use relative error as convergence criteria
-#if THRUST_DEVICE_SYSTEM!=THRUST_DEVICE_SYSTEM_CUDA
-	std::mutex fMutex;
-#endif
+
 };
 
 

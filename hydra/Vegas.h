@@ -48,35 +48,38 @@ namespace hydra {
 
 
 
-template<size_t N,  typename GRND=thrust::random::default_random_engine >
-class Vegas : public Integrator<Vegas<N,GRND>>
+template<size_t N, unsigned int BACKEND,  typename GRND=thrust::random::default_random_engine >
+class Vegas : public Integrator<Vegas<N,BACKEND,GRND>>
 {
 public:
 
 	//tag
 	typedef void hydra_integrator_tag;
 
-	typedef  typename VegasState<N>::vegas_pdf_type precision;
+	typedef typename VegasState<N,BACKEND>::rvector_backend rvector_backend;
+	typedef typename VegasState<N,BACKEND>::uvector_backend uvector_backend;
+	typedef typename VegasState<N,BACKEND>::rvector_iterator rvector_iterator;
+	typedef typename VegasState<N,BACKEND>::uvector_iterator uvector_iterator
 
 	Vegas()=delete;
 
 	Vegas(std::array<GReal_t,N> const& xlower,	std::array<GReal_t,N> const& xupper, size_t ncalls):
-		Integrator<Vegas<N,GRND>>(),
+		Integrator<Vegas<N,BACKEND,GRND>>(),
 		fState(xlower,xupper)
 		{
 		fState.SetCalls(ncalls);
 		}
 
 
-		Vegas(VegasState<N> const& state):
-		Integrator<Vegas<N,GRND>>(),
+		Vegas(VegasState<N,BACKEND> const& state):
+		Integrator<Vegas<N,BACKEND,GRND>>(),
 		fState(state)
 		{}
 
 
-	template<typename GRND2>
-	Vegas( Vegas< N, GRND2> const& other):
-	Integrator<Vegas<N,GRND>>(other),
+	template<unsigned int BACKEND2,typename GRND2>
+	Vegas( Vegas< N,BACKEND2, GRND2> const& other):
+	Integrator<Vegas<N,BACKEND2,GRND>>(other),
 	fState(other.GetState())
 	{}
 
@@ -90,11 +93,11 @@ public:
 			GReal_t cumulated_integral, GReal_t cumulated_sigma,
 			GReal_t time) ;
 
-	VegasState<N>& GetState()  {
+	VegasState<N,BACKEND>& GetState()  {
 		return fState;
 	}
 
-	void SetState(VegasState<N> const& state) {
+	void SetState(VegasState<N,BACKEND> const& state) {
 		fState = state;
 	}
 
@@ -142,7 +145,7 @@ private:
 		fState.SetDistribution(i * N + j, x);
 	}
 
-	VegasState<N> fState;
+	VegasState<N,BACKEND> fState;
 
 };
 

@@ -69,7 +69,7 @@ VegasState<N>::VegasState(std::array<GReal_t,N> const& xlower,
 		//-------
 		fDeviceXLow(N),
 		fDeviceDeltaX(N),
-		fDeviceDistribution(N * BINS_MAX),
+		fBackendDistribution(N * BINS_MAX),
 		fDeviceXi((BINS_MAX + 1) * N),
 		//-------
 		fDistribution(N * BINS_MAX),
@@ -134,7 +134,7 @@ VegasState<N>::VegasState(VegasState const& other) :
 		fDeviceDeltaX(other.GetDeviceDeltaX()),
 		fDeviceXi(other.GetDeviceXi()),
 		fDeviceXLow(other.GetDeviceXLow()),
-		fDeviceDistribution(other.GetDeviceDistribution()),
+		fBackendDistribution(other.GetDeviceDistribution()),
 		fOStream(std::cout) {}
 
 
@@ -168,7 +168,7 @@ void VegasState<N>::ResetState()
 		thrust::fill(fDeviceXLow.begin(), fDeviceXLow.end(),  0.0);
 		thrust::fill( fDeviceDeltaX.begin(), fDeviceDeltaX.end(),  0.0);
 		thrust::fill( fDistribution.begin(), fDistribution.end(),  0.0);
-		thrust::fill( fDeviceDistribution.begin(), fDeviceDistribution.end(),  0.0);
+		thrust::fill( fBackendDistribution.begin(), fBackendDistribution.end(),  0.0);
 		thrust::fill( fXi.begin(), fXi.end(),  0.0);
 		thrust::fill( fDeviceXi.begin(), fDeviceXi.end(),  0.0);
 		thrust::fill( fXin.begin(), fXin.end(),  0.0);
