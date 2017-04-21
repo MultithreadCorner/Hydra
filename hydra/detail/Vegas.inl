@@ -535,24 +535,9 @@ void Vegas<N,BACKEND, GRND>::ProcessFuncionCalls(FUNCTOR const& fFunctor, GReal_
 
 	detail::ResultVegas<N> init;
 	detail::ResultVegas<N> result = thrust::transform_reduce(first, last,
-			detail::ProcessCallsVegas<FUNCTOR,N,real_iterator, uint_iterator , GRND>
+			detail::ProcessCallsVegas<FUNCTOR,N, real_iterator, uint_iterator , GRND>
 	(NBoxes_Total, fState, fGlobalBin.begin(),fFVal.begin(), fFunctor)
-	/*
-	(
-			fState.GetNBins(),
-			NBoxes_Total,
-			fState.GetNBoxes(),
-			fState.GetCallsPerBox(),
-			fState.GetJacobian(),
-			fState.GetItNum(),
-			fState.GetDeviceXi().begin(),
-			fState.GetDeviceXLow().begin(),
-			fState.GetDeviceDeltaX().begin(),
-			vector_real_t.begin(),
-			vector_uint_t.begin(),
-			fFunctor)*/,
-			init,
-			detail::ProcessBoxesVegas<N>());
+	, init,	detail::ProcessBoxesVegas<N>());
 
 /**
  * thrust::sort_by_key

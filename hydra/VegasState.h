@@ -65,8 +65,12 @@ public:
 	typedef hydra::detail::BackendTraits<BACKEND> system_t;
 	typedef typename system_t::template container<GReal_t>  rvector_backend;
 	typedef typename system_t::template container<GUInt_t>  uvector_backend;
+	typedef typename std::vector<GReal_t>::iterator         uvector_std;
+
 	typedef typename rvector_backend::iterator rvector_iterator;
 	typedef typename uvector_backend::iterator uvector_iterator;
+
+
 
 	VegasState(std::array<GReal_t,N> const& xlower,
 			std::array<GReal_t,N> const& xupper);

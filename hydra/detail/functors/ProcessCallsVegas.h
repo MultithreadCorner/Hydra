@@ -239,10 +239,10 @@ struct ProcessCallsVegas
 
 
 	inline GUInt_t GetDistributionIndex(const GUInt_t call,  const GUInt_t bin, const GUInt_t dim) const
-	{return i * NDimensions*fNCallsPerBox + j*fNCallsPerBox + call;}
+	{ return i * NDimensions*fNCallsPerBox + j*fNCallsPerBox + call; }
 
 	inline GUInt_t GetDistributionKey( const GUInt_t bin, const GUInt_t dim) const
-	{return i * NDimensions + j;}
+	{ return i * NDimensions + j; }
 
 
 	__host__ __device__
