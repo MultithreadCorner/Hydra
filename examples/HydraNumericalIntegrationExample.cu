@@ -159,7 +159,7 @@ GInt_t main(int argv, char** argc)
 
 
 
-	constexpr size_t N = 1;
+	constexpr size_t N = 20;
 
 	//------------------------------------
 	//parameters
@@ -186,7 +186,7 @@ GInt_t main(int argv, char** argc)
 		Sigma_s[i] = "sigma_" ;
 		Sigma_s[i] += std::to_string(i);
 		 Mean_p[i].Name(Mean_s[i]).Value(0.0) .Error(0.0001).Limits( -5.0, 5.0);
-		Sigma_p[i].Name(Sigma_s[i]).Value(0.01) .Error(0.0001).Limits( 0.5, 1.5);
+		Sigma_p[i].Name(Sigma_s[i]).Value(1.0) .Error(0.0001).Limits( 0.5, 1.5);
 	}
 
 	//----------------------------------------------------------------------
@@ -198,7 +198,7 @@ GInt_t main(int argv, char** argc)
 	//----------------------------------------------------------------------
 	//get integration
 	//Vegas state hold the resources for performing the integration
-	VegasState<N> state(min, max);
+	VegasState<N, device> state(min, max);
 
 	state.SetVerbose(-2);
 	state.SetAlpha(1.5);
@@ -206,8 +206,9 @@ GInt_t main(int argv, char** argc)
 	state.SetUseRelativeError(1);
 	state.SetMaxError( max_error );
 	state.SetCalls( calls );
-	state.SetDiscardIterations(2);
-	Vegas<N> vegas(state);
+	state.SetTrainingCalls( calls/5 );
+	state.SetTrainingIterations(5);
+	Vegas<N, device> vegas(state);
 
 	Gaussian.PrintRegisteredParameters();
 
@@ -222,6 +223,7 @@ GInt_t main(int argv, char** argc)
 	cout << "Result: " << vegas.GetState().GetResult()
 		 << " +/- "    << vegas.GetState().GetSigma() <<std::endl
 		 << "Time (ms): "<< elapsed_vegas.count() <<std::endl;
+
 
 	TH1D Hist_Iterations_Results("Hist_Iterations_Results", "",
 			vegas.GetState().GetIterationResult().size(), 0.0,
@@ -239,6 +241,7 @@ GInt_t main(int argv, char** argc)
 		Hist_Iterations_Results.SetBinError(i, vegas.GetState().GetIterationSigma()[i-1]);
 
 	}
+	/*
 	 std::cout.precision(51);
 	//----------------------------------------------------------------------
 	//PLAIN
@@ -279,7 +282,7 @@ GInt_t main(int argv, char** argc)
 	cout << setiosflags(ios::fixed)<< "Result: "<< adar.first << "+/- " << adar.second <<std::endl
 	<< " Time (ms): "<< elapsed_adaquad.count() <<std::endl;
 
-	return 0;
+	return 0;*/
 	TApplication *myapp=new TApplication("myapp",0,0);
 
 		/*

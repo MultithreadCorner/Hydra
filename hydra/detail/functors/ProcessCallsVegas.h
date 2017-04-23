@@ -116,29 +116,29 @@ struct ProcessBoxesVegas
 };
 
 template<typename FUNCTOR, size_t NDimensions, unsigned int BACKEND,
-typename IteratorStdReal, typename IteratorBackendReal, typename IteratorBackendUInt,
+typename IteratorBackendReal, typename IteratorBackendUInt,
 typename GRND=thrust::random::default_random_engine>
 struct ProcessCallsVegas
 {
-	ProcessCallsVegas( size_t NBoxes, hydra::VegasState<NDimensions,BACKEND> const& fState,
+	ProcessCallsVegas( size_t NBoxes, hydra::VegasState<NDimensions,BACKEND>& fState,
 			IteratorBackendUInt begin_bins, IteratorBackendReal begin_real,  FUNCTOR const& functor):
 				fNBoxes( NBoxes ),
 				fSeed(fState.GetItNum()),
 				fNBins(fState.GetNBins()),
 				fNBoxesPerDimension(fState.GetNBoxes()),
-				fNCallsPerBox(fState.GetCallsPerBox(),
-				fJacobian(fState.GetJacobian()),
-				fXi(fState.GetDeviceXi().begin()),
-				fXLow(fState.GetDeviceXLow().begin()),
-				fDeltaX(fState.GetDeviceDeltaX().begin()),
-				fGlobalBin(begin_bins),
-				fFVals(begin_real),
+				fNCallsPerBox(fState.GetCallsPerBox()),
+				fJacobian( fState.GetJacobian() ),
+				fXi(fState.GetBackendXi().begin() ),
+				fXLow( fState.GetBackendXLow().begin() ),
+				fDeltaX( fState.GetBackendDeltaX().begin() ),
+				fGlobalBin( begin_bins ),
+				fFVals( begin_real ),
 				fFunctor(functor)
 				{}
 
 	__host__ __device__
 	ProcessCallsVegas( ProcessCallsVegas<FUNCTOR,NDimensions,
-			BACKEND,IteratorStdReal,IteratorBackendReal,
+			BACKEND,IteratorBackendReal,
 			IteratorBackendUInt,GRND> const& other):
 	fSeed(other.fSeed),
 	fNBins(other.fNBins),
@@ -183,21 +183,6 @@ struct ProcessCallsVegas
 		return  C ;
 	}
 
-	/*
-	__host__   __device__ inline
-	void fill_distribution(size_t bin, size_t dimension, GReal_t fval )
-	{
-#ifdef __CUDA_ARCH__
-		atomicAdd((fDistribution + bin*NDimensions + dimension) , static_cast<Precision>(fval*fval));
-#else
-#if THRUST_DEVICE_SYSTEM!=THRUST_DEVICE_SYSTEM_CUDA
-		std::lock_guard<std::mutex> lock(*fMutex);
-		*(fDistribution + bin* NDimensions + dimension) += static_cast<Precision>(fval*fval);
-#endif
-#endif
-	}
-
-*/
 
 	__host__   __device__ inline
 	void get_point(const size_t  index, GReal_t &volume, GInt_t (&bin)[NDimensions], GReal_t (&x)[NDimensions] )
@@ -205,6 +190,7 @@ struct ProcessCallsVegas
 
 		size_t box = index/fNCallsPerBox;
 		GRND randEng( hash(fSeed,index) );
+		randEng.discard(index);
 		thrust::uniform_real_distribution<GReal_t> uniDist(0.0, 1.0);
 
 		for (size_t j = 0; j < NDimensions; j++)
@@ -231,25 +217,24 @@ struct ProcessCallsVegas
 
 			volume *= bin_width;
 
-			//	printf("index=%f call=%f x[j]=%f \n",  double(box) , double(call), x[j] );
+			//	printf("j=%d k=%d z=%f y=%f box=%f  x[j]=%f \n", j, k, z,y, double(b) ,  x[j] );
 
 		}
 
 	}
 
+	__host__ __device__ inline
+	size_t GetDistributionIndex(size_t index,  const GUInt_t dim) const
+	{ return index*NDimensions + dim; }
 
-	inline GUInt_t GetDistributionIndex(const GUInt_t call,  const GUInt_t bin, const GUInt_t dim) const
-	{ return i * NDimensions*fNCallsPerBox + j*fNCallsPerBox + call; }
-
-	inline GUInt_t GetDistributionKey( const GUInt_t bin, const GUInt_t dim) const
-	{ return i * NDimensions + j; }
+	__host__ __device__ inline
+	GUInt_t GetDistributionKey( const GUInt_t bin, const GUInt_t dim) const
+	{ return bin * NDimensions + dim; }
 
 
-	__host__ __device__
-	inline ResultVegas<NDimensions> operator()( size_t index)
+	__host__ __device__ inline
+	ResultVegas<NDimensions> operator()( size_t index)
 	{
-		size_t box  = index/fNCallsPerBox;
-		size_t call = index%fNCallsPerBox;
 
 		GReal_t volume = 1.0;
 		GReal_t x[NDimensions];
@@ -262,8 +247,10 @@ struct ProcessCallsVegas
 
 		for (GUInt_t j = 0; j < NDimensions; j++)
 		{
-			fGlobalBin[ GetDistributionIndex(call, bin[j], j ) ] = GetDistributionKey(bin[j], j);
-			fFVals[GetDistributionIndex(call, bin[j], j )]=fval;
+
+		    fGlobalBin[ GetDistributionIndex(index, j ) ] = GetDistributionKey(bin[j], j);
+			fFVals[GetDistributionIndex(index, j )]=fval*fval;
+
 		}
 
 		result.fN    = 1;
@@ -284,9 +271,9 @@ private:
 	GInt_t  fSeed;
 	IteratorBackendUInt fGlobalBin;
 	IteratorBackendReal fFVals;
-	IteratorStdReal fXi;
-	IteratorStdReal fXLow;
-	IteratorStdReal fDeltaX;
+	IteratorBackendReal  fXi;
+	IteratorBackendReal  fXLow;
+	IteratorBackendReal  fDeltaX;
 
 	FUNCTOR fFunctor;
 

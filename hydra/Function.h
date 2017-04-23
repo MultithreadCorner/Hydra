@@ -298,13 +298,13 @@ struct BaseFunctor
 
 
 
-__host__ __device__  inline
+    __host__ __device__  inline
 	Parameter& operator[](size_t i)
 	{
 		return fParameters[i];
 	}
 
-__host__ __device__  inline
+    __host__ __device__  inline
 	Parameter const& operator[](size_t i) const
 	{
 		return fParameters[i];

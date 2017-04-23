@@ -65,6 +65,17 @@
 
 #include <examples/Gauss.h>
 #include <examples/Exp.h>
+namespace examples {
+
+struct Unit
+{
+	template<typename T>
+	 double operator()(T x){return 1;}
+
+};
+
+
+}  // namespace examples
 
 using namespace std;
 using namespace hydra;
@@ -159,7 +170,8 @@ GInt_t main(int argv, char** argc)
 	}
 
 
-	constexpr size_t N = 1;
+	constexpr size_t N = 20;
+
 
 	//------------------------------------
 	//parameters
@@ -173,32 +185,32 @@ GInt_t main(int argv, char** argc)
 
     //-------------------------------------------
 	//range of the analysis
-	std::array<GReal_t, N>  min;
-	std::array<GReal_t, N>  max;
+	std::array<GReal_t, N>  _min;
+	std::array<GReal_t, N>  _max;
 
 	for(size_t i=0; i< N; i++){
 
-		    min[i] = -6.0;
-		    max[i] =  6.0;
+		    _min[i] = -6.0;
+		    _max[i] =  6.0;
 	 Position_p[i] = i;
 		 Mean_s[i] = "mean_"  ;
 		 Mean_s[i] += std::to_string(i);
 		Sigma_s[i] = "sigma_" ;
 		Sigma_s[i] += std::to_string(i);
 		 Mean_p[i].Name(Mean_s[i]).Value(0.0) .Error(0.0001).Limits( -5.0, 5.0);
-		Sigma_p[i].Name(Sigma_s[i]).Value(0.01) .Error(0.0001).Limits( 0.5, 1.5);
+		Sigma_p[i].Name(Sigma_s[i]).Value(1.0) .Error(0.0001).Limits( 0.5, 1.5);
 	}
 
 	//----------------------------------------------------------------------
 	// create functor
 	//------------------------------------
 
-	GaussN<N> Gaussian(Mean_p, Sigma_p, Position_p);
+	GaussN<N> Gaussian(Mean_p, Sigma_p, Position_p, 1);
 
 	//----------------------------------------------------------------------
 	//get integration
 	//Vegas state hold the resources for performing the integration
-	VegasState<N> state(min, max);
+	VegasState<N, host> state(_min, _max);
 
 	state.SetVerbose(-2);
 	state.SetAlpha(1.5);
@@ -206,8 +218,9 @@ GInt_t main(int argv, char** argc)
 	state.SetUseRelativeError(1);
 	state.SetMaxError( max_error );
 	state.SetCalls( calls );
-	state.SetDiscardIterations(0);
-	Vegas<N> vegas(state);
+	state.SetTrainingCalls( calls/10 );
+	state.SetTrainingIterations(5);
+	Vegas<N, host> vegas(state);
 
 	Gaussian.PrintRegisteredParameters();
 
@@ -222,6 +235,7 @@ GInt_t main(int argv, char** argc)
 	cout << "Result: " << vegas.GetState().GetResult()
 		 << " +/- "    << vegas.GetState().GetSigma() <<std::endl
 		 << "Time (ms): "<< elapsed_vegas.count() <<std::endl;
+
 
 	TH1D Hist_Iterations_Results("Hist_Iterations_Results", "",
 			vegas.GetState().GetIterationResult().size(), 0.0,
@@ -239,7 +253,7 @@ GInt_t main(int argv, char** argc)
 		Hist_Iterations_Results.SetBinError(i, vegas.GetState().GetIterationSigma()[i-1]);
 
 	}
-
+/*
 	//----------------------------------------------------------------------
 	//PLAIN
 	//----------------------------------------------------------------------
@@ -295,10 +309,10 @@ GInt_t main(int argv, char** argc)
 
 	GaussN<3> Gaussian3(_mean, _sigma, _position );
 
-	auto GMIntegrator = hydra::experimental::GenzMalikQuadrature<3>(_min, _max, _grid);
+	auto GMIntegrator = hydra::experimental::GenzMalikQuadrature<3,hydra::device>(_min, _max, _grid);
 	GMIntegrator.Print();
 
-
+*/
 
 	TApplication *myapp=new TApplication("myapp",0,0);
 		/*

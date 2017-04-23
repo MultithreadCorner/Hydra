@@ -59,7 +59,8 @@ public:
 	typedef typename VegasState<N,BACKEND>::rvector_backend rvector_backend;
 	typedef typename VegasState<N,BACKEND>::uvector_backend uvector_backend;
 	typedef typename VegasState<N,BACKEND>::rvector_iterator rvector_iterator;
-	typedef typename VegasState<N,BACKEND>::uvector_iterator uvector_iterator
+	typedef typename VegasState<N,BACKEND>::uvector_iterator uvector_iterator;
+//	typedef typename VegasState<N,BACKEND>::uvector_std_iterator uvector_std_iterator;
 
 	Vegas()=delete;
 
@@ -108,6 +109,8 @@ private:
 
 
 
+	template<typename FUNCTOR>
+	std::pair<GReal_t, GReal_t> IntegIterator(FUNCTOR const& functor, GBool_t training);
 
 	void InitGrid();
 	void ResetGridValues();
@@ -117,7 +120,7 @@ private:
 	void RefineGrid();
 
 	template<typename FUNCTOR>
-	void ProcessFuncionCalls(FUNCTOR const& functor, GReal_t& integral, GReal_t& tss);
+	void ProcessFuncionCalls(FUNCTOR const& functor, GBool_t training,GReal_t& integral, GReal_t& tss);
 
 
 	inline GReal_t GetCoordinate(const GUInt_t i, const GUInt_t j) const {

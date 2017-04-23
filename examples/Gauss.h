@@ -150,7 +150,7 @@ struct GaussAnalyticIntegral: public Integrator<GaussAnalyticIntegral>
 
 private:
 
-	inline GReal_t cumulative(const GReal_t mean, const GReal_t sigma, const GReal_t x)
+	inline GReal_t cumulative(const GReal_t mean, const GReal_t sigma, const GReal_t x) const
 	{
 		return 0.5*(1.0 + erf( (x-mean)/( sigma*sqrt(2) ) ) );
 	}
@@ -191,8 +191,8 @@ struct GaussN: public BaseFunctor<GaussN<DIM>,GReal_t, DIM+DIM>
 		fAutoNormalize = other.fAutoNormalize;
 		for(size_t i=0; i<DIM; i++){
 			fPosition[i] = other.fPosition[i];
-		//	this->SetParameter(2*i, other.GetParameter(2*i)  );
-		//	this->SetParameter(2*i+1, other.GetParameter(2*i+1)  );
+			//this->SetParameter(2*i, other.GetParameter(2*i)  );
+			//this->SetParameter(2*i+1, other.GetParameter(2*i+1)  );
 		}
 	}
 
@@ -218,12 +218,22 @@ struct GaussN: public BaseFunctor<GaussN<DIM>,GReal_t, DIM+DIM>
 	inline GReal_t Evaluate(T* x)
 	{
 		GReal_t g=1.0;
+GReal_t f =0.0;
 
 		for(size_t i=0; i<DIM; i++)
 		{
 			GReal_t m2 = (x[fPosition[i]] - _par[2*i] )*(x[fPosition[i]] - _par[2*i] );
 			GReal_t s2 = _par[2*i+1]*_par[2*i+1];
-			g *= fAutoNormalize? exp(-m2/(2.0 * s2 ))/( sqrt(2.0*s2*PI)): exp(-m2/(2.0 * s2 )) ;
+			if(fAutoNormalize)
+				f=exp(-m2/(2.0 * s2 ))/( sqrt(2.0*s2*PI));
+				else f= exp(-m2/(2.0 * s2 )) ;
+			g *= f;
+			/*
+		std::cout << i << " m="<< (x[fPosition[i]] - _par[2*i] )<<
+				          " s="<<_par[2*i+1]<<
+				          " fAutoNormalize=" <<fAutoNormalize <<
+				          " g=" << g <<
+				          " f="<< f<< std::endl;*/
 		}
 		return g;
 	}
@@ -282,7 +292,7 @@ struct GaussNAnalyticIntegral
 
 
 	template<typename FUNCTOR>
-	inline std::pair<GReal_t, GReal_t> Integrate(FUNCTOR const& functor)
+	inline std::pair<GReal_t, GReal_t> Integrate(FUNCTOR const& functor) const
 	{
 		GReal_t g=1.0;
 		GBool_t flag = functor.IsAutoNormalized();
@@ -304,7 +314,7 @@ struct GaussNAnalyticIntegral
 
 private:
 
-	inline GReal_t cumulative(const GReal_t mean, const GReal_t sigma, const GReal_t x)
+	inline GReal_t cumulative(const GReal_t mean, const GReal_t sigma, const GReal_t x) const
 	{
 		return 0.5*(1.0 + erf( (x-mean)/( sigma*sqrt(2) ) ) );
 	}

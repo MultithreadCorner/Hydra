@@ -65,11 +65,11 @@ public:
 	typedef hydra::detail::BackendTraits<BACKEND> system_t;
 	typedef typename system_t::template container<GReal_t>  rvector_backend;
 	typedef typename system_t::template container<GUInt_t>  uvector_backend;
-	typedef typename std::vector<GReal_t>::iterator         uvector_std;
+	typedef typename std::vector<GReal_t>        rvector_std;
 
 	typedef typename rvector_backend::iterator rvector_iterator;
 	typedef typename uvector_backend::iterator uvector_iterator;
-
+	typedef typename rvector_std::iterator  rvector_std_iterator;
 
 
 	VegasState(std::array<GReal_t,N> const& xlower,
@@ -87,7 +87,14 @@ public:
 
 	inline size_t GetCalls() const {return fCalls;}
 
+	inline size_t GetCalls(GBool_t training) const
+	{ return  training ? fTrainingCalls : fCalls;}
+
 	inline void SetCalls(size_t calls) {fCalls = calls;}
+
+	inline void SetCalls(GBool_t training, size_t calls)
+	{ if(training) fTrainingCalls = calls;
+	else fCalls = calls;}
 
 	//-----------------------------
 	//CallsPerBox
@@ -115,7 +122,7 @@ public:
 
 	inline const std::vector<GReal_t>& GetCumulatedResult() const {return fCumulatedResult;}
 
-	inline void SetCumulatedResult(const std::vector<GReal_t>& cumulatedResult) {fCumulatedResult = cumulatedResult }
+	inline void SetCumulatedResult(const std::vector<GReal_t>& cumulatedResult) {fCumulatedResult = cumulatedResult; }
 
 	//-----------------------------
 	//CumulatedSigma
@@ -127,24 +134,24 @@ public:
 	//----------------
 	//DeltaX
 
-	inline const RealVector_h& GetDeltaX() const {return fDeltaX;	}
+	inline const std::vector<GReal_t>& GetDeltaX() const {return fDeltaX;	}
 
-	inline void SetDeltaX(const RealVector_h& deltaX) {fDeltaX = deltaX;}
+	inline void SetDeltaX(const std::vector<GReal_t>& deltaX) {fDeltaX = deltaX;}
 
 	inline void SetDeltaX(GUInt_t i, GReal_t dx) {fDeltaX[i] = dx;}
 
 	//----------------
 	//Distribution
 
-	inline const mc_host_vector<vegas_pdf_type>& GetDistribution() const {return fDistribution;}
+	inline const RealVector_h& GetDistribution() const {return fDistribution;}
 
-	inline  mc_host_vector<vegas_pdf_type>& GetDistribution() {return fDistribution;}
+	inline  RealVector_h& GetDistribution() {return fDistribution;}
 
-	inline void SetDistribution(const mc_host_vector<vegas_pdf_type>& distribution) {fDistribution = distribution; }
+	inline void SetDistribution(const std::vector<GReal_t>& distribution) {fDistribution = distribution; }
 
-	inline void SetDistribution(GUInt_t i, vegas_pdf_type x) {fDistribution[i] = x;}
+	inline void SetDistribution(GUInt_t i, GReal_t x) {fDistribution[i] = x;}
 
-	inline void SetDistribution(GUInt_t bin, GUInt_t dim, vegas_pdf_type x) {fDistribution[bin*N+dim] = x;}
+	inline void SetDistribution(GUInt_t bin, GUInt_t dim, GReal_t x) {fDistribution[bin*N+dim] = x;}
 
 	//----------------
 	//IterationDuration
@@ -308,9 +315,9 @@ public:
 	//Weight
 
 
-	inline const RealVector_h& GetWeight() const {return fWeight;}
+	inline const std::vector<GReal_t>& GetWeight() const {return fWeight;}
 
-	inline void SetWeight(const RealVector_h& weight) {fWeight = weight;}
+	inline void SetWeight(const std::vector<GReal_t>& weight) {fWeight = weight;}
 
 	inline void SetWeight(GUInt_t i, GReal_t weight) {fWeight[i] = weight;}
 
@@ -324,18 +331,18 @@ public:
 	//----------------
 	//Xi
 
-	inline const RealVector_h& GetXi() const {return fXi;}
+	inline const std::vector<GReal_t>& GetXi() const {return fXi;}
 
-	inline void SetXi(const RealVector_h& xi) {fXi = xi;}
+	inline void SetXi(const std::vector<GReal_t>& xi) {fXi = xi;}
 
 	inline void SetXi(GInt_t i, GReal_t xi) {fXi[i] = xi;}
 
 	//----------------
 	//	Xin
 
-	inline const RealVector_h& GetXin() const {return fXin;}
+	inline const std::vector<GReal_t>& GetXin() const {return fXin;}
 
-	inline void SetXin(const RealVector_h& xin) {fXin = xin;}
+	inline void SetXin(const std::vector<GReal_t>& xin) {fXin = xin;}
 
 	inline void SetXin(GUInt_t i, GReal_t xin) {fXin[i] = xin;}
 
@@ -360,32 +367,27 @@ public:
 
 	inline void StoreIterationDuration(const GReal_t timing) { fIterationDuration.push_back(timing);}
 
-	inline const RealVector_h& GetXLow() const { return fXLow; }
+	inline const std::vector<GReal_t>& GetXLow() const { return fXLow; }
 
-	inline void SetXLow(const RealVector_h& xLow) {fXLow = xLow;}
+	inline void SetXLow(const std::vector<GReal_t>& xLow) {fXLow = xLow;}
 
-	inline const RealVector_h& GetXUp() const {return fXUp;}
+	inline const std::vector<GReal_t>& GetXUp() const {return fXUp;}
 
-	inline void SetXUp(const RealVector_h& xUp) {fXUp = xUp;}
-
-
-	GUInt_t GetDiscardIterations() const {return fDiscardIterations;}
-
-	void SetDiscardIterations(GUInt_t discardIterations) {fDiscardIterations = discardIterations; }
+	inline void SetXUp(const std::vector<GReal_t>& xUp) {fXUp = xUp;}
 
 
 	inline void CopyStateToDevice()
 	{
 		thrust::copy(fXi.begin(), fXi.end(), fBackendXi.begin());
-		thrust::copy( fDistribution.begin(), fDistribution.end(), fBackendDistribution.begin());
+		//thrust::copy( fDistribution.begin(), fDistribution.end(), fBackendDistribution.begin());
 
 	}
 
 	inline void CopyStateToHost()
-	{	thrust::copy(
+	{/*	thrust::copy(
 			fBackendDistribution.begin(),
 			fBackendDistribution.end(),
-			fDistribution.begin());
+			fDistribution.begin());*/
 	}
 
 
@@ -401,20 +403,44 @@ public:
 				fBackendXLow.begin());
 	}
 
+//
+	rvector_backend& GetBackendDeltaX() {return fBackendDeltaX;	}
 
 	const rvector_backend& GetBackendDeltaX() const {return fBackendDeltaX;	}
 
 	void SetBackendDeltaX(const rvector_backend& deviceDeltaX) {fBackendDeltaX = deviceDeltaX;}
 
+//
+	rvector_backend& GetBackendXi() {return fBackendXi;}
+
 	const rvector_backend& GetBackendXi() const {return fBackendXi;}
 
 	void SetBackendXi(const rvector_backend& deviceXi) {fBackendXi = deviceXi;}
 
+//
+	rvector_backend& GetBackendXLow() { return fBackendXLow;}
+
 	const rvector_backend& GetBackendXLow() const { return fBackendXLow;}
 
-	void SetBackendXLow(const mc_device_vector<vegas_pdf_type>& deviceXLow) {fBackendXLow = deviceXLow;}
+	void SetBackendXLow(const rvector_backend& deviceXLow) {fBackendXLow = deviceXLow;}
 
-	const mc_device_vector<vegas_pdf_type>& GetBackendDistribution() const {	return fBackendDistribution;}
+	size_t GetTrainingCalls() const {
+		return fTrainingCalls;
+	}
+
+	void SetTrainingCalls(size_t trainingCalls) {
+		fTrainingCalls = trainingCalls;
+	}
+
+	GUInt_t GetTrainingIterations() const {
+		return fTrainingIterations;
+	}
+
+	void SetTrainingIterations(GUInt_t trainingIterations) {
+		fTrainingIterations = trainingIterations;
+	}
+
+	//const rvector_backend& GetBackendDistribution() const {	return fBackendDistribution;}
 
 
 
@@ -433,7 +459,7 @@ private:
 
 
 	//backend
-	rvector_backend fBackendDistribution;
+	//rvector_backend fBackendDistribution;
 	rvector_backend fBackendXLow;//initgrid
 	rvector_backend fBackendXi;//CopyStateToDevice
 	rvector_backend fBackendDeltaX;//initgrid
@@ -445,7 +471,7 @@ private:
 	std::vector<GReal_t> fXin;
 	std::vector<GReal_t> fDeltaX;
 	std::vector<GReal_t> fWeight;
-	std::vector<GReal_t> fDistribution;
+	RealVector_h fDistribution;
 	std::vector<GReal_t> fIterationResult; ///< vector with the result per iteration
 	std::vector<GReal_t> fIterationSigma; ///< vector with the result per iteration
 	std::vector<GReal_t> fCumulatedResult; ///< vector of cumulated results per iteration
@@ -471,12 +497,13 @@ private:
 	GReal_t fResult;
 	GReal_t fSigma;
 
-	GUInt_t fDiscardIterations;
+	GUInt_t fTrainingIterations;
 	GUInt_t fItStart;
 	GUInt_t fItNum;
 	GUInt_t fSamples;
 	size_t  fCallsPerBox; ///< number of call per box
 	size_t  fCalls;
+	size_t  fTrainingCalls;
 	GReal_t fMaxError; ///< max error
 	GBool_t fUseRelativeError; ///< use relative error as convergence criteria
 
