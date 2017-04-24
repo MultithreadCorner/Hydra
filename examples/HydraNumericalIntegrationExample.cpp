@@ -34,6 +34,13 @@
 #include <array>
 #include <chrono>
 #include <limits>
+
+//OpenMP
+#if THRUST_DEVICE_SYSTEM==THRUST_DEVICE_SYSTEM_OMP
+#include <omp.h>
+#include <thread>
+#endif
+
 //command line arguments
 #include <tclap/CmdLine.h>
 
@@ -54,14 +61,9 @@
 //root
 #include <TROOT.h>
 #include <TH1D.h>
-#include <TF1.h>
-#include <TH2D.h>
-#include <TH3D.h>
 #include <TApplication.h>
 #include <TCanvas.h>
-#include <TColor.h>
 #include <TString.h>
-#include <TStyle.h>
 
 #include <examples/Gauss.h>
 #include <examples/Exp.h>
@@ -170,7 +172,7 @@ GInt_t main(int argv, char** argc)
 	}
 
 
-	constexpr size_t N = 20;
+	constexpr size_t N = 10;
 
 
 	//------------------------------------
@@ -219,31 +221,51 @@ GInt_t main(int argv, char** argc)
 	state.SetMaxError( max_error );
 	state.SetCalls( calls );
 	state.SetTrainingCalls( calls/10 );
-	state.SetTrainingIterations(5);
+	state.SetTrainingIterations(0);
 	Vegas<N, host> vegas(state);
 
 	Gaussian.PrintRegisteredParameters();
 
+	vector<TH1D> Cumulative_Results;
+	vector<TH1D> Iterations_Results;
+	vector<TH1D> Iterations_Duration;
+
 	//----------------------------------------------------------------------
 	//VEGAS
 	//----------------------------------------------------------------------
+#if THRUST_DEVICE_SYSTEM==THRUST_DEVICE_SYSTEM_OMP
+	unsigned int nthreads =  std::thread::hardware_concurrency();
+	if(nthreads){
+		cout<<"------------------------------------"<< nthreads <<endl;
+		cout<<"| System support #threads="<< nthreads <<endl;
+		cout<<"------------------------------------"<< nthreads <<endl;
+		omp_set_dynamic(0); //disable dynamic teams
+		for(unsigned int nt=1; nt<nthreads+1; nt++){
+			omp_set_num_threads(nt);
+#endif
+
+
 	auto start_vegas = std::chrono::high_resolution_clock::now();
 	vegas.Integrate(Gaussian);
 	auto end_vegas = std::chrono::high_resolution_clock::now();
 	std::chrono::duration<double, std::milli> elapsed_vegas = end_vegas - start_vegas;
-	cout << ">>> Gaussian intetgral [Vegas]"<< endl;
+	cout <<endl;
+	cout << ">>> [Vegas]: Gaussian<"<< N << ">" << " using "<< nt <<" OMP threads" <<endl;
 	cout << "Result: " << vegas.GetState().GetResult()
 		 << " +/- "    << vegas.GetState().GetSigma() <<std::endl
 		 << "Time (ms): "<< elapsed_vegas.count() <<std::endl;
 
-
-	TH1D Hist_Iterations_Results("Hist_Iterations_Results", "",
+	TH1D Hist_Iterations_Results((TString("Hist_Iterations_Results_nthreads")+=nt).Data(), "",
 			vegas.GetState().GetIterationResult().size(), 0.0,
 			vegas.GetState().GetIterationResult().size());
 
-	TH1D Hist_Cumulative_Results("Hist_Cumulative_Results", "",
-				vegas.GetState().GetCumulatedResult().size(), 0.0,
-				vegas.GetState().GetCumulatedResult().size());
+	TH1D Hist_Cumulative_Results((TString("Hist_Cumulative_Results_nthreads")+=nt).Data(), "",
+			vegas.GetState().GetCumulatedResult().size(), 0.0,
+			vegas.GetState().GetCumulatedResult().size());
+
+	TH1D Hist_Iterations_Duration((TString("Hist_Iterations_Duration_nthreads")+=nt).Data(), "",
+				vegas.GetState().GetIterationDuration().size(), 0.0,
+				vegas.GetState().GetIterationDuration().size());
 
 	for(size_t i=1; i<= Hist_Iterations_Results.GetNbinsX(); i++)
 	{
@@ -251,8 +273,26 @@ GInt_t main(int argv, char** argc)
 		Hist_Cumulative_Results.SetBinError(i, vegas.GetState().GetCumulatedSigma()[i-1]);
 		Hist_Iterations_Results.SetBinContent(i, vegas.GetState().GetIterationResult()[i-1]);
 		Hist_Iterations_Results.SetBinError(i, vegas.GetState().GetIterationSigma()[i-1]);
+		Hist_Iterations_Duration.SetBinContent(i, vegas.GetState().GetIterationDuration()[i-1]);
+		Hist_Iterations_Duration.SetBinError(i, 0.0);
 
 	}
+
+	Cumulative_Results.push_back(Hist_Cumulative_Results);
+	Iterations_Results.push_back(Hist_Iterations_Results);
+	Iterations_Duration.push_back(Hist_Iterations_Duration);
+
+
+#if THRUST_DEVICE_SYSTEM==THRUST_DEVICE_SYSTEM_OMP
+		}
+	}
+	else{
+		cout<<"System does support or implement std::thread::hardware_concurrency" <<endl;
+	}
+#endif
+
+
+
 /*
 	//----------------------------------------------------------------------
 	//PLAIN
@@ -338,13 +378,23 @@ GInt_t main(int argv, char** argc)
 	hist_adapted.SetFillColor(0);
 	hist_adapted.SetFillStyle(0);
 	*/
-	TCanvas canvas("canvas", "", 1000, 500);
-    Hist_Iterations_Results.Draw("E0");
-    Hist_Iterations_Results.SetMarkerSize(1);
-    Hist_Iterations_Results.SetMarkerStyle(20);
-	Hist_Cumulative_Results.Draw("hist same");
-	Hist_Cumulative_Results.SetLineColor(kRed);
-	Hist_Cumulative_Results.SetLineWidth(2);
+	for(unsigned int nt=0; nt<Iterations_Results.size() ; nt++ )
+	{
+		TCanvas* canvas = new TCanvas((TString("canvas_result_")+=nt).Data(), "", 1000, 500);
+		Iterations_Results[nt].Draw("E0");
+		Iterations_Results[nt].SetMarkerSize(1);
+		Iterations_Results[nt].SetMarkerStyle(20);
+		Cumulative_Results[nt].Draw("hist same");
+		Cumulative_Results[nt].SetLineColor(kRed);
+		Cumulative_Results[nt].SetLineWidth(2);
+
+		TCanvas* canvas2 = new TCanvas((TString("canvas_time_")+=nt).Data(), "", 1000, 500);
+		Iterations_Duration[nt].Draw("E0");
+		Iterations_Duration[nt].SetMarkerSize(1);
+		Iterations_Duration[nt].SetMarkerStyle(20);
+		Iterations_Duration[nt].SetMinimum(0);
+
+	}
 	myapp->Run();
 
 	return 0;

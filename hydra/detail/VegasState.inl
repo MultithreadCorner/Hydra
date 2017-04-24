@@ -142,9 +142,14 @@ VegasState<N,BACKEND >::VegasState(VegasState const& other) :
 
 
 template<size_t N , unsigned int BACKEND>
-void VegasState<N,BACKEND >::ResetState()
+void VegasState<N,BACKEND >::ClearStoredIterations()
 		{
-
+	fIterationResult.clear();
+	fIterationSigma.clear();
+	fCumulatedResult.clear();
+	fCumulatedSigma.clear();
+	fIterationDuration.clear();
+	/*
 		fNDimensions= N;
 		fNBinsMax = BINS_MAX;
 		fNBins=BINS_MAX;
@@ -182,6 +187,8 @@ void VegasState<N,BACKEND >::ResetState()
 		thrust::fill( fIterationDuration.begin(), fIterationDuration.end(),  0.0);
 
 
+		}
+		*/
 		}
 }
 

@@ -55,6 +55,9 @@ template<size_t N, unsigned int BACKEND , typename GRND>
 template<typename FUNCTOR>
 std::pair<GReal_t, GReal_t>  Vegas<N,BACKEND, GRND >::Integrate(FUNCTOR const& fFunctor )
 {
+
+	fState.SetStage(0);
+
 	auto temp = IntegIterator(fFunctor, 1 );
 
 	return IntegIterator(fFunctor, 0 );
@@ -74,6 +77,7 @@ Vegas<N,BACKEND, GRND >::IntegIterator(FUNCTOR const& fFunctor, GBool_t training
 
 	if( fState.GetStage() == 0) {
 		InitGrid();
+		fState.ClearStoredIterations();
 
 		if (fState.GetVerbose() >= 0) {
 			PrintLimits();

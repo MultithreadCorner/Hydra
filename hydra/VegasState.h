@@ -77,7 +77,7 @@ public:
 
 	VegasState(const VegasState &state);
 
-	void ResetState();
+	void ClearStoredIterations();
 
 	inline GReal_t GetAlpha() const { return fAlpha; }
 
