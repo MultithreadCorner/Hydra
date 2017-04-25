@@ -477,6 +477,8 @@ private:
 	std::vector<GReal_t> fCumulatedResult; ///< vector of cumulated results per iteration
 	std::vector<GReal_t> fCumulatedSigma; ///< vector of cumulated sigmas per iteration
 	std::vector<GReal_t> fIterationDuration; ///< vector with the time per iteration
+	std::vector<GReal_t> fFunctionCallsDuration; ///< vector with the time per iteration
+
 	//mc_host_vector<GUInt_t> fBox;
 
 
