@@ -149,7 +149,10 @@ private:
 	}
 
 	VegasState<N,BACKEND> fState;
-
+	rvector_backend fFValInput;
+	uvector_backend fGlobalBinInput;
+	rvector_backend fFValOutput;
+	uvector_backend fGlobalBinOutput;
 };
 
 }

@@ -366,6 +366,7 @@ public:
 
 
 	inline void StoreIterationDuration(const GReal_t timing) { fIterationDuration.push_back(timing);}
+	inline void StoreFunctionCallsDuration(const GReal_t timing) { fFunctionCallsDuration.push_back(timing);}
 
 	inline const std::vector<GReal_t>& GetXLow() const { return fXLow; }
 
@@ -440,8 +441,15 @@ public:
 		fTrainingIterations = trainingIterations;
 	}
 
-	//const rvector_backend& GetBackendDistribution() const {	return fBackendDistribution;}
+	std::vector<GReal_t> const& GetFunctionCallsDuration() const {
+		return fFunctionCallsDuration;
+	}
 
+	void SetFunctionCallsDuration(std::vector<GReal_t> functionCallsDuration) {
+		fFunctionCallsDuration = functionCallsDuration;
+	}
+
+	//const rvector_backend& GetBackendDistribution() const {	return fBackendDistribution;}
 
 
 
@@ -463,6 +471,7 @@ private:
 	rvector_backend fBackendXLow;//initgrid
 	rvector_backend fBackendXi;//CopyStateToDevice
 	rvector_backend fBackendDeltaX;//initgrid
+
 
 	//std
 	std::vector<GReal_t> fXUp;

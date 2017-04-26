@@ -48,67 +48,37 @@ namespace hydra{
 
 namespace detail {
 
-
-template<size_t N>
 struct ResultVegas
 {
-
-
-    size_t  fN;
+	GReal_t fN;
     GReal_t fMean;
     GReal_t fM2;
-
-    __host__ __device__
-    ResultVegas():
-    fN(0),
-    fMean(0),
-    fM2(0)
-    {}
-
-    __host__ __device__
-    ResultVegas( ResultVegas<N> const& other):
-    fN(other.fN),
-    fMean(other.fMean ),
-    fM2(other.fM2 )
-    {}
-
-
-
-    __host__ __device__ inline
-    GReal_t variance()   { return fM2 / (fN - 1); }
-
-    __host__ __device__ inline
-    GReal_t variance_n() { return fM2 / fN; }
 
 };
 
 
 
-template<size_t N>
 struct ProcessBoxesVegas
-		:public thrust::binary_function< ResultVegas<N> const&, ResultVegas<N> const& , ResultVegas<N> >
+		:public thrust::binary_function< ResultVegas const&, ResultVegas const& , ResultVegas >
 {
 
 
     __host__ __device__ inline
-    ResultVegas<N> operator()(ResultVegas<N> const& x, ResultVegas<N> const& y)
+    ResultVegas operator()(ResultVegas const& x, ResultVegas const& y)
     {
-    	ResultVegas<N> result;
+    	ResultVegas result;
 
-        // precompute some common subexpressions
-        size_t n  = x.fN + y.fN;
+        GReal_t n  = x.fN + y.fN;
 
         GReal_t delta  = y.fMean - x.fMean;
         GReal_t delta2 = delta  * delta;
 
-        //Basic number of samples (n), min, and max
         result.fN   = n;
 
-        result.fMean = x.fMean + delta * y.fN / n;
-
-        result.fM2  = x.fM2 + y.fM2;
-        result.fM2 += delta2 * x.fN * y.fN / n;
-
+        //result.fMean = x.fMean + delta * y.fN / n;
+        result.fMean = (x.fMean*x.fN + y.fMean*y.fN)/n;
+        result.fM2   = x.fM2   +  y.fM2;
+        result.fM2  += delta2 * x.fN * y.fN / n;
 
         return result;
     }
@@ -189,8 +159,9 @@ struct ProcessCallsVegas
 	{
 
 		size_t box = index/fNCallsPerBox;
+
 		GRND randEng( hash(fSeed,index) );
-		randEng.discard(index);
+		//randEng.discard(index);
 		thrust::uniform_real_distribution<GReal_t> uniDist(0.0, 1.0);
 
 		for (size_t j = 0; j < NDimensions; j++)
@@ -233,13 +204,13 @@ struct ProcessCallsVegas
 
 
 	__host__ __device__ inline
-	ResultVegas<NDimensions> operator()( size_t index)
+	ResultVegas operator()( size_t index)
 	{
 
 		GReal_t volume = 1.0;
 		GReal_t x[NDimensions];
 		GInt_t bin[NDimensions];
-		ResultVegas<NDimensions> result;
+		ResultVegas result;
 
 		get_point( index, volume, bin, x );
 
@@ -253,9 +224,9 @@ struct ProcessCallsVegas
 
 		}
 
-		result.fN    = 1;
+		result.fN    = 1.0;
 		result.fMean = fval;
-		result.fM2   = 0;
+		result.fM2   = 0.0;
 
 		return result;
 

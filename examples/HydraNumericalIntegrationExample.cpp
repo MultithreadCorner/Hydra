@@ -64,20 +64,11 @@
 #include <TApplication.h>
 #include <TCanvas.h>
 #include <TString.h>
-
+#include <TRatioPlot.h>
 #include <examples/Gauss.h>
 #include <examples/Exp.h>
-namespace examples {
-
-struct Unit
-{
-	template<typename T>
-	 double operator()(T x){return 1;}
-
-};
 
 
-}  // namespace examples
 
 using namespace std;
 using namespace hydra;
@@ -212,7 +203,7 @@ GInt_t main(int argv, char** argc)
 	//----------------------------------------------------------------------
 	//get integration
 	//Vegas state hold the resources for performing the integration
-	VegasState<N, host> state(_min, _max);
+	VegasState<N, device> state(_min, _max);
 
 	state.SetVerbose(-2);
 	state.SetAlpha(1.5);
@@ -222,26 +213,63 @@ GInt_t main(int argv, char** argc)
 	state.SetCalls( calls );
 	state.SetTrainingCalls( calls/10 );
 	state.SetTrainingIterations(0);
-	Vegas<N, host> vegas(state);
+	Vegas<N, device> vegas(state);
 
 	Gaussian.PrintRegisteredParameters();
 
 	vector<TH1D> Cumulative_Results;
 	vector<TH1D> Iterations_Results;
 	vector<TH1D> Iterations_Duration;
-
+	vector<TH1D> FunctionCalls_Duration;
+	vector<TH1D> Duration_Problem_Size;
 	//----------------------------------------------------------------------
 	//VEGAS
 	//----------------------------------------------------------------------
+	unsigned int nthreads =  1;
+	TString title;
+
+	unsigned int steps =  10;
+	size_t delta_ncalls= calls/steps;
+
+	for(size_t nc=0; nc< steps+1; nc++ )
+	{
+		_ncalls= ncalls+nc*delta_ncalls;
+		state.SetCalls( calls );
+
+	}
+
+
+
 #if THRUST_DEVICE_SYSTEM==THRUST_DEVICE_SYSTEM_OMP
-	unsigned int nthreads =  std::thread::hardware_concurrency();
+	nthreads =  std::thread::hardware_concurrency();
+
+	TH1D Hist_Duration_Problem_Size("Hist_Duration_Problem_Size",
+			"Duration per number of samples",nthreads ,0, nthreads);
+
 	if(nthreads){
 		cout<<"------------------------------------"<< nthreads <<endl;
 		cout<<"| System support #threads="<< nthreads <<endl;
 		cout<<"------------------------------------"<< nthreads <<endl;
 		omp_set_dynamic(0); //disable dynamic teams
 		for(unsigned int nt=1; nt<nthreads+1; nt++){
+			title=TString::Format("%d OpenMP Threads", nt);
 			omp_set_num_threads(nt);
+
+#elif THRUST_DEVICE_SYSTEM==THRUST_DEVICE_SYSTEM_TBB
+			nthreads =  std::thread::hardware_concurrency();
+			title=TString::Format("%d TBB Threads", nthreads );
+			unsigned int nt=1;
+
+#elif THRUST_DEVICE_SYSTEM==THRUST_DEVICE_SYSTEM_CUDA
+			title=TString::Format("CUDA", nthreads );
+			unsigned int nt=1;
+
+#elif THRUST_DEVICE_SYSTEM==THRUST_DEVICE_SYSTEM_CPP
+			title=TString::Format("Sequential", nthreads );
+			unsigned int nt=1;
+#else
+			title=TString::Format("?", nthreads );
+			unsigned int nt=1;
 #endif
 
 
@@ -255,19 +283,25 @@ GInt_t main(int argv, char** argc)
 		 << " +/- "    << vegas.GetState().GetSigma() <<std::endl
 		 << "Time (ms): "<< elapsed_vegas.count() <<std::endl;
 
-	TH1D Hist_Iterations_Results((TString("Hist_Iterations_Results_nthreads")+=nt).Data(), "",
+	TH1D Hist_Iterations_Results((TString("Hist_Iterations_Results_nthreads")+=nt).Data(), title+=";Iteration;Integral result",
 			vegas.GetState().GetIterationResult().size(), 0.0,
 			vegas.GetState().GetIterationResult().size());
 
-	TH1D Hist_Cumulative_Results((TString("Hist_Cumulative_Results_nthreads")+=nt).Data(), "",
+	TH1D Hist_Cumulative_Results((TString("Hist_Cumulative_Results_nthreads")+=nt).Data(), title+=";Iteration;Integral result",
 			vegas.GetState().GetCumulatedResult().size(), 0.0,
 			vegas.GetState().GetCumulatedResult().size());
 
-	TH1D Hist_Iterations_Duration((TString("Hist_Iterations_Duration_nthreads")+=nt).Data(), "",
+	TH1D Hist_Iterations_Duration((TString("Hist_Iterations_Duration_nthreads")+=nt).Data(), title+=";Iteration;Duration [ms]",
 				vegas.GetState().GetIterationDuration().size(), 0.0,
 				vegas.GetState().GetIterationDuration().size());
 
-	for(size_t i=1; i<= Hist_Iterations_Results.GetNbinsX(); i++)
+	TH1D Hist_FunctionCalls_Duration((TString("Hist_FunctionCall_Duration_nthreads")+=nt).Data(), title+=";Iteration;Duration [ms]",
+					vegas.GetState().GetFunctionCallsDuration().size(), 0.0,
+					vegas.GetState().GetFunctionCallsDuration().size());
+
+	Hist_Duration_Problem_Size.SetBinContent(nt, elapsed_vegas.count());
+
+	for(size_t i=1; i< Hist_Iterations_Results.GetNbinsX()+1; i++)
 	{
 		Hist_Cumulative_Results.SetBinContent(i, vegas.GetState().GetCumulatedResult()[i-1]);
 		Hist_Cumulative_Results.SetBinError(i, vegas.GetState().GetCumulatedSigma()[i-1]);
@@ -275,16 +309,20 @@ GInt_t main(int argv, char** argc)
 		Hist_Iterations_Results.SetBinError(i, vegas.GetState().GetIterationSigma()[i-1]);
 		Hist_Iterations_Duration.SetBinContent(i, vegas.GetState().GetIterationDuration()[i-1]);
 		Hist_Iterations_Duration.SetBinError(i, 0.0);
+		Hist_FunctionCalls_Duration.SetBinContent(i, vegas.GetState().GetFunctionCallsDuration()[i-1]);
+		Hist_FunctionCalls_Duration.SetBinError(i, 0.0);
 
 	}
 
 	Cumulative_Results.push_back(Hist_Cumulative_Results);
 	Iterations_Results.push_back(Hist_Iterations_Results);
 	Iterations_Duration.push_back(Hist_Iterations_Duration);
+	FunctionCalls_Duration.push_back(Hist_FunctionCalls_Duration);
 
 
 #if THRUST_DEVICE_SYSTEM==THRUST_DEVICE_SYSTEM_OMP
 		}
+
 	}
 	else{
 		cout<<"System does support or implement std::thread::hardware_concurrency" <<endl;
@@ -380,21 +418,69 @@ GInt_t main(int argv, char** argc)
 	*/
 	for(unsigned int nt=0; nt<Iterations_Results.size() ; nt++ )
 	{
-		TCanvas* canvas = new TCanvas((TString("canvas_result_")+=nt).Data(), "", 1000, 500);
+		TCanvas* canvas = new TCanvas((TString("canvas_result_")+=nt).Data(), "", 500, 500);
+		canvas->SetGrid();
+		canvas->SetTicks(1, 1);
 		Iterations_Results[nt].Draw("E0");
+		Iterations_Results[nt].SetLineWidth(2);
+		Iterations_Results[nt].SetLineColor(kBlue);
 		Iterations_Results[nt].SetMarkerSize(1);
 		Iterations_Results[nt].SetMarkerStyle(20);
-		Cumulative_Results[nt].Draw("hist same");
+		Iterations_Results[nt].SetMarkerColor(kBlue);
+		Iterations_Results[nt].GetYaxis()->SetTitleOffset(1.5);
+		Iterations_Results[nt].SetStats(0);
+		Cumulative_Results[nt].Draw("E3 same");
 		Cumulative_Results[nt].SetLineColor(kRed);
 		Cumulative_Results[nt].SetLineWidth(2);
+		Cumulative_Results[nt].SetFillColor(kRed);
+		Cumulative_Results[nt].SetFillStyle(3001);
+		Cumulative_Results[nt].GetYaxis()->SetTitleOffset(1.5);
+		Cumulative_Results[nt].SetStats(0);
+		Cumulative_Results[nt].DrawCopy("hist c same")->SetFillColor(0);
+		canvas->Update();
 
-		TCanvas* canvas2 = new TCanvas((TString("canvas_time_")+=nt).Data(), "", 1000, 500);
-		Iterations_Duration[nt].Draw("E0");
+		TCanvas* canvas2 = new TCanvas((TString("canvas_time_")+=nt).Data(), "", 500, 500);
+		canvas2->SetGrid();
+		canvas2->SetTicks(1, 1);
+
+		Iterations_Duration[nt].Draw("LP");
+		Iterations_Duration[nt].SetLineWidth(2);
+		Iterations_Duration[nt].SetLineColor(kBlue);
 		Iterations_Duration[nt].SetMarkerSize(1);
+		Iterations_Duration[nt].SetMarkerColor(kBlue);
 		Iterations_Duration[nt].SetMarkerStyle(20);
-		Iterations_Duration[nt].SetMinimum(0);
+		Iterations_Duration[nt].SetStats(0);
+		Iterations_Duration[nt].GetYaxis()->SetTitleOffset(1.5);
+
+		GReal_t min1= Iterations_Duration[nt].GetMinimum();
+		GReal_t min2= FunctionCalls_Duration[nt].GetMinimum();
+		Iterations_Duration[nt].SetMinimum(min1<min2?min1:min2 );
+
+		FunctionCalls_Duration[nt].Draw("LPsame");
+		FunctionCalls_Duration[nt].SetLineWidth(2);
+		FunctionCalls_Duration[nt].SetLineColor(kRed);
+		FunctionCalls_Duration[nt].SetMarkerSize(1);
+		FunctionCalls_Duration[nt].SetMarkerColor(kRed);
+		FunctionCalls_Duration[nt].SetMarkerStyle(20);
+		FunctionCalls_Duration[nt].SetStats(0);
+		FunctionCalls_Duration[nt].GetYaxis()->SetTitleOffset(1.5);
+
+		canvas2->Update();
 
 	}
+
+	TCanvas* canvas3 = new TCanvas(TString("canvas_time_per_ploblem_size"), "", 500, 500);
+	canvas3->SetGrid();
+	canvas3->SetTicks(1, 1);
+	Hist_Duration_Problem_Size.Draw("LP");
+	Hist_Duration_Problem_Size.SetLineWidth(2);
+	Hist_Duration_Problem_Size.SetLineColor(kBlue);
+	Hist_Duration_Problem_Size.SetMarkerSize(1);
+	Hist_Duration_Problem_Size.SetMarkerColor(kBlue);
+	Hist_Duration_Problem_Size.SetMarkerStyle(20);
+	Hist_Duration_Problem_Size.SetStats(0);
+	Hist_Duration_Problem_Size.GetYaxis()->SetTitleOffset(1.5);
+
 	myapp->Run();
 
 	return 0;

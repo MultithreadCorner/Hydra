@@ -149,6 +149,7 @@ void VegasState<N,BACKEND >::ClearStoredIterations()
 	fCumulatedResult.clear();
 	fCumulatedSigma.clear();
 	fIterationDuration.clear();
+	fFunctionCallsDuration.clear();
 	/*
 		fNDimensions= N;
 		fNBinsMax = BINS_MAX;

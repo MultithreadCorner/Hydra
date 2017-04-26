@@ -144,8 +144,11 @@ Vegas<N,BACKEND, GRND >::IntegIterator(FUNCTOR const& fFunctor, GBool_t training
 
 	cum_int = 0.0;
 	cum_sig = 0.0;
-
-
+	size_t nkeys  = N*fState.GetCalls(training);
+	fFValInput.resize(nkeys);
+	fGlobalBinInput.resize(nkeys);
+	fFValOutput.resize(nkeys);
+	fGlobalBinOutput.resize(nkeys);
 
 	//for (size_t it = 0; it < fState.GetIterations()+fState.GetTrainingIterations(); it++)
 
@@ -172,7 +175,10 @@ Vegas<N,BACKEND, GRND >::IntegIterator(FUNCTOR const& fFunctor, GBool_t training
 		 * call  accelerator                         *
 		 * **********************************************
 		 */
+		auto start_fc = std::chrono::high_resolution_clock::now();
 		ProcessFuncionCalls( fFunctor,training, intgrl,  tss);
+		auto end_fc = std::chrono::high_resolution_clock::now();
+		std::chrono::duration<double, std::milli> elapsed_fc = end_fc - start_fc;
 		/*
 		 * Compute final results for this iteration
 		 */
@@ -248,18 +254,9 @@ Vegas<N,BACKEND, GRND >::IntegIterator(FUNCTOR const& fFunctor, GBool_t training
 				cum_sig = 0.0;
 			}
 
-			auto end = std::chrono::high_resolution_clock::now();
-			auto elapsed = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
-
-			fState.SetResult(intgrl);
-			fState.SetSigma(sig);
-			fState.StoreIterationResult(intgrl, sig);
-			fState.StoreCumulatedResult(cum_int, cum_sig);
-			fState.StoreIterationDuration( GReal_t(elapsed.count())/1000 );
-
 
 			if (fState.GetVerbose() >= 0) {
-				PrintResults( intgrl, sig, cum_int, cum_sig, GReal_t(elapsed.count())/1000);
+				PrintResults( intgrl, sig, cum_int, cum_sig, elapsed_fc.count());
 
 				if (it + 1 == fState.GetIterations() && fState.GetVerbose() > 0) {
 					PrintGrid();
@@ -279,6 +276,18 @@ Vegas<N,BACKEND, GRND >::IntegIterator(FUNCTOR const& fFunctor, GBool_t training
 			PrintGrid();
 		}
 
+		auto end = std::chrono::high_resolution_clock::now();
+		//auto elapsed = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
+		std::chrono::duration<double, std::milli> elapsed = end - start;
+
+
+		fState.SetResult(intgrl);
+		fState.SetSigma(sig);
+		fState.StoreIterationResult(intgrl, sig);
+		fState.StoreCumulatedResult(cum_int, cum_sig);
+		fState.StoreIterationDuration( elapsed.count() );
+		fState.StoreFunctionCallsDuration( elapsed_fc.count() );
+
 		//if(it >=fState.GetTrainingIterations())
 		if(!training && it > 1)
 		{
@@ -292,6 +301,11 @@ Vegas<N,BACKEND, GRND >::IntegIterator(FUNCTOR const& fFunctor, GBool_t training
 	 estimates based on the same grid, although it may be rebinned. */
 
 	fState.SetStage(1);
+
+	fFValInput=rvector_backend();
+	fGlobalBinInput=uvector_backend();
+	fFValOutput=rvector_backend();
+	fGlobalBinOutput=uvector_backend();
 
 	return std::make_pair(cum_int, cum_sig);
 
@@ -544,7 +558,7 @@ template< size_t N, unsigned int BACKEND , typename GRND>
 template<typename FUNCTOR>
 void Vegas<N,BACKEND, GRND>::ProcessFuncionCalls(FUNCTOR const& fFunctor, GBool_t training, GReal_t& integral, GReal_t& tss)
 {
-
+	typedef detail::BackendTraits<BACKEND> system_t;
 	size_t ncalls = fState.GetCalls(training);
 	size_t nkeys  = N*fState.GetCalls(training);
 
@@ -552,44 +566,37 @@ void Vegas<N,BACKEND, GRND>::ProcessFuncionCalls(FUNCTOR const& fFunctor, GBool_
 	thrust::counting_iterator<size_t> first(0);
 	thrust::counting_iterator<size_t> last = first + ncalls;
 
-	uvector_backend fGlobalBin(nkeys );
-	rvector_backend fFVal(nkeys );
 
 	fState.CopyStateToDevice();
 
 
-	detail::ResultVegas<N> init;
-	detail::ResultVegas<N> result = thrust::transform_reduce(first, last,
+	detail::ResultVegas init;
+	detail::ResultVegas result = thrust::transform_reduce(system_t(), first, last,
 			detail::ProcessCallsVegas<FUNCTOR,N, BACKEND ,rvector_iterator,
-			uvector_iterator , GRND>(ncalls, fState, fGlobalBin.begin(),fFVal.begin(), fFunctor)
-	, init,	detail::ProcessBoxesVegas<N>());
+			uvector_iterator , GRND>(ncalls, fState, fGlobalBinInput.begin(),fFValInput.begin(), fFunctor)
+	, init,	detail::ProcessBoxesVegas());
 
 
+	/*
+	for(size_t i=0; i< thrust::distance( fGlobalBinInput.begin(),fGlobalBinInput.end() ); i++)
+			std::cout <<"<< " << i << " " << fGlobalBinInput[i] << " " << fFValInput[i] << std::endl;
+	 */
 
-	thrust::sort_by_key(fGlobalBin.begin(),fGlobalBin.end(), fFVal.begin());
+	thrust::sort_by_key(system_t(),fGlobalBinInput.begin(),fGlobalBinInput.end(), fFValInput.begin());
 	/*
 	for(size_t i=0; i< thrust::distance( fGlobalBin.begin(),fGlobalBin.end() ); i++)
 		std::cout <<"<< " << i << " " << fGlobalBin[i] << " " << fFVal[i] << std::endl;
 	 */
-	uvector_backend fBins(nkeys );
-	rvector_backend fDistribution(nkeys );
 
-	auto end_iterators = thrust::reduce_by_key(fGlobalBin.begin(),fGlobalBin.end(),fFVal.begin(),
-			fBins.begin(),  fDistribution.begin());
-
-	//size_t nentries = thrust::distance(fBins.begin(), end_iterators.first  );
-	//std::cout<<">> "  << nentries << std::endl;
-     /*
-	for(size_t i=0; i< nentries; i++)
-	{
-		std::cout <<">> " << i << " " << fBins[i] << " " << fDistribution[i] << std::endl;
-	}*/
+	auto end_iterators = thrust::reduce_by_key(system_t(),fGlobalBinInput.begin(),fGlobalBinInput.end(),fFValInput.begin(),
+			fGlobalBinOutput.begin(),  fFValOutput.begin());
 
 
-	thrust::copy( fDistribution.begin(), end_iterators.second, fState.GetDistribution().begin());
 
+	thrust::copy( fFValOutput.begin(), end_iterators.second, fState.GetDistribution().begin());
 	integral=result.fMean*result.fN  ;
 	tss=sqrt( result.fM2 );
+
 
 }
 

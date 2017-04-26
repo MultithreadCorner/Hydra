@@ -322,5 +322,6 @@ private:
 };
 
 
+
 }
 #endif /* GAUSS_H_ */
