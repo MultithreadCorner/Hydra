@@ -143,11 +143,17 @@ template<typename FUNCTOR>
 std::pair<GReal_t, GReal_t> GenzMalikQuadrature<N,BACKEND>::Integrate(FUNCTOR const& functor)
 {
 
+	/*
 
 	thrust::for_each(fBoxList.begin(), fBoxList.end(),
 			detail::ProcessGenzMalikBox<N, FUNCTOR,const_rule_iterator>(functor,
 					fGenzMalikRule.GetAbscissas().begin(),
-					fGenzMalikRule.GetAbscissas().end()));
+					fGenzMalikRule.GetAbscissas().end()));*/
+
+	for( auto& box: fBoxList)
+		detail::ProcessGenzMalikBox<N, FUNCTOR,const_rule_iterator>(functor,
+							fGenzMalikRule.GetAbscissas().begin(),
+							fGenzMalikRule.GetAbscissas().end())(box);
 
 	//static_assert( decltype(fGenzMalikRule.GetAbscissas().begin())::dymmy, "<<<<<<<<<");
 	    GReal_t integral=0;

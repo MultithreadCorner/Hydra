@@ -103,7 +103,7 @@ struct ProcessGenzMalikUnaryCall
 	inline GenzMalikBoxResult<N> operator()(T rule_abscissa)
 	{
 		GenzMalikBoxResult<N> box_result;
-
+/*
 		GReal_t w5          = thrust::get<0>(rule_abscissa);
 		GReal_t w7          = thrust::get<1>(rule_abscissa);
 		GChar_t w_four_diff = thrust::get<3>(rule_abscissa);
@@ -112,9 +112,10 @@ struct ProcessGenzMalikUnaryCall
 		abscissa_t args;
 		get_transformed_abscissa( rule_abscissa, args  );
 
+
 		GReal_t fval          = fFunctor(args);
 		box_result.fRule7     = fval*w7;
-		box_result.fRule5     = fval*w5;
+		box_result.fRule5     = fval*w5;	*/
 		//GReal_t fourdiff      = fval*w_four_diff;
 
 	//	(index==N) ? set_four_difference_central(fourdiff, box_result.fFourDifference  ):0;
@@ -228,7 +229,7 @@ template <size_t N, typename FUNCTOR, typename RuleIterator>
 struct ProcessGenzMalikBox
 {
 
-	ProcessGenzMalikBox()=delete;
+	ProcessGenzMalikBox(){};
 
 	ProcessGenzMalikBox(FUNCTOR const& functor,
 			RuleIterator begin, RuleIterator end):
