@@ -87,7 +87,7 @@ if(BUILD_CUDA_TARGETS)
        
     #+++++++++++++++++++++++++++++++
     # Numerical Integration        |
-    #+++++++++++++++++++++++++++++++	
+    #+++++++++++++++++++++++++++++++
     cuda_add_executable(Hydra_Example_Numerical_Integration_CUDA EXCLUDE_FROM_ALL
     HydraNumericalIntegrationExample.cu
     OPTIONS -Xcompiler -fopenmp -DTHRUST_DEVICE_SYSTEM=THRUST_DEVICE_SYSTEM_CUDA -DTHRUST_HOST_SYSTEM=THRUST_HOST_SYSTEM_OMP  -lgomp
@@ -97,6 +97,7 @@ if(BUILD_CUDA_TARGETS)
     ${ROOT_LIBRARIES}
     rt
     )   
+    
     
     #+++++++++++++++++++++++++++++++
     # Numerical Integration        |
@@ -114,6 +115,9 @@ if(BUILD_CUDA_TARGETS)
     
        
 endif(BUILD_CUDA_TARGETS)
+
+
+
 
 #+++++++++++++++++++++++++
 # TBB TARGETS           |
@@ -368,6 +372,38 @@ endif(OPENMP_FOUND)
 
 
 
+if(BUILD_CUDA_TARGETS AND OPENMP_FOUND)
+    #+++++++++++++++++++++++++++++++++++++++++++++++++
+    # Numerical Integration Performance Plots        |
+    #+++++++++++++++++++++++++++++++++++++++++++++++++
+    cuda_add_executable(Hydra_Example_Numerical_Integration_Performance_Plots_CUDA_OMP EXCLUDE_FROM_ALL
+    HydraVegasNumericalIntegrationPerformancePlots.cu
+    OPTIONS -Xcompiler -fopenmp -DTHRUST_DEVICE_SYSTEM=THRUST_DEVICE_SYSTEM_CUDA -DTHRUST_HOST_SYSTEM=THRUST_HOST_SYSTEM_OMP  -lgomp
+    )
+    
+    target_link_libraries(Hydra_Example_Numerical_Integration_Performance_Plots_CUDA_OMP
+    ${ROOT_LIBRARIES}
+    rt
+    ) 
+
+endif(BUILD_CUDA_TARGETS AND OPENMP_FOUND)
 
 
+
+if(BUILD_CUDA_TARGETS AND BUILD_TBB_TARGETS)
+    #+++++++++++++++++++++++++++++++++++++++++++++++++
+    # Numerical Integration Performance Plots        |
+    #+++++++++++++++++++++++++++++++++++++++++++++++++
+    cuda_add_executable(Hydra_Example_Numerical_Integration_Performance_Plots_CUDA_TBB EXCLUDE_FROM_ALL
+    HydraVegasNumericalIntegrationPerformancePlots.cu
+    OPTIONS -DTHRUST_DEVICE_SYSTEM=THRUST_DEVICE_SYSTEM_CUDA -DTHRUST_HOST_SYSTEM=THRUST_HOST_SYSTEM_TBB
+    )
+    
+    target_link_libraries(Hydra_Example_Numerical_Integration_Performance_Plots_CUDA_TBB
+    ${ROOT_LIBRARIES}
+    rt
+    tbb
+    ) 
+
+endif(BUILD_CUDA_TARGETS AND BUILD_TBB_TARGETS)
 

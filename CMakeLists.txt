@@ -201,6 +201,19 @@ IF(OPENMP_FOUND)
     Hydra_Example_Eval_Host_CPP_Device_OMP)   
 ENDIF(OPENMP_FOUND)
 
+if(BUILD_CUDA_TARGETS AND OPENMP_FOUND)
+    add_dependencies(Hydra_Examples
+        Hydra_Example_Numerical_Integration_Performance_Plots_CUDA_OMP
+    )
+endif(BUILD_CUDA_TARGETS AND OPENMP_FOUND)
+
+if(BUILD_CUDA_TARGETS AND BUILD_TBB_TARGETS)
+    add_dependencies(Hydra_Examples
+        Hydra_Example_Numerical_Integration_Performance_Plots_CUDA_OMP
+    )
+endif(BUILD_CUDA_TARGETS AND BUILD_TBB_TARGETS)
+
+
 
 install(DIRECTORY Hydra
   DESTINATION include)

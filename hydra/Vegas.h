@@ -35,7 +35,6 @@
 #define VEGAS_H_
 
 #include <iostream>
-#include "boost/format.hpp"
 
 #include <hydra/detail/Config.h>
 #include <hydra/Types.h>
@@ -80,7 +79,7 @@ public:
 
 	template<unsigned int BACKEND2,typename GRND2>
 	Vegas( Vegas< N,BACKEND2, GRND2> const& other):
-	Integrator<Vegas<N,BACKEND2,GRND>>(other),
+	Integrator<Vegas<N,BACKEND,GRND>>(),
 	fState(other.GetState())
 	{}
 
@@ -97,6 +96,10 @@ public:
 	VegasState<N,BACKEND>& GetState()  {
 		return fState;
 	}
+
+	VegasState<N,BACKEND> const& GetState() const {
+			return fState;
+		}
 
 	void SetState(VegasState<N,BACKEND> const& state) {
 		fState = state;

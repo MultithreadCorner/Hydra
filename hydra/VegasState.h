@@ -75,7 +75,11 @@ public:
 	VegasState(std::array<GReal_t,N> const& xlower,
 			std::array<GReal_t,N> const& xupper);
 
-	VegasState(const VegasState &state);
+	VegasState(const VegasState<N,BACKEND> &state);
+
+	template<unsigned int BACKEND2>
+	VegasState(const VegasState<N,BACKEND2> &state);
+
 
 	void ClearStoredIterations();
 
@@ -425,6 +429,8 @@ public:
 
 	void SetBackendXLow(const rvector_backend& deviceXLow) {fBackendXLow = deviceXLow;}
 
+
+
 	size_t GetTrainingCalls() const {
 		return fTrainingCalls;
 	}
@@ -449,14 +455,22 @@ public:
 		fFunctionCallsDuration = functionCallsDuration;
 	}
 
+	GBool_t IsTrainedGridFrozen() const {
+		return fTrainedGridFrozen;
+	}
+
+	void SetTrainedGridFrozen(GBool_t trainedGridFrozen) {
+		fTrainedGridFrozen = trainedGridFrozen;
+	}
+
 	//const rvector_backend& GetBackendDistribution() const {	return fBackendDistribution;}
 
 
+private:
 
 	GInt_t fVerbose;
 	std::ostream &fOStream;
 
-private:
 	/* grid */
 	size_t fNDimensions;
 	size_t fNBinsMax;
@@ -498,6 +512,7 @@ private:
 	GInt_t fMode;
 	GUInt_t fIterations;
 	GInt_t fStage;
+	GBool_t fTrainedGridFrozen;
 
 	/* scratch variables preserved between calls to vegas1/2/3  */
 	GReal_t fJacobian;

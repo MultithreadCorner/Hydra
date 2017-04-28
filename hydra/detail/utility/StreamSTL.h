@@ -33,10 +33,13 @@
 #include <array>
 #include <tuple>
 #include <type_traits>
+#include <cstdio>
+#include <string>
+#include <cassert>
+#include <memory>
+
 
 namespace hydra {
-
-
 
 /** array streamer helper **/
 template<  size_t N, typename T, size_t I>
@@ -99,9 +102,25 @@ inline std::ostream& operator<<(std::ostream& os, std::pair<T1,T2> const&  obj)
 }
 
 
+template< typename... Args >
+std::string GetFormatedString( const char* format, Args... args )
+{
+  int length = std::snprintf( nullptr, 0, format, args... );
+  assert( length >= 0 );
 
+  std::unique_ptr<char[]> buf(new char[length + 1]);
+  std::snprintf( buf.get(), length + 1, format, args... );
 
+  std::string str( buf.get() );
 
+  return std::move(str);
+}
+
+template< typename... Args >
+void PrintToStream(std::ostream &ostream, const char* format, Args... args )
+{
+   ostream << GetFormatedString(format, args...);
+}
 
 }  // namespace hydra
 
