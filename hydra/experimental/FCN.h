@@ -109,7 +109,7 @@ public:
 		fCached(kFalse),
 		fFCNCache(std::unordered_map<size_t, GReal_t>())
 {
-		Weights init;
+		Weights init=Weights();
 
 		Weights  result = thrust::transform_reduce(begin, end, UnaryWeights(),
 				init, BinaryWeights() );
@@ -133,7 +133,7 @@ public:
 	{
 		//typename IteratorData::value_type init;
 
-		Weights init;
+		Weights init= Weights();
 
 		Weights  result = thrust::transform_reduce(begin, end, UnaryWeights(),
 				init, BinaryWeights() );

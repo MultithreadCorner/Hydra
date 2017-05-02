@@ -291,11 +291,13 @@ Vegas<N,BACKEND, GRND >::IntegIterator(FUNCTOR const& fFunctor, GBool_t training
 
 		fState.SetResult(intgrl);
 		fState.SetSigma(sig);
-		fState.StoreIterationResult(intgrl, sig);
-		fState.StoreCumulatedResult(cum_int, cum_sig);
-		fState.StoreIterationDuration( elapsed.count() );
-		fState.StoreFunctionCallsDuration( elapsed_fc.count() );
-
+		if(!training)
+		{
+			fState.StoreIterationResult(intgrl, sig);
+			fState.StoreCumulatedResult(cum_int, cum_sig);
+			fState.StoreIterationDuration( elapsed.count() );
+			fState.StoreFunctionCallsDuration( elapsed_fc.count() );
+		}
 		//if(it >=fState.GetTrainingIterations())
 		if(!training && it > 1)
 		{
