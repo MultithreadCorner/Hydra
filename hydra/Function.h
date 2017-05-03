@@ -43,6 +43,8 @@
 #include <hydra/Parameter.h>
 #include <hydra/detail/utility/Utility_Tuple.h>
 #include <hydra/detail/FunctorTraits.h>
+#include <hydra/UserParameters.h>
+
 #include <thrust/iterator/detail/tuple_of_iterator_references.h>
 #include <thrust/iterator/zip_iterator.h>
 #include <thrust/tuple.h>
@@ -191,13 +193,13 @@ struct BaseFunctor
 		return;
 	}
 
+	inline	void AddUserParameters(hydra::UserParameters& user_parameters )
+	{
 
-
-	__host__ __device__ inline
-	 Parameter& GetParameter(size_t i)  {
-		return fParameters[i];
+#pragma unroll NPARAM
+		for(size_t i=0; i<NPARAM; i++)
+			user_parameters.AddParameter(&fParameters[i]);
 	}
-
 
 	__host__ __device__ inline
 	const Parameter& GetParameter(size_t i) const {

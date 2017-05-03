@@ -39,6 +39,7 @@
 #include <hydra/detail/utility/Utility_Tuple.h>
 #include <hydra/detail/Hash.h>
 #include <hydra/detail/functors/LogLikelihood.h>
+#include <hydra/UserParameters.h>
 
 #include <thrust/distance.h>
 #include <thrust/tuple.h>
@@ -146,6 +147,7 @@ public:
 		return fcn_value;
 
 	}
+
 
 	GBool_t isCached() const {
 		return fCached;

@@ -234,6 +234,21 @@ struct AddPdf: detail::AddPdfBase<PDF1,PDF2,PDFs...>
 		return;
 	}
 
+	inline	void AddUserParameters(hydra::UserParameters& user_parameters )
+	{
+		if(!fFractioned){
+			for(size_t i=0; i< npdfs ; i++)
+				user_parameters.AddParameter(&fCoeficients[i]);
+		}
+		else
+		{
+			for(size_t i=0; i< npdfs-1 ; i++)
+				user_parameters.AddParameter(&fCoeficients[i]);
+
+		}
+
+		detail::add_parameters_in_tuple(user_parameters, fPDFs);
+	}
 
 
 	inline	const Parameter& GetCoeficient(size_t i) const
