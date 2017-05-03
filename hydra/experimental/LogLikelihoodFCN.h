@@ -63,38 +63,38 @@ namespace hydra{
 
 namespace experimental {
 
-template<typename FUNCTOR, typename PointType, typename IteratorData,typename IteratorCache >
-class LogLikelihoodFCN: public FCN<LogLikelihoodFCN<FUNCTOR, PointType, IteratorData, IteratorCache>>
+template<typename PDF, typename PointType, typename IteratorData,typename IteratorCache >
+class LogLikelihoodFCN: public FCN<LogLikelihoodFCN<PDF, PointType, IteratorData, IteratorCache>>
 {
 
 public:
 
 
-	LogLikelihoodFCN(FUNCTOR& functor, IteratorData begin, IteratorData end):
-		FCN<LogLikelihoodFCN<FUNCTOR, PointType, IteratorData, IteratorCache>>(functor,begin, end),
+	LogLikelihoodFCN(PDF& functor, IteratorData begin, IteratorData end):
+		FCN<LogLikelihoodFCN<PDF, PointType, IteratorData, IteratorCache>>(functor,begin, end),
 		fMAxValue(std::numeric_limits<GReal_t>::min() )
 		{}
 
-	LogLikelihoodFCN(FUNCTOR& functor, IteratorData begin, IteratorData end, IteratorCache cend):
-		FCN<LogLikelihoodFCN<FUNCTOR, PointType, IteratorData, IteratorCache>>(functor,begin, end, cend),
+	LogLikelihoodFCN(PDF& functor, IteratorData begin, IteratorData end, IteratorCache cend):
+		FCN<LogLikelihoodFCN<PDF, PointType, IteratorData, IteratorCache>>(functor,begin, end, cend),
 		fMAxValue(std::numeric_limits<GReal_t>::min() )
 		{}
 
-	LogLikelihoodFCN( LogLikelihoodFCN<FUNCTOR, PointType, IteratorData, IteratorCache> const& other):
-		FCN<LogLikelihoodFCN<FUNCTOR, PointType, IteratorData, IteratorCache>>(other),
+	LogLikelihoodFCN( LogLikelihoodFCN<PDF, PointType, IteratorData, IteratorCache> const& other):
+		FCN<LogLikelihoodFCN<PDF, PointType, IteratorData, IteratorCache>>(other),
 		fMAxValue(other.GetMAxValue())
 		{}
 
-	LogLikelihoodFCN<FUNCTOR, PointType, IteratorData, IteratorCache>&
-	operator=(LogLikelihoodFCN<FUNCTOR, PointType, IteratorData, IteratorCache> const& other)
+	LogLikelihoodFCN<PDF, PointType, IteratorData, IteratorCache>&
+	operator=(LogLikelihoodFCN<PDF, PointType, IteratorData, IteratorCache> const& other)
 	{
-		FCN<LogLikelihoodFCN<FUNCTOR, PointType, IteratorData, IteratorCache>>::operator=(other);
+		FCN<LogLikelihoodFCN<PDF, PointType, IteratorData, IteratorCache>>::operator=(other);
 		this->fMAxValue=other.GetMAxValue();
 		return *this;
 	}
 
 
-	template<typename U= FUNCTOR>
+	template<typename U= PDF>
 	typename thrust::detail::enable_if< hydra::detail::is_hydra_pdf<U>::value, GReal_t>::type
 	Eval( const std::vector<double>& parameters ) const
 	{
@@ -120,14 +120,13 @@ public:
 		}
 
 		//std::cout << "Mean1 " << parameters[0] << std::endl;
-		FCN<LogLikelihoodFCN<U, PointType, IteratorData, IteratorCache>>::fFunctor.SetParameters(parameters);
-		FCN<LogLikelihoodFCN<U, PointType, IteratorData, IteratorCache>>::fFunctor.PrintRegisteredParameters();
+		this->GetPDF().SetParameters(parameters);
+		this->GetPDF().PrintRegisteredParameters();
 
 
 		final=thrust::transform_reduce(select_system(system), first, last,
 				detail::LogLikelihood<typename U::functor_type, PointType,
-				IteratorData, IteratorCache>(
-						FCN<LogLikelihoodFCN<U, PointType, IteratorData, IteratorCache>>::fFunctor.GetFunctor(),
+				IteratorData, IteratorCache>( this->GetPDF().GetFunctor(),
 						this->GetSumW()     , this->GetSumW2() ,
 						this->GetDataBegin(), this->GetCacheBegin(),
 						this->isWeighted()  , this->isCached()),
@@ -138,7 +137,7 @@ public:
 		return this->GetSumW() + final ;
 	}
 
-	template<typename U=FUNCTOR>
+	template<typename U=PDF>
 	typename thrust::detail::enable_if< hydra::detail::is_hydra_sum_pdf<U>::value, GReal_t>::type
      Eval( const std::vector<double>& parameters ) const
 	{
@@ -166,34 +165,30 @@ public:
 
 		//std::cout << "Mean1 " << parameters[0] << std::endl;
 
-		this->GetFunctor().SetParameters(parameters);
-		this->fFunctor.PrintRegisteredParameters();
+		this->GetPDF().SetParameters(parameters);
+		this->GetPDF().PrintRegisteredParameters();
 
 		/*
 		 * avoid evaluate inconsistent coefficients configurations
 		 * returning quickly the highest NLL value already calculated
 		 */
-		if(
-				FCN<LogLikelihoodFCN<U, PointType, IteratorData, IteratorCache>>::fFunctor.IsFractioned() &&
-				(FCN<LogLikelihoodFCN<U, PointType, IteratorData, IteratorCache>>::fFunctor.GetCoefSum() < 0.0 ||
-						FCN<LogLikelihoodFCN<U, PointType, IteratorData, IteratorCache>>::fFunctor.GetCoefSum() > 0.0))
+		if( this->GetPDF().IsFractioned() &&
+				( this->GetPDF().GetCoefSum() < 0.0 || this->GetPDF().GetCoefSum() > 0.0) )
 			return fMAxValue;
 
 		//fFunctor.GetFunctor().PrintRegisteredParameters();
 
 		final=thrust::transform_reduce(select_system(system), first, last,
 				detail::LogLikelihood<typename U::functor_type, PointType,
-				IteratorData, IteratorCache>(
-						FCN<LogLikelihoodFCN<U, PointType, IteratorData, IteratorCache>>::fFunctor.GetFunctor(),
+				IteratorData, IteratorCache>( this->GetPDF().GetFunctor(),
 						this->GetSumW()     , this->GetSumW2() ,
 						this->GetDataBegin(), this->GetCacheBegin(),
 						this->isWeighted()  , this->isCached()),
 						init, thrust::plus<GReal_t>());
 
-		GReal_t  r= this->GetSumW() +
-				FCN<LogLikelihoodFCN<U, PointType, IteratorData, IteratorCache>>::fFunctor.IsExtended()*
-				(FCN<LogLikelihoodFCN<U, PointType, IteratorData, IteratorCache>>::fFunctor.GetCoefSum()
-						-this->GetSumW()*log(FCN<LogLikelihoodFCN<U, PointType, IteratorData, IteratorCache>>::fFunctor.GetCoefSum())) - final;
+		GReal_t  r = this->GetSumW() + this->GetPDF().IsExtended()*
+				( this->GetPDF().GetCoefSum() -
+						this->GetSumW()*log(this->GetPDF().GetCoefSum() ) ) - final;
 
 		fMAxValue = fMAxValue<r?r:fMAxValue;
 	//	std::cout << std::setprecision(16)<<r << std::endl;
@@ -215,27 +210,27 @@ private:
 };
 
 //conveniency function
-template<typename FUNCTOR, typename PointType, unsigned int BACKEND>
-auto make_loglikehood_fcn(FUNCTOR& functor,
+template<typename PDF, typename PointType, unsigned int BACKEND>
+auto make_loglikehood_fcn(PDF& functor,
 		hydra::experimental::PointVector< PointType, BACKEND> const& data)
--> LogLikelihoodFCN<FUNCTOR, PointType,
+-> LogLikelihoodFCN<PDF, PointType,
 typename hydra::experimental::PointVector< PointType, BACKEND>::const_iterator,
 thrust::constant_iterator<null_type> >
 {
-	return LogLikelihoodFCN<FUNCTOR, PointType,
+	return LogLikelihoodFCN<PDF, PointType,
 			typename hydra::experimental::PointVector< PointType, BACKEND>::const_iterator,
 			thrust::constant_iterator<null_type>>(functor,  data.cbegin(),  data.cend());
 }
 
-template<typename FUNCTOR,  typename PointType,	template<typename...> class Vector,
+template<typename PDF,  typename PointType,	template<typename...> class Vector,
 template<typename...> class Allocator, typename Tuple,  unsigned int BACKEND>
-auto make_loglikehood_fcn(FUNCTOR& functor,
+auto make_loglikehood_fcn(PDF& functor,
 		hydra::experimental::PointVector< PointType, BACKEND> const& data,
 		hydra::experimental::multivector<Vector<Tuple, Allocator< Tuple >>> const& cache )
--> LogLikelihoodFCN<FUNCTOR,  PointType, typename hydra::experimental::PointVector< PointType, BACKEND>::iterator,
+-> LogLikelihoodFCN<PDF,  PointType, typename hydra::experimental::PointVector< PointType, BACKEND>::iterator,
 typename hydra::experimental::multivector<Vector<Tuple, Allocator< Tuple >>>::iterator >
 {
-	return LogLikelihoodFCN<FUNCTOR, PointType,
+	return LogLikelihoodFCN<PDF, PointType,
 			typename hydra::experimental::PointVector<PointType,BACKEND>::iterator,
 			typename hydra::experimental::multivector<Vector<Tuple, Allocator< Tuple >>>::iterator >( functor, data.cbegin(), data.cend(), cache.cbegin());
 }

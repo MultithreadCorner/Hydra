@@ -151,7 +151,6 @@ struct Pdf:detail::PdfBase<FUNCTOR, INTEGRATOR>
 		return *this;
 	}
 
-	~Pdf(){}
 
 	inline	void AddUserParameters(hydra::UserParameters& user_parameters )
 		{

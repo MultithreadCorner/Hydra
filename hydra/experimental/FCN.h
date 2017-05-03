@@ -63,12 +63,12 @@ namespace experimental {
 template<typename T>
 class FCN;
 
-template<template<typename... > class ESTIMATOR, typename FUNCTOR,
+template<template<typename... > class ESTIMATOR, typename PDF,
 typename PointType, typename IteratorData, typename IteratorCache>
-class FCN<ESTIMATOR<FUNCTOR, PointType, IteratorData, IteratorCache>>: public ROOT::Minuit2::FCNBase {
+class FCN<ESTIMATOR<PDF, PointType, IteratorData, IteratorCache>>: public ROOT::Minuit2::FCNBase {
 public:
 
-	typedef ESTIMATOR<FUNCTOR, PointType, IteratorData, IteratorCache> estimator_type;
+	typedef ESTIMATOR<PDF, PointType, IteratorData, IteratorCache> estimator_type;
 	typedef PointType point_type;
 	typedef typename thrust::iterator_traits<IteratorData>::value_type data_value_type;
 	typedef typename thrust::iterator_traits<IteratorCache>::value_type cache_value_type;
@@ -101,8 +101,8 @@ public:
 	};
 
 
-	FCN(FUNCTOR& functor, IteratorData begin, IteratorData end) :
-		fFunctor(functor),
+	FCN(PDF& functor, IteratorData begin, IteratorData end) :
+		fPDF(functor),
 		fDataBegin(begin),
 		fDataEnd(end),
 		fCacheBegin(IteratorCache()),
@@ -126,8 +126,8 @@ public:
 
 }
 
-	FCN(FUNCTOR& functor, IteratorData begin, IteratorData end, IteratorCache cbegin) :
-		fFunctor(functor),
+	FCN(PDF& functor, IteratorData begin, IteratorData end, IteratorCache cbegin) :
+		fPDF(functor),
 		fDataBegin(begin),
 		fDataEnd(end),
 		fCacheBegin(cbegin),
@@ -151,7 +151,7 @@ public:
 
 	FCN(FCN<estimator_type> const& other) :
 		ROOT::Minuit2::FCNBase(other),
-		fFunctor(other.GetFunctor()),
+		fPDF(other.GetFunctor()),
 		fDataBegin(other.GetDataBegin()),
 		fDataEnd(other.GetDataEnd()),
 		fCacheBegin(other.GetCacheBegin()),
@@ -169,7 +169,7 @@ public:
 	operator=(FCN<estimator_type> const& other)
 	{
 		ROOT::Minuit2::FCNBase::operator = (other);
-		this->fFunctor=other.GetFunctor();
+		this->fPDF=other.GetFunctor();
 		this->fDataBegin = other.GetDataBegin();
 		this->fDataEnd = other.GetDataEnd();
 		this->fCacheBegin = other.GetCacheBegin();
@@ -283,12 +283,12 @@ public:
 		return fFCNCache;
 	}
 
-	FUNCTOR& GetFunctor() const {
-			return fFunctor;
+	PDF& GetPDF() const {
+			return fPDF;
 	}
 
-	FUNCTOR& GetFunctor()  {
-				return fFunctor;
+	PDF& GetPDF()  {
+				return fPDF;
 		}
 
 
@@ -327,11 +327,11 @@ protected:
 
 	void LoadFCNParameters()
 	{
-		fFunctor.AddUserParameters(fUserParameters);
+		fPDF.AddUserParameters(fUserParameters);
 
 	}
 
-	FUNCTOR& fFunctor;
+	PDF& fPDF;
 	IteratorData fDataBegin;
 	IteratorData fDataEnd;
 	IteratorCache fCacheBegin;

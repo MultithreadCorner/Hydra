@@ -83,7 +83,11 @@ struct  Divide
 		return *this;
 	}
 
-
+	__host__ inline
+	inline	void AddUserParameters(hydra::UserParameters& user_parameters )
+	{
+		detail::add_parameters_in_tuple(user_parameters, fFtorTuple );
+	}
 
 	__host__ inline
 	void SetParameters(const std::vector<double>& parameters){
