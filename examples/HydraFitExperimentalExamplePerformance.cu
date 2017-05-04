@@ -259,13 +259,15 @@ GInt_t main(int argv, char** argc)
 		auto modelFCN_d = hydra::experimental::make_loglikehood_fcn(model, data_d);//.begin(), data_d.end() );
 		auto modelFCN_h = hydra::experimental::make_loglikehood_fcn(model, data_h);//.begin(), data_d.end() );
 
-		std::cout << "<<===============" << std::endl;
+
 		//print minuit parameters before the fit
 		std::cout << modelFCN_d.GetParameters().GetState() << endl;
+
 		modelFCN_d.GetPDF().PrintRegisteredParameters();
-		std::cout << "<<===============" << std::endl;
+
 		std::cout << modelFCN_h.GetParameters().GetState() << endl;
-				modelFCN_h.GetPDF().PrintRegisteredParameters();
+
+		modelFCN_h.GetPDF().PrintRegisteredParameters();
 
 		//return 0;
 
@@ -330,7 +332,6 @@ GInt_t main(int argv, char** argc)
         delete minimum_d;
 
 	}
-
 
 
 	TApplication *myapp=new TApplication("myapp",0,0);

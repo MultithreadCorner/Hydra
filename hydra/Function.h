@@ -302,19 +302,10 @@ struct BaseFunctor
 
 
     __host__ __device__  inline
-	Parameter& operator[](size_t i)
+	GReal_t operator[](unsigned int i) const
 	{
-		return fParameters[i];
+		return (GReal_t ) fParameters[i];
 	}
-
-    __host__ __device__  inline
-	Parameter const& operator[](size_t i) const
-	{
-		return fParameters[i];
-	}
-
-
-
 
 
 

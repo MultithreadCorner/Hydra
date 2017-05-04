@@ -382,13 +382,13 @@ struct Parameter{
 private:
 
 	GChar_t* fName;
-	GReal_t fValue;
-	GReal_t fError;
-	GReal_t fUpperLim;
-	GReal_t fLowerLim;
-	GInt_t  fIndex;
-	GBool_t fLimited;
-	GBool_t fHasError;
+	GReal_t  fValue;
+	GReal_t  fError;
+	GReal_t  fUpperLim;
+	GReal_t  fLowerLim;
+	GUInt_t   fIndex;
+	GBool_t  fLimited;
+	GBool_t  fHasError;
 
 };
 
