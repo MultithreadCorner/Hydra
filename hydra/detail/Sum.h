@@ -36,7 +36,7 @@
 #ifndef SUM_H_
 #define SUM_H_
 
-#include <type_traits>
+
 #include <hydra/detail/Config.h>
 #include <hydra/Types.h>
 #include <hydra/Function.h>
@@ -44,7 +44,7 @@
 #include <hydra/detail/base_functor.h>
 #include <hydra/detail/Constant.h>
 #include <thrust/tuple.h>
-
+#include <type_traits>
 
 namespace hydra {
 
@@ -89,7 +89,7 @@ struct  Sum
 	}
 
 	__host__ inline
-	inline	void AddUserParameters(hydra::UserParameters& user_parameters )
+	void AddUserParameters(std::vector<hydra::Parameter*>& user_parameters )
 	{
 		detail::add_parameters_in_tuple(user_parameters, fFtorTuple );
 	}

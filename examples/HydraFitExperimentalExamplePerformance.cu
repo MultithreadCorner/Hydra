@@ -172,34 +172,18 @@ GInt_t main(int argv, char** argc)
 	// 1) using named parameter idiom
 	Parameter  mean1_p  = Parameter::Create().Name(Mean1).Value(3.0) .Error(0.0001).Limits( 1.0, 4.0);
 	Parameter  sigma1_p = Parameter::Create().Name(Sigma1).Value(0.5).Error(0.0001).Limits(0.1, 1.5);
-	Parameter  tau_p    = Parameter::Create().Name(Tau).Value(0).Error(0.0001).Limits( -1.0, 1.0);
+	Parameter  tau_p    = Parameter::Create().Name(Tau).Value(0.0014).Error(0.0001).Limits( -1.0, 1.0);
 
 	// 2) using unnamed parameter idiom
 	Parameter NA_p(na ,nentries, sqrt(nentries), nentries-nentries/2 , nentries+nentries/2) ;
 	Parameter NB_p(nb ,nentries, sqrt(nentries), nentries-nentries/2 , nentries+nentries/2) ;
 
-	//----------------------------------------------------------------------
-	// registry the parameters
-	UserParameters upar;
 
-	upar.AddParameter(&mean1_p);
-	upar.AddParameter(&sigma1_p);
-	upar.AddParameter(&tau_p);
-	upar.AddParameter(&NA_p);
-	upar.AddParameter(&NB_p);
-
-	// upar.GetState().SetPrecision( 1.0e-6);
 	ROOT::Minuit2::MnPrint::SetLevel(3);
-
-	//check all is fine
-	upar.PrintParameters();
 
 
 	//----------------------------------------------------------------------
 	// create functors with different parameters, to be sure fitting is working
-	mean1_p  += 0.5;
-	sigma1_p += 0.25;
-	tau_p    += 0.25;
 
 	Gauss Gaussian1(mean1_p, sigma1_p,0,kFalse);
 	Exp   Exponential(tau_p,0);
@@ -247,6 +231,7 @@ GInt_t main(int argv, char** argc)
 
 
 
+	std::cout << "<<===============" << std::endl;
 	//----------------------------------------
 	//fit on device
 	{
@@ -266,7 +251,7 @@ GInt_t main(int argv, char** argc)
 
 		auto model = add_pdfs(yields, Gaussian1_PDF, Exponential_PDF );
 		model.SetExtended(1);
-
+		std::cout << "<<===============" << std::endl;
 		//-------------------------------------------------
 		//minimization
 
@@ -274,15 +259,22 @@ GInt_t main(int argv, char** argc)
 		auto modelFCN_d = hydra::experimental::make_loglikehood_fcn(model, data_d);//.begin(), data_d.end() );
 		auto modelFCN_h = hydra::experimental::make_loglikehood_fcn(model, data_h);//.begin(), data_d.end() );
 
+		std::cout << "<<===============" << std::endl;
 		//print minuit parameters before the fit
-		std::cout << upar << endl;
+		std::cout << modelFCN_d.GetParameters().GetState() << endl;
+		modelFCN_d.GetPDF().PrintRegisteredParameters();
+		std::cout << "<<===============" << std::endl;
+		std::cout << modelFCN_h.GetParameters().GetState() << endl;
+				modelFCN_h.GetPDF().PrintRegisteredParameters();
+
+		//return 0;
 
 		//minimization strategy
 		MnStrategy strategy(2);
 
 		// create Migrad minimizer
-		MnMigrad migrad_d(modelFCN_d, upar.GetState() ,  strategy);
-		MnMigrad migrad_h(modelFCN_h, upar.GetState() ,  strategy);
+		MnMigrad migrad_d(modelFCN_d, modelFCN_d.GetParameters().GetState() ,  strategy);
+		MnMigrad migrad_h(modelFCN_h, modelFCN_h.GetParameters().GetState() ,  strategy);
 
 		FunctionMinimum *minimum_d=0;
 		FunctionMinimum *minimum_h=0;

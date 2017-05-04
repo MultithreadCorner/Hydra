@@ -92,7 +92,7 @@ struct  Multiply
 	}
 
 	__host__ inline
-	inline	void AddUserParameters(hydra::UserParameters& user_parameters )
+	void AddUserParameters(std::vector<hydra::Parameter*>& user_parameters )
 	{
 		detail::add_parameters_in_tuple(user_parameters, fFtorTuple );
 	}

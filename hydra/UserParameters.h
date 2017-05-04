@@ -83,7 +83,7 @@ public:
 	}
 
 
-	void AddParameter( hydra::Parameter* param )
+	void AddParameter( hydra::Parameter* param, GBool_t update_size=1 )
 	{
 		if(param->HasError() && param->IsLimited()){
 			fMnState->Add(param->GetName(), param->GetValue(),
@@ -100,9 +100,11 @@ public:
 
 		param->SetIndex( fMnState->Index( param->GetName()) );
 
-		fVariables.push_back(param);
+		if( update_size)fVariables.push_back(param);
 
 	}
+
+
 
 
 	void UpdateParameters(ROOT::Minuit2::FunctionMinimum const& minimum )
@@ -160,8 +162,14 @@ public:
 		return fVariables;
 	}
 
-	void SetVariables(const std::vector<hydra::Parameter*>& variables) {
+	void SetVariables(const std::vector<hydra::Parameter*>& variables)
+	{
 		fVariables = variables;
+		std::unique_ptr<ROOT::Minuit2::MnUserParameters>
+				temp(new ROOT::Minuit2::MnUserParameters());
+		this->fMnState.swap(temp) ;
+		for(size_t i=0; i < fVariables.size(); i++)
+			this->AddParameter( fVariables[i], 0);
 	}
 
 	const ROOT::Minuit2::MnUserParameters& GetState() const

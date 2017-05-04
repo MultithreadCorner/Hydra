@@ -151,7 +151,7 @@ public:
 
 	FCN(FCN<estimator_type> const& other) :
 		ROOT::Minuit2::FCNBase(other),
-		fPDF(other.GetFunctor()),
+		fPDF(other.GetPDF()),
 		fDataBegin(other.GetDataBegin()),
 		fDataEnd(other.GetDataEnd()),
 		fCacheBegin(other.GetCacheBegin()),
@@ -169,7 +169,7 @@ public:
 	operator=(FCN<estimator_type> const& other)
 	{
 		ROOT::Minuit2::FCNBase::operator = (other);
-		this->fPDF=other.GetFunctor();
+		this->fPDF=other.GetPDF();
 		this->fDataBegin = other.GetDataBegin();
 		this->fDataEnd = other.GetDataEnd();
 		this->fCacheBegin = other.GetCacheBegin();
@@ -211,11 +211,13 @@ public:
 
 	hydra::UserParameters& GetParameters()
 	{
+
 		return fUserParameters;
 	}
 
 	hydra::UserParameters const& GetParameters() const
 	{
+
 		return fUserParameters;
 	}
 
@@ -327,7 +329,15 @@ protected:
 
 	void LoadFCNParameters()
 	{
-		fPDF.AddUserParameters(fUserParameters);
+		std::cout << " LoadFCNParameters() in" << std::endl;
+		std::vector<hydra::Parameter*> temp;
+
+
+		fPDF.AddUserParameters(temp );
+
+		std::cout << "<----------------" << std::endl;
+		fUserParameters.SetVariables( temp);
+		std::cout << " LoadFCNParameters() exit" << std::endl;
 
 	}
 

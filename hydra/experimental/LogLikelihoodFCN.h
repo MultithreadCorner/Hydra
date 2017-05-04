@@ -163,10 +163,7 @@ public:
 			HYDRA_LOG(INFO, stringStream.str().c_str() )
 		}
 
-		//std::cout << "Mean1 " << parameters[0] << std::endl;
-
 		this->GetPDF().SetParameters(parameters);
-		this->GetPDF().PrintRegisteredParameters();
 
 		/*
 		 * avoid evaluate inconsistent coefficients configurations
@@ -176,7 +173,6 @@ public:
 				( this->GetPDF().GetCoefSum() < 0.0 || this->GetPDF().GetCoefSum() > 0.0) )
 			return fMAxValue;
 
-		//fFunctor.GetFunctor().PrintRegisteredParameters();
 
 		final=thrust::transform_reduce(select_system(system), first, last,
 				detail::LogLikelihood<typename U::functor_type, PointType,

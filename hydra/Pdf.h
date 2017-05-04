@@ -127,6 +127,7 @@ struct Pdf:detail::PdfBase<FUNCTOR, INTEGRATOR>
 		//fFunctor.SetNorm(1.0/fNorm);
 	}
 
+	~Pdf(){};
 
 	inline Pdf<FUNCTOR,INTEGRATOR>&
 	operator=(Pdf<FUNCTOR, INTEGRATOR> const & other )
@@ -152,7 +153,7 @@ struct Pdf:detail::PdfBase<FUNCTOR, INTEGRATOR>
 	}
 
 
-	inline	void AddUserParameters(hydra::UserParameters& user_parameters )
+	inline	void AddUserParameters(std::vector<hydra::Parameter*>& user_parameters )
 		{
 		fFunctor.AddUserParameters(user_parameters );
 		}

@@ -741,16 +741,16 @@ namespace hydra {
 		 print_parameters_in_tuple<I + 1,Tp...>(t);
 	 }
 
-	 template<size_t I = 0, typename ... Tp>
+	 template<size_t I=0, typename ... Tp>
 	 __host__
 	 inline typename thrust::detail::enable_if<I == sizeof...(Tp), void>::type
-	 add_parameters_in_tuple(hydra::UserParameters& user_parameters, thrust::tuple<Tp...>&)
+	 add_parameters_in_tuple(std::vector<hydra::Parameter*>& user_parameters, thrust::tuple<Tp...>&)
 	 {}
 
 	 template<size_t I = 0, typename ... Tp>
 	 __host__
 	 inline typename thrust::detail::enable_if<(I < sizeof...(Tp)),void >::type
-	 add_parameters_in_tuple(hydra::UserParameters& user_parameters, thrust::tuple<Tp...>& t)
+	 add_parameters_in_tuple(std::vector<hydra::Parameter*>& user_parameters, thrust::tuple<Tp...>& t)
 	 {
 		 thrust::get<I>(t).AddUserParameters(user_parameters);
 		 add_parameters_in_tuple<I + 1,Tp...>(user_parameters,t);

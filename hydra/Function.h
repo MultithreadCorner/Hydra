@@ -177,6 +177,7 @@ struct BaseFunctor
 		            return;
 				}
 		for(size_t i=0; i< parameter_count; i++){
+
 			fParameters[i] = parameters[fParameters[i].GetIndex()];
 		}
 
@@ -193,12 +194,12 @@ struct BaseFunctor
 		return;
 	}
 
-	inline	void AddUserParameters(hydra::UserParameters& user_parameters )
+	inline	void AddUserParameters(std::vector<hydra::Parameter*>& user_parameters )
 	{
 
 #pragma unroll NPARAM
 		for(size_t i=0; i<NPARAM; i++)
-			user_parameters.AddParameter(&fParameters[i]);
+			user_parameters.push_back(&fParameters[i]);
 	}
 
 	__host__ __device__ inline
