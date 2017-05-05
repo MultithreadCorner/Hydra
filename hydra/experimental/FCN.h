@@ -329,16 +329,9 @@ protected:
 
 	void LoadFCNParameters()
 	{
-		std::cout << " LoadFCNParameters() in" << std::endl;
 		std::vector<hydra::Parameter*> temp;
-
-
 		fPDF.AddUserParameters(temp );
-
-		std::cout << "<----------------" << std::endl;
 		fUserParameters.SetVariables( temp);
-		std::cout << " LoadFCNParameters() exit" << std::endl;
-
 	}
 
 	PDF& fPDF;

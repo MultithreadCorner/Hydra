@@ -230,8 +230,6 @@ GInt_t main(int argv, char** argc)
 	TH1D hist_fit_analytic_plot("fit_analytic_plot", ";X;Yield", 100,  min[0], max[0]);
 
 
-
-	std::cout << "<<===============" << std::endl;
 	//----------------------------------------
 	//fit on device
 	{
@@ -251,7 +249,7 @@ GInt_t main(int argv, char** argc)
 
 		auto model = add_pdfs(yields, Gaussian1_PDF, Exponential_PDF );
 		model.SetExtended(1);
-		std::cout << "<<===============" << std::endl;
+
 		//-------------------------------------------------
 		//minimization
 
@@ -261,11 +259,11 @@ GInt_t main(int argv, char** argc)
 
 
 		//print minuit parameters before the fit
-		std::cout << modelFCN_d.GetParameters().GetState() << endl;
+		std::cout << modelFCN_d.GetParameters().GetMnState() << endl;
 
 		modelFCN_d.GetPDF().PrintRegisteredParameters();
 
-		std::cout << modelFCN_h.GetParameters().GetState() << endl;
+		std::cout << modelFCN_h.GetParameters().GetMnState() << endl;
 
 		modelFCN_h.GetPDF().PrintRegisteredParameters();
 
@@ -275,8 +273,8 @@ GInt_t main(int argv, char** argc)
 		MnStrategy strategy(2);
 
 		// create Migrad minimizer
-		MnMigrad migrad_d(modelFCN_d, modelFCN_d.GetParameters().GetState() ,  strategy);
-		MnMigrad migrad_h(modelFCN_h, modelFCN_h.GetParameters().GetState() ,  strategy);
+		MnMigrad migrad_d(modelFCN_d, modelFCN_d.GetParameters().GetMnState() ,  strategy);
+		MnMigrad migrad_h(modelFCN_h, modelFCN_h.GetParameters().GetMnState() ,  strategy);
 
 		FunctionMinimum *minimum_d=0;
 		FunctionMinimum *minimum_h=0;
