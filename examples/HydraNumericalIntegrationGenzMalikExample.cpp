@@ -45,6 +45,7 @@
 #include <hydra/FunctorArithmetic.h>
 #include <hydra/Parameter.h>
 #include <hydra/experimental/GenzMalikQuadrature.h>
+#include <hydra/detail/utility/Permute.h>
 //root
 #include <TROOT.h>
 #include <TH1D.h>
@@ -104,7 +105,7 @@ GInt_t main(int argv, char** argc)
 	}
 
 
-	constexpr size_t N = 10;
+	constexpr size_t N = 2;
 
 	//------------------------------------
 	//parameters
@@ -138,7 +139,7 @@ GInt_t main(int argv, char** argc)
 	// create functor
 	//------------------------------------
 
-	GaussN<N> Gaussian(Mean_p, Sigma_p, Position_p);
+	GaussN<N> Gaussian(Mean_p, Sigma_p, Position_p,kTrue);
 
 
 
@@ -161,7 +162,7 @@ GInt_t main(int argv, char** argc)
 	auto start = std::chrono::high_resolution_clock::now();
 	auto result2 = GMIntegrator.Integrate(Gaussian);
 	auto end = std::chrono::high_resolution_clock::now();
-			std::chrono::duration<double, std::milli> elapsed = end - start;
+	std::chrono::duration<double, std::milli> elapsed = end - start;
 
 
 	cout << ">>> Gaussian intetgral [Genz-Malik]"<< endl;
@@ -170,7 +171,10 @@ GInt_t main(int argv, char** argc)
 					   " Time (ms): "<< elapsed.count() <<std::endl;
 
 
-
+    /*
+	int A[5]{0,1,2,3,4};
+    hydra::detail::nth_permutation(A, A+5, 1, thrust::less<int>() );
+    */
 	return 0;
 
 

@@ -49,6 +49,19 @@ if(BUILD_CUDA_TARGETS)
     #+++++++++++++++++++++++++++++++
     # Data fitting                 |
     #+++++++++++++++++++++++++++++++
+    cuda_add_executable(Hydra_Experimental_Example_Fit_Host_OMP_Device_CUDA EXCLUDE_FROM_ALL
+    HydraFitExperimentalExample.cu
+    OPTIONS -Xcompiler -fopenmp -DTHRUST_DEVICE_SYSTEM=THRUST_DEVICE_SYSTEM_CUDA  -DTHRUST_HOST_SYSTEM=THRUST_HOST_SYSTEM_OMP -lgomp
+    )
+    
+    target_link_libraries(Hydra_Experimental_Example_Fit_Host_OMP_Device_CUDA
+    ${ROOT_LIBRARIES}
+    rt
+    )
+    
+    #+++++++++++++++++++++++++++++++
+    # Data fitting                 |
+    #+++++++++++++++++++++++++++++++
     cuda_add_executable(Hydra_Example_Fit_Host_OMP_Device_CUDA EXCLUDE_FROM_ALL
     HydraFitExample.cu
     OPTIONS -Xcompiler -fopenmp -DTHRUST_DEVICE_SYSTEM=THRUST_DEVICE_SYSTEM_CUDA  -DTHRUST_HOST_SYSTEM=THRUST_HOST_SYSTEM_OMP -lgomp
@@ -85,12 +98,12 @@ if(BUILD_CUDA_TARGETS)
     rt
     )   
     
-      #+++++++++++++++++++++++++++++++
+    #+++++++++++++++++++++++++++++++
     # Numerical Integration        |
     #+++++++++++++++++++++++++++++++	
     cuda_add_executable(Hydra_Example_Numerical_Integration_GenzMalik_CUDA EXCLUDE_FROM_ALL
     HydraNumericalIntegrationGenzMalikExample.cu
-    OPTIONS -Xcompiler -fopenmp -DTHRUST_DEVICE_SYSTEM=THRUST_DEVICE_SYSTEM_CUDA -DTHRUST_HOST_SYSTEM=THRUST_HOST_SYSTEM_OMP  -lgomp
+    OPTIONS -Xcompiler -fopenmp -DTHRUST_DEVICE_SYSTEM=THRUST_DEVICE_SYSTEM_CUDA -DTHRUST_HOST_SYSTEM=THRUST_HOST_SYSTEM_OMP -lgomp
     )
     
     target_link_libraries(Hydra_Example_Numerical_Integration_GenzMalik_CUDA
@@ -106,6 +119,21 @@ endif(BUILD_CUDA_TARGETS)
 # TBB TARGETS           |
 #+++++++++++++++++++++++++
 if(BUILD_TBB_TARGETS)
+
+    #+++++++++++++++++++++++++++++++
+    # Numerical Integration        |
+    #+++++++++++++++++++++++++++++++
+    add_executable(Hydra_Example_Numerical_Integration_GenzMalik_TBB EXCLUDE_FROM_ALL
+    HydraNumericalIntegrationGenzMalikExample.cpp
+    )
+    
+    set_target_properties(Hydra_Example_Numerical_Integration_GenzMalik_TBB PROPERTIES 
+    COMPILE_FLAGS "-DTHRUST_HOST_SYSTEM=THRUST_HOST_SYSTEM_TBB -DTHRUST_DEVICE_SYSTEM=THRUST_DEVICE_SYSTEM_TBB")
+    
+    target_link_libraries(Hydra_Example_Numerical_Integration_GenzMalik_TBB
+    ${ROOT_LIBRARIES}
+    tbb
+    )
 
     #+++++++++++++++++++++++++++++++
     # Numerical Integration        |
@@ -223,7 +251,7 @@ IF(OPENMP_FOUND)
     )
     
     set_target_properties(Hydra_Example_Numerical_Integration_GenzMalik_OMP PROPERTIES 
-    COMPILE_FLAGS "-fopenmp -DTHRUST_HOST_SYSTEM=THRUST_HOST_SYSTEM_OMP -DTHRUST_DEVICE_SYSTEM=THRUST_DEVICE_SYSTEM_OMP -lgomp")
+    COMPILE_FLAGS "-fopenmp -DTHRUST_HOST_SYSTEM=THRUST_HOST_SYSTEM_CPP -DTHRUST_DEVICE_SYSTEM=THRUST_DEVICE_SYSTEM_OMP -lgomp")
     
     target_link_libraries(Hydra_Example_Numerical_Integration_GenzMalik_OMP
     ${ROOT_LIBRARIES}
@@ -307,7 +335,20 @@ IF(OPENMP_FOUND)
     rt
     )
     
+    #+++++++++++++++++++++++++++++++
+    # Data fitting                 |
+    #+++++++++++++++++++++++++++++++
+    add_executable(Hydra_Experimental_Example_Fit_Host_CPP_Device_OMP EXCLUDE_FROM_ALL
+    HydraFitExperimentalExample.cpp
+    )
     
+    set_target_properties(Hydra_Experimental_Example_Fit_Host_CPP_Device_OMP PROPERTIES 
+    COMPILE_FLAGS "-pg -fopenmp -DTHRUST_HOST_SYSTEM=THRUST_HOST_SYSTEM_CPP -DTHRUST_DEVICE_SYSTEM=THRUST_DEVICE_SYSTEM_OMP -lgomp")
+    
+    target_link_libraries(Hydra_Experimental_Example_Fit_Host_CPP_Device_OMP
+    ${ROOT_LIBRARIES}
+    rt
+    )
     
     #+++++++++++++++++++++++++++++++
     # Lambda function evaluation   |

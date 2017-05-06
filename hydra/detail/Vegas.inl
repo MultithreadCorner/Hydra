@@ -39,18 +39,35 @@
 #include <hydra/VegasState.h>
 #include <hydra/detail/functors/ProcessCallsVegas.h>
 #include <chrono>
-#include <thrust/transform_reduce.h>
 #include <iostream>
 #include <utility>
+
+#include <thrust/transform_reduce.h>
+#include <thrust/sort.h>
+
 
 #define USE_ORIGINAL_CHISQ_FORMULA 0
 #define CALLS_PER_BOX 2.0
 
 namespace hydra {
 
-template<size_t N , typename GRND>
+template<size_t N, unsigned int BACKEND , typename GRND>
 template<typename FUNCTOR>
-std::pair<GReal_t, GReal_t>  Vegas<N, GRND >::Integrate(FUNCTOR const& fFunctor )
+std::pair<GReal_t, GReal_t>  Vegas<N,BACKEND, GRND >::Integrate(FUNCTOR const& fFunctor )
+{
+
+	fState.SetStage(0);
+
+	auto temp = IntegIterator(fFunctor, 1 );
+
+	return IntegIterator(fFunctor, 0 );
+
+}
+
+template<size_t N, unsigned int BACKEND , typename GRND>
+template<typename FUNCTOR>
+std::pair<GReal_t, GReal_t>
+Vegas<N,BACKEND, GRND >::IntegIterator(FUNCTOR const& fFunctor, GBool_t training )
 {
 
 	//fState.SetStage(0);
@@ -60,6 +77,7 @@ std::pair<GReal_t, GReal_t>  Vegas<N, GRND >::Integrate(FUNCTOR const& fFunctor 
 
 	if( fState.GetStage() == 0) {
 		InitGrid();
+		fState.ClearStoredIterations();
 
 		if (fState.GetVerbose() >= 0) {
 			PrintLimits();
@@ -84,8 +102,8 @@ std::pair<GReal_t, GReal_t>  Vegas<N, GRND >::Integrate(FUNCTOR const& fFunctor 
 		if (fState.GetMode() != MODE_IMPORTANCE_ONLY) {
 			/* shooting for 2 calls/box */
 
-			boxes = floor( pow(fState.GetCalls()/2.0, 1.0 / N ));
-			if(boxes==1) boxes++;
+			boxes = floor( pow(fState.GetCalls(training )/2.0, 1.0 / N ));
+		//	if(boxes==1) boxes++;
 		//	std::cout << "boxes  " << boxes << " bins " <<fState.GetNBinsMax()<< std::endl;
 
 			fState.SetMode(MODE_IMPORTANCE);
@@ -94,12 +112,12 @@ std::pair<GReal_t, GReal_t>  Vegas<N, GRND >::Integrate(FUNCTOR const& fFunctor 
 
 
 		/*size_t*/GReal_t tot_boxes = pow( (GReal_t)boxes,  N);
-		fState.SetCallsPerBox(std::max(  GInt_t(fState.GetCalls() / tot_boxes), 2) );
-		fState.SetCalls( fState.GetCallsPerBox() * tot_boxes);
+		fState.SetCallsPerBox(std::max(  GInt_t(fState.GetCalls(training ) / tot_boxes), 2) );
+		fState.SetCalls( training , fState.GetCallsPerBox() * tot_boxes);
 		//std::cout << "fState.GetCalls "<< fState.GetCalls()<< std::endl;
 
 		/* total volume of x-space/(avg num of calls/bin) */
-		fState.SetJacobian( fState.GetVolume() * pow((GReal_t) bins, (GReal_t)N)/ fState.GetCalls() );
+		fState.SetJacobian( fState.GetVolume() * pow((GReal_t) bins, (GReal_t)N)/ fState.GetCalls(training) );
 
 		//std::cout << "fState.GetVolume() " << fState.GetVolume() << std::endl;
 
@@ -126,10 +144,15 @@ std::pair<GReal_t, GReal_t>  Vegas<N, GRND >::Integrate(FUNCTOR const& fFunctor 
 
 	cum_int = 0.0;
 	cum_sig = 0.0;
+	size_t nkeys  = N*fState.GetCalls(training);
+	fFValInput.resize(nkeys);
+	fGlobalBinInput.resize(nkeys);
+	fFValOutput.resize(nkeys);
+	fGlobalBinOutput.resize(nkeys);
 
+	//for (size_t it = 0; it < fState.GetIterations()+fState.GetTrainingIterations(); it++)
 
-
-	for (size_t it = 0; it < fState.GetIterations()+fState.GetDiscardIterations(); it++)
+	for (size_t it = 0; it < (!training?fState.GetIterations():fState.GetTrainingIterations()); it++)
 	{
 
 		auto start = std::chrono::high_resolution_clock::now();
@@ -142,7 +165,8 @@ std::pair<GReal_t, GReal_t>  Vegas<N, GRND >::Integrate(FUNCTOR const& fFunctor 
 		size_t calls_per_box = fState.GetCallsPerBox();
 		GReal_t jacbin = fState.GetJacobian();
 
-		if(it >=fState.GetDiscardIterations())	fState.SetItNum(fState.GetItStart() + it);
+		//if(it >=fState.GetTrainingIterations())	fState.SetItNum(fState.GetItStart() + it);
+		if(!training)	fState.SetItNum(fState.GetItStart() + it);
 
 		ResetGridValues();
 
@@ -151,11 +175,15 @@ std::pair<GReal_t, GReal_t>  Vegas<N, GRND >::Integrate(FUNCTOR const& fFunctor 
 		 * call  accelerator                         *
 		 * **********************************************
 		 */
-		ProcessFuncionCalls( fFunctor, intgrl,  tss);
+		auto start_fc = std::chrono::high_resolution_clock::now();
+		ProcessFuncionCalls( fFunctor,training, intgrl,  tss);
+		auto end_fc = std::chrono::high_resolution_clock::now();
+		std::chrono::duration<double, std::milli> elapsed_fc = end_fc - start_fc;
 		/*
 		 * Compute final results for this iteration
 		 */
-		if(fState.GetItNum() >= fState.GetDiscardIterations())
+		//if(fState.GetItNum() >= fState.GetTrainingIterations())
+		if(!training)
 		{
 
 			var = tss / (calls_per_box - 1.0);
@@ -226,18 +254,9 @@ std::pair<GReal_t, GReal_t>  Vegas<N, GRND >::Integrate(FUNCTOR const& fFunctor 
 				cum_sig = 0.0;
 			}
 
-			auto end = std::chrono::high_resolution_clock::now();
-			auto elapsed = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
-
-			fState.SetResult(intgrl);
-			fState.SetSigma(sig);
-			fState.StoreIterationResult(intgrl, sig);
-			fState.StoreCumulatedResult(cum_int, cum_sig);
-			fState.StoreIterationDuration( GReal_t(elapsed.count())/1000 );
-
 
 			if (fState.GetVerbose() >= 0) {
-				PrintResults( intgrl, sig, cum_int, cum_sig, GReal_t(elapsed.count())/1000);
+				PrintResults( intgrl, sig, cum_int, cum_sig, elapsed_fc.count());
 
 				if (it + 1 == fState.GetIterations() && fState.GetVerbose() > 0) {
 					PrintGrid();
@@ -257,7 +276,20 @@ std::pair<GReal_t, GReal_t>  Vegas<N, GRND >::Integrate(FUNCTOR const& fFunctor 
 			PrintGrid();
 		}
 
-		if(it >=fState.GetDiscardIterations())
+		auto end = std::chrono::high_resolution_clock::now();
+		//auto elapsed = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
+		std::chrono::duration<double, std::milli> elapsed = end - start;
+
+
+		fState.SetResult(intgrl);
+		fState.SetSigma(sig);
+		fState.StoreIterationResult(intgrl, sig);
+		fState.StoreCumulatedResult(cum_int, cum_sig);
+		fState.StoreIterationDuration( elapsed.count() );
+		fState.StoreFunctionCallsDuration( elapsed_fc.count() );
+
+		//if(it >=fState.GetTrainingIterations())
+		if(!training && it > 1)
 		{
 
 			if(    (fState.IsUseRelativeError())  && (cum_sig/cum_int < fState.GetMaxError()) ) break;
@@ -270,13 +302,18 @@ std::pair<GReal_t, GReal_t>  Vegas<N, GRND >::Integrate(FUNCTOR const& fFunctor 
 
 	fState.SetStage(1);
 
+	fFValInput=rvector_backend();
+	fGlobalBinInput=uvector_backend();
+	fFValOutput=rvector_backend();
+	fGlobalBinOutput=uvector_backend();
+
 	return std::make_pair(cum_int, cum_sig);
 
 
 }
 
-template< size_t N , typename GRND>
-void Vegas< N , GRND>::PrintLimits()  {
+template< size_t N , unsigned int BACKEND, typename GRND>
+void Vegas< N ,BACKEND, GRND>::PrintLimits()  {
 
 
 	fState.GetOStream() << boost::format("The limits of Int_tegration are:\n");
@@ -287,8 +324,8 @@ void Vegas< N , GRND>::PrintLimits()  {
 
 }
 
-template< size_t N , typename GRND>
-void Vegas< N , GRND>::PrintHead()  {
+template< size_t N , unsigned int BACKEND, typename GRND>
+void Vegas< N ,BACKEND, GRND>::PrintHead()  {
 
 	fState.GetOStream() << boost::format("\nnum_dim=%lu, calls=%lu, it_num=%d, max_it_num=%d ") % N
 				% fState.GetCalls() % fState.GetItNum() % fState.GetIterations() << std::endl;
@@ -304,8 +341,8 @@ void Vegas< N , GRND>::PrintHead()  {
 
 }
 
-template< size_t N , typename GRND>
-void Vegas<  N , GRND>::PrintResults(GReal_t integral, GReal_t sigma,
+template< size_t N, unsigned int BACKEND , typename GRND>
+void Vegas<  N ,BACKEND, GRND>::PrintResults(GReal_t integral, GReal_t sigma,
 		GReal_t cumulated_integral, GReal_t cumulated_sigma, GReal_t time)  {
 
 	fState.GetOStream() << boost::format( "%4d           %6.4e          %10.4e              %6.4e           %10.4e           %10.4e        %10.4e ms\n")
@@ -315,8 +352,8 @@ void Vegas<  N , GRND>::PrintResults(GReal_t integral, GReal_t sigma,
 
 }
 
-template< size_t N, typename GRND >
-void Vegas< N , GRND>::PrintDistribution()   {
+template< size_t N, unsigned int BACKEND, typename GRND >
+void Vegas< N ,BACKEND, GRND>::PrintDistribution()   {
 
 	size_t i, j;
 
@@ -339,8 +376,8 @@ void Vegas< N , GRND>::PrintDistribution()   {
 
 }
 
-template< size_t N , typename GRND>
-void Vegas< N , GRND>::PrintGrid()   {
+template< size_t N, unsigned int BACKEND , typename GRND>
+void Vegas< N ,BACKEND, GRND>::PrintGrid()   {
 
 /*
 	if (!fState.GetVerbose())
@@ -360,8 +397,8 @@ void Vegas< N , GRND>::PrintGrid()   {
 
 }
 
-template< size_t N , typename GRND>
-void Vegas< N , GRND>::InitGrid() {
+template< size_t N, unsigned int BACKEND , typename GRND>
+void Vegas< N ,BACKEND, GRND>::InitGrid() {
 
 	GReal_t vol = 1.0;
 
@@ -377,11 +414,11 @@ void Vegas< N , GRND>::InitGrid() {
 	}
 
 	fState.SetVolume(vol);
-	fState.SendGridToDevice();
+	fState.SendGridToBackend();
 }
 
-template< size_t N, typename GRND >
-void Vegas<  N , GRND>::ResetGridValues() {
+template< size_t N, unsigned int BACKEND, typename GRND >
+void Vegas<  N,BACKEND , GRND>::ResetGridValues() {
 
 	for (size_t i = 0; i < fState.GetNBins(); i++) {
 		for (size_t j = 0; j < N; j++) {
@@ -390,16 +427,16 @@ void Vegas<  N , GRND>::ResetGridValues() {
 	}
 }
 
-template< size_t N , typename GRND>
-void Vegas< N , GRND>::InitBoxCoordinates() {
+template< size_t N, unsigned int BACKEND , typename GRND>
+void Vegas< N ,BACKEND, GRND>::InitBoxCoordinates() {
 
 	//for (size_t i = 0; i < N; i++)
 		//fState.SetBox(i, 0);
 }
 
 
-template< size_t N, typename GRND >
-void Vegas< N , GRND>::ResizeGrid(const GInt_t bins) {
+template< size_t N, unsigned int BACKEND, typename GRND >
+void Vegas< N,BACKEND , GRND>::ResizeGrid(const GInt_t bins) {
 
 
 
@@ -435,8 +472,8 @@ void Vegas< N , GRND>::ResizeGrid(const GInt_t bins) {
 
 }
 
-template< size_t N , typename GRND>
-void Vegas<  N, GRND >::RefineGrid() {
+template< size_t N , unsigned int BACKEND, typename GRND>
+void Vegas<  N,BACKEND, GRND >::RefineGrid() {
 
 
 		for (size_t j = 0; j < N; j++) {
@@ -517,43 +554,49 @@ void Vegas<  N, GRND >::RefineGrid() {
 
 }
 
-template< size_t N , typename GRND>
+template< size_t N, unsigned int BACKEND , typename GRND>
 template<typename FUNCTOR>
-void Vegas<  N , GRND>::ProcessFuncionCalls(FUNCTOR const& fFunctor, GReal_t& integral, GReal_t& tss)
+void Vegas<N,BACKEND, GRND>::ProcessFuncionCalls(FUNCTOR const& fFunctor, GBool_t training, GReal_t& integral, GReal_t& tss)
 {
-	size_t NBoxes_Total     = fState.GetCallsPerBox()*pow(fState.GetNBoxes(), N);
+	typedef detail::BackendTraits<BACKEND> system_t;
+	size_t ncalls = fState.GetCalls(training);
+	size_t nkeys  = N*fState.GetCalls(training);
 
 	// create iterators
 	thrust::counting_iterator<size_t> first(0);
-	thrust::counting_iterator<size_t> last = first + NBoxes_Total;
+	thrust::counting_iterator<size_t> last = first + ncalls;
+
 
 	fState.CopyStateToDevice();
 
-	detail::ResultVegas<N> init;
-	detail::ResultVegas<N> result = thrust::transform_reduce(first, last,
-			detail::ProcessCallsVegas<FUNCTOR,N, precision, GRND>(
-			fState.GetNBins(),
-			NBoxes_Total,
-			fState.GetNBoxes(),
-			fState.GetCallsPerBox(),
-			fState.GetJacobian(),
-			fState.GetItNum(),
-			const_cast<GReal_t*>(thrust::raw_pointer_cast(fState.GetDeviceXi().data())),
-			const_cast<GReal_t*>(thrust::raw_pointer_cast(fState.GetDeviceXLow().data())),
-			const_cast<GReal_t*>(thrust::raw_pointer_cast(fState.GetDeviceDeltaX().data())),
-			const_cast<precision*>(thrust::raw_pointer_cast(fState.GetDeviceDistribution().data())),
-			fState.GetMode(),
-#if THRUST_DEVICE_SYSTEM!=THRUST_DEVICE_SYSTEM_CUDA
-	    	fState.GetMutex(),
-#endif
-			fFunctor),
-			init,
-			detail::ProcessBoxesVegas<N>());
 
-	fState.CopyStateToHost();
+	detail::ResultVegas init;
+	detail::ResultVegas result = thrust::transform_reduce(system_t(), first, last,
+			detail::ProcessCallsVegas<FUNCTOR,N, BACKEND ,rvector_iterator,
+			uvector_iterator , GRND>(ncalls, fState, fGlobalBinInput.begin(),fFValInput.begin(), fFunctor)
+	, init,	detail::ProcessBoxesVegas());
 
+
+	/*
+	for(size_t i=0; i< thrust::distance( fGlobalBinInput.begin(),fGlobalBinInput.end() ); i++)
+			std::cout <<"<< " << i << " " << fGlobalBinInput[i] << " " << fFValInput[i] << std::endl;
+	 */
+
+	thrust::sort_by_key(system_t(),fGlobalBinInput.begin(),fGlobalBinInput.end(), fFValInput.begin());
+	/*
+	for(size_t i=0; i< thrust::distance( fGlobalBin.begin(),fGlobalBin.end() ); i++)
+		std::cout <<"<< " << i << " " << fGlobalBin[i] << " " << fFVal[i] << std::endl;
+	 */
+
+	auto end_iterators = thrust::reduce_by_key(system_t(),fGlobalBinInput.begin(),fGlobalBinInput.end(),fFValInput.begin(),
+			fGlobalBinOutput.begin(),  fFValOutput.begin());
+
+
+
+	thrust::copy( fFValOutput.begin(), end_iterators.second, fState.GetDistribution().begin());
 	integral=result.fMean*result.fN  ;
-	tss=N*sqrt( result.fM2/(result.fN-1) );
+	tss=sqrt( result.fM2 );
+
 
 }
 

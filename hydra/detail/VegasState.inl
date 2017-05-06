@@ -37,10 +37,10 @@
 
 namespace hydra {
 
-template<size_t N>
-VegasState<N>::VegasState(std::array<GReal_t,N> const& xlower,
+template<size_t N , unsigned int BACKEND>
+VegasState<N,BACKEND >::VegasState(std::array<GReal_t,N> const& xlower,
 		std::array<GReal_t,N> const& xupper) :
-		fDiscardIterations(1),
+		fTrainingIterations(1),
 		fNDimensions(N),
 		fNBinsMax(BINS_MAX),
 		fNBins(BINS_MAX),
@@ -63,14 +63,15 @@ VegasState<N>::VegasState(std::array<GReal_t,N> const& xlower,
 		fSamples(0),
 		fCallsPerBox(0),
 		fCalls(5000),
+		fTrainingCalls(5000),
 		fMaxError(0.5e-3),
 		fUseRelativeError(kTrue),
 		fOStream(std::cout),
 		//-------
-		fDeviceXLow(N),
-		fDeviceDeltaX(N),
-		fDeviceDistribution(N * BINS_MAX),
-		fDeviceXi((BINS_MAX + 1) * N),
+		fBackendXLow(N),
+		fBackendDeltaX(N),
+		//fBackendDistribution(N * BINS_MAX),
+		fBackendXi((BINS_MAX + 1) * N),
 		//-------
 		fDistribution(N * BINS_MAX),
 		fDeltaX(N),
@@ -86,15 +87,15 @@ VegasState<N>::VegasState(std::array<GReal_t,N> const& xlower,
 		fXUp[i]=xupper[i];
 		fXLow[i]=xlower[i];
 		fDeltaX[i] = xupper[i]-xlower[i];
-		fDeviceDeltaX[i]= xupper[i]-xlower[i];
+		fBackendDeltaX[i]= xupper[i]-xlower[i];
 	}
 
 
 }
 
-template<size_t N>
-VegasState<N>::VegasState(VegasState const& other) :
-        fDiscardIterations(other.GetDiscardIterations()),
+template<size_t N , unsigned int BACKEND>
+VegasState<N,BACKEND >::VegasState(VegasState const& other) :
+        fTrainingIterations(other.GetTrainingIterations()),
 		fAlpha(other.GetAlpha()),
 		fNDimensions(other.GetNDimensions()),
 		fNBinsMax(other.GetNBinsMax()),
@@ -119,6 +120,7 @@ VegasState<N>::VegasState(VegasState const& other) :
 		fUseRelativeError(other.IsUseRelativeError()),
 		fCallsPerBox(other.GetCallsPerBox()),
 		fCalls(other.GetCalls()),
+		fTrainingCalls(other.GetTrainingCalls()),
 		fDeltaX(other.GetDeltaX()),
 		fDistribution(other.GetDistribution()),
 		fXi(other.GetXi()),
@@ -131,18 +133,24 @@ VegasState<N>::VegasState(VegasState const& other) :
 		fCumulatedResult(other.GetCumulatedResult()),
 		fCumulatedSigma(other.GetCumulatedSigma()),
 		fIterationDuration(other.GetIterationDuration()),
-		fDeviceDeltaX(other.GetDeviceDeltaX()),
-		fDeviceXi(other.GetDeviceXi()),
-		fDeviceXLow(other.GetDeviceXLow()),
-		fDeviceDistribution(other.GetDeviceDistribution()),
+		fBackendDeltaX(other.GetBackendDeltaX()),
+		fBackendXi(other.GetBackendXi()),
+		fBackendXLow(other.GetBackendXLow()),
+		//fBackendDistribution(other.GetBackendDistribution()),
 		fOStream(std::cout) {}
 
 
 
-template<size_t N>
-void VegasState<N>::ResetState()
+template<size_t N , unsigned int BACKEND>
+void VegasState<N,BACKEND >::ClearStoredIterations()
 		{
-
+	fIterationResult.clear();
+	fIterationSigma.clear();
+	fCumulatedResult.clear();
+	fCumulatedSigma.clear();
+	fIterationDuration.clear();
+	fFunctionCallsDuration.clear();
+	/*
 		fNDimensions= N;
 		fNBinsMax = BINS_MAX;
 		fNBins=BINS_MAX;
@@ -165,12 +173,12 @@ void VegasState<N>::ResetState()
 		fSamples=0;
 		fCallsPerBox=0;
 
-		thrust::fill(fDeviceXLow.begin(), fDeviceXLow.end(),  0.0);
-		thrust::fill( fDeviceDeltaX.begin(), fDeviceDeltaX.end(),  0.0);
+		thrust::fill(fBackendXLow.begin(), fBackendXLow.end(),  0.0);
+		thrust::fill( fBackendDeltaX.begin(), fBackendDeltaX.end(),  0.0);
 		thrust::fill( fDistribution.begin(), fDistribution.end(),  0.0);
-		thrust::fill( fDeviceDistribution.begin(), fDeviceDistribution.end(),  0.0);
+	//	thrust::fill( fBackendDistribution.begin(), fBackendDistribution.end(),  0.0);
 		thrust::fill( fXi.begin(), fXi.end(),  0.0);
-		thrust::fill( fDeviceXi.begin(), fDeviceXi.end(),  0.0);
+		thrust::fill( fBackendXi.begin(), fBackendXi.end(),  0.0);
 		thrust::fill( fXin.begin(), fXin.end(),  0.0);
 		thrust::fill( fWeight.begin(), fWeight.end(),  0.0);
 		thrust::fill( fIterationResult.begin(), fIterationResult.end(),  0.0);
@@ -180,6 +188,8 @@ void VegasState<N>::ResetState()
 		thrust::fill( fIterationDuration.begin(), fIterationDuration.end(),  0.0);
 
 
+		}
+		*/
 		}
 }
 

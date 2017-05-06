@@ -87,23 +87,27 @@ public:
 	 * get access to the underlying container
 	 */
 	__host__
-	const type& GetPoints() const { return fPoints; }
+	inline	const type& GetPoints() const { return fPoints; }
 
 	__host__
-	type& GetPoints() { return fPoints; }
+	inline	type& GetPoints() { return fPoints; }
 
+
+	/**Todo
+	 * add simple point
+	 */
 
 	/**
 	 * Add a new point
 	 */
 	__host__
-	void AddPoint( value_type const& point)
+	inline	void AddPoint( value_type const& point)
 	{
 		fPoints.push_back(point);
 	}
 
 	__host__
-	value_type const& GetPoint(size_t i) const
+	inline	value_type const& GetPoint(size_t i) const
 	{
 		return fPoints[i];
 	}
@@ -113,32 +117,32 @@ public:
 	 *  constant iterator access
 	 */
 	__host__
-	const_iterator begin() const { return fPoints.begin(); }
+	inline	const_iterator begin() const { return fPoints.begin(); }
 	__host__
-	const_iterator end() const { return fPoints.begin()+fPoints.size(); }
+	inline	const_iterator end() const { return fPoints.begin()+fPoints.size(); }
 
 	/**
 	 *   non-const iterator access
 	 */
 	__host__
-	iterator begin() { return fPoints.begin(); }
+	inline	iterator begin() { return fPoints.begin(); }
 	__host__
-	iterator end()   { return fPoints.end(); }
+	inline	iterator end()   { return fPoints.end(); }
 	
 	/**
 	 *   access to the point
 	 */
 	__host__
-	const value_type& operator[] (size_t i)  const { return fPoints[i]; }
+	inline	const value_type& operator[] (size_t i)  const { return fPoints[i]; }
 	__host__
-	value_type& operator[] (size_t i) { return fPoints[i]; }
+	inline	value_type& operator[] (size_t i) { return fPoints[i]; }
 
 
 	/**
 	 * size
 	 */
 	__host__
-	size_t Size(){ return fPoints.Size(); }
+	size_t Size(){ return fPoints.size(); }
 
 private:
 	

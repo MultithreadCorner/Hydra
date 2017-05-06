@@ -65,7 +65,7 @@
 #endif
 
 #if THRUST_DEVICE_SYSTEM==THRUST_DEVICE_SYSTEM_OMP || THRUST_HOST_SYSTEM==THRUST_HOST_SYSTEM_OMP
- #include <omp.h>
+// #include <omp.h>
 #endif
 
 #ifndef HYDRA_CERROR_LOG

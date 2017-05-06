@@ -39,10 +39,10 @@
 #include <hydra/Types.h>
 #include <hydra/detail/utility/Utility_Tuple.h>
 #include <hydra/detail/utility/Arithmetic_Tuple.h>
-
+#include <ostream>
 //std
 #include <array>
-
+#include <cmath>
 //thrust
 #include <thrust/tuple.h>
 #include <thrust/device_vector.h>
@@ -55,6 +55,94 @@ namespace experimental {
 template<typename T, size_t DIM, bool VALUE_ERROR=false, bool CO0RDINATE_ERROR=false>
 struct Point;
 
+//operators
+template<typename T, size_t DIM, bool VALUE_ERROR, bool CO0RDINATE_ERROR>
+__host__ __device__
+inline bool operator==(Point<T,DIM,VALUE_ERROR,CO0RDINATE_ERROR> const& lhs,
+		Point<T,DIM,VALUE_ERROR,CO0RDINATE_ERROR> const& rhs)
+{ return lhs.GetData()==rhs.GetData(); }
+
+
+//operator+
+template<typename T , size_t N>
+__host__ __device__ inline
+Point<T,N,false,false>
+operator+(Point<T,N,false,false> const& point1,
+		Point<T,N,false,false> const& point2)
+{
+	// typedef typename detail::tuple_type<N, T>::type type;
+
+	 Point<T,N,false,false> point;//(type(), 0);
+
+	 point.SetWeight( point1.GetWeight() + point2.GetWeight());
+	 point.SetWeight2( point1.GetWeight2() + point2.GetWeight2());
+
+	 point.SetCoordinate(hydra::operator+(point1.GetCoordinates() , point2.GetCoordinates())  );
+
+	 return point ;
+
+}
+
+
+
+//output stream operators
+template<typename T , size_t N>
+__host__ __device__ inline
+Point<T,N,true,false>
+operator+(Point<T,N,true,false> const& point1,
+		Point<T,N,true,false> const& point2)
+{
+
+	 Point<T,N,true,false> point;
+
+	 point.SetWeight( point1.GetWeight() + point2.GetWeight());
+	 point.SetWeight2( point1.GetWeight2() + point2.GetWeight2());
+	 point.SetError( sqrt(  point1.GetError()*point1.GetError() + point2.GetError()*point2.GetError() ));
+	 point.SetCoordinate( hydra::operator+(point1.GetCoordinates() , point2.GetCoordinates()) );
+
+	 return point ;
+
+}
+
+
+//output stream operators
+template<typename T , size_t N>
+__host__ __device__ inline
+Point<T,N,true,true>
+operator+(Point<T,N,true,true> const& point1,
+		Point<T,N,true,true> const& point2)
+{
+	 //typedef typename detail::tuple_type<N, T>::type type;
+
+	 Point<T,N,true,true> point;//(type(), 0);
+
+	 point.SetWeight( point1.GetWeight() + point2.GetWeight());
+	 point.SetWeight2( point1.GetWeight2() + point2.GetWeight2());
+	 point.SetError( sqrt(  point1.GetError()*point1.GetError() + point2.GetError()*point2.GetError() ));
+     point.SetCoordinates( hydra::operator+(point1.GetCoordinates() , point2.GetCoordinates())  );
+
+     auto errors1Sq =  hydra::operator*(point1.GetCoordinateErrors() , point1.GetCoordinateErrors());
+	 auto errors2Sq =  hydra::operator*(point2.GetCoordinateErrors() , point2.GetCoordinateErrors());
+
+	 auto errorSq   = errors1Sq + errors2Sq;
+
+	 auto Sqrt = [ = ] __host__ __device__ ( T x ){ return sqrt(x); };
+
+	 point.SetCoordinatesErrors(  hydra::detail::callOnTuple( [ = ] __host__ __device__
+			 ( T x ){ return sqrt(x); }  ,  errorSq));
+
+	 return point ;
+
+}
+
+
+//output stream operators
+template<typename T, size_t DIM, bool VALUE_ERROR, bool CO0RDINATE_ERROR>
+__host__
+inline std::ostream& operator<<(std::ostream& os, Point<T,DIM,VALUE_ERROR,CO0RDINATE_ERROR > const& point){
+
+	return os<<point.GetData() ;
+}
 
 }  // namespace experimental
 

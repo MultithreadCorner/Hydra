@@ -81,6 +81,12 @@ namespace hydra {
 		typedef typename repeat<T, N, thrust::tuple>::type type;
 	};
 
+	template <size_t N, typename T>
+	struct references_tuple_type {
+		typedef typename repeat<T, N, thrust::detail::tuple_of_iterator_references>::type type;
+	};
+
+
 	//--------------------------------------
 	//get zip iterator
 	template<typename Iterator, size_t ...Index>
@@ -120,9 +126,54 @@ namespace hydra {
 		return get_zip_iterator_helper(head, array_of_iterators , make_index_sequence<N> { } );
 
 	}
+	//----------------------------------------
+	// make a tuple of references to a existing tuple
+	template<typename ...T, size_t... I>
+	auto make_rtuple_helper(thrust::tuple<T...>& t , index_sequence<I...>)
+	-> thrust::tuple<T&...>
+	{ return thrust::tie(thrust::get<I>(t)...) ;}
+
+	template<typename ...T>
+	auto  make_rtuple( thrust::tuple<T...>& t )
+	-> thrust::tuple<T&...>
+	{
+		return make_rtuple_helper( t, make_index_sequence<sizeof...(T)> {});
+	}
+
+	//---------------------------------------------
+	// get a reference to a tuple object by index
+	template<typename R, typename T, size_t I>
+	__host__  __device__ inline
+	typename thrust::detail::enable_if<(I == thrust::tuple_size<T>::value), void>::type
+	_get_element(const size_t index, T& t, R*& ptr )
+	{ }
+
+	template<typename R, typename T, size_t I=0>
+	__host__  __device__ inline
+	typename thrust::detail::enable_if<( I < thrust::tuple_size<T>::value), void>::type
+	_get_element(const size_t index, T& t, R*& ptr )
+	{
+
+	    index==I ? ptr=&thrust::get<I>(t):0;
+
+	    _get_element<R,T,I+1>(index, t, ptr);
+	}
+
+	template<typename R, typename ...T>
+	__host__  __device__ inline
+	R& get_element(const size_t index, thrust::tuple<T...>& t)
+	{
+	    R* ptr;
+	    _get_element( index, t, ptr );
+
+	    return *ptr;
+
+
+	}
 
 	//----------------------------------------
 	template<typename ...T1, typename ...T2, size_t... I1, size_t... I2 >
+	__host__  __device__ inline
 	void split_tuple_helper(thrust::tuple<T1...> &t1, thrust::tuple<T2...> &t2,
 			thrust::tuple<T1..., T2...> const& t , index_sequence<I1...>, index_sequence<I2...>)
 	{
@@ -132,6 +183,7 @@ namespace hydra {
 	}
 
 	template< typename ...T1,  typename ...T2>
+	__host__  __device__ inline
 	void split_tuple(thrust::tuple<T1...> &t1, thrust::tuple<T2...> &t2,
 			thrust::tuple<T1..., T2...> const& t)
 	{
@@ -142,6 +194,7 @@ namespace hydra {
 
 	//----------------------------------------
 	template<typename ...T, size_t... I1, size_t... I2 >
+	__host__  __device__ inline
 	auto split_tuple_helper(thrust::tuple<T...> &t, index_sequence<I1...>, index_sequence<I2...>)
 	-> decltype( thrust::make_pair(thrust::tie( thrust::get<I1>(t)... ), thrust::tie( thrust::get<I2+ + sizeof...(I1)>(t)... ) ) )
 	{
@@ -152,6 +205,7 @@ namespace hydra {
 	}
 
 	template< size_t N, typename ...T>
+	__host__  __device__ inline
 	auto split_tuple(thrust::tuple<T...>& t)
 	-> decltype( split_tuple_helper( t, make_index_sequence<N>{}, make_index_sequence<sizeof...(T)-N>{} ) )
 	{
@@ -251,8 +305,8 @@ namespace hydra {
 	//---------------------------------------
 	// set a generic array with tuple values
 	template<size_t I = 0,  typename ArrayType, typename FistType, typename ...OtherTypes>
-	__host__  __device__
-	inline typename thrust::detail::enable_if<I == (sizeof...(OtherTypes) + 1) &&
+	__host__  __device__ inline
+	typename thrust::detail::enable_if<I == (sizeof...(OtherTypes) + 1) &&
 	 is_hydra_convertible_to_tuple<ArrayType>::value &&
 	are_all_same<FistType,OtherTypes...>::value, void>::type
 	assignArrayToTuple(thrust::tuple<FistType, OtherTypes...> &,  ArrayType (&Array)[sizeof...(OtherTypes)+1])
@@ -312,6 +366,51 @@ namespace hydra {
 		 assignTupleToArray<I + 1,ArrayType,FistType, OtherTypes... >( t, Array);
 	 }
 
+	 // set a std::array with tuple values
+	 template<size_t I = 0, typename ArrayType, typename FistType, typename ...OtherTypes>
+	 __host__  __device__
+	 inline typename thrust::detail::enable_if<I == (sizeof...(OtherTypes) + 1) &&
+	 is_hydra_convertible_to_tuple<ArrayType>::value &&
+	 are_all_same<FistType,OtherTypes...>::value, void>::type
+	 assignTupleToArray(thrust::tuple<FistType&, OtherTypes&...> const&,
+			 ArrayType (&Array)[sizeof...(OtherTypes)+1])
+	 {}
+
+	 template<size_t I = 0, typename  ArrayType, typename FistType, typename ...OtherTypes>
+	 __host__  __device__
+	 inline typename thrust::detail::enable_if<(I < sizeof...(OtherTypes)+1) &&
+	 is_hydra_convertible_to_tuple<ArrayType>::value &&
+	 are_all_same<FistType,OtherTypes...>::value, void >::type
+	 assignTupleToArray(thrust::tuple<FistType&, OtherTypes&...> const& t,
+			 ArrayType (&Array)[sizeof...(OtherTypes)+1])
+	 {
+
+		 Array[I] = thrust::get<I>(t);
+		 assignTupleToArray<I + 1,ArrayType,FistType, OtherTypes... >( t, Array);
+	 }
+
+	 // set a std::array with tuple values
+	 template<size_t I = 0, typename ArrayType, typename FistType, typename ...OtherTypes>
+	 __host__  __device__
+	 inline typename thrust::detail::enable_if<I == (sizeof...(OtherTypes) + 1) &&
+	 is_hydra_convertible_to_tuple<ArrayType>::value &&
+	 are_all_same<FistType,OtherTypes...>::value, void>::type
+	 assignTupleToArray(thrust::detail::tuple_of_iterator_references<FistType, OtherTypes...> const&,
+			 ArrayType (&Array)[sizeof...(OtherTypes)+1])
+	 {}
+
+	 template<size_t I = 0, typename  ArrayType, typename FistType, typename ...OtherTypes>
+	 __host__  __device__
+	 inline typename thrust::detail::enable_if<(I < sizeof...(OtherTypes)+1) &&
+	 is_hydra_convertible_to_tuple<ArrayType>::value &&
+	 are_all_same<FistType,OtherTypes...>::value, void >::type
+	 assignTupleToArray(thrust::detail::tuple_of_iterator_references<FistType, OtherTypes...> const& t,
+			 ArrayType (&Array)[sizeof...(OtherTypes)+1])
+	 {
+
+		 Array[I] = thrust::get<I>(t);
+		 assignTupleToArray<I + 1,ArrayType,FistType, OtherTypes... >( t, Array);
+	 }
 
 	 //---------------------------------------
 	 // set a generic array with tuple values

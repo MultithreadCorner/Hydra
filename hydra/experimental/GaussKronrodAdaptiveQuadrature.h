@@ -116,7 +116,8 @@ public:
 			fIterationNumber( other.GetIterationNumber() ),
 			fXLower(other.GetXLower() ),
 			fXUpper(other.GetXUpper()),
-			fMaxRelativeError(other.GetMaxRelativeError() )
+			fMaxRelativeError(other.GetMaxRelativeError() ),
+			fRule(other.GetRule())
 		{
 			InitNodes();
 		}
@@ -130,6 +131,7 @@ public:
 		this->fXLower = other.GetXLower() ;
 		this->fXUpper = other.GetXUpper();
 		this->fMaxRelativeError = other.GetMaxRelativeError() ;
+		this->fRule=other.GetRule();
 		this->InitNodes();
 
 		return *this;
@@ -202,6 +204,11 @@ public:
 	{
 		fXUpper = xUpper;
 		InitNodes();
+	}
+
+	const GaussKronrodRule<NRULE>& GetRule() const
+	{
+		return fRule;
 	}
 
 private:

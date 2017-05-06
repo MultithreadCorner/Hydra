@@ -64,7 +64,9 @@ struct Point<T, DIM, true, false>
 	__host__ __device__
 	Point():
 	fData()
-	{ }
+	{
+		SetCoordinate(coordinate_type());
+	}
 
 	/**
 	 * Trivial constructor for points
@@ -107,12 +109,12 @@ struct Point<T, DIM, true, false>
 	 * @param coordinates: std::initializer_list
 	 * @param weight: weight of this point
 	 */
-	__host__
+	__host__ __device__
 	Point(std::initializer_list<value_type> coordinates, value_type error=0.0, value_type weight=1.0 )
 	{
-		std::vector<value_type> v(coordinates);
+		//std::vector<value_type> v(coordinates);
 		auto weights = thrust::make_tuple(weight, weight*weight, error  );
-		auto coords  = hydra::detail::arrayToTuple<value_type,DIM>(const_cast<value_type*>(v.data() ));
+		auto coords  = hydra::detail::arrayToTuple<value_type,DIM>(const_cast<value_type*>(coordinates.begin()));//v.data() ));
 		fData = thrust::tuple_cat(weights, coords  );
 	}
 
@@ -181,22 +183,45 @@ struct Point<T, DIM, true, false>
 	}
 
 	__host__  __device__
+	inline void SetCoordinate(coordinate_type && coordinates, value_type error=0.0,
+			value_type weight=1.0) {
+
+		auto weights = thrust::make_tuple(weight, weight*weight,  error);
+		fData = thrust::tuple_cat(weights, coordinates  );
+
+	}
+
+
+
+	__host__  __device__
 	inline coordinate_type GetCoordinates()
 	{
-		return hydra::detail::split_tuple<3>(fData).second;
+		coordinate_type coord;
+		thrust::tuple<GReal_t,GReal_t,GReal_t > weights;
+		hydra::detail::split_tuple(  weights ,coord, fData);
+		return coord;
 	}
 
 	__host__  __device__
 	inline  coordinate_type GetCoordinates() const
 	{
-		return hydra::detail::split_tuple<3>(fData).second;
+		coordinate_type coord;
+		thrust::tuple<GReal_t,GReal_t,GReal_t > weights;
+		hydra::detail::split_tuple(  weights ,coord, fData);
+		return coord;
 	}
 
 
 	__host__  __device__
-	inline value_type GetCoordinate(const int i) const{
-		return hydra::detail::extract<value_type, type>(i+3, fData);
+	inline value_type& GetCoordinate(unsigned int i) {
+		return hydra::detail::get_element<value_type>(i+3, fData);
 	}
+
+	__host__  __device__
+		inline value_type const& GetCoordinate(unsigned int i) const {
+			return hydra::detail::get_element<value_type>(i+3, fData);
+	}
+
 
 
 	__host__  __device__
@@ -215,29 +240,30 @@ struct Point<T, DIM, true, false>
 	}
 
 	__host__  __device__
-	inline value_type GetError() {
+	inline value_type& GetError() {
 
 		return thrust::get<2>(fData);
 	}
 
 	__host__  __device__
-	inline const value_type GetError() const {
+	inline const value_type& GetError() const {
 		return thrust::get<2>(fData);
 	}
 
 	__host__  __device__
 	inline void SetError(value_type weight) {
 		thrust::get<2>(fData) = weight;
+
 	}
 
 	__host__  __device__
-	inline value_type GetWeight() {
+	inline value_type& GetWeight() {
 
 		return thrust::get<0>(fData);
 	}
 
 	__host__  __device__
-	inline const value_type GetWeight() const {
+	inline const value_type& GetWeight() const {
 
 		return thrust::get<0>(fData);
 	}
@@ -245,15 +271,16 @@ struct Point<T, DIM, true, false>
 	__host__  __device__
 	inline void SetWeight(value_type weight) {
 		thrust::get<0>(fData) = weight;
+		thrust::get<1>(fData) = weight*weight;
 	}
 
 	__host__  __device__
-	inline value_type GetWeight2()  {
+	inline value_type& GetWeight2()  {
 		return thrust::get<1>(fData);
 	}
 
 	__host__  __device__
-	inline value_type GetWeight2() const {
+	inline value_type const& GetWeight2() const {
 		return thrust::get<1>(fData);
 	}
 
@@ -270,6 +297,27 @@ struct Point<T, DIM, true, false>
 private:
 	type fData;
 };
+
+/*
+//output stream operators
+template<typename T , size_t N>
+__host__ __device__ inline
+Point<T,N,true,false>
+operator+(Point<T,N,true,false> const& point1,
+		Point<T,N,true,false> const& point2)
+{
+
+	 Point<T,N,true,false> point;
+
+	 point.SetWeight( point1.GetWeight() + point2.GetWeight());
+	 point.SetWeight2( point1.GetWeight2() + point2.GetWeight2());
+	 point.SetError( sqrt(  point1.GetError()*point1.GetError() + point2.GetError()*point2.GetError() ));
+	 point.SetCoordinates( point1.GetCoordinates() + point2.GetCoordinates() );
+
+	 return point ;
+
+}
+*/
 
 }  // namespace experimental
 

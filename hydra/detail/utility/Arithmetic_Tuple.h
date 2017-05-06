@@ -66,10 +66,90 @@ namespace hydra {
 				return addTuples<T...>(a, b, make_index_sequence<sizeof...(T)> {} );
 			}
 
-			//
+			// subtract two tuples element by element
+			template<size_t I, typename ... T>
+			__host__ __device__
+			inline typename thrust::tuple_element<I, thrust::tuple<T...>>::type
+			subtractTuplesHelper(const thrust::tuple<T...>&a, const thrust::tuple<T...>&b) {
+				return thrust::get<I>(a) + thrust::get<I>(b);
+			}
+
+			template<typename ... T, size_t ... I>
+			__host__ __device__
+			inline thrust::tuple<T...>
+			subtractTuples(const thrust::tuple<T...>&a, const thrust::tuple<T...>&b, index_sequence<I...>) {
+				return thrust::make_tuple(addTuplesHelper<I>(a,b)...);
+			}
+
+			template<typename ...T>
+			__host__ __device__
+			inline thrust::tuple<T...>
+			subtractTuples(const thrust::tuple<T...>&a, const thrust::tuple<T...>&b) {
+				return subtractTuples<T...>(a, b, make_index_sequence<sizeof...(T)> {} );
+			}
+
+			// multiply two tuples element by element
+			template<size_t I, typename ... T>
+			__host__ __device__
+			inline typename thrust::tuple_element<I, thrust::tuple<T...>>::type
+			multiplyTuplesHelper(const thrust::tuple<T...>&a, const thrust::tuple<T...>&b) {
+				return thrust::get<I>(a) * thrust::get<I>(b);
+			}
+
+			template<typename ... T, size_t ... I>
+			__host__ __device__
+			inline thrust::tuple<T...>
+			multiplyTuples(const thrust::tuple<T...>&a, const thrust::tuple<T...>&b, index_sequence<I...>) {
+				return thrust::make_tuple(addTuplesHelper<I>(a,b)...);
+			}
+
+			template<typename ...T>
+			__host__ __device__
+			inline thrust::tuple<T...>
+			multiplyTuples(const thrust::tuple<T...>&a, const thrust::tuple<T...>&b) {
+				return multiplyTuples<T...>(a, b, make_index_sequence<sizeof...(T)> {} );
+			}
+
+			//divide two tuples element by element
+			template<size_t I, typename ... T>
+			__host__ __device__
+			inline typename thrust::tuple_element<I, thrust::tuple<T...>>::type
+			divideTuplesHelper(const thrust::tuple<T...>&a, const thrust::tuple<T...>&b) {
+				return thrust::get<I>(a) * thrust::get<I>(b);
+			}
+
+			template<typename ... T, size_t ... I>
+			__host__ __device__
+			inline thrust::tuple<T...>
+			divideTuples(const thrust::tuple<T...>&a, const thrust::tuple<T...>&b, index_sequence<I...>) {
+				return thrust::make_tuple(addTuplesHelper<I>(a,b)...);
+			}
+
+			template<typename ...T>
+			__host__ __device__
+			inline thrust::tuple<T...>
+			divideTuples(const thrust::tuple<T...>&a, const thrust::tuple<T...>&b) {
+				return divideTuples<T...>(a, b, make_index_sequence<sizeof...(T)> {} );
+			}
+
+			//evaluate functor on tuples element by element
+			template<typename F, typename ... T, size_t ... I>
+			__host__ __device__
+			inline thrust::tuple<T...>
+			callOnTupleHelper(F const& f, const thrust::tuple<T...>&tuple, index_sequence<I...>) {
+				return thrust::make_tuple(f(thrust::get<I>(tuple))...);
+			}
+
+			template<typename F, typename ...T>
+			__host__ __device__
+			inline thrust::tuple<T...>
+			callOnTuple(F const& f, const thrust::tuple<T...>& tuple) {
+				return callOnTupleHelper<F, T...>(f, tuple, make_index_sequence<sizeof...(T)> {} );
+			}
 
 
 	}//namespace detail
+
 
 	template<typename ...T>
 	__host__ __device__
@@ -77,6 +157,30 @@ namespace hydra {
 			const thrust::tuple<T...>&b){
 
 		return detail::addTuples(a,b);
+	}
+
+	template<typename ...T>
+	__host__ __device__
+	inline thrust::tuple<T...> operator-(const thrust::tuple<T...>&a,
+			const thrust::tuple<T...>&b){
+
+		return detail::subtractTuples(a,b);
+	}
+
+	template<typename ...T>
+	__host__ __device__
+	inline thrust::tuple<T...> operator*(const thrust::tuple<T...>&a,
+			const thrust::tuple<T...>&b){
+
+		return detail::multiplyTuples(a,b);
+	}
+
+	template<typename ...T>
+	__host__ __device__
+	inline thrust::tuple<T...> operator/(const thrust::tuple<T...>&a,
+			const thrust::tuple<T...>&b){
+
+		return detail::divideTuples(a,b);
 	}
 
 

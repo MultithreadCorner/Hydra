@@ -64,6 +64,21 @@ struct Parameter{
 	{}
 
 
+	__host__ __device__
+	Parameter(GReal_t value):
+	fName(const_cast<GChar_t*>("")),
+	fValue(value),
+	fError(detail::TypeTraits<GReal_t>::zero()),
+	fLowerLim(detail::TypeTraits<GReal_t>::zero()),
+	fUpperLim(detail::TypeTraits<GReal_t>::zero()),
+	fIndex(detail::TypeTraits<GInt_t>::invalid()),
+	fLimited(0),
+	fHasError(0)
+	{}
+
+
+
+
 	Parameter(std::string const& name, GReal_t value, GReal_t error, GReal_t downlim, GReal_t uplim):
 	fName(const_cast<GChar_t*>(name.data())),
 	fValue(value),
@@ -329,7 +344,7 @@ struct Parameter{
 	inline operator GReal_t() { return fValue; }
 
 	__host__ __device__
-		inline operator GReal_t() const { return fValue; }
+	inline operator GReal_t() const { return fValue; }
 
 
 	__host__
@@ -377,8 +392,9 @@ private:
 
 };
 
-
-
+/*
+ * addition
+ */
 __host__ __device__
 inline Parameter operator+(Parameter par1, Parameter const& par2)
 {
@@ -388,7 +404,19 @@ inline Parameter operator+(Parameter par1, Parameter const& par2)
 }
 
 __host__ __device__
-inline Parameter operator-(Parameter par1, Parameter const& par2)
+inline GReal_t operator+(Parameter par1, GReal_t par2)
+{
+		par1  += par2;
+
+		return par1;
+}
+
+
+/*
+ * subtraction
+ */
+__host__ __device__
+inline Parameter operator-(Parameter par1, Parameter const&  par2)
 {
 		par1  -= par2;
 
@@ -396,7 +424,26 @@ inline Parameter operator-(Parameter par1, Parameter const& par2)
 }
 
 __host__ __device__
-inline Parameter operator*(Parameter par1, Parameter const& par2)
+inline GReal_t operator-(Parameter par1, GReal_t  par2)
+{
+		par1  -= par2;
+
+		return par1;
+}
+
+__host__ __device__
+inline GReal_t operator-(GReal_t par1, Parameter  par2)
+{
+		par1  -= par2;
+
+		return par1;
+}
+
+/*
+ * multiplication
+ */
+__host__ __device__
+inline Parameter operator*(Parameter par1, Parameter const&  par2)
 {
 		par1  *= par2;
 
@@ -404,7 +451,35 @@ inline Parameter operator*(Parameter par1, Parameter const& par2)
 }
 
 __host__ __device__
-inline Parameter operator/(Parameter par1, Parameter const& par2)
+inline GReal_t operator*(Parameter par1, GReal_t  par2)
+{
+		par1  *= par2;
+
+		return par1;
+}
+
+/*
+ * division
+ */
+__host__ __device__
+inline Parameter operator/(Parameter par1, Parameter const par2)
+{
+		par1  /= par2;
+
+		return par1;
+}
+
+__host__ __device__
+inline GReal_t operator/(Parameter par1, GReal_t par2)
+{
+		par1  /= par2;
+
+		return par1;
+}
+
+
+__host__ __device__
+inline GReal_t operator/( GReal_t par1, Parameter par2 )
 {
 		par1  /= par2;
 
@@ -414,7 +489,7 @@ inline Parameter operator/(Parameter par1, Parameter const& par2)
 
 
 __host__
-std::ostream& operator<<(std::ostream& os, Parameter const& var){
+inline std::ostream& operator<<(std::ostream& os, Parameter const& var){
 
 	return os<< "Hydra::Variable: "<< var.GetName()  << "[ " << var.GetValue()
 			 << ", " << var.GetError() << ", " << var.GetLowerLim()

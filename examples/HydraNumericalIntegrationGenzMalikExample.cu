@@ -28,12 +28,11 @@
 
 #include <iostream>
 #include <assert.h>
-#include <time.h>
 #include <string>
 #include <vector>
 #include <array>
 #include <chrono>
-#include <limits>
+
 //command line arguments
 #include <tclap/CmdLine.h>
 
@@ -45,6 +44,8 @@
 #include <hydra/FunctorArithmetic.h>
 #include <hydra/Parameter.h>
 #include <hydra/experimental/GenzMalikQuadrature.h>
+#include <hydra/detail/utility/Permute.h>
+#include <hydra/detail/utility/StreamSTL.h>
 //root
 #include <TROOT.h>
 #include <TH1D.h>
@@ -104,7 +105,7 @@ GInt_t main(int argv, char** argc)
 	}
 
 
-	constexpr size_t N = 5;
+	constexpr size_t N = 2;
 
 	//------------------------------------
 	//parameters
@@ -157,19 +158,19 @@ GInt_t main(int argv, char** argc)
 	//Genz-Malik
 	//----------------------------------------------------------------------
 
-	auto GMIntegrator = hydra::experimental::GenzMalikQuadrature<N, hydra::device>(min, max, nboxes);
+	auto GMIntegrator = hydra::experimental::GenzMalikQuadrature<N,hydra::device>(min, max, nboxes);
+
 	auto start = std::chrono::high_resolution_clock::now();
 	auto result2 = GMIntegrator.Integrate(Gaussian);
 	auto end = std::chrono::high_resolution_clock::now();
-			std::chrono::duration<double, std::milli> elapsed = end - start;
 
+	std::chrono::duration<double, std::milli> elapsed = end - start;
 
+			//GMIntegrator.Print();
 	cout << ">>> Gaussian intetgral [Genz-Malik]"<< endl;
 	cout << "Result: " << std::setprecision(10)<<result2.first
 					   << " +/- "    << result2.second <<std::endl <<
 					   " Time (ms): "<< elapsed.count() <<std::endl;
-
-
 
 	return 0;
 

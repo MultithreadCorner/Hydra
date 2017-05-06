@@ -40,12 +40,12 @@ namespace hydra {
 
 /** array streamer helper **/
 template<  size_t N, typename T, size_t I>
-typename std::enable_if<(I==N), void>::type
+inline typename std::enable_if<(I==N), void>::type
 stream_array_helper(std::ostream& os, std::array<T,N> const&  obj)
 { }
 
 template< size_t N, typename T, size_t I=0>
-typename std::enable_if< (I < N), void>::type
+inline typename std::enable_if< (I < N), void>::type
 stream_array_helper(std::ostream& os, std::array<T,N> const&  obj)
 {
  char separator = (I==N-1)?char(0):',';
@@ -56,7 +56,7 @@ stream_array_helper(std::ostream& os, std::array<T,N> const&  obj)
 
 /* stream std::array */
 template<size_t N, typename T>
-std::ostream& operator<<(std::ostream& os, std::array<T, N> const&  obj)
+inline std::ostream& operator<<(std::ostream& os, std::array<T, N> const&  obj)
 {
   os << "{"; stream_array_helper(os, obj); os << "}";
 
@@ -67,13 +67,13 @@ std::ostream& operator<<(std::ostream& os, std::array<T, N> const&  obj)
 
 /** tuple streamer helper **/
 template<size_t I, typename ...T>
-typename std::enable_if<(I==sizeof ...(T)), void>::type
+inline typename std::enable_if<(I==sizeof ...(T)), void>::type
 stream_tuple_helper(std::ostream& os, std::tuple<T...> const&  obj)
 { }
 
 template<size_t I=0, typename ...T>
-typename std::enable_if< (I < sizeof ...(T)), void>::type
-stream_tuple_helper(std::ostream& os, std::tuple<T...> const&  obj)
+inline typename std::enable_if< (I < sizeof ...(T)), void>::type
+ stream_tuple_helper(std::ostream& os, std::tuple<T...> const&  obj)
 {
  char separator = (I==sizeof ...(T)-1)?char(0):char(',');
  os << char(' ')<< std::get<I>(obj)<< separator;
@@ -82,7 +82,7 @@ stream_tuple_helper(std::ostream& os, std::tuple<T...> const&  obj)
 
 /* stream std::tuple */
 template<typename ...T>
-std::ostream& operator<<(std::ostream& os, std::tuple<T...> const&  obj)
+inline std::ostream& operator<<(std::ostream& os, std::tuple<T...> const&  obj)
 {
   os << char('{'); stream_tuple_helper(os,obj);  os << char('}');
 
@@ -91,7 +91,7 @@ std::ostream& operator<<(std::ostream& os, std::tuple<T...> const&  obj)
 
 /* stream std::pair */
 template<typename T1, typename T2>
-std::ostream& operator<<(std::ostream& os, std::pair<T1,T2> const&  obj)
+inline std::ostream& operator<<(std::ostream& os, std::pair<T1,T2> const&  obj)
 {
   os << char('{')<<  obj.first <<char(',')<< char(' ')<< obj.second << char('}');
 

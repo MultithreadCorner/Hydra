@@ -59,14 +59,14 @@ public:
 
 
     //tuples of types
-	typedef thrust::tuple<T...> 			                                          value_tuple_type;
-	typedef thrust::tuple<Vector<T, Allocator<T>>...> 		                          storage_tuple_type;
-	typedef thrust::tuple<typename Vector<T, Allocator<T>>::pointer...> 	          pointer_tuple_type;
-	typedef thrust::tuple<typename Vector<T, Allocator<T>>::const_pointer...> 	      const_pointer_tuple_type;
-	typedef thrust::tuple<typename Vector<T, Allocator<T>>::reference...> 	          reference_tuple;
-	typedef thrust::tuple<typename Vector<T, Allocator<T>>::const_reference...>       const_reference_tuple;
-	typedef thrust::tuple<typename Vector<T, Allocator<T>>::size_type...> 	          size_type_tuple;
-	typedef thrust::tuple<typename Vector<T, Allocator<T>>::iterator...> 	          iterator_tuple;
+	typedef thrust::tuple<T...> 			                                           value_tuple_type;
+	typedef thrust::tuple<Vector<T, Allocator<T>>...> 		                           storage_tuple_type;
+	typedef thrust::tuple<typename Vector<T, Allocator<T>>::pointer...> 	           pointer_tuple_type;
+	typedef thrust::tuple<typename Vector<T, Allocator<T>>::const_pointer...> 	       const_pointer_tuple_type;
+	typedef thrust::tuple<typename Vector<T, Allocator<T>>::reference...> 	           reference_tuple;
+	typedef thrust::tuple<typename Vector<T, Allocator<T>>::const_reference...>        const_reference_tuple;
+	typedef thrust::tuple<typename Vector<T, Allocator<T>>::size_type...> 	           size_type_tuple;
+	typedef thrust::tuple<typename Vector<T, Allocator<T>>::iterator...> 	           iterator_tuple;
 	typedef thrust::tuple<typename Vector<T, Allocator<T>>::const_iterator...>         const_iterator_tuple;
 	typedef thrust::tuple<typename Vector<T, Allocator<T>>::reverse_iterator...>       reverse_iterator_tuple;
 	typedef thrust::tuple<typename Vector<T, Allocator<T>>::const_reverse_iterator...> const_reverse_iterator_tuple;

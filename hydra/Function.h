@@ -39,6 +39,7 @@
 #include <hydra/detail/Config.h>
 #include <hydra/Types.h>
 #include <hydra/detail/Print.h>
+#include <hydra/detail/Integrator.h>
 #include <hydra/Parameter.h>
 #include <hydra/detail/utility/Utility_Tuple.h>
 #include <hydra/detail/FunctorTraits.h>
@@ -64,15 +65,27 @@ struct BaseFunctor
 	typedef   std::true_type is_functor;
     static const size_t parameter_count =NPARAM;
 
-	__host__ __device__
-	BaseFunctor():
+    explicit BaseFunctor():
+    			fCacheIndex(-1),
+    			fCached(0),
+    			fParamResgistered(1),
+    			fNorm(1.0),
+    			fNormalized(1),
+    			_par(*this)
+    {}
+
+	BaseFunctor(std::initializer_list<Parameter> init_parameters):
 	fCacheIndex(-1),
 	fCached(0),
 	fParamResgistered(1),
 	fNorm(1.0),
 	fNormalized(1),
 	_par(*this)
-	{	}
+	{
+#pragma unroll NPARAM
+		for(size_t i=0; i<NPARAM; i++)
+			this->SetParameter(i, *(init_parameters.begin() + i));
+	}
 
 	__host__ __device__
 	BaseFunctor(BaseFunctor<Functor,ReturnType, NPARAM> const& other):
@@ -82,7 +95,15 @@ struct BaseFunctor
 	fNorm(other.GetNorm()),
 	fNormalized(other.GetNormalized() ),
 	_par(*this)
-	{ }
+	{
+
+#pragma unroll NPARAM
+	for(size_t i=0; i<NPARAM; i++)
+	this->SetParameter(i, other.GetParameter(i));
+
+
+
+	}
 
 	__host__ __device__ inline
 	BaseFunctor<Functor,ReturnType, NPARAM>&
@@ -96,7 +117,12 @@ struct BaseFunctor
 			this->fNorm = other.GetNorm();
 			this->fNormalized =other.GetNormalized();
 			this->fParamResgistered =1;
-			_par=*this;
+
+#pragma unroll NPARAM
+	for(size_t i=0; i<NPARAM; i++)
+	this->SetParameter(i, other.GetParameter(i));
+
+	         _par=*this;
 
          }
 		return *this;
@@ -272,13 +298,13 @@ struct BaseFunctor
 
 
 
-__host__ __device__  inline
+    __host__ __device__  inline
 	Parameter& operator[](size_t i)
 	{
 		return fParameters[i];
 	}
 
-__host__ __device__  inline
+    __host__ __device__  inline
 	Parameter const& operator[](size_t i) const
 	{
 		return fParameters[i];

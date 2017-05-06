@@ -487,6 +487,7 @@ fSize( thrust::get<0>(fStorage ).size())
 	 return	fBegin;
  }
 
+
  template< template<typename...> class Vector,
  template<typename...> class Allocator,
  typename ...T>
