@@ -54,10 +54,10 @@ struct Exp:public BaseFunctor<Exp, GReal_t, 1>
 	{
 
 		//printf(" Exp : fM %f fS %f\n", fM(),  fS());
+		GReal_t tau = _par[0];
 
 
-
-		return exp(x[fPosition]*_par[0] );
+		return exp(x[fPosition]*tau );
 
 	}
 

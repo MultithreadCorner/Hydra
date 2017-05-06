@@ -41,6 +41,7 @@ template<size_t N , unsigned int BACKEND>
 VegasState<N,BACKEND >::VegasState(std::array<GReal_t,N> const& xlower,
 		std::array<GReal_t,N> const& xupper) :
 		fTrainingIterations(1),
+		fTrainedGridFrozen(0),
 		fNDimensions(N),
 		fNBinsMax(BINS_MAX),
 		fNBins(BINS_MAX),
@@ -94,8 +95,9 @@ VegasState<N,BACKEND >::VegasState(std::array<GReal_t,N> const& xlower,
 }
 
 template<size_t N , unsigned int BACKEND>
-VegasState<N,BACKEND >::VegasState(VegasState const& other) :
+VegasState<N,BACKEND >::VegasState(VegasState<N,BACKEND> const& other) :
         fTrainingIterations(other.GetTrainingIterations()),
+        fTrainedGridFrozen(other.IsTrainedGridFrozen()),
 		fAlpha(other.GetAlpha()),
 		fNDimensions(other.GetNDimensions()),
 		fNBinsMax(other.GetNBinsMax()),
@@ -139,58 +141,65 @@ VegasState<N,BACKEND >::VegasState(VegasState const& other) :
 		//fBackendDistribution(other.GetBackendDistribution()),
 		fOStream(std::cout) {}
 
-
+template<size_t N , unsigned int BACKEND>
+template<unsigned int BACKEND2>
+VegasState<N,BACKEND >::VegasState(VegasState<N,BACKEND2> const& other) :
+        fTrainingIterations(other.GetTrainingIterations()),
+        fTrainedGridFrozen(other.IsTrainedGridFrozen()),
+		fAlpha(other.GetAlpha()),
+		fNDimensions(other.GetNDimensions()),
+		fNBinsMax(other.GetNBinsMax()),
+		fNBins(other.GetNBins()),
+		fNBoxes(other.GetNBoxes()),
+		fVolume(other.GetVolume()),
+		fMode(other.GetMode()),
+		fVerbose(other.GetVerbose()),
+		fIterations(other.GetIterations()),
+		fStage(other.GetStage()),
+		fJacobian(other.GetJacobian()),
+		fWeightedIntSum(other.GetWeightedIntSum()),
+		fSumOfWeights(other.GetSumOfWeights()),
+		fChiSum(other.GetChiSum()),
+		fChiSquare(other.GetChiSquare()),
+		fResult(other.GetResult()),
+		fSigma(other.GetSigma()),
+		fItStart(other.GetItStart()),
+		fItNum(other.GetItNum()),
+		fSamples(other.GetSamples()),
+		fMaxError(other.GetMaxError()),
+		fUseRelativeError(other.IsUseRelativeError()),
+		fCallsPerBox(other.GetCallsPerBox()),
+		fCalls(other.GetCalls()),
+		fTrainingCalls(other.GetTrainingCalls()),
+		fDeltaX(other.GetDeltaX()),
+		fDistribution(other.GetDistribution()),
+		fXi(other.GetXi()),
+		fXin(other.GetXin()),
+		fWeight(other.GetWeight()),
+		fXLow(other.GetXLow()),
+		fXUp(other.GetXUp()),
+		fIterationResult(other.GetIterationResult()),
+		fIterationSigma(other.GetIterationSigma()),
+		fCumulatedResult(other.GetCumulatedResult()),
+		fCumulatedSigma(other.GetCumulatedSigma()),
+		fIterationDuration(other.GetIterationDuration()),
+		fBackendDeltaX(other.GetBackendDeltaX()),
+		fBackendXi(other.GetBackendXi()),
+		fBackendXLow(other.GetBackendXLow()),
+		//fBackendDistribution(other.GetBackendDistribution()),
+		fOStream(std::cout) {}
 
 template<size_t N , unsigned int BACKEND>
 void VegasState<N,BACKEND >::ClearStoredIterations()
-		{
+{
 	fIterationResult.clear();
 	fIterationSigma.clear();
 	fCumulatedResult.clear();
 	fCumulatedSigma.clear();
 	fIterationDuration.clear();
 	fFunctionCallsDuration.clear();
-	/*
-		fNDimensions= N;
-		fNBinsMax = BINS_MAX;
-		fNBins=BINS_MAX;
-		fNBoxes=0;
-		fVolume=0;
-		fAlpha=1.7;
-		fMode=MODE_IMPORTANCE;
-		fVerbose=1;
-		fIterations=5;
-		fStage=0;
-		fJacobian=0;
-		fWeightedIntSum=0;
-		fSumOfWeights=0;
-		fChiSum=0;
-		fChiSquare=0;
-		fResult=0;
-		fSigma=0;
-		fItStart=0;
-		fItNum=0;
-		fSamples=0;
-		fCallsPerBox=0;
 
-		thrust::fill(fBackendXLow.begin(), fBackendXLow.end(),  0.0);
-		thrust::fill( fBackendDeltaX.begin(), fBackendDeltaX.end(),  0.0);
-		thrust::fill( fDistribution.begin(), fDistribution.end(),  0.0);
-	//	thrust::fill( fBackendDistribution.begin(), fBackendDistribution.end(),  0.0);
-		thrust::fill( fXi.begin(), fXi.end(),  0.0);
-		thrust::fill( fBackendXi.begin(), fBackendXi.end(),  0.0);
-		thrust::fill( fXin.begin(), fXin.end(),  0.0);
-		thrust::fill( fWeight.begin(), fWeight.end(),  0.0);
-		thrust::fill( fIterationResult.begin(), fIterationResult.end(),  0.0);
-		thrust::fill( fIterationSigma.begin(), fIterationSigma.end(),  0.0);
-		thrust::fill( fCumulatedResult.begin(), fCumulatedResult.end(),  0.0);
-		thrust::fill( fCumulatedSigma.begin(), fCumulatedSigma.end(),  0.0);
-		thrust::fill( fIterationDuration.begin(), fIterationDuration.end(),  0.0);
-
-
-		}
-		*/
-		}
+}
 }
 
 #endif /* VEGASSTATE_INL_ */

@@ -35,6 +35,7 @@
 #include <hydra/detail/utility/Generic.h>
 #include <hydra/detail/TypeTraits.h>
 #include <hydra/detail/FunctorTraits.h>
+#include <hydra/UserParameters.h>
 //thrust
 #include <thrust/tuple.h>
 #include <thrust/detail/type_traits.h>
@@ -739,6 +740,23 @@ namespace hydra {
 		 thrust::get<I>(t).PrintRegisteredParameters();
 		 print_parameters_in_tuple<I + 1,Tp...>(t);
 	 }
+
+	 template<size_t I=0, typename ... Tp>
+	 __host__
+	 inline typename thrust::detail::enable_if<I == sizeof...(Tp), void>::type
+	 add_parameters_in_tuple(std::vector<hydra::Parameter*>& user_parameters, thrust::tuple<Tp...>&)
+	 {}
+
+	 template<size_t I = 0, typename ... Tp>
+	 __host__
+	 inline typename thrust::detail::enable_if<(I < sizeof...(Tp)),void >::type
+	 add_parameters_in_tuple(std::vector<hydra::Parameter*>& user_parameters, thrust::tuple<Tp...>& t)
+	 {
+		 thrust::get<I>(t).AddUserParameters(user_parameters);
+		 add_parameters_in_tuple<I + 1,Tp...>(user_parameters,t);
+	 }
+
+
 
 	 //extract a element of a ntuple
 	 template<typename Type, typename Tuple>

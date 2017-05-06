@@ -56,10 +56,11 @@
 #include <hydra/experimental/Events.h>
 #include <hydra/experimental/detail/functors/DecayMother.h>
 #include <hydra/experimental/detail/functors/DecayMothers.h>
+#include <hydra/experimental/detail/functors/EvalOnDaughters.>
 #include <hydra/detail/functors/FlagAcceptReject.h>
 #include <hydra/detail/functors/IsAccepted.h>
 #include <hydra/detail/utility/Generic.h>
-#include <hydra/strided_iterator.h>
+
 #include <hydra/experimental/detail/launch_decayers.inl>
 
 #include <thrust/iterator/zip_iterator.h>
@@ -111,6 +112,25 @@ public:
 
 
 	~PhaseSpace() {}
+
+	template<typename FUNCTOR, unsigned int BACKEND>
+	std::pair<GReal_t, GReal_t> AverageOn(experimental::Vector4R const& mother, FUNCTOR const& functor, size_t n)
+	{
+#if(THRUST_DEVICE_SYSTEM==THRUST_DEVICE_BACKEND_CUDA && (BACKEND==device))
+	cudaDeviceSetCacheConfig(cudaFuncCachePreferL1);
+#endif
+		detail::EvalOnDaughters<N,hydra::detail::IteratorTraits<Iterator>::type::backend,GRND>
+		evaluator(functor, mother,fMasses, fSeed);
+
+		thrust::counting_iterator<GLong_t> first(0);
+
+		thrust::counting_iterator<GLong_t> last = first + n;
+
+		detail::ResultPHSP init;
+
+		detail::launch_evaluator(first, last, evaluator );
+
+	}
 
 	template<typename Iterator>
 	void Generate(experimental::Vector4R const& mother, Iterator begin, Iterator end)

@@ -46,6 +46,7 @@
 #include <hydra/detail/functors/AddPdfFunctor.h>
 #include <thrust/tuple.h>
 #include <initializer_list>
+#include <tuple>
 
 namespace hydra {
 
@@ -181,6 +182,7 @@ struct AddPdf: detail::AddPdfBase<PDF1,PDF2,PDFs...>
 	AddPdf<PDF1, PDF2, PDFs...>&
 	operator=( AddPdf<PDF1, PDF2, PDFs...> const& other )
 	{
+		this->fFunctors= other.GetFunctors() ;
 		this->fPDFs = other.GetPdFs();
 		this->fExtended = other.IsExtended();
 		this->fCoefSum= other.GetCoefSum();
@@ -203,7 +205,6 @@ struct AddPdf: detail::AddPdfBase<PDF1,PDF2,PDFs...>
 			      fCoeficients[i].Reset(parameters );
 
 		detail::set_functors_in_tuple(fPDFs, parameters);
-		//detail::set_functors_in_tuple(fFunctors, parameters);
 
 		fFunctors = get_functor_tuple(fPDFs);
 
@@ -229,11 +230,35 @@ struct AddPdf: detail::AddPdfBase<PDF1,PDF2,PDFs...>
 	{
 		HYDRA_CALLER ;
 		HYDRA_MSG << "Registered parameters begin:" << HYDRA_ENDL;
+		if(!fFractioned){
+			for(size_t i=0; i< npdfs ; i++)
+				HYDRA_MSG <<fCoeficients[i]<< HYDRA_ENDL;
+		}
+		else
+		{
+			for(size_t i=0; i< npdfs-1 ; i++)
+				HYDRA_MSG <<fCoeficients[i]<< HYDRA_ENDL;
+		}
 		detail::print_parameters_in_tuple(fPDFs);
 		HYDRA_MSG <<"Registered parameters end." << HYDRA_ENDL;
 		return;
 	}
 
+	inline	void AddUserParameters(std::vector<hydra::Parameter*>& user_parameters )
+	{
+		if(!fFractioned){
+			for(size_t i=0; i< npdfs ; i++)
+				user_parameters.push_back(&fCoeficients[i]);
+		}
+		else
+		{
+			for(size_t i=0; i< npdfs-1 ; i++)
+				user_parameters.push_back(&fCoeficients[i]);
+
+		}
+
+		detail::add_parameters_in_tuple(user_parameters, fPDFs);
+	}
 
 
 	inline	const Parameter& GetCoeficient(size_t i) const
@@ -248,6 +273,7 @@ struct AddPdf: detail::AddPdfBase<PDF1,PDF2,PDFs...>
 
 
 
+
 	inline detail::AddPdfFunctor< PDF1, PDF2, PDFs...>  GetFunctor() const
 	{
 
@@ -256,10 +282,12 @@ struct AddPdf: detail::AddPdfBase<PDF1,PDF2,PDFs...>
 				fCoeficients,1.0/fCoefSum,fExtended,fFractioned );
 	}
 
+
 	inline const functors_tuple_type& GetFunctors() const
 	{
 			return fFunctors;
 	}
+
 
 	inline const pdfs_tuple_type& GetPdFs() const
 	{
@@ -331,6 +359,7 @@ struct AddPdf: detail::AddPdfBase<PDF1,PDF2,PDFs...>
 	}
 
 
+
 private:
     GReal_t     fCoefSum;
 	Parameter    fCoeficients[npdfs];
@@ -351,7 +380,15 @@ add_pdfs(std::array<Parameter*, N> var_list, PDF1 const& pdf1, PDF2 const& pdf2,
 	return AddPdf<PDF1, PDF2, PDFs...>(pdf1, pdf2, pdfs..., var_list);
 }
 
+template<unsigned int I, typename PDF1, typename PDF2, typename ...PDFs>
+auto get_pdf( AddPdf<PDF1, PDF2, PDFs...> const& pdfs)
+-> std::pair< Parameter, typename thrust::tuple_element<I,
+typename AddPdf<PDF1, PDF2, PDFs...>::pdfs_tuple_type>::type  >
+{
+	return	std::make_pair( pdfs.GetCoeficient(I), thrust::get<I>(pdfs.GetPdFs()));
+}
 
 }  // namespace hydra
+
 
 #endif /* ADDPDF_H_ */

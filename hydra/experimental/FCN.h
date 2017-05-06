@@ -41,6 +41,7 @@
 #include <hydra/detail/functors/LogLikelihood.h>
 #include <hydra/detail/utility/Arithmetic_Tuple.h>
 #include <hydra/experimental/Point.h>
+#include <hydra/UserParameters.h>
 
 #include <thrust/distance.h>
 #include <thrust/tuple.h>
@@ -62,11 +63,12 @@ namespace experimental {
 template<typename T>
 class FCN;
 
-template<template<typename... > class ESTIMATOR, typename FUNCTOR,  typename PointType, typename IteratorData, typename IteratorCache>
-class FCN<ESTIMATOR<FUNCTOR, PointType, IteratorData, IteratorCache>>: public ROOT::Minuit2::FCNBase {
+template<template<typename... > class ESTIMATOR, typename PDF,
+typename PointType, typename IteratorData, typename IteratorCache>
+class FCN<ESTIMATOR<PDF, PointType, IteratorData, IteratorCache>>: public ROOT::Minuit2::FCNBase {
 public:
 
-	typedef ESTIMATOR<FUNCTOR, PointType, IteratorData, IteratorCache> estimator_type;
+	typedef ESTIMATOR<PDF, PointType, IteratorData, IteratorCache> estimator_type;
 	typedef PointType point_type;
 	typedef typename thrust::iterator_traits<IteratorData>::value_type data_value_type;
 	typedef typename thrust::iterator_traits<IteratorCache>::value_type cache_value_type;
@@ -99,7 +101,8 @@ public:
 	};
 
 
-	FCN(IteratorData begin, IteratorData end) :
+	FCN(PDF& functor, IteratorData begin, IteratorData end) :
+		fPDF(functor),
 		fDataBegin(begin),
 		fDataEnd(end),
 		fCacheBegin(IteratorCache()),
@@ -109,7 +112,9 @@ public:
 		fCached(kFalse),
 		fFCNCache(std::unordered_map<size_t, GReal_t>())
 {
-		Weights init;
+		LoadFCNParameters();
+
+		Weights init=Weights();
 
 		Weights  result = thrust::transform_reduce(begin, end, UnaryWeights(),
 				init, BinaryWeights() );
@@ -121,7 +126,8 @@ public:
 
 }
 
-	FCN(IteratorData begin, IteratorData end, IteratorCache cbegin) :
+	FCN(PDF& functor, IteratorData begin, IteratorData end, IteratorCache cbegin) :
+		fPDF(functor),
 		fDataBegin(begin),
 		fDataEnd(end),
 		fCacheBegin(cbegin),
@@ -132,8 +138,9 @@ public:
 		fFCNCache(std::unordered_map<size_t, GReal_t>())
 	{
 		//typename IteratorData::value_type init;
+		LoadFCNParameters();
 
-		Weights init;
+		Weights init= Weights();
 
 		Weights  result = thrust::transform_reduce(begin, end, UnaryWeights(),
 				init, BinaryWeights() );
@@ -144,6 +151,7 @@ public:
 
 	FCN(FCN<estimator_type> const& other) :
 		ROOT::Minuit2::FCNBase(other),
+		fPDF(other.GetPDF()),
 		fDataBegin(other.GetDataBegin()),
 		fDataEnd(other.GetDataEnd()),
 		fCacheBegin(other.GetCacheBegin()),
@@ -153,13 +161,15 @@ public:
 		fCached(other.isCached()),
 		fFCNCache(other.GetFcnCache()),
 		fSumW(other.GetSumW()),
-		fSumW2(other.GetSumW2())
+		fSumW2(other.GetSumW2()),
+	    fUserParameters(other.GetParameters())
 	{}
 
 	FCN<estimator_type>&
 	operator=(FCN<estimator_type> const& other)
 	{
 		ROOT::Minuit2::FCNBase::operator = (other);
+		this->fPDF=other.GetPDF();
 		this->fDataBegin = other.GetDataBegin();
 		this->fDataEnd = other.GetDataEnd();
 		this->fCacheBegin = other.GetCacheBegin();
@@ -170,6 +180,8 @@ public:
 		this->fFCNCache = other.GetFcnCache();
 		this->fSumW = other.GetSumW();
 		this->fSumW2 = other.GetSumW2();
+		this->fUserParameters=other.GetParameters();
+
 		return *this;
 	}
 
@@ -195,6 +207,18 @@ public:
 
 		return fcn_value;
 
+	}
+
+	hydra::UserParameters& GetParameters()
+	{
+
+		return fUserParameters;
+	}
+
+	hydra::UserParameters const& GetParameters() const
+	{
+
+		return fUserParameters;
 	}
 
 	GBool_t isCached() const {
@@ -261,7 +285,17 @@ public:
 		return fFCNCache;
 	}
 
-private:
+	PDF& GetPDF() const {
+			return fPDF;
+	}
+
+	PDF& GetPDF()  {
+				return fPDF;
+		}
+
+
+
+protected:
 
 	GReal_t GetFCNValue(const std::vector<double>& parameters) const {
 
@@ -293,6 +327,14 @@ private:
 		return static_cast<const estimator_type*>(this)->Eval(parameters);
 	}
 
+	void LoadFCNParameters()
+	{
+		std::vector<hydra::Parameter*> temp;
+		fPDF.AddUserParameters(temp );
+		fUserParameters.SetVariables( temp);
+	}
+
+	PDF& fPDF;
 	IteratorData fDataBegin;
 	IteratorData fDataEnd;
 	IteratorCache fCacheBegin;
@@ -303,7 +345,7 @@ private:
 	GBool_t fWeighted;
 	GBool_t fCached;
 	mutable std::unordered_map<size_t, GReal_t> fFCNCache;
-
+	hydra::UserParameters fUserParameters ;
 };
 
 }  // namespace experimental

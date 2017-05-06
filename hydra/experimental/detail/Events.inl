@@ -407,6 +407,9 @@ size_t Events<N, BACKEND>::Unweight(size_t seed)
 
 template<size_t N, unsigned int BACKEND>
 void Events<N, BACKEND>::resize(size_t n){
+
+	fNEvents=n;
+
 #pragma unroll N
 		for (GInt_t d = 0; d < N; d++){
 			fDaughters[d].resize(fNEvents);

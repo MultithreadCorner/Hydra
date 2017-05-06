@@ -228,23 +228,12 @@ GInt_t main(int argv, char** argc)
 	unsigned int nthreads =  1;
 	TString title;
 
-	unsigned int steps =  10;
-	size_t delta_ncalls= calls/steps;
-
-	for(size_t nc=0; nc< steps+1; nc++ )
-	{
-		_ncalls= ncalls+nc*delta_ncalls;
-		state.SetCalls( calls );
-
-	}
-
-
 
 #if THRUST_DEVICE_SYSTEM==THRUST_DEVICE_SYSTEM_OMP
 	nthreads =  std::thread::hardware_concurrency();
 
-	TH1D Hist_Duration_Problem_Size("Hist_Duration_Problem_Size",
-			"Duration per number of samples",nthreads ,0, nthreads);
+	TH1D Hist_Duration_Per_Threads("Hist_Duration_Problem_Size",
+			"Duration per number of threads",nthreads ,0, nthreads);
 
 	if(nthreads){
 		cout<<"------------------------------------"<< nthreads <<endl;
@@ -299,7 +288,7 @@ GInt_t main(int argv, char** argc)
 					vegas.GetState().GetFunctionCallsDuration().size(), 0.0,
 					vegas.GetState().GetFunctionCallsDuration().size());
 
-	Hist_Duration_Problem_Size.SetBinContent(nt, elapsed_vegas.count());
+	Hist_Duration_Per_Threads.SetBinContent(nt, elapsed_vegas.count());
 
 	for(size_t i=1; i< Hist_Iterations_Results.GetNbinsX()+1; i++)
 	{
@@ -328,6 +317,31 @@ GInt_t main(int argv, char** argc)
 		cout<<"System does support or implement std::thread::hardware_concurrency" <<endl;
 	}
 #endif
+
+	unsigned int steps =  10;
+	size_t delta_ncalls= calls;
+
+	TH1D Hist_Duration_Problem_Size((TString("Hist_Duration_Problem_Size")).Data(),
+		    title+=";Iteration;Duration [ms]", steps, calls, steps*calls);
+
+	for(size_t nc=0; nc< steps; nc++ )
+	{
+		size_t _ncalls= calls+nc*delta_ncalls;
+		vegas.GetState().SetCalls( _ncalls );
+		auto start = std::chrono::high_resolution_clock::now();
+		vegas.Integrate(Gaussian);
+		auto end = std::chrono::high_resolution_clock::now();
+		std::chrono::duration<double, std::milli> elapsed_vegas = end - start;
+		cout << endl;
+		cout << ">>> [Vegas]: Gaussian<"<< N << ">" << " using "
+				<< std::thread::hardware_concurrency() << " OMP threads"
+				<< "Number of calls " << _ncalls<< endl;
+	  	cout << "Result: " << vegas.GetState().GetResult()
+									 << " +/- "    << vegas.GetState().GetSigma() <<std::endl
+									 << "Time (ms): "<< elapsed_vegas.count() <<std::endl;
+
+	  	Hist_Duration_Problem_Size.SetBinContent(nc+1, elapsed_vegas.count());
+	}
 
 
 
@@ -469,7 +483,22 @@ GInt_t main(int argv, char** argc)
 
 	}
 
-	TCanvas* canvas3 = new TCanvas(TString("canvas_time_per_ploblem_size"), "", 500, 500);
+
+#if THRUST_DEVICE_SYSTEM==THRUST_DEVICE_SYSTEM_OMP
+	TCanvas* canvas3 = new TCanvas(TString("canvas_time_per_number_of_threads"), "", 500, 500);
+	canvas3->SetGrid();
+	canvas3->SetTicks(1, 1);
+	Hist_Duration_Per_Threads.Draw("LP");
+	Hist_Duration_Per_Threads.SetLineWidth(2);
+	Hist_Duration_Per_Threads.SetLineColor(kBlue);
+	Hist_Duration_Per_Threads.SetMarkerSize(1);
+	Hist_Duration_Per_Threads.SetMarkerColor(kBlue);
+	Hist_Duration_Per_Threads.SetMarkerStyle(20);
+	Hist_Duration_Per_Threads.SetStats(0);
+	Hist_Duration_Per_Threads.GetYaxis()->SetTitleOffset(1.5);
+#endif
+
+	TCanvas* canvas4 = new TCanvas(TString("canvas_time_per_ploblem_size"), "", 500, 500);
 	canvas3->SetGrid();
 	canvas3->SetTicks(1, 1);
 	Hist_Duration_Problem_Size.Draw("LP");

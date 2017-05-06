@@ -66,7 +66,7 @@ public:
 	{ }
 
 	UserParameters( UserParameters const& other):
-		fMnState( new ROOT::Minuit2::MnUserParameters(*other.GetStatePtr())),
+		fMnState( new ROOT::Minuit2::MnUserParameters(*other.GetMnStatePtr())),
 		fVariables(other.GetVariables())
 	{	}
 
@@ -75,7 +75,7 @@ public:
 		if(this ==&other) return *this;
 
 		std::unique_ptr<ROOT::Minuit2::MnUserParameters>
-		temp(new ROOT::Minuit2::MnUserParameters(*other.GetStatePtr()));
+		temp(new ROOT::Minuit2::MnUserParameters(*other.GetMnStatePtr()));
 
 		this->fMnState.swap(temp) ;
 		this->fVariables = other.GetVariables();
@@ -83,7 +83,7 @@ public:
 	}
 
 
-	void AddParameter( hydra::Parameter* param )
+	void AddParameter( hydra::Parameter* param, GBool_t update_size=1 )
 	{
 		if(param->HasError() && param->IsLimited()){
 			fMnState->Add(param->GetName(), param->GetValue(),
@@ -100,9 +100,11 @@ public:
 
 		param->SetIndex( fMnState->Index( param->GetName()) );
 
-		fVariables.push_back(param);
+		if( update_size)fVariables.push_back(param);
 
 	}
+
+
 
 
 	void UpdateParameters(ROOT::Minuit2::FunctionMinimum const& minimum )
@@ -152,7 +154,7 @@ public:
 	}
 
 	void PrintMinuitParameters(){
-		std::cout<< this->GetState() << std::endl;
+		std::cout<< this->GetMnState() << std::endl;
 		return;
 	}
 
@@ -160,26 +162,32 @@ public:
 		return fVariables;
 	}
 
-	void SetVariables(const std::vector<hydra::Parameter*>& variables) {
+	void SetVariables(const std::vector<hydra::Parameter*>& variables)
+	{
 		fVariables = variables;
+		std::unique_ptr<ROOT::Minuit2::MnUserParameters>
+				temp(new ROOT::Minuit2::MnUserParameters());
+		this->fMnState.swap(temp) ;
+		for(size_t i=0; i < fVariables.size(); i++)
+			this->AddParameter( fVariables[i], 0);
 	}
 
-	const ROOT::Minuit2::MnUserParameters& GetState() const
+	const ROOT::Minuit2::MnUserParameters& GetMnState() const
 	{
 		return *fMnState;
 	}
 
-	ROOT::Minuit2::MnUserParameters& GetState()
+	ROOT::Minuit2::MnUserParameters& GetMnState()
 	{
 		return *fMnState;
 	}
 
-	const std::unique_ptr<ROOT::Minuit2::MnUserParameters>& GetStatePtr() const
+	const std::unique_ptr<ROOT::Minuit2::MnUserParameters>& GetMnStatePtr() const
 	{
 		return fMnState;
 	}
 
-	void SetState( ROOT::Minuit2::MnUserParameters const& state)
+	void SetMnState( ROOT::Minuit2::MnUserParameters const& state)
 	{
 		std::unique_ptr<ROOT::Minuit2::MnUserParameters>
 		temp(new ROOT::Minuit2::MnUserParameters(state ));
@@ -198,7 +206,7 @@ private:
 __host__
 std::ostream& operator<<(std::ostream& os, UserParameters const& par){
 
-	return os << par.GetState() ;
+	return os << par.GetMnState() ;
 }
 
 

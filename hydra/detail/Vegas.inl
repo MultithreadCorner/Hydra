@@ -35,13 +35,20 @@
 #ifndef VEGAS_INL_
 #define VEGAS_INL_
 
-#include "boost/format.hpp"
+#include <hydra/detail/Config.h>
+#include <hydra/Containers.h>
+#include <hydra/Types.h>
 #include <hydra/VegasState.h>
+#include <hydra/detail/utility/StreamSTL.h>
 #include <hydra/detail/functors/ProcessCallsVegas.h>
+
+//std
 #include <chrono>
 #include <iostream>
+#include <cstdio>
 #include <utility>
 
+//thrust
 #include <thrust/transform_reduce.h>
 #include <thrust/sort.h>
 
@@ -269,7 +276,8 @@ Vegas<N,BACKEND, GRND >::IntegIterator(FUNCTOR const& fFunctor, GBool_t training
 		if (fState.GetVerbose() > 1) {
 			PrintDistribution();
 		}
-		//if (it <= 2)
+
+		if(!training && !fState.IsTrainedGridFrozen() )
 		 RefineGrid();
 
 		if (fState.GetVerbose() > 1) {
@@ -283,11 +291,13 @@ Vegas<N,BACKEND, GRND >::IntegIterator(FUNCTOR const& fFunctor, GBool_t training
 
 		fState.SetResult(intgrl);
 		fState.SetSigma(sig);
-		fState.StoreIterationResult(intgrl, sig);
-		fState.StoreCumulatedResult(cum_int, cum_sig);
-		fState.StoreIterationDuration( elapsed.count() );
-		fState.StoreFunctionCallsDuration( elapsed_fc.count() );
-
+		if(!training)
+		{
+			fState.StoreIterationResult(intgrl, sig);
+			fState.StoreCumulatedResult(cum_int, cum_sig);
+			fState.StoreIterationDuration( elapsed.count() );
+			fState.StoreFunctionCallsDuration( elapsed_fc.count() );
+		}
 		//if(it >=fState.GetTrainingIterations())
 		if(!training && it > 1)
 		{
@@ -315,10 +325,16 @@ Vegas<N,BACKEND, GRND >::IntegIterator(FUNCTOR const& fFunctor, GBool_t training
 template< size_t N , unsigned int BACKEND, typename GRND>
 void Vegas< N ,BACKEND, GRND>::PrintLimits()  {
 
+	//PrintToStream(fState.GetOStream(),, ... );
 
-	fState.GetOStream() << boost::format("The limits of Int_tegration are:\n");
+	PrintToStream(fState.GetOStream(), "The limits of Integration are:\n" );
 	for (size_t j = 0; j < N; ++j)
-		fState.GetOStream() <<  boost::format("\nxl[%lu]=%f    xu[%lu]=%f") % j % fState.GetXLow()[j] % j % fState.GetXUp()[j] ;
+		PrintToStream(fState.GetOStream(), "\nxl[%lu]=%f    xu[%lu]=%f", j, fState.GetXLow()[j], j, fState.GetXUp()[j] );
+
+	//fState.GetOStream() << boost::format("The limits of Int_tegration are:\n");
+	//for (size_t j = 0; j < N; ++j)
+	//	fState.GetOStream() <<  boost::format("\nxl[%lu]=%f    xu[%lu]=%f") % j % fState.GetXLow()[j] % j % fState.GetXUp()[j] ;
+
 	fState.GetOStream() << std::endl;
 
 
@@ -327,16 +343,31 @@ void Vegas< N ,BACKEND, GRND>::PrintLimits()  {
 template< size_t N , unsigned int BACKEND, typename GRND>
 void Vegas< N ,BACKEND, GRND>::PrintHead()  {
 
-	fState.GetOStream() << boost::format("\nnum_dim=%lu, calls=%lu, it_num=%d, max_it_num=%d ") % N
-				% fState.GetCalls() % fState.GetItNum() % fState.GetIterations() << std::endl;
+	PrintToStream(fState.GetOStream(),
+			"\nnum_dim=%lu, calls=%lu, it_num=%d, max_it_num=%d ",
+			N, fState.GetCalls(), fState.GetItNum(), fState.GetIterations() );
 
-	fState.GetOStream() <<  boost::format("verb=%d, alph=%.2f,\nmode=%d, bins=%d, boxes=%d\n")
-			% fState.fVerbose % fState.GetAlpha() % fState.GetMode()
-			% fState.GetNBins() % fState.GetNBoxes() << std::endl;
 
-	fState.GetOStream() << boost::format("\n            |-------  single iteration  -------|       |------  accumulated results  ------|  \n")<< std::endl;
+	PrintToStream(fState.GetOStream(),
+			"verb=%d, alph=%.2f,\nmode=%d, bins=%d, boxes=%d\n" ,
+			fState.GetVerbose(), fState.GetAlpha(), fState.GetMode(), fState.GetNBins(), fState.GetNBoxes() );
 
-	fState.GetOStream() << boost::format("iteration          Integral          Sigma                    Integral        Sigma            chi-sq/it     duration (ms)/it\n\n") << std::endl;
+	PrintToStream(fState.GetOStream(),
+			"\n            |-------  single iteration  -------|       |------  accumulated results  ------|  \n");
+
+	PrintToStream(fState.GetOStream(),
+			"iteration          Integral          Sigma                    Integral        Sigma            chi-sq/it     duration (ms)/it\n\n");
+
+			//fState.GetOStream() << boost::format("\nnum_dim=%lu, calls=%lu, it_num=%d, max_it_num=%d ") % N
+		//		% fState.GetCalls() % fState.GetItNum() % fState.GetIterations() << std::endl;
+
+	//fState.GetOStream() <<  boost::format("verb=%d, alph=%.2f,\nmode=%d, bins=%d, boxes=%d\n")
+	//		% fState.fVerbose % fState.GetAlpha() % fState.GetMode()
+	//		% fState.GetNBins() % fState.GetNBoxes() << std::endl;
+
+	//fState.GetOStream() << boost::format("\n            |-------  single iteration  -------|       |------  accumulated results  ------|  \n")<< std::endl;
+
+	//fState.GetOStream() << boost::format("iteration          Integral          Sigma                    Integral        Sigma            chi-sq/it     duration (ms)/it\n\n") << std::endl;
 
 
 }
@@ -345,9 +376,15 @@ template< size_t N, unsigned int BACKEND , typename GRND>
 void Vegas<  N ,BACKEND, GRND>::PrintResults(GReal_t integral, GReal_t sigma,
 		GReal_t cumulated_integral, GReal_t cumulated_sigma, GReal_t time)  {
 
+	PrintToStream(fState.GetOStream(),
+			"%4d           %6.4e          %10.4e              %6.4e           %10.4e           %10.4e        %10.4e ms\n",
+			fState.GetItNum(), integral, sigma, cumulated_integral, cumulated_sigma, fState.GetChiSquare(), time);
+
+	/*
 	fState.GetOStream() << boost::format( "%4d           %6.4e          %10.4e              %6.4e           %10.4e           %10.4e        %10.4e ms\n")
 			% fState.GetItNum() % integral % sigma % cumulated_integral
 			% cumulated_sigma % fState.GetChiSquare() % time ;
+			*/
 
 
 }
@@ -362,13 +399,19 @@ void Vegas< N ,BACKEND, GRND>::PrintDistribution()   {
 		return;*/
 
 	for (j = 0; j < N; ++j) {
+		PrintToStream(fState.GetOStream(),"\n axis %lu \n", j);
+		PrintToStream(fState.GetOStream(),"      x   g\n");
 
-		fState.GetOStream() << boost::format("\n axis %lu \n") % j ;
-		fState.GetOStream() << boost::format("      x   g\n");
+		//fState.GetOStream() << boost::format("\n axis %lu \n") % j ;
+		//fState.GetOStream() << boost::format("      x   g\n");
+
 		for (i = 0; i < fState.GetNBins(); i++) {
-			fState.GetOStream() << boost::format("weight [%11.2e , %11.2e] = ")
-								% GetCoordinate(i, j) % GetCoordinate(i + 1, j);
-			fState.GetOStream() << boost::format(" %11.2e\n") % GetDistributionValue(i, j);
+			PrintToStream(fState.GetOStream(),"weight [%11.2e , %11.2e] = ", GetCoordinate(i, j) , GetCoordinate(i + 1, j));
+			PrintToStream(fState.GetOStream()," %11.2e\n", GetDistributionValue(i, j));
+
+			//fState.GetOStream() << boost::format("weight [%11.2e , %11.2e] = ")
+				//				% GetCoordinate(i, j) % GetCoordinate(i + 1, j);
+			//fState.GetOStream() << boost::format(" %11.2e\n") % GetDistributionValue(i, j);
 		}
 		fState.GetOStream() << std::endl ;
 	}
@@ -384,10 +427,13 @@ void Vegas< N ,BACKEND, GRND>::PrintGrid()   {
 		return;*/
 
 	for (size_t j = 0; j < N; ++j) {
-	fState.GetOStream() << boost::format("\n axis %lu \n") % j ;
+		PrintToStream(fState.GetOStream(),"\n axis %lu \n", j);
+
+	//fState.GetOStream() << boost::format("\n axis %lu \n") % j ;
 	fState.GetOStream() << "      x   \n";
 	for (size_t i = 0; i <= fState.GetNBins(); i++) {
-		fState.GetOStream() << boost::format("%11.2e") % GetCoordinate(i, j);
+		PrintToStream(fState.GetOStream(), "%11.2e", GetCoordinate(i, j));
+		//fState.GetOStream() << boost::format("%11.2e") % GetCoordinate(i, j);
 		if (i % 5 == 4) fState.GetOStream() << std::endl;
 	}
 	fState.GetOStream() << std::endl;
@@ -520,7 +566,8 @@ void Vegas<  N,BACKEND, GRND >::RefineGrid() {
 				tot_weight += fState.GetWeight()[i];
 
 	#ifdef DEBUG
-				fState.GetOStream() << ("weight[%d] = %g\n") % i % fState.GetWeight()[i] ;
+				PrintToStream(fState.GetOStream(),"weight[%d] = %g\n",i ,fState.GetWeight()[i]) ;
+				//fState.GetOStream() << ("weight[%d] = %g\n") % i % fState.GetWeight()[i] ;
 	#endif
 			}
 
@@ -570,7 +617,7 @@ void Vegas<N,BACKEND, GRND>::ProcessFuncionCalls(FUNCTOR const& fFunctor, GBool_
 	fState.CopyStateToDevice();
 
 
-	detail::ResultVegas init;
+	detail::ResultVegas init = detail::ResultVegas();
 	detail::ResultVegas result = thrust::transform_reduce(system_t(), first, last,
 			detail::ProcessCallsVegas<FUNCTOR,N, BACKEND ,rvector_iterator,
 			uvector_iterator , GRND>(ncalls, fState, fGlobalBinInput.begin(),fFValInput.begin(), fFunctor)

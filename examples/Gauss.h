@@ -150,7 +150,7 @@ struct GaussAnalyticIntegral: public Integrator<GaussAnalyticIntegral>
 
 private:
 
-	inline GReal_t cumulative(const GReal_t mean, const GReal_t sigma, const GReal_t x) const
+	inline GReal_t cumulative( GReal_t mean,  GReal_t sigma,  GReal_t x) const
 	{
 		return 0.5*(1.0 + erf( (x-mean)/( sigma*sqrt(2) ) ) );
 	}

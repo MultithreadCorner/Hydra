@@ -41,6 +41,8 @@
 #include <hydra/Parameter.h>
 #include <hydra/detail/utility/Utility_Tuple.h>
 #include <hydra/detail/FunctorTraits.h>
+#include <hydra/UserParameters.h>
+
 #include <thrust/iterator/detail/tuple_of_iterator_references.h>
 #include <thrust/iterator/zip_iterator.h>
 #include <thrust/tuple.h>
@@ -125,6 +127,7 @@ struct Pdf:detail::PdfBase<FUNCTOR, INTEGRATOR>
 		//fFunctor.SetNorm(1.0/fNorm);
 	}
 
+	~Pdf(){};
 
 	inline Pdf<FUNCTOR,INTEGRATOR>&
 	operator=(Pdf<FUNCTOR, INTEGRATOR> const & other )
@@ -149,7 +152,12 @@ struct Pdf:detail::PdfBase<FUNCTOR, INTEGRATOR>
 		return *this;
 	}
 
-	~Pdf(){}
+
+	inline	void AddUserParameters(std::vector<hydra::Parameter*>& user_parameters )
+		{
+		fFunctor.AddUserParameters(user_parameters );
+		}
+
 
 	inline	void PrintRegisteredParameters()
 	{

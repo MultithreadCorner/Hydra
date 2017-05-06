@@ -47,10 +47,26 @@
 #include <thrust/sequence.h>
 #include <thrust/tuple.h>
 #include <thrust/transform.h>
+#include <thrust/transform_reduce.h>
 
 namespace hydra {
 namespace experimental {
 	namespace detail {
+
+	template<size_t N, unsigned int BACKEND, typename FUNCTOR, typename GRND, typename Iterator>
+		__host__ inline
+		void launch_evaluator(Iterator begin, Iterator end,
+				hydra::detail::EvalOnDaughters<N, BACKEND, FUNCTOR, GRND> const& evaluator)
+		{
+
+		ResultPHSP init = ResultPHSP();
+
+		thrust::transform_reduce(begin, end, evaluator, init,
+					hydra::detail::EvalOnDaughtersBinary() );
+
+
+			return;
+		}
 
 
 	template<size_t N, unsigned int BACKEND, typename GRND, typename Iterator>

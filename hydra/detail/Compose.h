@@ -84,6 +84,11 @@ struct  Compose
 			return *this;
 		}
 
+		__host__ inline
+		void AddUserParameters(std::vector<hydra::Parameter*>& user_parameters )
+		{
+			detail::add_parameters_in_tuple(user_parameters, fFtorTuple );
+		}
 
 
 		__host__ inline
