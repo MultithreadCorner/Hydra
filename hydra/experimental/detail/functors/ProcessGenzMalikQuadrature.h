@@ -114,34 +114,19 @@ struct ProcessGenzMalikUnaryCall
 	__host__ __device__
 	inline data_type operator()(T& rule_abscissa)
 	{
-<<<<<<< HEAD
-		GenzMalikBoxResult<N> box_result;
-/*
-		GReal_t w5          = thrust::get<0>(rule_abscissa);
-		GReal_t w7          = thrust::get<1>(rule_abscissa);
-		GChar_t w_four_diff = thrust::get<3>(rule_abscissa);
-=======
 
->>>>>>> 5f693f435d718b82733f46de05e617dc19698fb0
 		GChar_t index       = thrust::get<4>(rule_abscissa);
 
 		abscissa_t args;
 		get_transformed_abscissa( rule_abscissa, args  );
 
-<<<<<<< HEAD
 
-		GReal_t fval          = fFunctor(args);
-		box_result.fRule7     = fval*w7;
-		box_result.fRule5     = fval*w5;	*/
-		//GReal_t fourdiff      = fval*w_four_diff;
-=======
 		GReal_t _temp[N+2];
 		GReal_t fval  = fFunctor(args);
 		_temp[0]      = fval*thrust::get<1>(rule_abscissa);//w7;
 		_temp[1]      = fval*thrust::get<0>(rule_abscissa);//w5;
 
 		GReal_t fourdiff      = fval*thrust::get<3>(rule_abscissa);//w_four_diff;
->>>>>>> 5f693f435d718b82733f46de05e617dc19698fb0
 
 		(index==N) ? set_four_difference_central(fourdiff,  &_temp[2] ):0;
 		(index>=0)&(index<N) ? set_four_difference_unilateral(index,fourdiff,  &_temp[2] ):0;

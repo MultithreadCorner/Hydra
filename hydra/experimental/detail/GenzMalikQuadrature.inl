@@ -146,19 +146,6 @@ template<typename FUNCTOR>
 std::pair<GReal_t, GReal_t> GenzMalikQuadrature<N,BACKEND>::Integrate(FUNCTOR const& functor)
 {
 
-<<<<<<< HEAD
-	/*
-
-	thrust::for_each(fBoxList.begin(), fBoxList.end(),
-			detail::ProcessGenzMalikBox<N, FUNCTOR,const_rule_iterator>(functor,
-					fGenzMalikRule.GetAbscissas().begin(),
-					fGenzMalikRule.GetAbscissas().end()));*/
-
-	for( auto& box: fBoxList)
-		detail::ProcessGenzMalikBox<N, FUNCTOR,const_rule_iterator>(functor,
-							fGenzMalikRule.GetAbscissas().begin(),
-							fGenzMalikRule.GetAbscissas().end())(box);
-=======
 /*
 #if THRUST_DEVICE_SYSTEM==THRUST_DEVICE_SYSTEM_CUDA
 
@@ -199,7 +186,6 @@ std::pair<GReal_t, GReal_t> GenzMalikQuadrature<N,BACKEND>::Integrate(FUNCTOR co
 //#endif
 
 	GReal_t integral=0;
->>>>>>> 5f693f435d718b82733f46de05e617dc19698fb0
 
 	GReal_t    error=0;
 
