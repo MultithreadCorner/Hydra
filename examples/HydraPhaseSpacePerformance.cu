@@ -32,6 +32,12 @@
 #include <vector>
 #include <array>
 #include <chrono>
+
+//OpenMP
+#if THRUST_DEVICE_SYSTEM==THRUST_DEVICE_SYSTEM_OMP
+#include <omp.h>
+#include <thread>
+#endif
 //command line
 #include <tclap/CmdLine.h>
 
@@ -136,6 +142,17 @@ GInt_t main(int argv, char** argc)
 				  << std::endl;
 	}
 
+	TString backend;
+
+#if THRUST_HOST_SYSTEM==THRUST_HOST_SYSTEM_OMP
+	backend =TString("OpenMP");
+#elif THRUST_HOST_SYSTEM==THRUST_HOST_SYSTEM_TBB
+	backend =TString("TBB");
+#elif THRUST_HOST_SYSTEM==THRUST_HOST_SYSTEM_CPP
+	backend =TString("CPP");
+#else
+	backend =TString("?");
+#endif
 
 	hydra::experimental::Vector4R P(mother_mass, 0.0, 0.0, 0.0);
 	GReal_t masses[3]{daughter1_mass, daughter2_mass, daughter3_mass };
@@ -198,7 +215,7 @@ GInt_t main(int argv, char** argc)
 
 		//time
 		std::cout << "-----------------------------------------"<<std::endl;
-		std::cout << "| CUDA P -> A B C                       |"<<std::endl;
+		std::cout << "| OpenMP - TBB P -> A B C                       |"<<std::endl;
 		std::cout << "-----------------------------------------"<<std::endl;
 		for( GUInt_t i=1; i<npoints+1 ; i++ )
 		{
@@ -229,6 +246,7 @@ GInt_t main(int argv, char** argc)
 
 	} //end host section
 
+
 	TH1D 	*SpeedUp = new TH1D("SpeedUp", ";Number of events;Speed-up GPU vs CPU", npoints , nentries_start, nentries_start  + npoints*nentries_delta );
 
 	for( size_t j=1;  j < npoints+1 ; j++ )
@@ -236,6 +254,46 @@ GInt_t main(int argv, char** argc)
 		SpeedUp->SetBinContent(j,
 				HostTiming->GetBinContent(j)/DeviceTiming->GetBinContent(j) );
 	}
+
+#if THRUST_HOST_SYSTEM==THRUST_HOST_SYSTEM_OMP
+	unsigned int  nthreads =  std::thread::hardware_concurrency() ;
+
+		TH1D 	*HostOpenMPTiming = new TH1D( "HostOpenMPTiming",
+				";Number of OpenMP threads;Duration [ms]" ,  nthreads,  1,  nthreads+1);
+
+	{
+
+		omp_set_dynamic(0); //disable dynamic teams
+
+		hydra::experimental::Events<3, host> P2ABC_Events_h( nentries_start );
+
+		for(unsigned int nt=1; nt<nthreads+1; nt++)
+		{
+			omp_set_num_threads(nt);
+
+			auto start = std::chrono::high_resolution_clock::now();
+
+			P2ABC_PHSP.Generate(P, P2ABC_Events_h.begin(), P2ABC_Events_h.end());
+
+			auto end = std::chrono::high_resolution_clock::now();
+
+			std::chrono::duration<double, std::milli> elapsed = end - start;
+
+			double time = elapsed.count();
+
+			std::cout << std::endl
+					<<"|>> Number of threads "<< nt
+					<<" duration (ms) "               << time
+					<< std::endl;
+
+			for( size_t j=0; j<10; j++ ){
+				cout << P2ABC_Events_h[j] << endl;
+			}
+
+			HostOpenMPTiming->SetBinContent(nt, time);
+		}
+	}
+#endif
 
 	TApplication* myapp=new TApplication("myapp",0,0);
 
@@ -299,16 +357,38 @@ GInt_t main(int argv, char** argc)
 	SpeedUp->Draw("Y+][sames");
 	Canvas_PHSP_SpeedUp->Update();
 
-	TLegend* legend = new TLegend(0.65,0.15,0.85,0.35);
+	TLegend* legend = new TLegend(0.65,0.15,0.85,0.30);
 	legend->AddEntry(DeviceTiming,"GPU","lp");
 	legend->AddEntry(HostTiming, "CPU","lp");
 	legend->AddEntry(SpeedUp,"speed-up","lp");
 
 	legend->Draw();
 
-	Canvas_PHSP_SpeedUp->Print("plots/PHSP_SpeedUp.png");
-	Canvas_PHSP_SpeedUp->Print("plots/PHSP_SpeedUp.pdf");
+	Canvas_PHSP_SpeedUp->Print(TString::Format("plots/PHSP_GPU_vs_%s_SpeedUp.png", backend.Data() ));
+	Canvas_PHSP_SpeedUp->Print(TString::Format("plots/PHSP_GPU_vs_%s_SpeedUp.pdf", backend.Data() ));
+	Canvas_PHSP_SpeedUp->Print(TString::Format("plots/PHSP_GPU_vs_%s_SpeedUp.C", backend.Data() ));
 
+
+#if THRUST_HOST_SYSTEM==THRUST_HOST_SYSTEM_OMP
+
+	TCanvas* Canvas_PHSP_OpenMP = new TCanvas("Canvas_PHSP_OpenMP", "", 500, 500);
+	HostOpenMPTiming->SetMarkerStyle(20);
+	HostOpenMPTiming->SetMarkerColor(kRed);
+	HostOpenMPTiming->SetLineColor(kRed);
+	HostOpenMPTiming->SetLineWidth(2);
+	HostOpenMPTiming->SetFillStyle(0);
+	HostOpenMPTiming->GetXaxis()->CenterLabels();
+	HostOpenMPTiming->GetYaxis()->SetTitleOffset(1.4);
+	HostOpenMPTiming->SetStats(0);
+	//HostOpenMPTiming->SetMinimum( 0.5*DeviceTiming->GetMinimum());
+	HostOpenMPTiming->Draw("LP");
+
+	Canvas_PHSP_OpenMP->Print(TString::Format("plots/PHSP_%s_Thread_SpeedUp.png", backend.Data() ));
+	Canvas_PHSP_OpenMP->Print(TString::Format("plots/PHSP_%s_Thread_SpeedUp.pdf", backend.Data() ));
+	Canvas_PHSP_OpenMP->Print(TString::Format("plots/PHSP_%s_Thread_SpeedUp.C", backend.Data() ));
+
+
+#endif
 myapp->Run();
 
     return 0;
