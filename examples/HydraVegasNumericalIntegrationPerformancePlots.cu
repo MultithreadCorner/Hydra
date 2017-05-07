@@ -64,7 +64,6 @@
 #include <TApplication.h>
 #include <TCanvas.h>
 #include <TString.h>
-#include <TRatioPlot.h>
 #include <TLegend.h>
 
 
