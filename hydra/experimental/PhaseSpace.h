@@ -56,7 +56,7 @@
 #include <hydra/experimental/Events.h>
 #include <hydra/experimental/detail/functors/DecayMother.h>
 #include <hydra/experimental/detail/functors/DecayMothers.h>
-#include <hydra/experimental/detail/functors/EvalOnDaughters.>
+#include <hydra/experimental/detail/functors/EvalDaughters.h>
 #include <hydra/detail/functors/FlagAcceptReject.h>
 #include <hydra/detail/functors/IsAccepted.h>
 #include <hydra/detail/utility/Generic.h>
@@ -119,7 +119,9 @@ public:
 #if(THRUST_DEVICE_SYSTEM==THRUST_DEVICE_BACKEND_CUDA && (BACKEND==device))
 	cudaDeviceSetCacheConfig(cudaFuncCachePreferL1);
 #endif
-		detail::EvalOnDaughters<N,hydra::detail::IteratorTraits<Iterator>::type::backend,GRND>
+
+
+		detail::EvalOnDaughters<N,FUNCTOR,GRND>
 		evaluator(functor, mother,fMasses, fSeed);
 
 		thrust::counting_iterator<GLong_t> first(0);

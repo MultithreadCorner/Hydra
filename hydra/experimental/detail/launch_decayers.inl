@@ -54,24 +54,21 @@ namespace experimental {
 	namespace detail {
 
 	template<size_t N, unsigned int BACKEND, typename FUNCTOR, typename GRND, typename Iterator>
-		__host__ inline
-		void launch_evaluator(Iterator begin, Iterator end,
-				hydra::detail::EvalOnDaughters<N, BACKEND, FUNCTOR, GRND> const& evaluator)
+	inline ResultPHSP	 launch_evaluator(Iterator begin, Iterator end,	detail::EvalOnDaughters<N,FUNCTOR, GRND> const& evaluator)
 		{
+		typedef hydra::detail::BackendTraits<BACKEND> system_t;
 
 		ResultPHSP init = ResultPHSP();
 
-		thrust::transform_reduce(begin, end, evaluator, init,
-					hydra::detail::EvalOnDaughtersBinary() );
+		ResultPHSP result = 	thrust::transform_reduce(system_t() , begin, end, evaluator, init,detail::EvalOnDaughtersBinary() );
 
 
-			return;
+			return result;
 		}
 
 
 	template<size_t N, unsigned int BACKEND, typename GRND, typename Iterator>
-	__host__ inline
-	void launch_decayer(Iterator begin, Iterator end, DecayMother<N, BACKEND, GRND> const& decayer)
+    inline void launch_decayer(Iterator begin, Iterator end, DecayMother<N, BACKEND, GRND> const& decayer)
 	{
 
 		size_t nevents = thrust::distance(begin, end);

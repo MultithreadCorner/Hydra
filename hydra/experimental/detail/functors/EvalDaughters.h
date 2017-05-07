@@ -75,7 +75,7 @@ struct EvalOnDaughtersBinary
 
 
     __host__ __device__ inline
-    ResultVegas operator()(ResultPHSP const& x, ResultPHSP const& y)
+    ResultPHSP operator()(ResultPHSP const& x, ResultPHSP const& y)
     {
     	ResultPHSP result;
 
@@ -86,20 +86,20 @@ struct EvalOnDaughtersBinary
 
         result.fW   = w;
 
-        result.fMean = (x.fMean*x.fW + y.fMean*y.fW)/n;
+        result.fMean = (x.fMean*x.fW + y.fMean*y.fW)/w;
         result.fM2   = x.fM2   +  y.fM2;
-        result.fM2  += delta2 * x.fW * y.fW / n;
+        result.fM2  += delta2 * x.fW * y.fW / w;
 
         return result;
     }
 
 };
 
-template <size_t N, unsigned int BACKEND, typename FUNCTOR, typename GRND>
+template <size_t N,  typename FUNCTOR, typename GRND>
 struct EvalOnDaughters
 {
-	typedef hydra::detail::BackendTraits<BACKEND> system_t;
-	typedef typename system_t::template container<GReal_t>  vector_real;
+	//typedef hydra::detail::BackendTraits<BACKEND> system_t;
+	//typedef typename system_t::template container<GReal_t>  vector_real;
 
 	const GInt_t fSeed;
 
@@ -162,7 +162,7 @@ struct EvalOnDaughters
 	}
 
 	__host__ __device__
-	EvalOnDaughters( EvalOnDaughters<N, BACKEND, GRND> const& other ):
+	EvalOnDaughters( EvalOnDaughters<N, FUNCTOR, GRND> const& other ):
 	fSeed(other.fSeed ),
 	fTeCmTm(other.fTeCmTm ),
 	fWtMax(other.fWtMax ),
