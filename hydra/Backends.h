@@ -31,35 +31,52 @@
 
 #include <thrust/detail/type_traits.h>
 #include <thrust/execution_policy.h>
-#include <thrust/system/cuda/execution_policy.h>
-#include <thrust/system/cpp/execution_policy.h>
-#include <thrust/system/omp/execution_policy.h>
-#include <thrust/system/tbb/execution_policy.h>
+
+#if _ENABLE_TBB
+#include <thrust/system/tbb/detail/par.h>
+#endif
+
+#if _ENABLE_OMP
+#include <thrust/system/omp/detail/par.h>
+#endif
+
+#if _ENABLE_CPP
+#include <thrust/system/cpp/detail/par.h>
+#endif
+
+#if _ENABLE_CUDA
+#include <thrust/system/cuda/detail/par.h>
+#endif
 
 namespace hydra {
 
-//namespace experimental {
+#if _ENABLE_CPP
+ typedef thrust::system::cpp::detail::par_t   CPP;
+ static const CPP    _cpp;
+#endif
 
-//namespace detail {
+#if _ENABLE_CUDA
+ 	typedef thrust::system::cuda::detail::par_t CUDA;
+ 	static const CUDA   _cuda;
+#endif
 
-typedef thrust::system::cuda::detail::par_t CUDA;
-typedef thrust::system::cpp::detail::par_t   CPP;
-typedef thrust::system::omp::detail::par_t   OMP;
-typedef thrust::system::tbb::detail::par_t   TBB;
+#if _ENABLE_OMP
+	typedef thrust::system::omp::detail::par_t   OMP;
+	static const OMP    _omp;
+#endif
+
+#if _ENABLE_TBB
+	typedef thrust::system::tbb::detail::par_t   TBB;
+	static const TBB    _tbb;
+#endif
+
+
 typedef thrust::detail::device_t		  DEVICE;
 typedef thrust::detail::host_t	            HOST;
-
-//}  // namespace detail
-
-
-static const CUDA   _cuda;
-static const CPP    _cpp;
-static const OMP    _omp;
-static const TBB    _tbb;
 static const DEVICE _device;
 static const HOST   _host;
 
-//}  // namespace experimental
+
 
 }  // namespace hydra
 

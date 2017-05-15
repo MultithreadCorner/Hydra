@@ -25,6 +25,7 @@
  *      Author: Antonio Augusto Alves Junior
  */
 
+#define HYDRA_USING_OMP
 
 #include <iostream>
 #include <assert.h>
@@ -59,10 +60,12 @@
 #include <TStyle.h>
 
 #include <thrust/system/omp/vector.h>
+#include <thrust/iterator/iterator_traits.h>
+
+
 
 using namespace std;
 using namespace hydra;
-
 
 
 GInt_t main(int argv, char** argc)
@@ -224,6 +227,11 @@ GInt_t main(int argv, char** argc)
 
 
    auto result = phsp_P.AverageOn(_host, P , Mass, 10000);
+
+   typedef typename thrust::system::omp::vector<t>::iterator my_iterator;
+   typedef typename thrust::iterator_system<my_iterator>::type my_system;
+   typedef my_system::SHOW_TYPE X;
+
 
 /*
 	for(auto row:chain ){

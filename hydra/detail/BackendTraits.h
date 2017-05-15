@@ -34,10 +34,22 @@
 #include <hydra/Containers.h>
 #include <hydra/Backends.h>
 
-#include <thrust/system/cuda/vector.h>
-#include <thrust/system/omp/vector.h>
+#if _ENABLE_TBB
 #include <thrust/system/tbb/vector.h>
+#endif
+
+#if  _ENABLE_OMP
+#include <thrust/system/omp/vector.h>
+#endif
+
+#if _ENABLE_CPP
 #include <thrust/system/cpp/vector.h>
+#endif
+
+#if _ENABLE_CUDA
+#include <thrust/system/cuda/vector.h>
+#endif
+
 
 namespace hydra {
 
@@ -49,22 +61,7 @@ namespace detail {
 template<typename BACKEND>
 struct BackendTraits;
 
-template<>
-struct BackendTraits<CUDA>: thrust::execution_policy<CUDA>
-{
-	const  CUDA backend= _cuda;
-	template<typename T>
-	using   container = thrust::cuda::vector<T> ;
-};
-
-template<>
-struct BackendTraits<OMP>: thrust::execution_policy<OMP>
-{
-	const OMP backend= _omp;
-	template<typename T>
-	using   container = thrust::omp::vector<T> ;
-};
-
+#if _ENABLE_TBB
 template<>
 struct BackendTraits<TBB>: thrust::execution_policy<TBB>
 {
@@ -73,13 +70,43 @@ struct BackendTraits<TBB>: thrust::execution_policy<TBB>
 	using   container = thrust::tbb::vector<T> ;
 };
 
+#endif
+
+#if  _ENABLE_OMP
 template<>
-struct BackendTraits<CPP>: thrust::execution_policy<CPP>
+struct BackendTraits<hydra::OMP>: thrust::execution_policy<hydra::OMP>
+{
+	const OMP backend= _omp;
+	template<typename T>
+	using   container = thrust::omp::vector<T> ;
+};
+#endif
+
+#if _ENABLE_CPP
+template<>
+struct BackendTraits<hydra::CPP>: thrust::execution_policy<hydra::CPP>
 {
 	const CPP backend= _cpp;
 	template<typename T>
 	using   container = thrust::cpp::vector<T> ;
 };
+#endif
+
+#if _ENABLE_CUDA
+template<>
+struct BackendTraits<CUDA>: thrust::execution_policy<CUDA>
+{
+	const  CUDA backend= _cuda;
+	template<typename T>
+	using   container = thrust::cuda::vector<T> ;
+};
+#endif
+
+
+
+
+
+
 
 /*
 template<>
