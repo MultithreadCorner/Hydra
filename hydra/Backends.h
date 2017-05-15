@@ -29,6 +29,7 @@
 #ifndef BACKENDS_H_
 #define BACKENDS_H_
 
+#include <hydra/detail/Config.h>
 #include <thrust/detail/type_traits.h>
 #include <thrust/execution_policy.h>
 

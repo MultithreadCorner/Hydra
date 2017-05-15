@@ -85,9 +85,9 @@
 #endif
 
 #if defined(HYDRA_USING_OMP)  || THRUST_HOST_SYSTEM == THRUST_HOST_OMP || THRUST_DEVICE_SYSTEM == THRUST_DEVICE_OMP
- #define _USING_OMP 1
+ #define _ENABLE_OMP 1
 #else
- #define _USING_OMP 1
+ #define _ENABLE_OMP 0
 #endif
 
 
