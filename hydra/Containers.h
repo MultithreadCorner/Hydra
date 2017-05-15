@@ -48,48 +48,12 @@
 #include <hydra/Vector3R.h>
 #include <hydra/Vector4R.h>
 
-#include <thrust/device_vector.h>
-#include <thrust/host_vector.h>
 #include <thrust/complex.h>
 
-
-
+#include <hydra/detail/Containers.inl>
 
 namespace hydra
 {
-
-
-#if THRUST_DEVICE_SYSTEM==THRUST_DEVICE_SYSTEM_CUDA
-	/*!
-	 * Generic template typedef for thrust::host_vector. Use it instead of Thrust implementation
-	 * in order to avoid problems to compile OpenMP based applications using gcc and without a cuda runtime installation.
-	 */
-	template <typename T>
-		using  mc_device_vector = thrust::device_vector<T>;
-	/*!
-	 * Generic template typedef for thrust::host_vector. Use it instead of Thrust implementation
-	 * in order to avoid problems to compile OpenMP based applications using gcc and without a cuda runtime installation.
-	 * mc_host_vectot will always allocate page locked memory on CUDA backends in order to maximize speed in memory transfers
-	 * to the device.
-	 */
-	template <typename T>
-		using  mc_host_vector = thrust::host_vector<T, thrust::system::cuda::experimental::pinned_allocator<T>>;
-#else
-/*!
- * Generic template typedef for thrust::host_vector. Use it instead of Thrust implementation
- * in order to avoid problems to compile OpenMP based applications using gcc and without a cuda runtime installation.
- */
-	template <typename T>
-		using  mc_device_vector = thrust::device_vector<T>;
-/*!
- * Generic template typedef for thrust::host_vector. Use it instead of Thrust implementation
- * in order to avoid problems to compile OpenMP based applications using gcc and without a cuda runtime installation.
- * mc_host_vectot will always allocate page locked memory on CUDA backends in order to maximize speed in memory transfers
- * to the device.
- */
-	template <typename T>
-		using  mc_host_vector   = thrust::host_vector<T>;
-#endif
 
 
 //-----------------------------------------------------------------------
@@ -109,11 +73,13 @@ typedef mc_host_vector<GReal_t>    RealVector_h; /*! Typedef for a GReal_t host 
 typedef mc_host_vector<GComplex_t> ComplexVector_h; /*! Typedef for a GComplex_t host vector.*/
 typedef mc_host_vector<Vector4R>   Particles_h;/*! Typedef for a  Vector4R host vector.*/
 
+/*
 template <int N>
 		using ParticlesSet_h = std::array<Particles_h*, N>  ;
 
 template <int N>
 		using VariableSet_h = std::array<RealVector_h*, N>  ;
+*/
 
 //-----------------------------------------------------------------------
 //basic containers on device
@@ -122,14 +88,14 @@ typedef mc_device_vector<GReal_t>    RealVector_d; /*! Typedef for a GReal_t dev
 typedef mc_device_vector<GComplex_t> ComplexVector_d; /*! Typedef for a GComplex_t device vector.*/
 typedef mc_device_vector<Vector4R>   Particles_d; /*! Typedef for a  Vector4R device vector.*/
 
+/*
 template <size_t  N>
 		using ParticlesSet_d = std::array<Particles_d*, N>  ;
 
 template <size_t N>
 		using VariableSet_d = std::array<RealVector_d*, N>  ;
+*/
 
-//template<typename...T>
-//using   tuple_refs_t = thrust::detail::tuple_of_iterator_references<T&...>;
 
 
 }

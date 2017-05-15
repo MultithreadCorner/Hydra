@@ -20,57 +20,49 @@
  *---------------------------------------------------------------------------*/
 
 /*
- * Config.h
+ * Backends.h
  *
- *  Created on: Feb 24, 2016
+ *  Created on: 14/05/2017
  *      Author: Antonio Augusto Alves Junior
  */
 
+#ifndef BACKENDS_H_
+#define BACKENDS_H_
+
+#include <thrust/detail/type_traits.h>
+#include <thrust/execution_policy.h>
+#include <thrust/system/cuda/execution_policy.h>
+#include <thrust/system/cpp/execution_policy.h>
+#include <thrust/system/omp/execution_policy.h>
+#include <thrust/system/tbb/execution_policy.h>
+
+namespace hydra {
+
+//namespace experimental {
+
+//namespace detail {
+
+typedef thrust::system::cuda::detail::par_t CUDA;
+typedef thrust::system::cpp::detail::par_t   CPP;
+typedef thrust::system::omp::detail::par_t   OMP;
+typedef thrust::system::tbb::detail::par_t   TBB;
+typedef thrust::detail::device_t		  DEVICE;
+typedef thrust::detail::host_t	            HOST;
+
+//}  // namespace detail
 
 
-#ifndef CONFIG_H_
-#define CONFIG_H_
+static const CUDA   _cuda;
+static const CPP    _cpp;
+static const OMP    _omp;
+static const TBB    _tbb;
+static const DEVICE _device;
+static const HOST   _host;
 
-#define CUDA_API_PER_THREAD_DEFAULT_STREAM
+//}  // namespace experimental
 
-#include <thrust/detail/config.h>
-#include <thrust/detail/config/host_device.h>
-
-
-
-#if defined(__CUDACC__) && !(defined(__CUDA__) && defined(__clang__))
-
-#define __hydra_exec_check_disable__ #pragma nv_exec_check_disable
-
-#else
-
-#define __hydra_exec_check_disable__
-
-#endif
-
-#if defined(__CUDACC__)
-#define __hydra_align__(n) __align__(n)
-#else
-  #define       __hydra_align__(n) __attribute__((aligned(n)))
-#endif
-
-#if THRUST_DEVICE_SYSTEM==THRUST_DEVICE_SYSTEM_CUDA
- #include <cuda.h>
- #include <cuda_runtime.h>
- #include <cuda_runtime_api.h>
- #include <math_functions.h>
- #include <vector_functions.h>
- #include <thrust/system/cuda/execution_policy.h>
- #include <thrust/system/cuda/experimental/pinned_allocator.h>
-#endif
-
-
-#ifndef HYDRA_CERROR_LOG
-#define HYDRA_OS std::cerr
-#else
-#define HYDRA_OS HYDRA_CERROR_LOG
-#endif
+}  // namespace hydra
 
 
 
-#endif /* CUDA_H_ */
+#endif /* BACKENDS_H_ */

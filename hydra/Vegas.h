@@ -50,16 +50,16 @@ namespace hydra {
 template<size_t N, unsigned int BACKEND,  typename GRND=thrust::random::default_random_engine >
 class Vegas : public Integrator<Vegas<N,BACKEND,GRND>>
 {
+	typedef typename VegasState<N,BACKEND>::rvector_backend rvector_backend;
+	typedef typename VegasState<N,BACKEND>::uvector_backend uvector_backend;
+	typedef typename VegasState<N,BACKEND>::rvector_iterator rvector_iterator;
+	typedef typename VegasState<N,BACKEND>::uvector_iterator uvector_iterator;
+
 public:
 
 	//tag
 	typedef void hydra_integrator_tag;
 
-	typedef typename VegasState<N,BACKEND>::rvector_backend rvector_backend;
-	typedef typename VegasState<N,BACKEND>::uvector_backend uvector_backend;
-	typedef typename VegasState<N,BACKEND>::rvector_iterator rvector_iterator;
-	typedef typename VegasState<N,BACKEND>::uvector_iterator uvector_iterator;
-//	typedef typename VegasState<N,BACKEND>::uvector_std_iterator uvector_std_iterator;
 
 	Vegas()=delete;
 

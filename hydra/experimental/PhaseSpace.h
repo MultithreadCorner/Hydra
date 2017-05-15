@@ -60,7 +60,8 @@
 #include <hydra/detail/functors/FlagAcceptReject.h>
 #include <hydra/detail/functors/IsAccepted.h>
 #include <hydra/detail/utility/Generic.h>
-
+#include <hydra/detail/BackendTraits.h>
+#include <hydra/detail/IteratorTraits.h>
 #include <hydra/experimental/detail/launch_decayers.inl>
 
 #include <thrust/iterator/zip_iterator.h>
@@ -90,6 +91,10 @@ public:
 	 * - _MotherMass: the mass of the mother particle in Gev/c*c
 	 * - _Masses: STL vector with the mass of the daughter particles.
 	 */
+
+	typedef typename hydra::detail::tuple_type<N, experimental::Vector4R>::type particle_tuple;
+
+
 	PhaseSpace(const GReal_t motherMass, const GReal_t (&daughtersMasses)[N]) :
 		fSeed(1)
 {
@@ -113,24 +118,20 @@ public:
 
 	~PhaseSpace() {}
 
-	template<typename FUNCTOR, unsigned int BACKEND>
-	std::pair<GReal_t, GReal_t> AverageOn(experimental::Vector4R const& mother, FUNCTOR const& functor, size_t n)
+	template<typename FUNCTOR, typename BACKEND>
+	std::pair<GReal_t, GReal_t> AverageOn(BACKEND backend,
+			experimental::Vector4R const& mother, FUNCTOR const& functor, size_t n)
 	{
-#if(THRUST_DEVICE_SYSTEM==THRUST_DEVICE_BACKEND_CUDA && (BACKEND==device))
-	cudaDeviceSetCacheConfig(cudaFuncCachePreferL1);
-#endif
 
-
-		detail::EvalOnDaughters<N,FUNCTOR,GRND>
+		detail::EvalOnDaughters<N,BACKEND,FUNCTOR,GRND>
 		evaluator(functor, mother,fMasses, fSeed);
 
 		thrust::counting_iterator<GLong_t> first(0);
 
 		thrust::counting_iterator<GLong_t> last = first + n;
 
-		detail::ResultPHSP init;
-
-		detail::launch_evaluator(first, last, evaluator );
+		detail::ResultPHSP result = detail::launch_evaluator(first, last, evaluator );
+		return std::make_pair(result.fMean, sqrt(result.fM2) );
 
 	}
 
@@ -147,7 +148,7 @@ public:
 #endif
 
 
-	detail::DecayMother<N, hydra::detail::IteratorTraits<Iterator>::type::backend,GRND> decayer(mother,fMasses, fSeed);
+	detail::DecayMother<N,typename  hydra::detail::IteratorTraits<Iterator>::system_t,GRND> decayer(mother,fMasses, fSeed);
 			detail::launch_decayer(begin, end, decayer );
 
 	}
@@ -165,7 +166,7 @@ public:
 #endif
 
 
-	detail::DecayMothers<N, hydra::detail::IteratorTraits<Iterator1>::type::backend,GRND> decayer(fMasses, fSeed);
+	detail::DecayMothers<N, typename  hydra::detail::IteratorTraits<Iterator1>::system_t,GRND> decayer(fMasses, fSeed);
 		detail::launch_decayer(begin, end, daughters_begin, decayer );
 
 

@@ -44,12 +44,13 @@
 
 #include <type_traits>
 #include <vector>
+#include <utility>
 
 namespace hydra {
 
 namespace detail {
 
-template<template<typename...> class CONTAINER, typename T,  unsigned int BACKEND>
+template<template<typename...> class CONTAINER, typename T,  typename BACKEND>
 struct copy_type{
 
 	typedef detail::BackendTraits<BACKEND> system_t;
@@ -58,7 +59,7 @@ struct copy_type{
 
 }  // namespace detail
 
-template<unsigned int BACKEND, template<typename...> class CONTAINER, typename T, typename ...Ts >
+template<typename BACKEND, template<typename...> class CONTAINER, typename T, typename ...Ts >
 auto get_copy(CONTAINER<T, Ts...>& other )
 ->typename  std::enable_if<
 detail::is_specialization< CONTAINER<T, Ts...>, thrust::host_vector>::value ||
@@ -68,10 +69,10 @@ typename detail::copy_type<CONTAINER, T, BACKEND>::type
 >::type
 {
 	typedef typename detail::copy_type<CONTAINER, T, BACKEND>::type vector_t;
-	return 	vector_t(other);
+	return 	std::move(vector_t(other));
 }
 
-template<unsigned int BACKEND, template<typename...> class CONTAINER, typename T>
+template<typename BACKEND, template<typename...> class CONTAINER, typename T>
 auto get_copy(CONTAINER<T>& other )
 ->typename  std::enable_if<
 detail::is_specialization< CONTAINER<T> ,hydra::experimental::multivector>::value,
@@ -81,7 +82,7 @@ detail::BackendTraits<BACKEND>::template container<typename CONTAINER<T>::value_
 {
 	typedef typename  hydra::experimental::multivector<typename
 			detail::BackendTraits<BACKEND>::template container<typename CONTAINER<T>::value_tuple_type> > vector_t;
-	return 	vector_t(other);
+	return 	std::move(vector_t(other));
 }
 
 

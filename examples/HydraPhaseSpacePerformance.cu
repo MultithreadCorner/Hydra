@@ -51,7 +51,7 @@
 #include <hydra/FunctorArithmetic.h>
 #include <hydra/FunctionWrapper.h>
 #include <hydra/Copy.h>
-
+#include <hydra/Parameter.h>
 //root
 #include <TROOT.h>
 #include <TH1D.h>
@@ -61,7 +61,7 @@
 #include <TString.h>
 #include <TStyle.h>
 #include <TLegend.h>
-
+#include <thrust/system/cuda/vector.h>
 using namespace std;
 using namespace hydra;
 
@@ -160,6 +160,42 @@ GInt_t main(int argv, char** argc)
 	// Create PhaseSpace object for P-> A B C
 	hydra::experimental::PhaseSpace<3> P2ABC_PHSP(mother_mass, masses);
 
+	 auto mass = [] __host__ __device__ (size_t npars, const Parameter* pars, hydra::experimental::Vector4R* particles )
+	    {
+	    	auto   p0  = particles[0] ;
+	    	auto   p1  = particles[1] ;
+	    	auto   p2  = particles[2] ;
+
+	    	auto   p = p1+p2+p0;
+
+	    	return p.mass();
+	    };
+	    auto mass2 = [] __host__ __device__ (hydra::experimental::Vector4R* particles )
+	       {
+	       	auto   p0  = particles[0] ;
+	       	auto   p1  = particles[1] ;
+	       	auto   p2  = particles[2] ;
+
+	       	auto   p = p1+p2+p0;
+
+	       	return p.mass();
+	       };
+
+
+	    std::string Mean1("Mean_1"); 	// mean of gaussian 1
+	    std::string Sigma1("Sigma_1"); 	// sigma of gaussian 1
+	    Parameter  mean1_p  = Parameter::Create().Name(Mean1).Value(3.0) .Error(0.0001).Limits( 1.0, 4.0);
+	    Parameter  sigma1_p = Parameter::Create().Name(Sigma1).Value(0.5).Error(0.0001).Limits(0.1, 1.5);
+
+	   auto Mass = wrap_lambda(mass,  mean1_p, sigma1_p );
+	   auto Mass2 = wrap_lambda(mass2);
+
+	   Mass.PrintRegisteredParameters();
+	   Mass2.PrintRegisteredParameters();
+
+   auto result = P2ABC_PHSP.AverageOn(P , Mass, 10000);
+
+   return 0;
 	//----------------------------
 	// Device P-> A B C
 	//---------------------------

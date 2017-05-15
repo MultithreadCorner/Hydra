@@ -56,7 +56,7 @@ namespace hydra {
 namespace experimental {
 
 
-template<size_t N, unsigned int BACKEND>
+template<size_t N, typename BACKEND>
 Events<N, BACKEND>::Events(size_t nevents):
 fNEvents(nevents),
 fMaxWeight(0)
@@ -90,8 +90,8 @@ fMaxWeight(0)
 
 }
 
-template<size_t N, unsigned int BACKEND>
-template<unsigned int BACKEND2>
+template<size_t N, typename BACKEND>
+template<typename BACKEND2>
 Events<N, BACKEND>::Events(hydra::experimental::Events<N,BACKEND2> const& other):
 fNEvents(other.GetNEvents()),
 fMaxWeight(other.GetMaxWeight())
@@ -136,7 +136,7 @@ fMaxWeight(other.GetMaxWeight())
 
 }
 
-template<size_t N, unsigned int BACKEND>
+template<size_t N, typename BACKEND>
 Events<N, BACKEND>::Events(hydra::experimental::Events<N,BACKEND> const& other):
 fNEvents(other.GetNEvents()),
 fMaxWeight(other.GetMaxWeight())
@@ -184,7 +184,7 @@ fConstEnd = hydra::detail::get_zip_iterator(fWeights.cend(), cends );
 
 }
 
-template<size_t N, unsigned int BACKEND>
+template<size_t N, typename BACKEND>
 Events<N, BACKEND>::Events(hydra::experimental::Events<N,BACKEND> && other):
 fNEvents(other.GetNEvents()),
 fMaxWeight(other.GetMaxWeight()),
@@ -216,7 +216,7 @@ fDaughters(std::move(other.MoveDaughters()))
 	fConstEnd = hydra::detail::get_zip_iterator(this->fWeights.cend(), cends );
 }
 
-template<size_t N, unsigned int BACKEND>
+template<size_t N, typename BACKEND>
 Events<N,BACKEND>& Events<N, BACKEND>::operator=(hydra::experimental::Events<N,BACKEND> const& other)
 {
 
@@ -272,8 +272,8 @@ Events<N,BACKEND>& Events<N, BACKEND>::operator=(hydra::experimental::Events<N,B
 	return *this;
 }
 
-template<size_t N, unsigned int BACKEND>
-template<unsigned int BACKEND2>
+template<size_t N, typename BACKEND>
+template<typename BACKEND2>
 Events<N,BACKEND>& Events<N, BACKEND>::operator=(hydra::experimental::Events<N,BACKEND2> const& other)
 		{
 
@@ -329,7 +329,7 @@ Events<N,BACKEND>& Events<N, BACKEND>::operator=(hydra::experimental::Events<N,B
 			return *this;
 		}
 
-template<size_t N, unsigned int BACKEND>
+template<size_t N, typename BACKEND>
 Events<N,BACKEND>& Events<N, BACKEND>::operator=(hydra::experimental::Events<N,BACKEND> && other)
 {
 
@@ -373,7 +373,7 @@ Events<N,BACKEND>& Events<N, BACKEND>::operator=(hydra::experimental::Events<N,B
 	return *this;
 }
 
-template<size_t N, unsigned int BACKEND>
+template<size_t N, typename BACKEND>
 size_t Events<N, BACKEND>::Unweight(size_t seed)
 {
 
@@ -405,7 +405,7 @@ size_t Events<N, BACKEND>::Unweight(size_t seed)
 
 }
 
-template<size_t N, unsigned int BACKEND>
+template<size_t N, typename BACKEND>
 void Events<N, BACKEND>::resize(size_t n){
 
 	fNEvents=n;

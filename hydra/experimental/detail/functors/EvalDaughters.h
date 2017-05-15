@@ -45,6 +45,7 @@
 #include <hydra/experimental/Vector3R.h>
 #include <hydra/experimental/Vector4R.h>
 #include <hydra/detail/utility/Utility_Tuple.h>
+#include <hydra/FunctionWrapper.h>
 //thrust
 #include <thrust/tuple.h>
 #include <thrust/iterator/zip_iterator.h>
@@ -95,11 +96,9 @@ struct EvalOnDaughtersBinary
 
 };
 
-template <size_t N,  typename FUNCTOR, typename GRND>
+template <size_t N, typename BACKEND, typename FUNCTOR, typename GRND>
 struct EvalOnDaughters
 {
-	//typedef hydra::detail::BackendTraits<BACKEND> system_t;
-	//typedef typename system_t::template container<GReal_t>  vector_real;
 
 	const GInt_t fSeed;
 
@@ -110,7 +109,6 @@ struct EvalOnDaughters
 	GReal_t fBeta2;
 
 
-	//const GReal_t* __restrict__ fMasses;
 	GReal_t fMasses[N];
 	FUNCTOR fFunctor;
 
@@ -162,7 +160,8 @@ struct EvalOnDaughters
 	}
 
 	__host__ __device__
-	EvalOnDaughters( EvalOnDaughters<N, FUNCTOR, GRND> const& other ):
+	EvalOnDaughters( EvalOnDaughters<N, BACKEND,FUNCTOR, GRND> const& other ):
+	fFunctor(other.fFunctor),
 	fSeed(other.fSeed ),
 	fTeCmTm(other.fTeCmTm ),
 	fWtMax(other.fWtMax ),
@@ -344,13 +343,13 @@ struct EvalOnDaughters
 		hydra::experimental::Vector4R Particles[SIZE];
 
 		GReal_t weight = process(evt, Particles);
-		Tuple_t particles;
+		//Tuple_t particles;
 
-		hydra::detail::assignArrayToTuple(particles,  Particles );
+		//hydra::detail::assignArrayToTuple(particles,  Particles );
 
 		ResultPHSP result;
 
-		result.fMean = fFunctor(particles);
+		result.fMean = fFunctor(Particles);
 		result.fW    = weight;
 		result.fM2   = 0.0;
 

@@ -45,6 +45,7 @@
 #include <hydra/experimental/Vector3R.h>
 #include <hydra/experimental/Vector4R.h>
 #include <hydra/detail/utility/Utility_Tuple.h>
+#include <hydra/detail/BackendTraits.h>
 //thrust
 #include <thrust/tuple.h>
 #include <thrust/iterator/zip_iterator.h>
@@ -60,11 +61,11 @@ namespace experimental {
 namespace detail {
 
 
-template <size_t N, unsigned int BACKEND, typename GRND>
+template <size_t N, typename  BACKEND, typename GRND>
 struct DecayMother
 {
-	typedef hydra::detail::BackendTraits<BACKEND> system_t;
-	typedef typename system_t::template container<GReal_t>  vector_real;
+	//typedef hydra::detail::BackendTraits<BACKEND> system_t;
+	//typedef typename system_t::template container<GReal_t>  vector_real;
 
 	const GInt_t fSeed;
 

@@ -20,57 +20,45 @@
  *---------------------------------------------------------------------------*/
 
 /*
- * Config.h
+ * IteratorTraits.h
  *
- *  Created on: Feb 24, 2016
+ *  Created on: 14/05/2017
  *      Author: Antonio Augusto Alves Junior
  */
 
+#ifndef ITERATORTRAITS_H_
+#define ITERATORTRAITS_H_
+
+#include <utility>
+#include <thrust/iterator/iterator_traits.h>
+#include <thrust/system/detail/generic/select_system.h>
+
+namespace hydra {
+
+namespace detail {
+
+template<typename Iterator>
+struct IteratorTraits
+{
+	static const bool is_host_iterator = thrust::detail::is_host_iterator_category<
+	typename thrust::iterator_traits<Iterator>::iterator_category>::value;
+
+	typedef typename thrust::iterator_system<Iterator>::type system_t;
 
 
-#ifndef CONFIG_H_
-#define CONFIG_H_
+	static system_t& GetTag()
+	{
+		using thrust::system::detail::generic::select_system;
+		system_t sys;
 
-#define CUDA_API_PER_THREAD_DEFAULT_STREAM
+		return  select_system(sys);
+	}
 
-#include <thrust/detail/config.h>
-#include <thrust/detail/config/host_device.h>
-
-
-
-#if defined(__CUDACC__) && !(defined(__CUDA__) && defined(__clang__))
-
-#define __hydra_exec_check_disable__ #pragma nv_exec_check_disable
-
-#else
-
-#define __hydra_exec_check_disable__
-
-#endif
-
-#if defined(__CUDACC__)
-#define __hydra_align__(n) __align__(n)
-#else
-  #define       __hydra_align__(n) __attribute__((aligned(n)))
-#endif
-
-#if THRUST_DEVICE_SYSTEM==THRUST_DEVICE_SYSTEM_CUDA
- #include <cuda.h>
- #include <cuda_runtime.h>
- #include <cuda_runtime_api.h>
- #include <math_functions.h>
- #include <vector_functions.h>
- #include <thrust/system/cuda/execution_policy.h>
- #include <thrust/system/cuda/experimental/pinned_allocator.h>
-#endif
+};
 
 
-#ifndef HYDRA_CERROR_LOG
-#define HYDRA_OS std::cerr
-#else
-#define HYDRA_OS HYDRA_CERROR_LOG
-#endif
+}  // namespace detail
 
+}  // namespace hydra
 
-
-#endif /* CUDA_H_ */
+#endif /* ITERATORTRAITS_H_ */

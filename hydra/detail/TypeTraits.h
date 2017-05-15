@@ -127,6 +127,7 @@ namespace hydra {
 
 		};
 
+		/*
 		//--------------------------------
 		template<unsigned int BACKEND>
 		struct BackendTraits;
@@ -137,8 +138,6 @@ namespace hydra {
 			constexpr static unsigned int backend= device;
 			template<typename T>
 			using   container = mc_device_vector<T>;
-			//typedef thrust::execution_policy<thrust::detail::device_t> policy;
-
 		};
 
 		template<>
@@ -147,7 +146,6 @@ namespace hydra {
 			constexpr static unsigned int backend= host;
 			template<typename T>
 			using   container = mc_host_vector<T>;
-			//typedef thrust::execution_policy<thrust::detail::host_t> policy;
 		};
 
 		//--------------------------------
@@ -159,7 +157,7 @@ namespace hydra {
 					BackendTraits<host>,
 					BackendTraits<device> >::type type;
 		};
-
+*/
 		//----------------------
 		template< class... T >
 		using common_type_t = typename std::common_type<T...>::type;

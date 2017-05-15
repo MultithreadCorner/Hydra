@@ -41,6 +41,8 @@
 #include <hydra/experimental/Events.h>
 #include <hydra/experimental/detail/functors/DecayMother.h>
 #include <hydra/experimental/detail/functors/DecayMothers.h>
+#include <hydra/experimental/detail/functors/EvalDaughters.h>
+#include <hydra/detail/BackendTraits.h>
 #include <hydra/detail/utility/Utility_Tuple.h>
 
 #include <thrust/iterator/counting_iterator.h>
@@ -53,21 +55,22 @@ namespace hydra {
 namespace experimental {
 	namespace detail {
 
-	template<size_t N, unsigned int BACKEND, typename FUNCTOR, typename GRND, typename Iterator>
-	inline ResultPHSP	 launch_evaluator(Iterator begin, Iterator end,	detail::EvalOnDaughters<N,FUNCTOR, GRND> const& evaluator)
-		{
+	template<size_t N, typename BACKEND, typename FUNCTOR, typename GRND, typename Iterator>
+	inline ResultPHSP	 launch_evaluator(Iterator begin, Iterator end,
+			detail::EvalOnDaughters<N,BACKEND,FUNCTOR, GRND> const& evaluator)
+	{
 		typedef hydra::detail::BackendTraits<BACKEND> system_t;
 
 		ResultPHSP init = ResultPHSP();
 
-		ResultPHSP result = 	thrust::transform_reduce(system_t() , begin, end, evaluator, init,detail::EvalOnDaughtersBinary() );
+		ResultPHSP result = thrust::transform_reduce(system_t() , begin, end,
+				evaluator, init,detail::EvalOnDaughtersBinary() );
+
+		return result;
+	}
 
 
-			return result;
-		}
-
-
-	template<size_t N, unsigned int BACKEND, typename GRND, typename Iterator>
+	template<size_t N, typename  BACKEND, typename GRND, typename Iterator>
     inline void launch_decayer(Iterator begin, Iterator end, DecayMother<N, BACKEND, GRND> const& decayer)
 	{
 
@@ -87,28 +90,25 @@ namespace experimental {
 	}
 
 
-		template<size_t N, unsigned int BACKEND, typename GRND,
-		typename IteratorMother, typename IteratorDaughter>
-		__host__ inline
-		void launch_decayer(IteratorMother begin, IteratorMother end
-				, IteratorDaughter begin_daugters,
-				DecayMothers<N, BACKEND,GRND> const& decayer)
-		{
+	template<size_t N, typename  BACKEND, typename GRND,	typename IteratorMother, typename IteratorDaughter>
+	inline	void launch_decayer(IteratorMother begin, IteratorMother end
+			, IteratorDaughter begin_daugters, DecayMothers<N, BACKEND,GRND> const& decayer)
+	{
 
-			size_t nevents = thrust::distance(begin, end);
-			thrust::counting_iterator<GLong_t> first(0);
-			thrust::counting_iterator<GLong_t> last = first + nevents;
+		size_t nevents = thrust::distance(begin, end);
+		thrust::counting_iterator<GLong_t> first(0);
+		thrust::counting_iterator<GLong_t> last = first + nevents;
 
-			auto begin_weights = thrust::get<0>(begin_daugters.get_iterator_tuple());
+		auto begin_weights = thrust::get<0>(begin_daugters.get_iterator_tuple());
 
-			auto begin_temp = hydra::detail::changeFirst(  begin, begin_daugters.get_iterator_tuple() );
+		auto begin_temp = hydra::detail::changeFirst(  begin, begin_daugters.get_iterator_tuple() );
 
-			auto begin_particles = thrust::make_zip_iterator(begin_temp);
+		auto begin_particles = thrust::make_zip_iterator(begin_temp);
 
-			thrust::transform(first, last, begin_particles, begin_weights, decayer);
+		thrust::transform(first, last, begin_particles, begin_weights, decayer);
 
-			return;
-		}
+		return;
+	}
 
 
 

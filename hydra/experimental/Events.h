@@ -53,9 +53,11 @@
 #include <hydra/Containers.h>
 #include <hydra/experimental/Vector3R.h>
 #include <hydra/experimental/Vector4R.h>
+#include <hydra/experimental/multivector.h>
 #include <hydra/detail/utility/Utility_Tuple.h>
 #include <hydra/detail/functors/FlagAcceptReject.h>
-#include <hydra/experimental/multivector.h>
+#include <hydra/detail/BackendTraits.h>
+
 
 namespace hydra {
 
@@ -64,7 +66,7 @@ namespace experimental {
  * Events is a container struct to hold all the information corresponding the generated events.
  * Mother four-vectors are not stored.
  */
-template<size_t N, unsigned int BACKEND>
+template<size_t N, typename BACKEND>
 struct Events {
 
 	typedef hydra::detail::BackendTraits<BACKEND> system_t;
@@ -108,7 +110,7 @@ struct Events {
 	 * \brief Cross-backend copy constructor.
 	 * @param Events<N,BACKEND2> const& other
 	 */
-	template<unsigned int BACKEND2>
+	template<typename BACKEND2>
 	Events(Events<N,BACKEND2> const& other);
 
 	/**
@@ -138,7 +140,7 @@ struct Events {
 	 * @param Events<N,BACKEND2>const& other
 	 * @return
 	 */
-	template<unsigned int BACKEND2>
+	template<typename BACKEND2>
 	Events<N,BACKEND>& operator=(Events<N,BACKEND2> const& other);
 
 	/**

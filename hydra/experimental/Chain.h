@@ -54,7 +54,7 @@ namespace experimental {
 template<typename ...Decays>
 struct Chain;
 
-template<size_t ...N,  unsigned int BACKEND>
+template<size_t ...N, typename BACKEND>
 struct Chain< hydra::experimental::Events<N,BACKEND >...>{
 
 	typedef hydra::detail::BackendTraits<BACKEND> system_t;
@@ -129,7 +129,7 @@ struct Chain< hydra::experimental::Events<N,BACKEND >...>{
 
 		}
 
-	template<unsigned int BACKEND2>
+	template<typename BACKEND2>
 	Chain(hydra::experimental::Chain<hydra::experimental::Events<N,BACKEND2 >...>const& other):
 	fStorage(std::move(other.CopyStorage()) ),
 	fSize (other.GetNEvents())
@@ -199,7 +199,7 @@ struct Chain< hydra::experimental::Events<N,BACKEND >...>{
 
 	}
 
-	template<unsigned int BACKEND2>
+	template<typename BACKEND2>
 	hydra::experimental::Chain<hydra::experimental::Events<N,BACKEND >...>&
 	operator=(hydra::experimental::Chain<hydra::experimental::Events<N,BACKEND2 >...>const& other)
 	{

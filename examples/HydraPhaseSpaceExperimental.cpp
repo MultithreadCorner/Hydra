@@ -58,6 +58,8 @@
 #include <TString.h>
 #include <TStyle.h>
 
+#include <thrust/system/omp/vector.h>
+
 using namespace std;
 using namespace hydra;
 
@@ -137,7 +139,6 @@ GInt_t main(int argv, char** argc)
 	}
 
 
-
 	//----------------
 	// P-> A B C
 	//----------------
@@ -147,7 +148,7 @@ GInt_t main(int argv, char** argc)
 	// Create PhaseSpace object for B0-> K pi J/psi
 	hydra::experimental::PhaseSpace<3> phsp_P(mother_mass, massesP);
 
-	hydra::experimental::Events<3, device> P2ABC_Events_d(nentries);
+	hydra::experimental::Events<3, DEVICE> P2ABC_Events_d(nentries);
 
 	auto start1 = std::chrono::high_resolution_clock::now();
 	phsp_P.Generate(P, P2ABC_Events_d.begin(), P2ABC_Events_d.end());
@@ -170,7 +171,7 @@ GInt_t main(int argv, char** argc)
 	// Create PhaseSpace object for J/psi->mu+ mu-
 	hydra::experimental::PhaseSpace<2> phsp_C(daughter1_mass , massesC);
 
-	hydra::experimental::Events<2, device> C2ab_Events_d(nentries);
+	hydra::experimental::Events<2, DEVICE> C2ab_Events_d(nentries);
 
 
 	auto start2 = std::chrono::high_resolution_clock::now();
@@ -187,9 +188,43 @@ GInt_t main(int argv, char** argc)
 		cout << C2ab_Events_d[i] << endl;
 	}
 	cout << P2ABC_Events_d.GetNEvents() <<endl;
-	typedef hydra::experimental::Events<3, device> event3_t;
-	typedef hydra::experimental::Events<2, device> event2_t;
+	typedef hydra::experimental::Events<3, DEVICE> event3_t;
+	typedef hydra::experimental::Events<2, DEVICE> event2_t;
 	hydra::experimental::Chain<event3_t, event2_t> chain(std::move(P2ABC_Events_d), std::move(C2ab_Events_d));
+
+    auto mass = [] __host__ __device__ (size_t npars, const Parameter* pars, hydra::experimental::Vector4R* particles )
+    {
+    	auto   p0  = particles[0] ;
+    	auto   p1  = particles[1] ;
+    	auto   p2  = particles[2] ;
+
+    	auto   p = p1+p2+p0;
+
+    	return p.mass();
+    };
+    auto mass2 = [] __host__ __device__ (hydra::experimental::Vector4R* particles )
+       {
+       	auto   p0  = particles[0] ;
+       	auto   p1  = particles[1] ;
+       	auto   p2  = particles[2] ;
+
+       	auto   p = p1+p2+p0;
+
+       	return p.mass();
+       };
+
+
+    std::string Mean1("Mean_1"); 	// mean of gaussian 1
+    	std::string Sigma1("Sigma_1"); 	// sigma of gaussian 1
+    Parameter  mean1_p  = Parameter::Create().Name(Mean1).Value(3.0) .Error(0.0001).Limits( 1.0, 4.0);
+    Parameter  sigma1_p = Parameter::Create().Name(Sigma1).Value(0.5).Error(0.0001).Limits(0.1, 1.5);
+
+   auto Mass = wrap_lambda(mass,  mean1_p, sigma1_p );
+   auto Mass2 = wrap_lambda(mass2);
+
+
+   auto result = phsp_P.AverageOn(_host, P , Mass, 10000);
+
 /*
 	for(auto row:chain ){
 		cout<< row <<endl;

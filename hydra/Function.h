@@ -89,6 +89,20 @@ struct BaseFunctor
 			this->SetParameter(i, *(init_parameters.begin() + i));
 	}
 
+	BaseFunctor(std::array<Parameter,NPARAM> const& init_parameters):
+		fCacheIndex(-1),
+		fCached(0),
+		fParamResgistered(1),
+		fNorm(1.0),
+		fNormalized(1),
+		_par(*this)
+		{
+	#pragma unroll NPARAM
+			for(size_t i=0; i<NPARAM; i++)
+				this->SetParameter(i, *(init_parameters.begin() + i));
+		}
+
+
 	__host__ __device__
 	BaseFunctor(BaseFunctor<Functor,ReturnType, NPARAM> const& other):
 	fCacheIndex( other.GetCacheIndex() ),
@@ -169,7 +183,8 @@ struct BaseFunctor
 	}
 
 	__host__ inline
-	void SetParameters(const std::vector<double>& parameters){
+	void SetParameters(const std::vector<double>& parameters)
+	{
 
 		if(fCached) return;
 		if(!fParamResgistered){
@@ -200,6 +215,16 @@ struct BaseFunctor
 #pragma unroll NPARAM
 		for(size_t i=0; i<NPARAM; i++)
 			user_parameters.push_back(&fParameters[i]);
+	}
+
+	__host__ __device__ inline
+		constexpr size_t GetNumberOfParameters() {
+				return NPARAM;
+	}
+
+	__host__ __device__ inline
+	const Parameter* GetParameters() const {
+			return &fParameters[0];
 	}
 
 	__host__ __device__ inline
