@@ -59,7 +59,7 @@ namespace experimental {
 	inline ResultPHSP	 launch_evaluator(Iterator begin, Iterator end,
 			detail::EvalOnDaughters<N,BACKEND,FUNCTOR, GRND> const& evaluator)
 	{
-		typedef hydra::detail::BackendTraits<BACKEND> system_t;
+		typedef BACKEND system_t;
 
 		ResultPHSP init = ResultPHSP();
 

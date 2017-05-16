@@ -70,6 +70,7 @@
 #endif
 
 
+/*
  #define _ENABLE_CPP 1
 
 #if defined(HYDRA_USING_TBB) || THRUST_HOST_SYSTEM == THRUST_HOST_TBB || THRUST_DEVICE_SYSTEM == THRUST_DEVICE_TBB
@@ -90,7 +91,7 @@
  #define _ENABLE_OMP 0
 #endif
 
-
+*/
 
 
 

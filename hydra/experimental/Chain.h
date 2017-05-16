@@ -57,7 +57,7 @@ struct Chain;
 template<size_t ...N, typename BACKEND>
 struct Chain< hydra::experimental::Events<N,BACKEND >...>{
 
-	typedef hydra::detail::BackendTraits<BACKEND> system_t;
+	typedef BACKEND system_t;
 
 	typedef thrust::tuple<typename
 				hydra::experimental::Events<N,BACKEND >...> event_tuple;

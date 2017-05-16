@@ -60,9 +60,9 @@
 #include <TString.h>
 #include <TStyle.h>
 
-#include <thrust/system/omp/vector.h>
-#include <thrust/iterator/iterator_traits.h>
-
+#include <hydra/host/System.h>
+#include <hydra/omp/System.h>
+#include <hydra/cpp/System.h>
 
 
 using namespace std;
@@ -152,7 +152,7 @@ GInt_t main(int argv, char** argc)
 	// Create PhaseSpace object for B0-> K pi J/psi
 	hydra::experimental::PhaseSpace<3> phsp_P(mother_mass, massesP);
 
-	hydra::experimental::Events<3, TBB> P2ABC_Events_d(nentries);
+	hydra::experimental::Events<3, hydra::omp::sys_t > P2ABC_Events_d(nentries);
 
 	auto start1 = std::chrono::high_resolution_clock::now();
 	phsp_P.Generate(P, P2ABC_Events_d.begin(), P2ABC_Events_d.end());
@@ -175,7 +175,7 @@ GInt_t main(int argv, char** argc)
 	// Create PhaseSpace object for J/psi->mu+ mu-
 	hydra::experimental::PhaseSpace<2> phsp_C(daughter1_mass , massesC);
 
-	hydra::experimental::Events<2, TBB> C2ab_Events_d(nentries);
+	hydra::experimental::Events<2,  hydra::omp::sys_t> C2ab_Events_d(nentries);
 
 
 	auto start2 = std::chrono::high_resolution_clock::now();
@@ -192,8 +192,8 @@ GInt_t main(int argv, char** argc)
 		cout << C2ab_Events_d[i] << endl;
 	}
 	cout << P2ABC_Events_d.GetNEvents() <<endl;
-	typedef hydra::experimental::Events<3, TBB> event3_t;
-	typedef hydra::experimental::Events<2, TBB> event2_t;
+	typedef hydra::experimental::Events<3,  hydra::omp::sys_t> event3_t;
+	typedef hydra::experimental::Events<2,  hydra::omp::sys_t> event2_t;
 	hydra::experimental::Chain<event3_t, event2_t> chain(std::move(P2ABC_Events_d), std::move(C2ab_Events_d));
 
     auto mass = [] __host__ __device__ (size_t npars, const Parameter* pars, hydra::experimental::Vector4R* particles )
@@ -227,7 +227,7 @@ GInt_t main(int argv, char** argc)
    auto Mass2 = wrap_lambda(mass2);
 
 
-   auto result = phsp_P.AverageOn(_host, P , Mass, 10000);
+   auto result = phsp_P.AverageOn(hydra::cpp::sys, P , Mass, 10000);
 
    /*
    typedef typename thrust::system::omp::vector<int>::iterator my_iterator;

@@ -53,7 +53,7 @@ namespace detail {
 template<template<typename...> class CONTAINER, typename T,  typename BACKEND>
 struct copy_type{
 
-	typedef detail::BackendTraits<BACKEND> system_t;
+	typedef BACKEND system_t;
 	typedef typename system_t::template container<T> type;
 };
 
@@ -77,11 +77,13 @@ auto get_copy(CONTAINER<T>& other )
 ->typename  std::enable_if<
 detail::is_specialization< CONTAINER<T> ,hydra::experimental::multivector>::value,
 hydra::experimental::multivector<typename
-detail::BackendTraits<BACKEND>::template container<typename CONTAINER<T>::value_tuple_type> > >::type
+BACKEND::template container<typename CONTAINER<T>::value_tuple_type> > >::type
 
 {
+	typedef BACKEND system_t;
+
 	typedef typename  hydra::experimental::multivector<typename
-			detail::BackendTraits<BACKEND>::template container<typename CONTAINER<T>::value_tuple_type> > vector_t;
+			system_t::template container<typename CONTAINER<T>::value_tuple_type> > vector_t;
 	return 	std::move(vector_t(other));
 }
 

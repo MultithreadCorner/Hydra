@@ -56,7 +56,7 @@
 #include <hydra/experimental/multivector.h>
 #include <hydra/detail/utility/Utility_Tuple.h>
 #include <hydra/detail/functors/FlagAcceptReject.h>
-#include <hydra/detail/BackendTraits.h>
+
 
 
 namespace hydra {
@@ -69,7 +69,7 @@ namespace experimental {
 template<size_t N, typename BACKEND>
 struct Events {
 
-	typedef hydra::detail::BackendTraits<BACKEND> system_t;
+	typedef BACKEND system_t;
 
 	typedef typename system_t::template container<Vector4R::args_type> super_t;
 

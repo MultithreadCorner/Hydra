@@ -29,7 +29,7 @@
 #ifndef BACKENDTRAITS_H_
 #define BACKENDTRAITS_H_
 
-
+/*
 #include <hydra/detail/Config.h>
 #include <hydra/Containers.h>
 #include <hydra/Backends.h>
@@ -104,7 +104,7 @@ struct BackendTraits<CUDA>: thrust::execution_policy<CUDA>
 
 
 
-
+*/
 
 
 
@@ -125,11 +125,11 @@ struct _BackendTraits<DEVICE>: thrust::execution_policy<DEVICE>
 	using   container = hydra::mc_device_vector<T>;
 };
 */
-
+/*
 }  // namespace detail
 
 //}  // namespace experimental
 
-}  // namespace hydra
+}  // namespace hydra*/
 
 #endif /* BACKENDTRAITS_H_ */

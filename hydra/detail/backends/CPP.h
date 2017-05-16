@@ -20,67 +20,55 @@
  *---------------------------------------------------------------------------*/
 
 /*
- * Backends.h
+ * CPP.h
  *
- *  Created on: 14/05/2017
+ *  Created on: 16/05/2017
  *      Author: Antonio Augusto Alves Junior
  */
 
-#ifndef BACKENDS_H_
-#define BACKENDS_H_
+#ifndef CPP_H_
+#define CPP_H_
 
 #include <hydra/detail/Config.h>
-#include <thrust/detail/type_traits.h>
-#include <thrust/execution_policy.h>
-
-#if _ENABLE_TBB
-#include <thrust/system/tbb/detail/par.h>
-#endif
-
-#if _ENABLE_OMP
-#include <thrust/system/omp/detail/par.h>
-#endif
-
-#if _ENABLE_CPP
 #include <thrust/system/cpp/detail/par.h>
-#endif
-
-#if _ENABLE_CUDA
-#include <thrust/system/cuda/detail/par.h>
-#endif
+#include <thrust/system/cpp/vector.h>
 
 namespace hydra {
 
-#if _ENABLE_CPP
- typedef thrust::system::cpp::detail::par_t   CPP;
- static const CPP    _cpp;
-#endif
+namespace detail {
 
-#if _ENABLE_CUDA
- 	typedef thrust::system::cuda::detail::par_t CUDA;
- 	static const CUDA   _cuda;
-#endif
+namespace cpp {
 
-#if _ENABLE_OMP
-	typedef thrust::system::omp::detail::par_t   OMP;
-	static const OMP    _omp;
-#endif
+typedef thrust::system::cpp::detail::par_t   cpp_t;
+static const cpp_t    _cpp_;
 
-#if _ENABLE_TBB
-	typedef thrust::system::tbb::detail::par_t   TBB;
-	static const TBB    _tbb;
-#endif
+template<typename BACKEND>
+struct BackendPolicy;
 
+template<>
+struct BackendPolicy<cpp_t>: thrust::execution_policy<cpp_t>
+{
+	const cpp_t backend= _cpp_;
+	template<typename T>
+	using   container = thrust::cpp::vector<T> ;
+};
 
-typedef thrust::detail::device_t		  DEVICE;
-typedef thrust::detail::host_t	            HOST;
-static const DEVICE _device;
-static const HOST   _host;
+typedef BackendPolicy<cpp_t> sys_t;
+static const sys_t sys;
 
 
+}  // namespace cpp
+
+}  // namespace detail
+
+namespace cpp {
+
+using hydra::detail::cpp::sys;
+using hydra::detail::cpp::sys_t;
+
+}  // namespace cpp
 
 }  // namespace hydra
 
 
-
-#endif /* BACKENDS_H_ */
+#endif /* CPP_H_ */

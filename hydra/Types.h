@@ -80,7 +80,7 @@ struct null_type
 {};
 
 
-enum {	device=1, host=0 };
+//enum {	device=1, host=0 };
 
 }
 #endif /* TYPES_H_ */
