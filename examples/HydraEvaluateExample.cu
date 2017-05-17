@@ -44,7 +44,9 @@
 #include <hydra/FunctionWrapper.h>
 #include <hydra/Random.h>
 
-
+#include <hydra/host/System.h>
+#include <hydra/omp/System.h>
+#include <hydra/cpp/System.h>
 
 using namespace std;
 using namespace hydra;

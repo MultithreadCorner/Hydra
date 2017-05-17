@@ -29,6 +29,7 @@
 #ifndef SYSTEM_CUDA_H_
 #define SYSTEM_CUDA_H_
 
-#include <hydra/detail/backends/CUDA.h>
+#include <hydra/detail/policies/backends/CUDA.h>
+#include <hydra/detail/policies/iterators/CUDA.h>
 
 #endif /* SYSTEM_CUDA_H_ */

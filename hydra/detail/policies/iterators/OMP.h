@@ -20,16 +20,54 @@
  *---------------------------------------------------------------------------*/
 
 /*
- * System.h
+ * OMP.h
  *
  *  Created on: 16/05/2017
  *      Author: Antonio Augusto Alves Junior
  */
 
-#ifndef SYSTEM_OMP_H_
-#define SYSTEM_OMP_H_
+#ifndef OMP_TAG_H_
+#define OMP_TAG_H_
 
-#include <hydra/detail/policies/backends/OMP.h>
-#include <hydra/detail/policies/iterators/OMP.h>
+#include <hydra/detail/Config.h>
+#include <thrust/system/omp/detail/execution_policy.h>
+#include <thrust/system/omp/vector.h>
 
-#endif /* SYSTEM_OMP_H_ */
+namespace hydra {
+
+namespace detail {
+
+namespace omp {
+
+typedef thrust::system::omp::detail::tag   omp_tag;
+static const omp_tag    _omp_tag_;
+
+template<typename BACKEND>
+struct IteratorPolicy;
+
+template<>
+struct IteratorPolicy<omp_tag>: thrust::execution_policy<omp_tag>
+{
+	const omp_tag tag= _omp_tag_;
+	template<typename T>
+	using   container = thrust::omp::vector<T> ;
+};
+
+typedef IteratorPolicy<omp_tag> tag_t;
+static const tag_t tag;
+
+
+}  // namespace omp
+
+}  // namespace detail
+
+namespace omp {
+
+using hydra::detail::omp::tag;
+using hydra::detail::omp::tag_t;
+
+}  // namespace omp
+
+}  // namespace hydra
+
+#endif /* OMP_TAG_H_ */

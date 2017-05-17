@@ -44,6 +44,9 @@
 #include <hydra/FunctionWrapper.h>
 #include <hydra/Random.h>
 
+#include <hydra/host/System.h>
+#include <hydra/omp/System.h>
+#include <hydra/cpp/System.h>
 
 using namespace std;
 using namespace hydra;
@@ -179,13 +182,10 @@ GInt_t main(int argv, char** argc)
 	//Aggregate the functors in a tuple
    	auto functors = thrust::make_tuple( sin_lambaW, cos_lambaW);
 
-   	//Define a range
-	auto range    = make_range( angles_d.begin(), angles_d.end());
-
     //start time
 	auto start1 = std::chrono::high_resolution_clock::now();
 	//Evaluate sin and cos
-	auto result = Eval( functors, range);
+	auto result = eval(hydra::omp::sys , functors, angles_d.begin(), angles_d.end());
 	//end time
 	auto end1 = std::chrono::high_resolution_clock::now();
 	std::chrono::duration<double, std::milli> elapsed1 = end1 - start1;
@@ -195,13 +195,11 @@ GInt_t main(int argv, char** argc)
 	std::cout << "| Time (ms) = "<< elapsed1.count() <<std::endl;
 	std::cout << "--------------------------------------------------------------"<<std::endl;
 
-	//Define a second range
-    auto range2 =make_range( result.begin(), result.end());
 
     //start time
     auto start2 = std::chrono::high_resolution_clock::now();
     //Evaluate {cos(angle)}^2 + {sin(angle)}^2
-    auto result2 = Eval( R2_lambdaW, range2);
+    auto result2 = eval(hydra::omp::sys , R2_lambdaW,result.begin(), result.end() );
     //end time
     auto end2 = std::chrono::high_resolution_clock::now();
     std::chrono::duration<double, std::milli> elapsed2 = end2 - start2;

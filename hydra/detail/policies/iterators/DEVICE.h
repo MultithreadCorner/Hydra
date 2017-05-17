@@ -20,16 +20,57 @@
  *---------------------------------------------------------------------------*/
 
 /*
- * System.h
+ * DEVICE.h
  *
  *  Created on: 16/05/2017
  *      Author: Antonio Augusto Alves Junior
  */
 
-#ifndef SYSTEM_OMP_H_
-#define SYSTEM_OMP_H_
+#ifndef DEVICE_H_
+#define DEVICE_H_
 
-#include <hydra/detail/policies/backends/OMP.h>
-#include <hydra/detail/policies/iterators/OMP.h>
 
-#endif /* SYSTEM_OMP_H_ */
+#include <hydra/detail/Config.h>
+#include <thrust/iterator/detail/device_system_tag.h>
+#include <hydra/Containers.h>
+
+namespace hydra {
+
+namespace detail {
+
+namespace device {
+
+typedef thrust::device_system_tag	       device_tag;
+static const device_tag   _device_tag_;
+
+template<typename BACKEND>
+struct IteratorPolicy;
+
+template<>
+struct IteratorPolicy<device_t>: thrust::execution_policy<device_tag>
+{
+	const device_tag tag= _device_tag_;
+	template<typename T>
+	using   container = hydra::mc_device_vector<T>;
+};
+
+typedef IteratorPolicy<device_tag> tag_t;
+static const tag_t tag;
+
+
+}  // namespace device
+
+}  // namespace detail
+
+namespace device {
+
+using hydra::detail::device::tag;
+using hydra::detail::device::tag_t;
+
+}  // namespace device
+
+}  // namespace hydra
+
+
+
+#endif /* DEVICE_H_ */

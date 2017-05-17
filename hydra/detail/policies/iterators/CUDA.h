@@ -20,16 +20,55 @@
  *---------------------------------------------------------------------------*/
 
 /*
- * System.h
+ * CUDA.h
  *
  *  Created on: 16/05/2017
  *      Author: Antonio Augusto Alves Junior
  */
 
-#ifndef SYSTEM_OMP_H_
-#define SYSTEM_OMP_H_
+#ifndef CUDA_H_
+#define CUDA_H_
 
-#include <hydra/detail/policies/backends/OMP.h>
-#include <hydra/detail/policies/iterators/OMP.h>
 
-#endif /* SYSTEM_OMP_H_ */
+#include <hydra/detail/Config.h>
+#include <thrust/system/cuda/detail/execution_policy.h>
+#include <thrust/system/cuda/vector.h>
+
+namespace hydra {
+
+namespace detail {
+
+namespace cuda {
+
+typedef thrust::system::cuda::detail::tag   cuda_tag;
+static const cuda_tag    _cuda_tag_;
+
+template<typename BACKEND>
+struct IteratorPolicy;
+
+template<>
+struct IteratorPolicy<cuda_tag>: thrust::execution_policy<cuda_tag>
+{
+	const cuda_tag tag= _cuda_tag_;
+	template<typename T>
+	using   container = thrust::cuda::vector<T> ;
+};
+
+typedef IteratorPolicy<cuda_tag> tag_t;
+static const tag_t tag;
+
+
+}  // namespace cuda
+
+}  // namespace detail
+
+namespace cuda {
+
+using hydra::detail::cuda::tag;
+using hydra::detail::cuda::tag_t;
+
+}  // namespace cuda
+
+}  // namespace hydra
+
+#endif /* CUDA_H_ */

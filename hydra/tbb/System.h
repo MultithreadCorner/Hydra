@@ -29,6 +29,7 @@
 #ifndef SYSTEM_TBB_H_
 #define SYSTEM_TBB_H_
 
-#include <hyda/detail/backends/TBB.h>
+#include <hydra/detail/policies/backends/TBB.h>
+#include <hydra/detail/policies/iterators/TBB.h>
 
 #endif /* SYSTEM_TBB_H_ */

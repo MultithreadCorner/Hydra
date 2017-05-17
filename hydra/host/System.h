@@ -29,6 +29,7 @@
 #ifndef SYSTEM_HOST_H_
 #define SYSTEM_HOST_H_
 
-#include <hydra/detail/backends/HOST.h>
+#include <hydra/detail/policies/backends/HOST.h>
+#include <hydra/detail/policies/iterators/HOST.h>
 
 #endif /* SYSTEM_HOST_H_ */

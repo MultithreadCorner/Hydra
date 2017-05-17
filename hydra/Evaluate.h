@@ -60,40 +60,50 @@ struct EvalReturnType{ typedef V<thrust::tuple<T...>> type; };
 // Non cached functions
 //--------------------------------------
 
-template< typename Functor, typename Iterator>
-auto eval(Functor const& functor, Iterator begin, Iterator end)
--> typename detail::if_then_else< std::is_same<thrust::device_system_tag,
+template< typename BACKEND, typename Iterator, typename Functor >
+auto eval(BACKEND& , Functor const& functor, Iterator begin, Iterator end)
+-> typename BACKEND::template container<typename Functor::return_type>
+/*
+typename detail::if_then_else< std::is_same<thrust::device_system_tag,
 typename thrust::iterator_system<Iterator>::type>::value,
 mc_device_vector<typename Functor::return_type>,
-mc_host_vector<typename Functor::return_type>>::type
+mc_host_vector<typename Functor::return_type>>::type*/
 {
+	/*
 	typedef typename detail::if_then_else<std::is_same<thrust::device_system_tag,
 			typename thrust::iterator_system<Iterator>::type>::value,
 			mc_device_vector<typename Functor::return_type>,
 			mc_host_vector<typename Functor::return_type> >::type container;
+	*/
 
+	typedef	typename BACKEND::template container<typename Functor::return_type> container;
 	size_t size = thrust::distance(begin, end) ;
 	container Table( size );
 
-
 	thrust::transform(begin, end ,  Table.begin(), functor );
 
-	return Table;
+	return std::move(Table);
 }
 
-template<typename Iterator, typename ...Functors>
-auto eval(thrust::tuple<Functors...> const& functors, Iterator begin, Iterator end)
+template<typename BACKEND, typename Iterator, typename ...Functors>
+auto eval(BACKEND& ,thrust::tuple<Functors...> const& functors, Iterator begin, Iterator end)
+-> experimental::multivector<typename BACKEND::template container<thrust::tuple<typename Functors::return_type ...> >>
+/*
 -> typename detail::if_then_else<
 std::is_same<thrust::device_system_tag,typename  thrust::iterator_system<Iterator>::type>::value,
 experimental::multivector<mc_device_vector< thrust::tuple<typename Functors::return_type ...> >>,
 experimental::multivector<mc_host_vector< thrust::tuple<typename Functors::return_type ...> > >>::type
+*/
 {
-	typedef
+	typedef experimental::multivector<typename
+			BACKEND::template container<
+			       thrust::tuple<typename Functors::return_type ...> >> container;
+/*
 		typename detail::if_then_else<
 		std::is_same<thrust::device_system_tag,typename  thrust::iterator_system<Iterator>::type>::value,
 		experimental::multivector<mc_device_vector< thrust::tuple<typename Functors::return_type ...> >>,
 		experimental::multivector<mc_host_vector< thrust::tuple<typename Functors::return_type ...> > >>::type container;
-
+*/
 
 	size_t size = thrust::distance(begin, end) ;
 	container Table( size );
@@ -102,21 +112,27 @@ experimental::multivector<mc_host_vector< thrust::tuple<typename Functors::retur
 			detail::process< thrust::tuple<typename Functors::return_type ...>,
 			thrust::tuple<Functors...>>(functors) );
 
-	return Table;
+	return std::move(Table);
 }
 
-template< typename Functor, typename Iterator, typename ...Iterators>
-auto eval(Functor const& functor, Iterator begin, Iterator end, Iterators... begins)
--> typename detail::if_then_else< std::is_same<thrust::device_system_tag,
+template<typename BACKEND, typename Functor, typename Iterator, typename ...Iterators>
+auto eval(BACKEND& ,Functor const& functor, Iterator begin, Iterator end, Iterators... begins)
+-> typename BACKEND::template container<typename Functor::return_type>
+/*
+typename detail::if_then_else< std::is_same<thrust::device_system_tag,
 typename thrust::iterator_system<Iterator>::type>::value,
 mc_device_vector<typename Functor::return_type>,
 mc_host_vector<typename Functor::return_type>>::type&
+*/
 {
+	typedef typename BACKEND::template container<typename Functor::return_type> container;
+
+	/*
 	typedef typename detail::if_then_else<std::is_same<thrust::device_system_tag,
 			typename thrust::iterator_system<Iterator>::type>::value,
 			mc_device_vector<typename Functor::return_type>,
 			mc_host_vector<typename Functor::return_type> >::type container;
-
+*/
 	size_t size = thrust::distance(begin, end) ;
 	container Table( size );
 
@@ -125,23 +141,32 @@ mc_host_vector<typename Functor::return_type>>::type&
 
 	thrust::transform(fBegin, fEnd ,  Table.begin(), functor );
 
-	return Table;
+	return std::move(Table);
 }
 
 
-template<typename Iterator,  typename ...Iterators, typename ...Functors>
+template<typename BACKEND, typename Iterator,  typename ...Iterators, typename ...Functors>
 auto eval(thrust::tuple<Functors...> const& functors, Iterator begin, Iterator end, Iterators... begins)
--> typename detail::if_then_else<
+-> experimental::multivector<typename BACKEND::template container<thrust::tuple<typename Functors::return_type ...> >>
+/*
+typename detail::if_then_else<
 std::is_same<thrust::device_system_tag,typename  Range<Iterator>::system>::value,
 experimental::multivector<mc_device_vector< thrust::tuple<typename Functors::return_type ...> >>,
 experimental::multivector<mc_host_vector< thrust::tuple<typename Functors::return_type ...> > >>::type
+*/
 {
+
+	typedef experimental::multivector<
+			typename BACKEND::template container<
+			            thrust::tuple<typename Functors::return_type ...> >> container;
+
+	/*
 	typedef
 		typename detail::if_then_else<
 		std::is_same<thrust::device_system_tag,typename  Range<Iterator>::system>::value,
 		experimental::multivector<mc_device_vector< thrust::tuple<typename Functors::return_type ...> >>,
 		experimental::multivector<mc_host_vector< thrust::tuple<typename Functors::return_type ...> > >>::type container;
-
+*/
 
 	size_t size = thrust::distance(begin, end) ;
 	container Table( size );
@@ -153,14 +178,14 @@ experimental::multivector<mc_host_vector< thrust::tuple<typename Functors::retur
 			detail::process< thrust::tuple<typename Functors::return_type ...>,
 			thrust::tuple<Functors...>>(functors) );
 
-	return Table;
+	return std::move(Table);
 }
 
 
 //--------------------------------------
 // Non cached functions
 //--------------------------------------
-
+/*
 template< typename Iterator,typename ...Iterators, typename Functor,
 typename thrust::detail::enable_if<
 hydra::detail::are_all_same<typename Range<Iterator>::system ,
@@ -270,7 +295,7 @@ typename EvalReturnType<mc_host_vector,typename Functors::return_type ...>::type
 	return Table;
 }
 
-
+*/
 }/* namespace hydra */
 
 
