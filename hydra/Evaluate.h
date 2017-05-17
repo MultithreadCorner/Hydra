@@ -80,6 +80,9 @@ mc_host_vector<typename Functor::return_type>>::type*/
 	size_t size = thrust::distance(begin, end) ;
 	container Table( size );
 
+	//auto fBegin = thrust::make_zip_iterator(thrust::make_tuple(begin) );
+	//auto fEnd   = thrust::make_zip_iterator(thrust::make_tuple(end)   );
+
 	thrust::transform(begin, end ,  Table.begin(), functor );
 
 	return std::move(Table);
@@ -107,6 +110,10 @@ experimental::multivector<mc_host_vector< thrust::tuple<typename Functors::retur
 
 	size_t size = thrust::distance(begin, end) ;
 	container Table( size );
+
+	//auto fBegin = thrust::make_zip_iterator(thrust::make_tuple(begin) );
+	//auto fEnd   = thrust::make_zip_iterator(thrust::make_tuple(end)   );
+
 
 	thrust::transform(begin, end ,  Table.begin(),
 			detail::process< thrust::tuple<typename Functors::return_type ...>,
@@ -139,7 +146,7 @@ mc_host_vector<typename Functor::return_type>>::type&
 	auto fBegin = thrust::make_zip_iterator(thrust::make_tuple(begin, begins...) );
 	auto fEnd   = thrust::make_zip_iterator(thrust::make_tuple(end  , (begins+size)...) );
 
-	thrust::transform(fBegin, fEnd ,  Table.begin(), functor );
+	thrust::transform(begin, end,  Table.begin(), functor );
 
 	return std::move(Table);
 }

@@ -147,16 +147,20 @@ void  Random<GRND>::BreitWigner(GReal_t mean, GReal_t gamma, Iterator begin, Ite
 }
 
 template<typename GRND>
-template<unsigned int BACKEND, typename FUNCTOR, size_t N >
-auto Random<GRND>::Sample(FUNCTOR const& functor, std::array<GReal_t,N> min,
+template<typename BACKEND, typename FUNCTOR, size_t N >
+auto Random<GRND>::Sample(BACKEND&, FUNCTOR const& functor, std::array<GReal_t,N> min,
 		std::array<GReal_t,N> max, size_t trials)
+->	typename BACKEND::template container<
+typename  detail::tuple_type<N,GReal_t>::type>
+/*
 -> typename detail::if_then_else<BACKEND,
 mc_device_vector< typename detail::tuple_type<N,GReal_t>::type >,
 mc_host_vector< typename detail::tuple_type<N,GReal_t>::type> >::type
+*/
 {
 	typedef typename detail::tuple_type<N,GReal_t>::type tuple_t;
 
-	typedef detail::BackendTraits<BACKEND> system_t;
+	typedef BACKEND system_t;
 
 
     typedef typename system_t::template container<tuple_t> vector_tuple_t;
@@ -189,13 +193,14 @@ mc_host_vector< typename detail::tuple_type<N,GReal_t>::type> >::type
 }
 
 template<typename GRND>
-template<unsigned int BACKEND, typename FUNCTOR, size_t N >
-void Random<GRND>::Sample(FUNCTOR const& functor, std::array<GReal_t,N> min, std::array<GReal_t,N> max,
-		 PointVector<BACKEND, GReal_t, N, false, false>& result, size_t trials)
+template<typename BACKEND, typename FUNCTOR, size_t N >
+void Random<GRND>::Sample(BACKEND&, FUNCTOR const& functor, std::array<GReal_t,N> min, std::array<GReal_t,N> max,
+		experimental::PointVector<experimental::Point<GReal_t, N, false, false>, BACKEND >& result,
+		size_t trials)
 {
 	typedef typename detail::tuple_type<N,GReal_t>::type tuple_t;
 
-    typedef detail::BackendTraits<BACKEND> system_t;
+    typedef BACKEND system_t;
 
 
     typedef typename system_t::template container<tuple_t> vector_tuple_t;
