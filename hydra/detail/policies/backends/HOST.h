@@ -30,6 +30,7 @@
 #define HOST_H_
 
 #include <hydra/detail/Config.h>
+#include <hydra/detail/BackendPolicy.h>
 #include <thrust/execution_policy.h>
 #include <hydra/Containers.h>
 
@@ -42,18 +43,18 @@ namespace host {
 typedef thrust::detail::host_t	            host_t;
 static const host_t   _host_;
 
-template<typename BACKEND>
-struct BackendPolicy;
+//template<typename BACKEND>
+//struct BackendPolicy;
 
 template<>
-struct BackendPolicy<host_t>: thrust::execution_policy<host_t>
+struct hydra::detail::BackendPolicy<host_t>: thrust::execution_policy<host_t>
 {
 	const host_t backend= _host_;
 	template<typename T>
 	using   container = hydra::mc_host_vector<T>;
 };
 
-typedef BackendPolicy<host_t> sys_t;
+typedef hydra::detail::BackendPolicy<host_t> sys_t;
 static const sys_t sys;
 
 

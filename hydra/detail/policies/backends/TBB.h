@@ -30,6 +30,7 @@
 #define TBB_H_
 
 #include <hydra/detail/Config.h>
+#include <hydra/detail/BackendPolicy.h>
 #include <thrust/system/tbb/detail/par.h>
 #include <thrust/system/tbb/vector.h>
 
@@ -42,18 +43,18 @@ namespace tbb {
 typedef thrust::system::tbb::detail::par_t   tbb_t;
 static const tbb_t    _tbb_;
 
-template<typename BACKEND>
-struct BackendPolicy;
+//template<typename BACKEND>
+//struct BackendPolicy;
 
 template<>
-struct BackendPolicy<tbb_t>: thrust::execution_policy<tbb_t>
+struct hydra::detail::BackendPolicy<tbb_t>: thrust::execution_policy<tbb_t>
 {
 	const tbb_t backend= _tbb_;
 	template<typename T>
 	using   container = thrust::tbb::vector<T> ;
 };
 
-typedef BackendPolicy<tbb_t> sys_t;
+typedef hydra::detail::BackendPolicy<tbb_t> sys_t;
 static const sys_t sys;
 
 

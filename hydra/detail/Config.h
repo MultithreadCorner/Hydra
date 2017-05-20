@@ -54,7 +54,7 @@
   #define       __hydra_align__(n) __attribute__((aligned(n)))
 #endif
 
-#ifdef __CUDACC__
+#ifdef __NVCC__
  #include <cuda.h>
  #include <cuda_runtime.h>
  #include <cuda_runtime_api.h>
@@ -70,28 +70,7 @@
 #endif
 
 
-/*
- #define _ENABLE_CPP 1
 
-#if defined(HYDRA_USING_TBB) || THRUST_HOST_SYSTEM == THRUST_HOST_TBB || THRUST_DEVICE_SYSTEM == THRUST_DEVICE_TBB
- #define _ENABLE_TBB 1
-#else
- #define _ENABLE_TBB 0
-#endif
-
-#if defined(HYDRA_USING_CUDA) || defined(__CUDACC__)  || THRUST_DEVICE_SYSTEM == THRUST_DEVICE_CUDA
- #define _ENABLE_CUDA 1
-#else
- #define _ENABLE_CUDA 0
-#endif
-
-#if defined(HYDRA_USING_OMP)  || THRUST_HOST_SYSTEM == THRUST_HOST_OMP || THRUST_DEVICE_SYSTEM == THRUST_DEVICE_OMP
- #define _ENABLE_OMP 1
-#else
- #define _ENABLE_OMP 0
-#endif
-
-*/
 
 
 

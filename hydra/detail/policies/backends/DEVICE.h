@@ -31,6 +31,7 @@
 
 
 #include <hydra/detail/Config.h>
+#include <hydra/detail/BackendPolicy.h>
 #include <thrust/execution_policy.h>
 #include <hydra/Containers.h>
 
@@ -43,18 +44,18 @@ namespace device {
 typedef thrust::detail::device_t	            device_t;
 static const device_t   _device_;
 
-template<typename BACKEND>
-struct BackendPolicy;
+//template<typename BACKEND>
+//struct BackendPolicy;
 
 template<>
-struct BackendPolicy<device_t>: thrust::execution_policy<device_t>
+struct hydra::detail::BackendPolicy<device_t>: thrust::execution_policy<device_t>
 {
 	const omp_t backend= _device_;
 	template<typename T>
 	using   container = hydra::mc_device_vector<T>;
 };
 
-typedef BackendPolicy<device_t> sys_t;
+typedef hydra::detail::BackendPolicy<device_t> sys_t;
 static const sys_t sys;
 
 

@@ -30,6 +30,7 @@
 #define CPP_H_
 
 #include <hydra/detail/Config.h>
+#include <hydra/detail/BackendPolicy.h>
 #include <thrust/system/cpp/detail/par.h>
 #include <thrust/system/cpp/vector.h>
 
@@ -42,18 +43,16 @@ namespace cpp {
 typedef thrust::system::cpp::detail::par_t   cpp_t;
 static const cpp_t    _cpp_;
 
-template<typename BACKEND>
-struct BackendPolicy;
 
 template<>
-struct BackendPolicy<cpp_t>: thrust::execution_policy<cpp_t>
+struct hydra::detail::BackendPolicy<cpp_t>: thrust::execution_policy<cpp_t>
 {
 	const cpp_t backend= _cpp_;
 	template<typename T>
 	using   container = thrust::cpp::vector<T> ;
 };
 
-typedef BackendPolicy<cpp_t> sys_t;
+typedef hydra::detail::BackendPolicy<cpp_t> sys_t;
 static const sys_t sys;
 
 
