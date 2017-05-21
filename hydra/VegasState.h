@@ -61,10 +61,8 @@ template<size_t N , typename  BACKEND>
 class VegasState {
 
 template<size_t N , hydra::detail::Backend BACKEND>
-class VegasState<N, hydra::detail::BackendPolicy<BACKEND>> {
-
-public:
-
+class VegasState<N, hydra::detail::BackendPolicy<BACKEND>>
+{
 	typedef hydra::detail::BackendPolicy<BACKEND> system_t;
 	typedef typename system_t::template container<GReal_t>  rvector_backend;
 	typedef typename system_t::template container<GUInt_t>  uvector_backend;
@@ -73,6 +71,9 @@ public:
 	typedef typename rvector_backend::iterator rvector_iterator;
 	typedef typename uvector_backend::iterator uvector_iterator;
 	typedef typename rvector_std::iterator  rvector_std_iterator;
+
+public:
+
 
 
 	VegasState(std::array<GReal_t,N> const& xlower,

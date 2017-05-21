@@ -58,9 +58,10 @@
 
 namespace hydra {
 
-template<size_t N, unsigned int BACKEND , typename GRND>
+template<size_t N, hydra::detail::Backend  BACKEND, typename GRND>
 template<typename FUNCTOR>
-std::pair<GReal_t, GReal_t>  Vegas<N,BACKEND, GRND >::Integrate(FUNCTOR const& fFunctor )
+std::pair<GReal_t, GReal_t>
+Vegas<N,hydra::detail::BackendPolicy<BACKEND>, GRND >::Integrate(FUNCTOR const& fFunctor )
 {
 
 	fState.SetStage(0);
@@ -71,10 +72,10 @@ std::pair<GReal_t, GReal_t>  Vegas<N,BACKEND, GRND >::Integrate(FUNCTOR const& f
 
 }
 
-template<size_t N, unsigned int BACKEND , typename GRND>
+template<size_t N, hydra::detail::Backend  BACKEND , typename GRND>
 template<typename FUNCTOR>
 std::pair<GReal_t, GReal_t>
-Vegas<N,BACKEND, GRND >::IntegIterator(FUNCTOR const& fFunctor, GBool_t training )
+Vegas<N,hydra::detail::BackendPolicy<BACKEND>, GRND >::IntegIterator(FUNCTOR const& fFunctor, GBool_t training )
 {
 
 	//fState.SetStage(0);
@@ -322,8 +323,8 @@ Vegas<N,BACKEND, GRND >::IntegIterator(FUNCTOR const& fFunctor, GBool_t training
 
 }
 
-template< size_t N , unsigned int BACKEND, typename GRND>
-void Vegas< N ,BACKEND, GRND>::PrintLimits()  {
+template< size_t N , hydra::detail::Backend  BACKEND, typename GRND>
+void Vegas<N,hydra::detail::BackendPolicy<BACKEND>, GRND >::PrintLimits()  {
 
 	//PrintToStream(fState.GetOStream(),, ... );
 
@@ -340,8 +341,8 @@ void Vegas< N ,BACKEND, GRND>::PrintLimits()  {
 
 }
 
-template< size_t N , unsigned int BACKEND, typename GRND>
-void Vegas< N ,BACKEND, GRND>::PrintHead()  {
+template< size_t N , hydra::detail::Backend  BACKEND, typename GRND>
+void Vegas<N,hydra::detail::BackendPolicy<BACKEND>, GRND >::PrintHead()  {
 
 	PrintToStream(fState.GetOStream(),
 			"\nnum_dim=%lu, calls=%lu, it_num=%d, max_it_num=%d ",
@@ -372,8 +373,8 @@ void Vegas< N ,BACKEND, GRND>::PrintHead()  {
 
 }
 
-template< size_t N, unsigned int BACKEND , typename GRND>
-void Vegas<  N ,BACKEND, GRND>::PrintResults(GReal_t integral, GReal_t sigma,
+template< size_t N, hydra::detail::Backend  BACKEND , typename GRND>
+void Vegas<N,hydra::detail::BackendPolicy<BACKEND>, GRND >::PrintResults(GReal_t integral, GReal_t sigma,
 		GReal_t cumulated_integral, GReal_t cumulated_sigma, GReal_t time)  {
 
 	PrintToStream(fState.GetOStream(),
@@ -389,8 +390,8 @@ void Vegas<  N ,BACKEND, GRND>::PrintResults(GReal_t integral, GReal_t sigma,
 
 }
 
-template< size_t N, unsigned int BACKEND, typename GRND >
-void Vegas< N ,BACKEND, GRND>::PrintDistribution()   {
+template< size_t N, hydra::detail::Backend  BACKEND, typename GRND >
+void Vegas<N,hydra::detail::BackendPolicy<BACKEND>, GRND >::PrintDistribution()   {
 
 	size_t i, j;
 
@@ -419,8 +420,8 @@ void Vegas< N ,BACKEND, GRND>::PrintDistribution()   {
 
 }
 
-template< size_t N, unsigned int BACKEND , typename GRND>
-void Vegas< N ,BACKEND, GRND>::PrintGrid()   {
+template< size_t N, hydra::detail::Backend  BACKEND , typename GRND>
+void Vegas<N,hydra::detail::BackendPolicy<BACKEND>, GRND >::PrintGrid()   {
 
 /*
 	if (!fState.GetVerbose())
@@ -443,8 +444,8 @@ void Vegas< N ,BACKEND, GRND>::PrintGrid()   {
 
 }
 
-template< size_t N, unsigned int BACKEND , typename GRND>
-void Vegas< N ,BACKEND, GRND>::InitGrid() {
+template< size_t N, hydra::detail::Backend  BACKEND , typename GRND>
+void Vegas<N,hydra::detail::BackendPolicy<BACKEND>, GRND >::InitGrid() {
 
 	GReal_t vol = 1.0;
 
@@ -463,8 +464,8 @@ void Vegas< N ,BACKEND, GRND>::InitGrid() {
 	fState.SendGridToBackend();
 }
 
-template< size_t N, unsigned int BACKEND, typename GRND >
-void Vegas<  N,BACKEND , GRND>::ResetGridValues() {
+template< size_t N, hydra::detail::Backend  BACKEND, typename GRND >
+void VVegas<N,hydra::detail::BackendPolicy<BACKEND>, GRND >::ResetGridValues() {
 
 	for (size_t i = 0; i < fState.GetNBins(); i++) {
 		for (size_t j = 0; j < N; j++) {
@@ -473,16 +474,16 @@ void Vegas<  N,BACKEND , GRND>::ResetGridValues() {
 	}
 }
 
-template< size_t N, unsigned int BACKEND , typename GRND>
-void Vegas< N ,BACKEND, GRND>::InitBoxCoordinates() {
+template< size_t N, hydra::detail::Backend  BACKEND , typename GRND>
+void Vegas<N,hydra::detail::BackendPolicy<BACKEND>, GRND >::InitBoxCoordinates() {
 
 	//for (size_t i = 0; i < N; i++)
 		//fState.SetBox(i, 0);
 }
 
 
-template< size_t N, unsigned int BACKEND, typename GRND >
-void Vegas< N,BACKEND , GRND>::ResizeGrid(const GInt_t bins) {
+template< size_t N, hydra::detail::Backend  BACKEND, typename GRND >
+void Vegas<N,hydra::detail::BackendPolicy<BACKEND>, GRND >::ResizeGrid(const GInt_t bins) {
 
 
 
@@ -518,8 +519,8 @@ void Vegas< N,BACKEND , GRND>::ResizeGrid(const GInt_t bins) {
 
 }
 
-template< size_t N , unsigned int BACKEND, typename GRND>
-void Vegas<  N,BACKEND, GRND >::RefineGrid() {
+template< size_t N , hydra::detail::Backend  BACKEND, typename GRND>
+void Vegas<N,hydra::detail::BackendPolicy<BACKEND>, GRND >::RefineGrid() {
 
 
 		for (size_t j = 0; j < N; j++) {
@@ -601,9 +602,9 @@ void Vegas<  N,BACKEND, GRND >::RefineGrid() {
 
 }
 
-template< size_t N, unsigned int BACKEND , typename GRND>
+template< size_t N, hydra::detail::Backend  BACKEND , typename GRND>
 template<typename FUNCTOR>
-void Vegas<N,BACKEND, GRND>::ProcessFuncionCalls(FUNCTOR const& fFunctor, GBool_t training, GReal_t& integral, GReal_t& tss)
+void Vegas<N,hydra::detail::BackendPolicy<BACKEND>, GRND >::ProcessFuncionCalls(FUNCTOR const& fFunctor, GBool_t training, GReal_t& integral, GReal_t& tss)
 {
 	typedef detail::BackendTraits<BACKEND> system_t;
 	size_t ncalls = fState.GetCalls(training);
