@@ -40,7 +40,6 @@ namespace hydra{
 template<typename GRND>
 template<typename FUNCTOR, typename Iterator>
 void Random<GRND>::InverseCDF(FUNCTOR const& invcdf, Iterator begin, Iterator end )
-//-> decltype(*begin)
 {
 	using thrust::system::detail::generic::select_system;
 	typedef typename thrust::iterator_system<Iterator>::type System;
@@ -62,7 +61,6 @@ void Random<GRND>::InverseCDF(FUNCTOR const& invcdf, Iterator begin, Iterator en
 template<typename GRND>
 template<typename Iterator>
 void  Random<GRND>::Gauss(GReal_t mean, GReal_t sigma, Iterator begin, Iterator end )
-//-> decltype(*begin)
 {
 	using thrust::system::detail::generic::select_system;
 	typedef typename thrust::iterator_system<Iterator>::type System;
@@ -86,7 +84,6 @@ void  Random<GRND>::Gauss(GReal_t mean, GReal_t sigma, Iterator begin, Iterator 
 template<typename GRND>
 template<typename Iterator>
 void Random<GRND>::Uniform(GReal_t min, GReal_t max, Iterator begin, Iterator end)
-//-> decltype(*begin)
 {
 	using thrust::system::detail::generic::select_system;
 	typedef typename thrust::iterator_system<Iterator>::type System;
@@ -108,7 +105,6 @@ void Random<GRND>::Uniform(GReal_t min, GReal_t max, Iterator begin, Iterator en
 template<typename GRND>
 template<typename Iterator>
 void  Random<GRND>::Exp(GReal_t tau,  Iterator begin, Iterator end)
-//-> decltype(*begin)
 {
 	using thrust::system::detail::generic::select_system;
 	typedef typename thrust::iterator_system<Iterator>::type System;
@@ -130,7 +126,6 @@ void  Random<GRND>::Exp(GReal_t tau,  Iterator begin, Iterator end)
 template<typename GRND>
 template<typename Iterator>
 void  Random<GRND>::BreitWigner(GReal_t mean, GReal_t gamma, Iterator begin, Iterator end)
-//-> decltype(*begin)
 {
 	using thrust::system::detail::generic::select_system;
 	typedef typename thrust::iterator_system<Iterator>::type System;
@@ -147,16 +142,15 @@ void  Random<GRND>::BreitWigner(GReal_t mean, GReal_t gamma, Iterator begin, Ite
 }
 
 template<typename GRND>
-template<unsigned int BACKEND, typename FUNCTOR, size_t N >
-auto Random<GRND>::Sample(FUNCTOR const& functor, std::array<GReal_t,N> min,
+template<hydra::detail::Backend BACKEND, typename FUNCTOR, size_t N >
+auto Random<GRND>::Sample(hydra::detail::BackendPolicy<BACKEND>const&, FUNCTOR const& functor, std::array<GReal_t,N> min,
 		std::array<GReal_t,N> max, size_t trials)
--> typename detail::if_then_else<BACKEND,
-mc_device_vector< typename detail::tuple_type<N,GReal_t>::type >,
-mc_host_vector< typename detail::tuple_type<N,GReal_t>::type> >::type
+->	typename hydra::detail::BackendPolicy<BACKEND>::template container<
+typename  detail::tuple_type<N,GReal_t>::type>
 {
 	typedef typename detail::tuple_type<N,GReal_t>::type tuple_t;
 
-	typedef detail::BackendTraits<BACKEND> system_t;
+	typedef hydra::detail::BackendPolicy<BACKEND> system_t;
 
 
     typedef typename system_t::template container<tuple_t> vector_tuple_t;
@@ -189,13 +183,14 @@ mc_host_vector< typename detail::tuple_type<N,GReal_t>::type> >::type
 }
 
 template<typename GRND>
-template<unsigned int BACKEND, typename FUNCTOR, size_t N >
-void Random<GRND>::Sample(FUNCTOR const& functor, std::array<GReal_t,N> min, std::array<GReal_t,N> max,
-		 PointVector<BACKEND, GReal_t, N, false, false>& result, size_t trials)
+template<hydra::detail::Backend BACKEND, typename FUNCTOR, size_t N >
+void Random<GRND>::Sample(hydra::detail::BackendPolicy<BACKEND>const&, FUNCTOR const& functor, std::array<GReal_t,N> min, std::array<GReal_t,N> max,
+		experimental::PointVector<experimental::Point<GReal_t, N, false, false>, BACKEND >& result,
+		size_t trials)
 {
 	typedef typename detail::tuple_type<N,GReal_t>::type tuple_t;
 
-    typedef detail::BackendTraits<BACKEND> system_t;
+    typedef hydra::detail::BackendPolicy<BACKEND> system_t;
 
 
     typedef typename system_t::template container<tuple_t> vector_tuple_t;

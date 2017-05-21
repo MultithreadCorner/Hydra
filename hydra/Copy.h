@@ -35,6 +35,7 @@
 #define COPY_H_
 
 #include <hydra/detail/Config.h>
+#include <hydra/detail/BackendPolicy.h>
 #include <hydra/Types.h>
 #include <hydra/Containers.h>
 #include <hydra/detail/TypeTraits.h>
@@ -50,17 +51,16 @@ namespace hydra {
 
 namespace detail {
 
-template<template<typename...> class CONTAINER, typename T,  typename BACKEND>
+template<template<typename...> class CONTAINER, typename T, hydra::detail::Backend BACKEND>
 struct copy_type{
-
-	typedef BACKEND system_t;
+	typedef hydra::detail::BackendPolicy<BACKEND> system_t;
 	typedef typename system_t::template container<T> type;
 };
 
 }  // namespace detail
 
-template<typename BACKEND, template<typename...> class CONTAINER, typename T, typename ...Ts >
-auto get_copy(CONTAINER<T, Ts...>& other )
+template<hydra::detail::Backend BACKEND, template<typename...> class CONTAINER, typename T, typename ...Ts >
+auto get_copy(hydra::detail::BackendPolicy<BACKEND> const&, CONTAINER<T, Ts...>& other )
 ->typename  std::enable_if<
 detail::is_specialization< CONTAINER<T, Ts...>, thrust::host_vector>::value ||
 detail::is_specialization<CONTAINER<T, Ts...>, thrust::device_vector >::value ||
@@ -72,15 +72,15 @@ typename detail::copy_type<CONTAINER, T, BACKEND>::type
 	return 	std::move(vector_t(other));
 }
 
-template<typename BACKEND, template<typename...> class CONTAINER, typename T>
-auto get_copy(CONTAINER<T>& other )
+template<hydra::detail::Backend BACKEND, template<typename...> class CONTAINER, typename T>
+auto get_copy(hydra::detail::BackendPolicy<BACKEND> const&, CONTAINER<T>& other )
 ->typename  std::enable_if<
 detail::is_specialization< CONTAINER<T> ,hydra::experimental::multivector>::value,
 hydra::experimental::multivector<typename
-BACKEND::template container<typename CONTAINER<T>::value_tuple_type> > >::type
+hydra::detail::BackendPolicy<BACKEND>::template container<typename CONTAINER<T>::value_tuple_type> > >::type
 
 {
-	typedef BACKEND system_t;
+	typedef hydra::detail::BackendPolicy<BACKEND> system_t;
 
 	typedef typename  hydra::experimental::multivector<typename
 			system_t::template container<typename CONTAINER<T>::value_tuple_type> > vector_t;

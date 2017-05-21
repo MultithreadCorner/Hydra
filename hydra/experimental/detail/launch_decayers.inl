@@ -36,13 +36,13 @@
 #define LAUNCH_DECAYER_INC
 
 #include <hydra/detail/Config.h>
+#include <hydra/detail/BackendPolicy.h>
 #include <hydra/Types.h>
 #include <hydra/Containers.h>
 #include <hydra/experimental/Events.h>
 #include <hydra/experimental/detail/functors/DecayMother.h>
 #include <hydra/experimental/detail/functors/DecayMothers.h>
 #include <hydra/experimental/detail/functors/EvalDaughters.h>
-#include <hydra/detail/BackendTraits.h>
 #include <hydra/detail/utility/Utility_Tuple.h>
 
 #include <thrust/iterator/counting_iterator.h>
@@ -55,11 +55,11 @@ namespace hydra {
 namespace experimental {
 	namespace detail {
 
-	template<size_t N, typename BACKEND, typename FUNCTOR, typename GRND, typename Iterator>
-	inline ResultPHSP	 launch_evaluator(Iterator begin, Iterator end,
+	template<size_t N, hydra::detail::Backend BACKEND, typename FUNCTOR, typename GRND, typename Iterator>
+	inline ResultPHSP launch_evaluator(Iterator begin, Iterator end,
 			detail::EvalOnDaughters<N,BACKEND,FUNCTOR, GRND> const& evaluator)
 	{
-		typedef BACKEND system_t;
+		typedef hydra::detail::BackendPolicy<BACKEND> system_t;
 
 		ResultPHSP init = ResultPHSP();
 

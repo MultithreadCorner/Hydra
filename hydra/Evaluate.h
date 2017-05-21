@@ -58,8 +58,8 @@ namespace hydra {
 // Non cached functions
 //--------------------------------------
 
-template< typename BACKEND, typename Iterator, typename Functor >
-auto eval(hydra::detail::BackendPolicy<BACKEND>& , Functor const& functor, Iterator begin, Iterator end)
+template< hydra::detail::Backend BACKEND, typename Iterator, typename Functor >
+auto eval(hydra::detail::BackendPolicy<BACKEND>const& , Functor const& functor, Iterator begin, Iterator end)
 -> typename hydra::detail::BackendPolicy<BACKEND>::template container<typename Functor::return_type>
 {
 
@@ -68,13 +68,16 @@ auto eval(hydra::detail::BackendPolicy<BACKEND>& , Functor const& functor, Itera
 	size_t size = thrust::distance(begin, end) ;
 	container Table( size );
 
+	//auto fBegin = thrust::make_zip_iterator(thrust::make_tuple(begin) );
+	//auto fEnd   = thrust::make_zip_iterator(thrust::make_tuple(end)   );
+
 	thrust::transform(begin, end ,  Table.begin(), functor );
 
 	return std::move(Table);
 }
 
-template<typename BACKEND, typename Iterator, typename ...Functors>
-auto eval(hydra::detail::BackendPolicy<BACKEND>& ,thrust::tuple<Functors...> const& functors, Iterator begin, Iterator end)
+template<hydra::detail::Backend BACKEND, typename Iterator, typename ...Functors>
+auto eval(hydra::detail::BackendPolicy<BACKEND>const& ,thrust::tuple<Functors...> const& functors, Iterator begin, Iterator end)
 -> experimental::multivector<
 typename hydra::detail::BackendPolicy<BACKEND>::template
 container<thrust::tuple<typename Functors::return_type ...> >>
@@ -86,6 +89,10 @@ container<thrust::tuple<typename Functors::return_type ...> >>
 	size_t size = thrust::distance(begin, end) ;
 	container Table( size );
 
+	//auto fBegin = thrust::make_zip_iterator(thrust::make_tuple(begin) );
+	//auto fEnd   = thrust::make_zip_iterator(thrust::make_tuple(end)   );
+
+
 	thrust::transform(begin, end ,  Table.begin(),
 			detail::process< thrust::tuple<typename Functors::return_type ...>,
 			thrust::tuple<Functors...>>(functors) );
@@ -93,8 +100,8 @@ container<thrust::tuple<typename Functors::return_type ...> >>
 	return std::move(Table);
 }
 
-template<typename BACKEND, typename Functor, typename Iterator, typename ...Iterators>
-auto eval(hydra::detail::BackendPolicy<BACKEND>& ,Functor const& functor, Iterator begin, Iterator end, Iterators... begins)
+template<hydra::detail::Backend BACKEND, typename Functor, typename Iterator, typename ...Iterators>
+auto eval(hydra::detail::BackendPolicy<BACKEND>const& ,Functor const& functor, Iterator begin, Iterator end, Iterators... begins)
 -> typename hydra::detail::BackendPolicy<BACKEND>::template
 container<typename Functor::return_type>
 {
@@ -108,14 +115,14 @@ container<typename Functor::return_type>
 	auto fBegin = thrust::make_zip_iterator(thrust::make_tuple(begin, begins...) );
 	auto fEnd   = thrust::make_zip_iterator(thrust::make_tuple(end  , (begins+size)...) );
 
-	thrust::transform(fBegin, fEnd ,  Table.begin(), functor );
+	thrust::transform(begin, end,  Table.begin(), functor );
 
 	return std::move(Table);
 }
 
 
-template<typename BACKEND, typename Iterator,  typename ...Iterators, typename ...Functors>
-auto eval(hydra::detail::BackendPolicy<BACKEND>&, thrust::tuple<Functors...> const& functors, Iterator begin, Iterator end, Iterators... begins)
+template<hydra::detail::Backend BACKEND, typename Iterator,  typename ...Iterators, typename ...Functors>
+auto eval(hydra::detail::BackendPolicy<BACKEND>const&, thrust::tuple<Functors...> const& functors, Iterator begin, Iterator end, Iterators... begins)
 -> experimental::multivector<
 typename hydra::detail::BackendPolicy<BACKEND>::template
 container<thrust::tuple<typename Functors::return_type ...> >>

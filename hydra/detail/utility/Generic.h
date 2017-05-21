@@ -39,6 +39,15 @@ namespace hydra {
 
 	namespace detail {
 
+	//-------------------------------------
+	// is this type an instance of other template?
+	template < template <typename...> class Template, typename T >
+	struct is_instantiation_of : std::false_type {};
+
+	template < template <typename...> class Template, typename... Args >
+	struct is_instantiation_of< Template, Template<Args...> > : std::true_type {};
+
+
 	//------------------------------------
 	// calculate COND1 && COND2 &&...&& CONDN. In summary a AND of all conditions
 	template<typename... Conds>

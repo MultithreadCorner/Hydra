@@ -37,6 +37,7 @@
 #define PLAIN_H_
 
 #include <hydra/detail/Config.h>
+#include <hydra/detail/BackendPolicy.h>
 #include <hydra/Types.h>
 #include <thrust/device_vector.h>
 #include <thrust/transform_reduce.h>
@@ -46,15 +47,25 @@
 
 namespace hydra {
 
+template<size_t N, typename BACKEND, typename GRND=thrust::random::default_random_engine>
+struct Plain;
 
-template<size_t N, typename GRND=thrust::random::default_random_engine>
-class Plain{
+template<size_t N, hydra::detail::Backend BACKEND, typename GRND>
+class Plain<N, hydra::detail::BackendPolicy<BACKEND>, GRND>:
+public Integrator<Plain<N,hydra::detail::BackendPolicy<BACKEND>,GRND>>
+{
+	typedef hydra::detail::BackendPolicy<BACKEND> system_t;
+	typedef typename system_t::template container<GReal_t> vector_t;
 
 public:
-	Plain();
+
+	//tag
+	typedef void hydra_integrator_tag;
+
+	Plain()=delete;
 
 	Plain( std::array<GReal_t,N> const& LowLim,
-			std::array<GReal_t,N> const& UpLim, size_t calls):
+		   std::array<GReal_t,N> const& UpLim, size_t calls):
 				fNCalls(calls),
 				fResult(0),
 				fAbsError(0),
@@ -87,7 +98,7 @@ public:
 		fAbsError = absError;
 	}
 
-	const mc_device_vector<GReal_t>& GetDeltaX() const {
+	const vector_t& GetDeltaX() const {
 		return fDeltaX;
 	}
 
@@ -120,7 +131,7 @@ public:
 		fVolume = volume;
 	}
 
-	const mc_device_vector<GReal_t>& GetXLow() const {
+	const vector_t& GetXLow() const {
 		return fXLow;
 	}
 
@@ -135,37 +146,11 @@ private:
 	GReal_t fResult;
 	GReal_t fAbsError;
 	GReal_t fVolume;
-	mc_device_vector<GReal_t> fDeltaX;
-	mc_device_vector<GReal_t> fXLow;
+	vector_t fDeltaX;
+	vector_t fXLow;
 
 };
 
-
-/*
-template< size_t N>
-template<typename FUNCTOR>
-GInt_t Plain<N>::Integrate(FUNCTOR const& fFunctor)
-{
-
-	// create iterators
-	thrust::counting_iterator<size_t> first(0);
-	thrust::counting_iterator<size_t> last = first + fNCalls;
-
-
-	// compute summary statistics
-	PlainState result = thrust::transform_reduce(first, last,
-			ProcessCallsPlainUnary<FUNCTOR,N>(const_cast<GReal_t*>(thrust::raw_pointer_cast(fXLow.data())),
-					const_cast<GReal_t*>(thrust::raw_pointer_cast(fDeltaX.data())), fFunctor),
-			PlainState(), ProcessCallsPlainBinary() );
-
-	fResult   = fVolume*result.fMean;
-	fAbsError = fVolume*sqrt( result.fM2/(fNCalls*(fNCalls-1)) );
-
-
-	return 0;
-
-}
-*/
 }
 #include <hydra/detail/Plain.inl>
 #endif /* PLAIN_H_ */

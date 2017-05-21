@@ -36,6 +36,7 @@
 #include <cassert>
 
 #include <hydra/detail/Config.h>
+#include <hydra/detail/BackendPolicy.h>
 #include <hydra/Types.h>
 #include <hydra/Containers.h>
 #include <hydra/experimental/Events.h>
@@ -54,18 +55,18 @@ namespace experimental {
 template<typename ...Decays>
 struct Chain;
 
-template<size_t ...N, typename BACKEND>
-struct Chain< hydra::experimental::Events<N,BACKEND >...>{
+template<size_t ...N, hydra::detail::Backend BACKEND>
+struct Chain< hydra::experimental::Events<N,hydra::detail::BackendPolicy<BACKEND> >...>{
 
-	typedef BACKEND system_t;
-
-	typedef thrust::tuple<typename
-				hydra::experimental::Events<N,BACKEND >...> event_tuple;
+	typedef hydra::detail::BackendPolicy<BACKEND> system_t;
 
 	typedef thrust::tuple<typename
-			hydra::experimental::Events<N,BACKEND >::iterator...> iterator_tuple;
+				hydra::experimental::Events<N,hydra::detail::BackendPolicy<BACKEND> >...> event_tuple;
+
 	typedef thrust::tuple<typename
-			hydra::experimental::Events<N,BACKEND >::const_iterator...> const_iterator_tuple;
+			hydra::experimental::Events<N,hydra::detail::BackendPolicy<BACKEND> >::iterator...> iterator_tuple;
+	typedef thrust::tuple<typename
+			hydra::experimental::Events<N,hydra::detail::BackendPolicy<BACKEND> >::const_iterator...> const_iterator_tuple;
 
 	typedef typename system_t::template container<GReal_t>  vector_real;
 	typedef typename system_t::template container<GReal_t>::iterator vector_real_iterator;
@@ -89,7 +90,7 @@ struct Chain< hydra::experimental::Events<N,BACKEND >...>{
 	Chain(){};
 
 	Chain(size_t nevents):
-	fStorage(thrust::make_tuple(hydra::experimental::Events<N,BACKEND >(nevents)...) ),
+	fStorage(thrust::make_tuple(hydra::experimental::Events<N,hydra::detail::BackendPolicy<BACKEND> >(nevents)...) ),
 	fSize(nevents)
 	{
 
@@ -109,7 +110,7 @@ struct Chain< hydra::experimental::Events<N,BACKEND >...>{
 	}
 
 
-	Chain(hydra::experimental::Chain<hydra::experimental::Events<N,BACKEND >...>const& other):
+	Chain(hydra::experimental::Chain<hydra::experimental::Events<N,hydra::detail::BackendPolicy<BACKEND> >...>const& other):
 		fStorage(std::move(other.CopyStorage()) ),
 		fSize (other.GetNEvents())
 		{
@@ -129,8 +130,8 @@ struct Chain< hydra::experimental::Events<N,BACKEND >...>{
 
 		}
 
-	template<typename BACKEND2>
-	Chain(hydra::experimental::Chain<hydra::experimental::Events<N,BACKEND2 >...>const& other):
+	template<hydra::detail::Backend BACKEND2>
+	Chain(hydra::experimental::Chain<hydra::experimental::Events<N,hydra::detail::BackendPolicy<BACKEND2> >...>const& other):
 	fStorage(std::move(other.CopyStorage()) ),
 	fSize (other.GetNEvents())
 	{
@@ -152,7 +153,7 @@ struct Chain< hydra::experimental::Events<N,BACKEND >...>{
 
 
 
-	Chain(hydra::experimental::Chain<hydra::experimental::Events<N,BACKEND >...>&& other):
+	Chain(hydra::experimental::Chain<hydra::experimental::Events<N,hydra::detail::BackendPolicy<BACKEND> >...>&& other):
 		fStorage(std::move(other.MoveStorage())),
 		fSize (other.GetNEvents())
 	{
@@ -175,8 +176,8 @@ struct Chain< hydra::experimental::Events<N,BACKEND >...>{
 
 	//************************
 
-	hydra::experimental::Chain<hydra::experimental::Events<N,BACKEND >...>&
-	operator=(hydra::experimental::Chain<hydra::experimental::Events<N,BACKEND >...> const& other)
+	hydra::experimental::Chain<hydra::experimental::Events<N,hydra::detail::BackendPolicy<BACKEND> >...>&
+	operator=(hydra::experimental::Chain<hydra::experimental::Events<N,hydra::detail::BackendPolicy<BACKEND> >...> const& other)
 	{
 		if(this == &other) return *this;
 		this->fStorage = std::move(other.CopyStorage()) ;
@@ -199,9 +200,9 @@ struct Chain< hydra::experimental::Events<N,BACKEND >...>{
 
 	}
 
-	template<typename BACKEND2>
-	hydra::experimental::Chain<hydra::experimental::Events<N,BACKEND >...>&
-	operator=(hydra::experimental::Chain<hydra::experimental::Events<N,BACKEND2 >...>const& other)
+	template<hydra::detail::Backend BACKEND2>
+	hydra::experimental::Chain<hydra::experimental::Events<N,hydra::detail::BackendPolicy<BACKEND> >...>&
+	operator=(hydra::experimental::Chain<hydra::experimental::Events<N,hydra::detail::BackendPolicy<BACKEND2> >...>const& other)
 	{
 		if(this == &other) return *this;
 		this->fStorage=std::move(other.CopyStorage());
@@ -224,14 +225,14 @@ struct Chain< hydra::experimental::Events<N,BACKEND >...>{
 	}
 
 
-	hydra::experimental::Chain<hydra::experimental::Events<N,BACKEND >...>&
-	operator=(hydra::experimental::Chain<hydra::experimental::Events<N,BACKEND >...>&& other)
+	hydra::experimental::Chain<hydra::experimental::Events<N,hydra::detail::BackendPolicy<BACKEND> >...>&
+	operator=(hydra::experimental::Chain<hydra::experimental::Events<N,hydra::detail::BackendPolicy<BACKEND> >...>&& other)
 	{
 		if(this == &other) return *this;
 		this->fStorage = std::move(other.MoveStorage());
 		this->fSize = other.GetNEvents();
 
-		other= hydra::experimental::Chain<hydra::experimental::Events<N,BACKEND >...>();
+		other= hydra::experimental::Chain<hydra::experimental::Events<N,hydra::detail::BackendPolicy<BACKEND> >...>();
 
 		this->fWeights = vector_real(this->fSize , 1.0);
 		this->fFlags = vector_bool( this->fSize, 1.0 );
@@ -251,7 +252,7 @@ struct Chain< hydra::experimental::Events<N,BACKEND >...>{
 
 
 
-	Chain(hydra::experimental::Events<N,BACKEND > const& ...events):
+	Chain(hydra::experimental::Events<N,hydra::detail::BackendPolicy<BACKEND> > const& ...events):
 		fSize ( CheckSizes({events.GetNEvents()...}) ),
 		fStorage( thrust::make_tuple( events... ))
 	{
@@ -359,23 +360,7 @@ struct Chain< hydra::experimental::Events<N,BACKEND >...>{
 	event_tuple const& CopyStorage() const { return fStorage;}
 
 private:
-/*
-	template<size_t N2, unsigned int  BACKEND2>
-	hydra::experimental::Events<N2,BACKEND >
-	_CopyEvents(hydra::experimental::Events<N2, BACKEND2>const& other )
-	{
-		return std::move(hydra::experimental::Events<N2,BACKEND >(other));
-	}
 
-	template<typename C, size_t ...index>
-	event_tuple _CopyStorage(C const& other, hydra::detail::index_sequence<index...> indexes)
-	{
-		return thrust::make_tuple(_CopyEvents(other.template GetDecay<index>()...)); }
-
-	template<unsigned int  BACKEND2>
-	event_tuple CopyOtherStorage(hydra::experimental::Chain<hydra::experimental::Events<N, BACKEND2>...> const& other)
-	{ return _CopyStorage(other, indexing_type() );}
-*/
 	event_tuple MoveStorage(){ return std::move(fStorage);}
 
 

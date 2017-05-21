@@ -49,6 +49,7 @@
 #include <thrust/copy.h>
 
 #include <hydra/detail/Config.h>
+#include <hydra/detail/BackendPolicy.h>
 #include <hydra/Types.h>
 #include <hydra/Containers.h>
 #include <hydra/experimental/Vector3R.h>
@@ -67,9 +68,12 @@ namespace experimental {
  * Mother four-vectors are not stored.
  */
 template<size_t N, typename BACKEND>
-struct Events {
+struct Events;
 
-	typedef BACKEND system_t;
+template<size_t N, hydra::detail::Backend BACKEND>
+struct Events<N, hydra::detail::BackendPolicy<BACKEND> > {
+
+	typedef hydra::detail::BackendPolicy<BACKEND> system_t;
 
 	typedef typename system_t::template container<Vector4R::args_type> super_t;
 
@@ -110,21 +114,21 @@ struct Events {
 	 * \brief Cross-backend copy constructor.
 	 * @param Events<N,BACKEND2> const& other
 	 */
-	template<typename BACKEND2>
-	Events(Events<N,BACKEND2> const& other);
+	template<hydra::detail::Backend BACKEND2>
+	Events(Events<N,hydra::detail::BackendPolicy<BACKEND2>> const& other);
 
 	/**
 	 * \brief Copy constructor.
 	 * @param Events<N,BACKEND> const& other
 	 */
-	Events(Events<N,BACKEND> const& other);
+	Events(Events<N,hydra::detail::BackendPolicy<BACKEND>> const& other);
 
 	/**
 	 * \brief Move constructor.
 	 * Move the resources from other to *this and set other=default.
 	 * @param Events<N,BACKEND> && other
 	 */
-	Events(Events<N,BACKEND> && other);
+	Events(Events<N, hydra::detail::BackendPolicy<BACKEND>> && other);
 
 	/**
 	 * \brief Assignment operator
@@ -132,7 +136,8 @@ struct Events {
 	 * @param Events<N,BACKEND> other
 	 * @return Events<N,BACKEND>
 	 */
-	Events<N,BACKEND>& operator=(Events<N,BACKEND> const& other);
+	Events<N,hydra::detail::BackendPolicy<BACKEND>>&
+	operator=(Events<N,hydra::detail::BackendPolicy<BACKEND>> const& other);
 
 	/**
 	 * \brief Generic assignment operator
@@ -140,8 +145,9 @@ struct Events {
 	 * @param Events<N,BACKEND2>const& other
 	 * @return
 	 */
-	template<typename BACKEND2>
-	Events<N,BACKEND>& operator=(Events<N,BACKEND2> const& other);
+	template<hydra::detail::Backend BACKEND2>
+	Events<N,hydra::detail::BackendPolicy<BACKEND>>&
+	operator=(Events<N,hydra::detail::BackendPolicy<BACKEND2>> const& other);
 
 	/**
 	 * \brief Move assignment operator
@@ -150,7 +156,8 @@ struct Events {
 	 * @return
 	 */
 
-	Events<N,BACKEND>& operator=(Events<N,BACKEND>&& other);
+	Events<N,hydra::detail::BackendPolicy<BACKEND>>&
+	operator=(Events<N,hydra::detail::BackendPolicy<BACKEND>>&& other);
 
 	~Events(){};
 

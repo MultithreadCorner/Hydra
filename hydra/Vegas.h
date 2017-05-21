@@ -37,6 +37,7 @@
 #include <iostream>
 
 #include <hydra/detail/Config.h>
+#include <hydra/detail/BackendPolicy.h>
 #include <hydra/Types.h>
 #include <hydra/VegasState.h>
 #include <hydra/detail/functors/ProcessCallsVegas.h>
@@ -45,15 +46,17 @@
 
 namespace hydra {
 
+template<size_t N, typename  BACKEND,  typename GRND=thrust::random::default_random_engine >
+class Vegas ;
 
-
-template<size_t N, unsigned int BACKEND,  typename GRND=thrust::random::default_random_engine >
-class Vegas : public Integrator<Vegas<N,BACKEND,GRND>>
+template<size_t N, hydra::detail::Backend  BACKEND,  typename GRND>
+class Vegas<N, hydra::detail::BackendPolicy<BACKEND>, GRND >
+: public Integrator<Vegas<N,hydra::detail::BackendPolicy<BACKEND>,GRND>>
 {
-	typedef typename VegasState<N,BACKEND>::rvector_backend rvector_backend;
-	typedef typename VegasState<N,BACKEND>::uvector_backend uvector_backend;
-	typedef typename VegasState<N,BACKEND>::rvector_iterator rvector_iterator;
-	typedef typename VegasState<N,BACKEND>::uvector_iterator uvector_iterator;
+	typedef typename VegasState<N,hydra::detail::BackendPolicy<BACKEND>>::rvector_backend rvector_backend;
+	typedef typename VegasState<N,hydra::detail::BackendPolicy<BACKEND>>::uvector_backend uvector_backend;
+	typedef typename VegasState<N,hydra::detail::BackendPolicy<BACKEND>>::rvector_iterator rvector_iterator;
+	typedef typename VegasState<N,hydra::detail::BackendPolicy<BACKEND>>::uvector_iterator uvector_iterator;
 
 public:
 

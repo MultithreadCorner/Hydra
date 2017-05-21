@@ -38,6 +38,7 @@
 #include <iostream>
 
 #include <hydra/detail/Config.h>
+#include <hydra/detail/BackendPolicy.h>
 #include <hydra/Containers.h>
 #include <hydra/Types.h>
 
@@ -56,13 +57,15 @@ enum {
 	BINS_MAX = 50
 };
 
-template<size_t N , unsigned int BACKEND>
+template<size_t N , typename  BACKEND>
 class VegasState {
 
+template<size_t N , hydra::detail::Backend BACKEND>
+class VegasState<N, hydra::detail::BackendPolicy<BACKEND>> {
 
 public:
 
-	typedef hydra::detail::BackendTraits<BACKEND> system_t;
+	typedef hydra::detail::BackendPolicy<BACKEND> system_t;
 	typedef typename system_t::template container<GReal_t>  rvector_backend;
 	typedef typename system_t::template container<GUInt_t>  uvector_backend;
 	typedef typename std::vector<GReal_t>        rvector_std;
@@ -75,10 +78,10 @@ public:
 	VegasState(std::array<GReal_t,N> const& xlower,
 			std::array<GReal_t,N> const& xupper);
 
-	VegasState(const VegasState<N,BACKEND> &state);
+	VegasState(const VegasState<N,hydra::detail::BackendPolicy<BACKEND>> &state);
 
 	template<unsigned int BACKEND2>
-	VegasState(const VegasState<N,BACKEND2> &state);
+	VegasState(const VegasState<N,hydra::detail::BackendPolicy<BACKEND2>> &state);
 
 
 	void ClearStoredIterations();

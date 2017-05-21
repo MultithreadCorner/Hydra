@@ -20,50 +20,30 @@
  *---------------------------------------------------------------------------*/
 
 /*
- * CPP.h
+ * BackendPolicy.h
  *
- *  Created on: 16/05/2017
+ *  Created on: 19/05/2017
  *      Author: Antonio Augusto Alves Junior
  */
 
-#ifndef CPP_H_
-#define CPP_H_
+#ifndef BACKENDPOLICY_H_
+#define BACKENDPOLICY_H_
 
-#include <hydra/detail/Config.h>
-#include <hydra/detail/BackendPolicy.h>
-#include <thrust/system/cpp/detail/par.h>
-#include <thrust/system/cpp/vector.h>
+#include <thrust/execution_policy.h>
 
 namespace hydra {
 
 namespace detail {
 
-namespace cpp {
+enum Backend{Host, Device, Cpp, Omp,Tbb,Cuda };
 
-typedef thrust::system::cpp::detail::par_t   cpp_t;
-static const cpp_t    _cpp_;
-
-}  // namespace cpp
-
-template<>
-struct BackendPolicy<Backend::Cpp>: thrust::execution_policy<cpp::cpp_t>
-{
-	const cpp::cpp_t backend= cpp::_cpp_;
-	template<typename T>
-	using   container = thrust::cpp::vector<T> ;
-};
-
+template<Backend BACKEND>
+struct BackendPolicy;
 
 }  // namespace detail
 
-namespace cpp {
-
-typedef hydra::detail::BackendPolicy<hydra::detail::Backend::Cpp> sys_t;
-static const sys_t sys;
-
-}  // namespace cpp
-
-}  // namespace hydra
+}//namespace hydra
 
 
-#endif /* CPP_H_ */
+
+#endif /* BACKENDPOLICY_H_ */

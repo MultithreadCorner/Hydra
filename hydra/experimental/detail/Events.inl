@@ -56,8 +56,8 @@ namespace hydra {
 namespace experimental {
 
 
-template<size_t N, typename BACKEND>
-Events<N, BACKEND>::Events(size_t nevents):
+template<size_t N, hydra::detail::Backend BACKEND>
+Events<N, hydra::detail::BackendPolicy<BACKEND>>::Events(size_t nevents):
 fNEvents(nevents),
 fMaxWeight(0)
 {
@@ -90,9 +90,9 @@ fMaxWeight(0)
 
 }
 
-template<size_t N, typename BACKEND>
-template<typename BACKEND2>
-Events<N, BACKEND>::Events(hydra::experimental::Events<N,BACKEND2> const& other):
+template<size_t N, hydra::detail::Backend  BACKEND>
+template<hydra::detail::Backend  BACKEND2>
+Events<N, hydra::detail::BackendPolicy<BACKEND>>::Events(hydra::experimental::Events<N,hydra::detail::BackendPolicy<BACKEND2>> const& other):
 fNEvents(other.GetNEvents()),
 fMaxWeight(other.GetMaxWeight())
 {
@@ -136,8 +136,8 @@ fMaxWeight(other.GetMaxWeight())
 
 }
 
-template<size_t N, typename BACKEND>
-Events<N, BACKEND>::Events(hydra::experimental::Events<N,BACKEND> const& other):
+template<size_t N, hydra::detail::Backend BACKEND>
+Events<N, hydra::detail::BackendPolicy<BACKEND>>::Events(hydra::experimental::Events<N,hydra::detail::BackendPolicy<BACKEND>> const& other):
 fNEvents(other.GetNEvents()),
 fMaxWeight(other.GetMaxWeight())
 {
@@ -184,8 +184,8 @@ fConstEnd = hydra::detail::get_zip_iterator(fWeights.cend(), cends );
 
 }
 
-template<size_t N, typename BACKEND>
-Events<N, BACKEND>::Events(hydra::experimental::Events<N,BACKEND> && other):
+template<size_t N, hydra::detail::Backend BACKEND>
+Events<N, hydra::detail::BackendPolicy<BACKEND>>::Events(hydra::experimental::Events<N,hydra::detail::BackendPolicy<BACKEND>> && other):
 fNEvents(other.GetNEvents()),
 fMaxWeight(other.GetMaxWeight()),
 fWeights(std::move(other.MoveWeights())),
@@ -198,7 +198,7 @@ fDaughters(std::move(other.MoveDaughters()))
 	std::array< vector_particles_const_iterator,N> cbegins;
 	std::array< vector_particles_const_iterator,N> cends;
 
-	other= Events<N,BACKEND>(0);
+	other= Events<N,hydra::detail::BackendPolicy<BACKEND>>(0);
 
 #pragma unroll N
 	for(int i =0; i < N; i++){
@@ -216,8 +216,9 @@ fDaughters(std::move(other.MoveDaughters()))
 	fConstEnd = hydra::detail::get_zip_iterator(this->fWeights.cend(), cends );
 }
 
-template<size_t N, typename BACKEND>
-Events<N,BACKEND>& Events<N, BACKEND>::operator=(hydra::experimental::Events<N,BACKEND> const& other)
+template<size_t N, hydra::detail::Backend  BACKEND>
+Events<N,hydra::detail::BackendPolicy<BACKEND>>&
+Events<N, hydra::detail::BackendPolicy<BACKEND>>::operator=(hydra::experimental::Events<N,hydra::detail::BackendPolicy<BACKEND>> const& other)
 {
 
 	if(this==&other) return *this;
@@ -272,9 +273,10 @@ Events<N,BACKEND>& Events<N, BACKEND>::operator=(hydra::experimental::Events<N,B
 	return *this;
 }
 
-template<size_t N, typename BACKEND>
-template<typename BACKEND2>
-Events<N,BACKEND>& Events<N, BACKEND>::operator=(hydra::experimental::Events<N,BACKEND2> const& other)
+template<size_t N, hydra::detail::Backend  BACKEND>
+template<hydra::detail::Backend  BACKEND2>
+Events<N,hydra::detail::BackendPolicy<BACKEND>>&
+Events<N, hydra::detail::BackendPolicy<BACKEND>>::operator=(hydra::experimental::Events<N,hydra::detail::BackendPolicy<BACKEND2>> const& other)
 		{
 
 	if(this==&other) return *this;
@@ -329,8 +331,9 @@ Events<N,BACKEND>& Events<N, BACKEND>::operator=(hydra::experimental::Events<N,B
 			return *this;
 		}
 
-template<size_t N, typename BACKEND>
-Events<N,BACKEND>& Events<N, BACKEND>::operator=(hydra::experimental::Events<N,BACKEND> && other)
+template<size_t N, hydra::detail::Backend  BACKEND>
+Events<N,hydra::detail::BackendPolicy<BACKEND>>&
+Events<N, hydra::detail::BackendPolicy<BACKEND>>::operator=(hydra::experimental::Events<N,hydra::detail::BackendPolicy<BACKEND>> && other)
 {
 
 	if(this==&other || fNEvents==0 ) return *this;
@@ -345,7 +348,7 @@ Events<N,BACKEND>& Events<N, BACKEND>::operator=(hydra::experimental::Events<N,B
 	for(int i =0; i < N; i++){
 	this->fDaughters[i] = std::move(other.MoveDaughters()[i]);
 	}
-	other= Events<N, BACKEND>();
+	other= Events<N, hydra::detail::BackendPolicy<BACKEND>>();
 
 	std::array< vector_particles_iterator,N> begins;
 	std::array< vector_particles_iterator,N> ends;
@@ -373,8 +376,8 @@ Events<N,BACKEND>& Events<N, BACKEND>::operator=(hydra::experimental::Events<N,B
 	return *this;
 }
 
-template<size_t N, typename BACKEND>
-size_t Events<N, BACKEND>::Unweight(size_t seed)
+template<size_t N, hydra::detail::Backend  BACKEND>
+size_t Events<N, hydra::detail::BackendPolicy<BACKEND>>::Unweight(size_t seed)
 {
 
 	GULong_t count = 0;
@@ -405,8 +408,8 @@ size_t Events<N, BACKEND>::Unweight(size_t seed)
 
 }
 
-template<size_t N, typename BACKEND>
-void Events<N, BACKEND>::resize(size_t n){
+template<size_t N, hydra::detail::Backend  BACKEND>
+void Events<N, hydra::detail::BackendPolicy<BACKEND>>::resize(size_t n){
 
 	fNEvents=n;
 

@@ -173,8 +173,14 @@ GInt_t main(int argv, char** argc)
 	auto cos_lambaW  = wrap_lambda(cos_lambda);
 
 	//Simple c++11 lambda function to calculate the {cos(angle)}^2 + {sin(angle)}^2
-	auto R2_lambda = [] __host__ __device__(thrust::tuple<GReal_t, GReal_t>* x)
-	{ return thrust::get<0>(*x)*thrust::get<0>(*x) +  thrust::get<1>(*x)*thrust::get<1>(*x); };
+	//auto R2_lambda = [] __host__ __device__( thrust::tuple<GReal_t, GReal_t>* x )
+	//{ return thrust::get<0>(*x)*thrust::get<0>(*x) +  thrust::get<1>(*x)*thrust::get<1>(*x); };
+
+	auto R2_lambda = [] __host__ __device__( GReal_t* x )
+	{ return x[0]*x[0] + x[1]*x[1]; };
+
+
+
 
 	//Wrap the lambda
 	auto R2_lambdaW  = wrap_lambda(R2_lambda);

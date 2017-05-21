@@ -36,6 +36,7 @@
 
 //hydra
 #include <hydra/detail/Config.h>
+#include <hydra/detail/BackendPolicy.h>
 #include <hydra/Types.h>
 #include <hydra/experimental/Point.h>
 #include <hydra/detail/utility/Utility_Tuple.h>
@@ -56,16 +57,16 @@ namespace experimental {
  * PointVector wraps a thrust::vector<Points<T,N>> and provide methods
  *
  */
-template<typename T, unsigned int BACKEND>
+template<typename T, hydra::detail::Backend BACKEND>
 class PointVector;
 
-template<unsigned int BACKEND, typename T, size_t N, bool V_ERROR, bool C_ERROR >
+template<hydra::detail::Backend BACKEND, typename T, size_t N, bool V_ERROR, bool C_ERROR >
 class PointVector< Point<T, N, V_ERROR, C_ERROR>,  BACKEND >
 {
 
 public:
 
-	typedef hydra::detail::BackendTraits<BACKEND> system_t;
+	typedef hydra::detail::BackendPolicy<BACKEND> system_t;
 
     typedef Point<T, N, V_ERROR, C_ERROR> point_t;
     typedef typename point_t::type super_t;
@@ -98,7 +99,7 @@ public:
 	PointVector( PointVector<Point<T, N, V_ERROR, C_ERROR>, BACKEND> const& other):
 		fData(other.GetData()){}
 
-	template<unsigned int BACKEND2 >
+	template<hydra::detail::Backend  BACKEND2 >
 	__host__
 	PointVector( PointVector<Point<T, N, V_ERROR, C_ERROR>, BACKEND2> const& other):
 	fData(other.GetData()){}
@@ -192,8 +193,8 @@ private:
 };
 
 
-template<size_t I, typename T, size_t N, unsigned int BACKEND>
-auto GetCoordinateBegin(PointVector<Point<T,N,false,false>,BACKEND >& container )
+template<size_t I, typename T, size_t N, hydra::detail::Backend   BACKEND>
+auto CoordBegin(PointVector<Point<T,N,false,false>,BACKEND >& container )
 -> typename PointVector<Point<T,N,false,false>, BACKEND>::column_iterator
 {
 	auto begin= container.GetData().template vbegin<I+2>();
@@ -210,24 +211,24 @@ auto GetCoordinateBegin(PointVector<Point<T,N,false,false>,
 }
 */
 
-template<size_t I, typename T, size_t N, unsigned int BACKEND>
-auto GetCoordinateEnd(PointVector<Point<T,N,false,false>,  BACKEND >& container )
+template<size_t I, typename T, size_t N, hydra::detail::Backend   BACKEND>
+auto CoordEnd(PointVector<Point<T,N,false,false>,  BACKEND >& container )
 -> typename PointVector<Point<T,N,false,false>, BACKEND>::column_iterator
 {
 	auto begin= container.GetData().template vend<I+2>();
 	return begin;
 }
 
-template<size_t I, typename T, size_t N, bool CERROR, unsigned int BACKEND>
-auto GetCoordinateBegin(PointVector<Point<T,N,true,CERROR>,  BACKEND >& container )
+template<size_t I, typename T, size_t N, bool CERROR,hydra::detail::Backend  BACKEND>
+auto CoordBegin(PointVector<Point<T,N,true,CERROR>,  BACKEND >& container )
 -> decltype(container.GetData().template vbegin<I+3>())
 {
 	auto begin= container.GetData().template vbegin<I+3>();
 	return begin;
 }
 
-template<size_t I, typename T, size_t N, bool CERROR, unsigned int BACKEND>
-auto GetCoordinateEnd(PointVector<Point<T,N,true,CERROR>,  BACKEND >& container )
+template<size_t I, typename T, size_t N, bool CERROR, hydra::detail::Backend  BACKEND>
+auto CoordEnd(PointVector<Point<T,N,true,CERROR>,  BACKEND >& container )
 -> decltype( container.GetData().template vend<I+3>())
 {
 	auto begin= container.GetData().template vend<I+3>();

@@ -37,9 +37,10 @@
 
 namespace hydra {
 
-template< size_t N, typename GRND>
+template< size_t N,hydra::detail::Backend BACKEND, typename GRND>
 template<typename FUNCTOR>
-std::pair<GReal_t, GReal_t> Plain<N,GRND>::Integrate(FUNCTOR const& fFunctor)
+inline std::pair<GReal_t, GReal_t>
+Plain<N,hydra::detail::BackendPolicy<BACKEND>,GRND>::Integrate(FUNCTOR const& fFunctor)
 {
 
 	// create iterators
@@ -48,7 +49,7 @@ std::pair<GReal_t, GReal_t> Plain<N,GRND>::Integrate(FUNCTOR const& fFunctor)
 
 
 	// compute summary statistics
-	PlainState result = thrust::transform_reduce(first, last,
+	PlainState result = thrust::transform_reduce(system_t(), first, last,
 			detail::ProcessCallsPlainUnary<FUNCTOR,N,GRND>(const_cast<GReal_t*>(thrust::raw_pointer_cast(fXLow.data())),
 					const_cast<GReal_t*>(thrust::raw_pointer_cast(fDeltaX.data())), fFunctor),
 			PlainState(), detail::ProcessCallsPlainBinary() );

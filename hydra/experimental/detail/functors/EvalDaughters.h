@@ -40,6 +40,7 @@
 
 //hydra
 #include <hydra/detail/Config.h>
+#include <hydra/detail/BackendPolicy.h>
 #include <hydra/Types.h>
 #include <hydra/Containers.h>
 #include <hydra/experimental/Vector3R.h>
@@ -96,7 +97,7 @@ struct EvalOnDaughtersBinary
 
 };
 
-template <size_t N, typename BACKEND, typename FUNCTOR, typename GRND>
+template <size_t N, hydra::detail::Backend  BACKEND, typename FUNCTOR, typename GRND>
 struct EvalOnDaughters
 {
 

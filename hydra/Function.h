@@ -261,6 +261,28 @@ struct BaseFunctor
 
 	template<typename T  >
 	__host__ __device__ inline
+	typename thrust::detail::enable_if<
+	! ( detail::is_instantiation_of<thrust::tuple, T >::value ||
+	  detail::is_instantiation_of<thrust::detail::tuple_of_iterator_references, T >::value )
+	, return_type>::type
+	interface(T&& x)
+	{
+		//typedef typename std::remove_reference<T>::type Tprime;
+		//typedef typename std::remove_reference<typename thrust::tuple_element<0, Tprime>::type>::type first_type;
+		//constexpr size_t N = thrust::tuple_size< Tprime >::value;
+
+		//first_type Array[ N ];
+
+		//detail::tupleToArray(x, &Array[0] );
+
+		return static_cast<Functor*>(this)->Evaluate(&x);
+
+
+	}
+
+
+	template<typename T  >
+	__host__ __device__ inline
 	typename thrust::detail::enable_if<detail::is_homogeneous<
 	typename thrust::tuple_element<0, typename std::remove_reference<T>::type>::type,
 	typename std::remove_reference<T>::type>::value, return_type>::type
@@ -303,11 +325,11 @@ struct BaseFunctor
 
 	template<typename T>
 	__host__ __device__ inline
-	return_type operator()( T&&  x )
+	return_type operator()( T&  x )
 	{
 		GReal_t norm = fNormalized ? fNorm : 1.0;
 
-		return  norm>0.0? interface< T>(std::forward< T >(x))*norm:0;
+		return  norm>0.0? interface<T>(std::forward<T>(x))*norm: 0;
 	}
 
 

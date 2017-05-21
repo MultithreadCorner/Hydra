@@ -43,29 +43,22 @@ namespace omp {
 typedef thrust::system::omp::detail::par_t   omp_t;
 static const omp_t    _omp_;
 
-//template<typename BACKEND>
-//struct BackendPolicy;
+}  // namespace omp
 
 template<>
-struct hydra::detail::BackendPolicy<omp_t>: thrust::execution_policy<omp_t>
+struct BackendPolicy<Backend::Omp>: thrust::execution_policy<omp::omp_t>
 {
-	const omp_t backend= _omp_;
+	const omp::omp_t backend= omp::_omp_;
 	template<typename T>
 	using   container = thrust::omp::vector<T> ;
 };
-
-typedef hydra::detail::BackendPolicy<omp_t> sys_t;
-static const sys_t sys;
-
-
-}  // namespace omp
 
 }  // namespace detail
 
 namespace omp {
 
-using hydra::detail::omp::sys;
-using hydra::detail::omp::sys_t;
+typedef hydra::detail::BackendPolicy<hydra::detail::Backend::Omp> sys_t;
+static const sys_t sys;
 
 }  // namespace omp
 

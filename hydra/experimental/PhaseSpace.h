@@ -49,6 +49,8 @@
 //#include <math.h>
 
 #include <hydra/detail/Config.h>
+#include <hydra/detail/BackendPolicy.h>
+#include <hydra/detail/IteratorTraits.h>
 #include <hydra/Types.h>
 #include <hydra/Containers.h>
 #include <hydra/experimental/Vector3R.h>
@@ -60,8 +62,6 @@
 #include <hydra/detail/functors/FlagAcceptReject.h>
 #include <hydra/detail/functors/IsAccepted.h>
 #include <hydra/detail/utility/Generic.h>
-#include <hydra/detail/BackendTraits.h>
-#include <hydra/detail/IteratorTraits.h>
 #include <hydra/experimental/detail/launch_decayers.inl>
 
 #include <thrust/iterator/zip_iterator.h>
@@ -118,8 +118,8 @@ public:
 
 	~PhaseSpace() {}
 
-	template<typename FUNCTOR, typename BACKEND>
-	std::pair<GReal_t, GReal_t> AverageOn(BACKEND backend,
+	template<typename FUNCTOR, hydra::detail::Backend BACKEND>
+	std::pair<GReal_t, GReal_t> AverageOn(hydra::detail::BackendPolicy<BACKEND>const&,
 			experimental::Vector4R const& mother, FUNCTOR const& functor, size_t n)
 	{
 

@@ -43,7 +43,7 @@
 #include <hydra/detail/TypeTraits.h>
 #include <hydra/detail/utility/Utility_Tuple.h>
 #include <hydra/Containers.h>
-#include <hydra/PointVector.h>
+#include <hydra/experimental/PointVector.h>
 //
 #include <thrust/copy.h>
 #include <thrust/random.h>
@@ -112,15 +112,14 @@ public:
 	template<typename FUNCTOR, typename Iterator>
 	void InverseCDF(FUNCTOR const& invcdf, Iterator begin, Iterator end)  ;//-> decltype(*begin);
 
-	template<typename BACKEND, typename FUNCTOR, size_t N>
-	auto Sample(BACKEND&, FUNCTOR const& functor, std::array<GReal_t,N> min,
-			std::array<GReal_t,N> max, size_t trials)
-	->	typename BACKEND::container;
+	template<hydra::detail::Backend BACKEND, typename FUNCTOR, size_t N>
+	auto Sample(hydra::detail::BackendPolicy<BACKEND>const&, FUNCTOR const& functor, std::array<GReal_t,N> min,	std::array<GReal_t,N> max, size_t trials)
+	->	typename hydra::detail::BackendPolicy<BACKEND>::template container< typename  detail::tuple_type<N,GReal_t>::type>;
 
-	template<typename BACKEND, typename FUNCTOR, size_t N >
-	void Sample(FUNCTOR const& functor, std::array<GReal_t,N> min, std::array<GReal_t,N> max,
-			PointVector<BACKEND, GReal_t, N, false, false>& result, size_t trials);
 
+	template<hydra::detail::Backend BACKEND, typename FUNCTOR, size_t N >
+	void Sample(hydra::detail::BackendPolicy<BACKEND>const&, FUNCTOR const& functor, std::array<GReal_t,N> min, std::array<GReal_t,N> max,
+			experimental::PointVector< experimental::Point<GReal_t, N, false, false>, BACKEND >& result, size_t trials);
 private:
 	GUInt_t fSeed;
 

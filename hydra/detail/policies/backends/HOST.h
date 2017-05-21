@@ -43,29 +43,24 @@ namespace host {
 typedef thrust::detail::host_t	            host_t;
 static const host_t   _host_;
 
-//template<typename BACKEND>
-//struct BackendPolicy;
+}  // namespace host
+
 
 template<>
-struct hydra::detail::BackendPolicy<host_t>: thrust::execution_policy<host_t>
+struct BackendPolicy<Backend::Host>: thrust::execution_policy<host::host_t>
 {
-	const host_t backend= _host_;
+	const host::host_t backend= host::_host_;
 	template<typename T>
 	using   container = hydra::mc_host_vector<T>;
 };
-
-typedef hydra::detail::BackendPolicy<host_t> sys_t;
-static const sys_t sys;
-
-
-}  // namespace host
 
 }  // namespace detail
 
 namespace host {
 
-using hydra::detail::host::sys;
-using hydra::detail::host::sys_t;
+
+typedef hydra::detail::BackendPolicy<hydra::detail::Backend::Host> sys_t;
+static const sys_t sys;
 
 }  // namespace host
 

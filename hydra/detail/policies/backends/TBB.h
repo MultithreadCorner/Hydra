@@ -43,29 +43,25 @@ namespace tbb {
 typedef thrust::system::tbb::detail::par_t   tbb_t;
 static const tbb_t    _tbb_;
 
-//template<typename BACKEND>
-//struct BackendPolicy;
+
+}  // namespace tbb
 
 template<>
-struct hydra::detail::BackendPolicy<tbb_t>: thrust::execution_policy<tbb_t>
+struct BackendPolicy<Backend::Tbb>: thrust::execution_policy<tbb::tbb_t>
 {
-	const tbb_t backend= _tbb_;
+	const tbb::tbb_t backend= tbb::_tbb_;
 	template<typename T>
 	using   container = thrust::tbb::vector<T> ;
 };
 
-typedef hydra::detail::BackendPolicy<tbb_t> sys_t;
-static const sys_t sys;
 
-
-}  // namespace tbb
 
 }  // namespace detail
 
 namespace tbb {
 
-using hydra::detail::tbb::sys;
-using hydra::detail::tbb::sys_t;
+typedef hydra::detail::BackendPolicy<hydra::detail::Backend::Tbb> sys_t;
+static const sys_t sys;
 
 }  // namespace tbb
 

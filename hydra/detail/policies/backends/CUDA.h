@@ -43,29 +43,23 @@ namespace cuda {
 typedef thrust::system::cuda::detail::par_t   cuda_t;
 static const cuda_t    _cuda_;
 
-//template<typename BACKEND>
-//struct BackendPolicy;
+}  // namespace cuda
 
 template<>
-struct hydra::detail::BackendPolicy<cuda_t>: thrust::execution_policy<cuda_t>
+struct BackendPolicy<Backend::Cuda>: thrust::execution_policy<cuda::cuda_t>
 {
-	const cuda_t backend= _cuda_;
+	const cuda::cuda_t backend= _cuda_;
 	template<typename T>
 	using   container = thrust::cuda::vector<T> ;
 };
 
-typedef hydra::detail::BackendPolicy<cuda_t> sys_t;
-static const sys_t sys;
-
-
-}  // namespace cuda
 
 }  // namespace detail
 
 namespace cuda {
 
-using hydra::detail::cuda::sys;
-using hydra::detail::cuda::sys_t;
+typedef hydra::detail::BackendPolicy<hydra::detail::Backend::Cuda> sys_t;
+static const sys_t sys;
 
 }  // namespace cuda
 

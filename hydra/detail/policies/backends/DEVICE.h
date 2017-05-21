@@ -44,29 +44,23 @@ namespace device {
 typedef thrust::detail::device_t	            device_t;
 static const device_t   _device_;
 
-//template<typename BACKEND>
-//struct BackendPolicy;
+}  // namespace device
 
 template<>
-struct hydra::detail::BackendPolicy<device_t>: thrust::execution_policy<device_t>
+struct BackendPolicy<Backend::Device>: thrust::execution_policy<device::device_t>
 {
-	const omp_t backend= _device_;
+	const device::device_t backend= _device_;
 	template<typename T>
 	using   container = hydra::mc_device_vector<T>;
 };
 
-typedef hydra::detail::BackendPolicy<device_t> sys_t;
-static const sys_t sys;
-
-
-}  // namespace device
 
 }  // namespace detail
 
 namespace device {
 
-using hydra::detail::device::sys;
-using hydra::detail::device::sys_t;
+typedef hydra::detail::BackendPolicy<hydra::detail::Backend::Device> sys_t;
+static const sys_t sys;
 
 }  // namespace device
 
