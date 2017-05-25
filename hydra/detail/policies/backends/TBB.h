@@ -61,7 +61,7 @@ struct BackendPolicy<Backend::Tbb>: thrust::execution_policy<tbb::tbb_t>
 namespace tbb {
 
 typedef hydra::detail::BackendPolicy<hydra::detail::Backend::Tbb> sys_t;
-static const sys_t sys;
+static const sys_t sys=sys_t();
 
 }  // namespace tbb
 

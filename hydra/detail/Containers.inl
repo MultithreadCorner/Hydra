@@ -33,7 +33,7 @@
 #include <thrust/device_vector.h>
 #include <thrust/host_vector.h>
 #include <thrust/complex.h>
-
+#include <thrust/system/cuda/experimental/pinned_allocator.h>
 
 
 
@@ -56,6 +56,7 @@ namespace hydra
 	 */
 	template <typename T>
 		using  mc_host_vector = thrust::host_vector<T, thrust::system::cuda::experimental::pinned_allocator<T>>;
+
 #else
 /*!
  * Generic template typedef for thrust::host_vector. Use it instead of Thrust implementation

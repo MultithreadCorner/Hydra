@@ -58,7 +58,7 @@ enum {
 };
 
 template<size_t N , typename  BACKEND>
-class VegasState {
+class VegasState ;
 
 template<size_t N , hydra::detail::Backend BACKEND>
 class VegasState<N, hydra::detail::BackendPolicy<BACKEND>>
@@ -81,7 +81,7 @@ public:
 
 	VegasState(const VegasState<N,hydra::detail::BackendPolicy<BACKEND>> &state);
 
-	template<unsigned int BACKEND2>
+	template<hydra::detail::Backend BACKEND2>
 	VegasState(const VegasState<N,hydra::detail::BackendPolicy<BACKEND2>> &state);
 
 
@@ -151,9 +151,9 @@ public:
 	//----------------
 	//Distribution
 
-	inline const RealVector_h& GetDistribution() const {return fDistribution;}
+	inline const std::vector<GReal_t>& GetDistribution() const {return fDistribution;}
 
-	inline  RealVector_h& GetDistribution() {return fDistribution;}
+	inline  std::vector<GReal_t>& GetDistribution() {return fDistribution;}
 
 	inline void SetDistribution(const std::vector<GReal_t>& distribution) {fDistribution = distribution; }
 
@@ -498,7 +498,7 @@ private:
 	std::vector<GReal_t> fXin;
 	std::vector<GReal_t> fDeltaX;
 	std::vector<GReal_t> fWeight;
-	RealVector_h fDistribution;
+	std::vector<GReal_t> fDistribution;
 	std::vector<GReal_t> fIterationResult; ///< vector with the result per iteration
 	std::vector<GReal_t> fIterationSigma; ///< vector with the result per iteration
 	std::vector<GReal_t> fCumulatedResult; ///< vector of cumulated results per iteration

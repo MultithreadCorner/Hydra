@@ -54,10 +54,7 @@
 #include <hydra/Vegas.h>
 #include <hydra/Plain.h>
 #include <hydra/Parameter.h>
-#include <hydra/experimental/GaussKronrodQuadrature.h>
-#include <hydra/experimental/GaussKronrodAdaptiveQuadrature.h>
-#include <hydra/experimental/GenzMalikRule.h>
-#include <hydra/experimental/GenzMalikQuadrature.h>
+
 //root
 #include <TROOT.h>
 #include <TH1D.h>
@@ -65,6 +62,12 @@
 #include <TCanvas.h>
 #include <TString.h>
 #include <TLegend.h>
+
+#include <hydra/host/System.h>
+#include <hydra/device/System.h>
+#include <hydra/omp/System.h>
+#include <hydra/cpp/System.h>
+#include <hydra/cuda/System.h>
 
 
 #include <examples/Gauss.h>
@@ -205,7 +208,7 @@ GInt_t main(int argv, char** argc)
 
 	//----------------------------------------------------------------------
 	//Vegas State_d hold the resources for performing the integration
-	VegasState<N, device> State_d(_min, _max);
+	VegasState<N,  hydra::device::sys_t> State_d(_min, _max);
 	State_d.SetVerbose(-2);
 	State_d.SetAlpha(1.5);
 	State_d.SetIterations( iterations );
@@ -215,9 +218,10 @@ GInt_t main(int argv, char** argc)
 	State_d.SetTrainingCalls( calls/10 );
 	State_d.SetTrainingIterations(1);
 
-	Vegas<N, device> Vegas_d(State_d);
+	Vegas<N,  hydra::device::sys_t > Vegas_d(State_d);
 
-	Vegas<N, host> Vegas_h(Vegas_d);
+	Vegas<N, hydra::host::sys_t> Vegas_h(Vegas_d);
+
 
 	vector<TH1D> Cumulative_Results;
 	vector<TH1D> Iterations_Results;
@@ -472,11 +476,11 @@ GInt_t main(int argv, char** argc)
         h->GetXaxis()->SetRangeUser(0, nbins);//Cumulative_Results[nt].GetNbinsX());
 
 		TLegend* legend_Results = new TLegend(0.5,0.2,0.85,0.35);
-		if(nt==0)legend_Results->SetHeader("GPU","C");
+		if(nt==0)legend_Results->SetHeader("GPU");
 #if THRUST_HOST_SYSTEM==THRUST_HOST_SYSTEM_OMP
-		else legend_Results->SetHeader(backend + TString::Format(" #%d %s", nt ," threads"),"C");
+		else legend_Results->SetHeader(backend + TString::Format(" #%d %s", nt ," threads"));
 #else
-		else legend_Results->SetHeader(backend + TString::Format(" #%d %s", nthreads ," threads"),"C");
+		else legend_Results->SetHeader(backend + TString::Format(" #%d %s", nthreads ," threads"));
 #endif
 		legend_Results->AddEntry(&Iterations_Results[nt],"Iteration result","lp");
 		legend_Results->AddEntry(&Cumulative_Results[nt],"Cumulative result","lp");
@@ -516,9 +520,9 @@ GInt_t main(int argv, char** argc)
 		FunctionCalls_Duration[nt].GetXaxis()->SetRangeUser(0, FunctionCalls_Duration[nt].GetNbinsX());
 
 		TLegend* legend_FunctionCalls = new TLegend(0.5,0.7,0.85,0.85);
-		if(nt==0)legend_FunctionCalls->SetHeader("GPU","C");
+		if(nt==0)legend_FunctionCalls->SetHeader("GPU");
 		#if THRUST_HOST_SYSTEM==THRUST_HOST_SYSTEM_OMP
-				else legend_FunctionCalls->SetHeader(backend + TString::Format(" #%d %s", nt ," threads"),"C");
+				else legend_FunctionCalls->SetHeader(backend + TString::Format(" #%d %s", nt ," threads"));
 		#else
 				else legend_FunctionCalls->SetHeader(backend + TString::Format(" #%d %s", nthreads ," threads"),"C");
 		#endif

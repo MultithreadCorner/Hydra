@@ -85,13 +85,27 @@ struct ProcessBoxesVegas
 
 };
 
-template<typename FUNCTOR, size_t NDimensions, unsigned int BACKEND,
+
+template<typename FUNCTOR, size_t NDimensions, typename  BACKEND,
 typename IteratorBackendReal, typename IteratorBackendUInt,
 typename GRND=thrust::random::default_random_engine>
-struct ProcessCallsVegas
+struct ProcessCallsVegas;
+
+template<typename FUNCTOR, size_t NDimensions,  hydra::detail::Backend  BACKEND,
+typename IteratorBackendReal, typename IteratorBackendUInt, typename GRND>
+struct ProcessCallsVegas<FUNCTOR,  NDimensions, hydra::detail::BackendPolicy<BACKEND>,
+IteratorBackendReal,  IteratorBackendUInt, GRND>
 {
-	ProcessCallsVegas( size_t NBoxes, hydra::VegasState<NDimensions,BACKEND>& fState,
-			IteratorBackendUInt begin_bins, IteratorBackendReal begin_real,  FUNCTOR const& functor):
+
+	typedef   ProcessCallsVegas<FUNCTOR,  NDimensions, hydra::detail::BackendPolicy<BACKEND>,
+			IteratorBackendReal,  IteratorBackendUInt, GRND> this_t;
+
+	typedef  hydra::VegasState<NDimensions,hydra::detail::BackendPolicy<BACKEND>> state_t;
+
+public :
+
+	ProcessCallsVegas( size_t NBoxes, state_t& fState,	IteratorBackendUInt begin_bins,
+			IteratorBackendReal begin_real,  FUNCTOR const& functor):
 				fNBoxes( NBoxes ),
 				fSeed(fState.GetItNum()),
 				fNBins(fState.GetNBins()),
@@ -107,9 +121,7 @@ struct ProcessCallsVegas
 				{}
 
 	__host__ __device__
-	ProcessCallsVegas( ProcessCallsVegas<FUNCTOR,NDimensions,
-			BACKEND,IteratorBackendReal,
-			IteratorBackendUInt,GRND> const& other):
+	ProcessCallsVegas( this_t const& other):
 	fSeed(other.fSeed),
 	fNBins(other.fNBins),
 	fNBoxes(other.fNBoxes),

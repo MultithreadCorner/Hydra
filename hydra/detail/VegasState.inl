@@ -37,8 +37,8 @@
 
 namespace hydra {
 
-template<size_t N , unsigned int BACKEND>
-VegasState<N,BACKEND >::VegasState(std::array<GReal_t,N> const& xlower,
+template<size_t N , hydra::detail::Backend BACKEND>
+VegasState<N, hydra::detail::BackendPolicy<BACKEND>>::VegasState(std::array<GReal_t,N> const& xlower,
 		std::array<GReal_t,N> const& xupper) :
 		fTrainingIterations(1),
 		fTrainedGridFrozen(0),
@@ -94,8 +94,8 @@ VegasState<N,BACKEND >::VegasState(std::array<GReal_t,N> const& xlower,
 
 }
 
-template<size_t N , unsigned int BACKEND>
-VegasState<N,BACKEND >::VegasState(VegasState<N,BACKEND> const& other) :
+template<size_t N , hydra::detail::Backend BACKEND>
+VegasState<N, hydra::detail::BackendPolicy<BACKEND>>::VegasState(VegasState<N,hydra::detail::BackendPolicy<BACKEND>> const& other) :
         fTrainingIterations(other.GetTrainingIterations()),
         fTrainedGridFrozen(other.IsTrainedGridFrozen()),
 		fAlpha(other.GetAlpha()),
@@ -141,9 +141,10 @@ VegasState<N,BACKEND >::VegasState(VegasState<N,BACKEND> const& other) :
 		//fBackendDistribution(other.GetBackendDistribution()),
 		fOStream(std::cout) {}
 
-template<size_t N , unsigned int BACKEND>
-template<unsigned int BACKEND2>
-VegasState<N,BACKEND >::VegasState(VegasState<N,BACKEND2> const& other) :
+template<size_t N , hydra::detail::Backend BACKEND>
+template<hydra::detail::Backend BACKEND2>
+VegasState<N, hydra::detail::BackendPolicy<BACKEND>>::
+VegasState( VegasState<N, hydra::detail::BackendPolicy <BACKEND2>> const& other) :
         fTrainingIterations(other.GetTrainingIterations()),
         fTrainedGridFrozen(other.IsTrainedGridFrozen()),
 		fAlpha(other.GetAlpha()),
@@ -189,8 +190,8 @@ VegasState<N,BACKEND >::VegasState(VegasState<N,BACKEND2> const& other) :
 		//fBackendDistribution(other.GetBackendDistribution()),
 		fOStream(std::cout) {}
 
-template<size_t N , unsigned int BACKEND>
-void VegasState<N,BACKEND >::ClearStoredIterations()
+template<size_t N , hydra::detail::Backend BACKEND>
+void VegasState<N, hydra::detail::BackendPolicy<BACKEND>>::ClearStoredIterations()
 {
 	fIterationResult.clear();
 	fIterationSigma.clear();

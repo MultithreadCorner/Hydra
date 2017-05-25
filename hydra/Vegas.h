@@ -49,7 +49,7 @@ namespace hydra {
 template<size_t N, typename  BACKEND,  typename GRND=thrust::random::default_random_engine >
 class Vegas ;
 
-template<size_t N, hydra::detail::Backend  BACKEND,  typename GRND>
+template<size_t N,  hydra::detail::Backend  BACKEND,  typename GRND>
 class Vegas<N, hydra::detail::BackendPolicy<BACKEND>, GRND >
 : public Integrator<Vegas<N,hydra::detail::BackendPolicy<BACKEND>,GRND>>
 {
@@ -70,22 +70,22 @@ public:
 	Vegas()=delete;
 
 	Vegas(std::array<GReal_t,N> const& xlower,	std::array<GReal_t,N> const& xupper, size_t ncalls):
-		Integrator<Vegas<N,BACKEND,GRND>>(),
+		Integrator<Vegas<N, hydra::detail::BackendPolicy<BACKEND>,GRND>>(),
 		fState(xlower,xupper)
 		{
 		fState.SetCalls(ncalls);
 		}
 
 
-		Vegas(VegasState<N,BACKEND> const& state):
-		Integrator<Vegas<N,BACKEND,GRND>>(),
+		Vegas(VegasState<N, hydra::detail::BackendPolicy<BACKEND>> const& state):
+		Integrator<Vegas<N, hydra::detail::BackendPolicy<BACKEND>,GRND>>(),
 		fState(state)
 		{}
 
 
-	template<unsigned int BACKEND2,typename GRND2>
-	Vegas( Vegas< N,BACKEND2, GRND2> const& other):
-	Integrator<Vegas<N,BACKEND,GRND>>(),
+	template< hydra::detail::Backend  BACKEND2, typename GRND2>
+	Vegas( Vegas< N, hydra::detail::BackendPolicy<BACKEND2>, GRND2> const& other):
+	Integrator<Vegas<N, hydra::detail::BackendPolicy<BACKEND>,GRND>>(),
 	fState(other.GetState())
 	{}
 
@@ -99,20 +99,20 @@ public:
 			GReal_t cumulated_integral, GReal_t cumulated_sigma,
 			GReal_t time) ;
 
-	VegasState<N,BACKEND>& GetState()  {
+	VegasState<N,hydra::detail::BackendPolicy<BACKEND>>& GetState()  {
 		return fState;
 	}
 
-	VegasState<N,BACKEND> const& GetState() const {
+	VegasState<N,hydra::detail::BackendPolicy<BACKEND>> const& GetState() const {
 			return fState;
 		}
 
-	void SetState(VegasState<N,BACKEND> const& state) {
+	void SetState(VegasState<N,hydra::detail::BackendPolicy<BACKEND>> const& state) {
 		fState = state;
 	}
 
 	template<typename FUNCTOR>
-	std::pair<GReal_t, GReal_t> Integrate(FUNCTOR const& functor);
+	std::pair<GReal_t, GReal_t> Integrate(FUNCTOR const& functor) ;
 
 private:
 
@@ -157,7 +157,7 @@ private:
 		fState.SetDistribution(i * N + j, x);
 	}
 
-	VegasState<N,BACKEND> fState;
+	VegasState<N,hydra::detail::BackendPolicy<BACKEND>> fState;
 	rvector_backend fFValInput;
 	uvector_backend fGlobalBinInput;
 	rvector_backend fFValOutput;

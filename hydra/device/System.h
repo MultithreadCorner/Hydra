@@ -30,6 +30,6 @@
 #define SYSTEM_DEVICE_H_
 
 #include <hydra/detail/policies/backends/DEVICE.h>
-#include <hydra/detail/policies/iterators/DEVICE.h>
+//#include <hydra/detail/policies/iterators/DEVICE.h>
 
 #endif /* SYSTEM_DEVICE_H_ */

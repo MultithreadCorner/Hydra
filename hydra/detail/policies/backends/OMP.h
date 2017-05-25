@@ -58,7 +58,7 @@ struct BackendPolicy<Backend::Omp>: thrust::execution_policy<omp::omp_t>
 namespace omp {
 
 typedef hydra::detail::BackendPolicy<hydra::detail::Backend::Omp> sys_t;
-static const sys_t sys;
+static const sys_t sys=sys_t();
 
 }  // namespace omp
 

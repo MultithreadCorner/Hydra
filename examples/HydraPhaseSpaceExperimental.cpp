@@ -25,7 +25,6 @@
  *      Author: Antonio Augusto Alves Junior
  */
 
-#define HYDRA_USING_OMP
 
 
 #include <iostream>

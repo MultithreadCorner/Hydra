@@ -465,7 +465,7 @@ void Vegas<N,hydra::detail::BackendPolicy<BACKEND>, GRND >::InitGrid() {
 }
 
 template< size_t N, hydra::detail::Backend  BACKEND, typename GRND >
-void VVegas<N,hydra::detail::BackendPolicy<BACKEND>, GRND >::ResetGridValues() {
+void Vegas<N,hydra::detail::BackendPolicy<BACKEND>, GRND >::ResetGridValues() {
 
 	for (size_t i = 0; i < fState.GetNBins(); i++) {
 		for (size_t j = 0; j < N; j++) {
@@ -606,7 +606,7 @@ template< size_t N, hydra::detail::Backend  BACKEND , typename GRND>
 template<typename FUNCTOR>
 void Vegas<N,hydra::detail::BackendPolicy<BACKEND>, GRND >::ProcessFuncionCalls(FUNCTOR const& fFunctor, GBool_t training, GReal_t& integral, GReal_t& tss)
 {
-	typedef detail::BackendTraits<BACKEND> system_t;
+	typedef hydra::detail::BackendPolicy<BACKEND> system_t;
 	size_t ncalls = fState.GetCalls(training);
 	size_t nkeys  = N*fState.GetCalls(training);
 
@@ -620,7 +620,7 @@ void Vegas<N,hydra::detail::BackendPolicy<BACKEND>, GRND >::ProcessFuncionCalls(
 
 	detail::ResultVegas init = detail::ResultVegas();
 	detail::ResultVegas result = thrust::transform_reduce(system_t(), first, last,
-			detail::ProcessCallsVegas<FUNCTOR,N, BACKEND ,rvector_iterator,
+			detail::ProcessCallsVegas<FUNCTOR,N,system_t ,rvector_iterator,
 			uvector_iterator , GRND>(ncalls, fState, fGlobalBinInput.begin(),fFValInput.begin(), fFunctor)
 	, init,	detail::ProcessBoxesVegas());
 

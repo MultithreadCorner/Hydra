@@ -135,6 +135,23 @@ public:
 
 	}
 
+	template<typename FUNCTOR, hydra::detail::Backend BACKEND>
+	void Evaluate(hydra::detail::BackendPolicy<BACKEND>const&,
+				experimental::Vector4R const& mother, FUNCTOR const& functor, size_t n)
+		{
+
+			detail::EvalOnDaughters<N,BACKEND,FUNCTOR,GRND>
+			evaluator(functor, mother,fMasses, fSeed);
+
+			thrust::counting_iterator<GLong_t> first(0);
+
+			thrust::counting_iterator<GLong_t> last = first + n;
+
+			detail::ResultPHSP result = detail::launch_evaluator(first, last, evaluator );
+			return std::make_pair(result.fMean, sqrt(result.fM2) );
+
+	}
+
 	template<typename Iterator>
 	void Generate(experimental::Vector4R const& mother, Iterator begin, Iterator end)
 	{

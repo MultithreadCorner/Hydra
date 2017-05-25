@@ -60,7 +60,7 @@ namespace host {
 
 
 typedef hydra::detail::BackendPolicy<hydra::detail::Backend::Host> sys_t;
-static const sys_t sys;
+static const sys_t sys=sys_t();;
 
 }  // namespace host
 

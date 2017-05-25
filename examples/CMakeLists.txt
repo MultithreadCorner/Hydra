@@ -444,5 +444,19 @@ if(BUILD_CUDA_TARGETS AND BUILD_TBB_TARGETS)
     rt
     tbb
     ) 
+    
+    #+++++++++++++++++++++++++++++++++++++++++++++++++
+    # Numerical integration asynnc             |
+    #+++++++++++++++++++++++++++++++++++++++++++++++++
+    cuda_add_executable(Hydra_Example_Numerical_Integration_Async EXCLUDE_FROM_ALL
+    HydraVegasNumericalIntegrationAsync.cu
+    OPTIONS -Xcompiler -fopenmp -DTHRUST_DEVICE_SYSTEM=THRUST_DEVICE_SYSTEM_CUDA -DTHRUST_HOST_SYSTEM=THRUST_HOST_SYSTEM_CPP
+    )
+    
+    target_link_libraries(Hydra_Example_Numerical_Integration_Async
+    ${ROOT_LIBRARIES}
+    gomp
+    tbb
+    ) 
 endif(BUILD_CUDA_TARGETS AND BUILD_TBB_TARGETS)
 

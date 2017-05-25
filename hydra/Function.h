@@ -218,7 +218,7 @@ struct BaseFunctor
 	}
 
 	__host__ __device__ inline
-		constexpr size_t GetNumberOfParameters() {
+		constexpr  size_t GetNumberOfParameters() const {
 				return NPARAM;
 	}
 
@@ -325,7 +325,7 @@ struct BaseFunctor
 
 	template<typename T>
 	__host__ __device__ inline
-	return_type operator()( T&  x )
+	return_type operator()( T&&  x )
 	{
 		GReal_t norm = fNormalized ? fNorm : 1.0;
 

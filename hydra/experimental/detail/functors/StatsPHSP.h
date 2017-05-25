@@ -20,16 +20,61 @@
  *---------------------------------------------------------------------------*/
 
 /*
- * System.h
+ * StatsPHSP.h
  *
- *  Created on: 16/05/2017
+ *  Created on: 24/05/2017
  *      Author: Antonio Augusto Alves Junior
  */
 
-#ifndef SYSTEM_OMP_H_
-#define SYSTEM_OMP_H_
+#ifndef STATSPHSP_H_
+#define STATSPHSP_H_
 
-#include <hydra/detail/policies/backends/OMP.h>
-//#include <hydra/detail/policies/iterators/OMP.h>
+namespace hydra {
 
-#endif /* SYSTEM_OMP_H_ */
+namespace experimental {
+
+namespace detail {
+
+struct StatsPHSP
+{
+	GReal_t fMean;
+    GReal_t fM2;
+    GReal_t fW;
+
+};
+
+
+struct AddStatsPHSP
+		:public thrust::binary_function< StatsPHSP const&, StatsPHSP const&, StatsPHSP >
+{
+
+
+    __host__ __device__ inline
+    ResultPHSP operator()( StatsPHSP const& x, StatsPHSP const& y)
+    {
+    	StatsPHSP result;
+
+        GReal_t w  = x.fW + y.fW;
+
+        GReal_t delta  = y.fMean*y.fW - x.fMean*x.fW;
+        GReal_t delta2 = delta  * delta;
+
+        result.fW   = w;
+
+        result.fMean = (x.fMean*x.fW + y.fMean*y.fW)/w;
+        result.fM2   = x.fM2   +  y.fM2;
+        result.fM2  += delta2 * x.fW * y.fW / w;
+
+        return result;
+    }
+
+};
+
+
+}//namespace detail
+
+} // namespace experimental
+
+}//namespace hydra
+
+#endif /* STATSPHSP_H_ */

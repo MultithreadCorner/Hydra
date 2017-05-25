@@ -59,7 +59,7 @@ struct BackendPolicy<Backend::Cpp>: thrust::execution_policy<cpp::cpp_t>
 namespace cpp {
 
 typedef hydra::detail::BackendPolicy<hydra::detail::Backend::Cpp> sys_t;
-static const sys_t sys;
+static const sys_t sys= sys_t();
 
 }  // namespace cpp
 

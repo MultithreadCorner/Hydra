@@ -305,7 +305,7 @@ struct Parameter{
 	__host__ inline
 	void Reset(const std::vector<double>& parameters)
 	{
-		if(fIndex <0) return;
+		//if(fIndex <0) return;
 		fValue=parameters[fIndex];
 	}
 

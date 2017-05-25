@@ -49,7 +49,7 @@ static const device_t   _device_;
 template<>
 struct BackendPolicy<Backend::Device>: thrust::execution_policy<device::device_t>
 {
-	const device::device_t backend= _device_;
+	const device::device_t backend= device::_device_;
 	template<typename T>
 	using   container = hydra::mc_device_vector<T>;
 };
@@ -60,7 +60,7 @@ struct BackendPolicy<Backend::Device>: thrust::execution_policy<device::device_t
 namespace device {
 
 typedef hydra::detail::BackendPolicy<hydra::detail::Backend::Device> sys_t;
-static const sys_t sys;
+static const sys_t sys=sys_t();;
 
 }  // namespace device
 
