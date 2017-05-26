@@ -65,6 +65,18 @@ namespace hydra {
 	};
     */
 
+	//-----------------
+	template<typename Tuple1,typename Tuple2>
+	struct tuple_cat_type;
+
+
+	template<template<typename ...>class Tuple, typename ...T1,typename ...T2>
+	struct tuple_cat_type<Tuple<T1...>, Tuple<T2...> >
+	{
+		typedef Tuple<T1..., T2...> type;
+	};
+
+	//-----------------
 	template <size_t N,template<typename> class COM>
 	struct CompareTuples{
 

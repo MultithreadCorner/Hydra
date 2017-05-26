@@ -50,7 +50,7 @@ struct AddStatsPHSP
 
 
     __host__ __device__ inline
-    ResultPHSP operator()( StatsPHSP const& x, StatsPHSP const& y)
+    StatsPHSP operator()( StatsPHSP const& x, StatsPHSP const& y)
     {
     	StatsPHSP result;
 

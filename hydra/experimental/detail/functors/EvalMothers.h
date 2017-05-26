@@ -45,26 +45,50 @@
 #include <thrust/iterator/zip_iterator.h>
 #include <thrust/random.h>
 
-
+#include <type_traits>
+#include <utility>
 
 namespace hydra {
 namespace experimental {
 namespace detail {
 
-template <size_t N, typename   BACKEND, typename GRND>
+template <size_t N, typename GRND, typename FUNCTOR, typename ...FUNCTORS >
 struct EvalMothers
 {
 
-	const GInt_t fSeed;
+	typedef  thrust::tuple<FUNCTOR,FUNCTORS...> functors_tuple_type;
+
+	typedef  thrust::tuple<typename FUNCTOR::return_type,
+			typename FUNCTORS::return_type...>  return_tuple_type;
+
+    typedef typename hydra::detail::tuple_cat_type<thrust::tuple<GReal_t> , return_tuple_type>::type
+    		result_tuple_type;
+
+	GInt_t fSeed;
 	GReal_t fMasses[N];
+	functors_tuple_type fFunctors ;
 
 	//constructor
-	EvalMothers(const GReal_t (&masses)[N], const GInt_t _seed ):
-			fSeed(_seed)
+	EvalMothers(const GReal_t (&masses)[N], const GInt_t _seed,
+			FUNCTOR const& functor, FUNCTORS const& ...functors ):
+			fSeed(_seed),
+			fFunctors( thrust::make_tuple(functor,functors...))
 	{
 		for(size_t i=0; i<N; i++)
 			fMasses[i] = masses[i];
 	}
+
+	//copy
+	EvalMothers(EvalMothers<N, GRND,FUNCTOR, FUNCTORS...> const& other)
+	{
+		fFunctors = other.fFunctors ;
+		fSeed = other.fSeed;
+
+#pragma unroll N
+		for(size_t i=0; i<N; i++)
+			fMasses[i] = other.fMasses[i];
+	}
+
 
 	__host__      __device__ inline
 	static GReal_t pdk(const GReal_t a, const GReal_t b,
@@ -244,19 +268,24 @@ struct EvalMothers
 	}
 
 	template<typename Tuple>
-	__host__      __device__ GReal_t operator()(const GInt_t evt, Tuple &particles)
+	__host__   __device__
+	typename std::enable_if< sizeof...(FUNCTORS)==0, StatsPHSP>::type
+	operator()(Tuple& particles)
 	{
+		typedef typename hydra::detail::tuple_type<N,
+						hydra::experimental::Vector4R>::type Tuple_t;
 
-		constexpr size_t SIZE = thrust::tuple_size<Tuple>::value;
+		constexpr size_t SIZE = thrust::tuple_size<Tuple_t>::value;
+
 		hydra::experimental::Vector4R Particles[SIZE];
 
-		hydra::detail::assignTupleToArray(particles,  Particles );
-
+		Particles[0]= thrust::get<1>(particles);
+		size_t evt  = thrust::get<0>(particles);
 		GReal_t weight = process(evt, Particles);
 
 		StatsPHSP result;
 
-		result.fMean = fFunctor(Particles);
+		result.fMean = thrust::get<0>(fFunctors)(Particles);
 		result.fW    = weight;
 		result.fM2   = 0.0;
 
@@ -266,7 +295,29 @@ struct EvalMothers
 
 	}
 
+	template<typename Tuple>
+	__host__   __device__
+	typename std::enable_if< (sizeof...(FUNCTORS) > 0), result_tuple_type>::type
+	operator()( Tuple &particles, void *p=0)
+	{
 
+		typedef typename hydra::detail::tuple_type<N,
+				hydra::experimental::Vector4R>::type Tuple_t;
+
+		constexpr size_t SIZE = thrust::tuple_size<Tuple_t>::value;
+
+		hydra::experimental::Vector4R Particles[SIZE];
+
+		Particles[0]= thrust::get<1>(particles);
+		size_t evt  = thrust::get<0>(particles);
+		GReal_t weight = process(evt, Particles);
+
+		return_tuple_type tmp = hydra::detail::invoke<functors_tuple_type,
+				hydra::experimental::Vector4R*>(fFunctors)(&Particles[0], fFunctors);
+
+		return thrust::tuple_cat(thrust::make_tuple(weight), tmp );
+
+	}
 
 };
 

@@ -58,7 +58,11 @@
 #include <hydra/experimental/Events.h>
 #include <hydra/experimental/detail/functors/DecayMother.h>
 #include <hydra/experimental/detail/functors/DecayMothers.h>
-#include <hydra/experimental/detail/functors/EvalDaughters.h>
+#include <hydra/experimental/detail/functors/EvalMother.h>
+#include <hydra/experimental/detail/functors/EvalMothers.h>
+#include <hydra/experimental/detail/functors/StatsPHSP.h>
+
+
 #include <hydra/detail/functors/FlagAcceptReject.h>
 #include <hydra/detail/functors/IsAccepted.h>
 #include <hydra/detail/utility/Generic.h>
@@ -123,31 +127,35 @@ public:
 			experimental::Vector4R const& mother, FUNCTOR const& functor, size_t n)
 	{
 
-		detail::EvalOnDaughters<N,BACKEND,FUNCTOR,GRND>
-		evaluator(functor, mother,fMasses, fSeed);
+		detail::EvalMother<N,GRND,FUNCTOR>
+		evaluator( mother,fMasses, fSeed,functor);
 
 		thrust::counting_iterator<GLong_t> first(0);
 
 		thrust::counting_iterator<GLong_t> last = first + n;
 
-		detail::ResultPHSP result = detail::launch_evaluator(first, last, evaluator );
+		detail::StatsPHSP result = detail::launch_evaluator(hydra::detail::BackendPolicy<BACKEND>(),
+				first, last, evaluator );
 		return std::make_pair(result.fMean, sqrt(result.fM2) );
 
 	}
+
+
 
 	template<typename FUNCTOR, hydra::detail::Backend BACKEND>
 	void Evaluate(hydra::detail::BackendPolicy<BACKEND>const&,
 				experimental::Vector4R const& mother, FUNCTOR const& functor, size_t n)
 		{
 
-			detail::EvalOnDaughters<N,BACKEND,FUNCTOR,GRND>
+			detail::EvalMothers<N,GRND,FUNCTOR>
 			evaluator(functor, mother,fMasses, fSeed);
 
 			thrust::counting_iterator<GLong_t> first(0);
 
 			thrust::counting_iterator<GLong_t> last = first + n;
 
-			detail::ResultPHSP result = detail::launch_evaluator(first, last, evaluator );
+			detail::StatsPHSP result = detail::launch_evaluator(hydra::detail::BackendPolicy<BACKEND>(),
+					first, last, evaluator );
 			return std::make_pair(result.fMean, sqrt(result.fM2) );
 
 	}
