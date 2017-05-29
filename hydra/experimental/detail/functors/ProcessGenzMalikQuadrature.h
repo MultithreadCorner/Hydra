@@ -112,7 +112,7 @@ struct ProcessGenzMalikUnaryCall
 
 	template<typename T>
 	__host__ __device__
-	inline data_type operator()(T& rule_abscissa)
+	inline data_type operator()(T&& rule_abscissa)
 	{
 
 		GChar_t index       = thrust::get<4>(rule_abscissa);

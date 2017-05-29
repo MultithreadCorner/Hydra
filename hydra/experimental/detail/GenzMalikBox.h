@@ -30,6 +30,7 @@
 #define GENZMALIKBOX_H_
 
 #include <hydra/detail/Config.h>
+#include <hydra/detail/BackendPolicy.h>
 #include <hydra/Types.h>
 #include <hydra/detail/utility/Generic.h>
 #include <thrust/tuple.h>
@@ -47,87 +48,6 @@ namespace hydra {
 namespace experimental {
 
 namespace detail {
-
-/*
-template <size_t N>
-struct GenzMalikBoxResult
-{
-	typedef void hydra_convertible_to_tuple_tag;
-
-	typedef typename hydra::detail::tuple_type<N+2, GReal_t>::type data_type;
-
-
-	__host__ __device__
-	GenzMalikBoxResult():
-	fData( data_type() )
-	{	}
-
-	__host__ __device__
-	GenzMalikBoxResult( GenzMalikBoxResult<N>const & other)
-	{
-        this->fData = other.fData;
-	}
-
-	template<typename ...T>
-	__host__ __device__
-	GenzMalikBoxResult( thrust::tuple<T...> const& t):
-	fData(t)
-	{	}
-
-	__host__ __device__
-	GenzMalikBoxResult<N>& operator=( GenzMalikBoxResult<N>const & other)
-	{
-		if(this==&other) return *this;
-
-		this->fData = other.fData;
-
-		return *this;
-	}
-
-
-
-
-	template<typename ...T>
-	__host__ __device__
-	GenzMalikBoxResult<N>& operator= ( thrust::tuple<T...> const& t )
-	{
-		this->fData = t;
-	    return *this;
-	}
-
-	template<typename ...T>
-	__host__ __device__
-    GenzMalikBoxResult<N>& operator= (thrust::detail::tuple_of_iterator_references<T&...> const&  t )
-	{
-		this->fData = t;
-		return *this;
-	}
-
-
-
-	template<typename ...T>
-	__host__ __device__
-	operator thrust::tuple<T...> ( )
-	{
-
-		return  fData;
-
-	}
-
-	template<typename ...T>
-	__host__ __device__
-	operator thrust::detail::tuple_of_iterator_references<T &...> ( )
-	{
-
-			return  fData;
-	}
-
-
-	data_type fData;
-
-
-};
-*/
 
 template<size_t N>
 struct GenzMalikBox

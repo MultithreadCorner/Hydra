@@ -61,11 +61,9 @@ namespace experimental {
 namespace detail {
 
 
-template <size_t N, typename  BACKEND, typename GRND>
+template <size_t N,  typename GRND>
 struct DecayMother
 {
-	//typedef hydra::detail::BackendTraits<BACKEND> system_t;
-	//typedef typename system_t::template container<GReal_t>  vector_real;
 
 	const GInt_t fSeed;
 
@@ -126,7 +124,7 @@ struct DecayMother
 	}
 
 	__host__ __device__
-	DecayMother( DecayMother<N, BACKEND, GRND> const& other ):
+	DecayMother( DecayMother<N, GRND> const& other ):
 	fSeed(other.fSeed ),
 	fTeCmTm(other.fTeCmTm ),
 	fWtMax(other.fWtMax ),

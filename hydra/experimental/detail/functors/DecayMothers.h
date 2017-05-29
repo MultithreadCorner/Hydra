@@ -56,13 +56,11 @@ namespace hydra {
 namespace experimental {
 namespace detail {
 
-template <size_t N, typename   BACKEND, typename GRND>
+template <size_t N, typename GRND>
 struct DecayMothers
 {
-	//typedef hydra::detail::BackendTraits<BACKEND> system_t;
-	//typedef typename system_t::template container<GReal_t>  vector_real;
 
-	const GInt_t fSeed;
+	size_t fSeed;
 	GReal_t fMasses[N];
 
 	//constructor
@@ -72,6 +70,16 @@ struct DecayMothers
 		for(size_t i=0; i<N; i++)
 			fMasses[i] = masses[i];
 	}
+
+	//copy
+	DecayMothers(DecayMothers<N, GRND> const& other)
+	{
+		fSeed = other.fSeed;
+		for(size_t i=0; i<N; i++)
+			fMasses[i] = other.fMasses[i];
+	}
+
+
 
 	__host__      __device__ inline
 	static GReal_t pdk(const GReal_t a, const GReal_t b,

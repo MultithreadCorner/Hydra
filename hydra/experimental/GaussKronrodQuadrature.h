@@ -30,6 +30,7 @@
 #define GAUSSKRONRODQUADRATURE_H_
 
 #include <hydra/detail/Config.h>
+#include <hydra/detail/BackendPolicy.h>
 #include <hydra/Types.h>
 #include <hydra/experimental/GaussKronrodRules.h>
 #include <hydra/experimental/detail/functors/ProcessGaussKronrodQuadrature.h>
@@ -43,8 +44,12 @@ namespace hydra {
 
 namespace experimental {
 
-template<size_t NRULE, size_t NBIN=200>
-class GaussKronrodQuadrature: public Integrator< GaussKronrodQuadrature<NRULE, NBIN > >
+template<  size_t N, typename  BACKEND>
+class GaussKronrodQuadrature;
+
+template<size_t NRULE, size_t NBIN, hydra::detail::Backend  BACKEND>
+class GaussKronrodQuadrature<NRULE,NBIN, hydra::detail::BackendPolicy<BACKEND>>:
+public Integrator< GaussKronrodQuadrature<NRULE, NBIN, hydra::detail::BackendPolicy<BACKEND> > >
 {
 public:
 	//tag
@@ -68,6 +73,54 @@ public:
 		this->SetCallTable();
 	}
 
+	GaussKronrodQuadrature(GaussKronrodQuadrature<NRULE,NBIN, hydra::detail::BackendPolicy<BACKEND> > const& other)
+	{
+		this->fXLower = other.GetXLower();
+		this->fXUpper = other.GetXUpper();
+		this->fRule   = other.GetfRule();
+		this->SetBins();
+		this->SetCallTable();
+	}
+
+	GaussKronrodQuadrature<NRULE,NBIN, hydra::detail::BackendPolicy<BACKEND> >&
+	operator=(GaussKronrodQuadrature<NRULE,NBIN, hydra::detail::BackendPolicy<BACKEND> > const& other)
+	{
+		if(this==&other) return *this;
+
+			this->fXLower = other.GetXLower();
+			this->fXUpper = other.GetXUpper();
+			this->fRule   = other.GetfRule();
+			this->SetBins();
+			this->SetCallTable();
+
+			return *this;
+	}
+
+	template< hydra::detail::Backend  BACKEND2 >
+	GaussKronrodQuadrature(GaussKronrodQuadrature<NRULE,NBIN, hydra::detail::BackendPolicy<BACKEND2> > const& other)
+	{
+            this->fXLower = other.GetXLower();
+            this->fXUpper = other.GetXUpper();
+            this->fRule   = other.GetfRule();
+			this->SetBins();
+			this->SetCallTable();
+	}
+
+	template< hydra::detail::Backend  BACKEND2 >
+	GaussKronrodQuadrature<NRULE,NBIN, hydra::detail::BackendPolicy<BACKEND> >&
+	operator=(GaussKronrodQuadrature<NRULE,NBIN, hydra::detail::BackendPolicy<BACKEND2> > const& other)
+	{
+		if(this==&other) return *this;
+
+		this->fXLower = other.GetXLower();
+		this->fXUpper = other.GetXUpper();
+		this->fRule   = other.GetfRule();
+		this->SetBins();
+		this->SetCallTable();
+
+		return *this;
+	}
+
 	template<typename FUNCTOR>
 	std::pair<GReal_t, GReal_t> Integrate(FUNCTOR const& functor);
 
@@ -85,6 +138,34 @@ public:
 		HYDRA_MSG << "GaussKronrodQuadrature end. " << HYDRA_ENDL;
 	}
 
+	GReal_t GetXLower() const
+	{
+		return fXLower;
+	}
+
+	void SetXLower(GReal_t xLower)
+	{
+		fXLower = xLower;
+		this->SetBins();
+		this->SetCallTable();
+	}
+
+	GReal_t GetXUpper() const
+	{
+		return fXUpper;
+	}
+
+	void SetXUpper(GReal_t xUpper)
+	{
+		fXUpper = xUpper;
+		this->SetBins();
+		this->SetCallTable();
+	}
+
+	const GaussKronrodRule<NRULE>& GetRule() const
+	{
+		return fRule;
+	}
 
 private:
 

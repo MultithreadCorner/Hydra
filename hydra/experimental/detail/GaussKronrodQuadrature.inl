@@ -30,6 +30,7 @@
 #define GAUSSKRONRODQUADRATURE_INL_
 
 #include <hydra/detail/Config.h>
+#include <hydra/detail/BackendPolicy.h>
 #include <hydra/Types.h>
 #include <cmath>
 #include <tuple>
@@ -39,18 +40,19 @@ namespace hydra {
 
 namespace experimental {
 
-template<size_t NRULE, size_t NBIN>
+template<size_t NRULE, size_t NBIN, hydra::detail::Backend  BACKEND>
 template<typename FUNCTOR>
-std::pair<GReal_t, GReal_t> GaussKronrodQuadrature<NRULE,NBIN>::Integrate(FUNCTOR const& functor)
+std::pair<GReal_t, GReal_t>
+GaussKronrodQuadrature<NRULE, NBIN, hydra::detail::BackendPolicy<BACKEND>>::Integrate(FUNCTOR const& functor)
 {
 
 	GaussKronrodCall result = thrust::transform_reduce(fCallTable.begin(), fCallTable.end(),
 			GaussKronrodUnary<FUNCTOR>(functor),  GaussKronrodCall(), GaussKronrodBinary() );
 
-GReal_t error = std::max(std::numeric_limits<GReal_t>::epsilon(),
-		std::pow(200.0*std::fabs(result.fGaussCall- result.fGaussKronrodCall ), 1.5));
+	GReal_t error = std::max(std::numeric_limits<GReal_t>::epsilon(),
+			std::pow(200.0*std::fabs(result.fGaussCall- result.fGaussKronrodCall ), 1.5));
 
-return std::pair<GReal_t, GReal_t>(result.fGaussKronrodCall, error);
+	return std::pair<GReal_t, GReal_t>(result.fGaussKronrodCall, error);
 }
 
 }  // namespace experimental

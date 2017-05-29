@@ -31,6 +31,7 @@
 
 
 #include <hydra/detail/Config.h>
+#include <hydra/detail/BackendPolicy.h>
 #include <hydra/Types.h>
 #include <hydra/experimental/GaussKronrodRules.h>
 #include <hydra/experimental/detail/functors/ProcessGaussKronrodAdaptiveQuadrature.h>
@@ -39,17 +40,20 @@
 
 #include <hydra/detail/Print.h>
 #include <tuple>
+#include <vector>
 
 namespace hydra {
 
 namespace experimental {
 
-template<size_t NRULE, size_t NBIN=100>
-class GaussKronrodAdaptiveQuadrature: public Integrator< GaussKronrodAdaptiveQuadrature<NRULE, NBIN > >
+template<size_t NRULE, size_t NBIN, typename BACKEND>
+class GaussKronrodAdaptiveQuadrature;
+
+template<size_t NRULE, size_t NBIN, hydra::detail::Backend BACKEND>
+class GaussKronrodAdaptiveQuadrature<NRULE,NBIN, hydra::detail::BackendPolicy<BACKEND>>:
+public Integrator< GaussKronrodAdaptiveQuadrature<NRULE, NBIN, hydra::detail::BackendPolicy<BACKEND> > >
 {
-public:
-	//tag
-	typedef void hydra_integrator_tag;
+	typedef hydra::detail::BackendPolicy<BACKEND> system_t;
 
 	/*
 	 * nodes
@@ -63,7 +67,7 @@ public:
 			double   // error
 			> node_t;
 
-	typedef thrust::host_vector<node_t>   node_list_h;
+	typedef std::vector<node_t>   node_list_h;
 	typedef hydra::experimental::multivector<node_list_h> node_table_h;
 
 	/*
@@ -78,8 +82,8 @@ public:
 			double  // rule_Gauss_Weight
 			> parameters_t;
 
-	typedef thrust::host_vector<parameters_t>   parameters_list_h;
-	typedef thrust::device_vector<parameters_t> parameters_list_d;
+	typedef std::vector<parameters_t>   parameters_list_h;
+	typedef typename system_t::template container<parameters_t> parameters_list_d;
 
 	typedef hydra::experimental::multivector<parameters_list_h> parameters_table_h;
 	typedef hydra::experimental::multivector<parameters_list_d> parameters_table_d;
@@ -93,11 +97,17 @@ public:
 			double   // kronrod
 			> call_t;
 
-	typedef thrust::host_vector<call_t>   call_list_h;
-	typedef thrust::device_vector<call_t> call_list_d;
+	typedef std::vector<call_t>   call_list_h;
+	typedef typename system_t::template container<call_t> call_list_d;
 
 	typedef hydra::experimental::multivector<call_list_h> call_table_h;
 	typedef hydra::experimental::multivector<call_list_d> call_table_d;
+
+public:
+	//tag
+	typedef void hydra_integrator_tag;
+
+
 
 	GaussKronrodAdaptiveQuadrature()=delete;
 
@@ -112,7 +122,7 @@ public:
 	}
 
 
-	GaussKronrodAdaptiveQuadrature( GaussKronrodAdaptiveQuadrature<NRULE,NBIN> const& other ):
+	GaussKronrodAdaptiveQuadrature( GaussKronrodAdaptiveQuadrature<NRULE,NBIN, BACKEND> const& other ):
 			fIterationNumber( other.GetIterationNumber() ),
 			fXLower(other.GetXLower() ),
 			fXUpper(other.GetXUpper()),
@@ -122,8 +132,20 @@ public:
 			InitNodes();
 		}
 
+	template< hydra::detail::Backend  BACKEND2>
+	GaussKronrodAdaptiveQuadrature( GaussKronrodAdaptiveQuadrature<NRULE,NBIN, BACKEND2> const& other ):
+				fIterationNumber( other.GetIterationNumber() ),
+				fXLower(other.GetXLower() ),
+				fXUpper(other.GetXUpper()),
+				fMaxRelativeError(other.GetMaxRelativeError() ),
+				fRule(other.GetRule())
+			{
+				InitNodes();
+			}
 
-	GaussKronrodAdaptiveQuadrature&  operator= ( GaussKronrodAdaptiveQuadrature<NRULE,NBIN> const& other )
+
+
+	GaussKronrodAdaptiveQuadrature&  operator= ( GaussKronrodAdaptiveQuadrature<NRULE,NBIN, BACKEND> const& other )
 	{
 		if(this ==&other) return *this;
 
@@ -136,6 +158,21 @@ public:
 
 		return *this;
 	}
+
+	template< hydra::detail::Backend  BACKEND2>
+	GaussKronrodAdaptiveQuadrature&  operator= ( GaussKronrodAdaptiveQuadrature<NRULE,NBIN, BACKEND2> const& other )
+		{
+			if(this ==&other) return *this;
+
+			this->fIterationNumber = other.GetIterationNumber() ;
+			this->fXLower = other.GetXLower() ;
+			this->fXUpper = other.GetXUpper();
+			this->fMaxRelativeError = other.GetMaxRelativeError() ;
+			this->fRule=other.GetRule();
+			this->InitNodes();
+
+			return *this;
+		}
 
 	template<typename FUNCTOR>
 	std::pair<GReal_t, GReal_t> Integrate(FUNCTOR const& functor);

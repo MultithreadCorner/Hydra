@@ -42,8 +42,9 @@ namespace hydra {
 
 namespace experimental {
 
-template<size_t NRULE, size_t NBIN>
-std::pair<GReal_t, GReal_t> GaussKronrodAdaptiveQuadrature<NRULE,NBIN>::Accumulate()
+template<size_t NRULE, size_t NBIN, hydra::detail::Backend BACKEND>
+std::pair<GReal_t, GReal_t>
+GaussKronrodAdaptiveQuadrature<NRULE,NBIN,hydra::detail::BackendPolicy<BACKEND>>::Accumulate()
 {
 
 	for(size_t index=0; index<fCallTableHost.size() ; index++ )
@@ -81,10 +82,10 @@ std::pair<GReal_t, GReal_t> GaussKronrodAdaptiveQuadrature<NRULE,NBIN>::Accumula
 	return std::pair<GReal_t, GReal_t>(result, sqrt(error2) );
 }
 
-template<size_t NRULE, size_t NBIN>
+template<size_t NRULE, size_t NBIN, hydra::detail::Backend BACKEND>
 template<typename FUNCTOR>
 std::pair<GReal_t, GReal_t>
-GaussKronrodAdaptiveQuadrature<NRULE,NBIN>::Integrate(FUNCTOR const& functor)
+GaussKronrodAdaptiveQuadrature<NRULE,NBIN, hydra::detail::BackendPolicy<BACKEND>>::Integrate(FUNCTOR const& functor)
 {
 	std::pair<GReal_t, GReal_t> result(0,0);
 
@@ -106,7 +107,7 @@ GaussKronrodAdaptiveQuadrature<NRULE,NBIN>::Integrate(FUNCTOR const& functor)
 		fCallTableDevice.resize( fParametersTable.size());
 
 		//call function in parallel
-		thrust::transform(thrust::device,fParametersTable.begin(), fParametersTable.end(),
+		thrust::transform(system_t(),fParametersTable.begin(), fParametersTable.end(),
 				fCallTableDevice.begin(),
 				ProcessGaussKronrodAdaptiveQuadrature<FUNCTOR>(functor) );
 
@@ -114,6 +115,10 @@ GaussKronrodAdaptiveQuadrature<NRULE,NBIN>::Integrate(FUNCTOR const& functor)
 		thrust::copy(fCallTableDevice.begin(),  fCallTableDevice.end(),
 				fCallTableHost.begin());
 
+		/**
+		 * \todo Re-implement Accumulate() using thrust::sort + thust::reduce_by_key, maybe not faster but
+		 * more scalable.
+		 */
 		result = Accumulate();
 
 		fIterationNumber++;
@@ -133,8 +138,8 @@ GaussKronrodAdaptiveQuadrature<NRULE,NBIN>::Integrate(FUNCTOR const& functor)
 }
 
 
-template<size_t NRULE, size_t NBIN>
-void GaussKronrodAdaptiveQuadrature<NRULE,NBIN>::UpdateNodes()
+template<size_t NRULE, size_t NBIN, hydra::detail::Backend BACKEND>
+void GaussKronrodAdaptiveQuadrature<NRULE,NBIN,hydra::detail::BackendPolicy<BACKEND>>::UpdateNodes()
 {
 
 	thrust::sort(thrust::host,

@@ -53,7 +53,7 @@ template<size_t N,  hydra::detail::Backend  BACKEND,  typename GRND>
 class Vegas<N, hydra::detail::BackendPolicy<BACKEND>, GRND >
 : public Integrator<Vegas<N,hydra::detail::BackendPolicy<BACKEND>,GRND>>
 {
-	typedef hydra::detail::BackendPolicy<BACKEND> system_t;
+	std
 	typedef typename system_t::template container<GReal_t>  rvector_backend;
 	typedef typename system_t::template container<GUInt_t>  uvector_backend;
 

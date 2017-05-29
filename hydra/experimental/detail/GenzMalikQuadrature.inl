@@ -31,6 +31,7 @@
 
 
 #include <hydra/detail/Config.h>
+#include <hydra/detail/BackendPolicy.h>
 #include <hydra/Types.h>
 #include <hydra/experimental/GenzMalikRule.h>
 #include <hydra/experimental/detail/GenzMalikBox.h>
@@ -49,8 +50,8 @@ namespace hydra {
 
 namespace experimental {
 
-template<size_t N, unsigned int BACKEND>
-GenzMalikQuadrature<N,BACKEND>::GenzMalikQuadrature(std::array<GReal_t,N> const& LowerLimit,
+template<size_t N,hydra::detail::Backend  BACKEND>
+GenzMalikQuadrature<N, hydra::detail::BackendPolicy<BACKEND>>::GenzMalikQuadrature(std::array<GReal_t,N> const& LowerLimit,
 		std::array<GReal_t,N> const& UpperLimit, std::array<size_t, N> const& grid)
 		{
 
@@ -84,8 +85,8 @@ GenzMalikQuadrature<N,BACKEND>::GenzMalikQuadrature(std::array<GReal_t,N> const&
 		}
 
 
-template<size_t N, unsigned int BACKEND>
-GenzMalikQuadrature<N,BACKEND>::GenzMalikQuadrature(std::array<GReal_t,N> const& LowerLimit,
+template<size_t N,hydra::detail::Backend  BACKEND>
+GenzMalikQuadrature<N, hydra::detail::BackendPolicy<BACKEND>>::GenzMalikQuadrature(std::array<GReal_t,N> const& LowerLimit,
 		std::array<GReal_t,N> const& UpperLimit, size_t nboxes)
 		{
 
@@ -121,69 +122,59 @@ GenzMalikQuadrature<N,BACKEND>::GenzMalikQuadrature(std::array<GReal_t,N> const&
 		}
 
 
-template<size_t N, unsigned int BACKEND>
-template<unsigned int BACKEND2>
-GenzMalikQuadrature<N,BACKEND>::GenzMalikQuadrature( GenzMalikQuadrature<N,BACKEND2> const& other):
+template<size_t N, hydra::detail::Backend  BACKEND>
+GenzMalikQuadrature<N, hydra::detail::BackendPolicy<BACKEND>>::GenzMalikQuadrature( GenzMalikQuadrature<N, hydra::detail::BackendPolicy<BACKEND>> const& other):
+fBoxList(other.GetBoxList() ),
+fGenzMalikRule(other.GetGenzMalikRule() )
+{}
+
+template<size_t N, hydra::detail::Backend  BACKEND>
+template<hydra::detail::Backend  BACKEND2>
+GenzMalikQuadrature<N, hydra::detail::BackendPolicy<BACKEND>>::GenzMalikQuadrature( GenzMalikQuadrature<N, hydra::detail::BackendPolicy<BACKEND2>> const& other):
 fBoxList(other.GetBoxList() ),
 fGenzMalikRule(other.GetGenzMalikRule() )
 {}
 
 
-template<size_t N, unsigned int BACKEND>
-template<unsigned int BACKEND2>
-GenzMalikQuadrature<N,BACKEND>& GenzMalikQuadrature<N,BACKEND>::operator=( GenzMalikQuadrature<N,BACKEND2> const& other)
-	{
-		if(this==&other) return *this;
+template<size_t N, hydra::detail::Backend  BACKEND>
+GenzMalikQuadrature<N,hydra::detail::BackendPolicy<BACKEND>>&
+GenzMalikQuadrature<N,hydra::detail::BackendPolicy<BACKEND>>::operator=( GenzMalikQuadrature<N,hydra::detail::BackendPolicy<BACKEND>> const& other)
+{
+	if(this==&other) return *this;
 
-		this->fBoxList=other.GetBoxList() ;
-		this->fGenzMalikRule = other.GetGenzMalikRule() ;
+	this->fBoxList=other.GetBoxList() ;
+	this->fGenzMalikRule = other.GetGenzMalikRule() ;
 
-		return *this;
-	}
+	return *this;
+}
 
-template<size_t N, unsigned int BACKEND>
+template<size_t N, hydra::detail::Backend  BACKEND>
+template<hydra::detail::Backend  BACKEND2>
+GenzMalikQuadrature<N,hydra::detail::BackendPolicy<BACKEND>>&
+GenzMalikQuadrature<N,hydra::detail::BackendPolicy<BACKEND>>::operator=( GenzMalikQuadrature<N,hydra::detail::BackendPolicy<BACKEND2>> const& other)
+{
+	if(this==&other) return *this;
+
+	this->fBoxList=other.GetBoxList() ;
+	this->fGenzMalikRule = other.GetGenzMalikRule() ;
+
+	return *this;
+}
+
+template<size_t N, hydra::detail::Backend  BACKEND>
 template<typename FUNCTOR>
-std::pair<GReal_t, GReal_t> GenzMalikQuadrature<N,BACKEND>::Integrate(FUNCTOR const& functor)
+std::pair<GReal_t, GReal_t> GenzMalikQuadrature<N,hydra::detail::BackendPolicy<BACKEND>>::Integrate(FUNCTOR const& functor)
 {
 
-/*
-#if THRUST_DEVICE_SYSTEM==THRUST_DEVICE_SYSTEM_CUDA
-
-	typedef std::future<void> future_t;
-
-	future_t futures[fBoxList.size()];
-
-	auto funct = detail::ProcessGenzMalikBox<N, FUNCTOR,const_rule_iterator, box_iterator>(functor,
-				fGenzMalikRule.GetAbscissas().begin(),fGenzMalikRule.GetAbscissas().end(),
-				fBoxList.begin(), fBoxList.end());
-
-	for(size_t i=0; i<fBoxList.size(); i++)
-	{
-
-		futures[i]=std::async(std::launch::async,funct, i );
-	}
-
-	for(size_t i=0; i<fBoxList.size(); i++)
-		{
-
-			futures[i].wait();
-		}
-#else*/
 	thrust::counting_iterator<size_t> first(0);
 	thrust::counting_iterator<size_t> last = first + fBoxList.size();
 
-//	auto start = std::chrono::high_resolution_clock::now();
 
 	thrust::for_each(thrust::host,first, last,
 				detail::ProcessGenzMalikBox<N, FUNCTOR,const_rule_iterator, box_iterator>(functor,
 						fGenzMalikRule.GetAbscissas().begin(),fGenzMalikRule.GetAbscissas().end(),
 						fBoxList.begin(), fBoxList.end()));
 
-	//auto end = std::chrono::high_resolution_clock::now();
-	//std::chrono::duration<double, std::milli> elapsed = end - start;
-	//std::cout << ">>>> ::Integrate [Genz-Malik]"<< std::endl;
-	//std::cout <<">>>> Time (ms): "<< elapsed.count() <<std::endl;
-//#endif
 
 	GReal_t integral=0;
 

@@ -54,11 +54,49 @@
 #include <thrust/transform_reduce.h>
 
 namespace hydra {
+
 namespace experimental {
-	namespace detail {
+
+namespace detail {
+
+	//-------------------------------
+
+	template<size_t N, hydra::detail::Backend BACKEND, typename ...FUNCTOR, typename GRND, typename Iterator>
+	inline void launch_evaluator(hydra::detail::BackendPolicy<BACKEND>const&,
+			Iterator begin, Iterator end,	detail::EvalMother<N, GRND,FUNCTOR...> const& evaluator) {
+		typedef hydra::detail::BackendPolicy<BACKEND> system_t;
+
+		size_t nevents = thrust::distance(begin, end);
+				thrust::counting_iterator<GLong_t> first(0);
+				thrust::counting_iterator<GLong_t> last = first + nevents;
+
+		thrust::transform(system_t(), first, last, begin, evaluator);
+
+	}
+
+
+	template<size_t N, hydra::detail::Backend BACKEND, typename ...FUNCTOR, typename GRND,
+	                   typename IteratorMother, typename Iterator>
+	inline void launch_evaluator(hydra::detail::BackendPolicy<BACKEND>const&,
+			 IteratorMother mbegin, IteratorMother mend, Iterator begin,
+			 detail::EvalMothers<N, GRND,FUNCTOR...> const& evaluator) {
+
+		typedef hydra::detail::BackendPolicy<BACKEND> system_t;
+
+		size_t nevents = thrust::distance(mbegin, mend);
+		thrust::counting_iterator<GLong_t> first(0);
+		thrust::counting_iterator<GLong_t> last = first + nevents;
+
+		thrust::transform(system_t(), thrust::make_zip_iterator(first, mbegin),
+				thrust::make_zip_iterator(last, mend), begin, evaluator );
+
+	}
+
+
+	//-------------------------------
 
 	template<size_t N, hydra::detail::Backend BACKEND, typename FUNCTOR, typename GRND, typename Iterator>
-	inline StatsPHSP launch_evaluator(hydra::detail::BackendPolicy<BACKEND>const&,
+	inline StatsPHSP launch_reducer(hydra::detail::BackendPolicy<BACKEND>const&,
 			Iterator begin, Iterator end,	detail::EvalMother<N, GRND,FUNCTOR> const& evaluator)
 	{
 		typedef hydra::detail::BackendPolicy<BACKEND> system_t;
@@ -73,8 +111,8 @@ namespace experimental {
 
 
 	template<size_t N, hydra::detail::Backend BACKEND, typename FUNCTOR, typename GRND, typename IteratorMother>
-	inline StatsPHSP launch_evaluator(hydra::detail::BackendPolicy<BACKEND>const&,
-			 IteratorMother begin, IteratorMother end, detail::EvalMothers<N, GRND,FUNCTOR> const& evaluator)
+	inline StatsPHSP launch_reducer(hydra::detail::BackendPolicy<BACKEND>const&,
+			IteratorMother begin, IteratorMother end, detail::EvalMothers<N, GRND,FUNCTOR> const& evaluator)
 	{
 		typedef hydra::detail::BackendPolicy<BACKEND> system_t;
 
@@ -92,10 +130,10 @@ namespace experimental {
 		return result;
 	}
 
+	//-------------------------------
 
-
-	template<size_t N, typename  BACKEND, typename GRND, typename Iterator>
-    inline void launch_decayer(Iterator begin, Iterator end, DecayMother<N, BACKEND, GRND> const& decayer)
+	template<size_t N, typename GRND, typename Iterator>
+    inline void launch_decayer(Iterator begin, Iterator end, DecayMother<N, GRND> const& decayer)
 	{
 
 		size_t nevents = thrust::distance(begin, end);
@@ -114,9 +152,9 @@ namespace experimental {
 	}
 
 
-	template<size_t N, typename  BACKEND, typename GRND,	typename IteratorMother, typename IteratorDaughter>
+	template<size_t N, typename GRND,	typename IteratorMother, typename IteratorDaughter>
 	inline	void launch_decayer(IteratorMother begin, IteratorMother end
-			, IteratorDaughter begin_daugters, DecayMothers<N, BACKEND,GRND> const& decayer)
+			, IteratorDaughter begin_daugters, DecayMothers<N, GRND> const& decayer)
 	{
 
 		size_t nevents = thrust::distance(begin, end);
@@ -136,8 +174,9 @@ namespace experimental {
 
 
 
-	}
-}  // namespace experimental
+}// namespace detail
+
+}// namespace experimental
 
 }// namespace hydra
 

@@ -30,6 +30,7 @@
 #define GENZMALIKQUADRATURE_H_
 
 #include <hydra/detail/Config.h>
+#include <hydra/detail/BackendPolicy.h>
 #include <hydra/Types.h>
 #include <hydra/experimental/GenzMalikRule.h>
 #include <hydra/experimental/detail/GenzMalikBox.h>
@@ -44,21 +45,26 @@ namespace hydra {
 
 namespace experimental {
 
-template<  size_t N, unsigned int BACKEND>
-class  GenzMalikQuadrature: public Integrator<typename std::enable_if< (N>1),GenzMalikQuadrature<N, BACKEND>>::type  >
+template<  size_t N, typename  BACKEND>
+class  GenzMalikQuadrature;
+
+template<  size_t N, hydra::detail::Backend  BACKEND>
+class  GenzMalikQuadrature<N, hydra::detail::BackendPolicy<BACKEND> >:
+public Integrator<typename std::enable_if< (N>1),GenzMalikQuadrature<N, hydra::detail::BackendPolicy<BACKEND>>>::type  >
 {
+
+	typedef std::vector<detail::GenzMalikBox<N>> box_list_type;
+	typedef typename box_list_type::iterator box_iterator;
+	typedef typename box_list_type::const_iterator const_box_iterator;
+
+
+	typedef typename GenzMalikRule<N, hydra::detail::BackendPolicy<BACKEND>>::abscissa_iterator rule_iterator;
+	typedef typename GenzMalikRule<N, hydra::detail::BackendPolicy<BACKEND>>::const_abscissa_iterator const_rule_iterator;
 
 public:
 	//tag
 	typedef void hydra_integrator_tag;
 
-
-	typedef hydra::mc_host_vector<detail::GenzMalikBox<N>> box_list_type;
-	typedef  typename hydra::mc_host_vector<detail::GenzMalikBox<N>>::iterator box_iterator;
-
-
-	typedef typename GenzMalikRule<  N,  BACKEND>::abscissa_iterator rule_iterator;
-	typedef typename GenzMalikRule<  N,  BACKEND>::const_abscissa_iterator const_rule_iterator;
 
 	GenzMalikQuadrature(std::array<GReal_t,N> const& LowerLimit,
 			std::array<GReal_t,N> const& UpperLimit,
@@ -70,11 +76,18 @@ public:
 			size_t nboxes=10);
 
 
-	template<unsigned int BACKEND2>
-	GenzMalikQuadrature( GenzMalikQuadrature<N,BACKEND2> const& other);
+	GenzMalikQuadrature( GenzMalikQuadrature<N,hydra::detail::BackendPolicy<BACKEND>> const& other);
 
-	template<unsigned int BACKEND2>
-	GenzMalikQuadrature<N,BACKEND>& operator=( GenzMalikQuadrature<N,BACKEND2> const& other);
+	template< hydra::detail::Backend  BACKEND2>
+	GenzMalikQuadrature( GenzMalikQuadrature<N,hydra::detail::BackendPolicy<BACKEND2>> const& other);
+
+	GenzMalikQuadrature<N,hydra::detail::BackendPolicy<BACKEND>>&
+	operator=( GenzMalikQuadrature<N,hydra::detail::BackendPolicy<BACKEND>> const& other);
+
+
+	template<hydra::detail::Backend BACKEND2>
+	GenzMalikQuadrature<N,hydra::detail::BackendPolicy<BACKEND>>&
+	operator=( GenzMalikQuadrature<N,hydra::detail::BackendPolicy<BACKEND2>> const& other);
 
 	template<typename FUNCTOR>
 	std::pair<GReal_t, GReal_t> Integrate(FUNCTOR const& functor);
@@ -91,7 +104,7 @@ public:
 		return fBoxList;
 	}
 
-	const GenzMalikRule<N, BACKEND>& GetGenzMalikRule() const {
+	const GenzMalikRule<N, hydra::detail::BackendPolicy<BACKEND>>& GetGenzMalikRule() const {
 		return fGenzMalikRule;
 	}
 
@@ -99,7 +112,7 @@ public:
 		fBoxList = boxList;
 	}
 
-	void SetGenzMalikRule(const GenzMalikRule<N, BACKEND>& genzMalikRule) {
+	void SetGenzMalikRule(const GenzMalikRule<N, hydra::detail::BackendPolicy<BACKEND>>& genzMalikRule) {
 		fGenzMalikRule = genzMalikRule;
 	}
 
@@ -115,7 +128,7 @@ private:
 	}
 
 
-	GenzMalikRule<  N,  BACKEND> fGenzMalikRule;
+	GenzMalikRule<  N,  hydra::detail::BackendPolicy<BACKEND>> fGenzMalikRule;
 	box_list_type fBoxList;
 
 };

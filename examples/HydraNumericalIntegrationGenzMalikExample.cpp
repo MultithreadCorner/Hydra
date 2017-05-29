@@ -58,6 +58,12 @@
 #include <TString.h>
 #include <TStyle.h>
 
+#include <hydra/host/System.h>
+#include <hydra/device/System.h>
+#include <hydra/omp/System.h>
+#include <hydra/cpp/System.h>
+#include <hydra/cuda/System.h>
+
 #include <examples/Gauss.h>
 #include <examples/Exp.h>
 
@@ -105,7 +111,7 @@ GInt_t main(int argv, char** argc)
 	}
 
 
-	constexpr size_t N = 2;
+	constexpr size_t N = 10;
 
 	//------------------------------------
 	//parameters
@@ -158,7 +164,7 @@ GInt_t main(int argv, char** argc)
 	//Genz-Malik
 	//----------------------------------------------------------------------
 
-	auto GMIntegrator = hydra::experimental::GenzMalikQuadrature<N, hydra::device>(min, max, nboxes);
+	auto GMIntegrator = hydra::experimental::GenzMalikQuadrature<N, hydra::omp::sys_t>(min, max, nboxes);
 	auto start = std::chrono::high_resolution_clock::now();
 	auto result2 = GMIntegrator.Integrate(Gaussian);
 	auto end = std::chrono::high_resolution_clock::now();

@@ -32,6 +32,7 @@
 
 //hydra
 #include <hydra/detail/Config.h>
+#include <hydra/detail/BackendPolicy.h>
 #include <hydra/Types.h>
 #include <hydra/detail/Print.h>
 #include <hydra/detail/utility/Utility_Tuple.h>
@@ -57,28 +58,30 @@ namespace experimental {
 
 
 template<typename T>
-struct GenzMalikRuleBase{};
+class GenzMalikRuleBase{};
 
-template<size_t DIM, unsigned int BACKEND>
-struct GenzMalikRule: GenzMalikRuleBase<typename std::enable_if< (DIM>1), void >::type >
+template<size_t DIM, typename BACKEND>
+class GenzMalikRule;
+
+template<size_t DIM, hydra::detail::Backend   BACKEND>
+class GenzMalikRule<DIM, hydra::detail::BackendPolicy<BACKEND>>:
+           GenzMalikRuleBase<typename std::enable_if< (DIM>1), void >::type >
 	{
 
 
-	//abscissa<0> -> degree five  weight
-	//abscissa<1> -> degree seven weight
-	//abscissa<2> -> Lambda
-
-	//abscissa<(Index >=2)> -> multidimensional abscissa values
-	//typedef typename hydra::detail::tuple_type<DIM+2,GReal_t >::type abscissa_t;
 	typedef typename hydra::detail::tuple_type<DIM+2,GChar_t >::type char_abscissa_t;
 	typedef thrust::tuple<GReal_t,GReal_t, GReal_t> real_abscissa_t;
-	typedef decltype( thrust::tuple_cat(real_abscissa_t(), char_abscissa_t() )) abscissa_t;
+	typedef typename hydra::detail::tuple_cat_type<real_abscissa_t, char_abscissa_t>::type abscissa_t;
+
+	//typedef decltype( thrust::tuple_cat(real_abscissa_t(), char_abscissa_t() )) abscissa_t;
 
 	//system selection
-	typedef hydra::detail::BackendTraits<BACKEND> system_t;
+	typedef  hydra::detail::BackendPolicy<BACKEND> system_t;
 
 	//container template vector<abscissa> on device or host memory
 	typedef typename system_t::template container<abscissa_t> super_t;
+
+public:
 
 	//container
 	typedef multivector<super_t> vector_abscissa_t;
@@ -87,7 +90,6 @@ struct GenzMalikRule: GenzMalikRuleBase<typename std::enable_if< (DIM>1), void >
 
 	enum AbscissaCategory_t
 	{ Central = 0, FirstLeft, SecondLeft, FirstRight, SecondRight, Multidimensional };
-
 
 
 		GenzMalikRule():
@@ -118,8 +120,8 @@ struct GenzMalikRule: GenzMalikRuleBase<typename std::enable_if< (DIM>1), void >
 
 			}
 
-		template<unsigned int BACKEND2>
-		GenzMalikRule( GenzMalikRule<DIM,BACKEND2> const& other):
+
+		GenzMalikRule( GenzMalikRule<DIM, hydra::detail::BackendPolicy<BACKEND>> const& other):
 			fLambda2( other.GetLambda2() ),
 			fLambda3( other.GetLambda3() ),
 			fLambda4( other.GetLambda4() ),
@@ -136,8 +138,51 @@ struct GenzMalikRule: GenzMalikRuleBase<typename std::enable_if< (DIM>1), void >
 			fAbscissas( other.GetAbscissas() )
 		{}
 
-		template<unsigned int BACKEND2>
-		GenzMalikRule<DIM,BACKEND>& operator= ( GenzMalikRule<DIM,BACKEND2> const& other)
+		template<hydra::detail::Backend BACKEND2>
+		GenzMalikRule( GenzMalikRule<DIM, hydra::detail::BackendPolicy<BACKEND2>> const& other):
+			fLambda2( other.GetLambda2() ),
+			fLambda3( other.GetLambda3() ),
+			fLambda4( other.GetLambda4() ),
+			fLambda5( other.GetLambda5() ),
+			fRule7Weight1( other.GetRule7Weight1() ),
+			fRule7Weight2( other.GetRule7Weight2() ),
+			fRule7Weight3( other.GetRule7Weight3() ),
+			fRule7Weight4( other.GetRule7Weight4() ),
+			fRule7Weight5( other.GetRule7Weight5() ),
+			fRule5Weight1( other.GetRule5Weight1() ),
+			fRule5Weight2( other.GetRule5Weight2() ),
+			fRule5Weight3( other.GetRule5Weight3() ),
+			fRule5Weight4( other.GetRule5Weight4() ),
+			fAbscissas( other.GetAbscissas() )
+		{}
+
+		GenzMalikRule<DIM,hydra::detail::BackendPolicy<BACKEND>>&
+		operator=( GenzMalikRule<DIM,hydra::detail::BackendPolicy<BACKEND>> const& other)
+		{
+
+			if(this==&other) return *this;
+
+			fLambda2 = other.GetLambda2() ;
+			fLambda3 = other.GetLambda3() ;
+			fLambda4 = other.GetLambda4() ;
+			fLambda5 = other.GetLambda5() ;
+			fRule7Weight1 = other.GetRule7Weight1() ;
+			fRule7Weight2 = other.GetRule7Weight2() ;
+			fRule7Weight3 = other.GetRule7Weight3() ;
+			fRule7Weight4 = other.GetRule7Weight4() ;
+			fRule7Weight5 = other.GetRule7Weight5() ;
+			fRule5Weight1 = other.GetRule5Weight1() ;
+			fRule5Weight2 = other.GetRule5Weight2() ;
+			fRule5Weight3 = other.GetRule5Weight3() ;
+			fRule5Weight4 = other.GetRule5Weight4() ;
+			fAbscissas = other.GetAbscissas() ;
+
+			return *this;
+		}
+
+		template<hydra::detail::Backend BACKEND2>
+		GenzMalikRule<DIM,hydra::detail::BackendPolicy<BACKEND>>&
+		operator=( GenzMalikRule<DIM,hydra::detail::BackendPolicy<BACKEND2>> const& other)
 		{
 
 			if(this==&other) return *this;

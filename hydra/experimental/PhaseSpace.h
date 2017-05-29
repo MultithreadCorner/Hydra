@@ -38,21 +38,16 @@
 
 #include <array>
 #include <vector>
-#include <string>
-#include <map>
-//#include <omp.h>
-#include <iostream>
-#include <ostream>
-#include <algorithm>
-#include <time.h>
-#include <stdio.h>
-//#include <math.h>
+#include <initializer_list>
 
 #include <hydra/detail/Config.h>
 #include <hydra/detail/BackendPolicy.h>
 #include <hydra/detail/IteratorTraits.h>
 #include <hydra/Types.h>
 #include <hydra/Containers.h>
+#include <hydra/detail/functors/FlagAcceptReject.h>
+#include <hydra/detail/functors/IsAccepted.h>
+#include <hydra/detail/utility/Generic.h>
 #include <hydra/experimental/Vector3R.h>
 #include <hydra/experimental/Vector4R.h>
 #include <hydra/experimental/Events.h>
@@ -63,9 +58,7 @@
 #include <hydra/experimental/detail/functors/StatsPHSP.h>
 
 
-#include <hydra/detail/functors/FlagAcceptReject.h>
-#include <hydra/detail/functors/IsAccepted.h>
-#include <hydra/detail/utility/Generic.h>
+
 #include <hydra/experimental/detail/launch_decayers.inl>
 
 #include <thrust/iterator/zip_iterator.h>
@@ -75,11 +68,10 @@
 #include <thrust/random.h>
 #include <thrust/distance.h>
 
-
-#include <thrust/system/omp/execution_policy.h>
-
-
-
+/**
+ * \file
+ * \ingroup Phase-space generator
+ */
 
 namespace hydra {
 
@@ -92,146 +84,130 @@ public:
 
 	/**
 	 * PhaseSpace ctor. Constructor of the phase-space generator takes as input parameters:
-	 * - _MotherMass: the mass of the mother particle in Gev/c*c
-	 * - _Masses: STL vector with the mass of the daughter particles.
+	 * @param motherMass mass of the mother particle in Gev/c*c;
+	 * @param daughtersMasses array with the masses of the daughter particles in Gev/c*c;
 	 */
+	PhaseSpace(const GReal_t motherMass, const GReal_t (&daughtersMasses)[N]);
 
-	typedef typename hydra::detail::tuple_type<N, experimental::Vector4R>::type particle_tuple;
+	/**
+	 * PhaseSpace ctor. Constructor of the phase-space generator takes as input parameters:
+	 * @param motherMass mass of the mother particle in Gev/c*c;
+	 * @param daughtersMasses array with the masses of the daughter particles in Gev/c*c;
+	 */
+	PhaseSpace(const GReal_t motherMass, std::array<GReal_t,N> const& daughtersMasses);
 
+	/**
+	 * PhaseSpace ctor. Constructor of the phase-space generator takes as input parameters:
+	 * @param motherMass mass of the mother particle in Gev/c*c;
+	 * @param daughtersMasses list with the masses of the daughter particles in Gev/c*c;
+	 */
+	PhaseSpace(const GReal_t motherMass, std::initializer_list<GReal_t> const& daughtersMasses);
 
-	PhaseSpace(const GReal_t motherMass, const GReal_t (&daughtersMasses)[N]) :
-		fSeed(1)
-{
-		for(size_t i=0;i<N;i++)
-			fMasses[i]= daughtersMasses[i];
+	/**
+	 * Copy constructor.
+	 * @param other
+	 */
+	PhaseSpace( PhaseSpace<N,GRND>const& other);
 
-		GReal_t fTeCmTm = 0.0;
-
-		fTeCmTm = motherMass; // total energy in C.M. minus the sum of the masses
-
-		for (size_t n = 0; n < N; n++)
-			fTeCmTm -= daughtersMasses[n];
-
-		if (fTeCmTm < 0.0) {
-			std::cout << "Not enough energy for this decay. Exit." << std::endl;
-			exit(1);
-		}
-
-}
-
-
-	~PhaseSpace() {}
-
+	/**
+	 * Calculate the mean and the \f$ \sqrt(variance)\f$  of a functor over the phase-space with n-samples.
+	 * @param policy  Back-end;
+	 * @param mother  Mother particle four-vector;
+	 * @param functor Functor;
+	 * @param n Number of samples;
+	 * @return std::pair with the mean and the \f$ \sqrt(variance)\f$
+	 */
 	template<typename FUNCTOR, hydra::detail::Backend BACKEND>
-	std::pair<GReal_t, GReal_t> AverageOn(hydra::detail::BackendPolicy<BACKEND>const&,
-			experimental::Vector4R const& mother, FUNCTOR const& functor, size_t n)
-	{
+	std::pair<GReal_t, GReal_t> AverageOn(hydra::detail::BackendPolicy<BACKEND>const& policy,
+			experimental::Vector4R const& mother, FUNCTOR const& functor, size_t n) ;
 
-		detail::EvalMother<N,GRND,FUNCTOR>
-		evaluator( mother,fMasses, fSeed,functor);
+	/**
+	 * Calculate the mean and the \f$ \sqrt(variance)\f$  of a functor over the phase-space given a list of mother particles.
+	 * @param policy Back-end;
+	 * @param begin Iterator pointing to the begin of list of mother particles;
+	 * @param end   Iterator pointing to the end of list of mother particles;
+	 * @param functor Functor;
+	 * @return std::pair with the mean and the \f$ \sqrt(variance)\f$
+	 */
+	template<typename FUNCTOR, hydra::detail::Backend BACKEND, typename Iterator>
+	std::pair<GReal_t, GReal_t> AverageOn(hydra::detail::BackendPolicy<BACKEND>const& policy,
+			Iterator begin, Iterator end, FUNCTOR const& functor);
 
-		thrust::counting_iterator<GLong_t> first(0);
+	/**
+	 * Evaluate a list of functors  over the phase-space
+	 * @param policy  Back-end;
+	 * @param begin Iterator pointing to the begin of list of output range;
+	 * @param end   Iterator pointing to the end of list of output range;
+	 * @param mother Mother particle four-vector;
+	 * @param functors Functors;
+	 */
+	template<typename ...FUNCTOR, hydra::detail::Backend BACKEND, typename Iterator>
+	void Evaluate(hydra::detail::BackendPolicy<BACKEND>const& policy, Iterator begin, Iterator end,
+			experimental::Vector4R const& mother, FUNCTOR const& ...functors);
 
-		thrust::counting_iterator<GLong_t> last = first + n;
+	/**
+	 * Evaluate a list of functors  over the phase-space given a list vectors.
+	 * @param policy Back-end;
+	 * @param mbegin Iterator pointing to the begin of list of mother particles;
+	 * @param mend Iterator pointing to the end of list of mother particles;
+	 * @param begin Iterator pointing to the begin of list of output range;
+	 * @param functors Functors;
+	 */
+	template<typename ...FUNCTOR, hydra::detail::Backend BACKEND,
+	typename IteratorMother, typename Iterator>
+	void Evaluate(hydra::detail::BackendPolicy<BACKEND>const& policy, IteratorMother mbegin,
+			IteratorMother mend, Iterator begin, FUNCTOR const& ...functors);
 
-		detail::StatsPHSP result = detail::launch_evaluator(hydra::detail::BackendPolicy<BACKEND>(),
-				first, last, evaluator );
-		return std::make_pair(result.fMean, sqrt(result.fM2) );
-
-	}
-
-
-
-	template<typename FUNCTOR, hydra::detail::Backend BACKEND>
-	void Evaluate(hydra::detail::BackendPolicy<BACKEND>const&,
-				experimental::Vector4R const& mother, FUNCTOR const& functor, size_t n)
-		{
-
-			detail::EvalMothers<N,GRND,FUNCTOR>
-			evaluator(functor, mother,fMasses, fSeed);
-
-			thrust::counting_iterator<GLong_t> first(0);
-
-			thrust::counting_iterator<GLong_t> last = first + n;
-
-			detail::StatsPHSP result = detail::launch_evaluator(hydra::detail::BackendPolicy<BACKEND>(),
-					first, last, evaluator );
-			return std::make_pair(result.fMean, sqrt(result.fM2) );
-
-	}
-
+    /**
+     * Generate a phase-space  given a mother particle and a output range.
+     * @param mother Mother particle.
+     * @param begin Iterator pointing to the begin output range.
+     * @param end Iterator pointing to the end output range.
+     */
 	template<typename Iterator>
-	void Generate(experimental::Vector4R const& mother, Iterator begin, Iterator end)
-	{
-		/**
-		 * Run the generator and calculate the maximum weight. It takes as input the fourvector of the mother particle
-		 * in any system of reference. The daughters will be generated in this system.
-		*/
+	void Generate(experimental::Vector4R const& mother, Iterator begin, Iterator end);
 
-#if(THRUST_DEVICE_SYSTEM==THRUST_DEVICE_BACKEND_CUDA && (BACKEND==device))
-	cudaDeviceSetCacheConfig(cudaFuncCachePreferL1);
-#endif
-
-
-	detail::DecayMother<N,typename  hydra::detail::IteratorTraits<Iterator>::system_t,GRND> decayer(mother,fMasses, fSeed);
-			detail::launch_decayer(begin, end, decayer );
-
-	}
-
+	/**
+	 * Generate a phase-space  given a range of mother particles and a output range.
+	 * @param begin Iterator pointing to the begin of range of mother particles.
+	 * @param end Iterator pointing to the end  of range of mother particles.
+	 * @param daughters_begin Iterator pointing to the begin of range of daughter particles.
+	 */
 	template<typename Iterator1, typename Iterator2>
-	void Generate( Iterator1 begin, Iterator1 end, Iterator2 daughters_begin)
-	{
-		/**
-		 * Run the generator and calculate the maximum weight. It takes as input the device vector with the four-vectors of the mother particle
-		 * in any system of reference. The daughters will be generated in this system.
-		 */
+	void Generate( Iterator1 begin, Iterator1 end, Iterator2 daughters_begin);
 
-#if(THRUST_DEVICE_SYSTEM==THRUST_DEVICE_BACKEND_CUDA && (BACKEND==device))
-	cudaDeviceSetCacheConfig(cudaFuncCachePreferL1);
-#endif
+	/**
+	 * Get seed of the underlying generator;
+	 * @return
+	 */
+	inline GInt_t GetSeed() const;
 
-
-	detail::DecayMothers<N, typename  hydra::detail::IteratorTraits<Iterator1>::system_t,GRND> decayer(fMasses, fSeed);
-		detail::launch_decayer(begin, end, daughters_begin, decayer );
-
-
-
-	}
-
-	inline GInt_t GetSeed() const	{
-			return fSeed;
-		}
-
-	inline void SetSeed(GInt_t _seed) 	{
-				fSeed=_seed;
-			}
+	/**
+	 * Set seed of the underlying generator;
+	 * @param _seed
+	 */
+	inline void SetSeed(GInt_t _seed) ;
 
 
 	/**
 	 * PDK function
 	 */
-	inline GReal_t PDK(const GReal_t a, const GReal_t b, const GReal_t c) const {
-		//the PDK function
-		GReal_t x = (a - b - c) * (a + b + c) * (a - b + c) * (a + b - c);
-		x = sqrt(x) / (2 * a);
-		return x;
-	}
+
+
 
 private:
 
+	inline GReal_t PDK(const GReal_t a, const GReal_t b, const GReal_t c) const ;
 
-
-	GInt_t  fSeed;///< seed.
+	size_t  fSeed;///< seed.
 	GReal_t fMasses[N];
-
-
-
 
 };
 
 }  // namespace experimental
 
 }//namespace hydra
-#include <hydra/detail/PhaseSpace.inl>
+
+#include <hydra/experimental/detail/PhaseSpace.inl>
 
 #endif /* PHASESPACE_H_ */
