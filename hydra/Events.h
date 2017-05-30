@@ -28,12 +28,12 @@
 
 /**
  * \file
- * \ingroup phsp
+ * \ingroup Phase-space generator
  */
 
 
-#ifndef EVENTS_H_
-#define EVENTS_H_
+#ifndef _EVENTS_H_
+#define _EVENTS_H_
 
 #include <array>
 #include <vector>
@@ -45,33 +45,41 @@
 #include <algorithm>
 #include <time.h>
 #include <stdio.h>
-
+#include <utility>
 #include <thrust/copy.h>
 
 #include <hydra/detail/Config.h>
+#include <hydra/detail/BackendPolicy.h>
 #include <hydra/Types.h>
 #include <hydra/Containers.h>
 #include <hydra/Vector3R.h>
 #include <hydra/Vector4R.h>
+#include <hydra/multivector.h>
 #include <hydra/detail/utility/Utility_Tuple.h>
 #include <hydra/detail/functors/FlagAcceptReject.h>
 
 
+
 namespace hydra {
 
-
+namespace experimental {
 /*! \struct Events
  * Events is a container struct to hold all the information corresponding the generated events.
  * Mother four-vectors are not stored.
  */
-template<size_t N, unsigned int BACKEND>
-struct Events {
+template<size_t N, typename BACKEND>
+struct Events;
 
-	typedef detail::BackendTraits<BACKEND> system_t;
+template<size_t N, hydra::detail::Backend BACKEND>
+struct Events<N, hydra::detail::BackendPolicy<BACKEND> > {
 
-	typedef typename system_t::template container<Vector4R> vector_particles;
-	typedef typename system_t::template container<Vector4R>::iterator vector_particles_iterator;
-	typedef typename system_t::template container<Vector4R>::const_iterator vector_particles_const_iterator;
+	typedef hydra::detail::BackendPolicy<BACKEND> system_t;
+
+	typedef typename system_t::template container<Vector4R::args_type> super_t;
+
+	typedef multivector<super_t> vector_particles;
+	typedef typename multivector<super_t>::iterator vector_particles_iterator;
+	typedef typename multivector<super_t>::const_iterator vector_particles_const_iterator;
 
 	typedef typename system_t::template container<GReal_t>  vector_real;
 	typedef typename system_t::template container<GReal_t>::iterator vector_real_iterator;
@@ -81,139 +89,109 @@ struct Events {
 	typedef typename system_t::template container<GBool_t>::iterator  vector_bool_iterator;
 	typedef typename system_t::template container<GBool_t>::const_iterator  vector_bool_const_iterator;
 
-    typedef  decltype( detail::get_zip_iterator( vector_real_iterator(), std::array< vector_particles_iterator,N>() )) iterator;
-    typedef   typename iterator::value_type value_type;
+	typedef  decltype( hydra::detail::get_zip_iterator( vector_real_iterator(), std::array< vector_particles_iterator,N>() )) iterator;
+	typedef  decltype( hydra::detail::get_zip_iterator( vector_real_const_iterator(),
+			std::array< vector_particles_const_iterator,N>() )) const_iterator;
+	typedef   typename iterator::value_type value_type;
+	typedef   typename iterator::reference  reference_type;
 
-	/*!
-	 * Constructor takes as parameters the number of particles and number of events.
+	constexpr static size_t particles = N ;
+
+    /**
+     * Default constructor.
+     */
+	Events():
+		fNEvents(0),
+		fMaxWeight(0){}
+
+	/**
+	 * \brief Constructor with n elements.
+	 * @param size_t nevents
 	 */
-    Events() :
-    	fNEvents(0),
-    	fMaxWeight(0)
-    {}
+	Events(size_t nevents);
 
-	Events(GLong_t nevents) :
-		fNEvents(nevents),
-		fMaxWeight(0)
-	{
+	/**
+	 * \brief Cross-backend copy constructor.
+	 * @param Events<N,BACKEND2> const& other
+	 */
+	template<hydra::detail::Backend BACKEND2>
+	Events(Events<N,hydra::detail::BackendPolicy<BACKEND2>> const& other);
 
-		for (GInt_t d = 0; d < N; d++)
-		{
-			fDaughters[d].resize(fNEvents);
-		}
+	/**
+	 * \brief Copy constructor.
+	 * @param Events<N,BACKEND> const& other
+	 */
+	Events(Events<N,hydra::detail::BackendPolicy<BACKEND>> const& other);
 
-		fWeights.resize(fNEvents);
-		fFlags.resize(fNEvents);
+	/**
+	 * \brief Move constructor.
+	 * Move the resources from other to *this and set other=default.
+	 * @param Events<N,BACKEND> && other
+	 */
+	Events(Events<N, hydra::detail::BackendPolicy<BACKEND>> && other);
 
-		std::array< vector_particles_iterator,N> begins;
-		std::array< vector_particles_iterator,N> ends;
+	/**
+	 * \brief Assignment operator
+	 * Assignment operator.
+	 * @param Events<N,BACKEND> other
+	 * @return Events<N,BACKEND>
+	 */
+	Events<N,hydra::detail::BackendPolicy<BACKEND>>&
+	operator=(Events<N,hydra::detail::BackendPolicy<BACKEND>> const& other);
 
-#pragma unroll N
-		for(int i =0; i < N; i++){
-			begins[i]= fDaughters[i].begin();
-			ends[i]= fDaughters[i].end();
+	/**
+	 * \brief Generic assignment operator
+	 * Cross-backend assignment operator.
+	 * @param Events<N,BACKEND2>const& other
+	 * @return
+	 */
+	template<hydra::detail::Backend BACKEND2>
+	Events<N,hydra::detail::BackendPolicy<BACKEND>>&
+	operator=(Events<N,hydra::detail::BackendPolicy<BACKEND2>> const& other);
 
-		}
-		 fBegin = detail::get_zip_iterator(fWeights.begin(), begins );
-		 fEnd = detail::get_zip_iterator(fWeights.end(), ends );
+	/**
+	 * \brief Move assignment operator
+	 * Move the resources from other to *this and set other=default.
+	 * @param Events<N,BACKEND2>&& other
+	 * @return
+	 */
 
-	}
-
-	template<unsigned int BACKEND2>
-	Events(Events<N,BACKEND2> const& other):
-			fNEvents(other.GetNEvents()),
-			fMaxWeight(other.GetMaxWeight())
-		{
-
-#pragma unroll N
-		for (GInt_t d = 0; d < N; d++)
-		{
-			fDaughters[d].resize(fNEvents);
-		}
-
-		fWeights.resize(fNEvents);
-		fFlags.resize(fNEvents);
-
-			for (GInt_t i = 0; i < N; i++)
-			{
-				thrust::copy(other.DaughtersBegin(i), other.DaughtersEnd(i), this->DaughtersBegin(i));
-			}
-
-			thrust::copy(other.WeightsBegin(), other.WeightsEnd(), this->WeightsBegin());
-			thrust::copy(other.FlagsBegin(), other.FlagsEnd(), this->FlagsBegin());
-
-			std::array< vector_particles_iterator,N> begins;
-			std::array< vector_particles_iterator,N> ends;
-
-#pragma unroll N
-			for(int i =0; i < N; i++){
-				begins[i]= fDaughters[i].begin();
-				ends[i]= fDaughters[i].end();
-
-			}
-			fBegin = detail::get_zip_iterator(fWeights.begin(), begins );
-			fEnd = detail::get_zip_iterator(fWeights.end(), ends );
-
-		}
-
-	template<unsigned int BACKEND2>
-	Events<N,BACKEND>& operator=(Events<N,BACKEND2> const& other)
-	{
-		if(this == &other) return *this;
-		this->fNEvents=other.GetNEvents();
-		this->fMaxWeight=other.GetMaxWeight();
-
-#pragma unroll N
-		for (GInt_t d = 0; d < N; d++)
-		{
-			fDaughters[d].resize(fNEvents);
-		}
-
-		fWeights.resize(fNEvents);
-		fFlags.resize(fNEvents);
-
-
-		for (GInt_t i = 0; i < N; i++)
-		{
-			thrust::copy(other.DaughtersBegin(i), other.DaughtersEnd(i), this->DaughtersBegin(i));
-		}
-
-		thrust::copy(other.WeightsBegin(), other.WeightsEnd(), this->WeightsBegin());
-		thrust::copy(other.FlagsBegin(), other.FlagsEnd(), this->FlagsBegin());
-
-		std::array< vector_particles_iterator,N> begins;
-		std::array< vector_particles_iterator,N> ends;
-
-#pragma unroll N
-				for(int i =0; i < N; i++){
-					begins[i]= this->fDaughters[i].begin();
-					ends[i]= this->fDaughters[i].end();
-
-				}
-				fBegin = detail::get_zip_iterator(this->fWeights.begin(), begins );
-				fEnd = detail::get_zip_iterator(this->fWeights.end(), ends );
-
-		return *this;
-	}
+	Events<N,hydra::detail::BackendPolicy<BACKEND>>&
+	operator=(Events<N,hydra::detail::BackendPolicy<BACKEND>>&& other);
 
 	~Events(){};
 
+	/**
+	 * \brief Get maximum weight in the container.
+	 * Get maximum weight in the container.
+	 * @return fMaxWeight
+	 */
 	GReal_t GetMaxWeight() const {
 		return fMaxWeight;
 	}
 
-	GLong_t GetNEvents() const {
-		return fNEvents;
+	/**
+	 * \brief Get number of events in the container.
+	 *
+	 * @return size of the container.
+	 */
+	size_t GetNEvents() const {
+		return fFlags.size();
 	}
 
-	void SetNEvents(GLong_t nEvents) {
-		fNEvents = nEvents;
-	}
-
+    /**
+     * \brief Get flags begin
+     * Get begin iterator to accepted-rejected flags.
+     * @return
+     */
 	vector_bool_const_iterator FlagsBegin() const{
 		return fFlags.begin();
 	}
 
+	/**
+	 * \brief Get flags end
+	 * @return
+	 */
 	vector_bool_const_iterator FlagsEnd() const{
 		return fFlags.end();
 	}
@@ -228,12 +206,12 @@ struct Events {
 
 	vector_particles_const_iterator DaughtersBegin(GInt_t i)const{
 
-		return fDaughters[i].begin();
+		return fDaughters[i].cbegin();
 	}
 
 	vector_particles_const_iterator DaughtersEnd(GInt_t i)	const{
 
-		return fDaughters[i].end();
+		return fDaughters[i].cend();
 	}
 
 	vector_bool_iterator FlagsBegin() {
@@ -268,68 +246,71 @@ struct Events {
 	}
 
 
-	value_type operator[](size_t i)
+	reference_type operator[](size_t i)
 	{
 
 		return fBegin[i];
 	}
+
+	reference_type operator[](size_t i) const
+	{
+
+		return fConstBegin[i];
+	}
+
 
 
 	iterator begin(){ return fBegin; }
 
 	iterator  end(){ return fEnd; }
 
-	GULong_t Unweight(size_t seed)
-	{
-		/**
-		 * Flag the accepted and rejected events
-		 */
+	const_iterator begin() const{ return fConstBegin; }
 
+	const_iterator  end() const{ return fConstEnd; }
 
+	const_iterator cbegin() const{ return fConstBegin; }
 
-		GULong_t count = 0;
-		if(N==2)
-		{
-			thrust::fill(fFlags.begin(), fFlags.end(), kTrue);
-			count = fNEvents;
-		}
-		else
-		{
+	const_iterator  cend() const{ return fConstEnd; }
 
-		auto w = thrust::max_element(fWeights.begin(),fWeights.end());
-		fMaxWeight=*w;
-		// create iterators
-		thrust::counting_iterator<GLong_t> first(0);
-		thrust::counting_iterator<GLong_t> last = first + fNEvents;
+	size_t capacity() const  {return fFlags.capacity();}
 
+	void resize(size_t n);
 
-		thrust::transform(first, last, fWeights.begin(),
-				fFlags.begin(), detail::FlagAcceptReject(seed, fMaxWeight));
+	size_t Unweight(size_t seed);
 
-		count = thrust::count(fFlags.begin(), fFlags.end(),
-				kTrue);
-
-		}
-
-		return count;
-
-	}
+	size_t size() const { return fFlags.size(); }
 
 
 private:
 
+	vector_bool MoveFlags()	{
+		return std::move(fFlags);
+	}
 
+	vector_real MoveWeights(){
+		return std::move(fWeights);
+	}
 
-	GLong_t fNEvents;    ///< Number of events.
+	std::array<vector_particles,N> MoveDaughters(){
+		return std::move(fDaughters);
+	}
+
+	size_t fNEvents;    ///< Number of events.
 	GReal_t fMaxWeight;  ///< Maximum weight of the generated events.
 	vector_bool fFlags; ///< Vector of flags. Accepted events are flagged 1 and rejected 0.
 	vector_real fWeights; ///< Vector of event weights.
 	std::array<vector_particles,N> fDaughters; ///< Array of daughter particle vectors.
 	iterator fBegin;
 	iterator fEnd;
+	const_iterator fConstBegin;
+	const_iterator fConstEnd;
 
 };
 
-}
+}  // namespace experimental
+
+}// namespace hydra
+
+#include <hydra/detail/Events.inl>
 
 #endif /* EVENT_H_ */

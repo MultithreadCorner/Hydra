@@ -31,66 +31,87 @@
  * \ingroup generic
  */
 
-#ifndef POINTVECTOR_H_
-#define POINTVECTOR_H_
+#ifndef _POINTVECTOR_H_
+#define _POINTVECTOR_H_
 
 //hydra
 #include <hydra/detail/Config.h>
+#include <hydra/detail/BackendPolicy.h>
 #include <hydra/Types.h>
 #include <hydra/Point.h>
 #include <hydra/detail/utility/Utility_Tuple.h>
 #include <hydra/detail/TypeTraits.h>
+#include <hydra/multivector.h>
 //thrust
+
+
 #include <thrust/tuple.h>
 #include <thrust/device_vector.h>
 #include <thrust/host_vector.h>
 
-namespace hydra
-{
+namespace hydra {
+
 /**
  * PointVector wraps a thrust::vector<Points<T,N>> and provide methods
  *
  */
+template<typename T, hydra::detail::Backend BACKEND>
+class PointVector;
 
-
-template<  unsigned int BACKEND=0,typename T=GReal_t, size_t N=1, bool V_ERROR=false, bool C_ERROR=false >
-class PointVector{
+template<hydra::detail::Backend BACKEND, typename T, size_t N, bool V_ERROR, bool C_ERROR >
+class PointVector< Point<T, N, V_ERROR, C_ERROR>,  BACKEND >
+{
 
 public:
 
-	typedef detail::BackendTraits<BACKEND> system_t;
+	typedef hydra::detail::BackendPolicy<BACKEND> system_t;
+
+    typedef Point<T, N, V_ERROR, C_ERROR> point_t;
+    typedef typename point_t::type super_t;
+    typedef T cell_type;
+    typedef typename system_t::template container< cell_type > column_type;
+
+	typedef typename system_t::template container< super_t > prototype_t;
+
+	typedef multivector<prototype_t> data_t;
+
+	typedef typename column_type::iterator column_iterator;
+	typedef typename column_type::const_iterator const_column_iterator;
 
 
-	typedef typename system_t::template container< Point<T, N, V_ERROR, C_ERROR> > type;
-	typedef Point<T, N, V_ERROR, C_ERROR> value_type;
-	typedef typename type::const_iterator const_iterator;
-	typedef typename type::iterator iterator;
+	typedef typename data_t::const_iterator const_iterator;
+	typedef typename data_t::iterator iterator;
+	typedef typename data_t::reference_tuple reference;
+	typedef typename data_t::const_reference_tuple const_reference;
 
 	__host__
 	PointVector():
-		fPoints(type()){}
+		fData(data_t()){}
 
 	__host__
 	PointVector(size_t n):
-		fPoints(type(n)) {}
+		fData(data_t(n, point_t().GetData())) {}
 	
 
-	template<unsigned int BACKEND2 >
 	__host__
-	PointVector( PointVector<BACKEND2, T, N, V_ERROR, C_ERROR > const& other):
-	fPoints(other.GetPoints()){}
+	PointVector( PointVector<Point<T, N, V_ERROR, C_ERROR>, BACKEND> const& other):
+		fData(other.GetData()){}
+
+	template<hydra::detail::Backend  BACKEND2 >
+	__host__
+	PointVector( PointVector<Point<T, N, V_ERROR, C_ERROR>, BACKEND2> const& other):
+	fData(other.GetData()){}
 	
 	
-	~PointVector(){};
 
 	/**
 	 * get access to the underlying container
 	 */
 	__host__
-	inline	const type& GetPoints() const { return fPoints; }
+	const data_t& GetData() const { return fData; }
 
 	__host__
-	inline	type& GetPoints() { return fPoints; }
+	data_t& GetData(){ return fData; }
 
 
 	/**Todo
@@ -101,55 +122,117 @@ public:
 	 * Add a new point
 	 */
 	__host__
-	inline	void AddPoint( value_type const& point)
+	void AddPoint( point_t const& point)
 	{
-		fPoints.push_back(point);
+		fData.push_back(point);
+	}
+
+
+	__host__
+	point_t GetPoint(size_t i) const
+	{
+		return point_t(fData[i]);
 	}
 
 	__host__
-	inline	value_type const& GetPoint(size_t i) const
-	{
-		return fPoints[i];
-	}
+	size_t Size(){ return fData.size(); }
 
+	/*
+	 * stl like inteface
+	 */
+
+	__host__
+	size_t size() const { return fData.size(); }
 
 	/**
 	 *  constant iterator access
 	 */
 	__host__
-	inline	const_iterator begin() const { return fPoints.begin(); }
+	const_iterator begin() const { return fData.cbegin(); }
 	__host__
-	inline	const_iterator end() const { return fPoints.begin()+fPoints.size(); }
+	const_iterator end() const { return fData.cend(); }
+
+	__host__
+	const_iterator cbegin() const { return fData.cbegin(); }
+	__host__
+	const_iterator cend() const { return fData.cend(); }
+
+
 
 	/**
 	 *   non-const iterator access
 	 */
 	__host__
-	inline	iterator begin() { return fPoints.begin(); }
+	iterator begin() { return fData.begin(); }
 	__host__
-	inline	iterator end()   { return fPoints.end(); }
+	iterator end()   { return fData.end(); }
 	
 	/**
-	 *   access to the point
+	 *  subscript operator
 	 */
 	__host__
-	inline	const value_type& operator[] (size_t i)  const { return fPoints[i]; }
+    const_reference operator[] (size_t i)  const { return (fData.begin()[i]); }
+
 	__host__
-	inline	value_type& operator[] (size_t i) { return fPoints[i]; }
+	reference operator[] (size_t i) { return (fData.begin()[i]); }
+
 
 
 	/**
 	 * size
 	 */
-	__host__
-	size_t Size(){ return fPoints.size(); }
+
 
 private:
 	
-	type fPoints;
+	data_t fData;
 	
 
 };
+
+
+template<size_t I, typename T, size_t N, hydra::detail::Backend   BACKEND>
+auto CoordBegin(PointVector<Point<T,N,false,false>,BACKEND >& container )
+-> typename PointVector<Point<T,N,false,false>, BACKEND>::column_iterator
+{
+	auto begin= container.GetData().template vbegin<I+2>();
+	return begin;
+}
+/*
+template<size_t I, typename T, size_t N, unsigned int BACKEND>
+auto GetCoordinateBegin(PointVector<Point<T,N,false,false>,
+		BACKEND >& container )
+-> decltype( container.GetData().template vbegin<I+2>())
+{
+	auto begin= container.GetData().template vbegin<I+2>();
+	return begin;
+}
+*/
+
+template<size_t I, typename T, size_t N, hydra::detail::Backend   BACKEND>
+auto CoordEnd(PointVector<Point<T,N,false,false>,  BACKEND >& container )
+-> typename PointVector<Point<T,N,false,false>, BACKEND>::column_iterator
+{
+	auto begin= container.GetData().template vend<I+2>();
+	return begin;
+}
+
+template<size_t I, typename T, size_t N, bool CERROR,hydra::detail::Backend  BACKEND>
+auto CoordBegin(PointVector<Point<T,N,true,CERROR>,  BACKEND >& container )
+-> decltype(container.GetData().template vbegin<I+3>())
+{
+	auto begin= container.GetData().template vbegin<I+3>();
+	return begin;
+}
+
+template<size_t I, typename T, size_t N, bool CERROR, hydra::detail::Backend  BACKEND>
+auto CoordEnd(PointVector<Point<T,N,true,CERROR>,  BACKEND >& container )
+-> decltype( container.GetData().template vend<I+3>())
+{
+	auto begin= container.GetData().template vend<I+3>();
+	return begin;
+}
+
 
 }//namespace hydra
 

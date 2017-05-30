@@ -47,8 +47,8 @@
 #include <hydra/Vegas.h>
 #include <hydra/Plain.h>
 #include <hydra/Parameter.h>
-#include <hydra/experimental/GaussKronrodQuadrature.h>
-#include <hydra/experimental/GaussKronrodAdaptiveQuadrature.h>
+#include <hydra/GaussKronrodQuadrature.h>
+#include <hydra/GaussKronrodAdaptiveQuadrature.h>
 
 //root
 #include <TROOT.h>
@@ -364,7 +364,7 @@ GInt_t main(int argv, char** argc)
 	cout << "Result: " << std::setprecision(10)<<result.first
 					   << " +/- "    << result.second <<std::endl;
 
-	hydra::experimental::GaussKronrodQuadrature<61,200> quad(min[0], max[0]);
+	GaussKronrodQuadrature<61,200> quad(min[0], max[0]);
 	//quad.Print();
 	auto start_quad = std::chrono::high_resolution_clock::now();
 	auto r = quad.Integrate(Gaussian);
@@ -374,7 +374,7 @@ GInt_t main(int argv, char** argc)
 	cout << "Result: " <<r.first << " " << r.second <<std::endl
 	<< " Time (ms): "<< elapsed_quad.count() <<std::endl;
 
-	hydra::experimental::GaussKronrodAdaptiveQuadrature<61,10> adaquad(min[0], max[0]);
+	GaussKronrodAdaptiveQuadrature<61,10> adaquad(min[0], max[0]);
 	//adaquad.Print();
 	auto start_adaquad = std::chrono::high_resolution_clock::now();
 	auto adar = adaquad.Integrate(Gaussian);
@@ -395,7 +395,7 @@ GInt_t main(int argv, char** argc)
 
 	GaussN<3> Gaussian3(_mean, _sigma, _position );
 
-	auto GMIntegrator = hydra::experimental::GenzMalikQuadrature<3,hydra::device>(_min, _max, _grid);
+	auto GMIntegrator = GenzMalikQuadrature<3,hydra::device>(_min, _max, _grid);
 	GMIntegrator.Print();
 
 */

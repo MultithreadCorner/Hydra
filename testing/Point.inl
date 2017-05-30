@@ -34,15 +34,15 @@
 
 #include <hydra/detail/Config.h>
 #include <hydra/Types.h>
-#include <hydra/experimental/Point.h>
+#include <hydra/Point.h>
 #include <thrust/tuple.h>
 
 #include <array>
 
 
-TEST_CASE( "Point<double, 3>","hydra::experimental::Point without value error" ) {
+TEST_CASE( "Point<double, 3>","Point without value error" ) {
 
-	typedef  hydra::experimental::Point<double, 3> Point_t;
+	typedef  Point<double, 3> Point_t;
 
 
 	SECTION( "Constructors " )
@@ -328,9 +328,9 @@ TEST_CASE( "Point<double, 3>","hydra::experimental::Point without value error" )
 
 
 
-TEST_CASE( "Point<double, 3, true,false>","hydra::experimental::Point with value error" ) {
+TEST_CASE( "Point<double, 3, true,false>","Point with value error" ) {
 
-	typedef  hydra::experimental::Point<double, 3, true, false> Point_t;
+	typedef  Point<double, 3, true, false> Point_t;
 
 
 	SECTION( "Constructors " )
@@ -638,9 +638,9 @@ TEST_CASE( "Point<double, 3, true,false>","hydra::experimental::Point with value
 
 
 
-TEST_CASE( "Point<double, 3, true, true>","hydra::experimental::Point with value error" ) {
+TEST_CASE( "Point<double, 3, true, true>","Point with value error" ) {
 
-	typedef  hydra::experimental::Point<double, 3, true, true> Point_t;
+	typedef  Point<double, 3, true, true> Point_t;
 
 
 	SECTION( "Constructors " )

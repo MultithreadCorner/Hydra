@@ -28,7 +28,7 @@
 
 /**
  * \file
- * \ingroup fit
+ * \ingroup Data Fitting
  */
 
 
@@ -36,6 +36,8 @@
 #define LOGLIKELIHOODFCN_INL_
 
 namespace hydra{
+
+
 /*
 template<typename FUNCTOR,  typename IteratorData, typename IteratorCache >
 typename thrust::detail::enable_if< detail::is_hydra_functor<FUNCTOR>::value, GReal_t>::type
@@ -153,5 +155,5 @@ LogLikelihoodFCN<FUNCTOR,IteratorData, IteratorCache>::Eval( const std::vector<d
 
 */
 
-}
+} // namespace hydra
 #endif /* LOGLIKELIHOODFCN_INL_ */

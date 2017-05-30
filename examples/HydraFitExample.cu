@@ -66,8 +66,8 @@
 #include "Minuit2/MinosError.h"
 #include "Minuit2/ContoursError.h"
 #include "Minuit2/VariableMetricMinimizer.h"
-#include <hydra/experimental/GaussKronrodQuadrature.h>
-#include <hydra/experimental/GaussKronrodAdaptiveQuadrature.h>
+#include <hydra/GaussKronrodQuadrature.h>
+#include <hydra/GaussKronrodAdaptiveQuadrature.h>
 #include <hydra/PointVector.h>
 
 //root
@@ -270,10 +270,10 @@ GInt_t main(int argv, char** argc)
 	PointVector<device, GReal_t, 1> data_d(3*nentries);
 
 
-	//typedef  hydra::experimental::Point<GReal_t, 1> Point_t;
+	//typedef  Point<GReal_t, 1> Point_t;
 
 
-	//hydra::experimental::PointVector<Point_t, device> data_d(3*nentries);
+	//PointVector<Point_t, device> data_d(3*nentries);
 
 	Generator.Gauss(mean1_p , sigma1_p, data_d.begin(), data_d.begin() + nentries );
 	Generator.Gauss(mean2_p , sigma2_p, data_d.begin()+ nentries, data_d.begin() + 2*nentries );
@@ -293,7 +293,7 @@ GInt_t main(int argv, char** argc)
 	//------------------------------------------------------
 	//container to sample fit function on the host nentries trials
 	PointVector<host, GReal_t, 1> data_fit_vegas_h(0);
-	//hydra::experimental::PointVector<Point_t, host> data_fit_vegas_h(0);
+	//PointVector<Point_t, host> data_fit_vegas_h(0);
 
 
 	//------------------------------------------------------
@@ -325,7 +325,7 @@ GInt_t main(int argv, char** argc)
 		GaussAnalyticIntegral GaussIntegral(min[0], max[0]);
 		ExpAnalyticIntegral   ExpIntegral(min[0], max[0]);
 
-		hydra::experimental::GaussKronrodQuadrature<21,100> quad(min[0], max[0]);
+		GaussKronrodQuadrature<21,100> quad(min[0], max[0]);
 		/*
 		auto Gaussian1_PDF   = make_pdf(Gaussian1, vegas);
 		auto Gaussian2_PDF   = make_pdf(Gaussian2, vegas);

@@ -40,8 +40,7 @@
 #include <hydra/Types.h>
 
 
-namespace hydra
-{
+namespace hydra {
 
 namespace detail {
 

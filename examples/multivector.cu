@@ -36,7 +36,7 @@
 #include <hydra/detail/Config.h>
 #include <thrust/device_malloc_allocator.h>
 #include <thrust/host_vector.h>
-#include <hydra/experimental/multivector.h>
+#include <hydra/multivector.h>
 
 
 
@@ -190,7 +190,7 @@ size_t n=10000000;
 int main(int argv, char** argc)
 {
 
-	typedef hydra::experimental::multivector<thrust::device_vector,
+	typedef multivector<thrust::device_vector,
 			thrust::device_malloc_allocator,float, float, float,float, float, float> table_t;
 
 	typedef thrust::device_vector<thrust::tuple<float, float, float, float, float, float>> vector_t;

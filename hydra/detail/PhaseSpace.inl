@@ -31,63 +31,159 @@
  * \ingroup phsp
  */
 
-#ifndef GENERATE_INL_
-#define GENERATE_INL_
+#ifndef _PHASESPACE_INL_
+#define _PHASESPACE_INL_
 
-#include <thrust/distance.h>
 
 namespace hydra {
 
 
-/*
-template <size_t N, typename GRND, unsigned int BACKEND>
-void PhaseSpace<N,GRND>::Generate( Vector4R const& mother, Events<N, BACKEND>& events)
+template <size_t N, typename GRND>
+PhaseSpace<N,GRND>::PhaseSpace(const GReal_t motherMass, const GReal_t (&daughtersMasses)[N]):
+fSeed(1)
 {
+	for(size_t i=0;i<N;i++)
+		fMasses[i]= daughtersMasses[i];
 
-	typedef detail::BackendTraits<BACKEND> system_t;
+	GReal_t fTeCmTm = 0.0;
 
-	typedef typename system_t::template container<GReal_t> vector_real;
+	fTeCmTm = motherMass; // total energy in C.M. minus the sum of the masses
 
-	vector_real masses(fMasses);
+	for (size_t n = 0; n < N; n++)
+		fTeCmTm -= daughtersMasses[n];
 
-	DecayMother decayer(mother, masses, fNDaughters, fSeed);
-	detail::launch_decayer(decayer, events );
-
-	//setting maximum weight
-	RealVector_d::iterator w = thrust::max_element(events.WeightsBegin(),
-			fWeights.WeightsEnd());
-	events.SetMaxWeight(*w);
-}
-
-
-template <size_t N, typename GRND, unsigned int BACKEND>
-void PhaseSpace<N,GRND>::Generate(typename Events<N, BACKEND>::vector_particles_iterator mothers_begin,
-		typename Events<N, BACKEND>::vector_particles_iterator mothers_end,	Events<N, BACKEND>& events)
-		{
-
-	typedef detail::BackendTraits<BACKEND> system_t;
-
-	typedef typename system_t::template container<GReal_t> vector_real;
-
-	vector_real masses(fMasses);
-
-	size_t n_mothers thrust::distance(mothers_end,mothers_begin);
-
-
-	if ( events.GetNEvents()  != n_mothers){
-		cout << "NEvents != NMothers" << endl;
+	if (fTeCmTm < 0.0) {
+		std::cout << "Not enough energy for this decay. Exit." << std::endl;
 		exit(1);
 	}
 
-	DecayMothers decayer(masses, fNDaughters, fSeed);
-	detail::launch_decayer(decayer,mothers_begin, events );
+}
 
-	RealVector_d::iterator w = thrust::max_element(events.WeightsBegin(),
-			fWeights.WeightsEnd());
-	events.SetMaxWeight(*w);
+template <size_t N, typename GRND>
+template<typename FUNCTOR, hydra::detail::Backend BACKEND>
+std::pair<GReal_t, GReal_t>
+PhaseSpace<N,GRND>::AverageOn(hydra::detail::BackendPolicy<BACKEND>const&,
+		Vector4R const& mother, FUNCTOR const& functor, size_t n){
 
-		}
-*/
+	detail::EvalMother<N,GRND,FUNCTOR>
+	reducer( mother,fMasses, fSeed,functor);
+
+	thrust::counting_iterator<GLong_t> first(0);
+
+	thrust::counting_iterator<GLong_t> last = first + n;
+
+	detail::StatsPHSP result =
+			detail::launch_reducer(hydra::detail::BackendPolicy<BACKEND>(),
+					first, last, reducer );
+	return std::make_pair(result.fMean, sqrt(result.fM2) );
+
+}
+
+template <size_t N, typename GRND>
+template<typename FUNCTOR, hydra::detail::Backend BACKEND, typename Iterator>
+std::pair<GReal_t, GReal_t>
+PhaseSpace<N,GRND>::AverageOn(hydra::detail::BackendPolicy<BACKEND>const&,
+		Iterator begin, Iterator end, FUNCTOR const& functor) {
+
+	detail::EvalMothers<N,GRND,FUNCTOR>
+	reducer( fMasses, fSeed,functor);
+
+	detail::StatsPHSP result =
+			detail::launch_reducer(hydra::detail::BackendPolicy<BACKEND>(),
+					begin, end, reducer );
+	return std::make_pair(result.fMean, sqrt(result.fM2) );
+
+}
+
+template <size_t N, typename GRND>
+template<typename ...FUNCTOR, hydra::detail::Backend BACKEND, typename Iterator>
+void PhaseSpace<N,GRND>::Evaluate(hydra::detail::BackendPolicy<BACKEND>const&,
+		Iterator begin, Iterator end,
+		Vector4R const& mother, FUNCTOR const& ...functors) {
+
+	detail::EvalMother<N,GRND,FUNCTOR...>
+	evaluator(functors..., mother, fMasses, fSeed);
+
+	detail::launch_evaluator(hydra::detail::BackendPolicy<BACKEND>(),
+			begin, end, evaluator );
+
+}
+
+template <size_t N, typename GRND>
+template<typename ...FUNCTOR, hydra::detail::Backend BACKEND, typename IteratorMother, typename Iterator>
+void PhaseSpace<N,GRND>::Evaluate(hydra::detail::BackendPolicy<BACKEND>const&, IteratorMother mbegin,
+		IteratorMother mend, Iterator begin, FUNCTOR const& ...functors) {
+
+	detail::EvalMothers<N,GRND,FUNCTOR...>
+	evaluator(functors...,  fMasses, fSeed);
+
+	detail::launch_evaluator(hydra::detail::BackendPolicy<BACKEND>(),
+			mbegin, mend, begin, evaluator );
+
+}
+
+template <size_t N, typename GRND>
+template<typename Iterator>
+void PhaseSpace<N,GRND>::Generate(Vector4R const& mother, Iterator begin, Iterator end){
+	/**
+	 * Run the generator and calculate the maximum weight. It takes as input the fourvector of the mother particle
+	 * in any system of reference. The daughters will be generated in this system.
+	 */
+
+#if(THRUST_DEVICE_SYSTEM==THRUST_DEVICE_BACKEND_CUDA && (BACKEND==device))
+	cudaDeviceSetCacheConfig(cudaFuncCachePreferL1);
+#endif
+
+
+	detail::DecayMother<N,GRND> decayer(mother,fMasses, fSeed);
+	detail::launch_decayer(begin, end, decayer );
+
+}
+
+template <size_t N, typename GRND>
+template<typename Iterator1, typename Iterator2>
+void PhaseSpace<N,GRND>::Generate( Iterator1 begin, Iterator1 end, Iterator2 daughters_begin){
+	/**
+	 * Run the generator and calculate the maximum weight. It takes as input the device vector with the four-vectors of the mother particle
+	 * in any system of reference. The daughters will be generated in this system.
+	 */
+
+#if(THRUST_DEVICE_SYSTEM==THRUST_DEVICE_BACKEND_CUDA && (BACKEND==device))
+	cudaDeviceSetCacheConfig(cudaFuncCachePreferL1);
+#endif
+
+
+	detail::DecayMothers<N,GRND> decayer(fMasses, fSeed);
+	detail::launch_decayer(begin, end, daughters_begin, decayer );
+
+
+
+}
+
+template <size_t N, typename GRND>
+inline GInt_t PhaseSpace<N,GRND>::GetSeed() const	{
+	return fSeed;
+}
+
+template <size_t N, typename GRND>
+inline void PhaseSpace<N,GRND>::SetSeed(GInt_t _seed) 	{
+	fSeed=_seed;
+}
+
+
+/**
+ * PDK function
+ */
+template <size_t N, typename GRND>
+inline GReal_t PhaseSpace<N,GRND>::PDK(const GReal_t a, const GReal_t b, const GReal_t c) const {
+	//the PDK function
+	GReal_t x = (a - b - c) * (a + b + c) * (a - b + c) * (a + b - c);
+	x = sqrt(x) / (2 * a);
+	return x;
+}
+
+
+
 }//namespace hydra
 
-#endif /* GENERATE_INL_ */
+#endif /* _PHASESPACE_INL_ */

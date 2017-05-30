@@ -185,7 +185,7 @@ typename  detail::tuple_type<N,GReal_t>::type>
 template<typename GRND>
 template<hydra::detail::Backend BACKEND, typename FUNCTOR, size_t N >
 void Random<GRND>::Sample(hydra::detail::BackendPolicy<BACKEND>const&, FUNCTOR const& functor, std::array<GReal_t,N> min, std::array<GReal_t,N> max,
-		experimental::PointVector<experimental::Point<GReal_t, N, false, false>, BACKEND >& result,
+		PointVector<Point<GReal_t, N, false, false>, BACKEND >& result,
 		size_t trials)
 {
 	typedef typename detail::tuple_type<N,GReal_t>::type tuple_t;

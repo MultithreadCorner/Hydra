@@ -28,7 +28,7 @@
 
 /**
  * \file
- * \ingroup functor
+ * \ingroup Functional
  */
 
 
@@ -44,6 +44,7 @@
 #include <typeinfo>
 #include <initializer_list>
 #include <array>
+
 namespace hydra {
 
 

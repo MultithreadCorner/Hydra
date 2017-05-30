@@ -27,9 +27,10 @@
  *      Author: Antonio Augusto Alves Junior
  */
 
+
 /**
  * \file
- * \ingroup functor
+ * \ingroup Functional
  */
 
 

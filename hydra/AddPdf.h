@@ -29,7 +29,7 @@
 
 /**
  * \file
- * \ingroup fit
+ * \ingroup Data fitting
  */
 
 #ifndef ADDPDF_H_

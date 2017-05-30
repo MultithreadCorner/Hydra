@@ -43,7 +43,7 @@
 #include <hydra/detail/TypeTraits.h>
 #include <hydra/detail/utility/Utility_Tuple.h>
 #include <hydra/Containers.h>
-#include <hydra/experimental/PointVector.h>
+#include <hydra/PointVector.h>
 //
 #include <thrust/copy.h>
 #include <thrust/random.h>
@@ -119,7 +119,7 @@ public:
 
 	template<hydra::detail::Backend BACKEND, typename FUNCTOR, size_t N >
 	void Sample(hydra::detail::BackendPolicy<BACKEND>const&, FUNCTOR const& functor, std::array<GReal_t,N> min, std::array<GReal_t,N> max,
-			experimental::PointVector< experimental::Point<GReal_t, N, false, false>, BACKEND >& result, size_t trials);
+			PointVector< Point<GReal_t, N, false, false>, BACKEND >& result, size_t trials);
 private:
 	GUInt_t fSeed;
 

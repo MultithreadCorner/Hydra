@@ -26,11 +26,11 @@
  *      Author: Antonio Augusto Alves Junior
  */
 
-#ifndef VECTOR4R_INL_
-#define VECTOR4R_INL_
+#ifndef _VECTOR4R_INL_
+#define _VECTOR4R_INL_
 
-namespace hydra
-{
+namespace hydra {
+
 __host__ __device__
 inline Vector4R& Vector4R::operator=(const Vector4R& v2)
 {
@@ -400,6 +400,7 @@ inline GReal_t Vector4R::magr3(const Vector4R& p1) const
 	return sqrt(mag2r3(p1));
 }
 
-}
+
+}// namespace hydra
 
 #endif /* VECTOR4R_INL_ */

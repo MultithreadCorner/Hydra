@@ -35,17 +35,17 @@
 
 #include <hydra/detail/Config.h>
 #include <hydra/Types.h>
-#include <hydra/experimental/Point.h>
-#include <hydra/experimental/PointVector.h>
+#include <hydra/Point.h>
+#include <hydra/PointVector.h>
 #include <thrust/tuple.h>
 
 
 #include <array>
-TEST_CASE( "PointVector","hydra::experimental::PointVector 1D case" ) {
+TEST_CASE( "PointVector","PointVector 1D case" ) {
 
-	typedef  hydra::experimental::Point<double, 3> Point_t;
-	typedef  hydra::experimental::PointVector<Point_t, hydra::host> PointVector_h;
-	typedef  hydra::experimental::PointVector<Point_t, hydra::device> PointVector_d;
+	typedef  Point<double, 3> Point_t;
+	typedef  PointVector<Point_t, hydra::host> PointVector_h;
+	typedef  PointVector<Point_t, hydra::device> PointVector_d;
 
 	SECTION( "Constructors " )
 	{

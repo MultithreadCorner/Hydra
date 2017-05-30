@@ -34,7 +34,7 @@
 
 #include <hydra/detail/Config.h>
 #include <hydra/Types.h>
-#include <hydra/experimental/multivector.h>
+#include <hydra/multivector.h>
 
 
 TEST_CASE( "multivector","hydra::multivector" ) {
@@ -44,8 +44,8 @@ TEST_CASE( "multivector","hydra::multivector" ) {
 	typedef thrust::host_vector<tuple_t>   mvector_h;
 	typedef thrust::device_vector<tuple_t> mvector_d;
 
-	typedef hydra::experimental::multivector<mvector_h> table_h;
-	typedef hydra::experimental::multivector<mvector_d> table_d;
+	typedef multivector<mvector_h> table_h;
+	typedef multivector<mvector_d> table_d;
 
 	SECTION( "default constructor <host backend> : size, capacity, emptiness, resize, reserve" )
 	{

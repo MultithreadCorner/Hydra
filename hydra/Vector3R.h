@@ -28,15 +28,13 @@
  *      Author: Antonio Augusto Alves Junior
  */
 
-
 /**
  * \file
- * \ingroup phsp
+ * \ingroup Phase-space generator
  */
 
-
-#ifndef VECTOR3R_H_
-#define VECTOR3R_H_
+#ifndef _VECTOR3R_H_
+#define _VECTOR3R_H_
 
 
 #include <hydra/detail/Config.h>
@@ -44,11 +42,13 @@
 #include <iosfwd>
 #include <iostream>
 #include <math.h>
+#include <hydra/Collection.h>
 
 using std::ostream;
 
-namespace hydra
-{
+namespace hydra {
+
+
 class Vector3R
 {
 
@@ -92,6 +92,7 @@ private:
 
 	GReal_t v[3];
 
+	_DeclareStorable(Vector3R, v[0], v[1] , v[2])
 };
 
 
@@ -156,7 +157,8 @@ inline Vector3R cross(const Vector3R& p1, const Vector3R& p2)
 
 }
 
+
 }// namespace hydra
-#endif /* VECTOR3R_H_ */
+#endif /* _VECTOR3R_H_ */
 
 #include <hydra/detail/Vector3R.inl>

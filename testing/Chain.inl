@@ -34,17 +34,17 @@
 
 #include <hydra/detail/Config.h>
 #include <hydra/Types.h>
-#include <hydra/experimental/Chain.h>
-#include <hydra/experimental/Events.h>
-#include <hydra/experimental/multivector.h>
-#include <hydra/experimental/Vector4R.h>
+#include <hydra/Chain.h>
+#include <hydra/Events.h>
+#include <hydra/multivector.h>
+#include <hydra/Vector4R.h>
 
 
 TEST_CASE( "Chain","hydra::Chain" ) {
 
-	typedef  hydra::experimental::Events<3,  hydra::host> events3_t;
-	typedef  hydra::experimental::Events<2,  hydra::host> events2_t;
-	typedef  hydra::experimental::Chain<events3_t, events2_t> chain_t;
+	typedef  Events<3,  hydra::host> events3_t;
+	typedef  Events<2,  hydra::host> events2_t;
+	typedef  Chain<events3_t, events2_t> chain_t;
 
 	SECTION( "constructor Chain(n)" )
 	{

@@ -29,11 +29,11 @@
  */
 
 
+
 /**
  * \file
- * \ingroup phsp
+ * \ingroup Phase-space generator
  */
-
 
 #ifndef ISACCEPTED_H_
 #define ISACCEPTED_H_

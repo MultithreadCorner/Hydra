@@ -43,6 +43,7 @@
 #include <hydra/detail/utility/Utility_Tuple.h>
 
 namespace hydra {
+
 namespace detail {
 
 // ProcessCallsPlainUnary is a functor that takes in a value x and

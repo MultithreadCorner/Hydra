@@ -26,10 +26,11 @@
  *      Author: Antonio Augusto Alves Junior
  */
 
-#ifndef VECTOR3R_INL_
-#define VECTOR3R_INL_
+#ifndef _VECTOR3R_INL_
+#define _VECTOR3R_INL_
 
 namespace hydra {
+
 
 __host__ __device__
 inline Vector3R& Vector3R::operator*=(const GReal_t c)
@@ -160,5 +161,7 @@ inline GReal_t Vector3R::dot(const Vector3R& p2)
 	return temp;
 } //dot
 
-}
+
+
+}// namespace hydra
 #endif /* VECTOR3R_INL_ */

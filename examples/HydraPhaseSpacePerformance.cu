@@ -43,9 +43,9 @@
 
 //this lib
 #include <hydra/Types.h>
-#include <hydra/experimental/Vector4R.h>
-#include <hydra/experimental/PhaseSpace.h>
-#include <hydra/experimental/Events.h>
+#include <hydra/Vector4R.h>
+#include <hydra/PhaseSpace.h>
+#include <hydra/Events.h>
 #include <hydra/Evaluate.h>
 #include <hydra/Function.h>
 #include <hydra/FunctorArithmetic.h>
@@ -154,13 +154,13 @@ GInt_t main(int argv, char** argc)
 	backend =TString("?");
 #endif
 
-	hydra::experimental::Vector4R P(mother_mass, 0.0, 0.0, 0.0);
+	Vector4R P(mother_mass, 0.0, 0.0, 0.0);
 	GReal_t masses[3]{daughter1_mass, daughter2_mass, daughter3_mass };
 
 	// Create PhaseSpace object for P-> A B C
-	hydra::experimental::PhaseSpace<3> P2ABC_PHSP(mother_mass, masses);
+	PhaseSpace<3> P2ABC_PHSP(mother_mass, masses);
 
-	 auto mass = [] __host__ __device__ (size_t npars, const Parameter* pars, hydra::experimental::Vector4R* particles )
+	 auto mass = [] __host__ __device__ (size_t npars, const Parameter* pars, Vector4R* particles )
 	    {
 	    	auto   p0  = particles[0] ;
 	    	auto   p1  = particles[1] ;
@@ -170,7 +170,7 @@ GInt_t main(int argv, char** argc)
 
 	    	return p.mass();
 	    };
-	    auto mass2 = [] __host__ __device__ (hydra::experimental::Vector4R* particles )
+	    auto mass2 = [] __host__ __device__ (Vector4R* particles )
 	       {
 	       	auto   p0  = particles[0] ;
 	       	auto   p1  = particles[1] ;
@@ -203,7 +203,7 @@ GInt_t main(int argv, char** argc)
 			npoints , nentries_start, nentries_start  + npoints*nentries_delta );
 	{ // device section
 
-		hydra::experimental::Events<3, device> P2ABC_Events_d(0);
+		Events<3, device> P2ABC_Events_d(0);
 
 		//time
 		std::cout << "-----------------------------------------"<<std::endl;
@@ -247,7 +247,7 @@ GInt_t main(int argv, char** argc)
 			npoints , nentries_start, nentries_start  + npoints*nentries_delta );
 	{ // host section
 
-		hydra::experimental::Events<3, host> P2ABC_Events_h(0);
+		Events<3, host> P2ABC_Events_h(0);
 
 		//time
 		std::cout << "-----------------------------------------"<<std::endl;
@@ -301,7 +301,7 @@ GInt_t main(int argv, char** argc)
 
 		omp_set_dynamic(0); //disable dynamic teams
 
-		hydra::experimental::Events<3, host> P2ABC_Events_h( nentries_start );
+		Events<3, host> P2ABC_Events_h( nentries_start );
 
 		for(unsigned int nt=1; nt<nthreads+1; nt++)
 		{

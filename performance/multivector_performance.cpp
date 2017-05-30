@@ -34,12 +34,12 @@
 #include <memory>
 #include <limits>
 
-#include <hydra/experimental/multivector.h>
+#include <hydra/multivector.h>
 #include <thrust/tuple.h>
 #include <thrust/for_each.h>
 
 
-typedef hydra::experimental::multivector<thrust::host_vector,
+typedef multivector<thrust::host_vector,
 		std::allocator,	unsigned int, float, double> table_t;
 
 typedef thrust::host_vector<thrust::tuple<unsigned int, float, double>> vector_t;

@@ -38,10 +38,10 @@
 
 //this lib
 #include <hydra/Types.h>
-#include <hydra/experimental/Vector4R.h>
-#include <hydra/experimental/PhaseSpace.h>
-#include <hydra/experimental/Events.h>
-#include <hydra/experimental/Chain.h>
+#include <hydra/Vector4R.h>
+#include <hydra/PhaseSpace.h>
+#include <hydra/Events.h>
+#include <hydra/Chain.h>
 #include <hydra/Evaluate.h>
 #include <hydra/Function.h>
 #include <hydra/FunctorArithmetic.h>
@@ -145,13 +145,13 @@ GInt_t main(int argv, char** argc)
 	//----------------
 	// P-> A B C
 	//----------------
-	hydra::experimental::Vector4R P(mother_mass, 0.0, 0.0, 0.0);
+	Vector4R P(mother_mass, 0.0, 0.0, 0.0);
 	GReal_t massesP[3]{daughter1_mass, daughter2_mass, daughter3_mass };
 
 	// Create PhaseSpace object for B0-> K pi J/psi
-	hydra::experimental::PhaseSpace<3> phsp_P(mother_mass, massesP);
+	PhaseSpace<3> phsp_P(mother_mass, massesP);
 
-	hydra::experimental::Events<3, hydra::omp::sys_t > P2ABC_Events_d(nentries);
+	Events<3, hydra::omp::sys_t > P2ABC_Events_d(nentries);
 
 	auto start1 = std::chrono::high_resolution_clock::now();
 	phsp_P.Generate(P, P2ABC_Events_d.begin(), P2ABC_Events_d.end());
@@ -172,9 +172,9 @@ GInt_t main(int argv, char** argc)
    //----------------
 	GReal_t massesC[2]{gand_daughter1_mass, gand_daughter2_mass };
 	// Create PhaseSpace object for J/psi->mu+ mu-
-	hydra::experimental::PhaseSpace<2> phsp_C(daughter1_mass , massesC);
+	PhaseSpace<2> phsp_C(daughter1_mass , massesC);
 
-	hydra::experimental::Events<2,  hydra::omp::sys_t> C2ab_Events_d(nentries);
+	Events<2,  hydra::omp::sys_t> C2ab_Events_d(nentries);
 
 
 	auto start2 = std::chrono::high_resolution_clock::now();
@@ -191,11 +191,11 @@ GInt_t main(int argv, char** argc)
 		cout << C2ab_Events_d[i] << endl;
 	}
 	cout << P2ABC_Events_d.GetNEvents() <<endl;
-	typedef hydra::experimental::Events<3,  hydra::omp::sys_t> event3_t;
-	typedef hydra::experimental::Events<2,  hydra::omp::sys_t> event2_t;
-	hydra::experimental::Chain<event3_t, event2_t> chain(std::move(P2ABC_Events_d), std::move(C2ab_Events_d));
+	typedef Events<3,  hydra::omp::sys_t> event3_t;
+	typedef Events<2,  hydra::omp::sys_t> event2_t;
+	Chain<event3_t, event2_t> chain(std::move(P2ABC_Events_d), std::move(C2ab_Events_d));
 
-    auto mass = [] __host__ __device__ (size_t npars, const Parameter* pars, hydra::experimental::Vector4R* particles )
+    auto mass = [] __host__ __device__ (size_t npars, const Parameter* pars, Vector4R* particles )
     {
     	auto   p0  = particles[0] ;
     	auto   p1  = particles[1] ;
@@ -205,7 +205,7 @@ GInt_t main(int argv, char** argc)
 
     	return p.mass();
     };
-    auto mass2 = [] __host__ __device__ (hydra::experimental::Vector4R* particles )
+    auto mass2 = [] __host__ __device__ (Vector4R* particles )
        {
        	auto   p0  = particles[0] ;
        	auto   p1  = particles[1] ;
@@ -261,9 +261,9 @@ GInt_t main(int argv, char** argc)
 		auto   p_decay  = thrust::get<0>(event) ;
 		auto   c_decay  = thrust::get<1>(event) ;
 
-		hydra::experimental::Vector4R p1 = thrust::get<1>(p_decay);
-		hydra::experimental::Vector4R p2 = thrust::get<2>(p_decay);
-		hydra::experimental::Vector4R p3 = thrust::get<3>(p_decay);
+		Vector4R p1 = thrust::get<1>(p_decay);
+		Vector4R p2 = thrust::get<2>(p_decay);
+		Vector4R p3 = thrust::get<3>(p_decay);
 
 		return ( p1 + p2 + p3 ).mass();
 	};
@@ -273,8 +273,8 @@ GInt_t main(int argv, char** argc)
 			auto   p_decay  = thrust::get<0>(event) ;
 			auto   c_decay  = thrust::get<1>(event) ;
 
-			hydra::experimental::Vector4R p1 = thrust::get<1>(c_decay);
-			hydra::experimental::Vector4R p2 = thrust::get<2>(c_decay);
+			Vector4R p1 = thrust::get<1>(c_decay);
+			Vector4R p2 = thrust::get<2>(c_decay);
 
 			return ( p1 + p2  ).mass();
 		};
@@ -284,8 +284,8 @@ GInt_t main(int argv, char** argc)
 		auto   p_decay  = thrust::get<0>(event) ;
 		auto   c_decay  = thrust::get<1>(event) ;
 
-		hydra::experimental::Vector4R p1 = thrust::get<1>(p_decay);
-		hydra::experimental::Vector4R p2 = thrust::get<2>(p_decay);
+		Vector4R p1 = thrust::get<1>(p_decay);
+		Vector4R p2 = thrust::get<2>(p_decay);
 
 		return  ( p1 + p2).mass();
 
@@ -296,8 +296,8 @@ GInt_t main(int argv, char** argc)
 		auto   p_decay  = thrust::get<0>(event) ;
 		auto   c_decay  = thrust::get<1>(event) ;
 
-		hydra::experimental::Vector4R p1 = thrust::get<1>(p_decay);
-		hydra::experimental::Vector4R p3 = thrust::get<3>(p_decay);
+		Vector4R p1 = thrust::get<1>(p_decay);
+		Vector4R p3 = thrust::get<3>(p_decay);
 
 		return  ( p1 + p3 ).mass();
 	};
@@ -307,8 +307,8 @@ GInt_t main(int argv, char** argc)
 		auto   p_decay  = thrust::get<0>(event) ;
 		auto   c_decay  = thrust::get<1>(event) ;
 
-		hydra::experimental::Vector4R p2 = thrust::get<2>(p_decay);
-		hydra::experimental::Vector4R p3 = thrust::get<3>(p_decay);
+		Vector4R p2 = thrust::get<2>(p_decay);
+		Vector4R p3 = thrust::get<3>(p_decay);
 
 		return  ( p2 + p3 ).mass();
 	};
@@ -318,12 +318,12 @@ GInt_t main(int argv, char** argc)
 		auto   p_decay  = thrust::get<0>(event) ;
 		auto   c_decay  = thrust::get<1>(event) ;
 
-		hydra::experimental::Vector4R p1 = thrust::get<1>(p_decay);
-		hydra::experimental::Vector4R p2 = thrust::get<2>(p_decay);
-		hydra::experimental::Vector4R p3 = thrust::get<3>(p_decay);
+		Vector4R p1 = thrust::get<1>(p_decay);
+		Vector4R p2 = thrust::get<2>(p_decay);
+		Vector4R p3 = thrust::get<3>(p_decay);
 
-		hydra::experimental::Vector4R p = p1 + p2 + p3;
-		hydra::experimental::Vector4R q = p2 + p3;
+		Vector4R p = p1 + p2 + p3;
+		Vector4R q = p2 + p3;
 
 
 		GReal_t pd = p * p2;
@@ -343,21 +343,21 @@ GInt_t main(int argv, char** argc)
 			auto   p_decay  = thrust::get<0>(event) ;
 			auto   c_decay  = thrust::get<1>(event) ;
 
-			hydra::experimental::Vector4R d1 = thrust::get<1>(p_decay);
-			hydra::experimental::Vector4R d2 = thrust::get<2>(p_decay);
-			hydra::experimental::Vector4R d3 = thrust::get<3>(p_decay);
+			Vector4R d1 = thrust::get<1>(p_decay);
+			Vector4R d2 = thrust::get<2>(p_decay);
+			Vector4R d3 = thrust::get<3>(p_decay);
 
-			hydra::experimental::Vector4R h1 = thrust::get<1>(c_decay);
-			hydra::experimental::Vector4R h2 = thrust::get<2>(c_decay);
+			Vector4R h1 = thrust::get<1>(c_decay);
+			Vector4R h2 = thrust::get<2>(c_decay);
 
-			hydra::experimental::Vector4R D = d2 + d3;
+			Vector4R D = d2 + d3;
 
-			hydra::experimental::Vector4R d1_perp = d2 - (D.dot(d2) / D.dot(D)) * D;
-			hydra::experimental::Vector4R h1_perp = h1 - (D.dot(h1) / D.dot(D)) * D;
+			Vector4R d1_perp = d2 - (D.dot(d2) / D.dot(D)) * D;
+			Vector4R h1_perp = h1 - (D.dot(h1) / D.dot(D)) * D;
 
 			// orthogonal to both D and d1_perp
 
-			hydra::experimental::Vector4R d1_prime = D.cross(d1_perp);
+			Vector4R d1_prime = D.cross(d1_perp);
 
 			d1_perp = d1_perp / d1_perp.d3mag();
 			d1_prime = d1_prime / d1_prime.d3mag();
@@ -399,7 +399,7 @@ GInt_t main(int argv, char** argc)
 
 
 
-	hydra::experimental::Events<3, host> P2ABC_Events_h(P2ABC_Events_d);
+	Events<3, host> P2ABC_Events_h(P2ABC_Events_d);
 
 	TH2D dalitz_AC("dalitz_AC", ";M^{2}(BC) [GeV^{2}/c^{4}]; M^{2}(AC) [GeV^{2}/c^{4}]",
 			100, pow(daughter2_mass+daughter3_mass,2), pow(mother_mass - daughter1_mass,2),
@@ -431,13 +431,13 @@ GInt_t main(int argv, char** argc)
 
 		GReal_t weight = thrust::get<0>(event);
 
-		hydra::experimental::Vector4R A  = thrust::get<1>(event);
-		hydra::experimental::Vector4R B    = thrust::get<2>(event);
-		hydra::experimental::Vector4R C   = thrust::get<3>(event);
+		Vector4R A  = thrust::get<1>(event);
+		Vector4R B    = thrust::get<2>(event);
+		Vector4R C   = thrust::get<3>(event);
 
-		hydra::experimental::Vector4R AB = A + B;
-		hydra::experimental::Vector4R AC = A + C;
-		hydra::experimental::Vector4R BC = B + C;
+		Vector4R AB = A + B;
+		Vector4R AC = A + C;
+		Vector4R BC = B + C;
 
 		GReal_t AB_M2 = AB.mass2();
 		GReal_t AC_M2 = AC.mass2();

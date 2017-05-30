@@ -48,7 +48,7 @@
 #include <hydra/Range.h>
 #include <thrust/tuple.h>
 #include <hydra/detail/Evaluate.inl>
-#include <hydra/experimental/multivector.h>
+#include <hydra/multivector.h>
 
 namespace hydra {
 
@@ -78,12 +78,10 @@ auto eval(hydra::detail::BackendPolicy<BACKEND>const& , Functor const& functor, 
 
 template<hydra::detail::Backend BACKEND, typename Iterator, typename ...Functors>
 auto eval(hydra::detail::BackendPolicy<BACKEND>const& ,thrust::tuple<Functors...> const& functors, Iterator begin, Iterator end)
--> experimental::multivector<
-typename hydra::detail::BackendPolicy<BACKEND>::template
+-> multivector< typename hydra::detail::BackendPolicy<BACKEND>::template
 container<thrust::tuple<typename Functors::return_type ...> >>
 {
-	typedef experimental::multivector<typename
-			hydra::detail::BackendPolicy<BACKEND>::template container<
+	typedef multivector<typename hydra::detail::BackendPolicy<BACKEND>::template container<
 			       thrust::tuple<typename Functors::return_type ...> >> container;
 
 	size_t size = thrust::distance(begin, end) ;
@@ -122,14 +120,13 @@ container<typename Functor::return_type>
 
 
 template<hydra::detail::Backend BACKEND, typename Iterator,  typename ...Iterators, typename ...Functors>
-auto eval(hydra::detail::BackendPolicy<BACKEND>const&, thrust::tuple<Functors...> const& functors, Iterator begin, Iterator end, Iterators... begins)
--> experimental::multivector<
-typename hydra::detail::BackendPolicy<BACKEND>::template
+auto eval(hydra::detail::BackendPolicy<BACKEND>const&, thrust::tuple<Functors...> const& functors,
+		Iterator begin, Iterator end, Iterators... begins)
+-> multivector< typename hydra::detail::BackendPolicy<BACKEND>::template
 container<thrust::tuple<typename Functors::return_type ...> >>
 {
 
-	typedef experimental::multivector<
-			typename hydra::detail::BackendPolicy<BACKEND>::template container<
+	typedef multivector<	typename hydra::detail::BackendPolicy<BACKEND>::template container<
 			            thrust::tuple<typename Functors::return_type ...> >> container;
 
 	size_t size = thrust::distance(begin, end) ;

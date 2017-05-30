@@ -34,14 +34,14 @@
 #include <memory>
 #include <limits>
 #include <hydra/detail/Config.h>
-#include <hydra/experimental/multivector.h>
+#include <hydra/multivector.h>
 
 #include <thrust/tuple.h>
 #include <thrust/for_each.h>
 #include <thrust/iterator/counting_iterator.h>
 #include <thrust/distance.h>
 
-typedef hydra::experimental::multivector<thrust::device_vector,
+typedef multivector<thrust::device_vector,
 		thrust::device_malloc_allocator,
 		unsigned int, float, double> table_t;
 

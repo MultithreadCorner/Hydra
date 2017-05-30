@@ -39,7 +39,7 @@
 #include <hydra/Types.h>
 #include <hydra/Containers.h>
 #include <hydra/detail/TypeTraits.h>
-#include <hydra/experimental/multivector.h>
+#include <hydra/multivector.h>
 #include <thrust/device_vector.h>
 #include <thrust/host_vector.h>
 
@@ -75,14 +75,14 @@ typename detail::copy_type<CONTAINER, T, BACKEND>::type
 template<hydra::detail::Backend BACKEND, template<typename...> class CONTAINER, typename T>
 auto get_copy(hydra::detail::BackendPolicy<BACKEND> const&, CONTAINER<T>& other )
 ->typename  std::enable_if<
-detail::is_specialization< CONTAINER<T> ,hydra::experimental::multivector>::value,
-hydra::experimental::multivector<typename
+detail::is_specialization< CONTAINER<T> ,multivector>::value,
+multivector<typename
 hydra::detail::BackendPolicy<BACKEND>::template container<typename CONTAINER<T>::value_tuple_type> > >::type
 
 {
 	typedef hydra::detail::BackendPolicy<BACKEND> system_t;
 
-	typedef typename  hydra::experimental::multivector<typename
+	typedef typename  multivector<typename
 			system_t::template container<typename CONTAINER<T>::value_tuple_type> > vector_t;
 	return 	std::move(vector_t(other));
 }

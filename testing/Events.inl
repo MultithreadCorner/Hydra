@@ -33,16 +33,16 @@
 
 #include <hydra/detail/Config.h>
 #include <hydra/Types.h>
-#include <hydra/experimental/Chain.h>
-#include <hydra/experimental/Events.h>
-#include <hydra/experimental/multivector.h>
-#include <hydra/experimental/Vector4R.h>
+#include <hydra/Chain.h>
+#include <hydra/Events.h>
+#include <hydra/multivector.h>
+#include <hydra/Vector4R.h>
 
 
 TEST_CASE( "Events","hydra::Events" ) {
 
-	typedef  hydra::experimental::Events<3, hydra::host> events3_h;
-	typedef  hydra::experimental::Events<3, hydra::device> events3_d;
+	typedef  Events<3, hydra::host> events3_h;
+	typedef  Events<3, hydra::device> events3_d;
 
 	SECTION( "copy constructor <device backend>" )
 	{
@@ -53,9 +53,9 @@ TEST_CASE( "Events","hydra::Events" ) {
 		for(auto ev:events )
 		{
 			thrust::get<0>(ev) = i;
-			thrust::get<1>(ev) = (typename hydra::experimental::Vector4R::args_type) hydra::experimental::Vector4R(1+i, 1+i, 1+i, 1+i);
-			thrust::get<2>(ev) = (typename hydra::experimental::Vector4R::args_type) hydra::experimental::Vector4R(2+i, 2+i, 2+i, 2+i);
-			thrust::get<3>(ev) = (typename hydra::experimental::Vector4R::args_type) hydra::experimental::Vector4R(3+i, 3+i, 3+i, 3+i);
+			thrust::get<1>(ev) = (typename Vector4R::args_type) Vector4R(1+i, 1+i, 1+i, 1+i);
+			thrust::get<2>(ev) = (typename Vector4R::args_type) Vector4R(2+i, 2+i, 2+i, 2+i);
+			thrust::get<3>(ev) = (typename Vector4R::args_type) Vector4R(3+i, 3+i, 3+i, 3+i);
 			i++;
 		}
 
@@ -96,9 +96,9 @@ TEST_CASE( "Events","hydra::Events" ) {
 			for(auto ev:events )
 			{
 				thrust::get<0>(ev) = i;
-				thrust::get<1>(ev) = (typename hydra::experimental::Vector4R::args_type) hydra::experimental::Vector4R(1+i, 1+i, 1+i, 1+i);
-				thrust::get<2>(ev) = (typename hydra::experimental::Vector4R::args_type) hydra::experimental::Vector4R(2+i, 2+i, 2+i, 2+i);
-				thrust::get<3>(ev) = (typename hydra::experimental::Vector4R::args_type) hydra::experimental::Vector4R(3+i, 3+i, 3+i, 3+i);
+				thrust::get<1>(ev) = (typename Vector4R::args_type) Vector4R(1+i, 1+i, 1+i, 1+i);
+				thrust::get<2>(ev) = (typename Vector4R::args_type) Vector4R(2+i, 2+i, 2+i, 2+i);
+				thrust::get<3>(ev) = (typename Vector4R::args_type) Vector4R(3+i, 3+i, 3+i, 3+i);
 				i++;
 			}
 
@@ -138,9 +138,9 @@ TEST_CASE( "Events","hydra::Events" ) {
 		for(auto ev:events )
 		{
 			thrust::get<0>(ev) = i;
-			thrust::get<1>(ev) = (typename hydra::experimental::Vector4R::args_type) hydra::experimental::Vector4R(1+i, 1+i, 1+i, 1+i);
-			thrust::get<2>(ev) = (typename hydra::experimental::Vector4R::args_type) hydra::experimental::Vector4R(2+i, 2+i, 2+i, 2+i);
-			thrust::get<3>(ev) = (typename hydra::experimental::Vector4R::args_type) hydra::experimental::Vector4R(3+i, 3+i, 3+i, 3+i);
+			thrust::get<1>(ev) = (typename Vector4R::args_type) Vector4R(1+i, 1+i, 1+i, 1+i);
+			thrust::get<2>(ev) = (typename Vector4R::args_type) Vector4R(2+i, 2+i, 2+i, 2+i);
+			thrust::get<3>(ev) = (typename Vector4R::args_type) Vector4R(3+i, 3+i, 3+i, 3+i);
 			i++;
 		}
 
@@ -154,9 +154,9 @@ TEST_CASE( "Events","hydra::Events" ) {
 		for(auto ev:events )
 		{
 			thrust::get<0>(ev) = i;
-			thrust::get<1>(ev) = (typename hydra::experimental::Vector4R::args_type) hydra::experimental::Vector4R(1+i, 1+i, 1+i, 1+i);
-			thrust::get<2>(ev) = (typename hydra::experimental::Vector4R::args_type) hydra::experimental::Vector4R(2+i, 2+i, 2+i, 2+i);
-			thrust::get<3>(ev) = (typename hydra::experimental::Vector4R::args_type) hydra::experimental::Vector4R(3+i, 3+i, 3+i, 3+i);
+			thrust::get<1>(ev) = (typename Vector4R::args_type) Vector4R(1+i, 1+i, 1+i, 1+i);
+			thrust::get<2>(ev) = (typename Vector4R::args_type) Vector4R(2+i, 2+i, 2+i, 2+i);
+			thrust::get<3>(ev) = (typename Vector4R::args_type) Vector4R(3+i, 3+i, 3+i, 3+i);
 			i++;
 		}
 
@@ -183,9 +183,9 @@ TEST_CASE( "Events","hydra::Events" ) {
 			for(auto ev:events )
 			{
 				thrust::get<0>(ev) = i;
-				thrust::get<1>(ev) = (typename hydra::experimental::Vector4R::args_type) hydra::experimental::Vector4R(1+i, 1+i, 1+i, 1+i);
-				thrust::get<2>(ev) = (typename hydra::experimental::Vector4R::args_type) hydra::experimental::Vector4R(2+i, 2+i, 2+i, 2+i);
-				thrust::get<3>(ev) = (typename hydra::experimental::Vector4R::args_type) hydra::experimental::Vector4R(3+i, 3+i, 3+i, 3+i);
+				thrust::get<1>(ev) = (typename Vector4R::args_type) Vector4R(1+i, 1+i, 1+i, 1+i);
+				thrust::get<2>(ev) = (typename Vector4R::args_type) Vector4R(2+i, 2+i, 2+i, 2+i);
+				thrust::get<3>(ev) = (typename Vector4R::args_type) Vector4R(3+i, 3+i, 3+i, 3+i);
 				i++;
 			}
 
@@ -199,9 +199,9 @@ TEST_CASE( "Events","hydra::Events" ) {
 			for(auto ev:events )
 			{
 				thrust::get<0>(ev) = i;
-				thrust::get<1>(ev) = (typename hydra::experimental::Vector4R::args_type) hydra::experimental::Vector4R(1+i, 1+i, 1+i, 1+i);
-				thrust::get<2>(ev) = (typename hydra::experimental::Vector4R::args_type) hydra::experimental::Vector4R(2+i, 2+i, 2+i, 2+i);
-				thrust::get<3>(ev) = (typename hydra::experimental::Vector4R::args_type) hydra::experimental::Vector4R(3+i, 3+i, 3+i, 3+i);
+				thrust::get<1>(ev) = (typename Vector4R::args_type) Vector4R(1+i, 1+i, 1+i, 1+i);
+				thrust::get<2>(ev) = (typename Vector4R::args_type) Vector4R(2+i, 2+i, 2+i, 2+i);
+				thrust::get<3>(ev) = (typename Vector4R::args_type) Vector4R(3+i, 3+i, 3+i, 3+i);
 				i++;
 			}
 
@@ -226,9 +226,9 @@ TEST_CASE( "Events","hydra::Events" ) {
 		for(auto ev:events )
 		{
 			thrust::get<0>(ev) = i;
-			thrust::get<1>(ev) = (typename hydra::experimental::Vector4R::args_type) hydra::experimental::Vector4R(1+i, 1+i, 1+i, 1+i);
-			thrust::get<2>(ev) = (typename hydra::experimental::Vector4R::args_type) hydra::experimental::Vector4R(2+i, 2+i, 2+i, 2+i);
-			thrust::get<3>(ev) = (typename hydra::experimental::Vector4R::args_type) hydra::experimental::Vector4R(3+i, 3+i, 3+i, 3+i);
+			thrust::get<1>(ev) = (typename Vector4R::args_type) Vector4R(1+i, 1+i, 1+i, 1+i);
+			thrust::get<2>(ev) = (typename Vector4R::args_type) Vector4R(2+i, 2+i, 2+i, 2+i);
+			thrust::get<3>(ev) = (typename Vector4R::args_type) Vector4R(3+i, 3+i, 3+i, 3+i);
 			i++;
 		}
 
@@ -242,9 +242,9 @@ TEST_CASE( "Events","hydra::Events" ) {
 		for(auto ev:events )
 		{
 			thrust::get<0>(ev) = i;
-			thrust::get<1>(ev) = (typename hydra::experimental::Vector4R::args_type) hydra::experimental::Vector4R(1+i, 1+i, 1+i, 1+i);
-			thrust::get<2>(ev) = (typename hydra::experimental::Vector4R::args_type) hydra::experimental::Vector4R(2+i, 2+i, 2+i, 2+i);
-			thrust::get<3>(ev) = (typename hydra::experimental::Vector4R::args_type) hydra::experimental::Vector4R(3+i, 3+i, 3+i, 3+i);
+			thrust::get<1>(ev) = (typename Vector4R::args_type) Vector4R(1+i, 1+i, 1+i, 1+i);
+			thrust::get<2>(ev) = (typename Vector4R::args_type) Vector4R(2+i, 2+i, 2+i, 2+i);
+			thrust::get<3>(ev) = (typename Vector4R::args_type) Vector4R(3+i, 3+i, 3+i, 3+i);
 			i++;
 		}
 
@@ -270,9 +270,9 @@ TEST_CASE( "Events","hydra::Events" ) {
 		for(auto ev:events )
 		{
 			thrust::get<0>(ev) = i;
-			thrust::get<1>(ev) = (typename hydra::experimental::Vector4R::args_type) hydra::experimental::Vector4R(1+i, 1+i, 1+i, 1+i);
-			thrust::get<2>(ev) = (typename hydra::experimental::Vector4R::args_type) hydra::experimental::Vector4R(2+i, 2+i, 2+i, 2+i);
-			thrust::get<3>(ev) = (typename hydra::experimental::Vector4R::args_type) hydra::experimental::Vector4R(3+i, 3+i, 3+i, 3+i);
+			thrust::get<1>(ev) = (typename Vector4R::args_type) Vector4R(1+i, 1+i, 1+i, 1+i);
+			thrust::get<2>(ev) = (typename Vector4R::args_type) Vector4R(2+i, 2+i, 2+i, 2+i);
+			thrust::get<3>(ev) = (typename Vector4R::args_type) Vector4R(3+i, 3+i, 3+i, 3+i);
 			i++;
 		}
 
@@ -285,9 +285,9 @@ TEST_CASE( "Events","hydra::Events" ) {
 		for(auto ev:events )
 		{
 			thrust::get<0>(ev) = i;
-			thrust::get<1>(ev) = (typename hydra::experimental::Vector4R::args_type) hydra::experimental::Vector4R(1+i, 1+i, 1+i, 1+i);
-			thrust::get<2>(ev) = (typename hydra::experimental::Vector4R::args_type) hydra::experimental::Vector4R(2+i, 2+i, 2+i, 2+i);
-			thrust::get<3>(ev) = (typename hydra::experimental::Vector4R::args_type) hydra::experimental::Vector4R(3+i, 3+i, 3+i, 3+i);
+			thrust::get<1>(ev) = (typename Vector4R::args_type) Vector4R(1+i, 1+i, 1+i, 1+i);
+			thrust::get<2>(ev) = (typename Vector4R::args_type) Vector4R(2+i, 2+i, 2+i, 2+i);
+			thrust::get<3>(ev) = (typename Vector4R::args_type) Vector4R(3+i, 3+i, 3+i, 3+i);
 			i++;
 		}
 
@@ -313,9 +313,9 @@ TEST_CASE( "Events","hydra::Events" ) {
 		for(auto ev:events )
 		{
 			thrust::get<0>(ev) = i;
-			thrust::get<1>(ev) = (typename hydra::experimental::Vector4R::args_type) hydra::experimental::Vector4R(1+i, 1+i, 1+i, 1+i);
-			thrust::get<2>(ev) = (typename hydra::experimental::Vector4R::args_type) hydra::experimental::Vector4R(2+i, 2+i, 2+i, 2+i);
-			thrust::get<3>(ev) = (typename hydra::experimental::Vector4R::args_type) hydra::experimental::Vector4R(3+i, 3+i, 3+i, 3+i);
+			thrust::get<1>(ev) = (typename Vector4R::args_type) Vector4R(1+i, 1+i, 1+i, 1+i);
+			thrust::get<2>(ev) = (typename Vector4R::args_type) Vector4R(2+i, 2+i, 2+i, 2+i);
+			thrust::get<3>(ev) = (typename Vector4R::args_type) Vector4R(3+i, 3+i, 3+i, 3+i);
 			i++;
 		}
 
@@ -341,9 +341,9 @@ TEST_CASE( "Events","hydra::Events" ) {
 		for( size_t i = 0; i< events.GetNEvents(); i++ )
 		{
 			thrust::get<0>( events[i]) = i;
-			thrust::get<1>( events[i]) = (typename hydra::experimental::Vector4R::args_type) hydra::experimental::Vector4R(1+i, 1+i, 1+i, 1+i);
-			thrust::get<2>( events[i]) = (typename hydra::experimental::Vector4R::args_type) hydra::experimental::Vector4R(2+i, 2+i, 2+i, 2+i);
-			thrust::get<3>( events[i]) = (typename hydra::experimental::Vector4R::args_type) hydra::experimental::Vector4R(3+i, 3+i, 3+i, 3+i);
+			thrust::get<1>( events[i]) = (typename Vector4R::args_type) Vector4R(1+i, 1+i, 1+i, 1+i);
+			thrust::get<2>( events[i]) = (typename Vector4R::args_type) Vector4R(2+i, 2+i, 2+i, 2+i);
+			thrust::get<3>( events[i]) = (typename Vector4R::args_type) Vector4R(3+i, 3+i, 3+i, 3+i);
 
 		}
 
@@ -374,9 +374,9 @@ TEST_CASE( "Events","hydra::Events" ) {
 
 		for( size_t i = 0; i< events.GetNEvents(); i++ )
 		{
-			hydra::experimental::Vector4R v1=	thrust::get<1>( events[i]);
-			hydra::experimental::Vector4R v2=	thrust::get<2>( events[i]);
-			hydra::experimental::Vector4R v3=	thrust::get<3>( events[i]);
+			Vector4R v1=	thrust::get<1>( events[i]);
+			Vector4R v2=	thrust::get<2>( events[i]);
+			Vector4R v3=	thrust::get<3>( events[i]);
 
 			REQUIRE( v1.get(0) == 1+i );
 			REQUIRE( v1.get(1) == 1+i );

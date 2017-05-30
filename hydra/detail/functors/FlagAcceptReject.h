@@ -31,9 +31,10 @@
  */
 
 
+
 /**
  * \file
- * \ingroup phsp
+ * \ingroup Phase-space generator
  */
 
 #ifndef FLAGACCEPTEDREJECTED_H_

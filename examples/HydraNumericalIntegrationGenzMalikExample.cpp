@@ -44,7 +44,7 @@
 #include <hydra/Function.h>
 #include <hydra/FunctorArithmetic.h>
 #include <hydra/Parameter.h>
-#include <hydra/experimental/GenzMalikQuadrature.h>
+#include <hydra/GenzMalikQuadrature.h>
 #include <hydra/detail/utility/Permute.h>
 //root
 #include <TROOT.h>
@@ -164,7 +164,7 @@ GInt_t main(int argv, char** argc)
 	//Genz-Malik
 	//----------------------------------------------------------------------
 
-	auto GMIntegrator = hydra::experimental::GenzMalikQuadrature<N, hydra::omp::sys_t>(min, max, nboxes);
+	auto GMIntegrator = GenzMalikQuadrature<N, hydra::omp::sys_t>(min, max, nboxes);
 	auto start = std::chrono::high_resolution_clock::now();
 	auto result2 = GMIntegrator.Integrate(Gaussian);
 	auto end = std::chrono::high_resolution_clock::now();
