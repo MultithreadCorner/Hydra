@@ -20,34 +20,43 @@
  *---------------------------------------------------------------------------*/
 
 /*
- * BackendPolicy.h
+ * Collection.h
  *
- *  Created on: 19/05/2017
+ *  Created on: Oct 28, 2016
  *      Author: Antonio Augusto Alves Junior
  */
 
-/**
- * \ingroup policy
- * \brief Generic policies definition.
- */
-#ifndef BACKENDPOLICY_H_
-#define BACKENDPOLICY_H_
+#ifndef COLLECTION_H_
+#define COLLECTION_H_
 
-#include <thrust/execution_policy.h>
-
+#include <thrust/tuple.h>
+#include <thrust/iterator/detail/tuple_of_iterator_references.h>
 namespace hydra {
 
-namespace detail {
 
-enum Backend{Host, Device, Cpp, Omp,Tbb,Cuda };
+#define _DeclareStorable(class_name, args...) \
+public: \
+typedef decltype( thrust::make_tuple(args)) args_type; \
+typedef void hydra_convertible_to_tuple_tag; \
+template<typename ...T> \
+__host__ __device__ \
+class_name( thrust::tuple<T...> const& t) \
+{ thrust::tie(args) = t; } \
+template<typename ...T> \
+__host__ __device__ \
+class_name& operator= ( thrust::tuple<T...> const& t ) \
+{thrust::tie(args) = t;\
+return *this; } \
+template<typename ...T> \
+__host__ __device__ \
+class_name& operator= (thrust::detail::tuple_of_iterator_references<T&...> const&  t ) \
+{thrust::tie(args) = t; \
+return *this; } \
+template<typename ...T> \
+__host__ __device__ \
+operator thrust::tuple<T...> () { return thrust::make_tuple(args); } \
 
-template<Backend BACKEND>
-struct BackendPolicy;
 
-}  // namespace detail
+}  // namespace hydra
 
-}//namespace hydra
-
-
-
-#endif /* BACKENDPOLICY_H_ */
+#endif /* COLLECTION_H_ */

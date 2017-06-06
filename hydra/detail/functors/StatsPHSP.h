@@ -20,34 +20,64 @@
  *---------------------------------------------------------------------------*/
 
 /*
- * BackendPolicy.h
+ * StatsPHSP.h
  *
- *  Created on: 19/05/2017
+ *  Created on: 24/05/2017
  *      Author: Antonio Augusto Alves Junior
  */
 
-/**
- * \ingroup policy
- * \brief Generic policies definition.
- */
-#ifndef BACKENDPOLICY_H_
-#define BACKENDPOLICY_H_
 
-#include <thrust/execution_policy.h>
+/**
+ * \file
+ * \ingroup Phase-space generator
+ */
+
+#ifndef STATSPHSP_H_
+#define STATSPHSP_H_
 
 namespace hydra {
 
 namespace detail {
 
-enum Backend{Host, Device, Cpp, Omp,Tbb,Cuda };
+struct StatsPHSP
+{
+	GReal_t fMean;
+    GReal_t fM2;
+    GReal_t fW;
 
-template<Backend BACKEND>
-struct BackendPolicy;
+};
 
-}  // namespace detail
+
+struct AddStatsPHSP
+		:public thrust::binary_function< StatsPHSP const&, StatsPHSP const&, StatsPHSP >
+{
+
+
+    __host__ __device__ inline
+    StatsPHSP operator()( StatsPHSP const& x, StatsPHSP const& y)
+    {
+    	StatsPHSP result;
+
+        GReal_t w  = x.fW + y.fW;
+
+        GReal_t delta  = y.fMean*y.fW - x.fMean*x.fW;
+        GReal_t delta2 = delta  * delta;
+
+        result.fW   = w;
+
+        result.fMean = (x.fMean*x.fW + y.fMean*y.fW)/w;
+        result.fM2   = x.fM2   +  y.fM2;
+        result.fM2  += delta2 * x.fW * y.fW / w;
+
+        return result;
+    }
+
+};
+
+
+}//namespace detail
+
 
 }//namespace hydra
 
-
-
-#endif /* BACKENDPOLICY_H_ */
+#endif /* STATSPHSP_H_ */
