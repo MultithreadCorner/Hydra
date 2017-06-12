@@ -29,7 +29,7 @@
 
 /**
  * \file
- * \ingroup Functional
+ * \ingroup functor
  */
 
 

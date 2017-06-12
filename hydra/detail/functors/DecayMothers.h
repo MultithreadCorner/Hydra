@@ -32,7 +32,7 @@
 
 /**
  * \file
- * \ingroup Phase-space generator
+ * \ingroup phsp
  */
 
 #ifndef _DECAYMOTHERS_H_

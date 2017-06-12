@@ -26,6 +26,11 @@
  *      Author: Antonio Augusto Alves Junior
  */
 
+/**
+ * \file
+ * \ingroup numerical_integration
+ */
+
 #ifndef GAUSSKRONRODQUADRATURE_H_
 #define GAUSSKRONRODQUADRATURE_H_
 

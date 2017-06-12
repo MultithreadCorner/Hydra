@@ -59,8 +59,15 @@ struct copy_type{
 
 }  // namespace detail
 
+/**
+ * Generic copy between backends, abstracting away details of the copied container.
+ *
+ * @param policy: corresponding to the destination back-end.
+ * @param other : original container.
+ * @return
+ */
 template<hydra::detail::Backend BACKEND, template<typename...> class CONTAINER, typename T, typename ...Ts >
-auto get_copy(hydra::detail::BackendPolicy<BACKEND> const&, CONTAINER<T, Ts...>& other )
+auto get_copy(hydra::detail::BackendPolicy<BACKEND>const& policy , CONTAINER<T, Ts...>& other )
 ->typename  std::enable_if<
 detail::is_specialization< CONTAINER<T, Ts...>, thrust::host_vector>::value ||
 detail::is_specialization<CONTAINER<T, Ts...>, thrust::device_vector >::value ||
@@ -72,8 +79,17 @@ typename detail::copy_type<CONTAINER, T, BACKEND>::type
 	return 	std::move(vector_t(other));
 }
 
+/**
+ * Generic copy between backends, abstracting away details of the copied container.
+ *
+ * @param policy: corresponding to the destination back-end.
+ * @param other : original container.
+ * @return
+ *
+ * obs: overload for hydra::multivector
+ */
 template<hydra::detail::Backend BACKEND, template<typename...> class CONTAINER, typename T>
-auto get_copy(hydra::detail::BackendPolicy<BACKEND> const&, CONTAINER<T>& other )
+auto get_copy(hydra::detail::BackendPolicy<BACKEND> const& policy, CONTAINER<T>& other )
 ->typename  std::enable_if<
 detail::is_specialization< CONTAINER<T> ,multivector>::value,
 multivector<typename

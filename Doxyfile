@@ -48,34 +48,34 @@ SEPARATE_MEMBER_PAGES  = NO
 TAB_SIZE               = 4
 ALIASES                = 
 TCL_SUBST              = 
-OPTIMIZE_OUTPUT_FOR_C  = NO
+OPTIMIZE_OUTPUT_FOR_C  = YES
 OPTIMIZE_OUTPUT_JAVA   = NO
 OPTIMIZE_FOR_FORTRAN   = NO
 OPTIMIZE_OUTPUT_VHDL   = NO
-EXTENSION_MAPPING      = cu=C
+EXTENSION_MAPPING      = cu=C, inl=C
 MARKDOWN_SUPPORT       = YES
 AUTOLINK_SUPPORT       = YES
 BUILTIN_STL_SUPPORT    = YES
-CPP_CLI_SUPPORT        = NO
+CPP_CLI_SUPPORT        = YES
 SIP_SUPPORT            = NO
 IDL_PROPERTY_SUPPORT   = NO
 DISTRIBUTE_GROUP_DOC   = YES
-GROUP_NESTED_COMPOUNDS = NO
+GROUP_NESTED_COMPOUNDS = YES
 SUBGROUPING            = YES
 INLINE_GROUPED_CLASSES = YES
 INLINE_SIMPLE_STRUCTS  = YES
-TYPEDEF_HIDES_STRUCT   = YES
+TYPEDEF_HIDES_STRUCT   = NO
 LOOKUP_CACHE_SIZE      = 0
 #---------------------------------------------------------------------------
 # Build related configuration options
 #---------------------------------------------------------------------------
 EXTRACT_ALL            = YES
-EXTRACT_PRIVATE        = NO
+EXTRACT_PRIVATE        = YES
 EXTRACT_PACKAGE        = NO
-EXTRACT_STATIC         = NO
+EXTRACT_STATIC         = YES
 EXTRACT_LOCAL_CLASSES  = YES
 EXTRACT_LOCAL_METHODS  = YES
-EXTRACT_ANON_NSPACES   = NO
+EXTRACT_ANON_NSPACES   = YES
 HIDE_UNDOC_MEMBERS     = NO
 HIDE_UNDOC_CLASSES     = NO
 HIDE_FRIEND_COMPOUNDS  = NO
@@ -91,15 +91,15 @@ INLINE_INFO            = YES
 SORT_MEMBER_DOCS       = YES
 SORT_BRIEF_DOCS        = YES
 SORT_MEMBERS_CTORS_1ST = YES
-SORT_GROUP_NAMES       = NO
-SORT_BY_SCOPE_NAME     = NO
+SORT_GROUP_NAMES       = YES
+SORT_BY_SCOPE_NAME     = YES
 STRICT_PROTO_MATCHING  = NO
 GENERATE_TODOLIST      = YES
 GENERATE_TESTLIST      = YES
 GENERATE_BUGLIST       = YES
 GENERATE_DEPRECATEDLIST= YES
 ENABLED_SECTIONS       = 
-MAX_INITIALIZER_LINES  = 30
+MAX_INITIALIZER_LINES  = 50
 SHOW_USED_FILES        = YES
 SHOW_FILES             = YES
 SHOW_NAMESPACES        = YES
@@ -126,7 +126,8 @@ FILE_PATTERNS          = *.cu \
                          *.cc \
                          *.cxx \
                          *.cpp \
-                         *.c++ \
+                         *.c++ \ 
+                         *.inl \
                          *.java \
                          *.ii \
                          *.ixx \
@@ -189,12 +190,12 @@ REFERENCES_RELATION    = YES
 REFERENCES_LINK_SOURCE = YES
 SOURCE_TOOLTIPS        = YES
 USE_HTAGS              = NO
-VERBATIM_HEADERS       = NO
+VERBATIM_HEADERS       = YES
 #---------------------------------------------------------------------------
 # Configuration options related to the alphabetical class index
 #---------------------------------------------------------------------------
 ALPHABETICAL_INDEX     = YES
-COLS_IN_ALPHA_INDEX    = 5
+COLS_IN_ALPHA_INDEX    = 10
 IGNORE_PREFIX          = 
 #---------------------------------------------------------------------------
 # Configuration options related to the HTML output

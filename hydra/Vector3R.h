@@ -30,7 +30,7 @@
 
 /**
  * \file
- * \ingroup Phase-space generator
+ * \ingroup phsp
  */
 
 #ifndef _VECTOR3R_H_

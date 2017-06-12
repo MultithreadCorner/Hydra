@@ -52,14 +52,21 @@
 
 namespace hydra {
 
-
-
 //--------------------------------------
 // Non cached functions
 //--------------------------------------
 
+/**
+ * Evaluate a hydra functor on a range using the parallel policy
+ *
+ * @param policy : parallel policy
+ * @param functor : hydra functor to be evaluated
+ * @param begin : interator pointing to be begin of the range
+ * @param end : interator pointing to be begin of the range
+ * @return a vector with the results
+ */
 template< hydra::detail::Backend BACKEND, typename Iterator, typename Functor >
-auto eval(hydra::detail::BackendPolicy<BACKEND>const& , Functor const& functor, Iterator begin, Iterator end)
+auto eval(hydra::detail::BackendPolicy<BACKEND>const& policy, Functor const& functor, Iterator begin, Iterator end)
 -> typename hydra::detail::BackendPolicy<BACKEND>::template container<typename Functor::return_type>
 {
 
@@ -76,8 +83,17 @@ auto eval(hydra::detail::BackendPolicy<BACKEND>const& , Functor const& functor, 
 	return std::move(Table);
 }
 
+/**
+ * Evaluate a tuple of hydra functors on a range using the parallel policy
+ *
+ * @param policy : parallel policy
+ * @param functor : hydra functor to be evaluated
+ * @param begin : interator pointing to be begin of the range
+ * @param end : interator pointing to be begin of the range
+ * @return a multivectors with the results
+ */
 template<hydra::detail::Backend BACKEND, typename Iterator, typename ...Functors>
-auto eval(hydra::detail::BackendPolicy<BACKEND>const& ,thrust::tuple<Functors...> const& functors, Iterator begin, Iterator end)
+auto eval(hydra::detail::BackendPolicy<BACKEND>const&  policy,thrust::tuple<Functors...> const& functors, Iterator begin, Iterator end)
 -> multivector< typename hydra::detail::BackendPolicy<BACKEND>::template
 container<thrust::tuple<typename Functors::return_type ...> >>
 {
@@ -98,8 +114,18 @@ container<thrust::tuple<typename Functors::return_type ...> >>
 	return std::move(Table);
 }
 
+/**
+ * Evaluate a functor over a list of ranges
+ *
+ * @param policy : parallel policy
+ * @param functor : hydra functor to be evaluated
+ * @param begin : interator pointing to be begin of the range
+ * @param end : interator pointing to be begin of the range
+ * @param begins : interator pointing to be begin of the range
+ * @return a multivectors with the results
+ */
 template<hydra::detail::Backend BACKEND, typename Functor, typename Iterator, typename ...Iterators>
-auto eval(hydra::detail::BackendPolicy<BACKEND>const& ,Functor const& functor, Iterator begin, Iterator end, Iterators... begins)
+auto eval(hydra::detail::BackendPolicy<BACKEND>const&  policy,Functor const& functor, Iterator begin, Iterator end, Iterators... begins)
 -> typename hydra::detail::BackendPolicy<BACKEND>::template
 container<typename Functor::return_type>
 {
@@ -119,8 +145,18 @@ container<typename Functor::return_type>
 }
 
 
+/**
+ * Evaluate a tuple of functors over a list of ranges
+ *
+ * @param policy : parallel policy
+ * @param functor : hydra functor to be evaluated
+ * @param begin : interator pointing to be begin of the range
+ * @param end : interator pointing to be begin of the range
+ * @param begins : interator pointing to be begin of the range
+ * @return a multivectors with the results
+ */
 template<hydra::detail::Backend BACKEND, typename Iterator,  typename ...Iterators, typename ...Functors>
-auto eval(hydra::detail::BackendPolicy<BACKEND>const&, thrust::tuple<Functors...> const& functors,
+auto eval(hydra::detail::BackendPolicy<BACKEND>const&  policy, thrust::tuple<Functors...> const& functors,
 		Iterator begin, Iterator end, Iterators... begins)
 -> multivector< typename hydra::detail::BackendPolicy<BACKEND>::template
 container<thrust::tuple<typename Functors::return_type ...> >>
@@ -141,8 +177,6 @@ container<thrust::tuple<typename Functors::return_type ...> >>
 
 	return std::move(Table);
 }
-
-
 
 }/* namespace hydra */
 

@@ -34,7 +34,8 @@
  */
 
 /*! \file Containers.h
- *  Typedef for useful container classes used in MCBooster.
+ *
+ *  Typedefs for useful container classes used in MCBooster.
  *  Containers defined here should be used in users application also.
  */
 #ifndef CONTAINERS_H_

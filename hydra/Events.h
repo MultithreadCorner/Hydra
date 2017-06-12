@@ -28,7 +28,7 @@
 
 /**
  * \file
- * \ingroup Phase-space generator
+ * \ingroup phsp
  */
 
 
@@ -62,7 +62,7 @@
 
 namespace hydra {
 
-namespace experimental {
+
 /*! \struct Events
  * Events is a container struct to hold all the information corresponding the generated events.
  * Mother four-vectors are not stored.
@@ -307,7 +307,7 @@ private:
 
 };
 
-}  // namespace experimental
+
 
 }// namespace hydra
 

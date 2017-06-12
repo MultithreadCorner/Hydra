@@ -65,7 +65,7 @@
 
 /**
  * \file
- * \ingroup Phase-space generator
+ * \ingroup phsp
  */
 
 namespace hydra {

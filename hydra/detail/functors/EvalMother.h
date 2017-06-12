@@ -28,7 +28,7 @@
 
 /**
  * \file
- * \ingroup Phase-space generator
+ * \ingroup phsp
  */
 
 #ifndef EVALMOTHER_H_

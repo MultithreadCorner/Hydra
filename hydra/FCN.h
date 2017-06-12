@@ -27,7 +27,7 @@
  */
 /**
  * \file
- * \ingroup Data Fitting
+ * \ingroup fit
  */
 
 #ifndef _FCN_H_
@@ -57,9 +57,16 @@
 
 namespace hydra {
 
+/**
+ * FCN base class declaration
+ */
 template<typename T>
 class FCN;
 
+/**
+ * \class
+ * FCN base class.
+ */
 template<template<typename... > class ESTIMATOR, typename PDF,
 typename PointType, typename IteratorData, typename IteratorCache>
 class FCN<ESTIMATOR<PDF, PointType, IteratorData, IteratorCache>>: public ROOT::Minuit2::FCNBase {
@@ -98,6 +105,13 @@ public:
 	};
 
 
+	/**
+	 * \brief Constructor for not cached functor.
+	 *
+	 * @param functor : PDF being optimized
+	 * @param begin : iterator to begin of the data range
+	 * @param end : iterator to end of the data range
+	 */
 	FCN(PDF& functor, IteratorData begin, IteratorData end) :
 		fPDF(functor),
 		fDataBegin(begin),
@@ -119,10 +133,16 @@ public:
 		fSumW  =  result.fSumW;
 		fSumW2 =  result.fSumW2;
 
-		std::cout << "=======> fSumW " << fSumW <<std::endl;
-
 }
 
+	/**
+	 * \brief Constructor for cached functor.
+	 *
+	 * @param functor : PDF being optimized
+	 * @param begin : iterator to begin of the data range
+	 * @param end : iterator to end of the data range
+	 * @param cbegin : iterator to begin of the cache table
+	 */
 	FCN(PDF& functor, IteratorData begin, IteratorData end, IteratorCache cbegin) :
 		fPDF(functor),
 		fDataBegin(begin),
@@ -146,6 +166,11 @@ public:
 		fSumW2 =  result.fSumW2;
 	}
 
+	/**
+	 * \brief Copy constructor.
+	 *
+	 * @param other
+	 */
 	FCN(FCN<estimator_type> const& other) :
 		ROOT::Minuit2::FCNBase(other),
 		fPDF(other.GetPDF()),
@@ -162,6 +187,12 @@ public:
 	    fUserParameters(other.GetParameters())
 	{}
 
+	/**
+	 * \brief Assignment operator
+	 *
+	 * @param other
+	 * @return
+	 */
 	FCN<estimator_type>&
 	operator=(FCN<estimator_type> const& other)
 	{
@@ -185,14 +216,20 @@ public:
 
 
 	/**
-	 * Up function from Minuit2
+	 * \brief Up function from Minuit2
+	 *
+	 * @return
 	 */
 	virtual GReal_t Up() const {
 		return fErrorDef;
 	}
 
+
 	/**
-	 * GReal_t operator()(const std::vector<double>&) const
+	 * \brief Function call operator
+	 *
+	 * @param parameters passed by Minuit
+	 * @return
 	 */
 	virtual GReal_t operator()(const std::vector<double>& parameters) const {
 
@@ -206,17 +243,28 @@ public:
 
 	}
 
+	/**
+	 * \brief Get user's parameters to be passed to Minuit
+	 *
+	 * @return
+	 */
 	hydra::UserParameters& GetParameters()
 	{
 
 		return fUserParameters;
 	}
 
+	/**
+	 * \brief Get user's parameters to be passed to Minuit
+	 *
+	 * @return
+	 */
 	hydra::UserParameters const& GetParameters() const
 	{
 
 		return fUserParameters;
 	}
+
 
 	GBool_t isCached() const {
 		return fCached;
@@ -282,10 +330,18 @@ public:
 		return fFCNCache;
 	}
 
+	/**
+	 * Get underlying PDF
+	 * @return
+	 */
 	PDF& GetPDF() const {
 			return fPDF;
 	}
 
+	/**
+	 * Get underlying PDF
+	 * @return
+	 */
 	PDF& GetPDF()  {
 				return fPDF;
 		}

@@ -31,7 +31,7 @@
 
 /**
  * \file
- * \ingroup Phase-space generator
+ * \ingroup phsp
  */
 
 #ifndef _VECTOR4R_H_

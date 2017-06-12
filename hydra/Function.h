@@ -30,7 +30,7 @@
 
 /**
  * \file
- * \ingroup Functional
+ * \ingroup functor
  */
 
 
@@ -57,7 +57,10 @@
 namespace hydra
 {
 
-
+/**
+ * \class
+ * Base class for all functors in hydra
+ */
 
 template<typename Functor, typename ReturnType, size_t NPARAM>
 struct BaseFunctor
@@ -66,47 +69,68 @@ struct BaseFunctor
     typedef void hydra_functor_tag;
 	typedef   ReturnType return_type;
 	typedef   std::true_type is_functor;
-    static const size_t parameter_count =NPARAM;
 
+	static const size_t parameter_count =NPARAM;
+
+
+	/**
+	 * Default constructor
+	 */
     explicit BaseFunctor():
     			fCacheIndex(-1),
     			fCached(0),
+    			fNArgs(-1),
     			fParamResgistered(1),
     			fNorm(1.0),
     			fNormalized(1),
     			_par(*this)
     {}
 
+
+    /**
+     * Constructor taking a list of parameters
+     * @param init_parameters
+     */
 	BaseFunctor(std::initializer_list<Parameter> init_parameters):
 	fCacheIndex(-1),
 	fCached(0),
+	fNArgs(-1),
 	fParamResgistered(1),
 	fNorm(1.0),
 	fNormalized(1),
 	_par(*this)
 	{
-#pragma unroll NPARAM
+
 		for(size_t i=0; i<NPARAM; i++)
 			this->SetParameter(i, *(init_parameters.begin() + i));
 	}
 
+	/**
+	 * Constructor taking std::array of parameters
+	 * @param init_parameters
+	 */
 	BaseFunctor(std::array<Parameter,NPARAM> const& init_parameters):
 		fCacheIndex(-1),
 		fCached(0),
+		fNArgs(-1),
 		fParamResgistered(1),
 		fNorm(1.0),
 		fNormalized(1),
 		_par(*this)
 		{
-	#pragma unroll NPARAM
+
 			for(size_t i=0; i<NPARAM; i++)
 				this->SetParameter(i, *(init_parameters.begin() + i));
 		}
 
 
+	/**
+	 * Copy constructor
+	 */
 	__host__ __device__
 	BaseFunctor(BaseFunctor<Functor,ReturnType, NPARAM> const& other):
 	fCacheIndex( other.GetCacheIndex() ),
+	fNArgs(other.GetNArgs()),
 	fCached( other.IsCached() ),
 	fParamResgistered(1),
 	fNorm(other.GetNorm()),
@@ -114,14 +138,14 @@ struct BaseFunctor
 	_par(*this)
 	{
 
-#pragma unroll NPARAM
 	for(size_t i=0; i<NPARAM; i++)
 	this->SetParameter(i, other.GetParameter(i));
 
-
-
 	}
 
+	/**
+	 * Assignment operator
+	 */
 	__host__ __device__ inline
 	BaseFunctor<Functor,ReturnType, NPARAM>&
 	operator=(BaseFunctor<Functor, ReturnType, NPARAM> const & other )
@@ -134,14 +158,13 @@ struct BaseFunctor
 			this->fNorm = other.GetNorm();
 			this->fNormalized =other.GetNormalized();
 			this->fParamResgistered =1;
+			this->fNArgs= other.GetNArgs();
+			for(size_t i=0; i<NPARAM; i++)
+				this->SetParameter(i, other.GetParameter(i));
 
-#pragma unroll NPARAM
-	for(size_t i=0; i<NPARAM; i++)
-	this->SetParameter(i, other.GetParameter(i));
+			_par=*this;
 
-	         _par=*this;
-
-         }
+		}
 		return *this;
 	}
 
@@ -164,7 +187,9 @@ struct BaseFunctor
 	{ fCached = cached; }
 
 
-
+	/**
+	 * \brief Print registered parameters.
+	 */
 	void PrintRegisteredParameters()
 	{
 		if(!fParamResgistered){
@@ -183,6 +208,11 @@ struct BaseFunctor
 		return;
 	}
 
+
+	/**
+	 * Set parameters
+	 * @param parameters
+	 */
 	__host__ inline
 	void SetParameters(const std::vector<double>& parameters)
 	{
@@ -210,10 +240,10 @@ struct BaseFunctor
 		return;
 	}
 
+
 	inline	void AddUserParameters(std::vector<hydra::Parameter*>& user_parameters )
 	{
 
-#pragma unroll NPARAM
 		for(size_t i=0; i<NPARAM; i++)
 			user_parameters.push_back(&fParameters[i]);
 	}
@@ -268,6 +298,7 @@ struct BaseFunctor
 	, return_type>::type
 	interface(T&& x)
 	{
+		fNArgs=1;
 		return static_cast<Functor*>(this)->Evaluate(&x);
 	}
 
@@ -287,7 +318,7 @@ struct BaseFunctor
 		first_type Array[ N ];
 
 		detail::tupleToArray(x, &Array[0] );
-
+		fNArgs=N;
 		return static_cast<Functor*>(this)->Evaluate(&Array[0]);
 
 
@@ -300,6 +331,7 @@ struct BaseFunctor
 	typename std::remove_reference<T>::type>::value), return_type>::type
 	interface(T&& x)
 	{
+		fNArgs=0;
 		return static_cast<Functor*>(this)->Evaluate(x);
 	}
 
@@ -346,7 +378,9 @@ struct BaseFunctor
 		return (GReal_t ) fParameters[i];
 	}
 
-
+	int GetNArgs() const {
+		return fNArgs;
+	}
 
 protected:
 
@@ -356,7 +390,8 @@ protected:
 private:
 
     GReal_t fNorm;
-	int  fCacheIndex;
+    int fNArgs;
+	int fCacheIndex;
 	bool fCached;
 	bool fParamResgistered;
 	bool fNormalized;

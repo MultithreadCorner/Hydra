@@ -26,6 +26,11 @@
  *      Author: Antonio Augusto Alves Junior
  */
 
+/**
+ * \file
+ * \ingroup numerical_integration
+ */
+
 #ifndef GAUSSKRONRODRULES_H_
 #define GAUSSKRONRODRULES_H_
 
@@ -36,7 +41,7 @@
 #include <initializer_list>
 
 
-/**
+/*
  * numbers from http://www.advanpix.com/2011/11/07/gauss-kronrod-quadrature-nodes-weights/
  */
 namespace hydra {

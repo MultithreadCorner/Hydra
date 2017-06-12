@@ -26,6 +26,11 @@
  *      Author: Antonio Augusto Alves Junior
  */
 
+/**
+ * \file
+ * \ingroup numerical_integration
+ */
+
 #ifndef GENZMALIKQUADRATURE_H_
 #define GENZMALIKQUADRATURE_H_
 
@@ -46,6 +51,14 @@ namespace hydra {
 template<  size_t N, typename  BACKEND>
 class  GenzMalikQuadrature;
 
+/**
+ * \brief Non-adaptive Genz-Malik multidimensional quadrature
+ *
+ * Non-adaptive Genz-Malik multidimensional quadrature. This algorithm follows the original paper prescription
+ * but does not implement the subdivision strategy yet.
+ * A. C. Genz and A. A. Malik, "An adaptive algorithm for numeric integration over an N-dimensional rectangular region," J. Comput. Appl. Math. 6 (4), 295–302 (1980).
+ * J. Berntsen, T. O. Espelid, and A. Genz, "An adaptive algorithm for the approximate calculation of multiple integrals," ACM Trans. Math. Soft. 17 (4), 437–451 (1991)
+ */
 template<  size_t N, hydra::detail::Backend  BACKEND>
 class  GenzMalikQuadrature<N, hydra::detail::BackendPolicy<BACKEND> >:
 public Integrator<typename std::enable_if< (N>1),GenzMalikQuadrature<N, hydra::detail::BackendPolicy<BACKEND>>>::type  >
@@ -63,34 +76,71 @@ public:
 	//tag
 	typedef void hydra_integrator_tag;
 
+	GenzMalikQuadrature()=delete;
 
+	/**
+	 * Genz-Malik multidimensional quadrature constructor.
+	 * @param LowerLimit : std::array with the lower limits of integration
+	 * @param UpperLimit : std::array with the upper limits of integration
+	 * @param grid       : std::array with the number of divisions per dimension
+	 */
 	GenzMalikQuadrature(std::array<GReal_t,N> const& LowerLimit,
 			std::array<GReal_t,N> const& UpperLimit,
 			std::array<size_t, N> const& grid);
 
 
+	/**
+	 * Genz-Malik multidimensional quadrature constructor.
+	 * @param LowerLimit : std::array with the lower limits of integration
+	 * @param UpperLimit : std::array with the upper limits of integration
+	 * @param nboxes     : max number of multidimensional boxes
+	 */
 	GenzMalikQuadrature(std::array<GReal_t,N> const& LowerLimit,
 			std::array<GReal_t,N> const& UpperLimit,
 			size_t nboxes=10);
 
-
+	/**
+	 * Copy constructor.
+	 * @param other : object on same back-end
+	 */
 	GenzMalikQuadrature( GenzMalikQuadrature<N,hydra::detail::BackendPolicy<BACKEND>> const& other);
 
+	/**
+	 * Copy constructor.
+	 * @param other : object on different back-end
+	 */
 	template< hydra::detail::Backend  BACKEND2>
 	GenzMalikQuadrature( GenzMalikQuadrature<N,hydra::detail::BackendPolicy<BACKEND2>> const& other);
 
+	/**
+	 * Assignment operator
+	 * @param other : object on same back-end
+	 * @return
+	 */
 	GenzMalikQuadrature<N,hydra::detail::BackendPolicy<BACKEND>>&
 	operator=( GenzMalikQuadrature<N,hydra::detail::BackendPolicy<BACKEND>> const& other);
 
-
+	/**
+	 * Assignment operator
+	 * @param other: object on different back-end
+	 * @return
+	 */
 	template<hydra::detail::Backend BACKEND2>
 	GenzMalikQuadrature<N,hydra::detail::BackendPolicy<BACKEND>>&
 	operator=( GenzMalikQuadrature<N,hydra::detail::BackendPolicy<BACKEND2>> const& other);
 
+	/**
+	 * Integrate method
+	 * @param functor : integrand
+	 * @return
+	 */
 	template<typename FUNCTOR>
 	std::pair<GReal_t, GReal_t> Integrate(FUNCTOR const& functor);
 
 
+	/**
+	 * Print
+	 */
 	void Print()
 	{
 		fGenzMalikRule.Print();

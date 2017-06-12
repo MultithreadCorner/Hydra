@@ -29,7 +29,7 @@
 
 /**
  * \file
- * \ingroup Data fitting
+ * \ingroup fit
  */
 
 #ifndef ADDPDF_H_
@@ -66,7 +66,9 @@ struct AddPdfBase: std::enable_if<AddPdfChecker<PDF1,PDF2,PDFs...>::value>{};
 
 
 /**
+ * \class
  * \brief Build a pdf adding other pdfs.
+ *
  * Given N unnormalized pdfs \f$F_i\f$ , this class define a object representing the sum
  * \f[ F_t = \sum_i^N c_i \times F_i \f]
  * The coefficients of the pdfs can represent fractions or yields. If the number of coefficients is equal to

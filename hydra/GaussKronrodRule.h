@@ -26,6 +26,11 @@
  *      Author: Antonio Augusto Alves Junior
  */
 
+/**
+ * \file
+ * \ingroup numerical_integration
+ */
+
 #ifndef GAUSSKRONRODRULE_H_
 #define GAUSSKRONRODRULE_H_
 

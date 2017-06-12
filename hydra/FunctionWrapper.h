@@ -28,7 +28,7 @@
 
 /**
  * \file
- * \ingroup Functional
+ * \ingroup functor
  */
 
 
@@ -52,29 +52,48 @@ template<typename Sig,typename L, size_t N,
 typename=typename std::enable_if<std::is_constructible<std::function<Sig>, L>::value>::type>
 struct LambdaWrapper;
 
+/**
+ * \class
+ * \brief Wrapper for lambda functions
+ */
 template<typename ReturnType, typename ...ArgType, typename L, size_t  N>
 struct LambdaWrapper<ReturnType(ArgType...), L, N>:
 public BaseFunctor<LambdaWrapper<ReturnType(ArgType...),L, N>, ReturnType,N >
 {
 	LambdaWrapper()=delete;
 
+	/**
+	 * Constructor for non-parametrized lambdas
+	 * @param lambda
+	 */
 	LambdaWrapper(L const& lambda):
 			BaseFunctor<LambdaWrapper<ReturnType(ArgType...),L, 0>, ReturnType,0 >(),
 			fLambda(lambda)
 		{}
 
+	/**
+	 * Constructor for parametrized lambdas
+	 * @param lambda
+	 * @param parameters
+	 */
 	LambdaWrapper(L const& lambda,
 			std::array<Parameter, N> const& parameters):
 		BaseFunctor<LambdaWrapper<ReturnType(ArgType...),L, N>, ReturnType,N >(parameters),
 		fLambda(lambda)
 	{}
 
+	/**
+	 * Copy constructor
+	 */
 	__host__ __device__	 inline
 	LambdaWrapper(LambdaWrapper<ReturnType(ArgType...), L, N> const& other ):
 	BaseFunctor<LambdaWrapper<ReturnType(ArgType...),L, N>, ReturnType,N>(other),
 	fLambda( other.GetLambda())
 	{	}
 
+	/**
+	 * Assignment operator
+	 */
 	__host__ __device__	 inline
 	LambdaWrapper<ReturnType(ArgType...), L, N>
 	operator=(LambdaWrapper<ReturnType(ArgType...), L, N> const& other )
@@ -88,6 +107,9 @@ public BaseFunctor<LambdaWrapper<ReturnType(ArgType...),L, N>, ReturnType,N >
 	}
 
 
+	/**
+	 * Get the underlying lambda
+	 */
 	__host__ __device__	 inline
 	L GetLambda() const {return fLambda; }
 

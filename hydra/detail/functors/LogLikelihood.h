@@ -28,7 +28,7 @@
 
 /**
  * \file
- * \ingroup Data Fitting
+ * \ingroup fit
  */
 
 
