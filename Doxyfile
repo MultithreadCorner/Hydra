@@ -1,13 +1,13 @@
 PROJECT_NAME           = "Hydra"
 PROJECT_NUMBER         =  1.0.0
 
-STRIP_FROM_PATH        = /home/augalves/Development/Development/Hydra_Variadic_Github/Hydra
+STRIP_FROM_PATH        = /home/augalves/Development/Devel/Hydra_Variadic/Hydra
  
-INPUT                  = /home/augalves/Development/Development/Hydra_Variadic_Github/Hydra/hydra /home/augalves/Development/Development/Hydra_Variadic_Github/Hydra/doxydefs /home/augalves/Development/Development/Hydra_Variadic_Github/Hydra/src /home/augalves/Development/Development/Hydra_Variadic_Github/Hydra/README.md
+INPUT                  = /home/augalves/Development/Devel/Hydra_Variadic/Hydra/hydra /home/augalves/Development/Devel/Hydra_Variadic/Hydra/doxydefs /home/augalves/Development/Devel/Hydra_Variadic/Hydra/src /home/augalves/Development/Devel/Hydra_Variadic/Hydra/README.md
 
-USE_MDFILE_AS_MAINPAGE = /home/augalves/Development/Development/Hydra_Variadic_Github/Hydra/README.md
-PROJECT_LOGO           = /home/augalves/Development/Development/Hydra_Variadic_Github/Hydra/Hydra.jpg
-OUTPUT_DIRECTORY       = /home/augalves/Development/Development/Hydra_Variadic_Github/Eclipse_Hydra/doc
+USE_MDFILE_AS_MAINPAGE = /home/augalves/Development/Devel/Hydra_Variadic/Hydra/README.md
+PROJECT_LOGO           = /home/augalves/Development/Devel/Hydra_Variadic/Hydra/Hydra.jpg
+OUTPUT_DIRECTORY       = /home/augalves/Development/Devel/Hydra_Variadic/Eclipse_Hydra/doc
 
 # Doxyfile 1.8.11
 
@@ -16,13 +16,13 @@ OUTPUT_DIRECTORY       = /home/augalves/Development/Development/Hydra_Variadic_G
 #---------------------------------------------------------------------------
 DOXYFILE_ENCODING      = UTF-8
 #PROJECT_NAME           = Hydra
-#PROJECT_NUMBER         = 1.0.0
+#PROJECT_NUMBER         = 2.0.0
 PROJECT_BRIEF          = "A header only templated C++ library to perform data analysis on massively parallel platforms."
 CREATE_SUBDIRS         = YES
 ALLOW_UNICODE_NAMES    = NO
 OUTPUT_LANGUAGE        = English
 BRIEF_MEMBER_DESC      = YES
-REPEAT_BRIEF           = NO
+REPEAT_BRIEF           = YES
 ABBREVIATE_BRIEF       = "The $name class" \
                          "The $name widget" \
                          "The $name file" \
@@ -46,18 +46,18 @@ MULTILINE_CPP_IS_BRIEF = YES
 INHERIT_DOCS           = YES
 SEPARATE_MEMBER_PAGES  = NO
 TAB_SIZE               = 4
-ALIASES                = 
+ALIASES                = YES
 TCL_SUBST              = 
 OPTIMIZE_OUTPUT_FOR_C  = YES
 OPTIMIZE_OUTPUT_JAVA   = NO
 OPTIMIZE_FOR_FORTRAN   = NO
 OPTIMIZE_OUTPUT_VHDL   = NO
-EXTENSION_MAPPING      = cu=C, inl=C
+EXTENSION_MAPPING      = cu=C
 MARKDOWN_SUPPORT       = YES
 AUTOLINK_SUPPORT       = YES
 BUILTIN_STL_SUPPORT    = YES
 CPP_CLI_SUPPORT        = YES
-SIP_SUPPORT            = NO
+SIP_SUPPORT            = YES
 IDL_PROPERTY_SUPPORT   = NO
 DISTRIBUTE_GROUP_DOC   = YES
 GROUP_NESTED_COMPOUNDS = YES
@@ -80,7 +80,7 @@ HIDE_UNDOC_MEMBERS     = NO
 HIDE_UNDOC_CLASSES     = NO
 HIDE_FRIEND_COMPOUNDS  = NO
 HIDE_IN_BODY_DOCS      = NO
-INTERNAL_DOCS          = NO
+INTERNAL_DOCS          = YES
 CASE_SENSE_NAMES       = YES
 HIDE_SCOPE_NAMES       = NO
 HIDE_COMPOUND_REFERENCE= NO
@@ -113,7 +113,7 @@ QUIET                  = NO
 WARNINGS               = YES
 WARN_IF_UNDOCUMENTED   = YES
 WARN_IF_DOC_ERROR      = YES
-WARN_NO_PARAMDOC       = NO
+WARN_NO_PARAMDOC       = YES
 WARN_AS_ERROR          = NO
 WARN_FORMAT            = "$file:$line: $text"
 WARN_LOGFILE           = 
@@ -127,7 +127,6 @@ FILE_PATTERNS          = *.cu \
                          *.cxx \
                          *.cpp \
                          *.c++ \ 
-                         *.inl \
                          *.java \
                          *.ii \
                          *.ixx \
@@ -171,10 +170,10 @@ EXCLUDE                =
 EXCLUDE_SYMLINKS       = NO
 EXCLUDE_PATTERNS       = 
 EXCLUDE_SYMBOLS        = detail
-EXAMPLE_PATH           = /home/augalves/Development/Development/Hydra_Variadic_Github/Hydra/src
+EXAMPLE_PATH           = /home/augalves/Development/Devel/Hydra_Variadic/Hydra/src
 EXAMPLE_PATTERNS       = *
 EXAMPLE_RECURSIVE      = YES
-IMAGE_PATH             = /home/augalves/Development/Development/Hydra_Variadic_Github/Eclipse_Hydra/plots
+IMAGE_PATH             = /home/augalves/Development/Devel/Hydra_Variadic/Eclipse_Hydra/plots
 INPUT_FILTER           = 
 FILTER_PATTERNS        = 
 FILTER_SOURCE_FILES    = NO
@@ -184,19 +183,19 @@ FILTER_SOURCE_PATTERNS =
 #---------------------------------------------------------------------------
 SOURCE_BROWSER         = YES
 INLINE_SOURCES         = NO
-STRIP_CODE_COMMENTS    = YES
+STRIP_CODE_COMMENTS    = NO
 REFERENCED_BY_RELATION = YES
 REFERENCES_RELATION    = YES
 REFERENCES_LINK_SOURCE = YES
 SOURCE_TOOLTIPS        = YES
-USE_HTAGS              = NO
+USE_HTAGS              = YES
 VERBATIM_HEADERS       = YES
 #---------------------------------------------------------------------------
 # Configuration options related to the alphabetical class index
 #---------------------------------------------------------------------------
 ALPHABETICAL_INDEX     = YES
-COLS_IN_ALPHA_INDEX    = 10
-IGNORE_PREFIX          = 
+COLS_IN_ALPHA_INDEX    = 3
+IGNORE_PREFIX          = NO
 #---------------------------------------------------------------------------
 # Configuration options related to the HTML output
 #---------------------------------------------------------------------------
@@ -370,8 +369,8 @@ MSCFILE_DIRS           =
 DIAFILE_DIRS           = 
 PLANTUML_JAR_PATH      = 
 PLANTUML_INCLUDE_PATH  = 
-DOT_GRAPH_MAX_NODES    = 50
-MAX_DOT_GRAPH_DEPTH    = 0
+DOT_GRAPH_MAX_NODES    = 100
+MAX_DOT_GRAPH_DEPTH    = 10
 DOT_TRANSPARENT        = YES
 DOT_MULTI_TARGETS      = YES
 GENERATE_LEGEND        = YES

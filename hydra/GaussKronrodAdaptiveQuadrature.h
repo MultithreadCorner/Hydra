@@ -50,6 +50,7 @@
 namespace hydra {
 
 /**
+ * \ingroup numerical_integration
  * Self-adaptive Gauss-Kronrod Quadrature.
  */
 template<size_t NRULE, size_t NBIN, typename BACKEND>
@@ -57,10 +58,9 @@ class GaussKronrodAdaptiveQuadrature;
 
 
 /**
- * Self-adaptive Gauss-Kronrod Quadrature.
- *
+ *  @ingroup numerical_integration
+ *  @brief Self-adaptive Gauss-Kronrod Quadrature.
  * From Wikipedia, the free encyclopedia (https://en.wikipedia.org/wiki/Gauss%E2%80%93Kronrod_quadrature_formula)
- *
  * In numerical mathematics, the Gauss–Kronrod quadrature formula is a method for numerical integration
  * (calculating approximate values of integrals). Gauss–Kronrod quadrature is a variant of Gaussian quadrature,
  * in which the evaluation points are chosen so that an accurate approximation can be computed by re-using the
@@ -88,14 +88,16 @@ If the interval [''a'', ''b''] is subdivided, the Gauss evaluation points of the
    the corresponding Gauss rule is of order <math>2n-1</math>). These extra points are the zeros of [[Stieltjes polynomials]].
     This allows for computing higher-order estimates while reusing the function values of a lower-order estimate.
     The difference between a Gauss quadrature rule and its Kronrod extension are often used as an estimate of the approximation error.
+    @tparam NRULE
  */
 template<size_t NRULE, size_t NBIN, hydra::detail::Backend BACKEND>
-class GaussKronrodAdaptiveQuadrature<NRULE,NBIN, hydra::detail::BackendPolicy<BACKEND>>:public Integrator< GaussKronrodAdaptiveQuadrature<NRULE, NBIN, hydra::detail::BackendPolicy<BACKEND> > >
+class GaussKronrodAdaptiveQuadrature<NRULE,NBIN, hydra::detail::BackendPolicy<BACKEND>>:
+public Integrator< GaussKronrodAdaptiveQuadrature<NRULE, NBIN, hydra::detail::BackendPolicy<BACKEND> > >
 {
 
 	typedef hydra::detail::BackendPolicy<BACKEND> system_t;
 
-	/*
+	/**
 	 * nodes
 	 */
 	typedef thrust::tuple<

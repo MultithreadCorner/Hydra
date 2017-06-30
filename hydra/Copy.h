@@ -98,8 +98,7 @@ hydra::detail::BackendPolicy<BACKEND>::template container<typename CONTAINER<T>:
 {
 	typedef hydra::detail::BackendPolicy<BACKEND> system_t;
 
-	typedef typename  multivector<typename
-			system_t::template container<typename CONTAINER<T>::value_tuple_type> > vector_t;
+	typedef   multivector<typename system_t::template container<typename CONTAINER<T>::value_tuple_type> > vector_t;
 	return 	std::move(vector_t(other));
 }
 

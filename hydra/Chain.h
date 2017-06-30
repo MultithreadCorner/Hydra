@@ -71,8 +71,7 @@ struct Chain< Events<N,hydra::detail::BackendPolicy<BACKEND> >...>{
 
 	typedef hydra::detail::BackendPolicy<BACKEND> system_t;
 
-	typedef thrust::tuple<typename
-				Events<N,hydra::detail::BackendPolicy<BACKEND> >...> event_tuple;
+	typedef thrust::tuple<	Events<N,hydra::detail::BackendPolicy<BACKEND> >...> event_tuple;
 
 	typedef thrust::tuple<typename
 			Events<N,hydra::detail::BackendPolicy<BACKEND> >::iterator...> iterator_tuple;
@@ -107,100 +106,28 @@ struct Chain< Events<N,hydra::detail::BackendPolicy<BACKEND> >...>{
 	 * Constructor allocating memory for a given number of events.
 	 * @param nevents number of events
 	 */
-	Chain(size_t nevents):
-	fStorage(thrust::make_tuple(Events<N,hydra::detail::BackendPolicy<BACKEND> >(nevents)...) ),
-	fSize(nevents)
-	{
-
-		fWeights.resize(fSize);
-		fFlags.resize(fSize);
-
-		fBegin = thrust::make_zip_iterator(thrust::tuple_cat(thrust::make_tuple(fWeights.begin()),
-				detail::begin_call_args(fStorage)) );
-		fEnd = thrust::make_zip_iterator( thrust::tuple_cat(thrust::make_tuple(fWeights.end()),
-				detail::end_call_args(fStorage)) );
-
-		fConstBegin = thrust::make_zip_iterator(thrust::tuple_cat(thrust::make_tuple(fWeights.cbegin()),
-				detail::cbegin_call_args(fStorage) ));
-		fConstEnd = thrust::make_zip_iterator(thrust::tuple_cat(thrust::make_tuple(fWeights.cend()),
-				detail::cend_call_args(fStorage) ) );
-
-	}
-
+	Chain(size_t nevents);
 
 	/**
 	 * Copy constructor
 	 * @param other chain container defined at same back-end.
 	 */
-	Chain(Chain<Events<N,hydra::detail::BackendPolicy<BACKEND> >...>const& other):
-		fStorage(std::move(other.CopyStorage()) ),
-		fSize (other.GetNEvents())
-		{
-
-			fWeights = vector_real(fSize , 1.0);
-			fFlags = vector_bool( fSize, 1.0 );
-
-			fBegin = thrust::make_zip_iterator(thrust:: tuple_cat(thrust::make_tuple(fWeights.begin()),
-					detail::begin_call_args(fStorage)) );
-			fEnd = thrust::make_zip_iterator( thrust:: tuple_cat(thrust::make_tuple(fWeights.end()),
-					detail::end_call_args(fStorage)) );
-
-			fConstBegin = thrust::make_zip_iterator( thrust:: tuple_cat(thrust::make_tuple(fWeights.cbegin()),
-					detail::cbegin_call_args(fStorage) ));
-			fConstEnd = thrust::make_zip_iterator(thrust:: tuple_cat(thrust::make_tuple(fWeights.cend()),
-					detail::cend_call_args(fStorage) ) );
-
-		}
+	Chain(Chain<Events<N,hydra::detail::BackendPolicy<BACKEND> >...>const& other);
 
 	/**
 	 * Copy constructor
 	 * @param other chain container defined in other back-end.
 	 */
 	template<hydra::detail::Backend BACKEND2>
-	Chain(Chain<Events<N,hydra::detail::BackendPolicy<BACKEND2> >...>const& other):
-	fStorage(std::move(other.CopyStorage()) ),
-	fSize (other.GetNEvents())
-	{
-
-		fWeights = vector_real(fSize , 1.0);
-		fFlags = vector_bool( fSize, 1.0 );
-
-		fBegin = thrust::make_zip_iterator(thrust:: tuple_cat(thrust::make_tuple(fWeights.begin()),
-				detail::begin_call_args(fStorage)) );
-		fEnd = thrust::make_zip_iterator( thrust:: tuple_cat(thrust::make_tuple(fWeights.end()),
-				detail::end_call_args(fStorage)) );
-
-		fConstBegin = thrust::make_zip_iterator( thrust:: tuple_cat(thrust::make_tuple(fWeights.cbegin()),
-				detail::cbegin_call_args(fStorage) ));
-		fConstEnd = thrust::make_zip_iterator(thrust:: tuple_cat(thrust::make_tuple(fWeights.cend()),
-				detail::cend_call_args(fStorage) ) );
-
-	}
+	Chain(Chain<Events<N,hydra::detail::BackendPolicy<BACKEND2> >...>const& other);
 
 
 /**
  * Move constructor
  * @param other
  */
-	Chain(Chain<Events<N,hydra::detail::BackendPolicy<BACKEND> >...>&& other):
-		fStorage(std::move(other.MoveStorage())),
-		fSize (other.GetNEvents())
-	{
+	Chain(Chain<Events<N,hydra::detail::BackendPolicy<BACKEND> >...>&& other);
 
-		other.resize(0);
-		fWeights = vector_real(fSize , 1.0);
-		fFlags = vector_bool( fSize, 1.0 );
-
-		fBegin = thrust::make_zip_iterator(thrust:: tuple_cat(thrust::make_tuple(fWeights.begin()),
-				detail::begin_call_args(fStorage)) );
-		fEnd = thrust::make_zip_iterator( thrust:: tuple_cat(thrust::make_tuple(fWeights.end()),
-				detail::end_call_args(fStorage)) );
-
-		fConstBegin = thrust::make_zip_iterator( thrust:: tuple_cat(thrust::make_tuple(fWeights.cbegin()),
-				detail::cbegin_call_args(fStorage) ));
-		fConstEnd = thrust::make_zip_iterator(thrust:: tuple_cat(thrust::make_tuple(fWeights.cend()),
-				detail::cend_call_args(fStorage) ) );
-	}
 
 /**
  * Assignment operator for chain container allocated in the same back-end
@@ -208,28 +135,7 @@ struct Chain< Events<N,hydra::detail::BackendPolicy<BACKEND> >...>{
  * @return
  */
 	Chain<Events<N,hydra::detail::BackendPolicy<BACKEND> >...>&
-	operator=(Chain<Events<N,hydra::detail::BackendPolicy<BACKEND> >...> const& other)
-	{
-		if(this == &other) return *this;
-		this->fStorage = std::move(other.CopyStorage()) ;
-		this->fSize = other.GetNEvents();
-
-		this->fWeights = vector_real(this->fSize , 1.0);
-		this->fFlags = vector_bool( this->fSize, 1.0 );
-
-		this->fBegin = thrust::make_zip_iterator(thrust:: tuple_cat(thrust::make_tuple(this->fWeights.begin()),
-				detail::begin_call_args(this->fStorage)) );
-		this->fEnd = thrust::make_zip_iterator( thrust:: tuple_cat(thrust::make_tuple(this->fWeights.end()),
-				detail::end_call_args(this->fStorage)) );
-
-		this->fConstBegin = thrust::make_zip_iterator( thrust:: tuple_cat(thrust::make_tuple(this->fWeights.cbegin()),
-				detail::cbegin_call_args(this->fStorage) ));
-		this->fConstEnd = thrust::make_zip_iterator(thrust:: tuple_cat(thrust::make_tuple(this->fWeights.cend()),
-				detail::cend_call_args(this->fStorage) ) );
-
-		return *this;
-
-	}
+	operator=(Chain<Events<N,hydra::detail::BackendPolicy<BACKEND> >...> const& other);
 
 	/**
 	 * Assignment operator for chain container allocated in a different back-end.
@@ -238,28 +144,7 @@ struct Chain< Events<N,hydra::detail::BackendPolicy<BACKEND> >...>{
 	 */
 	template<hydra::detail::Backend BACKEND2>
 	Chain<Events<N,hydra::detail::BackendPolicy<BACKEND> >...>&
-	operator=(Chain<Events<N,hydra::detail::BackendPolicy<BACKEND2> >...>const& other)
-	{
-		if(this == &other) return *this;
-		this->fStorage=std::move(other.CopyStorage());
-		this->fSize = other.GetNEvents();
-
-		this->fWeights = vector_real(this->fSize , 1.0);
-		this->fFlags = vector_bool( this->fSize, 1.0 );
-
-		this->fBegin = thrust::make_zip_iterator(thrust:: tuple_cat(thrust::make_tuple(this->fWeights.begin()),
-				detail::begin_call_args(this->fStorage)) );
-		this->fEnd = thrust::make_zip_iterator( thrust:: tuple_cat(thrust::make_tuple(this->fWeights.end()),
-				detail::end_call_args(this->fStorage)) );
-
-		this->fConstBegin = thrust::make_zip_iterator( thrust:: tuple_cat(thrust::make_tuple(this->fWeights.cbegin()),
-				detail::cbegin_call_args(this->fStorage) ));
-		this->fConstEnd = thrust::make_zip_iterator(thrust:: tuple_cat(thrust::make_tuple(this->fWeights.cend()),
-				detail::cend_call_args(this->fStorage) ) );
-
-		return *this;
-	}
-
+	operator=(Chain<Events<N,hydra::detail::BackendPolicy<BACKEND2> >...>const& other);
 
 	/**
 	 * Move-assignment operator for chain container allocated in a same back-end.
@@ -267,56 +152,13 @@ struct Chain< Events<N,hydra::detail::BackendPolicy<BACKEND> >...>{
 	 * @return
 	 */
 	Chain<Events<N,hydra::detail::BackendPolicy<BACKEND> >...>&
-	operator=(Chain<Events<N,hydra::detail::BackendPolicy<BACKEND> >...>&& other)
-	{
-		if(this == &other) return *this;
-		this->fStorage = std::move(other.MoveStorage());
-		this->fSize = other.GetNEvents();
-
-		other= Chain<Events<N,hydra::detail::BackendPolicy<BACKEND> >...>();
-
-		this->fWeights = vector_real(this->fSize , 1.0);
-		this->fFlags = vector_bool( this->fSize, 1.0 );
-
-		this->fBegin = thrust::make_zip_iterator(thrust:: tuple_cat(thrust::make_tuple(this->fWeights.begin()),
-				detail::begin_call_args(this->fStorage)) );
-		this->fEnd = thrust::make_zip_iterator( thrust:: tuple_cat(thrust::make_tuple(this->fWeights.end()),
-				detail::end_call_args(this->fStorage)) );
-
-		this->fConstBegin = thrust::make_zip_iterator( thrust:: tuple_cat(thrust::make_tuple(fWeights.cbegin()),
-				detail::cbegin_call_args(this->fStorage) ));
-		this->fConstEnd = thrust::make_zip_iterator(thrust:: tuple_cat(thrust::make_tuple(this->fWeights.cend()),
-				detail::cend_call_args(this->fStorage) ) );
-
-		return *this;
-	}
-
-
+	operator=(Chain<Events<N,hydra::detail::BackendPolicy<BACKEND> >...>&& other);
 
 	/**
 	 * Constructor from a list of decay containers.
 	 * @param events
 	 */
-	Chain(Events<N,hydra::detail::BackendPolicy<BACKEND> > const& ...events):
-		fSize ( CheckSizes({events.GetNEvents()...}) ),
-		fStorage( thrust::make_tuple( events... ))
-	{
-
-		fWeights = vector_real(fSize , 1.0);
-		fFlags = vector_bool( fSize, 1.0 );
-
-		fBegin = thrust::make_zip_iterator(thrust::tuple_cat(thrust::make_tuple(fWeights.begin()),
-				detail::begin_call_args(fStorage)) );
-		fEnd = thrust::make_zip_iterator( thrust::tuple_cat(thrust::make_tuple(fWeights.end()),
-				detail::end_call_args(fStorage)) );
-
-		fConstBegin = thrust::make_zip_iterator( thrust::tuple_cat(thrust::make_tuple(fWeights.cbegin()),
-				detail::cbegin_call_args(fStorage) ));
-		fConstEnd = thrust::make_zip_iterator(thrust::tuple_cat(thrust::make_tuple(fWeights.cend()),
-				detail::cend_call_args(fStorage) ) );
-
-	}
-
+	Chain(Events<N,hydra::detail::BackendPolicy<BACKEND> > const& ...events);
 
 	template<unsigned int I>
 	auto GetDecay() const
@@ -495,5 +337,6 @@ private:
 
 }  // namespace hydra
 
+#include <hydra/detail/Chain.inl>
 
 #endif /* CHAIN_H_ */

@@ -55,15 +55,14 @@
 
 namespace hydra {
 
-namespace experimental {
 
 namespace detail {
 
 	//-------------------------------
 
-	template<size_t N, hydra::detail::Backend BACKEND, typename ...FUNCTOR, typename GRND, typename Iterator>
+	template<size_t N, hydra::detail::Backend BACKEND,typename FUNCTOR, typename ...FUNCTORS, typename GRND, typename Iterator>
 	inline void launch_evaluator(hydra::detail::BackendPolicy<BACKEND>const&,
-			Iterator begin, Iterator end,	detail::EvalMother<N, GRND,FUNCTOR...> const& evaluator) {
+			Iterator begin, Iterator end,	detail::EvalMother<N, GRND,FUNCTOR, FUNCTORS...> const& evaluator) {
 		typedef hydra::detail::BackendPolicy<BACKEND> system_t;
 
 		size_t nevents = thrust::distance(begin, end);
@@ -75,11 +74,11 @@ namespace detail {
 	}
 
 
-	template<size_t N, hydra::detail::Backend BACKEND, typename ...FUNCTOR, typename GRND,
+	template<size_t N, hydra::detail::Backend BACKEND, typename FUNCTOR,typename ...FUNCTORS, typename GRND,
 	                   typename IteratorMother, typename Iterator>
 	inline void launch_evaluator(hydra::detail::BackendPolicy<BACKEND>const&,
 			 IteratorMother mbegin, IteratorMother mend, Iterator begin,
-			 detail::EvalMothers<N, GRND,FUNCTOR...> const& evaluator) {
+			 detail::EvalMothers<N, GRND,FUNCTOR, FUNCTORS...> const& evaluator) {
 
 		typedef hydra::detail::BackendPolicy<BACKEND> system_t;
 
@@ -176,7 +175,6 @@ namespace detail {
 
 }// namespace detail
 
-}// namespace experimental
 
 }// namespace hydra
 

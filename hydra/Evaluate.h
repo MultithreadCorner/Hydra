@@ -45,7 +45,6 @@
 #include <hydra/Containers.h>
 #include <hydra/Function.h>
 #include <hydra/detail/utility/Utility_Tuple.h>
-#include <hydra/Range.h>
 #include <thrust/tuple.h>
 #include <hydra/detail/Evaluate.inl>
 #include <hydra/multivector.h>
