@@ -213,6 +213,26 @@ Chain< Events<N,hydra::detail::BackendPolicy<BACKEND> >...>::Chain(Events<N,hydr
 
 	}
 
+template<size_t ...N, hydra::detail::Backend BACKEND>
+void Chain< Events<N,hydra::detail::BackendPolicy<BACKEND> >...>::resize(size_t n){
+
+	fSize=n;
+	fWeights.resize(n);
+	fFlags.resize(n);
+	detail::resize_call_args(fStorage, n);
+
+	fBegin = thrust::make_zip_iterator(thrust:: tuple_cat(thrust::make_tuple(fWeights.begin()),
+			detail::begin_call_args(fStorage)) );
+	fEnd = thrust::make_zip_iterator( thrust:: tuple_cat(thrust::make_tuple(fWeights.end()),
+			detail::end_call_args(fStorage)) );
+
+	fConstBegin = thrust::make_zip_iterator( thrust:: tuple_cat(thrust::make_tuple(fWeights.cbegin()),
+			detail::cbegin_call_args(fStorage) ));
+	fConstEnd = thrust::make_zip_iterator(thrust:: tuple_cat(thrust::make_tuple(fWeights.cend()),
+			detail::cend_call_args(fStorage) ) );
+
+}
+
 
 }  // namespace hydra
 

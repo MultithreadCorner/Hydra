@@ -46,7 +46,7 @@
 #include <hydra/Function.h>
 #include <hydra/detail/utility/Utility_Tuple.h>
 #include <thrust/tuple.h>
-#include <hydra/detail/Evaluate.inl>
+#include <hydra/detail/Evaluate.inc>
 #include <hydra/multivector.h>
 
 namespace hydra {
@@ -66,21 +66,7 @@ namespace hydra {
  */
 template< hydra::detail::Backend BACKEND, typename Iterator, typename Functor >
 auto eval(hydra::detail::BackendPolicy<BACKEND>const& policy, Functor const& functor, Iterator begin, Iterator end)
--> typename hydra::detail::BackendPolicy<BACKEND>::template container<typename Functor::return_type>
-{
-
-	typedef	typename hydra::detail::BackendPolicy<BACKEND>::template
-			container<typename Functor::return_type> container;
-	size_t size = thrust::distance(begin, end) ;
-	container Table( size );
-
-	//auto fBegin = thrust::make_zip_iterator(thrust::make_tuple(begin) );
-	//auto fEnd   = thrust::make_zip_iterator(thrust::make_tuple(end)   );
-
-	thrust::transform(begin, end ,  Table.begin(), functor );
-
-	return std::move(Table);
-}
+-> typename hydra::detail::BackendPolicy<BACKEND>::template container<typename Functor::return_type> ;
 
 /**
  * Evaluate a tuple of hydra functors on a range using the parallel policy
@@ -94,24 +80,8 @@ auto eval(hydra::detail::BackendPolicy<BACKEND>const& policy, Functor const& fun
 template<hydra::detail::Backend BACKEND, typename Iterator, typename ...Functors>
 auto eval(hydra::detail::BackendPolicy<BACKEND>const&  policy,thrust::tuple<Functors...> const& functors, Iterator begin, Iterator end)
 -> multivector< typename hydra::detail::BackendPolicy<BACKEND>::template
-container<thrust::tuple<typename Functors::return_type ...> >>
-{
-	typedef multivector<typename hydra::detail::BackendPolicy<BACKEND>::template container<
-			       thrust::tuple<typename Functors::return_type ...> >> container;
+container<thrust::tuple<typename Functors::return_type ...> >>;
 
-	size_t size = thrust::distance(begin, end) ;
-	container Table( size );
-
-	//auto fBegin = thrust::make_zip_iterator(thrust::make_tuple(begin) );
-	//auto fEnd   = thrust::make_zip_iterator(thrust::make_tuple(end)   );
-
-
-	thrust::transform(begin, end ,  Table.begin(),
-			detail::process< thrust::tuple<typename Functors::return_type ...>,
-			thrust::tuple<Functors...>>(functors) );
-
-	return std::move(Table);
-}
 
 /**
  * Evaluate a functor over a list of ranges
@@ -125,24 +95,7 @@ container<thrust::tuple<typename Functors::return_type ...> >>
  */
 template<hydra::detail::Backend BACKEND, typename Functor, typename Iterator, typename ...Iterators>
 auto eval(hydra::detail::BackendPolicy<BACKEND>const&  policy,Functor const& functor, Iterator begin, Iterator end, Iterators... begins)
--> typename hydra::detail::BackendPolicy<BACKEND>::template
-container<typename Functor::return_type>
-{
-	typedef typename hydra::detail::BackendPolicy<BACKEND>::template
-			container<typename Functor::return_type> container;
-
-
-	size_t size = thrust::distance(begin, end) ;
-	container Table( size );
-
-	auto fBegin = thrust::make_zip_iterator(thrust::make_tuple(begin, begins...) );
-	auto fEnd   = thrust::make_zip_iterator(thrust::make_tuple(end  , (begins+size)...) );
-
-	thrust::transform(begin, end,  Table.begin(), functor );
-
-	return std::move(Table);
-}
-
+-> typename hydra::detail::BackendPolicy<BACKEND>::template container<typename Functor::return_type>;
 
 /**
  * Evaluate a tuple of functors over a list of ranges
@@ -157,28 +110,11 @@ container<typename Functor::return_type>
 template<hydra::detail::Backend BACKEND, typename Iterator,  typename ...Iterators, typename ...Functors>
 auto eval(hydra::detail::BackendPolicy<BACKEND>const&  policy, thrust::tuple<Functors...> const& functors,
 		Iterator begin, Iterator end, Iterators... begins)
--> multivector< typename hydra::detail::BackendPolicy<BACKEND>::template
-container<thrust::tuple<typename Functors::return_type ...> >>
-{
+-> multivector< typename hydra::detail::BackendPolicy<BACKEND>::template container<thrust::tuple<typename Functors::return_type ...> >>;
 
-	typedef multivector<	typename hydra::detail::BackendPolicy<BACKEND>::template container<
-			            thrust::tuple<typename Functors::return_type ...> >> container;
-
-	size_t size = thrust::distance(begin, end) ;
-	container Table( size );
-
-	auto fBegin = thrust::make_zip_iterator(thrust::make_tuple(begin, begins...) );
-	auto fEnd   = thrust::make_zip_iterator(thrust::make_tuple(end  , (begins+size)...) );
-
-	thrust::transform(fBegin, fEnd ,  Table.begin(),
-			detail::process< thrust::tuple<typename Functors::return_type ...>,
-			thrust::tuple<Functors...>>(functors) );
-
-	return std::move(Table);
-}
 
 }/* namespace hydra */
 
-
+#include <hydra/detail/Evaluate.inl>
 
 #endif /* EVALUATE */

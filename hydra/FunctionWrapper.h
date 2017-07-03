@@ -166,7 +166,6 @@ auto wrap_lambda(L const& f,  T ...pars)
 	typedef detail::function_traits<L> traits;
 	typename traits::return_type r = typename traits::return_type();
 	typename traits::args_type t;
-	//static_assert(traits::args_type::dummy , "<<<+++++++++++++++++++");
 	std::array<Parameter, sizeof...(T)> parameters{ pars...};
 
 	return detail::wrap_lambda_helper(f, r, t, parameters);

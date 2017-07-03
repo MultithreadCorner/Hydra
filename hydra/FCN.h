@@ -58,19 +58,18 @@
 namespace hydra {
 
 /**
- * FCN base class declaration
+ * \brief FCN base class declaration
  */
 template<typename T>
 class FCN;
 
 /**
- * \class
- * FCN base class.
+ * \brief FCN base class.
  */
 template<template<typename... > class ESTIMATOR, typename PDF,
 typename PointType, typename IteratorData, typename IteratorCache>
 class FCN<ESTIMATOR<PDF, PointType, IteratorData, IteratorCache>>: public ROOT::Minuit2::FCNBase {
-public:
+
 
 	typedef ESTIMATOR<PDF, PointType, IteratorData, IteratorCache> estimator_type;
 	typedef PointType point_type;
@@ -104,6 +103,7 @@ public:
 		}
 	};
 
+public:
 
 	/**
 	 * \brief Constructor for not cached functor.

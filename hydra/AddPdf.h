@@ -54,13 +54,13 @@ namespace detail {
 
 
 template<typename PDF1, typename PDF2, typename ...PDFs>
-struct AddPdfChecker: all_true<
+class AddPdfChecker: all_true<
 detail::is_hydra_pdf<PDF1>::value,
 detail::is_hydra_pdf<PDF2>::value,
 detail::is_hydra_pdf<PDFs>::value...>{} ;
 
 template<typename PDF1, typename PDF2, typename ...PDFs>
-struct AddPdfBase: std::enable_if<AddPdfChecker<PDF1,PDF2,PDFs...>::value>{};
+class AddPdfBase: std::enable_if<AddPdfChecker<PDF1,PDF2,PDFs...>::value>{};
 
 }  // namespace detail
 
@@ -77,12 +77,13 @@ struct AddPdfBase: std::enable_if<AddPdfChecker<PDF1,PDF2,PDFs...>::value>{};
  * The coefficient of the last term is calculated as \f$ c_N=1 -\sum_i^{(N-1)} c_i \f$.
  */
 template<typename PDF1, typename PDF2, typename ...PDFs>
-struct AddPdf: detail::AddPdfBase<PDF1,PDF2,PDFs...>
+class AddPdf: detail::AddPdfBase<PDF1,PDF2,PDFs...>
 {
-	//tag
-	typedef void hydra_sum_pdf_tag; //!< tag
 
-	//this typedef is actually a check. If the AddPdf is not built with
+
+public:
+
+//this typedef is actually a check. If the AddPdf is not built with
 	//hydra::pdf, AddPdfBase::type will not be defined and compilation
 	//will fail
 	typedef typename detail::AddPdfBase<PDF1,PDF2,PDFs...>::type base_type; //!< base class type
@@ -95,7 +96,14 @@ struct AddPdf: detail::AddPdfBase<PDF1,PDF2,PDFs...>
 			typename  PDF2::functor_type,
 			typename  PDFs::functor_type...> functors_tuple_type;//!< type of the tuple of pdf::functors
 
+
+
+
+
 	typedef detail::AddPdfFunctor< PDF1, PDF2, PDFs...> functor_type;
+
+	//tag
+	typedef void hydra_sum_pdf_tag; //!< tag
 
 	/**
 	 * \brief Ctor for used to build AddPdf usable in extended likelihood fits.
@@ -164,7 +172,7 @@ struct AddPdf: detail::AddPdfBase<PDF1,PDF2,PDFs...>
 	}
 
 	/**
-	 * \brief copy ctor.
+	 * \brief Copy constructor.
 	 */
 	AddPdf(AddPdf<PDF1, PDF2, PDFs...> const& other ):
 	fPDFs(other.GetPdFs() ),
@@ -178,8 +186,11 @@ struct AddPdf: detail::AddPdfBase<PDF1,PDF2,PDFs...>
 			}
 	}
 
+
 	/**
-	 *  \brief assignment operator.
+	 * \brief Assignment operator.
+	 * @param other
+	 * @return
 	 */
 	AddPdf<PDF1, PDF2, PDFs...>&
 	operator=( AddPdf<PDF1, PDF2, PDFs...> const& other )
@@ -196,11 +207,12 @@ struct AddPdf: detail::AddPdfBase<PDF1,PDF2,PDFs...>
 	}
 
 
-/**
- * \brief Set the coefficients and parameters of all pdfs.
- * This method sets the values of all coefficients and parameters of pdfs stored in the AddPdf object.
- * User should ensure this method is called before the object evaluation.
- */
+	/**
+	 * \brief Set the coefficients and parameters of all pdfs.
+	 * This method sets the values of all coefficients and parameters of pdfs stored in the AddPdf object.
+	 * User should ensure this method is called before the object evaluation.
+	 * @param parameters std::vector<double> containing the list of parameters passed by ROOT::Minuit2.
+	 */
 	inline	void SetParameters(const std::vector<double>& parameters){
 
 		for(size_t i=0; i< npdfs-(fFractioned); i++)
@@ -226,7 +238,7 @@ struct AddPdf: detail::AddPdfBase<PDF1,PDF2,PDFs...>
 	}
 
 	/**
-	 * \brief print all registered parameters
+	 * \brief Print all registered parameters, including its value, range, name etc.
 	 */
 	inline	void PrintRegisteredParameters()
 	{
@@ -246,6 +258,14 @@ struct AddPdf: detail::AddPdfBase<PDF1,PDF2,PDFs...>
 		return;
 	}
 
+
+	/**
+	 * \brief Add pointers to the functor's parameters to a external list, that will be used later to
+	 * build the hydra::UserParameters instance that will be passed to ROOT::Minuit2.
+	 *
+	 * @param user_parameters external std::vector<hydra::Parameter*> object holding the list of pointers
+	 * to functor parameters.
+	 */
 	inline	void AddUserParameters(std::vector<hydra::Parameter*>& user_parameters )
 	{
 		if(!fFractioned){

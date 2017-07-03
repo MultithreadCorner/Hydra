@@ -28,7 +28,6 @@
 
 /**
  * \file
- * \ingroup numerical_integration
  */
 
 #ifndef VEGASSTATE_H_
@@ -57,9 +56,24 @@ enum {
 	BINS_MAX = 50
 };
 
+/**
+ * \ingroup numerical_integration
+ * \brief Class to hold resources and state of hydra::Vegas integration
+ * algorithm.
+ * \tparam N number of parameters.
+ * \tparam BACKEND can be hydra::omp::sys , hydra::cuda::sys , hydra::tbb::sys , hydra::cpp::sys ,hydra::host::sys and hydra::device::sys.
+ */
 template<size_t N , typename  BACKEND>
 class VegasState ;
 
+/**
+ * \ingroup numerical_integration
+ * \brief Class to hold resources and state of hydra::Vegas integration
+ * algorithm.
+ * \tparam N number of parameters.
+ * \tparam hydra::detail::BackendPolicy<BACKEND> can be hydra::omp::sys ,
+ *  hydra::cuda::sys , hydra::tbb::sys , hydra::cpp::sys ,hydra::host::sys and hydra::device::sys.
+ */
 template<size_t N , hydra::detail::Backend BACKEND>
 class VegasState<N, hydra::detail::BackendPolicy<BACKEND>>
 {
@@ -75,17 +89,35 @@ class VegasState<N, hydra::detail::BackendPolicy<BACKEND>>
 public:
 
 
+	VegasState() = delete;
 
+	/**
+	 * @brief Constructor
+	 * @param xlower std::array<GReal_t,N> with the lower limits of the integration region.
+	 * @param xupper with the upper limits of the integration region.
+	 */
 	VegasState(std::array<GReal_t,N> const& xlower,
 			std::array<GReal_t,N> const& xupper);
 
+	/**
+	 * @brief Copy constructor for a state in the same backend.
+	 * @param state
+	 */
 	VegasState(const VegasState<N,hydra::detail::BackendPolicy<BACKEND>> &state);
 
+	/**
+	 * @brief Copy constructor for a state in a different backend.
+	 * @param state
+	 * @tparam BACKEND2 different backend.
+	 */
 	template<hydra::detail::Backend BACKEND2>
 	VegasState(const VegasState<N,hydra::detail::BackendPolicy<BACKEND2>> &state);
 
-
+    /**
+     * @brief  Clear results of previously stored iterations.
+     */
 	void ClearStoredIterations();
+
 
 	inline GReal_t GetAlpha() const { return fAlpha; }
 

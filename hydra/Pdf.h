@@ -59,9 +59,10 @@ namespace hydra
 namespace detail {
 
 template< typename FUNCTOR, typename INTEGRATOR>
-struct PdfBase: std::enable_if< detail::is_hydra_functor<FUNCTOR>::value &&
-detail::is_hydra_integrator<INTEGRATOR>::value>{
-
+class PdfBase: std::enable_if< detail::is_hydra_functor<FUNCTOR>::value &&
+detail::is_hydra_integrator<INTEGRATOR>::value>
+{
+public:
 	typedef FUNCTOR functor_type;
 
 };
@@ -72,26 +73,32 @@ detail::is_hydra_integrator<INTEGRATOR>::value>{
 
 /**
  * \brief Class describing probability density functions.
- * In Hydra, a PDF has 3 componontes
+ * A hydra::Pdf has two components:
  *
- *  1. not normalized functor, describing the shape
- *  2. integration algorithm, normalizes the functor
- *  3. volume of integration
+ *  1. non-normalized functor, describing the shape.
+ *  2. integration algorithm or functor for analytical integration, which normalizes the functor.
  */
-
 template<typename FUNCTOR, typename INTEGRATOR>
-struct Pdf:detail::PdfBase<FUNCTOR, INTEGRATOR>
+class Pdf:detail::PdfBase<FUNCTOR, INTEGRATOR>
 {
-	//tag
-	typedef void hydra_pdf_tag;
 
-	//this typedef is actually a check. If the Pdf is not built with
+
+public:
+//this typedef is actually a check. If the Pdf is not built with
 	//hydra::functor, PdfBase::type will not be defined and compilation
 	//will fail
 	typedef typename detail::PdfBase<FUNCTOR, INTEGRATOR>::type base_type;
 
+	//tag
+	typedef void hydra_pdf_tag;
 
 
+	/**
+	 * \brief hydra::Pdf constructor.
+	 * @param functor describing the shape.
+	 * @param integrator functor for calculate analytical integrals or hydra
+	 * algorithm for numerical integration.
+	 */
 	Pdf(FUNCTOR const& functor,  INTEGRATOR const& integrator):
 	fIntegrator(integrator),
 	fFunctor(functor),
@@ -109,6 +116,10 @@ struct Pdf:detail::PdfBase<FUNCTOR, INTEGRATOR>
 	}
 
 
+	/**
+	 * \brief Copy constructor.
+	 * @param other
+	 */
 	Pdf(Pdf<FUNCTOR,INTEGRATOR> const& other):
 		fIntegrator(other.GetIntegrator()),
 		fFunctor(other.GetFunctor()),
@@ -129,6 +140,11 @@ struct Pdf:detail::PdfBase<FUNCTOR, INTEGRATOR>
 
 	~Pdf(){};
 
+	/**
+	 *\brief Assignment operator.
+	 * @param other
+	 * @return a hydra::Pdf equal to other.
+	 */
 	inline Pdf<FUNCTOR,INTEGRATOR>&
 	operator=(Pdf<FUNCTOR, INTEGRATOR> const & other )
 	{
@@ -153,12 +169,21 @@ struct Pdf:detail::PdfBase<FUNCTOR, INTEGRATOR>
 	}
 
 
+	/**
+	 * \brief Add pointers to the functor's parameters to a external list, that will be used later to
+	 * build the hydra::UserParameters instance that will be passed to ROOT::Minuit2.
+	 * @param user_parameters external std::vector<hydra::Parameter*> object holding the list of pointers
+	 * to functor parameters.
+	 */
 	inline	void AddUserParameters(std::vector<hydra::Parameter*>& user_parameters )
-		{
+	{
 		fFunctor.AddUserParameters(user_parameters );
-		}
+	}
 
 
+	/**
+	 * \brief Print all registered parameters, including its value, range, name etc.
+	 */
 	inline	void PrintRegisteredParameters()
 	{
 		HYDRA_CALLER ;
@@ -168,6 +193,10 @@ struct Pdf:detail::PdfBase<FUNCTOR, INTEGRATOR>
 		HYDRA_MSG << HYDRA_ENDL;
 	}
 
+	/**
+	 * \brief Set the parameters of the functor to the value informed by ROOT::Minuit2.
+	 * @param parameters std::vector<double> containing the list of parameters passed by ROOT::Minuit2.
+	 */
 	inline	void SetParameters(const std::vector<double>& parameters){
 
 		fFunctor.SetParameters(parameters);
@@ -206,31 +235,59 @@ struct Pdf:detail::PdfBase<FUNCTOR, INTEGRATOR>
 	}
 
 
+	/**
+	 * \brief Get a reference to the integrator (functor or algorithm).
+	 * @return INTEGRATOR& .
+	 */
 	inline	INTEGRATOR& GetIntegrator() {
 		return fIntegrator;
 	}
 
+	/**
+	 * \brief Get a constant reference to the integrator (functor or algorithm).
+	 * @return const INTEGRATOR& .
+	 */
 	inline  const 	INTEGRATOR& GetIntegrator() const {
 		return fIntegrator;
 	}
 
+	/**
+	 * \brief Get a constant reference to the functor describing the shape.
+	 * @return const FUNCTOR& .
+	 */
 	inline	const FUNCTOR& GetFunctor() const {
 		return fFunctor;
 	}
 
+	/**
+	 * \brief Get a reference to the functor describing the shape.
+	 * @return FUNCTOR& .
+	 */
 	inline	FUNCTOR& GetFunctor() {
 			return fFunctor;
 		}
 
 
+	/**
+	 * \brief Get norm of the hydra::Pdf.
+	 * @return the normalization factor.
+	 */
 	inline GReal_t GetNorm() const {
 		return fNorm;
 	}
 
+	/**
+	 *  \brief Get the error on the norm of the hydra::Pdf.
+	 * @return Error the normalization factor.
+	 */
 	inline GReal_t GetNormError() const {
 			return fNormError;
 	}
 
+	/**
+	 * \brief Normalize PDF.
+	 *
+	 */
 	inline	void Normalize( )
 	{
 		std::tie(fNorm, fNormError )  =  fIntegrator(fFunctor) ;
@@ -239,31 +296,47 @@ struct Pdf:detail::PdfBase<FUNCTOR, INTEGRATOR>
 
 
 
+	/**
+	 * \brief Get cache table of normalization factors.
+	 * @return std::unordered_map<size_t,std::pair<GReal_t,GReal_t> > instance with the cache table.
+	 */
 	std::unordered_map<size_t,std::pair<GReal_t,GReal_t> >& GetNormCache() const
 	{
 		return fNormCache;
 	}
 
+	/**
+	 * \brief Evaluate the PDF on the tuple of arguments T1.
+	 * @param t Tuple of arguments.
+	 * @return
+	 */
  	template<typename T1>
-  	inline  	GReal_t operator()(T1&& t )
+  	inline  GReal_t operator()(T1&& t )
   	{
   		return fFunctor(t);
 
   	}
 
+ 	/**
+ 	 * \brief Evaluate the PDF on the tuple T1 using the cache table T2.
+ 	 * @param t Tuple of arguments.
+ 	 * @param cache table of pre-calculated values.
+ 	 * @return
+ 	 */
   	template<typename T1, typename T2>
-  	inline  	GReal_t operator()( T1&& t, T2&& cache)
+  	inline  GReal_t operator()( T1&& t, T2&& cache)
   	{
 
   		return fFunctor(t, cache);
   	}
 
-  	template<typename T>
-   inline  GReal_t operator()( T* x, T* p)
-  	  	{
 
-  	  		return fFunctor(x,p);
-  	  	}
+   template<typename T>
+   inline  GReal_t operator()( T* x, T* p=0)
+  	{
+
+  	  		return fFunctor(x);
+  	}
 
 
 private:
@@ -277,10 +350,17 @@ private:
 
 };
 
-//get pdf from functor expression
 
+/**
+ * \brief Build a hydra::Pdf given a shape described by a functor and a integrator
+ *  (algorithm or functor).
+ * @param functor shape.
+ * @param integrator algorithm or functor.
+ * @return a hydra::Pdf instance.
+ */
 template<typename FUNCTOR, typename INTEGRATOR>
-Pdf<FUNCTOR, INTEGRATOR> make_pdf( FUNCTOR const& functor,  INTEGRATOR integrator){
+Pdf<FUNCTOR, INTEGRATOR> make_pdf( FUNCTOR const& functor,  INTEGRATOR integrator)
+{
 
 	return Pdf<FUNCTOR, INTEGRATOR>(functor, integrator);
 }

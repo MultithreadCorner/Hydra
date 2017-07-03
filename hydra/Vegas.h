@@ -49,11 +49,22 @@ namespace hydra {
 template<size_t N, typename  BACKEND,  typename GRND=thrust::random::default_random_engine >
 class Vegas ;
 
+/**
+ * @brief Class to perform numerical integration using Vegas algorithm.
+ *
+ *  The VEGAS algorithm of Lepage is based on importance sampling.
+ *  It samples points from the probability distribution described by the
+ *  function |f|, so that the points are concentrated in the regions that
+ *  make the largest contribution to the integral.
+ *
+ *  *Find a more complete documentation* [here](https://www.gnu.org/software/gsl/doc/html/montecarlo.html#vegas) .
+ *
+ */
 template<size_t N,  hydra::detail::Backend  BACKEND,  typename GRND>
 class Vegas<N, hydra::detail::BackendPolicy<BACKEND>, GRND >
 : public Integrator<Vegas<N,hydra::detail::BackendPolicy<BACKEND>,GRND>>
 {
-
+	typedef hydra::detail::BackendPolicy<BACKEND> system_t;
 	typedef typename system_t::template container<GReal_t>  rvector_backend;
 	typedef typename system_t::template container<GUInt_t>  uvector_backend;
 
@@ -63,9 +74,11 @@ class Vegas<N, hydra::detail::BackendPolicy<BACKEND>, GRND >
 
 public:
 
-	//tag
-	typedef void hydra_integrator_tag;
 
+	/**
+	 * @brief Hydra integrator tag
+	 */
+	typedef void hydra_integrator_tag;
 
 	Vegas()=delete;
 
