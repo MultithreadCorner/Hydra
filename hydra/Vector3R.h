@@ -28,11 +28,6 @@
  *      Author: Antonio Augusto Alves Junior
  */
 
-/**
- * \file
- * \ingroup phsp
- */
-
 #ifndef _VECTOR3R_H_
 #define _VECTOR3R_H_
 
@@ -48,7 +43,12 @@ using std::ostream;
 
 namespace hydra {
 
-
+/**
+ * @ingroup phsp
+ * @brief This class represents three-dimensional Euclidian vectors and implements common operation performed on it.
+ * This class is inspired on the corresponding EvtGen classes.
+ *
+ */
 class Vector3R
 {
 

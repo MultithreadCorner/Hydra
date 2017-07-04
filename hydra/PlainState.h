@@ -26,11 +26,6 @@
  *      Author: Antonio Augusto Alves Junior
  */
 
-/**
- * \file
- * \ingroup numerical_integration
- */
-
 
 #ifndef PLAINSTATE_H_
 #define PLAINSTATE_H_
@@ -43,7 +38,10 @@
 
 namespace hydra {
 
-
+/**
+ * @ingroup numerical_integration
+ * @brief Simple structure to hold the results of the Plain MC numerical integration.
+ */
 struct PlainState
 {
 
