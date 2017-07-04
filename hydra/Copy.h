@@ -26,10 +26,6 @@
  *      Author: Antonio Augusto Alves Junior
  */
 
-/**
- * \file
- * \ingroup generic
- */
 
 #ifndef COPY_H_
 #define COPY_H_
@@ -60,6 +56,7 @@ struct copy_type{
 }  // namespace detail
 
 /**
+ * @ingroup generic
  * Generic copy between backends, abstracting away details of the copied container.
  *
  * @param policy: corresponding to the destination back-end.
@@ -80,6 +77,7 @@ typename detail::copy_type<CONTAINER, T, BACKEND>::type
 }
 
 /**
+ * @ingroup generic
  * Generic copy between backends, abstracting away details of the copied container.
  *
  * @param policy: corresponding to the destination back-end.

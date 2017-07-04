@@ -26,9 +26,6 @@
  *      Author: Antonio Augusto Alves Junior
  */
 
-/**
- * \file
- */
 
 #ifndef GAUSSKRONRODADAPTIVEQUADRATURE_H_
 #define GAUSSKRONRODADAPTIVEQUADRATURE_H_

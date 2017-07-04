@@ -57,14 +57,12 @@
 
 namespace hydra {
 
-/**
- * \brief FCN base class declaration
- */
 template<typename T>
 class FCN;
 
 /**
- * \brief FCN base class.
+ * @ingroup fit
+ * @brief FCN base class.
  */
 template<template<typename... > class ESTIMATOR, typename PDF,
 typename PointType, typename IteratorData, typename IteratorCache>
@@ -106,7 +104,7 @@ class FCN<ESTIMATOR<PDF, PointType, IteratorData, IteratorCache>>: public ROOT::
 public:
 
 	/**
-	 * \brief Constructor for not cached functor.
+	 * @brief Constructor for not cached functor.
 	 *
 	 * @param functor : PDF being optimized
 	 * @param begin : iterator to begin of the data range
@@ -136,7 +134,7 @@ public:
 }
 
 	/**
-	 * \brief Constructor for cached functor.
+	 * @brief Constructor for cached functor.
 	 *
 	 * @param functor : PDF being optimized
 	 * @param begin : iterator to begin of the data range
@@ -167,7 +165,7 @@ public:
 	}
 
 	/**
-	 * \brief Copy constructor.
+	 * @brief Copy constructor.
 	 *
 	 * @param other
 	 */
@@ -188,7 +186,7 @@ public:
 	{}
 
 	/**
-	 * \brief Assignment operator
+	 * @brief Assignment operator
 	 *
 	 * @param other
 	 * @return
@@ -216,7 +214,7 @@ public:
 
 
 	/**
-	 * \brief Up function from Minuit2
+	 * @brief Up function from Minuit2
 	 *
 	 * @return
 	 */
@@ -226,7 +224,7 @@ public:
 
 
 	/**
-	 * \brief Function call operator
+	 * @brief Function call operator
 	 *
 	 * @param parameters passed by Minuit
 	 * @return
@@ -244,7 +242,7 @@ public:
 	}
 
 	/**
-	 * \brief Get user's parameters to be passed to Minuit
+	 * @brief Get user's parameters to be passed to Minuit
 	 *
 	 * @return
 	 */
@@ -255,7 +253,7 @@ public:
 	}
 
 	/**
-	 * \brief Get user's parameters to be passed to Minuit
+	 * @brief Get user's parameters to be passed to Minuit
 	 *
 	 * @return
 	 */

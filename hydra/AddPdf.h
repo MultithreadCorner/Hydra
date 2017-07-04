@@ -26,12 +26,6 @@
  *      Author: Antonio Augusto Alves Junior
  */
 
-
-/**
- * \file
- * \ingroup fit
- */
-
 #ifndef ADDPDF_H_
 #define ADDPDF_H_
 
@@ -66,8 +60,9 @@ class AddPdfBase: std::enable_if<AddPdfChecker<PDF1,PDF2,PDFs...>::value>{};
 
 
 /**
- * \class
- * \brief Build a pdf adding other pdfs.
+ * @class
+ * @ingroup fit
+ * @brief Build a pdf adding other pdfs.
  *
  * Given N unnormalized pdfs \f$F_i\f$ , this class define a object representing the sum
  * \f[ F_t = \sum_i^N c_i \times F_i \f]

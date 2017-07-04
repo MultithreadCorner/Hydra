@@ -26,11 +26,6 @@
  *      Author: Antonio Augusto Alves Junior
  */
 
-/**
- * \file
- * \ingroup phsp
- */
-
 
 #ifndef _EVENTS_H_
 #define _EVENTS_H_
@@ -39,7 +34,6 @@
 #include <vector>
 #include <string>
 #include <map>
-//#include <omp.h>
 #include <iostream>
 #include <ostream>
 #include <algorithm>
@@ -62,16 +56,19 @@
 
 namespace hydra {
 
-
-/*! \struct Events
- * Events is a container struct to hold all the information corresponding the generated events.
- * Mother four-vectors are not stored.
- */
 template<size_t N, typename BACKEND>
-struct Events;
+class Events;
 
+/**
+ * @ingroup phsp
+ * @brief Events is a container struct to hold all the information corresponding the generated events.
+ * Mother's four-vectors are not stored.
+ * @tparam N number of particles in the final state.
+ * @tparam BACKEND memory space(backend) to store the events.
+ */
 template<size_t N, hydra::detail::Backend BACKEND>
-struct Events<N, hydra::detail::BackendPolicy<BACKEND> > {
+class Events<N, hydra::detail::BackendPolicy<BACKEND> > {
+
 
 	typedef hydra::detail::BackendPolicy<BACKEND> system_t;
 
@@ -97,41 +94,42 @@ struct Events<N, hydra::detail::BackendPolicy<BACKEND> > {
 
 	constexpr static size_t particles = N ;
 
+public:
     /**
-     * Default constructor.
+     * @brief Default constructor.
      */
 	Events():
 		fNEvents(0),
 		fMaxWeight(0){}
 
 	/**
-	 * \brief Constructor with n elements.
+	 * @brief Constructor with n elements.
 	 * @param size_t nevents
 	 */
 	Events(size_t nevents);
 
 	/**
-	 * \brief Cross-backend copy constructor.
+	 * @brief Cross-backend copy constructor.
 	 * @param Events<N,BACKEND2> const& other
 	 */
 	template<hydra::detail::Backend BACKEND2>
 	Events(Events<N,hydra::detail::BackendPolicy<BACKEND2>> const& other);
 
 	/**
-	 * \brief Copy constructor.
+	 * @brief Copy constructor.
 	 * @param Events<N,BACKEND> const& other
 	 */
 	Events(Events<N,hydra::detail::BackendPolicy<BACKEND>> const& other);
 
 	/**
-	 * \brief Move constructor.
+	 * @brief Move constructor.
 	 * Move the resources from other to *this and set other=default.
 	 * @param Events<N,BACKEND> && other
 	 */
 	Events(Events<N, hydra::detail::BackendPolicy<BACKEND>> && other);
 
 	/**
-	 * \brief Assignment operator
+	 * @brief Assignment operator
 	 * Assignment operator.
 	 * @param Events<N,BACKEND> other
 	 * @return Events<N,BACKEND>
@@ -140,7 +138,7 @@ struct Events<N, hydra::detail::BackendPolicy<BACKEND> > {
 	operator=(Events<N,hydra::detail::BackendPolicy<BACKEND>> const& other);
 
 	/**
-	 * \brief Generic assignment operator
+	 * @brief Generic assignment operator
 	 * Cross-backend assignment operator.
 	 * @param Events<N,BACKEND2>const& other
 	 * @return
@@ -150,7 +148,7 @@ struct Events<N, hydra::detail::BackendPolicy<BACKEND> > {
 	operator=(Events<N,hydra::detail::BackendPolicy<BACKEND2>> const& other);
 
 	/**
-	 * \brief Move assignment operator
+	 * @brief Move assignment operator
 	 * Move the resources from other to *this and set other=default.
 	 * @param Events<N,BACKEND2>&& other
 	 * @return
@@ -162,7 +160,7 @@ struct Events<N, hydra::detail::BackendPolicy<BACKEND> > {
 	~Events(){};
 
 	/**
-	 * \brief Get maximum weight in the container.
+	 * @brief Get maximum weight in the container.
 	 * Get maximum weight in the container.
 	 * @return fMaxWeight
 	 */
@@ -171,7 +169,7 @@ struct Events<N, hydra::detail::BackendPolicy<BACKEND> > {
 	}
 
 	/**
-	 * \brief Get number of events in the container.
+	 * @brief Get number of events in the container.
 	 *
 	 * @return size of the container.
 	 */
@@ -180,7 +178,7 @@ struct Events<N, hydra::detail::BackendPolicy<BACKEND> > {
 	}
 
     /**
-     * \brief Get flags begin
+     * @brief Get flags begin
      * Get begin iterator to accepted-rejected flags.
      * @return
      */
@@ -189,7 +187,7 @@ struct Events<N, hydra::detail::BackendPolicy<BACKEND> > {
 	}
 
 	/**
-	 * \brief Get flags end
+	 * @brief Get flags end
 	 * @return
 	 */
 	vector_bool_const_iterator FlagsEnd() const{

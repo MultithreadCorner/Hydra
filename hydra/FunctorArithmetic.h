@@ -28,8 +28,10 @@
 
 
 /**
- * \file
- * \ingroup functor
+ * @file
+ * @ingroup functor
+ * @brief This file should be included in order to enable functor aritmethic in hydra.
+ *
  */
 
 

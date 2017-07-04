@@ -28,13 +28,11 @@
  *      Author: Antonio Augusto Alves Junior
  */
 
-/**
- * \file
- * \ingroup generic
- */
 
-/*! \file Containers.h
- *
+
+/**
+ * @file
+ * @ingroup generic
  *  Typedefs for useful container classes used in MCBooster.
  *  Containers defined here should be used in users application also.
  */

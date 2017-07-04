@@ -26,10 +26,6 @@
  *      Author: Antonio Augusto Alves Junior
  */
 
-/**
- * \file
- * \ingroup generic
- */
 
 #ifndef EVALUATE_H_
 #define EVALUATE_H_
@@ -56,6 +52,7 @@ namespace hydra {
 //--------------------------------------
 
 /**
+ * @ingroup generic
  * Evaluate a hydra functor on a range using the parallel policy
  *
  * @param policy : parallel policy
@@ -69,6 +66,7 @@ auto eval(hydra::detail::BackendPolicy<BACKEND>const& policy, Functor const& fun
 -> typename hydra::detail::BackendPolicy<BACKEND>::template container<typename Functor::return_type> ;
 
 /**
+ * @ingroup generic
  * Evaluate a tuple of hydra functors on a range using the parallel policy
  *
  * @param policy : parallel policy
@@ -84,6 +82,7 @@ container<thrust::tuple<typename Functors::return_type ...> >>;
 
 
 /**
+ * @ingroup generic
  * Evaluate a functor over a list of ranges
  *
  * @param policy : parallel policy
@@ -98,6 +97,7 @@ auto eval(hydra::detail::BackendPolicy<BACKEND>const&  policy,Functor const& fun
 -> typename hydra::detail::BackendPolicy<BACKEND>::template container<typename Functor::return_type>;
 
 /**
+ * @ingroup generic
  * Evaluate a tuple of functors over a list of ranges
  *
  * @param policy : parallel policy

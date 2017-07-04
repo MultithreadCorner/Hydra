@@ -33,7 +33,9 @@
 #include <thrust/iterator/detail/tuple_of_iterator_references.h>
 namespace hydra {
 
-
+/**
+ * @ingroup generic
+ */
 #define _DeclareStorable(class_name, args...) \
 public: \
 typedef decltype( thrust::make_tuple(args)) args_type; \

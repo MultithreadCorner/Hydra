@@ -58,10 +58,12 @@ namespace hydra
 {
 
 /**
- * \class
- * Base class for all functors in hydra
+ * @ingroup functor
+ * @brief Base class for all functors in hydra.
+ * @tparam Functor is "bare" c++ functor implementing the template<typename T> Evaluate(T x) method.
+ * @tparam ReturnType type returned by the functor' operator(). Same type returned by the "bare" c++ functor Evaluate() method.
+ * @tparam NPARAM number of parameters of the functor.
  */
-
 template<typename Functor, typename ReturnType, size_t NPARAM>
 struct BaseFunctor
 {
@@ -88,8 +90,8 @@ struct BaseFunctor
 
 
     /**
-     * Constructor taking a list of parameters
-     * @param init_parameters
+     * @brief Constructor taking a list of parameters
+     * @param init_parameters std::initializer_list<Parameter> with the parameters of the functor.
      */
 	BaseFunctor(std::initializer_list<Parameter> init_parameters):
 	fCacheIndex(-1),
@@ -106,8 +108,8 @@ struct BaseFunctor
 	}
 
 	/**
-	 * Constructor taking std::array of parameters
-	 * @param init_parameters
+	 * @brief Constructor taking std::array of parameters
+	 * @param init_parameters std::array<Parameter,NPARAM> with the parameters of the functor.
 	 */
 	BaseFunctor(std::array<Parameter,NPARAM> const& init_parameters):
 		fCacheIndex(-1),
@@ -125,7 +127,7 @@ struct BaseFunctor
 
 
 	/**
-	 * Copy constructor
+	 * @brief Copy constructor
 	 */
 	__host__ __device__
 	BaseFunctor(BaseFunctor<Functor,ReturnType, NPARAM> const& other):
@@ -144,7 +146,7 @@ struct BaseFunctor
 	}
 
 	/**
-	 * Assignment operator
+	 * @brief Assignment operator
 	 */
 	__host__ __device__ inline
 	BaseFunctor<Functor,ReturnType, NPARAM>&
@@ -188,7 +190,7 @@ struct BaseFunctor
 
 
 	/**
-	 * \brief Print registered parameters.
+	 * @brief Print registered parameters.
 	 */
 	void PrintRegisteredParameters()
 	{
@@ -210,7 +212,7 @@ struct BaseFunctor
 
 
 	/**
-	 * Set parameters
+	 * @brief Set parameters
 	 * @param parameters
 	 */
 	__host__ inline
