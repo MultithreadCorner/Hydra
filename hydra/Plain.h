@@ -41,6 +41,7 @@
 #include <hydra/PlainState.h>
 #include <hydra/detail/functors/ProcessCallsPlain.h>
 #include <utility>
+#include <vector>
 
 namespace hydra {
 
@@ -79,6 +80,12 @@ public:
 
 	Plain()=delete;
 
+	/**
+	 * @brief Constructor for  Plain MC numerical integration algorithm.
+	 * @param LowLim  is std::array<GReal_t,N> with the lower limits of the integration region.
+	 * @param UpLim std::array<GReal_t,N>  with the upper limits of the integration region.
+	 * @param calls Number of calls.
+	 */
 	Plain( std::array<GReal_t,N> const& LowLim,
 		   std::array<GReal_t,N> const& UpLim, size_t calls):
 				fNCalls(calls),
@@ -98,28 +105,54 @@ public:
 
 	}
 
+	/**
+	 * @brief This method performs the actual integration.
+	 * @param fFunctor functor (integrand).
+	 * @return std::pair<GReal_t, GReal_t> with the integration result and error.
+	 */
 	template<typename FUNCTOR>
 	std::pair<GReal_t, GReal_t>  Integrate(FUNCTOR const& fFunctor );
 
+	/**
+	 * @brief Get the absolute error of integration.
+	 * @return error of integration.
+	 */
 	GReal_t GetSigma() const {
 			return fAbsError;
 		}
 
+	/**
+	 * @brief Get the absolute error of integration.
+	 * @return error of integration.
+	 */
 	GReal_t GetAbsError() const {
 		return fAbsError;
 	}
 
+	/**
+	 * Set the absolute error of integration.
+	 * @param absError error of integration.
+	 */
 	void SetAbsError(GReal_t absError) {
 		fAbsError = absError;
 	}
 
+	/**
+	 * @brief Get a vector with the width of the integration region in each direction.
+	 * @return thrust::[backend]::vector<double>.
+	 */
 	const vector_t& GetDeltaX() const {
 		return fDeltaX;
 	}
 
-	void SetDeltaX(const mc_device_vector<GReal_t>& deltaX) {
+	/**
+	 * @brief Set a vector with the width of the integration region in each direction.
+	 * @param deltaX
+	 */
+	void SetDeltaX(const std::vector<GReal_t>& deltaX) {
 		fDeltaX = deltaX;
 	}
+
 
 	size_t GetNCalls() const {
 		return fNCalls;
@@ -150,7 +183,7 @@ public:
 		return fXLow;
 	}
 
-	void SetXLow(const mc_device_vector<GReal_t>& xLow) {
+	void SetXLow(const std::vector<GReal_t>&  xLow) {
 		fXLow = xLow;
 	}
 

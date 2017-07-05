@@ -39,40 +39,46 @@ namespace hydra {
 template<typename T>
 class multivector;
 
+/**
+ * @brief This class implements storage for an array of tuples using a SOA memory layout.
+ * This container mimics the interface of std::vector.
+ * @tparam Vector underlying model/layout for contiguous memory storage.
+ * @tparam  Allocator memory allocator for contiguous memory storage.
+ */
 template< template<typename...> class Vector, template<typename...> class Allocator,  typename ...T>
 class multivector<Vector<thrust::tuple<T...>, Allocator<thrust::tuple<T...>>>> : public multivector_base<Vector, Allocator, T...>
 {
 public:
 	/**
-	 * default constructor
+	 * @brief default constructor
 	 */
 	explicit  multivector():
 			multivector_base<Vector, Allocator, T...>()
 	{ }
 
 	/**
-	 * constructor size_t n
+	 * @brief constructor size_t n
 	 */
 	explicit multivector(size_t n):
 			multivector_base<Vector, Allocator, T...>( n)
 	{}
 
 	/**
-	 * constructor size_t n, ...values
+	 * @brief constructor size_t n, ...values
 	 */
 	explicit multivector(size_t n, T... value):
 			multivector_base<Vector, Allocator, T...>(n, value...)
 	{}
 
 	/**
-	 * constructor size_t n, ...values
+	 * @brief constructor size_t n, ...values
 	 */
 	explicit multivector(size_t n, typename multivector_base<Vector, Allocator, T...>::value_tuple_type  value):
 		multivector_base<Vector, Allocator, T...>(n, value)
 	{}
 
 	/**
-	 * copy constructor
+	 * @brief copy constructor
 	 */
 	template< template<typename...> class Vector2,
 	template<typename...> class Allocator2>
@@ -86,7 +92,7 @@ public:
 
 
 	/**
-	 * move constructor
+	 * @brief move constructor
 	 */
 	multivector( multivector<Vector<thrust::tuple<T...>,
 			Allocator<thrust::tuple<T...>>>> &&  other):
@@ -95,7 +101,7 @@ public:
 
 
 	/**
-	 * assignment operator=
+	 * @brief assignment operator=
 	 */
 	template< template<typename...> class Vector2,
 	template<typename...> class Allocator2>
