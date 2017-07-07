@@ -49,7 +49,12 @@ using std::ostream;
 
 namespace hydra {
 
-
+/**
+ * @ingroup phsp
+ * @brief This class represents four-dimensional relativistic vectors and implements common operation performed on it.
+ * This class is inspired on the corresponding EvtGen classes.
+ *
+ */
 class Vector4R
 {
 

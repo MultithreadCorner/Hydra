@@ -26,10 +26,6 @@
  *      Author: Antonio Augusto Alves Junior
  */
 
-/**
- * \file
- * \ingroup numerical_integration
- */
 
 #ifndef GENZMALIKRULE_H_
 #define GENZMALIKRULE_H_

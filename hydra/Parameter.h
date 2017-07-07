@@ -26,15 +26,6 @@
  *      Author: Antonio Augusto Alves Junior
  */
 
-/**
- * \file
- * \ingroup fit
- */
-
-/**
- * \file
- * \ingroup generic
- */
 
 #ifndef PARAMETER_H_
 #define PARAMETER_H_
@@ -48,8 +39,32 @@
 
 namespace hydra {
 
+/**
+ *  @ingroup fit, generic
+ *  @brief This class represents named parameters that hold information of value, error, limits and implements the interface with ROOT::Minuit2.
+ *
+ *  hydra::Parameter instances are constructible, assignable and copiable in all backends, and because that the storage to hold the name
+ *  needs be managed by the user (ex. no std::string support in CUDA).
+ *  hydra::Parameter overloads the GReal_t operator()() and the arithmetic operators.
+ *  hydra::Parameter instances can be constructed using named parameter semantic or parameter list semantic:
+ @code{cpp}
+    //using named parameter idiom
+	Parameter  mean   = Parameter::Create()
+								 .Name(name)
+								 .Value(3.0)
+								 .Error(0.000)
+								 .Limits(1.0, 4.0)
+								 ;
 
+	//using unnamed parameter idiom
+	Parameter  mean(name, 3.0, 0.000, 1.0, 4.0);
+
+ @endcode
+ *
+ *
+ */
 struct Parameter{
+
 
 	__host__ __device__
 	Parameter():

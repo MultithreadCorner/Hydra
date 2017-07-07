@@ -26,9 +26,6 @@
  *      Author: Antonio Augusto Alves Junior
  */
 
-/**
- * \file
- */
 
 #ifndef VEGAS_H_
 #define VEGAS_H_
@@ -49,7 +46,7 @@ template<size_t N, typename  BACKEND,  typename GRND=thrust::random::default_ran
 class Vegas ;
 
 /**
- * @ingroup
+ * @ingroup numerical_integration
  * @brief Class to perform numerical integration using Vegas algorithm.
  *
  *  The VEGAS algorithm of Lepage is based on importance sampling.

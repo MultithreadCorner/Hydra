@@ -63,48 +63,56 @@
 #include <thrust/random.h>
 #include <thrust/distance.h>
 
-/**
- * \file
- * \ingroup phsp
- */
 
 namespace hydra {
 
 
+/**
+ * @ingroup phsp
+ * @brief This class implements phase-space Monte Carlo generation in hydra.
+ *
+ * The events are generated in the center-of-mass frame, but the decay products are finally boosted using the betas of the original particle.
+ * The code is based on the Raubold and Lynch method as documented in [F. James, Monte Carlo Phase Space, CERN 68-15 (1968)](https://cds.cern.ch/record/275743).
+ *
+ * Note that Momentum, Energy units are @f$GeV/C@f$ , @f$GeV/C^2@f$ .
+ *
+ *@tparam N is the number of particles in final state.
+ *@tparam GRND underlying random number generator. See the options in thrust::random namespace.
+ */
 template <size_t N, typename GRND=thrust::random::default_random_engine>
 class PhaseSpace {
 
 public:
 
 	/**
-	 * PhaseSpace ctor. Constructor of the phase-space generator takes as input parameters:
+	 * @brief PhaseSpace ctor. Constructor of the phase-space generator takes as input parameters:
 	 * @param motherMass mass of the mother particle in Gev/c*c;
 	 * @param daughtersMasses array with the masses of the daughter particles in Gev/c*c;
 	 */
 	PhaseSpace(const GReal_t motherMass, const GReal_t (&daughtersMasses)[N]);
 
 	/**
-	 * PhaseSpace ctor. Constructor of the phase-space generator takes as input parameters:
+	 * @brief PhaseSpace ctor. Constructor of the phase-space generator takes as input parameters:
 	 * @param motherMass mass of the mother particle in Gev/c*c;
 	 * @param daughtersMasses array with the masses of the daughter particles in Gev/c*c;
 	 */
 	PhaseSpace(const GReal_t motherMass, std::array<GReal_t,N> const& daughtersMasses);
 
 	/**
-	 * PhaseSpace ctor. Constructor of the phase-space generator takes as input parameters:
+	 * @brief PhaseSpace ctor. Constructor of the phase-space generator takes as input parameters:
 	 * @param motherMass mass of the mother particle in Gev/c*c;
 	 * @param daughtersMasses list with the masses of the daughter particles in Gev/c*c;
 	 */
 	PhaseSpace(const GReal_t motherMass, std::initializer_list<GReal_t> const& daughtersMasses);
 
 	/**
-	 * Copy constructor.
+	 * @brief Copy constructor.
 	 * @param other
 	 */
 	PhaseSpace( PhaseSpace<N,GRND>const& other);
 
 	/**
-	 * Calculate the mean and the \f$ \sqrt(variance)\f$  of a functor over the phase-space with n-samples.
+	 * @brief Calculate the mean and the \f$ \sqrt(variance)\f$  of a functor over the phase-space with n-samples.
 	 * @param policy  Back-end;
 	 * @param mother  Mother particle four-vector;
 	 * @param functor Functor;
@@ -116,19 +124,19 @@ public:
 			Vector4R const& mother, FUNCTOR const& functor, size_t n) ;
 
 	/**
-	 * Calculate the mean and the \f$ \sqrt(variance)\f$  of a functor over the phase-space given a list of mother particles.
+	 * @brief Calculate the mean and the \f$ \sqrt(\sigma)\f$  of a functor over the phase-space given a list of mother particles.
 	 * @param policy Back-end;
 	 * @param begin Iterator pointing to the begin of list of mother particles;
 	 * @param end   Iterator pointing to the end of list of mother particles;
 	 * @param functor Functor;
-	 * @return std::pair with the mean and the \f$ \sqrt(variance)\f$
+	 * @return std::pair with the mean and the \f$ \sqrt(\sigma)\f$
 	 */
 	template<typename FUNCTOR, hydra::detail::Backend BACKEND, typename Iterator>
 	std::pair<GReal_t, GReal_t> AverageOn(hydra::detail::BackendPolicy<BACKEND>const& policy,
 			Iterator begin, Iterator end, FUNCTOR const& functor);
 
 	/**
-	 * Evaluate a list of functors  over the phase-space
+	 * @brief Evaluate a list of functors  over the phase-space
 	 * @param policy  Back-end;
 	 * @param begin Iterator pointing to the begin of list of output range;
 	 * @param end   Iterator pointing to the end of list of output range;
@@ -140,7 +148,7 @@ public:
 			Vector4R const& mother, FUNCTOR const& ...functors);
 
 	/**
-	 * Evaluate a list of functors  over the phase-space given a list vectors.
+	 * @brief Evaluate a list of functors  over the phase-space given a list vectors.
 	 * @param policy Back-end;
 	 * @param mbegin Iterator pointing to the begin of list of mother particles;
 	 * @param mend Iterator pointing to the end of list of mother particles;
@@ -153,7 +161,7 @@ public:
 			IteratorMother mend, Iterator begin, FUNCTOR const& ...functors);
 
     /**
-     * Generate a phase-space  given a mother particle and a output range.
+     * @brief Generate a phase-space  given a mother particle and a output range.
      * @param mother Mother particle.
      * @param begin Iterator pointing to the begin output range.
      * @param end Iterator pointing to the end output range.
@@ -162,7 +170,7 @@ public:
 	void Generate(Vector4R const& mother, Iterator begin, Iterator end);
 
 	/**
-	 * Generate a phase-space  given a range of mother particles and a output range.
+	 * @brief Generate a phase-space  given a range of mother particles and a output range.
 	 * @param begin Iterator pointing to the begin of range of mother particles.
 	 * @param end Iterator pointing to the end  of range of mother particles.
 	 * @param daughters_begin Iterator pointing to the begin of range of daughter particles.
@@ -171,20 +179,20 @@ public:
 	void Generate( Iterator1 begin, Iterator1 end, Iterator2 daughters_begin);
 
 	/**
-	 * Get seed of the underlying generator;
+	 * @brief Get seed of the underlying generator;
 	 * @return
 	 */
 	inline GInt_t GetSeed() const;
 
 	/**
-	 * Set seed of the underlying generator;
+	 * @brief Set seed of the underlying generator;
 	 * @param _seed
 	 */
 	inline void SetSeed(GInt_t _seed) ;
 
 
 	/**
-	 * PDK function
+	 * @brief PDK function
 	 */
 
 

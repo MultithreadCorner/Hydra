@@ -28,10 +28,6 @@
  */
 
 
-/**
- * \file
- * \ingroup functor
- */
 
 
 #ifndef FUNCTION_H_

@@ -26,10 +26,7 @@
  *      Author: Antonio Augusto Alves Junior
  */
 
-/**
- * \file
- * \ingroup generic
- */
+
 
 #ifndef _POINT_H_
 #define _POINT_H_

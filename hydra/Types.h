@@ -27,8 +27,9 @@
  */
 
 /**
- * \file
- * \ingroup generic
+ * @file
+ * @ingroup generic
+ * @brief Common and useful typedefs
  */
 
 #ifndef TYPES_H_

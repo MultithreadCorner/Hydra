@@ -26,9 +26,6 @@
  *      Author: Antonio Augusto Alves Junior
  */
 
-/**
- * \file
- */
 
 #ifndef VEGASSTATE_H_
 #define VEGASSTATE_H_

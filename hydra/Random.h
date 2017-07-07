@@ -26,10 +26,6 @@
  *      Author: Antonio Augusto Alves Junior
  */
 
-/**
- * \file
- * \ingroup random
- */
 
 #ifndef RANDOM_H_
 #define RANDOM_H_
@@ -56,6 +52,16 @@
 
 namespace hydra{
 
+/**
+ * @ingroup random
+ * @brief This class implements functionalities associated to random number generation and pdf sampling.
+ *
+ * hydra::Random instances can sample multidimensional hydra::Pdf and fill ranges with data corresponding to
+ * gaussian, exponential, uniform and Breit-Wigner distributions.
+ *
+ * @tparam GRND underlying random number generator.
+ *
+ */
 template<typename GRND=thrust::random::default_random_engine>
 class Random{
 
@@ -97,28 +103,75 @@ public:
 	 *	```
 	 *}
 	 */
+
+    /**
+     * @brief Fill the range [begin, end] with numbers distributed according a Gaussian distribution.
+     * @param mean \f$\mu\f$ of the Gaussian distribution.
+     * @param sigma \f$\sigma\f$ of the Gaussian distribution.
+     * @param begin Iterator pointing to the begin of the range.
+     * @param end Iterator pointing to the end of the range.
+     */
 	template<typename Iterator>
 	void Gauss(GReal_t mean, GReal_t sigma, Iterator begin, Iterator end ) ;//-> decltype(*begin);
 
+	/**
+	 * @brief Fill the range [begin, end] with numbers distributed according a Exponential distribution.
+	 * @param tau \f$\tau\f$ of the Exponential distribution
+	 * @param begin Iterator pointing to the begin of the range.
+	 * @param end Iterator pointing to the end of the range.
+	 */
 	template<typename Iterator>
 	void Exp(GReal_t tau, Iterator begin, Iterator end)  ;//-> decltype(*begin);
 
+	/**
+	 * @brief Fill the range [begin, end] with numbers distributed according a Breit-Wigner distribution.
+	 * @param mean \f$\mu\f$ of the Breit-Wigner distribution.
+	 * @param gamma \f$\\Gamma\f$ of the Breit-Wigner distribution.
+	 * @param begin Iterator pointing to the begin of the range.
+	 * @param end Iterator pointing to the end of the range.
+	 */
 	template<typename Iterator>
 	void BreitWigner(GReal_t mean, GReal_t gamma, Iterator begin, Iterator end)  ;//-> decltype(*begin);
 
+	/**
+	 * @brief Fill the range [begin, end] with numbers distributed according a Uniform distribution.
+	 * @param min minimum
+	 * @param max maximum
+	 * @param begin Iterator pointing to the begin of the range.
+	 * @param end Iterator pointing to the end of the range.
+	 */
 	template<typename Iterator>
 	void Uniform(GReal_t min, GReal_t max, Iterator begin, Iterator end) ;// -> decltype(*begin);
+
 
 	template<typename FUNCTOR, typename Iterator>
 	void InverseCDF(FUNCTOR const& invcdf, Iterator begin, Iterator end)  ;//-> decltype(*begin);
 
+	/**
+	 * @brief Fill a range with numbers distributed according a user defined distribution.
+	 * @param policy backend to perform the calculation.
+	 * @param functor hydra::Pdf instance that will be sampled.
+	 * @param min std::array<GReal_t,N> min with lower limit of sampling region.
+	 * @param max  std::array<GReal_t,N> min with upper limit of sampling region.
+	 * @param trials number of trials.
+	 * @return a hydra::backend::vector<tuple<T1,T2...>>
+	 */
 	template<hydra::detail::Backend BACKEND, typename FUNCTOR, size_t N>
-	auto Sample(hydra::detail::BackendPolicy<BACKEND>const&, FUNCTOR const& functor, std::array<GReal_t,N> min,	std::array<GReal_t,N> max, size_t trials)
+	auto Sample(hydra::detail::BackendPolicy<BACKEND>const& policy, FUNCTOR const& functor, std::array<GReal_t,N> min,	std::array<GReal_t,N> max, size_t trials)
 	->	typename hydra::detail::BackendPolicy<BACKEND>::template container< typename  detail::tuple_type<N,GReal_t>::type>;
 
 
+	/**
+	 * @brief Fill a range with numbers distributed according a user defined distribution.
+	 * @param policy backend to perform the calculation.
+	 * @param functor hydra::Pdf instance that will be sampled.
+	 * @param min std::array<GReal_t,N> min with lower limit of sampling region.
+	 * @param max  std::array<GReal_t,N> min with upper limit of sampling region.
+	 * @param result
+	 * @param trials
+	 */
 	template<hydra::detail::Backend BACKEND, typename FUNCTOR, size_t N >
-	void Sample(hydra::detail::BackendPolicy<BACKEND>const&, FUNCTOR const& functor, std::array<GReal_t,N> min, std::array<GReal_t,N> max,
+	void Sample(hydra::detail::BackendPolicy<BACKEND>const&  policy, FUNCTOR const& functor, std::array<GReal_t,N> min, std::array<GReal_t,N> max,
 			PointVector< Point<GReal_t, N, false, false>, BACKEND >& result, size_t trials);
 private:
 	GUInt_t fSeed;

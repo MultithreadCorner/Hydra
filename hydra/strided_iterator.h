@@ -30,11 +30,6 @@
 
 
 
-/**
- * \file
- * \ingroup generic
- */
-
 #ifndef STRIDED_ITERATOR_H_
 #define STRIDED_ITERATOR_H_
 
@@ -45,7 +40,8 @@
 
 
 namespace hydra{
-/** \class strided_range
+/**
+ * @ingroup generic
  * Strided range iterator original code: https://github.com/thrust/thrust/blob/master/examples/strided_range.cu
  */
 template<typename Iterator>

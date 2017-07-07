@@ -26,12 +26,6 @@
  *      Author: Antonio Augusto Alves Junior
  */
 
-/**
- * \file
- * \ingroup fit
- */
-
-
 #ifndef PDF_H_
 #define PDF_H_
 
@@ -72,7 +66,8 @@ public:
 
 
 /**
- * \brief Class describing probability density functions.
+ * @brief Class describing probability density functions.
+ * @ingroup fit
  * A hydra::Pdf has two components:
  *
  *  1. non-normalized functor, describing the shape.
@@ -94,7 +89,7 @@ public:
 
 
 	/**
-	 * \brief hydra::Pdf constructor.
+	 * @brief hydra::Pdf constructor.
 	 * @param functor describing the shape.
 	 * @param integrator functor for calculate analytical integrals or hydra
 	 * algorithm for numerical integration.
@@ -117,7 +112,7 @@ public:
 
 
 	/**
-	 * \brief Copy constructor.
+	 * @brief Copy constructor.
 	 * @param other
 	 */
 	Pdf(Pdf<FUNCTOR,INTEGRATOR> const& other):
@@ -141,7 +136,7 @@ public:
 	~Pdf(){};
 
 	/**
-	 *\brief Assignment operator.
+	 *@brief Assignment operator.
 	 * @param other
 	 * @return a hydra::Pdf equal to other.
 	 */
@@ -170,7 +165,7 @@ public:
 
 
 	/**
-	 * \brief Add pointers to the functor's parameters to a external list, that will be used later to
+	 * @brief Add pointers to the functor's parameters to a external list, that will be used later to
 	 * build the hydra::UserParameters instance that will be passed to ROOT::Minuit2.
 	 * @param user_parameters external std::vector<hydra::Parameter*> object holding the list of pointers
 	 * to functor parameters.
@@ -182,7 +177,7 @@ public:
 
 
 	/**
-	 * \brief Print all registered parameters, including its value, range, name etc.
+	 * @brief Print all registered parameters, including its value, range, name etc.
 	 */
 	inline	void PrintRegisteredParameters()
 	{
@@ -194,7 +189,7 @@ public:
 	}
 
 	/**
-	 * \brief Set the parameters of the functor to the value informed by ROOT::Minuit2.
+	 * @brief Set the parameters of the functor to the value informed by ROOT::Minuit2.
 	 * @param parameters std::vector<double> containing the list of parameters passed by ROOT::Minuit2.
 	 */
 	inline	void SetParameters(const std::vector<double>& parameters){
@@ -236,7 +231,7 @@ public:
 
 
 	/**
-	 * \brief Get a reference to the integrator (functor or algorithm).
+	 * @brief Get a reference to the integrator (functor or algorithm).
 	 * @return INTEGRATOR& .
 	 */
 	inline	INTEGRATOR& GetIntegrator() {
@@ -244,7 +239,7 @@ public:
 	}
 
 	/**
-	 * \brief Get a constant reference to the integrator (functor or algorithm).
+	 * @brief Get a constant reference to the integrator (functor or algorithm).
 	 * @return const INTEGRATOR& .
 	 */
 	inline  const 	INTEGRATOR& GetIntegrator() const {
@@ -252,7 +247,7 @@ public:
 	}
 
 	/**
-	 * \brief Get a constant reference to the functor describing the shape.
+	 * @brief Get a constant reference to the functor describing the shape.
 	 * @return const FUNCTOR& .
 	 */
 	inline	const FUNCTOR& GetFunctor() const {
@@ -260,7 +255,7 @@ public:
 	}
 
 	/**
-	 * \brief Get a reference to the functor describing the shape.
+	 * @brief Get a reference to the functor describing the shape.
 	 * @return FUNCTOR& .
 	 */
 	inline	FUNCTOR& GetFunctor() {
@@ -269,7 +264,7 @@ public:
 
 
 	/**
-	 * \brief Get norm of the hydra::Pdf.
+	 * @brief Get norm of the hydra::Pdf.
 	 * @return the normalization factor.
 	 */
 	inline GReal_t GetNorm() const {
@@ -277,7 +272,7 @@ public:
 	}
 
 	/**
-	 *  \brief Get the error on the norm of the hydra::Pdf.
+	 *  @brief Get the error on the norm of the hydra::Pdf.
 	 * @return Error the normalization factor.
 	 */
 	inline GReal_t GetNormError() const {
@@ -285,7 +280,7 @@ public:
 	}
 
 	/**
-	 * \brief Normalize PDF.
+	 * @brief Normalize PDF.
 	 *
 	 */
 	inline	void Normalize( )
@@ -297,7 +292,7 @@ public:
 
 
 	/**
-	 * \brief Get cache table of normalization factors.
+	 * @brief Get cache table of normalization factors.
 	 * @return std::unordered_map<size_t,std::pair<GReal_t,GReal_t> > instance with the cache table.
 	 */
 	std::unordered_map<size_t,std::pair<GReal_t,GReal_t> >& GetNormCache() const
@@ -306,7 +301,7 @@ public:
 	}
 
 	/**
-	 * \brief Evaluate the PDF on the tuple of arguments T1.
+	 * @brief Evaluate the PDF on the tuple of arguments T1.
 	 * @param t Tuple of arguments.
 	 * @return
 	 */
@@ -318,7 +313,7 @@ public:
   	}
 
  	/**
- 	 * \brief Evaluate the PDF on the tuple T1 using the cache table T2.
+ 	 * @brief Evaluate the PDF on the tuple T1 using the cache table T2.
  	 * @param t Tuple of arguments.
  	 * @param cache table of pre-calculated values.
  	 * @return
@@ -352,7 +347,7 @@ private:
 
 
 /**
- * \brief Build a hydra::Pdf given a shape described by a functor and a integrator
+ * @brief Build a hydra::Pdf given a shape described by a functor and a integrator
  *  (algorithm or functor).
  * @param functor shape.
  * @param integrator algorithm or functor.

@@ -40,10 +40,19 @@ template<typename T>
 class multivector;
 
 /**
+ * @ingroup generic
  * @brief This class implements storage for an array of tuples using a SOA memory layout.
- * This container mimics the interface of std::vector.
+ * This container mimics the interface of a std::vector. The user instantiates this class
+ * template providing a prototype for the corresponding vector<tuple> container:
+ *
+ * @code{cpp}
+   typedef thrust::tuple<unsigned int, float, double> tuple_t;
+   typedef thrust::device_vector<tuple_t> prototype_t;
+   typedef multivector<prototype_h> table_h;
+ @endcode
  * @tparam Vector underlying model/layout for contiguous memory storage.
  * @tparam  Allocator memory allocator for contiguous memory storage.
+ *
  */
 template< template<typename...> class Vector, template<typename...> class Allocator,  typename ...T>
 class multivector<Vector<thrust::tuple<T...>, Allocator<thrust::tuple<T...>>>> : public multivector_base<Vector, Allocator, T...>

@@ -155,10 +155,11 @@ auto wrap_lambda_helper(L const& f, ReturnType r, thrust::tuple<Args...>const& t
 }  // namespace detail
 
 /**
+ * @ingroup functor
  * @brief Function template for wrap a C++11 lambda into a hydra lambda with a certain number of parameters.
  * @param f C++11 lambda implementing the operator()(n, params, args) where n is the number of parameters, params a pointer to the parameter array and args are the arguments.
- * @param pars
- * @return
+ * @param pars parameters.
+ * @return LambdaWrapper object.
  */
 template<typename L, typename ...T>
 auto wrap_lambda(L const& f,  T ...pars)
@@ -173,7 +174,12 @@ auto wrap_lambda(L const& f,  T ...pars)
 	return detail::wrap_lambda_helper(f, r, t, parameters);
 }
 
-
+/**
+ * @ingroup functor
+ * @brief Function template for wrap a C++11 lambda into a hydra lambda.
+ * @param f C++11 lambda implementing the operator()(args)
+ * @return
+ */
 template<typename L>
 auto wrap_lambda(L const& f)
 -> decltype(detail::wrap_lambda_helper(f, typename detail::function_traits<L>::return_type() ,

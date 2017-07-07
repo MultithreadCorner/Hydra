@@ -51,13 +51,23 @@
 
 namespace hydra {
 
-/**
- * PointVector wraps a thrust::vector<Points<T,N>> and provide methods
- *
- */
+
 template<typename T, hydra::detail::Backend BACKEND>
 class PointVector;
 
+/**
+ * @ingroup generic
+ * @brief PointVector implements storage for multidimensional datasets used in fits etc.
+ *
+ * This is an iterable container and data is stored using an SoA layout, but the access
+ * mimics a AoS. A N-dimensional PointVector instance can be understood as a table with N columns
+ * and many (millions) rows. The user can iterates over the table accessing the whole row, which is returned as
+ * a tuple, or accessing entries in a given column. Column-based access is away faster than
+ * access a row and then get the desired element from the tuple.
+ *
+ * @tparam    Point<T, N, V_ERROR, C_ERROR> is the type of point the PointVector will store.
+ * @tparam    Backend specifies the memory space where the information will be stored.
+ */
 template<hydra::detail::Backend BACKEND, typename T, size_t N, bool V_ERROR, bool C_ERROR >
 class PointVector< Point<T, N, V_ERROR, C_ERROR>,  BACKEND >
 {
@@ -105,7 +115,7 @@ public:
 	
 
 	/**
-	 * get access to the underlying container
+	 *@brief  get access to the underlying container
 	 */
 	__host__
 	const data_t& GetData() const { return fData; }
@@ -114,12 +124,8 @@ public:
 	data_t& GetData(){ return fData; }
 
 
-	/**Todo
-	 * add simple point
-	 */
-
 	/**
-	 * Add a new point
+	 * @brief Add a new point
 	 */
 	__host__
 	void AddPoint( point_t const& point)
@@ -128,6 +134,9 @@ public:
 	}
 
 
+	/**
+	 *
+	 */
 	__host__
 	point_t GetPoint(size_t i) const
 	{
