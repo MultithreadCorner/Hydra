@@ -63,7 +63,8 @@ struct Chain;
  * @tparam BACKEND
  */
 template<size_t ...N, hydra::detail::Backend BACKEND>
-class Chain< Events<N,hydra::detail::BackendPolicy<BACKEND> >...>{
+class Chain< Events<N,hydra::detail::BackendPolicy<BACKEND> >...>
+{
 
 
 	typedef hydra::detail::BackendPolicy<BACKEND> system_t;
@@ -316,6 +317,13 @@ private:
 
 
 };
+
+template<hydra::detail::Backend BACKEND, size_t ...N >
+Chain< Events<N, hydra::detail::BackendPolicy<BACKEND> >...>
+make_chain( hydra::detail::BackendPolicy<BACKEND> const& policy, size_t entries )
+{
+	return std::move( Chain<Events<N, hydra::detail::BackendPolicy<BACKEND> >...>(entries) );
+}
 
 }  // namespace hydra
 

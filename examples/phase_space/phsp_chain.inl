@@ -19,15 +19,14 @@
  *
  *---------------------------------------------------------------------------*/
 /*
- * phsp_basic.inl
+ * phsp_chain.inl
  *
- *  Created on: Jul 7, 2017
+ *  Created on: Jul 10, 2017
  *      Author: Antonio Augusto Alves Junior
  */
 
-#ifndef PHSP_BASIC_INL_
-#define PHSP_BASIC_INL_
-
+#ifndef PHSP_CHAIN_INL_
+#define PHSP_CHAIN_INL_
 
 /**
  * @example phsp_basic.inl
@@ -101,10 +100,12 @@ GInt_t main(int argv, char** argc)
 
 
 	size_t  nentries   = 0; // number of events to generate, to be get from command line
-	double B0_mass    = 5.27955;   // B0 mass
-	double Jpsi_mass  = 3.0969;    // J/psi mass
-	double K_mass     = 0.493677;  // K+ mass
-	double pi_mass    = 0.13957061;// pi mass
+
+	double B0_mass    = 5.27955;      // B0 mass
+	double Jpsi_mass  = 3.0969;       // J/psi mass
+	double K_mass     = 0.493677;     // K+ mass
+	double pi_mass    = 0.13957061;   // pi mass
+	double mu_mass    = 0.1056583745 ;// mu mass
 
 
 	try {
@@ -141,24 +142,33 @@ GInt_t main(int argv, char** argc)
 #endif
 
 	hydra::Vector4R B0(B0_mass, 0.0, 0.0, 0.0);
-	double masses[3]{Jpsi_mass, K_mass, pi_mass };
+	double masses1[3]{Jpsi_mass, K_mass, pi_mass };
+	double masses2[2]{mu_mass , mu_mass};
 
-	// Create PhaseSpace object for B0-> K pi J/psi
-	hydra::PhaseSpace<3> phsp(B0_mass, masses);
+	// Create PhaseSpace object for B0 -> K pi J/psi
+	hydra::PhaseSpace<3> phsp(B0_mass, masses1);
+	// Create PhaseSpace object for J/psi -> mu+ mu-
+	hydra::PhaseSpace<3> phsp(B0_mass, masses1);
+
 
 	//device
 	{
 		//allocate memory to hold the final states particles
-		hydra::Events<3, hydra::device::sys_t > Events_d(nentries);
+		auto Chain_d   = hydra::make_chain<3,2>(hydra::device::sys, nentries);
+		auto JpsiKpi_d = Chain_d.template GetDecay<0>();
+		auto MuMu_d    = Chain_d.template GetDecay<1>();
+
 
 		auto start = std::chrono::high_resolution_clock::now();
 
 		//generate the final state particles
-		phsp.Generate(B0, Events_d.begin(), Events_d.end());
+		phsp.Generate(B0, JpsiKpi_d.begin(), JpsiKpi_d.end());
 
 		auto end = std::chrono::high_resolution_clock::now();
 
 		std::chrono::duration<double, std::milli> elapsed = end - start;
+
+
 
 		//output
 		std::cout << std::endl;
@@ -263,4 +273,6 @@ GInt_t main(int argv, char** argc)
 }
 
 
-#endif /* PHSP_BASIC_INL_ */
+
+
+#endif /* PHSP_CHAIN_INL_ */

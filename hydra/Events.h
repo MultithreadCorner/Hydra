@@ -63,6 +63,12 @@ class Events;
  * @ingroup phsp
  * @brief Events is a container struct to hold all the information corresponding the generated events.
  * Mother's four-vectors are not stored.
+ *
+ * When iterating over the container, an event with N particles in the final state is
+ * returned as a tuple with the element 0 storing the weight and the other
+ * elements storing the four-vectors (hydra::Vector4R) of each particle.
+ * The particles are stored in the same order of the array of masses.
+ *
  * @tparam N number of particles in the final state.
  * @tparam BACKEND memory space(backend) to store the events.
  */
