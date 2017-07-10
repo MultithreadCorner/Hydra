@@ -104,11 +104,11 @@ GInt_t main(int argv, char** argc)
 {
 
 
-	size_t  nentries       = 0; // number of events to generate, to be get from command line
-	GReal_t mother_mass    = 5.27955;   // B0 mass
-	GReal_t daughter1_mass = 3.0969;    // J/psi mass
-	GReal_t daughter2_mass = 0.493677;  // K+ mass
-	GReal_t daughter3_mass = 0.13957061;// pi mass
+	size_t  nentries   = 0; // number of events to generate, to be get from command line
+	GReal_t B0_mass    = 5.27955;   // B0 mass
+	GReal_t Jpsi_mass  = 3.0969;    // J/psi mass
+	GReal_t K_mass     = 0.493677;  // K+ mass
+	GReal_t pi_mass    = 0.13957061;// pi mass
 
 
 	try {
@@ -133,331 +133,81 @@ GInt_t main(int argv, char** argc)
 																<< std::endl;
 	}
 
+#ifdef 	_ROOT_AVAILABLE
+	//
+	TH2D Dalitz_M12_d("Dalitz_M12_d", ";M^{2}(J/psi #pi) [GeV^{2}/c^{4}]; M^{2}(K #pi) [GeV^{2}/c^{4}]",
+			100, pow(Jpsi_mass + pi_mass,2), pow(B0_mass - K_mass,2),
+			100, pow(K_mass + pi_mass,2), pow(B0_mass - Jpsi_mass,2));
 
-	//------------------
-	// B0 -> J/psi K pi
-	//------------------
-	Vector4R P(mother_mass, 0.0, 0.0, 0.0);
-	GReal_t massesP[3]{daughter1_mass, daughter2_mass, daughter3_mass };
+	TH2D Dalitz_M12_h("Dalitz_M12_h", ";M^{2}(J/psi #pi) [GeV^{2}/c^{4}]; M^{2}(K #pi) [GeV^{2}/c^{4}]",
+				100, pow(Jpsi_mass + pi_mass,2), pow(B0_mass - K_mass,2),
+				100, pow(K_mass + pi_mass,2), pow(B0_mass - Jpsi_mass,2));
+#endif
+
+	Vector4R B0(B0_mass, 0.0, 0.0, 0.0);
+	GReal_t masses[3]{Jpsi_mass, K_mass, pi_mass };
 
 	// Create PhaseSpace object for B0-> K pi J/psi
-	PhaseSpace<3> phsp(mother_mass, massesP);
+	PhaseSpace<3> phsp(B0_mass, masses);
 
-	Events<3, hydra::omp::sys_t > P2ABC_Events_d(nentries);
-
-	auto start1 = std::chrono::high_resolution_clock::now();
-	phsp_P.Generate(P, P2ABC_Events_d.begin(), P2ABC_Events_d.end());
-	auto end1 = std::chrono::high_resolution_clock::now();
-	std::chrono::duration<double, std::milli> elapsed1 = end1 - start1;
-	//time
-	std::cout << "-----------------------------------------"<<std::endl;
-	std::cout << "| P -> A B C | Time (ms) ="<< elapsed1.count() <<std::endl;
-	std::cout << "-----------------------------------------"<<std::endl;
-
-	for( size_t i=0; i<10; i++ ){
-		cout << P2ABC_Events_d[i] << endl;
-	}
-
-
-   //----------------
-   // C-> a b
-   //----------------
-	GReal_t massesC[2]{gand_daughter1_mass, gand_daughter2_mass };
-	// Create PhaseSpace object for J/psi->mu+ mu-
-	PhaseSpace<2> phsp_C(daughter1_mass , massesC);
-
-	Events<2,  hydra::omp::sys_t> C2ab_Events_d(nentries);
-
-
-	auto start2 = std::chrono::high_resolution_clock::now();
-	phsp_C.Generate( P2ABC_Events_d.DaughtersBegin(0), P2ABC_Events_d.DaughtersEnd(0)
-			, C2ab_Events_d.begin());
-	auto end2 = std::chrono::high_resolution_clock::now();
-	std::chrono::duration<double, std::milli> elapsed2 = end2 - start2;
-	//time
-	std::cout << "-----------------------------------------"<<std::endl;
-	std::cout << "| C -> a b | Time (ms) ="<< elapsed2.count() <<std::endl;
-	std::cout << "-----------------------------------------"<<std::endl;
-
-	for( size_t i=0; i<10; i++ ){
-		cout << C2ab_Events_d[i] << endl;
-	}
-	cout << P2ABC_Events_d.GetNEvents() <<endl;
-	typedef Events<3,  hydra::omp::sys_t> event3_t;
-	typedef Events<2,  hydra::omp::sys_t> event2_t;
-	Chain<event3_t, event2_t> chain(std::move(P2ABC_Events_d), std::move(C2ab_Events_d));
-
-    auto mass = [] __host__ __device__ (size_t npars, const Parameter* pars, Vector4R* particles )
-    {
-    	auto   p0  = particles[0] ;
-    	auto   p1  = particles[1] ;
-    	auto   p2  = particles[2] ;
-
-    	auto   p = p1+p2+p0;
-
-    	return p.mass();
-    };
-    auto mass2 = [] __host__ __device__ (Vector4R* particles )
-       {
-       	auto   p0  = particles[0] ;
-       	auto   p1  = particles[1] ;
-       	auto   p2  = particles[2] ;
-
-       	auto   p = p1+p2+p0;
-
-       	return p.mass();
-       };
-
-
-    std::string Mean1("Mean_1"); 	// mean of gaussian 1
-    	std::string Sigma1("Sigma_1"); 	// sigma of gaussian 1
-    Parameter  mean1_p  = Parameter::Create().Name(Mean1).Value(3.0) .Error(0.0001).Limits( 1.0, 4.0);
-    Parameter  sigma1_p = Parameter::Create().Name(Sigma1).Value(0.5).Error(0.0001).Limits(0.1, 1.5);
-
-   auto Mass = wrap_lambda(mass,  mean1_p, sigma1_p );
-   auto Mass2 = wrap_lambda(mass2);
-
-
-   auto result = phsp_P.AverageOn(hydra::cpp::sys, P , Mass, 10000);
-
-   /*
-   typedef typename thrust::system::omp::vector<int>::iterator my_iterator;
-   typedef typename thrust::iterator_system<my_iterator>::type my_system;
-   typedef my_system::SHOW_TYPE X;
-*/
-
-/*
-	for(auto row:chain ){
-		cout<< row <<endl;
-	}
-
-*/
-/*
-
-	typedef thrust::tuple< event3_t, event2_t> chain_t;
-
-
-	auto Weight = [] __host__ __device__ ( chain_t event )
+	//device
 	{
-		auto   p_decay  = thrust::get<0>(event) ;
-		auto   c_decay  = thrust::get<1>(event) ;
-		auto   p_weight = thrust::get<0>(p_decay);
-		auto   c_weight = thrust::get<0>(c_decay);
+		//allocate memory to hold the final states particles
+		Events<3, hydra::device::sys_t > Events_d(nentries);
 
-		return 	p_weight * c_weight;
+		auto start = std::chrono::high_resolution_clock::now();
 
-	};
+		//generate the final state particles
+		phsp.Generate(B0, Events_d.begin(), Events_d.end());
 
-	auto MB0 = [] __host__ __device__ ( chain_t event )
-	{
-		auto   p_decay  = thrust::get<0>(event) ;
-		auto   c_decay  = thrust::get<1>(event) ;
+		auto end = std::chrono::high_resolution_clock::now();
 
-		Vector4R p1 = thrust::get<1>(p_decay);
-		Vector4R p2 = thrust::get<2>(p_decay);
-		Vector4R p3 = thrust::get<3>(p_decay);
+		std::chrono::duration<double, std::milli> elapsed = end - start;
 
-		return ( p1 + p2 + p3 ).mass();
-	};
+		//output
+		std::cout << "----------------- Device ----------------"<< std::endl;
+		std::cout << "| B0 -> J/psi K pi"                   << std::endl;
+		std::cout << "| Number of events :"<< nentries          << std::endl;
+		std::cout << "| Time (ms)        :"<< elapsed.count()   << std::endl;
+		std::cout << "-----------------------------------------"<< std::endl;
 
-	auto MC = [] __host__ __device__ ( chain_t event )
-		{
-			auto   p_decay  = thrust::get<0>(event) ;
-			auto   c_decay  = thrust::get<1>(event) ;
+		//print
+		for( size_t i=0; i<10; i++ )
+			std::cout << Events_d[i] << std::endl;
 
-			Vector4R p1 = thrust::get<1>(c_decay);
-			Vector4R p2 = thrust::get<2>(c_decay);
 
-			return ( p1 + p2  ).mass();
-		};
 
-	auto M12 = [] __host__ __device__ (chain_t event )
-	{
-		auto   p_decay  = thrust::get<0>(event) ;
-		auto   c_decay  = thrust::get<1>(event) ;
+#ifdef 	_ROOT_AVAILABLE_
 
-		Vector4R p1 = thrust::get<1>(p_decay);
-		Vector4R p2 = thrust::get<2>(p_decay);
+		for( size_t i=0; i< Events_d.size(); i++ )
 
-		return  ( p1 + p2).mass();
 
-	};
-
-	auto M13 = [] __host__ __device__( chain_t event )
-	{
-		auto   p_decay  = thrust::get<0>(event) ;
-		auto   c_decay  = thrust::get<1>(event) ;
-
-		Vector4R p1 = thrust::get<1>(p_decay);
-		Vector4R p3 = thrust::get<3>(p_decay);
-
-		return  ( p1 + p3 ).mass();
-	};
-
-	auto M23 = [] __host__ __device__( chain_t event )
-	{
-		auto   p_decay  = thrust::get<0>(event) ;
-		auto   c_decay  = thrust::get<1>(event) ;
-
-		Vector4R p2 = thrust::get<2>(p_decay);
-		Vector4R p3 = thrust::get<3>(p_decay);
-
-		return  ( p2 + p3 ).mass();
-	};
-
-	auto COSHELANG23 = [] __host__ __device__ ( chain_t event )
-	{
-		auto   p_decay  = thrust::get<0>(event) ;
-		auto   c_decay  = thrust::get<1>(event) ;
-
-		Vector4R p1 = thrust::get<1>(p_decay);
-		Vector4R p2 = thrust::get<2>(p_decay);
-		Vector4R p3 = thrust::get<3>(p_decay);
-
-		Vector4R p = p1 + p2 + p3;
-		Vector4R q = p2 + p3;
-
-
-		GReal_t pd = p * p2;
-		GReal_t pq = p * q;
-		GReal_t qd = q * p2;
-		GReal_t mp2 = p.mass2();
-		GReal_t mq2 = q.mass2();
-		GReal_t md2 = p2.mass2();
-
-		return (pd * mq2 - pq * qd)
-				/ sqrt((pq * pq - mq2 * mp2) * (qd * qd - mq2 * md2));
-
-	};
-
-	auto DELTA = [] __host__ __device__ ( chain_t event )
-		{
-			auto   p_decay  = thrust::get<0>(event) ;
-			auto   c_decay  = thrust::get<1>(event) ;
-
-			Vector4R d1 = thrust::get<1>(p_decay);
-			Vector4R d2 = thrust::get<2>(p_decay);
-			Vector4R d3 = thrust::get<3>(p_decay);
-
-			Vector4R h1 = thrust::get<1>(c_decay);
-			Vector4R h2 = thrust::get<2>(c_decay);
-
-			Vector4R D = d2 + d3;
-
-			Vector4R d1_perp = d2 - (D.dot(d2) / D.dot(D)) * D;
-			Vector4R h1_perp = h1 - (D.dot(h1) / D.dot(D)) * D;
-
-			// orthogonal to both D and d1_perp
-
-			Vector4R d1_prime = D.cross(d1_perp);
-
-			d1_perp = d1_perp / d1_perp.d3mag();
-			d1_prime = d1_prime / d1_prime.d3mag();
-
-			GReal_t x, y;
-
-			x = d1_perp.dot(h1_perp);
-			y = d1_prime.dot(h1_perp);
-
-			GReal_t chi = atan2(y, x);
-
-			if (chi < 0.0)
-				chi += 2.0*PI;
-
-			return chi;
-
-		};
-
-
-
-	auto Weight_W  = wrap_lambda(Weight);
-
-	auto MB0_W     = wrap_lambda(MB0);
-	auto MC_W      = wrap_lambda(MC);
-	auto M12_W     = wrap_lambda(M12);
-	auto M13_W     = wrap_lambda(M13);
-	auto M23_W     = wrap_lambda(M23);
-	auto COSHELANG23_W = wrap_lambda( COSHELANG23);
-	auto DELTA_W       = wrap_lambda( DELTA);
-
-
-	auto functors = thrust::make_tuple(Weight_W, MB0_W, MC_W, M12_W, M13_W, M23_W, COSHELANG23_W, DELTA_W);
-	auto result_d = eval( functors,  P2ABC_Events_d.begin(), P2ABC_Events_d.end(), C2ab_Events_d.begin());
-
-	for( size_t i=0; i<10; i++ ){
-		cout << result_d[i] << endl;
-	}
-
-
-
-
-	Events<3, host> P2ABC_Events_h(P2ABC_Events_d);
-
-	TH2D dalitz_AC("dalitz_AC", ";M^{2}(BC) [GeV^{2}/c^{4}]; M^{2}(AC) [GeV^{2}/c^{4}]",
-			100, pow(daughter2_mass+daughter3_mass,2), pow(mother_mass - daughter1_mass,2),
-			100, pow(daughter1_mass+daughter3_mass,2), pow(mother_mass - daughter2_mass,2));
-
-	TH2D dalitz_BC("dalitz_BC", ";M^{2}(BC) [GeV^{2}/c^{4}]; M^{2}(AB) [GeV^{2}/c^{4}]",
-			100, pow(daughter2_mass+daughter3_mass,2), pow(mother_mass - daughter1_mass,2),
-			100, pow(daughter1_mass+daughter2_mass,2), pow(mother_mass - daughter3_mass,2));
-
-	TH2D dalitz_AB("dalitz_AB", ";M^{2}(AC) [GeV^{2}/c^{4}]; M^{2}(AB) [GeV^{2}/c^{4}]",
-			100, pow(daughter1_mass+daughter3_mass,2), pow(mother_mass - daughter2_mass,2),
-			100, pow(daughter1_mass+daughter2_mass,2), pow(mother_mass - daughter3_mass,2));
-
-	TH1D  mass_AB("mass_AB", ";M(AB) [GeV^{2}/c^{4}];Events",
-			100, daughter2_mass+daughter3_mass, mother_mass - daughter1_mass );
-
-	TH1D  mass_AC("mass_AC", ";M(AC) [GeV^{2}/c^{4}];Events",
-				100, daughter1_mass+daughter3_mass, mother_mass - daughter2_mass );
-
-	TH1D  mass_BC("mass_BC", ";M(BC) [GeV^{2}/c^{4}];Events",
-				100, daughter2_mass+daughter1_mass, mother_mass - daughter3_mass );
-
-	TH1D  coshelang_BC("coshelang_BC", ";cos #theta_{BC};Events", 100, -1.0, 1.0);
-
-	TH1D  delta_angle("delta_angle", ";#delta #phi;Events", 100, 0.0, 2.0*PI);
-
-
-	for(auto event: P2ABC_Events_h){
-
-		GReal_t weight = thrust::get<0>(event);
-
-		Vector4R A  = thrust::get<1>(event);
-		Vector4R B    = thrust::get<2>(event);
-		Vector4R C   = thrust::get<3>(event);
-
-		Vector4R AB = A + B;
-		Vector4R AC = A + C;
-		Vector4R BC = B + C;
-
-		GReal_t AB_M2 = AB.mass2();
-		GReal_t AC_M2 = AC.mass2();
-		GReal_t BC_M2 = BC.mass2();
-
-
-		dalitz_AC.Fill( BC_M2, AC_M2,  weight);
-		dalitz_BC.Fill( BC_M2, AB_M2,  weight);
-		dalitz_AB.Fill( AC_M2, AB_M2,  weight);
+#endif
 
 	}
 
-	for(auto entry:result_d ){
+	//host
+	{
 
-		GReal_t _weight    = thrust::get<0>(entry);
-		GReal_t _mass_AB   = thrust::get<3>(entry);
-		GReal_t _mass_AC   = thrust::get<4>(entry);
-		GReal_t _mass_BC   = thrust::get<5>(entry);
-		GReal_t _coshelang_BC = thrust::get<6>(entry);
-		GReal_t _delta_angle  = thrust::get<7>(entry);
+		Events<3, hydra::device::sys_t > Events_d(nentries);
 
-		mass_AB.Fill( _mass_BC , _weight);
-		mass_AC.Fill( _mass_AC , _weight);
-		mass_BC.Fill( _mass_AB , _weight);
-		coshelang_BC.Fill(_coshelang_BC, _weight);
-		delta_angle.Fill( _delta_angle, _weight);
+		auto start = std::chrono::high_resolution_clock::now();
+		phsp.Generate(P, Events_d.begin(), Events_d.end());
+		auto end = std::chrono::high_resolution_clock::now();
+		std::chrono::duration<double, std::milli> elapsed = end - start;
+		//time
+		std::cout << "----------------- Device ----------------"<< std::endl;
+		std::cout << "| B0 -> J/psi K pi"                   << std::endl;
+		std::cout << "| Number of events :"<< nentries          << std::endl;
+		std::cout << "| Time (ms)        :"<< elapsed.count()   << std::endl;
+		std::cout << "-----------------------------------------"<< std::endl;
 
+		for( size_t i=0; i<10; i++ ){
+			std::cout << Events_d[i] << std::endl;
+		}
 	}
+
+
 
 	//return 0;
 	TApplication *myapp=new TApplication("myapp",0,0);
@@ -466,39 +216,7 @@ GInt_t main(int argv, char** argc)
 	dalitz_AC.Draw("colz");
 	canvas_PHSP_AC.Print("plots/PHSP_AC.png");
 
-	TCanvas canvas_PHSP_BC("canvas_PHSP_BC", "Phase-space", 500, 500);
-	dalitz_BC.Draw("colz");
-	canvas_PHSP_BC.Print("plots/PHSP_BC.png");
 
-	TCanvas canvas_PHSP_AB("canvas_PHSP_AB", "Phase-space", 500, 500);
-	dalitz_AB.Draw("colz");
-	canvas_PHSP_AB.Print("plots/PHSP_AB.png");
-
-	TCanvas canvas_mass_AB("canvas_masss_AB", "Mass", 500, 500);
-	mass_AB.Draw("hist");
-	mass_AB.SetMinimum(0.0);
-	canvas_mass_AB.Print("plots/mass_AB.png");
-
-	TCanvas canvas_mass_AC("canvas_masss_AC", "Mass", 500, 500);
-	mass_AC.Draw("hist");
-	mass_AC.SetMinimum(0.0);
-	canvas_mass_AC.Print("plots/mass_AC.png");
-
-	TCanvas canvas_mass_BC("canvas_masss_BC", "Mass", 500, 500);
-	mass_BC.Draw("hist");
-	mass_BC.SetMinimum(0.0);
-	canvas_mass_BC.Print("plots/mass_BC.png");
-
-	TCanvas canvas_coshelang("canvas_coshelang", "coshelang", 500, 500);
-	coshelang_BC.Draw("hist");
-	coshelang_BC.SetMinimum(0.0);
-	canvas_coshelang.Print("plots/mass_BC.png");
-
-
-	TCanvas canvas_delta_angle("canvas_delta_angle", "delta_angle", 500, 500);
-	delta_angle.Draw("hist");
-	delta_angle.SetMinimum(0.0);
-		canvas_delta_angle.Print("plots/delta_angle.png");
 myapp->Run();
 
 */

@@ -73,7 +73,7 @@ class Events<N, hydra::detail::BackendPolicy<BACKEND> > {
 	typedef hydra::detail::BackendPolicy<BACKEND> system_t;
 
 	typedef typename system_t::template container<Vector4R::args_type> super_t;
-
+public:
 	typedef multivector<super_t> vector_particles;
 	typedef typename multivector<super_t>::iterator vector_particles_iterator;
 	typedef typename multivector<super_t>::const_iterator vector_particles_const_iterator;
@@ -94,7 +94,7 @@ class Events<N, hydra::detail::BackendPolicy<BACKEND> > {
 
 	constexpr static size_t particles = N ;
 
-public:
+
     /**
      * @brief Default constructor.
      */

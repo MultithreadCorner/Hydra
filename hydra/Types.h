@@ -37,7 +37,7 @@
 
 namespace hydra
 {
-//---- types -------------------------------------------------------------------
+//---- POD types -------------------------------------------------------------------
 
 typedef char GChar_t;      ///< Signed Character 1 byte (char)
 typedef unsigned char GUChar_t;  ///< Unsigned Character 1 byte (unsigned char)
@@ -61,7 +61,6 @@ typedef float GReal_t;///< Double 8 bytes or float 4 bytes
 #else
 typedef double GReal_t;///< Double 16 bytes or float 4 bytes
 #endif
-
 
 
 //---- constants ---------------------------------------------------------------
