@@ -141,55 +141,115 @@ GInt_t main(int argv, char** argc)
 			100, pow(K_mass + pi_mass,2), pow(B0_mass - Jpsi_mass,2));
 #endif
 
+	//C++11 lambda for invariant mass
+	auto M2 = [] __host__ __device__ (Vector4R const& p1, Vector4R const& p2 )
+	{ return  ( p1 + p2).mass(); };
+
+
+	//C++11 lambda for cosine of helicity angle Kpi
+	auto COSHELANG = [] __host__ __device__ (Vector4R const& p1, Vector4R const& p2, Vector4R const& p3  )
+	{
+		Vector4R p = p1 + p2 + p3;
+		Vector4R q = p2 + p3;
+
+		GReal_t pd = p * p2;
+		GReal_t pq = p * q;
+		GReal_t qd = q * p2;
+		GReal_t mp2 = p.mass2();
+		GReal_t mq2 = q.mass2();
+		GReal_t md2 = p2.mass2();
+
+		return (pd * mq2 - pq * qd)
+				/ sqrt((pq * pq - mq2 * mp2) * (qd * qd - mq2 * md2));
+	};
+
+	//C++11 lambda for angle between the planes [K,pi] and [mu+, mu-]
+	auto DELTA = [] __host__ __device__ (Vector4R const& d2, Vector4R const& d3,
+			Vector4R const& h1, Vector4R const& h2 )
+	{
+		Vector4R D = d2 + d3;
+
+		Vector4R d1_perp = d2 - (D.dot(d2) / D.dot(D)) * D;
+		Vector4R h1_perp = h1 - (D.dot(h1) / D.dot(D)) * D;
+
+		// orthogonal to both D and d1_perp
+		Vector4R d1_prime = D.cross(d1_perp);
+
+		d1_perp = d1_perp / d1_perp.d3mag();
+		d1_prime = d1_prime / d1_prime.d3mag();
+
+		GReal_t x, y;
+
+		x = d1_perp.dot(h1_perp);
+		y = d1_prime.dot(h1_perp);
+
+		GReal_t chi = atan2(y, x);
+
+		if(chi < 0.0) chi += 2.0*PI;
+
+		return chi;
+	};
+
+
+	//B0
 	hydra::Vector4R B0(B0_mass, 0.0, 0.0, 0.0);
+
+	//K pi J/psi masses
 	double masses1[3]{Jpsi_mass, K_mass, pi_mass };
+
+	//mu masses
 	double masses2[2]{mu_mass , mu_mass};
 
 	// Create PhaseSpace object for B0 -> K pi J/psi
-	hydra::PhaseSpace<3> phsp(B0_mass, masses1);
-	// Create PhaseSpace object for J/psi -> mu+ mu-
-	hydra::PhaseSpace<3> phsp(B0_mass, masses1);
+	hydra::PhaseSpace<3> phsp1(B0_mass, masses1);
 
+	// Create PhaseSpace object for J/psi -> mu+ mu-
+	hydra::PhaseSpace<2> phsp2(Jpsi_mass, masses2);
 
 	//device
 	{
 		//allocate memory to hold the final states particles
 		auto Chain_d   = hydra::make_chain<3,2>(hydra::device::sys, nentries);
+
 		auto JpsiKpi_d = Chain_d.template GetDecay<0>();
 		auto MuMu_d    = Chain_d.template GetDecay<1>();
 
-
 		auto start = std::chrono::high_resolution_clock::now();
 
-		//generate the final state particles
-		phsp.Generate(B0, JpsiKpi_d.begin(), JpsiKpi_d.end());
+		//generate the final state particles for B0 -> K pi J/psi
+		phsp1.Generate(B0, JpsiKpi_d.begin(), JpsiKpi_d.end());
+
+		//pass the list of J/psi to generate the final
+		//state particles for J/psi -> mu+ mu-
+		phsp2.Generate(JpsiKpi_d.DaughtersBegin(0), JpsiKpi_d.DaughtersEnd(0), MuMu_d.begin());
 
 		auto end = std::chrono::high_resolution_clock::now();
 
 		std::chrono::duration<double, std::milli> elapsed = end - start;
 
-
-
 		//output
 		std::cout << std::endl;
 		std::cout << std::endl;
 		std::cout << "----------------- Device ----------------"<< std::endl;
-		std::cout << "| B0 -> J/psi K pi"                   << std::endl;
+		std::cout << "| B0 -> J/psi K pi | J/psi -> mu+ mu-"    << std::endl;
 		std::cout << "| Number of events :"<< nentries          << std::endl;
 		std::cout << "| Time (ms)        :"<< elapsed.count()   << std::endl;
 		std::cout << "-----------------------------------------"<< std::endl;
 
 		//print
 		for( size_t i=0; i<10; i++ )
-			std::cout << Events_d[i] << std::endl;
+			std::cout << Chain_d[i] << std::endl;
 
 
         //bring events to CPU memory space
-		hydra::Events<3, hydra::host::sys_t > Events_h(Events_d);
+		auto Chain_h   = hydra::make_chain<3,2>(hydra::host::sys, nentries);
+		Chain_h   = Chain_d;
 
 #ifdef 	_ROOT_AVAILABLE_
 
-		for( auto event : Events_h ){
+		for( auto event : Chain_h ){
+
+
 
 			double weight        = hydra::get<0>(event);
 			hydra::Vector4R Jpsi = hydra::get<1>(event);

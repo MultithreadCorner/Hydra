@@ -164,7 +164,7 @@ GInt_t main(int argv, char** argc)
 		std::cout << std::endl;
 		std::cout << std::endl;
 		std::cout << "----------------- Device ----------------"<< std::endl;
-		std::cout << "| B0 -> J/psi K pi"                   << std::endl;
+		std::cout << "| B0 -> J/psi K pi"                       << std::endl;
 		std::cout << "| Number of events :"<< nentries          << std::endl;
 		std::cout << "| Time (ms)        :"<< elapsed.count()   << std::endl;
 		std::cout << "-----------------------------------------"<< std::endl;
@@ -174,17 +174,26 @@ GInt_t main(int argv, char** argc)
 			std::cout << Events_d[i] << std::endl;
 
 
-        //bring events to CPU memory space
-		hydra::Events<3, hydra::host::sys_t > Events_h(Events_d);
 
 #ifdef 	_ROOT_AVAILABLE_
 
+		//bring events to CPU memory space
+		hydra::Events<3, hydra::host::sys_t > Events_h(Events_d);
+
 		for( auto event : Events_h ){
 
-			double weight        = hydra::get<0>(event);
-			hydra::Vector4R Jpsi = hydra::get<1>(event);
-			hydra::Vector4R K    = hydra::get<2>(event);
-			hydra::Vector4R pi   = hydra::get<3>(event);
+			auto   B0_decay    = hydra::get<0>(event) ;
+			auto   Jpsi_decay  = hydra::get<1>(event) ;
+
+			double B0_weight     = hydra::get<0>(B0_decay);
+			hydra::Vector4R Jpsi = hydra::get<1>(B0_decay);
+			hydra::Vector4R K    = hydra::get<2>(B0_decay);
+			hydra::Vector4R pi   = hydra::get<3>(B0_decay);
+
+			double Jpsi_weight  = hydra::get<0>(Jpsi_decay);
+			hydra::Vector4R mup = hydra::get<1>(Jpsi_decay);
+			hydra::Vector4R mum = hydra::get<2>(Jpsi_decay);
+
 
 			double M2_Jpsi_pi = (Jpsi + pi).mass2();
 			double M2_Kpi     = (K + pi).mass2();
