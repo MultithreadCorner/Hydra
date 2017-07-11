@@ -131,14 +131,25 @@ GInt_t main(int argv, char** argc)
 	}
 
 #ifdef 	_ROOT_AVAILABLE
-	//
+
 	TH2D Dalitz_d("Dalitz_d", "Device;M^{2}(J/psi #pi) [GeV^{2}/c^{4}]; M^{2}(K #pi) [GeV^{2}/c^{4}]",
 			100, pow(Jpsi_mass + pi_mass,2), pow(B0_mass - K_mass,2),
 			100, pow(K_mass + pi_mass,2), pow(B0_mass - Jpsi_mass,2));
 
+	TH1D CosTheta_d("CosTheta_d", "Device; cos(#theta_{K*}), Events", 100, -1.0, 1.0);
+
+	TH1D    Delta_d("Delta_d", "Device; #delta #phi, Events", 100, -1.0, 1.0);
+
+	//---------
+
 	TH2D Dalitz_h("Dalitz_h", "Host;M^{2}(J/psi #pi) [GeV^{2}/c^{4}]; M^{2}(K #pi) [GeV^{2}/c^{4}]",
 			100, pow(Jpsi_mass + pi_mass,2), pow(B0_mass - K_mass,2),
 			100, pow(K_mass + pi_mass,2), pow(B0_mass - Jpsi_mass,2));
+
+	TH1D CosTheta_h("CosTheta_h", "Host; cos(#theta_{K*}), Events", 100, -1.0, 1.0);
+
+	TH1D    Delta_h("Delta_h", "Host; #delta #phi, Events", 100, -1.0, 1.0);
+
 #endif
 
 	//C++11 lambda for invariant mass
@@ -241,27 +252,33 @@ GInt_t main(int argv, char** argc)
 			std::cout << Chain_d[i] << std::endl;
 
 
-        //bring events to CPU memory space
+		//bring events to CPU memory space
 		auto Chain_h   = hydra::make_chain<3,2>(hydra::host::sys, nentries);
 		Chain_h   = Chain_d;
 
 #ifdef 	_ROOT_AVAILABLE_
+		for( auto event : Chain_h ) {
 
-		for( auto event : Chain_h ){
+			auto   B0_decay    = thrust::get<0>(event) ;
+			auto   JPsi_decay  = thrust::get<1>(event) ;
 
+			double weight        = hydra::get<0>(B0_decay );
+			hydra::Vector4R Jpsi = hydra::get<1>(B0_decay );
+			hydra::Vector4R K    = hydra::get<2>(B0_decay );
+			hydra::Vector4R pi   = hydra::get<3>(B0_decay );
 
+			hydra::Vector4R mup  = hydra::get<1>(Jpsi_decay );
+			hydra::Vector4R mum  = hydra::get<2>(JPsi_decay );
 
-			double weight        = hydra::get<0>(event);
-			hydra::Vector4R Jpsi = hydra::get<1>(event);
-			hydra::Vector4R K    = hydra::get<2>(event);
-			hydra::Vector4R pi   = hydra::get<3>(event);
+			double M2_Jpsipi  = M2(Jpsi, pi);
+			double M2_Kpi     = M2(K, pi);
+			double CosTheta   = COSHELANG(Jpsi, K+pi, K );
+			double DeltaAngle = DELTA(K, pi, mup, mum );
 
-			double M2_Jpsi_pi = (Jpsi + pi).mass2();
-			double M2_Kpi     = (K + pi).mass2();
-
-			Dalitz_d.Fill(weight, M2_Jpsi_pi, M2_Kpi );
+			Dalitz_d.Fill(weight, M2_Jpsipi, M2_Kpi );
+			CosTheta_d(weight,CosTheta );
+			Delta_d(weight,DeltaAngle );
 		}
-
 #endif
 
 	}
@@ -269,12 +286,19 @@ GInt_t main(int argv, char** argc)
 	//host
 	{
 		//allocate memory to hold the final states particles
-		hydra::Events<3, hydra::host::sys_t > Events_h(nentries);
+		auto Chain_h   = hydra::make_chain<3,2>(hydra::host::sys, nentries);
+
+		auto JpsiKpi_h = Chain_h.template GetDecay<0>();
+		auto MuMu_h    = Chain_h.template GetDecay<1>();
 
 		auto start = std::chrono::high_resolution_clock::now();
 
-		//generate the final state particles
-		phsp.Generate(B0, Events_h.begin(), Events_h.end());
+		//generate the final state particles for B0 -> K pi J/psi
+		phsp1.Generate(B0, JpsiKpi_h.begin(), JpsiKpi_h.end());
+
+		//pass the list of J/psi to generate the final
+		//state particles for J/psi -> mu+ mu-
+		phsp2.Generate(JpsiKpi_h.DaughtersBegin(0), JpsiKpi_h.DaughtersEnd(0), MuMu_h.begin());
 
 		auto end = std::chrono::high_resolution_clock::now();
 
@@ -284,30 +308,43 @@ GInt_t main(int argv, char** argc)
 		std::cout << std::endl;
 		std::cout << std::endl;
 		std::cout << "------------------ Host -----------------"<< std::endl;
-		std::cout << "| B0 -> J/psi K pi"                   << std::endl;
+		std::cout << "| B0 -> J/psi K pi | J/psi -> mu+ mu-"    << std::endl;
 		std::cout << "| Number of events :"<< nentries          << std::endl;
 		std::cout << "| Time (ms)        :"<< elapsed.count()   << std::endl;
 		std::cout << "-----------------------------------------"<< std::endl;
 
 		//print
 		for( size_t i=0; i<10; i++ )
-			std::cout << Events_d[i] << std::endl;
+			std::cout << Chain_d[i] << std::endl;
+
+
+		//bring events to CPU memory space
+		auto Chain_h   = hydra::make_chain<3,2>(hydra::host::sys, nentries);
+		Chain_h   = Chain_d;
 
 #ifdef 	_ROOT_AVAILABLE_
+		for( auto event : Chain_h )	{
 
-		for( auto event : Events_h ){
+			auto   B0_decay    = thrust::get<0>(event) ;
+			auto   JPsi_decay  = thrust::get<1>(event) ;
 
-			double weight        = hydra::get<0>(event);
-			hydra::Vector4R Jpsi = hydra::get<1>(event);
-			hydra::Vector4R K    = hydra::get<2>(event);
-			hydra::Vector4R pi   = hydra::get<3>(event);
+			double weight        = hydra::get<0>(B0_decay );
+			hydra::Vector4R Jpsi = hydra::get<1>(B0_decay );
+			hydra::Vector4R K    = hydra::get<2>(B0_decay );
+			hydra::Vector4R pi   = hydra::get<3>(B0_decay );
 
-			double M2_Jpsi_pi = (Jpsi + pi).mass2();
-			double M2_Kpi     = (K + pi).mass2();
+			hydra::Vector4R mup  = hydra::get<1>(Jpsi_decay );
+			hydra::Vector4R mum  = hydra::get<2>(JPsi_decay );
 
-			Dalitz_h.Fill(weight, M2_Jpsi_pi, M2_Kpi );
+			double M2_Jpsipi  = M2(Jpsi, pi);
+			double M2_Kpi     = M2(K, pi);
+			double CosTheta   = COSHELANG(Jpsi, K+pi, K );
+			double DeltaAngle = DELTA(K, pi, mup, mum );
+
+			Dalitz_h.Fill(weight, M2_Jpsipi, M2_Kpi );
+			CosTheta_h(weight,CosTheta );
+			Delta_h(weight,DeltaAngle );
 		}
-
 #endif
 
 	}
@@ -317,13 +354,31 @@ GInt_t main(int argv, char** argc)
 
 	TApplication *m_app=new TApplication("myapp",0,0);
 
-	TCanvas canvas_h("canvas_h", "Phase-space Host", 500, 500);
+	TCanvas canvas1_h("canvas1_h", "Phase-space Host", 500, 500);
 	dalitz_h.Draw("colz");
-	canvas_h.Print("plots/phsp_basic_h.png");
+	canvas1_h.Print("plots/phsp_chain_h1.png");
 
-	TCanvas canvas_d("canvas_d", "Phase-space Device", 500, 500);
+	TCanvas canvas2_h("canvas2_h", "Phase-space Host", 500, 500);
+	CosTheta_h.Draw("hist");
+	canvas2_h.Print("plots/phsp_chain_h2.png");
+
+	TCanvas canvas3_h("canvas3_h", "Phase-space Host", 500, 500);
+	Delta_h.Draw("hist");
+	canvas3_h.Print("plots/phsp_chain_h3.png");
+
+	//--------------------------------------
+
+	TCanvas canvas1_d("canvas1_d", "Phase-space Host", 500, 500);
 	dalitz_d.Draw("colz");
-	canvas_d.Print("plots/phsp_basic_d.png");
+	canvas1_d.Print("plots/phsp_chain_d1.png");
+
+	TCanvas canvas2_d("canvas2_d", "Phase-space Host", 500, 500);
+	CosTheta_d.Draw("hist");
+	canvas2_d.Print("plots/phsp_chain_d2.png");
+
+	TCanvas canvas3_d("canvas3_d", "Phase-space Host", 500, 500);
+	Delta_d.Draw("hist");
+	canvas3_d.Print("plots/phsp_chain_d3.png");
 
 	m_app->Run();
 
