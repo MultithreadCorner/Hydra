@@ -131,16 +131,26 @@ GInt_t main(int argv, char** argc)
 																<< std::endl;
 	}
 
-#ifdef 	_ROOT_AVAILABLE
-	//
-	TH2D Dalitz_d("Dalitz_d", "Device;M^{2}(J/psi #pi) [GeV^{2}/c^{4}]; M^{2}(K #pi) [GeV^{2}/c^{4}]",
-			100, pow(Jpsi_mass + pi_mass,2), pow(B0_mass - K_mass,2),
-			100, pow(K_mass + pi_mass,2), pow(B0_mass - Jpsi_mass,2));
+	//C++11 lambda for cosine of helicity angle Kpi
+	auto COSHELANG = [] __host__ __device__ (size_t n, Vector4R *fvectors )
+	{
+		Vector4R p1 = fvectors[0];
+		Vector4R p2 = fvectors[1];
+		Vector4R p3 = fvectors[2];
 
-	TH2D Dalitz_h("Dalitz_h", "Host;M^{2}(J/psi #pi) [GeV^{2}/c^{4}]; M^{2}(K #pi) [GeV^{2}/c^{4}]",
-			100, pow(Jpsi_mass + pi_mass,2), pow(B0_mass - K_mass,2),
-			100, pow(K_mass + pi_mass,2), pow(B0_mass - Jpsi_mass,2));
-#endif
+		Vector4R p = p1 + p2 + p3;
+		Vector4R q = p2 + p3;
+
+		GReal_t pd = p * p2;
+		GReal_t pq = p * q;
+		GReal_t qd = q * p2;
+		GReal_t mp2 = p.mass2();
+		GReal_t mq2 = q.mass2();
+		GReal_t md2 = p2.mass2();
+
+		return (pd * mq2 - pq * qd)
+				/ sqrt((pq * pq - mq2 * mp2) * (qd * qd - mq2 * md2));
+	};
 
 	hydra::Vector4R B0(B0_mass, 0.0, 0.0, 0.0);
 	double masses[3]{Jpsi_mass, K_mass, pi_mass };
@@ -150,72 +160,35 @@ GInt_t main(int argv, char** argc)
 
 	//device
 	{
-		//allocate memory to hold the final states particles
-		hydra::Events<3, hydra::device::sys_t > Events_d(nentries);
+	auto start = std::chrono::high_resolution_clock::now();
 
-		auto start = std::chrono::high_resolution_clock::now();
+	auto device_result = phsp.AverageOn(hydra::device::sys, B0 , COSHELANG, nentries) ;
 
-		//generate the final state particles
-		phsp.Generate(B0, Events_d.begin(), Events_d.end());
+	auto end = std::chrono::high_resolution_clock::now();
 
-		auto end = std::chrono::high_resolution_clock::now();
+	std::chrono::duration<double, std::milli> elapsed = end - start;
 
-		std::chrono::duration<double, std::milli> elapsed = end - start;
-
-		//output
-		std::cout << std::endl;
-		std::cout << std::endl;
-		std::cout << "----------------- Device ----------------"<< std::endl;
-		std::cout << "| B0 -> J/psi K pi"                       << std::endl;
-		std::cout << "| Number of events :"<< nentries          << std::endl;
-		std::cout << "| Time (ms)        :"<< elapsed.count()   << std::endl;
-		std::cout << "-----------------------------------------"<< std::endl;
-
-		//print
-		for( size_t i=0; i<10; i++ )
-			std::cout << Events_d[i] << std::endl;
-
-
-
-#ifdef 	_ROOT_AVAILABLE_
-
-		//bring events to CPU memory space
-		hydra::Events<3, hydra::host::sys_t > Events_h(Events_d);
-
-		for( auto event : Events_h ){
-
-			auto   B0_decay    = hydra::get<0>(event) ;
-			auto   Jpsi_decay  = hydra::get<1>(event) ;
-
-			double B0_weight     = hydra::get<0>(B0_decay);
-			hydra::Vector4R Jpsi = hydra::get<1>(B0_decay);
-			hydra::Vector4R K    = hydra::get<2>(B0_decay);
-			hydra::Vector4R pi   = hydra::get<3>(B0_decay);
-
-			double Jpsi_weight  = hydra::get<0>(Jpsi_decay);
-			hydra::Vector4R mup = hydra::get<1>(Jpsi_decay);
-			hydra::Vector4R mum = hydra::get<2>(Jpsi_decay);
-
-
-			double M2_Jpsi_pi = (Jpsi + pi).mass2();
-			double M2_Kpi     = (K + pi).mass2();
-
-			Dalitz_d.Fill(weight, M2_Jpsi_pi, M2_Kpi );
-		}
-
-#endif
-
+	//output
+	std::cout << std::endl;
+	std::cout << std::endl;
+	std::cout << "----------------- Device ----------------"<< std::endl;
+	std::cout << "|< cos(theta_K) >(B0 -> J/psi K pi): "
+			  << device_result.first
+			  << " +- "
+			  << device_result.second
+			  << std::endl;
+	std::cout << "| Number of events :"<< nentries          << std::endl;
+	std::cout << "| Time (ms)        :"<< elapsed.count()   << std::endl;
+	std::cout << "-----------------------------------------"<< std::endl;
 	}
+
+
 
 	//host
 	{
-		//allocate memory to hold the final states particles
-		hydra::Events<3, hydra::host::sys_t > Events_h(nentries);
-
 		auto start = std::chrono::high_resolution_clock::now();
 
-		//generate the final state particles
-		phsp.Generate(B0, Events_h.begin(), Events_h.end());
+		auto host_result = phsp.AverageOn(hydra::host::sys, B0 , COSHELANG, nentries) ;
 
 		auto end = std::chrono::high_resolution_clock::now();
 
@@ -224,51 +197,17 @@ GInt_t main(int argv, char** argc)
 		//output
 		std::cout << std::endl;
 		std::cout << std::endl;
-		std::cout << "------------------ Host -----------------"<< std::endl;
-		std::cout << "| B0 -> J/psi K pi"                   << std::endl;
+		std::cout << "----------------- Host ----------------"<< std::endl;
+		std::cout << "|< cos(theta_K) >(B0 -> J/psi K pi): "
+				<< host_result.first
+				<< " +- "
+				<< host_result.second
+				<< std::endl;
 		std::cout << "| Number of events :"<< nentries          << std::endl;
 		std::cout << "| Time (ms)        :"<< elapsed.count()   << std::endl;
 		std::cout << "-----------------------------------------"<< std::endl;
-
-		//print
-		for( size_t i=0; i<10; i++ )
-			std::cout << Events_d[i] << std::endl;
-
-#ifdef 	_ROOT_AVAILABLE_
-
-		for( auto event : Events_h ){
-
-			double weight        = hydra::get<0>(event);
-			hydra::Vector4R Jpsi = hydra::get<1>(event);
-			hydra::Vector4R K    = hydra::get<2>(event);
-			hydra::Vector4R pi   = hydra::get<3>(event);
-
-			double M2_Jpsi_pi = (Jpsi + pi).mass2();
-			double M2_Kpi     = (K + pi).mass2();
-
-			Dalitz_h.Fill(weight, M2_Jpsi_pi, M2_Kpi );
-		}
-
-#endif
-
 	}
 
-
-#ifdef 	_ROOT_AVAILABLE_
-
-	TApplication *m_app=new TApplication("myapp",0,0);
-
-	TCanvas canvas_h("canvas_h", "Phase-space Host", 500, 500);
-	dalitz_h.Draw("colz");
-	canvas_h.Print("plots/phsp_basic_h.png");
-
-	TCanvas canvas_d("canvas_d", "Phase-space Device", 500, 500);
-	dalitz_d.Draw("colz");
-	canvas_d.Print("plots/phsp_basic_d.png");
-
-	m_app->Run();
-
-#endif
 
 	return 0;
 }

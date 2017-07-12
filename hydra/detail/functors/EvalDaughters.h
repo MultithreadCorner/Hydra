@@ -350,7 +350,7 @@ struct EvalOnDaughters
 
 		ResultPHSP result;
 
-		result.fMean = fFunctor(Particles);
+		result.fMean = fFunctor(SIZE, Particles);
 		result.fW    = weight;
 		result.fM2   = 0.0;
 
