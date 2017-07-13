@@ -32,11 +32,11 @@
 
 
 /**
- * @example phsp_basic.inl
+ * @example phsp_averaging_functor.inl
  * This example shows how to use the Hydra's
- * phase space Monte Carlo algorithms to
- * generate a sample of B0 -> J/psi K pi and
- * plot the Dalitz plot.
+ * phase space Monte Carlo algorithms to calculate the
+ * average value and corresponding variance of a functor
+ * over the phase space of the decay B0 -> J/psi K pi.
  */
 
 
