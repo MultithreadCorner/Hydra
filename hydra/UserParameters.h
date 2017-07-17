@@ -203,12 +203,13 @@ private:
 
 };
 
+/*
 __host__
 std::ostream& operator<<(std::ostream& os, UserParameters const& par){
 
 	return os << par.GetMnState() ;
 }
-
+*/
 
 }  // namespace hydra
 

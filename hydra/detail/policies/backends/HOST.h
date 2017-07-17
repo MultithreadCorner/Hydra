@@ -50,8 +50,10 @@ template<>
 struct BackendPolicy<Backend::Host>: thrust::execution_policy<host::host_t>
 {
 	const host::host_t backend= host::_host_;
+
 	template<typename T>
 	using   container = hydra::mc_host_vector<T>;
+
 };
 
 }  // namespace detail
@@ -60,6 +62,10 @@ namespace host {
 
 
 typedef hydra::detail::BackendPolicy<hydra::detail::Backend::Host> sys_t;
+
+template<typename T>
+using   vector = hydra::detail::BackendPolicy<hydra::detail::Backend::Host>::container<T>;
+
 static const sys_t sys=sys_t();;
 
 }  // namespace host

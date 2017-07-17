@@ -98,9 +98,9 @@ struct BaseFunctor
 	fNormalized(1),
 	_par(*this)
 	{
-
-		for(size_t i=0; i<NPARAM; i++)
-			this->SetParameter(i, *(init_parameters.begin() + i));
+		if(NPARAM!=0){
+		for(int i=0; i<NPARAM; i++)
+			this->SetParameter(i, *(init_parameters.begin() + i));}
 	}
 
 	/**
@@ -116,9 +116,10 @@ struct BaseFunctor
 		fNormalized(1),
 		_par(*this)
 		{
-
-			for(size_t i=0; i<NPARAM; i++)
+		if(NPARAM!=0){
+			for(int i=0; i<NPARAM; i++)
 				this->SetParameter(i, *(init_parameters.begin() + i));
+		}
 		}
 
 
@@ -135,10 +136,10 @@ struct BaseFunctor
 	fNormalized(other.GetNormalized() ),
 	_par(*this)
 	{
-
-	for(size_t i=0; i<NPARAM; i++)
+if(NPARAM!=0){
+	for(int i=0; i<NPARAM; i++)
 	this->SetParameter(i, other.GetParameter(i));
-
+}
 	}
 
 	/**
@@ -157,9 +158,10 @@ struct BaseFunctor
 			this->fNormalized =other.GetNormalized();
 			this->fParamResgistered =1;
 			this->fNArgs= other.GetNArgs();
-			for(size_t i=0; i<NPARAM; i++)
+			if(NPARAM!=0){
+			for(int i=0; i<NPARAM; i++)
 				this->SetParameter(i, other.GetParameter(i));
-
+			}
 			_par=*this;
 
 		}
@@ -376,6 +378,7 @@ struct BaseFunctor
 		return (GReal_t ) fParameters[i];
 	}
 
+    __host__ __device__  inline
 	int GetNArgs() const {
 		return fNArgs;
 	}

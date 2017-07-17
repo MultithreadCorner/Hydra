@@ -143,9 +143,8 @@ public:
 	 * @param mother Mother particle four-vector;
 	 * @param functors Functors;
 	 */
-	template<typename ...FUNCTOR, hydra::detail::Backend BACKEND, typename Iterator>
-	void Evaluate(hydra::detail::BackendPolicy<BACKEND>const& policy, Iterator begin, Iterator end,
-			Vector4R const& mother, FUNCTOR const& ...functors);
+	template<typename ...FUNCTOR, typename Iterator>
+	void Evaluate(Vector4R const& mother, Iterator begin, Iterator end, FUNCTOR const& ...functors);
 
 	/**
 	 * @brief Evaluate a list of functors  over the phase-space given a list vectors.
@@ -155,10 +154,9 @@ public:
 	 * @param begin Iterator pointing to the begin of list of output range;
 	 * @param functors Functors;
 	 */
-	template<typename ...FUNCTOR, hydra::detail::Backend BACKEND,
-	typename IteratorMother, typename Iterator>
-	void Evaluate(hydra::detail::BackendPolicy<BACKEND>const& policy, IteratorMother mbegin,
-			IteratorMother mend, Iterator begin, FUNCTOR const& ...functors);
+	template<typename ...FUNCTOR, typename IteratorMother, typename Iterator>
+	void Evaluate(IteratorMother mbegin, IteratorMother mend,
+			Iterator begin, FUNCTOR const& ...functors);
 
     /**
      * @brief Generate a phase-space  given a mother particle and a output range.

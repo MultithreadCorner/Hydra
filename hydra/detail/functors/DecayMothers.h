@@ -72,6 +72,7 @@ struct DecayMothers
 	}
 
 	//copy
+	__host__      __device__
 	DecayMothers(DecayMothers<N, GRND> const& other)
 	{
 		fSeed = other.fSeed;

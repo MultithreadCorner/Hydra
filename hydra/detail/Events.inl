@@ -277,7 +277,7 @@ Events<N,hydra::detail::BackendPolicy<BACKEND>>&
 Events<N, hydra::detail::BackendPolicy<BACKEND>>::operator=(Events<N,hydra::detail::BackendPolicy<BACKEND2>> const& other)
 		{
 
-	if(this==&other) return *this;
+	//if(this==&other) return *this;
 
 			this->fNEvents=other.GetNEvents();
 			this->fMaxWeight=other.GetMaxWeight();

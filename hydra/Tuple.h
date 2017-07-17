@@ -31,6 +31,7 @@
 
 #include <thrust/tuple.h>
 
+namespace hydra {
 //---- type alias -----------------------
 
 /*! \p tuple template is an alias to the variadic version of thrust::tuple
@@ -160,7 +161,7 @@ template<class ...T>
 tuple<T...>
 make_tuple(T const&... t)
 {
-	return thust::make_tuple(t...);
+	return thrust::make_tuple(t...);
 }
 
 
@@ -173,7 +174,7 @@ make_tuple(T const&... t)
 template<class ...T>
 tuple<T&...> tie(T& ...t)
 {
-	return thust::tie(t...);
+	return thrust::tie(t...);
 }
-
+}//namespace hydra
 #endif /* TUPLES_H_ */

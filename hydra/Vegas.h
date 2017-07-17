@@ -38,7 +38,9 @@
 #include <hydra/VegasState.h>
 #include <hydra/detail/functors/ProcessCallsVegas.h>
 #include <hydra/detail/Integrator.h>
+#include <utility>
 
+#include <thrust/random.h>
 
 namespace hydra {
 
@@ -122,7 +124,7 @@ public:
 	}
 
 	template<typename FUNCTOR>
-	std::pair<GReal_t, GReal_t> Integrate(FUNCTOR const& functor) ;
+	std::pair<GReal_t, GReal_t> Integrate(FUNCTOR const& fFunctor);
 
 private:
 
@@ -177,4 +179,5 @@ private:
 }
 
 #include <hydra/detail/Vegas.inl>
+
 #endif /* VEGAS_H_ */

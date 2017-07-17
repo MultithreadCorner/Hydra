@@ -59,8 +59,7 @@
  * algorithms for
  *--------------------------------
  */
-#include <hydra/Types.h>
-#include <hydra/Vector4R.h>
+
 #include <hydra/PhaseSpace.h>
 #include <hydra/Events.h>
 #include <hydra/Chain.h>
@@ -70,6 +69,8 @@
 #include <hydra/FunctionWrapper.h>
 #include <hydra/Copy.h>
 #include <hydra/Tuple.h>
+#include <hydra/Vector3R.h>
+#include <hydra/Vector4R.h>
 #include <hydra/host/System.h>
 #include <hydra/device/System.h>
 
@@ -95,7 +96,7 @@
 
 
 
-GInt_t main(int argv, char** argc)
+int main(int argv, char** argc)
 {
 
 
@@ -112,7 +113,7 @@ GInt_t main(int argv, char** argc)
 
 		TCLAP::CmdLine cmd("Command line arguments for PHSP B0 -> J/psi K pi", '=');
 
-		TCLAP::ValueArg<GULong_t> NArg("n",
+		TCLAP::ValueArg<size_t> NArg("n",
 				"nevents",
 				"Number of events to generate. Default is [ 10e6 ].",
 				true, 10e6, "unsigned long");
@@ -130,7 +131,7 @@ GInt_t main(int argv, char** argc)
 																<< std::endl;
 	}
 
-#ifdef 	_ROOT_AVAILABLE
+#ifdef 	_ROOT_AVAILABLE_
 
 	TH2D Dalitz_d("Dalitz_d", "Device;M^{2}(J/psi #pi) [GeV^{2}/c^{4}]; M^{2}(K #pi) [GeV^{2}/c^{4}]",
 			100, pow(Jpsi_mass + pi_mass,2), pow(B0_mass - K_mass,2),
@@ -153,48 +154,48 @@ GInt_t main(int argv, char** argc)
 #endif
 
 	//C++11 lambda for invariant mass
-	auto M2 = [] __host__ __device__ (Vector4R const& p1, Vector4R const& p2 )
-	{ return  ( p1 + p2).mass(); };
+	auto M2 = [] __host__ __device__ (hydra::Vector4R const& p1, hydra::Vector4R const& p2 )
+	{ return  ( p1 + p2).mass2(); };
 
 
 	//C++11 lambda for cosine of helicity angle Kpi
-	auto COSHELANG = [] __host__ __device__ (Vector4R const& p1, Vector4R const& p2, Vector4R const& p3  )
+	auto COSHELANG = [] __host__ __device__ (hydra::Vector4R const& p1, hydra::Vector4R const& p2, hydra::Vector4R const& p3  )
 	{
-		Vector4R p = p1 + p2 + p3;
-		Vector4R q = p2 + p3;
+		hydra::Vector4R p = p1 + p2 + p3;
+		hydra::Vector4R q = p2 + p3;
 
-		GReal_t pd = p * p2;
-		GReal_t pq = p * q;
-		GReal_t qd = q * p2;
-		GReal_t mp2 = p.mass2();
-		GReal_t mq2 = q.mass2();
-		GReal_t md2 = p2.mass2();
+		double pd = p * p2;
+		double pq = p * q;
+		double qd = q * p2;
+		double mp2 = p.mass2();
+		double mq2 = q.mass2();
+		double md2 = p2.mass2();
 
 		return (pd * mq2 - pq * qd)
 				/ sqrt((pq * pq - mq2 * mp2) * (qd * qd - mq2 * md2));
 	};
 
 	//C++11 lambda for angle between the planes [K,pi] and [mu+, mu-]
-	auto DELTA = [] __host__ __device__ (Vector4R const& d2, Vector4R const& d3,
-			Vector4R const& h1, Vector4R const& h2 )
+	auto DELTA = [] __host__ __device__ (hydra::Vector4R const& d2, hydra::Vector4R const& d3,
+			hydra::Vector4R const& h1, hydra::Vector4R const& h2 )
 	{
-		Vector4R D = d2 + d3;
+		hydra::Vector4R D = d2 + d3;
 
-		Vector4R d1_perp = d2 - (D.dot(d2) / D.dot(D)) * D;
-		Vector4R h1_perp = h1 - (D.dot(h1) / D.dot(D)) * D;
+		hydra::Vector4R d1_perp = d2 - (D.dot(d2) / D.dot(D)) * D;
+		hydra::Vector4R h1_perp = h1 - (D.dot(h1) / D.dot(D)) * D;
 
 		// orthogonal to both D and d1_perp
-		Vector4R d1_prime = D.cross(d1_perp);
+		hydra::Vector4R d1_prime = D.cross(d1_perp);
 
 		d1_perp = d1_perp / d1_perp.d3mag();
 		d1_prime = d1_prime / d1_prime.d3mag();
 
-		GReal_t x, y;
+		double x, y;
 
 		x = d1_perp.dot(h1_perp);
 		y = d1_prime.dot(h1_perp);
 
-		GReal_t chi = atan2(y, x);
+		double chi = atan2(y, x);
 
 		if(chi < 0.0) chi += 2.0*PI;
 
@@ -222,17 +223,16 @@ GInt_t main(int argv, char** argc)
 		//allocate memory to hold the final states particles
 		auto Chain_d   = hydra::make_chain<3,2>(hydra::device::sys, nentries);
 
-		auto JpsiKpi_d = Chain_d.template GetDecay<0>();
-		auto MuMu_d    = Chain_d.template GetDecay<1>();
 
 		auto start = std::chrono::high_resolution_clock::now();
 
 		//generate the final state particles for B0 -> K pi J/psi
-		phsp1.Generate(B0, JpsiKpi_d.begin(), JpsiKpi_d.end());
+		phsp1.Generate(B0, hydra::get<0>(Chain_d).begin(), hydra::get<0>(Chain_d).end());
 
 		//pass the list of J/psi to generate the final
 		//state particles for J/psi -> mu+ mu-
-		phsp2.Generate(JpsiKpi_d.DaughtersBegin(0), JpsiKpi_d.DaughtersEnd(0), MuMu_d.begin());
+		phsp2.Generate(hydra::get<0>(Chain_d).DaughtersBegin(0),
+				hydra::get<0>(Chain_d).DaughtersEnd(0), hydra::get<1>(Chain_d).begin());
 
 		auto end = std::chrono::high_resolution_clock::now();
 
@@ -259,8 +259,8 @@ GInt_t main(int argv, char** argc)
 #ifdef 	_ROOT_AVAILABLE_
 		for( auto event : Chain_h ) {
 
-			auto   B0_decay    = thrust::get<0>(event) ;
-			auto   JPsi_decay  = thrust::get<1>(event) ;
+			auto   B0_decay    = hydra::get<1>(event) ;
+			auto   Jpsi_decay  = hydra::get<2>(event) ;
 
 			double weight        = hydra::get<0>(B0_decay );
 			hydra::Vector4R Jpsi = hydra::get<1>(B0_decay );
@@ -268,16 +268,16 @@ GInt_t main(int argv, char** argc)
 			hydra::Vector4R pi   = hydra::get<3>(B0_decay );
 
 			hydra::Vector4R mup  = hydra::get<1>(Jpsi_decay );
-			hydra::Vector4R mum  = hydra::get<2>(JPsi_decay );
+			hydra::Vector4R mum  = hydra::get<2>(Jpsi_decay );
 
 			double M2_Jpsipi  = M2(Jpsi, pi);
 			double M2_Kpi     = M2(K, pi);
-			double CosTheta   = COSHELANG(Jpsi, K+pi, K );
+			double CosTheta   = COSHELANG(Jpsi, pi, K );
 			double DeltaAngle = DELTA(K, pi, mup, mum );
 
-			Dalitz_d.Fill(weight, M2_Jpsipi, M2_Kpi );
-			CosTheta_d(weight,CosTheta );
-			Delta_d(weight,DeltaAngle );
+			Dalitz_d.Fill(M2_Jpsipi, M2_Kpi , weight);
+			CosTheta_d.Fill(CosTheta , weight);
+			Delta_d.Fill(DeltaAngle, weight );
 		}
 #endif
 
@@ -288,17 +288,16 @@ GInt_t main(int argv, char** argc)
 		//allocate memory to hold the final states particles
 		auto Chain_h   = hydra::make_chain<3,2>(hydra::host::sys, nentries);
 
-		auto JpsiKpi_h = Chain_h.template GetDecay<0>();
-		auto MuMu_h    = Chain_h.template GetDecay<1>();
 
 		auto start = std::chrono::high_resolution_clock::now();
 
 		//generate the final state particles for B0 -> K pi J/psi
-		phsp1.Generate(B0, JpsiKpi_h.begin(), JpsiKpi_h.end());
+		phsp1.Generate(B0, hydra::get<0>(Chain_h).begin(), hydra::get<0>(Chain_h).end());
 
 		//pass the list of J/psi to generate the final
 		//state particles for J/psi -> mu+ mu-
-		phsp2.Generate(JpsiKpi_h.DaughtersBegin(0), JpsiKpi_h.DaughtersEnd(0), MuMu_h.begin());
+		phsp2.Generate(hydra::get<0>(Chain_h).DaughtersBegin(0),
+				hydra::get<0>(Chain_h).DaughtersEnd(0), hydra::get<1>(Chain_h).begin());
 
 		auto end = std::chrono::high_resolution_clock::now();
 
@@ -315,18 +314,15 @@ GInt_t main(int argv, char** argc)
 
 		//print
 		for( size_t i=0; i<10; i++ )
-			std::cout << Chain_d[i] << std::endl;
+			std::cout << Chain_h[i] << std::endl;
 
 
-		//bring events to CPU memory space
-		auto Chain_h   = hydra::make_chain<3,2>(hydra::host::sys, nentries);
-		Chain_h   = Chain_d;
 
 #ifdef 	_ROOT_AVAILABLE_
 		for( auto event : Chain_h )	{
 
-			auto   B0_decay    = thrust::get<0>(event) ;
-			auto   JPsi_decay  = thrust::get<1>(event) ;
+			auto   B0_decay    = hydra::get<1>(event) ;
+			auto   Jpsi_decay  = hydra::get<2>(event) ;
 
 			double weight        = hydra::get<0>(B0_decay );
 			hydra::Vector4R Jpsi = hydra::get<1>(B0_decay );
@@ -334,16 +330,16 @@ GInt_t main(int argv, char** argc)
 			hydra::Vector4R pi   = hydra::get<3>(B0_decay );
 
 			hydra::Vector4R mup  = hydra::get<1>(Jpsi_decay );
-			hydra::Vector4R mum  = hydra::get<2>(JPsi_decay );
+			hydra::Vector4R mum  = hydra::get<2>(Jpsi_decay );
 
 			double M2_Jpsipi  = M2(Jpsi, pi);
 			double M2_Kpi     = M2(K, pi);
-			double CosTheta   = COSHELANG(Jpsi, K+pi, K );
+			double CosTheta   = COSHELANG(Jpsi, pi, K );
 			double DeltaAngle = DELTA(K, pi, mup, mum );
 
-			Dalitz_h.Fill(weight, M2_Jpsipi, M2_Kpi );
-			CosTheta_h(weight,CosTheta );
-			Delta_h(weight,DeltaAngle );
+			Dalitz_h.Fill(M2_Jpsipi, M2_Kpi , weight);
+			CosTheta_h.Fill(CosTheta , weight);
+					Delta_h.Fill(DeltaAngle, weight );
 		}
 #endif
 
@@ -355,7 +351,7 @@ GInt_t main(int argv, char** argc)
 	TApplication *m_app=new TApplication("myapp",0,0);
 
 	TCanvas canvas1_h("canvas1_h", "Phase-space Host", 500, 500);
-	dalitz_h.Draw("colz");
+	Dalitz_h.Draw("colz");
 	canvas1_h.Print("plots/phsp_chain_h1.png");
 
 	TCanvas canvas2_h("canvas2_h", "Phase-space Host", 500, 500);
@@ -369,7 +365,7 @@ GInt_t main(int argv, char** argc)
 	//--------------------------------------
 
 	TCanvas canvas1_d("canvas1_d", "Phase-space Host", 500, 500);
-	dalitz_d.Draw("colz");
+	Dalitz_d.Draw("colz");
 	canvas1_d.Print("plots/phsp_chain_d1.png");
 
 	TCanvas canvas2_d("canvas2_d", "Phase-space Host", 500, 500);

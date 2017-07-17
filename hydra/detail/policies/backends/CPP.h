@@ -49,8 +49,11 @@ template<>
 struct BackendPolicy<Backend::Cpp>: thrust::execution_policy<cpp::cpp_t>
 {
 	const cpp::cpp_t backend= cpp::_cpp_;
+
 	template<typename T>
 	using   container = thrust::cpp::vector<T> ;
+
+
 };
 
 
@@ -59,6 +62,10 @@ struct BackendPolicy<Backend::Cpp>: thrust::execution_policy<cpp::cpp_t>
 namespace cpp {
 
 typedef hydra::detail::BackendPolicy<hydra::detail::Backend::Cpp> sys_t;
+
+template<typename T>
+using   vector = hydra::detail::BackendPolicy<hydra::detail::Backend::Cpp>::container<T> ;
+
 static const sys_t sys= sys_t();
 
 }  // namespace cpp

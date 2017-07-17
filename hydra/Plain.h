@@ -32,7 +32,7 @@
 
 #ifndef PLAIN_H_
 #define PLAIN_H_
-
+#include <iostream>
 #include <hydra/detail/Config.h>
 #include <hydra/detail/BackendPolicy.h>
 #include <hydra/Types.h>
@@ -42,6 +42,8 @@
 #include <hydra/detail/functors/ProcessCallsPlain.h>
 #include <utility>
 #include <vector>
+
+#include <thrust/random.h>
 
 namespace hydra {
 
@@ -86,8 +88,9 @@ public:
 	 * @param UpLim std::array<GReal_t,N>  with the upper limits of the integration region.
 	 * @param calls Number of calls.
 	 */
-	Plain( std::array<GReal_t,N> const& LowLim,
-		   std::array<GReal_t,N> const& UpLim, size_t calls):
+	Plain( std::array<GReal_t,N> const& LowLim, std::array<GReal_t,N> const& UpLim,
+			size_t calls, size_t seed=159753456852):
+				fSeed(seed),
 				fNCalls(calls),
 				fResult(0),
 				fAbsError(0),
@@ -104,6 +107,54 @@ public:
 
 
 	}
+
+	/**
+	 * @brief Constructor for  Plain MC numerical integration algorithm.
+	 * @param LowLim  is std::array<GReal_t,N> with the lower limits of the integration region.
+	 * @param UpLim std::array<GReal_t,N>  with the upper limits of the integration region.
+	 * @param calls Number of calls.
+	 */
+	Plain( const double LowLim[N] , const double  UpLim[N], size_t calls, size_t seed=159753456852):
+        fSeed(seed),
+		fNCalls(calls),
+		fResult(0),
+		fAbsError(0),
+		fVolume(1.0)
+	{
+
+		fVolume=1.0;
+		for(size_t i=0; i<N; i++)
+		{
+		    fDeltaX.push_back( -LowLim[i] + UpLim[i]);
+			fXLow.push_back( LowLim[i]);
+			fVolume *= (-LowLim[i] + UpLim[i]);
+		}
+
+
+	}
+
+	Plain( Plain<N, hydra::detail::BackendPolicy<BACKEND>, GRND> const& other):
+		fSeed(other.GetSeed() ),
+		fNCalls(other.GetNCalls()),
+		fResult(other.GetResult()),
+		fAbsError(other.GetAbsError() ),
+		fVolume(other.GetVolume()),
+		fDeltaX(other.GetDeltaX()),
+		fXLow(other.GetXLow())
+	{ }
+
+	template<hydra::detail::Backend BACKEND2>
+	Plain( Plain<N, hydra::detail::BackendPolicy<BACKEND2>, GRND> const& other):
+	fSeed(other.GetSeed() ),
+	fNCalls(other.GetNCalls()),
+	fResult(other.GetResult()),
+	fAbsError(other.GetAbsError() ),
+	fVolume(other.GetVolume()),
+	fDeltaX(other.GetDeltaX()),
+	fXLow(other.GetXLow())
+	{ }
+
+
 
 	/**
 	 * @brief This method performs the actual integration.
@@ -187,9 +238,19 @@ public:
 		fXLow = xLow;
 	}
 
+	size_t GetSeed() const {
+		return fSeed;
+	}
+
+	void SetSeed(const size_t& seed) {
+		fSeed = seed;
+	}
+
 	//PlainState *fState;
 
 private:
+
+	size_t  fSeed;
 	size_t  fNCalls;
 	GReal_t fResult;
 	GReal_t fAbsError;

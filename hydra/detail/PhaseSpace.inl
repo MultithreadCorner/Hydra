@@ -62,10 +62,10 @@ fSeed(1)
 template <size_t N, typename GRND>
 template<typename FUNCTOR, hydra::detail::Backend BACKEND>
 std::pair<GReal_t, GReal_t>
-PhaseSpace<N,GRND>::AverageOn(hydra::detail::BackendPolicy<BACKEND>const&,
+PhaseSpace<N,GRND>::AverageOn(hydra::detail::BackendPolicy<BACKEND>const& policy,
 		Vector4R const& mother, FUNCTOR const& functor, size_t n){
 
-	detail::EvalMother<N,GRND,FUNCTOR>
+	detail::AverageMother<N,GRND,FUNCTOR>
 	reducer( mother,fMasses, fSeed,functor);
 
 	thrust::counting_iterator<GLong_t> first(0);
@@ -73,8 +73,7 @@ PhaseSpace<N,GRND>::AverageOn(hydra::detail::BackendPolicy<BACKEND>const&,
 	thrust::counting_iterator<GLong_t> last = first + n;
 
 	detail::StatsPHSP result =
-			detail::launch_reducer(hydra::detail::BackendPolicy<BACKEND>(),
-					first, last, reducer );
+			detail::launch_reducer(policy,	first, last, reducer );
 	return std::make_pair(result.fMean, sqrt(result.fM2) );
 
 }
@@ -82,43 +81,36 @@ PhaseSpace<N,GRND>::AverageOn(hydra::detail::BackendPolicy<BACKEND>const&,
 template <size_t N, typename GRND>
 template<typename FUNCTOR, hydra::detail::Backend BACKEND, typename Iterator>
 std::pair<GReal_t, GReal_t>
-PhaseSpace<N,GRND>::AverageOn(hydra::detail::BackendPolicy<BACKEND>const&,
+PhaseSpace<N,GRND>::AverageOn(hydra::detail::BackendPolicy<BACKEND>const& policy,
 		Iterator begin, Iterator end, FUNCTOR const& functor) {
 
-	detail::EvalMothers<N,GRND,FUNCTOR>
-	reducer( fMasses, fSeed,functor);
+	detail::AverageMothers<N,GRND,FUNCTOR>	reducer( fMasses, fSeed,functor);
 
 	detail::StatsPHSP result =
-			detail::launch_reducer(hydra::detail::BackendPolicy<BACKEND>(),
-					begin, end, reducer );
+			detail::launch_reducer(policy,	begin, end, reducer );
 	return std::make_pair(result.fMean, sqrt(result.fM2) );
 
 }
 
 template <size_t N, typename GRND>
-template<typename ...FUNCTOR, hydra::detail::Backend BACKEND, typename Iterator>
-void PhaseSpace<N,GRND>::Evaluate(hydra::detail::BackendPolicy<BACKEND>const&,
-		Iterator begin, Iterator end,
-		Vector4R const& mother, FUNCTOR const& ...functors) {
+template<typename ...FUNCTOR, typename Iterator>
+void PhaseSpace<N,GRND>::Evaluate(Vector4R const& mother, Iterator begin, Iterator end,
+		 FUNCTOR const& ...functors) {
 
-	detail::EvalMother<N,GRND,FUNCTOR...>
-	evaluator(functors..., mother, fMasses, fSeed);
+	detail::EvalMother<N,GRND,FUNCTOR...> evaluator( mother, fMasses, fSeed, functors...);
 
-	detail::launch_evaluator(hydra::detail::BackendPolicy<BACKEND>(),
-			begin, end, evaluator );
+	detail::launch_evaluator( begin, end, evaluator );
 
 }
 
 template <size_t N, typename GRND>
-template<typename ...FUNCTOR, hydra::detail::Backend BACKEND, typename IteratorMother, typename Iterator>
-void PhaseSpace<N,GRND>::Evaluate(hydra::detail::BackendPolicy<BACKEND>const&, IteratorMother mbegin,
+template<typename ...FUNCTOR, typename IteratorMother, typename Iterator>
+void PhaseSpace<N,GRND>::Evaluate( IteratorMother mbegin,
 		IteratorMother mend, Iterator begin, FUNCTOR const& ...functors) {
 
-	detail::EvalMothers<N,GRND,FUNCTOR...>
-	evaluator(functors...,  fMasses, fSeed);
+	detail::EvalMothers<N,GRND,FUNCTOR...> evaluator(functors...,  fMasses, fSeed);
 
-	detail::launch_evaluator(hydra::detail::BackendPolicy<BACKEND>(),
-			mbegin, mend, begin, evaluator );
+	detail::launch_evaluator( mbegin, mend, begin, evaluator );
 
 }
 

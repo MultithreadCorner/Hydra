@@ -91,10 +91,16 @@ public:
 	/**
 	 * @brief Constructor
 	 * @param xlower std::array<GReal_t,N> with the lower limits of the integration region.
-	 * @param xupper with the upper limits of the integration region.
+	 * @param xupper std::array<GReal_t,N>  with the upper limits of the integration region.
 	 */
 	VegasState(std::array<GReal_t,N> const& xlower,
 			std::array<GReal_t,N> const& xupper);
+	/**
+	 * @brief Constructor
+	 * @param xlower flat array with the lower limits of the integration region.
+	 * @param xupper flat array with the upper limits of the integration region.
+	 */
+	VegasState(const GReal_t xlower[N], const GReal_t xupper[N]);
 
 	/**
 	 * @brief Copy constructor for a state in the same backend.

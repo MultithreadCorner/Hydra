@@ -71,7 +71,8 @@ struct EvalMother
 	typedef typename hydra::detail::tuple_cat_type<thrust::tuple<GReal_t> , return_tuple_type>::type
 			result_tuple_type;
 
-	const GInt_t fSeed;
+
+	GInt_t  fSeed;
 
 	GReal_t fTeCmTm;
 	GReal_t fWtMax;
@@ -303,10 +304,8 @@ struct EvalMother
 	}
 
 
-	template<size_t NF=sizeof...(FUNCTORS)>
-	__host__  __device__ inline
-	typename std::enable_if< (NF == 0), StatsPHSP>::type
-	operator()(size_t evt)
+	__host__   __device__ inline result_tuple_type
+	operator()( size_t evt )
 	{
 		typedef typename hydra::detail::tuple_type<N,
 				Vector4R>::type Tuple_t;
@@ -316,32 +315,7 @@ struct EvalMother
 		Vector4R Particles[SIZE];
 
 		GReal_t weight = process(evt, Particles);
-
-		StatsPHSP result;
-
-		result.fMean = thrust::get<0>(fFunctors)(Particles);
-		result.fW    = weight;
-		result.fM2   = 0.0;
-
-		return result;
-
-	}
-
-	template<size_t NF=sizeof...(FUNCTORS)>
-	__host__   __device__ inline
-	typename std::enable_if< (NF > 0), result_tuple_type>::type
-	operator()( size_t evt, void *p=0)
-	{
-		typedef typename hydra::detail::tuple_type<N,
-				Vector4R>::type Tuple_t;
-
-		constexpr size_t SIZE = thrust::tuple_size<Tuple_t>::value;
-
-		Vector4R Particles[SIZE];
-
-		GReal_t weight = process(evt, Particles);
-		return_tuple_type tmp = hydra::detail::invoke<functors_tuple_type,
-				Vector4R*>(fFunctors)(&Particles[0], fFunctors);
+		return_tuple_type tmp = hydra::detail::invoke(Particles, fFunctors);
 
 
 		return thrust::tuple_cat(thrust::make_tuple(weight), tmp );

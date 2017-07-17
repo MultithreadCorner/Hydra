@@ -98,7 +98,7 @@
 
 
 
-GInt_t main(int argv, char** argc)
+int main(int argv, char** argc)
 {
 
 
@@ -113,7 +113,7 @@ GInt_t main(int argv, char** argc)
 
 		TCLAP::CmdLine cmd("Command line arguments for PHSP B0 -> J/psi K pi", '=');
 
-		TCLAP::ValueArg<GULong_t> NArg("n",
+		TCLAP::ValueArg<size_t> NArg("n",
 				"nevents",
 				"Number of events to generate. Default is [ 10e6 ].",
 				true, 10e6, "unsigned long");
@@ -132,25 +132,27 @@ GInt_t main(int argv, char** argc)
 	}
 
 	//C++11 lambda for cosine of helicity angle Kpi
-	auto COSHELANG = [] __host__ __device__ (size_t n, Vector4R *fvectors )
+	auto COSHELANG = [] __host__ __device__ ( hydra::Vector4R *fvectors )
 	{
-		Vector4R p1 = fvectors[0];
-		Vector4R p2 = fvectors[1];
-		Vector4R p3 = fvectors[2];
+		hydra::Vector4R p1 = fvectors[0];
+		hydra::Vector4R p2 = fvectors[1];
+		hydra::Vector4R p3 = fvectors[2];
 
-		Vector4R p = p1 + p2 + p3;
-		Vector4R q = p2 + p3;
+		hydra::Vector4R p = p1 + p2 + p3;
+		hydra::Vector4R q = p2 + p3;
 
-		GReal_t pd = p * p2;
-		GReal_t pq = p * q;
-		GReal_t qd = q * p2;
-		GReal_t mp2 = p.mass2();
-		GReal_t mq2 = q.mass2();
-		GReal_t md2 = p2.mass2();
+		double pd = p * p2;
+		double pq = p * q;
+		double qd = q * p2;
+		double mp2 = p.mass2();
+		double mq2 = q.mass2();
+		double md2 = p2.mass2();
 
 		return (pd * mq2 - pq * qd)
 				/ sqrt((pq * pq - mq2 * mp2) * (qd * qd - mq2 * md2));
 	};
+
+	auto cosTheta = hydra::wrap_lambda(COSHELANG);
 
 	hydra::Vector4R B0(B0_mass, 0.0, 0.0, 0.0);
 	double masses[3]{Jpsi_mass, K_mass, pi_mass };
@@ -162,7 +164,7 @@ GInt_t main(int argv, char** argc)
 	{
 	auto start = std::chrono::high_resolution_clock::now();
 
-	auto device_result = phsp.AverageOn(hydra::device::sys, B0 , COSHELANG, nentries) ;
+	auto device_result = phsp.AverageOn(hydra::device::sys, B0 , cosTheta, nentries) ;
 
 	auto end = std::chrono::high_resolution_clock::now();
 
@@ -188,7 +190,7 @@ GInt_t main(int argv, char** argc)
 	{
 		auto start = std::chrono::high_resolution_clock::now();
 
-		auto host_result = phsp.AverageOn(hydra::host::sys, B0 , COSHELANG, nentries) ;
+		auto host_result = phsp.AverageOn(hydra::host::sys, B0 , cosTheta, nentries) ;
 
 		auto end = std::chrono::high_resolution_clock::now();
 

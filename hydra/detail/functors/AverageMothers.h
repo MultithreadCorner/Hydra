@@ -20,19 +20,14 @@
  *---------------------------------------------------------------------------*/
 
 /*
- * EvalMothers.h
+ * AverageMothers.h
  *
- *  Created on: 24/05/2017
+ *  Created on: 16/07/2017
  *      Author: Antonio Augusto Alves Junior
  */
 
-/**
- * \file
- * \ingroup phsp
- */
-
-#ifndef EVALMOTHERS_H_
-#define EVALMOTHERS_H_
+#ifndef AVERAGEMOTHERS_H_
+#define AVERAGEMOTHERS_H_
 
 //hydra
 #include <hydra/detail/Config.h>
@@ -57,36 +52,28 @@ namespace hydra {
 
 namespace detail {
 
-template <size_t N, typename GRND, typename FUNCTOR, typename ...FUNCTORS >
-struct EvalMothers
+template <size_t N, typename GRND, typename FUNCTOR>
+struct AverageMothers
 {
 
-	typedef  thrust::tuple<FUNCTOR,FUNCTORS...> functors_tuple_type;
-
-	typedef  thrust::tuple<typename FUNCTOR::return_type,
-			typename FUNCTORS::return_type...>  return_tuple_type;
-
-    typedef typename hydra::detail::tuple_cat_type<thrust::tuple<GReal_t> , return_tuple_type>::type
-    		result_tuple_type;
 
 	GInt_t fSeed;
 	GReal_t fMasses[N];
-	functors_tuple_type fFunctors ;
+	FUNCTOR fFunctor ;
 
 	//constructor
-	EvalMothers(const GReal_t (&masses)[N], const GInt_t _seed,
-			FUNCTOR const& functor, FUNCTORS const& ...functors ):
+	AverageMothers(const GReal_t (&masses)[N], const GInt_t _seed, FUNCTOR const& functor):
 			fSeed(_seed),
-			fFunctors( thrust::make_tuple(functor,functors...))
+			fFunctor(functor)
 	{
 		for(size_t i=0; i<N; i++)
 			fMasses[i] = masses[i];
 	}
 
 	//copy
-	EvalMothers(EvalMothers<N, GRND,FUNCTOR, FUNCTORS...> const& other)
+	AverageMothers(AverageMothers<N, GRND,FUNCTOR> const& other)
 	{
-		fFunctors = other.fFunctors ;
+		fFunctor = other.fFunctor ;
 		fSeed = other.fSeed;
 
 #pragma unroll N
@@ -138,8 +125,8 @@ struct EvalMothers
 		    return   (((2 * a) >=  (2 * b) ? (2 * a) * (2 * a) + (2 * a) + (2 * b) : (2 * a) + (2 * b) * (2 * b)) / 2);
 		}
 
-	__host__      __device__ GReal_t process(const GInt_t evt,
-			Vector4R (&particles)[N+1])
+	__host__      __device__ GReal_t
+	process(const GInt_t evt, Vector4R (&particles)[N+1])
 	{
 
 		GRND randEng( hash(evt,fSeed) );
@@ -272,14 +259,12 @@ struct EvalMothers
 
 	}
 
-
 	template<typename Tuple>
-	__host__   __device__ result_tuple_type
-	operator()( Tuple &particles)
+	__host__   __device__
+	StatsPHSP operator()(Tuple& particles)
 	{
-
 		typedef typename hydra::detail::tuple_type<N,
-				Vector4R>::type Tuple_t;
+						Vector4R>::type Tuple_t;
 
 		constexpr size_t SIZE = thrust::tuple_size<Tuple_t>::value;
 
@@ -289,10 +274,15 @@ struct EvalMothers
 		size_t evt  = thrust::get<0>(particles);
 		GReal_t weight = process(evt, Particles);
 
-		return_tuple_type tmp = hydra::detail::invoke<functors_tuple_type,
-				Vector4R*>(&Particles[0], fFunctors);
+		StatsPHSP result;
 
-		return thrust::tuple_cat(thrust::make_tuple(weight), tmp );
+		result.fMean = fFunctor(Particles);
+		result.fW    = weight;
+		result.fM2   = 0.0;
+
+		return result;
+
+
 
 	}
 
@@ -305,4 +295,4 @@ struct EvalMothers
 
 
 
-#endif /* EVALMOTHERS_H_ */
+#endif /* AVERAGEMOTHERS_H_ */

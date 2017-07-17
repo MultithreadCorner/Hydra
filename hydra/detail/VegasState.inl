@@ -94,6 +94,64 @@ VegasState<N, hydra::detail::BackendPolicy<BACKEND>>::VegasState(std::array<GRea
 
 }
 
+
+template<size_t N , hydra::detail::Backend BACKEND>
+VegasState<N, hydra::detail::BackendPolicy<BACKEND>>::VegasState(const GReal_t xlower[N], const GReal_t xupper[N]) :
+		fTrainingIterations(1),
+		fTrainedGridFrozen(0),
+		fNDimensions(N),
+		fNBinsMax(BINS_MAX),
+		fNBins(BINS_MAX),
+		fNBoxes(0),
+		fVolume(0),
+		fAlpha(1.5),
+		fMode(MODE_IMPORTANCE),
+		fVerbose(-1),
+		fIterations(5),
+		fStage(0),
+		fJacobian(0),
+		fWeightedIntSum(0),
+		fSumOfWeights(0),
+		fChiSum(0),
+		fChiSquare(0),
+		fResult(0),
+		fSigma(10),
+		fItStart(0),
+		fItNum(0),
+		fSamples(0),
+		fCallsPerBox(0),
+		fCalls(5000),
+		fTrainingCalls(5000),
+		fMaxError(0.5e-3),
+		fUseRelativeError(kTrue),
+		fOStream(std::cout),
+		//-------
+		fBackendXLow(N),
+		fBackendDeltaX(N),
+		//fBackendDistribution(N * BINS_MAX),
+		fBackendXi((BINS_MAX + 1) * N),
+		//-------
+		fDistribution(N * BINS_MAX),
+		fDeltaX(N),
+		fXi((BINS_MAX + 1) * N),
+		fXin(BINS_MAX + 1),
+		fWeight(BINS_MAX),
+		fXUp(N),
+		fXLow(N)
+{
+
+	for(size_t i=0; i<N; i++)
+	{
+		fXUp[i]=xupper[i];
+		fXLow[i]=xlower[i];
+		fDeltaX[i] = xupper[i]-xlower[i];
+		fBackendDeltaX[i]= xupper[i]-xlower[i];
+	}
+
+
+}
+
+
 template<size_t N , hydra::detail::Backend BACKEND>
 VegasState<N, hydra::detail::BackendPolicy<BACKEND>>::VegasState(VegasState<N,hydra::detail::BackendPolicy<BACKEND>> const& other) :
         fTrainingIterations(other.GetTrainingIterations()),

@@ -44,6 +44,8 @@
 #include <hydra/detail/functors/DecayMothers.h>
 #include <hydra/detail/functors/EvalMother.h>
 #include <hydra/detail/functors/EvalMothers.h>
+#include <hydra/detail/functors/AverageMother.h>
+#include <hydra/detail/functors/AverageMothers.h>
 
 #include <hydra/detail/utility/Utility_Tuple.h>
 
@@ -60,33 +62,29 @@ namespace detail {
 
 	//-------------------------------
 
-	template<size_t N, hydra::detail::Backend BACKEND,typename FUNCTOR, typename ...FUNCTORS, typename GRND, typename Iterator>
-	inline void launch_evaluator(hydra::detail::BackendPolicy<BACKEND>const&,
-			Iterator begin, Iterator end,	detail::EvalMother<N, GRND,FUNCTOR, FUNCTORS...> const& evaluator) {
-		typedef hydra::detail::BackendPolicy<BACKEND> system_t;
+	template<size_t N,typename FUNCTOR, typename ...FUNCTORS, typename GRND, typename Iterator>
+	inline void launch_evaluator(Iterator begin, Iterator end,
+			detail::EvalMother<N, GRND,FUNCTOR, FUNCTORS...> const& evaluator) {
 
 		size_t nevents = thrust::distance(begin, end);
 				thrust::counting_iterator<GLong_t> first(0);
 				thrust::counting_iterator<GLong_t> last = first + nevents;
 
-		thrust::transform(system_t(), first, last, begin, evaluator);
+		thrust::transform( first, last, begin, evaluator);
 
 	}
 
 
-	template<size_t N, hydra::detail::Backend BACKEND, typename FUNCTOR,typename ...FUNCTORS, typename GRND,
+	template<size_t N, typename FUNCTOR,typename ...FUNCTORS, typename GRND,
 	                   typename IteratorMother, typename Iterator>
-	inline void launch_evaluator(hydra::detail::BackendPolicy<BACKEND>const&,
-			 IteratorMother mbegin, IteratorMother mend, Iterator begin,
+	inline void launch_evaluator( IteratorMother mbegin, IteratorMother mend, Iterator begin,
 			 detail::EvalMothers<N, GRND,FUNCTOR, FUNCTORS...> const& evaluator) {
-
-		typedef hydra::detail::BackendPolicy<BACKEND> system_t;
 
 		size_t nevents = thrust::distance(mbegin, mend);
 		thrust::counting_iterator<GLong_t> first(0);
 		thrust::counting_iterator<GLong_t> last = first + nevents;
 
-		thrust::transform(system_t(), thrust::make_zip_iterator(first, mbegin),
+		thrust::transform( thrust::make_zip_iterator(first, mbegin),
 				thrust::make_zip_iterator(last, mend), begin, evaluator );
 
 	}
@@ -95,14 +93,14 @@ namespace detail {
 	//-------------------------------
 
 	template<size_t N, hydra::detail::Backend BACKEND, typename FUNCTOR, typename GRND, typename Iterator>
-	inline StatsPHSP launch_reducer(hydra::detail::BackendPolicy<BACKEND>const&,
-			Iterator begin, Iterator end,	detail::EvalMother<N, GRND,FUNCTOR> const& evaluator)
+	inline StatsPHSP launch_reducer(hydra::detail::BackendPolicy<BACKEND>const& policy,
+			Iterator begin, Iterator end,	detail::AverageMother<N, GRND,FUNCTOR> const& evaluator)
 	{
 		typedef hydra::detail::BackendPolicy<BACKEND> system_t;
 
 		StatsPHSP init = StatsPHSP();
 
-		StatsPHSP result = thrust::transform_reduce(system_t() , begin, end,
+		StatsPHSP result = thrust::transform_reduce(policy , begin, end,
 				evaluator, init,detail::AddStatsPHSP() );
 
 		return result;
@@ -110,8 +108,8 @@ namespace detail {
 
 
 	template<size_t N, hydra::detail::Backend BACKEND, typename FUNCTOR, typename GRND, typename IteratorMother>
-	inline StatsPHSP launch_reducer(hydra::detail::BackendPolicy<BACKEND>const&,
-			IteratorMother begin, IteratorMother end, detail::EvalMothers<N, GRND,FUNCTOR> const& evaluator)
+	inline StatsPHSP launch_reducer(hydra::detail::BackendPolicy<BACKEND>const& policy,
+			IteratorMother begin, IteratorMother end, detail::AverageMothers<N, GRND,FUNCTOR> const& evaluator)
 	{
 		typedef hydra::detail::BackendPolicy<BACKEND> system_t;
 
@@ -121,7 +119,7 @@ namespace detail {
 
 		StatsPHSP init = StatsPHSP();
 
-		StatsPHSP result = thrust::transform_reduce(system_t(),
+		StatsPHSP result = thrust::transform_reduce( policy,
 				thrust::make_zip_iterator(first, begin),
 				thrust::make_zip_iterator(last, end),
 				evaluator, init,detail::AddStatsPHSP() );

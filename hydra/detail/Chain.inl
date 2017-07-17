@@ -146,7 +146,7 @@ template<hydra::detail::Backend BACKEND2>
 Chain<Events<N,hydra::detail::BackendPolicy<BACKEND> >...>&
 Chain< Events<N,hydra::detail::BackendPolicy<BACKEND> >...>::operator=(Chain<Events<N,hydra::detail::BackendPolicy<BACKEND2> >...>const& other)
 	{
-		if(this == &other) return *this;
+		//if(this == &other) return *this;
 		this->fStorage=std::move(other.CopyStorage());
 		this->fSize = other.GetNEvents();
 

@@ -69,7 +69,7 @@ class Chain< Events<N,hydra::detail::BackendPolicy<BACKEND> >...>
 
 	typedef hydra::detail::BackendPolicy<BACKEND> system_t;
 
-	typedef thrust::tuple<	Events<N,hydra::detail::BackendPolicy<BACKEND> >...> event_tuple;
+
 
 	typedef thrust::tuple<typename
 			Events<N,hydra::detail::BackendPolicy<BACKEND> >::iterator...> iterator_tuple;
@@ -97,6 +97,7 @@ class Chain< Events<N,hydra::detail::BackendPolicy<BACKEND> >...>
 
 public:
 
+	typedef thrust::tuple<	Events<N,hydra::detail::BackendPolicy<BACKEND> >...> event_tuple;
 	/**
 	 * @brief default constructor
 	 */
@@ -162,13 +163,13 @@ public:
 
 	template<unsigned int I>
 	auto GetDecay() const
-	-> typename thrust::tuple_element<I+1, event_tuple>::type&
-	{ return thrust::get<I+1>(fStorage);	}
+	-> typename thrust::tuple_element<I, event_tuple>::type&
+	{ return thrust::get<I>(fStorage);	}
 
 	template<unsigned int I>
 	auto GetDecay()
-	-> typename thrust::tuple_element<I+1, event_tuple>::type&
-	{ return thrust::get<I+1>(fStorage);	}
+	-> typename thrust::tuple_element<I, event_tuple>::type&
+	{ return thrust::get<I>(fStorage);	}
 
 
 	/**
@@ -292,6 +293,7 @@ public:
 
 	event_tuple const& CopyStorage() const { return fStorage;}
 
+
 private:
 
 	event_tuple MoveStorage(){ return std::move(fStorage);}
@@ -318,12 +320,22 @@ private:
 
 };
 
-template<hydra::detail::Backend BACKEND, size_t ...N >
+template<size_t ...N,hydra::detail::Backend BACKEND >
 Chain< Events<N, hydra::detail::BackendPolicy<BACKEND> >...>
 make_chain( hydra::detail::BackendPolicy<BACKEND> const& policy, size_t entries )
 {
 	return std::move( Chain<Events<N, hydra::detail::BackendPolicy<BACKEND> >...>(entries) );
 }
+
+template<size_t I, hydra::detail::Backend BACKEND, size_t ...N>
+auto get(Chain<Events<N, hydra::detail::BackendPolicy<BACKEND> >...>& chain )
+-> typename thrust::tuple_element<I,
+      typename Chain<Events<N, hydra::detail::BackendPolicy<BACKEND> >...>::event_tuple>::type&
+{
+	return chain.template GetDecay<I>();
+}
+
+
 
 }  // namespace hydra
 

@@ -32,8 +32,8 @@
  */
 
 
-#ifndef VEGAS_INL_
-#define VEGAS_INL_
+//#ifndef VEGAS_INL_
+//#define VEGAS_INL_
 
 #include <hydra/detail/Config.h>
 #include <hydra/Containers.h>
@@ -651,4 +651,4 @@ void Vegas<N,hydra::detail::BackendPolicy<BACKEND>, GRND >::ProcessFuncionCalls(
 
 }
 
-#endif /* VEGAS_INL_ */
+//#endif /* VEGAS_INL_ */

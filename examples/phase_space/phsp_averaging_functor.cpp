@@ -20,7 +20,7 @@
  *---------------------------------------------------------------------------*/
 
 /*
- * phsp_averaging_functor.cu
+ * phsp_averaging_functor.cpp
  *
  *  Created on: 13/07/2017
  *      Author: Antonio Augusto Alves Junior

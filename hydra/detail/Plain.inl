@@ -26,14 +26,10 @@
  *      Author: Antonio Augusto Alves Junior
  */
 
-/**
- * \file
- * \ingroup numerical_integration
- */
 
 
-#ifndef PLAIN_INL_
-#define PLAIN_INL_
+//#ifndef PLAIN_INL_
+//#define PLAIN_INL_
 
 namespace hydra {
 
@@ -51,11 +47,11 @@ Plain<N,hydra::detail::BackendPolicy<BACKEND>,GRND>::Integrate(FUNCTOR const& fF
 	// compute summary statistics
 	PlainState result = thrust::transform_reduce(system_t(), first, last,
 			detail::ProcessCallsPlainUnary<FUNCTOR,N,GRND>(const_cast<GReal_t*>(thrust::raw_pointer_cast(fXLow.data())),
-					const_cast<GReal_t*>(thrust::raw_pointer_cast(fDeltaX.data())), fFunctor),
+					const_cast<GReal_t*>(thrust::raw_pointer_cast(fDeltaX.data())), fSeed,fFunctor),
 			PlainState(), detail::ProcessCallsPlainBinary() );
 
 	fResult   = fVolume*result.fMean;
-	fAbsError = fVolume*sqrt( result.fM2/(fNCalls*(fNCalls-1)) );
+	fAbsError = fVolume*sqrt( result.fM2/((fNCalls-1)*(fNCalls-1)) );
 
 
 	return std::make_pair(fResult, fAbsError);
@@ -64,4 +60,4 @@ Plain<N,hydra::detail::BackendPolicy<BACKEND>,GRND>::Integrate(FUNCTOR const& fF
 
 }
 
-#endif /* PLAIN_INL_ */
+//#endif /* PLAIN_INL_ */

@@ -41,6 +41,21 @@ namespace detail {
 
 struct StatsPHSP
 {
+
+	__host__ __device__
+	StatsPHSP():
+		fMean(0),
+		fM2(0),
+		fW(0)
+		{}
+
+	__host__ __device__
+	StatsPHSP(StatsPHSP const& other):
+	fMean(other.fMean),
+	fM2(other.fM2),
+	fW(other.fW)
+	{}
+
 	GReal_t fMean;
     GReal_t fM2;
     GReal_t fW;
@@ -56,18 +71,18 @@ struct AddStatsPHSP
     __host__ __device__ inline
     StatsPHSP operator()( StatsPHSP const& x, StatsPHSP const& y)
     {
-    	StatsPHSP result;
+    	StatsPHSP result = StatsPHSP();
 
         GReal_t w  = x.fW + y.fW;
 
-        GReal_t delta  = y.fMean*y.fW - x.fMean*x.fW;
+        GReal_t delta  = (y.fMean) - (x.fMean);
         GReal_t delta2 = delta  * delta;
 
         result.fW   = w;
 
-        result.fMean = (x.fMean*x.fW + y.fMean*y.fW)/w;
+        result.fMean = ((x.fMean)*(x.fW) + (y.fMean)*(y.fW))/w;
         result.fM2   = x.fM2   +  y.fM2;
-        result.fM2  += delta2 * x.fW * y.fW / w;
+        result.fM2  += delta2 * (x.fW) * (y.fW) /w;
 
         return result;
     }

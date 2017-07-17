@@ -20,60 +20,13 @@
  *---------------------------------------------------------------------------*/
 
 /*
- * TBB.h
+ * plain_mc.cu
  *
- *  Created on: 16/05/2017
+ *  Created on: 17/07/2017
  *      Author: Antonio Augusto Alves Junior
  */
 
-#ifndef TBB_H_
-#define TBB_H_
-
-#include <hydra/detail/Config.h>
-#include <hydra/detail/BackendPolicy.h>
-#include <thrust/system/tbb/detail/par.h>
-#include <thrust/system/tbb/vector.h>
-
-namespace hydra {
-
-namespace detail {
-
-namespace tbb {
-
-typedef thrust::system::tbb::detail::par_t   tbb_t;
-static const tbb_t    _tbb_;
-
-
-}  // namespace tbb
-
-template<>
-struct BackendPolicy<Backend::Tbb>: thrust::execution_policy<tbb::tbb_t>
-{
-	const tbb::tbb_t backend= tbb::_tbb_;
-
-	template<typename T>
-	using   container = thrust::tbb::vector<T> ;
-
-};
 
 
 
-}  // namespace detail
-
-namespace tbb {
-
-typedef hydra::detail::BackendPolicy<hydra::detail::Backend::Tbb> sys_t;
-
-template<typename T>
-using   vector = hydra::detail::BackendPolicy<hydra::detail::Backend::Tbb>::container<T> ;
-
-static const sys_t sys=sys_t();
-
-}  // namespace tbb
-
-}  // namespace hydra
-
-
-
-
-#endif /* TBB_H_ */
+#include <examples/numerical_integration/plain_mc.inl>

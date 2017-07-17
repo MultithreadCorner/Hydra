@@ -27,6 +27,17 @@ SET(Hydra_CMAKE_DIR "${PROJECT_SOURCE_DIR}/cmake")
 SET(CMAKE_MODULE_PATH "${Hydra_CMAKE_DIR}" ${CMAKE_MODULE_PATH})
 SET(CMAKE_VERBOSE_MAKEFILE  ON)
 
+#options to gcc
+include(CheckCXXCompilerFlag)
+CHECK_CXX_COMPILER_FLAG("--std=c++11" COMPILER_SUPPORTS_CXX11)
+if(NOT COMPILER_SUPPORTS_CXX11)
+ message(FATAL "The compiler ${CMAKE_CXX_COMPILER} has no C++11 support. Please use a different C++ compiler.")
+endif()
+
+#options to gcc
+
+set(CMAKE_CXX_FLAGS "-DTHRUST_VARIADIC_TUPLE --std=c++11  -march=native -fPIC -O4" CACHE STRING "compile flags" FORCE)
+
 # get TCLAP
 find_package(TCLAP REQUIRED)
 include_directories(${TCLAP_INCLUDE_DIR})
@@ -36,9 +47,12 @@ find_package(Thrust 1.8.3 REQUIRED)
 include_directories(./thrust)
 
 # get ROOT
-find_package(ROOT REQUIRED)
+find_package(ROOT)
+if(ROOT_FOUND)
 include_directories(${ROOT_INCLUDE_DIR})
-#link_directories(${ROOT_LIBRARY_DIR})
+link_directories(${ROOT_LIBRARY_DIR})
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -D_ROOT_AVAILABLE_")
+endif(ROOT_FOUND)
 
 #get CUDA
 find_package(CUDA 8.0) 
@@ -52,21 +66,13 @@ endif(TBB_FOUND)
 
 #get OpenMP
 find_package(OpenMP)
-
-
+if(OPENMP_FOUND)
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${OpenMP_CXX_FLAGS}")
+endif(OPENMP_FOUND)
 #generate API documentation with Doxygen
 find_package(Doxygen)
 option(BUILD_DOCUMENTATION "Create and install the HTML based API documentation (requires Doxygen)" NO)
 
-#options to gcc
-include(CheckCXXCompilerFlag)
-CHECK_CXX_COMPILER_FLAG("--std=c++11" COMPILER_SUPPORTS_CXX11)
-if(NOT COMPILER_SUPPORTS_CXX11)
- message(FATAL "The compiler ${CMAKE_CXX_COMPILER} has no C++11 support. Please use a different C++ compiler.")
-endif()
-
-#options to gcc
-set(CMAKE_CXX_FLAGS "-DTHRUST_VARIADIC_TUPLE --std=c++11  -march=native -fPIC -O4 ${OpenMP_CXX_FLAGS}" CACHE STRING "compile flags" FORCE)
 
 #including directories
 
@@ -157,6 +163,9 @@ Hydra_Test_Host_CPP_Device_OMP
 #+++++++++++++++++++++++++++
 
 add_subdirectory(examples)
+
+add_subdirectory(examples/phase_space)
+add_subdirectory(examples/numerical_integration)
 
 add_custom_target(Hydra_Examples)
 
