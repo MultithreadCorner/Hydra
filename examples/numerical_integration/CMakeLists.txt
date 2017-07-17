@@ -21,6 +21,12 @@ if(BUILD_CUDA_TARGETS)
             )
          target_link_libraries(plain_mc_cuda  )
          
+         #+++++++++++++++++++++++++++++++++
+         cuda_add_executable( gauss_kronrod_cuda EXCLUDE_FROM_ALL  gauss_kronrod.cu    
+            OPTIONS -Xcompiler -fopenmp -DTHRUST_DEVICE_SYSTEM=THRUST_DEVICE_SYSTEM_CUDA  -DTHRUST_HOST_SYSTEM=THRUST_HOST_SYSTEM_CPP -lgomp
+            )
+         target_link_libraries( gauss_kronrod_cuda  )
+         
          
                         
 endif(BUILD_CUDA_TARGETS)
@@ -50,7 +56,16 @@ if(BUILD_TBB_TARGETS)
     
     target_link_libraries( plain_mc_tbb tbb )
    
-        
+    #+++++++++++++++++++++++++++++++
+    add_executable( gauss_kronrod_tbb EXCLUDE_FROM_ALL
+     gauss_kronrod.cpp
+    )
+    
+    set_target_properties( gauss_kronrod_tbb PROPERTIES 
+    COMPILE_FLAGS "-DTHRUST_HOST_SYSTEM=THRUST_HOST_SYSTEM_CPP -DTHRUST_DEVICE_SYSTEM=THRUST_DEVICE_SYSTEM_TBB")
+    
+    target_link_libraries( gauss_kronrod_tbb tbb )
+       
 endif(BUILD_TBB_TARGETS)
 
 
@@ -79,6 +94,16 @@ IF(OPENMP_FOUND)
     
     target_link_libraries( plain_mc_omp  )
     
+    
+    #+++++++++++++++++++++++++++++++
+    add_executable(gauss_kronrod_omp EXCLUDE_FROM_ALL
+    gauss_kronrod.cpp
+    )
+    
+    set_target_properties( gauss_kronrod_omp PROPERTIES 
+    COMPILE_FLAGS "-fopenmp -DTHRUST_HOST_SYSTEM=THRUST_HOST_SYSTEM_CPP -DTHRUST_DEVICE_SYSTEM=THRUST_DEVICE_SYSTEM_OMP -lgomp")
+    
+    target_link_libraries( gauss_kronrod_omp  )
     
 endif(OPENMP_FOUND)
 

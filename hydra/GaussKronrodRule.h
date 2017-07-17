@@ -40,7 +40,7 @@
 
 #include <thrust/pair.h>
 #include <initializer_list>
-
+#include <iomanip>
 
 namespace hydra {
 

@@ -84,37 +84,36 @@ int main(int argv, char** argc)
     //device
     {
     	// 61- degree quadrature
-    	GaussKronrodQuadrature<61,100, hydra::device::sys_t> GKQ61(min,  max);
+    	hydra::GaussKronrodQuadrature<61,100, hydra::device::sys_t> GKQ61_d(min,  max);
 
     	auto start = std::chrono::high_resolution_clock::now();
 
-    	auto result = GKQ61.Integrate(Gaussian);
+    	auto result = GKQ61_d.Integrate(gaussian);
 
     	auto end = std::chrono::high_resolution_clock::now();
 
     	std::chrono::duration<double, std::milli> elapsed = end - start;
 
-    	cout << ">>>l [ GaussKronrodQuadrature ]"<< endl;
-    	cout << "Result: " << result.first << "  +-  " << result.second <<std::endl
+    	std::cout << ">>>l [ Gauss-Kronrod 61 ]"<< std::endl;
+    	std::cout << "Result: " << result.first << "  +-  " << result.second <<std::endl
     	<< " Time (ms): "<< elapsed.count() <<std::endl;
     }
 
     //host
-    //device
        {
        	// 61- degree quadrature
-       	GaussKronrodQuadrature<61,100, hydra::host::sys_t> GKQ61(min,  max);
+    	hydra::GaussKronrodQuadrature<61,100, hydra::host::sys_t> GKQ61_h(min,  max);
 
        	auto start = std::chrono::high_resolution_clock::now();
 
-       	auto result = GKQ61.Integrate(Gaussian);
+       	auto result = GKQ61_h.Integrate(gaussian);
 
        	auto end = std::chrono::high_resolution_clock::now();
 
        	std::chrono::duration<double, std::milli> elapsed = end - start;
 
-       	cout << ">>>l [ GaussKronrodQuadrature ]"<< endl;
-       	cout << "Result: " << result.first << "  +-  " << result.second <<std::endl
+       	std::cout << ">>>l [ Gauss-Kronrod 61 ]"<< std::endl;
+       	std::cout << "Result: " << result.first << "  +-  " << result.second <<std::endl
        	<< " Time (ms): "<< elapsed.count() <<std::endl;
        }
 

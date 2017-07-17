@@ -48,7 +48,7 @@
 namespace hydra {
 
 
-template<  size_t N, typename  BACKEND>
+template< size_t NRULE, size_t NBIN, typename  BACKEND>
 class GaussKronrodQuadrature;
 
 /**

@@ -35,7 +35,7 @@
 #include <hydra/detail/Print.h>
 #include <hydra/GaussKronrodRule.h>
 #include <initializer_list>
-
+#include <iomanip>
 
 /*
  * numbers from http://www.advanpix.com/2011/11/07/gauss-kronrod-quadrature-nodes-weights/
