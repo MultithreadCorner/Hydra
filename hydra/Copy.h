@@ -33,18 +33,25 @@
 #include <hydra/detail/Config.h>
 #include <hydra/detail/BackendPolicy.h>
 #include <hydra/Types.h>
-#include <hydra/Containers.h>
-#include <hydra/detail/TypeTraits.h>
-#include <hydra/multivector.h>
-#include <thrust/device_vector.h>
-#include <thrust/host_vector.h>
-
-#include <type_traits>
-#include <vector>
-#include <utility>
+#include <thrust/copy.h>
 
 namespace hydra {
 
+template<typename InputIterator, typename OutputIterator>
+OutputIterator
+copy(InputIterator first, InputIterator last, OutputIterator result)
+{
+	return thrust::copy(first, last, result);
+}
+
+template<typename Backend, typename InputIterator, typename OutputIterator>
+__host__ __device__ OutputIterator
+copy(hydra::detail::BackendPolicy<Backend> const& policy, InputIterator first,
+		InputIterator last, OutputIterator result)
+{
+	return thrust::copy( policy, first, last, result);
+}
+/*
 namespace detail {
 
 template<template<typename...> class CONTAINER, typename T, hydra::detail::Backend BACKEND>
@@ -54,8 +61,8 @@ struct copy_type{
 };
 
 }  // namespace detail
-
-/**
+*/
+/*
  * @ingroup generic
  * Generic copy between backends, abstracting away details of the copied container.
  *
@@ -63,6 +70,7 @@ struct copy_type{
  * @param other : original container.
  * @return
  */
+/*
 template<hydra::detail::Backend BACKEND, template<typename...> class CONTAINER, typename T, typename ...Ts >
 auto get_copy(hydra::detail::BackendPolicy<BACKEND>const& policy , CONTAINER<T, Ts...>& other )
 ->typename  std::enable_if<
@@ -75,8 +83,9 @@ typename detail::copy_type<CONTAINER, T, BACKEND>::type
 	typedef typename detail::copy_type<CONTAINER, T, BACKEND>::type vector_t;
 	return 	std::move(vector_t(other));
 }
+*/
 
-/**
+/*
  * @ingroup generic
  * Generic copy between backends, abstracting away details of the copied container.
  *
@@ -86,6 +95,7 @@ typename detail::copy_type<CONTAINER, T, BACKEND>::type
  *
  * obs: overload for hydra::multivector
  */
+/*
 template<hydra::detail::Backend BACKEND, template<typename...> class CONTAINER, typename T>
 auto get_copy(hydra::detail::BackendPolicy<BACKEND> const& policy, CONTAINER<T>& other )
 ->typename  std::enable_if<
@@ -100,7 +110,7 @@ hydra::detail::BackendPolicy<BACKEND>::template container<typename CONTAINER<T>:
 	return 	std::move(vector_t(other));
 }
 
-
+*/
 
 }  // namespace hydra
 
