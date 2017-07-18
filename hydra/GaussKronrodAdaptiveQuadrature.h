@@ -175,7 +175,7 @@ public:
 		fXLower(xlower),
 		fXUpper(xupper),
 		fMaxRelativeError( tolerance ),
-		fRule(GaussKronrodAdaptiveRuleSelector<NRULE>().fRule)
+		fRule(GaussKronrodRuleSelector<NRULE>().fRule)
 	{ InitNodes(); }
 
 
@@ -184,7 +184,7 @@ public:
 	 *
 	 * @param other object at same backdend
 	 */
-	GaussKronrodAdaptiveQuadrature( GaussKronrodAdaptiveQuadrature<NRULE,NBIN, BACKEND> const& other ):
+	GaussKronrodAdaptiveQuadrature( GaussKronrodAdaptiveQuadrature<NRULE,NBIN, hydra::detail::BackendPolicy<BACKEND>> const& other ):
 			fIterationNumber( other.GetIterationNumber() ),
 			fXLower(other.GetXLower() ),
 			fXUpper(other.GetXUpper()),
@@ -200,7 +200,7 @@ public:
 	 * @param other object at a different backdend.
 	 */
 	template< hydra::detail::Backend  BACKEND2>
-	GaussKronrodAdaptiveQuadrature( GaussKronrodAdaptiveQuadrature<NRULE,NBIN, BACKEND2> const& other ):
+	GaussKronrodAdaptiveQuadrature( GaussKronrodAdaptiveQuadrature<NRULE,NBIN, hydra::detail::BackendPolicy<BACKEND2>> const& other ):
 				fIterationNumber( other.GetIterationNumber() ),
 				fXLower(other.GetXLower() ),
 				fXUpper(other.GetXUpper()),
@@ -217,7 +217,7 @@ public:
      * @param other: object at same backdend
      * @return
      */
-	GaussKronrodAdaptiveQuadrature&  operator= ( GaussKronrodAdaptiveQuadrature<NRULE,NBIN, BACKEND> const& other )
+	GaussKronrodAdaptiveQuadrature&  operator= ( GaussKronrodAdaptiveQuadrature<NRULE,NBIN, hydra::detail::BackendPolicy<BACKEND>> const& other )
 	{
 		if(this ==&other) return *this;
 
@@ -239,7 +239,7 @@ public:
 	 * @return
 	 */
 	template< hydra::detail::Backend  BACKEND2>
-	GaussKronrodAdaptiveQuadrature&  operator= ( GaussKronrodAdaptiveQuadrature<NRULE,NBIN, BACKEND2> const& other )
+	GaussKronrodAdaptiveQuadrature&  operator= ( GaussKronrodAdaptiveQuadrature<NRULE,NBIN, hydra::detail::BackendPolicy<BACKEND2>> const& other )
 		{
 			if(this ==&other) return *this;
 
@@ -439,6 +439,6 @@ private:
 
 } // namespace hydra
 
-#include <hydra/detail/GaussKronrodQuadrature.inl>
+#include <hydra/detail/GaussKronrodAdaptiveQuadrature.inl>
 
 #endif /* GAUSSKRONRODADAPTIVEQUADRATURE_H_ */
