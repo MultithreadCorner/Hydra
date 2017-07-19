@@ -44,7 +44,7 @@ copy(InputIterator first, InputIterator last, OutputIterator result)
 	return thrust::copy(first, last, result);
 }
 
-template<typename Backend, typename InputIterator, typename OutputIterator>
+template<hydra::detail::Backend Backend, typename InputIterator, typename OutputIterator>
 __host__ __device__ OutputIterator
 copy(hydra::detail::BackendPolicy<Backend> const& policy, InputIterator first,
 		InputIterator last, OutputIterator result)

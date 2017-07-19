@@ -42,17 +42,22 @@
 #include <hydra/Function.h>
 #include <hydra/FunctionWrapper.h>
 #include <hydra/Random.h>
+#include <hydra/Copy.h>
 
-//root
+/*-------------------------------------
+ * Include classes from ROOT to fill
+ * and draw histograms and plots.
+ *-------------------------------------
+ */
+#ifdef _ROOT_AVAILABLE_
+
 #include <TROOT.h>
 #include <TH1D.h>
-#include <TH2D.h>
-#include <TH3D.h>
 #include <TApplication.h>
 #include <TCanvas.h>
-#include <TColor.h>
-#include <TString.h>
-#include <TStyle.h>
+
+#endif //_ROOT_AVAILABLE_
+
 
 
 int main(int argv, char** argc)
@@ -83,83 +88,144 @@ int main(int argv, char** argc)
 	hydra::Random<thrust::random::default_random_engine>
 	Generator( std::chrono::system_clock::now().time_since_epoch().count() );
 
+
+	//device
 	//------------------------
-	TH1D hist_uniform_d("uniform_d",   "Uniform distribution - device",     100, -6.0, 6.0);
-	TH1D hist_gaussian_d("gaussian_d", "Gaussian distribution - device",    100, -6, 6);
-    TH1D hist_exp_d("exponential_d",   "Exponential distribution - device", 100, 0, 5);
-    TH1D hist_bw_d("breit_wigner_d",   "Breit-Wigner distribution - device",100, 0, 5);
+#ifdef _ROOT_AVAILABLE_
 
-    //device
-    {
-    	//1D device buffer
-    	hydra::device::vector<double>  data_d(nentries);
-    	hydra::host::vector<double>    data_h(nentries);
+	TH1D hist_uniform_d("uniform_d",   "Uniform",     100, -6.0, 6.0);
+	TH1D hist_gaussian_d("gaussian_d", "Gaussian",    100, -6.0, 6.0);
+	TH1D hist_exp_d("exponential_d",   "Exponential", 100,  0.0, 5.0);
+	TH1D hist_bw_d("breit_wigner_d",   "Breit-Wigner",100,  0.0, 5.0);
 
-    	//uniform
-    	Generator.Uniform(-5.0, 5.0, data_d.begin(), data_d.end());
-    	hydra::copy(gen_data_d.begin(), gen_data_d.end(), gen_data_h.begin());
-    	for(auto value: gen_data_h) hist_uniform_DEVICE.Fill( value);
+#endif //_ROOT_AVAILABLE_
 
-    	//gaussian
-    	Generator.Gauss(0.0, 1.0, gen_data_d.begin(), gen_data_d.end());
-    	thrust::copy(gen_data_d.begin(), gen_data_d.end(), gen_data_h.begin());
-    	for(auto value: hydra::mc_host_vector<GReal_t>(gen_data_d)) hist_gaussian_DEVICE.Fill( value);
+	{
+		//1D device buffer
+		hydra::device::vector<double>  data_d(nentries);
+		hydra::host::vector<double>    data_h(nentries);
 
-    	//exponential
-    	Generator.Exp(1.0, gen_data_d.begin(), gen_data_d.end());
-    	thrust::copy(gen_data_d.begin(), gen_data_d.end(), gen_data_h.begin());
-    	for(auto value: gen_data_h) hist_exp_DEVICE.Fill( value);
+		//-------------------------------------------------------
+		//uniform
+		Generator.Uniform(-5.0, 5.0, data_d.begin(), data_d.end());
+		hydra::copy(data_d.begin(), data_d.end(), data_h.begin());
 
-    	//breit-wigner
-    	Generator.BreitWigner(2.0, 0.2, gen_data_d.begin(), gen_data_d.end());
-    	thrust::copy(gen_data_d.begin(), gen_data_d.end(), gen_data_h.begin());
-    	for(auto value: gen_data_h) hist_bw_DEVICE.Fill( value);
+		for(size_t i=0; i<10; i++)
+			std::cout << "< Random::Uniform > [" << i << "] :" << value << std::endl;
 
-      }
+#ifdef _ROOT_AVAILABLE_
+		for(auto value : data_h)
+			hist_uniform_d.Fill( value);
+#endif //_ROOT_AVAILABLE_
 
-    TList List_1D_Histo;
-    List_1D_Histo.Add(&hist_uniform_DEVICE );
-    List_1D_Histo.Add(&hist_gaussian_DEVICE );
-    List_1D_Histo.Add(&hist_bw_DEVICE );
-    List_1D_Histo.Add(&hist_exp_DEVICE );
-    List_1D_Histo.Add(&hist_ucdf_DEVICE );
+		//-------------------------------------------------------
+		//gaussian
+		Generator.Gauss(0.0, 1.0, data_d.begin(), data_d.end());
+		hydra::copy(data_d.begin(), data_d.end(), data_h.begin());
+
+		for(size_t i=0; i<10; i++)
+			std::cout << "< Random::Gauss > [" << i << "] :" << value << std::endl;
+
+#ifdef _ROOT_AVAILABLE_
+		for(auto value : data_d)
+			hist_gaussian_d.Fill( value);
+#endif //_ROOT_AVAILABLE_
+
+		//-------------------------------------------------------
+		//exponential
+		Generator.Exp(1.0, data_d.begin(), data_d.end());
+		hydra::copy(data_d.begin(), data_d.end(),data_h.begin());
+
+		for(size_t i=0; i<10; i++)
+			std::cout << "< Random::Exp > [" << i << "] :" << value << std::endl;
+
+#ifdef _ROOT_AVAILABLE_
+		for(auto value : data_h)
+			hist_exp_d.Fill( value);
+#endif //_ROOT_AVAILABLE_
+
+		//-------------------------------------------------------
+		//breit-wigner
+		Generator.BreitWigner(2.0, 0.2, data_d.begin(), data_d.end());
+		hydra::copy(data_d.begin(), data_d.end(), data_h.begin());
+
+		for(size_t i=0; i<10; i++)
+			std::cout << "< Random::BreitWigner > [" << i << "] :" << value << std::endl;
+
+#ifdef _ROOT_AVAILABLE_
+		for(auto value : data_h)
+			hist_bw_d.Fill( value);
+#endif //_ROOT_AVAILABLE_
+	}
 
 
-    TH1D hist_uniform_HOST("uniform_CCP_OMP_HOST", "Uniform distribution (HOST)", 100, -5.5, 5.5);
-    TH1D hist_gaussian_HOST("gaussian_CCP_OMP_HOST", "Gaussian distribution (HOST)", 100, -5, 5);
-    TH1D hist_exp_HOST("exponential_CCP_OMP_HOST", "Exponential distribution (HOST)", 100, 0, 5);
-    TH1D hist_bw_HOST("breit_wigner_CCP_OMP_HOST", "Breit-Wigner distribution (HOST)", 100, 0, 5);
-    TH1D hist_ucdf_HOST("ucdf", "Custom inverse CDF (HOST)", 500, 0, 1);
+
+	//host
+	//------------------------
+#ifdef _ROOT_AVAILABLE_
+
+	TH1D hist_uniform_h("uniform_h",   "Uniform",     100, -6.0, 6.0);
+	TH1D hist_gaussian_h("gaussian_h", "Gaussian",    100, -6.0, 6.0);
+	TH1D hist_exp_h("exponential_h",   "Exponential", 100,  0.0, 5.0);
+	TH1D hist_bw_h("breit_wigner_h",   "Breit-Wigner",100,  0.0, 5.0);
+
+#endif //_ROOT_AVAILABLE_
+
+	{
+		//1D device buffer
+		hydra::host::vector<double>    data_h(nentries);
+
+		//-------------------------------------------------------
+		//uniform
+		Generator.Uniform(-5.0, 5.0, data_h.begin(), data_h.end());
+
+		for(size_t i=0; i<10; i++)
+			std::cout << "< Random::Uniform > [" << i << "] :" << value << std::endl;
+
+#ifdef _ROOT_AVAILABLE_
+		for(auto value : data_h)
+			hist_uniform_h.Fill( value);
+#endif //_ROOT_AVAILABLE_
+
+		//-------------------------------------------------------
+		//gaussian
+		Generator.Gauss(0.0, 1.0, data_h.begin(), data_h.end());
+
+		for(size_t i=0; i<10; i++)
+			std::cout << "< Random::Gauss > [" << i << "] :" << value << std::endl;
+
+#ifdef _ROOT_AVAILABLE_
+		for(auto value : data_h)
+			hist_gaussian_h.Fill( value);
+#endif //_ROOT_AVAILABLE_
+
+		//-------------------------------------------------------
+		//exponential
+		Generator.Exp(1.0, data_h.begin(), data_h.end());
+
+		for(size_t i=0; i<10; i++)
+			std::cout << "< Random::Exp > [" << i << "] :" << value << std::endl;
+
+#ifdef _ROOT_AVAILABLE_
+		for(auto value : data_h)
+			hist_exp_h.Fill( value);
+#endif //_ROOT_AVAILABLE_
+
+		//-------------------------------------------------------
+		//breit-wigner
+		Generator.BreitWigner(2.0, 0.2, data_h.begin(), data_h.end());
+
+		for(size_t i=0; i<10; i++)
+			std::cout << "< Random::BreitWigner > [" << i << "] :" << value << std::endl;
+
+#ifdef _ROOT_AVAILABLE_
+		for(auto value : data_h)
+			hist_bw_h.Fill( value);
+#endif //_ROOT_AVAILABLE_
+	}
 
 
-    {
-    	//1D host buffer
-    	hydra::mc_host_vector<GReal_t>   gen_data_h(nentries);
-
-    	//uniform
-    	Generator.Uniform(-5.0, 5.0, gen_data_h.begin(), gen_data_h.end());
-    	for(auto value: gen_data_h) hist_uniform_HOST.Fill( value);
-
-    	//gaussian
-    	Generator.Gauss(0.0, 1.0, gen_data_h.begin(), gen_data_h.end());
-    	for(auto value: gen_data_h) hist_gaussian_HOST.Fill( value);
-
-    	//exponential
-    	Generator.Exp(1.0, gen_data_h.begin(), gen_data_h.end());
-    	for(auto value: gen_data_h) hist_exp_HOST.Fill( value);
-
-    	//breit-wigner
-    	Generator.BreitWigner(2.0, 0.2, gen_data_h.begin(), gen_data_h.end());
-    	for(auto value: gen_data_h) hist_bw_HOST.Fill( value);
-
-    }
-
-    List_1D_Histo.Add(&hist_uniform_HOST );
-    List_1D_Histo.Add(&hist_gaussian_HOST );
-    List_1D_Histo.Add(&hist_bw_HOST );
-    List_1D_Histo.Add(&hist_exp_HOST );
-    List_1D_Histo.Add(&hist_ucdf_HOST );
-
+	/*
 	//-----------------
 	// two gaussians hit-and-miss
 	//-----------------
@@ -278,52 +344,31 @@ int main(int argv, char** argc)
 		}
 	}
 
+*/
 
-	/***********************************
-	 * RootApp, Drawing...
-	 ***********************************/
+
+#ifdef _ROOT_AVAILABLE_
 	TApplication *myapp=new TApplication("myapp",0,0);
 
 	//draw histograms
-	TCanvas canvas_gaussians_DEVICE("canvas_gaussians_DEVICE" ,"", 500, 500);
-	hist_gaussians_DEVICE.Draw("colz");
-	canvas_gaussians_DEVICE.Print(TString::Format("plots/HIST_2D_%s.png", hist_gaussians_DEVICE.GetName()  ));
+	TCanvas canvas_d("canvas_d" ,"Distributions - Device", 1000, 1000);
+	canvas_d.Divide(2,2);
+	canvas_d.cd(1); hist_uniform_d.Draw("hist");
+	canvas_d.cd(2); hist_gaussian_d.Draw("hist");
+	canvas_d.cd(3); hist_exp_d.Draw("hist");
+	canvas_d.cd(4); hist_bw_d.Draw("hist");
 
 	//draw histograms
-	TCanvas canvas_lambda_DEVICE("canvas_lambda_DEVICE" ,"", 500, 500);
-	hist_lambda_DEVICE.Draw("box");
-	canvas_lambda_DEVICE.Print(TString::Format("plots/HIST_2D_%s.png", hist_lambda_DEVICE.GetName()  ));
+	TCanvas canvas_h("canvas_h" ,"Distributions - Host", 1000, 1000);
+	canvas_h.Divide(2,2);
+	canvas_h.cd(1); hist_uniform_h.Draw("hist");
+	canvas_h.cd(2); hist_gaussian_h.Draw("hist");
+	canvas_h.cd(3); hist_exp_h.Draw("hist");
+	canvas_h.cd(4); hist_bw_h.Draw("hist");
 
-
-	TCanvas canvas_gaussians_HOST("canvas_gaussians_HOST" ,"", 500, 500);
-	hist_gaussians_HOST.Draw("colz");
-	canvas_gaussians_HOST.Print(TString::Format("plots/HIST_2D_%s.png", hist_gaussians_HOST.GetName()  ));
-
-
-	//draw histograms
-	TCanvas canvas_lambda_HOST("canvas_lambda_HOST" ,"", 500, 500);
-	hist_lambda_HOST.Draw("box");
-	canvas_lambda_HOST.Print(TString::Format("plots/HIST_2D_%s.png", hist_lambda_HOST.GetName()  ));
-
-
-
-	TCanvas* Canvas;
-	TIter next( &List_1D_Histo );
-	TObject *obj;
-	while((obj = next()))
-	{
-		Canvas = new TCanvas(
-				TString::Format("hist_1D_%s"   , obj->GetName() )
-		, TString::Format("hist_1D_%s"   , obj->GetName() )
-		, 550, 500 );
-
-		obj->Draw("HIST");
-		((TH1* ) obj)->SetMinimum(0);
-
-			Canvas->Print(TString::Format("plots/HIST_1D_%s.png", obj->GetName()  ));
-
-	}
 	myapp->Run();
+
+#endif //_ROOT_AVAILABLE_
 
 	return 0;
 
