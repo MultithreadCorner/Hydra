@@ -183,6 +183,55 @@ typename  detail::tuple_type<N,GReal_t>::type>
 }
 
 template<typename GRND>
+template<typename ITERATOR, typename FUNCTOR, size_t N >
+ITERATOR Random<GRND>::Sample(ITERATOR first, ITERATOR last ,
+		std::array<GReal_t,N> min, std::array<GReal_t,N> max, FUNCTOR const& functor)
+{
+
+	using thrust::system::detail::generic::select_system;
+	typedef typename SystemTraits< typename thrust::iterator_system<Iterator>::type>::policy system_t;
+
+
+	typedef typename detail::tuple_type<N,GReal_t>::type row_t;
+
+    typedef typename system_t::template container<GReal_t> vector_real_t;
+    typedef typename system_t::template container<GBool_t> vector_bool_t;
+
+    size_t ntrials = thrust::distance(  first, last);
+
+	vector_real_t  values(ntrials);
+	vector_bool_t  flags(ntrials);
+
+
+	// create iterators
+	thrust::counting_iterator<size_t> first(0);
+	thrust::counting_iterator<size_t> last = first + trials;
+
+
+	//calculate the functor values
+	thrust::transform( system_t(), first, last, first, values.begin(),
+			detail::RndTrial<GRND,FUNCTOR,N>(fSeed+4, functor, min, max));
+
+	//get the maximum value
+	GReal_t max_value = *( thrust::max_element( system_t(),values.begin(), values.end()) );
+
+
+	/*
+	//
+	thrust::transform( system_t(),first, last, values.begin(), flags.begin(), );
+
+	size_t count = thrust::count( system_t(), flags.begin(), flags.end(), kTrue);
+
+	vector_tuple_t result(count);
+
+	thrust::copy_if( system_t(), points.begin(), points.end(), flags.begin(), result.begin(), thrust::identity<GBool_t>());
+	 */
+	return thrust::partition(first, last, values.begin(), detail::RndFlag<GRND>(fSeed+trials, max_value) );
+}
+
+
+/*
+template<typename GRND>
 template<hydra::detail::Backend BACKEND, typename FUNCTOR, size_t N >
 void Random<GRND>::Sample(hydra::detail::BackendPolicy<BACKEND>const&, FUNCTOR const& functor, std::array<GReal_t,N> min, std::array<GReal_t,N> max,
 		PointVector<Point<GReal_t, N, false, false>, BACKEND >& result,
@@ -221,6 +270,7 @@ void Random<GRND>::Sample(hydra::detail::BackendPolicy<BACKEND>const&, FUNCTOR c
 	thrust::copy_if(system_t(), points.begin(), points.end(), flags.begin(), result.begin(), thrust::identity<GBool_t>());
 
 	}
+*/
 
 }
 

@@ -51,66 +51,6 @@ copy(hydra::detail::BackendPolicy<Backend> const& policy, InputIterator first,
 {
 	return thrust::copy( policy, first, last, result);
 }
-/*
-namespace detail {
-
-template<template<typename...> class CONTAINER, typename T, hydra::detail::Backend BACKEND>
-struct copy_type{
-	typedef hydra::detail::BackendPolicy<BACKEND> system_t;
-	typedef typename system_t::template container<T> type;
-};
-
-}  // namespace detail
-*/
-/*
- * @ingroup generic
- * Generic copy between backends, abstracting away details of the copied container.
- *
- * @param policy: corresponding to the destination back-end.
- * @param other : original container.
- * @return
- */
-/*
-template<hydra::detail::Backend BACKEND, template<typename...> class CONTAINER, typename T, typename ...Ts >
-auto get_copy(hydra::detail::BackendPolicy<BACKEND>const& policy , CONTAINER<T, Ts...>& other )
-->typename  std::enable_if<
-detail::is_specialization< CONTAINER<T, Ts...>, thrust::host_vector>::value ||
-detail::is_specialization<CONTAINER<T, Ts...>, thrust::device_vector >::value ||
-detail::is_specialization<CONTAINER<T, Ts...>, std::vector >::value,
-typename detail::copy_type<CONTAINER, T, BACKEND>::type
->::type
-{
-	typedef typename detail::copy_type<CONTAINER, T, BACKEND>::type vector_t;
-	return 	std::move(vector_t(other));
-}
-*/
-
-/*
- * @ingroup generic
- * Generic copy between backends, abstracting away details of the copied container.
- *
- * @param policy: corresponding to the destination back-end.
- * @param other : original container.
- * @return
- *
- * obs: overload for hydra::multivector
- */
-/*
-template<hydra::detail::Backend BACKEND, template<typename...> class CONTAINER, typename T>
-auto get_copy(hydra::detail::BackendPolicy<BACKEND> const& policy, CONTAINER<T>& other )
-->typename  std::enable_if<
-detail::is_specialization< CONTAINER<T> ,multivector>::value,
-multivector<typename
-hydra::detail::BackendPolicy<BACKEND>::template container<typename CONTAINER<T>::value_tuple_type> > >::type
-
-{
-	typedef hydra::detail::BackendPolicy<BACKEND> system_t;
-
-	typedef   multivector<typename system_t::template container<typename CONTAINER<T>::value_tuple_type> > vector_t;
-	return 	std::move(vector_t(other));
-}
-
-*/
 
 }  // namespace hydra
 
