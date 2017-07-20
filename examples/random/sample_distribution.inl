@@ -18,15 +18,16 @@
  *   along with Hydra.  If not, see <http://www.gnu.org/licenses/>.
  *
  *---------------------------------------------------------------------------*/
+
 /*
- * basic_distributions.inl
+ * sample_distribution.inl
  *
- *  Created on: Jul 18, 2017
+ *  Created on: 20/07/2017
  *      Author: Antonio Augusto Alves Junior
  */
 
-#ifndef BASIC_DISTRIBUTIONS_INL_
-#define BASIC_DISTRIBUTIONS_INL_
+#ifndef SAMPLE_DISTRIBUTION_INL_
+#define SAMPLE_DISTRIBUTION_INL_
 
 #include <iostream>
 #include <assert.h>
@@ -52,7 +53,7 @@
 #ifdef _ROOT_AVAILABLE_
 
 #include <TROOT.h>
-#include <TH1D.h>
+#include <TH3D.h>
 #include <TApplication.h>
 #include <TCanvas.h>
 
@@ -84,30 +85,80 @@ int main(int argv, char** argc)
 	}
 
 
+
+
+
+	//Gaussian 1
+	double mean1   = -2.0;
+	double sigma1  =  1.0;
+
+	auto GAUSSIAN1 =  [=] __host__ __device__ (double* x ){
+
+		double g = 1.0;
+
+		for(size_t i=0; i<3; i++){
+
+			double m2 = (x[i] - mean1 )*(x[i] - mean1 );
+			double s2 = sigma1*sigma1;
+			g *= exp(-m2/(2.0 * s2 ))/( sqrt(2.0*s2*PI));
+		}
+
+		return g;
+	};
+
+	auto gaussian1 = hydra::wrap_lambda( GAUSSIAN1 );
+
+	//Gaussian 2
+	double mean2   =  2.0;
+	double sigma2  =  1.0;
+	auto GAUSSIAN2 =  [=] __host__ __device__ (double* x ){
+
+		double g = 1.0;
+
+		for(size_t i=0; i<3; i++){
+
+			double m2 = (x[i] - mean2 )*(x[i] - mean2 );
+			double s2 = sigma2*sigma2;
+			g *= exp(-m2/(2.0 * s2 ))/( sqrt(2.0*s2*PI));
+		}
+
+		return g;
+	};
+
+	auto gaussian2 = hydra::wrap_lambda( GAUSSIAN2 );
+
+	//sum of gaussians
+	auto gaussian = gaussian1 + gaussian2;
+
 	//generator
 	hydra::Random<thrust::random::default_random_engine>
 	Generator( std::chrono::system_clock::now().time_since_epoch().count() );
 
+	double max[3]{6.0, 6.0, 6.0};
+	double min[3]{-6.0, -6.0, -6.0};
 
-	//device
 	//------------------------
 #ifdef _ROOT_AVAILABLE_
 
-	TH1D hist_uniform_d("uniform_d",   "Uniform",     100, -6.0, 6.0);
-	TH1D hist_gaussian_d("gaussian_d", "Gaussian",    100, -6.0, 6.0);
-	TH1D hist_exp_d("exponential_d",   "Exponential", 100,  0.0, 5.0);
-	TH1D hist_bw_d("breit_wigner_d",   "Breit-Wigner",100,  0.0, 5.0);
+	TH3D hist_d("hist_d",   "3D Double Gaussian - Device",  100, -6.0, 6.0);
+	TH3D hist_h("hist_h",   "3D Double Gaussian - Host"  ,  100, -6.0, 6.0);
 
 #endif //_ROOT_AVAILABLE_
 
-	{
-		//1D device buffer
-		hydra::device::vector<double>  data_d(nentries);
-		hydra::host::vector<double>    data_h(nentries);
+	//3D buffer
+	typedef hydra::tuple<double, double, double> row_t;
+	typedef hydra::device::vector<row_t> table_d;
+	typedef hydra::host::vector<row_t> table_h;
+	typedef hydra::multivector<table_d> dataset_d;
+	typedef hydra::multivector<table_h> dataset_h;
 
+    //device
+	{
+		dataset_d data_d(nentries);
 		//-------------------------------------------------------
-		//uniform
-		Generator.Uniform(-5.0, 5.0, data_d.begin(), data_d.end());
+		//
+		auto Generator.Sample(hydra::device::sys_t, Gaussians, min, max, nentries );
+
 		hydra::copy(data_d.begin(), data_d.end(), data_h.begin());
 
 		for(size_t i=0; i<10; i++)
@@ -377,5 +428,4 @@ int main(int argv, char** argc)
 }
 
 
-
-#endif /* BASIC_DISTRIBUTIONS_INL_ */
+#endif /* SAMPLE_DISTRIBUTION_INL_ */
