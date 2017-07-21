@@ -164,6 +164,21 @@ make_tuple(T const&... t)
 	return thrust::make_tuple(t...);
 }
 
+/*! This version of \p make_pair creates a new \c pair object from a list of
+ *  objects.
+ *
+ *  \param T1 The first object to copy from.
+ *  \param T2 The second object to copy from.
+ *  \return A \p pair object with members which are copies of \p t.
+ *
+ */
+template<class T1, class T2 >
+tuple<T1, T2>
+make_pair( T1 const& t1, T2 const& t2 )
+{
+	return thrust::make_pair(t1, t2);
+}
+
 
 /*! This version of \p tie creates a new \c tuple whose elements are
  *  references which refers to this function's arguments.
@@ -176,5 +191,8 @@ tuple<T&...> tie(T& ...t)
 {
 	return thrust::tie(t...);
 }
+
+
+
 }//namespace hydra
 #endif /* TUPLES_H_ */

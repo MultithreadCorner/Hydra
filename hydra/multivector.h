@@ -32,6 +32,7 @@
 #include <hydra/detail/Config.h>
 #include <hydra/detail/multivector_base.h>
 #include <thrust/tuple.h>
+#include <hydra/Tuple.h>
 
 namespace hydra {
 
@@ -142,6 +143,25 @@ public:
 
 
 };
+
+
+template<size_t I,  template<typename...> class Vector, template<typename...> class Allocator,  typename ...T >
+pair< typename thrust::tuple_element<I,typename  multivector<Vector<thrust::tuple<T...>, Allocator<thrust::tuple<T...>>>>::iterator_tuple>::type,
+typename thrust::tuple_element<I,typename  multivector<Vector<thrust::tuple<T...>, Allocator<thrust::tuple<T...>>>>::iterator_tuple>::type >
+get_column(  multivector<Vector<thrust::tuple<T...>, Allocator<thrust::tuple<T...>>>>& mvector )
+{
+  return make_pair(mvector.template vbegin<I>(), mvector.template vend<I>() );
+}
+
+template<size_t I,  template<typename...> class Vector, template<typename...> class Allocator,  typename ...T >
+pair< typename thrust::tuple_element<I,typename  multivector<Vector<thrust::tuple<T...>, Allocator<thrust::tuple<T...>>>>::const_iterator_tuple>::type,
+typename thrust::tuple_element<I,typename  multivector<Vector<thrust::tuple<T...>, Allocator<thrust::tuple<T...>>>>::const_iterator_tuple>::type >
+get_column(  multivector<Vector<thrust::tuple<T...>, Allocator<thrust::tuple<T...>>>> const& mvector )
+{
+  return make_pair(mvector.template vcbegin<I>(), mvector.template vcend<I>() );
+}
+
+
 
 }  // namespace hydra
 

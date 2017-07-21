@@ -260,7 +260,6 @@ private:
 };
 
 
-
 }  // namespace hydra
 
 #include <hydra/detail/multivector_base.inl>

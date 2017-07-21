@@ -201,30 +201,26 @@ private:
 
 
 template<size_t I, typename T, size_t N, hydra::detail::Backend   BACKEND>
-auto CoordBegin(PointVector<Point<T,N,false,false>,BACKEND >& container )
--> typename PointVector<Point<T,N,false,false>, BACKEND>::column_iterator
+hydra::pair<typename PointVector<Point<T,N,false,false>, BACKEND>::column_iterator,
+typename PointVector<Point<T,N,false,false>, BACKEND>::column_iterator>
+get_coordinate(PointVector<Point<T,N,false,false>,BACKEND >& container )
 {
-	auto begin= container.GetData().template vbegin<I+2>();
-	return begin;
+	return hydra::make_pair(container.GetData().template vbegin<I+2>(),
+			container.GetData().template vend<I+2>());
 }
-/*
-template<size_t I, typename T, size_t N, unsigned int BACKEND>
-auto GetCoordinateBegin(PointVector<Point<T,N,false,false>,
-		BACKEND >& container )
--> decltype( container.GetData().template vbegin<I+2>())
-{
-	auto begin= container.GetData().template vbegin<I+2>();
-	return begin;
-}
-*/
+
 
 template<size_t I, typename T, size_t N, hydra::detail::Backend   BACKEND>
-auto CoordEnd(PointVector<Point<T,N,false,false>,  BACKEND >& container )
--> typename PointVector<Point<T,N,false,false>, BACKEND>::column_iterator
+hydra::pair<typename PointVector<Point<T,N,false,false>, BACKEND>::const_column_iterator,
+typename PointVector<Point<T,N,false,false>, BACKEND>::const_column_iterator>
+get_coordinate(PointVector<Point<T,N,false,false>,BACKEND >& container )
 {
-	auto begin= container.GetData().template vend<I+2>();
-	return begin;
+	return hydra::make_pair(container.GetData().template vcbegin<I+2>(),
+			container.GetData().template vcend<I+2>());
 }
+
+
+
 
 template<size_t I, typename T, size_t N, bool CERROR,hydra::detail::Backend  BACKEND>
 auto CoordBegin(PointVector<Point<T,N,true,CERROR>,  BACKEND >& container )
