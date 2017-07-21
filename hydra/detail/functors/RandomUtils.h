@@ -217,30 +217,32 @@ struct RndBreitWigner{
 template<typename GRND>
 struct RndFlag{
 
-	RndFlag(const size_t seed, const GReal_t max_value):
+	RndFlag(const size_t seed, const GReal_t max_value, const GReal_t* values ):
 		fSeed(seed),
-		fValMax(max_value)
+		fValMax(max_value),
+		fVals(values)
 	{}
 
 	__host__ __device__
 	RndFlag(RndFlag<GRND> const& other):
 		fSeed(other.fSeed),
-		fValMax(other.fValMax)
+		fValMax(other.fValMax),
+		fVals(other.fVals)
 	{}
 
 	__host__ __device__
-	inline GBool_t operator()(size_t index, GReal_t x)
+	inline GBool_t operator()(size_t index)
 	{
 		GRND randEng(fSeed*2);
 		randEng.discard(index);
 		thrust::uniform_real_distribution<GReal_t>  dist(0.0, fValMax);
 
-		return (x > dist(randEng)) ;
+		return (fVals[index] > dist(randEng)) ;
 	}
 
 	size_t  fSeed;
 	GReal_t fValMax;
-
+	const GReal_t* __restrict__ fVals;
 };
 
 

@@ -141,6 +141,7 @@ void  Random<GRND>::BreitWigner(GReal_t mean, GReal_t gamma, Iterator begin, Ite
 
 }
 
+/*
 template<typename GRND>
 template<hydra::detail::Backend BACKEND, typename FUNCTOR, size_t N >
 auto Random<GRND>::Sample(hydra::detail::BackendPolicy<BACKEND>const&, FUNCTOR const& functor, std::array<GReal_t,N> min,
@@ -181,15 +182,16 @@ typename  detail::tuple_type<N,GReal_t>::type>
 
 	return result;
 }
-
+*/
 template<typename GRND>
 template<typename ITERATOR, typename FUNCTOR, size_t N >
-ITERATOR Random<GRND>::Sample(ITERATOR first, ITERATOR last ,
-		std::array<GReal_t,N> min, std::array<GReal_t,N> max, FUNCTOR const& functor)
+ITERATOR Random<GRND>::Sample(ITERATOR begin, ITERATOR end ,
+		std::array<GReal_t,N> const& min, std::array<GReal_t,N> const& max,
+		FUNCTOR const& functor)
 {
 
 	using thrust::system::detail::generic::select_system;
-	typedef typename SystemTraits< typename thrust::iterator_system<Iterator>::type>::policy system_t;
+	typedef typename detail::SystemTraits< typename thrust::iterator_system<ITERATOR>::type>::policy system_t;
 
 
 	typedef typename detail::tuple_type<N,GReal_t>::type row_t;
@@ -197,7 +199,7 @@ ITERATOR Random<GRND>::Sample(ITERATOR first, ITERATOR last ,
     typedef typename system_t::template container<GReal_t> vector_real_t;
     typedef typename system_t::template container<GBool_t> vector_bool_t;
 
-    size_t ntrials = thrust::distance(  first, last);
+    size_t ntrials = thrust::distance( begin, end);
 
 	vector_real_t  values(ntrials);
 	vector_bool_t  flags(ntrials);
@@ -205,28 +207,17 @@ ITERATOR Random<GRND>::Sample(ITERATOR first, ITERATOR last ,
 
 	// create iterators
 	thrust::counting_iterator<size_t> first(0);
-	thrust::counting_iterator<size_t> last = first + trials;
+	thrust::counting_iterator<size_t> last = first + ntrials;
 
 
 	//calculate the functor values
-	thrust::transform( system_t(), first, last, first, values.begin(),
+	thrust::transform( system_t(), first, last, begin, values.begin(),
 			detail::RndTrial<GRND,FUNCTOR,N>(fSeed+4, functor, min, max));
 
 	//get the maximum value
-	GReal_t max_value = *( thrust::max_element( system_t(),values.begin(), values.end()) );
+	GReal_t max_value = *( thrust::max_element( system_t(), values.begin(), values.end()) );
 
-
-	/*
-	//
-	thrust::transform( system_t(),first, last, values.begin(), flags.begin(), );
-
-	size_t count = thrust::count( system_t(), flags.begin(), flags.end(), kTrue);
-
-	vector_tuple_t result(count);
-
-	thrust::copy_if( system_t(), points.begin(), points.end(), flags.begin(), result.begin(), thrust::identity<GBool_t>());
-	 */
-	return thrust::partition(first, last, values.begin(), detail::RndFlag<GRND>(fSeed+trials, max_value) );
+	return thrust::partition(begin, end, first, detail::RndFlag<GRND>(fSeed+ntrials, max_value, thrust::raw_pointer_cast(values.data()) ) );
 }
 
 
