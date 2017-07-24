@@ -94,21 +94,17 @@ public:
 	typedef typename data_t::reference_tuple reference;
 	typedef typename data_t::const_reference_tuple const_reference;
 
-	__host__
 	PointVector():
 		fData(data_t()){}
 
-	__host__
 	PointVector(size_t n):
 		fData(data_t(n, point_t().GetData())) {}
 	
 
-	__host__
 	PointVector( PointVector<Point<T, N, V_ERROR, C_ERROR>, BACKEND> const& other):
 		fData(other.GetData()){}
 
 	template<hydra::detail::Backend  BACKEND2 >
-	__host__
 	PointVector( PointVector<Point<T, N, V_ERROR, C_ERROR>, BACKEND2> const& other):
 	fData(other.GetData()){}
 	
@@ -117,17 +113,14 @@ public:
 	/**
 	 *@brief  get access to the underlying container
 	 */
-	__host__
 	const data_t& GetData() const { return fData; }
 
-	__host__
 	data_t& GetData(){ return fData; }
 
 
 	/**
 	 * @brief Add a new point
 	 */
-	__host__
 	void AddPoint( point_t const& point)
 	{
 		fData.push_back(point);
@@ -137,13 +130,12 @@ public:
 	/**
 	 *
 	 */
-	__host__
 	point_t GetPoint(size_t i) const
 	{
 		return point_t(fData[i]);
 	}
 
-	__host__
+
 	size_t Size(){ return fData.size(); }
 
 	/*
@@ -156,14 +148,9 @@ public:
 	/**
 	 *  constant iterator access
 	 */
-	__host__
 	const_iterator begin() const { return fData.cbegin(); }
-	__host__
 	const_iterator end() const { return fData.cend(); }
-
-	__host__
 	const_iterator cbegin() const { return fData.cbegin(); }
-	__host__
 	const_iterator cend() const { return fData.cend(); }
 
 
@@ -171,72 +158,43 @@ public:
 	/**
 	 *   non-const iterator access
 	 */
-	__host__
 	iterator begin() { return fData.begin(); }
-	__host__
 	iterator end()   { return fData.end(); }
 	
 	/**
 	 *  subscript operator
 	 */
-	__host__
-    const_reference operator[] (size_t i)  const { return (fData.begin()[i]); }
-
-	__host__
-	reference operator[] (size_t i) { return (fData.begin()[i]); }
-
-
-
-	/**
-	 * size
-	 */
-
+	const_reference operator[] (size_t i)  const { return (fData.begin()[i]); }
+		  reference operator[] (size_t i) { return (fData.begin()[i]); }
 
 private:
-	
 	data_t fData;
-	
-
 };
 
 
 template<size_t I, typename T, size_t N, hydra::detail::Backend   BACKEND>
 hydra::pair<typename PointVector<Point<T,N,false,false>, BACKEND>::column_iterator,
 typename PointVector<Point<T,N,false,false>, BACKEND>::column_iterator>
-get_coordinate(PointVector<Point<T,N,false,false>,BACKEND >& container )
+get_column(PointVector<Point<T,N,false,false>,BACKEND >& container )
 {
-	return hydra::make_pair(container.GetData().template vbegin<I+2>(),
-			container.GetData().template vend<I+2>());
+	return hydra::make_pair(
+			container.GetData().template vbegin<I>(),
+			container.GetData().template vend<I>());
 }
 
 
 template<size_t I, typename T, size_t N, hydra::detail::Backend   BACKEND>
 hydra::pair<typename PointVector<Point<T,N,false,false>, BACKEND>::const_column_iterator,
 typename PointVector<Point<T,N,false,false>, BACKEND>::const_column_iterator>
-get_coordinate(PointVector<Point<T,N,false,false>,BACKEND >& container )
+get_column(PointVector<Point<T,N,false,false>,BACKEND > const& container )
 {
-	return hydra::make_pair(container.GetData().template vcbegin<I+2>(),
-			container.GetData().template vcend<I+2>());
+	return hydra::make_pair(
+			container.GetData().template vcbegin<I>(),
+			container.GetData().template vcend<I>());
 }
 
 
 
-
-template<size_t I, typename T, size_t N, bool CERROR,hydra::detail::Backend  BACKEND>
-auto CoordBegin(PointVector<Point<T,N,true,CERROR>,  BACKEND >& container )
--> decltype(container.GetData().template vbegin<I+3>())
-{
-	auto begin= container.GetData().template vbegin<I+3>();
-	return begin;
-}
-
-template<size_t I, typename T, size_t N, bool CERROR, hydra::detail::Backend  BACKEND>
-auto CoordEnd(PointVector<Point<T,N,true,CERROR>,  BACKEND >& container )
--> decltype( container.GetData().template vend<I+3>())
-{
-	auto begin= container.GetData().template vend<I+3>();
-	return begin;
-}
 
 
 }//namespace hydra

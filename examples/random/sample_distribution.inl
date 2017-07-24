@@ -47,6 +47,7 @@
 #include <hydra/Copy.h>
 #include <hydra/Tuple.h>
 #include <hydra/Distance.h>
+#include <hydra/multiarray.h>
 /*-------------------------------------
  * Include classes from ROOT to fill
  * and draw histograms and plots.
@@ -211,7 +212,6 @@ int main(int argv, char** argc)
 #endif //_ROOT_AVAILABLE_
 
 	}
-
 
 
 #ifdef _ROOT_AVAILABLE_
