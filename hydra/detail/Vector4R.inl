@@ -376,6 +376,19 @@ inline GReal_t Vector4R::dot(const Vector4R& p2) const
 
 } //dot
 
+// calculate (p1xp2)*p3 in the rest frame of
+// 4-vector *this (sub-optimal implementation)
+__host__ __device__
+inline GReal_t Vector4R::scalartripler3(Vector4R p1,
+		Vector4R p2, Vector4R p3) const
+{
+	p1.applyBoostTo(*this);
+	p2.applyBoostTo(*this);
+	p3.applyBoostTo(*this);
+
+	GReal_t r = (p1.cross(p2)).dot(p3);
+	return r;
+}
 
 // Calculate the 3-d dot product of 4-vectors p1 and p2 in the rest frame of
 // 4-vector p0
