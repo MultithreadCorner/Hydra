@@ -20,54 +20,31 @@
  *---------------------------------------------------------------------------*/
 
 /*
- * TBB.h
+ * CPP.h
  *
  *  Created on: 16/05/2017
  *      Author: Antonio Augusto Alves Junior
  */
 
-#ifndef TBB_TAG_H_
-#define TBB_TAG_H_
+#ifndef CPP_TAG_H_
+#define CPP_TAG_H_
 
 #include <hydra/detail/Config.h>
-#include <thrust/system/tbb/detail/execution_policy.h>
-#include <thrust/system/tbb/vector.h>
+#include <thrust/system/cpp/detail/execution_policy.h>
+#include <hydra/detail/policies/backends/CPP.h>
+#include <hydra/detail/SystemTraits.h>
 
 namespace hydra {
 
 namespace detail {
 
-namespace tbb {
-
-typedef thrust::system::tbb::detail::tag   tbb_tag;
-static const tbb_tag    _tbb_tag_;
-
-template<typename BACKEND>
-struct IteratorPolicy;
-
 template<>
-struct IteratorPolicy<tbb_tag>: thrust::execution_policy<tbb_tag>
-{
-	const tbb_tag tag= _tbb_tag_;
-	template<typename T>
-	using   container = thrust::tbb::vector<T> ;
-};
-
-typedef IteratorPolicy<tbb_tag> tag_t;
-static const tag_t tag;
-
-
-}  // namespace tbb
+struct SystemTraits<thrust::system::cpp::detail::tag>
+{ typedef hydra::cpp::sys_t policy; };
 
 }  // namespace detail
 
-namespace tbb {
-
-using hydra::detail::tbb::tag;
-using hydra::detail::tbb::tag_t;
-
-}  // namespace tbb
-
 }  // namespace hydra
 
-#endif /* TBB_TAG_H_ */
+
+#endif /* CPP_TAG_H_ */

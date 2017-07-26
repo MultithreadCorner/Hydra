@@ -20,57 +20,32 @@
  *---------------------------------------------------------------------------*/
 
 /*
- * CPP.h
+ * CUDA.h
  *
  *  Created on: 16/05/2017
  *      Author: Antonio Augusto Alves Junior
  */
 
-#ifndef CPP_TAG_H_
-#define CPP_TAG_H_
+#ifndef CUDA_H_
+#define CUDA_H_
 
 #include <hydra/detail/Config.h>
-#include <thrust/system/cpp/detail/execution_policy.h>
-#include <thrust/system/cpp/vector.h>
+#include <thrust/system/cuda/detail/execution_policy.h>
+#include <hydra/detail/policies/backends/CUDA.h>
+#include <hydra/detail/SystemTraits.h>
+
 
 namespace hydra {
 
 namespace detail {
 
-namespace cpp {
-
-typedef thrust::system::cpp::detail::tag   cpp_tag;
-static const cpp_tag    _cpp_tag_;
-
-template<typename BACKEND>
-struct IteratorPolicy;
-
 template<>
-struct IteratorPolicy<cpp_tag>: thrust::execution_policy<cpp_tag>
-{
-	const cpp_tag tag= _cpp_tag_;
-	template<typename T>
-	using   container = thrust::cpp::vector<T> ;
-};
-
-typedef IteratorPolicy<cpp_tag> tag_t;
-static const tag_t tag;
-
-
-}  // namespace cpp
-
+struct SystemTraits<thrust::system::cuda::detail::tag>
+{ typedef hydra::cuda::sys_t policy; };
 
 }  // namespace detail
-
-namespace cpp {
-
-using hydra::detail::cpp::tag;
-using hydra::detail::cpp::tag_t;
-
-
-}  // namespace cpp
 
 }  // namespace hydra
 
 
-#endif /* CPP_TAG_H_ */
+#endif /* CUDA_H_ */

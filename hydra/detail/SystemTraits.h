@@ -27,43 +27,18 @@
 
 #ifndef SYSTEMTRAITS_H_
 #define SYSTEMTRAITS_H_
-
-#include <hydra/cuda/System.h>
-#include <hydra/cpp/System.h>
-#include <hydra/omp/System.h>
-#include <hydra/tbb/System.h>
+#include <hydra/detail/Config.h>
+#include <hydra/detail/BackendPolicy.h>
 
 #include <thrust/iterator/iterator_traits.h>
 #include <thrust/system/detail/generic/select_system.h>
-#include <thrust/detail/type_traits.h>
-#include <thrust/system/cpp/detail/par.h>
-#include <thrust/system/cuda/detail/par.h>
-#include <thrust/system/omp/detail/par.h>
-#include <thrust/system/tbb/detail/par.h>
 
 namespace hydra {
 
 namespace detail {
 
 template<typename ThrustSystem>
-struct SystemTraits;
-
-template<>
-struct SystemTraits<thrust::system::cpp::detail::tag>
-{ typedef hydra::cpp::sys_t policy; };
-
-template<>
-struct SystemTraits<thrust::system::omp::detail::tag>
-{ typedef hydra::omp::sys_t policy; };
-
-template<>
-struct SystemTraits<thrust::system::tbb::detail::tag>
-{ typedef hydra::tbb::sys_t policy; };
-
-template<>
-struct SystemTraits<thrust::system::cuda::detail::tag>
-{ typedef hydra::cuda::sys_t policy; };
-
+struct SystemTraits ;
 
 
 }  // namespace detail

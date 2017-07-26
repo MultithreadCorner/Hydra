@@ -20,55 +20,26 @@
  *---------------------------------------------------------------------------*/
 
 /*
- * HOST.h
+ * TBB.h
  *
  *  Created on: 16/05/2017
  *      Author: Antonio Augusto Alves Junior
  */
 
-#ifndef HOST_TAG_H_
-#define HOST_TAG_H_
-
+#ifndef TBB_TAG_H_
+#define TBB_TAG_H_
 #include <hydra/detail/Config.h>
-#include <thrust/iterator/detail/host_system_tag.h>
-#include <hydra/Containers.h>
+#include <thrust/system/tbb/detail/execution_policy.h>
+#include <hydra/detail/policies/backends/TBB.h>
+#include <hydra/detail/SystemTraits.h>
+
 
 namespace hydra {
 
 namespace detail {
 
-namespace host {
-
-typedef thrust::host_system_tag	       host_tag;
-static const host_tag   _host_tag_;
-
-template<typename BACKEND>
-struct IteratorPolicy;
-
 template<>
-struct IteratorPolicy<host_t>: thrust::execution_policy<host_t>
-{
-	const host_tag tag= _host_tag_;
-	template<typename T>
-	using   container = hydra::mc_host_vector<T>;
-};
+struct SystemTraits<thrust::system::tbb::detail::tag>
+{ typedef hydra::tbb::sys_t policy; };
 
-typedef IteratorPolicy<host_t> tag_t;
-static const tag_t tag;
-
-
-}  // namespace host
-
-}  // namespace detail
-
-namespace host {
-
-using hydra::detail::host::tag;
-using hydra::detail::host::tag_t;
-
-}  // namespace host
-
-}  // namespace hydra
-
-
-#endif /* HOST_TAG_H_ */
+#endif /* TBB_TAG_H_ */

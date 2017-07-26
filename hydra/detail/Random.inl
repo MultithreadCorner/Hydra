@@ -35,6 +35,8 @@
 #ifndef RANDOM_INL_
 #define RANDOM_INL_
 
+#include <hydra/detail/SystemTraits.h>
+
 namespace hydra{
 
 template<typename GRND>
