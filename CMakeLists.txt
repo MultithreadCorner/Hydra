@@ -15,14 +15,6 @@ if(NOT UNIX)
   message(FATAL_ERROR "This is an unsupported system.")
 endif()
 
-# configure a header file to pass some of the CMake settings
-# to the source code
-configure_file (
-  "${PROJECT_SOURCE_DIR}/hydra/Hydra.h.in"
-  "${PROJECT_SOURCE_DIR}/hydra/Hydra.h"
- )
-mark_as_advanced(Hydra_VERSION_MAJOR Hydra_VERSION_MINOR Hydra_VERSION_PATCH)
-
 SET(Hydra_CMAKE_DIR "${PROJECT_SOURCE_DIR}/cmake")
 SET(CMAKE_MODULE_PATH "${Hydra_CMAKE_DIR}" ${CMAKE_MODULE_PATH})
 SET(CMAKE_VERBOSE_MAKEFILE  ON)
