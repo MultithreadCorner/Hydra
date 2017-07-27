@@ -104,7 +104,7 @@ public:
 
 	// Added by AJB - calculate scalars in the rest frame of the current object
 	__host__      __device__       inline GReal_t scalartripler3( Vector4R p1,
-			Vector4R& p2, Vector4R p3) const;
+			Vector4R p2, Vector4R p3) const;
 	__host__      __device__       inline GReal_t dotr3(const Vector4R& p1,
 			const Vector4R& p2) const;
 	__host__      __device__       inline GReal_t mag2r3(const Vector4R& p1) const;

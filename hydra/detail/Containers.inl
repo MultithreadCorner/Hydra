@@ -36,8 +36,11 @@
 #if THRUST_DEVICE_SYSTEM==THRUST_DEVICE_SYSTEM_CUDA
 #include <thrust/system/cuda/experimental/pinned_allocator.h>
 #endif
+<<<<<<< HEAD
 
 
+=======
+>>>>>>> d6db5d15b0631781699603c8923de86c2807b0e5
 
 
 namespace hydra

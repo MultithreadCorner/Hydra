@@ -30,6 +30,6 @@
 #define SYSTEM_OMP_H_
 
 #include <hydra/detail/policies/backends/OMP.h>
-//#include <hydra/detail/policies/iterators/OMP.h>
+
 
 #endif /* SYSTEM_OMP_H_ */

@@ -37,7 +37,6 @@
 #include <hydra/Types.h>
 #include <hydra/detail/functors/RandomUtils.h>
 #include <hydra/detail/TypeTraits.h>
-#include <hydra/detail/SystemTraits.h>
 #include <hydra/detail/utility/Utility_Tuple.h>
 #include <hydra/Containers.h>
 #include <hydra/PointVector.h>

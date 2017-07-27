@@ -107,11 +107,13 @@ namespace detail {
 	}
 
 
-	template<size_t N, hydra::detail::Backend BACKEND, typename FUNCTOR, typename GRND, typename IteratorMother>
-	inline StatsPHSP launch_reducer(hydra::detail::BackendPolicy<BACKEND>const& policy,
-			IteratorMother begin, IteratorMother end, detail::AverageMothers<N, GRND,FUNCTOR> const& evaluator)
+	template<size_t N, typename FUNCTOR, typename GRND, typename Iterator>
+	inline StatsPHSP launch_reducer(Iterator begin, Iterator end,
+			detail::AverageMothers<N, GRND,FUNCTOR> const& evaluator)
 	{
-		typedef hydra::detail::BackendPolicy<BACKEND> system_t;
+		using thrust::system::detail::generic::select_system;
+		typedef typename thrust::iterator_system<Iterator>::type System;
+		System system;
 
 		size_t nevents = thrust::distance(begin, end);
 		thrust::counting_iterator<GLong_t> first(0);
@@ -119,7 +121,7 @@ namespace detail {
 
 		StatsPHSP init = StatsPHSP();
 
-		StatsPHSP result = thrust::transform_reduce( policy,
+		StatsPHSP result = thrust::transform_reduce(select_system(system),
 				thrust::make_zip_iterator(first, begin),
 				thrust::make_zip_iterator(last, end),
 				evaluator, init,detail::AddStatsPHSP() );

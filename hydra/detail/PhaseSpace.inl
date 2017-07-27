@@ -79,15 +79,14 @@ PhaseSpace<N,GRND>::AverageOn(hydra::detail::BackendPolicy<BACKEND>const& policy
 }
 
 template <size_t N, typename GRND>
-template<typename FUNCTOR, hydra::detail::Backend BACKEND, typename Iterator>
+template<typename FUNCTOR,typename Iterator>
 std::pair<GReal_t, GReal_t>
-PhaseSpace<N,GRND>::AverageOn(hydra::detail::BackendPolicy<BACKEND>const& policy,
-		Iterator begin, Iterator end, FUNCTOR const& functor) {
+PhaseSpace<N,GRND>::AverageOn(Iterator begin, Iterator end, FUNCTOR const& functor) {
 
 	detail::AverageMothers<N,GRND,FUNCTOR>	reducer( fMasses, fSeed,functor);
 
 	detail::StatsPHSP result =
-			detail::launch_reducer(policy,	begin, end, reducer );
+			detail::launch_reducer(begin, end, reducer );
 	return std::make_pair(result.fMean, sqrt(result.fM2) );
 
 }
