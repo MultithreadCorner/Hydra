@@ -131,9 +131,8 @@ public:
 	 * @param functor Functor;
 	 * @return std::pair with the mean and the \f$ \sqrt(\sigma)\f$
 	 */
-	template<typename FUNCTOR, hydra::detail::Backend BACKEND, typename Iterator>
-	std::pair<GReal_t, GReal_t> AverageOn(hydra::detail::BackendPolicy<BACKEND>const& policy,
-			Iterator begin, Iterator end, FUNCTOR const& functor);
+	template<typename FUNCTOR,  typename Iterator>
+	std::pair<GReal_t, GReal_t> AverageOn(Iterator begin, Iterator end, FUNCTOR const& functor);
 
 	/**
 	 * @brief Evaluate a list of functors  over the phase-space

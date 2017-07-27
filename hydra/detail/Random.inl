@@ -35,7 +35,7 @@
 #ifndef RANDOM_INL_
 #define RANDOM_INL_
 
-#include <hydra/detail/SystemTraits.h>
+#include <thrust/memory.h>
 
 namespace hydra{
 
@@ -143,48 +143,7 @@ void  Random<GRND>::BreitWigner(GReal_t mean, GReal_t gamma, Iterator begin, Ite
 
 }
 
-/*
-template<typename GRND>
-template<hydra::detail::Backend BACKEND, typename FUNCTOR, size_t N >
-auto Random<GRND>::Sample(hydra::detail::BackendPolicy<BACKEND>const&, FUNCTOR const& functor, std::array<GReal_t,N> min,
-		std::array<GReal_t,N> max, size_t trials)
-->	typename hydra::detail::BackendPolicy<BACKEND>::template container<
-typename  detail::tuple_type<N,GReal_t>::type>
-{
-	typedef typename detail::tuple_type<N,GReal_t>::type tuple_t;
 
-	typedef hydra::detail::BackendPolicy<BACKEND> system_t;
-
-
-    typedef typename system_t::template container<tuple_t> vector_tuple_t;
-    typedef typename system_t::template container<GReal_t> vector_real_t;
-    typedef typename system_t::template container<GBool_t> vector_bool_t;
-
-	vector_real_t values(trials);
-	vector_bool_t flags(trials);
-	vector_tuple_t points(trials);
-
-	// create iterators
-	thrust::counting_iterator<size_t> first(0);
-	thrust::counting_iterator<size_t> last = first + trials;
-
-
-	thrust::transform( system_t(), first, last, points.begin(), values.begin(),
-			detail::RndTrial<GRND,FUNCTOR,N>(fSeed+4, functor, min, max));
-
-	GReal_t max_value = *( thrust::max_element( system_t(),values.begin(), values.end()) );
-
-	thrust::transform( system_t(),first, last, values.begin(), flags.begin(), detail::RndFlag<GRND>(fSeed+trials, max_value) );
-
-	size_t count = thrust::count( system_t(), flags.begin(), flags.end(), kTrue);
-
-	vector_tuple_t result(count);
-
-	thrust::copy_if( system_t(), points.begin(), points.end(), flags.begin(), result.begin(), thrust::identity<GBool_t>());
-
-	return result;
-}
-*/
 template<typename GRND>
 template<typename ITERATOR, typename FUNCTOR, size_t N >
 ITERATOR Random<GRND>::Sample(ITERATOR begin, ITERATOR end ,
@@ -193,18 +152,11 @@ ITERATOR Random<GRND>::Sample(ITERATOR begin, ITERATOR end ,
 {
 
 	using thrust::system::detail::generic::select_system;
-	typedef typename detail::SystemTraits< typename thrust::iterator_system<ITERATOR>::type>::policy system_t;
-
-
-	typedef typename detail::tuple_type<N,GReal_t>::type row_t;
-
-    typedef typename system_t::template container<GReal_t> vector_real_t;
-    typedef typename system_t::template container<GBool_t> vector_bool_t;
+	typedef  typename thrust::iterator_system<ITERATOR>::type system_t;
 
     size_t ntrials = thrust::distance( begin, end);
 
-	vector_real_t  values(ntrials);
-	vector_bool_t  flags(ntrials);
+    auto values = thrust::get_temporary_buffer<GReal_t>(system_t(), ntrials);
 
 
 	// create iterators
@@ -213,57 +165,21 @@ ITERATOR Random<GRND>::Sample(ITERATOR begin, ITERATOR end ,
 
 
 	//calculate the functor values
-	thrust::transform( system_t(), first, last, begin, values.begin(),
+	thrust::transform( system_t(), first, last, begin, values.first.get(),
 			detail::RndTrial<GRND,FUNCTOR,N>(fSeed+4, functor, min, max));
 
 	//get the maximum value
-	GReal_t max_value = *( thrust::max_element( system_t(), values.begin(), values.end()) );
+	GReal_t max_value = *( thrust::max_element( system_t(), values.first.get(), values.first.get()+ntrials) );
 
-	return thrust::partition(begin, end, first, detail::RndFlag<GRND>(fSeed+ntrials, max_value, thrust::raw_pointer_cast(values.data()) ) );
+	auto r = thrust::partition(begin, end, first, detail::RndFlag<GRND>(fSeed+ntrials, max_value, values.first.get()) );
+
+	// deallocate storage with thrust::return_temporary_buffer
+	thrust::return_temporary_buffer(system_t(), values.first);
+
+	return r;
 }
 
 
-/*
-template<typename GRND>
-template<hydra::detail::Backend BACKEND, typename FUNCTOR, size_t N >
-void Random<GRND>::Sample(hydra::detail::BackendPolicy<BACKEND>const&, FUNCTOR const& functor, std::array<GReal_t,N> min, std::array<GReal_t,N> max,
-		PointVector<Point<GReal_t, N, false, false>, BACKEND >& result,
-		size_t trials)
-{
-	typedef typename detail::tuple_type<N,GReal_t>::type tuple_t;
-
-    typedef hydra::detail::BackendPolicy<BACKEND> system_t;
-
-
-    typedef typename system_t::template container<tuple_t> vector_tuple_t;
-    typedef typename system_t::template container<GReal_t> vector_real_t;
-    typedef typename system_t::template container<GBool_t> vector_bool_t;
-
-
-	vector_real_t values(trials);
-	vector_bool_t flags(trials);
-	vector_tuple_t points(trials);
-
-	// create iterators
-	thrust::counting_iterator<size_t> first(0);
-	thrust::counting_iterator<size_t> last = first + trials;
-
-
-	thrust::transform(system_t(),  first, last, points.begin(), values.begin(),
-			detail::RndTrial<GRND,FUNCTOR,N>(fSeed+4, functor, min, max));
-
-	GReal_t max_value = *( thrust::max_element(system_t(), values.begin(), values.end()) );
-
-	thrust::transform(system_t(), first, last, values.begin(), flags.begin(), detail::RndFlag<GRND>(fSeed+trials, max_value) );
-
-	size_t count = thrust::count(system_t(), flags.begin(), flags.end(), kTrue);
-
-	result.GetPoints().resize(count);
-
-	thrust::copy_if(system_t(), points.begin(), points.end(), flags.begin(), result.begin(), thrust::identity<GBool_t>());
-
-	}
-*/
 
 }
 

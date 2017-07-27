@@ -45,7 +45,6 @@
 #include <hydra/Vector3R.h>
 #include <hydra/Vector4R.h>
 #include <hydra/detail/utility/Utility_Tuple.h>
-#include <hydra/detail/BackendTraits.h>
 
 //thrust
 #include <thrust/tuple.h>
