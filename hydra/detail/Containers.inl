@@ -33,9 +33,8 @@
 #include <thrust/device_vector.h>
 #include <thrust/host_vector.h>
 #include <thrust/complex.h>
-#if THRUST_DEVICE_SYSTEM==THRUST_DEVICE_SYSTEM_CUDA
 #include <thrust/system/cuda/experimental/pinned_allocator.h>
-#endif
+
 
 
 namespace hydra
