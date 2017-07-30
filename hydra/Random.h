@@ -67,7 +67,7 @@ class Random{
 
 public:
 	Random():
-			fSeed(7895123456)
+			fSeed(7895123)
 	{}
 
 	Random(GUInt_t seed):
