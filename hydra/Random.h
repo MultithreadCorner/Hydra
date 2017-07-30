@@ -66,6 +66,10 @@ template<typename GRND=thrust::random::default_random_engine>
 class Random{
 
 public:
+	Random():
+			fSeed(7895123456)
+	{}
+
 	Random(GUInt_t seed):
 		fSeed(seed)
 {}
