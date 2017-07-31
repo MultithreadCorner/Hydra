@@ -33,7 +33,7 @@
 #include <hydra/detail/Config.h>
 #include <hydra/detail/BackendPolicy.h>
 #include <thrust/iterator/zip_iterator.h>
-#include <hydra/detail/iterator_traits.h>
+#include <thrust/iterator/iterator_traits.h>
 #include <thrust/tuple.h>
 #include <hydra/detail/utility/Utility_Tuple.h>
 #include <array>
