@@ -49,6 +49,16 @@ inline void multiarray<N,T,detail::BackendPolicy<BACKEND>>::push_back(const T (&
 }
 
 template< size_t N, typename T, hydra::detail::Backend BACKEND>
+inline void multiarray<N,T,detail::BackendPolicy<BACKEND>>::push_back(typename multiarray<N,T,detail::BackendPolicy<BACKEND>>::value_type const& value)
+{
+
+	detail::do_push_back(this->fData, value);
+
+}
+
+
+
+template< size_t N, typename T, hydra::detail::Backend BACKEND>
 inline void multiarray<N,T,detail::BackendPolicy<BACKEND>>::push_back(std::initializer_list<T>const& list_args)
 {
 	if(list_args.size()!=N){
@@ -102,6 +112,53 @@ void multiarray<N,T,detail::BackendPolicy<BACKEND>>::reserve(size_t size)
 {
 	for( size_t i=0; i<N; i++)
 		this->fData[i].reserve( size );
+}
+
+template< size_t N, typename T, hydra::detail::Backend BACKEND>
+typename multiarray<N,T,detail::BackendPolicy<BACKEND>>::iterator
+multiarray<N,T,detail::BackendPolicy<BACKEND>>::erase(typename multiarray<N,T,detail::BackendPolicy<BACKEND>>::iterator pos)
+{
+	size_t dist = thrust::distance(this->begin(), pos);
+
+	for( size_t i=0; i<N; i++)
+		this->fData[i].erase( this->fData[i].begin()+dist );
+}
+
+template< size_t N, typename T, hydra::detail::Backend BACKEND>
+typename multiarray<N,T,detail::BackendPolicy<BACKEND>>::iterator
+multiarray<N,T,detail::BackendPolicy<BACKEND>>::erase(typename multiarray<N,T,detail::BackendPolicy<BACKEND>>::iterator first,
+		typename multiarray<N,T,detail::BackendPolicy<BACKEND>>::iterator last)
+{
+	size_t dist_first = thrust::distance(this->begin(), first);
+	size_t dist_last  = thrust::distance(this->begin(), last);
+
+	for( size_t i=0; i<N; i++)
+		this->fData[i].erase(this->fData[i].begin() + dist_first,  this->fData[i].begin() + dist_last );
+
+}
+
+template< size_t N, typename T, hydra::detail::Backend BACKEND>
+typename multiarray<N,T,detail::BackendPolicy<BACKEND>>::iterator
+multiarray<N,T,detail::BackendPolicy<BACKEND>>::insert(typename multiarray<N,T,detail::BackendPolicy<BACKEND>>::iterator pos,
+		typename multiarray<N,T,detail::BackendPolicy<BACKEND>>::value_type const& value)
+{
+	size_t dist = thrust::distance(this->begin(), pos);
+	multiarray<N,T,detail::BackendPolicy<BACKEND>>::array_type value_array{};
+
+	detail::tupleToArray(value, value_array);
+
+	for( size_t i=0; i<N; i++)
+		this->fData[i].insert(this->fData[i].begin() + dist, value_array[i] );
+
+}
+
+template< size_t N, typename T, hydra::detail::Backend BACKEND>
+template<typename InputIterator>
+void multiarray<N,T,detail::BackendPolicy<BACKEND>>::insert(typename multiarray<N,T,detail::BackendPolicy<BACKEND>>::iterator pos,
+		InputIterator first, InputIterator last)
+{
+	size_t dist = thrust::distance(this->begin(), pos);
+	detail::do_insert(dist, this->fData, first.get_iterator_tuple(), last.get_iterator_tuple());
 }
 
 template< size_t N, typename T, hydra::detail::Backend BACKEND>

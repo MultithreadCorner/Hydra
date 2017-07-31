@@ -213,6 +213,21 @@ int main(int argv, char** argc)
 
 	}
 
+	hydra::multiarray<3,int, hydra::host::sys_t> marray;
+	size_t i=0;
+	for(size_t i=0; i<100;i++)
+	{
+		marray.push_back(hydra::make_tuple(i,i,i));
+
+	}
+	marray.erase(marray.begin()+10);
+	marray.insert(marray.begin()+10, hydra::make_tuple(100,100,100));
+
+	for(auto elem: marray)
+		{
+			std::cout<< elem << std::endl;;
+		}
+
 
 #ifdef _ROOT_AVAILABLE_
 	TApplication *myapp=new TApplication("myapp",0,0);

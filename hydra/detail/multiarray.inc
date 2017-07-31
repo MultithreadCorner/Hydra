@@ -132,6 +132,40 @@ inline auto get_cdata_tuple(std::array<VECTOR, N>const& data)
 	return get_cdata_tuple_helper( data , make_index_sequence<N> { } );
 }
 
+
+template<size_t I, typename Vector, size_t N, template<typename ...> class Tuple, typename ...Iterators>
+inline typename thrust::detail::enable_if<(I == sizeof...(Iterators)), void >::type
+do_insert(size_t dist, std::array<Vector, N>& data,
+		Tuple<Iterators...> const& first_tuple, Tuple<Iterators...> const& last_tuple)
+{}
+
+template<size_t I = 0, typename Vector, size_t N, template<typename ...> class Tuple, typename ...Iterators>
+inline typename thrust::detail::enable_if<(I < sizeof...(Iterators)), void >::type
+do_insert(size_t dist, std::array<Vector, N>& data,
+		Tuple<Iterators...> const& first_tuple, Tuple<Iterators...> const& last_tuple)
+{
+    	auto first = thrust::get<I>(first_tuple);
+    	auto last  = thrust::get<I>(last_tuple);
+    	data[I].insert(data[I].begin() + dist, first, last);
+
+    	do_insert<I + 1, Vector, N, Tuple, Iterators... >(dist, data, first_tuple, last_tuple );
+}
+
+
+template<size_t I, typename Vector, size_t N, template<typename ...> class Tuple, typename ...T>
+inline typename thrust::detail::enable_if<(I == sizeof...(T)), void >::type
+do_push_back(std::array<Vector, N>& data, Tuple<T...> const& value)
+{}
+
+template<size_t I = 0, typename Vector, size_t N, template<typename ...> class Tuple, typename ...T>
+inline typename thrust::detail::enable_if<(I < sizeof...(T)), void >::type
+do_push_back(std::array<Vector, N>& data, Tuple<T...> const& value)
+{
+    	data[I].push_back(thrust::get<I>(value));
+
+    	do_push_back<I + 1, Vector, N, Tuple, T... >(data, value );
+}
+
 }  // namespace detail
 
 }  // namespace hydra

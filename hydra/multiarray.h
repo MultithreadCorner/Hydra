@@ -58,7 +58,7 @@ class multiarray<N, T, hydra::detail::BackendPolicy<BACKEND> >
 
 public:
 	typedef detail::tuple_type<N, T> row_t;
-
+	typedef std::array<T, N> array_type;
 	//reference
 	typedef typename vector_t::reference vreference;
 	typedef typename vector_t::const_reference const_vreference;
@@ -97,6 +97,7 @@ public:
 
 	//stl-like typedefs
 	 typedef size_t size_type;
+
 	 typedef typename thrust::iterator_traits<iterator>::difference_type difference_type;
 	 typedef typename thrust::iterator_traits<iterator>::value_type value_type;
 	 typedef typename thrust::iterator_traits<iterator>::pointer pointer;
@@ -169,6 +170,8 @@ public:
 
 	inline void	push_back(std::initializer_list<T>const& list_args);
 
+	inline void	push_back(value_type const& value);
+
 	size_t size() const;
 
 	size_t capacity() const;
@@ -182,6 +185,18 @@ public:
 	void shrink_to_fit();
 
 	void reserve(size_t size);
+
+	iterator erase(iterator pos);
+
+	iterator erase(iterator first, iterator last);
+
+	iterator insert(iterator position, const value_type &x);
+
+	void insert(iterator position, size_type n, const value_type &x);
+
+
+	template<typename InputIterator>
+	void insert(iterator position, InputIterator first, InputIterator last);
 
 	reference_tuple front();
 
