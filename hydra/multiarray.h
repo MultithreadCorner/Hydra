@@ -97,11 +97,11 @@ public:
 
 	//stl-like typedefs
 
-	 typedef typename thrust::detail::iterator_traits<iterator>::difference_type difference_type;
-	 typedef typename thrust::detail::iterator_traits<iterator>::value_type value_type;
-	 typedef typename thrust::detail::iterator_traits<iterator>::pointer pointer;
-	 typedef typename thrust::detail::iterator_traits<iterator>::reference reference;
-	 typedef typename thrust::detail::iterator_traits<iterator>::iterator_category iterator_category;
+	 typedef typename thrust::iterator_traits<iterator>::difference_type difference_type;
+	 typedef typename thrust::iterator_traits<iterator>::value_type value_type;
+	 typedef typename thrust::iterator_traits<iterator>::pointer pointer;
+	 typedef typename thrust::iterator_traits<iterator>::reference reference;
+	 typedef typename thrust::iterator_traits<iterator>::iterator_category iterator_category;
 
 	multiarray():
 		fData(data_t())
