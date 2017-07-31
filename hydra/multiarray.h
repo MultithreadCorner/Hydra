@@ -57,7 +57,7 @@ class multiarray<N, T, hydra::detail::BackendPolicy<BACKEND> >
 
 public:
 	typedef detail::tuple_type<N, T> row_t;
-
+	typedef detail::tuple_type<N, T> value_type;
 	//reference
 	typedef typename vector_t::reference vreference;
 	typedef typename vector_t::const_reference const_vreference;
