@@ -436,6 +436,65 @@ multiarray<N,T,detail::BackendPolicy<BACKEND>>::crend(size_t i) const
 {
 	return this->fData[i].crend();
 }
+
+
+template<size_t N1, typename T1, hydra::detail::Backend BACKEND1,
+         size_t N2, typename T2, hydra::detail::Backend BACKEND2>
+bool operator==(const multiarray<N1, T1, hydra::detail::BackendPolicy<BACKEND1> >& lhs,
+                const multiarray<N2, T2, hydra::detail::BackendPolicy<BACKEND2> >& rhs)
+       {
+	typedef typename multiarray<N1, T1, hydra::detail::BackendPolicy<BACKEND1> >::value_type comparison_type;
+
+	bool is_same_type = (N1 == N2)
+			&& thrust::detail::is_same<T1,T2>::value
+			&& thrust::detail::is_same<hydra::detail::BackendPolicy<BACKEND1>, hydra::detail::BackendPolicy<BACKEND2> >::value
+			&& lhs.size() == rhs.size();
+	bool result =1;
+
+	auto comp = []__host__ __device__(thrust::tuple<T1,T2> const& values){
+		return thrust::get<0>(values)== thrust::get<1>(values);
+
+	};
+
+	if(is_same_type){
+
+		for(size_t i=0; i<N1; i++ )
+			result &= thrust::all_of(thrust::make_zip_iterator(lhs.begin(i), rhs.begin(i)),
+					thrust::make_zip_iterator(lhs.end(i), rhs.end(i)), comp);
+	}
+	return  result && is_same_type;
+
+}
+
+template<size_t N1, typename T1, hydra::detail::Backend BACKEND1,
+         size_t N2, typename T2, hydra::detail::Backend BACKEND2>
+bool operator!=(const multiarray<N1, T1, hydra::detail::BackendPolicy<BACKEND1> >& lhs,
+                const multiarray<N2, T2, hydra::detail::BackendPolicy<BACKEND2> >& rhs){
+
+	typedef typename multiarray<N1, T1, hydra::detail::BackendPolicy<BACKEND1> >::value_type comparison_type;
+
+		bool is_same_type = (N1 == N2)
+				&& thrust::detail::is_same<T1,T2>::value
+				&& thrust::detail::is_same<hydra::detail::BackendPolicy<BACKEND1>, hydra::detail::BackendPolicy<BACKEND2> >::value
+				&& lhs.size() == rhs.size();
+		bool result =1;
+
+		auto comp = []__host__ __device__(thrust::tuple<T1,T2> const& values){
+			return (thrust::get<0>(values) == thrust::get<1>(values));
+
+		};
+
+		if(is_same_type){
+
+			for(size_t i=0; i<N1; i++ )
+				result &= thrust::all_of(thrust::make_zip_iterator(lhs.begin(i), rhs.begin(i)),
+						thrust::make_zip_iterator(lhs.end(i), rhs.end(i)), comp);
+		}
+		return  (!result) && is_same_type;
+}
+
+
+
 }  // namespace hydra
 
 #endif /* MULTIARRAY_INL_ */

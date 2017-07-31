@@ -32,10 +32,14 @@
 
 #include <hydra/detail/Config.h>
 #include <hydra/detail/BackendPolicy.h>
+#include <hydra/detail/utility/Utility_Tuple.h>
 #include <thrust/iterator/zip_iterator.h>
 #include <thrust/iterator/iterator_traits.h>
 #include <thrust/tuple.h>
-#include <hydra/detail/utility/Utility_Tuple.h>
+#include <thrust/logical.h>
+#include <thrust/functional.h>
+#include <thrust/detail/type_traits.h>
+#include <functional.h>
 #include <array>
 
 #include<hydra/detail/multiarray.inc>
@@ -119,7 +123,7 @@ public:
 	{
 		fData = data_t();
 		for( size_t i=0; i<N; i++)
-			fData[i] = std::move(vector_t(other.begin(), other.end()));
+			fData[i] = std::move(vector_t(other.begin(i), other.end(i)));
 	}
 
 	multiarray(multiarray<N,T,detail::BackendPolicy<BACKEND>>&& other ):
@@ -131,7 +135,7 @@ public:
 	{
 		fData = data_t();
 		for( size_t i=0; i<N; i++)
-			fData[i] = std::move( vector_t( other.begin(), other.end() ) );
+			fData[i] = std::move( vector_t( other.begin(i), other.end(i) ) );
 	};
 
 	multiarray<N,T,detail::BackendPolicy<BACKEND>>&
@@ -159,7 +163,7 @@ public:
 	{
 		if(*this==&other) return *this;
 		for( size_t i=0; i<N; i++)
-			this->fData[i] = std::move( vector_t( other.begin(), other.end() ) );
+			this->fData[i] = std::move( vector_t( other.begin(i), other.end(i) ) );
 		return *this;
 	};
 
@@ -263,6 +267,18 @@ private:
 
 
 };
+
+template<size_t N1, typename T1, hydra::detail::Backend BACKEND1,
+         size_t N2, typename T2, hydra::detail::Backend BACKEND2>
+bool operator==(const multiarray<N1, T1, hydra::detail::BackendPolicy<BACKEND1> >& lhs,
+                const multiarray<N2, T2, hydra::detail::BackendPolicy<BACKEND2> >& rhs);
+
+template<size_t N1, typename T1, hydra::detail::Backend BACKEND1,
+         size_t N2, typename T2, hydra::detail::Backend BACKEND2>
+bool operator!=(const multiarray<N1, T1, hydra::detail::BackendPolicy<BACKEND1> >& lhs,
+                const multiarray<N2, T2, hydra::detail::BackendPolicy<BACKEND2> >& rhs);
+
+
 
 }  // namespace hydra
 

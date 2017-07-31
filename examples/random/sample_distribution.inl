@@ -229,7 +229,10 @@ int main(int argv, char** argc)
 			std::cout<< elem << std::endl;;
 		}
 
-
+	hydra::multiarray<3,int, hydra::host::sys_t>marray2(marray);
+	marray.front()=hydra::make_tuple(10,100,100);
+	std::cout << "is equal ? " << int(marray2==marray) <<std::endl;;
+	std::cout << "is different ? " << int(marray2!=marray) <<std::endl;;
 #ifdef _ROOT_AVAILABLE_
 	TApplication *myapp=new TApplication("myapp",0,0);
 
