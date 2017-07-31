@@ -96,7 +96,7 @@ public:
 	typedef thrust::zip_iterator<const_reverse_iterator_tuple>	 const_reverse_iterator;
 
 	//stl-like typedefs
-
+	 typedef size_t size_type;
 	 typedef typename thrust::iterator_traits<iterator>::difference_type difference_type;
 	 typedef typename thrust::iterator_traits<iterator>::value_type value_type;
 	 typedef typename thrust::iterator_traits<iterator>::pointer pointer;
