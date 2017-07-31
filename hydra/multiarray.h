@@ -57,7 +57,7 @@ class multiarray<N, T, hydra::detail::BackendPolicy<BACKEND> >
 
 public:
 	typedef detail::tuple_type<N, T> row_t;
-	typedef detail::tuple_type<N, T> value_type;
+
 	//reference
 	typedef typename vector_t::reference vreference;
 	typedef typename vector_t::const_reference const_vreference;
@@ -94,6 +94,13 @@ public:
 	typedef thrust::zip_iterator<reverse_iterator_tuple>		 reverse_iterator;
 	typedef thrust::zip_iterator<const_reverse_iterator_tuple>	 const_reverse_iterator;
 
+	//stl-like typedefs
+
+	 typedef typename thrust::detail::iterator_traits<iterator>::difference_type difference_type;
+	 typedef typename thrust::detail::iterator_traits<iterator>::value_type value_type;
+	 typedef typename thrust::detail::iterator_traits<iterator>::pointer pointer;
+	 typedef typename thrust::detail::iterator_traits<iterator>::reference reference;
+	 typedef typename thrust::detail::iterator_traits<iterator>::iterator_category iterator_category;
 
 	multiarray():
 		fData(data_t())
