@@ -213,7 +213,7 @@ int main(int argv, char** argc)
 
 	}
 
-	hydra::multiarray<3,int, hydra::host::sys_t> marray;
+	hydra::multiarray<3,int, hydra::device::sys_t> marray;
 	size_t i=0;
 	for(size_t i=0; i<100;i++)
 	{
@@ -229,7 +229,7 @@ int main(int argv, char** argc)
 			std::cout<< elem << std::endl;;
 		}
 
-	hydra::multiarray<3,int, hydra::host::sys_t>marray2(marray);
+	hydra::multiarray<3,int, hydra::device::sys_t>marray2(marray);
 	marray.front()=hydra::make_tuple(10,100,100);
 	std::cout << "is equal ? " << int(marray2==marray) <<std::endl;;
 	std::cout << "is different ? " << int(marray2!=marray) <<std::endl;;

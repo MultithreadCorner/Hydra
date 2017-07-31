@@ -60,6 +60,7 @@ class multiarray<N, T, hydra::detail::BackendPolicy<BACKEND> >
 	typedef std::array<vector_t, N> data_t;
 
 public:
+
 	typedef detail::tuple_type<N, T> row_t;
 	typedef std::array<T, N> array_type;
 	//reference

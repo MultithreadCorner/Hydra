@@ -43,11 +43,11 @@ namespace detail {
 
 //----------------------------------------------
 //front
-template<typename VECTOR, size_t ...Index>
-inline auto get_front_tuple_helper(std::array<VECTOR, sizeof ...(Index)>& data,	index_sequence<Index...>)
--> decltype( thrust::tie( data[Index].front()...) )
+template<typename VECTOR, size_t N, size_t ...Index>
+inline typename detail::tuple_type<N, typename VECTOR::reference>::type
+get_front_tuple_helper(std::array<VECTOR,N>& data,	index_sequence<Index...>)
 {
-	return thrust::tie( data[Index].front()... );
+	return typename detail::tuple_type<N, typename VECTOR::reference>::type( data[Index].front()... );
 }
 
 template<typename VECTOR, size_t N>
@@ -58,11 +58,11 @@ inline auto get_front_tuple(std::array<VECTOR, N>& data)
 }
 
 //cfront
-template<typename VECTOR, size_t ...Index>
-inline auto get_cfront_tuple_helper(std::array<VECTOR, sizeof ...(Index)> const& data,	index_sequence<Index...>)
--> decltype( thrust::make_tuple( data[Index].front()...) )
+template<typename VECTOR, size_t N, size_t ...Index>
+inline typename detail::tuple_type<N, typename VECTOR::const_reference>::type
+get_cfront_tuple_helper(std::array<VECTOR,N> const& data,	index_sequence<Index...>)
 {
-	return thrust::make_tuple( data[Index].front()... );
+	return typename detail::tuple_type<N, typename VECTOR::const_reference>::type( data[Index].front()... );
 }
 
 template<typename VECTOR, size_t N>
@@ -73,11 +73,11 @@ inline auto get_cfront_tuple(std::array<VECTOR, N> const& data)
 }
 //----------------------------------------------
 //back
-template<typename VECTOR, size_t ...Index>
-inline auto get_back_tuple_helper(std::array<VECTOR, sizeof ...(Index)>& data,	index_sequence<Index...>)
--> decltype( thrust::tie( data[Index].back()...) )
+template<typename VECTOR, size_t N, size_t ...Index>
+inline typename detail::tuple_type<N, typename VECTOR::reference>::type
+get_back_tuple_helper(std::array<VECTOR,N>& data,	index_sequence<Index...>)
 {
-	return thrust::tie( data[Index].back()... );
+	return typename detail::tuple_type<N, typename VECTOR::reference>::type( data[Index].back()... );
 }
 
 template<typename VECTOR, size_t N>
@@ -88,11 +88,11 @@ inline auto get_back_tuple(std::array<VECTOR, N>& data)
 }
 
 //cback
-template<typename VECTOR, size_t ...Index>
-inline auto get_cback_tuple_helper(std::array<VECTOR, sizeof ...(Index)> const& data,	index_sequence<Index...>)
--> decltype( thrust::make_tuple( data[Index].back()...) )
+template<typename VECTOR, size_t N, size_t ...Index>
+inline  typename detail::tuple_type<N, typename VECTOR::const_reference>::type
+get_cback_tuple_helper(std::array<VECTOR, sizeof ...(Index)> const& data,	index_sequence<Index...>)
 {
-	return thrust::make_tuple( data[Index].back()... );
+	return typename detail::tuple_type<N, typename VECTOR::const_reference>::type( data[Index].back()... );
 }
 
 template<typename VECTOR, size_t N>
