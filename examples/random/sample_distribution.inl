@@ -220,6 +220,7 @@ int main(int argv, char** argc)
 		marray.push_back(hydra::make_tuple(i,i,i));
 
 	}
+	marray.front()=hydra::make_tuple(100,100,100);
 	marray.erase(marray.begin()+10);
 	marray.insert(marray.begin()+10, hydra::make_tuple(100,100,100));
 

@@ -45,9 +45,9 @@ namespace detail {
 //front
 template<typename VECTOR, size_t ...Index>
 inline auto get_front_tuple_helper(std::array<VECTOR, sizeof ...(Index)>& data,	index_sequence<Index...>)
--> decltype( thrust::make_tuple( data[Index].front()...) )
+-> decltype( thrust::tie( data[Index].front()...) )
 {
-	return thrust::make_tuple( data[Index].front()... );
+	return thrust::tie( data[Index].front()... );
 }
 
 template<typename VECTOR, size_t N>
@@ -75,9 +75,9 @@ inline auto get_cfront_tuple(std::array<VECTOR, N> const& data)
 //back
 template<typename VECTOR, size_t ...Index>
 inline auto get_back_tuple_helper(std::array<VECTOR, sizeof ...(Index)>& data,	index_sequence<Index...>)
--> decltype( thrust::make_tuple( data[Index].back()...) )
+-> decltype( thrust::tie( data[Index].back()...) )
 {
-	return thrust::make_tuple( data[Index].back()... );
+	return thrust::tie( data[Index].back()... );
 }
 
 template<typename VECTOR, size_t N>
