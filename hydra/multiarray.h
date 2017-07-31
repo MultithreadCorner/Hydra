@@ -39,7 +39,6 @@
 #include <thrust/logical.h>
 #include <thrust/functional.h>
 #include <thrust/detail/type_traits.h>
-#include <functional.h>
 #include <array>
 
 #include<hydra/detail/multiarray.inc>
