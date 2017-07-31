@@ -282,7 +282,7 @@ template< size_t N, typename T, hydra::detail::Backend BACKEND>
 typename multiarray<N,T,detail::BackendPolicy<BACKEND>>::reverse_iterator
 multiarray<N,T,detail::BackendPolicy<BACKEND>>::rbegin()
 {
-	typename multiarray<N,T,detail::BackendPolicy<BACKEND>>::iterator_array temp{};
+	typename multiarray<N,T,detail::BackendPolicy<BACKEND>>::reverse_iterator_array temp{};
 
 	for(size_t i=0; i< N; i++)
 	temp[i]= this->fData[i].rbegin();
@@ -294,7 +294,7 @@ template< size_t N, typename T, hydra::detail::Backend BACKEND>
 typename multiarray<N,T,detail::BackendPolicy<BACKEND>>::reverse_iterator
 multiarray<N,T,detail::BackendPolicy<BACKEND>>::rend()
 {
-	typename multiarray<N,T,detail::BackendPolicy<BACKEND>>::iterator_array temp{};
+	typename multiarray<N,T,detail::BackendPolicy<BACKEND>>::reverse_iterator_array temp{};
 
 	for(size_t i=0; i< N; i++)
 	temp[i]= this->fData[i].rend();
@@ -306,7 +306,7 @@ template< size_t N, typename T, hydra::detail::Backend BACKEND>
 typename multiarray<N,T,detail::BackendPolicy<BACKEND>>::const_reverse_iterator
 multiarray<N,T,detail::BackendPolicy<BACKEND>>::rbegin()  const
 {
-	typename multiarray<N,T,detail::BackendPolicy<BACKEND>>::const_iterator_array temp{};
+	typename multiarray<N,T,detail::BackendPolicy<BACKEND>>::const_reverse_iterator_array temp{};
 
 	for(size_t i=0; i< N; i++)
 	temp[i]= this->fData[i].crbegin();
@@ -318,7 +318,7 @@ template< size_t N, typename T, hydra::detail::Backend BACKEND>
 typename multiarray<N,T,detail::BackendPolicy<BACKEND>>::const_reverse_iterator
 multiarray<N,T,detail::BackendPolicy<BACKEND>>::rend()  const
 {
-	typename multiarray<N,T,detail::BackendPolicy<BACKEND>>::const_iterator_array temp();
+	typename multiarray<N,T,detail::BackendPolicy<BACKEND>>::const_reverse_iterator_array temp();
 
 	for(size_t i=0; i< N; i++)
 	temp[i]= this->fData[i].crend();
@@ -330,7 +330,7 @@ template< size_t N, typename T, hydra::detail::Backend BACKEND>
 typename multiarray<N,T,detail::BackendPolicy<BACKEND>>::const_reverse_iterator
 multiarray<N,T,detail::BackendPolicy<BACKEND>>::crbegin()  const
 {
-	typename multiarray<N,T,detail::BackendPolicy<BACKEND>>::const_iterator_array temp();
+	typename multiarray<N,T,detail::BackendPolicy<BACKEND>>::const_reverse_iterator_array temp();
 
 	for(size_t i=0; i< N; i++)
 	temp[i]= this->fData[i].crbegin();
@@ -342,7 +342,7 @@ template< size_t N, typename T, hydra::detail::Backend BACKEND>
 typename multiarray<N,T,detail::BackendPolicy<BACKEND>>::const_reverse_iterator
 multiarray<N,T,detail::BackendPolicy<BACKEND>>::crend()  const
 {
-	typename multiarray<N,T,detail::BackendPolicy<BACKEND>>::const_iterator_array temp();
+	typename multiarray<N,T,detail::BackendPolicy<BACKEND>>::const_reverse_iterator_array temp();
 
 	for(size_t i=0; i< N; i++)
 	temp[i]= this->fData[i].crend();
