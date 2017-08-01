@@ -133,22 +133,22 @@ inline auto get_cdata_tuple(std::array<VECTOR, N>const& data)
 }
 
 
-template<size_t I, typename Vector, size_t N, template<typename ...> class Tuple, typename Iterator, typename ...Iterators>
+template<size_t I, typename Vector, size_t N, template<typename ...> class Tuple, typename ...Iterators>
 inline typename thrust::detail::enable_if<(I == sizeof...(Iterators)), void >::type
-do_insert(size_t dist,std::array<Iterator, N>& iters, std::array<Vector, N>& data,
+do_insert(size_t dist, std::array<Vector, N>& data,
 		Tuple<Iterators...> const& first_tuple, Tuple<Iterators...> const& last_tuple)
 {}
 
-template<size_t I = 0, typename Vector, size_t N, template<typename ...> class Tuple, typename Iterator, typename ...Iterators>
+template<size_t I = 0, typename Vector, size_t N, template<typename ...> class Tuple, typename ...Iterators>
 inline typename thrust::detail::enable_if<(I < sizeof...(Iterators)), void >::type
-do_insert(size_t dist, std::array<Iterator, N>& iters, std::array<Vector, N>& data,
+do_insert(size_t dist, std::array<Vector, N>& data,
 		Tuple<Iterators...> const& first_tuple, Tuple<Iterators...> const& last_tuple)
 {
     	auto first = thrust::get<I>(first_tuple);
     	auto last  = thrust::get<I>(last_tuple);
-    	iters[I] = data[I].insert(data[I].begin() + dist, first, last);
+    	data[I].insert(data[I].begin() + dist, first, last);
 
-    	do_insert<I + 1, Vector, N, Tuple, Iterators... >(dist, iters, data, first_tuple, last_tuple );
+    	do_insert<I + 1, Vector, N, Tuple, Iterators... >(dist, data, first_tuple, last_tuple );
 }
 
 

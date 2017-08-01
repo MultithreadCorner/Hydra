@@ -165,10 +165,9 @@ void multiarray<N,T,detail::BackendPolicy<BACKEND>>::insert(typename multiarray<
 		InputIterator first, InputIterator last)
 {
 	size_t dist = thrust::distance(this->begin(), pos);
-	typename multiarray<N,T,detail::BackendPolicy<BACKEND>>::iterator_array iter_array{};
-	detail::do_insert(dist, iter_array, this->fData, first.get_iterator_tuple(), last.get_iterator_tuple());
 
-	//return detail::get_zip_iterator(iter_array);
+	detail::do_insert(dist, this->fData, first.get_iterator_tuple(), last.get_iterator_tuple());
+
 }
 
 template< size_t N, typename T, hydra::detail::Backend BACKEND>
