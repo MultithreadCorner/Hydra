@@ -168,7 +168,7 @@ void multiarray<N,T,detail::BackendPolicy<BACKEND>>::insert(typename multiarray<
 	typename multiarray<N,T,detail::BackendPolicy<BACKEND>>::iterator_array iter_array{};
 	detail::do_insert(dist, iter_array, this->fData, first.get_iterator_tuple(), last.get_iterator_tuple());
 
-	return detail::get_zip_iterator(iter_array);
+	//return detail::get_zip_iterator(iter_array);
 }
 
 template< size_t N, typename T, hydra::detail::Backend BACKEND>
