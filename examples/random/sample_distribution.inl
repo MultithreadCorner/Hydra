@@ -174,7 +174,9 @@ int main(int argv, char** argc)
 			dataset_d data_d(nentries);
 
 			auto middle = Generator.Sample(data_d.begin(),  data_d.end(), min, max, gaussians);
+
 			size_t naccepted = hydra::distance(data_d.begin(), middle);
+
 			data_h.resize( naccepted );
 			hydra::copy(data_d.begin(), middle, data_h.begin());
 

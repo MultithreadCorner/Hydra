@@ -131,12 +131,12 @@ public:
 	{}
 
 	template< hydra::detail::Backend BACKEND2>
-	multiarray(multiarray<N,T,detail::BackendPolicy<BACKEND>> const& other )
+	multiarray(multiarray<N,T,detail::BackendPolicy<BACKEND2>> const& other )
 	{
 		fData = data_t();
 		for( size_t i=0; i<N; i++)
 			fData[i] = std::move( vector_t( other.begin(i), other.end(i) ) );
-	};
+	}
 
 	multiarray<N,T,detail::BackendPolicy<BACKEND>>&
 	operator=(multiarray<N,T,detail::BackendPolicy<BACKEND>> const& other )
@@ -165,7 +165,7 @@ public:
 		for( size_t i=0; i<N; i++)
 			this->fData[i] = std::move( vector_t( other.begin(i), other.end(i) ) );
 		return *this;
-	};
+	}
 
 
 	inline void pop_back();
