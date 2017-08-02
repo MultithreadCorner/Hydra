@@ -166,7 +166,7 @@ ITERATOR Random<GRND>::Sample(ITERATOR begin, ITERATOR end ,
 
 	//calculate the functor values
 	thrust::transform( system_t(), first, last, begin, values.first.get(),
-			detail::RndTrial<GRND,FUNCTOR,1>(fSeed+4, functor, std::array<GReal_t,1>{min}, std::array<GReal_t,1>{max}));
+			detail::RndTrial<GRND,FUNCTOR,1>(fSeed+4, functor, min, max));
 
 	//get the maximum value
 	GReal_t max_value = *( thrust::max_element(system_t(),values.first, values.first+ values.second) );
