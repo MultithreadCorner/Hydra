@@ -151,6 +151,20 @@ public:
 	template<typename FUNCTOR, typename Iterator>
 	void InverseCDF(FUNCTOR const& invcdf, Iterator begin, Iterator end)  ;//-> decltype(*begin);
 
+
+	/**
+	 * @brief Fill a range with numbers distributed according a user defined distribution.
+	 * @param policy backend to perform the calculation.
+	 * @param functor hydra::Pdf instance that will be sampled.
+	 * @param min GReal_t min with lower limit of sampling region.
+	 * @param max GReal_t max with upper limit of sampling region.
+	 * @param trials number of trials.
+	 * @return a hydra::backend::vector<tuple<T1,T2...>>
+	 */
+	template<typename ITERATOR, typename FUNCTOR>
+	ITERATOR Sample(ITERATOR begin, ITERATOR end , GReal_t min, GReal_t max,
+			FUNCTOR const& functor);
+
 	/**
 	 * @brief Fill a range with numbers distributed according a user defined distribution.
 	 * @param policy backend to perform the calculation.
@@ -160,14 +174,12 @@ public:
 	 * @param trials number of trials.
 	 * @return a hydra::backend::vector<tuple<T1,T2...>>
 	 */
-	/*
-	template<hydra::detail::Backend BACKEND, typename FUNCTOR, size_t N>
-	auto Sample(hydra::detail::BackendPolicy<BACKEND>const& policy, FUNCTOR const& functor, std::array<GReal_t,N> min,	std::array<GReal_t,N> max, size_t trials)
-	->	typename hydra::detail::BackendPolicy<BACKEND>::template container< typename  detail::tuple_type<N,GReal_t>::type>;
-*/
 	template<typename ITERATOR, typename FUNCTOR, size_t N >
 	ITERATOR Sample(ITERATOR begin, ITERATOR end , std::array<GReal_t,N>const& min, std::array<GReal_t,N>const& max,
 			FUNCTOR const& functor);
+
+
+
 	/**
 	 * @brief Fill a range with numbers distributed according a user defined distribution.
 	 * @param policy backend to perform the calculation.

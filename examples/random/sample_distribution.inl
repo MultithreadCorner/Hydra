@@ -48,6 +48,7 @@
 #include <hydra/Tuple.h>
 #include <hydra/Distance.h>
 #include <hydra/multiarray.h>
+#include <hydra/FunctionPtrBinderCPU.h>
 /*-------------------------------------
  * Include classes from ROOT to fill
  * and draw histograms and plots.
@@ -62,7 +63,10 @@
 
 #endif //_ROOT_AVAILABLE_
 
-
+double function(unsigned int n, double* p, double* x)
+{
+	return x[0]*x[1];
+}
 
 int main(int argv, char** argc)
 {
@@ -133,6 +137,12 @@ int main(int argv, char** argc)
 	//sum of gaussians
 	auto gaussians = gaussian1 + gaussian2;
 
+	//---------
+	hydra::FunctionPtrBinderCPU<0>::FunctionPtr_t ptr = &function;
+
+	hydra::FunctionPtrBinderCPU<0> StdFunctor(ptr);
+
+	//---------
 	//generator
 	hydra::Random<thrust::random::default_random_engine>
 	Generator( std::chrono::system_clock::now().time_since_epoch().count() );
@@ -166,6 +176,7 @@ int main(int argv, char** argc)
 	{
 		dataset_h data_h;
 		{
+
 			//we copy the accepted events and let
 			//the data_d container go out scope
 			//data_d will be destroyed, freeing
@@ -199,7 +210,7 @@ int main(int argv, char** argc)
 
 		dataset_h data_h(nentries);
 
-		auto middle = Generator.Sample(data_h.begin(),  data_h.end(), min, max, gaussians);
+		auto middle = Generator.Sample(data_h.begin(),  data_h.end(), min, max, StdFunctor);
 
 		for(size_t i=0; i<10; i++)
 			std::cout << "< Random::Sample > [" << i << "] :" << data_h[i] << std::endl;

@@ -268,6 +268,11 @@ if(NPARAM!=0){
 		fParameters[i]=value;
 	}
 
+	__host__ __device__ inline
+	void SetParameter(size_t i, double value) {
+			fParameters[i]=value;
+		}
+
 
 	__host__ __device__  inline
 	GReal_t GetNorm() const {

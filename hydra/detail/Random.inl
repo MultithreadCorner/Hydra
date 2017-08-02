@@ -145,6 +145,41 @@ void  Random<GRND>::BreitWigner(GReal_t mean, GReal_t gamma, Iterator begin, Ite
 
 
 template<typename GRND>
+template<typename ITERATOR, typename FUNCTOR>
+ITERATOR Random<GRND>::Sample(ITERATOR begin, ITERATOR end ,
+		GReal_t min, GReal_t max,FUNCTOR const& functor)
+{
+
+	using thrust::system::detail::generic::select_system;
+	typedef  typename thrust::iterator_system<ITERATOR>::type system_t;
+
+    size_t ntrials = thrust::distance( begin, end);
+
+    auto values = thrust::get_temporary_buffer<GReal_t>(system_t(), ntrials);
+    std::cout<< "----------------------------" << std::endl;
+     std::cout<< values.second << std::endl;
+
+	// create iterators
+	thrust::counting_iterator<size_t> first(0);
+	thrust::counting_iterator<size_t> last = first + ntrials;
+
+
+	//calculate the functor values
+	thrust::transform( system_t(), first, last, begin, values.first.get(),
+			detail::RndTrial<GRND,FUNCTOR,1>(fSeed+4, functor, std::array<GReal_t,1>{min}, std::array<GReal_t,1>{max}));
+
+	//get the maximum value
+	GReal_t max_value = *( thrust::max_element(system_t(),values.first, values.first+ values.second) );
+
+	auto r = thrust::partition(begin, end, first, detail::RndFlag<GRND>(fSeed+ntrials, max_value, values.first.get()) );
+
+	// deallocate storage with thrust::return_temporary_buffer
+	thrust::return_temporary_buffer(system_t(), values.first);
+
+	return r;
+}
+
+template<typename GRND>
 template<typename ITERATOR, typename FUNCTOR, size_t N >
 ITERATOR Random<GRND>::Sample(ITERATOR begin, ITERATOR end ,
 		std::array<GReal_t,N> const& min, std::array<GReal_t,N> const& max,
