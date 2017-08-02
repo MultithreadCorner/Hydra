@@ -299,6 +299,47 @@ struct RndTrial{
 	GReal_t fMax[N];
 };
 
+
+template<typename GRND, typename FUNCTOR>
+struct RndTrial<GRND, FUNCTOR, 1>{
+
+	RndTrial(size_t seed, FUNCTOR const& functor, GReal_t min, GReal_t max):
+		fSeed(seed),
+		fFunctor(functor),
+		fMin(min),
+		fMax(max)
+	{}
+
+	__host__ __device__
+	RndTrial(RndTrial<GRND,FUNCTOR, 1> const& other):
+		fSeed(other.fSeed),
+		fFunctor(other.fFunctor),
+		fMin(other.fMin),
+		fMax(other.fMax)
+	{}
+
+	__hydra_exec_check_disable__
+	__host__ __device__
+	~RndTrial(){};
+
+	__host__ __device__
+	inline GReal_t operator()(size_t index, GReal_t& t)
+	{
+
+		GRND randEng(fSeed);
+		randEng.discard(index);
+    	thrust::uniform_real_distribution<GReal_t>  dist(fMin, fMax);
+		t = dist(randEng);
+
+		return  fFunctor(&t);
+	}
+
+	FUNCTOR fFunctor;
+	size_t  fSeed;
+	GReal_t fMin;
+	GReal_t fMax;
+};
+
 } // namespace detail
 
 }// namespace hydra
