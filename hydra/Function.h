@@ -40,7 +40,7 @@
 #include <hydra/Parameter.h>
 #include <hydra/detail/utility/Utility_Tuple.h>
 #include <hydra/detail/FunctorTraits.h>
-#include <hydra/UserParameters.h>
+//#include <hydra/UserParameters.h>
 
 #include <thrust/iterator/detail/tuple_of_iterator_references.h>
 #include <thrust/iterator/zip_iterator.h>
