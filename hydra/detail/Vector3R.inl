@@ -69,6 +69,16 @@ inline Vector3R& Vector3R::operator-=(const Vector3R& v2)
 	return *this;
 }
 
+__host__ __device__
+inline void Vector3R::swap(Vector3R& other)
+{
+	if(this==&other) return;
+
+	Vector3R temp(*this);
+	this= other;
+	other = temp;
+	return ;
+}
 
 __host__ __device__
 inline GReal_t Vector3R::get(GInt_t i) const
@@ -111,6 +121,42 @@ inline Vector3R::Vector3R(const Vector3R& other)
 	v[1] = other.get(1);
 	v[2] = other.get(2);
 }
+
+__host__ __device__
+inline Vector3R::Vector3R(Vector3R&& other)
+{
+
+	v[0] = other.get(0);
+	v[1] = other.get(1);
+	v[2] = other.get(2);
+}
+
+
+__host__ __device__
+inline Vector3R& Vector3R::operator=(const Vector3R& other)
+{
+	if(this==&other) return *this;
+
+	v[0] = other.get(0);
+	v[1] = other.get(1);
+	v[2] = other.get(2);
+
+	return *this;
+}
+
+
+__host__ __device__
+inline Vector3R& Vector3R::operator=(Vector3R&& other)
+{
+	if(this==&other) return *this;
+
+	v[0] = other.get(0);
+	v[1] = other.get(1);
+	v[2] = other.get(2);
+
+	return *this;
+}
+
 
 __host__ __device__
 inline void Vector3R::applyRotateEuler(GReal_t phi, GReal_t theta, GReal_t ksi)

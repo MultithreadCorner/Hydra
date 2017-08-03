@@ -74,6 +74,10 @@ public:
 	__host__ __device__ inline Vector3R();
 	__host__ __device__ inline Vector3R(GReal_t x, GReal_t y, GReal_t z);
 	__host__ __device__ inline Vector3R(const Vector3R& other);
+	__host__ __device__ inline Vector3R(Vector3R&& other);
+	__host__ __device__ inline Vector3R& operator=(const Vector3R& other);
+	__host__ __device__ inline Vector3R& operator=(Vector3R&& other);
+	__host__ __device__ inline void swap(Vector3R& other);
 	__host__      __device__      inline Vector3R& operator*=(const GReal_t c);
 	__host__      __device__      inline Vector3R& operator/=(const GReal_t c);
 	__host__      __device__      inline Vector3R& operator+=(const Vector3R& v2);
@@ -95,6 +99,11 @@ private:
 	_DeclareStorable(Vector3R, v[0], v[1] , v[2])
 };
 
+__host__ __device__
+inline void swap(Vector3R& v1, Vector3R& v2)
+{
+	return v1.swap(v2);
+}
 
 
 __host__ __device__

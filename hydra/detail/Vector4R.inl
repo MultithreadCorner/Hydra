@@ -146,15 +146,72 @@ inline Vector4R::Vector4R(GReal_t e, GReal_t p1, GReal_t p2, GReal_t p3)
 	v[2] = p2;
 	v[3] = p3;
 }
+
 __host__ __device__
 inline Vector4R::Vector4R(const Vector4R& other)
 {
-
 	v[0] = other.get(0);
 	v[1] = other.get(1);
 	v[2] = other.get(2);
 	v[3] = other.get(3);
 }
+
+__host__ __device__
+inline Vector4R::Vector4R(Vector4R&& other)
+{
+	v[0] = other.get(0);
+	v[1] = other.get(1);
+	v[2] = other.get(2);
+	v[3] = other.get(3);
+}
+
+
+
+__host__ __device__
+inline Vector4R& Vector4R::operator=(const Vector4R& other)
+{
+	if(this==&other) return *this;
+	v[0] = other.get(0);
+	v[1] = other.get(1);
+	v[2] = other.get(2);
+	v[3] = other.get(3);
+	 return *this;
+}
+
+__host__ __device__
+inline Vector4R& Vector4R::operator=(Vector4R&& other)
+{
+	if(this==&other) return *this;
+	v[0] = other.get(0);
+	v[1] = other.get(1);
+	v[2] = other.get(2);
+	v[3] = other.get(3);
+	 return *this;
+}
+
+__host__ __device__
+inline Vector4R& Vector4R::operator=(const Vector4R& other)
+{
+	if(this==&other) return *this;
+	v[0] = other.get(0);
+	v[1] = other.get(1);
+	v[2] = other.get(2);
+	v[3] = other.get(3);
+	 return *this;
+}
+
+__host__ __device__
+inline void Vector4R::swap(Vector4R& other)
+{
+	if(this==&other) return;
+
+	Vector4R temp(*this);
+	this= other;
+	other = temp;
+	return ;
+}
+
+
 __host__ __device__
 inline GReal_t Vector4R::mass() const
 {

@@ -76,6 +76,13 @@ public:
 	__host__ __device__ inline Vector4R(GReal_t e, GReal_t px, GReal_t py,
 			GReal_t pz);
 	__host__ __device__ inline Vector4R(const Vector4R& other);
+	__host__ __device__ inline Vector4R(Vector4R&& other);
+
+	__host__ __device__ inline Vector4R& operator=(const Vector4R& other);
+	__host__ __device__ inline Vector4R& operator=(Vector4R&& other);
+
+	__host__ __device__ inline void swap( Vector4R& other);
+
 	__host__ __device__ inline void set(GInt_t i, GReal_t d);
 	__host__ __device__ inline void set(GReal_t e, GReal_t px, GReal_t py,
 			GReal_t pz);
@@ -160,6 +167,13 @@ inline GReal_t operator*(const Vector4R& v1, const Vector4R& v2)
 	return v1.v[0] * v2.v[0] - v1.v[1] * v2.v[1] - v1.v[2] * v2.v[2]
 			- v1.v[3] * v2.v[3];
 }
+
+__host__ __device__
+inline void swap(Vector4R& v1, Vector4R& v2)
+{
+	return v1.swap(v2);
+}
+
 
 /*
 inline GReal_t Vector4R::cont(const Vector4R& v4) const

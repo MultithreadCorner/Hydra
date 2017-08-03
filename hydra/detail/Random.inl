@@ -208,7 +208,7 @@ ITERATOR Random<GRND>::Sample(ITERATOR begin, ITERATOR end ,
 	GReal_t max_value = *( thrust::max_element(system_t(),values.first, values.first+ values.second) );
 
 	auto r = thrust::partition(begin, end, first, detail::RndFlag<GRND>(fSeed+ntrials, max_value, values.first.get()) );
-
+   
 	// deallocate storage with thrust::return_temporary_buffer
 	thrust::return_temporary_buffer(system_t(), values.first);
 
