@@ -35,7 +35,7 @@
 #include <hydra/detail/utility/Generic.h>
 #include <hydra/detail/TypeTraits.h>
 #include <hydra/detail/FunctorTraits.h>
-#include <hydra/UserParameters.h>
+//#include <hydra/UserParameters.h>
 //thrust
 #include <thrust/tuple.h>
 #include <thrust/detail/type_traits.h>

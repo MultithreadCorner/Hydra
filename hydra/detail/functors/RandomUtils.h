@@ -249,7 +249,8 @@ struct RndFlag{
 template<typename GRND, typename FUNCTOR, size_t N>
 struct RndTrial{
 
-	RndTrial(size_t seed, FUNCTOR const& functor, std::array<GReal_t,N> min, std::array<GReal_t,N> max):
+	RndTrial(size_t seed, FUNCTOR const& functor, std::array<GReal_t,N>const& min,
+			std::array<GReal_t,N>const& max):
 		fSeed(seed),
 		fFunctor(functor)
 	{

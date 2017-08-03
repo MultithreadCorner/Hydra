@@ -99,6 +99,21 @@ int main(int argv, char** argc)
 	double mean1   = -2.0;
 	double sigma1  =  1.0;
 
+	auto GAUSSIAN1D =  [=] __host__ __device__ (double* x ){
+
+		double g = 0.0;
+
+			double m2 = (x[0] - mean1 )*(x[0] - mean1 );
+			double s2 = sigma1*sigma1;
+			g = exp(-m2/(2.0 * s2 ))/( sqrt(2.0*s2*PI));
+
+		return g;
+	};
+
+	auto gaussian1D = hydra::wrap_lambda( GAUSSIAN1D );
+
+	//==================
+
 	auto GAUSSIAN1 =  [=] __host__ __device__ (double* x ){
 
 		double g = 1.0;
@@ -138,14 +153,15 @@ int main(int argv, char** argc)
 	auto gaussians = gaussian1 + gaussian2;
 
 	//---------
-	hydra::FunctionPtrBinderCPU<0>::FunctionPtr_t ptr = &function;
-
-	hydra::FunctionPtrBinderCPU<0> StdFunctor(ptr);
 
 	//---------
 	//generator
 	hydra::Random<thrust::random::default_random_engine>
 	Generator( std::chrono::system_clock::now().time_since_epoch().count() );
+
+	hydra::mc_host_vector<double> vect(1000);
+
+	auto middle = Generator.Sample(vect.begin(),  vect.end(), -6, 6, gaussian1D);
 
 	std::array<double, 3>max{6.0, 6.0, 6.0};
 	std::array<double, 3>min{-6.0, -6.0, -6.0};
@@ -210,7 +226,7 @@ int main(int argv, char** argc)
 
 		dataset_h data_h(nentries);
 
-		auto middle = Generator.Sample(data_h.begin(),  data_h.end(), min, max, StdFunctor);
+		auto middle = Generator.Sample(data_h.begin(),  data_h.end(), min, max, gaussians);
 
 		for(size_t i=0; i<10; i++)
 			std::cout << "< Random::Sample > [" << i << "] :" << data_h[i] << std::endl;

@@ -175,7 +175,7 @@ ITERATOR Random<GRND>::Sample(ITERATOR begin, ITERATOR end ,
 
 	// deallocate storage with thrust::return_temporary_buffer
 	thrust::return_temporary_buffer(system_t(), values.first);
-
+    std::cout<< "----------------------------" << std::endl;
 	return r;
 }
 
