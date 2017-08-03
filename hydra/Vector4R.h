@@ -88,7 +88,6 @@ public:
 			GReal_t pz);
 	__host__      __device__      inline Vector4R& operator*=(GReal_t c);
 	__host__      __device__      inline Vector4R& operator/=(GReal_t c);
-	__host__      __device__      inline Vector4R& operator=(const Vector4R& v2);
 	__host__      __device__      inline Vector4R& operator+=(const Vector4R& v2);
 	__host__      __device__      inline Vector4R& operator-=(const Vector4R& v2);
 	__host__      __device__      inline GReal_t get(GInt_t i) const;
