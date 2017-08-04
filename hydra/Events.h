@@ -31,9 +31,6 @@
 #define _EVENTS_H_
 
 #include <array>
-#include <vector>
-#include <string>
-#include <map>
 #include <iostream>
 #include <ostream>
 #include <algorithm>

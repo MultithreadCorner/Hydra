@@ -60,6 +60,48 @@ fSeed(1)
 }
 
 template <size_t N, typename GRND>
+PhaseSpace<N,GRND>::PhaseSpace(const GReal_t motherMass, const std::array<GReal_t,N>& daughtersMasses):
+fSeed(1)
+{
+	for(size_t i=0;i<N;i++)
+		fMasses[i]= daughtersMasses[i];
+
+	GReal_t fTeCmTm = 0.0;
+
+	fTeCmTm = motherMass; // total energy in C.M. minus the sum of the masses
+
+	for (size_t n = 0; n < N; n++)
+		fTeCmTm -= daughtersMasses[n];
+
+	if (fTeCmTm < 0.0) {
+		std::cout << "Not enough energy for this decay. Exit." << std::endl;
+		exit(1);
+	}
+
+}
+
+template <size_t N, typename GRND>
+PhaseSpace<N,GRND>::PhaseSpace(const GReal_t motherMass, const std::initializer_list<GReal_t>& daughtersMasses):
+fSeed(1)
+{
+	for(size_t i=0;i<N;i++)
+		fMasses[i]= daughtersMasses.begin()[i];
+
+	GReal_t fTeCmTm = 0.0;
+
+	fTeCmTm = motherMass; // total energy in C.M. minus the sum of the masses
+
+	for (size_t n = 0; n < N; n++)
+		fTeCmTm -= daughtersMasses.begin()[n];
+
+	if (fTeCmTm < 0.0) {
+		std::cout << "Not enough energy for this decay. Exit." << std::endl;
+		exit(1);
+	}
+
+}
+
+template <size_t N, typename GRND>
 template<typename FUNCTOR, hydra::detail::Backend BACKEND>
 std::pair<GReal_t, GReal_t>
 PhaseSpace<N,GRND>::AverageOn(hydra::detail::BackendPolicy<BACKEND>const& policy,
