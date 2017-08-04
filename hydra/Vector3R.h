@@ -166,6 +166,13 @@ inline Vector3R cross(const Vector3R& p1, const Vector3R& p2)
 
 }
 
+__host__ __device__
+inline Vector3R rotateEuler(const Vector3R& v,	GReal_t phi, GReal_t theta, GReal_t ksi)
+{
+	Vector3R vect(v);
+	vect.applyRotateEuler(phi, theta, ksi);
+	return vect;
+}
 
 }// namespace hydra
 #endif /* _VECTOR3R_H_ */
