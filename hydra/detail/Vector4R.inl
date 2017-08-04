@@ -165,6 +165,16 @@ inline Vector4R& Vector4R::operator=(Vector4R&& other)
 	 return *this;
 }
 
+__host__ __device__
+inline Vector4R& Vector4R::operator=(Vector4R const& other)
+{
+	if(this==&other) return *this;
+	v[0] = other.get(0);
+	v[1] = other.get(1);
+	v[2] = other.get(2);
+	v[3] = other.get(3);
+	 return *this;
+}
 
 
 __host__ __device__
