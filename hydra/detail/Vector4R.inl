@@ -30,18 +30,6 @@
 #define _VECTOR4R_INL_
 
 namespace hydra {
-
-__host__ __device__
-inline Vector4R& Vector4R::operator=(const Vector4R& v2)
-{
-
-	v[0] = v2.get(0);
-	v[1] = v2.get(1);
-	v[2] = v2.get(2);
-	v[3] = v2.get(3);
-
-	return *this;
-}
 __host__ __device__
 inline Vector4R& Vector4R::operator+=(const Vector4R& v2)
 {
