@@ -75,7 +75,7 @@ inline void Vector3R::swap(Vector3R& other)
 	if(this==&other) return;
 
 	Vector3R temp(*this);
-	this= other;
+	*this= other;
 	other = temp;
 	return ;
 }
