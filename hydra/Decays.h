@@ -357,12 +357,12 @@ public:
 	{	return cbegin()[n]; }
 
 private:
-	decays_type& GetDecays() const
+	 const decays_type& GetDecays() const
 	{
 		return fDecays;
 	}
 
-	weights_type& GetWeights() const
+	 const weights_type& GetWeights() const
 	{
 		return fWeights;
 	}
@@ -380,6 +380,18 @@ private:
 	decays_type  fDecays;
 	weights_type fWeights;
 };
+
+template<size_t N1, hydra::detail::Backend BACKEND1,
+         size_t N2, hydra::detail::Backend BACKEND2>
+bool operator==(const Decays<N1, hydra::detail::BackendPolicy<BACKEND1> >& lhs,
+                const Decays<N2, hydra::detail::BackendPolicy<BACKEND2> >& rhs);
+
+template<size_t N1, hydra::detail::Backend BACKEND1,
+         size_t N2, hydra::detail::Backend BACKEND2>
+bool operator!=(const Decays<N1, hydra::detail::BackendPolicy<BACKEND1> >& lhs,
+                const Decays<N2, hydra::detail::BackendPolicy<BACKEND2> >& rhs);
+
+#include <hydra/detail/Decays.inl>
 
 }  // namespace hydra
 
