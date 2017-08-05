@@ -74,9 +74,9 @@ struct  Sum
   	{  	}
 
 	__host__ __device__ Sum(const Sum<F1,F2, Fs...>& other):
-				fFtorTuple( other.GetFunctors() ),
 				fIndex( other.GetIndex() ),
-				fCached( other.IsCached() )
+				fCached( other.IsCached() ),
+				fFtorTuple( other.GetFunctors() )
 	{ };
 
 	__host__ __device__
@@ -159,24 +159,24 @@ struct  Sum
 
 
 private:
-	functors_type fFtorTuple;
+
 	int  fIndex;
 	bool fCached;
-
+functors_type fFtorTuple;
 };
 
 // + operator two functors
 template<typename T1, typename T2,
 typename=typename std::enable_if< T1::is_functor::value && T2::is_functor::value> >
 __host__  inline
-Sum<T1, T2> operator+(T1 const& F1, T2 const& F2){ return  Sum<T1,T2>(F1, F2); };
+Sum<T1, T2> operator+(T1 const& F1, T2 const& F2){ return  Sum<T1,T2>(F1, F2); }
 
 template <typename T1, typename T2,
 typename=typename std::enable_if< (std::is_convertible<T1, double>::value ||\
 		std::is_constructible<thrust::complex<double>,T1>::value) && T2::is_functor::value>::type >
 __host__  inline
 Sum<Constant<T1>, T2>
-operator+(T1 const cte, T2 const& F2){ return  Constant<T1>(cte)+F2; };
+operator+(T1 const cte, T2 const& F2){ return  Constant<T1>(cte)+F2; }
 
 
 template <typename T1, typename T2,
@@ -184,14 +184,14 @@ typename=typename std::enable_if< (std::is_convertible<T1, double>::value ||\
 		std::is_constructible<thrust::complex<double>,T1>::value) && T2::is_functor::value>::type >
 __host__  inline
 Sum<Constant<T1>, T2>
-operator+(T2 const& F2, T1 const cte ){	return  Constant<T1>(cte)+F2; };
+operator+(T2 const& F2, T1 const cte ){	return  Constant<T1>(cte)+F2; }
 
 // Convenience function
 template <typename F1, typename F2, typename ...Fs>
 __host__  inline
 Sum<F1, F2,Fs...>
 sum(F1 const& f1, F2 const& f2, Fs const&... functors )
-{ return  Sum<F1, F2,Fs... >(f1,f2, functors ... ); };
+{ return  Sum<F1, F2,Fs... >(f1,f2, functors ... ); }
 
 
 }

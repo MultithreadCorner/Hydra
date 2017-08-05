@@ -73,7 +73,7 @@
 #include <hydra/Tuple.h>
 #include <hydra/host/System.h>
 #include <hydra/device/System.h>
-
+#include <hydra/Decays.h>
 /*-------------------------------------
  * Include classes from ROOT to fill
  * and draw histograms and plots.
@@ -150,6 +150,8 @@ int main(int argv, char** argc)
 	{
 		//allocate memory to hold the final states particles
 		hydra::Events<3, hydra::device::sys_t > Events_d(nentries);
+
+		hydra::Decays<3, hydra::device::sys_t > Decays_d(nentries);
 
 		auto start = std::chrono::high_resolution_clock::now();
 

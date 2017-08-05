@@ -72,8 +72,6 @@ public:
 	//pointer
 	typedef typename vector_t::pointer vpointer;
 	typedef typename vector_t::const_pointer const_vpointer;
-	typedef typename detail::tuple_type<N,vpointer>::type pointer_tuple;
-	typedef typename detail::tuple_type<N,const_vpointer>::type const_pointer_tuple;
 
 	//vector iterators
 	typedef typename vector_t::iterator 				viterator;
@@ -104,16 +102,28 @@ public:
 
 	 typedef typename thrust::iterator_traits<iterator>::difference_type difference_type;
 	 typedef typename thrust::iterator_traits<iterator>::value_type value_type;
-	 typedef typename thrust::iterator_traits<iterator>::pointer pointer;
+	 //typedef typename thrust::iterator_traits<iterator>::pointer pointer;
+	 typedef typename detail::tuple_type<N,vpointer>::type pointer_tuple;
+	 typedef typename detail::tuple_type<N,const_vpointer>::type const_pointer_tuple;
+	 typedef std::array<vpointer,N>       pointer_array;
+	 typedef std::array<const_vpointer,N> const_pointer_array;
+
 	 typedef typename thrust::iterator_traits<iterator>::reference reference;
+	 typedef typename thrust::iterator_traits<const_iterator>::reference const_reference;
+	 typedef typename thrust::iterator_traits<reverse_iterator>::reference reverse_reference;
+	 typedef typename thrust::iterator_traits<const_reverse_iterator>::reference const_reverse_reference;
 	 typedef typename thrust::iterator_traits<iterator>::iterator_category iterator_category;
 
 	multiarray():
 		fData(data_t())
-	{};
+	{
+
+	};
 
 	multiarray(size_t n)
 	{
+
+
 		fData = data_t();
 		for( size_t i=0; i<N; i++)
 			fData[i].resize(n);
@@ -202,16 +212,20 @@ public:
 	template<typename InputIterator>
 	void insert(iterator position, InputIterator first, InputIterator last);
 
-	reference_tuple front();
+	reference front();
 
-	const_reference_tuple front() const;
+	const_reference front() const;
 
-	reference_tuple back();
+	reference back();
 
-	const_reference_tuple back() const;
+	const_reference back() const;
 
-	pointer_tuple data();
-	const_pointer_tuple data() const;
+	pointer_tuple ptrs_tuple();
+	const_pointer_tuple ptrs_tuple() const;
+
+	pointer_array ptrs_array();
+	const_pointer_array ptrs_array() const;
+
     vpointer data( size_t i);
     const_vpointer data( size_t i) const;
 

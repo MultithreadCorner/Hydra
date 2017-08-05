@@ -74,15 +74,15 @@ struct BaseFunctor
 	/**
 	 * Default constructor
 	 */
-    explicit BaseFunctor():
-    			fCacheIndex(-1),
-    			fCached(0),
-    			fNArgs(-1),
-    			fParamResgistered(1),
-    			fNorm(1.0),
-    			fNormalized(1),
-    			_par(*this)
-    {}
+	explicit BaseFunctor():
+		fCacheIndex(-1),
+		fCached(0),
+		fNArgs(-1),
+		fParamResgistered(1),
+		fNorm(1.0),
+		fNormalized(1),
+		_par(*this)
+	{}
 
 
     /**
@@ -99,7 +99,7 @@ struct BaseFunctor
 	_par(*this)
 	{
 		if(NPARAM!=0){
-		for(int i=0; i<NPARAM; i++)
+		for(unsigned int i=0; i<NPARAM; i++)
 			this->SetParameter(i, *(init_parameters.begin() + i));}
 	}
 
@@ -117,7 +117,7 @@ struct BaseFunctor
 		_par(*this)
 		{
 		if(NPARAM!=0){
-			for(int i=0; i<NPARAM; i++)
+			for(unsigned int i=0; i<NPARAM; i++)
 				this->SetParameter(i, *(init_parameters.begin() + i));
 		}
 		}
@@ -129,15 +129,15 @@ struct BaseFunctor
 	__host__ __device__
 	BaseFunctor(BaseFunctor<Functor,ReturnType, NPARAM> const& other):
 	fCacheIndex( other.GetCacheIndex() ),
-	fNArgs(other.GetNArgs()),
 	fCached( other.IsCached() ),
+	fNArgs(other.GetNArgs()),
 	fParamResgistered(1),
 	fNorm(other.GetNorm()),
 	fNormalized(other.GetNormalized() ),
 	_par(*this)
 	{
 if(NPARAM!=0){
-	for(int i=0; i<NPARAM; i++)
+	for(unsigned int i=0; i<NPARAM; i++)
 	this->SetParameter(i, other.GetParameter(i));
 }
 	}
@@ -159,7 +159,7 @@ if(NPARAM!=0){
 			this->fParamResgistered =1;
 			this->fNArgs= other.GetNArgs();
 			if(NPARAM!=0){
-			for(int i=0; i<NPARAM; i++)
+			for(unsigned int i=0; i<NPARAM; i++)
 				this->SetParameter(i, other.GetParameter(i));
 			}
 			_par=*this;
@@ -388,21 +388,19 @@ if(NPARAM!=0){
 		return fNArgs;
 	}
 
-protected:
-
-    BaseFunctor<Functor, ReturnType, NPARAM>& _par;
-
-
 private:
 
-    GReal_t fNorm;
-    int fNArgs;
-	int fCacheIndex;
+    int fCacheIndex;
 	bool fCached;
+	int fNArgs;
 	bool fParamResgistered;
+    GReal_t fNorm;
 	bool fNormalized;
 	Parameter fParameters[NPARAM];
 
+protected:
+
+    BaseFunctor<Functor, ReturnType, NPARAM>& _par;
 
 };
 

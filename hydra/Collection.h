@@ -36,27 +36,27 @@ namespace hydra {
 /**
  * @ingroup generic
  */
-#define _DeclareStorable(class_name, args...) \
+#define _DeclareStorable(class_name,...) \
 public: \
-typedef decltype( thrust::make_tuple(args)) args_type; \
+typedef decltype( thrust::make_tuple(__VA_ARGS__)) args_type; \
 typedef void hydra_convertible_to_tuple_tag; \
 template<typename ...T> \
 __host__ __device__ \
 class_name( thrust::tuple<T...> const& t) \
-{ thrust::tie(args) = t; } \
+{ thrust::tie(__VA_ARGS__) = t; } \
 template<typename ...T> \
 __host__ __device__ \
 class_name& operator= ( thrust::tuple<T...> const& t ) \
-{thrust::tie(args) = t;\
+{thrust::tie(__VA_ARGS__) = t;\
 return *this; } \
 template<typename ...T> \
 __host__ __device__ \
 class_name& operator= (thrust::detail::tuple_of_iterator_references<T&...> const&  t ) \
-{thrust::tie(args) = t; \
+{thrust::tie(__VA_ARGS__) = t; \
 return *this; } \
 template<typename ...T> \
 __host__ __device__ \
-operator thrust::tuple<T...> () { return thrust::make_tuple(args); } \
+operator thrust::tuple<T...> () { return thrust::make_tuple(__VA_ARGS__); } \
 
 
 }  // namespace hydra

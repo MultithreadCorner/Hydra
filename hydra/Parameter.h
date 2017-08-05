@@ -399,9 +399,9 @@ private:
 	GChar_t* fName;
 	GReal_t  fValue;
 	GReal_t  fError;
-	GReal_t  fUpperLim;
 	GReal_t  fLowerLim;
-	GUInt_t   fIndex;
+	GReal_t  fUpperLim;
+	GUInt_t  fIndex;
 	GBool_t  fLimited;
 	GBool_t  fHasError;
 

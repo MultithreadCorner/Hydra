@@ -171,45 +171,67 @@ void multiarray<N,T,detail::BackendPolicy<BACKEND>>::insert(typename multiarray<
 }
 
 template< size_t N, typename T, hydra::detail::Backend BACKEND>
-typename multiarray<N,T,detail::BackendPolicy<BACKEND>>::reference_tuple
+typename multiarray<N,T,detail::BackendPolicy<BACKEND>>::reference
 multiarray<N,T,detail::BackendPolicy<BACKEND>>::front()
 {
-	return detail::get_front_tuple(this->fData);
+	return this->begin()[0];//detail::get_front_tuple(this->fData);
 }
 
 template< size_t N, typename T, hydra::detail::Backend BACKEND>
-typename multiarray<N,T,detail::BackendPolicy<BACKEND>>::const_reference_tuple
+typename multiarray<N,T,detail::BackendPolicy<BACKEND>>::const_reference
 multiarray<N,T,detail::BackendPolicy<BACKEND>>::front() const
 {
-	return detail::get_cfront_tuple(this->fData);
+	return this->cbegin()[0];//detail::get_cfront_tuple(this->fData);
 }
 
 template< size_t N, typename T, hydra::detail::Backend BACKEND>
-typename multiarray<N,T,detail::BackendPolicy<BACKEND>>::reference_tuple
+typename multiarray<N,T,detail::BackendPolicy<BACKEND>>::reference
 multiarray<N,T,detail::BackendPolicy<BACKEND>>::back()
 {
-	return detail::get_back_tuple(this->fData);
+	return this->begin()[this->size()-1 ];//detail::get_back_tuple(this->fData);
 }
 
 template< size_t N, typename T, hydra::detail::Backend BACKEND>
-typename multiarray<N,T,detail::BackendPolicy<BACKEND>>::const_reference_tuple
+typename multiarray<N,T,detail::BackendPolicy<BACKEND>>::const_reference
 multiarray<N,T,detail::BackendPolicy<BACKEND>>::back() const
 {
-	return detail::get_cback_tuple(this->fData);
+	return this->cbegin()[this->size()-1 ];//detail::get_cback_tuple(this->fData);
 }
 
 template< size_t N, typename T, hydra::detail::Backend BACKEND>
 typename multiarray<N,T,detail::BackendPolicy<BACKEND>>::pointer_tuple
-multiarray<N,T,detail::BackendPolicy<BACKEND>>::data()
+multiarray<N,T,detail::BackendPolicy<BACKEND>>::ptrs_tuple()
 {
 	return detail::get_data_tuple(this->fData);
 }
 
 template< size_t N, typename T, hydra::detail::Backend BACKEND>
 typename multiarray<N,T,detail::BackendPolicy<BACKEND>>::const_pointer_tuple
-multiarray<N,T,detail::BackendPolicy<BACKEND>>::data() const
+multiarray<N,T,detail::BackendPolicy<BACKEND>>::ptrs_tuple() const
 {
 	return detail::get_cdata_tuple(this->fData);
+}
+
+template< size_t N, typename T, hydra::detail::Backend BACKEND>
+typename multiarray<N,T,detail::BackendPolicy<BACKEND>>::pointer_array
+multiarray<N,T,detail::BackendPolicy<BACKEND>>::ptrs_array()
+{
+	pointer_array arr{};
+	for(size_t i=0; i< N; i++)
+		arr[i]= this->fData[i].data();
+
+	return arr;
+}
+
+template< size_t N, typename T, hydra::detail::Backend BACKEND>
+typename multiarray<N,T,detail::BackendPolicy<BACKEND>>::const_pointer_array
+multiarray<N,T,detail::BackendPolicy<BACKEND>>::ptrs_array() const
+{
+	pointer_array arr{};
+		for(size_t i=0; i< N; i++)
+			arr[i]= this->fData[i].data();
+
+		return arr;
 }
 
 template< size_t N, typename T, hydra::detail::Backend BACKEND>
@@ -452,7 +474,6 @@ template<size_t N1, typename T1, hydra::detail::Backend BACKEND1,
 bool operator==(const multiarray<N1, T1, hydra::detail::BackendPolicy<BACKEND1> >& lhs,
                 const multiarray<N2, T2, hydra::detail::BackendPolicy<BACKEND2> >& rhs)
        {
-	typedef typename multiarray<N1, T1, hydra::detail::BackendPolicy<BACKEND1> >::value_type comparison_type;
 
 	bool is_same_type = (N1 == N2)
 			&& thrust::detail::is_same<T1,T2>::value
@@ -479,8 +500,6 @@ template<size_t N1, typename T1, hydra::detail::Backend BACKEND1,
          size_t N2, typename T2, hydra::detail::Backend BACKEND2>
 bool operator!=(const multiarray<N1, T1, hydra::detail::BackendPolicy<BACKEND1> >& lhs,
                 const multiarray<N2, T2, hydra::detail::BackendPolicy<BACKEND2> >& rhs){
-
-	typedef typename multiarray<N1, T1, hydra::detail::BackendPolicy<BACKEND1> >::value_type comparison_type;
 
 		bool is_same_type = (N1 == N2)
 				&& thrust::detail::is_same<T1,T2>::value

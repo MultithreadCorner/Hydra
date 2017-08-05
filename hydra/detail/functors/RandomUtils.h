@@ -251,8 +251,8 @@ struct RndTrial{
 
 	RndTrial(size_t seed, FUNCTOR const& functor, std::array<GReal_t,N>const& min,
 			std::array<GReal_t,N>const& max):
-		fSeed(seed),
-		fFunctor(functor)
+				fFunctor(functor),
+				fSeed(seed)
 	{
 		for(size_t i=0; i<N; i++){
 			fMin[i] = min[i];
@@ -262,8 +262,8 @@ struct RndTrial{
 
 	__host__ __device__
 	RndTrial(RndTrial<GRND,FUNCTOR, N> const& other):
-		fSeed(other.fSeed),
-		fFunctor(other.fFunctor)
+		fFunctor(other.fFunctor),
+		fSeed(other.fSeed)
 	{
 		for(size_t i=0; i<N; i++){
 			fMin[i] = other.fMin[i];
@@ -305,16 +305,16 @@ template<typename GRND, typename FUNCTOR>
 struct RndTrial<GRND, FUNCTOR, 1>{
 
 	RndTrial(size_t seed, FUNCTOR const& functor, GReal_t min, GReal_t max):
-		fSeed(seed),
 		fFunctor(functor),
+		fSeed(seed),
 		fMin(min),
 		fMax(max)
 	{}
 
 	__host__ __device__
 	RndTrial(RndTrial<GRND,FUNCTOR, 1> const& other):
-		fSeed(other.fSeed),
 		fFunctor(other.fFunctor),
+		fSeed(other.fSeed),
 		fMin(other.fMin),
 		fMax(other.fMax)
 	{}

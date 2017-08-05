@@ -52,7 +52,7 @@
 #include <hydra/detail/functors/EvalMothers.h>
 #include <hydra/detail/functors/StatsPHSP.h>
 
-
+#include <hydra/Decays.h>
 
 #include <hydra/detail/launch_decayers.inl>
 
