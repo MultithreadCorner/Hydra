@@ -644,10 +644,8 @@ bool operator==(const Decays<N1, hydra::detail::BackendPolicy<BACKEND1> >& lhs,
 	};
 
 	if(is_same_type){
-
-		for(size_t i=0; i<N1; i++ )
-			result &= thrust::all_of(thrust::make_zip_iterator(lhs.begin(i), rhs.begin(i)),
-					thrust::make_zip_iterator(lhs.end(i), rhs.end(i)), comp);
+			result = thrust::all_of(thrust::make_zip_iterator(lhs.begin(), rhs.begin()),
+					thrust::make_zip_iterator(lhs.end(), rhs.end()), comp);
 	}
 	return  result && is_same_type;
 
@@ -671,10 +669,8 @@ bool operator!=(const Decays<N1, hydra::detail::BackendPolicy<BACKEND1> >& lhs,
 		};
 
 		if(is_same_type){
-
-			for(size_t i=0; i<N1; i++ )
-				result &= thrust::all_of(thrust::make_zip_iterator(lhs.begin(i), rhs.begin(i)),
-						thrust::make_zip_iterator(lhs.end(i), rhs.end(i)), comp);
+				result = thrust::all_of(thrust::make_zip_iterator(lhs.begin(), rhs.begin()),
+						thrust::make_zip_iterator(lhs.end(), rhs.end()), comp);
 		}
 		return  (!result) && is_same_type;
 }
