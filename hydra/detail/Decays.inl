@@ -30,71 +30,71 @@
 #define DECAYS_INL_
 
 /*
- template<size_t N, hydra::detail::Backend BACKEND>
-Decays<N, hydra::detail::BackendPolicy<BACKEND> >::
+ template<size_t N, detail::Backend BACKEND>
+Decays<N, detail::BackendPolicy<BACKEND> >::
 
  */
 namespace hydra {
 
-template<size_t N, hydra::detail::Backend BACKEND>
-void Decays<N, hydra::detail::BackendPolicy<BACKEND> >::pop_back()
+template<size_t N, detail::Backend BACKEND>
+void Decays<N, detail::BackendPolicy<BACKEND> >::pop_back()
 {
 this->fDecays.pop_back();
 this->fWeights.pop_back();
 
 }
 
-template<size_t N, hydra::detail::Backend BACKEND>
-void Decays<N, hydra::detail::BackendPolicy<BACKEND> >::push_back(GReal_t weight,
-		const Decays<N, hydra::detail::BackendPolicy<BACKEND> >::particle_tuple& particles)
+template<size_t N, detail::Backend BACKEND>
+void Decays<N, detail::BackendPolicy<BACKEND> >::push_back(GReal_t weight,
+		const Decays<N, detail::BackendPolicy<BACKEND> >::particle_tuple& particles)
 {
 	std::array<Vector4R, N> arr{};
-	detail::tupleToArray(particles, arr{} );
+	detail::tupleToArray(particles, arr );
 	for(size_t i=0; i<N; i++)
 		this->fDecays[i].push_back( arr[i] );
 	this->fWeights.push_back(weight);
 }
 
-template<size_t N, hydra::detail::Backend BACKEND>
-void Decays<N, hydra::detail::BackendPolicy<BACKEND> >::push_back(GReal_t weight, Vector4R const (&particles)[N])
+template<size_t N, detail::Backend BACKEND>
+void Decays<N, detail::BackendPolicy<BACKEND> >::push_back(GReal_t weight, Vector4R const (&particles)[N])
 {
 	for(size_t i=0; i<N; i++)
 		this->fDecays[i].push_back( particles[i] );
 	this->fWeights.push_back(weight);
 }
 
-template<size_t N, hydra::detail::Backend BACKEND>
-void Decays<N, hydra::detail::BackendPolicy<BACKEND> >::push_back(GReal_t weight, std::initializer_list<Vector4R>const& list_args)
+template<size_t N, detail::Backend BACKEND>
+void Decays<N, detail::BackendPolicy<BACKEND> >::push_back(GReal_t weight, std::initializer_list<Vector4R>const& particles)
 {
 	for(size_t i=0; i<N; i++)
 		this->fDecays[i].push_back( *(particles.begin()+i) );
 	this->fWeights.push_back(weight);
 }
 
-template<size_t N, hydra::detail::Backend BACKEND>
-void Decays<N, hydra::detail::BackendPolicy<BACKEND> >::push_back(value_type const& value)
+template<size_t N, detail::Backend BACKEND>
+void Decays<N, detail::BackendPolicy<BACKEND> >::push_back(value_type const& value)
 {
 	auto particles = detail::dropFirst(value);
 
 	std::array<Vector4R, N> arr{};
 
-	detail::tupleToArray(particles, arr{} );
+	detail::tupleToArray(particles, arr );
 
 	for(size_t i=0; i<N; i++)
 		this->fDecays[i].push_back( arr[i] );
-	this->fWeights.push_back(hydra::get<0>(value));
+	this->fWeights.push_back(get<0>(value));
 }
 
-template<size_t N, hydra::detail::Backend BACKEND>
-void Decays<N, hydra::detail::BackendPolicy<BACKEND> >::resize(size_t size)
+template<size_t N, detail::Backend BACKEND>
+void Decays<N, detail::BackendPolicy<BACKEND> >::resize(size_t size)
 {
 	for(size_t i=0; i<N; i++)
 		this->fDecays[i].resize( size );
 	this->fWeights.resize( size );
 }
 
-template<size_t N, hydra::detail::Backend BACKEND>
-void Decays<N, hydra::detail::BackendPolicy<BACKEND> >::clear()
+template<size_t N, detail::Backend BACKEND>
+void Decays<N, detail::BackendPolicy<BACKEND> >::clear()
 {
 	for(size_t i=0; i<N; i++)
 		this->fDecays[i].clear();
@@ -102,8 +102,8 @@ void Decays<N, hydra::detail::BackendPolicy<BACKEND> >::clear()
 
 }
 
-template<size_t N, hydra::detail::Backend BACKEND>
-void Decays<N, hydra::detail::BackendPolicy<BACKEND> >::shrink_to_fit()
+template<size_t N, detail::Backend BACKEND>
+void Decays<N, detail::BackendPolicy<BACKEND> >::shrink_to_fit()
 {
 	for(size_t i=0; i<N; i++)
 			this->fDecays[i].shrink_to_fit();
@@ -111,8 +111,8 @@ void Decays<N, hydra::detail::BackendPolicy<BACKEND> >::shrink_to_fit()
 
 }
 
-template<size_t N, hydra::detail::Backend BACKEND>
-void Decays<N, hydra::detail::BackendPolicy<BACKEND> >::reserve(size_t size)
+template<size_t N, detail::Backend BACKEND>
+void Decays<N, detail::BackendPolicy<BACKEND> >::reserve(size_t size)
 {
 	for(size_t i=0; i<N; i++)
 		this->fDecays[i].reserve(size);
@@ -121,61 +121,61 @@ void Decays<N, hydra::detail::BackendPolicy<BACKEND> >::reserve(size_t size)
 }
 
 
-template<size_t N, hydra::detail::Backend BACKEND>
-void Decays<N, hydra::detail::BackendPolicy<BACKEND> >::insert(
-		typename Decays<N, hydra::detail::BackendPolicy<BACKEND> >::iterator position,
+template<size_t N, detail::Backend BACKEND>
+void Decays<N, detail::BackendPolicy<BACKEND> >::insert(
+		typename Decays<N, detail::BackendPolicy<BACKEND> >::iterator position,
 		size_type n, const value_type &x)
 {
 	size_t pos = thrust::distance(this->begin(), position);
 	auto particles = detail::dropFirst(x);
 	std::array<Vector4R, N> arr{};
-	detail::tupleToArray(particles, arr{} );
+	detail::tupleToArray(particles, arr );
 
 	for(size_t i=0; i<N; i++)
 			this->fDecays[i].insert( this->fDecays[i].begin()+pos, n, arr[i] );
 
-	this->fWeights.insert(fWeights.begin()+pos, n, hydra::get<0>(value));
+	this->fWeights.insert(fWeights.begin()+pos, n, get<0>(x));
 }
 
-template<size_t N, hydra::detail::Backend BACKEND>
+template<size_t N, detail::Backend BACKEND>
 template<typename InputIterator>
-void Decays<N, hydra::detail::BackendPolicy<BACKEND> >::insert(
-		typename Decays<N, hydra::detail::BackendPolicy<BACKEND> >::iterator position,
+void Decays<N, detail::BackendPolicy<BACKEND> >::insert(
+		typename Decays<N, detail::BackendPolicy<BACKEND> >::iterator position,
 		InputIterator first, InputIterator last)
 {
 	size_t pos = thrust::distance(this->begin(), position);
 
 	auto tail_first = detail::dropFirst( first );
-	std::array<typename Decays<N, hydra::detail::BackendPolicy<BACKEND> >::particles_iterator, N> arr_first{};
+	std::array<typename Decays<N, detail::BackendPolicy<BACKEND> >::particles_iterator, N> arr_first{};
 	detail::tupleToArray( tail_first, arr_first);
 
 	auto tail_last = detail::dropFirst( last );
-	std::array<typename Decays<N, hydra::detail::BackendPolicy<BACKEND> >::particles_iterator, N> arr_last{};
+	std::array<typename Decays<N, detail::BackendPolicy<BACKEND> >::particles_iterator, N> arr_last{};
 	detail::tupleToArray( tail_last, arr_last);
 
 	for(size_t i=0; i<N; i++)
 		this->fDecays[i].insert(this->fDecays[i].begin()+pos,
 				arr_first[i], arr_last[i]);
 
-	auto head_first = hydra::get<0>(first);
-	auto head_last  = hydra::get<0>(last);
+	auto head_first = get<0>(first);
+	auto head_last  = get<0>(last);
 
 	this->fWeights.insert(fWeights.begin()+pos, head_first, head_last);
 }
 
-template<size_t N, hydra::detail::Backend BACKEND>
-typename Decays<N, hydra::detail::BackendPolicy<BACKEND> >::iterator
-Decays<N, hydra::detail::BackendPolicy<BACKEND> >::insert(
-		typename Decays<N, hydra::detail::BackendPolicy<BACKEND> >::iterator position,
-		const Decays<N, hydra::detail::BackendPolicy<BACKEND> >::value_type &x)
+template<size_t N, detail::Backend BACKEND>
+typename Decays<N, detail::BackendPolicy<BACKEND> >::iterator
+Decays<N, detail::BackendPolicy<BACKEND> >::insert(
+		typename Decays<N, detail::BackendPolicy<BACKEND> >::iterator position,
+		const Decays<N, detail::BackendPolicy<BACKEND> >::value_type &x)
 {
 	size_t pos = thrust::distance(this->begin(), position);
 
-	auto head = hydra::get<0>(x);
+	auto head = get<0>(x);
 	auto tail = detail::dropFirst( x );
 
-	std::array<typename Decays<N, hydra::detail::BackendPolicy<BACKEND> >::particles_iterator, N> array_tail{};
-	std::array<typename Decays<N, hydra::detail::BackendPolicy<BACKEND> >::particles_iterator, N> output_tail{};
+	std::array<typename Decays<N, detail::BackendPolicy<BACKEND> >::particles_iterator, N> array_tail{};
+	std::array<typename Decays<N, detail::BackendPolicy<BACKEND> >::particles_iterator, N> output_tail{};
 	detail::tupleToArray( tail, array_tail);
 	for(size_t i=0; i<N; i++)
 		output_tail[i]=this->fDecays[i].insert(this->fDecays[i].begin()+pos, array_tail[i]);
@@ -185,31 +185,31 @@ Decays<N, hydra::detail::BackendPolicy<BACKEND> >::insert(
 
 	auto output_tuple = thrust::tuple_cat( thrust::make_tuple( output_head ), output_tail_tuple);
 
-	return output_tuple;
+	return thrust::make_zip_iterator(output_tuple);
 
 }
 
-template<size_t N, hydra::detail::Backend BACKEND>
-size_t Decays<N, hydra::detail::BackendPolicy<BACKEND> >::size() const
+template<size_t N, detail::Backend BACKEND>
+size_t Decays<N, detail::BackendPolicy<BACKEND> >::size() const
 {
  return this->fWeights.size();
 }
 
-template<size_t N, hydra::detail::Backend BACKEND>
-size_t Decays<N, hydra::detail::BackendPolicy<BACKEND> >::capacity() const
+template<size_t N, detail::Backend BACKEND>
+size_t Decays<N, detail::BackendPolicy<BACKEND> >::capacity() const
 {
 	return this->fWeights.capacity();
 }
 
-template<size_t N, hydra::detail::Backend BACKEND>
-bool Decays<N, hydra::detail::BackendPolicy<BACKEND> >::empty() const
+template<size_t N, detail::Backend BACKEND>
+bool Decays<N, detail::BackendPolicy<BACKEND> >::empty() const
 {
 	return this->fWeights.empty();
 }
 
-template<size_t N, hydra::detail::Backend BACKEND>
-typename Decays<N, hydra::detail::BackendPolicy<BACKEND> >::iterator
-Decays<N, hydra::detail::BackendPolicy<BACKEND> >::erase(typename Decays<N, hydra::detail::BackendPolicy<BACKEND> >::iterator pos)
+template<size_t N, detail::Backend BACKEND>
+typename Decays<N, detail::BackendPolicy<BACKEND> >::iterator
+Decays<N, detail::BackendPolicy<BACKEND> >::erase(typename Decays<N, detail::BackendPolicy<BACKEND> >::iterator position)
 {
 	size_t pos = thrust::distance(this->begin(), position);
 	for(size_t i=0; i<N; i++)
@@ -220,14 +220,14 @@ Decays<N, hydra::detail::BackendPolicy<BACKEND> >::erase(typename Decays<N, hydr
 	return this->begin() + pos;
 }
 
-template<size_t N, hydra::detail::Backend BACKEND>
-typename Decays<N, hydra::detail::BackendPolicy<BACKEND> >::iterator
-Decays<N, hydra::detail::BackendPolicy<BACKEND> >::erase(typename Decays<N, hydra::detail::BackendPolicy<BACKEND> >::iterator first,
-		typename Decays<N, hydra::detail::BackendPolicy<BACKEND> >::iterator last)
+template<size_t N, detail::Backend BACKEND>
+typename Decays<N, detail::BackendPolicy<BACKEND> >::iterator
+Decays<N, detail::BackendPolicy<BACKEND> >::erase(typename Decays<N, detail::BackendPolicy<BACKEND> >::iterator first,
+		typename Decays<N, detail::BackendPolicy<BACKEND> >::iterator last)
 {
 	size_t pos = thrust::distance(this->begin(), first);
 
-	for( auto el = firt; el!=last)
+	for( auto el = first; el!=last; el++)
 		this->erase(el);
 
 	return this->begin() + pos;
@@ -235,70 +235,70 @@ Decays<N, hydra::detail::BackendPolicy<BACKEND> >::erase(typename Decays<N, hydr
 
 
 
-template<size_t N, hydra::detail::Backend BACKEND>
-Decays<N, hydra::detail::BackendPolicy<BACKEND> >::reference
-Decays<N, hydra::detail::BackendPolicy<BACKEND> >::front()
+template<size_t N, detail::Backend BACKEND>
+typename Decays<N, detail::BackendPolicy<BACKEND> >::reference
+Decays<N, detail::BackendPolicy<BACKEND> >::front()
 {
 	return this->begin()[0];
 }
 
-template<size_t N, hydra::detail::Backend BACKEND>
-Decays<N, hydra::detail::BackendPolicy<BACKEND> >::reference
-Decays<N, hydra::detail::BackendPolicy<BACKEND> >::front() const
+template<size_t N, detail::Backend BACKEND>
+typename Decays<N, detail::BackendPolicy<BACKEND> >::const_reference
+Decays<N, detail::BackendPolicy<BACKEND> >::front() const
 {
  	return this->cbegin()[0];
 }
 
-template<size_t N, hydra::detail::Backend BACKEND>
-Decays<N, hydra::detail::BackendPolicy<BACKEND> >::reference
-Decays<N, hydra::detail::BackendPolicy<BACKEND> >::back()
+template<size_t N, detail::Backend BACKEND>
+typename Decays<N, detail::BackendPolicy<BACKEND> >::reference
+Decays<N, detail::BackendPolicy<BACKEND> >::back()
 {
 	this->begin()[this->size()-1 ];
 }
 
-template<size_t N, hydra::detail::Backend BACKEND>
-Decays<N, hydra::detail::BackendPolicy<BACKEND> >::reference const
-Decays<N, hydra::detail::BackendPolicy<BACKEND> >::back()
+template<size_t N, detail::Backend BACKEND>
+typename Decays<N, detail::BackendPolicy<BACKEND> >::const_reference
+Decays<N, detail::BackendPolicy<BACKEND> >::back() const
 {
 	this->cbegin()[this->size()-1 ];
 }
 
-template<size_t N, hydra::detail::Backend BACKEND>
-Decays<N, hydra::detail::BackendPolicy<BACKEND> >::particles_pointer
-Decays<N, hydra::detail::BackendPolicy<BACKEND> >::pdata( size_t particle, size_t component )
+template<size_t N, detail::Backend BACKEND>
+typename Decays<N, detail::BackendPolicy<BACKEND> >::particles_pointer
+Decays<N, detail::BackendPolicy<BACKEND> >::pdata( size_t particle, size_t component )
 {
 	this->fDecays[particle]->data(component);
 }
 
-template<size_t N, hydra::detail::Backend BACKEND>
-Decays<N, hydra::detail::BackendPolicy<BACKEND> >::particles_pointer
-Decays<N, hydra::detail::BackendPolicy<BACKEND> >::pdata( size_t particle, size_t component ) const
+template<size_t N, detail::Backend BACKEND>
+typename Decays<N, detail::BackendPolicy<BACKEND> >::particles_pointer
+Decays<N, detail::BackendPolicy<BACKEND> >::pdata( size_t particle, size_t component ) const
 {
 	this->fDecays[particle]->data(component);
 }
 
-template<size_t N, hydra::detail::Backend BACKEND>
-Decays<N, hydra::detail::BackendPolicy<BACKEND> >::weights_pointer
-Decays<N, hydra::detail::BackendPolicy<BACKEND> >::wdata( )
+template<size_t N, detail::Backend BACKEND>
+typename Decays<N, detail::BackendPolicy<BACKEND> >::weights_pointer
+Decays<N, detail::BackendPolicy<BACKEND> >::wdata( )
 {
 	this->fWeights->data();
 }
 
-template<size_t N, hydra::detail::Backend BACKEND>
-Decays<N, hydra::detail::BackendPolicy<BACKEND> >::weights_pointer
-Decays<N, hydra::detail::BackendPolicy<BACKEND> >::wdata( ) const
+template<size_t N, detail::Backend BACKEND>
+typename Decays<N, detail::BackendPolicy<BACKEND> >::weights_pointer
+Decays<N, detail::BackendPolicy<BACKEND> >::wdata( ) const
 {
 	this->fWeights->data();
 }
 
 
-template<size_t N, hydra::detail::Backend BACKEND>
-Decays<N, hydra::detail::BackendPolicy<BACKEND> >::iterator
-Decays<N, hydra::detail::BackendPolicy<BACKEND> >::begin()
+template<size_t N, detail::Backend BACKEND>
+typename Decays<N, detail::BackendPolicy<BACKEND> >::iterator
+Decays<N, detail::BackendPolicy<BACKEND> >::begin()
 {
 
 	std::array<typename Decays<N,
-	      hydra::detail::BackendPolicy<BACKEND> >::particles_iterator, N> particles_iterator_array{};
+	      detail::BackendPolicy<BACKEND> >::particles_iterator, N> particles_iterator_array{};
 	for(size_t i=0; i<N; i++)
 		particles_iterator_array[i] =this->fDecays[i].begin();
     auto particles_iterator_tuple = detail::arrayToTuple( particles_iterator_array );
@@ -310,12 +310,12 @@ Decays<N, hydra::detail::BackendPolicy<BACKEND> >::begin()
 
 }
 
-template<size_t N, hydra::detail::Backend BACKEND>
-Decays<N, hydra::detail::BackendPolicy<BACKEND> >::iterator
-Decays<N, hydra::detail::BackendPolicy<BACKEND> >::end()
+template<size_t N, detail::Backend BACKEND>
+typename Decays<N, detail::BackendPolicy<BACKEND> >::iterator
+Decays<N, detail::BackendPolicy<BACKEND> >::end()
 {
 	std::array<typename Decays<N,
-	      hydra::detail::BackendPolicy<BACKEND> >::particles_iterator, N> particles_iterator_array{};
+	      detail::BackendPolicy<BACKEND> >::particles_iterator, N> particles_iterator_array{};
 	for(size_t i=0; i<N; i++)
 		particles_iterator_array[i] =this->fDecays[i].end();
     auto particles_iterator_tuple = detail::arrayToTuple( particles_iterator_array );
@@ -329,12 +329,12 @@ Decays<N, hydra::detail::BackendPolicy<BACKEND> >::end()
 
 }
 
-template<size_t N, hydra::detail::Backend BACKEND>
-Decays<N, hydra::detail::BackendPolicy<BACKEND> >::reverse_iterator
-Decays<N, hydra::detail::BackendPolicy<BACKEND> >::rbegin()
+template<size_t N, detail::Backend BACKEND>
+typename Decays<N, detail::BackendPolicy<BACKEND> >::reverse_iterator
+Decays<N, detail::BackendPolicy<BACKEND> >::rbegin()
 {
 	std::array<typename Decays<N,
-		      hydra::detail::BackendPolicy<BACKEND> >::particles_iterator, N> particles_iterator_array{};
+		      detail::BackendPolicy<BACKEND> >::particles_iterator, N> particles_iterator_array{};
 		for(size_t i=0; i<N; i++)
 			particles_iterator_array[i] =this->fDecays[i].rbegin();
 	    auto particles_iterator_tuple = detail::arrayToTuple( particles_iterator_array );
@@ -346,13 +346,13 @@ Decays<N, hydra::detail::BackendPolicy<BACKEND> >::rbegin()
 
 }
 
-template<size_t N, hydra::detail::Backend BACKEND>
-Decays<N, hydra::detail::BackendPolicy<BACKEND> >::reverse_iterator
-Decays<N, hydra::detail::BackendPolicy<BACKEND> >::rend()
+template<size_t N, detail::Backend BACKEND>
+typename Decays<N, detail::BackendPolicy<BACKEND> >::reverse_iterator
+Decays<N, detail::BackendPolicy<BACKEND> >::rend()
 {
 
 	std::array<typename Decays<N,
-			      hydra::detail::BackendPolicy<BACKEND> >::particles_iterator, N> particles_iterator_array{};
+			      detail::BackendPolicy<BACKEND> >::particles_iterator, N> particles_iterator_array{};
 			for(size_t i=0; i<N; i++)
 				particles_iterator_array[i] =this->fDecays[i].rend();
 		    auto particles_iterator_tuple = detail::arrayToTuple( particles_iterator_array );
@@ -364,12 +364,12 @@ Decays<N, hydra::detail::BackendPolicy<BACKEND> >::rend()
 
 }
 
-template<size_t N, hydra::detail::Backend BACKEND>
-Decays<N, hydra::detail::BackendPolicy<BACKEND> >::const_iterator
-Decays<N, hydra::detail::BackendPolicy<BACKEND> >::begin() const
+template<size_t N, detail::Backend BACKEND>
+typename Decays<N, detail::BackendPolicy<BACKEND> >::const_iterator
+Decays<N, detail::BackendPolicy<BACKEND> >::begin() const
 {
 	std::array<typename Decays<N,
-	hydra::detail::BackendPolicy<BACKEND> >::particles_iterator, N> particles_iterator_array{};
+	detail::BackendPolicy<BACKEND> >::particles_iterator, N> particles_iterator_array{};
 	for(size_t i=0; i<N; i++)
 		particles_iterator_array[i] =this->fDecays[i].cbegin();
 	auto particles_iterator_tuple = detail::arrayToTuple( particles_iterator_array );
@@ -380,12 +380,12 @@ Decays<N, hydra::detail::BackendPolicy<BACKEND> >::begin() const
 	return thrust::make_zip_iterator(  _iterator_tuple );
 }
 
-template<size_t N, hydra::detail::Backend BACKEND>
-Decays<N, hydra::detail::BackendPolicy<BACKEND> >::const_iterator
-Decays<N, hydra::detail::BackendPolicy<BACKEND> >::end() const
+template<size_t N, detail::Backend BACKEND>
+typename Decays<N, detail::BackendPolicy<BACKEND> >::const_iterator
+Decays<N, detail::BackendPolicy<BACKEND> >::end() const
 {
 	std::array<typename Decays<N,
-	hydra::detail::BackendPolicy<BACKEND> >::particles_iterator, N> particles_iterator_array{};
+	detail::BackendPolicy<BACKEND> >::particles_iterator, N> particles_iterator_array{};
 	for(size_t i=0; i<N; i++)
 		particles_iterator_array[i] =this->fDecays[i].cend();
 	auto particles_iterator_tuple = detail::arrayToTuple( particles_iterator_array );
@@ -398,13 +398,13 @@ Decays<N, hydra::detail::BackendPolicy<BACKEND> >::end() const
 }
 
 
-template<size_t N, hydra::detail::Backend BACKEND>
-Decays<N, hydra::detail::BackendPolicy<BACKEND> >::const_reverse_iterator
-Decays<N, hydra::detail::BackendPolicy<BACKEND> >::rbegin() const
+template<size_t N, detail::Backend BACKEND>
+typename Decays<N, detail::BackendPolicy<BACKEND> >::const_reverse_iterator
+Decays<N, detail::BackendPolicy<BACKEND> >::rbegin() const
 {
 
 	std::array<typename Decays<N,
-	hydra::detail::BackendPolicy<BACKEND> >::particles_iterator, N> particles_iterator_array{};
+	detail::BackendPolicy<BACKEND> >::particles_iterator, N> particles_iterator_array{};
 	for(size_t i=0; i<N; i++)
 		particles_iterator_array[i] =this->fDecays[i].crbegin();
 	auto particles_iterator_tuple = detail::arrayToTuple( particles_iterator_array );
@@ -417,13 +417,13 @@ Decays<N, hydra::detail::BackendPolicy<BACKEND> >::rbegin() const
 
 }
 
-template<size_t N, hydra::detail::Backend BACKEND>
-Decays<N, hydra::detail::BackendPolicy<BACKEND> >::const_reverse_iterator
-Decays<N, hydra::detail::BackendPolicy<BACKEND> >::rend() const
+template<size_t N, detail::Backend BACKEND>
+typename Decays<N, detail::BackendPolicy<BACKEND> >::const_reverse_iterator
+Decays<N, detail::BackendPolicy<BACKEND> >::rend() const
 {
 
 	std::array<typename Decays<N,
-		hydra::detail::BackendPolicy<BACKEND> >::particles_iterator, N> particles_iterator_array{};
+		detail::BackendPolicy<BACKEND> >::particles_iterator, N> particles_iterator_array{};
 		for(size_t i=0; i<N; i++)
 			particles_iterator_array[i] =this->fDecays[i].crend();
 		auto particles_iterator_tuple = detail::arrayToTuple( particles_iterator_array );
@@ -436,13 +436,13 @@ Decays<N, hydra::detail::BackendPolicy<BACKEND> >::rend() const
 
 }
 
-template<size_t N, hydra::detail::Backend BACKEND>
-Decays<N, hydra::detail::BackendPolicy<BACKEND> >::const_iterator
-Decays<N, hydra::detail::BackendPolicy<BACKEND> >::cbegin() const
+template<size_t N, detail::Backend BACKEND>
+typename Decays<N, detail::BackendPolicy<BACKEND> >::const_iterator
+Decays<N, detail::BackendPolicy<BACKEND> >::cbegin() const
 {
 
 	std::array<typename Decays<N,
-		hydra::detail::BackendPolicy<BACKEND> >::particles_iterator, N> particles_iterator_array{};
+		detail::BackendPolicy<BACKEND> >::particles_iterator, N> particles_iterator_array{};
 		for(size_t i=0; i<N; i++)
 			particles_iterator_array[i] =this->fDecays[i].cbegin();
 		auto particles_iterator_tuple = detail::arrayToTuple( particles_iterator_array );
@@ -455,12 +455,12 @@ Decays<N, hydra::detail::BackendPolicy<BACKEND> >::cbegin() const
 
 }
 
-template<size_t N, hydra::detail::Backend BACKEND>
-Decays<N, hydra::detail::BackendPolicy<BACKEND> >::const_iterator
-Decays<N, hydra::detail::BackendPolicy<BACKEND> >::cend() const
+template<size_t N, detail::Backend BACKEND>
+typename Decays<N, detail::BackendPolicy<BACKEND> >::const_iterator
+Decays<N, detail::BackendPolicy<BACKEND> >::cend() const
 {
 	std::array<typename Decays<N,
-			hydra::detail::BackendPolicy<BACKEND> >::particles_iterator, N> particles_iterator_array{};
+			detail::BackendPolicy<BACKEND> >::particles_iterator, N> particles_iterator_array{};
 			for(size_t i=0; i<N; i++)
 				particles_iterator_array[i] =this->fDecays[i].cend();
 			auto particles_iterator_tuple = detail::arrayToTuple( particles_iterator_array );
@@ -473,13 +473,13 @@ Decays<N, hydra::detail::BackendPolicy<BACKEND> >::cend() const
 }
 
 
-template<size_t N, hydra::detail::Backend BACKEND>
-Decays<N, hydra::detail::BackendPolicy<BACKEND> >::const_reverse_iterator
-Decays<N, hydra::detail::BackendPolicy<BACKEND> >::crbegin()
+template<size_t N, detail::Backend BACKEND>
+typename Decays<N, detail::BackendPolicy<BACKEND> >::const_reverse_iterator
+Decays<N, detail::BackendPolicy<BACKEND> >::crbegin() const
 {
 
 	std::array<typename Decays<N,
-		hydra::detail::BackendPolicy<BACKEND> >::particles_iterator, N> particles_iterator_array{};
+		detail::BackendPolicy<BACKEND> >::particles_iterator, N> particles_iterator_array{};
 		for(size_t i=0; i<N; i++)
 			particles_iterator_array[i] =this->fDecays[i].crbegin();
 		auto particles_iterator_tuple = detail::arrayToTuple( particles_iterator_array );
@@ -492,13 +492,13 @@ Decays<N, hydra::detail::BackendPolicy<BACKEND> >::crbegin()
 
 }
 
-template<size_t N, hydra::detail::Backend BACKEND>
-Decays<N, hydra::detail::BackendPolicy<BACKEND> >::const_reverse_iterator
-Decays<N, hydra::detail::BackendPolicy<BACKEND> >::crend()
+template<size_t N, detail::Backend BACKEND>
+typename Decays<N, detail::BackendPolicy<BACKEND> >::const_reverse_iterator
+Decays<N, detail::BackendPolicy<BACKEND> >::crend() const
 {
 
 	std::array<typename Decays<N,
-			hydra::detail::BackendPolicy<BACKEND> >::particles_iterator, N> particles_iterator_array{};
+			detail::BackendPolicy<BACKEND> >::particles_iterator, N> particles_iterator_array{};
 			for(size_t i=0; i<N; i++)
 				particles_iterator_array[i] =this->fDecays[i].crend();
 			auto particles_iterator_tuple = detail::arrayToTuple( particles_iterator_array );
@@ -510,117 +510,173 @@ Decays<N, hydra::detail::BackendPolicy<BACKEND> >::crend()
 
 }
 
-template<size_t N, hydra::detail::Backend BACKEND>
-Decays<N, hydra::detail::BackendPolicy<BACKEND> >::particles_iterator
-Decays<N, hydra::detail::BackendPolicy<BACKEND> >::pbegin(size_t i)
+template<size_t N, detail::Backend BACKEND>
+typename Decays<N, detail::BackendPolicy<BACKEND> >::particles_iterator
+Decays<N, detail::BackendPolicy<BACKEND> >::pbegin(size_t i)
 {
 	return fDecays->begin(i);
 }
 
-template<size_t N, hydra::detail::Backend BACKEND>
-Decays<N, hydra::detail::BackendPolicy<BACKEND> >::particles_iterator
-Decays<N, hydra::detail::BackendPolicy<BACKEND> >::pend(size_t i)
+template<size_t N, detail::Backend BACKEND>
+typename Decays<N, detail::BackendPolicy<BACKEND> >::particles_iterator
+Decays<N, detail::BackendPolicy<BACKEND> >::pend(size_t i)
 {
 	return fDecays->end(i);
 }
 
-template<size_t N, hydra::detail::Backend BACKEND>
-Decays<N, hydra::detail::BackendPolicy<BACKEND> >::particles_reverse_iterator
-Decays<N, hydra::detail::BackendPolicy<BACKEND> >::prbegin(size_t i)
+template<size_t N, detail::Backend BACKEND>
+typename Decays<N, detail::BackendPolicy<BACKEND> >::particles_reverse_iterator
+Decays<N, detail::BackendPolicy<BACKEND> >::prbegin(size_t i)
 {
 	return fDecays->rbegin(i);
 }
 
-template<size_t N, hydra::detail::Backend BACKEND>
-Decays<N, hydra::detail::BackendPolicy<BACKEND> >::particles_reverse_iterator
-Decays<N, hydra::detail::BackendPolicy<BACKEND> >::prend(size_t i)
+template<size_t N, detail::Backend BACKEND>
+typename Decays<N, detail::BackendPolicy<BACKEND> >::particles_reverse_iterator
+Decays<N, detail::BackendPolicy<BACKEND> >::prend(size_t i)
 {
 	return fDecays->rend(i);
 }
 
-template<size_t N, hydra::detail::Backend BACKEND>
-Decays<N, hydra::detail::BackendPolicy<BACKEND> >::weights_iterator
-Decays<N, hydra::detail::BackendPolicy<BACKEND> >::wbegin()
+template<size_t N, detail::Backend BACKEND>
+typename Decays<N, detail::BackendPolicy<BACKEND> >::weights_iterator
+Decays<N, detail::BackendPolicy<BACKEND> >::wbegin()
 {
-	return fWeights->begin(i);
+	return fWeights->begin();
 }
 
-template<size_t N, hydra::detail::Backend BACKEND>
-Decays<N, hydra::detail::BackendPolicy<BACKEND> >::weights_iterator
-Decays<N, hydra::detail::BackendPolicy<BACKEND> >::wend()
+template<size_t N, detail::Backend BACKEND>
+typename Decays<N, detail::BackendPolicy<BACKEND> >::weights_iterator
+Decays<N, detail::BackendPolicy<BACKEND> >::wend()
 {
-	return fWeights->end(i);
+	return fWeights->end();
 }
 
-template<size_t N, hydra::detail::Backend BACKEND>
-Decays<N, hydra::detail::BackendPolicy<BACKEND> >::weights_reverse_iterator
-Decays<N, hydra::detail::BackendPolicy<BACKEND> >::wrbegin()
+template<size_t N, detail::Backend BACKEND>
+typename Decays<N, detail::BackendPolicy<BACKEND> >::weights_reverse_iterator
+Decays<N, detail::BackendPolicy<BACKEND> >::wrbegin()
 {
-	return fWeights->rbegin(i);
+	return fWeights->rbegin();
 }
 
-template<size_t N, hydra::detail::Backend BACKEND>
-Decays<N, hydra::detail::BackendPolicy<BACKEND> >::weights_reverse_iterator
-Decays<N, hydra::detail::BackendPolicy<BACKEND> >::wrend()
+template<size_t N, detail::Backend BACKEND>
+typename Decays<N, detail::BackendPolicy<BACKEND> >::weights_reverse_iterator
+Decays<N, detail::BackendPolicy<BACKEND> >::wrend()
 {
-	return fWeights->rend(i);
+	return fWeights->rend();
 }
 
 
-template<size_t N, hydra::detail::Backend BACKEND>
-Decays<N, hydra::detail::BackendPolicy<BACKEND> >::particles_const_iterator
-Decays<N, hydra::detail::BackendPolicy<BACKEND> >::pbegin(size_t i) const
+template<size_t N, detail::Backend BACKEND>
+typename Decays<N, detail::BackendPolicy<BACKEND> >::particles_const_iterator
+Decays<N, detail::BackendPolicy<BACKEND> >::pbegin(size_t i) const
 {
 	return fDecays->begin(i);
 }
 
-template<size_t N, hydra::detail::Backend BACKEND>
-Decays<N, hydra::detail::BackendPolicy<BACKEND> >::particles_const_iterator
-Decays<N, hydra::detail::BackendPolicy<BACKEND> >::pend(size_t i) const
+template<size_t N, detail::Backend BACKEND>
+typename Decays<N, detail::BackendPolicy<BACKEND> >::particles_const_iterator
+Decays<N, detail::BackendPolicy<BACKEND> >::pend(size_t i) const
 {
 	return fWeights->end(i);
 }
 
-template<size_t N, hydra::detail::Backend BACKEND>
-Decays<N, hydra::detail::BackendPolicy<BACKEND> >::particles_const_reverse_iterator
-Decays<N, hydra::detail::BackendPolicy<BACKEND> >::prbegin(size_t i) const
+template<size_t N, detail::Backend BACKEND>
+typename Decays<N, detail::BackendPolicy<BACKEND> >::particles_const_reverse_iterator
+Decays<N, detail::BackendPolicy<BACKEND> >::prbegin(size_t i) const
 {
 	return fDecays->rbegin(i);
 }
 
-template<size_t N, hydra::detail::Backend BACKEND>
-Decays<N, hydra::detail::BackendPolicy<BACKEND> >::particles_const_reverse_iterator
-Decays<N, hydra::detail::BackendPolicy<BACKEND> >::prend(size_t i) const
+template<size_t N, detail::Backend BACKEND>
+typename Decays<N, detail::BackendPolicy<BACKEND> >::particles_const_reverse_iterator
+Decays<N, detail::BackendPolicy<BACKEND> >::prend(size_t i) const
 {
 	return fWeights->rend(i);
 }
 
-template<size_t N, hydra::detail::Backend BACKEND>
-Decays<N, hydra::detail::BackendPolicy<BACKEND> >::weights_const_iterator
-Decays<N, hydra::detail::BackendPolicy<BACKEND> >::wbegin() const
+template<size_t N, detail::Backend BACKEND>
+typename Decays<N, detail::BackendPolicy<BACKEND> >::weights_const_iterator
+Decays<N, detail::BackendPolicy<BACKEND> >::wbegin() const
 {
-	return fDecays->begin(i);
+	return fDecays->begin();
 }
 
-template<size_t N, hydra::detail::Backend BACKEND>
-Decays<N, hydra::detail::BackendPolicy<BACKEND> >::weights_const_iterator
-Decays<N, hydra::detail::BackendPolicy<BACKEND> >::wend() const
+template<size_t N, detail::Backend BACKEND>
+typename Decays<N, detail::BackendPolicy<BACKEND> >::weights_const_iterator
+Decays<N, detail::BackendPolicy<BACKEND> >::wend() const
 {
-	return fWeights->end(i);
+	return fWeights->end();
 }
 
-template<size_t N, hydra::detail::Backend BACKEND>
-Decays<N, hydra::detail::BackendPolicy<BACKEND> >::weights_const_reverse_iterator
-Decays<N, hydra::detail::BackendPolicy<BACKEND> >::wrbegin()
+template<size_t N, detail::Backend BACKEND>
+typename Decays<N, detail::BackendPolicy<BACKEND> >::weights_const_reverse_iterator
+Decays<N, detail::BackendPolicy<BACKEND> >::wrbegin() const
 {
-	return fDecays->rbegin(i);
+	return fDecays->rbegin();
 }
 
-template<size_t N, hydra::detail::Backend BACKEND>
-Decays<N, hydra::detail::BackendPolicy<BACKEND> >::weights_const_reverse_iterator
-Decays<N, hydra::detail::BackendPolicy<BACKEND> >::wrend()
+template<size_t N, detail::Backend BACKEND>
+typename Decays<N, detail::BackendPolicy<BACKEND> >::weights_const_reverse_iterator
+Decays<N, detail::BackendPolicy<BACKEND> >::wrend() const
 {
-	return fWeights->rend(i);
+	return fWeights->rend();
+}
+
+
+
+template<size_t N1, hydra::detail::Backend BACKEND1,
+         size_t N2, hydra::detail::Backend BACKEND2>
+bool operator==(const Decays<N1, hydra::detail::BackendPolicy<BACKEND1> >& lhs,
+                const Decays<N2, hydra::detail::BackendPolicy<BACKEND2> >& rhs)
+       {
+
+	bool is_same_type = (N1 == N2)
+			&& thrust::detail::is_same<hydra::detail::BackendPolicy<BACKEND1>, hydra::detail::BackendPolicy<BACKEND2> >::value
+			&& lhs.size() == rhs.size();
+	bool result =1;
+
+	auto comp = []__host__ __device__(thrust::tuple<
+			typename Decays<N1, hydra::detail::BackendPolicy<BACKEND1>>::value_type,
+			typename Decays<N2, hydra::detail::BackendPolicy<BACKEND2>>::value_type> const& values){
+		return thrust::get<0>(values)== thrust::get<1>(values);
+
+	};
+
+	if(is_same_type){
+
+		for(size_t i=0; i<N1; i++ )
+			result &= thrust::all_of(thrust::make_zip_iterator(lhs.begin(i), rhs.begin(i)),
+					thrust::make_zip_iterator(lhs.end(i), rhs.end(i)), comp);
+	}
+	return  result && is_same_type;
+
+}
+
+template<size_t N1, hydra::detail::Backend BACKEND1,
+         size_t N2, hydra::detail::Backend BACKEND2>
+bool operator!=(const Decays<N1, hydra::detail::BackendPolicy<BACKEND1> >& lhs,
+                const Decays<N2, hydra::detail::BackendPolicy<BACKEND2> >& rhs){
+
+		bool is_same_type = (N1 == N2)
+				&& thrust::detail::is_same<hydra::detail::BackendPolicy<BACKEND1>, hydra::detail::BackendPolicy<BACKEND2> >::value
+				&& lhs.size() == rhs.size();
+		bool result =1;
+
+		auto comp = []__host__ __device__(thrust::tuple<
+				typename Decays<N1, hydra::detail::BackendPolicy<BACKEND1>>::value_type,
+				typename Decays<N2, hydra::detail::BackendPolicy<BACKEND2>>::value_type> const& values){
+			return (thrust::get<0>(values) == thrust::get<1>(values));
+
+		};
+
+		if(is_same_type){
+
+			for(size_t i=0; i<N1; i++ )
+				result &= thrust::all_of(thrust::make_zip_iterator(lhs.begin(i), rhs.begin(i)),
+						thrust::make_zip_iterator(lhs.end(i), rhs.end(i)), comp);
+		}
+		return  (!result) && is_same_type;
 }
 
 

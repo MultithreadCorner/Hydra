@@ -28,7 +28,7 @@ endif()
 
 #options to gcc
 
-set(CMAKE_CXX_FLAGS "-DTHRUST_VARIADIC_TUPLE --std=c++11 -Wall  -march=native -fPIC -O4" CACHE STRING "compile flags" FORCE)
+set(CMAKE_CXX_FLAGS "-DTHRUST_VARIADIC_TUPLE --std=c++11  -W -march=native -fPIC -O4" CACHE STRING "compile flags" FORCE)
 
 # get TCLAP
 find_package(TCLAP REQUIRED)

@@ -47,7 +47,7 @@
 #include <hydra/detail/base_functor.h>
 #include <hydra/detail/Constant.h>
 #include <hydra/detail/Argument.h>
-
+#include <hydra/Parameter.h>
 #include <thrust/tuple.h>
 
 namespace hydra {

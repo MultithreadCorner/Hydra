@@ -273,11 +273,11 @@ public:
 
 	reference front();
 
-	reference front() const;
+	const_reference front() const;
 
 	reference back();
 
-	reference back() const;
+	const_reference back() const;
 
 	particles_pointer pdata( size_t particle, size_t component );
 
@@ -390,9 +390,9 @@ template<size_t N1, hydra::detail::Backend BACKEND1,
          size_t N2, hydra::detail::Backend BACKEND2>
 bool operator!=(const Decays<N1, hydra::detail::BackendPolicy<BACKEND1> >& lhs,
                 const Decays<N2, hydra::detail::BackendPolicy<BACKEND2> >& rhs);
+}  // namespace hydra
+
 
 #include <hydra/detail/Decays.inl>
-
-}  // namespace hydra
 
 #endif /* DECAYS_H_ */

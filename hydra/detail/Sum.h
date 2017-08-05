@@ -45,6 +45,7 @@
 #include <hydra/detail/Constant.h>
 #include <thrust/tuple.h>
 #include <type_traits>
+#include <hydra/Parameter.h>
 
 namespace hydra {
 

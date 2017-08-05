@@ -41,6 +41,7 @@
 #include <hydra/detail/TypeTraits.h>
 #include <hydra/detail/utility/Utility_Tuple.h>
 #include <hydra/detail/base_functor.h>
+#include <hydra/Parameter.h>
 
 namespace hydra {
 
