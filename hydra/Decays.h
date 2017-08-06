@@ -367,11 +367,24 @@ private:
 	inline typename thrust::detail::enable_if<(I < N), void >::type
 	do_insert(size_t pos, tuple_particles_iterator_type& output_iterator,  value_type const& value)
 	{
-		hydra::get<I>(output_iterator)
-				= fDecays[I].insert(fDecays[I].begin()+pos, hydra::get<I+1>(value));
-
+		hydra::get<I>(output_iterator) = fDecays[I].insert(fDecays[I].begin()+pos, hydra::get<I+1>(value));
 	    do_insert<I+1>(pos, output_iterator, value );
 	}
+
+	template<size_t I >
+	inline typename thrust::detail::enable_if<(I == N), void >::type
+	do_push_back(value_type const& value)
+	{}
+
+	template<size_t I = 0>
+	inline typename thrust::detail::enable_if<(I < N), void >::type
+	do_push_back(value_type const& value)
+	{
+		fDecays[I].push_back( hydra::get<I+1>(value));
+		do_push_back<I+1>( value );
+	}
+
+
 
 
 	 const decays_type& GetDecays() const

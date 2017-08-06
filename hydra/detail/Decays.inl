@@ -74,14 +74,7 @@ void Decays<N, detail::BackendPolicy<BACKEND> >::push_back(GReal_t weight, std::
 template<size_t N, detail::Backend BACKEND>
 void Decays<N, detail::BackendPolicy<BACKEND> >::push_back(value_type const& value)
 {
-	auto particles = detail::dropFirst(value);
-
-	std::array<Vector4R, N> arr{};
-
-	detail::tupleToArray(particles, arr );
-
-	for(size_t i=0; i<N; i++)
-		this->fDecays[i].push_back( arr[i] );
+	do_push_back(value);
 	this->fWeights.push_back(get<0>(value));
 }
 
