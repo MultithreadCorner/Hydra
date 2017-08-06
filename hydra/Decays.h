@@ -357,6 +357,23 @@ public:
 	{	return cbegin()[n]; }
 
 private:
+
+	template<size_t I = 0>
+	inline typename thrust::detail::enable_if<(I == N), void >::type
+	do_insert(size_t pos, tuple_particles_iterator_type& output_iterator,  particles_type const& value)
+	{}
+
+	template<size_t I = 0>
+	inline typename thrust::detail::enable_if<(I < N), void >::type
+	do_insert(size_t pos, tuple_particles_iterator_type& output_iterator,  particles_type const& value)
+	{
+		hydra::get<I>(output_iterator)
+				= fDecays[I].insert(fDecays[I].begin()+pos, hydra::get<I>(value));
+
+	    do_insert<I+1>(pos, output_iterator, value );
+	}
+
+
 	 const decays_type& GetDecays() const
 	{
 		return fDecays;

@@ -165,8 +165,7 @@ void Decays<N, detail::BackendPolicy<BACKEND> >::insert(
 
 template<size_t N, detail::Backend BACKEND>
 typename Decays<N, detail::BackendPolicy<BACKEND> >::iterator
-Decays<N, detail::BackendPolicy<BACKEND> >::insert(
-		typename Decays<N, detail::BackendPolicy<BACKEND> >::iterator position,
+Decays<N, detail::BackendPolicy<BACKEND> >::insert( typename Decays<N, detail::BackendPolicy<BACKEND> >::iterator position,
 		const Decays<N, detail::BackendPolicy<BACKEND> >::value_type &x)
 {
 	size_t pos = thrust::distance(this->begin(), position);
@@ -174,18 +173,16 @@ Decays<N, detail::BackendPolicy<BACKEND> >::insert(
 	auto head = get<0>(x);
 	auto tail = detail::dropFirst( x );
 
-	std::array<typename Decays<N, detail::BackendPolicy<BACKEND> >::particles_iterator, N> array_tail{};
-	std::array<typename Decays<N, detail::BackendPolicy<BACKEND> >::particles_iterator, N> output_tail{};
-	detail::tupleToArray( tail, array_tail);
-	for(size_t i=0; i<N; i++)
-		output_tail[i]=this->fDecays[i].insert(this->fDecays[i].begin()+pos, array_tail[i]);
+	tuple_particles_iterator_type output_particle_iterator_tuple;
 
-	auto output_tail_tuple = detail::tupleToArray( output_tail);
+	do_insert(pos, output_particle_iterator_tuple, tail);
+
 	auto output_head = this->fWeights.insert(fWeights.begin()+pos,head);
 
-	auto output_tuple = thrust::tuple_cat( thrust::make_tuple( output_head ), output_tail_tuple);
+	auto output_iterator_tuple =
+			thrust::tuple_cat( thrust::make_tuple( output_head ), output_particle_iterator_tuple );
 
-	return thrust::make_zip_iterator(output_tuple);
+	return thrust::make_zip_iterator(output_iterator_tuple);
 
 }
 
