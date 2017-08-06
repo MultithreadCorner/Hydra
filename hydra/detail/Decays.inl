@@ -209,7 +209,7 @@ Decays<N, detail::BackendPolicy<BACKEND> >::erase(typename Decays<N, detail::Bac
 	for(size_t i=0; i<N; i++)
 		this->fDecays[i].erase(this->fDecays[i].begin()+pos);
 
-	return this->fWeights.erase(this->fWeights.begin()+pos);
+	this->fWeights.erase(this->fWeights.begin()+pos);
 
 	return this->begin() + pos;
 }
@@ -363,9 +363,9 @@ typename Decays<N, detail::BackendPolicy<BACKEND> >::const_iterator
 Decays<N, detail::BackendPolicy<BACKEND> >::begin() const
 {
 	std::array<typename Decays<N,
-	detail::BackendPolicy<BACKEND> >::particles_iterator, N> particles_iterator_array{};
+	detail::BackendPolicy<BACKEND> >::particles_const_iterator, N> particles_iterator_array{};
 	for(size_t i=0; i<N; i++)
-		particles_iterator_array[i] =this->fDecays[i].cbegin();
+		particles_iterator_array[i] = this->fDecays[i].cbegin();
 	auto particles_iterator_tuple = detail::arrayToTuple( particles_iterator_array );
 
 	auto _iterator_tuple = thrust::tuple_cat( thrust::make_tuple( fWeights.cbegin() ),
@@ -379,7 +379,7 @@ typename Decays<N, detail::BackendPolicy<BACKEND> >::const_iterator
 Decays<N, detail::BackendPolicy<BACKEND> >::end() const
 {
 	std::array<typename Decays<N,
-	detail::BackendPolicy<BACKEND> >::particles_iterator, N> particles_iterator_array{};
+	detail::BackendPolicy<BACKEND> >::particles_const_iterator, N> particles_iterator_array{};
 	for(size_t i=0; i<N; i++)
 		particles_iterator_array[i] =this->fDecays[i].cend();
 	auto particles_iterator_tuple = detail::arrayToTuple( particles_iterator_array );
