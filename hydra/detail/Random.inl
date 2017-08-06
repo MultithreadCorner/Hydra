@@ -156,8 +156,6 @@ ITERATOR Random<GRND>::Sample(ITERATOR begin, ITERATOR end ,
     size_t ntrials = thrust::distance( begin, end);
 
     auto values = thrust::get_temporary_buffer<GReal_t>(system_t(), ntrials);
-    std::cout<< "----------------------------" << std::endl;
-     std::cout<< values.second << std::endl;
 
 	// create iterators
 	thrust::counting_iterator<size_t> first(0);
@@ -171,11 +169,11 @@ ITERATOR Random<GRND>::Sample(ITERATOR begin, ITERATOR end ,
 	//get the maximum value
 	GReal_t max_value = *( thrust::max_element(system_t(),values.first, values.first+ values.second) );
 
-	auto r = thrust::partition(begin, end, first, detail::RndFlag<GRND>(fSeed+ntrials, max_value, values.first.get()) );
+	ITERATOR r = thrust::partition(begin, end, first, detail::RndFlag<GRND>(fSeed+ntrials, max_value, values.first.get()) );
 
 	// deallocate storage with thrust::return_temporary_buffer
 	thrust::return_temporary_buffer(system_t(), values.first);
-    std::cout<< "----------------------------" << std::endl;
+
 	return r;
 }
 
@@ -192,8 +190,6 @@ ITERATOR Random<GRND>::Sample(ITERATOR begin, ITERATOR end ,
     size_t ntrials = thrust::distance( begin, end);
 
     auto values = thrust::get_temporary_buffer<GReal_t>(system_t(), ntrials);
-    std::cout<< "----------------------------" << std::endl;
-     std::cout<< values.second << std::endl;
 
 	// create iterators
 	thrust::counting_iterator<size_t> first(0);
@@ -207,7 +203,7 @@ ITERATOR Random<GRND>::Sample(ITERATOR begin, ITERATOR end ,
 	//get the maximum value
 	GReal_t max_value = *( thrust::max_element(system_t(),values.first, values.first+ values.second) );
 
-	auto r = thrust::partition(begin, end, first, detail::RndFlag<GRND>(fSeed+ntrials, max_value, values.first.get()) );
+	ITERATOR r = thrust::partition(begin, end, first, detail::RndFlag<GRND>(fSeed+ntrials, max_value, values.first.get()) );
    
 	// deallocate storage with thrust::return_temporary_buffer
 	thrust::return_temporary_buffer(system_t(), values.first);

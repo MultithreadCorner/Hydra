@@ -137,23 +137,10 @@ void Decays<N, detail::BackendPolicy<BACKEND> >::insert(
 		InputIterator first, InputIterator last)
 {
 	size_t pos = thrust::distance(this->begin(), position);
+	do_insert(pos, first,last);
 
-	auto tail_first = detail::dropFirst( first );
-	std::array<typename Decays<N, detail::BackendPolicy<BACKEND> >::particles_iterator, N> arr_first{};
-	detail::tupleToArray( tail_first, arr_first);
-
-	auto tail_last = detail::dropFirst( last );
-	std::array<typename Decays<N, detail::BackendPolicy<BACKEND> >::particles_iterator, N> arr_last{};
-	detail::tupleToArray( tail_last, arr_last);
-
-	for(size_t i=0; i<N; i++)
-		this->fDecays[i].insert(this->fDecays[i].begin()+pos,
-				arr_first[i], arr_last[i]);
-
-	auto head_first = get<0>(first);
-	auto head_last  = get<0>(last);
-
-	this->fWeights.insert(fWeights.begin()+pos, head_first, head_last);
+	this->fWeights.insert(fWeights.begin()+pos, get<0>(first.get_iterator_tuple()),
+			get<0>(last.get_iterator_tuple()));
 }
 
 template<size_t N, detail::Backend BACKEND>
