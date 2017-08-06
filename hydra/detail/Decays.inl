@@ -39,7 +39,7 @@ namespace hydra {
 template<size_t N, detail::Backend BACKEND>
 void Decays<N, detail::BackendPolicy<BACKEND> >::pop_back()
 {
-this->fDecays.pop_back();
+	for(size_t i=0; i<N; i++) this->fDecays[i].pop_back();
 this->fWeights.pop_back();
 
 }
@@ -180,7 +180,7 @@ Decays<N, detail::BackendPolicy<BACKEND> >::insert(
 	for(size_t i=0; i<N; i++)
 		output_tail[i]=this->fDecays[i].insert(this->fDecays[i].begin()+pos, array_tail[i]);
 
-	auto output_tail_tuple = detail::tupleToArray( output_tail);
+	auto output_tail_tuple = detail::arrayToTuple( output_tail);
 	auto output_head = this->fWeights.insert(fWeights.begin()+pos,head);
 
 	auto output_tuple = thrust::tuple_cat( thrust::make_tuple( output_head ), output_tail_tuple);
@@ -442,7 +442,7 @@ Decays<N, detail::BackendPolicy<BACKEND> >::cbegin() const
 {
 
 	std::array<typename Decays<N,
-		detail::BackendPolicy<BACKEND> >::particles_iterator, N> particles_iterator_array{};
+		detail::BackendPolicy<BACKEND> >::particles_const_iterator, N> particles_iterator_array{};
 		for(size_t i=0; i<N; i++)
 			particles_iterator_array[i] =this->fDecays[i].cbegin();
 		auto particles_iterator_tuple = detail::arrayToTuple( particles_iterator_array );
@@ -460,7 +460,7 @@ typename Decays<N, detail::BackendPolicy<BACKEND> >::const_iterator
 Decays<N, detail::BackendPolicy<BACKEND> >::cend() const
 {
 	std::array<typename Decays<N,
-			detail::BackendPolicy<BACKEND> >::particles_iterator, N> particles_iterator_array{};
+			detail::BackendPolicy<BACKEND> >::particles_const_iterator, N> particles_iterator_array{};
 			for(size_t i=0; i<N; i++)
 				particles_iterator_array[i] =this->fDecays[i].cend();
 			auto particles_iterator_tuple = detail::arrayToTuple( particles_iterator_array );
