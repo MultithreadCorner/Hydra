@@ -170,14 +170,11 @@ Decays<N, detail::BackendPolicy<BACKEND> >::insert( typename Decays<N, detail::B
 {
 	size_t pos = thrust::distance(this->begin(), position);
 
-	auto head = get<0>(x);
-	auto tail = detail::dropFirst( x );
-
 	tuple_particles_iterator_type output_particle_iterator_tuple;
 
-	do_insert(pos, output_particle_iterator_tuple, tail);
+	do_insert(pos, output_particle_iterator_tuple, x);
 
-	auto output_head = this->fWeights.insert(fWeights.begin()+pos,head);
+	auto output_head = this->fWeights.insert(fWeights.begin()+pos, get<0>(x));
 
 	auto output_iterator_tuple =
 			thrust::tuple_cat( thrust::make_tuple( output_head ), output_particle_iterator_tuple );
