@@ -41,7 +41,7 @@
 #include <thrust/detail/type_traits.h>
 #include <array>
 
-#include<hydra/detail/multiarray.inc>
+//#include<hydra/detail/multiarray.inc>
 
 namespace hydra {
 
@@ -226,8 +226,8 @@ public:
 	pointer_array ptrs_array();
 	const_pointer_array ptrs_array() const;
 
-    vpointer data( size_t i);
-    const_vpointer data( size_t i) const;
+    //vpointer data( size_t i);
+    //const_vpointer data( size_t i) const;
 
 	//non-constant access
 	iterator begin();
@@ -271,6 +271,66 @@ public:
 	{	return cbegin()[n]; }
 
 private:
+
+	//----------------------------------------------
+	//ptrs
+	template<size_t ...Index>
+	inline pointer_tuple get_ptrs_tuple_helper( detail::index_sequence<Index...>)
+	{	return hydra::make_tuple( fData[Index].data()... ); }
+
+	inline pointer_tuple get_ptrs_tuple()
+	{ return get_ptrs_tuple_helper( detail::make_index_sequence<N> { } ); }
+
+	//cptrs
+	template<size_t ...Index>
+	inline const_pointer_tuple get_cptrs_tuple_helper( detail::index_sequence<Index...>)
+	{	return hydra::make_tuple(fData[Index].data()... ); }
+
+	inline const_pointer_tuple get_cptrs_tuple() const
+	{ return get_cptrs_tuple_helper( detail::make_index_sequence<N> { } ); }
+
+	//insert
+	template<size_t I>
+	inline typename thrust::detail::enable_if<(I == N), void >::type
+	do_insert(size_t dist, iterator_tuple& output, value_type const& value)
+	{ }
+
+	template<size_t I=0>
+	inline typename thrust::detail::enable_if<(I < N), void >::type
+	do_insert(size_t dist, iterator_tuple& output, value_type const& value)
+	{
+		get<I>(output) = fData[I].insert(fData[I].begin() + dist, get<I>(value) );
+	    do_insert<I + 1>(dist, output,value );
+	}
+
+	template<size_t I, template<typename ...> class Tuple, typename ...Iterators>
+	inline typename thrust::detail::enable_if<(I == sizeof...(Iterators)), void >::type
+	do_insert(size_t dist, Tuple<Iterators...> const& first_tuple, Tuple<Iterators...> const& last_tuple)
+	{}
+
+	template<size_t I = 0, template<typename ...> class Tuple, typename ...Iterators>
+	inline typename thrust::detail::enable_if<(I < sizeof...(Iterators)), void >::type
+	do_insert(size_t dist, Tuple<Iterators...> const& first, Tuple<Iterators...> const& last)
+	{
+	    fData[I].insert(fData[I].begin() + dist, get<I>(first), get<I>(last) );
+	    do_insert<I + 1, Tuple, Iterators... >(dist, first, last );
+	}
+
+    //push_back
+	template<size_t I>
+	inline typename thrust::detail::enable_if<(I == N), void >::type
+	do_push_back(value_type const& value)
+	{}
+
+	template<size_t I = 0>
+	inline typename thrust::detail::enable_if<(I < N), void >::type
+	do_push_back(value_type const& value)
+	{
+	    fData[I].push_back(get<I>(value));
+	    do_push_back<I + 1>(value );
+	}
+
+
 
 	data_t MoveData()
 	{

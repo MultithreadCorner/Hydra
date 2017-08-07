@@ -238,15 +238,15 @@ Decays<N, detail::BackendPolicy<BACKEND> >::back() const
 }
 
 template<size_t N, detail::Backend BACKEND>
-typename Decays<N, detail::BackendPolicy<BACKEND> >::particles_pointer
-Decays<N, detail::BackendPolicy<BACKEND> >::pdata( size_t particle, size_t component )
+typename Decays<N, detail::BackendPolicy<BACKEND> >::particles_type::vpointer
+Decays<N, detail::BackendPolicy<BACKEND> >::pcdata( size_t particle, size_t component )
 {
 	this->fDecays[particle]->data(component);
 }
 
 template<size_t N, detail::Backend BACKEND>
-typename Decays<N, detail::BackendPolicy<BACKEND> >::particles_pointer
-Decays<N, detail::BackendPolicy<BACKEND> >::pdata( size_t particle, size_t component ) const
+typename Decays<N, detail::BackendPolicy<BACKEND> >::particles_type::vpointer
+Decays<N, detail::BackendPolicy<BACKEND> >::pcdata( size_t particle, size_t component ) const
 {
 	this->fDecays[particle]->data(component);
 }
@@ -597,7 +597,46 @@ Decays<N, detail::BackendPolicy<BACKEND> >::wrend() const
 	return fWeights->rend();
 }
 
+template<size_t N, detail::Backend BACKEND>
+hydra::pair<
+typename Decays<N, detail::BackendPolicy<BACKEND> >::accpeted_iterator,
+typename Decays<N, detail::BackendPolicy<BACKEND> >::accpeted_iterator
+>
+Decays<N, detail::BackendPolicy<BACKEND> >::Unweight() const
+{
+	using thrust::system::detail::generic::select_system;
+	typedef  typename thrust::iterator_system<
+			 typename 	Decays<N, detail::BackendPolicy<BACKEND> >::const_iterator>::type system_t;
 
+	size_t ntrials = thrust::distance( this->begin(), this->end());
+
+	auto values = thrust::get_temporary_buffer<GReal_t>(system_t(), ntrials);
+	typename Decays<N,
+	detail::BackendPolicy<BACKEND> >::weight_one_iterator iter_weight(1.0);
+
+	//get the maximum value
+	GReal_t max_value = *( thrust::max_element(fWeights->begin(), fWeights->end()) );
+
+	auto predicate = [=]( typename Decays<N, detail::BackendPolicy<BACKEND> >::value_type& decay){
+		return hydra::get<0>(decay) <  max_value;
+	};
+
+	auto middle = thrust::stable_partition(this->begin(), this->end(), fWeights->begin(),predicate );
+
+	auto middle_tuple = middle.get_iterator_tuple();
+	auto begin_tuple = this->begin().get_iterator_tuple();
+
+	typename Decays<N, detail::BackendPolicy<BACKEND> >::accpeted_iterator_tuple acc_tpl_begin{};
+	typename Decays<N, detail::BackendPolicy<BACKEND> >::accpeted_iterator_tuple acc_tpl_end{};
+	this->do_assignment(acc_tpl_begin, begin_tuple);
+	this->do_assignment(acc_tpl_end, middle_tuple);
+     get<0>(acc_tpl_begin)= iter_weight;
+     get<0>(acc_tpl_end)  = iter_weight;
+
+	return fWeights->rend();
+}
+
+//=======================
 
 template<size_t N1, hydra::detail::Backend BACKEND1,
          size_t N2, hydra::detail::Backend BACKEND2>

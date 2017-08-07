@@ -161,7 +161,7 @@ int main(int argv, char** argc)
 
 	hydra::mc_host_vector<double> vect(1000);
 
-	auto middle = Generator.Sample(vect.begin(),  vect.end(), -6, 6, gaussian1D);
+	auto middle = Generator.Sample(vect.begin(),  vect.end(), -6, 6, gaussians);
 
 	std::array<double, 3>max{6.0, 6.0, 6.0};
 	std::array<double, 3>min{-6.0, -6.0, -6.0};
