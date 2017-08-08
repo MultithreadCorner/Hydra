@@ -47,6 +47,8 @@
 #include <thrust/iterator/zip_iterator.h>
 #include <thrust/iterator/reverse_iterator.h>
 #include <thrust/iterator/constant_iterator.h>
+#include <thrust/partition.h>
+#include <thrust/random.h>
 namespace hydra {
 
 template<size_t N, typename BACKEND>
@@ -82,7 +84,7 @@ class Decays<N, hydra::detail::BackendPolicy<BACKEND> > {
 
 
 	typedef typename  thrust::tuple< weight_one_iterator> tuple_weight_one_iterator;
-	typedef typename  detail::tuple_cat_type<tuple_weight_one_iterator, tuple_particles_const_iterator_type>::type accpeted_iterator_tuple;
+	typedef typename  detail::tuple_cat_type<tuple_weight_one_iterator, tuple_particles_iterator_type>::type accpeted_iterator_tuple;
 
 
 	//reverse iterators
@@ -171,8 +173,8 @@ public:
 	 * @param n
 	 */
 	Decays(size_t n):
-	fDecays(decays_type()),
-	fWeights(weights_type(n))
+	fDecays(),
+	fWeights(n)
 	{
 		for( size_t i=0; i<N; i++)
 			fDecays[i].resize(n);
@@ -207,10 +209,14 @@ public:
 	 * @param other
 	 */
 	template< hydra::detail::Backend BACKEND2>
-	Decays(Decays<N,detail::BackendPolicy<BACKEND2>> const& other ):
-	fDecays(other.GetDecays()),
-	fWeights(other.GetWeights())
-	{}
+	Decays(Decays<N,detail::BackendPolicy<BACKEND2>> const& other )
+	{
+		fWeights = (weights_type(other.wbegin(), other.wend()));
+
+		for( size_t i=0; i<N; i++)
+			fDecays[i] = std::move(particles_type(other.pbegin(i), other.pend(i)));
+
+	}
 
 	/**
 	 * Assignment operator.
@@ -250,8 +256,10 @@ public:
 	operator=(Decays<N,detail::BackendPolicy<BACKEND2> > const& other )
 	{
 		if(*this==&other) return *this;
-		this->fDecays  = other.GetDecays();
-		this->fWeights = other.GetWeights();
+		this->fWeights = std::move(weights_type(other.wbegin(), other.wend()));
+
+		for( size_t i=0; i<N; i++)
+			this->fDecays[i] = std::move(particles_type(other.pbegin(i), other.pend(i)));
 
 		return *this;
 	}
@@ -299,7 +307,18 @@ public:
 	 */
     hydra::pair<particles_iterator, particles_iterator>
     GetParticles(size_t i){
-    	return hydra::make_pair(this->begin(i), this->end(i));
+    	return hydra::make_pair(this->pbegin(i), this->pend(i));
+    }
+
+   /**
+    * Get a constant reference to the internal vector holding the particle i.
+    * Users can not resize or change the hold values. This method is most useful
+    * in python bindings to avoid exposition of iterators.
+    * @param i  index of the particle.
+    * @return reference to constant  particles_type.
+    */
+   const particles_type&  GetListOfParticles(size_t i) const {
+        	return fDecays[i];
     }
 
     /**
@@ -310,8 +329,13 @@ public:
      */
     hydra::pair<particles_iterator, particles_iterator>
     GetParticleComponents(size_t i, size_t j){
-      	return hydra::make_pair(this->begin(i, j), this->end(i, j));
+      	return hydra::make_pair(this->pcbegin(i, j), this->pcend(i, j));
       }
+
+    const typename particles_type::vector_type&
+    GetListOfParticleComponents(size_t i, size_t j){
+          	return fDecays[i].column(j);
+    }
 
     /**
      * Get a reference a decay.
@@ -341,7 +365,7 @@ public:
      * particles.
      */
     hydra::pair<accpeted_iterator, accpeted_iterator>
-    Unweight() const;
+    Unweight();
 
 
 	//stl compliant interface
@@ -519,7 +543,7 @@ private:
 	do_assignment(accpeted_iterator_tuple& left, iterator_tuple& right  )
 	{
 		get<I>(left)= get<I>(right);
-		do_push_back<I+1>(left, right );
+		do_assignment<I+1>(left, right );
 	}
 
 

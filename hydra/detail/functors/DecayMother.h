@@ -191,7 +191,7 @@ struct DecayMother
 		if (N > 2)
 		{
 #pragma unroll N
-			for (GInt_t n = 1; n < N - 1; n++)
+			for (GUInt_t n = 1; n < N - 1; n++)
 			{
 				rno[n] =  uniDist(randEng) ;
 

@@ -149,9 +149,9 @@ int main(int argv, char** argc)
 	//device
 	{
 		//allocate memory to hold the final states particles
-		hydra::Events<3, hydra::device::sys_t > Events_d(nentries);
+		//hydra::Events<3, hydra::device::sys_t > Events_d(nentries);
 
-		hydra::Decays<3, hydra::device::sys_t > Decays_d(nentries);
+		hydra::Decays<3, hydra::device::sys_t > Events_d(nentries);
 
 		auto start = std::chrono::high_resolution_clock::now();
 
@@ -175,12 +175,17 @@ int main(int argv, char** argc)
 		for( size_t i=0; i<10; i++ )
 			std::cout << Events_d[i] << std::endl;
 
-
+		auto range = Events_d.Unweight();
+		std::cout << "<=======" << thrust::distance(range.first,  range.second) << std::endl;
+		for(auto i = range.first; i!=range.second; i++)
+			std::cout << "<<<< " << *i << std::endl;
 
 #ifdef 	_ROOT_AVAILABLE_
 
 		//bring events to CPU memory space
-		hydra::Events<3, hydra::host::sys_t > Events_h(Events_d);
+		//hydra::Events<3, hydra::host::sys_t > Events_h(Events_d);
+
+		hydra::Decays<3, hydra::host::sys_t > Events_h(Events_d);
 
 		for( auto event : Events_h ){
 

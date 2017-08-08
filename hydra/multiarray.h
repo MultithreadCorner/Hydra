@@ -74,6 +74,7 @@ public:
 	typedef typename vector_t::const_pointer const_vpointer;
 
 	//vector iterators
+	typedef vector_t vector_type;
 	typedef typename vector_t::iterator 				viterator;
 	typedef typename vector_t::const_iterator 			const_viterator;
 	typedef typename vector_t::reverse_iterator 		vreverse_iterator;
@@ -144,14 +145,23 @@ public:
 	multiarray(multiarray<N,T,detail::BackendPolicy<BACKEND2>> const& other )
 	{
 		fData = data_t();
+
 		for( size_t i=0; i<N; i++)
 			fData[i] = std::move( vector_t( other.begin(i), other.end(i) ) );
+	}
+
+	template< typename Iterator>
+	multiarray(Iterator begin, Iterator end )
+	{
+		fData = data_t();
+		do_copy(begin, end );
+
 	}
 
 	multiarray<N,T,detail::BackendPolicy<BACKEND>>&
 	operator=(multiarray<N,T,detail::BackendPolicy<BACKEND>> const& other )
 	{
-			if(*this==&other) return *this;
+			if(this==&other) return *this;
 
 			for( size_t i=0; i<N; i++)
 				this->fData[i] = std::move(vector_t(other.begin(), other.end()));
@@ -162,7 +172,7 @@ public:
 	multiarray<N,T,detail::BackendPolicy<BACKEND>>&
 	operator=(multiarray<N,T,detail::BackendPolicy<BACKEND> >&& other )
 	{
-		if(*this==&other) return *this;
+		if(this==&other) return *this;
 		this->fData =other.MoveData();
 		return *this;
 	}
@@ -171,7 +181,7 @@ public:
 	multiarray<N,T,detail::BackendPolicy<BACKEND> >&
 	operator=(multiarray<N,T,detail::BackendPolicy<BACKEND2> > const& other )
 	{
-		if(*this==&other) return *this;
+
 		for( size_t i=0; i<N; i++)
 			this->fData[i] = std::move( vector_t( other.begin(i), other.end(i) ) );
 		return *this;
@@ -263,6 +273,8 @@ public:
 	const_vreverse_iterator crbegin(size_t i) const ;
 	const_vreverse_iterator crend(size_t i) const ;
 
+	const vector_type& column(size_t i) const;
+
 	//
 	inline	reference_tuple operator[](size_t n)
 	{	return begin()[n] ;	}
@@ -288,6 +300,23 @@ private:
 
 	inline const_pointer_tuple get_cptrs_tuple() const
 	{ return get_cptrs_tuple_helper( detail::make_index_sequence<N> { } ); }
+
+	//copy
+	template<size_t I, typename Iterator>
+	inline typename thrust::detail::enable_if<(I == N), void >::type
+	do_copy(Iterator begin, Iterator end )
+	{ }
+
+	template<size_t I=0, typename Iterator>
+	inline typename thrust::detail::enable_if<(I < N), void >::type
+	do_copy(Iterator begin, Iterator end)
+	{
+
+		fData[I] = std::move( vector_t( get<I>(begin.get_iterator_tuple()) ,
+				get<I>(end.get_iterator_tuple()) ) );
+		do_copy<I + 1>( begin, end);
+	}
+
 
 	//insert
 	template<size_t I>

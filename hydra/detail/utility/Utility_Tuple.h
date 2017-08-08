@@ -245,14 +245,14 @@ namespace hydra {
 
 	//----------------------------------------
 	template<typename T, typename Head,  typename ...Tail,  size_t... Is >
-	auto changeFirstHelper(T& new_first, thrust::tuple<Head, Tail...> const & t  , index_sequence<Is...> )
+	auto changeFirstHelper(T& new_first, thrust::tuple<Head, Tail...>  & t  , index_sequence<Is...> )
 	-> thrust::tuple<T,Tail...>
 	{
 		return thrust::tie(new_first, thrust::get<Is+1>(t)... );
 	}
 
 	template<typename T, typename Head,  typename ...Tail>
-	auto changeFirst(T& new_first, thrust::tuple<Head, Tail...> const & t)
+	auto changeFirst(T& new_first, thrust::tuple<Head, Tail...>  & t)
 	-> decltype(changeFirstHelper(new_first, t , make_index_sequence<sizeof ...(Tail)>{} ))
 	{
 		return changeFirstHelper(new_first, t , make_index_sequence<sizeof ...(Tail)>{} );

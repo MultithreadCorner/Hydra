@@ -463,6 +463,12 @@ multiarray<N,T,detail::BackendPolicy<BACKEND>>::crend(size_t i) const
 	return this->fData[i].crend();
 }
 
+template< size_t N, typename T, hydra::detail::Backend BACKEND>
+const typename multiarray<N,T,detail::BackendPolicy<BACKEND>>::vector_type&
+multiarray<N,T,detail::BackendPolicy<BACKEND>>::column(size_t i) const
+{
+	return this->fData[i];
+}
 
 template<size_t N1, typename T1, hydra::detail::Backend BACKEND1,
          size_t N2, typename T2, hydra::detail::Backend BACKEND2>
