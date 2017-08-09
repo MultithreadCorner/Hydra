@@ -20,7 +20,7 @@
  *---------------------------------------------------------------------------*/
 
 /*
- * phsp_basic.cpp
+ * phsp_basic.cu
  *
  *  Created on: 13/07/2017
  *      Author: Antonio Augusto Alves Junior

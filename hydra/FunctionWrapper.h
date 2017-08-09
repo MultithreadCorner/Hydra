@@ -108,7 +108,7 @@ public:
 	 * Get the underlying lambda
 	 */
 	__host__ __device__	 inline
-	L GetLambda() const {return fLambda; }
+	const L& GetLambda() const {return fLambda; }
 
 
 	template<typename T, size_t M=N>

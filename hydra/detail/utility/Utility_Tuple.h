@@ -230,6 +230,7 @@ namespace hydra {
 
 	//----------------------------------------
 	template<typename Head,  typename ...Tail,  size_t... Is >
+	__host__ __device__
 	auto dropFirstHelper(thrust::tuple<Head, Tail...> const& t  , index_sequence<Is...> )
 	-> thrust::tuple<Tail...>
 	{
@@ -237,6 +238,7 @@ namespace hydra {
 	}
 
 	template< typename Head,  typename ...Tail>
+	__host__ __device__
 	auto dropFirst( thrust::tuple<Head, Tail...> const& t)
 	-> decltype(dropFirstHelper( t, make_index_sequence<sizeof...(Tail) >{} ))
 	{
