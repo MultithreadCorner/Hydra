@@ -76,44 +76,41 @@ template<size_t N, typename Functor, typename ArgType>
 			auto particles = detail::dropFirst(value);
 			Vector4R Particles[N];
 			hydra::detail::assignTupleToArray(particles,  Particles );
-			return get<0>(value)*fFunctor(&Particles[0]);
+			return hydra::get<0>(value)*(fFunctor(&Particles[0]));
 		}
 
 		Functor fFunctor;
 	};
 
-	template<size_t N,typename Functor, typename ArgType>
-	struct FlagDaugthers: public thrust::unary_function<ArgType,bool >
+	template<size_t N>
+	struct FlagDaugthers: public thrust::unary_function<size_t,bool >
 	{
-		FlagDaugthers(GReal_t max, GReal_t* iterator, Functor const& functor):
-			fFunctor(functor),
+		FlagDaugthers(GReal_t max, GReal_t* iterator):
 			fVals(iterator),
 			fMax(max)
 			{}
 
 		__host__ __device__
-		FlagDaugthers( FlagDaugthers<N,Functor, ArgType> const&other):
-		fFunctor(other.fFunctor),
+		FlagDaugthers( FlagDaugthers<N> const&other):
 		fVals(other.fVals),
 		fMax(other.fMax)
 		{}
 		__host__ __device__
 		bool operator()( size_t idx)
 		{
-			thrust::default_random_engine randEng(idx);
+			thrust::default_random_engine randEng(159753654);
 			randEng.discard(idx);
 			thrust::uniform_real_distribution<GReal_t>
-			uniDist(0.0, fMax);
+			uniDist(0.0, 1.0 );
 
-			return fVals[idx]> uniDist(randEng);
+			return fVals[idx]/fMax  > uniDist(randEng);
 
 		}
 
-		Functor fFunctor;
-		const GReal_t* __restrict__ fVals;
+		GReal_t* fVals;
 		GReal_t fMax;
-
 	};
+
 
 }  // namespace detail
 
@@ -192,18 +189,6 @@ public:
 	typedef typename thrust::iterator_traits<particles_iterator>::reference            particles_reference;
 	typedef typename thrust::iterator_traits<particles_iterator>::iterator_category    particles_iterator_category;
 
-	//decays
-	/*
-	typedef typename decays_type::iterator                                          decays_iterator;
-	typedef typename decays_type::const_iterator                                    decays_const_iterator;
-	typedef thrust::reverse_iterator<typename decays_type::reverse_iterator>        decays_reverse_iterator;
-	typedef thrust::reverse_iterator<typename decays_type::const_reverse_iterator>  decays_const_reverse_iterator;
-	typedef typename thrust::iterator_traits<decays_iterator>::difference_type      decays_difference_type;
-	typedef typename thrust::iterator_traits<decays_iterator>::value_type           decays_value_type;
-	typedef typename thrust::iterator_traits<decays_iterator>::pointer              decays_pointer;
-	typedef typename thrust::iterator_traits<decays_iterator>::reference            decays_reference;
-	typedef typename thrust::iterator_traits<decays_iterator>::iterator_category    decays_iterator_category;
-*/
 	//this container
 	//--------------------------------
 	//zipped iterators
@@ -455,7 +440,7 @@ public:
      * particles.
      */
     hydra::pair<accpeted_iterator, accpeted_iterator>
-    Unweight();
+    Unweight(GUInt_t scale=1.0);
 
     /**
      * Get a range pointing to a set of unweighted events.
@@ -473,7 +458,7 @@ public:
      */
     template<typename FUNCTOR>
     hydra::pair<accpeted_iterator, accpeted_iterator>
-    Unweight( FUNCTOR  const& functor);
+    Unweight( FUNCTOR  const& functor, GUInt_t scale);
 
     //stl compliant interface
 	//-----------------------

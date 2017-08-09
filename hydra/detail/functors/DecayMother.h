@@ -181,7 +181,8 @@ struct DecayMother
 	GReal_t process(const GInt_t evt, Vector4R (&daugters)[N])
 	{
 
-		GRND randEng( hash(evt,fSeed) );
+		GRND randEng( fSeed );
+		randEng.discard(evt);
 		thrust::uniform_real_distribution<GReal_t> uniDist(0.0, 1.0);
 
 		GReal_t rno[N];

@@ -761,7 +761,7 @@ Decays<N, detail::BackendPolicy<BACKEND> >::wrend() const
 template<size_t N, detail::Backend BACKEND>
 hydra::pair<typename Decays<N, detail::BackendPolicy<BACKEND> >::accpeted_iterator,
 typename Decays<N, detail::BackendPolicy<BACKEND> >::accpeted_iterator >
-Decays<N, detail::BackendPolicy<BACKEND> >::Unweight()
+Decays<N, detail::BackendPolicy<BACKEND> >::Unweight(GUInt_t scale)
 {
 	using thrust::system::detail::generic::select_system;
 	typedef  typename thrust::iterator_system<
@@ -782,20 +782,16 @@ Decays<N, detail::BackendPolicy<BACKEND> >::Unweight()
 	GReal_t* weights_ptr = thrust::raw_pointer_cast( fWeights.data() );
 
 	//says if an event passed or not
-	auto predicate = [=]__host__ __device__( size_t idx){
+	detail::FlagDaugthers<N>
+	predicate(scale*max_value, weights_ptr );
 
-		thrust::default_random_engine randEng(idx);
-		thrust::uniform_real_distribution<GReal_t> uniDist(0.0,  max_value);
 
-		GBool_t flag =  weights_ptr[idx] > uniDist(randEng);
-		return flag;
-	};
 
 	//weight 1.0 all events
 	thrust::constant_iterator<GReal_t> iter_weight(1.0);
 
 	//re-sort the container to build up un-weighted sample
-	auto middle = thrust::partition(this->begin(), this->end(), first, predicate );
+	auto middle = thrust::stable_partition(this->begin(), this->end(), first, predicate );
 
 	//unpack zip-iterator
 	auto begin_tuple  = this->begin().get_iterator_tuple();
@@ -815,7 +811,7 @@ template<size_t N, detail::Backend BACKEND>
 template<typename FUNCTOR>
 hydra::pair<typename Decays<N, detail::BackendPolicy<BACKEND> >::accpeted_iterator,
 typename Decays<N, detail::BackendPolicy<BACKEND> >::accpeted_iterator >
-Decays<N, detail::BackendPolicy<BACKEND> >::Unweight( FUNCTOR const& functor)
+Decays<N, detail::BackendPolicy<BACKEND> >::Unweight( FUNCTOR const& functor, GUInt_t scale)
 {
 	using thrust::system::detail::generic::select_system;
 	typedef  typename thrust::iterator_system<
@@ -830,8 +826,6 @@ Decays<N, detail::BackendPolicy<BACKEND> >::Unweight( FUNCTOR const& functor)
 	thrust::counting_iterator<size_t> first(0);
 	thrust::counting_iterator<size_t> last = first + ntrials;
 
-
-
 	detail::EvalOnDaugthers<N, FUNCTOR, typename Decays<N, detail::BackendPolicy<BACKEND> >::value_type>
     predicate1(functor);
 
@@ -841,14 +835,14 @@ Decays<N, detail::BackendPolicy<BACKEND> >::Unweight( FUNCTOR const& functor)
 	GReal_t max_value = *( thrust::max_element(values.first, values.first+ values.second) );
 
 	//says if an event passed or not
-	detail::FlagDaugthers<N, FUNCTOR,size_t>
-	predicate2(max_value, values.first.get() ,functor );
+	detail::FlagDaugthers<N>
+	predicate2(scale*max_value, values.first.get() );
 
 	//weight 1.0 all events
 	thrust::constant_iterator<GReal_t> iter_weight(1.0);
 
 	//re-sort the container to build up un-weighted sample
-	auto middle = thrust::partition(this->begin(), this->end(), first, predicate2 );
+	auto middle = thrust::stable_partition(this->begin(), this->end(), first, predicate2 );
 
 	//unpack zip-iterator
 	auto begin_tuple  = this->begin().get_iterator_tuple();

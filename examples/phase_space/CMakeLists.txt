@@ -38,6 +38,14 @@ if(BUILD_CUDA_TARGETS)
             )
          target_link_libraries(phsp_unweighting_cuda ${ROOT_LIBRARIES}  )    
          
+         #+++++++++++++++++++++++++++++++++
+         cuda_add_executable( phsp_unweighting_functor_cuda EXCLUDE_FROM_ALL phsp_unweighting_functor.cu    
+            OPTIONS -Xcompiler -fopenmp -DTHRUST_DEVICE_SYSTEM=THRUST_DEVICE_SYSTEM_CUDA  -DTHRUST_HOST_SYSTEM=THRUST_HOST_SYSTEM_CPP -lgomp
+            )
+         target_link_libraries(phsp_unweighting_functor_cuda ${ROOT_LIBRARIES}  )    
+         
+         
+         
                         
 endif(BUILD_CUDA_TARGETS)
 
@@ -95,6 +103,16 @@ if(BUILD_TBB_TARGETS)
     COMPILE_FLAGS "-DTHRUST_HOST_SYSTEM=THRUST_HOST_SYSTEM_CPP -DTHRUST_DEVICE_SYSTEM=THRUST_DEVICE_SYSTEM_TBB")
     
     target_link_libraries(phsp_unweighting_tbb   ${ROOT_LIBRARIES} tbb )
+      
+    #+++++++++++++++++++++++++++++++
+    add_executable( phsp_unweighting_functor_tbb EXCLUDE_FROM_ALL
+    phsp_unweighting_functor.cpp
+    )
+    
+    set_target_properties(phsp_unweighting_functor_tbb PROPERTIES 
+    COMPILE_FLAGS "-DTHRUST_HOST_SYSTEM=THRUST_HOST_SYSTEM_CPP -DTHRUST_DEVICE_SYSTEM=THRUST_DEVICE_SYSTEM_TBB")
+    
+    target_link_libraries(phsp_unweighting_functor_tbb   ${ROOT_LIBRARIES} tbb )
     
     
         
@@ -167,6 +185,20 @@ IF(OPENMP_FOUND)
     COMPILE_FLAGS "-fopenmp -DTHRUST_HOST_SYSTEM=THRUST_HOST_SYSTEM_CPP -DTHRUST_DEVICE_SYSTEM=THRUST_DEVICE_SYSTEM_OMP -lgomp")
     
     target_link_libraries( phsp_unweighting_omp
+    ${ROOT_LIBRARIES}
+    rt
+    )
+    
+    
+    #++++++++++++++++++++++++++++
+    add_executable( phsp_unweighting_functor_omp EXCLUDE_FROM_ALL
+    phsp_unweighting_functor.cpp
+    )
+    
+    set_target_properties( phsp_unweighting_functor_omp PROPERTIES 
+    COMPILE_FLAGS "-fopenmp -DTHRUST_HOST_SYSTEM=THRUST_HOST_SYSTEM_CPP -DTHRUST_DEVICE_SYSTEM=THRUST_DEVICE_SYSTEM_OMP -lgomp")
+    
+    target_link_libraries( phsp_unweighting_functor_omp
     ${ROOT_LIBRARIES}
     rt
     )
