@@ -73,7 +73,7 @@ struct RndCDF{
 	FUNCTOR fFunctor;
 };
 
-template<typename GRND>
+template<typename T, typename GRND>
 struct RndGauss{
 
 	/**
@@ -95,44 +95,44 @@ struct RndGauss{
 	 *	```
 	 *
 	 */
-	RndGauss(size_t seed, GReal_t mean, GReal_t  sigma):
+	RndGauss(size_t seed, T mean, T  sigma):
 		fSeed(seed),
 		fMean(mean),
 		fSigma(sigma)
 	{}
 	__host__ __device__
-	RndGauss( RndGauss<GRND> const& other):
+	RndGauss( RndGauss<T, GRND> const& other):
 		fSeed(other.fSeed),
 		fMean(other.fMean),
 		fSigma(other.fSigma)
 	{}
 
 	__host__ __device__
-	inline GReal_t operator()(size_t index)
+	inline T operator()(size_t index)
 	{
 		GRND randEng(fSeed);
 		randEng.discard(index);
-		thrust::random::normal_distribution<GReal_t> dist(fMean, fSigma);
-		GReal_t x = dist(randEng);
+		thrust::random::normal_distribution<T> dist(fMean, fSigma);
+		T x = dist(randEng);
 		//printf("Gauss %f\n",x);
 		return x;
 	}
 
 	size_t fSeed;
-	GReal_t fMean;
-	GReal_t fSigma;
+	T fMean;
+	T fSigma;
 };
 
-template<typename GRND>
+template<typename T,typename GRND>
 struct RndUniform{
 
-	RndUniform(size_t seed, GReal_t min, GReal_t max):
+	RndUniform(size_t seed, T min, T max):
 		fSeed(seed),
 		fMin(min),
 		fMax(max)
 	{}
 	__host__ __device__
-	RndUniform( RndUniform<GRND> const& other):
+	RndUniform( RndUniform<T,GRND> const& other):
 		fSeed(other.fSeed),
 		fMin(other.fMin),
 		fMax(other.fMax)
@@ -140,91 +140,91 @@ struct RndUniform{
 
 
 	__host__ __device__
-	inline GReal_t operator()(size_t index)
+	inline T operator()(size_t index)
 	{
 		GRND randEng(fSeed);
 		randEng.discard(index);
-		thrust::uniform_real_distribution<GReal_t>  dist(fMin, fMax);
+		thrust::uniform_real_distribution<T>  dist(fMin, fMax);
 		return dist(randEng);
 	}
 
 	size_t fSeed;
-	GReal_t fMin;
-	GReal_t fMax;
+	T fMin;
+	T fMax;
 };
 
 
-template<typename GRND>
+template<typename T,typename GRND>
 struct RndExp{
 
-	RndExp(size_t seed, GReal_t tau):
+	RndExp(size_t seed, T tau):
 		fSeed(seed),
 		fTau(tau)
 	{}
 	__host__ __device__
-	RndExp( RndExp<GRND> const& other):
+	RndExp( RndExp<T, GRND> const& other):
 		fSeed(other.fSeed),
 		fTau(other.fTau)
 	{}
 
 	__host__ __device__
-	inline GReal_t operator()(size_t index)
+	inline T operator()(size_t index)
 	{
 		GRND randEng(fSeed);
 		randEng.discard(index);
-		thrust::uniform_real_distribution<GReal_t>  dist(0, 1);
+		thrust::uniform_real_distribution<T>  dist(0.0, 1.0);
 		return  -fTau*log(dist(randEng));
 	}
 
 	size_t fSeed;
-	GReal_t fTau;
+	T fTau;
 };
 
-template<typename GRND>
+template<typename T,typename GRND>
 struct RndBreitWigner{
 
-	RndBreitWigner(size_t seed, GReal_t mean, GReal_t gamma):
+	RndBreitWigner(size_t seed, T mean, T gamma):
 		fSeed(seed),
 		fMean(mean),
 		fGamma(gamma)
 	{}
 
 	__host__ __device__
-	RndBreitWigner( RndBreitWigner<GRND> const& other):
+	RndBreitWigner( RndBreitWigner<T, GRND> const& other):
 		fSeed(other.fSeed),
 		fMean(other.fMean),
 		fGamma(other.fGamma)
 	{}
 
 	__host__ __device__
-	inline GReal_t operator()(size_t index)
+	inline T operator()(size_t index)
 	{
 		GRND randEng(fSeed);
 		randEng.discard(index);
 
-		thrust::uniform_real_distribution<GReal_t>  dist(0.0, 1.0);
-		GReal_t rval  = dist(randEng);
-		GReal_t x = fMean + 0.5*fGamma*tan(PI*(rval-0.5));
+		thrust::uniform_real_distribution<T>  dist(0.0, 1.0);
+		T rval  = dist(randEng);
+		T x = fMean + 0.5*fGamma*tan(PI*(rval-0.5));
 		return  x;
 	}
 
 	size_t fSeed;
-	GReal_t fMean;
-	GReal_t fGamma;
+	T fMean;
+	T fGamma;
 
 };
 
-template<typename GRND>
+template<typename T,typename GRND>
 struct RndFlag{
 
-	RndFlag(const size_t seed, const GReal_t max_value, const GReal_t* values ):
+	RndFlag(const size_t seed, const T max_value, const T* values ):
 		fSeed(seed),
 		fValMax(max_value),
 		fVals(values)
 	{}
 
 	__host__ __device__
-	RndFlag(RndFlag<GRND> const& other):
+	RndFlag(RndFlag<T, GRND> const& other):
 		fSeed(other.fSeed),
 		fValMax(other.fValMax),
 		fVals(other.fVals)
@@ -235,22 +235,23 @@ struct RndFlag{
 	{
 		GRND randEng(fSeed*2);
 		randEng.discard(index);
-		thrust::uniform_real_distribution<GReal_t>  dist(0.0, fValMax);
+		thrust::uniform_real_distribution<T>  dist(0.0, fValMax);
 
 		return (fVals[index] > dist(randEng)) ;
 	}
 
 	size_t  fSeed;
-	GReal_t fValMax;
-	const GReal_t* __restrict__ fVals;
+	T fValMax;
+	const T* __restrict__ fVals;
 };
 
 
-template<typename GRND, typename FUNCTOR, size_t N>
+template<typename T,typename GRND, typename FUNCTOR, size_t N>
 struct RndTrial{
 
-	RndTrial(size_t seed, FUNCTOR const& functor, std::array<GReal_t,N>const& min,
-			std::array<GReal_t,N>const& max):
+	RndTrial(size_t seed, FUNCTOR const& functor,
+			std::array<T,N>const& min,
+			std::array<T,N>const& max):
 				fFunctor(functor),
 				fSeed(seed)
 	{
@@ -261,7 +262,7 @@ struct RndTrial{
 	}
 
 	__host__ __device__
-	RndTrial(RndTrial<GRND,FUNCTOR, N> const& other):
+	RndTrial(RndTrial<T, GRND,FUNCTOR, N> const& other):
 		fFunctor(other.fFunctor),
 		fSeed(other.fSeed)
 	{
@@ -271,15 +272,12 @@ struct RndTrial{
 		}
 	}
 
-	__hydra_exec_check_disable__
-	__host__ __device__
-	~RndTrial(){};
 
-	template<typename T>
+	template<typename Tuple>
 	__host__ __device__
-	inline GReal_t operator()(size_t index, T& t)
+	inline T operator()(size_t index, Tuple& t)
 	{
-		GReal_t* x[N];
+		T* x[N];
 		detail::set_ptrs_to_tuple(t, &x[0]);
 
 		GRND randEng(fSeed);
@@ -287,7 +285,7 @@ struct RndTrial{
 
 		for (size_t j = 0; j < N; j++)
 		{
-			thrust::uniform_real_distribution<GReal_t>  dist(fMin[j], fMax[j]);
+			thrust::uniform_real_distribution<T>  dist(fMin[j], fMax[j]);
 			*(x[j]) = dist(randEng);
 		}
 
@@ -296,13 +294,13 @@ struct RndTrial{
 
 	FUNCTOR fFunctor;
 	size_t  fSeed;
-	GReal_t fMin[N];
-	GReal_t fMax[N];
+	T fMin[N];
+	T fMax[N];
 };
 
 
-template<typename GRND, typename FUNCTOR>
-struct RndTrial<GRND, FUNCTOR, 1>{
+template<typename T,typename GRND, typename FUNCTOR>
+struct RndTrial<T,GRND, FUNCTOR, 1>{
 
 	RndTrial(size_t seed, FUNCTOR const& functor, GReal_t min, GReal_t max):
 		fFunctor(functor),
@@ -312,27 +310,24 @@ struct RndTrial<GRND, FUNCTOR, 1>{
 	{}
 
 	__host__ __device__
-	RndTrial(RndTrial<GRND,FUNCTOR, 1> const& other):
+	RndTrial(RndTrial<T, GRND,FUNCTOR, 1> const& other):
 		fFunctor(other.fFunctor),
 		fSeed(other.fSeed),
 		fMin(other.fMin),
 		fMax(other.fMax)
 	{}
 
-	__hydra_exec_check_disable__
-	__host__ __device__
-	~RndTrial(){};
 
 	__host__ __device__
-	inline GReal_t operator()(size_t index, GReal_t& t)
+	inline GReal_t operator()(size_t index, T& t)
 	{
 
 		GRND randEng(fSeed);
 		randEng.discard(index);
-    	thrust::uniform_real_distribution<GReal_t>  dist(fMin, fMax);
+    	thrust::uniform_real_distribution<T>  dist(fMin, fMax);
 		t = dist(randEng);
 
-		return  fFunctor(&t);
+		return  fFunctor(t);
 	}
 
 	FUNCTOR fFunctor;

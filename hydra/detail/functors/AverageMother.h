@@ -188,7 +188,7 @@ struct AverageMother
 		if (N > 2)
 		{
 #pragma unroll N
-			for (GInt_t n = 1; n < N - 1; n++)
+			for (size_t n = 1; n < N - 1; n++)
 			{
 				rno[n] =  uniDist(randEng) ;
 
@@ -304,7 +304,7 @@ struct AverageMother
 
 		StatsPHSP result;
 
-		result.fMean = fFunctor(Particles);
+		result.fMean = fFunctor( (GUInt_t) SIZE,Particles);
 		result.fW    = weight;
 		result.fM2   = 0.0;
 

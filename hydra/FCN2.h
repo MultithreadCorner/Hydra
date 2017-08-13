@@ -49,8 +49,14 @@ namespace hydra {
 #include <cassert>
 #include <utility>
 
-template<typename PDF, typename Estimator, typename Iterator, typename ...Visitors>
-class FCN2: public ROOT::Minuit2::FCNBase, public Visitors...{
+
+namespace hydra {
+
+template<typename T>
+class FCN2;
+
+template< template<typename ...> class Estimator, typename PDF, typename Iterator, typename ...Visitors>
+class FCN2<Estimator<PDF,Iterator,Visitors...>>: public ROOT::Minuit2::FCNBase, public Visitors...{
 
 public:
 

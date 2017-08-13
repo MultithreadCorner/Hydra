@@ -55,65 +55,6 @@
 
 namespace hydra {
 
-namespace detail {
-
-template<size_t N, typename Functor, typename ArgType>
-	struct EvalOnDaugthers: public thrust::unary_function<ArgType, GReal_t>
-	{
-		EvalOnDaugthers( Functor const& functor):
-			fFunctor(functor)
-			{}
-
-		__host__ __device__
-		EvalOnDaugthers( EvalOnDaugthers<N,Functor,ArgType> const&other):
-		fFunctor(other.fFunctor)
-		{}
-
-		template<typename T>
-		__host__ __device__
-		GReal_t operator()(T& value)
-		{
-			auto particles = detail::dropFirst(value);
-			Vector4R Particles[N];
-			hydra::detail::assignTupleToArray(particles,  Particles );
-			return hydra::get<0>(value)*(fFunctor(&Particles[0]));
-		}
-
-		Functor fFunctor;
-	};
-
-	template<size_t N>
-	struct FlagDaugthers: public thrust::unary_function<size_t,bool >
-	{
-		FlagDaugthers(GReal_t max, GReal_t* iterator):
-			fVals(iterator),
-			fMax(max)
-			{}
-
-		__host__ __device__
-		FlagDaugthers( FlagDaugthers<N> const&other):
-		fVals(other.fVals),
-		fMax(other.fMax)
-		{}
-		__host__ __device__
-		bool operator()( size_t idx)
-		{
-			thrust::default_random_engine randEng(159753654);
-			randEng.discard(idx);
-			thrust::uniform_real_distribution<GReal_t>
-			uniDist(0.0, 1.0 );
-
-			return fVals[idx]/fMax  > uniDist(randEng);
-
-		}
-
-		GReal_t* fVals;
-		GReal_t fMax;
-	};
-
-
-}  // namespace detail
-
 
 template<size_t N, typename BACKEND>
 class Decays;
@@ -448,7 +389,51 @@ public:
      * accepted events and return a pair of iterators with ready-only
      * access to container. This version takes a functor as argument
      * and will produce a range of unweighted events distributed
-     * accordingly.
+     * accordingly. This method does not change the size, the
+     * stored events or its weights.
+     * The functor needs derive from hydra::BaseFunctor or be a lambda wrapped
+     * using hydra::wrap_lambda function.
+     * The functor signature needs to provide
+     * the method Evaluate(size_t n, hydra::Vector4R*), for example:
+     * @code{.cpp}
+     * ...
+     * struct BreitWigner: public hydra::BaseFunctor<BreitWigner, double, 0>
+     * ...
+     * double Evaluate(size_t n, hydra::Vector4R* particles)
+     * {
+     *   Vector4R p1 = particles[0];
+     *   Vector4R p2 = particles[1];
+     *
+     *   return  breit_wigner(p1,p2);
+     * }
+     * ...
+     * };
+     * @endcode
+     * The same is is valid for a lambda function:
+     *
+     * @code{.cpp}
+     * ...
+     *
+     * double mass  = ...;
+     * double width = ...;
+     *
+     * auto bw = [ ]__host__ __device__(size_t n, hydra::Vector4R* particles )
+     * {
+     * auto   p0  = particles[0] ;
+     * auto   p1  = particles[1] ;
+     * auto   p2  = particles[2] ;
+     *
+     * auto   m = (p1+p2).mass();
+     *
+     * double denominator = (m12-0.895)*(m12-0.895) + (0.055*0.055)/4.0;
+     *
+     * return ((0.055*0.055)/4.0)/denominator;
+     *
+     * };
+     *
+	 *auto breit_wigner = hydra::wrap_lambda(bw);
+	 *@endcode
+     *
      * Obs: the functor need be positive evaluated for all events
      * in the phase-space.
      *
@@ -459,6 +444,63 @@ public:
     template<typename FUNCTOR>
     hydra::pair<accpeted_iterator, accpeted_iterator>
     Unweight( FUNCTOR  const& functor, GUInt_t scale);
+
+    /**
+     * Recalculates the events weights according with @functor;
+     * The new weights are the \f$ w_{i}^{new} = w_{i}^{old} \times functor(Vector4R*...)\f$
+     * * The functor needs derive from hydra::BaseFunctor or be a lambda wrapped
+     * using hydra::wrap_lambda function.
+     * The functor signature needs to provide
+     * the method Evaluate(size_t n, hydra::Vector4R*), for example:
+     * @code{.cpp}
+     * ...
+     * struct BreitWigner: public hydra::BaseFunctor<BreitWigner, double, 0>
+     * ...
+     * double Evaluate(size_t n, hydra::Vector4R* particles)
+     * {
+     *   Vector4R p1 = particles[0];
+     *   Vector4R p2 = particles[1];
+     *
+     *   return  breit_wigner(p1,p2);
+     * }
+     * ...
+     * };
+     * @endcode
+     * The same is is valid for a lambda function:
+     *
+     * @code{.cpp}
+     * ...
+     *
+     * double mass  = ...;
+     * double width = ...;
+     *
+     * auto bw = [ ]__host__ __device__(size_t n, hydra::Vector4R* particles )
+     * {
+     * auto   p0  = particles[0] ;
+     * auto   p1  = particles[1] ;
+     * auto   p2  = particles[2] ;
+     *
+     * auto   m = (p1+p2).mass();
+     *
+     * double denominator = (m12-0.895)*(m12-0.895) + (0.055*0.055)/4.0;
+     *
+     * return ((0.055*0.055)/4.0)/denominator;
+     *
+     * };
+     *
+	 *auto breit_wigner = hydra::wrap_lambda(bw);
+	 *@endcode
+     *
+     * Obs: the functor need be positive evaluated for all events
+     * in the phase-space.
+     *
+     * @tparam Functor enclosing a positive evaluated function.
+     * particles.
+     * @param functor
+     */
+    template<typename FUNCTOR>
+    void Reweight( FUNCTOR  const& functor);
+
 
     //stl compliant interface
 	//-----------------------

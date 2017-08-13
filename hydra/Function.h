@@ -299,21 +299,25 @@ if(NPARAM!=0){
 	__host__ __device__ inline
 	typename thrust::detail::enable_if<
 	! ( detail::is_instantiation_of<thrust::tuple,typename std::remove_reference<T>::type >::value ||
-	  detail::is_instantiation_of<thrust::detail::tuple_of_iterator_references, typename std::remove_reference<T>::type >::value )
+	    detail::is_instantiation_of<thrust::detail::tuple_of_iterator_references,
+	                                typename std::remove_reference<T>::type >::value )
 	, return_type>::type
 	interface(T&& x)
 	{
 		fNArgs=1;
-		return static_cast<Functor*>(this)->Evaluate(&x);
+		return static_cast<Functor*>(this)->Evaluate(fNArgs, &x);
 	}
 
 
 	template<typename T>
 	__host__ __device__ inline
-	typename thrust::detail::enable_if<( detail::is_instantiation_of<thrust::tuple,typename std::remove_reference<T>::type >::value ||
-			  detail::is_instantiation_of<thrust::detail::tuple_of_iterator_references,typename std::remove_reference<T>::type >::value ) ||
-	detail::is_homogeneous<	typename thrust::tuple_element<0, typename std::remove_reference<T>::type>::type,
-	typename std::remove_reference<T>::type>::value, return_type>::type
+	typename thrust::detail::enable_if<(
+			  detail::is_instantiation_of<thrust::tuple,typename std::remove_reference<T>::type >::value ||
+			  detail::is_instantiation_of<thrust::detail::tuple_of_iterator_references,
+			                              typename std::remove_reference<T>::type >::value ) ||
+	          detail::is_homogeneous<typename thrust::tuple_element<0, typename std::remove_reference<T>::type>::type,
+	                                 typename std::remove_reference<T>::type>::value,
+	return_type>::type
 	interface(T&& x)
 	{
 		typedef typename std::remove_reference<T>::type Tprime;
@@ -324,7 +328,7 @@ if(NPARAM!=0){
 
 		detail::tupleToArray(x, &Array[0] );
 		fNArgs=N;
-		return static_cast<Functor*>(this)->Evaluate(&Array[0]);
+		return static_cast<Functor*>(this)->Evaluate(fNArgs, &Array[0]);
 
 
 	}
@@ -344,11 +348,11 @@ if(NPARAM!=0){
 
 	template<typename T>
 	__host__  __device__ inline
-	return_type operator()(T* x)
+	return_type operator()(unsigned int n, T* x)
 	{
 		GReal_t norm = fNormalized? fNorm : 1.0;
 
-		return norm>0.0?static_cast<Functor*>(this)->Evaluate(x)*norm:0;
+		return norm>0.0?static_cast<Functor*>(this)->Evaluate(n,x)*norm:0;
 	}
 
 
@@ -358,7 +362,7 @@ if(NPARAM!=0){
 	{
 		GReal_t norm = fNormalized ? fNorm : 1.0;
 
-		return  norm>0.0? interface( x)*norm: 0;
+		return  norm>0.0? interface( std::forward<T>(x))*norm: 0;
 	}
 
 
@@ -384,7 +388,7 @@ if(NPARAM!=0){
 	}
 
     __host__ __device__  inline
-	int GetNArgs() const {
+	unsigned int GetNArgs() const {
 		return fNArgs;
 	}
 
@@ -392,7 +396,7 @@ private:
 
     int fCacheIndex;
 	bool fCached;
-	int fNArgs;
+	unsigned int fNArgs;
 	bool fParamResgistered;
     GReal_t fNorm;
 	bool fNormalized;

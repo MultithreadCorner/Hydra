@@ -89,7 +89,7 @@ struct ProcessCallsPlainUnary
 
 		GReal_t x[N];
 
-		for (GInt_t j = 0; j < N; j++) {
+		for (size_t j = 0; j < N; j++) {
 			GReal_t r =  uniDist(randEng);
 			x[j] = fXLow[j] + r*fDeltaX[j];
 		}

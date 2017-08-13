@@ -276,7 +276,7 @@ struct AverageMothers
 
 		StatsPHSP result;
 
-		result.fMean = fFunctor(Particles);
+		result.fMean = fFunctor( (GUInt_t) SIZE , Particles);
 		result.fW    = weight;
 		result.fM2   = 0.0;
 

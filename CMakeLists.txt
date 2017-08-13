@@ -28,7 +28,7 @@ endif()
 
 #options to gcc
 
-set(CMAKE_CXX_FLAGS "-DTHRUST_VARIADIC_TUPLE --std=c++11  -W -march=native -fPIC -O4" CACHE STRING "compile flags" FORCE)
+set(CMAKE_CXX_FLAGS "-DTHRUST_VARIADIC_TUPLE -ftemplate-backtrace-limit=0 --std=c++11  -W -march=native -fPIC -O4" CACHE STRING "compile flags" FORCE)
 
 # get TCLAP
 find_package(TCLAP REQUIRED)
@@ -79,7 +79,7 @@ if(CUDA_FOUND)
 
 	#set cuda flags
 	
-	SET(CUDA_NVCC_FLAGS ${CUDA_NVCC_FLAGS} --cudart ;  static ; -O4 ;--expt-relaxed-constexpr; -fmad=true; -ftemplate-backtrace-limit=0; --expt-extended-lambda;--relocatable-device-code=false ;
+	SET(CUDA_NVCC_FLAGS ${CUDA_NVCC_FLAGS} --cudart ;  static ; -O4 ;--expt-relaxed-constexpr; -fmad=true; --expt-extended-lambda;--relocatable-device-code=false ;
 	-Xptxas -dlcm=ca; -Xptxas --opt-level=4 )
 
 	SET(CUDA_SEPARABLE_COMPILATION OFF)

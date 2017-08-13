@@ -103,8 +103,8 @@ struct GaussKronrodUnary
 
 		GaussKronrodCall result;
 
-		GReal_t function_call    = abscissa_Weight*(fFunctor(thrust::make_tuple(abscissa_X_M))
-				+ fFunctor(thrust::make_tuple(abscissa_X_M)) ) ;
+		GReal_t function_call    = abscissa_Weight*(fFunctor(1, &abscissa_X_M)
+				+ fFunctor(1, &abscissa_X_M) ) ;
 
 		result.fGaussCall        = function_call*rule_Gauss_Weight;
 		result.fGaussKronrodCall = function_call*rule_GaussKronrod_Weight;

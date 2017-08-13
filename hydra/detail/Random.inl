@@ -62,8 +62,10 @@ void Random<GRND>::InverseCDF(FUNCTOR const& invcdf, Iterator begin, Iterator en
 
 template<typename GRND>
 template<typename Iterator>
-void  Random<GRND>::Gauss(GReal_t mean, GReal_t sigma, Iterator begin, Iterator end )
+void  Random<GRND>::Gauss(typename Iterator::value_type mean, typename Iterator::value_type sigma,
+		Iterator begin, Iterator end )
 {
+	typedef typename Iterator::value_type value_type;
 	using thrust::system::detail::generic::select_system;
 	typedef typename thrust::iterator_system<Iterator>::type System;
 	System system;
@@ -75,7 +77,7 @@ void  Random<GRND>::Gauss(GReal_t mean, GReal_t sigma, Iterator begin, Iterator 
 	thrust::counting_iterator<size_t> last = first + fNEvents;
 
 	thrust::transform(select_system(system), first, last, begin,
-			detail::RndGauss<GRND>(fSeed,  mean, sigma));
+			detail::RndGauss<value_type, GRND>(fSeed,  mean, sigma));
 
 }
 
@@ -85,8 +87,10 @@ void  Random<GRND>::Gauss(GReal_t mean, GReal_t sigma, Iterator begin, Iterator 
  */
 template<typename GRND>
 template<typename Iterator>
-void Random<GRND>::Uniform(GReal_t min, GReal_t max, Iterator begin, Iterator end)
+void Random<GRND>::Uniform(typename Iterator::value_type min, typename Iterator::value_type max,
+		Iterator begin, Iterator end)
 {
+	typedef typename Iterator::value_type value_type;
 	using thrust::system::detail::generic::select_system;
 	typedef typename thrust::iterator_system<Iterator>::type System;
 	System system;
@@ -97,7 +101,8 @@ void Random<GRND>::Uniform(GReal_t min, GReal_t max, Iterator begin, Iterator en
 	thrust::counting_iterator<size_t> first(0);
 	thrust::counting_iterator<size_t> last = first + fNEvents;
 
-	thrust::transform(select_system(system),  first, last, begin, detail::RndUniform<GRND>(fSeed+1, min, max));
+	thrust::transform(select_system(system),  first, last, begin,
+			detail::RndUniform<value_type,GRND>(fSeed+1, min, max));
 
 }
 
@@ -106,8 +111,9 @@ void Random<GRND>::Uniform(GReal_t min, GReal_t max, Iterator begin, Iterator en
  */
 template<typename GRND>
 template<typename Iterator>
-void  Random<GRND>::Exp(GReal_t tau,  Iterator begin, Iterator end)
+void  Random<GRND>::Exp(typename Iterator::value_type tau,  Iterator begin, Iterator end)
 {
+	typedef typename Iterator::value_type value_type;
 	using thrust::system::detail::generic::select_system;
 	typedef typename thrust::iterator_system<Iterator>::type System;
 	System system;
@@ -118,7 +124,8 @@ void  Random<GRND>::Exp(GReal_t tau,  Iterator begin, Iterator end)
 	thrust::counting_iterator<size_t> first(0);
 	thrust::counting_iterator<size_t> last = first + fNEvents;
 
-	thrust::transform(select_system(system), first, last, begin, detail::RndExp<GRND>(fSeed+2, tau));
+	thrust::transform(select_system(system), first, last, begin,
+			detail::RndExp<value_type,GRND>(fSeed+2, tau));
 
 }
 
@@ -127,8 +134,10 @@ void  Random<GRND>::Exp(GReal_t tau,  Iterator begin, Iterator end)
  */
 template<typename GRND>
 template<typename Iterator>
-void  Random<GRND>::BreitWigner(GReal_t mean, GReal_t gamma, Iterator begin, Iterator end)
+void  Random<GRND>::BreitWigner(typename Iterator::value_type mean, typename Iterator::value_type gamma,
+		Iterator begin, Iterator end)
 {
+	typedef typename Iterator::value_type value_type;
 	using thrust::system::detail::generic::select_system;
 	typedef typename thrust::iterator_system<Iterator>::type System;
 	System system;
@@ -139,23 +148,24 @@ void  Random<GRND>::BreitWigner(GReal_t mean, GReal_t gamma, Iterator begin, Ite
 	thrust::counting_iterator<size_t> first(0);
 	thrust::counting_iterator<size_t> last = first + fNEvents;
 
-	thrust::transform(select_system(system), first, last, begin, detail::RndBreitWigner<GRND>(fSeed+3,  mean, gamma));
+	thrust::transform(select_system(system), first, last, begin,
+			detail::RndBreitWigner<value_type,GRND>(fSeed+3,  mean, gamma));
 
 }
 
 
 template<typename GRND>
-template<typename ITERATOR, typename FUNCTOR>
-ITERATOR Random<GRND>::Sample(ITERATOR begin, ITERATOR end ,
-		GReal_t min, GReal_t max,FUNCTOR const& functor)
+template<typename T, typename Iterator, typename FUNCTOR>
+Iterator Random<GRND>::Sample(Iterator begin, Iterator end ,
+		T min, T max,FUNCTOR const& functor)
 {
-
+	typedef T value_type;
 	using thrust::system::detail::generic::select_system;
-	typedef  typename thrust::iterator_system<ITERATOR>::type system_t;
+	typedef  typename thrust::iterator_system<Iterator>::type system_t;
 
     size_t ntrials = thrust::distance( begin, end);
 
-    auto values = thrust::get_temporary_buffer<GReal_t>(system_t(), ntrials);
+    auto values = thrust::get_temporary_buffer<value_type>(system_t(), ntrials);
 
 	// create iterators
 	thrust::counting_iterator<size_t> first(0);
@@ -164,12 +174,12 @@ ITERATOR Random<GRND>::Sample(ITERATOR begin, ITERATOR end ,
 
 	//calculate the functor values
 	thrust::transform( system_t(), first, last, begin, values.first.get(),
-			detail::RndTrial<GRND,FUNCTOR,1>(fSeed+4, functor, min, max));
+			detail::RndTrial<value_type,GRND,FUNCTOR,1>(fSeed+4, functor, min, max));
 
 	//get the maximum value
-	GReal_t max_value = *( thrust::max_element(system_t(),values.first, values.first+ values.second) );
+	value_type max_value = *( thrust::max_element(system_t(),values.first, values.first+ values.second) );
 
-	ITERATOR r = thrust::partition(begin, end, first, detail::RndFlag<GRND>(fSeed+ntrials, max_value, values.first.get()) );
+	Iterator r = thrust::partition(begin, end, first, detail::RndFlag<value_type,GRND>(fSeed+ntrials, max_value, values.first.get()) );
 
 	// deallocate storage with thrust::return_temporary_buffer
 	thrust::return_temporary_buffer(system_t(), values.first);
@@ -178,18 +188,20 @@ ITERATOR Random<GRND>::Sample(ITERATOR begin, ITERATOR end ,
 }
 
 template<typename GRND>
-template<typename ITERATOR, typename FUNCTOR, size_t N >
-ITERATOR Random<GRND>::Sample(ITERATOR begin, ITERATOR end ,
-		std::array<GReal_t,N> const& min, std::array<GReal_t,N> const& max,
+template<typename T, typename Iterator, typename FUNCTOR, size_t N >
+Iterator Random<GRND>::Sample(Iterator begin, Iterator end ,
+		std::array<T,N> const& min,
+		std::array<T,N> const& max,
 		FUNCTOR const& functor)
 {
+	typedef T value_type;
 
 	using thrust::system::detail::generic::select_system;
-	typedef  typename thrust::iterator_system<ITERATOR>::type system_t;
+	typedef  typename thrust::iterator_system<Iterator>::type system_t;
 
     size_t ntrials = thrust::distance( begin, end);
 
-    auto values = thrust::get_temporary_buffer<GReal_t>(system_t(), ntrials);
+    auto values = thrust::get_temporary_buffer<value_type>(system_t(), ntrials);
 
 	// create iterators
 	thrust::counting_iterator<size_t> first(0);
@@ -198,12 +210,13 @@ ITERATOR Random<GRND>::Sample(ITERATOR begin, ITERATOR end ,
 
 	//calculate the functor values
 	thrust::transform( system_t(), first, last, begin, values.first.get(),
-			detail::RndTrial<GRND,FUNCTOR,N>(fSeed+4, functor, min, max));
+			detail::RndTrial<value_type, GRND,FUNCTOR,N>(fSeed+4, functor, min, max));
 
 	//get the maximum value
-	GReal_t max_value = *( thrust::max_element(system_t(),values.first, values.first+ values.second) );
+	value_type max_value = *( thrust::max_element(system_t(),values.first, values.first+ values.second) );
 
-	ITERATOR r = thrust::partition(begin, end, first, detail::RndFlag<GRND>(fSeed+ntrials, max_value, values.first.get()) );
+	Iterator r = thrust::partition(begin, end, first,
+			detail::RndFlag<value_type, GRND>(fSeed+ntrials, max_value, values.first.get()) );
    
 	// deallocate storage with thrust::return_temporary_buffer
 	thrust::return_temporary_buffer(system_t(), values.first);

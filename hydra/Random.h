@@ -116,7 +116,8 @@ public:
      * @param end Iterator pointing to the end of the range.
      */
 	template<typename Iterator>
-	void Gauss(GReal_t mean, GReal_t sigma, Iterator begin, Iterator end ) ;//-> decltype(*begin);
+	void Gauss(typename Iterator::value_type mean,typename Iterator::value_type sigma,
+			Iterator begin, Iterator end ) ;
 
 	/**
 	 * @brief Fill the range [begin, end] with numbers distributed according a Exponential distribution.
@@ -125,7 +126,7 @@ public:
 	 * @param end Iterator pointing to the end of the range.
 	 */
 	template<typename Iterator>
-	void Exp(GReal_t tau, Iterator begin, Iterator end)  ;//-> decltype(*begin);
+	void Exp(typename Iterator::value_type tau, Iterator begin, Iterator end)  ;//-> decltype(*begin);
 
 	/**
 	 * @brief Fill the range [begin, end] with numbers distributed according a Breit-Wigner distribution.
@@ -135,7 +136,8 @@ public:
 	 * @param end Iterator pointing to the end of the range.
 	 */
 	template<typename Iterator>
-	void BreitWigner(GReal_t mean, GReal_t gamma, Iterator begin, Iterator end)  ;//-> decltype(*begin);
+	void BreitWigner(typename Iterator::value_type mean,
+			typename Iterator::value_type gamma, Iterator begin, Iterator end)  ;//-> decltype(*begin);
 
 	/**
 	 * @brief Fill the range [begin, end] with numbers distributed according a Uniform distribution.
@@ -145,7 +147,8 @@ public:
 	 * @param end Iterator pointing to the end of the range.
 	 */
 	template<typename Iterator>
-	void Uniform(GReal_t min, GReal_t max, Iterator begin, Iterator end) ;// -> decltype(*begin);
+	void Uniform(typename Iterator::value_type min,
+			typename Iterator::value_type max, Iterator begin, Iterator end) ;// -> decltype(*begin);
 
 
 	template<typename FUNCTOR, typename Iterator>
@@ -161,9 +164,9 @@ public:
 	 * @param trials number of trials.
 	 * @return a hydra::backend::vector<tuple<T1,T2...>>
 	 */
-	template<typename ITERATOR, typename FUNCTOR>
-	ITERATOR Sample(ITERATOR begin, ITERATOR end , GReal_t min, GReal_t max,
-			FUNCTOR const& functor);
+	template<typename T, typename Iterator, typename FUNCTOR>
+	Iterator Sample(Iterator begin, Iterator end ,
+			T min, T max, FUNCTOR const& functor);
 
 	/**
 	 * @brief Fill a range with numbers distributed according a user defined distribution.
@@ -174,8 +177,10 @@ public:
 	 * @param trials number of trials.
 	 * @return a hydra::backend::vector<tuple<T1,T2...>>
 	 */
-	template<typename ITERATOR, typename FUNCTOR, size_t N >
-	ITERATOR Sample(ITERATOR begin, ITERATOR end , std::array<GReal_t,N>const& min, std::array<GReal_t,N>const& max,
+	template<typename T, typename Iterator, typename FUNCTOR, size_t N >
+	Iterator Sample(Iterator begin, Iterator end ,
+			std::array<T,N>const& min,
+			std::array<T,N>const& max,
 			FUNCTOR const& functor);
 
 

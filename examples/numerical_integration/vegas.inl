@@ -116,7 +116,7 @@ int main(int argv, char** argc)
 	}
 
 	// create functor using C++11 lambda
-	auto GAUSSIAN = [=] __host__ __device__ (double* x ){
+	auto GAUSSIAN = [=] __host__ __device__ (unsigned int n, double* x ){
 
 		double g = 1.0;
 		double f = 0.0;

@@ -92,14 +92,11 @@ int main(int argv, char** argc)
 	}
 
 
-
-
-
 	//Gaussian 1
 	double mean1   = -2.0;
 	double sigma1  =  1.0;
 
-	auto GAUSSIAN1D =  [=] __host__ __device__ (double* x ){
+	auto GAUSSIAN1D =  [=] __host__ __device__ (unsigned int n,double* x ){
 
 		double g = 0.0;
 
@@ -114,7 +111,7 @@ int main(int argv, char** argc)
 
 	//==================
 
-	auto GAUSSIAN1 =  [=] __host__ __device__ (double* x ){
+	auto GAUSSIAN1 =  [=] __host__ __device__ (unsigned int n,double* x ){
 
 		double g = 1.0;
 
@@ -133,7 +130,7 @@ int main(int argv, char** argc)
 	//Gaussian 2
 	double mean2   =  2.0;
 	double sigma2  =  1.0;
-	auto GAUSSIAN2 =  [=] __host__ __device__ (double* x ){
+	auto GAUSSIAN2 =  [=] __host__ __device__ (unsigned int n, double* x ){
 
 		double g = 1.0;
 
@@ -161,7 +158,7 @@ int main(int argv, char** argc)
 
 	hydra::mc_host_vector<double> vect(1000);
 
-	auto middle = Generator.Sample(vect.begin(),  vect.end(), -6, 6, gaussians);
+	auto middle = Generator.Sample(vect.begin(),  vect.end(), -6.0, 6.0, gaussians);
 
 	std::array<double, 3>max{6.0, 6.0, 6.0};
 	std::array<double, 3>min{-6.0, -6.0, -6.0};
@@ -209,6 +206,8 @@ int main(int argv, char** argc)
 
 		}
 
+		std::cout <<std::endl;
+		std::cout <<std::endl;
 		for(size_t i=0; i<10; i++)
 			std::cout << "< Random::Sample > [" << i << "] :" << data_h[i] << std::endl;
 
@@ -227,7 +226,8 @@ int main(int argv, char** argc)
 		dataset_h data_h(nentries);
 
 		auto middle = Generator.Sample(data_h.begin(),  data_h.end(), min, max, gaussians);
-
+		std::cout <<std::endl;
+		std::cout <<std::endl;
 		for(size_t i=0; i<10; i++)
 			std::cout << "< Random::Sample > [" << i << "] :" << data_h[i] << std::endl;
 
@@ -242,26 +242,7 @@ int main(int argv, char** argc)
 
 	}
 
-	hydra::multiarray<3,int, hydra::device::sys_t> marray;
-	size_t i=0;
-	for(size_t i=0; i<100;i++)
-	{
-		marray.push_back(hydra::make_tuple(i,i,i));
 
-	}
-	marray.front()=hydra::make_tuple(100,100,100);
-	marray.erase(marray.begin()+10);
-	marray.insert(marray.begin()+10, hydra::make_tuple(100,100,100));
-
-	for(auto elem: marray)
-		{
-			std::cout<< elem << std::endl;;
-		}
-
-	hydra::multiarray<3,int, hydra::device::sys_t>marray2(marray);
-	marray.front()=hydra::make_tuple(10,100,100);
-	std::cout << "is equal ? " << int(marray2==marray) <<std::endl;;
-	std::cout << "is different ? " << int(marray2!=marray) <<std::endl;;
 #ifdef _ROOT_AVAILABLE_
 	TApplication *myapp=new TApplication("myapp",0,0);
 

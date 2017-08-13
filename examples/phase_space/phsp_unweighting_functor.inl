@@ -155,7 +155,8 @@ int main(int argv, char** argc)
 
 	// Create PhaseSpace object for B0-> K pi J/psi
 	hydra::PhaseSpace<3> phsp(B0_mass, masses);
-	auto bw = [ ]__host__ __device__(hydra::Vector4R* particles ){
+
+	auto bw = [ ]__host__ __device__(unsigned int n, hydra::Vector4R* particles ){
 
 		auto   p0  = particles[0] ;
 		auto   p1  = particles[1] ;
@@ -315,7 +316,7 @@ int main(int argv, char** argc)
 			double M2_Jpsi_pi = (Jpsi + pi).mass2();
 			double M2_Kpi     = (K + pi).mass2();
 
-			Dalitz_d1.Fill( M2_Jpsi_pi, M2_Kpi, weight);
+			Dalitz_h2.Fill( M2_Jpsi_pi, M2_Kpi, weight);
 		}
 
 #endif

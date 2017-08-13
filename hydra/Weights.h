@@ -29,59 +29,127 @@
 #ifndef WEIGHTS_H_
 #define WEIGHTS_H_
 
+//hydra
+#include <hydra/detail/Config.h>
+#include <hydra/detail/BackendPolicy.h>
+#include <hydra/Types.h>
+//thrust
+#include <thrust/copy.h>
+#include <thrust/reduce.h>
+#include <thrust/iterator/transform_iterator.h>
+
 namespace hydra {
 
-template<typename Iterator>
-class Weights{
+template<typename Backend>
+class Weights;
+
+template<hydra::detail::Backend BACKEND >
+class Weights<hydra::detail::BackendPolicy<BACKEND>>{
+
+	typedef hydra::detail::BackendPolicy<BACKEND> system_t;
+	typedef typename system_t::template container<GReal_t> storage_type;
+	typedef typename storage_type::iterator iterator;
+	typedef typename storage_type::const_iterator const_iterator;
 
 public:
 
-	Weights(Iterator first, Iterator last):
+	  Weights():
 		fSumW(0),
 		fSumW2(0),
-		fBegin(first),
-		fEnd(last)
-	{}
+		fData()
+       {}
 
-	Weights( Weights<Iterator> const& other):
+	  Weights(size_t n):
+	 		fSumW(0),
+	 		fSumW2(0),
+	 		fData(n)
+	        {}
+
+	  Weights(size_t n, GReal_t value):
+		  fSumW(0),
+		  fSumW2(0),
+		  fData(n, value)
+	  {}
+
+	template<typename Iterator>
+	Weights(Iterator first, Iterator last):
+		fSumW(0),
+		fSumW2(0)
+	{
+		fData.resize(thrust::distance( first, last ));
+		thrust::copy(first, last, this->begin());
+		fSumW  =  MakeSumW();
+		fSumW2 =  MakeSumW2();
+	}
+
+	Weights( Weights<hydra::detail::BackendPolicy<BACKEND>> const& other):
 		fSumW(other.GetSumW()),
 		fSumW2(other.GetSumW2()),
-		fBegin(other.begin()),
-		fEnd(other.end())
+		fData(other.GetData())
 	{}
-	
-	Weights<Iterator>& operator=( Weights<Iterator> const& other){
-	
+
+	Weights( Weights<hydra::detail::BackendPolicy<BACKEND>>&& other):
+		fSumW(other.GetSumW()),
+		fSumW2(other.GetSumW2()),
+		fData(other.MoveData())
+	{}
+
+	template<hydra::detail::Backend BACKEND2 >
+	Weights( Weights<hydra::detail::BackendPolicy<BACKEND2>> const& other):
+	fSumW(other.GetSumW()),
+	fSumW2(other.GetSumW2())
+	{
+		fData.resize(thrust::distance(other.begin(), other.end()));
+		thrust::copy(other.begin(), other.end(), this->begin());
+	}
+
+	Weights<hydra::detail::BackendPolicy<BACKEND>>&
+	operator=( Weights< hydra::detail::BackendPolicy<BACKEND>> const& other){
+
 		if(this==&other)return *this;
 		fSumW  = other.GetSumW();
 		fSumW2 = other.GetSumW2();
-		fBegin = other.begin();
-		fEnd   = other.end();
+		fSumW2 = other.GetData();
+		return *this;
+	}
+	
+	Weights<hydra::detail::BackendPolicy<BACKEND>>&
+	operator=( Weights< hydra::detail::BackendPolicy<BACKEND>>&& other){
+
+		if(this==&other)return *this;
+		fSumW  = other.GetSumW();
+		fSumW2 = other.GetSumW2();
+		fSumW2 = other.MoveData();
+		return *this;
+	}
+	
+	template<hydra::detail::Backend BACKEND2 >
+	Weights<hydra::detail::BackendPolicy<BACKEND>>&
+	operator=( Weights< hydra::detail::BackendPolicy<BACKEND2>> const& other){
+
+		if(this==&other)return *this;
+		fSumW  = other.GetSumW();
+		fSumW2 = other.GetSumW2();
+		fData.resize(thrust::distance(other.begin(), other.end()));
+		thrust::copy(other.begin(), other.end(), this->begin());
 		return *this;
 	}
 
-	Iterator begin(){
-		return fBegin;
+
+	iterator begin(){
+		return fData.begin();
 	}
 
-	Iterator end(){
-		return fEnd;
+	iterator end(){
+		return fData.end();
 	}
 
-	Iterator GetBegin() const {
-		return fBegin;
+	const_iterator begin() const{
+		return fData.cbegin();
 	}
 
-	void SetBegin(Iterator begin) {
-		fBegin = begin;
-	}
-
-	Iterator GetEnd() const {
-		return fEnd;
-	}
-
-	void SetEnd(Iterator end) {
-		fEnd = end;
+	const_iterator end() const{
+		return fData.cend();
 	}
 
 	GReal_t GetSumW() const {
@@ -102,10 +170,34 @@ public:
 
 private:
 	
+	GReal_t MakeSumW()
+	{
+		return thrust::reduce(fData.begin(), fData.end(), 0.0);
+	}
+
+	GReal_t MakeSumW2()
+	{
+		auto sq = []__host__ __device__ (GReal_t x)
+		{
+			return x*x;
+		};
+
+		return thrust::reduce(thrust::make_transform_iterator(fData.begin(), sq),
+				              thrust::make_transform_iterator(fData.end()  , sq), 0.0);
+	}
+
+	const storage_type& GetData() const {
+		return fData;
+	}
+
+	storage_type MoveData(){
+		return std::move(fData);
+	}
+
 	GReal_t  fSumW;
 	GReal_t  fSumW2;
-	Iterator fBegin;
-	Iterator fEnd;
+	vector_t fData;
+
 
 };
 

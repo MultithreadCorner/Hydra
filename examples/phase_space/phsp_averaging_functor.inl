@@ -132,7 +132,7 @@ int main(int argv, char** argc)
 	}
 
 	//C++11 lambda for cosine of helicity angle Kpi
-	auto COSHELANG = [] __host__ __device__ ( hydra::Vector4R *fvectors )
+	auto COSHELANG = [] __host__ __device__ (unsigned int n,  hydra::Vector4R *fvectors )
 	{
 		hydra::Vector4R p1 = fvectors[0];
 		hydra::Vector4R p2 = fvectors[1];

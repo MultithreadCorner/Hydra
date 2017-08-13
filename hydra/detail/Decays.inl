@@ -36,6 +36,66 @@ Decays<N, detail::BackendPolicy<BACKEND> >::
  */
 namespace hydra {
 
+namespace detail {
+
+template<size_t N, typename Functor, typename ArgType>
+	struct EvalOnDaugthers: public thrust::unary_function<ArgType, GReal_t>
+	{
+		EvalOnDaugthers( Functor const& functor):
+			fFunctor(functor)
+			{}
+
+		__host__ __device__
+		EvalOnDaugthers( EvalOnDaugthers<N,Functor,ArgType> const&other):
+		fFunctor(other.fFunctor)
+		{}
+
+		template<typename T>
+		__host__ __device__
+		GReal_t operator()(T& value)
+		{
+			auto particles = detail::dropFirst(value);
+			Vector4R Particles[N];
+			hydra::detail::assignTupleToArray(particles,  Particles );
+			return hydra::get<0>(value)*(fFunctor((unsigned int)N, &Particles[0]));
+		}
+
+		Functor fFunctor;
+	};
+
+	template<size_t N>
+	struct FlagDaugthers: public thrust::unary_function<size_t,bool >
+	{
+		FlagDaugthers(GReal_t max, GReal_t* iterator):
+			fVals(iterator),
+			fMax(max)
+			{}
+
+		__host__ __device__
+		FlagDaugthers( FlagDaugthers<N> const&other):
+		fVals(other.fVals),
+		fMax(other.fMax)
+		{}
+		__host__ __device__
+		bool operator()( size_t idx)
+		{
+			thrust::default_random_engine randEng(159753654);
+			randEng.discard(idx);
+			thrust::uniform_real_distribution<GReal_t>
+			uniDist(0.0, 1.0 );
+
+			return fVals[idx]/fMax  > uniDist(randEng);
+
+		}
+
+		GReal_t* fVals;
+		GReal_t fMax;
+	};
+
+
+}  // namespace detail
+
+
 template<size_t N, detail::Backend BACKEND>
 void Decays<N, detail::BackendPolicy<BACKEND> >::pop_back()
 {
@@ -856,6 +916,28 @@ Decays<N, detail::BackendPolicy<BACKEND> >::Unweight( FUNCTOR const& functor, GU
 	return  hydra::pair< typename Decays<N, detail::BackendPolicy<BACKEND> >::accpeted_iterator,
 			typename Decays<N, detail::BackendPolicy<BACKEND> >::accpeted_iterator >
 	(thrust::make_zip_iterator(begin_tpl), thrust::make_zip_iterator(begin_tpl)+thrust::distance(begin(), middle ));
+}
+
+
+
+template<size_t N, detail::Backend BACKEND>
+template<typename FUNCTOR>
+void Decays<N, detail::BackendPolicy<BACKEND> >::Reweight( FUNCTOR const& functor)
+{
+	using thrust::system::detail::generic::select_system;
+	typedef  typename thrust::iterator_system<
+			 typename 	Decays<N, detail::BackendPolicy<BACKEND> >::const_iterator>::type system_t;
+
+
+	detail::EvalOnDaugthers<N, FUNCTOR, typename Decays<N, detail::BackendPolicy<BACKEND> >::value_type>
+    predicate1(functor);
+
+	thrust::copy(system_t(), thrust::make_transform_iterator(this->begin(), predicate1),
+                             thrust::make_transform_iterator(this->end()  , predicate1),
+                             this->wbegin()   );
+
+	return;
+
 }
 
 //=======================

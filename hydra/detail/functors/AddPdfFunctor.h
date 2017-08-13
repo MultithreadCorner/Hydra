@@ -209,7 +209,7 @@ struct AddPdfFunctor
 
 	template<typename T>
 	 __host__ __device__
-	inline	GReal_t operator()(T *x)
+	inline	GReal_t operator()(GUInt_t n, T *x)
 	{
 
 
