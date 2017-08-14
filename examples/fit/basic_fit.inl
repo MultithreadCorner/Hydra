@@ -18,15 +18,17 @@
  *   along with Hydra.  If not, see <http://www.gnu.org/licenses/>.
  *
  *---------------------------------------------------------------------------*/
+
 /*
- * basic_distributions.inl
+ * basic_fit.inl
  *
- *  Created on: Jul 18, 2017
+ *  Created on: 14/08/2017
  *      Author: Antonio Augusto Alves Junior
  */
 
-#ifndef BASIC_DISTRIBUTIONS_INL_
-#define BASIC_DISTRIBUTIONS_INL_
+#ifndef BASIC_FIT_INL_
+#define BASIC_FIT_INL_
+
 
 #include <iostream>
 #include <assert.h>
@@ -42,7 +44,27 @@
 #include <hydra/Function.h>
 #include <hydra/FunctionWrapper.h>
 #include <hydra/Random.h>
+#include <hydra/LogLikelihoodFCN2.h>
+#include <hydra/Parameter.h>
+#include <hydra/UserParameters.h>
+#include <hydra/Pdf.h>
+#include <hydra/AddPdf.h>
 #include <hydra/Copy.h>
+#include <hydra/GaussKronrodQuadrature.h>
+
+//Minuit2
+#include "Minuit2/FunctionMinimum.h"
+#include "Minuit2/MnUserParameterState.h"
+#include "Minuit2/MnPrint.h"
+#include "Minuit2/MnMigrad.h"
+#include "Minuit2/MnMinimize.h"
+#include "Minuit2/MnMinos.h"
+#include "Minuit2/MnContours.h"
+#include "Minuit2/CombinedMinimizer.h"
+#include "Minuit2/MnPlot.h"
+#include "Minuit2/MinosError.h"
+#include "Minuit2/ContoursError.h"
+#include "Minuit2/VariableMetricMinimizer.h"
 
 /*-------------------------------------
  * Include classes from ROOT to fill
@@ -59,6 +81,7 @@
 #endif //_ROOT_AVAILABLE_
 
 
+using namespace ROOT::Minuit2;
 
 int main(int argv, char** argc)
 {
@@ -88,15 +111,34 @@ int main(int argv, char** argc)
 	hydra::Random<thrust::random::default_random_engine>
 	Generator( std::chrono::system_clock::now().time_since_epoch().count() );
 
+    //fit
+	auto GAUSSIAN =  [=] __host__ __device__
+			(unsigned int npar, hydra::Parameter* params,unsigned int narg,double* x )
+	{
+		double m2 = (x[0] -  params[0])*(x[0] - params[0] );
+		double s2 = params[1]*params[1];
+		double g = exp(-m2/(2.0 * s2 ))/( sqrt(2.0*s2*PI));
+
+		return g;
+	};
+
+
+	std::string Mean("Mean"); 	// mean of gaussian
+	std::string Sigma("Sigma"); // sigma of gaussian
+	hydra::Parameter  mean_p  = hydra::Parameter::Create().Name(Mean).Value(0.5) .Error(0.0001).Limits(-1.0, 1.0);
+	hydra::Parameter  sigma_p = hydra::Parameter::Create().Name(Sigma).Value(0.5).Error(0.0001).Limits(0.01, 1.5);
+
+    auto gaussian = hydra::wrap_lambda(GAUSSIAN, mean_p, sigma_p);
+
+    //numerical integral
+    hydra::GaussKronrodQuadrature<61,100, hydra::device::sys_t> GKQ61_d(min,  max);
 
 	//device
 	//------------------------
+
 #ifdef _ROOT_AVAILABLE_
 
-	TH1D hist_uniform_d("uniform_d",   "Uniform",     100, -6.0, 6.0);
 	TH1D hist_gaussian_d("gaussian_d", "Gaussian",    100, -6.0, 6.0);
-	TH1D hist_exp_d("exponential_d",   "Exponential", 100,  0.0, 5.0);
-	TH1D hist_bw_d("breit_wigner_d",   "Breit-Wigner",100,  0.0, 5.0);
 
 #endif //_ROOT_AVAILABLE_
 
@@ -106,19 +148,6 @@ int main(int argv, char** argc)
 		hydra::host::vector<double>    data_h(nentries);
 
 		//-------------------------------------------------------
-		//uniform
-		Generator.Uniform(-5.0, 5.0, data_d.begin(), data_d.end());
-		hydra::copy(data_d.begin(), data_d.end(), data_h.begin());
-
-		for(size_t i=0; i<10; i++)
-			std::cout << "< Random::Uniform > [" << i << "] :" << data_d[i] << std::endl;
-
-#ifdef _ROOT_AVAILABLE_
-		for(auto value : data_h)
-			hist_uniform_d.Fill( value);
-#endif //_ROOT_AVAILABLE_
-
-		//-------------------------------------------------------
 		//gaussian
 		Generator.Gauss(0.0, 1.0, data_d.begin(), data_d.end());
 		hydra::copy(data_d.begin(), data_d.end(), data_h.begin());
@@ -126,36 +155,15 @@ int main(int argv, char** argc)
 		for(size_t i=0; i<10; i++)
 			std::cout << "< Random::Gauss > [" << i << "] :" << data_d[i] << std::endl;
 
+		//-------------------------------------------------------
+		//fit
+
+
 #ifdef _ROOT_AVAILABLE_
 		for(auto value : data_d)
 			hist_gaussian_d.Fill( value);
 #endif //_ROOT_AVAILABLE_
 
-		//-------------------------------------------------------
-		//exponential
-		Generator.Exp(1.0, data_d.begin(), data_d.end());
-		hydra::copy(data_d.begin(), data_d.end(),data_h.begin());
-
-		for(size_t i=0; i<10; i++)
-			std::cout << "< Random::Exp > [" << i << "] :" << data_d[i] << std::endl;
-
-#ifdef _ROOT_AVAILABLE_
-		for(auto value : data_h)
-			hist_exp_d.Fill( value);
-#endif //_ROOT_AVAILABLE_
-
-		//-------------------------------------------------------
-		//breit-wigner
-		Generator.BreitWigner(2.0, 0.2, data_d.begin(), data_d.end());
-		hydra::copy(data_d.begin(), data_d.end(), data_h.begin());
-
-		for(size_t i=0; i<10; i++)
-			std::cout << "< Random::BreitWigner > [" << i << "] :" << data_d[i] << std::endl;
-
-#ifdef _ROOT_AVAILABLE_
-		for(auto value : data_h)
-			hist_bw_d.Fill( value);
-#endif //_ROOT_AVAILABLE_
 	}
 
 
@@ -164,28 +172,13 @@ int main(int argv, char** argc)
 	//------------------------
 #ifdef _ROOT_AVAILABLE_
 
-	TH1D hist_uniform_h("uniform_h",   "Uniform",     100, -6.0, 6.0);
 	TH1D hist_gaussian_h("gaussian_h", "Gaussian",    100, -6.0, 6.0);
-	TH1D hist_exp_h("exponential_h",   "Exponential", 100,  0.0, 5.0);
-	TH1D hist_bw_h("breit_wigner_h",   "Breit-Wigner",100,  0.0, 5.0);
 
 #endif //_ROOT_AVAILABLE_
 
 	{
 		//1D device buffer
 		hydra::host::vector<double>    data_h(nentries);
-
-		//-------------------------------------------------------
-		//uniform
-		Generator.Uniform(-5.0, 5.0, data_h.begin(), data_h.end());
-
-		for(size_t i=0; i<10; i++)
-			std::cout << "< Random::Uniform > [" << i << "] :" << data_h[i]<< std::endl;
-
-#ifdef _ROOT_AVAILABLE_
-		for(auto value : data_h)
-			hist_uniform_h.Fill( value);
-#endif //_ROOT_AVAILABLE_
 
 		//-------------------------------------------------------
 		//gaussian
@@ -199,29 +192,6 @@ int main(int argv, char** argc)
 			hist_gaussian_h.Fill( value);
 #endif //_ROOT_AVAILABLE_
 
-		//-------------------------------------------------------
-		//exponential
-		Generator.Exp(1.0, data_h.begin(), data_h.end());
-
-		for(size_t i=0; i<10; i++)
-			std::cout << "< Random::Exp > [" << i << "] :" << data_h[i] << std::endl;
-
-#ifdef _ROOT_AVAILABLE_
-		for(auto value : data_h)
-			hist_exp_h.Fill( value);
-#endif //_ROOT_AVAILABLE_
-
-		//-------------------------------------------------------
-		//breit-wigner
-		Generator.BreitWigner(2.0, 0.2, data_h.begin(), data_h.end());
-
-		for(size_t i=0; i<10; i++)
-			std::cout << "< Random::BreitWigner > [" << i << "] :" << data_h[i] << std::endl;
-
-#ifdef _ROOT_AVAILABLE_
-		for(auto value : data_h)
-			hist_bw_h.Fill( value);
-#endif //_ROOT_AVAILABLE_
 	}
 
 
@@ -231,19 +201,12 @@ int main(int argv, char** argc)
 
 	//draw histograms
 	TCanvas canvas_d("canvas_d" ,"Distributions - Device", 1000, 1000);
-	canvas_d.Divide(2,2);
-	canvas_d.cd(1); hist_uniform_d.Draw("hist");
-	canvas_d.cd(2); hist_gaussian_d.Draw("hist");
-	canvas_d.cd(3); hist_exp_d.Draw("hist");
-	canvas_d.cd(4); hist_bw_d.Draw("hist");
+	hist_gaussian_d.Draw("hist");
+
 
 	//draw histograms
 	TCanvas canvas_h("canvas_h" ,"Distributions - Host", 1000, 1000);
-	canvas_h.Divide(2,2);
-	canvas_h.cd(1); hist_uniform_h.Draw("hist");
-	canvas_h.cd(2); hist_gaussian_h.Draw("hist");
-	canvas_h.cd(3); hist_exp_h.Draw("hist");
-	canvas_h.cd(4); hist_bw_h.Draw("hist");
+	hist_gaussian_h.Draw("hist");
 
 	myapp->Run();
 
@@ -257,4 +220,5 @@ int main(int argv, char** argc)
 
 
 
-#endif /* BASIC_DISTRIBUTIONS_INL_ */
+
+#endif /* BASIC_FIT_INL_ */

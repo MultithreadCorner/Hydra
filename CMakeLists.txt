@@ -162,7 +162,7 @@ add_subdirectory(examples)
 add_subdirectory(examples/phase_space)
 add_subdirectory(examples/numerical_integration)
 add_subdirectory(examples/random)
-#add_subdirectory(examples/fit)
+add_subdirectory(examples/fit)
 
 add_custom_target(Hydra_Examples)
 

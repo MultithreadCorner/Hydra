@@ -62,7 +62,7 @@ public:
 
 	UserParameters():
 		fMnState(new ROOT::Minuit2::MnUserParameters()),
-		fVariables( std::vector<hydra::Parameter*> ())
+		fVariables( std::vector<Parameter*> ())
 	{ }
 
 	UserParameters( UserParameters const& other):
@@ -83,7 +83,7 @@ public:
 	}
 
 
-	void AddParameter( hydra::Parameter* param, GBool_t update_size=1 )
+	void AddParameter( Parameter* param, GBool_t update_size=1 )
 	{
 		if(param->HasError() && param->IsLimited()){
 			fMnState->Add(param->GetName(), param->GetValue(),
@@ -110,7 +110,7 @@ public:
 	void UpdateParameters(ROOT::Minuit2::FunctionMinimum const& minimum )
 	{
 		auto optimized_parameters =  minimum.UserParameters();
-		for(hydra::Parameter* param: fVariables){
+		for(Parameter* param: fVariables){
 			param->SetValue( optimized_parameters.Value(param->GetName()));
 			param->SetError( optimized_parameters.Error(param->GetName()));
 		}
@@ -123,7 +123,7 @@ public:
 
 		std::string name = minos_error.LowerState().Name( minos_error.Parameter());
 		auto parameter = std::find_if(fVariables.begin(), fVariables.end(),
-				[&](hydra::Parameter* const p) { return std::string(p->GetName()) == name; } );
+				[&](Parameter* const p) { return std::string(p->GetName()) == name; } );
 
 		if (parameter == std::end(fVariables)) {
 			HYDRA_LOG(WARNING, " Parameter :"<< name << " not found. Limits not set.\n\n")
@@ -158,11 +158,11 @@ public:
 		return;
 	}
 
-	const std::vector<hydra::Parameter* >& GetVariables() const {
+	const std::vector<Parameter* >& GetVariables() const {
 		return fVariables;
 	}
 
-	void SetVariables(const std::vector<hydra::Parameter*>& variables)
+	void SetVariables(const std::vector<Parameter*>& variables)
 	{
 		fVariables = variables;
 		std::unique_ptr<ROOT::Minuit2::MnUserParameters>
@@ -198,7 +198,7 @@ public:
 
 
 private:
-	std::vector<hydra::Parameter*> fVariables;
+	std::vector<Parameter*> fVariables;
     std::unique_ptr<ROOT::Minuit2::MnUserParameters> fMnState;
 
 };

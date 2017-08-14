@@ -29,7 +29,6 @@
 #ifndef FCN2_H_
 #define FCN2_H_
 
-namespace hydra {
 #include <hydra/detail/Config.h>
 #include <hydra/detail/BackendPolicy.h>
 #include <hydra/Types.h>
@@ -58,6 +57,8 @@ class FCN2;
 template< template<typename ...> class Estimator, typename PDF, typename Iterator, typename ...Visitors>
 class FCN2<Estimator<PDF,Iterator,Visitors...>>: public ROOT::Minuit2::FCNBase, public Visitors...{
 
+	typedef Estimator<PDF,Iterator,Visitors...> estimator_type;
+
 public:
 
 	FCN2(PDF& pdf, Iterator begin, Iterator end, Visitors&& ...visitors):
@@ -66,7 +67,8 @@ public:
 	fEnd(end),
 	fErrorDef(0.5),
 	fFCNCache(std::unordered_map<size_t, GReal_t>()),
-	Visitors(std::forward<Visitors>(visitors))...{
+	Visitors(std::forward<Visitors>(visitors))...
+	{
 		LoadFCNParameters();
 	}
 
@@ -76,12 +78,13 @@ public:
 	fEnd(end),
 	fErrorDef(0.5),
 	fFCNCache(std::unordered_map<size_t, GReal_t>()),
-	Visitors(visitors)...{
+	Visitors(visitors)...
+	{
 		LoadFCNParameters();
 	}
 
 
-	FCN2(FCN2<PDF, Estimator, Iterator,Visitors...> const& other):
+	FCN2(FCN2<Estimator<PDF,Iterator,Visitors...>> const& other):
 	ROOT::Minuit2::FCNBase(other),
 	Visitors(other)...,
 	fPDF(other.GetPdf()),
@@ -94,8 +97,8 @@ public:
 		LoadFCNParameters();
 	}
 
-	FCN2<PDF, Estimator, Iterator,Visitors...>&
-	operator=(FCN2<PDF, Estimator, Iterator,Visitors...> const& other){
+	FCN2<Estimator<PDF,Iterator,Visitors...>>&
+	operator=(FCN2<Estimator<PDF,Iterator,Visitors...>> const& other){
 
 		if( this==&other ) return this;
 
@@ -166,13 +169,18 @@ public:
 		fUserParameters = userParameters;
 	}
 
+	const size_t& GetDataSize() const
+	{
+		return thrust::distance(fBegin, fEnd);
+	}
+
 private:
 
 	std::unordered_map<size_t, GReal_t>& GetFcnCache() const {
 		return fFCNCache;
 	}
 
-	void SetFcnCache(mutable std::unordered_map<size_t, GReal_t> fcnCache) {
+	void SetFcnCache(std::unordered_map<size_t, GReal_t> fcnCache) {
 		fFCNCache = fcnCache;
 	}
 
@@ -205,10 +213,11 @@ private:
 		fUserParameters.SetVariables( temp);
 	}
 
+	size_t fDataSize;
     PDF& fPDF;
     Iterator fBegin;
     Iterator fEnd;
-    GReal_t fErrorDef;
+    GReal_t  fErrorDef;
     hydra::UserParameters fUserParameters ;
     mutable std::unordered_map<size_t, GReal_t> fFCNCache;
 
