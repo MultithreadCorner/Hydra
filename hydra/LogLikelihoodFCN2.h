@@ -39,5 +39,6 @@ class LogLikelihoodFCN1;
 }  // namespace hydra
 
 #include<hydra/detail/LogLikelihoodFCN1.inl>
+#include<hydra/detail/LogLikelihoodFCN2.inl>
 
 #endif /* LOGLIKELIHOODFCN2_H_ */
