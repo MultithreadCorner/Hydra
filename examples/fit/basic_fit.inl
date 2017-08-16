@@ -48,8 +48,8 @@
 #include <hydra/Parameter.h>
 #include <hydra/UserParameters.h>
 #include <hydra/Pdf.h>
-#include <hydra/AddPdf.h>
 #include <hydra/Copy.h>
+#include <hydra/Filter.h>
 #include <hydra/GaussKronrodQuadrature.h>
 
 //Minuit2
@@ -111,9 +111,10 @@ int main(int argv, char** argc)
 	hydra::Random<thrust::random::default_random_engine>
 	Generator( std::chrono::system_clock::now().time_since_epoch().count() );
 
-    //fit
+	//----------------------
+    //fit function
 	auto GAUSSIAN =  [=] __host__ __device__
-			(unsigned int npar, hydra::Parameter* params,unsigned int narg,double* x )
+			(unsigned int npar, const hydra::Parameter* params,unsigned int narg, double* x )
 	{
 		double m2 = (x[0] -  params[0])*(x[0] - params[0] );
 		double s2 = params[1]*params[1];
@@ -130,18 +131,21 @@ int main(int argv, char** argc)
 
     auto gaussian = hydra::wrap_lambda(GAUSSIAN, mean_p, sigma_p);
 
-    //numerical integral
-    hydra::GaussKronrodQuadrature<61,100, hydra::device::sys_t> GKQ61_d(min,  max);
+    //-----------------
+    // some definitions
+    double min   = -5.0;
+    double max   =  5.0;
+    double mean  = 0.0;
+    double sigma = 1.0;
 
 	//device
 	//------------------------
-
 #ifdef _ROOT_AVAILABLE_
 
-	TH1D hist_gaussian_d("gaussian_d", "Gaussian",    100, -6.0, 6.0);
+	TH1D hist_gaussian_d("gaussian_d", "Gaussian",    100, min, max);
+	TH1D hist_fitted_gaussian_d("fitted_gaussian_d", "Gaussian",    100, min, max);
 
 #endif //_ROOT_AVAILABLE_
-
 	{
 		//1D device buffer
 		hydra::device::vector<double>  data_d(nentries);
@@ -149,22 +153,78 @@ int main(int argv, char** argc)
 
 		//-------------------------------------------------------
 		//gaussian
-		Generator.Gauss(0.0, 1.0, data_d.begin(), data_d.end());
-		hydra::copy(data_d.begin(), data_d.end(), data_h.begin());
+		Generator.Gauss(mean, sigma, data_d.begin(), data_d.end());
 
 		for(size_t i=0; i<10; i++)
 			std::cout << "< Random::Gauss > [" << i << "] :" << data_d[i] << std::endl;
 
+		//numerical integral to normalize the pdf
+		hydra::GaussKronrodQuadrature<61,100, hydra::device::sys_t> GKQ61_d(min,  max);
+
+		//filtering
+		auto FILTER = [=]__host__ __device__(unsigned int n, double* x){
+			return (x[0] > min) && (x[0] < max );
+		};
+
+		auto filter = hydra::wrap_lambda(FILTER);
+		auto range  = hydra::apply_filter(data_d,  filter);
+
+		std::cout<< std::endl<< std::endl;
+		for(size_t i=0; i<10; i++)
+			std::cout << "< Random::Gauss > [" << i << "] :" << range.first[i] << std::endl;
+
+
+		//make model and fcn
+		auto model = hydra::make_pdf(gaussian, GKQ61_d );
+		auto fcn   = hydra::make_loglikehood_fcn(range.first, range.second, model);
+
 		//-------------------------------------------------------
 		//fit
+		ROOT::Minuit2::MnPrint::SetLevel(3);
+		hydra::Print::SetLevel(hydra::WARNING);
+		//minimization strategy
+		MnStrategy strategy(2);
+
+		// create Migrad minimizer
+		MnMigrad migrad_d(fcn, fcn.GetParameters().GetMnState() ,  strategy);
+
+		std::cout<<fcn.GetParameters().GetMnState()<<std::endl;
+
+		// ... Minimize and profile the time
+
+		auto start_d = std::chrono::high_resolution_clock::now();
+		FunctionMinimum minimum_d =  FunctionMinimum(migrad_d(std::numeric_limits<unsigned int>::max(), 5));
+		auto end_d = std::chrono::high_resolution_clock::now();
+		std::chrono::duration<double, std::milli> elapsed_d = end_d - start_d;
+
+		// output
+		std::cout<<"minimum: "<<minimum_d<<std::endl;
+
+		//time
+		std::cout << "-----------------------------------------"<<std::endl;
+		std::cout << "| GPU Time (ms) ="<< elapsed_d.count() <<std::endl;
+		std::cout << "-----------------------------------------"<<std::endl;
+
+		//bring data to device
+		hydra::copy( data_d.begin() , data_d.end(), data_h.begin() );
+
+		//draw fitted function
 
 
 #ifdef _ROOT_AVAILABLE_
-		for(auto value : data_d)
+		for(auto value : data_h)
 			hist_gaussian_d.Fill( value);
+
+		//draw fitted function
+		hist_fitted_gaussian_d.Sumw2();
+		for (size_t i=0 ; i<=100 ; i++) {
+			double x = hist_fitted_gaussian_d.GetBinCenter(i);
+	        hist_fitted_gaussian_d.SetBinContent(i, fcn.GetPDF()(x) );
+		}
+		hist_fitted_gaussian_d.Scale(hist_gaussian_d.Integral()/hist_fitted_gaussian_d.Integral() );
 #endif //_ROOT_AVAILABLE_
 
-	}
+	}//device end
 
 
 
@@ -172,8 +232,8 @@ int main(int argv, char** argc)
 	//------------------------
 #ifdef _ROOT_AVAILABLE_
 
-	TH1D hist_gaussian_h("gaussian_h", "Gaussian",    100, -6.0, 6.0);
-
+	TH1D hist_gaussian_h("gaussian_h", "Gaussian",    100, min, max );
+	TH1D hist_fitted_gaussian_h("fitted_gaussian_h", "Gaussian",    100, min, max);
 #endif //_ROOT_AVAILABLE_
 
 	{
@@ -182,14 +242,69 @@ int main(int argv, char** argc)
 
 		//-------------------------------------------------------
 		//gaussian
-		Generator.Gauss(0.0, 1.0, data_h.begin(), data_h.end());
+		Generator.Gauss(mean, sigma, data_h.begin(), data_h.end());
 
 		for(size_t i=0; i<10; i++)
 			std::cout << "< Random::Gauss > [" << i << "] :" << data_h[i] << std::endl;
 
+		//numerical integral to normalize the pdf
+		hydra::GaussKronrodQuadrature<61,100, hydra::host::sys_t> GKQ61_h(min,  max);
+
+		//filtering
+		auto FILTER = [=]__host__ __device__(unsigned int n, double* x){
+			return (x[0] > min) && (x[0] < max );
+		};
+
+		auto filter = hydra::wrap_lambda(FILTER);
+		auto range  = hydra::apply_filter(data_h,  filter);
+
+		std::cout<< std::endl<< std::endl;
+		for(size_t i=0; i<10; i++)
+			std::cout << "< Random::Gauss > [" << i << "] :" << range.first[i] << std::endl;
+
+
+		//make model and fcn
+		auto model = hydra::make_pdf(gaussian, GKQ61_h );
+		auto fcn   = hydra::make_loglikehood_fcn(range.first, range.second, model);
+
+		//-------------------------------------------------------
+		//fit
+		ROOT::Minuit2::MnPrint::SetLevel(3);
+		//minimization strategy
+		MnStrategy strategy(2);
+
+		// create Migrad minimizer
+		MnMigrad migrad_h(fcn, fcn.GetParameters().GetMnState() ,  strategy);
+
+		std::cout << fcn.GetParameters().GetMnState() << std::endl;
+
+		// ... Minimize and profile the time
+		auto start_h = std::chrono::high_resolution_clock::now();
+		FunctionMinimum minimum_h =  FunctionMinimum(migrad_h(std::numeric_limits<unsigned int>::max(), 5));
+		auto end_h = std::chrono::high_resolution_clock::now();
+		std::chrono::duration<double, std::milli> elapsed_h = end_h - start_h;
+
+		// output
+		std::cout<<"minimum: "<< minimum_h <<std::endl;
+
+		//time
+		std::cout << "-----------------------------------------"<<std::endl;
+		std::cout << "| GPU Time (ms) ="<< elapsed_h.count() <<std::endl;
+		std::cout << "-----------------------------------------"<<std::endl;
+
+
+		//draw fitted function
 #ifdef _ROOT_AVAILABLE_
 		for(auto value : data_h)
 			hist_gaussian_h.Fill( value);
+
+		//draw fitted function
+		hist_fitted_gaussian_h.Sumw2();
+		for (size_t i=0 ; i<=100 ; i++) {
+			double x = hist_fitted_gaussian_h.GetBinCenter(i);
+			hist_fitted_gaussian_h.SetBinContent(i, fcn.GetPDF()(x) );
+		}
+		hist_fitted_gaussian_h.Scale(hist_gaussian_h.Integral()/hist_fitted_gaussian_h.Integral() );
 #endif //_ROOT_AVAILABLE_
 
 	}
@@ -200,13 +315,16 @@ int main(int argv, char** argc)
 	TApplication *myapp=new TApplication("myapp",0,0);
 
 	//draw histograms
-	TCanvas canvas_d("canvas_d" ,"Distributions - Device", 1000, 1000);
+	TCanvas canvas_d("canvas_d" ,"Distributions - Device", 500, 500);
 	hist_gaussian_d.Draw("hist");
-
+	hist_fitted_gaussian_d.Draw("histsameC");
+	hist_fitted_gaussian_d.SetLineColor(2);
 
 	//draw histograms
-	TCanvas canvas_h("canvas_h" ,"Distributions - Host", 1000, 1000);
+	TCanvas canvas_h("canvas_h" ,"Distributions - Host", 500, 500);
 	hist_gaussian_h.Draw("hist");
+	hist_fitted_gaussian_h.Draw("histsameC");
+	hist_fitted_gaussian_h.SetLineColor(2);
 
 	myapp->Run();
 

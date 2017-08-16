@@ -20,37 +20,43 @@
  *---------------------------------------------------------------------------*/
 
 /*
- * Copy.h
+ * Filter.h
  *
- *  Created on: 25/09/2016
+ *  Created on: 15/08/2017
  *      Author: Antonio Augusto Alves Junior
  */
 
+#ifndef FILTER_H_
+#define FILTER_H_
 
-#ifndef COPY_H_
-#define COPY_H_
-
+//hydra
 #include <hydra/detail/Config.h>
 #include <hydra/detail/BackendPolicy.h>
 #include <hydra/Types.h>
-#include <thrust/copy.h>
+#include <hydra/Tuple.h>
+//thrust
+#include <thrust/partition.h>
+
+//std
+
 
 namespace hydra {
 
-template<typename InputIterator, typename OutputIterator>
-OutputIterator copy(InputIterator first, InputIterator last, OutputIterator result)
-{
-	return thrust::copy(first, last, result);
-}
-
-template<detail::Backend Backend, typename InputIterator, typename OutputIterator>
-OutputIterator copy(hydra::detail::BackendPolicy<Backend> const& policy, InputIterator first,
-		InputIterator last, OutputIterator result)
-{
-	return thrust::copy( policy, first, last, result);
-}
+/**
+ * Apply a filter to the range [first, last] and return a pair of iterators for the filtered events.
+ * This function will not change the size of the original range,  [first, last], but will reorder the
+ * entries to put together the accepted entries.
+ * @param first Iterator pointing to the begin of the range to filter.
+ * @param last  Iterator pointing to the end of the range to filter.
+ * @param filter Functor returning bool.
+ * @return
+ */
+template<typename Container, typename Functor>
+hydra::pair<typename Container::iterator, typename Container::iterator>
+apply_filter(Container& container, Functor const& filter);
 
 }  // namespace hydra
 
+#include <hydra/detail/Filter.inl>
 
-#endif /* COPY_H_ */
+#endif /* FILTER_H_ */

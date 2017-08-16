@@ -37,7 +37,7 @@
 #include <hydra/detail/Hash.h>
 #include <hydra/detail/functors/LogLikelihood.h>
 #include <hydra/detail/utility/Arithmetic_Tuple.h>
-#include <hydra/Point.h>
+#include <hydra/detail/Print.h>
 #include <hydra/UserParameters.h>
 
 #include <thrust/distance.h>
@@ -61,17 +61,6 @@ class FCN2<Estimator<PDF,Iterator,Visitors...>>: public ROOT::Minuit2::FCNBase, 
 
 public:
 
-	FCN2(PDF& pdf, Iterator begin, Iterator end, Visitors&& ...visitors):
-	fPDF(pdf),
-	fBegin(begin),
-	fEnd(end),
-	fErrorDef(0.5),
-	fFCNCache(std::unordered_map<size_t, GReal_t>()),
-	Visitors(std::forward<Visitors>(visitors))...
-	{
-		LoadFCNParameters();
-	}
-
 	FCN2(PDF& pdf, Iterator begin, Iterator end, Visitors const& ...visitors):
 	fPDF(pdf),
 	fBegin(begin),
@@ -87,7 +76,7 @@ public:
 	FCN2(FCN2<Estimator<PDF,Iterator,Visitors...>> const& other):
 	ROOT::Minuit2::FCNBase(other),
 	Visitors(other)...,
-	fPDF(other.GetPdf()),
+	fPDF(other.GetPDF()),
 	fBegin(other.GetBegin()),
 	fEnd(other.GetEnd()),
 	fErrorDef(other.GetErrorDef()),
@@ -105,7 +94,7 @@ public:
 		ROOT::Minuit2::FCNBase::operator=(other);
 		auto x = {0,(Visitors::operator=(other), 0)...};
 		x={};
-		fPDF   = other.GetPdf();
+		fPDF   = other.GetPDF();
 		fBegin = other.GetBegin();
 		fEnd   = other.GetEnd();
 		fErrorDef = other.GetErrorDef();
@@ -126,6 +115,24 @@ public:
 
 	double Up() const{
 		return fErrorDef;
+	}
+
+	/**
+	 * @brief Function call operator
+	 *
+	 * @param parameters passed by Minuit
+	 * @return
+	 */
+	virtual GReal_t operator()(const std::vector<double>& parameters) const {
+
+		/*
+		 * get the fcn_value corresponding to the parameters
+		 * cached values are returned for revisited parameters
+		 */
+		GReal_t fcn_value = GetFCNValue(parameters);
+
+		return fcn_value;
+
 	}
 
 	//this class
@@ -149,15 +156,15 @@ public:
 		fEnd = end;
 	}
 
-	PDF& GetPdf() {
+	PDF& GetPDF() {
 		return fPDF;
 	}
 
-	PDF& GetPdf() const {
+	PDF& GetPDF() const {
 			return fPDF;
 	}
 
-	const hydra::UserParameters& GetParameters() {
+	 hydra::UserParameters& GetParameters() {
 			return fUserParameters;
 		}
 
@@ -169,9 +176,19 @@ public:
 		fUserParameters = userParameters;
 	}
 
-	const size_t& GetDataSize() const
+	size_t GetDataSize() const
 	{
 		return thrust::distance(fBegin, fEnd);
+	}
+
+	Iterator GetBegin() const
+	{
+		return fBegin;
+	}
+
+	Iterator GetEnd() const
+	{
+		return fEnd;
 	}
 
 private:
@@ -193,11 +210,32 @@ private:
 		GReal_t value = 0.0;
 
 		if (search != fFCNCache.end() && fFCNCache.size()>0) {
+
+			if (INFO >= Print::Level()  )
+			{
+				std::ostringstream stringStream;
+				stringStream <<" Found in cache: key "
+						     <<  search->first
+						     << " value "
+						     << search->second << std::endl;
+				HYDRA_LOG(INFO, stringStream.str().c_str() )
+			}
+
 			value = search->second;
 		}
 		else {
 			value = EvalFCN(parameters);
 			fFCNCache[key] = value;
+
+			if (INFO >= Print::Level()  )
+			{
+				std::ostringstream stringStream;
+				stringStream <<" Not found in cache. Calculated and cached: key "
+						<<  key
+						<< " value "
+						<< value << std::endl;
+				HYDRA_LOG(INFO, stringStream.str().c_str() )
+			}
 		}
 
 		return value;

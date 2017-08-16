@@ -111,12 +111,20 @@ public:
 	const L& GetLambda() const {return fLambda; }
 
 
-	template</*typename T,*/ size_t M=N>
+	template<size_t M=N, typename T>
 	__host__ __device__ inline
 	typename std::enable_if< (M>0), ReturnType >::type
-	Evaluate(ArgType...a) {
+	Evaluate(T a) {
 
-		return fLambda(this->GetNumberOfParameters(), this->GetParameters(),a...);
+		return fLambda(this->GetNumberOfParameters(), this->GetParameters(),a);
+	}
+
+	template<size_t M=N, typename T>
+	__host__ __device__ inline
+	typename std::enable_if< (M>0), ReturnType >::type
+	Evaluate(unsigned int n, T a) {
+
+		return fLambda(this->GetNumberOfParameters(), this->GetParameters(),n ,a);
 	}
 
 	template< /*typename T,*/size_t M=N>

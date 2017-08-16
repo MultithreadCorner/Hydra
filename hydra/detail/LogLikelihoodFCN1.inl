@@ -29,13 +29,15 @@
 #ifndef LOGLIKELIHOODFCN1_INL_
 #define LOGLIKELIHOODFCN1_INL_
 
+#include <hydra/FCN2.h>
+
 #include <hydra/detail/functors/LogLikelihood1.h>
 #include <thrust/transform_reduce.h>
 
 namespace hydra {
 
-template<typename PDF, typename Iterator>
-class LogLikelihoodFCN2<PDF, Iterator>: public FCN2<LogLikelihoodFCN2<PDF,Iterator > >{
+template<template<typename F, typename I> class PDF, typename Functor, typename Integrator, typename Iterator>
+class LogLikelihoodFCN1<PDF<Functor,Integrator>, Iterator>: public FCN2<LogLikelihoodFCN1<PDF<Functor,Integrator>,Iterator > >{
 
 public:
 
@@ -47,19 +49,19 @@ public:
 	 * @param begin  iterator pointing to the begin of the dataset.
 	 * @param end   iterator pointing to the end of the dataset.
 	 */
-	LogLikelihoodFCN2(PDF& functor, Iterator begin, Iterator end):
-		FCN2<LogLikelihoodFCN2<PDF, Iterator>>(functor,begin, end)
+	LogLikelihoodFCN1(PDF<Functor,Integrator>& functor, Iterator begin, Iterator end):
+		FCN2<LogLikelihoodFCN1<PDF<Functor,Integrator>, Iterator>>(functor,begin, end)
 		{}
 
-	LogLikelihoodFCN2(LogLikelihoodFCN2<PDF, Iterator>const& other):
-		FCN2<LogLikelihoodFCN2<PDF, Iterator>>(other)
+	LogLikelihoodFCN1(LogLikelihoodFCN1<PDF<Functor,Integrator>, Iterator>const& other):
+		FCN2<LogLikelihoodFCN1<PDF<Functor,Integrator>, Iterator>>(other)
 		{}
 
-	LogLikelihoodFCN2<PDF, Iterator>&
-	operator=(LogLikelihoodFCN2<PDF, Iterator>const& other)
+	LogLikelihoodFCN1<PDF<Functor,Integrator>, Iterator>&
+	operator=(LogLikelihoodFCN1<PDF<Functor,Integrator>, Iterator>const& other)
 	{
 		if(this==&other) return  *this;
-		FCN2<LogLikelihoodFCN2<PDF, Iterator>>::operator=(other);
+		FCN2<LogLikelihoodFCN1<PDF<Functor,Integrator>, Iterator>>::operator=(other);
 
 		return  *this;
 	}
@@ -69,7 +71,7 @@ public:
 
 		using   thrust::system::detail::generic::select_system;
 		typedef typename thrust::iterator_system<Iterator>::type System;
-		typedef typename PDF::functor_type functor_type;
+		typedef typename PDF<Functor,Integrator>::functor_type functor_type;
 		System system;
 
 		// create iterators
@@ -96,16 +98,16 @@ public:
 		final = thrust::transform_reduce(select_system(system),
 				this->begin(), this->end(), NLL, init, thrust::plus<GReal_t>());
 
-		return (GReal_t)this->GetDataSize()-this->final ;
+		return (GReal_t)this->GetDataSize()-final ;
 	}
 
 };
 
-template<typename PDF,  typename Iterator>
-auto make_loglikehood_fcn(PDF& functor, Iterator first, Iterator last)
--> LogLikelihoodFCN2<PDF, Iterator >
+template<template<typename F, typename I> class PDF, typename Functor, typename Integrator,  typename Iterator>
+auto make_loglikehood_fcn(Iterator first, Iterator last, PDF<Functor,Integrator>& functor)
+-> LogLikelihoodFCN1<PDF<Functor,Integrator>, Iterator >
 {
-	return LogLikelihoodFCN2<PDF, Iterator >( functor, first, last);
+	return LogLikelihoodFCN1<PDF<Functor,Integrator>, Iterator >( functor, first, last);
 }
 
 }  // namespace hydra

@@ -69,20 +69,7 @@ public:
 
 	   const char *labels[3] = {"Info", "Warning", "Error"};
 	   return labels[level];
-	  /*
-	   switch (level) {
-	   case INFO:
-		   return "Info";
-		   break;
-	   case WARNING:
-		   return "Warning";
-		   break;
-	   case ERROR:
-		   return "Error";
-		   break;
-	   default:
-		   break;
-	   }*/
+
    }
 
 };

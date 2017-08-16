@@ -119,11 +119,11 @@ public:
 		this->SetCallTable();
 	}
 
-	GaussKronrodQuadrature(GaussKronrodQuadrature<NRULE,NBIN, hydra::detail::BackendPolicy<BACKEND> > const& other)
+	GaussKronrodQuadrature(GaussKronrodQuadrature<NRULE,NBIN, hydra::detail::BackendPolicy<BACKEND> > const& other):
+		fXLower(other.GetXLower()),
+		fXUpper(other.GetXUpper()),
+		fRule(other.GetRule())
 	{
-		this->fXLower = other.GetXLower();
-		this->fXUpper = other.GetXUpper();
-		this->fRule   = other.GetfRule();
 		this->SetBins();
 		this->SetCallTable();
 	}
@@ -135,7 +135,7 @@ public:
 
 			this->fXLower = other.GetXLower();
 			this->fXUpper = other.GetXUpper();
-			this->fRule   = other.GetfRule();
+			this->fRule   = other.GetRule();
 			this->SetBins();
 			this->SetCallTable();
 
@@ -147,7 +147,7 @@ public:
 	{
             this->fXLower = other.GetXLower();
             this->fXUpper = other.GetXUpper();
-            this->fRule   = other.GetfRule();
+            this->fRule   = other.GetRule();
 			this->SetBins();
 			this->SetCallTable();
 	}
@@ -160,7 +160,7 @@ public:
 
 		this->fXLower = other.GetXLower();
 		this->fXUpper = other.GetXUpper();
-		this->fRule   = other.GetfRule();
+		this->fRule   = other.GetRule();
 		this->SetBins();
 		this->SetCallTable();
 

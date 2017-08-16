@@ -34,21 +34,7 @@
 namespace hydra {
 
 template<typename PDF, typename Iterator, typename... Extensions>
-class LogLikelihoodFCN2;
-
-/*
-template<typename PDF, typename Iterator>
-class LogLikelihoodFCN2<PDF, Iterator>; public FCN2<LogLikelihoodFCN2<PDF,Iterator > >;
-
-template<typename PDF, typename Iterator, typename Weights>
-class LogLikelihoodFCN2<PDF, Iterator, Weights>; public FCN2<LogLikelihoodFCN2<PDF,Iterator, Weights> >;
-
-template<typename PDF, typename Iterator, typename Cache>
-class LogLikelihoodFCN2<PDF, Iterator, Cache>; public FCN2<LogLikelihoodFCN2<PDF,Iterator, Cache> >;
-
-template<typename PDF, typename Iterator, typename Weights, typename Cache>
-class LogLikelihoodFCN2<PDF, Iterator, Weights,Cache>; public FCN2<LogLikelihoodFCN2<PDF,Iterator, Weights,Cache> >;
-*/
+class LogLikelihoodFCN1;
 
 }  // namespace hydra
 

@@ -77,7 +77,7 @@ struct BaseFunctor
 	explicit BaseFunctor():
 		fCacheIndex(-1),
 		fCached(0),
-		fNArgs(-1),
+		fNArgs(0),
 		fParamResgistered(1),
 		fNorm(1.0),
 		fNormalized(1),
@@ -92,7 +92,7 @@ struct BaseFunctor
 	BaseFunctor(std::initializer_list<Parameter> init_parameters):
 	fCacheIndex(-1),
 	fCached(0),
-	fNArgs(-1),
+	fNArgs(0),
 	fParamResgistered(1),
 	fNorm(1.0),
 	fNormalized(1),
@@ -110,7 +110,7 @@ struct BaseFunctor
 	BaseFunctor(std::array<Parameter,NPARAM> const& init_parameters):
 		fCacheIndex(-1),
 		fCached(0),
-		fNArgs(-1),
+		fNArgs(0),
 		fParamResgistered(1),
 		fNorm(1.0),
 		fNormalized(1),
@@ -300,12 +300,14 @@ if(NPARAM!=0){
 	typename thrust::detail::enable_if<
 	! ( detail::is_instantiation_of<thrust::tuple,typename std::remove_reference<T>::type >::value ||
 	    detail::is_instantiation_of<thrust::detail::tuple_of_iterator_references,
-	                                typename std::remove_reference<T>::type >::value )
+	                                typename thrust::detail::remove_reference<T>::type >::value )
 	, return_type>::type
 	interface(T&& x)
 	{
 		fNArgs=1;
-		return static_cast<Functor*>(this)->Evaluate(fNArgs, &x);
+		typename thrust::detail::remove_const<typename thrust::detail::remove_reference<T>::type>::type _x;
+		_x=x;
+		return static_cast<Functor*>(this)->Evaluate(fNArgs, &_x);
 	}
 
 
@@ -314,14 +316,14 @@ if(NPARAM!=0){
 	typename thrust::detail::enable_if<(
 			  detail::is_instantiation_of<thrust::tuple,typename std::remove_reference<T>::type >::value ||
 			  detail::is_instantiation_of<thrust::detail::tuple_of_iterator_references,
-			                              typename std::remove_reference<T>::type >::value ) ||
-	          detail::is_homogeneous<typename thrust::tuple_element<0, typename std::remove_reference<T>::type>::type,
-	                                 typename std::remove_reference<T>::type>::value,
+			                              typename thrust::detail::remove_reference<T>::type >::value ) ||
+	          detail::is_homogeneous<typename thrust::tuple_element<0, typename thrust::detail::remove_reference<T>::type>::type,
+	                                 typename thrust::detail::remove_reference<T>::type>::value,
 	return_type>::type
 	interface(T&& x)
 	{
-		typedef typename std::remove_reference<T>::type Tprime;
-		typedef typename std::remove_reference<typename thrust::tuple_element<0, Tprime>::type>::type first_type;
+		typedef typename thrust::detail::remove_reference<T>::type Tprime;
+		typedef typename thrust::detail::remove_reference<typename thrust::tuple_element<0, Tprime>::type>::type first_type;
 		constexpr size_t N = thrust::tuple_size< Tprime >::value;
 
 		first_type Array[ N ];
@@ -336,8 +338,8 @@ if(NPARAM!=0){
 	template<typename T >
 	__host__ __device__ inline
 	typename thrust::detail::enable_if<!(detail::is_homogeneous<
-	typename thrust::tuple_element<0, typename std::remove_reference<T>::type>::type,
-	typename std::remove_reference<T>::type>::value), return_type>::type
+	typename thrust::tuple_element<0, typename thrust::detail::remove_reference<T>::type>::type,
+	typename thrust::detail::remove_reference<T>::type>::value), return_type>::type
 	interface(T&& x)
 	{
 		fNArgs=0;

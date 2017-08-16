@@ -75,8 +75,8 @@ struct ProcessGaussKronrodAdaptiveQuadrature
 
 	//	GaussKronrodCall result;
 
-		GReal_t function_call    = abscissa_Weight*(fFunctor(1, &abscissa_X_P)
-				+ fFunctor(1 , &abscissa_X_M) ) ;
+		GReal_t function_call    = abscissa_Weight*(fFunctor(abscissa_X_P)
+				+ fFunctor(abscissa_X_M) ) ;
 		GReal_t fGaussCall        = function_call*rule_Gauss_Weight;
 		GReal_t fGaussKronrodCall = function_call*rule_GaussKronrod_Weight;
 

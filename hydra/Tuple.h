@@ -173,7 +173,7 @@ make_tuple(T const&... t)
  *
  */
 template<class T1, class T2 >
-tuple<T1, T2>
+pair<T1, T2>
 make_pair( T1 const& t1, T2 const& t2 )
 {
 	return thrust::make_pair(t1, t2);

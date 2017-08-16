@@ -20,37 +20,26 @@
  *---------------------------------------------------------------------------*/
 
 /*
- * Copy.h
+ * Filter.inl
  *
- *  Created on: 25/09/2016
+ *  Created on: 15/08/2017
  *      Author: Antonio Augusto Alves Junior
  */
 
+#ifndef FILTER_INL_
+#define FILTER_INL_
 
-#ifndef COPY_H_
-#define COPY_H_
-
-#include <hydra/detail/Config.h>
-#include <hydra/detail/BackendPolicy.h>
-#include <hydra/Types.h>
-#include <thrust/copy.h>
 
 namespace hydra {
 
-template<typename InputIterator, typename OutputIterator>
-OutputIterator copy(InputIterator first, InputIterator last, OutputIterator result)
+template<typename Container, typename Functor>
+hydra::pair<typename Container::iterator, typename Container::iterator>
+apply_filter(Container& container, Functor const& filter)
 {
-	return thrust::copy(first, last, result);
-}
-
-template<detail::Backend Backend, typename InputIterator, typename OutputIterator>
-OutputIterator copy(hydra::detail::BackendPolicy<Backend> const& policy, InputIterator first,
-		InputIterator last, OutputIterator result)
-{
-	return thrust::copy( policy, first, last, result);
+	typename Container::iterator new_end = thrust::partition(container.begin(),container.end() , filter);
+     return hydra::make_pair(container.begin(), new_end);
 }
 
 }  // namespace hydra
 
-
-#endif /* COPY_H_ */
+#endif /* FILTER_INL_ */

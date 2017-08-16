@@ -53,13 +53,9 @@ namespace hydra
 namespace detail {
 
 template< typename FUNCTOR, typename INTEGRATOR>
-class PdfBase: std::enable_if< detail::is_hydra_functor<FUNCTOR>::value &&
-detail::is_hydra_integrator<INTEGRATOR>::value>
-{
-public:
-	typedef FUNCTOR functor_type;
-
-};
+class PdfBase: public std::enable_if< detail::is_hydra_functor<FUNCTOR>::value &&
+detail::is_hydra_integrator<INTEGRATOR>::value >
+{};
 
 
 }// namespace detail
@@ -74,7 +70,7 @@ public:
  *  2. integration algorithm or functor for analytical integration, which normalizes the functor.
  */
 template<typename FUNCTOR, typename INTEGRATOR>
-class Pdf:detail::PdfBase<FUNCTOR, INTEGRATOR>
+class Pdf: public detail::PdfBase<FUNCTOR, INTEGRATOR>
 {
 
 
@@ -84,6 +80,7 @@ public:
 	//will fail
 	typedef typename detail::PdfBase<FUNCTOR, INTEGRATOR>::type base_type;
 
+	typedef FUNCTOR functor_type;
 	//tag
 	typedef void hydra_pdf_tag;
 
