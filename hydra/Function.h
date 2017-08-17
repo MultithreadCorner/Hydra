@@ -64,7 +64,7 @@ template<typename Functor, typename ReturnType, size_t NPARAM>
 struct BaseFunctor
 {
 	//tag
-    typedef void hydra_functor_tag;
+    typedef   void hydra_functor_tag;
 	typedef   ReturnType return_type;
 	typedef   std::true_type is_functor;
 

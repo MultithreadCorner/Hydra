@@ -98,8 +98,6 @@ public:
 		if(this==&other) return *this;
 		BaseFunctor<LambdaWrapper<ReturnType(ArgType...),L, N>, ReturnType,N>::operator=(other);
 
-		this->fLambda = other.GetLambda();
-
 		return *this;
 	}
 

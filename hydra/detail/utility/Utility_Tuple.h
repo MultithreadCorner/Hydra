@@ -688,6 +688,7 @@ namespace hydra {
 	 }
 */
 	 //evaluate a tuple of functors and return a tuple of results
+	 __hydra_exec_check_disable__
 	 template< typename Tup, typename ArgType, size_t ... index>
 	 __host__ __device__
 	 inline auto invoke_helper( ArgType& x, Tup& tup, index_sequence<index...>)
@@ -696,6 +697,7 @@ namespace hydra {
 		 return thrust::make_tuple(thrust::get<index>(tup)(x)...);
 	 }
 
+	 __hydra_exec_check_disable__
 	 template< typename Tup, typename ArgType>
 	 __host__  __device__
 	 inline auto invoke(ArgType& x, Tup& tup)
@@ -706,6 +708,7 @@ namespace hydra {
 	 }
 
 	 //evaluate a tuple of functors and return a tuple of results
+	 __hydra_exec_check_disable__
 	 template<typename Tup, typename ArgType1, typename ArgType2, size_t ... index>
 	 __host__ __device__
 	 inline auto invoke_helper( ArgType1& x, ArgType2& y, Tup& tup, index_sequence<index...>)
@@ -714,6 +717,7 @@ namespace hydra {
 		 return  thrust::make_tuple(thrust::get<index>(tup)(x,y)...);
 	 }
 
+	 __hydra_exec_check_disable__
 	 template<typename Return_type, typename Tup, typename ArgType1, typename ArgType2>
 	 __host__  __device__
 	 inline auto invoke(ArgType1& x, ArgType2& y,  Tup& tup)

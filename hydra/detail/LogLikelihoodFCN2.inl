@@ -92,6 +92,7 @@ public:
 			HYDRA_LOG(INFO, stringStream.str().c_str() )
 		}
 
+		this->GetPDF().SetParameters(parameters);
 		/*
 		 * avoid evaluate inconsistent coefficients configurations
 		 * returning quickly the highest NLL value already calculated
@@ -110,6 +111,7 @@ public:
 
 		fMAxValue = (fMAxValue<r) ? r : fMAxValue;
 
+
 		return r;
 
 	}
@@ -124,7 +126,7 @@ private:
 
 };
 
-template<typename... Pdfs, typename Integrator,  typename Iterator>
+template<typename... Pdfs,  typename Iterator>
 auto make_loglikehood_fcn(Iterator first, Iterator last, AddPdf<Pdfs...>& functor)
 -> LogLikelihoodFCN1< AddPdf<Pdfs...>, Iterator >
 {

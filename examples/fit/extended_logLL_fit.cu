@@ -20,58 +20,13 @@
  *---------------------------------------------------------------------------*/
 
 /*
- * Config.h
+ * basic_fit.cu
  *
- *  Created on: Feb 24, 2016
+ *  Created on: 14/08/2017
  *      Author: Antonio Augusto Alves Junior
  */
 
 
 
-#ifndef CONFIG_H_
-#define CONFIG_H_
 
-#define CUDA_API_PER_THREAD_DEFAULT_STREAM
-
-#include <thrust/detail/config.h>
-#include <thrust/detail/config/host_device.h>
-
-
-
-//#if defined(__CUDACC__) && !(defined(__CUDA__) && defined(__clang__))
-
-#define __hydra_exec_check_disable__  __thrust_exec_check_disable__
-
-//#else
-
-//#define __hydra_exec_check_disable__
-
-//#endif
-
-#if defined(__CUDACC__)
-#define __hydra_align__(n) __align__(n)
-#else
-  #define       __hydra_align__(n) __attribute__((aligned(n)))
-#endif
-
-#ifdef __NVCC__
- #include <cuda.h>
- #include <cuda_runtime.h>
- #include <cuda_runtime_api.h>
- #include <math_functions.h>
- #include <vector_functions.h>
-#endif
-
-
-#ifndef HYDRA_CERROR_LOG
-#define HYDRA_OS std::cerr
-#else
-#define HYDRA_OS HYDRA_CERROR_LOG
-#endif
-
-
-
-
-
-
-#endif /* CUDA_H_ */
+#include <examples/fit/extended_logLL_fit.inl>

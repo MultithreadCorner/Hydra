@@ -41,6 +41,7 @@
 #include <thrust/tuple.h>
 #include <initializer_list>
 #include <tuple>
+#include <utility>
 
 namespace hydra {
 
@@ -48,13 +49,14 @@ namespace detail {
 
 
 template<typename PDF1, typename PDF2, typename ...PDFs>
-class AddPdfChecker: all_true<
+class AddPdfChecker:  public all_true<
 detail::is_hydra_pdf<PDF1>::value,
 detail::is_hydra_pdf<PDF2>::value,
 detail::is_hydra_pdf<PDFs>::value...>{} ;
 
 template<typename PDF1, typename PDF2, typename ...PDFs>
-class AddPdfBase: std::enable_if<AddPdfChecker<PDF1,PDF2,PDFs...>::value>{};
+class AddPdfBase: public std::enable_if<AddPdfChecker<PDF1,PDF2,PDFs...>::value>
+{};
 
 }  // namespace detail
 
@@ -72,7 +74,7 @@ class AddPdfBase: std::enable_if<AddPdfChecker<PDF1,PDF2,PDFs...>::value>{};
  * The coefficient of the last term is calculated as \f$ c_N=1 -\sum_i^{(N-1)} c_i \f$.
  */
 template<typename PDF1, typename PDF2, typename ...PDFs>
-class AddPdf: detail::AddPdfBase<PDF1,PDF2,PDFs...>
+class AddPdf: public detail::AddPdfBase<PDF1,PDF2,PDFs...>
 {
 
 
@@ -90,10 +92,6 @@ public:
 	typedef thrust::tuple<typename PDF1::functor_type,
 			typename  PDF2::functor_type,
 			typename  PDFs::functor_type...> functors_tuple_type;//!< type of the tuple of pdf::functors
-
-
-
-
 
 	typedef detail::AddPdfFunctor< PDF1, PDF2, PDFs...> functor_type;
 
@@ -326,10 +324,10 @@ public:
 		fExtended = extended;
 	}
 
+
 	template<typename T1> inline
 	GReal_t operator()(T1&& t )
 	{
-
 		auto pdf_res_tuple = detail::invoke<pdfs_tuple_type, T1>( t, fPDFs);
 		GReal_t pdf_res_array[npdfs];
 		detail::tupleToArray( pdf_res_tuple, pdf_res_array );
@@ -340,6 +338,7 @@ public:
 
 		return result/fCoefSum;
 	}
+
 
 	template<typename T1, typename T2>
 	inline	GReal_t operator()( T1&& t, T2&& cache)
@@ -359,7 +358,6 @@ public:
 	template<typename T>
     inline	GReal_t operator()( T* x, T* p)
 	{
-
 
 		auto pdf_res_tuple = detail::invoke<GReal_t,pdfs_tuple_type, T*, T*>( x, p, fPDFs);
 		GReal_t pdf_res_array[npdfs];
@@ -392,7 +390,7 @@ private:
  */
 template<size_t N, typename PDF1, typename PDF2, typename ...PDFs>
 AddPdf<PDF1, PDF2, PDFs...>
-add_pdfs(std::array<Parameter*, N> var_list, PDF1 const& pdf1, PDF2 const& pdf2, PDFs const& ...pdfs )
+add_pdfs(std::array<Parameter*, N>const& var_list, PDF1 const& pdf1, PDF2 const& pdf2, PDFs const& ...pdfs )
 {
 	return AddPdf<PDF1, PDF2, PDFs...>(pdf1, pdf2, pdfs..., var_list);
 }
