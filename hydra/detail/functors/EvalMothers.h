@@ -84,10 +84,10 @@ struct EvalMothers
 	}
 
 	//copy
-	EvalMothers(EvalMothers<N, GRND,FUNCTOR, FUNCTORS...> const& other)
+	EvalMothers(EvalMothers<N, GRND,FUNCTOR, FUNCTORS...> const& other):
+		fFunctors(other.fFunctors),
+			fSeed(other.fSeed)
 	{
-		fFunctors = other.fFunctors ;
-		fSeed = other.fSeed;
 
 #pragma unroll N
 		for(size_t i=0; i<N; i++)
@@ -291,10 +291,9 @@ struct EvalMothers
 
 		Tuple_t particles1{};
 
-		hydra::detail::assignArrayToTuple(particles, Particles   );
+		hydra::detail::assignArrayToTuple(particles1, Particles   );
 
-		return_tuple_type tmp = hydra::detail::invoke<functors_tuple_type,
-				Vector4R*>(particles1, fFunctors);
+		return_tuple_type tmp = hydra::detail::invoke(particles1, fFunctors);
 
 		return thrust::tuple_cat(thrust::make_tuple(weight), tmp );
 

@@ -71,10 +71,10 @@ struct AverageMothers
 	}
 
 	//copy
-	AverageMothers(AverageMothers<N, GRND,FUNCTOR> const& other)
+	AverageMothers(AverageMothers<N, GRND,FUNCTOR> const& other):
+	fFunctor(other.fFunctor),
+	fSeed(other.fSeed)
 	{
-		fFunctor = other.fFunctor ;
-		fSeed = other.fSeed;
 
 #pragma unroll N
 		for(size_t i=0; i<N; i++)
@@ -263,7 +263,7 @@ struct AverageMothers
 	__host__   __device__
 	StatsPHSP operator()(Tuple& particles)
 	{
-		typedef typename hydra::detail::tuple_type<N,
+		typedef typename hydra::detail::tuple_type<N+1,
 						Vector4R>::type Tuple_t;
 
 		constexpr size_t SIZE = thrust::tuple_size<Tuple_t>::value;
@@ -274,9 +274,13 @@ struct AverageMothers
 		size_t evt  = thrust::get<0>(particles);
 		GReal_t weight = process(evt, Particles);
 
+		Tuple_t particles1{};
+
+		hydra::detail::assignArrayToTuple(particles1, Particles   );
+
 		StatsPHSP result;
 
-		result.fMean = fFunctor( (GUInt_t) SIZE , Particles);
+		result.fMean = fFunctor(particles1);
 		result.fW    = weight;
 		result.fM2   = 0.0;
 
