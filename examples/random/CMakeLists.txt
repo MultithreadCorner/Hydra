@@ -15,11 +15,15 @@ if(BUILD_CUDA_TARGETS)
             )
          target_link_libraries(basic_distributions_cuda  ${ROOT_LIBRARIES} )
         
+         add_dependencies(examples basic_distributions_cuda)
+        
          #+++++++++++++++++++++++++++++++++
          cuda_add_executable( sample_distribution_cuda EXCLUDE_FROM_ALL  sample_distribution.cu    
             OPTIONS -Xcompiler -fopenmp -DTHRUST_DEVICE_SYSTEM=THRUST_DEVICE_SYSTEM_CUDA  -DTHRUST_HOST_SYSTEM=THRUST_HOST_SYSTEM_CPP -lgomp
             )
          target_link_libraries(sample_distribution_cuda  ${ROOT_LIBRARIES} )
+        
+         add_dependencies(examples sample_distribution_cuda)
         
                         
 endif(BUILD_CUDA_TARGETS)
@@ -39,6 +43,8 @@ if(BUILD_TBB_TARGETS)
     
     target_link_libraries( basic_distributions_tbb tbb  ${ROOT_LIBRARIES})
    
+         add_dependencies(examples basic_distributions_tbb)
+        
     #+++++++++++++++++++++++++++++++
     add_executable( sample_distribution_tbb EXCLUDE_FROM_ALL
      sample_distribution.cpp
@@ -49,6 +55,8 @@ if(BUILD_TBB_TARGETS)
     
     target_link_libraries( sample_distribution_tbb tbb  ${ROOT_LIBRARIES})
    
+         add_dependencies(examples sample_distribution_tbb)
+        
     
 endif(BUILD_TBB_TARGETS)
 
@@ -68,6 +76,8 @@ IF(OPENMP_FOUND)
     
     target_link_libraries( basic_distributions_omp   ${ROOT_LIBRARIES})
 
+         add_dependencies(examples basic_distributions_omp)
+        
     
     #+++++++++++++++++++++++++++++++
     add_executable(sample_distribution_omp EXCLUDE_FROM_ALL
@@ -81,6 +91,8 @@ IF(OPENMP_FOUND)
 
     
     
+         add_dependencies(examples sample_distribution_omp)
+        
     
 endif(OPENMP_FOUND)
 
