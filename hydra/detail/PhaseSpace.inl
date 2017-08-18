@@ -149,7 +149,7 @@ template<typename ...FUNCTOR, typename IteratorMother, typename Iterator>
 void PhaseSpace<N,GRND>::Evaluate( IteratorMother mbegin,
 		IteratorMother mend, Iterator begin, FUNCTOR const& ...functors) {
 
-	detail::EvalMothers<N,GRND,FUNCTOR...> evaluator(functors...,  fMasses, fSeed);
+	detail::EvalMothers<N,GRND,FUNCTOR...> evaluator(fMasses, fSeed,functors... );
 
 	detail::launch_evaluator( mbegin, mend, begin, evaluator );
 
