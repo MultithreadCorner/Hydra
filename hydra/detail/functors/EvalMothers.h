@@ -278,7 +278,7 @@ struct EvalMothers
 	operator()( Tuple &particles)
 	{
 
-		typedef typename hydra::detail::tuple_type<N,
+		typedef typename hydra::detail::tuple_type<N+1,
 				Vector4R>::type Tuple_t;
 
 		constexpr size_t SIZE = thrust::tuple_size<Tuple_t>::value;
