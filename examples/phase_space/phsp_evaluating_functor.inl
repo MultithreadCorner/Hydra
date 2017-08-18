@@ -126,22 +126,22 @@ int main(int argv, char** argc)
 
 	}
 	catch (TCLAP::ArgException &e)  {
-		std::cerr << "error: " << e.error() << " for arg " << e.argId()
-																<< std::endl;
+		std::cerr << "error: " << e.error() << " for arg " << e.argId()	<< std::endl;
 	}
 
 	//C++11 lambda for invariant mass
-	auto M12Sq = [] __host__ __device__ (hydra::Vector4R* p )
+	auto M12Sq = [] __host__ __device__ (unsigned int n, hydra::Vector4R
+			* p )
 	{ return  ( p[0] + p[2]).mass2(); };
 
 
 	//C++11 lambda for invariant mass
-	auto M23Sq = [] __host__ __device__ (hydra::Vector4R* p )
+	auto M23Sq = [] __host__ __device__ (unsigned int n, hydra::Vector4R* p )
 	{ return  ( p[1] + p[2]).mass2(); };
 
 
 	//C++11 lambda for cosine of helicity angle Kpi
-	auto COSHELANG = [] __host__ __device__ (hydra::Vector4R* P )
+	auto COSHELANG = [] __host__ __device__ (unsigned int n, hydra::Vector4R* P )
 	{
 		hydra::Vector4R p = P[1] + P[2] + P[0];
 		hydra::Vector4R q = P[2] + P[1];

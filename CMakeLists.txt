@@ -83,7 +83,7 @@ if(CUDA_FOUND)
 	-Xptxas -dlcm=ca; -Xptxas --opt-level=4 )
 
 	SET(CUDA_SEPARABLE_COMPILATION OFF)
-	SET(CUDA_VERBOSE_BUILD ON)
+	SET(CUDA_VERBOSE_BUILD OFF)
 	
 	if(CMAKE_CXX_COMPILER_VERSION VERSION_GREATER 4.8)
 	   LIST(APPEND CUDA_NVCC_FLAGS " -D_MWAITXINTRIN_H_INCLUDED ")
@@ -157,67 +157,66 @@ Hydra_Test_Host_CPP_Device_OMP
 #        EXAMPLES          +
 #+++++++++++++++++++++++++++
 
-add_subdirectory(examples)
+#add_subdirectory(examples)
+add_custom_target(examples)
 
 add_subdirectory(examples/phase_space)
 add_subdirectory(examples/numerical_integration)
 add_subdirectory(examples/random)
 add_subdirectory(examples/fit)
 
-add_custom_target(Hydra_Examples)
-
 
 # CUDA
-if(BUILD_CUDA_TARGETS)
-    add_dependencies(Hydra_Examples
-    Hydra_Example_Numerical_Integration_GenzMalik_CUDA
-    Hydra_Example_Numerical_Integration_CUDA
-    Hydra_Example_PHSP_Host_OMP_Device_CUDA
-    Hydra_Example_Experimental_PHSP_CUDA
-    Hydra_Example_Random_Host_OMP_Device_CUDA
-    Hydra_Example_Fit_Host_OMP_Device_CUDA
-    Hydra_Example_Eval_Host_OMP_Device_CUDA
-    )
-endif(BUILD_CUDA_TARGETS)
-
+#if(BUILD_CUDA_TARGETS)
+#    add_dependencies(Hydra_Examples
+#    Hydra_Example_Numerical_Integration_GenzMalik_CUDA
+#    Hydra_Example_Numerical_Integration_CUDA
+#    Hydra_Example_PHSP_Host_OMP_Device_CUDA
+#    Hydra_Example_Experimental_PHSP_CUDA
+#    Hydra_Example_Random_Host_OMP_Device_CUDA
+#    Hydra_Example_Fit_Host_OMP_Device_CUDA
+#    Hydra_Example_Eval_Host_OMP_Device_CUDA
+#    )
+#endif(BUILD_CUDA_TARGETS)
+#
 # TBB
-if(BUILD_TBB_TARGETS)
-
-add_dependencies(Hydra_Examples
-    Hydra_Example_Numerical_Integration_TBB
-    Hydra_Example_Experimental_PHSP_TBB
-    Hydra_Example_PHSP_Host_CPP_Device_TBB
-    Hydra_Example_Random_Host_CPP_Device_TBB
-    Hydra_Example_Fit_Host_CPP_Device_TBB
-    Hydra_Example_Eval_Host_CPP_Device_TBB
-    )
-endif(BUILD_TBB_TARGETS)
-
+#if(BUILD_TBB_TARGETS)
+#
+#add_dependencies(Hydra_Examples
+#    Hydra_Example_Numerical_Integration_TBB
+#    Hydra_Example_Experimental_PHSP_TBB
+#    Hydra_Example_PHSP_Host_CPP_Device_TBB
+#    Hydra_Example_Random_Host_CPP_Device_TBB
+#    Hydra_Example_Fit_Host_CPP_Device_TBB
+#    Hydra_Example_Eval_Host_CPP_Device_TBB
+#    )
+#endif(BUILD_TBB_TARGETS)
+#
 # OMP
-IF(OPENMP_FOUND)
-    add_dependencies(Hydra_Examples
-    Hydra_Example_Numerical_Integration_GenzMalik_OMP
-    Hydra_Example_Numerical_Integration_OMP
-    Hydra_Example_Experimental_PHSP_OMP
-    Hydra_Example_PHSP_Host_CPP_Device_OMP
-    Hydra_Example_PHSP_Host_CPP_Device_OMP
-    Hydra_Example_Random_Host_CPP_Device_OMP
-    Hydra_Example_Fit_Host_CPP_Device_OMP
-    Hydra_Example_Fit_Host_CPP_Device_OMP
-    Hydra_Example_Eval_Host_CPP_Device_OMP)   
-ENDIF(OPENMP_FOUND)
-
-if(BUILD_CUDA_TARGETS AND OPENMP_FOUND)
-    add_dependencies(Hydra_Examples
-        Hydra_Example_Numerical_Integration_Performance_Plots_CUDA_OMP
-    )
-endif(BUILD_CUDA_TARGETS AND OPENMP_FOUND)
-
-if(BUILD_CUDA_TARGETS AND BUILD_TBB_TARGETS)
-    add_dependencies(Hydra_Examples
-        Hydra_Example_Numerical_Integration_Performance_Plots_CUDA_OMP
-    )
-endif(BUILD_CUDA_TARGETS AND BUILD_TBB_TARGETS)
+#IF(OPENMP_FOUND)
+#    add_dependencies(Hydra_Examples
+#    Hydra_Example_Numerical_Integration_GenzMalik_OMP
+#    Hydra_Example_Numerical_Integration_OMP
+#    Hydra_Example_Experimental_PHSP_OMP
+#    Hydra_Example_PHSP_Host_CPP_Device_OMP
+#    Hydra_Example_PHSP_Host_CPP_Device_OMP
+#    Hydra_Example_Random_Host_CPP_Device_OMP
+#    Hydra_Example_Fit_Host_CPP_Device_OMP
+#    Hydra_Example_Fit_Host_CPP_Device_OMP
+#    Hydra_Example_Eval_Host_CPP_Device_OMP)   
+#ENDIF(OPENMP_FOUND)
+#
+#if(BUILD_CUDA_TARGETS AND OPENMP_FOUND)
+#    add_dependencies(Hydra_Examples
+#        Hydra_Example_Numerical_Integration_Performance_Plots_CUDA_OMP
+#    )
+#endif(BUILD_CUDA_TARGETS AND OPENMP_FOUND)
+#
+#if(BUILD_CUDA_TARGETS AND BUILD_TBB_TARGETS)
+#    add_dependencies(Hydra_Examples
+#        Hydra_Example_Numerical_Integration_Performance_Plots_CUDA_OMP
+#    )
+#endif(BUILD_CUDA_TARGETS AND BUILD_TBB_TARGETS)
 
 
 

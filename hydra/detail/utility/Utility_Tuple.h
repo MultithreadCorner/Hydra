@@ -718,7 +718,7 @@ namespace hydra {
 	 }
 
 	 __hydra_exec_check_disable__
-	 template<typename Return_type, typename Tup, typename ArgType1, typename ArgType2>
+	 template< typename Tup, typename ArgType1, typename ArgType2>
 	 __host__  __device__
 	 inline auto invoke(ArgType1& x, ArgType2& y,  Tup& tup)
 	 -> decltype(invoke_helper( x, y, tup, make_index_sequence< thrust::tuple_size<Tup>::value> { }) )

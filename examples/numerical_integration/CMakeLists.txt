@@ -1,4 +1,4 @@
-project(examples)
+project(integration)
 
 #+++++++++++++++++++++++++++++++
 # Hydra numerical integration  |
@@ -15,11 +15,15 @@ if(BUILD_CUDA_TARGETS)
             )
          target_link_libraries(vegas_cuda  )
          
+          add_dependencies(examples vegas_cuda)
+         
          #+++++++++++++++++++++++++++++++++
          cuda_add_executable( plain_mc_cuda EXCLUDE_FROM_ALL  plain_mc.cu    
             OPTIONS -Xcompiler -fopenmp -DTHRUST_DEVICE_SYSTEM=THRUST_DEVICE_SYSTEM_CUDA  -DTHRUST_HOST_SYSTEM=THRUST_HOST_SYSTEM_CPP -lgomp
             )
          target_link_libraries(plain_mc_cuda  )
+         
+          add_dependencies(examples plain_mc_cuda)
          
          #+++++++++++++++++++++++++++++++++
          cuda_add_executable( gauss_kronrod_cuda EXCLUDE_FROM_ALL  gauss_kronrod.cu    
@@ -27,11 +31,15 @@ if(BUILD_CUDA_TARGETS)
             )
          target_link_libraries( gauss_kronrod_cuda  )
          
+          add_dependencies(examples gauss_kronrod_cuda)
+         
          #+++++++++++++++++++++++++++++++++
          cuda_add_executable( adaptive_gauss_kronrod_cuda EXCLUDE_FROM_ALL  adaptive_gauss_kronrod.cu    
             OPTIONS -Xcompiler -fopenmp -DTHRUST_DEVICE_SYSTEM=THRUST_DEVICE_SYSTEM_CUDA  -DTHRUST_HOST_SYSTEM=THRUST_HOST_SYSTEM_CPP -lgomp
             )
          target_link_libraries( adaptive_gauss_kronrod_cuda  )
+         
+          add_dependencies(examples adaptive_gauss_kronrod_cuda)
          
          
                         
@@ -52,6 +60,8 @@ if(BUILD_TBB_TARGETS)
     
     target_link_libraries( vegas_tbb tbb )
    
+          add_dependencies(examples  vegas_tbb tbb)
+         
     #+++++++++++++++++++++++++++++++
     add_executable( plain_mc_tbb EXCLUDE_FROM_ALL
      plain_mc.cpp
@@ -62,6 +72,8 @@ if(BUILD_TBB_TARGETS)
     
     target_link_libraries( plain_mc_tbb tbb )
    
+          add_dependencies(examples  plain_mc_tbb tbb)
+         
     #+++++++++++++++++++++++++++++++
     add_executable( gauss_kronrod_tbb EXCLUDE_FROM_ALL
      gauss_kronrod.cpp
@@ -72,6 +84,8 @@ if(BUILD_TBB_TARGETS)
     
     target_link_libraries( gauss_kronrod_tbb tbb )
      
+          add_dependencies(examples  gauss_kronrod_tbb)
+         
     #+++++++++++++++++++++++++++++++
     add_executable( adaptive_gauss_kronrod_tbb EXCLUDE_FROM_ALL
      adaptive_gauss_kronrod.cpp
@@ -81,7 +95,9 @@ if(BUILD_TBB_TARGETS)
     COMPILE_FLAGS "-DTHRUST_HOST_SYSTEM=THRUST_HOST_SYSTEM_CPP -DTHRUST_DEVICE_SYSTEM=THRUST_DEVICE_SYSTEM_TBB")
     
     target_link_libraries( adaptive_gauss_kronrod_tbb tbb )
-       
+     
+          add_dependencies(examples  adaptive_gauss_kronrod_tbb)
+           
 endif(BUILD_TBB_TARGETS)
 
 
@@ -100,6 +116,8 @@ IF(OPENMP_FOUND)
     
     target_link_libraries( vegas_omp  )
 
+          add_dependencies(examples vegas_omp)
+         
     #+++++++++++++++++++++++++++++++
     add_executable(plain_mc_omp EXCLUDE_FROM_ALL
     plain_mc.cpp
@@ -110,7 +128,8 @@ IF(OPENMP_FOUND)
     
     target_link_libraries( plain_mc_omp  )
     
-    
+          add_dependencies(examples  plain_mc_omp)
+         
     #+++++++++++++++++++++++++++++++
     add_executable(gauss_kronrod_omp EXCLUDE_FROM_ALL
     gauss_kronrod.cpp
@@ -122,6 +141,8 @@ IF(OPENMP_FOUND)
     target_link_libraries( gauss_kronrod_omp  )
     
     
+          add_dependencies(examples  gauss_kronrod_omp)
+         
     #+++++++++++++++++++++++++++++++
     add_executable(adaptive_gauss_kronrod_omp EXCLUDE_FROM_ALL
     adaptive_gauss_kronrod.cpp
@@ -131,5 +152,8 @@ IF(OPENMP_FOUND)
     COMPILE_FLAGS "-fopenmp -DTHRUST_HOST_SYSTEM=THRUST_HOST_SYSTEM_CPP -DTHRUST_DEVICE_SYSTEM=THRUST_DEVICE_SYSTEM_OMP -lgomp")
     
     target_link_libraries( adaptive_gauss_kronrod_omp  )
+    
+          add_dependencies(examples adaptive_gauss_kronrod_omp)
+         
 endif(OPENMP_FOUND)
 

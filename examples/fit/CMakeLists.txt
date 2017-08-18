@@ -1,4 +1,4 @@
-project(examples)
+project(fit)
 
 #+++++++++++++++++++++++++++++++++
 # Hydra random number generation |
@@ -14,12 +14,15 @@ if(BUILD_CUDA_TARGETS)
             OPTIONS -Xcompiler -fopenmp -DTHRUST_DEVICE_SYSTEM=THRUST_DEVICE_SYSTEM_CUDA  -DTHRUST_HOST_SYSTEM=THRUST_HOST_SYSTEM_CPP -lgomp
             )
          target_link_libraries(basic_fit_cuda  ${ROOT_LIBRARIES} )
+         add_dependencies(examples basic_fit_cuda)
           
          #+++++++++++++++++++++++++++++++++
          cuda_add_executable( extended_logLL_fit_cuda EXCLUDE_FROM_ALL  extended_logLL_fit.cu    
             OPTIONS -Xcompiler -fopenmp -DTHRUST_DEVICE_SYSTEM=THRUST_DEVICE_SYSTEM_CUDA  -DTHRUST_HOST_SYSTEM=THRUST_HOST_SYSTEM_CPP -lgomp
             )
          target_link_libraries(extended_logLL_fit_cuda  ${ROOT_LIBRARIES} )
+         
+         add_dependencies(examples extended_logLL_fit_cuda)
                         
 endif(BUILD_CUDA_TARGETS)
 
@@ -37,7 +40,9 @@ if(BUILD_TBB_TARGETS)
     COMPILE_FLAGS "-DTHRUST_HOST_SYSTEM=THRUST_HOST_SYSTEM_CPP -DTHRUST_DEVICE_SYSTEM=THRUST_DEVICE_SYSTEM_TBB")
     
     target_link_libraries( basic_fit_tbb tbb  ${ROOT_LIBRARIES})
-   
+    
+    add_dependencies(examples basic_fit_tbb)
+    
     #+++++++++++++++++++++++++++++++
     add_executable( extended_logLL_fit_tbb EXCLUDE_FROM_ALL
      extended_logLL_fit.cpp
@@ -47,7 +52,8 @@ if(BUILD_TBB_TARGETS)
     COMPILE_FLAGS "-DTHRUST_HOST_SYSTEM=THRUST_HOST_SYSTEM_CPP -DTHRUST_DEVICE_SYSTEM=THRUST_DEVICE_SYSTEM_TBB")
     
     target_link_libraries( extended_logLL_fit_tbb tbb  ${ROOT_LIBRARIES})
-   
+    
+    add_dependencies(examples extended_logLL_fit_tbb)
     
     
 endif(BUILD_TBB_TARGETS)
@@ -67,17 +73,19 @@ IF(OPENMP_FOUND)
     COMPILE_FLAGS "-fopenmp -DTHRUST_HOST_SYSTEM=THRUST_HOST_SYSTEM_CPP -DTHRUST_DEVICE_SYSTEM=THRUST_DEVICE_SYSTEM_OMP -lgomp")
     
     target_link_libraries( basic_fit_omp   ${ROOT_LIBRARIES})
- 
+    
+    add_dependencies(examples  basic_fit_omp)
+    
     #+++++++++++++++++++++++++++++++
-    add_executable(extended_logLL_fit_omp EXCLUDE_FROM_ALL
-   extended_logLL_fit.cpp
-    )
+    
+    add_executable(extended_logLL_fit_omp EXCLUDE_FROM_ALL extended_logLL_fit.cpp )
     
     set_target_properties( extended_logLL_fit_omp PROPERTIES 
     COMPILE_FLAGS "-fopenmp -DTHRUST_HOST_SYSTEM=THRUST_HOST_SYSTEM_CPP -DTHRUST_DEVICE_SYSTEM=THRUST_DEVICE_SYSTEM_OMP -lgomp")
     
     target_link_libraries( extended_logLL_fit_omp   ${ROOT_LIBRARIES})
- 
+  
+    add_dependencies(examples  extended_logLL_fit_omp)
     
     
 endif(OPENMP_FOUND)

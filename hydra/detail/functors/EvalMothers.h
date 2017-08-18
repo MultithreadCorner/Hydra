@@ -289,8 +289,12 @@ struct EvalMothers
 		size_t evt  = thrust::get<0>(particles);
 		GReal_t weight = process(evt, Particles);
 
+		Tuple_t particles1{};
+
+		hydra::detail::assignArrayToTuple(particles, Particles   );
+
 		return_tuple_type tmp = hydra::detail::invoke<functors_tuple_type,
-				Vector4R*>(&Particles[0], fFunctors);
+				Vector4R*>(particles1, fFunctors);
 
 		return thrust::tuple_cat(thrust::make_tuple(weight), tmp );
 
