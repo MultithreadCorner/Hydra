@@ -980,9 +980,9 @@ Decays<N, detail::BackendPolicy<BACKEND> >::wrend() const
 }
 
 template<size_t N, detail::Backend BACKEND>
-hydra::pair<typename Decays<N, detail::BackendPolicy<BACKEND> >::accpeted_iterator,
-typename Decays<N, detail::BackendPolicy<BACKEND> >::accpeted_iterator >
-Decays<N, detail::BackendPolicy<BACKEND> >::Unweight(GUInt_t scale)
+//hydra::pair<typename Decays<N, detail::BackendPolicy<BACKEND> >::accpeted_iterator,
+//typename Decays<N, detail::BackendPolicy<BACKEND> >::accpeted_iterator >
+size_t Decays<N, detail::BackendPolicy<BACKEND> >::Unweight(GUInt_t scale)
 {
 	using thrust::system::detail::generic::select_system;
 	typedef  typename thrust::iterator_system<
@@ -1021,18 +1021,19 @@ Decays<N, detail::BackendPolicy<BACKEND> >::Unweight(GUInt_t scale)
 	auto begin_tpl = detail::changeFirst(iter_weight , begin_tuple);
 
 	//done!
-	return  hydra::pair< typename Decays<N, detail::BackendPolicy<BACKEND> >::accpeted_iterator,
+	return  thrust::distance(begin(), middle );
+			/*hydra::pair< typename Decays<N, detail::BackendPolicy<BACKEND> >::accpeted_iterator,
 			typename Decays<N, detail::BackendPolicy<BACKEND> >::accpeted_iterator >
-	(thrust::make_zip_iterator(begin_tpl), thrust::make_zip_iterator(begin_tpl)+thrust::distance(begin(), middle ));
+	(thrust::make_zip_iterator(begin_tpl), thrust::make_zip_iterator(begin_tpl)+thrust::distance(begin(), middle ));*/
 }
 
 
 
 template<size_t N, detail::Backend BACKEND>
 template<typename FUNCTOR>
-hydra::pair<typename Decays<N, detail::BackendPolicy<BACKEND> >::decays_trans_iterator,
-typename Decays<N, detail::BackendPolicy<BACKEND> >::decays_trans_iterator >
-Decays<N, detail::BackendPolicy<BACKEND> >::Unweight( FUNCTOR const& functor, GUInt_t scale)
+//hydra::pair<typename Decays<N, detail::BackendPolicy<BACKEND> >::decays_trans_iterator,
+//typename Decays<N, detail::BackendPolicy<BACKEND> >::decays_trans_iterator >
+size_t Decays<N, detail::BackendPolicy<BACKEND> >::Unweight( FUNCTOR const& functor, GUInt_t scale)
 {
 	using thrust::system::detail::generic::select_system;
 	typedef  typename thrust::iterator_system<
@@ -1074,10 +1075,11 @@ Decays<N, detail::BackendPolicy<BACKEND> >::Unweight( FUNCTOR const& functor, GU
 	thrust::return_temporary_buffer(system_t(), values.first);
 
 	//done!
-	return  hydra::pair<
+	return (size_t) thrust::distance(begin(), middle );
+	/*hydra::pair<
 			typename Decays<N, detail::BackendPolicy<BACKEND> >::decays_trans_iterator,
 			typename Decays<N, detail::BackendPolicy<BACKEND> >::decays_trans_iterator
-			>(  this->ptbegin(), this->ptbegin()+thrust::distance(begin(), middle ) );
+			>(  this->ptbegin(), this->ptbegin()+thrust::distance(begin(), middle ) );*/
 	//(thrust::make_zip_iterator(begin_tpl), thrust::make_zip_iterator(begin_tpl)+thrust::distance(begin(), middle ));
 }
 

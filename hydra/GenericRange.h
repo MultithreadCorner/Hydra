@@ -1,0 +1,91 @@
+/*----------------------------------------------------------------------------
+ *
+ *   Copyright (C) 2016 Antonio Augusto Alves Junior
+ *
+ *   This file is part of Hydra Data Analysis Framework.
+ *
+ *   Hydra is free software: you can redistribute it and/or modify
+ *   it under the terms of the GNU General Public License as published by
+ *   the Free Software Foundation, either version 3 of the License, or
+ *   (at your option) any later version.
+ *
+ *   Hydra is distributed in the hope that it will be useful,
+ *   but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *   GNU General Public License for more details.
+ *
+ *   You should have received a copy of the GNU General Public License
+ *   along with Hydra.  If not, see <http://www.gnu.org/licenses/>.
+ *
+ *---------------------------------------------------------------------------*/
+
+/*
+ * GenericRange.h
+ *
+ *  Created on: 29/08/2017
+ *      Author: Antonio Augusto Alves Junior
+ */
+
+#ifndef GENERICRANGE_H_
+#define GENERICRANGE_H_
+
+#include <hydra/detail/Config.h>
+#include <hydra/detail/BackendPolicy.h>
+#include <hydra/Distance.h>
+
+namespace hydra {
+
+template<typename Iterator>
+class GenericRange{
+
+	GenericRange()=delete;
+
+	GenericRange(Iterator begin, Iterator end):
+		fBegin( begin),
+		fEnd( end )
+		{}
+
+	GenericRange(Iterator begin,  size_t last):
+			fBegin( begin),
+			fEnd( begin + last )
+			{}
+
+	GenericRange(GenericRange<Iterator> const& other):
+			fBegin( other.begin()),
+			fEnd( other.end() )
+			{}
+
+	GenericRange<Iterator>&
+	operator=(GenericRange<Iterator> const& other){
+
+		if(this==&other) return this;
+
+		fBegin = other.begin();
+		fEnd = other.end();
+		return this;
+	}
+
+
+	Iterator begin(){ return fBegin;};
+
+	Iterator   end(){ return fEnd;};
+
+	size_t size() { return hydra::distance(fBegin, fEnd);}
+
+private:
+	Iterator fBegin;
+	Iterator fEnd;
+
+};
+
+template<typename Iterator>
+GenericRange<Iterator>
+make_range(Iterator begin, Iterator end ){
+	return GenericRange<Iterator>( begin, end);
+}
+
+}  // namespace hydra
+
+
+
+#endif /* GENERICRANGE_H_ */

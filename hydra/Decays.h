@@ -42,6 +42,8 @@
 #include <hydra/multiarray.h>
 #include <hydra/detail/utility/Utility_Tuple.h>
 #include <hydra/Tuple.h>
+#include <hydra/GenericRange.h>
+
 //thrust
 #include <thrust/copy.h>
 #include <thrust/iterator/zip_iterator.h>
@@ -173,7 +175,6 @@ public:
 
 	typedef typename  detail::tuple_cat_type<weights_pointer_type, particles_pointer_tuple_type>::type pointer_tuple;
 	typedef typename  detail::tuple_cat_type<weights_const_pointer_type, particles_const_pointer_tuple_type>::type const_pointer_tuple;
-
 
 
 	/**
@@ -375,6 +376,19 @@ public:
     	return this->tbegin()[i];
     }
 
+
+    GenericRange< decays_trans_iterator>
+    GetUnweightedDecays(size_t first, size_t last){
+    	return make_range(this->ptbegin()+first, this->ptbegin()+last);
+    }
+
+    GenericRange< trans_iterator>
+    GetWeightedDecays(size_t first, size_t last){
+    	return make_range(this->tbegin()+first, this->tbegin()+last);
+    }
+
+
+
     /**
      * Get a constant reference a decay.
      * @param i index of the decay.
@@ -387,14 +401,11 @@ public:
     /**
      * Get a range pointing to a set of unweighted events.
      * This method will re-order the container to group together
-     * accepted events and return a pair of iterators with ready-only
-     * access to container.
+     * accepted events and return the index of the last event.
      *
-     * @return std::pair with iterators pointing to a range of unweigted
-     * particles.
+     * @return index of last unweighted event.
      */
-    hydra::pair<accpeted_iterator, accpeted_iterator>
-    Unweight(GUInt_t scale=1.0);
+     size_t Unweight(GUInt_t scale=1.0);
 
     /**
      * Get a range pointing to a set of unweighted events.
@@ -455,8 +466,7 @@ public:
      * particles.
      */
     template<typename FUNCTOR>
-    hydra::pair<decays_trans_iterator, decays_trans_iterator>
-    Unweight( FUNCTOR  const& functor, GUInt_t scale);
+    size_t Unweight( FUNCTOR  const& functor, GUInt_t scale);
 
     /**
      * Recalculates the events weights according with @functor;
