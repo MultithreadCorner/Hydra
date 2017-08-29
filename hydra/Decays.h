@@ -335,9 +335,9 @@ public:
 	 * @param i index of particle.
 	 * @return std::pair of iterators {begin, end}.
 	 */
-    hydra::pair<particles_iterator, particles_iterator>
+    GenericRange< particles_iterator>
     GetParticles(size_t i){
-    	return hydra::make_pair(this->pbegin(i), this->pend(i));
+    	return hydra::make_range(this->fDecays[i].tbegin(), this->fDecays[i].tend());
     }
 
    /**
@@ -357,9 +357,9 @@ public:
      * @param j Component index
      * @return std::pair of iterators {begin, end}.
      */
-    hydra::pair<particles_iterator, particles_iterator>
+   GenericRange<typename particles_type::viterator >
     GetParticleComponents(size_t i, size_t j){
-      	return hydra::make_pair(this->pcbegin(i, j), this->pcend(i, j));
+      	return hydra::make_range(this->fDecays[i].begin(j), this->fDecays[i].end(j));
       }
 
     const typename particles_type::vector_type&
@@ -378,13 +378,13 @@ public:
 
 
     GenericRange< decays_trans_iterator>
-    GetUnweightedDecays(size_t first, size_t last){
-    	return make_range(this->ptbegin()+first, this->ptbegin()+last);
+    GetUnweightedDecays(){
+    	return make_range(this->ptbegin(), this->ptend());
     }
 
     GenericRange< trans_iterator>
-    GetWeightedDecays(size_t first, size_t last){
-    	return make_range(this->tbegin()+first, this->tbegin()+last);
+    GetWeightedDecays(){
+    	return make_range(this->tbegin(), this->tbegin());
     }
 
 
