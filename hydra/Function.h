@@ -40,6 +40,7 @@
 #include <hydra/Parameter.h>
 #include <hydra/detail/utility/Utility_Tuple.h>
 #include <hydra/detail/FunctorTraits.h>
+#include <hydra/detail/Parameters.h>
 //#include <hydra/UserParameters.h>
 
 #include <thrust/iterator/detail/tuple_of_iterator_references.h>
@@ -61,24 +62,28 @@ namespace hydra
  * @tparam NPARAM number of parameters of the functor.
  */
 template<typename Functor, typename ReturnType, size_t NPARAM>
-struct BaseFunctor
+class  BaseFunctor : public detail::Parameters<NPARAM>
 {
+
+public:
+
 	//tag
     typedef   void hydra_functor_tag;
 	typedef   ReturnType return_type;
 	typedef   std::true_type is_functor;
 
-	static const size_t parameter_count =NPARAM;
+	//static const size_t parameter_count =NPARAM;
 
 
 	/**
 	 * Default constructor
 	 */
 	explicit BaseFunctor():
+		detail::Parameters<NPARAM>(),
 		fCacheIndex(-1),
 		fCached(0),
 		fNArgs(0),
-		fParamResgistered(1),
+		//fParamResgistered(1),
 		fNorm(1.0),
 		fNormalized(1),
 		_par(*this)
@@ -90,17 +95,20 @@ struct BaseFunctor
      * @param init_parameters std::initializer_list<Parameter> with the parameters of the functor.
      */
 	BaseFunctor(std::initializer_list<Parameter> init_parameters):
+	detail::Parameters<NPARAM>( init_parameters ),
 	fCacheIndex(-1),
 	fCached(0),
 	fNArgs(0),
-	fParamResgistered(1),
+	//fParamResgistered(1),
 	fNorm(1.0),
 	fNormalized(1),
 	_par(*this)
 	{
+		/*
 		if(NPARAM!=0){
 		for(unsigned int i=0; i<NPARAM; i++)
 			this->SetParameter(i, *(init_parameters.begin() + i));}
+			*/
 	}
 
 	/**
@@ -108,18 +116,21 @@ struct BaseFunctor
 	 * @param init_parameters std::array<Parameter,NPARAM> with the parameters of the functor.
 	 */
 	BaseFunctor(std::array<Parameter,NPARAM> const& init_parameters):
+		detail::Parameters<NPARAM>( init_parameters ),
 		fCacheIndex(-1),
 		fCached(0),
 		fNArgs(0),
-		fParamResgistered(1),
+		//fParamResgistered(1),
 		fNorm(1.0),
 		fNormalized(1),
 		_par(*this)
 		{
+		/*
 		if(NPARAM!=0){
 			for(unsigned int i=0; i<NPARAM; i++)
 				this->SetParameter(i, *(init_parameters.begin() + i));
-		}
+
+		}*/
 		}
 
 
@@ -128,18 +139,21 @@ struct BaseFunctor
 	 */
 	__host__ __device__
 	BaseFunctor(BaseFunctor<Functor,ReturnType, NPARAM> const& other):
+	detail::Parameters<NPARAM>( other),
 	fCacheIndex( other.GetCacheIndex() ),
 	fCached( other.IsCached() ),
 	fNArgs(other.GetNArgs()),
-	fParamResgistered(1),
+	//fParamResgistered(1),
 	fNorm(other.GetNorm()),
 	fNormalized(other.GetNormalized() ),
 	_par(*this)
 	{
+		/*
 if(NPARAM!=0){
 	for(unsigned int i=0; i<NPARAM; i++)
-	this->SetParameter(i, other.GetParameter(i));
-}
+	this->SetParameter(i, other.GetParameter(i))
+
+};*/
 	}
 
 	/**
@@ -151,17 +165,19 @@ if(NPARAM!=0){
 	{
 		if(this != &other)
 		{
+			detail::Parameters<NPARAM>::operator=( other );
 			this->fCacheIndex     = other.GetCacheIndex();
 			this->fCached         = other.IsCached();
-			//this->fParameterIndex = other.GetParameterIndex();
 			this->fNorm = other.GetNorm();
 			this->fNormalized =other.GetNormalized();
 			this->fParamResgistered =1;
 			this->fNArgs= other.GetNArgs();
+			/*
 			if(NPARAM!=0){
 			for(unsigned int i=0; i<NPARAM; i++)
 				this->SetParameter(i, other.GetParameter(i));
-			}
+			}*/
+
 			_par=*this;
 
 		}
@@ -192,16 +208,17 @@ if(NPARAM!=0){
 	 */
 	void PrintRegisteredParameters()
 	{
-		if(!fParamResgistered){
-			HYDRA_LOG(WARNING, "Parameters not registered, check client implementation. Nothing to dump. Exiting..." )
-		return;
-		}
 
 		HYDRA_CALLER ;
 		HYDRA_MSG <<HYDRA_ENDL;
+		/*
 		HYDRA_MSG << "Registered parameters begin:" << HYDRA_ENDL;
 		for(size_t i=0; i<parameter_count; i++ )
+
 		HYDRA_MSG <<"  >> Parameter " << i <<") "<< fParameters[i] << HYDRA_ENDL;
+		*/
+		this->PrintParameters();
+
 		HYDRA_MSG <<"Normalization " << fNorm << HYDRA_ENDL;
 		HYDRA_MSG <<"Registered parameters end." << HYDRA_ENDL;
 		HYDRA_MSG <<HYDRA_ENDL;
@@ -213,6 +230,7 @@ if(NPARAM!=0){
 	 * @brief Set parameters
 	 * @param parameters
 	 */
+	/*
 	__host__ inline
 	void SetParameters(const std::vector<double>& parameters)
 	{
@@ -239,20 +257,25 @@ if(NPARAM!=0){
 
 		return;
 	}
+*/
 
-
+	/*
 	inline	void AddUserParameters(std::vector<hydra::Parameter*>& user_parameters )
 	{
 
 		for(size_t i=0; i<NPARAM; i++)
 			user_parameters.push_back(&fParameters[i]);
 	}
+   */
 
+	/*
 	__host__ __device__ inline
 		constexpr  size_t GetNumberOfParameters() const {
 				return NPARAM;
 	}
+	*/
 
+	/*
 	__host__ __device__ inline
 	const Parameter* GetParameters() const {
 			return &fParameters[0];
@@ -272,7 +295,7 @@ if(NPARAM!=0){
 	void SetParameter(size_t i, double value) {
 			fParameters[i]=value;
 		}
-
+      */
 
 	__host__ __device__  inline
 	GReal_t GetNorm() const {
@@ -337,7 +360,8 @@ if(NPARAM!=0){
 
 	template<typename T >
 	__host__ __device__ inline
-	typename thrust::detail::enable_if<!(detail::is_homogeneous<
+	typename thrust::detail::enable_if<detail::is_instantiation_of<thrust::tuple,typename std::remove_reference<T>::type >::value &&
+	!(detail::is_homogeneous<
 	typename thrust::tuple_element<0, typename thrust::detail::remove_reference<T>::type>::type,
 	typename thrust::detail::remove_reference<T>::type>::value), return_type>::type
 	interface(T&& x)
@@ -382,12 +406,13 @@ if(NPARAM!=0){
 	}
 
 
-
+/*
     __host__ __device__  inline
 	GReal_t operator[](unsigned int i) const
 	{
 		return (GReal_t ) fParameters[i];
 	}
+*/
 
     __host__ __device__  inline
 	unsigned int GetNArgs() const {
@@ -402,7 +427,7 @@ private:
 	bool fParamResgistered;
     GReal_t fNorm;
 	bool fNormalized;
-	Parameter fParameters[NPARAM];
+//	Parameter fParameters[NPARAM];
 
 protected:
 

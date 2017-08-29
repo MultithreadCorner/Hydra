@@ -409,6 +409,91 @@ Decays<N, detail::BackendPolicy<BACKEND> >::rend()
 	return thrust::make_zip_iterator(  _iterator_tuple );
 
 }
+//----------------------
+
+template<size_t N, detail::Backend BACKEND>
+typename Decays<N, detail::BackendPolicy<BACKEND> >::trans_iterator
+Decays<N, detail::BackendPolicy<BACKEND> >::tbegin()
+{
+
+	std::array<typename Decays<N,
+	      detail::BackendPolicy<BACKEND> >::particles_trans_iterator, N>
+	particles_iterator_array{};
+
+	for(size_t i=0; i<N; i++)
+		particles_iterator_array[i] =this->fDecays[i].tbegin();
+
+	auto particles_iterator_tuple = detail::arrayToTuple( particles_iterator_array );
+
+    auto _iterator_tuple = thrust::tuple_cat( thrust::make_tuple( fWeights.begin() ),
+    		particles_iterator_tuple);
+
+    return thrust::make_zip_iterator(  _iterator_tuple );
+
+}
+
+template<size_t N, detail::Backend BACKEND>
+typename Decays<N, detail::BackendPolicy<BACKEND> >::trans_iterator
+Decays<N, detail::BackendPolicy<BACKEND> >::tend()
+{
+	std::array<typename Decays<N,
+	      detail::BackendPolicy<BACKEND> >::particles_trans_iterator, N>
+	particles_iterator_array{};
+
+	for(size_t i=0; i<N; i++)
+		particles_iterator_array[i] =this->fDecays[i].tend();
+
+	auto particles_iterator_tuple = detail::arrayToTuple( particles_iterator_array );
+
+    auto _iterator_tuple = thrust::tuple_cat( thrust::make_tuple( fWeights.end() ),
+    		particles_iterator_tuple);
+
+    return thrust::make_zip_iterator(  _iterator_tuple );
+
+
+
+}
+
+template<size_t N, detail::Backend BACKEND>
+typename Decays<N, detail::BackendPolicy<BACKEND> >::reverse_trans_iterator
+Decays<N, detail::BackendPolicy<BACKEND> >::trbegin()
+{
+	std::array<typename Decays<N,
+		      detail::BackendPolicy<BACKEND> >::particles_reverse_trans_iterator, N>
+	particles_iterator_array{};
+
+	for(size_t i=0; i<N; i++)
+			particles_iterator_array[i] =this->fDecays[i].rbegin();
+
+	auto particles_iterator_tuple = detail::arrayToTuple( particles_iterator_array );
+
+	auto _iterator_tuple = thrust::tuple_cat( thrust::make_tuple( fWeights.rbegin() ),
+	    		particles_iterator_tuple);
+
+	return thrust::make_zip_iterator(  _iterator_tuple );
+
+}
+
+template<size_t N, detail::Backend BACKEND>
+typename Decays<N, detail::BackendPolicy<BACKEND> >::reverse_trans_iterator
+Decays<N, detail::BackendPolicy<BACKEND> >::trend()
+{
+
+	std::array<typename Decays<N,
+			      detail::BackendPolicy<BACKEND> >::particles_reverse_trans_iterator, N>
+	particles_iterator_array{};
+
+	for(size_t i=0; i<N; i++)
+				particles_iterator_array[i] =this->fDecays[i].rend();
+
+	auto particles_iterator_tuple = detail::arrayToTuple( particles_iterator_array );
+
+	auto _iterator_tuple = thrust::tuple_cat( thrust::make_tuple( fWeights.rend() ),
+		    		particles_iterator_tuple);
+
+	return thrust::make_zip_iterator(  _iterator_tuple );
+
+}
 
 
 //------------------------
@@ -480,6 +565,82 @@ Decays<N, detail::BackendPolicy<BACKEND> >::prend()
 	return thrust::make_zip_iterator(  particles_iterator_tuple );
 
 }
+
+//===================
+template<size_t N, detail::Backend BACKEND>
+typename Decays<N, detail::BackendPolicy<BACKEND> >::decays_trans_iterator
+Decays<N, detail::BackendPolicy<BACKEND> >::ptbegin()
+{
+
+	std::array<typename Decays<N,
+	      detail::BackendPolicy<BACKEND> >::particles_trans_iterator, N>
+	particles_iterator_array{};
+
+	for(size_t i=0; i<N; i++)
+		particles_iterator_array[i] =this->fDecays[i].tbegin();
+
+	auto particles_iterator_tuple = detail::arrayToTuple( particles_iterator_array );
+
+    return thrust::make_zip_iterator(  particles_iterator_tuple );
+}
+
+template<size_t N, detail::Backend BACKEND>
+typename Decays<N, detail::BackendPolicy<BACKEND> >::decays_trans_iterator
+Decays<N, detail::BackendPolicy<BACKEND> >::ptend()
+{
+	std::array<typename Decays<N,
+	      detail::BackendPolicy<BACKEND> >::particles_trans_iterator, N>
+	particles_iterator_array{};
+
+	for(size_t i=0; i<N; i++)
+		particles_iterator_array[i] =this->fDecays[i].tend();
+
+	auto particles_iterator_tuple = detail::arrayToTuple( particles_iterator_array );
+
+    return thrust::make_zip_iterator(  particles_iterator_tuple );
+
+}
+
+template<size_t N, detail::Backend BACKEND>
+typename Decays<N, detail::BackendPolicy<BACKEND> >::decays_reverse_trans_iterator
+Decays<N, detail::BackendPolicy<BACKEND> >::ptrbegin()
+{
+	std::array<typename Decays<N,
+		      detail::BackendPolicy<BACKEND> >::particles_reverse_trans_iterator, N>
+	particles_iterator_array{};
+
+	for(size_t i=0; i<N; i++)
+			particles_iterator_array[i] =this->fDecays[i].rbegin();
+
+	auto particles_iterator_tuple = detail::arrayToTuple( particles_iterator_array );
+
+	return thrust::make_zip_iterator(  particles_iterator_tuple );
+
+}
+
+template<size_t N, detail::Backend BACKEND>
+typename Decays<N, detail::BackendPolicy<BACKEND> >::decays_reverse_trans_iterator
+Decays<N, detail::BackendPolicy<BACKEND> >::ptrend()
+{
+
+	std::array<typename Decays<N,
+			      detail::BackendPolicy<BACKEND> >::particles_reverse_trans_iterator, N>
+	particles_iterator_array{};
+
+	for(size_t i=0; i<N; i++)
+				particles_iterator_array[i] =this->fDecays[i].rend();
+
+	auto particles_iterator_tuple = detail::arrayToTuple( particles_iterator_array );
+
+	return thrust::make_zip_iterator(  particles_iterator_tuple );
+
+}
+
+
+//===================
+
+
+
 //------------------------
 
 template<size_t N, detail::Backend BACKEND>
@@ -869,8 +1030,8 @@ Decays<N, detail::BackendPolicy<BACKEND> >::Unweight(GUInt_t scale)
 
 template<size_t N, detail::Backend BACKEND>
 template<typename FUNCTOR>
-hydra::pair<typename Decays<N, detail::BackendPolicy<BACKEND> >::accpeted_iterator,
-typename Decays<N, detail::BackendPolicy<BACKEND> >::accpeted_iterator >
+hydra::pair<typename Decays<N, detail::BackendPolicy<BACKEND> >::decays_trans_iterator,
+typename Decays<N, detail::BackendPolicy<BACKEND> >::decays_trans_iterator >
 Decays<N, detail::BackendPolicy<BACKEND> >::Unweight( FUNCTOR const& functor, GUInt_t scale)
 {
 	using thrust::system::detail::generic::select_system;
@@ -913,9 +1074,11 @@ Decays<N, detail::BackendPolicy<BACKEND> >::Unweight( FUNCTOR const& functor, GU
 	thrust::return_temporary_buffer(system_t(), values.first);
 
 	//done!
-	return  hydra::pair< typename Decays<N, detail::BackendPolicy<BACKEND> >::accpeted_iterator,
-			typename Decays<N, detail::BackendPolicy<BACKEND> >::accpeted_iterator >
-	(thrust::make_zip_iterator(begin_tpl), thrust::make_zip_iterator(begin_tpl)+thrust::distance(begin(), middle ));
+	return  hydra::pair<
+			typename Decays<N, detail::BackendPolicy<BACKEND> >::decays_trans_iterator,
+			typename Decays<N, detail::BackendPolicy<BACKEND> >::decays_trans_iterator
+			>(  this->ptbegin(), this->ptbegin()+thrust::distance(begin(), middle ) );
+	//(thrust::make_zip_iterator(begin_tpl), thrust::make_zip_iterator(begin_tpl)+thrust::distance(begin(), middle ));
 }
 
 

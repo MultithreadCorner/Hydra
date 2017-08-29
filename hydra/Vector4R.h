@@ -230,8 +230,8 @@ inline Vector4R boostTo(const Vector4R& rs, const Vector3R& boost, bool inverse)
 inline ostream& operator<<(ostream& s, const Vector4R& v)
 {
 
-	s << "(" << v.v[0] << "," << v.v[1] << "," << v.v[2] << "," << v.v[3]
-			<< ")";
+	s << "[" << v.v[0] << "," << v.v[1] << "," << v.v[2] << "," << v.v[3]
+			<< "]";
 
 	return s;
 

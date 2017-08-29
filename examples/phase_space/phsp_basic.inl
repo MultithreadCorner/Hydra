@@ -63,8 +63,8 @@
 #include <hydra/Types.h>
 #include <hydra/Vector4R.h>
 #include <hydra/PhaseSpace.h>
-#include <hydra/Events.h>
-#include <hydra/Chain.h>
+//#include <hydra/Events.h>
+//#include <hydra/Chain.h>
 #include <hydra/Evaluate.h>
 #include <hydra/Function.h>
 #include <hydra/FunctorArithmetic.h>
@@ -144,7 +144,7 @@ int main(int argv, char** argc)
 	double masses[3]{Jpsi_mass, K_mass, pi_mass };
 
 	// Create PhaseSpace object for B0-> K pi J/psi
-	hydra::PhaseSpace<3> phsp(B0_mass, masses);
+	hydra::PhaseSpace<3> phsp( masses);
 
 	//device
 	{
@@ -173,12 +173,8 @@ int main(int argv, char** argc)
 
 		//print
 		for( size_t i=0; i<10; i++ )
-			std::cout << Events_d[i] << std::endl;
+			std::cout << Events_d.tbegin()[i] << std::endl;
 
-		auto range = Events_d.Unweight();
-		std::cout << "<=======" << thrust::distance(range.first,  range.second) << std::endl;
-		for(auto i = range.first; i!=range.second; i++)
-			std::cout << "<<<< " << *i << std::endl;
 
 #ifdef 	_ROOT_AVAILABLE_
 
@@ -207,7 +203,7 @@ int main(int argv, char** argc)
 	//host
 	{
 		//allocate memory to hold the final states particles
-		hydra::Events<3, hydra::host::sys_t > Events_h(nentries);
+		hydra::Decays<3, hydra::host::sys_t > Events_h(nentries);
 
 		auto start = std::chrono::high_resolution_clock::now();
 
