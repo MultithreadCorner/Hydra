@@ -81,13 +81,13 @@ namespace hydra {
 	template <size_t N,template<typename> class COM>
 	struct CompareTuples{
 
-
-
 		template<typename Tuple1, typename Tuple2>
+		__host__ __device__
 		GBool_t operator( )(Tuple1 t1, Tuple2 t2 )
 		{
 			return COM< typename thrust::tuple_element<N, Tuple1>::type>()(thrust::get<N>(t1) , thrust::get<N>(t2) );
 		}
+
 	};
 
 	template <size_t N, typename T>

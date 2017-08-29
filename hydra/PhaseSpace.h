@@ -45,12 +45,15 @@
 #include <hydra/detail/utility/Generic.h>
 #include <hydra/Vector3R.h>
 #include <hydra/Vector4R.h>
-#include <hydra/Events.h>
+//#include <hydra/Events.h>
 #include <hydra/detail/functors/DecayMother.h>
 #include <hydra/detail/functors/DecayMothers.h>
 #include <hydra/detail/functors/EvalMother.h>
 #include <hydra/detail/functors/EvalMothers.h>
 #include <hydra/detail/functors/StatsPHSP.h>
+#include <hydra/detail/Print.h>
+#include <hydra/detail/functors/CheckEnergy.h>
+#include <hydra/Tuple.h>
 
 #include <hydra/Decays.h>
 
@@ -62,7 +65,7 @@
 #include <thrust/extrema.h>
 #include <thrust/random.h>
 #include <thrust/distance.h>
-
+#include <thrust/equal.h>
 
 namespace hydra {
 
@@ -89,27 +92,53 @@ public:
 	 * @param motherMass mass of the mother particle in Gev/c*c;
 	 * @param daughtersMasses array with the masses of the daughter particles in Gev/c*c;
 	 */
-	PhaseSpace(const GReal_t motherMass, const GReal_t (&daughtersMasses)[N]);
+	PhaseSpace(const GReal_t (&daughtersMasses)[N]);
 
 	/**
 	 * @brief PhaseSpace ctor. Constructor of the phase-space generator takes as input parameters:
 	 * @param motherMass mass of the mother particle in Gev/c*c;
 	 * @param daughtersMasses array with the masses of the daughter particles in Gev/c*c;
 	 */
-	PhaseSpace(const GReal_t motherMass, std::array<GReal_t,N> const& daughtersMasses);
+	PhaseSpace( std::array<GReal_t,N> const& daughtersMasses);
 
 	/**
 	 * @brief PhaseSpace ctor. Constructor of the phase-space generator takes as input parameters:
 	 * @param motherMass mass of the mother particle in Gev/c*c;
 	 * @param daughtersMasses list with the masses of the daughter particles in Gev/c*c;
 	 */
-	PhaseSpace(const GReal_t motherMass, std::initializer_list<GReal_t> const& daughtersMasses);
+	PhaseSpace(std::initializer_list<GReal_t> const& daughtersMasses);
 
 	/**
 	 * @brief Copy constructor.
 	 * @param other
 	 */
 	PhaseSpace( PhaseSpace<N,GRND>const& other);
+
+	/**
+	 * @brief Copy constructor.
+	 * @param other
+	 */
+	template<typename GRND2>
+	PhaseSpace( PhaseSpace<N,GRND2>const& other);
+
+
+	/**
+		 * @brief Copy constructor.
+		 * @param other
+		 */
+	PhaseSpace<N,GRND>&
+	operator=( PhaseSpace<N,GRND>const& other);
+
+		/**
+		 * @brief Copy constructor.
+		 * @param other
+		 */
+		template<typename GRND2>
+		PhaseSpace<N,GRND>&
+		operator=( PhaseSpace<N,GRND2>const& other);
+
+
+
 
 	/**
 	 * @brief Calculate the mean and the \f$ \sqrt(variance)\f$  of a functor over the phase-space with n-samples.
@@ -187,16 +216,26 @@ public:
 	 */
 	inline void SetSeed(GInt_t _seed) ;
 
+	const GReal_t* GetMasses() const {
+		return fMasses;
+	}
 
-	/**
-	 * @brief PDK function
-	 */
+
 
 
 
 private:
-
+/**
+	 * @brief PDK function
+	 */
 	inline GReal_t PDK(const GReal_t a, const GReal_t b, const GReal_t c) const ;
+
+	template<typename Iterator>
+	inline bool EnergyChecker(Iterator first, Iterator last) const;
+
+	inline bool EnergyChecker( Vector4R const& mother) const;
+
+
 
 	size_t  fSeed;///< seed.
 	GReal_t fMasses[N];

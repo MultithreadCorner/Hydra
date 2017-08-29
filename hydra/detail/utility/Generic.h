@@ -71,6 +71,12 @@ namespace hydra {
 template<class R, class...Ts>
 	using are_all_same = all_true<std::is_same<Ts, R>::value...>;
 
+
+template<class ...A> struct CanConvert{
+	template<class ...B> struct To{
+    typedef all_true< std::is_convertible<A,B>::value...> type;
+	};
+};
 	//-----------------------
 	//check if all types are the same and store result on are_all_same<>::value
 	//template<typename R, typename... T>

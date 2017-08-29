@@ -33,6 +33,7 @@
 #include <hydra/detail/Config.h>
 #include <hydra/Types.h>
 #include <hydra/Parameter.h>
+#include <hydra/detail/utility/Generic.h>
 #include <type_traits>
 #include <functional>
 #include <hydra/Function.h>
@@ -109,35 +110,45 @@ public:
 	const L& GetLambda() const {return fLambda; }
 
 
+	template<size_t M=N, typename ...T>
+	__host__ __device__ inline
+	typename std::enable_if< (M>0) &&( (sizeof...(ArgType) ==(sizeof ...(T)+2))) , ReturnType >::type
+	Evaluate(T... a) {
+
+		static_assert(
+				std::is_convertible<thrust::tuple<unsigned int,  const hydra::Parameter*, T...> , thrust::tuple<ArgType...>>::value ,
+										"\n\n<<< HYDRA_COMPILE_ERROR: Lambda function can not be called with this arguments .>>>\n\n");
+
+		return fLambda(this->GetNumberOfParameters(), this->GetParameters(),a...);
+	}
+
 	template<size_t M=N, typename T>
 	__host__ __device__ inline
-	typename std::enable_if< (M>0), ReturnType >::type
+	typename std::enable_if< (M>0)&& sizeof...(ArgType)==3, ReturnType >::type
 	Evaluate(T a) {
 
-		return fLambda(this->GetNumberOfParameters(), this->GetParameters(),a);
+		static_assert( std::is_convertible<thrust::tuple<unsigned int,  const hydra::Parameter*, T> , thrust::tuple<ArgType...>>::value ,
+										"\n\n<<< HYDRA_COMPILE_ERROR: Lambda function can not be called with this arguments .>>>\n\n");
+		return fLambda(this->GetNumberOfParameters(), this->GetParameters(), a);
 	}
 
-	template<size_t M=N, typename T>
-	__host__ __device__ inline
-	typename std::enable_if< (M>0), ReturnType >::type
-	Evaluate(unsigned int n, T a) {
-
-		return fLambda(this->GetNumberOfParameters(), this->GetParameters(),n ,a);
-	}
-
-	template< /*typename T,*/size_t M=N>
+	template< typename ...T, size_t M=N>
 	__host__ __device__ inline
 	typename std::enable_if< (M==0) &&( (sizeof...(ArgType))>1), ReturnType >::type
-	Evaluate(ArgType...a){//unsigned int n, T a) {
+	Evaluate(T...a){
 
+		static_assert( std::is_convertible<thrust::tuple<T...> , thrust::tuple<ArgType...>>::value ,
+								"\n\n<<< HYDRA_COMPILE_ERROR: Lambda function can not be called with this arguments .>>>\n\n");
 		return fLambda( a...);
 	}
 
-	template</*typename T,*/ size_t M=N>
+	template<typename ...T, size_t M=N>
 	__host__ __device__ inline
 	typename std::enable_if< (M==0)&& sizeof...(ArgType)==1, ReturnType >::type
-	Evaluate(ArgType...a) {
+	Evaluate(T...a) {
 
+		static_assert( std::is_convertible<thrust::tuple<T...> , thrust::tuple<ArgType...>>::value ,
+						"\n\n<<< HYDRA_COMPILE_ERROR: Lambda function can not be called with this arguments .>>>\n\n");
 		return fLambda( a...);
 	}
 

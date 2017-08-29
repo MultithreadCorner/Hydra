@@ -70,10 +70,12 @@
 #include <hydra/Function.h>
 #include <hydra/FunctorArithmetic.h>
 #include <hydra/FunctionWrapper.h>
+#include <hydra/multiarray.h>
 #include <hydra/Copy.h>
 #include <hydra/Tuple.h>
 #include <hydra/host/System.h>
 #include <hydra/device/System.h>
+#include <hydra/Decays.h>
 
 /*-------------------------------------
  * Include classes from ROOT to fill
@@ -130,8 +132,7 @@ int main(int argv, char** argc)
 	}
 
 	//C++11 lambda for invariant mass
-	auto M12Sq = [] __host__ __device__ (unsigned int n, hydra::Vector4R
-			* p )
+	auto M12Sq = [] __host__ __device__ (unsigned int n, hydra::Vector4R	* p )
 	{ return  ( p[0] + p[2]).mass2(); };
 
 
@@ -184,8 +185,8 @@ int main(int argv, char** argc)
 	double masses[3]{Jpsi_mass, K_mass, pi_mass };
 
 	// Create PhaseSpace object for B0-> K pi J/psi
-	hydra::PhaseSpace<3> phsp(B0_mass, masses);
-
+	hydra::PhaseSpace<3> phsp( masses);
+/*
 	//useful typedefs
 	//dataset row with three doubles
 	typedef hydra::tuple<double, double, double, double> row_t;
@@ -196,6 +197,10 @@ int main(int argv, char** argc)
 	//multivector allocation
 	typedef hydra::multivector<table_d> dataset_d;
 	typedef hydra::multivector<table_h> dataset_h;
+
+*/
+	typedef hydra::multiarray<4, double,  hydra::host::sys_t>  dataset_h;
+	typedef hydra::multiarray<4, double,  hydra::device::sys_t>  dataset_d;
 
 	//device
 	{

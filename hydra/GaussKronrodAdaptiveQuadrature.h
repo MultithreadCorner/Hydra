@@ -112,7 +112,7 @@ public Integrator< GaussKronrodAdaptiveQuadrature<NRULE, NBIN, hydra::detail::Ba
 			double   // error
 			> node_t;
 
-	typedef std::vector<node_t>   node_list_h;
+	typedef thrust::host_vector<node_t>   node_list_h;
 	typedef multivector<node_list_h> node_table_h;
 
 	/*

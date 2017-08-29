@@ -165,7 +165,7 @@ void GaussKronrodAdaptiveQuadrature<NRULE,NBIN,hydra::detail::BackendPolicy<BACK
 			hydra::detail::CompareTuples<2,	thrust::less >());
 
 
-	for(auto i = 0; i<fNodesTable.size(); i++)
+	for(size_t  i = 0; i<fNodesTable.size(); i++)
 	{
 		thrust::get<1>(fNodesTable[i])=i;
 	}

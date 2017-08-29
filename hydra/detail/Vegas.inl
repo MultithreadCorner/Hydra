@@ -168,7 +168,9 @@ Vegas<N,hydra::detail::BackendPolicy<BACKEND>, GRND >::IntegIterator(FUNCTOR con
 		GReal_t intgrl = 0.0;
 		GReal_t intgrl_sq = 0.0;
 		GReal_t tss = 0.0;
-		GReal_t wgt, var, sig;
+		GReal_t wgt=0;
+		GReal_t var=0;
+		GReal_t sig=0;
 
 		size_t calls_per_box = fState.GetCallsPerBox();
 		GReal_t jacbin = fState.GetJacobian();
@@ -508,7 +510,7 @@ void Vegas<N,hydra::detail::BackendPolicy<BACKEND>, GRND >::ResizeGrid(const GIn
 				}
 			}
 
-			for ( size_t k = 1; k < bins; k++) {
+			for ( int  k = 1; k < bins; k++) {
 				SetCoordinate(k, j, GetNewCoordinate(k));
 			}
 

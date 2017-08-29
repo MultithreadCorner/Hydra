@@ -158,7 +158,7 @@ int main(int argv, char** argc)
 	double masses[3]{Jpsi_mass, K_mass, pi_mass };
 
 	// Create PhaseSpace object for B0-> K pi J/psi
-	hydra::PhaseSpace<3> phsp(B0_mass, masses);
+	hydra::PhaseSpace<3> phsp(masses);
 
 	//device
 	{

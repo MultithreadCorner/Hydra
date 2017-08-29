@@ -63,7 +63,7 @@ template<size_t N, hydra::detail::Backend BACKEND>
 class Decays<N, hydra::detail::BackendPolicy<BACKEND> > {
 
 	typedef hydra::detail::BackendPolicy<BACKEND> system_t;
-	typedef multiarray<4,GReal_t, hydra::detail::BackendPolicy<BACKEND> > particles_type;
+	typedef multiarray<4,GReal_t, hydra::detail::BackendPolicy<BACKEND>, Vector4R > particles_type;
 	typedef std::array<particles_type, N> decays_type;
 	typedef typename system_t::template container<GReal_t> weights_type;
 	typedef thrust::constant_iterator<GReal_t>      weight_one_iterator;
@@ -87,6 +87,9 @@ class Decays<N, hydra::detail::BackendPolicy<BACKEND> > {
 	typedef typename  thrust::tuple<typename weights_type::const_iterator> tuple_weights_const_iterator_type;
 	typedef typename  detail::tuple_cat_type<tuple_weights_const_iterator_type, tuple_particles_const_iterator_type>::type const_iterator_tuple;
 
+	typedef typename  detail::tuple_type<N,typename particles_type::trans_iterator>::type tuple_particles_trans_iterator_type;
+	typedef typename  detail::tuple_cat_type<tuple_weights_iterator_type, tuple_particles_trans_iterator_type>::type trans_iterator_tuple;
+
 
 	typedef typename  thrust::tuple< weight_one_iterator> tuple_weight_one_iterator;
 	typedef typename  detail::tuple_cat_type<tuple_weight_one_iterator, tuple_particles_iterator_type>::type accpeted_iterator_tuple;
@@ -101,6 +104,8 @@ class Decays<N, hydra::detail::BackendPolicy<BACKEND> > {
 	typedef typename  thrust::tuple<typename weights_type::const_reverse_iterator> tuple_weights_const_riterator_type;
 	typedef typename  detail::tuple_cat_type<tuple_weights_const_riterator_type, tuple_particles_const_riterator_type>::type const_reverse_iterator_tuple;
 
+	typedef typename  detail::tuple_type<N,typename particles_type::reverse_trans_iterator>::type tuple_particles_rtrans_iterator_type;
+	typedef typename  detail::tuple_cat_type<tuple_weights_riterator_type, tuple_particles_rtrans_iterator_type>::type reverse_trans_iterator_tuple;
 
 public:
 
@@ -122,6 +127,9 @@ public:
 
 	//particles
 	typedef typename particles_type::iterator                                          particles_iterator;
+	typedef typename particles_type::trans_iterator                                particles_trans_iterator;
+	typedef typename particles_type::reverse_trans_iterator                   particles_reverse_trans_iterator;
+
 	typedef typename particles_type::const_iterator                                    particles_const_iterator;
 	typedef thrust::reverse_iterator<particles_iterator>                               particles_reverse_iterator;
 	typedef thrust::reverse_iterator<particles_const_iterator>                         particles_const_reverse_iterator;
@@ -138,23 +146,28 @@ public:
 
 	//direct
 	typedef thrust::zip_iterator<iterator_tuple> iterator;
+	typedef thrust::zip_iterator<trans_iterator_tuple> trans_iterator;
 	typedef thrust::zip_iterator<const_iterator_tuple> const_iterator;
 
 	typedef thrust::zip_iterator<tuple_particles_iterator_type> decays_iterator;
+	typedef thrust::zip_iterator<tuple_particles_trans_iterator_type> decays_trans_iterator;
 	typedef thrust::zip_iterator<tuple_particles_const_iterator_type> decays_const_iterator;
 
 	//reverse
 	typedef thrust::zip_iterator<reverse_iterator_tuple> reverse_iterator;
+	typedef thrust::zip_iterator<reverse_trans_iterator_tuple> reverse_trans_iterator;
 	typedef thrust::zip_iterator<const_reverse_iterator_tuple> const_reverse_iterator;
 
 	typedef thrust::zip_iterator<tuple_particles_riterator_type> decays_reverse_iterator;
+	typedef thrust::zip_iterator<tuple_particles_rtrans_iterator_type> decays_reverse_trans_iterator;
 	typedef thrust::zip_iterator<tuple_particles_const_riterator_type> decays_const_reverse_iterator;
 
 	//stl-like typedefs
 	typedef typename thrust::iterator_traits<iterator>::difference_type      difference_type;
-	typedef typename thrust::iterator_traits<iterator>::value_type           value_type;
-	typedef typename thrust::iterator_traits<iterator>::pointer              pointer;
-	typedef typename thrust::iterator_traits<iterator>::reference            reference;
+	typedef typename thrust::iterator_traits<iterator>::value_type             value_type;
+	typedef typename thrust::iterator_traits<trans_iterator>::value_type   trans_value_type;
+	typedef typename thrust::iterator_traits<iterator>::pointer                   pointer;
+	typedef typename thrust::iterator_traits<iterator>::reference               reference;
 	typedef typename thrust::iterator_traits<const_iterator>::reference      const_reference;
 	typedef typename thrust::iterator_traits<iterator>::iterator_category    iterator_category;
 
@@ -358,8 +371,8 @@ public:
      * @param i index of the decay.
      * @return reference a decay
      */
-    reference GetDecay(size_t i){
-    	return this->begin()[i];
+    trans_value_type GetDecay(size_t i){
+    	return this->tbegin()[i];
     }
 
     /**
@@ -367,8 +380,8 @@ public:
      * @param i index of the decay.
      * @return reference a decay
      */
-    reference GetDecay(size_t i) const {
-    	return this->begin()[i];
+    void SetDecay( size_t i,  trans_value_type value) {
+    	this->begin()[i]= value;
     }
 
     /**
@@ -442,7 +455,7 @@ public:
      * particles.
      */
     template<typename FUNCTOR>
-    hydra::pair<accpeted_iterator, accpeted_iterator>
+    hydra::pair<decays_trans_iterator, decays_trans_iterator>
     Unweight( FUNCTOR  const& functor, GUInt_t scale);
 
     /**
@@ -566,6 +579,17 @@ public:
 
 	reverse_iterator rend();
 
+	//non-constant access
+	trans_iterator tbegin();
+
+	trans_iterator tend();
+
+	//non-constant access
+	reverse_trans_iterator trbegin();
+
+	reverse_trans_iterator trend();
+
+
 	//constant access
 	const_iterator begin() const;
 
@@ -593,6 +617,14 @@ public:
 
 	decays_reverse_iterator prend();
 
+	decays_trans_iterator ptbegin();
+
+	decays_trans_iterator ptend();
+
+	decays_reverse_trans_iterator ptrbegin();
+
+	decays_reverse_trans_iterator ptrend();
+
 	particles_iterator pbegin(size_t i);
 
 	particles_iterator pend(size_t i);
@@ -609,6 +641,7 @@ public:
 
 	weights_reverse_iterator wrend();
 
+
 	//constant access const
 	decays_const_iterator pbegin() const;
 
@@ -617,7 +650,6 @@ public:
 	decays_const_reverse_iterator prbegin() const;
 
 	decays_const_reverse_iterator prend() const;
-
 
     particles_const_iterator pbegin(size_t i) const;
 
