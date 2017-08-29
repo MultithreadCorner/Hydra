@@ -30,7 +30,7 @@
 #define CASTER_H_
 
 #include <hydra/detail/Config.h>
-#include <functional.h>
+#include <functional>
 
 
 namespace hydra {
