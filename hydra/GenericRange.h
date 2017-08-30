@@ -38,6 +38,8 @@ namespace hydra {
 template<typename Iterator>
 class GenericRange{
 
+public:
+
 	GenericRange()=delete;
 
 	GenericRange(Iterator begin, Iterator end):
@@ -51,8 +53,8 @@ class GenericRange{
 			{}
 
 	GenericRange(GenericRange<Iterator> const& other):
-			fBegin( other.begin()),
-			fEnd( other.end() )
+			fBegin( other.GetBegin()),
+			fEnd( other.GetEnd() )
 			{}
 
 	GenericRange<Iterator>&
@@ -60,8 +62,8 @@ class GenericRange{
 
 		if(this==&other) return this;
 
-		fBegin = other.begin();
-		fEnd = other.end();
+		fBegin = other.GetBegin();
+		fEnd = other.GetEnd();
 		return this;
 	}
 
@@ -71,6 +73,22 @@ class GenericRange{
 	Iterator   end(){ return fEnd;};
 
 	size_t size() { return hydra::distance(fBegin, fEnd);}
+
+	Iterator GetBegin() const {
+		return fBegin;
+	}
+
+	void SetBegin(Iterator begin) {
+		fBegin = begin;
+	}
+
+	Iterator GetEnd() const {
+		return fEnd;
+	}
+
+	void SetEnd(Iterator end) {
+		fEnd = end;
+	}
 
 private:
 	Iterator fBegin;

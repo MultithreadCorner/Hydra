@@ -118,7 +118,7 @@
 
 #endif //_ROOT_AVAILABLE_
 
-
+using namespace ROOT::Minuit2;
 
 int main(int argv, char** argc)
 {
@@ -171,6 +171,22 @@ int main(int argv, char** argc)
 	TH2D Dalitz_h2("Dalitz_h2", "Unweighted Sample;Host;M^{2}(J/psi #pi) [GeV^{2}/c^{4}]; M^{2}(K #pi) [GeV^{2}/c^{4}]",
 			100, pow(Jpsi_mass + pi_mass,2), pow(B0_mass - K_mass,2),
 			100, pow(K_mass + pi_mass,2), pow(B0_mass - Jpsi_mass,2));
+
+	//
+		TH1D M23_d("M23_d", "Unweighted Sample;Device; Events;M(K #pi) [GeV/c^{2}]",
+				100, K_mass + pi_mass, B0_mass - Jpsi_mass);
+
+		TH1D M23_h("M23_h", "Unweighted Sample;Host; Events; M(K #pi) [GeV/c^{2}]",
+				100, K_mass + pi_mass, B0_mass - Jpsi_mass);
+
+		TH1D M23FIT_d("M23FIT_d", "Unweighted Sample;Device; Events;M(K #pi) [GeV/c^{2}]",
+				100, K_mass + pi_mass, B0_mass - Jpsi_mass);
+
+		TH1D M23FIT_h("M23FIT_h", "Unweighted Sample;Host; Events; M(K #pi) [GeV/c^{2}]",
+				100, K_mass + pi_mass, B0_mass - Jpsi_mass);
+
+
+
 
 #endif
 
@@ -273,11 +289,12 @@ int main(int argv, char** argc)
 #endif
 
 		//set the mass and width of the breit-wigner
-		auto range = Events_d.Unweight(breit_wigner, 1.0);
+		size_t last = Events_d.Unweight(breit_wigner, 1.0);
+		auto range  = Events_d.GetUnweightedDecays();
 
 		std::cout << "<======= Breit-Wigner [Unweighted] =======>"<< std::endl;
 		for( size_t i=0; i<10; i++ )
-			std::cout << range.first[i] << std::endl;
+			std::cout << range.begin()[i] << std::endl;
 
 		// Data fit
 		//--------------------------------------------
@@ -286,28 +303,81 @@ int main(int argv, char** argc)
 
 		//make model and fcn
 		auto model = hydra::make_pdf(breit_wigner, Integrator_d );
-		auto fcn     = hydra::make_loglikehood_fcn(range.first, range.second, model);
+		auto fcn     = hydra::make_loglikehood_fcn(range.begin(), range.begin()+last, model);
+		//-------------------------------------------------------
+		//fit
+		ROOT::Minuit2::MnPrint::SetLevel(3);
+		hydra::Print::SetLevel(hydra::WARNING);
+		//minimization strategy
+		MnStrategy strategy(2);
 
+		// create Migrad minimizer
+		MnMigrad migrad_d(fcn, fcn.GetParameters().GetMnState() ,  strategy);
+
+		std::cout<<fcn.GetParameters().GetMnState()<<std::endl;
+
+		// ... Minimize and profile the time
+
+		auto start_d = std::chrono::high_resolution_clock::now();
+		FunctionMinimum minimum_d =  FunctionMinimum(migrad_d(std::numeric_limits<unsigned int>::max(), 5));
+		auto end_d = std::chrono::high_resolution_clock::now();
+		std::chrono::duration<double, std::milli> elapsed_d = end_d - start_d;
+
+		// output
+		std::cout<<"minimum: "<<minimum_d<<std::endl;
+
+		//time
+		std::cout << "-----------------------------------------"<<std::endl;
+		std::cout << "| GPU Time (ms) ="<< elapsed_d.count() <<std::endl;
+		std::cout << "-----------------------------------------"<<std::endl;
+
+		hydra::Decays<3, hydra::device::sys_t > Events_d2(1000000);
+
+		//generate the final state particles
+		phsp.Generate(B0, Events_d2.begin(), Events_d2.end());
+		Events_d2.Reweight(fcn.GetPDF() );
+		std::cout << "<======= FIT [Weighted] =======>"<< std::endl;
+				for( size_t i=0; i<10; i++ )
+					std::cout << Events_d2[i] << std::endl;
 
 #ifdef 	_ROOT_AVAILABLE_
 
 		//bring events to CPU memory space
 
-		hydra::Decays<3, hydra::host::sys_t > Events_h1(  Events_d.begin(),  Events_d.begin() + hydra::distance( range.first, range.second) ) ;
+		hydra::Decays<3, hydra::host::sys_t > Events_h1(  Events_d.begin(),
+				Events_d.begin()+ last) ;
 
 		for( auto event : Events_h1 ){
 
-			double weight        = hydra::get<0>(event);
+			double weight        = hydra::get<0>(event);// always 1
 			hydra::Vector4R Jpsi = hydra::get<1>(event);
 			hydra::Vector4R K    = hydra::get<2>(event);
 			hydra::Vector4R pi   = hydra::get<3>(event);
 
 			double M2_Jpsi_pi = (Jpsi + pi).mass2();
 			double M2_Kpi     = (K + pi).mass2();
+			double M_Kpi     = (K + pi).mass();
 
-			Dalitz_d2.Fill( M2_Jpsi_pi, M2_Kpi, weight);
+			Dalitz_d2.Fill( M2_Jpsi_pi, M2_Kpi);
+
+			M23_d.Fill( M_Kpi);
 		}
 
+		hydra::Decays<3, hydra::host::sys_t > Events_h2(  Events_d2.begin(),
+						Events_d2.end()) ;
+
+		for( auto event : Events_h2 ){
+
+			double weight        = hydra::get<0>(event);
+			hydra::Vector4R Jpsi = hydra::get<1>(event);
+			hydra::Vector4R K    = hydra::get<2>(event);
+			hydra::Vector4R pi   = hydra::get<3>(event);
+
+		    double M_Kpi     = (K + pi).mass();
+
+
+			M23FIT_d.Fill( M_Kpi, weight);
+		}
 #endif
 
 	}
@@ -397,6 +467,8 @@ int main(int argv, char** argc)
 	Dalitz_d1.Draw("colz");
 	canvas_d1.Print("plots/phsp_unweighting_functor_d1.png");
 
+
+
 	TCanvas canvas_h2("canvas_h2", "Phase-space Device", 500, 500);
 	Dalitz_h2.Draw("colz");
 	canvas_h2.Print("plots/phsp_unweighting_functor_h2.png");
@@ -404,6 +476,14 @@ int main(int argv, char** argc)
 	TCanvas canvas_d2("canvas_d2", "Phase-space Device", 500, 500);
 	Dalitz_d2.Draw("colz");
 	canvas_d2.Print("plots/phsp_unweighting_functor_d2.png");
+
+	TCanvas canvas_m23_d("canvas_m23", "Phase-space Device", 500, 500);
+	M23_d.Draw("e0");
+	M23FIT_d.Scale(M23_d.Integral()/M23FIT_d.Integral() );
+	M23FIT_d.Draw("Chistsame");
+
+	M23FIT_d.SetLineColor(2);
+	canvas_m23_d.Print("plots/phsp_unweighting_functor_h2.png");
 
 	m_app->Run();
 
