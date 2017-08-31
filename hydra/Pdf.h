@@ -303,7 +303,7 @@ public:
 	 * @return
 	 */
  	template<typename T1>
-  	inline  GReal_t operator()(T1&& t )
+ 	inline  GReal_t operator()(T1&& t )
   	{
   		return fFunctor(t);
 
