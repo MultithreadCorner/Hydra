@@ -34,6 +34,8 @@
 #include <hydra/detail/BackendPolicy.h>
 #include <hydra/Types.h>
 #include <hydra/Tuple.h>
+#include <hydra/GenericRange.h>
+
 //thrust
 #include <thrust/partition.h>
 
@@ -52,7 +54,7 @@ namespace hydra {
  * @return
  */
 template<typename Container, typename Functor>
-hydra::pair<typename Container::iterator, typename Container::iterator>
+hydra::GenericRange<typename Container::iterator>
 apply_filter(Container& container, Functor const& filter);
 
 }  // namespace hydra

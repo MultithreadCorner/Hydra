@@ -33,11 +33,11 @@
 namespace hydra {
 
 template<typename Container, typename Functor>
-hydra::pair<typename Container::iterator, typename Container::iterator>
+hydra::GenericRange<typename Container::iterator>
 apply_filter(Container& container, Functor const& filter)
 {
 	typename Container::iterator new_end = thrust::partition(container.begin(),container.end() , filter);
-     return hydra::make_pair(container.begin(), new_end);
+     return hydra::make_range(container.begin(), new_end);
 }
 
 }  // namespace hydra
