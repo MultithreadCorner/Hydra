@@ -55,7 +55,7 @@
 #include <hydra/Pdf.h>
 #include <hydra/Copy.h>
 #include <hydra/Filter.h>
-#include <hydra/GaussKronrodQuadrature.h>
+#include <hydra/GenzMalikQuadrature.h>
 
 //Minuit2
 #include "Minuit2/FunctionMinimum.h"
@@ -125,15 +125,16 @@ int main(int argv, char** argc)
 
 		double g = 1.0;
 
-		double mean[3] = { params[0].GetValue(), params[4].GetValue(), params[4].GetValue()  };
+		double mean[3] = { params[0].GetValue(), params[2].GetValue(), params[4].GetValue()  };
 		double sigma[3]= { params[1].GetValue(), params[3].GetValue(), params[5].GetValue()  };
 
-		for(size_t i=0; i<3; i++){
+		for(size_t i=0; i<narg; i++){
 
 			double m2 = (x[i] - mean[i] )*(x[i] - mean[i] );
 			double s2 = sigma[i]*sigma[i];
 			g *= exp(-m2/(2.0 * s2 ))/( sqrt(2.0*s2*PI));
 		}
+
 
 		return g;
 	};
@@ -141,33 +142,33 @@ int main(int argv, char** argc)
 	//______________________________________________________________
 
 	std::string MeanX("MeanX");   // mean of gaussian in x-direction
-	std::string SigmaX("SigmaX"); // sigma of gaussian in x-direction
 	hydra::Parameter  meanx_p  = hydra::Parameter::Create()
 			.Name(MeanX)
-			.Value(0.5)
+			.Value(0.0)
 			.Error(0.0001)
 			.Limits(-1.0, 1.0);
 
+	std::string SigmaX("SigmaX"); // sigma of gaussian in x-direction
 	hydra::Parameter  sigmax_p = hydra::Parameter::Create()
 			.Name(SigmaX)
-			.Value(0.5)
+			.Value(1.0)
 			.Error(0.0001)
-			.Limits(0.01, 1.5);
+			.Limits(0.1, 3.0);
 	//______________________________________________________________
 
 	std::string MeanY("MeanY");   // mean of gaussian in y-direction
-	std::string SigmaY("SigmaY"); // sigma of gaussian in y-direction
 	hydra::Parameter  meany_p  = hydra::Parameter::Create()
 			.Name(MeanY)
-			.Value(0.5)
+			.Value(0.0)
 			.Error(0.0001)
 			.Limits(-1.0, 1.0);
 
+	std::string SigmaY("SigmaY"); // sigma of gaussian in y-direction
 	hydra::Parameter  sigmay_p = hydra::Parameter::Create()
 			.Name(SigmaY)
-			.Value(0.5)
-			.Error(0.0001)
-			.Limits(0.01, 1.5);
+			.Value(1.0)
+			.Error(0.01)
+			.Limits(0.1, 3.0);
 
 	//______________________________________________________________
 
@@ -176,15 +177,15 @@ int main(int argv, char** argc)
 
 	hydra::Parameter  meanz_p  = hydra::Parameter::Create()
 	.Name(MeanZ)
-	.Value(0.5)
+	.Value(0.0)
 	.Error(0.0001)
 	.Limits(-1.0, 1.0);
 
 	hydra::Parameter  sigmaz_p = hydra::Parameter::Create()
 	.Name(SigmaZ)
-	.Value(0.5)
+	.Value(1.0)
 	.Error(0.0001)
-	.Limits(0.01, 1.5);
+	.Limits(0.1, 3.0);
 
 	//______________________________________________________________
 
@@ -199,11 +200,11 @@ int main(int argv, char** argc)
     double meanx  = 0.0;
     double sigmax = 0.5;
 
-    double meany  = 1.0;
+    double meany  = 0.0;
     double sigmay = 1.0;
 
-    double meanz  = 2.0;
-    double sigmaz = 2.0;
+    double meanz  = 0.0;
+    double sigmaz = 1.5;
 
 
 #ifdef _ROOT_AVAILABLE_
@@ -238,10 +239,13 @@ int main(int argv, char** argc)
 
 		//-------------------------------------------------------
 		//gaussian
+		Generator.SetSeed(145);
 		Generator.Gauss(meanx, sigmax, data_d.begin(0), data_d.end(0));
 		//gaussian
+		Generator.SetSeed(216);
 		Generator.Gauss(meany, sigmay, data_d.begin(1), data_d.end(1));
 		//gaussian
+		Generator.SetSeed(321);
 		Generator.Gauss(meanz, sigmaz, data_d.begin(2), data_d.end(2));
 
 
@@ -252,7 +256,7 @@ int main(int argv, char** argc)
 		std::array<double, 3> MinA{min, min, min};
 		std::array<double, 3> MaxA{max, max, max};
 
-		GenzMalikQuadrature<3, hydra::omp::sys_t> Integrator_d(MinA, MaxA, 10);
+		hydra::GenzMalikQuadrature<3, hydra::device::sys_t> Integrator_d(MinA, MaxA, 200);
 
 
 		//filtering
@@ -260,8 +264,8 @@ int main(int argv, char** argc)
 		{
 
 			bool decision = true;
-			for (auto i=0; i<n; i++)
-				decision &=((x[i] > min) && (x[i] < max ))
+			for (unsigned int i=0; i<n; i++)
+				decision &=((x[i] > min) && (x[i] < max ));
 			return decision ;
 		};
 
@@ -275,8 +279,9 @@ int main(int argv, char** argc)
 
 		//make model and fcn
 		auto model = hydra::make_pdf(gaussian, Integrator_d );
-		auto fcn   = hydra::make_loglikehood_fcn(range.first, range.second, model);
 
+		auto fcn   = hydra::make_loglikehood_fcn(range.begin(), range.end(), model);
+		fcn.GetPDF().PrintRegisteredParameters();
 		//-------------------------------------------------------
 		//fit
 		ROOT::Minuit2::MnPrint::SetLevel(3);
@@ -292,7 +297,7 @@ int main(int argv, char** argc)
 		// ... Minimize and profile the time
 
 		auto start_d = std::chrono::high_resolution_clock::now();
-		FunctionMinimum minimum_d =  FunctionMinimum(migrad_d(std::numeric_limits<unsigned int>::max(), 5));
+		FunctionMinimum minimum_d =  FunctionMinimum(migrad_d(5000, 5));
 		auto end_d = std::chrono::high_resolution_clock::now();
 		std::chrono::duration<double, std::milli> elapsed_d = end_d - start_d;
 
@@ -307,20 +312,52 @@ int main(int argv, char** argc)
 		//bring data to device
 		hydra::copy( data_d.begin() , data_d.end(), data_h.begin() );
 
+		//generate sample from fitted function
+		hydra::multiarray<3, double, hydra::device::sys_t >  data2_d(100*nentries);
+		auto middle = Generator.Sample(data2_d.begin(),data2_d.end(),
+				MinA, MaxA,fcn.GetPDF().GetFunctor());
+
+		auto range_fit = hydra::make_range(data2_d.begin(), middle);
 		//draw fitted function
 
 
 #ifdef _ROOT_AVAILABLE_
-		for(auto value : data_h)
-			hist_gaussian_d.Fill( value);
 
-		//draw fitted function
-		hist_fitted_gaussian_d.Sumw2();
-		for (size_t i=0 ; i<=100 ; i++) {
-			double x = hist_fitted_gaussian_d.GetBinCenter(i);
-	        hist_fitted_gaussian_d.SetBinContent(i, fcn.GetPDF()(x) );
+		for(auto value : data_h){
+			hist_datax_d.Fill( hydra::get<0>(value));
+			hist_datay_d.Fill( hydra::get<1>(value));
+			hist_dataz_d.Fill( hydra::get<2>(value));
+		    hist_data_d.Fill( hydra::get<0>(value),hydra::get<1>(value),hydra::get<2>(value));
 		}
-		hist_fitted_gaussian_d.Scale(hist_gaussian_d.Integral()/hist_fitted_gaussian_d.Integral() );
+
+
+
+		for(auto value : range_fit){
+			hist_mcx_d.Fill( hydra::get<0>(value));
+			hist_mcy_d.Fill( hydra::get<1>(value));
+			hist_mcz_d.Fill( hydra::get<2>(value));
+
+		}
+
+		for(size_t i=0; i< hist_mc_d.GetXaxis()->GetNbins(); i++ ){
+			for(size_t j=0; j< hist_mc_d.GetYaxis()->GetNbins(); j++ ){
+				for(size_t k=0; k< hist_mc_d.GetZaxis()->GetNbins(); k++ ){
+
+					double x =   hist_mc_d.GetXaxis()->GetBinCenter(i);
+					double y =   hist_mc_d.GetYaxis()->GetBinCenter(j);
+					double z =   hist_mc_d.GetZaxis()->GetBinCenter(k);
+
+					auto value = hydra::make_tuple( x,y,z);
+					hist_mc_d.SetBinContent(hist_mc_d.GetBin(i,j,k), fcn.GetPDF().GetFunctor()(value));
+
+				}
+			}
+		}
+
+		hist_mcx_d.Scale(hist_datax_d.Integral()/hist_mcx_d.Integral() );
+		hist_mcy_d.Scale(hist_datay_d.Integral()/hist_mcy_d.Integral() );
+		hist_mcz_d.Scale(hist_dataz_d.Integral()/hist_mcz_d.Integral() );
+
 #endif //_ROOT_AVAILABLE_
 
 	}//device end
@@ -337,13 +374,26 @@ int main(int argv, char** argc)
 #ifdef _ROOT_AVAILABLE_
 	TApplication *myapp=new TApplication("myapp",0,0);
 
-	/*
-	//draw histograms
-	TCanvas canvas_d("canvas_d" ,"Distributions - Device", 500, 500);
-	hist_gaussian_d.Draw("hist");
-	hist_fitted_gaussian_d.Draw("histsameC");
-	hist_fitted_gaussian_d.SetLineColor(2);
 
+	//draw histograms
+	TCanvas canvas_d("canvas_d" ,"Distributions - Device", 1500, 500);
+	canvas_d.Divide(3,1);
+	canvas_d.cd(1);
+	hist_datax_d.Draw("hist");
+	hist_mcx_d.Draw("chistsame");
+	hist_mcx_d.SetLineColor(2);
+
+	canvas_d.cd(2);
+	hist_datay_d.Draw("hist");
+	hist_mcy_d.Draw("chistsame");
+	hist_mcy_d.SetLineColor(2);
+
+	canvas_d.cd(3);
+	hist_dataz_d.Draw("hist");
+	hist_mcz_d.Draw("chistsame");
+	hist_mcz_d.SetLineColor(2);
+
+/*
 	//draw histograms
 	TCanvas canvas_h("canvas_h" ,"Distributions - Host", 500, 500);
 	hist_gaussian_h.Draw("hist");

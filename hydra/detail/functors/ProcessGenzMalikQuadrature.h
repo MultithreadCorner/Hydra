@@ -120,16 +120,16 @@ struct ProcessGenzMalikUnaryCall
 		get_transformed_abscissa( rule_abscissa, args  );
 
 
-		GReal_t _temp[N+2];
+		GReal_t _temp[N+2]{0};
 		GReal_t fval  = fFunctor(args);
 		_temp[0]      = fval*thrust::get<1>(rule_abscissa);//w7;
 		_temp[1]      = fval*thrust::get<0>(rule_abscissa);//w5;
 
 		GReal_t fourdiff      = fval*thrust::get<3>(rule_abscissa);//w_four_diff;
 
-		(index==N) ? set_four_difference_central(fourdiff,  &_temp[2] ):0;
-		(index>=0)&(index<N) ? set_four_difference_unilateral(index,fourdiff,  &_temp[2] ):0;
-		(index<0) ? set_four_difference_multilateral( &_temp[2]):0;
+		((size_t)index==N) ? set_four_difference_central(fourdiff,  &_temp[2] ):0;
+		((size_t)index>=0)&((size_t)index<N) ? set_four_difference_unilateral(index,fourdiff,  &_temp[2] ):0;
+		((size_t)index<0) ? set_four_difference_multilateral( &_temp[2]):0;
 
        // hydra::detail::arrayToTuple<GReal_t, N+2>(&_temp[0]);
 
@@ -183,7 +183,7 @@ return 1;
 
 //#pragma unroll N
 		for(size_t i=0; i<N; i++)
-		fdarray[i]= (index==i)?value:0.0;
+		fdarray[i]= ((size_t)index==i)?value:0.0;
 
 		return 1;
 	}
