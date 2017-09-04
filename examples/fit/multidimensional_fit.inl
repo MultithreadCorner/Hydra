@@ -214,7 +214,7 @@ int main(int argv, char** argc)
 			100,  min, max,
 			100,  min, max );
 
-	TH3D hist_mc_d("hist_mc_d",   "3D Gaussian - MC - Host",
+	TH3D hist_mc_d("hist_mc_d",   "3D Gaussian - Fit - Device",
 			100, min, max,
 			100, min, max,
 			100, min, max );
@@ -354,6 +354,8 @@ int main(int argv, char** argc)
 			}
 		}
 
+		hist_mc_d.Scale(hist_data_d.Integral()/hist_mc_d.Integral() );
+
 		hist_mcx_d.Scale(hist_datax_d.Integral()/hist_mcx_d.Integral() );
 		hist_mcy_d.Scale(hist_datay_d.Integral()/hist_mcy_d.Integral() );
 		hist_mcz_d.Scale(hist_dataz_d.Integral()/hist_mcz_d.Integral() );
@@ -393,13 +395,13 @@ int main(int argv, char** argc)
 	hist_mcz_d.Draw("chistsame");
 	hist_mcz_d.SetLineColor(2);
 
-/*
-	//draw histograms
-	TCanvas canvas_h("canvas_h" ,"Distributions - Host", 500, 500);
-	hist_gaussian_h.Draw("hist");
-	hist_fitted_gaussian_h.Draw("histsameC");
-	hist_fitted_gaussian_h.SetLineColor(2);
-*/
+	TCanvas canvas2_d("canvas_d" ,"Distributions - Device", 1000, 500);
+	canvas2_d.Divide(2,1);
+	canvas2_d.cd(1);
+	hist_data_d.Draw("iso");
+	canvas2_d.cd(2);
+	hist_mc_d.Draw("iso");
+
 	myapp->Run();
 
 #endif //_ROOT_AVAILABLE_

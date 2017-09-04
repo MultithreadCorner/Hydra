@@ -321,14 +321,16 @@ if(NPARAM!=0){
 	template<typename T>
 	__host__ __device__ inline
 	typename thrust::detail::enable_if<
-	! ( detail::is_instantiation_of<thrust::tuple,typename std::remove_reference<T>::type >::value ||
+	! ( detail::is_instantiation_of<thrust::tuple,
+			typename thrust::detail::remove_const<typename thrust::detail::remove_reference< T>::type >::type >::value ||
 	    detail::is_instantiation_of<thrust::detail::tuple_of_iterator_references,
-	                                typename thrust::detail::remove_reference<T>::type >::value )
+	        typename thrust::detail::remove_const< typename thrust::detail::remove_reference<T>::type >::type >::value )
 	, return_type>::type
 	interface(T&& x)
 	{
 		fNArgs=1;
-		typename thrust::detail::remove_const<typename thrust::detail::remove_reference<T>::type>::type _x;
+		typename thrust::detail::remove_const<typename thrust::detail::remove_reference<T>::type >::type _x;
+
 		_x=x;
 		return static_cast<Functor*>(this)->Evaluate(fNArgs, &_x);
 	}
@@ -337,15 +339,27 @@ if(NPARAM!=0){
 	template<typename T>
 	__host__ __device__ inline
 	typename thrust::detail::enable_if<(
-			  detail::is_instantiation_of<thrust::tuple,typename std::remove_reference<T>::type >::value ||
+			  detail::is_instantiation_of<thrust::tuple,
+			  typename thrust::detail::remove_const<
+			  	  typename thrust::detail::remove_reference<T>::type
+			  >::type >::value ||
 			  detail::is_instantiation_of<thrust::detail::tuple_of_iterator_references,
-			                              typename thrust::detail::remove_reference<T>::type >::value ) ||
-	          detail::is_homogeneous<typename thrust::tuple_element<0, typename thrust::detail::remove_reference<T>::type>::type,
-	                                 typename thrust::detail::remove_reference<T>::type>::value,
-	return_type>::type
+			  typename thrust::detail::remove_const<
+			  	  typename thrust::detail::remove_reference<T>::type
+			   >::type >::value ) &&
+	        detail::is_homogeneous<
+	        	typename thrust::tuple_element<0,
+	        		typename thrust::detail::remove_const<
+	        			typename thrust::detail::remove_reference<T>::type
+	        		>::type
+	        	>::type,
+	        	typename thrust::detail::remove_const<
+	        		typename thrust::detail::remove_reference<T>::type
+	        	>::type
+	        >::value, return_type>::type
 	interface(T&& x)
 	{
-		typedef typename thrust::detail::remove_reference<T>::type Tprime;
+		typedef  typename thrust::detail::remove_const<typename thrust::detail::remove_reference<T>::type>::type Tprime;
 		typedef typename thrust::detail::remove_reference<typename thrust::tuple_element<0, Tprime>::type>::type first_type;
 		constexpr size_t N = thrust::tuple_size< Tprime >::value;
 

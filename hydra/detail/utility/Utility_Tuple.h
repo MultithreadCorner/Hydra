@@ -434,14 +434,14 @@ namespace hydra {
 	 __host__  __device__
 	 inline typename thrust::detail::enable_if<I == (sizeof...(OtherTypes) + 1) &&
 	              are_all_same<FistType,OtherTypes...>::value, void>::type
-	 tupleToArray(thrust::tuple<FistType, OtherTypes...> &,  typename std::remove_reference<FistType>::type* Array)
+	 tupleToArray(thrust::tuple<FistType, OtherTypes...> const &,  typename std::remove_reference<FistType>::type* Array)
 	 {}
 
 	 template<size_t I = 0, typename FistType, typename ...OtherTypes>
 	 __host__  __device__
 	 inline typename thrust::detail::enable_if<(I < sizeof...(OtherTypes)+1) &&
 	           are_all_same<FistType,OtherTypes...>::value, void >::type
-	 tupleToArray(thrust::tuple<FistType, OtherTypes...> & t,  typename std::remove_reference<FistType>::type* Array)
+	 tupleToArray(thrust::tuple<FistType, OtherTypes...> const & t,  typename std::remove_reference<FistType>::type* Array)
 	 {
 
 		 Array[I] = thrust::get<I>(t);
@@ -453,8 +453,15 @@ namespace hydra {
 	 //----------------------------------------------------------
 	 template<typename A, typename Tp, size_t I>
 	 struct is_homogeneous_base:
-	 std::conditional<thrust::detail::is_same<typename std::remove_reference<A>::type,
-	 typename  std::remove_reference<typename thrust::tuple_element<I-1, Tp>::type>::type>::value, is_homogeneous_base<A, Tp, I-1>,
+	 std::conditional<thrust::detail::is_same<
+	 typename thrust::detail::remove_const<
+	     typename thrust::detail::remove_reference<A>::type
+	 >::type,
+	 typename thrust::detail::remove_const<
+	   typename thrust::detail::remove_reference<
+	      typename thrust::tuple_element<I-1, Tp>::type
+	   >::type
+	 >::type>::value, is_homogeneous_base<A, Tp, I-1>,
 	 thrust::detail::false_type>::type{ };
 
 	 template<typename A, typename Tp>
