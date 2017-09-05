@@ -39,7 +39,7 @@ if(BUILD_CUDA_TARGETS)
          cuda_add_executable( multidimensional_fit_cuda EXCLUDE_FROM_ALL  multidimensional_fit.cu    
             OPTIONS -Xcompiler -fopenmp -DTHRUST_DEVICE_SYSTEM=THRUST_DEVICE_SYSTEM_CUDA  -DTHRUST_HOST_SYSTEM=THRUST_HOST_SYSTEM_CPP -lgomp
             )
-         target_link_libraries(multidimensional_fit_cuda  ${ROOT_LIBRARIES} )
+         target_link_libraries(multidimensional_fit_cuda  ${ROOT_LIBRARIES})
          
          add_dependencies(examples multidimensional_fit_cuda)
          

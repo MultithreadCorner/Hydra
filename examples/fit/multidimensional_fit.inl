@@ -40,6 +40,7 @@
 
 
 //this lib
+#include <hydra/omp/System.h>
 #include <hydra/device/System.h>
 #include <hydra/host/System.h>
 #include <hydra/Function.h>
@@ -256,7 +257,7 @@ int main(int argv, char** argc)
 		std::array<double, 3> MinA{min, min, min};
 		std::array<double, 3> MaxA{max, max, max};
 
-		hydra::GenzMalikQuadrature<3, hydra::device::sys_t> Integrator_d(MinA, MaxA, 200);
+		hydra::GenzMalikQuadrature<3, hydra::omp::sys_t> Integrator_d(MinA, MaxA, 500);
 
 
 		//filtering
@@ -312,14 +313,6 @@ int main(int argv, char** argc)
 		//bring data to device
 		hydra::copy( data_d.begin() , data_d.end(), data_h.begin() );
 
-		//generate sample from fitted function
-		hydra::multiarray<3, double, hydra::device::sys_t >  data2_d(100*nentries);
-		auto middle = Generator.Sample(data2_d.begin(),data2_d.end(),
-				MinA, MaxA,fcn.GetPDF().GetFunctor());
-
-		auto range_fit = hydra::make_range(data2_d.begin(), middle);
-		//draw fitted function
-
 
 #ifdef _ROOT_AVAILABLE_
 
@@ -330,14 +323,6 @@ int main(int argv, char** argc)
 		    hist_data_d.Fill( hydra::get<0>(value),hydra::get<1>(value),hydra::get<2>(value));
 		}
 
-
-
-		for(auto value : range_fit){
-			hist_mcx_d.Fill( hydra::get<0>(value));
-			hist_mcy_d.Fill( hydra::get<1>(value));
-			hist_mcz_d.Fill( hydra::get<2>(value));
-
-		}
 
 		for(size_t i=0; i< hist_mc_d.GetXaxis()->GetNbins(); i++ ){
 			for(size_t j=0; j< hist_mc_d.GetYaxis()->GetNbins(); j++ ){
@@ -356,10 +341,11 @@ int main(int argv, char** argc)
 
 		hist_mc_d.Scale(hist_data_d.Integral()/hist_mc_d.Integral() );
 
-		hist_mcx_d.Scale(hist_datax_d.Integral()/hist_mcx_d.Integral() );
-		hist_mcy_d.Scale(hist_datay_d.Integral()/hist_mcy_d.Integral() );
-		hist_mcz_d.Scale(hist_dataz_d.Integral()/hist_mcz_d.Integral() );
-
+		for(size_t i=0; i< hist_mc_d.GetXaxis()->GetNbins(); i++ ){
+			hist_mcx_d.SetBinContent(i, hist_mc_d.Project3D("x")->GetBinContent(i));
+			hist_mcy_d.SetBinContent(i, hist_mc_d.Project3D("y")->GetBinContent(i));
+			hist_mcz_d.SetBinContent(i, hist_mc_d.Project3D("z")->GetBinContent(i));
+		}
 #endif //_ROOT_AVAILABLE_
 
 	}//device end

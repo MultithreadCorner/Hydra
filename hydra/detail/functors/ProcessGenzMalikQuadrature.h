@@ -128,8 +128,8 @@ struct ProcessGenzMalikUnaryCall
 		GReal_t fourdiff      = fval*thrust::get<3>(rule_abscissa);//w_four_diff;
 
 		((size_t)index==N) ? set_four_difference_central(fourdiff,  &_temp[2] ):0;
-		((size_t)index>=0)&((size_t)index<N) ? set_four_difference_unilateral(index,fourdiff,  &_temp[2] ):0;
-		((size_t)index<0) ? set_four_difference_multilateral( &_temp[2]):0;
+		(index>=0)&((size_t)index<N) ? set_four_difference_unilateral(index,fourdiff,  &_temp[2] ):0;
+		(index<0) ? set_four_difference_multilateral( &_temp[2]):0;
 
        // hydra::detail::arrayToTuple<GReal_t, N+2>(&_temp[0]);
 
@@ -279,59 +279,11 @@ struct ProcessGenzMalikBox
 		typedef multivector<device_super_t> device_rvector_t;
 		typedef multivector<host_super_t> host_rvector_t;
 
-#if THRUST_DEVICE_SYSTEM==THRUST_DEVICE_SYSTEM_CUDA
-
-		/*
-		cudaStream_t s;
-		cudaStreamCreate(&s);
-
-
-		thrust::counting_iterator<size_t> first(0);
-		thrust::counting_iterator<size_t> last =first+ thrust::distance(fRuleBegin, fRuleEnd);
-
-		device_rvector_t  fDeviceResult( thrust::distance(fRuleBegin, fRuleEnd));
-		host_rvector_t  fHostResult( thrust::distance(fRuleBegin, fRuleEnd));
-
-		thrust::transform(thrust::cuda::par.on(s),
-				fRuleBegin, fRuleEnd, fDeviceResult.begin(),
-				ProcessGenzMalikUnaryCall<N, FUNCTOR, RuleIterator>(fBoxBegin[index].GetLowerLimit(),
-						fBoxBegin[index].GetUpperLimit(), fFunctor));
-
-		thrust::copy(thrust::cuda::par.on(s),
-						fDeviceResult.begin(),fDeviceResult.end(),fHostResult.begin());
-
-		cudaStreamSynchronize(s);
-
-		auto box_result =
-				thrust::reduce(fHostResult.begin(), fHostResult.end(), tuple_t(),
-						ProcessGenzMalikBinaryCall<N>());
-
-
-		cudaStreamDestroy(s);
-		 */
-
-
-		cudaStream_t s;
-		cudaStreamCreate(&s);
-
-		auto  box_result =
-				thrust::transform_reduce(thrust::cuda::par.on(s),
-						fRuleBegin, fRuleEnd,
-						ProcessGenzMalikUnaryCall<N, FUNCTOR, RuleIterator>(fBoxBegin[index].GetLowerLimit(), fBoxBegin[index].GetUpperLimit(), fFunctor),
-						tuple_t() ,
-						ProcessGenzMalikBinaryCall<N>());
-
-		cudaStreamSynchronize(s);
-		cudaStreamDestroy(s);
-
-#else
-
 		auto box_result =
 				thrust::transform_reduce( fRuleBegin, fRuleEnd,
 				ProcessGenzMalikUnaryCall<N, FUNCTOR, RuleIterator>(fBoxBegin[index].GetLowerLimit(), fBoxBegin[index].GetUpperLimit(), fFunctor),
 				tuple_t() ,
 				ProcessGenzMalikBinaryCall<N>());
-#endif
 
 		fBoxBegin[index]=box_result;
 

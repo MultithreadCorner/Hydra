@@ -226,77 +226,6 @@ if(NPARAM!=0){
 	}
 
 
-	/**
-	 * @brief Set parameters
-	 * @param parameters
-	 */
-	/*
-	__host__ inline
-	void SetParameters(const std::vector<double>& parameters)
-	{
-
-		if(fCached) return;
-		if(!fParamResgistered){
-					HYDRA_LOG(WARNING, "Parameters not registered, check client implementation. Nothing to dump. Exiting..." )
-		            return;
-				}
-		for(size_t i=0; i< parameter_count; i++){
-
-			fParameters[i] = parameters[fParameters[i].GetIndex()];
-		}
-
-		if (INFO >= hydra::Print::Level()  )
-		{
-			std::ostringstream stringStream;
-			for(size_t i=0; i< parameter_count; i++){
-			     stringStream << "Parameter["<< fParameters[i].GetIndex() <<"] :  "
-			    		 << parameters[fParameters[i].GetIndex() ] << "  " << fParameters[i] << "\n";
-			}
-			HYDRA_LOG(INFO, stringStream.str().c_str() )
-		}
-
-		return;
-	}
-*/
-
-	/*
-	inline	void AddUserParameters(std::vector<hydra::Parameter*>& user_parameters )
-	{
-
-		for(size_t i=0; i<NPARAM; i++)
-			user_parameters.push_back(&fParameters[i]);
-	}
-   */
-
-	/*
-	__host__ __device__ inline
-		constexpr  size_t GetNumberOfParameters() const {
-				return NPARAM;
-	}
-	*/
-
-	/*
-	__host__ __device__ inline
-	const Parameter* GetParameters() const {
-			return &fParameters[0];
-	}
-
-	__host__ __device__ inline
-	const Parameter& GetParameter(size_t i) const {
-		return fParameters[i];
-	}
-
-	__host__ __device__ inline
-	void SetParameter(size_t i, Parameter const& value) {
-		fParameters[i]=value;
-	}
-
-	__host__ __device__ inline
-	void SetParameter(size_t i, double value) {
-			fParameters[i]=value;
-		}
-      */
-
 	__host__ __device__  inline
 	GReal_t GetNorm() const {
 		return fNorm;
@@ -322,10 +251,13 @@ if(NPARAM!=0){
 	__host__ __device__ inline
 	typename thrust::detail::enable_if<
 	! ( detail::is_instantiation_of<thrust::tuple,
-			typename thrust::detail::remove_const<typename thrust::detail::remove_reference< T>::type >::type >::value ||
-	    detail::is_instantiation_of<thrust::detail::tuple_of_iterator_references,
-	        typename thrust::detail::remove_const< typename thrust::detail::remove_reference<T>::type >::type >::value )
-	, return_type>::type
+			typename thrust::detail::remove_const<
+				typename thrust::detail::remove_reference< T>::type
+			>::type >::value ||
+	    detail::is_instantiation_of< thrust::detail::tuple_of_iterator_references,
+	        typename thrust::detail::remove_const<
+	        	typename thrust::detail::remove_reference<T>::type
+	        >::type >::value ) , return_type>::type
 	interface(T&& x)
 	{
 		fNArgs=1;
@@ -374,10 +306,18 @@ if(NPARAM!=0){
 
 	template<typename T >
 	__host__ __device__ inline
-	typename thrust::detail::enable_if<detail::is_instantiation_of<thrust::tuple,typename std::remove_reference<T>::type >::value &&
+	typename thrust::detail::enable_if<
+	detail::is_instantiation_of<thrust::tuple,
+		typename std::remove_reference<T>::type >::value &&
 	!(detail::is_homogeneous<
-	typename thrust::tuple_element<0, typename thrust::detail::remove_reference<T>::type>::type,
-	typename thrust::detail::remove_reference<T>::type>::value), return_type>::type
+	    typename thrust::tuple_element< 0,
+	    	typename thrust::detail::remove_const<
+	    		typename thrust::detail::remove_reference<T>::type
+	    	>::type
+	    >::type,
+	    typename thrust::detail::remove_const<
+	    	typename thrust::detail::remove_reference<T>::type
+		>::type>::value), return_type>::type
 	interface(T&& x)
 	{
 		fNArgs=0;
