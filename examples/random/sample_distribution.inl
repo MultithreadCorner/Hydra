@@ -156,10 +156,6 @@ int main(int argv, char** argc)
 	hydra::Random<thrust::random::default_random_engine>
 	Generator( std::chrono::system_clock::now().time_since_epoch().count() );
 
-	hydra::mc_host_vector<double> vect(1000);
-
-	auto middle = Generator.Sample(vect.begin(),  vect.end(), -6.0, 6.0, gaussians);
-
 	std::array<double, 3>max{6.0, 6.0, 6.0};
 	std::array<double, 3>min{-6.0, -6.0, -6.0};
 
@@ -167,23 +163,28 @@ int main(int argv, char** argc)
 #ifdef _ROOT_AVAILABLE_
 
 	TH3D hist_d("hist_d",   "3D Double Gaussian - Device",
-			100, -6.0, 6.0,
-			100, -6.0, 6.0,
-			100, -6.0, 6.0 );
+			50, -6.0, 6.0,
+			50, -6.0, 6.0,
+			50, -6.0, 6.0 );
 
 	TH3D hist_h("hist_h",   "3D Double Gaussian - Host",
-			100, -6.0, 6.0,
-			100, -6.0, 6.0,
-			100, -6.0, 6.0	);
+			50, -6.0, 6.0,
+			50, -6.0, 6.0,
+			50, -6.0, 6.0	);
 
 #endif //_ROOT_AVAILABLE_
 
 	//some useful typedefs
+	/*
 	typedef hydra::tuple<double, double, double> row_t; //dataset entry
 	typedef hydra::device::vector<row_t> table_d;       //vector of entries in device
 	typedef hydra::host::vector<row_t> table_h;         //vector of entries in host
 	typedef hydra::multivector<table_d> dataset_d;      //multivector
 	typedef hydra::multivector<table_h> dataset_h;      //multivector
+    */
+
+	typedef hydra::multiarray<3, double, hydra::device::sys_t> dataset_d;
+	typedef hydra::multiarray<3, double, hydra::host::sys_t> dataset_h;
 
 	//device
 	{
@@ -197,12 +198,11 @@ int main(int argv, char** argc)
 
 			dataset_d data_d(nentries);
 
-			auto middle = Generator.Sample(data_d.begin(),  data_d.end(), min, max, gaussians);
+			auto range = Generator.Sample(data_d.begin(),  data_d.end(), min, max, gaussians);
 
-			size_t naccepted = hydra::distance(data_d.begin(), middle);
 
-			data_h.resize( naccepted );
-			hydra::copy(data_d.begin(), middle, data_h.begin());
+			data_h.resize( range.size() );
+			hydra::copy( range.begin(), range.end(), data_h.begin());
 
 		}
 
@@ -225,14 +225,16 @@ int main(int argv, char** argc)
 
 		dataset_h data_h(nentries);
 
-		auto middle = Generator.Sample(data_h.begin(),  data_h.end(), min, max, gaussians);
+		auto range = Generator.Sample(data_h.begin(),  data_h.end(), min, max, gaussians);
+
 		std::cout <<std::endl;
 		std::cout <<std::endl;
+
 		for(size_t i=0; i<10; i++)
 			std::cout << "< Random::Sample > [" << i << "] :" << data_h[i] << std::endl;
 
 #ifdef _ROOT_AVAILABLE_
-		for(auto itvalue = data_h.begin(); itvalue!= middle; itvalue++ ){
+		for(auto itvalue = range.begin(); itvalue!=range.end() ; itvalue++ ){
 			auto value = *itvalue;
 			hist_h.Fill( hydra::get<0>(value),
 					hydra::get<1>(value),
@@ -248,11 +250,13 @@ int main(int argv, char** argc)
 
 	//draw histograms
 	TCanvas canvas_d("canvas_d" ,"Distributions - Device", 1000, 1000);
-	hist_d.Draw("hist");
+	hist_d.Draw("iso");
+	hist_d.SetFillColor(9);
 
 	//draw histograms
 	TCanvas canvas_h("canvas_h" ,"Distributions - Host", 1000, 1000);
-	hist_h.Draw("hist");
+	hist_h.Draw("iso");
+	hist_h.SetFillColor(9);
 
 	myapp->Run();
 
