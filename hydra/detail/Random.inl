@@ -35,7 +35,7 @@
 #ifndef RANDOM_INL_
 #define RANDOM_INL_
 
-#include <thrust/memory.h>
+#include <hydra/detail/external/thrust/memory.h>
 
 namespace hydra{
 
@@ -45,17 +45,17 @@ void  Random<GRND>::Gauss(typename Iterator::value_type mean, typename Iterator:
 		Iterator begin, Iterator end )
 {
 	typedef typename Iterator::value_type value_type;
-	using thrust::system::detail::generic::select_system;
-	typedef typename thrust::iterator_system<Iterator>::type System;
+	using HYDRA_EXTERNAL_NS::thrust::system::detail::generic::select_system;
+	typedef typename HYDRA_EXTERNAL_NS::thrust::iterator_system<Iterator>::type System;
 	System system;
 
-	size_t fNEvents=thrust::distance(begin ,end );
+	size_t fNEvents=HYDRA_EXTERNAL_NS::thrust::distance(begin ,end );
 
 	// create iterators
-	thrust::counting_iterator<size_t> first(0);
-	thrust::counting_iterator<size_t> last = first + fNEvents;
+	HYDRA_EXTERNAL_NS::thrust::counting_iterator<size_t> first(0);
+	HYDRA_EXTERNAL_NS::thrust::counting_iterator<size_t> last = first + fNEvents;
 
-	thrust::transform(select_system(system), first, last, begin,
+	HYDRA_EXTERNAL_NS::thrust::transform(select_system(system), first, last, begin,
 			detail::RndGauss<value_type, GRND>(fSeed,  mean, sigma));
 
 }
@@ -69,13 +69,13 @@ void  Random<GRND>::Gauss( hydra::detail::BackendPolicy<BACKEND> const& policy,
 {
 	typedef typename Iterator::value_type value_type;
 
-	size_t fNEvents=thrust::distance(begin ,end );
+	size_t fNEvents=HYDRA_EXTERNAL_NS::thrust::distance(begin ,end );
 
 	// create iterators
-	thrust::counting_iterator<size_t> first(0);
-	thrust::counting_iterator<size_t> last = first + fNEvents;
+	HYDRA_EXTERNAL_NS::thrust::counting_iterator<size_t> first(0);
+	HYDRA_EXTERNAL_NS::thrust::counting_iterator<size_t> last = first + fNEvents;
 
-	thrust::transform(policy, first, last, begin,
+	HYDRA_EXTERNAL_NS::thrust::transform(policy, first, last, begin,
 			detail::RndGauss<value_type, GRND>(fSeed,  mean, sigma));
 
 }
@@ -91,17 +91,17 @@ void Random<GRND>::Uniform(typename Iterator::value_type min, typename Iterator:
 		Iterator begin, Iterator end)
 {
 	typedef typename Iterator::value_type value_type;
-	using thrust::system::detail::generic::select_system;
-	typedef typename thrust::iterator_system<Iterator>::type System;
+	using HYDRA_EXTERNAL_NS::thrust::system::detail::generic::select_system;
+	typedef typename HYDRA_EXTERNAL_NS::thrust::iterator_system<Iterator>::type System;
 	System system;
 
-	size_t fNEvents=thrust::distance(begin ,end );
+	size_t fNEvents=HYDRA_EXTERNAL_NS::thrust::distance(begin ,end );
 
 	// create iterators
-	thrust::counting_iterator<size_t> first(0);
-	thrust::counting_iterator<size_t> last = first + fNEvents;
+	HYDRA_EXTERNAL_NS::thrust::counting_iterator<size_t> first(0);
+	HYDRA_EXTERNAL_NS::thrust::counting_iterator<size_t> last = first + fNEvents;
 
-	thrust::transform(select_system(system),  first, last, begin,
+	HYDRA_EXTERNAL_NS::thrust::transform(select_system(system),  first, last, begin,
 			detail::RndUniform<value_type,GRND>(fSeed+1, min, max));
 
 }
@@ -117,13 +117,13 @@ void Random<GRND>::Uniform( hydra::detail::BackendPolicy<BACKEND> const& policy,
 {
 	typedef typename Iterator::value_type value_type;
 
-	size_t fNEvents=thrust::distance(begin ,end );
+	size_t fNEvents=HYDRA_EXTERNAL_NS::thrust::distance(begin ,end );
 
 	// create iterators
-	thrust::counting_iterator<size_t> first(0);
-	thrust::counting_iterator<size_t> last = first + fNEvents;
+	HYDRA_EXTERNAL_NS::thrust::counting_iterator<size_t> first(0);
+	HYDRA_EXTERNAL_NS::thrust::counting_iterator<size_t> last = first + fNEvents;
 
-	thrust::transform(policy,  first, last, begin,
+	HYDRA_EXTERNAL_NS::thrust::transform(policy,  first, last, begin,
 			detail::RndUniform<value_type,GRND>(fSeed+1, min, max));
 
 }
@@ -136,17 +136,17 @@ template<typename Iterator>
 void  Random<GRND>::Exp(typename Iterator::value_type tau,  Iterator begin, Iterator end)
 {
 	typedef typename Iterator::value_type value_type;
-	using thrust::system::detail::generic::select_system;
-	typedef typename thrust::iterator_system<Iterator>::type System;
+	using HYDRA_EXTERNAL_NS::thrust::system::detail::generic::select_system;
+	typedef typename HYDRA_EXTERNAL_NS::thrust::iterator_system<Iterator>::type System;
 	System system;
 
-	size_t fNEvents=thrust::distance(begin ,end );
+	size_t fNEvents=HYDRA_EXTERNAL_NS::thrust::distance(begin ,end );
 
 	// create iterators
-	thrust::counting_iterator<size_t> first(0);
-	thrust::counting_iterator<size_t> last = first + fNEvents;
+	HYDRA_EXTERNAL_NS::thrust::counting_iterator<size_t> first(0);
+	HYDRA_EXTERNAL_NS::thrust::counting_iterator<size_t> last = first + fNEvents;
 
-	thrust::transform(select_system(system), first, last, begin,
+	HYDRA_EXTERNAL_NS::thrust::transform(select_system(system), first, last, begin,
 			detail::RndExp<value_type,GRND>(fSeed+2, tau));
 
 }
@@ -161,13 +161,13 @@ void  Random<GRND>::Exp( hydra::detail::BackendPolicy<BACKEND> const& policy,
 {
 	typedef typename Iterator::value_type value_type;
 
-	size_t fNEvents=thrust::distance(begin ,end );
+	size_t fNEvents=HYDRA_EXTERNAL_NS::thrust::distance(begin ,end );
 
 	// create iterators
-	thrust::counting_iterator<size_t> first(0);
-	thrust::counting_iterator<size_t> last = first + fNEvents;
+	HYDRA_EXTERNAL_NS::thrust::counting_iterator<size_t> first(0);
+	HYDRA_EXTERNAL_NS::thrust::counting_iterator<size_t> last = first + fNEvents;
 
-	thrust::transform(policy, first, last, begin,
+	HYDRA_EXTERNAL_NS::thrust::transform(policy, first, last, begin,
 			detail::RndExp<value_type,GRND>(fSeed+2, tau));
 
 }
@@ -182,17 +182,17 @@ void  Random<GRND>::BreitWigner(typename Iterator::value_type mean, typename Ite
 		Iterator begin, Iterator end)
 {
 	typedef typename Iterator::value_type value_type;
-	using thrust::system::detail::generic::select_system;
-	typedef typename thrust::iterator_system<Iterator>::type System;
+	using HYDRA_EXTERNAL_NS::thrust::system::detail::generic::select_system;
+	typedef typename HYDRA_EXTERNAL_NS::thrust::iterator_system<Iterator>::type System;
 	System system;
 
-	size_t fNEvents=thrust::distance(begin ,end );
+	size_t fNEvents=HYDRA_EXTERNAL_NS::thrust::distance(begin ,end );
 
 	// create iterators
-	thrust::counting_iterator<size_t> first(0);
-	thrust::counting_iterator<size_t> last = first + fNEvents;
+	HYDRA_EXTERNAL_NS::thrust::counting_iterator<size_t> first(0);
+	HYDRA_EXTERNAL_NS::thrust::counting_iterator<size_t> last = first + fNEvents;
 
-	thrust::transform(select_system(system), first, last, begin,
+	HYDRA_EXTERNAL_NS::thrust::transform(select_system(system), first, last, begin,
 			detail::RndBreitWigner<value_type,GRND>(fSeed+3,  mean, gamma));
 
 }
@@ -208,13 +208,13 @@ void  Random<GRND>::BreitWigner(hydra::detail::BackendPolicy<BACKEND> const& pol
 {
 	typedef typename Iterator::value_type value_type;
 
-	size_t fNEvents=thrust::distance(begin ,end );
+	size_t fNEvents=HYDRA_EXTERNAL_NS::thrust::distance(begin ,end );
 
 	// create iterators
-	thrust::counting_iterator<size_t> first(0);
-	thrust::counting_iterator<size_t> last = first + fNEvents;
+	HYDRA_EXTERNAL_NS::thrust::counting_iterator<size_t> first(0);
+	HYDRA_EXTERNAL_NS::thrust::counting_iterator<size_t> last = first + fNEvents;
 
-	thrust::transform(policy, first, last, begin,
+	HYDRA_EXTERNAL_NS::thrust::transform(policy, first, last, begin,
 			detail::RndBreitWigner<value_type,GRND>(fSeed+3,  mean, gamma));
 
 }
@@ -226,29 +226,29 @@ GenericRange<Iterator>  Random<GRND>::Sample(Iterator begin, Iterator end ,
 		T min, T max,FUNCTOR const& functor)
 {
 	typedef T value_type;
-	using thrust::system::detail::generic::select_system;
-	typedef  typename thrust::iterator_system<Iterator>::type system_t;
+	using HYDRA_EXTERNAL_NS::thrust::system::detail::generic::select_system;
+	typedef  typename HYDRA_EXTERNAL_NS::thrust::iterator_system<Iterator>::type system_t;
 
-    size_t ntrials = thrust::distance( begin, end);
+    size_t ntrials = HYDRA_EXTERNAL_NS::thrust::distance( begin, end);
 
-    auto values = thrust::get_temporary_buffer<value_type>(system_t(), ntrials);
+    auto values = HYDRA_EXTERNAL_NS::thrust::get_temporary_buffer<value_type>(system_t(), ntrials);
 
 	// create iterators
-	thrust::counting_iterator<size_t> first(0);
-	thrust::counting_iterator<size_t> last = first + ntrials;
+	HYDRA_EXTERNAL_NS::thrust::counting_iterator<size_t> first(0);
+	HYDRA_EXTERNAL_NS::thrust::counting_iterator<size_t> last = first + ntrials;
 
 
 	//calculate the functor values
-	thrust::transform( system_t(), first, last, begin, values.first.get(),
+	HYDRA_EXTERNAL_NS::thrust::transform( system_t(), first, last, begin, values.first.get(),
 			detail::RndTrial<value_type,GRND,FUNCTOR,1>(fSeed+4, functor, min, max));
 
 	//get the maximum value
-	value_type max_value = *( thrust::max_element(system_t(),values.first, values.first+ values.second) );
+	value_type max_value = *( HYDRA_EXTERNAL_NS::thrust::max_element(system_t(),values.first, values.first+ values.second) );
 
-	Iterator r = thrust::partition(begin, end, first, detail::RndFlag<value_type,GRND>(fSeed+ntrials, max_value, values.first.get()) );
+	Iterator r = HYDRA_EXTERNAL_NS::thrust::partition(begin, end, first, detail::RndFlag<value_type,GRND>(fSeed+ntrials, max_value, values.first.get()) );
 
-	// deallocate storage with thrust::return_temporary_buffer
-	thrust::return_temporary_buffer(system_t(), values.first);
+	// deallocate storage with HYDRA_EXTERNAL_NS::thrust::return_temporary_buffer
+	HYDRA_EXTERNAL_NS::thrust::return_temporary_buffer(system_t(), values.first);
 
 	return make_range(begin , r);
 }
@@ -260,26 +260,26 @@ GenericRange<Iterator> Random<GRND>::Sample( hydra::detail::BackendPolicy<BACKEN
 {
 	typedef T value_type;
 
-    size_t ntrials = thrust::distance( begin, end);
+    size_t ntrials = HYDRA_EXTERNAL_NS::thrust::distance( begin, end);
 
-    auto values = thrust::get_temporary_buffer<value_type>( policy, ntrials);
+    auto values = HYDRA_EXTERNAL_NS::thrust::get_temporary_buffer<value_type>( policy, ntrials);
 
 	// create iterators
-	thrust::counting_iterator<size_t> first(0);
-	thrust::counting_iterator<size_t> last = first + ntrials;
+	HYDRA_EXTERNAL_NS::thrust::counting_iterator<size_t> first(0);
+	HYDRA_EXTERNAL_NS::thrust::counting_iterator<size_t> last = first + ntrials;
 
 
 	//calculate the functor values
-	thrust::transform(policy, first, last, begin, values.first.get(),
+	HYDRA_EXTERNAL_NS::thrust::transform(policy, first, last, begin, values.first.get(),
 			detail::RndTrial<value_type,GRND,FUNCTOR,1>(fSeed+4, functor, min, max));
 
 	//get the maximum value
-	value_type max_value = *( thrust::max_element(policy,values.first, values.first+ values.second) );
+	value_type max_value = *( HYDRA_EXTERNAL_NS::thrust::max_element(policy,values.first, values.first+ values.second) );
 
-	Iterator r = thrust::partition(policy, begin, end, first, detail::RndFlag<value_type,GRND>(fSeed+ntrials, max_value, values.first.get()) );
+	Iterator r = HYDRA_EXTERNAL_NS::thrust::partition(policy, begin, end, first, detail::RndFlag<value_type,GRND>(fSeed+ntrials, max_value, values.first.get()) );
 
-	// deallocate storage with thrust::return_temporary_buffer
-	thrust::return_temporary_buffer( policy, values.first);
+	// deallocate storage with HYDRA_EXTERNAL_NS::thrust::return_temporary_buffer
+	HYDRA_EXTERNAL_NS::thrust::return_temporary_buffer( policy, values.first);
 
 	return make_range(begin , r);
 }
@@ -294,30 +294,30 @@ GenericRange<Iterator>  Random<GRND>::Sample(Iterator begin, Iterator end ,
 {
 	typedef T value_type;
 
-	using thrust::system::detail::generic::select_system;
-	typedef  typename thrust::iterator_system<Iterator>::type system_t;
+	using HYDRA_EXTERNAL_NS::thrust::system::detail::generic::select_system;
+	typedef  typename HYDRA_EXTERNAL_NS::thrust::iterator_system<Iterator>::type system_t;
 
-    size_t ntrials = thrust::distance( begin, end);
+    size_t ntrials = HYDRA_EXTERNAL_NS::thrust::distance( begin, end);
 
-    auto values = thrust::get_temporary_buffer<value_type>(system_t(), ntrials);
+    auto values = HYDRA_EXTERNAL_NS::thrust::get_temporary_buffer<value_type>(system_t(), ntrials);
 
 	// create iterators
-	thrust::counting_iterator<size_t> first(0);
-	thrust::counting_iterator<size_t> last = first + ntrials;
+	HYDRA_EXTERNAL_NS::thrust::counting_iterator<size_t> first(0);
+	HYDRA_EXTERNAL_NS::thrust::counting_iterator<size_t> last = first + ntrials;
 
 
 	//calculate the functor values
-	thrust::transform( system_t(), first, last, begin, values.first.get(),
+	HYDRA_EXTERNAL_NS::thrust::transform( system_t(), first, last, begin, values.first.get(),
 			detail::RndTrial<value_type, GRND,FUNCTOR,N>(fSeed+4, functor, min, max));
 
 	//get the maximum value
-	value_type max_value = *( thrust::max_element(system_t(),values.first, values.first+ values.second) );
+	value_type max_value = *( HYDRA_EXTERNAL_NS::thrust::max_element(system_t(),values.first, values.first+ values.second) );
 
-	Iterator r = thrust::partition(begin, end, first,
+	Iterator r = HYDRA_EXTERNAL_NS::thrust::partition(begin, end, first,
 			detail::RndFlag<value_type, GRND>(fSeed+ntrials, max_value, values.first.get()) );
    
-	// deallocate storage with thrust::return_temporary_buffer
-	thrust::return_temporary_buffer(system_t(), values.first);
+	// deallocate storage with HYDRA_EXTERNAL_NS::thrust::return_temporary_buffer
+	HYDRA_EXTERNAL_NS::thrust::return_temporary_buffer(system_t(), values.first);
 
 	return make_range(begin , r);
 }
@@ -333,27 +333,27 @@ GenericRange<Iterator> Random<GRND>::Sample( hydra::detail::BackendPolicy<BACKEN
 {
 	typedef T value_type;
 
-    size_t ntrials = thrust::distance( begin, end);
+    size_t ntrials = HYDRA_EXTERNAL_NS::thrust::distance( begin, end);
 
-    auto values = thrust::get_temporary_buffer<value_type>(policy, ntrials);
+    auto values = HYDRA_EXTERNAL_NS::thrust::get_temporary_buffer<value_type>(policy, ntrials);
 
 	// create iterators
-	thrust::counting_iterator<size_t> first(0);
-	thrust::counting_iterator<size_t> last = first + ntrials;
+	HYDRA_EXTERNAL_NS::thrust::counting_iterator<size_t> first(0);
+	HYDRA_EXTERNAL_NS::thrust::counting_iterator<size_t> last = first + ntrials;
 
 
 	//calculate the functor values
-	thrust::transform(policy, first, last, begin, values.first.get(),
+	HYDRA_EXTERNAL_NS::thrust::transform(policy, first, last, begin, values.first.get(),
 			detail::RndTrial<value_type, GRND,FUNCTOR,N>(fSeed+4, functor, min, max));
 
 	//get the maximum value
-	value_type max_value = *( thrust::max_element(policy,values.first, values.first+ values.second) );
+	value_type max_value = *( HYDRA_EXTERNAL_NS::thrust::max_element(policy,values.first, values.first+ values.second) );
 
-	Iterator r = thrust::partition(policy, begin, end, first,
+	Iterator r = HYDRA_EXTERNAL_NS::thrust::partition(policy, begin, end, first,
 			detail::RndFlag<value_type, GRND>(fSeed+ntrials, max_value, values.first.get()) );
 
-	// deallocate storage with thrust::return_temporary_buffer
-	thrust::return_temporary_buffer(policy, values.first);
+	// deallocate storage with HYDRA_EXTERNAL_NS::thrust::return_temporary_buffer
+	HYDRA_EXTERNAL_NS::thrust::return_temporary_buffer(policy, values.first);
 
 	return  make_range(begin , r);
 }

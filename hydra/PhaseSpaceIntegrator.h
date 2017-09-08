@@ -39,7 +39,7 @@
 
 namespace hydra {
 
-template <size_t N, typename Backend,  typename GRND=thrust::random::default_random_engine>
+template <size_t N, typename Backend,  typename GRND=HYDRA_EXTERNAL_NS::thrust::random::default_random_engine>
 class PhaseSpaceIntegrator;
 
 template <size_t N, hydra::detail::Backend BACKEND,  typename GRND>

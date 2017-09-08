@@ -103,7 +103,7 @@ public Integrator< GaussKronrodAdaptiveQuadrature<NRULE, NBIN, hydra::detail::Ba
 	/**
 	 * nodes
 	 */
-	typedef thrust::tuple<
+	typedef HYDRA_EXTERNAL_NS::thrust::tuple<
 			GBool_t, // process
 			GUInt_t,  // bin
 			double,  // lower
@@ -112,13 +112,13 @@ public Integrator< GaussKronrodAdaptiveQuadrature<NRULE, NBIN, hydra::detail::Ba
 			double   // error
 			> node_t;
 
-	typedef thrust::host_vector<node_t>   node_list_h;
+	typedef HYDRA_EXTERNAL_NS::thrust::host_vector<node_t>   node_list_h;
 	typedef multivector<node_list_h> node_table_h;
 
 	/*
 	 * parameters
 	 */
-	typedef thrust::tuple<
+	typedef HYDRA_EXTERNAL_NS::thrust::tuple<
 			GUInt_t,// bin ,
 			double, // abscissa_X_P
 			double, // abscissa_X_M
@@ -136,7 +136,7 @@ public Integrator< GaussKronrodAdaptiveQuadrature<NRULE, NBIN, hydra::detail::Ba
 	/*
 	 * call results
 	 */
-	typedef thrust::tuple<
+	typedef HYDRA_EXTERNAL_NS::thrust::tuple<
 			GUInt_t, // bin
 			double,  // gauss
 			double   // kronrod
@@ -276,17 +276,17 @@ public:
 		HYDRA_MSG << "#Nodes: " << nNodes << HYDRA_ENDL;
 		for(size_t i=0; i< nNodes; i++ ){
 			auto node = this->fNodesTable[i];
-			HYDRA_MSG <<std::setprecision(50)<< "Node ID #" << thrust::get<1>(node) <<" Interval ["
-					  << thrust::get<2>(node)
+			HYDRA_MSG <<std::setprecision(50)<< "Node ID #" << HYDRA_EXTERNAL_NS::thrust::get<1>(node) <<" Interval ["
+					  << HYDRA_EXTERNAL_NS::thrust::get<2>(node)
 					  <<", "
-					  << thrust::get<3>(node)
+					  << HYDRA_EXTERNAL_NS::thrust::get<3>(node)
 					  << "] Result ["
-					  << thrust::get<4>(node)
+					  << HYDRA_EXTERNAL_NS::thrust::get<4>(node)
 					  << ", "
-					  << thrust::get<5>(node)
+					  << HYDRA_EXTERNAL_NS::thrust::get<5>(node)
 					  << "]"
 					  << " Process  "
-					  << thrust::get<0>(node)
+					  << HYDRA_EXTERNAL_NS::thrust::get<0>(node)
 					  << HYDRA_ENDL;
 		}
 		fRule.Print();
@@ -355,12 +355,12 @@ private:
 		for(size_t i=0; i<NBIN; i++ )
 		{
 			auto node = this->fNodesTable[i];
-			thrust::get<0>(node) = 	1;
-			thrust::get<1>(node) = 	i;
-			thrust::get<2>(node) = 	this->fXLower + i*delta;
-			thrust::get<3>(node) = 	this->fXLower + (i+1)*delta;
-			thrust::get<4>(node) = 	0.0;
-			thrust::get<5>(node) = 	0.0;
+			HYDRA_EXTERNAL_NS::thrust::get<0>(node) = 	1;
+			HYDRA_EXTERNAL_NS::thrust::get<1>(node) = 	i;
+			HYDRA_EXTERNAL_NS::thrust::get<2>(node) = 	this->fXLower + i*delta;
+			HYDRA_EXTERNAL_NS::thrust::get<3>(node) = 	this->fXLower + (i+1)*delta;
+			HYDRA_EXTERNAL_NS::thrust::get<4>(node) = 	0.0;
+			HYDRA_EXTERNAL_NS::thrust::get<5>(node) = 	0.0;
 		}
 
 	}
@@ -390,17 +390,17 @@ private:
 		for(auto node : fNodesTable)
 		{
 
-			if(!thrust::get<0>(node)) 	continue;
+			if(!HYDRA_EXTERNAL_NS::thrust::get<0>(node)) 	continue;
 
 			for(size_t call=0; call<(NRULE+1)/2; call++)
 			{
 				GReal_t abscissa_X_P = 0;
 				GReal_t abscissa_X_M = 0;
 				GReal_t jacobian = 0;
-				GReal_t fLowerLimits= thrust::get<2>(node);
-				GReal_t fUpperLimits= thrust::get<3>(node);
+				GReal_t fLowerLimits= HYDRA_EXTERNAL_NS::thrust::get<2>(node);
+				GReal_t fUpperLimits= HYDRA_EXTERNAL_NS::thrust::get<3>(node);
 
-				thrust::tie(abscissa_X_P, abscissa_X_M, jacobian)
+				HYDRA_EXTERNAL_NS::thrust::tie(abscissa_X_P, abscissa_X_M, jacobian)
 				= fRule.GetAbscissa(call , fLowerLimits, fUpperLimits);
 
 				GReal_t rule_GaussKronrod_Weight   = fRule.KronrodWeight[call];
@@ -408,7 +408,7 @@ private:
 
 				size_t index = call*nNodes + i;
 
-				temp_table[index]= parameters_t(thrust::get<1>(node), abscissa_X_P, abscissa_X_M,
+				temp_table[index]= parameters_t(HYDRA_EXTERNAL_NS::thrust::get<1>(node), abscissa_X_P, abscissa_X_M,
 						jacobian, rule_GaussKronrod_Weight, rule_Gauss_Weight);
 			}
 
@@ -416,7 +416,7 @@ private:
 		}
 
 	//	for(auto row: temp_table) std::cout << row << std::endl;
-		thrust::copy( temp_table.begin(), temp_table.end(),
+		HYDRA_EXTERNAL_NS::thrust::copy( temp_table.begin(), temp_table.end(),
 				fParametersTable.begin() );
 
 	}

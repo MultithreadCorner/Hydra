@@ -108,8 +108,7 @@ int main(int argv, char** argc)
 
 
 	//generator
-	hydra::Random<thrust::random::default_random_engine>
-	Generator( std::chrono::system_clock::now().time_since_epoch().count() );
+	hydra::Random<> Generator( std::chrono::system_clock::now().time_since_epoch().count() );
 
 	//----------------------
     //fit function
@@ -171,12 +170,12 @@ int main(int argv, char** argc)
 
 		std::cout<< std::endl<< std::endl;
 		for(size_t i=0; i<10; i++)
-			std::cout << "< Random::Gauss > [" << i << "] :" << range.first[i] << std::endl;
+			std::cout << "< Random::Gauss > [" << i << "] :" << range.begin()[i] << std::endl;
 
 
 		//make model and fcn
 		auto model = hydra::make_pdf(gaussian, GKQ61_d );
-		auto fcn   = hydra::make_loglikehood_fcn(range.first, range.second, model);
+		auto fcn   = hydra::make_loglikehood_fcn(range.begin(), range.end(), model);
 
 		//-------------------------------------------------------
 		//fit
@@ -260,12 +259,12 @@ int main(int argv, char** argc)
 
 		std::cout<< std::endl<< std::endl;
 		for(size_t i=0; i<10; i++)
-			std::cout << "< Random::Gauss > [" << i << "] :" << range.first[i] << std::endl;
+			std::cout << "< Random::Gauss > [" << i << "] :" << range.begin()[i] << std::endl;
 
 
 		//make model and fcn
 		auto model = hydra::make_pdf(gaussian, GKQ61_h );
-		auto fcn   = hydra::make_loglikehood_fcn(range.first, range.second, model);
+		auto fcn   = hydra::make_loglikehood_fcn(range.begin(), range.end(), model);
 
 		//-------------------------------------------------------
 		//fit

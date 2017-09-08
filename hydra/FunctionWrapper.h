@@ -116,7 +116,7 @@ public:
 	Evaluate(T... a) {
 
 		static_assert(
-				std::is_convertible<thrust::tuple<unsigned int,  const hydra::Parameter*, T...> , thrust::tuple<ArgType...>>::value ,
+				std::is_convertible<HYDRA_EXTERNAL_NS::thrust::tuple<unsigned int,  const hydra::Parameter*, T...> , HYDRA_EXTERNAL_NS::thrust::tuple<ArgType...>>::value ,
 										"\n\n<<< HYDRA_COMPILE_ERROR: Lambda function can not be called with this arguments .>>>\n\n");
 
 		return fLambda(this->GetNumberOfParameters(), this->GetParameters(),a...);
@@ -127,7 +127,7 @@ public:
 	typename std::enable_if< (M>0)&& sizeof...(ArgType)==3, ReturnType >::type
 	Evaluate(T a) {
 
-		static_assert( std::is_convertible<thrust::tuple<unsigned int,  const hydra::Parameter*, T> , thrust::tuple<ArgType...>>::value ,
+		static_assert( std::is_convertible<HYDRA_EXTERNAL_NS::thrust::tuple<unsigned int,  const hydra::Parameter*, T> , HYDRA_EXTERNAL_NS::thrust::tuple<ArgType...>>::value ,
 										"\n\n<<< HYDRA_COMPILE_ERROR: Lambda function can not be called with this arguments .>>>\n\n");
 		return fLambda(this->GetNumberOfParameters(), this->GetParameters(), a);
 	}
@@ -137,7 +137,7 @@ public:
 	typename std::enable_if< (M==0) &&( (sizeof...(ArgType))>1), ReturnType >::type
 	Evaluate(T...a){
 
-		static_assert( std::is_convertible<thrust::tuple<T...> , thrust::tuple<ArgType...>>::value ,
+		static_assert( std::is_convertible<HYDRA_EXTERNAL_NS::thrust::tuple<T...> , HYDRA_EXTERNAL_NS::thrust::tuple<ArgType...>>::value ,
 								"\n\n<<< HYDRA_COMPILE_ERROR: Lambda function can not be called with this arguments .>>>\n\n");
 		return fLambda( a...);
 	}
@@ -147,7 +147,7 @@ public:
 	typename std::enable_if< (M==0)&& sizeof...(ArgType)==1, ReturnType >::type
 	Evaluate(T...a) {
 
-		static_assert( std::is_convertible<thrust::tuple<T...> , thrust::tuple<ArgType...>>::value ,
+		static_assert( std::is_convertible<HYDRA_EXTERNAL_NS::thrust::tuple<T...> , HYDRA_EXTERNAL_NS::thrust::tuple<ArgType...>>::value ,
 						"\n\n<<< HYDRA_COMPILE_ERROR: Lambda function can not be called with this arguments .>>>\n\n");
 		return fLambda( a...);
 	}
@@ -162,7 +162,7 @@ namespace detail {
 
 
 template<typename L, typename ReturnType, typename ...Args, size_t N>
-auto wrap_lambda_helper(L const& f, ReturnType r, thrust::tuple<Args...>const& t,
+auto wrap_lambda_helper(L const& f, ReturnType r, HYDRA_EXTERNAL_NS::thrust::tuple<Args...>const& t,
 		std::array<Parameter, N> const& parameters)
 -> LambdaWrapper<ReturnType(Args...), L, N>
 {
@@ -170,7 +170,7 @@ auto wrap_lambda_helper(L const& f, ReturnType r, thrust::tuple<Args...>const& t
 }
 
 template<typename L, typename ReturnType, typename ...Args>
-auto wrap_lambda_helper(L const& f, ReturnType r, thrust::tuple<Args...>const& t)
+auto wrap_lambda_helper(L const& f, ReturnType r, HYDRA_EXTERNAL_NS::thrust::tuple<Args...>const& t)
 -> LambdaWrapper<ReturnType(Args...), L, 0>
 {
 	return LambdaWrapper<ReturnType(Args...), L, 0>(f);

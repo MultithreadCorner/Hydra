@@ -85,7 +85,7 @@ int main(int argv, char** argc)
 
 
 	//generator
-	hydra::Random<thrust::random::default_random_engine>
+	hydra::Random<>
 	Generator( std::chrono::system_clock::now().time_since_epoch().count() );
 
 

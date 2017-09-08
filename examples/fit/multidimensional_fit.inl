@@ -52,6 +52,7 @@
 #include <hydra/Parameter.h>
 #include <hydra/UserParameters.h>
 #include <hydra/Pdf.h>
+#include <hydra/AddPdf.h>
 #include <hydra/Copy.h>
 #include <hydra/Filter.h>
 #include <hydra/GenzMalikQuadrature.h>
@@ -111,7 +112,7 @@ int main(int argv, char** argc) {
 	}
 
 	//generator
-	hydra::Random<thrust::random::default_random_engine> Generator(
+	hydra::Random<> Generator(
 			std::chrono::system_clock::now().time_since_epoch().count());
 
 	//----------------------
@@ -173,6 +174,7 @@ int main(int argv, char** argc) {
 
 	auto gaussian = hydra::wrap_lambda(GAUSSIAN, meanx_p, sigmax_p, meany_p,
 			sigmay_p, meanz_p, sigmaz_p);
+
 
 	//-----------------
 	// some definitions

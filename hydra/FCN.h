@@ -39,11 +39,11 @@
 #include <hydra/Point.h>
 #include <hydra/UserParameters.h>
 
-#include <thrust/distance.h>
-#include <thrust/tuple.h>
-#include <thrust/iterator/constant_iterator.h>
-#include <thrust/inner_product.h>
-#include <thrust/reduce.h>
+#include <hydra/detail/external/thrust/distance.h>
+#include <hydra/detail/external/thrust/tuple.h>
+#include <hydra/detail/external/thrust/iterator/constant_iterator.h>
+#include <hydra/detail/external/thrust/inner_product.h>
+#include <hydra/detail/external/thrust/reduce.h>
 
 #include <Minuit2/FCNBase.h>
 #include <vector>
@@ -67,8 +67,8 @@ class FCN<ESTIMATOR<PDF, PointType, IteratorData, IteratorCache>>: public ROOT::
 
 	typedef ESTIMATOR<PDF, PointType, IteratorData, IteratorCache> estimator_type;
 	typedef PointType point_type;
-	typedef typename thrust::iterator_traits<IteratorData>::value_type data_value_type;
-	typedef typename thrust::iterator_traits<IteratorCache>::value_type cache_value_type;
+	typedef typename HYDRA_EXTERNAL_NS::thrust::iterator_traits<IteratorData>::value_type data_value_type;
+	typedef typename HYDRA_EXTERNAL_NS::thrust::iterator_traits<IteratorCache>::value_type cache_value_type;
 
 	struct Weights { GReal_t fSumW; GReal_t fSumW2; };
 
@@ -79,8 +79,8 @@ class FCN<ESTIMATOR<PDF, PointType, IteratorData, IteratorCache>>: public ROOT::
 		Weights operator()(T data )
 		{
 			Weights weights;
-			weights.fSumW  = thrust::get<0>(data);
-			weights.fSumW2 = thrust::get<1>(data);
+			weights.fSumW  = HYDRA_EXTERNAL_NS::thrust::get<0>(data);
+			weights.fSumW2 = HYDRA_EXTERNAL_NS::thrust::get<1>(data);
 			return weights;
 		}
 	};
@@ -111,7 +111,7 @@ public:
 		fDataBegin(begin),
 		fDataEnd(end),
 		fCacheBegin(IteratorCache()),
-		fNEvents(thrust::distance(begin, end)),
+		fNEvents(HYDRA_EXTERNAL_NS::thrust::distance(begin, end)),
 		fErrorDef(0.5),
 		fWeighted(kFalse),
 		fCached(kFalse),
@@ -121,7 +121,7 @@ public:
 
 		Weights init=Weights();
 
-		Weights  result = thrust::transform_reduce(begin, end, UnaryWeights(),
+		Weights  result = HYDRA_EXTERNAL_NS::thrust::transform_reduce(begin, end, UnaryWeights(),
 				init, BinaryWeights() );
 
 		fSumW  =  result.fSumW;
@@ -142,7 +142,7 @@ public:
 		fDataBegin(begin),
 		fDataEnd(end),
 		fCacheBegin(cbegin),
-		fNEvents(thrust::distance(begin, end)),
+		fNEvents(HYDRA_EXTERNAL_NS::thrust::distance(begin, end)),
 		fErrorDef(0.5),
 		fWeighted(kFalse),
 		fCached(kTrue),
@@ -153,7 +153,7 @@ public:
 
 		Weights init= Weights();
 
-		Weights  result = thrust::transform_reduce(begin, end, UnaryWeights(),
+		Weights  result = HYDRA_EXTERNAL_NS::thrust::transform_reduce(begin, end, UnaryWeights(),
 				init, BinaryWeights() );
 
 		fSumW  =  result.fSumW;

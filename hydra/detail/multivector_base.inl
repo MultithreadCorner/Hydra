@@ -29,7 +29,7 @@
 #ifndef MULTIVECTOR_BASE_INL_
 #define MULTIVECTOR_BASE_INL_
 
-#include <thrust/tuple.h>
+#include <hydra/detail/external/thrust/tuple.h>
 #include <hydra/detail/Config.h>
 #include <hydra/Types.h>
 #include <hydra/detail/utility/Utility_Tuple.h>
@@ -72,16 +72,16 @@ template< template<typename...> class Vector,
 template<typename...> class Allocator,
 typename ...T>
 multivector_base<Vector,Allocator,T...>::multivector_base():
-fStorage(thrust::make_tuple( Vector<T, Allocator<T>>()... ) ),
-fBegin(thrust::make_zip_iterator( detail::begin_call_args(fStorage) )),
-fReverseBegin(thrust::make_zip_iterator( detail::rbegin_call_args(fStorage) )),
-fConstBegin(thrust::make_zip_iterator( detail::cbegin_call_args(fStorage) )),
-fConstReverseBegin(thrust::make_zip_iterator( detail::crbegin_call_args(fStorage) )),
+fStorage(HYDRA_EXTERNAL_NS::thrust::make_tuple( Vector<T, Allocator<T>>()... ) ),
+fBegin(HYDRA_EXTERNAL_NS::thrust::make_zip_iterator( detail::begin_call_args(fStorage) )),
+fReverseBegin(HYDRA_EXTERNAL_NS::thrust::make_zip_iterator( detail::rbegin_call_args(fStorage) )),
+fConstBegin(HYDRA_EXTERNAL_NS::thrust::make_zip_iterator( detail::cbegin_call_args(fStorage) )),
+fConstReverseBegin(HYDRA_EXTERNAL_NS::thrust::make_zip_iterator( detail::crbegin_call_args(fStorage) )),
 fTBegin(detail::begin_call_args(fStorage) ),
 fTReverseBegin( detail::rbegin_call_args(fStorage) ),
 fTConstBegin( detail::cbegin_call_args(fStorage) ),
 fTConstReverseBegin( detail::crbegin_call_args(fStorage) ),
-fSize( thrust::get<0>(fStorage ).size())
+fSize( HYDRA_EXTERNAL_NS::thrust::get<0>(fStorage ).size())
 {}
 
 /**
@@ -92,16 +92,16 @@ fSize( thrust::get<0>(fStorage ).size())
  template<typename...> class Allocator,
  typename ...T>
  multivector_base<Vector,Allocator,T...>::multivector_base(size_t n):
- fStorage(thrust::make_tuple( Vector<T, Allocator<T>>(n)... ) ),
- fBegin(thrust::make_zip_iterator( detail::begin_call_args(fStorage) )),
- fReverseBegin(thrust::make_zip_iterator( detail::rbegin_call_args(fStorage) )),
- fConstBegin(thrust::make_zip_iterator( detail::cbegin_call_args(fStorage) )),
- fConstReverseBegin(thrust::make_zip_iterator( detail::crbegin_call_args(fStorage) )),
+ fStorage(HYDRA_EXTERNAL_NS::thrust::make_tuple( Vector<T, Allocator<T>>(n)... ) ),
+ fBegin(HYDRA_EXTERNAL_NS::thrust::make_zip_iterator( detail::begin_call_args(fStorage) )),
+ fReverseBegin(HYDRA_EXTERNAL_NS::thrust::make_zip_iterator( detail::rbegin_call_args(fStorage) )),
+ fConstBegin(HYDRA_EXTERNAL_NS::thrust::make_zip_iterator( detail::cbegin_call_args(fStorage) )),
+ fConstReverseBegin(HYDRA_EXTERNAL_NS::thrust::make_zip_iterator( detail::crbegin_call_args(fStorage) )),
  fTBegin(detail::begin_call_args(fStorage) ),
  fTReverseBegin( detail::rbegin_call_args(fStorage) ),
  fTConstBegin( detail::cbegin_call_args(fStorage) ),
  fTConstReverseBegin( detail::crbegin_call_args(fStorage) ),
- fSize( thrust::get<0>(fStorage ).size())
+ fSize( HYDRA_EXTERNAL_NS::thrust::get<0>(fStorage ).size())
  {}
 
  /**
@@ -112,16 +112,16 @@ fSize( thrust::get<0>(fStorage ).size())
  template<typename...> class Allocator,
  typename ...T>
  multivector_base<Vector,Allocator,T...>::multivector_base(size_t n, T... value):
- fStorage( detail::_vctor(n, thrust::make_tuple( value... ) )),
- fBegin(thrust::make_zip_iterator( detail::begin_call_args(fStorage) )),
- fReverseBegin(thrust::make_zip_iterator( detail::rbegin_call_args(fStorage) )),
- fConstBegin(thrust::make_zip_iterator( detail::cbegin_call_args(fStorage) )),
- fConstReverseBegin(thrust::make_zip_iterator( detail::crbegin_call_args(fStorage) )),
+ fStorage( detail::_vctor(n, HYDRA_EXTERNAL_NS::thrust::make_tuple( value... ) )),
+ fBegin(HYDRA_EXTERNAL_NS::thrust::make_zip_iterator( detail::begin_call_args(fStorage) )),
+ fReverseBegin(HYDRA_EXTERNAL_NS::thrust::make_zip_iterator( detail::rbegin_call_args(fStorage) )),
+ fConstBegin(HYDRA_EXTERNAL_NS::thrust::make_zip_iterator( detail::cbegin_call_args(fStorage) )),
+ fConstReverseBegin(HYDRA_EXTERNAL_NS::thrust::make_zip_iterator( detail::crbegin_call_args(fStorage) )),
  fTBegin(detail::begin_call_args(fStorage) ),
  fTReverseBegin( detail::rbegin_call_args(fStorage) ),
  fTConstBegin( detail::cbegin_call_args(fStorage) ),
  fTConstReverseBegin( detail::crbegin_call_args(fStorage) ),
- fSize( thrust::get<0>(fStorage ).size())
+ fSize( HYDRA_EXTERNAL_NS::thrust::get<0>(fStorage ).size())
  { }
 
 /**
@@ -135,15 +135,15 @@ fSize( thrust::get<0>(fStorage ).size())
  multivector_base<Vector,Allocator,T...>::multivector_base(size_t n,
 		 typename  multivector_base<Vector,Allocator,T...>::value_tuple_type value):
  fStorage( detail::_vctor<Vector,Allocator,  T...>(n,  value )),
- fBegin(thrust::make_zip_iterator( detail::begin_call_args(fStorage) )),
- fReverseBegin(thrust::make_zip_iterator( detail::rbegin_call_args(fStorage) )),
- fConstBegin(thrust::make_zip_iterator( detail::cbegin_call_args(fStorage) )),
- fConstReverseBegin(thrust::make_zip_iterator( detail::crbegin_call_args(fStorage) )),
+ fBegin(HYDRA_EXTERNAL_NS::thrust::make_zip_iterator( detail::begin_call_args(fStorage) )),
+ fReverseBegin(HYDRA_EXTERNAL_NS::thrust::make_zip_iterator( detail::rbegin_call_args(fStorage) )),
+ fConstBegin(HYDRA_EXTERNAL_NS::thrust::make_zip_iterator( detail::cbegin_call_args(fStorage) )),
+ fConstReverseBegin(HYDRA_EXTERNAL_NS::thrust::make_zip_iterator( detail::crbegin_call_args(fStorage) )),
  fTBegin(detail::begin_call_args(fStorage) ),
  fTReverseBegin( detail::rbegin_call_args(fStorage) ),
  fTConstBegin( detail::cbegin_call_args(fStorage) ),
  fTConstReverseBegin( detail::crbegin_call_args(fStorage) ),
- fSize( thrust::get<0>(fStorage ).size())
+ fSize( HYDRA_EXTERNAL_NS::thrust::get<0>(fStorage ).size())
  { }
 
 
@@ -159,7 +159,7 @@ fSize( thrust::get<0>(fStorage ).size())
  multivector_base<Vector,Allocator,T...>::multivector_base( multivector_base< Vector2, Allocator2, T... > const&  other)
  {
 	 this->resize(other.size());
-	 thrust::copy(other.begin(), other.end(), this->begin() );
+	 HYDRA_EXTERNAL_NS::thrust::copy(other.begin(), other.end(), this->begin() );
 
  }
 
@@ -173,7 +173,7 @@ fSize( thrust::get<0>(fStorage ).size())
   multivector_base<Vector,Allocator,T...>::multivector_base( multivector_base< Vector, Allocator, T... > const&  other)
   {
  	 this->resize(other.size());
- 	 thrust::copy(other.begin(), other.end(), this->begin() );
+ 	 HYDRA_EXTERNAL_NS::thrust::copy(other.begin(), other.end(), this->begin() );
 
   }
 
@@ -187,15 +187,15 @@ fSize( thrust::get<0>(fStorage ).size())
    multivector_base<Vector,Allocator,T...>::multivector_base( multivector_base< Vector, Allocator, T... >&&  other)
   {
 	 detail::_move_storage(fStorage, other.MoveStorage());
- 	 this->fBegin = thrust::make_zip_iterator( detail::begin_call_args(fStorage) );
- 	 this->fReverseBegin=thrust::make_zip_iterator( detail::rbegin_call_args(fStorage) );
- 	 this->fConstBegin = thrust::make_zip_iterator( detail::cbegin_call_args(fStorage) );
- 	 this->fConstReverseBegin=thrust::make_zip_iterator( detail::crbegin_call_args(fStorage) );
+ 	 this->fBegin = HYDRA_EXTERNAL_NS::thrust::make_zip_iterator( detail::begin_call_args(fStorage) );
+ 	 this->fReverseBegin=HYDRA_EXTERNAL_NS::thrust::make_zip_iterator( detail::rbegin_call_args(fStorage) );
+ 	 this->fConstBegin = HYDRA_EXTERNAL_NS::thrust::make_zip_iterator( detail::cbegin_call_args(fStorage) );
+ 	 this->fConstReverseBegin=HYDRA_EXTERNAL_NS::thrust::make_zip_iterator( detail::crbegin_call_args(fStorage) );
  	 this->fTBegin =  detail::begin_call_args(fStorage) ;
  	 this->fTReverseBegin =  detail::rbegin_call_args(fStorage) ;
  	 this->fTConstBegin   =  detail::cbegin_call_args(fStorage) ;
  	 this->fTConstReverseBegin =  detail::crbegin_call_args(fStorage) ;
- 	 this->fSize = thrust::get<0>(fStorage ).size();
+ 	 this->fSize = HYDRA_EXTERNAL_NS::thrust::get<0>(fStorage ).size();
   }
 
  /**
@@ -214,7 +214,7 @@ fSize( thrust::get<0>(fStorage ).size())
 	 if(this==&v) return *this;
 	 this->resize(v.size());
 
-	 thrust::copy(v.begin(), v.end(), this->begin() );
+	 HYDRA_EXTERNAL_NS::thrust::copy(v.begin(), v.end(), this->begin() );
 
 	 return *this;
  }
@@ -234,7 +234,7 @@ fSize( thrust::get<0>(fStorage ).size())
 
  	 this->resize(v.size());
 
- 	 thrust::copy(v.begin(), v.end(), this->begin() );
+ 	 HYDRA_EXTERNAL_NS::thrust::copy(v.begin(), v.end(), this->begin() );
 
  	 return *this;
   }
@@ -253,15 +253,15 @@ fSize( thrust::get<0>(fStorage ).size())
 	 if(this==&other) return *this;
 
 	 detail::_move_storage(this->fStorage, other.MoveStorage());
-	 this->fBegin = thrust::make_zip_iterator( detail::begin_call_args(fStorage) );
-	 this->fReverseBegin=thrust::make_zip_iterator( detail::rbegin_call_args(fStorage) );
-	 this->fConstBegin = thrust::make_zip_iterator( detail::cbegin_call_args(fStorage) );
-	 this->fConstReverseBegin=thrust::make_zip_iterator( detail::crbegin_call_args(fStorage) );
+	 this->fBegin = HYDRA_EXTERNAL_NS::thrust::make_zip_iterator( detail::begin_call_args(fStorage) );
+	 this->fReverseBegin=HYDRA_EXTERNAL_NS::thrust::make_zip_iterator( detail::rbegin_call_args(fStorage) );
+	 this->fConstBegin = HYDRA_EXTERNAL_NS::thrust::make_zip_iterator( detail::cbegin_call_args(fStorage) );
+	 this->fConstReverseBegin=HYDRA_EXTERNAL_NS::thrust::make_zip_iterator( detail::crbegin_call_args(fStorage) );
 	 this->fTBegin =  detail::begin_call_args(fStorage) ;
 	 this->fTReverseBegin =  detail::rbegin_call_args(fStorage) ;
 	 this->fTConstBegin   =  detail::cbegin_call_args(fStorage) ;
 	 this->fTConstReverseBegin =  detail::crbegin_call_args(fStorage) ;
-	 this->fSize = thrust::get<0>(fStorage ).size();
+	 this->fSize = HYDRA_EXTERNAL_NS::thrust::get<0>(fStorage ).size();
 	 return *this;
  }
 
@@ -273,15 +273,15 @@ fSize( thrust::get<0>(fStorage ).size())
  inline void multivector_base<Vector,Allocator,T...>::pop_back()
  {
 	 detail::pop_back_call_args(fStorage);
-	 this->fBegin = thrust::make_zip_iterator( detail::begin_call_args(fStorage) );
-	 this->fReverseBegin=thrust::make_zip_iterator( detail::rbegin_call_args(fStorage) );
-	 this->fConstBegin = thrust::make_zip_iterator( detail::cbegin_call_args(fStorage) );
-	 this->fConstReverseBegin=thrust::make_zip_iterator( detail::crbegin_call_args(fStorage) );
+	 this->fBegin = HYDRA_EXTERNAL_NS::thrust::make_zip_iterator( detail::begin_call_args(fStorage) );
+	 this->fReverseBegin=HYDRA_EXTERNAL_NS::thrust::make_zip_iterator( detail::rbegin_call_args(fStorage) );
+	 this->fConstBegin = HYDRA_EXTERNAL_NS::thrust::make_zip_iterator( detail::cbegin_call_args(fStorage) );
+	 this->fConstReverseBegin=HYDRA_EXTERNAL_NS::thrust::make_zip_iterator( detail::crbegin_call_args(fStorage) );
 	 this->fTBegin =  detail::begin_call_args(fStorage) ;
 	 this->fTReverseBegin =  detail::rbegin_call_args(fStorage) ;
 	 this->fTConstBegin   =  detail::cbegin_call_args(fStorage) ;
 	 this->fTConstReverseBegin =  detail::crbegin_call_args(fStorage) ;
-	 this->fSize = thrust::get<0>(fStorage ).size();
+	 this->fSize = HYDRA_EXTERNAL_NS::thrust::get<0>(fStorage ).size();
  }
 
  template< template<typename...> class Vector,
@@ -289,33 +289,33 @@ fSize( thrust::get<0>(fStorage ).size())
  typename ...T>
  inline void multivector_base<Vector,Allocator,T...>::push_back(T const&... args)
  {
-	 detail::push_back_call_tuple(fStorage, thrust::make_tuple(args...) );
-	 this->fBegin = thrust::make_zip_iterator( detail::begin_call_args(fStorage) );
-	 this->fReverseBegin =thrust::make_zip_iterator( detail::rbegin_call_args(fStorage) );
-	 this->fConstBegin = thrust::make_zip_iterator( detail::cbegin_call_args(fStorage) );
-	 this->fConstReverseBegin =thrust::make_zip_iterator( detail::crbegin_call_args(fStorage) );
+	 detail::push_back_call_tuple(fStorage, HYDRA_EXTERNAL_NS::thrust::make_tuple(args...) );
+	 this->fBegin = HYDRA_EXTERNAL_NS::thrust::make_zip_iterator( detail::begin_call_args(fStorage) );
+	 this->fReverseBegin =HYDRA_EXTERNAL_NS::thrust::make_zip_iterator( detail::rbegin_call_args(fStorage) );
+	 this->fConstBegin = HYDRA_EXTERNAL_NS::thrust::make_zip_iterator( detail::cbegin_call_args(fStorage) );
+	 this->fConstReverseBegin =HYDRA_EXTERNAL_NS::thrust::make_zip_iterator( detail::crbegin_call_args(fStorage) );
 	 this->fTBegin =  detail::begin_call_args(fStorage) ;
 	 this->fTReverseBegin =  detail::rbegin_call_args(fStorage) ;
 	 this->fTConstBegin   =  detail::cbegin_call_args(fStorage) ;
 	 this->fTConstReverseBegin =  detail::crbegin_call_args(fStorage) ;
-	 this->fSize = thrust::get<0>(fStorage ).size();
+	 this->fSize = HYDRA_EXTERNAL_NS::thrust::get<0>(fStorage ).size();
  }
 
  template< template<typename...> class Vector,
  template<typename...> class Allocator,
  typename ...T> inline
- void multivector_base<Vector,Allocator,T...>::push_back(thrust::tuple<T...> const& args)
+ void multivector_base<Vector,Allocator,T...>::push_back(HYDRA_EXTERNAL_NS::thrust::tuple<T...> const& args)
  {
 	 detail::push_back_call_tuple( fStorage, args);
-	 this->fBegin = thrust::make_zip_iterator( detail::begin_call_args(fStorage) );
-	 this->fReverseBegin =thrust::make_zip_iterator( detail::rbegin_call_args(fStorage) );
-	 this->fConstBegin = thrust::make_zip_iterator( detail::cbegin_call_args(fStorage) );
-	 this->fConstReverseBegin =thrust::make_zip_iterator( detail::crbegin_call_args(fStorage) );
+	 this->fBegin = HYDRA_EXTERNAL_NS::thrust::make_zip_iterator( detail::begin_call_args(fStorage) );
+	 this->fReverseBegin =HYDRA_EXTERNAL_NS::thrust::make_zip_iterator( detail::rbegin_call_args(fStorage) );
+	 this->fConstBegin = HYDRA_EXTERNAL_NS::thrust::make_zip_iterator( detail::cbegin_call_args(fStorage) );
+	 this->fConstReverseBegin =HYDRA_EXTERNAL_NS::thrust::make_zip_iterator( detail::crbegin_call_args(fStorage) );
 	 this->fTBegin =  detail::begin_call_args(fStorage) ;
 	 this->fTReverseBegin =  detail::rbegin_call_args(fStorage) ;
 	 this->fTConstBegin   =  detail::cbegin_call_args(fStorage) ;
 	 this->fTConstReverseBegin =  detail::crbegin_call_args(fStorage) ;
-	 this->fSize = thrust::get<0>(fStorage ).size();
+	 this->fSize = HYDRA_EXTERNAL_NS::thrust::get<0>(fStorage ).size();
 
  }
 
@@ -347,8 +347,8 @@ fSize( thrust::get<0>(fStorage ).size())
  size_t multivector_base<Vector,Allocator,T...>::size() const
  {
 	 //auto sizes = detail::size_call_args( fStorage );
-	 //thrust::get<0>(fStorage ).size();
-	 return thrust::get<0>(fStorage ).size();
+	 //HYDRA_EXTERNAL_NS::thrust::get<0>(fStorage ).size();
+	 return HYDRA_EXTERNAL_NS::thrust::get<0>(fStorage ).size();
  }
 
 
@@ -358,8 +358,8 @@ fSize( thrust::get<0>(fStorage ).size())
  size_t multivector_base<Vector,Allocator,T...>::capacity() const
  {
 	 //auto sizes = detail::capacity_call_args( fStorage );
-	 //return thrust::get<0>(sizes);
-	 return thrust::get<0>(fStorage ).capacity();
+	 //return HYDRA_EXTERNAL_NS::thrust::get<0>(sizes);
+	 return HYDRA_EXTERNAL_NS::thrust::get<0>(fStorage ).capacity();
  }
 
  template< template<typename...> class Vector,
@@ -368,8 +368,8 @@ fSize( thrust::get<0>(fStorage ).size())
  bool multivector_base<Vector,Allocator,T...>::empty() const
  {
 	 //auto empties = detail::empty_call_args( fStorage );
-	 //return thrust::get<0>(empties);
-	 return thrust::get<0>(fStorage ).empty();
+	 //return HYDRA_EXTERNAL_NS::thrust::get<0>(empties);
+	 return HYDRA_EXTERNAL_NS::thrust::get<0>(fStorage ).empty();
  }
 
  template< template<typename...> class Vector,
@@ -378,15 +378,15 @@ fSize( thrust::get<0>(fStorage ).size())
  void multivector_base<Vector,Allocator,T...>::resize(size_t size)
  {
 	 detail::resize_call_args( fStorage, size );
-	 this->fBegin = thrust::make_zip_iterator( detail::begin_call_args(fStorage) );
-	 this->fReverseBegin =thrust::make_zip_iterator( detail::rbegin_call_args(fStorage) );
-	 this->fConstBegin = thrust::make_zip_iterator( detail::cbegin_call_args(fStorage) );
-	 this->fConstReverseBegin =thrust::make_zip_iterator( detail::crbegin_call_args(fStorage) );
+	 this->fBegin = HYDRA_EXTERNAL_NS::thrust::make_zip_iterator( detail::begin_call_args(fStorage) );
+	 this->fReverseBegin =HYDRA_EXTERNAL_NS::thrust::make_zip_iterator( detail::rbegin_call_args(fStorage) );
+	 this->fConstBegin = HYDRA_EXTERNAL_NS::thrust::make_zip_iterator( detail::cbegin_call_args(fStorage) );
+	 this->fConstReverseBegin =HYDRA_EXTERNAL_NS::thrust::make_zip_iterator( detail::crbegin_call_args(fStorage) );
 	 this->fTBegin =  detail::begin_call_args(fStorage) ;
 	 this->fTReverseBegin =  detail::rbegin_call_args(fStorage) ;
 	 this->fTConstBegin   =  detail::cbegin_call_args(fStorage) ;
 	 this->fTConstReverseBegin =  detail::crbegin_call_args(fStorage) ;
-	 this->fSize = thrust::get<0>(fStorage ).size();
+	 this->fSize = HYDRA_EXTERNAL_NS::thrust::get<0>(fStorage ).size();
  }
 
  template< template<typename...> class Vector,
@@ -395,15 +395,15 @@ fSize( thrust::get<0>(fStorage ).size())
  void multivector_base<Vector,Allocator,T...>::clear()
  {
 	 detail::clear_call_args(fStorage);
-	 this->fBegin = thrust::make_zip_iterator( detail::begin_call_args(fStorage) );
-	 this->fReverseBegin =thrust::make_zip_iterator( detail::rbegin_call_args(fStorage) );
-	 this->fConstBegin = thrust::make_zip_iterator( detail::cbegin_call_args(fStorage) );
-	 this->fConstReverseBegin =thrust::make_zip_iterator( detail::crbegin_call_args(fStorage) );
+	 this->fBegin = HYDRA_EXTERNAL_NS::thrust::make_zip_iterator( detail::begin_call_args(fStorage) );
+	 this->fReverseBegin =HYDRA_EXTERNAL_NS::thrust::make_zip_iterator( detail::rbegin_call_args(fStorage) );
+	 this->fConstBegin = HYDRA_EXTERNAL_NS::thrust::make_zip_iterator( detail::cbegin_call_args(fStorage) );
+	 this->fConstReverseBegin =HYDRA_EXTERNAL_NS::thrust::make_zip_iterator( detail::crbegin_call_args(fStorage) );
 	 this->fTBegin =  detail::begin_call_args(fStorage) ;
 	 this->fTReverseBegin =  detail::rbegin_call_args(fStorage) ;
 	 this->fTConstBegin   =  detail::cbegin_call_args(fStorage) ;
 	 this->fTConstReverseBegin =  detail::crbegin_call_args(fStorage) ;
-	 this->fSize = thrust::get<0>(fStorage ).size();
+	 this->fSize = HYDRA_EXTERNAL_NS::thrust::get<0>(fStorage ).size();
  }
 
 
@@ -413,15 +413,15 @@ fSize( thrust::get<0>(fStorage ).size())
  void multivector_base<Vector,Allocator,T...>::shrink_to_fit()
  {
 	 detail::shrink_to_fit_call_args(fStorage);
-	 this->fBegin = thrust::make_zip_iterator( detail::begin_call_args(fStorage) );
-	 this->fReverseBegin =thrust::make_zip_iterator( detail::rbegin_call_args(fStorage) );
-	 this->fConstBegin = thrust::make_zip_iterator( detail::cbegin_call_args(fStorage) );
-	 this->fConstReverseBegin =thrust::make_zip_iterator( detail::crbegin_call_args(fStorage) );
+	 this->fBegin = HYDRA_EXTERNAL_NS::thrust::make_zip_iterator( detail::begin_call_args(fStorage) );
+	 this->fReverseBegin =HYDRA_EXTERNAL_NS::thrust::make_zip_iterator( detail::rbegin_call_args(fStorage) );
+	 this->fConstBegin = HYDRA_EXTERNAL_NS::thrust::make_zip_iterator( detail::cbegin_call_args(fStorage) );
+	 this->fConstReverseBegin =HYDRA_EXTERNAL_NS::thrust::make_zip_iterator( detail::crbegin_call_args(fStorage) );
 	 this->fTBegin =  detail::begin_call_args(fStorage) ;
 	 this->fTReverseBegin =  detail::rbegin_call_args(fStorage) ;
 	 this->fTConstBegin   =  detail::cbegin_call_args(fStorage) ;
 	 this->fTConstReverseBegin =  detail::crbegin_call_args(fStorage) ;
-	 this->fSize = thrust::get<0>(fStorage ).size();
+	 this->fSize = HYDRA_EXTERNAL_NS::thrust::get<0>(fStorage ).size();
  }
 
  template< template<typename...> class Vector,
@@ -430,15 +430,15 @@ fSize( thrust::get<0>(fStorage ).size())
  void multivector_base<Vector,Allocator,T...>::reserve(size_t size)
  {
 	 detail::reserve_call_args(fStorage, size );
-	 this->fBegin = thrust::make_zip_iterator( detail::begin_call_args(fStorage) );
-	 this->fReverseBegin =thrust::make_zip_iterator( detail::rbegin_call_args(fStorage) );
-	 this->fConstBegin = thrust::make_zip_iterator( detail::cbegin_call_args(fStorage) );
-	 this->fConstReverseBegin =thrust::make_zip_iterator( detail::crbegin_call_args(fStorage) );
+	 this->fBegin = HYDRA_EXTERNAL_NS::thrust::make_zip_iterator( detail::begin_call_args(fStorage) );
+	 this->fReverseBegin =HYDRA_EXTERNAL_NS::thrust::make_zip_iterator( detail::rbegin_call_args(fStorage) );
+	 this->fConstBegin = HYDRA_EXTERNAL_NS::thrust::make_zip_iterator( detail::cbegin_call_args(fStorage) );
+	 this->fConstReverseBegin =HYDRA_EXTERNAL_NS::thrust::make_zip_iterator( detail::crbegin_call_args(fStorage) );
 	 this->fTBegin =  detail::begin_call_args(fStorage) ;
 	 this->fTReverseBegin =  detail::rbegin_call_args(fStorage) ;
 	 this->fTConstBegin   =  detail::cbegin_call_args(fStorage) ;
 	 this->fTConstReverseBegin =  detail::crbegin_call_args(fStorage) ;
-	 this->fSize = thrust::get<0>(fStorage ).size();
+	 this->fSize = HYDRA_EXTERNAL_NS::thrust::get<0>(fStorage ).size();
  }
 
  template< template<typename...> class Vector,
@@ -575,9 +575,9 @@ fSize( thrust::get<0>(fStorage ).size())
  typename ...T>
  template<unsigned int I>
  inline	auto multivector_base<Vector,Allocator,T...>::vbegin(void)
- -> typename thrust::tuple_element<I,typename  multivector_base<Vector,Allocator,T...>::iterator_tuple>::type
+ -> typename HYDRA_EXTERNAL_NS::thrust::tuple_element<I,typename  multivector_base<Vector,Allocator,T...>::iterator_tuple>::type
  {
-	 return	thrust::get<I>(fTBegin);
+	 return	HYDRA_EXTERNAL_NS::thrust::get<I>(fTBegin);
  }
 
  template< template<typename...> class Vector,
@@ -585,9 +585,9 @@ fSize( thrust::get<0>(fStorage ).size())
  typename ...T>
  template<unsigned int I>
  inline	auto multivector_base<Vector,Allocator,T...>::vend()
- -> typename thrust::tuple_element<I,typename multivector_base<Vector,Allocator,T...>::iterator_tuple>::type
+ -> typename HYDRA_EXTERNAL_NS::thrust::tuple_element<I,typename multivector_base<Vector,Allocator,T...>::iterator_tuple>::type
  {
-	 return	thrust::get<I>(fTBegin)+fSize;
+	 return	HYDRA_EXTERNAL_NS::thrust::get<I>(fTBegin)+fSize;
  }
 
  template< template<typename...> class Vector,
@@ -595,9 +595,9 @@ fSize( thrust::get<0>(fStorage ).size())
  typename ...T>
  template<unsigned int I>
  inline	auto multivector_base<Vector,Allocator,T...>::vcbegin() const
- -> typename thrust::tuple_element<I,typename  multivector_base<Vector,Allocator,T...>::const_iterator_tuple>::type
+ -> typename HYDRA_EXTERNAL_NS::thrust::tuple_element<I,typename  multivector_base<Vector,Allocator,T...>::const_iterator_tuple>::type
  {
-	 return	thrust::get<I>(fTConstBegin);
+	 return	HYDRA_EXTERNAL_NS::thrust::get<I>(fTConstBegin);
  }
 
  template< template<typename...> class Vector,
@@ -605,9 +605,9 @@ fSize( thrust::get<0>(fStorage ).size())
  typename ...T>
  template<unsigned int I>
  inline	auto multivector_base<Vector,Allocator,T...>::vcend() const
- -> typename thrust::tuple_element<I,typename  multivector_base<Vector,Allocator,T...>::const_iterator_tuple>::type
+ -> typename HYDRA_EXTERNAL_NS::thrust::tuple_element<I,typename  multivector_base<Vector,Allocator,T...>::const_iterator_tuple>::type
  {
-	 return thrust::get<I>(fTConstBegin)+fSize;
+	 return HYDRA_EXTERNAL_NS::thrust::get<I>(fTConstBegin)+fSize;
  }
 
  template< template<typename...> class Vector,
@@ -615,9 +615,9 @@ fSize( thrust::get<0>(fStorage ).size())
  typename ...T>
  template<unsigned int I>
  inline	auto multivector_base<Vector,Allocator,T...>::vrbegin()
- -> typename thrust::tuple_element<I,typename  multivector_base<Vector,Allocator,T...>::reverse_iterator_tuple>::type
+ -> typename HYDRA_EXTERNAL_NS::thrust::tuple_element<I,typename  multivector_base<Vector,Allocator,T...>::reverse_iterator_tuple>::type
  {
-	 return	thrust::get<I>(fTReverseBegin);
+	 return	HYDRA_EXTERNAL_NS::thrust::get<I>(fTReverseBegin);
  }
 
  template< template<typename...> class Vector,
@@ -625,9 +625,9 @@ fSize( thrust::get<0>(fStorage ).size())
  typename ...T>
  template<unsigned int I>
  inline auto multivector_base<Vector,Allocator,T...>::vrend()
- -> typename thrust::tuple_element<I,typename  multivector_base<Vector,Allocator,T...>::reverse_iterator_tuple>::type
+ -> typename HYDRA_EXTERNAL_NS::thrust::tuple_element<I,typename  multivector_base<Vector,Allocator,T...>::reverse_iterator_tuple>::type
  {
-	 return	thrust::get<I>(fTReverseBegin)+fSize;
+	 return	HYDRA_EXTERNAL_NS::thrust::get<I>(fTReverseBegin)+fSize;
  }
 
  template< template<typename...> class Vector,
@@ -635,9 +635,9 @@ fSize( thrust::get<0>(fStorage ).size())
  typename ...T>
  template<unsigned int I>
  inline auto multivector_base<Vector,Allocator,T...>::vcrbegin() const
- -> typename thrust::tuple_element<I,typename multivector_base<Vector,Allocator,T...>::const_reverse_iterator_tuple>::type
+ -> typename HYDRA_EXTERNAL_NS::thrust::tuple_element<I,typename multivector_base<Vector,Allocator,T...>::const_reverse_iterator_tuple>::type
  {
-	 return	thrust::get<I>(fTConstReverseBegin);
+	 return	HYDRA_EXTERNAL_NS::thrust::get<I>(fTConstReverseBegin);
  }
 
  template< template<typename...> class Vector,
@@ -645,9 +645,9 @@ fSize( thrust::get<0>(fStorage ).size())
  typename ...T>
  template<unsigned int I>
  inline auto multivector_base<Vector,Allocator,T...>::vcrend() const
- -> typename thrust::tuple_element<I,typename  multivector_base<Vector,Allocator,T...>::const_reverse_iterator_tuple>::type
+ -> typename HYDRA_EXTERNAL_NS::thrust::tuple_element<I,typename  multivector_base<Vector,Allocator,T...>::const_reverse_iterator_tuple>::type
  {
-	 return	thrust::get<I>(fTConstReverseBegin)+fSize;
+	 return	HYDRA_EXTERNAL_NS::thrust::get<I>(fTConstReverseBegin)+fSize;
  }
 
 

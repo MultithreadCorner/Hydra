@@ -41,9 +41,9 @@
 #include <hydra/detail/functors/StatsPHSP.h>
 
 //thrust
-#include <thrust/tuple.h>
-#include <thrust/iterator/zip_iterator.h>
-#include <thrust/random.h>
+#include <hydra/detail/external/thrust/tuple.h>
+#include <hydra/detail/external/thrust/iterator/zip_iterator.h>
+#include <hydra/detail/external/thrust/random.h>
 
 #include <type_traits>
 #include <utility>
@@ -131,7 +131,7 @@ struct AverageMothers
 
 		GRND randEng( hash(evt,fSeed) );
 
-		thrust::uniform_real_distribution<GReal_t> uniDist(0.0, 1.0);
+		HYDRA_EXTERNAL_NS::thrust::uniform_real_distribution<GReal_t> uniDist(0.0, 1.0);
 
 		GReal_t fTeCmTm = 0.0;
 
@@ -266,12 +266,12 @@ struct AverageMothers
 		typedef typename hydra::detail::tuple_type<N+1,
 						Vector4R>::type Tuple_t;
 
-		constexpr size_t SIZE = thrust::tuple_size<Tuple_t>::value;
+		constexpr size_t SIZE = HYDRA_EXTERNAL_NS::thrust::tuple_size<Tuple_t>::value;
 
 		Vector4R Particles[SIZE];
 
-		Particles[0]= thrust::get<1>(particles);
-		size_t evt  = thrust::get<0>(particles);
+		Particles[0]= HYDRA_EXTERNAL_NS::thrust::get<1>(particles);
+		size_t evt  = HYDRA_EXTERNAL_NS::thrust::get<0>(particles);
 		GReal_t weight = process(evt, Particles);
 
 		Tuple_t particles1{};

@@ -29,8 +29,8 @@
 #ifndef COLLECTION_H_
 #define COLLECTION_H_
 
-#include <thrust/tuple.h>
-#include <thrust/iterator/detail/tuple_of_iterator_references.h>
+#include <hydra/detail/external/thrust/tuple.h>
+#include <hydra/detail/external/thrust/iterator/detail/tuple_of_iterator_references.h>
 namespace hydra {
 
 /**
@@ -38,25 +38,25 @@ namespace hydra {
  */
 #define _DeclareStorable(class_name,...) \
 public: \
-typedef decltype( thrust::make_tuple(__VA_ARGS__)) args_type; \
+typedef decltype( HYDRA_EXTERNAL_NS::thrust::make_tuple(__VA_ARGS__)) args_type; \
 typedef void hydra_convertible_to_tuple_tag; \
 template<typename ...T> \
 __host__ __device__ \
-class_name( thrust::tuple<T...> const& t) \
-{ thrust::tie(__VA_ARGS__) = t; } \
+class_name( HYDRA_EXTERNAL_NS::thrust::tuple<T...> const& t) \
+{ HYDRA_EXTERNAL_NS::thrust::tie(__VA_ARGS__) = t; } \
 template<typename ...T> \
 __host__ __device__ \
-class_name& operator= ( thrust::tuple<T...> const& t ) \
-{thrust::tie(__VA_ARGS__) = t;\
+class_name& operator= ( HYDRA_EXTERNAL_NS::thrust::tuple<T...> const& t ) \
+{HYDRA_EXTERNAL_NS::thrust::tie(__VA_ARGS__) = t;\
 return *this; } \
 template<typename ...T> \
 __host__ __device__ \
-class_name& operator= (thrust::detail::tuple_of_iterator_references<T&...> const&  t ) \
-{thrust::tie(__VA_ARGS__) = t; \
+class_name& operator= (HYDRA_EXTERNAL_NS::thrust::detail::tuple_of_iterator_references<T&...> const&  t ) \
+{HYDRA_EXTERNAL_NS::thrust::tie(__VA_ARGS__) = t; \
 return *this; } \
 template<typename ...T> \
 __host__ __device__ \
-operator thrust::tuple<T...> () { return thrust::make_tuple(__VA_ARGS__); } \
+operator HYDRA_EXTERNAL_NS::thrust::tuple<T...> () { return HYDRA_EXTERNAL_NS::thrust::make_tuple(__VA_ARGS__); } \
 
 
 }  // namespace hydra

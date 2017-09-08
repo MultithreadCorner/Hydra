@@ -37,27 +37,27 @@
 #include <hydra/Containers.h>
 
 #include <type_traits>
-#include <thrust/complex.h>
-#include <thrust/detail/type_traits.h>
-#include <thrust/execution_policy.h>
-#include <thrust/iterator/iterator_categories.h>
-#include <thrust/iterator/detail/is_iterator_category.h>
+#include <hydra/detail/external/thrust/complex.h>
+#include <hydra/detail/external/thrust/detail/type_traits.h>
+#include <hydra/detail/external/thrust/execution_policy.h>
+#include <hydra/detail/external/thrust/iterator/iterator_categories.h>
+#include <hydra/detail/external/thrust/iterator/detail/is_iterator_category.h>
 
 namespace std {
 
 		template<class T, class U>
-		struct common_type<thrust::complex<T>, thrust::complex<U> > {
-			typedef thrust::complex<typename common_type<T, U>::type > type;
+		struct common_type<HYDRA_EXTERNAL_NS::thrust::complex<T>, HYDRA_EXTERNAL_NS::thrust::complex<U> > {
+			typedef HYDRA_EXTERNAL_NS::thrust::complex<typename common_type<T, U>::type > type;
 		};
 
 		template<class T, class U>
-		struct common_type<T, thrust::complex<U> > {
-			typedef thrust::complex<typename common_type<T, U>::type> type;
+		struct common_type<T, HYDRA_EXTERNAL_NS::thrust::complex<U> > {
+			typedef HYDRA_EXTERNAL_NS::thrust::complex<typename common_type<T, U>::type> type;
 		};
 
 		template<class T, class U>
-		struct common_type<thrust::complex<U>, T > {
-			typedef thrust::complex<typename common_type<T, U>::type > type;
+		struct common_type<HYDRA_EXTERNAL_NS::thrust::complex<U>, T > {
+			typedef HYDRA_EXTERNAL_NS::thrust::complex<typename common_type<T, U>::type > type;
 		};
 }
 
@@ -117,10 +117,10 @@ namespace hydra {
 		};
 
 		template<typename T>
-		struct TypeTraits<thrust::complex<T>>
+		struct TypeTraits<HYDRA_EXTERNAL_NS::thrust::complex<T>>
 		{
 
-			typedef thrust::complex<T> type;
+			typedef HYDRA_EXTERNAL_NS::thrust::complex<T> type;
 			__host__  __device__ inline static type zero(){ return type(0.0,0.0) ;}
 			__host__  __device__ inline static type one(){ return type(1.0, 0.0) ;}
 			__host__  __device__ inline static type invalid(){ return  type(kInvalidNumber, 0.0) ;}
@@ -133,7 +133,7 @@ namespace hydra {
 		struct BackendTraits;
 
 		template<>
-		struct BackendTraits<device>: thrust::execution_policy<thrust::detail::device_t>
+		struct BackendTraits<device>: HYDRA_EXTERNAL_NS::thrust::execution_policy<HYDRA_EXTERNAL_NS::thrust::detail::device_t>
 		{
 			constexpr static unsigned int backend= device;
 			template<typename T>
@@ -141,7 +141,7 @@ namespace hydra {
 		};
 
 		template<>
-		struct BackendTraits<host>: thrust::execution_policy<thrust::detail::host_t>
+		struct BackendTraits<host>: HYDRA_EXTERNAL_NS::thrust::execution_policy<HYDRA_EXTERNAL_NS::thrust::detail::host_t>
 		{
 			constexpr static unsigned int backend= host;
 			template<typename T>
@@ -152,8 +152,8 @@ namespace hydra {
 		template<typename Iterator>
 		struct IteratorTraits
 		{
-			typedef typename if_then_else<thrust::detail::is_host_iterator_category<
-					typename thrust::iterator_traits<Iterator>::iterator_category>::value,
+			typedef typename if_then_else<HYDRA_EXTERNAL_NS::thrust::detail::is_host_iterator_category<
+					typename HYDRA_EXTERNAL_NS::thrust::iterator_traits<Iterator>::iterator_category>::value,
 					BackendTraits<host>,
 					BackendTraits<device> >::type type;
 		};
@@ -175,7 +175,7 @@ namespace hydra {
 				enum { argument_count = sizeof...(Args) };
 
 				typedef ReturnType return_type;
-				typedef thrust::tuple<Args...> args_type;
+				typedef HYDRA_EXTERNAL_NS::thrust::tuple<Args...> args_type;
 
 				template <size_t i>
 				struct arg
@@ -191,7 +191,7 @@ namespace hydra {
 				enum { argument_count = sizeof...(Args) };
 
 				typedef ReturnType return_type;
-				typedef thrust::tuple<Args&...> args_type;
+				typedef HYDRA_EXTERNAL_NS::thrust::tuple<Args&...> args_type;
 
 				template <size_t i>
 				struct arg

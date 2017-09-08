@@ -38,7 +38,7 @@
 #include <hydra/detail/utility/Generic.h>
 #include <hydra/detail/FunctorTraits.h>
 #include <hydra/detail/functors/AddPdfFunctor.h>
-#include <thrust/tuple.h>
+#include <hydra/detail/external/thrust/tuple.h>
 #include <initializer_list>
 #include <tuple>
 #include <utility>
@@ -87,9 +87,9 @@ public:
 
 	constexpr static size_t npdfs = sizeof...(PDFs)+2; //!< number of pdfs
 
-	typedef thrust::tuple<PDF1, PDF2, PDFs...> pdfs_tuple_type;//!< type of the tuple of pdfs
+	typedef HYDRA_EXTERNAL_NS::thrust::tuple<PDF1, PDF2, PDFs...> pdfs_tuple_type;//!< type of the tuple of pdfs
 
-	typedef thrust::tuple<typename PDF1::functor_type,
+	typedef HYDRA_EXTERNAL_NS::thrust::tuple<typename PDF1::functor_type,
 			typename  PDF2::functor_type,
 			typename  PDFs::functor_type...> functors_tuple_type;//!< type of the tuple of pdf::functors
 
@@ -111,8 +111,8 @@ public:
 	 */
 	AddPdf( PDF1 const& pdf1, PDF2 const& pdf2, PDFs const& ...pdfs,
 			std::array<Parameter*, npdfs>const& coef, GBool_t extend=kTrue ):
-			fPDFs(thrust::make_tuple(pdf1,pdf2,pdfs...) ),
-			fFunctors(thrust::make_tuple(pdf1.GetFunctor(),pdf2.GetFunctor(),pdfs.GetFunctor() ...) ),
+			fPDFs(HYDRA_EXTERNAL_NS::thrust::make_tuple(pdf1,pdf2,pdfs...) ),
+			fFunctors(HYDRA_EXTERNAL_NS::thrust::make_tuple(pdf1.GetFunctor(),pdf2.GetFunctor(),pdfs.GetFunctor() ...) ),
 			fExtended(kTrue),
 			fFractioned(kFalse),
 			fCoefSum(0.0)
@@ -138,8 +138,8 @@ public:
 	 */
 	AddPdf(PDF1 const& pdf1, PDF2 const& pdf2, PDFs const& ...pdfs,
 			std::array<Parameter*, npdfs-1>const& coef):
-			fPDFs(thrust::make_tuple(pdf1,pdf2,pdfs...) ),
-			fFunctors(thrust::make_tuple(pdf1.GetFunctor(),pdf2.GetFunctor(),pdfs.GetFunctor() ...) ),
+			fPDFs(HYDRA_EXTERNAL_NS::thrust::make_tuple(pdf1,pdf2,pdfs...) ),
+			fFunctors(HYDRA_EXTERNAL_NS::thrust::make_tuple(pdf1.GetFunctor(),pdf2.GetFunctor(),pdfs.GetFunctor() ...) ),
 			fExtended(kFalse),
 			fFractioned(kTrue),
 			fCoefSum(0.0)
@@ -397,10 +397,10 @@ add_pdfs(std::array<Parameter*, N>const& var_list, PDF1 const& pdf1, PDF2 const&
 
 template<unsigned int I, typename PDF1, typename PDF2, typename ...PDFs>
 auto get_pdf( AddPdf<PDF1, PDF2, PDFs...> const& pdfs)
--> std::pair< Parameter, typename thrust::tuple_element<I,
+-> std::pair< Parameter, typename HYDRA_EXTERNAL_NS::thrust::tuple_element<I,
 typename AddPdf<PDF1, PDF2, PDFs...>::pdfs_tuple_type>::type  >
 {
-	return	std::make_pair( pdfs.GetCoeficient(I), thrust::get<I>(pdfs.GetPdFs()));
+	return	std::make_pair( pdfs.GetCoeficient(I), HYDRA_EXTERNAL_NS::thrust::get<I>(pdfs.GetPdFs()));
 }
 
 }  // namespace hydra

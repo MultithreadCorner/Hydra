@@ -45,15 +45,15 @@
 #include <hydra/GenericRange.h>
 
 //thrust
-#include <thrust/copy.h>
-#include <thrust/iterator/zip_iterator.h>
-#include <thrust/iterator/reverse_iterator.h>
-#include <thrust/iterator/constant_iterator.h>
-#include <thrust/iterator/transform_iterator.h>
-#include <thrust/partition.h>
-#include <thrust/random.h>
-#include <thrust/extrema.h>
-#include <thrust/device_ptr.h>
+#include <hydra/detail/external/thrust/copy.h>
+#include <hydra/detail/external/thrust/iterator/zip_iterator.h>
+#include <hydra/detail/external/thrust/iterator/reverse_iterator.h>
+#include <hydra/detail/external/thrust/iterator/constant_iterator.h>
+#include <hydra/detail/external/thrust/iterator/transform_iterator.h>
+#include <hydra/detail/external/thrust/partition.h>
+#include <hydra/detail/external/thrust/random.h>
+#include <hydra/detail/external/thrust/extrema.h>
+#include <hydra/detail/external/thrust/device_ptr.h>
 
 namespace hydra {
 
@@ -68,42 +68,42 @@ class Decays<N, hydra::detail::BackendPolicy<BACKEND> > {
 	typedef multiarray<4,GReal_t, hydra::detail::BackendPolicy<BACKEND>, Vector4R > particles_type;
 	typedef std::array<particles_type, N> decays_type;
 	typedef typename system_t::template container<GReal_t> weights_type;
-	typedef thrust::constant_iterator<GReal_t>      weight_one_iterator;
+	typedef HYDRA_EXTERNAL_NS::thrust::constant_iterator<GReal_t>      weight_one_iterator;
 
 	//pointers
 
 	typedef typename  detail::tuple_type<N,typename particles_type::pointer_tuple>::type particles_pointer_tuple_type;
-	typedef typename  thrust::tuple<typename weights_type::pointer> weights_pointer_type;
+	typedef typename  HYDRA_EXTERNAL_NS::thrust::tuple<typename weights_type::pointer> weights_pointer_type;
 
 	typedef typename  detail::tuple_type<N,typename particles_type::const_pointer_tuple>::type particles_const_pointer_tuple_type;
-	typedef typename  thrust::tuple<typename weights_type::const_pointer> weights_const_pointer_type;
+	typedef typename  HYDRA_EXTERNAL_NS::thrust::tuple<typename weights_type::const_pointer> weights_const_pointer_type;
 
 
 	//direct iterators
 
 	typedef typename  detail::tuple_type<N,typename particles_type::iterator>::type tuple_particles_iterator_type;
-	typedef typename  thrust::tuple<typename weights_type::iterator> tuple_weights_iterator_type;
+	typedef typename  HYDRA_EXTERNAL_NS::thrust::tuple<typename weights_type::iterator> tuple_weights_iterator_type;
 	typedef typename  detail::tuple_cat_type<tuple_weights_iterator_type, tuple_particles_iterator_type>::type iterator_tuple;
 
 	typedef typename  detail::tuple_type<N,typename particles_type::const_iterator>::type tuple_particles_const_iterator_type;
-	typedef typename  thrust::tuple<typename weights_type::const_iterator> tuple_weights_const_iterator_type;
+	typedef typename  HYDRA_EXTERNAL_NS::thrust::tuple<typename weights_type::const_iterator> tuple_weights_const_iterator_type;
 	typedef typename  detail::tuple_cat_type<tuple_weights_const_iterator_type, tuple_particles_const_iterator_type>::type const_iterator_tuple;
 
 	typedef typename  detail::tuple_type<N,typename particles_type::trans_iterator>::type tuple_particles_trans_iterator_type;
 	typedef typename  detail::tuple_cat_type<tuple_weights_iterator_type, tuple_particles_trans_iterator_type>::type trans_iterator_tuple;
 
 
-	typedef typename  thrust::tuple< weight_one_iterator> tuple_weight_one_iterator;
+	typedef typename  HYDRA_EXTERNAL_NS::thrust::tuple< weight_one_iterator> tuple_weight_one_iterator;
 	typedef typename  detail::tuple_cat_type<tuple_weight_one_iterator, tuple_particles_iterator_type>::type accpeted_iterator_tuple;
 
 
 	//reverse iterators
 	typedef typename  detail::tuple_type<N,typename particles_type::reverse_iterator>::type tuple_particles_riterator_type;
-	typedef typename  thrust::tuple<typename weights_type::reverse_iterator> tuple_weights_riterator_type;
+	typedef typename  HYDRA_EXTERNAL_NS::thrust::tuple<typename weights_type::reverse_iterator> tuple_weights_riterator_type;
 	typedef typename  detail::tuple_cat_type<tuple_weights_riterator_type, tuple_particles_riterator_type>::type reverse_iterator_tuple;
 
 	typedef typename  detail::tuple_type<N,typename particles_type::const_reverse_iterator>::type tuple_particles_const_riterator_type;
-	typedef typename  thrust::tuple<typename weights_type::const_reverse_iterator> tuple_weights_const_riterator_type;
+	typedef typename  HYDRA_EXTERNAL_NS::thrust::tuple<typename weights_type::const_reverse_iterator> tuple_weights_const_riterator_type;
 	typedef typename  detail::tuple_cat_type<tuple_weights_const_riterator_type, tuple_particles_const_riterator_type>::type const_reverse_iterator_tuple;
 
 	typedef typename  detail::tuple_type<N,typename particles_type::reverse_trans_iterator>::type tuple_particles_rtrans_iterator_type;
@@ -119,13 +119,13 @@ public:
 	//weights
 	typedef typename weights_type::iterator                                          weights_iterator;
 	typedef typename weights_type::const_iterator                                    weights_const_iterator;
-	typedef thrust::reverse_iterator<typename weights_type::reverse_iterator>        weights_reverse_iterator;
-	typedef thrust::reverse_iterator<typename weights_type::const_reverse_iterator>  weights_const_reverse_iterator;
-	typedef typename thrust::iterator_traits<weights_iterator>::difference_type      weights_difference_type;
-	typedef typename thrust::iterator_traits<weights_iterator>::value_type           weights_value_type;
-	typedef typename thrust::iterator_traits<weights_iterator>::pointer              weights_pointer;
-	typedef typename thrust::iterator_traits<weights_iterator>::reference            weights_reference;
-	typedef typename thrust::iterator_traits<weights_iterator>::iterator_category    weights_iterator_category;
+	typedef HYDRA_EXTERNAL_NS::thrust::reverse_iterator<typename weights_type::reverse_iterator>        weights_reverse_iterator;
+	typedef HYDRA_EXTERNAL_NS::thrust::reverse_iterator<typename weights_type::const_reverse_iterator>  weights_const_reverse_iterator;
+	typedef typename HYDRA_EXTERNAL_NS::thrust::iterator_traits<weights_iterator>::difference_type      weights_difference_type;
+	typedef typename HYDRA_EXTERNAL_NS::thrust::iterator_traits<weights_iterator>::value_type           weights_value_type;
+	typedef typename HYDRA_EXTERNAL_NS::thrust::iterator_traits<weights_iterator>::pointer              weights_pointer;
+	typedef typename HYDRA_EXTERNAL_NS::thrust::iterator_traits<weights_iterator>::reference            weights_reference;
+	typedef typename HYDRA_EXTERNAL_NS::thrust::iterator_traits<weights_iterator>::iterator_category    weights_iterator_category;
 
 	//particles
 	typedef typename particles_type::iterator                                          particles_iterator;
@@ -133,45 +133,45 @@ public:
 	typedef typename particles_type::reverse_trans_iterator                   particles_reverse_trans_iterator;
 
 	typedef typename particles_type::const_iterator                                    particles_const_iterator;
-	typedef thrust::reverse_iterator<particles_iterator>                               particles_reverse_iterator;
-	typedef thrust::reverse_iterator<particles_const_iterator>                         particles_const_reverse_iterator;
-	typedef typename thrust::iterator_traits<particles_iterator>::difference_type      particles_difference_type;
-	typedef typename thrust::iterator_traits<particles_iterator>::value_type           particles_value_type;
-	typedef typename thrust::iterator_traits<particles_iterator>::reference            particles_reference;
-	typedef typename thrust::iterator_traits<particles_iterator>::iterator_category    particles_iterator_category;
+	typedef HYDRA_EXTERNAL_NS::thrust::reverse_iterator<particles_iterator>                               particles_reverse_iterator;
+	typedef HYDRA_EXTERNAL_NS::thrust::reverse_iterator<particles_const_iterator>                         particles_const_reverse_iterator;
+	typedef typename HYDRA_EXTERNAL_NS::thrust::iterator_traits<particles_iterator>::difference_type      particles_difference_type;
+	typedef typename HYDRA_EXTERNAL_NS::thrust::iterator_traits<particles_iterator>::value_type           particles_value_type;
+	typedef typename HYDRA_EXTERNAL_NS::thrust::iterator_traits<particles_iterator>::reference            particles_reference;
+	typedef typename HYDRA_EXTERNAL_NS::thrust::iterator_traits<particles_iterator>::iterator_category    particles_iterator_category;
 
 	//this container
 	//--------------------------------
 	//zipped iterators
-	typedef thrust::zip_iterator<accpeted_iterator_tuple> accpeted_iterator;
+	typedef HYDRA_EXTERNAL_NS::thrust::zip_iterator<accpeted_iterator_tuple> accpeted_iterator;
 
 
 	//direct
-	typedef thrust::zip_iterator<iterator_tuple> iterator;
-	typedef thrust::zip_iterator<trans_iterator_tuple> trans_iterator;
-	typedef thrust::zip_iterator<const_iterator_tuple> const_iterator;
+	typedef HYDRA_EXTERNAL_NS::thrust::zip_iterator<iterator_tuple> iterator;
+	typedef HYDRA_EXTERNAL_NS::thrust::zip_iterator<trans_iterator_tuple> trans_iterator;
+	typedef HYDRA_EXTERNAL_NS::thrust::zip_iterator<const_iterator_tuple> const_iterator;
 
-	typedef thrust::zip_iterator<tuple_particles_iterator_type> decays_iterator;
-	typedef thrust::zip_iterator<tuple_particles_trans_iterator_type> decays_trans_iterator;
-	typedef thrust::zip_iterator<tuple_particles_const_iterator_type> decays_const_iterator;
+	typedef HYDRA_EXTERNAL_NS::thrust::zip_iterator<tuple_particles_iterator_type> decays_iterator;
+	typedef HYDRA_EXTERNAL_NS::thrust::zip_iterator<tuple_particles_trans_iterator_type> decays_trans_iterator;
+	typedef HYDRA_EXTERNAL_NS::thrust::zip_iterator<tuple_particles_const_iterator_type> decays_const_iterator;
 
 	//reverse
-	typedef thrust::zip_iterator<reverse_iterator_tuple> reverse_iterator;
-	typedef thrust::zip_iterator<reverse_trans_iterator_tuple> reverse_trans_iterator;
-	typedef thrust::zip_iterator<const_reverse_iterator_tuple> const_reverse_iterator;
+	typedef HYDRA_EXTERNAL_NS::thrust::zip_iterator<reverse_iterator_tuple> reverse_iterator;
+	typedef HYDRA_EXTERNAL_NS::thrust::zip_iterator<reverse_trans_iterator_tuple> reverse_trans_iterator;
+	typedef HYDRA_EXTERNAL_NS::thrust::zip_iterator<const_reverse_iterator_tuple> const_reverse_iterator;
 
-	typedef thrust::zip_iterator<tuple_particles_riterator_type> decays_reverse_iterator;
-	typedef thrust::zip_iterator<tuple_particles_rtrans_iterator_type> decays_reverse_trans_iterator;
-	typedef thrust::zip_iterator<tuple_particles_const_riterator_type> decays_const_reverse_iterator;
+	typedef HYDRA_EXTERNAL_NS::thrust::zip_iterator<tuple_particles_riterator_type> decays_reverse_iterator;
+	typedef HYDRA_EXTERNAL_NS::thrust::zip_iterator<tuple_particles_rtrans_iterator_type> decays_reverse_trans_iterator;
+	typedef HYDRA_EXTERNAL_NS::thrust::zip_iterator<tuple_particles_const_riterator_type> decays_const_reverse_iterator;
 
 	//stl-like typedefs
-	typedef typename thrust::iterator_traits<iterator>::difference_type      difference_type;
-	typedef typename thrust::iterator_traits<iterator>::value_type             value_type;
-	typedef typename thrust::iterator_traits<trans_iterator>::value_type   trans_value_type;
-	typedef typename thrust::iterator_traits<iterator>::pointer                   pointer;
-	typedef typename thrust::iterator_traits<iterator>::reference               reference;
-	typedef typename thrust::iterator_traits<const_iterator>::reference      const_reference;
-	typedef typename thrust::iterator_traits<iterator>::iterator_category    iterator_category;
+	typedef typename HYDRA_EXTERNAL_NS::thrust::iterator_traits<iterator>::difference_type      difference_type;
+	typedef typename HYDRA_EXTERNAL_NS::thrust::iterator_traits<iterator>::value_type             value_type;
+	typedef typename HYDRA_EXTERNAL_NS::thrust::iterator_traits<trans_iterator>::value_type   trans_value_type;
+	typedef typename HYDRA_EXTERNAL_NS::thrust::iterator_traits<iterator>::pointer                   pointer;
+	typedef typename HYDRA_EXTERNAL_NS::thrust::iterator_traits<iterator>::reference               reference;
+	typedef typename HYDRA_EXTERNAL_NS::thrust::iterator_traits<const_iterator>::reference      const_reference;
+	typedef typename HYDRA_EXTERNAL_NS::thrust::iterator_traits<iterator>::iterator_category    iterator_category;
 
 	typedef typename  detail::tuple_cat_type<weights_pointer_type, particles_pointer_tuple_type>::type pointer_tuple;
 	typedef typename  detail::tuple_cat_type<weights_const_pointer_type, particles_const_pointer_tuple_type>::type const_pointer_tuple;
@@ -242,10 +242,10 @@ public:
 	template<typename Iterator>
 	Decays( Iterator begin, Iterator end )
 	{
-		size_t n = thrust::distance(begin, end );
+		size_t n = HYDRA_EXTERNAL_NS::thrust::distance(begin, end );
 		for( size_t i=0; i<N; i++)	fDecays[i].resize(n);
 		fWeights.resize(n);
-		thrust::copy(begin, end, this->begin());
+		HYDRA_EXTERNAL_NS::thrust::copy(begin, end, this->begin());
 	}
 
 	/**
@@ -691,12 +691,12 @@ private:
 
 
 	template<size_t I >
-	inline typename thrust::detail::enable_if<(I == N), void >::type
+	inline typename HYDRA_EXTERNAL_NS::thrust::detail::enable_if<(I == N), void >::type
 	do_insert(size_t pos, tuple_particles_iterator_type& output_iterator,  value_type const& value)
 	{}
 
 	template<size_t I = 0>
-	inline typename thrust::detail::enable_if<(I < N), void >::type
+	inline typename HYDRA_EXTERNAL_NS::thrust::detail::enable_if<(I < N), void >::type
 	do_insert(size_t pos, tuple_particles_iterator_type& output_iterator,  value_type const& value)
 	{
 		get<I>(output_iterator) = fDecays[I].insert(fDecays[I].begin()+pos, get<I+1>(value));
@@ -704,12 +704,12 @@ private:
 	}
 
 	template<size_t I,  template<typename ...> class Tuple, typename ...Iterators >
-	inline typename thrust::detail::enable_if<(I == N), void >::type
+	inline typename HYDRA_EXTERNAL_NS::thrust::detail::enable_if<(I == N), void >::type
 	do_insert(size_t pos, Tuple<Iterators...>  first, Tuple<Iterators...> last )
 	{}
 
 	template<size_t I = 0,  template<typename ...> class Tuple, typename ...Iterators >
-	inline typename thrust::detail::enable_if<(I < N), void >::type
+	inline typename HYDRA_EXTERNAL_NS::thrust::detail::enable_if<(I < N), void >::type
 	do_insert(size_t pos, Tuple<Iterators...> first, Tuple<Iterators...> last )
 	{
 		fDecays[I].insert(fDecays[I].begin()+pos, get<I+1>(first.get_iterator_tuple()),
@@ -718,12 +718,12 @@ private:
 	}
 
 	template<size_t I >
-	inline typename thrust::detail::enable_if<(I == N), void >::type
+	inline typename HYDRA_EXTERNAL_NS::thrust::detail::enable_if<(I == N), void >::type
 	do_push_back(value_type const& value)
 	{}
 
 	template<size_t I = 0>
-	inline typename thrust::detail::enable_if<(I < N), void >::type
+	inline typename HYDRA_EXTERNAL_NS::thrust::detail::enable_if<(I < N), void >::type
 	do_push_back(value_type const& value)
 	{
 		fDecays[I].push_back( get<I+1>(value));
@@ -731,12 +731,12 @@ private:
 	}
 
 	template<size_t I >
-	inline typename thrust::detail::enable_if<(I == N), void >::type
+	inline typename HYDRA_EXTERNAL_NS::thrust::detail::enable_if<(I == N), void >::type
 	do_assignment(accpeted_iterator_tuple& left, iterator_tuple& right  )
 	{}
 
 	template<size_t I = 1>
-	inline typename thrust::detail::enable_if<(I < N), void >::type
+	inline typename HYDRA_EXTERNAL_NS::thrust::detail::enable_if<(I < N), void >::type
 	do_assignment(accpeted_iterator_tuple& left, iterator_tuple& right  )
 	{
 		get<I>(left)= get<I>(right);

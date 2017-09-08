@@ -33,7 +33,7 @@
 
 #include <hydra/detail/utility/Utility_Tuple.h>
 #include <hydra/detail/utility/Generic.h>
-#include <thrust/tuple.h>
+#include <hydra/detail/external/thrust/tuple.h>
 #include <utility>
 #include <array>
 
@@ -105,9 +105,9 @@ inline auto get_cback_tuple(std::array<VECTOR, N>const& data)
 //data
 template<typename VECTOR, size_t ...Index>
 inline auto get_data_tuple_helper(std::array<VECTOR, sizeof ...(Index)>& data,	index_sequence<Index...>)
--> decltype( thrust::make_tuple( data[Index].data()...) )
+-> decltype( HYDRA_EXTERNAL_NS::thrust::make_tuple( data[Index].data()...) )
 {
-	return thrust::make_tuple( data[Index].data()... );
+	return HYDRA_EXTERNAL_NS::thrust::make_tuple( data[Index].data()... );
 }
 
 template<typename VECTOR, size_t N>
@@ -120,9 +120,9 @@ inline auto get_data_tuple(std::array<VECTOR, N>& data)
 //cdata
 template<typename VECTOR, size_t ...Index>
 inline auto get_cdata_tuple_helper(std::array<VECTOR, sizeof ...(Index)>const& data,	index_sequence<Index...>)
--> decltype( thrust::make_tuple( data[Index].data()...) )
+-> decltype( HYDRA_EXTERNAL_NS::thrust::make_tuple( data[Index].data()...) )
 {
-	return thrust::make_tuple( data[Index].data()... );
+	return HYDRA_EXTERNAL_NS::thrust::make_tuple( data[Index].data()... );
 }
 
 template<typename VECTOR, size_t N>
@@ -134,18 +134,18 @@ inline auto get_cdata_tuple(std::array<VECTOR, N>const& data)
 
 
 template<size_t I, typename Vector, size_t N, template<typename ...> class Tuple, typename ...Iterators>
-inline typename thrust::detail::enable_if<(I == sizeof...(Iterators)), void >::type
+inline typename HYDRA_EXTERNAL_NS::thrust::detail::enable_if<(I == sizeof...(Iterators)), void >::type
 do_insert(size_t dist, std::array<Vector, N>& data,
 		Tuple<Iterators...> const& first_tuple, Tuple<Iterators...> const& last_tuple)
 {}
 
 template<size_t I = 0, typename Vector, size_t N, template<typename ...> class Tuple, typename ...Iterators>
-inline typename thrust::detail::enable_if<(I < sizeof...(Iterators)), void >::type
+inline typename HYDRA_EXTERNAL_NS::thrust::detail::enable_if<(I < sizeof...(Iterators)), void >::type
 do_insert(size_t dist, std::array<Vector, N>& data,
 		Tuple<Iterators...> const& first_tuple, Tuple<Iterators...> const& last_tuple)
 {
-    	auto first = thrust::get<I>(first_tuple);
-    	auto last  = thrust::get<I>(last_tuple);
+    	auto first = HYDRA_EXTERNAL_NS::thrust::get<I>(first_tuple);
+    	auto last  = HYDRA_EXTERNAL_NS::thrust::get<I>(last_tuple);
     	data[I].insert(data[I].begin() + dist, first, last);
 
     	do_insert<I + 1, Vector, N, Tuple, Iterators... >(dist, data, first_tuple, last_tuple );
@@ -153,15 +153,15 @@ do_insert(size_t dist, std::array<Vector, N>& data,
 
 
 template<size_t I, typename Vector, size_t N, template<typename ...> class Tuple, typename ...T>
-inline typename thrust::detail::enable_if<(I == sizeof...(T)), void >::type
+inline typename HYDRA_EXTERNAL_NS::thrust::detail::enable_if<(I == sizeof...(T)), void >::type
 do_push_back(std::array<Vector, N>& data, Tuple<T...> const& value)
 {}
 
 template<size_t I = 0, typename Vector, size_t N, template<typename ...> class Tuple, typename ...T>
-inline typename thrust::detail::enable_if<(I < sizeof...(T)), void >::type
+inline typename HYDRA_EXTERNAL_NS::thrust::detail::enable_if<(I < sizeof...(T)), void >::type
 do_push_back(std::array<Vector, N>& data, Tuple<T...> const& value)
 {
-    	data[I].push_back(thrust::get<I>(value));
+    	data[I].push_back(HYDRA_EXTERNAL_NS::thrust::get<I>(value));
 
     	do_push_back<I + 1, Vector, N, Tuple, T... >(data, value );
 }

@@ -33,8 +33,9 @@
 
 #define CUDA_API_PER_THREAD_DEFAULT_STREAM
 
-#include <thrust/detail/config.h>
-#include <thrust/detail/config/host_device.h>
+
+#include <hydra/detail/external/thrust/detail/config.h>
+#include <hydra/detail/external/thrust/detail/config/host_device.h>
 
 
 

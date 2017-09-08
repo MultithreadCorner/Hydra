@@ -40,8 +40,8 @@
 #include <time.h>
 #include <stdio.h>
 #include <utility>
-#include <thrust/copy.h>
-#include <thrust/extrema.h>
+#include <hydra/detail/external/thrust/copy.h>
+#include <hydra/detail/external/thrust/extrema.h>
 #include <hydra/detail/Config.h>
 #include <hydra/Types.h>
 #include <hydra/Containers.h>
@@ -106,11 +106,11 @@ fMaxWeight(other.GetMaxWeight())
 
 	for (GInt_t i = 0; i < N; i++)
 	{
-		thrust::copy(other.DaughtersBegin(i), other.DaughtersEnd(i), this->DaughtersBegin(i));
+		HYDRA_EXTERNAL_NS::thrust::copy(other.DaughtersBegin(i), other.DaughtersEnd(i), this->DaughtersBegin(i));
 	}
 
-	thrust::copy(other.WeightsBegin(), other.WeightsEnd(), this->WeightsBegin());
-	thrust::copy(other.FlagsBegin(), other.FlagsEnd(), this->FlagsBegin());
+	HYDRA_EXTERNAL_NS::thrust::copy(other.WeightsBegin(), other.WeightsEnd(), this->WeightsBegin());
+	HYDRA_EXTERNAL_NS::thrust::copy(other.FlagsBegin(), other.FlagsEnd(), this->FlagsBegin());
 
 	std::array<vector_particles_iterator,N> begins;
 	std::array<vector_particles_iterator,N> ends;
@@ -149,12 +149,12 @@ fMaxWeight(other.GetMaxWeight())
 
 	for (GInt_t i = 0; i < N; i++)
 	{
-		thrust::copy(other.DaughtersBegin(i),
+		HYDRA_EXTERNAL_NS::thrust::copy(other.DaughtersBegin(i),
 				other.DaughtersEnd(i), this->DaughtersBegin(i));
 	}
 
-	thrust::copy(other.WeightsBegin(), other.WeightsEnd(), this->WeightsBegin());
-	thrust::copy(other.FlagsBegin(), other.FlagsEnd(), this->FlagsBegin());
+	HYDRA_EXTERNAL_NS::thrust::copy(other.WeightsBegin(), other.WeightsEnd(), this->WeightsBegin());
+	HYDRA_EXTERNAL_NS::thrust::copy(other.FlagsBegin(), other.FlagsEnd(), this->FlagsBegin());
 
 	std::array< vector_particles_iterator,N> begins;
 	std::array< vector_particles_iterator,N> ends;
@@ -237,11 +237,11 @@ Events<N, hydra::detail::BackendPolicy<BACKEND>>::operator=(Events<N,hydra::deta
 
 	for (GInt_t i = 0; i < N; i++)
 	{
-		thrust::copy(other.DaughtersBegin(i), other.DaughtersEnd(i), this->DaughtersBegin(i));
+		HYDRA_EXTERNAL_NS::thrust::copy(other.DaughtersBegin(i), other.DaughtersEnd(i), this->DaughtersBegin(i));
 	}
 
-	thrust::copy(other.WeightsBegin(), other.WeightsEnd(), this->WeightsBegin());
-	thrust::copy(other.FlagsBegin(), other.FlagsEnd(), this->FlagsBegin());
+	HYDRA_EXTERNAL_NS::thrust::copy(other.WeightsBegin(), other.WeightsEnd(), this->WeightsBegin());
+	HYDRA_EXTERNAL_NS::thrust::copy(other.FlagsBegin(), other.FlagsEnd(), this->FlagsBegin());
 
 	std::array< vector_particles_iterator,N> begins;
 	std::array< vector_particles_iterator,N> ends;
@@ -295,11 +295,11 @@ Events<N, hydra::detail::BackendPolicy<BACKEND>>::operator=(Events<N,hydra::deta
 
 			for (GInt_t i = 0; i < N; i++)
 			{
-				thrust::copy(other.DaughtersBegin(i), other.DaughtersEnd(i), this->DaughtersBegin(i));
+				HYDRA_EXTERNAL_NS::thrust::copy(other.DaughtersBegin(i), other.DaughtersEnd(i), this->DaughtersBegin(i));
 			}
 
-			thrust::copy(other.WeightsBegin(), other.WeightsEnd(), this->WeightsBegin());
-			thrust::copy(other.FlagsBegin(), other.FlagsEnd(), this->FlagsBegin());
+			HYDRA_EXTERNAL_NS::thrust::copy(other.WeightsBegin(), other.WeightsEnd(), this->WeightsBegin());
+			HYDRA_EXTERNAL_NS::thrust::copy(other.FlagsBegin(), other.FlagsEnd(), this->FlagsBegin());
 
 			std::array< vector_particles_iterator,N> begins;
 			std::array< vector_particles_iterator,N> ends;
@@ -381,23 +381,23 @@ size_t Events<N, hydra::detail::BackendPolicy<BACKEND>>::Unweight(size_t seed)
 	GULong_t count = 0;
 	if(N==2)
 	{
-		thrust::fill(fFlags.begin(), fFlags.end(), kTrue);
+		HYDRA_EXTERNAL_NS::thrust::fill(fFlags.begin(), fFlags.end(), kTrue);
 		count = fNEvents;
 	}
 	else
 	{
 
-		auto w = thrust::max_element(fWeights.begin(),fWeights.end());
+		auto w = HYDRA_EXTERNAL_NS::thrust::max_element(fWeights.begin(),fWeights.end());
 		fMaxWeight=*w;
 		// create iterators
-		thrust::counting_iterator<size_t> first(0);
-		thrust::counting_iterator<size_t> last = first + fNEvents;
+		HYDRA_EXTERNAL_NS::thrust::counting_iterator<size_t> first(0);
+		HYDRA_EXTERNAL_NS::thrust::counting_iterator<size_t> last = first + fNEvents;
 
 
-		thrust::transform(first, last, fWeights.begin(),
+		HYDRA_EXTERNAL_NS::thrust::transform(first, last, fWeights.begin(),
 				fFlags.begin(), hydra::detail::FlagAcceptReject(seed, fMaxWeight));
 
-		count = thrust::count(fFlags.begin(), fFlags.end(),
+		count = HYDRA_EXTERNAL_NS::thrust::count(fFlags.begin(), fFlags.end(),
 				kTrue);
 
 	}

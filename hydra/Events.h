@@ -37,7 +37,7 @@
 #include <time.h>
 #include <stdio.h>
 #include <utility>
-#include <thrust/copy.h>
+#include <hydra/detail/external/thrust/copy.h>
 
 #include <hydra/detail/Config.h>
 #include <hydra/detail/BackendPolicy.h>

@@ -50,8 +50,8 @@ struct  Compose
 	    typedef void hydra_functor_tag;
 	    //typedef typename detail::compose_base_functor<F0, F1,Fs...>::type base_type;
 		typedef typename F0::return_type  return_type;
-		typedef typename thrust::tuple<typename F1::return_type, typename Fs::return_type...> argument_type;
-		typedef typename thrust::tuple<F1, Fs...> functors_type;
+		typedef typename HYDRA_EXTERNAL_NS::thrust::tuple<typename F1::return_type, typename Fs::return_type...> argument_type;
+		typedef typename HYDRA_EXTERNAL_NS::thrust::tuple<F1, Fs...> functors_type;
 
 		__host__
 		Compose():
@@ -64,7 +64,7 @@ struct  Compose
 		fIndex(-1),
 		fCached(0),
 		fF0(f0),
-	  	fFtorTuple(thrust::make_tuple(f1, fs...))
+	  	fFtorTuple(HYDRA_EXTERNAL_NS::thrust::make_tuple(f1, fs...))
 	  	{ }
 
 		__host__ __device__ inline

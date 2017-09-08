@@ -32,7 +32,7 @@
 #include <hydra/FCN2.h>
 #include <hydra/Pdf.h>
 #include <hydra/detail/functors/LogLikelihood1.h>
-#include <thrust/transform_reduce.h>
+#include <hydra/detail/external/thrust/transform_reduce.h>
 
 namespace hydra {
 
@@ -69,14 +69,14 @@ public:
 
 	GReal_t Eval( const std::vector<double>& parameters ) const{
 
-		using   thrust::system::detail::generic::select_system;
-		typedef typename thrust::iterator_system<Iterator>::type System;
+		using   HYDRA_EXTERNAL_NS::thrust::system::detail::generic::select_system;
+		typedef typename HYDRA_EXTERNAL_NS::thrust::iterator_system<Iterator>::type System;
 		typedef typename Pdf<Functor,Integrator>::functor_type functor_type;
 		System system;
 
 		// create iterators
-		thrust::counting_iterator<size_t> first(0);
-		thrust::counting_iterator<size_t> last = first + this->GetDataSize();
+		HYDRA_EXTERNAL_NS::thrust::counting_iterator<size_t> first(0);
+		HYDRA_EXTERNAL_NS::thrust::counting_iterator<size_t> last = first + this->GetDataSize();
 
 		GReal_t final;
 		GReal_t init=0;
@@ -95,8 +95,8 @@ public:
 
 		auto NLL = detail::LogLikelihood1<functor_type>(this->GetPDF().GetFunctor());
 
-		final = thrust::transform_reduce(select_system(system),
-				this->begin(), this->end(), NLL, init, thrust::plus<GReal_t>());
+		final = HYDRA_EXTERNAL_NS::thrust::transform_reduce(select_system(system),
+				this->begin(), this->end(), NLL, init, HYDRA_EXTERNAL_NS::thrust::plus<GReal_t>());
 
 		return (GReal_t)this->GetDataSize()-final ;
 	}

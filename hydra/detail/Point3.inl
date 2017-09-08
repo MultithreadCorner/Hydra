@@ -39,9 +39,9 @@
 #include <array>
 
 //thrust
-#include <thrust/tuple.h>
-#include <thrust/device_vector.h>
-#include <thrust/host_vector.h>
+#include <hydra/detail/external/thrust/tuple.h>
+#include <hydra/detail/external/thrust/device_vector.h>
+#include <hydra/detail/external/thrust/host_vector.h>
 
 namespace hydra {
 
@@ -85,10 +85,10 @@ struct Point<T, DIM, true, true>
 	explicit Point(std::array<value_type,DIM> const& coordinates,
 			std::array<value_type,DIM> const& coordinate_errors, value_type error=0.0, value_type weight=1.0 )
 	{
-		auto weights = thrust::make_tuple(weight, weight*weight, error );
+		auto weights = HYDRA_EXTERNAL_NS::thrust::make_tuple(weight, weight*weight, error );
 		auto coords  = hydra::detail::arrayToTuple<value_type,DIM>(const_cast<value_type*>(coordinates.data() ));
 		auto coords_errors  = hydra::detail::arrayToTuple<value_type,DIM>(const_cast<value_type*>(coordinate_errors.data() ));
-		fData = thrust::tuple_cat(weights, thrust::tuple_cat(coords, coords_errors ) );
+		fData = HYDRA_EXTERNAL_NS::thrust::tuple_cat(weights, HYDRA_EXTERNAL_NS::thrust::tuple_cat(coords, coords_errors ) );
 	}
 
 	/**
@@ -100,10 +100,10 @@ struct Point<T, DIM, true, true>
 	explicit Point(const  value_type (&coordinates)[DIM],
 			const value_type (&coordinates_errors)[DIM], value_type error=0.0 ,  value_type weight=1.0)
 	{
-		auto weights = thrust::make_tuple(weight, weight*weight, error );
+		auto weights = HYDRA_EXTERNAL_NS::thrust::make_tuple(weight, weight*weight, error );
 		auto coords  = hydra::detail::arrayToTuple<value_type,DIM>(const_cast<value_type*>( &coordinates[0] ));
 		auto coords_errors  = hydra::detail::arrayToTuple<value_type,DIM>(const_cast<value_type*>( &coordinates_errors[0] ));
-		fData = thrust::tuple_cat(weights,  thrust::tuple_cat(coords, coords_errors )  );
+		fData = HYDRA_EXTERNAL_NS::thrust::tuple_cat(weights,  HYDRA_EXTERNAL_NS::thrust::tuple_cat(coords, coords_errors )  );
 	}
 
 	/**
@@ -117,10 +117,10 @@ struct Point<T, DIM, true, true>
 	{
 		//std::vector<value_type> v(coordinates);
 		//std::vector<value_type> ve(coordinates_errors);
-		auto weights = thrust::make_tuple(weight, weight*weight, error  );
+		auto weights = HYDRA_EXTERNAL_NS::thrust::make_tuple(weight, weight*weight, error  );
 		auto coords  = hydra::detail::arrayToTuple<value_type,DIM>(const_cast<value_type*>(coordinates.begin()));//v.data() ));
 		auto coords_errors  = hydra::detail::arrayToTuple<value_type,DIM>(const_cast<value_type*>(coordinates_errors.begin()));//ve.data() ));
-		fData = thrust::tuple_cat(weights, thrust::tuple_cat(coords, coords_errors ) );
+		fData = HYDRA_EXTERNAL_NS::thrust::tuple_cat(weights, HYDRA_EXTERNAL_NS::thrust::tuple_cat(coords, coords_errors ) );
 	}
 
 
@@ -134,8 +134,8 @@ struct Point<T, DIM, true, true>
 	explicit Point(  coordinate_type coordinates,
 			coordinate_type coordinates_errors, value_type error=0.0, value_type weight=1.0)
 	{
-		auto weights = thrust::make_tuple(weight, weight*weight, error );
-		fData = thrust::tuple_cat(weights, thrust::tuple_cat(coordinates, coordinates_errors )  );
+		auto weights = HYDRA_EXTERNAL_NS::thrust::make_tuple(weight, weight*weight, error );
+		fData = HYDRA_EXTERNAL_NS::thrust::tuple_cat(weights, HYDRA_EXTERNAL_NS::thrust::tuple_cat(coordinates, coordinates_errors )  );
 	}
 
 	/**
@@ -148,10 +148,10 @@ struct Point<T, DIM, true, true>
 	explicit Point(const  value_type* coordinates,
 			const value_type* coordinates_errors, value_type error=0.0,	value_type weight=1.0 )
 	{
-		auto weights = thrust::make_tuple(weight, weight*weight, error  );
+		auto weights = HYDRA_EXTERNAL_NS::thrust::make_tuple(weight, weight*weight, error  );
 		auto coords         = hydra::detail::arrayToTuple<value_type,DIM>(const_cast<value_type*>( coordinates));
 		auto coords_errors  = hydra::detail::arrayToTuple<value_type,DIM>(const_cast<value_type*>( coordinates_errors));
-		fData = thrust::tuple_cat(weights, thrust::tuple_cat(coords, coords_errors )   );
+		fData = HYDRA_EXTERNAL_NS::thrust::tuple_cat(weights, HYDRA_EXTERNAL_NS::thrust::tuple_cat(coords, coords_errors )   );
 	}
 
 
@@ -186,9 +186,9 @@ struct Point<T, DIM, true, true>
 			coordinate_type const& coordinates_errors, value_type error=0.0,
 			value_type weight=1.0){
 
-		auto weights = thrust::make_tuple(weight, weight*weight,  error );
-		auto a=thrust::tuple_cat(coordinates, coordinates_errors );
-		fData = thrust::tuple_cat(weights, a );
+		auto weights = HYDRA_EXTERNAL_NS::thrust::make_tuple(weight, weight*weight,  error );
+		auto a=HYDRA_EXTERNAL_NS::thrust::tuple_cat(coordinates, coordinates_errors );
+		fData = HYDRA_EXTERNAL_NS::thrust::tuple_cat(weights, a );
 
 	}
 
@@ -197,9 +197,9 @@ struct Point<T, DIM, true, true>
 				coordinate_type && coordinates_errors, value_type error=0.0,
 				value_type weight=1.0){
 
-			auto weights = thrust::make_tuple(weight, weight*weight,  error );
-			auto a=thrust::tuple_cat(coordinates, coordinates_errors );
-			fData = thrust::tuple_cat(weights, a );
+			auto weights = HYDRA_EXTERNAL_NS::thrust::make_tuple(weight, weight*weight,  error );
+			auto a=HYDRA_EXTERNAL_NS::thrust::tuple_cat(coordinates, coordinates_errors );
+			fData = HYDRA_EXTERNAL_NS::thrust::tuple_cat(weights, a );
 
 		}
 
@@ -211,7 +211,7 @@ struct Point<T, DIM, true, true>
 		coordinate_type error;
 		coordinate_and_error_type coord_and_error;
 
-		thrust::tuple<GReal_t,GReal_t,GReal_t > weights;
+		HYDRA_EXTERNAL_NS::thrust::tuple<GReal_t,GReal_t,GReal_t > weights;
 		hydra::detail::split_tuple( weights , coord_and_error, fData);
 		hydra::detail::split_tuple(coord, error, coord_and_error);
 		return coord;
@@ -224,7 +224,7 @@ struct Point<T, DIM, true, true>
 		coordinate_type error;
 		coordinate_and_error_type coord_and_error;
 
-		thrust::tuple<GReal_t,GReal_t,GReal_t > weights;
+		HYDRA_EXTERNAL_NS::thrust::tuple<GReal_t,GReal_t,GReal_t > weights;
 		hydra::detail::split_tuple( weights , coord_and_error, fData);
 		hydra::detail::split_tuple(coord, error,coord_and_error);
 		return coord;
@@ -238,7 +238,7 @@ struct Point<T, DIM, true, true>
 		coordinate_type error;
 		coordinate_and_error_type coord_and_error;
 
-		thrust::tuple<GReal_t,GReal_t,GReal_t > weights;
+		HYDRA_EXTERNAL_NS::thrust::tuple<GReal_t,GReal_t,GReal_t > weights;
 		hydra::detail::split_tuple( weights , coord_and_error, fData);
 		hydra::detail::split_tuple(coord, error, coord_and_error);
 		return error;
@@ -251,7 +251,7 @@ struct Point<T, DIM, true, true>
 		coordinate_type error;
 		coordinate_and_error_type coord_and_error;
 
-		thrust::tuple<GReal_t,GReal_t,GReal_t > weights;
+		HYDRA_EXTERNAL_NS::thrust::tuple<GReal_t,GReal_t,GReal_t > weights;
 		hydra::detail::split_tuple( weights , coord_and_error, fData);
 		hydra::detail::split_tuple(coord, error,coord_and_error);
 		return error;
@@ -286,49 +286,49 @@ struct Point<T, DIM, true, true>
 	__host__  __device__
 	inline value_type& GetError() {
 
-		return thrust::get<2>(fData);
+		return HYDRA_EXTERNAL_NS::thrust::get<2>(fData);
 	}
 
 	__host__  __device__
 	inline const value_type& GetError() const {
-		return thrust::get<2>(fData);
+		return HYDRA_EXTERNAL_NS::thrust::get<2>(fData);
 	}
 
 	__host__  __device__
 	inline void SetError(value_type weight) {
-		thrust::get<2>(fData) = weight;
+		HYDRA_EXTERNAL_NS::thrust::get<2>(fData) = weight;
 	}
 
 	__host__  __device__
 	inline value_type& GetWeight() {
 
-		return thrust::get<0>(fData);
+		return HYDRA_EXTERNAL_NS::thrust::get<0>(fData);
 	}
 
 	__host__  __device__
 	inline const value_type& GetWeight() const {
-		return thrust::get<0>(fData);
+		return HYDRA_EXTERNAL_NS::thrust::get<0>(fData);
 	}
 
 	__host__  __device__
 	inline void SetWeight(value_type weight) {
-		thrust::get<0>(fData) = weight;
-		thrust::get<1>(fData) = weight*weight;
+		HYDRA_EXTERNAL_NS::thrust::get<0>(fData) = weight;
+		HYDRA_EXTERNAL_NS::thrust::get<1>(fData) = weight*weight;
 	}
 
 	__host__  __device__
 	inline value_type& GetWeight2()  {
-		return thrust::get<1>(fData);
+		return HYDRA_EXTERNAL_NS::thrust::get<1>(fData);
 	}
 
 	__host__  __device__
 	inline value_type const& GetWeight2() const {
-		return thrust::get<1>(fData);
+		return HYDRA_EXTERNAL_NS::thrust::get<1>(fData);
 	}
 
 	__host__  __device__
 	inline void SetWeight2(value_type weight2) {
-		thrust::get<1>(fData) = weight2;
+		HYDRA_EXTERNAL_NS::thrust::get<1>(fData) = weight2;
 	}
 
 

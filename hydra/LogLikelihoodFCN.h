@@ -47,11 +47,11 @@
 #include <hydra/detail/Print.h>
 #include <hydra/UserParameters.h>
 
-#include <thrust/distance.h>
-#include <thrust/tuple.h>
-#include <thrust/iterator/constant_iterator.h>
-#include <thrust/inner_product.h>
-#include <thrust/reduce.h>
+#include <hydra/detail/external/thrust/distance.h>
+#include <hydra/detail/external/thrust/tuple.h>
+#include <hydra/detail/external/thrust/iterator/constant_iterator.h>
+#include <hydra/detail/external/thrust/inner_product.h>
+#include <hydra/detail/external/thrust/reduce.h>
 
 #include <Minuit2/FCNBase.h>
 #include <vector>
@@ -168,7 +168,7 @@ using namespace examples;
 	PointVector<point_t , hydra::device::sys> data_d(2*nentries);
 
 	size_t seed = std::chrono::system_clock::now().time_since_epoch().count();
-	Random<thrust::random::default_random_engine> Generator( seed  );
+	Random<HYDRA_EXTERNAL_NS::thrust::random::default_random_engine> Generator( seed  );
 
 	Generator.Gauss(mean_p , sigma_p,
 			GetCoordinateBegin<0>(data_d),
@@ -292,16 +292,16 @@ public:
 	 * @return a double corresponding to the value of the log-likelihood for the set of parameters.
 	 */
 	template<typename U= PDF>
-	typename thrust::detail::enable_if< hydra::detail::is_hydra_pdf<U>::value, GReal_t>::type
+	typename HYDRA_EXTERNAL_NS::thrust::detail::enable_if< hydra::detail::is_hydra_pdf<U>::value, GReal_t>::type
 	Eval( const std::vector<double>& parameters ) const
 	{
-		using thrust::system::detail::generic::select_system;
-		typedef typename thrust::iterator_system<IteratorData>::type System;
+		using HYDRA_EXTERNAL_NS::thrust::system::detail::generic::select_system;
+		typedef typename HYDRA_EXTERNAL_NS::thrust::iterator_system<IteratorData>::type System;
 		System system;
 
 		// create iterators
-		thrust::counting_iterator<size_t> first(0);
-		thrust::counting_iterator<size_t> last = first + this->GetNEvents();
+		HYDRA_EXTERNAL_NS::thrust::counting_iterator<size_t> first(0);
+		HYDRA_EXTERNAL_NS::thrust::counting_iterator<size_t> last = first + this->GetNEvents();
 
 		GReal_t final;
 		GReal_t init=0;
@@ -321,13 +321,13 @@ public:
 		this->GetPDF().PrintRegisteredParameters();
 
 
-		final=thrust::transform_reduce(select_system(system), first, last,
+		final=HYDRA_EXTERNAL_NS::thrust::transform_reduce(select_system(system), first, last,
 				detail::LogLikelihood<typename U::functor_type, PointType,
 				IteratorData, IteratorCache>( this->GetPDF().GetFunctor(),
 						this->GetSumW()     , this->GetSumW2() ,
 						this->GetDataBegin(), this->GetCacheBegin(),
 						this->isWeighted()  , this->isCached()),
-						init, thrust::plus<GReal_t>());
+						init, HYDRA_EXTERNAL_NS::thrust::plus<GReal_t>());
 
 
 		//std::cout <<this->GetSumW() + final << std::endl;
@@ -340,17 +340,17 @@ public:
 	 * @return a double corresponding to the value of the log-likelihood for the set of parameters.
 	 */
 	template<typename U=PDF>
-	typename thrust::detail::enable_if< hydra::detail::is_hydra_sum_pdf<U>::value, GReal_t>::type
+	typename HYDRA_EXTERNAL_NS::thrust::detail::enable_if< hydra::detail::is_hydra_sum_pdf<U>::value, GReal_t>::type
      Eval( const std::vector<double>& parameters ) const
 	{
 
-		using thrust::system::detail::generic::select_system;
-		typedef typename thrust::iterator_system<IteratorData>::type System;
+		using HYDRA_EXTERNAL_NS::thrust::system::detail::generic::select_system;
+		typedef typename HYDRA_EXTERNAL_NS::thrust::iterator_system<IteratorData>::type System;
 		System system;
 
 		// create iterators
-		thrust::counting_iterator<size_t> first(0);
-		thrust::counting_iterator<size_t> last = first + this->GetNEvents();
+		HYDRA_EXTERNAL_NS::thrust::counting_iterator<size_t> first(0);
+		HYDRA_EXTERNAL_NS::thrust::counting_iterator<size_t> last = first + this->GetNEvents();
 
 		GReal_t final;
 		GReal_t init=0;
@@ -376,13 +376,13 @@ public:
 			return fMAxValue;
 
 
-		final=thrust::transform_reduce(select_system(system), first, last,
+		final=HYDRA_EXTERNAL_NS::thrust::transform_reduce(select_system(system), first, last,
 				detail::LogLikelihood<typename U::functor_type, PointType,
 				IteratorData, IteratorCache>( this->GetPDF().GetFunctor(),
 						this->GetSumW()     , this->GetSumW2() ,
 						this->GetDataBegin(), this->GetCacheBegin(),
 						this->isWeighted()  , this->isCached()),
-						init, thrust::plus<GReal_t>());
+						init, HYDRA_EXTERNAL_NS::thrust::plus<GReal_t>());
 
 		GReal_t  r = this->GetSumW() + this->GetPDF().IsExtended()*
 				( this->GetPDF().GetCoefSum() -
@@ -422,11 +422,11 @@ auto make_loglikehood_fcn(PDF& functor,
 		PointVector< PointType, BACKEND> const& data)
 -> LogLikelihoodFCN<PDF, PointType,
 typename PointVector< PointType, BACKEND>::const_iterator,
-thrust::constant_iterator<null_type> >
+HYDRA_EXTERNAL_NS::thrust::constant_iterator<null_type> >
 {
 	return LogLikelihoodFCN<PDF, PointType,
 			typename PointVector< PointType, BACKEND>::const_iterator,
-			thrust::constant_iterator<null_type>>(functor,  data.cbegin(),  data.cend());
+			HYDRA_EXTERNAL_NS::thrust::constant_iterator<null_type>>(functor,  data.cbegin(),  data.cend());
 }
 
 /**

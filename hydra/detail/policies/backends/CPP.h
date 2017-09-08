@@ -31,8 +31,8 @@
 
 #include <hydra/detail/Config.h>
 #include <hydra/detail/BackendPolicy.h>
-#include <thrust/system/cpp/detail/par.h>
-#include <thrust/system/cpp/vector.h>
+#include <hydra/detail/external/thrust/system/cpp/detail/par.h>
+#include <hydra/detail/external/thrust/system/cpp/vector.h>
 
 namespace hydra {
 
@@ -40,18 +40,18 @@ namespace detail {
 
 namespace cpp {
 
-typedef thrust::system::cpp::detail::par_t   cpp_t;
+typedef HYDRA_EXTERNAL_NS::thrust::system::cpp::detail::par_t   cpp_t;
 static const cpp_t    _cpp_;
 
 }  // namespace cpp
 
 template<>
-struct BackendPolicy<Backend::Cpp>: thrust::execution_policy<cpp::cpp_t>
+struct BackendPolicy<Backend::Cpp>: HYDRA_EXTERNAL_NS::thrust::execution_policy<cpp::cpp_t>
 {
 	const cpp::cpp_t backend= cpp::_cpp_;
 
 	template<typename T>
-	using   container = thrust::cpp::vector<T> ;
+	using   container = HYDRA_EXTERNAL_NS::thrust::cpp::vector<T> ;
 
 
 };

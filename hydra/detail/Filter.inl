@@ -36,7 +36,7 @@ template<typename Container, typename Functor>
 hydra::GenericRange<typename Container::iterator>
 apply_filter(Container& container, Functor const& filter)
 {
-	typename Container::iterator new_end = thrust::partition(container.begin(),container.end() , filter);
+	typename Container::iterator new_end = HYDRA_EXTERNAL_NS::thrust::partition(container.begin(),container.end() , filter);
      return hydra::make_range(container.begin(), new_end);
 }
 

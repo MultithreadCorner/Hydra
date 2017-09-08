@@ -32,7 +32,7 @@
 
 #include <hydra/detail/Config.h>
 #include <hydra/detail/BackendPolicy.h>
-#include <thrust/execution_policy.h>
+#include <hydra/detail/external/thrust/execution_policy.h>
 #include <hydra/Containers.h>
 
 namespace hydra {
@@ -41,13 +41,13 @@ namespace detail {
 
 namespace device {
 
-typedef thrust::detail::device_t	            device_t;
+typedef HYDRA_EXTERNAL_NS::thrust::detail::device_t	            device_t;
 static const device_t   _device_;
 
 }  // namespace device
 
 template<>
-struct BackendPolicy<Backend::Device>: thrust::execution_policy<device::device_t>
+struct BackendPolicy<Backend::Device>: HYDRA_EXTERNAL_NS::thrust::execution_policy<device::device_t>
 {
 	const device::device_t backend= device::_device_;
 

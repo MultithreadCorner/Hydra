@@ -32,16 +32,16 @@
 #include <hydra/detail/Config.h>
 #include <hydra/detail/BackendPolicy.h>
 #include <hydra/Types.h>
-#include <thrust/distance.h>
+#include <hydra/detail/external/thrust/distance.h>
 
 namespace hydra {
 
 template<typename Iterator>
 inline __host__ __device__
 auto distance(Iterator first, Iterator last)
-->decltype( thrust::distance<Iterator>(first,last))
+->decltype( HYDRA_EXTERNAL_NS::thrust::distance<Iterator>(first,last))
 {
-	return thrust::distance(first, last);
+	return HYDRA_EXTERNAL_NS::thrust::distance(first, last);
 }
 
 }  // namespace hydra

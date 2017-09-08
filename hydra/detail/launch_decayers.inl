@@ -49,11 +49,11 @@
 
 #include <hydra/detail/utility/Utility_Tuple.h>
 
-#include <thrust/iterator/counting_iterator.h>
-#include <thrust/sequence.h>
-#include <thrust/tuple.h>
-#include <thrust/transform.h>
-#include <thrust/transform_reduce.h>
+#include <hydra/detail/external/thrust/iterator/counting_iterator.h>
+#include <hydra/detail/external/thrust/sequence.h>
+#include <hydra/detail/external/thrust/tuple.h>
+#include <hydra/detail/external/thrust/transform.h>
+#include <hydra/detail/external/thrust/transform_reduce.h>
 
 namespace hydra {
 
@@ -66,11 +66,11 @@ namespace detail {
 	inline void launch_evaluator(Iterator begin, Iterator end,
 			detail::EvalMother<N, GRND,FUNCTOR, FUNCTORS...> const& evaluator) {
 
-		size_t nevents = thrust::distance(begin, end);
-				thrust::counting_iterator<GLong_t> first(0);
-				thrust::counting_iterator<GLong_t> last = first + nevents;
+		size_t nevents = HYDRA_EXTERNAL_NS::thrust::distance(begin, end);
+				HYDRA_EXTERNAL_NS::thrust::counting_iterator<GLong_t> first(0);
+				HYDRA_EXTERNAL_NS::thrust::counting_iterator<GLong_t> last = first + nevents;
 
-		thrust::transform( first, last, begin, evaluator);
+		HYDRA_EXTERNAL_NS::thrust::transform( first, last, begin, evaluator);
 
 	}
 
@@ -80,12 +80,12 @@ namespace detail {
 	inline void launch_evaluator( IteratorMother mbegin, IteratorMother mend, Iterator begin,
 			 detail::EvalMothers<N, GRND,FUNCTOR, FUNCTORS...> const& evaluator) {
 
-		size_t nevents = thrust::distance(mbegin, mend);
-		thrust::counting_iterator<GLong_t> first(0);
-		thrust::counting_iterator<GLong_t> last = first + nevents;
+		size_t nevents = HYDRA_EXTERNAL_NS::thrust::distance(mbegin, mend);
+		HYDRA_EXTERNAL_NS::thrust::counting_iterator<GLong_t> first(0);
+		HYDRA_EXTERNAL_NS::thrust::counting_iterator<GLong_t> last = first + nevents;
 
-		thrust::transform( thrust::make_zip_iterator(first, mbegin),
-				thrust::make_zip_iterator(last, mend), begin, evaluator );
+		HYDRA_EXTERNAL_NS::thrust::transform( HYDRA_EXTERNAL_NS::thrust::make_zip_iterator(first, mbegin),
+				HYDRA_EXTERNAL_NS::thrust::make_zip_iterator(last, mend), begin, evaluator );
 
 	}
 
@@ -100,7 +100,7 @@ namespace detail {
 
 		StatsPHSP init = StatsPHSP();
 
-		StatsPHSP result = thrust::transform_reduce(policy , begin, end,
+		StatsPHSP result = HYDRA_EXTERNAL_NS::thrust::transform_reduce(policy , begin, end,
 				evaluator, init,detail::AddStatsPHSP() );
 
 		return result;
@@ -111,19 +111,19 @@ namespace detail {
 	inline StatsPHSP launch_reducer(Iterator begin, Iterator end,
 			detail::AverageMothers<N, GRND,FUNCTOR> const& evaluator)
 	{
-		using thrust::system::detail::generic::select_system;
-		typedef typename thrust::iterator_system<Iterator>::type System;
+		using HYDRA_EXTERNAL_NS::thrust::system::detail::generic::select_system;
+		typedef typename HYDRA_EXTERNAL_NS::thrust::iterator_system<Iterator>::type System;
 		System system;
 
-		size_t nevents = thrust::distance(begin, end);
-		thrust::counting_iterator<GLong_t> first(0);
-		thrust::counting_iterator<GLong_t> last = first + nevents;
+		size_t nevents = HYDRA_EXTERNAL_NS::thrust::distance(begin, end);
+		HYDRA_EXTERNAL_NS::thrust::counting_iterator<GLong_t> first(0);
+		HYDRA_EXTERNAL_NS::thrust::counting_iterator<GLong_t> last = first + nevents;
 
 		StatsPHSP init = StatsPHSP();
 
-		StatsPHSP result = thrust::transform_reduce(select_system(system),
-				thrust::make_zip_iterator(first, begin),
-				thrust::make_zip_iterator(last, end),
+		StatsPHSP result = HYDRA_EXTERNAL_NS::thrust::transform_reduce(select_system(system),
+				HYDRA_EXTERNAL_NS::thrust::make_zip_iterator(first, begin),
+				HYDRA_EXTERNAL_NS::thrust::make_zip_iterator(last, end),
 				evaluator, init,detail::AddStatsPHSP() );
 
 		return result;
@@ -135,17 +135,17 @@ namespace detail {
     inline void launch_decayer(Iterator begin, Iterator end, DecayMother<N, GRND> const& decayer)
 	{
 
-		size_t nevents = thrust::distance(begin, end);
-		thrust::counting_iterator<GLong_t> first(0);
-		thrust::counting_iterator<GLong_t> last = first + nevents;
+		size_t nevents = HYDRA_EXTERNAL_NS::thrust::distance(begin, end);
+		HYDRA_EXTERNAL_NS::thrust::counting_iterator<GLong_t> first(0);
+		HYDRA_EXTERNAL_NS::thrust::counting_iterator<GLong_t> last = first + nevents;
 
-		auto begin_weights = thrust::get<0>(begin.get_iterator_tuple());
+		auto begin_weights = HYDRA_EXTERNAL_NS::thrust::get<0>(begin.get_iterator_tuple());
 
 		auto begin_temp = hydra::detail::dropFirst( begin.get_iterator_tuple() );
 
-		auto begin_particles = thrust::make_zip_iterator(begin_temp);
+		auto begin_particles = HYDRA_EXTERNAL_NS::thrust::make_zip_iterator(begin_temp);
 
-		thrust::transform(first, last, begin_particles, begin_weights, decayer);
+		HYDRA_EXTERNAL_NS::thrust::transform(first, last, begin_particles, begin_weights, decayer);
 
 		return;
 	}
@@ -156,17 +156,17 @@ namespace detail {
 			, IteratorDaughter begin_daugters, DecayMothers<N, GRND> const& decayer)
 	{
 
-		size_t nevents = thrust::distance(begin, end);
-		thrust::counting_iterator<GLong_t> first(0);
-		thrust::counting_iterator<GLong_t> last = first + nevents;
+		size_t nevents = HYDRA_EXTERNAL_NS::thrust::distance(begin, end);
+		HYDRA_EXTERNAL_NS::thrust::counting_iterator<GLong_t> first(0);
+		HYDRA_EXTERNAL_NS::thrust::counting_iterator<GLong_t> last = first + nevents;
 
-		auto begin_weights = thrust::get<0>(begin_daugters.get_iterator_tuple());
+		auto begin_weights = HYDRA_EXTERNAL_NS::thrust::get<0>(begin_daugters.get_iterator_tuple());
 
 		auto begin_temp = hydra::detail::changeFirst(  begin, begin_daugters.get_iterator_tuple() );
 
-		auto begin_particles = thrust::make_zip_iterator(begin_temp);
+		auto begin_particles = HYDRA_EXTERNAL_NS::thrust::make_zip_iterator(begin_temp);
 
-		thrust::transform(first, last, begin_particles, begin_weights, decayer);
+		HYDRA_EXTERNAL_NS::thrust::transform(first, last, begin_particles, begin_weights, decayer);
 
 		return;
 	}

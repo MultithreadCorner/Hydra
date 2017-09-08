@@ -28,15 +28,16 @@ endif()
 
 #options to gcc
 
-set(CMAKE_CXX_FLAGS " -DTHRUST_VARIADIC_TUPLE -g  -ftemplate-backtrace-limit=0 --std=c++11 -fPIC -W -march=native -fPIC -O4" CACHE STRING "compile flags" FORCE)
+set(CMAKE_CXX_FLAGS " -DTHRUST_VARIADIC_TUPLE  -ftemplate-backtrace-limit=0 --std=c++11 -W -march=native -fPIC -O4" CACHE STRING "compile flags" FORCE)
 
 # get TCLAP
 find_package(TCLAP REQUIRED)
 include_directories(${TCLAP_INCLUDE_DIR})
 
+
 # get THRUST
-find_package(Thrust 1.8.3 REQUIRED)
-include_directories(./thrust)
+#find_package(Thrust 1.8.3 REQUIRED)
+#include_directories(./thrust)
 
 # get ROOT
 find_package(ROOT)
@@ -156,8 +157,6 @@ Hydra_Test_Host_CPP_Device_OMP
 #+++++++++++++++++++++++++++
 #        EXAMPLES          +
 #+++++++++++++++++++++++++++
-
-#add_subdirectory(examples)
 add_custom_target(examples)
 
 add_subdirectory(examples/phase_space)

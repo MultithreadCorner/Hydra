@@ -22,7 +22,7 @@
 /*
  * strided_iterator.h
  *
- * original code: https://github.com/thrust/thrust/blob/master/examples/strided_range.cu
+ * original code: https://github.com/hydra/detail/external/thrust/hydra/detail/external/thrust/blob/master/examples/strided_range.cu
  *
  * Created on : Feb 25, 2016
  *      Author: Antonio Augusto Alves Junior
@@ -33,25 +33,25 @@
 #ifndef STRIDED_ITERATOR_H_
 #define STRIDED_ITERATOR_H_
 
-#include <thrust/iterator/counting_iterator.h>
-#include <thrust/iterator/transform_iterator.h>
-#include <thrust/iterator/permutation_iterator.h>
-#include <thrust/functional.h>
+#include <hydra/detail/external/thrust/iterator/counting_iterator.h>
+#include <hydra/detail/external/thrust/iterator/transform_iterator.h>
+#include <hydra/detail/external/thrust/iterator/permutation_iterator.h>
+#include <hydra/detail/external/thrust/functional.h>
 
 
 namespace hydra{
 /**
  * @ingroup generic
- * Strided range iterator original code: https://github.com/thrust/thrust/blob/master/examples/strided_range.cu
+ * Strided range iterator original code: https://github.com/hydra/detail/external/thrust/hydra/detail/external/thrust/blob/master/examples/strided_range.cu
  */
 template<typename Iterator>
 class strided_range
 {
 public:
 
-	typedef typename thrust::iterator_difference<Iterator>::type difference_type;
+	typedef typename HYDRA_EXTERNAL_NS::thrust::iterator_difference<Iterator>::type difference_type;
 
-	struct stride_functor: public thrust::unary_function<difference_type,
+	struct stride_functor: public HYDRA_EXTERNAL_NS::thrust::unary_function<difference_type,
 			difference_type>
 	{
 		difference_type stride;
@@ -68,9 +68,9 @@ public:
 		}
 	};
 
-	typedef typename thrust::counting_iterator<difference_type> CountingIterator;
-	typedef typename thrust::transform_iterator<stride_functor, CountingIterator> TransformIterator;
-	typedef typename thrust::permutation_iterator<Iterator, TransformIterator> PermutationIterator;
+	typedef typename HYDRA_EXTERNAL_NS::thrust::counting_iterator<difference_type> CountingIterator;
+	typedef typename HYDRA_EXTERNAL_NS::thrust::transform_iterator<stride_functor, CountingIterator> TransformIterator;
+	typedef typename HYDRA_EXTERNAL_NS::thrust::permutation_iterator<Iterator, TransformIterator> PermutationIterator;
 
 	/// type of the strided_range iterator
 	typedef PermutationIterator iterator;

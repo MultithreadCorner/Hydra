@@ -53,7 +53,7 @@ struct  Divide
 	typedef void hydra_functor_tag;
 	typedef   std::true_type is_functor;
 	typedef typename detail::divide_result<typename F1::return_type, typename F2::return_type>::type  return_type;
-	typedef typename thrust::tuple<F1, F2> functors_type;
+	typedef typename HYDRA_EXTERNAL_NS::thrust::tuple<F1, F2> functors_type;
 
 	__host__
 	Divide():
@@ -65,7 +65,7 @@ struct  Divide
 	Divide(F1 const& f1, F2 const& f2):
 	fIndex(-1),
 	fCached(0),
-	fFtorTuple(thrust::make_tuple(f1, f2))
+	fFtorTuple(HYDRA_EXTERNAL_NS::thrust::make_tuple(f1, f2))
 	{ }
 
 	__host__ __device__
@@ -128,7 +128,7 @@ struct  Divide
 	__host__ __device__ inline
 	return_type operator()(T1& t )
 	{
-		return thrust::get<0>(fFtorTuple)(t)/thrust::get<1>(fFtorTuple)(t);
+		return HYDRA_EXTERNAL_NS::thrust::get<0>(fFtorTuple)(t)/HYDRA_EXTERNAL_NS::thrust::get<1>(fFtorTuple)(t);
 	}
 
 	template<typename T1, typename T2>
@@ -136,7 +136,7 @@ struct  Divide
 	return_type operator()( T1& t, T2& cache)
 	{
 		return fCached ? detail::extract<return_type,T2>(fIndex, std::forward<T2&>(cache)):\
-				thrust::get<0>(fFtorTuple)(t,cache)/thrust::get<1>(fFtorTuple)(t,cache);
+				HYDRA_EXTERNAL_NS::thrust::get<0>(fFtorTuple)(t,cache)/HYDRA_EXTERNAL_NS::thrust::get<1>(fFtorTuple)(t,cache);
 	}
 
 private:
@@ -157,7 +157,7 @@ operator/(T1 const& F1, T2 const& F2)
 
 template <typename T1, typename T2,
 typename=typename std::enable_if< (std::is_convertible<T1, double>::value ||\
-		std::is_constructible<thrust::complex<double>,T1>::value) && T2::is_functor::value>::type >
+		std::is_constructible<HYDRA_EXTERNAL_NS::thrust::complex<double>,T1>::value) && T2::is_functor::value>::type >
 __host__  inline
 Divide<Constant<T1>, T2>
 operator/(T1 const cte, T2 const& F2){ return  Constant<T1>(cte)/F2; }
@@ -165,7 +165,7 @@ operator/(T1 const cte, T2 const& F2){ return  Constant<T1>(cte)/F2; }
 
 template <typename T1, typename T2,
 typename=typename std::enable_if< (std::is_convertible<T1, double>::value ||\
-		std::is_constructible<thrust::complex<double>,T1>::value) && T2::is_functor::value>::type >
+		std::is_constructible<HYDRA_EXTERNAL_NS::thrust::complex<double>,T1>::value) && T2::is_functor::value>::type >
 __host__  inline
 Divide<T2,Constant<T1> >
 operator/(T2 const& F2, T1 const cte ){	return  F2/Constant<T1>(cte); }

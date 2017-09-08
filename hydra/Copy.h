@@ -33,21 +33,21 @@
 #include <hydra/detail/Config.h>
 #include <hydra/detail/BackendPolicy.h>
 #include <hydra/Types.h>
-#include <thrust/copy.h>
+#include <hydra/detail/external/thrust/copy.h>
 
 namespace hydra {
 
 template<typename InputIterator, typename OutputIterator>
 OutputIterator copy(InputIterator first, InputIterator last, OutputIterator result)
 {
-	return thrust::copy(first, last, result);
+	return HYDRA_EXTERNAL_NS::thrust::copy(first, last, result);
 }
 
 template<detail::Backend Backend, typename InputIterator, typename OutputIterator>
 OutputIterator copy(hydra::detail::BackendPolicy<Backend> const& policy, InputIterator first,
 		InputIterator last, OutputIterator result)
 {
-	return thrust::copy( policy, first, last, result);
+	return HYDRA_EXTERNAL_NS::thrust::copy( policy, first, last, result);
 }
 
 }  // namespace hydra

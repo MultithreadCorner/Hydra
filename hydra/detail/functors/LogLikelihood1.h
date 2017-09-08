@@ -41,8 +41,8 @@
 #include <hydra/detail/utility/Utility_Tuple.h>
 #include <hydra/detail/TypeTraits.h>
 
-#include <thrust/tuple.h>
-#include <thrust/functional.h>
+#include <hydra/detail/external/thrust/tuple.h>
+#include <hydra/detail/external/thrust/functional.h>
 
 
 

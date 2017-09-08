@@ -42,14 +42,14 @@
 #include <hydra/GenericRange.h>
 
 //
-#include <thrust/copy.h>
-#include <thrust/random.h>
-#include <thrust/distance.h>
-#include <thrust/extrema.h>
-#include <thrust/functional.h>
-#include <thrust/iterator/iterator_traits.h>
-#include <thrust/system/detail/generic/select_system.h>
-#include <thrust/partition.h>
+#include <hydra/detail/external/thrust/copy.h>
+#include <hydra/detail/external/thrust/random.h>
+#include <hydra/detail/external/thrust/distance.h>
+#include <hydra/detail/external/thrust/extrema.h>
+#include <hydra/detail/external/thrust/functional.h>
+#include <hydra/detail/external/thrust/iterator/iterator_traits.h>
+#include <hydra/detail/external/thrust/system/detail/generic/select_system.h>
+#include <hydra/detail/external/thrust/partition.h>
 
 namespace hydra{
 
@@ -63,7 +63,7 @@ namespace hydra{
  * @tparam GRND underlying random number generator.
  *
  */
-template<typename GRND=thrust::random::default_random_engine>
+template<typename GRND=HYDRA_EXTERNAL_NS::thrust::random::default_random_engine>
 class Random{
 
 public:
@@ -90,11 +90,11 @@ public:
 	}
 
 	/**
-	 * \warning{ the implementation of thrust::random::normal_distribution
+	 * \warning{ the implementation of HYDRA_EXTERNAL_NS::thrust::random::normal_distribution
 	 * is different between nvcc and gcc. Do not expect the same
 	 * numbers event by event.
 	 * Possible: implement myself ? (que inferno! :0)
-	 * Refs: see in thrust/random/detail/normal_distribution_base.h
+	 * Refs: see in hydra/detail/external/thrust/random/detail/normal_distribution_base.h
 	 * ```
 	 * template<typename RealType>
 	 * struct normal_distribution_base

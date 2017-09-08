@@ -38,10 +38,10 @@
 #include <hydra/Parameter.h>
 
 //thrust
-#include <thrust/tuple.h>
-#include <thrust/detail/type_traits.h>
+#include <hydra/detail/external/thrust/tuple.h>
+#include <hydra/detail/external/thrust/detail/type_traits.h>
 
-#include <thrust/iterator/detail/tuple_of_iterator_references.h>
+#include <hydra/detail/external/thrust/iterator/detail/tuple_of_iterator_references.h>
 
 #include <type_traits>
 #include <array>
@@ -56,13 +56,13 @@ namespace hydra {
 	template <size_t N, typename T>
 	struct tuple_type {
 
-		typedef  decltype(thrust::tuple_cat(thrust::tuple<T>(),
+		typedef  decltype(HYDRA_EXTERNAL_NS::thrust::tuple_cat(HYDRA_EXTERNAL_NS::thrust::tuple<T>(),
 				typename tuple_type<N-1, T>::type())) type;
 	};
 
 	template <typename T>
 	struct tuple_type<0, T> {
-		typedef decltype(thrust::tuple<>()) type;
+		typedef decltype(HYDRA_EXTERNAL_NS::thrust::tuple<>()) type;
 	};
     */
 
@@ -85,19 +85,19 @@ namespace hydra {
 		__host__ __device__
 		GBool_t operator( )(Tuple1 t1, Tuple2 t2 )
 		{
-			return COM< typename thrust::tuple_element<N, Tuple1>::type>()(thrust::get<N>(t1) , thrust::get<N>(t2) );
+			return COM< typename HYDRA_EXTERNAL_NS::thrust::tuple_element<N, Tuple1>::type>()(HYDRA_EXTERNAL_NS::thrust::get<N>(t1) , HYDRA_EXTERNAL_NS::thrust::get<N>(t2) );
 		}
 
 	};
 
 	template <size_t N, typename T>
 	struct tuple_type {
-		typedef typename repeat<T, N, thrust::tuple>::type type;
+		typedef typename repeat<T, N, HYDRA_EXTERNAL_NS::thrust::tuple>::type type;
 	};
 
 	template <size_t N, typename T>
 	struct references_tuple_type {
-		typedef typename repeat<T, N, thrust::detail::tuple_of_iterator_references>::type type;
+		typedef typename repeat<T, N, HYDRA_EXTERNAL_NS::thrust::detail::tuple_of_iterator_references>::type type;
 	};
 
 
@@ -107,9 +107,9 @@ namespace hydra {
 	__host__ inline
 	auto get_zip_iterator_helper(std::array<Iterator, sizeof ...(Index)>const & array_of_iterators,
 			index_sequence<Index...>)
-	-> decltype( thrust::make_zip_iterator( thrust::make_tuple( array_of_iterators[Index]...)) )
+	-> decltype( HYDRA_EXTERNAL_NS::thrust::make_zip_iterator( HYDRA_EXTERNAL_NS::thrust::make_tuple( array_of_iterators[Index]...)) )
 	{
-		return thrust::make_zip_iterator( thrust::make_tuple( array_of_iterators[Index]...) );
+		return HYDRA_EXTERNAL_NS::thrust::make_zip_iterator( HYDRA_EXTERNAL_NS::thrust::make_tuple( array_of_iterators[Index]...) );
 	}
 
 
@@ -118,9 +118,9 @@ namespace hydra {
 	get_zip_iterator_helper(IteratorHead head,
 			std::array<IteratorTail, sizeof ...(Index)>const & array_of_iterators,
 			index_sequence<Index...>)
-	-> decltype( thrust::make_zip_iterator( thrust::make_tuple(head, array_of_iterators[Index]...)) )
+	-> decltype( HYDRA_EXTERNAL_NS::thrust::make_zip_iterator( HYDRA_EXTERNAL_NS::thrust::make_tuple(head, array_of_iterators[Index]...)) )
 	{
-		return thrust::make_zip_iterator(thrust::make_tuple(head , array_of_iterators[Index]...));
+		return HYDRA_EXTERNAL_NS::thrust::make_zip_iterator(HYDRA_EXTERNAL_NS::thrust::make_tuple(head , array_of_iterators[Index]...));
 	}
 
 	template<typename Iterator, size_t N>
@@ -143,13 +143,13 @@ namespace hydra {
 	//----------------------------------------
 	// make a tuple of references to a existing tuple
 	template<typename ...T, size_t... I>
-	auto make_rtuple_helper(thrust::tuple<T...>& t , index_sequence<I...>)
-	-> thrust::tuple<T&...>
-	{ return thrust::tie(thrust::get<I>(t)...) ;}
+	auto make_rtuple_helper(HYDRA_EXTERNAL_NS::thrust::tuple<T...>& t , index_sequence<I...>)
+	-> HYDRA_EXTERNAL_NS::thrust::tuple<T&...>
+	{ return HYDRA_EXTERNAL_NS::thrust::tie(HYDRA_EXTERNAL_NS::thrust::get<I>(t)...) ;}
 
 	template<typename ...T>
-	auto  make_rtuple( thrust::tuple<T...>& t )
-	-> thrust::tuple<T&...>
+	auto  make_rtuple( HYDRA_EXTERNAL_NS::thrust::tuple<T...>& t )
+	-> HYDRA_EXTERNAL_NS::thrust::tuple<T&...>
 	{
 		return make_rtuple_helper( t, make_index_sequence<sizeof...(T)> {});
 	}
@@ -158,24 +158,24 @@ namespace hydra {
 	// get a reference to a tuple object by index
 	template<typename R, typename T, size_t I>
 	__host__  __device__ inline
-	typename thrust::detail::enable_if<(I == thrust::tuple_size<T>::value), void>::type
+	typename HYDRA_EXTERNAL_NS::thrust::detail::enable_if<(I == HYDRA_EXTERNAL_NS::thrust::tuple_size<T>::value), void>::type
 	_get_element(const size_t index, T& t, R*& ptr )
 	{ }
 
 	template<typename R, typename T, size_t I=0>
 	__host__  __device__ inline
-	typename thrust::detail::enable_if<( I < thrust::tuple_size<T>::value), void>::type
+	typename HYDRA_EXTERNAL_NS::thrust::detail::enable_if<( I < HYDRA_EXTERNAL_NS::thrust::tuple_size<T>::value), void>::type
 	_get_element(const size_t index, T& t, R*& ptr )
 	{
 
-	    index==I ? ptr=&thrust::get<I>(t):0;
+	    index==I ? ptr=&HYDRA_EXTERNAL_NS::thrust::get<I>(t):0;
 
 	    _get_element<R,T,I+1>(index, t, ptr);
 	}
 
 	template<typename R, typename ...T>
 	__host__  __device__ inline
-	R& get_element(const size_t index, thrust::tuple<T...>& t)
+	R& get_element(const size_t index, HYDRA_EXTERNAL_NS::thrust::tuple<T...>& t)
 	{
 	    R* ptr;
 	    _get_element( index, t, ptr );
@@ -188,18 +188,18 @@ namespace hydra {
 	//----------------------------------------
 	template<typename ...T1, typename ...T2, size_t... I1, size_t... I2 >
 	__host__  __device__ inline
-	void split_tuple_helper(thrust::tuple<T1...> &t1, thrust::tuple<T2...> &t2,
-			thrust::tuple<T1..., T2...> const& t , index_sequence<I1...>, index_sequence<I2...>)
+	void split_tuple_helper(HYDRA_EXTERNAL_NS::thrust::tuple<T1...> &t1, HYDRA_EXTERNAL_NS::thrust::tuple<T2...> &t2,
+			HYDRA_EXTERNAL_NS::thrust::tuple<T1..., T2...> const& t , index_sequence<I1...>, index_sequence<I2...>)
 	{
-		t1 = thrust::tie( thrust::get<I1>(t)... );
-		t2 = thrust::tie( thrust::get<I2+ sizeof...(T1)>(t)... );
+		t1 = HYDRA_EXTERNAL_NS::thrust::tie( HYDRA_EXTERNAL_NS::thrust::get<I1>(t)... );
+		t2 = HYDRA_EXTERNAL_NS::thrust::tie( HYDRA_EXTERNAL_NS::thrust::get<I2+ sizeof...(T1)>(t)... );
 
 	}
 
 	template< typename ...T1,  typename ...T2>
 	__host__  __device__ inline
-	void split_tuple(thrust::tuple<T1...> &t1, thrust::tuple<T2...> &t2,
-			thrust::tuple<T1..., T2...> const& t)
+	void split_tuple(HYDRA_EXTERNAL_NS::thrust::tuple<T1...> &t1, HYDRA_EXTERNAL_NS::thrust::tuple<T2...> &t2,
+			HYDRA_EXTERNAL_NS::thrust::tuple<T1..., T2...> const& t)
 	{
 	    return split_tuple_helper(t1, t2, t ,
 	    		make_index_sequence<sizeof...(T1)>{},
@@ -209,18 +209,18 @@ namespace hydra {
 	//----------------------------------------
 	template<typename ...T, size_t... I1, size_t... I2 >
 	__host__  __device__ inline
-	auto split_tuple_helper(thrust::tuple<T...> &t, index_sequence<I1...>, index_sequence<I2...>)
-	-> decltype( thrust::make_pair(thrust::tie( thrust::get<I1>(t)... ), thrust::tie( thrust::get<I2+ + sizeof...(I1)>(t)... ) ) )
+	auto split_tuple_helper(HYDRA_EXTERNAL_NS::thrust::tuple<T...> &t, index_sequence<I1...>, index_sequence<I2...>)
+	-> decltype( HYDRA_EXTERNAL_NS::thrust::make_pair(HYDRA_EXTERNAL_NS::thrust::tie( HYDRA_EXTERNAL_NS::thrust::get<I1>(t)... ), HYDRA_EXTERNAL_NS::thrust::tie( HYDRA_EXTERNAL_NS::thrust::get<I2+ + sizeof...(I1)>(t)... ) ) )
 	{
-		auto t1 = thrust::tie( thrust::get<I1>(t)... );
-		auto t2 = thrust::tie( thrust::get<I2+ sizeof...(I1)>(t)... );
+		auto t1 = HYDRA_EXTERNAL_NS::thrust::tie( HYDRA_EXTERNAL_NS::thrust::get<I1>(t)... );
+		auto t2 = HYDRA_EXTERNAL_NS::thrust::tie( HYDRA_EXTERNAL_NS::thrust::get<I2+ sizeof...(I1)>(t)... );
 
-		return thrust::make_pair(t1, t2);
+		return HYDRA_EXTERNAL_NS::thrust::make_pair(t1, t2);
 	}
 
 	template< size_t N, typename ...T>
 	__host__  __device__ inline
-	auto split_tuple(thrust::tuple<T...>& t)
+	auto split_tuple(HYDRA_EXTERNAL_NS::thrust::tuple<T...>& t)
 	-> decltype( split_tuple_helper( t, make_index_sequence<N>{}, make_index_sequence<sizeof...(T)-N>{} ) )
 	{
 	    return split_tuple_helper( t, make_index_sequence<N>{}, make_index_sequence<sizeof...(T)-N>{} );
@@ -231,15 +231,15 @@ namespace hydra {
 	//----------------------------------------
 	template<typename Head,  typename ...Tail,  size_t... Is >
 	__host__ __device__
-	auto dropFirstHelper(thrust::tuple<Head, Tail...> const& t  , index_sequence<Is...> )
-	-> thrust::tuple<Tail...>
+	auto dropFirstHelper(HYDRA_EXTERNAL_NS::thrust::tuple<Head, Tail...> const& t  , index_sequence<Is...> )
+	-> HYDRA_EXTERNAL_NS::thrust::tuple<Tail...>
 	{
-		return thrust::tie( thrust::get<Is+1>(t)... );
+		return HYDRA_EXTERNAL_NS::thrust::tie( HYDRA_EXTERNAL_NS::thrust::get<Is+1>(t)... );
 	}
 
 	template< typename Head,  typename ...Tail>
 	__host__ __device__
-	auto dropFirst( thrust::tuple<Head, Tail...> const& t)
+	auto dropFirst( HYDRA_EXTERNAL_NS::thrust::tuple<Head, Tail...> const& t)
 	-> decltype(dropFirstHelper( t, make_index_sequence<sizeof...(Tail) >{} ))
 	{
 		return dropFirstHelper(t , make_index_sequence<sizeof ...(Tail)>{} );
@@ -247,14 +247,14 @@ namespace hydra {
 
 	//----------------------------------------
 	template<typename T, typename Head,  typename ...Tail,  size_t... Is >
-	auto changeFirstHelper(T& new_first, thrust::tuple<Head, Tail...>  const& t  , index_sequence<Is...> )
-	-> thrust::tuple<T,Tail...>
+	auto changeFirstHelper(T& new_first, HYDRA_EXTERNAL_NS::thrust::tuple<Head, Tail...>  const& t  , index_sequence<Is...> )
+	-> HYDRA_EXTERNAL_NS::thrust::tuple<T,Tail...>
 	{
-		return thrust::make_tuple(new_first, thrust::get<Is+1>(t)... );
+		return HYDRA_EXTERNAL_NS::thrust::make_tuple(new_first, HYDRA_EXTERNAL_NS::thrust::get<Is+1>(t)... );
 	}
 
 	template<typename T, typename Head,  typename ...Tail>
-	auto changeFirst(T& new_first, thrust::tuple<Head, Tail...>  const& t)
+	auto changeFirst(T& new_first, HYDRA_EXTERNAL_NS::thrust::tuple<Head, Tail...>  const& t)
 	-> decltype(changeFirstHelper(new_first, t , make_index_sequence<sizeof ...(Tail)>{} ))
 	{
 		return changeFirstHelper(new_first, t , make_index_sequence<sizeof ...(Tail)>{} );
@@ -265,9 +265,9 @@ namespace hydra {
 	//make a homogeneous tuple with same value in all elements
 	template <typename T,  size_t... Is >
 	auto make_tuple_helper(std::array<T, sizeof ...(Is)>& Array, index_sequence<Is...>)
-	-> decltype(thrust::make_tuple(Array[Is]...))
+	-> decltype(HYDRA_EXTERNAL_NS::thrust::make_tuple(Array[Is]...))
 	{
-		return thrust::make_tuple(Array[Is]...);
+		return HYDRA_EXTERNAL_NS::thrust::make_tuple(Array[Is]...);
 	}
 
 
@@ -287,9 +287,9 @@ namespace hydra {
 	// convert a std::array to tuple.
 	template <typename T,  size_t... Is>
 	auto arrayToTupleHelper(std::array<T, sizeof...(Is)>const & Array, index_sequence<Is...> )
-	-> decltype(thrust::make_tuple(Array[Is]...))
+	-> decltype(HYDRA_EXTERNAL_NS::thrust::make_tuple(Array[Is]...))
 	{
-		return thrust::make_tuple(Array[Is]...);
+		return HYDRA_EXTERNAL_NS::thrust::make_tuple(Array[Is]...);
 	}
 
 	template <typename T,  size_t N>
@@ -305,9 +305,9 @@ namespace hydra {
 	__host__  __device__
 	inline auto arrayToTupleHelper( T* Array,
 			index_sequence<Indices...>)
-	-> decltype(thrust::make_tuple(Array[Indices]...))
+	-> decltype(HYDRA_EXTERNAL_NS::thrust::make_tuple(Array[Indices]...))
 	{
-		return thrust::make_tuple(Array[Indices]...);
+		return HYDRA_EXTERNAL_NS::thrust::make_tuple(Array[Indices]...);
 	}
 
 	template <typename T, size_t N>
@@ -322,38 +322,38 @@ namespace hydra {
 	// set a generic array with tuple values
 	template<size_t I = 0,  typename ArrayType, typename FistType, typename ...OtherTypes>
 	__host__  __device__ inline
-	typename thrust::detail::enable_if<I == (sizeof...(OtherTypes) + 1) &&
+	typename HYDRA_EXTERNAL_NS::thrust::detail::enable_if<I == (sizeof...(OtherTypes) + 1) &&
 	 is_hydra_convertible_to_tuple<ArrayType>::value &&
 	are_all_same<FistType,OtherTypes...>::value, void>::type
-	assignArrayToTuple(thrust::tuple<FistType, OtherTypes...> &,  ArrayType (&Array)[sizeof...(OtherTypes)+1])
+	assignArrayToTuple(HYDRA_EXTERNAL_NS::thrust::tuple<FistType, OtherTypes...> &,  ArrayType (&Array)[sizeof...(OtherTypes)+1])
 	{}
 
 	template<size_t I = 0, typename ArrayType, typename FistType, typename ...OtherTypes>
 	__host__  __device__
-	inline typename thrust::detail::enable_if<(I < sizeof...(OtherTypes)+1) &&
+	inline typename HYDRA_EXTERNAL_NS::thrust::detail::enable_if<(I < sizeof...(OtherTypes)+1) &&
 	 is_hydra_convertible_to_tuple<ArrayType>::value &&
 	are_all_same<FistType,OtherTypes...>::value, void >::type
-	assignArrayToTuple(thrust::tuple<FistType, OtherTypes...> & t, ArrayType (&Array)[sizeof...(OtherTypes)+1] )
+	assignArrayToTuple(HYDRA_EXTERNAL_NS::thrust::tuple<FistType, OtherTypes...> & t, ArrayType (&Array)[sizeof...(OtherTypes)+1] )
 	{
-		thrust::get<I>(t) = (typename ArrayType::args_type) Array[I];
+		HYDRA_EXTERNAL_NS::thrust::get<I>(t) = (typename ArrayType::args_type) Array[I];
 		assignArrayToTuple<I + 1,ArrayType,FistType, OtherTypes... >( t, Array);
 	}
 
 	//---------------------------------------
 	// set a std::array with tuple values
 	 template<size_t I = 0, typename FistType, typename ...OtherTypes>
-	 inline typename thrust::detail::enable_if<I == (sizeof...(OtherTypes) + 1) &&
+	 inline typename HYDRA_EXTERNAL_NS::thrust::detail::enable_if<I == (sizeof...(OtherTypes) + 1) &&
 	              are_all_same<FistType,OtherTypes...>::value, void>::type
-	 tupleToArray(thrust::tuple<FistType, OtherTypes...> const&, std::array<FistType, sizeof...(OtherTypes) + 1>& Array)
+	 tupleToArray(HYDRA_EXTERNAL_NS::thrust::tuple<FistType, OtherTypes...> const&, std::array<FistType, sizeof...(OtherTypes) + 1>& Array)
 	 {}
 
 	 template<size_t I = 0, typename FistType, typename ...OtherTypes>
-	 inline typename thrust::detail::enable_if<(I < sizeof...(OtherTypes)+1) &&
+	 inline typename HYDRA_EXTERNAL_NS::thrust::detail::enable_if<(I < sizeof...(OtherTypes)+1) &&
 	 are_all_same<FistType,OtherTypes...>::value, void >::type
-	 tupleToArray(thrust::tuple<FistType, OtherTypes...> const& t, std::array<FistType, sizeof...(OtherTypes) + 1>& Array)
+	 tupleToArray(HYDRA_EXTERNAL_NS::thrust::tuple<FistType, OtherTypes...> const& t, std::array<FistType, sizeof...(OtherTypes) + 1>& Array)
 	 {
 
-		 Array[I] = thrust::get<I>(t);
+		 Array[I] = HYDRA_EXTERNAL_NS::thrust::get<I>(t);
 		 tupleToArray<I + 1,FistType, OtherTypes... >( t, Array);
 	 }
 
@@ -362,69 +362,69 @@ namespace hydra {
 	 // set a std::array with tuple values
 	 template<size_t I = 0, typename ArrayType, typename FistType, typename ...OtherTypes>
 	 __host__  __device__
-	 inline typename thrust::detail::enable_if<I == (sizeof...(OtherTypes) + 1) &&
+	 inline typename HYDRA_EXTERNAL_NS::thrust::detail::enable_if<I == (sizeof...(OtherTypes) + 1) &&
 	 is_hydra_convertible_to_tuple<ArrayType>::value &&
 	 are_all_same<FistType,OtherTypes...>::value, void>::type
-	 assignTupleToArray(thrust::tuple<FistType, OtherTypes...> const&,
+	 assignTupleToArray(HYDRA_EXTERNAL_NS::thrust::tuple<FistType, OtherTypes...> const&,
 			 ArrayType (&Array)[sizeof...(OtherTypes)+1])
 	 {}
 
 	 template<size_t I = 0, typename  ArrayType, typename FistType, typename ...OtherTypes>
 	 __host__  __device__
-	 inline typename thrust::detail::enable_if<(I < sizeof...(OtherTypes)+1) &&
+	 inline typename HYDRA_EXTERNAL_NS::thrust::detail::enable_if<(I < sizeof...(OtherTypes)+1) &&
 	 is_hydra_convertible_to_tuple<ArrayType>::value &&
 	 are_all_same<FistType,OtherTypes...>::value, void >::type
-	 assignTupleToArray(thrust::tuple<FistType, OtherTypes...> const& t,
+	 assignTupleToArray(HYDRA_EXTERNAL_NS::thrust::tuple<FistType, OtherTypes...> const& t,
 			 ArrayType (&Array)[sizeof...(OtherTypes)+1])
 	 {
 
-		 Array[I] = thrust::get<I>(t);
+		 Array[I] = HYDRA_EXTERNAL_NS::thrust::get<I>(t);
 		 assignTupleToArray<I + 1,ArrayType,FistType, OtherTypes... >( t, Array);
 	 }
 
 	 // set a std::array with tuple values
 	 template<size_t I = 0, typename ArrayType, typename FistType, typename ...OtherTypes>
 	 __host__  __device__
-	 inline typename thrust::detail::enable_if<I == (sizeof...(OtherTypes) + 1) &&
+	 inline typename HYDRA_EXTERNAL_NS::thrust::detail::enable_if<I == (sizeof...(OtherTypes) + 1) &&
 	 is_hydra_convertible_to_tuple<ArrayType>::value &&
 	 are_all_same<FistType,OtherTypes...>::value, void>::type
-	 assignTupleToArray(thrust::tuple<FistType&, OtherTypes&...> const&,
+	 assignTupleToArray(HYDRA_EXTERNAL_NS::thrust::tuple<FistType&, OtherTypes&...> const&,
 			 ArrayType (&Array)[sizeof...(OtherTypes)+1])
 	 {}
 
 	 template<size_t I = 0, typename  ArrayType, typename FistType, typename ...OtherTypes>
 	 __host__  __device__
-	 inline typename thrust::detail::enable_if<(I < sizeof...(OtherTypes)+1) &&
+	 inline typename HYDRA_EXTERNAL_NS::thrust::detail::enable_if<(I < sizeof...(OtherTypes)+1) &&
 	 is_hydra_convertible_to_tuple<ArrayType>::value &&
 	 are_all_same<FistType,OtherTypes...>::value, void >::type
-	 assignTupleToArray(thrust::tuple<FistType&, OtherTypes&...> const& t,
+	 assignTupleToArray(HYDRA_EXTERNAL_NS::thrust::tuple<FistType&, OtherTypes&...> const& t,
 			 ArrayType (&Array)[sizeof...(OtherTypes)+1])
 	 {
 
-		 Array[I] = thrust::get<I>(t);
+		 Array[I] = HYDRA_EXTERNAL_NS::thrust::get<I>(t);
 		 assignTupleToArray<I + 1,ArrayType,FistType, OtherTypes... >( t, Array);
 	 }
 
 	 // set a std::array with tuple values
 	 template<size_t I = 0, typename ArrayType, typename FistType, typename ...OtherTypes>
 	 __host__  __device__
-	 inline typename thrust::detail::enable_if<I == (sizeof...(OtherTypes) + 1) &&
+	 inline typename HYDRA_EXTERNAL_NS::thrust::detail::enable_if<I == (sizeof...(OtherTypes) + 1) &&
 	 is_hydra_convertible_to_tuple<ArrayType>::value &&
 	 are_all_same<FistType,OtherTypes...>::value, void>::type
-	 assignTupleToArray(thrust::detail::tuple_of_iterator_references<FistType, OtherTypes...> const&,
+	 assignTupleToArray(HYDRA_EXTERNAL_NS::thrust::detail::tuple_of_iterator_references<FistType, OtherTypes...> const&,
 			 ArrayType (&Array)[sizeof...(OtherTypes)+1])
 	 {}
 
 	 template<size_t I = 0, typename  ArrayType, typename FistType, typename ...OtherTypes>
 	 __host__  __device__
-	 inline typename thrust::detail::enable_if<(I < sizeof...(OtherTypes)+1) &&
+	 inline typename HYDRA_EXTERNAL_NS::thrust::detail::enable_if<(I < sizeof...(OtherTypes)+1) &&
 	 is_hydra_convertible_to_tuple<ArrayType>::value &&
 	 are_all_same<FistType,OtherTypes...>::value, void >::type
-	 assignTupleToArray(thrust::detail::tuple_of_iterator_references<FistType, OtherTypes...> const& t,
+	 assignTupleToArray(HYDRA_EXTERNAL_NS::thrust::detail::tuple_of_iterator_references<FistType, OtherTypes...> const& t,
 			 ArrayType (&Array)[sizeof...(OtherTypes)+1])
 	 {
 
-		 Array[I] = thrust::get<I>(t);
+		 Array[I] = HYDRA_EXTERNAL_NS::thrust::get<I>(t);
 		 assignTupleToArray<I + 1,ArrayType,FistType, OtherTypes... >( t, Array);
 	 }
 
@@ -432,19 +432,19 @@ namespace hydra {
 	 // set a generic array with tuple values
 	 template<size_t I = 0, typename FistType, typename ...OtherTypes>
 	 __host__  __device__
-	 inline typename thrust::detail::enable_if<I == (sizeof...(OtherTypes) + 1) &&
+	 inline typename HYDRA_EXTERNAL_NS::thrust::detail::enable_if<I == (sizeof...(OtherTypes) + 1) &&
 	              are_all_same<FistType,OtherTypes...>::value, void>::type
-	 tupleToArray(thrust::tuple<FistType, OtherTypes...> const &,  typename std::remove_reference<FistType>::type* Array)
+	 tupleToArray(HYDRA_EXTERNAL_NS::thrust::tuple<FistType, OtherTypes...> const &,  typename std::remove_reference<FistType>::type* Array)
 	 {}
 
 	 template<size_t I = 0, typename FistType, typename ...OtherTypes>
 	 __host__  __device__
-	 inline typename thrust::detail::enable_if<(I < sizeof...(OtherTypes)+1) &&
+	 inline typename HYDRA_EXTERNAL_NS::thrust::detail::enable_if<(I < sizeof...(OtherTypes)+1) &&
 	           are_all_same<FistType,OtherTypes...>::value, void >::type
-	 tupleToArray(thrust::tuple<FistType, OtherTypes...> const & t,  typename std::remove_reference<FistType>::type* Array)
+	 tupleToArray(HYDRA_EXTERNAL_NS::thrust::tuple<FistType, OtherTypes...> const & t,  typename std::remove_reference<FistType>::type* Array)
 	 {
 
-		 Array[I] = thrust::get<I>(t);
+		 Array[I] = HYDRA_EXTERNAL_NS::thrust::get<I>(t);
 		 tupleToArray<I + 1,FistType, OtherTypes... >( t, Array);
 	 }
 
@@ -453,36 +453,36 @@ namespace hydra {
 	 //----------------------------------------------------------
 	 template<typename A, typename Tp, size_t I>
 	 struct is_homogeneous_base:
-	 std::conditional<thrust::detail::is_same<
-	 typename thrust::detail::remove_const<
-	     typename thrust::detail::remove_reference<A>::type
+	 std::conditional<HYDRA_EXTERNAL_NS::thrust::detail::is_same<
+	 typename HYDRA_EXTERNAL_NS::thrust::detail::remove_const<
+	     typename HYDRA_EXTERNAL_NS::thrust::detail::remove_reference<A>::type
 	 >::type,
-	 typename thrust::detail::remove_const<
-	   typename thrust::detail::remove_reference<
-	      typename thrust::tuple_element<I-1, Tp>::type
+	 typename HYDRA_EXTERNAL_NS::thrust::detail::remove_const<
+	   typename HYDRA_EXTERNAL_NS::thrust::detail::remove_reference<
+	      typename HYDRA_EXTERNAL_NS::thrust::tuple_element<I-1, Tp>::type
 	   >::type
 	 >::type>::value, is_homogeneous_base<A, Tp, I-1>,
-	 thrust::detail::false_type>::type{ };
+	 HYDRA_EXTERNAL_NS::thrust::detail::false_type>::type{ };
 
 	 template<typename A, typename Tp>
-	 struct is_homogeneous_base<A, Tp, 0>: thrust::detail::true_type{ };
+	 struct is_homogeneous_base<A, Tp, 0>: HYDRA_EXTERNAL_NS::thrust::detail::true_type{ };
 
 	 template<typename A, typename Tuple>
-	 struct is_homogeneous:  is_homogeneous_base<A, Tuple, thrust::tuple_size<Tuple>::value > {};
+	 struct is_homogeneous:  is_homogeneous_base<A, Tuple, HYDRA_EXTERNAL_NS::thrust::tuple_size<Tuple>::value > {};
 
 	 // set array of pointers to point to the tuple elements
 	 template<size_t I= 0, typename Array_Type, typename T>
 	 __host__  __device__
-	 inline typename thrust::detail::enable_if<(I == thrust::tuple_size<T>::value) && is_homogeneous<Array_Type, T>::value, void>::type
+	 inline typename HYDRA_EXTERNAL_NS::thrust::detail::enable_if<(I == HYDRA_EXTERNAL_NS::thrust::tuple_size<T>::value) && is_homogeneous<Array_Type, T>::value, void>::type
 	 set_ptrs_to_tuple(T& t, Array_Type** )
 	 {}
 
 	 template<size_t I = 0, typename Array_Type, typename T>
 	 __host__  __device__
-	 inline typename thrust::detail::enable_if<(I < thrust::tuple_size<T>::value) && is_homogeneous<Array_Type, T>::value, void>::type
+	 inline typename HYDRA_EXTERNAL_NS::thrust::detail::enable_if<(I < HYDRA_EXTERNAL_NS::thrust::tuple_size<T>::value) && is_homogeneous<Array_Type, T>::value, void>::type
 	 set_ptrs_to_tuple(T& t, Array_Type** Array)
 	 {
-		 Array[I] =  &thrust::get<I>(t);
+		 Array[I] =  &HYDRA_EXTERNAL_NS::thrust::get<I>(t);
 		 set_ptrs_to_tuple<I + 1,Array_Type,T>(t, Array);
 	 }
 
@@ -491,19 +491,19 @@ namespace hydra {
 
 
      template<typename T1, typename  T2>
-     void ptr_setter( T1*& ptr, typename thrust::detail::enable_if<thrust::detail::is_same<T1,T2>::value, T2 >::type* el ){ ptr=el; }
+     void ptr_setter( T1*& ptr, typename HYDRA_EXTERNAL_NS::thrust::detail::enable_if<HYDRA_EXTERNAL_NS::thrust::detail::is_same<T1,T2>::value, T2 >::type* el ){ ptr=el; }
 
      template<typename T1, typename  T2>
-     void ptr_setter( T1*& ptr, typename thrust::detail::enable_if<!thrust::detail::is_same<T1,T2>::value, T2 >::type* el ){  }
+     void ptr_setter( T1*& ptr, typename HYDRA_EXTERNAL_NS::thrust::detail::enable_if<!HYDRA_EXTERNAL_NS::thrust::detail::is_same<T1,T2>::value, T2 >::type* el ){  }
 
 
      template<unsigned int I, typename Ptr, typename ...Tp>
-	 inline typename thrust::detail::enable_if<I == sizeof...(Tp), void>::type
+	 inline typename HYDRA_EXTERNAL_NS::thrust::detail::enable_if<I == sizeof...(Tp), void>::type
 	 set_ptr_to_tuple_element(const int, std::tuple<Tp...>&, Ptr*&)
 	 {	 }
 
 	 template<unsigned int I = 0, typename Ptr, typename ...Tp>
-	 inline typename thrust::detail::enable_if<(I < sizeof...(Tp)), void >::type
+	 inline typename HYDRA_EXTERNAL_NS::thrust::detail::enable_if<(I < sizeof...(Tp)), void >::type
 	 set_ptr_to_tuple_element(const  int index, std::tuple<Tp...> & t, Ptr*& ptr)
 	 {
 		 if(index == I ) ptr_setter<Ptr, typename std::tuple_element<I, std::tuple<Tp...>>::type>( ptr, &std::get<I>(t));
@@ -516,16 +516,16 @@ namespace hydra {
 	 //get a element of a given tuple by index. value is stored in x
 	 template<unsigned int I = 0, typename T, typename ...Tp>
 	 __host__  __device__
-	 inline typename thrust::detail::enable_if<I == sizeof...(Tp), void>::type
-	 get_tuple_element(const int, thrust::tuple<Tp...> const&, T& x)
+	 inline typename HYDRA_EXTERNAL_NS::thrust::detail::enable_if<I == sizeof...(Tp), void>::type
+	 get_tuple_element(const int, HYDRA_EXTERNAL_NS::thrust::tuple<Tp...> const&, T& x)
 	 {}
 
 	 template<unsigned int I = 0, typename T, typename ...Tp>
 	 __host__  __device__
-	 inline typename thrust::detail::enable_if<(I < sizeof...(Tp)), void >::type
-	 get_tuple_element(const  int index, thrust::tuple<Tp...> const& t, T& x)
+	 inline typename HYDRA_EXTERNAL_NS::thrust::detail::enable_if<(I < sizeof...(Tp)), void >::type
+	 get_tuple_element(const  int index, HYDRA_EXTERNAL_NS::thrust::tuple<Tp...> const& t, T& x)
 	 {
-		 if(index == I)x=T(  thrust::get<I>(t));
+		 if(index == I)x=T(  HYDRA_EXTERNAL_NS::thrust::get<I>(t));
 		 get_tuple_element<I + 1, T, Tp...>(index, t,x );
 	 }
 
@@ -534,16 +534,16 @@ namespace hydra {
 	 //set a element of a given tuple by index to value  x
 	 template<unsigned int I = 0, typename T, typename ...Tp>
 	 __host__  __device__
-	 inline typename thrust::detail::enable_if<I == sizeof...(Tp), void>::type
-	 set_tuple_element(const int, thrust::tuple<Tp...> const&, T& x)
+	 inline typename HYDRA_EXTERNAL_NS::thrust::detail::enable_if<I == sizeof...(Tp), void>::type
+	 set_tuple_element(const int, HYDRA_EXTERNAL_NS::thrust::tuple<Tp...> const&, T& x)
 	 {}
 
 	 template<unsigned int I = 0, typename T, typename ...Tp>
 	 __host__  __device__
-	 inline typename thrust::detail::enable_if<(I < sizeof...(Tp)), void >::type
-	 set_tuple_element(const  int index, thrust::tuple<Tp...>& t, const T& x)
+	 inline typename HYDRA_EXTERNAL_NS::thrust::detail::enable_if<(I < sizeof...(Tp)), void >::type
+	 set_tuple_element(const  int index, HYDRA_EXTERNAL_NS::thrust::tuple<Tp...>& t, const T& x)
 	 {
-		 if(index == I) thrust::get<I>(t)=x;
+		 if(index == I) HYDRA_EXTERNAL_NS::thrust::get<I>(t)=x;
 		 get_tuple_element<I + 1, T, Tp...>(index, t,x );
 	 }
 
@@ -552,16 +552,16 @@ namespace hydra {
 	 // a given tuple element
 	 template<unsigned int I = 0, typename FuncT, typename ...Tp>
 	 __host__  __device__
-	 inline typename thrust::detail::enable_if<I == sizeof...(Tp), void>::type
-	 eval_on_tuple_element(int, thrust::tuple<Tp...> const&, FuncT const&)
+	 inline typename HYDRA_EXTERNAL_NS::thrust::detail::enable_if<I == sizeof...(Tp), void>::type
+	 eval_on_tuple_element(int, HYDRA_EXTERNAL_NS::thrust::tuple<Tp...> const&, FuncT const&)
 	 {}
 
 	 template<unsigned int I = 0, typename FuncT, typename ...Tp>
 	 __host__  __device__
-	 inline typename thrust::detail::enable_if<(I < sizeof...(Tp)), void >::type
-	 eval_on_tuple_element(int index, thrust::tuple<Tp...> const& t, FuncT const& f)
+	 inline typename HYDRA_EXTERNAL_NS::thrust::detail::enable_if<(I < sizeof...(Tp)), void >::type
+	 eval_on_tuple_element(int index, HYDRA_EXTERNAL_NS::thrust::tuple<Tp...> const& t, FuncT const& f)
 	 {
-		 if (index == 0) std::forward<FuncT const>(f)(thrust::get<I>(t));
+		 if (index == 0) std::forward<FuncT const>(f)(HYDRA_EXTERNAL_NS::thrust::get<I>(t));
 		 eval_on_tuple_element<I + 1, FuncT, Tp...>(index-1, t, std::forward<FuncT const>(f));
 	 }
 
@@ -572,18 +572,18 @@ namespace hydra {
 	 //--------------------------------------
 	 template<size_t I = 0, typename Return_Type, typename ArgType, typename ... Tp>
 	 __host__  __device__
-	 inline typename thrust::detail::enable_if<I == sizeof...(Tp), void>::type
-	 eval_tuple_element(Return_Type&, int, thrust::tuple<Tp...> const&, ArgType const&)
+	 inline typename HYDRA_EXTERNAL_NS::thrust::detail::enable_if<I == sizeof...(Tp), void>::type
+	 eval_tuple_element(Return_Type&, int, HYDRA_EXTERNAL_NS::thrust::tuple<Tp...> const&, ArgType const&)
 	 {}
 
 	 template<size_t I = 0, typename Return_Type, typename ArgType, typename ... Tp>
 	 __host__  __device__
-	 inline typename thrust::detail::enable_if<(I < sizeof...(Tp)), void >::type
-	 eval_tuple_element(Return_Type& r, int index, thrust::tuple<Tp...> const& t, ArgType const& arg)
+	 inline typename HYDRA_EXTERNAL_NS::thrust::detail::enable_if<(I < sizeof...(Tp)), void >::type
+	 eval_tuple_element(Return_Type& r, int index, HYDRA_EXTERNAL_NS::thrust::tuple<Tp...> const& t, ArgType const& arg)
 	 {
 		 if (index == 0)
 		 {
-			 r = (Return_Type) thrust::get<I>(t)(std::forward<ArgType const>(arg));
+			 r = (Return_Type) HYDRA_EXTERNAL_NS::thrust::get<I>(t)(std::forward<ArgType const>(arg));
 			 return;
 		 }
 		 eval_tuple_element<I + 1, Return_Type,ArgType, Tp...>( r , index-1, t,arg );
@@ -596,31 +596,31 @@ namespace hydra {
 
 	 template<size_t I = 0, typename Return_Type, typename ArgType, typename ... Tp>
 	 __host__  __device__
-	 inline typename thrust::detail::enable_if<I == sizeof...(Tp), void>::type
-	 sum_tuple(Return_Type&, thrust::tuple<Tp...> const&, ArgType const&)
+	 inline typename HYDRA_EXTERNAL_NS::thrust::detail::enable_if<I == sizeof...(Tp), void>::type
+	 sum_tuple(Return_Type&, HYDRA_EXTERNAL_NS::thrust::tuple<Tp...> const&, ArgType const&)
 	 {}
 
 	 template<size_t I = 0, typename Return_Type, typename ArgType, typename ... Tp>
 	 __host__  __device__
-	 inline typename thrust::detail::enable_if<(I < sizeof...(Tp)), void >::type
-	 sum_tuple(Return_Type& r, thrust::tuple<Tp...>& t, ArgType& arg)
+	 inline typename HYDRA_EXTERNAL_NS::thrust::detail::enable_if<(I < sizeof...(Tp)), void >::type
+	 sum_tuple(Return_Type& r, HYDRA_EXTERNAL_NS::thrust::tuple<Tp...>& t, ArgType& arg)
 	 {
-		 r = r+ (Return_Type) thrust::get<I>(t)(std::forward<ArgType&>(arg));
+		 r = r+ (Return_Type) HYDRA_EXTERNAL_NS::thrust::get<I>(t)(std::forward<ArgType&>(arg));
 		 sum_tuple<I + 1, Return_Type, ArgType, Tp...>( r , t,arg );
 	 }
 
 	 template<size_t I = 0, typename Return_Type, typename ArgType1, typename ArgType2, typename ... Tp>
 	 __host__  __device__
-	 inline typename thrust::detail::enable_if<I == sizeof...(Tp), void>::type
-	 sum_tuple2(Return_Type&, thrust::tuple<Tp...>&, ArgType1&, ArgType2& )
+	 inline typename HYDRA_EXTERNAL_NS::thrust::detail::enable_if<I == sizeof...(Tp), void>::type
+	 sum_tuple2(Return_Type&, HYDRA_EXTERNAL_NS::thrust::tuple<Tp...>&, ArgType1&, ArgType2& )
 	 {}
 
 	 template<size_t I = 0, typename Return_Type, typename ArgType1, typename ArgType2, typename ... Tp>
 	 __host__  __device__
-	 inline typename thrust::detail::enable_if<(I < sizeof...(Tp)), void >::type
-	 sum_tuple2(Return_Type& r, thrust::tuple<Tp...>& t, ArgType1& arg1, ArgType2& arg2)
+	 inline typename HYDRA_EXTERNAL_NS::thrust::detail::enable_if<(I < sizeof...(Tp)), void >::type
+	 sum_tuple2(Return_Type& r, HYDRA_EXTERNAL_NS::thrust::tuple<Tp...>& t, ArgType1& arg1, ArgType2& arg2)
 	 {
-		 r = r + (Return_Type) thrust::get<I>(t)(std::forward<ArgType1&>(arg1), std::forward<ArgType2&>(arg2));
+		 r = r + (Return_Type) HYDRA_EXTERNAL_NS::thrust::get<I>(t)(std::forward<ArgType1&>(arg1), std::forward<ArgType2&>(arg2));
 		 sum_tuple2<I + 1, Return_Type, ArgType1, ArgType2, Tp...>( r , t,arg1, arg2);
 	 }
 
@@ -632,46 +632,46 @@ namespace hydra {
 
 	 template<size_t I = 0, typename Return_Type, typename ArgType, typename ... Tp>
 	 __host__  __device__
-	 inline typename thrust::detail::enable_if<I == sizeof...(Tp), void>::type
-	 product_tuple(Return_Type&, thrust::tuple<Tp...>&, ArgType&)
+	 inline typename HYDRA_EXTERNAL_NS::thrust::detail::enable_if<I == sizeof...(Tp), void>::type
+	 product_tuple(Return_Type&, HYDRA_EXTERNAL_NS::thrust::tuple<Tp...>&, ArgType&)
 	 {}
 
 	 template<size_t I = 0, typename Return_Type, typename ArgType, typename ... Tp>
 	 __host__  __device__
-	 inline typename thrust::detail::enable_if<(I < sizeof...(Tp)),void >::type
-	 product_tuple(Return_Type& r, thrust::tuple<Tp...>& t, ArgType& arg)
+	 inline typename HYDRA_EXTERNAL_NS::thrust::detail::enable_if<(I < sizeof...(Tp)),void >::type
+	 product_tuple(Return_Type& r, HYDRA_EXTERNAL_NS::thrust::tuple<Tp...>& t, ArgType& arg)
 	 {
-		 r = r*( (Return_Type) thrust::get<I>(t)(std::forward<ArgType&>(arg)));
+		 r = r*( (Return_Type) HYDRA_EXTERNAL_NS::thrust::get<I>(t)(std::forward<ArgType&>(arg)));
 		 product_tuple<I + 1, Return_Type, ArgType, Tp...>( r , t,arg );
 	 }
 
 	 template<size_t I = 0, typename Return_Type, typename ArgType1, typename ArgType2, typename ... Tp>
 	 __host__  __device__
-	 inline typename thrust::detail::enable_if<I == sizeof...(Tp), void>::type
-	 product_tuple2(Return_Type&, thrust::tuple<Tp...> const&, ArgType1 const&, ArgType2 const&)
+	 inline typename HYDRA_EXTERNAL_NS::thrust::detail::enable_if<I == sizeof...(Tp), void>::type
+	 product_tuple2(Return_Type&, HYDRA_EXTERNAL_NS::thrust::tuple<Tp...> const&, ArgType1 const&, ArgType2 const&)
 	 {}
 
 	 template<size_t I = 0, typename Return_Type, typename ArgType1, typename ArgType2,  typename ... Tp>
 	 __host__  __device__
-	 inline typename thrust::detail::enable_if<(I < (sizeof...(Tp))),void >::type
-	 product_tuple2(Return_Type& r, thrust::tuple<Tp...> const& t, ArgType1 const& arg1, ArgType2 const& arg2)
+	 inline typename HYDRA_EXTERNAL_NS::thrust::detail::enable_if<(I < (sizeof...(Tp))),void >::type
+	 product_tuple2(Return_Type& r, HYDRA_EXTERNAL_NS::thrust::tuple<Tp...> const& t, ArgType1 const& arg1, ArgType2 const& arg2)
 	 {
-		 r = r*((Return_Type) thrust::get<I>(t)(std::forward<ArgType1&>(arg1), std::forward<ArgType2&>(arg2)));
+		 r = r*((Return_Type) HYDRA_EXTERNAL_NS::thrust::get<I>(t)(std::forward<ArgType1&>(arg1), std::forward<ArgType2&>(arg2)));
 		 product_tuple2<I + 1, Return_Type, ArgType1, ArgType2,  Tp...>( r , t,arg1, arg2 );
 	 }
 
 	 template<size_t I = 0, size_t N,typename Return_Type, typename ArgType1, typename ArgType2, typename ... Tp>
 	 __host__  __device__
-	 inline typename thrust::detail::enable_if<I == N, void>::type
-	 product_tuple3(Return_Type&, thrust::tuple<Tp...>&, ArgType1&, ArgType2&)
+	 inline typename HYDRA_EXTERNAL_NS::thrust::detail::enable_if<I == N, void>::type
+	 product_tuple3(Return_Type&, HYDRA_EXTERNAL_NS::thrust::tuple<Tp...>&, ArgType1&, ArgType2&)
 	 {}
 
 	 template<size_t I = 0,size_t N, typename Return_Type, typename ArgType1, typename ArgType2,  typename ... Tp>
 	 __host__  __device__
-	 inline typename thrust::detail::enable_if<(I < N),void >::type
-	 product_tuple3(Return_Type& r, thrust::tuple<Tp...>& t, ArgType1& arg1, ArgType2& arg2)
+	 inline typename HYDRA_EXTERNAL_NS::thrust::detail::enable_if<(I < N),void >::type
+	 product_tuple3(Return_Type& r, HYDRA_EXTERNAL_NS::thrust::tuple<Tp...>& t, ArgType1& arg1, ArgType2& arg2)
 	 {
-		 r = r*((Return_Type) thrust::get<I>(t)(std::forward<ArgType1&>(arg1), std::forward<ArgType2&>(arg2)));
+		 r = r*((Return_Type) HYDRA_EXTERNAL_NS::thrust::get<I>(t)(std::forward<ArgType1&>(arg1), std::forward<ArgType2&>(arg2)));
 		 product_tuple3<I + 1,N, Return_Type, ArgType1, ArgType2,  Tp...>( r , t,arg1, arg2 );
 	 }
 
@@ -680,17 +680,17 @@ namespace hydra {
 	 template< typename Tup, typename ArgType, size_t ... index>
 	 __host__ __device__
 	 inline auto invoke_helper(size_t n, ArgType* x, Tup& tup, index_sequence<index...>)
-	 -> decltype(thrust::make_tuple(thrust::get<index>(tup)(n,x)...))
+	 -> decltype(HYDRA_EXTERNAL_NS::thrust::make_tuple(HYDRA_EXTERNAL_NS::thrust::get<index>(tup)(n,x)...))
 	 {
-		 return thrust::make_tuple(thrust::get<index>(tup)(n,x)...);
+		 return HYDRA_EXTERNAL_NS::thrust::make_tuple(HYDRA_EXTERNAL_NS::thrust::get<index>(tup)(n,x)...);
 	 }
 
 	 template< typename Tup, typename ArgType>
 	 __host__  __device__
 	 inline auto invoke(size_t n, ArgType* x, Tup& tup)
-	 -> decltype(invoke_helper2(n, x, tup, make_index_sequence< thrust::tuple_size<Tup>::value> { }))
+	 -> decltype(invoke_helper2(n, x, tup, make_index_sequence< HYDRA_EXTERNAL_NS::thrust::tuple_size<Tup>::value> { }))
 	 {
-		 constexpr size_t Size = thrust::tuple_size<Tup>::value;
+		 constexpr size_t Size = HYDRA_EXTERNAL_NS::thrust::tuple_size<Tup>::value;
 		 return invoke_helper2(n, x, tup, make_index_sequence<Size> { });
 	 }
 */
@@ -699,18 +699,18 @@ namespace hydra {
 	 template< typename Tup, typename ArgType, size_t ... index>
 	 __host__ __device__
 	 inline auto invoke_helper( ArgType& x, Tup& tup, index_sequence<index...>)
-	 -> decltype(thrust::make_tuple(thrust::get<index>(tup)(x)...))
+	 -> decltype(HYDRA_EXTERNAL_NS::thrust::make_tuple(HYDRA_EXTERNAL_NS::thrust::get<index>(tup)(x)...))
 	 {
-		 return thrust::make_tuple(thrust::get<index>(tup)(x)...);
+		 return HYDRA_EXTERNAL_NS::thrust::make_tuple(HYDRA_EXTERNAL_NS::thrust::get<index>(tup)(x)...);
 	 }
 
 	 __hydra_exec_check_disable__
 	 template< typename Tup, typename ArgType>
 	 __host__  __device__
 	 inline auto invoke(ArgType& x, Tup& tup)
-	 -> decltype(invoke_helper(x, tup, make_index_sequence< thrust::tuple_size<Tup>::value> { }))
+	 -> decltype(invoke_helper(x, tup, make_index_sequence< HYDRA_EXTERNAL_NS::thrust::tuple_size<Tup>::value> { }))
 	 {
-		 constexpr size_t Size = thrust::tuple_size<Tup>::value;
+		 constexpr size_t Size = HYDRA_EXTERNAL_NS::thrust::tuple_size<Tup>::value;
 		 return invoke_helper( x, tup, make_index_sequence<Size> { });
 	 }
 
@@ -719,18 +719,18 @@ namespace hydra {
 	 template<typename Tup, typename ArgType1, typename ArgType2, size_t ... index>
 	 __host__ __device__
 	 inline auto invoke_helper( ArgType1& x, ArgType2& y, Tup& tup, index_sequence<index...>)
-	 -> decltype( thrust::make_tuple(thrust::get<index>(tup)(x,y)...) )
+	 -> decltype( HYDRA_EXTERNAL_NS::thrust::make_tuple(HYDRA_EXTERNAL_NS::thrust::get<index>(tup)(x,y)...) )
 	 {
-		 return  thrust::make_tuple(thrust::get<index>(tup)(x,y)...);
+		 return  HYDRA_EXTERNAL_NS::thrust::make_tuple(HYDRA_EXTERNAL_NS::thrust::get<index>(tup)(x,y)...);
 	 }
 
 	 __hydra_exec_check_disable__
 	 template< typename Tup, typename ArgType1, typename ArgType2>
 	 __host__  __device__
 	 inline auto invoke(ArgType1& x, ArgType2& y,  Tup& tup)
-	 -> decltype(invoke_helper( x, y, tup, make_index_sequence< thrust::tuple_size<Tup>::value> { }) )
+	 -> decltype(invoke_helper( x, y, tup, make_index_sequence< HYDRA_EXTERNAL_NS::thrust::tuple_size<Tup>::value> { }) )
 	 {
-		 constexpr size_t Size = thrust::tuple_size<Tup>::value;
+		 constexpr size_t Size = HYDRA_EXTERNAL_NS::thrust::tuple_size<Tup>::value;
 		 return invoke_helper( x, y, tup, make_index_sequence<Size> { });
 	 }
 
@@ -738,47 +738,47 @@ namespace hydra {
 	 // set functors in tuple
 	 template<size_t I = 0, typename ... Tp>
 	 __host__
-	 inline typename thrust::detail::enable_if<I == sizeof...(Tp), void>::type
-	 set_functors_in_tuple(thrust::tuple<Tp...>&, const std::vector<double>& parameters)
+	 inline typename HYDRA_EXTERNAL_NS::thrust::detail::enable_if<I == sizeof...(Tp), void>::type
+	 set_functors_in_tuple(HYDRA_EXTERNAL_NS::thrust::tuple<Tp...>&, const std::vector<double>& parameters)
 	 {}
 
 	 template<size_t I = 0, typename ... Tp>
 	 __host__
-	 inline typename thrust::detail::enable_if<(I < sizeof...(Tp)),void >::type
-	 set_functors_in_tuple(thrust::tuple<Tp...>& t,  const std::vector<double>& parameters)
+	 inline typename HYDRA_EXTERNAL_NS::thrust::detail::enable_if<(I < sizeof...(Tp)),void >::type
+	 set_functors_in_tuple(HYDRA_EXTERNAL_NS::thrust::tuple<Tp...>& t,  const std::vector<double>& parameters)
 	 {
-		 thrust::get<I>(t).SetParameters(parameters);
+		 HYDRA_EXTERNAL_NS::thrust::get<I>(t).SetParameters(parameters);
 		 set_functors_in_tuple<I + 1,Tp...>( t, parameters );
 	 }
 
 
 	 template<size_t I = 0, typename ... Tp>
 	 __host__
-	 inline typename thrust::detail::enable_if<I == sizeof...(Tp), void>::type
-	 print_parameters_in_tuple(thrust::tuple<Tp...>&)
+	 inline typename HYDRA_EXTERNAL_NS::thrust::detail::enable_if<I == sizeof...(Tp), void>::type
+	 print_parameters_in_tuple(HYDRA_EXTERNAL_NS::thrust::tuple<Tp...>&)
 	 {}
 
 	 template<size_t I = 0, typename ... Tp>
 	 __host__
-	 inline typename thrust::detail::enable_if<(I < sizeof...(Tp)),void >::type
-	 print_parameters_in_tuple(thrust::tuple<Tp...>& t)
+	 inline typename HYDRA_EXTERNAL_NS::thrust::detail::enable_if<(I < sizeof...(Tp)),void >::type
+	 print_parameters_in_tuple(HYDRA_EXTERNAL_NS::thrust::tuple<Tp...>& t)
 	 {
-		 thrust::get<I>(t).PrintRegisteredParameters();
+		 HYDRA_EXTERNAL_NS::thrust::get<I>(t).PrintRegisteredParameters();
 		 print_parameters_in_tuple<I + 1,Tp...>(t);
 	 }
 
 	 template<size_t I=0, typename ... Tp>
 	 __host__
-	 inline typename thrust::detail::enable_if<I == sizeof...(Tp), void>::type
-	 add_parameters_in_tuple(std::vector<hydra::Parameter*>& user_parameters, thrust::tuple<Tp...>&)
+	 inline typename HYDRA_EXTERNAL_NS::thrust::detail::enable_if<I == sizeof...(Tp), void>::type
+	 add_parameters_in_tuple(std::vector<hydra::Parameter*>& user_parameters, HYDRA_EXTERNAL_NS::thrust::tuple<Tp...>&)
 	 {}
 
 	 template<size_t I = 0, typename ... Tp>
 	 __host__
-	 inline typename thrust::detail::enable_if<(I < sizeof...(Tp)),void >::type
-	 add_parameters_in_tuple(std::vector<hydra::Parameter*>& user_parameters, thrust::tuple<Tp...>& t)
+	 inline typename HYDRA_EXTERNAL_NS::thrust::detail::enable_if<(I < sizeof...(Tp)),void >::type
+	 add_parameters_in_tuple(std::vector<hydra::Parameter*>& user_parameters, HYDRA_EXTERNAL_NS::thrust::tuple<Tp...>& t)
 	 {
-		 thrust::get<I>(t).AddUserParameters(user_parameters);
+		 HYDRA_EXTERNAL_NS::thrust::get<I>(t).AddUserParameters(user_parameters);
 		 add_parameters_in_tuple<I + 1,Tp...>(user_parameters,t);
 	 }
 
@@ -798,9 +798,9 @@ namespace hydra {
 
 	 //accumulate by sum
 	 template<typename Return_Type, typename ArgType, typename ... Tp,
-	 typename=typename thrust::detail::enable_if<std::is_convertible<Return_Type, double>::value || std::is_constructible<thrust::complex<double>,Return_Type>::value >::type >
+	 typename=typename HYDRA_EXTERNAL_NS::thrust::detail::enable_if<std::is_convertible<Return_Type, double>::value || std::is_constructible<HYDRA_EXTERNAL_NS::thrust::complex<double>,Return_Type>::value >::type >
 	 __host__  __device__
-	 inline Return_Type accumulate(ArgType& x, thrust::tuple<Tp...>& t)
+	 inline Return_Type accumulate(ArgType& x, HYDRA_EXTERNAL_NS::thrust::tuple<Tp...>& t)
 	 {
 		 Return_Type r=TypeTraits<Return_Type>::zero();
 		 sum_tuple(r, t, x);
@@ -808,9 +808,9 @@ namespace hydra {
 	 }
 
 	 template<typename Return_Type, typename ArgType1, typename ArgType2,
-	 typename ... Tp, typename=typename thrust::detail::enable_if<std::is_convertible<Return_Type, double>::value || std::is_constructible<thrust::complex<double>,Return_Type>::value>::type>
+	 typename ... Tp, typename=typename HYDRA_EXTERNAL_NS::thrust::detail::enable_if<std::is_convertible<Return_Type, double>::value || std::is_constructible<HYDRA_EXTERNAL_NS::thrust::complex<double>,Return_Type>::value>::type>
 	 __host__  __device__
-	 inline Return_Type accumulate2(ArgType1& x, ArgType2& y, thrust::tuple<Tp...>& t)
+	 inline Return_Type accumulate2(ArgType1& x, ArgType2& y, HYDRA_EXTERNAL_NS::thrust::tuple<Tp...>& t)
 	 {
 		 Return_Type r=TypeTraits<Return_Type>::zero();
 		 sum_tuple2(r, t, x, y);
@@ -819,9 +819,9 @@ namespace hydra {
 
 	 //accumulate by product
 	 template<typename Return_Type, typename ArgType, typename ... Tp,
-	 typename=typename thrust::detail::enable_if<std::is_convertible<Return_Type, double>::value || std::is_constructible<thrust::complex<double>,Return_Type>::value >::type>
+	 typename=typename HYDRA_EXTERNAL_NS::thrust::detail::enable_if<std::is_convertible<Return_Type, double>::value || std::is_constructible<HYDRA_EXTERNAL_NS::thrust::complex<double>,Return_Type>::value >::type>
 	 __host__  __device__
-	 inline Return_Type product(ArgType const& x, thrust::tuple<Tp...> const& t)
+	 inline Return_Type product(ArgType const& x, HYDRA_EXTERNAL_NS::thrust::tuple<Tp...> const& t)
 	 {
 		 Return_Type r=TypeTraits<Return_Type>::one();
 		 product_tuple(r, t, x);
@@ -829,12 +829,12 @@ namespace hydra {
 	 }
 
 	 template<typename Return_Type, typename ArgType1,typename ArgType2, typename ... Tp,
-	 typename=typename thrust::detail::enable_if<std::is_convertible<Return_Type, double>::value || std::is_constructible<thrust::complex<double>,Return_Type>::value >::type>
+	 typename=typename HYDRA_EXTERNAL_NS::thrust::detail::enable_if<std::is_convertible<Return_Type, double>::value || std::is_constructible<HYDRA_EXTERNAL_NS::thrust::complex<double>,Return_Type>::value >::type>
 	 __host__  __device__
-	 inline Return_Type product2(ArgType1& x, ArgType2& y, thrust::tuple<Tp...>& t)
+	 inline Return_Type product2(ArgType1& x, ArgType2& y, HYDRA_EXTERNAL_NS::thrust::tuple<Tp...>& t)
 	 {
 		 Return_Type r=TypeTraits<Return_Type>::one();
-		 constexpr size_t N=thrust::tuple_size< thrust::tuple<Tp...>>::value;
+		 constexpr size_t N=HYDRA_EXTERNAL_NS::thrust::tuple_size< HYDRA_EXTERNAL_NS::thrust::tuple<Tp...>>::value;
 		 product_tuple3<0,N,Return_Type,ArgType1, ArgType2,Tp...>(r, t, x, y);
 		 return r;
 	 }

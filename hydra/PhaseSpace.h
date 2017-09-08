@@ -59,13 +59,13 @@
 
 #include <hydra/detail/launch_decayers.inl>
 
-#include <thrust/iterator/zip_iterator.h>
-#include <thrust/iterator/counting_iterator.h>
-#include <thrust/tuple.h>
-#include <thrust/extrema.h>
-#include <thrust/random.h>
-#include <thrust/distance.h>
-#include <thrust/equal.h>
+#include <hydra/detail/external/thrust/iterator/zip_iterator.h>
+#include <hydra/detail/external/thrust/iterator/counting_iterator.h>
+#include <hydra/detail/external/thrust/tuple.h>
+#include <hydra/detail/external/thrust/extrema.h>
+#include <hydra/detail/external/thrust/random.h>
+#include <hydra/detail/external/thrust/distance.h>
+#include <hydra/detail/external/thrust/equal.h>
 
 namespace hydra {
 
@@ -80,9 +80,9 @@ namespace hydra {
  * Note that Momentum, Energy units are @f$GeV/C@f$ , @f$GeV/C^2@f$ .
  *
  *@tparam N is the number of particles in final state.
- *@tparam GRND underlying random number generator. See the options in thrust::random namespace.
+ *@tparam GRND underlying random number generator. See the options in HYDRA_EXTERNAL_NS::thrust::random namespace.
  */
-template <size_t N, typename GRND=thrust::random::default_random_engine>
+template <size_t N, typename GRND=HYDRA_EXTERNAL_NS::thrust::random::default_random_engine>
 class PhaseSpace {
 
 public:

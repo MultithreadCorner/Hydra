@@ -39,9 +39,9 @@
 #include <hydra/Tuple.h>
 
 //thrust
-#include <thrust/distance.h>
-#include <thrust/copy.h>
-#include <thrust/transform.h>
+#include <hydra/detail/external/thrust/distance.h>
+#include <hydra/detail/external/thrust/copy.h>
+#include <hydra/detail/external/thrust/transform.h>
 //std
 #include <utility>
 
@@ -102,8 +102,8 @@ public:
 	template< typename Iterator>
 	Cache(Iterator first, Iterator last, Functors&... functors)
 	{
-		fData.resize(thrust::distance(first, last));
-		thrust::transform( first, last,
+		fData.resize(HYDRA_EXTERNAL_NS::thrust::distance(first, last));
+		HYDRA_EXTERNAL_NS::thrust::transform( first, last,
 				fData.begin(), detail::CacheEvaluator(functors...) );
 	}
 
@@ -118,8 +118,8 @@ public:
 	template< hydra::detail::Backend BACKEND2>
 	Cache(Cache<hydra::detail::BackendPolicy<BACKEND2>,Functors...> const& other)
 	{
-		fData.resize(thrust::distance(other.begin(), other.end()));
-		thrust::copy(other.begin(), other.end(), this->begin());
+		fData.resize(HYDRA_EXTERNAL_NS::thrust::distance(other.begin(), other.end()));
+		HYDRA_EXTERNAL_NS::thrust::copy(other.begin(), other.end(), this->begin());
 	}
 
 	Cache<hydra::detail::BackendPolicy<BACKEND>,Functors...>&
@@ -143,8 +143,8 @@ public:
 	operator=(Cache<hydra::detail::BackendPolicy<BACKEND2>,Functors...> const& other)
 	{
 		if(this==&other) return *this;
-		fData.resize(thrust::distance(other.begin(), other.end()));
-		thrust::copy(other.begin(), other.end(), this->begin());
+		fData.resize(HYDRA_EXTERNAL_NS::thrust::distance(other.begin(), other.end()));
+		HYDRA_EXTERNAL_NS::thrust::copy(other.begin(), other.end(), this->begin());
 		return *this;
 	}
 

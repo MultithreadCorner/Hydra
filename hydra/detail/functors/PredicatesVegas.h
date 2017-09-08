@@ -32,9 +32,9 @@
 #include <hydra/detail/Config.h>
 #include <hydra/Types.h>
 #include <hydra/detail/utility/Utility_Tuple.h>
-#include <thrust/tuple.h>
-#include <thrust/functional.h>
-#include <thrust/random.h>
+#include <hydra/detail/external/thrust/tuple.h>
+#include <hydra/detail/external/thrust/functional.h>
+#include <hydra/detail/external/thrust/random.h>
 
 #if THRUST_DEVICE_SYSTEM==THRUST_DEVICE_SYSTEM_CUDA
 #include <curand_kernel.h>
@@ -45,7 +45,7 @@ namespace hydra{
 
 namespace detail {
 
-template<typename FUNCTOR, size_t NDimensions, typename Precision, typename GRND=thrust::random::default_random_engine>
+template<typename FUNCTOR, size_t NDimensions, typename Precision, typename GRND=HYDRA_EXTERNAL_NS::thrust::random::default_random_engine>
 struct ProcessCallsVegas
 {
 	ProcessCallsVegas( size_t NBins,
@@ -226,7 +226,7 @@ private:
 #endif
 
    GRND fRandonEngine;
-   thrust::uniform_real_distribution<GReal_t> fUniformDistribution;
+   HYDRA_EXTERNAL_NS::thrust::uniform_real_distribution<GReal_t> fUniformDistribution;
 
 	size_t  fNBins;
 	size_t  fNBoxes;

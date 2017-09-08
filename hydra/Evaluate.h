@@ -41,7 +41,7 @@
 #include <hydra/Containers.h>
 #include <hydra/Function.h>
 #include <hydra/detail/utility/Utility_Tuple.h>
-#include <thrust/tuple.h>
+#include <hydra/detail/external/thrust/tuple.h>
 #include <hydra/detail/Evaluate.inc>
 #include <hydra/multivector.h>
 
@@ -76,9 +76,9 @@ auto eval(hydra::detail::BackendPolicy<BACKEND>const& policy, Functor const& fun
  * @return a multivectors with the results
  */
 template<hydra::detail::Backend BACKEND, typename Iterator, typename ...Functors>
-auto eval(hydra::detail::BackendPolicy<BACKEND>const&  policy,thrust::tuple<Functors...> const& functors, Iterator begin, Iterator end)
+auto eval(hydra::detail::BackendPolicy<BACKEND>const&  policy,HYDRA_EXTERNAL_NS::thrust::tuple<Functors...> const& functors, Iterator begin, Iterator end)
 -> multivector< typename hydra::detail::BackendPolicy<BACKEND>::template
-container<thrust::tuple<typename Functors::return_type ...> >>;
+container<HYDRA_EXTERNAL_NS::thrust::tuple<typename Functors::return_type ...> >>;
 
 
 /**
@@ -108,9 +108,9 @@ auto eval(hydra::detail::BackendPolicy<BACKEND>const&  policy,Functor const& fun
  * @return a multivectors with the results
  */
 template<hydra::detail::Backend BACKEND, typename Iterator,  typename ...Iterators, typename ...Functors>
-auto eval(hydra::detail::BackendPolicy<BACKEND>const&  policy, thrust::tuple<Functors...> const& functors,
+auto eval(hydra::detail::BackendPolicy<BACKEND>const&  policy, HYDRA_EXTERNAL_NS::thrust::tuple<Functors...> const& functors,
 		Iterator begin, Iterator end, Iterators... begins)
--> multivector< typename hydra::detail::BackendPolicy<BACKEND>::template container<thrust::tuple<typename Functors::return_type ...> >>;
+-> multivector< typename hydra::detail::BackendPolicy<BACKEND>::template container<HYDRA_EXTERNAL_NS::thrust::tuple<typename Functors::return_type ...> >>;
 
 
 }/* namespace hydra */

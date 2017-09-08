@@ -38,32 +38,32 @@ auto eval(hydra::detail::BackendPolicy<BACKEND>const& policy, Functor const& fun
 
 	typedef	typename hydra::detail::BackendPolicy<BACKEND>::template
 			container<typename Functor::return_type> container;
-	size_t size = thrust::distance(begin, end) ;
+	size_t size = HYDRA_EXTERNAL_NS::thrust::distance(begin, end) ;
 	container Table( size );
 
-	//auto fBegin = thrust::make_zip_iterator(thrust::make_tuple(begin) );
-	//auto fEnd   = thrust::make_zip_iterator(thrust::make_tuple(end)   );
+	//auto fBegin = HYDRA_EXTERNAL_NS::thrust::make_zip_iterator(HYDRA_EXTERNAL_NS::thrust::make_tuple(begin) );
+	//auto fEnd   = HYDRA_EXTERNAL_NS::thrust::make_zip_iterator(HYDRA_EXTERNAL_NS::thrust::make_tuple(end)   );
 
-	thrust::transform(begin, end ,  Table.begin(), functor );
+	HYDRA_EXTERNAL_NS::thrust::transform(begin, end ,  Table.begin(), functor );
 
 	return std::move(Table);
 }
 
 template<hydra::detail::Backend BACKEND, typename Iterator, typename ...Functors>
-auto eval(hydra::detail::BackendPolicy<BACKEND>const&  policy,thrust::tuple<Functors...> const& functors, Iterator begin, Iterator end)
+auto eval(hydra::detail::BackendPolicy<BACKEND>const&  policy,HYDRA_EXTERNAL_NS::thrust::tuple<Functors...> const& functors, Iterator begin, Iterator end)
 -> multivector< typename hydra::detail::BackendPolicy<BACKEND>::template
-container<thrust::tuple<typename Functors::return_type ...> >>
+container<HYDRA_EXTERNAL_NS::thrust::tuple<typename Functors::return_type ...> >>
 {
 	typedef multivector<typename hydra::detail::BackendPolicy<BACKEND>::template container<
-			       thrust::tuple<typename Functors::return_type ...> >> container;
+			       HYDRA_EXTERNAL_NS::thrust::tuple<typename Functors::return_type ...> >> container;
 
-	size_t size = thrust::distance(begin, end) ;
+	size_t size = HYDRA_EXTERNAL_NS::thrust::distance(begin, end) ;
 	container Table( size );
 
 
-	thrust::transform(begin, end ,  Table.begin(),
-			detail::process< thrust::tuple<typename Functors::return_type ...>,
-			thrust::tuple<Functors...>>(functors) );
+	HYDRA_EXTERNAL_NS::thrust::transform(begin, end ,  Table.begin(),
+			detail::process< HYDRA_EXTERNAL_NS::thrust::tuple<typename Functors::return_type ...>,
+			HYDRA_EXTERNAL_NS::thrust::tuple<Functors...>>(functors) );
 
 	return std::move(Table);
 }
@@ -77,36 +77,36 @@ container<typename Functor::return_type>
 			container<typename Functor::return_type> container;
 
 
-	size_t size = thrust::distance(begin, end) ;
+	size_t size = HYDRA_EXTERNAL_NS::thrust::distance(begin, end) ;
 	container Table( size );
 
-	auto fBegin = thrust::make_zip_iterator(thrust::make_tuple(begin, begins...) );
-	auto fEnd   = thrust::make_zip_iterator(thrust::make_tuple(end  , (begins+size)...) );
+	auto fBegin = HYDRA_EXTERNAL_NS::thrust::make_zip_iterator(HYDRA_EXTERNAL_NS::thrust::make_tuple(begin, begins...) );
+	auto fEnd   = HYDRA_EXTERNAL_NS::thrust::make_zip_iterator(HYDRA_EXTERNAL_NS::thrust::make_tuple(end  , (begins+size)...) );
 
-	thrust::transform(begin, end,  Table.begin(), functor );
+	HYDRA_EXTERNAL_NS::thrust::transform(begin, end,  Table.begin(), functor );
 
 	return std::move(Table);
 }
 
 template<hydra::detail::Backend BACKEND, typename Iterator,  typename ...Iterators, typename ...Functors>
-auto eval(hydra::detail::BackendPolicy<BACKEND>const&  policy, thrust::tuple<Functors...> const& functors,
+auto eval(hydra::detail::BackendPolicy<BACKEND>const&  policy, HYDRA_EXTERNAL_NS::thrust::tuple<Functors...> const& functors,
 		Iterator begin, Iterator end, Iterators... begins)
 -> multivector< typename hydra::detail::BackendPolicy<BACKEND>::template
-container<thrust::tuple<typename Functors::return_type ...> >>
+container<HYDRA_EXTERNAL_NS::thrust::tuple<typename Functors::return_type ...> >>
 {
 
 	typedef multivector<	typename hydra::detail::BackendPolicy<BACKEND>::template container<
-			            thrust::tuple<typename Functors::return_type ...> >> container;
+			            HYDRA_EXTERNAL_NS::thrust::tuple<typename Functors::return_type ...> >> container;
 
-	size_t size = thrust::distance(begin, end) ;
+	size_t size = HYDRA_EXTERNAL_NS::thrust::distance(begin, end) ;
 	container Table( size );
 
-	auto fBegin = thrust::make_zip_iterator(thrust::make_tuple(begin, begins...) );
-	auto fEnd   = thrust::make_zip_iterator(thrust::make_tuple(end  , (begins+size)...) );
+	auto fBegin = HYDRA_EXTERNAL_NS::thrust::make_zip_iterator(HYDRA_EXTERNAL_NS::thrust::make_tuple(begin, begins...) );
+	auto fEnd   = HYDRA_EXTERNAL_NS::thrust::make_zip_iterator(HYDRA_EXTERNAL_NS::thrust::make_tuple(end  , (begins+size)...) );
 
-	thrust::transform(fBegin, fEnd ,  Table.begin(),
-			detail::process< thrust::tuple<typename Functors::return_type ...>,
-			thrust::tuple<Functors...>>(functors) );
+	HYDRA_EXTERNAL_NS::thrust::transform(fBegin, fEnd ,  Table.begin(),
+			detail::process< HYDRA_EXTERNAL_NS::thrust::tuple<typename Functors::return_type ...>,
+			HYDRA_EXTERNAL_NS::thrust::tuple<Functors...>>(functors) );
 
 	return std::move(Table);
 }

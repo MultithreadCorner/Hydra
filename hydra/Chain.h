@@ -44,9 +44,9 @@
 #include <hydra/detail/utility/Generic.h>
 #include <hydra/detail/functors/FlagAcceptReject.h>
 //thrust
-#include <thrust/tuple.h>
-#include <thrust/iterator/zip_iterator.h>
-#include <thrust/distance.h>
+#include <hydra/detail/external/thrust/tuple.h>
+#include <hydra/detail/external/thrust/iterator/zip_iterator.h>
+#include <hydra/detail/external/thrust/distance.h>
 
 namespace hydra {
 
@@ -71,9 +71,9 @@ class Chain< Events<N,hydra::detail::BackendPolicy<BACKEND> >...>
 
 
 
-	typedef thrust::tuple<typename
+	typedef HYDRA_EXTERNAL_NS::thrust::tuple<typename
 			Events<N,hydra::detail::BackendPolicy<BACKEND> >::iterator...> iterator_tuple;
-	typedef thrust::tuple<typename
+	typedef HYDRA_EXTERNAL_NS::thrust::tuple<typename
 			Events<N,hydra::detail::BackendPolicy<BACKEND> >::const_iterator...> const_iterator_tuple;
 
 	typedef typename system_t::template container<GReal_t>  vector_real;
@@ -85,10 +85,10 @@ class Chain< Events<N,hydra::detail::BackendPolicy<BACKEND> >...>
 	typedef typename system_t::template container<GBool_t>::const_iterator  vector_bool_const_iterator;
 
 	//zipped iterators
-	typedef thrust::zip_iterator<
-			decltype(thrust:: tuple_cat(thrust::tuple<vector_real_iterator>(), iterator_tuple()))>  iterator;
-	typedef thrust::zip_iterator<
-			decltype(thrust:: tuple_cat(thrust::tuple<vector_real_const_iterator>(), const_iterator_tuple()))>  const_iterator;
+	typedef HYDRA_EXTERNAL_NS::thrust::zip_iterator<
+			decltype(HYDRA_EXTERNAL_NS::thrust:: tuple_cat(HYDRA_EXTERNAL_NS::thrust::tuple<vector_real_iterator>(), iterator_tuple()))>  iterator;
+	typedef HYDRA_EXTERNAL_NS::thrust::zip_iterator<
+			decltype(HYDRA_EXTERNAL_NS::thrust:: tuple_cat(HYDRA_EXTERNAL_NS::thrust::tuple<vector_real_const_iterator>(), const_iterator_tuple()))>  const_iterator;
 
 	typedef   typename iterator::value_type value_type;
 	typedef   typename iterator::reference  reference_type;
@@ -97,7 +97,7 @@ class Chain< Events<N,hydra::detail::BackendPolicy<BACKEND> >...>
 
 public:
 
-	typedef thrust::tuple<	Events<N,hydra::detail::BackendPolicy<BACKEND> >...> event_tuple;
+	typedef HYDRA_EXTERNAL_NS::thrust::tuple<	Events<N,hydra::detail::BackendPolicy<BACKEND> >...> event_tuple;
 	/**
 	 * @brief default constructor
 	 */
@@ -163,13 +163,13 @@ public:
 
 	template<unsigned int I>
 	auto GetDecay() const
-	-> typename thrust::tuple_element<I, event_tuple>::type&
-	{ return thrust::get<I>(fStorage);	}
+	-> typename HYDRA_EXTERNAL_NS::thrust::tuple_element<I, event_tuple>::type&
+	{ return HYDRA_EXTERNAL_NS::thrust::get<I>(fStorage);	}
 
 	template<unsigned int I>
 	auto GetDecay()
-	-> typename thrust::tuple_element<I, event_tuple>::type&
-	{ return thrust::get<I>(fStorage);	}
+	-> typename HYDRA_EXTERNAL_NS::thrust::tuple_element<I, event_tuple>::type&
+	{ return HYDRA_EXTERNAL_NS::thrust::get<I>(fStorage);	}
 
 
 	/**
@@ -238,29 +238,29 @@ public:
 	 * @return
 	 */
 	template<unsigned int I>
-	iterator begin(){ return thrust::get<I>(fStorage).begin(); }
+	iterator begin(){ return HYDRA_EXTERNAL_NS::thrust::get<I>(fStorage).begin(); }
 
 	/**
 	 * @brief  Iterator to end of decay container range.
 	 * @return
 	 */
 	template<unsigned int I>
-	iterator  end(){ return thrust::get<I>(fStorage).end() ; }
+	iterator  end(){ return HYDRA_EXTERNAL_NS::thrust::get<I>(fStorage).end() ; }
 
 	/*
 	 * constant access iterators
 	 */
 	template<unsigned int I>
-	const_iterator begin() const{ return thrust::get<I>(fStorage).cbegin() ; }
+	const_iterator begin() const{ return HYDRA_EXTERNAL_NS::thrust::get<I>(fStorage).cbegin() ; }
 
 	template<unsigned int I>
-	const_iterator  end() const{ return thrust::get<I>(fStorage).cend() ; }
+	const_iterator  end() const{ return HYDRA_EXTERNAL_NS::thrust::get<I>(fStorage).cend() ; }
 
 	template<unsigned int I>
-	const_iterator cbegin() const{ return thrust::get<I>(fStorage).cbegin() ; }
+	const_iterator cbegin() const{ return HYDRA_EXTERNAL_NS::thrust::get<I>(fStorage).cbegin() ; }
 
 	template<unsigned int I>
-	const_iterator  cend() const{ return thrust::get<I>(fStorage).cend() ; }
+	const_iterator  cend() const{ return HYDRA_EXTERNAL_NS::thrust::get<I>(fStorage).cend() ; }
 
 	/**
 	 * @brief capacity.
@@ -329,7 +329,7 @@ make_chain( hydra::detail::BackendPolicy<BACKEND> const& policy, size_t entries 
 
 template<size_t I, hydra::detail::Backend BACKEND, size_t ...N>
 auto get(Chain<Events<N, hydra::detail::BackendPolicy<BACKEND> >...>& chain )
--> typename thrust::tuple_element<I,
+-> typename HYDRA_EXTERNAL_NS::thrust::tuple_element<I,
       typename Chain<Events<N, hydra::detail::BackendPolicy<BACKEND> >...>::event_tuple>::type&
 {
 	return chain.template GetDecay<I>();

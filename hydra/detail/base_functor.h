@@ -41,7 +41,7 @@
 #include <hydra/detail/utility/Generic.h>
 #include <hydra/detail/TypeTraits.h>
 
-#include <thrust/tuple.h>
+#include <hydra/detail/external/thrust/tuple.h>
 
 namespace hydra {
 

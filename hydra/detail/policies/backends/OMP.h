@@ -31,8 +31,8 @@
 
 #include <hydra/detail/Config.h>
 #include <hydra/detail/BackendPolicy.h>
-#include <thrust/system/omp/detail/par.h>
-#include <thrust/system/omp/vector.h>
+#include <hydra/detail/external/thrust/system/omp/detail/par.h>
+#include <hydra/detail/external/thrust/system/omp/vector.h>
 
 namespace hydra {
 
@@ -40,18 +40,18 @@ namespace detail {
 
 namespace omp {
 
-typedef thrust::system::omp::detail::par_t   omp_t;
+typedef HYDRA_EXTERNAL_NS::thrust::system::omp::detail::par_t   omp_t;
 static const omp_t    _omp_;
 
 }  // namespace omp
 
 template<>
-struct BackendPolicy<Backend::Omp>: thrust::execution_policy<omp::omp_t>
+struct BackendPolicy<Backend::Omp>: HYDRA_EXTERNAL_NS::thrust::execution_policy<omp::omp_t>
 {
 	const omp::omp_t backend= omp::_omp_;
 
 	template<typename T>
-	using   container = thrust::omp::vector<T> ;
+	using   container = HYDRA_EXTERNAL_NS::thrust::omp::vector<T> ;
 
 };
 

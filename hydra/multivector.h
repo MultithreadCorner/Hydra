@@ -31,7 +31,7 @@
 
 #include <hydra/detail/Config.h>
 #include <hydra/detail/multivector_base.h>
-#include <thrust/tuple.h>
+#include <hydra/detail/external/thrust/tuple.h>
 #include <hydra/Tuple.h>
 
 namespace hydra {
@@ -47,8 +47,8 @@ class multivector;
  * template providing a prototype for the corresponding vector<tuple> container:
  *
  * @code{cpp}
-   typedef thrust::tuple<unsigned int, float, double> tuple_t;
-   typedef thrust::device_vector<tuple_t> prototype_t;
+   typedef HYDRA_EXTERNAL_NS::thrust::tuple<unsigned int, float, double> tuple_t;
+   typedef HYDRA_EXTERNAL_NS::thrust::device_vector<tuple_t> prototype_t;
    typedef multivector<prototype_h> table_h;
  @endcode
  * @tparam Vector underlying model/layout for contiguous memory storage.
@@ -56,7 +56,7 @@ class multivector;
  *
  */
 template< template<typename...> class Vector, template<typename...> class Allocator,  typename ...T>
-class multivector<Vector<thrust::tuple<T...>, Allocator<thrust::tuple<T...>>>> : public multivector_base<Vector, Allocator, T...>
+class multivector<Vector<HYDRA_EXTERNAL_NS::thrust::tuple<T...>, Allocator<HYDRA_EXTERNAL_NS::thrust::tuple<T...>>>> : public multivector_base<Vector, Allocator, T...>
 {
 public:
 	/**
@@ -92,11 +92,11 @@ public:
 	 */
 	template< template<typename...> class Vector2,
 	template<typename...> class Allocator2>
-	multivector( multivector<Vector2<thrust::tuple<T...>, Allocator2<thrust::tuple<T...>>>>const&  other):
+	multivector( multivector<Vector2<HYDRA_EXTERNAL_NS::thrust::tuple<T...>, Allocator2<HYDRA_EXTERNAL_NS::thrust::tuple<T...>>>>const&  other):
 	multivector_base<Vector, Allocator, T...>(other)
 	{}
 
-	multivector( multivector<Vector<thrust::tuple<T...>, Allocator<thrust::tuple<T...>>>>const&  other):
+	multivector( multivector<Vector<HYDRA_EXTERNAL_NS::thrust::tuple<T...>, Allocator<HYDRA_EXTERNAL_NS::thrust::tuple<T...>>>>const&  other):
 	multivector_base<Vector, Allocator, T...>(other)
 	{}
 
@@ -104,8 +104,8 @@ public:
 	/**
 	 * @brief move constructor
 	 */
-	multivector( multivector<Vector<thrust::tuple<T...>,
-			Allocator<thrust::tuple<T...>>>> &&  other):
+	multivector( multivector<Vector<HYDRA_EXTERNAL_NS::thrust::tuple<T...>,
+			Allocator<HYDRA_EXTERNAL_NS::thrust::tuple<T...>>>> &&  other):
 	multivector_base<Vector, Allocator, T...>(std::move(other))
 	{}
 
@@ -115,8 +115,8 @@ public:
 	 */
 	template< template<typename...> class Vector2,
 	template<typename...> class Allocator2>
-	multivector<Vector<thrust::tuple<T...>, Allocator<thrust::tuple<T...>>>>&
-	operator=( multivector<Vector2<thrust::tuple<T...>, Allocator2<thrust::tuple<T...>>>> const&  v)
+	multivector<Vector<HYDRA_EXTERNAL_NS::thrust::tuple<T...>, Allocator<HYDRA_EXTERNAL_NS::thrust::tuple<T...>>>>&
+	operator=( multivector<Vector2<HYDRA_EXTERNAL_NS::thrust::tuple<T...>, Allocator2<HYDRA_EXTERNAL_NS::thrust::tuple<T...>>>> const&  v)
 	{
 		if(this==&v) return *this;
 		multivector_base<Vector, Allocator, T...>::operator=(v);
@@ -124,16 +124,16 @@ public:
 	}
 
 
-	multivector<Vector<thrust::tuple<T...>, Allocator<thrust::tuple<T...>>>>&
-	operator=( multivector<Vector<thrust::tuple<T...>, Allocator<thrust::tuple<T...>>>> const&  v)
+	multivector<Vector<HYDRA_EXTERNAL_NS::thrust::tuple<T...>, Allocator<HYDRA_EXTERNAL_NS::thrust::tuple<T...>>>>&
+	operator=( multivector<Vector<HYDRA_EXTERNAL_NS::thrust::tuple<T...>, Allocator<HYDRA_EXTERNAL_NS::thrust::tuple<T...>>>> const&  v)
 	{
 		if(this==&v) return *this;
 		multivector_base<Vector, Allocator, T...>::operator=(v);
 		return *this;
 	}
 
-	multivector<Vector<thrust::tuple<T...>, Allocator<thrust::tuple<T...>>>>&
-	operator=( multivector<Vector<thrust::tuple<T...>, Allocator<thrust::tuple<T...>>>> &&  v)
+	multivector<Vector<HYDRA_EXTERNAL_NS::thrust::tuple<T...>, Allocator<HYDRA_EXTERNAL_NS::thrust::tuple<T...>>>>&
+	operator=( multivector<Vector<HYDRA_EXTERNAL_NS::thrust::tuple<T...>, Allocator<HYDRA_EXTERNAL_NS::thrust::tuple<T...>>>> &&  v)
 	{
 		if(this==&v) return *this;
 		multivector_base<Vector, Allocator, T...>::operator=(std::move(v));
@@ -146,17 +146,17 @@ public:
 
 
 template<size_t I,  template<typename...> class Vector, template<typename...> class Allocator,  typename ...T >
-pair< typename thrust::tuple_element<I,typename  multivector<Vector<thrust::tuple<T...>, Allocator<thrust::tuple<T...>>>>::iterator_tuple>::type,
-typename thrust::tuple_element<I,typename  multivector<Vector<thrust::tuple<T...>, Allocator<thrust::tuple<T...>>>>::iterator_tuple>::type >
-get_column(  multivector<Vector<thrust::tuple<T...>, Allocator<thrust::tuple<T...>>>>& mvector )
+pair< typename HYDRA_EXTERNAL_NS::thrust::tuple_element<I,typename  multivector<Vector<HYDRA_EXTERNAL_NS::thrust::tuple<T...>, Allocator<HYDRA_EXTERNAL_NS::thrust::tuple<T...>>>>::iterator_tuple>::type,
+typename HYDRA_EXTERNAL_NS::thrust::tuple_element<I,typename  multivector<Vector<HYDRA_EXTERNAL_NS::thrust::tuple<T...>, Allocator<HYDRA_EXTERNAL_NS::thrust::tuple<T...>>>>::iterator_tuple>::type >
+get_column(  multivector<Vector<HYDRA_EXTERNAL_NS::thrust::tuple<T...>, Allocator<HYDRA_EXTERNAL_NS::thrust::tuple<T...>>>>& mvector )
 {
   return make_pair(mvector.template vbegin<I>(), mvector.template vend<I>() );
 }
 
 template<size_t I,  template<typename...> class Vector, template<typename...> class Allocator,  typename ...T >
-pair< typename thrust::tuple_element<I,typename  multivector<Vector<thrust::tuple<T...>, Allocator<thrust::tuple<T...>>>>::const_iterator_tuple>::type,
-typename thrust::tuple_element<I,typename  multivector<Vector<thrust::tuple<T...>, Allocator<thrust::tuple<T...>>>>::const_iterator_tuple>::type >
-get_column(  multivector<Vector<thrust::tuple<T...>, Allocator<thrust::tuple<T...>>>> const& mvector )
+pair< typename HYDRA_EXTERNAL_NS::thrust::tuple_element<I,typename  multivector<Vector<HYDRA_EXTERNAL_NS::thrust::tuple<T...>, Allocator<HYDRA_EXTERNAL_NS::thrust::tuple<T...>>>>::const_iterator_tuple>::type,
+typename HYDRA_EXTERNAL_NS::thrust::tuple_element<I,typename  multivector<Vector<HYDRA_EXTERNAL_NS::thrust::tuple<T...>, Allocator<HYDRA_EXTERNAL_NS::thrust::tuple<T...>>>>::const_iterator_tuple>::type >
+get_column(  multivector<Vector<HYDRA_EXTERNAL_NS::thrust::tuple<T...>, Allocator<HYDRA_EXTERNAL_NS::thrust::tuple<T...>>>> const& mvector )
 {
   return make_pair(mvector.template vcbegin<I>(), mvector.template vcend<I>() );
 }

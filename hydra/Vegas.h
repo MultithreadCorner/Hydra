@@ -40,11 +40,11 @@
 #include <hydra/detail/Integrator.h>
 #include <utility>
 
-#include <thrust/random.h>
+#include <hydra/detail/external/thrust/random.h>
 
 namespace hydra {
 
-template<size_t N, typename  BACKEND,  typename GRND=thrust::random::default_random_engine >
+template<size_t N, typename  BACKEND,  typename GRND=HYDRA_EXTERNAL_NS::thrust::random::default_random_engine >
 class Vegas ;
 
 /**

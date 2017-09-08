@@ -95,11 +95,11 @@ struct GaussKronrodUnary
 	__host__ __device__ inline
 	GaussKronrodCall operator()(T row)
 	{
-		GReal_t abscissa_X_P               = thrust::get<0>(row);
-		GReal_t abscissa_X_M               = thrust::get<1>(row);
-		GReal_t abscissa_Weight          = thrust::get<2>(row);
-		GReal_t rule_GaussKronrod_Weight = thrust::get<3>(row);
-		GReal_t rule_Gauss_Weight        = thrust::get<4>(row);
+		GReal_t abscissa_X_P               = HYDRA_EXTERNAL_NS::thrust::get<0>(row);
+		GReal_t abscissa_X_M               = HYDRA_EXTERNAL_NS::thrust::get<1>(row);
+		GReal_t abscissa_Weight          = HYDRA_EXTERNAL_NS::thrust::get<2>(row);
+		GReal_t rule_GaussKronrod_Weight = HYDRA_EXTERNAL_NS::thrust::get<3>(row);
+		GReal_t rule_Gauss_Weight        = HYDRA_EXTERNAL_NS::thrust::get<4>(row);
 
 		GaussKronrodCall result;
 
@@ -117,7 +117,7 @@ struct GaussKronrodUnary
 };
 
 
-struct GaussKronrodBinary: public thrust::binary_function<GaussKronrodCall const&,
+struct GaussKronrodBinary: public HYDRA_EXTERNAL_NS::thrust::binary_function<GaussKronrodCall const&,
 		GaussKronrodCall const&, GaussKronrodCall>
 {
 	 __host__ __device__ inline

@@ -35,7 +35,7 @@
 #include <hydra/Parameter.h>
 #include <hydra/detail/utility/Utility_Tuple.h>
 #include <hydra/detail/utility/Generic.h>
-#include <thrust/tuple.h>
+#include <hydra/detail/external/thrust/tuple.h>
 #include <hydra/Pdf.h>
 
 namespace hydra {
@@ -45,16 +45,16 @@ namespace detail {
 //evaluate a tuple of functors and return a tuple of results
 template< typename Tup, size_t ... index>
 inline auto get_functor_tuple_helper(Tup& pdfs, index_sequence<index...>)
--> decltype(thrust::make_tuple(thrust::get<index>(pdfs).GetFunctor()...))
+-> decltype(HYDRA_EXTERNAL_NS::thrust::make_tuple(HYDRA_EXTERNAL_NS::thrust::get<index>(pdfs).GetFunctor()...))
 {
-	return thrust::make_tuple(thrust::get<index>(pdfs).GetFunctor() ...);
+	return HYDRA_EXTERNAL_NS::thrust::make_tuple(HYDRA_EXTERNAL_NS::thrust::get<index>(pdfs).GetFunctor() ...);
 }
 
 template< typename Tup>
 inline auto get_functor_tuple(Tup& pdfs)
--> decltype(get_functor_tuple_helper(pdfs, make_index_sequence< thrust::tuple_size<Tup>::value> { }))
+-> decltype(get_functor_tuple_helper(pdfs, make_index_sequence< HYDRA_EXTERNAL_NS::thrust::tuple_size<Tup>::value> { }))
 {
-	constexpr size_t Size = thrust::tuple_size<Tup>::value;
+	constexpr size_t Size = HYDRA_EXTERNAL_NS::thrust::tuple_size<Tup>::value;
 	return get_functor_tuple_helper(pdfs, make_index_sequence<Size> { });
 }
 
@@ -62,7 +62,7 @@ template<typename PDF1, typename PDF2, typename ...PDFs>
 struct AddPdfFunctor
 {
 
-	typedef thrust::tuple<
+	typedef HYDRA_EXTERNAL_NS::thrust::tuple<
 			typename PDF1::functor_type,
 			typename PDF2::functor_type,
 			typename PDFs::functor_type...> functors_tuple_type;
@@ -71,7 +71,7 @@ struct AddPdfFunctor
 
 	AddPdfFunctor()=delete;
 
-	AddPdfFunctor(thrust::tuple<typename PDF1::functor_type,
+	AddPdfFunctor(HYDRA_EXTERNAL_NS::thrust::tuple<typename PDF1::functor_type,
 			typename PDF2::functor_type, typename PDFs::functor_type...> const& functors,
 			const Parameter (&coeficients)[sizeof...(PDFs)+2],
 			GReal_t coef_sum, GBool_t extended,	GBool_t fractioned ):

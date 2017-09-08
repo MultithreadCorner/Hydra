@@ -40,7 +40,7 @@
 #include <hydra/detail/Print.h>
 #include <hydra/UserParameters.h>
 
-#include <thrust/distance.h>
+#include <hydra/detail/external/thrust/distance.h>
 
 #include <Minuit2/FCNBase.h>
 #include <unordered_map>
@@ -178,7 +178,7 @@ public:
 
 	size_t GetDataSize() const
 	{
-		return thrust::distance(fBegin, fEnd);
+		return HYDRA_EXTERNAL_NS::thrust::distance(fBegin, fEnd);
 	}
 
 	Iterator GetBegin() const

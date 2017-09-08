@@ -45,7 +45,7 @@ std::pair<GReal_t, GReal_t>
 GaussKronrodQuadrature<NRULE, NBIN, hydra::detail::BackendPolicy<BACKEND>>::Integrate(FUNCTOR const& functor)
 {
 
-	GaussKronrodCall result = thrust::transform_reduce(fCallTable.begin(), fCallTable.end(),
+	GaussKronrodCall result = HYDRA_EXTERNAL_NS::thrust::transform_reduce(fCallTable.begin(), fCallTable.end(),
 			GaussKronrodUnary<FUNCTOR>(functor),  GaussKronrodCall(), GaussKronrodBinary() );
 
 	GReal_t error = std::max(std::numeric_limits<GReal_t>::epsilon(),

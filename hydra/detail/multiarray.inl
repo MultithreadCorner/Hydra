@@ -112,7 +112,7 @@ template< size_t N, typename T, hydra::detail::Backend BACKEND >
 typename multiarray<N,T,detail::BackendPolicy<BACKEND>,  void>::iterator
 multiarray<N,T,detail::BackendPolicy<BACKEND>,  void>::erase(typename multiarray<N,T,detail::BackendPolicy<BACKEND>,  void>::iterator pos)
 {
-	size_t dist = thrust::distance(this->begin(), pos);
+	size_t dist = HYDRA_EXTERNAL_NS::thrust::distance(this->begin(), pos);
 	typename multiarray<N,T,detail::BackendPolicy<BACKEND>,  void>::iterator_array iter_array{};
 
 	for( size_t i=0; i<N; i++)
@@ -127,8 +127,8 @@ typename multiarray<N,T,detail::BackendPolicy<BACKEND>,  void>::iterator
 multiarray<N,T,detail::BackendPolicy<BACKEND>,  void>::erase(typename multiarray<N,T,detail::BackendPolicy<BACKEND>,  void>::iterator first,
 		typename multiarray<N,T,detail::BackendPolicy<BACKEND>,  void>::iterator last)
 {
-	size_t dist_first = thrust::distance(this->begin(), first);
-	size_t dist_last  = thrust::distance(this->begin(), last);
+	size_t dist_first = HYDRA_EXTERNAL_NS::thrust::distance(this->begin(), first);
+	size_t dist_last  = HYDRA_EXTERNAL_NS::thrust::distance(this->begin(), last);
 	typename multiarray<N,T,detail::BackendPolicy<BACKEND>,  void>::iterator_array iter_array{};
 
 	for( size_t i=0; i<N; i++)
@@ -145,11 +145,11 @@ multiarray<N,T,detail::BackendPolicy<BACKEND>,  void>::insert(
 		typename multiarray<N,T,detail::BackendPolicy<BACKEND>,  void>::iterator pos,
 		typename multiarray<N,T,detail::BackendPolicy<BACKEND>,  void>::value_type const& value)
 {
-	size_t dist = thrust::distance(this->begin(), pos);
+	size_t dist = HYDRA_EXTERNAL_NS::thrust::distance(this->begin(), pos);
 	multiarray<N,T,detail::BackendPolicy<BACKEND>,  void>::iterator_tuple output{};
 
 	do_insert(dist, output, value);
-	return thrust::make_zip_iterator(output );
+	return HYDRA_EXTERNAL_NS::thrust::make_zip_iterator(output );
 }
 
 template< size_t N, typename T, hydra::detail::Backend BACKEND >
@@ -157,7 +157,7 @@ template<typename InputIterator>
 void multiarray<N,T,detail::BackendPolicy<BACKEND>,  void>::insert(typename multiarray<N,T,detail::BackendPolicy<BACKEND>,  void>::iterator pos,
 		InputIterator first, InputIterator last)
 {
-	size_t dist = thrust::distance(this->begin(), pos);
+	size_t dist = HYDRA_EXTERNAL_NS::thrust::distance(this->begin(), pos);
 
 	do_insert(dist, first.get_iterator_tuple(), last.get_iterator_tuple());
 
@@ -558,7 +558,7 @@ template< size_t N, typename T, hydra::detail::Backend BACKEND, typename TargetT
 typename multiarray<N,T,detail::BackendPolicy<BACKEND>, TargetType>::iterator
 multiarray<N,T,detail::BackendPolicy<BACKEND>, TargetType>::erase(typename multiarray<N,T,detail::BackendPolicy<BACKEND>, TargetType>::iterator pos)
 {
-	size_t dist = thrust::distance(this->begin(), pos);
+	size_t dist = HYDRA_EXTERNAL_NS::thrust::distance(this->begin(), pos);
 	typename multiarray<N,T,detail::BackendPolicy<BACKEND>, TargetType>::iterator_array iter_array{};
 
 	for( size_t i=0; i<N; i++)
@@ -573,8 +573,8 @@ typename multiarray<N,T,detail::BackendPolicy<BACKEND>, TargetType>::iterator
 multiarray<N,T,detail::BackendPolicy<BACKEND>, TargetType>::erase(typename multiarray<N,T,detail::BackendPolicy<BACKEND>, TargetType>::iterator first,
 		typename multiarray<N,T,detail::BackendPolicy<BACKEND>, TargetType>::iterator last)
 {
-	size_t dist_first = thrust::distance(this->begin(), first);
-	size_t dist_last  = thrust::distance(this->begin(), last);
+	size_t dist_first = HYDRA_EXTERNAL_NS::thrust::distance(this->begin(), first);
+	size_t dist_last  = HYDRA_EXTERNAL_NS::thrust::distance(this->begin(), last);
 	typename multiarray<N,T,detail::BackendPolicy<BACKEND>, TargetType>::iterator_array iter_array{};
 
 	for( size_t i=0; i<N; i++)
@@ -591,11 +591,11 @@ multiarray<N,T,detail::BackendPolicy<BACKEND>, TargetType>::insert(
 		typename multiarray<N,T,detail::BackendPolicy<BACKEND>, TargetType>::iterator pos,
 		typename multiarray<N,T,detail::BackendPolicy<BACKEND>, TargetType>::value_type const& value)
 {
-	size_t dist = thrust::distance(this->begin(), pos);
+	size_t dist = HYDRA_EXTERNAL_NS::thrust::distance(this->begin(), pos);
 	multiarray<N,T,detail::BackendPolicy<BACKEND>, TargetType>::iterator_tuple output{};
 
 	do_insert(dist, output, value);
-	return thrust::make_zip_iterator(output );
+	return HYDRA_EXTERNAL_NS::thrust::make_zip_iterator(output );
 }
 
 template< size_t N, typename T, hydra::detail::Backend BACKEND, typename TargetType>
@@ -603,7 +603,7 @@ template<typename InputIterator>
 void multiarray<N,T,detail::BackendPolicy<BACKEND>, TargetType>::insert(typename multiarray<N,T,detail::BackendPolicy<BACKEND>, TargetType>::iterator pos,
 		InputIterator first, InputIterator last)
 {
-	size_t dist = thrust::distance(this->begin(), pos);
+	size_t dist = HYDRA_EXTERNAL_NS::thrust::distance(this->begin(), pos);
 
 	do_insert(dist, first.get_iterator_tuple(), last.get_iterator_tuple());
 
@@ -936,21 +936,21 @@ bool operator==(const multiarray<N1, T1, hydra::detail::BackendPolicy<BACKEND1>,
        {
 
 	bool is_same_type = (N1 == N2)
-			&& thrust::detail::is_same<T1,T2>::value
-			&& thrust::detail::is_same<hydra::detail::BackendPolicy<BACKEND1>, hydra::detail::BackendPolicy<BACKEND2> >::value
+			&& HYDRA_EXTERNAL_NS::thrust::detail::is_same<T1,T2>::value
+			&& HYDRA_EXTERNAL_NS::thrust::detail::is_same<hydra::detail::BackendPolicy<BACKEND1>, hydra::detail::BackendPolicy<BACKEND2> >::value
 			&& lhs.size() == rhs.size();
 	bool result =1;
 
-	auto comp = []__host__ __device__(thrust::tuple<T1,T2> const& values){
-		return thrust::get<0>(values)== thrust::get<1>(values);
+	auto comp = []__host__ __device__(HYDRA_EXTERNAL_NS::thrust::tuple<T1,T2> const& values){
+		return HYDRA_EXTERNAL_NS::thrust::get<0>(values)== HYDRA_EXTERNAL_NS::thrust::get<1>(values);
 
 	};
 
 	if(is_same_type){
 
 		for(size_t i=0; i<N1; i++ )
-			result &= thrust::all_of(thrust::make_zip_iterator(lhs.begin(i), rhs.begin(i)),
-					thrust::make_zip_iterator(lhs.end(i), rhs.end(i)), comp);
+			result &= HYDRA_EXTERNAL_NS::thrust::all_of(HYDRA_EXTERNAL_NS::thrust::make_zip_iterator(lhs.begin(i), rhs.begin(i)),
+					HYDRA_EXTERNAL_NS::thrust::make_zip_iterator(lhs.end(i), rhs.end(i)), comp);
 	}
 	return  result && is_same_type;
 
@@ -962,21 +962,21 @@ bool operator!=(const multiarray<N1, T1, hydra::detail::BackendPolicy<BACKEND1>,
                 const multiarray<N2, T2, hydra::detail::BackendPolicy<BACKEND2> ,  TargetType2>& rhs){
 
 		bool is_same_type = (N1 == N2)
-				&& thrust::detail::is_same<T1,T2>::value
-				&& thrust::detail::is_same<hydra::detail::BackendPolicy<BACKEND1>, hydra::detail::BackendPolicy<BACKEND2> >::value
+				&& HYDRA_EXTERNAL_NS::thrust::detail::is_same<T1,T2>::value
+				&& HYDRA_EXTERNAL_NS::thrust::detail::is_same<hydra::detail::BackendPolicy<BACKEND1>, hydra::detail::BackendPolicy<BACKEND2> >::value
 				&& lhs.size() == rhs.size();
 		bool result =1;
 
-		auto comp = []__host__ __device__(thrust::tuple<T1,T2> const& values){
-			return (thrust::get<0>(values) == thrust::get<1>(values));
+		auto comp = []__host__ __device__(HYDRA_EXTERNAL_NS::thrust::tuple<T1,T2> const& values){
+			return (HYDRA_EXTERNAL_NS::thrust::get<0>(values) == HYDRA_EXTERNAL_NS::thrust::get<1>(values));
 
 		};
 
 		if(is_same_type){
 
 			for(size_t i=0; i<N1; i++ )
-				result &= thrust::all_of(thrust::make_zip_iterator(lhs.begin(i), rhs.begin(i)),
-						thrust::make_zip_iterator(lhs.end(i), rhs.end(i)), comp);
+				result &= HYDRA_EXTERNAL_NS::thrust::all_of(HYDRA_EXTERNAL_NS::thrust::make_zip_iterator(lhs.begin(i), rhs.begin(i)),
+						HYDRA_EXTERNAL_NS::thrust::make_zip_iterator(lhs.end(i), rhs.end(i)), comp);
 		}
 		return  (!result) && is_same_type;
 }

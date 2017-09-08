@@ -43,9 +43,9 @@
 #include <hydra/detail/Parameters.h>
 //#include <hydra/UserParameters.h>
 
-#include <thrust/iterator/detail/tuple_of_iterator_references.h>
-#include <thrust/iterator/zip_iterator.h>
-#include <thrust/tuple.h>
+#include <hydra/detail/external/thrust/iterator/detail/tuple_of_iterator_references.h>
+#include <hydra/detail/external/thrust/iterator/zip_iterator.h>
+#include <hydra/detail/external/thrust/tuple.h>
 #include <array>
 #include <initializer_list>
 #include <memory>
@@ -249,19 +249,19 @@ if(NPARAM!=0){
 
 	template<typename T>
 	__host__ __device__ inline
-	typename thrust::detail::enable_if<
-	! ( detail::is_instantiation_of<thrust::tuple,
-			typename thrust::detail::remove_const<
-				typename thrust::detail::remove_reference< T>::type
+	typename HYDRA_EXTERNAL_NS::thrust::detail::enable_if<
+	! ( detail::is_instantiation_of<HYDRA_EXTERNAL_NS::thrust::tuple,
+			typename HYDRA_EXTERNAL_NS::thrust::detail::remove_const<
+				typename HYDRA_EXTERNAL_NS::thrust::detail::remove_reference< T>::type
 			>::type >::value ||
-	    detail::is_instantiation_of< thrust::detail::tuple_of_iterator_references,
-	        typename thrust::detail::remove_const<
-	        	typename thrust::detail::remove_reference<T>::type
+	    detail::is_instantiation_of< HYDRA_EXTERNAL_NS::thrust::detail::tuple_of_iterator_references,
+	        typename HYDRA_EXTERNAL_NS::thrust::detail::remove_const<
+	        	typename HYDRA_EXTERNAL_NS::thrust::detail::remove_reference<T>::type
 	        >::type >::value ) , return_type>::type
 	interface(T&& x)
 	{
 		fNArgs=1;
-		typename thrust::detail::remove_const<typename thrust::detail::remove_reference<T>::type >::type _x;
+		typename HYDRA_EXTERNAL_NS::thrust::detail::remove_const<typename HYDRA_EXTERNAL_NS::thrust::detail::remove_reference<T>::type >::type _x;
 
 		_x=x;
 		return static_cast<Functor*>(this)->Evaluate(fNArgs, &_x);
@@ -270,30 +270,30 @@ if(NPARAM!=0){
 
 	template<typename T>
 	__host__ __device__ inline
-	typename thrust::detail::enable_if<(
-			  detail::is_instantiation_of<thrust::tuple,
-			  typename thrust::detail::remove_const<
-			  	  typename thrust::detail::remove_reference<T>::type
+	typename HYDRA_EXTERNAL_NS::thrust::detail::enable_if<(
+			  detail::is_instantiation_of<HYDRA_EXTERNAL_NS::thrust::tuple,
+			  typename HYDRA_EXTERNAL_NS::thrust::detail::remove_const<
+			  	  typename HYDRA_EXTERNAL_NS::thrust::detail::remove_reference<T>::type
 			  >::type >::value ||
-			  detail::is_instantiation_of<thrust::detail::tuple_of_iterator_references,
-			  typename thrust::detail::remove_const<
-			  	  typename thrust::detail::remove_reference<T>::type
+			  detail::is_instantiation_of<HYDRA_EXTERNAL_NS::thrust::detail::tuple_of_iterator_references,
+			  typename HYDRA_EXTERNAL_NS::thrust::detail::remove_const<
+			  	  typename HYDRA_EXTERNAL_NS::thrust::detail::remove_reference<T>::type
 			   >::type >::value ) &&
 	        detail::is_homogeneous<
-	        	typename thrust::tuple_element<0,
-	        		typename thrust::detail::remove_const<
-	        			typename thrust::detail::remove_reference<T>::type
+	        	typename HYDRA_EXTERNAL_NS::thrust::tuple_element<0,
+	        		typename HYDRA_EXTERNAL_NS::thrust::detail::remove_const<
+	        			typename HYDRA_EXTERNAL_NS::thrust::detail::remove_reference<T>::type
 	        		>::type
 	        	>::type,
-	        	typename thrust::detail::remove_const<
-	        		typename thrust::detail::remove_reference<T>::type
+	        	typename HYDRA_EXTERNAL_NS::thrust::detail::remove_const<
+	        		typename HYDRA_EXTERNAL_NS::thrust::detail::remove_reference<T>::type
 	        	>::type
 	        >::value, return_type>::type
 	interface(T&& x)
 	{
-		typedef  typename thrust::detail::remove_const<typename thrust::detail::remove_reference<T>::type>::type Tprime;
-		typedef typename thrust::detail::remove_reference<typename thrust::tuple_element<0, Tprime>::type>::type first_type;
-		constexpr size_t N = thrust::tuple_size< Tprime >::value;
+		typedef  typename HYDRA_EXTERNAL_NS::thrust::detail::remove_const<typename HYDRA_EXTERNAL_NS::thrust::detail::remove_reference<T>::type>::type Tprime;
+		typedef typename HYDRA_EXTERNAL_NS::thrust::detail::remove_reference<typename HYDRA_EXTERNAL_NS::thrust::tuple_element<0, Tprime>::type>::type first_type;
+		constexpr size_t N = HYDRA_EXTERNAL_NS::thrust::tuple_size< Tprime >::value;
 
 		first_type Array[ N ];
 
@@ -306,17 +306,17 @@ if(NPARAM!=0){
 
 	template<typename T >
 	__host__ __device__ inline
-	typename thrust::detail::enable_if<
-	detail::is_instantiation_of<thrust::tuple,
+	typename HYDRA_EXTERNAL_NS::thrust::detail::enable_if<
+	detail::is_instantiation_of<HYDRA_EXTERNAL_NS::thrust::tuple,
 		typename std::remove_reference<T>::type >::value &&
 	!(detail::is_homogeneous<
-	    typename thrust::tuple_element< 0,
-	    	typename thrust::detail::remove_const<
-	    		typename thrust::detail::remove_reference<T>::type
+	    typename HYDRA_EXTERNAL_NS::thrust::tuple_element< 0,
+	    	typename HYDRA_EXTERNAL_NS::thrust::detail::remove_const<
+	    		typename HYDRA_EXTERNAL_NS::thrust::detail::remove_reference<T>::type
 	    	>::type
 	    >::type,
-	    typename thrust::detail::remove_const<
-	    	typename thrust::detail::remove_reference<T>::type
+	    typename HYDRA_EXTERNAL_NS::thrust::detail::remove_const<
+	    	typename HYDRA_EXTERNAL_NS::thrust::detail::remove_reference<T>::type
 		>::type>::value), return_type>::type
 	interface(T&& x)
 	{

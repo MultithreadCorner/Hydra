@@ -39,7 +39,7 @@ namespace hydra {
 namespace detail {
 
 template<size_t N, typename Functor, typename ArgType>
-	struct EvalOnDaugthers: public thrust::unary_function<ArgType, GReal_t>
+	struct EvalOnDaugthers: public HYDRA_EXTERNAL_NS::thrust::unary_function<ArgType, GReal_t>
 	{
 		EvalOnDaugthers( Functor const& functor):
 			fFunctor(functor)
@@ -64,7 +64,7 @@ template<size_t N, typename Functor, typename ArgType>
 	};
 
 	template<size_t N>
-	struct FlagDaugthers: public thrust::unary_function<size_t,bool >
+	struct FlagDaugthers: public HYDRA_EXTERNAL_NS::thrust::unary_function<size_t,bool >
 	{
 		FlagDaugthers(GReal_t max, GReal_t* iterator):
 			fVals(iterator),
@@ -79,9 +79,9 @@ template<size_t N, typename Functor, typename ArgType>
 		__host__ __device__
 		bool operator()( size_t idx)
 		{
-			thrust::default_random_engine randEng(159753654);
+			HYDRA_EXTERNAL_NS::thrust::default_random_engine randEng(159753654);
 			randEng.discard(idx);
-			thrust::uniform_real_distribution<GReal_t>
+			HYDRA_EXTERNAL_NS::thrust::uniform_real_distribution<GReal_t>
 			uniDist(0.0, 1.0 );
 
 			return fVals[idx]/fMax  > uniDist(randEng);
@@ -179,7 +179,7 @@ void Decays<N, detail::BackendPolicy<BACKEND> >::insert(
 		typename Decays<N, detail::BackendPolicy<BACKEND> >::iterator position,
 		size_type n, const value_type &x)
 {
-	size_t pos = thrust::distance(this->begin(), position);
+	size_t pos = HYDRA_EXTERNAL_NS::thrust::distance(this->begin(), position);
 	auto particles = detail::dropFirst(x);
 	std::array<Vector4R, N> arr{};
 	detail::tupleToArray(particles, arr );
@@ -196,7 +196,7 @@ void Decays<N, detail::BackendPolicy<BACKEND> >::insert(
 		typename Decays<N, detail::BackendPolicy<BACKEND> >::iterator position,
 		InputIterator first, InputIterator last)
 {
-	size_t pos = thrust::distance(this->begin(), position);
+	size_t pos = HYDRA_EXTERNAL_NS::thrust::distance(this->begin(), position);
 	do_insert(pos, first,last);
 
 	this->fWeights.insert(fWeights.begin()+pos, get<0>(first.get_iterator_tuple()),
@@ -208,7 +208,7 @@ typename Decays<N, detail::BackendPolicy<BACKEND> >::iterator
 Decays<N, detail::BackendPolicy<BACKEND> >::insert( typename Decays<N, detail::BackendPolicy<BACKEND> >::iterator position,
 		const Decays<N, detail::BackendPolicy<BACKEND> >::value_type &x)
 {
-	size_t pos = thrust::distance(this->begin(), position);
+	size_t pos = HYDRA_EXTERNAL_NS::thrust::distance(this->begin(), position);
 
 	tuple_particles_iterator_type output_particle_iterator_tuple;
 
@@ -217,9 +217,9 @@ Decays<N, detail::BackendPolicy<BACKEND> >::insert( typename Decays<N, detail::B
 	auto output_head = this->fWeights.insert(fWeights.begin()+pos, get<0>(x));
 
 	auto output_iterator_tuple =
-			thrust::tuple_cat( thrust::make_tuple( output_head ), output_particle_iterator_tuple );
+			HYDRA_EXTERNAL_NS::thrust::tuple_cat( HYDRA_EXTERNAL_NS::thrust::make_tuple( output_head ), output_particle_iterator_tuple );
 
-	return thrust::make_zip_iterator(output_iterator_tuple);
+	return HYDRA_EXTERNAL_NS::thrust::make_zip_iterator(output_iterator_tuple);
 
 }
 
@@ -245,7 +245,7 @@ template<size_t N, detail::Backend BACKEND>
 typename Decays<N, detail::BackendPolicy<BACKEND> >::iterator
 Decays<N, detail::BackendPolicy<BACKEND> >::erase(typename Decays<N, detail::BackendPolicy<BACKEND> >::iterator position)
 {
-	size_t pos = thrust::distance(this->begin(), position);
+	size_t pos = HYDRA_EXTERNAL_NS::thrust::distance(this->begin(), position);
 	for(size_t i=0; i<N; i++)
 		this->fDecays[i].erase(this->fDecays[i].begin()+pos);
 
@@ -259,7 +259,7 @@ typename Decays<N, detail::BackendPolicy<BACKEND> >::iterator
 Decays<N, detail::BackendPolicy<BACKEND> >::erase(typename Decays<N, detail::BackendPolicy<BACKEND> >::iterator first,
 		typename Decays<N, detail::BackendPolicy<BACKEND> >::iterator last)
 {
-	size_t pos = thrust::distance(this->begin(), first);
+	size_t pos = HYDRA_EXTERNAL_NS::thrust::distance(this->begin(), first);
 
 	for( auto el = first; el!=last; el++)
 		this->erase(el);
@@ -340,10 +340,10 @@ Decays<N, detail::BackendPolicy<BACKEND> >::begin()
 
 	auto particles_iterator_tuple = detail::arrayToTuple( particles_iterator_array );
 
-    auto _iterator_tuple = thrust::tuple_cat( thrust::make_tuple( fWeights.begin() ),
+    auto _iterator_tuple = HYDRA_EXTERNAL_NS::thrust::tuple_cat( HYDRA_EXTERNAL_NS::thrust::make_tuple( fWeights.begin() ),
     		particles_iterator_tuple);
 
-    return thrust::make_zip_iterator(  _iterator_tuple );
+    return HYDRA_EXTERNAL_NS::thrust::make_zip_iterator(  _iterator_tuple );
 
 }
 
@@ -360,10 +360,10 @@ Decays<N, detail::BackendPolicy<BACKEND> >::end()
 
 	auto particles_iterator_tuple = detail::arrayToTuple( particles_iterator_array );
 
-    auto _iterator_tuple = thrust::tuple_cat( thrust::make_tuple( fWeights.end() ),
+    auto _iterator_tuple = HYDRA_EXTERNAL_NS::thrust::tuple_cat( HYDRA_EXTERNAL_NS::thrust::make_tuple( fWeights.end() ),
     		particles_iterator_tuple);
 
-    return thrust::make_zip_iterator(  _iterator_tuple );
+    return HYDRA_EXTERNAL_NS::thrust::make_zip_iterator(  _iterator_tuple );
 
 
 
@@ -382,10 +382,10 @@ Decays<N, detail::BackendPolicy<BACKEND> >::rbegin()
 
 	auto particles_iterator_tuple = detail::arrayToTuple( particles_iterator_array );
 
-	auto _iterator_tuple = thrust::tuple_cat( thrust::make_tuple( fWeights.rbegin() ),
+	auto _iterator_tuple = HYDRA_EXTERNAL_NS::thrust::tuple_cat( HYDRA_EXTERNAL_NS::thrust::make_tuple( fWeights.rbegin() ),
 	    		particles_iterator_tuple);
 
-	return thrust::make_zip_iterator(  _iterator_tuple );
+	return HYDRA_EXTERNAL_NS::thrust::make_zip_iterator(  _iterator_tuple );
 
 }
 
@@ -403,10 +403,10 @@ Decays<N, detail::BackendPolicy<BACKEND> >::rend()
 
 	auto particles_iterator_tuple = detail::arrayToTuple( particles_iterator_array );
 
-	auto _iterator_tuple = thrust::tuple_cat( thrust::make_tuple( fWeights.rend() ),
+	auto _iterator_tuple = HYDRA_EXTERNAL_NS::thrust::tuple_cat( HYDRA_EXTERNAL_NS::thrust::make_tuple( fWeights.rend() ),
 		    		particles_iterator_tuple);
 
-	return thrust::make_zip_iterator(  _iterator_tuple );
+	return HYDRA_EXTERNAL_NS::thrust::make_zip_iterator(  _iterator_tuple );
 
 }
 //----------------------
@@ -425,10 +425,10 @@ Decays<N, detail::BackendPolicy<BACKEND> >::tbegin()
 
 	auto particles_iterator_tuple = detail::arrayToTuple( particles_iterator_array );
 
-    auto _iterator_tuple = thrust::tuple_cat( thrust::make_tuple( fWeights.begin() ),
+    auto _iterator_tuple = HYDRA_EXTERNAL_NS::thrust::tuple_cat( HYDRA_EXTERNAL_NS::thrust::make_tuple( fWeights.begin() ),
     		particles_iterator_tuple);
 
-    return thrust::make_zip_iterator(  _iterator_tuple );
+    return HYDRA_EXTERNAL_NS::thrust::make_zip_iterator(  _iterator_tuple );
 
 }
 
@@ -445,10 +445,10 @@ Decays<N, detail::BackendPolicy<BACKEND> >::tend()
 
 	auto particles_iterator_tuple = detail::arrayToTuple( particles_iterator_array );
 
-    auto _iterator_tuple = thrust::tuple_cat( thrust::make_tuple( fWeights.end() ),
+    auto _iterator_tuple = HYDRA_EXTERNAL_NS::thrust::tuple_cat( HYDRA_EXTERNAL_NS::thrust::make_tuple( fWeights.end() ),
     		particles_iterator_tuple);
 
-    return thrust::make_zip_iterator(  _iterator_tuple );
+    return HYDRA_EXTERNAL_NS::thrust::make_zip_iterator(  _iterator_tuple );
 
 
 
@@ -467,10 +467,10 @@ Decays<N, detail::BackendPolicy<BACKEND> >::trbegin()
 
 	auto particles_iterator_tuple = detail::arrayToTuple( particles_iterator_array );
 
-	auto _iterator_tuple = thrust::tuple_cat( thrust::make_tuple( fWeights.rbegin() ),
+	auto _iterator_tuple = HYDRA_EXTERNAL_NS::thrust::tuple_cat( HYDRA_EXTERNAL_NS::thrust::make_tuple( fWeights.rbegin() ),
 	    		particles_iterator_tuple);
 
-	return thrust::make_zip_iterator(  _iterator_tuple );
+	return HYDRA_EXTERNAL_NS::thrust::make_zip_iterator(  _iterator_tuple );
 
 }
 
@@ -488,10 +488,10 @@ Decays<N, detail::BackendPolicy<BACKEND> >::trend()
 
 	auto particles_iterator_tuple = detail::arrayToTuple( particles_iterator_array );
 
-	auto _iterator_tuple = thrust::tuple_cat( thrust::make_tuple( fWeights.rend() ),
+	auto _iterator_tuple = HYDRA_EXTERNAL_NS::thrust::tuple_cat( HYDRA_EXTERNAL_NS::thrust::make_tuple( fWeights.rend() ),
 		    		particles_iterator_tuple);
 
-	return thrust::make_zip_iterator(  _iterator_tuple );
+	return HYDRA_EXTERNAL_NS::thrust::make_zip_iterator(  _iterator_tuple );
 
 }
 
@@ -511,7 +511,7 @@ Decays<N, detail::BackendPolicy<BACKEND> >::pbegin()
 
 	auto particles_iterator_tuple = detail::arrayToTuple( particles_iterator_array );
 
-    return thrust::make_zip_iterator(  particles_iterator_tuple );
+    return HYDRA_EXTERNAL_NS::thrust::make_zip_iterator(  particles_iterator_tuple );
 }
 
 template<size_t N, detail::Backend BACKEND>
@@ -527,7 +527,7 @@ Decays<N, detail::BackendPolicy<BACKEND> >::pend()
 
 	auto particles_iterator_tuple = detail::arrayToTuple( particles_iterator_array );
 
-    return thrust::make_zip_iterator(  particles_iterator_tuple );
+    return HYDRA_EXTERNAL_NS::thrust::make_zip_iterator(  particles_iterator_tuple );
 
 }
 
@@ -544,7 +544,7 @@ Decays<N, detail::BackendPolicy<BACKEND> >::prbegin()
 
 	auto particles_iterator_tuple = detail::arrayToTuple( particles_iterator_array );
 
-	return thrust::make_zip_iterator(  particles_iterator_tuple );
+	return HYDRA_EXTERNAL_NS::thrust::make_zip_iterator(  particles_iterator_tuple );
 
 }
 
@@ -562,7 +562,7 @@ Decays<N, detail::BackendPolicy<BACKEND> >::prend()
 
 	auto particles_iterator_tuple = detail::arrayToTuple( particles_iterator_array );
 
-	return thrust::make_zip_iterator(  particles_iterator_tuple );
+	return HYDRA_EXTERNAL_NS::thrust::make_zip_iterator(  particles_iterator_tuple );
 
 }
 
@@ -581,7 +581,7 @@ Decays<N, detail::BackendPolicy<BACKEND> >::ptbegin()
 
 	auto particles_iterator_tuple = detail::arrayToTuple( particles_iterator_array );
 
-    return thrust::make_zip_iterator(  particles_iterator_tuple );
+    return HYDRA_EXTERNAL_NS::thrust::make_zip_iterator(  particles_iterator_tuple );
 }
 
 template<size_t N, detail::Backend BACKEND>
@@ -597,7 +597,7 @@ Decays<N, detail::BackendPolicy<BACKEND> >::ptend()
 
 	auto particles_iterator_tuple = detail::arrayToTuple( particles_iterator_array );
 
-    return thrust::make_zip_iterator(  particles_iterator_tuple );
+    return HYDRA_EXTERNAL_NS::thrust::make_zip_iterator(  particles_iterator_tuple );
 
 }
 
@@ -614,7 +614,7 @@ Decays<N, detail::BackendPolicy<BACKEND> >::ptrbegin()
 
 	auto particles_iterator_tuple = detail::arrayToTuple( particles_iterator_array );
 
-	return thrust::make_zip_iterator(  particles_iterator_tuple );
+	return HYDRA_EXTERNAL_NS::thrust::make_zip_iterator(  particles_iterator_tuple );
 
 }
 
@@ -632,7 +632,7 @@ Decays<N, detail::BackendPolicy<BACKEND> >::ptrend()
 
 	auto particles_iterator_tuple = detail::arrayToTuple( particles_iterator_array );
 
-	return thrust::make_zip_iterator(  particles_iterator_tuple );
+	return HYDRA_EXTERNAL_NS::thrust::make_zip_iterator(  particles_iterator_tuple );
 
 }
 
@@ -655,10 +655,10 @@ Decays<N, detail::BackendPolicy<BACKEND> >::begin() const
 		particles_iterator_array[i] = this->fDecays[i].cbegin();
 	auto particles_iterator_tuple = detail::arrayToTuple( particles_iterator_array );
 
-	auto _iterator_tuple = thrust::tuple_cat( thrust::make_tuple( fWeights.cbegin() ),
+	auto _iterator_tuple = HYDRA_EXTERNAL_NS::thrust::tuple_cat( HYDRA_EXTERNAL_NS::thrust::make_tuple( fWeights.cbegin() ),
 			particles_iterator_tuple);
 
-	return thrust::make_zip_iterator(  _iterator_tuple );
+	return HYDRA_EXTERNAL_NS::thrust::make_zip_iterator(  _iterator_tuple );
 }
 
 template<size_t N, detail::Backend BACKEND>
@@ -673,10 +673,10 @@ Decays<N, detail::BackendPolicy<BACKEND> >::end() const
 		particles_iterator_array[i] =this->fDecays[i].cend();
 	auto particles_iterator_tuple = detail::arrayToTuple( particles_iterator_array );
 
-	auto _iterator_tuple = thrust::tuple_cat( thrust::make_tuple( fWeights.cend() ),
+	auto _iterator_tuple = HYDRA_EXTERNAL_NS::thrust::tuple_cat( HYDRA_EXTERNAL_NS::thrust::make_tuple( fWeights.cend() ),
 			particles_iterator_tuple);
 
-	return thrust::make_zip_iterator(  _iterator_tuple );
+	return HYDRA_EXTERNAL_NS::thrust::make_zip_iterator(  _iterator_tuple );
 
 }
 
@@ -695,10 +695,10 @@ Decays<N, detail::BackendPolicy<BACKEND> >::rbegin() const
 
 	auto particles_iterator_tuple = detail::arrayToTuple( particles_iterator_array );
 
-	auto _iterator_tuple = thrust::tuple_cat( thrust::make_tuple( fWeights.crbegin() ),
+	auto _iterator_tuple = HYDRA_EXTERNAL_NS::thrust::tuple_cat( HYDRA_EXTERNAL_NS::thrust::make_tuple( fWeights.crbegin() ),
 			particles_iterator_tuple);
 
-	return thrust::make_zip_iterator(  _iterator_tuple );
+	return HYDRA_EXTERNAL_NS::thrust::make_zip_iterator(  _iterator_tuple );
 }
 
 template<size_t N, detail::Backend BACKEND>
@@ -715,10 +715,10 @@ Decays<N, detail::BackendPolicy<BACKEND> >::rend() const
 
 	auto particles_iterator_tuple = detail::arrayToTuple( particles_iterator_array );
 
-	auto _iterator_tuple = thrust::tuple_cat( thrust::make_tuple( fWeights.crend() ),
+	auto _iterator_tuple = HYDRA_EXTERNAL_NS::thrust::tuple_cat( HYDRA_EXTERNAL_NS::thrust::make_tuple( fWeights.crend() ),
 				particles_iterator_tuple);
 
-	return thrust::make_zip_iterator(  _iterator_tuple );
+	return HYDRA_EXTERNAL_NS::thrust::make_zip_iterator(  _iterator_tuple );
 }
 
 template<size_t N, detail::Backend BACKEND>
@@ -733,10 +733,10 @@ Decays<N, detail::BackendPolicy<BACKEND> >::cbegin() const
 
 	auto particles_iterator_tuple = detail::arrayToTuple( particles_iterator_array );
 
-	auto _iterator_tuple = thrust::tuple_cat( thrust::make_tuple( fWeights.cbegin() ),
+	auto _iterator_tuple = HYDRA_EXTERNAL_NS::thrust::tuple_cat( HYDRA_EXTERNAL_NS::thrust::make_tuple( fWeights.cbegin() ),
 			particles_iterator_tuple);
 
-	return thrust::make_zip_iterator(  _iterator_tuple );
+	return HYDRA_EXTERNAL_NS::thrust::make_zip_iterator(  _iterator_tuple );
 }
 
 template<size_t N, detail::Backend BACKEND>
@@ -752,10 +752,10 @@ Decays<N, detail::BackendPolicy<BACKEND> >::cend() const
 
 	auto particles_iterator_tuple = detail::arrayToTuple( particles_iterator_array );
 
-	auto _iterator_tuple = thrust::tuple_cat( thrust::make_tuple( fWeights.cend() ),
+	auto _iterator_tuple = HYDRA_EXTERNAL_NS::thrust::tuple_cat( HYDRA_EXTERNAL_NS::thrust::make_tuple( fWeights.cend() ),
 					particles_iterator_tuple);
 
-	return thrust::make_zip_iterator(  _iterator_tuple );
+	return HYDRA_EXTERNAL_NS::thrust::make_zip_iterator(  _iterator_tuple );
 }
 
 
@@ -773,10 +773,10 @@ Decays<N, detail::BackendPolicy<BACKEND> >::crbegin() const
 
 	auto particles_iterator_tuple = detail::arrayToTuple( particles_iterator_array );
 
-	auto _iterator_tuple = thrust::tuple_cat( thrust::make_tuple( fWeights.crbegin() ),
+	auto _iterator_tuple = HYDRA_EXTERNAL_NS::thrust::tuple_cat( HYDRA_EXTERNAL_NS::thrust::make_tuple( fWeights.crbegin() ),
 				particles_iterator_tuple);
 
-	return thrust::make_zip_iterator(  _iterator_tuple );
+	return HYDRA_EXTERNAL_NS::thrust::make_zip_iterator(  _iterator_tuple );
 }
 
 template<size_t N, detail::Backend BACKEND>
@@ -793,10 +793,10 @@ Decays<N, detail::BackendPolicy<BACKEND> >::crend() const
 
 	auto particles_iterator_tuple = detail::arrayToTuple( particles_iterator_array );
 
-	auto _iterator_tuple = thrust::tuple_cat( thrust::make_tuple( fWeights.crend() ),
+	auto _iterator_tuple = HYDRA_EXTERNAL_NS::thrust::tuple_cat( HYDRA_EXTERNAL_NS::thrust::make_tuple( fWeights.crend() ),
 					particles_iterator_tuple);
 
-	return thrust::make_zip_iterator(  _iterator_tuple );
+	return HYDRA_EXTERNAL_NS::thrust::make_zip_iterator(  _iterator_tuple );
 }
 
 template<size_t N, detail::Backend BACKEND>
@@ -868,7 +868,7 @@ Decays<N, detail::BackendPolicy<BACKEND> >::pbegin() const
 
 	auto particles_iterator_tuple = detail::arrayToTuple( particles_iterator_array );
 
-	return thrust::make_zip_iterator( particles_iterator_tuple  );
+	return HYDRA_EXTERNAL_NS::thrust::make_zip_iterator( particles_iterator_tuple  );
 }
 
 template<size_t N, detail::Backend BACKEND>
@@ -884,7 +884,7 @@ Decays<N, detail::BackendPolicy<BACKEND> >::pend() const
 
 	auto particles_iterator_tuple = detail::arrayToTuple( particles_iterator_array );
 
-	return thrust::make_zip_iterator( particles_iterator_tuple );
+	return HYDRA_EXTERNAL_NS::thrust::make_zip_iterator( particles_iterator_tuple );
 
 }
 
@@ -901,7 +901,7 @@ Decays<N, detail::BackendPolicy<BACKEND> >::prbegin() const
 
 	auto particles_iterator_tuple = detail::arrayToTuple( particles_iterator_array );
 
-	return thrust::make_zip_iterator( particles_iterator_tuple);
+	return HYDRA_EXTERNAL_NS::thrust::make_zip_iterator( particles_iterator_tuple);
 
 }
 
@@ -918,7 +918,7 @@ Decays<N, detail::BackendPolicy<BACKEND> >::prend() const
 
 	auto particles_iterator_tuple = detail::arrayToTuple( particles_iterator_array );
 
-	return thrust::make_zip_iterator( particles_iterator_tuple);
+	return HYDRA_EXTERNAL_NS::thrust::make_zip_iterator( particles_iterator_tuple);
 
 }
 
@@ -984,23 +984,23 @@ template<size_t N, detail::Backend BACKEND>
 //typename Decays<N, detail::BackendPolicy<BACKEND> >::accpeted_iterator >
 size_t Decays<N, detail::BackendPolicy<BACKEND> >::Unweight(GUInt_t scale)
 {
-	using thrust::system::detail::generic::select_system;
-	typedef  typename thrust::iterator_system<
+	using HYDRA_EXTERNAL_NS::thrust::system::detail::generic::select_system;
+	typedef  typename HYDRA_EXTERNAL_NS::thrust::iterator_system<
 			 typename 	Decays<N, detail::BackendPolicy<BACKEND> >::const_iterator>::type system_t;
 
 	//number of events to trial
 	size_t ntrials = this->size();
 
 	//create iterators
-	thrust::counting_iterator<size_t> first(0);
-	thrust::counting_iterator<size_t> last = first + ntrials;
+	HYDRA_EXTERNAL_NS::thrust::counting_iterator<size_t> first(0);
+	HYDRA_EXTERNAL_NS::thrust::counting_iterator<size_t> last = first + ntrials;
 
 
 	//get the maximum value
-	GReal_t max_value = *( thrust::max_element(fWeights.begin(), fWeights.end()) );
+	GReal_t max_value = *( HYDRA_EXTERNAL_NS::thrust::max_element(fWeights.begin(), fWeights.end()) );
 
 	//raw pointer to weights
-	GReal_t* weights_ptr = thrust::raw_pointer_cast( fWeights.data() );
+	GReal_t* weights_ptr = HYDRA_EXTERNAL_NS::thrust::raw_pointer_cast( fWeights.data() );
 
 	//says if an event passed or not
 	detail::FlagDaugthers<N>
@@ -1009,10 +1009,10 @@ size_t Decays<N, detail::BackendPolicy<BACKEND> >::Unweight(GUInt_t scale)
 
 
 	//weight 1.0 all events
-	thrust::constant_iterator<GReal_t> iter_weight(1.0);
+	HYDRA_EXTERNAL_NS::thrust::constant_iterator<GReal_t> iter_weight(1.0);
 
 	//re-sort the container to build up un-weighted sample
-	auto middle = thrust::stable_partition(this->begin(), this->end(), first, predicate );
+	auto middle = HYDRA_EXTERNAL_NS::thrust::stable_partition(this->begin(), this->end(), first, predicate );
 
 	//unpack zip-iterator
 	auto begin_tuple  = this->begin().get_iterator_tuple();
@@ -1021,10 +1021,10 @@ size_t Decays<N, detail::BackendPolicy<BACKEND> >::Unweight(GUInt_t scale)
 	auto begin_tpl = detail::changeFirst(iter_weight , begin_tuple);
 
 	//done!
-	return  thrust::distance(begin(), middle );
+	return  HYDRA_EXTERNAL_NS::thrust::distance(begin(), middle );
 			/*hydra::pair< typename Decays<N, detail::BackendPolicy<BACKEND> >::accpeted_iterator,
 			typename Decays<N, detail::BackendPolicy<BACKEND> >::accpeted_iterator >
-	(thrust::make_zip_iterator(begin_tpl), thrust::make_zip_iterator(begin_tpl)+thrust::distance(begin(), middle ));*/
+	(HYDRA_EXTERNAL_NS::thrust::make_zip_iterator(begin_tpl), HYDRA_EXTERNAL_NS::thrust::make_zip_iterator(begin_tpl)+HYDRA_EXTERNAL_NS::thrust::distance(begin(), middle ));*/
 }
 
 
@@ -1035,36 +1035,36 @@ template<typename FUNCTOR>
 //typename Decays<N, detail::BackendPolicy<BACKEND> >::decays_trans_iterator >
 size_t Decays<N, detail::BackendPolicy<BACKEND> >::Unweight( FUNCTOR const& functor, GUInt_t scale)
 {
-	using thrust::system::detail::generic::select_system;
-	typedef  typename thrust::iterator_system<
+	using HYDRA_EXTERNAL_NS::thrust::system::detail::generic::select_system;
+	typedef  typename HYDRA_EXTERNAL_NS::thrust::iterator_system<
 			 typename 	Decays<N, detail::BackendPolicy<BACKEND> >::const_iterator>::type system_t;
 
 	//number of events to trial
 	size_t ntrials = this->size();
 
-	auto values = thrust::get_temporary_buffer<GReal_t>(system_t(), ntrials);
+	auto values = HYDRA_EXTERNAL_NS::thrust::get_temporary_buffer<GReal_t>(system_t(), ntrials);
 
 	//create iterators
-	thrust::counting_iterator<size_t> first(0);
-	thrust::counting_iterator<size_t> last = first + ntrials;
+	HYDRA_EXTERNAL_NS::thrust::counting_iterator<size_t> first(0);
+	HYDRA_EXTERNAL_NS::thrust::counting_iterator<size_t> last = first + ntrials;
 
 	detail::EvalOnDaugthers<N, FUNCTOR, typename Decays<N, detail::BackendPolicy<BACKEND> >::value_type>
     predicate1(functor);
 
-	thrust::copy(system_t(), thrust::make_transform_iterator(this->begin(), predicate1 ),
-            thrust::make_transform_iterator(this->end(), predicate1), values.first );
+	HYDRA_EXTERNAL_NS::thrust::copy(system_t(), HYDRA_EXTERNAL_NS::thrust::make_transform_iterator(this->begin(), predicate1 ),
+            HYDRA_EXTERNAL_NS::thrust::make_transform_iterator(this->end(), predicate1), values.first );
 
-	GReal_t max_value = *( thrust::max_element(values.first, values.first+ values.second) );
+	GReal_t max_value = *( HYDRA_EXTERNAL_NS::thrust::max_element(values.first, values.first+ values.second) );
 
 	//says if an event passed or not
 	detail::FlagDaugthers<N>
 	predicate2(scale*max_value, values.first.get() );
 
 	//weight 1.0 all events
-	thrust::constant_iterator<GReal_t> iter_weight(1.0);
+	HYDRA_EXTERNAL_NS::thrust::constant_iterator<GReal_t> iter_weight(1.0);
 
 	//re-sort the container to build up un-weighted sample
-	auto middle = thrust::stable_partition(this->begin(), this->end(), first, predicate2 );
+	auto middle = HYDRA_EXTERNAL_NS::thrust::stable_partition(this->begin(), this->end(), first, predicate2 );
 
 	//unpack zip-iterator
 	auto begin_tuple  = this->begin().get_iterator_tuple();
@@ -1072,15 +1072,15 @@ size_t Decays<N, detail::BackendPolicy<BACKEND> >::Unweight( FUNCTOR const& func
 	//change first index
 	auto begin_tpl = detail::changeFirst(iter_weight , begin_tuple);
 
-	thrust::return_temporary_buffer(system_t(), values.first);
+	HYDRA_EXTERNAL_NS::thrust::return_temporary_buffer(system_t(), values.first);
 
 	//done!
-	return (size_t) thrust::distance(begin(), middle );
+	return (size_t) HYDRA_EXTERNAL_NS::thrust::distance(begin(), middle );
 	/*hydra::pair<
 			typename Decays<N, detail::BackendPolicy<BACKEND> >::decays_trans_iterator,
 			typename Decays<N, detail::BackendPolicy<BACKEND> >::decays_trans_iterator
-			>(  this->ptbegin(), this->ptbegin()+thrust::distance(begin(), middle ) );*/
-	//(thrust::make_zip_iterator(begin_tpl), thrust::make_zip_iterator(begin_tpl)+thrust::distance(begin(), middle ));
+			>(  this->ptbegin(), this->ptbegin()+HYDRA_EXTERNAL_NS::thrust::distance(begin(), middle ) );*/
+	//(HYDRA_EXTERNAL_NS::thrust::make_zip_iterator(begin_tpl), HYDRA_EXTERNAL_NS::thrust::make_zip_iterator(begin_tpl)+HYDRA_EXTERNAL_NS::thrust::distance(begin(), middle ));
 }
 
 
@@ -1089,16 +1089,16 @@ template<size_t N, detail::Backend BACKEND>
 template<typename FUNCTOR>
 void Decays<N, detail::BackendPolicy<BACKEND> >::Reweight( FUNCTOR const& functor)
 {
-	using thrust::system::detail::generic::select_system;
-	typedef  typename thrust::iterator_system<
+	using HYDRA_EXTERNAL_NS::thrust::system::detail::generic::select_system;
+	typedef  typename HYDRA_EXTERNAL_NS::thrust::iterator_system<
 			 typename 	Decays<N, detail::BackendPolicy<BACKEND> >::const_iterator>::type system_t;
 
 
 	detail::EvalOnDaugthers<N, FUNCTOR, typename Decays<N, detail::BackendPolicy<BACKEND> >::value_type>
     predicate1(functor);
 
-	thrust::copy(system_t(), thrust::make_transform_iterator(this->begin(), predicate1),
-                             thrust::make_transform_iterator(this->end()  , predicate1),
+	HYDRA_EXTERNAL_NS::thrust::copy(system_t(), HYDRA_EXTERNAL_NS::thrust::make_transform_iterator(this->begin(), predicate1),
+                             HYDRA_EXTERNAL_NS::thrust::make_transform_iterator(this->end()  , predicate1),
                              this->wbegin()   );
 
 	return;
@@ -1114,20 +1114,20 @@ bool operator==(const Decays<N1, hydra::detail::BackendPolicy<BACKEND1> >& lhs,
        {
 
 	bool is_same_type = (N1 == N2)
-			&& thrust::detail::is_same<hydra::detail::BackendPolicy<BACKEND1>, hydra::detail::BackendPolicy<BACKEND2> >::value
+			&& HYDRA_EXTERNAL_NS::thrust::detail::is_same<hydra::detail::BackendPolicy<BACKEND1>, hydra::detail::BackendPolicy<BACKEND2> >::value
 			&& lhs.size() == rhs.size();
 	bool result =1;
 
-	auto comp = []__host__ __device__(thrust::tuple<
+	auto comp = []__host__ __device__(HYDRA_EXTERNAL_NS::thrust::tuple<
 			typename Decays<N1, hydra::detail::BackendPolicy<BACKEND1>>::value_type,
 			typename Decays<N2, hydra::detail::BackendPolicy<BACKEND2>>::value_type> const& values){
-		return thrust::get<0>(values)== thrust::get<1>(values);
+		return HYDRA_EXTERNAL_NS::thrust::get<0>(values)== HYDRA_EXTERNAL_NS::thrust::get<1>(values);
 
 	};
 
 	if(is_same_type){
-			result = thrust::all_of(thrust::make_zip_iterator(lhs.begin(), rhs.begin()),
-					thrust::make_zip_iterator(lhs.end(), rhs.end()), comp);
+			result = HYDRA_EXTERNAL_NS::thrust::all_of(HYDRA_EXTERNAL_NS::thrust::make_zip_iterator(lhs.begin(), rhs.begin()),
+					HYDRA_EXTERNAL_NS::thrust::make_zip_iterator(lhs.end(), rhs.end()), comp);
 	}
 	return  result && is_same_type;
 
@@ -1139,20 +1139,20 @@ bool operator!=(const Decays<N1, hydra::detail::BackendPolicy<BACKEND1> >& lhs,
                 const Decays<N2, hydra::detail::BackendPolicy<BACKEND2> >& rhs){
 
 		bool is_same_type = (N1 == N2)
-				&& thrust::detail::is_same<hydra::detail::BackendPolicy<BACKEND1>, hydra::detail::BackendPolicy<BACKEND2> >::value
+				&& HYDRA_EXTERNAL_NS::thrust::detail::is_same<hydra::detail::BackendPolicy<BACKEND1>, hydra::detail::BackendPolicy<BACKEND2> >::value
 				&& lhs.size() == rhs.size();
 		bool result =1;
 
-		auto comp = []__host__ __device__(thrust::tuple<
+		auto comp = []__host__ __device__(HYDRA_EXTERNAL_NS::thrust::tuple<
 				typename Decays<N1, hydra::detail::BackendPolicy<BACKEND1>>::value_type,
 				typename Decays<N2, hydra::detail::BackendPolicy<BACKEND2>>::value_type> const& values){
-			return (thrust::get<0>(values) == thrust::get<1>(values));
+			return (HYDRA_EXTERNAL_NS::thrust::get<0>(values) == HYDRA_EXTERNAL_NS::thrust::get<1>(values));
 
 		};
 
 		if(is_same_type){
-				result = thrust::all_of(thrust::make_zip_iterator(lhs.begin(), rhs.begin()),
-						thrust::make_zip_iterator(lhs.end(), rhs.end()), comp);
+				result = HYDRA_EXTERNAL_NS::thrust::all_of(HYDRA_EXTERNAL_NS::thrust::make_zip_iterator(lhs.begin(), rhs.begin()),
+						HYDRA_EXTERNAL_NS::thrust::make_zip_iterator(lhs.end(), rhs.end()), comp);
 		}
 		return  (!result) && is_same_type;
 }

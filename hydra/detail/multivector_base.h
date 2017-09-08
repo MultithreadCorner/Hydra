@@ -32,8 +32,8 @@
 #include <hydra/detail/Config.h>
 #include <hydra/Types.h>
 #include <hydra/detail/multivector_base.inc>
-#include <thrust/iterator/zip_iterator.h>
-#include <thrust/tuple.h>
+#include <hydra/detail/external/thrust/iterator/zip_iterator.h>
+#include <hydra/detail/external/thrust/tuple.h>
 #include <hydra/detail/utility/Utility_Tuple.h>
 #include <hydra/detail/utility/Generic.h>
 
@@ -58,25 +58,25 @@ public:
 
 
     //tuples of types
-	typedef thrust::tuple<T...> 			                                           value_tuple_type;
-	typedef thrust::tuple<Vector<T, Allocator<T>>...> 		                           storage_tuple_type;
-	typedef thrust::tuple<typename Vector<T, Allocator<T>>::pointer...> 	           pointer_tuple_type;
-	typedef thrust::tuple<typename Vector<T, Allocator<T>>::const_pointer...> 	       const_pointer_tuple_type;
-	typedef thrust::tuple<typename Vector<T, Allocator<T>>::reference...> 	           reference_tuple;
-	typedef thrust::tuple<typename Vector<T, Allocator<T>>::const_reference...>        const_reference_tuple;
-	typedef thrust::tuple<typename Vector<T, Allocator<T>>::size_type...> 	           size_type_tuple;
-	typedef thrust::tuple<typename Vector<T, Allocator<T>>::iterator...> 	           iterator_tuple;
-	typedef thrust::tuple<typename Vector<T, Allocator<T>>::const_iterator...>         const_iterator_tuple;
-	typedef thrust::tuple<typename Vector<T, Allocator<T>>::reverse_iterator...>       reverse_iterator_tuple;
-	typedef thrust::tuple<typename Vector<T, Allocator<T>>::const_reverse_iterator...> const_reverse_iterator_tuple;
+	typedef HYDRA_EXTERNAL_NS::thrust::tuple<T...> 			                                           value_tuple_type;
+	typedef HYDRA_EXTERNAL_NS::thrust::tuple<Vector<T, Allocator<T>>...> 		                           storage_tuple_type;
+	typedef HYDRA_EXTERNAL_NS::thrust::tuple<typename Vector<T, Allocator<T>>::pointer...> 	           pointer_tuple_type;
+	typedef HYDRA_EXTERNAL_NS::thrust::tuple<typename Vector<T, Allocator<T>>::const_pointer...> 	       const_pointer_tuple_type;
+	typedef HYDRA_EXTERNAL_NS::thrust::tuple<typename Vector<T, Allocator<T>>::reference...> 	           reference_tuple;
+	typedef HYDRA_EXTERNAL_NS::thrust::tuple<typename Vector<T, Allocator<T>>::const_reference...>        const_reference_tuple;
+	typedef HYDRA_EXTERNAL_NS::thrust::tuple<typename Vector<T, Allocator<T>>::size_type...> 	           size_type_tuple;
+	typedef HYDRA_EXTERNAL_NS::thrust::tuple<typename Vector<T, Allocator<T>>::iterator...> 	           iterator_tuple;
+	typedef HYDRA_EXTERNAL_NS::thrust::tuple<typename Vector<T, Allocator<T>>::const_iterator...>         const_iterator_tuple;
+	typedef HYDRA_EXTERNAL_NS::thrust::tuple<typename Vector<T, Allocator<T>>::reverse_iterator...>       reverse_iterator_tuple;
+	typedef HYDRA_EXTERNAL_NS::thrust::tuple<typename Vector<T, Allocator<T>>::const_reverse_iterator...> const_reverse_iterator_tuple;
 
 	//zipped iterators
-	typedef thrust::zip_iterator<iterator_tuple>                 iterator;
-	typedef thrust::zip_iterator<const_iterator_tuple>           const_iterator;
+	typedef HYDRA_EXTERNAL_NS::thrust::zip_iterator<iterator_tuple>                 iterator;
+	typedef HYDRA_EXTERNAL_NS::thrust::zip_iterator<const_iterator_tuple>           const_iterator;
 
 	//zipped reverse_iterators
-	typedef thrust::zip_iterator<reverse_iterator_tuple>         reverse_iterator;
-	typedef thrust::zip_iterator<const_reverse_iterator_tuple>   const_reverse_iterator;
+	typedef HYDRA_EXTERNAL_NS::thrust::zip_iterator<reverse_iterator_tuple>         reverse_iterator;
+	typedef HYDRA_EXTERNAL_NS::thrust::zip_iterator<const_reverse_iterator_tuple>   const_reverse_iterator;
 
 	/**
 	 * default constructor
@@ -150,7 +150,7 @@ public:
 
 	inline void push_back(T const&... args);
 
-	inline void push_back(thrust::tuple<T...> const& args);
+	inline void push_back(HYDRA_EXTERNAL_NS::thrust::tuple<T...> const& args);
 
 	pointer_tuple_type data();
 
@@ -201,35 +201,35 @@ public:
 	//----------------------
 	template<unsigned int I>
 	auto vbegin()
-	-> typename thrust::tuple_element<I, iterator_tuple>::type;
+	-> typename HYDRA_EXTERNAL_NS::thrust::tuple_element<I, iterator_tuple>::type;
 
 	template<unsigned int I>
 	auto vend()
-	-> typename thrust::tuple_element<I, iterator_tuple>::type;
+	-> typename HYDRA_EXTERNAL_NS::thrust::tuple_element<I, iterator_tuple>::type;
 
 	template<unsigned int I>
 	auto vcbegin() const
-	-> typename thrust::tuple_element<I, const_iterator_tuple>::type;
+	-> typename HYDRA_EXTERNAL_NS::thrust::tuple_element<I, const_iterator_tuple>::type;
 
 	template<unsigned int I>
 	auto vcend() const
-	-> typename thrust::tuple_element<I, const_iterator_tuple>::type;
+	-> typename HYDRA_EXTERNAL_NS::thrust::tuple_element<I, const_iterator_tuple>::type;
 
 	template<unsigned int I>
 	auto vrbegin()
-	-> typename thrust::tuple_element<I, reverse_iterator_tuple>::type;
+	-> typename HYDRA_EXTERNAL_NS::thrust::tuple_element<I, reverse_iterator_tuple>::type;
 
 	template<unsigned int I>
 	auto vrend()
-	-> typename thrust::tuple_element<I, reverse_iterator_tuple>::type;
+	-> typename HYDRA_EXTERNAL_NS::thrust::tuple_element<I, reverse_iterator_tuple>::type;
 
 	template<unsigned int I>
 	auto vcrbegin() const
-	-> typename thrust::tuple_element<I, const_reverse_iterator_tuple>::type;
+	-> typename HYDRA_EXTERNAL_NS::thrust::tuple_element<I, const_reverse_iterator_tuple>::type;
 
 	template<unsigned int I>
 	auto vcrend() const
-	-> typename thrust::tuple_element<I, const_reverse_iterator_tuple>::type;
+	-> typename HYDRA_EXTERNAL_NS::thrust::tuple_element<I, const_reverse_iterator_tuple>::type;
 
 	//-------------------------------------
 	inline	reference_tuple operator[](size_t n)

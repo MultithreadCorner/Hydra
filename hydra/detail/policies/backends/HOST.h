@@ -31,7 +31,7 @@
 
 #include <hydra/detail/Config.h>
 #include <hydra/detail/BackendPolicy.h>
-#include <thrust/execution_policy.h>
+#include <hydra/detail/external/thrust/execution_policy.h>
 #include <hydra/Containers.h>
 
 namespace hydra {
@@ -40,14 +40,14 @@ namespace detail {
 
 namespace host {
 
-typedef thrust::detail::host_t	            host_t;
+typedef HYDRA_EXTERNAL_NS::thrust::detail::host_t	            host_t;
 static const host_t   _host_;
 
 }  // namespace host
 
 
 template<>
-struct BackendPolicy<Backend::Host>: thrust::execution_policy<host::host_t>
+struct BackendPolicy<Backend::Host>: HYDRA_EXTERNAL_NS::thrust::execution_policy<host::host_t>
 {
 	const host::host_t backend= host::_host_;
 

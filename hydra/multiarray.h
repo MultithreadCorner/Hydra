@@ -34,13 +34,13 @@
 #include <hydra/detail/BackendPolicy.h>
 #include <hydra/detail/utility/Utility_Tuple.h>
 #include <hydra/detail/functors/Caster.h>
-#include <thrust/iterator/zip_iterator.h>
-#include <thrust/iterator/iterator_traits.h>
-#include <thrust/tuple.h>
-#include <thrust/logical.h>
-#include <thrust/functional.h>
-#include <thrust/detail/type_traits.h>
-#include <thrust/iterator/transform_iterator.h>
+#include <hydra/detail/external/thrust/iterator/zip_iterator.h>
+#include <hydra/detail/external/thrust/iterator/iterator_traits.h>
+#include <hydra/detail/external/thrust/tuple.h>
+#include <hydra/detail/external/thrust/logical.h>
+#include <hydra/detail/external/thrust/functional.h>
+#include <hydra/detail/external/thrust/detail/type_traits.h>
+#include <hydra/detail/external/thrust/iterator/transform_iterator.h>
 #include <array>
 
 //#include<hydra/detail/multiarray.inc>
@@ -95,27 +95,27 @@ public:
 	typedef std::array<const_vreverse_iterator, N> 	const_reverse_iterator_array;
 
 	//zip iterator
-	typedef thrust::zip_iterator<iterator_tuple>		 iterator;
-	typedef thrust::zip_iterator<const_iterator_tuple>	 const_iterator;
-	typedef thrust::zip_iterator<reverse_iterator_tuple>		 reverse_iterator;
-	typedef thrust::zip_iterator<const_reverse_iterator_tuple>	 const_reverse_iterator;
+	typedef HYDRA_EXTERNAL_NS::thrust::zip_iterator<iterator_tuple>		 iterator;
+	typedef HYDRA_EXTERNAL_NS::thrust::zip_iterator<const_iterator_tuple>	 const_iterator;
+	typedef HYDRA_EXTERNAL_NS::thrust::zip_iterator<reverse_iterator_tuple>		 reverse_iterator;
+	typedef HYDRA_EXTERNAL_NS::thrust::zip_iterator<const_reverse_iterator_tuple>	 const_reverse_iterator;
 
 	//stl-like typedefs
 	 typedef size_t size_type;
 
-	 typedef typename thrust::iterator_traits<iterator>::difference_type difference_type;
-	 typedef typename thrust::iterator_traits<iterator>::value_type value_type;
-	 //typedef typename thrust::iterator_traits<iterator>::pointer pointer;
+	 typedef typename HYDRA_EXTERNAL_NS::thrust::iterator_traits<iterator>::difference_type difference_type;
+	 typedef typename HYDRA_EXTERNAL_NS::thrust::iterator_traits<iterator>::value_type value_type;
+	 //typedef typename HYDRA_EXTERNAL_NS::thrust::iterator_traits<iterator>::pointer pointer;
 	 typedef typename detail::tuple_type<N,vpointer>::type pointer_tuple;
 	 typedef typename detail::tuple_type<N,const_vpointer>::type const_pointer_tuple;
 	 typedef std::array<vpointer,N>       pointer_array;
 	 typedef std::array<const_vpointer,N> const_pointer_array;
 
-	 typedef typename thrust::iterator_traits<iterator>::reference reference;
-	 typedef typename thrust::iterator_traits<const_iterator>::reference const_reference;
-	 typedef typename thrust::iterator_traits<reverse_iterator>::reference reverse_reference;
-	 typedef typename thrust::iterator_traits<const_reverse_iterator>::reference const_reverse_reference;
-	 typedef typename thrust::iterator_traits<iterator>::iterator_category iterator_category;
+	 typedef typename HYDRA_EXTERNAL_NS::thrust::iterator_traits<iterator>::reference reference;
+	 typedef typename HYDRA_EXTERNAL_NS::thrust::iterator_traits<const_iterator>::reference const_reference;
+	 typedef typename HYDRA_EXTERNAL_NS::thrust::iterator_traits<reverse_iterator>::reference reverse_reference;
+	 typedef typename HYDRA_EXTERNAL_NS::thrust::iterator_traits<const_reverse_iterator>::reference const_reverse_reference;
+	 typedef typename HYDRA_EXTERNAL_NS::thrust::iterator_traits<iterator>::iterator_category iterator_category;
 
 	multiarray():
 		fData(data_t())
@@ -305,12 +305,12 @@ private:
 
 	//copy
 	template<size_t I, typename Iterator>
-	inline typename thrust::detail::enable_if<(I == N), void >::type
+	inline typename HYDRA_EXTERNAL_NS::thrust::detail::enable_if<(I == N), void >::type
 	do_copy(Iterator begin, Iterator end )
 	{ }
 
 	template<size_t I=0, typename Iterator>
-	inline typename thrust::detail::enable_if<(I < N), void >::type
+	inline typename HYDRA_EXTERNAL_NS::thrust::detail::enable_if<(I < N), void >::type
 	do_copy(Iterator begin, Iterator end)
 	{
 
@@ -322,12 +322,12 @@ private:
 
 	//insert
 	template<size_t I>
-	inline typename thrust::detail::enable_if<(I == N), void >::type
+	inline typename HYDRA_EXTERNAL_NS::thrust::detail::enable_if<(I == N), void >::type
 	do_insert(size_t dist, iterator_tuple& output, value_type const& value)
 	{ }
 
 	template<size_t I=0>
-	inline typename thrust::detail::enable_if<(I < N), void >::type
+	inline typename HYDRA_EXTERNAL_NS::thrust::detail::enable_if<(I < N), void >::type
 	do_insert(size_t dist, iterator_tuple& output, value_type const& value)
 	{
 		get<I>(output) = fData[I].insert(fData[I].begin() + dist, get<I>(value) );
@@ -335,12 +335,12 @@ private:
 	}
 
 	template<size_t I, template<typename ...> class Tuple, typename ...Iterators>
-	inline typename thrust::detail::enable_if<(I == sizeof...(Iterators)), void >::type
+	inline typename HYDRA_EXTERNAL_NS::thrust::detail::enable_if<(I == sizeof...(Iterators)), void >::type
 	do_insert(size_t dist, Tuple<Iterators...> const& first_tuple, Tuple<Iterators...> const& last_tuple)
 	{}
 
 	template<size_t I = 0, template<typename ...> class Tuple, typename ...Iterators>
-	inline typename thrust::detail::enable_if<(I < sizeof...(Iterators)), void >::type
+	inline typename HYDRA_EXTERNAL_NS::thrust::detail::enable_if<(I < sizeof...(Iterators)), void >::type
 	do_insert(size_t dist, Tuple<Iterators...> const& first, Tuple<Iterators...> const& last)
 	{
 	    fData[I].insert(fData[I].begin() + dist, get<I>(first), get<I>(last) );
@@ -349,12 +349,12 @@ private:
 
     //push_back
 	template<size_t I>
-	inline typename thrust::detail::enable_if<(I == N), void >::type
+	inline typename HYDRA_EXTERNAL_NS::thrust::detail::enable_if<(I == N), void >::type
 	do_push_back(value_type const& value)
 	{}
 
 	template<size_t I = 0>
-	inline typename thrust::detail::enable_if<(I < N), void >::type
+	inline typename HYDRA_EXTERNAL_NS::thrust::detail::enable_if<(I < N), void >::type
 	do_push_back(value_type const& value)
 	{
 	    fData[I].push_back(get<I>(value));
@@ -419,32 +419,32 @@ public:
 	typedef std::array<const_vreverse_iterator, N> 	const_reverse_iterator_array;
 
 	//zip iterator
-	typedef thrust::zip_iterator<iterator_tuple>		 iterator;
-	typedef thrust::zip_iterator<const_iterator_tuple>	 const_iterator;
-	typedef thrust::zip_iterator<reverse_iterator_tuple>		 reverse_iterator;
-	typedef thrust::zip_iterator<const_reverse_iterator_tuple>	 const_reverse_iterator;
+	typedef HYDRA_EXTERNAL_NS::thrust::zip_iterator<iterator_tuple>		 iterator;
+	typedef HYDRA_EXTERNAL_NS::thrust::zip_iterator<const_iterator_tuple>	 const_iterator;
+	typedef HYDRA_EXTERNAL_NS::thrust::zip_iterator<reverse_iterator_tuple>		 reverse_iterator;
+	typedef HYDRA_EXTERNAL_NS::thrust::zip_iterator<const_reverse_iterator_tuple>	 const_reverse_iterator;
 
 
 	//stl-like typedefs
 	 typedef size_t size_type;
 
-	 typedef typename thrust::iterator_traits<iterator>::difference_type difference_type;
-	 typedef typename thrust::iterator_traits<iterator>::value_type value_type;
-	 //typedef typename thrust::iterator_traits<iterator>::pointer pointer;
+	 typedef typename HYDRA_EXTERNAL_NS::thrust::iterator_traits<iterator>::difference_type difference_type;
+	 typedef typename HYDRA_EXTERNAL_NS::thrust::iterator_traits<iterator>::value_type value_type;
+	 //typedef typename HYDRA_EXTERNAL_NS::thrust::iterator_traits<iterator>::pointer pointer;
 	 typedef typename detail::tuple_type<N,vpointer>::type pointer_tuple;
 	 typedef typename detail::tuple_type<N,const_vpointer>::type const_pointer_tuple;
 	 typedef std::array<vpointer,N>       pointer_array;
 	 typedef std::array<const_vpointer,N> const_pointer_array;
 
-	 typedef typename thrust::iterator_traits<iterator>::reference reference;
-	 typedef typename thrust::iterator_traits<const_iterator>::reference const_reference;
-	 typedef typename thrust::iterator_traits<reverse_iterator>::reference reverse_reference;
-	 typedef typename thrust::iterator_traits<const_reverse_iterator>::reference const_reverse_reference;
-	 typedef typename thrust::iterator_traits<iterator>::iterator_category iterator_category;
+	 typedef typename HYDRA_EXTERNAL_NS::thrust::iterator_traits<iterator>::reference reference;
+	 typedef typename HYDRA_EXTERNAL_NS::thrust::iterator_traits<const_iterator>::reference const_reference;
+	 typedef typename HYDRA_EXTERNAL_NS::thrust::iterator_traits<reverse_iterator>::reference reverse_reference;
+	 typedef typename HYDRA_EXTERNAL_NS::thrust::iterator_traits<const_reverse_iterator>::reference const_reverse_reference;
+	 typedef typename HYDRA_EXTERNAL_NS::thrust::iterator_traits<iterator>::iterator_category iterator_category;
 
 	 //cast iterator
-	 typedef  thrust::transform_iterator<detail::Caster< value_type, TargetType>,  iterator>  trans_iterator;
-	 typedef  thrust::transform_iterator<detail::Caster< value_type, TargetType>,  reverse_iterator>  reverse_trans_iterator;
+	 typedef  HYDRA_EXTERNAL_NS::thrust::transform_iterator<detail::Caster< value_type, TargetType>,  iterator>  trans_iterator;
+	 typedef  HYDRA_EXTERNAL_NS::thrust::transform_iterator<detail::Caster< value_type, TargetType>,  reverse_iterator>  reverse_trans_iterator;
 
 	multiarray():
 		fData(data_t())
@@ -639,12 +639,12 @@ private:
 
 	//copy
 	template<size_t I, typename Iterator>
-	inline typename thrust::detail::enable_if<(I == N), void >::type
+	inline typename HYDRA_EXTERNAL_NS::thrust::detail::enable_if<(I == N), void >::type
 	do_copy(Iterator begin, Iterator end )
 	{ }
 
 	template<size_t I=0, typename Iterator>
-	inline typename thrust::detail::enable_if<(I < N), void >::type
+	inline typename HYDRA_EXTERNAL_NS::thrust::detail::enable_if<(I < N), void >::type
 	do_copy(Iterator begin, Iterator end)
 	{
 
@@ -656,12 +656,12 @@ private:
 
 	//insert
 	template<size_t I>
-	inline typename thrust::detail::enable_if<(I == N), void >::type
+	inline typename HYDRA_EXTERNAL_NS::thrust::detail::enable_if<(I == N), void >::type
 	do_insert(size_t dist, iterator_tuple& output, value_type const& value)
 	{ }
 
 	template<size_t I=0>
-	inline typename thrust::detail::enable_if<(I < N), void >::type
+	inline typename HYDRA_EXTERNAL_NS::thrust::detail::enable_if<(I < N), void >::type
 	do_insert(size_t dist, iterator_tuple& output, value_type const& value)
 	{
 		get<I>(output) = fData[I].insert(fData[I].begin() + dist, get<I>(value) );
@@ -669,12 +669,12 @@ private:
 	}
 
 	template<size_t I, template<typename ...> class Tuple, typename ...Iterators>
-	inline typename thrust::detail::enable_if<(I == sizeof...(Iterators)), void >::type
+	inline typename HYDRA_EXTERNAL_NS::thrust::detail::enable_if<(I == sizeof...(Iterators)), void >::type
 	do_insert(size_t dist, Tuple<Iterators...> const& first_tuple, Tuple<Iterators...> const& last_tuple)
 	{}
 
 	template<size_t I = 0, template<typename ...> class Tuple, typename ...Iterators>
-	inline typename thrust::detail::enable_if<(I < sizeof...(Iterators)), void >::type
+	inline typename HYDRA_EXTERNAL_NS::thrust::detail::enable_if<(I < sizeof...(Iterators)), void >::type
 	do_insert(size_t dist, Tuple<Iterators...> const& first, Tuple<Iterators...> const& last)
 	{
 	    fData[I].insert(fData[I].begin() + dist, get<I>(first), get<I>(last) );
@@ -683,12 +683,12 @@ private:
 
     //push_back
 	template<size_t I>
-	inline typename thrust::detail::enable_if<(I == N), void >::type
+	inline typename HYDRA_EXTERNAL_NS::thrust::detail::enable_if<(I == N), void >::type
 	do_push_back(value_type const& value)
 	{}
 
 	template<size_t I = 0>
-	inline typename thrust::detail::enable_if<(I < N), void >::type
+	inline typename HYDRA_EXTERNAL_NS::thrust::detail::enable_if<(I < N), void >::type
 	do_push_back(value_type const& value)
 	{
 	    fData[I].push_back(get<I>(value));

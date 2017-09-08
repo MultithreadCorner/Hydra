@@ -30,11 +30,11 @@
 #define CONTAINERS_INL_
 
 #include <hydra/detail/Config.h>
-#include <thrust/device_vector.h>
-#include <thrust/host_vector.h>
-#include <thrust/complex.h>
+#include <hydra/detail/external/thrust/device_vector.h>
+#include <hydra/detail/external/thrust/host_vector.h>
+#include <hydra/detail/external/thrust/complex.h>
 #if THRUST_DEVICE_SYSTEM==THRUST_DEVICE_SYSTEM_CUDA
-#include <thrust/system/cuda/experimental/pinned_allocator.h>
+#include <hydra/detail/external/thrust/system/cuda/experimental/pinned_allocator.h>
 #endif
 
 namespace hydra
@@ -43,35 +43,35 @@ namespace hydra
 
 #if THRUST_DEVICE_SYSTEM==THRUST_DEVICE_SYSTEM_CUDA
 	/*!
-	 * Generic template typedef for thrust::host_vector. Use it instead of Thrust implementation
+	 * Generic template typedef for HYDRA_EXTERNAL_NS::thrust::host_vector. Use it instead of Thrust implementation
 	 * in order to avoid problems to compile OpenMP based applications using gcc and without a cuda runtime installation.
 	 */
 	template <typename T>
-		using  mc_device_vector = thrust::device_vector<T>;
+		using  mc_device_vector = HYDRA_EXTERNAL_NS::thrust::device_vector<T>;
 	/*!
-	 * Generic template typedef for thrust::host_vector. Use it instead of Thrust implementation
+	 * Generic template typedef for HYDRA_EXTERNAL_NS::thrust::host_vector. Use it instead of Thrust implementation
 	 * in order to avoid problems to compile OpenMP based applications using gcc and without a cuda runtime installation.
 	 * mc_host_vectot will always allocate page locked memory on CUDA backends in order to maximize speed in memory transfers
 	 * to the device.
 	 */
 	template <typename T>
-		using  mc_host_vector = thrust::host_vector<T, thrust::system::cuda::experimental::pinned_allocator<T>>;
+		using  mc_host_vector = HYDRA_EXTERNAL_NS::thrust::host_vector<T, HYDRA_EXTERNAL_NS::thrust::system::cuda::experimental::pinned_allocator<T>>;
 
 #else
 /*!
- * Generic template typedef for thrust::host_vector. Use it instead of Thrust implementation
+ * Generic template typedef for HYDRA_EXTERNAL_NS::thrust::host_vector. Use it instead of Thrust implementation
  * in order to avoid problems to compile OpenMP based applications using gcc and without a cuda runtime installation.
  */
 	template <typename T>
-		using  mc_device_vector = thrust::device_vector<T>;
+		using  mc_device_vector = HYDRA_EXTERNAL_NS::thrust::device_vector<T>;
 /*!
- * Generic template typedef for thrust::host_vector. Use it instead of Thrust implementation
+ * Generic template typedef for HYDRA_EXTERNAL_NS::thrust::host_vector. Use it instead of Thrust implementation
  * in order to avoid problems to compile OpenMP based applications using gcc and without a cuda runtime installation.
  * mc_host_vectot will always allocate page locked memory on CUDA backends in order to maximize speed in memory transfers
  * to the device.
  */
 	template <typename T>
-		using  mc_host_vector   = thrust::host_vector<T>;
+		using  mc_host_vector   = HYDRA_EXTERNAL_NS::thrust::host_vector<T>;
 #endif
 
 

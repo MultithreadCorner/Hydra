@@ -30,10 +30,10 @@
 #define PERMUTE_H_
 
 #include <hydra/detail/Config.h>
-#include <thrust/sort.h>
-#include <thrust/memory.h>
-#include <thrust/iterator/iterator_traits.h>
-#include <thrust/swap.h>
+#include <hydra/detail/external/thrust/sort.h>
+#include <hydra/detail/external/thrust/memory.h>
+#include <hydra/detail/external/thrust/iterator/iterator_traits.h>
+#include <hydra/detail/external/thrust/swap.h>
 
 namespace hydra {
 
@@ -44,7 +44,7 @@ __host__ __device__
 void iter_swap(Iterator first, Iterator second)
 {
 
-	thrust::swap(*thrust::raw_pointer_cast(first), *thrust::raw_pointer_cast(second));
+	HYDRA_EXTERNAL_NS::thrust::swap(*HYDRA_EXTERNAL_NS::thrust::raw_pointer_cast(first), *HYDRA_EXTERNAL_NS::thrust::raw_pointer_cast(second));
 }
 
 template <class Iterator>
@@ -81,7 +81,7 @@ typename std::enable_if<std::is_integral<Integer>::value, void>::type
 __host__ __device__
 nth_permutation(Iterator begin, Iterator end, Integer n, Comparator comp)
 {
-  thrust::sort(begin, end, comp);
+  HYDRA_EXTERNAL_NS::thrust::sort(begin, end, comp);
 
   const Integer k(end - begin);
 

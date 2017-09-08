@@ -45,9 +45,9 @@
 //thrust
 
 
-#include <thrust/tuple.h>
-#include <thrust/device_vector.h>
-#include <thrust/host_vector.h>
+#include <hydra/detail/external/thrust/tuple.h>
+#include <hydra/detail/external/thrust/device_vector.h>
+#include <hydra/detail/external/thrust/host_vector.h>
 
 namespace hydra {
 

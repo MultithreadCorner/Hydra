@@ -29,12 +29,12 @@
 #ifndef TUPLES_H_
 #define TUPLES_H_
 
-#include <thrust/tuple.h>
+#include <hydra/detail/external/thrust/tuple.h>
 
 namespace hydra {
 //---- type alias -----------------------
 
-/*! \p tuple template is an alias to the variadic version of thrust::tuple
+/*! \p tuple template is an alias to the variadic version of HYDRA_EXTERNAL_NS::thrust::tuple
  *  and that can be instantiated with a indefinite number of arguments.
  *  Each template argument specifies the type of element in the \p tuple.
  *  Consequently, tuples are heterogeneous, fixed-size collections of values. An
@@ -64,9 +64,9 @@ namespace hydra {
  *  hydra::get<0>(t) += 10;
  *  \endcode
  */
-template<typename... T> using tuple = thrust::tuple<T...>;
+template<typename... T> using tuple = HYDRA_EXTERNAL_NS::thrust::tuple<T...>;
 
-/*! \p pair  template is an alias to the thrust::pair structure.
+/*! \p pair  template is an alias to the HYDRA_EXTERNAL_NS::thrust::pair structure.
  *
  *  \tparam T1 The type of \p pair's first object type.  There are no
  *          requirements on the type of \p T1. <tt>T1</tt>'s type is
@@ -76,7 +76,7 @@ template<typename... T> using tuple = thrust::tuple<T...>;
  *          requirements on the type of \p T2. <tt>T2</tt>'s type is
  *          provided by <tt>pair::second_type</tt>.
  */
-template<typename T1,typename T2> using pair  = thrust::pair<T1,T2>;
+template<typename T1,typename T2> using pair  = HYDRA_EXTERNAL_NS::thrust::pair<T1,T2>;
 
 /*! The \p get function returns a \c const reference to a \p tuple element of
  *  interest.
@@ -106,7 +106,7 @@ template<typename T1,typename T2> using pair  = thrust::pair<T1,T2>;
  *  \tparam T A \c tuple type of interest.
  *
  */
-template<int N, class T> using tuple_element = thrust::tuple_element<N,T>;
+template<int N, class T> using tuple_element = HYDRA_EXTERNAL_NS::thrust::tuple_element<N,T>;
 
 /*! This metafunction returns the number of elements
  *  of a \p tuple type of interest.
@@ -114,7 +114,7 @@ template<int N, class T> using tuple_element = thrust::tuple_element<N,T>;
  *  \tparam T A \c tuple type of interest.
  *
  */
-template<class T> using tuple_size = thrust::tuple_size<T>;
+template<class T> using tuple_size = HYDRA_EXTERNAL_NS::thrust::tuple_size<T>;
 
 
 /*
@@ -144,10 +144,10 @@ template<class T> using tuple_size = thrust::tuple_size<T>;
  */
 template<int N, class T>
 __host__ __device__
-typename thrust::tuple_element<N,T>::type&
+typename HYDRA_EXTERNAL_NS::thrust::tuple_element<N,T>::type&
 get( T&	t)
 {
-	return thrust::get<N>(t);
+	return HYDRA_EXTERNAL_NS::thrust::get<N>(t);
 }
 
 /*! This version of \p make_tuple creates a new \c tuple object from a list of
@@ -161,7 +161,7 @@ template<class ...T>
 tuple<T...>
 make_tuple(T const&... t)
 {
-	return thrust::make_tuple(t...);
+	return HYDRA_EXTERNAL_NS::thrust::make_tuple(t...);
 }
 
 /*! This version of \p make_pair creates a new \c pair object from a list of
@@ -176,7 +176,7 @@ template<class T1, class T2 >
 pair<T1, T2>
 make_pair( T1 const& t1, T2 const& t2 )
 {
-	return thrust::make_pair(t1, t2);
+	return HYDRA_EXTERNAL_NS::thrust::make_pair(t1, t2);
 }
 
 
@@ -189,7 +189,7 @@ make_pair( T1 const& t1, T2 const& t2 )
 template<class ...T>
 tuple<T&...> tie(T& ...t)
 {
-	return thrust::tie(t...);
+	return HYDRA_EXTERNAL_NS::thrust::tie(t...);
 }
 
 

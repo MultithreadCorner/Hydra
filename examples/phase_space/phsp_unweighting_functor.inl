@@ -223,16 +223,16 @@ int main(int argv, char** argc)
 
 #endif
 
-		auto range = Events_d.Unweight(breit_wigner, 1.0);
+		auto last = Events_d.Unweight(breit_wigner, 1.0);
 
 		std::cout << "<======= Breit-Wigner [Unweighted] =======>"<< std::endl;
 		for( size_t i=0; i<10; i++ )
-			std::cout << range.first[i] << std::endl;
+			std::cout << Events_d.begin()[i] << std::endl;
 
 #ifdef 	_ROOT_AVAILABLE_
 
 		//bring events to CPU memory space
-		hydra::Decays<3, hydra::host::sys_t > Events_h1( range.first, range.second);
+		hydra::Decays<3, hydra::host::sys_t > Events_h1( Events_d.begin(), Events_d.begin()+last);
 
 		for( auto event : Events_h1 ){
 
@@ -295,16 +295,16 @@ int main(int argv, char** argc)
 
 #endif
 
-		auto range = Events_h.Unweight(breit_wigner, 1.0);
+		auto last = Events_h.Unweight(breit_wigner, 1.0);
 
 		std::cout << "<======= Breit-Wigner [Unweighted] =======>"<< std::endl;
 		for( size_t i=0; i<10; i++ )
-			std::cout << range.first[i] << std::endl;
+			std::cout << Events_h.begin()[i] << std::endl;
 
 #ifdef 	_ROOT_AVAILABLE_
 
 		//bring events to CPU memory space
-		hydra::Decays<3, hydra::host::sys_t > Events_h1( range.first, range.second);
+		hydra::Decays<3, hydra::host::sys_t > Events_h1( Events_h.begin(), Events_h.begin()+last);
 
 		for( auto event : Events_h1 ){
 

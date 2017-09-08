@@ -30,7 +30,7 @@
 #define MULTIVECTOR_BASE_INC_
 
 #include <utility>
-#include <thrust/tuple.h>
+#include <hydra/detail/external/thrust/tuple.h>
 #include <hydra/detail/utility/Utility_Tuple.h>
 #include <hydra/detail/utility/Generic.h>
 
@@ -43,17 +43,17 @@ namespace detail {
 template< template<typename...> class Vector,
 template<typename...> class Allocator,
 typename ...Args, size_t ...index >
-auto _vctor_helper(hydra::detail::index_sequence<index...>, const size_t n, thrust::tuple<Args...> const& args )
--> decltype( thrust::make_tuple(
-		Vector<typename thrust::tuple_element<index, thrust::tuple<Args...>>::type
-         , Allocator< typename thrust::tuple_element<index, thrust::tuple<Args...>>::type >>(n, thrust::get<index>(args))... ))
+auto _vctor_helper(hydra::detail::index_sequence<index...>, const size_t n, HYDRA_EXTERNAL_NS::thrust::tuple<Args...> const& args )
+-> decltype( HYDRA_EXTERNAL_NS::thrust::make_tuple(
+		Vector<typename HYDRA_EXTERNAL_NS::thrust::tuple_element<index, HYDRA_EXTERNAL_NS::thrust::tuple<Args...>>::type
+         , Allocator< typename HYDRA_EXTERNAL_NS::thrust::tuple_element<index, HYDRA_EXTERNAL_NS::thrust::tuple<Args...>>::type >>(n, HYDRA_EXTERNAL_NS::thrust::get<index>(args))... ))
 {
-	return  thrust::make_tuple( Vector<typename thrust::tuple_element<index, thrust::tuple<Args...>>::type
-			, Allocator<typename thrust::tuple_element<index, thrust::tuple<Args...>>::type >>(n, thrust::get<index>(args))... );
+	return  HYDRA_EXTERNAL_NS::thrust::make_tuple( Vector<typename HYDRA_EXTERNAL_NS::thrust::tuple_element<index, HYDRA_EXTERNAL_NS::thrust::tuple<Args...>>::type
+			, Allocator<typename HYDRA_EXTERNAL_NS::thrust::tuple_element<index, HYDRA_EXTERNAL_NS::thrust::tuple<Args...>>::type >>(n, HYDRA_EXTERNAL_NS::thrust::get<index>(args))... );
 }
 
 template<template<typename...> class Vector, template<typename...> class Allocator, typename ...Args>
-auto _vctor( size_t n, thrust::tuple<Args...> const& args )
+auto _vctor( size_t n, HYDRA_EXTERNAL_NS::thrust::tuple<Args...> const& args )
 -> decltype( _vctor_helper<Vector, Allocator, Args...>( hydra::detail::make_index_sequence< sizeof ...(Args)> { }, n , args) )
 {
 	return _vctor_helper<Vector, Allocator, Args...>( hydra::detail::make_index_sequence< sizeof ...(Args) > { }, n, args);
@@ -62,19 +62,19 @@ auto _vctor( size_t n, thrust::tuple<Args...> const& args )
 
 template<size_t I = 0,
 template<typename...> class Vector, template<typename...> class Allocator,typename ...T>
-inline typename thrust::detail::enable_if< (I == sizeof...(T)) ,void >::type
-_move_storage(thrust::tuple<Vector<T, Allocator<T>>...>& This,
-		thrust::tuple<Vector<T, Allocator<T>>...>&& Other )
+inline typename HYDRA_EXTERNAL_NS::thrust::detail::enable_if< (I == sizeof...(T)) ,void >::type
+_move_storage(HYDRA_EXTERNAL_NS::thrust::tuple<Vector<T, Allocator<T>>...>& This,
+		HYDRA_EXTERNAL_NS::thrust::tuple<Vector<T, Allocator<T>>...>&& Other )
 { }
 
 template<size_t I = 0,
 template<typename...> class Vector, template<typename...> class Allocator, typename ...T>
-inline typename thrust::detail::enable_if< (I < sizeof...(T)) ,void >::type
-_move_storage(thrust::tuple<Vector<T, Allocator<T>>...>& This,
-		thrust::tuple<Vector<T, Allocator<T>>...>&& Other )
+inline typename HYDRA_EXTERNAL_NS::thrust::detail::enable_if< (I < sizeof...(T)) ,void >::type
+_move_storage(HYDRA_EXTERNAL_NS::thrust::tuple<Vector<T, Allocator<T>>...>& This,
+		HYDRA_EXTERNAL_NS::thrust::tuple<Vector<T, Allocator<T>>...>&& Other )
 {
-	thrust::get<I>(This)=std::move(thrust::get<I>(Other));
-	detail::_move_storage<I + 1,Vector, Allocator, T... >( This, std::forward<thrust::tuple<Vector<T, Allocator<T>>...>&&>(Other));
+	HYDRA_EXTERNAL_NS::thrust::get<I>(This)=std::move(HYDRA_EXTERNAL_NS::thrust::get<I>(Other));
+	detail::_move_storage<I + 1,Vector, Allocator, T... >( This, std::forward<HYDRA_EXTERNAL_NS::thrust::tuple<Vector<T, Allocator<T>>...>&&>(Other));
 }
 
 /**
@@ -84,14 +84,14 @@ _move_storage(thrust::tuple<Vector<T, Allocator<T>>...>& This,
  */
 #define _GenerateVoidCallArgs(function) \
 template<size_t I = 0, typename Tuple, typename ...Args> __host__  \
-inline typename thrust::detail::enable_if<( I == thrust::tuple_size<Tuple>::value ), void>::type \
+inline typename HYDRA_EXTERNAL_NS::thrust::detail::enable_if<( I == HYDRA_EXTERNAL_NS::thrust::tuple_size<Tuple>::value ), void>::type \
 function##_call_args( Tuple&, Args const&... ){} \
  \
 template<size_t I = 0, typename Tuple, typename ...Args> __host__  \
-inline typename thrust::detail::enable_if<( I < thrust::tuple_size<Tuple>::value ),void >::type \
+inline typename HYDRA_EXTERNAL_NS::thrust::detail::enable_if<( I < HYDRA_EXTERNAL_NS::thrust::tuple_size<Tuple>::value ),void >::type \
 function##_call_args( Tuple& tpl, Args const&... args) \
 { \
-thrust::get<I>(tpl).function( args...); \
+HYDRA_EXTERNAL_NS::thrust::get<I>(tpl).function( args...); \
 function##_call_args<I + 1, Tuple>( tpl, args... ); \
 }
 
@@ -102,14 +102,14 @@ function##_call_args<I + 1, Tuple>( tpl, args... ); \
  */
 #define _GenerateVoidCallTuple(function) \
 template<size_t I = 0, typename Tuple, typename ...Args> __host__  \
-inline typename thrust::detail::enable_if<( (I == thrust::tuple_size<Tuple>::value) && (thrust::tuple_size<Tuple>::value==sizeof...(Args))), void>::type \
-function##_call_tuple( Tuple&, thrust::tuple<Args...> const& ){} \
+inline typename HYDRA_EXTERNAL_NS::thrust::detail::enable_if<( (I == HYDRA_EXTERNAL_NS::thrust::tuple_size<Tuple>::value) && (HYDRA_EXTERNAL_NS::thrust::tuple_size<Tuple>::value==sizeof...(Args))), void>::type \
+function##_call_tuple( Tuple&, HYDRA_EXTERNAL_NS::thrust::tuple<Args...> const& ){} \
  \
 template<size_t I = 0, typename Tuple, typename ...Args> __host__  \
-inline typename thrust::detail::enable_if<( (I < thrust::tuple_size<Tuple>::value) && (thrust::tuple_size<Tuple>::value==sizeof...(Args)) ),void >::type \
-function##_call_tuple( Tuple& tpl, thrust::tuple<Args...> const& args) \
+inline typename HYDRA_EXTERNAL_NS::thrust::detail::enable_if<( (I < HYDRA_EXTERNAL_NS::thrust::tuple_size<Tuple>::value) && (HYDRA_EXTERNAL_NS::thrust::tuple_size<Tuple>::value==sizeof...(Args)) ),void >::type \
+function##_call_tuple( Tuple& tpl, HYDRA_EXTERNAL_NS::thrust::tuple<Args...> const& args) \
 { \
-thrust::get<I>(tpl).function( thrust::get<I>(args) ); \
+HYDRA_EXTERNAL_NS::thrust::get<I>(tpl).function( HYDRA_EXTERNAL_NS::thrust::get<I>(args) ); \
 function##_call_tuple<I + 1, Tuple, Args...>( tpl, args ); \
 }
 
@@ -123,17 +123,17 @@ function##_call_tuple<I + 1, Tuple, Args...>( tpl, args ); \
 template< typename Tuple, typename ...Args, size_t ...index > \
 __host__  inline auto \
 function##_call_args_helper(hydra::detail::index_sequence<index...>, Tuple& tpl, Args& ...args ) \
--> thrust::tuple<decltype(thrust::get<index>(tpl).function(args...) )...> \
+-> HYDRA_EXTERNAL_NS::thrust::tuple<decltype(HYDRA_EXTERNAL_NS::thrust::get<index>(tpl).function(args...) )...> \
 { \
-	return thrust::tuple<decltype(thrust::get<index>(tpl).function(args...)) ...>(thrust::get<index>(tpl).function(args...) ...); \
+	return HYDRA_EXTERNAL_NS::thrust::tuple<decltype(HYDRA_EXTERNAL_NS::thrust::get<index>(tpl).function(args...)) ...>(HYDRA_EXTERNAL_NS::thrust::get<index>(tpl).function(args...) ...); \
 } \
   \
 template< typename Tuple, typename ...Args > \
 __host__   inline auto \
 function##_call_args( Tuple& tpl, Args& ...args) \
--> decltype(function##_call_args_helper( hydra::detail::make_index_sequence< thrust::tuple_size<Tuple>::value> { }, tpl, args...)) \
+-> decltype(function##_call_args_helper( hydra::detail::make_index_sequence< HYDRA_EXTERNAL_NS::thrust::tuple_size<Tuple>::value> { }, tpl, args...)) \
 { \
-	constexpr size_t Size = thrust::tuple_size<Tuple>::value; \
+	constexpr size_t Size = HYDRA_EXTERNAL_NS::thrust::tuple_size<Tuple>::value; \
     \
 	return function##_call_args_helper( hydra::detail::make_index_sequence<Size> { }, tpl, args...); \
 }
@@ -147,18 +147,18 @@ function##_call_args( Tuple& tpl, Args& ...args) \
 #define _GenerateNonVoidCallTuple(function) \
 template< typename Tuple, typename ...Args, size_t ...index > \
 __host__  inline auto \
-function##_call_tuple_helper(hydra::detail::index_sequence<index...>, Tuple& tpl, thrust::tuple<Args...> const& args ) \
--> thrust::tuple<decltype(thrust::get<index>(tpl).function(thrust::get<index>(args)) )...> \
+function##_call_tuple_helper(hydra::detail::index_sequence<index...>, Tuple& tpl, HYDRA_EXTERNAL_NS::thrust::tuple<Args...> const& args ) \
+-> HYDRA_EXTERNAL_NS::thrust::tuple<decltype(HYDRA_EXTERNAL_NS::thrust::get<index>(tpl).function(HYDRA_EXTERNAL_NS::thrust::get<index>(args)) )...> \
 { \
-	return thrust::tuple<decltype(thrust::get<index>(tpl).function(thrust::get<index>(args)) )...>(thrust::get<index>(tpl).function( thrust::get<index>(args) ) ...); \
+	return HYDRA_EXTERNAL_NS::thrust::tuple<decltype(HYDRA_EXTERNAL_NS::thrust::get<index>(tpl).function(HYDRA_EXTERNAL_NS::thrust::get<index>(args)) )...>(HYDRA_EXTERNAL_NS::thrust::get<index>(tpl).function( HYDRA_EXTERNAL_NS::thrust::get<index>(args) ) ...); \
 } \
   \
 template< typename Tuple, typename ...Args > \
 __host__   inline auto \
-function##_call_tuple( Tuple& tpl, thrust::tuple<Args...> const& args ) \
--> decltype(function##_call_tuple_helper( hydra::detail::make_index_sequence< thrust::tuple_size<Tuple>::value> { }, tpl, thrust::tuple<Args...> const& args)) \
+function##_call_tuple( Tuple& tpl, HYDRA_EXTERNAL_NS::thrust::tuple<Args...> const& args ) \
+-> decltype(function##_call_tuple_helper( hydra::detail::make_index_sequence< HYDRA_EXTERNAL_NS::thrust::tuple_size<Tuple>::value> { }, tpl, HYDRA_EXTERNAL_NS::thrust::tuple<Args...> const& args)) \
 {\
-	constexpr size_t Size = thrust::tuple_size<Tuple>::value; \
+	constexpr size_t Size = HYDRA_EXTERNAL_NS::thrust::tuple_size<Tuple>::value; \
  \
 	return function##_call_tuple_helper( hydra::detail::make_index_sequence<Size> { }, tpl, args); \
 }
@@ -173,17 +173,17 @@ function##_call_tuple( Tuple& tpl, thrust::tuple<Args...> const& args ) \
 template< typename Tuple, typename ...Args, size_t ...index > \
 __host__  inline auto \
 function##_call_args_helper(hydra::detail::index_sequence<index...>, Tuple const& tpl, Args& ...args ) \
--> thrust::tuple<decltype(thrust::get<index>(tpl).function(args...) )...> \
+-> HYDRA_EXTERNAL_NS::thrust::tuple<decltype(HYDRA_EXTERNAL_NS::thrust::get<index>(tpl).function(args...) )...> \
 { \
-	return thrust::tuple<decltype(thrust::get<index>(tpl).function(args...) )...>(thrust::get<index>(tpl).function(args...) ...); \
+	return HYDRA_EXTERNAL_NS::thrust::tuple<decltype(HYDRA_EXTERNAL_NS::thrust::get<index>(tpl).function(args...) )...>(HYDRA_EXTERNAL_NS::thrust::get<index>(tpl).function(args...) ...); \
 } \
   \
 template< typename Tuple, typename ...Args > \
 __host__   inline auto \
 function##_call_args( Tuple const& tpl, Args& ...args) \
--> decltype(function##_call_args_helper( hydra::detail::make_index_sequence< thrust::tuple_size<Tuple>::value> { }, tpl, args...)) \
+-> decltype(function##_call_args_helper( hydra::detail::make_index_sequence< HYDRA_EXTERNAL_NS::thrust::tuple_size<Tuple>::value> { }, tpl, args...)) \
 { \
-	constexpr size_t Size = thrust::tuple_size<Tuple>::value; \
+	constexpr size_t Size = HYDRA_EXTERNAL_NS::thrust::tuple_size<Tuple>::value; \
     \
 	return function##_call_args_helper( hydra::detail::make_index_sequence<Size> { }, tpl, args...); \
 }
@@ -197,18 +197,18 @@ function##_call_args( Tuple const& tpl, Args& ...args) \
 #define _GenerateNonVoidCallTupleC(function) \
 template< typename Tuple, typename ...Args, size_t ...index > \
 __host__ inline auto \
-function##_call_tuple_helper(hydra::detail::index_sequence<index...>, Tuple const& tpl, thrust::tuple<Args...> const& args ) \
--> thrust::tuple<decltype(thrust::get<index>(tpl).function(thrust::get<index>(args)) )...> \
+function##_call_tuple_helper(hydra::detail::index_sequence<index...>, Tuple const& tpl, HYDRA_EXTERNAL_NS::thrust::tuple<Args...> const& args ) \
+-> HYDRA_EXTERNAL_NS::thrust::tuple<decltype(HYDRA_EXTERNAL_NS::thrust::get<index>(tpl).function(HYDRA_EXTERNAL_NS::thrust::get<index>(args)) )...> \
 { \
-	return thrust::tuple<decltype(thrust::get<index>(tpl).function(thrust::get<index>(args)) )...>(thrust::get<index>(tpl).function( thrust::get<index>(args) ) ...); \
+	return HYDRA_EXTERNAL_NS::thrust::tuple<decltype(HYDRA_EXTERNAL_NS::thrust::get<index>(tpl).function(HYDRA_EXTERNAL_NS::thrust::get<index>(args)) )...>(HYDRA_EXTERNAL_NS::thrust::get<index>(tpl).function( HYDRA_EXTERNAL_NS::thrust::get<index>(args) ) ...); \
 } \
   \
 template< typename Tuple, typename ...Args > \
 __host__   inline auto \
-function##_call_tuple( Tuple const& tpl, thrust::tuple<Args...> const& args ) \
--> decltype(function##_call_tuple_helper( hydra::detail::make_index_sequence< thrust::tuple_size<Tuple>::value> { }, tpl, thrust::tuple<Args...> const& args)) \
+function##_call_tuple( Tuple const& tpl, HYDRA_EXTERNAL_NS::thrust::tuple<Args...> const& args ) \
+-> decltype(function##_call_tuple_helper( hydra::detail::make_index_sequence< HYDRA_EXTERNAL_NS::thrust::tuple_size<Tuple>::value> { }, tpl, HYDRA_EXTERNAL_NS::thrust::tuple<Args...> const& args)) \
 {\
-	constexpr size_t Size = thrust::tuple_size<Tuple>::value; \
+	constexpr size_t Size = HYDRA_EXTERNAL_NS::thrust::tuple_size<Tuple>::value; \
  \
 	return function##_call_tuple_helper( hydra::detail::make_index_sequence<Size> { }, tpl, args); \
 }

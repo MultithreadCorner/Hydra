@@ -39,13 +39,13 @@
 #include <hydra/detail/TypeTraits.h>
 #include <hydra/detail/utility/Arithmetic_Tuple.h>
 #include <hydra/detail/Argument.h>
-#include <thrust/functional.h>
-#include <thrust/transform_reduce.h>
-#include <thrust/reduce.h>
-#include <thrust/transform.h>
-#include <thrust/functional.h>
-#include <thrust/copy.h>
-#include <thrust/execution_policy.h>
+#include <hydra/detail/external/thrust/functional.h>
+#include <hydra/detail/external/thrust/transform_reduce.h>
+#include <hydra/detail/external/thrust/reduce.h>
+#include <hydra/detail/external/thrust/transform.h>
+#include <hydra/detail/external/thrust/functional.h>
+#include <hydra/detail/external/thrust/copy.h>
+#include <hydra/detail/external/thrust/execution_policy.h>
 
 
 
@@ -114,7 +114,7 @@ struct ProcessGenzMalikUnaryCall
 	inline data_type operator()(T&& rule_abscissa)
 	{
 
-		GChar_t index       = thrust::get<4>(rule_abscissa);
+		GChar_t index       = HYDRA_EXTERNAL_NS::thrust::get<4>(rule_abscissa);
 
 		abscissa_t args;
 		get_transformed_abscissa( rule_abscissa, args  );
@@ -122,10 +122,10 @@ struct ProcessGenzMalikUnaryCall
 
 		GReal_t _temp[N+2]{0};
 		GReal_t fval  = fFunctor(args);
-		_temp[0]      = fval*thrust::get<1>(rule_abscissa);//w7;
-		_temp[1]      = fval*thrust::get<0>(rule_abscissa);//w5;
+		_temp[0]      = fval*HYDRA_EXTERNAL_NS::thrust::get<1>(rule_abscissa);//w7;
+		_temp[1]      = fval*HYDRA_EXTERNAL_NS::thrust::get<0>(rule_abscissa);//w5;
 
-		GReal_t fourdiff      = fval*thrust::get<3>(rule_abscissa);//w_four_diff;
+		GReal_t fourdiff      = fval*HYDRA_EXTERNAL_NS::thrust::get<3>(rule_abscissa);//w_four_diff;
 
 		((size_t)index==N) ? set_four_difference_central(fourdiff,  &_temp[2] ):0;
 		(index>=0)&((size_t)index<N) ? set_four_difference_unilateral(index,fourdiff,  &_temp[2] ):0;
@@ -161,8 +161,8 @@ struct ProcessGenzMalikUnaryCall
 			abscissa_t& transformed_abscissa  )
 	{
 
-		thrust::get<I>(transformed_abscissa)  =
-				fA[I]*thrust::get<2>(original_abscissa )*thrust::get<I+5>(original_abscissa )+ fB[I];
+		HYDRA_EXTERNAL_NS::thrust::get<I>(transformed_abscissa)  =
+				fA[I]*HYDRA_EXTERNAL_NS::thrust::get<2>(original_abscissa )*HYDRA_EXTERNAL_NS::thrust::get<I+5>(original_abscissa )+ fB[I];
 
 		get_transformed_abscissa<I+1>(original_abscissa, transformed_abscissa );
 	}
@@ -211,7 +211,7 @@ return 1;
 
 template< size_t N>
 struct ProcessGenzMalikBinaryCall:
-		public thrust::binary_function< typename hydra::detail::tuple_type<N+2, GReal_t>::type ,
+		public HYDRA_EXTERNAL_NS::thrust::binary_function< typename hydra::detail::tuple_type<N+2, GReal_t>::type ,
 		                                typename hydra::detail::tuple_type<N+2, GReal_t>::type,
 		                                typename hydra::detail::tuple_type<N+2, GReal_t>::type      >
 {
@@ -280,7 +280,7 @@ struct ProcessGenzMalikBox
 		typedef multivector<host_super_t> host_rvector_t;
 
 		auto box_result =
-				thrust::transform_reduce( fRuleBegin, fRuleEnd,
+				HYDRA_EXTERNAL_NS::thrust::transform_reduce( fRuleBegin, fRuleEnd,
 				ProcessGenzMalikUnaryCall<N, FUNCTOR, RuleIterator>(fBoxBegin[index].GetLowerLimit(), fBoxBegin[index].GetUpperLimit(), fFunctor),
 				tuple_t() ,
 				ProcessGenzMalikBinaryCall<N>());

@@ -46,9 +46,9 @@
 #include <hydra/detail/functors/StatsPHSP.h>
 
 //thrust
-#include <thrust/tuple.h>
-#include <thrust/iterator/zip_iterator.h>
-#include <thrust/random.h>
+#include <hydra/detail/external/thrust/tuple.h>
+#include <hydra/detail/external/thrust/iterator/zip_iterator.h>
+#include <hydra/detail/external/thrust/random.h>
 
 #include <type_traits>
 #include <utility>
@@ -61,12 +61,12 @@ template <size_t N, typename GRND, typename FUNCTOR, typename ...FUNCTORS >
 struct EvalMothers
 {
 
-	typedef  thrust::tuple<FUNCTOR,FUNCTORS...> functors_tuple_type;
+	typedef  HYDRA_EXTERNAL_NS::thrust::tuple<FUNCTOR,FUNCTORS...> functors_tuple_type;
 
-	typedef  thrust::tuple<typename FUNCTOR::return_type,
+	typedef  HYDRA_EXTERNAL_NS::thrust::tuple<typename FUNCTOR::return_type,
 			typename FUNCTORS::return_type...>  return_tuple_type;
 
-    typedef typename hydra::detail::tuple_cat_type<thrust::tuple<GReal_t> , return_tuple_type>::type
+    typedef typename hydra::detail::tuple_cat_type<HYDRA_EXTERNAL_NS::thrust::tuple<GReal_t> , return_tuple_type>::type
     		result_tuple_type;
 
 	GInt_t fSeed;
@@ -77,7 +77,7 @@ struct EvalMothers
 	EvalMothers(const GReal_t (&masses)[N], const GInt_t _seed,
 			FUNCTOR const& functor, FUNCTORS const& ...functors ):
 			fSeed(_seed),
-			fFunctors( thrust::make_tuple(functor,functors...))
+			fFunctors( HYDRA_EXTERNAL_NS::thrust::make_tuple(functor,functors...))
 	{
 		for(size_t i=0; i<N; i++)
 			fMasses[i] = masses[i];
@@ -144,7 +144,7 @@ struct EvalMothers
 
 		GRND randEng( hash(evt,fSeed) );
 
-		thrust::uniform_real_distribution<GReal_t> uniDist(0.0, 1.0);
+		HYDRA_EXTERNAL_NS::thrust::uniform_real_distribution<GReal_t> uniDist(0.0, 1.0);
 
 		GReal_t fTeCmTm = 0.0;
 
@@ -281,12 +281,12 @@ struct EvalMothers
 		typedef typename hydra::detail::tuple_type<N+1,
 				Vector4R>::type Tuple_t;
 
-		constexpr size_t SIZE = thrust::tuple_size<Tuple_t>::value;
+		constexpr size_t SIZE = HYDRA_EXTERNAL_NS::thrust::tuple_size<Tuple_t>::value;
 
 		Vector4R Particles[SIZE];
 
-		Particles[0]= thrust::get<1>(particles);
-		size_t evt  = thrust::get<0>(particles);
+		Particles[0]= HYDRA_EXTERNAL_NS::thrust::get<1>(particles);
+		size_t evt  = HYDRA_EXTERNAL_NS::thrust::get<0>(particles);
 		GReal_t weight = process(evt, Particles);
 
 		Tuple_t particles1{};
@@ -295,7 +295,7 @@ struct EvalMothers
 
 		return_tuple_type tmp = hydra::detail::invoke(particles1, fFunctors);
 
-		return thrust::tuple_cat(thrust::make_tuple(weight), tmp );
+		return HYDRA_EXTERNAL_NS::thrust::tuple_cat(HYDRA_EXTERNAL_NS::thrust::make_tuple(weight), tmp );
 
 	}
 

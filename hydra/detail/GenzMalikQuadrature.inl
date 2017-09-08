@@ -39,7 +39,7 @@
 #include <hydra/detail/Integrator.h>
 #include <hydra/detail/utility/Generic.h>
 #include <hydra/detail/functors/ProcessGenzMalikQuadrature.h>
-#include <thrust/iterator/counting_iterator.h>
+#include <hydra/detail/external/thrust/iterator/counting_iterator.h>
 #include <algorithm>
 #include <cmath>
 #include <future>
@@ -165,11 +165,11 @@ template<typename FUNCTOR>
 std::pair<GReal_t, GReal_t> GenzMalikQuadrature<N,hydra::detail::BackendPolicy<BACKEND>>::Integrate(FUNCTOR const& functor)
 {
 
-	thrust::counting_iterator<size_t> first(0);
-	thrust::counting_iterator<size_t> last = first + fBoxList.size();
+	HYDRA_EXTERNAL_NS::thrust::counting_iterator<size_t> first(0);
+	HYDRA_EXTERNAL_NS::thrust::counting_iterator<size_t> last = first + fBoxList.size();
 
 
-	thrust::for_each(thrust::host,first, last,
+	HYDRA_EXTERNAL_NS::thrust::for_each(HYDRA_EXTERNAL_NS::thrust::host,first, last,
 				detail::ProcessGenzMalikBox<N, FUNCTOR,const_rule_iterator, box_iterator>(functor,
 						fGenzMalikRule.GetAbscissas().begin(),fGenzMalikRule.GetAbscissas().end(),
 						fBoxList.begin(), fBoxList.end()));

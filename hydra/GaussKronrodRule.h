@@ -38,7 +38,7 @@
 #include <hydra/Types.h>
 #include <hydra/detail/Print.h>
 
-#include <thrust/pair.h>
+#include <hydra/detail/external/thrust/pair.h>
 #include <initializer_list>
 #include <iomanip>
 
@@ -134,7 +134,7 @@ struct GaussKronrodRule
 	}
 
 	__host__  __device__
-	thrust::tuple<GReal_t, GReal_t, GReal_t> GetAbscissa(size_t index, GReal_t xlower, GReal_t xupper  )
+	HYDRA_EXTERNAL_NS::thrust::tuple<GReal_t, GReal_t, GReal_t> GetAbscissa(size_t index, GReal_t xlower, GReal_t xupper  )
 		{
 
 		GReal_t a = (xupper - xlower)/2.0;
@@ -142,7 +142,7 @@ struct GaussKronrodRule
 		GReal_t x_p =  a*X[index] + b;
 		GReal_t x_m = -a*X[index] + b;
 
-		return thrust::make_tuple(x_p, x_m, index==0?a/2.0:a);
+		return HYDRA_EXTERNAL_NS::thrust::make_tuple(x_p, x_m, index==0?a/2.0:a);
 
 		}
 

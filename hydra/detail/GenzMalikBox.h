@@ -33,8 +33,8 @@
 #include <hydra/detail/BackendPolicy.h>
 #include <hydra/Types.h>
 #include <hydra/detail/utility/Generic.h>
-#include <thrust/tuple.h>
-#include <thrust/iterator/detail/tuple_of_iterator_references.h>
+#include <hydra/detail/external/thrust/tuple.h>
+#include <hydra/detail/external/thrust/iterator/detail/tuple_of_iterator_references.h>
 #include <array>
 #include <initializer_list>
 #include <math.h>
