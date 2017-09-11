@@ -54,7 +54,15 @@ public:
 	typedef HYDRA_EXTERNAL_NS::thrust::tuple<PDF1, PDF2, PDFs...> pdfs_tuple_type;
 	constexpr static size_t npdfs = sizeof...(PDFs)+2;
 
-	SPlot( AddPdf<PDF1, PDF2, PDFs...> const& pdf):
+
+	SPlot(AddPdf<PDF1, PDF2, PDFs...> const& pdf):
+					fPDFs( pdf.GetPdFs() )
+		{
+			for(size_t i=0;i<npdfs; i++)
+				fCoeficients[i] = pdf.GetCoeficient( i);
+		}
+
+	SPlot(Iterator begin, Iterator end, AddPdf<PDF1, PDF2, PDFs...> const& pdf):
 				fPDFs( pdf.GetPdFs() )
 	{
 		for(size_t i=0;i<npdfs; i++)
@@ -69,7 +77,8 @@ public:
 		}
 	}
 
-	inline const pdfs_tuple_type& GetPDFs() const
+	inline const pdfs_tuple_type&
+	GetPDFs() const
 	{
 		return fPDFs;
 	}
@@ -79,9 +88,12 @@ public:
 		return fCoeficients[i];
 	}
 
+
 private:
+
 	Parameter    fCoeficients[npdfs];
 	pdfs_tuple_type fPDFs;
+
 
 };
 
