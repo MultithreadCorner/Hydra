@@ -11,7 +11,7 @@
 #ifndef EIGEN_SPARSELU_MODULE_H
 #define EIGEN_SPARSELU_MODULE_H
 
-#include "SparseCore"
+#include "hydra/detail/external/Eigen/SparseCore"
 
 /** 
   * \defgroup SparseLU_Module SparseLU module
@@ -21,26 +21,26 @@
   */
 
 // Ordering interface
-#include "OrderingMethods"
+#include "hydra/detail/external/Eigen/OrderingMethods"
 
-#include "src/SparseLU/SparseLU_gemm_kernel.h"
+#include "hydra/detail/external/Eigen/src/SparseLU/SparseLU_gemm_kernel.h"
 
-#include "src/SparseLU/SparseLU_Structs.h"
-#include "src/SparseLU/SparseLU_SupernodalMatrix.h"
-#include "src/SparseLU/SparseLUImpl.h"
-#include "src/SparseCore/SparseColEtree.h"
-#include "src/SparseLU/SparseLU_Memory.h"
-#include "src/SparseLU/SparseLU_heap_relax_snode.h"
-#include "src/SparseLU/SparseLU_relax_snode.h"
-#include "src/SparseLU/SparseLU_pivotL.h"
-#include "src/SparseLU/SparseLU_panel_dfs.h"
-#include "src/SparseLU/SparseLU_kernel_bmod.h"
-#include "src/SparseLU/SparseLU_panel_bmod.h"
-#include "src/SparseLU/SparseLU_column_dfs.h"
-#include "src/SparseLU/SparseLU_column_bmod.h"
-#include "src/SparseLU/SparseLU_copy_to_ucol.h"
-#include "src/SparseLU/SparseLU_pruneL.h"
-#include "src/SparseLU/SparseLU_Utils.h"
-#include "src/SparseLU/SparseLU.h"
+#include "hydra/detail/external/Eigen/src/SparseLU/SparseLU_Structs.h"
+#include "hydra/detail/external/Eigen/src/SparseLU/SparseLU_SupernodalMatrix.h"
+#include "hydra/detail/external/Eigen/src/SparseLU/SparseLUImpl.h"
+#include "hydra/detail/external/Eigen/src/SparseCore/SparseColEtree.h"
+#include "hydra/detail/external/Eigen/src/SparseLU/SparseLU_Memory.h"
+#include "hydra/detail/external/Eigen/src/SparseLU/SparseLU_heap_relax_snode.h"
+#include "hydra/detail/external/Eigen/src/SparseLU/SparseLU_relax_snode.h"
+#include "hydra/detail/external/Eigen/src/SparseLU/SparseLU_pivotL.h"
+#include "hydra/detail/external/Eigen/src/SparseLU/SparseLU_panel_dfs.h"
+#include "hydra/detail/external/Eigen/src/SparseLU/SparseLU_kernel_bmod.h"
+#include "hydra/detail/external/Eigen/src/SparseLU/SparseLU_panel_bmod.h"
+#include "hydra/detail/external/Eigen/src/SparseLU/SparseLU_column_dfs.h"
+#include "hydra/detail/external/Eigen/src/SparseLU/SparseLU_column_bmod.h"
+#include "hydra/detail/external/Eigen/src/SparseLU/SparseLU_copy_to_ucol.h"
+#include "hydra/detail/external/Eigen/src/SparseLU/SparseLU_pruneL.h"
+#include "hydra/detail/external/Eigen/src/SparseLU/SparseLU_Utils.h"
+#include "hydra/detail/external/Eigen/src/SparseLU/SparseLU.h"
 
 #endif // EIGEN_SPARSELU_MODULE_H

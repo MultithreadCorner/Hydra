@@ -10,7 +10,7 @@
 #ifndef EIGEN_SPARSEASSIGN_H
 #define EIGEN_SPARSEASSIGN_H
 
-namespace Eigen { 
+HYDRA_EXTERNAL_NAMESPACE_BEGIN namespace Eigen { 
 
 template<typename Derived>    
 template<typename OtherDerived>
@@ -211,6 +211,6 @@ struct Assignment<DstXprType, SrcXprType, Functor, Diagonal2Sparse>
 };
 } // end namespace internal
 
-} // end namespace Eigen
+} /* end namespace Eigen */  HYDRA_EXTERNAL_NAMESPACE_END
 
 #endif // EIGEN_SPARSEASSIGN_H

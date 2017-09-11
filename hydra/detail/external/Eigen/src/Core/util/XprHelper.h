@@ -22,7 +22,7 @@
   #define EIGEN_EMPTY_STRUCT_CTOR(X)
 #endif
 
-namespace Eigen {
+HYDRA_EXTERNAL_NAMESPACE_BEGIN namespace Eigen {
 
 namespace internal {
 
@@ -813,9 +813,9 @@ struct ScalarBinaryOpTraits<void,void,BinaryOp>
 // So allowing mixing different types gives very unexpected errors when enabling vectorization, when the user tries to
 // add together a float matrix and a double matrix.
 #define EIGEN_CHECK_BINARY_COMPATIBILIY(BINOP,LHS,RHS) \
-  EIGEN_STATIC_ASSERT((Eigen::internal::has_ReturnType<ScalarBinaryOpTraits<LHS, RHS,BINOP> >::value), \
+  EIGEN_STATIC_ASSERT((HYDRA_EXTERNAL_NS::Eigen::internal::has_ReturnType<ScalarBinaryOpTraits<LHS, RHS,BINOP> >::value), \
     YOU_MIXED_DIFFERENT_NUMERIC_TYPES__YOU_NEED_TO_USE_THE_CAST_METHOD_OF_MATRIXBASE_TO_CAST_NUMERIC_TYPES_EXPLICITLY)
     
-} // end namespace Eigen
+} /* end namespace Eigen */  HYDRA_EXTERNAL_NAMESPACE_END
 
 #endif // EIGEN_XPRHELPER_H

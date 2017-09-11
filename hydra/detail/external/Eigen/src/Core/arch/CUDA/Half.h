@@ -26,7 +26,7 @@
 
 
 // Standard 16-bit float type, mostly useful for GPUs. Defines a new
-// type Eigen::half (inheriting from CUDA's __half struct) with
+// type HYDRA_EXTERNAL_NS::Eigen::half (inheriting from CUDA's __half struct) with
 // operator overloads such that it behaves basically as an arithmetic
 // type. It will be quite slow on CPUs (so it is recommended to stay
 // in fp32 for CPUs, except for simple parameter conversions, I/O
@@ -43,7 +43,7 @@
 #endif
 
 
-namespace Eigen {
+HYDRA_EXTERNAL_NAMESPACE_BEGIN namespace Eigen {
 
 struct half;
 
@@ -390,7 +390,7 @@ EIGEN_STRONG_INLINE EIGEN_DEVICE_FUNC half exp(const half& a) {
 }
 EIGEN_STRONG_INLINE EIGEN_DEVICE_FUNC half log(const half& a) {
 #if defined(EIGEN_HAS_CUDA_FP16) && defined __CUDACC_VER__ && __CUDACC_VER__ >= 80000 && defined(__CUDA_ARCH__) && __CUDA_ARCH__ >= 530
-  return Eigen::half(::hlog(a));
+  return HYDRA_EXTERNAL_NS::Eigen::half(::hlog(a));
 #else
   return half(::logf(float(a)));
 #endif
@@ -452,7 +452,7 @@ EIGEN_ALWAYS_INLINE std::ostream& operator << (std::ostream& os, const half& v) 
 
 } // end namespace half_impl
 
-// import Eigen::half_impl::half into Eigen namespace
+// import HYDRA_EXTERNAL_NS::Eigen::half_impl::half into Eigen namespace
 // using half_impl::half;
 
 namespace internal {
@@ -474,11 +474,11 @@ template<> struct is_arithmetic<half> { enum { value = true }; };
 
 } // end namespace internal
 
-}  // end namespace Eigen
+}  /* end namespace Eigen */  HYDRA_EXTERNAL_NAMESPACE_END
 
 namespace std {
 template<>
-struct numeric_limits<Eigen::half> {
+struct numeric_limits<HYDRA_EXTERNAL_NS::Eigen::half> {
   static const bool is_specialized = true;
   static const bool is_signed = true;
   static const bool is_integer = false;
@@ -503,22 +503,22 @@ struct numeric_limits<Eigen::half> {
   static const bool traps = true;
   static const bool tinyness_before = false;
 
-  static Eigen::half (min)() { return Eigen::half_impl::raw_uint16_to_half(0x400); }
-  static Eigen::half lowest() { return Eigen::half_impl::raw_uint16_to_half(0xfbff); }
-  static Eigen::half (max)() { return Eigen::half_impl::raw_uint16_to_half(0x7bff); }
-  static Eigen::half epsilon() { return Eigen::half_impl::raw_uint16_to_half(0x0800); }
-  static Eigen::half round_error() { return Eigen::half(0.5); }
-  static Eigen::half infinity() { return Eigen::half_impl::raw_uint16_to_half(0x7c00); }
-  static Eigen::half quiet_NaN() { return Eigen::half_impl::raw_uint16_to_half(0x7e00); }
-  static Eigen::half signaling_NaN() { return Eigen::half_impl::raw_uint16_to_half(0x7e00); }
-  static Eigen::half denorm_min() { return Eigen::half_impl::raw_uint16_to_half(0x1); }
+  static HYDRA_EXTERNAL_NS::Eigen::half (min)() { return HYDRA_EXTERNAL_NS::Eigen::half_impl::raw_uint16_to_half(0x400); }
+  static HYDRA_EXTERNAL_NS::Eigen::half lowest() { return HYDRA_EXTERNAL_NS::Eigen::half_impl::raw_uint16_to_half(0xfbff); }
+  static HYDRA_EXTERNAL_NS::Eigen::half (max)() { return HYDRA_EXTERNAL_NS::Eigen::half_impl::raw_uint16_to_half(0x7bff); }
+  static HYDRA_EXTERNAL_NS::Eigen::half epsilon() { return HYDRA_EXTERNAL_NS::Eigen::half_impl::raw_uint16_to_half(0x0800); }
+  static HYDRA_EXTERNAL_NS::Eigen::half round_error() { return HYDRA_EXTERNAL_NS::Eigen::half(0.5); }
+  static HYDRA_EXTERNAL_NS::Eigen::half infinity() { return HYDRA_EXTERNAL_NS::Eigen::half_impl::raw_uint16_to_half(0x7c00); }
+  static HYDRA_EXTERNAL_NS::Eigen::half quiet_NaN() { return HYDRA_EXTERNAL_NS::Eigen::half_impl::raw_uint16_to_half(0x7e00); }
+  static HYDRA_EXTERNAL_NS::Eigen::half signaling_NaN() { return HYDRA_EXTERNAL_NS::Eigen::half_impl::raw_uint16_to_half(0x7e00); }
+  static HYDRA_EXTERNAL_NS::Eigen::half denorm_min() { return HYDRA_EXTERNAL_NS::Eigen::half_impl::raw_uint16_to_half(0x1); }
 };
 }
 
-namespace Eigen {
+HYDRA_EXTERNAL_NAMESPACE_BEGIN namespace Eigen {
 
-template<> struct NumTraits<Eigen::half>
-    : GenericNumTraits<Eigen::half>
+template<> struct NumTraits<HYDRA_EXTERNAL_NS::Eigen::half>
+    : GenericNumTraits<HYDRA_EXTERNAL_NS::Eigen::half>
 {
   enum {
     IsSigned = true,
@@ -527,61 +527,61 @@ template<> struct NumTraits<Eigen::half>
     RequireInitialization = false
   };
 
-  EIGEN_DEVICE_FUNC static EIGEN_STRONG_INLINE Eigen::half epsilon() {
+  EIGEN_DEVICE_FUNC static EIGEN_STRONG_INLINE HYDRA_EXTERNAL_NS::Eigen::half epsilon() {
     return half_impl::raw_uint16_to_half(0x0800);
   }
-  EIGEN_DEVICE_FUNC static EIGEN_STRONG_INLINE Eigen::half dummy_precision() { return Eigen::half(1e-2f); }
-  EIGEN_DEVICE_FUNC static EIGEN_STRONG_INLINE Eigen::half highest() {
+  EIGEN_DEVICE_FUNC static EIGEN_STRONG_INLINE HYDRA_EXTERNAL_NS::Eigen::half dummy_precision() { return HYDRA_EXTERNAL_NS::Eigen::half(1e-2f); }
+  EIGEN_DEVICE_FUNC static EIGEN_STRONG_INLINE HYDRA_EXTERNAL_NS::Eigen::half highest() {
     return half_impl::raw_uint16_to_half(0x7bff);
   }
-  EIGEN_DEVICE_FUNC static EIGEN_STRONG_INLINE Eigen::half lowest() {
+  EIGEN_DEVICE_FUNC static EIGEN_STRONG_INLINE HYDRA_EXTERNAL_NS::Eigen::half lowest() {
     return half_impl::raw_uint16_to_half(0xfbff);
   }
-  EIGEN_DEVICE_FUNC static EIGEN_STRONG_INLINE Eigen::half infinity() {
+  EIGEN_DEVICE_FUNC static EIGEN_STRONG_INLINE HYDRA_EXTERNAL_NS::Eigen::half infinity() {
     return half_impl::raw_uint16_to_half(0x7c00);
   }
-  EIGEN_DEVICE_FUNC static EIGEN_STRONG_INLINE Eigen::half quiet_NaN() {
+  EIGEN_DEVICE_FUNC static EIGEN_STRONG_INLINE HYDRA_EXTERNAL_NS::Eigen::half quiet_NaN() {
     return half_impl::raw_uint16_to_half(0x7c01);
   }
 };
 
-} // end namespace Eigen
+} /* end namespace Eigen */  HYDRA_EXTERNAL_NAMESPACE_END
 
 // C-like standard mathematical functions and trancendentals.
-EIGEN_STRONG_INLINE EIGEN_DEVICE_FUNC Eigen::half fabsh(const Eigen::half& a) {
-  Eigen::half result;
+EIGEN_STRONG_INLINE EIGEN_DEVICE_FUNC HYDRA_EXTERNAL_NS::Eigen::half fabsh(const HYDRA_EXTERNAL_NS::Eigen::half& a) {
+  HYDRA_EXTERNAL_NS::Eigen::half result;
   result.x = a.x & 0x7FFF;
   return result;
 }
-EIGEN_STRONG_INLINE EIGEN_DEVICE_FUNC Eigen::half exph(const Eigen::half& a) {
-  return Eigen::half(::expf(float(a)));
+EIGEN_STRONG_INLINE EIGEN_DEVICE_FUNC HYDRA_EXTERNAL_NS::Eigen::half exph(const HYDRA_EXTERNAL_NS::Eigen::half& a) {
+  return HYDRA_EXTERNAL_NS::Eigen::half(::expf(float(a)));
 }
-EIGEN_STRONG_INLINE EIGEN_DEVICE_FUNC Eigen::half logh(const Eigen::half& a) {
+EIGEN_STRONG_INLINE EIGEN_DEVICE_FUNC HYDRA_EXTERNAL_NS::Eigen::half logh(const HYDRA_EXTERNAL_NS::Eigen::half& a) {
 #if defined __CUDACC_VER__ && __CUDACC_VER__ >= 80000 && defined(__CUDA_ARCH__) && __CUDA_ARCH__ >= 530
-  return Eigen::half(::hlog(a));
+  return HYDRA_EXTERNAL_NS::Eigen::half(::hlog(a));
 #else
-  return Eigen::half(::logf(float(a)));
+  return HYDRA_EXTERNAL_NS::Eigen::half(::logf(float(a)));
 #endif
 }
-EIGEN_STRONG_INLINE EIGEN_DEVICE_FUNC Eigen::half sqrth(const Eigen::half& a) {
-  return Eigen::half(::sqrtf(float(a)));
+EIGEN_STRONG_INLINE EIGEN_DEVICE_FUNC HYDRA_EXTERNAL_NS::Eigen::half sqrth(const HYDRA_EXTERNAL_NS::Eigen::half& a) {
+  return HYDRA_EXTERNAL_NS::Eigen::half(::sqrtf(float(a)));
 }
-EIGEN_STRONG_INLINE EIGEN_DEVICE_FUNC Eigen::half powh(const Eigen::half& a, const Eigen::half& b) {
-  return Eigen::half(::powf(float(a), float(b)));
+EIGEN_STRONG_INLINE EIGEN_DEVICE_FUNC HYDRA_EXTERNAL_NS::Eigen::half powh(const HYDRA_EXTERNAL_NS::Eigen::half& a, const HYDRA_EXTERNAL_NS::Eigen::half& b) {
+  return HYDRA_EXTERNAL_NS::Eigen::half(::powf(float(a), float(b)));
 }
-EIGEN_STRONG_INLINE EIGEN_DEVICE_FUNC Eigen::half floorh(const Eigen::half& a) {
-  return Eigen::half(::floorf(float(a)));
+EIGEN_STRONG_INLINE EIGEN_DEVICE_FUNC HYDRA_EXTERNAL_NS::Eigen::half floorh(const HYDRA_EXTERNAL_NS::Eigen::half& a) {
+  return HYDRA_EXTERNAL_NS::Eigen::half(::floorf(float(a)));
 }
-EIGEN_STRONG_INLINE EIGEN_DEVICE_FUNC Eigen::half ceilh(const Eigen::half& a) {
-  return Eigen::half(::ceilf(float(a)));
+EIGEN_STRONG_INLINE EIGEN_DEVICE_FUNC HYDRA_EXTERNAL_NS::Eigen::half ceilh(const HYDRA_EXTERNAL_NS::Eigen::half& a) {
+  return HYDRA_EXTERNAL_NS::Eigen::half(::ceilf(float(a)));
 }
 
 namespace std {
 
 #if __cplusplus > 199711L
 template <>
-struct hash<Eigen::half> {
-  EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE std::size_t operator()(const Eigen::half& a) const {
+struct hash<HYDRA_EXTERNAL_NS::Eigen::half> {
+  EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE std::size_t operator()(const HYDRA_EXTERNAL_NS::Eigen::half& a) const {
     return static_cast<std::size_t>(a.x);
   }
 };
@@ -592,39 +592,39 @@ struct hash<Eigen::half> {
 
 // Add the missing shfl_xor intrinsic
 #if defined(__CUDA_ARCH__) && __CUDA_ARCH__ >= 300
-__device__ EIGEN_STRONG_INLINE Eigen::half __shfl_xor(Eigen::half var, int laneMask, int width=warpSize) {
-  return static_cast<Eigen::half>(__shfl_xor(static_cast<float>(var), laneMask, width));
+__device__ EIGEN_STRONG_INLINE HYDRA_EXTERNAL_NS::Eigen::half __shfl_xor(HYDRA_EXTERNAL_NS::Eigen::half var, int laneMask, int width=warpSize) {
+  return static_cast<HYDRA_EXTERNAL_NS::Eigen::half>(__shfl_xor(static_cast<float>(var), laneMask, width));
 }
 #endif
 
-// ldg() has an overload for __half, but we also need one for Eigen::half.
+// ldg() has an overload for __half, but we also need one for HYDRA_EXTERNAL_NS::Eigen::half.
 #if defined(__CUDA_ARCH__) && __CUDA_ARCH__ >= 350
-EIGEN_STRONG_INLINE EIGEN_DEVICE_FUNC Eigen::half __ldg(const Eigen::half* ptr) {
-  return Eigen::half_impl::raw_uint16_to_half(
+EIGEN_STRONG_INLINE EIGEN_DEVICE_FUNC HYDRA_EXTERNAL_NS::Eigen::half __ldg(const HYDRA_EXTERNAL_NS::Eigen::half* ptr) {
+  return HYDRA_EXTERNAL_NS::Eigen::half_impl::raw_uint16_to_half(
       __ldg(reinterpret_cast<const unsigned short*>(ptr)));
 }
 #endif
 
 
 #if defined(__CUDA_ARCH__)
-namespace Eigen {
+HYDRA_EXTERNAL_NAMESPACE_BEGIN namespace Eigen {
 namespace numext {
 
 template<>
 EIGEN_DEVICE_FUNC EIGEN_ALWAYS_INLINE
-bool (isnan)(const Eigen::half& h) {
+bool (isnan)(const HYDRA_EXTERNAL_NS::Eigen::half& h) {
   return (half_impl::isnan)(h);
 }
 
 template<>
 EIGEN_DEVICE_FUNC EIGEN_ALWAYS_INLINE
-bool (isinf)(const Eigen::half& h) {
+bool (isinf)(const HYDRA_EXTERNAL_NS::Eigen::half& h) {
   return (half_impl::isinf)(h);
 }
 
 template<>
 EIGEN_DEVICE_FUNC EIGEN_ALWAYS_INLINE
-bool (isfinite)(const Eigen::half& h) {
+bool (isfinite)(const HYDRA_EXTERNAL_NS::Eigen::half& h) {
   return (half_impl::isfinite)(h);
 }
 

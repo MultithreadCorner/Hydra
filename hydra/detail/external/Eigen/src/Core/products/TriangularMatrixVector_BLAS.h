@@ -33,7 +33,7 @@
 #ifndef EIGEN_TRIANGULAR_MATRIX_VECTOR_BLAS_H
 #define EIGEN_TRIANGULAR_MATRIX_VECTOR_BLAS_H
 
-namespace Eigen { 
+HYDRA_EXTERNAL_NAMESPACE_BEGIN namespace Eigen { 
 
 namespace internal {
 
@@ -236,6 +236,6 @@ EIGEN_BLAS_TRMV_RM(scomplex, float,  cf, c)
 
 } // end namespase internal
 
-} // end namespace Eigen
+} /* end namespace Eigen */  HYDRA_EXTERNAL_NAMESPACE_END
 
 #endif // EIGEN_TRIANGULAR_MATRIX_VECTOR_BLAS_H

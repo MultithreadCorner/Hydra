@@ -11,7 +11,7 @@
 #ifndef EIGEN_COMPLEX32_ALTIVEC_H
 #define EIGEN_COMPLEX32_ALTIVEC_H
 
-namespace Eigen {
+HYDRA_EXTERNAL_NAMESPACE_BEGIN namespace Eigen {
 
 namespace internal {
 
@@ -456,6 +456,6 @@ EIGEN_STRONG_INLINE void ptranspose(PacketBlock<Packet1cd,2>& kernel)
 #endif // __VSX__
 } // end namespace internal
 
-} // end namespace Eigen
+} /* end namespace Eigen */  HYDRA_EXTERNAL_NAMESPACE_END
 
 #endif // EIGEN_COMPLEX32_ALTIVEC_H

@@ -71,10 +71,10 @@ namespace std {
   template<typename T>
   class vector<T,EIGEN_ALIGNED_ALLOCATOR<T> >
     : public vector<EIGEN_WORKAROUND_MSVC_STL_SUPPORT(T),
-                    Eigen::aligned_allocator_indirection<EIGEN_WORKAROUND_MSVC_STL_SUPPORT(T)> >
+                    HYDRA_EXTERNAL_NS::Eigen::aligned_allocator_indirection<EIGEN_WORKAROUND_MSVC_STL_SUPPORT(T)> >
 {
   typedef vector<EIGEN_WORKAROUND_MSVC_STL_SUPPORT(T),
-                 Eigen::aligned_allocator_indirection<EIGEN_WORKAROUND_MSVC_STL_SUPPORT(T)> > vector_base;
+                 HYDRA_EXTERNAL_NS::Eigen::aligned_allocator_indirection<EIGEN_WORKAROUND_MSVC_STL_SUPPORT(T)> > vector_base;
   EIGEN_STD_VECTOR_SPECIALIZATION_BODY
 
   void resize(size_type new_size)

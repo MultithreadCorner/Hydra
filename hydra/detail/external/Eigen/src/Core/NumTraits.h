@@ -10,7 +10,7 @@
 #ifndef EIGEN_NUMTRAITS_H
 #define EIGEN_NUMTRAITS_H
 
-namespace Eigen {
+HYDRA_EXTERNAL_NAMESPACE_BEGIN namespace Eigen {
 
 namespace internal {
 
@@ -243,6 +243,6 @@ private:
 // Empty specialization for void to allow template specialization based on NumTraits<T>::Real with T==void and SFINAE.
 template<> struct NumTraits<void> {};
 
-} // end namespace Eigen
+} /* end namespace Eigen */  HYDRA_EXTERNAL_NAMESPACE_END
 
 #endif // EIGEN_NUMTRAITS_H

@@ -13,7 +13,7 @@
 
 // This file contains some helper function to deal with block householder reflectors
 
-namespace Eigen { 
+HYDRA_EXTERNAL_NAMESPACE_BEGIN namespace Eigen { 
 
 namespace internal {
   
@@ -98,6 +98,6 @@ void apply_block_householder_on_the_left(MatrixType& mat, const VectorsType& vec
 
 } // end namespace internal
 
-} // end namespace Eigen
+} /* end namespace Eigen */  HYDRA_EXTERNAL_NAMESPACE_END
 
 #endif // EIGEN_BLOCK_HOUSEHOLDER_H

@@ -8,15 +8,15 @@
 #ifndef EIGEN_EIGENVALUES_MODULE_H
 #define EIGEN_EIGENVALUES_MODULE_H
 
-#include "Core"
+#include "hydra/detail/external/Eigen/Core"
 
-#include "src/Core/util/DisableStupidWarnings.h"
+#include "hydra/detail/external/Eigen/src/Core/util/DisableStupidWarnings.h"
 
-#include "Cholesky"
-#include "Jacobi"
-#include "Householder"
-#include "LU"
-#include "Geometry"
+#include "hydra/detail/external/Eigen/Cholesky"
+#include "hydra/detail/external/Eigen/Jacobi"
+#include "hydra/detail/external/Eigen/Householder"
+#include "hydra/detail/external/Eigen/LU"
+#include "hydra/detail/external/Eigen/Geometry"
 
 /** \defgroup Eigenvalues_Module Eigenvalues module
   *
@@ -32,26 +32,26 @@
   * \endcode
   */
 
-#include "src/misc/RealSvd2x2.h"
-#include "src/Eigenvalues/Tridiagonalization.h"
-#include "src/Eigenvalues/RealSchur.h"
-#include "src/Eigenvalues/EigenSolver.h"
-#include "src/Eigenvalues/SelfAdjointEigenSolver.h"
-#include "src/Eigenvalues/GeneralizedSelfAdjointEigenSolver.h"
-#include "src/Eigenvalues/HessenbergDecomposition.h"
-#include "src/Eigenvalues/ComplexSchur.h"
-#include "src/Eigenvalues/ComplexEigenSolver.h"
-#include "src/Eigenvalues/RealQZ.h"
-#include "src/Eigenvalues/GeneralizedEigenSolver.h"
-#include "src/Eigenvalues/MatrixBaseEigenvalues.h"
+#include "hydra/detail/external/Eigen/src/misc/RealSvd2x2.h"
+#include "hydra/detail/external/Eigen/src/Eigenvalues/Tridiagonalization.h"
+#include "hydra/detail/external/Eigen/src/Eigenvalues/RealSchur.h"
+#include "hydra/detail/external/Eigen/src/Eigenvalues/EigenSolver.h"
+#include "hydra/detail/external/Eigen/src/Eigenvalues/SelfAdjointEigenSolver.h"
+#include "hydra/detail/external/Eigen/src/Eigenvalues/GeneralizedSelfAdjointEigenSolver.h"
+#include "hydra/detail/external/Eigen/src/Eigenvalues/HessenbergDecomposition.h"
+#include "hydra/detail/external/Eigen/src/Eigenvalues/ComplexSchur.h"
+#include "hydra/detail/external/Eigen/src/Eigenvalues/ComplexEigenSolver.h"
+#include "hydra/detail/external/Eigen/src/Eigenvalues/RealQZ.h"
+#include "hydra/detail/external/Eigen/src/Eigenvalues/GeneralizedEigenSolver.h"
+#include "hydra/detail/external/Eigen/src/Eigenvalues/MatrixBaseEigenvalues.h"
 #ifdef EIGEN_USE_LAPACKE
-#include "src/misc/lapacke.h"
-#include "src/Eigenvalues/RealSchur_LAPACKE.h"
-#include "src/Eigenvalues/ComplexSchur_LAPACKE.h"
-#include "src/Eigenvalues/SelfAdjointEigenSolver_LAPACKE.h"
+#include "hydra/detail/external/Eigen/src/misc/lapacke.h"
+#include "hydra/detail/external/Eigen/src/Eigenvalues/RealSchur_LAPACKE.h"
+#include "hydra/detail/external/Eigen/src/Eigenvalues/ComplexSchur_LAPACKE.h"
+#include "hydra/detail/external/Eigen/src/Eigenvalues/SelfAdjointEigenSolver_LAPACKE.h"
 #endif
 
-#include "src/Core/util/ReenableStupidWarnings.h"
+#include "hydra/detail/external/Eigen/src/Core/util/ReenableStupidWarnings.h"
 
 #endif // EIGEN_EIGENVALUES_MODULE_H
 /* vim: set filetype=cpp et sw=2 ts=2 ai: */

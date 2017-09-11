@@ -8,12 +8,12 @@
 #ifndef EIGEN_GEOMETRY_MODULE_H
 #define EIGEN_GEOMETRY_MODULE_H
 
-#include "Core"
+#include "hydra/detail/external/Eigen/Core"
 
-#include "src/Core/util/DisableStupidWarnings.h"
+#include "hydra/detail/external/Eigen/src/Core/util/DisableStupidWarnings.h"
 
-#include "SVD"
-#include "LU"
+#include "hydra/detail/external/Eigen/SVD"
+#include "hydra/detail/external/Eigen/LU"
 #include <limits>
 
 /** \defgroup Geometry_Module Geometry module
@@ -33,29 +33,29 @@
   * \endcode
   */
 
-#include "src/Geometry/OrthoMethods.h"
-#include "src/Geometry/EulerAngles.h"
+#include "hydra/detail/external/Eigen/src/Geometry/OrthoMethods.h"
+#include "hydra/detail/external/Eigen/src/Geometry/EulerAngles.h"
 
-#include "src/Geometry/Homogeneous.h"
-#include "src/Geometry/RotationBase.h"
-#include "src/Geometry/Rotation2D.h"
-#include "src/Geometry/Quaternion.h"
-#include "src/Geometry/AngleAxis.h"
-#include "src/Geometry/Transform.h"
-#include "src/Geometry/Translation.h"
-#include "src/Geometry/Scaling.h"
-#include "src/Geometry/Hyperplane.h"
-#include "src/Geometry/ParametrizedLine.h"
-#include "src/Geometry/AlignedBox.h"
-#include "src/Geometry/Umeyama.h"
+#include "hydra/detail/external/Eigen/src/Geometry/Homogeneous.h"
+#include "hydra/detail/external/Eigen/src/Geometry/RotationBase.h"
+#include "hydra/detail/external/Eigen/src/Geometry/Rotation2D.h"
+#include "hydra/detail/external/Eigen/src/Geometry/Quaternion.h"
+#include "hydra/detail/external/Eigen/src/Geometry/AngleAxis.h"
+#include "hydra/detail/external/Eigen/src/Geometry/Transform.h"
+#include "hydra/detail/external/Eigen/src/Geometry/Translation.h"
+#include "hydra/detail/external/Eigen/src/Geometry/Scaling.h"
+#include "hydra/detail/external/Eigen/src/Geometry/Hyperplane.h"
+#include "hydra/detail/external/Eigen/src/Geometry/ParametrizedLine.h"
+#include "hydra/detail/external/Eigen/src/Geometry/AlignedBox.h"
+#include "hydra/detail/external/Eigen/src/Geometry/Umeyama.h"
 
 // Use the SSE optimized version whenever possible. At the moment the
 // SSE version doesn't compile when AVX is enabled
 #if defined EIGEN_VECTORIZE_SSE && !defined EIGEN_VECTORIZE_AVX
-#include "src/Geometry/arch/Geometry_SSE.h"
+#include "hydra/detail/external/Eigen/src/Geometry/arch/Geometry_SSE.h"
 #endif
 
-#include "src/Core/util/ReenableStupidWarnings.h"
+#include "hydra/detail/external/Eigen/src/Core/util/ReenableStupidWarnings.h"
 
 #endif // EIGEN_GEOMETRY_MODULE_H
 /* vim: set filetype=cpp et sw=2 ts=2 ai: */

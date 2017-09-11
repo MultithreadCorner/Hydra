@@ -10,7 +10,7 @@
 
 #ifndef EIGEN_QUATERNION_H
 #define EIGEN_QUATERNION_H
-namespace Eigen { 
+HYDRA_EXTERNAL_NAMESPACE_BEGIN namespace Eigen { 
 
 
 /***************************************************************************
@@ -44,7 +44,7 @@ class QuaternionBase : public RotationBase<Derived, 3>
   typedef typename NumTraits<Scalar>::Real RealScalar;
   typedef typename internal::traits<Derived>::Coefficients Coefficients;
   enum {
-    Flags = Eigen::internal::traits<Derived>::Flags
+    Flags = HYDRA_EXTERNAL_NS::Eigen::internal::traits<Derived>::Flags
   };
 
  // typedef typename Matrix<Scalar,4,1> Coefficients;
@@ -804,6 +804,6 @@ struct quaternionbase_assign_impl<Other,4,1>
 
 } // end namespace internal
 
-} // end namespace Eigen
+} /* end namespace Eigen */  HYDRA_EXTERNAL_NAMESPACE_END
 
 #endif // EIGEN_QUATERNION_H

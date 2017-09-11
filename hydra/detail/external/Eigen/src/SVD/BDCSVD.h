@@ -22,7 +22,7 @@
 // #define EIGEN_BDCSVD_DEBUG_VERBOSE
 // #define EIGEN_BDCSVD_SANITY_CHECKS
 
-namespace Eigen {
+HYDRA_EXTERNAL_NAMESPACE_BEGIN namespace Eigen {
 
 #ifdef EIGEN_BDCSVD_DEBUG_VERBOSE
 IOFormat bdcsvdfmt(8, 0, ", ", "\n", "  [", "]");
@@ -1226,6 +1226,6 @@ MatrixBase<Derived>::bdcSvd(unsigned int computationOptions) const
 }
 #endif
 
-} // end namespace Eigen
+} /* end namespace Eigen */  HYDRA_EXTERNAL_NAMESPACE_END
 
 #endif

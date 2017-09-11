@@ -11,7 +11,7 @@
 #ifndef EIGEN_COLPIVOTINGHOUSEHOLDERQR_H
 #define EIGEN_COLPIVOTINGHOUSEHOLDERQR_H
 
-namespace Eigen {
+HYDRA_EXTERNAL_NAMESPACE_BEGIN namespace Eigen {
 
 namespace internal {
 template<typename _MatrixType> struct traits<ColPivHouseholderQR<_MatrixType> >
@@ -137,7 +137,7 @@ template<typename _MatrixType> class ColPivHouseholderQR
 
     /** \brief Constructs a QR factorization from a given matrix
       *
-      * This overloaded constructor is provided for \link InplaceDecomposition inplace decomposition \endlink when \c MatrixType is a Eigen::Ref.
+      * This overloaded constructor is provided for \link InplaceDecomposition inplace decomposition \endlink when \c MatrixType is a HYDRA_EXTERNAL_NS::Eigen::Ref.
       *
       * \sa ColPivHouseholderQR(const EigenBase&)
       */
@@ -360,8 +360,8 @@ template<typename _MatrixType> class ColPivHouseholderQR
     /** Allows to come back to the default behavior, letting Eigen use its default formula for
       * determining the threshold.
       *
-      * You should pass the special object Eigen::Default as parameter here.
-      * \code qr.setThreshold(Eigen::Default); \endcode
+      * You should pass the special object HYDRA_EXTERNAL_NS::Eigen::Default as parameter here.
+      * \code qr.setThreshold(HYDRA_EXTERNAL_NS::Eigen::Default); \endcode
       *
       * See the documentation of setThreshold(const RealScalar&).
       */
@@ -648,6 +648,6 @@ MatrixBase<Derived>::colPivHouseholderQr() const
   return ColPivHouseholderQR<PlainObject>(eval());
 }
 
-} // end namespace Eigen
+} /* end namespace Eigen */  HYDRA_EXTERNAL_NAMESPACE_END
 
 #endif // EIGEN_COLPIVOTINGHOUSEHOLDERQR_H

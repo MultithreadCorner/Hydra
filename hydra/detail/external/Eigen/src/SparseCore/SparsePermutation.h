@@ -12,7 +12,7 @@
 
 // This file implements sparse * permutation products
 
-namespace Eigen { 
+HYDRA_EXTERNAL_NAMESPACE_BEGIN namespace Eigen { 
 
 namespace internal {
 
@@ -173,6 +173,6 @@ operator*(const InverseImpl<PermutationType,PermutationStorage>& tperm, const Sp
   return Product<Inverse<PermutationType>, SparseDerived, AliasFreeProduct>(tperm.derived(), matrix.derived());
 }
 
-} // end namespace Eigen
+} /* end namespace Eigen */  HYDRA_EXTERNAL_NAMESPACE_END
 
 #endif // EIGEN_SPARSE_SELFADJOINTVIEW_H

@@ -10,7 +10,7 @@
 #ifndef EIGEN_STABLENORM_H
 #define EIGEN_STABLENORM_H
 
-namespace Eigen { 
+HYDRA_EXTERNAL_NAMESPACE_BEGIN namespace Eigen { 
 
 namespace internal {
 
@@ -216,6 +216,6 @@ MatrixBase<Derived>::hypotNorm() const
   return this->cwiseAbs().redux(internal::scalar_hypot_op<RealScalar>());
 }
 
-} // end namespace Eigen
+} /* end namespace Eigen */  HYDRA_EXTERNAL_NAMESPACE_END
 
 #endif // EIGEN_STABLENORM_H

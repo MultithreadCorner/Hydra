@@ -10,7 +10,7 @@
 #ifndef EIGEN_ROTATIONBASE_H
 #define EIGEN_ROTATIONBASE_H
 
-namespace Eigen { 
+HYDRA_EXTERNAL_NAMESPACE_BEGIN namespace Eigen { 
 
 // forward declaration
 namespace internal {
@@ -201,6 +201,6 @@ EIGEN_DEVICE_FUNC static inline const MatrixBase<OtherDerived>& toRotationMatrix
 
 } // end namespace internal
 
-} // end namespace Eigen
+} /* end namespace Eigen */  HYDRA_EXTERNAL_NAMESPACE_END
 
 #endif // EIGEN_ROTATIONBASE_H

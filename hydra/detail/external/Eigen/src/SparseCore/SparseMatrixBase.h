@@ -10,7 +10,7 @@
 #ifndef EIGEN_SPARSEMATRIXBASE_H
 #define EIGEN_SPARSEMATRIXBASE_H
 
-namespace Eigen { 
+HYDRA_EXTERNAL_NAMESPACE_BEGIN namespace Eigen { 
 
 /** \ingroup SparseCore_Module
   *
@@ -104,7 +104,7 @@ template<typename Derived> class SparseMatrixBase
 
     /** \internal the return type of MatrixBase::adjoint() */
     typedef typename internal::conditional<NumTraits<Scalar>::IsComplex,
-                        CwiseUnaryOp<internal::scalar_conjugate_op<Scalar>, Eigen::Transpose<const Derived> >,
+                        CwiseUnaryOp<internal::scalar_conjugate_op<Scalar>, HYDRA_EXTERNAL_NS::Eigen::Transpose<const Derived> >,
                         Transpose<const Derived>
                      >::type AdjointReturnType;
     typedef Transpose<Derived> TransposeReturnType;
@@ -144,7 +144,7 @@ template<typename Derived> class SparseMatrixBase
 
 #endif // not EIGEN_PARSED_BY_DOXYGEN
 
-#define EIGEN_CURRENT_STORAGE_BASE_CLASS Eigen::SparseMatrixBase
+#define EIGEN_CURRENT_STORAGE_BASE_CLASS HYDRA_EXTERNAL_NS::Eigen::SparseMatrixBase
 #ifdef EIGEN_PARSED_BY_DOXYGEN
 #define EIGEN_DOC_UNARY_ADDONS(METHOD,OP)           /** <p>This method does not change the sparsity of \c *this: the OP is applied to explicitly stored coefficients only. \sa SparseCompressedBase::coeffs() </p> */
 #define EIGEN_DOC_BLOCK_ADDONS_NOT_INNER_PANEL      /** <p> \warning This method returns a read-only expression for any sparse matrices. \sa \ref TutorialSparse_SubMatrices "Sparse block operations" </p> */
@@ -400,6 +400,6 @@ template<typename Derived> class SparseMatrixBase
     template<typename Dest> void evalTo(Dest &) const;
 };
 
-} // end namespace Eigen
+} /* end namespace Eigen */  HYDRA_EXTERNAL_NAMESPACE_END
 
 #endif // EIGEN_SPARSEMATRIXBASE_H

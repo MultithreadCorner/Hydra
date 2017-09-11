@@ -12,7 +12,7 @@
 #ifndef EIGEN_TRANSFORM_H
 #define EIGEN_TRANSFORM_H
 
-namespace Eigen { 
+HYDRA_EXTERNAL_NAMESPACE_BEGIN namespace Eigen { 
 
 namespace internal {
 
@@ -67,7 +67,7 @@ template<typename _Scalar, int _Dim, int _Mode, int _Options>
 struct traits<Transform<_Scalar,_Dim,_Mode,_Options> >
 {
   typedef _Scalar Scalar;
-  typedef Eigen::Index StorageIndex;
+  typedef HYDRA_EXTERNAL_NS::Eigen::Index StorageIndex;
   typedef Dense StorageKind;
   enum {
     Dim1 = _Dim==Dynamic ? _Dim : _Dim + 1,
@@ -211,8 +211,8 @@ public:
   };
   /** the scalar type of the coefficients */
   typedef _Scalar Scalar;
-  typedef Eigen::Index StorageIndex;
-  typedef Eigen::Index Index; ///< \deprecated since Eigen 3.3
+  typedef HYDRA_EXTERNAL_NS::Eigen::Index StorageIndex;
+  typedef HYDRA_EXTERNAL_NS::Eigen::Index Index; ///< \deprecated since Eigen 3.3
   /** type of the matrix used to represent the transformation */
   typedef typename internal::make_proper_matrix_type<Scalar,Rows,HDim,Options>::type MatrixType;
   /** constified MatrixType */
@@ -498,11 +498,11 @@ public:
   #if EIGEN_COMP_ICC
 private:
   // this intermediate structure permits to workaround a bug in ICC 11:
-  //   error: template instantiation resulted in unexpected function type of "Eigen::Transform<double, 3, 32, 0>
-  //             (const Eigen::Transform<double, 3, 2, 0> &) const"
+  //   error: template instantiation resulted in unexpected function type of "HYDRA_EXTERNAL_NS::Eigen::Transform<double, 3, 32, 0>
+  //             (const HYDRA_EXTERNAL_NS::Eigen::Transform<double, 3, 2, 0> &) const"
   //  (the meaning of a name may have changed since the template declaration -- the type of the template is:
-  // "Eigen::internal::transform_transform_product_impl<Eigen::Transform<double, 3, 32, 0>,
-  //     Eigen::Transform<double, 3, Mode, Options>, <expression>>::ResultType (const Eigen::Transform<double, 3, Mode, Options> &) const")
+  // "HYDRA_EXTERNAL_NS::Eigen::internal::transform_transform_product_impl<HYDRA_EXTERNAL_NS::Eigen::Transform<double, 3, 32, 0>,
+  //     HYDRA_EXTERNAL_NS::Eigen::Transform<double, 3, Mode, Options>, <expression>>::ResultType (const HYDRA_EXTERNAL_NS::Eigen::Transform<double, 3, Mode, Options> &) const")
   // 
   template<int OtherMode,int OtherOptions> struct icc_11_workaround
   {
@@ -1537,6 +1537,6 @@ struct transform_transform_product_impl<Transform<Scalar,Dim,Projective,LhsOptio
 
 } // end namespace internal
 
-} // end namespace Eigen
+} /* end namespace Eigen */  HYDRA_EXTERNAL_NAMESPACE_END
 
 #endif // EIGEN_TRANSFORM_H

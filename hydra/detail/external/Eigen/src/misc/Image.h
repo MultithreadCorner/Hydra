@@ -10,7 +10,7 @@
 #ifndef EIGEN_MISC_IMAGE_H
 #define EIGEN_MISC_IMAGE_H
 
-namespace Eigen { 
+HYDRA_EXTERNAL_NAMESPACE_BEGIN namespace Eigen { 
 
 namespace internal {
 
@@ -68,7 +68,7 @@ template<typename _DecompositionType> struct image_retval_base
   typedef typename DecompositionType::MatrixType MatrixType; \
   typedef typename MatrixType::Scalar Scalar; \
   typedef typename MatrixType::RealScalar RealScalar; \
-  typedef Eigen::internal::image_retval_base<DecompositionType> Base; \
+  typedef HYDRA_EXTERNAL_NS::Eigen::internal::image_retval_base<DecompositionType> Base; \
   using Base::dec; \
   using Base::originalMatrix; \
   using Base::rank; \
@@ -77,6 +77,6 @@ template<typename _DecompositionType> struct image_retval_base
   image_retval(const DecompositionType& dec, const MatrixType& originalMatrix) \
     : Base(dec, originalMatrix) {}
 
-} // end namespace Eigen
+} /* end namespace Eigen */  HYDRA_EXTERNAL_NAMESPACE_END
 
 #endif // EIGEN_MISC_IMAGE_H

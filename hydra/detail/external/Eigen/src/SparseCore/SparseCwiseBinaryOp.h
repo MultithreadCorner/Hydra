@@ -10,7 +10,7 @@
 #ifndef EIGEN_SPARSE_CWISE_BINARY_OP_H
 #define EIGEN_SPARSE_CWISE_BINARY_OP_H
 
-namespace Eigen { 
+HYDRA_EXTERNAL_NAMESPACE_BEGIN namespace Eigen { 
 
 // Here we have to handle 3 cases:
 //  1 - sparse op dense
@@ -721,6 +721,6 @@ operator-(const SparseMatrixBase<SparseDerived> &a, const MatrixBase<DenseDerive
   return CwiseBinaryOp<internal::scalar_difference_op<typename SparseDerived::Scalar,typename DenseDerived::Scalar>, const SparseDerived, const DenseDerived>(a.derived(), b.derived());
 }
 
-} // end namespace Eigen
+} /* end namespace Eigen */  HYDRA_EXTERNAL_NAMESPACE_END
 
 #endif // EIGEN_SPARSE_CWISE_BINARY_OP_H

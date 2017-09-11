@@ -11,7 +11,7 @@
 #ifndef EIGEN_SPARSELU_SUPERNODAL_MATRIX_H
 #define EIGEN_SPARSELU_SUPERNODAL_MATRIX_H
 
-namespace Eigen {
+HYDRA_EXTERNAL_NAMESPACE_BEGIN namespace Eigen {
 namespace internal {
 
 /** \ingroup SparseLU_Module
@@ -296,6 +296,6 @@ void MappedSuperNodalMatrix<Scalar,Index_>::solveInPlace( MatrixBase<Dest>&X) co
 
 } // end namespace internal
 
-} // end namespace Eigen
+} /* end namespace Eigen */  HYDRA_EXTERNAL_NAMESPACE_END
 
 #endif // EIGEN_SPARSELU_MATRIX_H

@@ -23,14 +23,14 @@
     \endcode
   */
 
-#include "SparseCore"
-#include "OrderingMethods"
+#include "hydra/detail/external/Eigen/SparseCore"
+#include "hydra/detail/external/Eigen/OrderingMethods"
 #ifndef EIGEN_MPL2_ONLY
-#include "SparseCholesky"
+#include "hydra/detail/external/Eigen/SparseCholesky"
 #endif
-#include "SparseLU"
-#include "SparseQR"
-#include "IterativeLinearSolvers"
+#include "hydra/detail/external/Eigen/SparseLU"
+#include "hydra/detail/external/Eigen/SparseQR"
+#include "hydra/detail/external/Eigen/IterativeLinearSolvers"
 
 #endif // EIGEN_SPARSE_MODULE_H
 

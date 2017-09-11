@@ -8,9 +8,9 @@
 #ifndef EIGEN_SUPERLUSUPPORT_MODULE_H
 #define EIGEN_SUPERLUSUPPORT_MODULE_H
 
-#include "SparseCore"
+#include "hydra/detail/external/Eigen/SparseCore"
 
-#include "src/Core/util/DisableStupidWarnings.h"
+#include "hydra/detail/external/Eigen/src/Core/util/DisableStupidWarnings.h"
 
 #ifdef EMPTY
 #define EIGEN_EMPTY_WAS_ALREADY_DEFINED
@@ -33,7 +33,7 @@ typedef int int_t;
 
 #define SUPERLU_EMPTY (-1)
 
-namespace Eigen { struct SluMatrix; }
+HYDRA_EXTERNAL_NAMESPACE_BEGIN namespace Eigen { struct SluMatrix; }
 
 /** \ingroup Support_modules
   * \defgroup SuperLUSupport_Module SuperLUSupport module
@@ -57,8 +57,8 @@ namespace Eigen { struct SluMatrix; }
   *
   */
 
-#include "src/SuperLUSupport/SuperLUSupport.h"
+#include "hydra/detail/external/Eigen/src/SuperLUSupport/SuperLUSupport.h"
 
-#include "src/Core/util/ReenableStupidWarnings.h"
+#include "hydra/detail/external/Eigen/src/Core/util/ReenableStupidWarnings.h"
 
 #endif // EIGEN_SUPERLUSUPPORT_MODULE_H

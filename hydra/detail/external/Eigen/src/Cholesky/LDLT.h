@@ -13,7 +13,7 @@
 #ifndef EIGEN_LDLT_H
 #define EIGEN_LDLT_H
 
-namespace Eigen {
+HYDRA_EXTERNAL_NAMESPACE_BEGIN namespace Eigen {
 
 namespace internal {
   template<typename MatrixType, int UpLo> struct LDLT_Traits;
@@ -60,7 +60,7 @@ template<typename _MatrixType, int _UpLo> class LDLT
     };
     typedef typename MatrixType::Scalar Scalar;
     typedef typename NumTraits<typename MatrixType::Scalar>::Real RealScalar;
-    typedef Eigen::Index Index; ///< \deprecated since Eigen 3.3
+    typedef HYDRA_EXTERNAL_NS::Eigen::Index Index; ///< \deprecated since Eigen 3.3
     typedef typename MatrixType::StorageIndex StorageIndex;
     typedef Matrix<Scalar, RowsAtCompileTime, 1, 0, MaxRowsAtCompileTime, 1> TmpMatrixType;
 
@@ -114,7 +114,7 @@ template<typename _MatrixType, int _UpLo> class LDLT
 
     /** \brief Constructs a LDLT factorization from a given matrix
       *
-      * This overloaded constructor is provided for \link InplaceDecomposition inplace decomposition \endlink when \c MatrixType is a Eigen::Ref.
+      * This overloaded constructor is provided for \link InplaceDecomposition inplace decomposition \endlink when \c MatrixType is a HYDRA_EXTERNAL_NS::Eigen::Ref.
       *
       * \sa LDLT(const EigenBase&)
       */
@@ -664,6 +664,6 @@ MatrixBase<Derived>::ldlt() const
   return LDLT<PlainObject>(derived());
 }
 
-} // end namespace Eigen
+} /* end namespace Eigen */  HYDRA_EXTERNAL_NAMESPACE_END
 
 #endif // EIGEN_LDLT_H

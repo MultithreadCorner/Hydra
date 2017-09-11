@@ -10,7 +10,7 @@
 #ifndef EIGEN_SPARSE_DOT_H
 #define EIGEN_SPARSE_DOT_H
 
-namespace Eigen { 
+HYDRA_EXTERNAL_NAMESPACE_BEGIN namespace Eigen { 
 
 template<typename Derived>
 template<typename OtherDerived>
@@ -93,6 +93,6 @@ SparseMatrixBase<Derived>::blueNorm() const
 {
   return internal::blueNorm_impl(*this);
 }
-} // end namespace Eigen
+} /* end namespace Eigen */  HYDRA_EXTERNAL_NAMESPACE_END
 
 #endif // EIGEN_SPARSE_DOT_H

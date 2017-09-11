@@ -10,7 +10,7 @@
 #ifndef EIGEN_ROTATION2D_H
 #define EIGEN_ROTATION2D_H
 
-namespace Eigen { 
+HYDRA_EXTERNAL_NAMESPACE_BEGIN namespace Eigen { 
 
 /** \geometry_module \ingroup Geometry_Module
   *
@@ -194,6 +194,6 @@ EIGEN_DEVICE_FUNC Rotation2D<Scalar>::toRotationMatrix(void) const
   return (Matrix2() << cosA, -sinA, sinA, cosA).finished();
 }
 
-} // end namespace Eigen
+} /* end namespace Eigen */  HYDRA_EXTERNAL_NAMESPACE_END
 
 #endif // EIGEN_ROTATION2D_H

@@ -8,9 +8,9 @@
 #ifndef EIGEN_CHOLMODSUPPORT_MODULE_H
 #define EIGEN_CHOLMODSUPPORT_MODULE_H
 
-#include "SparseCore"
+#include "hydra/detail/external/Eigen/SparseCore"
 
-#include "src/Core/util/DisableStupidWarnings.h"
+#include "hydra/detail/external/Eigen/src/Core/util/DisableStupidWarnings.h"
 
 extern "C" {
   #include <cholmod.h>
@@ -40,9 +40,9 @@ extern "C" {
   *
   */
 
-#include "src/CholmodSupport/CholmodSupport.h"
+#include "hydra/detail/external/Eigen/src/CholmodSupport/CholmodSupport.h"
 
-#include "src/Core/util/ReenableStupidWarnings.h"
+#include "hydra/detail/external/Eigen/src/Core/util/ReenableStupidWarnings.h"
 
 #endif // EIGEN_CHOLMODSUPPORT_MODULE_H
 

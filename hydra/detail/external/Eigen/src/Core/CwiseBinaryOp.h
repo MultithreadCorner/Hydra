@@ -11,7 +11,7 @@
 #ifndef EIGEN_CWISE_BINARY_OP_H
 #define EIGEN_CWISE_BINARY_OP_H
 
-namespace Eigen {
+HYDRA_EXTERNAL_NAMESPACE_BEGIN namespace Eigen {
 
 namespace internal {
 template<typename BinaryOp, typename Lhs, typename Rhs>
@@ -178,7 +178,7 @@ MatrixBase<Derived>::operator+=(const MatrixBase<OtherDerived>& other)
   return derived();
 }
 
-} // end namespace Eigen
+} /* end namespace Eigen */  HYDRA_EXTERNAL_NAMESPACE_END
 
 #endif // EIGEN_CWISE_BINARY_OP_H
 

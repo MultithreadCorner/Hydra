@@ -8,9 +8,9 @@
 #ifndef EIGEN_ORDERINGMETHODS_MODULE_H
 #define EIGEN_ORDERINGMETHODS_MODULE_H
 
-#include "SparseCore"
+#include "hydra/detail/external/Eigen/SparseCore"
 
-#include "src/Core/util/DisableStupidWarnings.h"
+#include "hydra/detail/external/Eigen/src/Core/util/DisableStupidWarnings.h"
 
 /** 
   * \defgroup OrderingMethods_Module OrderingMethods module
@@ -64,10 +64,10 @@
   */
 
 #ifndef EIGEN_MPL2_ONLY
-#include "src/OrderingMethods/Amd.h"
+#include "hydra/detail/external/Eigen/src/OrderingMethods/Amd.h"
 #endif
 
-#include "src/OrderingMethods/Ordering.h"
-#include "src/Core/util/ReenableStupidWarnings.h"
+#include "hydra/detail/external/Eigen/src/OrderingMethods/Ordering.h"
+#include "hydra/detail/external/Eigen/src/Core/util/ReenableStupidWarnings.h"
 
 #endif // EIGEN_ORDERINGMETHODS_MODULE_H

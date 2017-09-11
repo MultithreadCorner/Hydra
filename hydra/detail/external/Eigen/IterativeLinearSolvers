@@ -8,10 +8,10 @@
 #ifndef EIGEN_ITERATIVELINEARSOLVERS_MODULE_H
 #define EIGEN_ITERATIVELINEARSOLVERS_MODULE_H
 
-#include "SparseCore"
-#include "OrderingMethods"
+#include "hydra/detail/external/Eigen/SparseCore"
+#include "hydra/detail/external/Eigen/OrderingMethods"
 
-#include "src/Core/util/DisableStupidWarnings.h"
+#include "hydra/detail/external/Eigen/src/Core/util/DisableStupidWarnings.h"
 
 /** 
   * \defgroup IterativeLinearSolvers_Module IterativeLinearSolvers module
@@ -34,15 +34,15 @@
     \endcode
   */
 
-#include "src/IterativeLinearSolvers/SolveWithGuess.h"
-#include "src/IterativeLinearSolvers/IterativeSolverBase.h"
-#include "src/IterativeLinearSolvers/BasicPreconditioners.h"
-#include "src/IterativeLinearSolvers/ConjugateGradient.h"
-#include "src/IterativeLinearSolvers/LeastSquareConjugateGradient.h"
-#include "src/IterativeLinearSolvers/BiCGSTAB.h"
-#include "src/IterativeLinearSolvers/IncompleteLUT.h"
-#include "src/IterativeLinearSolvers/IncompleteCholesky.h"
+#include "hydra/detail/external/Eigen/src/IterativeLinearSolvers/SolveWithGuess.h"
+#include "hydra/detail/external/Eigen/src/IterativeLinearSolvers/IterativeSolverBase.h"
+#include "hydra/detail/external/Eigen/src/IterativeLinearSolvers/BasicPreconditioners.h"
+#include "hydra/detail/external/Eigen/src/IterativeLinearSolvers/ConjugateGradient.h"
+#include "hydra/detail/external/Eigen/src/IterativeLinearSolvers/LeastSquareConjugateGradient.h"
+#include "hydra/detail/external/Eigen/src/IterativeLinearSolvers/BiCGSTAB.h"
+#include "hydra/detail/external/Eigen/src/IterativeLinearSolvers/IncompleteLUT.h"
+#include "hydra/detail/external/Eigen/src/IterativeLinearSolvers/IncompleteCholesky.h"
 
-#include "src/Core/util/ReenableStupidWarnings.h"
+#include "hydra/detail/external/Eigen/src/Core/util/ReenableStupidWarnings.h"
 
 #endif // EIGEN_ITERATIVELINEARSOLVERS_MODULE_H

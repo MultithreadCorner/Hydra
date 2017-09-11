@@ -11,7 +11,7 @@
 #ifndef EIGEN_TRIDIAGONALIZATION_H
 #define EIGEN_TRIDIAGONALIZATION_H
 
-namespace Eigen { 
+HYDRA_EXTERNAL_NAMESPACE_BEGIN namespace Eigen { 
 
 namespace internal {
   
@@ -69,7 +69,7 @@ template<typename _MatrixType> class Tridiagonalization
 
     typedef typename MatrixType::Scalar Scalar;
     typedef typename NumTraits<Scalar>::Real RealScalar;
-    typedef Eigen::Index Index; ///< \deprecated since Eigen 3.3
+    typedef HYDRA_EXTERNAL_NS::Eigen::Index Index; ///< \deprecated since Eigen 3.3
 
     enum {
       Size = MatrixType::RowsAtCompileTime,
@@ -551,6 +551,6 @@ template<typename MatrixType> struct TridiagonalizationMatrixTReturnType
 
 } // end namespace internal
 
-} // end namespace Eigen
+} /* end namespace Eigen */  HYDRA_EXTERNAL_NAMESPACE_END
 
 #endif // EIGEN_TRIDIAGONALIZATION_H

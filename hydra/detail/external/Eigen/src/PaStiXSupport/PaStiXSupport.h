@@ -10,7 +10,7 @@
 #ifndef EIGEN_PASTIXSUPPORT_H
 #define EIGEN_PASTIXSUPPORT_H
 
-namespace Eigen { 
+HYDRA_EXTERNAL_NAMESPACE_BEGIN namespace Eigen { 
 
 #if defined(DCOMPLEX)
   #define PASTIX_COMPLEX  COMPLEX
@@ -673,6 +673,6 @@ class PastixLDLT : public PastixBase< PastixLDLT<_MatrixType, _UpLo> >
     }
 };
 
-} // end namespace Eigen
+} /* end namespace Eigen */  HYDRA_EXTERNAL_NAMESPACE_END
 
 #endif

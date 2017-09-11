@@ -11,7 +11,7 @@
 #ifndef EIGEN_DIAGONAL_H
 #define EIGEN_DIAGONAL_H
 
-namespace Eigen { 
+HYDRA_EXTERNAL_NAMESPACE_BEGIN namespace Eigen { 
 
 /** \class Diagonal
   * \ingroup Core_Module
@@ -252,6 +252,6 @@ MatrixBase<Derived>::diagonal() const
   return typename ConstDiagonalIndexReturnType<Index_>::Type(derived());
 }
 
-} // end namespace Eigen
+} /* end namespace Eigen */  HYDRA_EXTERNAL_NAMESPACE_END
 
 #endif // EIGEN_DIAGONAL_H

@@ -11,7 +11,7 @@
 #ifndef EIGEN_MATRIXBASE_H
 #define EIGEN_MATRIXBASE_H
 
-namespace Eigen {
+HYDRA_EXTERNAL_NAMESPACE_BEGIN namespace Eigen {
 
 /** \class MatrixBase
   * \ingroup Core_Module
@@ -34,7 +34,7 @@ namespace Eigen {
   *
   * \code
     template<typename Derived>
-    void printFirstRow(const Eigen::MatrixBase<Derived>& x)
+    void printFirstRow(const HYDRA_EXTERNAL_NS::Eigen::MatrixBase<Derived>& x)
     {
       cout << x.row(0) << endl;
     }
@@ -120,7 +120,7 @@ template<typename Derived> class MatrixBase
                   internal::traits<Derived>::ColsAtCompileTime> BasisReturnType;
 #endif // not EIGEN_PARSED_BY_DOXYGEN
 
-#define EIGEN_CURRENT_STORAGE_BASE_CLASS Eigen::MatrixBase
+#define EIGEN_CURRENT_STORAGE_BASE_CLASS HYDRA_EXTERNAL_NS::Eigen::MatrixBase
 #define EIGEN_DOC_UNARY_ADDONS(X,Y)
 #   include "../plugins/CommonCwiseUnaryOps.h"
 #   include "../plugins/CommonCwiseBinaryOps.h"
@@ -305,7 +305,7 @@ template<typename Derived> class MatrixBase
     EIGEN_DEVICE_FUNC inline bool operator!=(const MatrixBase<OtherDerived>& other) const
     { return cwiseNotEqual(other).any(); }
 
-    NoAlias<Derived,Eigen::MatrixBase > noalias();
+    NoAlias<Derived,HYDRA_EXTERNAL_NS::Eigen::MatrixBase > noalias();
 
     // TODO forceAlignedAccess is temporarily disabled
     // Need to find a nicer workaround.
@@ -321,10 +321,10 @@ template<typename Derived> class MatrixBase
     EIGEN_DEVICE_FUNC MatrixBase<Derived>& matrix() { return *this; }
     EIGEN_DEVICE_FUNC const MatrixBase<Derived>& matrix() const { return *this; }
 
-    /** \returns an \link Eigen::ArrayBase Array \endlink expression of this matrix
+    /** \returns an \link HYDRA_EXTERNAL_NS::Eigen::ArrayBase Array \endlink expression of this matrix
       * \sa ArrayBase::matrix() */
     EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE ArrayWrapper<Derived> array() { return ArrayWrapper<Derived>(derived()); }
-    /** \returns a const \link Eigen::ArrayBase Array \endlink expression of this matrix
+    /** \returns a const \link HYDRA_EXTERNAL_NS::Eigen::ArrayBase Array \endlink expression of this matrix
       * \sa ArrayBase::matrix() */
     EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE const ArrayWrapper<const Derived> array() const { return ArrayWrapper<const Derived>(derived()); }
 
@@ -525,6 +525,6 @@ inline void MatrixBase<Derived>::applyOnTheLeft(const EigenBase<OtherDerived> &o
   other.derived().applyThisOnTheLeft(derived());
 }
 
-} // end namespace Eigen
+} /* end namespace Eigen */  HYDRA_EXTERNAL_NAMESPACE_END
 
 #endif // EIGEN_MATRIXBASE_H

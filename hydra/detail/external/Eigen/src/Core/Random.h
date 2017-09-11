@@ -10,7 +10,7 @@
 #ifndef EIGEN_RANDOM_H
 #define EIGEN_RANDOM_H
 
-namespace Eigen { 
+HYDRA_EXTERNAL_NAMESPACE_BEGIN namespace Eigen { 
 
 namespace internal {
 
@@ -177,6 +177,6 @@ PlainObjectBase<Derived>::setRandom(Index rows, Index cols)
   return setRandom();
 }
 
-} // end namespace Eigen
+} /* end namespace Eigen */  HYDRA_EXTERNAL_NAMESPACE_END
 
 #endif // EIGEN_RANDOM_H

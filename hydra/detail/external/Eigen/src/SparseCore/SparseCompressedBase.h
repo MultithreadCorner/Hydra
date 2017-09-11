@@ -10,7 +10,7 @@
 #ifndef EIGEN_SPARSE_COMPRESSED_BASE_H
 #define EIGEN_SPARSE_COMPRESSED_BASE_H
 
-namespace Eigen { 
+HYDRA_EXTERNAL_NAMESPACE_BEGIN namespace Eigen { 
 
 template<typename Derived> class SparseCompressedBase;
   
@@ -47,8 +47,8 @@ class SparseCompressedBase
     
   protected:
     typedef typename Base::IndexVector IndexVector;
-    Eigen::Map<IndexVector> innerNonZeros() { return Eigen::Map<IndexVector>(innerNonZeroPtr(), isCompressed()?0:derived().outerSize()); }
-    const  Eigen::Map<const IndexVector> innerNonZeros() const { return Eigen::Map<const IndexVector>(innerNonZeroPtr(), isCompressed()?0:derived().outerSize()); }
+    HYDRA_EXTERNAL_NS::Eigen::Map<IndexVector> innerNonZeros() { return HYDRA_EXTERNAL_NS::Eigen::Map<IndexVector>(innerNonZeroPtr(), isCompressed()?0:derived().outerSize()); }
+    const  HYDRA_EXTERNAL_NS::Eigen::Map<const IndexVector> innerNonZeros() const { return HYDRA_EXTERNAL_NS::Eigen::Map<const IndexVector>(innerNonZeroPtr(), isCompressed()?0:derived().outerSize()); }
         
   public:
     
@@ -336,6 +336,6 @@ protected:
 
 }
 
-} // end namespace Eigen
+} /* end namespace Eigen */  HYDRA_EXTERNAL_NAMESPACE_END
 
 #endif // EIGEN_SPARSE_COMPRESSED_BASE_H

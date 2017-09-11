@@ -8,9 +8,9 @@
 #ifndef EIGEN_PASTIXSUPPORT_MODULE_H
 #define EIGEN_PASTIXSUPPORT_MODULE_H
 
-#include "SparseCore"
+#include "hydra/detail/external/Eigen/SparseCore"
 
-#include "src/Core/util/DisableStupidWarnings.h"
+#include "hydra/detail/external/Eigen/src/Core/util/DisableStupidWarnings.h"
 
 extern "C" {
 #include <pastix_nompi.h>
@@ -41,8 +41,8 @@ extern "C" {
   *
   */
 
-#include "src/PaStiXSupport/PaStiXSupport.h"
+#include "hydra/detail/external/Eigen/src/PaStiXSupport/PaStiXSupport.h"
 
-#include "src/Core/util/ReenableStupidWarnings.h"
+#include "hydra/detail/external/Eigen/src/Core/util/ReenableStupidWarnings.h"
 
 #endif // EIGEN_PASTIXSUPPORT_MODULE_H

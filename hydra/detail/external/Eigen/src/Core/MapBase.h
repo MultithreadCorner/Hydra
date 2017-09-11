@@ -15,7 +15,7 @@
       EIGEN_STATIC_ASSERT((int(internal::evaluator<Derived>::Flags) & LinearAccessBit) || Derived::IsVectorAtCompileTime, \
                           YOU_ARE_TRYING_TO_USE_AN_INDEX_BASED_ACCESSOR_ON_AN_EXPRESSION_THAT_DOES_NOT_SUPPORT_THAT)
 
-namespace Eigen { 
+HYDRA_EXTERNAL_NAMESPACE_BEGIN namespace Eigen { 
 
 /** \ingroup Core_Module
   *
@@ -294,6 +294,6 @@ template<typename Derived> class MapBase<Derived, WriteAccessors>
 
 #undef EIGEN_STATIC_ASSERT_INDEX_BASED_ACCESS
 
-} // end namespace Eigen
+} /* end namespace Eigen */  HYDRA_EXTERNAL_NAMESPACE_END
 
 #endif // EIGEN_MAPBASE_H

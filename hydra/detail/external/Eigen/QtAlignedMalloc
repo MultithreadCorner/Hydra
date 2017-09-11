@@ -8,31 +8,31 @@
 #ifndef EIGEN_QTMALLOC_MODULE_H
 #define EIGEN_QTMALLOC_MODULE_H
 
-#include "Core"
+#include "hydra/detail/external/Eigen/Core"
 
 #if (!EIGEN_MALLOC_ALREADY_ALIGNED)
 
-#include "src/Core/util/DisableStupidWarnings.h"
+#include "hydra/detail/external/Eigen/src/Core/util/DisableStupidWarnings.h"
 
 void *qMalloc(std::size_t size)
 {
-  return Eigen::internal::aligned_malloc(size);
+  return HYDRA_EXTERNAL_NS::Eigen::internal::aligned_malloc(size);
 }
 
 void qFree(void *ptr)
 {
-  Eigen::internal::aligned_free(ptr);
+  HYDRA_EXTERNAL_NS::Eigen::internal::aligned_free(ptr);
 }
 
 void *qRealloc(void *ptr, std::size_t size)
 {
-  void* newPtr = Eigen::internal::aligned_malloc(size);
+  void* newPtr = HYDRA_EXTERNAL_NS::Eigen::internal::aligned_malloc(size);
   memcpy(newPtr, ptr, size);
-  Eigen::internal::aligned_free(ptr);
+  HYDRA_EXTERNAL_NS::Eigen::internal::aligned_free(ptr);
   return newPtr;
 }
 
-#include "src/Core/util/ReenableStupidWarnings.h"
+#include "hydra/detail/external/Eigen/src/Core/util/ReenableStupidWarnings.h"
 
 #endif
 

@@ -10,7 +10,7 @@
 #ifndef EIGEN_TRANSLATION_H
 #define EIGEN_TRANSLATION_H
 
-namespace Eigen { 
+HYDRA_EXTERNAL_NAMESPACE_BEGIN namespace Eigen { 
 
 /** \geometry_module \ingroup Geometry_Module
   *
@@ -203,6 +203,6 @@ Translation<Scalar,Dim>::operator* (const EigenBase<OtherDerived>& linear) const
   return res;
 }
 
-} // end namespace Eigen
+} /* end namespace Eigen */  HYDRA_EXTERNAL_NAMESPACE_END
 
 #endif // EIGEN_TRANSLATION_H

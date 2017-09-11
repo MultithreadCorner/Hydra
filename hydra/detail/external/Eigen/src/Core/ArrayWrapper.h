@@ -10,7 +10,7 @@
 #ifndef EIGEN_ARRAYWRAPPER_H
 #define EIGEN_ARRAYWRAPPER_H
 
-namespace Eigen { 
+HYDRA_EXTERNAL_NAMESPACE_BEGIN namespace Eigen { 
 
 /** \class ArrayWrapper
   * \ingroup Core_Module
@@ -204,6 +204,6 @@ class MatrixWrapper : public MatrixBase<MatrixWrapper<ExpressionType> >
     NestedExpressionType m_expression;
 };
 
-} // end namespace Eigen
+} /* end namespace Eigen */  HYDRA_EXTERNAL_NAMESPACE_END
 
 #endif // EIGEN_ARRAYWRAPPER_H

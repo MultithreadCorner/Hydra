@@ -31,7 +31,7 @@
 #define SPARSELU_COLUMN_DFS_H
 
 template <typename Scalar, typename StorageIndex> class SparseLUImpl;
-namespace Eigen {
+HYDRA_EXTERNAL_NAMESPACE_BEGIN namespace Eigen {
 
 namespace internal {
 
@@ -174,6 +174,6 @@ Index SparseLUImpl<Scalar,StorageIndex>::column_dfs(const Index m, const Index j
 
 } // end namespace internal
 
-} // end namespace Eigen
+} /* end namespace Eigen */  HYDRA_EXTERNAL_NAMESPACE_END
 
 #endif

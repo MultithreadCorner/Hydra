@@ -8,11 +8,11 @@
 #ifndef EIGEN_SVD_MODULE_H
 #define EIGEN_SVD_MODULE_H
 
-#include "QR"
-#include "Householder"
-#include "Jacobi"
+#include "hydra/detail/external/Eigen/QR"
+#include "hydra/detail/external/Eigen/Householder"
+#include "hydra/detail/external/Eigen/Jacobi"
 
-#include "src/Core/util/DisableStupidWarnings.h"
+#include "hydra/detail/external/Eigen/src/Core/util/DisableStupidWarnings.h"
 
 /** \defgroup SVD_Module SVD module
   *
@@ -31,17 +31,17 @@
   * \endcode
   */
 
-#include "src/misc/RealSvd2x2.h"
-#include "src/SVD/UpperBidiagonalization.h"
-#include "src/SVD/SVDBase.h"
-#include "src/SVD/JacobiSVD.h"
-#include "src/SVD/BDCSVD.h"
+#include "hydra/detail/external/Eigen/src/misc/RealSvd2x2.h"
+#include "hydra/detail/external/Eigen/src/SVD/UpperBidiagonalization.h"
+#include "hydra/detail/external/Eigen/src/SVD/SVDBase.h"
+#include "hydra/detail/external/Eigen/src/SVD/JacobiSVD.h"
+#include "hydra/detail/external/Eigen/src/SVD/BDCSVD.h"
 #if defined(EIGEN_USE_LAPACKE) && !defined(EIGEN_USE_LAPACKE_STRICT)
-#include "src/misc/lapacke.h"
-#include "src/SVD/JacobiSVD_LAPACKE.h"
+#include "hydra/detail/external/Eigen/src/misc/lapacke.h"
+#include "hydra/detail/external/Eigen/src/SVD/JacobiSVD_LAPACKE.h"
 #endif
 
-#include "src/Core/util/ReenableStupidWarnings.h"
+#include "hydra/detail/external/Eigen/src/Core/util/ReenableStupidWarnings.h"
 
 #endif // EIGEN_SVD_MODULE_H
 /* vim: set filetype=cpp et sw=2 ts=2 ai: */

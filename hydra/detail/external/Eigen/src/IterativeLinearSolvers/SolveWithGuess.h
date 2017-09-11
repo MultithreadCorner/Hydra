@@ -10,7 +10,7 @@
 #ifndef EIGEN_SOLVEWITHGUESS_H
 #define EIGEN_SOLVEWITHGUESS_H
 
-namespace Eigen {
+HYDRA_EXTERNAL_NAMESPACE_BEGIN namespace Eigen {
 
 template<typename Decomposition, typename RhsType, typename GuessType> class SolveWithGuess;
   
@@ -110,6 +110,6 @@ struct Assignment<DstXprType, SolveWithGuess<DecType,RhsType,GuessType>, interna
 
 } // end namepsace internal
 
-} // end namespace Eigen
+} /* end namespace Eigen */  HYDRA_EXTERNAL_NAMESPACE_END
 
 #endif // EIGEN_SOLVEWITHGUESS_H

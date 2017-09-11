@@ -11,7 +11,7 @@
 #ifndef EIGEN_ORDERING_H
 #define EIGEN_ORDERING_H
 
-namespace Eigen {
+HYDRA_EXTERNAL_NAMESPACE_BEGIN namespace Eigen {
   
 #include "Eigen_Colamd.h"
 
@@ -152,6 +152,6 @@ class COLAMDOrdering
     }
 };
 
-} // end namespace Eigen
+} /* end namespace Eigen */  HYDRA_EXTERNAL_NAMESPACE_END
 
 #endif

@@ -10,7 +10,7 @@
 #ifndef EIGEN_FORCEALIGNEDACCESS_H
 #define EIGEN_FORCEALIGNEDACCESS_H
 
-namespace Eigen {
+HYDRA_EXTERNAL_NAMESPACE_BEGIN namespace Eigen {
 
 /** \class ForceAlignedAccess
   * \ingroup Core_Module
@@ -141,6 +141,6 @@ MatrixBase<Derived>::forceAlignedAccessIf()
   return derived();  // FIXME This should not work but apparently is never used
 }
 
-} // end namespace Eigen
+} /* end namespace Eigen */  HYDRA_EXTERNAL_NAMESPACE_END
 
 #endif // EIGEN_FORCEALIGNEDACCESS_H

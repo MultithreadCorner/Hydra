@@ -10,7 +10,7 @@
 #ifndef EIGEN_BINARY_FUNCTORS_H
 #define EIGEN_BINARY_FUNCTORS_H
 
-namespace Eigen {
+HYDRA_EXTERNAL_NAMESPACE_BEGIN namespace Eigen {
 
 namespace internal {
 
@@ -477,6 +477,6 @@ template<typename BinaryOp> struct functor_traits<bind2nd_op<BinaryOp> > : funct
 
 } // end namespace internal
 
-} // end namespace Eigen
+} /* end namespace Eigen */  HYDRA_EXTERNAL_NAMESPACE_END
 
 #endif // EIGEN_BINARY_FUNCTORS_H

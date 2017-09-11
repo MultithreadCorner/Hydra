@@ -11,7 +11,7 @@
 #ifndef EIGEN_REALSVD2X2_H
 #define EIGEN_REALSVD2X2_H
 
-namespace Eigen {
+HYDRA_EXTERNAL_NAMESPACE_BEGIN namespace Eigen {
 
 namespace internal {
 
@@ -50,6 +50,6 @@ void real_2x2_jacobi_svd(const MatrixType& matrix, Index p, Index q,
 
 } // end namespace internal
 
-} // end namespace Eigen
+} /* end namespace Eigen */  HYDRA_EXTERNAL_NAMESPACE_END
 
 #endif // EIGEN_REALSVD2X2_H

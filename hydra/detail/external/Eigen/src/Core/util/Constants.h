@@ -11,7 +11,7 @@
 #ifndef EIGEN_CONSTANTS_H
 #define EIGEN_CONSTANTS_H
 
-namespace Eigen {
+HYDRA_EXTERNAL_NAMESPACE_BEGIN namespace Eigen {
 
 /** This value means that a positive quantity (e.g., a size) is not known at compile-time, and that instead the value is
   * stored in some runtime variable.
@@ -542,6 +542,6 @@ enum ComparisonName {
 };
 } // end namespace internal
 
-} // end namespace Eigen
+} /* end namespace Eigen */  HYDRA_EXTERNAL_NAMESPACE_END
 
 #endif // EIGEN_CONSTANTS_H

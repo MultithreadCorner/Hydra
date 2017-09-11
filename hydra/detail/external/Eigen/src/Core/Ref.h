@@ -10,7 +10,7 @@
 #ifndef EIGEN_REF_H
 #define EIGEN_REF_H
 
-namespace Eigen { 
+HYDRA_EXTERNAL_NAMESPACE_BEGIN namespace Eigen { 
 
 namespace internal {
 
@@ -276,6 +276,6 @@ template<typename TPlainObjectType, int Options, typename StrideType> class Ref<
     TPlainObjectType m_object;
 };
 
-} // end namespace Eigen
+} /* end namespace Eigen */  HYDRA_EXTERNAL_NAMESPACE_END
 
 #endif // EIGEN_REF_H

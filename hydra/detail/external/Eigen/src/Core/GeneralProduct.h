@@ -11,7 +11,7 @@
 #ifndef EIGEN_GENERAL_PRODUCT_H
 #define EIGEN_GENERAL_PRODUCT_H
 
-namespace Eigen {
+HYDRA_EXTERNAL_NAMESPACE_BEGIN namespace Eigen {
 
 enum {
   Large = 2,
@@ -449,6 +449,6 @@ MatrixBase<Derived>::lazyProduct(const MatrixBase<OtherDerived> &other) const
   return Product<Derived,OtherDerived,LazyProduct>(derived(), other.derived());
 }
 
-} // end namespace Eigen
+} /* end namespace Eigen */  HYDRA_EXTERNAL_NAMESPACE_END
 
 #endif // EIGEN_PRODUCT_H

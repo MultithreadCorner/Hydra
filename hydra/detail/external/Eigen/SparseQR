@@ -8,9 +8,10 @@
 #ifndef EIGEN_SPARSEQR_MODULE_H
 #define EIGEN_SPARSEQR_MODULE_H
 
-#include "SparseCore"
-#include "OrderingMethods"
-#include "src/Core/util/DisableStupidWarnings.h"
+#include "hydra/detail/external/Eigen/SparseCore"
+#include "hydra/detail/external/Eigen/OrderingMethods"
+
+#include "hydra/detail/external/Eigen/src/Core/util/DisableStupidWarnings.h"
 
 /** \defgroup SparseQR_Module SparseQR module
   * \brief Provides QR decomposition for sparse matrices
@@ -28,10 +29,10 @@
   * 
   */
 
-#include "OrderingMethods"
-#include "src/SparseCore/SparseColEtree.h"
-#include "src/SparseQR/SparseQR.h"
+#include "hydra/detail/external/Eigen/OrderingMethods"
+#include "hydra/detail/external/Eigen/src/SparseCore/SparseColEtree.h"
+#include "hydra/detail/external/Eigen/src/SparseQR/SparseQR.h"
 
-#include "src/Core/util/ReenableStupidWarnings.h"
+#include "hydra/detail/external/Eigen/src/Core/util/ReenableStupidWarnings.h"
 
 #endif

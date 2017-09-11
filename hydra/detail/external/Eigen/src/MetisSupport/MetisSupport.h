@@ -9,7 +9,7 @@
 #ifndef METIS_SUPPORT_H
 #define METIS_SUPPORT_H
 
-namespace Eigen {
+HYDRA_EXTERNAL_NAMESPACE_BEGIN namespace Eigen {
 /**
  * Get the fill-reducing ordering from the METIS package
  * 

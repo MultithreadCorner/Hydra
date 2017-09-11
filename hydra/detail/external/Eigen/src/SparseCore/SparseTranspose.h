@@ -10,7 +10,7 @@
 #ifndef EIGEN_SPARSETRANSPOSE_H
 #define EIGEN_SPARSETRANSPOSE_H
 
-namespace Eigen { 
+HYDRA_EXTERNAL_NAMESPACE_BEGIN namespace Eigen { 
 
 namespace internal {
   template<typename MatrixType,int CompressedAccess=int(MatrixType::Flags&CompressedAccessBit)>
@@ -87,6 +87,6 @@ struct unary_evaluator<Transpose<ArgType>, IteratorBased>
 
 } // end namespace internal
 
-} // end namespace Eigen
+} /* end namespace Eigen */  HYDRA_EXTERNAL_NAMESPACE_END
 
 #endif // EIGEN_SPARSETRANSPOSE_H

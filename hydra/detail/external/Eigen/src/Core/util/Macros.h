@@ -327,9 +327,9 @@
 #define EIGEN_NOT_A_MACRO
 
 #ifdef EIGEN_DEFAULT_TO_ROW_MAJOR
-#define EIGEN_DEFAULT_MATRIX_STORAGE_ORDER_OPTION Eigen::RowMajor
+#define EIGEN_DEFAULT_MATRIX_STORAGE_ORDER_OPTION HYDRA_EXTERNAL_NS::Eigen::RowMajor
 #else
-#define EIGEN_DEFAULT_MATRIX_STORAGE_ORDER_OPTION Eigen::ColMajor
+#define EIGEN_DEFAULT_MATRIX_STORAGE_ORDER_OPTION HYDRA_EXTERNAL_NS::Eigen::ColMajor
 #endif
 
 #ifndef EIGEN_DEFAULT_DENSE_INDEX_TYPE
@@ -498,7 +498,7 @@
 // it uses __attribute__((always_inline)) on GCC, which most of the time is useless and can severely harm compile times.
 // FIXME with the always_inline attribute,
 // gcc 3.4.x and 4.1 reports the following compilation error:
-//   Eval.h:91: sorry, unimplemented: inlining failed in call to 'const Eigen::Eval<Derived> Eigen::MatrixBase<Scalar, Derived>::eval() const'
+//   Eval.h:91: sorry, unimplemented: inlining failed in call to 'const HYDRA_EXTERNAL_NS::Eigen::Eval<Derived> HYDRA_EXTERNAL_NS::Eigen::MatrixBase<Scalar, Derived>::eval() const'
 //    : function body not available
 //   See also bug 1367
 #if EIGEN_GNUC_AT_LEAST(4,2)
@@ -539,7 +539,7 @@
   #define eigen_plain_assert(x)
 #else
   #if EIGEN_SAFE_TO_USE_STANDARD_ASSERT_MACRO
-    namespace Eigen {
+    HYDRA_EXTERNAL_NAMESPACE_BEGIN namespace Eigen {
     namespace internal {
     inline bool copy_bool(bool b) { return b; }
     }
@@ -550,7 +550,7 @@
     #include <cstdlib>   // for abort
     #include <iostream>  // for std::cerr
 
-    namespace Eigen {
+    HYDRA_EXTERNAL_NAMESPACE_BEGIN namespace Eigen {
     namespace internal {
     // trivial function copying a bool. Must be EIGEN_DONT_INLINE, so we implement it after including Eigen headers.
     // see bug 89.
@@ -566,8 +566,8 @@
     }
     #define eigen_plain_assert(x) \
       do { \
-        if(!Eigen::internal::copy_bool(x)) \
-          Eigen::internal::assert_fail(EIGEN_MAKESTRING(x), __PRETTY_FUNCTION__, __FILE__, __LINE__); \
+        if(!HYDRA_EXTERNAL_NS::Eigen::internal::copy_bool(x)) \
+          HYDRA_EXTERNAL_NS::Eigen::internal::assert_fail(EIGEN_MAKESTRING(x), __PRETTY_FUNCTION__, __FILE__, __LINE__); \
       } while(false)
   #endif
 #endif
@@ -608,12 +608,12 @@
 #endif
 
 // Suppresses 'unused variable' warnings.
-namespace Eigen {
+HYDRA_EXTERNAL_NAMESPACE_BEGIN namespace Eigen {
   namespace internal {
     template<typename T> EIGEN_DEVICE_FUNC void ignore_unused_variable(const T&) {}
   }
 }
-#define EIGEN_UNUSED_VARIABLE(var) Eigen::internal::ignore_unused_variable(var);
+#define EIGEN_UNUSED_VARIABLE(var) HYDRA_EXTERNAL_NS::Eigen::internal::ignore_unused_variable(var);
 
 #if !defined(EIGEN_ASM_COMMENT)
   #if EIGEN_COMP_GNUC && (EIGEN_ARCH_i386_OR_x86_64 || EIGEN_ARCH_ARM_OR_ARM64)
@@ -803,9 +803,9 @@ namespace Eigen {
 #ifdef EIGEN_MAKING_DOCS
 // format used in Eigen's documentation
 // needed to define it here as escaping characters in CMake add_definition's argument seems very problematic.
-#define EIGEN_DEFAULT_IO_FORMAT Eigen::IOFormat(3, 0, " ", "\n", "", "")
+#define EIGEN_DEFAULT_IO_FORMAT HYDRA_EXTERNAL_NS::Eigen::IOFormat(3, 0, " ", "\n", "", "")
 #else
-#define EIGEN_DEFAULT_IO_FORMAT Eigen::IOFormat()
+#define EIGEN_DEFAULT_IO_FORMAT HYDRA_EXTERNAL_NS::Eigen::IOFormat()
 #endif
 #endif
 
@@ -847,15 +847,15 @@ namespace Eigen {
 **/
 
 #define EIGEN_GENERIC_PUBLIC_INTERFACE(Derived) \
-  typedef typename Eigen::internal::traits<Derived>::Scalar Scalar; /*!< \brief Numeric type, e.g. float, double, int or std::complex<float>. */ \
-  typedef typename Eigen::NumTraits<Scalar>::Real RealScalar; /*!< \brief The underlying numeric type for composed scalar types. \details In cases where Scalar is e.g. std::complex<T>, T were corresponding to RealScalar. */ \
+  typedef typename HYDRA_EXTERNAL_NS::Eigen::internal::traits<Derived>::Scalar Scalar; /*!< \brief Numeric type, e.g. float, double, int or std::complex<float>. */ \
+  typedef typename HYDRA_EXTERNAL_NS::Eigen::NumTraits<Scalar>::Real RealScalar; /*!< \brief The underlying numeric type for composed scalar types. \details In cases where Scalar is e.g. std::complex<T>, T were corresponding to RealScalar. */ \
   typedef typename Base::CoeffReturnType CoeffReturnType; /*!< \brief The return type for coefficient access. \details Depending on whether the object allows direct coefficient access (e.g. for a MatrixXd), this type is either 'const Scalar&' or simply 'Scalar' for objects that do not allow direct coefficient access. */ \
-  typedef typename Eigen::internal::ref_selector<Derived>::type Nested; \
-  typedef typename Eigen::internal::traits<Derived>::StorageKind StorageKind; \
-  typedef typename Eigen::internal::traits<Derived>::StorageIndex StorageIndex; \
-  enum { RowsAtCompileTime = Eigen::internal::traits<Derived>::RowsAtCompileTime, \
-        ColsAtCompileTime = Eigen::internal::traits<Derived>::ColsAtCompileTime, \
-        Flags = Eigen::internal::traits<Derived>::Flags, \
+  typedef typename HYDRA_EXTERNAL_NS::Eigen::internal::ref_selector<Derived>::type Nested; \
+  typedef typename HYDRA_EXTERNAL_NS::Eigen::internal::traits<Derived>::StorageKind StorageKind; \
+  typedef typename HYDRA_EXTERNAL_NS::Eigen::internal::traits<Derived>::StorageIndex StorageIndex; \
+  enum { RowsAtCompileTime = HYDRA_EXTERNAL_NS::Eigen::internal::traits<Derived>::RowsAtCompileTime, \
+        ColsAtCompileTime = HYDRA_EXTERNAL_NS::Eigen::internal::traits<Derived>::ColsAtCompileTime, \
+        Flags = HYDRA_EXTERNAL_NS::Eigen::internal::traits<Derived>::Flags, \
         SizeAtCompileTime = Base::SizeAtCompileTime, \
         MaxSizeAtCompileTime = Base::MaxSizeAtCompileTime, \
         IsVectorAtCompileTime = Base::IsVectorAtCompileTime }; \
@@ -918,7 +918,7 @@ namespace Eigen {
   }
 
 #define EIGEN_SCALAR_BINARY_SUPPORTED(OPNAME,TYPEA,TYPEB) \
-  (Eigen::internal::has_ReturnType<Eigen::ScalarBinaryOpTraits<TYPEA,TYPEB,EIGEN_CAT(EIGEN_CAT(Eigen::internal::scalar_,OPNAME),_op)<TYPEA,TYPEB>  > >::value)
+  (HYDRA_EXTERNAL_NS::Eigen::internal::has_ReturnType<HYDRA_EXTERNAL_NS::Eigen::ScalarBinaryOpTraits<TYPEA,TYPEB,EIGEN_CAT(EIGEN_CAT(HYDRA_EXTERNAL_NS::Eigen::internal::scalar_,OPNAME),_op)<TYPEA,TYPEB>  > >::value)
 
 #define EIGEN_EXPR_BINARYOP_SCALAR_RETURN_TYPE(EXPR,SCALAR,OPNAME) \
   CwiseBinaryOp<EIGEN_CAT(EIGEN_CAT(internal::scalar_,OPNAME),_op)<typename internal::traits<EXPR>::Scalar,SCALAR>, const EXPR, \

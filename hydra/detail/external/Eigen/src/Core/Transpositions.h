@@ -10,7 +10,7 @@
 #ifndef EIGEN_TRANSPOSITIONS_H
 #define EIGEN_TRANSPOSITIONS_H
 
-namespace Eigen { 
+HYDRA_EXTERNAL_NAMESPACE_BEGIN namespace Eigen { 
 
 template<typename Derived>
 class TranspositionsBase
@@ -21,7 +21,7 @@ class TranspositionsBase
 
     typedef typename Traits::IndicesType IndicesType;
     typedef typename IndicesType::Scalar StorageIndex;
-    typedef Eigen::Index Index; ///< \deprecated since Eigen 3.3
+    typedef HYDRA_EXTERNAL_NS::Eigen::Index Index; ///< \deprecated since Eigen 3.3
 
     Derived& derived() { return *static_cast<Derived*>(this); }
     const Derived& derived() const { return *static_cast<const Derived*>(this); }
@@ -402,6 +402,6 @@ class Transpose<TranspositionsBase<TranspositionsDerived> >
     const TranspositionType& m_transpositions;
 };
 
-} // end namespace Eigen
+} /* end namespace Eigen */  HYDRA_EXTERNAL_NAMESPACE_END
 
 #endif // EIGEN_TRANSPOSITIONS_H

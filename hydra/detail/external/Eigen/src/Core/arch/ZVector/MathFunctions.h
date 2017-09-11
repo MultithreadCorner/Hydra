@@ -16,7 +16,7 @@
 #ifndef EIGEN_MATH_FUNCTIONS_ALTIVEC_H
 #define EIGEN_MATH_FUNCTIONS_ALTIVEC_H
 
-namespace Eigen {
+HYDRA_EXTERNAL_NAMESPACE_BEGIN namespace Eigen {
 
 namespace internal {
 
@@ -132,6 +132,6 @@ Packet4f prsqrt<Packet4f>(const Packet4f& x) {
 
 }  // end namespace internal
 
-}  // end namespace Eigen
+}  /* end namespace Eigen */  HYDRA_EXTERNAL_NAMESPACE_END
 
 #endif  // EIGEN_MATH_FUNCTIONS_ALTIVEC_H

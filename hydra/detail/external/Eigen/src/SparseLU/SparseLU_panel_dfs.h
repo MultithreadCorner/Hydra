@@ -30,7 +30,7 @@
 #ifndef SPARSELU_PANEL_DFS_H
 #define SPARSELU_PANEL_DFS_H
 
-namespace Eigen {
+HYDRA_EXTERNAL_NAMESPACE_BEGIN namespace Eigen {
 
 namespace internal {
   
@@ -253,6 +253,6 @@ void SparseLUImpl<Scalar,StorageIndex>::panel_dfs(const Index m, const Index w, 
 }
 
 } // end namespace internal
-} // end namespace Eigen
+} /* end namespace Eigen */  HYDRA_EXTERNAL_NAMESPACE_END
 
 #endif // SPARSELU_PANEL_DFS_H

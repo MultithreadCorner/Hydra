@@ -10,7 +10,7 @@
 #ifndef EIGEN_PRODUCT_H
 #define EIGEN_PRODUCT_H
 
-namespace Eigen {
+HYDRA_EXTERNAL_NAMESPACE_BEGIN namespace Eigen {
 
 template<typename Lhs, typename Rhs, int Option, typename StorageKind> class ProductImpl;
 
@@ -181,6 +181,6 @@ class ProductImpl<Lhs,Rhs,Option,Dense>
   
 };
 
-} // end namespace Eigen
+} /* end namespace Eigen */  HYDRA_EXTERNAL_NAMESPACE_END
 
 #endif // EIGEN_PRODUCT_H

@@ -11,7 +11,7 @@
 #ifndef EIGEN_GEOMETRY_SSE_H
 #define EIGEN_GEOMETRY_SSE_H
 
-namespace Eigen { 
+HYDRA_EXTERNAL_NAMESPACE_BEGIN namespace Eigen { 
 
 namespace internal {
 
@@ -156,6 +156,6 @@ struct quat_conj<Architecture::SSE, Derived, double>
 
 } // end namespace internal
 
-} // end namespace Eigen
+} /* end namespace Eigen */  HYDRA_EXTERNAL_NAMESPACE_END
 
 #endif // EIGEN_GEOMETRY_SSE_H

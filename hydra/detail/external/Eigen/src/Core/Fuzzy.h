@@ -11,7 +11,7 @@
 #ifndef EIGEN_FUZZY_H
 #define EIGEN_FUZZY_H
 
-namespace Eigen { 
+HYDRA_EXTERNAL_NAMESPACE_BEGIN namespace Eigen { 
 
 namespace internal
 {
@@ -150,6 +150,6 @@ bool DenseBase<Derived>::isMuchSmallerThan(
   return internal::isMuchSmallerThan_object_selector<Derived, OtherDerived>::run(derived(), other.derived(), prec);
 }
 
-} // end namespace Eigen
+} /* end namespace Eigen */  HYDRA_EXTERNAL_NAMESPACE_END
 
 #endif // EIGEN_FUZZY_H

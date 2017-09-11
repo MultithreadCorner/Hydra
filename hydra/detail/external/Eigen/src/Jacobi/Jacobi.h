@@ -11,7 +11,7 @@
 #ifndef EIGEN_JACOBI_H
 #define EIGEN_JACOBI_H
 
-namespace Eigen { 
+HYDRA_EXTERNAL_NAMESPACE_BEGIN namespace Eigen { 
 
 /** \ingroup Jacobi_Module
   * \jacobi_module
@@ -436,6 +436,6 @@ void /*EIGEN_DONT_INLINE*/ apply_rotation_in_the_plane(DenseBase<VectorX>& xpr_x
 
 } // end namespace internal
 
-} // end namespace Eigen
+} /* end namespace Eigen */  HYDRA_EXTERNAL_NAMESPACE_END
 
 #endif // EIGEN_JACOBI_H

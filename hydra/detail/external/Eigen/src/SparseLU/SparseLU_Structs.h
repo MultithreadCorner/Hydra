@@ -68,7 +68,7 @@
 
 #ifndef EIGEN_LU_STRUCTS
 #define EIGEN_LU_STRUCTS
-namespace Eigen {
+HYDRA_EXTERNAL_NAMESPACE_BEGIN namespace Eigen {
 namespace internal {
   
 typedef enum {LUSUP, UCOL, LSUB, USUB, LLVL, ULVL} MemType; 
@@ -106,5 +106,5 @@ struct perfvalues {
 
 } // end namespace internal
 
-} // end namespace Eigen
+} /* end namespace Eigen */  HYDRA_EXTERNAL_NAMESPACE_END
 #endif // EIGEN_LU_STRUCTS

@@ -11,7 +11,7 @@
 #ifndef EIGEN_NESTBYVALUE_H
 #define EIGEN_NESTBYVALUE_H
 
-namespace Eigen {
+HYDRA_EXTERNAL_NAMESPACE_BEGIN namespace Eigen {
 
 namespace internal {
 template<typename ExpressionType>
@@ -105,6 +105,6 @@ DenseBase<Derived>::nestByValue() const
   return NestByValue<Derived>(derived());
 }
 
-} // end namespace Eigen
+} /* end namespace Eigen */  HYDRA_EXTERNAL_NAMESPACE_END
 
 #endif // EIGEN_NESTBYVALUE_H

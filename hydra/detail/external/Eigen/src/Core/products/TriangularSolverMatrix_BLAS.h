@@ -33,7 +33,7 @@
 #ifndef EIGEN_TRIANGULAR_SOLVER_MATRIX_BLAS_H
 #define EIGEN_TRIANGULAR_SOLVER_MATRIX_BLAS_H
 
-namespace Eigen {
+HYDRA_EXTERNAL_NAMESPACE_BEGIN namespace Eigen {
 
 namespace internal {
 
@@ -146,6 +146,6 @@ EIGEN_BLAS_TRSM_R(scomplex, float,  c)
 
 } // end namespace internal
 
-} // end namespace Eigen
+} /* end namespace Eigen */  HYDRA_EXTERNAL_NAMESPACE_END
 
 #endif // EIGEN_TRIANGULAR_SOLVER_MATRIX_BLAS_H

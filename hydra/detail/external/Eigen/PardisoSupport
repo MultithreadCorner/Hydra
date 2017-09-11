@@ -8,9 +8,9 @@
 #ifndef EIGEN_PARDISOSUPPORT_MODULE_H
 #define EIGEN_PARDISOSUPPORT_MODULE_H
 
-#include "SparseCore"
+#include "hydra/detail/external/Eigen/SparseCore"
 
-#include "src/Core/util/DisableStupidWarnings.h"
+#include "hydra/detail/external/Eigen/src/Core/util/DisableStupidWarnings.h"
 
 #include <mkl_pardiso.h>
 
@@ -28,8 +28,8 @@
   * 
   */
 
-#include "src/PardisoSupport/PardisoSupport.h"
+#include "hydra/detail/external/Eigen/src/PardisoSupport/PardisoSupport.h"
 
-#include "src/Core/util/ReenableStupidWarnings.h"
+#include "hydra/detail/external/Eigen/src/Core/util/ReenableStupidWarnings.h"
 
 #endif // EIGEN_PARDISOSUPPORT_MODULE_H

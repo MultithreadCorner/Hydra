@@ -10,7 +10,7 @@
 #ifndef EIGEN_NOALIAS_H
 #define EIGEN_NOALIAS_H
 
-namespace Eigen {
+HYDRA_EXTERNAL_NAMESPACE_BEGIN namespace Eigen {
 
 /** \class NoAlias
   * \ingroup Core_Module
@@ -100,9 +100,9 @@ class NoAlias
 template<typename Derived>
 NoAlias<Derived,MatrixBase> MatrixBase<Derived>::noalias()
 {
-  return NoAlias<Derived, Eigen::MatrixBase >(derived());
+  return NoAlias<Derived, HYDRA_EXTERNAL_NS::Eigen::MatrixBase >(derived());
 }
 
-} // end namespace Eigen
+} /* end namespace Eigen */  HYDRA_EXTERNAL_NAMESPACE_END
 
 #endif // EIGEN_NOALIAS_H

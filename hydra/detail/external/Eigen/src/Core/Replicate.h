@@ -10,7 +10,7 @@
 #ifndef EIGEN_REPLICATE_H
 #define EIGEN_REPLICATE_H
 
-namespace Eigen { 
+HYDRA_EXTERNAL_NAMESPACE_BEGIN namespace Eigen { 
 
 namespace internal {
 template<typename MatrixType,int RowFactor,int ColFactor>
@@ -137,6 +137,6 @@ VectorwiseOp<ExpressionType,Direction>::replicate(Index factor) const
           (_expression(),Direction==Vertical?factor:1,Direction==Horizontal?factor:1);
 }
 
-} // end namespace Eigen
+} /* end namespace Eigen */  HYDRA_EXTERNAL_NAMESPACE_END
 
 #endif // EIGEN_REPLICATE_H

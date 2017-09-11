@@ -12,7 +12,7 @@
 
 // clang-format off
 
-namespace Eigen {
+HYDRA_EXTERNAL_NAMESPACE_BEGIN namespace Eigen {
 
 namespace internal {
 
@@ -98,6 +98,6 @@ template<typename T> struct scalar_quotient_op<std::complex<T>, std::complex<T> 
 
 } // end namespace internal
 
-} // end namespace Eigen
+} /* end namespace Eigen */  HYDRA_EXTERNAL_NAMESPACE_END
 
 #endif // EIGEN_COMPLEX_CUDA_H

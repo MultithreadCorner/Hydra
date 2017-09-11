@@ -12,7 +12,7 @@
 #ifndef EIGEN_CWISE_TERNARY_OP_H
 #define EIGEN_CWISE_TERNARY_OP_H
 
-namespace Eigen {
+HYDRA_EXTERNAL_NAMESPACE_BEGIN namespace Eigen {
 
 namespace internal {
 template <typename TernaryOp, typename Arg1, typename Arg2, typename Arg3>
@@ -192,6 +192,6 @@ class CwiseTernaryOpImpl
       CwiseTernaryOp<TernaryOp, Arg1, Arg2, Arg3> >::type Base;
 };
 
-}  // end namespace Eigen
+}  /* end namespace Eigen */  HYDRA_EXTERNAL_NAMESPACE_END
 
 #endif  // EIGEN_CWISE_TERNARY_OP_H

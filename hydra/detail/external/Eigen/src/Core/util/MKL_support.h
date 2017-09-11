@@ -108,7 +108,7 @@
 #endif
 #endif
 
-namespace Eigen {
+HYDRA_EXTERNAL_NAMESPACE_BEGIN namespace Eigen {
 
 typedef std::complex<double> dcomplex;
 typedef std::complex<float>  scomplex;
@@ -119,7 +119,7 @@ typedef MKL_INT BlasIndex;
 typedef int BlasIndex;
 #endif
 
-} // end namespace Eigen
+} /* end namespace Eigen */  HYDRA_EXTERNAL_NAMESPACE_END
 
 #if defined(EIGEN_USE_BLAS)
 #include "../../misc/blas.h"

@@ -10,7 +10,7 @@
 #ifndef EIGEN_LLT_H
 #define EIGEN_LLT_H
 
-namespace Eigen {
+HYDRA_EXTERNAL_NAMESPACE_BEGIN namespace Eigen {
 
 namespace internal{
 template<typename MatrixType, int UpLo> struct LLT_Traits;
@@ -60,7 +60,7 @@ template<typename _MatrixType, int _UpLo> class LLT
     };
     typedef typename MatrixType::Scalar Scalar;
     typedef typename NumTraits<typename MatrixType::Scalar>::Real RealScalar;
-    typedef Eigen::Index Index; ///< \deprecated since Eigen 3.3
+    typedef HYDRA_EXTERNAL_NS::Eigen::Index Index; ///< \deprecated since Eigen 3.3
     typedef typename MatrixType::StorageIndex StorageIndex;
 
     enum {
@@ -99,7 +99,7 @@ template<typename _MatrixType, int _UpLo> class LLT
     /** \brief Constructs a LDLT factorization from a given matrix
       *
       * This overloaded constructor is provided for \link InplaceDecomposition inplace decomposition \endlink when
-      * \c MatrixType is a Eigen::Ref.
+      * \c MatrixType is a HYDRA_EXTERNAL_NS::Eigen::Ref.
       *
       * \sa LLT(const EigenBase&)
       */
@@ -359,7 +359,7 @@ template<typename Scalar> struct llt_inplace<Scalar, Lower>
   template<typename MatrixType, typename VectorType>
   static Index rankUpdate(MatrixType& mat, const VectorType& vec, const RealScalar& sigma)
   {
-    return Eigen::internal::llt_rank_update_lower(mat, vec, sigma);
+    return HYDRA_EXTERNAL_NS::Eigen::internal::llt_rank_update_lower(mat, vec, sigma);
   }
 };
 
@@ -529,6 +529,6 @@ SelfAdjointView<MatrixType, UpLo>::llt() const
   return LLT<PlainObject,UpLo>(m_matrix);
 }
 
-} // end namespace Eigen
+} /* end namespace Eigen */  HYDRA_EXTERNAL_NAMESPACE_END
 
 #endif // EIGEN_LLT_H

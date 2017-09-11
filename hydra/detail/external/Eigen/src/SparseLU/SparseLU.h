@@ -12,7 +12,7 @@
 #ifndef EIGEN_SPARSE_LU_H
 #define EIGEN_SPARSE_LU_H
 
-namespace Eigen {
+HYDRA_EXTERNAL_NAMESPACE_BEGIN namespace Eigen {
 
 template <typename _MatrixType, typename _OrderingType = COLAMDOrdering<typename _MatrixType::StorageIndex> > class SparseLU;
 template <typename MappedSparseMatrixType> struct SparseLUMatrixLReturnType;

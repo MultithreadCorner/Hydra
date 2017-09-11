@@ -10,7 +10,7 @@
 #ifndef EIGEN_MATH_FUNCTIONS_CUDA_H
 #define EIGEN_MATH_FUNCTIONS_CUDA_H
 
-namespace Eigen {
+HYDRA_EXTERNAL_NAMESPACE_BEGIN namespace Eigen {
 
 namespace internal {
 
@@ -86,6 +86,6 @@ double2 prsqrt<double2>(const double2& a)
 
 } // end namespace internal
 
-} // end namespace Eigen
+} /* end namespace Eigen */  HYDRA_EXTERNAL_NAMESPACE_END
 
 #endif // EIGEN_MATH_FUNCTIONS_CUDA_H

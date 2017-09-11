@@ -33,7 +33,7 @@
 #ifndef EIGEN_SAEIGENSOLVER_LAPACKE_H
 #define EIGEN_SAEIGENSOLVER_LAPACKE_H
 
-namespace Eigen { 
+HYDRA_EXTERNAL_NAMESPACE_BEGIN namespace Eigen { 
 
 /** \internal Specialization for the data types supported by LAPACKe */
 
@@ -85,6 +85,6 @@ EIGEN_LAPACKE_EIG_SELFADJ(float,    float,                 float,  ssyev, RowMaj
 EIGEN_LAPACKE_EIG_SELFADJ(dcomplex, lapack_complex_double, double, zheev, RowMajor, LAPACK_ROW_MAJOR)
 EIGEN_LAPACKE_EIG_SELFADJ(scomplex, lapack_complex_float,  float,  cheev, RowMajor, LAPACK_ROW_MAJOR)
 
-} // end namespace Eigen
+} /* end namespace Eigen */  HYDRA_EXTERNAL_NAMESPACE_END
 
 #endif // EIGEN_SAEIGENSOLVER_H

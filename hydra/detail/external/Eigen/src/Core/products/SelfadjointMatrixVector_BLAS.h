@@ -33,7 +33,7 @@
 #ifndef EIGEN_SELFADJOINT_MATRIX_VECTOR_BLAS_H
 #define EIGEN_SELFADJOINT_MATRIX_VECTOR_BLAS_H
 
-namespace Eigen { 
+HYDRA_EXTERNAL_NAMESPACE_BEGIN namespace Eigen { 
 
 namespace internal {
 
@@ -106,6 +106,6 @@ EIGEN_BLAS_SYMV_SPECIALIZATION(scomplex, float,  chemv_)
 
 } // end namespace internal
 
-} // end namespace Eigen
+} /* end namespace Eigen */  HYDRA_EXTERNAL_NAMESPACE_END
 
 #endif // EIGEN_SELFADJOINT_MATRIX_VECTOR_BLAS_H

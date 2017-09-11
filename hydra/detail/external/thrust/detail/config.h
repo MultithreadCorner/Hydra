@@ -19,11 +19,18 @@
 
 #pragma once
 
+#ifndef HYDRA_EXTERNAL_NAMESPACE_BEGIN
 #define HYDRA_EXTERNAL_NAMESPACE_BEGIN namespace hydra { namespace detail { namespace external {
+#endif //HYDRA_EXTERNAL_NAMESPACE_BEGIN
 
+#ifndef HYDRA_EXTERNAL_NAMESPACE_END
 #define HYDRA_EXTERNAL_NAMESPACE_END                   }                  }                    }
+#endif //HYDRA_EXTERNAL_NAMESPACE_END
 
+#ifndef HYDRA_EXTERNAL_NS
 #define HYDRA_EXTERNAL_NS hydra::detail::external
+#endif //HYDRA_EXTERNAL_NS
+
 
 #include <hydra/detail/external/thrust/detail/config/config.h>
 

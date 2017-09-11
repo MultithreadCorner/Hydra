@@ -8,9 +8,9 @@
 #ifndef EIGEN_SPARSECORE_MODULE_H
 #define EIGEN_SPARSECORE_MODULE_H
 
-#include "Core"
+#include "hydra/detail/external/Eigen/Core"
 
-#include "src/Core/util/DisableStupidWarnings.h"
+#include "hydra/detail/external/Eigen/src/Core/util/DisableStupidWarnings.h"
 
 #include <vector>
 #include <map>
@@ -33,37 +33,37 @@
   * This module depends on: Core.
   */
 
-#include "src/SparseCore/SparseUtil.h"
-#include "src/SparseCore/SparseMatrixBase.h"
-#include "src/SparseCore/SparseAssign.h"
-#include "src/SparseCore/CompressedStorage.h"
-#include "src/SparseCore/AmbiVector.h"
-#include "src/SparseCore/SparseCompressedBase.h"
-#include "src/SparseCore/SparseMatrix.h"
-#include "src/SparseCore/SparseMap.h"
-#include "src/SparseCore/MappedSparseMatrix.h"
-#include "src/SparseCore/SparseVector.h"
-#include "src/SparseCore/SparseRef.h"
-#include "src/SparseCore/SparseCwiseUnaryOp.h"
-#include "src/SparseCore/SparseCwiseBinaryOp.h"
-#include "src/SparseCore/SparseTranspose.h"
-#include "src/SparseCore/SparseBlock.h"
-#include "src/SparseCore/SparseDot.h"
-#include "src/SparseCore/SparseRedux.h"
-#include "src/SparseCore/SparseView.h"
-#include "src/SparseCore/SparseDiagonalProduct.h"
-#include "src/SparseCore/ConservativeSparseSparseProduct.h"
-#include "src/SparseCore/SparseSparseProductWithPruning.h"
-#include "src/SparseCore/SparseProduct.h"
-#include "src/SparseCore/SparseDenseProduct.h"
-#include "src/SparseCore/SparseSelfAdjointView.h"
-#include "src/SparseCore/SparseTriangularView.h"
-#include "src/SparseCore/TriangularSolver.h"
-#include "src/SparseCore/SparsePermutation.h"
-#include "src/SparseCore/SparseFuzzy.h"
-#include "src/SparseCore/SparseSolverBase.h"
+#include "hydra/detail/external/Eigen/src/SparseCore/SparseUtil.h"
+#include "hydra/detail/external/Eigen/src/SparseCore/SparseMatrixBase.h"
+#include "hydra/detail/external/Eigen/src/SparseCore/SparseAssign.h"
+#include "hydra/detail/external/Eigen/src/SparseCore/CompressedStorage.h"
+#include "hydra/detail/external/Eigen/src/SparseCore/AmbiVector.h"
+#include "hydra/detail/external/Eigen/src/SparseCore/SparseCompressedBase.h"
+#include "hydra/detail/external/Eigen/src/SparseCore/SparseMatrix.h"
+#include "hydra/detail/external/Eigen/src/SparseCore/SparseMap.h"
+#include "hydra/detail/external/Eigen/src/SparseCore/MappedSparseMatrix.h"
+#include "hydra/detail/external/Eigen/src/SparseCore/SparseVector.h"
+#include "hydra/detail/external/Eigen/src/SparseCore/SparseRef.h"
+#include "hydra/detail/external/Eigen/src/SparseCore/SparseCwiseUnaryOp.h"
+#include "hydra/detail/external/Eigen/src/SparseCore/SparseCwiseBinaryOp.h"
+#include "hydra/detail/external/Eigen/src/SparseCore/SparseTranspose.h"
+#include "hydra/detail/external/Eigen/src/SparseCore/SparseBlock.h"
+#include "hydra/detail/external/Eigen/src/SparseCore/SparseDot.h"
+#include "hydra/detail/external/Eigen/src/SparseCore/SparseRedux.h"
+#include "hydra/detail/external/Eigen/src/SparseCore/SparseView.h"
+#include "hydra/detail/external/Eigen/src/SparseCore/SparseDiagonalProduct.h"
+#include "hydra/detail/external/Eigen/src/SparseCore/ConservativeSparseSparseProduct.h"
+#include "hydra/detail/external/Eigen/src/SparseCore/SparseSparseProductWithPruning.h"
+#include "hydra/detail/external/Eigen/src/SparseCore/SparseProduct.h"
+#include "hydra/detail/external/Eigen/src/SparseCore/SparseDenseProduct.h"
+#include "hydra/detail/external/Eigen/src/SparseCore/SparseSelfAdjointView.h"
+#include "hydra/detail/external/Eigen/src/SparseCore/SparseTriangularView.h"
+#include "hydra/detail/external/Eigen/src/SparseCore/TriangularSolver.h"
+#include "hydra/detail/external/Eigen/src/SparseCore/SparsePermutation.h"
+#include "hydra/detail/external/Eigen/src/SparseCore/SparseFuzzy.h"
+#include "hydra/detail/external/Eigen/src/SparseCore/SparseSolverBase.h"
 
-#include "src/Core/util/ReenableStupidWarnings.h"
+#include "hydra/detail/external/Eigen/src/Core/util/ReenableStupidWarnings.h"
 
 #endif // EIGEN_SPARSECORE_MODULE_H
 

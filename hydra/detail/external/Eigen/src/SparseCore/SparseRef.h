@@ -10,7 +10,7 @@
 #ifndef EIGEN_SPARSE_REF_H
 #define EIGEN_SPARSE_REF_H
 
-namespace Eigen {
+HYDRA_EXTERNAL_NAMESPACE_BEGIN namespace Eigen {
 
 enum {
   StandardCompressedFormat = 2 /**< used by Ref<SparseMatrix> to specify whether the input storage must be in standard compressed form */
@@ -392,6 +392,6 @@ struct evaluator<Ref<const SparseVector<MatScalar,MatOptions,MatIndex>, Options,
 
 }
 
-} // end namespace Eigen
+} /* end namespace Eigen */  HYDRA_EXTERNAL_NAMESPACE_END
 
 #endif // EIGEN_SPARSE_REF_H

@@ -11,7 +11,7 @@
 #ifndef EIGEN_MATHFUNCTIONSIMPL_H
 #define EIGEN_MATHFUNCTIONSIMPL_H
 
-namespace Eigen {
+HYDRA_EXTERNAL_NAMESPACE_BEGIN namespace Eigen {
 
 namespace internal {
 
@@ -73,6 +73,6 @@ T generic_fast_tanh_float(const T& a_x)
 
 } // end namespace internal
 
-} // end namespace Eigen
+} /* end namespace Eigen */  HYDRA_EXTERNAL_NAMESPACE_END
 
 #endif // EIGEN_MATHFUNCTIONSIMPL_H

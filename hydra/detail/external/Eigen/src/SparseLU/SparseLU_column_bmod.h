@@ -31,7 +31,7 @@
 #ifndef SPARSELU_COLUMN_BMOD_H
 #define SPARSELU_COLUMN_BMOD_H
 
-namespace Eigen {
+HYDRA_EXTERNAL_NAMESPACE_BEGIN namespace Eigen {
 
 namespace internal {
 /**
@@ -176,6 +176,6 @@ Index SparseLUImpl<Scalar,StorageIndex>::column_bmod(const Index jcol, const Ind
 }
 
 } // end namespace internal
-} // end namespace Eigen
+} /* end namespace Eigen */  HYDRA_EXTERNAL_NAMESPACE_END
 
 #endif // SPARSELU_COLUMN_BMOD_H

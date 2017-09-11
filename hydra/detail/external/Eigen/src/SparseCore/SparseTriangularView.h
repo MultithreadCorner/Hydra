@@ -11,7 +11,7 @@
 #ifndef EIGEN_SPARSE_TRIANGULARVIEW_H
 #define EIGEN_SPARSE_TRIANGULARVIEW_H
 
-namespace Eigen {
+HYDRA_EXTERNAL_NAMESPACE_BEGIN namespace Eigen {
 
 /** \ingroup SparseCore_Module
   *
@@ -184,6 +184,6 @@ SparseMatrixBase<Derived>::triangularView() const
   return TriangularView<const Derived, Mode>(derived());
 }
 
-} // end namespace Eigen
+} /* end namespace Eigen */  HYDRA_EXTERNAL_NAMESPACE_END
 
 #endif // EIGEN_SPARSE_TRIANGULARVIEW_H

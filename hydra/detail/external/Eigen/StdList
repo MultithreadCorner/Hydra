@@ -10,7 +10,7 @@
 #ifndef EIGEN_STDLIST_MODULE_H
 #define EIGEN_STDLIST_MODULE_H
 
-#include "Core"
+#include "hydra/detail/external/Eigen/Core"
 #include <list>
 
 #if EIGEN_COMP_MSVC && EIGEN_OS_WIN64 && (EIGEN_MAX_STATIC_ALIGN_BYTES<=16) /* MSVC auto aligns up to 16 bytes in 64 bit builds */
@@ -19,7 +19,7 @@
 
 #else
 
-#include "src/StlSupport/StdList.h"
+#include "hydra/detail/external/Eigen/src/StlSupport/StdList.h"
 
 #endif
 

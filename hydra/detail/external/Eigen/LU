@@ -8,9 +8,9 @@
 #ifndef EIGEN_LU_MODULE_H
 #define EIGEN_LU_MODULE_H
 
-#include "Core"
+#include "hydra/detail/external/Eigen/Core"
 
-#include "src/Core/util/DisableStupidWarnings.h"
+#include "hydra/detail/external/Eigen/src/Core/util/DisableStupidWarnings.h"
 
 /** \defgroup LU_Module LU module
   * This module includes %LU decomposition and related notions such as matrix inversion and determinant.
@@ -23,24 +23,24 @@
   * \endcode
   */
 
-#include "src/misc/Kernel.h"
-#include "src/misc/Image.h"
-#include "src/LU/FullPivLU.h"
-#include "src/LU/PartialPivLU.h"
+#include "hydra/detail/external/Eigen/src/misc/Kernel.h"
+#include "hydra/detail/external/Eigen/src/misc/Image.h"
+#include "hydra/detail/external/Eigen/src/LU/FullPivLU.h"
+#include "hydra/detail/external/Eigen/src/LU/PartialPivLU.h"
 #ifdef EIGEN_USE_LAPACKE
-#include "src/misc/lapacke.h"
-#include "src/LU/PartialPivLU_LAPACKE.h"
+#include "hydra/detail/external/Eigen/src/misc/lapacke.h"
+#include "hydra/detail/external/Eigen/src/LU/PartialPivLU_LAPACKE.h"
 #endif
-#include "src/LU/Determinant.h"
-#include "src/LU/InverseImpl.h"
+#include "hydra/detail/external/Eigen/src/LU/Determinant.h"
+#include "hydra/detail/external/Eigen/src/LU/InverseImpl.h"
 
 // Use the SSE optimized version whenever possible. At the moment the
 // SSE version doesn't compile when AVX is enabled
 #if defined EIGEN_VECTORIZE_SSE && !defined EIGEN_VECTORIZE_AVX
-  #include "src/LU/arch/Inverse_SSE.h"
+  #include "hydra/detail/external/Eigen/src/LU/arch/Inverse_SSE.h"
 #endif
 
-#include "src/Core/util/ReenableStupidWarnings.h"
+#include "hydra/detail/external/Eigen/src/Core/util/ReenableStupidWarnings.h"
 
 #endif // EIGEN_LU_MODULE_H
 /* vim: set filetype=cpp et sw=2 ts=2 ai: */

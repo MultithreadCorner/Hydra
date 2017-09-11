@@ -14,7 +14,7 @@
  * Julien Pommier's sse math library: http://gruntthepeon.free.fr/ssemath/
  */
 
-namespace Eigen {
+HYDRA_EXTERNAL_NAMESPACE_BEGIN namespace Eigen {
 
 namespace internal {
 
@@ -434,6 +434,6 @@ Packet4d prsqrt<Packet4d>(const Packet4d& x) {
 
 }  // end namespace internal
 
-}  // end namespace Eigen
+}  /* end namespace Eigen */  HYDRA_EXTERNAL_NAMESPACE_END
 
 #endif  // EIGEN_MATH_FUNCTIONS_AVX_H

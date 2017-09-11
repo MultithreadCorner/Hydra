@@ -9,7 +9,7 @@
 #ifndef SPARSELU_IMPL_H
 #define SPARSELU_IMPL_H
 
-namespace Eigen {
+HYDRA_EXTERNAL_NAMESPACE_BEGIN namespace Eigen {
 namespace internal {
   
 /** \ingroup SparseLU_Module

@@ -33,7 +33,7 @@
 #ifndef EIGEN_COMPLEX_SCHUR_LAPACKE_H
 #define EIGEN_COMPLEX_SCHUR_LAPACKE_H
 
-namespace Eigen { 
+HYDRA_EXTERNAL_NAMESPACE_BEGIN namespace Eigen { 
 
 /** \internal Specialization for the data types supported by LAPACKe */
 
@@ -86,6 +86,6 @@ EIGEN_LAPACKE_SCHUR_COMPLEX(scomplex, lapack_complex_float,  c, C, ColMajor, LAP
 EIGEN_LAPACKE_SCHUR_COMPLEX(dcomplex, lapack_complex_double, z, Z, RowMajor, LAPACK_ROW_MAJOR)
 EIGEN_LAPACKE_SCHUR_COMPLEX(scomplex, lapack_complex_float,  c, C, RowMajor, LAPACK_ROW_MAJOR)
 
-} // end namespace Eigen
+} /* end namespace Eigen */  HYDRA_EXTERNAL_NAMESPACE_END
 
 #endif // EIGEN_COMPLEX_SCHUR_LAPACKE_H

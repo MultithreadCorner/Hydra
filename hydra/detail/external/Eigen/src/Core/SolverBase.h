@@ -10,7 +10,7 @@
 #ifndef EIGEN_SOLVERBASE_H
 #define EIGEN_SOLVERBASE_H
 
-namespace Eigen {
+HYDRA_EXTERNAL_NAMESPACE_BEGIN namespace Eigen {
 
 namespace internal {
 
@@ -125,6 +125,6 @@ struct generic_xpr_base<Derived, MatrixXpr, SolverStorage>
 
 } // end namespace internal
 
-} // end namespace Eigen
+} /* end namespace Eigen */  HYDRA_EXTERNAL_NAMESPACE_END
 
 #endif // EIGEN_SOLVERBASE_H

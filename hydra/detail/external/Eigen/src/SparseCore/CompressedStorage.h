@@ -10,7 +10,7 @@
 #ifndef EIGEN_COMPRESSED_STORAGE_H
 #define EIGEN_COMPRESSED_STORAGE_H
 
-namespace Eigen { 
+HYDRA_EXTERNAL_NAMESPACE_BEGIN namespace Eigen { 
 
 namespace internal {
 
@@ -253,6 +253,6 @@ class CompressedStorage
 
 } // end namespace internal
 
-} // end namespace Eigen
+} /* end namespace Eigen */  HYDRA_EXTERNAL_NAMESPACE_END
 
 #endif // EIGEN_COMPRESSED_STORAGE_H

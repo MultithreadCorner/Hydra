@@ -10,7 +10,7 @@
 #ifndef EIGEN_ASSIGNMENT_FUNCTORS_H
 #define EIGEN_ASSIGNMENT_FUNCTORS_H
 
-namespace Eigen {
+HYDRA_EXTERNAL_NAMESPACE_BEGIN namespace Eigen {
 
 namespace internal {
   

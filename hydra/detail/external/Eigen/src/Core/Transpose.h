@@ -11,7 +11,7 @@
 #ifndef EIGEN_TRANSPOSE_H
 #define EIGEN_TRANSPOSE_H
 
-namespace Eigen { 
+HYDRA_EXTERNAL_NAMESPACE_BEGIN namespace Eigen { 
 
 namespace internal {
 template<typename MatrixType>
@@ -398,6 +398,6 @@ void check_for_aliasing(const Dst &dst, const Src &src)
 
 #endif // EIGEN_NO_DEBUG
 
-} // end namespace Eigen
+} /* end namespace Eigen */  HYDRA_EXTERNAL_NAMESPACE_END
 
 #endif // EIGEN_TRANSPOSE_H

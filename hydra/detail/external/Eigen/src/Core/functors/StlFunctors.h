@@ -10,7 +10,7 @@
 #ifndef EIGEN_STL_FUNCTORS_H
 #define EIGEN_STL_FUNCTORS_H
 
-namespace Eigen {
+HYDRA_EXTERNAL_NAMESPACE_BEGIN namespace Eigen {
 
 namespace internal {
 
@@ -127,6 +127,6 @@ struct functor_traits<std::binary_compose<T0,T1,T2> >
 
 } // end namespace internal
 
-} // end namespace Eigen
+} /* end namespace Eigen */  HYDRA_EXTERNAL_NAMESPACE_END
 
 #endif // EIGEN_STL_FUNCTORS_H

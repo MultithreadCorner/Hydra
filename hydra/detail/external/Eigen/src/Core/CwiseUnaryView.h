@@ -10,7 +10,7 @@
 #ifndef EIGEN_CWISE_UNARY_VIEW_H
 #define EIGEN_CWISE_UNARY_VIEW_H
 
-namespace Eigen {
+HYDRA_EXTERNAL_NAMESPACE_BEGIN namespace Eigen {
 
 namespace internal {
 template<typename ViewOp, typename MatrixType>
@@ -123,6 +123,6 @@ class CwiseUnaryViewImpl<ViewOp,MatrixType,Dense>
     }
 };
 
-} // end namespace Eigen
+} /* end namespace Eigen */  HYDRA_EXTERNAL_NAMESPACE_END
 
 #endif // EIGEN_CWISE_UNARY_VIEW_H

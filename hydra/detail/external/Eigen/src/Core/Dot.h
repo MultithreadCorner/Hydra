@@ -10,7 +10,7 @@
 #ifndef EIGEN_DOT_H
 #define EIGEN_DOT_H
 
-namespace Eigen { 
+HYDRA_EXTERNAL_NAMESPACE_BEGIN namespace Eigen { 
 
 namespace internal {
 
@@ -245,7 +245,7 @@ struct lpNorm_selector<Derived, Infinity>
 } // end namespace internal
 
 /** \returns the \b coefficient-wise \f$ \ell^p \f$ norm of \c *this, that is, returns the p-th root of the sum of the p-th powers of the absolute values
-  *          of the coefficients of \c *this. If \a p is the special value \a Eigen::Infinity, this function returns the \f$ \ell^\infty \f$
+  *          of the coefficients of \c *this. If \a p is the special value \a HYDRA_EXTERNAL_NS::Eigen::Infinity, this function returns the \f$ \ell^\infty \f$
   *          norm, that is the maximum of the absolute values of the coefficients of \c *this.
   *
   * In all cases, if \c *this is empty, then the value 0 is returned.
@@ -310,6 +310,6 @@ bool MatrixBase<Derived>::isUnitary(const RealScalar& prec) const
   return true;
 }
 
-} // end namespace Eigen
+} /* end namespace Eigen */  HYDRA_EXTERNAL_NAMESPACE_END
 
 #endif // EIGEN_DOT_H

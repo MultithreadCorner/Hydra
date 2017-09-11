@@ -20,7 +20,7 @@
 #include <cstdint>
 #endif
 
-namespace Eigen {
+HYDRA_EXTERNAL_NAMESPACE_BEGIN namespace Eigen {
 
 typedef EIGEN_DEFAULT_DENSE_INDEX_TYPE DenseIndex;
 
@@ -487,6 +487,6 @@ T div_ceil(const T &a, const T &b)
 
 } // end namespace numext
 
-} // end namespace Eigen
+} /* end namespace Eigen */  HYDRA_EXTERNAL_NAMESPACE_END
 
 #endif // EIGEN_META_H

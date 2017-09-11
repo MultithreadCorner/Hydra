@@ -11,7 +11,7 @@
 #ifndef EIGEN_SUITESPARSEQRSUPPORT_H
 #define EIGEN_SUITESPARSEQRSUPPORT_H
 
-namespace Eigen {
+HYDRA_EXTERNAL_NAMESPACE_BEGIN namespace Eigen {
   
   template<typename MatrixType> class SPQR; 
   template<typename SPQRType> struct SPQRMatrixQReturnType; 

@@ -10,7 +10,7 @@
 #ifndef EIGEN_COMPLETEORTHOGONALDECOMPOSITION_H
 #define EIGEN_COMPLETEORTHOGONALDECOMPOSITION_H
 
-namespace Eigen {
+HYDRA_EXTERNAL_NAMESPACE_BEGIN namespace Eigen {
 
 namespace internal {
 template <typename _MatrixType>
@@ -120,7 +120,7 @@ class CompleteOrthogonalDecomposition {
 
   /** \brief Constructs a complete orthogonal decomposition from a given matrix
     *
-    * This overloaded constructor is provided for \link InplaceDecomposition inplace decomposition \endlink when \c MatrixType is a Eigen::Ref.
+    * This overloaded constructor is provided for \link InplaceDecomposition inplace decomposition \endlink when \c MatrixType is a HYDRA_EXTERNAL_NS::Eigen::Ref.
     *
     * \sa CompleteOrthogonalDecomposition(const EigenBase&)
     */
@@ -322,8 +322,8 @@ class CompleteOrthogonalDecomposition {
   /** Allows to come back to the default behavior, letting Eigen use its default
    * formula for determining the threshold.
    *
-   * You should pass the special object Eigen::Default as parameter here.
-   * \code qr.setThreshold(Eigen::Default); \endcode
+   * You should pass the special object HYDRA_EXTERNAL_NS::Eigen::Default as parameter here.
+   * \code qr.setThreshold(HYDRA_EXTERNAL_NS::Eigen::Default); \endcode
    *
    * See the documentation of setThreshold(const RealScalar&).
    */
@@ -557,6 +557,6 @@ MatrixBase<Derived>::completeOrthogonalDecomposition() const {
   return CompleteOrthogonalDecomposition<PlainObject>(eval());
 }
 
-}  // end namespace Eigen
+}  /* end namespace Eigen */  HYDRA_EXTERNAL_NAMESPACE_END
 
 #endif  // EIGEN_COMPLETEORTHOGONALDECOMPOSITION_H
