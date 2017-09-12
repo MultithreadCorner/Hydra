@@ -36,16 +36,20 @@
 #include <hydra/detail/utility/Utility_Tuple.h>
 #include <hydra/detail/utility/Generic.h>
 #include <hydra/detail/FunctorTraits.h>
+#include <hydra/detail/BackendTraits.h>
+#include <hydra/detail/BackendPolicy.h>
 #include <hydra/AddPdf.h>
+#include <hydra/multiarray.h>
 #include <hydra/detail/external/thrust/tuple.h>
 #include <initializer_list>
 #include <utility>
 
 namespace hydra {
 
-template <typename Iterator, typename PDF1,  typename PDF2, typename ...PDFs>
+template < typename PDF1,  typename PDF2, typename ...PDFs>
 class SPlot: public detail::AddPdfBase<PDF1,PDF2,PDFs...>
 {
+
 public:
 	//this typedef is actually a check. If the AddPdf is not built with
 	//hydra::pdf, AddPdfBase::type will not be defined and compilation
@@ -54,23 +58,15 @@ public:
 	typedef HYDRA_EXTERNAL_NS::thrust::tuple<PDF1, PDF2, PDFs...> pdfs_tuple_type;
 	constexpr static size_t npdfs = sizeof...(PDFs)+2;
 
-
-	SPlot(AddPdf<PDF1, PDF2, PDFs...> const& pdf):
-					fPDFs( pdf.GetPdFs() )
-		{
-			for(size_t i=0;i<npdfs; i++)
-				fCoeficients[i] = pdf.GetCoeficient( i);
-		}
-
-	SPlot(Iterator begin, Iterator end, AddPdf<PDF1, PDF2, PDFs...> const& pdf):
-				fPDFs( pdf.GetPdFs() )
+	SPlot( AddPdf<PDF1, PDF2, PDFs...> const& pdf):
+		fPDFs( pdf.GetPDFs() )
 	{
 		for(size_t i=0;i<npdfs; i++)
 			fCoeficients[i] = pdf.GetCoeficient( i);
 	}
 
 	SPlot(SPlot<PDF1, PDF2, PDFs...> const& other ):
-		fPDFs(other.GetPdFs() )
+		fPDFs(other.GetPDFs() )
 	{
 		for( size_t i=0; i< npdfs; i++ ){
 			fCoeficients[i]=other.GetCoeficient(i);
@@ -89,6 +85,11 @@ public:
 	}
 
 
+	template<typename InputIterator, typename OutputIterator>
+	inline void Generate(InputIterator in_begin, InputIterator in_end,
+			OutputIterator out_begin) const;
+
+
 private:
 
 	Parameter    fCoeficients[npdfs];
@@ -100,6 +101,6 @@ private:
 }  // namespace hydra
 
 
-
+#include <hydra/detail/SPlot.inl>
 
 #endif /* SPLOT_H_ */
