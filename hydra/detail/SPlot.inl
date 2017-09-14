@@ -56,7 +56,7 @@ inline void SPlot<PDF1,PDF2,PDFs...>::Generate(InputIterator in_begin, InputIter
     		detail::CovMatrixUnary( functors ), init, detail::CovMatrixBinary());
 
     //_____________________________________
-
+    //
 
 }
 
