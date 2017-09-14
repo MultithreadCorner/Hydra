@@ -310,4 +310,6 @@ bool SVDBase<MatrixType>::allocate(Index rows, Index cols, unsigned int computat
 
 }// end namespace
 
+HYDRA_EXTERNAL_NAMESPACE_END
+
 #endif // EIGEN_SVDBASE_H

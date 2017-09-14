@@ -772,4 +772,5 @@ struct SparseLUMatrixUReturnType : internal::no_assignment_operator
 
 } // End namespace Eigen 
 
+HYDRA_EXTERNAL_NAMESPACE_END
 #endif

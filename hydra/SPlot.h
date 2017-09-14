@@ -40,7 +40,10 @@
 #include <hydra/detail/BackendPolicy.h>
 #include <hydra/AddPdf.h>
 #include <hydra/multiarray.h>
+
 #include <hydra/detail/external/thrust/tuple.h>
+#include <hydra/detail/external/Eigen/Dense>
+
 #include <initializer_list>
 #include <utility>
 
@@ -94,6 +97,7 @@ private:
 
 	Parameter    fCoeficients[npdfs];
 	pdfs_tuple_type fPDFs;
+	HYDRA_EXTERNAL_NS::Eigen::Matrix<double, npdfs, npdfs> fCovMatrix;
 
 
 };

@@ -18,8 +18,10 @@ enum { StreamPrecision = -1,
        FullPrecision = -2 };
 
 namespace internal {
+
 template<typename Derived>
-std::ostream & print_matrix(std::ostream & s, const Derived& _m, const IOFormat& fmt);
+std::ostream & print_matrix(std::ostream & s, const Derived& _m, const hydra::detail::external::Eigen::IOFormat& fmt);
+
 }
 
 /** \class IOFormat

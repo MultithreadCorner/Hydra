@@ -172,4 +172,6 @@ rcond_estimate_helper(typename Decomposition::RealScalar matrix_norm, const Deco
 
 }  // namespace Eigen
 
+HYDRA_EXTERNAL_NAMESPACE_END
+
 #endif

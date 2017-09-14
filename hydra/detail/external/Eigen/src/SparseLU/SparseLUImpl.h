@@ -62,5 +62,5 @@ class SparseLUImpl
 
 } // end namespace internal
 } // namespace Eigen
-
+HYDRA_EXTERNAL_NAMESPACE_END
 #endif

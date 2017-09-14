@@ -629,6 +629,7 @@ bool (isfinite)(const HYDRA_EXTERNAL_NS::Eigen::half& h) {
 }
 
 } // namespace Eigen
+HYDRA_EXTERNAL_NAMESPACE_END
 }  // namespace numext
 #endif
 

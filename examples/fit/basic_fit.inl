@@ -51,7 +51,7 @@
 #include <hydra/Copy.h>
 #include <hydra/Filter.h>
 #include <hydra/GaussKronrodQuadrature.h>
-
+#include <hydra/SPlot.h>
 //Minuit2
 #include "Minuit2/FunctionMinimum.h"
 #include "Minuit2/MnUserParameterState.h"

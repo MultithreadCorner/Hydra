@@ -310,4 +310,7 @@ struct SPQRMatrixQTransposeReturnType{
 };
 
 }// End namespace Eigen
+
+HYDRA_EXTERNAL_NAMESPACE_END
+
 #endif

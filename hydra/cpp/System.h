@@ -30,6 +30,6 @@
 #define SYSTEM_CPP_H_
 
 #include <hydra/detail/policies/backends/CPP.h>
-#include <hydra/detail/policies/traits/CPP.h>
+#include <hydra/detail/policies/traits/CPPTraits.h>
 
 #endif /* SYSTEM_CPPr_H_ */

@@ -42,7 +42,7 @@ template<>
 struct BackendTraits<HYDRA_EXTERNAL_NS::thrust::system::tbb::detail::par_t>
 {
 	typedef hydra::tbb::sys_t hydra_backend;
-}
+};
 
 }  // namespace detail
 

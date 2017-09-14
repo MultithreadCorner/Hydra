@@ -165,4 +165,6 @@ struct functor_traits<swap_assign_op<Scalar> > {
 
 } // namespace Eigen
 
+HYDRA_EXTERNAL_NAMESPACE_END
+
 #endif // EIGEN_ASSIGNMENT_FUNCTORS_H

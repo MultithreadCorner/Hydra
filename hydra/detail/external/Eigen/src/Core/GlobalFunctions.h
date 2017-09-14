@@ -51,7 +51,7 @@
     } \
   };
 
-namespace Eigen
+HYDRA_EXTERNAL_NAMESPACE_BEGIN namespace Eigen
 {
   EIGEN_ARRAY_DECLARE_GLOBAL_UNARY(real,scalar_real_op,real part,\sa ArrayBase::real)
   EIGEN_ARRAY_DECLARE_GLOBAL_UNARY(imag,scalar_imag_op,imaginary part,\sa ArrayBase::imag)
@@ -181,6 +181,7 @@ namespace Eigen
     EIGEN_ARRAY_DECLARE_GLOBAL_EIGEN_UNARY(abs2,scalar_abs2_op)
   }
 }
+HYDRA_EXTERNAL_NAMESPACE_END
 
 // TODO: cleanly disable those functions that are not supported on Array (numext::real_ref, internal::random, internal::isApprox...)
 

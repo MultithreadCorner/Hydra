@@ -32,17 +32,17 @@
 #include <hydra/detail/Config.h>
 #include <hydra/detail/BackendTraits.h>
 #include <hydra/detail/policies/backends/DEVICE.h>
-#include <hydra/detail/external/thrust/system/device/detail/par.h>
+#include <hydra/detail/external/thrust/execution_policy.h>
 
 namespace hydra {
 
 namespace detail {
 
 template<>
-struct BackendTraits<HYDRA_EXTERNAL_NS::thrust::system::device::detail::par_t>
+struct BackendTraits<HYDRA_EXTERNAL_NS::thrust::detail::device_t>
 {
 	typedef hydra::device::sys_t hydra_backend;
-}
+};
 
 }  // namespace detail
 

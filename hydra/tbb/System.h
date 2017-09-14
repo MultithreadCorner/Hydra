@@ -30,5 +30,6 @@
 #define SYSTEM_TBB_H_
 
 #include <hydra/detail/policies/backends/TBB.h>
+#include <hydra/detail/policies/traits/TBBTraits.h>
 
 #endif /* SYSTEM_TBB_H_ */

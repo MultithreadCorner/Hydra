@@ -1119,5 +1119,6 @@ ptranspose(PacketBlock<Packet4h,4>& kernel) {
 
 }
 }
+HYDRA_EXTERNAL_NAMESPACE_END
 
 #endif // EIGEN_PACKET_MATH_HALF_CUDA_H

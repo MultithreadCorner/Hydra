@@ -543,7 +543,7 @@
     namespace internal {
     inline bool copy_bool(bool b) { return b; }
     }
-    }
+    } HYDRA_EXTERNAL_NAMESPACE_END
     #define eigen_plain_assert(x) assert(x)
   #else
     // work around bug 89
@@ -563,7 +563,7 @@
       abort();
     }
     }
-    }
+    } HYDRA_EXTERNAL_NAMESPACE_END
     #define eigen_plain_assert(x) \
       do { \
         if(!HYDRA_EXTERNAL_NS::Eigen::internal::copy_bool(x)) \
@@ -612,7 +612,7 @@ HYDRA_EXTERNAL_NAMESPACE_BEGIN namespace Eigen {
   namespace internal {
     template<typename T> EIGEN_DEVICE_FUNC void ignore_unused_variable(const T&) {}
   }
-}
+} HYDRA_EXTERNAL_NAMESPACE_END
 #define EIGEN_UNUSED_VARIABLE(var) HYDRA_EXTERNAL_NS::Eigen::internal::ignore_unused_variable(var);
 
 #if !defined(EIGEN_ASM_COMMENT)

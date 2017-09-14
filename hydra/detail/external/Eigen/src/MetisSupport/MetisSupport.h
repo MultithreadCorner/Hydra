@@ -134,4 +134,5 @@ public:
 };
 
 }// end namespace eigen 
+HYDRA_EXTERNAL_NAMESPACE_END
 #endif
