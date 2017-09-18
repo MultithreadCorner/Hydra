@@ -1,6 +1,6 @@
 /*----------------------------------------------------------------------------
  *
- *   Copyright (C) 2016 Antonio Augusto Alves Junior
+ *   Copyright (C) 2016 - 2017 Antonio Augusto Alves Junior
  *
  *   This file is part of Hydra Data Analysis Framework.
  *
@@ -33,7 +33,8 @@
 #include <assert.h>
 #include <time.h>
 #include <chrono>
-
+#include <random>
+#include <algorithm>
 //command line
 #include <tclap/CmdLine.h>
 
@@ -233,6 +234,11 @@ int main(int argv, char** argc) {
 	//device
 	//------------------------
 	{
+
+		std::cout << "=========================================="<<std::endl;
+		std::cout << "|            <--- DEVICE --->            |"  <<std::endl;
+		std::cout << "=========================================="<<std::endl;
+
 		//3D device/host buffer
 		hydra::multiarray<3, double, hydra::device::sys_t> data_d(nentries);
 		hydra::multiarray<3, double, hydra::host::sys_t> data_h(nentries);
@@ -248,8 +254,9 @@ int main(int argv, char** argc) {
 		Generator.SetSeed(321);
 		Generator.Gauss(meanz, sigmaz, data_d.begin(2), data_d.end(2));
 
+		std::cout<< std::endl<< "Generated data:"<< std::endl;
 		for (size_t i = 0; i < 10; i++)
-			std::cout << "< Random::Gauss > [" << i << "] :" << data_d[i]
+			std::cout << "[" << i << "] :" << data_d[i]
 					<< std::endl;
 
 		//numerical integral to normalize the pdf
@@ -270,11 +277,11 @@ int main(int argv, char** argc) {
 		};
 
 		auto filter = hydra::wrap_lambda(FILTER);
-		auto range = hydra::apply_filter(data_d, filter);
+		auto range  = hydra::apply_filter(data_d, filter);
 
-		std::cout << std::endl << std::endl;
+		std::cout << std::endl<< "Filtered data:" << std::endl;
 		for (size_t i = 0; i < 10; i++)
-			std::cout << "< Selected data > [" << i << "] :" << range.begin()[i]
+			std::cout << "[" << i << "] :" << range.begin()[i]
 					<< std::endl;
 
 		//make model and fcn
@@ -351,6 +358,10 @@ int main(int argv, char** argc) {
 	//host
 	//------------------------
 	{
+		std::cout << "=========================================="<<std::endl;
+		std::cout << "|              <--- HOST --->            |"  <<std::endl;
+		std::cout << "=========================================="<<std::endl;
+
 		//3D device/host buffer
 		hydra::multiarray<3, double, hydra::host::sys_t> data_h(nentries);
 
@@ -365,8 +376,9 @@ int main(int argv, char** argc) {
 		Generator.SetSeed(321);
 		Generator.Gauss(meanz, sigmaz, data_h.begin(2), data_h.end(2));
 
+		std::cout<< std::endl<< "Generated data:"<< std::endl;
 		for (size_t i = 0; i < 10; i++)
-			std::cout << "< Random::Gauss > [" << i << "] :" << data_h[i]
+			std::cout << "[" << i << "] :" << data_h[i]
 					<< std::endl;
 
 		//numerical integral to normalize the pdf
@@ -389,10 +401,21 @@ int main(int argv, char** argc) {
 		auto filter = hydra::wrap_lambda(FILTER);
 		auto range = hydra::apply_filter(data_h, filter);
 
-		std::cout << std::endl << std::endl;
+		std::cout << std::endl<< "Filtered data:" << std::endl;
 		for (size_t i = 0; i < 10; i++)
-			std::cout << "< Selected data > [" << i << "] :" << range.begin()[i]
+			std::cout << "[" << i << "] :" << range.begin()[i]
 					<< std::endl;
+
+		std::random_device rd;
+		std::mt19937 g(rd());
+		std::shuffle(range.begin(), range.end(), g);
+
+
+		for (size_t i = 0; i < 10; i++)
+					std::cout << "[" << i << "] :" << range.begin()[i]
+							<< std::endl;
+
+
 
 		//make model and fcn
 		auto model = hydra::make_pdf(gaussian, Integrator);
@@ -427,7 +450,7 @@ int main(int argv, char** argc) {
 
 		//time
 		std::cout << "-----------------------------------------" << std::endl;
-		std::cout << "| GPU Time (ms) =" << elapsed.count() << std::endl;
+		std::cout << "|  [Fit] CPU Time (ms) =" << elapsed.count() << std::endl;
 		std::cout << "-----------------------------------------" << std::endl;
 
 #ifdef _ROOT_AVAILABLE_

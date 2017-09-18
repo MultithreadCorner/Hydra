@@ -1,6 +1,6 @@
 /*----------------------------------------------------------------------------
  *
- *   Copyright (C) 2016 Antonio Augusto Alves Junior
+ *   Copyright (C) 2016 -2017 Antonio Augusto Alves Junior
  *
  *   This file is part of Hydra Data Analysis Framework.
  *
@@ -20,33 +20,12 @@
  *---------------------------------------------------------------------------*/
 
 /*
- * HOSTTraits.h
+ * splot.cu
  *
- *  Created on: 12/09/2017
+ *  Created on: 18/09/2017
  *      Author: Antonio Augusto Alves Junior
  */
 
-#ifndef HOSTTRAITS_H_
-#define HOSTTRAITS_H_
 
-#include <hydra/detail/Config.h>
-#include <hydra/detail/BackendTraits.h>
-#include <hydra/detail/policies/backends/HOST.h>
-#include <hydra/detail/external/thrust/execution_policy.h>
+#include<examples/fit/splot.inl>
 
-namespace hydra {
-
-namespace detail {
-
-template<>
-struct BackendTraits<HYDRA_EXTERNAL_NS::thrust::detail::host_t>
-{
-	typedef hydra::host::sys_t hydra_backend;
-};
-
-}  // namespace detail
-
-}//namespace hydra
-
-
-#endif /* HOSTTRAITS_H_ */

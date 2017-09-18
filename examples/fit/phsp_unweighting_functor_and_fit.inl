@@ -1,6 +1,6 @@
 /*----------------------------------------------------------------------------
  *
- *   Copyright (C) 2016 Antonio Augusto Alves Junior
+ *   Copyright (C) 2016 - 2017 Antonio Augusto Alves Junior
  *
  *   This file is part of Hydra Data Analysis Framework.
  *
@@ -238,6 +238,10 @@ int main(int argv, char** argc)
 
 	//device
 	{
+		std::cout << "=========================================="<<std::endl;
+		std::cout << "|            <--- DEVICE --->            |"  <<std::endl;
+		std::cout << "=========================================="<<std::endl;
+
 		//allocate memory to hold the final states particles
 
 		hydra::Decays<3, hydra::device::sys_t > Events_d(nentries);
@@ -254,7 +258,7 @@ int main(int argv, char** argc)
 		//output
 		std::cout << std::endl;
 		std::cout << std::endl;
-		std::cout << "----------------- Device ----------------"<< std::endl;
+		std::cout << "-----------------------------------------"<< std::endl;
 		std::cout << "| B0 -> J/psi K pi"                       << std::endl;
 		std::cout << "| Number of events :"<< nentries          << std::endl;
 		std::cout << "| Time (ms)        :"<< elapsed.count()   << std::endl;
@@ -392,6 +396,11 @@ int main(int argv, char** argc)
 
 	//host
 	{
+
+		std::cout << "=========================================="<<std::endl;
+		std::cout << "|              <--- HOST --->            |"  <<std::endl;
+		std::cout << "=========================================="<<std::endl;
+
 		//allocate memory to hold the final states particles
 
 		hydra::Decays<3, hydra::host::sys_t > Events_h(nentries);
@@ -408,7 +417,7 @@ int main(int argv, char** argc)
 		//output
 		std::cout << std::endl;
 		std::cout << std::endl;
-		std::cout << "----------------- Device ----------------"<< std::endl;
+		std::cout << "-----------------------------------------"<< std::endl;
 		std::cout << "| B0 -> J/psi K pi"                       << std::endl;
 		std::cout << "| Number of events :"<< nentries          << std::endl;
 		std::cout << "| Time (ms)        :"<< elapsed.count()   << std::endl;

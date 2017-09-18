@@ -1,6 +1,6 @@
 /*----------------------------------------------------------------------------
  *
- *   Copyright (C) 2016 Antonio Augusto Alves Junior
+ *   Copyright (C) 2016 - 2017 Antonio Augusto Alves Junior
  *
  *   This file is part of Hydra Data Analysis Framework.
  *
@@ -838,6 +838,40 @@ namespace hydra {
 		 product_tuple3<0,N,Return_Type,ArgType1, ArgType2,Tp...>(r, t, x, y);
 		 return r;
 	 }
+
+	 template<size_t I, typename ...T>
+	 __host__  __device__
+	 inline typename HYDRA_EXTERNAL_NS::thrust::detail::enable_if<(I == sizeof...(T)),void >::type
+	 add_tuple_values(GReal_t& result, HYDRA_EXTERNAL_NS::thrust::tuple<T...> const& tpl )
+	 { }
+
+	 template<size_t I=0, typename ...T>
+	 __host__  __device__
+	 inline typename HYDRA_EXTERNAL_NS::thrust::detail::enable_if<(I < sizeof...(T)),void >::type
+     add_tuple_values(GReal_t& result, HYDRA_EXTERNAL_NS::thrust::tuple<T...> const& tpl )
+	 {
+		 result += HYDRA_EXTERNAL_NS::thrust::get<I>(tpl);
+		 add_tuple_values<I+1, T...>(result,tpl);
+	 }
+
+	 template<typename Tuple, size_t ...I>
+	 __host__  __device__
+	 inline	typename tuple_type<sizeof...(I), GReal_t>::type
+	 multiply_array_tuple_helper(GReal_t (&fCoeficients)[sizeof...(I)],Tuple const& tpl,
+			 index_sequence<I...>)
+	 {
+		 return HYDRA_EXTERNAL_NS::thrust::make_tuple(fCoeficients[I]*HYDRA_EXTERNAL_NS::thrust::get<I>(tpl)... );
+	 }
+
+	template<typename ...T>
+	__host__  __device__
+	inline	auto multiply_array_tuple(GReal_t (&fCoeficients)[sizeof...(T)],
+			HYDRA_EXTERNAL_NS::thrust::tuple<T...> const& tpl)
+	-> decltype( multiply_array_tuple_helper(fCoeficients,tpl,make_index_sequence<sizeof...(T)>{}) )
+	{
+		return multiply_array_tuple_helper(fCoeficients,tpl,make_index_sequence<sizeof...(T)>{});
+	}
+
 
 	}//namespace detail
 

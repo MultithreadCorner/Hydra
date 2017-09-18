@@ -1,6 +1,6 @@
 /*----------------------------------------------------------------------------
  *
- *   Copyright (C) 2016 Antonio Augusto Alves Junior
+ *   Copyright (C) 2016 -2017 Antonio Augusto Alves Junior
  *
  *   This file is part of Hydra Data Analysis Framework.
  *
@@ -20,33 +20,13 @@
  *---------------------------------------------------------------------------*/
 
 /*
- * OMPTraits.h
+ * splot.cpp
  *
- *  Created on: 12/09/2017
+ *  Created on: 18/09/2017
  *      Author: Antonio Augusto Alves Junior
  */
 
-#ifndef OMPTRAITS_H_
-#define OMPTRAITS_H_
 
-#include <hydra/detail/Config.h>
-#include <hydra/detail/BackendTraits.h>
-#include <hydra/detail/policies/backends/OMP.h>
-#include <hydra/detail/external/thrust/system/omp/detail/par.h>
-
-namespace hydra {
-
-namespace detail {
-
-template<>
-struct BackendTraits<HYDRA_EXTERNAL_NS::thrust::system::omp::detail::par_t>
-{
-	typedef hydra::omp::sys_t hydra_backend;
-};
-
-}  // namespace detail
-
-}//namespace hydra
+#include<examples/fit/splot.inl>
 
 
-#endif /* OMPTRAITS_H_ */

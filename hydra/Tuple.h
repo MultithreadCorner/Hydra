@@ -1,6 +1,6 @@
 /*----------------------------------------------------------------------------
  *
- *   Copyright (C) 2016 Antonio Augusto Alves Junior
+ *   Copyright (C) 2016 - 2017 Antonio Augusto Alves Junior
  *
  *   This file is part of Hydra Data Analysis Framework.
  *
@@ -28,7 +28,7 @@
 
 #ifndef TUPLES_H_
 #define TUPLES_H_
-
+#include <utility>
 #include <hydra/detail/external/thrust/tuple.h>
 
 namespace hydra {
@@ -158,10 +158,10 @@ get( T&	t)
  *
  */
 template<class ...T>
-tuple<T...>
-make_tuple(T const&... t)
+auto make_tuple(T&&... t)
+-> decltype(HYDRA_EXTERNAL_NS::thrust::make_tuple( std::forward<T>(t)...))
 {
-	return HYDRA_EXTERNAL_NS::thrust::make_tuple(t...);
+	return HYDRA_EXTERNAL_NS::thrust::make_tuple(std::forward<T>(t)...);
 }
 
 /*! This version of \p make_pair creates a new \c pair object from a list of
@@ -173,10 +173,10 @@ make_tuple(T const&... t)
  *
  */
 template<class T1, class T2 >
-pair<T1, T2>
-make_pair( T1 const& t1, T2 const& t2 )
+auto make_pair( T1&& t1, T2&& t2 )
+-> decltype(HYDRA_EXTERNAL_NS::thrust::make_pair( std::forward<T1>(t1),std::forward<T2>(t2) ))
 {
-	return HYDRA_EXTERNAL_NS::thrust::make_pair(t1, t2);
+	return HYDRA_EXTERNAL_NS::thrust::make_pair(std::forward<T1>(t1),std::forward<T2>(t2));
 }
 
 
@@ -187,9 +187,10 @@ make_pair( T1 const& t1, T2 const& t2 )
  *  \return A \p tuple object with members which are references to \p t.
  */
 template<class ...T>
-tuple<T&...> tie(T& ...t)
+auto tie(T&& ...t)
+-> decltype(HYDRA_EXTERNAL_NS::thrust::tie(std::forward<T>(t)...))
 {
-	return HYDRA_EXTERNAL_NS::thrust::tie(t...);
+	return HYDRA_EXTERNAL_NS::thrust::tie(std::forward<T>(t)...);
 }
 
 

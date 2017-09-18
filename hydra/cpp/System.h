@@ -1,6 +1,6 @@
 /*----------------------------------------------------------------------------
  *
- *   Copyright (C) 2016 Antonio Augusto Alves Junior
+ *   Copyright (C) 2016 - 2017 Antonio Augusto Alves Junior
  *
  *   This file is part of Hydra Data Analysis Framework.
  *
@@ -30,6 +30,5 @@
 #define SYSTEM_CPP_H_
 
 #include <hydra/detail/policies/backends/CPP.h>
-#include <hydra/detail/policies/traits/CPPTraits.h>
 
 #endif /* SYSTEM_CPPr_H_ */

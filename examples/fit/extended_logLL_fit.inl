@@ -1,6 +1,6 @@
 /*----------------------------------------------------------------------------
  *
- *   Copyright (C) 2016 Antonio Augusto Alves Junior
+ *   Copyright (C) 2016 - 2017 Antonio Augusto Alves Junior
  *
  *   This file is part of Hydra Data Analysis Framework.
  *
@@ -28,13 +28,12 @@
 #ifndef EXTENDED_LOGLL_FIT_INL_
 #define EXTENDED_LOGLL_FIT_INL_
 
-
-
-
 #include <iostream>
 #include <assert.h>
 #include <time.h>
 #include <chrono>
+#include <random>
+#include <algorithm>
 
 //command line
 #include <tclap/CmdLine.h>
@@ -53,7 +52,7 @@
 #include <hydra/Copy.h>
 #include <hydra/Filter.h>
 #include <hydra/GaussKronrodQuadrature.h>
-
+#include <hydra/SPlot.h>
 //Minuit2
 #include "Minuit2/FunctionMinimum.h"
 #include "Minuit2/MnUserParameterState.h"
@@ -193,6 +192,10 @@ int main(int argv, char** argc)
 
 #endif //_ROOT_AVAILABLE_
 	{
+		std::cout << "=========================================="<<std::endl;
+		std::cout << "|            <--- DEVICE --->            |"  <<std::endl;
+		std::cout << "=========================================="<<std::endl;
+
 		//------------------
 	    //make model
 		//numerical integral to normalize the pdfs
@@ -209,7 +212,7 @@ int main(int argv, char** argc)
 
 		//1D device buffer
 		hydra::device::vector<double>  data_d(3*nentries);
-		hydra::host::vector<double>    data_h(3*nentries);
+
 
 		//-------------------------------------------------------
 		// Generate data
@@ -223,9 +226,9 @@ int main(int argv, char** argc)
 		// exponential
 		Generator.Exp(tau_p.GetValue()+0.5, data_d.begin() + 2*nentries,  data_d.end());
 
-
-		for(size_t i=0; i<50; i++)
-			std::cout << "< Data > [" << i << "] :" << data_d[i] << std::endl;
+		std::cout<< std::endl<< "Generated data:"<< std::endl;
+		for(size_t i=0; i<10; i++)
+			std::cout << "[" << i << "] :" << data_d[i] << std::endl;
 
 
 		//filtering
@@ -236,9 +239,9 @@ int main(int argv, char** argc)
 		auto filter = hydra::wrap_lambda(FILTER);
 		auto range  = hydra::apply_filter(data_d,  filter);
 
-		std::cout<< std::endl<< std::endl;
-		for(size_t i=0; i<50; i++)
-			std::cout << "< Random::Gauss > [" << i << "] :" << range.begin()[i] << std::endl;
+		std::cout<< std::endl<< "Filtered data:"<< std::endl;
+		for(size_t i=0; i<10; i++)
+			std::cout << "[" << i << "] :" << range.begin()[i] << std::endl;
 
 
 		//make model and fcn
@@ -264,17 +267,39 @@ int main(int argv, char** argc)
 		std::chrono::duration<double, std::milli> elapsed_d = end_d - start_d;
 
 		// output
-		std::cout<<"minimum: "<<minimum_d<<std::endl;
+		std::cout<<"Minimum: "<< minimum_d << std::endl;
 
 		//time
 		std::cout << "-----------------------------------------"<<std::endl;
-		std::cout << "| GPU Time (ms) ="<< elapsed_d.count() <<std::endl;
+		std::cout << "| [Fit] GPU Time (ms) ="<< elapsed_d.count() <<std::endl;
 		std::cout << "-----------------------------------------"<<std::endl;
 
-		//bring data to device
-		hydra::copy( data_d.begin() , data_d.end(), data_h.begin() );
+		//--------------------------------------------
+		//splot
+		//hold weights
+		hydra::multiarray<3, double, hydra::device::sys_t> sweigts_d( range.size());
 
-		//draw fitted function
+		//create splot
+		auto splot  = hydra::make_splot(fcn.GetPDF() );
+
+		start_d = std::chrono::high_resolution_clock::now();
+		splot.Generate( range.begin(), range.end(), sweigts_d.begin());
+		end_d = std::chrono::high_resolution_clock::now();
+		elapsed_d = end_d - start_d;
+
+		//time
+		std::cout << "-----------------------------------------"<<std::endl;
+		std::cout << "| [sPlot] GPU Time (ms) ="<< elapsed_d.count() <<std::endl;
+		std::cout << "-----------------------------------------"<<std::endl;
+
+		std::cout<< std::endl << "sWeights:" << std::endl;
+		for(size_t i = 0; i<10; i++)
+			std::cout<<  "[" << i << "] :" <<  sweigts_d[i] << std::endl;
+		std::cout<< std::endl << std::endl;
+
+		//bring data to device
+		hydra::host::vector<double>    data_h(range.size());
+		hydra::copy( range.begin() , range.end(), data_h.begin() );
 
 
 #ifdef _ROOT_AVAILABLE_
@@ -294,9 +319,8 @@ int main(int argv, char** argc)
 
 
 
-	//host
 	//------------------------
-	//device
+	//host
 	//------------------------
 #ifdef _ROOT_AVAILABLE_
 
@@ -305,6 +329,10 @@ int main(int argv, char** argc)
 
 #endif //_ROOT_AVAILABLE_
 	{
+		std::cout << "=========================================="<<std::endl;
+		std::cout << "|              <--- HOST --->            |"  <<std::endl;
+		std::cout << "=========================================="<<std::endl;
+
 		//------------------
 	    //make model
 		//numerical integral to normalize the pdfs
@@ -334,10 +362,13 @@ int main(int argv, char** argc)
 		// exponential
 		Generator.Exp(tau_p.GetValue()+0.5, data_h.begin() + 2*nentries,  data_h.end());
 
+		std::cout<< std::endl<< "Generated data:"<< std::endl;
+		for(size_t i=0; i<10; i++)
+			std::cout << "[" << i << "] :" << data_h[i] << std::endl;
 
-		for(size_t i=0; i<50; i++)
-			std::cout << "< Data > [" << i << "] :" << data_h[i] << std::endl;
-
+		 std::random_device rd;
+		 std::mt19937 g(rd());
+		 std::shuffle(data_h.begin(), data_h.end(), g);
 
 		//filtering
 		auto FILTER = [=]__host__ __device__(unsigned int n, double* x){
@@ -347,9 +378,9 @@ int main(int argv, char** argc)
 		auto filter = hydra::wrap_lambda(FILTER);
 		auto range  = hydra::apply_filter(data_h,  filter);
 
-		std::cout<< std::endl<< std::endl;
-		for(size_t i=0; i<50; i++)
-			std::cout << "< Random::Gauss > [" << i << "] :" << range.begin()[i] << std::endl;
+		std::cout<< std::endl<< "Filtered data:"<< std::endl;
+		for(size_t i=0; i<10; i++)
+			std::cout << "[" << i << "] :" << range.begin()[i] << std::endl;
 
 
 		//make model and fcn
@@ -379,15 +410,38 @@ int main(int argv, char** argc)
 
 		//time
 		std::cout << "-----------------------------------------"<<std::endl;
-		std::cout << "| GPU Time (ms) ="<< elapsed_h.count() <<std::endl;
+		std::cout << "| [Fit] CPU Time (ms) ="<< elapsed_h.count() <<std::endl;
 		std::cout << "-----------------------------------------"<<std::endl;
 
 
-		//draw fitted function
+
+		//--------------------------------------------
+		//splot
+		//hold weights
+		hydra::multiarray<3, double, hydra::host::sys_t> sweigts_h( range.size());
+
+		//create splot
+		auto splot  = hydra::make_splot(fcn.GetPDF() );
+
+		start_h = std::chrono::high_resolution_clock::now();
+		splot.Generate( range.begin(), range.end(), sweigts_h.begin());
+		end_h = std::chrono::high_resolution_clock::now();
+		elapsed_h = end_h - start_h;
+
+		//time
+		std::cout << "-----------------------------------------"<<std::endl;
+		std::cout << "| [sPlot] CPU Time (ms) ="<< elapsed_h.count() <<std::endl;
+		std::cout << "-----------------------------------------"<<std::endl;
+
+		std::cout<< std::endl << "sWeights:" << std::endl;
+		for(size_t i = 0; i<10; i++)
+			std::cout<<  "[" << i << "] :" <<  sweigts_h[i] << std::endl;
+		std::cout<< std::endl << std::endl;
+
 
 
 #ifdef _ROOT_AVAILABLE_
-		for(auto value : data_h)
+		for(auto value : range)
 			hist_gaussian_h.Fill( value);
 
 		//draw fitted function

@@ -1,6 +1,6 @@
 /*----------------------------------------------------------------------------
  *
- *   Copyright (C) 2016 Antonio Augusto Alves Junior
+ *   Copyright (C) 2016 - 2017 Antonio Augusto Alves Junior
  *
  *   This file is part of Hydra Data Analysis Framework.
  *
@@ -30,6 +30,5 @@
 #define SYSTEM_CUDA_H_
 
 #include <hydra/detail/policies/backends/CUDA.h>
-#include <hydra/detail/policies/traits/CUDATraits.h>
 
 #endif /* SYSTEM_CUDA_H_ */

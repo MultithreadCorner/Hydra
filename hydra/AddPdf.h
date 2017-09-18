@@ -1,6 +1,6 @@
 /*----------------------------------------------------------------------------
  *
- *   Copyright (C) 2016 Antonio Augusto Alves Junior
+ *   Copyright (C) 2016 - 2017 Antonio Augusto Alves Junior
  *
  *   This file is part of Hydra Data Analysis Framework.
  *
@@ -168,7 +168,7 @@ public:
 	 * \brief Copy constructor.
 	 */
 	AddPdf(AddPdf<PDF1, PDF2, PDFs...> const& other ):
-	fPDFs(other.GetPdFs() ),
+	fPDFs(other.GetPDFs() ),
 	fFunctors(other.GetFunctors() ),
 	fExtended(other.IsExtended()),
 	fCoefSum(other.GetCoefSum()),
@@ -189,7 +189,7 @@ public:
 	operator=( AddPdf<PDF1, PDF2, PDFs...> const& other )
 	{
 		this->fFunctors= other.GetFunctors() ;
-		this->fPDFs = other.GetPdFs();
+		this->fPDFs = other.GetPDFs();
 		this->fExtended = other.IsExtended();
 		this->fCoefSum= other.GetCoefSum();
 		for( size_t i=0; i< npdfs; i++ ){
@@ -304,7 +304,7 @@ public:
 	}
 
 
-	inline const pdfs_tuple_type& GetPdFs() const
+	inline const pdfs_tuple_type& GetPDFs() const
 	{
 		return fPDFs;
 	}

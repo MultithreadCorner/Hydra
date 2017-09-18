@@ -783,7 +783,7 @@ class tuple<>
 
 template<class... Types>
 __TUPLE_ANNOTATION
-void swap(tuple<Types...>& a, tuple<Types...>& b)
+void swap(tuple<Types...>&& a, tuple<Types...>&& b)
 {
   a.swap(b);
 }

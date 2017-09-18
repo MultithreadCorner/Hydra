@@ -1,6 +1,6 @@
 /*----------------------------------------------------------------------------
  *
- *   Copyright (C) 2016 Antonio Augusto Alves Junior
+ *   Copyright (C) 2016 - 2017 Antonio Augusto Alves Junior
  *
  *   This file is part of Hydra Data Analysis Framework.
  *
@@ -127,37 +127,7 @@ namespace hydra {
 
 		};
 
-		/*
-		//--------------------------------
-		template<unsigned int BACKEND>
-		struct BackendTraits;
 
-		template<>
-		struct BackendTraits<device>: HYDRA_EXTERNAL_NS::thrust::execution_policy<HYDRA_EXTERNAL_NS::thrust::detail::device_t>
-		{
-			constexpr static unsigned int backend= device;
-			template<typename T>
-			using   container = mc_device_vector<T>;
-		};
-
-		template<>
-		struct BackendTraits<host>: HYDRA_EXTERNAL_NS::thrust::execution_policy<HYDRA_EXTERNAL_NS::thrust::detail::host_t>
-		{
-			constexpr static unsigned int backend= host;
-			template<typename T>
-			using   container = mc_host_vector<T>;
-		};
-
-		//--------------------------------
-		template<typename Iterator>
-		struct IteratorTraits
-		{
-			typedef typename if_then_else<HYDRA_EXTERNAL_NS::thrust::detail::is_host_iterator_category<
-					typename HYDRA_EXTERNAL_NS::thrust::iterator_traits<Iterator>::iterator_category>::value,
-					BackendTraits<host>,
-					BackendTraits<device> >::type type;
-		};
-*/
 		//----------------------
 		template< class... T >
 		using common_type_t = typename std::common_type<T...>::type;

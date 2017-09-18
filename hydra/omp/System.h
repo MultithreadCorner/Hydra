@@ -1,6 +1,6 @@
 /*----------------------------------------------------------------------------
  *
- *   Copyright (C) 2016 Antonio Augusto Alves Junior
+ *   Copyright (C) 2016 - 2017 Antonio Augusto Alves Junior
  *
  *   This file is part of Hydra Data Analysis Framework.
  *
@@ -30,7 +30,5 @@
 #define SYSTEM_OMP_H_
 
 #include <hydra/detail/policies/backends/OMP.h>
-#include <hydra/detail/policies/traits/OMPTraits.h>
-
 
 #endif /* SYSTEM_OMP_H_ */

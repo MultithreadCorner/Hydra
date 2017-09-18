@@ -43,6 +43,14 @@ if(BUILD_CUDA_TARGETS)
          
          add_dependencies(examples multidimensional_fit_cuda)
          
+         #+++++++++++++++++++++++++++++++++
+         cuda_add_executable( splot_cuda EXCLUDE_FROM_ALL  splot.cu    
+            OPTIONS -Xcompiler -fopenmp -DTHRUST_DEVICE_SYSTEM=THRUST_DEVICE_SYSTEM_CUDA  -DTHRUST_HOST_SYSTEM=THRUST_HOST_SYSTEM_CPP -lgomp
+            )
+         target_link_libraries(splot_cuda  ${ROOT_LIBRARIES})
+         
+         add_dependencies(examples splot_cuda)
+         
          
                         
 endif(BUILD_CUDA_TARGETS)
@@ -100,6 +108,17 @@ if(BUILD_TBB_TARGETS)
     
     add_dependencies(examples multidimensional_fit_tbb)
     
+     
+    #+++++++++++++++++++++++++++++++
+    add_executable( splot_tbb EXCLUDE_FROM_ALL splot.cpp )
+    
+    set_target_properties( splot_tbb PROPERTIES 
+    COMPILE_FLAGS "-DTHRUST_HOST_SYSTEM=THRUST_HOST_SYSTEM_CPP -DTHRUST_DEVICE_SYSTEM=THRUST_DEVICE_SYSTEM_TBB")
+    
+    target_link_libraries( splot_tbb tbb  ${ROOT_LIBRARIES})
+    
+    add_dependencies(examples splot_tbb)
+    
     
     
     
@@ -155,6 +174,18 @@ IF(OPENMP_FOUND)
     target_link_libraries( multidimensional_fit_omp   ${ROOT_LIBRARIES})
   
     add_dependencies(examples  multidimensional_fit_omp)
+    
+    #+++++++++++++++++++++++++++++++
+    
+    add_executable(splot_omp EXCLUDE_FROM_ALL splot.cpp )
+    
+    set_target_properties( splot_omp PROPERTIES 
+    COMPILE_FLAGS "-fopenmp -DTHRUST_HOST_SYSTEM=THRUST_HOST_SYSTEM_CPP -DTHRUST_DEVICE_SYSTEM=THRUST_DEVICE_SYSTEM_OMP -lgomp")
+    
+    target_link_libraries( splot_omp   ${ROOT_LIBRARIES})
+  
+    add_dependencies(examples  splot_omp)
+    
     
     
 endif(OPENMP_FOUND)
