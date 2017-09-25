@@ -75,16 +75,21 @@ void DenseHistogram<1, T, hydra::detail::BackendPolicy<BACKEND> >::Fill(Iterator
 	auto keys_begin  = HYDRA_EXTERNAL_NS::thrust::make_transform_iterator(begin, key_functor );
 	auto keys_end    = HYDRA_EXTERNAL_NS::thrust::make_transform_iterator(end, key_functor);
 
-	auto reduced_values = HYDRA_EXTERNAL_NS::thrust::get_temporary_buffer<T>(system_t(), data_size);
-	auto reduced_keys   = HYDRA_EXTERNAL_NS::thrust::get_temporary_buffer<size_t>(system_t(), data_size);
+	auto gathered_values = HYDRA_EXTERNAL_NS::thrust::get_temporary_buffer<T>(system_t(), data_size);
+	auto reduced_values  = HYDRA_EXTERNAL_NS::thrust::get_temporary_buffer<T>(system_t(), data_size);
+	auto reduced_keys    = HYDRA_EXTERNAL_NS::thrust::get_temporary_buffer<size_t>(system_t(), data_size);
 
-    auto result = HYDRA_EXTERNAL_NS::thrust::reduce_by_key(system_t(), keys_begin, keys_end, begin,
+
+    auto reduced_end = HYDRA_EXTERNAL_NS::thrust::reduce_by_key(system_t(), keys_begin, keys_end, begin,
     		reduced_keys.first, reduced_values.first);
 
-   HYDRA_EXTERNAL_NS::thrust::gather(system_t(), reduced_keys.first, result.first,
-   		reduced_values.first, fContents.begin() );
+    auto gathered_end= HYDRA_EXTERNAL_NS::thrust::gather(system_t(), reduced_keys.first, reduced_end.first,
+   		reduced_values.first, gathered_values.first );
+
+   hydra::copy(gathered_values.first, gathered_end , fContents.begin());
 
     // deallocate storage with HYDRA_EXTERNAL_NS::thrust::return_temporary_buffer
+    HYDRA_EXTERNAL_NS::thrust::return_temporary_buffer(system_t(), gathered_values.first);
     HYDRA_EXTERNAL_NS::thrust::return_temporary_buffer(system_t(), reduced_values.first);
     HYDRA_EXTERNAL_NS::thrust::return_temporary_buffer(system_t(), reduced_keys.first);
 
