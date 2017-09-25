@@ -33,7 +33,7 @@
 #include <hydra/detail/utility/Utility_Tuple.h>
 #include <hydra/detail/external/thrust/transform_reduce.h>
 #include <hydra/detail/functors/ProcessSPlot.h>
-#include <iostream>
+
 
 namespace hydra {
 

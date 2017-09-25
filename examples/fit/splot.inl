@@ -53,6 +53,7 @@
 #include <hydra/Filter.h>
 #include <hydra/GaussKronrodQuadrature.h>
 #include <hydra/SPlot.h>
+#include <hydra/DenseHistogram.h>
 //Minuit2
 #include "Minuit2/FunctionMinimum.h"
 #include "Minuit2/MnUserParameterState.h"
@@ -302,6 +303,9 @@ int main(int argv, char** argc)
 		data_h.resize(range.size());
 		hydra::copy( range.begin() , range.end(), data_h.begin() );
 
+
+        hydra::DenseHistogram<1, double,  hydra::device::sys_t> Hist(100, min, max);
+        Hist.Fill(data_h.begin(0), data_h.end(0));
 
 #ifdef _ROOT_AVAILABLE_
 		for(size_t i=0; i< data_h.size(); i++){

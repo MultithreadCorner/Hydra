@@ -39,6 +39,7 @@
 #include <hydra/detail/BackendPolicy.h>
 #include <hydra/AddPdf.h>
 #include <hydra/multiarray.h>
+#include <hydra/Distance.h>
 
 #include <hydra/detail/external/thrust/tuple.h>
 #include <hydra/detail/external/Eigen/Dense>
