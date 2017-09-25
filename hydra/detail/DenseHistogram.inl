@@ -81,8 +81,8 @@ void DenseHistogram<1, T, hydra::detail::BackendPolicy<BACKEND> >::Fill(Iterator
     auto result = HYDRA_EXTERNAL_NS::thrust::reduce_by_key(system_t(), keys_begin, keys_end, begin,
     		reduced_keys.first, reduced_values.first);
 
-   // HYDRA_EXTERNAL_NS::thrust::gather(system_t(), keys_begin, result.first,
-    //		reduced_values.first, fContents.begin() );
+   HYDRA_EXTERNAL_NS::thrust::gather(system_t(), reduced_keys.first, result.first,
+   		reduced_values.first, fContents.begin() );
 
     // deallocate storage with HYDRA_EXTERNAL_NS::thrust::return_temporary_buffer
     HYDRA_EXTERNAL_NS::thrust::return_temporary_buffer(system_t(), reduced_values.first);
