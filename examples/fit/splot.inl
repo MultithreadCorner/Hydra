@@ -148,7 +148,7 @@ int main(int argv, char** argc)
 
     //parameters
     std::string  Tau("Tau"); 	// tau of the exponential
-    hydra::Parameter  tau_p  = hydra::Parameter::Create().Name(Tau).Value(0.0) .Error(0.0001).Limits(-3.0, 3.0);
+    hydra::Parameter  tau_p  = hydra::Parameter::Create().Name(Tau).Value(0.0) .Error(0.0001).Limits(-10.0, 10.0);
 
     //get a hydra lambda
     auto exponential = hydra::wrap_lambda(EXPONENTIAL, tau_p);
@@ -316,14 +316,17 @@ int main(int argv, char** argc)
         std::cout << "| [Hist] GPU Time (ms) ="<< elapsed_d.count() <<std::endl;
         std::cout << "-----------------------------------------"<<std::endl;
 
-        for(size_t bin=0; bin < Hist. GetNBins(); bin++)
+
 
 
 #ifdef _ROOT_AVAILABLE_
 
+        for(size_t bin=1; bin < Hist.GetNBins()+1; bin++)
+        	hist_data_dicriminating_d.SetBinContent(bin,  Hist[bin] );
+
 		for(size_t i=0; i< data_h.size(); i++){
 
-			hist_data_dicriminating_d.Fill(*(data_h.begin(0)+i) );
+			//hist_data_dicriminating_d.Fill(*(data_h.begin(0)+i) );
 			hist_data_control_d.Fill(*(data_h.begin(1)+i) );
 
 			hist_control_1_d.Fill(*(data_h.begin(1)+i), *(sweigts_d.begin(0)+i) );

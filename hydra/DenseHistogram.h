@@ -57,7 +57,8 @@ class DenseHistogram<N, T, hydra::detail::BackendPolicy<BACKEND>, std::true_type
 {
 
 	typedef typename hydra::detail::BackendPolicy<BACKEND> system_t;
-	typedef typename system_t::template container<T> storage_t;
+
+	typedef typename system_t::template container<double> storage_t;
 	typedef typename system_t::template container<T>::iterator iterator;
 	typedef typename system_t::template container<T>::const_iterator const_iterator;
 
@@ -96,8 +97,6 @@ public:
 	}
 
 
-
-
 	DenseHistogram(DenseHistogram<N, T,hydra::detail::BackendPolicy<BACKEND>> const& other ):
 		fContents(other.GetContents())
 	{
@@ -109,6 +108,7 @@ public:
 
 		fNBins= other.GetNBins();
 	}
+
 
 	template< hydra::detail::Backend  BACKEND2>
 	DenseHistogram(DenseHistogram<N, T, hydra::detail::BackendPolicy<BACKEND2>> const& other ):
@@ -176,10 +176,13 @@ template< typename T, hydra::detail::Backend  BACKEND >
 class DenseHistogram<1, T, hydra::detail::BackendPolicy<BACKEND>, std::false_type >{
 
 	typedef typename hydra::detail::BackendPolicy<BACKEND> system_t;
-	typedef typename system_t::template container<size_t> storage_t;
-	typedef typename system_t::template container<size_t>::iterator iterator;
-	typedef typename system_t::template container<size_t>::const_iterator const_iterator;
 
+	typedef typename system_t::template container<double> storage_t;
+
+	typedef typename storage_t::iterator iterator;
+	typedef typename storage_t::const_iterator const_iterator;
+
+	typedef typename iterator::reference reference;
 
 public:
 
@@ -201,7 +204,7 @@ public:
 		fLowerLimits(other.GetLowerLimits()),
 		fUpperLimits(other.GetUpperLimits()),
 		fNBins(other.GetNBins())
-	{ }
+	{}
 
 	template< hydra::detail::Backend  BACKEND2>
 	DenseHistogram(DenseHistogram<1, T, hydra::detail::BackendPolicy<BACKEND2>> const& other ):
@@ -238,6 +241,7 @@ public:
 		return fNBins;
 	}
 
+	//stl interface
 	iterator begin(){
 		return fContents.begin();
 	}
@@ -245,6 +249,24 @@ public:
 	iterator end(){
 		return fContents.end();
 	}
+
+	const_iterator begin() const {
+		return fContents.begin();
+	}
+
+	const_iterator end() const {
+		return fContents.end();
+	}
+
+   reference operator[](size_t i) {
+    	return *(fContents.begin()+i);
+    }
+
+    const reference operator[](size_t i) const {
+        return fContents.begin()[i];
+    }
+
+
 
 	size_t size() const
 	{
