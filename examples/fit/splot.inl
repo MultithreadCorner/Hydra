@@ -305,18 +305,22 @@ int main(int argv, char** argc)
 
 
         hydra::DenseHistogram<1, double,  hydra::device::sys_t> Hist(100, min, max);
+
         start_d = std::chrono::high_resolution_clock::now();
         Hist.Fill(data_h.begin(0), data_h.end(0));
         end_d = std::chrono::high_resolution_clock::now();
         elapsed_d = end_d - start_d;
+
         //time
         std::cout << "-----------------------------------------"<<std::endl;
         std::cout << "| [Hist] GPU Time (ms) ="<< elapsed_d.count() <<std::endl;
         std::cout << "-----------------------------------------"<<std::endl;
-        for(auto bin : Hist)
-        	std::cout<< bin << std::endl;
+
+        for(size_t bin=0; bin < Hist. GetNBins(); bin++)
+
 
 #ifdef _ROOT_AVAILABLE_
+
 		for(size_t i=0; i< data_h.size(); i++){
 
 			hist_data_dicriminating_d.Fill(*(data_h.begin(0)+i) );

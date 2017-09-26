@@ -187,7 +187,7 @@ struct GetGlobalBin<1,T>: public HYDRA_EXTERNAL_NS::thrust::unary_function<T,siz
 	__host__ __device__
 	size_t get_bin(T X){
 
-		return X + 1 ;
+		return size_t(X) + 1 ;
 	}
 
 	__host__ __device__
@@ -199,8 +199,8 @@ struct GetGlobalBin<1,T>: public HYDRA_EXTERNAL_NS::thrust::unary_function<T,siz
 		bool is_overflow  = true;
 
 		X  = (X-fLowerLimits)*fGrid/fDelta;
-		is_underflow = is_underflow && (X<0.0);
-		is_overflow  = is_overflow && (X>fGrid);
+		is_underflow =(X<0.0);
+		is_overflow  =(X>fGrid);
 
 
 		return is_underflow ? 0 : (is_overflow ? fNGlobalBins+1 : get_bin(X) );

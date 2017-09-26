@@ -39,12 +39,22 @@
 
 namespace hydra {
 
+namespace detail {
+
+template<size_t N>
+struct is_multidimensional:
+		std::conditional<(N>1),  std::true_type ,std::false_type>::type {};
+
+}//namespace detail
+
 template<size_t N, typename T, typename  BACKEND,
-	typename = typename std::enable_if<std::is_arithmetic<T>::value, void>::type >
+    typename = typename detail::is_multidimensional<N>::type,
+	typename = typename std::enable_if<std::is_arithmetic<T>::value, void>::type>
 class DenseHistogram;
 
 template<size_t N, typename T, hydra::detail::Backend  BACKEND>
-class DenseHistogram<N, T, hydra::detail::BackendPolicy<BACKEND> >{
+class DenseHistogram<N, T, hydra::detail::BackendPolicy<BACKEND>, std::true_type >
+{
 
 	typedef typename hydra::detail::BackendPolicy<BACKEND> system_t;
 	typedef typename system_t::template container<T> storage_t;
@@ -162,13 +172,13 @@ private:
 
 };
 
-template< typename T, hydra::detail::Backend  BACKEND>
-class DenseHistogram<1, T, hydra::detail::BackendPolicy<BACKEND> >{
+template< typename T, hydra::detail::Backend  BACKEND >
+class DenseHistogram<1, T, hydra::detail::BackendPolicy<BACKEND>, std::false_type >{
 
 	typedef typename hydra::detail::BackendPolicy<BACKEND> system_t;
-	typedef typename system_t::template container<T> storage_t;
-	typedef typename system_t::template container<T>::iterator iterator;
-	typedef typename system_t::template container<T>::const_iterator const_iterator;
+	typedef typename system_t::template container<size_t> storage_t;
+	typedef typename system_t::template container<size_t>::iterator iterator;
+	typedef typename system_t::template container<size_t>::const_iterator const_iterator;
 
 
 public:
@@ -180,10 +190,9 @@ public:
 		fGrid(grid),
 		fLowerLimits(lowerlimits),
 		fUpperLimits(upperlimits),
-		fNBins(grid)
-	{
-		fContents.resize(fNBins +2 );
-	}
+		fNBins(grid),
+		fContents( grid+2 )
+	{}
 
 
 	DenseHistogram(DenseHistogram<1, T,hydra::detail::BackendPolicy<BACKEND>> const& other ):
@@ -205,7 +214,7 @@ public:
 
 
 
-	const storage_t& GetContents() const {
+	const storage_t& GetContents()const  {
 		return fContents;
 	}
 
@@ -230,16 +239,23 @@ public:
 	}
 
 	iterator begin(){
-		fContents.begin();
+		return fContents.begin();
 	}
 
 	iterator end(){
-		fContents.end();
+		return fContents.end();
 	}
 
+	size_t size() const
+	{
+	 return  HYDRA_EXTERNAL_NS::thrust::distance(fContents.begin(), fContents.end() );
+	}
 
 	template<typename Iterator>
 	void Fill(Iterator begin, Iterator end);
+
+	template<typename Iterator1, typename Iterator2>
+	void Fill(Iterator1 begin, Iterator1 end, Iterator2 wbegin);
 
 private:
 
