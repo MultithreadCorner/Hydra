@@ -61,7 +61,7 @@ class DenseHistogram<N, T, hydra::detail::BackendPolicy<BACKEND>, std::true_type
 	typedef typename system_t::template container<double> storage_t;
 	typedef typename system_t::template container<T>::iterator iterator;
 	typedef typename system_t::template container<T>::const_iterator const_iterator;
-
+	typedef typename iterator::reference reference;
 
 public:
 
@@ -148,18 +148,43 @@ public:
 	size_t GetNBins() const {
 		return fNBins;
 	}
-
+	//stl interface
 	iterator begin(){
-		fContents.begin();
+		return fContents.begin();
 	}
 
 	iterator end(){
-		fContents.end();
+		return fContents.end();
+	}
+
+	const_iterator begin() const {
+		return fContents.begin();
+	}
+
+	const_iterator end() const {
+		return fContents.end();
+	}
+
+	reference operator[](size_t i) {
+		return *(fContents.begin()+i);
+	}
+
+	const reference operator[](size_t i) const {
+		return fContents.begin()[i];
 	}
 
 
+
+	size_t size() const
+	{
+		return  HYDRA_EXTERNAL_NS::thrust::distance(fContents.begin(), fContents.end() );
+	}
+
 	template<typename Iterator>
 	void Fill(Iterator begin, Iterator end);
+
+	template<typename Iterator1, typename Iterator2>
+	void Fill(Iterator1 begin, Iterator1 end, Iterator2 wbegin);
 
 private:
 

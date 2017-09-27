@@ -39,25 +39,47 @@
 namespace hydra {
 
 template<size_t N, typename T, hydra::detail::Backend  BACKEND>
-template<typename Iterator>
-void DenseHistogram<N, T, hydra::detail::BackendPolicy<BACKEND>, std::true_type >::Fill(Iterator begin, Iterator end)
+template<typename Iterator, typename Iterator2>
+void DenseHistogram<N, T, hydra::detail::BackendPolicy<BACKEND>, std::true_type >::Fill(Iterator begin, Iterator end, Iterator2 wbegin )
 {
 
-	size_t data_size = hydra::distance(begin, end);
+
+	size_t data_size = HYDRA_EXTERNAL_NS::thrust::distance(begin, end);
 
 	auto key_functor = detail::GetGlobalBin<N,T>(fGrid, fLowerLimits, fUpperLimits);
 
-	auto keys_begin  = HYDRA_EXTERNAL_NS::thrust::make_transform_iterator(begin, key_functor );
-	auto keys_end    = HYDRA_EXTERNAL_NS::thrust::make_transform_iterator(end, key_functor);
+	//work on local copy of data
 
-	auto reduced_values = HYDRA_EXTERNAL_NS::thrust::get_temporary_buffer<T>(system_t(), data_size);
-	auto reduced_keys   = HYDRA_EXTERNAL_NS::thrust::get_temporary_buffer<size_t>(system_t(), data_size);
+	auto data   = HYDRA_EXTERNAL_NS::thrust::get_temporary_buffer<T>(system_t(), data_size);
+	hydra::copy(begin, end, data.first);
 
-    auto result = HYDRA_EXTERNAL_NS::thrust::reduce_by_key(system_t(), keys_begin, keys_end, begin,
+	//ns anon-sort
+	{
+		auto keys_begin = HYDRA_EXTERNAL_NS::thrust::make_transform_iterator(begin, key_functor );
+		auto keys_end   = HYDRA_EXTERNAL_NS::thrust::make_transform_iterator(end, key_functor);
+		auto buffer     = HYDRA_EXTERNAL_NS::thrust::get_temporary_buffer<size_t>(system_t(), data_size);
+
+		HYDRA_EXTERNAL_NS::thrust::copy( keys_begin, keys_end, buffer.first);
+
+		HYDRA_EXTERNAL_NS::thrust::sort_by_key(buffer.first, buffer.first+data_size, data.first);
+
+		HYDRA_EXTERNAL_NS::thrust::return_temporary_buffer(system_t(),buffer.first);
+
+	}//end anon-sort
+
+	//bins content
+	auto reduced_values  = HYDRA_EXTERNAL_NS::thrust::get_temporary_buffer<size_t>(system_t(), data_size);
+	auto reduced_keys    = HYDRA_EXTERNAL_NS::thrust::get_temporary_buffer<double>(system_t(), data_size);
+
+	//reduction_by_key
+	auto keys_begin  = HYDRA_EXTERNAL_NS::thrust::make_transform_iterator(data.first, key_functor );
+	auto keys_end    = HYDRA_EXTERNAL_NS::thrust::make_transform_iterator(data.first+data_size, key_functor);
+
+	auto reduced_end = HYDRA_EXTERNAL_NS::thrust::reduce_by_key(system_t(), keys_begin, keys_end, wbegin,
     		reduced_keys.first, reduced_values.first);
 
-   // HYDRA_EXTERNAL_NS::thrust::gather(system_t(), keys_begin, result.first,
-    //		reduced_values.first, fContents.begin() );
+	HYDRA_EXTERNAL_NS::thrust::scatter( system_t(),  reduced_values.first, reduced_end.second,
+		  reduced_keys.first,fContents.begin() );
 
     // deallocate storage with HYDRA_EXTERNAL_NS::thrust::return_temporary_buffer
     HYDRA_EXTERNAL_NS::thrust::return_temporary_buffer(system_t(), reduced_values.first);
@@ -65,6 +87,16 @@ void DenseHistogram<N, T, hydra::detail::BackendPolicy<BACKEND>, std::true_type 
 
 }
 
+
+template<size_t N, typename T, hydra::detail::Backend  BACKEND>
+template<typename Iterator>
+void DenseHistogram<N, T, hydra::detail::BackendPolicy<BACKEND>, std::true_type >::Fill(Iterator begin, Iterator end )
+{
+	auto init_bin    = HYDRA_EXTERNAL_NS::thrust::constant_iterator<size_t>(1.0);
+
+	Fill( begin, end, init_bin );
+
+}
 
 template<typename T, hydra::detail::Backend  BACKEND>
 template<typename Iterator>
