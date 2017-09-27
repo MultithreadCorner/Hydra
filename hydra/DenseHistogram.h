@@ -59,9 +59,10 @@ class DenseHistogram<N, T, hydra::detail::BackendPolicy<BACKEND>, std::true_type
 	typedef typename hydra::detail::BackendPolicy<BACKEND> system_t;
 
 	typedef typename system_t::template container<double> storage_t;
-	typedef typename system_t::template container<T>::iterator iterator;
-	typedef typename system_t::template container<T>::const_iterator const_iterator;
-	typedef typename iterator::reference reference;
+	typedef typename storage_t::iterator iterator;
+	typedef typename storage_t::const_iterator const_iterator;
+	typedef typename storage_t::reference reference;
+	typedef typename storage_t::pointer pointer;
 
 public:
 
@@ -148,7 +149,22 @@ public:
 	size_t GetNBins() const {
 		return fNBins;
 	}
+
+	double GetBinContent( size_t  bins[N]){
+
+		return (i>=0) && (i<=fNBins+1) ?
+				fContents.begin()[i] :
+				std::numeric_limits<double>::lowest();
+	}
+
+
+
 	//stl interface
+
+	pointer data(){
+		return fContents.data();
+	}
+
 	iterator begin(){
 		return fContents.begin();
 	}
@@ -173,10 +189,8 @@ public:
 		return fContents.begin()[i];
 	}
 
+	size_t size() const	{
 
-
-	size_t size() const
-	{
 		return  HYDRA_EXTERNAL_NS::thrust::distance(fContents.begin(), fContents.end() );
 	}
 
@@ -187,6 +201,36 @@ public:
 	void Fill(Iterator1 begin, Iterator1 end, Iterator2 wbegin);
 
 private:
+
+	//k = i_1*(dim_2*...*dim_n) + i_2*(dim_3*...*dim_n) + ... + i_{n-1}*dim_n + i_n
+
+	template<size_t I>
+	typename HYDRA_EXTERNAL_NS::thrust::detail::enable_if< I== N, void>::type
+	get_global_bin(const size_t (&indexes)[N], size_t& index){ }
+
+	template<size_t I=0>
+	typename HYDRA_EXTERNAL_NS::thrust::detail::enable_if< (I< N), void>::type
+	get_global_bin(const size_t (&indexes)[N], size_t& index)
+	{
+		size_t prod =1;
+		for(size_t i=N-1; i>I; i--)
+			prod *=fGrid[i];
+		index += prod*indexes[I];
+
+		get_global_bin<I+1>( indexes, index);
+	}
+
+	size_t get_bin( T (&X)[N]){
+
+		size_t indexes[N];
+		size_t bin=0;
+		for(size_t i=0; i<N; i++)
+			indexes[i]=X[i];
+
+		get_global_bin(indexes,  bin);
+
+		return bin+1;
+	}
 
 	T fUpperLimits[N];
 	T fLowerLimits[N];
@@ -207,7 +251,8 @@ class DenseHistogram<1, T, hydra::detail::BackendPolicy<BACKEND>, std::false_typ
 	typedef typename storage_t::iterator iterator;
 	typedef typename storage_t::const_iterator const_iterator;
 
-	typedef typename iterator::reference reference;
+	typedef typename storage_t::reference reference;
+	typedef typename storage_t::pointer pointer;
 
 public:
 
@@ -266,7 +311,18 @@ public:
 		return fNBins;
 	}
 
+	double GetBinContent(size_t i){
+
+		return (i>=0) && (i<=fNBins+1) ?
+				fContents.begin()[i] :
+					std::numeric_limits<double>::lowest();
+	}
+
 	//stl interface
+	pointer data(){
+		return fContents.data();
+	}
+
 	iterator begin(){
 		return fContents.begin();
 	}
@@ -291,10 +347,7 @@ public:
         return fContents.begin()[i];
     }
 
-
-
-	size_t size() const
-	{
+	size_t size() const	{
 	 return  HYDRA_EXTERNAL_NS::thrust::distance(fContents.begin(), fContents.end() );
 	}
 
