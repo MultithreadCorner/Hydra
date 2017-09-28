@@ -303,27 +303,74 @@ int main(int argv, char** argc)
 		data_h.resize(range.size());
 		hydra::copy( range.begin() , range.end(), data_h.begin() );
 
+        //_______________________________
+		//histograms
+		size_t nbins = 100;
 
-        hydra::DenseHistogram<1, double,  hydra::device::sys_t> Hist(100, min, max);
+        hydra::DenseHistogram<1, double,  hydra::device::sys_t> Hist_Data(nbins, min, max);
 
         start_d = std::chrono::high_resolution_clock::now();
-        Hist.Fill(data_h.begin(0), data_h.end(0));
+        Hist_Data.Fill(data_h.begin(0), data_h.end(0));
         end_d = std::chrono::high_resolution_clock::now();
         elapsed_d = end_d - start_d;
 
         //time
         std::cout << "-----------------------------------------"<<std::endl;
-        std::cout << "| [Hist] GPU Time (ms) ="<< elapsed_d.count() <<std::endl;
+        std::cout << "| [Histograming data] GPU Time (ms) ="<< elapsed_d.count() <<std::endl;
         std::cout << "-----------------------------------------"<<std::endl;
+
+        hydra::DenseHistogram<1, double,  hydra::device::sys_t> Hist_Control(nbins, min, max);
+
+        start_d = std::chrono::high_resolution_clock::now();
+        Hist_Control.Fill(data_h.begin(1), data_h.end(1));
+        end_d = std::chrono::high_resolution_clock::now();
+        elapsed_d = end_d - start_d;
+
+        //time
+        std::cout << "-----------------------------------------"<<std::endl;
+        std::cout << "| [Histograming control] GPU Time (ms) ="<< elapsed_d.count() <<std::endl;
+        std::cout << "-----------------------------------------"<<std::endl;
+
+        hydra::DenseHistogram<1, double,  hydra::device::sys_t> Hist_Control_1(nbins, min, max);
+
+        start_d = std::chrono::high_resolution_clock::now();
+        Hist_Control_1.Fill(data_h.begin(1), data_h.end(1), sweigts_d.begin(0) );
+        end_d = std::chrono::high_resolution_clock::now();
+        elapsed_d = end_d - start_d;
+
+        //time
+        std::cout << "-----------------------------------------"<<std::endl;
+        std::cout << "| [Histograming control 1] GPU Time (ms) ="<< elapsed_d.count() <<std::endl;
+        std::cout << "-----------------------------------------"<<std::endl;
+
+        hydra::DenseHistogram<1, double,  hydra::device::sys_t> Hist_Control_2(nbins, min, max);
+
+        start_d = std::chrono::high_resolution_clock::now();
+        Hist_Control_2.Fill(data_h.begin(1), data_h.end(1), sweigts_d.begin(1) );
+        end_d = std::chrono::high_resolution_clock::now();
+        elapsed_d = end_d - start_d;
+
+        //time
+        std::cout << "-----------------------------------------"<<std::endl;
+        std::cout << "| [Histograming control 2] GPU Time (ms) ="<< elapsed_d.count() <<std::endl;
+        std::cout << "-----------------------------------------"<<std::endl;
+
 
 
 
 
 #ifdef _ROOT_AVAILABLE_
 
-        for(size_t bin=1; bin < Hist.GetNBins()+1; bin++)
-        	hist_data_dicriminating_d.SetBinContent(bin,  Hist[bin] );
+        for(size_t bin=1; bin < nbins+1; bin++){
 
+        	hist_data_dicriminating_d.SetBinContent(bin,  Hist_Data[bin] );
+        	hist_data_control_d.SetBinContent(bin,  Hist_Control[bin] );
+        	hist_control_1_d.SetBinContent(bin,  Hist_Control_1[bin] );
+        	hist_control_2_d.SetBinContent(bin,  Hist_Control_2[bin] );
+
+        }
+
+        /*
 		for(size_t i=0; i< data_h.size(); i++){
 
 			//hist_data_dicriminating_d.Fill(*(data_h.begin(0)+i) );
@@ -333,6 +380,7 @@ int main(int argv, char** argc)
 			hist_control_2_d.Fill(*(data_h.begin(1)+i), *(sweigts_d.begin(1)+i) );
 
 		}
+		*/
 
 		//draw fitted function
 		for (size_t i=0 ; i<=100 ; i++) {

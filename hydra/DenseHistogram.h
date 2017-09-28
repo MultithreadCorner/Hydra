@@ -152,11 +152,21 @@ public:
 
 	double GetBinContent( size_t  bins[N]){
 
-		return (i>=0) && (i<=fNBins+1) ?
-				fContents.begin()[i] :
-				std::numeric_limits<double>::lowest();
+		size_t bin=0;
+
+		get_global_bin( bins,  bin);
+
+		return (bin >=0 ) && ( bin<= (fNBins+1) ) ?
+				fContents.begin()[bin] :
+				std::numeric_limits<double>::max();
 	}
 
+	double GetBinContent( size_t  bin){
+
+		return (bin >=0 ) && ( bin<= (fNBins+1) ) ?
+				fContents.begin()[bin] :
+				std::numeric_limits<double>::max();
+	}
 
 
 	//stl interface
@@ -220,17 +230,6 @@ private:
 		get_global_bin<I+1>( indexes, index);
 	}
 
-	size_t get_bin( T (&X)[N]){
-
-		size_t indexes[N];
-		size_t bin=0;
-		for(size_t i=0; i<N; i++)
-			indexes[i]=X[i];
-
-		get_global_bin(indexes,  bin);
-
-		return bin+1;
-	}
 
 	T fUpperLimits[N];
 	T fLowerLimits[N];
@@ -241,6 +240,10 @@ private:
 
 };
 
+
+/*
+ * 1D dimension specialization
+ */
 template< typename T, hydra::detail::Backend  BACKEND >
 class DenseHistogram<1, T, hydra::detail::BackendPolicy<BACKEND>, std::false_type >{
 
