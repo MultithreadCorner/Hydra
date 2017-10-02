@@ -32,37 +32,31 @@
 #include <hydra/detail/Config.h>
 #include <hydra/detail/BackendPolicy.h>
 #include <hydra/Types.h>
+#include <hydra/detail/Dimensionality.h>
 
 #include <type_traits>
 #include <utility>
 #include <array>
+#include <vector>
 
 namespace hydra {
 
-namespace detail {
 
-template<size_t N>
-struct is_multidimensional:
-		std::conditional<(N>1),  std::true_type ,std::false_type>::type {};
-
-}//namespace detail
-
-template<size_t N, typename T, typename  BACKEND,
-    typename = typename detail::is_multidimensional<N>::type,
+template<size_t N, typename T, typename = typename detail::dimensionality<N>::type,
 	typename = typename std::enable_if<std::is_arithmetic<T>::value, void>::type>
 class DenseHistogram;
 
-template<size_t N, typename T, hydra::detail::Backend  BACKEND>
-class DenseHistogram<N, T, hydra::detail::BackendPolicy<BACKEND>, std::true_type >
+template<size_t N, typename T>
+class DenseHistogram<N, T, detail::multidimensional>
 {
 
-	typedef typename hydra::detail::BackendPolicy<BACKEND> system_t;
 
-	typedef typename system_t::template container<double> storage_t;
+	typedef std::vector<double> storage_t;
 	typedef typename storage_t::iterator iterator;
 	typedef typename storage_t::const_iterator const_iterator;
 	typedef typename storage_t::reference reference;
 	typedef typename storage_t::pointer pointer;
+	typedef typename storage_t::value_type value_type;
 
 public:
 
@@ -97,10 +91,12 @@ public:
 		fContents.resize(fNBins  +2);
 	}
 
-
-	DenseHistogram(DenseHistogram<N, T,hydra::detail::BackendPolicy<BACKEND>> const& other ):
-		fContents(other.GetContents())
+	DenseHistogram<N, T, detail::multidimensional>&
+	operator=(DenseHistogram<N, T, detail::multidimensional> const& other )
 	{
+		if(this==&other) return *this;
+
+		fContents = other.GetContents();
 		for( size_t i=0; i<N; i++){
 			fGrid[i] = other.GetGrid(i);
 			fLowerLimits[i] = other.GetLowerLimits(i);
@@ -108,23 +104,20 @@ public:
 		}
 
 		fNBins= other.GetNBins();
+		return *this;
 	}
 
+	DenseHistogram(DenseHistogram<N, T, detail::multidimensional> const& other ):
+			fContents(other.GetContents())
+		{
+			for( size_t i=0; i<N; i++){
+				fGrid[i] = other.GetGrid(i);
+				fLowerLimits[i] = other.GetLowerLimits(i);
+				fUpperLimits[i] = other.GetUpperLimits(i);
+			}
 
-	template< hydra::detail::Backend  BACKEND2>
-	DenseHistogram(DenseHistogram<N, T, hydra::detail::BackendPolicy<BACKEND2>> const& other ):
-		fContents(other.GetContents())
-	{
-		for( size_t i=0; i<N; i++){
-			fGrid[i] = other.GetGrid(i);
-			fLowerLimits[i] = other.GetLowerLimits(i);
-			fUpperLimits[i] = other.GetUpperLimits(i);
+			fNBins= other.GetNBins();
 		}
-
-		fNBins= other.GetNBins();
-	}
-
-
 
 	const storage_t& GetContents() const {
 		return fContents;
@@ -150,14 +143,23 @@ public:
 		return fNBins;
 	}
 
-	double GetBinContent( size_t  bins[N]){
+	size_t GetBin( size_t  (&bins)[N]){
 
 		size_t bin=0;
 
 		get_global_bin( bins,  bin);
 
-		return (bin >=0 ) && ( bin<= (fNBins+1) ) ?
-				fContents.begin()[bin] :
+		return bin;
+	}
+
+	double GetBinContent( size_t  (&bins)[N]){
+
+		size_t bin=0;
+
+		get_global_bin( bins,  bin);
+
+		return ( bin < (fNBins+2) ) ?
+				fContents.begin()[bin+1] :
 				std::numeric_limits<double>::max();
 	}
 
@@ -169,7 +171,7 @@ public:
 	}
 
 
-	//stl interface
+	//stl range interface
 
 	pointer data(){
 		return fContents.data();
@@ -195,7 +197,7 @@ public:
 		return *(fContents.begin()+i);
 	}
 
-	const reference operator[](size_t i) const {
+    value_type operator[](size_t i) const {
 		return fContents.begin()[i];
 	}
 
@@ -216,15 +218,17 @@ private:
 
 	template<size_t I>
 	typename HYDRA_EXTERNAL_NS::thrust::detail::enable_if< I== N, void>::type
-	get_global_bin(const size_t (&indexes)[N], size_t& index){ }
+	get_global_bin( size_t (&indexes)[N], size_t& index){ }
 
 	template<size_t I=0>
 	typename HYDRA_EXTERNAL_NS::thrust::detail::enable_if< (I< N), void>::type
-	get_global_bin(const size_t (&indexes)[N], size_t& index)
+	get_global_bin( size_t (&indexes)[N], size_t& index)
 	{
 		size_t prod =1;
+
 		for(size_t i=N-1; i>I; i--)
 			prod *=fGrid[i];
+
 		index += prod*indexes[I];
 
 		get_global_bin<I+1>( indexes, index);
@@ -244,18 +248,15 @@ private:
 /*
  * 1D dimension specialization
  */
-template< typename T, hydra::detail::Backend  BACKEND >
-class DenseHistogram<1, T, hydra::detail::BackendPolicy<BACKEND>, std::false_type >{
+template< typename T >
+class DenseHistogram<1, T,  detail::unidimensional >{
 
-	typedef typename hydra::detail::BackendPolicy<BACKEND> system_t;
-
-	typedef typename system_t::template container<double> storage_t;
-
+	typedef std::vector<double> storage_t;
 	typedef typename storage_t::iterator iterator;
 	typedef typename storage_t::const_iterator const_iterator;
-
 	typedef typename storage_t::reference reference;
 	typedef typename storage_t::pointer pointer;
+	typedef typename storage_t::value_type value_type;
 
 public:
 
@@ -271,23 +272,13 @@ public:
 	{}
 
 
-	DenseHistogram(DenseHistogram<1, T,hydra::detail::BackendPolicy<BACKEND>> const& other ):
+	DenseHistogram(DenseHistogram<1, T,detail::unidimensional > const& other ):
 		fContents(other.GetContents()),
 		fGrid(other.GetGrid()),
 		fLowerLimits(other.GetLowerLimits()),
 		fUpperLimits(other.GetUpperLimits()),
 		fNBins(other.GetNBins())
 	{}
-
-	template< hydra::detail::Backend  BACKEND2>
-	DenseHistogram(DenseHistogram<1, T, hydra::detail::BackendPolicy<BACKEND2>> const& other ):
-	fContents(other.GetContents()),
-	fGrid(other.GetGrid()),
-	fLowerLimits(other.GetLowerLimits()),
-	fUpperLimits(other.GetUpperLimits()),
-	fNBins(other.GetNBins())
-	{}
-
 
 
 	const storage_t& GetContents()const  {
@@ -318,7 +309,7 @@ public:
 
 		return (i>=0) && (i<=fNBins+1) ?
 				fContents.begin()[i] :
-					std::numeric_limits<double>::lowest();
+					std::numeric_limits<double>::max();
 	}
 
 	//stl interface
@@ -346,7 +337,7 @@ public:
     	return *(fContents.begin()+i);
     }
 
-    const reference operator[](size_t i) const {
+   value_type  operator[](size_t i) const {
         return fContents.begin()[i];
     }
 

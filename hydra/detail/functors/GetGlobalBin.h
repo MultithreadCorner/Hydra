@@ -117,12 +117,12 @@ struct GetGlobalBin: public HYDRA_EXTERNAL_NS::thrust::unary_function<typename t
 	}
 
 	__host__ __device__
-	size_t operator()(ArgType& value){
+	size_t operator()(ArgType value){
 
 		T X[N];
 
 
-		assignTupleToArray(value, X );
+		tupleToArray(value, X );
 
 		bool is_underflow = true;
 		bool is_overflow  = true;

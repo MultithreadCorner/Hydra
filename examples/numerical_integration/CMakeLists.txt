@@ -1,4 +1,4 @@
-project(integration)
+project(examples)
 
 #+++++++++++++++++++++++++++++++
 # Hydra numerical integration  |
