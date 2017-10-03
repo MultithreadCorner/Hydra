@@ -90,15 +90,16 @@ void DenseHistogram<N, T, detail::multidimensional>::Fill(Iterator1 begin, Itera
 		auto buffer     = HYDRA_EXTERNAL_NS::thrust::get_temporary_buffer<size_t>(system_t(), data_size);
 
 		auto zipit      = HYDRA_EXTERNAL_NS::thrust::make_zip_iterator(
-						HYDRA_EXTERNAL_NS::thrust::tuple_cat( data_begin.get_tuple() , weights.first));
+				HYDRA_EXTERNAL_NS::thrust::tuple_cat( data_begin.get_tuple() , weights.first));
 
-				HYDRA_EXTERNAL_NS::thrust::copy( keys_begin, keys_end, buffer.first);
-				HYDRA_EXTERNAL_NS::thrust::sort_by_key(buffer.first, buffer.first+data_size, zipit);
-				HYDRA_EXTERNAL_NS::thrust::return_temporary_buffer(system_t(), buffer.first);
+		HYDRA_EXTERNAL_NS::thrust::copy( keys_begin, keys_end, buffer.first);
+		HYDRA_EXTERNAL_NS::thrust::sort_by_key(buffer.first, buffer.first+data_size, zipit);
+		HYDRA_EXTERNAL_NS::thrust::return_temporary_buffer(system_t(), buffer.first);
 
 	}//end anon-sort
 
 	//bins content
+	auto bin_contents    = HYDRA_EXTERNAL_NS::thrust::get_temporary_buffer<double>(system_t(), fContents.size());
 	auto reduced_values  = HYDRA_EXTERNAL_NS::thrust::get_temporary_buffer<double>(system_t(), data_size);
 	auto reduced_keys    = HYDRA_EXTERNAL_NS::thrust::get_temporary_buffer<size_t>(system_t(), data_size);
 
@@ -110,10 +111,13 @@ void DenseHistogram<N, T, detail::multidimensional>::Fill(Iterator1 begin, Itera
     		reduced_keys.first, reduced_values.first);
 
 	HYDRA_EXTERNAL_NS::thrust::scatter( system_t(),  reduced_values.first, reduced_end.second,
-		  reduced_keys.first,fContents.begin() );
+			reduced_keys.first,bin_contents.first );
+
+	HYDRA_EXTERNAL_NS::thrust::copy(bin_contents.first ,
+			bin_contents.first+ bin_contents.second,  fContents.begin());
 
     // deallocate storage with HYDRA_EXTERNAL_NS::thrust::return_temporary_buffer
-
+	HYDRA_EXTERNAL_NS::thrust::return_temporary_buffer(system_t(), bin_contents.first );
     HYDRA_EXTERNAL_NS::thrust::return_temporary_buffer(system_t(), reduced_values.first);
     HYDRA_EXTERNAL_NS::thrust::return_temporary_buffer(system_t(), reduced_keys.first);
     for(size_t i=0; i<N;i++)

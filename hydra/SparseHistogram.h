@@ -40,6 +40,7 @@
 #include <array>
 #include <vector>
 #include <tuple>
+#include <algorithm>
 
 #include <hydra/detail/external/thrust/iterator/iterator_traits.h>
 #include <hydra/detail/external/thrust/iterator/zip_iterator.h>
@@ -174,22 +175,54 @@ public:
 		return fNBins;
 	}
 
+	size_t GetBin( size_t  (&bins)[N]){
+
+		size_t bin=0;
+
+		get_global_bin( bins,  bin);
+
+		return bin;
+	}
+
+	size_t GetBin( std::array<size_t,N> const&  bins){
+
+		size_t bin=0;
+
+		get_global_bin( bins,  bin);
+
+		return bin;
+	}
+
+	void GetIndexes(size_t globalbin,  size_t  (&bins)[N]){
+
+		get_indexes(globalbin, bins);
+	}
+
+	void GetIndexes(size_t globalbin, std::array<size_t,N>&  bins){
+
+		get_indexes(globalbin, bins);
+	}
+
 	double GetBinContent( size_t  bins[N]){
 
 		size_t bin=0;
 
 		get_global_bin( bins,  bin);
 
-		return (bin >=0 ) && ( bin<= (fNBins+1) ) ?
-				fContents.begin()[bin] :
-				std::numeric_limits<double>::max();
+		size_t index = std::distance(fBins.begin(),
+				std::find(fBins.begin(),fBins.end(), bin));
+
+		return  ( bin< fBins.size() ) ?
+				fContents.begin()[bin] : 0.0;
 	}
 
 	double GetBinContent( size_t  bin){
 
-		return (bin >=0 ) && ( bin<= (fNBins+1) ) ?
-				fContents.begin()[bin] :
-				std::numeric_limits<double>::max();
+		size_t index = std::distance(fBins.begin(),
+				std::find(fBins.begin(),fBins.end(), bin));
+
+		return  ( bin< fBins.size() ) ?
+				fContents.begin()[bin] : 0.0;
 	}
 
 
@@ -258,6 +291,88 @@ private:
 		get_global_bin<I+1>( indexes, index);
 	}
 
+	/*
+	 *  conversion of one-dimensional index to multidimensional one
+	 * ____________________________________________________________
+	 */
+
+	//----------------------------------------
+	// multiply  std::array elements
+	//----------------------------------------
+	template<size_t I>
+	typename std::enable_if< (I==N), void  >::type
+	multiply( std::array<size_t, N> const&  obj, size_t& result )
+	{ }
+
+	template<size_t I=0>
+	typename std::enable_if< (I<N), void  >::type
+	multiply( std::array<size_t, N> const&  obj, size_t& result )
+	{
+		result = I==0? 1.0: result;
+		result *= obj[I];
+		multiply<I+1>( obj, result );
+	}
+
+	//----------------------------------------
+	// multiply static array elements
+	//----------------------------------------
+	template< size_t I>
+	typename std::enable_if< (I==N), void  >::type
+	multiply( size_t (&obj)[N] , size_t& result )
+	{ }
+
+	template<size_t I=0>
+	typename std::enable_if< (I<N), void  >::type
+	multiply( size_t (&obj)[N], size_t& result )
+	{
+		result = I==0? 1.0: result;
+		result *= obj[I];
+		multiply<I+1>( obj, result );
+	}
+
+
+	//-------------------------
+	// std::array version
+	//-------------------------
+	//end of recursion
+	template<size_t I>
+	typename std::enable_if< (I==N), void  >::type
+	get_indexes(size_t index,  std::array<size_t,N>& indexes)
+	{}
+
+	//begin of the recursion
+	template<size_t I=0>
+	typename std::enable_if< (I<N), void  >::type
+	get_indexes(size_t index, std::array<size_t,N>& indexes)
+	{
+		size_t factor    =  1;
+		multiply<I+1>(fGrid, factor );
+		indexes[I]  =  index/factor;
+		size_t next_index =  index%factor;
+		get_indexes<I+1>(next_index,indexes );
+	}
+
+	//-------------------------
+	// static array version
+	//-------------------------
+	//end of recursion
+	template<size_t I>
+	typename std::enable_if< (I==N), void  >::type
+	get_indexes(size_t index,  size_t (&indexes)[N])
+	{}
+
+	//begin of the recursion
+	template<size_t I=0>
+	typename std::enable_if< (I<N), void  >::type
+	get_indexes(size_t index,  size_t (&indexes)[N] )
+	{
+		size_t factor    =  1;
+		multiply<I+1>(fGrid, factor );
+		indexes[I]  =  index/factor;
+		size_t next_index =  index%factor;
+		get_indexes< I+1>(next_index, indexes );
+	}
+
 
 	T fUpperLimits[N];
 	T fLowerLimits[N];
@@ -311,8 +426,7 @@ public:
 		fGrid(grid),
 		fLowerLimits(lowerlimits),
 		fUpperLimits(upperlimits),
-		fNBins(grid),
-		fContents( grid+2 )
+		fNBins(grid)
 	{}
 
 
@@ -359,11 +473,14 @@ public:
 		return fNBins;
 	}
 
-	double GetBinContent(size_t i){
 
-		return (i>=0) && (i<=fNBins+1) ?
-				fContents.begin()[i] :
-					std::numeric_limits<double>::max();
+	double GetBinContent( size_t  bin){
+
+		size_t index = std::distance(fBins.begin(),
+				std::find(fBins.begin(),fBins.end(), bin));
+
+		return  ( bin< fBins.size() ) ?
+				fContents.begin()[bin] : 0.0;
 	}
 
 

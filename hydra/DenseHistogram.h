@@ -152,6 +152,25 @@ public:
 		return bin;
 	}
 
+	size_t GetBin( std::array<size_t,N> const&  bins){
+
+		size_t bin=0;
+
+		get_global_bin( bins,  bin);
+
+		return bin;
+	}
+
+	void GetIndexes(size_t globalbin,  size_t  (&bins)[N]){
+
+		get_indexes(globalbin, bins);
+	}
+
+	void GetIndexes(size_t globalbin, std::array<size_t,N>&  bins){
+
+		get_indexes(globalbin, bins);
+	}
+
 	double GetBinContent( size_t  (&bins)[N]){
 
 		size_t bin=0;
@@ -233,6 +252,107 @@ private:
 
 		get_global_bin<I+1>( indexes, index);
 	}
+
+	template<size_t I>
+	typename HYDRA_EXTERNAL_NS::thrust::detail::enable_if< I== N, void>::type
+	get_global_bin( std::array<size_t,N> const& indexes, size_t& index){ }
+
+	template<size_t I=0>
+	typename HYDRA_EXTERNAL_NS::thrust::detail::enable_if< (I< N), void>::type
+	get_global_bin( std::array<size_t,N> const& indexes, size_t& index)
+	{
+		size_t prod =1;
+
+		for(size_t i=N-1; i>I; i--)
+			prod *=fGrid[i];
+
+		index += prod*indexes[I];
+
+		get_global_bin<I+1>( indexes, index);
+	}
+
+	/*
+	 *  conversion of one-dimensional index to multidimensional one
+	 * ____________________________________________________________
+	 */
+
+	//----------------------------------------
+	// multiply  std::array elements
+	//----------------------------------------
+	template<size_t I>
+	typename std::enable_if< (I==N), void  >::type
+	multiply( std::array<size_t, N> const&  obj, size_t& result )
+	{ }
+
+	template<size_t I=0>
+	typename std::enable_if< (I<N), void  >::type
+	multiply( std::array<size_t, N> const&  obj, size_t& result )
+	{
+		result = I==0? 1.0: result;
+		result *= obj[I];
+		multiply<I+1>( obj, result );
+	}
+
+	//----------------------------------------
+	// multiply static array elements
+	//----------------------------------------
+	template< size_t I>
+	typename std::enable_if< (I==N), void  >::type
+	multiply( size_t (&obj)[N] , size_t& result )
+	{ }
+
+	template<size_t I=0>
+	typename std::enable_if< (I<N), void  >::type
+	multiply( size_t (&obj)[N], size_t& result )
+	{
+		result = I==0? 1.0: result;
+		result *= obj[I];
+		multiply<I+1>( obj, result );
+	}
+
+
+	//-------------------------
+	// std::array version
+	//-------------------------
+	//end of recursion
+	template<size_t I>
+	typename std::enable_if< (I==N), void  >::type
+	get_indexes(size_t index,  std::array<size_t,N>& indexes)
+	{}
+
+	//begin of the recursion
+	template<size_t I=0>
+	typename std::enable_if< (I<N), void  >::type
+	get_indexes(size_t index, std::array<size_t,N>& indexes)
+	{
+		size_t factor    =  1;
+		multiply<I+1>(fGrid, factor );
+		indexes[I]  =  index/factor;
+		size_t next_index =  index%factor;
+		get_indexes<I+1>(next_index,indexes );
+	}
+
+	//-------------------------
+	// static array version
+	//-------------------------
+	//end of recursion
+	template<size_t I>
+	typename std::enable_if< (I==N), void  >::type
+	get_indexes(size_t index,  size_t (&indexes)[N])
+	{}
+
+	//begin of the recursion
+	template<size_t I=0>
+	typename std::enable_if< (I<N), void  >::type
+	get_indexes(size_t index,  size_t (&indexes)[N] )
+	{
+		size_t factor    =  1;
+		multiply<I+1>(fGrid, factor );
+		indexes[I]  =  index/factor;
+		size_t next_index =  index%factor;
+		get_indexes< I+1>(next_index, indexes );
+	}
+
 
 
 	T fUpperLimits[N];
