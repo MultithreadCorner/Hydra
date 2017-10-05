@@ -177,8 +177,8 @@ public:
 
 		get_global_bin( bins,  bin);
 
-		return ( bin < (fNBins+2) ) ?
-				fContents.begin()[bin+1] :
+		return (bin >=0 ) && ( bin < (fNBins) ) ?
+				fContents.begin()[bin] :
 				std::numeric_limits<double>::max();
 	}
 

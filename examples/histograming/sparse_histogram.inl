@@ -50,7 +50,7 @@
 #include <hydra/Tuple.h>
 #include <hydra/Distance.h>
 #include <hydra/multiarray.h>
-#include <hydra/DenseHistogram.h>
+#include <hydra/SparseHistogram.h>
 #include <hydra/GenericRange.h>
 /*-------------------------------------
  * Include classes from ROOT to fill
@@ -60,7 +60,7 @@
 #ifdef _ROOT_AVAILABLE_
 
 #include <TROOT.h>
-#include <THnSparse.h>
+#include <TH3D.h>
 #include <TApplication.h>
 #include <TCanvas.h>
 
@@ -95,11 +95,11 @@ int main(int argv, char** argc)
 	double mean1   = -2.0;
 	double sigma1  =  1.0;
 
-	double _max    =  3.0;
-	double _min    = -3.0;
-	size_t _nbins  =  100;
+	double _max    =  6.0;
+	double _min    = -6.0;
+	size_t _nbins  =  50;
 
-	constexpr size_t N=10;
+	constexpr size_t N=3;
 
 	/*
 	 * In 10 dimensions, a dense histogram with 100 bins per dimension
@@ -116,7 +116,7 @@ int main(int argv, char** argc)
 
 		double g = 1.0;
 
-		for(size_t i=0; i<10; i++){
+		for(size_t i=0; i<N; i++){
 
 			double m2 = (x[i] - mean1 )*(x[i] - mean1 );
 			double s2 = sigma1*sigma1;
@@ -135,7 +135,7 @@ int main(int argv, char** argc)
 
 		double g = 1.0;
 
-		for(size_t i=0; i<10; i++){
+		for(size_t i=0; i<N; i++){
 
 			double m2 = (x[i] - mean2 )*(x[i] - mean2 );
 			double s2 = sigma2*sigma2;
@@ -159,18 +159,28 @@ int main(int argv, char** argc)
 
 	std::array<double, N>max;
 	std::array<double, N>min;
-    std::array<size_t, N> nbins;
+    std::array<int, N> nbins;
 
 	for(size_t i=0;i<N;i++){
 		max[i]=_max;
 		min[i]=_min;
-		nbins =_nbins;
+		nbins[i] =_nbins;
 	}
 
 	//------------------------
+	//------------------------
 #ifdef _ROOT_AVAILABLE_
-	THnSparseD histo_h("histo_d", "Histogram Host", N, _nbins, min, max);
-	THnSparseD histo_d("histo_d", "Histogram Device", N, _nbins, min, max);
+
+	TH3D hist_d("hist_d",   "3D Double Gaussian - Device",
+			50, -6.0, 6.0,
+			50, -6.0, 6.0,
+			50, -6.0, 6.0 );
+
+	TH3D hist_h("hist_h",   "3D Double Gaussian - Host",
+			50, -6.0, 6.0,
+			50, -6.0, 6.0,
+			50, -6.0, 6.0	);
+
 #endif //_ROOT_AVAILABLE_
 
 
@@ -219,16 +229,16 @@ int main(int argv, char** argc)
 		std::cout << "-----------------------------------------"<<std::endl;
 
 #ifdef _ROOT_AVAILABLE_
-		for(size_t i=0;  i<50; i++){
-			for(size_t j=0;  j<50; j++){
-				for(size_t k=0;  k<50; k++){
+		for(auto bin : Hist_Data){
 
-					size_t bin[3]{i,j,k};
+			size_t index   = hydra::get<0>(bin);
+			double content = hydra::get<1>(bin);
 
-					hist_d.SetBinContent(i+1,j+1,k+1,
-							Hist_Data.GetBinContent(bin )  );
-				}
-			}
+			int indexes[N];
+			Hist_Data.GetIndexes(index, indexes );
+
+			hist_d.SetBinContent(indexes[0]+1, indexes[1]+1, indexes[2]+1, content  );
+
 		}
 #endif //_ROOT_AVAILABLE_
 
@@ -239,14 +249,14 @@ int main(int argv, char** argc)
 
 		dataset_h data_h(nentries);
 
-		auto start_d = std::chrono::high_resolution_clock::now();
+		auto start_h = std::chrono::high_resolution_clock::now();
 		auto range = Generator.Sample(data_h.begin(),  data_h.end(), min, max, gaussians);
-		auto end_d = std::chrono::high_resolution_clock::now();
-		std::chrono::duration<double, std::milli> elapsed_d = end_d - start_d;
+		auto end_h = std::chrono::high_resolution_clock::now();
+		std::chrono::duration<double, std::milli> elapsed_h = end_h - start_h;
 
 		//time
 		std::cout << "-----------------------------------------"<<std::endl;
-		std::cout << "| [Generation] Host Time (ms) ="<< elapsed_d.count() <<std::endl;
+		std::cout << "| [Generation] Host Time (ms) ="<< elapsed_h.count() <<std::endl;
 		std::cout << "-----------------------------------------"<<std::endl;
 
 
@@ -256,38 +266,37 @@ int main(int argv, char** argc)
 		for(size_t i=0; i<10; i++)
 			std::cout << "< Random::Sample > [" << i << "] :" << range.begin()[i] << std::endl;
 
-		std::array<size_t, 3> nbins{50, 50, 50};
 
-		hydra::DenseHistogram<3, double> Hist_Data(nbins, min, max);
+		hydra::SparseHistogram<N, double> Hist_Data(nbins, min, max);
 
-		start_d = std::chrono::high_resolution_clock::now();
+		start_h = std::chrono::high_resolution_clock::now();
 
 		Hist_Data.Fill(range.begin(), range.end());
 
-		end_d = std::chrono::high_resolution_clock::now();
-		elapsed_d = end_d - start_d;
+		end_h = std::chrono::high_resolution_clock::now();
+
+		elapsed_h = end_h - start_h;
 
 		//time
 		std::cout << "-----------------------------------------"<<std::endl;
-		std::cout << "| [ Histograming ] Host Time (ms) ="<< elapsed_d.count() <<std::endl;
+		std::cout << "| [ Histograming ] Device Time (ms) ="<< elapsed_h.count() <<std::endl;
 		std::cout << "-----------------------------------------"<<std::endl;
 
 #ifdef _ROOT_AVAILABLE_
-		for(size_t i=0;  i<50; i++){
-			for(size_t j=0;  j<50; j++){
-				for(size_t k=0;  k<50; k++){
+		for(auto bin : Hist_Data){
 
-					size_t bin[3]{i,j,k};
+			size_t index   = hydra::get<0>(bin);
+			double content = hydra::get<1>(bin);
 
-		          	hist_h.SetBinContent(i+1,j+1,k+1,
-		          			Hist_Data.GetBinContent(bin )  );
-				}
-			}
+			int indexes[N];
+			Hist_Data.GetIndexes(index, indexes );
+
+			hist_h.SetBinContent(indexes[0]+1, indexes[1]+1, indexes[2]+1, content  );
+
 		}
 #endif //_ROOT_AVAILABLE_
 
-
-	}
+}
 
 
 #ifdef _ROOT_AVAILABLE_
@@ -295,12 +304,12 @@ int main(int argv, char** argc)
 
 	//draw histograms
 	TCanvas canvas_d("canvas_d" ,"Distributions - Device", 1000, 1000);
-	hist_d.Draw("hist");
+	hist_d.Draw("iso");
 	hist_d.SetFillColor(9);
 
 	//draw histograms
 	TCanvas canvas_h("canvas_h" ,"Distributions - Host", 1000, 1000);
-	hist_h.Draw("hist");
+	hist_h.Draw("iso");
 	hist_h.SetFillColor(9);
 
 	myapp->Run();

@@ -211,7 +211,8 @@ int main(int argv, char** argc)
 
 		//second component: [Exponential] -> [Gaussian]
 		// gaussian
-		Generator.Gauss(mean_p.GetValue()+2.5, sigma_p.GetValue()+0.5, data_d.begin(1)+nentries, data_d.end(1));
+		Generator.Gauss(mean_p.GetValue()-1.0, 0.5, data_d.begin(1) + nentries, data_d.begin(1) + nentries + nentries/2);
+		Generator.Gauss(mean_p.GetValue()+4.5, 0.5, data_d.begin(1) + nentries + nentries/2, data_d.end(1));
 
 		// exponential
 		Generator.Exp(tau_p.GetValue()+5.0, data_d.begin(0)+nentries,  data_d.end(0));
@@ -309,22 +310,6 @@ int main(int argv, char** argc)
 		//histograms
 		size_t nbins = 100;
 
-        hydra::SparseHistogram<1, double> SHist_Data(nbins, min, max);
-
-        start_d = std::chrono::high_resolution_clock::now();
-        SHist_Data.Fill(data2_d.begin(0), data2_d.end(0));
-        end_d = std::chrono::high_resolution_clock::now();
-        elapsed_d = end_d - start_d;
-
-        //time
-        std::cout << "-----------------------------------------"<<std::endl;
-        std::cout << "| [SHistograming data] GPU Time (ms) ="<< elapsed_d.count() <<std::endl;
-        std::cout << "-----------------------------------------"<<std::endl;
-
-        for(auto value:SHist_Data)
-        	std::cout << value << std::endl;
-        std::cout <<std::endl<<std::endl;
-
         hydra::DenseHistogram<1, double> Hist_Data(nbins, min, max);
 
         start_d = std::chrono::high_resolution_clock::now();
@@ -379,12 +364,12 @@ int main(int argv, char** argc)
 
 #ifdef _ROOT_AVAILABLE_
 
-        for(size_t bin=1; bin < nbins+1; bin++){
+        for(size_t bin=0; bin < nbins; bin++){
 
-        	hist_data_dicriminating_d.SetBinContent(bin,  Hist_Data[bin] );
-        	hist_data_control_d.SetBinContent(bin,  Hist_Control[bin] );
-        	hist_control_1_d.SetBinContent(bin,  Hist_Control_1[bin] );
-        	hist_control_2_d.SetBinContent(bin,  Hist_Control_2[bin] );
+        	hist_data_dicriminating_d.SetBinContent(bin+1,  Hist_Data[bin] );
+        	hist_data_control_d.SetBinContent(bin+1,  Hist_Control[bin] );
+        	hist_control_1_d.SetBinContent(bin+1,  Hist_Control_1[bin] );
+        	hist_control_2_d.SetBinContent(bin+1,  Hist_Control_2[bin] );
 
         }
 
@@ -447,7 +432,8 @@ int main(int argv, char** argc)
 
 		//second component: [Exponential] -> [Gaussian]
 		// gaussian
-		Generator.Gauss(mean_p.GetValue()+2.5, sigma_p.GetValue()+0.5, data_h.begin(1)+nentries, data_h.end(1));
+		Generator.Gauss(mean_p.GetValue()-1.0, 0.5, data_h.begin(1) + nentries, data_h.begin(1) + nentries + nentries/2);
+	    Generator.Gauss(mean_p.GetValue()+4.5, 0.5, data_h.begin(1) + nentries + nentries/2, data_h.end(1));
 
 		// exponential
 		Generator.Exp(tau_p.GetValue()+5.0, data_h.begin(0)+nentries,  data_h.end(0));

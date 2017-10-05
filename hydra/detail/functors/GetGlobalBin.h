@@ -109,11 +109,12 @@ struct GetGlobalBin: public HYDRA_EXTERNAL_NS::thrust::unary_function<typename t
 		size_t indexes[N];
 		size_t bin=0;
 		for(size_t i=0; i<N; i++)
-			indexes[i]=X[i];
+			indexes[i]=size_t(X[i]);
 
 		get_global_bin(indexes,  bin);
 
-		return bin+1;
+
+		return bin;
 	}
 
 	__host__ __device__
@@ -121,8 +122,8 @@ struct GetGlobalBin: public HYDRA_EXTERNAL_NS::thrust::unary_function<typename t
 
 		T X[N];
 
-
 		tupleToArray(value, X );
+
 
 		bool is_underflow = true;
 		bool is_overflow  = true;
@@ -133,7 +134,7 @@ struct GetGlobalBin: public HYDRA_EXTERNAL_NS::thrust::unary_function<typename t
 			is_overflow  = is_overflow && (X[i]>fGrid[i]);
 		}
 
-		return is_underflow ? 0 : (is_overflow ? fNGlobalBins+1 : get_bin(X) );
+		return is_underflow ? fNGlobalBins : (is_overflow ? fNGlobalBins+1 : get_bin(X) );
 
 	}
 
@@ -182,12 +183,10 @@ struct GetGlobalBin<1,T>: public HYDRA_EXTERNAL_NS::thrust::unary_function<T,siz
 		return *this;
 	}
 
-	//k = i_1*(dim_2*...*dim_n) + i_2*(dim_3*...*dim_n) + ... + i_{n-1}*dim_n + i_n
-
 	__host__ __device__
 	size_t get_bin(T X){
 
-		return size_t(X) + 1 ;
+		return size_t(X) ;
 	}
 
 	__host__ __device__
@@ -203,7 +202,7 @@ struct GetGlobalBin<1,T>: public HYDRA_EXTERNAL_NS::thrust::unary_function<T,siz
 		is_overflow  =(X>fGrid);
 
 
-		return is_underflow ? 0 : (is_overflow ? fNGlobalBins+1 : get_bin(X) );
+		return is_underflow ? fNGlobalBins  : (is_overflow ? fNGlobalBins+1 : get_bin(X) );
 
 	}
 

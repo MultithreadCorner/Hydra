@@ -56,9 +56,6 @@ void DenseHistogram<N, T, detail::multidimensional>::Fill(Iterator1 begin, Itera
 	typedef  typename HYDRA_EXTERNAL_NS::thrust::detail::remove_reference<
 			decltype(select_system(system1, system2 ))>::type system_t;
 
-	typedef HYDRA_EXTERNAL_NS::thrust::pointer<T, system_t> buffer_t;
-
-	typedef std::array<buffer_t, N> buffers_t;
 
     //----------------
 
@@ -66,46 +63,26 @@ void DenseHistogram<N, T, detail::multidimensional>::Fill(Iterator1 begin, Itera
 
 	auto key_functor = detail::GetGlobalBin<N,T>(fGrid, fLowerLimits, fUpperLimits);
 
-	//work on local copy of data
-	buffers_t data_buffers_begin;
-	buffers_t data_buffers_end;
-
-	for(size_t i=0; i<N;i++){
-		data_buffers_begin[i]= HYDRA_EXTERNAL_NS::thrust::get_temporary_buffer<T>(system_t(), data_size).first;
-		data_buffers_end[i]  = data_buffers_begin[i] + data_size;
-		}
-
-	auto data_begin = detail::get_zip_iterator(data_buffers_begin);
-	auto data_end = detail::get_zip_iterator(data_buffers_end);
-
-	 HYDRA_EXTERNAL_NS::thrust::copy(begin, end, data_begin);
+	//work on local copy of weights
 
 	auto weights  = HYDRA_EXTERNAL_NS::thrust::get_temporary_buffer<double>(system_t(), data_size);
 	hydra::copy(wbegin, wbegin+data_size, weights.first);
 
-	//ns anon-sort
-	{
-		auto keys_begin = HYDRA_EXTERNAL_NS::thrust::make_transform_iterator(begin, key_functor );
-		auto keys_end   = HYDRA_EXTERNAL_NS::thrust::make_transform_iterator(end, key_functor);
-		auto buffer     = HYDRA_EXTERNAL_NS::thrust::get_temporary_buffer<size_t>(system_t(), data_size);
+	auto keys_begin = HYDRA_EXTERNAL_NS::thrust::make_transform_iterator(begin, key_functor );
+	auto keys_end   = HYDRA_EXTERNAL_NS::thrust::make_transform_iterator(end, key_functor);
+	auto key_buffer = HYDRA_EXTERNAL_NS::thrust::get_temporary_buffer<size_t>(system_t(), data_size);
 
-		auto zipit      = HYDRA_EXTERNAL_NS::thrust::make_zip_iterator(
-				HYDRA_EXTERNAL_NS::thrust::tuple_cat( data_begin.get_tuple() , weights.first));
+	HYDRA_EXTERNAL_NS::thrust::copy( keys_begin, keys_end, key_buffer.first);
 
-		HYDRA_EXTERNAL_NS::thrust::copy( keys_begin, keys_end, buffer.first);
-		HYDRA_EXTERNAL_NS::thrust::sort_by_key(buffer.first, buffer.first+data_size, zipit);
-		HYDRA_EXTERNAL_NS::thrust::return_temporary_buffer(system_t(), buffer.first);
+	HYDRA_EXTERNAL_NS::thrust::sort_by_key(key_buffer.first, key_buffer.first + key_buffer.second, weights.first );
 
-	}//end anon-sort
 
 	//bins content
 	auto bin_contents    = HYDRA_EXTERNAL_NS::thrust::get_temporary_buffer<double>(system_t(), fContents.size());
 	auto reduced_values  = HYDRA_EXTERNAL_NS::thrust::get_temporary_buffer<double>(system_t(), data_size);
 	auto reduced_keys    = HYDRA_EXTERNAL_NS::thrust::get_temporary_buffer<size_t>(system_t(), data_size);
 
-	//reduction_by_key
-	auto keys_begin  = HYDRA_EXTERNAL_NS::thrust::make_transform_iterator(data_begin, key_functor );
-	auto keys_end    = HYDRA_EXTERNAL_NS::thrust::make_transform_iterator(data_end, key_functor);
+	HYDRA_EXTERNAL_NS::thrust::fill(bin_contents.first, bin_contents.first+bin_contents.second, 0.0);
 
 	auto reduced_end = HYDRA_EXTERNAL_NS::thrust::reduce_by_key(system_t(), keys_begin, keys_end, weights.first,
     		reduced_keys.first, reduced_values.first);
@@ -120,8 +97,7 @@ void DenseHistogram<N, T, detail::multidimensional>::Fill(Iterator1 begin, Itera
 	HYDRA_EXTERNAL_NS::thrust::return_temporary_buffer(system_t(), bin_contents.first );
     HYDRA_EXTERNAL_NS::thrust::return_temporary_buffer(system_t(), reduced_values.first);
     HYDRA_EXTERNAL_NS::thrust::return_temporary_buffer(system_t(), reduced_keys.first);
-    for(size_t i=0; i<N;i++)
-    	HYDRA_EXTERNAL_NS::thrust::return_temporary_buffer(system_t(), data_buffers_begin[i] );
+    HYDRA_EXTERNAL_NS::thrust::return_temporary_buffer(system_t(), key_buffer.first);
     HYDRA_EXTERNAL_NS::thrust::return_temporary_buffer(system_t(), weights.first  );
 }
 
@@ -135,67 +111,46 @@ void DenseHistogram<N, T, detail::multidimensional>::Fill(Iterator begin, Iterat
 
 		typedef HYDRA_EXTERNAL_NS::thrust::pointer<T, system_t> buffer_t;
 
-		typedef std::array<buffer_t, N> buffers_t;
-
-	    //----------------
-
 		size_t data_size = HYDRA_EXTERNAL_NS::thrust::distance(begin, end);
 
 		auto key_functor = detail::GetGlobalBin<N,T>(fGrid, fLowerLimits, fUpperLimits);
 
-		//work on local copy of data
-		buffers_t data_buffers_begin;
-		buffers_t data_buffers_end;
-
-		for(size_t i=0; i<N;i++){
-			data_buffers_begin[i]= HYDRA_EXTERNAL_NS::thrust::get_temporary_buffer<T>(system_t(), data_size).first;
-			data_buffers_end[i]  = data_buffers_begin[i] + data_size;
-			}
-
-		auto data_begin = detail::get_zip_iterator(data_buffers_begin);
-		auto data_end = detail::get_zip_iterator(data_buffers_end);
-
-		 HYDRA_EXTERNAL_NS::thrust::copy(begin, end, data_begin);
-
-		 //ns anon-sort
-		 {
-			 auto keys_begin = HYDRA_EXTERNAL_NS::thrust::make_transform_iterator(begin, key_functor );
-			 auto keys_end   = HYDRA_EXTERNAL_NS::thrust::make_transform_iterator(end, key_functor);
-			 auto buffer     = HYDRA_EXTERNAL_NS::thrust::get_temporary_buffer<size_t>(system_t(), data_size);
+		auto keys_begin = HYDRA_EXTERNAL_NS::thrust::make_transform_iterator(begin, key_functor );
+		auto keys_end   = HYDRA_EXTERNAL_NS::thrust::make_transform_iterator(end, key_functor);
+		auto key_buffer = HYDRA_EXTERNAL_NS::thrust::get_temporary_buffer<size_t>(system_t(), data_size);
 
 
-			 HYDRA_EXTERNAL_NS::thrust::copy( keys_begin, keys_end, buffer.first);
-			 HYDRA_EXTERNAL_NS::thrust::sort_by_key(buffer.first, buffer.first+data_size, data_begin);
-			 HYDRA_EXTERNAL_NS::thrust::return_temporary_buffer(system_t(), buffer.first);
+		HYDRA_EXTERNAL_NS::thrust::copy( keys_begin, keys_end, key_buffer.first);
+		HYDRA_EXTERNAL_NS::thrust::sort(key_buffer.first, key_buffer.first+data_size);
 
-		 }//end anon-sort
 
 		//bins content
 		auto bin_contents    = HYDRA_EXTERNAL_NS::thrust::get_temporary_buffer<double>(system_t(), fContents.size());
 		auto reduced_values  = HYDRA_EXTERNAL_NS::thrust::get_temporary_buffer<double>(system_t(), data_size);
 		auto reduced_keys    = HYDRA_EXTERNAL_NS::thrust::get_temporary_buffer<size_t>(system_t(), data_size);
+		auto weights         = HYDRA_EXTERNAL_NS::thrust::constant_iterator<double>(1.0);
 
-		//reduction_by_key
-		auto keys_begin  = HYDRA_EXTERNAL_NS::thrust::make_transform_iterator(data_begin, key_functor );
-		auto keys_end    = HYDRA_EXTERNAL_NS::thrust::make_transform_iterator(data_end, key_functor);
+		auto reduced_end = HYDRA_EXTERNAL_NS::thrust::reduce_by_key(system_t(),
+				key_buffer.first, key_buffer.first+data_size,
+				weights, reduced_keys.first, reduced_values.first);
 
-		auto  weights    = HYDRA_EXTERNAL_NS::thrust::constant_iterator<size_t>(1.0);
-
-		auto reduced_end = HYDRA_EXTERNAL_NS::thrust::reduce_by_key(system_t(), keys_begin, keys_end, weights,
-	    		reduced_keys.first, reduced_values.first);
+		HYDRA_EXTERNAL_NS::thrust::fill(bin_contents.first, bin_contents.first+bin_contents.second, 0.0);
 
 		HYDRA_EXTERNAL_NS::thrust::scatter( system_t(),  reduced_values.first, reduced_end.second,
-			  reduced_keys.first,bin_contents.first );
+			  reduced_keys.first, bin_contents.first );
 
+		std::cout<< "TEST => contents "
+				<<  HYDRA_EXTERNAL_NS::thrust::distance(reduced_values.first, reduced_end.second )
+		        << " =? " <<  fContents.size() << std::endl;
 		HYDRA_EXTERNAL_NS::thrust::copy(bin_contents.first ,
 				bin_contents.first+ bin_contents.second,  fContents.begin());
 
 	    // deallocate storage with HYDRA_EXTERNAL_NS::thrust::return_temporary_buffer
+		HYDRA_EXTERNAL_NS::thrust::return_temporary_buffer(system_t(), key_buffer.first);
 		HYDRA_EXTERNAL_NS::thrust::return_temporary_buffer(system_t(), bin_contents.first );
 	    HYDRA_EXTERNAL_NS::thrust::return_temporary_buffer(system_t(), reduced_values.first);
 	    HYDRA_EXTERNAL_NS::thrust::return_temporary_buffer(system_t(), reduced_keys.first);
-	    for(size_t i=0; i<N;i++)
-	    	HYDRA_EXTERNAL_NS::thrust::return_temporary_buffer(system_t(), data_buffers_begin[i] );
+
 }
 
 template<typename T>
@@ -209,38 +164,26 @@ void DenseHistogram<1, T, detail::unidimensional>::Fill(Iterator begin, Iterator
 	auto key_functor = detail::GetGlobalBin<1,T>(fGrid, fLowerLimits, fUpperLimits);
 
 	//work on local copy of data
-	auto data     = HYDRA_EXTERNAL_NS::thrust::get_temporary_buffer<T>(system_t(), data_size);
-	hydra::copy(begin, end, data.first);
 
-	//ns anon-sort
-	{
-		auto keys_begin = HYDRA_EXTERNAL_NS::thrust::make_transform_iterator(begin, key_functor );
-		auto keys_end   = HYDRA_EXTERNAL_NS::thrust::make_transform_iterator(end, key_functor);
+	auto keys_begin = HYDRA_EXTERNAL_NS::thrust::make_transform_iterator(begin, key_functor );
+	auto keys_end   = HYDRA_EXTERNAL_NS::thrust::make_transform_iterator(end, key_functor);
+	auto key_buffer = HYDRA_EXTERNAL_NS::thrust::get_temporary_buffer<size_t>(system_t(), data_size);
 
-		auto buffer     = HYDRA_EXTERNAL_NS::thrust::get_temporary_buffer<size_t>(system_t(), data_size);
+	HYDRA_EXTERNAL_NS::thrust::copy( keys_begin, keys_end, key_buffer.first);
+	HYDRA_EXTERNAL_NS::thrust::sort(key_buffer.first, key_buffer.first+data_size );
 
-		HYDRA_EXTERNAL_NS::thrust::copy( keys_begin, keys_end, buffer.first);
-
-		HYDRA_EXTERNAL_NS::thrust::sort_by_key(buffer.first, buffer.first+data_size, data.first);
-
-		HYDRA_EXTERNAL_NS::thrust::return_temporary_buffer(system_t(), buffer.first);
-
-	}//end anon-sort
 
 	//bins content
 	auto bin_contents    = HYDRA_EXTERNAL_NS::thrust::get_temporary_buffer<double>(system_t(), fContents.size());
 	auto reduced_values  = HYDRA_EXTERNAL_NS::thrust::get_temporary_buffer<double>(system_t(), data_size);
-
 	auto reduced_keys    = HYDRA_EXTERNAL_NS::thrust::get_temporary_buffer<size_t>(system_t(), data_size);
-
-	//reduction_by_key
-	auto keys_begin  = HYDRA_EXTERNAL_NS::thrust::make_transform_iterator(data.first, key_functor );
-	auto keys_end    = HYDRA_EXTERNAL_NS::thrust::make_transform_iterator(data.first + data_size, key_functor);
-
 	auto  weights    = HYDRA_EXTERNAL_NS::thrust::constant_iterator<size_t>(1.0);
 
-	auto reduced_end = HYDRA_EXTERNAL_NS::thrust::reduce_by_key(system_t(), keys_begin, keys_end,
+	auto reduced_end = HYDRA_EXTERNAL_NS::thrust::reduce_by_key(system_t(),
+			key_buffer.first, key_buffer.first+data_size,
 			weights, reduced_keys.first, reduced_values.first);
+
+	HYDRA_EXTERNAL_NS::thrust::fill(bin_contents.first, bin_contents.first+bin_contents.second, 0.0);
 
 	HYDRA_EXTERNAL_NS::thrust::scatter( system_t(), reduced_values.first, reduced_end.second,
 		  reduced_keys.first, bin_contents.first);
@@ -251,9 +194,9 @@ void DenseHistogram<1, T, detail::unidimensional>::Fill(Iterator begin, Iterator
 
     // deallocate storage with HYDRA_EXTERNAL_NS::thrust::return_temporary_buffer
 	HYDRA_EXTERNAL_NS::thrust::return_temporary_buffer(system_t(), bin_contents.first );
-	HYDRA_EXTERNAL_NS::thrust::return_temporary_buffer(system_t(), data.first );
     HYDRA_EXTERNAL_NS::thrust::return_temporary_buffer(system_t(), reduced_values.first);
     HYDRA_EXTERNAL_NS::thrust::return_temporary_buffer(system_t(), reduced_keys.first);
+    HYDRA_EXTERNAL_NS::thrust::return_temporary_buffer(system_t(), key_buffer.first);
 
 }
 
@@ -275,54 +218,41 @@ void DenseHistogram<1, T,detail::unidimensional >::Fill(Iterator1 begin, Iterato
 	auto key_functor = detail::GetGlobalBin<1,T>(fGrid, fLowerLimits, fUpperLimits);
 
 	//work on local copy of data
-	auto data     = HYDRA_EXTERNAL_NS::thrust::get_temporary_buffer<T>(system_t(), data_size);
-	hydra::copy(begin, end, data.first);
-
 	auto weights  = HYDRA_EXTERNAL_NS::thrust::get_temporary_buffer<double>(system_t(), data_size);
 	hydra::copy(wbegin, wbegin+data_size, weights.first);
 
+	auto keys_begin = HYDRA_EXTERNAL_NS::thrust::make_transform_iterator(begin, key_functor );
+	auto keys_end   = HYDRA_EXTERNAL_NS::thrust::make_transform_iterator(end, key_functor);
+	auto key_buffer = HYDRA_EXTERNAL_NS::thrust::get_temporary_buffer<size_t>(system_t(), data_size);
 
-	//ns anon-sort
-	{
-		auto keys_begin = HYDRA_EXTERNAL_NS::thrust::make_transform_iterator(begin, key_functor );
-		auto keys_end   = HYDRA_EXTERNAL_NS::thrust::make_transform_iterator(end, key_functor);
-		auto buffer     = HYDRA_EXTERNAL_NS::thrust::get_temporary_buffer<size_t>(system_t(), data_size);
-		auto zipit      = HYDRA_EXTERNAL_NS::thrust::make_zip_iterator(
-				HYDRA_EXTERNAL_NS::thrust::make_tuple( data.first , weights.first));
-
-		HYDRA_EXTERNAL_NS::thrust::copy( keys_begin, keys_end, buffer.first);
-		HYDRA_EXTERNAL_NS::thrust::sort_by_key(buffer.first, buffer.first+data_size, zipit);
-		HYDRA_EXTERNAL_NS::thrust::return_temporary_buffer(system_t(), buffer.first);
-
-	}//end anon-sort
+	HYDRA_EXTERNAL_NS::thrust::copy(system_t(),  keys_begin, keys_end, key_buffer.first);
+	HYDRA_EXTERNAL_NS::thrust::sort_by_key(system_t(), key_buffer.first, key_buffer.first+data_size, weights.first);
 
 	//bins content
 	auto bin_contents    = HYDRA_EXTERNAL_NS::thrust::get_temporary_buffer<double>(system_t(), fContents.size());
 	auto reduced_values  = HYDRA_EXTERNAL_NS::thrust::get_temporary_buffer<double>(system_t(), data_size);
-
 	auto reduced_keys    = HYDRA_EXTERNAL_NS::thrust::get_temporary_buffer<size_t>(system_t(), data_size);
 
-	//reduction_by_key
-	auto keys_begin  = HYDRA_EXTERNAL_NS::thrust::make_transform_iterator(data.first, key_functor );
-	auto keys_end    = HYDRA_EXTERNAL_NS::thrust::make_transform_iterator(data.first + data_size, key_functor);
 
-
-	auto reduced_end = HYDRA_EXTERNAL_NS::thrust::reduce_by_key(system_t(), keys_begin, keys_end,
+	auto reduced_end = HYDRA_EXTERNAL_NS::thrust::reduce_by_key(system_t(),
+			key_buffer.first, key_buffer.first+data_size,
 			weights.first, reduced_keys.first, reduced_values.first);
+
+	HYDRA_EXTERNAL_NS::thrust::fill( system_t(), bin_contents.first, bin_contents.first+bin_contents.second, 0.0);
 
 	HYDRA_EXTERNAL_NS::thrust::scatter( system_t(), reduced_values.first, reduced_end.second,
 		  reduced_keys.first, bin_contents.first);
 
-	HYDRA_EXTERNAL_NS::thrust::copy(bin_contents.first ,
+	HYDRA_EXTERNAL_NS::thrust::copy( system_t(), bin_contents.first ,
 			bin_contents.first+ bin_contents.second,  fContents.begin());
 
 
     // deallocate storage with HYDRA_EXTERNAL_NS::thrust::return_temporary_buffer
 	HYDRA_EXTERNAL_NS::thrust::return_temporary_buffer(system_t(), bin_contents.first );
-	HYDRA_EXTERNAL_NS::thrust::return_temporary_buffer(system_t(), data.first );
 	HYDRA_EXTERNAL_NS::thrust::return_temporary_buffer(system_t(), weights.first  );
     HYDRA_EXTERNAL_NS::thrust::return_temporary_buffer(system_t(), reduced_values.first);
     HYDRA_EXTERNAL_NS::thrust::return_temporary_buffer(system_t(), reduced_keys.first);
+    HYDRA_EXTERNAL_NS::thrust::return_temporary_buffer(system_t(), key_buffer.first);
 
 }
 

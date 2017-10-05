@@ -65,10 +65,7 @@
 
 #endif //_ROOT_AVAILABLE_
 
-double function(unsigned int n, double* p, double* x)
-{
-	return x[0]*x[1];
-}
+
 
 int main(int argv, char** argc)
 {
@@ -149,7 +146,7 @@ int main(int argv, char** argc)
 	auto gaussian2 = hydra::wrap_lambda( GAUSSIAN2 );
 
 	//sum of gaussians
-	auto gaussians = gaussian1 + gaussian2;
+	auto gaussians = gaussian1+gaussian2;
 
 	//---------
 
@@ -158,8 +155,8 @@ int main(int argv, char** argc)
 	hydra::Random<>
 	Generator( std::chrono::system_clock::now().time_since_epoch().count() );
 
-	std::array<double, 3>max{3.0, 3.0, 3.0};
-	std::array<double, 3>min{-3.0, -3.0, -3.0};
+	std::array<double, 3>max{6.0, 6.0, 6.0};
+	std::array<double, 3>min{-6.0, -6.0, -6.0};
 
 	//------------------------
 #ifdef _ROOT_AVAILABLE_
@@ -222,7 +219,7 @@ int main(int argv, char** argc)
 					for(size_t j=0;  j<50; j++){
 						for(size_t k=0;  k<50; k++){
 
-							size_t bin[3]{i,j,k};
+							size_t bin[3]={i,j,k};
 
 				          	hist_d.SetBinContent(i+1,j+1,k+1,
 				          			Hist_Data.GetBinContent(bin )  );
@@ -294,12 +291,12 @@ int main(int argv, char** argc)
 
 	//draw histograms
 	TCanvas canvas_d("canvas_d" ,"Distributions - Device", 1000, 1000);
-	hist_d.Draw("hist");
+	hist_d.Draw("");
 	hist_d.SetFillColor(9);
 
 	//draw histograms
 	TCanvas canvas_h("canvas_h" ,"Distributions - Host", 1000, 1000);
-	hist_h.Draw("hist");
+	hist_h.Draw("");
 	hist_h.SetFillColor(9);
 
 	myapp->Run();
