@@ -25,11 +25,4 @@
  *      Author: Antonio Augusto Alves Junior
  */
 
-#ifndef ASYNC_CU_
-#define ASYNC_CU_
-
-
-
-
-
-#endif /* ASYNC_CU_ */
+#include <examples/async/async_mc.inl>

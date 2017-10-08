@@ -255,7 +255,7 @@ public:
 	Decays<N,detail::BackendPolicy<BACKEND>>&
 	operator=(Decays<N,detail::BackendPolicy<BACKEND>> const& other )
 	{
-		if(*this==&other) return *this;
+		if(this==&other) return *this;
 		this->fDecays  = other.GetDecays();
 		this->fWeights = other.GetWeights();
 
@@ -270,7 +270,7 @@ public:
 	Decays<N,detail::BackendPolicy<BACKEND>>&
 	operator=(Decays<N,detail::BackendPolicy<BACKEND> >&& other )
 	{
-		if(*this==&other) return *this;
+		if(this==&other) return *this;
 		this->fDecays  = other.MoveDecays();
 		this->fWeights = other.MoveWeights();
 		return *this;
@@ -285,7 +285,7 @@ public:
 	Decays<N,detail::BackendPolicy<BACKEND> >&
 	operator=(Decays<N,detail::BackendPolicy<BACKEND2> > const& other )
 	{
-		if(*this==&other) return *this;
+
 		this->fWeights = std::move(weights_type(other.wbegin(), other.wend()));
 
 		for( size_t i=0; i<N; i++)

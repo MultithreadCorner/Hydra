@@ -125,11 +125,42 @@ public:
 
 	multiarray(size_t n)
 	{
-
-
 		fData = data_t();
 		for( size_t i=0; i<N; i++)
 			fData[i].resize(n);
+	};
+
+
+	multiarray(size_t n, T (&value)[N])
+	{
+		fData = data_t();
+		for( size_t i=0; i<N; i++){
+			fData[i].resize(n);
+			HYDRA_EXTERNAL_NS::thrust::fill(fData[i].begin(), fData[i].end(), value[i] );
+		}
+	};
+
+
+
+	multiarray(size_t n, array_type const& value)
+	{
+		fData = data_t();
+		for( size_t i=0; i<N; i++){
+			fData[i].resize(n);
+			HYDRA_EXTERNAL_NS::thrust::fill(fData[i].begin(), fData[i].end(), value[i] );
+		}
+	};
+
+	multiarray(size_t n, row_t const& value)
+	{
+		fData = data_t();
+		array_type _value;
+		detail::tupleToArray(value, _value);
+
+		for( size_t i=0; i<N; i++){
+			fData[i].resize(n);
+			HYDRA_EXTERNAL_NS::thrust::fill(fData[i].begin(), fData[i].end(), _value[i] );
+		}
 	};
 
 	multiarray(multiarray<N,T,detail::BackendPolicy<BACKEND>, void> const& other )

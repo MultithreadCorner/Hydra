@@ -26,9 +26,9 @@ if(NOT COMPILER_SUPPORTS_CXX11)
  message(FATAL "The compiler ${CMAKE_CXX_COMPILER} has no C++11 support. Please use a different C++ compiler.")
 endif()
 
-#options to gcc
+#options to gcc-DTHRUST_VARIADIC_TUPLE 
 
-set(CMAKE_CXX_FLAGS " -g -DTHRUST_VARIADIC_TUPLE  -ftemplate-backtrace-limit=0 --std=c++11 -W -march=native -fPIC -O4" CACHE STRING "compile flags" FORCE)
+set(CMAKE_CXX_FLAGS " -g -ftemplate-backtrace-limit=0 --std=c++11 -W -march=native -fPIC -O4" CACHE STRING "compile flags" FORCE)
 
 # get TCLAP
 find_package(TCLAP REQUIRED)
@@ -128,8 +128,8 @@ MESSAGE(STATUS "project source dir: " ${PROJECT_SOURCE_DIR} )
 MESSAGE(STATUS "project build dir: " ${PROJECT_BINARY_DIR} )
 MESSAGE(STATUS "CUDA include: " ${CUDA_INCLUDE_DIRS})
 MESSAGE(STATUS "CUDA libraries: " ${CUDA_LIBRARIES}  )
-MESSAGE(STATUS "nvcc cflags: " ${CUDA_NVCC_FLAGS} )
-MESSAGE(STATUS "gcc cflags: " ${CMAKE_CXX_FLAGS} )
+MESSAGE(STATUS "NVCC cflags: " ${CUDA_NVCC_FLAGS} )
+MESSAGE(STATUS "GCC cflags: " ${CMAKE_CXX_FLAGS} )
 MESSAGE(STATUS "Include directories: " ${INCLUDE_DIRECTORIES} )
 MESSAGE(STATUS "Install diretory: " ${CMAKE_INSTALL_PREFIX}  )
 
@@ -164,58 +164,8 @@ add_subdirectory(examples/numerical_integration)
 add_subdirectory(examples/random)
 add_subdirectory(examples/fit)
 add_subdirectory(examples/histograming)
+add_subdirectory(examples/async)
 
-# CUDA
-#if(BUILD_CUDA_TARGETS)
-#    add_dependencies(Hydra_Examples
-#    Hydra_Example_Numerical_Integration_GenzMalik_CUDA
-#    Hydra_Example_Numerical_Integration_CUDA
-#    Hydra_Example_PHSP_Host_OMP_Device_CUDA
-#    Hydra_Example_Experimental_PHSP_CUDA
-#    Hydra_Example_Random_Host_OMP_Device_CUDA
-#    Hydra_Example_Fit_Host_OMP_Device_CUDA
-#    Hydra_Example_Eval_Host_OMP_Device_CUDA
-#    )
-#endif(BUILD_CUDA_TARGETS)
-#
-# TBB
-#if(BUILD_TBB_TARGETS)
-#
-#add_dependencies(Hydra_Examples
-#    Hydra_Example_Numerical_Integration_TBB
-#    Hydra_Example_Experimental_PHSP_TBB
-#    Hydra_Example_PHSP_Host_CPP_Device_TBB
-#    Hydra_Example_Random_Host_CPP_Device_TBB
-#    Hydra_Example_Fit_Host_CPP_Device_TBB
-#    Hydra_Example_Eval_Host_CPP_Device_TBB
-#    )
-#endif(BUILD_TBB_TARGETS)
-#
-# OMP
-#IF(OPENMP_FOUND)
-#    add_dependencies(Hydra_Examples
-#    Hydra_Example_Numerical_Integration_GenzMalik_OMP
-#    Hydra_Example_Numerical_Integration_OMP
-#    Hydra_Example_Experimental_PHSP_OMP
-#    Hydra_Example_PHSP_Host_CPP_Device_OMP
-#    Hydra_Example_PHSP_Host_CPP_Device_OMP
-#    Hydra_Example_Random_Host_CPP_Device_OMP
-#    Hydra_Example_Fit_Host_CPP_Device_OMP
-#    Hydra_Example_Fit_Host_CPP_Device_OMP
-#    Hydra_Example_Eval_Host_CPP_Device_OMP)   
-#ENDIF(OPENMP_FOUND)
-#
-#if(BUILD_CUDA_TARGETS AND OPENMP_FOUND)
-#    add_dependencies(Hydra_Examples
-#        Hydra_Example_Numerical_Integration_Performance_Plots_CUDA_OMP
-#    )
-#endif(BUILD_CUDA_TARGETS AND OPENMP_FOUND)
-#
-#if(BUILD_CUDA_TARGETS AND BUILD_TBB_TARGETS)
-#    add_dependencies(Hydra_Examples
-#        Hydra_Example_Numerical_Integration_Performance_Plots_CUDA_OMP
-#    )
-#endif(BUILD_CUDA_TARGETS AND BUILD_TBB_TARGETS)
 
 
 

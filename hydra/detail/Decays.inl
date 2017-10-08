@@ -803,28 +803,28 @@ template<size_t N, detail::Backend BACKEND>
 typename Decays<N, detail::BackendPolicy<BACKEND> >::particles_iterator
 Decays<N, detail::BackendPolicy<BACKEND> >::pbegin(size_t i)
 {
-	return fDecays[i].pbegin();
+	return fDecays[i].begin();
 }
 
 template<size_t N, detail::Backend BACKEND>
 typename Decays<N, detail::BackendPolicy<BACKEND> >::particles_iterator
 Decays<N, detail::BackendPolicy<BACKEND> >::pend(size_t i)
 {
-	return fDecays[i].pend();
+	return fDecays[i].end();
 }
 
 template<size_t N, detail::Backend BACKEND>
 typename Decays<N, detail::BackendPolicy<BACKEND> >::particles_reverse_iterator
 Decays<N, detail::BackendPolicy<BACKEND> >::prbegin(size_t i)
 {
-	return fDecays[i].prbegin();
+	return fDecays[i].rbegin();
 }
 
 template<size_t N, detail::Backend BACKEND>
 typename Decays<N, detail::BackendPolicy<BACKEND> >::particles_reverse_iterator
 Decays<N, detail::BackendPolicy<BACKEND> >::prend(size_t i)
 {
-	return fDecays[i].prend();
+	return fDecays[i].rend();
 }
 
 template<size_t N, detail::Backend BACKEND>

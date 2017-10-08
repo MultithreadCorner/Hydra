@@ -38,16 +38,10 @@
 #include <hydra/detail/external/thrust/detail/config/host_device.h>
 
 
-
-//#if defined(__CUDACC__) && !(defined(__CUDA__) && defined(__clang__))
+#define THRUST_VARIADIC_TUPLE
 
 #define __hydra_exec_check_disable__  __thrust_exec_check_disable__
 
-//#else
-
-//#define __hydra_exec_check_disable__
-
-//#endif
 
 #if defined(__CUDACC__)
 #define __hydra_align__(n) __align__(n)

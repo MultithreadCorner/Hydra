@@ -134,8 +134,8 @@ void SparseHistogram<N, T, detail::multidimensional>::Fill(Iterator begin, Itera
 	fBins.resize(histogram_size);
 	fNBins = histogram_size ;
 
-	HYDRA_EXTERNAL_NS::thrust::copy(system_t(),reduced_keys.first, reduced_end.first,  fBins.begin());
-	HYDRA_EXTERNAL_NS::thrust::copy(system_t(),reduced_values.first, reduced_end.second,  fContents.begin());
+	HYDRA_EXTERNAL_NS::thrust::copy(reduced_keys.first, reduced_end.first,  fBins.begin());
+	HYDRA_EXTERNAL_NS::thrust::copy(reduced_values.first, reduced_end.second,  fContents.begin());
 
 	// deallocate storage with HYDRA_EXTERNAL_NS::thrust::return_temporary_buffer
 	HYDRA_EXTERNAL_NS::thrust::return_temporary_buffer(system_t(), reduced_values.first);
