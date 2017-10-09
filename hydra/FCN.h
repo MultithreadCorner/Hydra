@@ -22,33 +22,31 @@
 /*
  * FCN.h
  *
- *  Created on: 14/08/2016
+ *  Created on: 10/08/2017
  *      Author: Antonio Augusto Alves Junior
  */
 
-#ifndef _FCN_H_
-#define _FCN_H_
+#ifndef FCN_H_
+#define FCN_H_
 
 #include <hydra/detail/Config.h>
-
+#include <hydra/detail/BackendPolicy.h>
 #include <hydra/Types.h>
+
 #include <hydra/detail/utility/Utility_Tuple.h>
 #include <hydra/detail/Hash.h>
 #include <hydra/detail/functors/LogLikelihood.h>
 #include <hydra/detail/utility/Arithmetic_Tuple.h>
-#include <hydra/Point.h>
+#include <hydra/detail/Print.h>
 #include <hydra/UserParameters.h>
 
 #include <hydra/detail/external/thrust/distance.h>
-#include <hydra/detail/external/thrust/tuple.h>
-#include <hydra/detail/external/thrust/iterator/constant_iterator.h>
-#include <hydra/detail/external/thrust/inner_product.h>
-#include <hydra/detail/external/thrust/reduce.h>
 
 #include <Minuit2/FCNBase.h>
-#include <vector>
 #include <unordered_map>
+#include <vector>
 #include <cassert>
+#include <utility>
 
 
 namespace hydra {
@@ -56,168 +54,68 @@ namespace hydra {
 template<typename T>
 class FCN;
 
-/**
- * @ingroup fit
- * @brief FCN base class.
- */
-template<template<typename... > class ESTIMATOR, typename PDF,
-typename PointType, typename IteratorData, typename IteratorCache>
-class FCN<ESTIMATOR<PDF, PointType, IteratorData, IteratorCache>>: public ROOT::Minuit2::FCNBase {
+template< template<typename ...> class Estimator, typename PDF, typename Iterator, typename ...Visitors>
+class FCN<Estimator<PDF,Iterator,Visitors...>>: public ROOT::Minuit2::FCNBase, public Visitors...{
 
-
-	typedef ESTIMATOR<PDF, PointType, IteratorData, IteratorCache> estimator_type;
-	typedef PointType point_type;
-	typedef typename HYDRA_EXTERNAL_NS::thrust::iterator_traits<IteratorData>::value_type data_value_type;
-	typedef typename HYDRA_EXTERNAL_NS::thrust::iterator_traits<IteratorCache>::value_type cache_value_type;
-
-	struct Weights { GReal_t fSumW; GReal_t fSumW2; };
-
-	struct UnaryWeights
-	{
-		template<typename T>
-		__host__ __device__
-		Weights operator()(T data )
-		{
-			Weights weights;
-			weights.fSumW  = HYDRA_EXTERNAL_NS::thrust::get<0>(data);
-			weights.fSumW2 = HYDRA_EXTERNAL_NS::thrust::get<1>(data);
-			return weights;
-		}
-	};
-
-	struct BinaryWeights
-	{
-		__host__ __device__
-		Weights operator()(Weights const& w1,  Weights const& w2)
-		{
-			Weights weights;
-			weights.fSumW  = w1.fSumW + w2.fSumW;
-			weights.fSumW2 = w1.fSumW2 + w2.fSumW2;
-			return weights;
-		}
-	};
+	typedef Estimator<PDF,Iterator,Visitors...> estimator_type;
 
 public:
 
-	/**
-	 * @brief Constructor for not cached functor.
-	 *
-	 * @param functor : PDF being optimized
-	 * @param begin : iterator to begin of the data range
-	 * @param end : iterator to end of the data range
-	 */
-	FCN(PDF& functor, IteratorData begin, IteratorData end) :
-		fPDF(functor),
-		fDataBegin(begin),
-		fDataEnd(end),
-		fCacheBegin(IteratorCache()),
-		fNEvents(HYDRA_EXTERNAL_NS::thrust::distance(begin, end)),
-		fErrorDef(0.5),
-		fWeighted(kFalse),
-		fCached(kFalse),
-		fFCNCache(std::unordered_map<size_t, GReal_t>())
-{
-		LoadFCNParameters();
-
-		Weights init=Weights();
-
-		Weights  result = HYDRA_EXTERNAL_NS::thrust::transform_reduce(begin, end, UnaryWeights(),
-				init, BinaryWeights() );
-
-		fSumW  =  result.fSumW;
-		fSumW2 =  result.fSumW2;
-
-}
-
-	/**
-	 * @brief Constructor for cached functor.
-	 *
-	 * @param functor : PDF being optimized
-	 * @param begin : iterator to begin of the data range
-	 * @param end : iterator to end of the data range
-	 * @param cbegin : iterator to begin of the cache table
-	 */
-	FCN(PDF& functor, IteratorData begin, IteratorData end, IteratorCache cbegin) :
-		fPDF(functor),
-		fDataBegin(begin),
-		fDataEnd(end),
-		fCacheBegin(cbegin),
-		fNEvents(HYDRA_EXTERNAL_NS::thrust::distance(begin, end)),
-		fErrorDef(0.5),
-		fWeighted(kFalse),
-		fCached(kTrue),
-		fFCNCache(std::unordered_map<size_t, GReal_t>())
+	FCN(PDF& pdf, Iterator begin, Iterator end, Visitors const& ...visitors):
+	fPDF(pdf),
+	fBegin(begin),
+	fEnd(end),
+	fErrorDef(0.5),
+	fFCNCache(std::unordered_map<size_t, GReal_t>()),
+	Visitors(visitors)...
 	{
-		//typename IteratorData::value_type init;
 		LoadFCNParameters();
-
-		Weights init= Weights();
-
-		Weights  result = HYDRA_EXTERNAL_NS::thrust::transform_reduce(begin, end, UnaryWeights(),
-				init, BinaryWeights() );
-
-		fSumW  =  result.fSumW;
-		fSumW2 =  result.fSumW2;
-	}
-
-	/**
-	 * @brief Copy constructor.
-	 *
-	 * @param other
-	 */
-	FCN(FCN<estimator_type> const& other) :
-		ROOT::Minuit2::FCNBase(other),
-		fPDF(other.GetPDF()),
-		fDataBegin(other.GetDataBegin()),
-		fDataEnd(other.GetDataEnd()),
-		fCacheBegin(other.GetCacheBegin()),
-		fNEvents(other.GetNEvents()),
-		fErrorDef(other.ErrorDef()),
-		fWeighted(other.isWeighted()),
-		fCached(other.isCached()),
-		fFCNCache(other.GetFcnCache()),
-		fSumW(other.GetSumW()),
-		fSumW2(other.GetSumW2()),
-	    fUserParameters(other.GetParameters())
-	{}
-
-	/**
-	 * @brief Assignment operator
-	 *
-	 * @param other
-	 * @return
-	 */
-	FCN<estimator_type>&
-	operator=(FCN<estimator_type> const& other)
-	{
-		ROOT::Minuit2::FCNBase::operator = (other);
-		this->fPDF=other.GetPDF();
-		this->fDataBegin = other.GetDataBegin();
-		this->fDataEnd = other.GetDataEnd();
-		this->fCacheBegin = other.GetCacheBegin();
-		this->fNEvents = other.GetNEvents();
-		this->fErrorDef = other.ErrorDef();
-		this->fWeighted = other.isWeighted();
-		this->fCached = other.isCached();
-		this->fFCNCache = other.GetFcnCache();
-		this->fSumW = other.GetSumW();
-		this->fSumW2 = other.GetSumW2();
-		this->fUserParameters=other.GetParameters();
-
-		return *this;
 	}
 
 
+	FCN(FCN<Estimator<PDF,Iterator,Visitors...>> const& other):
+	ROOT::Minuit2::FCNBase(other),
+	Visitors(other)...,
+	fPDF(other.GetPDF()),
+	fBegin(other.GetBegin()),
+	fEnd(other.GetEnd()),
+	fErrorDef(other.GetErrorDef()),
+	fUserParameters(other.GetParameters()),
+	fFCNCache(other.GetFcnCache())
+	{
+		LoadFCNParameters();
+	}
 
-	/**
-	 * @brief Up function from Minuit2
-	 *
-	 * @return
-	 */
-	virtual GReal_t Up() const {
+	FCN<Estimator<PDF,Iterator,Visitors...>>&
+	operator=(FCN<Estimator<PDF,Iterator,Visitors...>> const& other){
+
+		if( this==&other ) return this;
+
+		ROOT::Minuit2::FCNBase::operator=(other);
+		auto x = {0,(Visitors::operator=(other), 0)...};
+		x={};
+		fPDF   = other.GetPDF();
+		fBegin = other.GetBegin();
+		fEnd   = other.GetEnd();
+		fErrorDef = other.GetErrorDef();
+		fUserParameters = other.GetParameters();
+		fFCNCache = other.GetFcnCache();
+
+		return this;
+	}
+
+    // from Minuit2
+	double ErrorDef() const{
 		return fErrorDef;
 	}
 
+    void   SetErrorDef(double error){
+    	fErrorDef=error;
+    }
+
+	double Up() const{
+		return fErrorDef;
+	}
 
 	/**
 	 * @brief Function call operator
@@ -237,136 +135,109 @@ public:
 
 	}
 
-	/**
-	 * @brief Get user's parameters to be passed to Minuit
-	 *
-	 * @return
-	 */
-	hydra::UserParameters& GetParameters()
-	{
-
-		return fUserParameters;
-	}
-
-	/**
-	 * @brief Get user's parameters to be passed to Minuit
-	 *
-	 * @return
-	 */
-	hydra::UserParameters const& GetParameters() const
-	{
-
-		return fUserParameters;
-	}
-
-
-	GBool_t isCached() const {
-		return fCached;
-	}
-
-	void SetCached(GBool_t cached) {
-		fCached = cached;
-	}
-
-	const IteratorCache& GetCacheBegin() const {
-		return fCacheBegin;
-	}
-
-	const IteratorCache& GetCacheEnd() const {
-		return fCacheBegin + fNEvents;
-	}
-
-	const IteratorData& GetDataBegin() const {
-		return fDataBegin;
-	}
-
-	const IteratorData& GetDataEnd() const {
-		return fDataEnd;
-	}
-
+	//this class
 	GReal_t GetErrorDef() const {
 		return fErrorDef;
 	}
 
-	void SetErrorDef(GReal_t errorDef) {
-		fErrorDef = errorDef;
+	Iterator begin() const {
+		return fBegin;
 	}
 
-	GBool_t isWeighted() const {
-		return fWeighted;
+	Iterator end() const {
+		return fEnd;
 	}
 
-	void SetWeighted(GBool_t weighted) {
-		fWeighted = weighted;
+	void SetBegin(Iterator begin) {
+		fBegin = begin;
 	}
 
-	GLong_t GetNEvents() const {
-		return fNEvents;
+	void SetEnd(Iterator end) {
+		fEnd = end;
 	}
 
-	GReal_t GetSumW() const {
-		return fSumW;
+	PDF& GetPDF() {
+		return fPDF;
 	}
 
-	void SetSumW(GReal_t sumW) {
-		fSumW = sumW;
+	PDF& GetPDF() const {
+			return fPDF;
 	}
 
-	GReal_t GetSumW2() const {
-		return fSumW2;
+	 hydra::UserParameters& GetParameters() {
+			return fUserParameters;
+		}
+
+	const hydra::UserParameters& GetParameters() const {
+		return fUserParameters;
 	}
 
-	void SetSumW2(GReal_t sumW2) {
-		fSumW2 = sumW2;
+	void SetParameters(const hydra::UserParameters& userParameters) {
+		fUserParameters = userParameters;
 	}
+
+	size_t GetDataSize() const
+	{
+		return HYDRA_EXTERNAL_NS::thrust::distance(fBegin, fEnd);
+	}
+
+	Iterator GetBegin() const
+	{
+		return fBegin;
+	}
+
+	Iterator GetEnd() const
+	{
+		return fEnd;
+	}
+
+private:
 
 	std::unordered_map<size_t, GReal_t>& GetFcnCache() const {
 		return fFCNCache;
 	}
 
-	/**
-	 * Get underlying PDF
-	 * @return
-	 */
-	PDF& GetPDF() const {
-			return fPDF;
+	void SetFcnCache(std::unordered_map<size_t, GReal_t> fcnCache) {
+		fFCNCache = fcnCache;
 	}
-
-	/**
-	 * Get underlying PDF
-	 * @return
-	 */
-	PDF& GetPDF()  {
-				return fPDF;
-		}
-
-
-
-protected:
 
 	GReal_t GetFCNValue(const std::vector<double>& parameters) const {
 
-		size_t key = hydra::detail::hash_range(parameters.begin(),
-				parameters.end());
+		size_t key = hydra::detail::hash_range(parameters.begin(),parameters.end());
 
 		auto search = fFCNCache.find(key);
+
 		GReal_t value = 0.0;
 
-		//bool fnd=0;
-
 		if (search != fFCNCache.end() && fFCNCache.size()>0) {
+
+			if (INFO >= Print::Level()  )
+			{
+				std::ostringstream stringStream;
+				stringStream <<" Found in cache: key "
+						     <<  search->first
+						     << " value "
+						     << search->second << std::endl;
+				HYDRA_LOG(INFO, stringStream.str().c_str() )
+			}
+
 			value = search->second;
-			//std::cout << "found NLL!" << std::endl;
-			//fnd=1;
-		} else {
-
+		}
+		else {
 			value = EvalFCN(parameters);
-
 			fFCNCache[key] = value;
 
+			if (INFO >= Print::Level()  )
+			{
+				std::ostringstream stringStream;
+				stringStream <<" Not found in cache. Calculated and cached: key "
+						<<  key
+						<< " value "
+						<< value << std::endl;
+				HYDRA_LOG(INFO, stringStream.str().c_str() )
+			}
 		}
 
-		//cout << "Found: " << fnd << " Key: " << key << " Value: "<< std::setprecision(16) <<value << endl;
 		return value;
 	}
 
@@ -374,26 +245,23 @@ protected:
 		return static_cast<const estimator_type*>(this)->Eval(parameters);
 	}
 
-	void LoadFCNParameters()
-	{
+	void LoadFCNParameters(){
 		std::vector<hydra::Parameter*> temp;
 		fPDF.AddUserParameters(temp );
 		fUserParameters.SetVariables( temp);
 	}
 
-	PDF& fPDF;
-	IteratorData fDataBegin;
-	IteratorData fDataEnd;
-	IteratorCache fCacheBegin;
-	GReal_t fSumW;
-	GReal_t fSumW2;
-	GReal_t fErrorDef;
-	GLong_t fNEvents;
-	GBool_t fWeighted;
-	GBool_t fCached;
-	mutable std::unordered_map<size_t, GReal_t> fFCNCache;
-	hydra::UserParameters fUserParameters ;
+	size_t fDataSize;
+    PDF& fPDF;
+    Iterator fBegin;
+    Iterator fEnd;
+    GReal_t  fErrorDef;
+    hydra::UserParameters fUserParameters ;
+    mutable std::unordered_map<size_t, GReal_t> fFCNCache;
+
+
 };
 
 } //namespace hydra
-#endif /* FCN_H_ */
+
+#endif /* FCN2_H_ */

@@ -1,6 +1,6 @@
 /*----------------------------------------------------------------------------
  *
- *   Copyright (C) 2016 - 2017 Antonio Augusto Alves Junior
+ *   Copyright (C) 2016-2017 Antonio Augusto Alves Junior
  *
  *   This file is part of Hydra Data Analysis Framework.
  *
@@ -20,17 +20,17 @@
  *---------------------------------------------------------------------------*/
 
 /*
- * AddPdf.h
+ * PDFSumExtendable.h
  *
- *  Created on: 03/09/2016
+ *  Created on: 08/10/2017
  *      Author: Antonio Augusto Alves Junior
  */
 
-#ifndef ADDPDF_H_
-#define ADDPDF_H_
+#ifndef PDFSUMEXTENDABLE_H_
+#define PDFSUMEXTENDABLE_H_
 
 
-/*
+
 #include <hydra/detail/Config.h>
 #include <hydra/Types.h>
 #include <hydra/Parameter.h>
@@ -40,19 +40,13 @@
 #include <hydra/detail/FunctorTraits.h>
 #include <hydra/detail/functors/AddPdfFunctor.h>
 #include <hydra/detail/external/thrust/tuple.h>
+#include <hydra/detail/AddPdfBase.h>
 #include <initializer_list>
 #include <tuple>
 #include <utility>
-*/
-
-
-#include <hydra/PDFSumExtendable.h>
-#include <hydra/PDFSumNonExtendable.h>
-
-#if 0
 
 namespace hydra {
-
+/*
 namespace detail {
 
 
@@ -68,11 +62,7 @@ class AddPdfBase: public std::enable_if<AddPdfChecker<PDF1,PDF2,PDFs...>::value>
 
 }  // namespace detail
 
-}  // namespace hydra
-
-
-
-
+*/
 /**
  * @class
  * @ingroup fit
@@ -86,13 +76,13 @@ class AddPdfBase: public std::enable_if<AddPdfChecker<PDF1,PDF2,PDFs...>::value>
  * The coefficient of the last term is calculated as \f$ c_N=1 -\sum_i^{(N-1)} c_i \f$.
  */
 template<typename PDF1, typename PDF2, typename ...PDFs>
-class AddPdf: public detail::AddPdfBase<PDF1,PDF2,PDFs...>
+class PDFSumExtendable: public detail::AddPdfBase<PDF1,PDF2,PDFs...>
 {
 
 
 public:
 
-//this typedef is actually a check. If the AddPdf is not built with
+//this typedef is actually a check. If the PDFSumExtendable is not built with
 	//hydra::pdf, AddPdfBase::type will not be defined and compilation
 	//will fail
 	typedef typename detail::AddPdfBase<PDF1,PDF2,PDFs...>::type base_type; //!< base class type
@@ -121,12 +111,11 @@ public:
 	 * Each component pdf is normalized properly before evaluation each time SetParameters(const std::vector<double>& parameters) is called.
 	 * The sum is normalized also.
 	 */
-	AddPdf( PDF1 const& pdf1, PDF2 const& pdf2, PDFs const& ...pdfs,
-			std::array<Parameter*, npdfs>const& coef, GBool_t extend=kTrue ):
+	PDFSumExtendable( PDF1 const& pdf1, PDF2 const& pdf2, PDFs const& ...pdfs,
+			std::array<Parameter*, npdfs>const& coef ):
 			fPDFs(HYDRA_EXTERNAL_NS::thrust::make_tuple(pdf1,pdf2,pdfs...) ),
 			fFunctors(HYDRA_EXTERNAL_NS::thrust::make_tuple(pdf1.GetFunctor(),pdf2.GetFunctor(),pdfs.GetFunctor() ...) ),
 			fExtended(kTrue),
-			fFractioned(kFalse),
 			fCoefSum(0.0)
 	{
 		size_t i=0;
@@ -138,53 +127,15 @@ public:
 
 	}
 
-	/**
-	 * \brief Ctor for used to build AddPdf __not-usable__ in extended likelihood fits.
-	 * \param pdf1 first pdf object,
-	 * \param pdf2 second pdf object,
-	 * \param pdfs remaining pdfs.
-	 * \param coef arrary of Parameters, each parameter correspond to a fractional coefficient
-	 *
-	 * Each component pdf is normalized properly before evaluation each time SetParameters(const std::vector<double>& parameters) is called.
-	 * The sum is normalized also.
-	 */
-	AddPdf(PDF1 const& pdf1, PDF2 const& pdf2, PDFs const& ...pdfs,
-			std::array<Parameter*, npdfs-1>const& coef):
-			fPDFs(HYDRA_EXTERNAL_NS::thrust::make_tuple(pdf1,pdf2,pdfs...) ),
-			fFunctors(HYDRA_EXTERNAL_NS::thrust::make_tuple(pdf1.GetFunctor(),pdf2.GetFunctor(),pdfs.GetFunctor() ...) ),
-			fExtended(kFalse),
-			fFractioned(kTrue),
-			fCoefSum(0.0)
-	{
-		size_t i=0;
-		for(Parameter* var:coef)
-		{
-			if(var->GetLowerLim()< 0.0 || var->GetUpperLim() > 1.0 ||
-					var->GetValue()< 0.0 || var->GetValue() > 1.0)
-			{
-				HYDRA_LOG(WARNING,"Fraction out of bounds" )
-				HYDRA_MSG << (*var) << HYDRA_ENDL;
-				HYDRA_MSG << "Change the parameter limits to [0.0, 1.0] and value accordingly."<< HYDRA_ENDL;
-				 abort();
-			}
-
-			fCoeficients[i]= *var;
-			fCoefSum+= var->GetValue();
-			i++;
-		}
-
-		fCoeficients[npdfs-1]= 1.0 - fCoefSum;
-	}
 
 	/**
 	 * \brief Copy constructor.
 	 */
-	AddPdf(AddPdf<PDF1, PDF2, PDFs...> const& other ):
+	PDFSumExtendable(PDFSumExtendable<PDF1, PDF2, PDFs...> const& other ):
 	fPDFs(other.GetPDFs() ),
 	fFunctors(other.GetFunctors() ),
 	fExtended(other.IsExtended()),
-	fCoefSum(other.GetCoefSum()),
-	fFractioned(other.IsFractioned())
+	fCoefSum(other.GetCoefSum())
 	{
 		for( size_t i=0; i< npdfs; i++ ){
 			fCoeficients[i]=other.GetCoeficient(i);
@@ -197,8 +148,8 @@ public:
 	 * @param other
 	 * @return
 	 */
-	AddPdf<PDF1, PDF2, PDFs...>&
-	operator=( AddPdf<PDF1, PDF2, PDFs...> const& other )
+	PDFSumExtendable<PDF1, PDF2, PDFs...>&
+	operator=( PDFSumExtendable<PDF1, PDF2, PDFs...> const& other )
 	{
 		this->fFunctors= other.GetFunctors() ;
 		this->fPDFs = other.GetPDFs();
@@ -214,13 +165,13 @@ public:
 
 	/**
 	 * \brief Set the coefficients and parameters of all pdfs.
-	 * This method sets the values of all coefficients and parameters of pdfs stored in the AddPdf object.
+	 * This method sets the values of all coefficients and parameters of pdfs stored in the PDFSumExtendable object.
 	 * User should ensure this method is called before the object evaluation.
 	 * @param parameters std::vector<double> containing the list of parameters passed by ROOT::Minuit2.
 	 */
 	inline	void SetParameters(const std::vector<double>& parameters){
 
-		for(size_t i=0; i< npdfs-(fFractioned); i++)
+		for(size_t i=0; i< npdfs; i++)
 			      fCoeficients[i].Reset(parameters );
 
 		detail::set_functors_in_tuple(fPDFs, parameters);
@@ -229,17 +180,8 @@ public:
 
 		fCoefSum=0;
 
-		if(!fFractioned){
-			for(size_t i=0; i< npdfs ; i++)
+		for(size_t i=0; i< npdfs ; i++)
 				fCoefSum+=fCoeficients[i];
-		}
-		else
-		{
-			for(size_t i=0; i< npdfs-1 ; i++)
-							fCoefSum+=fCoeficients[i];
-
-			fCoeficients[npdfs -1] = 1.0 - fCoefSum;
-		}
 	}
 
 	/**
@@ -249,15 +191,10 @@ public:
 	{
 		HYDRA_CALLER ;
 		HYDRA_MSG << "Registered parameters begin:" << HYDRA_ENDL;
-		if(!fFractioned){
-			for(size_t i=0; i< npdfs ; i++)
-				HYDRA_MSG <<fCoeficients[i]<< HYDRA_ENDL;
-		}
-		else
-		{
-			for(size_t i=0; i< npdfs-1 ; i++)
-				HYDRA_MSG <<fCoeficients[i]<< HYDRA_ENDL;
-		}
+
+		for(size_t i=0; i< npdfs ; i++)
+			HYDRA_MSG <<fCoeficients[i]<< HYDRA_ENDL;
+
 		detail::print_parameters_in_tuple(fPDFs);
 		HYDRA_MSG <<"Registered parameters end." << HYDRA_ENDL;
 		return;
@@ -273,16 +210,8 @@ public:
 	 */
 	inline	void AddUserParameters(std::vector<hydra::Parameter*>& user_parameters )
 	{
-		if(!fFractioned){
-			for(size_t i=0; i< npdfs ; i++)
-				user_parameters.push_back(&fCoeficients[i]);
-		}
-		else
-		{
-			for(size_t i=0; i< npdfs-1 ; i++)
-				user_parameters.push_back(&fCoeficients[i]);
-
-		}
+		for(size_t i=0; i< npdfs ; i++)
+			user_parameters.push_back(&fCoeficients[i]);
 
 		detail::add_parameters_in_tuple(user_parameters, fPDFs);
 	}
@@ -305,8 +234,7 @@ public:
 	{
 
 
-		return detail::AddPdfFunctor<PDF1, PDF2, PDFs...>(fFunctors,
-				fCoeficients,1.0/fCoefSum,fExtended,fFractioned );
+		return detail::AddPdfFunctor<PDF1, PDF2, PDFs...>(fFunctors,fCoeficients,1.0/fCoefSum );
 	}
 
 
@@ -326,19 +254,10 @@ public:
 		return fCoefSum;
 	}
 
-	inline	GBool_t IsFractioned() const
-	{
-		return fFractioned;
-	}
 
 	void SetExtended(GBool_t extended)
 	{
 		fExtended = extended;
-	}
-
-	void SetFractioned(GBool_t fractioned)
-	{
-		fFractioned =  fractioned;
 	}
 
 
@@ -398,24 +317,23 @@ private:
 	pdfs_tuple_type fPDFs;
 	functors_tuple_type fFunctors;
 	GBool_t fExtended;
-	GBool_t fFractioned;
 
 };
 
 /**
  *\brief Convenience function to add pdfs without set template parameters explicitly.
  */
-template<size_t N, typename PDF1, typename PDF2, typename ...PDFs>
-AddPdf<PDF1, PDF2, PDFs...>
-add_pdfs(std::array<Parameter*, N>const& var_list, PDF1 const& pdf1, PDF2 const& pdf2, PDFs const& ...pdfs )
+template<typename PDF1, typename PDF2, typename ...PDFs>
+PDFSumExtendable<PDF1, PDF2, PDFs...>
+add_pdfs(std::array<Parameter*, sizeof...(PDFs)+2>const& var_list, PDF1 const& pdf1, PDF2 const& pdf2, PDFs const& ...pdfs )
 {
-	return AddPdf<PDF1, PDF2, PDFs...>(pdf1, pdf2, pdfs..., var_list);
+	return PDFSumExtendable<PDF1, PDF2, PDFs...>(pdf1, pdf2, pdfs..., var_list);
 }
 
 template<unsigned int I, typename PDF1, typename PDF2, typename ...PDFs>
-auto get_pdf( AddPdf<PDF1, PDF2, PDFs...> const& pdfs)
+auto get_pdf( PDFSumExtendable<PDF1, PDF2, PDFs...> const& pdfs)
 -> std::pair< Parameter, typename HYDRA_EXTERNAL_NS::thrust::tuple_element<I,
-typename AddPdf<PDF1, PDF2, PDFs...>::pdfs_tuple_type>::type  >
+typename PDFSumExtendable<PDF1, PDF2, PDFs...>::pdfs_tuple_type>::type  >
 {
 	return	std::make_pair( pdfs.GetCoeficient(I), HYDRA_EXTERNAL_NS::thrust::get<I>(pdfs.GetPdFs()));
 }
@@ -424,5 +342,5 @@ typename AddPdf<PDF1, PDF2, PDFs...>::pdfs_tuple_type>::type  >
 
 
 
-#endif /* ADDPDF_H_ */
-#endif
+
+#endif /* PDFSUMEXTENDABLE_H_ */

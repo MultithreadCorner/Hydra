@@ -29,15 +29,15 @@
 #define LOGLIKELIHOODFCN2_INL_
 
 
-#include <hydra/FCN2.h>
-#include <hydra/AddPdf.h>
+#include <hydra/FCN.h>
+#include <hydra/PDFSumExtendable.h>
 #include <hydra/detail/functors/LogLikelihood1.h>
 #include <hydra/detail/external/thrust/transform_reduce.h>
 
 namespace hydra {
 
 template<typename ...Pdfs, typename Iterator >
-class LogLikelihoodFCN1< AddPdf<Pdfs...>, Iterator>: public FCN2<LogLikelihoodFCN1< AddPdf<Pdfs...>, Iterator > >{
+class LogLikelihoodFCN< PDFSumExtendable<Pdfs...>, Iterator>: public FCN<LogLikelihoodFCN< PDFSumExtendable<Pdfs...>, Iterator > >{
 
 public:
 
@@ -49,22 +49,19 @@ public:
 	 * @param begin  iterator pointing to the begin of the dataset.
 	 * @param end   iterator pointing to the end of the dataset.
 	 */
-	LogLikelihoodFCN1(AddPdf<Pdfs...>& functor, Iterator begin, Iterator end):
-		FCN2<LogLikelihoodFCN1<AddPdf<Pdfs...>, Iterator>>(functor,begin, end),
-		fMAxValue(std::numeric_limits<GReal_t>::min() )
+	LogLikelihoodFCN(PDFSumExtendable<Pdfs...>& functor, Iterator begin, Iterator end):
+		FCN<LogLikelihoodFCN<PDFSumExtendable<Pdfs...>, Iterator>>(functor,begin, end)
 		{}
 
-	LogLikelihoodFCN1(LogLikelihoodFCN1<AddPdf<Pdfs...>, Iterator>const& other):
-		FCN2<LogLikelihoodFCN1<AddPdf<Pdfs...>, Iterator>>(other),
-		fMAxValue(other.GetMAxValue() )
+	LogLikelihoodFCN(LogLikelihoodFCN<PDFSumExtendable<Pdfs...>, Iterator>const& other):
+		FCN<LogLikelihoodFCN<PDFSumExtendable<Pdfs...>, Iterator>>(other)
 		{}
 
-	LogLikelihoodFCN1<AddPdf<Pdfs...>, Iterator>&
-	operator=(LogLikelihoodFCN1<AddPdf<Pdfs...>, Iterator>const& other)
+	LogLikelihoodFCN<PDFSumExtendable<Pdfs...>, Iterator>&
+	operator=(LogLikelihoodFCN<PDFSumExtendable<Pdfs...>, Iterator>const& other)
 	{
 		if(this==&other) return  *this;
-		FCN2<LogLikelihoodFCN1<AddPdf<Pdfs...>, Iterator>>::operator=(other);
-		this->fMAxValue=other.GetMAxValue();
+		FCN<LogLikelihoodFCN<PDFSumExtendable<Pdfs...>, Iterator>>::operator=(other);
 		return  *this;
 	}
 
@@ -73,7 +70,7 @@ public:
 
 		using   HYDRA_EXTERNAL_NS::thrust::system::detail::generic::select_system;
 		typedef typename HYDRA_EXTERNAL_NS::thrust::iterator_system<Iterator>::type System;
-		typedef typename AddPdf<Pdfs...>::functor_type functor_type;
+		typedef typename PDFSumExtendable<Pdfs...>::functor_type functor_type;
 		System system;
 
 		// create iterators
@@ -93,13 +90,6 @@ public:
 		}
 
 		this->GetPDF().SetParameters(parameters);
-		/*
-		 * avoid evaluate inconsistent coefficients configurations
-		 * returning quickly the highest NLL value already calculated
-		 */
-		if( this->GetPDF().IsFractioned() &&
-				( this->GetPDF().GetCoefSum() < 0.0 || this->GetPDF().GetCoefSum() > 1.0) )
-			return fMAxValue;
 
 		auto NLL = detail::LogLikelihood1<functor_type>(this->GetPDF().GetFunctor());
 
@@ -109,29 +99,22 @@ public:
 		GReal_t  r = (GReal_t)this->GetDataSize() + this->GetPDF().IsExtended()*
 				( this->GetPDF().GetCoefSum() -	this->GetDataSize()*log(this->GetPDF().GetCoefSum() ) ) - final;
 
-		fMAxValue = (fMAxValue<r) ? r : fMAxValue;
 
 
 		return r;
 
 	}
 
-	GReal_t GetMAxValue() const {
-		return fMAxValue;
-	}
-
-private:
-
-	mutable GReal_t fMAxValue;
 
 };
 
 template<typename... Pdfs,  typename Iterator>
-auto make_loglikehood_fcn(Iterator first, Iterator last, AddPdf<Pdfs...>& functor)
--> LogLikelihoodFCN1< AddPdf<Pdfs...>, Iterator >
+auto make_loglikehood_fcn(Iterator first, Iterator last, PDFSumExtendable<Pdfs...>& functor)
+-> LogLikelihoodFCN< PDFSumExtendable<Pdfs...>, Iterator >
 {
-	return LogLikelihoodFCN1< AddPdf<Pdfs...>, Iterator >( functor, first, last);
+	return LogLikelihoodFCN< PDFSumExtendable<Pdfs...>, Iterator >( functor, first, last);
 }
+
 
 }  // namespace hydra
 

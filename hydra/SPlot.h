@@ -37,10 +37,10 @@
 #include <hydra/detail/utility/Generic.h>
 #include <hydra/detail/FunctorTraits.h>
 #include <hydra/detail/BackendPolicy.h>
-#include <hydra/AddPdf.h>
+#include <hydra/PDFSumExtendable.h>
 #include <hydra/multiarray.h>
 #include <hydra/Distance.h>
-
+#include <hydra/detail/AddPdfBase.h>
 #include <hydra/detail/external/thrust/tuple.h>
 #include <hydra/detail/external/Eigen/Dense>
 
@@ -73,7 +73,7 @@ public:
 		constexpr static size_t y= I%N;
 	};
 
-	SPlot( AddPdf<PDF1, PDF2, PDFs...> const& pdf):
+	SPlot( PDFSumExtendable<PDF1, PDF2, PDFs...> const& pdf):
 		fPDFs( pdf.GetPDFs() ),
 		fFunctors( pdf.GetFunctors())
 	{
@@ -138,7 +138,7 @@ private:
 
 
 template < typename PDF1,  typename PDF2, typename ...PDFs>
-SPlot<PDF1, PDF2, PDFs...> make_splot(AddPdf<PDF1, PDF2, PDFs...> const& pdf)
+SPlot<PDF1, PDF2, PDFs...> make_splot(PDFSumExtendable<PDF1, PDF2, PDFs...> const& pdf)
 {
  return 	SPlot<PDF1, PDF2, PDFs...>(pdf);
 }

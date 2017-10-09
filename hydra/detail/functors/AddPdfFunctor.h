@@ -73,11 +73,8 @@ struct AddPdfFunctor
 
 	AddPdfFunctor(HYDRA_EXTERNAL_NS::thrust::tuple<typename PDF1::functor_type,
 			typename PDF2::functor_type, typename PDFs::functor_type...> const& functors,
-			const Parameter (&coeficients)[sizeof...(PDFs)+2],
-			GReal_t coef_sum, GBool_t extended,	GBool_t fractioned ):
+			const Parameter (&coeficients)[sizeof...(PDFs)+2], GReal_t coef_sum):
 				fFunctors( functors ),
-				fExtended(extended),
-				fFractioned(fractioned),
 				fCoefSum(coef_sum)
 	{
 		for(size_t i=0; i<sizeof...(PDFs)+2;i++)
@@ -87,8 +84,6 @@ struct AddPdfFunctor
     __host__ __device__
 	AddPdfFunctor(AddPdfFunctor< PDF1, PDF2, PDFs...> const& other ):
 		fFunctors( other.GetFunctors() ),
-		fExtended( other.IsExtended() ),
-		fFractioned( other.IsFractioned() ),
 		fCoefSum( other.GetCoefSum() )
 	{
 		for(size_t i=0; i<sizeof...(PDFs)+2;i++)
@@ -101,8 +96,6 @@ struct AddPdfFunctor
     operator=(AddPdfFunctor< PDF1, PDF2, PDFs...> const& other )
     {
     	this->fFunctors = other.GetFunctors() ;
-    	this->fExtended = other.IsExtended() ;
-    	this->fFractioned = other.IsFractioned() ;
     	this->fCoefSum = other.GetCoefSum() ;
 
     	for(size_t i=0; i<sizeof...(PDFs)+2;i++)
@@ -140,31 +133,14 @@ struct AddPdfFunctor
 	{
 		fCoefSum = coefSum;
 	}
-    __host__ __device__
-	GBool_t IsExtended() const
-	{
-		return fExtended;
-	}
-    __host__ __device__
-	void SetExtended(GBool_t extended)
-	{
-		fExtended = extended;
-	}
-    __host__ __device__
-	GBool_t IsFractioned() const
-	{
-		return fFractioned;
-	}
-    __host__ __device__
-	void SetFractioned(GBool_t fractioned)
-	{
-		fFractioned = fractioned;
-	}
+
+
     __host__ __device__
 	const functors_tuple_type& GetFunctors() const
 	{
 		return fFunctors;
 	}
+
     __host__ __device__
 	void SetFunctors(functors_tuple_type functors)
 	{
@@ -231,8 +207,6 @@ struct AddPdfFunctor
 private:
 	GReal_t fCoefSum;
 	GReal_t fCoeficients[sizeof...(PDFs)+2];
-	GBool_t fExtended;
-	GBool_t fFractioned;
 	functors_tuple_type fFunctors;
 };
 
