@@ -41,6 +41,7 @@
 //this lib
 #include <hydra/device/System.h>
 #include <hydra/host/System.h>
+#include <hydra/omp/System.h>
 #include <hydra/Function.h>
 #include <hydra/FunctionWrapper.h>
 #include <hydra/Random.h>
@@ -184,7 +185,7 @@ int main(int argv, char** argc)
 		//------------------
 	    //make model
 		//numerical integral to normalize the pdfs
-		hydra::GaussKronrodQuadrature<61,100, hydra::device::sys_t> GKQ61_d(min,  max);
+		hydra::GaussKronrodQuadrature<61,50, hydra::omp::sys_t> GKQ61_d(min,  max);
 
 		//convert functors to pdfs
 		auto Gauss_PDF = hydra::make_pdf(gaussian  , GKQ61_d);
@@ -288,7 +289,7 @@ int main(int argv, char** argc)
 		auto splot  = hydra::make_splot(fcn.GetPDF() );
 
 		start_d = std::chrono::high_resolution_clock::now();
-		splot.Generate( range.begin(), range.end(), sweigts_d.begin());
+		auto covar = splot.Generate( range.begin(), range.end(), sweigts_d.begin());
 		end_d = std::chrono::high_resolution_clock::now();
 		elapsed_d = end_d - start_d;
 
@@ -297,6 +298,7 @@ int main(int argv, char** argc)
 		std::cout << "| [sPlot] GPU Time (ms) ="<< elapsed_d.count() <<std::endl;
 		std::cout << "-----------------------------------------"<<std::endl;
 
+		std::cout << "Covariance matrix "<< std::endl << covar<< std::endl << std::endl;
 		std::cout<< std::endl << "sWeights:" << std::endl;
 		for(size_t i = 0; i<10; i++)
 			std::cout<<  "[" << i << "] :" <<  sweigts_d[i] << std::endl;
@@ -407,7 +409,7 @@ int main(int argv, char** argc)
 		//------------------
 	    //make model
 		//numerical integral to normalize the pdfs
-		hydra::GaussKronrodQuadrature<61,100, hydra::host::sys_t> GKQ61_d(min,  max);
+		hydra::GaussKronrodQuadrature<61,50, hydra::host::sys_t> GKQ61_d(min,  max);
 
 		//convert functors to pdfs
 		auto Gauss_PDF = hydra::make_pdf(gaussian  , GKQ61_d);
@@ -505,7 +507,7 @@ int main(int argv, char** argc)
 		auto splot  = hydra::make_splot(fcn.GetPDF() );
 
 		start_h = std::chrono::high_resolution_clock::now();
-		splot.Generate( range.begin(), range.end(), sweigts_h.begin());
+		auto covar = splot.Generate( range.begin(), range.end(), sweigts_h.begin());
 		end_h = std::chrono::high_resolution_clock::now();
 		elapsed_h = end_h - start_h;
 
@@ -514,6 +516,7 @@ int main(int argv, char** argc)
 		std::cout << "| [sPlot] GPU Time (ms) ="<< elapsed_h.count() <<std::endl;
 		std::cout << "-----------------------------------------"<<std::endl;
 
+		std::cout << "Covariance matrix "<< std::endl << covar<< std::endl << std::endl;
 		std::cout<< std::endl << "sWeights:" << std::endl;
 		for(size_t i = 0; i<10; i++)
 			std::cout<<  "[" << i << "] :" <<  sweigts_h[i] << std::endl;
