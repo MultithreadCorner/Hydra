@@ -62,7 +62,7 @@
 
 #include <hydra/PhaseSpace.h>
 #include <hydra/Events.h>
-#include <hydra/Chain.h>
+#include <hydra/Chains.h>
 #include <hydra/Evaluate.h>
 #include <hydra/Function.h>
 #include <hydra/FunctorArithmetic.h>
@@ -139,7 +139,7 @@ int main(int argv, char** argc)
 
 	TH1D CosTheta_d("CosTheta_d", "Device; cos(#theta_{K*}), Events", 100, -1.0, 1.0);
 
-	TH1D    Delta_d("Delta_d", "Device; #delta #phi, Events", 100, -1.0, 1.0);
+	TH1D    Delta_d("Delta_d", "Device; #delta #phi, Events", 100, 0.0, 3.5);
 
 	//---------
 
@@ -149,7 +149,7 @@ int main(int argv, char** argc)
 
 	TH1D CosTheta_h("CosTheta_h", "Host; cos(#theta_{K*}), Events", 100, -1.0, 1.0);
 
-	TH1D    Delta_h("Delta_h", "Host; #delta #phi, Events", 100, -1.0, 1.0);
+	TH1D    Delta_h("Delta_h", "Host; #delta #phi, Events", 100, 0.0, 3.5);
 
 #endif
 
@@ -213,10 +213,10 @@ int main(int argv, char** argc)
 	double masses2[2]{mu_mass , mu_mass};
 
 	// Create PhaseSpace object for B0 -> K pi J/psi
-	hydra::PhaseSpace<3> phsp1(B0_mass, masses1);
+	hydra::PhaseSpace<3> phsp1( masses1);
 
 	// Create PhaseSpace object for J/psi -> mu+ mu-
-	hydra::PhaseSpace<2> phsp2(Jpsi_mass, masses2);
+	hydra::PhaseSpace<2> phsp2( masses2);
 
 	//device
 	{
@@ -227,12 +227,12 @@ int main(int argv, char** argc)
 		auto start = std::chrono::high_resolution_clock::now();
 
 		//generate the final state particles for B0 -> K pi J/psi
-		phsp1.Generate(B0, hydra::get<0>(Chain_d).begin(), hydra::get<0>(Chain_d).end());
+		phsp1.Generate(B0, hydra::get_decay<0>(Chain_d).begin(), hydra::get_decay<0>(Chain_d).end());
 
 		//pass the list of J/psi to generate the final
 		//state particles for J/psi -> mu+ mu-
-		phsp2.Generate(hydra::get<0>(Chain_d).DaughtersBegin(0),
-				hydra::get<0>(Chain_d).DaughtersEnd(0), hydra::get<1>(Chain_d).begin());
+		phsp2.Generate(hydra::get_decay<0>(Chain_d).pbegin(0),
+				hydra::get_decay<0>(Chain_d).pend(0), hydra::get_decay<1>(Chain_d).begin());
 
 		auto end = std::chrono::high_resolution_clock::now();
 
@@ -292,12 +292,12 @@ int main(int argv, char** argc)
 		auto start = std::chrono::high_resolution_clock::now();
 
 		//generate the final state particles for B0 -> K pi J/psi
-		phsp1.Generate(B0, hydra::get<0>(Chain_h).begin(), hydra::get<0>(Chain_h).end());
+		phsp1.Generate(B0, hydra::get_decay<0>(Chain_h).begin(), hydra::get_decay<0>(Chain_h).end());
 
 		//pass the list of J/psi to generate the final
 		//state particles for J/psi -> mu+ mu-
-		phsp2.Generate(hydra::get<0>(Chain_h).DaughtersBegin(0),
-				hydra::get<0>(Chain_h).DaughtersEnd(0), hydra::get<1>(Chain_h).begin());
+		phsp2.Generate(hydra::get_decay<0>(Chain_h).pbegin(0),
+				hydra::get_decay<0>(Chain_h).pend(0), hydra::get_decay<1>(Chain_h).begin());
 
 		auto end = std::chrono::high_resolution_clock::now();
 

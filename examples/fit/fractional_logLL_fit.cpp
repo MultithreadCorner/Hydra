@@ -1,6 +1,6 @@
 /*----------------------------------------------------------------------------
  *
- *   Copyright (C) 2016 - 2017 Antonio Augusto Alves Junior
+ *   Copyright (C) 2016-2017 Antonio Augusto Alves Junior
  *
  *   This file is part of Hydra Data Analysis Framework.
  *
@@ -20,53 +20,13 @@
  *---------------------------------------------------------------------------*/
 
 /*
- * Config.h
+ * fractional_logLL_fit.cpp
  *
- *  Created on: Feb 24, 2016
+ *  Created on: 08/10/2017
  *      Author: Antonio Augusto Alves Junior
  */
 
 
 
-#ifndef CONFIG_H_
-#define CONFIG_H_
 
-#define CUDA_API_PER_THREAD_DEFAULT_STREAM
-
-
-#include <hydra/detail/external/thrust/detail/config.h>
-#include <hydra/detail/external/thrust/detail/config/host_device.h>
-
-
-#define THRUST_VARIADIC_TUPLE
-
-#define __hydra_exec_check_disable__  __thrust_exec_check_disable__
-
-
-#if defined(__CUDACC__)
-#define __hydra_align__(n) __align__(n)
-#else
-  #define       __hydra_align__(n) __attribute__((aligned(n)))
-#endif
-
-#ifdef __NVCC__
- #include <cuda.h>
- #include <cuda_runtime.h>
- #include <cuda_runtime_api.h>
- #include <math_functions.h>
- #include <vector_functions.h>
-#endif
-
-
-#ifndef HYDRA_CERROR_LOG
-#define HYDRA_OS std::cerr
-#else
-#define HYDRA_OS HYDRA_CERROR_LOG
-#endif
-
-
-
-
-
-
-#endif /* CUDA_H_ */
+#include <examples/fit/fractional_logLL_fit.inl>

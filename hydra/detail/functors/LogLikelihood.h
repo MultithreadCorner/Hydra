@@ -40,8 +40,8 @@
 #include <hydra/Types.h>
 #include <hydra/detail/utility/Utility_Tuple.h>
 #include <hydra/detail/TypeTraits.h>
-#include <hydra/Point.h>
-#include <hydra/PointVector.h>
+//#include <hydra/Point.h>
+//#include <hydra/PointVector.h>
 
 #include <hydra/detail/external/thrust/tuple.h>
 #include <hydra/detail/external/thrust/functional.h>

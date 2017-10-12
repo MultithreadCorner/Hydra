@@ -1,6 +1,6 @@
 /*----------------------------------------------------------------------------
  *
- *   Copyright (C) 2016 - 2017 Antonio Augusto Alves Junior
+ *   Copyright (C) 2016-2017 Antonio Augusto Alves Junior
  *
  *   This file is part of Hydra Data Analysis Framework.
  *
@@ -20,24 +20,26 @@
  *---------------------------------------------------------------------------*/
 
 /*
- * LogLikelihoodFCN1.inl
+ * LogLikelihoodFCN3.inl
  *
- *  Created on: 14/08/2017
+ *  Created on: 09/10/2017
  *      Author: Antonio Augusto Alves Junior
  */
 
-#ifndef LOGLIKELIHOODFCN1_INL_
-#define LOGLIKELIHOODFCN1_INL_
+#ifndef LOGLIKELIHOODFCN3_INL_
+#define LOGLIKELIHOODFCN3_INL_
+
+
 
 #include <hydra/FCN.h>
-#include <hydra/Pdf.h>
+#include <hydra/PDFSumNonExtendable.h>
 #include <hydra/detail/functors/LogLikelihood1.h>
 #include <hydra/detail/external/thrust/transform_reduce.h>
 
 namespace hydra {
 
-template<typename Functor, typename Integrator, typename Iterator>
-class LogLikelihoodFCN< Pdf<Functor,Integrator> , Iterator>: public FCN<LogLikelihoodFCN< Pdf<Functor,Integrator>,Iterator > >{
+template<typename ...Pdfs, typename Iterator >
+class LogLikelihoodFCN< PDFSumNonExtendable<Pdfs...>, Iterator>: public FCN<LogLikelihoodFCN< PDFSumNonExtendable<Pdfs...>, Iterator > >{
 
 public:
 
@@ -49,20 +51,19 @@ public:
 	 * @param begin  iterator pointing to the begin of the dataset.
 	 * @param end   iterator pointing to the end of the dataset.
 	 */
-	LogLikelihoodFCN(Pdf<Functor,Integrator>& functor, Iterator begin, Iterator end):
-		FCN<LogLikelihoodFCN< Pdf<Functor,Integrator>, Iterator>>(functor,begin, end)
+	LogLikelihoodFCN(PDFSumNonExtendable<Pdfs...>& functor, Iterator begin, Iterator end):
+		FCN<LogLikelihoodFCN<PDFSumNonExtendable<Pdfs...>, Iterator>>(functor,begin, end)
 		{}
 
-	LogLikelihoodFCN(LogLikelihoodFCN< Pdf<Functor,Integrator>, Iterator>const& other):
-		FCN<LogLikelihoodFCN< Pdf<Functor,Integrator>, Iterator>>(other)
+	LogLikelihoodFCN(LogLikelihoodFCN<PDFSumNonExtendable<Pdfs...>, Iterator>const& other):
+		FCN<LogLikelihoodFCN<PDFSumNonExtendable<Pdfs...>, Iterator>>(other)
 		{}
 
-	LogLikelihoodFCN< Pdf<Functor,Integrator>, Iterator>&
-	operator=(LogLikelihoodFCN< Pdf<Functor,Integrator>, Iterator>const& other)
+	LogLikelihoodFCN<PDFSumNonExtendable<Pdfs...>, Iterator>&
+	operator=(LogLikelihoodFCN<PDFSumNonExtendable<Pdfs...>, Iterator>const& other)
 	{
 		if(this==&other) return  *this;
-		FCN<LogLikelihoodFCN< Pdf<Functor,Integrator>, Iterator>>::operator=(other);
-
+		FCN<LogLikelihoodFCN<PDFSumNonExtendable<Pdfs...>, Iterator>>::operator=(other);
 		return  *this;
 	}
 
@@ -71,7 +72,7 @@ public:
 
 		using   HYDRA_EXTERNAL_NS::thrust::system::detail::generic::select_system;
 		typedef typename HYDRA_EXTERNAL_NS::thrust::iterator_system<Iterator>::type System;
-		typedef typename Pdf<Functor,Integrator>::functor_type functor_type;
+		typedef typename PDFSumNonExtendable<Pdfs...>::functor_type functor_type;
 		System system;
 
 		// create iterators
@@ -91,29 +92,33 @@ public:
 		}
 
 		this->GetPDF().SetParameters(parameters);
-		//this->GetPDF().PrintRegisteredParameters();
+
 
 		auto NLL = detail::LogLikelihood1<functor_type>(this->GetPDF().GetFunctor());
 
-		final = HYDRA_EXTERNAL_NS::thrust::transform_reduce(select_system(system),
-				this->begin(), this->end(), NLL, init, HYDRA_EXTERNAL_NS::thrust::plus<GReal_t>());
+		final = HYDRA_EXTERNAL_NS::thrust::transform_reduce(select_system(system), this->begin(), this->end(),
+				NLL, init, HYDRA_EXTERNAL_NS::thrust::plus<GReal_t>());
 
-		return (GReal_t)this->GetDataSize()-final ;
+		GReal_t  r = (GReal_t)this->GetDataSize()  - final;
+
+
+
+		return r;
+
 	}
+
 
 };
 
-template< typename Functor, typename Integrator,  typename Iterator>
-auto make_loglikehood_fcn(Iterator first, Iterator last, Pdf<Functor,Integrator>& functor)
--> LogLikelihoodFCN< Pdf<Functor,Integrator>, Iterator >
+
+template<typename... Pdfs,  typename Iterator>
+auto make_loglikehood_fcn(Iterator first, Iterator last, PDFSumNonExtendable<Pdfs...>& functor)
+-> LogLikelihoodFCN< PDFSumNonExtendable<Pdfs...>, Iterator >
 {
-	return LogLikelihoodFCN< Pdf<Functor,Integrator>, Iterator >( functor, first, last);
+	return LogLikelihoodFCN< PDFSumNonExtendable<Pdfs...>, Iterator >( functor, first, last);
 }
 
 }  // namespace hydra
 
 
-
-
-
-#endif /* LOGLIKELIHOODFCN_INL_ */
+#endif /* LOGLIKELIHOODFCN3_INL_ */

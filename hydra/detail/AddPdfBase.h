@@ -1,6 +1,6 @@
 /*----------------------------------------------------------------------------
  *
- *   Copyright (C) 2016 - 2017 Antonio Augusto Alves Junior
+ *   Copyright (C) 2016-2017 Antonio Augusto Alves Junior
  *
  *   This file is part of Hydra Data Analysis Framework.
  *
@@ -20,53 +20,40 @@
  *---------------------------------------------------------------------------*/
 
 /*
- * Config.h
+ * AddPdfBase.h
  *
- *  Created on: Feb 24, 2016
+ *  Created on: 09/10/2017
  *      Author: Antonio Augusto Alves Junior
  */
 
+#ifndef ADDPDFBASE_H_
+#define ADDPDFBASE_H_
+
+#include <hydra/detail/Config.h>
+#include <hydra/Types.h>
+#include <hydra/detail/utility/Utility_Tuple.h>
+#include <hydra/detail/utility/Generic.h>
+#include <hydra/detail/FunctorTraits.h>
+#include <utility>
+
+namespace hydra {
+
+namespace detail {
 
 
-#ifndef CONFIG_H_
-#define CONFIG_H_
+template<typename PDF1, typename PDF2, typename ...PDFs>
+class AddPdfChecker:  public all_true<
+detail::is_hydra_pdf<PDF1>::value,
+detail::is_hydra_pdf<PDF2>::value,
+detail::is_hydra_pdf<PDFs>::value...>{} ;
 
-#define CUDA_API_PER_THREAD_DEFAULT_STREAM
+template<typename PDF1, typename PDF2, typename ...PDFs>
+class AddPdfBase: public std::enable_if<AddPdfChecker<PDF1,PDF2,PDFs...>::value>
+{};
 
+}  // namespace detail
 
-#include <hydra/detail/external/thrust/detail/config.h>
-#include <hydra/detail/external/thrust/detail/config/host_device.h>
-
-
-#define THRUST_VARIADIC_TUPLE
-
-#define __hydra_exec_check_disable__  __thrust_exec_check_disable__
-
-
-#if defined(__CUDACC__)
-#define __hydra_align__(n) __align__(n)
-#else
-  #define       __hydra_align__(n) __attribute__((aligned(n)))
-#endif
-
-#ifdef __NVCC__
- #include <cuda.h>
- #include <cuda_runtime.h>
- #include <cuda_runtime_api.h>
- #include <math_functions.h>
- #include <vector_functions.h>
-#endif
+}  // namespace hydra
 
 
-#ifndef HYDRA_CERROR_LOG
-#define HYDRA_OS std::cerr
-#else
-#define HYDRA_OS HYDRA_CERROR_LOG
-#endif
-
-
-
-
-
-
-#endif /* CUDA_H_ */
+#endif /* ADDPDFBASE_H_ */

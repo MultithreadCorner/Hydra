@@ -33,13 +33,14 @@
 #include <hydra/detail/utility/Utility_Tuple.h>
 #include <hydra/detail/external/thrust/transform_reduce.h>
 #include <hydra/detail/functors/ProcessSPlot.h>
-#include <iostream>
+
 
 namespace hydra {
 
 template <typename PDF1, typename PDF2, typename ...PDFs>
 template<typename InputIterator, typename OutputIterator>
-inline void SPlot<PDF1,PDF2,PDFs...>::Generate(InputIterator in_begin, InputIterator in_end,
+inline HYDRA_EXTERNAL_NS::Eigen::Matrix<double, sizeof...(PDFs)+2, sizeof...(PDFs)+2>
+SPlot<PDF1,PDF2,PDFs...>::Generate(InputIterator in_begin, InputIterator in_end,
 		OutputIterator out_begin)	{
 
 	typedef typename HYDRA_EXTERNAL_NS::thrust::iterator_system<InputIterator>::type system;
@@ -55,7 +56,9 @@ inline void SPlot<PDF1,PDF2,PDFs...>::Generate(InputIterator in_begin, InputIter
 			typename  PDFs::functor_type...>(fCoeficients, fFunctors ),
     		init, detail::CovMatrixBinary< matrix_t>());
 
-    SetCovMatrix(covmatrix);
+    HYDRA_EXTERNAL_NS::Eigen::Matrix<double, npdfs, npdfs> fCovMatrix;
+
+    SetCovMatrix(covmatrix, fCovMatrix);
 
     //_____________________________________
     // calculate the sweights
@@ -64,6 +67,7 @@ inline void SPlot<PDF1,PDF2,PDFs...>::Generate(InputIterator in_begin, InputIter
     		out_begin, detail::SWeights<typename PDF1::functor_type, typename  PDF2::functor_type,
 			typename  PDFs::functor_type...>(fCoeficients, fFunctors, fCovMatrix.inverse() ));
 
+    return  fCovMatrix;
 
 }
 

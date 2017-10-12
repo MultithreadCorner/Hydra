@@ -1,6 +1,6 @@
 /*----------------------------------------------------------------------------
  *
- *   Copyright (C) 2016 - 2017 Antonio Augusto Alves Junior
+ *   Copyright (C) 2016-2017 Antonio Augusto Alves Junior
  *
  *   This file is part of Hydra Data Analysis Framework.
  *
@@ -20,14 +20,15 @@
  *---------------------------------------------------------------------------*/
 
 /*
- * multiarray.h
+ * multivector.h
  *
- *  Created on: 22/07/2017
+ *  Created on: 10/10/2017
  *      Author: Antonio Augusto Alves Junior
  */
 
-#ifndef MULTIARRAY_H_
-#define MULTIARRAY_H_
+#ifndef MULTIVECTOR_H_
+#define MULTIVECTOR_H_
+
 
 
 #include <hydra/detail/Config.h>
@@ -47,83 +48,80 @@
 
 namespace hydra {
 
-template<size_t N, typename T, typename BACKEND, typename CASTER=void>
-class multiarray;
+template<typename T, typename BACKEND, typename CASTER=void>
+class multivector;
 
 /**
  * @brief This class implements storage in SoA layouts for
  * table where all elements have the same type.
  */
-template< size_t N, typename T, hydra::detail::Backend BACKEND>
-class multiarray<N, T, hydra::detail::BackendPolicy<BACKEND>, void >
+template<typename ...T, hydra::detail::Backend BACKEND>
+class multivector< HYDRA_EXTERNAL_NS::thrust::tuple<T...>,
+						hydra::detail::BackendPolicy<BACKEND>, void >
 {
 	typedef hydra::detail::BackendPolicy<BACKEND> system_t;
-	typedef typename system_t::template container<T> vector_t;
-	typedef std::array<vector_t, N> data_t;
+
+	//Useful aliases
+	template<typename Type>
+	using vector = system_t::template container<Type>;
+
+	template<typename Type>
+	using pointer_v    = typename system_t::template container<Type>::pointer;
+
+	template<typename Type>
+	using iterator_v   = typename system_t::template container<Type>::iterator;
+
+	template<typename Type>
+	using const_iterator_v   = typename system_t::template container<Type>::const_iterator;
+
+	template<typename Type>
+	using reverse_iterator_v   = typename system_t::template container<Type>::reverse_iterator;
+
+	template<typename Type>
+	using const_reverse_iterator_v   = typename system_t::template container<Type>::const_reverse_iterator;
+
+	template<typename Type>
+	using reference_v = typename system_t::template container<Type>::reference;
+
+	template<typename Type>
+	using const_reference_v = typename system_t::template container<Type>::const_reference;
+
+	template<typename Type>
+	using value_type_v = typename system_t::template container<Type>::value_type;
+
+
+	typedef HYDRA_EXTERNAL_NS::thrust::tuple< vector<T>...	  > 	storage_t;
+	typedef HYDRA_EXTERNAL_NS::thrust::tuple< pointer_v<T>... > 	pointer_t;
+	typedef HYDRA_EXTERNAL_NS::thrust::tuple< value_type_v<T>... > 	value_type_t;
+	typedef HYDRA_EXTERNAL_NS::thrust::tuple< iterator_v<T>...   > 		iterator_t;
+	typedef HYDRA_EXTERNAL_NS::thrust::tuple< const_iterator_v<T>... > 	const_iterator_t;
+
+	typedef HYDRA_EXTERNAL_NS::thrust::tuple< reverse_iterator_v<T>...   > 		reverse_iterator_t;
+	typedef HYDRA_EXTERNAL_NS::thrust::tuple< const_reverse_iterator_v<T>... > 	const_reverse_iterator_t;
+
+	typedef HYDRA_EXTERNAL_NS::thrust::tuple< reference_v<T>...		 > 	reference_t;
+	typedef HYDRA_EXTERNAL_NS::thrust::tuple< const_reference_v<T>...> 	const_reference_t;
 
 public:
 
-	typedef detail::tuple_type<N, T> row_t;
-	typedef std::array<T, N> array_type;
-	//reference
-	typedef typename vector_t::reference vreference;
-	typedef typename vector_t::const_reference const_vreference;
-	typedef typename detail::tuple_type<N,vreference>::type reference_tuple;
-	typedef typename detail::tuple_type<N,const_vreference>::type const_reference_tuple;
-
-	//pointer
-	typedef typename vector_t::pointer vpointer;
-	typedef typename vector_t::const_pointer const_vpointer;
-
-	//vector iterators
-	typedef vector_t vector_type;
-	typedef typename vector_t::iterator 				viterator;
-	typedef typename vector_t::const_iterator 			const_viterator;
-	typedef typename vector_t::reverse_iterator 		vreverse_iterator;
-	typedef typename vector_t::const_reverse_iterator 	const_vreverse_iterator;
-
-	//iterators tuple
-	typedef typename detail::tuple_type<N, viterator>::type 				iterator_tuple;
-	typedef typename detail::tuple_type<N, const_viterator>::type 			const_iterator_tuple;
-	typedef typename detail::tuple_type<N, vreverse_iterator>::type 		reverse_iterator_tuple;
-	typedef typename detail::tuple_type<N, const_vreverse_iterator>::type	const_reverse_iterator_tuple;
-
-	//iterators array
-	typedef std::array<viterator, N> 				iterator_array;
-	typedef std::array<const_viterator, N> 			const_iterator_array;
-	typedef std::array<vreverse_iterator, N> 		reverse_iterator_array;
-	typedef std::array<const_vreverse_iterator, N> 	const_reverse_iterator_array;
-
 	//zip iterator
-	typedef HYDRA_EXTERNAL_NS::thrust::zip_iterator<iterator_tuple>		 iterator;
-	typedef HYDRA_EXTERNAL_NS::thrust::zip_iterator<const_iterator_tuple>	 const_iterator;
-	typedef HYDRA_EXTERNAL_NS::thrust::zip_iterator<reverse_iterator_tuple>		 reverse_iterator;
-	typedef HYDRA_EXTERNAL_NS::thrust::zip_iterator<const_reverse_iterator_tuple>	 const_reverse_iterator;
+	typedef HYDRA_EXTERNAL_NS::thrust::zip_iterator<iterator_t>		 iterator;
+	typedef HYDRA_EXTERNAL_NS::thrust::zip_iterator<const_iterator_t>	 const_iterator;
+	typedef HYDRA_EXTERNAL_NS::thrust::zip_iterator<reverse_iterator_t>		 reverse_iterator;
+	typedef HYDRA_EXTERNAL_NS::thrust::zip_iterator<const_reverse_iterator_t>	 const_reverse_iterator;
 
 	//stl-like typedefs
 	 typedef size_t size_type;
-
 	 typedef typename HYDRA_EXTERNAL_NS::thrust::iterator_traits<iterator>::difference_type difference_type;
 	 typedef typename HYDRA_EXTERNAL_NS::thrust::iterator_traits<iterator>::value_type value_type;
-	 //typedef typename HYDRA_EXTERNAL_NS::thrust::iterator_traits<iterator>::pointer pointer;
-	 typedef typename detail::tuple_type<N,vpointer>::type pointer_tuple;
-	 typedef typename detail::tuple_type<N,const_vpointer>::type const_pointer_tuple;
-	 typedef std::array<vpointer,N>       pointer_array;
-	 typedef std::array<const_vpointer,N> const_pointer_array;
 
-	 typedef typename HYDRA_EXTERNAL_NS::thrust::iterator_traits<iterator>::reference reference;
-	 typedef typename HYDRA_EXTERNAL_NS::thrust::iterator_traits<const_iterator>::reference const_reference;
-	 typedef typename HYDRA_EXTERNAL_NS::thrust::iterator_traits<reverse_iterator>::reference reverse_reference;
-	 typedef typename HYDRA_EXTERNAL_NS::thrust::iterator_traits<const_reverse_iterator>::reference const_reverse_reference;
-	 typedef typename HYDRA_EXTERNAL_NS::thrust::iterator_traits<iterator>::iterator_category iterator_category;
-
-	multiarray():
+	multivector():
 		fData(data_t())
 	{
 
 	};
 
-	multiarray(size_t n)
+	multivector(size_t n)
 	{
 		fData = data_t();
 		for( size_t i=0; i<N; i++)
@@ -131,7 +129,7 @@ public:
 	};
 
 
-	multiarray(size_t n, T (&value)[N])
+	multivector(size_t n, T (&value)[N])
 	{
 		fData = data_t();
 		for( size_t i=0; i<N; i++){
@@ -142,7 +140,7 @@ public:
 
 
 
-	multiarray(size_t n, array_type const& value)
+	multivector(size_t n, array_type const& value)
 	{
 		fData = data_t();
 		for( size_t i=0; i<N; i++){
@@ -151,7 +149,7 @@ public:
 		}
 	};
 
-	multiarray(size_t n, row_t const& value)
+	multivector(size_t n, row_t const& value)
 	{
 		fData = data_t();
 		array_type _value;
@@ -163,19 +161,19 @@ public:
 		}
 	};
 
-	multiarray(multiarray<N,T,detail::BackendPolicy<BACKEND>, void> const& other )
+	multivector(multivector<N,T,detail::BackendPolicy<BACKEND>, void> const& other )
 	{
 		fData = data_t();
 		for( size_t i=0; i<N; i++)
 			fData[i] = std::move(vector_t(other.begin(i), other.end(i)));
 	}
 
-	multiarray(multiarray<N,T,detail::BackendPolicy<BACKEND>, void>&& other ):
+	multivector(multivector<N,T,detail::BackendPolicy<BACKEND>, void>&& other ):
 	fData(other.MoveData())
 	{}
 
 	template< hydra::detail::Backend BACKEND2>
-	multiarray(multiarray<N,T,detail::BackendPolicy<BACKEND2>, void> const& other )
+	multivector(multivector<N,T,detail::BackendPolicy<BACKEND2>, void> const& other )
 	{
 		fData = data_t();
 
@@ -184,15 +182,15 @@ public:
 	}
 
 	template< typename Iterator>
-	multiarray(Iterator begin, Iterator end )
+	multivector(Iterator begin, Iterator end )
 	{
 		fData = data_t();
 		do_copy(begin, end );
 
 	}
 
-	multiarray<N,T,detail::BackendPolicy<BACKEND>, void>&
-	operator=(multiarray<N,T,detail::BackendPolicy<BACKEND>, void> const& other )
+	multivector<N,T,detail::BackendPolicy<BACKEND>, void>&
+	operator=(multivector<N,T,detail::BackendPolicy<BACKEND>, void> const& other )
 	{
 			if(this==&other) return *this;
 
@@ -202,8 +200,8 @@ public:
 			return *this;
 	}
 
-	multiarray<N,T,detail::BackendPolicy<BACKEND>, void>&
-	operator=(multiarray<N,T,detail::BackendPolicy<BACKEND>, void >&& other )
+	multivector<N,T,detail::BackendPolicy<BACKEND>, void>&
+	operator=(multivector<N,T,detail::BackendPolicy<BACKEND>, void >&& other )
 	{
 		if(this==&other) return *this;
 		this->fData =other.MoveData();
@@ -211,8 +209,8 @@ public:
 	}
 
 	template< hydra::detail::Backend BACKEND2>
-	multiarray<N,T,detail::BackendPolicy<BACKEND>, void >&
-	operator=(multiarray<N,T,detail::BackendPolicy<BACKEND2>, void > const& other )
+	multivector<N,T,detail::BackendPolicy<BACKEND>, void >&
+	operator=(multivector<N,T,detail::BackendPolicy<BACKEND2>, void > const& other )
 	{
 
 		for( size_t i=0; i<N; i++)
@@ -399,7 +397,7 @@ private:
 		return std::move(fData);
 	}
 
-	data_t fData;
+	storage_t fData;
 
 
 };
@@ -410,7 +408,7 @@ private:
  * table where all elements have the same type.
  */
 template< size_t N, typename T, hydra::detail::Backend BACKEND, typename TargetType>
-class multiarray<N, T, hydra::detail::BackendPolicy<BACKEND>,  TargetType >
+class multivector<N, T, hydra::detail::BackendPolicy<BACKEND>,  TargetType >
 {
 	typedef hydra::detail::BackendPolicy<BACKEND> system_t;
 	typedef typename system_t::template container<T> vector_t;
@@ -477,13 +475,13 @@ public:
 	 typedef  HYDRA_EXTERNAL_NS::thrust::transform_iterator<detail::Caster< value_type, TargetType>,  iterator>  trans_iterator;
 	 typedef  HYDRA_EXTERNAL_NS::thrust::transform_iterator<detail::Caster< value_type, TargetType>,  reverse_iterator>  reverse_trans_iterator;
 
-	multiarray():
+	multivector():
 		fData(data_t())
 	{
 
 	};
 
-	multiarray(size_t n)
+	multivector(size_t n)
 	{
 
 
@@ -492,19 +490,19 @@ public:
 			fData[i].resize(n);
 	};
 
-	multiarray(multiarray<N,T,detail::BackendPolicy<BACKEND>> const& other )
+	multivector(multivector<N,T,detail::BackendPolicy<BACKEND>> const& other )
 	{
 		fData = data_t();
 		for( size_t i=0; i<N; i++)
 			fData[i] = std::move(vector_t(other.begin(i), other.end(i)));
 	}
 
-	multiarray(multiarray<N,T,detail::BackendPolicy<BACKEND>>&& other ):
+	multivector(multivector<N,T,detail::BackendPolicy<BACKEND>>&& other ):
 	fData(other.MoveData())
 	{}
 
 	template< hydra::detail::Backend BACKEND2>
-	multiarray(multiarray<N,T,detail::BackendPolicy<BACKEND2>> const& other )
+	multivector(multivector<N,T,detail::BackendPolicy<BACKEND2>> const& other )
 	{
 		fData = data_t();
 
@@ -513,15 +511,15 @@ public:
 	}
 
 	template< typename Iterator>
-	multiarray(Iterator begin, Iterator end )
+	multivector(Iterator begin, Iterator end )
 	{
 		fData = data_t();
 		do_copy(begin, end );
 
 	}
 
-	multiarray<N,T,detail::BackendPolicy<BACKEND>>&
-	operator=(multiarray<N,T,detail::BackendPolicy<BACKEND>> const& other )
+	multivector<N,T,detail::BackendPolicy<BACKEND>>&
+	operator=(multivector<N,T,detail::BackendPolicy<BACKEND>> const& other )
 	{
 			if(this==&other) return *this;
 
@@ -531,8 +529,8 @@ public:
 			return *this;
 	}
 
-	multiarray<N,T,detail::BackendPolicy<BACKEND>>&
-	operator=(multiarray<N,T,detail::BackendPolicy<BACKEND> >&& other )
+	multivector<N,T,detail::BackendPolicy<BACKEND>>&
+	operator=(multivector<N,T,detail::BackendPolicy<BACKEND> >&& other )
 	{
 		if(this==&other) return *this;
 		this->fData =other.MoveData();
@@ -540,8 +538,8 @@ public:
 	}
 
 	template< hydra::detail::Backend BACKEND2>
-	multiarray<N,T,detail::BackendPolicy<BACKEND> >&
-	operator=(multiarray<N,T,detail::BackendPolicy<BACKEND2> > const& other )
+	multivector<N,T,detail::BackendPolicy<BACKEND> >&
+	operator=(multivector<N,T,detail::BackendPolicy<BACKEND2> > const& other )
 	{
 
 		for( size_t i=0; i<N; i++)
@@ -741,18 +739,21 @@ private:
 
 template<size_t N1, typename T1, hydra::detail::Backend BACKEND1, typename CASTER1,
          size_t N2, typename T2, hydra::detail::Backend BACKEND2, typename CASTER2>
-bool operator==(const multiarray<N1, T1, hydra::detail::BackendPolicy<BACKEND1>, CASTER1 >& lhs,
-                const multiarray<N2, T2, hydra::detail::BackendPolicy<BACKEND2>, CASTER2 >& rhs);
+bool operator==(const multivector<N1, T1, hydra::detail::BackendPolicy<BACKEND1>, CASTER1 >& lhs,
+                const multivector<N2, T2, hydra::detail::BackendPolicy<BACKEND2>, CASTER2 >& rhs);
 
 template<size_t N1, typename T1, hydra::detail::Backend BACKEND1, typename CASTER1,
          size_t N2, typename T2, hydra::detail::Backend BACKEND2, typename CASTER2>
-bool operator!=(const multiarray<N1, T1, hydra::detail::BackendPolicy<BACKEND1> , CASTER1 >& lhs,
-                const multiarray<N2, T2, hydra::detail::BackendPolicy<BACKEND2>, CASTER2 >& rhs);
+bool operator!=(const multivector<N1, T1, hydra::detail::BackendPolicy<BACKEND1> , CASTER1 >& lhs,
+                const multivector<N2, T2, hydra::detail::BackendPolicy<BACKEND2>, CASTER2 >& rhs);
 
 
 
 }  // namespace hydra
 
-#include<hydra/detail/multiarray.inl>
+#include<hydra/detail/multivector2.inl>
 
-#endif /* MULTIARRAY_H_ */
+
+
+
+#endif /* MULTIVECTOR_H_ */

@@ -1,6 +1,6 @@
 /*----------------------------------------------------------------------------
  *
- *   Copyright (C) 2016 - 2017 Antonio Augusto Alves Junior
+ *   Copyright (C) 2016-2017 Antonio Augusto Alves Junior
  *
  *   This file is part of Hydra Data Analysis Framework.
  *
@@ -20,25 +20,13 @@
  *---------------------------------------------------------------------------*/
 
 /*
- * LogLikelihoodFCN2.h
+ * sparse_histograming.cu
  *
- *  Created on: 13/08/2017
+ *  Created on: 03/10/2017
  *      Author: Antonio Augusto Alves Junior
  */
 
-#ifndef LOGLIKELIHOODFCN2_H_
-#define LOGLIKELIHOODFCN2_H_
 
-#include <hydra/FCN2.h>
+#include<examples/histograming/sparse_histogram.inl>
 
-namespace hydra {
 
-template<typename PDF, typename Iterator, typename... Extensions>
-class LogLikelihoodFCN1;
-
-}  // namespace hydra
-
-#include<hydra/detail/LogLikelihoodFCN1.inl>
-#include<hydra/detail/LogLikelihoodFCN2.inl>
-
-#endif /* LOGLIKELIHOODFCN2_H_ */
