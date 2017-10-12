@@ -108,7 +108,8 @@ public:
 
 
 	template<typename InputIterator, typename OutputIterator>
-	inline void Generate(InputIterator in_begin, InputIterator in_end,
+	inline HYDRA_EXTERNAL_NS::Eigen::Matrix<double, sizeof...(PDFs)+2, sizeof...(PDFs)+2>
+	Generate(InputIterator in_begin, InputIterator in_end,
 			OutputIterator out_begin);
 
 
@@ -116,22 +117,24 @@ private:
 
 	template<size_t I, typename ...T>
 	inline typename HYDRA_EXTERNAL_NS::thrust::detail::enable_if<(I == sizeof...(T)),void >::type
-	SetCovMatrix( HYDRA_EXTERNAL_NS::thrust::tuple<T...> const& tpl  )
+	SetCovMatrix( HYDRA_EXTERNAL_NS::thrust::tuple<T...> const& tpl,
+			HYDRA_EXTERNAL_NS::Eigen::Matrix<double, npdfs, npdfs>& fCovMatrix )
 	{ }
 
 	template<size_t I=0, typename ...T>
 	inline typename HYDRA_EXTERNAL_NS::thrust::detail::enable_if<(I < sizeof...(T)),void >::type
-	SetCovMatrix( HYDRA_EXTERNAL_NS::thrust::tuple<T...> const& tpl  )
+	SetCovMatrix( HYDRA_EXTERNAL_NS::thrust::tuple<T...> const& tpl,
+			HYDRA_EXTERNAL_NS::Eigen::Matrix<double, npdfs, npdfs>& fCovMatrix  )
 	{
 
 		fCovMatrix(index< npdfs, I>::x, index< npdfs, I>::y )=HYDRA_EXTERNAL_NS::thrust::get<I>(tpl);
-		SetCovMatrix<I+1, T...>(tpl);
+		SetCovMatrix<I+1, T...>(tpl, fCovMatrix);
 	}
 
 	Parameter    fCoeficients[npdfs];
 	pdfs_tuple_type fPDFs;
 	functors_tuple_type fFunctors;
-	HYDRA_EXTERNAL_NS::Eigen::Matrix<double, npdfs, npdfs> fCovMatrix;
+	//HYDRA_EXTERNAL_NS::Eigen::Matrix<double, npdfs, npdfs> fCovMatrix;
 
 
 };
