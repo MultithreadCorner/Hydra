@@ -90,13 +90,12 @@ class multivector< HYDRA_EXTERNAL_NS::thrust::tuple<T...>,
 	using value_type_v = typename system_t::template container<Type>::value_type;
 
 
-	typedef HYDRA_EXTERNAL_NS::thrust::tuple< vector<T>...	  > 	storage_t;
-	typedef HYDRA_EXTERNAL_NS::thrust::tuple< pointer_v<T>... > 	pointer_t;
+	typedef HYDRA_EXTERNAL_NS::thrust::tuple< vector<T>...	  	 > 	storage_t;
+	typedef HYDRA_EXTERNAL_NS::thrust::tuple< pointer_v<T>... 	 > 	pointer_t;
 	typedef HYDRA_EXTERNAL_NS::thrust::tuple< value_type_v<T>... > 	value_type_t;
-	typedef HYDRA_EXTERNAL_NS::thrust::tuple< iterator_v<T>...   > 		iterator_t;
-	typedef HYDRA_EXTERNAL_NS::thrust::tuple< const_iterator_v<T>... > 	const_iterator_t;
-
-	typedef HYDRA_EXTERNAL_NS::thrust::tuple< reverse_iterator_v<T>...   > 		reverse_iterator_t;
+	typedef HYDRA_EXTERNAL_NS::thrust::tuple< iterator_v<T>...   >  iterator_t;
+	typedef HYDRA_EXTERNAL_NS::thrust::tuple< const_iterator_v<T>...  > 	const_iterator_t;
+	typedef HYDRA_EXTERNAL_NS::thrust::tuple< reverse_iterator_v<T>...> 	reverse_iterator_t;
 	typedef HYDRA_EXTERNAL_NS::thrust::tuple< const_reverse_iterator_v<T>... > 	const_reverse_iterator_t;
 
 	typedef HYDRA_EXTERNAL_NS::thrust::tuple< reference_v<T>...		 > 	reference_t;
@@ -116,56 +115,32 @@ public:
 	 typedef typename HYDRA_EXTERNAL_NS::thrust::iterator_traits<iterator>::value_type value_type;
 
 	multivector():
-		fData(data_t())
-	{
+		fData(storage_t())
+	{ };
 
+	multivector(size_t n){
+
+		fData = data_t();
+
+		__resize(n);
 	};
 
-	multivector(size_t n)
-	{
-		fData = data_t();
-		for( size_t i=0; i<N; i++)
-			fData[i].resize(n);
-	};
+	multivector(size_t n, value_type const& value){
 
-
-	multivector(size_t n, T (&value)[N])
-	{
 		fData = data_t();
-		for( size_t i=0; i<N; i++){
-			fData[i].resize(n);
-			HYDRA_EXTERNAL_NS::thrust::fill(fData[i].begin(), fData[i].end(), value[i] );
-		}
+
+		__resize(n);
+
+		HYDRA_EXTERNAL_NS::thrust::fill(begin(), end(), value );
 	};
 
 
 
-	multivector(size_t n, array_type const& value)
+	multivector(multivector<T..., detail::BackendPolicy<BACKEND>, void> const& other )
 	{
 		fData = data_t();
-		for( size_t i=0; i<N; i++){
-			fData[i].resize(n);
-			HYDRA_EXTERNAL_NS::thrust::fill(fData[i].begin(), fData[i].end(), value[i] );
-		}
-	};
-
-	multivector(size_t n, row_t const& value)
-	{
-		fData = data_t();
-		array_type _value;
-		detail::tupleToArray(value, _value);
-
-		for( size_t i=0; i<N; i++){
-			fData[i].resize(n);
-			HYDRA_EXTERNAL_NS::thrust::fill(fData[i].begin(), fData[i].end(), _value[i] );
-		}
-	};
-
-	multivector(multivector<N,T,detail::BackendPolicy<BACKEND>, void> const& other )
-	{
-		fData = data_t();
-		for( size_t i=0; i<N; i++)
-			fData[i] = std::move(vector_t(other.begin(i), other.end(i)));
+		__resize(other.size());
+		HYDRA_EXTERNAL_NS::thrust::copy(other.begin(i), other.end(i), begin());
 	}
 
 	multivector(multivector<N,T,detail::BackendPolicy<BACKEND>, void>&& other ):
@@ -177,15 +152,19 @@ public:
 	{
 		fData = data_t();
 
-		for( size_t i=0; i<N; i++)
-			fData[i] = std::move( vector_t( other.begin(i), other.end(i) ) );
+		__resize(other.size());
+
+		HYDRA_EXTERNAL_NS::thrust::copy(other.begin(i), other.end(i), begin());
 	}
 
 	template< typename Iterator>
-	multivector(Iterator begin, Iterator end )
+	multivector(Iterator first, Iterator last )
 	{
 		fData = data_t();
-		do_copy(begin, end );
+
+		__resize( HYDRA_EXTERNAL_NS::thrust::distance(first, last) );
+
+		HYDRA_EXTERNAL_NS::thrust::copy(first, last, begin());
 
 	}
 
@@ -194,8 +173,7 @@ public:
 	{
 			if(this==&other) return *this;
 
-			for( size_t i=0; i<N; i++)
-				this->fData[i] = std::move(vector_t(other.begin(), other.end()));
+			HYDRA_EXTERNAL_NS::thrust::copy(other.begin(i), other.end(i), begin());
 
 			return *this;
 	}
@@ -204,7 +182,7 @@ public:
 	operator=(multivector<N,T,detail::BackendPolicy<BACKEND>, void >&& other )
 	{
 		if(this==&other) return *this;
-		this->fData =other.MoveData();
+		this->fData = other.MoveData();
 		return *this;
 	}
 
@@ -389,6 +367,8 @@ private:
 	    fData[I].push_back(get<I>(value));
 	    do_push_back<I + 1>(value );
 	}
+
+	//
 
 
 
