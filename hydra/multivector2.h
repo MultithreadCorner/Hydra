@@ -119,22 +119,15 @@ public:
 	{ };
 
 	multivector(size_t n){
-
 		fData = data_t();
-
 		__resize(n);
 	};
 
 	multivector(size_t n, value_type const& value){
-
 		fData = data_t();
-
 		__resize(n);
-
 		HYDRA_EXTERNAL_NS::thrust::fill(begin(), end(), value );
 	};
-
-
 
 	multivector(multivector<T..., detail::BackendPolicy<BACKEND>, void> const& other )
 	{
@@ -154,7 +147,7 @@ public:
 
 		__resize(other.size());
 
-		HYDRA_EXTERNAL_NS::thrust::copy(other.begin(i), other.end(i), begin());
+		HYDRA_EXTERNAL_NS::thrust::copy(other.begin(), other.end(), begin());
 	}
 
 	template< typename Iterator>
@@ -171,17 +164,17 @@ public:
 	multivector<N,T,detail::BackendPolicy<BACKEND>, void>&
 	operator=(multivector<N,T,detail::BackendPolicy<BACKEND>, void> const& other )
 	{
-			if(this==&other) return *this;
+		if(this==&other) return *this;
 
-			HYDRA_EXTERNAL_NS::thrust::copy(other.begin(i), other.end(i), begin());
+		HYDRA_EXTERNAL_NS::thrust::copy(other.begin(), other.end(), begin());
 
-			return *this;
+		return *this;
 	}
 
 	multivector<N,T,detail::BackendPolicy<BACKEND>, void>&
 	operator=(multivector<N,T,detail::BackendPolicy<BACKEND>, void >&& other )
 	{
-		if(this==&other) return *this;
+		if(this == &other) return *this;
 		this->fData = other.MoveData();
 		return *this;
 	}
@@ -190,18 +183,12 @@ public:
 	multivector<N,T,detail::BackendPolicy<BACKEND>, void >&
 	operator=(multivector<N,T,detail::BackendPolicy<BACKEND2>, void > const& other )
 	{
-
-		for( size_t i=0; i<N; i++)
-			this->fData[i] = std::move( vector_t( other.begin(i), other.end(i) ) );
+		HYDRA_EXTERNAL_NS::thrust::copy(other.begin(), other.end(), begin());
 		return *this;
 	}
 
 
 	inline void pop_back();
-
-	inline void push_back(const T (&args)[N]);
-
-	inline void	push_back(std::initializer_list<T>const& list_args);
 
 	inline void	push_back(value_type const& value);
 
@@ -238,15 +225,6 @@ public:
 	reference back();
 
 	const_reference back() const;
-
-	pointer_tuple ptrs_tuple();
-	const_pointer_tuple ptrs_tuple() const;
-
-	pointer_array ptrs_array();
-	const_pointer_array ptrs_array() const;
-
-    //vpointer data( size_t i);
-    //const_vpointer data( size_t i) const;
 
 	//non-constant access
 	iterator begin();
