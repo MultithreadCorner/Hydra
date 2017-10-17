@@ -29,39 +29,39 @@
 #ifndef PLACEHOLDERS_H_
 #define PLACEHOLDERS_H_
 
+#include <hydra/detail/external/thrust/detail/type_traits.h>
+
+
 namespace hydra {
 
 namespace placeholders {
 
-template<size_t I>
-struct placeholder{};
+template<unsigned int I>
+struct placeholder{
+	constexpr operator unsigned int(){ return I; };
+};
 
-placeholder<1> _1;
-placeholder<2> _2;
-placeholder<3> _3;
-placeholder<4> _4;
-placeholder<5> _5;
-placeholder<6> _6;
-placeholder<7> _7;
-placeholder<8> _8;
-placeholder<9> _9;
-placeholder<10> _10;
-placeholder<11> _11;
-placeholder<12> _12;
-placeholder<13> _13;
-placeholder<14> _14;
-placeholder<15> _15;
-placeholder<16> _16;
-placeholder<17> _17;
-placeholder<18> _18;
-placeholder<19> _19;
-placeholder<20> _20;
+/*
+is_placeholder<I> members
+
+unsigned int is_placeholder<I>::value ;
+typedef is_placeholder<I>::value_type ;
+typedef integral_constant<unsigned int, I> type;
+*/
+template<typename T>
+struct is_placeholder:
+		public HYDRA_EXTERNAL_NS::thrust::detail::integral_constant<int, -1>{};
 
 
+template<unsigned int I>
+struct is_placeholder< placeholder<I> >:
+		public HYDRA_EXTERNAL_NS::thrust::detail::integral_constant<unsigned int, I>{};
 
 
 }  // namespace placeholders
 
 }  // namespace hydra
+
+#include<hydra/detail/Placeholders.inl>
 
 #endif /* PLACEHOLDERS_H_ */

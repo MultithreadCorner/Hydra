@@ -52,6 +52,7 @@
 #include <hydra/Filter.h>
 #include <hydra/GaussKronrodQuadrature.h>
 #include <hydra/multivector2.h>
+#include <hydra/Placeholders.h>
 //Minuit2
 #include "Minuit2/FunctionMinimum.h"
 #include "Minuit2/MnUserParameterState.h"
@@ -83,6 +84,8 @@
 
 using namespace ROOT::Minuit2;
 
+using namespace hydra::placeholders;
+
 int main(int argv, char** argc)
 {
 	size_t nentries = 0;
@@ -106,8 +109,12 @@ int main(int argv, char** argc)
 														<< std::endl;
 	}
 
-	hydra::multivector2<hydra::tuple<int, double>, hydra::omp::sys_t> a(10);
+	hydra::multivector2<hydra::tuple<int, double>, hydra::device::sys_t> mvect(10);
+	for(auto i: mvect)
+		std::cout << i << std::endl;
 
+	for(size_t i =0; i< mvect.size(); i++)
+		std::cout <<  mvect.begin(_1)[i] << std::endl;
 
 	//generator
 	hydra::Random<> Generator( std::chrono::system_clock::now().time_since_epoch().count() );
