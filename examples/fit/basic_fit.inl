@@ -51,6 +51,7 @@
 #include <hydra/Copy.h>
 #include <hydra/Filter.h>
 #include <hydra/GaussKronrodQuadrature.h>
+#include <hydra/multivector2.h>
 //Minuit2
 #include "Minuit2/FunctionMinimum.h"
 #include "Minuit2/MnUserParameterState.h"
@@ -104,6 +105,8 @@ int main(int argv, char** argc)
 		std::cerr << "error: " << e.error() << " for arg " << e.argId()
 														<< std::endl;
 	}
+
+	hydra::multivector2<hydra::tuple<int, double>, hydra::omp::sys_t> a(10);
 
 
 	//generator

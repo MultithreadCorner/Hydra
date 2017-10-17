@@ -26,8 +26,8 @@
  *      Author: Antonio Augusto Alves Junior
  */
 
-#ifndef MULTIVECTOR_H_
-#define MULTIVECTOR_H_
+#ifndef MULTIVECTOR2_H_
+#define MULTIVECTOR2_H_
 
 
 
@@ -47,22 +47,22 @@
 
 namespace hydra {
 
-template<typename T, typename BACKEND, typename CASTER=void>
-class multivector;
+template<typename T, typename BACKEND>
+class multivector2;
 
 /**
  * @brief This class implements storage in SoA layouts for
  * table where all elements have the same type.
  */
 template<typename ...T, hydra::detail::Backend BACKEND>
-class multivector< HYDRA_EXTERNAL_NS::thrust::tuple<T...>, hydra::detail::BackendPolicy<BACKEND>>
+class multivector2< HYDRA_EXTERNAL_NS::thrust::tuple<T...>, hydra::detail::BackendPolicy<BACKEND>>
 {
 	typedef hydra::detail::BackendPolicy<BACKEND> system_t;
 	constexpr static size_t N = sizeof...(T);
 
 	//Useful aliases
 	template<typename Type>
-	using vector = system_t::template container<Type>;
+	using vector = typename system_t::template container<Type>;
 
 	template<typename Type>
 	using pointer_v    = typename system_t::template container<Type>::pointer;
@@ -89,16 +89,6 @@ class multivector< HYDRA_EXTERNAL_NS::thrust::tuple<T...>, hydra::detail::Backen
 	using value_type_v = typename system_t::template container<Type>::value_type;
 
 
-	typedef HYDRA_EXTERNAL_NS::thrust::tuple< vector<T>...	  	 > 	storage_t;
-	typedef HYDRA_EXTERNAL_NS::thrust::tuple< pointer_v<T>... 	 > 	pointer_t;
-	typedef HYDRA_EXTERNAL_NS::thrust::tuple< value_type_v<T>... > 	value_type_t;
-	typedef HYDRA_EXTERNAL_NS::thrust::tuple< iterator_v<T>...   >  iterator_t;
-	typedef HYDRA_EXTERNAL_NS::thrust::tuple< const_iterator_v<T>...  > 	const_iterator_t;
-	typedef HYDRA_EXTERNAL_NS::thrust::tuple< reverse_iterator_v<T>...> 	reverse_iterator_t;
-	typedef HYDRA_EXTERNAL_NS::thrust::tuple< const_reverse_iterator_v<T>... > 	const_reverse_iterator_t;
-
-	typedef HYDRA_EXTERNAL_NS::thrust::tuple< reference_v<T>...		 > 	reference_t;
-	typedef HYDRA_EXTERNAL_NS::thrust::tuple< const_reference_v<T>...> 	const_reference_t;
 
 public:
 
@@ -128,34 +118,34 @@ public:
 
 
 
-	multivector():
+	multivector2():
 		fData(storage_t())
 	{ };
 
-	multivector(size_t n){
+	multivector2(size_t n){
 		fData = data_t();
 		__resize(n);
 	};
 
-	multivector(size_t n, value_type const& value){
+	multivector2(size_t n, value_type const& value){
 		fData = data_t();
 		__resize(n);
 		HYDRA_EXTERNAL_NS::thrust::fill(begin(), end(), value );
 	};
 
-	multivector(multivector<T..., detail::BackendPolicy<BACKEND>, void> const& other )
+	multivector2(multivector2<HYDRA_EXTERNAL_NS::thrust::tuple<T...>, detail::BackendPolicy<BACKEND>> const& other )
 	{
 		fData = data_t();
 		__resize(other.size());
 		HYDRA_EXTERNAL_NS::thrust::copy(other.begin(i), other.end(i), begin());
 	}
 
-	multivector(multivector<T...,detail::BackendPolicy<BACKEND>, void>&& other ):
+	multivector2(multivector2<T...,detail::BackendPolicy<BACKEND>>&& other ):
 	fData(other.__move())
 	{}
 
 	template< hydra::detail::Backend BACKEND2>
-	multivector(multivector<T...,detail::BackendPolicy<BACKEND2>, void> const& other )
+	multivector2(multivector2<HYDRA_EXTERNAL_NS::thrust::tuple<T...>,detail::BackendPolicy<BACKEND2>> const& other )
 	{
 		fData = data_t();
 
@@ -165,7 +155,7 @@ public:
 	}
 
 	template< typename Iterator>
-	multivector(Iterator first, Iterator last )
+	multivector2(Iterator first, Iterator last )
 	{
 		fData = data_t();
 
@@ -175,8 +165,8 @@ public:
 
 	}
 
-	multivector<T...,detail::BackendPolicy<BACKEND>, void>&
-	operator=(multivector<T...,detail::BackendPolicy<BACKEND>, void> const& other )
+	multivector2<HYDRA_EXTERNAL_NS::thrust::tuple<T...>,detail::BackendPolicy<BACKEND>>&
+	operator=(multivector2<HYDRA_EXTERNAL_NS::thrust::tuple<T...>,detail::BackendPolicy<BACKEND>> const& other )
 	{
 		if(this==&other) return *this;
 
@@ -185,8 +175,8 @@ public:
 		return *this;
 	}
 
-	multivector<T...,detail::BackendPolicy<BACKEND>, void>&
-	operator=(multivector<T...,detail::BackendPolicy<BACKEND>, void >&& other )
+	multivector2<HYDRA_EXTERNAL_NS::thrust::tuple<T...>,detail::BackendPolicy<BACKEND>>&
+	operator=(multivector2<HYDRA_EXTERNAL_NS::thrust::tuple<T...>,detail::BackendPolicy<BACKEND> >&& other )
 	{
 		if(this == &other) return *this;
 		this->fData = other.__move();
@@ -194,8 +184,8 @@ public:
 	}
 
 	template< hydra::detail::Backend BACKEND2>
-	multivector<T...,detail::BackendPolicy<BACKEND>, void >&
-	operator=(multivector<T...,detail::BackendPolicy<BACKEND2>, void > const& other )
+	multivector2<HYDRA_EXTERNAL_NS::thrust::tuple<T...>,detail::BackendPolicy<BACKEND>>&
+	operator=(multivector2<HYDRA_EXTERNAL_NS::thrust::tuple<T...>,detail::BackendPolicy<BACKEND2> > const& other )
 	{
 		HYDRA_EXTERNAL_NS::thrust::copy(other.begin(), other.end(), begin());
 		return *this;
@@ -323,19 +313,33 @@ public:
 
 	//constant automatic conversion access
 	template<typename Functor>
-	auto begin( Functor const& caster )
+	auto begin( Functor const& caster ) const
 	-> decltype( __caster_begin(caster) )
 	{
 		return __caster_begin(caster);
 	}
 
 	template<typename Functor>
-	auto  end( Functor const& caster )
+	auto  end( Functor const& caster ) const
 	-> decltype( __caster_end(caster) )
 	{
 		return __caster_end(caster);
 	}
 
+	//constant automatic conversion access
+	template<typename Functor>
+	auto rbegin( Functor const& caster ) const
+	-> decltype( __caster_rbegin(caster) )
+	{
+		return __caster_rbegin(caster);
+	}
+
+	template<typename Functor>
+	auto  rend( Functor const& caster ) const
+	-> decltype( __caster_rend(caster) )
+	{
+		return __caster_rend(caster);
+	}
 
 	//non-constant access
 	reverse_iterator rbegin()
@@ -490,7 +494,43 @@ public:
 	{	return cbegin()[n]; }
 
 private:
+	//__________________________________________
+	// caster accessors
+	template<typename Functor>
+	HYDRA_EXTERNAL_NS::thrust::transform_iterator< Functor,
+					iterator, typename std::result_of<Functor(value_type)>::type >
+	__caster_begin( Functor const& caster ) const
+	{
+		return HYDRA_EXTERNAL_NS::thrust::transform_iterator< Functor,
+				iterator, typename std::result_of<Functor(value_type)>::type >(begin(), caster);
+	}
 
+	template<typename Functor>
+	HYDRA_EXTERNAL_NS::thrust::transform_iterator< Functor,
+					iterator, typename std::result_of<Functor(value_type)>::type >
+	__caster_end( Functor const& caster ) const
+	{
+		return HYDRA_EXTERNAL_NS::thrust::transform_iterator< Functor,
+				iterator, typename std::result_of<Functor(value_type)>::type >(end(), caster);
+	}
+
+	template<typename Functor>
+	HYDRA_EXTERNAL_NS::thrust::transform_iterator< Functor,
+	iterator, typename std::result_of<Functor(value_type)>::type >
+	__caster_rbegin( Functor const& caster ) const
+	{
+		return HYDRA_EXTERNAL_NS::thrust::transform_iterator< Functor,
+				iterator, typename std::result_of<Functor(value_type)>::type >(rbegin(), caster);
+	}
+
+	template<typename Functor>
+	HYDRA_EXTERNAL_NS::thrust::transform_iterator< Functor,
+	iterator, typename std::result_of<Functor(value_type)>::type >
+	__caster_rend( Functor const& caster ) const
+	{
+		return HYDRA_EXTERNAL_NS::thrust::transform_iterator< Functor,
+				iterator, typename std::result_of<Functor(value_type)>::type >(rend(), caster);
+	}
 	//__________________________________________
 	// pop_back
 	template<size_t I>
