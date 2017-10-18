@@ -74,7 +74,7 @@
 #include <hydra/host/System.h>
 #include <hydra/device/System.h>
 #include <hydra/Decays.h>
-#include <hydra/LogLikelihoodFCN2.h>
+#include <hydra/LogLikelihoodFCN.h>
 #include <hydra/Parameter.h>
 #include <hydra/UserParameters.h>
 #include <hydra/Pdf.h>
