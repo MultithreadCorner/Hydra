@@ -89,7 +89,6 @@ class multivector2< HYDRA_EXTERNAL_NS::thrust::tuple<T...>, hydra::detail::Backe
 	using value_type_v = typename system_t::template container<Type>::value_type;
 
 
-
 public:
 
 	typedef HYDRA_EXTERNAL_NS::thrust::tuple< vector<T>...	  	 > 	storage_t;
@@ -115,6 +114,13 @@ public:
 	 typedef typename HYDRA_EXTERNAL_NS::thrust::iterator_traits<const_iterator>::reference const_reference;
 	 typedef typename HYDRA_EXTERNAL_NS::thrust::iterator_traits<iterator>::value_type value_type;
 
+	 template<typename Functor>
+	 using caster_iterator = HYDRA_EXTERNAL_NS::thrust::transform_iterator< Functor,
+			 iterator, typename std::result_of<Functor(value_type)>::type >;
+
+	 template<typename Functor>
+	 using caster_reverse_iterator = HYDRA_EXTERNAL_NS::thrust::transform_iterator< Functor,
+			 reverse_iterator, typename std::result_of<Functor(value_type)>::type >;
 
 
 
@@ -123,7 +129,6 @@ public:
 	{ };
 
 	multivector2(size_t n){
-		fData = storage_t();
 		__resize(n);
 	};
 
@@ -313,30 +318,27 @@ public:
 
 	//constant automatic conversion access
 	template<typename Functor>
-	auto begin( Functor const& caster ) const
-	-> decltype( this->template __caster_begin<Functor>(caster) )
+	caster_iterator<Functor> begin( Functor const& caster )
 	{
 		return this->__caster_begin(caster);
 	}
 
+
 	template<typename Functor>
-	auto  end( Functor const& caster ) const
-	-> decltype( this->template __caster_end<Functor>(caster) )
+	caster_iterator<Functor> end( Functor const& caster )
 	{
 		return this->__caster_end(caster);
 	}
 
 	//constant automatic conversion access
 	template<typename Functor>
-	auto rbegin( Functor const& caster ) const
-	-> decltype( this->template __caster_rbegin<Functor>(caster) )
+	caster_reverse_iterator<Functor> rbegin( Functor const& caster )
 	{
 		return this->__caster_rbegin(caster);
 	}
 
 	template<typename Functor>
-	auto  rend( Functor const& caster ) const
-	-> decltype( this->template __caster_rend<Functor>(caster) )
+	caster_reverse_iterator<Functor> rend( Functor const& caster )
 	{
 		return this->__caster_rend(caster);
 	}
@@ -424,14 +426,14 @@ public:
 
 	//constant access
 	template<unsigned int I>
-	typename HYDRA_EXTERNAL_NS::thrust::tuple_element<I, const_iterator_t>::type
+	inline	typename HYDRA_EXTERNAL_NS::thrust::tuple_element<I, const_iterator_t>::type
 	begin(placeholders::placeholder<I> index) const
 	{
 		return HYDRA_EXTERNAL_NS::thrust::get<I>(fData).cbegin();
 	}
 
 	template<unsigned int I>
-	typename HYDRA_EXTERNAL_NS::thrust::tuple_element<I, const_iterator_t>::type
+	inline	typename HYDRA_EXTERNAL_NS::thrust::tuple_element<I, const_iterator_t>::type
 	end(placeholders::placeholder<I> index) const
 	{
 		return HYDRA_EXTERNAL_NS::thrust::get<I>(fData).cend();
@@ -485,15 +487,21 @@ public:
 	{
 		return HYDRA_EXTERNAL_NS::thrust::get<I>(fData);
 	}
+	//
+	template<typename Functor>
+	caster_iterator<Functor> operator[](Functor const& caster)
+	{	return begin(caster) ;	}
 
 	//
 	template<unsigned int I>
-	inline	reference operator[](placeholders::placeholder<I> index, size_t n)
-	{	return begin()[n] ;	}
+	inline	typename HYDRA_EXTERNAL_NS::thrust::tuple_element<I, iterator_t>::type
+	operator[](placeholders::placeholder<I> index)
+	{	return begin(index) ;	}
 
 	template<unsigned int I>
-	inline const_reference operator[](placeholders::placeholder<I> index, size_t n) const
-	{	return cbegin()[n]; }
+	inline typename HYDRA_EXTERNAL_NS::thrust::tuple_element<I, const_iterator_t>::type
+	operator[](placeholders::placeholder<I> index) const
+	{	return cbegin(index); }
 
 
 	//
@@ -508,39 +516,31 @@ private:
 	//__________________________________________
 	// caster accessors
 	template<typename Functor>
-	HYDRA_EXTERNAL_NS::thrust::transform_iterator< Functor,
-					iterator, typename std::result_of<Functor(value_type)>::type >
-	__caster_begin( Functor const& caster ) const
+	caster_iterator<Functor> __caster_begin( Functor const& caster )
 	{
 		return HYDRA_EXTERNAL_NS::thrust::transform_iterator< Functor,
 				iterator, typename std::result_of<Functor(value_type)>::type >(this->begin(), caster);
 	}
 
 	template<typename Functor>
-	HYDRA_EXTERNAL_NS::thrust::transform_iterator< Functor,
-					iterator, typename std::result_of<Functor(value_type)>::type >
-	__caster_end( Functor const& caster ) const
+	caster_iterator<Functor> __caster_end( Functor const& caster )
 	{
 		return HYDRA_EXTERNAL_NS::thrust::transform_iterator< Functor,
 				iterator, typename std::result_of<Functor(value_type)>::type >(this->end(), caster);
 	}
 
 	template<typename Functor>
-	HYDRA_EXTERNAL_NS::thrust::transform_iterator< Functor,
-	iterator, typename std::result_of<Functor(value_type)>::type >
-	__caster_rbegin( Functor const& caster ) const
+	caster_reverse_iterator<Functor> __caster_rbegin( Functor const& caster )
 	{
 		return HYDRA_EXTERNAL_NS::thrust::transform_iterator< Functor,
-				iterator, typename std::result_of<Functor(value_type)>::type >(this->rbegin(), caster);
+				reverse_iterator, typename std::result_of<Functor(value_type)>::type >(this->rbegin(), caster);
 	}
 
 	template<typename Functor>
-	HYDRA_EXTERNAL_NS::thrust::transform_iterator< Functor,
-	iterator, typename std::result_of<Functor(value_type)>::type >
-	__caster_rend( Functor const& caster ) const
+	caster_reverse_iterator<Functor> __caster_rend( Functor const& caster )
 	{
 		return HYDRA_EXTERNAL_NS::thrust::transform_iterator< Functor,
-				iterator, typename std::result_of<Functor(value_type)>::type >(this->rend(), caster);
+				reverse_iterator, typename std::result_of<Functor(value_type)>::type >(this->rend(), caster);
 	}
 	//__________________________________________
 	// pop_back

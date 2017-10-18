@@ -32,6 +32,8 @@ namespace hydra {
 
 namespace placeholders {
 
+const placeholder<0> _0;
+
 const placeholder<1> _1 ;
 
 const placeholder<2> _2 ;
