@@ -51,6 +51,10 @@
 #include <hydra/Copy.h>
 #include <hydra/Filter.h>
 #include <hydra/GaussKronrodQuadrature.h>
+#include <hydra/multivector2.h>
+#include <hydra/Placeholders.h>
+#include <hydra/Complex.h>
+
 //Minuit2
 #include "Minuit2/FunctionMinimum.h"
 #include "Minuit2/MnUserParameterState.h"
@@ -82,6 +86,8 @@
 
 using namespace ROOT::Minuit2;
 
+using namespace hydra::placeholders;
+
 int main(int argv, char** argc)
 {
 	size_t nentries = 0;
@@ -104,6 +110,31 @@ int main(int argv, char** argc)
 		std::cerr << "error: " << e.error() << " for arg " << e.argId()
 														<< std::endl;
 	}
+
+	hydra::multivector2<hydra::tuple<double, double>, hydra::device::sys_t> mvect(10);
+	for(auto i: mvect)
+		std::cout << i << std::endl;
+
+
+	for(size_t i =0; i< mvect.size(); i++){
+		mvect[_0][i] = i ;
+		mvect[_1][i] = 2*i ;
+
+		//std::cout <<  mvect[i]  << std::endl;
+	}
+
+	auto complex_caster = []__host__ __device__ ( hydra::tuple<double, double>t ){
+		return hydra::Complex<double>( hydra::get<0>(t), hydra::get<1>(t) );
+	};
+
+	//auto Caster = hydra::wrap_lambda(complex_caster);
+
+
+	for(size_t i =0; i< mvect.size(); i++ ){
+		std::cout << mvect[complex_caster][i].real()  << std::endl;
+	}
+
+
 
 
 	//generator
