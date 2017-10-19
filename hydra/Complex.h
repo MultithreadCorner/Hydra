@@ -40,6 +40,12 @@ template<typename T,
 			typename = typename HYDRA_EXTERNAL_NS::thrust::detail::enable_if<std::is_arithmetic<T>::value, void>::type>
 using Complex =  HYDRA_EXTERNAL_NS::thrust::complex<T>;
 
+template<typename T >
+__host__ __device__ T  abs(hydra::complex<T>&& z){
+
+	HYDRA_EXTERNAL_NS::thrust::abs(z);
+}
+
 }  // namespace hydra
 
 #endif /* COMPLEX_H_ */
@@ -47,7 +53,7 @@ using Complex =  HYDRA_EXTERNAL_NS::thrust::complex<T>;
 /*
 
  template<typename T >
-__host__ __device__ T 	thrust::abs (const complex< T > &z)
+ using abs = __host__ __device__ T 	thrust::abs (const complex< T > &z)
 
 template<typename T >
 __host__ __device__ T 	thrust::arg (const complex< T > &z)
