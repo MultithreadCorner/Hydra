@@ -945,15 +945,13 @@ private:
 
 
 
-template<typename ...T1, hydra::detail::Backend BACKEND1,typename ...T2, hydra::detail::Backend BACKEND2>
-bool operator==(const multivector2<HYDRA_EXTERNAL_NS::thrust::tuple<T1...>, hydra::detail::BackendPolicy<BACKEND1>>& lhs,
-                const multivector2<HYDRA_EXTERNAL_NS::thrust::tuple<T2...>, hydra::detail::BackendPolicy<BACKEND2>>& rhs){
+template<typename ...T, hydra::detail::Backend BACKEND1, hydra::detail::Backend BACKEND2>
+bool operator==(const multivector2<HYDRA_EXTERNAL_NS::thrust::tuple<T...>, hydra::detail::BackendPolicy<BACKEND1>>& lhs,
+                const multivector2<HYDRA_EXTERNAL_NS::thrust::tuple<T...>, hydra::detail::BackendPolicy<BACKEND2>>& rhs){
 
 	auto comparison = []__host__ __device__(
-			HYDRA_EXTERNAL_NS::thrust::tuple<
-				HYDRA_EXTERNAL_NS::thrust::tuple<T1...>,
-				HYDRA_EXTERNAL_NS::thrust::tuple<T2...>
-	        > const& values)
+			HYDRA_EXTERNAL_NS::thrust::tuple< HYDRA_EXTERNAL_NS::thrust::tuple<T...>,
+				HYDRA_EXTERNAL_NS::thrust::tuple<T...> > const& values)
 	{
 			return HYDRA_EXTERNAL_NS::thrust::get<0>(values)== HYDRA_EXTERNAL_NS::thrust::get<1>(values);
 
@@ -961,21 +959,17 @@ bool operator==(const multivector2<HYDRA_EXTERNAL_NS::thrust::tuple<T1...>, hydr
 
 	return HYDRA_EXTERNAL_NS::thrust::all_of(
 			HYDRA_EXTERNAL_NS::thrust::make_zip_iterator(lhs.begin(), rhs.begin()),
-			HYDRA_EXTERNAL_NS::thrust::make_zip_iterator(lhs.end(), rhs.end())
-	, comparison);
+			HYDRA_EXTERNAL_NS::thrust::make_zip_iterator(lhs.end()  , rhs.end()  ), comparison);
 }
 
 
-template<typename ...T1, hydra::detail::Backend BACKEND1, typename ...T2, hydra::detail::Backend BACKEND2>
-bool operator!=(const multivector2<HYDRA_EXTERNAL_NS::thrust::tuple<T1...>, hydra::detail::BackendPolicy<BACKEND1>>& lhs,
-                const multivector2<HYDRA_EXTERNAL_NS::thrust::tuple<T2...>, hydra::detail::BackendPolicy<BACKEND2>>& rhs){
+template<typename ...T, hydra::detail::Backend BACKEND1, hydra::detail::Backend BACKEND2>
+bool operator!=(const multivector2<HYDRA_EXTERNAL_NS::thrust::tuple<T...>, hydra::detail::BackendPolicy<BACKEND1>>& lhs,
+                const multivector2<HYDRA_EXTERNAL_NS::thrust::tuple<T...>, hydra::detail::BackendPolicy<BACKEND2>>& rhs){
 
 	auto comparison = []__host__ __device__(
-			HYDRA_EXTERNAL_NS::thrust::tuple<
-			HYDRA_EXTERNAL_NS::thrust::tuple<T1...>,
-			HYDRA_EXTERNAL_NS::thrust::tuple<T2...>
-	> const& values)
-	{
+			HYDRA_EXTERNAL_NS::thrust::tuple< HYDRA_EXTERNAL_NS::thrust::tuple<T...>,
+			HYDRA_EXTERNAL_NS::thrust::tuple<T...>	> const& values){
 		return HYDRA_EXTERNAL_NS::thrust::get<0>(values)== HYDRA_EXTERNAL_NS::thrust::get<1>(values);
 
 	};
