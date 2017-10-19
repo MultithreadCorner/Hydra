@@ -26,10 +26,10 @@ if(NOT COMPILER_SUPPORTS_CXX11)
  message(FATAL "The compiler ${CMAKE_CXX_COMPILER} has no C++11 support. Please use a different C++ compiler.")
 endif()
 
-#options to gcc-DTHRUST_VARIADIC_TUPLE 
+#options to gcc-DTHRUST_VARIADIC_TUPLE -D_GLIBCXX_USE_CXX11_ABI=0 
 
 
-set(CMAKE_CXX_FLAGS " -g -ftemplate-backtrace-limit=0 -D_GLIBCXX_USE_CXX11_ABI=0  --std=c++11 -W -march=native -fPIC -O4" CACHE STRING "compile flags" FORCE)
+set(CMAKE_CXX_FLAGS "-ftemplate-backtrace-limit=0 --std=c++11 -W -march=native -fPIC -O4" CACHE STRING "compile flags" FORCE)
 
 # get TCLAP
 find_package(TCLAP REQUIRED)

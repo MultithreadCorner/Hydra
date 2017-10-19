@@ -124,7 +124,7 @@ int main(int argv, char** argc)
 	}
 
 	auto complex_caster = []__host__ __device__ ( hydra::tuple<double, double>t ){
-		return hydra::Complex<double>( hydra::get<0>(t), hydra::get<1>(t) );
+		return hydra::complex<double>( hydra::get<0>(t), hydra::get<1>(t) );
 	};
 
 	//auto Caster = hydra::wrap_lambda(complex_caster);
