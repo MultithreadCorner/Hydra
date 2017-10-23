@@ -54,7 +54,6 @@
 #include <hydra/multivector2.h>
 #include <hydra/Placeholders.h>
 #include <hydra/Complex.h>
-#include <hydra/Variant.h>
 
 //Minuit2
 #include "Minuit2/FunctionMinimum.h"
@@ -115,79 +114,6 @@ int main(int argv, char** argc)
 	}
 
 
-
-	typedef hydra::variant<unsigned char, unsigned short int, unsigned int, unsigned long int, unsigned long long int> natural_t;
-	typedef hydra::variant<char, short, int, long, long long> integer_t;
-	typedef hydra::variant<float, double, long double> real_t;
-
-	hydra::device::vector<natural_t> natural_container_t(10);
-
-
-	std::cout <<" natural_t " << sizeof( natural_t )<< " : " << sizeof(  unsigned long long int ) << std::endl;
-   	std::cout  <<" integer_t "<< sizeof( integer_t) << " : " << sizeof( char ) + sizeof( short ) + sizeof(int  )+  sizeof( long)  +  sizeof( long long) <<  std::endl;
-   	std::cout  <<" real_t "   << sizeof( real_t)    << " : " << sizeof(  float) +  sizeof( double ) +  sizeof( long double )<<  std::endl;
-
-
-
-
-/*
-	typedef hydra::multivector2<hydra::tuple<int, int>, hydra::device::sys_t> mvi;
-	typedef hydra::multivector2<hydra::tuple<float, float>, hydra::device::sys_t> mvf;
-	typedef hydra::multivector2<hydra::tuple<double, double>, hydra::device::sys_t> mvd;
-
-
-
-
-struct printer{
-		 void operator()(mvd& arg){
-					for(auto x:arg){
-						std::cout << x << std::endl;
-					}
-				}
-		 void operator()(mvf& arg){
-			for(auto x:arg){
-				std::cout << x << std::endl;
-			}
-		}
-
-		 void operator()(mvi& arg){
-			for(auto x:arg){
-				std::cout << x << std::endl;
-			}
-		}
-	};
-
-    auto a = hydra::make_pair(10,hydra::tuple<double, double>(1.0,1.0) );
-	hydra::variant<mvi, mvf, mvd > A(a);
-
-
-	hydra::visit(printer(), A);
-
-
-	hydra::multivector2<hydra::tuple<double, double>, hydra::device::sys_t> mvect(10);
-	for(auto i: mvect)
-		std::cout << i << std::endl;
-
-
-	for(size_t i =0; i< mvect.size(); i++){
-		mvect[_0][i] = i ;
-		mvect[_1][i] = 2*i ;
-
-		//std::cout <<  mvect[i]  << std::endl;
-	}
-
-	auto complex_caster = []__host__ __device__ ( hydra::tuple<double, double>t ){
-		return hydra::complex<double>( hydra::get<0>(t), hydra::get<1>(t) );
-	};
-
-	//auto Caster = hydra::wrap_lambda(complex_caster);
-
-
-	for(size_t i =0; i< mvect.size(); i++ ){
-		std::cout << mvect[complex_caster][i].real()  << std::endl;
-	}
-
-*/
 
 
 	//generator

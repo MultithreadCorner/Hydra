@@ -274,11 +274,12 @@ struct ProcessGenzMalikBox
 	inline void operator()(size_t index)
 	{
 		typedef typename hydra::detail::tuple_type<N+2, GReal_t>::type tuple_t;
+		/*
 		typedef hydra::mc_device_vector<tuple_t > device_super_t;
 		typedef hydra::mc_host_vector<tuple_t > host_super_t;
 		typedef multivector<device_super_t> device_rvector_t;
 		typedef multivector<host_super_t> host_rvector_t;
-
+*/
 		auto box_result =
 				HYDRA_EXTERNAL_NS::thrust::transform_reduce( fRuleBegin, fRuleEnd,
 				ProcessGenzMalikUnaryCall<N, FUNCTOR, RuleIterator>(fBoxBegin[index].GetLowerLimit(), fBoxBegin[index].GetUpperLimit(), fFunctor),

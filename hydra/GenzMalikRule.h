@@ -78,12 +78,12 @@ class GenzMalikRule<DIM, hydra::detail::BackendPolicy<BACKEND>>:
 	typedef  hydra::detail::BackendPolicy<BACKEND> system_t;
 
 	//container template vector<abscissa> on device or host memory
-	typedef typename system_t::template container<abscissa_t> super_t;
+	//typedef typename system_t::template container<abscissa_t> super_t;
 
 public:
 
 	//container
-	typedef multivector<super_t> vector_abscissa_t;
+	typedef multivector< abscissa_t, hydra::detail::BackendPolicy<BACKEND>> vector_abscissa_t;
 	typedef typename vector_abscissa_t::iterator abscissa_iterator;
 	typedef typename vector_abscissa_t::const_iterator const_abscissa_iterator;
 

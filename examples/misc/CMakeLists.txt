@@ -7,18 +7,18 @@ project(examples)
 #+++++++++++++++++++++++++
 # CUDA TARGETS           |
 #+++++++++++++++++++++++++
-if(BUILD_CUDA_TARGETS)
-
+#if(BUILD_CUDA_TARGETS)
+#
          #+++++++++++++++++++++++++++++++++
-         cuda_add_executable( variant_types_cuda EXCLUDE_FROM_ALL  variant_types.cu    
-            OPTIONS -Xcompiler -fopenmp -DTHRUST_DEVICE_SYSTEM=THRUST_DEVICE_SYSTEM_CUDA  -DTHRUST_HOST_SYSTEM=THRUST_HOST_SYSTEM_CPP -lgomp
-            )
-         target_link_libraries(variant_types_cuda  ${ROOT_LIBRARIES} )
-        
-         add_dependencies(examples variant_types_cuda)
-        
-                        
-endif(BUILD_CUDA_TARGETS)
+#         cuda_add_executable( variant_types_cuda EXCLUDE_FROM_ALL  variant_types.cu    
+#            OPTIONS -Xcompiler -fopenmp -DTHRUST_DEVICE_SYSTEM=THRUST_DEVICE_SYSTEM_CUDA  -DTHRUST_HOST_SYSTEM=THRUST_HOST_SYSTEM_CPP -lgomp
+#            )
+#         target_link_libraries(variant_types_cuda  ${ROOT_LIBRARIES} )
+#        
+#         add_dependencies(examples variant_types_cuda)
+#        
+#                        
+#endif(BUILD_CUDA_TARGETS)
 
 #+++++++++++++++++++++++++
 # TBB TARGETS           |
