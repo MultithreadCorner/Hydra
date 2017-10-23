@@ -38,7 +38,7 @@ namespace placeholders {
 
 template<unsigned int I>
 struct placeholder{
-	constexpr operator unsigned int(){ return I; };
+	constexpr  operator unsigned int() const { return I; }  ;
 };
 
 /*

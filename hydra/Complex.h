@@ -40,8 +40,7 @@
 
 namespace hydra {
 
-template<typename T,
-			typename = typename HYDRA_EXTERNAL_NS::thrust::detail::enable_if<std::is_arithmetic<T>::value, void>::type>
+template<typename T>
 using complex =  HYDRA_EXTERNAL_NS::thrust::complex<T>;
 
 

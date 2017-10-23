@@ -77,8 +77,9 @@ auto eval(hydra::detail::BackendPolicy<BACKEND>const& policy, Functor const& fun
  */
 template<hydra::detail::Backend BACKEND, typename Iterator, typename ...Functors>
 auto eval(hydra::detail::BackendPolicy<BACKEND>const&  policy,HYDRA_EXTERNAL_NS::thrust::tuple<Functors...> const& functors, Iterator begin, Iterator end)
--> multivector< typename hydra::detail::BackendPolicy<BACKEND>::template
-container<HYDRA_EXTERNAL_NS::thrust::tuple<typename Functors::return_type ...> >>;
+-> multivector<HYDRA_EXTERNAL_NS::thrust::tuple<typename Functors::return_type ...> , hydra::detail::BackendPolicy<BACKEND>>;
+//-> multivector< typename hydra::detail::BackendPolicy<BACKEND>::template
+//container<HYDRA_EXTERNAL_NS::thrust::tuple<typename Functors::return_type ...> >>;
 
 
 /**
@@ -110,7 +111,9 @@ auto eval(hydra::detail::BackendPolicy<BACKEND>const&  policy,Functor const& fun
 template<hydra::detail::Backend BACKEND, typename Iterator,  typename ...Iterators, typename ...Functors>
 auto eval(hydra::detail::BackendPolicy<BACKEND>const&  policy, HYDRA_EXTERNAL_NS::thrust::tuple<Functors...> const& functors,
 		Iterator begin, Iterator end, Iterators... begins)
--> multivector< typename hydra::detail::BackendPolicy<BACKEND>::template container<HYDRA_EXTERNAL_NS::thrust::tuple<typename Functors::return_type ...> >>;
+-> multivector<HYDRA_EXTERNAL_NS::thrust::tuple<typename Functors::return_type ...> , hydra::detail::BackendPolicy<BACKEND> >;
+
+//-> multivector< typename hydra::detail::BackendPolicy<BACKEND>::template container<HYDRA_EXTERNAL_NS::thrust::tuple<typename Functors::return_type ...> >>;
 
 
 }/* namespace hydra */

@@ -26,6 +26,9 @@
  *      Author: Antonio Augusto Alves Junior
  */
 
+#include <hydra/multivector2.h>
+
+#if 0
 #ifndef MULTIVECTOR_H_
 #define MULTIVECTOR_H_
 
@@ -166,3 +169,4 @@ get_column(  multivector<Vector<HYDRA_EXTERNAL_NS::thrust::tuple<T...>, Allocato
 }  // namespace hydra
 
 #endif /* MULTIVECTOR_H_ */
+#endif

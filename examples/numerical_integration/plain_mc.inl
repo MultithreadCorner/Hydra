@@ -29,7 +29,7 @@
 
 /**
  * @file
- * @example vegas.inl
+ * @example plain_mc
  * This example show how to use the hydra::Plain
  * numerical integration algorithm to calculate
  * the integral of a five dimensional Gaussian.

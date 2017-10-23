@@ -30,6 +30,8 @@
 #define TUPLES_H_
 #include <utility>
 #include <hydra/detail/external/thrust/tuple.h>
+#include <hydra/detail/external/thrust/detail/tuple/tuple.h>
+#include <hydra/detail/utility/Generic.h>
 
 namespace hydra {
 //---- type alias -----------------------
@@ -142,13 +144,23 @@ template<class T> using tuple_size = HYDRA_EXTERNAL_NS::thrust::tuple_size<T>;
  *  \endcode
  *
  */
-template<int N, class T>
+template<int N, typename ...T>
 __host__ __device__
-typename HYDRA_EXTERNAL_NS::thrust::tuple_element<N,T>::type&
-get( T&	t)
+typename HYDRA_EXTERNAL_NS::thrust::tuple_element<N,HYDRA_EXTERNAL_NS::thrust::tuple<T...>>::type
+get( HYDRA_EXTERNAL_NS::thrust::tuple<T...> && t)
 {
-	return HYDRA_EXTERNAL_NS::thrust::get<N>(t);
+	return HYDRA_EXTERNAL_NS::thrust::get<N>(std::forward<HYDRA_EXTERNAL_NS::thrust::tuple<T...>>(t));
 }
+
+template<int N, typename T1,  typename T2>
+__host__ __device__
+typename HYDRA_EXTERNAL_NS::thrust::tuple_element<N,HYDRA_EXTERNAL_NS::thrust::pair<T1,T2>>::type
+get( HYDRA_EXTERNAL_NS::thrust::pair<T1,T2> && t)
+{
+	return HYDRA_EXTERNAL_NS::thrust::get<N>(std::forward<HYDRA_EXTERNAL_NS::thrust::pair<T1,T2>>(t));
+}
+
+
 
 /*! This version of \p make_tuple creates a new \c tuple object from a list of
  *  objects.

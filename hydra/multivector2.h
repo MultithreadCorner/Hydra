@@ -26,14 +26,15 @@
  *      Author: Antonio Augusto Alves Junior
  */
 
-#ifndef MULTIVECTOR2_H_
-#define MULTIVECTOR2_H_
+#ifndef MULTIVECTOR_H_
+#define MULTIVECTOR_H_
 
 
 #include <hydra/detail/Config.h>
 #include <hydra/detail/BackendPolicy.h>
 #include <hydra/detail/utility/Utility_Tuple.h>
 #include <hydra/detail/functors/Caster.h>
+#include <hydra/Tuple.h>
 #include <hydra/Placeholders.h>
 #include <hydra/detail/external/thrust/iterator/zip_iterator.h>
 #include <hydra/detail/external/thrust/iterator/iterator_traits.h>
@@ -48,14 +49,14 @@
 namespace hydra {
 
 template<typename T, typename BACKEND>
-class multivector2;
+class multivector;
 
 /**
  * @brief This class implements storage in SoA layouts for
  * table where all elements have the same type.
  */
 template<typename ...T, hydra::detail::Backend BACKEND>
-class multivector2< HYDRA_EXTERNAL_NS::thrust::tuple<T...>, hydra::detail::BackendPolicy<BACKEND>>
+class multivector< HYDRA_EXTERNAL_NS::thrust::tuple<T...>, hydra::detail::BackendPolicy<BACKEND>>
 {
 	typedef hydra::detail::BackendPolicy<BACKEND> system_t;
 	constexpr static size_t N = sizeof...(T);
@@ -124,54 +125,56 @@ public:
 
 
 
-	multivector2():
-		fData(storage_t())
+	multivector()
 	{ };
 
-	multivector2(size_t n){
+	multivector(size_t n){
 		__resize(n);
 	};
 
-	multivector2(size_t n, value_type const& value){
-		fData = storage_t();
+
+
+	multivector(size_t n, value_type const& value){
 		__resize(n);
 		HYDRA_EXTERNAL_NS::thrust::fill(begin(), end(), value );
 	};
 
-	multivector2(multivector2<HYDRA_EXTERNAL_NS::thrust::tuple<T...>, detail::BackendPolicy<BACKEND>> const& other )
+	template<typename Int, typename = typename HYDRA_EXTERNAL_NS::thrust::detail::enable_if<std::is_integral<Int>::value>::type >
+	multivector(hydra::pair<Int, HYDRA_EXTERNAL_NS::thrust::tuple<T...> > const& pair)
 	{
-		fData = storage_t();
+		__resize(pair.first);
+		HYDRA_EXTERNAL_NS::thrust::fill(begin(), end(), pair.second );
+	}
+
+	multivector(multivector<HYDRA_EXTERNAL_NS::thrust::tuple<T...>, detail::BackendPolicy<BACKEND>> const& other )
+	{
 		__resize(other.size());
 		HYDRA_EXTERNAL_NS::thrust::copy(other.begin(), other.end(), begin());
 	}
 
-	multivector2(multivector2<HYDRA_EXTERNAL_NS::thrust::tuple<T...> ,detail::BackendPolicy<BACKEND>>&& other ):
+	multivector(multivector<HYDRA_EXTERNAL_NS::thrust::tuple<T...> ,detail::BackendPolicy<BACKEND>>&& other ):
 	fData(other.__move())
 	{}
 
 	template< hydra::detail::Backend BACKEND2>
-	multivector2(multivector2<HYDRA_EXTERNAL_NS::thrust::tuple<T...>,detail::BackendPolicy<BACKEND2>> const& other )
+	multivector(multivector<HYDRA_EXTERNAL_NS::thrust::tuple<T...>,detail::BackendPolicy<BACKEND2>> const& other )
 	{
-		fData = storage_t();
-
-		__resize(other.size());
+	  __resize(other.size());
 
 		HYDRA_EXTERNAL_NS::thrust::copy(other.begin(), other.end(), begin());
 	}
 
 	template< typename Iterator>
-	multivector2(Iterator first, Iterator last )
+	multivector(Iterator first, Iterator last )
 	{
-		fData = storage_t();
-
 		__resize( HYDRA_EXTERNAL_NS::thrust::distance(first, last) );
 
 		HYDRA_EXTERNAL_NS::thrust::copy(first, last, begin());
 
 	}
 
-	multivector2<HYDRA_EXTERNAL_NS::thrust::tuple<T...>,detail::BackendPolicy<BACKEND>>&
-	operator=(multivector2<HYDRA_EXTERNAL_NS::thrust::tuple<T...>,detail::BackendPolicy<BACKEND>> const& other )
+	multivector<HYDRA_EXTERNAL_NS::thrust::tuple<T...>,detail::BackendPolicy<BACKEND>>&
+	operator=(multivector<HYDRA_EXTERNAL_NS::thrust::tuple<T...>,detail::BackendPolicy<BACKEND>> const& other )
 	{
 		if(this==&other) return *this;
 
@@ -180,8 +183,8 @@ public:
 		return *this;
 	}
 
-	multivector2<HYDRA_EXTERNAL_NS::thrust::tuple<T...>,detail::BackendPolicy<BACKEND>>&
-	operator=(multivector2<HYDRA_EXTERNAL_NS::thrust::tuple<T...>,detail::BackendPolicy<BACKEND> >&& other )
+	multivector<HYDRA_EXTERNAL_NS::thrust::tuple<T...>,detail::BackendPolicy<BACKEND>>&
+	operator=(multivector<HYDRA_EXTERNAL_NS::thrust::tuple<T...>,detail::BackendPolicy<BACKEND> >&& other )
 	{
 		if(this == &other) return *this;
 		this->fData = other.__move();
@@ -189,8 +192,8 @@ public:
 	}
 
 	template< hydra::detail::Backend BACKEND2>
-	multivector2<HYDRA_EXTERNAL_NS::thrust::tuple<T...>,detail::BackendPolicy<BACKEND>>&
-	operator=(multivector2<HYDRA_EXTERNAL_NS::thrust::tuple<T...>,detail::BackendPolicy<BACKEND2> > const& other )
+	multivector<HYDRA_EXTERNAL_NS::thrust::tuple<T...>,detail::BackendPolicy<BACKEND>>&
+	operator=(multivector<HYDRA_EXTERNAL_NS::thrust::tuple<T...>,detail::BackendPolicy<BACKEND2> > const& other )
 	{
 		HYDRA_EXTERNAL_NS::thrust::copy(other.begin(), other.end(), begin());
 		return *this;
@@ -946,8 +949,8 @@ private:
 
 
 template<typename ...T, hydra::detail::Backend BACKEND1, hydra::detail::Backend BACKEND2>
-bool operator==(const multivector2<HYDRA_EXTERNAL_NS::thrust::tuple<T...>, hydra::detail::BackendPolicy<BACKEND1>>& lhs,
-                const multivector2<HYDRA_EXTERNAL_NS::thrust::tuple<T...>, hydra::detail::BackendPolicy<BACKEND2>>& rhs){
+bool operator==(const multivector<HYDRA_EXTERNAL_NS::thrust::tuple<T...>, hydra::detail::BackendPolicy<BACKEND1>>& lhs,
+                const multivector<HYDRA_EXTERNAL_NS::thrust::tuple<T...>, hydra::detail::BackendPolicy<BACKEND2>>& rhs){
 
 	auto comparison = []__host__ __device__(
 			HYDRA_EXTERNAL_NS::thrust::tuple< HYDRA_EXTERNAL_NS::thrust::tuple<T...>,
@@ -964,8 +967,8 @@ bool operator==(const multivector2<HYDRA_EXTERNAL_NS::thrust::tuple<T...>, hydra
 
 
 template<typename ...T, hydra::detail::Backend BACKEND1, hydra::detail::Backend BACKEND2>
-bool operator!=(const multivector2<HYDRA_EXTERNAL_NS::thrust::tuple<T...>, hydra::detail::BackendPolicy<BACKEND1>>& lhs,
-                const multivector2<HYDRA_EXTERNAL_NS::thrust::tuple<T...>, hydra::detail::BackendPolicy<BACKEND2>>& rhs){
+bool operator!=(const multivector<HYDRA_EXTERNAL_NS::thrust::tuple<T...>, hydra::detail::BackendPolicy<BACKEND1>>& lhs,
+                const multivector<HYDRA_EXTERNAL_NS::thrust::tuple<T...>, hydra::detail::BackendPolicy<BACKEND2>>& rhs){
 
 	auto comparison = []__host__ __device__(
 			HYDRA_EXTERNAL_NS::thrust::tuple< HYDRA_EXTERNAL_NS::thrust::tuple<T...>,
@@ -984,10 +987,6 @@ bool operator!=(const multivector2<HYDRA_EXTERNAL_NS::thrust::tuple<T...>, hydra
 
 
 }  // namespace hydra
-
-//#include<hydra/detail/multivector2.inl>
-
-
 
 
 #endif /* MULTIVECTOR_H_ */

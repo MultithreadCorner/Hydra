@@ -33,15 +33,18 @@
 
 #include <hydra/detail/Config.h>
 #include <hydra/detail/BackendPolicy.h>
+#include <hydra/cpp/System.h>
 #include <hydra/Types.h>
 #include <hydra/GaussKronrodRules.h>
 #include <hydra/detail/functors/ProcessGaussKronrodAdaptiveQuadrature.h>
 #include <hydra/multivector.h>
 #include <hydra/detail/Integrator.h>
+#include <hydra/Placeholders.h>
 
 #include <hydra/detail/Print.h>
 #include <tuple>
 #include <vector>
+
 
 namespace hydra {
 
@@ -113,8 +116,8 @@ public Integrator< GaussKronrodAdaptiveQuadrature<NRULE, NBIN, hydra::detail::Ba
 			> node_t;
 
 	typedef HYDRA_EXTERNAL_NS::thrust::host_vector<node_t>   node_list_h;
-	typedef multivector<node_list_h> node_table_h;
-
+	//typedef multivector<node_list_h> node_table_h;
+	typedef multivector<node_t, hydra::cpp::sys_t> node_table_h;
 	/*
 	 * parameters
 	 */
@@ -130,8 +133,12 @@ public Integrator< GaussKronrodAdaptiveQuadrature<NRULE, NBIN, hydra::detail::Ba
 	typedef std::vector<parameters_t>   parameters_list_h;
 	typedef typename system_t::template container<parameters_t> parameters_list_d;
 
-	typedef multivector<parameters_list_h> parameters_table_h;
-	typedef multivector<parameters_list_d> parameters_table_d;
+	typedef multivector<parameters_t, hydra::cpp::sys_t> parameters_table_h;
+	typedef multivector<parameters_t, hydra::detail::BackendPolicy<BACKEND>> parameters_table_d;
+
+
+	//typedef multivector<parameters_list_h> parameters_table_h;
+	//typedef multivector<parameters_list_d> parameters_table_d;
 
 	/*
 	 * call results
@@ -145,8 +152,11 @@ public Integrator< GaussKronrodAdaptiveQuadrature<NRULE, NBIN, hydra::detail::Ba
 	typedef std::vector<call_t>   call_list_h;
 	typedef typename system_t::template container<call_t> call_list_d;
 
-	typedef multivector<call_list_h> call_table_h;
-	typedef multivector<call_list_d> call_table_d;
+	typedef multivector<call_t,hydra::cpp::sys_t > call_table_h;
+	typedef multivector<call_t,hydra::detail::BackendPolicy<BACKEND>> call_table_d;
+
+	//typedef multivector<call_list_h> call_table_h;
+	//typedef multivector<call_list_d> call_table_d;
 
 public:
 
@@ -367,8 +377,8 @@ private:
 
 	size_t CountNodesToProcess()
 	{
-		auto begin = fNodesTable.template vbegin<0>();
-		auto end   = fNodesTable.template vend<0>();
+		auto begin = fNodesTable.begin( placeholders::_0);
+		auto end   = fNodesTable.end( placeholders::_0);
 
 	    size_t n=0;
 		for(auto i = begin; i!=end; i++)

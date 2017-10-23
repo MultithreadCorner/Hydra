@@ -81,11 +81,11 @@ if(CUDA_FOUND)
 
 	#set cuda flags
 	
-	SET(CUDA_NVCC_FLAGS ${CUDA_NVCC_FLAGS} --cudart ;  static ; -O4 ;--expt-relaxed-constexpr; -fmad=true; --expt-extended-lambda;--relocatable-device-code=false ;
+	SET(CUDA_NVCC_FLAGS ${CUDA_NVCC_FLAGS} -ftemplate-backtrace-limit=0; -ftemplate-depth=5000; --cudart ;  static ; -O4 ;--expt-relaxed-constexpr; -fmad=true; --expt-extended-lambda;--relocatable-device-code=false ;
 	-Xptxas -dlcm=ca; -Xptxas --opt-level=4 )
 
 	SET(CUDA_SEPARABLE_COMPILATION OFF)
-	SET(CUDA_VERBOSE_BUILD OFF)
+	SET(CUDA_VERBOSE_BUILD ON)
 	
 	if(CMAKE_CXX_COMPILER_VERSION VERSION_GREATER 4.8)
 	   LIST(APPEND CUDA_NVCC_FLAGS " -D_MWAITXINTRIN_H_INCLUDED ")
@@ -166,7 +166,7 @@ add_subdirectory(examples/random)
 add_subdirectory(examples/fit)
 add_subdirectory(examples/histograming)
 add_subdirectory(examples/async)
-
+add_subdirectory(examples/misc)
 
 
 

@@ -65,8 +65,6 @@
 #include <hydra/Types.h>
 #include <hydra/Vector4R.h>
 #include <hydra/PhaseSpace.h>
-#include <hydra/Events.h>
-#include <hydra/Chain.h>
 #include <hydra/Evaluate.h>
 #include <hydra/Function.h>
 #include <hydra/FunctorArithmetic.h>
