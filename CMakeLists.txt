@@ -10,6 +10,16 @@ set (Hydra_VERSION_MAJOR 1)
 set (Hydra_VERSION_MINOR 0)
 set (Hydra_VERSION_PATCH 0)
 
+if ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang")
+ MESSAGE(STATUS "===> Compiling with Clang")
+elseif ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU")
+ MESSAGE(STATUS "===> Compiling with GCC")
+elseif ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Intel")
+ MESSAGE(STATUS "===> Compiling with Intel")
+elseif ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "MSVC")
+ MESSAGE(STATUS "===> Compiling with MSVC")
+endif()
+
 # warn user if system is not UNIX
 if(NOT UNIX)
   message(FATAL_ERROR "This is an unsupported system.")

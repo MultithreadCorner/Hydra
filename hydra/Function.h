@@ -46,6 +46,7 @@
 #include <hydra/detail/external/thrust/iterator/detail/tuple_of_iterator_references.h>
 #include <hydra/detail/external/thrust/iterator/zip_iterator.h>
 #include <hydra/detail/external/thrust/tuple.h>
+#include <hydra/detail/external/thrust/detail/type_traits.h>
 #include <array>
 #include <initializer_list>
 #include <memory>

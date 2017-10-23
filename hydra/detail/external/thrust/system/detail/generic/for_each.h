@@ -40,13 +40,13 @@ template<typename DerivedPolicy,
          typename InputIterator,
          typename UnaryFunction>
 __host__ __device__
-InputIterator for_each(thrust::execution_policy<DerivedPolicy> &exec,
+InputIterator for_each(HYDRA_EXTERNAL_NS::thrust::execution_policy<DerivedPolicy> &exec,
                        InputIterator first,
                        InputIterator last,
                        UnaryFunction f)
 {
   // unimplemented
-  THRUST_STATIC_ASSERT( (thrust::detail::depend_on_instantiation<InputIterator, false>::value) );
+  THRUST_STATIC_ASSERT( (HYDRA_EXTERNAL_NS::thrust::detail::depend_on_instantiation<InputIterator, false>::value) );
   return first;
 } // end for_each()
 
@@ -56,13 +56,13 @@ template<typename DerivedPolicy,
          typename Size,
          typename UnaryFunction>
 __host__ __device__
-InputIterator for_each_n(thrust::execution_policy<DerivedPolicy> &exec,
+InputIterator for_each_n(HYDRA_EXTERNAL_NS::thrust::execution_policy<DerivedPolicy> &exec,
                          InputIterator first,
                          Size n,
                          UnaryFunction f)
 {
   // unimplemented
-  THRUST_STATIC_ASSERT( (thrust::detail::depend_on_instantiation<InputIterator, false>::value) );
+  THRUST_STATIC_ASSERT( (HYDRA_EXTERNAL_NS::thrust::detail::depend_on_instantiation<InputIterator, false>::value) );
   return first;
 } // end for_each_n()
 

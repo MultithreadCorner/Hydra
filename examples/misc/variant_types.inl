@@ -123,10 +123,23 @@ int main(int argv, char** argc)
 	typedef hydra::experimental::variant< hydra::Vector3R > number_t;
 	hydra::experimental::get<0>(number_t());
 
-	hydra::device::vector<composite_t > Vector(3*nentries);
-	for(composite_t el:Vector)
-		hydra::experimental::visit(printer_t(),el);
+	hydra::device::vector<composite_t > Vector;
+	for(size_t i=0; i<10; i++)
+		Vector.push_back(hydra::complex<double>(1.0,2.0));
+	for(size_t i=0; i<10; i++)
+			Vector.push_back(hydra::Vector3R(1.0,2.0,3.0));
+	for(size_t i=0; i<10; i++)
+				Vector.push_back(hydra::Vector4R(1.0,2.0,3.0,4.0));
 
+	for(composite_t el:Vector)
+	       hydra::experimental::visit(printer_t(),el);
+	std::cout<< "===============>" << std::endl << std::endl;
+
+	for(auto el:Vector)
+		el = hydra::Vector3R(2.0,4.0,6.0);
+
+	for(composite_t el:Vector)
+		       hydra::experimental::visit(printer_t(),el);
 	return 0;
 }
 

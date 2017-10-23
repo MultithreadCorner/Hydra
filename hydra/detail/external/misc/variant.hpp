@@ -215,7 +215,7 @@ namespace std {
 #include <utility>
 
 #include <hydra/detail/Config.h>
-
+#include <hydra/detail/external/thrust/detail/type_traits.h>
 // MPark.Variant
 //
 // Copyright Michael Park, 2015-2017
@@ -384,7 +384,7 @@ namespace mpark {
       using remove_const_t = typename std::remove_const<T>::type;
 
       template <typename T>
-      using remove_reference_t = typename std::remove_reference<T>::type;
+      using remove_reference_t = typename HYDRA_EXTERNAL_NS::thrust::detail::remove_reference<T>::type;//std::remove_reference<T>::type;
 
       template <typename T>
       __host__ __device__ inline constexpr   T &&forward(remove_reference_t<T> &t) noexcept {
@@ -1183,13 +1183,11 @@ namespace mpark {
 
         public:
         template <typename Visitor, typename... Vs>
-        __host__ __device__ inline static constexpr DECLTYPE_AUTO visit_alt_at(std::size_t index,
+        __host__ __device__ inline static constexpr DECLTYPE_AUTO visit_alt_at( std::size_t index,
                                                            Visitor &&visitor,
                                                            Vs &&... vs)
           DECLTYPE_AUTO_RETURN(
-              at(make_fdiagonal<Visitor &&,
-                                decltype(as_base(lib::forward<Vs>(vs)))...>(),
-                 index)(lib::forward<Visitor>(visitor),
+              at(make_fdiagonal<Visitor &&,decltype(as_base(lib::forward<Vs>(vs)))...>(), index)(lib::forward<Visitor>(visitor),
                         as_base(lib::forward<Vs>(vs))...))
 
         template <typename Visitor, typename... Vs>
@@ -1585,7 +1583,7 @@ namespace mpark {
       using super::operator=;
 
       template <std::size_t I, typename... Args>
-      __host__ __device__ inline /* auto & */ auto emplace(Args &&... args)
+      __host__ __device__ inline  auto  emplace(Args &&... args)
           -> decltype(this->construct_alt(access::base::get_alt<I>(*this),
                                           lib::forward<Args>(args)...)) {
         this->destroy();
@@ -1654,7 +1652,7 @@ namespace mpark {
 #endif
               ,
               *this,
-              lib::forward<That>(that));
+              lib::forward<That>(that) );
         }
       }
     };
