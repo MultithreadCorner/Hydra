@@ -60,9 +60,9 @@ endif(ROOT_FOUND)
 
 SET(CUDA_SEPARABLE_COMPILATION ON)
 #get CUDA
-find_package(CUDA 8.0) 
+find_package(CUDA 9.0) 
 if(CUDA_FOUND)
-link_directories("/opt/cuda-8.0/lib64/")
+link_directories("/opt/cuda-9.0/lib64/")
 endif(CUDA_FOUND)
 #get TBB
 find_package(TBB )

@@ -11,6 +11,15 @@
 #ifndef EIGEN_MACROS_H
 #define EIGEN_MACROS_H
 
+
+/**
+ * tunnings
+ */
+#ifdef __CUDACC__
+#undef __CUDACC_VER__
+#define __CUDACC_VER__ 80000
+#endif
+
 #define EIGEN_WORLD_VERSION 3
 #define EIGEN_MAJOR_VERSION 3
 #define EIGEN_MINOR_VERSION 4
@@ -18,6 +27,8 @@
 #define EIGEN_VERSION_AT_LEAST(x,y,z) (EIGEN_WORLD_VERSION>x || (EIGEN_WORLD_VERSION>=x && \
                                       (EIGEN_MAJOR_VERSION>y || (EIGEN_MAJOR_VERSION>=y && \
                                                                  EIGEN_MINOR_VERSION>=z))))
+
+
 
 // Compiler identification, EIGEN_COMP_*
 
@@ -399,7 +410,7 @@
 // Does the compiler support variadic templates?
 #ifndef EIGEN_HAS_VARIADIC_TEMPLATES
 #if EIGEN_MAX_CPP_VER>=11 && (__cplusplus > 199711L || EIGEN_COMP_MSVC >= 1900) \
-  && ( !defined(__NVCC__) || !EIGEN_ARCH_ARM_OR_ARM64 || (defined __CUDACC_VER__ && __CUDACC_VER__ >= 80000) )
+  && ( !defined(__NVCC__) || !EIGEN_ARCH_ARM_OR_ARM64  )
     // ^^ Disable the use of variadic templates when compiling with versions of nvcc older than 8.0 on ARM devices:
     //    this prevents nvcc from crashing when compiling Eigen on Tegra X1
 #define EIGEN_HAS_VARIADIC_TEMPLATES 1
