@@ -20,6 +20,10 @@
 #define HYDRA_EXTERNAL_NS hydra::detail::external
 #endif //HYDRA_EXTERNAL_NS
 
+
+#ifndef VARIANT_FUNCT_HOST_DEVICE
+#define VARIANT_FUNCT_HOST_DEVICE
+#endif //VARIANT_FUNCT_HOST_DEVICE
 /*
    variant synopsis
 
@@ -311,13 +315,13 @@ namespace std {
 HYDRA_EXTERNAL_NAMESPACE_BEGIN
 namespace mpark {
 
-  struct in_place_t { explicit  __host__ __device__ in_place_t() = default; };
+  struct in_place_t { explicit  VARIANT_FUNCT_HOST_DEVICE in_place_t() = default; };
 
   template <std::size_t I>
-  struct in_place_index_t { explicit  __host__ __device__ in_place_index_t() = default; };
+  struct in_place_index_t { explicit  VARIANT_FUNCT_HOST_DEVICE in_place_index_t() = default; };
 
   template <typename T>
-  struct in_place_type_t { explicit  __host__ __device__ in_place_type_t() = default; };
+  struct in_place_type_t { explicit  VARIANT_FUNCT_HOST_DEVICE in_place_type_t() = default; };
 
 #ifdef MPARK_VARIABLE_TEMPLATES
   constexpr in_place_t in_place{};
@@ -361,7 +365,7 @@ namespace mpark {
     inline namespace cpp14 {
       template <typename T, std::size_t N>
       struct array {
-          __host__ __device__ constexpr const T &operator[](std::size_t index) const {
+          VARIANT_FUNCT_HOST_DEVICE constexpr const T &operator[](std::size_t index) const {
           return data[index];
         }
 
@@ -387,19 +391,19 @@ namespace mpark {
       using remove_reference_t = typename HYDRA_EXTERNAL_NS::thrust::detail::remove_reference<T>::type;//std::remove_reference<T>::type;
 
       template <typename T>
-      __host__ __device__ inline constexpr   T &&forward(remove_reference_t<T> &t) noexcept {
+      VARIANT_FUNCT_HOST_DEVICE inline constexpr   T &&forward(remove_reference_t<T> &t) noexcept {
         return static_cast<T &&>(t);
       }
 
       template <typename T>
-     __host__ __device__  inline constexpr  T &&forward(remove_reference_t<T> &&t) noexcept {
+     VARIANT_FUNCT_HOST_DEVICE  inline constexpr  T &&forward(remove_reference_t<T> &&t) noexcept {
         static_assert(!std::is_lvalue_reference<T>::value,
                       "can not forward an rvalue as an lvalue");
         return static_cast<T &&>(t);
       }
 
       template <typename T>
-      __host__ __device__ inline constexpr  remove_reference_t<T>  &&move(T &&t) noexcept {
+      VARIANT_FUNCT_HOST_DEVICE inline constexpr  remove_reference_t<T>  &&move(T &&t) noexcept {
         return static_cast<remove_reference_t<T> &&>(t);
       }
 
@@ -453,7 +457,7 @@ namespace mpark {
 #else
       struct equal_to {
         template <typename Lhs, typename Rhs>
-        __host__ __device__ inline constexpr  auto operator()(Lhs &&lhs, Rhs &&rhs) const
+        VARIANT_FUNCT_HOST_DEVICE inline constexpr  auto operator()(Lhs &&lhs, Rhs &&rhs) const
           RETURN(lib::forward<Lhs>(lhs) == lib::forward<Rhs>(rhs))
       };
 #endif
@@ -463,7 +467,7 @@ namespace mpark {
 #else
       struct not_equal_to {
         template <typename Lhs, typename Rhs>
-        __host__ __device__  inline constexpr auto operator()(Lhs &&lhs, Rhs &&rhs) const
+        VARIANT_FUNCT_HOST_DEVICE  inline constexpr auto operator()(Lhs &&lhs, Rhs &&rhs) const
           RETURN(lib::forward<Lhs>(lhs) != lib::forward<Rhs>(rhs))
       };
 #endif
@@ -473,7 +477,7 @@ namespace mpark {
 #else
       struct less {
         template <typename Lhs, typename Rhs>
-        __host__ __device__ inline constexpr auto  operator()(Lhs &&lhs, Rhs &&rhs) const
+        VARIANT_FUNCT_HOST_DEVICE inline constexpr auto  operator()(Lhs &&lhs, Rhs &&rhs) const
           RETURN(lib::forward<Lhs>(lhs) < lib::forward<Rhs>(rhs))
       };
 #endif
@@ -483,7 +487,7 @@ namespace mpark {
 #else
       struct greater {
         template <typename Lhs, typename Rhs>
-        __host__ __device__ inline constexpr auto  operator()(Lhs &&lhs, Rhs &&rhs) const
+        VARIANT_FUNCT_HOST_DEVICE inline constexpr auto  operator()(Lhs &&lhs, Rhs &&rhs) const
           RETURN(lib::forward<Lhs>(lhs) > lib::forward<Rhs>(rhs))
       };
 #endif
@@ -493,7 +497,7 @@ namespace mpark {
 #else
       struct less_equal {
         template <typename Lhs, typename Rhs>
-        __host__ __device__ inline constexpr auto  operator()(Lhs &&lhs, Rhs &&rhs) const
+        VARIANT_FUNCT_HOST_DEVICE inline constexpr auto  operator()(Lhs &&lhs, Rhs &&rhs) const
           RETURN(lib::forward<Lhs>(lhs) <= lib::forward<Rhs>(rhs))
       };
 #endif
@@ -503,7 +507,7 @@ namespace mpark {
 #else
       struct greater_equal {
         template <typename Lhs, typename Rhs>
-        __host__ __device__ inline constexpr  auto  operator()(Lhs &&lhs, Rhs &&rhs) const
+        VARIANT_FUNCT_HOST_DEVICE inline constexpr  auto  operator()(Lhs &&lhs, Rhs &&rhs) const
           RETURN(lib::forward<Lhs>(lhs) >= lib::forward<Rhs>(rhs))
       };
 #endif
@@ -568,26 +572,26 @@ namespace mpark {
 #pragma warning(disable : 4100)
 #endif
       template <typename F, typename... As>
-        __host__ __device__ inline constexpr auto invoke(F &&f, As &&... as)
+        VARIANT_FUNCT_HOST_DEVICE inline constexpr auto invoke(F &&f, As &&... as)
           RETURN(lib::forward<F>(f)(lib::forward<As>(as)...))
 #ifdef _MSC_VER
 #pragma warning(pop)
 #endif
 
       template <typename B, typename T, typename D>
-        __host__ __device__ inline constexpr auto invoke(T B::*pmv, D &&d)
+        VARIANT_FUNCT_HOST_DEVICE inline constexpr auto invoke(T B::*pmv, D &&d)
           RETURN(lib::forward<D>(d).*pmv)
 
       template <typename Pmv, typename Ptr>
-      __host__ __device__   inline constexpr auto invoke(Pmv pmv, Ptr &&ptr)
+      VARIANT_FUNCT_HOST_DEVICE   inline constexpr auto invoke(Pmv pmv, Ptr &&ptr)
           RETURN((*lib::forward<Ptr>(ptr)).*pmv)
 
       template <typename B, typename T, typename D, typename... As>
-        __host__ __device__ inline constexpr auto invoke(T B::*pmf, D &&d, As &&... as)
+        VARIANT_FUNCT_HOST_DEVICE inline constexpr auto invoke(T B::*pmf, D &&d, As &&... as)
           RETURN((lib::forward<D>(d).*pmf)(lib::forward<As>(as)...))
 
       template <typename Pmf, typename Ptr, typename... As>
-       __host__ __device__ inline constexpr auto invoke(Pmf pmf, Ptr &&ptr, As &&... as)
+       VARIANT_FUNCT_HOST_DEVICE inline constexpr auto invoke(Pmf pmf, Ptr &&ptr, As &&... as)
           RETURN(((*lib::forward<Ptr>(ptr)).*pmf)(lib::forward<As>(as)...))
 
       namespace detail {
@@ -641,7 +645,7 @@ namespace mpark {
       // <memory>
 #ifdef MPARK_BUILTIN_ADDRESSOF
       template <typename T>
-        __host__ __device__ inline constexpr T*addressof(T &arg) {
+        VARIANT_FUNCT_HOST_DEVICE inline constexpr T*addressof(T &arg) {
         return __builtin_addressof(arg);
       }
 #else
@@ -652,10 +656,10 @@ namespace mpark {
           struct fail{};
 
           template <typename T>
-           __host__ __device__  inline fail operator&(T &&);
+           VARIANT_FUNCT_HOST_DEVICE  inline fail operator&(T &&);
 
           template <typename T>
-           __host__ __device__  inline static constexpr bool impl() {
+           VARIANT_FUNCT_HOST_DEVICE  inline static constexpr bool impl() {
             return (std::is_class<T>::value || std::is_union<T>::value) &&
                    !std::is_same<decltype(&std::declval<T &>()), fail>::value;
           }
@@ -666,19 +670,19 @@ namespace mpark {
         using has_addressof = bool_constant<has_addressof_impl::impl<T>()>;
 
         template <typename T>
-        __host__ __device__ inline constexpr  T *addressof(T &arg, std::true_type) {
+        VARIANT_FUNCT_HOST_DEVICE inline constexpr  T *addressof(T &arg, std::true_type) {
           return std::addressof(arg);
         }
 
         template <typename T>
-         __host__ __device__  inline constexpr T *addressof(T &arg, std::false_type) {
+         VARIANT_FUNCT_HOST_DEVICE  inline constexpr T *addressof(T &arg, std::false_type) {
           return &arg;
         }
 
       }  // namespace detail
 
       template <typename T>
-       __host__ __device__ inline constexpr T * addressof(T &arg) {
+       VARIANT_FUNCT_HOST_DEVICE inline constexpr T * addressof(T &arg) {
         return detail::addressof(arg, detail::has_addressof<T>{});
       }
 #endif
@@ -808,7 +812,7 @@ namespace mpark {
     virtual  const char *what() const noexcept { return "bad_variant_access"; }
   };
 
-   __host__ __device__ [[noreturn]]  inline void throw_bad_variant_access() {
+   VARIANT_FUNCT_HOST_DEVICE [[noreturn]]  inline void throw_bad_variant_access() {
 #ifdef __CUDA_ARCH__
 
 #else
@@ -880,7 +884,7 @@ namespace mpark {
 
 #ifdef MPARK_CPP14_CONSTEXPR
     template <typename T, typename... Ts>
-     __host__ __device__ inline constexpr std::size_t find_index() {
+     VARIANT_FUNCT_HOST_DEVICE inline constexpr std::size_t find_index() {
       constexpr lib::array<bool, sizeof...(Ts)> matches = {
           {std::is_same<T, Ts>::value...}
       };
@@ -896,13 +900,13 @@ namespace mpark {
       return result;
     }
 #else
-     __host__ __device__ inline constexpr std::size_t find_index_impl(std::size_t result,
+     VARIANT_FUNCT_HOST_DEVICE inline constexpr std::size_t find_index_impl(std::size_t result,
                                                  std::size_t) {
       return result;
     }
 
     template <typename... Bs>
-     __host__ __device__ inline constexpr std::size_t find_index_impl(std::size_t result,
+     VARIANT_FUNCT_HOST_DEVICE inline constexpr std::size_t find_index_impl(std::size_t result,
                                                  std::size_t idx,
                                                  bool b,
                                                  Bs... bs) {
@@ -912,7 +916,7 @@ namespace mpark {
     }
 
     template <typename T, typename... Ts>
-     __host__ __device__ inline constexpr std::size_t find_index() {
+     VARIANT_FUNCT_HOST_DEVICE inline constexpr std::size_t find_index() {
       return find_index_impl(not_found, 0, std::is_same<T, Ts>::value...);
     }
 #endif
@@ -941,7 +945,7 @@ namespace mpark {
     template <typename T,
               template <typename> class IsTriviallyAvailable,
               template <typename> class IsAvailable>
-    __host__ __device__  inline constexpr Trait trait() {
+    VARIANT_FUNCT_HOST_DEVICE  inline constexpr Trait trait() {
       return IsTriviallyAvailable<T>::value
                  ? Trait::TriviallyAvailable
                  : IsAvailable<T>::value ? Trait::Available
@@ -950,7 +954,7 @@ namespace mpark {
 
 #ifdef MPARK_CPP14_CONSTEXPR
     template <typename... Traits>
-     __host__ __device__  inline constexpr Traitcommon_trait(Traits... traits) {
+     VARIANT_FUNCT_HOST_DEVICE  inline constexpr Trait common_trait(Traits... traits) {
       Trait result = Trait::TriviallyAvailable;
       for (Trait t : {traits...}) {
         if (static_cast<int>(t) > static_cast<int>(result)) {
@@ -960,10 +964,10 @@ namespace mpark {
       return result;
     }
 #else
-      __host__ __device__ inline constexpr Trait common_trait_impl(Trait result) { return result; }
+      VARIANT_FUNCT_HOST_DEVICE inline constexpr Trait common_trait_impl(Trait result) { return result; }
 
     template <typename... Traits>
-      __host__ __device__ inline constexpr Trait common_trait_impl(Trait result,
+      VARIANT_FUNCT_HOST_DEVICE inline constexpr Trait common_trait_impl(Trait result,
                                              Trait t,
                                              Traits... ts) {
       return static_cast<int>(t) > static_cast<int>(result)
@@ -972,7 +976,7 @@ namespace mpark {
     }
 
     template <typename... Traits>
-      __host__ __device__ inline constexpr Trait common_trait(Traits... ts) {
+      VARIANT_FUNCT_HOST_DEVICE inline constexpr Trait common_trait(Traits... ts) {
       return common_trait_impl(Trait::TriviallyAvailable, ts...);
     }
 #endif
@@ -1012,45 +1016,45 @@ namespace mpark {
       struct recursive_union {
 #ifdef MPARK_RETURN_TYPE_DEDUCTION
         template <typename V>
-          __host__ __device__ inline static constexpr auto&&get_alt(V &&v, in_place_index_t<0>) {
+          VARIANT_FUNCT_HOST_DEVICE inline static constexpr auto&&get_alt(V &&v, in_place_index_t<0>) {
           return lib::forward<V>(v).head_;
         }
 
         template <typename V, std::size_t I>
-        __host__ __device__ inline static constexpr auto &&get_alt(V &&v, in_place_index_t<I>) {
+        VARIANT_FUNCT_HOST_DEVICE inline static constexpr auto &&get_alt(V &&v, in_place_index_t<I>) {
           return get_alt(lib::forward<V>(v).tail_, in_place_index_t<I - 1>{});
         }
 #else
         template <std::size_t I, bool Dummy = true>
         struct get_alt_impl {
           template <typename V>
-          __host__ __device__  inline constexpr AUTO_REFREF operator()(V &&v) const
+          VARIANT_FUNCT_HOST_DEVICE  inline constexpr AUTO_REFREF operator()(V &&v) const
             AUTO_REFREF_RETURN(get_alt_impl<I - 1>{}(lib::forward<V>(v).tail_))
         };
 
         template <bool Dummy>
         struct get_alt_impl<0, Dummy> {
           template <typename V>
-          __host__ __device__  inline constexpr AUTO_REFREF operator()(V &&v) const
+          VARIANT_FUNCT_HOST_DEVICE  inline constexpr AUTO_REFREF operator()(V &&v) const
             AUTO_REFREF_RETURN(lib::forward<V>(v).head_)
         };
 
         template <typename V, std::size_t I>
-        __host__ __device__  inline static constexpr AUTO_REFREF get_alt(V &&v, in_place_index_t<I>)
+        VARIANT_FUNCT_HOST_DEVICE  inline static constexpr AUTO_REFREF get_alt(V &&v, in_place_index_t<I>)
           AUTO_REFREF_RETURN(get_alt_impl<I>{}(lib::forward<V>(v)))
 #endif
       };
 
       struct base {
         template <std::size_t I, typename V>
-        __host__ __device__  inline static constexpr AUTO_REFREF get_alt(V &&v)
+        VARIANT_FUNCT_HOST_DEVICE  inline static constexpr AUTO_REFREF get_alt(V &&v)
           AUTO_REFREF_RETURN(recursive_union::get_alt(
               data(lib::forward<V>(v)), in_place_index_t<I>{}))
       };
 
       struct variant {
         template <std::size_t I, typename V>
-        __host__ __device__  inline static constexpr AUTO_REFREF get_alt(V &&v)
+        VARIANT_FUNCT_HOST_DEVICE  inline static constexpr AUTO_REFREF get_alt(V &&v)
           AUTO_REFREF_RETURN(base::get_alt<I>(lib::forward<V>(v).impl_))
       };
 
@@ -1061,18 +1065,18 @@ namespace mpark {
       struct base {
         private:
         template <typename T>
-        __host__ __device__ inline static constexpr const T &at(const T &elem) {
+        VARIANT_FUNCT_HOST_DEVICE inline static constexpr const T &at(const T &elem) {
           return elem;
         }
 
         template <typename T, std::size_t N, typename... Is>
-        __host__ __device__ inline static constexpr const lib::remove_all_extents_t<T> &at(
+        VARIANT_FUNCT_HOST_DEVICE inline static constexpr const lib::remove_all_extents_t<T> &at(
             const lib::array<T, N> &elems, std::size_t i, Is... is) {
           return at(elems[i], is...);
         }
 
         template <typename F, typename... Fs>
-        __host__ __device__  inline static constexpr int visit_visitor_return_type_check() {
+        VARIANT_FUNCT_HOST_DEVICE  inline static constexpr int visit_visitor_return_type_check() {
           static_assert(lib::all<std::is_same<F, Fs>::value...>::value,
                         "`HYDRA_EXTERNAL_NS::HYDRA_EXTERNAL_NS::mpark::visit` requires the visitor to have a single "
                         "return type.");
@@ -1080,7 +1084,7 @@ namespace mpark {
         }
 
         template <typename... Fs>
-        __host__ __device__  inline static constexpr lib::array<
+        VARIANT_FUNCT_HOST_DEVICE  inline static constexpr lib::array<
             lib::common_type_t<lib::decay_t<Fs>...>,
             sizeof...(Fs)>
         make_farray(Fs &&... fs) {
@@ -1094,7 +1098,7 @@ namespace mpark {
         struct dispatcher {
           template <typename F, typename... Vs>
           struct impl {
-        	  __host__ __device__   inline static constexpr DECLTYPE_AUTO dispatch(F f, Vs... vs)
+        	  VARIANT_FUNCT_HOST_DEVICE   inline static constexpr DECLTYPE_AUTO dispatch(F f, Vs... vs)
               DECLTYPE_AUTO_RETURN(lib::invoke(
                   static_cast<F>(f),
                   access::base::get_alt<Is>(static_cast<Vs>(vs))...))
@@ -1102,11 +1106,11 @@ namespace mpark {
         };
 
         template <typename F, typename... Vs, std::size_t... Is>
-        __host__ __device__  inline static constexpr AUTO make_dispatch(lib::index_sequence<Is...>)
+        VARIANT_FUNCT_HOST_DEVICE  inline static constexpr AUTO make_dispatch(lib::index_sequence<Is...>)
           AUTO_RETURN(&dispatcher<Is...>::template impl<F, Vs...>::dispatch)
 
         template <std::size_t I, typename F, typename... Vs>
-        __host__ __device__  inline static constexpr AUTO make_fdiagonal_impl()
+        VARIANT_FUNCT_HOST_DEVICE  inline static constexpr AUTO make_fdiagonal_impl()
           AUTO_RETURN(make_dispatch<F, Vs...>(
               lib::index_sequence<lib::indexed_type<I, Vs>::value...>{}))
 
@@ -1116,7 +1120,7 @@ namespace mpark {
           AUTO_RETURN(make_farray(make_fdiagonal_impl<Is, F, Vs...>()...))
 
         template <typename F, typename V, typename... Vs>
-        __host__ __device__  inline static constexpr /* auto * */ auto make_fdiagonal()
+        VARIANT_FUNCT_HOST_DEVICE  inline static constexpr /* auto * */ auto make_fdiagonal()
             -> decltype(make_fdiagonal_impl<F, V, Vs...>(
                 lib::make_index_sequence<lib::decay_t<V>::size()>{})) {
           static_assert(lib::all<(lib::decay_t<V>::size() ==
@@ -1128,7 +1132,7 @@ namespace mpark {
 
 #ifdef MPARK_RETURN_TYPE_DEDUCTION
         template <typename F, typename... Vs, std::size_t... Is>
-        __host__ __device__   inline static constexpr auto make_fmatrix_impl(
+        VARIANT_FUNCT_HOST_DEVICE   inline static constexpr auto make_fmatrix_impl(
             lib::index_sequence<Is...> is) {
           return make_dispatch<F, Vs...>(is);
         }
@@ -1138,14 +1142,14 @@ namespace mpark {
                   std::size_t... Is,
                   std::size_t... Js,
                   typename... Ls>
-        __host__ __device__ inline static constexpr auto make_fmatrix_impl(
+        VARIANT_FUNCT_HOST_DEVICE inline static constexpr auto make_fmatrix_impl(
             lib::index_sequence<Is...>, lib::index_sequence<Js...>, Ls... ls) {
           return make_farray(make_fmatrix_impl<F, Vs...>(
               lib::index_sequence<Is..., Js>{}, ls...)...);
         }
 
         template <typename F, typename... Vs>
-        __host__ __device__ inline static constexpr auto make_fmatrix() {
+        VARIANT_FUNCT_HOST_DEVICE inline static constexpr auto make_fmatrix() {
           return make_fmatrix_impl<F, Vs...>(
               lib::index_sequence<>{},
               lib::make_index_sequence<lib::decay_t<Vs>::size()>{}...);
@@ -1158,7 +1162,7 @@ namespace mpark {
 
           template <std::size_t... Is>
           struct impl<lib::index_sequence<Is...>> {
-        	  __host__ __device__   inline constexpr AUTO operator()() const
+        	  VARIANT_FUNCT_HOST_DEVICE   inline constexpr AUTO operator()() const
               AUTO_RETURN(
                   make_dispatch<F, Vs...>(lib::index_sequence<Is...>{}))
           };
@@ -1167,14 +1171,14 @@ namespace mpark {
           struct impl<lib::index_sequence<Is...>,
                       lib::index_sequence<Js...>,
                       Ls...> {
-        	  __host__ __device__  inline constexpr AUTO operator()() const
+        	  VARIANT_FUNCT_HOST_DEVICE  inline constexpr AUTO operator()() const
               AUTO_RETURN(make_farray(
                   impl<lib::index_sequence<Is..., Js>, Ls...>{}()...))
           };
         };
 
         template <typename F, typename... Vs>
-        __host__ __device__  inline static constexpr AUTO make_fmatrix()
+        VARIANT_FUNCT_HOST_DEVICE  inline static constexpr AUTO make_fmatrix()
           AUTO_RETURN(
               typename make_fmatrix_impl<F, Vs...>::template impl<
                   lib::index_sequence<>,
@@ -1183,7 +1187,7 @@ namespace mpark {
 
         public:
         template <typename Visitor, typename... Vs>
-        __host__ __device__ inline static constexpr DECLTYPE_AUTO visit_alt_at( std::size_t index,
+        VARIANT_FUNCT_HOST_DEVICE inline static constexpr DECLTYPE_AUTO visit_alt_at( std::size_t index,
                                                            Visitor &&visitor,
                                                            Vs &&... vs)
           DECLTYPE_AUTO_RETURN(
@@ -1191,7 +1195,7 @@ namespace mpark {
                         as_base(lib::forward<Vs>(vs))...))
 
         template <typename Visitor, typename... Vs>
-        __host__ __device__  inline static constexpr DECLTYPE_AUTO visit_alt(Visitor &&visitor,
+        VARIANT_FUNCT_HOST_DEVICE  inline static constexpr DECLTYPE_AUTO visit_alt(Visitor &&visitor,
                                                         Vs &&... vs)
           DECLTYPE_AUTO_RETURN(
               at(make_fmatrix<Visitor &&,
@@ -1212,7 +1216,7 @@ namespace mpark {
 #pragma warning(push)
 #pragma warning(disable : 4100)
 #endif
-          __host__ __device__  inline constexpr DECLTYPE_AUTO operator()(Visitor &&visitor,
+          VARIANT_FUNCT_HOST_DEVICE  inline constexpr DECLTYPE_AUTO operator()(Visitor &&visitor,
                                                     Values &&... values) const
             DECLTYPE_AUTO_RETURN(lib::invoke(lib::forward<Visitor>(visitor),
                                              lib::forward<Values>(values)...))
@@ -1226,7 +1230,7 @@ namespace mpark {
           Visitor &&visitor_;
 
           template <typename... Alts>
-          __host__ __device__ inline constexpr DECLTYPE_AUTO operator()(Alts &&... alts) const
+          VARIANT_FUNCT_HOST_DEVICE inline constexpr DECLTYPE_AUTO operator()(Alts &&... alts) const
             DECLTYPE_AUTO_RETURN(
                 visit_exhaustive_visitor_check<
                     Visitor,
@@ -1236,12 +1240,12 @@ namespace mpark {
         };
 
         template <typename Visitor>
-        __host__ __device__  inline static constexpr AUTO make_value_visitor(Visitor &&visitor)
+        VARIANT_FUNCT_HOST_DEVICE  inline static constexpr AUTO make_value_visitor(Visitor &&visitor)
           AUTO_RETURN(value_visitor<Visitor>{lib::forward<Visitor>(visitor)})
 
         public:
         template <typename Visitor, typename... Vs>
-        __host__ __device__ inline static constexpr DECLTYPE_AUTO visit_alt_at(std::size_t index,
+        VARIANT_FUNCT_HOST_DEVICE inline static constexpr DECLTYPE_AUTO visit_alt_at(std::size_t index,
                                                            Visitor &&visitor,
                                                            Vs &&... vs)
           DECLTYPE_AUTO_RETURN(
@@ -1250,13 +1254,13 @@ namespace mpark {
                                  lib::forward<Vs>(vs).impl_...))
 
         template <typename Visitor, typename... Vs>
-        __host__ __device__ inline static constexpr DECLTYPE_AUTO visit_alt(Visitor &&visitor,
+        VARIANT_FUNCT_HOST_DEVICE inline static constexpr DECLTYPE_AUTO visit_alt(Visitor &&visitor,
                                                         Vs &&... vs)
           DECLTYPE_AUTO_RETURN(base::visit_alt(lib::forward<Visitor>(visitor),
                                                lib::forward<Vs>(vs).impl_...))
 
         template <typename Visitor, typename... Vs>
-        __host__ __device__ inline static constexpr DECLTYPE_AUTO visit_value_at(std::size_t index,
+        VARIANT_FUNCT_HOST_DEVICE inline static constexpr DECLTYPE_AUTO visit_value_at(std::size_t index,
                                                              Visitor &&visitor,
                                                              Vs &&... vs)
           DECLTYPE_AUTO_RETURN(
@@ -1265,7 +1269,7 @@ namespace mpark {
                            lib::forward<Vs>(vs)...))
 
         template <typename Visitor, typename... Vs>
-        __host__ __device__ inline static constexpr DECLTYPE_AUTO visit_value(Visitor &&visitor,
+        VARIANT_FUNCT_HOST_DEVICE inline static constexpr DECLTYPE_AUTO visit_value(Visitor &&visitor,
                                                           Vs &&... vs)
           DECLTYPE_AUTO_RETURN(
               visit_alt(make_value_visitor(lib::forward<Visitor>(visitor)),
@@ -1283,7 +1287,7 @@ namespace mpark {
 #pragma warning(disable : 4244)
 #endif
       template <typename... Args>
-      __host__ __device__ inline explicit constexpr alt(in_place_t, Args &&... args)
+      VARIANT_FUNCT_HOST_DEVICE inline explicit constexpr alt(in_place_t, Args &&... args)
           : value(lib::forward<Args>(args)...) {}
 #ifdef _MSC_VER
 #pragma warning(pop)
@@ -1302,26 +1306,26 @@ namespace mpark {
   template <std::size_t Index, typename T, typename... Ts>                 \
   union recursive_union<destructible_trait, Index, T, Ts...> {             \
     public:                                                                \
-    __host__ __device__ inline explicit constexpr recursive_union(valueless_t) noexcept        \
+    VARIANT_FUNCT_HOST_DEVICE inline explicit constexpr recursive_union(valueless_t) noexcept        \
         : dummy_{} {}                                                      \
                                                                            \
     template <typename... Args>                                            \
-    __host__ __device__  inline explicit constexpr recursive_union(in_place_index_t<0>,         \
+    VARIANT_FUNCT_HOST_DEVICE  inline explicit constexpr recursive_union(in_place_index_t<0>,         \
                                               Args &&... args)             \
         : head_(in_place_t{}, lib::forward<Args>(args)...) {}              \
                                                                            \
     template <std::size_t I, typename... Args>                             \
-    __host__ __device__ inline explicit constexpr recursive_union(in_place_index_t<I>,         \
+    VARIANT_FUNCT_HOST_DEVICE inline explicit constexpr recursive_union(in_place_index_t<I>,         \
                                               Args &&... args)             \
         : tail_(in_place_index_t<I - 1>{}, lib::forward<Args>(args)...) {} \
                                                                            \
-     __host__ __device__ recursive_union(const recursive_union &) = default;    \
-     __host__ __device__  recursive_union(recursive_union &&) = default;   \
+     VARIANT_FUNCT_HOST_DEVICE recursive_union(const recursive_union &) = default;    \
+     VARIANT_FUNCT_HOST_DEVICE  recursive_union(recursive_union &&) = default;   \
                                                                            \
     destructor                                                             \
                                                                            \
-    __host__ __device__ recursive_union &operator=(const recursive_union &) = default;         \
-    __host__ __device__ recursive_union &operator=(recursive_union &&) = default;              \
+    VARIANT_FUNCT_HOST_DEVICE recursive_union &operator=(const recursive_union &) = default;         \
+    VARIANT_FUNCT_HOST_DEVICE recursive_union &operator=(recursive_union &&) = default;              \
                                                                            \
     private:                                                               \
     char dummy_;                                                           \
@@ -1345,19 +1349,19 @@ namespace mpark {
     template <Trait DestructibleTrait, typename... Ts>
     class base {
       public:
-    	  __host__ __device__  inline explicit constexpr base(valueless_t tag) noexcept
+    	  VARIANT_FUNCT_HOST_DEVICE  inline explicit constexpr base(valueless_t tag) noexcept
           : data_(tag), index_(static_cast<index_t>(-1)) {}
 
       template <std::size_t I, typename... Args>
-      __host__ __device__  inline explicit constexpr base(in_place_index_t<I>, Args &&... args)
+      VARIANT_FUNCT_HOST_DEVICE  inline explicit constexpr base(in_place_index_t<I>, Args &&... args)
           : data_(in_place_index_t<I>{}, lib::forward<Args>(args)...),
             index_(I) {}
 
-      __host__ __device__  inline constexpr bool valueless_by_exception() const noexcept {
+      VARIANT_FUNCT_HOST_DEVICE  inline constexpr bool valueless_by_exception() const noexcept {
         return index_ == static_cast<index_t>(-1);
       }
 
-      __host__ __device__  inline constexpr std::size_t index() const noexcept {
+      VARIANT_FUNCT_HOST_DEVICE  inline constexpr std::size_t index() const noexcept {
         return valueless_by_exception() ? variant_npos : index_;
       }
 
@@ -1374,7 +1378,7 @@ namespace mpark {
       friend inline constexpr data_t &&data(base &&b) { return lib::move(b).data_; }
       friend inline constexpr const data_t &&data(const base &&b) { return lib::move(b).data_; }
 
-      __host__ __device__ inline static constexpr std::size_t size() { return sizeof...(Ts); }
+      VARIANT_FUNCT_HOST_DEVICE inline static constexpr std::size_t size() { return sizeof...(Ts); }
 
       data_t data_;
       index_t index_;
@@ -1389,7 +1393,7 @@ namespace mpark {
 #pragma warning(disable : 4100)
 #endif
       template <typename Alt>
-      __host__ __device__  inline void operator()(Alt &alt) const noexcept { alt.~Alt(); }
+      VARIANT_FUNCT_HOST_DEVICE  inline void operator()(Alt &alt) const noexcept { alt.~Alt(); }
 #ifdef _MSC_VER
 #pragma warning(pop)
 #endif
@@ -1463,7 +1467,7 @@ namespace mpark {
 #ifndef MPARK_GENERIC_LAMBDAS
       struct ctor {
         template <typename LhsAlt, typename RhsAlt>
-        __host__ __device__  inline void operator()(LhsAlt &lhs_alt, RhsAlt &&rhs_alt) const {
+        VARIANT_FUNCT_HOST_DEVICE  inline void operator()(LhsAlt &lhs_alt, RhsAlt &&rhs_alt) const {
           constructor::construct_alt(lhs_alt,
                                      lib::forward<RhsAlt>(rhs_alt).value);
         }
@@ -1471,20 +1475,20 @@ namespace mpark {
 #endif
 
       template <std::size_t I, typename T, typename... Args>
-      __host__ __device__  inline static T &construct_alt(alt<I, T> &a, Args &&... args) {
+      VARIANT_FUNCT_HOST_DEVICE  inline static T &construct_alt(alt<I, T> &a, Args &&... args) {
         ::new (static_cast<void *>(lib::addressof(a)))
             alt<I, T>(in_place_t{}, lib::forward<Args>(args)...);
         return a.value;
       }
 
       template <typename Rhs>
-      __host__ __device__  inline static void generic_construct(constructor &lhs, Rhs &&rhs) {
+      VARIANT_FUNCT_HOST_DEVICE  inline static void generic_construct(constructor &lhs, Rhs &&rhs) {
         lhs.destroy();
         if (!rhs.valueless_by_exception()) {
           visitation::base::visit_alt_at(
               rhs.index(),
 #ifdef MPARK_GENERIC_LAMBDAS
-              []  __host__ __device__ (auto &lhs_alt, auto &&rhs_alt) {
+              []  VARIANT_FUNCT_HOST_DEVICE (auto &lhs_alt, auto &&rhs_alt) {
                 constructor::construct_alt(
                     lhs_alt, lib::forward<decltype(rhs_alt)>(rhs_alt).value);
               }
@@ -1521,11 +1525,11 @@ namespace mpark {
 
     MPARK_VARIANT_MOVE_CONSTRUCTOR(
         Trait::TriviallyAvailable,
-        __host__ __device__  move_constructor(move_constructor &&that) = default;);
+        VARIANT_FUNCT_HOST_DEVICE  move_constructor(move_constructor &&that) = default;);
 
     MPARK_VARIANT_MOVE_CONSTRUCTOR(
         Trait::Available,
-        __host__ __device__ move_constructor(move_constructor &&that) noexcept(
+        VARIANT_FUNCT_HOST_DEVICE move_constructor(move_constructor &&that) noexcept(
             lib::all<std::is_nothrow_move_constructible<Ts>::value...>::value)
             : move_constructor(valueless_t{}) {
           this->generic_construct(*this, lib::move(that));
@@ -1533,7 +1537,7 @@ namespace mpark {
 
     MPARK_VARIANT_MOVE_CONSTRUCTOR(
         Trait::Unavailable,
-        __host__ __device__ move_constructor(move_constructor &&) = delete;);
+        VARIANT_FUNCT_HOST_DEVICE move_constructor(move_constructor &&) = delete;);
 
 #undef MPARK_VARIANT_MOVE_CONSTRUCTOR
 
@@ -1559,18 +1563,18 @@ namespace mpark {
 
     MPARK_VARIANT_COPY_CONSTRUCTOR(
         Trait::TriviallyAvailable,
-        __host__ __device__ copy_constructor(const copy_constructor &that) = default;);
+        VARIANT_FUNCT_HOST_DEVICE copy_constructor(const copy_constructor &that) = default;);
 
     MPARK_VARIANT_COPY_CONSTRUCTOR(
         Trait::Available,
-        __host__ __device__ copy_constructor(const copy_constructor &that)
+        VARIANT_FUNCT_HOST_DEVICE copy_constructor(const copy_constructor &that)
             : copy_constructor(valueless_t{}) {
           this->generic_construct(*this, that);
         });
 
     MPARK_VARIANT_COPY_CONSTRUCTOR(
         Trait::Unavailable,
-        __host__ __device__ copy_constructor(const copy_constructor &) = delete;);
+        VARIANT_FUNCT_HOST_DEVICE copy_constructor(const copy_constructor &) = delete;);
 
 #undef MPARK_VARIANT_COPY_CONSTRUCTOR
 
@@ -1583,7 +1587,7 @@ namespace mpark {
       using super::operator=;
 
       template <std::size_t I, typename... Args>
-      __host__ __device__ inline  auto  emplace(Args &&... args)
+      VARIANT_FUNCT_HOST_DEVICE inline  auto  emplace(Args &&... args)
           -> decltype(this->construct_alt(access::base::get_alt<I>(*this),
                                           lib::forward<Args>(args)...)) {
         this->destroy();
@@ -1598,7 +1602,7 @@ namespace mpark {
       template <typename That>
       struct assigner {
         template <typename ThisAlt, typename ThatAlt>
-        __host__ __device__  inline void operator()(ThisAlt &this_alt, ThatAlt &&that_alt) const {
+        VARIANT_FUNCT_HOST_DEVICE  inline void operator()(ThisAlt &this_alt, ThatAlt &&that_alt) const {
           self->assign_alt(this_alt, lib::forward<ThatAlt>(that_alt).value);
         }
         assignment *self;
@@ -1606,7 +1610,7 @@ namespace mpark {
 #endif
 
       template <std::size_t I, typename T, typename Arg>
-      __host__ __device__ inline void assign_alt(alt<I, T> &a, Arg &&arg) {
+      VARIANT_FUNCT_HOST_DEVICE inline void assign_alt(alt<I, T> &a, Arg &&arg) {
         if (this->index() == I) {
 #ifdef _MSC_VER
 #pragma warning(push)
@@ -1618,10 +1622,10 @@ namespace mpark {
 #endif
         } else {
           struct {
-        	  __host__ __device__  void operator()(std::true_type) const {
+        	  VARIANT_FUNCT_HOST_DEVICE  void operator()(std::true_type) const {
               this_->emplace<I>(lib::forward<Arg>(arg_));
             }
-        	  __host__ __device__  void operator()(std::false_type) const {
+        	  VARIANT_FUNCT_HOST_DEVICE  void operator()(std::false_type) const {
               this_->emplace<I>(T(lib::forward<Arg>(arg_)));
             }
             assignment *this_;
@@ -1634,7 +1638,7 @@ namespace mpark {
       }
 
       template <typename That>
-      __host__ __device__  inline void generic_assign(That &&that) {
+      VARIANT_FUNCT_HOST_DEVICE  inline void generic_assign(That &&that) {
         if (this->valueless_by_exception() && that.valueless_by_exception()) {
           // do nothing.
         } else if (that.valueless_by_exception()) {
@@ -1679,11 +1683,11 @@ namespace mpark {
 
     MPARK_VARIANT_MOVE_ASSIGNMENT(
         Trait::TriviallyAvailable,
-        __host__ __device__  move_assignment &operator=(move_assignment &&that) = default;);
+        VARIANT_FUNCT_HOST_DEVICE  move_assignment &operator=(move_assignment &&that) = default;);
 
     MPARK_VARIANT_MOVE_ASSIGNMENT(
         Trait::Available,
-        __host__ __device__ move_assignment &
+        VARIANT_FUNCT_HOST_DEVICE move_assignment &
           operator=(move_assignment &&that) noexcept(
             lib::all<(std::is_nothrow_move_constructible<Ts>::value &&
                       std::is_nothrow_move_assignable<Ts>::value)...>::value) {
@@ -1693,7 +1697,7 @@ namespace mpark {
 
     MPARK_VARIANT_MOVE_ASSIGNMENT(
         Trait::Unavailable,
-        __host__ __device__ move_assignment &operator=(move_assignment &&) = delete;);
+        VARIANT_FUNCT_HOST_DEVICE move_assignment &operator=(move_assignment &&) = delete;);
 
 #undef MPARK_VARIANT_MOVE_ASSIGNMENT
 
@@ -1719,18 +1723,18 @@ namespace mpark {
 
     MPARK_VARIANT_COPY_ASSIGNMENT(
         Trait::TriviallyAvailable,
-        __host__ __device__ copy_assignment &operator=(const copy_assignment &that) = default;);
+        VARIANT_FUNCT_HOST_DEVICE copy_assignment &operator=(const copy_assignment &that) = default;);
 
     MPARK_VARIANT_COPY_ASSIGNMENT(
         Trait::Available,
-        __host__ __device__ copy_assignment &operator=(const copy_assignment &that) {
+        VARIANT_FUNCT_HOST_DEVICE copy_assignment &operator=(const copy_assignment &that) {
           this->generic_assign(that);
           return *this;
         });
 
     MPARK_VARIANT_COPY_ASSIGNMENT(
         Trait::Unavailable,
-        __host__ __device__ copy_assignment &operator=(const copy_assignment &) = delete;);
+        VARIANT_FUNCT_HOST_DEVICE copy_assignment &operator=(const copy_assignment &) = delete;);
 
 #undef MPARK_VARIANT_COPY_ASSIGNMENT
 
@@ -1743,18 +1747,18 @@ namespace mpark {
       using super::operator=;
 
       template <std::size_t I, typename Arg>
-      __host__ __device__  inline void assign(Arg &&arg) {
+      VARIANT_FUNCT_HOST_DEVICE  inline void assign(Arg &&arg) {
         this->assign_alt(access::base::get_alt<I>(*this),
                          lib::forward<Arg>(arg));
       }
 
-      __host__ __device__ inline void swap(impl &that) {
+      VARIANT_FUNCT_HOST_DEVICE inline void swap(impl &that) {
         if (this->valueless_by_exception() && that.valueless_by_exception()) {
           // do nothing.
         } else if (this->index() == that.index()) {
           visitation::base::visit_alt_at(this->index(),
 #ifdef MPARK_GENERIC_LAMBDAS
-                                         []__host__ __device__ (auto &this_alt, auto &that_alt) {
+                                         []VARIANT_FUNCT_HOST_DEVICE (auto &this_alt, auto &that_alt) {
                                            using std::swap;
                                            swap(this_alt.value,
                                                 that_alt.value);
@@ -1795,14 +1799,14 @@ namespace mpark {
 #ifndef MPARK_GENERIC_LAMBDAS
       struct swapper {
         template <typename ThisAlt, typename ThatAlt>
-        __host__ __device__  inline void operator()(ThisAlt &this_alt, ThatAlt &that_alt) const {
+        VARIANT_FUNCT_HOST_DEVICE  inline void operator()(ThisAlt &this_alt, ThatAlt &that_alt) const {
           using std::swap;
           swap(this_alt.value, that_alt.value);
         }
       };
 #endif
 
-      __host__ __device__  inline constexpr bool move_nothrow() const {
+      VARIANT_FUNCT_HOST_DEVICE  inline constexpr bool move_nothrow() const {
         return this->valueless_by_exception() ||
                lib::array<bool, sizeof...(Ts)>{
                    {std::is_nothrow_move_constructible<Ts>::value...}
@@ -1813,7 +1817,7 @@ namespace mpark {
     template <std::size_t I, typename T>
     struct overload_leaf {
       using F = lib::size_constant<I> (*)(T);
-      __host__ __device__  operator F() const { return nullptr; }
+      VARIANT_FUNCT_HOST_DEVICE  operator F() const { return nullptr; }
     };
 
     template <typename... Ts>
@@ -1867,12 +1871,12 @@ namespace mpark {
     template <
         typename Front = lib::type_pack_element_t<0, Ts...>,
         lib::enable_if_t<std::is_default_constructible<Front>::value, int> = 0>
-    __host__ __device__  inline constexpr variant() noexcept(
+    VARIANT_FUNCT_HOST_DEVICE  inline constexpr variant() noexcept(
         std::is_nothrow_default_constructible<Front>::value)
         : impl_(in_place_index_t<0>{}) {}
 
-    __host__ __device__  variant(const variant &) = default;
-    __host__ __device__  variant(variant &&) = default;
+    VARIANT_FUNCT_HOST_DEVICE  variant(const variant &) = default;
+    VARIANT_FUNCT_HOST_DEVICE  variant(variant &&) = default;
 
     template <
         typename Arg,
@@ -1883,7 +1887,7 @@ namespace mpark {
         std::size_t I = detail::best_match<Arg, Ts...>::value,
         typename T = lib::type_pack_element_t<I, Ts...>,
         lib::enable_if_t<std::is_constructible<T, Arg>::value, int> = 0>
-    __host__ __device__  inline constexpr variant(Arg &&arg) noexcept(
+    VARIANT_FUNCT_HOST_DEVICE  inline constexpr variant(Arg &&arg) noexcept(
         std::is_nothrow_constructible<T, Arg>::value)
         : impl_(in_place_index_t<I>{}, lib::forward<Arg>(arg)) {}
 
@@ -1892,7 +1896,7 @@ namespace mpark {
         typename... Args,
         typename T = lib::type_pack_element_t<I, Ts...>,
         lib::enable_if_t<std::is_constructible<T, Args...>::value, int> = 0>
-    __host__ __device__  inline explicit constexpr variant(
+    VARIANT_FUNCT_HOST_DEVICE  inline explicit constexpr variant(
         in_place_index_t<I>,
         Args &&... args) noexcept(std::is_nothrow_constructible<T,
                                                                 Args...>::value)
@@ -1907,7 +1911,7 @@ namespace mpark {
                                                std::initializer_list<Up> &,
                                                Args...>::value,
                          int> = 0>
-    __host__ __device__  inline explicit constexpr variant(
+    VARIANT_FUNCT_HOST_DEVICE  inline explicit constexpr variant(
         in_place_index_t<I>,
         std::initializer_list<Up> il,
         Args &&... args) noexcept(std::
@@ -1922,7 +1926,7 @@ namespace mpark {
         typename... Args,
         std::size_t I = detail::find_index_sfinae<T, Ts...>::value,
         lib::enable_if_t<std::is_constructible<T, Args...>::value, int> = 0>
-    __host__ __device__  inline explicit constexpr variant(
+    VARIANT_FUNCT_HOST_DEVICE  inline explicit constexpr variant(
         in_place_type_t<T>,
         Args &&... args) noexcept(std::is_nothrow_constructible<T,
                                                                 Args...>::value)
@@ -1937,7 +1941,7 @@ namespace mpark {
                                                std::initializer_list<Up> &,
                                                Args...>::value,
                          int> = 0>
-    __host__ __device__  inline explicit constexpr variant(
+    VARIANT_FUNCT_HOST_DEVICE  inline explicit constexpr variant(
         in_place_type_t<T>,
         std::initializer_list<Up> il,
         Args &&... args) noexcept(std::
@@ -1949,8 +1953,8 @@ namespace mpark {
 
     ~variant() = default;
 
-    __host__ __device__ variant &operator=(const variant &) = default;
-    __host__ __device__ variant &operator=(variant &&) = default;
+    VARIANT_FUNCT_HOST_DEVICE variant &operator=(const variant &) = default;
+    VARIANT_FUNCT_HOST_DEVICE variant &operator=(variant &&) = default;
 
     template <typename Arg,
               lib::enable_if_t<!std::is_same<lib::decay_t<Arg>, variant>::value,
@@ -1960,7 +1964,7 @@ namespace mpark {
               lib::enable_if_t<(std::is_assignable<T &, Arg>::value &&
                                 std::is_constructible<T, Arg>::value),
                                int> = 0>
-    __host__ __device__  inline variant &operator=(Arg &&arg) noexcept(
+    VARIANT_FUNCT_HOST_DEVICE  inline variant &operator=(Arg &&arg) noexcept(
         (std::is_nothrow_assignable<T &, Arg>::value &&
          std::is_nothrow_constructible<T, Arg>::value)) {
       impl_.template assign<I>(lib::forward<Arg>(arg));
@@ -1972,7 +1976,7 @@ namespace mpark {
         typename... Args,
         typename T = lib::type_pack_element_t<I, Ts...>,
         lib::enable_if_t<std::is_constructible<T, Args...>::value, int> = 0>
-    __host__ __device__  inline T &emplace(Args &&... args) {
+    VARIANT_FUNCT_HOST_DEVICE  inline T &emplace(Args &&... args) {
       return impl_.template emplace<I>(lib::forward<Args>(args)...);
     }
 
@@ -1985,7 +1989,7 @@ namespace mpark {
                                                std::initializer_list<Up> &,
                                                Args...>::value,
                          int> = 0>
-    __host__ __device__  inline T &emplace(std::initializer_list<Up> il, Args &&... args) {
+    VARIANT_FUNCT_HOST_DEVICE  inline T &emplace(std::initializer_list<Up> il, Args &&... args) {
       return impl_.template emplace<I>(il, lib::forward<Args>(args)...);
     }
 
@@ -1994,7 +1998,7 @@ namespace mpark {
         typename... Args,
         std::size_t I = detail::find_index_sfinae<T, Ts...>::value,
         lib::enable_if_t<std::is_constructible<T, Args...>::value, int> = 0>
-    __host__ __device__  inline T &emplace(Args &&... args) {
+    VARIANT_FUNCT_HOST_DEVICE  inline T &emplace(Args &&... args) {
       return impl_.template emplace<I>(lib::forward<Args>(args)...);
     }
 
@@ -2007,15 +2011,15 @@ namespace mpark {
                                                std::initializer_list<Up> &,
                                                Args...>::value,
                          int> = 0>
-    __host__ __device__   inline T &emplace(std::initializer_list<Up> il, Args &&... args) {
+    VARIANT_FUNCT_HOST_DEVICE   inline T &emplace(std::initializer_list<Up> il, Args &&... args) {
       return impl_.template emplace<I>(il, lib::forward<Args>(args)...);
     }
 
-    __host__ __device__  inline constexpr bool valueless_by_exception() const noexcept {
+    VARIANT_FUNCT_HOST_DEVICE  inline constexpr bool valueless_by_exception() const noexcept {
       return impl_.valueless_by_exception();
     }
 
-    __host__ __device__   inline constexpr std::size_t index() const noexcept {
+    VARIANT_FUNCT_HOST_DEVICE   inline constexpr std::size_t index() const noexcept {
       return impl_.index();
     }
 
@@ -2025,7 +2029,7 @@ namespace mpark {
                                   (std::is_move_constructible<Ts>::value &&
                                    lib::is_swappable<Ts>::value)...>::value,
                          int> = 0>
-    __host__ __device__ inline void swap(variant &that) noexcept(
+    VARIANT_FUNCT_HOST_DEVICE inline void swap(variant &that) noexcept(
         lib::all<(std::is_nothrow_move_constructible<Ts>::value &&
                   lib::is_nothrow_swappable<Ts>::value)...>::value) {
       impl_.swap(that.impl_);
@@ -2039,80 +2043,80 @@ namespace mpark {
   };
 
   template <std::size_t I, typename... Ts>
-  __host__ __device__  inline constexpr bool holds_alternative(const variant<Ts...> &v) noexcept {
+  VARIANT_FUNCT_HOST_DEVICE  inline constexpr bool holds_alternative(const variant<Ts...> &v) noexcept {
     return v.index() == I;
   }
 
   template <typename T, typename... Ts>
-  __host__ __device__ inline constexpr bool holds_alternative(const variant<Ts...> &v) noexcept {
+  VARIANT_FUNCT_HOST_DEVICE inline constexpr bool holds_alternative(const variant<Ts...> &v) noexcept {
     return holds_alternative<detail::find_index_checked<T, Ts...>::value>(v);
   }
 
   namespace detail {
     template <std::size_t I, typename V>
     struct generic_get_impl {
-    	__host__ __device__   constexpr generic_get_impl(int) {}
+    	VARIANT_FUNCT_HOST_DEVICE   constexpr generic_get_impl(int) {}
 
-    	__host__ __device__  constexpr AUTO_REFREF operator()(V &&v) const
+    	VARIANT_FUNCT_HOST_DEVICE  constexpr AUTO_REFREF operator()(V &&v) const
         AUTO_REFREF_RETURN(
             access::variant::get_alt<I>(lib::forward<V>(v)).value)
     };
 
     template <std::size_t I, typename V>
-    __host__ __device__  inline constexpr AUTO_REFREF generic_get(V &&v)
+    VARIANT_FUNCT_HOST_DEVICE  inline constexpr AUTO_REFREF generic_get(V &&v)
       AUTO_REFREF_RETURN(generic_get_impl<I, V>(
           holds_alternative<I>(v) ? 0 : (throw_bad_variant_access(), 0))(
           lib::forward<V>(v)))
   }  // namespace detail
 
   template <std::size_t I, typename... Ts>
-  __host__ __device__  inline constexpr variant_alternative_t<I, variant<Ts...>> &get(
+  VARIANT_FUNCT_HOST_DEVICE  inline constexpr variant_alternative_t<I, variant<Ts...>> &get(
       variant<Ts...> &v) {
     return detail::generic_get<I>(v);
   }
 
   template <std::size_t I, typename... Ts>
-  __host__ __device__  inline constexpr variant_alternative_t<I, variant<Ts...>> &&get(
+  VARIANT_FUNCT_HOST_DEVICE  inline constexpr variant_alternative_t<I, variant<Ts...>> &&get(
       variant<Ts...> &&v) {
     return detail::generic_get<I>(lib::move(v));
   }
 
   template <std::size_t I, typename... Ts>
-  __host__ __device__  inline constexpr const variant_alternative_t<I, variant<Ts...>> &get(
+  VARIANT_FUNCT_HOST_DEVICE  inline constexpr const variant_alternative_t<I, variant<Ts...>> &get(
       const variant<Ts...> &v) {
     return detail::generic_get<I>(v);
   }
 
   template <std::size_t I, typename... Ts>
-  __host__ __device__ inline constexpr const variant_alternative_t<I, variant<Ts...>> &&get(
+  VARIANT_FUNCT_HOST_DEVICE inline constexpr const variant_alternative_t<I, variant<Ts...>> &&get(
       const variant<Ts...> &&v) {
     return detail::generic_get<I>(lib::move(v));
   }
 
   template <typename T, typename... Ts>
-  __host__ __device__ inline constexpr T &get(variant<Ts...> &v) {
+  VARIANT_FUNCT_HOST_DEVICE inline constexpr T &get(variant<Ts...> &v) {
     return get<detail::find_index_checked<T, Ts...>::value>(v);
   }
 
   template <typename T, typename... Ts>
-  __host__ __device__ inline constexpr T &&get(variant<Ts...> &&v) {
+  VARIANT_FUNCT_HOST_DEVICE inline constexpr T &&get(variant<Ts...> &&v) {
     return get<detail::find_index_checked<T, Ts...>::value>(lib::move(v));
   }
 
   template <typename T, typename... Ts>
-  __host__ __device__  inline constexpr const T &get(const variant<Ts...> &v) {
+  VARIANT_FUNCT_HOST_DEVICE  inline constexpr const T &get(const variant<Ts...> &v) {
     return get<detail::find_index_checked<T, Ts...>::value>(v);
   }
 
   template <typename T, typename... Ts>
-  __host__ __device__ inline constexpr const T &&get(const variant<Ts...> &&v) {
+  VARIANT_FUNCT_HOST_DEVICE inline constexpr const T &&get(const variant<Ts...> &&v) {
     return get<detail::find_index_checked<T, Ts...>::value>(lib::move(v));
   }
 
   namespace detail {
 
     template <std::size_t I, typename V>
-    __host__ __device__  inline constexpr /* auto * */ AUTO generic_get_if(V *v) noexcept
+    VARIANT_FUNCT_HOST_DEVICE  inline constexpr /* auto * */ AUTO generic_get_if(V *v) noexcept
       AUTO_RETURN(v && holds_alternative<I>(*v)
                       ? lib::addressof(access::variant::get_alt<I>(*v).value)
                       : nullptr)
@@ -2120,32 +2124,32 @@ namespace mpark {
   }  // namespace detail
 
   template <std::size_t I, typename... Ts>
-  __host__ __device__  inline constexpr lib::add_pointer_t<variant_alternative_t<I, variant<Ts...>>>
+  VARIANT_FUNCT_HOST_DEVICE  inline constexpr lib::add_pointer_t<variant_alternative_t<I, variant<Ts...>>>
   get_if(variant<Ts...> *v) noexcept {
     return detail::generic_get_if<I>(v);
   }
 
   template <std::size_t I, typename... Ts>
-  __host__ __device__ inline constexpr lib::add_pointer_t<
+  VARIANT_FUNCT_HOST_DEVICE inline constexpr lib::add_pointer_t<
       const variant_alternative_t<I, variant<Ts...>>>
   get_if(const variant<Ts...> *v) noexcept {
     return detail::generic_get_if<I>(v);
   }
 
   template <typename T, typename... Ts>
-  __host__ __device__ inline constexpr lib::add_pointer_t<T>
+  VARIANT_FUNCT_HOST_DEVICE inline constexpr lib::add_pointer_t<T>
   get_if(variant<Ts...> *v) noexcept {
     return get_if<detail::find_index_checked<T, Ts...>::value>(v);
   }
 
   template <typename T, typename... Ts>
-  __host__ __device__ inline constexpr lib::add_pointer_t<const T>
+  VARIANT_FUNCT_HOST_DEVICE inline constexpr lib::add_pointer_t<const T>
   get_if(const variant<Ts...> *v) noexcept {
     return get_if<detail::find_index_checked<T, Ts...>::value>(v);
   }
 
   template <typename... Ts>
-  __host__ __device__ inline constexpr bool operator==(const variant<Ts...> &lhs,
+  VARIANT_FUNCT_HOST_DEVICE inline constexpr bool operator==(const variant<Ts...> &lhs,
                                    const variant<Ts...> &rhs) {
     using detail::visitation::variant;
     using lib::equal_to;
@@ -2161,7 +2165,7 @@ namespace mpark {
   }
 
   template <typename... Ts>
-  __host__ __device__ inline constexpr bool operator!=(const variant<Ts...> &lhs,
+  VARIANT_FUNCT_HOST_DEVICE inline constexpr bool operator!=(const variant<Ts...> &lhs,
                                    const variant<Ts...> &rhs) {
     using detail::visitation::variant;
     using lib::not_equal_to;
@@ -2177,7 +2181,7 @@ namespace mpark {
   }
 
   template <typename... Ts>
-  __host__ __device__ inline constexpr bool operator<(const variant<Ts...> &lhs,
+  VARIANT_FUNCT_HOST_DEVICE inline constexpr bool operator<(const variant<Ts...> &lhs,
                                   const variant<Ts...> &rhs) {
     using detail::visitation::variant;
     using lib::less;
@@ -2196,7 +2200,7 @@ namespace mpark {
   }
 
   template <typename... Ts>
-  __host__ __device__ inline constexpr bool operator>(const variant<Ts...> &lhs,
+  VARIANT_FUNCT_HOST_DEVICE inline constexpr bool operator>(const variant<Ts...> &lhs,
                                   const variant<Ts...> &rhs) {
     using detail::visitation::variant;
     using lib::greater;
@@ -2215,7 +2219,7 @@ namespace mpark {
   }
 
   template <typename... Ts>
-  __host__ __device__  inline constexpr bool operator<=(const variant<Ts...> &lhs,
+  VARIANT_FUNCT_HOST_DEVICE  inline constexpr bool operator<=(const variant<Ts...> &lhs,
                                    const variant<Ts...> &rhs) {
     using detail::visitation::variant;
     using lib::less_equal;
@@ -2235,7 +2239,7 @@ namespace mpark {
   }
 
   template <typename... Ts>
-  __host__ __device__ inline constexpr bool operator>=(const variant<Ts...> &lhs,
+  VARIANT_FUNCT_HOST_DEVICE inline constexpr bool operator>=(const variant<Ts...> &lhs,
                                    const variant<Ts...> &rhs) {
     using detail::visitation::variant;
     using lib::greater_equal;
@@ -2257,34 +2261,34 @@ namespace mpark {
 
   struct monostate {};
 
-  __host__ __device__ inline constexpr bool operator<(monostate, monostate) noexcept {
+  VARIANT_FUNCT_HOST_DEVICE inline constexpr bool operator<(monostate, monostate) noexcept {
     return false;
   }
 
-  __host__ __device__ inline constexpr bool operator>(monostate, monostate) noexcept {
+  VARIANT_FUNCT_HOST_DEVICE inline constexpr bool operator>(monostate, monostate) noexcept {
     return false;
   }
 
-  __host__ __device__ inline constexpr bool operator<=(monostate, monostate) noexcept {
+  VARIANT_FUNCT_HOST_DEVICE inline constexpr bool operator<=(monostate, monostate) noexcept {
     return true;
   }
 
-  __host__ __device__ inline constexpr bool operator>=(monostate, monostate) noexcept {
+  VARIANT_FUNCT_HOST_DEVICE inline constexpr bool operator>=(monostate, monostate) noexcept {
     return true;
   }
 
-  __host__ __device__ inline constexpr bool operator==(monostate, monostate) noexcept {
+  VARIANT_FUNCT_HOST_DEVICE inline constexpr bool operator==(monostate, monostate) noexcept {
     return true;
   }
 
-  __host__ __device__ inline constexpr bool operator!=(monostate, monostate) noexcept {
+  VARIANT_FUNCT_HOST_DEVICE inline constexpr bool operator!=(monostate, monostate) noexcept {
     return false;
   }
 
 #ifdef MPARK_CPP14_CONSTEXPR
   namespace detail {
 
-  __host__ __device__  inline constexpr bool all(std::initializer_list<bool> bs) {
+  VARIANT_FUNCT_HOST_DEVICE  inline constexpr bool all(std::initializer_list<bool> bs) {
       for (bool b : bs) {
         if (!b) {
           return false;
@@ -2296,7 +2300,7 @@ namespace mpark {
   }  // namespace detail
 
   template <typename Visitor, typename... Vs>
-  __host__ __device__ inline constexpr decltype(auto) visit(Visitor &&visitor, Vs &&... vs) {
+  VARIANT_FUNCT_HOST_DEVICE inline constexpr decltype(auto) visit(Visitor &&visitor, Vs &&... vs) {
     return (detail::all({!vs.valueless_by_exception()...})
                 ? (void)0
                 : throw_bad_variant_access()),
@@ -2307,20 +2311,20 @@ namespace mpark {
   namespace detail {
 
     template <std::size_t N>
-    __host__ __device__ inline constexpr bool all_impl(const lib::array<bool, N> &bs,
+    VARIANT_FUNCT_HOST_DEVICE inline constexpr bool all_impl(const lib::array<bool, N> &bs,
                                    std::size_t idx) {
       return idx >= N || (bs[idx] && all_impl(bs, idx + 1));
     }
 
     template <std::size_t N>
-    __host__ __device__ inline constexpr bool all(const lib::array<bool, N> &bs) {
+    VARIANT_FUNCT_HOST_DEVICE inline constexpr bool all(const lib::array<bool, N> &bs) {
       return all_impl(bs, 0);
     }
 
   }  // namespace detail
 
   template <typename Visitor, typename... Vs>
-  __host__ __device__ inline DECLTYPE_AUTO visit(Visitor &&visitor, Vs &&... vs)
+  VARIANT_FUNCT_HOST_DEVICE inline DECLTYPE_AUTO visit(Visitor &&visitor, Vs &&... vs)
  -> decltype( detail::visitation::variant::visit_value(lib::forward<Visitor>(visitor), lib::forward<Vs>(vs)...) ){
 
 	  detail::all(lib::array<bool, sizeof...(Vs)>{{!vs.valueless_by_exception()...}})? (void)0: throw_bad_variant_access();
@@ -2331,7 +2335,7 @@ namespace mpark {
 #endif
 
   template <typename... Ts>
-  __host__ __device__ inline auto swap(variant<Ts...> &lhs,
+  VARIANT_FUNCT_HOST_DEVICE inline auto swap(variant<Ts...> &lhs,
                    variant<Ts...> &rhs) noexcept(noexcept(lhs.swap(rhs)))
       -> decltype(lhs.swap(rhs)) {
     lhs.swap(rhs);
@@ -2345,14 +2349,14 @@ namespace mpark {
     namespace hash {
 
       template <typename H, typename K>
-      __host__ __device__  constexpr bool meets_requirements() {
+      VARIANT_FUNCT_HOST_DEVICE  constexpr bool meets_requirements() {
         return std::is_copy_constructible<H>::value &&
                std::is_move_constructible<H>::value &&
                lib::is_invocable_r<std::size_t, H, const K &>::value;
       }
 
       template <typename K>
-      __host__ __device__  constexpr bool is_enabled() {
+      VARIANT_FUNCT_HOST_DEVICE  constexpr bool is_enabled() {
         using H = std::hash<K>;
         return meets_requirements<H, K>() &&
                std::is_default_constructible<H>::value &&

@@ -289,6 +289,7 @@ template<typename T>
      *  \tparam OtherT The element type of the other \p reference.
      */
     template<typename OtherT>
+    __host__ __device__
     reference &operator=(const reference<OtherT> &other);
 
     /*! Assignment operator assigns from a \p value_type.
@@ -296,6 +297,7 @@ template<typename T>
      *  \param x The \p value_type to assign from.
      *  \return <tt>*this</tt>
      */
+    __host__ __device__
     reference &operator=(const value_type &x);
 }; // end reference
 

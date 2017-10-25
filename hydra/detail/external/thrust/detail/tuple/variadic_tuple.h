@@ -47,7 +47,7 @@ struct std__is_constructible : std::is_constructible<T, Args...> { };
 #  if __cplusplus <= 201103L
 #    define __TUPLE_ANNOTATION __device__ __host__
 #  else
-#    define __TUPLE_ANNOTATION /*constexpr*/ __device__ __host__
+#    define __TUPLE_ANNOTATION constexpr __device__ __host__
 #  endif
 #  define __TUPLE_ANNOTATION_NEEDS_UNDEF
 #endif
@@ -181,13 +181,13 @@ class __tuple_leaf_base
 #if defined(__CUDACC__)
 #pragma nv_exec_check_disable
 #endif
-    __TUPLE_ANNOTATION
+   // __TUPLE_ANNOTATION
     ~__tuple_leaf_base() = default;
 
 #if defined(__CUDACC__)
 #pragma nv_exec_check_disable
 #endif
-    __TUPLE_ANNOTATION
+   // __TUPLE_ANNOTATION
     __tuple_leaf_base() = default;
 
 #if defined(__CUDACC__)
@@ -217,7 +217,7 @@ template<class T>
 class __tuple_leaf_base<T,true> : public T
 {
   public:
-    __TUPLE_ANNOTATION
+   // __TUPLE_ANNOTATION
     __tuple_leaf_base() = default;
 
     template<class U>
@@ -244,7 +244,7 @@ class __tuple_leaf : public __tuple_leaf_base<T>
     using super_t = __tuple_leaf_base<T>;
 
   public:
-    __TUPLE_ANNOTATION
+    //__TUPLE_ANNOTATION
     __tuple_leaf() = default;
 
     template<class U,
@@ -344,7 +344,7 @@ class __tuple_base<__tuple_index_sequence<I...>, Types...>
   public:
     using leaf_types = __type_list<__tuple_leaf<I,Types>...>;
 
-    __TUPLE_ANNOTATION
+    //__TUPLE_ANNOTATION
     __tuple_base() = default;
 
     __TUPLE_ANNOTATION

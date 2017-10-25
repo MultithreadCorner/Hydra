@@ -12,13 +12,12 @@
 #define EIGEN_MACROS_H
 
 
-/**
- * tunnings
- */
-#ifdef __CUDACC__
-#undef __CUDACC_VER__
-#define __CUDACC_VER__ 80000
-#endif
+
+/*
+
+*/
+
+
 
 #define EIGEN_WORLD_VERSION 3
 #define EIGEN_MAJOR_VERSION 3
