@@ -103,14 +103,15 @@ public:
 	typedef typename HYDRA_EXTERNAL_NS::thrust::iterator_traits<const_iterator>::reference const_reference;
 	typedef typename HYDRA_EXTERNAL_NS::thrust::iterator_traits<iterator>::iterator_category iterator_category;
 
+	typedef typename detail::tuple_type<N, T>::type tuple_type;
 	//cast iterator
 	template<typename Functor>
 	using caster_iterator = HYDRA_EXTERNAL_NS::thrust::transform_iterator< Functor,
-			iterator, typename std::result_of<Functor(value_type)>::type >;
+			iterator, typename std::result_of<Functor(tuple_type&)>::type >;
 
 	template<typename Functor>
 	using caster_reverse_iterator = HYDRA_EXTERNAL_NS::thrust::transform_iterator< Functor,
-			reverse_iterator, typename std::result_of<Functor(value_type)>::type >;
+			reverse_iterator, typename std::result_of<Functor(tuple_type&)>::type >;
 
 	//constructors
 
@@ -536,7 +537,7 @@ public:
 	}
 
 	template<unsigned int I>
-	 inline const column_type column(placeholders::placeholder<I>  index ) const
+	inline const column_type column(placeholders::placeholder<I>  index ) const
 	{
 		return std::get<I>(fData);
 	}
@@ -572,28 +573,28 @@ private:
 	 inline caster_iterator<Functor> __caster_begin( Functor const& caster )
 	{
 		return HYDRA_EXTERNAL_NS::thrust::transform_iterator< Functor,
-				iterator, typename std::result_of<Functor(value_type)>::type >(this->begin(), caster);
+				iterator, typename std::result_of<Functor(tuple_type&)>::type >(this->begin(), caster);
 	}
 
 	template<typename Functor>
 	 inline caster_iterator<Functor> __caster_end( Functor const& caster )
 	{
 		return HYDRA_EXTERNAL_NS::thrust::transform_iterator< Functor,
-				iterator, typename std::result_of<Functor(value_type)>::type >(this->end(), caster);
+				iterator, typename std::result_of<Functor(tuple_type&)>::type >(this->end(), caster);
 	}
 
 	template<typename Functor>
 	 inline caster_reverse_iterator<Functor> __caster_rbegin( Functor const& caster )
 	{
 		return HYDRA_EXTERNAL_NS::thrust::transform_iterator< Functor,
-				reverse_iterator, typename std::result_of<Functor(value_type)>::type >(this->rbegin(), caster);
+				reverse_iterator, typename std::result_of<Functor(tuple_type&)>::type >(this->rbegin(), caster);
 	}
 
 	template<typename Functor>
 	 inline caster_reverse_iterator<Functor> __caster_rend( Functor const& caster )
 	{
 		return HYDRA_EXTERNAL_NS::thrust::transform_iterator< Functor,
-				reverse_iterator, typename std::result_of<Functor(value_type)>::type >(this->rend(), caster);
+				reverse_iterator, typename std::result_of<Functor(tuple_type&)>::type >(this->rend(), caster);
 	}
 	//__________________________________________
 	// pop_back
@@ -633,7 +634,7 @@ private:
 	 inline typename HYDRA_EXTERNAL_NS::thrust::detail::enable_if<(I < N), void >::type
 	__push_back( value_type const& value )
 	{
-		std::get<I>(fData).push_back( std::get<I>(value) );
+		std::get<I>(fData).push_back( HYDRA_EXTERNAL_NS::thrust::get<I>(value) );
 		__push_back<I + 1>( value );
 	}
 
@@ -987,6 +988,124 @@ private:
 	storage_t fData;
 
 };
+
+
+template<unsigned int I,  hydra::detail::Backend BACKEND, typename T, size_t N>
+inline auto
+get(multiarray2<N,T, detail::BackendPolicy<BACKEND>> const& other  )
+-> decltype(other.column(placeholders::placeholder<I>{}))
+{
+	return other.column(placeholders::placeholder<I>{});
+}
+
+template<unsigned int I,  hydra::detail::Backend BACKEND, typename T, size_t N>
+inline auto
+begin(multiarray2<N,T, detail::BackendPolicy<BACKEND>> const& other  )
+-> decltype(other.begin(placeholders::placeholder<I>{}))
+{
+	return other.begin(placeholders::placeholder<I>{});
+}
+
+template<unsigned int I,  hydra::detail::Backend BACKEND, typename T, size_t N>
+inline auto
+end(multiarray2<N,T, detail::BackendPolicy<BACKEND>> const& other  )
+-> decltype(other.end(placeholders::placeholder<I>{}))
+{
+	return other.end(placeholders::placeholder<I>{});
+}
+
+
+template<unsigned int I,  hydra::detail::Backend BACKEND, typename T, size_t N>
+inline auto
+begin(multiarray2<N,T, detail::BackendPolicy<BACKEND>>& other  )
+-> decltype(other.begin(placeholders::placeholder<I>{}))
+{
+	return other.begin(placeholders::placeholder<I>{});
+}
+
+template<unsigned int I,  hydra::detail::Backend BACKEND, typename T, size_t N>
+inline auto
+end(multiarray2<N,T, detail::BackendPolicy<BACKEND>>& other  )
+-> decltype(other.end(placeholders::placeholder<I>{}))
+{
+	return other.end(placeholders::placeholder<I>{});
+}
+
+
+
+template<unsigned int I,  hydra::detail::Backend BACKEND, typename T, size_t N>
+inline auto
+rbegin(multiarray2<N,T, detail::BackendPolicy<BACKEND>> const& other  )
+-> decltype(other.rbegin(placeholders::placeholder<I>{}))
+{
+	return other.rbegin(placeholders::placeholder<I>{});
+}
+
+template<unsigned int I,  hydra::detail::Backend BACKEND, typename T, size_t N>
+inline auto
+rend(multiarray2<N,T, detail::BackendPolicy<BACKEND>> const& other  )
+-> decltype(other.rend(placeholders::placeholder<I>{}))
+{
+	return other.rend(placeholders::placeholder<I>{});
+}
+
+
+template<unsigned int I,  hydra::detail::Backend BACKEND, typename T, size_t N>
+inline auto
+rbegin(multiarray2<N,T, detail::BackendPolicy<BACKEND>>& other  )
+-> decltype(other.rbegin(placeholders::placeholder<I>{}))
+{
+	return other.rbegin(placeholders::placeholder<I>{});
+}
+
+template<unsigned int I,  hydra::detail::Backend BACKEND, typename T, size_t N>
+inline auto
+rend(multiarray2<N,T, detail::BackendPolicy<BACKEND>>& other  )
+-> decltype(other.rend(placeholders::placeholder<I>{}))
+{
+	return other.rend(placeholders::placeholder<I>{});
+}
+
+template<size_t N, typename T, hydra::detail::Backend BACKEND1, hydra::detail::Backend BACKEND2>
+bool operator==(const multiarray2<N, T, hydra::detail::BackendPolicy<BACKEND1>>& lhs,
+                const multiarray2<N, T, hydra::detail::BackendPolicy<BACKEND2>>& rhs){
+
+	auto comparison = []__host__ __device__(
+			HYDRA_EXTERNAL_NS::thrust::tuple<
+			typename detail::tuple_type<N, T>::type,
+			typename detail::tuple_type<N, T>::type
+	> const& values)
+	{
+			return HYDRA_EXTERNAL_NS::thrust::get<0>(values)== HYDRA_EXTERNAL_NS::thrust::get<1>(values);
+
+	};
+
+	return HYDRA_EXTERNAL_NS::thrust::all_of(
+			HYDRA_EXTERNAL_NS::thrust::make_zip_iterator(lhs.begin(), rhs.begin()),
+			HYDRA_EXTERNAL_NS::thrust::make_zip_iterator(lhs.end()  , rhs.end()  ), comparison);
+}
+
+
+template<size_t N, typename T, hydra::detail::Backend BACKEND1, hydra::detail::Backend BACKEND2>
+bool operator!=(const multiarray2<N, T, hydra::detail::BackendPolicy<BACKEND1>>& lhs,
+                const multiarray2<N, T, hydra::detail::BackendPolicy<BACKEND2>>& rhs){
+
+	auto comparison = []__host__ __device__(
+			HYDRA_EXTERNAL_NS::thrust::tuple<
+			typename detail::tuple_type<N, T>::type,
+			typename detail::tuple_type<N, T>::type
+	> const& values){
+		return HYDRA_EXTERNAL_NS::thrust::get<0>(values)== HYDRA_EXTERNAL_NS::thrust::get<1>(values);
+
+	};
+
+	return !(HYDRA_EXTERNAL_NS::thrust::all_of(
+			HYDRA_EXTERNAL_NS::thrust::make_zip_iterator(lhs.begin(), rhs.begin()),
+			HYDRA_EXTERNAL_NS::thrust::make_zip_iterator(lhs.end(), rhs.end())
+	, comparison));
+}
+
+
 
 }  // namespace hydra
 
