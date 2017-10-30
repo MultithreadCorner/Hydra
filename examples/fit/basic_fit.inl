@@ -51,8 +51,6 @@
 #include <hydra/Copy.h>
 #include <hydra/Filter.h>
 #include <hydra/GaussKronrodQuadrature.h>
-#include <hydra/multivector2.h>
-#include <hydra/Placeholders.h>
 #include <hydra/Complex.h>
 
 //Minuit2
@@ -86,9 +84,6 @@
 
 using namespace ROOT::Minuit2;
 
-using namespace hydra::placeholders;
-
-
 
 int main(int argv, char** argc)
 {
@@ -112,9 +107,6 @@ int main(int argv, char** argc)
 		std::cerr << "error: " << e.error() << " for arg " << e.argId()
 														<< std::endl;
 	}
-
-
-
 
 	//generator
 	hydra::Random<> Generator( std::chrono::system_clock::now().time_since_epoch().count() );

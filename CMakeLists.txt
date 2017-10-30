@@ -60,9 +60,9 @@ endif(ROOT_FOUND)
 
 SET(CUDA_SEPARABLE_COMPILATION ON)
 #get CUDA
-find_package(CUDA 9.0) 
+find_package(CUDA 8.0) 
 if(CUDA_FOUND)
-link_directories("/opt/cuda-9.0/lib64/")
+link_directories( ${CUDA_TOOLKIT_ROOT_DIR}/lib64/)
 endif(CUDA_FOUND)
 #get TBB
 find_package(TBB )
@@ -91,14 +91,15 @@ if(CUDA_FOUND)
 
 	#set cuda flags
 	
-	SET(CUDA_NVCC_FLAGS ${CUDA_NVCC_FLAGS} -ftemplate-backtrace-limit=0; -ftemplate-depth=5000; --cudart ;  static ; -O4 ;--expt-relaxed-constexpr; -fmad=true; --expt-extended-lambda;--relocatable-device-code=false ;
+	SET(CUDA_NVCC_FLAGS ${CUDA_NVCC_FLAGS}  -ftemplate-backtrace-limit=0; --cudart ;  static ; -O4 ;--expt-relaxed-constexpr; -fmad=true; --expt-extended-lambda;--relocatable-device-code=false ;
 	-Xptxas -dlcm=ca; -Xptxas --opt-level=4 )
 
+        SET(CUDA_PROPAGATE_HOST_FLAGS ON)
 	SET(CUDA_SEPARABLE_COMPILATION OFF)
-	SET(CUDA_VERBOSE_BUILD ON)
+	SET(CUDA_VERBOSE_BUILD OFF)
 	
 	if(CMAKE_CXX_COMPILER_VERSION VERSION_GREATER 4.8)
-	   LIST(APPEND CUDA_NVCC_FLAGS " -D_MWAITXINTRIN_H_INCLUDED ")
+	   LIST(APPEND CUDA_NVCC_FLAGS " -Xcompiler -D_MWAITXINTRIN_H_INCLUDED ")
     	endif()
     	
     if(CMAKE_CXX_COMPILER_VERSION VERSION_GREATER 5.4)
@@ -151,18 +152,18 @@ file(MAKE_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/plots)
 #        TESTING           +
 #+++++++++++++++++++++++++++
 
-enable_testing()
-
-add_subdirectory(testing)
-
-add_custom_target(Hydra_Test)
-
-add_dependencies(Hydra_Test 
-Hydra_Test_Host_OMP_Device_CUDA
-Hydra_Test_Host_CPP_Device_CUDA
-Hydra_Test_Host_OMP_Device_OMP
-Hydra_Test_Host_CPP_Device_OMP
-)
+#enable_testing()
+#
+#add_subdirectory(testing)
+#
+#add_custom_target(Hydra_Test)
+#
+#add_dependencies(Hydra_Test 
+#Hydra_Test_Host_OMP_Device_CUDA
+#Hydra_Test_Host_CPP_Device_CUDA
+#Hydra_Test_Host_OMP_Device_OMP
+#Hydra_Test_Host_CPP_Device_OMP
+#)
 
 
 #+++++++++++++++++++++++++++

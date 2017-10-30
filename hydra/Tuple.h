@@ -145,6 +145,14 @@ template<class T> using tuple_size = HYDRA_EXTERNAL_NS::thrust::tuple_size<T>;
  *
  */
 
+template<int N, typename ...T>
+__host__ __device__
+typename HYDRA_EXTERNAL_NS::thrust::tuple_element<N,HYDRA_EXTERNAL_NS::thrust::tuple<T...>>::type
+get( HYDRA_EXTERNAL_NS::thrust::tuple<T...> const& t)
+{
+	return HYDRA_EXTERNAL_NS::thrust::get<N>(t);
+}
+
 
 template<int N, typename ...T>
 __host__ __device__

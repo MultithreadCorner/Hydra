@@ -54,6 +54,7 @@ struct GaussKronrodRule
 
 	GaussKronrodRule()=delete;
 
+
 	GaussKronrodRule(std::initializer_list<GReal_t> const& x,
 			std::initializer_list<GReal_t> const& gauss_weight,
 			std::initializer_list<GReal_t> const& kronrod_weight)
@@ -69,7 +70,7 @@ struct GaussKronrodRule
 	}
 
 
-
+	__host__  __device__
 	GaussKronrodRule( GReal_t const (&x)[(N+1)/2],
 			GReal_t const (&gauss_weight)[(N+1)/2],
 			GReal_t const (&kronrod_weight)[(N+1)/2]	)

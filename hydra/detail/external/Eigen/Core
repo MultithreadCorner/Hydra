@@ -26,6 +26,13 @@
 // first thing Eigen does: stop the compiler from committing suicide
 #include "hydra/detail/external/Eigen/src/Core/util/DisableStupidWarnings.h"
 
+#if defined(__CUDACC_VER_MAJOR__) && (__CUDACC_VER_MAJOR__>= 9) 
+#undef __CUDACC_VER__
+#define __CUDACC_VER__  10000*__CUDACC_VER_MAJOR__+100*__CUDACC_VER_MINOR__
+#elif !defined(__CUDACC_VER__)
+#define __CUDACC_VER__ 0
+#endif
+
 // Handle NVCC/CUDA/SYCL
 #if defined(__CUDACC__) || defined(__SYCL_DEVICE_ONLY__)
   // Do not try asserts on CUDA and SYCL!

@@ -96,13 +96,19 @@ template<> __device__ EIGEN_STRONG_INLINE void pscatter<HYDRA_EXTERNAL_NS::Eigen
 template<> __device__ EIGEN_STRONG_INLINE HYDRA_EXTERNAL_NS::Eigen::half pfirst<half2>(const half2& a) {
   return __low2half(a);
 }
-
+/*
 template<> __device__ EIGEN_STRONG_INLINE half2 pabs<half2>(const half2& a) {
   half2 result;
   result.x = a.x & 0x7FFF7FFF;
   return result;
 }
-
+*/
+template<> __device__ EIGEN_STRONG_INLINE half2 pabs<half2>(const half2& a) {
+  half2 result;
+  unsigned temp = *(reinterpret_cast<const unsigned*>(&(a)));
+  *(reinterpret_cast<unsigned*>(&(result))) = temp & 0x7FFF7FFF;
+  return result;
+}
 
 __device__ EIGEN_STRONG_INLINE void
 ptranspose(PacketBlock<half2,2>& kernel) {
