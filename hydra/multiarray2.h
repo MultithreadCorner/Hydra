@@ -54,13 +54,14 @@ template< size_t N, typename T, hydra::detail::Backend BACKEND>
 class multiarray2<N, T, hydra::detail::BackendPolicy<BACKEND>>
 {
 	typedef hydra::detail::BackendPolicy<BACKEND>    system_t;
-	typedef typename system_t::template container<T> column_type;
-	typedef std::array<column_type, N> storage_t;
+
+	typedef std::array<typename system_t::template container<T>, N> storage_t;
 
 public:
 	//------------------
 	//column typedefs
     //------------------
+	typedef typename system_t::template container<T> column_type;
 	//reference
 	typedef typename column_type::reference reference_v;
 	typedef typename column_type::const_reference const_reference_v;
