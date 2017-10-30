@@ -680,7 +680,7 @@ private:
 	{
 
 		fData[I] = std::move( vector_t( get<I>(begin.get_iterator_tuple()) ,
-				get<I>(end.get_iterator_tuple()) ) );
+				hydra::get<I>(end.get_iterator_tuple()) ) );
 		do_copy<I + 1>( begin, end);
 	}
 

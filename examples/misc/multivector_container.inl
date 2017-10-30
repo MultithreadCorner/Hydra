@@ -186,6 +186,34 @@ int main(int argv, char** argc)
 				<< "  size: "
 				<< mvector_d.size()
 				<< std::endl << std::endl;
+
+		std::cout<< std::endl << "________________________________________________________________________________" << std::endl<< std::endl;
+		std::cout<< std::endl << "Printing only the column 3 and 4 of the container " << std::endl<< std::endl;
+
+		size_t i=0;
+		for( auto x=mvector_d.begin(_2, _3);
+				x!= mvector_d.begin(_2, _3)+10; i++, x++ )
+			std::cout << i << ": "<< *x << std::endl;
+
+		std::cout<< std::endl << " Vector capacity: "
+				<< mvector_d.capacity()
+				<< "  size: "
+				<< mvector_d.size()
+				<< std::endl << std::endl;
+
+		std::cout<< std::endl << "________________________________________________________________________________" << std::endl<< std::endl;
+		std::cout<< std::endl << "Printing only the column 2 and 5 of the container in reverse order (last 10 elements)" << std::endl<< std::endl;
+
+		i=0;
+		for( auto x=mvector_d.rbegin(_1, _4);
+				x!= mvector_d.rbegin(_1, _4)+10; i++, x++ )
+			std::cout << i << ": "<< *x << std::endl;
+
+		std::cout<< std::endl << " Vector capacity: "
+				<< mvector_d.capacity()
+				<< "  size: "
+				<< mvector_d.size()
+				<< std::endl << std::endl;
 	}//device
 
 	//host
@@ -196,7 +224,7 @@ int main(int argv, char** argc)
 		std::cout << "=========================================="<<std::endl;
 
 		hydra::multivector<hydra::tuple<int, int, double, double, double, double> , hydra::host::sys_t>   mvector_h;
-
+		mvector_h.reserve(nentries);
 		//push_back tuple
 		for(size_t i=0; i<nentries; i++ )
 			mvector_h.push_back(hydra::tuple<int, int, double,double, double, double>(i, i, i, i, i, i ));
@@ -274,6 +302,34 @@ int main(int argv, char** argc)
 		std::cout<< std::endl << "Print current content  " << std::endl<< std::endl;
 		for(size_t i=0; i<10; i++ )
 			std::cout << i << ": "<< mvector_h[i] << std::endl;
+
+		std::cout<< std::endl << " Vector capacity: "
+				<< mvector_h.capacity()
+				<< "  size: "
+				<< mvector_h.size()
+				<< std::endl << std::endl;
+
+		std::cout<< std::endl << "________________________________________________________________________________" << std::endl<< std::endl;
+		std::cout<< std::endl << "Printing only the column 3 and 4 of the container " << std::endl<< std::endl;
+
+		size_t i=0;
+		for( auto x=mvector_h.begin(_2, _3);
+				x!= mvector_h.begin(_2, _3)+10; i++, x++ )
+			std::cout << i << ": "<< *x << std::endl;
+
+		std::cout<< std::endl << " Vector capacity: "
+				<< mvector_h.capacity()
+				<< "  size: "
+				<< mvector_h.size()
+				<< std::endl << std::endl;
+
+		std::cout<< std::endl << "________________________________________________________________________________" << std::endl<< std::endl;
+		std::cout<< std::endl << "Printing only the column 2 and 5 of the container in reverse order (last 10 elements)" << std::endl<< std::endl;
+
+		i=0;
+		for( auto x=mvector_h.rbegin(_1, _4);
+				x!= mvector_h.rbegin(_1, _4)+10; i++, x++ )
+			std::cout << i << ": "<< *x << std::endl;
 
 		std::cout<< std::endl << " Vector capacity: "
 				<< mvector_h.capacity()
