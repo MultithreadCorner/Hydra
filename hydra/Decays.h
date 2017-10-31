@@ -453,8 +453,10 @@ public:
 	 * @param i index of the decay.
 	 * @return reference a decay
 	 */
-	GetDecay(size_t i){
-		return this->begin()[i];
+
+	 decay_t GetDecay(size_t i, GBool_t weighted = true){
+		return weighted ?  this->begin( __CastToWeightedDecay())[i] :
+				 this->begin( __CastToUnWeightedDecay())[i];
 	}
 
 
@@ -479,7 +481,7 @@ public:
 	 * @param i index of the decay.
 	 * @return reference a decay
 	 */
-	void SetDecay( size_t i,  trans_value_type value) {
+	void SetDecay( size_t i,  decay_t value) {
 		this->begin()[i]= value;
 	}
 
