@@ -185,9 +185,9 @@ public:
 	typedef typename HYDRA_EXTERNAL_NS::thrust::iterator_traits<iterator>::iterator_category  iterator_category;
 
 
-	struct __CastWeightedDecay
+	struct __CastToWeightedDecay
 	{
-		template<unsigned int I=0>
+		template<unsigned int I>
 		typename HYDRA_EXTERNAL_NS::thrust::detail::enable_if< (I==N+1), void >::type
 		__convert(value_type const& v , decay_t& r){ }
 
@@ -207,9 +207,9 @@ public:
 
 	};
 
-	struct __CastWeightedDecay
+	struct __CastToUnWeightedDecay
 	{
-		template<unsigned int I=0>
+		template<unsigned int I>
 		typename HYDRA_EXTERNAL_NS::thrust::detail::enable_if< (I==N+1), void >::type
 		__convert(value_type const& v , decay_t& r){ }
 
@@ -218,7 +218,7 @@ public:
 		__convert(value_type const& v , decay_t& r)
 		{
 			HYDRA_EXTERNAL_NS::thrust::get<I>(r) =
-					HYDRA_EXTERNAL_NS::thrust::get<I>(v);
+					I==0 ? 1.0 : HYDRA_EXTERNAL_NS::thrust::get<I>(v);
 			__convert<I+1>(v, r );
 		}
 
@@ -228,6 +228,20 @@ public:
 		}
 
 	};
+
+	//cast iterators
+	typedef	 HYDRA_EXTERNAL_NS::thrust::transform_iterator<__CastToWeightedDecay ,
+			iterator, decay_t> wdecay_iterator;
+
+	typedef	 HYDRA_EXTERNAL_NS::thrust::transform_iterator<__CastToWeightedDecay ,
+				reverse_iterator, decay_t> wdecay_reverse_iterator;
+
+	typedef	 HYDRA_EXTERNAL_NS::thrust::transform_iterator<__CastToUnWeightedDecay ,
+			iterator, decay_t> unwdecay_iterator;
+
+	typedef	 HYDRA_EXTERNAL_NS::thrust::transform_iterator<__CastToUnWeightedDecay ,
+			reverse_iterator, decay_t> unwdecay_reverse_iterator;
+
 
 	/**
 	 * Default contstuctor
@@ -394,7 +408,6 @@ public:
 	GenericRange< particles_iterator>
 	GetParticles(size_t i){
 
-
 		return hydra::make_range(this->fDecays[i].begin(), this->fDecays[i].end());
 	}
 
@@ -445,14 +458,18 @@ public:
 	}
 
 
-	GenericRange< decays_trans_iterator>
+	GenericRange< unwdecay_iterator >
 	GetUnweightedDecays(){
-		return make_range(this->ptbegin(), this->ptend());
+
+		return make_range(this->begin(__CastToUnWeightedDecay()),
+				    this->end(__CastToUnWeightedDecay()));
 	}
 
-	GenericRange< trans_iterator>
+	GenericRange< wdecay_iterator >
 	GetWeightedDecays(){
-		return make_range(this->tbegin(), this->tbegin());
+
+		return make_range(this->begin(__CastToWeightedDecay()),
+					this->end( __CastToWeightedDecay()));
 	}
 
 
