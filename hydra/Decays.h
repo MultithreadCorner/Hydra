@@ -54,6 +54,7 @@
 #include <hydra/detail/external/thrust/random.h>
 #include <hydra/detail/external/thrust/extrema.h>
 #include <hydra/detail/external/thrust/device_ptr.h>
+#include <hydra/detail/external/thrust/detail/type_traits.h>
 
 namespace hydra {
 
@@ -66,6 +67,8 @@ template<size_t N, hydra::detail::Backend BACKEND>
 class Decays<N, hydra::detail::BackendPolicy<BACKEND> > {
 
 	typedef hydra::detail::BackendPolicy<BACKEND> system_t;
+	typedef HYDRA_EXTERNAL_NS::thrust::tuple<GReal_t,GReal_t, GReal_t, GReal_t> tuple_t;
+
 	typedef multiarray<4,GReal_t,hydra::detail::BackendPolicy<BACKEND>> particles_type;
 	typedef std::array<particles_type, N>                               decays_type;
 	typedef typename system_t::template container<GReal_t>              weights_type;
@@ -184,6 +187,13 @@ public:
 	typedef typename HYDRA_EXTERNAL_NS::thrust::iterator_traits<const_iterator>::reference    const_reference;
 	typedef typename HYDRA_EXTERNAL_NS::thrust::iterator_traits<iterator>::iterator_category  iterator_category;
 
+	struct __CastTupleToVector4
+	{
+		__host__ __device__
+		Vector4R operator()( tuple_t const& v){
+			Vector4R r =v; 	return r;
+		}
+	};
 
 	struct __CastToWeightedDecay
 	{
@@ -229,18 +239,19 @@ public:
 
 	};
 
-	//cast iterators
-	typedef	 HYDRA_EXTERNAL_NS::thrust::transform_iterator<__CastToWeightedDecay ,
-			iterator, decay_t> wdecay_iterator;
 
-	typedef	 HYDRA_EXTERNAL_NS::thrust::transform_iterator<__CastToWeightedDecay ,
-				reverse_iterator, decay_t> wdecay_reverse_iterator;
+	//cast iterator
+	template< typename Iterator, typename Arg, typename Functor>
+	using caster_iterator = HYDRA_EXTERNAL_NS::thrust::transform_iterator<Functor,
+			Iterator, typename std::result_of<Functor(Arg&)>::type >;
 
-	typedef	 HYDRA_EXTERNAL_NS::thrust::transform_iterator<__CastToUnWeightedDecay ,
-			iterator, decay_t> unwdecay_iterator;
+	//particle
+	typedef	 HYDRA_EXTERNAL_NS::thrust::transform_iterator< __CastTupleToVector4,
+			particles_iterator, Vector4R> vector4r_iterator;
 
-	typedef	 HYDRA_EXTERNAL_NS::thrust::transform_iterator<__CastToUnWeightedDecay ,
-			reverse_iterator, decay_t> unwdecay_reverse_iterator;
+	typedef	 HYDRA_EXTERNAL_NS::thrust::transform_iterator< __CastTupleToVector4,
+			particles_reverse_iterator, Vector4R> vector4r_reverse_iterator;
+
 
 
 	/**
@@ -288,11 +299,7 @@ public:
 	template< hydra::detail::Backend BACKEND2>
 	Decays(Decays<N,detail::BackendPolicy<BACKEND2>> const& other )
 	{
-		fWeights = std::move( weights_type(other.wbegin(), other.wend()));
-
-		for( size_t i=0; i<N; i++)
-			fDecays[i] = std::move(particles_type(other.pbegin(i), other.pend(i)));
-
+		HYDRA_EXTERNAL_NS::thrust::copy(other.begin(),  other.end(), this->begin() );
 	}
 
 	/**
@@ -300,13 +307,15 @@ public:
 	 * @param other
 	 */
 	template<typename Iterator>
-	Decays( Iterator begin, Iterator end )
+	Decays( Iterator first, Iterator  last )
 	{
-		size_t n = HYDRA_EXTERNAL_NS::thrust::distance(begin, end );
+		size_t n = HYDRA_EXTERNAL_NS::thrust::distance(first, last);
 
-		for( size_t i=0; i<N; i++)	fDecays[i].resize(n);
+		for( size_t i=0; i<N; i++)
+			fDecays[i].resize(n);
 		fWeights.resize(n);
-		HYDRA_EXTERNAL_NS::thrust::copy(begin, end, this->begin());
+
+		HYDRA_EXTERNAL_NS::thrust::copy(first, last, this->begin());
 	}
 
 	/**
@@ -346,11 +355,7 @@ public:
 	Decays<N,detail::BackendPolicy<BACKEND> >&
 	operator=(Decays<N,detail::BackendPolicy<BACKEND2> > const& other )
 	{
-
-		this->fWeights = std::move(weights_type(other.wbegin(), other.wend()));
-
-		for( size_t i=0; i<N; i++)
-			this->fDecays[i] = std::move(particles_type(other.pbegin(i), other.pend(i)));
+		HYDRA_EXTERNAL_NS::thrust::copy(other.begin(),  other.end(), this->begin() );
 
 		return *this;
 	}
@@ -384,7 +389,7 @@ public:
 	 * @param w is the weight of the decay being added.
 	 * @param p is a braced list with N final state particles.
 	 */
-	void AddDecay(GReal_t w, std::initializer_list<Vector4R>const& p){
+	void AddDecay(GReal_t w, std::array<Vector4R, N> const& p){
 
 		this->fWeights.push_back(w);
 		__push_back( p);
@@ -397,7 +402,7 @@ public:
 	 */
 	void AddDecay(value_type const& value){
 
-		this->push_back(value);
+		__push_back(value);
 	}
 
 	/**
@@ -405,10 +410,11 @@ public:
 	 * @param i index of particle.
 	 * @return std::pair of iterators {begin, end}.
 	 */
-	GenericRange< particles_iterator>
+	GenericRange<vector4r_iterator >
 	GetParticles(size_t i){
 
-		return hydra::make_range(this->fDecays[i].begin(), this->fDecays[i].end());
+		return hydra::make_range(this->fDecays[i].begin(__CastTupleToVector4()),
+					this->fDecays[i].end(__CastTupleToVector4()));
 	}
 
 	/**
@@ -473,8 +479,6 @@ public:
 		return make_range(this->begin(__CastToWeightedDecay()),
 					this->end( __CastToWeightedDecay()));
 	}
-
-
 
 	/**
 	 * Get a constant reference a decay.
@@ -658,34 +662,14 @@ public:
 
 	const_reference back() const;
 
-	typename particles_type::vpointer pcdata( size_t particle, size_t component );
-
-	typename particles_type::vpointer pcdata( size_t particle, size_t component ) const;
-
-	weights_pointer wdata( );
-
-	weights_pointer wdata( ) const;
-
 	//non-constant access
 	iterator begin();
 
 	iterator end();
 
-	//non-constant access
 	reverse_iterator rbegin();
 
 	reverse_iterator rend();
-
-	//non-constant access
-	trans_iterator tbegin();
-
-	trans_iterator tend();
-
-	//non-constant access
-	reverse_trans_iterator trbegin();
-
-	reverse_trans_iterator trend();
-
 
 	//constant access
 	const_iterator begin() const;
@@ -704,67 +688,6 @@ public:
 
 	const_reverse_iterator crend() const;
 
-
-	//non-constant access
-	decays_iterator pbegin();
-
-	decays_iterator pend();
-
-	decays_reverse_iterator prbegin();
-
-	decays_reverse_iterator prend();
-
-	decays_trans_iterator ptbegin();
-
-	decays_trans_iterator ptend();
-
-	decays_reverse_trans_iterator ptrbegin();
-
-	decays_reverse_trans_iterator ptrend();
-
-	particles_iterator pbegin(size_t i);
-
-	particles_iterator pend(size_t i);
-
-	particles_reverse_iterator prbegin(size_t i);
-
-	particles_reverse_iterator prend(size_t i);
-
-	weights_iterator wbegin();
-
-	weights_iterator wend();
-
-	weights_reverse_iterator wrbegin();
-
-	weights_reverse_iterator wrend();
-
-
-	//constant access const
-	decays_const_iterator pbegin() const;
-
-	decays_const_iterator pend() const;
-
-	decays_const_reverse_iterator prbegin() const;
-
-	decays_const_reverse_iterator prend() const;
-
-	particles_const_iterator pbegin(size_t i) const;
-
-	particles_const_iterator pend(size_t i) const;
-
-	particles_const_reverse_iterator prbegin(size_t i) const;
-
-	particles_const_reverse_iterator prend(size_t i) const;
-
-	weights_const_iterator wbegin() const;
-
-	weights_const_iterator wend() const;
-
-	weights_const_reverse_iterator wrbegin() const;
-
-	weights_const_reverse_iterator wrend() const;
-
-	//
 	inline	reference operator[](size_t n)
 	{	return begin()[n] ;	}
 
@@ -775,80 +698,92 @@ public:
 
 private:
 
+	const weights_type& __copy_weights() const { return fWeights; }
+	const  decays_type& __copy_decays() const { return fDecays; }
 
+	weights_type __move_weights() { return std::move(fWeights); }
+	decays_type  __move_decays() { return std::move(fDecays); }
 
-	template<size_t I >
+	//_______________________________________________
+	//push_back
+	template<size_t I>
 	inline typename HYDRA_EXTERNAL_NS::thrust::detail::enable_if<(I == N), void >::type
-	do_insert(size_t pos, tuple_particles_iterator_type& output_iterator,  value_type const& value)
-	{}
+	__push_back(const particle_tuple&){	}
 
 	template<size_t I = 0>
 	inline typename HYDRA_EXTERNAL_NS::thrust::detail::enable_if<(I < N), void >::type
-	do_insert(size_t pos, tuple_particles_iterator_type& output_iterator,  value_type const& value)
-	{
-		get<I>(output_iterator) = fDecays[I].insert(fDecays[I].begin()+pos, get<I+1>(value));
-		do_insert<I+1>(pos, output_iterator, value );
+	__push_back( const particle_tuple& p ){
+
+	  fDecays[I].push_back( HYDRA_EXTERNAL_NS::thrust::get<I>(p) );
 	}
 
-	template<size_t I,  template<typename ...> class Tuple, typename ...Iterators >
+	template<size_t I>
 	inline typename HYDRA_EXTERNAL_NS::thrust::detail::enable_if<(I == N), void >::type
-	do_insert(size_t pos, Tuple<Iterators...>  first, Tuple<Iterators...> last )
-	{}
-
-	template<size_t I = 0,  template<typename ...> class Tuple, typename ...Iterators >
-	inline typename HYDRA_EXTERNAL_NS::thrust::detail::enable_if<(I < N), void >::type
-	do_insert(size_t pos, Tuple<Iterators...> first, Tuple<Iterators...> last )
-	{
-		fDecays[I].insert(fDecays[I].begin()+pos, get<I+1>(first.get_iterator_tuple()),
-				get<I+1>(last.get_iterator_tuple()));
-		do_insert<I+1>(pos, first, last);
-	}
-
-	template<size_t I >
-	inline typename HYDRA_EXTERNAL_NS::thrust::detail::enable_if<(I == N), void >::type
-	do_push_back(value_type const& value)
-	{}
+	__push_back(Vector4R const (&p)[N]){ void(p); }
 
 	template<size_t I = 0>
 	inline typename HYDRA_EXTERNAL_NS::thrust::detail::enable_if<(I < N), void >::type
-	do_push_back(value_type const& value)
-	{
-		fDecays[I].push_back( get<I+1>(value));
-		do_push_back<I+1>( value );
+	__push_back(Vector4R const (&p)[N]){
+
+	  fDecays[I].push_back( p[I] );
 	}
 
-	template<size_t I >
+	template<size_t I>
 	inline typename HYDRA_EXTERNAL_NS::thrust::detail::enable_if<(I == N), void >::type
-	do_assignment(accpeted_iterator_tuple& left, iterator_tuple& right  )
-	{}
+	__push_back(std::array<Vector4R, N> const& ){ 	}
 
-	template<size_t I = 1>
+	template<size_t I = 0>
 	inline typename HYDRA_EXTERNAL_NS::thrust::detail::enable_if<(I < N), void >::type
-	do_assignment(accpeted_iterator_tuple& left, iterator_tuple& right  )
-	{
-		get<I>(left)= get<I>(right);
-		do_assignment<I+1>(left, right );
+	__push_back(std::array<Vector4R, N> const& p){
+
+	  fDecays[I].push_back( p[I] );
 	}
 
+	template<size_t I>
+	inline typename HYDRA_EXTERNAL_NS::thrust::detail::enable_if<(I == N), void >::type
+	__push_back_helper(value_type const& ){ 	}
 
-	const decays_type& GetDecays() const
-	{
-		return fDecays;
+	template<size_t I = 0>
+	inline typename HYDRA_EXTERNAL_NS::thrust::detail::enable_if<(I < N), void >::type
+	__push_back_helper(value_type const& p){
+
+		fDecays[I].push_back( HYDRA_EXTERNAL_NS::thrust::get<I>(p)  );
 	}
 
-	const weights_type& GetWeights() const
-	{
-		return fWeights;
+	void __push_back(value_type const& p){
+
+		fWeights.push_back(  HYDRA_EXTERNAL_NS::thrust::get<0>(p)  );
+		__push_back_helper(p);
 	}
 
-	decays_type MoveDecays()
+	//__________________________________________
+	// caster accessors
+	template<typename Functor>
+	 inline caster_iterator<iterator, Functor> __caster_begin( Functor const& caster )
 	{
-		return std::move(fDecays);
+		return HYDRA_EXTERNAL_NS::thrust::transform_iterator< Functor,
+				iterator, typename std::result_of<Functor(tuple_type&)>::type >(this->begin(), caster);
 	}
 
-	weights_type MoveWeights()
+	template<typename Functor>
+	 inline caster_iterator<Functor> __caster_end( Functor const& caster )
 	{
-		return std::move(fWeights);
+		return HYDRA_EXTERNAL_NS::thrust::transform_iterator< Functor,
+				iterator, typename std::result_of<Functor(tuple_type&)>::type >(this->end(), caster);
+	}
+
+	template<typename Functor>
+	 inline caster_reverse_iterator<Functor> __caster_rbegin( Functor const& caster )
+	{
+		return HYDRA_EXTERNAL_NS::thrust::transform_iterator< Functor,
+				reverse_iterator, typename std::result_of<Functor(tuple_type&)>::type >(this->rbegin(), caster);
+	}
+
+	template<typename Functor>
+	 inline caster_reverse_iterator<Functor> __caster_rend( Functor const& caster )
+	{
+		return HYDRA_EXTERNAL_NS::thrust::transform_iterator< Functor,
+				reverse_iterator, typename std::result_of<Functor(tuple_type&)>::type >(this->rend(), caster);
 	}
 
 	decays_type  fDecays;
