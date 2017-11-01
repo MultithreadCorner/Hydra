@@ -58,8 +58,6 @@
 
 namespace hydra {
 
-
-
 template<size_t N, typename BACKEND>
 class Decays;
 
@@ -241,17 +239,9 @@ public:
 
 
 	//cast iterator
-	template< typename Iterator, typename Arg, typename Functor>
+	template < typename Iterator, typename Arg, typename Functor>
 	using caster_iterator = HYDRA_EXTERNAL_NS::thrust::transform_iterator<Functor,
 			Iterator, typename std::result_of<Functor(Arg&)>::type >;
-
-	//particle
-	typedef	 HYDRA_EXTERNAL_NS::thrust::transform_iterator< __CastTupleToVector4,
-			particles_iterator, Vector4R> vector4r_iterator;
-
-	typedef	 HYDRA_EXTERNAL_NS::thrust::transform_iterator< __CastTupleToVector4,
-			particles_reverse_iterator, Vector4R> vector4r_reverse_iterator;
-
 
 
 	/**
@@ -389,7 +379,7 @@ public:
 	 * @param w is the weight of the decay being added.
 	 * @param p is a braced list with N final state particles.
 	 */
-	void AddDecay(GReal_t w, std::array<Vector4R, N> const& p){
+	void AddDecay( GReal_t w, std::array<Vector4R, N> const& p){
 
 		this->fWeights.push_back(w);
 		__push_back( p);
@@ -410,7 +400,7 @@ public:
 	 * @param i index of particle.
 	 * @return std::pair of iterators {begin, end}.
 	 */
-	GenericRange<vector4r_iterator >
+	GenericRange< caster_iterator< typename particles_type::iterator, tuple_t ,  __CastTupleToVector4> >
 	GetParticles(size_t i){
 
 		return hydra::make_range(this->fDecays[i].begin(__CastTupleToVector4()),
@@ -466,14 +456,14 @@ public:
 	}
 
 
-	GenericRange< unwdecay_iterator >
+	GenericRange< caster_iterator<iterator,  value_type, __CastToUnWeightedDecay > >
 	GetUnweightedDecays(){
 
 		return make_range(this->begin(__CastToUnWeightedDecay()),
 				    this->end(__CastToUnWeightedDecay()));
 	}
 
-	GenericRange< wdecay_iterator >
+	GenericRange<  caster_iterator<iterator,  value_type, __CastWeightedDecay > >
 	GetWeightedDecays(){
 
 		return make_range(this->begin(__CastToWeightedDecay()),
