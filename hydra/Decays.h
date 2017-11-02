@@ -713,6 +713,116 @@ private:
 	decays_type  __move_decays() { return std::move(fDecays); }
 
 	//_______________________________________________
+	//pop_back
+
+	template<size_t I>
+	inline typename HYDRA_EXTERNAL_NS::thrust::detail::enable_if<(I == N), void >::type
+	__pop_back_helper(){ }
+
+	template<size_t I = 0>
+	inline typename HYDRA_EXTERNAL_NS::thrust::detail::enable_if<(I < N), void >::type
+	__pop_back_helper()
+	{
+		std::get<I>(fDecays).pop_back();
+		__pop_back_helper<I+1>();
+	}
+
+	void __pop_back() { fWeights.pop_back(); __pop_back_helper(); }
+
+	//_______________________________________________
+	//resize
+
+	template<size_t I>
+	inline typename HYDRA_EXTERNAL_NS::thrust::detail::enable_if<(I == N), void >::type
+	__resize_helper( size_t ){ }
+
+	template<size_t I = 0>
+	inline typename HYDRA_EXTERNAL_NS::thrust::detail::enable_if<(I < N), void >::type
+	__resize_helper( size_t n)
+	{
+		std::get<I>(fDecays).resize(n);
+		__resize_helper<I+1>(n);
+	}
+
+	void __resize( size_t n) { fWeights.resize(n); __resize_helper(n); }
+
+	//_______________________________________________
+	//clear
+
+	template<size_t I>
+	inline typename HYDRA_EXTERNAL_NS::thrust::detail::enable_if<(I == N), void >::type
+	__clear_helper(){ }
+
+	template<size_t I = 0>
+	inline typename HYDRA_EXTERNAL_NS::thrust::detail::enable_if<(I < N), void >::type
+	__clear_helper()
+	{
+		std::get<I>(fDecays).clear();
+		__clear_helper<I+1>();
+	}
+
+	void __clear() { fWeights.clear(); __clear_helper(); }
+
+	//_______________________________________________
+	//shrink_to_fit
+
+	template<size_t I>
+	inline typename HYDRA_EXTERNAL_NS::thrust::detail::enable_if<(I == N), void >::type
+	__shrink_to_fit_helper(){ }
+
+	template<size_t I = 0>
+	inline typename HYDRA_EXTERNAL_NS::thrust::detail::enable_if<(I < N), void >::type
+	__shrink_to_fit_helper()
+	{
+		std::get<I>(fDecays).shrink_to_fit();
+		__shrink_to_fit_helper<I+1>();
+	}
+
+	void __shrink_to_fit() { fWeights.shrink_to_fit(); __shrink_to_fit_helper(); }
+
+	//_______________________________________________
+	//reserve
+
+	template<size_t I>
+	inline typename HYDRA_EXTERNAL_NS::thrust::detail::enable_if<(I == N), void >::type
+	__reserve_helper( size_t ){ }
+
+	template<size_t I = 0>
+	inline typename HYDRA_EXTERNAL_NS::thrust::detail::enable_if<(I < N), void >::type
+	__reserve_helper( size_t n)
+	{
+		std::get<I>(fDecays).reserve(n);
+		__reserve_helper<I+1>(n);
+	}
+
+	void __reserve( size_t n) { fWeights.reserve(n); __reserve_helper(n); }
+
+	//_______________________________________________
+	//insert
+	template<size_t I>
+	inline typename HYDRA_EXTERNAL_NS::thrust::detail::enable_if<(I == N), void >::type
+	__insert_helper(size_type , size_type, value_type const& ){ }
+
+	template<size_t I = 0>
+	inline typename HYDRA_EXTERNAL_NS::thrust::detail::enable_if<(I < N), void >::type
+	__insert_helper(size_type i, size_type n, value_type const& x )
+	{
+		std::get<I>(fDecays).insert( HYDRA_EXTERNAL_NS::thrust::get<I>(fDecays).begin() + i, n,
+				HYDRA_EXTERNAL_NS::thrust::get<I+1>(x)  ); ;
+
+		__insert_helper<I+1>(i, n, x);
+	}
+
+	void __insert( size_type i, size_type n, value_type const& x ) {
+
+		fWeights.insert( fWeights.begin()+i, n, HYDRA_EXTERNAL_NS::thrust::get<0>(x)  );
+		__insert_helper(i, n, x);
+	}
+
+
+
+
+	//_______________________________________________
 	//push_back
 	template<size_t I>
 	inline typename HYDRA_EXTERNAL_NS::thrust::detail::enable_if<(I == N), void >::type
@@ -720,45 +830,52 @@ private:
 
 	template<size_t I = 0>
 	inline typename HYDRA_EXTERNAL_NS::thrust::detail::enable_if<(I < N), void >::type
-	__push_back( const particle_tuple& p ){
-
-	  fDecays[I].push_back( HYDRA_EXTERNAL_NS::thrust::get<I>(p) );
+	__push_back( const particle_tuple& p )
+	{
+		fDecays[I].push_back( HYDRA_EXTERNAL_NS::thrust::get<I>(p) );
+		__push_back<I+1>(p );
 	}
 
+	//----
 	template<size_t I>
 	inline typename HYDRA_EXTERNAL_NS::thrust::detail::enable_if<(I == N), void >::type
 	__push_back(Vector4R const (&p)[N]){ void(p); }
 
 	template<size_t I = 0>
 	inline typename HYDRA_EXTERNAL_NS::thrust::detail::enable_if<(I < N), void >::type
-	__push_back(Vector4R const (&p)[N]){
-
-	  fDecays[I].push_back( p[I] );
+	__push_back(Vector4R const (&p)[N])
+	{
+		fDecays[I].push_back( p[I] );
+		__push_back<I+1>(p);
 	}
 
+	//----
 	template<size_t I>
 	inline typename HYDRA_EXTERNAL_NS::thrust::detail::enable_if<(I == N), void >::type
 	__push_back(std::array<Vector4R, N> const& ){ 	}
 
 	template<size_t I = 0>
 	inline typename HYDRA_EXTERNAL_NS::thrust::detail::enable_if<(I < N), void >::type
-	__push_back(std::array<Vector4R, N> const& p){
-
-	  fDecays[I].push_back( p[I] );
+	__push_back(std::array<Vector4R, N> const& p)
+	{
+		fDecays[I].push_back( p[I] );
+		__push_back<I+1>(p);
 	}
 
+	//---
 	template<size_t I>
 	inline typename HYDRA_EXTERNAL_NS::thrust::detail::enable_if<(I == N), void >::type
 	__push_back_helper(value_type const& ){ 	}
 
 	template<size_t I = 0>
 	inline typename HYDRA_EXTERNAL_NS::thrust::detail::enable_if<(I < N), void >::type
-	__push_back_helper(value_type const& p){
-
+	__push_back_helper(value_type const& p)
+	{
 		fDecays[I].push_back( HYDRA_EXTERNAL_NS::thrust::get<I>(p)  );
+		__push_back_helper<I+1>(p);
 	}
 
-	void __push_back(value_type const& p){
+	void __push_back(value_type const& p) {
 
 		fWeights.push_back(  HYDRA_EXTERNAL_NS::thrust::get<0>(p)  );
 		__push_back_helper(p);
@@ -897,6 +1014,7 @@ private:
 	}
 
 	const_iterator __cend() const {	return __cend_helper( detail::make_index_sequence<N>{} );}
+
 	//___________________________________________
 	//rbegin
 	template < size_t... I>
@@ -917,6 +1035,10 @@ private:
 	}
 
 	const_reverse_iterator __crend() const {	return __crend_helper( detail::make_index_sequence<N>{} );}
+
+	//___________________________________________
+	//
+
 
 	decays_type  fDecays;
 	weights_type fWeights;

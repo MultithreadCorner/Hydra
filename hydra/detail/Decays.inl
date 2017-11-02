@@ -91,45 +91,7 @@ struct FlagDaugthers: public HYDRA_EXTERNAL_NS::thrust::unary_function<size_t,
 
 }  // namespace detail
 
-template<size_t N, detail::Backend BACKEND>
-void Decays<N, detail::BackendPolicy<BACKEND> >::pop_back() {
-	for (size_t i = 0; i < N; i++)
-		this->fDecays[i].pop_back();
-	this->fWeights.pop_back();
 
-}
-
-
-template<size_t N, detail::Backend BACKEND>
-void Decays<N, detail::BackendPolicy<BACKEND> >::resize(size_t size) {
-	for (size_t i = 0; i < N; i++)
-		this->fDecays[i].resize(size);
-	this->fWeights.resize(size);
-}
-
-template<size_t N, detail::Backend BACKEND>
-void Decays<N, detail::BackendPolicy<BACKEND> >::clear() {
-	for (size_t i = 0; i < N; i++)
-		this->fDecays[i].clear();
-	this->fWeights.clear();
-
-}
-
-template<size_t N, detail::Backend BACKEND>
-void Decays<N, detail::BackendPolicy<BACKEND> >::shrink_to_fit() {
-	for (size_t i = 0; i < N; i++)
-		this->fDecays[i].shrink_to_fit();
-	this->fWeights.shrink_to_fit();
-
-}
-
-template<size_t N, detail::Backend BACKEND>
-void Decays<N, detail::BackendPolicy<BACKEND> >::reserve(size_t size) {
-	for (size_t i = 0; i < N; i++)
-		this->fDecays[i].reserve(size);
-	this->fWeights.reserve(size);
-
-}
 
 template<size_t N, detail::Backend BACKEND>
 void Decays<N, detail::BackendPolicy<BACKEND> >::insert(
@@ -306,17 +268,14 @@ size_t Decays<N, detail::BackendPolicy<BACKEND> >::Unweight(
 	//number of events to trial
 	size_t ntrials = this->size();
 
-	auto values = HYDRA_EXTERNAL_NS::thrust::get_temporary_buffer < GReal_t
-			> (system_t(), ntrials);
+	auto values = HYDRA_EXTERNAL_NS::thrust::get_temporary_buffer <GReal_t> (system_t(), ntrials);
 
 	//create iterators
 	HYDRA_EXTERNAL_NS::thrust::counting_iterator < size_t > first(0);
-	HYDRA_EXTERNAL_NS::thrust::counting_iterator < size_t > last = first
-			+ ntrials;
+	HYDRA_EXTERNAL_NS::thrust::counting_iterator < size_t > last = first + ntrials;
 
 	detail::EvalOnDaugthers<N, FUNCTOR,
-			typename Decays<N, detail::BackendPolicy<BACKEND> >::value_type> predicate1(
-			functor);
+		typename Decays<N, detail::BackendPolicy<BACKEND> >::value_type> predicate1(functor);
 
 	HYDRA_EXTERNAL_NS::thrust::copy(system_t(),
 			HYDRA_EXTERNAL_NS::thrust::make_transform_iterator(this->begin(),
@@ -348,11 +307,7 @@ size_t Decays<N, detail::BackendPolicy<BACKEND> >::Unweight(
 
 	//done!
 	return (size_t) HYDRA_EXTERNAL_NS::thrust::distance(begin(), middle);
-	/*hydra::pair<
-	 typename Decays<N, detail::BackendPolicy<BACKEND> >::decays_trans_iterator,
-	 typename Decays<N, detail::BackendPolicy<BACKEND> >::decays_trans_iterator
-	 >(  this->ptbegin(), this->ptbegin()+HYDRA_EXTERNAL_NS::thrust::distance(begin(), middle ) );*/
-	//(HYDRA_EXTERNAL_NS::thrust::make_zip_iterator(begin_tpl), HYDRA_EXTERNAL_NS::thrust::make_zip_iterator(begin_tpl)+HYDRA_EXTERNAL_NS::thrust::distance(begin(), middle ));
+
 }
 
 template<size_t N, detail::Backend BACKEND>
