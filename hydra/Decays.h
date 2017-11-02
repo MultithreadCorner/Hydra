@@ -240,7 +240,7 @@ public:
 
 	//cast iterator
 	template < typename Iterator, typename Arg, typename Functor>
-	using caster_iterator = HYDRA_EXTERNAL_NS::thrust::transform_iterator<Functor,
+	using __caster_iterator = HYDRA_EXTERNAL_NS::thrust::transform_iterator<Functor,
 			Iterator, typename std::result_of<Functor(Arg&)>::type >;
 
 
