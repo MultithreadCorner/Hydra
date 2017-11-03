@@ -607,23 +607,32 @@ public:
 
 	//stl compliant interface
 	//-----------------------
-	inline void pop_back();
+	inline void pop_back(){
+		this->__pop_back();
+	}
 
-	inline void push_back(GReal_t weight, const particle_tuple& particles);
+	inline void push_back(GReal_t weight, const particle_tuple& particles){
 
-	inline void push_back(GReal_t weight, Vector4R const (&particles)[N]);
+		this->fWeights.push_back( weight );
+		this->__push_back( particles );
+	}
 
-	inline void	push_back(GReal_t weight, std::initializer_list<Vector4R>const& list_args);
+	inline void push_back(GReal_t weight, Vector4R const (&particles)[N]){
 
-	inline void	push_back(value_type const& value);
+		this->fWeights.push_back( weight );
+		this->__push_back( particles );
+	}
 
-	void resize(size_t size);
 
-	void clear();
+	inline void	push_back(value_type const& value){ this->__push_back( value ); }
 
-	void shrink_to_fit();
+	void resize(size_t size){ __resize(size); }
 
-	void reserve(size_t size);
+	void clear(){__clear(); }
+
+	void shrink_to_fit() { __shrink_to_fit(); }
+
+	void reserve(size_t size) { __reserve(size); }
 
 	size_t size() const{return this->fWeights.size(); }
 
@@ -631,17 +640,44 @@ public:
 
 	bool empty() const{	return this->fWeights.empty(); }
 
-	iterator erase(iterator pos);
+	iterator erase(iterator pos) {
+		size_t n = HYDRA_EXTERNAL_NS::thrust::distance(this->begin(), pos);
+		__erase( n );
+		return this->begin() + n;
+	}
 
-	iterator erase(iterator first, iterator last);
+	iterator erase(iterator first, iterator last){
 
-	iterator insert(iterator position, const value_type &x);
+		size_t _first = HYDRA_EXTERNAL_NS::thrust::distance(this->begin(), first);
+		size_t _last  = HYDRA_EXTERNAL_NS::thrust::distance(this->begin(), last);
 
-	void insert(iterator position, size_type n, const value_type &x);
+		__erase(_first,  _last  );
+		return this->begin() + _first;
+	}
+
+	iterator insert(iterator position, const value_type &x){
+		size_t _pos = HYDRA_EXTERNAL_NS::thrust::distance(this->begin(), position);
+		__insert(_pos, x);
+
+		return this->begin() + _pos;
+	}
+
+	void insert(iterator position, size_type n, const value_type &x){
+
+		size_t _pos = HYDRA_EXTERNAL_NS::thrust::distance(this->begin(), position);
+		__insert(_pos, n, x);
+
+	}
 
 
 	template<typename InputIterator>
-	void insert(iterator position, InputIterator first, InputIterator last);
+	void insert(iterator position, InputIterator first, InputIterator last){
+		auto _first = first.get_iterator_tuple();
+		auto _last  = last.get_iterator_tuple();
+		size_t _pos = HYDRA_EXTERNAL_NS::thrust::distance(this->begin(), position);
+		__insert( _pos, _first, _last );
+
+	}
 
 	reference front(){	return this->begin()[0];}
 
@@ -671,30 +707,30 @@ public:
 	{ return __rend(caster);};
 
 	//non-constant access
-	iterator begin();
+	iterator begin(){ return __begin(); }
 
-	iterator end();
+	iterator end(){ return __end(); }
 
-	reverse_iterator rbegin();
+	reverse_iterator rbegin(){ return __rbegin(); }
 
-	reverse_iterator rend();
+	reverse_iterator rend(){ return __rend(); }
 
 	//constant access
-	const_iterator begin() const;
+	const_iterator begin() const {return __begin();}
 
-	const_iterator end() const;
+	const_iterator end() const { return __end(); }
 
-	const_reverse_iterator rbegin() const;
+	const_reverse_iterator rbegin() const { return __rbegin();}
 
-	const_reverse_iterator rend() const;
+	const_reverse_iterator rend() const { return __rend();}
 
-	const_iterator cbegin() const;
+	const_iterator cbegin() const { return __cbegin(); }
 
-	const_iterator cend() const;
+	const_iterator cend() const { return __cend(); }
 
-	const_reverse_iterator crbegin() const;
+	const_reverse_iterator crbegin() const { return __crbegin(); }
 
-	const_reverse_iterator crend() const;
+	const_reverse_iterator crend() const { return  __crend();}
 
 	inline	reference operator[](size_t n)
 	{	return begin()[n] ;	}
@@ -817,6 +853,7 @@ private:
 
 		fWeights.insert( fWeights.begin()+i, n, HYDRA_EXTERNAL_NS::thrust::get<0>(x)  );
 		__insert_helper(i, n, x);
+
 	}
 
 	//----
@@ -827,8 +864,8 @@ private:
 
 	template< typename ...Iterators, size_t I =0>
 	inline typename HYDRA_EXTERNAL_NS::thrust::detail::enable_if<(I < N), void >::type
-	__insert_helper( size_type pos, HYDRA_EXTERNAL_NS::thrust::tuple<Iterators...> first,
-			HYDRA_EXTERNAL_NS::thrust::tuple<Iterators...> last ) {
+	__insert_helper( size_type pos, HYDRA_EXTERNAL_NS::thrust::tuple<Iterators...> const& first,
+			HYDRA_EXTERNAL_NS::thrust::tuple<Iterators...>const& last ) {
 
 		std::get<I>(fData).insert( std::get<I>(fData).begin()+pos,
 				HYDRA_EXTERNAL_NS::thrust::get<I+1>(first),
@@ -846,6 +883,7 @@ private:
 
 		__insert_helper(pos, first, last);
 	}
+
 	//----
 	template<size_t I>
 	inline typename HYDRA_EXTERNAL_NS::thrust::detail::enable_if<(I == N), void >::type
@@ -869,6 +907,46 @@ private:
 
 	//_______________________________________________
 	//erase
+	template<size_t I>
+	inline typename HYDRA_EXTERNAL_NS::thrust::detail::enable_if<(I == N), void >::type
+	__erase_helper(size_type){ }
+
+	template<size_t I = 0>
+	inline typename HYDRA_EXTERNAL_NS::thrust::detail::enable_if<(I < N), void >::type
+	__erase_helper(size_type pos )
+	{
+		std::get<I>(fDecays).erase( HYDRA_EXTERNAL_NS::thrust::get<I>(fDecays).begin() + pos);
+
+		__erase_helper<I+1>(pos);
+	}
+
+	void __erase( size_type pos ) {
+
+		fWeights.erase( fWeights.begin()+pos );
+		__insert_helper(pos);
+	}
+
+	//-----
+
+	template<size_t I>
+	inline typename HYDRA_EXTERNAL_NS::thrust::detail::enable_if<(I == N), void >::type
+	__erase_helper(size_type, size_type){ }
+
+	template<size_t I = 0>
+	inline typename HYDRA_EXTERNAL_NS::thrust::detail::enable_if<(I < N), void >::type
+	__erase_helper(size_type first, size_type last)
+	{
+		std::get<I>(fDecays).erase( HYDRA_EXTERNAL_NS::thrust::get<I>(fDecays).begin() + first,
+				HYDRA_EXTERNAL_NS::thrust::get<I>(fDecays).begin() + last );
+
+		__erase_helper<I+1>(first, last);
+	}
+
+	void __erase( size_type first, size_type last ) {
+
+		fWeights.erase( fWeights.begin()+first,  fWeights.begin()+ last);
+		__insert_helper(first, last );
+	}
 
 
 	//_______________________________________________

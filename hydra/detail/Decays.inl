@@ -94,34 +94,6 @@ struct FlagDaugthers: public HYDRA_EXTERNAL_NS::thrust::unary_function<size_t,
 
 
 
-
-template<size_t N, detail::Backend BACKEND>
-typename Decays<N, detail::BackendPolicy<BACKEND> >::iterator Decays<N,
-		detail::BackendPolicy<BACKEND> >::erase(
-		typename Decays<N, detail::BackendPolicy<BACKEND> >::iterator position) {
-	size_t pos = HYDRA_EXTERNAL_NS::thrust::distance(this->begin(), position);
-	for (size_t i = 0; i < N; i++)
-		this->fDecays[i].erase(this->fDecays[i].begin() + pos);
-
-	this->fWeights.erase(this->fWeights.begin() + pos);
-
-	return this->begin() + pos;
-}
-
-template<size_t N, detail::Backend BACKEND>
-typename Decays<N, detail::BackendPolicy<BACKEND> >::iterator Decays<N,
-		detail::BackendPolicy<BACKEND> >::erase(
-		typename Decays<N, detail::BackendPolicy<BACKEND> >::iterator first,
-		typename Decays<N, detail::BackendPolicy<BACKEND> >::iterator last) {
-	size_t pos = HYDRA_EXTERNAL_NS::thrust::distance(this->begin(), first);
-
-	for (auto el = first; el != last; el++)
-		this->erase(el);
-
-	return this->begin() + pos;
-}
-
-
 template<size_t N, detail::Backend BACKEND>
 //hydra::pair<typename Decays<N, detail::BackendPolicy<BACKEND> >::accpeted_iterator,
 //typename Decays<N, detail::BackendPolicy<BACKEND> >::accpeted_iterator >
