@@ -625,11 +625,11 @@ public:
 
 	void reserve(size_t size);
 
-	size_t size() const;
+	size_t size() const{return this->fWeights.size(); }
 
-	size_t capacity() const;
+	size_t capacity() const{return this->fWeights.capacity();}
 
-	bool empty() const;
+	bool empty() const{	return this->fWeights.empty(); }
 
 	iterator erase(iterator pos);
 
@@ -643,13 +643,13 @@ public:
 	template<typename InputIterator>
 	void insert(iterator position, InputIterator first, InputIterator last);
 
-	reference front();
+	reference front(){	return this->begin()[0];}
 
-	const_reference front() const;
+	const_reference front() const  {return this->cbegin()[0];}
 
-	reference back();
+	reference back(){return  this->begin()[this->size() - 1];}
 
-	const_reference back() const;
+	const_reference back() const{return  this->cbegin()[this->size() - 1]; }
 
 	//converting access
 	template<typename Functor>
@@ -819,7 +819,53 @@ private:
 		__insert_helper(i, n, x);
 	}
 
+	//----
+	template<typename ...Iterators>
+	inline typename HYDRA_EXTERNAL_NS::thrust::detail::enable_if<(I == N), void >::type
+	__insert( size_type pos, HYDRA_EXTERNAL_NS::thrust::tuple<Iterators...>,
+			HYDRA_EXTERNAL_NS::thrust::tuple<Iterators...>  ) {	}
 
+	template< typename ...Iterators, size_t I =0>
+	inline typename HYDRA_EXTERNAL_NS::thrust::detail::enable_if<(I < N), void >::type
+	__insert_helper( size_type pos, HYDRA_EXTERNAL_NS::thrust::tuple<Iterators...> first,
+			HYDRA_EXTERNAL_NS::thrust::tuple<Iterators...> last ) {
+
+		std::get<I>(fData).insert( std::get<I>(fData).begin()+pos,
+				HYDRA_EXTERNAL_NS::thrust::get<I+1>(first),
+				HYDRA_EXTERNAL_NS::thrust::get<I+1>(last));
+
+		__insert_helper<I+1>(pos, first, last);
+	}
+
+	template<typename ...Iterators>
+	void __insert( size_type pos, HYDRA_EXTERNAL_NS::thrust::tuple<Iterators...> first,
+			HYDRA_EXTERNAL_NS::thrust::tuple<Iterators...> last ) {
+
+		fWeights.insert( fWeights.begin()+pos, HYDRA_EXTERNAL_NS::thrust::get<0>(first),
+				HYDRA_EXTERNAL_NS::thrust::get<0>(last));
+
+		__insert_helper(pos, first, last);
+	}
+	//----
+	template<size_t I>
+	inline typename HYDRA_EXTERNAL_NS::thrust::detail::enable_if<(I == N), void >::type
+	__insert_helper(size_type , value_type const& ){ }
+
+	template<size_t I = 0>
+	inline typename HYDRA_EXTERNAL_NS::thrust::detail::enable_if<(I < N), void >::type
+	__insert_helper(size_type pos, value_type const& x )
+	{
+		std::get<I>(fDecays).insert( HYDRA_EXTERNAL_NS::thrust::get<I>(fDecays).begin() + pos,
+				HYDRA_EXTERNAL_NS::thrust::get<I+1>(x)  ); ;
+
+		__insert_helper<I+1>(pos, x);
+	}
+
+	void __insert( size_type pos, value_type const& x ) {
+
+		fWeights.insert( fWeights.begin()+pos, HYDRA_EXTERNAL_NS::thrust::get<0>(x)  );
+		__insert_helper(pos, x);
+	}
 
 
 	//_______________________________________________

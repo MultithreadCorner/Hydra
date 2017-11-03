@@ -93,69 +93,7 @@ struct FlagDaugthers: public HYDRA_EXTERNAL_NS::thrust::unary_function<size_t,
 
 
 
-template<size_t N, detail::Backend BACKEND>
-void Decays<N, detail::BackendPolicy<BACKEND> >::insert(
-		typename Decays<N, detail::BackendPolicy<BACKEND> >::iterator position,
-		size_type n, const value_type &x) {
-	size_t pos = HYDRA_EXTERNAL_NS::thrust::distance(this->begin(), position);
-	auto particles = detail::dropFirst(x);
-	std::array<Vector4R, N> arr { };
-	detail::tupleToArray(particles, arr);
 
-	for (size_t i = 0; i < N; i++)
-		this->fDecays[i].insert(this->fDecays[i].begin() + pos, n, arr[i]);
-
-	this->fWeights.insert(fWeights.begin() + pos, n, get<0>(x));
-}
-
-template<size_t N, detail::Backend BACKEND>
-template<typename InputIterator>
-void Decays<N, detail::BackendPolicy<BACKEND> >::insert(
-		typename Decays<N, detail::BackendPolicy<BACKEND> >::iterator position,
-		InputIterator first, InputIterator last) {
-	size_t pos = HYDRA_EXTERNAL_NS::thrust::distance(this->begin(), position);
-	do_insert(pos, first, last);
-
-	this->fWeights.insert(fWeights.begin() + pos,
-			get<0>(first.get_iterator_tuple()),
-			get<0>(last.get_iterator_tuple()));
-}
-
-template<size_t N, detail::Backend BACKEND>
-typename Decays<N, detail::BackendPolicy<BACKEND> >::iterator Decays<N,
-		detail::BackendPolicy<BACKEND> >::insert(
-		typename Decays<N, detail::BackendPolicy<BACKEND> >::iterator position,
-		const Decays<N, detail::BackendPolicy<BACKEND> >::value_type &x) {
-	size_t pos = HYDRA_EXTERNAL_NS::thrust::distance(this->begin(), position);
-
-	tuple_particles_iterator_type output_particle_iterator_tuple;
-
-	do_insert(pos, output_particle_iterator_tuple, x);
-
-	auto output_head = this->fWeights.insert(fWeights.begin() + pos, get<0>(x));
-
-	auto output_iterator_tuple = HYDRA_EXTERNAL_NS::thrust::tuple_cat(
-			HYDRA_EXTERNAL_NS::thrust::make_tuple(output_head),
-			output_particle_iterator_tuple);
-
-	return HYDRA_EXTERNAL_NS::thrust::make_zip_iterator(output_iterator_tuple);
-
-}
-
-template<size_t N, detail::Backend BACKEND>
-size_t Decays<N, detail::BackendPolicy<BACKEND> >::size() const {
-	return this->fWeights.size();
-}
-
-template<size_t N, detail::Backend BACKEND>
-size_t Decays<N, detail::BackendPolicy<BACKEND> >::capacity() const {
-	return this->fWeights.capacity();
-}
-
-template<size_t N, detail::Backend BACKEND>
-bool Decays<N, detail::BackendPolicy<BACKEND> >::empty() const {
-	return this->fWeights.empty();
-}
 
 template<size_t N, detail::Backend BACKEND>
 typename Decays<N, detail::BackendPolicy<BACKEND> >::iterator Decays<N,
@@ -181,30 +119,6 @@ typename Decays<N, detail::BackendPolicy<BACKEND> >::iterator Decays<N,
 		this->erase(el);
 
 	return this->begin() + pos;
-}
-
-template<size_t N, detail::Backend BACKEND>
-typename Decays<N, detail::BackendPolicy<BACKEND> >::reference Decays<N,
-		detail::BackendPolicy<BACKEND> >::front() {
-	return this->begin()[0];
-}
-
-template<size_t N, detail::Backend BACKEND>
-typename Decays<N, detail::BackendPolicy<BACKEND> >::const_reference Decays<N,
-		detail::BackendPolicy<BACKEND> >::front() const {
-	return this->cbegin()[0];
-}
-
-template<size_t N, detail::Backend BACKEND>
-typename Decays<N, detail::BackendPolicy<BACKEND> >::reference Decays<N,
-		detail::BackendPolicy<BACKEND> >::back() {
-	this->begin()[this->size() - 1];
-}
-
-template<size_t N, detail::Backend BACKEND>
-typename Decays<N, detail::BackendPolicy<BACKEND> >::const_reference Decays<N,
-		detail::BackendPolicy<BACKEND> >::back() const {
-	this->cbegin()[this->size() - 1];
 }
 
 
