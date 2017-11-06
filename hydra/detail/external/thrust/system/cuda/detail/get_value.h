@@ -46,7 +46,8 @@ inline __host__ __device__
   // XXX war nvbugs/881631
   struct war_nvbugs_881631
   {
-    __host__ inline static result_type host_path(execution_policy<DerivedPolicy> &exec, Pointer ptr)
+
+    __host__  inline static result_type host_path(execution_policy<DerivedPolicy> &exec, Pointer ptr)
     {
       // when called from host code, implement with assign_value
       // note that this requires a type with default constructor

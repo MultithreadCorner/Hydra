@@ -71,7 +71,7 @@ class Vector3R
 			const Vector3R& v2);
 
 public:
-	__host__ __device__ inline Vector3R();
+	inline Vector3R()=default;
 	__host__ __device__ inline Vector3R(GReal_t x, GReal_t y, GReal_t z);
 	__host__ __device__ inline Vector3R(const Vector3R& other);
 	__host__ __device__ inline Vector3R(Vector3R&& other);

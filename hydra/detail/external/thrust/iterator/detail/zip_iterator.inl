@@ -125,7 +125,8 @@ template<typename IteratorTuple>
       zip_iterator<IteratorTuple>
         ::distance_to(const zip_iterator<OtherIteratorTuple> &other) const
 {
-  return get<0>(other.get_iterator_tuple()) - get<0>(get_iterator_tuple());
+  return HYDRA_EXTERNAL_NS::thrust::get<0>(other.get_iterator_tuple())
+		  - HYDRA_EXTERNAL_NS::thrust::get<0>(get_iterator_tuple());
 } // end zip_iterator::distance_to()
 
 #ifdef THRUST_VARIADIC_TUPLE

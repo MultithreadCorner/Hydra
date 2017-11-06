@@ -560,6 +560,7 @@ class tuple
     }
 
   public:
+
     __TUPLE_ANNOTATION
     tuple() : base_{} {};
 

@@ -72,7 +72,8 @@ class Vector4R
 			const Vector4R& v2);
 
 public:
-	__host__ __device__ inline Vector4R();
+
+	inline Vector4R() =default;
 	__host__ __device__ inline Vector4R(GReal_t e, GReal_t px, GReal_t py,
 			GReal_t pz);
 	__host__ __device__ inline Vector4R(const Vector4R& other);

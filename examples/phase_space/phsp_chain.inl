@@ -61,7 +61,6 @@
  */
 
 #include <hydra/PhaseSpace.h>
-#include <hydra/Events.h>
 #include <hydra/Chains.h>
 #include <hydra/Evaluate.h>
 #include <hydra/Function.h>

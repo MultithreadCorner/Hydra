@@ -173,7 +173,7 @@ int main(int argv, char** argc)
 
 		//print
 		for( size_t i=0; i<10; i++ )
-			std::cout << Events_d.tbegin()[i] << std::endl;
+			std::cout << Events_d.GetDecay(i) << std::endl;
 
 
 #ifdef 	_ROOT_AVAILABLE_

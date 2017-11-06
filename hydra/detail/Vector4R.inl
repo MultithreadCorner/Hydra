@@ -117,14 +117,7 @@ __host__ __device__ inline void Vector4R::set(GReal_t e, GReal_t p1, GReal_t p2,
 }
 
 
-__host__ __device__
-inline Vector4R::Vector4R()
-{
-	v[0] = 0.0;
-	v[1] = 0.0;
-	v[2] = 0.0;
-	v[3] = 0.0;
-}
+
 __host__ __device__
 inline Vector4R::Vector4R(GReal_t e, GReal_t p1, GReal_t p2, GReal_t p3)
 {

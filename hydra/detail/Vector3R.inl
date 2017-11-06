@@ -99,12 +99,8 @@ inline void Vector3R::set(GReal_t x, GReal_t y, GReal_t z)
 	v[1] = y;
 	v[2] = z;
 }
-__host__ __device__
-inline Vector3R::Vector3R()
-{
 
-	v[0] = v[1] = v[2] = 0.0;
-}
+
 __host__ __device__
 inline Vector3R::Vector3R(GReal_t x, GReal_t y, GReal_t z)
 {

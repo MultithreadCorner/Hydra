@@ -242,7 +242,7 @@ int main(int argv, char** argc)
 			double M2_Jpsi_pi = (Jpsi + pi).mass2();
 			double M2_Kpi     = (K + pi).mass2();
 
-			Dalitz_d2.Fill( M2_Jpsi_pi, M2_Kpi, weight);
+			Dalitz_d2.Fill( M2_Jpsi_pi, M2_Kpi, 1.0);
 		}
 
 #endif

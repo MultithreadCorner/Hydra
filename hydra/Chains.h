@@ -70,65 +70,108 @@ class Chains< Decays<N,hydra::detail::BackendPolicy<BACKEND> >...>
 
 	typedef hydra::detail::BackendPolicy<BACKEND> system_t;
 
-
-
-	typedef HYDRA_EXTERNAL_NS::thrust::tuple<typename
-			Decays<N,hydra::detail::BackendPolicy<BACKEND> >::iterator...> iterator_tuple;
-	typedef HYDRA_EXTERNAL_NS::thrust::tuple<typename
-			Decays<N,hydra::detail::BackendPolicy<BACKEND> >::const_iterator...> const_iterator_tuple;
-
-	typedef typename system_t::template container<GReal_t>  vector_real;
-	typedef typename system_t::template container<GReal_t>::iterator vector_real_iterator;
-	typedef typename system_t::template container<GReal_t>::const_iterator vector_real_const_iterator;
-
-	typedef typename system_t::template container<GBool_t>  vector_bool;
-	typedef typename system_t::template container<GBool_t>::iterator  vector_bool_iterator;
-	typedef typename system_t::template container<GBool_t>::const_iterator  vector_bool_const_iterator;
-
-	//zipped iterators
-	typedef HYDRA_EXTERNAL_NS::thrust::zip_iterator<
-			decltype(HYDRA_EXTERNAL_NS::thrust:: tuple_cat(HYDRA_EXTERNAL_NS::thrust::tuple<vector_real_iterator>(), iterator_tuple()))>  iterator;
-	typedef HYDRA_EXTERNAL_NS::thrust::zip_iterator<
-			decltype(HYDRA_EXTERNAL_NS::thrust:: tuple_cat(HYDRA_EXTERNAL_NS::thrust::tuple<vector_real_const_iterator>(), const_iterator_tuple()))>  const_iterator;
-
-	typedef   typename iterator::value_type value_type;
-	typedef   typename iterator::reference  reference_type;
-
 	typedef decltype(hydra::detail::make_index_sequence<sizeof...(N)> { }) indexing_type;
 
 public:
 
-	typedef HYDRA_EXTERNAL_NS::thrust::tuple<	Decays<N,hydra::detail::BackendPolicy<BACKEND> >...> event_tuple;
+//direct iterators
+	typedef HYDRA_EXTERNAL_NS::thrust::tuple<typename
+			Decays<N,hydra::detail::BackendPolicy<BACKEND> >::iterator...> iterator_tuple;
+
+	typedef HYDRA_EXTERNAL_NS::thrust::tuple<typename
+			Decays<N,hydra::detail::BackendPolicy<BACKEND> >::const_iterator...> const_iterator_tuple;
+
+
+	//reverse iterators
+	typedef HYDRA_EXTERNAL_NS::thrust::tuple<typename
+			Decays<N,hydra::detail::BackendPolicy<BACKEND> >::reverse_iterator...> reverse_iterator_tuple;
+
+	typedef HYDRA_EXTERNAL_NS::thrust::tuple<typename
+			Decays<N,hydra::detail::BackendPolicy<BACKEND> >::const_reverse_iterator...> const_reverse_iterator_tuple;
+
+	//weights
+	typedef typename system_t::template container<GReal_t>  weights_type;
+	typedef typename weights_type::iterator iterator_v;
+	typedef typename weights_type::const_iterator const_iterator_v;
+	typedef typename weights_type::iterator reverse_iterator_v;
+	typedef typename weights_type::const_iterator const_reverse_iterator_v;
+
+	//zipped iterators
+	typedef HYDRA_EXTERNAL_NS::thrust::zip_iterator<
+				 typename detail::tuple_cat_type<
+					 HYDRA_EXTERNAL_NS::thrust::tuple<iterator_v>,
+					 iterator_tuple
+				 >::type
+			 >  iterator;
+
+	typedef HYDRA_EXTERNAL_NS::thrust::zip_iterator<
+				typename detail::tuple_cat_type<
+					HYDRA_EXTERNAL_NS::thrust::tuple<const_iterator_v>,
+					const_iterator_tuple
+				>::type
+			>  const_iterator;
+
+	typedef HYDRA_EXTERNAL_NS::thrust::zip_iterator<
+				typename detail::tuple_cat_type<
+					HYDRA_EXTERNAL_NS::thrust::tuple<reverse_iterator_v>,
+					reverse_iterator_tuple
+				>::type
+			>  reverse_iterator;
+
+	typedef HYDRA_EXTERNAL_NS::thrust::zip_iterator<
+				typename detail::tuple_cat_type<
+					HYDRA_EXTERNAL_NS::thrust::tuple<const_reverse_iterator_v>,
+					const_reverse_iterator_tuple
+				>::type
+			>  const_reverse_iterator;
+
+
+	typedef   typename iterator::value_type value_type;
+	typedef   typename iterator::reference  reference;
+	typedef   typename iterator::const_reference  const_reference;
+
+
+
+	typedef HYDRA_EXTERNAL_NS::thrust::tuple<	Decays<N,hydra::detail::BackendPolicy<BACKEND> >...> decays_type;
 	/**
 	 * @brief default constructor
 	 */
-	Chains(){};
+	Chains() = default;
 
 	/**
 	 * @brief Constructor allocating memory for a given number of events.
 	 * @param nevents number of events
 	 */
-	Chains(size_t nevents);
+	Chains(size_t nevents){ resize(n);}
 
 	/**
 	 * @brief Copy constructor
 	 * @param other chain container defined at same back-end.
 	 */
-	Chains(Chains<Decays<N,hydra::detail::BackendPolicy<BACKEND> >...>const& other);
+	Chains(Chains<Decays<N,hydra::detail::BackendPolicy<BACKEND> >...>const& other):
+		fDecays(other.__copy_decays()),
+		fWeights(other.__copy_weights()){}
 
 	/**
 	 * @brief Copy constructor
 	 * @param other chain container defined in other back-end.
 	 */
 	template<hydra::detail::Backend BACKEND2>
-	Chains(Chains<Decays<N,hydra::detail::BackendPolicy<BACKEND2> >...>const& other);
+	Chains(Chains<Decays<N,hydra::detail::BackendPolicy<BACKEND2> >...>const& other)
+	{
+		this->resize(HYDRA_EXTERNAL_NS::thrust::distance(other.begin(),  other.end()));
+		HYDRA_EXTERNAL_NS::thrust::copy(other.begin(),  other.end(), this->begin() );
+	}
 
 
 /**
  *@brief  Move constructor
  * @param other
  */
-	Chains(Chains<Decays<N,hydra::detail::BackendPolicy<BACKEND> >...>&& other);
+	Chains(Chains<Decays<N,hydra::detail::BackendPolicy<BACKEND> >...>&& other):
+		fDecays(other.__move_decays()),
+		fWeights(other.__move_weights())
+	{}
 
 
 /**
@@ -137,7 +180,14 @@ public:
  * @return
  */
 	Chains<Decays<N,hydra::detail::BackendPolicy<BACKEND> >...>&
-	operator=(Chains<Decays<N,hydra::detail::BackendPolicy<BACKEND> >...> const& other);
+	operator=(Chains<Decays<N,hydra::detail::BackendPolicy<BACKEND> >...> const& other)
+	{
+		if(this==&other) return *this;
+		this->fDecays  = other.__copy_decays();
+		this->fWeights = other.__copy_weights();
+
+		return *this;
+	}
 
 	/**
 	 * @brief Assignment operator for chain container allocated in a different back-end.
@@ -146,7 +196,12 @@ public:
 	 */
 	template<hydra::detail::Backend BACKEND2>
 	Chains<Decays<N,hydra::detail::BackendPolicy<BACKEND> >...>&
-	operator=(Chains<Decays<N,hydra::detail::BackendPolicy<BACKEND2> >...>const& other);
+	operator=(Chains<Decays<N,hydra::detail::BackendPolicy<BACKEND2> >...>const& other)
+	{
+		HYDRA_EXTERNAL_NS::thrust::copy(other.begin(),  other.end(), this->begin() );
+
+		return *this;
+	}
 
 	/**
 	 * @brief Move-assignment operator for chain container allocated in a same back-end.
@@ -154,8 +209,13 @@ public:
 	 * @return
 	 */
 	Chains<Decays<N,hydra::detail::BackendPolicy<BACKEND> >...>&
-	operator=(Chains<Decays<N,hydra::detail::BackendPolicy<BACKEND> >...>&& other);
-
+	operator=(Chains<Decays<N,hydra::detail::BackendPolicy<BACKEND> >...>&& other)
+	{
+		if(this==&other) return *this;
+		this->fDecays  = other.__move_decays();
+		this->fWeights = other.__move_weights();
+		return *this;
+	}
 	/**
 	 * @brief Constructor from a list of decay containers.
 	 * @param events
@@ -163,56 +223,30 @@ public:
 	Chains(Decays<N,hydra::detail::BackendPolicy<BACKEND> > const& ...events);
 
 
-	/**
- 	 * @brief Get the number of events.
- 	 * @return
- 	 */
-	size_t GetNDecays() const {return fSize;}
 
-	/**
-	 * @brief Iterator to begin of accept/reject flags range.
-	 * @return iterator
-	 */
-	vector_bool_iterator FlagsBegin() {return fFlags.begin();}
+	GenericRange<iterator_v >
+	GetWeights() {
+		return hydra::make_range(this->fWeights.begin(), this->fWeights.end());
+	}
 
-	/**
-	 * @brief Iterator to end of accept/reject flags range.
-	 * @return iterator
-	 */
-	vector_bool_iterator FlagsEnd() {return fFlags.end();}
-
-	/**
-	 * @brief Iterator to begin of weights range.
-	 * @return iterator
-	 */
-	vector_real_iterator WeightsBegin() {return fWeights.begin();}
-
-	/**
-	 * @brief Iterator to end of weights range.
-	 * @return iterator
-	 */
-	vector_real_iterator WeightsEnd() {return fWeights.end();}
-
-	/*
-	 * constant access iterators
-	 */
-	vector_bool_const_iterator FlagsBegin() const{return fFlags.cbegin();}
-
-	vector_bool_const_iterator FlagsEnd() const{return fFlags.cend();}
-
-	vector_real_const_iterator WeightsBegin() const{ return fWeights.cbegin();	}
-
-	vector_real_const_iterator WeightsEnd() const { return fWeights.cend(); }
+	GenericRange<const_iterator_v >
+	GetWeights() const {
+		return hydra::make_range(this->fWeights.begin(), this->fWeights.end());
+	}
 
 	template<unsigned int I>
-	auto GetDecay() const
-	-> typename HYDRA_EXTERNAL_NS::thrust::tuple_element<I, event_tuple>::type&
-	{ return HYDRA_EXTERNAL_NS::thrust::get<I>(fStorage);	}
+	GenericRange< typename HYDRA_EXTERNAL_NS::thrust::tuple_element<I, decays_type >::type::iterator>
+	GetDecays(placeholders::placeholder<I> const& p) {
+			return hydra::make_range(HYDRA_EXTERNAL_NS::thrust::get<I>(this->fDecays).begin(),
+					HYDRA_EXTERNAL_NS::thrust::get<I>(this->fDecays).end());
+		}
 
 	template<unsigned int I>
-	auto GetDecay()
-	-> typename HYDRA_EXTERNAL_NS::thrust::tuple_element<I, event_tuple>::type&
-	{ return HYDRA_EXTERNAL_NS::thrust::get<I>(fStorage);	}
+	GenericRange< typename HYDRA_EXTERNAL_NS::thrust::tuple_element<I, decays_type >::type::const_iterator>
+	GetDecays(placeholders::placeholder<I> const& p) const {
+		return hydra::make_range(HYDRA_EXTERNAL_NS::thrust::get<I>(this->fDecays).begin(),
+				HYDRA_EXTERNAL_NS::thrust::get<I>(this->fDecays).end());
+	}
 
 	/**
 	 * @brief Iterator to begin of container range.
@@ -307,14 +341,8 @@ private:
 		return	s;
 	}
 
-	event_tuple fStorage;
-	vector_bool fFlags; ///< Vector of flags. Accepted events are flagged 1 and rejected 0.
-	vector_real fWeights; ///< Vector of event weights.
-	iterator fBegin;
-	iterator fEnd;
-	const_iterator fConstBegin;
-	const_iterator fConstEnd;
-	size_t   fSize;
+	decays_type  fDecays;
+	weights_type fWeights;
 
 
 };

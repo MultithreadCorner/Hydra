@@ -42,22 +42,23 @@ template<size_t N, typename Functor, typename ArgType>
 struct EvalOnDaugthers: public HYDRA_EXTERNAL_NS::thrust::unary_function<
 		ArgType, GReal_t> {
 	EvalOnDaugthers(Functor const& functor) :
-			fFunctor(functor) {
-	}
+			fFunctor(functor) {	}
 
 	__host__  __device__
 	EvalOnDaugthers(EvalOnDaugthers<N, Functor, ArgType> const&other) :
 			fFunctor(other.fFunctor) {
 	}
 
-	template<typename T>
+	//template<typename T>
 	__host__  __device__
-	GReal_t operator()(T& value) {
+	GReal_t operator()(ArgType& value) {
+
 		auto particles = detail::dropFirst(value);
 		Vector4R Particles[N];
 		hydra::detail::assignTupleToArray(particles, Particles);
-		return hydra::get<0>(value)
+		return HYDRA_EXTERNAL_NS::thrust::get<0>(value)
 				* (fFunctor((unsigned int) N, &Particles[0]));
+
 	}
 
 	Functor fFunctor;
@@ -66,6 +67,7 @@ struct EvalOnDaugthers: public HYDRA_EXTERNAL_NS::thrust::unary_function<
 template<size_t N>
 struct FlagDaugthers: public HYDRA_EXTERNAL_NS::thrust::unary_function<size_t,
 		bool> {
+
 	FlagDaugthers(GReal_t max, GReal_t* iterator) :
 			fVals(iterator), fMax(max) {
 	}
@@ -95,8 +97,6 @@ struct FlagDaugthers: public HYDRA_EXTERNAL_NS::thrust::unary_function<size_t,
 
 
 template<size_t N, detail::Backend BACKEND>
-//hydra::pair<typename Decays<N, detail::BackendPolicy<BACKEND> >::accpeted_iterator,
-//typename Decays<N, detail::BackendPolicy<BACKEND> >::accpeted_iterator >
 size_t Decays<N, detail::BackendPolicy<BACKEND> >::Unweight(GUInt_t scale) {
 	using HYDRA_EXTERNAL_NS::thrust::system::detail::generic::select_system;
 	typedef typename HYDRA_EXTERNAL_NS::thrust::iterator_system<
@@ -107,46 +107,31 @@ size_t Decays<N, detail::BackendPolicy<BACKEND> >::Unweight(GUInt_t scale) {
 
 	//create iterators
 	HYDRA_EXTERNAL_NS::thrust::counting_iterator < size_t > first(0);
-	HYDRA_EXTERNAL_NS::thrust::counting_iterator < size_t > last = first
-			+ ntrials;
+	HYDRA_EXTERNAL_NS::thrust::counting_iterator < size_t > last = first + ntrials;
 
 	//get the maximum value
-	GReal_t max_value = *(HYDRA_EXTERNAL_NS::thrust::max_element(
-			fWeights.begin(), fWeights.end()));
+	GReal_t max_value = *(HYDRA_EXTERNAL_NS::thrust::max_element(fWeights.begin(), fWeights.end()));
 
 	//raw pointer to weights
-	GReal_t* weights_ptr = HYDRA_EXTERNAL_NS::thrust::raw_pointer_cast(
-			fWeights.data());
+	GReal_t* weights_ptr = HYDRA_EXTERNAL_NS::thrust::raw_pointer_cast(fWeights.data());
 
 	//says if an event passed or not
 	detail::FlagDaugthers<N> predicate(scale * max_value, weights_ptr);
-
-	//weight 1.0 all events
-	HYDRA_EXTERNAL_NS::thrust::constant_iterator<GReal_t> iter_weight(1.0);
 
 	//re-sort the container to build up un-weighted sample
 	auto middle = HYDRA_EXTERNAL_NS::thrust::stable_partition(this->begin(),
 			this->end(), first, predicate);
 
-	//unpack zip-iterator
-	auto begin_tuple = this->begin().get_iterator_tuple();
-
-	//change first index
-	auto begin_tpl = detail::changeFirst(iter_weight, begin_tuple);
-
 	//done!
 	return HYDRA_EXTERNAL_NS::thrust::distance(begin(), middle);
-	/*hydra::pair< typename Decays<N, detail::BackendPolicy<BACKEND> >::accpeted_iterator,
-	 typename Decays<N, detail::BackendPolicy<BACKEND> >::accpeted_iterator >
-	 (HYDRA_EXTERNAL_NS::thrust::make_zip_iterator(begin_tpl), HYDRA_EXTERNAL_NS::thrust::make_zip_iterator(begin_tpl)+HYDRA_EXTERNAL_NS::thrust::distance(begin(), middle ));*/
 }
+
 
 template<size_t N, detail::Backend BACKEND>
 template<typename FUNCTOR>
-//hydra::pair<typename Decays<N, detail::BackendPolicy<BACKEND> >::decays_trans_iterator,
-//typename Decays<N, detail::BackendPolicy<BACKEND> >::decays_trans_iterator >
 size_t Decays<N, detail::BackendPolicy<BACKEND> >::Unweight(
 		FUNCTOR const& functor, GUInt_t scale) {
+
 	using HYDRA_EXTERNAL_NS::thrust::system::detail::generic::select_system;
 	typedef typename HYDRA_EXTERNAL_NS::thrust::iterator_system<
 			typename Decays<N, detail::BackendPolicy<BACKEND> >::const_iterator>::type system_t;
@@ -164,10 +149,9 @@ size_t Decays<N, detail::BackendPolicy<BACKEND> >::Unweight(
 		typename Decays<N, detail::BackendPolicy<BACKEND> >::value_type> predicate1(functor);
 
 	HYDRA_EXTERNAL_NS::thrust::copy(system_t(),
-			HYDRA_EXTERNAL_NS::thrust::make_transform_iterator(this->begin(),
-					predicate1),
-			HYDRA_EXTERNAL_NS::thrust::make_transform_iterator(this->end(),
-					predicate1), values.first);
+			HYDRA_EXTERNAL_NS::thrust::make_transform_iterator(this->begin(), predicate1),
+			HYDRA_EXTERNAL_NS::thrust::make_transform_iterator(this->end(),predicate1),
+			values.first);
 
 	GReal_t max_value = *(HYDRA_EXTERNAL_NS::thrust::max_element(values.first,
 			values.first + values.second));
@@ -179,17 +163,9 @@ size_t Decays<N, detail::BackendPolicy<BACKEND> >::Unweight(
 	HYDRA_EXTERNAL_NS::thrust::constant_iterator<GReal_t> iter_weight(1.0);
 
 	//re-sort the container to build up un-weighted sample
-	auto middle = HYDRA_EXTERNAL_NS::thrust::stable_partition(this->begin(),
-			this->end(), first, predicate2);
 
-	//unpack zip-iterator
-	auto begin_tuple = this->begin().get_iterator_tuple();
+	auto middle = HYDRA_EXTERNAL_NS::thrust::stable_partition(this->begin(), this->end(), first, predicate2);
 
-	//change first index
-	auto begin_tpl = detail::changeFirst(iter_weight, begin_tuple);
-
-	HYDRA_EXTERNAL_NS::thrust::return_temporary_buffer(system_t(),
-			values.first);
 
 	//done!
 	return (size_t) HYDRA_EXTERNAL_NS::thrust::distance(begin(), middle);
