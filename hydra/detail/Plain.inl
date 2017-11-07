@@ -1,6 +1,6 @@
 /*----------------------------------------------------------------------------
  *
- *   Copyright (C) 2016 Antonio Augusto Alves Junior
+ *   Copyright (C) 2016 - 2017 Antonio Augusto Alves Junior
  *
  *   This file is part of Hydra Data Analysis Framework.
  *
@@ -26,41 +26,38 @@
  *      Author: Antonio Augusto Alves Junior
  */
 
-/**
- * \file
- * \ingroup numerical_integration
- */
 
 
-#ifndef PLAIN_INL_
-#define PLAIN_INL_
+//#ifndef PLAIN_INL_
+//#define PLAIN_INL_
 
 namespace hydra {
 
-template< size_t N, typename GRND>
+template< size_t N,hydra::detail::Backend BACKEND, typename GRND>
 template<typename FUNCTOR>
-GInt_t Plain<N,GRND>::Integrate(FUNCTOR const& fFunctor)
+inline std::pair<GReal_t, GReal_t>
+Plain<N,hydra::detail::BackendPolicy<BACKEND>,GRND>::Integrate(FUNCTOR const& fFunctor)
 {
 
 	// create iterators
-	thrust::counting_iterator<size_t> first(0);
-	thrust::counting_iterator<size_t> last = first + fNCalls;
+	HYDRA_EXTERNAL_NS::thrust::counting_iterator<size_t> first(0);
+	HYDRA_EXTERNAL_NS::thrust::counting_iterator<size_t> last = first + fNCalls;
 
 
 	// compute summary statistics
-	PlainState result = thrust::transform_reduce(first, last,
-			detail::ProcessCallsPlainUnary<FUNCTOR,N,GRND>(const_cast<GReal_t*>(thrust::raw_pointer_cast(fXLow.data())),
-					const_cast<GReal_t*>(thrust::raw_pointer_cast(fDeltaX.data())), fFunctor),
+	PlainState result = HYDRA_EXTERNAL_NS::thrust::transform_reduce(system_t(), first, last,
+			detail::ProcessCallsPlainUnary<FUNCTOR,N,GRND>(const_cast<GReal_t*>(HYDRA_EXTERNAL_NS::thrust::raw_pointer_cast(fXLow.data())),
+					const_cast<GReal_t*>(HYDRA_EXTERNAL_NS::thrust::raw_pointer_cast(fDeltaX.data())), fSeed,fFunctor),
 			PlainState(), detail::ProcessCallsPlainBinary() );
 
 	fResult   = fVolume*result.fMean;
-	fAbsError = fVolume*sqrt( result.fM2/(fNCalls*(fNCalls-1)) );
+	fAbsError = fVolume*sqrt( result.fM2/((fNCalls-1)*(fNCalls-1)) );
 
 
-	return 0;
-
-}
+	return std::make_pair(fResult, fAbsError);
 
 }
 
-#endif /* PLAIN_INL_ */
+}
+
+//#endif /* PLAIN_INL_ */

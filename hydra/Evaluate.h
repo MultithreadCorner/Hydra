@@ -1,6 +1,6 @@
 /*----------------------------------------------------------------------------
  *
- *   Copyright (C) 2016 Antonio Augusto Alves Junior
+ *   Copyright (C) 2016 - 2017 Antonio Augusto Alves Junior
  *
  *   This file is part of Hydra Data Analysis Framework.
  *
@@ -26,10 +26,6 @@
  *      Author: Antonio Augusto Alves Junior
  */
 
-/**
- * \file
- * \ingroup generic
- */
 
 #ifndef EVALUATE_H_
 #define EVALUATE_H_
@@ -40,139 +36,88 @@
 
 
 #include <hydra/detail/Config.h>
+#include <hydra/detail/BackendPolicy.h>
 #include <hydra/Types.h>
 #include <hydra/Containers.h>
 #include <hydra/Function.h>
 #include <hydra/detail/utility/Utility_Tuple.h>
-#include <hydra/Range.h>
-#include <thrust/tuple.h>
-#include <hydra/detail/Evaluate.inl>
+#include <hydra/detail/external/thrust/tuple.h>
+#include <hydra/detail/Evaluate.inc>
+#include <hydra/multivector.h>
 
 namespace hydra {
-
-
-template<template<class, class...> class V=mc_device_vector, typename ...T>
-struct EvalReturnType{ typedef V<thrust::tuple<T...>> type; };
-
-
-
 
 //--------------------------------------
 // Non cached functions
 //--------------------------------------
 
-template< typename Iterator,typename ...Iterators, typename Functor,
-typename thrust::detail::enable_if<
-hydra::detail::are_all_same<typename Range<Iterator>::system ,
-typename Range<Iterators>::system...>::value, int>::type=0>
-auto Eval(Functor const& t,Range<Iterator>const& range, Range<Iterators>const&...  ranges) ->
-typename detail::if_then_else<std::is_same<thrust::device_system_tag,typename Range<Iterator>::system>::value,
-mc_device_vector<typename Functor::return_type>,
-mc_host_vector<typename Functor::return_type>>::type
-{
-	typedef typename detail::if_then_else<
-			std::is_same<thrust::device_system_tag,typename  Range<Iterator>::system>::value,
-			mc_device_vector<typename Functor::return_type>,
-			mc_host_vector<typename Functor::return_type>>::type container;
+/**
+ * @ingroup generic
+ * Evaluate a hydra functor on a range using the parallel policy
+ *
+ * @param policy : parallel policy
+ * @param functor : hydra functor to be evaluated
+ * @param begin : interator pointing to be begin of the range
+ * @param end : interator pointing to be begin of the range
+ * @return a vector with the results
+ */
+template< hydra::detail::Backend BACKEND, typename Iterator, typename Functor >
+auto eval(hydra::detail::BackendPolicy<BACKEND>const& policy, Functor const& functor, Iterator begin, Iterator end)
+-> typename hydra::detail::BackendPolicy<BACKEND>::template container<typename Functor::return_type> ;
 
-	auto begin = thrust::make_zip_iterator(thrust::make_tuple(range.begin(), ranges.begin()...) );
-	auto end   = thrust::make_zip_iterator(thrust::make_tuple(range.end(), ranges.end()...) );
-
-	container Table( thrust::distance(begin, end) );
-
-	thrust::transform(begin, end ,  Table.begin(),t );
-
-	return Table;
-}
-
-
-template< typename Iterator,typename ...Iterators, typename ...Functors,
-typename thrust::detail::enable_if<
-hydra::detail::are_all_same<typename Range<Iterator>::system ,
-typename Range<Iterators>::system...>::value, int>::type=0>
-auto Eval(thrust::tuple<Functors...> const& t,Range<Iterator>const& range, Range<Iterators>const&...  ranges) ->
-typename detail::if_then_else<std::is_same<thrust::device_system_tag,typename Range<Iterator>::system>::value,
-typename EvalReturnType<mc_device_vector,typename Functors::return_type ...>::type,
-typename EvalReturnType<mc_host_vector,typename Functors::return_type ...>::type>::type
-{
-	typedef typename detail::if_then_else<
-			std::is_same<thrust::device_system_tag,typename  Range<Iterator>::system>::value,
-			mc_device_vector< thrust::tuple<typename Functors::return_type ...> >,
-			mc_host_vector< thrust::tuple<typename Functors::return_type ...> > >::type container;
-
-	auto begin = thrust::make_zip_iterator(thrust::make_tuple(range.begin(), ranges.begin()...) );
-	auto end   = thrust::make_zip_iterator(thrust::make_tuple(range.end(), ranges.end()...) );
-
-	container Table( thrust::distance(begin, end) );
-
-	thrust::transform(begin, end ,  Table.begin(),
-			detail::process< thrust::tuple<typename Functors::return_type ...>, thrust::tuple<Functors...>>(t) );
-
-	return Table;
-}
+/**
+ * @ingroup generic
+ * Evaluate a tuple of hydra functors on a range using the parallel policy
+ *
+ * @param policy : parallel policy
+ * @param functor : hydra functor to be evaluated
+ * @param begin : interator pointing to be begin of the range
+ * @param end : interator pointing to be begin of the range
+ * @return a multivectors with the results
+ */
+template<hydra::detail::Backend BACKEND, typename Iterator, typename ...Functors>
+auto eval(hydra::detail::BackendPolicy<BACKEND>const&  policy,HYDRA_EXTERNAL_NS::thrust::tuple<Functors...> const& functors, Iterator begin, Iterator end)
+-> multivector<HYDRA_EXTERNAL_NS::thrust::tuple<typename Functors::return_type ...> , hydra::detail::BackendPolicy<BACKEND>>;
+//-> multivector< typename hydra::detail::BackendPolicy<BACKEND>::template
+//container<HYDRA_EXTERNAL_NS::thrust::tuple<typename Functors::return_type ...> >>;
 
 
-//--------------------------------------
-// Cached functions
-//--------------------------------------
-template< typename Tuple, typename Iterator,typename ...Iterators, typename Functor,
-typename thrust::detail::enable_if<
-hydra::detail::are_all_same<typename Range<Iterator>::system ,
-typename Range<Iterators>::system...>::value, int>::type=0>
-auto Eval(Functor const& t,
-		typename detail::if_then_else<std::is_same<thrust::device_system_tag,typename Range<Iterator>::system>::value,
-		mc_device_vector<Tuple>, mc_host_vector<Tuple>> const& Cache, Range<Iterator>const& range, Range<Iterators>const&...  ranges)
--> typename detail::if_then_else<std::is_same<thrust::device_system_tag,typename Range<Iterator>::system>::value,
-typename EvalReturnType<mc_device_vector,typename Functor::return_type >::type,
-typename EvalReturnType<mc_host_vector,typename Functor::return_type >::type>::type
-{
-	typedef typename detail::if_then_else<
-			std::is_same<thrust::device_system_tag,typename  Range<Iterator>::system>::value,
-			mc_device_vector< thrust::tuple<typename Functor::return_type > >,
-			mc_host_vector< thrust::tuple<typename Functor::return_type > > >::type container;
+/**
+ * @ingroup generic
+ * Evaluate a functor over a list of ranges
+ *
+ * @param policy : parallel policy
+ * @param functor : hydra functor to be evaluated
+ * @param begin : interator pointing to be begin of the range
+ * @param end : interator pointing to be begin of the range
+ * @param begins : interator pointing to be begin of the range
+ * @return a multivectors with the results
+ */
+template<hydra::detail::Backend BACKEND, typename Functor, typename Iterator, typename ...Iterators>
+auto eval(hydra::detail::BackendPolicy<BACKEND>const&  policy,Functor const& functor, Iterator begin, Iterator end, Iterators... begins)
+-> typename hydra::detail::BackendPolicy<BACKEND>::template container<typename Functor::return_type>;
 
-	auto begin = thrust::make_zip_iterator(thrust::make_tuple(range.begin(), ranges.begin()...) );
-	auto end   = thrust::make_zip_iterator(thrust::make_tuple(range.end(), ranges.end()...) );
+/**
+ * @ingroup generic
+ * Evaluate a tuple of functors over a list of ranges
+ *
+ * @param policy : parallel policy
+ * @param functor : hydra functor to be evaluated
+ * @param begin : interator pointing to be begin of the range
+ * @param end : interator pointing to be begin of the range
+ * @param begins : interator pointing to be begin of the range
+ * @return a multivectors with the results
+ */
+template<hydra::detail::Backend BACKEND, typename Iterator,  typename ...Iterators, typename ...Functors>
+auto eval(hydra::detail::BackendPolicy<BACKEND>const&  policy, HYDRA_EXTERNAL_NS::thrust::tuple<Functors...> const& functors,
+		Iterator begin, Iterator end, Iterators... begins)
+-> multivector<HYDRA_EXTERNAL_NS::thrust::tuple<typename Functors::return_type ...> , hydra::detail::BackendPolicy<BACKEND> >;
 
-	container Table( thrust::distance(begin, end) );
-
-	thrust::transform(begin, end , Cache.begin(), Table.begin(), t );
-
-	return Table;
-}
-
-
-
-template< typename Tuple, typename Iterator,typename ...Iterators, typename ...Functors,
-typename thrust::detail::enable_if<
-hydra::detail::are_all_same<typename Range<Iterator>::system ,
-typename Range<Iterators>::system...>::value, int>::type=0>
-auto Eval(thrust::tuple<Functors...> const& t,
-		typename detail::if_then_else<std::is_same<thrust::device_system_tag,typename Range<Iterator>::system>::value,
-		mc_device_vector<Tuple>, mc_host_vector<Tuple>> const& Cache, Range<Iterator>const& range, Range<Iterators>const&...  ranges)
--> typename detail::if_then_else<std::is_same<thrust::device_system_tag,typename Range<Iterator>::system>::value,
-typename EvalReturnType<mc_device_vector,typename Functors::return_type ...>::type,
-typename EvalReturnType<mc_host_vector,typename Functors::return_type ...>::type>::type
-{
-	typedef typename detail::if_then_else<
-			std::is_same<thrust::device_system_tag,typename  Range<Iterator>::system>::value,
-			mc_device_vector< thrust::tuple<typename Functors::return_type ...> >,
-			mc_host_vector< thrust::tuple<typename Functors::return_type ...> > >::type container;
-
-	auto begin = thrust::make_zip_iterator(thrust::make_tuple(range.begin(), ranges.begin()...) );
-	auto end   = thrust::make_zip_iterator(thrust::make_tuple(range.end(), ranges.end()...) );
-
-	container Table( thrust::distance(begin, end) );
-
-	thrust::transform(begin, end , Cache.begin(), Table.begin(),
-			detail::process< thrust::tuple<typename Functors::return_type ...>, thrust::tuple<Functors...>>(t) );
-
-	return Table;
-}
+//-> multivector< typename hydra::detail::BackendPolicy<BACKEND>::template container<HYDRA_EXTERNAL_NS::thrust::tuple<typename Functors::return_type ...> >>;
 
 
 }/* namespace hydra */
 
-
+#include <hydra/detail/Evaluate.inl>
 
 #endif /* EVALUATE */

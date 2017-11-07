@@ -1,6 +1,6 @@
 /*----------------------------------------------------------------------------
  *
- *   Copyright (C) 2016 Antonio Augusto Alves Junior
+ *   Copyright (C) 2016 - 2017 Antonio Augusto Alves Junior
  *
  *   This file is part of Hydra Data Analysis Framework.
  *
@@ -29,11 +29,11 @@
  */
 
 
+
 /**
  * \file
  * \ingroup phsp
  */
-
 
 #ifndef ISACCEPTED_H_
 #define ISACCEPTED_H_

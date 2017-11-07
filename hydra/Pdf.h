@@ -1,6 +1,6 @@
 /*----------------------------------------------------------------------------
  *
- *   Copyright (C) 2016 Antonio Augusto Alves Junior
+ *   Copyright (C) 2016 - 2017 Antonio Augusto Alves Junior
  *
  *   This file is part of Hydra Data Analysis Framework.
  *
@@ -26,12 +26,6 @@
  *      Author: Antonio Augusto Alves Junior
  */
 
-/**
- * \file
- * \ingroup fit
- */
-
-
 #ifndef PDF_H_
 #define PDF_H_
 
@@ -41,104 +35,148 @@
 #include <hydra/Parameter.h>
 #include <hydra/detail/utility/Utility_Tuple.h>
 #include <hydra/detail/FunctorTraits.h>
-#include <thrust/iterator/detail/tuple_of_iterator_references.h>
-#include <thrust/iterator/zip_iterator.h>
-#include <thrust/tuple.h>
+
+
+#include <hydra/detail/external/thrust/iterator/detail/tuple_of_iterator_references.h>
+#include <hydra/detail/external/thrust/iterator/zip_iterator.h>
+#include <hydra/detail/external/thrust/tuple.h>
 #include <array>
+#include <utility>
 #include <initializer_list>
 #include <memory>
 #include <unordered_map>
+
 
 namespace hydra
 {
 
 namespace detail {
 
-template<typename FUNCTOR, typename INTEGRATOR>
-struct PdfBase: std::enable_if< detail::is_hydra_functor<FUNCTOR>::value &&
-detail::is_hydra_integrator<INTEGRATOR>::value>{};
+template< typename FUNCTOR, typename INTEGRATOR>
+class PdfBase: public std::enable_if< detail::is_hydra_functor<FUNCTOR>::value &&
+detail::is_hydra_integrator<INTEGRATOR>::value >
+{};
 
 
 }// namespace detail
 
-template<typename FUNCTOR, typename INTEGRATOR>
-struct Pdf:detail::PdfBase<FUNCTOR, INTEGRATOR>
-{
-	//tag
-	typedef void hydra_pdf_tag;
 
-	//this typedef is actually a check. If the Pdf is not built with
+/**
+ * @brief Class describing probability density functions.
+ * @ingroup fit
+ * A hydra::Pdf has two components:
+ *
+ *  1. non-normalized functor, describing the shape.
+ *  2. integration algorithm or functor for analytical integration, which normalizes the functor.
+ */
+template<typename FUNCTOR, typename INTEGRATOR>
+class Pdf: public detail::PdfBase<FUNCTOR, INTEGRATOR>
+{
+
+
+public:
+//this typedef is actually a check. If the Pdf is not built with
 	//hydra::functor, PdfBase::type will not be defined and compilation
 	//will fail
 	typedef typename detail::PdfBase<FUNCTOR, INTEGRATOR>::type base_type;
 
+	typedef FUNCTOR functor_type;
+	//tag
+	typedef void hydra_pdf_tag;
 
 
-	template<typename U=FUNCTOR>
-	__host__ __device__
-	Pdf(U const& functor,  INTEGRATOR* integrator):
+	/**
+	 * @brief hydra::Pdf constructor.
+	 * @param functor describing the shape.
+	 * @param integrator functor for calculate analytical integrals or hydra
+	 * algorithm for numerical integration.
+	 */
+	Pdf(FUNCTOR const& functor,  INTEGRATOR const& integrator):
 	fIntegrator(integrator),
 	fFunctor(functor),
-	fNorm(1.0)
+	fNormCache(std::unordered_map<size_t, std::pair<GReal_t, GReal_t>>() )
 	{
-/*
-#ifndef __CUDA_ARCH__
-		fNormCache = norm_cache_type(new std::unordered_map<size_t, GReal_t>());
-		//fIntegrator->Integrate(functor, 1);
-		//fNorm=fIntegrator->GetResult();
+		std::tie(fNorm, fNormError) = fIntegrator(fFunctor) ;
+		fFunctor.SetNorm(1.0/fNorm);
+		for(size_t i=0; i< FUNCTOR::parameter_count; i++)
+			fParameters[i]=fFunctor.GetParameter(i);
+		size_t key = detail::hash_range(fParameters.begin(),
+						fParameters.end());
 
-#endif
-*/
+		fNormCache[key] = std::make_pair(fNorm, fNormError);
+
 	}
 
-	//__hydra_exec_check_disable__
-	__host__ __device__
+
+	/**
+	 * @brief Copy constructor.
+	 * @param other
+	 */
 	Pdf(Pdf<FUNCTOR,INTEGRATOR> const& other):
-	fIntegrator(other.GetIntegrator()),
-	fFunctor(other.GetFunctor()),
-	fNorm(other.GetNorm())
+		fIntegrator(other.GetIntegrator()),
+		fFunctor(other.GetFunctor()),
+		fNorm(other.GetNorm() ),
+		fNormError(other.GetNormError() ),
+		fNormCache(other.GetNormCache())
 	{
-/*
-#ifndef __CUDA_ARCH__
-		fNormCache= other.GetNormCache();
-#endif
-*/
+
+		for(size_t i=0; i< FUNCTOR::parameter_count; i++)
+			fParameters[i]=fFunctor.GetParameter(i);
+
+		size_t key = detail::hash_range(fParameters.begin(),
+				fParameters.end());
+
+		fNormCache[key] = std::make_pair(fNorm, fNormError);
+		//fFunctor.SetNorm(1.0/fNorm);
 	}
 
+	~Pdf(){};
 
-	__host__ __device__
-	~Pdf(){	}
-
-	__host__ __device__ inline
-	Pdf<FUNCTOR,INTEGRATOR>&
+	/**
+	 *@brief Assignment operator.
+	 * @param other
+	 * @return a hydra::Pdf equal to other.
+	 */
+	inline Pdf<FUNCTOR,INTEGRATOR>&
 	operator=(Pdf<FUNCTOR, INTEGRATOR> const & other )
 	{
 		if(this == &other) return *this;
 
-		this->fNorm = other.GetNorm();
-		this->fFunctor=other.GetFunctor();
+		this->fNorm  = other.GetNorm() ;
+		this->fNormError  = other.GetNormError() ;
+		this->fFunctor    = other.GetFunctor();
 		this->fIntegrator = other.GetIntegrator();
-		/*
-#ifndef __CUDA_ARCH__
-		this->fNormCache=other.GetNormCache();
-#endif
-*/
+		this->fNormCache  = other.GetNormCache();
+		for(size_t i=0; i< FUNCTOR::parameter_count; i++)
+			this->fParameters[i]=fFunctor.GetParameter(i);
+
+
+		size_t key = detail::hash_range(fParameters.begin(),
+				fParameters.end());
+
+		fNormCache[key] = std::make_pair(fNorm, fNormError);
+
+		//fFunctor.SetNorm(1.0/fNorm);
 		return *this;
 	}
 
-/*
-	norm_cache_type GetNormCache() const {
-		return fNormCache;
+
+	/**
+	 * @brief Add pointers to the functor's parameters to a external list, that will be used later to
+	 * build the hydra::UserParameters instance that will be passed to ROOT::Minuit2.
+	 * @param user_parameters external std::vector<hydra::Parameter*> object holding the list of pointers
+	 * to functor parameters.
+	 */
+	inline	void AddUserParameters(std::vector<hydra::Parameter*>& user_parameters )
+	{
+		fFunctor.AddUserParameters(user_parameters );
 	}
 
-	__host__ inline
-	void SetNormCache(norm_cache_type normCache) {
-		fNormCache = normCache;
-	}
-*/
 
-	__host__ inline
-	void PrintRegisteredParameters()
+	/**
+	 * @brief Print all registered parameters, including its value, range, name etc.
+	 */
+	inline	void PrintRegisteredParameters()
 	{
 		HYDRA_CALLER ;
 		HYDRA_MSG << "Registered parameters begin:" << HYDRA_ENDL;
@@ -147,140 +185,176 @@ struct Pdf:detail::PdfBase<FUNCTOR, INTEGRATOR>
 		HYDRA_MSG << HYDRA_ENDL;
 	}
 
-	__host__ inline
-	void SetParameters(const std::vector<double>& parameters){
+	/**
+	 * @brief Set the parameters of the functor to the value informed by ROOT::Minuit2.
+	 * @param parameters std::vector<double> containing the list of parameters passed by ROOT::Minuit2.
+	 */
+	inline	void SetParameters(const std::vector<double>& parameters){
 
 		fFunctor.SetParameters(parameters);
-		UpdateNorm(parameters);
+
+		for(size_t i=0; i< FUNCTOR::parameter_count; i++){
+			fParameters[i]=fFunctor.GetParameter(i);
+			}
+
+
+		size_t key = detail::hash_range(fParameters.begin(),
+				fParameters.end());
+
+
+		auto search = fNormCache.find(key);
+		if (search != fNormCache.end() && fNormCache.size()>0) {
+
+			std::tie(fNorm, fNormError) = search->second;
+			/*
+			std::cout << ">>> Found cached norm key="<<key << std::endl;
+			std::cout << ">>> Parameters values: "<< std::endl;
+			for(size_t i=0; i< FUNCTOR::parameter_count; i++){
+				std::cout <<">>> [" << i << "]" << std::setprecision(10)<< fParameters[i] << std::endl;
+			}
+			*/
+		}
+		else {
+
+			std::tie(fNorm, fNormError) =  fIntegrator(fFunctor) ;
+			fNormCache[key] = std::make_pair(fNorm, fNormError);
+
+		}
+
+		fFunctor.SetNorm(1.0/fNorm);
 
 		return;
 	}
 
 
-	__host__ inline
-	void UpdateNorm( const std::vector<double>& parameters ) const
-	{
-
-		GReal_t value = EvalIntegral();
-		fNorm = value;
-		if (INFO >= hydra::Print::Level()){
-			std::ostringstream stringStream;
-			stringStream << "Setting fNorm to value " << fNorm ;
-			HYDRA_LOG(INFO, stringStream.str().c_str() )
-		}
-
-
-	}
-	__host__ __device__ inline
-	INTEGRATOR* GetIntegrator() const {
+	/**
+	 * @brief Get a reference to the integrator (functor or algorithm).
+	 * @return INTEGRATOR& .
+	 */
+	inline	INTEGRATOR& GetIntegrator() {
 		return fIntegrator;
 	}
 
-	__host__ inline
-	void SetIntegrator(INTEGRATOR* integrator) {
-		fIntegrator = integrator;
+	/**
+	 * @brief Get a constant reference to the integrator (functor or algorithm).
+	 * @return const INTEGRATOR& .
+	 */
+	inline  const 	INTEGRATOR& GetIntegrator() const {
+		return fIntegrator;
 	}
-	__host__ __device__ inline
-	FUNCTOR GetFunctor() const {
+
+	/**
+	 * @brief Get a constant reference to the functor describing the shape.
+	 * @return const FUNCTOR& .
+	 */
+	inline	const FUNCTOR& GetFunctor() const {
 		return fFunctor;
 	}
-	__host__ __device__ inline
-	void SetFunctor(FUNCTOR functor) {
-		fFunctor = functor;
-	}
-	__host__ __device__ inline
-	GReal_t GetNorm() const {
+
+	/**
+	 * @brief Get a reference to the functor describing the shape.
+	 * @return FUNCTOR& .
+	 */
+	inline	FUNCTOR& GetFunctor() {
+			return fFunctor;
+		}
+
+
+	/**
+	 * @brief Get norm of the hydra::Pdf.
+	 * @return the normalization factor.
+	 */
+	inline GReal_t GetNorm() const {
 		return fNorm;
 	}
-	__host__ __device__ inline
-	void SetNorm( GReal_t norm) {
-		fNorm = norm;
+
+	/**
+	 *  @brief Get the error on the norm of the hydra::Pdf.
+	 * @return Error the normalization factor.
+	 */
+	inline GReal_t GetNormError() const {
+			return fNormError;
 	}
 
+	/**
+	 * @brief Normalize PDF.
+	 *
+	 */
+	inline	void Normalize( )
+	{
+		std::tie(fNorm, fNormError )  =  fIntegrator(fFunctor) ;
+
+	}
+
+
+
+	/**
+	 * @brief Get cache table of normalization factors.
+	 * @return std::unordered_map<size_t,std::pair<GReal_t,GReal_t> > instance with the cache table.
+	 */
+	std::unordered_map<size_t,std::pair<GReal_t,GReal_t> >& GetNormCache() const
+	{
+		return fNormCache;
+	}
+
+	/**
+	 * @brief Evaluate the PDF on the tuple of arguments T1.
+	 * @param t Tuple of arguments.
+	 * @return
+	 */
  	template<typename T1>
-  	__host__ __device__ inline
-  	GReal_t operator()(T1&& t )
+ 	inline  GReal_t operator()(T1&& t )
   	{
-  		return fFunctor(t)/fNorm;
+  		return fFunctor(t);
 
   	}
 
+ 	/**
+ 	 * @brief Evaluate the PDF on the tuple T1 using the cache table T2.
+ 	 * @param t Tuple of arguments.
+ 	 * @param cache table of pre-calculated values.
+ 	 * @return
+ 	 */
   	template<typename T1, typename T2>
-  	__host__ __device__  inline
-  	GReal_t operator()( T1&& t, T2&& cache)
+  	inline  GReal_t operator()( T1&& t, T2&& cache)
   	{
 
-  		return fFunctor(t, cache)/fNorm;
+  		return fFunctor(t, cache);
   	}
 
-  	template<typename T>
-  	  	__host__ __device__ inline
-  	  GReal_t operator()( T* x, T* p)
-  	  	{
 
-  	  		return fFunctor(x,p)/fNorm;
-  	  	}
+   template<typename T>
+   inline  GReal_t operator()( T* x, T* p=0)
+  	{
+
+  	  		return fFunctor(x);
+  	}
 
 
 private:
 
-	__host__ inline
-	GReal_t EvalIntegral( ) const
-	{
-		 constexpr bool has_ana_integral =  detail::has_analytical_integral<
-				FUNCTOR, GReal_t(const GReal_t*,  const GReal_t*)>::value;
+  	std::array<GReal_t, FUNCTOR::parameter_count> fParameters;
+  	FUNCTOR fFunctor;
+  	INTEGRATOR fIntegrator;
+	GReal_t fNorm;
+	GReal_t fNormError;
+	mutable std::unordered_map<size_t, std::pair<GReal_t, GReal_t>> fNormCache;
 
-		if( has_ana_integral ){
-
-			return	this->EvalAnalyticIntegral<FUNCTOR>(fIntegrator->GetLimits().first,
-					fIntegrator->GetLimits().second );
-		}
-		else{
-
-			return	this->EvalNumericalIntegral();
-		}
-	}
-
-	__host__ inline
-	GReal_t EvalNumericalIntegral( ) const {
-
-		HYDRA_LOG(INFO, "Calculating integral numerically" )
-
-		fIntegrator->Integrate(fFunctor, 1);
-		return fIntegrator->GetResult();
-	}
-
-	template<typename U=FUNCTOR>
-	__host__ inline
-	typename thrust::detail::enable_if<
-	detail::has_analytical_integral<U, GReal_t(const GReal_t*,  const GReal_t*)>::value, GReal_t >::type
-	EvalAnalyticIntegral(const GReal_t* down,  const GReal_t* up) const{
-
-		HYDRA_LOG(INFO, "Calculating integral analytically. Calling ClientFunctor::AnalyticalIntegral( down, up )" )
-		return static_cast<U*>(this)->AnalyticalIntegral( down, up );
-	}
-
-	template<typename U=FUNCTOR>
-	__host__ inline
-	typename thrust::detail::enable_if<
-	!detail::has_analytical_integral<U, GReal_t(const GReal_t*,  const GReal_t*)>::value, GReal_t >::type
-	EvalAnalyticIntegral(const GReal_t*,  const GReal_t* ) const{
-		HYDRA_LOG(INFO, "ClientFunctor::AnalyticalIntegral( down, up ) not implemented. This message shoul never show up..." )
-		return 1.0;
-	}
-
-	mutable GReal_t fNorm;
-	FUNCTOR fFunctor;
-	INTEGRATOR* fIntegrator;
-	//norm_cache_type fNormCache;
 };
 
-//get pdf from functor expression
 
+/**
+ * @brief Build a hydra::Pdf given a shape described by a functor and a integrator
+ *  (algorithm or functor).
+ * @param functor shape.
+ * @param integrator algorithm or functor.
+ * @return a hydra::Pdf instance.
+ */
 template<typename FUNCTOR, typename INTEGRATOR>
-Pdf<FUNCTOR, INTEGRATOR > make_pdf( FUNCTOR const& functor,  INTEGRATOR* integrator	)
+Pdf<FUNCTOR, INTEGRATOR> make_pdf( FUNCTOR const& functor,  INTEGRATOR integrator)
 {
-	return Pdf<FUNCTOR, INTEGRATOR >(functor, integrator);
+
+	return Pdf<FUNCTOR, INTEGRATOR>(functor, integrator);
 }
 
 }//namespace hydra

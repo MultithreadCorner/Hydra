@@ -1,6 +1,6 @@
 /*----------------------------------------------------------------------------
  *
- *   Copyright (C) 2016 Antonio Augusto Alves Junior
+ *   Copyright (C) 2016 - 2017 Antonio Augusto Alves Junior
  *
  *   This file is part of Hydra Data Analysis Framework.
  *
@@ -28,15 +28,8 @@
  *      Author: Antonio Augusto Alves Junior
  */
 
-
-/**
- * \file
- * \ingroup phsp
- */
-
-
-#ifndef VECTOR3R_H_
-#define VECTOR3R_H_
+#ifndef _VECTOR3R_H_
+#define _VECTOR3R_H_
 
 
 #include <hydra/detail/Config.h>
@@ -44,11 +37,18 @@
 #include <iosfwd>
 #include <iostream>
 #include <math.h>
+#include <hydra/Collection.h>
 
 using std::ostream;
 
-namespace hydra
-{
+namespace hydra {
+
+/**
+ * @ingroup phsp
+ * @brief This class represents three-dimensional Euclidian vectors and implements common operation performed on it.
+ * This class is inspired on the corresponding EvtGen classes.
+ *
+ */
 class Vector3R
 {
 
@@ -71,9 +71,13 @@ class Vector3R
 			const Vector3R& v2);
 
 public:
-	__host__ __device__ inline Vector3R();
+	inline Vector3R()=default;
 	__host__ __device__ inline Vector3R(GReal_t x, GReal_t y, GReal_t z);
 	__host__ __device__ inline Vector3R(const Vector3R& other);
+	__host__ __device__ inline Vector3R(Vector3R&& other);
+	__host__ __device__ inline Vector3R& operator=(const Vector3R& other);
+	__host__ __device__ inline Vector3R& operator=(Vector3R&& other);
+	__host__ __device__ inline void swap(Vector3R& other);
 	__host__      __device__      inline Vector3R& operator*=(const GReal_t c);
 	__host__      __device__      inline Vector3R& operator/=(const GReal_t c);
 	__host__      __device__      inline Vector3R& operator+=(const Vector3R& v2);
@@ -92,8 +96,14 @@ private:
 
 	GReal_t v[3];
 
+	_DeclareStorable(Vector3R, v[0], v[1] , v[2])
 };
 
+__host__ __device__
+inline void swap(Vector3R& v1, Vector3R& v2)
+{
+	return v1.swap(v2);
+}
 
 
 __host__ __device__
@@ -156,7 +166,15 @@ inline Vector3R cross(const Vector3R& p1, const Vector3R& p2)
 
 }
 
+__host__ __device__
+inline Vector3R rotateEuler(const Vector3R& v,	GReal_t phi, GReal_t theta, GReal_t ksi)
+{
+	Vector3R vect(v);
+	vect.applyRotateEuler(phi, theta, ksi);
+	return vect;
 }
-#endif /* VECTOR3R_H_ */
+
+}// namespace hydra
+#endif /* _VECTOR3R_H_ */
 
 #include <hydra/detail/Vector3R.inl>

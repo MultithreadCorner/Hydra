@@ -1,6 +1,6 @@
 /*----------------------------------------------------------------------------
  *
- *   Copyright (C) 2016 Antonio Augusto Alves Junior
+ *   Copyright (C) 2016 - 2017 Antonio Augusto Alves Junior
  *
  *   This file is part of Hydra Data Analysis Framework.
  *
@@ -38,78 +38,90 @@
 #include <hydra/detail/Config.h>
 #include <hydra/Types.h>
 #include <hydra/detail/utility/Utility_Tuple.h>
-#include <thrust/tuple.h>
-#include <thrust/functional.h>
-#include <omp.h>
+#include <hydra/detail/external/thrust/tuple.h>
+#include <hydra/detail/external/thrust/functional.h>
+#include <hydra/detail/external/thrust/random.h>
+#include <hydra/VegasState.h>
 
 
 namespace hydra{
 
 namespace detail {
 
-
 struct ResultVegas
 {
+	GReal_t fN;
+    GReal_t fMean;
+    GReal_t fM2;
 
-	GReal_t integral;
-	GReal_t tss;
-
-	__host__ __device__
-	ResultVegas():
-	integral(0),
-	tss(0)
-	{}
 };
+
+
 
 struct ProcessBoxesVegas
-		:public thrust::binary_function< ResultVegas const&, ResultVegas const& , ResultVegas >
+		:public HYDRA_EXTERNAL_NS::thrust::binary_function< ResultVegas const&, ResultVegas const& , ResultVegas >
 {
 
-	__host__ __device__ inline
-	ResultVegas operator()(ResultVegas const& x, ResultVegas const& y)
-	{
-		ResultVegas result;
 
-		result.integral = x.integral + y.integral ;
-		result.tss      = x.tss + y.tss ;
+    __host__ __device__ inline
+    ResultVegas operator()(ResultVegas const& x, ResultVegas const& y)
+    {
+    	ResultVegas result;
 
-		return result;
+        GReal_t n  = x.fN + y.fN;
 
-	}
+        GReal_t delta  = y.fMean - x.fMean;
+        GReal_t delta2 = delta  * delta;
+
+        result.fN   = n;
+
+        //result.fMean = x.fMean + delta * y.fN / n;
+        result.fMean = (x.fMean*x.fN + y.fMean*y.fN)/n;
+        result.fM2   = x.fM2   +  y.fM2;
+        result.fM2  += delta2 * x.fN * y.fN / n;
+
+        return result;
+    }
+
 };
 
-template<typename FUNCTOR, size_t NDimensions, typename GRND=thrust::random::default_random_engine>
-struct ProcessCallsVegas
+
+template<typename FUNCTOR, size_t NDimensions, typename  BACKEND,
+typename IteratorBackendReal, typename IteratorBackendUInt,
+typename GRND=HYDRA_EXTERNAL_NS::thrust::random::default_random_engine>
+struct ProcessCallsVegas;
+
+template<typename FUNCTOR, size_t NDimensions,  hydra::detail::Backend  BACKEND,
+typename IteratorBackendReal, typename IteratorBackendUInt, typename GRND>
+struct ProcessCallsVegas<FUNCTOR,  NDimensions, hydra::detail::BackendPolicy<BACKEND>,
+IteratorBackendReal,  IteratorBackendUInt, GRND>
 {
-	ProcessCallsVegas( size_t NBins,
-			size_t NBoxes,
-			size_t NBoxesPerDimension,
-			size_t NCallsPerBox,
-			GReal_t Jacobian,
-			GInt_t Seed, /*GUInt_t* Bins,*/
-			GReal_t* Xi,
-			GReal_t* XLow,
-			GReal_t* DeltaX,
-			GFloat_t* Distribution/*FunctionCalls*/,
-			GInt_t Mode,
-			FUNCTOR const& functor):
-		fMode(Mode),
-		fSeed(Seed),
-		fNBins(NBins),
-		fNBoxes(NBoxes),
-		fNBoxesPerDimension(NBoxesPerDimension),
-		fNCallsPerBox(NCallsPerBox),
-		fJacobian(Jacobian),
-		fXi(Xi),
-		fXLow(XLow),
-		fDeltaX(DeltaX),
-		fDistribution(Distribution),
-		fFunctor(functor)
-	{}
+
+	typedef   ProcessCallsVegas<FUNCTOR,  NDimensions, hydra::detail::BackendPolicy<BACKEND>,
+			IteratorBackendReal,  IteratorBackendUInt, GRND> this_t;
+
+	typedef  hydra::VegasState<NDimensions,hydra::detail::BackendPolicy<BACKEND>> state_t;
+
+public :
+
+	ProcessCallsVegas( size_t NBoxes, state_t& fState,	IteratorBackendUInt begin_bins,
+			IteratorBackendReal begin_real,  FUNCTOR const& functor):
+				fNBoxes( NBoxes ),
+				fSeed(fState.GetItNum()),
+				fNBins(fState.GetNBins()),
+				fNBoxesPerDimension(fState.GetNBoxes()),
+				fNCallsPerBox(fState.GetCallsPerBox()),
+				fJacobian( fState.GetJacobian() ),
+				fXi(fState.GetBackendXi().begin() ),
+				fXLow( fState.GetBackendXLow().begin() ),
+				fDeltaX( fState.GetBackendDeltaX().begin() ),
+				fGlobalBin( begin_bins ),
+				fFVals( begin_real ),
+				fFunctor(functor)
+				{}
 
 	__host__ __device__
-	ProcessCallsVegas( ProcessCallsVegas<FUNCTOR,NDimensions, GRND> const& other):
-	fMode(other.fMode),
+	ProcessCallsVegas( this_t const& other):
 	fSeed(other.fSeed),
 	fNBins(other.fNBins),
 	fNBoxes(other.fNBoxes),
@@ -119,14 +131,11 @@ struct ProcessCallsVegas
 	fXi(other.fXi),
 	fXLow(other.fXLow),
 	fDeltaX(other.fDeltaX),
-	fDistribution(other.fDistribution),
+	fGlobalBin(other.fGlobalBin),
+	fFVals(other.fFVals),
 	fFunctor(other.fFunctor)
 	{}
 
-	__host__ __device__
-	~ProcessCallsVegas(){
-
-	};
 
 	__host__ __device__
 	inline GInt_t GetBoxCoordinate(GInt_t idx, GInt_t dim, GInt_t nboxes, GInt_t j)
@@ -144,93 +153,91 @@ struct ProcessCallsVegas
 		return _coordinate;
 	}
 
-	__host__ __device__
-	inline ResultVegas operator()( size_t box)
+	__host__   __device__ inline
+	size_t hash(size_t a, size_t b)
+	{
+		//Matthew Szudzik pairing
+		//http://szudzik.com/ElegantPairing.pdf
+
+		size_t  A = 2 * a ;
+		size_t  B = 2 * b ;
+		size_t  C = ((A >= B ? A * A + A + B : A + B * B) / 2);
+		return  C ;
+	}
+
+
+	__host__   __device__ inline
+	void get_point(const size_t  index, GReal_t &volume, GInt_t (&bin)[NDimensions], GReal_t (&x)[NDimensions] )
+	{
+
+		size_t box = index/fNCallsPerBox;
+
+		GRND randEng( hash(fSeed,index) );
+		//randEng.discard(index);
+		HYDRA_EXTERNAL_NS::thrust::uniform_real_distribution<GReal_t> uniDist(0.0, 1.0);
+
+		for (size_t j = 0; j < NDimensions; j++)
+		{
+			x[j] = uniDist(randEng);
+
+			GInt_t b = fNBoxesPerDimension > 1? GetBoxCoordinate(box, NDimensions, fNBoxesPerDimension, j):box;
+
+			GReal_t z = ((b + x[j]) / fNBoxesPerDimension) * fNBins;
+
+			GInt_t k = static_cast<GInt_t>(z);
+
+			GReal_t y = 0;
+			GReal_t bin_width = 0;
+
+			bin[j] = k;
+
+			bin_width = fXi[(k + 1)*NDimensions + j]
+			                - (k != 0) * fXi[k*NDimensions + j];
+
+			y = (k != 0) * fXi[k*NDimensions + j] + (z - k) * bin_width;
+
+			x[j] = fXLow[j] + y * fDeltaX[j];
+
+			volume *= bin_width;
+
+			//	printf("j=%d k=%d z=%f y=%f box=%f  x[j]=%f \n", j, k, z,y, double(b) ,  x[j] );
+
+
+	}
+
+	__host__ __device__ inline
+	size_t GetDistributionIndex(size_t index,  const GUInt_t dim) const
+	{ return index*NDimensions + dim; }
+
+	__host__ __device__ inline
+	GUInt_t GetDistributionKey( const GUInt_t bin, const GUInt_t dim) const
+	{ return bin * NDimensions + dim; }
+
+
+	__host__ __device__ inline
+	ResultVegas operator()( size_t index)
 	{
 
 		GReal_t volume = 1.0;
 		GReal_t x[NDimensions];
-		volatile GInt_t bin[NDimensions];
+		GInt_t bin[NDimensions];
 		ResultVegas result;
-		GRND randEng( fSeed+box);
-		thrust::uniform_real_distribution<GReal_t> uniDist(0.0, 1.0);
 
-		GReal_t m = 0, q = 0;
-		GReal_t f_sq_sum = 0.0;
+		get_point( index, volume, bin, x );
 
-		for (size_t call = 0; call < fNCallsPerBox; call++) {
+		GReal_t fval = fJacobian*volume*fFunctor( detail::arrayToTuple<GReal_t, NDimensions>(x));
 
-			for (size_t j = 0; j < NDimensions; j++) {
+		for (GUInt_t j = 0; j < NDimensions; j++)
+		{
 
-				x[j] = uniDist(randEng);
+		    fGlobalBin[ GetDistributionIndex(index, j ) ] = GetDistributionKey(bin[j], j);
+			fFVals[GetDistributionIndex(index, j )]=fval*fval;
 
-				GInt_t b = GetBoxCoordinate(box, NDimensions, fNBoxesPerDimension, j);
-
-				GReal_t z = ((b + x[j]) / fNBoxesPerDimension) * fNBins;
-
-				GInt_t k = static_cast<GInt_t>(z);
-
-				GReal_t y = 0;
-				GReal_t bin_width = 0;
-
-				bin[j] = k;
-
-				bin_width = fXi[(k + 1)*NDimensions + j]
-				                - (k != 0) * fXi[k*NDimensions + j];
-
-				y = (k != 0) * fXi[k*NDimensions + j] + (z - k) * bin_width;
-
-				x[j] = fXLow[j] + y * fDeltaX[j];
-
-				volume *= bin_width;
-			}
-
-			GReal_t fval = fJacobian*volume*fFunctor( detail::arrayToTuple<GReal_t, NDimensions>(x));
-			GReal_t d =  fval - m;
-			m += d / (call + 1.0);
-			q += d * d * (call / (call + 1.0));
-
-			if (fMode != MODE_STRATIFIED)
-			{
-				for (GUInt_t j = 0; j < NDimensions; j++) {
-#ifdef __CUDA_ARCH__
-
-#if __CUDA_ARCH__ >= 600
-					atomicAdd((fDistribution + bin[j]* NDimensions + j) ,  static_cast<double>(fval*fval));
-#else
-					atomicAdd((fDistribution + bin[j]* NDimensions + j) , static_cast<float>(fval*fval));
-#endif
-
-#else
-
-#pragma omp atomic
-					*(fDistribution  + bin[j]* NDimensions + j) += static_cast<double>(fval*fval);
-#endif
-				}
-			}
 		}
 
-		result.integral += m*fNCallsPerBox;
-		f_sq_sum = q*fNCallsPerBox;
-		result.tss += f_sq_sum;
-
-		if (fMode == MODE_STRATIFIED) {
-			for (GUInt_t j = 0; j < NDimensions; j++) {
-#ifdef __CUDA_ARCH__
-
-#if __CUDA_ARCH__ >= 600
-				atomicAdd((fDistribution + bin[j]*NDimensions+j), static_cast<double>(f_sq_sum));
-#else
-				atomicAdd((fDistribution + bin[j]*NDimensions+j), static_cast<float>(f_sq_sum));
-#endif
-
-#else
-
-#pragma omp atomic
-				*(fDistribution  + bin[j]* NDimensions + j) += static_cast<double>(f_sq_sum);
-#endif
-			}
-		}
+		result.fN    = 1.0;
+		result.fMean = fval;
+		result.fM2   = 0.0;
 
 		return result;
 
@@ -242,16 +249,17 @@ private:
 	size_t  fNBoxes;
 	size_t  fNBoxesPerDimension;
 	size_t  fNCallsPerBox;
-    GReal_t fJacobian;
-    GInt_t  fSeed ;
-    GInt_t fMode;
 
-   GReal_t* __restrict__ fXi;
-   GReal_t* __restrict__ fXLow;
-   GReal_t* __restrict__ fDeltaX;
-   GFloat_t*  __restrict__ fDistribution;
+	GReal_t fJacobian;
+	GInt_t  fSeed;
+	IteratorBackendUInt fGlobalBin;
+	IteratorBackendReal fFVals;
+	IteratorBackendReal  fXi;
+	IteratorBackendReal  fXLow;
+	IteratorBackendReal  fDeltaX;
 
-    FUNCTOR fFunctor;
+	FUNCTOR fFunctor;
+
 
 };
 

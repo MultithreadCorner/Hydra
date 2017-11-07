@@ -1,6 +1,6 @@
 /*----------------------------------------------------------------------------
  *
- *   Copyright (C) 2016 Antonio Augusto Alves Junior
+ *   Copyright (C) 2016 - 2017 Antonio Augusto Alves Junior
  *
  *   This file is part of Hydra Data Analysis Framework.
  *
@@ -26,121 +26,112 @@
  *      Author: Antonio Augusto Alves Junior
  */
 
-/**
- * \file
- * \ingroup numerical_integration
- */
 
 #ifndef VEGAS_H_
 #define VEGAS_H_
 
-
-#include "boost/format.hpp"
+#include <iostream>
 
 #include <hydra/detail/Config.h>
+#include <hydra/detail/BackendPolicy.h>
 #include <hydra/Types.h>
 #include <hydra/VegasState.h>
 #include <hydra/detail/functors/ProcessCallsVegas.h>
 #include <hydra/detail/Integrator.h>
+#include <utility>
 
-
-using boost::format;
+#include <hydra/detail/external/thrust/random.h>
 
 namespace hydra {
 
+template<size_t N, typename  BACKEND,  typename GRND=HYDRA_EXTERNAL_NS::thrust::random::default_random_engine >
+class Vegas ;
+
+/**
+ * @ingroup numerical_integration
+ * @brief Class to perform numerical integration using Vegas algorithm.
+ *
+ *  The VEGAS algorithm of Lepage is based on importance sampling.
+ *  It samples points from the probability distribution described by the
+ *  function |f|, so that the points are concentrated in the regions that
+ *  make the largest contribution to the integral.
+ *
+ *  *Find a more complete documentation* [here](https://www.gnu.org/software/gsl/doc/html/montecarlo.html#vegas) .
+ *
+ */
+template<size_t N,  hydra::detail::Backend  BACKEND,  typename GRND>
+class Vegas<N, hydra::detail::BackendPolicy<BACKEND>, GRND >
+: public Integrator<Vegas<N,hydra::detail::BackendPolicy<BACKEND>,GRND>>
+{
+	typedef hydra::detail::BackendPolicy<BACKEND> system_t;
+	typedef typename system_t::template container<GReal_t>  rvector_backend;
+	typedef typename system_t::template container<GUInt_t>  uvector_backend;
+
+	typedef typename rvector_backend::iterator rvector_iterator;
+	typedef typename uvector_backend::iterator uvector_iterator;
 
 
-template<size_t N, typename GRND=thrust::random::default_random_engine >
-class Vegas : public Integrator<Vegas<N,GRND>, N>{
 public:
+
+
+	/**
+	 * @brief Hydra integrator tag
+	 */
+	typedef void hydra_integrator_tag;
 
 	Vegas()=delete;
 
-	/**
-	 *\brief Vegas ctor taking the region of integration and the number of calls
-	 * Look the documentation of VegasState to see the state parameters initialization
-	 */
-	Vegas(std::array<GReal_t,N> const& xlower,
-			std::array<GReal_t,N> const& xupper, size_t calls);
+	Vegas(std::array<GReal_t,N> const& xlower,	std::array<GReal_t,N> const& xupper, size_t ncalls):
+		Integrator<Vegas<N, hydra::detail::BackendPolicy<BACKEND>,GRND>>(),
+		fState(xlower,xupper)
+		{
+		fState.SetCalls(ncalls);
+		}
 
-	/**
-	 *\brief Vegas ctor taking a VegasState object and the number of calls
-	 * Look the documentation of VegasState to see how to set the state parameters
-	 */
-	Vegas(VegasState<N> const& state, size_t calls);
 
-	/**
-	 *\brief Vegas copy-ctor
-	 */
-	template<typename GRND2>
-	Vegas( Vegas<N, GRND2> const& other):
-		fNCalls(other.GetNCalls()),
-		fResult(other.GetResult()),
-		fAbsError(other.GetAbsError()),
-		fState(other.GetState())
+		Vegas(VegasState<N, hydra::detail::BackendPolicy<BACKEND>> const& state):
+		Integrator<Vegas<N, hydra::detail::BackendPolicy<BACKEND>,GRND>>(),
+		fState(state)
+		{}
+
+
+	template< hydra::detail::Backend  BACKEND2, typename GRND2>
+	Vegas( Vegas< N, hydra::detail::BackendPolicy<BACKEND2>, GRND2> const& other):
+	Integrator<Vegas<N, hydra::detail::BackendPolicy<BACKEND>,GRND>>(),
+	fState(other.GetState())
 	{}
 
-	/**
-	 *\brief Integrate the functor in the volume defined in construction time.
-	 *\param functor: integrand.
-	 *\param reset: reset the integrator state between calls,
-	 * it is the desiderable behavior of the integrator in during fits.
-	 */
-	template<typename FUNCTOR >
-	GInt_t Integrate(FUNCTOR const& functor, GBool_t reset=kTrue);
-	void PrintLimits() const;
-	void PrintHead() const;
+
+	void PrintLimits()  ;
+	void PrintHead()   ;
+	void PrintDistribution()  ;
+	void PrintGrid()  ;
+
 	void PrintResults(GReal_t integral, GReal_t sigma,
 			GReal_t cumulated_integral, GReal_t cumulated_sigma,
-			GReal_t time) const;
-	void PrintDistribution() const;
-	void PrintGrid() const;
+			GReal_t time) ;
 
-	inline GReal_t GetAbsError() const {
-		return fAbsError;
-	}
-
-	inline void SetAbsError(GReal_t absError) {
-		fAbsError = absError;
-	}
-
-	inline size_t GetNCalls() const {
-		return fNCalls;
-	}
-
-	inline void SetNCalls(size_t nCalls) {
-		fNCalls = nCalls;
-	}
-
-
-	inline GReal_t GetResult() const {
-		return fResult;
-	}
-
-	inline void SetResult(GReal_t result) {
-		fResult = result;
-	}
-
-	inline VegasState<N>& GetState()  {
+	VegasState<N,hydra::detail::BackendPolicy<BACKEND>>& GetState()  {
 		return fState;
 	}
 
-	inline void SetState(const VegasState<N>* state) {
+	VegasState<N,hydra::detail::BackendPolicy<BACKEND>> const& GetState() const {
+			return fState;
+		}
+
+	void SetState(VegasState<N,hydra::detail::BackendPolicy<BACKEND>> const& state) {
 		fState = state;
 	}
 
-	__host__
-		inline const GReal_t* GetLowerLimit() const {
-			return fState.GetXLow().data();
-		}
-
-	__host__
-	inline const GReal_t* GetUpperLimit() const {
-		return fState.GetXUp().data();
-	}
-
+	template<typename FUNCTOR>
+	std::pair<GReal_t, GReal_t> Integrate(FUNCTOR const& fFunctor);
 
 private:
+
+
+
+	template<typename FUNCTOR>
+	std::pair<GReal_t, GReal_t> IntegIterator(FUNCTOR const& functor, GBool_t training);
 
 	void InitGrid();
 	void ResetGridValues();
@@ -148,8 +139,9 @@ private:
 
 	void ResizeGrid(const GInt_t bins);
 	void RefineGrid();
-	template<typename FUNCTOR >
-	void ProcessFuncionCalls(FUNCTOR const& functor, GReal_t& integral, GReal_t& tss);
+
+	template<typename FUNCTOR>
+	void ProcessFuncionCalls(FUNCTOR const& functor, GBool_t training,GReal_t& integral, GReal_t& tss);
 
 
 	inline GReal_t GetCoordinate(const GUInt_t i, const GUInt_t j) const {
@@ -177,14 +169,15 @@ private:
 		fState.SetDistribution(i * N + j, x);
 	}
 
-
-	size_t fNCalls;
-	GReal_t fResult;
-	GReal_t fAbsError;
-	VegasState<N> fState;
+	VegasState<N,hydra::detail::BackendPolicy<BACKEND>> fState;
+	rvector_backend fFValInput;
+	uvector_backend fGlobalBinInput;
+	rvector_backend fFValOutput;
+	uvector_backend fGlobalBinOutput;
 };
 
 }
 
 #include <hydra/detail/Vegas.inl>
+
 #endif /* VEGAS_H_ */

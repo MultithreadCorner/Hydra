@@ -1,6 +1,6 @@
 /*----------------------------------------------------------------------------
  *
- *   Copyright (C) 2016 Antonio Augusto Alves Junior
+ *   Copyright (C) 2016 - 2017 Antonio Augusto Alves Junior
  *
  *   This file is part of Hydra Data Analysis Framework.
  *
@@ -41,7 +41,7 @@
 #include <hydra/detail/utility/Generic.h>
 #include <hydra/detail/TypeTraits.h>
 
-#include <thrust/tuple.h>
+#include <hydra/detail/external/thrust/tuple.h>
 
 namespace hydra {
 

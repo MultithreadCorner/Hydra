@@ -1,6 +1,6 @@
 /*----------------------------------------------------------------------------
  *
- *   Copyright (C) 2016 Antonio Augusto Alves Junior
+ *   Copyright (C) 2016 - 2017 Antonio Augusto Alves Junior
  *
  *   This file is part of Hydra Data Analysis Framework.
  *
@@ -27,8 +27,9 @@
  */
 
 /**
- * \file
- * \ingroup generic
+ * @file
+ * @ingroup generic
+ * @brief Common and useful typedefs
  */
 
 #ifndef TYPES_H_
@@ -36,7 +37,7 @@
 
 namespace hydra
 {
-//---- types -------------------------------------------------------------------
+//---- POD types -------------------------------------------------------------------
 
 typedef char GChar_t;      ///< Signed Character 1 byte (char)
 typedef unsigned char GUChar_t;  ///< Unsigned Character 1 byte (unsigned char)
@@ -54,11 +55,13 @@ typedef bool GBool_t;      ///< Boolean (0=false, 1=true) (bool)
 typedef unsigned char GByte_t;      ///< Byte (8 bits) (unsigned char)
 typedef long long GLong64_t; ///< Portable signed long integer 8 bytes
 typedef unsigned long long GULong64_t; ///< Portable unsigned long integer 8 bytes
+
 #ifdef FP_SINGLE
 typedef float GReal_t;///< Double 8 bytes or float 4 bytes
 #else
-typedef double GReal_t;///< Double 8 bytes or float 4 bytes
+typedef double GReal_t;///< Double 16 bytes or float 4 bytes
 #endif
+
 
 //---- constants ---------------------------------------------------------------
 
@@ -69,15 +72,11 @@ typedef double GReal_t;///< Double 8 bytes or float 4 bytes
 const GBool_t kTrue = true;
 const GBool_t kFalse = false;
 
-
-#define kMAXP  20
 #define PI     3.1415926535897932384626422832795028841971
 
 struct null_type
 {};
 
-
-enum {	device=1, host=0 };
 
 }
 #endif /* TYPES_H_ */

@@ -1,6 +1,6 @@
 /*----------------------------------------------------------------------------
  *
- *   Copyright (C) 2016 Antonio Augusto Alves Junior
+ *   Copyright (C) 2016 - 2017 Antonio Augusto Alves Junior
  *
  *   This file is part of Hydra Data Analysis Framework.
  *
@@ -26,15 +26,6 @@
  *      Author: Antonio Augusto Alves Junior
  */
 
-/**
- * \file
- * \ingroup fit
- */
-
-/**
- * \file
- * \ingroup generic
- */
 
 #ifndef PARAMETER_H_
 #define PARAMETER_H_
@@ -48,8 +39,32 @@
 
 namespace hydra {
 
+/**
+ *  @ingroup fit, generic
+ *  @brief This class represents named parameters that hold information of value, error, limits and implements the interface with ROOT::Minuit2.
+ *
+ *  hydra::Parameter instances are constructible, assignable and copiable in all backends, and because that the storage to hold the name
+ *  needs be managed by the user (ex. no std::string support in CUDA).
+ *  hydra::Parameter overloads the GReal_t operator()() and the arithmetic operators.
+ *  hydra::Parameter instances can be constructed using named parameter semantic or parameter list semantic:
+ @code{cpp}
+    //using named parameter idiom
+	Parameter  mean   = Parameter::Create()
+								 .Name(name)
+								 .Value(3.0)
+								 .Error(0.000)
+								 .Limits(1.0, 4.0)
+								 ;
 
+	//using unnamed parameter idiom
+	Parameter  mean(name, 3.0, 0.000, 1.0, 4.0);
+
+ @endcode
+ *
+ *
+ */
 struct Parameter{
+
 
 	__host__ __device__
 	Parameter():
@@ -58,10 +73,25 @@ struct Parameter{
 	fError(detail::TypeTraits<GReal_t>::invalid()),
 	fLowerLim(detail::TypeTraits<GReal_t>::invalid()),
 	fUpperLim(detail::TypeTraits<GReal_t>::invalid()),
-	fIndex(detail::TypeTraits<GReal_t>::invalid()),
+	fIndex(detail::TypeTraits<GInt_t>::invalid()),
 	fLimited(0),
     fHasError(0)
 	{}
+
+
+	__host__ __device__
+	Parameter(GReal_t value):
+	fName(const_cast<GChar_t*>("")),
+	fValue(value),
+	fError(detail::TypeTraits<GReal_t>::zero()),
+	fLowerLim(detail::TypeTraits<GReal_t>::zero()),
+	fUpperLim(detail::TypeTraits<GReal_t>::zero()),
+	fIndex(detail::TypeTraits<GInt_t>::invalid()),
+	fLimited(0),
+	fHasError(0)
+	{}
+
+
 
 
 	Parameter(std::string const& name, GReal_t value, GReal_t error, GReal_t downlim, GReal_t uplim):
@@ -70,7 +100,7 @@ struct Parameter{
 	fError(error),
 	fLowerLim(downlim),
 	fUpperLim(uplim),
-	fIndex(detail::TypeTraits<GReal_t>::invalid()),
+	fIndex(detail::TypeTraits<GInt_t>::invalid()),
 	fLimited(1),
 	fHasError(1)
 	{ }
@@ -81,11 +111,21 @@ struct Parameter{
 		fError(error),
 		fLowerLim(detail::TypeTraits<GReal_t>::invalid()),
 		fUpperLim(detail::TypeTraits<GReal_t>::invalid()),
-		fIndex(detail::TypeTraits<GReal_t>::invalid()),
+		fIndex(detail::TypeTraits<GInt_t>::invalid()),
 		fLimited(0),
 		fHasError(1)
 	{ }
 
+	Parameter(GChar_t *name, GReal_t value, GReal_t error):
+			fName(name),
+			fValue(value),
+			fError(error),
+			fLowerLim(detail::TypeTraits<GReal_t>::invalid()),
+			fUpperLim(detail::TypeTraits<GReal_t>::invalid()),
+			fIndex(detail::TypeTraits<GInt_t>::invalid()),
+			fLimited(0),
+			fHasError(1)
+		{ }
 
 	Parameter(std::string const& name, GReal_t value):
 		fName(const_cast<GChar_t*>(name.data())),
@@ -93,7 +133,7 @@ struct Parameter{
 		fError(detail::TypeTraits<GReal_t>::invalid()),
 		fLowerLim(detail::TypeTraits<GReal_t>::invalid()),
 		fUpperLim(detail::TypeTraits<GReal_t>::invalid()),
-		fIndex(detail::TypeTraits<GReal_t>::invalid()),
+		fIndex(detail::TypeTraits<GInt_t>::invalid()),
 		fLimited(0),
 		fHasError(0)
 	{ }
@@ -213,6 +253,11 @@ struct Parameter{
 	}
 
 	__host__ __device__
+	inline GReal_t operator()() const {
+			return this->fValue;
+		}
+
+	__host__ __device__
 	inline GReal_t GetLowerLim() const {
 		return fLowerLim;
 	}
@@ -275,7 +320,7 @@ struct Parameter{
 	__host__ inline
 	void Reset(const std::vector<double>& parameters)
 	{
-		if(fIndex <0) return;
+		//if(fIndex <0) return;
 		fValue=parameters[fIndex];
 	}
 
@@ -313,6 +358,9 @@ struct Parameter{
 	__host__ __device__
 	inline operator GReal_t() { return fValue; }
 
+	__host__ __device__
+	inline operator GReal_t() const { return fValue; }
+
 
 	__host__
 	static Parameter Create() {
@@ -349,16 +397,19 @@ struct Parameter{
 private:
 
 	GChar_t* fName;
-	GReal_t fValue;
-	GReal_t fError;
-	GReal_t fUpperLim;
-	GReal_t fLowerLim;
-	GInt_t  fIndex;
-	GBool_t fLimited;
-	GBool_t fHasError;
+	GReal_t  fValue;
+	GReal_t  fError;
+	GReal_t  fLowerLim;
+	GReal_t  fUpperLim;
+	GUInt_t  fIndex;
+	GBool_t  fLimited;
+	GBool_t  fHasError;
 
 };
 
+/*
+ * addition
+ */
 __host__ __device__
 inline Parameter operator+(Parameter par1, Parameter const& par2)
 {
@@ -368,7 +419,19 @@ inline Parameter operator+(Parameter par1, Parameter const& par2)
 }
 
 __host__ __device__
-inline Parameter operator-(Parameter par1, Parameter const& par2)
+inline GReal_t operator+(Parameter par1, GReal_t par2)
+{
+		par1  += par2;
+
+		return par1;
+}
+
+
+/*
+ * subtraction
+ */
+__host__ __device__
+inline Parameter operator-(Parameter par1, Parameter const&  par2)
 {
 		par1  -= par2;
 
@@ -376,15 +439,63 @@ inline Parameter operator-(Parameter par1, Parameter const& par2)
 }
 
 __host__ __device__
-inline Parameter operator*(Parameter par1, Parameter const& par2)
+inline GReal_t operator-(Parameter par1, GReal_t  par2)
+{
+		par1  -= par2;
+
+		return par1;
+}
+
+__host__ __device__
+inline GReal_t operator-(GReal_t par1, Parameter  par2)
+{
+		par1  -= par2;
+
+		return par1;
+}
+
+/*
+ * multiplication
+ */
+__host__ __device__
+inline Parameter operator*(Parameter par1, Parameter const&  par2)
 {
 		par1  *= par2;
 
 		return par1;
 }
 
+
 __host__ __device__
-inline Parameter operator/(Parameter par1, Parameter const& par2)
+inline GReal_t operator*(Parameter par1, GReal_t  par2)
+{
+		par1  *= par2;
+
+		return par1;
+}
+
+/*
+ * division
+ */
+__host__ __device__
+inline Parameter operator/(Parameter par1, Parameter const par2)
+{
+		par1  /= par2;
+
+		return par1;
+}
+
+__host__ __device__
+inline GReal_t operator/(Parameter par1, GReal_t par2)
+{
+		par1  /= par2;
+
+		return par1;
+}
+
+
+__host__ __device__
+inline GReal_t operator/( GReal_t par1, Parameter par2 )
 {
 		par1  /= par2;
 
@@ -394,7 +505,7 @@ inline Parameter operator/(Parameter par1, Parameter const& par2)
 
 
 __host__
-std::ostream& operator<<(std::ostream& os, Parameter const& var){
+inline std::ostream& operator<<(std::ostream& os, Parameter const& var){
 
 	return os<< "Hydra::Variable: "<< var.GetName()  << "[ " << var.GetValue()
 			 << ", " << var.GetError() << ", " << var.GetLowerLim()

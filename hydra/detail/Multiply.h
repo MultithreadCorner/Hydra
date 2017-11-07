@@ -1,6 +1,6 @@
 /*----------------------------------------------------------------------------
  *
- *   Copyright (C) 2016 Antonio Augusto Alves Junior
+ *   Copyright (C) 2016 - 2017 Antonio Augusto Alves Junior
  *
  *   This file is part of Hydra Data Analysis Framework.
  *
@@ -47,8 +47,8 @@
 #include <hydra/detail/base_functor.h>
 #include <hydra/detail/Constant.h>
 #include <hydra/detail/Argument.h>
-
-#include <thrust/tuple.h>
+#include <hydra/Parameter.h>
+#include <hydra/detail/external/thrust/tuple.h>
 
 namespace hydra {
 
@@ -60,7 +60,7 @@ struct  Multiply
 	typedef void hydra_functor_tag;
 	typedef   std::true_type is_functor;
 	typedef typename detail::multiply_result<typename F1::return_type ,typename  F2::return_type,typename  Fs::return_type...>::type  return_type;
-	typedef typename thrust::tuple<F1, F2, Fs...> functors_type;
+	typedef typename HYDRA_EXTERNAL_NS::thrust::tuple<F1, F2, Fs...> functors_type;
 
 	__host__
 	Multiply():
@@ -72,7 +72,7 @@ struct  Multiply
 	Multiply(F1 const& f1, F2 const& f2, Fs const&... functors ):
 	fIndex(-1),
 	fCached(0),
-  	fFtorTuple(thrust::make_tuple(f1, f2, functors ...))
+  	fFtorTuple(HYDRA_EXTERNAL_NS::thrust::make_tuple(f1, f2, functors ...))
   	{ }
 
 	__host__ __device__
@@ -91,7 +91,11 @@ struct  Multiply
 		return *this;
 	}
 
-
+	__host__ inline
+	void AddUserParameters(std::vector<hydra::Parameter*>& user_parameters )
+	{
+		detail::add_parameters_in_tuple(user_parameters, fFtorTuple );
+	}
 
 	__host__ inline
 	void SetParameters(const std::vector<double>& parameters){
@@ -156,22 +160,22 @@ template <typename T1, typename T2,
 typename=typename std::enable_if< T1::is_functor::value && T2::is_functor::value>::type >
 __host__  inline
 Multiply<T1,T2>
-operator*(T1 const& F1, T2 const& F2){return  Multiply<T1, T2>(F1, F2); };
+operator*(T1 const& F1, T2 const& F2){return  Multiply<T1, T2>(F1, F2); }
 
 template <typename T1, typename T2,
 typename=typename std::enable_if< (std::is_convertible<T1, double>::value ||\
-		std::is_constructible<thrust::complex<double>,T1>::value) && T2::is_functor::value>::type >
+		std::is_constructible<HYDRA_EXTERNAL_NS::thrust::complex<double>,T1>::value) && T2::is_functor::value>::type >
 __host__  inline
 Multiply<Constant<T1>, T2>
-operator*(T1 const cte, T2 const& F2){ return  Constant<T1>(cte)*F2; };
+operator*(T1 const cte, T2 const& F2){ return  Constant<T1>(cte)*F2; }
 
 
 template <typename T1, typename T2,
 typename=typename std::enable_if< (std::is_convertible<T1, double>::value ||\
-		std::is_constructible<thrust::complex<double>,T1>::value) && T2::is_functor::value>::type >
+		std::is_constructible<HYDRA_EXTERNAL_NS::thrust::complex<double>,T1>::value) && T2::is_functor::value>::type >
 __host__  inline
 Multiply<Constant<T1>, T2>
-operator*(T2 const& F2, T1 const cte ){	return  Constant<T1>(cte)*F2; };
+operator*(T2 const& F2, T1 const cte ){	return  Constant<T1>(cte)*F2; }
 
 
 // Convenience function
@@ -179,7 +183,7 @@ template <typename F1, typename F2, typename ...Fs>
 __host__  inline
 Multiply<F1,F2,Fs...>
 multiply(F1 const& f1, F2 const& f2, Fs const&... functors )
-{ return  Multiply<F1,F2,Fs...>(f1,f2, functors ... ); };
+{ return  Multiply<F1,F2,Fs...>(f1,f2, functors ... ); }
 
 
 }

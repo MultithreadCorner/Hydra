@@ -1,6 +1,6 @@
 /*----------------------------------------------------------------------------
  *
- *   Copyright (C) 2016 Antonio Augusto Alves Junior
+ *   Copyright (C) 2016 - 2017 Antonio Augusto Alves Junior
  *
  *   This file is part of Hydra Data Analysis Framework.
  *
@@ -26,10 +26,14 @@
  *      Author: Antonio Augusto Alves Junior
  */
 
+
 /**
- * \file
- * \ingroup functor
+ * @file
+ * @ingroup functor
+ * @brief This file should be included in order to enable functor aritmethic in hydra.
+ *
  */
+
 
 
 #ifndef FUNCTORARITHMETIC_H_

@@ -1,6 +1,6 @@
 /*----------------------------------------------------------------------------
  *
- *   Copyright (C) 2016 Antonio Augusto Alves Junior
+ *   Copyright (C) 2016 - 2017 Antonio Augusto Alves Junior
  *
  *   This file is part of Hydra Data Analysis Framework.
  *
@@ -26,49 +26,28 @@
  *      Author: Antonio Augusto Alves Junior
  */
 
-/**
- * \file
- * \ingroup generic
- */
 
 #ifndef COPY_H_
 #define COPY_H_
 
 #include <hydra/detail/Config.h>
+#include <hydra/detail/BackendPolicy.h>
 #include <hydra/Types.h>
-#include <hydra/Containers.h>
-#include <hydra/detail/TypeTraits.h>
-
-#include <thrust/device_vector.h>
-#include <thrust/host_vector.h>
-
-#include <type_traits>
-#include <vector>
+#include <hydra/detail/external/thrust/copy.h>
 
 namespace hydra {
 
-namespace detail {
-
-template<template<typename...> class CONTAINER, typename T,  unsigned int BACKEND>
-struct copy_type{
-
-	typedef detail::BackendTraits<BACKEND> system_t;
-	typedef typename system_t::template container<T> type;
-};
-
-}  // namespace detail
-
-template<unsigned int BACKEND, template<typename...> class CONTAINER, typename T, typename ...Ts >
-auto get_copy(CONTAINER<T, Ts...>& other )
-->typename  std::enable_if<
-detail::is_specialization< CONTAINER<T, Ts...>, thrust::host_vector>::value ||
-detail::is_specialization<CONTAINER<T, Ts...>, thrust::device_vector >::value ||
-detail::is_specialization<CONTAINER<T, Ts...>, std::vector >::value,
-typename detail::copy_type<CONTAINER, T, BACKEND>::type
->::type
+template<typename InputIterator, typename OutputIterator>
+OutputIterator copy(InputIterator first, InputIterator last, OutputIterator result)
 {
-	typedef typename detail::copy_type<CONTAINER, T, BACKEND>::type vector_t;
-	return 	vector_t(other);
+	return HYDRA_EXTERNAL_NS::thrust::copy(first, last, result);
+}
+
+template<detail::Backend Backend, typename InputIterator, typename OutputIterator>
+OutputIterator copy(hydra::detail::BackendPolicy<Backend> const& policy, InputIterator first,
+		InputIterator last, OutputIterator result)
+{
+	return HYDRA_EXTERNAL_NS::thrust::copy( policy, first, last, result);
 }
 
 }  // namespace hydra

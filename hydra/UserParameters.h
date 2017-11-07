@@ -1,6 +1,6 @@
 /*----------------------------------------------------------------------------
  *
- *   Copyright (C) 2016 Antonio Augusto Alves Junior
+ *   Copyright (C) 2016 - 2017 Antonio Augusto Alves Junior
  *
  *   This file is part of Hydra Data Analysis Framework.
  *
@@ -62,11 +62,11 @@ public:
 
 	UserParameters():
 		fMnState(new ROOT::Minuit2::MnUserParameters()),
-		fVariables( std::vector<hydra::Parameter*> ())
+		fVariables( std::vector<Parameter*> ())
 	{ }
 
 	UserParameters( UserParameters const& other):
-		fMnState( new ROOT::Minuit2::MnUserParameters(*other.GetStatePtr())),
+		fMnState( new ROOT::Minuit2::MnUserParameters(*other.GetMnStatePtr())),
 		fVariables(other.GetVariables())
 	{	}
 
@@ -75,7 +75,7 @@ public:
 		if(this ==&other) return *this;
 
 		std::unique_ptr<ROOT::Minuit2::MnUserParameters>
-		temp(new ROOT::Minuit2::MnUserParameters(*other.GetStatePtr()));
+		temp(new ROOT::Minuit2::MnUserParameters(*other.GetMnStatePtr()));
 
 		this->fMnState.swap(temp) ;
 		this->fVariables = other.GetVariables();
@@ -83,7 +83,7 @@ public:
 	}
 
 
-	void AddParameter( hydra::Parameter* param )
+	void AddParameter( Parameter* param, GBool_t update_size=1 )
 	{
 		if(param->HasError() && param->IsLimited()){
 			fMnState->Add(param->GetName(), param->GetValue(),
@@ -100,15 +100,17 @@ public:
 
 		param->SetIndex( fMnState->Index( param->GetName()) );
 
-		fVariables.push_back(param);
+		if( update_size)fVariables.push_back(param);
 
 	}
+
+
 
 
 	void UpdateParameters(ROOT::Minuit2::FunctionMinimum const& minimum )
 	{
 		auto optimized_parameters =  minimum.UserParameters();
-		for(hydra::Parameter* param: fVariables){
+		for(Parameter* param: fVariables){
 			param->SetValue( optimized_parameters.Value(param->GetName()));
 			param->SetError( optimized_parameters.Error(param->GetName()));
 		}
@@ -121,7 +123,7 @@ public:
 
 		std::string name = minos_error.LowerState().Name( minos_error.Parameter());
 		auto parameter = std::find_if(fVariables.begin(), fVariables.end(),
-				[&](hydra::Parameter* const p) { return std::string(p->GetName()) == name; } );
+				[&](Parameter* const p) { return std::string(p->GetName()) == name; } );
 
 		if (parameter == std::end(fVariables)) {
 			HYDRA_LOG(WARNING, " Parameter :"<< name << " not found. Limits not set.\n\n")
@@ -152,34 +154,40 @@ public:
 	}
 
 	void PrintMinuitParameters(){
-		std::cout<< this->GetState() << std::endl;
+		std::cout<< this->GetMnState() << std::endl;
 		return;
 	}
 
-	const std::vector<hydra::Parameter* >& GetVariables() const {
+	const std::vector<Parameter* >& GetVariables() const {
 		return fVariables;
 	}
 
-	void SetVariables(const std::vector<hydra::Parameter*>& variables) {
+	void SetVariables(const std::vector<Parameter*>& variables)
+	{
 		fVariables = variables;
+		std::unique_ptr<ROOT::Minuit2::MnUserParameters>
+				temp(new ROOT::Minuit2::MnUserParameters());
+		this->fMnState.swap(temp) ;
+		for(size_t i=0; i < fVariables.size(); i++)
+			this->AddParameter( fVariables[i], 0);
 	}
 
-	const ROOT::Minuit2::MnUserParameters& GetState() const
+	const ROOT::Minuit2::MnUserParameters& GetMnState() const
 	{
 		return *fMnState;
 	}
 
-	ROOT::Minuit2::MnUserParameters& GetState()
+	ROOT::Minuit2::MnUserParameters& GetMnState()
 	{
 		return *fMnState;
 	}
 
-	const std::unique_ptr<ROOT::Minuit2::MnUserParameters>& GetStatePtr() const
+	const std::unique_ptr<ROOT::Minuit2::MnUserParameters>& GetMnStatePtr() const
 	{
 		return fMnState;
 	}
 
-	void SetState( ROOT::Minuit2::MnUserParameters const& state)
+	void SetMnState( ROOT::Minuit2::MnUserParameters const& state)
 	{
 		std::unique_ptr<ROOT::Minuit2::MnUserParameters>
 		temp(new ROOT::Minuit2::MnUserParameters(state ));
@@ -190,17 +198,18 @@ public:
 
 
 private:
-	std::vector<hydra::Parameter*> fVariables;
+	std::vector<Parameter*> fVariables;
     std::unique_ptr<ROOT::Minuit2::MnUserParameters> fMnState;
 
 };
 
+/*
 __host__
 std::ostream& operator<<(std::ostream& os, UserParameters const& par){
 
-	return os << par.GetState() ;
+	return os << par.GetMnState() ;
 }
-
+*/
 
 }  // namespace hydra
 

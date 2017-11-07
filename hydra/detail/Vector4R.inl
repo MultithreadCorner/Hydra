@@ -1,6 +1,6 @@
 /*----------------------------------------------------------------------------
  *
- *   Copyright (C) 2016 Antonio Augusto Alves Junior
+ *   Copyright (C) 2016 - 2017 Antonio Augusto Alves Junior
  *
  *   This file is part of Hydra Data Analysis Framework.
  *
@@ -26,22 +26,10 @@
  *      Author: Antonio Augusto Alves Junior
  */
 
-#ifndef VECTOR4R_INL_
-#define VECTOR4R_INL_
+#ifndef _VECTOR4R_INL_
+#define _VECTOR4R_INL_
 
-namespace hydra
-{
-__host__ __device__
-inline Vector4R& Vector4R::operator=(const Vector4R& v2)
-{
-
-	v[0] = v2.get(0);
-	v[1] = v2.get(1);
-	v[2] = v2.get(2);
-	v[3] = v2.get(3);
-
-	return *this;
-}
+namespace hydra {
 __host__ __device__
 inline Vector4R& Vector4R::operator+=(const Vector4R& v2)
 {
@@ -129,14 +117,7 @@ __host__ __device__ inline void Vector4R::set(GReal_t e, GReal_t p1, GReal_t p2,
 }
 
 
-__host__ __device__
-inline Vector4R::Vector4R()
-{
-	v[0] = 0.0;
-	v[1] = 0.0;
-	v[2] = 0.0;
-	v[3] = 0.0;
-}
+
 __host__ __device__
 inline Vector4R::Vector4R(GReal_t e, GReal_t p1, GReal_t p2, GReal_t p3)
 {
@@ -146,15 +127,61 @@ inline Vector4R::Vector4R(GReal_t e, GReal_t p1, GReal_t p2, GReal_t p3)
 	v[2] = p2;
 	v[3] = p3;
 }
+
 __host__ __device__
 inline Vector4R::Vector4R(const Vector4R& other)
 {
-
 	v[0] = other.get(0);
 	v[1] = other.get(1);
 	v[2] = other.get(2);
 	v[3] = other.get(3);
 }
+
+__host__ __device__
+inline Vector4R::Vector4R(Vector4R&& other)
+{
+	v[0] = other.get(0);
+	v[1] = other.get(1);
+	v[2] = other.get(2);
+	v[3] = other.get(3);
+}
+
+
+__host__ __device__
+inline Vector4R& Vector4R::operator=(Vector4R&& other)
+{
+	if(this==&other) return *this;
+	v[0] = other.get(0);
+	v[1] = other.get(1);
+	v[2] = other.get(2);
+	v[3] = other.get(3);
+	 return *this;
+}
+
+__host__ __device__
+inline Vector4R& Vector4R::operator=(Vector4R const& other)
+{
+	if(this==&other) return *this;
+	v[0] = other.get(0);
+	v[1] = other.get(1);
+	v[2] = other.get(2);
+	v[3] = other.get(3);
+	 return *this;
+}
+
+
+__host__ __device__
+inline void Vector4R::swap(Vector4R& other)
+{
+	if(this==&other) return;
+
+	Vector4R temp(*this);
+	*this= other;
+	other = temp;
+	return ;
+}
+
+
 __host__ __device__
 inline GReal_t Vector4R::mass() const
 {
@@ -376,6 +403,19 @@ inline GReal_t Vector4R::dot(const Vector4R& p2) const
 
 } //dot
 
+// calculate (p1xp2)*p3 in the rest frame of
+// 4-vector *this (sub-optimal implementation)
+__host__ __device__
+inline GReal_t Vector4R::scalartripler3(Vector4R p1,
+		Vector4R p2, Vector4R p3) const
+{
+	p1.applyBoostTo(*this);
+	p2.applyBoostTo(*this);
+	p3.applyBoostTo(*this);
+
+	GReal_t r = (p1.cross(p2)).dot(p3);
+	return r;
+}
 
 // Calculate the 3-d dot product of 4-vectors p1 and p2 in the rest frame of
 // 4-vector p0
@@ -400,6 +440,7 @@ inline GReal_t Vector4R::magr3(const Vector4R& p1) const
 	return sqrt(mag2r3(p1));
 }
 
-}
+
+}// namespace hydra
 
 #endif /* VECTOR4R_INL_ */

@@ -2,7 +2,7 @@
 
 /*----------------------------------------------------------------------------
  *
- *   Copyright (C) 2016 Antonio Augusto Alves Junior
+ *   Copyright (C) 2016 - 2017 Antonio Augusto Alves Junior
  *
  *   This file is part of Hydra Data Analysis Framework.
  *
@@ -31,6 +31,7 @@
  */
 
 
+
 /**
  * \file
  * \ingroup phsp
@@ -44,7 +45,7 @@
 #include <hydra/detail/Config.h>
 #include <hydra/Types.h>
 
-#include <thrust/random.h>
+#include <hydra/detail/external/thrust/random.h>
 
 namespace hydra
 {
@@ -90,8 +91,8 @@ struct FlagAcceptReject
 	__host__ __device__ GBool_t operator ()(size_t idx, GReal_t weight)
 	{
 
-		thrust::default_random_engine randEng(hash(fSeed, idx));
-		thrust::uniform_real_distribution<GReal_t> uniDist(0.0, fWmax);
+		HYDRA_EXTERNAL_NS::thrust::default_random_engine randEng(hash(fSeed, idx));
+		HYDRA_EXTERNAL_NS::thrust::uniform_real_distribution<GReal_t> uniDist(0.0, fWmax);
 
 
 		GBool_t flag = (uniDist(randEng) < weight) ? 1 : 0;

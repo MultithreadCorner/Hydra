@@ -1,6 +1,6 @@
 /*----------------------------------------------------------------------------
  *
- *   Copyright (C) 2016 Antonio Augusto Alves Junior
+ *   Copyright (C) 2016 - 2017 Antonio Augusto Alves Junior
  *
  *   This file is part of Hydra Data Analysis Framework.
  *
@@ -26,50 +26,133 @@
  *      Author: Antonio Augusto Alves Junior
  */
 
-/**
- * \file
- * \ingroup functor
- */
-
 
 #ifndef FUNCTIONWRAPPER_H_
 #define FUNCTIONWRAPPER_H_
 
 #include <hydra/detail/Config.h>
 #include <hydra/Types.h>
+#include <hydra/Parameter.h>
+#include <hydra/detail/utility/Generic.h>
 #include <type_traits>
 #include <functional>
 #include <hydra/Function.h>
 #include <typeinfo>
+#include <initializer_list>
+#include <array>
 
 namespace hydra {
 
 
-template<typename Sig,typename L,
+template<typename Sig,typename L, size_t N,
 typename=typename std::enable_if<std::is_constructible<std::function<Sig>, L>::value>::type>
-struct LambdaWrapper;
+class LambdaWrapper;
 
-template<typename ReturnType, typename ArgType, typename L>
-struct LambdaWrapper<ReturnType(ArgType), L>:
-public BaseFunctor<LambdaWrapper<ReturnType(ArgType),L>, ReturnType,0 >
+/**
+ * @ingroup functor
+ * @brief Wrapper for lambda functions
+ */
+template<typename ReturnType, typename ...ArgType, typename L, size_t  N>
+class LambdaWrapper<ReturnType(ArgType...), L, N>:
+public BaseFunctor<LambdaWrapper<ReturnType(ArgType...),L, N>, ReturnType,N >
 {
-	LambdaWrapper();
 
+public:
+	LambdaWrapper()=delete;
+
+	/**
+	 * Constructor for non-parametrized lambdas
+	 * @param lambda
+	 */
 	LambdaWrapper(L const& lambda):
-		fLambda(lambda){}
+			BaseFunctor<LambdaWrapper<ReturnType(ArgType...),L, 0>, ReturnType,0 >(),
+			fLambda(lambda)
+		{}
 
+	/**
+	 * Constructor for parametrized lambdas
+	 * @param lambda
+	 * @param parameters
+	 */
+	LambdaWrapper(L const& lambda,
+			std::array<Parameter, N> const& parameters):
+		BaseFunctor<LambdaWrapper<ReturnType(ArgType...),L, N>, ReturnType,N >(parameters),
+		fLambda(lambda)
+	{}
+
+	/**
+	 * Copy constructor
+	 */
 	__host__ __device__	 inline
-	LambdaWrapper(LambdaWrapper<ReturnType(ArgType), L> const& other ):
-	BaseFunctor<LambdaWrapper<ReturnType(ArgType),L>, ReturnType,0>(other),
+	LambdaWrapper(LambdaWrapper<ReturnType(ArgType...), L, N> const& other ):
+	BaseFunctor<LambdaWrapper<ReturnType(ArgType...),L, N>, ReturnType,N>(other),
 	fLambda( other.GetLambda())
 	{	}
 
+	/**
+	 * Assignment operator
+	 */
 	__host__ __device__	 inline
-	L GetLambda() const {return fLambda; }
+	LambdaWrapper<ReturnType(ArgType...), L, N>
+	operator=(LambdaWrapper<ReturnType(ArgType...), L, N> const& other )
+	{
+		if(this==&other) return *this;
+		BaseFunctor<LambdaWrapper<ReturnType(ArgType...),L, N>, ReturnType,N>::operator=(other);
+
+		return *this;
+	}
 
 
+	/**
+	 * Get the underlying lambda
+	 */
+	__host__ __device__	 inline
+	const L& GetLambda() const {return fLambda; }
+
+
+	template<size_t M=N, typename ...T>
 	__host__ __device__ inline
-	ReturnType  Evaluate(ArgType  a) { return fLambda(a); }
+	typename std::enable_if< (M>0) &&( (sizeof...(ArgType) ==(sizeof ...(T)+2))) , ReturnType >::type
+	Evaluate(T... a) {
+
+		static_assert(
+				std::is_convertible<HYDRA_EXTERNAL_NS::thrust::tuple<unsigned int,  const hydra::Parameter*, T...> , HYDRA_EXTERNAL_NS::thrust::tuple<ArgType...>>::value ,
+										"\n\n<<< HYDRA_COMPILE_ERROR: Lambda function can not be called with this arguments .>>>\n\n");
+
+		return fLambda(this->GetNumberOfParameters(), this->GetParameters(),a...);
+	}
+
+	template<size_t M=N, typename T>
+	__host__ __device__ inline
+	typename std::enable_if< (M>0)&& sizeof...(ArgType)==3, ReturnType >::type
+	Evaluate(T a) {
+
+		static_assert( std::is_convertible<HYDRA_EXTERNAL_NS::thrust::tuple<unsigned int,  const hydra::Parameter*, T> , HYDRA_EXTERNAL_NS::thrust::tuple<ArgType...>>::value ,
+										"\n\n<<< HYDRA_COMPILE_ERROR: Lambda function can not be called with this arguments .>>>\n\n");
+		return fLambda(this->GetNumberOfParameters(), this->GetParameters(), a);
+	}
+
+	template< typename ...T, size_t M=N>
+	__host__ __device__ inline
+	typename std::enable_if< (M==0) &&( (sizeof...(ArgType))>1), ReturnType >::type
+	Evaluate(T...a){
+
+		static_assert( std::is_convertible<HYDRA_EXTERNAL_NS::thrust::tuple<T...> , HYDRA_EXTERNAL_NS::thrust::tuple<ArgType...>>::value ,
+								"\n\n<<< HYDRA_COMPILE_ERROR: Lambda function can not be called with this arguments .>>>\n\n");
+		return fLambda( a...);
+	}
+
+	template<typename ...T, size_t M=N>
+	__host__ __device__ inline
+	typename std::enable_if< (M==0)&& sizeof...(ArgType)==1, ReturnType >::type
+	Evaluate(T...a) {
+
+		static_assert( std::is_convertible<HYDRA_EXTERNAL_NS::thrust::tuple<T...> , HYDRA_EXTERNAL_NS::thrust::tuple<ArgType...>>::value ,
+						"\n\n<<< HYDRA_COMPILE_ERROR: Lambda function can not be called with this arguments .>>>\n\n");
+		return fLambda( a...);
+	}
+
+
 
 private:
 	L fLambda;
@@ -77,26 +160,63 @@ private:
 
 namespace detail {
 
-template<typename L, typename ReturnType, typename ...Args>
-auto wrap_lambda_helper(L const& f, ReturnType r, thrust::tuple<Args...> t)
--> LambdaWrapper<ReturnType(Args...), L>
+
+template<typename L, typename ReturnType, typename ...Args, size_t N>
+auto wrap_lambda_helper(L const& f, ReturnType r, HYDRA_EXTERNAL_NS::thrust::tuple<Args...>const& t,
+		std::array<Parameter, N> const& parameters)
+-> LambdaWrapper<ReturnType(Args...), L, N>
 {
-	return LambdaWrapper<ReturnType(Args...), L>(f);
+	return LambdaWrapper<ReturnType(Args...), L, N>(f, parameters);
+}
+
+template<typename L, typename ReturnType, typename ...Args>
+auto wrap_lambda_helper(L const& f, ReturnType r, HYDRA_EXTERNAL_NS::thrust::tuple<Args...>const& t)
+-> LambdaWrapper<ReturnType(Args...), L, 0>
+{
+	return LambdaWrapper<ReturnType(Args...), L, 0>(f);
 }
 
 }  // namespace detail
 
-
-template<typename L>
-auto wrap_lambda(L const& f)
+/**
+ * @ingroup functor
+ * @brief Function template for wrap a C++11 lambda into a hydra lambda with a certain number of parameters.
+ * @param f C++11 lambda implementing the operator()(n, params, args) where n is the number of parameters, params a pointer to the parameter array and args are the arguments.
+ * @param pars parameters.
+ * @return LambdaWrapper object.
+ */
+template<typename L, typename ...T>
+auto wrap_lambda(L const& f,  T ...pars)
 -> decltype(detail::wrap_lambda_helper(f, typename detail::function_traits<L>::return_type() ,
-		typename detail::function_traits<L>::args_type() ))
+		typename detail::function_traits<L>::args_type(),  std::array<Parameter, sizeof...(T)>{}))
 {
 	typedef detail::function_traits<L> traits;
 	typename traits::return_type r = typename traits::return_type();
 	typename traits::args_type t;
+	std::array<Parameter, sizeof...(T)> parameters{ pars...};
+
+	return detail::wrap_lambda_helper(f, r, t, parameters);
+}
+
+/**
+ * @ingroup functor
+ * @brief Function template for wrap a C++11 lambda into a hydra lambda.
+ * @param f C++11 lambda implementing the operator()(args)
+ * @return
+ */
+template<typename L>
+auto wrap_lambda(L const& f)
+-> decltype(detail::wrap_lambda_helper(f, typename detail::function_traits<L>::return_type() ,
+		typename detail::function_traits<L>::args_type()))
+{
+	typedef detail::function_traits<L> traits;
+	typename traits::return_type r = typename traits::return_type();
+	typename traits::args_type t;
+
 	return detail::wrap_lambda_helper(f, r, t);
 }
+
+
 
 }
 

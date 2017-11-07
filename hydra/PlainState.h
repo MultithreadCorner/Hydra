@@ -1,6 +1,6 @@
 /*----------------------------------------------------------------------------
  *
- *   Copyright (C) 2016 Antonio Augusto Alves Junior
+ *   Copyright (C) 2016 - 2017 Antonio Augusto Alves Junior
  *
  *   This file is part of Hydra Data Analysis Framework.
  *
@@ -26,11 +26,6 @@
  *      Author: Antonio Augusto Alves Junior
  */
 
-/**
- * \file
- * \ingroup numerical_integration
- */
-
 
 #ifndef PLAINSTATE_H_
 #define PLAINSTATE_H_
@@ -38,12 +33,15 @@
 #include <limits>
 #include <hydra/detail/Config.h>
 #include <hydra/Types.h>
-#include <thrust/functional.h>
-#include <thrust/extrema.h>
+#include <hydra/detail/external/thrust/functional.h>
+#include <hydra/detail/external/thrust/extrema.h>
 
 namespace hydra {
 
-
+/**
+ * @ingroup numerical_integration
+ * @brief Simple structure to hold the results of the Plain MC numerical integration.
+ */
 struct PlainState
 {
 

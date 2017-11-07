@@ -1,6 +1,6 @@
 /*----------------------------------------------------------------------------
  *
- *   Copyright (C) 2016 Antonio Augusto Alves Junior
+ *   Copyright (C) 2016 - 2017 Antonio Augusto Alves Junior
  *
  *   This file is part of Hydra Data Analysis Framework.
  *
@@ -36,15 +36,16 @@
 #ifndef SUM_H_
 #define SUM_H_
 
-#include <type_traits>
+
 #include <hydra/detail/Config.h>
 #include <hydra/Types.h>
 #include <hydra/Function.h>
 #include <hydra/detail/utility/Utility_Tuple.h>
 #include <hydra/detail/base_functor.h>
 #include <hydra/detail/Constant.h>
-#include <thrust/tuple.h>
-
+#include <hydra/detail/external/thrust/tuple.h>
+#include <type_traits>
+#include <hydra/Parameter.h>
 
 namespace hydra {
 
@@ -58,7 +59,7 @@ struct  Sum
 
 	typedef   std::true_type is_functor;
 	typedef typename detail::sum_result<typename F1::return_type ,typename  F2::return_type,typename  Fs::return_type...>::type  return_type;
-	typedef typename thrust::tuple<F1, F2, Fs...> functors_type;
+	typedef typename HYDRA_EXTERNAL_NS::thrust::tuple<F1, F2, Fs...> functors_type;
 
 	__host__
     Sum():
@@ -70,13 +71,13 @@ struct  Sum
     Sum(F1 const& f1, F2 const& f2, Fs const&... functors ):
     fIndex(-1),
 	fCached(0),
-  	fFtorTuple(thrust::make_tuple(f1, f2, functors ...))
+  	fFtorTuple(HYDRA_EXTERNAL_NS::thrust::make_tuple(f1, f2, functors ...))
   	{  	}
 
 	__host__ __device__ Sum(const Sum<F1,F2, Fs...>& other):
-				fFtorTuple( other.GetFunctors() ),
 				fIndex( other.GetIndex() ),
-				fCached( other.IsCached() )
+				fCached( other.IsCached() ),
+				fFtorTuple( other.GetFunctors() )
 	{ };
 
 	__host__ __device__
@@ -86,6 +87,12 @@ struct  Sum
 		this->fIndex = other.GetIndex() ;
 		this->fCached = other.IsCached() ;
 		return *this;
+	}
+
+	__host__ inline
+	void AddUserParameters(std::vector<hydra::Parameter*>& user_parameters )
+	{
+		detail::add_parameters_in_tuple(user_parameters, fFtorTuple );
 	}
 
 
@@ -153,39 +160,39 @@ struct  Sum
 
 
 private:
-	functors_type fFtorTuple;
+
 	int  fIndex;
 	bool fCached;
-
+functors_type fFtorTuple;
 };
 
 // + operator two functors
 template<typename T1, typename T2,
 typename=typename std::enable_if< T1::is_functor::value && T2::is_functor::value> >
 __host__  inline
-Sum<T1, T2> operator+(T1 const& F1, T2 const& F2){ return  Sum<T1,T2>(F1, F2); };
+Sum<T1, T2> operator+(T1 const& F1, T2 const& F2){ return  Sum<T1,T2>(F1, F2); }
 
 template <typename T1, typename T2,
 typename=typename std::enable_if< (std::is_convertible<T1, double>::value ||\
-		std::is_constructible<thrust::complex<double>,T1>::value) && T2::is_functor::value>::type >
+		std::is_constructible<HYDRA_EXTERNAL_NS::thrust::complex<double>,T1>::value) && T2::is_functor::value>::type >
 __host__  inline
 Sum<Constant<T1>, T2>
-operator+(T1 const cte, T2 const& F2){ return  Constant<T1>(cte)+F2; };
+operator+(T1 const cte, T2 const& F2){ return  Constant<T1>(cte)+F2; }
 
 
 template <typename T1, typename T2,
 typename=typename std::enable_if< (std::is_convertible<T1, double>::value ||\
-		std::is_constructible<thrust::complex<double>,T1>::value) && T2::is_functor::value>::type >
+		std::is_constructible<HYDRA_EXTERNAL_NS::thrust::complex<double>,T1>::value) && T2::is_functor::value>::type >
 __host__  inline
 Sum<Constant<T1>, T2>
-operator+(T2 const& F2, T1 const cte ){	return  Constant<T1>(cte)+F2; };
+operator+(T2 const& F2, T1 const cte ){	return  Constant<T1>(cte)+F2; }
 
 // Convenience function
 template <typename F1, typename F2, typename ...Fs>
 __host__  inline
 Sum<F1, F2,Fs...>
 sum(F1 const& f1, F2 const& f2, Fs const&... functors )
-{ return  Sum<F1, F2,Fs... >(f1,f2, functors ... ); };
+{ return  Sum<F1, F2,Fs... >(f1,f2, functors ... ); }
 
 
 }

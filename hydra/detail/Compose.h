@@ -1,6 +1,6 @@
 /*----------------------------------------------------------------------------
  *
- *   Copyright (C) 2016 Antonio Augusto Alves Junior
+ *   Copyright (C) 2016 - 2017 Antonio Augusto Alves Junior
  *
  *   This file is part of Hydra Data Analysis Framework.
  *
@@ -37,6 +37,7 @@
 #include <hydra/detail/utility/Utility_Tuple.h>
 #include <hydra/detail/base_functor.h>
 #include <hydra/detail/Constant.h>
+#include <hydra/Parameter.h>
 
 namespace hydra {
 
@@ -49,8 +50,8 @@ struct  Compose
 	    typedef void hydra_functor_tag;
 	    //typedef typename detail::compose_base_functor<F0, F1,Fs...>::type base_type;
 		typedef typename F0::return_type  return_type;
-		typedef typename thrust::tuple<typename F1::return_type, typename Fs::return_type...> argument_type;
-		typedef typename thrust::tuple<F1, Fs...> functors_type;
+		typedef typename HYDRA_EXTERNAL_NS::thrust::tuple<typename F1::return_type, typename Fs::return_type...> argument_type;
+		typedef typename HYDRA_EXTERNAL_NS::thrust::tuple<F1, Fs...> functors_type;
 
 		__host__
 		Compose():
@@ -63,7 +64,7 @@ struct  Compose
 		fIndex(-1),
 		fCached(0),
 		fF0(f0),
-	  	fFtorTuple(thrust::make_tuple(f1, fs...))
+	  	fFtorTuple(HYDRA_EXTERNAL_NS::thrust::make_tuple(f1, fs...))
 	  	{ }
 
 		__host__ __device__ inline
@@ -84,6 +85,11 @@ struct  Compose
 			return *this;
 		}
 
+		__host__ inline
+		void AddUserParameters(std::vector<hydra::Parameter*>& user_parameters )
+		{
+			detail::add_parameters_in_tuple(user_parameters, fFtorTuple );
+		}
 
 
 		__host__ inline
@@ -142,7 +148,7 @@ struct  Compose
 
 // Conveniency function
 template < typename T0, typename T1, typename ...Ts,
-typename=typename std::enable_if< detail::all_true<T0::is_functor::value, T1::is_functor::value,Ts::is_functor::value...>::value >::type >
+typename=typename std::enable_if<T0::is_functor::value && T1::is_functor::value && detail::all_true<Ts::is_functor::value...>::value >::type >
 __host__ inline
 Compose<T0,T1,Ts...>
 compose(T0 const& F0, T1 const& F1, Ts const&...Fs)

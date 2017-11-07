@@ -1,6 +1,6 @@
 /*----------------------------------------------------------------------------
  *
- *   Copyright (C) 2016 Antonio Augusto Alves Junior
+ *   Copyright (C) 2016 - 2017 Antonio Augusto Alves Junior
  *
  *   This file is part of Hydra Data Analysis Framework.
  *
@@ -37,27 +37,27 @@
 #include <hydra/Containers.h>
 
 #include <type_traits>
-#include <thrust/complex.h>
-#include <thrust/detail/type_traits.h>
-#include <thrust/execution_policy.h>
-#include <thrust/iterator/iterator_categories.h>
-#include <thrust/iterator/detail/is_iterator_category.h>
+#include <hydra/detail/external/thrust/complex.h>
+#include <hydra/detail/external/thrust/detail/type_traits.h>
+#include <hydra/detail/external/thrust/execution_policy.h>
+#include <hydra/detail/external/thrust/iterator/iterator_categories.h>
+#include <hydra/detail/external/thrust/iterator/detail/is_iterator_category.h>
 
 namespace std {
 
 		template<class T, class U>
-		struct common_type<thrust::complex<T>, thrust::complex<U> > {
-			typedef thrust::complex<typename common_type<T, U>::type > type;
+		struct common_type<HYDRA_EXTERNAL_NS::thrust::complex<T>, HYDRA_EXTERNAL_NS::thrust::complex<U> > {
+			typedef HYDRA_EXTERNAL_NS::thrust::complex<typename common_type<T, U>::type > type;
 		};
 
 		template<class T, class U>
-		struct common_type<T, thrust::complex<U> > {
-			typedef thrust::complex<typename common_type<T, U>::type> type;
+		struct common_type<T, HYDRA_EXTERNAL_NS::thrust::complex<U> > {
+			typedef HYDRA_EXTERNAL_NS::thrust::complex<typename common_type<T, U>::type> type;
 		};
 
 		template<class T, class U>
-		struct common_type<thrust::complex<U>, T > {
-			typedef thrust::complex<typename common_type<T, U>::type > type;
+		struct common_type<HYDRA_EXTERNAL_NS::thrust::complex<U>, T > {
+			typedef HYDRA_EXTERNAL_NS::thrust::complex<typename common_type<T, U>::type > type;
 		};
 }
 
@@ -117,48 +117,16 @@ namespace hydra {
 		};
 
 		template<typename T>
-		struct TypeTraits<thrust::complex<T>>
+		struct TypeTraits<HYDRA_EXTERNAL_NS::thrust::complex<T>>
 		{
 
-			typedef thrust::complex<T> type;
+			typedef HYDRA_EXTERNAL_NS::thrust::complex<T> type;
 			__host__  __device__ inline static type zero(){ return type(0.0,0.0) ;}
 			__host__  __device__ inline static type one(){ return type(1.0, 0.0) ;}
 			__host__  __device__ inline static type invalid(){ return  type(kInvalidNumber, 0.0) ;}
 
 		};
 
-		//--------------------------------
-		template<unsigned int BACKEND>
-		struct BackendTraits;
-
-		template<>
-		struct BackendTraits<device>: thrust::execution_policy<thrust::detail::device_t>
-		{
-			constexpr static unsigned int backend= device;
-			template<typename T>
-			using   container = mc_device_vector<T>;
-			//typedef thrust::execution_policy<thrust::detail::device_t> policy;
-
-		};
-
-		template<>
-		struct BackendTraits<host>: thrust::execution_policy<thrust::detail::host_t>
-		{
-			constexpr static unsigned int backend= host;
-			template<typename T>
-			using   container = mc_host_vector<T>;
-			//typedef thrust::execution_policy<thrust::detail::host_t> policy;
-		};
-
-		//--------------------------------
-		template<typename Iterator>
-		struct IteratorTraits
-		{
-			typedef typename if_then_else<thrust::detail::is_host_iterator_category<
-					typename thrust::iterator_traits<Iterator>::iterator_category>::value,
-					BackendTraits<host>,
-					BackendTraits<device> >::type type;
-		};
 
 		//----------------------
 		template< class... T >
@@ -177,7 +145,7 @@ namespace hydra {
 				enum { argument_count = sizeof...(Args) };
 
 				typedef ReturnType return_type;
-				typedef thrust::tuple<Args...> args_type;
+				typedef HYDRA_EXTERNAL_NS::thrust::tuple<Args...> args_type;
 
 				template <size_t i>
 				struct arg
@@ -193,12 +161,12 @@ namespace hydra {
 				enum { argument_count = sizeof...(Args) };
 
 				typedef ReturnType return_type;
-				typedef thrust::tuple<Args...> args_type;
+				typedef HYDRA_EXTERNAL_NS::thrust::tuple<Args&...> args_type;
 
 				template <size_t i>
 				struct arg
 				{
-					typedef typename std::tuple_element<i, std::tuple<Args...>>::type type;
+					typedef typename std::tuple_element<i, std::tuple<Args&...>>::type type;
 				 };
 			};
 
