@@ -1,7 +1,7 @@
 Hydra
 =========
 
-<img src="Hydra.jpg" width="200">
+<img src="logo_Hydra.svg" width="300">
 
 What is it?
 -----------
