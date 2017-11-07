@@ -43,7 +43,7 @@
 #include <hydra/Vector4R.h>
 #include <hydra/Complex.h>
 #include <hydra/Tuple.h>
-#include <hydra/multiarray2.h>
+#include <hydra/multiarray.h>
 #include <hydra/Placeholders.h>
 
 //command line
@@ -99,7 +99,7 @@ int main(int argv, char** argc)
 		std::cout << "=========================================="<<std::endl;
 
 
-		hydra::multiarray2< 6,double , hydra::device::sys_t> mvector_d;
+		hydra::multiarray< 6,double , hydra::device::sys_t> mvector_d;
 
 		//push_back tuple
 		for(size_t i=0; i<nentries; i++ )
@@ -225,7 +225,7 @@ int main(int argv, char** argc)
 		std::cout << "|              <--- HOST --->            |"<<std::endl;
 		std::cout << "=========================================="<<std::endl;
 
-		hydra::multiarray2<6, double, hydra::host::sys_t>   mvector_h;
+		hydra::multiarray<6, double, hydra::host::sys_t>   mvector_h;
 
 		//push_back tuple
 		for(size_t i=0; i<nentries; i++ )

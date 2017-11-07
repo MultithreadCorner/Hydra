@@ -39,11 +39,11 @@
 #include <hydra/Containers.h>
 #include <hydra/Vector3R.h>
 #include <hydra/Vector4R.h>
-#include <hydra/multiarray2.h>
+#include <hydra/multiarray.h>
 #include <hydra/detail/utility/Utility_Tuple.h>
 #include <hydra/Tuple.h>
 #include <hydra/GenericRange.h>
-
+#include <hydra/Placeholders.h>
 //thrust
 #include <hydra/detail/external/thrust/copy.h>
 #include <hydra/detail/external/thrust/iterator/zip_iterator.h>
@@ -68,7 +68,7 @@ class Decays<N, hydra::detail::BackendPolicy<BACKEND> > {
 	typedef hydra::detail::BackendPolicy<BACKEND> system_t;
 	typedef HYDRA_EXTERNAL_NS::thrust::tuple<GReal_t,GReal_t, GReal_t, GReal_t> tuple_t;
 
-	typedef multiarray2<4,GReal_t,hydra::detail::BackendPolicy<BACKEND>> particles_type;
+	typedef multiarray<4,GReal_t,hydra::detail::BackendPolicy<BACKEND>> particles_type;
 	typedef std::array<particles_type, N>                               decays_type;
 	typedef typename system_t::template container<GReal_t>              weights_type;
 	typedef HYDRA_EXTERNAL_NS::thrust::constant_iterator<GReal_t>       unitary_iterator;
@@ -123,7 +123,7 @@ public:
 	typedef typename detail::tuple_type<N,Vector4R>::type particle_tuple;
 	typedef typename  detail::tuple_cat_type<
 			HYDRA_EXTERNAL_NS::thrust::tuple< double> , particle_tuple >::type decay_t;
-
+	typedef particle_tuple udecay_t;
 	//-----------------------------
 	//      stl-like typedefs
 	//-----------------------------
@@ -213,30 +213,30 @@ public:
 	};
 
 
+
 	struct __CastToUnWeightedDecay
 	{
 		template<unsigned int I>
 		__host__ __device__ inline
 		typename HYDRA_EXTERNAL_NS::thrust::detail::enable_if< (I==N), void >::type
-		__convert_helper(value_type& , decay_t& ){ }
+		__convert_helper(value_type& , udecay_t& ){ }
 
 		template<unsigned int I=0>
 		__host__ __device__ inline
 		typename HYDRA_EXTERNAL_NS::thrust::detail::enable_if< (I<N), void >::type
-		__convert_helper(value_type& v , decay_t& r)
+		__convert_helper(value_type& v , udecay_t& r)
 		{
-			HYDRA_EXTERNAL_NS::thrust::get<I+1>(r) = HYDRA_EXTERNAL_NS::thrust::get<I+1>(v);
+			HYDRA_EXTERNAL_NS::thrust::get<I>(r) = HYDRA_EXTERNAL_NS::thrust::get<I+1>(v);
 			__convert_helper<I+1>(v, r );
 		}
 		__host__ __device__ inline
-		void __convert(value_type & v , decay_t& r)
+		void __convert(value_type & v , udecay_t& r)
 		{
-			HYDRA_EXTERNAL_NS::thrust::get<0>(r) = 1.0;
 			__convert_helper(v, r );
 		}
 		__host__ __device__ inline
-		decay_t operator()( value_type & v){
-			decay_t r; __convert( v , r); 	return r;
+		udecay_t operator()( value_type & v){
+			udecay_t r; __convert( v , r); 	return r;
 		}
 
 	};
@@ -411,14 +411,14 @@ public:
 					this->fDecays[i].end(__CastTupleToVector4()));
 	}
 
-	GenericRange<typename weights_iterator >
+	GenericRange<weights_iterator >
 	GetWeights(size_t i){
 
 			return hydra::make_range(this->fWeights.begin(),
 						this->fWeights.end());
 		}
 
-	GenericRange<typename weights_const_iterator >
+	GenericRange<weights_const_iterator >
 	GetWeights(size_t i) const {
 
 		return hydra::make_range(this->fWeights.begin(),
@@ -482,9 +482,8 @@ public:
 	 * @return reference a decay
 	 */
 
-	 decay_t GetDecay(size_t i, GBool_t weighted = true){
-		return weighted ?  this->begin( __CastToWeightedDecay())[i] :
-				 this->begin( __CastToUnWeightedDecay())[i];
+	 decay_t GetDecay(size_t i){
+		return this->begin( __CastToWeightedDecay())[i];
 	}
 
 

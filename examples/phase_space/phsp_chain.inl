@@ -72,7 +72,7 @@
 #include <hydra/Vector4R.h>
 #include <hydra/host/System.h>
 #include <hydra/device/System.h>
-
+#include <hydra/Placeholders.h>
 /*-------------------------------------
  * Include classes from ROOT to fill
  * and draw histograms and plots.
@@ -94,6 +94,7 @@
 #endif //_ROOT_AVAILABLE_
 
 
+using namespace hydra::placeholders;
 
 int main(int argv, char** argc)
 {
@@ -226,12 +227,12 @@ int main(int argv, char** argc)
 		auto start = std::chrono::high_resolution_clock::now();
 
 		//generate the final state particles for B0 -> K pi J/psi
-		phsp1.Generate(B0, hydra::get_decay<0>(Chain_d).begin(), hydra::get_decay<0>(Chain_d).end());
+		phsp1.Generate(B0, Chain_d.GetDecay(_0).begin(), Chain_d.GetDecay(_0).end());
 
 		//pass the list of J/psi to generate the final
 		//state particles for J/psi -> mu+ mu-
-		phsp2.Generate(hydra::get_decay<0>(Chain_d).pbegin(0),
-				hydra::get_decay<0>(Chain_d).pend(0), hydra::get_decay<1>(Chain_d).begin());
+		phsp2.Generate(Chain_d.GetDecay(_0).GetDaughters(0).begin(), Chain_d.GetDecay(_0).GetDaughters(0).end(),
+				Chain_d.GetDecay(_1).begin());
 
 		auto end = std::chrono::high_resolution_clock::now();
 
@@ -291,12 +292,12 @@ int main(int argv, char** argc)
 		auto start = std::chrono::high_resolution_clock::now();
 
 		//generate the final state particles for B0 -> K pi J/psi
-		phsp1.Generate(B0, hydra::get_decay<0>(Chain_h).begin(), hydra::get_decay<0>(Chain_h).end());
+		phsp1.Generate(B0, Chain_h.GetDecay(_0).begin(), Chain_h.GetDecay(_0).end());
 
 		//pass the list of J/psi to generate the final
 		//state particles for J/psi -> mu+ mu-
-		phsp2.Generate(hydra::get_decay<0>(Chain_h).pbegin(0),
-				hydra::get_decay<0>(Chain_h).pend(0), hydra::get_decay<1>(Chain_h).begin());
+		phsp2.Generate(Chain_h.GetDecay(_0).GetDaughters(_0).begin(), Chain_h.GetDecay(_0).GetDaughters(_0).end(),
+						Chain_h.GetDecay(_1).begin());
 
 		auto end = std::chrono::high_resolution_clock::now();
 

@@ -176,6 +176,7 @@ template<size_t N, detail::Backend BACKEND>
 template<typename FUNCTOR>
 void Decays<N, detail::BackendPolicy<BACKEND> >::Reweight(
 		FUNCTOR const& functor) {
+
 	using HYDRA_EXTERNAL_NS::thrust::system::detail::generic::select_system;
 	typedef typename HYDRA_EXTERNAL_NS::thrust::iterator_system<
 			typename Decays<N, detail::BackendPolicy<BACKEND> >::const_iterator>::type system_t;
@@ -188,7 +189,7 @@ void Decays<N, detail::BackendPolicy<BACKEND> >::Reweight(
 			HYDRA_EXTERNAL_NS::thrust::make_transform_iterator(this->begin(),
 					predicate1),
 			HYDRA_EXTERNAL_NS::thrust::make_transform_iterator(this->end(),
-					predicate1), this->wbegin());
+					predicate1), fWeights.begin());
 
 	return;
 
