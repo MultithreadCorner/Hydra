@@ -1,5 +1,4 @@
-Hydra
-=========
+
 
 <img src="logo_Hydra.svg" width="300">
 
