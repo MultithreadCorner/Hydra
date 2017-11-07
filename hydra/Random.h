@@ -39,20 +39,7 @@
 #include <hydra/detail/TypeTraits.h>
 #include <hydra/detail/utility/Utility_Tuple.h>
 #include <hydra/Containers.h>
-<<<<<<< HEAD
-#include <hydra/PointVector.h>
-//
-#include <thrust/copy.h>
-#include <thrust/count.h>
-#include <thrust/random.h>
-#include <thrust/distance.h>
-#include <thrust/extrema.h>
-#include <thrust/functional.h>
-#include <thrust/iterator/iterator_traits.h>
-#include <thrust/system/detail/generic/select_system.h>
-=======
 #include <hydra/GenericRange.h>
->>>>>>> 55acd71db395e35a8c3f9704a35c56856ec3d6a6
 
 //
 #include <hydra/detail/external/thrust/copy.h>
