@@ -201,7 +201,7 @@ public :
 			volume *= bin_width;
 
 			//	printf("j=%d k=%d z=%f y=%f box=%f  x[j]=%f \n", j, k, z,y, double(b) ,  x[j] );
-
+}
 
 	}
 
@@ -259,6 +259,7 @@ private:
 	IteratorBackendReal  fDeltaX;
 
 	FUNCTOR fFunctor;
+
 
 
 };
