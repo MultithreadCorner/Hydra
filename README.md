@@ -1,6 +1,6 @@
 
 
-<img src="logo_Hydra.svg" width="300">
+<img src="logo_Hydra.png">
 
 What is it?
 -----------
