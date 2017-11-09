@@ -1,5 +1,11 @@
-/*!
+ /*! \page Hydra user's guide
+  \tableofcontents
+  \section  [Introduction](@ref introduction): Basics about Hydra framework.   
+  \section  [Functors, lambdas and operators](@ref functors_and_lambdas)  
+ 
+ 
+ 
+ 
+ 
+ */
 
-
-AA
-===

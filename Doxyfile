@@ -1,13 +1,13 @@
 PROJECT_NAME           = "Hydra"
 PROJECT_NUMBER         =  1.0.0
 
-STRIP_FROM_PATH        = /home/augalves/Development/Devel/Hydra_Variadic/Hydra
+STRIP_FROM_PATH        = /home/augalves/Development/Release/Hydra_Official_Repo/Hydra
  
-INPUT                  = /home/augalves/Development/Devel/Hydra_Variadic/Hydra/hydra /home/augalves/Development/Devel/Hydra_Variadic/Hydra/doxydefs /home/augalves/Development/Devel/Hydra_Variadic/Hydra/src /home/augalves/Development/Devel/Hydra_Variadic/Hydra/README.md
+INPUT                  = /home/augalves/Development/Release/Hydra_Official_Repo/Hydra/hydra /home/augalves/Development/Release/Hydra_Official_Repo/Hydra/doxydefs /home/augalves/Development/Release/Hydra_Official_Repo/Hydra/docs /home/augalves/Development/Release/Hydra_Official_Repo/Hydra/README.md
 
-USE_MDFILE_AS_MAINPAGE = /home/augalves/Development/Devel/Hydra_Variadic/Hydra/README.md
-PROJECT_LOGO           = /home/augalves/Development/Devel/Hydra_Variadic/Hydra/Hydra.jpg
-OUTPUT_DIRECTORY       = /home/augalves/Development/Devel/Hydra_Variadic/Eclipse_Hydra/doc
+USE_MDFILE_AS_MAINPAGE = /home/augalves/Development/Release/Hydra_Official_Repo/Hydra/README.md
+PROJECT_LOGO           = /home/augalves/Development/Release/Hydra_Official_Repo/Hydra/Hydra.jpg
+OUTPUT_DIRECTORY       = /home/augalves/Development/Release/Hydra_Official_Repo/EclipseProj/doc
 
 # Doxyfile 1.8.11
 
@@ -168,12 +168,12 @@ FILE_PATTERNS          = *.cu \
 RECURSIVE              = YES
 EXCLUDE                = 
 EXCLUDE_SYMLINKS       = NO
-EXCLUDE_PATTERNS       = 
+EXCLUDE_PATTERNS       = */external/*
 EXCLUDE_SYMBOLS        = detail
-EXAMPLE_PATH           = /home/augalves/Development/Devel/Hydra_Variadic/Hydra/src
+EXAMPLE_PATH           = /home/augalves/Development/Release/Hydra_Official_Repo/Hydra/src
 EXAMPLE_PATTERNS       = *
 EXAMPLE_RECURSIVE      = YES
-IMAGE_PATH             = /home/augalves/Development/Devel/Hydra_Variadic/Eclipse_Hydra/plots
+IMAGE_PATH             = /home/augalves/Development/Release/Hydra_Official_Repo/EclipseProj/plots
 INPUT_FILTER           = 
 FILTER_PATTERNS        = 
 FILTER_SOURCE_FILES    = NO
