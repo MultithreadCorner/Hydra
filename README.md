@@ -1,6 +1,6 @@
 
 
-<img src="logo_Hydra.png">
+<img src="logo_Hydra.png" width="500">
 
 What is it?
 -----------
@@ -122,7 +122,7 @@ The examples are listed below:
 6. __phase_space__ : phsp_averaging_functor, phsp_evaluating_functor, phsp_reweighting, phsp_basic, phsp_unweighting, phsp_chain, phsp_unweighting_functor
 7. __random__ :  basic_distributions, sample_distribution
 
-Each compiled example executable will have an postfix (ex.: "_"cuda, "_"omp, "_"tbb) to indicate the deployed device backend.  
+Each compiled example executable will have an postfix (ex.: _cuda, _omp, _tbb) to indicate the deployed device backend.  
 All examples use CPP as host backend. 
 
 Licensing

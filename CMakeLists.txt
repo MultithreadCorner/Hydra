@@ -149,24 +149,6 @@ file(MAKE_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/plots)
 
 
 #+++++++++++++++++++++++++++
-#        TESTING           +
-#+++++++++++++++++++++++++++
-
-#enable_testing()
-#
-#add_subdirectory(testing)
-#
-#add_custom_target(Hydra_Test)
-#
-#add_dependencies(Hydra_Test 
-#Hydra_Test_Host_OMP_Device_CUDA
-#Hydra_Test_Host_CPP_Device_CUDA
-#Hydra_Test_Host_OMP_Device_OMP
-#Hydra_Test_Host_CPP_Device_OMP
-#)
-
-
-#+++++++++++++++++++++++++++
 #        EXAMPLES          +
 #+++++++++++++++++++++++++++
 add_custom_target(examples)
