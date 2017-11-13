@@ -51,8 +51,9 @@
 
 namespace hydra {
 
-template<typename ...Decays>
-struct Chains;
+template<typename... Decays>
+class Chains;
+
 
 /**
  * @ingroup phsp
@@ -63,7 +64,7 @@ struct Chains;
  * @tparam BACKEND
  */
 template<size_t ...N, hydra::detail::Backend BACKEND>
-class Chains<Decays<N, hydra::detail::BackendPolicy<BACKEND> > ...> {
+class Chains<Decays<N, hydra::detail::BackendPolicy<BACKEND> >...> {
 
 	constexpr const static size_t NDecays = sizeof...(N);
 	typedef hydra::detail::BackendPolicy<BACKEND> system_t;

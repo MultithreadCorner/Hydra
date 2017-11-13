@@ -15,6 +15,10 @@
  */
 
 /**
+ * \defgroup manual Users guide
+ */
+
+/**
  * \defgroup fit Data fitting
  * \brief Data fit functionalities of Hydra
  */

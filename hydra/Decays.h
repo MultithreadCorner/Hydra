@@ -62,6 +62,9 @@ namespace hydra {
 template<size_t N, typename BACKEND>
 class Decays;
 
+/**
+ * \class
+ */
 template<size_t N, hydra::detail::Backend BACKEND>
 class Decays<N, hydra::detail::BackendPolicy<BACKEND> > {
 

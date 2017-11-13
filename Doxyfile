@@ -1,13 +1,13 @@
 PROJECT_NAME           = "Hydra"
-PROJECT_NUMBER         =  1.0.0
+PROJECT_NUMBER         = 2.0.1
 
-STRIP_FROM_PATH        = /home/augalves/Development/Devel/Hydra_Variadic/Hydra
+STRIP_FROM_PATH        = /home/augalves/Development/Release/Hydra
  
-INPUT                  = /home/augalves/Development/Devel/Hydra_Variadic/Hydra/hydra /home/augalves/Development/Devel/Hydra_Variadic/Hydra/doxydefs /home/augalves/Development/Devel/Hydra_Variadic/Hydra/src /home/augalves/Development/Devel/Hydra_Variadic/Hydra/README.md
+INPUT                  = /home/augalves/Development/Release/Hydra/hydra /home/augalves/Development/Release/Hydra/docs  /home/augalves/Development/Release/Hydra/doxydefs /home/augalves/Development/Release/Hydra/examples /home/augalves/Development/Release/Hydra/README.md
 
-USE_MDFILE_AS_MAINPAGE = /home/augalves/Development/Devel/Hydra_Variadic/Hydra/README.md
-PROJECT_LOGO           = /home/augalves/Development/Devel/Hydra_Variadic/Hydra/Hydra.jpg
-OUTPUT_DIRECTORY       = /home/augalves/Development/Devel/Hydra_Variadic/Eclipse_Hydra/doc
+USE_MDFILE_AS_MAINPAGE = /home/augalves/Development/Release/Hydra/README.md
+# PROJECT_LOGO           = /home/augalves/Development/Release/Hydra/logo_Hydra.png
+OUTPUT_DIRECTORY       = /home/augalves/Development/Release/HydraEclipseProj/doc
 
 # Doxyfile 1.8.11
 
@@ -18,7 +18,7 @@ DOXYFILE_ENCODING      = UTF-8
 #PROJECT_NAME           = Hydra
 #PROJECT_NUMBER         = 2.0.0
 PROJECT_BRIEF          = "A header only templated C++ library to perform data analysis on massively parallel platforms."
-CREATE_SUBDIRS         = YES
+CREATE_SUBDIRS         = NO
 ALLOW_UNICODE_NAMES    = NO
 OUTPUT_LANGUAGE        = English
 BRIEF_MEMBER_DESC      = YES
@@ -39,7 +39,7 @@ INLINE_INHERITED_MEMB  = NO
 FULL_PATH_NAMES        = NO
 STRIP_FROM_PATH        = 
 STRIP_FROM_INC_PATH    = 
-SHORT_NAMES            = YES
+SHORT_NAMES            = NO
 JAVADOC_AUTOBRIEF      = YES
 QT_AUTOBRIEF           = YES
 MULTILINE_CPP_IS_BRIEF = YES
@@ -70,7 +70,7 @@ LOOKUP_CACHE_SIZE      = 0
 # Build related configuration options
 #---------------------------------------------------------------------------
 EXTRACT_ALL            = YES
-EXTRACT_PRIVATE        = YES
+EXTRACT_PRIVATE        = NO
 EXTRACT_PACKAGE        = NO
 EXTRACT_STATIC         = YES
 EXTRACT_LOCAL_CLASSES  = YES
@@ -84,7 +84,7 @@ INTERNAL_DOCS          = YES
 CASE_SENSE_NAMES       = YES
 HIDE_SCOPE_NAMES       = NO
 HIDE_COMPOUND_REFERENCE= NO
-SHOW_INCLUDE_FILES     = NO
+SHOW_INCLUDE_FILES     = YES
 SHOW_GROUPED_MEMB_INC  = YES
 FORCE_LOCAL_INCLUDES   = NO
 INLINE_INFO            = YES
@@ -151,6 +151,7 @@ FILE_PATTERNS          = *.cu \
                          *.markdown \
                          *.md \
                          *.mm \
+                         *.inl \
                          *.dox \
                          *.py \
                          *.f90 \
@@ -168,12 +169,12 @@ FILE_PATTERNS          = *.cu \
 RECURSIVE              = YES
 EXCLUDE                = 
 EXCLUDE_SYMLINKS       = NO
-EXCLUDE_PATTERNS       = 
-EXCLUDE_SYMBOLS        = detail
-EXAMPLE_PATH           = /home/augalves/Development/Devel/Hydra_Variadic/Hydra/src
+EXCLUDE_PATTERNS       = */external/*
+EXCLUDE_SYMBOLS        = 
+EXAMPLE_PATH           = /home/augalves/Development/Release/Hydra/examples
 EXAMPLE_PATTERNS       = *
 EXAMPLE_RECURSIVE      = YES
-IMAGE_PATH             = /home/augalves/Development/Devel/Hydra_Variadic/Eclipse_Hydra/plots
+IMAGE_PATH             = /home/augalves/Development/Release/Hydra, /home/augalves/Development/Release/HydraEclipseProj/plots
 INPUT_FILTER           = 
 FILTER_PATTERNS        = 
 FILTER_SOURCE_FILES    = NO
@@ -323,8 +324,8 @@ ENABLE_PREPROCESSING   = YES
 MACRO_EXPANSION        = YES
 EXPAND_ONLY_PREDEF     = NO
 SEARCH_INCLUDES        = YES
-INCLUDE_PATH           = 
-INCLUDE_FILE_PATTERNS  = 
+INCLUDE_PATH           = YES
+INCLUDE_FILE_PATTERNS  = YES
 PREDEFINED             = 
 EXPAND_AS_DEFINED      = 
 SKIP_FUNCTION_MACROS   = YES
@@ -343,7 +344,7 @@ PERL_PATH              = /usr/bin/perl
 CLASS_DIAGRAMS         = YES
 MSCGEN_PATH            = 
 DIA_PATH               = 
-HIDE_UNDOC_RELATIONS   = YES
+HIDE_UNDOC_RELATIONS   = NO
 HAVE_DOT               = YES
 DOT_NUM_THREADS        = 0
 DOT_FONTNAME           = Helvetica
