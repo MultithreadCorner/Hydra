@@ -25,7 +25,6 @@ The user needs only to implement the function ``Evaluate()`` and Hydra will take
 	the signature of the function call operator will be 
 	
 	.. code-block:: cpp
-	 :linenos:
 
 		template<typename T> 
 		__host__ __device__ 
@@ -36,7 +35,6 @@ The user needs only to implement the function ``Evaluate()`` and Hydra will take
 	2. The functor is supposed to take as arguments data with different types. In this case the signature of the function call operator will be 
 	
 	.. code-block:: cpp 
-		:linenos:
 	
 		template<typename T> 
 		__host__ __device__ 
@@ -49,8 +47,8 @@ The parameters are represented by the ``hydra::Parameter``. The parameters can b
 
 
 .. code-block:: cpp 
-		
-	#include <hydra::Parameters.h>
+
+	#include <Parameter.h>
 	#include <string>
 	
 
@@ -73,16 +71,13 @@ and suppose the corresponding functor will take as arguments data with same type
 
 
 .. code-block:: cpp
-	:linenos: 
+	:name: functor-example1
 
-
-	#include <hydra::Parameters.h>
+	#include <hydra/Parameters.h>
+	#include <hydra/Function.h>
 	#include <string>
-	
-	...
-
     
-	struct Gaussian: public <Gaussian, double, 2>
+	struct Gaussian: public hydra::BaseFunctor<Gaussian, double, 2>
 	{
 
 		// delete the default constructor.
@@ -122,21 +117,23 @@ and suppose the corresponding functor will take as arguments data with same type
 	
 
 The Gaussian implementation can be generalized to allow the functor to operate over any type of arguments overloading the `Evaluate()` method and adding a template parameter 
-to represent which argument the functor will use to evaluate the Gaussian. Se this implementation below 
+to hold the index of the argument the functor will use to evaluate the Gaussian. It is shown in the next snippet,
+
 
 
 .. code-block:: cpp
-	:linenos:
+	:name: functor-example2
 
-	#include <hydra::Parameters.h>
+	#include <hydra/Parameter.h>
+	#include <hydra/Function.h>
 	#include <string>
+	#include <iostream>
+
+	// obs.: some lines and comments suppressed to make the code shorter.
 
 	template<unsigned int Index>
-	struct Gaussian: public <Gaussian<Index>, double, 2>
-	{
+	struct Gaussian: public hydra::BaseFunctor<Gaussian<Index>, double, 2> {
 
-		// delete the default constructor.
-		// user always have to inform mean and and sigma 
 		Gaussian()= delete;
 
 		//constructor
@@ -144,35 +141,22 @@ to represent which argument the functor will use to evaluate the Gaussian. Se th
 		hydra::BaseFunctor({mean, sigma}) 
 		{}
 
-		template<typename T>
-		__host__ __device__
-		double Evaluate(unsigned int n , T* x)
-		{
+		template<typename T> __host__ __device__ 
+		inline double Evaluate(unsigned int n , T* x) {
  
-			double mean  = _par[0];
-			double sigma = _par[1];
-
-			double x2 = (x[Index]-mean)*(x[Index]-mean);
-			double s2 = sigma*sigma;
+			double x2 = (x[Index] - _par[0])*(x[Index] - _par[0]);
+			double s2 = _par[1]*_par[1];
 
 			return exp(- x2/(2.0*s2 ))/( sqrt(2.0*s2*PI));
 		}
 
-		template<typename T>
-		__host__ __device__
-		double Evaluate(T x)
-		{
- 
-			double mean  = _par[0];
-			double sigma = _par[1];
+		template<typename T> __host__ __device__
+		inline double Evaluate(T x) {
 
-			double x2 = (hydra::get<Index>(x)-mean)*( hydra::get<Index>(x)-mean);
-			double s2 = sigma*sigma;
-
+			double x2 = (x[Index] - _par[0])*(x[Index] - _par[0]);
+			double s2 = _par[1]*_par[1];
 			return exp(- x2/(2.0*s2 ))/( sqrt(2.0*s2*PI));
 		}
-
-
 	};
 
 	...
@@ -183,9 +167,138 @@ to represent which argument the functor will use to evaluate the Gaussian. Se th
 	std::string sigma_name("sigma");
 	auto s = hydra::Parameter::Create().Name(sigma).Value(1.0).Limits(0.01, 5.0).Error(0.01);
 
-	Gaussian<0> gauss1(m, s);
-	Gaussian<2> gauss2(m, s);
+	Gaussian<0> gauss(m, s);
 	
+	double args_single(1.0);
+	hydra::tuple<int, double> args_tuple{0, 1.0};
+	double args_array[2]{0.0, 1.0};
+
+	// the following calls produces the same results
+	std::cout << gauss(args_single) << " " 
+		<< gauss1(args_tuple) << " "
+		<< gauss1(2, args_array) << std::endl;   
+	
+    
+Actually, Hydra users will rarely call functors directly. Functors are used to encapsulate user's
+code that will be called in parallelized calculations by the Hydra algorithms in multi-threaded CPU and GPU environments. **It is user's responsibility care about race conditions and other problems bad coded functors can cause. It is strongly advised to avoid dynamic memory allocation inside functors.**   
+
+
+C++11 Lambdas
+-------------
+
+Hydra fully supports C++11 lambdas. Before to pass C++11 lambdas to Hydra's algorithms, users need to wrap it into a suitable Hydra object. This is done invoking the function ``hydra::wrap_lambda()``.
+
+As well as for functors, the signature of the lambda function depends on the type of data that will be passed. There are two possibilities:
+
+	1. The functor is supposed to take as arguments data with the same type. In this case 
+	the signature of the function call operator will be 
+	
+	.. code-block:: cpp
+
+		[=]__host__ __device__(unsigned n, T* x){
+		 //implementation goes here 
+		};
+	
+	where ``T`` is the data type, ``n`` the number of arguments and ``x`` a pointer to an array of arguments. The symbols ``__host__ __device__`` are the necessary to make the lambda callable on host and device memory spaces. 
+	
+	2. The functor is supposed to take as arguments data with different types. In this case the signature of the function call operator will be 
+	
+	.. code-block:: cpp 
+	
+		[=]__host__ __device__(T x){
+		 //implementation goes here 
+		};
+	
+	where T is the data type, in this case a ``hydra::tuple`` of arguments.
+
+Hydra can also handle "parametric lambdas". Parametric lambdas are wrapped C++11 lambdas that can hold named parameters (``hydra::Parameters`` objecs). 
+The signatures for parametric lambdas are:
+
+
+	1. The functor is supposed to take as arguments data with the same type. In this case 
+	the signature of the function call operator will be 
+	
+	.. code-block:: cpp
+
+		[=]__host__ __device__(unsigned int nparams, hydra::Parameters* params,
+		unsigned nargs, T* args)
+		{
+		 //implementation goes here 
+		};
+	
+	where ``nparams`` is the number of parameters, ``params`` is a pointer to the array of parameters, ``T`` is the data type, ``nargs`` the number of arguments and ``args`` a pointer to the array of arguments. The symbols ``__host__ __device__`` are the necessary to make the lambda callable on host and device memory spaces. 
+	
+	2. The functor is supposed to take as arguments data with different types. In this case the signature of the function call operator will be 
+	
+	.. code-block:: cpp 
+	
+		[=]__host__ __device__(unsigned int nparams, hydra::Parameters* params, T args)
+		{
+		 //implementation goes here 
+		};
+	
+	where ``nparams`` is the number of parameters, ``params`` is a pointer to the array of parameters and ``T`` is the data type, in this case, a ``hydra::tuple`` of arguments.
+
+The following example shows how to wrap a lambda to calculate a Gaussian function capturing the mean and sigma from the lambda's enclosing scope:
+
+
+.. code-block:: cpp
+	:name: lambda-example1
+
+	#include <hydra/FunctorWrapper.h>
+
+	...
+
+	double mean  = 0.0;
+	double sigma = 1.0;
+
+	auto raw_gaussian = [=] __host__ __device__ (unsigned int nargs, double* args){
+
+		double m2 = (x[0] - mean )*(x[0] - mean );
+		double s2 = sigma*sigma;
+		
+		return exp(-m2/(2.0 * s2 ))/( sqrt(2.0*s2*PI));
+
+	};
+
+	auto wrapped_gaussian = hydra::wrap_lambda(raw_gaussian);
+
+
+In the :ref:`previous example <lambda-example1>` the mean and the sigma of the Gaussian can not be changed once the lambda is constructed. The user can overcome this limitation instantiating a parametric lambda:
+
+
+.. code-block:: cpp
+	:name: lambda-example2
+
+	#include <hydra/FunctorWrapper.h>
+	#include <hydra/Parameter.h>
+
+	...
+
+	auto raw_gaussian = [=] __host__ __device__ (unsigned int nparams, hydra::Parameters* params,
+		unsigned int nargs, double* args) {
+
+		double m2 = (x[0] - params[0] )*(x[0] - params[0] );
+		double s2 = params[1]*params[1];
+		
+		return exp(-m2/(2.0 * s2 ))/( sqrt(2.0*s2*PI));
+
+	};
+
+	std::string mean_name("mean");
+	auto mean = hydra::Parameter::Create().Name(mean).Value(0.0).Limits(-1.0, 1.0).Error(0.01);
+
+	std::string sigma_name("sigma");
+	auto sigma = hydra::Parameter::Create().Name(sigma).Value(1.0).Limits(0.01, 5.0).Error(0.01);
+
+	auto wrapped_gaussian = hydra::wrap_lambda(raw_gaussian, mean, sigma);
+
+	//set the parameters to different values 
+	wrapped_gaussian.SetParameter(0, 1.0);
+	wrapped_gaussian.SetParameter(1, 2.0);
 	
 
- 
+The ``wrapped_gaussian`` of the previous example has the same functionality of the functor coded in the  :ref:`example <functor-example2>`.
+
+Wrapped lambdas also derives from ``hydra::BaseFunctor`` and enclose the same functionality of the Hydra functors.
+
