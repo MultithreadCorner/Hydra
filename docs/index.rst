@@ -13,13 +13,12 @@ Welcome to Hydra's documentation!
    introduction
    functors
    containers
-   histograming
+   histogram
    random
    phase_space
    numerical_integration
-   fit
-   splot
-
+   fit_and_splot
+   references
 
 Indices and tables
 ==================
@@ -27,3 +26,4 @@ Indices and tables
 * :ref:`genindex`
 * :ref:`modindex`
 * :ref:`search`
+
