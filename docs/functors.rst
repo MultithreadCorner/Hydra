@@ -1,5 +1,5 @@
 Functors and C++11 lambdas.
-==========================
+===========================
 
 
 The user's code is passed to Hydra's algorithms through functors and C++11 lambda functions.
