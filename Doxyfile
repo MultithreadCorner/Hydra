@@ -1,23 +1,17 @@
 PROJECT_NAME           = "Hydra"
 PROJECT_NUMBER         = 2.0.1
 
-<<<<<<< HEAD
-STRIP_FROM_PATH        = /home/augalves/Development/Release/Hydra
- 
-INPUT                  = /home/augalves/Development/Release/Hydra/hydra /home/augalves/Development/Release/Hydra/docs  /home/augalves/Development/Release/Hydra/doxydefs /home/augalves/Development/Release/Hydra/examples /home/augalves/Development/Release/Hydra/README.md
-
-USE_MDFILE_AS_MAINPAGE = /home/augalves/Development/Release/Hydra/README.md
-# PROJECT_LOGO           = /home/augalves/Development/Release/Hydra/logo_Hydra.png
-OUTPUT_DIRECTORY       = /home/augalves/Development/Release/HydraEclipseProj/doc
-=======
 STRIP_FROM_PATH        = /home/augalves/Development/Release/Hydra_Official_Repo/Hydra
  
+<<<<<<< HEAD
+INPUT                  = /home/augalves/Development/Release/Hydra_Official_Repo/Hydra/hydra /home/augalves/Development/Release/Hydra_Official_Repo/Hydra/docs  /home/augalves/Development/Release/Hydra_Official_Repo/Hydra/doxydefs /home/augalves/Development/Release/Hydra_Official_Repo/Hydra/examples /home/augalves/Development/Release/Hydra_Official_Repo/Hydra/README.md
+=======
 INPUT                  = /home/augalves/Development/Release/Hydra_Official_Repo/Hydra/hydra /home/augalves/Development/Release/Hydra_Official_Repo/Hydra/doxydefs /home/augalves/Development/Release/Hydra_Official_Repo/Hydra/docs /home/augalves/Development/Release/Hydra_Official_Repo/Hydra/README.md
+>>>>>>> d9c0874adf9760aeb3ad9dac10d7c7f577d9d9cf
 
 USE_MDFILE_AS_MAINPAGE = /home/augalves/Development/Release/Hydra_Official_Repo/Hydra/README.md
-PROJECT_LOGO           = /home/augalves/Development/Release/Hydra_Official_Repo/Hydra/Hydra.jpg
+# PROJECT_LOGO           = /home/augalves/Development/Release/Hydra_Official_Repo/Hydra/logo_Hydra.png
 OUTPUT_DIRECTORY       = /home/augalves/Development/Release/Hydra_Official_Repo/EclipseProj/doc
->>>>>>> d9c0874adf9760aeb3ad9dac10d7c7f577d9d9cf
 
 # Doxyfile 1.8.11
 
@@ -182,17 +176,14 @@ EXCLUDE_SYMLINKS       = NO
 EXCLUDE_PATTERNS       = */external/*
 <<<<<<< HEAD
 EXCLUDE_SYMBOLS        = 
-EXAMPLE_PATH           = /home/augalves/Development/Release/Hydra/examples
-EXAMPLE_PATTERNS       = *
-EXAMPLE_RECURSIVE      = YES
-IMAGE_PATH             = /home/augalves/Development/Release/Hydra, /home/augalves/Development/Release/HydraEclipseProj/plots
+EXAMPLE_PATH           = /home/augalves/Development/Release/Hydra_Official_Repo/Hydra/examples
 =======
 EXCLUDE_SYMBOLS        = detail
 EXAMPLE_PATH           = /home/augalves/Development/Release/Hydra_Official_Repo/Hydra/src
+>>>>>>> d9c0874adf9760aeb3ad9dac10d7c7f577d9d9cf
 EXAMPLE_PATTERNS       = *
 EXAMPLE_RECURSIVE      = YES
-IMAGE_PATH             = /home/augalves/Development/Release/Hydra_Official_Repo/EclipseProj/plots
->>>>>>> d9c0874adf9760aeb3ad9dac10d7c7f577d9d9cf
+IMAGE_PATH             = /home/augalves/Development/Release/Hydra_Official_Repo/Hydra, /home/augalves/Development/Release/Hydra_Official_Repo/EclipseProj/plots
 INPUT_FILTER           = 
 FILTER_PATTERNS        = 
 FILTER_SOURCE_FILES    = NO

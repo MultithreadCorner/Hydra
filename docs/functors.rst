@@ -49,12 +49,10 @@ The parameters are represented by the ``hydra::Parameter``. The parameters can b
 
 
 .. code-block:: cpp 
-	:linenos:
-	
+		
 	#include <hydra::Parameters.h>
 	#include <string>
 	
-	...
 
     std::string p1_name("p1");
 	auto p1 = hydra::Parameter::Create().Name(p1).Value(0.0).Limits(-1.0, 1.0).Error(0.01);
