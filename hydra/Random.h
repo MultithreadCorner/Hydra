@@ -53,6 +53,57 @@
 
 namespace hydra{
 
+
+/*! \typedef default_random_engine
+ *  \brief An implementation-defined "default" random number engine.
+ *  \note \p default_random_engine is currently an alias for \p minstd_rand, and may change
+ *        in a future version.
+ */
+typedef HYDRA_EXTERNAL_NS::thrust::random::default_random_engine default_random_engine;
+
+
+/*! \typedef minstd_rand0
+ *  \brief A random number engine with predefined parameters which implements a version of
+ *         the Minimal Standard random number generation algorithm.
+ *  \note The 10000th consecutive invocation of a default-constructed object of type \p minstd_rand0
+ *        shall produce the value \c 1043618065 .
+ */
+typedef HYDRA_EXTERNAL_NS::thrust::random::minstd_rand0 minstd_rand0;
+
+/*! \typedef minstd_rand
+ *  \brief A random number engine with predefined parameters which implements a version of
+ *         the Minimal Standard random number generation algorithm.
+ *  \note The 10000th consecutive invocation of a default-constructed object of type \p minstd_rand
+ *        shall produce the value \c 399268537 .
+ */
+typedef HYDRA_EXTERNAL_NS::thrust::random::minstd_rand minstd_rand;
+
+
+/*! \typedef ranlux24
+ *  \brief A random number engine with predefined parameters which implements the
+ *         RANLUX level-3 random number generation algorithm.
+ *  \note The 10000th consecutive invocation of a default-constructed object of type \p ranlux24
+ *        shall produce the value \c 9901578 .
+ */
+typedef HYDRA_EXTERNAL_NS::thrust::random::ranlux24	ranlux24;
+
+/*! \typedef ranlux48
+ *  \brief A random number engine with predefined parameters which implements the
+ *         RANLUX level-4 random number generation algorithm.
+ *  \note The 10000th consecutive invocation of a default-constructed object of type \p ranlux48
+ *        shall produce the value \c 88229545517833 .
+ */
+typedef HYDRA_EXTERNAL_NS::thrust::random::ranlux48	ranlux48;
+
+/*! \typedef taus88
+ *  \brief A random number engine with predefined parameters which implements
+ *         L'Ecuyer's 1996 three-component Tausworthe random number generator.
+ *
+ *  \note The 10000th consecutive invocation of a default-constructed object of type \p taus88
+ *        shall produce the value \c 3535848941 .
+ */
+typedef HYDRA_EXTERNAL_NS::thrust::random::taus88 	taus88;
+
 /**
  * @ingroup random
  * @brief This class implements functionalities associated to random number generation and pdf sampling.
