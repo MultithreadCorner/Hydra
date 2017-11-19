@@ -276,6 +276,14 @@ public:
 	template<typename Iterator1, typename Iterator2>
 	void Fill(Iterator1 begin, Iterator1 end, Iterator2 wbegin);
 
+	template<hydra::detail::Backend BACKEND,typename Iterator>
+	void Fill(detail::BackendPolicy<BACKEND> const& exec_policy, Iterator begin, Iterator end);
+
+	template<hydra::detail::Backend BACKEND,typename Iterator1, typename Iterator2>
+	void Fill(detail::BackendPolicy<BACKEND> const& exec_policy, Iterator1 begin, Iterator1 end, Iterator2 wbegin);
+
+
+
 private:
 
 	//k = i_1*(dim_2*...*dim_n) + i_2*(dim_3*...*dim_n) + ... + i_{n-1}*dim_n + i_n
@@ -537,6 +545,15 @@ public:
 
 	template<typename Iterator1, typename Iterator2>
 	void Fill(Iterator1 begin, Iterator1 end, Iterator2 wbegin);
+
+
+	template<hydra::detail::Backend BACKEND,typename Iterator>
+	void Fill(detail::BackendPolicy<BACKEND> const& exec_policy, Iterator begin, Iterator end);
+
+	template<hydra::detail::Backend BACKEND,typename Iterator1, typename Iterator2>
+	void Fill(detail::BackendPolicy<BACKEND> const& exec_policy, Iterator1 begin, Iterator1 end, Iterator2 wbegin);
+
+
 
 private:
 
