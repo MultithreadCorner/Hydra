@@ -16,3 +16,5 @@ References
 .. [Minuit2] Minuit2 is a object-oriented implementation, written in C++, of the popular MINUIT minimization package. For more information see `Minuit page <https://root.cern.ch/root/html/MATH_MINUIT2_Index.html>`_ .
 
 .. [SPlot] S-Plot: A statistical tool to unfold data distributions. `<https://doi.org/10.1016/j.nima.2005.08.106>`_
+
+.. [James]  James F E, Monte Carlo phase space, 1968 (CERN) `<https://cds.cern.ch/record/275743>`_

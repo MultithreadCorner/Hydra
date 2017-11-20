@@ -48,6 +48,7 @@ Both containers can store the state of arbitrary objects and perform type conver
 .. code-block:: cpp
 	:name: multivector-example1
 	
+	#include <hydra/device/System.h>
 	#include<hydra/multivector.h>
 
 	...
@@ -75,7 +76,8 @@ To access the columns the user needs to deploy ``hydra::placeholders``: _0, _1, 
 
 .. code-block:: cpp
 	:name: multivector-example2
-
+	
+	#include <hydra/device/System.h>
 	#include<hydra/multivector.h>
 	#include<hydra/Placeholders.h>
 
@@ -108,6 +110,7 @@ It is not necessary to access each field stored in each entry to perform a conve
 
 .. code-block:: cpp 
 		
+	#include <hydra/device/System.h>
 	#include<hydra/multivector.h>
 	#include<hydra/Complex.h>
 
@@ -152,6 +155,7 @@ stdout will look like:
 .. code-block:: cpp
 	:name: multiarray-example1
 	
+	#include <hydra/device/System.h>
 	#include<hydra/multiarray.h>
 
 	...
@@ -180,7 +184,8 @@ or use ``unsigned it`` indexes.
 
 .. code-block:: cpp
 	:name: multiarray-example2
-
+	
+	#include <hydra/device/System.h>
 	#include<hydra/multiarray.h>
 	#include<hydra/Placeholders.h>
 
@@ -212,7 +217,8 @@ Now suppose that one want to interpret the data stored in mvector as a pair of c
 It is not necessary to access each field stored in each entry to perform a conversion invoking the corresponding constructors. The next example shows how this can be accomplished in a more elegant way using a lambda function:
 
 .. code-block:: cpp 
-		
+	
+	#include <hydra/device/System.h>
 	#include<hydra/multiarray.h>
 	#include<hydra/Complex.h>
 
