@@ -135,6 +135,11 @@ struct AddPdfFunctor
 	}
 
 
+	__host__ __device__  inline
+	GReal_t GetNorm() const {
+		return 1.0 ;
+	}
+
     __host__ __device__
 	const functors_tuple_type& GetFunctors() const
 	{
@@ -153,7 +158,7 @@ struct AddPdfFunctor
 	GReal_t operator()(T&& t )
 	{
 
-		auto pdf_res_tuple = detail::invoke<functors_tuple_type, T>( t, fFunctors);
+		auto pdf_res_tuple = detail::invoke_normalized<functors_tuple_type, T>( t, fFunctors);
 		GReal_t pdf_res_array[npdfs];
 		detail::tupleToArray( pdf_res_tuple, pdf_res_array );
 
@@ -172,7 +177,7 @@ struct AddPdfFunctor
 	{
 
 
-		auto pdf_res_tuple = detail::invoke<GReal_t,functors_tuple_type, T1, T2>( x, cache, fFunctors);
+		auto pdf_res_tuple = detail::invoke_normalized<GReal_t,functors_tuple_type, T1, T2>( x, cache, fFunctors);
 		GReal_t pdf_res_array[npdfs];
 		detail::tupleToArray( pdf_res_tuple, pdf_res_array );
 
@@ -189,7 +194,7 @@ struct AddPdfFunctor
 	{
 
 
-		auto pdf_res_tuple = detail::invoke(x, fFunctors);
+		auto pdf_res_tuple = detail::invoke_normalized(x, fFunctors);
 		GReal_t pdf_res_array[npdfs];
 		detail::tupleToArray( pdf_res_tuple, pdf_res_array );
 

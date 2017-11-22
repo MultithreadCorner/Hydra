@@ -183,7 +183,32 @@ int main(int argv, char** argc)
 
 		hydra::Decays<3, hydra::host::sys_t > Events_h(Events_d);
 
-		for( auto event : Events_h ){
+		auto dalitz_calculator = hydra::wrap_lambda(
+				[]__host__ __device__ ( unsigned int np, hydra::Vector4R* particles){
+
+				hydra::Vector4R Jpsi = particles[0];
+				hydra::Vector4R K    = particles[1];
+				hydra::Vector4R pi   = particles[2];
+
+				double M2_Jpsi_pi = (Jpsi + pi).mass2();
+				double M2_Kpi     = (K + pi).mass2();
+
+				return hydra::make_tuple(M2_Jpsi_pi, M2_Kpi);
+			}
+		);
+
+		auto dalitz_variables = Events_h.GetVariables(dalitz_calculator);
+		auto dalitz_weights   = Events_h.GetWeights();
+
+		for(size_t i=0; i< dalitz_variables.size(); i ++)
+		{
+			double weight  =  dalitz_weights[i];
+			double M2_Jpsi_pi = hydra::get<0>(dalitz_variables[i]);
+			double M2_Kpi     = hydra::get<1>(dalitz_variables[i]);
+			Dalitz_d.Fill( M2_Jpsi_pi, M2_Kpi, weight);
+		}
+		/*
+		for( auto entry: dalitz_variables ){
 
 			double weight        = hydra::get<0>(event);
 			hydra::Vector4R Jpsi = hydra::get<1>(event);
@@ -195,6 +220,7 @@ int main(int argv, char** argc)
 
 			Dalitz_d.Fill( M2_Jpsi_pi, M2_Kpi, weight);
 		}
+		*/
 
 #endif
 

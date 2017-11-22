@@ -150,6 +150,26 @@ namespace detail {
 		return;
 	}
 
+	template<size_t N, typename GRND, typename Iterator, hydra::detail::Backend BACKEND>
+	inline void launch_decayer( hydra::detail::BackendPolicy<BACKEND> const& exec_policy ,Iterator begin, Iterator end, DecayMother<N, GRND> const& decayer)
+	{
+
+		size_t nevents = HYDRA_EXTERNAL_NS::thrust::distance(begin, end);
+		HYDRA_EXTERNAL_NS::thrust::counting_iterator<GLong_t> first(0);
+		HYDRA_EXTERNAL_NS::thrust::counting_iterator<GLong_t> last = first + nevents;
+
+		auto begin_weights = HYDRA_EXTERNAL_NS::thrust::get<0>(begin.get_iterator_tuple());
+
+		auto begin_temp = hydra::detail::dropFirst( begin.get_iterator_tuple() );
+
+		auto begin_particles = HYDRA_EXTERNAL_NS::thrust::make_zip_iterator(begin_temp);
+
+		HYDRA_EXTERNAL_NS::thrust::transform(exec_policy ,first, last, begin_particles, begin_weights, decayer);
+
+		return;
+	}
+
+	//-------------------------------
 
 	template<size_t N, typename GRND,	typename IteratorMother, typename IteratorDaughter>
 	inline	void launch_decayer(IteratorMother begin, IteratorMother end
@@ -167,6 +187,27 @@ namespace detail {
 		auto begin_particles = HYDRA_EXTERNAL_NS::thrust::make_zip_iterator(begin_temp);
 
 		HYDRA_EXTERNAL_NS::thrust::transform(first, last, begin_particles, begin_weights, decayer);
+
+		return;
+	}
+
+
+	template<size_t N, typename GRND,	typename IteratorMother, typename IteratorDaughter, hydra::detail::Backend BACKEND>
+	inline	void launch_decayer( hydra::detail::BackendPolicy<BACKEND> const& exec_policy , IteratorMother begin, IteratorMother end
+			, IteratorDaughter begin_daugters, DecayMothers<N, GRND> const& decayer)
+	{
+
+		size_t nevents = HYDRA_EXTERNAL_NS::thrust::distance(begin, end);
+		HYDRA_EXTERNAL_NS::thrust::counting_iterator<GLong_t> first(0);
+		HYDRA_EXTERNAL_NS::thrust::counting_iterator<GLong_t> last = first + nevents;
+
+		auto begin_weights = HYDRA_EXTERNAL_NS::thrust::get<0>(begin_daugters.get_iterator_tuple());
+
+		auto begin_temp = hydra::detail::changeFirst(  begin, begin_daugters.get_iterator_tuple() );
+
+		auto begin_particles = HYDRA_EXTERNAL_NS::thrust::make_zip_iterator(begin_temp);
+
+		HYDRA_EXTERNAL_NS::thrust::transform(exec_policy , first, last, begin_particles, begin_weights, decayer);
 
 		return;
 	}

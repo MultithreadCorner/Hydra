@@ -90,6 +90,13 @@ public:
 		fEnd = end;
 	}
 
+	auto operator[](size_t i)
+	-> decltype(begin()[0] )
+	{
+	 return fBegin[i];
+	}
+
+
 private:
 	Iterator fBegin;
 	Iterator fEnd;

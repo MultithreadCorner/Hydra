@@ -305,7 +305,7 @@ public:
  	template<typename T1>
  	inline  GReal_t operator()(T1&& t )
   	{
-  		return fFunctor(t);
+  		return fFunctor.GetNorm()*fFunctor(t);
 
   	}
 
@@ -319,7 +319,7 @@ public:
   	inline  GReal_t operator()( T1&& t, T2&& cache)
   	{
 
-  		return fFunctor(t, cache);
+  		return fFunctor.GetNorm()*fFunctor(t, cache);
   	}
 
 
@@ -327,7 +327,7 @@ public:
    inline  GReal_t operator()( T* x, T* p=0)
   	{
 
-  	  		return fFunctor(x);
+  	  		return fFunctor.GetNorm()*fFunctor(x);
   	}
 
 

@@ -68,7 +68,7 @@ struct LogLikelihood1
    	__host__ __device__ inline
    	GReal_t operator()(Type& x)
    	{
-		return log(fFunctor( x ));
+		return log(fFunctor.GetNorm()*fFunctor( x ));
 	}
 
 private:

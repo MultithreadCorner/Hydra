@@ -698,6 +698,27 @@ namespace hydra {
 	 __hydra_exec_check_disable__
 	 template< typename Tup, typename ArgType, size_t ... index>
 	 __host__ __device__
+	 inline auto invoke_normalized_helper( ArgType& x, Tup& tup, index_sequence<index...>)
+	 -> decltype(HYDRA_EXTERNAL_NS::thrust::make_tuple(HYDRA_EXTERNAL_NS::thrust::get<index>(tup)(x)...))
+	 {
+		 return HYDRA_EXTERNAL_NS::thrust::make_tuple(HYDRA_EXTERNAL_NS::thrust::get<index>(tup).GetNorm()*HYDRA_EXTERNAL_NS::thrust::get<index>(tup)(x)...);
+	 }
+
+	 __hydra_exec_check_disable__
+	 template< typename Tup, typename ArgType>
+	 __host__  __device__
+	 inline auto invoke_normalized(ArgType& x, Tup& tup)
+	 -> decltype(invoke_helper(x, tup, make_index_sequence< HYDRA_EXTERNAL_NS::thrust::tuple_size<Tup>::value> { }))
+	 {
+		 constexpr size_t Size = HYDRA_EXTERNAL_NS::thrust::tuple_size<Tup>::value;
+		 return invoke_normalized_helper( x, tup, make_index_sequence<Size> { });
+	 }
+
+
+
+	 __hydra_exec_check_disable__
+	 template< typename Tup, typename ArgType, size_t ... index>
+	 __host__ __device__
 	 inline auto invoke_helper( ArgType& x, Tup& tup, index_sequence<index...>)
 	 -> decltype(HYDRA_EXTERNAL_NS::thrust::make_tuple(HYDRA_EXTERNAL_NS::thrust::get<index>(tup)(x)...))
 	 {

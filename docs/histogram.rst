@@ -33,7 +33,8 @@ Dense histograms
 Dense histograms store all bins, including ones with zero content. In Hydra, they are represented by the class ``hydra::DenseHistogram<<NDimensions, Type>``, where ``NDimensions`` is the number of dimensions and ``Type`` is the type  of the histogram's  values.
 
 .. code-block:: cpp
-
+	
+	#include <hydra/device/System.h>
 	#include <hydra/multiarray.h>
 	#include <hydra/DenseHistogram.h>
 	#include <array>
@@ -69,6 +70,7 @@ Sparse histograms store only bins with non-zero content. In Hydra, they are repr
 
 .. code-block:: cpp
 
+	#include <hydra/device/System.h>
 	#include <hydra/multiarray.h>
 	#include <hydra/SparseHistogram.h>
 	#include <array>

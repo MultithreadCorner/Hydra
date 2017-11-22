@@ -331,9 +331,13 @@ if(NPARAM!=0){
 	__host__  __device__ inline
 	return_type operator()(unsigned int n, T* x)
 	{
+		/*
 		GReal_t norm = fNormalized? fNorm : 1.0;
 
 		return norm>0.0?static_cast<Functor*>(this)->Evaluate(n,x)*norm:0;
+		*/
+
+		return static_cast<Functor*>(this)->Evaluate(n,x);
 	}
 
 
@@ -341,9 +345,12 @@ if(NPARAM!=0){
 	__host__ __device__ inline
 	return_type operator()( T&&  x )
 	{
+		/*
 		GReal_t norm = fNormalized ? fNorm : 1.0;
-
 		return  norm>0.0? interface( std::forward<T>(x))*norm: 0;
+		*/
+		return  interface( std::forward<T>(x));
+
 	}
 
 
@@ -352,12 +359,17 @@ if(NPARAM!=0){
 	return_type operator()( T1&& x, T2&& cache)
 	{
 
+		/*
 		GReal_t norm = fNormalized? fNorm : 1.0;
 
 
 		return fCached ?\
 				detail::extract<return_type, T2 >(fCacheIndex, std::forward<T2>(cache)):\
 				norm>0.0?operator()<T1>( std::forward<T1>(x) )*norm:0;
+		*/
+
+		return fCached ? detail::extract<return_type, T2 >(fCacheIndex, std::forward<T2>(cache)):
+						operator()<T1>( std::forward<T1>(x) );
 	}
 
 

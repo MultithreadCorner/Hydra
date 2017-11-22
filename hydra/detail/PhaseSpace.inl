@@ -249,6 +249,55 @@ void PhaseSpace<N,GRND>::Generate( Iterator1 begin, Iterator1 end, Iterator2 dau
 
 }
 
+//========================
+template <size_t N, typename GRND>
+template<typename Iterator, hydra::detail::Backend BACKEND>
+void PhaseSpace<N,GRND>::Generate(hydra::detail::BackendPolicy<BACKEND> const& exec_policy ,Vector4R const& mother, Iterator begin, Iterator end){
+	/**
+	 * Run the generator and calculate the maximum weight. It takes as input the fourvector of the mother particle
+	 * in any system of reference. The daughters will be generated in this system.
+	 */
+
+#if(THRUST_DEVICE_SYSTEM==THRUST_DEVICE_BACKEND_CUDA && (BACKEND==device))
+	cudaDeviceSetCacheConfig(cudaFuncCachePreferL1);
+#endif
+	if (EnergyChecker( mother )){
+
+	detail::DecayMother<N,GRND> decayer(mother,fMasses, fSeed);
+	detail::launch_decayer(exec_policy ,begin, end, decayer );
+
+	}
+	else {
+		HYDRA_LOG(WARNING, "Not enough energy to generate all decays.Check the mass of the mother particle")
+	}
+}
+
+template <size_t N, typename GRND>
+template<typename Iterator1, typename Iterator2, hydra::detail::Backend BACKEND>
+void PhaseSpace<N,GRND>::Generate(hydra::detail::BackendPolicy<BACKEND> const& exec_policy , Iterator1 begin, Iterator1 end, Iterator2 daughters_begin){
+	/**
+	 * Run the generator and calculate the maximum weight. It takes as input the device vector with the four-vectors of the mother particle
+	 * in any system of reference. The daughters will be generated in this system.
+	 */
+
+#if(THRUST_DEVICE_SYSTEM==THRUST_DEVICE_BACKEND_CUDA && (BACKEND==device))
+	cudaDeviceSetCacheConfig(cudaFuncCachePreferL1);
+#endif
+
+	if (EnergyChecker( begin, end)){
+
+	detail::DecayMothers<N,GRND> decayer(fMasses, fSeed);
+	detail::launch_decayer(exec_policy ,begin, end, daughters_begin, decayer );
+
+	}
+	else {
+		HYDRA_LOG(WARNING, "Not enough energy to generate all decays.Check the masses of the mother particles")
+	}
+
+
+}
+
+
 template <size_t N, typename GRND>
 inline GInt_t PhaseSpace<N,GRND>::GetSeed() const	{
 	return fSeed;
