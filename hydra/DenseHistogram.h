@@ -171,7 +171,18 @@ public:
 		get_indexes(globalbin, bins);
 	}
 
-	double GetBinContent( size_t  (&bins)[N]){
+	double GetBinContent( size_t (&bins)[N]){
+
+		size_t bin=0;
+
+		get_global_bin( bins,  bin);
+
+		return (bin >=0 ) && ( bin < (fNBins) ) ?
+				fContents.begin()[bin] :
+				std::numeric_limits<double>::max();
+	}
+
+	double GetBinContent( std::array<size_t, N> const& bins){
 
 		size_t bin=0;
 

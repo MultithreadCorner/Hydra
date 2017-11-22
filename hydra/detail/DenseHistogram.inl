@@ -61,6 +61,8 @@ void DenseHistogram<N, T, detail::multidimensional>::Fill(Iterator1 begin, Itera
 
 	size_t data_size = HYDRA_EXTERNAL_NS::thrust::distance(begin, end);
 
+	std::cout << "=================>> size: "<< data_size << std::endl;
+
 	auto key_functor = detail::GetGlobalBin<N,T>(fGrid, fLowerLimits, fUpperLimits);
 
 	//work on local copy of weights
@@ -84,8 +86,8 @@ void DenseHistogram<N, T, detail::multidimensional>::Fill(Iterator1 begin, Itera
 
 	HYDRA_EXTERNAL_NS::thrust::fill(bin_contents.first, bin_contents.first+bin_contents.second, 0.0);
 
-	auto reduced_end = HYDRA_EXTERNAL_NS::thrust::reduce_by_key(system_t(), keys_begin, keys_end, weights.first,
-    		reduced_keys.first, reduced_values.first);
+	auto reduced_end = HYDRA_EXTERNAL_NS::thrust::reduce_by_key(system_t(), key_buffer.first,
+			key_buffer.first + key_buffer.second, weights.first, reduced_keys.first, reduced_values.first);
 
 	HYDRA_EXTERNAL_NS::thrust::scatter( system_t(),  reduced_values.first, reduced_end.second,
 			reduced_keys.first,bin_contents.first );

@@ -74,6 +74,7 @@
 #include <hydra/host/System.h>
 #include <hydra/device/System.h>
 #include <hydra/Decays.h>
+#include <hydra/DenseHistogram.h>
 /*-------------------------------------
  * Include classes from ROOT to fill
  * and draw histograms and plots.
@@ -146,6 +147,20 @@ int main(int argv, char** argc)
 	// Create PhaseSpace object for B0-> K pi J/psi
 	hydra::PhaseSpace<3> phsp( masses);
 
+
+	auto dalitz_calculator = hydra::wrap_lambda(
+			[]__host__ __device__ ( unsigned int np, hydra::Vector4R* particles){
+
+		hydra::Vector4R Jpsi = particles[0];
+		hydra::Vector4R K    = particles[1];
+		hydra::Vector4R pi   = particles[2];
+
+		double M2_Jpsi_pi = (Jpsi + pi).mass2();
+		double M2_Kpi     = (K + pi).mass2();
+
+		return hydra::make_tuple(M2_Jpsi_pi, M2_Kpi);
+	});
+
 	//device
 	{
 		//allocate memory to hold the final states particles
@@ -175,53 +190,26 @@ int main(int argv, char** argc)
 		for( size_t i=0; i<10; i++ )
 			std::cout << Events_d.GetDecay(i) << std::endl;
 
+		auto dalitz_variables = Events_d.GetVariables(dalitz_calculator);
+		auto dalitz_weights   = Events_d.GetWeights();
+
+		hydra::DenseHistogram<2, double> Hist_Dalitz({100,100},
+				{pow(Jpsi_mass + pi_mass,2), pow(K_mass + pi_mass,2)},
+				{pow(B0_mass - K_mass,2)   , pow(B0_mass - Jpsi_mass,2)});
+
+		Hist_Dalitz.Fill(dalitz_variables.begin(), dalitz_variables.end(),
+			dalitz_weights.begin()  );
+
+
 
 #ifdef 	_ROOT_AVAILABLE_
 
-		//bring events to CPU memory space
-		//hydra::Events<3, hydra::host::sys_t > Events_h(Events_d);
+		for(size_t i=0; i< 100; i++){
+			for(size_t j=0; j< 100; j++){
 
-		hydra::Decays<3, hydra::host::sys_t > Events_h(Events_d);
-
-		auto dalitz_calculator = hydra::wrap_lambda(
-				[]__host__ __device__ ( unsigned int np, hydra::Vector4R* particles){
-
-				hydra::Vector4R Jpsi = particles[0];
-				hydra::Vector4R K    = particles[1];
-				hydra::Vector4R pi   = particles[2];
-
-				double M2_Jpsi_pi = (Jpsi + pi).mass2();
-				double M2_Kpi     = (K + pi).mass2();
-
-				return hydra::make_tuple(M2_Jpsi_pi, M2_Kpi);
+				Dalitz_d.SetBinContent(i+1, j+1, Hist_Dalitz.GetBinContent({i,j}) );
 			}
-		);
-
-		auto dalitz_variables = Events_h.GetVariables(dalitz_calculator);
-		auto dalitz_weights   = Events_h.GetWeights();
-
-		for(size_t i=0; i< dalitz_variables.size(); i ++)
-		{
-			double weight  =  dalitz_weights[i];
-			double M2_Jpsi_pi = hydra::get<0>(dalitz_variables[i]);
-			double M2_Kpi     = hydra::get<1>(dalitz_variables[i]);
-			Dalitz_d.Fill( M2_Jpsi_pi, M2_Kpi, weight);
 		}
-		/*
-		for( auto entry: dalitz_variables ){
-
-			double weight        = hydra::get<0>(event);
-			hydra::Vector4R Jpsi = hydra::get<1>(event);
-			hydra::Vector4R K    = hydra::get<2>(event);
-			hydra::Vector4R pi   = hydra::get<3>(event);
-
-			double M2_Jpsi_pi = (Jpsi + pi).mass2();
-			double M2_Kpi     = (K + pi).mass2();
-
-			Dalitz_d.Fill( M2_Jpsi_pi, M2_Kpi, weight);
-		}
-		*/
-
 #endif
 
 	}
@@ -253,19 +241,29 @@ int main(int argv, char** argc)
 		for( size_t i=0; i<10; i++ )
 			std::cout << Events_h[i] << std::endl;
 
+
+		auto dalitz_variables = Events_h.GetVariables(dalitz_calculator);
+		auto dalitz_weights   = Events_h.GetWeights();
+
+		hydra::DenseHistogram<2, double> Hist_Dalitz({100,100},
+				{pow(Jpsi_mass + pi_mass,2), pow(K_mass + pi_mass,2)},
+				{pow(B0_mass - K_mass,2)   , pow(B0_mass - Jpsi_mass,2)});
+
+		size_t i=0;
+		for(auto x:dalitz_variables )
+			std::cout << i++ << " " << x << std::endl;
+
+
+		//Hist_Dalitz.Fill(dalitz_variables.begin(), dalitz_variables.end(), dalitz_weights.begin()  );
+
+
 #ifdef 	_ROOT_AVAILABLE_
 
-		for( auto event : Events_h ){
+		for(size_t i=0; i< 100; i++){
+			for(size_t j=0; j< 100; j++){
 
-			double weight        = hydra::get<0>(event);
-			hydra::Vector4R Jpsi = hydra::get<1>(event);
-			hydra::Vector4R K    = hydra::get<2>(event);
-			hydra::Vector4R pi   = hydra::get<3>(event);
-
-			double M2_Jpsi_pi = (Jpsi + pi).mass2();
-			double M2_Kpi     = (K + pi).mass2();
-
-			Dalitz_h.Fill(M2_Jpsi_pi, M2_Kpi, weight );
+				Dalitz_h.SetBinContent(i+1, j+1, Hist_Dalitz.GetBinContent({i,j}) );
+			}
 		}
 
 #endif

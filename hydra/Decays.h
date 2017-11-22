@@ -240,7 +240,9 @@ public:
 		}
 		__host__ __device__ inline
 		udecay_t operator()( value_type & v){
-			udecay_t r; __convert( v , r); 	return r;
+			udecay_t r;
+			__convert( v , r);
+			return r;
 		}
 
 	};
@@ -263,7 +265,6 @@ public:
 		typename std::result_of<Functor(udecay_t&)>::type
 		operator()( value_type & v)
 		{
-
 			return fFunctor( fConverter(v) );
 
 		}

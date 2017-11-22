@@ -146,7 +146,7 @@ template<class T> using tuple_size = HYDRA_EXTERNAL_NS::thrust::tuple_size<T>;
  */
 
 template<int N, typename ...T>
-__host__ __device__
+__host__ __device__ inline
 typename HYDRA_EXTERNAL_NS::thrust::tuple_element<N,HYDRA_EXTERNAL_NS::thrust::tuple<T...>>::type
 get( HYDRA_EXTERNAL_NS::thrust::tuple<T...> const& t)
 {
@@ -155,7 +155,7 @@ get( HYDRA_EXTERNAL_NS::thrust::tuple<T...> const& t)
 
 
 template<int N, typename ...T>
-__host__ __device__
+__host__ __device__ inline
 typename HYDRA_EXTERNAL_NS::thrust::tuple_element<N,HYDRA_EXTERNAL_NS::thrust::tuple<T...>>::type
 get( HYDRA_EXTERNAL_NS::thrust::tuple<T...> & t)
 {
@@ -163,14 +163,12 @@ get( HYDRA_EXTERNAL_NS::thrust::tuple<T...> & t)
 }
 
 template<int N, typename T1,  typename T2>
-__host__ __device__
+__host__ __device__ inline
 typename HYDRA_EXTERNAL_NS::thrust::tuple_element<N,HYDRA_EXTERNAL_NS::thrust::pair<T1,T2>>::type
 get( HYDRA_EXTERNAL_NS::thrust::pair<T1,T2> && t)
 {
 	return HYDRA_EXTERNAL_NS::thrust::get<N>(std::forward<HYDRA_EXTERNAL_NS::thrust::pair<T1,T2>>(t));
 }
-
-
 
 /*! This version of \p make_tuple creates a new \c tuple object from a list of
  *  objects.
@@ -180,6 +178,22 @@ get( HYDRA_EXTERNAL_NS::thrust::pair<T1,T2> && t)
  *
  */
 template<class ...T>
+__host__ __device__ inline
+auto make_tuple(T const&... t)
+-> decltype(HYDRA_EXTERNAL_NS::thrust::make_tuple(t...))
+{
+	return HYDRA_EXTERNAL_NS::thrust::make_tuple(t...);
+}
+
+/*! This version of \p make_tuple creates a new \c tuple object from a list of
+ *  objects.
+ *
+ *  \param T The first object to copy from.
+ *  \return A \p tuple object with members which are copies of \p t.
+ *
+ */
+template<class ...T>
+__host__ __device__ inline
 auto make_tuple(T&&... t)
 -> decltype(HYDRA_EXTERNAL_NS::thrust::make_tuple( std::forward<T>(t)...))
 {
@@ -195,6 +209,7 @@ auto make_tuple(T&&... t)
  *
  */
 template<class T1, class T2 >
+__host__ __device__ inline
 auto make_pair( T1&& t1, T2&& t2 )
 -> decltype(HYDRA_EXTERNAL_NS::thrust::make_pair( std::forward<T1>(t1),std::forward<T2>(t2) ))
 {
@@ -209,6 +224,7 @@ auto make_pair( T1&& t1, T2&& t2 )
  *  \return A \p tuple object with members which are references to \p t.
  */
 template<class ...T>
+__host__ __device__ inline
 auto tie(T&& ...t)
 -> decltype(HYDRA_EXTERNAL_NS::thrust::tie(std::forward<T>(t)...))
 {
