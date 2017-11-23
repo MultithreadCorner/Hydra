@@ -247,31 +247,6 @@ public:
 
 	};
 
-	template<typename Functor>
-	struct __CastToVariables
-	{
-		__CastToVariables()=delete;
-
-		__CastToVariables(Functor const&  functor):
-			fFunctor(functor)
-		{}
-
-		__host__ __device__ inline
-		__CastToVariables(__CastToVariables<Functor> const& other):
-		fFunctor(fFunctor)
-		{}
-
-		__host__ __device__ inline
-		typename std::result_of<Functor(udecay_t&)>::type
-		operator()( value_type & v)
-		{
-			return fFunctor( fConverter(v) );
-
-		}
-
-		Functor fFunctor;
-		 __CastToUnWeightedDecay fConverter;
-	};
 
 	//cast iterator
 	template < typename Iterator, typename Arg, typename Functor>
@@ -440,13 +415,6 @@ public:
 
 		return hydra::make_range(this->fDecays[i].begin(__CastTupleToVector4()),
 					this->fDecays[i].end(__CastTupleToVector4()));
-	}
-
-	template<typename Functor>
-	GenericRange< __caster_iterator<iterator, value_type, __CastToVariables<Functor> >>
-	GetVariables( Functor const& caster ){
-
-		return hydra::make_range(this->__vbegin(caster), this->__vend(caster));
 	}
 
 	GenericRange<weights_iterator >
@@ -1082,18 +1050,6 @@ private:
 
 	//__________________________________________
 	// caster accessors
-	template<typename Functor>
-	inline __caster_iterator<iterator, value_type, __CastToVariables<Functor> > __vbegin( Functor const& caster )
-	{
-		return __caster_iterator<iterator, value_type, __CastToVariables<Functor> >(this->begin(), __CastToVariables<Functor>(caster) );
-	}
-
-	template<typename Functor>
-	inline __caster_iterator<iterator, value_type, __CastToVariables<Functor> > __vend( Functor const& caster )
-	{
-		return __caster_iterator<iterator, value_type, __CastToVariables<Functor>  >(this->end(),  __CastToVariables<Functor>(caster) );
-	}
-
 
 	template<typename Functor>
 	 inline __caster_iterator<iterator, value_type, Functor> __begin( Functor const& caster )

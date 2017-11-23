@@ -35,82 +35,13 @@
 
 namespace hydra {
 
-template<typename Iterator>
-class GenericRange{
-
-public:
-
-	GenericRange()=delete;
-
-	GenericRange(Iterator begin, Iterator end):
-		fBegin( begin),
-		fEnd( end )
-		{}
-
-	GenericRange(Iterator begin,  size_t last):
-			fBegin( begin),
-			fEnd( begin + last )
-			{}
-
-	GenericRange(GenericRange<Iterator> const& other):
-			fBegin( other.GetBegin()),
-			fEnd( other.GetEnd() )
-			{}
-
-	GenericRange<Iterator>&
-	operator=(GenericRange<Iterator> const& other){
-
-		if(this==&other) return this;
-
-		fBegin = other.GetBegin();
-		fEnd = other.GetEnd();
-		return this;
-	}
-
-
-	Iterator begin(){ return fBegin;};
-
-	Iterator   end(){ return fEnd;};
-
-	size_t size() { return hydra::distance(fBegin, fEnd);}
-
-	Iterator GetBegin() const {
-		return fBegin;
-	}
-
-	void SetBegin(Iterator begin) {
-		fBegin = begin;
-	}
-
-	Iterator GetEnd() const {
-		return fEnd;
-	}
-
-	void SetEnd(Iterator end) {
-		fEnd = end;
-	}
-
-	auto operator[](size_t i)
-	-> decltype(begin()[0] )
-	{
-	 return fBegin[i];
-	}
-
-
-private:
-	Iterator fBegin;
-	Iterator fEnd;
-
-};
-
-template<typename Iterator>
-GenericRange<Iterator>
-make_range(Iterator begin, Iterator end ){
-	return GenericRange<Iterator>( begin, end);
-}
+template<typename ...T>
+class GenericRange;
 
 }  // namespace hydra
 
+#include <hydra/detail/GenericRange1.inl>
+#include <hydra/detail/GenericRange2.inl>
 
 
 #endif /* GENERICRANGE_H_ */

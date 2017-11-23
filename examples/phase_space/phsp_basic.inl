@@ -190,7 +190,9 @@ int main(int argv, char** argc)
 		for( size_t i=0; i<10; i++ )
 			std::cout << Events_d.GetDecay(i) << std::endl;
 
-		auto dalitz_variables = Events_d.GetVariables(dalitz_calculator);
+		auto particles        = Events_d.GetUnweightedDecays();
+		auto dalitz_variables = hydra::make_range( particles.begin(), particles.end(), dalitz_calculator);
+
 		auto dalitz_weights   = Events_d.GetWeights();
 
 		hydra::DenseHistogram<2, double> Hist_Dalitz({100,100},
@@ -242,19 +244,17 @@ int main(int argv, char** argc)
 			std::cout << Events_h[i] << std::endl;
 
 
-		auto dalitz_variables = Events_h.GetVariables(dalitz_calculator);
+		auto particles        = Events_h.GetUnweightedDecays();
+		auto dalitz_variables = hydra::make_range( particles.begin(), particles.end(), dalitz_calculator);
+
 		auto dalitz_weights   = Events_h.GetWeights();
 
 		hydra::DenseHistogram<2, double> Hist_Dalitz({100,100},
 				{pow(Jpsi_mass + pi_mass,2), pow(K_mass + pi_mass,2)},
 				{pow(B0_mass - K_mass,2)   , pow(B0_mass - Jpsi_mass,2)});
 
-		size_t i=0;
-		for(auto x:dalitz_variables )
-			std::cout << i++ << " " << x << std::endl;
-
-
-		//Hist_Dalitz.Fill(dalitz_variables.begin(), dalitz_variables.end(), dalitz_weights.begin()  );
+		Hist_Dalitz.Fill(dalitz_variables.begin(), dalitz_variables.end(),
+				dalitz_weights.begin()  );
 
 
 #ifdef 	_ROOT_AVAILABLE_
