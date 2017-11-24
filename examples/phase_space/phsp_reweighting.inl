@@ -221,7 +221,7 @@ int main(int argv, char** argc)
 		Events_d.Reweight(breit_wigner);
 
 		std::cout <<std::endl;
-		std::cout << "<======= Flat [Unweighted] =======>"<< std::endl;
+		std::cout << "<======= BW [Reweighted] =======>"<< std::endl;
 		for( size_t i=0; i<10; i++ )
 			std::cout << Events_d[i] << std::endl;
 
@@ -298,7 +298,7 @@ int main(int argv, char** argc)
 		Events_h.Reweight(breit_wigner);
 
 		std::cout <<std::endl;
-		std::cout << "<======= Flat [Unweighted] =======>"<< std::endl;
+		std::cout << "<======= BW [Reweighted]  =======>"<< std::endl;
 		for( size_t i=0; i<10; i++ )
 			std::cout << Events_h[i] << std::endl;
 
