@@ -145,7 +145,7 @@ int main(int argv, char** argc)
 	double masses[3]{Jpsi_mass, K_mass, pi_mass };
 
 	// Create PhaseSpace object for B0-> K pi J/psi
-	hydra::PhaseSpace<3> phsp( masses);
+	hydra::PhaseSpace<3> phsp{Jpsi_mass, K_mass, pi_mass};
 
 
 	auto dalitz_calculator = hydra::wrap_lambda(
@@ -253,7 +253,8 @@ int main(int argv, char** argc)
 
 
 		auto particles        = Events_h.GetUnweightedDecays();
-		auto dalitz_variables = hydra::make_range( particles.begin(), particles.end(), dalitz_calculator);
+		auto dalitz_variables = hydra::make_range( particles.begin(),
+				particles.end(), dalitz_calculator);
 
 		auto dalitz_weights   = Events_h.GetWeights();
 
