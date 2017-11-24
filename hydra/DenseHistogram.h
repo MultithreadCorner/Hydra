@@ -177,7 +177,7 @@ public:
 
 		get_global_bin( bins,  bin);
 
-		return (bin >=0 ) && ( bin < (fNBins) ) ?
+		return  ( bin < (fNBins) ) ?
 				fContents.begin()[bin] :
 				std::numeric_limits<double>::max();
 	}
@@ -188,14 +188,14 @@ public:
 
 		get_global_bin( bins,  bin);
 
-		return (bin >=0 ) && ( bin < (fNBins) ) ?
+		return  ( bin < (fNBins) ) ?
 				fContents.begin()[bin] :
 				std::numeric_limits<double>::max();
 	}
 
 	double GetBinContent( size_t  bin){
 
-		return (bin >=0 ) && ( bin<= (fNBins+1) ) ?
+		return ( bin<= (fNBins+1) ) ?
 				fContents.begin()[bin] :
 				std::numeric_limits<double>::max();
 	}
@@ -446,7 +446,7 @@ public:
 
 	double GetBinContent(size_t i){
 
-		return (i>=0) && (i<=fNBins+1) ?
+		return (i<=fNBins+1) ?
 				fContents.begin()[i] :
 					std::numeric_limits<double>::max();
 	}

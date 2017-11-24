@@ -199,8 +199,16 @@ int main(int argv, char** argc)
 				{pow(Jpsi_mass + pi_mass,2), pow(K_mass + pi_mass,2)},
 				{pow(B0_mass - K_mass,2)   , pow(B0_mass - Jpsi_mass,2)});
 
+		start = std::chrono::high_resolution_clock::now();
 		Hist_Dalitz.Fill(dalitz_variables.begin(), dalitz_variables.end(),
 			dalitz_weights.begin()  );
+		end = std::chrono::high_resolution_clock::now();
+
+		elapsed = end - start;
+		std::cout << "----------------- Device ----------------"<< std::endl;
+		std::cout << "| Histogram "                             << std::endl;
+		std::cout << "| Time (ms)        :"<< elapsed.count()   << std::endl;
+		std::cout << "-----------------------------------------"<< std::endl;
 
 
 
@@ -253,8 +261,18 @@ int main(int argv, char** argc)
 				{pow(Jpsi_mass + pi_mass,2), pow(K_mass + pi_mass,2)},
 				{pow(B0_mass - K_mass,2)   , pow(B0_mass - Jpsi_mass,2)});
 
+		start = std::chrono::high_resolution_clock::now();
 		Hist_Dalitz.Fill(dalitz_variables.begin(), dalitz_variables.end(),
 				dalitz_weights.begin()  );
+		end = std::chrono::high_resolution_clock::now();
+
+		elapsed = end - start;
+		std::cout << "----------------- Device ----------------"<< std::endl;
+		std::cout << "| Histogram "                             << std::endl;
+		std::cout << "| Time (ms)        :"<< elapsed.count()   << std::endl;
+		std::cout << "-----------------------------------------"<< std::endl;
+
+
 
 
 #ifdef 	_ROOT_AVAILABLE_

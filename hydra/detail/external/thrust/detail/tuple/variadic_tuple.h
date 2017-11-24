@@ -561,6 +561,7 @@ class tuple
 
   public:
 
+#pragma hd_warning_disable
     __TUPLE_ANNOTATION
     tuple() : base_{} {};
 

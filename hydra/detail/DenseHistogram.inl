@@ -415,7 +415,7 @@ void DenseHistogram<1, T,detail::unidimensional >::Fill(Iterator1 begin, Iterato
 	HYDRA_EXTERNAL_NS::thrust::scatter( system_t(), reduced_values.first, reduced_end.second,
 		  reduced_keys.first, bin_contents.first);
 
-	HYDRA_EXTERNAL_NS::thrust::copy( system_t(), bin_contents.first ,
+	HYDRA_EXTERNAL_NS::thrust::copy( bin_contents.first ,
 			bin_contents.first+ bin_contents.second,  fContents.begin());
 
 
