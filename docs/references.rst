@@ -18,3 +18,9 @@ References
 .. [SPlot] S-Plot: A statistical tool to unfold data distributions. `<https://doi.org/10.1016/j.nima.2005.08.106>`_
 
 .. [James]  James F E, Monte Carlo phase space, 1968 (CERN) `<https://cds.cern.ch/record/275743>`_
+
+.. [Lepage] Lepage G P, 1978, Journal of Computational Physics 27 192 – 203 `<http://www.sciencedirect.com/science/article/pii/0021999178900049`>_
+ 
+.. [Genz-Malik] A. C. Genz and A. A. Malik, "An adaptive algorithm for numeric integration over an N-dimensional rectangular region," J. Comput. Appl. Math. 6 (4), 295–302 (1980).
+
+.. [Genz-Berntsen]  J. Berntsen, T. O. Espelid, and A. Genz, "An adaptive algorithm for the approximate calculation of multiple integrals," ACM Trans. Math. Soft. 17 (4), 437–451 (1991)
