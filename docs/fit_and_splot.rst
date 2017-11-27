@@ -1,12 +1,91 @@
 Parameter estimation
 ====================
 
+Hydra implements an interface to [Minuit2]_ that parallelizes the FCN calculation.
+This dramatically accelerates the calculations over large data-sets. Hydra normalizes the pdfs on-the-fly using analytical or numerical integration algorithms provided by the framework and handles data using iterators. 
+
+Hydra also provides an implementation of [SPlot]_ as very popular technique for statistical unfolding of data distributions.
+
 
 Defining PDFs
 -------------
 
+In Hydra, PDFs are represented by the ``hydra::Pdf<Functor, Integrator>`` class template and is defined binding a positive defined functor and a integrator. 
+PDFs can be conveniently built using the template function 
+``hydra::make_pdf( pdf, integrator)``. 
+The snippet below shows how wrap a parametric lambda representing a Gaussian and bind it to a Gauss-Kronrod integrator, to build a pdf object:
+
+.. code:: cpp
+	:name: pdf-gauss
+		
+	#include <hydra/device/System.h>
+	#include <hydra/FunctionWrapper.h>
+	#include <hydra/Pdf.h>
+	#include <hydra/Parameter.h>
+	#include <hydra/GaussKronrodQuadrature.h>
+
+	...
+
+	std::string Mean("Mean"); 	// mean of gaussian
+	std::string Sigma("Sigma"); // sigma of gaussian
+
+	hydra::Parameter  mean_p  = hydra::Parameter::Create()
+		.Name(Mean)
+		.Value(0.5)
+		.Error(0.0001)
+		.Limits(-1.0, 1.0);
+
+	hydra::Parameter  sigma_p = hydra::Parameter::Create()
+		.Name(Sigma)
+		.Value(0.5)
+		.Error(0.0001)
+		.Limits(0.01, 1.5);
+
+	// wrap a parametric lambda 
+	auto gaussian = hydra::wrap_lambda( [=] __host__ __device__ (unsigned int npar,
+		const hydra::Parameter* params,  unsigned int narg, double* x ){
+
+		double m2 = (x[0] -  params[0])*(x[0] - params[0] );
+		double s2 = params[1]*params[1];
+		
+		return exp(-m2/(2.0 * s2 ))/( sqrt(2.0*s2*PI));
+	}, mean_p, sigma_p);
+
+
+	double min   = -5.0;  double max   =  5.0;
+
+	//numerical integral to normalize the pdf
+	hydra::GaussKronrodQuadrature<61,100, hydra::device::sys_t> GKQ61(min,  max);
+
+	//build the PDF
+	auto PDF = hydra::make_pdf(gaussian, GKQ61_d );
+
+	...
+
+
+It is also possible to represent models composed by the sum of two or more PDFs using the class templates  
+``hydra::PDFSumExtendable<Pdf1, Pdf2,...>`` and  ``hydra::PDFSumNonExtendabl<Pdf1, Pdf2,...>``.
+Given N normalized pdfs :math:`F_i` , theses classes define objects representing the sum
+
+.. math::
+
+	F_t = \sum_i^N c_i \times F_i 
+
+The coefficients :math:`c_i` can represent fractions or yields. If the number of coefficients is equal to
+the number of PDFs, the coefficients are interpreted as yields and ``hydra::PDFSumExtendable<Pdf1, Pdf2,...>`` is used. If the number of coefficients is :math:`(N-1)`,``hydra::PDFSumNonExtendabl<Pdf1, Pdf2,...>`` is used and the coefficients are interpreted as fractions defined in the interval [0,1]. The coefficient of the last term is calculated as :math:`c_N=1 -\sum_i^{(N-1)} c_i`.
+
+``hydra::PDFSumExtendable<Pdf1, Pdf2,...>`` and  ``hydra::PDFSumNonExtendabl<Pdf1, Pdf2,...>`` objects can be conveniently created using the function template ``hydra::add_pdfs(...)``. 
+The code snippet below continues the :ref:`example <pdf-gauss>`
+
+
+
+
 Defining FCNs and invoking the ``ROOT::Minuit2`` interfaces
 -----------------------------------------------------------
+
+A FCN is created  
+
+
 
 S-Plots
 -------
