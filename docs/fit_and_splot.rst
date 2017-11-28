@@ -1,10 +1,22 @@
 Parameter estimation
 ====================
 
-Hydra implements an interface to [Minuit2]_ that parallelizes the FCN calculation.
+The best Minuit description can be found on it's own user's manual :cite:`minuit` :
+
+	Minuit is conceived as a tool to find the minimum value of a multi-parameter
+	function, usually called “FCN”, and analyze the shape of this function around the minimum.
+	The principal application is foreseen for statistical analysis, working on chi-square
+	or log-likelihood functions, to compute the best-fit parameter values and uncertain-
+	ties, including correlations between the parameters. It is especially suited to handle
+	difficult problems, including those which may require guidance in order to find the
+	correct solution. 
+
+	-- Minuit User's Guide, Fred James and Matthias Winkler, June 16, 2004 -  CERN, Geneva.
+
+Hydra implements an interface to Minuit2 that parallelizes the FCN calculation.
 This dramatically accelerates the calculations over large data-sets. Hydra normalizes the pdfs on-the-fly using analytical or numerical integration algorithms provided by the framework and handles data using iterators. 
 
-Hydra also provides an implementation of [SPlot]_ as very popular technique for statistical unfolding of data distributions.
+Hydra also provides an implementation of SPlot :cite:`splot`, a very popular technique for statistical unfolding of data distributions.
 
 
 Defining PDFs
@@ -41,7 +53,7 @@ The snippet below shows how wrap a parametric lambda representing a Gaussian and
 		.Error(0.0001)
 		.Limits(0.01, 1.5);
 
-	// wrap a parametric lambda 
+	//wrap a parametric lambda 
 	auto gaussian = hydra::wrap_lambda( [=] __host__ __device__ (unsigned int npar,
 		const hydra::Parameter* params,  unsigned int narg, double* x ){
 
@@ -75,9 +87,8 @@ The coefficients :math:`c_i` can represent fractions or yields. If the number of
 the number of PDFs, the coefficients are interpreted as yields and ``hydra::PDFSumExtendable<Pdf1, Pdf2,...>`` is used. If the number of coefficients is :math:`(N-1)`,``hydra::PDFSumNonExtendabl<Pdf1, Pdf2,...>`` is used and the coefficients are interpreted as fractions defined in the interval [0,1]. The coefficient of the last term is calculated as :math:`c_N=1 -\sum_i^{(N-1)} c_i`.
 
 ``hydra::PDFSumExtendable<Pdf1, Pdf2,...>`` and  ``hydra::PDFSumNonExtendabl<Pdf1, Pdf2,...>`` objects can be conveniently created using the function template ``hydra::add_pdfs(...)``. 
-The code snippet below continues the :ref:`example <pdf-gauss>`
-
-
+The code snippet below continues the :ref:`example <pdf-gauss>` defining a new PDF representing an exponential distribution and adding it to the previous Gaussian PDF 
+to build a extended model able to predict the yields. 
 
 
 Defining FCNs and invoking the ``ROOT::Minuit2`` interfaces
