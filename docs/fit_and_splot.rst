@@ -70,7 +70,7 @@ The snippet below shows how wrap a parametric lambda representing a Gaussian and
 	hydra::GaussKronrodQuadrature<61,100, hydra::device::sys_t> GKQ61(min,  max);
 
 	//build the PDF
-	auto PDF = hydra::make_pdf(gaussian, GKQ61_d );
+	auto PDF = hydra::make_pdf(gaussian, GKQ61 );
 
 	...
 
@@ -87,8 +87,43 @@ The coefficients :math:`c_i` can represent fractions or yields. If the number of
 the number of PDFs, the coefficients are interpreted as yields and ``hydra::PDFSumExtendable<Pdf1, Pdf2,...>`` is used. If the number of coefficients is :math:`(N-1)`,``hydra::PDFSumNonExtendabl<Pdf1, Pdf2,...>`` is used and the coefficients are interpreted as fractions defined in the interval [0,1]. The coefficient of the last term is calculated as :math:`c_N=1 -\sum_i^{(N-1)} c_i`.
 
 ``hydra::PDFSumExtendable<Pdf1, Pdf2,...>`` and  ``hydra::PDFSumNonExtendabl<Pdf1, Pdf2,...>`` objects can be conveniently created using the function template ``hydra::add_pdfs(...)``. 
-The code snippet below continues the :ref:`example <pdf-gauss>` defining a new PDF representing an exponential distribution and adding it to the previous Gaussian PDF 
-to build a extended model able to predict the yields. 
+The code snippet below continues the :ref:`example <pdf-gauss>` and defines a new PDF representing an exponential distribution and add it to the previous Gaussian PDF 
+to build a extended model, which can be used to predict the yields:
+
+ .. code:: cpp
+	:name: pdf-exponential
+
+	...
+
+	//tau of the exponential
+	std::string  Tau("Tau");
+	hydra::Parameter  tau_p  = hydra::Parameter::Create()
+		.Name(Tau)
+		.Value(1.0)
+		.Error(0.0001)
+		.Limits(-2.0, 2.0);
+
+	//get a hydra lambda
+	auto exponential = hydra::wrap_lambda( [=] __host__ __device__ (unsigned int npar,
+	 	const hydra::Parameter* params,unsigned int narg, double* x ){
+		
+		double tau = params[0];
+		return exp( -(x[0]-min)*tau);
+
+	}, tau_p );
+
+	//build the PDF
+	auto PDF = hydra::make_pdf(exponential, GKQ61 );
+
+	//yields
+	std::string NG("N_Gauss");
+	std::string NE("N_Exp");
+	hydra::Parameter NG_p(NG , 0.3, 0.0001, 0.05 , 0.5) ;
+	hydra::Parameter NE_p(NE , 0.3, 0.0001, 0.05 , 0.5) ;
+
+	std::array<hydra::Parameter*, 2>  yields{ &NG_p, &NE_p };
+
+	auto model = hydra::add_pdfs(yields, gaussian, exponential );
 
 
 Defining FCNs and invoking the ``ROOT::Minuit2`` interfaces
