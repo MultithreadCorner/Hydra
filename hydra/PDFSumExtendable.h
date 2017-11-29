@@ -34,6 +34,7 @@
 #include <hydra/detail/Config.h>
 #include <hydra/Types.h>
 #include <hydra/Parameter.h>
+#include <hydra/Placeholders.h>
 #include <hydra/Pdf.h>
 #include <hydra/detail/utility/Utility_Tuple.h>
 #include <hydra/detail/utility/Generic.h>
@@ -82,7 +83,7 @@ class PDFSumExtendable: public detail::AddPdfBase<PDF1,PDF2,PDFs...>
 
 public:
 
-//this typedef is actually a check. If the PDFSumExtendable is not built with
+    //this typedef is actually a check. If the PDFSumExtendable is not built with
 	//hydra::pdf, AddPdfBase::type will not be defined and compilation
 	//will fail
 	typedef typename detail::AddPdfBase<PDF1,PDF2,PDFs...>::type base_type; //!< base class type
@@ -112,21 +113,36 @@ public:
 	 * The sum is normalized also.
 	 */
 	PDFSumExtendable( PDF1 const& pdf1, PDF2 const& pdf2, PDFs const& ...pdfs,
-			std::array<Parameter*, npdfs>const& coef ):
+			std::array<Parameter, npdfs> const& coef ):
 			fPDFs(HYDRA_EXTERNAL_NS::thrust::make_tuple(pdf1,pdf2,pdfs...) ),
 			fFunctors(HYDRA_EXTERNAL_NS::thrust::make_tuple(pdf1.GetFunctor(),pdf2.GetFunctor(),pdfs.GetFunctor() ...) ),
 			fExtended(kTrue),
 			fCoefSum(0.0)
 	{
 		size_t i=0;
-		for(Parameter* var:coef){
-			fCoeficients[i] = *var;
-			fCoefSum += var->GetValue();
+		for(Parameter var:coef){
+			fCoeficients[i] = var;
+			fCoefSum += var.GetValue();
 			i++;
 		}
 
 	}
 
+	PDFSumExtendable( PDF1 const& pdf1, PDF2 const& pdf2, PDFs const& ...pdfs,
+				Parameter (&coef)[npdfs]  ):
+				fPDFs(HYDRA_EXTERNAL_NS::thrust::make_tuple(pdf1,pdf2,pdfs...) ),
+				fFunctors(HYDRA_EXTERNAL_NS::thrust::make_tuple(pdf1.GetFunctor(),pdf2.GetFunctor(),pdfs.GetFunctor() ...) ),
+				fExtended(kTrue),
+				fCoefSum(0.0)
+		{
+
+			for(size_t i=0; i<npdfs; i++)
+			{
+				fCoeficients[i] = coef[i];
+				fCoefSum +=  coef[i].GetValue();
+			}
+
+		}
 
 	/**
 	 * \brief Copy constructor.
@@ -222,6 +238,18 @@ public:
 		return fCoeficients[i];
 	}
 
+
+	inline	void SetCoeficient(size_t i, Parameter const& par)
+	{
+		fCoeficients[i] = par;
+	}
+
+
+	inline	Parameter& Coeficient(size_t i)
+	{
+		return fCoeficients[i];
+	}
+
 	inline	GBool_t IsExtended() const
 	{
 		return fExtended;
@@ -238,16 +266,7 @@ public:
 	}
 
 
-	inline const functors_tuple_type& GetFunctors() const
-	{
-			return fFunctors;
-	}
 
-
-	inline const pdfs_tuple_type& GetPDFs() const
-	{
-		return fPDFs;
-	}
 
 	inline	GReal_t GetCoefSum() const
 	{
@@ -260,6 +279,17 @@ public:
 		fExtended = extended;
 	}
 
+	template<size_t I>
+	typename HYDRA_EXTERNAL_NS::thrust::tuple_element<I,pdfs_tuple_type>::type
+	PDF( hydra::placeholders::placeholder<I> const& index ){
+
+		return HYDRA_EXTERNAL_NS::thrust::get<I>(fPDFs);
+	}
+
+	inline const functors_tuple_type& GetFunctors() const {return fFunctors; }
+
+
+	inline const pdfs_tuple_type& GetPDFs() const {	return fPDFs;}
 
 	template<typename T1> inline
 	GReal_t operator()(T1&& t )
@@ -312,6 +342,9 @@ public:
 
 
 private:
+
+
+
     GReal_t     fCoefSum;
 	Parameter    fCoeficients[npdfs];
 	pdfs_tuple_type fPDFs;
@@ -325,17 +358,9 @@ private:
  */
 template<typename PDF1, typename PDF2, typename ...PDFs>
 PDFSumExtendable<PDF1, PDF2, PDFs...>
-add_pdfs(std::array<Parameter*, sizeof...(PDFs)+2>const& var_list, PDF1 const& pdf1, PDF2 const& pdf2, PDFs const& ...pdfs )
+add_pdfs(std::array<Parameter, sizeof...(PDFs)+2>const& var_list, PDF1 const& pdf1, PDF2 const& pdf2, PDFs const& ...pdfs )
 {
 	return PDFSumExtendable<PDF1, PDF2, PDFs...>(pdf1, pdf2, pdfs..., var_list);
-}
-
-template<unsigned int I, typename PDF1, typename PDF2, typename ...PDFs>
-auto get_pdf( PDFSumExtendable<PDF1, PDF2, PDFs...> const& pdfs)
--> std::pair< Parameter, typename HYDRA_EXTERNAL_NS::thrust::tuple_element<I,
-typename PDFSumExtendable<PDF1, PDF2, PDFs...>::pdfs_tuple_type>::type  >
-{
-	return	std::make_pair( pdfs.GetCoeficient(I), HYDRA_EXTERNAL_NS::thrust::get<I>(pdfs.GetPdFs()));
 }
 
 }  // namespace hydra

@@ -27,7 +27,7 @@ PDFs can be conveniently built using the template function
 ``hydra::make_pdf( pdf, integrator)``. 
 The snippet below shows how wrap a parametric lambda representing a Gaussian and bind it to a Gauss-Kronrod integrator, to build a pdf object:
 
-.. code:: cpp
+.. code-block:: cpp
 	:name: pdf-gauss
 		
 	#include <hydra/device/System.h>
@@ -76,7 +76,7 @@ The snippet below shows how wrap a parametric lambda representing a Gaussian and
 
 
 It is also possible to represent models composed by the sum of two or more PDFs using the class templates  
-``hydra::PDFSumExtendable<Pdf1, Pdf2,...>`` and  ``hydra::PDFSumNonExtendabl<Pdf1, Pdf2,...>``.
+``hydra::PDFSumExtendable<Pdf1, Pdf2,...>`` and  ``hydra::PDFSumNonExtendabl<Pdf1, Pdf2,...>`` .
 Given N normalized pdfs :math:`F_i` , theses classes define objects representing the sum
 
 .. math::
@@ -84,18 +84,20 @@ Given N normalized pdfs :math:`F_i` , theses classes define objects representing
 	F_t = \sum_i^N c_i \times F_i 
 
 The coefficients :math:`c_i` can represent fractions or yields. If the number of coefficients is equal to
-the number of PDFs, the coefficients are interpreted as yields and ``hydra::PDFSumExtendable<Pdf1, Pdf2,...>`` is used. If the number of coefficients is :math:`(N-1)`,``hydra::PDFSumNonExtendabl<Pdf1, Pdf2,...>`` is used and the coefficients are interpreted as fractions defined in the interval [0,1]. The coefficient of the last term is calculated as :math:`c_N=1 -\sum_i^{(N-1)} c_i`.
+the number of PDFs, the coefficients are interpreted as yields and ``hydra::PDFSumExtendable<Pdf1, Pdf2,...>`` is used. If the number of coefficients is :math:`(N-1)`,
+the class template ``hydra::PDFSumNonExtendabl<Pdf1, Pdf2,...>`` is used and the coefficients are interpreted as fractions defined in the interval [0,1]. The coefficient of the last term is calculated as :math:`c_N=1 -\sum_i^{(N-1)} c_i` .
 
-``hydra::PDFSumExtendable<Pdf1, Pdf2,...>`` and  ``hydra::PDFSumNonExtendabl<Pdf1, Pdf2,...>`` objects can be conveniently created using the function template ``hydra::add_pdfs(...)``. 
+``hydra::PDFSumExtendable<Pdf1, Pdf2,...>`` and  ``hydra::PDFSumNonExtendabl<Pdf1, Pdf2,...>`` objects can be conveniently created using the function template 
+``hydra::add_pdfs(...)``. 
 The code snippet below continues the :ref:`example <pdf-gauss>` and defines a new PDF representing an exponential distribution and add it to the previous Gaussian PDF 
 to build a extended model, which can be used to predict the yields:
 
- .. code:: cpp
+.. code-block:: cpp
 	:name: pdf-exponential
 
 	...
 
-	//tau of the exponential
+	// tau of the exponential
 	std::string  Tau("Tau");
 	hydra::Parameter  tau_p  = hydra::Parameter::Create()
 		.Name(Tau)
@@ -112,7 +114,7 @@ to build a extended model, which can be used to predict the yields:
 
 	}, tau_p );
 
-	//build the PDF
+	// build the PDF
 	auto PDF = hydra::make_pdf(exponential, GKQ61 );
 
 	//yields
@@ -122,7 +124,8 @@ to build a extended model, which can be used to predict the yields:
 	hydra::Parameter NE_p(NE , 0.3, 0.0001, 0.05 , 0.5) ;
 
 	std::array<hydra::Parameter*, 2>  yields{ &NG_p, &NE_p };
-
+	
+	//add the pdfs
 	auto model = hydra::add_pdfs(yields, gaussian, exponential );
 
 
