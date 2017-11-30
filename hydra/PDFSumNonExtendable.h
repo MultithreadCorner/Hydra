@@ -113,7 +113,7 @@ public:
 	 * The sum is normalized also.
 	 */
 	PDFSumNonExtendable( PDF1 const& pdf1, PDF2 const& pdf2, PDFs const& ...pdfs,
-			std::array<Parameter*, npdfs-1>const& coef ):
+			std::array<Parameter, npdfs-1>const& coef ):
 			fPDFs(HYDRA_EXTERNAL_NS::thrust::make_tuple(pdf1,pdf2,pdfs...) ),
 			fFunctors(HYDRA_EXTERNAL_NS::thrust::make_tuple(pdf1.GetFunctor(),pdf2.GetFunctor(),pdfs.GetFunctor() ...) ),
 			fCoefSum(1.0),
@@ -121,10 +121,10 @@ public:
 	{
 		double fraction=1.0;
 		size_t i=0;
-		for(Parameter* var:coef){
-			fCoeficients[i] = *var;
-			fraction -= var->GetValue();
-			fCoefPartialSum += var->GetValue();
+		for(Parameter var:coef){
+			fCoeficients[i] = var;
+			fraction -= var.GetValue();
+			fCoefPartialSum += var.GetValue();
 			i++;
 		}
 
@@ -315,6 +315,7 @@ public:
 
 
 private:
+
     GReal_t      fCoefSum;
     GReal_t      fCoefPartialSum;
 	Parameter    fCoeficients[npdfs];
@@ -323,23 +324,15 @@ private:
 
 };
 
-/**
- *\brief Convenience function to add pdfs without set template parameters explicitly.
- */
-template<typename PDF1, typename PDF2, typename ...PDFs>
-PDFSumNonExtendable<PDF1, PDF2, PDFs...>
-add_pdfs(std::array<Parameter*, sizeof...(PDFs)+1>const& var_list, PDF1 const& pdf1, PDF2 const& pdf2, PDFs const& ...pdfs )
+
+template<size_t N, typename PDF1, typename PDF2, typename ...PDFs>
+typename std::enable_if<N == sizeof...(PDFs)+1, PDFSumNonExtendable<PDF1, PDF2, PDFs...>>::type
+add_pdfs(std::array<Parameter, N>const& var_list, PDF1 const& pdf1, PDF2 const& pdf2, PDFs const& ...pdfs )
 {
 	return PDFSumNonExtendable<PDF1, PDF2, PDFs...>(pdf1, pdf2, pdfs..., var_list);
 }
 
-template<unsigned int I, typename PDF1, typename PDF2, typename ...PDFs>
-auto get_pdf( PDFSumNonExtendable<PDF1, PDF2, PDFs...> const& pdfs)
--> std::pair< Parameter, typename HYDRA_EXTERNAL_NS::thrust::tuple_element<I,
-typename PDFSumNonExtendable<PDF1, PDF2, PDFs...>::pdfs_tuple_type>::type  >
-{
-	return	std::make_pair( pdfs.GetCoeficient(I), HYDRA_EXTERNAL_NS::thrust::get<I>(pdfs.GetPdFs()));
-}
+
 
 }  // namespace hydra
 

@@ -95,9 +95,7 @@ public:
 	fIntegrator(integrator),
 	fFunctor(functor),
 	fNormCache(std::unordered_map<size_t, std::pair<GReal_t, GReal_t>>() )
-	{
-		Normalize();
-	}
+	{Normalize();}
 
 
 	/**
@@ -110,7 +108,7 @@ public:
 		fNorm(other.GetNorm() ),
 		fNormError(other.GetNormError() ),
 		fNormCache(other.GetNormCache())
-	{}
+	{Normalize();}
 
 	~Pdf(){};
 
@@ -176,43 +174,32 @@ public:
 	 * @brief Get a reference to the integrator (functor or algorithm).
 	 * @return INTEGRATOR& .
 	 */
-	inline	INTEGRATOR& GetIntegrator() {
-		return fIntegrator;
-	}
+	inline	INTEGRATOR& GetIntegrator() {return fIntegrator;}
 
 	/**
 	 * @brief Get a constant reference to the integrator (functor or algorithm).
 	 * @return const INTEGRATOR& .
 	 */
-	inline  const 	INTEGRATOR& GetIntegrator() const {
-		return fIntegrator;
-	}
+	inline  const 	INTEGRATOR& GetIntegrator() const {return fIntegrator;}
 
 	/**
 	 * @brief Get a constant reference to the functor describing the shape.
 	 * @return const FUNCTOR& .
 	 */
-	inline	const FUNCTOR& GetFunctor() const {
-		this->Normalize( );
-		return fFunctor;
-	}
+	inline	const FUNCTOR& GetFunctor() const {return fFunctor;}
 
 	/**
 	 * @brief Get a reference to the functor describing the shape.
 	 * @return FUNCTOR& .
 	 */
-	inline	FUNCTOR& GetFunctor() {
-		this->Normalize( );
-			return fFunctor;
-		}
+	inline	FUNCTOR& GetFunctor() {return fFunctor;}
 
 
 	/**
 	 * @brief Get norm of the hydra::Pdf.
 	 * @return the normalization factor.
 	 */
-	inline GReal_t GetNorm() const {
-		this->Normalize( );
+	inline GReal_t GetNorm()  const   {
 		return fNorm;
 	}
 
@@ -220,9 +207,9 @@ public:
 	 *  @brief Get the error on the norm of the hydra::Pdf.
 	 * @return Error the normalization factor.
 	 */
-	inline GReal_t GetNormError() const {
-		this->Normalize( );
-			return fNormError;
+	inline GReal_t GetNormError()  const  {
+
+		return fNormError;
 	}
 
 	/**
@@ -236,6 +223,7 @@ public:
 		auto search = fNormCache.find(key);
 		if (search != fNormCache.end() && fNormCache.size()>0) {
 
+			//std::cout << "found in cache "<< key << std::endl;
 			std::tie(fNorm, fNormError) = search->second;
 
 		}
@@ -257,8 +245,7 @@ public:
 	 * @brief Get cache table of normalization factors.
 	 * @return std::unordered_map<size_t,std::pair<GReal_t,GReal_t> > instance with the cache table.
 	 */
-	std::unordered_map<size_t,std::pair<GReal_t,GReal_t> >& GetNormCache() const
-	{
+	 const std::unordered_map<size_t,std::pair<GReal_t,GReal_t> >& GetNormCache()const 	{
 		return fNormCache;
 	}
 
@@ -298,11 +285,11 @@ public:
 
 private:
 
-  	FUNCTOR fFunctor;
-  	INTEGRATOR fIntegrator;
+  	mutable FUNCTOR fFunctor;
+  	mutable INTEGRATOR fIntegrator;
 	GReal_t fNorm;
 	GReal_t fNormError;
-	mutable std::unordered_map<size_t, std::pair<GReal_t, GReal_t>> fNormCache;
+	std::unordered_map<size_t, std::pair<GReal_t, GReal_t>> fNormCache;
 
 };
 

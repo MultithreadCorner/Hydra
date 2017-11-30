@@ -180,8 +180,6 @@ int main(int argv, char** argc)
 	hydra::Parameter N_Gauss_2_p(nb ,nentries, sqrt(nentries), nentries-nentries/2 , nentries+nentries/2) ;
 	hydra::Parameter     N_Exp_p(nc ,nentries, sqrt(nentries), nentries-nentries/2 , nentries+nentries/2) ;
 
-    std::array<hydra::Parameter*, 3>  yields{ &N_Gauss_1_p, &N_Gauss_2_p, &N_Exp_p };
-
 
 	//device
 	//------------------------
@@ -206,7 +204,7 @@ int main(int argv, char** argc)
 		auto Gauss2_PDF = hydra::make_pdf(gaussian2  , GKQ61_d);
 		auto    Exp_PDF = hydra::make_pdf(exponential, GKQ61_d);
 
-		auto model = hydra::add_pdfs({N_Gauss_1_p, N_Gauss_2_p, N_Exp_p }, Gauss1_PDF, Gauss2_PDF, Exp_PDF);
+		auto model = hydra::add_pdfs( std::array<hydra::Parameter,3>{N_Gauss_1_p, N_Gauss_2_p, N_Exp_p }, Gauss1_PDF, Gauss2_PDF, Exp_PDF);
 
 		model.SetExtended(1);
 
@@ -343,7 +341,7 @@ int main(int argv, char** argc)
 		auto Gauss2_PDF = hydra::make_pdf(gaussian2  , GKQ61_h);
 		auto    Exp_PDF = hydra::make_pdf(exponential, GKQ61_h);
 
-		auto model = hydra::add_pdfs({N_Gauss_1_p, N_Gauss_2_p, N_Exp_p }, Gauss1_PDF, Gauss2_PDF, Exp_PDF);
+		auto model = hydra::add_pdfs( std::array<hydra::Parameter,3>{N_Gauss_1_p, N_Gauss_2_p, N_Exp_p }, Gauss1_PDF, Gauss2_PDF, Exp_PDF);
 
 		model.SetExtended(1);
 

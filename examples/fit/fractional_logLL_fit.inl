@@ -182,8 +182,6 @@ int main(int argv, char** argc)
 	hydra::Parameter Frac_Gauss_2_p(nb , 0.3, 0.0001, 0.05 , 0.5) ;
 	hydra::Parameter     Frac_Exp_p(nc , 0.3, 0.0001, 0.05 , 0.5) ;
 
-    std::array<hydra::Parameter*, 2>  yields{ &Frac_Gauss_1_p, &Frac_Gauss_2_p };
-
 
 	//device
 	//------------------------
@@ -208,7 +206,7 @@ int main(int argv, char** argc)
 		auto Gauss2_PDF = hydra::make_pdf(gaussian2  , GKQ61_d);
 		auto    Exp_PDF = hydra::make_pdf(exponential, GKQ61_d);
 
-		auto model = hydra::add_pdfs(yields, Gauss1_PDF, Gauss2_PDF, Exp_PDF);
+		auto model = hydra::add_pdfs( std::array<hydra::Parameter,2>{Frac_Gauss_1_p, Frac_Gauss_2_p }, Gauss1_PDF, Gauss2_PDF, Exp_PDF);
 
 		//1D device buffer
 		hydra::device::vector<double>  data_d(3*nentries);
@@ -322,7 +320,7 @@ int main(int argv, char** argc)
 		auto Gauss2_PDF = hydra::make_pdf(gaussian2  , GKQ61_h);
 		auto    Exp_PDF = hydra::make_pdf(exponential, GKQ61_h);
 
-		auto model = hydra::add_pdfs(yields, Gauss1_PDF, Gauss2_PDF, Exp_PDF);
+		auto model = hydra::add_pdfs( std::array<hydra::Parameter,2>{Frac_Gauss_1_p, Frac_Gauss_2_p }, Gauss1_PDF, Gauss2_PDF, Exp_PDF);
 
 		//1D device buffer
 		hydra::host::vector<double>    data_h(3*nentries);

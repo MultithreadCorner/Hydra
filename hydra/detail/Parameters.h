@@ -136,7 +136,10 @@ public:
 
 	size_t  GetParametersKey(){
 
-		size_t key = detail::hash_range(fParameters, fParameters+N);
+		std::array<double,N> _temp;
+		for(size_t i=0; i<N; i++) _temp[i]= fParameters[i];
+
+		size_t key = detail::hash_range(_temp.begin(), _temp.end() );
 
 		return key;
 	}
