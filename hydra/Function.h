@@ -73,9 +73,6 @@ public:
 	typedef   ReturnType return_type;
 	typedef   std::true_type is_functor;
 
-	//static const size_t parameter_count =NPARAM;
-
-
 	/**
 	 * Default constructor
 	 */
@@ -84,7 +81,6 @@ public:
 		fCacheIndex(-1),
 		fCached(0),
 		fNArgs(0),
-		//fParamResgistered(1),
 		fNorm(1.0),
 		fNormalized(1),
 		_par(*this)
@@ -100,17 +96,10 @@ public:
 	fCacheIndex(-1),
 	fCached(0),
 	fNArgs(0),
-	//fParamResgistered(1),
 	fNorm(1.0),
 	fNormalized(1),
 	_par(*this)
-	{
-		/*
-		if(NPARAM!=0){
-		for(unsigned int i=0; i<NPARAM; i++)
-			this->SetParameter(i, *(init_parameters.begin() + i));}
-			*/
-	}
+	{}
 
 	/**
 	 * @brief Constructor taking std::array of parameters
@@ -121,18 +110,10 @@ public:
 		fCacheIndex(-1),
 		fCached(0),
 		fNArgs(0),
-		//fParamResgistered(1),
 		fNorm(1.0),
 		fNormalized(1),
 		_par(*this)
-		{
-		/*
-		if(NPARAM!=0){
-			for(unsigned int i=0; i<NPARAM; i++)
-				this->SetParameter(i, *(init_parameters.begin() + i));
-
-		}*/
-		}
+		{ }
 
 
 	/**
@@ -144,17 +125,11 @@ public:
 	fCacheIndex( other.GetCacheIndex() ),
 	fCached( other.IsCached() ),
 	fNArgs(other.GetNArgs()),
-	//fParamResgistered(1),
 	fNorm(other.GetNorm()),
 	fNormalized(other.GetNormalized() ),
 	_par(*this)
 	{
-		/*
-if(NPARAM!=0){
-	for(unsigned int i=0; i<NPARAM; i++)
-	this->SetParameter(i, other.GetParameter(i))
 
-};*/
 	}
 
 	/**
@@ -171,13 +146,7 @@ if(NPARAM!=0){
 			this->fCached         = other.IsCached();
 			this->fNorm = other.GetNorm();
 			this->fNormalized =other.GetNormalized();
-			this->fParamResgistered =1;
 			this->fNArgs= other.GetNArgs();
-			/*
-			if(NPARAM!=0){
-			for(unsigned int i=0; i<NPARAM; i++)
-				this->SetParameter(i, other.GetParameter(i));
-			}*/
 
 			_par=*this;
 
@@ -331,11 +300,6 @@ if(NPARAM!=0){
 	__host__  __device__ inline
 	return_type operator()(unsigned int n, T* x)
 	{
-		/*
-		GReal_t norm = fNormalized? fNorm : 1.0;
-
-		return norm>0.0?static_cast<Functor*>(this)->Evaluate(n,x)*norm:0;
-		*/
 
 		return static_cast<Functor*>(this)->Evaluate(n,x);
 	}
@@ -345,10 +309,6 @@ if(NPARAM!=0){
 	__host__ __device__ inline
 	return_type operator()( T&&  x )
 	{
-		/*
-		GReal_t norm = fNormalized ? fNorm : 1.0;
-		return  norm>0.0? interface( std::forward<T>(x))*norm: 0;
-		*/
 		return  interface( std::forward<T>(x));
 
 	}
@@ -359,27 +319,12 @@ if(NPARAM!=0){
 	return_type operator()( T1&& x, T2&& cache)
 	{
 
-		/*
-		GReal_t norm = fNormalized? fNorm : 1.0;
-
-
-		return fCached ?\
-				detail::extract<return_type, T2 >(fCacheIndex, std::forward<T2>(cache)):\
-				norm>0.0?operator()<T1>( std::forward<T1>(x) )*norm:0;
-		*/
 
 		return fCached ? detail::extract<return_type, T2 >(fCacheIndex, std::forward<T2>(cache)):
 						operator()<T1>( std::forward<T1>(x) );
 	}
 
 
-/*
-    __host__ __device__  inline
-	GReal_t operator[](unsigned int i) const
-	{
-		return (GReal_t ) fParameters[i];
-	}
-*/
 
     __host__ __device__  inline
 	unsigned int GetNArgs() const {
@@ -391,10 +336,8 @@ private:
     int fCacheIndex;
 	bool fCached;
 	unsigned int fNArgs;
-	bool fParamResgistered;
     GReal_t fNorm;
 	bool fNormalized;
-//	Parameter fParameters[NPARAM];
 
 protected:
 

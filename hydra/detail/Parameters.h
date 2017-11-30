@@ -35,6 +35,7 @@
 #include <hydra/detail/Integrator.h>
 #include <hydra/Parameter.h>
 #include <hydra/detail/utility/Utility_Tuple.h>
+#include <hydra/detail/Hash.h>
 
 namespace hydra {
 
@@ -131,6 +132,13 @@ public:
 
 		for(size_t i=0; i<N; i++)
 			user_parameters.push_back(&fParameters[i]);
+	}
+
+	size_t  GetParametersKey(){
+
+		size_t key = detail::hash_range(fParameters, fParameters+N);
+
+		return key;
 	}
 
 	__host__ __device__ inline

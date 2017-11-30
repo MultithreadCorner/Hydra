@@ -90,7 +90,7 @@ the number of PDFs, the coefficients are interpreted as yields and ``hydra::PDFS
 The code snippet below continues the :ref:`example <pdf-gauss>` and defines a new PDF representing an exponential distribution and add it to the previous Gaussian PDF 
 to build a extended model, which can be used to predict the yields:
 
- .. code:: cpp
+.. code:: cpp
 	:name: pdf-exponential
 
 	...

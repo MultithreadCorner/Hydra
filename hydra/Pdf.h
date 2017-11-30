@@ -96,15 +96,7 @@ public:
 	fFunctor(functor),
 	fNormCache(std::unordered_map<size_t, std::pair<GReal_t, GReal_t>>() )
 	{
-		std::tie(fNorm, fNormError) = fIntegrator(fFunctor) ;
-		fFunctor.SetNorm(1.0/fNorm);
-		for(size_t i=0; i< FUNCTOR::parameter_count; i++)
-			fParameters[i]=fFunctor.GetParameter(i);
-		size_t key = detail::hash_range(fParameters.begin(),
-						fParameters.end());
-
-		fNormCache[key] = std::make_pair(fNorm, fNormError);
-
+		Normalize();
 	}
 
 
@@ -118,17 +110,7 @@ public:
 		fNorm(other.GetNorm() ),
 		fNormError(other.GetNormError() ),
 		fNormCache(other.GetNormCache())
-	{
-
-		for(size_t i=0; i< FUNCTOR::parameter_count; i++)
-			fParameters[i]=fFunctor.GetParameter(i);
-
-		size_t key = detail::hash_range(fParameters.begin(),
-				fParameters.end());
-
-		fNormCache[key] = std::make_pair(fNorm, fNormError);
-		//fFunctor.SetNorm(1.0/fNorm);
-	}
+	{}
 
 	~Pdf(){};
 
@@ -147,16 +129,7 @@ public:
 		this->fFunctor    = other.GetFunctor();
 		this->fIntegrator = other.GetIntegrator();
 		this->fNormCache  = other.GetNormCache();
-		for(size_t i=0; i< FUNCTOR::parameter_count; i++)
-			this->fParameters[i]=fFunctor.GetParameter(i);
 
-
-		size_t key = detail::hash_range(fParameters.begin(),
-				fParameters.end());
-
-		fNormCache[key] = std::make_pair(fNorm, fNormError);
-
-		//fFunctor.SetNorm(1.0/fNorm);
 		return *this;
 	}
 
@@ -191,37 +164,9 @@ public:
 	 */
 	inline	void SetParameters(const std::vector<double>& parameters){
 
-		fFunctor.SetParameters(parameters);
+		this->fFunctor.SetParameters(parameters);
 
-		for(size_t i=0; i< FUNCTOR::parameter_count; i++){
-			fParameters[i]=fFunctor.GetParameter(i);
-			}
-
-
-		size_t key = detail::hash_range(fParameters.begin(),
-				fParameters.end());
-
-
-		auto search = fNormCache.find(key);
-		if (search != fNormCache.end() && fNormCache.size()>0) {
-
-			std::tie(fNorm, fNormError) = search->second;
-			/*
-			std::cout << ">>> Found cached norm key="<<key << std::endl;
-			std::cout << ">>> Parameters values: "<< std::endl;
-			for(size_t i=0; i< FUNCTOR::parameter_count; i++){
-				std::cout <<">>> [" << i << "]" << std::setprecision(10)<< fParameters[i] << std::endl;
-			}
-			*/
-		}
-		else {
-
-			std::tie(fNorm, fNormError) =  fIntegrator(fFunctor) ;
-			fNormCache[key] = std::make_pair(fNorm, fNormError);
-
-		}
-
-		fFunctor.SetNorm(1.0/fNorm);
+		this->Normalize( );
 
 		return;
 	}
@@ -248,6 +193,7 @@ public:
 	 * @return const FUNCTOR& .
 	 */
 	inline	const FUNCTOR& GetFunctor() const {
+		this->Normalize( );
 		return fFunctor;
 	}
 
@@ -256,6 +202,7 @@ public:
 	 * @return FUNCTOR& .
 	 */
 	inline	FUNCTOR& GetFunctor() {
+		this->Normalize( );
 			return fFunctor;
 		}
 
@@ -265,6 +212,7 @@ public:
 	 * @return the normalization factor.
 	 */
 	inline GReal_t GetNorm() const {
+		this->Normalize( );
 		return fNorm;
 	}
 
@@ -273,6 +221,7 @@ public:
 	 * @return Error the normalization factor.
 	 */
 	inline GReal_t GetNormError() const {
+		this->Normalize( );
 			return fNormError;
 	}
 
@@ -282,7 +231,23 @@ public:
 	 */
 	inline	void Normalize( )
 	{
-		std::tie(fNorm, fNormError )  =  fIntegrator(fFunctor) ;
+		size_t key = fFunctor.GetParametersKey();
+
+		auto search = fNormCache.find(key);
+		if (search != fNormCache.end() && fNormCache.size()>0) {
+
+			std::tie(fNorm, fNormError) = search->second;
+
+		}
+		else {
+
+			std::tie(fNorm, fNormError) =  fIntegrator(fFunctor) ;
+			fNormCache[key] = std::make_pair(fNorm, fNormError);
+
+		}
+
+		fFunctor.SetNorm(1.0/fNorm);
+
 
 	}
 
@@ -333,7 +298,6 @@ public:
 
 private:
 
-  	std::array<GReal_t, FUNCTOR::parameter_count> fParameters;
   	FUNCTOR fFunctor;
   	INTEGRATOR fIntegrator;
 	GReal_t fNorm;
