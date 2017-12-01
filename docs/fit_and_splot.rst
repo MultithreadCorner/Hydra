@@ -97,7 +97,7 @@ to build a extended model, which can be used to predict the yields:
 
 	...
 
-	// tau of the exponential
+	//tau of the exponential
 	std::string  Tau("Tau");
 	hydra::Parameter  tau_p  = hydra::Parameter::Create()
 		.Name(Tau)
@@ -105,7 +105,7 @@ to build a extended model, which can be used to predict the yields:
 		.Error(0.0001)
 		.Limits(-2.0, 2.0);
 
-	//get a hydra lambda
+	//wrap a parametric lambda
 	auto exponential = hydra::wrap_lambda( [=] __host__ __device__ (unsigned int npar,
 	 	const hydra::Parameter* params,unsigned int narg, double* x ){
 		
@@ -115,25 +115,53 @@ to build a extended model, which can be used to predict the yields:
 	}, tau_p );
 
 	// build the PDF
-	auto PDF = hydra::make_pdf(exponential, GKQ61 );
+	auto PDF = hydra::make_pdf( exponential, GKQ61 );
 
 	//yields
 	std::string NG("N_Gauss");
 	std::string NE("N_Exp");
-	hydra::Parameter NG_p(NG , 0.3, 0.0001, 0.05 , 0.5) ;
-	hydra::Parameter NE_p(NE , 0.3, 0.0001, 0.05 , 0.5) ;
+	hydra::Parameter NG_p(NG , 1e4, 100.0, 1000 , 2e4) ;
+	hydra::Parameter NE_p(NE , 1e4, 100.0, 1000 , 2e4) ;
 
-	std::array<hydra::Parameter*, 2>  yields{ &NG_p, &NE_p };
-	
 	//add the pdfs
-	auto model = hydra::add_pdfs(yields, gaussian, exponential );
+	auto model = hydra::add_pdfs({NG_p, NE_p}, gaussian, exponential );
+
+	...
+
+
+The user can get a reference to one of the component PDFs using the method ``PDF( hydra::placeholder )``. 
+This is useful, for example, to change the state of a component PDF "in place". Same operation can 
+be performed for coeficients using the method ``Coeficient( unsigned int )`` : 
+
+.. code-block:: cpp
+	
+	#include<hydra/Placeholders.h>
+
+	using namespace hydra::placeholders; 
+	
+	...
+
+	//change the mean of the Gaussian to 2.0
+	model.PDF( _0 ).SetParameter(0, 2.0);
+
+	//set Gaussian coeficient  to 1.5e4
+	model.Coeficient(0).SetValue(1.5e4);
+
 
 
 Defining FCNs and invoking the ``ROOT::Minuit2`` interfaces
 -----------------------------------------------------------
 
-A FCN is created  
+In general, a FCN is defined binding a PDF to the data the PDF is supposed to describe. 
+Hydra implements classes and interfaces to allow the definition of FCNs suitable to perform maximum likelihood fits on unbinned datasets [#binned]_ .
+The different use cases for Likelihood FCNs are covered by the specialization of the class template ``hydra::LogLikelihoodFCN<PDF, Iterator, Extensions...>``.
 
+Objects representing  likelihood FCNs can be conveniently instantiated using the function template ``hydra::make_likelihood_fcn(begin, end , PDF)``, where 
+
+
+
+
+.. [#binned] Support for binned datasets, dense and sparse histograms, is planed for near future. 
 
 
 S-Plots
