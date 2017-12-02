@@ -129,12 +129,16 @@ to build a extended model, which can be used to predict the yields:
 	auto model = hydra::add_pdfs(yields, gaussian, exponential );
 
 
+The Hydra classes representing PDFs are not dumb arithmetic beasts. These classes are lazy and implements a series of optimizations in order to forward to the thread collection only code that need effectively be evaluated. In particular, functor normalization is cached in a such way that only new parameters settings will trigger the calculation of integrals. 
+
+
 Defining FCNs and invoking the ``ROOT::Minuit2`` interfaces
 -----------------------------------------------------------
 
-A FCN is created  
+A FCN is defined binding a PDF and the dataset the PDF is supposed to describe. Hydra supports the creation of FCN objects suitable to perform unbinned likelihood fits [#binned]_.   
+The dataset is handled by iterators.  
 
-
+.. [#binned] Implementation of binned fits is in development. 
 
 S-Plots
 -------
