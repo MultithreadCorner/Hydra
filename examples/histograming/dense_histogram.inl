@@ -209,6 +209,12 @@ int main(int argv, char** argc)
 		end_d = std::chrono::high_resolution_clock::now();
 		elapsed_d = end_d - start_d;
 
+		auto centers = Hist_Data.GetBinsCenters();
+
+	for(auto center:centers)
+		std::cout << center << std::endl;
+
+
 		//time
 		std::cout << "-----------------------------------------"<<std::endl;
 		std::cout << "| [ Histograming ] Device Time (ms) ="<< elapsed_d.count() <<std::endl;

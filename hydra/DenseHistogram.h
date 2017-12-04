@@ -33,6 +33,10 @@
 #include <hydra/detail/BackendPolicy.h>
 #include <hydra/Types.h>
 #include <hydra/detail/Dimensionality.h>
+#include <hydra/detail/functors/GetBinCenter.h>
+#include <hydra/GenericRange.h>
+
+#include <hydra/detail/external/thrust/iterator/counting_iterator.h>
 
 #include <type_traits>
 #include <utility>
@@ -119,31 +123,31 @@ public:
 			fNBins= other.GetNBins();
 		}
 
-	const storage_t& GetContents() const {
+	 inline const storage_t& GetContents() const {
 		return fContents;
 	}
 
-	void SetContents(storage_t histogram) {
+	 inline void SetContents(storage_t histogram) {
 		fContents = histogram;
 	}
 
-	size_t GetGrid(size_t i) const {
+	 inline size_t GetGrid(size_t i) const {
 		return fGrid[i];
 	}
 
-	T GetLowerLimits(size_t i) const {
+	 inline 	T GetLowerLimits(size_t i) const {
 		return fLowerLimits[i];
 	}
 
-	T GetUpperLimits(size_t i) const {
+	 inline T GetUpperLimits(size_t i) const {
 		return fUpperLimits[i];
 	}
 
-	size_t GetNBins() const {
+	 inline size_t GetNBins() const {
 		return fNBins;
 	}
 
-	size_t GetBin( size_t  (&bins)[N]){
+	 inline 	size_t GetBin( size_t  (&bins)[N]){
 
 		size_t bin=0;
 
@@ -152,7 +156,7 @@ public:
 		return bin;
 	}
 
-	size_t GetBin( std::array<size_t,N> const&  bins){
+	 inline size_t GetBin( std::array<size_t,N> const&  bins){
 
 		size_t bin=0;
 
@@ -161,17 +165,17 @@ public:
 		return bin;
 	}
 
-	void GetIndexes(size_t globalbin,  size_t  (&bins)[N]){
+	 inline void GetIndexes(size_t globalbin,  size_t  (&bins)[N]){
 
 		get_indexes(globalbin, bins);
 	}
 
-	void GetIndexes(size_t globalbin, std::array<size_t,N>&  bins){
+	 inline void GetIndexes(size_t globalbin, std::array<size_t,N>&  bins){
 
 		get_indexes(globalbin, bins);
 	}
 
-	double GetBinContent( size_t (&bins)[N]){
+	 inline double GetBinContent( size_t (&bins)[N]){
 
 		size_t bin=0;
 
@@ -182,7 +186,7 @@ public:
 				std::numeric_limits<double>::max();
 	}
 
-	double GetBinContent( std::array<size_t, N> const& bins){
+	 inline double GetBinContent( std::array<size_t, N> const& bins){
 
 		size_t bin=0;
 
@@ -193,60 +197,76 @@ public:
 				std::numeric_limits<double>::max();
 	}
 
-	double GetBinContent( size_t  bin){
+	 inline double GetBinContent( size_t  bin){
 
 		return ( bin<= (fNBins+1) ) ?
 				fContents.begin()[bin] :
 				std::numeric_limits<double>::max();
 	}
 
+    inline GenericRange<iterator> GetBinsContents() const {
+
+    	return make_range(begin(), end());
+    }
+
+    inline GenericRange<HYDRA_EXTERNAL_NS::thrust::transform_iterator<detail::GetBinCenter<N,T>,
+	HYDRA_EXTERNAL_NS::thrust::counting_iterator<size_t>  > >
+    GetBinsCenters() {
+
+    	HYDRA_EXTERNAL_NS::thrust::transform_iterator<detail::GetBinCenter<N,T>,
+    			HYDRA_EXTERNAL_NS::thrust::counting_iterator<size_t> > first(HYDRA_EXTERNAL_NS::thrust::counting_iterator<size_t>(0), detail::GetBinCenter<N,T>( fGrid, fLowerLimits, fUpperLimits) );
+
+
+
+    	return make_range( first , first+fNBins);
+    }
 
 	//stl range interface
 
-	pointer data(){
+    inline pointer data(){
 		return fContents.data();
 	}
 
-	iterator begin(){
+    inline iterator begin(){
 		return fContents.begin();
 	}
 
-	iterator end(){
+    inline 	iterator end(){
 		return fContents.end();
 	}
 
-	const_iterator begin() const {
+    inline const_iterator begin() const {
 		return fContents.begin();
 	}
 
-	const_iterator end() const {
+    inline const_iterator end() const {
 		return fContents.end();
 	}
 
-	reference operator[](size_t i) {
+    inline reference operator[](size_t i) {
 		return *(fContents.begin()+i);
 	}
 
-    value_type operator[](size_t i) const {
+    inline  value_type operator[](size_t i) const {
 		return fContents.begin()[i];
 	}
 
-	size_t size() const	{
+    inline size_t size() const	{
 
 		return  HYDRA_EXTERNAL_NS::thrust::distance(fContents.begin(), fContents.end() );
 	}
 
 	template<typename Iterator>
-	void Fill(Iterator begin, Iterator end);
+	 inline void Fill(Iterator begin, Iterator end);
 
 	template<typename Iterator1, typename Iterator2>
-	void Fill(Iterator1 begin, Iterator1 end, Iterator2 wbegin);
+	 inline void Fill(Iterator1 begin, Iterator1 end, Iterator2 wbegin);
 
 	template<hydra::detail::Backend BACKEND, typename Iterator >
-	void Fill(detail::BackendPolicy<BACKEND> const& exec_policy, Iterator begin, Iterator end);
+	 inline 	void Fill(detail::BackendPolicy<BACKEND> const& exec_policy, Iterator begin, Iterator end);
 
 	template<hydra::detail::Backend BACKEND, typename Iterator1, typename Iterator2>
-	void Fill(detail::BackendPolicy<BACKEND> const& exec_policy, Iterator1 begin, Iterator1 end, Iterator2 wbegin);
+	 inline 	void Fill(detail::BackendPolicy<BACKEND> const& exec_policy, Iterator1 begin, Iterator1 end, Iterator2 wbegin);
 
 
 
