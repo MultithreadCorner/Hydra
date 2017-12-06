@@ -114,7 +114,7 @@ struct CovMatrixUnary
 	__host__ __device__ inline
 	matrix_t operator()(Type& x)
 	{
-		auto fvalues  = detail::invoke(x, fFunctors);
+		auto fvalues  = detail::invoke_normalized(x, fFunctors);
 		auto wfvalues = detail::multiply_array_tuple(fCoeficients, fvalues);
 		GReal_t denominator   = 0;
 		detail::add_tuple_values(denominator, wfvalues);
@@ -173,7 +173,7 @@ struct SWeights
 	__host__ __device__ inline
 	tuple_t operator()(Type& x)
 	{
-		auto fvalues  = detail::invoke(x, fFunctors);
+		auto fvalues  = detail::invoke_normalized(x, fFunctors);
 		double values[nfunctors];
 		detail::tupleToArray(fvalues, values);
 		HYDRA_EXTERNAL_NS::Eigen::Matrix<double, nfunctors,1> values_vector = HYDRA_EXTERNAL_NS::Eigen::Map<HYDRA_EXTERNAL_NS::Eigen::Matrix<double, nfunctors,1> >(values);

@@ -117,8 +117,7 @@ private:
 
 	template<size_t I, typename ...T>
 	inline typename HYDRA_EXTERNAL_NS::thrust::detail::enable_if<(I == sizeof...(T)),void >::type
-	SetCovMatrix( HYDRA_EXTERNAL_NS::thrust::tuple<T...> const& tpl,
-			HYDRA_EXTERNAL_NS::Eigen::Matrix<double, npdfs, npdfs>& fCovMatrix )
+	SetCovMatrix( HYDRA_EXTERNAL_NS::thrust::tuple<T...> const&, HYDRA_EXTERNAL_NS::Eigen::Matrix<double, npdfs, npdfs>&)
 	{ }
 
 	template<size_t I=0, typename ...T>

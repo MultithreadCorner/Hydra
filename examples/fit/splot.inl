@@ -164,7 +164,7 @@ int main(int argv, char** argc)
 	hydra::Parameter N_Gauss_p(na ,nentries, sqrt(nentries), nentries-nentries/2 , nentries+nentries/2) ;
 	hydra::Parameter N_Exp_p(nc ,nentries, sqrt(nentries), nentries-nentries/2 , nentries+nentries/2) ;
 
-    std::array<hydra::Parameter*, 2>  yields{ &N_Gauss_p, &N_Exp_p };
+    std::array<hydra::Parameter, 2>  yields{ N_Gauss_p, N_Exp_p };
 
 	//device
 	//------------------------
