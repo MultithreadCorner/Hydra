@@ -155,23 +155,26 @@ The Hydra classes representing PDFs are not dumb arithmetic beasts. These classe
 Defining FCNs and invoking the ``ROOT::Minuit2`` interfaces
 -----------------------------------------------------------
 
-<<<<<<< HEAD
-A FCN is defined binding a PDF and the dataset the PDF is supposed to describe. Hydra supports the creation of FCN objects suitable to perform unbinned likelihood fits [#binned]_.   
-The dataset is handled by iterators.  
-=======
 In general, a FCN is defined binding a PDF to the data the PDF is supposed to describe. 
-Hydra implements classes and interfaces to allow the definition of FCNs suitable to perform maximum likelihood fits on unbinned datasets [#binned]_ .
+Hydra implements classes and interfaces to allow the definition of FCNs suitable to perform maximum likelihood fits on unbinned and binned datasets.
 The different use cases for Likelihood FCNs are covered by the specialization of the class template ``hydra::LogLikelihoodFCN<PDF, Iterator, Extensions...>``.
 
-Objects representing  likelihood FCNs can be conveniently instantiated using the function template ``hydra::make_likelihood_fcn(begin, end , PDF)``, where 
+Objects representing  likelihood FCNs can be conveniently instantiated using the function templates ``hydra::make_likelihood_fcn(begin, end , PDF)``
+and ``hydra::make_likelihood_fcn(begin, end, wbegin, PDF)``, where ``begin`` and ``end`` are iterators pointing to data and ``wbegin`` points to 
+the weights per entry. 
+
+
+.. code-block:: cpp
+	
+	#include<hydra/LikelihoodFCN.h>
+
+	...
+
+	//make model and fcn
+	auto fcn  = hydra::make_loglikehood_fcn( dataset.begin(), dataset.end(), model);
 
 
 
-
-.. [#binned] Support for binned datasets, dense and sparse histograms, is planed for near future. 
->>>>>>> b7e711ef88c7a4fdbe92cd03e1ab190eabc6d64e
-
-.. [#binned] Implementation of binned fits is in development. 
 
 S-Plots
 -------
