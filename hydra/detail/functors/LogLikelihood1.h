@@ -77,6 +77,35 @@ private:
 
 };
 
+
+template<typename FUNCTOR>
+struct LogLikelihood2
+{
+	LogLikelihood2(FUNCTOR const& functor):
+		fFunctor(functor)
+	{}
+
+	__host__ __device__ inline
+	LogLikelihood2( LogLikelihood1<FUNCTOR> const& other):
+	  fFunctor(other.fFunctor)
+	{}
+
+	template<typename Args, typename Weights>
+   	__host__ __device__ inline
+   	GReal_t operator()(Args& x, Weights& w)
+   	{
+
+		double weight = 1.0;
+		multiply_tuple(weight, w );
+		return weight*log(fFunctor.GetNorm()*fFunctor( x ));
+	}
+
+private:
+
+    FUNCTOR fFunctor;
+
+};
+
 }//namespace detail
 
 

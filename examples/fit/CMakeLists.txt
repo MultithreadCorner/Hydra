@@ -25,6 +25,14 @@ if(BUILD_CUDA_TARGETS)
          
          add_dependencies(examples extended_logLL_fit_cuda)
          
+         #+++++++++++++++++++++++++++++++++
+         cuda_add_executable( binned_extended_logLL_fit_cuda EXCLUDE_FROM_ALL  binned_extended_logLL_fit.cu    
+            OPTIONS -Xcompiler -fopenmp -DTHRUST_DEVICE_SYSTEM=THRUST_DEVICE_SYSTEM_CUDA  -DTHRUST_HOST_SYSTEM=THRUST_HOST_SYSTEM_CPP -lgomp
+            )
+         target_link_libraries(binned_extended_logLL_fit_cuda  ${ROOT_LIBRARIES} )
+         
+         add_dependencies(examples binned_extended_logLL_fit_cuda)
+         
           
          #+++++++++++++++++++++++++++++++++
          cuda_add_executable( fractional_logLL_fit_cuda EXCLUDE_FROM_ALL  fractional_logLL_fit.cu    
@@ -93,6 +101,18 @@ if(BUILD_TBB_TARGETS)
     target_link_libraries( extended_logLL_fit_tbb tbb  ${ROOT_LIBRARIES})
     
     add_dependencies(examples extended_logLL_fit_tbb)
+    
+    #+++++++++++++++++++++++++++++++
+    add_executable( binned_extended_logLL_fit_tbb EXCLUDE_FROM_ALL
+     binned_extended_logLL_fit.cpp
+    )
+    
+    set_target_properties( binned_extended_logLL_fit_tbb PROPERTIES 
+    COMPILE_FLAGS "-DTHRUST_HOST_SYSTEM=THRUST_HOST_SYSTEM_CPP -DTHRUST_DEVICE_SYSTEM=THRUST_DEVICE_SYSTEM_TBB")
+    
+    target_link_libraries( binned_extended_logLL_fit_tbb tbb  ${ROOT_LIBRARIES})
+    
+    add_dependencies(examples binned_extended_logLL_fit_tbb)
     
     #+++++++++++++++++++++++++++++++
     add_executable( fractional_logLL_fit_tbb EXCLUDE_FROM_ALL
@@ -174,6 +194,17 @@ IF(OPENMP_FOUND)
     target_link_libraries( extended_logLL_fit_omp   ${ROOT_LIBRARIES})
   
     add_dependencies(examples  extended_logLL_fit_omp)
+    
+    #+++++++++++++++++++++++++++++++
+    
+    add_executable(binned_extended_logLL_fit_omp EXCLUDE_FROM_ALL binned_extended_logLL_fit.cpp )
+    
+    set_target_properties( binned_extended_logLL_fit_omp PROPERTIES 
+    COMPILE_FLAGS "-fopenmp -DTHRUST_HOST_SYSTEM=THRUST_HOST_SYSTEM_CPP -DTHRUST_DEVICE_SYSTEM=THRUST_DEVICE_SYSTEM_OMP -lgomp")
+    
+    target_link_libraries( binned_extended_logLL_fit_omp   ${ROOT_LIBRARIES})
+  
+    add_dependencies(examples  binned_extended_logLL_fit_omp)
     
     #+++++++++++++++++++++++++++++++
     

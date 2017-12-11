@@ -159,26 +159,42 @@ In general, a FCN is defined binding a PDF to the data the PDF is supposed to de
 Hydra implements classes and interfaces to allow the definition of FCNs suitable to perform maximum likelihood fits on unbinned and binned datasets.
 The different use cases for Likelihood FCNs are covered by the specialization of the class template ``hydra::LogLikelihoodFCN<PDF, Iterator, Extensions...>``.
 
-Objects representing  likelihood FCNs can be conveniently instantiated using the function templates ``hydra::make_likelihood_fcn(begin, end , PDF)``
-and ``hydra::make_likelihood_fcn(begin, end, wbegin, PDF)``, where ``begin`` and ``end`` are iterators pointing to data and ``wbegin`` points to 
-the weights per entry. 
-
+Objects representing  likelihood FCNs can be conveniently instantiated using the function template ``hydra::make_likelihood_fcn(data_begin, data_end , PDF)`` and ``hydra::make_likelihood_fcn(data_begin, data_end , weights_begin, PDF)``, where ``data_begin``, ``data_end`` and ``weights_begin`` are iterators pointing to the dataset and the weights or bin-contents. 
 
 .. code-block:: cpp
 	
-	#include<hydra/LikelihoodFCN.h>
+	#include <hydra/LogLikelihoodFCN.h>
 
 	...
 
-	//make model and fcn
-	auto fcn  = hydra::make_loglikehood_fcn( dataset.begin(), dataset.end(), model);
+	// get the fcn...
+	auto fcn   = hydra::make_loglikehood_fcn(dataset.begin(), dataset.end(), model);
+ 	// and invoke Migrad minimizer from Minuit2
+ 	MnMigrad migrad(fcn, fcn.GetParameters().GetMnState(), MnStrategy(2));
 
 
-
-
-S-Plots
+sPlots
 -------
 
+The sPlot technique is used to unfold the contributions of the different sources to the distribution of a data sample in a given variable. The sPlot tool applies in the context of a Likelihood fit which is performed on the data sample to determine the yields of the various sources. 
+
+Hydra handles sPlots using the class ``hydra::SPlot<PDF1, PDF2,PDFs...>`` where ``PDF1``, ``PDF2`` and so on, are the probability density functions describing the populations contributing to the dataset as modeled in a given variable, called discriminating variable. The other variables of interest, present in the dataset are referred as control variables and are statistically unfolded using the so called *sweights*. For each entry in the dataset, ``hydra::SPlot<PDF1, PDF2,PDFs...>`` calculates a set of weights, where each one correspond to a data source described by the corresponding PDF. It is responsibility of the user to allocate memory to store the sweights.
 
 
- 
+
+.. code-block:: cpp
+
+	#include <hydra/SPlot.h>
+
+	...
+
+	//splot 2 components (gaussian + exponential )
+	//hold weights
+	hydra::multiarray<2, double, hydra::device::sys_t> sweigts(dataset.size());
+
+	//create splot
+	auto splot  = hydra::make_splot( fcn.GetPDF() );
+
+	auto covar = splot.Generate( dataset.begin(), dataset.end(), sweigts.begin());
+
+	

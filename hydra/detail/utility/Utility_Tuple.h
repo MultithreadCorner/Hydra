@@ -629,6 +629,20 @@ namespace hydra {
 	 // given a tuple of functors, evaluate and multiply
 	 // element taking as argument ArgType &
 	 // arg and return on r
+	 template<size_t I = 0, typename Return_Type,  typename ... Tp>
+	 __host__  __device__
+	 inline typename HYDRA_EXTERNAL_NS::thrust::detail::enable_if<I == sizeof...(Tp), void>::type
+	 multiply_tuple(Return_Type&, HYDRA_EXTERNAL_NS::thrust::tuple<Tp...>&)
+	 {}
+
+	 template<size_t I = 0, typename Return_Type, typename ... Tp>
+	 __host__  __device__
+	 inline typename HYDRA_EXTERNAL_NS::thrust::detail::enable_if<(I < sizeof...(Tp)),void >::type
+	 multiply_tuple(Return_Type& r, HYDRA_EXTERNAL_NS::thrust::tuple<Tp...>& t)
+	 {
+		 r = r*( (Return_Type) HYDRA_EXTERNAL_NS::thrust::get<I>(t));
+		 multiply_tuple<I + 1, Return_Type, Tp...>( r , t );
+	 }
 
 	 template<size_t I = 0, typename Return_Type, typename ArgType, typename ... Tp>
 	 __host__  __device__

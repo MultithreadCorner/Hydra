@@ -38,11 +38,13 @@ namespace hydra {
 
 namespace detail {
 
+template<typename T, size_t N >
+struct GetBinCenter;
 
-template<size_t N, typename T>
+template<typename T, size_t N>
 struct GetBinCenter: public HYDRA_EXTERNAL_NS::thrust::unary_function<size_t, typename tuple_type<N,T>::type>
 {
-
+	GetBinCenter()=delete;
 	GetBinCenter( size_t (&grid)[N], T (&lowerlimits)[N], T (&upperlimits)[N])
 	{
 		fNGlobalBins=1;
@@ -56,7 +58,7 @@ struct GetBinCenter: public HYDRA_EXTERNAL_NS::thrust::unary_function<size_t, ty
 	}
 
 	__host__ __device__
-	GetBinCenter( GetBinCenter<N, T> const& other ):
+	GetBinCenter( GetBinCenter<T, N> const& other ):
 	fNGlobalBins(other.fNGlobalBins)
 	{
 		for( size_t i=0; i<N; i++){
@@ -69,8 +71,8 @@ struct GetBinCenter: public HYDRA_EXTERNAL_NS::thrust::unary_function<size_t, ty
 	}
 
 	__host__ __device__
-	GetBinCenter<N, T>&
-	operator=( GetBinCenter<N, T> const& other )
+	GetBinCenter<T, N>&
+	operator=( GetBinCenter<T,N> const& other )
 	{
 		if(this==&other) return *this;
 		for( size_t i=0; i<N; i++){
@@ -131,7 +133,7 @@ struct GetBinCenter: public HYDRA_EXTERNAL_NS::thrust::unary_function<size_t, ty
 		T X[N];
 
 		for(size_t i=0; i<N; i++)
-			X[i] = fLowerLimits[i] + (1 + indexes[i])*fIncrement[i]/2.0;
+			X[i] = fLowerLimits[i] + (0.5 + indexes[i])*fIncrement[i];
 
 
 		return arrayToTuple<T,N>(X);
@@ -152,27 +154,30 @@ struct GetBinCenter: public HYDRA_EXTERNAL_NS::thrust::unary_function<size_t, ty
 //---------------
 
 template<typename T>
-struct GetBinCenter<1,T>: public HYDRA_EXTERNAL_NS::thrust::unary_function<T,size_t>
+struct GetBinCenter<T,1>: public HYDRA_EXTERNAL_NS::thrust::unary_function<T,T>
 {
+	GetBinCenter()=delete;
 
 	GetBinCenter( size_t grid, T lowerlimits, T upperlimits):
 		fLowerLimits(lowerlimits),
 		fDelta( upperlimits - lowerlimits),
 		fGrid(grid),
-		fNGlobalBins(grid)
+		fNGlobalBins(grid),
+		fIncrement((upperlimits - lowerlimits)/grid)
 	{ }
 
 	__host__ __device__
-	GetBinCenter( GetBinCenter<1, T> const& other ):
+	GetBinCenter( GetBinCenter<T, 1> const& other ):
 	fNGlobalBins(other.fNGlobalBins),
 	fGrid(other.fGrid ),
 	fDelta(other.fDelta ),
-	fLowerLimits(other.fLowerLimits )
+	fLowerLimits(other.fLowerLimits ),
+	fIncrement(other.fIncrement)
 	{}
 
 	__host__ __device__
-	GetBinCenter<1, T>&
-	operator=( GetBinCenter<1, T> const& other )
+	GetBinCenter<T,1>&
+	operator=( GetBinCenter<T,1> const& other )
 	{
 		if(this==&other) return *this;
 
@@ -180,16 +185,16 @@ struct GetBinCenter<1,T>: public HYDRA_EXTERNAL_NS::thrust::unary_function<T,siz
 		fDelta = other.fDelta;
 		fLowerLimits = other.fLowerLimits;
 		fNGlobalBins = other.fNGlobalBins;
-
+		fIncrement = other.fIncrement;
 		return *this;
 	}
 
 
 
-	__host__ __device__
+	__host__ __device__ inline
   T	operator()(size_t global_bin){
 
-		return fLowerLimits + (1 +global_bin )*fIncrement/2.0;
+		return fLowerLimits + (global_bin +0.5)*fIncrement;
 	}
 
 	T fIncrement;
