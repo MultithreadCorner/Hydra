@@ -52,7 +52,7 @@ template< typename T, size_t N, typename BACKEND, typename = typename detail::di
 class DenseHistogram;
 
 template<typename T, size_t N , hydra::detail::Backend BACKEND>
-class DenseHistogram< T, N,  hydra::detail::BackendPolicy<BACKEND>, detail::multidimensional>
+class DenseHistogram< T, N,  detail::BackendPolicy<BACKEND>, detail::multidimensional>
 {
 	typedef hydra::detail::BackendPolicy<BACKEND>    system_t;
 
@@ -603,7 +603,7 @@ public:
 	void Fill(detail::BackendPolicy<BACKEND2> const& exec_policy,Iterator begin, Iterator end);
 
 	template<hydra::detail::Backend BACKEND2, typename Iterator1, typename Iterator2>
-	void Fill(detail::BackendPolicy<BACKEND2z> const& exec_policy,Iterator1 begin, Iterator1 end, Iterator2 wbegin);
+	void Fill(detail::BackendPolicy<BACKEND2> const& exec_policy,Iterator1 begin, Iterator1 end, Iterator2 wbegin);
 
 
 

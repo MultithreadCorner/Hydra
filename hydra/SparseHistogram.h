@@ -47,17 +47,18 @@
 
 namespace hydra {
 
-template<size_t N, typename T, typename = typename detail::dimensionality<N>::type,
+template<typename T, size_t N,  typename BACKEND, typename = typename detail::dimensionality<N>::type,
 	typename = typename std::enable_if<std::is_arithmetic<T>::value, void>::type>
 class SparseHistogram;
 
-template<size_t N, typename T>
-class SparseHistogram<N, T, detail::multidimensional>
+template<typename T, size_t N, hydra::detail::Backend BACKEND >
+class SparseHistogram<T, N,  detail::BackendPolicy<BACKEND>, detail::multidimensional>
 {
 
-	/// @todo Update to use multivector
-	typedef std::vector<double> storage_data_t;
-	typedef std::vector<size_t> storage_keys_t;
+	typedef hydra::detail::BackendPolicy<BACKEND>    system_t;
+
+	typedef typedef typename system_t::template container<double> storage_data_t;
+	typedef typedef typename system_t::template container<size_t> storage_keys_t;
 
 	typedef typename storage_data_t::iterator data_iterator;
 	typedef typename storage_data_t::const_iterator data_const_iterator;
@@ -111,8 +112,8 @@ public:
 
 	}
 
-	SparseHistogram<N, T, detail::multidimensional>&
-	operator=(SparseHistogram<N, T, detail::multidimensional> const& other )
+	SparseHistogram<T, N, detail::BackendPolicy<BACKEND>, detail::multidimensional>&
+	operator=(SparseHistogram<T, N,  detail::BackendPolicy<BACKEND>, detail::multidimensional> const& other )
 	{
 		if(this==&other) return *this;
 
@@ -129,7 +130,7 @@ public:
 		return *this;
 	}
 
-	SparseHistogram(SparseHistogram<N, T, detail::multidimensional> const& other ):
+	SparseHistogram(SparseHistogram<T, N,  detail::BackendPolicy<BACKEND>, detail::multidimensional> const& other ):
 			fContents(other.GetContents()),
 			fBins(other.GetBins())
 		{
@@ -141,6 +142,40 @@ public:
 
 			fNBins= other.GetNBins();
 		}
+
+	template<hydra::detail::Backend BACKEND2>
+	SparseHistogram<T, N, detail::BackendPolicy<BACKEND>, detail::multidimensional>&
+	operator=(SparseHistogram<T, N,  detail::BackendPolicy<BACKEND2>, detail::multidimensional> const& other )
+	{
+		if(this==&other) return *this;
+
+		fContents = other.GetContents();
+		fBins = other.GetBins();
+
+		for( size_t i=0; i<N; i++){
+			fGrid[i] = other.GetGrid(i);
+			fLowerLimits[i] = other.GetLowerLimits(i);
+			fUpperLimits[i] = other.GetUpperLimits(i);
+		}
+
+		fNBins= other.GetNBins();
+		return *this;
+	}
+
+	template<hydra::detail::Backend BACKEND2>
+	SparseHistogram(SparseHistogram<T, N,  detail::BackendPolicy<BACKEND2>, detail::multidimensional> const& other ):
+		fContents(other.GetContents()),
+		fBins(other.GetBins())
+	{
+		for( size_t i=0; i<N; i++){
+			fGrid[i] = other.GetGrid(i);
+			fLowerLimits[i] = other.GetLowerLimits(i);
+			fUpperLimits[i] = other.GetUpperLimits(i);
+		}
+
+		fNBins= other.GetNBins();
+	}
+
 
 	const storage_data_t& GetContents() const {
 		return fContents;
@@ -276,11 +311,11 @@ public:
 	template<typename Iterator1, typename Iterator2>
 	void Fill(Iterator1 begin, Iterator1 end, Iterator2 wbegin);
 
-	template<hydra::detail::Backend BACKEND,typename Iterator>
-	void Fill(detail::BackendPolicy<BACKEND> const& exec_policy, Iterator begin, Iterator end);
+	template<hydra::detail::Backend BACKEND2,typename Iterator>
+	void Fill(detail::BackendPolicy<BACKEND2> const& exec_policy, Iterator begin, Iterator end);
 
-	template<hydra::detail::Backend BACKEND,typename Iterator1, typename Iterator2>
-	void Fill(detail::BackendPolicy<BACKEND> const& exec_policy, Iterator1 begin, Iterator1 end, Iterator2 wbegin);
+	template<hydra::detail::Backend BACKEND2,typename Iterator1, typename Iterator2>
+	void Fill(detail::BackendPolicy<BACKEND2> const& exec_policy, Iterator1 begin, Iterator1 end, Iterator2 wbegin);
 
 
 
@@ -397,7 +432,7 @@ private:
 	size_t   fNBins;
 	storage_data_t fContents;
 	storage_keys_t fBins;
-
+	system_t fSystem;
 
 };
 
@@ -405,8 +440,8 @@ private:
 /*
  * 1D dimension specialization
  */
-template< typename T >
-class SparseHistogram<1, T,  detail::unidimensional >{
+template< typename T, hydra::detail::Backend BACKEND >
+class SparseHistogram<T,1, detail::BackendPolicy<BACKEND>,  detail::unidimensional >{
 
 
 	/// @todo Update to use multivector
@@ -447,7 +482,7 @@ public:
 	{}
 
 
-	SparseHistogram(SparseHistogram<1, T,detail::unidimensional > const& other ):
+	SparseHistogram(SparseHistogram<T,1, detail::BackendPolicy<BACKEND>,detail::unidimensional > const& other ):
 		fContents(other.GetContents()),
 		fGrid(other.GetGrid()),
 		fLowerLimits(other.GetLowerLimits()),
@@ -455,6 +490,39 @@ public:
 		fNBins(other.GetNBins())
 	{}
 
+	SparseHistogram<T,1, detail::BackendPolicy<BACKEND>,detail::unidimensional >&
+	operator=(SparseHistogram<T,1, detail::BackendPolicy<BACKEND>,detail::unidimensional > const& other )
+	{
+		if(this==&other) return *this;
+		fContents = other.GetContents();
+		fGrid = other.GetGrid();
+		fLowerLimits = other.GetLowerLimits();
+		fUpperLimits = other.GetUpperLimits();
+		fNBins = other.GetNBins();
+		return *this;
+	}
+
+	template<hydra::detail::Backend BACKEND2>
+	SparseHistogram(SparseHistogram<T,1, detail::BackendPolicy<BACKEND2>,detail::unidimensional > const& other ):
+		fContents(other.GetContents()),
+		fGrid(other.GetGrid()),
+		fLowerLimits(other.GetLowerLimits()),
+		fUpperLimits(other.GetUpperLimits()),
+		fNBins(other.GetNBins())
+	{}
+
+	template<hydra::detail::Backend BACKEND2>
+	SparseHistogram<T,1, detail::BackendPolicy<BACKEND>,detail::unidimensional >&
+	operator=(SparseHistogram<T,1, detail::BackendPolicy<BACKEND2>,detail::unidimensional > const& other )
+	{
+		if(this==&other) return *this;
+		fContents = other.GetContents();
+		fGrid = other.GetGrid();
+		fLowerLimits = other.GetLowerLimits();
+		fUpperLimits = other.GetUpperLimits();
+		fNBins = other.GetNBins();
+		return *this;
+	}
 
 	const storage_data_t& GetContents()const  {
 		return fContents;
@@ -546,12 +614,13 @@ public:
 	template<typename Iterator1, typename Iterator2>
 	void Fill(Iterator1 begin, Iterator1 end, Iterator2 wbegin);
 
-
+	template<hydra::detail::Backend BACKEND2>
 	template<hydra::detail::Backend BACKEND,typename Iterator>
-	void Fill(detail::BackendPolicy<BACKEND> const& exec_policy, Iterator begin, Iterator end);
+	void Fill(detail::BackendPolicy<BACKEND2> const& exec_policy, Iterator begin, Iterator end);
 
+	template<hydra::detail::Backend BACKEND2>
 	template<hydra::detail::Backend BACKEND,typename Iterator1, typename Iterator2>
-	void Fill(detail::BackendPolicy<BACKEND> const& exec_policy, Iterator1 begin, Iterator1 end, Iterator2 wbegin);
+	void Fill(detail::BackendPolicy<BACKEND2> const& exec_policy, Iterator1 begin, Iterator1 end, Iterator2 wbegin);
 
 
 
@@ -563,7 +632,7 @@ private:
 	size_t   fNBins;
 	storage_data_t fContents;
 	storage_keys_t fBins;
-
+	system_t fSystem;
 };
 
 

@@ -167,11 +167,11 @@ template<typename Iterator>
 void DenseHistogram<T, N,  hydra::detail::BackendPolicy<BACKEND>, detail::multidimensional>::Fill(Iterator begin, Iterator end )
 {
 	using HYDRA_EXTERNAL_NS::thrust::system::detail::generic::select_system;
-		typedef  typename HYDRA_EXTERNAL_NS::thrust::iterator_system<Iterator>::type system1_t;
-		system1_t system1;
+	typedef  typename HYDRA_EXTERNAL_NS::thrust::iterator_system<Iterator>::type system1_t;
+	system1_t system1;
 
-		typedef  typename HYDRA_EXTERNAL_NS::thrust::detail::remove_reference<
-				decltype(select_system(fSystem, system1 ))>::type common_system_t;
+	typedef  typename HYDRA_EXTERNAL_NS::thrust::detail::remove_reference<
+			decltype(select_system(fSystem, system1 ))>::type common_system_t;
 
 
 		typedef HYDRA_EXTERNAL_NS::thrust::pointer<T, common_system_t> buffer_t;
