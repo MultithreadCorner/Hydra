@@ -43,6 +43,7 @@ namespace hydra {
 template<typename ALGORITHM>
 struct Integrator{
 
+	typedef void hydra_integrator_tag;
 
 	template<typename FUNCTOR>
 	inline std::pair<GReal_t, GReal_t> operator()( FUNCTOR& functor)

@@ -34,6 +34,7 @@
 #include <assert.h>
 #include <time.h>
 #include <chrono>
+#include <random>
 
 //command line
 #include <tclap/CmdLine.h>
