@@ -39,6 +39,7 @@
 
 namespace hydra {
 
+/*
 template<typename ...Pdfs, typename Iterator >
 class LogLikelihoodFCN< PDFSumNonExtendable<Pdfs...>, Iterator>: public FCN<LogLikelihoodFCN< PDFSumNonExtendable<Pdfs...>, Iterator > >{
 
@@ -52,6 +53,7 @@ public:
 	 * @param begin  iterator pointing to the begin of the dataset.
 	 * @param end   iterator pointing to the end of the dataset.
 	 */
+/*
 	LogLikelihoodFCN(PDFSumNonExtendable<Pdfs...>& functor, Iterator begin, Iterator end):
 		FCN<LogLikelihoodFCN<PDFSumNonExtendable<Pdfs...>, Iterator>>(functor,begin, end)
 		{}
@@ -110,7 +112,7 @@ public:
 
 
 };
-
+*/
 
 template<typename ...Pdfs, typename IteratorD , typename ...IteratorW>
 class LogLikelihoodFCN< PDFSumNonExtendable<Pdfs...>, IteratorD, IteratorW...>: public FCN<LogLikelihoodFCN< PDFSumNonExtendable<Pdfs...>, IteratorD, IteratorW ...> >
@@ -143,7 +145,50 @@ public:
 	}
 
 
-	GReal_t Eval( const std::vector<double>& parameters ) const{
+	template<size_t M = sizeof...(IteratorW)>
+	typename std::enable_if<(M==0), double >::type
+	Eval( const std::vector<double>& parameters ) const{
+
+		using   HYDRA_EXTERNAL_NS::thrust::system::detail::generic::select_system;
+		typedef typename HYDRA_EXTERNAL_NS::thrust::iterator_system<IteratorD>::type System;
+		typedef typename PDFSumNonExtendable<Pdfs...>::functor_type functor_type;
+		System system;
+
+		// create iterators
+		HYDRA_EXTERNAL_NS::thrust::counting_iterator<size_t> first(0);
+		HYDRA_EXTERNAL_NS::thrust::counting_iterator<size_t> last = first + this->GetDataSize();
+
+		GReal_t final;
+		GReal_t init=0;
+
+		if (INFO >= Print::Level()  )
+		{
+			std::ostringstream stringStream;
+			for(size_t i=0; i< parameters.size(); i++){
+				stringStream << "Parameter["<< i<<"] :  " << parameters[i]  << "  ";
+			}
+			HYDRA_LOG(INFO, stringStream.str().c_str() )
+		}
+
+		this->GetPDF().SetParameters(parameters);
+
+		auto NLL = detail::LogLikelihood1<functor_type>(this->GetPDF().GetFunctor());
+
+		final = HYDRA_EXTERNAL_NS::thrust::transform_reduce(select_system(system), this->begin(), this->end(),
+				NLL, init, HYDRA_EXTERNAL_NS::thrust::plus<GReal_t>());
+
+		GReal_t  r = (GReal_t)this->GetDataSize() + this->GetPDF().IsExtended()*
+				( this->GetPDF().GetCoefSum() -	this->GetDataSize()*log(this->GetPDF().GetCoefSum() ) ) - final;
+
+
+
+		return r;
+
+	}
+
+	template<size_t M = sizeof...(IteratorW)>
+	typename std::enable_if<(M>0), double >::type
+	Eval( const std::vector<double>& parameters ) const{
 
 		using   HYDRA_EXTERNAL_NS::thrust::system::detail::generic::select_system;
 		typedef typename HYDRA_EXTERNAL_NS::thrust::iterator_system<typename FCN<LogLikelihoodFCN<PDFSumNonExtendable<Pdfs...>, IteratorD, IteratorW...>>::iterator>::type System;
@@ -171,7 +216,7 @@ public:
 		auto NLL = detail::LogLikelihood2<functor_type>(this->GetPDF().GetFunctor());
 
 		final = HYDRA_EXTERNAL_NS::thrust::inner_product(select_system(system), this->begin(), this->end(),this->wbegin(),
-				 init,HYDRA_EXTERNAL_NS::thrust::plus<GReal_t>(),NLL );
+				init,HYDRA_EXTERNAL_NS::thrust::plus<GReal_t>(),NLL );
 
 		GReal_t  r = (GReal_t)this->GetDataSize() + this->GetPDF().IsExtended()*
 				( this->GetPDF().GetCoefSum() -	this->GetDataSize()*log(this->GetPDF().GetCoefSum() ) ) - final;

@@ -356,12 +356,13 @@ private:
 /**
  *\brief Convenience function to add pdfs without set template parameters explicitly.
  */
-template<size_t N,typename PDF1, typename PDF2, typename ...PDFs>
-typename std::enable_if<N == sizeof...(PDFs)+2, PDFSumExtendable<PDF1, PDF2, PDFs...>>::type
-add_pdfs(std::array<Parameter, N>const& var_list, PDF1 const& pdf1, PDF2 const& pdf2, PDFs const& ...pdfs )
+template<typename PDF1, typename PDF2, typename ...PDFs>
+PDFSumExtendable<PDF1, PDF2, PDFs...>
+add_pdfs(std::array<Parameter,  sizeof...(PDFs)+2>const& var_list, PDF1 const& pdf1, PDF2 const& pdf2, PDFs const& ...pdfs )
 {
 	return PDFSumExtendable<PDF1, PDF2, PDFs...>(pdf1, pdf2, pdfs..., var_list);
 }
+
 
 }  // namespace hydra
 

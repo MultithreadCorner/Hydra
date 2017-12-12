@@ -109,12 +109,12 @@ int main(int argv, char** argc)
 	//generator
 	hydra::Random<> Generator( std::chrono::system_clock::now().time_since_epoch().count() );
 
-	//----------------------
+	//===========================
     //fit model
 
 
-	std::string  Mean1("Mean_1"); 	// mean of gaussian
-	std::string Sigma1("Sigma_1"); // sigma of gaussian
+	std::string  Mean1("Mean_1"); 	// mean of gaussian-1
+	std::string Sigma1("Sigma_1");  // sigma of gaussian-1
 	hydra::Parameter  mean1_p  = hydra::Parameter::Create().Name(Mean1).Value( 2.5) .Error(0.0001).Limits(0.0, 10.0);
 	hydra::Parameter  sigma1_p = hydra::Parameter::Create().Name(Sigma1).Value(0.5).Error(0.0001).Limits(0.01, 1.5);
 
@@ -123,9 +123,10 @@ int main(int argv, char** argc)
 	auto Gauss1_PDF = hydra::make_pdf(gaussian1, hydra::GaussianAnalyticalIntegral(min, max));
 
     //-------------------------------------------
+
     //gaussian 2
-    std::string  Mean2("Mean_2"); 	// mean of gaussian
-    std::string Sigma2("Sigma_2"); // sigma of gaussian
+    std::string  Mean2("Mean_2"); // mean of gaussian-2
+    std::string Sigma2("Sigma_2");// sigma of gaussian-2
     hydra::Parameter  mean2_p  = hydra::Parameter::Create().Name(Mean2).Value(5.0) .Error(0.0001).Limits(0.0, 10.0);
     hydra::Parameter  sigma2_p = hydra::Parameter::Create().Name(Sigma2).Value(0.5).Error(0.0001).Limits(0.01, 1.5);
 
@@ -134,9 +135,10 @@ int main(int argv, char** argc)
     auto Gauss2_PDF = hydra::make_pdf(gaussian2, hydra::GaussianAnalyticalIntegral(min, max));
 
     //--------------------------------------------
+
     //exponential
     //parameters
-    std::string  Tau("Tau"); 	// tau of the exponential
+    std::string  Tau("Tau");// tau of the exponential
     hydra::Parameter  tau_p  = hydra::Parameter::Create().Name(Tau).Value(1.0) .Error(0.0001).Limits(-2.0, 2.0);
 
     //gaussian function evaluating on the first argument
@@ -159,6 +161,7 @@ int main(int argv, char** argc)
 	auto model = hydra::add_pdfs( std::array<hydra::Parameter,3>{N_Gauss_1_p, N_Gauss_2_p, N_Exp_p }, Gauss1_PDF, Gauss2_PDF, Exp_PDF);
 	model.SetExtended(1);
 
+	//===========================
 
 #ifdef _ROOT_AVAILABLE_
 
@@ -167,6 +170,7 @@ int main(int argv, char** argc)
 
 #endif //_ROOT_AVAILABLE_
 
+	//begin scope
 	{
 
 		//1D device buffer
@@ -226,9 +230,8 @@ int main(int argv, char** argc)
 
 #ifdef _ROOT_AVAILABLE_
 
-		for(size_t i=0;  i<100; i++){
-			hist_gaussian_d.SetBinContent(i+1, Hist_Data.GetBinContent(i)  );
-		}
+		for(size_t i=0;  i<100; i++)
+			hist_gaussian_d.SetBinContent(i+1, Hist_Data.GetBinContent(i));
 
 
 		//draw fitted function
@@ -238,11 +241,13 @@ int main(int argv, char** argc)
 	        hist_fitted_gaussian_d.SetBinContent(i, fcn.GetPDF()(x) );
 		}
 		hist_fitted_gaussian_d.Scale(hist_gaussian_d.Integral()/hist_fitted_gaussian_d.Integral() );
+
 #endif //_ROOT_AVAILABLE_
 
-	}//device end
+	}//end scope
 
 #ifdef _ROOT_AVAILABLE_
+
 	TApplication *myapp=new TApplication("myapp",0,0);
 
 	//draw histograms
@@ -256,7 +261,6 @@ int main(int argv, char** argc)
 #endif //_ROOT_AVAILABLE_
 
 	return 0;
-
 
 
 }

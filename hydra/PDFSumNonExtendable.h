@@ -325,9 +325,9 @@ private:
 };
 
 
-template<size_t N, typename PDF1, typename PDF2, typename ...PDFs>
-typename std::enable_if<N == sizeof...(PDFs)+1, PDFSumNonExtendable<PDF1, PDF2, PDFs...>>::type
-add_pdfs(std::array<Parameter, N>const& var_list, PDF1 const& pdf1, PDF2 const& pdf2, PDFs const& ...pdfs )
+template<typename PDF1, typename PDF2, typename ...PDFs>
+PDFSumNonExtendable<PDF1, PDF2, PDFs...>
+add_pdfs(std::array<Parameter,sizeof...(PDFs)+1 >const& var_list, PDF1 const& pdf1, PDF2 const& pdf2, PDFs const& ...pdfs )
 {
 	return PDFSumNonExtendable<PDF1, PDF2, PDFs...>(pdf1, pdf2, pdfs..., var_list);
 }
