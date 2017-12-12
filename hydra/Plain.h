@@ -77,9 +77,6 @@ public Integrator<Plain<N,hydra::detail::BackendPolicy<BACKEND>,GRND>>
 
 public:
 
-	//tag
-	typedef void hydra_integrator_tag;
-
 	Plain()=delete;
 
 	/**

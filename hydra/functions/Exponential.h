@@ -40,8 +40,11 @@
 namespace hydra {
 
 template<unsigned int ArgIndex>
-struct Exponential:public BaseFunctor<Exponential<ArgIndex>, double, 1>
+class Exponential:public BaseFunctor<Exponential<ArgIndex>, double, 1>
 {
+	using BaseFunctor<Exponential<ArgIndex>, double, 1>::_par;
+
+public:
 
 	Exponential() = delete;
 
@@ -57,13 +60,13 @@ struct Exponential:public BaseFunctor<Exponential<ArgIndex>, double, 1>
 	operator=( Exponential<ArgIndex> const& other)
 	{
 		if(this == &other) return *this;
-		BaseFunctor<Exponential,GReal_t,1>::operator=(other);
+		BaseFunctor<Exponential,double,1>::operator=(other);
 		return *this;
 	}
 
 	template<typename T>
 	__host__ __device__
-	inline GReal_t Evaluate(unsigned int n, T* x)
+	inline double Evaluate(unsigned int n, T* x)
 	{
 		return exp(x[ ArgIndex]*_par[0] );
 	}
@@ -102,27 +105,27 @@ public:
 		return *this;
 	}
 
-	GReal_t GetLowerLimit() const {
+	double GetLowerLimit() const {
 		return fLowerLimit;
 	}
 
-	void SetLowerLimit(GReal_t lowerLimit) {
+	void SetLowerLimit(double lowerLimit) {
 		fLowerLimit = lowerLimit;
 	}
 
-	GReal_t GetUpperLimit() const {
+	double GetUpperLimit() const {
 		return fUpperLimit;
 	}
 
-	void SetUpperLimit(GReal_t upperLimit) {
+	void SetUpperLimit(double upperLimit) {
 		fUpperLimit = upperLimit;
 	}
 
 	template<typename FUNCTOR>
-	inline std::pair<GReal_t, GReal_t> Integrate(FUNCTOR const& functor)
+	inline std::pair<double, double> Integrate(FUNCTOR const& functor)
 	{
-		GReal_t tau = functor[0];
-		GReal_t r   =  (exp(fUpperLimit*tau) - exp(fLowerLimit*tau))/tau ;
+		double tau = functor[0];
+		double r   =  (exp(fUpperLimit*tau) - exp(fLowerLimit*tau))/tau ;
 		return std::make_pair(r,0.0);
 	}
 

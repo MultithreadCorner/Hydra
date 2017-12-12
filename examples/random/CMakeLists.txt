@@ -64,7 +64,7 @@ endif(BUILD_TBB_TARGETS)
 #+++++++++++++++++++++++++
 # OMP TARGETS            |
 #+++++++++++++++++++++++++
-IF(OPENMP_FOUND)
+IF(BUILD_OMP_TARGETS)
 
     #+++++++++++++++++++++++++++++++
     add_executable(basic_distributions_omp EXCLUDE_FROM_ALL
@@ -94,5 +94,5 @@ IF(OPENMP_FOUND)
          add_dependencies(examples sample_distribution_omp)
         
     
-endif(OPENMP_FOUND)
+endif(BUILD_OMP_TARGETS)
 

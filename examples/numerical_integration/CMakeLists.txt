@@ -104,7 +104,7 @@ endif(BUILD_TBB_TARGETS)
 #+++++++++++++++++++++++++
 # OMP TARGETS            |
 #+++++++++++++++++++++++++
-IF(OPENMP_FOUND)
+IF(BUILD_OMP_TARGETS)
 
     #+++++++++++++++++++++++++++++++
     add_executable(vegas_omp EXCLUDE_FROM_ALL
@@ -155,5 +155,63 @@ IF(OPENMP_FOUND)
     
           add_dependencies(examples adaptive_gauss_kronrod_omp)
          
-endif(OPENMP_FOUND)
+endif(BUILD_OMP_TARGETS)
+
+
+
+#+++++++++++++++++++++++++
+# CPP TARGETS            |
+#+++++++++++++++++++++++++
+IF(BUILD_CPP_TARGETS)
+
+    #+++++++++++++++++++++++++++++++
+    add_executable(vegas_cpp EXCLUDE_FROM_ALL
+    vegas.cpp
+    )
+    
+    set_target_properties( vegas_cpp PROPERTIES 
+    COMPILE_FLAGS "-DTHRUST_HOST_SYSTEM=THRUST_HOST_SYSTEM_CPP -DTHRUST_DEVICE_SYSTEM=THRUST_DEVICE_SYSTEM_CPP")
+    
+    target_link_libraries( vegas_cpp  )
+
+          add_dependencies(examples vegas_cpp)
+         
+    #+++++++++++++++++++++++++++++++
+    add_executable(plain_mc_cpp EXCLUDE_FROM_ALL
+    plain_mc.cpp
+    )
+    
+    set_target_properties( plain_mc_cpp PROPERTIES 
+    COMPILE_FLAGS "-DTHRUST_HOST_SYSTEM=THRUST_HOST_SYSTEM_CPP -DTHRUST_DEVICE_SYSTEM=THRUST_DEVICE_SYSTEM_CPP")
+    
+    target_link_libraries( plain_mc_cpp  )
+    
+          add_dependencies(examples  plain_mc_cpp)
+         
+    #+++++++++++++++++++++++++++++++
+    add_executable(gauss_kronrod_cpp EXCLUDE_FROM_ALL
+    gauss_kronrod.cpp
+    )
+    
+    set_target_properties( gauss_kronrod_cpp PROPERTIES 
+    COMPILE_FLAGS " -DTHRUST_HOST_SYSTEM=THRUST_HOST_SYSTEM_CPP -DTHRUST_DEVICE_SYSTEM=THRUST_DEVICE_SYSTEM_CPP ")
+    
+    target_link_libraries( gauss_kronrod_cpp  )
+    
+    
+          add_dependencies(examples  gauss_kronrod_cpp)
+         
+    #+++++++++++++++++++++++++++++++
+    add_executable(adaptive_gauss_kronrod_cpp EXCLUDE_FROM_ALL
+    adaptive_gauss_kronrod.cpp
+    )
+    
+    set_target_properties( adaptive_gauss_kronrod_cpp PROPERTIES 
+    COMPILE_FLAGS " -DTHRUST_HOST_SYSTEM=THRUST_HOST_SYSTEM_CPP -DTHRUST_DEVICE_SYSTEM=THRUST_DEVICE_SYSTEM_CPP")
+    
+    target_link_libraries( adaptive_gauss_kronrod_cpp  )
+    
+          add_dependencies(examples adaptive_gauss_kronrod_cpp)
+         
+endif(BUILD_CPP_TARGETS)
 

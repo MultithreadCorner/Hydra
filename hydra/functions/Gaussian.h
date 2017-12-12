@@ -44,6 +44,10 @@ namespace hydra {
 template<unsigned int ArgIndex>
 class Gaussian: public BaseFunctor<Gaussian<ArgIndex>, double, 2>
 {
+	using BaseFunctor<Gaussian<ArgIndex>, double, 2>::_par;
+
+public:
+
 	Gaussian()=delete;
 
 	Gaussian(Parameter const& mean, Parameter const& sigma ):
@@ -59,7 +63,7 @@ class Gaussian: public BaseFunctor<Gaussian<ArgIndex>, double, 2>
 	Gaussian<ArgIndex>&
 	operator=(Gaussian<ArgIndex> const& other ){
 		if(this==&other) return  *this;
-		BaseFunctor<Gaussian<ArgIndex>,double, 2>(other);
+		BaseFunctor<Gaussian<ArgIndex>,double, 2>::operator=(other);
 		return  *this;
 	}
 
@@ -87,6 +91,8 @@ class Gaussian: public BaseFunctor<Gaussian<ArgIndex>, double, 2>
 
 class GaussianAnalyticalIntegral: public Integrator<GaussianAnalyticalIntegral>
 {
+
+public:
 
 	GaussianAnalyticalIntegral(double min, double max):
 		fLowerLimit(min),

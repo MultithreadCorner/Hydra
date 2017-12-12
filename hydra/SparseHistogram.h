@@ -33,7 +33,7 @@
 #include <hydra/detail/BackendPolicy.h>
 #include <hydra/Types.h>
 #include <hydra/detail/Dimensionality.h>
-
+#include <hydra/Copy.h>
 
 #include <type_traits>
 #include <utility>

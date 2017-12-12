@@ -74,11 +74,6 @@ class Vegas<N, hydra::detail::BackendPolicy<BACKEND>, GRND >
 public:
 
 
-	/**
-	 * @brief Hydra integrator tag
-	 */
-	typedef void hydra_integrator_tag;
-
 	Vegas()=delete;
 
 	Vegas(std::array<GReal_t,N> const& xlower,	std::array<GReal_t,N> const& xupper, size_t ncalls):

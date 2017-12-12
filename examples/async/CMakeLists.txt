@@ -7,7 +7,7 @@ project(examples)
 #+++++++++++++++++++++++++++
 # CUDA + TBB + OMP TARGETS |
 #+++++++++++++++++++++++++++
-if(BUILD_CUDA_TARGETS AND BUILD_TBB_TARGETS AND OPENMP_FOUND )
+if(BUILD_CUDA_TARGETS AND BUILD_TBB_TARGETS AND BUILD_OMP_TARGETS )
 
          #+++++++++++++++++++++++++++++++++
          cuda_add_executable( asynchronous_monte_carlo EXCLUDE_FROM_ALL  async_mc.cu    
@@ -17,4 +17,4 @@ if(BUILD_CUDA_TARGETS AND BUILD_TBB_TARGETS AND OPENMP_FOUND )
          
          add_dependencies(examples asynchronous_monte_carlo )
                            
-endif(BUILD_CUDA_TARGETS AND BUILD_TBB_TARGETS AND OPENMP_FOUND )
+endif(BUILD_CUDA_TARGETS AND BUILD_TBB_TARGETS AND BUILD_OMP_TARGETS )

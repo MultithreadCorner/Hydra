@@ -165,7 +165,7 @@ endif(BUILD_TBB_TARGETS)
 #+++++++++++++++++++++++++
 # OMP TARGETS            |
 #+++++++++++++++++++++++++
-IF(OPENMP_FOUND)
+IF(BUILD_OMP_TARGETS)
 
     #+++++++++++++++++++++++++++++++
     add_executable(phsp_basic_omp EXCLUDE_FROM_ALL
@@ -272,5 +272,118 @@ IF(OPENMP_FOUND)
             
          add_dependencies(examples phsp_unweighting_functor_omp)
          
-endif(OPENMP_FOUND)
+endif(BUILD_OMP_TARGETS)
+
+
+#+++++++++++++++++++++++++
+# CPP TARGETS            |
+#+++++++++++++++++++++++++
+IF(BUILD_CPP_TARGETS)
+
+    #+++++++++++++++++++++++++++++++
+    add_executable(phsp_basic_cpp EXCLUDE_FROM_ALL
+    phsp_basic.cpp
+    )
+    
+    set_target_properties( phsp_basic_cpp PROPERTIES 
+    CCPPILE_FLAGS " -DTHRUST_HOST_SYSTEM=THRUST_HOST_SYSTEM_CPP -DTHRUST_DEVICE_SYSTEM=THRUST_DEVICE_SYSTEM_CPP ")
+    
+    target_link_libraries( phsp_basic_cpp
+    ${ROOT_LIBRARIES}
+    rt
+    )
+        
+         add_dependencies(examples phsp_basic_cpp)
+         
+    #+++++++++++++++++++++++++++++++
+    add_executable( phsp_chain_cpp EXCLUDE_FROM_ALL
+    phsp_chain.cpp
+    )
+    
+    set_target_properties( phsp_chain_cpp PROPERTIES 
+    CCPPILE_FLAGS " -DTHRUST_HOST_SYSTEM=THRUST_HOST_SYSTEM_CPP -DTHRUST_DEVICE_SYSTEM=THRUST_DEVICE_SYSTEM_CPP ")
+    
+    target_link_libraries( phsp_chain_cpp
+    ${ROOT_LIBRARIES}
+    rt
+    )
+            
+     #     add_dependencies(examples phsp_chain_cpp)
+         
+    #+++++++++++++++++++++++++++++++
+    add_executable( phsp_averaging_functor_cpp EXCLUDE_FROM_ALL
+    phsp_averaging_functor.cpp
+    )
+    
+    set_target_properties( phsp_averaging_functor_cpp PROPERTIES 
+    CCPPILE_FLAGS " -DTHRUST_HOST_SYSTEM=THRUST_HOST_SYSTEM_CPP -DTHRUST_DEVICE_SYSTEM=THRUST_DEVICE_SYSTEM_CPP ")
+    
+    target_link_libraries( phsp_averaging_functor_cpp
+    ${ROOT_LIBRARIES}
+    rt
+    )
+        
+         add_dependencies(examples phsp_averaging_functor_cpp)
+         
+    #++++++++++++++++++++++++++++
+    add_executable( phsp_evaluating_functor_cpp EXCLUDE_FROM_ALL
+    phsp_evaluating_functor.cpp
+    )
+    
+    set_target_properties( phsp_evaluating_functor_cpp PROPERTIES 
+    CCPPILE_FLAGS " -DTHRUST_HOST_SYSTEM=THRUST_HOST_SYSTEM_CPP -DTHRUST_DEVICE_SYSTEM=THRUST_DEVICE_SYSTEM_CPP ")
+    
+    target_link_libraries( phsp_evaluating_functor_cpp
+    ${ROOT_LIBRARIES}
+    rt
+    )
+         
+         add_dependencies(examples phsp_evaluating_functor_cpp)
+         
+    #++++++++++++++++++++++++++++
+    add_executable( phsp_unweighting_cpp EXCLUDE_FROM_ALL
+    phsp_unweighting.cpp
+    )
+    
+    set_target_properties( phsp_unweighting_cpp PROPERTIES 
+    CCPPILE_FLAGS " -DTHRUST_HOST_SYSTEM=THRUST_HOST_SYSTEM_CPP -DTHRUST_DEVICE_SYSTEM=THRUST_DEVICE_SYSTEM_CPP ")
+    
+    target_link_libraries( phsp_unweighting_cpp
+    ${ROOT_LIBRARIES}
+    rt
+    )
+            
+         add_dependencies(examples phsp_unweighting_cpp)
+             
+    #++++++++++++++++++++++++++++
+    add_executable( phsp_reweighting_cpp EXCLUDE_FROM_ALL
+    phsp_reweighting.cpp
+    )
+    
+    set_target_properties( phsp_reweighting_cpp PROPERTIES 
+    CCPPILE_FLAGS " -DTHRUST_HOST_SYSTEM=THRUST_HOST_SYSTEM_CPP -DTHRUST_DEVICE_SYSTEM=THRUST_DEVICE_SYSTEM_CPP ")
+    
+    target_link_libraries( phsp_reweighting_cpp
+    ${ROOT_LIBRARIES}
+    rt
+    )
+            
+         add_dependencies(examples phsp_reweighting_cpp)
+         
+    #++++++++++++++++++++++++++++
+    add_executable( phsp_unweighting_functor_cpp EXCLUDE_FROM_ALL
+    phsp_unweighting_functor.cpp
+    )
+    
+    set_target_properties( phsp_unweighting_functor_cpp PROPERTIES 
+    CCPPILE_FLAGS " -DTHRUST_HOST_SYSTEM=THRUST_HOST_SYSTEM_CPP -DTHRUST_DEVICE_SYSTEM=THRUST_DEVICE_SYSTEM_CPP ")
+    
+    target_link_libraries( phsp_unweighting_functor_cpp
+    ${ROOT_LIBRARIES}
+    rt
+    )
+            
+         add_dependencies(examples phsp_unweighting_functor_cpp)
+         
+endif(BUILD_CPP_TARGETS)
 

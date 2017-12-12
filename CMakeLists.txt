@@ -76,6 +76,8 @@ find_package(OpenMP)
 if(OPENMP_FOUND)
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${OpenMP_CXX_FLAGS}")
 endif(OPENMP_FOUND)
+
+
 #generate API documentation with Doxygen
 find_package(Doxygen)
 option(BUILD_DOCUMENTATION "Create and install the HTML based API documentation (requires Doxygen)" NO)
@@ -116,6 +118,14 @@ if(CUDA_FOUND)
 	
     		
 endif(CUDA_FOUND)
+
+SET(BUILD_CPP_TARGETS  ON)
+
+if( OPENMP_FOUND )
+        SET(BUILD_OMP_TARGETS  ON)
+else()
+        SET(BUILD_OMP_TARGETS  OFF)
+endif()
 
 if( CUDA_FOUND )
 	SET(BUILD_CUDA_TARGETS  ON)

@@ -160,12 +160,6 @@ public Integrator< GaussKronrodAdaptiveQuadrature<NRULE, NBIN, hydra::detail::Ba
 
 public:
 
-	/**
-	 * @brief Hydra integrator tag
-	 */
-	typedef void hydra_integrator_tag;
-
-
 
 	/**
 	 * @brief Deleted constructor for Self-adaptive Gauss-Kronrod quadrature.

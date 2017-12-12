@@ -64,7 +64,7 @@ endif(BUILD_TBB_TARGETS)
 #+++++++++++++++++++++++++
 # OMP TARGETS            |
 #+++++++++++++++++++++++++
-IF(OPENMP_FOUND)
+IF(BUILD_OMP_TARGETS)
 
     #+++++++++++++++++++++++++++++++
     add_executable(3d_dense_histogram_omp EXCLUDE_FROM_ALL
@@ -89,5 +89,36 @@ IF(OPENMP_FOUND)
     add_dependencies(examples 3d_sparse_histogram_omp)
          
     
-endif(OPENMP_FOUND)
+endif(BUILD_OMP_TARGETS)
 
+
+
+#+++++++++++++++++++++++++
+# CPP TARGETS            |
+#+++++++++++++++++++++++++
+IF(BUILD_CPP_TARGETS)
+
+    #+++++++++++++++++++++++++++++++
+    add_executable(3d_dense_histogram_cpp EXCLUDE_FROM_ALL
+    dense_histogram.cpp
+    )
+    
+    set_target_properties( 3d_dense_histogram_cpp PROPERTIES 
+    COMPILE_FLAGS "-DTHRUST_HOST_SYSTEM=THRUST_HOST_SYSTEM_CPP -DTHRUST_DEVICE_SYSTEM=THRUST_DEVICE_SYSTEM_CPP ")
+    
+    target_link_libraries( 3d_dense_histogram_cpp    ${ROOT_LIBRARIES})
+
+    add_dependencies(examples 3d_dense_histogram_cpp)
+    
+    #+++++++++++++++++++++++++++++++
+    add_executable(3d_sparse_histogram_cpp EXCLUDE_FROM_ALL sparse_histogram.cpp )
+    
+    set_target_properties( 3d_sparse_histogram_cpp PROPERTIES 
+    COMPILE_FLAGS "-DTHRUST_HOST_SYSTEM=THRUST_HOST_SYSTEM_CPP -DTHRUST_DEVICE_SYSTEM=THRUST_DEVICE_SYSTEM_CPP ")
+    
+    target_link_libraries( 3d_sparse_histogram_cpp    ${ROOT_LIBRARIES})
+
+    add_dependencies(examples 3d_sparse_histogram_cpp)
+         
+    
+endif(BUILD_CPP_TARGETS)

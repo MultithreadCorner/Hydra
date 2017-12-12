@@ -73,8 +73,6 @@ public Integrator<typename std::enable_if< (N>1),GenzMalikQuadrature<N, hydra::d
 	typedef typename GenzMalikRule<N, hydra::detail::BackendPolicy<BACKEND>>::const_abscissa_iterator const_rule_iterator;
 
 public:
-	//tag
-	typedef void hydra_integrator_tag;
 
 	GenzMalikQuadrature()=delete;
 
