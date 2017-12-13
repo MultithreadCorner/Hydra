@@ -49,7 +49,6 @@
 #include <hydra/Pdf.h>
 #include <hydra/AddPdf.h>
 #include <hydra/Filter.h>
-#include <hydra/SPlot.h>
 #include <hydra/DenseHistogram.h>
 #include <hydra/functions/Gaussian.h>
 #include <hydra/functions/Exponential.h>

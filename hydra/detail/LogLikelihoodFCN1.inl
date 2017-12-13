@@ -142,7 +142,7 @@ public:
 	Eval( const std::vector<double>& parameters ) const{
 
 		using   HYDRA_EXTERNAL_NS::thrust::system::detail::generic::select_system;
-		typedef typename HYDRA_EXTERNAL_NS::thrust::iterator_system<Iterator>::type System;
+		typedef typename HYDRA_EXTERNAL_NS::thrust::iterator_system<IteratorD>::type System;
 		typedef typename Pdf<Functor,Integrator>::functor_type functor_type;
 		System system;
 

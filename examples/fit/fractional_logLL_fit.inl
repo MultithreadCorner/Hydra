@@ -42,7 +42,6 @@
 
 //this lib
 #include <hydra/device/System.h>
-#include <hydra/host/System.h>
 #include <hydra/Function.h>
 #include <hydra/FunctionWrapper.h>
 #include <hydra/Random.h>
@@ -51,10 +50,11 @@
 #include <hydra/UserParameters.h>
 #include <hydra/Pdf.h>
 #include <hydra/AddPdf.h>
-#include <hydra/Copy.h>
 #include <hydra/Filter.h>
-#include <hydra/GaussKronrodQuadrature.h>
-#include <hydra/SPlot.h>
+#include <hydra/DenseHistogram.h>
+#include <hydra/functions/Gaussian.h>
+#include <hydra/functions/Exponential.h>
+
 //Minuit2
 #include "Minuit2/FunctionMinimum.h"
 #include "Minuit2/MnUserParameterState.h"
@@ -108,7 +108,8 @@ int main(int argv, char** argc)
 		std::cerr << "error: " << e.error() << " for arg " << e.argId()
 														<< std::endl;
 	}
-//-----------------
+
+	//-----------------
     // some definitions
     double min   =  0.0;
     double max   =  10.0;
@@ -116,101 +117,66 @@ int main(int argv, char** argc)
 	//generator
 	hydra::Random<> Generator( std::chrono::system_clock::now().time_since_epoch().count() );
 
-	//----------------------
+	//===========================
     //fit model
 
-	//gaussian 1
-	auto GAUSSIAN1 =  [=] __host__ __device__
-			(unsigned int npar, const hydra::Parameter* params,unsigned int narg, double* x )
-	{
-		double m2 = (x[0] -  params[0])*(x[0] - params[0] );
-		double s2 = params[1]*params[1];
-		double g = exp(-m2/(2.0 * s2 ))/( sqrt(2.0*s2*PI));
-
-		return g;
-	};
-
-	std::string  Mean1("Mean_1"); 	// mean of gaussian
-	std::string Sigma1("Sigma_1"); // sigma of gaussian
+	std::string  Mean1("Mean_1"); 	// mean of gaussian-1
+	std::string Sigma1("Sigma_1");  // sigma of gaussian-1
 	hydra::Parameter  mean1_p  = hydra::Parameter::Create().Name(Mean1).Value( 2.5) .Error(0.0001).Limits(0.0, 10.0);
 	hydra::Parameter  sigma1_p = hydra::Parameter::Create().Name(Sigma1).Value(0.5).Error(0.0001).Limits(0.01, 1.5);
 
-    auto gaussian1 = hydra::wrap_lambda(GAUSSIAN1, mean1_p, sigma1_p);
+	//gaussian function evaluating on the first argument
+	hydra::Gaussian<0> gaussian1(mean1_p, sigma1_p);
+	auto Gauss1_PDF = hydra::make_pdf(gaussian1, hydra::GaussianAnalyticalIntegral(min, max));
 
     //-------------------------------------------
+
     //gaussian 2
-    auto GAUSSIAN2 =  [=] __host__ __device__
-    		(unsigned int npar, const hydra::Parameter* params,unsigned int narg, double* x )
-    {
-    	double m2 = (x[0] -  params[0])*(x[0] - params[0] );
-    	double s2 = params[1]*params[1];
-    	double g = exp(-m2/(2.0 * s2 ))/( sqrt(2.0*s2*PI));
-
-    	return g;
-    };
-
-    std::string  Mean2("Mean_2"); 	// mean of gaussian
-    std::string Sigma2("Sigma_2"); // sigma of gaussian
+    std::string  Mean2("Mean_2"); // mean of gaussian-2
+    std::string Sigma2("Sigma_2");// sigma of gaussian-2
     hydra::Parameter  mean2_p  = hydra::Parameter::Create().Name(Mean2).Value(5.0) .Error(0.0001).Limits(0.0, 10.0);
     hydra::Parameter  sigma2_p = hydra::Parameter::Create().Name(Sigma2).Value(0.5).Error(0.0001).Limits(0.01, 1.5);
 
-    auto gaussian2 = hydra::wrap_lambda(GAUSSIAN2, mean2_p, sigma2_p);
+    //gaussian function evaluating on the first argument
+    hydra::Gaussian<0> gaussian2(mean2_p, sigma2_p);
+    auto Gauss2_PDF = hydra::make_pdf(gaussian2, hydra::GaussianAnalyticalIntegral(min, max));
 
     //--------------------------------------------
-    //exponential
-    auto EXPONENTIAL =  [=] __host__ __device__
-    		(unsigned int npar, const hydra::Parameter* params,unsigned int narg, double* x )
-    {
-    	double tau = params[0];
-    	return exp( -(x[0]-min)*tau);
-    };
 
+    //exponential
     //parameters
-    std::string  Tau("Tau"); 	// tau of the exponential
+    std::string  Tau("Tau");// tau of the exponential
     hydra::Parameter  tau_p  = hydra::Parameter::Create().Name(Tau).Value(1.0) .Error(0.0001).Limits(-2.0, 2.0);
 
-    //get a hydra lambda
-    auto exponential = hydra::wrap_lambda(EXPONENTIAL, tau_p);
+    //gaussian function evaluating on the first argument
+    hydra::Exponential<0> exponential(tau_p);
+    auto Exp_PDF = hydra::make_pdf(exponential, hydra::ExponentialAnalyticalIntegral(min, max));
 
     //------------------
     //yields
-	std::string na("Frac_Gauss1");
-	std::string nb("Frac_Gauss2");
-	std::string nc("Frac_Exp");
+	std::string na("F_Gauss1");
+	std::string nb("F_Gauss2");
 
-	hydra::Parameter Frac_Gauss_1_p(na , 0.3, 0.0001, 0.05 , 0.5) ;
-	hydra::Parameter Frac_Gauss_2_p(nb , 0.3, 0.0001, 0.05 , 0.5) ;
-	hydra::Parameter     Frac_Exp_p(nc , 0.3, 0.0001, 0.05 , 0.5) ;
+	hydra::Parameter F_Gauss_1_p(na ,0.5, 0.001, 0.1 , 0.5) ;
+	hydra::Parameter F_Gauss_2_p(nb ,0.5, 0.001, 0.1 , 0.5) ;
 
+	//make model
+	auto model = hydra::add_pdfs( std::array<hydra::Parameter,2>{F_Gauss_1_p, F_Gauss_2_p }, Gauss1_PDF, Gauss2_PDF, Exp_PDF);
 
-	//device
-	//------------------------
+	//===========================
+
 #ifdef _ROOT_AVAILABLE_
 
 	TH1D hist_gaussian_d("gaussian_d", "Gaussian",    100, min, max);
 	TH1D hist_fitted_gaussian_d("fitted_gaussian_d", "Gaussian",    100, min, max);
 
 #endif //_ROOT_AVAILABLE_
+
+	//scope begin
 	{
-		std::cout << "=========================================="<<std::endl;
-		std::cout << "|            <--- DEVICE --->            |"  <<std::endl;
-		std::cout << "=========================================="<<std::endl;
-
-		//------------------
-	    //make model
-		//numerical integral to normalize the pdfs
-		hydra::GaussKronrodQuadrature<61,100, hydra::device::sys_t> GKQ61_d(min,  max);
-
-		//convert functors to pdfs
-		auto Gauss1_PDF = hydra::make_pdf(gaussian1  , GKQ61_d);
-		auto Gauss2_PDF = hydra::make_pdf(gaussian2  , GKQ61_d);
-		auto    Exp_PDF = hydra::make_pdf(exponential, GKQ61_d);
-
-		auto model = hydra::add_pdfs( std::array<hydra::Parameter,2>{Frac_Gauss_1_p, Frac_Gauss_2_p }, Gauss1_PDF, Gauss2_PDF, Exp_PDF);
 
 		//1D device buffer
 		hydra::device::vector<double>  data_d(3*nentries);
-
 
 		//-------------------------------------------------------
 		// Generate data
@@ -230,11 +196,11 @@ int main(int argv, char** argc)
 
 
 		//filtering
-		auto FILTER = [=]__host__ __device__(unsigned int n, double* x){
-			return (x[0] > min) && (x[0] < max );
-		};
+		auto filter = hydra::wrap_lambda(
+			[=]__host__ __device__(unsigned int n, double* x){
+				return (x[0] > min) && (x[0] < max );
+		});
 
-		auto filter = hydra::wrap_lambda(FILTER);
 		auto range  = hydra::apply_filter(data_d,  filter);
 
 		std::cout<< std::endl<< "Filtered data:"<< std::endl;
@@ -243,7 +209,7 @@ int main(int argv, char** argc)
 
 
 		//make model and fcn
-		auto fcn   = hydra::make_loglikehood_fcn(range.begin(), range.end(), model);
+		auto fcn   = hydra::make_loglikehood_fcn(model, range.begin(), range.end() );
 
 		//-------------------------------------------------------
 		//fit
@@ -273,15 +239,14 @@ int main(int argv, char** argc)
 		std::cout << "-----------------------------------------"<<std::endl;
 
 
-
-		//bring data to device
-		hydra::host::vector<double>    data_h(range.size());
-		hydra::copy( range.begin() , range.end(), data_h.begin() );
-
+		//--------------------------------------------
+		hydra::DenseHistogram<double, 1, hydra::device::sys_t> Hist_Data(100, min, max);
+		Hist_Data.Fill( range.begin(), range.end() );
 
 #ifdef _ROOT_AVAILABLE_
-		for(auto value : data_h)
-			hist_gaussian_d.Fill( value);
+
+		for(size_t i=0;  i<100; i++)
+			 hist_gaussian_d.SetBinContent(i+1, Hist_Data.GetBinContent(i));
 
 		//draw fitted function
 		hist_fitted_gaussian_d.Sumw2();
@@ -292,120 +257,9 @@ int main(int argv, char** argc)
 		hist_fitted_gaussian_d.Scale(hist_gaussian_d.Integral()/hist_fitted_gaussian_d.Integral() );
 #endif //_ROOT_AVAILABLE_
 
-	}//device end
+	}//scope end
 
 
-
-	//------------------------
-	//host
-	//------------------------
-#ifdef _ROOT_AVAILABLE_
-
-	TH1D hist_gaussian_h("gaussian_h", "Gaussian",    100, min, max);
-	TH1D hist_fitted_gaussian_h("fitted_gaussian_h", "Gaussian",    100, min, max);
-
-#endif //_ROOT_AVAILABLE_
-	{
-		std::cout << "=========================================="<<std::endl;
-		std::cout << "|              <--- HOST --->            |"  <<std::endl;
-		std::cout << "=========================================="<<std::endl;
-
-		//------------------
-	    //make model
-		//numerical integral to normalize the pdfs
-		hydra::GaussKronrodQuadrature<61,100, hydra::host::sys_t> GKQ61_h(min,  max);
-
-		//convert functors to pdfs
-		auto Gauss1_PDF = hydra::make_pdf(gaussian1  , GKQ61_h);
-		auto Gauss2_PDF = hydra::make_pdf(gaussian2  , GKQ61_h);
-		auto    Exp_PDF = hydra::make_pdf(exponential, GKQ61_h);
-
-		auto model = hydra::add_pdfs( std::array<hydra::Parameter,2>{Frac_Gauss_1_p, Frac_Gauss_2_p }, Gauss1_PDF, Gauss2_PDF, Exp_PDF);
-
-		//1D device buffer
-		hydra::host::vector<double>    data_h(3*nentries);
-
-		//-------------------------------------------------------
-		// Generate data
-
-		// gaussian1
-		Generator.Gauss(mean1_p.GetValue()+0.5, sigma1_p.GetValue()+0.5, data_h.begin(), data_h.begin()+nentries);
-
-		// gaussian1
-		Generator.Gauss(mean2_p.GetValue()+0.5, sigma2_p.GetValue()+0.5, data_h.begin()+nentries, data_h.begin()+2*nentries);
-
-		// exponential
-		Generator.Exp(tau_p.GetValue()+0.5, data_h.begin() + 2*nentries,  data_h.end());
-
-		std::cout<< std::endl<< "Generated data:"<< std::endl;
-		for(size_t i=0; i<10; i++)
-			std::cout << "[" << i << "] :" << data_h[i] << std::endl;
-
-		 std::random_device rd;
-		 std::mt19937 g(rd());
-		 std::shuffle(data_h.begin(), data_h.end(), g);
-
-		//filtering
-		auto FILTER = [=]__host__ __device__(unsigned int n, double* x){
-			return (x[0] > min) && (x[0] < max );
-		};
-
-		auto filter = hydra::wrap_lambda(FILTER);
-		auto range  = hydra::apply_filter(data_h,  filter);
-
-		std::cout<< std::endl<< "Filtered data:"<< std::endl;
-		for(size_t i=0; i<10; i++)
-			std::cout << "[" << i << "] :" << range.begin()[i] << std::endl;
-
-
-		//make model and fcn
-		auto fcn   = hydra::make_loglikehood_fcn(range.begin(), range.end(), model);
-
-		//-------------------------------------------------------
-		//fit
-		ROOT::Minuit2::MnPrint::SetLevel(3);
-		hydra::Print::SetLevel(hydra::WARNING);
-		//minimization strategy
-		MnStrategy strategy(2);
-
-		// create Migrad minimizer
-		MnMigrad migrad_h(fcn, fcn.GetParameters().GetMnState() ,  strategy);
-
-		std::cout<<fcn.GetParameters().GetMnState()<<std::endl;
-
-		// ... Minimize and profile the time
-
-		auto start_h = std::chrono::high_resolution_clock::now();
-		FunctionMinimum minimum_h =  FunctionMinimum(migrad_h(std::numeric_limits<unsigned int>::max(), 5));
-		auto end_h = std::chrono::high_resolution_clock::now();
-		std::chrono::duration<double, std::milli> elapsed_h = end_h - start_h;
-
-		// output
-		std::cout<<"minimum: "<<minimum_h<<std::endl;
-
-		//time
-		std::cout << "-----------------------------------------"<<std::endl;
-		std::cout << "| [Fit] CPU Time (ms) ="<< elapsed_h.count() <<std::endl;
-		std::cout << "-----------------------------------------"<<std::endl;
-
-
-
-
-
-#ifdef _ROOT_AVAILABLE_
-		for(auto value : range)
-			hist_gaussian_h.Fill( value);
-
-		//draw fitted function
-		hist_fitted_gaussian_h.Sumw2();
-		for (size_t i=0 ; i<=100 ; i++) {
-			double x = hist_fitted_gaussian_h.GetBinCenter(i);
-	        hist_fitted_gaussian_h.SetBinContent(i, fcn.GetPDF()(x) );
-		}
-		hist_fitted_gaussian_h.Scale(hist_gaussian_h.Integral()/hist_fitted_gaussian_h.Integral() );
-#endif //_ROOT_AVAILABLE_
-
-	}//host end
 
 
 
@@ -417,12 +271,6 @@ int main(int argv, char** argc)
 	hist_gaussian_d.Draw("hist");
 	hist_fitted_gaussian_d.Draw("histsameC");
 	hist_fitted_gaussian_d.SetLineColor(2);
-
-	//draw histograms
-	TCanvas canvas_h("canvas_h" ,"Distributions - Host", 500, 500);
-	hist_gaussian_h.Draw("hist");
-	hist_fitted_gaussian_h.Draw("histsameC");
-	hist_fitted_gaussian_h.SetLineColor(2);
 
 	myapp->Run();
 
