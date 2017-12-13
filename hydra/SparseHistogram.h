@@ -84,10 +84,9 @@ public:
 
 	SparseHistogram()=delete;
 
-	template<typename Int,
-		typename = typename std::enable_if<std::is_integral<Int>::value, void>::type>
-	SparseHistogram( std::array<Int, N> grid,
-			std::array<T, N> lowerlimits,   std::array<T, N> upperlimits):
+
+	SparseHistogram( std::array<size_t , N> const& grid,
+			std::array<T, N> const& lowerlimits,   std::array<T, N> const& upperlimits):
 				fNBins(1)
 	{
 		for( size_t i=0; i<N; i++){
@@ -263,6 +262,20 @@ public:
 
 		return  ( bin< fBins.size() ) ?
 				fContents.begin()[bin] : 0.0;
+	}
+
+	inline GenericRange<data_iterator> GetBinsContents() const {
+
+		return make_range( fContents.begin(), fContents.end());
+	}
+
+	inline GenericRange< HYDRA_EXTERNAL_NS::thrust::transform_iterator<detail::GetBinCenter<T,N>, keys_iterator> >
+	GetBinsCenters() {
+
+		HYDRA_EXTERNAL_NS::thrust::transform_iterator<detail::GetBinCenter<T,N>, keys_iterator> first( fBins.begin(),
+				detail::GetBinCenter<T,N>( fGrid, fLowerLimits, fUpperLimits) );
+
+		return make_range( first , first+fNBins);
 	}
 
 

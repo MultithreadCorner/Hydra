@@ -70,7 +70,7 @@ public:
 
 
 	DenseHistogram( std::array<size_t, N> grid,
-			std::array<T, N> lowerlimits,   std::array<T, N> upperlimits):
+			std::array<T, N> const& lowerlimits,   std::array<T, N> const& upperlimits):
 				fNBins(1)
 	{
 		for( size_t i=0; i<N; i++){

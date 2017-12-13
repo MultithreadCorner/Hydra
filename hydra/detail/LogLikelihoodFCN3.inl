@@ -37,82 +37,10 @@
 #include <hydra/detail/external/thrust/transform_reduce.h>
 #include <hydra/detail/external/thrust/inner_product.h>
 
+#include <utility>
+
 namespace hydra {
 
-/*
-template<typename ...Pdfs, typename Iterator >
-class LogLikelihoodFCN< PDFSumNonExtendable<Pdfs...>, Iterator>: public FCN<LogLikelihoodFCN< PDFSumNonExtendable<Pdfs...>, Iterator > >{
-
-public:
-
-
-	/**
-	 * @brief LogLikelihoodFCN constructor for non-cached models.
-	 *
-	 * @param functor hydra::PDF instance.
-	 * @param begin  iterator pointing to the begin of the dataset.
-	 * @param end   iterator pointing to the end of the dataset.
-	 */
-/*
-	LogLikelihoodFCN(PDFSumNonExtendable<Pdfs...>& functor, Iterator begin, Iterator end):
-		FCN<LogLikelihoodFCN<PDFSumNonExtendable<Pdfs...>, Iterator>>(functor,begin, end)
-		{}
-
-	LogLikelihoodFCN(LogLikelihoodFCN<PDFSumNonExtendable<Pdfs...>, Iterator>const& other):
-		FCN<LogLikelihoodFCN<PDFSumNonExtendable<Pdfs...>, Iterator>>(other)
-		{}
-
-	LogLikelihoodFCN<PDFSumNonExtendable<Pdfs...>, Iterator>&
-	operator=(LogLikelihoodFCN<PDFSumNonExtendable<Pdfs...>, Iterator>const& other)
-	{
-		if(this==&other) return  *this;
-		FCN<LogLikelihoodFCN<PDFSumNonExtendable<Pdfs...>, Iterator>>::operator=(other);
-		return  *this;
-	}
-
-
-	GReal_t Eval( const std::vector<double>& parameters ) const{
-
-		using   HYDRA_EXTERNAL_NS::thrust::system::detail::generic::select_system;
-		typedef typename HYDRA_EXTERNAL_NS::thrust::iterator_system<Iterator>::type System;
-		typedef typename PDFSumNonExtendable<Pdfs...>::functor_type functor_type;
-		System system;
-
-		// create iterators
-		HYDRA_EXTERNAL_NS::thrust::counting_iterator<size_t> first(0);
-		HYDRA_EXTERNAL_NS::thrust::counting_iterator<size_t> last = first + this->GetDataSize();
-
-		GReal_t final;
-		GReal_t init=0;
-
-		if (INFO >= Print::Level()  )
-		{
-			std::ostringstream stringStream;
-			for(size_t i=0; i< parameters.size(); i++){
-				stringStream << "Parameter["<< i<<"] :  " << parameters[i]  << "  ";
-			}
-			HYDRA_LOG(INFO, stringStream.str().c_str() )
-		}
-
-		this->GetPDF().SetParameters(parameters);
-
-
-		auto NLL = detail::LogLikelihood1<functor_type>(this->GetPDF().GetFunctor());
-
-		final = HYDRA_EXTERNAL_NS::thrust::transform_reduce(select_system(system), this->begin(), this->end(),
-				NLL, init, HYDRA_EXTERNAL_NS::thrust::plus<GReal_t>());
-
-		GReal_t  r = (GReal_t)this->GetDataSize()  - final;
-
-
-
-		return r;
-
-	}
-
-
-};
-*/
 
 template<typename ...Pdfs, typename IteratorD , typename ...IteratorW>
 class LogLikelihoodFCN< PDFSumNonExtendable<Pdfs...>, IteratorD, IteratorW...>: public FCN<LogLikelihoodFCN< PDFSumNonExtendable<Pdfs...>, IteratorD, IteratorW ...> >
@@ -146,7 +74,7 @@ public:
 
 
 	template<size_t M = sizeof...(IteratorW)>
-	typename std::enable_if<(M==0), double >::type
+	inline typename std::enable_if<(M==0), double >::type
 	Eval( const std::vector<double>& parameters ) const{
 
 		using   HYDRA_EXTERNAL_NS::thrust::system::detail::generic::select_system;
@@ -187,7 +115,7 @@ public:
 	}
 
 	template<size_t M = sizeof...(IteratorW)>
-	typename std::enable_if<(M>0), double >::type
+	inline typename std::enable_if<(M>0), double >::type
 	Eval( const std::vector<double>& parameters ) const{
 
 		using   HYDRA_EXTERNAL_NS::thrust::system::detail::generic::select_system;
@@ -233,10 +161,11 @@ public:
 
 
 template<typename... Pdfs,  typename Iterator, typename ...Iterators>
-auto make_loglikehood_fcn(PDFSumNonExtendable<Pdfs...>& functor, Iterator first, Iterator last, Iterators... weights)
+auto make_loglikehood_fcn(PDFSumNonExtendable<Pdfs...>&& pdf, Iterator&& first, Iterator&& last, Iterators&&... weights)
 -> LogLikelihoodFCN< PDFSumNonExtendable<Pdfs...>, Iterator,Iterators...  >
 {
-	return LogLikelihoodFCN< PDFSumNonExtendable<Pdfs...>, Iterator,Iterators...  >( functor, first, last, weights...);
+	return LogLikelihoodFCN< PDFSumNonExtendable<Pdfs...>, Iterator,Iterators... >(std::forward<PDFSumNonExtendable<Pdfs...>>(pdf),
+			std::forward<Iterator>(first),	std::forward<Iterator>(last), 	std::forward<Iterators>(weights)...);
 }
 
 }  // namespace hydra
