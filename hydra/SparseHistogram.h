@@ -266,7 +266,7 @@ public:
 
 	inline GenericRange<data_iterator> GetBinsContents() const {
 
-		return make_range( fContents.begin(), fContents.end());
+		return make_range( fContents.begin(), fContents.begin() + fNBins);
 	}
 
 	inline GenericRange< HYDRA_EXTERNAL_NS::thrust::transform_iterator<detail::GetBinCenter<T,N>, keys_iterator> >
@@ -275,7 +275,7 @@ public:
 		HYDRA_EXTERNAL_NS::thrust::transform_iterator<detail::GetBinCenter<T,N>, keys_iterator> first( fBins.begin(),
 				detail::GetBinCenter<T,N>( fGrid, fLowerLimits, fUpperLimits) );
 
-		return make_range( first , first+fNBins);
+		return make_range( first , first + fNBins);
 	}
 
 
@@ -581,6 +581,19 @@ public:
 				fContents.begin()[bin] : 0.0;
 	}
 
+	inline GenericRange<HYDRA_EXTERNAL_NS::thrust::transform_iterator<detail::GetBinCenter<T,1>, keys_iterator> >
+	GetBinsCenters() {
+
+		HYDRA_EXTERNAL_NS::thrust::transform_iterator<detail::GetBinCenter<T,1>, keys_iterator >
+		first( fBins.begin(), detail::GetBinCenter<T,1>( fGrid, fLowerLimits, fUpperLimits) );
+
+		return make_range( first , first+fNBins);
+	}
+
+	inline GenericRange<iterator> GetBinsContents()  {
+
+	  	return make_range(begin(),begin()+fNBins );
+	}
 
 	//stl interface
 

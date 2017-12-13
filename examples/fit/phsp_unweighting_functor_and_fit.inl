@@ -62,24 +62,21 @@
  */
 #include <hydra/Types.h>
 #include <hydra/Vector4R.h>
+#include <hydra/Decays.h>
 #include <hydra/PhaseSpace.h>
-#include <hydra/Evaluate.h>
 #include <hydra/Function.h>
 #include <hydra/FunctorArithmetic.h>
 #include <hydra/FunctionWrapper.h>
-#include <hydra/Copy.h>
 #include <hydra/Tuple.h>
-#include <hydra/host/System.h>
+#include <hydra/GenericRange.h>
 #include <hydra/device/System.h>
-#include <hydra/Decays.h>
 #include <hydra/LogLikelihoodFCN.h>
 #include <hydra/Parameter.h>
 #include <hydra/UserParameters.h>
 #include <hydra/Pdf.h>
-#include <hydra/Copy.h>
 #include <hydra/Distance.h>
-#include <hydra/Filter.h>
-#include <hydra/PhaseSpaceIntegrator.h>
+#include <hydra/functions/BreitWignerNR.h>
+
 /*-------------------------------------
  * Include classes from ROOT to fill
  * and draw histograms and plots.
@@ -152,23 +149,6 @@ int main(int argv, char** argc)
 	}
 
 #ifdef 	_ROOT_AVAILABLE_
-
-	//__________________________________________________
-	//host
-	TH2D Dalitz_h1("Dalitz_h", "Weighted Sample;M^{2}(J/psi #pi) [GeV^{2}/c^{4}]; M^{2}(K #pi) [GeV^{2}/c^{4}]",
-			100, pow(Jpsi_mass + pi_mass,2), pow(B0_mass - K_mass,2),
-			100, pow(K_mass + pi_mass,2), pow(B0_mass - Jpsi_mass,2));
-
-	TH2D Dalitz_h2("Dalitz_h2", "Unweighted Sample;M^{2}(J/psi #pi) [GeV^{2}/c^{4}]; M^{2}(K #pi) [GeV^{2}/c^{4}]",
-			100, pow(Jpsi_mass + pi_mass,2), pow(B0_mass - K_mass,2),
-			100, pow(K_mass + pi_mass,2), pow(B0_mass - Jpsi_mass,2));
-
-	TH1D M23_h("M23_h", "Unweighted Sample; M(K #pi) [GeV/c^{2}];Events",
-			100, K_mass + pi_mass, B0_mass - Jpsi_mass);
-
-	TH1D M23FIT_h("M23FIT_h", "Unweighted Sample; M(K #pi) [GeV/c^{2}];Events",
-			100, K_mass + pi_mass, B0_mass - Jpsi_mass);
-
     //__________________________________________________
 	//device
 
@@ -194,58 +174,36 @@ int main(int argv, char** argc)
 	// Create PhaseSpace object for B0-> K pi J/psi
 	hydra::PhaseSpace<3> phsp(masses);
 
-	// functor
-	auto bw = [ ]__host__ __device__(unsigned int npar, const hydra::Parameter* params,
-					unsigned int n, hydra::Vector4R* particles )
-	{
+	// functor to calculate 2-body masses
+	auto masses = hydra::wrap_lambda( []__host__ __device__(unsigned int n, hydra::Vector4R* p ){
 
-		double mass = params[0];
-		double width = params[1];
+		double   m12 = (p[0]+p[1]).mass();
+		double   m13 = (p[0]+p[2]).mass();
+		double   m23 = (p[1]+p[2]).mass();
 
-		auto   p0  = particles[0] ;
-		auto   p1  = particles[1] ;
-		auto   p2  = particles[2] ;
-
-		auto   m12 = (p1+p2).mass();
-
-		double dmass2 = (m12-mass)*(m12-mass);
-		double width2   = width*width;
-
-		double denominator = dmass2 + width2/4.0;
-		return ((width2)/4.0)/denominator;
-
-	};
+		return hydra::make_tuple(m12, m13, m23);
+	});
 
 
-	std::string M0_s("M0");
+	std::string M0_s("mass");
 	hydra::Parameter M0 = hydra::Parameter::Create()
-	.Name(M0_s )
-	.Value(0.895)
-	.Error(0.001)
-	.Limits(0.890, 0.900);
+		.Name(M0_s ).Value(0.8).Error(0.001).Limits(0.7, 0.9);
 
-	std::string W0_s("W0");
+	std::string W0_s("width");
 	hydra::Parameter W0 = hydra::Parameter::Create()
-	.Name(W0_s )
-	.Value(0.055)
-	.Error(0.001)
-	.Limits(0.050, 0.060);
+		.Name(W0_s ).Value(0.05).Error(0.001).Limits(0.04, 0.06);
 
-	auto breit_wigner = hydra::wrap_lambda(bw, M0, W0 );
+	auto breit_wigner = hydra::BreitWignerNR<2>(M0, W0);
 
-
-	//device
+	//make model and fcn
+	auto model = hydra::make_pdf(breit_wigner, Integrator_d );
 	{
-		std::cout << "=========================================="<<std::endl;
-		std::cout << "|            <--- DEVICE --->            |"  <<std::endl;
-		std::cout << "=========================================="<<std::endl;
 
 		//allocate memory to hold the final states particles
-
 		hydra::Decays<3, hydra::device::sys_t > Events_d(nentries);
 
+		//generate events
 		auto start = std::chrono::high_resolution_clock::now();
-
 		//generate the final state particles
 		phsp.Generate(B0, Events_d.begin(), Events_d.end());
 
@@ -288,24 +246,30 @@ int main(int argv, char** argc)
 
 #endif
 
-		//set the mass and width of the breit-wigner
-		size_t last = Events_d.Unweight(breit_wigner, 1.0);
-		auto range  = Events_d.GetUnweightedDecays();
+		//set the mass and width of the breit-wigner to K*(892)0
+		breit_wigner.SetParameter(0, 0.89555 );
+		breit_wigner.SetParameter(1, 0.04730 );
+
+		//reorder the container match the shape breit-wigner shape
+		size_t last    = Events_d.Unweight(breit_wigner, 1.0);
+
+		//make smart range to calculate the fit variables
+		auto variables_range = hydra::make_range(Events_d.GetUnweightedDecays().begin(),
+				Events_d.GetUnweightedDecays().begin()+last, breit_wigner);
+
 
 		std::cout << std::endl;
 		std::cout << std::endl;
-		std::cout << "<======= Breit-Wigner [Unweighted saple] =======>"<< std::endl;
+		std::cout << "<======= Dataset [ m12, m13, m23] =======>"<< std::endl;
 		for( size_t i=0; i<10; i++ )
-			std::cout << range.begin()[i] << std::endl;
+			std::cout << variables_range.begin()[i] << std::endl;
 
 		// Data fit
 		//--------------------------------------------
-		//numerical integral to normalize the pdf
-		hydra::PhaseSpaceIntegrator<3, hydra::device::sys_t>  Integrator_d(B0.mass(), masses, 1000000);
 
-		//make model and fcn
-		auto model = hydra::make_pdf(breit_wigner, Integrator_d );
-		auto fcn     = hydra::make_loglikehood_fcn(range.begin(), range.begin()+last, model);
+
+		auto fcn = hydra::make_loglikehood_fcn( model,
+						variables_range.begin(), variables_range.end());
 
 		//print level
 		ROOT::Minuit2::MnPrint::SetLevel(3);
@@ -322,8 +286,11 @@ int main(int argv, char** argc)
 
 		//Minimize and profile the time
 		auto start_d = std::chrono::high_resolution_clock::now();
-		FunctionMinimum minimum_d =  FunctionMinimum( migrad_d(std::numeric_limits<unsigned int>::max(), 5) );
+
+		FunctionMinimum minimum_d =  FunctionMinimum( migrad_d(50000, 5) );
+
 		auto end_d = std::chrono::high_resolution_clock::now();
+
 		std::chrono::duration<double, std::milli> elapsed_d = end_d - start_d;
 
 		//print parameters after fitting
@@ -334,10 +301,11 @@ int main(int argv, char** argc)
 		std::cout << "| GPU Time (ms) = "<< elapsed_d.count()   << std::endl;
 		std::cout << "-----------------------------------------"<< std::endl;
 
-		//independent sample for displaying
+		//generate an independent sample to draw plots
 		hydra::Decays<3, hydra::device::sys_t > Events2_d(1000000);
 
 		//generate the final state particles
+		phsp.SetSeed();
 		phsp.Generate(B0, Events2_d.begin(), Events2_d.end());
 
 		//reweight the sample using the fitted function
@@ -392,159 +360,7 @@ int main(int argv, char** argc)
 
 	}//end device
 
-	//host
-	{
 
-		std::cout << "=========================================="<<std::endl;
-		std::cout << "|              <--- HOST --->            |"  <<std::endl;
-		std::cout << "=========================================="<<std::endl;
-
-		//allocate memory to hold the final states particles
-
-		hydra::Decays<3, hydra::host::sys_t > Events_h(nentries);
-
-		auto start = std::chrono::high_resolution_clock::now();
-
-		//generate the final state particles
-		phsp.Generate(B0, Events_h.begin(), Events_h.end());
-
-		auto end = std::chrono::high_resolution_clock::now();
-
-		std::chrono::duration<double, std::milli> elapsed = end - start;
-
-		//output
-		std::cout << std::endl;
-		std::cout << std::endl;
-		std::cout << "-----------------------------------------"<< std::endl;
-		std::cout << "| B0 -> J/psi K pi"                       << std::endl;
-		std::cout << "| Number of events :"<< nentries          << std::endl;
-		std::cout << "| Time (ms)        :"<< elapsed.count()   << std::endl;
-		std::cout << "-----------------------------------------"<< std::endl;
-
-
-		std::cout << "<======= Flat [Weighted sample] =======>"<< std::endl;
-		for( size_t i=0; i<10; i++ )
-			std::cout << Events_h[i] << std::endl;
-
-
-#ifdef 	_ROOT_AVAILABLE_
-
-		for( auto event : Events_h ){
-
-			double weight          = hydra::get<0>(event);
-			hydra::Vector4R Jpsi   = hydra::get<1>(event);
-			hydra::Vector4R K      = hydra::get<2>(event);
-			hydra::Vector4R pi     = hydra::get<3>(event);
-
-			double M2_Jpsi_pi = (Jpsi + pi).mass2();
-			double M2_Kpi     = (K + pi).mass2();
-
-			Dalitz_h1.Fill( M2_Jpsi_pi, M2_Kpi, weight);
-		}
-
-#endif
-
-		//set the mass and width of the breit-wigner
-		size_t last = Events_h.Unweight(breit_wigner, 1.0);
-		auto range  = Events_h.GetUnweightedDecays();
-
-		std::cout << std::endl;
-		std::cout << std::endl;
-		std::cout << "<======= Breit-Wigner [Unweighted saple] =======>"<< std::endl;
-		for( size_t i=0; i<10; i++ )
-			std::cout << range.begin()[i] << std::endl;
-
-		// Data fit
-		//--------------------------------------------
-		//numerical integral to normalize the pdf
-		hydra::PhaseSpaceIntegrator<3, hydra::host::sys_t>  Integrator_d(B0.mass(), masses, 1000000);
-
-		//make model and fcn
-		auto model = hydra::make_pdf(breit_wigner, Integrator_d );
-		auto fcn   = hydra::make_loglikehood_fcn(range.begin(), range.begin()+last, model);
-
-		//print level
-		ROOT::Minuit2::MnPrint::SetLevel(3);
-		hydra::Print::SetLevel(hydra::WARNING);
-
-		//minimization strategy
-		MnStrategy strategy(2);
-
-		//create Migrad minimizer
-		MnMigrad migrad_d(fcn, fcn.GetParameters().GetMnState() ,  strategy);
-
-		//print parameters before fitting
-		std::cout<<fcn.GetParameters().GetMnState()<<std::endl;
-
-		//Minimize and profile the time
-		auto start_d = std::chrono::high_resolution_clock::now();
-		FunctionMinimum minimum_d =  FunctionMinimum( migrad_d(std::numeric_limits<unsigned int>::max(), 5) );
-		auto end_d = std::chrono::high_resolution_clock::now();
-		std::chrono::duration<double, std::milli> elapsed_d = end_d - start_d;
-
-		//print parameters after fitting
-		std::cout<<"minimum: "<<minimum_d<<std::endl;
-
-		//time
-		std::cout << "-----------------------------------------"<< std::endl;
-		std::cout << "| CPU Time (ms) = "<< elapsed_d.count()   << std::endl;
-		std::cout << "-----------------------------------------"<< std::endl;
-
-		//independent sample for displaying
-		hydra::Decays<3, hydra::host::sys_t > Events2_h(1000000);
-
-		//generate the final state particles
-		phsp.Generate(B0, Events2_h.begin(), Events2_h.end());
-
-		//reweight the sample using the fitted function
-		Events2_h.Reweight( fcn.GetPDF().GetFunctor() );
-
-		std::cout << "<======= Fitted shape [Weighted] =======>"<< std::endl;
-		for( size_t i=0; i<10; i++ )
-			std::cout << Events2_h[i] << std::endl;
-
-#ifdef 	_ROOT_AVAILABLE_
-
-		//Dalitz plot and mass
-		{
-			//bring events to CPU memory space
-			auto Events_Temp_h = hydra::make_range(Events_h.begin(), Events_h.begin()+ last) ;
-
-			for( auto event : Events_Temp_h ){
-
-				double weight        = hydra::get<0>(event);// always 1
-				hydra::Vector4R Jpsi = hydra::get<1>(event);
-				hydra::Vector4R K    = hydra::get<2>(event);
-				hydra::Vector4R pi   = hydra::get<3>(event);
-
-				double M2_Jpsi_pi = (Jpsi + pi).mass2();
-				double M2_Kpi     = (K + pi).mass2();
-				double M_Kpi     = (K + pi).mass();
-
-				Dalitz_h2.Fill( M2_Jpsi_pi, M2_Kpi);
-
-				M23_h.Fill( M_Kpi);
-			}
-		}
-
-		//fitted shape
-		{
-			auto  Events_Temp_h = hydra::make_range( Events2_h.begin(), Events2_h.end()) ;
-
-			for( auto event : Events_Temp_h ){
-
-				double weight        = hydra::get<0>(event);
-				hydra::Vector4R Jpsi = hydra::get<1>(event);
-				hydra::Vector4R K    = hydra::get<2>(event);
-				hydra::Vector4R pi   = hydra::get<3>(event);
-				double M_Kpi          = (K + pi).mass();
-
-				M23FIT_h.Fill( M_Kpi, weight);
-			}
-		}
-#endif
-
-	}//end host
 
 
 #ifdef 	_ROOT_AVAILABLE_
@@ -563,21 +379,6 @@ int main(int argv, char** argc)
 	M23FIT_h.Draw("Chistsame");
 
 	M23FIT_h.SetLineColor(2);
-
-//********
-
-	TCanvas canvas_h2("canvas_h2", "Phase-space Host", 500, 500);
-	Dalitz_h2.Draw("colz");
-
-	TCanvas canvas_d2("canvas_d2", "Phase-space Device", 500, 500);
-	Dalitz_d2.Draw("colz");
-
-	TCanvas canvas_m23_d("canvas_m23_d", "Phase-space Device", 500, 500);
-	M23_d.Draw("e0");
-	M23FIT_d.Scale(M23_d.Integral()/M23FIT_d.Integral() );
-	M23FIT_d.Draw("Chistsame");
-
-	M23FIT_d.SetLineColor(2);
 
 	m_app->Run();
 

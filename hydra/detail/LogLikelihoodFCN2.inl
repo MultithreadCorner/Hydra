@@ -52,7 +52,7 @@ public:
 	 * @param begin  iterator pointing to the begin of the dataset.
 	 * @param end   iterator pointing to the end of the dataset.
 	 */
-	LogLikelihoodFCN(PDFSumExtendable<Pdfs...>& functor, IteratorD begin, IteratorD end, IteratorW ...wbegin):
+	LogLikelihoodFCN(PDFSumExtendable<Pdfs...> const& functor, IteratorD begin, IteratorD end, IteratorW ...wbegin):
 		FCN<LogLikelihoodFCN<PDFSumExtendable<Pdfs...>, IteratorD, IteratorW...>>(functor,begin, end, wbegin...)
 		{}
 
@@ -93,7 +93,7 @@ public:
 			HYDRA_LOG(INFO, stringStream.str().c_str() )
 		}
 
-		this->GetPDF().SetParameters(parameters);
+		const_cast< LogLikelihoodFCN<PDFSumExtendable<Pdfs...>, IteratorD, IteratorW...>*  >(this)->GetPDF().SetParameters(parameters);
 
 		auto NLL = detail::LogLikelihood1<functor_type>(this->GetPDF().GetFunctor());
 
@@ -134,7 +134,7 @@ public:
 			HYDRA_LOG(INFO, stringStream.str().c_str() )
 		}
 
-		this->GetPDF().SetParameters(parameters);
+		const_cast< LogLikelihoodFCN<PDFSumExtendable<Pdfs...>, IteratorD, IteratorW...>*  >(this)->GetPDF().SetParameters(parameters);
 
 		auto NLL = detail::LogLikelihood2<functor_type>(this->GetPDF().GetFunctor());
 

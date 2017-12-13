@@ -51,7 +51,7 @@ public:
 	 * @param begin  IteratorD pointing to the begin of the dataset.
 	 * @param end   IteratorD pointing to the end of the dataset.
 	 */
-	LogLikelihoodFCN(Pdf<Functor,Integrator>& functor, IteratorD begin, IteratorD end, IteratorW ...wbegin):
+	LogLikelihoodFCN(Pdf<Functor,Integrator> const& functor, IteratorD begin, IteratorD end, IteratorW ...wbegin):
 		FCN<LogLikelihoodFCN< Pdf<Functor,Integrator>, IteratorD, IteratorW...>>(functor,begin, end, wbegin...)
 		{}
 
@@ -93,8 +93,7 @@ public:
 			HYDRA_LOG(INFO, stringStream.str().c_str() )
 		}
 
-		this->GetPDF().SetParameters(parameters);
-		//this->GetPDF().PrintRegisteredParameters();
+		const_cast< LogLikelihoodFCN< Pdf<Functor,Integrator>, IteratorD, IteratorW...>* >(this)->GetPDF().SetParameters(parameters);
 
 		auto NLL = detail::LogLikelihood1<functor_type>(this->GetPDF().GetFunctor());
 
@@ -129,8 +128,8 @@ public:
 			HYDRA_LOG(INFO, stringStream.str().c_str() )
 		}
 
-		this->GetPDF().SetParameters(parameters);
-		//this->GetPDF().PrintRegisteredParameters();
+		const_cast< LogLikelihoodFCN< Pdf<Functor,Integrator>, IteratorD, IteratorW...>* >(this)->GetPDF().SetParameters(parameters);
+
 
 		auto NLL = detail::LogLikelihood2<functor_type>(this->GetPDF().GetFunctor());
 
@@ -143,10 +142,10 @@ public:
 };
 
 template< typename Functor, typename Integrator,  typename Iterator, typename ...Iterators>
-auto make_loglikehood_fcn(Pdf<Functor,Integrator> const& functor, Iterator first, Iterator last,  Iterators... weights )
+auto make_loglikehood_fcn(Pdf<Functor,Integrator> const& pdf, Iterator first, Iterator last,  Iterators... weights )
 -> LogLikelihoodFCN< Pdf<Functor,Integrator>, Iterator , Iterators... >
 {
-	return LogLikelihoodFCN< Pdf<Functor,Integrator>, Iterator >( functor, first, last, weights...);
+	return LogLikelihoodFCN< Pdf<Functor,Integrator>, Iterator >(pdf, first, last, weights...);
 }
 
 }  // namespace hydra

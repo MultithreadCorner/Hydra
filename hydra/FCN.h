@@ -88,7 +88,7 @@ public:
 	typedef HYDRA_EXTERNAL_NS::thrust::zip_iterator<HYDRA_EXTERNAL_NS::thrust::tuple<Iterator,Iterators...>> iterator;
 
 
-	FCN(PDF& pdf, Iterator begin, Iterator end, Iterators ...begins):
+	FCN(PDF const& pdf, Iterator begin, Iterator end, Iterators ...begins):
 	fPDF(pdf),
 	fErrorDef(0.5),
 	fBegin(begin),
@@ -210,9 +210,13 @@ public:
 		return fPDF;
 	}
 
-	PDF& GetPDF() const {
+	const PDF& GetPDF() const {
 			return fPDF;
 	}
+
+	void SetPDFParameters(const std::vector<double>& parameters ) const {
+			fPDF.SetParameters( parameters);
+		}
 
 	 hydra::UserParameters& GetParameters() {
 			return fUserParameters;
@@ -312,7 +316,7 @@ private:
 	}
 
 
-    PDF& fPDF;
+	mutable PDF fPDF;
     witerator fWBegin;
     witerator fWEnd;
     Iterator fBegin;
@@ -338,7 +342,7 @@ public:
 
 	typedef Iterator iterator;
 
-	FCN(PDF& pdf, Iterator begin, Iterator end):
+	FCN(PDF const& pdf, Iterator begin, Iterator end):
 	fPDF(pdf),
 	fBegin(begin ),
 	fEnd(end),
@@ -434,13 +438,13 @@ public:
 		return fPDF;
 	}
 
-	PDF& GetPDF() const {
+	const PDF& GetPDF() const {
 			return fPDF;
 	}
 
-	 hydra::UserParameters& GetParameters() {
-			return fUserParameters;
-		}
+	hydra::UserParameters& GetParameters() {
+		return fUserParameters;
+	}
 
 	const hydra::UserParameters& GetParameters() const {
 		return fUserParameters;
@@ -526,7 +530,7 @@ private:
 	}
 
 	GReal_t fDataSize;
-    PDF& fPDF;
+	PDF fPDF;
     iterator fBegin;
     iterator fEnd;
     GReal_t  fErrorDef;

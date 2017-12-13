@@ -299,9 +299,9 @@ int main(int argv, char** argc) {
 			}
 		}
 
-		for(size_t i=1; i< hist_mc_d.GetXaxis()->GetNbins()+1; i++ ) {
-			for(size_t j=1; j< hist_mc_d.GetYaxis()->GetNbins()+1; j++ ) {
-				for(size_t k=1; k< hist_mc_d.GetZaxis()->GetNbins()+1; k++ ) {
+		for(size_t i=1; i< 101; i++ ) {
+			for(size_t j=1; j< 101; j++ ) {
+				for(size_t k=1; k< 101; k++ ) {
 
 					double x = hist_mc_d.GetXaxis()->GetBinCenter(i);
 					double y = hist_mc_d.GetYaxis()->GetBinCenter(j);
