@@ -64,6 +64,7 @@
 #include <hydra/Vector4R.h>
 #include <hydra/Decays.h>
 #include <hydra/PhaseSpace.h>
+#include <hydra/PhaseSpaceIntegrator.h>
 #include <hydra/Function.h>
 #include <hydra/FunctorArithmetic.h>
 #include <hydra/FunctionWrapper.h>
@@ -175,13 +176,14 @@ int main(int argv, char** argc)
 	hydra::PhaseSpace<3> phsp({Jpsi_mass, K_mass, pi_mass });
 
 	// functor to calculate the 2-body masses
-	auto dalitz_calculator = hydra::wrap_lambda( []__host__ __device__(unsigned int n, hydra::Vector4R* p ){
+	auto dalitz_calculator = hydra::wrap_lambda(
+			[]__host__ __device__(unsigned int n, hydra::Vector4R* p ){
 
-		double   m12 = (p[0]+p[1]).mass();
-		double   m13 = (p[0]+p[2]).mass();
-		double   m23 = (p[1]+p[2]).mass();
+			double   MSq_12 = (p[0]+p[1]).mass2();
+			double   MSq_13 = (p[0]+p[2]).mass2();
+			double   MSq_23 = (p[1]+p[2]).mass2();
 
-		return hydra::make_tuple(m12, m13, m23);
+			return hydra::make_tuple(MSq_12, MSq_13, MSq_23);
 	});
 
 
@@ -199,7 +201,7 @@ int main(int argv, char** argc)
 	auto breit_wigner = hydra::wrap_lambda( []__host__ __device__(unsigned int npar, const hydra::Parameter* params,
 					unsigned int n, hydra::Vector4R* particles ){
 
-		double mass = params[0];
+		double mass  = params[0];
 		double width = params[1];
 
 		auto   p0  = particles[0] ;
@@ -216,6 +218,9 @@ int main(int argv, char** argc)
 
 	}, M0, W0 );
 
+
+	auto model = hydra::make_pdf( breit_wigner,
+			hydra::PhaseSpaceIntegrator<3, hydra::device::sys_t>(B0_mass, {Jpsi_mass, K_mass, pi_mass }, 1000000));
 
 	//scoped calculations to save memory
 	{
@@ -254,7 +259,7 @@ int main(int argv, char** argc)
 		std::cout << std::endl;
 		std::cout << std::endl;
 
-		std::cout << "<======= Dataset w : ( m12, m13, m23) =======>"<< std::endl;
+		std::cout << "<======= Dataset w : ( MSq_12, MSq_13, MSq_23) =======>"<< std::endl;
 		for( size_t i=0; i<10; i++ )
 			std::cout << dalitz_weights[i] << " : "<< dalitz_variables[i] << std::endl;
 
@@ -308,8 +313,8 @@ int main(int argv, char** argc)
 		//--------------------------------------------
 
 
-		auto fcn = hydra::make_loglikehood_fcn( model, dalitz_variables.begin(),
-				dalitz_variables.begin() + last);
+		auto fcn = hydra::make_loglikehood_fcn( model, particles.begin(),
+				particles.begin() + last);
 
 		//print level
 		ROOT::Minuit2::MnPrint::SetLevel(3);
@@ -388,6 +393,35 @@ int main(int argv, char** argc)
 	TCanvas canvas_3("canvas_3", "Phase-space Breit-Wigner fit", 500, 500);
 	Dalitz_FIT.Project3D("yz")->Draw("colz");
 
+	TH1* proj=0;
+	TCanvas canvas_4("canvas_projections", "Phase-space Breit-Wigner", 1500, 500);
+	canvas_4.Divide(3,1);
+	canvas_4.cd(1);
+	proj = Dalitz_FLAT.Project3D("x")->DrawNormalized("CLHIST");
+	proj->SetLineColor(kRed);
+	proj =  Dalitz_BW.Project3D("x")->DrawNormalized("E0same");
+	proj->SetMarkerSize(1.0);
+	proj->SetMarkerStyle(20);
+	proj =  Dalitz_FIT.Project3D("x")->DrawNormalized("CLHISTsame");
+	proj->SetLineColor(kBlue);
+
+	canvas_4.cd(2);
+	proj = Dalitz_FLAT.Project3D("y")->DrawNormalized("CLHIST");
+	proj->SetLineColor(kRed);
+	proj =  Dalitz_BW.Project3D("y")->DrawNormalized("E0same");
+	proj->SetMarkerSize(1.0);
+	proj->SetMarkerStyle(20);
+	proj =  Dalitz_FIT.Project3D("y")->DrawNormalized("CLHISTsame");
+	proj->SetLineColor(kBlue);
+
+	canvas_4.cd(3);
+	proj = Dalitz_FIT.Project3D("z")->DrawNormalized("CLHIST");
+	proj->SetLineColor(kBlue);
+	proj =  Dalitz_BW.Project3D("z")->DrawNormalized("E0same");
+	proj->SetMarkerSize(1.0);
+	proj->SetMarkerStyle(20);
+	proj =  Dalitz_FLAT.Project3D("z")->DrawNormalized("CLHISTsame");
+	proj->SetLineColor(kRed);
 
 	m_app->Run();
 

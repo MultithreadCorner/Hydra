@@ -106,10 +106,9 @@ public:
 		fEnd = end;
 	}
 
-	auto operator[](size_t i)
-	-> decltype(begin()[0] )
+	typename  iterator::reference operator[](size_t i)
 	{
-	 return fBegin[i];
+	 return begin()[i];
 	}
 
 

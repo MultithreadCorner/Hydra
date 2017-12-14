@@ -57,8 +57,8 @@ class SparseHistogram<T, N,  detail::BackendPolicy<BACKEND>, detail::multidimens
 
 	typedef hydra::detail::BackendPolicy<BACKEND>    system_t;
 
-	typedef typedef typename system_t::template container<double> storage_data_t;
-	typedef typedef typename system_t::template container<size_t> storage_keys_t;
+	typedef typename system_t::template container<double> storage_data_t;
+	typedef typename system_t::template container<size_t> storage_keys_t;
 
 	typedef typename storage_data_t::iterator data_iterator;
 	typedef typename storage_data_t::const_iterator data_const_iterator;
@@ -255,6 +255,21 @@ public:
 				fContents.begin()[bin] : 0.0;
 	}
 
+	double GetBinContent(std::array<size_t, N> const& bins){
+
+			size_t bin=0;
+
+			get_global_bin( bins,  bin);
+
+			size_t index = std::distance(fBins.begin(),
+					std::find(fBins.begin(),fBins.end(), bin));
+
+			return  ( bin< fBins.size() ) ?
+					fContents.begin()[bin] : 0.0;
+		}
+
+
+
 	double GetBinContent( size_t  bin){
 
 		size_t index = std::distance(fBins.begin(),
@@ -352,6 +367,23 @@ private:
 		get_global_bin<I+1>( indexes, index);
 	}
 
+	template<size_t I>
+	typename HYDRA_EXTERNAL_NS::thrust::detail::enable_if< I== N, void>::type
+	get_global_bin( std::array<size_t,N> const& indexes, size_t& index){ }
+
+	template<size_t I=0>
+	typename HYDRA_EXTERNAL_NS::thrust::detail::enable_if< (I< N), void>::type
+	get_global_bin( std::array<size_t,N> const& indexes, size_t& index)
+	{
+		size_t prod =1;
+
+		for(size_t i=N-1; i>I; i--)
+			prod *=fGrid[i];
+
+		index += prod*indexes[I];
+
+		get_global_bin<I+1>( indexes, index);
+	}
 	/*
 	 *  conversion of one-dimensional index to multidimensional one
 	 * ____________________________________________________________
@@ -456,8 +488,8 @@ private:
 template< typename T, hydra::detail::Backend BACKEND >
 class SparseHistogram<T,1, detail::BackendPolicy<BACKEND>,  detail::unidimensional >{
 
+	typedef hydra::detail::BackendPolicy<BACKEND>    system_t;
 
-	/// @todo Update to use multivector
 	typedef std::vector<double> storage_data_t;
 	typedef std::vector<size_t> storage_keys_t;
 
@@ -572,7 +604,7 @@ public:
 	}
 
 
-	double GetBinContent( size_t  bin){
+	double GetBinContent( size_t  bin) {
 
 		size_t index = std::distance(fBins.begin(),
 				std::find(fBins.begin(),fBins.end(), bin));
@@ -640,17 +672,17 @@ public:
 	template<typename Iterator1, typename Iterator2>
 	void Fill(Iterator1 begin, Iterator1 end, Iterator2 wbegin);
 
-	template<hydra::detail::Backend BACKEND2>
-	template<hydra::detail::Backend BACKEND,typename Iterator>
+	template<hydra::detail::Backend BACKEND2,typename Iterator>
 	void Fill(detail::BackendPolicy<BACKEND2> const& exec_policy, Iterator begin, Iterator end);
 
-	template<hydra::detail::Backend BACKEND2>
-	template<hydra::detail::Backend BACKEND,typename Iterator1, typename Iterator2>
+	template<hydra::detail::Backend BACKEND2,typename Iterator1, typename Iterator2>
 	void Fill(detail::BackendPolicy<BACKEND2> const& exec_policy, Iterator1 begin, Iterator1 end, Iterator2 wbegin);
 
 
 
 private:
+
+
 
 	T fUpperLimits;
 	T fLowerLimits;
