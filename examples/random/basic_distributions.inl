@@ -160,71 +160,6 @@ int main(int argv, char** argc)
 
 
 
-	//host
-	//------------------------
-#ifdef _ROOT_AVAILABLE_
-
-	TH1D hist_uniform_h("uniform_h",   "Uniform",     100, -6.0, 6.0);
-	TH1D hist_gaussian_h("gaussian_h", "Gaussian",    100, -6.0, 6.0);
-	TH1D hist_exp_h("exponential_h",   "Exponential", 100,  0.0, 5.0);
-	TH1D hist_bw_h("breit_wigner_h",   "Breit-Wigner",100,  0.0, 5.0);
-
-#endif //_ROOT_AVAILABLE_
-
-	{
-		//1D device buffer
-		hydra::host::vector<double>    data_h(nentries);
-
-		//-------------------------------------------------------
-		//uniform
-		Generator.Uniform(-5.0, 5.0, data_h.begin(), data_h.end());
-
-		for(size_t i=0; i<10; i++)
-			std::cout << "< Random::Uniform > [" << i << "] :" << data_h[i]<< std::endl;
-
-#ifdef _ROOT_AVAILABLE_
-		for(auto value : data_h)
-			hist_uniform_h.Fill( value);
-#endif //_ROOT_AVAILABLE_
-
-		//-------------------------------------------------------
-		//gaussian
-		Generator.Gauss(0.0, 1.0, data_h.begin(), data_h.end());
-
-		for(size_t i=0; i<10; i++)
-			std::cout << "< Random::Gauss > [" << i << "] :" << data_h[i] << std::endl;
-
-#ifdef _ROOT_AVAILABLE_
-		for(auto value : data_h)
-			hist_gaussian_h.Fill( value);
-#endif //_ROOT_AVAILABLE_
-
-		//-------------------------------------------------------
-		//exponential
-		Generator.Exp(1.0, data_h.begin(), data_h.end());
-
-		for(size_t i=0; i<10; i++)
-			std::cout << "< Random::Exp > [" << i << "] :" << data_h[i] << std::endl;
-
-#ifdef _ROOT_AVAILABLE_
-		for(auto value : data_h)
-			hist_exp_h.Fill( value);
-#endif //_ROOT_AVAILABLE_
-
-		//-------------------------------------------------------
-		//breit-wigner
-		Generator.BreitWigner(2.0, 0.2, data_h.begin(), data_h.end());
-
-		for(size_t i=0; i<10; i++)
-			std::cout << "< Random::BreitWigner > [" << i << "] :" << data_h[i] << std::endl;
-
-#ifdef _ROOT_AVAILABLE_
-		for(auto value : data_h)
-			hist_bw_h.Fill( value);
-#endif //_ROOT_AVAILABLE_
-	}
-
-
 
 #ifdef _ROOT_AVAILABLE_
 	TApplication *myapp=new TApplication("myapp",0,0);
@@ -237,13 +172,7 @@ int main(int argv, char** argc)
 	canvas_d.cd(3); hist_exp_d.Draw("hist");
 	canvas_d.cd(4); hist_bw_d.Draw("hist");
 
-	//draw histograms
-	TCanvas canvas_h("canvas_h" ,"Distributions - Host", 1000, 1000);
-	canvas_h.Divide(2,2);
-	canvas_h.cd(1); hist_uniform_h.Draw("hist");
-	canvas_h.cd(2); hist_gaussian_h.Draw("hist");
-	canvas_h.cd(3); hist_exp_h.Draw("hist");
-	canvas_h.cd(4); hist_bw_h.Draw("hist");
+
 
 	myapp->Run();
 

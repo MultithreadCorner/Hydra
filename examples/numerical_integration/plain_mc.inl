@@ -140,25 +140,6 @@ int main(int argv, char** argc)
 
     }
 
-    //host
-    {
-    	//----------------------------------------------------------------------
-    	//plain mc integrator
-
-    	hydra::Plain<N,  hydra::host::sys_t > PlainMC_h(min, max, calls);
-
-    	auto start = std::chrono::high_resolution_clock::now();
-    	auto result = PlainMC_h.Integrate(gaussian);
-    	auto end = std::chrono::high_resolution_clock::now();
-    	std::chrono::duration<double, std::milli> elapsed = end - start;
-    	std::cout << std::endl;
-    	std::cout << "----------------- Device ----------------"<< std::endl;
-    	std::cout << ">>> [Plain]: Gaussian<"<< N << ">" << std::endl;
-    	std::cout << "Result: "    << result.first << " +/- " << result.second <<std::endl
-    			<< "Time (ms): " << elapsed.count() <<std::endl;
-    	std::cout << "-----------------------------------------"<< std::endl;
-
-    }
 
 	return 0;
 

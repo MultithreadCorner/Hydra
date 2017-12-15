@@ -60,6 +60,8 @@
  * algorithms for
  *--------------------------------
  */
+#include <hydra/device/System.h>
+#include <hydra/host/System.h>
 #include <hydra/Types.h>
 #include <hydra/Vector4R.h>
 #include <hydra/Decays.h>
@@ -70,7 +72,7 @@
 #include <hydra/FunctionWrapper.h>
 #include <hydra/Tuple.h>
 #include <hydra/GenericRange.h>
-#include <hydra/device/System.h>
+
 #include <hydra/LogLikelihoodFCN.h>
 #include <hydra/Parameter.h>
 #include <hydra/UserParameters.h>
@@ -78,6 +80,7 @@
 #include <hydra/Distance.h>
 #include <hydra/functions/BreitWignerNR.h>
 #include <hydra/DenseHistogram.h>
+#include <hydra/SparseHistogram.h>
 /*-------------------------------------
  * Include classes from ROOT to fill
  * and draw histograms and plots.
@@ -264,7 +267,7 @@ int main(int argv, char** argc)
 			std::cout << dalitz_weights[i] << " : "<< dalitz_variables[i] << std::endl;
 
 		//flat dalitz histogram
-		hydra::DenseHistogram<double, 3,  hydra::device::sys_t> Hist_Flat_Dalitz{
+		hydra::SparseHistogram<double, 3,  hydra::device::sys_t> Hist_Flat_Dalitz{
 				{100,100,100},
 				{pow(Jpsi_mass + K_mass,2), pow(Jpsi_mass + pi_mass,2), pow(K_mass + pi_mass,2)},
 				{pow(B0_mass - pi_mass,2), pow(B0_mass - K_mass ,2), pow(B0_mass - Jpsi_mass,2)}
@@ -273,15 +276,46 @@ int main(int argv, char** argc)
 		Hist_Flat_Dalitz.Fill( dalitz_variables.begin(),
 				dalitz_variables.end(), dalitz_weights.begin()  );
 
+		std::cout << "<======= Flat Dalitz plot=======>"<< std::endl;
+				for( size_t i=0; i<10; i++ )
+					std::cout << Hist_Flat_Dalitz[i] << std::endl;
+
 #ifdef 	_ROOT_AVAILABLE_
 
-		for(size_t i=0; i< 100; i++)
-			for(size_t j=0; j< 100; j++)
-				for(size_t k=0; k< 100; k++)
-					Dalitz_FLAT.SetBinContent(i+1, j+1, k+1,
-							Hist_Flat_Dalitz.GetBinContent({i,j, k}) );
+	#if THRUST_DEVICE_SYSTEM == THRUST_DEVICE_SYSTEM_CUDA
+
+					//if device is cuda, bring the histogram data to the host
+					//to fill the ROOT histogram faster
+					{
+						hydra::SparseHistogram<double, 3,  hydra::host::sys_t> Hist_Temp(Hist_Flat_Dalitz);
+						std::cout << "Filling a ROOT Histogram... " << std::endl;
+
+						for(auto entry : Hist_Temp)
+						{
+							size_t bin     = hydra::get<0>(entry);
+							double content = hydra::get<1>(entry);
+							unsigned int bins[3];
+							Hist_Temp.GetIndexes(bin, bins);
+							Dalitz_FLAT.SetBinContent(bins[0]+1, bins[1]+1, bins[2]+1, content);
+
+						}
+					}
+	#else
+					std::cout << "Filling a ROOT Histogram... " << std::endl;
+
+					for(auto entry : Hist_Flat_Dalitz)
+					{
+						size_t bin     = hydra::get<0>(entry);
+						double content = hydra::get<1>(entry);
+						unsigned int bins[3];
+						Hist_Flat_Dalitz.GetIndexes(bin, bins);
+						Dalitz_FLAT.SetBinContent(bins[0]+1, bins[1]+1, bins[2]+1, content);
+
+					}
+	#endif
 
 #endif
+
 
 		//set the mass and width of the breit-wigner to K*(892)0
 		breit_wigner.SetParameter(0, 0.89555 );
@@ -291,7 +325,7 @@ int main(int argv, char** argc)
 		size_t last = Events_d.Unweight(breit_wigner, 1.0);
 
 		//breit-wigner weighted dalitz histogram
-		hydra::DenseHistogram<double, 3,  hydra::device::sys_t> Hist_BW_Dalitz{
+		hydra::SparseHistogram<double, 3,  hydra::device::sys_t> Hist_BW_Dalitz{
 			{100,100,100},
 			{pow(Jpsi_mass + K_mass,2), pow(Jpsi_mass + pi_mass,2), pow(K_mass + pi_mass,2)},
 			{pow(B0_mass - pi_mass,2), pow(B0_mass - K_mass ,2), pow(B0_mass - Jpsi_mass,2)}
@@ -301,11 +335,37 @@ int main(int argv, char** argc)
 
 #ifdef 	_ROOT_AVAILABLE_
 
-		for(size_t i=0; i< 100; i++)
-			for(size_t j=0; j< 100; j++)
-				for(size_t k=0; k< 100; k++)
-					Dalitz_BW.SetBinContent(i+1, j+1, k+1,
-							Hist_BW_Dalitz.GetBinContent({i,j, k}) );
+	#if THRUST_DEVICE_SYSTEM == THRUST_DEVICE_SYSTEM_CUDA
+
+					//if device is cuda, bring the histogram data to the host
+					//to fill the ROOT histogram faster
+					{
+						hydra::SparseHistogram<double, 3,  hydra::host::sys_t> Hist_Temp(Hist_BW_Dalitz);
+						std::cout << "Filling a ROOT Histogram... " << std::endl;
+
+						for(auto entry : Hist_Temp)
+						{
+							size_t bin     = hydra::get<0>(entry);
+							double content = hydra::get<1>(entry);
+							unsigned int bins[3];
+							Hist_Temp.GetIndexes(bin, bins);
+							Dalitz_BW.SetBinContent(bins[0]+1, bins[1]+1, bins[2]+1, content);
+
+						}
+					}
+	#else
+					std::cout << "Filling a ROOT Histogram... " << std::endl;
+
+					for(auto entry : Hist_BW_Dalitz)
+					{
+						size_t bin     = hydra::get<0>(entry);
+						double content = hydra::get<1>(entry);
+						unsigned int bins[3];
+						Hist_BW_Dalitz.GetIndexes(bin, bins);
+						Dalitz_BW.SetBinContent(bins[0]+1, bins[1]+1, bins[2]+1, content);
+
+					}
+	#endif
 
 #endif
 
@@ -353,7 +413,7 @@ int main(int argv, char** argc)
 		auto fitted_dalitz_weights   = DisplayEvents.GetWeights();
 
 		//fitted dalitz histogram
-		hydra::DenseHistogram<double, 3,  hydra::device::sys_t> Hist_Fit_Dalitz{
+		hydra::SparseHistogram<double, 3,  hydra::device::sys_t> Hist_Fit_Dalitz{
 			{100,100,100},
 			{pow(Jpsi_mass + K_mass,2), pow(Jpsi_mass + pi_mass,2), pow(K_mass + pi_mass,2)},
 			{pow(B0_mass - pi_mass,2), pow(B0_mass - K_mass ,2), pow(B0_mass - Jpsi_mass,2)}
@@ -364,11 +424,37 @@ int main(int argv, char** argc)
 
 #ifdef 	_ROOT_AVAILABLE_
 
-		for(size_t i=0; i< 100; i++)
-				for(size_t j=0; j< 100; j++)
-					for(size_t k=0; k< 100; k++)
-						Dalitz_FIT.SetBinContent(i+1, j+1, k+1,
-								Hist_Fit_Dalitz.GetBinContent({i,j, k}) );
+	#if THRUST_DEVICE_SYSTEM == THRUST_DEVICE_SYSTEM_CUDA
+
+					//if device is cuda, bring the histogram data to the host
+					//to fill the ROOT histogram faster
+					{
+						hydra::SparseHistogram<double, 3,  hydra::host::sys_t> Hist_Temp(Hist_Fit_Dalitz);
+						std::cout << "Filling a ROOT Histogram... " << std::endl;
+
+						for(auto entry : Hist_Temp)
+						{
+							size_t bin     = hydra::get<0>(entry);
+							double content = hydra::get<1>(entry);
+							unsigned int bins[3];
+							Hist_Temp.GetIndexes(bin, bins);
+							Dalitz_FIT.SetBinContent(bins[0]+1, bins[1]+1, bins[2]+1, content);
+
+						}
+					}
+	#else
+					std::cout << "Filling a ROOT Histogram... " << std::endl;
+
+					for(auto entry : Hist_FIT_Dalitz)
+					{
+						size_t bin     = hydra::get<0>(entry);
+						double content = hydra::get<1>(entry);
+						unsigned int bins[3];
+						Hist_Fit_Dalitz.GetIndexes(bin, bins);
+						Dalitz_FIT.SetBinContent(bins[0]+1, bins[1]+1, bins[2]+1, content);
+
+					}
+	#endif
 
 #endif
 

@@ -45,7 +45,6 @@ template<Backend BACKEND>
 struct BackendPolicy;
 
 
-
 }  // namespace detail
 
 }//namespace hydra

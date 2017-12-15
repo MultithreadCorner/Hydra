@@ -179,9 +179,6 @@ int main(int argv, char** argc)
 #endif //_ROOT_AVAILABLE_
 
 	{
-		std::cout << "=========================================="<<std::endl;
-		std::cout << "|            <--- DEVICE --->            |"  <<std::endl;
-		std::cout << "=========================================="<<std::endl;
 
 		//------------------
 	    //make model
@@ -391,166 +388,8 @@ int main(int argv, char** argc)
 
 
 
-	//host
-	//------------------------
 #ifdef _ROOT_AVAILABLE_
 
-	TH1D hist_data_dicriminating_h("data_discriminating_h", "Discriminating variable [HOST]", 100, min, max);
-	TH1D hist_data_control_h("data_control_h", "Control Variable [HOST]", 100, min, max);
-	TH1D hist_fit_h("fit_h", "Discriminating variable [HOST]", 100, min, max);
-	TH1D hist_control_1_h("control_1_h", "Control Variable: Gaussian PDF [HOST]",    100, min, max);
-	TH1D hist_control_2_h("control_2_h", "Control Variable: Exponential PDF [HOST]",    100, min, max);
-#endif //_ROOT_AVAILABLE_
-
-	{
-		std::cout << "=========================================="<<std::endl;
-		std::cout << "|            <--- HOST --->            |"  <<std::endl;
-		std::cout << "=========================================="<<std::endl;
-
-		//------------------
-	    //make model
-		//numerical integral to normalize the pdfs
-		hydra::GaussKronrodQuadrature<61,50, hydra::host::sys_t> GKQ61_d(min,  max);
-
-		//convert functors to pdfs
-		auto Gauss_PDF = hydra::make_pdf(gaussian  , GKQ61_d);
-		auto    Exp_PDF = hydra::make_pdf(exponential, GKQ61_d);
-
-		auto model = hydra::add_pdfs(yields, Gauss_PDF, Exp_PDF);
-
-		model.SetExtended(1);
-
-		//1D data containers
-		hydra::multiarray<2, double, hydra::host::sys_t>   data_h(2*nentries);
-
-		//-------------------------------------------------------
-		// Generate toy data
-
-		//first component: [Gaussian] x [Exponential]
-		// gaussian
-		Generator.Gauss(mean_p.GetValue()+2.5, sigma_p.GetValue()+0.5, data_h.begin(0), data_h.begin(0)+nentries);
-
-		// exponential
-		Generator.Exp(tau_p.GetValue()+1.0, data_h.begin(1),  data_h.begin(1)+nentries);
-
-		//second component: [Exponential] -> [Gaussian]
-		// gaussian
-		Generator.Gauss(mean_p.GetValue()-1.0, 0.5, data_h.begin(1) + nentries, data_h.begin(1) + nentries + nentries/2);
-	    Generator.Gauss(mean_p.GetValue()+4.5, 0.5, data_h.begin(1) + nentries + nentries/2, data_h.end(1));
-
-		// exponential
-		Generator.Exp(tau_p.GetValue()+5.0, data_h.begin(0)+nentries,  data_h.end(0));
-
-		std::cout<< std::endl<< "Generated data:"<< std::endl;
-		for(size_t i=0; i<10; i++)
-			std::cout << "[" << i << "] :" << data_h[i] << std::endl;
-
-		//-------------------------------------------------------
-		//suffle the data
-
-		std::random_device rd;
-		std::mt19937 g(rd());
-		std::shuffle(data_h.begin(), data_h.end(), g);
-
-		std::cout<< std::endl<< "Suffled data:"<< std::endl;
-		for(size_t i=0; i<10; i++)
-			std::cout << "[" << i << "] :" << data_h[i] << std::endl;
-
-		//filtering
-		auto FILTER = [=]__host__ __device__(unsigned int n, double* x){
-			return (x[0] > min) && (x[0] < max );
-		};
-
-		auto filter = hydra::wrap_lambda(FILTER);
-		auto range  = hydra::apply_filter(data_h,  filter);
-
-		std::cout<< std::endl<< "Filtered data:"<< std::endl;
-		for(size_t i=0; i<10; i++)
-			std::cout << "[" << i << "] :" << range.begin()[i] << std::endl;
-
-
-		//make model and fcn
-		auto fcn   = hydra::make_loglikehood_fcn(range.begin(), range.end(), model);
-
-		//-------------------------------------------------------
-		//fit
-		ROOT::Minuit2::MnPrint::SetLevel(3);
-		hydra::Print::SetLevel(hydra::WARNING);
-		//minimization strategy
-		MnStrategy strategy(2);
-
-		// create Migrad minimizer
-		MnMigrad migrad_h(fcn, fcn.GetParameters().GetMnState() ,  strategy);
-
-		std::cout<<fcn.GetParameters().GetMnState()<<std::endl;
-
-		// ... Minimize and profile the time
-
-		auto start_h = std::chrono::high_resolution_clock::now();
-		FunctionMinimum minimum_h =  FunctionMinimum(migrad_h(std::numeric_limits<unsigned int>::max(), 5));
-		auto end_h = std::chrono::high_resolution_clock::now();
-		std::chrono::duration<double, std::milli> elapsed_h = end_h - start_h;
-
-		// output
-		std::cout<<"Minimum: "<< minimum_h << std::endl;
-
-		//time
-		std::cout << "-----------------------------------------"<<std::endl;
-		std::cout << "| [Fit] GPU Time (ms) ="<< elapsed_h.count() <<std::endl;
-		std::cout << "-----------------------------------------"<<std::endl;
-
-		//--------------------------------------------
-		//splot 2 components
-		//hold weights
-		hydra::multiarray<2, double, hydra::host::sys_t> sweigts_h(range.size());
-
-		//create splot
-		auto splot  = hydra::make_splot(fcn.GetPDF() );
-
-		start_h = std::chrono::high_resolution_clock::now();
-		auto covar = splot.Generate( range.begin(), range.end(), sweigts_h.begin());
-		end_h = std::chrono::high_resolution_clock::now();
-		elapsed_h = end_h - start_h;
-
-		//time
-		std::cout << "-----------------------------------------"<<std::endl;
-		std::cout << "| [sPlot] GPU Time (ms) ="<< elapsed_h.count() <<std::endl;
-		std::cout << "-----------------------------------------"<<std::endl;
-
-		std::cout << "Covariance matrix "<< std::endl << covar<< std::endl << std::endl;
-		std::cout<< std::endl << "sWeights:" << std::endl;
-		for(size_t i = 0; i<10; i++)
-			std::cout<<  "[" << i << "] :" <<  sweigts_h[i] << std::endl;
-		std::cout<< std::endl << std::endl;
-
-		//bring data to device
-		hydra::multiarray<2, double, hydra::host::sys_t>   buffer(range.size());
-		hydra::copy( range.begin() , range.end(),  buffer.begin() );
-
-#ifdef _ROOT_AVAILABLE_
-		for(size_t i=0; i< buffer.size(); i++){
-
-			hist_data_dicriminating_h.Fill(*(buffer.begin(0)+i) );
-			hist_data_control_h.Fill(*(buffer.begin(1)+i) );
-
-			hist_control_1_h.Fill(*(buffer.begin(1)+i), *(sweigts_h.begin(0)+i) );
-			hist_control_2_h.Fill(*(buffer.begin(1)+i), *(sweigts_h.begin(1)+i) );
-
-		}
-
-		//draw fitted function
-		for (size_t i=0 ; i<=100 ; i++) {
-			double x = hist_fit_d.GetBinCenter(i);
-	        hist_fit_h.SetBinContent(i, fcn.GetPDF()(x) );
-		}
-		hist_fit_h.Scale(hist_data_dicriminating_h.Integral()/hist_fit_h.Integral() );
-
-
-#endif //_ROOT_AVAILABLE_
-
-	}//host end
-
-#ifdef _ROOT_AVAILABLE_
 	TApplication *myapp=new TApplication("myapp",0,0);
 
 	//draw histograms
@@ -566,20 +405,6 @@ int main(int argv, char** argc)
 	hist_control_1_d.Draw("hist");
 	canvas_2_d.cd(2);
 	hist_control_2_d.Draw("hist");
-
-	//draw histograms
-	TCanvas canvas_1_h("canvas_1_h" ,"Distributions - Host", 500, 500);
-
-	hist_data_dicriminating_h.Draw("hist");
-	hist_fit_h.Draw("histsameC");
-	hist_fit_h.SetLineColor(2);
-
-	TCanvas canvas_2_h("canvas_2_h" ,"Distributions - Host", 1000, 500);
-	canvas_2_h.Divide(2,1);
-	canvas_2_h.cd(1);
-	hist_control_1_h.Draw("hist");
-	canvas_2_h.cd(2);
-	hist_control_2_h.Draw("hist");
 
 
 	myapp->Run();

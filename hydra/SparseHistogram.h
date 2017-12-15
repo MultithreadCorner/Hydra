@@ -44,6 +44,7 @@
 
 #include <hydra/detail/external/thrust/iterator/iterator_traits.h>
 #include <hydra/detail/external/thrust/iterator/zip_iterator.h>
+#include <hydra/detail/external/thrust/find.h>
 
 namespace hydra {
 
@@ -249,10 +250,10 @@ public:
 		get_global_bin( bins,  bin);
 
 		size_t index = std::distance(fBins.begin(),
-				std::find(fBins.begin(),fBins.end(), bin));
+								std::find(fBins.begin(),fBins.end(), bin));
 
-		return  ( bin< fBins.size() ) ?
-				fContents.begin()[bin] : 0.0;
+				return  (index < fBins.size() ) ?
+								fContents.begin()[index] : 0.0;
 	}
 
 	double GetBinContent(std::array<size_t, N> const& bins){
@@ -261,11 +262,10 @@ public:
 
 			get_global_bin( bins,  bin);
 
-			size_t index = std::distance(fBins.begin(),
-					std::find(fBins.begin(),fBins.end(), bin));
+			size_t index = HYDRA_EXTERNAL_NS::thrust::distance(fBins.begin(),
+					HYDRA_EXTERNAL_NS::thrust::find(fSystem , fBins.begin(),fBins.end(), bin));
 
-			return  ( bin< fBins.size() ) ?
-					fContents.begin()[bin] : 0.0;
+			return (index < fBins.size() ) ? fContents.begin()[index] : 0.0;
 		}
 
 
@@ -275,8 +275,8 @@ public:
 		size_t index = std::distance(fBins.begin(),
 				std::find(fBins.begin(),fBins.end(), bin));
 
-		return  ( bin< fBins.size() ) ?
-				fContents.begin()[bin] : 0.0;
+		return  (index < fBins.size() ) ?
+				fContents.begin()[index] : 0.0;
 	}
 
 	inline GenericRange<data_iterator> GetBinsContents() const {

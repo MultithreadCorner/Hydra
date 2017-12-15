@@ -165,35 +165,7 @@ int main(int argv, char** argc)
 
     }
 
-    //host
-    {
-    	//----------------------------------------------------------------------
-    	//Vegas State_d hold the resources for performing the integration
-    	hydra::VegasState<N, hydra::host::sys_t> State_h(min, max);
-    	State_h.SetVerbose(-2);
-    	State_h.SetAlpha(1.5);
-    	State_h.SetIterations( iterations );
-    	State_h.SetUseRelativeError(1);
-    	State_h.SetMaxError( max_error );
-    	State_h.SetCalls( calls );
-    	State_h.SetTrainingCalls( calls/10 );
-    	State_h.SetTrainingIterations(2);
 
-    	//vegas integrator
-    	hydra::Vegas<N,  hydra::host::sys_t > Vegas_h(State_h);
-
-    	auto start_vegas = std::chrono::high_resolution_clock::now();
-    	Vegas_h.Integrate(gaussian);
-    	auto end_vegas = std::chrono::high_resolution_clock::now();
-    	std::chrono::duration<double, std::milli> elapsed_vegas = end_vegas - start_vegas;
-    	std::cout << std::endl;
-    	std::cout << "----------------- Host ----------------"<< std::endl;
-    	std::cout << ">>> [Vegas]: Gaussian<" << N << ">" << std::endl;
-    	std::cout << "Result: "   << Vegas_h.GetState().GetResult() << " +/- " << Vegas_h.GetState().GetSigma() <<std::endl
-				  << "Time (ms): "<< elapsed_vegas.count() << std::endl;
-    	std::cout << "-----------------------------------------"<< std::endl;
-
-    }
 
 	return 0;
 

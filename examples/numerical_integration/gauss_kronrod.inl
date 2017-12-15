@@ -99,23 +99,6 @@ int main(int argv, char** argc)
     	<< " Time (ms): "<< elapsed.count() <<std::endl;
     }
 
-    //host
-       {
-       	// 61- degree quadrature
-    	hydra::GaussKronrodQuadrature<61,100, hydra::host::sys_t> GKQ61_h(min,  max);
-
-       	auto start = std::chrono::high_resolution_clock::now();
-
-       	auto result = GKQ61_h.Integrate(gaussian);
-
-       	auto end = std::chrono::high_resolution_clock::now();
-
-       	std::chrono::duration<double, std::milli> elapsed = end - start;
-
-       	std::cout << ">>>l [ Gauss-Kronrod 61 ]"<< std::endl;
-       	std::cout << "Result: " << result.first << "  +-  " << result.second <<std::endl
-       	<< " Time (ms): "<< elapsed.count() <<std::endl;
-       }
 
 	return 0;
 

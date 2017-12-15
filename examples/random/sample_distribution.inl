@@ -166,21 +166,8 @@ int main(int argv, char** argc)
 			50, -6.0, 6.0,
 			50, -6.0, 6.0 );
 
-	TH3D hist_h("hist_h",   "3D Double Gaussian - Host",
-			50, -6.0, 6.0,
-			50, -6.0, 6.0,
-			50, -6.0, 6.0	);
-
 #endif //_ROOT_AVAILABLE_
 
-	//some useful typedefs
-	/*
-	typedef hydra::tuple<double, double, double> row_t; //dataset entry
-	typedef hydra::device::vector<row_t> table_d;       //vector of entries in device
-	typedef hydra::host::vector<row_t> table_h;         //vector of entries in host
-	typedef hydra::multivector<table_d> dataset_d;      //multivector
-	typedef hydra::multivector<table_h> dataset_h;      //multivector
-    */
 
 	typedef hydra::multiarray<3, double, hydra::device::sys_t> dataset_d;
 	typedef hydra::multiarray<3, double, hydra::host::sys_t> dataset_h;
@@ -219,29 +206,6 @@ int main(int argv, char** argc)
 
 	}
 
-	//host
-	{
-
-		dataset_h data_h(nentries);
-
-		auto range = Generator.Sample(data_h.begin(),  data_h.end(), min, max, gaussians);
-
-		std::cout <<std::endl;
-		std::cout <<std::endl;
-
-		for(size_t i=0; i<10; i++)
-			std::cout << "< Random::Sample > [" << i << "] :" << data_h[i] << std::endl;
-
-#ifdef _ROOT_AVAILABLE_
-		for(auto itvalue = range.begin(); itvalue!=range.end() ; itvalue++ ){
-			auto value = *itvalue;
-			hist_h.Fill( hydra::get<0>(value),
-					hydra::get<1>(value),
-					hydra::get<2>(value) );
-		}
-#endif //_ROOT_AVAILABLE_
-
-	}
 
 
 #ifdef _ROOT_AVAILABLE_
@@ -252,10 +216,6 @@ int main(int argv, char** argc)
 	hist_d.Draw("iso");
 	hist_d.SetFillColor(9);
 
-	//draw histograms
-	TCanvas canvas_h("canvas_h" ,"Distributions - Host", 1000, 1000);
-	hist_h.Draw("iso");
-	hist_h.SetFillColor(9);
 
 	myapp->Run();
 

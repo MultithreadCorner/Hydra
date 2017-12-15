@@ -69,7 +69,6 @@ void SparseHistogram<T, N,  detail::BackendPolicy<BACKEND>, detail::multidimensi
 
 	HYDRA_EXTERNAL_NS::thrust::copy(common_system_t(), keys_begin, keys_end, key_buffer.first);
 	HYDRA_EXTERNAL_NS::thrust::sort_by_key( common_system_t(), key_buffer.first, key_buffer.first+data_size, weights.first);
-	HYDRA_EXTERNAL_NS::thrust::return_temporary_buffer(common_system_t(), key_buffer.first);
 
 	//bins content
 	auto reduced_values  = HYDRA_EXTERNAL_NS::thrust::get_temporary_buffer<double>(common_system_t(), data_size);
@@ -78,6 +77,8 @@ void SparseHistogram<T, N,  detail::BackendPolicy<BACKEND>, detail::multidimensi
 	auto reduced_end = HYDRA_EXTERNAL_NS::thrust::reduce_by_key(common_system_t(),
 			key_buffer.first, key_buffer.first +  key_buffer.second,
 			weights.first, reduced_keys.first, reduced_values.first);
+
+	HYDRA_EXTERNAL_NS::thrust::return_temporary_buffer(common_system_t(), key_buffer.first);
 
 	size_t histogram_size = HYDRA_EXTERNAL_NS::thrust::distance(reduced_keys.first, reduced_end.first);
 
@@ -89,6 +90,7 @@ void SparseHistogram<T, N,  detail::BackendPolicy<BACKEND>, detail::multidimensi
 	HYDRA_EXTERNAL_NS::thrust::copy(common_system_t(),reduced_values.first, reduced_end.second,  fContents.begin());
 
 	// deallocate storage with HYDRA_EXTERNAL_NS::thrust::return_temporary_buffer
+
 	HYDRA_EXTERNAL_NS::thrust::return_temporary_buffer(common_system_t(), weights.first  );
 	HYDRA_EXTERNAL_NS::thrust::return_temporary_buffer(common_system_t(), reduced_values.first);
 	HYDRA_EXTERNAL_NS::thrust::return_temporary_buffer(common_system_t(), reduced_keys.first);
@@ -124,7 +126,6 @@ void SparseHistogram<T, N,  detail::BackendPolicy<BACKEND>, detail::multidimensi
 
 	HYDRA_EXTERNAL_NS::thrust::copy(common_system_t(), keys_begin, keys_end, key_buffer.first);
 	HYDRA_EXTERNAL_NS::thrust::sort_by_key( common_system_t(), key_buffer.first, key_buffer.first+data_size, weights.first);
-	HYDRA_EXTERNAL_NS::thrust::return_temporary_buffer(common_system_t(), key_buffer.first);
 
 	//bins content
 	auto reduced_values  = HYDRA_EXTERNAL_NS::thrust::get_temporary_buffer<double>(common_system_t(), data_size);
@@ -133,6 +134,8 @@ void SparseHistogram<T, N,  detail::BackendPolicy<BACKEND>, detail::multidimensi
 	auto reduced_end = HYDRA_EXTERNAL_NS::thrust::reduce_by_key(common_system_t(),
 			key_buffer.first, key_buffer.first +  key_buffer.second,
 			weights.first, reduced_keys.first, reduced_values.first);
+
+	HYDRA_EXTERNAL_NS::thrust::return_temporary_buffer(common_system_t(), key_buffer.first);
 
 	size_t histogram_size = HYDRA_EXTERNAL_NS::thrust::distance(reduced_keys.first, reduced_end.first);
 
@@ -188,6 +191,8 @@ void SparseHistogram<T, N,  detail::BackendPolicy<BACKEND>, detail::multidimensi
 			key_buffer.first, key_buffer.first+data_size,
 			weights, reduced_keys.first, reduced_values.first);
 
+	HYDRA_EXTERNAL_NS::thrust::return_temporary_buffer(common_system_t(), key_buffer.first);
+
 	size_t histogram_size = HYDRA_EXTERNAL_NS::thrust::distance(reduced_keys.first, reduced_end.first);
 
 	fContents.resize(histogram_size);
@@ -200,7 +205,7 @@ void SparseHistogram<T, N,  detail::BackendPolicy<BACKEND>, detail::multidimensi
 	// deallocate storage with HYDRA_EXTERNAL_NS::thrust::return_temporary_buffer
 	HYDRA_EXTERNAL_NS::thrust::return_temporary_buffer(common_system_t(), reduced_values.first);
 	HYDRA_EXTERNAL_NS::thrust::return_temporary_buffer(common_system_t(), reduced_keys.first);
-	HYDRA_EXTERNAL_NS::thrust::return_temporary_buffer(common_system_t(), key_buffer.first);
+
 
 }
 
@@ -240,6 +245,8 @@ void SparseHistogram<T, N,  detail::BackendPolicy<BACKEND>, detail::multidimensi
 			key_buffer.first, key_buffer.first+data_size,
 			weights, reduced_keys.first, reduced_values.first);
 
+	HYDRA_EXTERNAL_NS::thrust::return_temporary_buffer(common_system_t(), key_buffer.first);
+
 	size_t histogram_size = HYDRA_EXTERNAL_NS::thrust::distance(reduced_keys.first, reduced_end.first);
 
 	fContents.resize(histogram_size);
@@ -252,7 +259,7 @@ void SparseHistogram<T, N,  detail::BackendPolicy<BACKEND>, detail::multidimensi
 	// deallocate storage with HYDRA_EXTERNAL_NS::thrust::return_temporary_buffer
 	HYDRA_EXTERNAL_NS::thrust::return_temporary_buffer(common_system_t(), reduced_values.first);
 	HYDRA_EXTERNAL_NS::thrust::return_temporary_buffer(common_system_t(), reduced_keys.first);
-	HYDRA_EXTERNAL_NS::thrust::return_temporary_buffer(common_system_t(), key_buffer.first);
+
 
 }
 
@@ -289,7 +296,9 @@ void SparseHistogram<T, 1,  detail::BackendPolicy<BACKEND>, detail::unidimension
 			key_buffer.first, key_buffer.first+key_buffer.second,
 			weights, reduced_keys.first, reduced_values.first);
 
-	size_t histogram_size = HYDRA_EXTERNAL_NS::thrust::distance(common_system_t(),reduced_keys.first, reduced_end.first);
+	HYDRA_EXTERNAL_NS::thrust::return_temporary_buffer(common_system_t(), key_buffer.first);
+
+    size_t histogram_size = HYDRA_EXTERNAL_NS::thrust::distance(common_system_t(),reduced_keys.first, reduced_end.first);
 
 	fContents.resize(histogram_size);
 	fBins.resize(histogram_size);
@@ -301,7 +310,7 @@ void SparseHistogram<T, 1,  detail::BackendPolicy<BACKEND>, detail::unidimension
     // deallocate storage with HYDRA_EXTERNAL_NS::thrust::return_temporary_buffer
     HYDRA_EXTERNAL_NS::thrust::return_temporary_buffer(common_system_t(), reduced_values.first);
     HYDRA_EXTERNAL_NS::thrust::return_temporary_buffer(common_system_t(), reduced_keys.first);
-    HYDRA_EXTERNAL_NS::thrust::return_temporary_buffer(common_system_t(), key_buffer.first);
+
 
 }
 
@@ -338,6 +347,8 @@ void SparseHistogram<T, 1,  detail::BackendPolicy<BACKEND>, detail::unidimension
 			key_buffer.first, key_buffer.first+key_buffer.second,
 			weights, reduced_keys.first, reduced_values.first);
 
+	HYDRA_EXTERNAL_NS::thrust::return_temporary_buffer(common_system_t(), key_buffer.first);
+
 	size_t histogram_size = HYDRA_EXTERNAL_NS::thrust::distance(common_system_t(),reduced_keys.first, reduced_end.first);
 
 	fContents.resize(histogram_size);
@@ -350,7 +361,7 @@ void SparseHistogram<T, 1,  detail::BackendPolicy<BACKEND>, detail::unidimension
     // deallocate storage with HYDRA_EXTERNAL_NS::thrust::return_temporary_buffer
     HYDRA_EXTERNAL_NS::thrust::return_temporary_buffer(common_system_t(), reduced_values.first);
     HYDRA_EXTERNAL_NS::thrust::return_temporary_buffer(common_system_t(), reduced_keys.first);
-    HYDRA_EXTERNAL_NS::thrust::return_temporary_buffer(common_system_t(), key_buffer.first);
+
 
 }
 
@@ -382,7 +393,6 @@ void SparseHistogram<T, 1,  detail::BackendPolicy<BACKEND>, detail::unidimension
 
 	HYDRA_EXTERNAL_NS::thrust::copy(common_system_t(), keys_begin, keys_end, key_buffer.first);
 	HYDRA_EXTERNAL_NS::thrust::sort_by_key(common_system_t(),key_buffer.first, key_buffer.first+data_size, weights.first);
-	HYDRA_EXTERNAL_NS::thrust::return_temporary_buffer(common_system_t(), key_buffer.first);
 
 	//bins content
 	auto reduced_values  = HYDRA_EXTERNAL_NS::thrust::get_temporary_buffer<double>(common_system_t(), data_size);
@@ -392,6 +402,8 @@ void SparseHistogram<T, 1,  detail::BackendPolicy<BACKEND>, detail::unidimension
 	auto reduced_end = HYDRA_EXTERNAL_NS::thrust::reduce_by_key(common_system_t(),
 			key_buffer.first, key_buffer.first+data_size,
 			weights.first, reduced_keys.first, reduced_values.first);
+
+	HYDRA_EXTERNAL_NS::thrust::return_temporary_buffer(common_system_t(), key_buffer.first);
 
 	size_t histogram_size = HYDRA_EXTERNAL_NS::thrust::distance(reduced_keys.first, reduced_end.first);
 
@@ -440,7 +452,6 @@ void SparseHistogram<T, 1,  detail::BackendPolicy<BACKEND>,detail::unidimensiona
 
 	HYDRA_EXTERNAL_NS::thrust::copy(common_system_t(), keys_begin, keys_end, key_buffer.first);
 	HYDRA_EXTERNAL_NS::thrust::sort_by_key(common_system_t(),key_buffer.first, key_buffer.first+data_size, weights.first);
-	HYDRA_EXTERNAL_NS::thrust::return_temporary_buffer(common_system_t(), key_buffer.first);
 
 	//bins content
 	auto reduced_values  = HYDRA_EXTERNAL_NS::thrust::get_temporary_buffer<double>(common_system_t(), data_size);
@@ -450,6 +461,8 @@ void SparseHistogram<T, 1,  detail::BackendPolicy<BACKEND>,detail::unidimensiona
 	auto reduced_end = HYDRA_EXTERNAL_NS::thrust::reduce_by_key(common_system_t(),
 			key_buffer.first, key_buffer.first+data_size,
 			weights.first, reduced_keys.first, reduced_values.first);
+
+	HYDRA_EXTERNAL_NS::thrust::return_temporary_buffer(common_system_t(), key_buffer.first);
 
 	size_t histogram_size = HYDRA_EXTERNAL_NS::thrust::distance(reduced_keys.first, reduced_end.first);
 

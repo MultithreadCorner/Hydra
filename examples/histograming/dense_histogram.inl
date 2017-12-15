@@ -166,17 +166,11 @@ int main(int argv, char** argc)
 			50, -6.0, 6.0,
 			50, -6.0, 6.0 );
 
-	TH3D hist_h("hist_h",   "3D Double Gaussian - Host",
-			50, -6.0, 6.0,
-			50, -6.0, 6.0,
-			50, -6.0, 6.0	);
-
 #endif //_ROOT_AVAILABLE_
 
 
 
 	typedef hydra::multiarray<3, double, hydra::device::sys_t> dataset_d;
-	typedef hydra::multiarray<3, double, hydra::host::sys_t> dataset_h;
 
 	//device
 	{
@@ -236,60 +230,6 @@ int main(int argv, char** argc)
 
 	}
 
-	//host
-	{
-
-		dataset_h data_h(nentries);
-
-		auto start_d = std::chrono::high_resolution_clock::now();
-		auto range = Generator.Sample(data_h.begin(),  data_h.end(), min, max, gaussians);
-		auto end_d = std::chrono::high_resolution_clock::now();
-		std::chrono::duration<double, std::milli> elapsed_d = end_d - start_d;
-
-		//time
-		std::cout << "-----------------------------------------"<<std::endl;
-		std::cout << "| [Generation] Host Time (ms) ="<< elapsed_d.count() <<std::endl;
-		std::cout << "-----------------------------------------"<<std::endl;
-
-
-		std::cout <<std::endl;
-		std::cout <<std::endl;
-
-		for(size_t i=0; i<10; i++)
-			std::cout << "< Random::Sample > [" << i << "] :" << range.begin()[i] << std::endl;
-
-		std::array<size_t, 3> nbins{50, 50, 50};
-
-		hydra::DenseHistogram<3, double> Hist_Data(nbins, min, max);
-
-		start_d = std::chrono::high_resolution_clock::now();
-
-		Hist_Data.Fill(range.begin(), range.end());
-
-		end_d = std::chrono::high_resolution_clock::now();
-		elapsed_d = end_d - start_d;
-
-		//time
-		std::cout << "-----------------------------------------"<<std::endl;
-		std::cout << "| [ Histograming ] Host Time (ms) ="<< elapsed_d.count() <<std::endl;
-		std::cout << "-----------------------------------------"<<std::endl;
-
-#ifdef _ROOT_AVAILABLE_
-		for(size_t i=0;  i<50; i++){
-			for(size_t j=0;  j<50; j++){
-				for(size_t k=0;  k<50; k++){
-
-					size_t bin[3]{i,j,k};
-
-		          	hist_h.SetBinContent(i+1,j+1,k+1,
-		          			Hist_Data.GetBinContent(bin )  );
-				}
-			}
-		}
-#endif //_ROOT_AVAILABLE_
-
-
-	}
 
 
 #ifdef _ROOT_AVAILABLE_
@@ -300,10 +240,6 @@ int main(int argv, char** argc)
 	hist_d.Draw("");
 	hist_d.SetFillColor(9);
 
-	//draw histograms
-	TCanvas canvas_h("canvas_h" ,"Distributions - Host", 1000, 1000);
-	hist_h.Draw("");
-	hist_h.SetFillColor(9);
 
 	myapp->Run();
 

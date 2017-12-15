@@ -176,17 +176,11 @@ int main(int argv, char** argc)
 			50, -6.0, 6.0,
 			50, -6.0, 6.0 );
 
-	TH3D hist_h("hist_h",   "3D Double Gaussian - Host",
-			50, -6.0, 6.0,
-			50, -6.0, 6.0,
-			50, -6.0, 6.0	);
-
 #endif //_ROOT_AVAILABLE_
 
 
 
 	typedef hydra::multiarray<N, double, hydra::device::sys_t> dataset_d;
-	typedef hydra::multiarray<N, double, hydra::host::sys_t> dataset_h;
 
 	//device
 	{
