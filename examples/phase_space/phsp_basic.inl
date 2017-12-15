@@ -195,7 +195,7 @@ int main(int argv, char** argc)
 
 		auto dalitz_weights   = Events_d.GetWeights();
 
-		hydra::DenseHistogram<2, double> Hist_Dalitz({100,100},
+		hydra::DenseHistogram<double, 2, hydra::device::sys_t> Hist_Dalitz({100,100},
 				{pow(Jpsi_mass + pi_mass,2), pow(K_mass + pi_mass,2)},
 				{pow(B0_mass - K_mass,2)   , pow(B0_mass - Jpsi_mass,2)});
 
@@ -224,79 +224,10 @@ int main(int argv, char** argc)
 
 	}
 
-	//host
-	{
-		//allocate memory to hold the final states particles
-		hydra::Decays<3, hydra::host::sys_t > Events_h(nentries);
-
-		auto start = std::chrono::high_resolution_clock::now();
-
-		//generate the final state particles
-		phsp.Generate(B0, Events_h.begin(), Events_h.end());
-
-		auto end = std::chrono::high_resolution_clock::now();
-
-		std::chrono::duration<double, std::milli> elapsed = end - start;
-
-		//output
-		std::cout << std::endl;
-		std::cout << std::endl;
-		std::cout << "------------------ Host -----------------"<< std::endl;
-		std::cout << "| B0 -> J/psi K pi"                   << std::endl;
-		std::cout << "| Number of events :"<< nentries          << std::endl;
-		std::cout << "| Time (ms)        :"<< elapsed.count()   << std::endl;
-		std::cout << "-----------------------------------------"<< std::endl;
-
-		//print
-		for( size_t i=0; i<10; i++ )
-			std::cout << Events_h[i] << std::endl;
-
-
-		auto particles        = Events_h.GetUnweightedDecays();
-		auto dalitz_variables = hydra::make_range( particles.begin(),
-				particles.end(), dalitz_calculator);
-
-		auto dalitz_weights   = Events_h.GetWeights();
-
-		hydra::DenseHistogram<2, double> Hist_Dalitz({100,100},
-				{pow(Jpsi_mass + pi_mass,2), pow(K_mass + pi_mass,2)},
-				{pow(B0_mass - K_mass,2)   , pow(B0_mass - Jpsi_mass,2)});
-
-		start = std::chrono::high_resolution_clock::now();
-		Hist_Dalitz.Fill(dalitz_variables.begin(), dalitz_variables.end(),
-				dalitz_weights.begin()  );
-		end = std::chrono::high_resolution_clock::now();
-
-		elapsed = end - start;
-		std::cout << "----------------- Device ----------------"<< std::endl;
-		std::cout << "| Histogram "                             << std::endl;
-		std::cout << "| Time (ms)        :"<< elapsed.count()   << std::endl;
-		std::cout << "-----------------------------------------"<< std::endl;
-
-
-
-
-#ifdef 	_ROOT_AVAILABLE_
-
-		for(size_t i=0; i< 100; i++){
-			for(size_t j=0; j< 100; j++){
-
-				Dalitz_h.SetBinContent(i+1, j+1, Hist_Dalitz.GetBinContent({i,j}) );
-			}
-		}
-
-#endif
-
-	}
-
-
 #ifdef 	_ROOT_AVAILABLE_
 
 	TApplication *m_app=new TApplication("myapp",0,0);
 
-	TCanvas canvas_h("canvas_h", "Phase-space Host", 500, 500);
-	Dalitz_h.Draw("colz");
-	canvas_h.Print("plots/phsp_basic_h.png");
 
 	TCanvas canvas_d("canvas_d", "Phase-space Device", 500, 500);
 	Dalitz_d.Draw("colz");

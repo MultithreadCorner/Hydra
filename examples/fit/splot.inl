@@ -249,7 +249,7 @@ int main(int argv, char** argc)
 
 
 		//make model and fcn
-		auto fcn   = hydra::make_loglikehood_fcn(range.begin(), range.end(), model);
+		auto fcn   = hydra::make_loglikehood_fcn(model, range.begin(), range.end() );
 
 		//-------------------------------------------------------
 		//fit
@@ -310,7 +310,7 @@ int main(int argv, char** argc)
 		//histograms
 		size_t nbins = 100;
 
-        hydra::DenseHistogram<1, double> Hist_Data(nbins, min, max);
+        hydra::DenseHistogram< double, 1, hydra::device::sys_t> Hist_Data(nbins, min, max);
 
         start_d = std::chrono::high_resolution_clock::now();
         Hist_Data.Fill(data2_d.begin(0), data2_d.end(0));
@@ -322,7 +322,7 @@ int main(int argv, char** argc)
         std::cout << "| [Histograming data] GPU Time (ms) ="<< elapsed_d.count() <<std::endl;
         std::cout << "-----------------------------------------"<<std::endl;
 
-        hydra::DenseHistogram<1, double> Hist_Control(nbins, min, max);
+        hydra::DenseHistogram<double, 1, hydra::device::sys_t> Hist_Control(nbins, min, max);
 
         start_d = std::chrono::high_resolution_clock::now();
         Hist_Control.Fill(data2_d.begin(1), data2_d.end(1));
@@ -334,7 +334,7 @@ int main(int argv, char** argc)
         std::cout << "| [Histograming control] GPU Time (ms) ="<< elapsed_d.count() <<std::endl;
         std::cout << "-----------------------------------------"<<std::endl;
 
-        hydra::DenseHistogram<1, double> Hist_Control_1(nbins, min, max);
+        hydra::DenseHistogram<double, 1, hydra::device::sys_t> Hist_Control_1(nbins, min, max);
 
         start_d = std::chrono::high_resolution_clock::now();
         Hist_Control_1.Fill(data2_d.begin(1), data2_d.end(1), sweigts_d.begin(0) );
@@ -346,7 +346,7 @@ int main(int argv, char** argc)
         std::cout << "| [Histograming control 1] GPU Time (ms) ="<< elapsed_d.count() <<std::endl;
         std::cout << "-----------------------------------------"<<std::endl;
 
-        hydra::DenseHistogram<1, double> Hist_Control_2(nbins, min, max);
+        hydra::DenseHistogram<double, 1, hydra::device::sys_t> Hist_Control_2(nbins, min, max);
 
         start_d = std::chrono::high_resolution_clock::now();
         Hist_Control_2.Fill(data2_d.begin(1), data2_d.end(1), sweigts_d.begin(1) );

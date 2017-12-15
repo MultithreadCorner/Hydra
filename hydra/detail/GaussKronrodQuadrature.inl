@@ -35,6 +35,7 @@
 #include <cmath>
 #include <tuple>
 #include <limits>
+#include <hydra/detail/external/thrust/transform_reduce.h>
 
 namespace hydra {
 

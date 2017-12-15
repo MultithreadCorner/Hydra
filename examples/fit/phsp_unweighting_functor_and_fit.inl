@@ -445,7 +445,7 @@ int main(int argv, char** argc)
 	#else
 					std::cout << "Filling a ROOT Histogram... " << std::endl;
 
-					for(auto entry : Hist_FIT_Dalitz)
+					for(auto entry : Hist_Fit_Dalitz)
 					{
 						size_t bin     = hydra::get<0>(entry);
 						double content = hydra::get<1>(entry);

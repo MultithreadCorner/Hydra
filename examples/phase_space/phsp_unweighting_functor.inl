@@ -63,7 +63,6 @@
 #include <hydra/Types.h>
 #include <hydra/Vector4R.h>
 #include <hydra/PhaseSpace.h>
-#include <hydra/Evaluate.h>
 #include <hydra/Function.h>
 #include <hydra/FunctorArithmetic.h>
 #include <hydra/FunctionWrapper.h>

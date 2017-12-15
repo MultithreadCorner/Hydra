@@ -66,6 +66,7 @@ typedef hydra::detail::BackendPolicy<hydra::detail::Backend::Cpp> sys_t;
 template<typename T>
 using   vector = hydra::detail::BackendPolicy<hydra::detail::Backend::Cpp>::container<T> ;
 
+static const sys_t sys=sys_t();
 
 }  // namespace cpp
 
