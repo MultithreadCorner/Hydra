@@ -87,9 +87,9 @@ public:
 		double N     = _par[3];
 
 		double t = (alpha < 0) ? (m-mean)/sigma:(mean-m)/sigma;
-		double absAlpha = fabs(alpha);
+		double abs_alpha = fabs(alpha);
 
-		return t >= -absAlpha ?
+		return t >= -abs_alpha ?
 				exp(-0.5*t*t):
 				pow(N/absAlpha,N)*exp(-0.5*absAlpha*absAlpha)/pow(N/absAlpha - absAlpha- t, N);
 	}
@@ -105,11 +105,10 @@ public:
 		double n     = _par[3];
 
 		double t = (alpha < 0) ? (m-mean)/sigma:(mean-m)/sigma;
-		double absAlpha = fabs(alpha);
+		double abs_alpha = fabs(alpha);
 
-		return t >= -absAlpha ?
-				exp(-0.5*t*t):
-				pow(N/absAlpha,N)*exp(-0.5*absAlpha*absAlpha)/pow(N/absAlpha - absAlpha- t, N);
+		return t >= -abs_alpha ? exp(-0.5*t*t):
+				pow(N/abs_alpha,N)*exp(-0.5*abs_alpha*abs_alpha)/pow(N/abs_alpha - abs_alpha- t, N);
 	}
 
 };
@@ -174,9 +173,18 @@ public:
 
 private:
 
-	inline double cumulative(double mean, double sigma, double x)
+	inline double cumulative(double mean, double sigma, double alpha, double N,  double x)
 	{
-		return 0.5*(1.0 + erf( (x-mean)/( sigma*sqrt(2) ) ) );
+		static const double sqrtPiOver2 = 1.2533141373;
+		static const double sqrt2       = 1.4142135624;
+
+		double t = (alpha < 0) ? (m-mean)/sigma:(mean-m)/sigma;
+		double abs_alpha = fabs(alpha);
+
+
+		return ( t >= -abs_alpha )
+				? sigma*sqrtPiOver2*(1.0 + erf(t/sqrt2 ) ):
+				( pow(-abs_alpha + N/abs_alpha - t, -N )*( -abs_alpha + N/abs_alpha - t))/(N-1);
 	}
 
 	double fLowerLimit;
