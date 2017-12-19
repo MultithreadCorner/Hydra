@@ -162,8 +162,8 @@ public:
 	template<typename FUNCTOR>	inline
 	std::pair<double, double> Integrate(FUNCTOR const& functor){
 
-		double fraction = cumulative(functor[0], functor[1], fUpperLimit)
-						 - cumulative(functor[0], functor[1], fLowerLimit);
+		double fraction = cumulative(functor[0], functor[1], functor[2], functor[3], fUpperLimit)
+						- cumulative(functor[0], functor[1], functor[2], functor[3], fLowerLimit);
 
 		double scale = functor[1]*sqrt(2.0*PI);
 
