@@ -141,16 +141,6 @@ int main(int argv, char** argc)
 
 	TH1D    Delta_d("Delta_d", "Device; #delta #phi, Events", 100, 0.0, 3.5);
 
-	//---------
-
-	TH2D Dalitz_h("Dalitz_h", "Host;M^{2}(J/psi #pi) [GeV^{2}/c^{4}]; M^{2}(K #pi) [GeV^{2}/c^{4}]",
-			100, pow(Jpsi_mass + pi_mass,2), pow(B0_mass - K_mass,2),
-			100, pow(K_mass + pi_mass,2), pow(B0_mass - Jpsi_mass,2));
-
-	TH1D CosTheta_h("CosTheta_h", "Host; cos(#theta_{K*}), Events", 100, -1.0, 1.0);
-
-	TH1D    Delta_h("Delta_h", "Host; #delta #phi, Events", 100, 0.0, 3.5);
-
 #endif
 
 	//C++11 lambda for invariant mass
@@ -283,84 +273,12 @@ int main(int argv, char** argc)
 
 	}
 
-	//host
-	{
-		//allocate memory to hold the final states particles
-		auto Chain_h   = hydra::make_chain<3,2>(hydra::host::sys, nentries);
 
-
-		auto start = std::chrono::high_resolution_clock::now();
-
-		//generate the final state particles for B0 -> K pi J/psi
-		phsp1.Generate(B0, Chain_h.GetDecay(_0).begin(), Chain_h.GetDecay(_0).end());
-
-		//pass the list of J/psi to generate the final
-		//state particles for J/psi -> mu+ mu-
-		phsp2.Generate(Chain_h.GetDecay(_0).GetDaughters(_0).begin(), Chain_h.GetDecay(_0).GetDaughters(_0).end(),
-						Chain_h.GetDecay(_1).begin());
-
-		auto end = std::chrono::high_resolution_clock::now();
-
-		std::chrono::duration<double, std::milli> elapsed = end - start;
-
-		//output
-		std::cout << std::endl;
-		std::cout << std::endl;
-		std::cout << "------------------ Host -----------------"<< std::endl;
-		std::cout << "| B0 -> J/psi K pi | J/psi -> mu+ mu-"    << std::endl;
-		std::cout << "| Number of events :"<< nentries          << std::endl;
-		std::cout << "| Time (ms)        :"<< elapsed.count()   << std::endl;
-		std::cout << "-----------------------------------------"<< std::endl;
-
-		//print
-		for( size_t i=0; i<10; i++ )
-			std::cout << Chain_h[i] << std::endl;
-
-
-
-#ifdef 	_ROOT_AVAILABLE_
-		for( auto event : Chain_h )	{
-
-			auto   B0_decay    = hydra::get<1>(event) ;
-			auto   Jpsi_decay  = hydra::get<2>(event) ;
-
-			double weight        = hydra::get<0>(B0_decay );
-			hydra::Vector4R Jpsi = hydra::get<1>(B0_decay );
-			hydra::Vector4R K    = hydra::get<2>(B0_decay );
-			hydra::Vector4R pi   = hydra::get<3>(B0_decay );
-
-			hydra::Vector4R mup  = hydra::get<1>(Jpsi_decay );
-			hydra::Vector4R mum  = hydra::get<2>(Jpsi_decay );
-
-			double M2_Jpsipi  = M2(Jpsi, pi);
-			double M2_Kpi     = M2(K, pi);
-			double CosTheta   = COSHELANG(Jpsi, pi, K );
-			double DeltaAngle = DELTA(K, pi, mup, mum );
-
-			Dalitz_h.Fill(M2_Jpsipi, M2_Kpi , weight);
-			CosTheta_h.Fill(CosTheta , weight);
-					Delta_h.Fill(DeltaAngle, weight );
-		}
-#endif
-
-	}
 
 
 #ifdef 	_ROOT_AVAILABLE_
 
 	TApplication *m_app=new TApplication("myapp",0,0);
-
-	TCanvas canvas1_h("canvas1_h", "Phase-space Host", 500, 500);
-	Dalitz_h.Draw("colz");
-	canvas1_h.Print("plots/phsp_chain_h1.png");
-
-	TCanvas canvas2_h("canvas2_h", "Phase-space Host", 500, 500);
-	CosTheta_h.Draw("hist");
-	canvas2_h.Print("plots/phsp_chain_h2.png");
-
-	TCanvas canvas3_h("canvas3_h", "Phase-space Host", 500, 500);
-	Delta_h.Draw("hist");
-	canvas3_h.Print("plots/phsp_chain_h3.png");
 
 	//--------------------------------------
 

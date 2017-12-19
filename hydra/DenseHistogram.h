@@ -69,7 +69,7 @@ public:
 	DenseHistogram()=delete;
 
 
-	DenseHistogram( std::array<size_t, N> grid,
+	explicit DenseHistogram( std::array<size_t, N> grid,
 			std::array<T, N> const& lowerlimits,   std::array<T, N> const& upperlimits):
 				fNBins(1)
 	{
@@ -83,7 +83,7 @@ public:
 		fContents.resize(fNBins +2 );
 	}
 
-	DenseHistogram( size_t (&grid)[N],
+	explicit DenseHistogram( size_t (&grid)[N],
 			T (&lowerlimits)[N],   T (&upperlimits)[N] ):
 				fNBins(1)
 	{
@@ -96,6 +96,37 @@ public:
 
 		fContents.resize(fNBins  +2);
 	}
+
+	template<typename Int, typename = typename std::enable_if<std::is_integral<Int>::value, void>::type>
+	DenseHistogram( std::array<Int, N> grid,
+				std::array<T, N> const& lowerlimits,   std::array<T, N> const& upperlimits):
+					fNBins(1)
+		{
+			for( size_t i=0; i<N; i++){
+				fGrid[i]=grid[i];
+				fLowerLimits[i]=lowerlimits[i];
+				fUpperLimits[i]=upperlimits[i];
+				fNBins *=grid[i];
+			}
+
+			fContents.resize(fNBins +2 );
+		}
+
+	template<typename Int, typename = typename std::enable_if<std::is_integral<Int>::value, void>::type>
+		DenseHistogram( Int (&grid)[N],
+				T (&lowerlimits)[N],   T (&upperlimits)[N] ):
+					fNBins(1)
+		{
+			for( size_t i=0; i<N; i++){
+				fGrid[i]=grid[i];
+				fLowerLimits[i]=lowerlimits[i];
+				fUpperLimits[i]=upperlimits[i];
+				fNBins*=grid[i];
+			}
+
+			fContents.resize(fNBins  +2);
+		}
+
 
 	DenseHistogram<T,N, hydra::detail::BackendPolicy<BACKEND>, detail::multidimensional>&
 	operator=(DenseHistogram<T, N, hydra::detail::BackendPolicy<BACKEND>, detail::multidimensional> const& other )
@@ -196,6 +227,28 @@ public:
 		return bin;
 	}
 
+	 template<typename Int,
+	 		typename = typename std::enable_if<std::is_integral<Int>::value, void>::type>
+	 inline 	size_t GetBin( Int  (&bins)[N]){
+
+		size_t bin=0;
+
+		get_global_bin( bins,  bin);
+
+		return bin;
+	}
+
+	 template<typename Int,
+	 		typename = typename std::enable_if<std::is_integral<Int>::value, void>::type>
+	 inline size_t GetBin( std::array<Int,N> const&  bins){
+
+		size_t bin=0;
+
+		get_global_bin( bins,  bin);
+
+		return bin;
+	}
+
 	 inline void GetIndexes(size_t globalbin,  size_t  (&bins)[N]){
 
 		get_indexes(globalbin, bins);
@@ -205,6 +258,22 @@ public:
 
 		get_indexes(globalbin, bins);
 	}
+
+	 template<typename Int,
+	 			typename = typename std::enable_if<std::is_integral<Int>::value, void>::type>
+	 inline void GetIndexes(size_t globalbin,  Int  (&bins)[N]){
+
+		get_indexes(globalbin, bins);
+	}
+
+	 template<typename Int,
+	 			typename = typename std::enable_if<std::is_integral<Int>::value, void>::type>
+	 inline void GetIndexes(size_t globalbin, std::array<Int,N>&  bins){
+
+		get_indexes(globalbin, bins);
+	}
+
+
 
 	 inline double GetBinContent( size_t (&bins)[N]){
 
@@ -218,6 +287,32 @@ public:
 	}
 
 	 inline double GetBinContent( std::array<size_t, N> const& bins){
+
+		size_t bin=0;
+
+		get_global_bin( bins,  bin);
+
+		return  ( bin < (fNBins) ) ?
+				fContents.begin()[bin] :
+				std::numeric_limits<double>::max();
+	}
+
+	 template<typename Int,
+	 			typename = typename std::enable_if<std::is_integral<Int>::value, void>::type>
+	 inline double GetBinContent( Int (&bins)[N]){
+
+		size_t bin=0;
+
+		get_global_bin( bins,  bin);
+
+		return  ( bin < (fNBins) ) ?
+				fContents.begin()[bin] :
+				std::numeric_limits<double>::max();
+	}
+
+	 template<typename Int,
+	 			typename = typename std::enable_if<std::is_integral<Int>::value, void>::type>
+	 inline double GetBinContent( std::array<Int, N> const& bins){
 
 		size_t bin=0;
 
@@ -307,31 +402,29 @@ private:
 
 	//k = i_1*(dim_2*...*dim_n) + i_2*(dim_3*...*dim_n) + ... + i_{n-1}*dim_n + i_n
 
-	template<size_t I>
-	typename HYDRA_EXTERNAL_NS::thrust::detail::enable_if< I== N, void>::type
-	get_global_bin( size_t (&indexes)[N], size_t& index){ }
+	template<typename Int,size_t I>
+	typename HYDRA_EXTERNAL_NS::thrust::detail::enable_if< (I== N) && std::is_integral<Int>::value, void>::type
+	get_global_bin(const Int (&indexes)[N], size_t& index){ }
 
-	template<size_t I=0>
-	typename HYDRA_EXTERNAL_NS::thrust::detail::enable_if< (I< N), void>::type
-	get_global_bin( size_t (&indexes)[N], size_t& index)
+	template<typename Int,size_t I=0>
+	typename HYDRA_EXTERNAL_NS::thrust::detail::enable_if< (I< N) && std::is_integral<Int>::value, void>::type
+	get_global_bin(const Int (&indexes)[N], size_t& index)
 	{
 		size_t prod =1;
-
 		for(size_t i=N-1; i>I; i--)
 			prod *=fGrid[i];
-
 		index += prod*indexes[I];
 
-		get_global_bin<I+1>( indexes, index);
+		get_global_bin<Int,I+1>( indexes, index);
 	}
 
-	template<size_t I>
-	typename HYDRA_EXTERNAL_NS::thrust::detail::enable_if< I== N, void>::type
-	get_global_bin( std::array<size_t,N> const& indexes, size_t& index){ }
+	template<typename Int,size_t I>
+	typename HYDRA_EXTERNAL_NS::thrust::detail::enable_if< (I== N) && std::is_integral<Int>::value, void>::type
+	get_global_bin( std::array<Int,N> const& indexes, size_t& index){ }
 
-	template<size_t I=0>
-	typename HYDRA_EXTERNAL_NS::thrust::detail::enable_if< (I< N), void>::type
-	get_global_bin( std::array<size_t,N> const& indexes, size_t& index)
+	template<typename Int,size_t I=0>
+	typename HYDRA_EXTERNAL_NS::thrust::detail::enable_if< (I< N) && std::is_integral<Int>::value, void>::type
+	get_global_bin( std::array<Int,N> const& indexes, size_t& index)
 	{
 		size_t prod =1;
 
@@ -340,7 +433,7 @@ private:
 
 		index += prod*indexes[I];
 
-		get_global_bin<I+1>( indexes, index);
+		get_global_bin<Int, I+1>( indexes, index);
 	}
 
 	/*
@@ -387,42 +480,46 @@ private:
 	// std::array version
 	//-------------------------
 	//end of recursion
-	template<size_t I>
+	template<typename Int, size_t I,
+	typename = typename std::enable_if<std::is_integral<Int>::value, void>::type>
 	typename std::enable_if< (I==N), void  >::type
-	get_indexes(size_t index,  std::array<size_t,N>& indexes)
+	get_indexes(size_t index,  std::array<Int,N>& indexes)
 	{}
 
 	//begin of the recursion
-	template<size_t I=0>
+	template<typename Int, size_t I=0,
+			typename = typename std::enable_if<std::is_integral<Int>::value, void>::type>
 	typename std::enable_if< (I<N), void  >::type
-	get_indexes(size_t index, std::array<size_t,N>& indexes)
+	get_indexes(size_t index, std::array<Int,N>& indexes)
 	{
 		size_t factor    =  1;
 		multiply<I+1>(fGrid, factor );
 		indexes[I]  =  index/factor;
 		size_t next_index =  index%factor;
-		get_indexes<I+1>(next_index,indexes );
+		get_indexes< Int,I+1>(next_index,indexes );
 	}
 
 	//-------------------------
 	// static array version
 	//-------------------------
 	//end of recursion
-	template<size_t I>
+	template<typename Int, size_t I,
+	typename = typename std::enable_if<std::is_integral<Int>::value, void>::type>
 	typename std::enable_if< (I==N), void  >::type
-	get_indexes(size_t index,  size_t (&indexes)[N])
+	get_indexes(size_t index, Int (&indexes)[N])
 	{}
 
 	//begin of the recursion
-	template<size_t I=0>
+	template<typename Int, size_t I=0,
+			typename = typename std::enable_if<std::is_integral<Int>::value, void>::type>
 	typename std::enable_if< (I<N), void  >::type
-	get_indexes(size_t index,  size_t (&indexes)[N] )
+	get_indexes(size_t index, Int (&indexes)[N] )
 	{
 		size_t factor    =  1;
 		multiply<I+1>(fGrid, factor );
 		indexes[I]  =  index/factor;
 		size_t next_index =  index%factor;
-		get_indexes< I+1>(next_index, indexes );
+		get_indexes< Int, I+1>(next_index, indexes );
 	}
 
 

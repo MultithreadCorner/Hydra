@@ -196,13 +196,13 @@ int main(int argv, char** argc)
 
 
 
-	hydra::multiarray<3, double, hydra::host::sys_t> dataset_cpu(nentries);
-	hydra::multiarray<3, double, hydra::device::sys_t> dataset_gpu(nentries);
+	hydra::multiarray<double, 3, hydra::host::sys_t> dataset_cpu(nentries);
+	hydra::multiarray<double, 3, hydra::device::sys_t> dataset_gpu(nentries);
 
 	auto Histogram_CPP = std::async( std::launch::async, [=, &dataset_cpu, &Generator]  {
 
 		Generator.Uniform(min, max, dataset_cpu.begin(0), dataset_cpu.end(0) );
-		hydra::DenseHistogram<1, double> Histogram(nbins, min, max);
+		hydra::DenseHistogram<double, 1, hydra::host::sys_t > Histogram(nbins, min, max);
 		Histogram.Fill( dataset_cpu.begin(0), dataset_cpu.end(0) );
 
 		return  Histogram;
@@ -211,7 +211,7 @@ int main(int argv, char** argc)
 	auto Histogram_OMP = std::async( std::launch::async, [=, &dataset_cpu, &Generator]  {
 
 		Generator.Gauss(0.0, 1.0, dataset_cpu.begin(1), dataset_cpu.end(1) );
-		hydra::DenseHistogram<1, double> Histogram(nbins, min, max);
+		hydra::DenseHistogram<double, 1, hydra::host::sys_t> Histogram(nbins, min, max);
 		Histogram.Fill( dataset_cpu.begin(1), dataset_cpu.end(1) );
 
 		return  Histogram;
@@ -220,7 +220,7 @@ int main(int argv, char** argc)
 	auto Histogram_TBB = std::async( std::launch::async, [=, &dataset_cpu, &Generator]  {
 
 		Generator.BreitWigner(0.0, 0.50, dataset_cpu.begin(2), dataset_cpu.end(2) );
-		hydra::DenseHistogram<1, double> Histogram(nbins, min, max);
+		hydra::DenseHistogram<double, 1, hydra::host::sys_t> Histogram(nbins, min, max);
 		Histogram.Fill( dataset_cpu.begin(2), dataset_cpu.end(2) );
 
 		return  Histogram;
@@ -239,7 +239,7 @@ int main(int argv, char** argc)
 		}
 
 		auto range  = Generator.Sample( dataset_gpu.begin(), dataset_gpu.end(), _min, _max, Gaussian3D);
-		hydra::SparseHistogram<3, double> Histogram(_nbins, _min, _max);
+		hydra::SparseHistogram< double, 3,hydra::device::sys_t> Histogram(_nbins, _min, _max);
 		Histogram.Fill( range.begin(), range.end() );
 
 		return  Histogram;

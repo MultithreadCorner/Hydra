@@ -110,10 +110,8 @@ int main(int argv, char** argc)
 	hydra::Random<> Generator( std::chrono::system_clock::now().time_since_epoch().count() );
 
 	//parameters
-	std::string Mean("Mean"); 	// mean of gaussian
-	std::string Sigma("Sigma"); // sigma of gaussian
-	hydra::Parameter  mean_p  = hydra::Parameter::Create().Name(Mean).Value(0.5) .Error(0.0001).Limits(-1.0, 1.0);
-	hydra::Parameter  sigma_p = hydra::Parameter::Create().Name(Sigma).Value(0.5).Error(0.0001).Limits(0.01, 1.5);
+	hydra::Parameter  mean_p  = hydra::Parameter::Create().Name("Mean").Value(0.5).Error(0.0001).Limits(-1.0, 1.0);
+	hydra::Parameter  sigma_p = hydra::Parameter::Create().Name("Sigma").Value(0.5).Error(0.0001).Limits(0.01, 1.5);
 
 
 	//gaussian function evaluating on argument one

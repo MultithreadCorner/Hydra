@@ -169,8 +169,8 @@ int main(int argv, char** argc)
 #endif //_ROOT_AVAILABLE_
 
 
-	typedef hydra::multiarray<3, double, hydra::device::sys_t> dataset_d;
-	typedef hydra::multiarray<3, double, hydra::host::sys_t> dataset_h;
+	typedef hydra::multiarray<double,3,  hydra::device::sys_t> dataset_d;
+	typedef hydra::multiarray<double,3,  hydra::host::sys_t> dataset_h;
 
 	//device
 	{

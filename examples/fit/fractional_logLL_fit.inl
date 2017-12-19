@@ -119,11 +119,8 @@ int main(int argv, char** argc)
 
 	//===========================
     //fit model
-
-	std::string  Mean1("Mean_1"); 	// mean of gaussian-1
-	std::string Sigma1("Sigma_1");  // sigma of gaussian-1
-	hydra::Parameter  mean1_p  = hydra::Parameter::Create().Name(Mean1).Value( 2.5) .Error(0.0001).Limits(0.0, 10.0);
-	hydra::Parameter  sigma1_p = hydra::Parameter::Create().Name(Sigma1).Value(0.5).Error(0.0001).Limits(0.01, 1.5);
+	hydra::Parameter  mean1_p  = hydra::Parameter::Create().Name("Mean_1").Value( 2.5) .Error(0.0001).Limits(0.0, 10.0);
+	hydra::Parameter  sigma1_p = hydra::Parameter::Create().Name("Sigma_1").Value(0.5).Error(0.0001).Limits(0.01, 1.5);
 
 	//gaussian function evaluating on the first argument
 	hydra::Gaussian<0> gaussian1(mean1_p, sigma1_p);
@@ -132,10 +129,8 @@ int main(int argv, char** argc)
     //-------------------------------------------
 
     //gaussian 2
-    std::string  Mean2("Mean_2"); // mean of gaussian-2
-    std::string Sigma2("Sigma_2");// sigma of gaussian-2
-    hydra::Parameter  mean2_p  = hydra::Parameter::Create().Name(Mean2).Value(5.0) .Error(0.0001).Limits(0.0, 10.0);
-    hydra::Parameter  sigma2_p = hydra::Parameter::Create().Name(Sigma2).Value(0.5).Error(0.0001).Limits(0.01, 1.5);
+    hydra::Parameter  mean2_p  = hydra::Parameter::Create().Name("Mean_2").Value(5.0) .Error(0.0001).Limits(0.0, 10.0);
+    hydra::Parameter  sigma2_p = hydra::Parameter::Create().Name("Sigma_2").Value(0.5).Error(0.0001).Limits(0.01, 1.5);
 
     //gaussian function evaluating on the first argument
     hydra::Gaussian<0> gaussian2(mean2_p, sigma2_p);
@@ -145,8 +140,7 @@ int main(int argv, char** argc)
 
     //exponential
     //parameters
-    std::string  Tau("Tau");// tau of the exponential
-    hydra::Parameter  tau_p  = hydra::Parameter::Create().Name(Tau).Value(1.0) .Error(0.0001).Limits(-2.0, 2.0);
+    hydra::Parameter  tau_p  = hydra::Parameter::Create().Name("Tau").Value(1.0) .Error(0.0001).Limits(-2.0, 2.0);
 
     //gaussian function evaluating on the first argument
     hydra::Exponential<0> exponential(tau_p);
@@ -154,11 +148,8 @@ int main(int argv, char** argc)
 
     //------------------
     //yields
-	std::string na("F_Gauss1");
-	std::string nb("F_Gauss2");
-
-	hydra::Parameter F_Gauss_1_p(na ,0.5, 0.001, 0.1 , 0.5) ;
-	hydra::Parameter F_Gauss_2_p(nb ,0.5, 0.001, 0.1 , 0.5) ;
+	hydra::Parameter F_Gauss_1_p("F_Gauss1" ,0.5, 0.001, 0.1 , 0.5) ;
+	hydra::Parameter F_Gauss_2_p("F_Gauss2" ,0.5, 0.001, 0.1 , 0.5) ;
 
 	//make model
 	auto model = hydra::add_pdfs( std::array<hydra::Parameter,2>{F_Gauss_1_p, F_Gauss_2_p }, Gauss1_PDF, Gauss2_PDF, Exp_PDF);

@@ -71,7 +71,7 @@ class Decays<N, hydra::detail::BackendPolicy<BACKEND> > {
 	typedef hydra::detail::BackendPolicy<BACKEND> system_t;
 	typedef HYDRA_EXTERNAL_NS::thrust::tuple<GReal_t,GReal_t, GReal_t, GReal_t> tuple_t;
 
-	typedef multiarray<4,GReal_t,hydra::detail::BackendPolicy<BACKEND>> particles_type;
+	typedef multiarray<GReal_t,4,hydra::detail::BackendPolicy<BACKEND>> particles_type;
 	typedef std::array<particles_type, N>                               decays_type;
 	typedef typename system_t::template container<GReal_t>              weights_type;
 	typedef HYDRA_EXTERNAL_NS::thrust::constant_iterator<GReal_t>       unitary_iterator;

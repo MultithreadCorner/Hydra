@@ -47,11 +47,11 @@
 
 namespace hydra {
 
-template<size_t N, typename T, typename BACKEND>
+template<typename T, size_t N,  typename BACKEND>
 class multiarray;
 
-template< size_t N, typename T, hydra::detail::Backend BACKEND>
-class multiarray<N, T, hydra::detail::BackendPolicy<BACKEND>>
+template< typename T, size_t N,  hydra::detail::Backend BACKEND>
+class multiarray<T, N, hydra::detail::BackendPolicy<BACKEND>>
 {
 	typedef hydra::detail::BackendPolicy<BACKEND>    system_t;
 
@@ -132,18 +132,18 @@ public:
 	}
 
 
-	multiarray(multiarray<N,T,detail::BackendPolicy<BACKEND>> const& other )
+	multiarray(multiarray<T,N,detail::BackendPolicy<BACKEND>> const& other )
 	{
 		__resize( other.size() );
 		HYDRA_EXTERNAL_NS::thrust::copy(other.begin(), other.end(), begin());
 	}
 
-	multiarray(multiarray<N,T,detail::BackendPolicy<BACKEND>>&& other ):
+	multiarray(multiarray<T,N,detail::BackendPolicy<BACKEND>>&& other ):
 	fData(other.__move())
 	{}
 
 	template< hydra::detail::Backend BACKEND2>
-	multiarray(multiarray<N,T,detail::BackendPolicy<BACKEND2>> const& other )
+	multiarray(multiarray<T,N,detail::BackendPolicy<BACKEND2>> const& other )
 	{
 		__resize(other.size());
 		HYDRA_EXTERNAL_NS::thrust::copy(other.begin(), other.end(), begin());
@@ -158,8 +158,8 @@ public:
 
 	// assignment
 
-	multiarray<N,T,detail::BackendPolicy<BACKEND>>&
-	operator=(multiarray<N,T,detail::BackendPolicy<BACKEND>> const& other )
+	multiarray<T,N,detail::BackendPolicy<BACKEND>>&
+	operator=(multiarray<T,N,detail::BackendPolicy<BACKEND>> const& other )
 	{
 		if(this==&other) return *this;
 
@@ -168,8 +168,8 @@ public:
 		return *this;
 	}
 
-	multiarray<N,T,detail::BackendPolicy<BACKEND>>&
-	operator=(multiarray<N,T,detail::BackendPolicy<BACKEND> >&& other )
+	multiarray<T,N,detail::BackendPolicy<BACKEND>>&
+	operator=(multiarray<T,N,detail::BackendPolicy<BACKEND> >&& other )
 	{
 		if(this == &other) return *this;
 		this->fData = other.__move();
@@ -177,8 +177,8 @@ public:
 	}
 
 	template< hydra::detail::Backend BACKEND2>
-	multiarray<N,T,detail::BackendPolicy<BACKEND> >&
-	operator=(multiarray<N,T,detail::BackendPolicy<BACKEND2> > const& other )
+	multiarray<T,N,detail::BackendPolicy<BACKEND> >&
+	operator=(multiarray<T,N,detail::BackendPolicy<BACKEND2> > const& other )
 	{
 		HYDRA_EXTERNAL_NS::thrust::copy(other.begin(), other.end(), begin());
 		return *this;
@@ -1235,7 +1235,7 @@ private:
 
 template<unsigned int I,  hydra::detail::Backend BACKEND, typename T, size_t N>
 inline auto
-get(multiarray<N,T, detail::BackendPolicy<BACKEND>> const& other  )
+get(multiarray<T,N, detail::BackendPolicy<BACKEND>> const& other  )
 -> decltype(other.column(placeholders::placeholder<I>{}))
 {
 	return other.column(placeholders::placeholder<I>{});
@@ -1243,7 +1243,7 @@ get(multiarray<N,T, detail::BackendPolicy<BACKEND>> const& other  )
 
 template<unsigned int I,  hydra::detail::Backend BACKEND, typename T, size_t N>
 inline auto
-begin(multiarray<N,T, detail::BackendPolicy<BACKEND>> const& other  )
+begin(multiarray<T,N, detail::BackendPolicy<BACKEND>> const& other  )
 -> decltype(other.begin(placeholders::placeholder<I>{}))
 {
 	return other.begin(placeholders::placeholder<I>{});
@@ -1251,7 +1251,7 @@ begin(multiarray<N,T, detail::BackendPolicy<BACKEND>> const& other  )
 
 template<unsigned int I,  hydra::detail::Backend BACKEND, typename T, size_t N>
 inline auto
-end(multiarray<N,T, detail::BackendPolicy<BACKEND>> const& other  )
+end(multiarray<T,N, detail::BackendPolicy<BACKEND>> const& other  )
 -> decltype(other.end(placeholders::placeholder<I>{}))
 {
 	return other.end(placeholders::placeholder<I>{});
@@ -1260,7 +1260,7 @@ end(multiarray<N,T, detail::BackendPolicy<BACKEND>> const& other  )
 
 template<unsigned int I,  hydra::detail::Backend BACKEND, typename T, size_t N>
 inline auto
-begin(multiarray<N,T, detail::BackendPolicy<BACKEND>>& other  )
+begin(multiarray<T,N, detail::BackendPolicy<BACKEND>>& other  )
 -> decltype(other.begin(placeholders::placeholder<I>{}))
 {
 	return other.begin(placeholders::placeholder<I>{});
@@ -1268,7 +1268,7 @@ begin(multiarray<N,T, detail::BackendPolicy<BACKEND>>& other  )
 
 template<unsigned int I,  hydra::detail::Backend BACKEND, typename T, size_t N>
 inline auto
-end(multiarray<N,T, detail::BackendPolicy<BACKEND>>& other  )
+end(multiarray<T,N, detail::BackendPolicy<BACKEND>>& other  )
 -> decltype(other.end(placeholders::placeholder<I>{}))
 {
 	return other.end(placeholders::placeholder<I>{});
@@ -1278,7 +1278,7 @@ end(multiarray<N,T, detail::BackendPolicy<BACKEND>>& other  )
 
 template<unsigned int I,  hydra::detail::Backend BACKEND, typename T, size_t N>
 inline auto
-rbegin(multiarray<N,T, detail::BackendPolicy<BACKEND>> const& other  )
+rbegin(multiarray<T,N, detail::BackendPolicy<BACKEND>> const& other  )
 -> decltype(other.rbegin(placeholders::placeholder<I>{}))
 {
 	return other.rbegin(placeholders::placeholder<I>{});
@@ -1286,7 +1286,7 @@ rbegin(multiarray<N,T, detail::BackendPolicy<BACKEND>> const& other  )
 
 template<unsigned int I,  hydra::detail::Backend BACKEND, typename T, size_t N>
 inline auto
-rend(multiarray<N,T, detail::BackendPolicy<BACKEND>> const& other  )
+rend(multiarray<T,N, detail::BackendPolicy<BACKEND>> const& other  )
 -> decltype(other.rend(placeholders::placeholder<I>{}))
 {
 	return other.rend(placeholders::placeholder<I>{});
@@ -1295,7 +1295,7 @@ rend(multiarray<N,T, detail::BackendPolicy<BACKEND>> const& other  )
 
 template<unsigned int I,  hydra::detail::Backend BACKEND, typename T, size_t N>
 inline auto
-rbegin(multiarray<N,T, detail::BackendPolicy<BACKEND>>& other  )
+rbegin(multiarray<T,N, detail::BackendPolicy<BACKEND>>& other  )
 -> decltype(other.rbegin(placeholders::placeholder<I>{}))
 {
 	return other.rbegin(placeholders::placeholder<I>{});
@@ -1303,15 +1303,15 @@ rbegin(multiarray<N,T, detail::BackendPolicy<BACKEND>>& other  )
 
 template<unsigned int I,  hydra::detail::Backend BACKEND, typename T, size_t N>
 inline auto
-rend(multiarray<N,T, detail::BackendPolicy<BACKEND>>& other  )
+rend(multiarray<T,N, detail::BackendPolicy<BACKEND>>& other  )
 -> decltype(other.rend(placeholders::placeholder<I>{}))
 {
 	return other.rend(placeholders::placeholder<I>{});
 }
 
-template<size_t N, typename T, hydra::detail::Backend BACKEND1, hydra::detail::Backend BACKEND2>
-bool operator==(const multiarray<N, T, hydra::detail::BackendPolicy<BACKEND1>>& lhs,
-                const multiarray<N, T, hydra::detail::BackendPolicy<BACKEND2>>& rhs){
+template<typename T,size_t N,  hydra::detail::Backend BACKEND1, hydra::detail::Backend BACKEND2>
+bool operator==(const multiarray<T, N, hydra::detail::BackendPolicy<BACKEND1>>& lhs,
+                const multiarray<T, N, hydra::detail::BackendPolicy<BACKEND2>>& rhs){
 
 	auto comparison = []__host__ __device__(
 			HYDRA_EXTERNAL_NS::thrust::tuple<
@@ -1329,9 +1329,9 @@ bool operator==(const multiarray<N, T, hydra::detail::BackendPolicy<BACKEND1>>& 
 }
 
 
-template<size_t N, typename T, hydra::detail::Backend BACKEND1, hydra::detail::Backend BACKEND2>
-bool operator!=(const multiarray<N, T, hydra::detail::BackendPolicy<BACKEND1>>& lhs,
-                const multiarray<N, T, hydra::detail::BackendPolicy<BACKEND2>>& rhs){
+template<typename T,size_t N,  hydra::detail::Backend BACKEND1, hydra::detail::Backend BACKEND2>
+bool operator!=(const multiarray<T,N,  hydra::detail::BackendPolicy<BACKEND1>>& lhs,
+                const multiarray<T,N,  hydra::detail::BackendPolicy<BACKEND2>>& rhs){
 
 	auto comparison = []__host__ __device__(
 			HYDRA_EXTERNAL_NS::thrust::tuple<

@@ -191,13 +191,12 @@ int main(int argv, char** argc)
 
 
 	// fit model
-	std::string M0_s("mass");
 	hydra::Parameter M0 = hydra::Parameter::Create()
-		.Name(M0_s ).Value(0.8).Error(0.001).Limits(0.7, 0.9);
+		.Name("mass" ).Value(0.8).Error(0.001).Limits(0.7, 0.9);
 
 	std::string W0_s("width");
 	hydra::Parameter W0 = hydra::Parameter::Create()
-		.Name(W0_s ).Value(0.05).Error(0.001).Limits(0.04, 0.06);
+		.Name("width").Value(0.05).Error(0.001).Limits(0.04, 0.06);
 
 
 	// fit functor (breit-wigner)

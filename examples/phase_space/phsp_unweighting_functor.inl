@@ -132,16 +132,9 @@ int main(int argv, char** argc)
 			100, pow(Jpsi_mass + pi_mass,2), pow(B0_mass - K_mass,2),
 			100, pow(K_mass + pi_mass,2), pow(B0_mass - Jpsi_mass,2));
 
-	TH2D Dalitz_h1("Dalitz_h", "Weighted Sample;Host;M^{2}(J/psi #pi) [GeV^{2}/c^{4}]; M^{2}(K #pi) [GeV^{2}/c^{4}]",
-			100, pow(Jpsi_mass + pi_mass,2), pow(B0_mass - K_mass,2),
-			100, pow(K_mass + pi_mass,2), pow(B0_mass - Jpsi_mass,2));
 
 	//
 	TH2D Dalitz_d2("Dalitz_d2", "Unweighted Sample;Device;M^{2}(J/psi #pi) [GeV^{2}/c^{4}]; M^{2}(K #pi) [GeV^{2}/c^{4}]",
-			100, pow(Jpsi_mass + pi_mass,2), pow(B0_mass - K_mass,2),
-			100, pow(K_mass + pi_mass,2), pow(B0_mass - Jpsi_mass,2));
-
-	TH2D Dalitz_h2("Dalitz_h2", "Unweighted Sample;Host;M^{2}(J/psi #pi) [GeV^{2}/c^{4}]; M^{2}(K #pi) [GeV^{2}/c^{4}]",
 			100, pow(Jpsi_mass + pi_mass,2), pow(B0_mass - K_mass,2),
 			100, pow(K_mass + pi_mass,2), pow(B0_mass - Jpsi_mass,2));
 
@@ -248,98 +241,16 @@ int main(int argv, char** argc)
 
 	}
 
-	//host
-	{
-		//allocate memory to hold the final states particles
-		hydra::Decays<3, hydra::host::sys_t > Events_h(nentries);
-
-		auto start = std::chrono::high_resolution_clock::now();
-
-		//generate the final state particles
-		phsp.Generate(B0, Events_h.begin(), Events_h.end());
-
-		auto end = std::chrono::high_resolution_clock::now();
-
-		std::chrono::duration<double, std::milli> elapsed = end - start;
-
-		//output
-		std::cout << std::endl;
-		std::cout << std::endl;
-		std::cout << "------------------ Host -----------------"<< std::endl;
-		std::cout << "| B0 -> J/psi K pi"                   << std::endl;
-		std::cout << "| Number of events :"<< nentries          << std::endl;
-		std::cout << "| Time (ms)        :"<< elapsed.count()   << std::endl;
-		std::cout << "-----------------------------------------"<< std::endl;
-
-		//print
-		for( size_t i=0; i<10; i++ )
-			std::cout << Events_h[i] << std::endl;
-
-#ifdef 	_ROOT_AVAILABLE_
-
-		for( auto event : Events_h ){
-
-			double weight        = hydra::get<0>(event);
-			hydra::Vector4R Jpsi = hydra::get<1>(event);
-			hydra::Vector4R K    = hydra::get<2>(event);
-			hydra::Vector4R pi   = hydra::get<3>(event);
-
-			double M2_Jpsi_pi = (Jpsi + pi).mass2();
-			double M2_Kpi     = (K + pi).mass2();
-
-			Dalitz_h1.Fill(M2_Jpsi_pi, M2_Kpi, weight );
-		}
-
-#endif
-
-		auto last = Events_h.Unweight(breit_wigner, 1.0);
-
-		std::cout << "<======= Breit-Wigner [Unweighted] =======>"<< std::endl;
-		for( size_t i=0; i<10; i++ )
-			std::cout << Events_h.begin()[i] << std::endl;
-
-#ifdef 	_ROOT_AVAILABLE_
-
-		//bring events to CPU memory space
-		hydra::Decays<3, hydra::host::sys_t > Events_h1( Events_h.begin(), Events_h.begin()+last);
-
-		for( auto event : Events_h1 ){
-
-			double weight        = hydra::get<0>(event);
-			hydra::Vector4R Jpsi = hydra::get<1>(event);
-			hydra::Vector4R K    = hydra::get<2>(event);
-			hydra::Vector4R pi   = hydra::get<3>(event);
-
-			double M2_Jpsi_pi = (Jpsi + pi).mass2();
-			double M2_Kpi     = (K + pi).mass2();
-
-			Dalitz_h2.Fill( M2_Jpsi_pi, M2_Kpi,1.0);
-		}
-
-#endif
-
-	}
-
 
 #ifdef 	_ROOT_AVAILABLE_
 
 	TApplication *m_app=new TApplication("myapp",0,0);
 
-	TCanvas canvas_h1("canvas_h", "Phase-space Host", 500, 500);
-	Dalitz_h1.Draw("colz");
-	canvas_h1.Print("plots/phsp_unweighting_functor_h1.png");
-
 	TCanvas canvas_d1("canvas_d1", "Phase-space Device", 500, 500);
 	Dalitz_d1.Draw("colz");
-	canvas_d1.Print("plots/phsp_unweighting_functor_d1.png");
-
-	TCanvas canvas_h2("canvas_h2", "Phase-space Device", 500, 500);
-	Dalitz_h2.Draw("colz");
-	canvas_h2.Print("plots/phsp_unweighting_functor_h2.png");
 
 	TCanvas canvas_d2("canvas_d2", "Phase-space Device", 500, 500);
 	Dalitz_d2.Draw("colz");
-	canvas_d2.Print("plots/phsp_unweighting_functor_d2.png");
 
 	m_app->Run();
 

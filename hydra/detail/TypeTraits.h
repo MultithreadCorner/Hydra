@@ -37,6 +37,8 @@
 #include <hydra/Containers.h>
 
 #include <type_traits>
+#include <limits>
+
 #include <hydra/detail/external/thrust/complex.h>
 #include <hydra/detail/external/thrust/detail/type_traits.h>
 #include <hydra/detail/external/thrust/execution_policy.h>
@@ -105,27 +107,27 @@ namespace hydra {
 	};
 		enum {kInvalidNumber = -111};
 
-		template<typename T>
-		struct TypeTraits
-		{
+	template<typename T>
+	struct TypeTraits
+	{
 
-			typedef T type;
-			__host__  __device__ inline static type zero(){ return type(0.0) ;}
-			__host__  __device__ inline static type one(){ return type(1.0) ;}
-			__host__  __device__ inline static type invalid(){ return  type(kInvalidNumber) ;}
+		typedef T type;
+		__host__  __device__ inline static type zero(){ return type(0.0) ;}
+		__host__  __device__ inline static type one(){ return type(1.0) ;}
+		__host__  __device__ inline static type invalid(){ return std::numeric_limits<double>::quiet_NaN() ;}
 
-		};
+	};
 
-		template<typename T>
-		struct TypeTraits<HYDRA_EXTERNAL_NS::thrust::complex<T>>
-		{
+	template<typename T>
+	struct TypeTraits<HYDRA_EXTERNAL_NS::thrust::complex<T>>
+	{
 
-			typedef HYDRA_EXTERNAL_NS::thrust::complex<T> type;
-			__host__  __device__ inline static type zero(){ return type(0.0,0.0) ;}
-			__host__  __device__ inline static type one(){ return type(1.0, 0.0) ;}
-			__host__  __device__ inline static type invalid(){ return  type(kInvalidNumber, 0.0) ;}
+		typedef HYDRA_EXTERNAL_NS::thrust::complex<T> type;
+		__host__  __device__ inline static type zero(){ return type(0.0,0.0) ;}
+		__host__  __device__ inline static type one(){ return type(1.0, 0.0) ;}
+		__host__  __device__ inline static type invalid(){ return  std::numeric_limits<double>::quiet_NaN()  ;}
 
-		};
+	};
 
 
 		//----------------------

@@ -40,7 +40,6 @@
 
 //this lib
 #include <hydra/device/System.h>
-#include <hydra/host/System.h>
 #include <hydra/Function.h>
 #include <hydra/FunctionWrapper.h>
 #include <hydra/FunctorArithmetic.h>
@@ -51,6 +50,8 @@
 #include <hydra/multiarray.h>
 #include <hydra/DenseHistogram.h>
 #include <hydra/GenericRange.h>
+#include <hydra/functions/Gaussian.h>
+
 /*-------------------------------------
  * Include classes from ROOT to fill
  * and draw histograms and plots.
@@ -170,7 +171,7 @@ int main(int argv, char** argc)
 
 
 
-	typedef hydra::multiarray<3, double, hydra::device::sys_t> dataset_d;
+	typedef hydra::multiarray<double,3, hydra::device::sys_t> dataset_d;
 
 	//device
 	{
@@ -194,7 +195,7 @@ int main(int argv, char** argc)
 
 		std::array<size_t, 3> nbins{50, 50, 50};
 
-		hydra::DenseHistogram<3, double> Hist_Data(nbins, min, max);
+		hydra::DenseHistogram<double,3, hydra::device::sys_t> Hist_Data(nbins, min, max);
 
 		start_d = std::chrono::high_resolution_clock::now();
 

@@ -131,37 +131,33 @@ int main(int argv, char** argc) {
 
 
 	//______________________________________________________________
-
-	std::string MeanX("MeanX");   // mean of gaussian in x-direction
+    // mean of gaussian in x-direction
 	hydra::Parameter meanx_p =
-			hydra::Parameter::Create().Name(MeanX).Value(0.0).Error(0.0001).Limits(
+			hydra::Parameter::Create().Name("Mean_X").Value(0.0).Error(0.0001).Limits(
 					-1.0, 1.0);
 
-	std::string SigmaX("SigmaX"); // sigma of gaussian in x-direction
-	hydra::Parameter sigmax_p = hydra::Parameter::Create().Name(SigmaX).Value(
+	// sigma of gaussian in x-direction
+	hydra::Parameter sigmax_p = hydra::Parameter::Create().Name("Sigma_X").Value(
 			1.0).Error(0.0001).Limits(0.1, 3.0);
 	//______________________________________________________________
-
-	std::string MeanY("MeanY");   // mean of gaussian in y-direction
+	// mean of gaussian in y-direction
 	hydra::Parameter meany_p =
-			hydra::Parameter::Create().Name(MeanY).Value(0.0).Error(0.0001).Limits(
+			hydra::Parameter::Create().Name("Mean_Y").Value(0.0).Error(0.0001).Limits(
 					-1.0, 1.0);
 
-	std::string SigmaY("SigmaY"); // sigma of gaussian in y-direction
-	hydra::Parameter sigmay_p = hydra::Parameter::Create().Name(SigmaY).Value(
+	// sigma of gaussian in y-direction
+	hydra::Parameter sigmay_p = hydra::Parameter::Create().Name("Sigma_Y").Value(
 			1.0).Error(0.01).Limits(0.1, 3.0);
 
 	//______________________________________________________________
-
-	std::string MeanZ("MeanZ");   // mean of gaussian in z-direction
-	std::string SigmaZ("SigmaZ"); // sigma of gaussian in z-direction
-
+	// mean of gaussian in z-direction
 	hydra::Parameter meanz_p =
-			hydra::Parameter::Create().Name(MeanZ).Value(0.0).Error(0.0001).Limits(
-					-1.0, 1.0);
+			hydra::Parameter::Create().Name("Mean_Z").Value(0.0).
+			Error(0.0001).Limits(-1.0, 1.0);
 
-	hydra::Parameter sigmaz_p = hydra::Parameter::Create().Name(SigmaZ).Value(
-			1.0).Error(0.0001).Limits(0.1, 3.0);
+	// sigma of gaussian in z-direction
+	hydra::Parameter sigmaz_p = hydra::Parameter::Create().Name("Sigma_Z")
+			.Value(1.0).Error(0.0001).Limits(0.1, 3.0);
 
 	//______________________________________________________________
 	//fit function
@@ -201,14 +197,6 @@ int main(int argv, char** argc) {
 			100, min, max,
 			100, min, max );
 
-	TH1D hist_datax_d("hist_datax_d", "x projection", 100, min, max);
-	TH1D hist_datay_d("hist_datay_d", "y projection", 100, min, max);
-	TH1D hist_dataz_d("hist_dataz_d", "z projection", 100, min, max);
-
-	TH1D hist_mcx_d("hist_mcx_d", "x projection", 100, min, max);
-	TH1D hist_mcy_d("hist_mcy_d", "y projection", 100, min, max);
-	TH1D hist_mcz_d("hist_mcz_d", "z projection", 100, min, max);
-
 #endif //_ROOT_AVAILABLE_
 
 	//device
@@ -216,7 +204,7 @@ int main(int argv, char** argc) {
 	{
 
 		//3D device/host buffer
-		hydra::multiarray<3, double, hydra::device::sys_t> data_d(nentries);
+		hydra::multiarray<double,3,  hydra::device::sys_t> data_d(nentries);
 
 		//-------------------------------------------------------
 		//gaussian

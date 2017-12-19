@@ -1,4 +1,3 @@
-
 /*----------------------------------------------------------------------------
  *
  *   Copyright (C) 2016 - 2017 Antonio Augusto Alves Junior
@@ -21,15 +20,14 @@
  *---------------------------------------------------------------------------*/
 
 /*
- * Gaussian.h
+ * CrystalBallShape.h
  *
- *  Created on: Dec 11, 2017
+ *  Created on: 19/12/2017
  *      Author: Antonio Augusto Alves Junior
  */
 
-#ifndef GAUSSIAN_H_
-#define GAUSSIAN_H_
-
+#ifndef CRYSTALBALLSHAPE_H_
+#define CRYSTALBALLSHAPE_H_
 
 #include <hydra/Function.h>
 #include <hydra/Pdf.h>
@@ -42,31 +40,39 @@
 #include <cassert>
 #include <utility>
 
+
 namespace hydra {
 
+/**
+ * @class CrystalBallShape
+ * Implementation the Crystal Ball line shape.
+ *
+ * @tparam ArgIndex : index of the argument when evaluating on multidimensional data. Default is 0.
+ */
 template<unsigned int ArgIndex=0>
-class Gaussian: public BaseFunctor<Gaussian<ArgIndex>, double, 2>
+class CrystalBallShape: public BaseFunctor<CrystalBallShape<ArgIndex>, double, 4>
 {
-	using BaseFunctor<Gaussian<ArgIndex>, double, 2>::_par;
+	using BaseFunctor<CrystalBallShape<ArgIndex>, double, 4>::_par;
 
 public:
 
-	Gaussian()=delete;
+	CrystalBallShape()=delete;
 
-	Gaussian(Parameter const& mean, Parameter const& sigma ):
-		BaseFunctor<Gaussian<ArgIndex>, double, 2>({mean, sigma})
+	CrystalBallShape(Parameter const& mean, Parameter const& sigma
+			, Parameter const& alpha, Parameter const& n):
+		BaseFunctor<CrystalBallShape<ArgIndex>, double, 4>({mean, sigma, alpha, n})
 		{}
 
 	__host__ __device__
-	Gaussian(Gaussian<ArgIndex> const& other ):
-		BaseFunctor<Gaussian<ArgIndex>, double,2>(other)
+	CrystalBallShape(CrystalBallShape<ArgIndex> const& other ):
+		BaseFunctor<CrystalBallShape<ArgIndex>, double,4>(other)
 		{}
 
 	__host__ __device__
-	Gaussian<ArgIndex>&
-	operator=(Gaussian<ArgIndex> const& other ){
+	CrystalBallShape<ArgIndex>&
+	operator=(CrystalBallShape<ArgIndex> const& other ){
 		if(this==&other) return  *this;
-		BaseFunctor<Gaussian<ArgIndex>,double, 2>::operator=(other);
+		BaseFunctor<CrystalBallShape<ArgIndex>,double, 4>::operator=(other);
 		return  *this;
 	}
 
@@ -74,30 +80,47 @@ public:
 	__host__ __device__ inline
 	double Evaluate(unsigned int n, T*x)
 	{
-		double m2 = (x[ArgIndex] - _par[0])*(x[ArgIndex] - _par[0] );
-		double s2 = _par[1]*_par[1];
-		return exp(-m2/(2.0 * s2 ));
+		double m     = x[ArgIndex]; //mass
+		double mean  = _par[0];
+		double sigma = _par[1];
+		double alpha = _par[2];
+		double N     = _par[3];
 
+		double t = (alpha < 0) ? (m-mean)/sigma:(mean-m)/sigma;
+		double absAlpha = fabs(alpha);
+
+		return t >= -absAlpha ?
+				exp(-0.5*t*t):
+				pow(N/absAlpha,N)*exp(-0.5*absAlpha*absAlpha)/pow(N/absAlpha - absAlpha- t, N);
 	}
 
 	template<typename T>
 	__host__ __device__ inline
 	double Evaluate(T x)
 	{
-		double m2 = ( get<ArgIndex>(x) - _par[0])*(get<ArgIndex>(x) - _par[0] );
-		double s2 = _par[1]*_par[1];
-		return exp(-m2/(2.0 * s2 ));
+		double m     = hydra::get<ArgIndex>(x); //mass
+		double mean  = _par[0];
+		double sigma = _par[1];
+		double alpha = _par[2];
+		double n     = _par[3];
 
+		double t = (alpha < 0) ? (m-mean)/sigma:(mean-m)/sigma;
+		double absAlpha = fabs(alpha);
+
+		return t >= -absAlpha ?
+				exp(-0.5*t*t):
+				pow(N/absAlpha,N)*exp(-0.5*absAlpha*absAlpha)/pow(N/absAlpha - absAlpha- t, N);
 	}
 
 };
 
-class GaussianAnalyticalIntegral: public Integrator<GaussianAnalyticalIntegral>
+
+class CrystalBallShapeAnalyticalIntegral: public Integrator<CrystalBallShapeAnalyticalIntegral>
 {
 
 public:
 
-	GaussianAnalyticalIntegral(double min, double max):
+	CrystalBallShapeAnalyticalIntegral(double min, double max):
 		fLowerLimit(min),
 		fUpperLimit(max)
 	{
@@ -105,13 +128,13 @@ public:
 				&& "hydra::ArgusShapeAnalyticalIntegral: MESSAGE << LowerLimit >= fUpperLimit >>");
 	 }
 
-	inline GaussianAnalyticalIntegral(GaussianAnalyticalIntegral const& other):
+	inline CrystalBallShapeAnalyticalIntegral(CrystalBallShapeAnalyticalIntegral const& other):
 		fLowerLimit(other.GetLowerLimit()),
 		fUpperLimit(other.GetUpperLimit())
 	{}
 
-	inline GaussianAnalyticalIntegral&
-	operator=( GaussianAnalyticalIntegral const& other)
+	inline CrystalBallShapeAnalyticalIntegral&
+	operator=( CrystalBallShapeAnalyticalIntegral const& other)
 	{
 		if(this == &other) return *this;
 
@@ -151,7 +174,7 @@ public:
 
 private:
 
-	inline double cumulative(const double mean, const double sigma, const double x)
+	inline double cumulative(double mean, double sigma, double x)
 	{
 		return 0.5*(1.0 + erf( (x-mean)/( sigma*sqrt(2) ) ) );
 	}
@@ -160,10 +183,8 @@ private:
 	double fUpperLimit;
 
 };
-
-
-
 }  // namespace hydra
 
 
-#endif /* GAUSSIAN_H_ */
+
+#endif /* CRYSTALBALLSHAPE_H_ */

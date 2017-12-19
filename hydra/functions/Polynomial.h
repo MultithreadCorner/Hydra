@@ -29,12 +29,22 @@
 #ifndef POLYNOMIAL_H_
 #define POLYNOMIAL_H_
 
-#include<utility>
-#include<hydra/functions/Utils.h>
+#include <hydra/Function.h>
+#include <hydra/Pdf.h>
+#include <hydra/detail/Integrator.h>
+#include <hydra/Parameter.h>
+#include <hydra/Tuple.h>
+#include <tuple>
+#include <limits>
+#include <stdexcept>
+#include <cassert>
+#include <utility>
+
+#include <hydra/functions/Utils.h>
 
 namespace hydra {
 
-template<unsigned int ArgIndex, unsigned int Order>
+template<unsigned int ArgIndex=0, unsigned int Order=2>
 struct Polynomial:public BaseFunctor<Polynomial<ArgIndex, Order>, double, Order>
 {
 
@@ -104,7 +114,10 @@ public:
 	PolynomialAnalyticalIntegral(double min, double max):
 	fLowerLimit(min),
 	fUpperLimit(max)
-	{}
+	{
+		std::assert(fLowerLimit >= fUpperLimit
+				&& "hydra::PolynomialAnalyticalIntegral: MESSAGE << LowerLimit >= fUpperLimit >>");
+	}
 
 	inline PolynomialAnalyticalIntegral(PolynomialAnalyticalIntegral const& other):
 	fLowerLimit(other.GetLowerLimit()),

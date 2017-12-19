@@ -65,7 +65,6 @@ namespace hydra {
  */
 struct Parameter{
 
-
 	__host__ __device__
 	Parameter():
 	fName(const_cast<GChar_t*>("")),
@@ -92,10 +91,8 @@ struct Parameter{
 	{}
 
 
-
-
-	Parameter(std::string const& name, GReal_t value, GReal_t error, GReal_t downlim, GReal_t uplim):
-	fName(const_cast<GChar_t*>(name.data())),
+	Parameter( GChar_t const* const name, GReal_t value, GReal_t error, GReal_t downlim, GReal_t uplim):
+	fName(name),
 	fValue(value),
 	fError(error),
 	fLowerLim(downlim),
@@ -105,8 +102,8 @@ struct Parameter{
 	fHasError(1)
 	{ }
 
-	Parameter(std::string const& name, GReal_t value, GReal_t error):
-		fName(const_cast<GChar_t*>(name.data())),
+	Parameter( GChar_t const* name, GReal_t value, GReal_t error):
+		fName(name),
 		fValue(value),
 		fError(error),
 		fLowerLim(detail::TypeTraits<GReal_t>::invalid()),
@@ -115,17 +112,6 @@ struct Parameter{
 		fLimited(0),
 		fHasError(1)
 	{ }
-
-	Parameter(GChar_t *name, GReal_t value, GReal_t error):
-			fName(name),
-			fValue(value),
-			fError(error),
-			fLowerLim(detail::TypeTraits<GReal_t>::invalid()),
-			fUpperLim(detail::TypeTraits<GReal_t>::invalid()),
-			fIndex(detail::TypeTraits<GInt_t>::invalid()),
-			fLimited(0),
-			fHasError(1)
-		{ }
 
 	Parameter(std::string const& name, GReal_t value):
 		fName(const_cast<GChar_t*>(name.data())),
@@ -149,13 +135,9 @@ struct Parameter{
 		fUpperLim(other.GetUpperLim()),
 		fIndex(other.GetIndex()),
 		fLimited( other.IsLimited()),
-		fHasError(other.HasError())
-	{
-
-
-		fName= const_cast<GChar_t*>(other.GetName());
-
-	}
+		fHasError(other.HasError()),
+		fName( other.GetName())
+	{}
 
 	__host__ __device__
 	inline Parameter& operator=(Parameter const& other)
@@ -302,7 +284,7 @@ struct Parameter{
 	}
 
 	__host__ __device__
-	inline const GChar_t* GetName() const {
+	inline GChar_t const* GetName() const {
 		return fName;
 	}
 
@@ -311,6 +293,13 @@ struct Parameter{
 		this->fName = const_cast<GChar_t*>(name.c_str());
 
 	}
+
+	__host__
+	inline void SetName(const GChar_t* name) {
+		this->fName = name;
+
+	}
+
 
 	__host__ __device__
 	inline GReal_t GetValue() const {
@@ -374,6 +363,12 @@ struct Parameter{
 	}
 
 	__host__
+	Parameter& Name( GChar_t const* name ){
+		this->fName = name;
+		return *this;
+	}
+
+	__host__
 	Parameter& Error(GReal_t error){
 		this->fError = error;
 		this->fHasError=1;
@@ -396,7 +391,7 @@ struct Parameter{
 
 private:
 
-	GChar_t* fName;
+	GChar_t const*  fName;
 	GReal_t  fValue;
 	GReal_t  fError;
 	GReal_t  fLowerLim;

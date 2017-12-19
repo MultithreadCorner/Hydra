@@ -30,9 +30,20 @@
 #ifndef BREITWIGNERNR_H_
 #define BREITWIGNERNR_H_
 
+#include <hydra/Function.h>
+#include <hydra/Pdf.h>
+#include <hydra/detail/Integrator.h>
+#include <hydra/Parameter.h>
+#include <hydra/Tuple.h>
+#include <tuple>
+#include <limits>
+#include <stdexcept>
+#include <cassert>
+#include <utility>
+
 namespace hydra {
 
-template<unsigned int ArgIndex>
+template<unsigned int ArgIndex=0>
 class BreitWignerNR: public BaseFunctor<BreitWignerNR<ArgIndex>, double, 2>
 {
 	using BaseFunctor<BreitWignerNR<ArgIndex>, double, 2>::_par;
@@ -88,7 +99,10 @@ public:
 	BreitWignerNRAnalyticalIntegral(double min, double max):
 		fLowerLimit(min),
 		fUpperLimit(max)
-	{ }
+	{
+		std::assert(fLowerLimit >= fUpperLimit
+				&& "hydra::BreitWignerNRAnalyticalIntegral: MESSAGE << LowerLimit >= fUpperLimit >>");
+	}
 
 	inline BreitWignerNRAnalyticalIntegral(BreitWignerNRAnalyticalIntegral const& other):
 		fLowerLimit(other.GetLowerLimit()),

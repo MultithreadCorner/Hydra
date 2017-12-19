@@ -169,14 +169,6 @@ int main(int argv, char** argc)
 
 	TH1D CosTheta_d("CosTheta_d", "Device; cos(#theta_{K*}), Events", 100, -1.0, 1.0);
 
-	//---------
-
-	TH2D Dalitz_h("Dalitz_h", "Host;M^{2}(J/psi #pi) [GeV^{2}/c^{4}]; M^{2}(K #pi) [GeV^{2}/c^{4}]",
-			100, pow(Jpsi_mass + pi_mass,2), pow(B0_mass - K_mass,2),
-			100, pow(K_mass + pi_mass,2), pow(B0_mass - Jpsi_mass,2));
-
-	TH1D CosTheta_h("CosTheta_h", "Host; cos(#theta_{K*}), Events", 100, -1.0, 1.0);
-
 #endif
 
 	hydra::Vector4R B0(B0_mass, 0.0, 0.0, 0.0);
@@ -184,21 +176,9 @@ int main(int argv, char** argc)
 
 	// Create PhaseSpace object for B0-> K pi J/psi
 	hydra::PhaseSpace<3> phsp( masses);
-/*
-	//useful typedefs
-	//dataset row with three doubles
-	typedef hydra::tuple<double, double, double, double> row_t;
-	//the dataset layout mimics a vector of tuples
-	typedef hydra::device::vector<row_t> table_d;
-	//the dataset layout mimics a vector of tuples
-	typedef hydra::host::vector<row_t>   table_h;
-	//multivector allocation
-	typedef hydra::multivector<table_d> dataset_d;
-	typedef hydra::multivector<table_h> dataset_h;
 
-*/
-	typedef hydra::multiarray<4, double,  hydra::host::sys_t>  dataset_h;
-	typedef hydra::multiarray<4, double,  hydra::device::sys_t>  dataset_d;
+	typedef hydra::multiarray<double,4,   hydra::host::sys_t>  dataset_h;
+	typedef hydra::multiarray< double,4,  hydra::device::sys_t>  dataset_d;
 
 	//device
 	{
@@ -245,62 +225,11 @@ int main(int argv, char** argc)
 
 	}
 
-	//host
-	{
-		//allocate memory to hold the final dataset in
-		//optimal memory layout using a hydra::multivector
-		dataset_h data_h(nentries);
-
-		auto start = std::chrono::high_resolution_clock::now();
-		//generate the final state particles
-		phsp.Evaluate(B0, data_h.begin(), data_h.end(), m12Sq, m23Sq, cosTheta);
-		auto end = std::chrono::high_resolution_clock::now();
-		std::chrono::duration<double, std::milli> elapsed = end - start;
-
-		//output
-		std::cout << std::endl;
-		std::cout << std::endl;
-		std::cout << "----------------- Device ----------------"<< std::endl;
-		std::cout << "| B0 -> J/psi K pi"                       << std::endl;
-		std::cout << "| Number of events :"<< nentries          << std::endl;
-		std::cout << "| Time (ms)        :"<< elapsed.count()   << std::endl;
-		std::cout << "-----------------------------------------"<< std::endl;
-
-		//print
-		for( size_t i=0; i<10; i++ )
-			std::cout <<  "<"<< i <<">: " << data_h[i] << std::endl;
-
-#ifdef 	_ROOT_AVAILABLE_
-
-		for( auto event : data_h ){
-
-			double weight        = hydra::get<0>(event);
-			double m12Sq         = hydra::get<1>(event);
-			double m23Sq         = hydra::get<2>(event);
-			double cosTheta      = hydra::get<3>(event);
-
-			Dalitz_h.Fill(m12Sq , m23Sq, weight);
-			CosTheta_h.Fill(cosTheta , weight);
-		}
-
-#endif
-
-	}
 
 
 #ifdef 	_ROOT_AVAILABLE_
 
 	TApplication *m_app=new TApplication("myapp",0,0);
-
-	TCanvas canvas_h("canvas_h", "Phase-space Host", 500, 500);
-	Dalitz_h.Draw("colz");
-	canvas_h.Print("plots/phsp_evaluating_h.png");
-
-
-	TCanvas canvas2_h("canvas2_h", "Phase-space Host", 500, 500);
-	CosTheta_h.Draw("hist");
-	CosTheta_h.SetMinimum(0.0);
-	canvas2_h.Print("plots/phsp_evaluating_h2.png");
 
 	//----------------------------
 

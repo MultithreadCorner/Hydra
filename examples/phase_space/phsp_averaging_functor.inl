@@ -180,33 +180,11 @@ int main(int argv, char** argc)
 	std::cout << "| Number of events :"<< nentries          << std::endl;
 	std::cout << "| Time (ms)        :"<< elapsed.count()   << std::endl;
 	std::cout << "-----------------------------------------"<< std::endl;
-	}
+
+	}//device
 
 
 
-	//host
-	{
-		auto start = std::chrono::high_resolution_clock::now();
-
-		auto host_result = phsp.AverageOn(hydra::host::sys, B0 , cosTheta, nentries) ;
-
-		auto end = std::chrono::high_resolution_clock::now();
-
-		std::chrono::duration<double, std::milli> elapsed = end - start;
-
-		//output
-		std::cout << std::endl;
-		std::cout << std::endl;
-		std::cout << "----------------- Host ----------------"<< std::endl;
-		std::cout << "|< cos(theta_K) >(B0 -> J/psi K pi): "
-				<< host_result.first
-				<< " +- "
-				<< host_result.second
-				<< std::endl;
-		std::cout << "| Number of events :"<< nentries          << std::endl;
-		std::cout << "| Time (ms)        :"<< elapsed.count()   << std::endl;
-		std::cout << "-----------------------------------------"<< std::endl;
-	}
 
 
 	return 0;

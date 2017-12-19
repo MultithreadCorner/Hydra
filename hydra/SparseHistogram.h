@@ -33,6 +33,8 @@
 #include <hydra/detail/BackendPolicy.h>
 #include <hydra/Types.h>
 #include <hydra/detail/Dimensionality.h>
+#include <hydra/detail/functors/GetBinCenter.h>
+#include <hydra/GenericRange.h>
 #include <hydra/Copy.h>
 
 #include <type_traits>
@@ -85,8 +87,7 @@ public:
 
 	SparseHistogram()=delete;
 
-
-	SparseHistogram( std::array<size_t , N> const& grid,
+	explicit SparseHistogram( std::array<size_t , N> const& grid,
 			std::array<T, N> const& lowerlimits,   std::array<T, N> const& upperlimits):
 				fNBins(1)
 	{
@@ -99,7 +100,35 @@ public:
 
 	}
 
-	SparseHistogram( size_t (&grid)[N],
+	explicit SparseHistogram( size_t (&grid)[N],
+			T (&lowerlimits)[N],   T (&upperlimits)[N] ):
+				fNBins(1)
+	{
+		for( size_t i=0; i<N; i++){
+			fGrid[i]=grid[i];
+			fLowerLimits[i]=lowerlimits[i];
+			fUpperLimits[i]=upperlimits[i];
+			fNBins*=grid[i];
+		}
+
+	}
+
+	template<typename Int, typename = typename std::enable_if<std::is_integral<Int>::value, void>::type>
+	SparseHistogram( std::array<Int , N> const& grid,
+			std::array<T, N> const& lowerlimits,   std::array<T, N> const& upperlimits):
+				fNBins(1)
+	{
+		for( size_t i=0; i<N; i++){
+			fGrid[i]=grid[i];
+			fLowerLimits[i]=lowerlimits[i];
+			fUpperLimits[i]=upperlimits[i];
+			fNBins *=grid[i];
+		}
+
+	}
+
+	template<typename Int, typename = typename std::enable_if<std::is_integral<Int>::value, void>::type>
+	SparseHistogram( Int (&grid)[N],
 			T (&lowerlimits)[N],   T (&upperlimits)[N] ):
 				fNBins(1)
 	{
@@ -177,25 +206,25 @@ public:
 	}
 
 
-	const storage_data_t& GetContents() const {
+	inline const storage_data_t& GetContents() const {
 		return fContents;
 	}
 
-	const storage_keys_t& GetBins() const
+	inline const storage_keys_t& GetBins() const
 	{
 		return fBins;
 	}
 
-	void SetBins(storage_keys_t bins)
+	inline void SetBins(storage_keys_t bins)
 	{
 		fBins = bins;
 	}
 
-	void SetContents(storage_data_t histogram) {
+	inline void SetContents(storage_data_t histogram) {
 		fContents = histogram;
 	}
 
-	size_t GetGrid(size_t i) const {
+	inline size_t GetGrid(size_t i) const {
 		return fGrid[i];
 	}
 
@@ -203,15 +232,17 @@ public:
 		return fLowerLimits[i];
 	}
 
-	T GetUpperLimits(size_t i) const {
+	inline T GetUpperLimits(size_t i) const {
 		return fUpperLimits[i];
 	}
 
-	size_t GetNBins() const {
+	inline size_t GetNBins() const {
 		return fNBins;
 	}
 
-	size_t GetBin( size_t  (&bins)[N]){
+	template<typename Int,
+			typename = typename std::enable_if<std::is_integral<Int>::value, void>::type>
+	inline 	size_t GetBin( Int  (&bins)[N]){
 
 		size_t bin=0;
 
@@ -220,7 +251,19 @@ public:
 		return bin;
 	}
 
-	size_t GetBin( std::array<size_t,N> const&  bins){
+	inline size_t GetBin( std::array<size_t,N> const&  bins){
+
+		size_t bin=0;
+
+		get_global_bin( bins,  bin);
+
+		return bin;
+	}
+
+
+	template<typename Int,
+		typename = typename std::enable_if<std::is_integral<Int>::value, void>::type>
+	inline size_t GetBin( std::array<Int,N> const&  bins){
 
 		size_t bin=0;
 
@@ -231,19 +274,21 @@ public:
 
 	template<typename Int,
 			typename = typename std::enable_if<std::is_integral<Int>::value, void>::type>
-	void GetIndexes(size_t globalbin,  Int  (&bins)[N]){
+	inline void GetIndexes(size_t globalbin,  Int  (&bins)[N]){
 
 		get_indexes(globalbin, bins);
 	}
 
 	template<typename Int,
 				typename = typename std::enable_if<std::is_integral<Int>::value, void>::type>
-	void GetIndexes(size_t globalbin, std::array<Int,N>&  bins){
+	inline void GetIndexes(size_t globalbin, std::array<Int,N>&  bins){
 
 		get_indexes(globalbin, bins);
 	}
 
-	double GetBinContent( size_t  bins[N]){
+	template<typename Int,
+				typename = typename std::enable_if<std::is_integral<Int>::value, void>::type>
+	inline double GetBinContent( Int  bins[N]){
 
 		size_t bin=0;
 
@@ -256,7 +301,22 @@ public:
 								fContents.begin()[index] : 0.0;
 	}
 
-	double GetBinContent(std::array<size_t, N> const& bins){
+	inline double GetBinContent(std::array<size_t, N> const& bins){
+
+		size_t bin=0;
+
+		get_global_bin( bins,  bin);
+
+		size_t index = HYDRA_EXTERNAL_NS::thrust::distance(fBins.begin(),
+				HYDRA_EXTERNAL_NS::thrust::find(fSystem , fBins.begin(),fBins.end(), bin));
+
+		return (index < fBins.size() ) ? fContents.begin()[index] : 0.0;
+	}
+
+
+	template<typename Int,
+					typename = typename std::enable_if<std::is_integral<Int>::value, void>::type>
+	inline double GetBinContent(std::array<Int, N> const& bins){
 
 			size_t bin=0;
 
@@ -270,7 +330,7 @@ public:
 
 
 
-	double GetBinContent( size_t  bin){
+	inline double GetBinContent( size_t  bin){
 
 		size_t index = std::distance(fBins.begin(),
 				std::find(fBins.begin(),fBins.end(), bin));
@@ -351,29 +411,29 @@ private:
 
 	//k = i_1*(dim_2*...*dim_n) + i_2*(dim_3*...*dim_n) + ... + i_{n-1}*dim_n + i_n
 
-	template<size_t I>
-	typename HYDRA_EXTERNAL_NS::thrust::detail::enable_if< I== N, void>::type
-	get_global_bin(const size_t (&indexes)[N], size_t& index){ }
+	template<typename Int,size_t I>
+	typename HYDRA_EXTERNAL_NS::thrust::detail::enable_if< (I== N) && std::is_integral<Int>::value, void>::type
+	get_global_bin(const Int (&indexes)[N], size_t& index){ }
 
-	template<size_t I=0>
-	typename HYDRA_EXTERNAL_NS::thrust::detail::enable_if< (I< N), void>::type
-	get_global_bin(const size_t (&indexes)[N], size_t& index)
+	template<typename Int,size_t I=0>
+	typename HYDRA_EXTERNAL_NS::thrust::detail::enable_if< (I< N) && std::is_integral<Int>::value, void>::type
+	get_global_bin(const Int (&indexes)[N], size_t& index)
 	{
 		size_t prod =1;
 		for(size_t i=N-1; i>I; i--)
 			prod *=fGrid[i];
 		index += prod*indexes[I];
 
-		get_global_bin<I+1>( indexes, index);
+		get_global_bin<Int,I+1>( indexes, index);
 	}
 
-	template<size_t I>
-	typename HYDRA_EXTERNAL_NS::thrust::detail::enable_if< I== N, void>::type
-	get_global_bin( std::array<size_t,N> const& indexes, size_t& index){ }
+	template<typename Int,size_t I>
+	typename HYDRA_EXTERNAL_NS::thrust::detail::enable_if< (I== N) && std::is_integral<Int>::value, void>::type
+	get_global_bin( std::array<Int,N> const& indexes, size_t& index){ }
 
-	template<size_t I=0>
-	typename HYDRA_EXTERNAL_NS::thrust::detail::enable_if< (I< N), void>::type
-	get_global_bin( std::array<size_t,N> const& indexes, size_t& index)
+	template<typename Int,size_t I=0>
+	typename HYDRA_EXTERNAL_NS::thrust::detail::enable_if< (I< N) && std::is_integral<Int>::value, void>::type
+	get_global_bin( std::array<Int,N> const& indexes, size_t& index)
 	{
 		size_t prod =1;
 
@@ -382,7 +442,7 @@ private:
 
 		index += prod*indexes[I];
 
-		get_global_bin<I+1>( indexes, index);
+		get_global_bin<Int, I+1>( indexes, index);
 	}
 	/*
 	 *  conversion of one-dimensional index to multidimensional one

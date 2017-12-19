@@ -57,6 +57,8 @@
 #include <hydra/SPlot.h>
 #include <hydra/DenseHistogram.h>
 #include <hydra/SparseHistogram.h>
+#include <hydra/functions/Gaussian.h>
+#include <hydra/functions/Exponential.h>
 
 //Minuit2
 #include "Minuit2/FunctionMinimum.h"
@@ -122,48 +124,26 @@ int main(int argv, char** argc)
 
 	//----------------------
     //fit model
+	// gaussian
+	// mean of gaussian
+	hydra::Parameter  mean_p  = hydra::Parameter::Create().Name("Mean").Value( 2.5) .Error(0.0001).Limits(0.0, 10.0);
+	// sigma of gaussian
+	hydra::Parameter  sigma_p = hydra::Parameter::Create().Name("Sigma").Value(0.5).Error(0.0001).Limits(0.01, 1.5);
 
-	//gaussian
-	auto GAUSSIAN =  [=] __host__ __device__
-			(unsigned int npar, const hydra::Parameter* params,unsigned int narg, double* x )
-	{
-		double m2 = (x[0] -  params[0])*(x[0] - params[0] );
-		double s2 = params[1]*params[1];
-		double g = exp(-m2/(2.0 * s2 ))/( sqrt(2.0*s2*PI));
-
-		return g;
-	};
-
-	std::string  Mean("Mean"); 	// mean of gaussian
-	std::string Sigma("Sigma"); // sigma of gaussian
-	hydra::Parameter  mean_p  = hydra::Parameter::Create().Name(Mean).Value( 2.5) .Error(0.0001).Limits(0.0, 10.0);
-	hydra::Parameter  sigma_p = hydra::Parameter::Create().Name(Sigma).Value(0.5).Error(0.0001).Limits(0.01, 1.5);
-
-    auto gaussian = hydra::wrap_lambda(GAUSSIAN, mean_p, sigma_p);
+    auto gaussian = hydra::Gaussian<0>(mean_p, sigma_p);
 
     //--------------------------------------------
     //exponential
-    auto EXPONENTIAL =  [=] __host__ __device__
-    		(unsigned int npar, const hydra::Parameter* params,unsigned int narg, double* x )
-    {
-    	double tau = params[0];
-    	return exp(x[0]*tau);
-    };
-
     //parameters
-    std::string  Tau("Tau"); 	// tau of the exponential
-    hydra::Parameter  tau_p  = hydra::Parameter::Create().Name(Tau).Value(0.0) .Error(0.0001).Limits(-10.0, 10.0);
+    // tau of the exponential
+    hydra::Parameter  tau_p  = hydra::Parameter::Create().Name("Tau").Value(0.0) .Error(0.0001).Limits(-10.0, 10.0);
 
-    //get a hydra lambda
-    auto exponential = hydra::wrap_lambda(EXPONENTIAL, tau_p);
+    auto exponential =  hydra::Exponential<0>(tau_p);
 
     //------------------
     //yields
-	std::string na("N_Gauss");
-	std::string nc("N_Exp");
-
-	hydra::Parameter N_Gauss_p(na ,nentries, sqrt(nentries), nentries-nentries/2 , nentries+nentries/2) ;
-	hydra::Parameter N_Exp_p(nc ,nentries, sqrt(nentries), nentries-nentries/2 , nentries+nentries/2) ;
+	hydra::Parameter N_Gauss_p("N_Gauss" ,nentries, sqrt(nentries), nentries-nentries/2 , nentries+nentries/2) ;
+	hydra::Parameter N_Exp_p( "N_Exp",nentries, sqrt(nentries), nentries-nentries/2 , nentries+nentries/2) ;
 
     std::array<hydra::Parameter, 2>  yields{ N_Gauss_p, N_Exp_p };
 
@@ -189,13 +169,13 @@ int main(int argv, char** argc)
 		auto Gauss_PDF = hydra::make_pdf(gaussian  , GKQ61_d);
 		auto    Exp_PDF = hydra::make_pdf(exponential, GKQ61_d);
 
-		auto model = hydra::add_pdfs(yields, Gauss_PDF, Exp_PDF);
+		auto model = hydra::add_pdfs({ N_Gauss_p, N_Exp_p }, Gauss_PDF, Exp_PDF);
 
 		model.SetExtended(1);
 
 		//1D data containers
-		hydra::multiarray<2, double, hydra::device::sys_t> data_d(2*nentries);
-		hydra::multiarray<2, double, hydra::host::sys_t>   data_h(2*nentries);
+		hydra::multiarray<double,2,  hydra::device::sys_t> data_d(2*nentries);
+		hydra::multiarray<double,2,  hydra::host::sys_t>   data_h(2*nentries);
 
 		//-------------------------------------------------------
 		// Generate toy data
@@ -281,7 +261,7 @@ int main(int argv, char** argc)
 		//--------------------------------------------
 		//splot 2 components
 		//hold weights
-		hydra::multiarray<2, double, hydra::device::sys_t> sweigts_d(range.size());
+		hydra::multiarray<double,2,  hydra::device::sys_t> sweigts_d(range.size());
 
 		//create splot
 		auto splot  = hydra::make_splot(fcn.GetPDF() );
@@ -303,7 +283,7 @@ int main(int argv, char** argc)
 		std::cout<< std::endl << std::endl;
 
 		//bring data to device
-		hydra::multiarray<2, double, hydra::device::sys_t> data2_d(range.size());
+		hydra::multiarray< double,2, hydra::device::sys_t> data2_d(range.size());
 		hydra::copy( range.begin() , range.end(), data2_d.begin() );
 
         //_______________________________
@@ -375,7 +355,7 @@ int main(int argv, char** argc)
 
 
 		//draw fitted function
-		for (size_t i=0 ; i<=100 ; i++) {
+		for (size_t i=1 ; i<=100 ; i++) {
 			double x = hist_fit_d.GetBinCenter(i);
 	        hist_fit_d.SetBinContent(i, fcn.GetPDF()(x) );
 		}

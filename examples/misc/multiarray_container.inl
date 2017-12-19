@@ -94,12 +94,8 @@ int main(int argv, char** argc)
 
 	//device
 	{
-		std::cout << "=========================================="<<std::endl;
-		std::cout << "|            <--- DEVICE --->            |"<<std::endl;
-		std::cout << "=========================================="<<std::endl;
 
-
-		hydra::multiarray< 6,double , hydra::device::sys_t> mvector_d;
+		hydra::multiarray< double ,6, hydra::device::sys_t> mvector_d;
 
 		//push_back tuple
 		for(size_t i=0; i<nentries; i++ )
@@ -116,13 +112,13 @@ int main(int argv, char** argc)
 				<< mvector_d.size()
 				<< std::endl << std::endl;
 
-		//multiply first column by 2 using hydra::begin; hydra::end
+		//multiply first column by 1 using hydra::begin; hydra::end
 		for(auto x=hydra::begin<0>(mvector_d);
 				x!=hydra::end<0>(mvector_d); x++ ) *x *=2 ;
 
 		//multiply second column by 4 using placeholders
-		for(auto x=mvector_d.begin(_0);
-				x!= mvector_d.end(_0); x++ ) *x *=4 ;
+		for(auto x=mvector_d.begin(_1);
+				x!= mvector_d.end(_1); x++ ) *x *=4 ;
 
 		//add third and fourth columns by 1 using placeholders
 		for(size_t i=0; i<mvector_d.size(); i++ ) {
@@ -214,131 +210,6 @@ int main(int argv, char** argc)
 				<< "  size: "
 				<< mvector_d.size()
 				<< std::endl << std::endl;
-
-
-	}//device
-
-	//host
-	{
-
-		std::cout << "=========================================="<<std::endl;
-		std::cout << "|              <--- HOST --->            |"<<std::endl;
-		std::cout << "=========================================="<<std::endl;
-
-		hydra::multiarray<6, double, hydra::host::sys_t>   mvector_h;
-
-		//push_back tuple
-		for(size_t i=0; i<nentries; i++ )
-			mvector_h.push_back(hydra::tuple< double,double,double,double, double, double>(i, i, i, i, i, i ));
-
-		//print 10 first elements
-		std::cout<< std::endl << "________________________________________________________________________________" << std::endl<< std::endl;
-		for(size_t i=0; i<10; i++ )
-			std::cout << i << ": "<< mvector_h[i] << std::endl;
-
-		std::cout<< std::endl << " Vector capacity: "
-				<< mvector_h.capacity()
-				<< "  size: "
-				<< mvector_h.size()
-				<< std::endl << std::endl;
-
-		//multiply first column by 2 using hydra::begin; hydra::end
-		for(auto x=hydra::begin<0>(mvector_h);
-				x!=hydra::end<0>(mvector_h); x++ ) *x *=2 ;
-
-		//multiply second column by 4 using placeholders
-		for(auto x=mvector_h.begin(_0);
-				x!= mvector_h.end(_0); x++ ) *x *=4 ;
-
-		//add third and fourth columns by 1 using placeholders
-		for(size_t i=0; i<mvector_h.size(); i++ ) {
-
-			mvector_h[_2][i] +=1.0;
-			mvector_h[_3][i] +=1.0;
-		}
-
-		//print 10 first elements again
-		std::cout<< std::endl << "________________________________________________________________________________" << std::endl<< std::endl;
-		std::cout<< std::endl << "(i , j, k, l, m, n ) ->  (2*i , *4j, k+1, l+1, m, n ) " << std::endl<< std::endl;
-		for(size_t i=0; i<10; i++ )
-			std::cout << i << ": "<< mvector_h[i] << std::endl;
-
-		std::cout<< std::endl << " Vector capacity: "
-				<< mvector_h.capacity()
-				<< "  size: "
-				<< mvector_h.size()
-				<< std::endl << std::endl;
-
-		//cast contents to a hydra::tuple<hydra::complex<int>, hydra::Vector4R>
-
-		//print 10 first elements
-		std::cout<< std::endl << "________________________________________________________________________________" << std::endl<< std::endl;
-		std::cout<< std::endl << "(i , j, k, l, m, n ) ->  ( hydra::complex(i , j), hydra::Vector4R(k, l, m, n) ) " << std::endl<< std::endl;
-		for(size_t i=0; i<10; i++ )
-			std::cout << i << ": "<< mvector_h[caster][i] << std::endl;
-
-		std::cout<< std::endl << " Vector capacity: "
-				<< mvector_h.capacity()
-				<< "  size: "
-				<< mvector_h.size()
-				<< std::endl << std::endl;
-
-		//clear vector and push_back directly hydra::tuple<hydra::complex<int>, hydra::Vector4R> using a caster
-		std::cout<< std::endl << "________________________________________________________________________________" << std::endl<< std::endl;
-		mvector_h.clear();
-		std::cout<< std::endl << " Vector capacity: "
-				<< mvector_h.capacity()
-				<< "  size: "
-				<< mvector_h.size()
-				<< std::endl << std::endl;
-
-
-		for(size_t i=0; i<nentries; i++ ){
-
-			hydra::complex<double> cvalue(i, i);
-			hydra::Vector4R     vector4(i, i, i, i );
-
-			mvector_h.push_back( reverse_caster, hydra::make_tuple(cvalue, vector4));
-		}
-
-		std::cout<< std::endl << "Print current content  " << std::endl<< std::endl;
-		for(size_t i=0; i<10; i++ )
-			std::cout << i << ": "<< mvector_h[i] << std::endl;
-
-		std::cout<< std::endl << " Vector capacity: "
-				<< mvector_h.capacity()
-				<< "  size: "
-				<< mvector_h.size()
-				<< std::endl << std::endl;
-
-		std::cout<< std::endl << "________________________________________________________________________________" << std::endl<< std::endl;
-		std::cout<< std::endl << "Printing only the column 3 and 4 of the container " << std::endl<< std::endl;
-
-		size_t i=0;
-		for( auto x=mvector_h.begin(_2, _3);
-				x!= mvector_h.begin(_2, _3)+10; i++, x++ )
-			std::cout << i << ": "<< *x << std::endl;
-
-		std::cout<< std::endl << " Vector capacity: "
-				<< mvector_h.capacity()
-				<< "  size: "
-				<< mvector_h.size()
-				<< std::endl << std::endl;
-
-		std::cout<< std::endl << "________________________________________________________________________________" << std::endl<< std::endl;
-		std::cout<< std::endl << "Printing only the column 2 and 5 of the container in reverse order (last 10 elements)" << std::endl<< std::endl;
-
-		i=0;
-		for( auto x=mvector_h.rbegin(_1, _4);
-				x!= mvector_h.rbegin(_1, _4)+10; i++, x++ )
-			std::cout << i << ": "<< *x << std::endl;
-
-		std::cout<< std::endl << " Vector capacity: "
-				<< mvector_h.capacity()
-				<< "  size: "
-				<< mvector_h.size()
-				<< std::endl << std::endl;
-
 
 
 	}//device
