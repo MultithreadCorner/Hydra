@@ -326,7 +326,7 @@ struct RndTrial<T,GRND, FUNCTOR, 1>{
 		randEng.discard(index);
     	HYDRA_EXTERNAL_NS::thrust::uniform_real_distribution<T>  dist(fMin, fMax);
 		t = dist(randEng);
-
+        //std::cout<< fFunctor(t) << std::endl;
 		return  fFunctor(t);
 	}
 

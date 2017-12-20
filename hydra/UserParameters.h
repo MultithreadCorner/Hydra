@@ -98,6 +98,9 @@ public:
 			fMnState->Add(param->GetName(), param->GetValue());
 		}
 
+		if( param->IsFixed())
+			fMnState->Fix( param->GetName());
+
 		param->SetIndex( fMnState->Index( param->GetName()) );
 
 		if( update_size)fVariables.push_back(param);

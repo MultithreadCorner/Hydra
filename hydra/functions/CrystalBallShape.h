@@ -165,9 +165,8 @@ public:
 		double fraction = cumulative(functor[0], functor[1], functor[2], functor[3], fUpperLimit)
 						- cumulative(functor[0], functor[1], functor[2], functor[3], fLowerLimit);
 
-		double scale = functor[1]*sqrt(2.0*PI);
 
-		return std::make_pair(fraction*scale ,0.0);
+		return std::make_pair(fraction ,0.0);
 	}
 
 

@@ -74,7 +74,8 @@ struct Parameter{
 	fUpperLim(detail::TypeTraits<GReal_t>::invalid()),
 	fIndex(detail::TypeTraits<GInt_t>::invalid()),
 	fLimited(0),
-    fHasError(0)
+    fHasError(0),
+    fFixed(0)
 	{}
 
 
@@ -87,39 +88,43 @@ struct Parameter{
 	fUpperLim(detail::TypeTraits<GReal_t>::zero()),
 	fIndex(detail::TypeTraits<GInt_t>::invalid()),
 	fLimited(0),
-	fHasError(0)
+	fHasError(0),
+	fFixed(0)
 	{}
 
 
-	Parameter( GChar_t const* const name, GReal_t value, GReal_t error, GReal_t downlim, GReal_t uplim):
+	Parameter( GChar_t const* const name, GReal_t value, GReal_t error, GReal_t downlim, GReal_t uplim, GBool_t fixed=0):
 	fName(name),
 	fValue(value),
 	fError(error),
 	fLowerLim(downlim),
 	fUpperLim(uplim),
 	fIndex(detail::TypeTraits<GInt_t>::invalid()),
+	fFixed(fixed),
 	fLimited(1),
 	fHasError(1)
 	{ }
 
-	Parameter( GChar_t const* name, GReal_t value, GReal_t error):
+	Parameter( GChar_t const* name, GReal_t value, GReal_t error, GBool_t fixed=0 ):
 		fName(name),
 		fValue(value),
 		fError(error),
 		fLowerLim(detail::TypeTraits<GReal_t>::invalid()),
 		fUpperLim(detail::TypeTraits<GReal_t>::invalid()),
 		fIndex(detail::TypeTraits<GInt_t>::invalid()),
+		fFixed(fixed),
 		fLimited(0),
 		fHasError(1)
 	{ }
 
-	Parameter(std::string const& name, GReal_t value):
+	Parameter(std::string const& name, GReal_t value, GBool_t fixed=0 ):
 		fName(const_cast<GChar_t*>(name.data())),
 		fValue(value),
 		fError(detail::TypeTraits<GReal_t>::invalid()),
 		fLowerLim(detail::TypeTraits<GReal_t>::invalid()),
 		fUpperLim(detail::TypeTraits<GReal_t>::invalid()),
 		fIndex(detail::TypeTraits<GInt_t>::invalid()),
+		fFixed(fixed),
 		fLimited(0),
 		fHasError(0)
 	{ }
@@ -136,7 +141,8 @@ struct Parameter{
 		fIndex(other.GetIndex()),
 		fLimited( other.IsLimited()),
 		fHasError(other.HasError()),
-		fName( other.GetName())
+		fName( other.GetName()),
+		fFixed(other.IsFixed())
 	{}
 
 	__host__ __device__
@@ -145,12 +151,13 @@ struct Parameter{
 		if(this != &other){
 			this->fValue    = other.GetValue();
 			this->fError    = other.GetError();
-			this->fLowerLim  = other.GetLowerLim();
-			this->fUpperLim    = other.GetUpperLim();
+			this->fLowerLim = other.GetLowerLim();
+			this->fUpperLim = other.GetUpperLim();
 			this->fIndex    = other.GetIndex();
 			this->fLimited  = other.IsLimited();
 			this->fHasError = other.HasError();
-			this->fName    = const_cast<GChar_t*>(other.GetName());
+			this->fName     = const_cast<GChar_t*>(other.GetName());
+			this->fFixed    = other.IsFixed();
 		}
 		return *this;
 	}
@@ -288,6 +295,12 @@ struct Parameter{
 		return fName;
 	}
 
+	/*
+	__host__ __device__
+		inline  std::string GetName() const {
+			return std::string(fName);
+		}*/
+
 	__host__
 	inline void SetName(const std::string& name) {
 		this->fName = const_cast<GChar_t*>(name.c_str());
@@ -389,6 +402,20 @@ struct Parameter{
 		return *this;
 	}
 
+	__host__
+	Parameter& Fixed(GBool_t flag=1){
+		this->fFixed = flag;
+		return *this;
+	}
+	__host__ __device__ inline
+	GBool_t IsFixed() const {
+		return fFixed;
+	}
+	__host__ __device__ inline
+	void SetFixed(GBool_t constant) {
+		fFixed = constant;
+	}
+
 private:
 
 	GChar_t const*  fName;
@@ -399,6 +426,7 @@ private:
 	GUInt_t  fIndex;
 	GBool_t  fLimited;
 	GBool_t  fHasError;
+	GBool_t  fFixed;
 
 };
 

@@ -245,6 +245,8 @@ GenericRange<Iterator>  Random<GRND>::Sample(Iterator begin, Iterator end ,
 	//get the maximum value
 	value_type max_value = *( HYDRA_EXTERNAL_NS::thrust::max_element(system_t(),values.first, values.first+ values.second) );
 
+	//std::cout << "Sample max =======> " << max_value << std::endl;
+
 	Iterator r = HYDRA_EXTERNAL_NS::thrust::partition(begin, end, first, detail::RndFlag<value_type,GRND>(fSeed+ntrials, max_value, values.first.get()) );
 
 	// deallocate storage with HYDRA_EXTERNAL_NS::thrust::return_temporary_buffer

@@ -39,7 +39,7 @@
 #include <tuple>
 #include <limits>
 #include <stdexcept>
-#include <cassert>
+#include <assert.h>
 #include <utility>
 
 namespace hydra {
@@ -101,8 +101,7 @@ public:
 		fLowerLimit(min),
 		fUpperLimit(max)
 	{
-		std::assert(fLowerLimit >= fUpperLimit
-				&& "hydra::ArgusShapeAnalyticalIntegral: MESSAGE << LowerLimit >= fUpperLimit >>");
+		assert( fLowerLimit < fUpperLimit && "hydra::ArgusShapeAnalyticalIntegral: MESSAGE << LowerLimit >= fUpperLimit >>");
 	 }
 
 	inline GaussianAnalyticalIntegral(GaussianAnalyticalIntegral const& other):

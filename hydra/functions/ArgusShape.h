@@ -100,7 +100,7 @@ public:
 		double c  = _par[1]; //slope
 		double p  = _par[2]; //power
 
-		return (m/m0)>=1 ? 0: m*pow((1 - (m/m0)*(m/m0)) ,p)*exp(c*(1 - (m/m0)*(m/m0))) ;
+		return (m/m0)>=1.0 ? 0: m*pow((1 - (m/m0)*(m/m0)) ,p)*exp(c*(1 - (m/m0)*(m/m0))) ;
 	}
 
 	template<typename T>
@@ -112,7 +112,7 @@ public:
 		double c  = _par[1]; //slope
 		double p  = _par[2]; //power
 
-		return (m/m0)>=1 ? 0: m*pow((1 - (m/m0)*(m/m0)) ,p)*exp(c*(1 - (m/m0)*(m/m0))) ;
+		return (m/m0)>=1.0 ? 0: m*pow((1 - (m/m0)*(m/m0)) ,p)*exp(c*(1 - (m/m0)*(m/m0))) ;
 
 	}
 
@@ -131,7 +131,7 @@ public:
 		fLowerLimit(min),
 		fUpperLimit(max)
 	{
-		std::assert(fLowerLimit >= fUpperLimit && "hydra::ArgusShapeAnalyticalIntegral: MESSAGE << LowerLimit >= fUpperLimit >>");
+		assert(fLowerLimit < fUpperLimit && "hydra::ArgusShapeAnalyticalIntegral: MESSAGE << LowerLimit >= fUpperLimit >>");
 	}
 
 	inline ArgusShapeAnalyticalIntegral(ArgusShapeAnalyticalIntegral const& other):
@@ -169,15 +169,15 @@ public:
 	template<typename FUNCTOR>	inline
 	std::pair<double, double> Integrate(FUNCTOR const& functor){
 
-		if(std::fabs(functor[3]-0.5) > 0.0) {
+		if(functor[2]<0.5 || functor[2] > 0.5 ) {
 
+			std::cout  <<  functor[2] << std::endl;
 			throw std::invalid_argument("ArgusShapeAnalyticalIntegral can not handle ArgusShape with power != 0.5. Return {nan, nan}");
-
-			return std::make_pair(std::numeric_limits<double>::quiet_NaN(), std::numeric_limits<double>::quiet_NaN());
 		}
 
 		double r = cumulative(functor[0], functor[1],fUpperLimit)
 						 - cumulative(functor[0], functor[1], fLowerLimit);
+
 
 		return std::make_pair(r ,0.0);
 	}
@@ -187,8 +187,10 @@ private:
 
 	inline double cumulative(double m, double c, double x)
 	{
-		double f = (1.0 -pow(x/m,2));
-		return -0.5*m*m*(exp(c*f)*sqrt(f)/c + 0.5/pow(-c,1.5)*sqrt(PI)*erf(sqrt(-c*f)));
+		double f = x<m ? (1.0 -pow(x/m,2)) : 0.0;
+		double r = -0.5*m*m*(exp(c*f)*sqrt(f)/c + 0.5/pow(-c,1.5)*sqrt(PI)*erf(sqrt(-c*f)));
+	//	std::cout<< "f " << f << "m " << m <<  " c " <<  c << " x "<< x << std::endl;
+		return r;
 	}
 
 	double fLowerLimit;
