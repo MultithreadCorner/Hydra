@@ -32,6 +32,7 @@
 #include <hydra/Function.h>
 #include <hydra/Pdf.h>
 #include <hydra/detail/Integrator.h>
+#include <hydra/detail/utility/CheckValue.h>
 #include <hydra/Parameter.h>
 #include <hydra/Tuple.h>
 #include <tuple>
@@ -100,7 +101,9 @@ public:
 		double c  = _par[1]; //slope
 		double p  = _par[2]; //power
 
-		return (m/m0)>=1.0 ? 0: m*pow((1 - (m/m0)*(m/m0)) ,p)*exp(c*(1 - (m/m0)*(m/m0))) ;
+
+		return  CHECK_VALUE( (m/m0)>=1.0 ? 0: m*pow((1 - (m/m0)*(m/m0)) ,p)*exp(c*(1 - (m/m0)*(m/m0))),\
+				"par[0]=%f, par[1]=%f, _par[2]=%f", _par[0], _par[1], _par[2]) ;
 	}
 
 	template<typename T>
@@ -112,7 +115,8 @@ public:
 		double c  = _par[1]; //slope
 		double p  = _par[2]; //power
 
-		return (m/m0)>=1.0 ? 0: m*pow((1 - (m/m0)*(m/m0)) ,p)*exp(c*(1 - (m/m0)*(m/m0))) ;
+		return  CHECK_VALUE( (m/m0)>=1.0 ? 0: m*pow((1 - (m/m0)*(m/m0)) ,p)*exp(c*(1 - (m/m0)*(m/m0))),\
+				"par[0]=%f, par[1]=%f, _par[2]=%f", _par[0], _par[1], _par[2]) ;
 
 	}
 
@@ -179,7 +183,9 @@ public:
 						 - cumulative(functor[0], functor[1], fLowerLimit);
 
 
-		return std::make_pair(r ,0.0);
+		return std::make_pair(
+				CHECK_VALUE(r, "par[0] = %f par[1] = %f par[2] = %f  fLowerLimit = %f fUpperLimit = %f", functor[0], functor[1], functor[2], fLowerLimit,fUpperLimit)
+			,0.0);
 	}
 
 
@@ -187,9 +193,10 @@ private:
 
 	inline double cumulative(double m, double c, double x)
 	{
+		static const double sqrt_pi = 1.7724538509055160272982;
+
 		double f = x<m ? (1.0 -pow(x/m,2)) : 0.0;
-		double r = -0.5*m*m*(exp(c*f)*sqrt(f)/c + 0.5/pow(-c,1.5)*sqrt(PI)*erf(sqrt(-c*f)));
-	//	std::cout<< "f " << f << "m " << m <<  " c " <<  c << " x "<< x << std::endl;
+		double r = -0.5*m*m*(exp(c*f)*sqrt(f)/c + 0.5/pow(-c,1.5)*sqrt_pi*erf(sqrt(-c*f)));
 		return r;
 	}
 

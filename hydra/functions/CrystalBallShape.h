@@ -32,6 +32,7 @@
 #include <hydra/Function.h>
 #include <hydra/Pdf.h>
 #include <hydra/detail/Integrator.h>
+#include <hydra/detail/utility/CheckValue.h>
 #include <hydra/Parameter.h>
 #include <hydra/Tuple.h>
 #include <tuple>
@@ -89,9 +90,11 @@ public:
 		double t = (alpha < 0) ? (m-mean)/sigma:(mean-m)/sigma;
 		double abs_alpha = fabs(alpha);
 
-		return t >= -abs_alpha ?
-				exp(-0.5*t*t):
-				pow(N/absAlpha,N)*exp(-0.5*absAlpha*absAlpha)/pow(N/absAlpha - absAlpha- t, N);
+
+		double r = (t >= -abs_alpha) ? exp(-0.5*t*t):
+				pow(N/abs_alpha,N)*exp(-0.5*abs_alpha*abs_alpha)/pow(N/abs_alpha - abs_alpha- t, N);
+
+		return CHECK_VALUE(r, "par[0]=%f, par[1]=%f, par[2]=%f, par[3]=%f", _par[0], _par[1], _par[2], _par[3]  );
 	}
 
 	template<typename T>
@@ -107,8 +110,10 @@ public:
 		double t = (alpha < 0) ? (m-mean)/sigma:(mean-m)/sigma;
 		double abs_alpha = fabs(alpha);
 
-		return t >= -abs_alpha ? exp(-0.5*t*t):
+		double r = (t >= -abs_alpha) ? exp(-0.5*t*t):
 				pow(N/abs_alpha,N)*exp(-0.5*abs_alpha*abs_alpha)/pow(N/abs_alpha - abs_alpha- t, N);
+
+		return CHECK_VALUE(r, "par[0]=%f, par[1]=%f, par[2]=%f, par[3]=%f", _par[0], _par[1], _par[2], _par[3]  );
 	}
 
 };
@@ -166,7 +171,9 @@ public:
 						- cumulative(functor[0], functor[1], functor[2], functor[3], fLowerLimit);
 
 
-		return std::make_pair(fraction ,0.0);
+		return std::make_pair(
+		CHECK_VALUE(fraction," par[0] = %f par[1] = %f par[2] = %f par[3] = %f fLowerLimit = %f fUpperLimit = %f",\
+				functor[0], functor[1],functor[2], functor[3], fLowerLimit,fUpperLimit ) ,0.0);
 	}
 
 

@@ -33,6 +33,7 @@
 #include <hydra/Function.h>
 #include <hydra/Pdf.h>
 #include <hydra/detail/Integrator.h>
+#include <hydra/detail/utility/CheckValue.h>
 #include <hydra/Parameter.h>
 #include <hydra/Tuple.h>
 #include <tuple>
@@ -76,7 +77,7 @@ public:
 		double m2 = (x[ArgIndex] - _par[0])*(x[ArgIndex] - _par[0] );
 		double w2 = _par[1]*_par[1];
 
-		return 1.0/(m2 + 0.25*w2) ;
+		return CHECK_VALUE(1.0/(m2 + 0.25*w2), "par[0]=%f, par[1]=%f", _par[0], _par[1]) ;
 	}
 
 	template<typename T>
@@ -86,7 +87,7 @@ public:
 		double m2 = ( get<ArgIndex>(x) - _par[0])*(get<ArgIndex>(x) - _par[0] );
 		double w2 = _par[1]*_par[1];
 
-		return 1.0/(m2 + 0.25*w2) ;
+		return  CHECK_VALUE(1.0/(m2 + 0.25*w2), "par[0]=%f, par[1]=%f", _par[0], _par[1]) ;
 	}
 
 };
@@ -142,7 +143,8 @@ public:
 		double r = cumulative(functor[0], functor[1], fUpperLimit)
 						 - cumulative(functor[0], functor[1], fLowerLimit);
 
-		return std::make_pair( r, 0.0);
+		return std::make_pair(
+				CHECK_VALUE(r," par[0] = %f par[1] = %f fLowerLimit = %f fUpperLimit = %f", functor[0], functor[1], fLowerLimit,fUpperLimit ), 0.0);
 	}
 
 

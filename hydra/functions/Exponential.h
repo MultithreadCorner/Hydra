@@ -33,9 +33,14 @@
 #include <hydra/Function.h>
 #include <hydra/Pdf.h>
 #include <hydra/detail/Integrator.h>
+#include <hydra/detail/utility/CheckValue.h>
 #include <hydra/Parameter.h>
 #include <hydra/Tuple.h>
 #include <tuple>
+#include <limits>
+#include <stdexcept>
+#include <cassert>
+#include <utility>
 
 namespace hydra {
 
@@ -68,14 +73,14 @@ public:
 	__host__ __device__
 	inline double Evaluate(unsigned int n, T* x)
 	{
-		return exp(x[ ArgIndex]*_par[0] );
+		return  CHECK_VALUE(exp(x[ ArgIndex]*_par[0] ),"par[0]=%f ", _par[0] ) ;
 	}
 
 	template<typename T>
 	__host__ __device__ inline
 	double Evaluate(T x)
 	{
-		return exp(get<ArgIndex>(x)*_par[0] );
+		return CHECK_VALUE(exp(get<ArgIndex>(x)*_par[0] ),"par[0]=%f ", _par[0] );
 	}
 
 };
@@ -126,7 +131,7 @@ public:
 	{
 		double tau = functor[0];
 		double r   =  (exp(fUpperLimit*tau) - exp(fLowerLimit*tau))/tau ;
-		return std::make_pair(r,0.0);
+		return std::make_pair( CHECK_VALUE(r, "par[0]=%f ", tau ) , 0.0);
 	}
 
 private:

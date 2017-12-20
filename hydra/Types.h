@@ -74,6 +74,7 @@ const GBool_t kFalse = false;
 
 #define PI     3.1415926535897932384626422832795028841971
 
+
 struct null_type
 {};
 

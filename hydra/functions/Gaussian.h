@@ -34,6 +34,7 @@
 #include <hydra/Function.h>
 #include <hydra/Pdf.h>
 #include <hydra/detail/Integrator.h>
+#include <hydra/detail/utility/CheckValue.h>
 #include <hydra/Parameter.h>
 #include <hydra/Tuple.h>
 #include <tuple>
@@ -76,7 +77,7 @@ public:
 	{
 		double m2 = (x[ArgIndex] - _par[0])*(x[ArgIndex] - _par[0] );
 		double s2 = _par[1]*_par[1];
-		return exp(-m2/(2.0 * s2 ));
+		return  CHECK_VALUE(exp(-m2/(2.0 * s2 )), "par[0]=%f, par[1]=%f", _par[0], _par[1]);
 
 	}
 
@@ -86,7 +87,7 @@ public:
 	{
 		double m2 = ( get<ArgIndex>(x) - _par[0])*(get<ArgIndex>(x) - _par[0] );
 		double s2 = _par[1]*_par[1];
-		return exp(-m2/(2.0 * s2 ));
+		return CHECK_VALUE( exp(-m2/(2.0 * s2 )), "par[0]=%f, par[1]=%f", _par[0], _par[1]);
 
 	}
 
@@ -140,11 +141,12 @@ public:
 	std::pair<double, double> Integrate(FUNCTOR const& functor){
 
 		double fraction = cumulative(functor[0], functor[1], fUpperLimit)
-						 - cumulative(functor[0], functor[1], fLowerLimit);
+						- cumulative(functor[0], functor[1], fLowerLimit);
 
-		double scale = functor[1]*sqrt(2.0*PI);
+		//double scale = functor[1]*sqrt(2.0*PI);
 
-		return std::make_pair(fraction*scale ,0.0);
+		return std::make_pair(
+				CHECK_VALUE(fraction," par[0] = %f par[1] = %f fLowerLimit = %f fUpperLimit = %f", functor[0], functor[1], fLowerLimit,fUpperLimit ) ,0.0);
 	}
 
 
@@ -152,7 +154,10 @@ private:
 
 	inline double cumulative(const double mean, const double sigma, const double x)
 	{
-		return 0.5*(1.0 + erf( (x-mean)/( sigma*sqrt(2) ) ) );
+		static const double sqrt_pi_over_two = 1.2533141373155002512079;
+		static const double sqrt_two         = 1.4142135623730950488017;
+
+		return sigma*sqrt_pi_over_two*(1.0 + erf( (x-mean)/( sigma*sqrt_two ) ) );
 	}
 
 	double fLowerLimit;

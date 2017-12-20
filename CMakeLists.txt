@@ -170,7 +170,7 @@ add_subdirectory(examples/fit)
 add_subdirectory(examples/histograming)
 add_subdirectory(examples/async)
 add_subdirectory(examples/misc)
-add_subdirectory(examples/phys)
+#add_subdirectory(examples/phys)
 
 install(DIRECTORY Hydra
   DESTINATION include)
