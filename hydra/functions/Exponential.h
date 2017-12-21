@@ -44,7 +44,7 @@
 
 namespace hydra {
 
-template<unsigned int ArgIndex>
+template<unsigned int ArgIndex=0>
 class Exponential:public BaseFunctor<Exponential<ArgIndex>, double, 1>
 {
 	using BaseFunctor<Exponential<ArgIndex>, double, 1>::_par;

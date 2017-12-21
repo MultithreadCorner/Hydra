@@ -87,12 +87,12 @@ public:
 		double alpha = _par[2];
 		double N     = _par[3];
 
-		double t = (alpha < 0) ? (m-mean)/sigma:(mean-m)/sigma;
+		double t = (alpha < 0.0) ? (m-mean)/sigma:(mean-m)/sigma;
 		double abs_alpha = fabs(alpha);
 
 
 		double r = (t >= -abs_alpha) ? exp(-0.5*t*t):
-				pow(N/abs_alpha,N)*exp(-0.5*abs_alpha*abs_alpha)/pow(N/abs_alpha - abs_alpha- t, N);
+				pow(N/abs_alpha, N)*exp(-0.5*abs_alpha*abs_alpha)/pow(N/abs_alpha - abs_alpha- t, N);
 
 		return CHECK_VALUE(r, "par[0]=%f, par[1]=%f, par[2]=%f, par[3]=%f", _par[0], _par[1], _par[2], _par[3]  );
 	}
@@ -105,9 +105,9 @@ public:
 		double mean  = _par[0];
 		double sigma = _par[1];
 		double alpha = _par[2];
-		double n     = _par[3];
+		double N     = _par[3];
 
-		double t = (alpha < 0) ? (m-mean)/sigma:(mean-m)/sigma;
+		double t = (alpha < 0.0) ? (m-mean)/sigma:(mean-m)/sigma;
 		double abs_alpha = fabs(alpha);
 
 		double r = (t >= -abs_alpha) ? exp(-0.5*t*t):
@@ -128,8 +128,8 @@ public:
 		fLowerLimit(min),
 		fUpperLimit(max)
 	{
-		std::assert(fLowerLimit >= fUpperLimit
-				&& "hydra::ArgusShapeAnalyticalIntegral: MESSAGE << LowerLimit >= fUpperLimit >>");
+		assert(fLowerLimit < fUpperLimit
+				&& "hydra::CrystalBallShapeAnalyticalIntegral: MESSAGE << LowerLimit >= fUpperLimit >>");
 	 }
 
 	inline CrystalBallShapeAnalyticalIntegral(CrystalBallShapeAnalyticalIntegral const& other):
@@ -167,30 +167,75 @@ public:
 	template<typename FUNCTOR>	inline
 	std::pair<double, double> Integrate(FUNCTOR const& functor){
 
-		double fraction = cumulative(functor[0], functor[1], functor[2], functor[3], fUpperLimit)
-						- cumulative(functor[0], functor[1], functor[2], functor[3], fLowerLimit);
-
+		double r = integral(functor[0], functor[1], functor[2], functor[3] );
 
 		return std::make_pair(
-		CHECK_VALUE(fraction," par[0] = %f par[1] = %f par[2] = %f par[3] = %f fLowerLimit = %f fUpperLimit = %f",\
+		CHECK_VALUE(r," par[0] = %f par[1] = %f par[2] = %f par[3] = %f fLowerLimit = %f fUpperLimit = %f",\
 				functor[0], functor[1],functor[2], functor[3], fLowerLimit,fUpperLimit ) ,0.0);
 	}
 
 
 private:
 
-	inline double cumulative(double mean, double sigma, double alpha, double N,  double x)
+	inline double integral(double m0, double sigma, double alpha, double n)
 	{
+		// borrowed from roofit
 		static const double sqrtPiOver2 = 1.2533141373;
-		static const double sqrt2       = 1.4142135624;
+		static const double sqrt2 = 1.4142135624;
 
-		double t = (alpha < 0) ? (m-mean)/sigma:(mean-m)/sigma;
-		double abs_alpha = fabs(alpha);
+		double result = 0.0;
+		bool   useLog = false;
+
+		if( fabs(n-1.0) < 1.0e-05 )
+			useLog = true;
+
+		double sig = fabs(sigma);
+
+		double tmin = (fLowerLimit-m0)/sig;
+		double tmax = (fUpperLimit-m0)/sig;
+
+		if(alpha < 0) {
+			double tmp = tmin;
+			tmin = -tmax;
+			tmax = -tmp;
+		}
+
+		double absAlpha = fabs(alpha);
+
+		if( tmin >= -absAlpha ) {
+			result += sig*sqrtPiOver2*(   erf(tmax/sqrt2) - erf(tmin/sqrt2) );
+		}
+		else if( tmax <= -absAlpha ) {
+			double a = pow(n/absAlpha,n)*exp(-0.5*absAlpha*absAlpha);
+			double b = n/absAlpha - absAlpha;
+
+			if(useLog) {
+				result += a*sig*( log(b-tmin) - log(b-tmax) );
+			}
+			else {
+				result += a*sig/(1.0-n)*(   1.0/(pow(b-tmin,n-1.0)) - 1.0/(pow(b-tmax,n-1.0)) );
+			}
+		}
+		else {
+
+			double a = pow(n/absAlpha,n)*exp(-0.5*absAlpha*absAlpha);
+			double b = n/absAlpha - absAlpha;
+
+			double term1 = 0.0;
+			if(useLog) {
+				term1 = a*sig*(  log(b-tmin) - log(n/absAlpha));
+			}
+			else {
+				term1 = a*sig/(1.0-n)*( 1.0/(pow(b-tmin,n-1.0)) - 1.0/(pow(n/absAlpha,n-1.0)) );
+			}
+
+			double term2 = sig*sqrtPiOver2*(erf(tmax/sqrt2) - erf(-absAlpha/sqrt2) );
 
 
-		return ( t >= -abs_alpha )
-				? sigma*sqrtPiOver2*(1.0 + erf(t/sqrt2 ) ):
-				( pow(-abs_alpha + N/abs_alpha - t, -N )*( -abs_alpha + N/abs_alpha - t))/(N-1);
+			result += term1 + term2;
+		}
+
+		return result;
 	}
 
 	double fLowerLimit;

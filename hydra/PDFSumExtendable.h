@@ -279,8 +279,8 @@ public:
 		fExtended = extended;
 	}
 
-	template<size_t I>
-	typename HYDRA_EXTERNAL_NS::thrust::tuple_element<I,pdfs_tuple_type>::type
+	template<unsigned int I>
+	typename HYDRA_EXTERNAL_NS::thrust::tuple_element<I,pdfs_tuple_type>::type&
 	PDF( hydra::placeholders::placeholder<I> const& index ){
 
 		return HYDRA_EXTERNAL_NS::thrust::get<I>(fPDFs);
