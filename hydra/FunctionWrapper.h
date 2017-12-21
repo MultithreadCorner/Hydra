@@ -113,7 +113,7 @@ public:
 	template<size_t M=N, typename ...T>
 	__host__ __device__ inline
 	typename std::enable_if< (M>0) &&( (sizeof...(ArgType) ==(sizeof ...(T)+2))) , ReturnType >::type
-	Evaluate(T... a) {
+	Evaluate(T... a)   const {
 
 		static_assert(
 				std::is_convertible<HYDRA_EXTERNAL_NS::thrust::tuple<unsigned int,  const hydra::Parameter*, T...> , HYDRA_EXTERNAL_NS::thrust::tuple<ArgType...>>::value ,
@@ -125,7 +125,7 @@ public:
 	template<size_t M=N, typename T>
 	__host__ __device__ inline
 	typename std::enable_if< (M>0)&& sizeof...(ArgType)==3, ReturnType >::type
-	Evaluate(T a) {
+	Evaluate(T a)    const {
 
 		static_assert( std::is_convertible<HYDRA_EXTERNAL_NS::thrust::tuple<unsigned int,  const hydra::Parameter*, T> , HYDRA_EXTERNAL_NS::thrust::tuple<ArgType...>>::value ,
 										"\n\n<<< HYDRA_COMPILE_ERROR: Lambda function can not be called with this arguments .>>>\n\n");
@@ -135,7 +135,7 @@ public:
 	template< typename ...T, size_t M=N>
 	__host__ __device__ inline
 	typename std::enable_if< (M==0) &&( (sizeof...(ArgType))>1), ReturnType >::type
-	Evaluate(T...a){
+	Evaluate(T...a)   const {
 
 		static_assert( std::is_convertible<HYDRA_EXTERNAL_NS::thrust::tuple<T...> , HYDRA_EXTERNAL_NS::thrust::tuple<ArgType...>>::value ,
 								"\n\n<<< HYDRA_COMPILE_ERROR: Lambda function can not be called with this arguments .>>>\n\n");
@@ -145,7 +145,7 @@ public:
 	template<typename ...T, size_t M=N>
 	__host__ __device__ inline
 	typename std::enable_if< (M==0)&& sizeof...(ArgType)==1, ReturnType >::type
-	Evaluate(T...a) {
+	Evaluate(T...a)   const {
 
 		static_assert( std::is_convertible<HYDRA_EXTERNAL_NS::thrust::tuple<T...> , HYDRA_EXTERNAL_NS::thrust::tuple<ArgType...>>::value ,
 						"\n\n<<< HYDRA_COMPILE_ERROR: Lambda function can not be called with this arguments .>>>\n\n");

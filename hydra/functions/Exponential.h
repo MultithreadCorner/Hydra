@@ -71,15 +71,15 @@ public:
 
 	template<typename T>
 	__host__ __device__
-	inline double Evaluate(unsigned int n, T* x)
-	{
+	inline double Evaluate(unsigned int n, T* x)  const	{
+
 		return  CHECK_VALUE(exp(x[ ArgIndex]*_par[0] ),"par[0]=%f ", _par[0] ) ;
 	}
 
 	template<typename T>
 	__host__ __device__ inline
-	double Evaluate(T x)
-	{
+	double Evaluate(T x)  const	{
+
 		return CHECK_VALUE(exp(get<ArgIndex>(x)*_par[0] ),"par[0]=%f ", _par[0] );
 	}
 
@@ -127,8 +127,8 @@ public:
 	}
 
 	template<typename FUNCTOR>
-	inline std::pair<double, double> Integrate(FUNCTOR const& functor)
-	{
+	inline std::pair<double, double> Integrate(FUNCTOR const& functor) const {
+
 		double tau = functor[0];
 		double r   =  (exp(fUpperLimit*tau) - exp(fLowerLimit*tau))/tau ;
 		return std::make_pair( CHECK_VALUE(r, "par[0]=%f ", tau ) , 0.0);

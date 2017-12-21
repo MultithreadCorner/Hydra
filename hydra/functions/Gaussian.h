@@ -73,8 +73,7 @@ public:
 
 	template<typename T>
 	__host__ __device__ inline
-	double Evaluate(unsigned int n, T*x)
-	{
+	double Evaluate(unsigned int n, T*x)  const	{
 		double m2 = (x[ArgIndex] - _par[0])*(x[ArgIndex] - _par[0] );
 		double s2 = _par[1]*_par[1];
 		return  CHECK_VALUE(exp(-m2/(2.0 * s2 )), "par[0]=%f, par[1]=%f", _par[0], _par[1]);
@@ -83,8 +82,7 @@ public:
 
 	template<typename T>
 	__host__ __device__ inline
-	double Evaluate(T x)
-	{
+	double Evaluate(T x)  const {
 		double m2 = ( get<ArgIndex>(x) - _par[0])*(get<ArgIndex>(x) - _par[0] );
 		double s2 = _par[1]*_par[1];
 		return CHECK_VALUE( exp(-m2/(2.0 * s2 )), "par[0]=%f, par[1]=%f", _par[0], _par[1]);
@@ -138,12 +136,10 @@ public:
 	}
 
 	template<typename FUNCTOR>	inline
-	std::pair<double, double> Integrate(FUNCTOR const& functor){
+	std::pair<double, double> Integrate(FUNCTOR const& functor) const {
 
 		double fraction = cumulative(functor[0], functor[1], fUpperLimit)
 						- cumulative(functor[0], functor[1], fLowerLimit);
-
-		//double scale = functor[1]*sqrt(2.0*PI);
 
 		return std::make_pair(
 				CHECK_VALUE(fraction," par[0] = %f par[1] = %f fLowerLimit = %f fUpperLimit = %f", functor[0], functor[1], fLowerLimit,fUpperLimit ) ,0.0);
@@ -152,7 +148,7 @@ public:
 
 private:
 
-	inline double cumulative(const double mean, const double sigma, const double x)
+	inline double cumulative(const double mean, const double sigma, const double x) const
 	{
 		static const double sqrt_pi_over_two = 1.2533141373155002512079;
 		static const double sqrt_two         = 1.4142135623730950488017;

@@ -82,7 +82,7 @@ class PDFSumExtendable: public detail::AddPdfBase<PDF1,PDF2,PDFs...>
 
 
 public:
-
+typedef void hydra_pdf_tag;
     //this typedef is actually a check. If the PDFSumExtendable is not built with
 	//hydra::pdf, AddPdfBase::type will not be defined and compilation
 	//will fail

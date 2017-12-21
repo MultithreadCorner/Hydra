@@ -45,9 +45,10 @@
 namespace hydra {
 
 template<unsigned int ArgIndex=0, unsigned int Order=2>
-struct Polynomial:public BaseFunctor<Polynomial<ArgIndex, Order>, double, Order>
+class  Polynomial:public BaseFunctor<Polynomial<ArgIndex, Order>, double, Order>
 {
 
+public:
 	Polynomial() = delete;
 
 	Polynomial(std::array<Parameter,Order> const& coeficients):
@@ -68,14 +69,14 @@ struct Polynomial:public BaseFunctor<Polynomial<ArgIndex, Order>, double, Order>
 
 	template<typename T>
 	__host__ __device__
-	inline double Evaluate(unsigned int n, T* x)
+	inline double Evaluate(unsigned int n, T* x)  const
 	{
 		return polynomial(x[ArgIndex]);
 	}
 
 	template<typename T>
 	__host__ __device__ inline
-	double Evaluate(T x)
+	double Evaluate(T x)  const
 	{
 		return polynomial(get<ArgIndex>(x));
 	}
@@ -106,7 +107,7 @@ private:
 };
 
 
-struct PolynomialAnalyticalIntegral:public Integrator<PolynomialAnalyticalIntegral>
+class PolynomialAnalyticalIntegral:public Integrator<PolynomialAnalyticalIntegral>
 {
 
 public:
@@ -115,7 +116,7 @@ public:
 	fLowerLimit(min),
 	fUpperLimit(max)
 	{
-		std::assert(fLowerLimit >= fUpperLimit
+		assert(fLowerLimit >= fUpperLimit
 				&& "hydra::PolynomialAnalyticalIntegral: MESSAGE << LowerLimit >= fUpperLimit >>");
 	}
 
@@ -150,7 +151,7 @@ public:
 	}
 
 	template<typename FUNCTOR>
-	inline std::pair<double, double> Integrate(FUNCTOR const& functor)
+	inline std::pair<double, double> Integrate(FUNCTOR const& functor) const
 	{
 		double
 		double r   =  (exp(fUpperLimit*tau) - exp(fLowerLimit*tau))/tau ;
@@ -162,18 +163,18 @@ private:
 	template<unsigned int I>
 	__host__ __device__ inline
 	typename std::enable_if<(I==N), void >::type
-	polynomial_integral_helper( const double, double&){}
+	polynomial_integral_helper( const double, double&) const {}
 
 	template<unsigned int I=0>
 	__host__ __device__ inline
 	typename std::enable_if<(I<N), void >::type
-	polynomial_integral_helper( const double x, const double(&coef)[N], double& r){
+	polynomial_integral_helper( const double x, const double(&coef)[N], double& r) const {
 
 		r += coef[I]*pow<double,I+1>(x)/(I+1);
 		polynomial_integral_helper<I+1>(x, r);
 	}
 
-	__host__ __device__ inline double polynomial_integal( double x){
+	__host__ __device__ inline double polynomial_integal( double x) const {
 
 		double r=0.0;
 		polynomial_integal_helper(x, r);

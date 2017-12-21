@@ -19,16 +19,16 @@
  *
  *---------------------------------------------------------------------------*/
 
+
 /*
- * crystal_ball_plus_exponential.inl
+ * double_gaussian_plus_exponential.inl
  *
- *  Created on: 21/12/2017
+ *  Created on: Dec 21, 2017
  *      Author: Antonio Augusto Alves Junior
  */
 
-#ifndef CRYSTAL_BALL_PLUS_EXPONENTIAL_INL_
-#define CRYSTAL_BALL_PLUS_EXPONENTIAL_INL_
-
+#ifndef DOUBLE_GAUSSIAN_PLUS_EXPONENTIAL_INL_
+#define DOUBLE_GAUSSIAN_PLUS_EXPONENTIAL_INL_
 
 
 #include <iostream>
@@ -52,7 +52,7 @@
 #include <hydra/Pdf.h>
 #include <hydra/AddPdf.h>
 #include <hydra/DenseHistogram.h>
-#include <hydra/functions/CrystalBallShape.h>
+#include <hydra/functions/Gaussian.h>
 #include <hydra/functions/Exponential.h>
 #include <hydra/Placeholders.h>
 
@@ -106,37 +106,36 @@ int main(int argv, char** argc)
 
 	//-----------------
     // some definitions
-    double min   = -20.0;
-    double max   =  20.0;
-    char const* model_name = "Crystal Ball + Exponential";
+    double min   = -10.0;
+    double max   =  10.0;
+    char const* model_name = "Gaussian (core) + Gaussian (tail) + Exponential";
 
 	//generator
 	hydra::Random<> Generator(154);
 
 	//===============================================================================================
-    //fit model Crystal Ball + Exponential
-
-	//Crystal Ball
+    //fit model two gaussians with shared mean + an exponential background
+	// Gaussians
 	//parameters
-	auto  mean  = hydra::Parameter::Create().Name("Mean").Value(0.0).Error(0.0001).Limits(-1.5, 1.5);
-	auto  sigma = hydra::Parameter::Create().Name("Sigma").Value(1.0).Error(0.0001).Limits(0.1, 2.5);
-	auto  alpha = hydra::Parameter::Create().Name("Alpha").Value(-1.5).Error(0.0001).Limits(-1.6, 1.4);
-	//fix tail parameters (usually done with mc)
-	auto  n     = hydra::Parameter::Create().Name("N").Value(2.5).Error(0.0001).Limits(0.0, 5.0).Fixed();
+	auto  mean       = hydra::Parameter::Create().Name("Mean").Value(0.0).Error(0.0001).Limits(-1.5, 1.5);
+	auto  sigma_core = hydra::Parameter::Create().Name("Sigma_Core").Value(0.5).Error(0.0001).Limits(0.1, 1.0);
+	auto  sigma_tail = hydra::Parameter::Create().Name("Sigma_Tail").Value(1.5).Error(0.0001).Limits(1.0, 2.0);
 
 	//Signal PDF
-	auto Signal_PDF = hydra::make_pdf(hydra::CrystalBallShape<>(mean, sigma, alpha, n),
-			hydra::CrystalBallShapeAnalyticalIntegral(min, max) );
+	auto Core_PDF = hydra::make_pdf( hydra::Gaussian<>(mean, sigma_core), hydra::GaussianAnalyticalIntegral(min, max));
 
+	auto Tail_PDF = hydra::make_pdf( hydra::Gaussian<>(mean, sigma_tail), hydra::GaussianAnalyticalIntegral(min, max));
+
+	auto fraction = hydra::Parameter("Core_Fraction" , 0.25, 0.001, 0.2 , 0.7) ;
+	auto Signal_PDF = hydra::add_pdfs( std::array<hydra::Parameter, 1>{fraction}, Core_PDF, Tail_PDF);
     //-------------------------------------------
 
 	//Exponential
     //parameters
     auto  tau  = hydra::Parameter::Create().Name("Tau").Value(-0.1).Error(0.0001).Limits(-1.0, 0.0);
 
-    //Background
-    auto Background_PDF = hydra::make_pdf(hydra::Exponential<>(tau),
-    		hydra::ExponentialAnalyticalIntegral(min, max));
+    //Background PDF
+    auto Background_PDF = hydra::make_pdf(hydra::Exponential<>(tau) , hydra::ExponentialAnalyticalIntegral(min, max));
 
     //------------------
     //yields
@@ -284,4 +283,4 @@ int main(int argv, char** argc)
 }
 
 
-#endif /* CRYSTAL_BALL_PLUS_EXPONENTIAL_INL_ */
+#endif /* DOUBLE_GAUSSIAN_PLUS_EXPONENTIAL_INL_ */

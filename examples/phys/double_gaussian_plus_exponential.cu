@@ -19,49 +19,19 @@
  *
  *---------------------------------------------------------------------------*/
 
+
 /*
- * Integrator.h
+ * double_gaussian_plus_exponential.cu
  *
- *  Created on: 31/08/2016
+ *  Created on: Dec 21, 2017
  *      Author: Antonio Augusto Alves Junior
  */
 
-/**
- * \file
- * \ingroup numerical_integration
- */
-
-#ifndef INTEGRATOR_H_
-#define INTEGRATOR_H_
-
-#include <hydra/detail/Config.h>
-#include <hydra/Types.h>
-#include <utility>
-
-namespace hydra {
-
-template<typename ALGORITHM>
-struct Integrator{
-
-	typedef void hydra_integrator_tag;
-
-	template<typename FUNCTOR>
-	inline std::pair<GReal_t, GReal_t> operator()( FUNCTOR  const & functor)
-	{
-	//functor.SetNormalized(0);
-	auto result = static_cast<ALGORITHM*>(this)->Integrate(functor);
-	//functor.SetNormalized(1);
-	return result;
-	}
+#ifndef DOUBLE_GAUSSIAN_PLUS_EXPONENTIAL_CU_
+#define DOUBLE_GAUSSIAN_PLUS_EXPONENTIAL_CU_
 
 
-
-};
-
+#include <examples/phys/double_gaussian_plus_exponential.inl>
 
 
-}  // namespace hydra
-
-
-
-#endif /* INTEGRATOR_H_ */
+#endif /* DOUBLE_GAUSSIAN_PLUS_EXPONENTIAL_CU_ */

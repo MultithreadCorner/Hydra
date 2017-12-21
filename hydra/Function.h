@@ -228,13 +228,13 @@ public:
 	        typename HYDRA_EXTERNAL_NS::thrust::detail::remove_const<
 	        	typename HYDRA_EXTERNAL_NS::thrust::detail::remove_reference<T>::type
 	        >::type >::value ) , return_type>::type
-	interface(T&& x)
+	interface(T&& x)  const
 	{
-		fNArgs=1;
+		//fNArgs=1;
 		typename HYDRA_EXTERNAL_NS::thrust::detail::remove_const<typename HYDRA_EXTERNAL_NS::thrust::detail::remove_reference<T>::type >::type _x;
 
 		_x=x;
-		return static_cast<Functor*>(this)->Evaluate(fNArgs, &_x);
+		return static_cast<const Functor*>(this)->Evaluate(1, &_x);
 	}
 
 
@@ -259,7 +259,7 @@ public:
 	        		typename HYDRA_EXTERNAL_NS::thrust::detail::remove_reference<T>::type
 	        	>::type
 	        >::value, return_type>::type
-	interface(T&& x)
+	interface(T&& x)  const
 	{
 		typedef  typename HYDRA_EXTERNAL_NS::thrust::detail::remove_const<typename HYDRA_EXTERNAL_NS::thrust::detail::remove_reference<T>::type>::type Tprime;
 		typedef typename HYDRA_EXTERNAL_NS::thrust::detail::remove_reference<typename HYDRA_EXTERNAL_NS::thrust::tuple_element<0, Tprime>::type>::type first_type;
@@ -268,8 +268,8 @@ public:
 		first_type Array[ N ];
 
 		detail::tupleToArray(x, &Array[0] );
-		fNArgs=N;
-		return static_cast<Functor*>(this)->Evaluate(fNArgs, &Array[0]);
+		//fNArgs=N;
+		return static_cast<const Functor*>(this)->Evaluate(N, &Array[0]);
 
 
 	}
@@ -288,26 +288,26 @@ public:
 	    typename HYDRA_EXTERNAL_NS::thrust::detail::remove_const<
 	    	typename HYDRA_EXTERNAL_NS::thrust::detail::remove_reference<T>::type
 		>::type>::value), return_type>::type
-	interface(T&& x)
+	interface(T&& x)  const
 	{
-		fNArgs=0;
-		return static_cast<Functor*>(this)->Evaluate(x);
+		//fNArgs=0;
+		return static_cast<const Functor*>(this)->Evaluate(x);
 	}
 
 
 
 	template<typename T>
 	__host__  __device__ inline
-	return_type operator()(unsigned int n, T* x)
+	return_type operator()(unsigned int n, T* x)  const
 	{
 
-		return static_cast<Functor*>(this)->Evaluate(n,x);
+		return static_cast<const Functor*>(this)->Evaluate(n,x);
 	}
 
 
 	template<typename T>
 	__host__ __device__ inline
-	return_type operator()( T&&  x )
+	return_type operator()( T&&  x )  const
 	{
 		return  interface( std::forward<T>(x));
 
@@ -316,7 +316,7 @@ public:
 
 	template<typename T1, typename T2>
 	__host__ __device__  inline
-	return_type operator()( T1&& x, T2&& cache)
+	return_type operator()( T1&& x, T2&& cache)  const
 	{
 
 

@@ -121,7 +121,8 @@ int main(int argv, char** argc)
 
 	//gaussian function evaluating on the first argument
 	hydra::Gaussian<> signal(mean, sigma);
-	auto Signal_PDF = hydra::make_pdf(signal, hydra::GaussianAnalyticalIntegral(min, max));
+	auto Signal_PDF = hydra::make_pdf( hydra::Gaussian<>(mean, sigma),
+			hydra::GaussianAnalyticalIntegral(min, max));
 
     //-------------------------------------------
 	//Argus
@@ -131,8 +132,8 @@ int main(int argv, char** argc)
     auto  power  = hydra::Parameter::Create().Name("Power").Value(0.5).Fixed();
 
     //gaussian function evaluating on the first argument
-    hydra::ArgusShape<> background(m0, slope, power);
-    auto Background_PDF = hydra::make_pdf(background, hydra::ArgusShapeAnalyticalIntegral(min, max));
+    auto Background_PDF = hydra::make_pdf( hydra::ArgusShape<>(m0, slope, power),
+    		hydra::ArgusShapeAnalyticalIntegral(min, max));
 
     //------------------
     //yields

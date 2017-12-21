@@ -26,6 +26,15 @@ if(BUILD_CUDA_TARGETS)
         
          add_dependencies(examples crystal_ball_plus_exponential_cuda)
         
+           
+         #+++++++++++++++++++++++++++++++++
+         cuda_add_executable( double_gaussian_plus_exponential_cuda EXCLUDE_FROM_ALL  double_gaussian_plus_exponential.cu    
+            OPTIONS -Xcompiler -fopenmp -DTHRUST_DEVICE_SYSTEM=THRUST_DEVICE_SYSTEM_CUDA  -DTHRUST_HOST_SYSTEM=THRUST_HOST_SYSTEM_CPP -lgomp
+            )
+         target_link_libraries(double_gaussian_plus_exponential_cuda  ${ROOT_LIBRARIES} )
+        
+         add_dependencies(examples double_gaussian_plus_exponential_cuda)
+        
         
                         
 endif(BUILD_CUDA_TARGETS)
@@ -59,6 +68,20 @@ if(BUILD_TBB_TARGETS)
     target_link_libraries( crystal_ball_plus_exponential_tbb tbb  ${ROOT_LIBRARIES})
    
          add_dependencies(examples crystal_ball_plus_exponential_tbb)
+        
+        
+   
+    #+++++++++++++++++++++++++++++++
+    add_executable( double_gaussian_plus_exponential_tbb EXCLUDE_FROM_ALL
+     double_gaussian_plus_exponential.cpp
+    )
+    
+    set_target_properties( double_gaussian_plus_exponential_tbb PROPERTIES 
+    COMPILE_FLAGS "-DTHRUST_HOST_SYSTEM=THRUST_HOST_SYSTEM_CPP -DTHRUST_DEVICE_SYSTEM=THRUST_DEVICE_SYSTEM_TBB")
+    
+    target_link_libraries( double_gaussian_plus_exponential_tbb tbb  ${ROOT_LIBRARIES})
+   
+         add_dependencies(examples double_gaussian_plus_exponential_tbb)
         
    
     
@@ -94,6 +117,20 @@ IF(BUILD_OMP_TARGETS)
     target_link_libraries( crystal_ball_plus_exponential_omp   ${ROOT_LIBRARIES})
 
          add_dependencies(examples crystal_ball_plus_exponential_omp)
+        
+         
+    
+    #+++++++++++++++++++++++++++++++
+    add_executable(double_gaussian_plus_exponential_omp EXCLUDE_FROM_ALL
+   double_gaussian_plus_exponential.cpp
+    )
+    
+    set_target_properties( double_gaussian_plus_exponential_omp PROPERTIES 
+    COMPILE_FLAGS "-fopenmp -DTHRUST_HOST_SYSTEM=THRUST_HOST_SYSTEM_CPP -DTHRUST_DEVICE_SYSTEM=THRUST_DEVICE_SYSTEM_OMP -lgomp")
+    
+    target_link_libraries( double_gaussian_plus_exponential_omp   ${ROOT_LIBRARIES})
+
+         add_dependencies(examples double_gaussian_plus_exponential_omp)
         
     
    
@@ -131,6 +168,20 @@ IF(BUILD_CPP_TARGETS)
          add_dependencies(examples crystal_ball_plus_exponential_cpp)
         
     
-   
+         
+    
+    #+++++++++++++++++++++++++++++++
+    add_executable(double_gaussian_plus_exponential_cpp EXCLUDE_FROM_ALL
+   double_gaussian_plus_exponential.cpp
+    )
+    
+    set_target_properties( double_gaussian_plus_exponential_cpp PROPERTIES 
+    COMPILE_FLAGS "-DTHRUST_HOST_SYSTEM=THRUST_HOST_SYSTEM_CPP -DTHRUST_DEVICE_SYSTEM=THRUST_DEVICE_SYSTEM_CPP")
+    
+    target_link_libraries( double_gaussian_plus_exponential_cpp   ${ROOT_LIBRARIES})
+
+         add_dependencies(examples double_gaussian_plus_exponential_cpp)
+        
+    
     
 endif(BUILD_CPP_TARGETS)

@@ -72,7 +72,7 @@ public:
 
 	template<typename T>
 	__host__ __device__ inline
-	double Evaluate(unsigned int n, T*x)
+	double Evaluate(unsigned int n, T*x)  const
 	{
 		double m2 = (x[ArgIndex] - _par[0])*(x[ArgIndex] - _par[0] );
 		double w2 = _par[1]*_par[1];
@@ -82,7 +82,7 @@ public:
 
 	template<typename T>
 	__host__ __device__ inline
-	double Evaluate(T x)
+	double Evaluate(T x)  const
 	{
 		double m2 = ( get<ArgIndex>(x) - _par[0])*(get<ArgIndex>(x) - _par[0] );
 		double w2 = _par[1]*_par[1];
@@ -101,7 +101,7 @@ public:
 		fLowerLimit(min),
 		fUpperLimit(max)
 	{
-		std::assert(fLowerLimit >= fUpperLimit
+		assert(fLowerLimit >= fUpperLimit
 				&& "hydra::BreitWignerNRAnalyticalIntegral: MESSAGE << LowerLimit >= fUpperLimit >>");
 	}
 
@@ -138,7 +138,7 @@ public:
 	}
 
 	template<typename FUNCTOR>	inline
-	std::pair<double, double> Integrate(FUNCTOR const& functor){
+	std::pair<double, double> Integrate(FUNCTOR const& functor) const {
 
 		double r = cumulative(functor[0], functor[1], fUpperLimit)
 						 - cumulative(functor[0], functor[1], fLowerLimit);
@@ -150,7 +150,7 @@ public:
 
 private:
 
-	inline double cumulative(const double mean, const double width, const double x)
+	inline double cumulative(const double mean, const double width, const double x) const
 	{
 		double c = 2.0/width;
 		return c*( atan( c*( x - mean)));

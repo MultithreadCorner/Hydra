@@ -79,7 +79,7 @@ public:
 
 	template<typename T>
 	__host__ __device__ inline
-	double Evaluate(unsigned int n, T*x)
+	double Evaluate(unsigned int n, T*x)  const
 	{
 		double m     = x[ArgIndex]; //mass
 		double mean  = _par[0];
@@ -99,7 +99,7 @@ public:
 
 	template<typename T>
 	__host__ __device__ inline
-	double Evaluate(T x)
+	double Evaluate(T x)  const
 	{
 		double m     = hydra::get<ArgIndex>(x); //mass
 		double mean  = _par[0];
@@ -165,7 +165,7 @@ public:
 	}
 
 	template<typename FUNCTOR>	inline
-	std::pair<double, double> Integrate(FUNCTOR const& functor){
+	std::pair<double, double> Integrate(FUNCTOR const& functor) const {
 
 		double r = integral(functor[0], functor[1], functor[2], functor[3] );
 
@@ -177,7 +177,7 @@ public:
 
 private:
 
-	inline double integral(double m0, double sigma, double alpha, double n)
+	inline double integral(double m0, double sigma, double alpha, double n) const
 	{
 		// borrowed from roofit
 		static const double sqrtPiOver2 = 1.2533141373;

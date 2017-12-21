@@ -164,7 +164,7 @@ public:
 
 		this->fFunctor.SetParameters(parameters);
 
-		this->Normalize( );
+		this->Normalize();
 
 		return;
 	}
@@ -231,12 +231,8 @@ public:
 
 			std::tie(fNorm, fNormError) =  fIntegrator(fFunctor) ;
 			fNormCache[key] = std::make_pair(fNorm, fNormError);
-
 		}
-
 		fFunctor.SetNorm(1.0/fNorm);
-
-
 	}
 
 
@@ -255,7 +251,7 @@ public:
 	 * @return
 	 */
  	template<typename T1>
- 	inline  GReal_t operator()(T1&& t )
+ 	inline  GReal_t operator()(T1&& t ) const
   	{
   		return fFunctor.GetNorm()*fFunctor(t);
 
@@ -268,7 +264,7 @@ public:
  	 * @return
  	 */
   	template<typename T1, typename T2>
-  	inline  GReal_t operator()( T1&& t, T2&& cache)
+  	inline  GReal_t operator()( T1&& t, T2&& cache) const
   	{
 
   		return fFunctor.GetNorm()*fFunctor(t, cache);
@@ -276,7 +272,7 @@ public:
 
 
    template<typename T>
-   inline  GReal_t operator()( T* x, T* p=0)
+   inline  GReal_t operator()( T* x, T* p=0) const
   	{
 
   	  		return fFunctor.GetNorm()*fFunctor(x);

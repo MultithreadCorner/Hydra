@@ -94,8 +94,8 @@ public:
 
 	template<typename T>
 	__host__ __device__ inline
-	double Evaluate(unsigned int n, T*x)
-	{
+	double Evaluate(unsigned int n, T*x)  const {
+
 		double m  = x[ArgIndex]; //mass
 		double m0 = _par[0]; //resonance mass
 		double c  = _par[1]; //slope
@@ -108,8 +108,7 @@ public:
 
 	template<typename T>
 	__host__ __device__ inline
-	double Evaluate(T x)
-	{
+	double Evaluate(T x)  const {
 		double m  = hydra::get<ArgIndex>(x); //mass
 		double m0 = _par[0]; //resonance mass
 		double c  = _par[1]; //slope
@@ -171,7 +170,7 @@ public:
 	}
 
 	template<typename FUNCTOR>	inline
-	std::pair<double, double> Integrate(FUNCTOR const& functor){
+	std::pair<double, double> Integrate(FUNCTOR const& functor) const {
 
 		if(functor[2]<0.5 || functor[2] > 0.5 ) {
 
@@ -191,7 +190,7 @@ public:
 
 private:
 
-	inline double cumulative(double m, double c, double x)
+	inline double cumulative(double m, double c, double x) const
 	{
 		static const double sqrt_pi = 1.7724538509055160272982;
 
