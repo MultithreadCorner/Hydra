@@ -498,6 +498,13 @@ inline GReal_t operator*(Parameter par1, GReal_t  par2)
 		return par1;
 }
 
+__host__ __device__
+inline GReal_t operator*(GReal_t  par1, Parameter const&  par2 )
+{
+		par1  *= (GReal_t) par2;
+
+		return par1;
+}
 /*
  * division
  */

@@ -159,6 +159,7 @@ int main(int argv, char** argc)
 
 #endif //_ROOT_AVAILABLE_
 
+
 	//scope begin
 	{
 
@@ -205,6 +206,7 @@ int main(int argv, char** argc)
 		std::cout << "-----------------------------------------"<<std::endl;
 		std::cout << "| [Fit] GPU Time (ms) ="<< elapsed_d.count() <<std::endl;
 		std::cout << "-----------------------------------------"<<std::endl;
+
 
 		//--------------------------------------------
 		hydra::DenseHistogram<double, 1, hydra::device::sys_t> Hist_Data(100, min, max);

@@ -235,12 +235,22 @@ typedef void hydra_pdf_tag;
 		return fCoeficients[i];
 	}
 
+	inline	Parameter& Coeficient(size_t i)
+	{
+		return fCoeficients[i];
+	}
 
 	inline detail::AddPdfFunctor< PDF1, PDF2, PDFs...>  GetFunctor() const
 	{
 		return detail::AddPdfFunctor<PDF1, PDF2, PDFs...>(fFunctors,fCoeficients,1.0/fCoefSum );
 	}
 
+	template<unsigned int I>
+		typename HYDRA_EXTERNAL_NS::thrust::tuple_element<I,pdfs_tuple_type>::type&
+		PDF( hydra::placeholders::placeholder<I> const& index ){
+
+			return HYDRA_EXTERNAL_NS::thrust::get<I>(fPDFs);
+		}
 
 	inline const functors_tuple_type& GetFunctors() const
 	{

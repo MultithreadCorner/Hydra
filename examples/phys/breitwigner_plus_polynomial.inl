@@ -19,16 +19,17 @@
  *
  *---------------------------------------------------------------------------*/
 
-
 /*
- * double_gaussian_plus_exponential.inl
+ * breitwigner_plus_polynomial.inl
  *
- *  Created on: Dec 21, 2017
+ *  Created on: 22/12/2017
  *      Author: Antonio Augusto Alves Junior
  */
 
-#ifndef DOUBLE_GAUSSIAN_PLUS_EXPONENTIAL_INL_
-#define DOUBLE_GAUSSIAN_PLUS_EXPONENTIAL_INL_
+#ifndef BREITWIGNER_PLUS_POLYNOMIAL_INL_
+#define BREITWIGNER_PLUS_POLYNOMIAL_INL_
+
+
 
 
 #include <iostream>
@@ -51,9 +52,10 @@
 #include <hydra/UserParameters.h>
 #include <hydra/Pdf.h>
 #include <hydra/AddPdf.h>
+#include <hydra/Filter.h>
 #include <hydra/DenseHistogram.h>
-#include <hydra/functions/Gaussian.h>
-#include <hydra/functions/Exponential.h>
+#include <hydra/functions/BreitWignerNR.h>
+#include <hydra/functions/Polynomial.h>
 #include <hydra/Placeholders.h>
 
 //Minuit2
@@ -106,41 +108,38 @@ int main(int argv, char** argc)
 
 	//-----------------
     // some definitions
-    double min   = -10.0;
-    double max   =  10.0;
-    char const* model_name = "Gaussian (core) + Gaussian (tail) + Exponential";
+    double min   =  5.20;
+    double max   =  5.30;
 
 	//generator
 	hydra::Random<> Generator(154);
 
-	//===============================================================================================
-    //fit model two gaussians with shared mean + an exponential background
-	// Gaussians
-	//parameters
-	auto  mean       = hydra::Parameter::Create().Name("Mean").Value(0.0).Error(0.0001).Limits(-1.5, 1.5);
-	auto  sigma_core = hydra::Parameter::Create().Name("Sigma_Core").Value(0.5).Error(0.0001).Limits(0.1, 1.0);
-	auto  sigma_tail = hydra::Parameter::Create().Name("Sigma_Tail").Value(1.5).Error(0.0001).Limits(1.0, 2.0);
+	//===========================
+    //fit model gaussian + argus
 
-	//Signal PDF
-	auto Core_PDF = hydra::make_pdf( hydra::Gaussian<>(mean, sigma_core), hydra::GaussianAnalyticalIntegral(min, max));
+	//Gaussian
+	hydra::Parameter  mean  = hydra::Parameter::Create().Name("Mean").Value( 5.28).Error(0.0001).Limits(5.27,5.29);
+	hydra::Parameter  width = hydra::Parameter::Create().Name("Width").Value(0.0027).Error(0.0001).Limits(0.0025,0.0029);
 
-	auto Tail_PDF = hydra::make_pdf( hydra::Gaussian<>(mean, sigma_tail), hydra::GaussianAnalyticalIntegral(min, max));
+	//gaussian function evaluating on the first argument
+	auto Signal_PDF = hydra::make_pdf( hydra::BreitWignerNR<>(mean, width ),
+			hydra::BreitWignerNRAnalyticalIntegral(min, max));
 
-	auto fraction = hydra::Parameter("Core_Fraction" , 0.5, 0.001, 0.2 , 0.7) ;
-	auto Signal_PDF = hydra::add_pdfs( std::array<hydra::Parameter, 1>{fraction}, Core_PDF, Tail_PDF);
     //-------------------------------------------
-
-	//Exponential
+	//Argus
     //parameters
-    auto  tau  = hydra::Parameter::Create().Name("Tau").Value(-0.1).Error(0.0001).Limits(-1.0, 0.0);
+    auto  m0     = hydra::Parameter::Create().Name("M0").Value(5.291).Error(0.0001).Limits(5.28, 5.3);
+    auto  slope  = hydra::Parameter::Create().Name("Slope").Value(-20.0).Error(0.0001).Limits(-50.0, -1.0);
+    auto  power  = hydra::Parameter::Create().Name("Power").Value(0.5).Fixed();
 
-    //Background PDF
-    auto Background_PDF = hydra::make_pdf(hydra::Exponential<>(tau) , hydra::ExponentialAnalyticalIntegral(min, max));
+    //gaussian function evaluating on the first argument
+    auto Background_PDF = hydra::make_pdf( hydra::ArgusShape<>(m0, slope, power),
+    		hydra::ArgusShapeAnalyticalIntegral(min, max));
 
     //------------------
     //yields
-	hydra::Parameter N_Signal("N_Signal"        ,2000, 1, 100 , nentries) ;
-	hydra::Parameter N_Background("N_Background",2000, 1, 100 , nentries) ;
+	hydra::Parameter N_Signal("N_Signal"        ,500, 100, 100 , nentries) ;
+	hydra::Parameter N_Background("N_Background",2000, 100, 100 , nentries) ;
 
 	//make model
 	auto model = hydra::add_pdfs( {N_Signal, N_Background}, Signal_PDF, Background_PDF);
@@ -150,11 +149,10 @@ int main(int argv, char** argc)
 
 #ifdef _ROOT_AVAILABLE_
 
-	TH1D 	hist_data("data"			, model_name, 100, min, max);
-	TH1D 	hist_fit("fit"  			, model_name, 100, min, max);
-	TH1D 	hist_core("core"			, model_name, 100, min, max);
-	TH1D 	hist_tail("tail"			, model_name, 100, min, max);
-	TH1D 	hist_background("background", model_name, 100, min, max);
+	TH1D 	hist_data("data"	, "Gaussian + ARGUS", 100, min, max);
+	TH1D 	hist_fit("fit"  	, "Gaussian + ARGUS", 100, min, max);
+	TH1D 	hist_signal("signal", "Gaussian + ARGUS", 100, min, max);
+	TH1D 	hist_background("background"  , "Gaussian + ARGUS", 100, min, max);
 
 
 #endif //_ROOT_AVAILABLE_
@@ -181,7 +179,7 @@ int main(int argv, char** argc)
 		ROOT::Minuit2::MnPrint::SetLevel(3);
 		hydra::Print::SetLevel(hydra::WARNING);
 		//minimization strategy
-		MnStrategy strategy(2);
+		MnStrategy strategy(1);
 
 		// create Migrad minimizer
 		MnMigrad migrad_d(fcn, fcn.GetParameters().GetMnState() ,  strategy);
@@ -211,7 +209,6 @@ int main(int argv, char** argc)
 		Hist_Data.Fill( range.begin(), range.end() );
 
 #ifdef _ROOT_AVAILABLE_
-
 		//data
 		for(size_t i=0;  i<100; i++)
 			hist_data.SetBinContent(i+1, Hist_Data.GetBinContent(i));
@@ -223,39 +220,16 @@ int main(int argv, char** argc)
 		}
 		hist_fit.Scale(hist_data.Integral()/hist_fit.Integral() );
 
-		/*
 		//signal component
 		auto   signal          = fcn.GetPDF().PDF(_0);
-
+		double signal_fraction = fcn.GetPDF().Coeficient(0)/fcn.GetPDF().GetCoefSum();
 		for (size_t i=0 ; i<=100 ; i++) {
 			double x = hist_signal.GetBinCenter(i);
 			hist_signal.SetBinContent(i, signal(x) );
 		}
 		hist_signal.Scale(hist_data.Integral()*signal_fraction/hist_signal.Integral());
-		 */
 
-		double signal_fraction = fcn.GetPDF().Coeficient(0)/fcn.GetPDF().GetCoefSum();
-
-		//core component
-		auto   core	          = fcn.GetPDF().PDF(_0).PDF(_0);
-		double core_fraction  = signal_fraction*fcn.GetPDF().PDF(_0).Coeficient(0);
-		for (size_t i=0 ; i<=100 ; i++) {
-			double x = hist_core.GetBinCenter(i);
-			hist_core.SetBinContent(i, core(x) );
-		}
-		hist_core.Scale(hist_data.Integral()*core_fraction/hist_core.Integral());
-
-		//tail component
-		auto   tail	          = fcn.GetPDF().PDF(_0).PDF(_1);
-		double tail_fraction  = signal_fraction*fcn.GetPDF().PDF(_0).Coeficient(1);
-		for (size_t i=0 ; i<=100 ; i++) {
-			double x = hist_tail.GetBinCenter(i);
-			hist_tail.SetBinContent(i, tail(x) );
-		}
-		hist_tail.Scale(hist_data.Integral()*tail_fraction/hist_tail.Integral());
-
-
-		// background component
+		//signal component
 		auto   background          = fcn.GetPDF().PDF(_1);
 		double background_fraction = fcn.GetPDF().Coeficient(1)/fcn.GetPDF().GetCoefSum();
 		for (size_t i=0 ; i<=100 ; i++) {
@@ -263,6 +237,8 @@ int main(int argv, char** argc)
 			hist_background.SetBinContent(i, background(x) );
 		}
 		hist_background.Scale(hist_data.Integral()*background_fraction/hist_background.Integral());
+
+
 
 
 #endif //_ROOT_AVAILABLE_
@@ -286,30 +262,17 @@ int main(int argv, char** argc)
 	hist_fit.SetStats(0);
 	hist_fit.SetLineColor(4);
 
-	hist_core.Draw("histsameC");
-	hist_core.SetStats(0);
-	hist_core.SetLineColor(8);
-	hist_core.SetFillColor(8);
-	hist_core.SetFillStyle(1001);
-
-
-	hist_tail.Draw("histsameC");
-	hist_tail.SetStats(0);
-	hist_tail.SetLineColor(15);
-	hist_tail.SetFillColor(15);
-	hist_tail.SetFillStyle(3004);
-
+	hist_signal.Draw("histsameC");
+	hist_signal.SetStats(0);
+	hist_signal.SetLineColor(3);
 
 	hist_background.Draw("histsameC");
 	hist_background.SetStats(0);
 	hist_background.SetLineColor(2);
-	hist_background.SetFillColor(2);
-	hist_background.SetFillStyle(3003);
 	hist_background.SetLineStyle(2);
 
 	hist_fit.Draw("histsameC");
 	hist_data.Draw("e0same");
-
 	myapp->Run();
 
 #endif //_ROOT_AVAILABLE_
@@ -319,4 +282,6 @@ int main(int argv, char** argc)
 }
 
 
-#endif /* DOUBLE_GAUSSIAN_PLUS_EXPONENTIAL_INL_ */
+
+
+#endif /* BREITWIGNER_PLUS_POLYNOMIAL_INL_ */

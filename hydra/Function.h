@@ -80,9 +80,7 @@ public:
 		detail::Parameters<NPARAM>(),
 		fCacheIndex(-1),
 		fCached(0),
-		fNArgs(0),
 		fNorm(1.0),
-		fNormalized(1),
 		_par(*this)
 	{}
 
@@ -95,9 +93,7 @@ public:
 	detail::Parameters<NPARAM>( init_parameters ),
 	fCacheIndex(-1),
 	fCached(0),
-	fNArgs(0),
 	fNorm(1.0),
-	fNormalized(1),
 	_par(*this)
 	{}
 
@@ -109,9 +105,7 @@ public:
 		detail::Parameters<NPARAM>( init_parameters ),
 		fCacheIndex(-1),
 		fCached(0),
-		fNArgs(0),
 		fNorm(1.0),
-		fNormalized(1),
 		_par(*this)
 		{ }
 
@@ -124,9 +118,7 @@ public:
 	detail::Parameters<NPARAM>( other),
 	fCacheIndex( other.GetCacheIndex() ),
 	fCached( other.IsCached() ),
-	fNArgs(other.GetNArgs()),
 	fNorm(other.GetNorm()),
-	fNormalized(other.GetNormalized() ),
 	_par(*this)
 	{
 
@@ -145,8 +137,6 @@ public:
 			this->fCacheIndex     = other.GetCacheIndex();
 			this->fCached         = other.IsCached();
 			this->fNorm = other.GetNorm();
-			this->fNormalized =other.GetNormalized();
-			this->fNArgs= other.GetNArgs();
 
 			_par=*this;
 
@@ -206,15 +196,6 @@ public:
 		fNorm = norm;
 	}
 
-	__host__ __device__  inline
-	void SetNormalized( bool flag ) {
-		fNormalized = flag;
-	}
-
-	__host__ __device__  inline
-	bool GetNormalized(  ) const {
-		return fNormalized;
-	}
 
 
 	template<typename T>
@@ -326,18 +307,12 @@ public:
 
 
 
-    __host__ __device__  inline
-	unsigned int GetNArgs() const {
-		return fNArgs;
-	}
 
 private:
 
     int fCacheIndex;
 	bool fCached;
-	unsigned int fNArgs;
     GReal_t fNorm;
-	bool fNormalized;
 
 protected:
 

@@ -36,6 +36,7 @@
 #include <hydra/Parameter.h>
 #include <hydra/detail/utility/Utility_Tuple.h>
 #include <hydra/detail/Hash.h>
+#include <assert.h>
 
 namespace hydra {
 
@@ -47,28 +48,37 @@ class Parameters{
 public:
 	static const size_t parameter_count =N;
 
-	 Parameters (){};
+	 Parameters ()=delete;
 
-	Parameters(std::initializer_list<Parameter> init_parameters)
+	Parameters(std::initializer_list<hydra::Parameter> init_parameters)
 	{
+		assert(init_parameters.size()==N && "HYDRA MESSAGE: hydra::detail::Parameters -> init_parameters list need do have N parameters");
 		for(unsigned int i=0; i<N; i++)
 			this->SetParameter(i, *(init_parameters.begin() + i));
 	}
 
-	Parameters(std::array<Parameter,N> const& init_parameters)
+	Parameters(std::array<hydra::Parameter,N> const& init_parameters)
 	{
 		for(unsigned int i=0; i<N; i++)
-			this->SetParameter(i, *(init_parameters.begin() + i));
+			this->SetParameter(i, init_parameters[i]);
 	}
 
-	__host__ __device__
+	Parameters(hydra::Parameter(& init_parameters)[N])
+	{
+		for(unsigned int i=0; i<N; i++)
+			this->SetParameter(i, init_parameters[i]);
+	}
+
+
+
+	__host__ __device__ inline
 	Parameters(Parameters<N> const& other)
 	{
 		for(unsigned int i=0; i<N; i++)
 			this->SetParameter(i, other.GetParameter(i));
 	}
 
-	__host__ __device__
+	__host__ __device__ inline
 	Parameters<N>& operator=(Parameters<N> const& other)
 	{
 		if(this == &other) return *this;
@@ -150,34 +160,94 @@ public:
 	}
 
 	__host__ __device__ inline
-	const Parameter* GetParameters() const {
+	const hydra::Parameter* GetParameters() const {
 		return &fParameters[0];
 	}
 
+	template<typename Int,
+			typename = typename std::enable_if<std::is_integral<Int>::value, void>::type>
 	__host__ __device__ inline
-	const Parameter& GetParameter(size_t i) const {
+	const hydra::Parameter& GetParameter(Int i) const {
 		return fParameters[i];
 	}
 
+	__host__ inline
+	const hydra::Parameter& GetParameter(const char* name) const {
+
+		size_t i=0;
+
+		for(i=0; i<N; i++)
+			if (strcmp(fParameters[i].GetName(),name)==0) break;
+
+		return fParameters[i] ;
+	}
+
+	template<typename Int,
+		typename = typename std::enable_if<std::is_integral<Int>::value, void>::type>
 	__host__ __device__ inline
-	void SetParameter(size_t i, Parameter const& value) {
+	hydra::Parameter& Parameter(Int i) {
+		return fParameters[i];
+	}
+
+	__host__ inline
+	hydra::Parameter& Parameter(const char* name) {
+
+		size_t i=0;
+
+		for(i=0; i<N; i++)
+			if (strcmp(fParameters[i].GetName(),name)==0) break;
+
+		return fParameters[i] ;
+	}
+
+	template<typename Int,
+	typename = typename std::enable_if<std::is_integral<Int>::value, void>::type>
+	__host__ __device__ inline
+	void SetParameter(Int i, hydra::Parameter const& value) {
 		fParameters[i]=value;
 	}
 
+	template<typename Int,
+		typename = typename std::enable_if<std::is_integral<Int>::value, void>::type>
 	__host__ __device__ inline
-	void SetParameter(size_t i, double value) {
+	void SetParameter(Int i, double value) {
 		fParameters[i]=value;
 	}
 
+	__host__ inline
+	void SetParameter(const char* name, hydra::Parameter const& value) {
 
+		size_t i=0;
+
+		for(i=0; i<N; i++)
+			if (strcmp(fParameters[i].GetName(),name)==0){
+				fParameters[i]=value;
+				break;
+			}
+	}
+
+	__host__ inline
+	void SetParameter(const char* name, double value) {
+
+		size_t i=0;
+
+		for(i=0; i<N; i++)
+			if (strcmp(fParameters[i].GetName(),name)==0){
+				fParameters[i]=value;
+				break;
+			}
+	}
+
+	template<typename Int,
+		typename = typename std::enable_if<std::is_integral<Int>::value, void>::type>
 	__host__ __device__  inline
-	GReal_t operator[](unsigned int i) const {
+	GReal_t operator[](Int i) const {
 		return (GReal_t ) fParameters[i];
 	}
 
 private:
 
-	Parameter fParameters[N];
+	hydra::Parameter fParameters[N];
 
 };
 
@@ -190,7 +260,7 @@ class Parameters<0>{
 
 public:
 
-	 Parameters (){};
+	Parameters (){};
 
 	Parameters(std::initializer_list<Parameter> init_parameters)
 	{ }
@@ -215,7 +285,7 @@ public:
 
 		HYDRA_CALLER ;
 		HYDRA_MSG <<  HYDRA_ENDL;
-		HYDRA_MSG << "Parameters begin:" << HYDRA_ENDL;
+		HYDRA_MSG <<"Parameters begin:" << HYDRA_ENDL;
 		HYDRA_MSG <<" >>> No parameters to report." << HYDRA_ENDL;
 		HYDRA_MSG <<"Parameters end." << HYDRA_ENDL;
 		HYDRA_MSG <<HYDRA_ENDL;
