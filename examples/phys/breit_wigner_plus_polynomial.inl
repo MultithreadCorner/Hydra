@@ -20,7 +20,7 @@
  *---------------------------------------------------------------------------*/
 
 /*
- * breitwigner_plus_polynomial.inl
+ * breit_wigner_plus_polynomial.inl
  *
  *  Created on: 22/12/2017
  *      Author: Antonio Augusto Alves Junior
@@ -108,8 +108,8 @@ int main(int argv, char** argc)
 
 	//-----------------
     // some definitions
-    double min   =  5.20;
-    double max   =  5.30;
+    double min   =  0.0;
+    double max   =  5.0;
 
 	//generator
 	hydra::Random<> Generator(154);
@@ -128,13 +128,13 @@ int main(int argv, char** argc)
     //-------------------------------------------
 	//Argus
     //parameters
-    auto  m0     = hydra::Parameter::Create().Name("M0").Value(5.291).Error(0.0001).Limits(5.28, 5.3);
-    auto  slope  = hydra::Parameter::Create().Name("Slope").Value(-20.0).Error(0.0001).Limits(-50.0, -1.0);
-    auto  power  = hydra::Parameter::Create().Name("Power").Value(0.5).Fixed();
+    auto  c0  = hydra::Parameter::Create().Name("C_0").Value( 1.0).Error(0.0001).Limits( 0.0, 2.0);
+    auto  c1  = hydra::Parameter::Create().Name("C_1").Value(-2.0).Error(0.0001).Limits(-1.0,-3.0);
+    auto  c2  = hydra::Parameter::Create().Name("C_2").Value( 2.0).Error(0.0001).Limits( 0.0,-3.0);
 
     //gaussian function evaluating on the first argument
-    auto Background_PDF = hydra::make_pdf( hydra::ArgusShape<>(m0, slope, power),
-    		hydra::ArgusShapeAnalyticalIntegral(min, max));
+    auto Background_PDF = hydra::make_pdf( hydra::Polynomial<3>({c0, c1, c2}),
+    		hydra::PolynomialAnalyticalIntegral(min, max));
 
     //------------------
     //yields

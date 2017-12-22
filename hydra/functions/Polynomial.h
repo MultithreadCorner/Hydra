@@ -44,23 +44,24 @@
 
 namespace hydra {
 
-template<unsigned int ArgIndex=0, unsigned int Order=2>
-class  Polynomial:public BaseFunctor<Polynomial<ArgIndex, Order>, double, Order>
+template< unsigned int Order, unsigned int ArgIndex=0>
+class  Polynomial:public BaseFunctor<Polynomial<Order, ArgIndex>, double, Order>
 {
+	using BaseFunctor<Polynomial<Order, ArgIndex>, double, Order>::_par;
 
 public:
 	Polynomial() = delete;
 
 	Polynomial(std::array<Parameter,Order> const& coeficients):
-		BaseFunctor<Polynomial<ArgIndex, Order>, double, Order>( coeficients) {}
+		BaseFunctor<Polynomial<Order, ArgIndex>, double, Order>( coeficients) {}
 
 	__host__ __device__
-	Polynomial(Polynomial<ArgIndex, Order> const& other):
-		BaseFunctor<Polynomial<ArgIndex, Order>, double, Order>(other) {}
+	Polynomial(Polynomial<Order, ArgIndex> const& other):
+		BaseFunctor<Polynomial<Order, ArgIndex>, double, Order>(other) {}
 
 	__host__ __device__
-	inline Polynomial<ArgIndex, Order>&
-	operator=( Polynomial<ArgIndex>, Order const& other)
+	inline Polynomial<Order, ArgIndex>&
+	operator=( Polynomial<ArgIndex, Order> const& other)
 	{
 		if(this == &other) return *this;
 		BaseFunctor<Polynomial,double, Order>::operator=(other);
@@ -85,19 +86,19 @@ private:
 
 	template<unsigned int I>
 	__host__ __device__ inline
-	typename std::enable_if<(I==N), void >::type
-	polynomial_helper( const double, double&){}
+	typename std::enable_if<(I==Order), void >::type
+	polynomial_helper( const double, double&)  const {}
 
 	template<unsigned int I=0>
 	__host__ __device__ inline
-	typename std::enable_if<(I<N), void >::type
-	polynomial_helper( const double x, double& r){
+	typename std::enable_if<(I<Order), void >::type
+	polynomial_helper( const double x, double& r)  const {
 
 		r += _par[I]*pow<double,I>(x);
 		polynomial_helper<I+1>(x, r);
 	}
 
-	__host__ __device__ inline double polynomial( double x){
+	__host__ __device__ inline double polynomial( double x) const {
 
 		double r=0.0;
 		polynomial_helper(x, r);
@@ -150,34 +151,34 @@ public:
 		fUpperLimit = upperLimit;
 	}
 
-	template<typename FUNCTOR>
-	inline std::pair<double, double> Integrate(FUNCTOR const& functor) const
+	template<unsigned int Order, unsigned int ArgIndex >
+	inline std::pair<double, double> Integrate(Polynomial<Order, ArgIndex> const& functor) const
 	{
-		double
-		double r   =  (exp(fUpperLimit*tau) - exp(fLowerLimit*tau))/tau ;
+		double r   =  polynomial_integral<Order>(fUpperLimit) - polynomial_integral<Order>(fLowerLimit) ;
 		return std::make_pair(r,0.0);
 	}
 
 private:
 
-	template<unsigned int I>
+	template<unsigned int N, unsigned int I>
 	__host__ __device__ inline
 	typename std::enable_if<(I==N), void >::type
-	polynomial_integral_helper( const double, double&) const {}
+	polynomial_integral_helper( const double, const double(&coef)[N], double&) const {}
 
-	template<unsigned int I=0>
+	template<unsigned int N, unsigned int I=0>
 	__host__ __device__ inline
 	typename std::enable_if<(I<N), void >::type
 	polynomial_integral_helper( const double x, const double(&coef)[N], double& r) const {
 
 		r += coef[I]*pow<double,I+1>(x)/(I+1);
-		polynomial_integral_helper<I+1>(x, r);
+		polynomial_integral_helper<N, I+1>(x, r);
 	}
 
-	__host__ __device__ inline double polynomial_integal( double x) const {
+	template<unsigned int N>
+	__host__ __device__ inline double polynomial_integral( double x) const {
 
 		double r=0.0;
-		polynomial_integal_helper(x, r);
+		polynomial_integral_helper<N,0>(x, r);
 		return r;
 	}
 

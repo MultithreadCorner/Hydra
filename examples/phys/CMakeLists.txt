@@ -36,6 +36,16 @@ if(BUILD_CUDA_TARGETS)
          add_dependencies(examples double_gaussian_plus_exponential_cuda)
         
         
+           
+         #+++++++++++++++++++++++++++++++++
+         cuda_add_executable( breit_wigner_plus_polynomial_cuda EXCLUDE_FROM_ALL breit_wigner_plus_polynomial.cu    
+            OPTIONS -Xcompiler -fopenmp -DTHRUST_DEVICE_SYSTEM=THRUST_DEVICE_SYSTEM_CUDA  -DTHRUST_HOST_SYSTEM=THRUST_HOST_SYSTEM_CPP -lgomp
+            )
+         target_link_libraries(breit_wigner_plus_polynomial_cuda  ${ROOT_LIBRARIES} )
+        
+      #    add_dependencies(examples breit_wigner_plus_polynomial_cuda)
+        
+        
                         
 endif(BUILD_CUDA_TARGETS)
 
@@ -82,6 +92,19 @@ if(BUILD_TBB_TARGETS)
     target_link_libraries( double_gaussian_plus_exponential_tbb tbb  ${ROOT_LIBRARIES})
    
          add_dependencies(examples double_gaussian_plus_exponential_tbb)
+             
+   
+    #+++++++++++++++++++++++++++++++
+    add_executable( breit_wigner_plus_polynomial_tbb EXCLUDE_FROM_ALL
+     breit_wigner_plus_polynomial.cpp
+    )
+    
+    set_target_properties( breit_wigner_plus_polynomial_tbb PROPERTIES 
+    COMPILE_FLAGS "-DTHRUST_HOST_SYSTEM=THRUST_HOST_SYSTEM_CPP -DTHRUST_DEVICE_SYSTEM=THRUST_DEVICE_SYSTEM_TBB")
+    
+    target_link_libraries( breit_wigner_plus_polynomial_tbb tbb  ${ROOT_LIBRARIES})
+   
+     #     add_dependencies(examples breit_wigner_plus_polynomial_tbb)
         
    
     
@@ -133,7 +156,21 @@ IF(BUILD_OMP_TARGETS)
          add_dependencies(examples double_gaussian_plus_exponential_omp)
         
     
-   
+          
+    
+    #+++++++++++++++++++++++++++++++
+    add_executable(breit_wigner_plus_polynomial_omp EXCLUDE_FROM_ALL
+   breit_wigner_plus_polynomial.cpp
+    )
+    
+    set_target_properties( breit_wigner_plus_polynomial_omp PROPERTIES 
+    COMPILE_FLAGS "-fopenmp -DTHRUST_HOST_SYSTEM=THRUST_HOST_SYSTEM_CPP -DTHRUST_DEVICE_SYSTEM=THRUST_DEVICE_SYSTEM_OMP -lgomp")
+    
+    target_link_libraries(breit_wigner_plus_polynomial_omp   ${ROOT_LIBRARIES})
+
+       #   add_dependencies(examples breit_wigner_plus_polynomial_omp)
+        
+    
     
 endif(BUILD_OMP_TARGETS)
 
@@ -181,6 +218,20 @@ IF(BUILD_CPP_TARGETS)
     target_link_libraries( double_gaussian_plus_exponential_cpp   ${ROOT_LIBRARIES})
 
          add_dependencies(examples double_gaussian_plus_exponential_cpp)
+        
+          
+    
+    #+++++++++++++++++++++++++++++++
+    add_executable(breit_wigner_plus_polynomial_cpp EXCLUDE_FROM_ALL
+   breit_wigner_plus_polynomial.cpp
+    )
+    
+    set_target_properties( breit_wigner_plus_polynomial_cpp PROPERTIES 
+    COMPILE_FLAGS "-DTHRUST_HOST_SYSTEM=THRUST_HOST_SYSTEM_CPP -DTHRUST_DEVICE_SYSTEM=THRUST_DEVICE_SYSTEM_CPP")
+    
+    target_link_libraries( breit_wigner_plus_polynomial_cpp   ${ROOT_LIBRARIES})
+
+        # add_dependencies(examples breit_wigner_plus_polynomial_cpp)
         
     
     
