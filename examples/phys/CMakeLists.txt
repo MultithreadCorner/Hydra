@@ -168,7 +168,7 @@ IF(BUILD_OMP_TARGETS)
     
     target_link_libraries(breit_wigner_plus_polynomial_omp   ${ROOT_LIBRARIES})
 
-       #   add_dependencies(examples breit_wigner_plus_polynomial_omp)
+     add_dependencies(examples breit_wigner_plus_polynomial_omp)
         
     
     

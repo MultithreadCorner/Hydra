@@ -45,26 +45,26 @@
 namespace hydra {
 
 template< unsigned int Order, unsigned int ArgIndex=0>
-class  Polynomial:public BaseFunctor<Polynomial<Order, ArgIndex>, double, Order>
+class  Polynomial:public BaseFunctor<Polynomial<Order, ArgIndex>, double, Order+1>
 {
-	using BaseFunctor<Polynomial<Order, ArgIndex>, double, Order>::_par;
+	using BaseFunctor<Polynomial<Order, ArgIndex>, double, Order+1>::_par;
 
 public:
 	Polynomial() = delete;
 
-	Polynomial(std::array<Parameter,Order> const& coeficients):
-		BaseFunctor<Polynomial<Order, ArgIndex>, double, Order>( coeficients) {}
+	Polynomial(std::array<Parameter,Order+1> const& coeficients):
+		BaseFunctor<Polynomial<Order, ArgIndex>, double, Order+1>( coeficients) {}
 
 	__host__ __device__
 	Polynomial(Polynomial<Order, ArgIndex> const& other):
-		BaseFunctor<Polynomial<Order, ArgIndex>, double, Order>(other) {}
+		BaseFunctor<Polynomial<Order, ArgIndex>, double, Order+1>(other) {}
 
 	__host__ __device__
 	inline Polynomial<Order, ArgIndex>&
 	operator=( Polynomial<ArgIndex, Order> const& other)
 	{
 		if(this == &other) return *this;
-		BaseFunctor<Polynomial,double, Order>::operator=(other);
+		BaseFunctor<Polynomial<ArgIndex, Order>,double, Order+1>::operator=(other);
 		return *this;
 	}
 
@@ -72,36 +72,46 @@ public:
 	__host__ __device__
 	inline double Evaluate(unsigned int n, T* x)  const
 	{
-		return polynomial(x[ArgIndex]);
+		double coefs[Order+1]{};
+		for(unsigned int i =0; i<Order+1; i++)
+			coefs[i]=CHECK_VALUE(_par[i], "par[%d]=%f", i, _par[i]) ;
+
+		double r = polynomial(coefs, x[ArgIndex]);
+		return  CHECK_VALUE(r, "result =%f", r) ;
 	}
 
 	template<typename T>
 	__host__ __device__ inline
 	double Evaluate(T x)  const
 	{
-		return polynomial(get<ArgIndex>(x));
+		double coefs[Order+1]{};
+		for(unsigned int i =0; i<Order+1; i++)
+			coefs[i]=CHECK_VALUE(_par[i], "par[%d]=%f", i, _par[i]) ;
+
+		double r = polynomial(coefs, hydra::get<ArgIndex>(x));
+		return  CHECK_VALUE(r, "result =%f", r) ;
 	}
 
 private:
 
 	template<unsigned int I>
 	__host__ __device__ inline
-	typename std::enable_if<(I==Order), void >::type
-	polynomial_helper( const double, double&)  const {}
+	typename std::enable_if<(I==Order+1), void >::type
+	polynomial_helper(double(&coef)[Order+1], double, double&)  const {}
 
 	template<unsigned int I=0>
 	__host__ __device__ inline
-	typename std::enable_if<(I<Order), void >::type
-	polynomial_helper( const double x, double& r)  const {
+	typename std::enable_if<(I<Order+1), void >::type
+	polynomial_helper(double(&coef)[Order+1], double x, double& r)  const {
 
-		r += _par[I]*pow<double,I>(x);
-		polynomial_helper<I+1>(x, r);
+		r += coef[I]*pow<double,I>(x);
+		polynomial_helper<I+1>( coef, x, r);
 	}
 
-	__host__ __device__ inline double polynomial( double x) const {
+	__host__ __device__ inline double polynomial(double(&coef)[Order+1], double x) const {
 
 		double r=0.0;
-		polynomial_helper(x, r);
+		polynomial_helper( coef,x, r);
 		return r;
 	}
 
@@ -117,7 +127,7 @@ public:
 	fLowerLimit(min),
 	fUpperLimit(max)
 	{
-		assert(fLowerLimit >= fUpperLimit
+		assert(fLowerLimit < fUpperLimit
 				&& "hydra::PolynomialAnalyticalIntegral: MESSAGE << LowerLimit >= fUpperLimit >>");
 	}
 
@@ -154,7 +164,11 @@ public:
 	template<unsigned int Order, unsigned int ArgIndex >
 	inline std::pair<double, double> Integrate(Polynomial<Order, ArgIndex> const& functor) const
 	{
-		double r   =  polynomial_integral<Order>(fUpperLimit) - polynomial_integral<Order>(fLowerLimit) ;
+		double coefs[Order+1]{};
+		for(unsigned int i =0; i<Order+1; i++)
+			coefs[i]=functor[i];
+
+		double r   =  polynomial_integral<Order+1>(coefs, fUpperLimit) - polynomial_integral<Order+1>(coefs,fLowerLimit) ;
 		return std::make_pair(r,0.0);
 	}
 
@@ -171,14 +185,14 @@ private:
 	polynomial_integral_helper( const double x, const double(&coef)[N], double& r) const {
 
 		r += coef[I]*pow<double,I+1>(x)/(I+1);
-		polynomial_integral_helper<N, I+1>(x, r);
+		polynomial_integral_helper<N, I+1>(x,coef, r);
 	}
 
 	template<unsigned int N>
-	__host__ __device__ inline double polynomial_integral( double x) const {
+	__host__ __device__ inline double polynomial_integral(const double(&coef)[N], double x) const {
 
 		double r=0.0;
-		polynomial_integral_helper<N,0>(x, r);
+		polynomial_integral_helper<N,0>(x,coef, r);
 		return r;
 	}
 

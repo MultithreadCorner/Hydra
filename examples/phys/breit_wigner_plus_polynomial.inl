@@ -108,32 +108,32 @@ int main(int argv, char** argc)
 
 	//-----------------
     // some definitions
-    double min   =  0.0;
-    double max   =  5.0;
-
+    double min   =  2.0;
+    double max   =  10.0;
+    char const* model_name = "Breit-Wigner + Polynomial order 2";
 	//generator
 	hydra::Random<> Generator(154);
 
 	//===========================
-    //fit model gaussian + argus
+    //fit model Breit-Wigner + Polynomial
 
-	//Gaussian
-	hydra::Parameter  mean  = hydra::Parameter::Create().Name("Mean").Value( 5.28).Error(0.0001).Limits(5.27,5.29);
-	hydra::Parameter  width = hydra::Parameter::Create().Name("Width").Value(0.0027).Error(0.0001).Limits(0.0025,0.0029);
+	//Breit-Wigner
+	hydra::Parameter  mean  = hydra::Parameter::Create().Name("Mean" ).Value(6.0).Error(0.0001).Limits(5.0,7.0);
+	hydra::Parameter  width = hydra::Parameter::Create().Name("Width").Value(0.5).Error(0.0001).Limits(0.3,1.0);
 
-	//gaussian function evaluating on the first argument
+	//Breit-Wigner function evaluating on the first argument
 	auto Signal_PDF = hydra::make_pdf( hydra::BreitWignerNR<>(mean, width ),
 			hydra::BreitWignerNRAnalyticalIntegral(min, max));
 
     //-------------------------------------------
-	//Argus
+	//Polynomial
     //parameters
-    auto  c0  = hydra::Parameter::Create().Name("C_0").Value( 1.0).Error(0.0001).Limits( 0.0, 2.0);
-    auto  c1  = hydra::Parameter::Create().Name("C_1").Value(-2.0).Error(0.0001).Limits(-1.0,-3.0);
-    auto  c2  = hydra::Parameter::Create().Name("C_2").Value( 2.0).Error(0.0001).Limits( 0.0,-3.0);
+    auto  c0  = hydra::Parameter::Create().Name("C_0").Value( 0.5).Error(0.0001).Limits( 0.1, 2.0);
+    auto  c1  = hydra::Parameter::Create().Name("C_1").Value( 1.0).Error(0.0001).Limits( 0.1, 1.5);
+    auto  c2  = hydra::Parameter::Create().Name("C_2").Value( 0.5).Error(0.0001).Limits( 0.0, 1.0);
 
-    //gaussian function evaluating on the first argument
-    auto Background_PDF = hydra::make_pdf( hydra::Polynomial<3>({c0, c1, c2}),
+    //Polynomial function evaluating on the first argument
+    auto Background_PDF = hydra::make_pdf( hydra::Polynomial<2>({c0, c1, c2}),
     		hydra::PolynomialAnalyticalIntegral(min, max));
 
     //------------------
@@ -149,10 +149,10 @@ int main(int argv, char** argc)
 
 #ifdef _ROOT_AVAILABLE_
 
-	TH1D 	hist_data("data"	, "Gaussian + ARGUS", 100, min, max);
-	TH1D 	hist_fit("fit"  	, "Gaussian + ARGUS", 100, min, max);
-	TH1D 	hist_signal("signal", "Gaussian + ARGUS", 100, min, max);
-	TH1D 	hist_background("background"  , "Gaussian + ARGUS", 100, min, max);
+	TH1D 	hist_data("data"	, model_name, 100, min, max);
+	TH1D 	hist_fit("fit"  	, model_name, 100, min, max);
+	TH1D 	hist_signal("signal", model_name, 100, min, max);
+	TH1D 	hist_background("background"  , model_name, 100, min, max);
 
 
 #endif //_ROOT_AVAILABLE_

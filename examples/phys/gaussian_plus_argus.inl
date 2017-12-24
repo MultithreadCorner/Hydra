@@ -207,6 +207,7 @@ int main(int argv, char** argc)
 		hydra::DenseHistogram<double, 1, hydra::device::sys_t> Hist_Data(100, min, max);
 		Hist_Data.Fill( range.begin(), range.end() );
 
+
 #ifdef _ROOT_AVAILABLE_
 		//data
 		for(size_t i=0;  i<100; i++)

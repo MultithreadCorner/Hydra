@@ -74,8 +74,12 @@ public:
 	__host__ __device__ inline
 	double Evaluate(unsigned int n, T*x)  const
 	{
-		double m2 = (x[ArgIndex] - _par[0])*(x[ArgIndex] - _par[0] );
-		double w2 = _par[1]*_par[1];
+		double mean  = _par[0];
+		double width = _par[1];
+		double m     = x[ArgIndex];
+
+		double m2 = (m - mean)*(m - mean);
+		double w2 = width*width;
 
 		return CHECK_VALUE(1.0/(m2 + 0.25*w2), "par[0]=%f, par[1]=%f", _par[0], _par[1]) ;
 	}
@@ -84,8 +88,12 @@ public:
 	__host__ __device__ inline
 	double Evaluate(T x)  const
 	{
-		double m2 = ( get<ArgIndex>(x) - _par[0])*(get<ArgIndex>(x) - _par[0] );
-		double w2 = _par[1]*_par[1];
+		double mean  = _par[0];
+		double width = _par[1];
+		double m     = x[ArgIndex];
+
+		double m2 = (m - mean)*(m - mean);
+		double w2 = width*width;
 
 		return  CHECK_VALUE(1.0/(m2 + 0.25*w2), "par[0]=%f, par[1]=%f", _par[0], _par[1]) ;
 	}
@@ -101,7 +109,7 @@ public:
 		fLowerLimit(min),
 		fUpperLimit(max)
 	{
-		assert(fLowerLimit >= fUpperLimit
+		assert(fLowerLimit < fUpperLimit
 				&& "hydra::BreitWignerNRAnalyticalIntegral: MESSAGE << LowerLimit >= fUpperLimit >>");
 	}
 
@@ -150,7 +158,7 @@ public:
 
 private:
 
-	inline double cumulative(const double mean, const double width, const double x) const
+	inline double cumulative(double mean, double width, double x) const
 	{
 		double c = 2.0/width;
 		return c*( atan( c*( x - mean)));
