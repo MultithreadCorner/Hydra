@@ -29,6 +29,7 @@
 #ifndef ARGUSSHAPE_H_
 #define ARGUSSHAPE_H_
 
+#include <hydra/Types.h>
 #include <hydra/Function.h>
 #include <hydra/Pdf.h>
 #include <hydra/detail/Integrator.h>
@@ -190,7 +191,7 @@ public:
 
 private:
 
-	inline double cumulative(double m, double c, double x) const
+	inline double cumulative( const double m,  const double c,  const double x) const
 	{
 		static const double sqrt_pi = 1.7724538509055160272982;
 

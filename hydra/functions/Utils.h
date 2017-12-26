@@ -29,7 +29,8 @@
 #ifndef UTILS_H_
 #define UTILS_H_
 
-#include<utility>
+#include <hydra/Types.h>
+#include <utility>
 
 namespace hydra {
 
@@ -58,6 +59,19 @@ namespace detail {
 		detail::pow_helper<T,N,0>(x,r);
 		return r ;
 	}
+
+	template<typename T>
+	inline  __host__ __device__
+	int nint(const T x)
+	{
+		// Round to nearest integer. Rounds half integers to the nearest
+		// even integer.
+		int i = (x > 0) ? int(x + 0.5) - ( int(x + 0.5) & 1 && (x + 0.5 == T( int(x + 0.5))))
+				: ( int(x - 0.5) ) +  ( int(x - 0.5) & 1 && (x - 0.5 == T(int(x - 0.5) )) ) ;
+
+		return i;
+	}
+
 }  // namespace hydra
 
 

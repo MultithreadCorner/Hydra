@@ -39,8 +39,8 @@
 #include <hydra/detail/external/thrust/iterator/zip_iterator.h>
 #include <hydra/detail/external/thrust/execution_policy.h>
 #include <hydra/detail/external/thrust/binary_search.h>
-
-#include <cmath>
+#include <hydra/detail/external/thrust/extrema.h>
+#include <math.h>
 #include <algorithm>
 
 namespace hydra {
@@ -79,50 +79,9 @@ public:
 	CubicSpiline( Iterator1 xbegin, Iterator2 ybegin )
 	{
 		//populates fH and fX
-		HYDRA_EXTERNAL_NS::thrust::copy(ybegin, ybegin+N, fD  );
+		HYDRA_EXTERNAL_NS::thrust::copy( ybegin, ybegin+N,  fD );
 		HYDRA_EXTERNAL_NS::thrust::copy( xbegin, xbegin+N,  fX);
 
-		//calculates s_i
-		GReal_t S[N]{};
-
-		for(size_t i = 0; i< N-2; i++){
-			S[i]=(fD[i+1]-fD[i])/(fX[i+1] -fX[i]);
-		}
-
-		//populates fC (y'_i)
-		for(size_t i = 1; i< N-2; i++){
-
-			GReal_t h_i = fX[i+1] -fX[i] ;
-			GReal_t h_j = fX[i]   -fX[i-1] ;
-
-			GReal_t 	p_i  = (S[i-1]*h_i + S[i]*h_j)/(h_i + h_j);
-
-			fC[i] =  (std::copysign(1.0, S[i-1] ) + std::copysign(1.0, S[i] ))
-							*std::min({fabs(S[i-1]), fabs(S[i]), 0.5*fabs(p_i)} );
-		}
-
-		GReal_t h_0 = fX[1] - fX[0] ;
-		GReal_t h_1 = fX[2] - fX[1] ;
-
-		GReal_t p_0  = S[0]*(1 + h_0/(h_0 + h_1)) - S[1]*h_0/(h_0 + h_1);
-
-		fC[0] = (std::copysign(1.0, p_0 ) + std::copysign(1.0, S[0] ))
-							*std::min( {fabs(S[0]) , 0.5*fabs(p_0)} ) ;
-
-		GReal_t h_n = fX[N-1] - fX[N-2] ;
-		GReal_t h_m = fX[N-2] - fX[N-3] ;
-
-		GReal_t p_n  = S[N-2]*(1 + h_n/(h_n + h_m)) - S[N-3]*h_n/(h_n + h_m);
-
-		fC[N-1] = (std::copysign(1.0, p_n ) + std::copysign(1.0, S[N-2] ))
-											*std::min( {fabs(S[N-2]) , 0.5*fabs(p_n)} ) ;
-
-		//populates fA and fB
-		for(size_t i = 0; i< N-1; i++){
-
-			fA[i] = (fC[i] + fC[i+1] - 2.0*S[i])/((fX[i+1] -fX[i])*(fX[i+1] -fX[i]));
-			fB[i] = (3.0*S[i] - 2.0*fC[i]-fC[i+1])/(fX[i+1] -fX[i]);
-		}
 	}
 
 	__host__ __device__
@@ -132,9 +91,6 @@ public:
 #pragma unroll
 		for(size_t i =0; i< N; i++){
 
-			fA[i] = other.GetA()[i];
-			fB[i] = other.GetB()[i];
-			fC[i] = other.GetC()[i];
 			fD[i] = other.GetD()[i];
 			fX[i] = other.GetX()[i];
 		}
@@ -150,32 +106,17 @@ public:
 #pragma unroll
 		for(size_t i =0; i< N; i++){
 
-			fA[i] = other.GetA()[i];
-			fB[i] = other.GetB()[i];
-			fC[i] = other.GetC()[i];
 			fD[i] = other.GetD()[i];
 			fX[i] = other.GetX()[i];
 		}
 		return *this;
 	}
 
-
-	__host__ __device__ inline
-	const GReal_t* GetA() const {
-		return fA;
-	}
-	__host__ __device__ inline
-	const GReal_t* GetB() const {
-		return fB;
-	}
-	__host__ __device__ inline
-	const GReal_t* GetC() const {
-		return fC;
-	}
 	__host__ __device__ inline
 	const GReal_t* GetD() const {
 		return fD;
 	}
+
 	__host__ __device__ inline
 	const GReal_t* GetX() const {
 		return fX;
@@ -187,10 +128,7 @@ public:
 
 		GReal_t X  = x[ArgIndex];
 
-		size_t interval = HYDRA_EXTERNAL_NS::thrust::distance(fX,
-				HYDRA_EXTERNAL_NS::thrust::lower_bound(HYDRA_EXTERNAL_NS::thrust::seq, fX, fX +N, X));
-
-		GReal_t r = X<=fX[0]?fD[0]: X>=fX[N-1] ? fD[N-1] :spiline(interval, X);
+		GReal_t r = X<=fX[0]?fD[0]: X>=fX[N-1] ? fD[N-1] :spiline( X);
 
 		return  CHECK_VALUE( r, "r=%f",r) ;
 	}
@@ -200,28 +138,69 @@ public:
 	double Evaluate(T x)  const {
 
 		GReal_t X  = hydra::get<ArgIndex>(x); //mass
-		size_t interval = HYDRA_EXTERNAL_NS::thrust::distance(fX,
-					HYDRA_EXTERNAL_NS::thrust::lower_bound(HYDRA_EXTERNAL_NS::thrust::seq, fX, fX +N, X));
 
-		GReal_t r = X<=fX[0]?fD[0]: X>=fX[N-1] ? fD[N-1] :spiline(interval, X);
+		GReal_t r = X<=fX[0]?fD[0]: X>=fX[N-1] ? fD[N-1] :spiline(X);
 
-			return  CHECK_VALUE( r, "r=%f",r) ;
+		return  CHECK_VALUE( r, "r=%f",r) ;
 	}
 
 private:
 
-	GReal_t spiline(size_t i, double x) const
+	__host__ __device__ inline
+	double spiline( const double x) const
 	{
-		GReal_t X = (x-fX[i]);
+		using HYDRA_EXTERNAL_NS::thrust::min;
 
-		return fA[i]*X*X*X + fB[i]*X*X + fC[i]*X + fD[i];
+		const size_t i = HYDRA_EXTERNAL_NS::thrust::distance(fX,
+							HYDRA_EXTERNAL_NS::thrust::lower_bound(HYDRA_EXTERNAL_NS::thrust::seq, fX, fX +N, x));
+		//--------------------
+
+		const double y_i = fD[i], y_ip = fD[i+1],y_ipp = fD[i+2], y_im = fD[i-1] ;
+
+		const double x_i = fX[i], x_ip = fX[i+1],x_ipp = fX[i+2], x_im = fX[i-1] ;
+
+		//calculates s
+		const double  h_i  = x_ip -x_i;
+		const double  h_ip = x_ipp -x_ip;
+		const double  h_im = x_i  -x_im;
+
+		const double  s_i  = (y_ip - y_i)/h_i;
+		const double  s_ip = (y_ipp - y_ip)/h_ip;
+		const double  s_im = (y_i - y_im)/h_im;
+
+		const double p_i  = i==0 ? ( s_i*(1 + h_i/(h_i + h_ip)) - s_ip*h_i/(h_i + h_ip) ):
+					i==N-2 ? ( s_i*(1 + h_i/(h_i + h_im)) - s_im*h_i/(h_i + h_im) )
+				: (s_im*h_i + s_i*h_im)/(h_i+ h_im);
+
+		const double p_ip = (s_i*h_ip + s_ip*h_i)/(h_ip+ h_i);
+
+
+		// calculates c
+
+		const double c_i =  i==0  ? (copysign(1.0, p_i ) + copysign(1.0, s_i ))
+				*min( fabs(s_i) , 0.5*fabs(p_i) ):
+				i==N-2 ? (copysign(1.0, p_i ) + copysign(1.0, s_i ))
+						*min( fabs(s_i) , 0.5*fabs(p_i) ):
+					(copysign(1.0, s_im ) + copysign(1.0, s_i ))
+				        *min(min(fabs(s_im), fabs(s_i)), 0.5*fabs(p_i) );
+
+		const double c_ip =  (copysign(1.0, s_i ) + copysign(1.0, s_ip ))
+									*min(min(fabs(s_ip), fabs(s_i)), 0.5*fabs(p_ip) );
+
+		//calculates b
+		const double b_i =  (-2*c_i - c_ip - 3*s_i)/h_i;
+
+		//calculates a
+		const double a_i = (c_i + c_ip - 2*s_i)/(h_i*h_i);
+
+		//--------------------
+		const double X = (x-fX[i]);
+
+		return a_i*X*X*X + b_i*X*X + c_i*X + y_i;
 	}
 
 	GReal_t fX[N];
-	GReal_t fA[N];
-	GReal_t fB[N];
-	GReal_t fC[N]; //y'_i
-	GReal_t fD[N]; //y_i
+	GReal_t fD[N];
 
 };
 

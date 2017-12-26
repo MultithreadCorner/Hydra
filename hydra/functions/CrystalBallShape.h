@@ -28,7 +28,7 @@
 
 #ifndef CRYSTALBALLSHAPE_H_
 #define CRYSTALBALLSHAPE_H_
-
+#include <hydra/Types.h>
 #include <hydra/Function.h>
 #include <hydra/Pdf.h>
 #include <hydra/detail/Integrator.h>
@@ -177,7 +177,7 @@ public:
 
 private:
 
-	inline double integral(double m0, double sigma, double alpha, double n) const
+	inline double integral( const double m0,  const double sigma,  const double alpha,  const double n) const
 	{
 		// borrowed from roofit
 		static const double sqrtPiOver2 = 1.2533141373;

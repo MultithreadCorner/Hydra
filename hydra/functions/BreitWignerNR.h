@@ -30,6 +30,7 @@
 #ifndef BREITWIGNERNR_H_
 #define BREITWIGNERNR_H_
 
+#include <hydra/Types.h>
 #include <hydra/Function.h>
 #include <hydra/Pdf.h>
 #include <hydra/detail/Integrator.h>
@@ -158,7 +159,7 @@ public:
 
 private:
 
-	inline double cumulative(double mean, double width, double x) const
+	inline double cumulative( const double mean,  const double width,  const double x) const
 	{
 		double c = 2.0/width;
 		return c*( atan( c*( x - mean)));

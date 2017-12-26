@@ -82,6 +82,8 @@ complex<T> 	proj (const T &z){
 }
 
 // Multiplication
+using HYDRA_EXTERNAL_NS::thrust::operator*;
+/*
 template<typename T > __host__ __device__
 complex<T> 	operator* (const complex<T> &lhs, const complex<T> &rhs){
 
@@ -99,8 +101,12 @@ complex<T> 	operator* (const T &lhs, const complex<T> &rhs){
 
 	return HYDRA_EXTERNAL_NS::thrust::operator*( lhs, rhs);
 }
+*/
 
 // Division
+using HYDRA_EXTERNAL_NS::thrust::operator/;
+
+/*
 template<typename T > __host__ __device__
 complex<T> 	operator/ (const complex<T> &lhs, const complex<T> &rhs){
 
@@ -119,8 +125,11 @@ complex<T> 	operator/ (const T &lhs, const complex<T> &rhs){
 	return HYDRA_EXTERNAL_NS::thrust::operator/( lhs, rhs);
 }
 
+*/
 
 // Addition
+using HYDRA_EXTERNAL_NS::thrust::operator+;
+/*
 template<typename T > __host__ __device__
 complex<T> 	operator+ (const complex<T> &lhs, const complex<T> &rhs){
 
@@ -138,8 +147,11 @@ complex<T> 	operator+ (const T &lhs, const complex<T> &rhs){
 
 	return HYDRA_EXTERNAL_NS::thrust::operator+( lhs, rhs);
 }
+*/
 
 //Minus
+using HYDRA_EXTERNAL_NS::thrust::operator-;
+/*
 template<typename T > __host__ __device__
 complex<T> 	operator- (const complex<T> &lhs, const complex<T> &rhs){
 
@@ -157,8 +169,9 @@ complex<T> operator-(const T &lhs, const complex<T> &rhs){
 
 	return HYDRA_EXTERNAL_NS::thrust::operator-(lhs, rhs);
 }
-
+*/
 //Unary-operators
+/*
 template<typename T > __host__ __device__
 complex<T> 	operator+ (const complex<T> &rhs){
 
@@ -170,7 +183,7 @@ complex<T> 	operator- (const complex<T> &rhs){
 
 	return HYDRA_EXTERNAL_NS::thrust::operator-( rhs);
 }
-
+*/
 //transcendental functions
 template<typename T > __host__ __device__
 complex<T> 	exp(const complex<T> &z){
@@ -230,7 +243,7 @@ pow(const T &x, const complex< U > &y){
 	return HYDRA_EXTERNAL_NS::thrust::pow(x,y);
 }
 
-template<typename T >__host__ __device__
+template<typename T > __host__ __device__
 complex<T> 	sqrt(const complex<T> &z){
 
 	return HYDRA_EXTERNAL_NS::thrust::sqrt(z);
@@ -367,14 +380,4 @@ bool operator!= (const complex<T> &lhs, const T &rhs){
 
 #endif /* COMPLEX_H_ */
 
-/*
 
-
-
-
-
-
-
-
-
- */

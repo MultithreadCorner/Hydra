@@ -56,6 +56,8 @@
 #include <hydra/functions/ArgusShape.h>
 #include <hydra/Placeholders.h>
 
+#include <hydra/functions/BreitWignerLineShape.h>
+
 //Minuit2
 #include "Minuit2/FunctionMinimum.h"
 #include "Minuit2/MnUserParameterState.h"
@@ -153,6 +155,8 @@ int main(int argv, char** argc)
 	TH1D 	hist_signal("signal", "Gaussian + ARGUS", 100, min, max);
 	TH1D 	hist_background("background"  , "Gaussian + ARGUS", 100, min, max);
 
+	TH1D 	hist_test("test"	, "WignerD", 100, 0.633, 2.223);
+
 
 #endif //_ROOT_AVAILABLE_
 
@@ -207,8 +211,27 @@ int main(int argv, char** argc)
 		hydra::DenseHistogram<double, 1, hydra::device::sys_t> Hist_Data(100, min, max);
 		Hist_Data.Fill( range.begin(), range.end() );
 
+		double B0_mass    = 5.27955;   // B0 mass
+		double Jpsi_mass  = 3.0969;    // J/psi mass
+		double K_mass     = 0.493677;  // K+ mass
+		double pi_mass    = 0.13957061;// pi mass
+
+		// fit model
+		hydra::Parameter M0 = hydra::Parameter::Create()
+		.Name("mass" ).Value(1.435).Error(0.001).Limits(0.7, 0.9);
+
+		hydra::Parameter W0 = hydra::Parameter::Create()
+		.Name("width").Value(0.055).Error(0.001).Limits(0.04, 0.06);
+
+		hydra::BreitWignerLineShape<hydra::FWave> BW(M0, W0, B0_mass, K_mass, pi_mass, Jpsi_mass, 1.6 );
 
 #ifdef _ROOT_AVAILABLE_
+
+		for(size_t i=0;  i<100; i++){
+
+			double x = hist_test.GetBinCenter(i);
+			hist_test.SetBinContent(i, hydra::norm(BW(x)) );
+		}
 		//data
 		for(size_t i=0;  i<100; i++)
 			hist_data.SetBinContent(i+1, Hist_Data.GetBinContent(i));
@@ -273,6 +296,11 @@ int main(int argv, char** argc)
 
 	hist_fit.Draw("histsameC");
 	hist_data.Draw("e0same");
+
+
+	TCanvas canvas_test("canvas_test" ,"Distributions - Device", 500, 500);
+	hist_test.Draw("histC");
+
 	myapp->Run();
 
 #endif //_ROOT_AVAILABLE_

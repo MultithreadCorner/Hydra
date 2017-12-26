@@ -29,6 +29,7 @@
 #ifndef POLYNOMIAL_H_
 #define POLYNOMIAL_H_
 
+#include <hydra/Types.h>
 #include <hydra/Function.h>
 #include <hydra/Pdf.h>
 #include <hydra/detail/Integrator.h>
@@ -97,18 +98,18 @@ private:
 	template<unsigned int I>
 	__host__ __device__ inline
 	typename std::enable_if<(I==Order+1), void >::type
-	polynomial_helper(double(&coef)[Order+1], double, double&)  const {}
+	polynomial_helper( const double(&coef)[Order+1],  const double, double&)  const {}
 
 	template<unsigned int I=0>
 	__host__ __device__ inline
 	typename std::enable_if<(I<Order+1), void >::type
-	polynomial_helper(double(&coef)[Order+1], double x, double& r)  const {
+	polynomial_helper( const double(&coef)[Order+1],  const double x, double& r)  const {
 
 		r += coef[I]*pow<double,I>(x);
 		polynomial_helper<I+1>( coef, x, r);
 	}
 
-	__host__ __device__ inline double polynomial(double(&coef)[Order+1], double x) const {
+	__host__ __device__ inline double polynomial( const double(&coef)[Order+1],  const double x) const {
 
 		double r=0.0;
 		polynomial_helper( coef,x, r);
