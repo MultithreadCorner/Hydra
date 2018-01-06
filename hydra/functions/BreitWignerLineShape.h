@@ -46,12 +46,60 @@
 
 namespace hydra {
 
-enum Wave{ SWave=0, PWave, DWave, FWave, GWave, HWave };
 
+/**
+ * Blatt-Weisskopf B' functions
+ *
+ * These functions are normalized to give to give
+ * \f$ B'_L = 1 \f$ for \f$ z = z_0 = (|p_0 |/d)^2\f$ where \f$ p_0\f$ is the value of p when
+ * \f$ m_ab = m_r \f$. The centrifugal barrier is to be moved to the dynamical functions.
+ *
+ *	\f[
+ *	B'_{0}(d,p_0,p) =1\\
+ *	B'_{1}(d,p_0,p) = \sqrt{ \frac{1 +(p_0d)^2 }{ 1 +(pd)^2 } \\
+ *	B'_{2}(d,p_0,p) = \sqrt{ \frac{9 + 3(p_0d)^2 + (p_0d)^4 }{9 + 3(pd)^2 + (pd)^4} \\
+ *	B'_{3}(d,p_0,p) = \sqrt{ \frac{225 + 45(p_0d)^2 + 6(p_0d)^4 + (p_0d)^6 }{225 + 45(pd)^2 + 6(pd)^4 + (pd)^6 } \\
+ *	B'_{4}(d,p_0,p) = \sqrt{ \frac{11025 + 1575(p_0d)^2 + 135(p_0d)^4 + 10(p_0d)^6 + (p_0 d)^8}{11025 + 1575(p_0d)^2 + 135(p_0d)^4 + 10(p_0d)^6 + (p_0 d)^8} \\
+ *	B'_{5}(d,p_0,p) = \sqrt{ \frac{893025 + 99225(p_0d)^2 + 6300(p_0d)^4 + 315(p_0d)^6 + 15(p_0d)^8 + (p_0d)^10 }{893025 + 99225(pd)^2 + 6300(pd)^4 + 315(pd)^6 + 15(pd)^8 + (pd)^10}\\
+ *	\f]
+ *
+ * @tparam L hydra::Wave vertex wave
+ * @param radi decay vertex radio
+ * @param p0 momentum of the resonance at the decaying particle rest frame with nominal mass.
+ * @param p p momentum of the resonance at the decaying particle rest frame with a given invariant mass.
+ * @return real number
+ *
+ * References:
+ *  - J. Blatt and V. Weisskopf, Theoretical  Nuclear  Physics , New York: John Wiley & Sons (1952)
+ *  - M. Lax, H. Feshbach J. Acoust Soc.Am. 1948 20:2, 108-124 (https://doi.org/10.1121/1.1906352)
+ *  - S. U. Chung, Formulas for Angular-Momentum Barrier Factors, BNL-QGS-06-101
+ */
 template<hydra::Wave L>
 __host__ __device__   inline
-double BarrierFactor(const double radi, const double p0, const double p);
+double BarrierFactor(const double d, const double p0, const double p);
 
+/**
+ * @BreitWignerLineShape
+ *
+ * Breit-Wigner line shape for 3 body resonant decays \f$ A -> r c , r-> a b\f$ ,
+ * where A is a "long-lived" particle and \f$ a, b\f$ and \f$c\f$ are the final states.
+ * The lineshape is defined by the expression:
+ *
+ * \f[
+ *  R(m_{a,b}|m_0,\Lambda_0) = B'_{L_A}(d, p_0, p)(\frac{p}{m_A})^{L_A} \times \\
+ *  		BW(m_{a,b}|m_0,\Lambda_0) \times B'_{L_r}(d, q_0, q)(\frac{q}{q_r})^{L_r}
+ * \f]
+ *
+ * where Breit-Wigner amplitude is given by:
+ *
+ *\f[ BW(m_{ab}|m_0,\Lambda_0)= \frac{1}{m_0^2 - m_{ab}^2 - im_0\Lambda(m_{ab})} \f]
+ *
+ *and
+ *\f[  \Lambda(m_{ab}) = \Lambda_0(\frac{q}{q_0})^{2L_{r}+1}\frac{m_0}{m}B'_{L_r}(d, q_0, q)\f]
+ *
+ *@tparam ResonanceWave hydra::Wave resonance decay vertex wave
+ *@tparam MotherWave hydra::Wave mother particle decay vertex wave
+ */
 template<Wave ResonanceWave, Wave MotherWave=SWave, unsigned int ArgIndex=0>
 class BreitWignerLineShape : public BaseFunctor<BreitWignerLineShape< ResonanceWave,MotherWave,ArgIndex>, hydra::complex<double>, 2>
 {
@@ -61,6 +109,16 @@ public:
 
 	BreitWignerLineShape()=delete;
 
+	/**
+	 *
+	 * @param mass resonance mass.
+	 * @param width resonance width.
+	 * @param mother_mass resonance mother mass.
+	 * @param daugther1_mass resonance daughter particle 1 mass
+	 * @param daugther2_mass resonance daughter particle 2 mass
+	 * @param daugther3_mass daughter particle 2 mass
+	 * @param radi decay vertex radio.
+	 */
 	BreitWignerLineShape(Parameter const& mass, Parameter const& width,
 			double mother_mass,
 			double daugther1_mass, double daugther2_mass, double daugther3_mass,
@@ -160,7 +218,8 @@ public:
 		const double resonance_mass  = _par[0];
 		const double resonance_width = _par[1];
 
-		return  LineShape(m,resonance_mass, resonance_width);
+		return  m > (fDaughter1Mass+fDaughter2Mass) && m<(fMotherMass-fDaughter3Mass) ?
+				LineShape(m,resonance_mass, resonance_width): hydra::complex<double>(0.0, 0.0) ;
 
 	}
 
@@ -173,19 +232,11 @@ public:
 		const double resonance_mass  = _par[0];
 		const double resonance_width = _par[1];
 
-		return  LineShape(m,resonance_mass, resonance_width);
+		return  m > (fDaughter1Mass+fDaughter2Mass) && m<(fMotherMass-fDaughter3Mass) ?
+				LineShape(m,resonance_mass, resonance_width): hydra::complex<double>(0.0, 0.0) ;
 	}
 
 private:
-
-	   __host__  __device__
-	   inline double pmf( const double mother_mass, const double daughter1_mass, const double daughter2_mass) const{
-		   double mother_mass_sq  = mother_mass*mother_mass;
-
-		   return  ::sqrt( ( mother_mass_sq - ( daughter1_mass + daughter2_mass)*( daughter1_mass + daughter2_mass))
-				   *( mother_mass_sq - ( daughter1_mass - daughter2_mass)*( daughter1_mass - daughter2_mass)) )/2*mother_mass;
-	   }
-
 
 
 	   __host__ __device__  inline
@@ -213,13 +264,13 @@ private:
 		 const double width = Width( m, resonance_mass, resonance_width, q0, q);
 
 		 hydra::complex<double> numerator( BarrierFactor<MotherWave>(fRadi, p0, p)*\
-				 pow<double, MotherWave>(p/fMotherMass)*\
+				 pow<double, MotherWave>(p/p0)*\
 				 BarrierFactor<ResonanceWave>(fRadi, q0, q)*\
-				 pow<double,ResonanceWave>(q/resonance_mass) , 0);
+				 pow<double,ResonanceWave>(q/q0) , 0);
 
-		 hydra::complex<double> denominator(resonance_mass*resonance_mass - m*m, - resonance_mass*width);
+		 hydra::complex<double> denominator(m*m - resonance_mass*resonance_mass,  -resonance_mass*width);
 
-		 return hydra::complex<double>(numerator/denominator);
+		 return hydra::complex<double>(numerator/denominator) ;
 
 	 }
 

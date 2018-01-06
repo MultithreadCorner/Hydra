@@ -43,7 +43,6 @@ namespace hydra {
 
 
 template<typename F0, typename F1, typename... Fs >
-//struct  Compose :public detail::compose_base_functor<F0,F1,Fs...>::type
 struct  Compose
 {
 	    //tag
@@ -54,10 +53,7 @@ struct  Compose
 		typedef typename HYDRA_EXTERNAL_NS::thrust::tuple<F1, Fs...> functors_type;
 
 		__host__
-		Compose():
-		fIndex(-1),
-		fCached(0)
-		{};
+		Compose()=delete;
 
 		__host__
 		Compose(F0 const& f0, F1 const& f1,  Fs const& ...fs):
@@ -88,6 +84,7 @@ struct  Compose
 		__host__ inline
 		void AddUserParameters(std::vector<hydra::Parameter*>& user_parameters )
 		{
+			fF0.AddUserParameters(user_parameters);
 			detail::add_parameters_in_tuple(user_parameters, fFtorTuple );
 		}
 
@@ -95,7 +92,7 @@ struct  Compose
 		__host__ inline
 		void SetParameters(const std::vector<double>& parameters){
 
-
+			fF0.SetParameters(parameters);
 			detail::set_functors_in_tuple(fFtorTuple, parameters);
 		}
 
@@ -124,7 +121,7 @@ struct  Compose
 	  	__host__ __device__ inline
 	  	return_type operator()(T1& t )
 	  	{
-	  		return fF0.Evaluate(detail::invoke<argument_type, functors_type, T1>(std::forward<T1&>(t), fFtorTuple));
+	  		return fF0(detail::invoke<functors_type, T1>(std::forward<T1&>(t), fFtorTuple));
 	  	}
 
 	  	template<typename T1, typename T2>
@@ -132,7 +129,7 @@ struct  Compose
 	  	return_type operator()( T1& t, T2& cache)
 	  	{
 	  		return fCached ? detail::extract<return_type,T2>(fIndex, std::forward<T2&>(cache)):\
-	  				fF0.Evaluate(detail::invoke<argument_type, functors_type, T1, T2>(std::forward<T1&>(t),
+	  				fF0(detail::invoke< functors_type, T1, T2>(std::forward<T1&>(t),
 	  						std::forward<T2&>(cache),fFtorTuple));
 	  	}
 

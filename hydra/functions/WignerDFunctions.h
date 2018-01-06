@@ -170,8 +170,8 @@ private:
 		using HYDRA_EXTERNAL_NS::thrust::min;
 
 		double r = 0;
-		double s  = log(sin(b/2));
-		double c  = log(fabs(cos(b/2)));
+		double s  = log(sin(b/2.0));
+		double c  = log(fabs(cos(b/2.0)));
 		double rt = 0.5*(fcl[jpm]+fcl[jmm]+fcl[jpn]+fcl[jmn]);
 		int k0    = max(0,mpn);
 		int kq    = (b > PI) ? k0+jpm+mpn: k0+jpm;

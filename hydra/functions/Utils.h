@@ -32,7 +32,10 @@
 #include <hydra/Types.h>
 #include <utility>
 
+
 namespace hydra {
+
+enum Wave{ SWave=0, PWave, DWave, FWave, GWave, HWave };
 
 namespace detail {
 
@@ -71,6 +74,37 @@ namespace detail {
 
 		return i;
 	}
+
+	__host__  __device__
+	inline double pmf( const double mother_mass, const double daughter1_mass, const double daughter2_mass) {
+		double mother_mass_sq  = mother_mass*mother_mass;
+
+		return  ::sqrt( ( mother_mass_sq - ( daughter1_mass + daughter2_mass)*( daughter1_mass + daughter2_mass))
+				*( mother_mass_sq - ( daughter1_mass - daughter2_mass)*( daughter1_mass - daughter2_mass)) )/(2.0*mother_mass);
+	}
+
+
+	//
+	__host__ __device__ inline
+	double triangle_function( const double x, const double y, const double z)
+	{
+
+		return (x - ::pow( ::sqrt(y) + ::sqrt(z), 2))*(x - ::pow( ::sqrt(y) - ::sqrt(z), 2));
+	}
+
+	__host__ __device__ inline
+	double cosine_helicity_angle_theta_ab( const double mab_sq, const double mbc_sq, const double mac_sq, const double ma_sq, const double mb_sq, const double mc_sq)
+	{
+
+		double s = mab_sq + mbc_sq + mac_sq - ma_sq - mb_sq - mc_sq;
+		double numerator   = (s - mab_sq - mc_sq)*(mab_sq + ma_sq - mb_sq) + 2*mab_sq*(mc_sq+ma_sq - mbc_sq);
+		double denominator = sqrt(lambda(s, mab_sq, mc_sq)*lambda(mab_sq, ma_sq, mb_sq));
+
+		return numerator/denominator;
+
+	}
+
+
 
 }  // namespace hydra
 

@@ -136,9 +136,6 @@ int main(int argv, char** argc)
 			100, pow(Jpsi_mass + pi_mass,2), pow(B0_mass - K_mass,2),
 			100, pow(K_mass + pi_mass,2), pow(B0_mass - Jpsi_mass,2));
 
-	TH2D Dalitz_h("Dalitz_h", "Host;M^{2}(J/psi #pi) [GeV^{2}/c^{4}]; M^{2}(K #pi) [GeV^{2}/c^{4}]",
-			100, pow(Jpsi_mass + pi_mass,2), pow(B0_mass - K_mass,2),
-			100, pow(K_mass + pi_mass,2), pow(B0_mass - Jpsi_mass,2));
 #endif
 
 	hydra::Vector4R B0(B0_mass, 0.0, 0.0, 0.0);

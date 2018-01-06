@@ -20,15 +20,14 @@
  *---------------------------------------------------------------------------*/
 
 /*
- * gaussian_plus_argus.inl
+ * dalitz_plot.inl
  *
- *  Created on: 20/12/2017
+ *  Created on: 29/12/2017
  *      Author: Antonio Augusto Alves Junior
  */
 
-#ifndef GAUSSIANPLUSARGUS_H_
-#define GAUSSIANPLUSARGUS_H_
-
+#ifndef DALITZ_PLOT_INL_
+#define DALITZ_PLOT_INL_
 
 #include <iostream>
 #include <assert.h>
@@ -53,12 +52,10 @@
 #include <hydra/AddPdf.h>
 #include <hydra/Filter.h>
 #include <hydra/DenseHistogram.h>
-#include <hydra/functions/Gaussian.h>
-#include <hydra/functions/ArgusShape.h>
 #include <hydra/Placeholders.h>
 #include <hydra/Complex.h>
 #include <hydra/functions/BreitWignerLineShape.h>
-#include <hydra/functions/M12SqPhaseSpaceLineShape.h>
+#include <hydra/functions/WignerD.h>
 
 //Minuit2
 #include "Minuit2/FunctionMinimum.h"
@@ -113,11 +110,22 @@ int main(int argv, char** argc)
     double min   =  5.20;
     double max   =  5.30;
 
+    double B0_mass    = 5.27955;   // B0 mass
+    double Jpsi_mass  = 3.0969;    // J/psi mass
+    double K_mass     = 0.493677;  // K+ mass
+    double pi_mass    = 0.13957061;// pi mass
+
+
+
 	//generator
 	hydra::Random<> Generator(154);
 
 	//===========================
-    //fit model gaussian + argus
+    //amplitudes
+
+	hydra::BreitWignerLineShape<hydra::PWave> BW0(M0, W0, B0_mass, K_mass, pi_mass, Jpsi_mass, 3.0 );
+	hydra::BreitWignerLineShape<hydra::DWave> BW1(M1, W1, B0_mass, K_mass, pi_mass, Jpsi_mass, 3.0 );
+
 
 	//Gaussian
 	hydra::Parameter  mean  = hydra::Parameter::Create().Name("Mean").Value( 5.28).Error(0.0001).Limits(5.27,5.29);
@@ -150,10 +158,6 @@ int main(int argv, char** argc)
 
 	//===========================
 
-		double B0_mass    = 5.27955;   // B0 mass
-		double Jpsi_mass  = 3.0969;    // J/psi mass
-		double K_mass     = 0.493677;  // K+ mass
-		double pi_mass    = 0.13957061;// pi mass
 
 #ifdef _ROOT_AVAILABLE_
 
@@ -336,4 +340,5 @@ int main(int argv, char** argc)
 
 
 
-#endif /* GAUSSIANPLUSARGUS_H_ */
+
+#endif /* DALITZ_PLOT_INL_ */
