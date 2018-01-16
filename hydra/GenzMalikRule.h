@@ -72,13 +72,8 @@ class GenzMalikRule<DIM, hydra::detail::BackendPolicy<BACKEND>>:
 	typedef HYDRA_EXTERNAL_NS::thrust::tuple<GReal_t,GReal_t, GReal_t> real_abscissa_t;
 	typedef typename hydra::detail::tuple_cat_type<real_abscissa_t, char_abscissa_t>::type abscissa_t;
 
-	//typedef decltype( HYDRA_EXTERNAL_NS::thrust::tuple_cat(real_abscissa_t(), char_abscissa_t() )) abscissa_t;
-
-	//system selection
 	typedef  hydra::detail::BackendPolicy<BACKEND> system_t;
 
-	//container template vector<abscissa> on device or host memory
-	//typedef typename system_t::template container<abscissa_t> super_t;
 
 public:
 

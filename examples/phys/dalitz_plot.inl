@@ -82,6 +82,18 @@
 using namespace ROOT::Minuit2;
 using namespace hydra::placeholders;
 
+template<unsigned int CHANNEL, hydra::Wave L>
+class Resonance: public hydra::BaseFunctor<Resonance<CHANNEL,L>, hydra::complex<double>, 4>
+{
+	using hydra::BaseFunctor<Resonance<CHANNEL,L>, hydra::complex<double>, 4>::_par;
+
+public:
+
+private:
+	hydra::BreitWignerLineShape<L> LineShape;
+
+};
+
 int main(int argv, char** argc)
 {
 	size_t nentries = 0;
@@ -110,10 +122,16 @@ int main(int argv, char** argc)
     double min   =  5.20;
     double max   =  5.30;
 
-    double B0_mass    = 5.27955;   // B0 mass
-    double Jpsi_mass  = 3.0969;    // J/psi mass
-    double K_mass     = 0.493677;  // K+ mass
-    double pi_mass    = 0.13957061;// pi mass
+    double KST_892_MASS   = 0.89555;
+    double KST_892_WIDTH  = 0.0473;
+    double KST_1430_MASS  = 1.425;
+    double KST_1430_WIDTH = 0.270;
+    double KST_1680_MASS  = 1.718;
+    double KST_1680_WIDTH = 0.322;
+
+    double D_MASS     = 1.86959;
+    double K_MASS     = 0.493677;  // K+ mass
+    double PI_MASS    = 0.13957061;// pi mass
 
 
 
@@ -122,7 +140,7 @@ int main(int argv, char** argc)
 
 	//===========================
     //amplitudes
-
+	hydra::BreitWignerLineShape<hydra::SWave> Kst(M0, W0, B0_mass, K_mass, pi_mass, Jpsi_mass, 3.0 );
 	hydra::BreitWignerLineShape<hydra::PWave> BW0(M0, W0, B0_mass, K_mass, pi_mass, Jpsi_mass, 3.0 );
 	hydra::BreitWignerLineShape<hydra::DWave> BW1(M1, W1, B0_mass, K_mass, pi_mass, Jpsi_mass, 3.0 );
 

@@ -55,6 +55,11 @@ namespace detail {
 
 }  // namespace detail
 
+/**
+ * Power with integer exponent.
+ * @param x
+ * @return
+ */
 	template<typename T, unsigned int N>
 	inline __host__ __device__
 	T pow(const T x){
@@ -62,7 +67,11 @@ namespace detail {
 		detail::pow_helper<T,N,0>(x,r);
 		return r ;
 	}
-
+/**
+ * Round to nearest integer. Rounds half integers to the nearest even integer.
+ * @param x
+ * @return
+ */
 	template<typename T>
 	inline  __host__ __device__
 	int nint(const T x)
@@ -75,8 +84,17 @@ namespace detail {
 		return i;
 	}
 
+/**
+ * Momentum in mother frame of daughter particle in two-body-decay.
+ *
+ * @param mother_mass
+ * @param daughter1_mass
+ * @param daughter2_mass
+ * @return
+ */
 	__host__  __device__
 	inline double pmf( const double mother_mass, const double daughter1_mass, const double daughter2_mass) {
+
 		double mother_mass_sq  = mother_mass*mother_mass;
 
 		return  ::sqrt( ( mother_mass_sq - ( daughter1_mass + daughter2_mass)*( daughter1_mass + daughter2_mass))

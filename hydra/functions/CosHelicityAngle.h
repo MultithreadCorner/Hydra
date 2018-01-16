@@ -29,7 +29,60 @@
 #ifndef COSHELICITYANGLE_H_
 #define COSHELICITYANGLE_H_
 
+namespace hydra {
 
+/**
+ * \class CosTheta
+ *
+ *  This functor calculates the cosine of the helicity angle of the particle with four-vector D,
+ *  daughther of the particle with four-vector Q and grand daugther of particle  four-vector P .
+ */
+template<unsigned int AngleIndex, unsigned int ArgIndex=0>
+class CosTheta:public BaseFunctor<CosTheta<AngleIndex, ArgIndex>, double, 0>
+{
+
+public:
+
+	__host__ __device__ inline
+	double Evaluate(unsigned int n, hydra::Vector4R* p)  const {
+
+		hydra::Vector4R P = p[0];
+		hydra::Vector4R Q = p[1];
+		hydra::Vector4R D = p[2];
+
+		return cos_decay_angle( P, Q, D);
+
+	}
+
+	template<typename T>
+	__host__ __device__ inline
+	double Evaluate(T x)  const {
+
+		hydra::Vector4R P = get<0>(p);
+		hydra::Vector4R Q = get<1>(p);
+		hydra::Vector4R D = get<2>(p);
+
+		return cos_decay_angle( P, Q, D);
+	}
+
+private:
+
+	__host__ __device__ inline
+	GReal_t cos_decay_angle(Vector4R const& p, Vector4R const& q, Vector4R const& d)
+	{
+		GReal_t pd = p*d;
+		GReal_t pq = p*q;
+		GReal_t qd = q*d;
+		GReal_t mp2 = p.mass2();
+		GReal_t mq2 = q.mass2();
+		GReal_t md2 = d.mass2();
+
+		return (pd * mq2 - pq * qd)
+				/ ::sqrt((pq * pq - mq2 * mp2) * (qd * qd - mq2 * md2));
+
+		}
+};
+}  // namespace hydra
 
 
 
