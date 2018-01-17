@@ -88,9 +88,70 @@ class Resonance: public hydra::BaseFunctor<Resonance<CHANNEL,L>, hydra::complex<
 	using hydra::BaseFunctor<Resonance<CHANNEL,L>, hydra::complex<double>, 4>::_par;
 
 public:
+	Resonance() = delete;
+
+	Resonance(Parameter const& c_re, Parameter const& c_im,
+			Parameter const& mass, Parameter const& width,
+			double mother_mass,	double daugther1_mass,
+			double daugther2_mass, double daugther3_mass,
+			double radi):
+			hydra::BaseFunctor<Resonance<CHANNEL,L>, hydra::complex<double>, 4>{c_re, c_im, mass, width},
+			fLineShape(mass, width, mother_mass, daugther1_mass, daugther2_mass, daugther3_mass, radi)
+	{}
+
+
+	__host__ __device__
+	Resonance( Resonance< CHANNEL,L> const other):
+	hydra::BaseFunctor<Resonance<CHANNEL ,L>, hydra::complex<double>, 4>(other),
+	fLineShape(GetLineShape())
+	{}
+
+	__host__ __device__
+	Resonance< CHANNEL ,L>&
+	operator=( Resonance< CHANNEL ,L> const other)
+	{
+		if(this==&other) return *this;
+
+		hydra::BaseFunctor<Resonance<CHANNEL ,L>, hydra::complex<double>, 4>::operator=(other);
+		fLineShape=other.GetLineShape();
+
+		return *this;
+	}
+
+	__host__ __device__
+	BreitWignerLineShape<L> const& GetLineShape() const {	return fLineShape; }
+
+	__host__ __device__ inline
+	double Evaluate(unsigned int n, hydra::Vector4R* p)  const {
+
+		hydra::Vector4R p1 = p[CHANNEL-1];
+		hydra::Vector4R p2 = p[CHANNEL==3?0:CHANNEL];
+
+		hydra::CosTheta fCosDecayAngle();
+		hydra::ZemachFunction fAngularDist();
+
+		fLineShape.SetParameter(0, _par[2]);
+		fLineShape.SetParameter(1, _par[3]);
+
+		return cos_decay_angle( P, Q, D);
+
+	}
+
+	template<typename T>
+	__host__ __device__ inline
+	double Evaluate(T x)  const {
+
+		hydra::Vector4R P = get<0>(p);
+		hydra::Vector4R Q = get<1>(p);
+		hydra::Vector4R D = get<2>(p);
+
+		return cos_decay_angle( P, Q, D);
+	}
 
 private:
-	hydra::BreitWignerLineShape<L> LineShape;
+
+	hydra::BreitWignerLineShape<L> fLineShape;
+
 
 };
 
