@@ -37,8 +37,7 @@ namespace hydra {
  *  This functor calculates the cosine of the helicity angle of the particle with four-vector D,
  *  daughther of the particle with four-vector Q and grand daugther of particle  four-vector P .
  */
-template<unsigned int AngleIndex, unsigned int ArgIndex=0>
-class CosTheta:public BaseFunctor<CosTheta<AngleIndex, ArgIndex>, double, 0>
+class CosTheta:public BaseFunctor<CosTheta, double, 0>
 {
 
 public:

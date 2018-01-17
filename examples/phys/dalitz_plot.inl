@@ -124,8 +124,11 @@ public:
 	__host__ __device__ inline
 	double Evaluate(unsigned int n, hydra::Vector4R* p)  const {
 
+
 		hydra::Vector4R p1 = p[CHANNEL-1];
 		hydra::Vector4R p2 = p[CHANNEL==3?0:CHANNEL];
+		hydra::Vector4R p3 = p[ 3 - ((CHANNEL-1) + (CHANNEL==3 ? 0 : CHANNEL))];
+
 
 		hydra::CosTheta fCosDecayAngle();
 		hydra::ZemachFunction fAngularDist();
@@ -133,7 +136,9 @@ public:
 		fLineShape.SetParameter(0, _par[2]);
 		fLineShape.SetParameter(1, _par[3]);
 
-		return cos_decay_angle( P, Q, D);
+		double theta = fCosDecayAngle( hydra::tie((p1+p2+p3), (p1+p2), p1) );
+
+		return hydra::complex(_par[0], _par[1])*fLineShape((p1+p2).mass())*fAngularDist(theta);
 
 	}
 
@@ -141,11 +146,7 @@ public:
 	__host__ __device__ inline
 	double Evaluate(T x)  const {
 
-		hydra::Vector4R P = get<0>(p);
-		hydra::Vector4R Q = get<1>(p);
-		hydra::Vector4R D = get<2>(p);
 
-		return cos_decay_angle( P, Q, D);
 	}
 
 private:
