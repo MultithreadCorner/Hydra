@@ -43,7 +43,16 @@ if(BUILD_CUDA_TARGETS)
             )
          target_link_libraries(breit_wigner_plus_polynomial_cuda  ${ROOT_LIBRARIES} )
         
-      #    add_dependencies(examples breit_wigner_plus_polynomial_cuda)
+         add_dependencies(examples breit_wigner_plus_polynomial_cuda)
+        
+        
+          #+++++++++++++++++++++++++++++++++
+         cuda_add_executable( dalitz_plot_cuda EXCLUDE_FROM_ALL dalitz_plot.cu    
+            OPTIONS -Xcompiler -fopenmp -DTHRUST_DEVICE_SYSTEM=THRUST_DEVICE_SYSTEM_CUDA  -DTHRUST_HOST_SYSTEM=THRUST_HOST_SYSTEM_CPP -lgomp
+            )
+         target_link_libraries(dalitz_plot_cuda  ${ROOT_LIBRARIES} )
+        
+         add_dependencies(examples dalitz_plot_cuda)
         
         
                         
@@ -169,6 +178,20 @@ IF(BUILD_OMP_TARGETS)
     target_link_libraries(breit_wigner_plus_polynomial_omp   ${ROOT_LIBRARIES})
 
      add_dependencies(examples breit_wigner_plus_polynomial_omp)
+        
+            
+    
+    #+++++++++++++++++++++++++++++++
+    add_executable(dalitz_plot_omp EXCLUDE_FROM_ALL
+   dalitz_plot.cpp
+    )
+    
+    set_target_properties( dalitz_plot_omp PROPERTIES 
+    COMPILE_FLAGS "-fopenmp -DTHRUST_HOST_SYSTEM=THRUST_HOST_SYSTEM_CPP -DTHRUST_DEVICE_SYSTEM=THRUST_DEVICE_SYSTEM_OMP -lgomp")
+    
+    target_link_libraries(dalitz_plot_omp   ${ROOT_LIBRARIES})
+
+     add_dependencies(examples dalitz_plot_omp)
         
     
     

@@ -87,7 +87,7 @@ struct AverageMothers
 			const GReal_t c)
 	{
 		//the PDK function
-		return sqrt( (a - b - c) * (a + b + c) * (a - b + c) * (a + b - c) ) / (2 * a);;
+		return ::sqrt( (a - b - c) * (a + b + c) * (a - b + c) * (a + b - c) ) / (2 * a);;
 	}
 
 	__host__ __device__ void bbsort(GReal_t *array, GInt_t n)
@@ -197,7 +197,7 @@ struct AverageMothers
 		//-----> complete specification of event (Raubold-Lynch method)
 
 
-		particles[1].set(sqrt(pd[0] * pd[0] + fMasses[0] * fMasses[0]), 0.0,
+		particles[1].set(::sqrt(pd[0] * pd[0] + fMasses[0] * fMasses[0]), 0.0,
 				pd[0], 0.0);
 
 		#pragma unroll N
@@ -205,14 +205,14 @@ struct AverageMothers
 		{
 
 			particles[i + 1].set(
-					sqrt(pd[i - 1] * pd[i - 1] + fMasses[i] * fMasses[i]), 0.0,
+					::sqrt(pd[i - 1] * pd[i - 1] + fMasses[i] * fMasses[i]), 0.0,
 					-pd[i - 1], 0.0);
 
 			GReal_t cZ = 2	* uniDist(randEng) -1 ;
-			GReal_t sZ = sqrt(1 - cZ * cZ);
+			GReal_t sZ = ::sqrt(1 - cZ * cZ);
 			GReal_t angY = 2.0 * PI	* uniDist(randEng);
-			GReal_t cY = cos(angY);
-			GReal_t sY = sin(angY);
+			GReal_t cY = ::cos(angY);
+			GReal_t sY = ::sin(angY);
 			for (size_t j = 0; j <= i; j++)
 			{
 
@@ -230,7 +230,7 @@ struct AverageMothers
 			if (i == (N - 1))
 				break;
 
-			GReal_t beta = pd[i] / sqrt(pd[i] * pd[i] + invMas[i] * invMas[i]);
+			GReal_t beta = pd[i] / ::sqrt(pd[i] * pd[i] + invMas[i] * invMas[i]);
 			for (size_t j = 0; j <= i; j++)
 			{
 

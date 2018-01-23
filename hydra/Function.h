@@ -76,6 +76,7 @@ public:
 	/**
 	 * Default constructor
 	 */
+	__host__  __device__
 	explicit BaseFunctor():
 		detail::Parameters<NPARAM>(),
 		fCacheIndex(-1),

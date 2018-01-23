@@ -29,6 +29,8 @@
 #ifndef WIGNERD_H_
 #define WIGNERD_H_
 
+
+#include <hydra/detail/Config.h>
 #include <hydra/Types.h>
 #include <hydra/Function.h>
 #include <hydra/Pdf.h>
@@ -156,8 +158,8 @@ private:
 
 		double r = condition ? printf("HYDRA WARNING: WignerD: Illegal argument(s) fJ=%g, fM=%g, fN=%g, beta=%g\n",fJ,fM,fN,beta):
 		    (beta == 0)  ? (jpm == jpn) :
-		    (beta == PI) ? (jpm == jmn) - 2*(abs(jpm)%2 == 1):
-	    	(beta == 2.0*PI) ? (jpm == jpn) - 2*(abs(mpn)%2 == 1) : wdf(jpm, jpn, jmm, jmn,mpn, beta);
+		    (beta == PI) ? (jpm == jmn) - 2*(::abs(jpm)%2 == 1):
+	    	(beta == 2.0*PI) ? (jpm == jpn) - 2*(::abs(mpn)%2 == 1) : wdf(jpm, jpn, jmm, jmn,mpn, beta);
 
 		return r;
 
@@ -170,8 +172,8 @@ private:
 		using HYDRA_EXTERNAL_NS::thrust::min;
 
 		double r = 0;
-		double s  = log(sin(b/2.0));
-		double c  = log(fabs(cos(b/2.0)));
+		double s  = ::log(::sin(b/2.0));
+		double c  = ::log(::fabs(::cos(b/2.0)));
 		double rt = 0.5*(fcl[jpm]+fcl[jmm]+fcl[jpn]+fcl[jmn]);
 		int k0    = max(0,mpn);
 		int kq    = (b > PI) ? k0+jpm+mpn: k0+jpm;
@@ -183,7 +185,7 @@ private:
 
 		for( int k=k0; k<= min(jpm,jpn); k++)
 		{
-			r  += q*exp(rt-fcl[k]-fcl[jpm-k]-fcl[jpn-k]-fcl[k-mpn]+ cx*c+sx*s);
+			r  += q*::exp(rt-fcl[k]-fcl[jpm-k]-fcl[jpn-k]-fcl[k-mpn]+ cx*c+sx*s);
 			cx += 2;
 			sx -= 2;
 			q   = -q;

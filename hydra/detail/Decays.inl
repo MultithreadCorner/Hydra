@@ -53,11 +53,9 @@ struct EvalOnDaugthers: public HYDRA_EXTERNAL_NS::thrust::unary_function<
 	__host__  __device__
 	GReal_t operator()(ArgType& value) {
 
-		auto particles = detail::dropFirst(value);
-		Vector4R Particles[N];
-		hydra::detail::assignTupleToArray(particles, Particles);
+		typename detail::tuple_type<N,Vector4R>::type particles= detail::dropFirst(value);
 		return HYDRA_EXTERNAL_NS::thrust::get<0>(value)
-				* (fFunctor((unsigned int) N, &Particles[0]));
+				* (fFunctor( particles));
 
 	}
 

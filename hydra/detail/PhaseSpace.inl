@@ -139,7 +139,7 @@ PhaseSpace<N,GRND>::AverageOn(hydra::detail::BackendPolicy<BACKEND>const& policy
 		HYDRA_LOG(WARNING, "Not enough energy to generate all decays.Check the mass of the mother particle")
 	}
 
-	return std::make_pair(result.fMean, sqrt(result.fM2) );
+	return std::make_pair(result.fMean, ::sqrt(result.fM2) );
 
 }
 
@@ -161,7 +161,7 @@ PhaseSpace<N,GRND>::AverageOn(Iterator begin, Iterator end, FUNCTOR const& funct
 		HYDRA_LOG(WARNING, "Not enough energy to generate all decays.Check the masses of the mother particles")
 	}
 
-	return std::make_pair(result.fMean, sqrt(result.fM2) );
+	return std::make_pair(result.fMean, ::sqrt(result.fM2) );
 }
 
 template <size_t N, typename GRND>
@@ -316,7 +316,7 @@ template <size_t N, typename GRND>
 inline GReal_t PhaseSpace<N,GRND>::PDK(const GReal_t a, const GReal_t b, const GReal_t c) const {
 	//the PDK function
 	GReal_t x = (a - b - c) * (a + b + c) * (a - b + c) * (a + b - c);
-	x = sqrt(x) / (2 * a);
+	x = ::sqrt(x) / (2 * a);
 	return x;
 }
 

@@ -29,6 +29,20 @@
 #ifndef BLATTWEISSKOPFFUNCTIONS_H_
 #define BLATTWEISSKOPFFUNCTIONS_H_
 
+#include <hydra/detail/Config.h>
+#include <hydra/Types.h>
+#include <hydra/Function.h>
+#include <hydra/detail/utility/CheckValue.h>
+#include <hydra/Parameter.h>
+#include <hydra/Tuple.h>
+#include <hydra/Complex.h>
+#include <hydra/functions/Utils.h>
+#include <tuple>
+#include <limits>
+#include <stdexcept>
+#include <assert.h>
+#include <utility>
+#include <cmath>
 
 namespace hydra {
 

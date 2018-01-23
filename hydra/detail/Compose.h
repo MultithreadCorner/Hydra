@@ -52,10 +52,10 @@ struct  Compose
 		typedef typename HYDRA_EXTERNAL_NS::thrust::tuple<typename F1::return_type, typename Fs::return_type...> argument_type;
 		typedef typename HYDRA_EXTERNAL_NS::thrust::tuple<F1, Fs...> functors_type;
 
-		__host__
+
 		Compose()=delete;
 
-		__host__
+
 		Compose(F0 const& f0, F1 const& f1,  Fs const& ...fs):
 		fIndex(-1),
 		fCached(0),
@@ -69,7 +69,7 @@ struct  Compose
 			fFtorTuple( other.GetFunctors() ),
 			fIndex( other.GetIndex() ),
 			fCached( other.IsCached() )
-		{ };
+		{ }
 
 		__host__ __device__ inline
 		Compose<F0,F1,Fs...>& operator=(Compose<F0,F1,Fs...> const& other)
@@ -94,6 +94,22 @@ struct  Compose
 
 			fF0.SetParameters(parameters);
 			detail::set_functors_in_tuple(fFtorTuple, parameters);
+		}
+
+		size_t  GetParametersKey(){
+
+			std::vector<hydra::Parameter*>& _parameters;
+			fF0.AddUserParameters(_parameters);
+			detail::set_functors_in_tuple(fFtorTuple, _parameters);
+
+			std::vector<double> _temp(_parameters.size());
+
+			for(size_t i=0; i< _parameters.size(); i++)
+				_temp[i]= *(_parameters[i]);
+
+			size_t key = detail::hash_range(_temp.begin(), _temp.end() );
+
+			return key;
 		}
 
 		__host__ __device__ inline

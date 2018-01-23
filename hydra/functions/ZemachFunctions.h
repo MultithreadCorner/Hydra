@@ -29,6 +29,18 @@
 #ifndef ZEMACHFUNCTIONS_H_
 #define ZEMACHFUNCTIONS_H_
 
+#include <hydra/detail/Config.h>
+#include <hydra/Types.h>
+#include <hydra/Function.h>
+#include <hydra/detail/utility/CheckValue.h>
+#include <hydra/Tuple.h>
+#include <tuple>
+#include <limits>
+#include <stdexcept>
+#include <assert.h>
+#include <utility>
+#include <cmath>
+
 namespace hydra {
 
 template<unsigned int L>
@@ -46,21 +58,16 @@ double legendre_polynomial(const double x);
  * 	makes Zemach's formalism fully compatible with Helicity amplitudes for 3-body decays of spinless particle into spinless final
  *  states inside Hydra.
  */
-template<Wave L, unsigned int ArgIndex>
+template<Wave L, unsigned int ArgIndex=0>
 class ZemachFunction: public BaseFunctor<ZemachFunction<L,ArgIndex>, double, 0>{
 
 public:
-
-	ZemachFunction():
-		BaseFunctor<ZemachFunction<L,ArgIndex>, double, 0>{}
-	{}
-
 	__host__  __device__
-	ZemachFunction(ZemachFunction< L, ArgIndex>  const& other):
-	BaseFunctor<ZemachFunction< L, ArgIndex>, double, 0>(other)
-	{}
+	ZemachFunction()=default;
 
-	__host__  __device__
+
+
+	__host__  __device__ inline
 	ZemachFunction<L, ArgIndex>&
 	operator=(ZemachFunction<L, ArgIndex>  const& other){
 		if(this==&other) return  *this;
@@ -74,7 +81,7 @@ public:
 	double Evaluate(unsigned int n, T*x)  const	{
 
 		const double theta = x[ArgIndex] ;
-		return  legendre_polynomial<L>( cos(theta) );
+		return  legendre_polynomial<L>( theta );
 
 	}
 
@@ -84,7 +91,7 @@ public:
 
 		const double theta =  get<ArgIndex>(x);
 
-		return  legendre_polynomial<L>( cos(theta) );
+		return  legendre_polynomial<L>( theta );
 	}
 
 };

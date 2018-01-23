@@ -29,6 +29,18 @@
 #ifndef COSHELICITYANGLE_H_
 #define COSHELICITYANGLE_H_
 
+#include <hydra/detail/Config.h>
+#include <hydra/Types.h>
+#include <hydra/Function.h>
+#include <hydra/detail/utility/CheckValue.h>
+#include <hydra/Tuple.h>
+#include <tuple>
+#include <limits>
+#include <stdexcept>
+#include <assert.h>
+#include <utility>
+#include <cmath>
+
 namespace hydra {
 
 /**
@@ -41,6 +53,16 @@ class CosTheta:public BaseFunctor<CosTheta, double, 0>
 {
 
 public:
+
+	__host__ __device__
+	CosTheta()=default;
+
+	__host__  __device__ inline
+	CosTheta&		operator=( CosTheta const& other){
+			if(this==&other) return  *this;
+			BaseFunctor<CosTheta,double, 0>::operator=(other);
+			return  *this;
+		}
 
 	__host__ __device__ inline
 	double Evaluate(unsigned int n, hydra::Vector4R* p)  const {
@@ -55,7 +77,7 @@ public:
 
 	template<typename T>
 	__host__ __device__ inline
-	double Evaluate(T x)  const {
+	double Evaluate(T p)  const {
 
 		hydra::Vector4R P = get<0>(p);
 		hydra::Vector4R Q = get<1>(p);
@@ -64,11 +86,18 @@ public:
 		return cos_decay_angle( P, Q, D);
 	}
 
+	__host__ __device__ inline
+	double operator()(Vector4R const& p, Vector4R const& q, Vector4R const& d) const {
+
+		return cos_decay_angle( p, q, d);
+
+	}
+
 private:
 
 	__host__ __device__ inline
-	GReal_t cos_decay_angle(Vector4R const& p, Vector4R const& q, Vector4R const& d)
-	{
+	GReal_t cos_decay_angle(Vector4R const& p, Vector4R const& q, Vector4R const& d)const {
+
 		GReal_t pd = p*d;
 		GReal_t pq = p*q;
 		GReal_t qd = q*d;

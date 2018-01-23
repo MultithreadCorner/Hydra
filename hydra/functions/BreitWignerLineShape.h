@@ -29,6 +29,7 @@
 #ifndef BREITWIGNERLINESHAPE_H_
 #define BREITWIGNERLINESHAPE_H_
 
+#include <hydra/detail/Config.h>
 #include <hydra/Types.h>
 #include <hydra/Function.h>
 #include <hydra/detail/utility/CheckValue.h>

@@ -64,6 +64,8 @@ namespace hydra {
 			}
 		}
 
+
+
 	}//namespace detail
 }//namespace hydra
 #endif /* HASH_H_ */

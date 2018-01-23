@@ -96,6 +96,22 @@ struct  Divide
 		detail::set_functors_in_tuple(fFtorTuple, parameters);
 	}
 
+
+	size_t  GetParametersKey(){
+
+		std::vector<hydra::Parameter*>& _parameters;
+		detail::set_functors_in_tuple(fFtorTuple, _parameters);
+
+		std::vector<double> _temp(_parameters.size());
+
+		for(size_t i=0; i< _parameters.size(); i++)
+			_temp[i]= *(_parameters[i]);
+
+		size_t key = detail::hash_range(_temp.begin(), _temp.end() );
+
+		return key;
+	}
+
 	__host__ inline
 	void PrintRegisteredParameters()
 	{

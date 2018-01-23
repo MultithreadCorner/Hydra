@@ -61,13 +61,9 @@ struct  Sum
 	typedef typename detail::sum_result<typename F1::return_type ,typename  F2::return_type,typename  Fs::return_type...>::type  return_type;
 	typedef typename HYDRA_EXTERNAL_NS::thrust::tuple<F1, F2, Fs...> functors_type;
 
-	__host__
-    Sum():
-    fIndex(-1),
-	fCached(0)
-	{};
+	Sum()=delete;
 
-	__host__
+
     Sum(F1 const& f1, F2 const& f2, Fs const&... functors ):
     fIndex(-1),
 	fCached(0),
@@ -100,6 +96,22 @@ struct  Sum
 	void SetParameters(const std::vector<double>& parameters){
 
 		detail::set_functors_in_tuple(fFtorTuple, parameters);
+	}
+
+
+	size_t  GetParametersKey(){
+
+		std::vector<hydra::Parameter*>& _parameters;
+		detail::set_functors_in_tuple(fFtorTuple, _parameters);
+
+		std::vector<double> _temp(_parameters.size());
+
+		for(size_t i=0; i< _parameters.size(); i++)
+			_temp[i]= *(_parameters[i]);
+
+		size_t key = detail::hash_range(_temp.begin(), _temp.end() );
+
+		return key;
 	}
 
 	__host__ inline

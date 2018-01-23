@@ -48,7 +48,7 @@ class Parameters{
 public:
 	static const size_t parameter_count =N;
 
-	 Parameters ()=delete;
+	Parameters ()=delete;
 
 	Parameters(std::initializer_list<hydra::Parameter> init_parameters)
 	{
@@ -260,7 +260,8 @@ class Parameters<0>{
 
 public:
 
-	Parameters (){};
+	__host__  __device__
+	Parameters() = default;
 
 	Parameters(std::initializer_list<Parameter> init_parameters)
 	{ }

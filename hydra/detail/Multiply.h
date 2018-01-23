@@ -62,18 +62,16 @@ struct  Multiply
 	typedef typename detail::multiply_result<typename F1::return_type ,typename  F2::return_type,typename  Fs::return_type...>::type  return_type;
 	typedef typename HYDRA_EXTERNAL_NS::thrust::tuple<F1, F2, Fs...> functors_type;
 
-	__host__
-	Multiply():
-	fIndex(-1),
-	fCached(0)
-	{};
 
-	__host__
+	Multiply()=delete;
+
+
 	Multiply(F1 const& f1, F2 const& f2, Fs const&... functors ):
 	fIndex(-1),
 	fCached(0),
   	fFtorTuple(HYDRA_EXTERNAL_NS::thrust::make_tuple(f1, f2, functors ...))
   	{ }
+
 
 	__host__ __device__
 	Multiply(const Multiply<F1,F2, Fs...>& other):
@@ -101,6 +99,22 @@ struct  Multiply
 	void SetParameters(const std::vector<double>& parameters){
 
 		detail::set_functors_in_tuple(fFtorTuple, parameters);
+	}
+
+
+	size_t  GetParametersKey(){
+
+		std::vector<hydra::Parameter*>& _parameters;
+				detail::set_functors_in_tuple(fFtorTuple, _parameters);
+
+				std::vector<double> _temp(_parameters.size());
+
+				for(size_t i=0; i< _parameters.size(); i++)
+					_temp[i]= *(_parameters[i]);
+
+				size_t key = detail::hash_range(_temp.begin(), _temp.end() );
+
+				return key;
 	}
 
 	__host__ inline
@@ -167,7 +181,9 @@ typename=typename std::enable_if< (std::is_convertible<T1, double>::value ||\
 		std::is_constructible<HYDRA_EXTERNAL_NS::thrust::complex<double>,T1>::value) && T2::is_functor::value>::type >
 __host__  inline
 Multiply<Constant<T1>, T2>
-operator*(T1 const cte, T2 const& F2){ return  Constant<T1>(cte)*F2; }
+operator*(T1 const cte, T2 const& F2){
+	return Multiply< Constant<T1>, T2>(Constant<T1>(cte),F2);
+}
 
 
 template <typename T1, typename T2,

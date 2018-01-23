@@ -39,23 +39,36 @@
 //command line
 #include <tclap/CmdLine.h>
 
-//this lib
+//hydra
+#include <hydra/host/System.h>
 #include <hydra/device/System.h>
 #include <hydra/Function.h>
 #include <hydra/FunctionWrapper.h>
 #include <hydra/FunctorArithmetic.h>
-#include <hydra/Random.h>
+#include <hydra/Placeholders.h>
+#include <hydra/Complex.h>
+#include <hydra/Tuple.h>
+#include <hydra/GenericRange.h>
+#include <hydra/Distance.h>
+
 #include <hydra/LogLikelihoodFCN.h>
 #include <hydra/Parameter.h>
 #include <hydra/UserParameters.h>
 #include <hydra/Pdf.h>
 #include <hydra/AddPdf.h>
-#include <hydra/Filter.h>
+
+#include <hydra/Vector4R.h>
+#include <hydra/PhaseSpace.h>
+#include <hydra/PhaseSpaceIntegrator.h>
+#include <hydra/Decays.h>
+
 #include <hydra/DenseHistogram.h>
-#include <hydra/Placeholders.h>
-#include <hydra/Complex.h>
+#include <hydra/SparseHistogram.h>
+
 #include <hydra/functions/BreitWignerLineShape.h>
-#include <hydra/functions/WignerD.h>
+#include <hydra/functions/WignerDFunctions.h>
+#include <hydra/functions/CosHelicityAngle.h>
+#include <hydra/functions/ZemachFunctions.h>
 
 //Minuit2
 #include "Minuit2/FunctionMinimum.h"
@@ -73,6 +86,8 @@
 
 #include <TROOT.h>
 #include <TH1D.h>
+#include <TH2D.h>
+#include <TH3D.h>
 #include <TApplication.h>
 #include <TCanvas.h>
 
@@ -87,11 +102,17 @@ class Resonance: public hydra::BaseFunctor<Resonance<CHANNEL,L>, hydra::complex<
 {
 	using hydra::BaseFunctor<Resonance<CHANNEL,L>, hydra::complex<double>, 4>::_par;
 
+	constexpr static unsigned int _I1 = CHANNEL-1;
+	constexpr static unsigned int _I2 = (CHANNEL!=3)*CHANNEL;
+	constexpr static unsigned int _I3 = 3-( (CHANNEL-1) + (CHANNEL!=3)*CHANNEL );
+
+
 public:
+
 	Resonance() = delete;
 
-	Resonance(Parameter const& c_re, Parameter const& c_im,
-			Parameter const& mass, Parameter const& width,
+	Resonance(hydra::Parameter const& c_re, hydra::Parameter const& c_im,
+			hydra::Parameter const& mass, hydra::Parameter const& width,
 			double mother_mass,	double daugther1_mass,
 			double daugther2_mass, double daugther3_mass,
 			double radi):
@@ -101,14 +122,14 @@ public:
 
 
 	__host__ __device__
-	Resonance( Resonance< CHANNEL,L> const other):
+	Resonance( Resonance< CHANNEL,L> const& other):
 	hydra::BaseFunctor<Resonance<CHANNEL ,L>, hydra::complex<double>, 4>(other),
-	fLineShape(GetLineShape())
+	fLineShape(other.GetLineShape())
 	{}
 
 	__host__ __device__
 	Resonance< CHANNEL ,L>&
-	operator=( Resonance< CHANNEL ,L> const other)
+	operator=( Resonance< CHANNEL ,L> const& other)
 	{
 		if(this==&other) return *this;
 
@@ -119,39 +140,33 @@ public:
 	}
 
 	__host__ __device__
-	BreitWignerLineShape<L> const& GetLineShape() const {	return fLineShape; }
+	hydra::BreitWignerLineShape<L> const& GetLineShape() const {	return fLineShape; }
 
 	__host__ __device__ inline
-	double Evaluate(unsigned int n, hydra::Vector4R* p)  const {
+	hydra::complex<double> Evaluate(unsigned int n, hydra::Vector4R* p)  const {
 
 
-		hydra::Vector4R p1 = p[CHANNEL-1];
-		hydra::Vector4R p2 = p[CHANNEL==3?0:CHANNEL];
-		hydra::Vector4R p3 = p[ 3 - ((CHANNEL-1) + (CHANNEL==3 ? 0 : CHANNEL))];
+		hydra::Vector4R p1 = p[_I1];
+		hydra::Vector4R p2 = p[_I2];
+		hydra::Vector4R p3 = p[_I3];
 
-
-		hydra::CosTheta fCosDecayAngle();
-		hydra::ZemachFunction fAngularDist();
+		hydra::CosTheta fCosDecayAngle;
+		hydra::ZemachFunction<L> fAngularDist;
 
 		fLineShape.SetParameter(0, _par[2]);
 		fLineShape.SetParameter(1, _par[3]);
 
-		double theta = fCosDecayAngle( hydra::tie((p1+p2+p3), (p1+p2), p1) );
+		double theta = fCosDecayAngle( (p1+p2+p3), (p1+p2), p1 );
+		double angular = fAngularDist(theta);
+		auto r = hydra::complex<double>(_par[0], _par[1])*fLineShape((p1+p2).mass())*angular;
 
-		return hydra::complex(_par[0], _par[1])*fLineShape((p1+p2).mass())*fAngularDist(theta);
-
-	}
-
-	template<typename T>
-	__host__ __device__ inline
-	double Evaluate(T x)  const {
-
+		return r;
 
 	}
 
 private:
 
-	hydra::BreitWignerLineShape<L> fLineShape;
+	mutable hydra::BreitWignerLineShape<L> fLineShape;
 
 
 };
@@ -180,244 +195,424 @@ int main(int argv, char** argc)
 	}
 
 	//-----------------
-    // some definitions
-    double min   =  5.20;
-    double max   =  5.30;
+    //magnitudes and phases from
+    //https://arxiv.org/pdf/0802.4214.pdf
 
-    double KST_892_MASS   = 0.89555;
-    double KST_892_WIDTH  = 0.0473;
-    double KST_1430_MASS  = 1.425;
-    double KST_1430_WIDTH = 0.270;
-    double KST_1680_MASS  = 1.718;
-    double KST_1680_WIDTH = 0.322;
+	double NR_MAG         = 7.4;
+	double NR_PHI         = -18.4*0.01745329;
+	double NR_CRe		  = NR_MAG*cos(NR_PHI);
+	double NR_CIm		  = NR_MAG*sin(NR_PHI);
 
-    double D_MASS     = 1.86959;
-    double K_MASS     = 0.493677;  // K+ mass
-    double PI_MASS    = 0.13957061;// pi mass
+	double K800_MASS  	  = 0.797 ;
+	double K800_WIDTH     = 0.410;
+	double K800_MAG       = 5.01;
+	double K800_PHI       = (-163.7+180.0)*0.01745329;
+	double K800_CRe		  = K800_MAG*cos(K800_PHI);
+	double K800_CIm		  = K800_MAG*sin(K800_PHI);
+
+	double KST_892_MASS   = 0.89555;
+	double KST_892_WIDTH  = 0.0473;
+	double KST_892_MAG    = 1.0;
+	double KST_892_PHI    = 0.0;
+	double KST_892_CRe	  = KST_892_MAG*cos(KST_892_PHI);
+	double KST_892_CIm	  = KST_892_MAG*sin(KST_892_PHI);
+
+	double KST0_1430_MASS  = 1.425;
+	double KST0_1430_WIDTH = 0.270;
+	double KST0_1430_MAG   = 3.0;
+	double KST0_1430_PHI   = (49.7-180.0)*0.01745329;
+	double KST0_1430_CRe   = KST0_1430_MAG*cos(KST0_1430_PHI);
+	double KST0_1430_CIm   = KST0_1430_MAG*sin(KST0_1430_PHI);
+
+	double KST2_1430_MASS  = 1.4324;
+	double KST2_1430_WIDTH = 0.109;
+	double KST2_1430_MAG   = 0.962;
+	double KST2_1430_PHI   = (-29.9+180.0)*0.01745329;
+	double KST2_1430_CRe   = KST2_1430_MAG*cos(KST2_1430_PHI);
+	double KST2_1430_CIm   = KST2_1430_MAG*sin(KST2_1430_PHI);
+
+	double KST_1680_MASS  = 1.718;
+	double KST_1680_WIDTH = 0.322;
+	double KST_1680_MAG   = 6.5;
+	double KST_1680_PHI   = (29.0)*0.01745329;
+	double KST_1680_CRe	  = KST_1680_MAG*cos(KST_1680_PHI);
+	double KST_1680_CIm	  = KST_1680_MAG*sin(KST_1680_PHI);
+
+    double D_MASS         = 1.86959;
+    double K_MASS         = 0.493677;  // K+ mass
+    double PI_MASS        = 0.13957061;// pi mass
 
 
+    //======================================================
+	//K(800)
+	auto mass    = hydra::Parameter::Create().Name("MASS_K800" ).Value(K800_MASS ).Error(0.0001).Limits(K800_MASS*0.9,  K800_MASS*1.1 );
+	auto width   = hydra::Parameter::Create().Name("WIDTH_K800").Value(K800_WIDTH).Error(0.0001).Limits(K800_WIDTH*0.9, K800_WIDTH*1.1);
 
+	auto coef_re = hydra::Parameter::Create().Name("A_RE_K800" ).Value(K800_CRe).Error(0.001).Limits(0.1,2.0);
+	auto coef_im = hydra::Parameter::Create().Name("A_IM_K800" ).Value(K800_CIm).Error(0.001).Limits(0.1,2.0);
+
+	Resonance<1, hydra::SWave> K800_Resonance_12(coef_re, coef_im, mass, width,
+		    	D_MASS,	K_MASS, PI_MASS, PI_MASS , 3.0);
+
+	Resonance<3, hydra::SWave> K800_Resonance_13(coef_re, coef_im, mass, width,
+			    	D_MASS,	K_MASS, PI_MASS, PI_MASS , 3.0);
+
+	auto K800_Resonance = 0.5*(K800_Resonance_12 + K800_Resonance_13);
+
+	//======================================================
+	//K*(892)
+	mass    = hydra::Parameter::Create().Name("MASS_KST_892" ).Value(KST_892_MASS ).Error(0.0001).Limits(KST_892_MASS*0.9,  KST_892_MASS*1.1 );
+	width   = hydra::Parameter::Create().Name("WIDTH_KST_892").Value(KST_892_WIDTH).Error(0.0001).Limits(KST_892_WIDTH*0.9, KST_892_WIDTH*1.1);
+
+	coef_re = hydra::Parameter::Create().Name("A_RE_KST_892" ).Value(KST_892_CRe).Error(0.001).Limits(0.1,2.0);
+	coef_im = hydra::Parameter::Create().Name("A_IM_KST_892" ).Value(KST_892_CIm).Error(0.001).Limits(0.1,2.0);
+
+	Resonance<1, hydra::PWave> KST_892_Resonance_12(coef_re, coef_im, mass, width,
+		    	D_MASS,	K_MASS, PI_MASS, PI_MASS , 3.0);
+
+	Resonance<3, hydra::PWave> KST_892_Resonance_13(coef_re, coef_im, mass, width,
+			    	D_MASS,	K_MASS, PI_MASS, PI_MASS , 3.0);
+
+	auto KST_892_Resonance = 0.5*(KST_892_Resonance_12 - KST_892_Resonance_13);
+
+	//======================================================
+	//K*0(1430)
+	mass    = hydra::Parameter::Create().Name("MASS_KST0_1430" ).Value(KST0_1430_MASS ).Error(0.0001).Limits(KST0_1430_MASS*0.9,  KST0_1430_MASS*1.1 );
+	width   = hydra::Parameter::Create().Name("WIDTH_KST0_1430").Value(KST0_1430_WIDTH).Error(0.0001).Limits(KST0_1430_WIDTH*0.9, KST0_1430_WIDTH*1.1);
+
+	coef_re = hydra::Parameter::Create().Name("A_RE_KST0_1430" ).Value(KST0_1430_CRe).Error(0.001).Limits(0.1,2.0);
+	coef_im = hydra::Parameter::Create().Name("A_IM_KST0_1430" ).Value(KST0_1430_CIm).Error(0.001).Limits(0.1,2.0);
+
+	Resonance<1, hydra::SWave> KST0_1430_Resonance_12(coef_re, coef_im, mass, width,
+		    	D_MASS,	K_MASS, PI_MASS, PI_MASS , 3.0);
+
+	Resonance<3, hydra::SWave> KST0_1430_Resonance_13(coef_re, coef_im, mass, width,
+			    	D_MASS,	K_MASS, PI_MASS, PI_MASS , 3.0);
+
+	auto KST0_1430_Resonance = 0.5*(KST0_1430_Resonance_12 + KST0_1430_Resonance_13);
+
+	//======================================================
+	//K*2(1430)
+	mass    = hydra::Parameter::Create().Name("MASS_KST2_1430" ).Value(KST2_1430_MASS ).Error(0.0001).Limits(KST2_1430_MASS*0.9,  KST2_1430_MASS*1.1 );
+	width   = hydra::Parameter::Create().Name("WIDTH_KST2_1430").Value(KST2_1430_WIDTH).Error(0.0001).Limits(KST2_1430_WIDTH*0.9, KST2_1430_WIDTH*1.1);
+
+	coef_re = hydra::Parameter::Create().Name("A_RE_KST2_1430" ).Value(KST2_1430_CRe).Error(0.001).Limits(0.1,2.0);
+	coef_im = hydra::Parameter::Create().Name("A_IM_KST2_1430" ).Value(KST2_1430_CIm).Error(0.001).Limits(0.1,2.0);
+
+	Resonance<1, hydra::DWave> KST2_1430_Resonance_12(coef_re, coef_im, mass, width,
+		    	D_MASS,	K_MASS, PI_MASS, PI_MASS , 3.0);
+
+	Resonance<3, hydra::DWave> KST2_1430_Resonance_13(coef_re, coef_im, mass, width,
+			    	D_MASS,	K_MASS, PI_MASS, PI_MASS , 3.0);
+
+	auto KST2_1430_Resonance = 0.5*(KST2_1430_Resonance_12 + KST2_1430_Resonance_13);
+
+	//======================================================
+	//K*(1680)
+	mass    = hydra::Parameter::Create().Name("MASS_KST_1680" ).Value(KST_1680_MASS ).Error(0.0001).Limits(KST_1680_MASS*0.9,  KST_1680_MASS*1.1 );
+	width   = hydra::Parameter::Create().Name("WIDTH_KST_1680").Value(KST_1680_WIDTH).Error(0.0001).Limits(KST_1680_WIDTH*0.9, KST_1680_WIDTH*1.1);
+
+	coef_re = hydra::Parameter::Create().Name("A_RE_KST_1680" ).Value(KST_1680_CRe).Error(0.001).Limits(0.1,2.0);
+	coef_im = hydra::Parameter::Create().Name("A_IM_KST_1680" ).Value(KST_1680_CIm).Error(0.001).Limits(0.1,2.0);
+
+	Resonance<1, hydra::PWave> KST_1680_Resonance_12(coef_re, coef_im, mass, width,
+			D_MASS,	K_MASS, PI_MASS, PI_MASS , 3.0);
+
+	Resonance<3, hydra::PWave> KST_1680_Resonance_13(coef_re, coef_im, mass, width,
+			D_MASS,	K_MASS, PI_MASS, PI_MASS , 3.0);
+
+
+	auto KST_1680_Resonance = 0.5*(KST_1680_Resonance_12 - KST_1680_Resonance_13);
+
+	//======================================================
+	//NR
+	coef_re = hydra::Parameter::Create().Name("A_RE_NR" ).Value(NR_CRe).Error(0.001).Limits(0.1,2.0);
+	coef_im = hydra::Parameter::Create().Name("A_IM_NR" ).Value(NR_CIm).Error(0.001).Limits(0.1,2.0);
+
+
+	//======================================================
+	//Total amplitude
+	auto Norm = hydra::wrap_lambda(
+					[]__host__  __device__ (unsigned int np, const hydra::Parameter* p, unsigned int n, hydra::complex<double>* x){
+
+				hydra::complex<double> r(p[0],p[1]);
+
+				for(unsigned int i=0; i< n;i++)	r += x[i];
+
+				return hydra::norm(r);
+	}, coef_re, coef_im);
+
+	auto Model = hydra::compose(Norm,
+			K800_Resonance,
+			KST_892_Resonance,
+			KST0_1430_Resonance,
+			KST2_1430_Resonance,
+			KST_1680_Resonance
+			);
+
+	//--------------------
 	//generator
-	hydra::Random<> Generator(154);
+	hydra::Vector4R B0(D_MASS, 0.0, 0.0, 0.0);
+	// Create PhaseSpace object for B0-> K pi J/psi
+	hydra::PhaseSpace<3> phsp{K_MASS, PI_MASS, PI_MASS};
 
-	//===========================
-    //amplitudes
-	hydra::BreitWignerLineShape<hydra::SWave> Kst(M0, W0, B0_mass, K_mass, pi_mass, Jpsi_mass, 3.0 );
-	hydra::BreitWignerLineShape<hydra::PWave> BW0(M0, W0, B0_mass, K_mass, pi_mass, Jpsi_mass, 3.0 );
-	hydra::BreitWignerLineShape<hydra::DWave> BW1(M1, W1, B0_mass, K_mass, pi_mass, Jpsi_mass, 3.0 );
+	// functor to calculate the 2-body masses
+	auto dalitz_calculator = hydra::wrap_lambda(
+			[]__host__ __device__(unsigned int n, hydra::Vector4R* p ){
 
+		double   M2_12 = (p[0]+p[1]).mass2();
+		double   M2_13 = (p[0]+p[2]).mass2();
+		double   M2_23 = (p[1]+p[2]).mass2();
 
-	//Gaussian
-	hydra::Parameter  mean  = hydra::Parameter::Create().Name("Mean").Value( 5.28).Error(0.0001).Limits(5.27,5.29);
-	hydra::Parameter  sigma = hydra::Parameter::Create().Name("Sigma").Value(0.0027).Error(0.0001).Limits(0.0025,0.0029);
-
-	//gaussian function evaluating on the first argument
-	hydra::Gaussian<> signal(mean, sigma);
-	auto Signal_PDF = hydra::make_pdf( hydra::Gaussian<>(mean, sigma),
-			hydra::GaussianAnalyticalIntegral(min, max));
-
-    //-------------------------------------------
-	//Argus
-    //parameters
-    auto  m0     = hydra::Parameter::Create().Name("M0").Value(5.291).Error(0.0001).Limits(5.28, 5.3);
-    auto  slope  = hydra::Parameter::Create().Name("Slope").Value(-20.0).Error(0.0001).Limits(-50.0, -1.0);
-    auto  power  = hydra::Parameter::Create().Name("Power").Value(0.5).Fixed();
-
-    //gaussian function evaluating on the first argument
-    auto Background_PDF = hydra::make_pdf( hydra::ArgusShape<>(m0, slope, power),
-    		hydra::ArgusShapeAnalyticalIntegral(min, max));
-
-    //------------------
-    //yields
-	hydra::Parameter N_Signal("N_Signal"        ,500, 100, 100 , nentries) ;
-	hydra::Parameter N_Background("N_Background",2000, 100, 100 , nentries) ;
-
-	//make model
-	auto model = hydra::add_pdfs( {N_Signal, N_Background}, Signal_PDF, Background_PDF);
-	model.SetExtended(1);
-
-	//===========================
+		return hydra::make_tuple(M2_12, M2_13, M2_23);
+	});
 
 
-#ifdef _ROOT_AVAILABLE_
+#ifdef 	_ROOT_AVAILABLE_
+	//
+	TH3D Dalitz_Flat("Dalitz_Flat",
+			"Flat Dalitz;"
+			"M^{2}(K^{-} #pi^{+}) [GeV^{2}/c^{4}];"
+			"M^{2}(K^{-} #pi^{+}) [GeV^{2}/c^{4}];"
+			"M^{2}(#pi^{+} #pi^{+}) [GeV^{2}/c^{4}]",
+			100, pow(K_MASS  + PI_MASS,2), pow(D_MASS - PI_MASS,2),
+			100, pow(K_MASS  + PI_MASS,2), pow(D_MASS - PI_MASS,2),
+			100, pow(PI_MASS + PI_MASS,2), pow(D_MASS -  K_MASS,2));
 
-	TH1D 	hist_data("data"	, "Gaussian + ARGUS", 100, min, max);
-	TH1D 	hist_fit("fit"  	, "Gaussian + ARGUS", 100, min, max);
-	TH1D 	hist_signal("signal", "Gaussian + ARGUS", 100, min, max);
-	TH1D 	hist_background("background"  , "Gaussian + ARGUS", 100, min, max);
+	TH3D Dalitz_Resonances("Dalitz_Resonances",
+				"Flat Dalitz;"
+				"M^{2}(K^{-} #pi^{+}) [GeV^{2}/c^{4}];"
+				"M^{2}(K^{-} #pi^{+}) [GeV^{2}/c^{4}];"
+				"M^{2}(#pi^{+} #pi^{+}) [GeV^{2}/c^{4}]",
+				100, pow(K_MASS  + PI_MASS,2), pow(D_MASS - PI_MASS,2),
+				100, pow(K_MASS  + PI_MASS,2), pow(D_MASS - PI_MASS,2),
+				100, pow(PI_MASS + PI_MASS,2), pow(D_MASS -  K_MASS,2));
 
-	TH1D 	hist_test("test"	, "WignerD", 100, pow(K_mass+pi_mass,2), pow(B0_mass-Jpsi_mass,2));
 
 
-#endif //_ROOT_AVAILABLE_
+#endif
 
-	//scope begin
+	hydra::Decays<3, hydra::host::sys_t > toy_data;
+
+	//toy data production on device
 	{
+		//allocate memory to hold the final states particles
+		hydra::Decays<3, hydra::device::sys_t > Events_d(nentries);
 
-		//1D device buffer
-		hydra::device::vector<double>  data(nentries);
+		auto start = std::chrono::high_resolution_clock::now();
 
-		//-------------------------------------------------------
-		// Generate data
-		auto range = Generator.Sample(data.begin(),  data.end(), min, max, model.GetFunctor());
+		//generate the final state particles
+		phsp.Generate(B0, Events_d.begin(), Events_d.end());
 
-		std::cout<< std::endl<< "Generated data:"<< std::endl;
-		for(size_t i=0; i< 10; i++)
-			std::cout << "[" << i << "] :" << range[i] << std::endl;
+		auto end = std::chrono::high_resolution_clock::now();
 
-		//make model and fcn
-		auto fcn = hydra::make_loglikehood_fcn( model, range.begin(), range.end() );
+		std::chrono::duration<double, std::milli> elapsed = end - start;
 
-		//-------------------------------------------------------
-		//fit
-		ROOT::Minuit2::MnPrint::SetLevel(3);
-		hydra::Print::SetLevel(hydra::WARNING);
-		//minimization strategy
-		MnStrategy strategy(1);
+		//output
+		std::cout << std::endl;
+		std::cout << std::endl;
+		std::cout << "----------------- Device ----------------"<< std::endl;
+		std::cout << "| B0 -> J/psi K pi"                       << std::endl;
+		std::cout << "| Number of events :"<< nentries          << std::endl;
+		std::cout << "| Time (ms)        :"<< elapsed.count()   << std::endl;
+		std::cout << "-----------------------------------------"<< std::endl;
 
-		// create Migrad minimizer
-		MnMigrad migrad_d(fcn, fcn.GetParameters().GetMnState() ,  strategy);
+		auto particles        = Events_d.GetUnweightedDecays();
+		auto dalitz_variables = hydra::make_range( particles.begin(), particles.end(), dalitz_calculator);
+		auto dalitz_weights   = Events_d.GetWeights();
 
-		std::cout<<fcn.GetParameters().GetMnState()<<std::endl;
+		std::cout << std::endl;
+		std::cout << std::endl;
 
-		// ... Minimize and profile the time
+		std::cout << "<======= [Daliz variables] { weight : ( MSq_12, MSq_13, MSq_23) } =======>"<< std::endl;
 
-		auto start_d = std::chrono::high_resolution_clock::now();
+		for( size_t i=0; i<10; i++ )
+			std::cout << dalitz_weights[i] << " : "<< dalitz_variables[i] << std::endl;
 
-		FunctionMinimum minimum_d =  FunctionMinimum(migrad_d(5000, 5));
+		//flat dalitz histogram
+		hydra::SparseHistogram<double, 3,  hydra::device::sys_t> Hist_Dalitz{
+				{100,100,100},
+				{pow(K_MASS + PI_MASS,2), pow(K_MASS + PI_MASS,2),  pow(PI_MASS + PI_MASS,2)},
+				{pow(D_MASS - PI_MASS,2), pow(D_MASS - PI_MASS ,2), pow(D_MASS - K_MASS,2)}
+		};
 
-		auto end_d = std::chrono::high_resolution_clock::now();
+		Hist_Dalitz.Fill( dalitz_variables.begin(),
+				dalitz_variables.end(), dalitz_weights.begin()  );
 
-		std::chrono::duration<double, std::milli> elapsed_d = end_d - start_d;
+#ifdef 	_ROOT_AVAILABLE_
 
-		// output
-		std::cout<< "Minimum: " << minimum_d << std::endl;
+#if THRUST_DEVICE_SYSTEM == THRUST_DEVICE_SYSTEM_CUDA
 
-		//time
-		std::cout << "-----------------------------------------"<<std::endl;
-		std::cout << "| [Fit] GPU Time (ms) ="<< elapsed_d.count() <<std::endl;
-		std::cout << "-----------------------------------------"<<std::endl;
+		//if device is cuda, bring the histogram data to the host
+		//to fill the ROOT histogram faster
+		{
+			hydra::SparseHistogram<double, 3,  hydra::host::sys_t> Hist_Temp(Hist_Dalitz);
+			std::cout << "Filling a ROOT Histogram... " << std::endl;
 
-		//--------------------------------------------
-		hydra::DenseHistogram<double, 1, hydra::device::sys_t> Hist_Data(100, min, max);
-		Hist_Data.Fill( range.begin(), range.end() );
+			for(auto entry : Hist_Temp)
+			{
+				size_t bin     = hydra::get<0>(entry);
+				double content = hydra::get<1>(entry);
+				unsigned int bins[3];
+				Hist_Temp.GetIndexes(bin, bins);
+				Dalitz_Flat.SetBinContent(bins[0]+1, bins[1]+1, bins[2]+1, content);
 
-		// fit model
-		hydra::Parameter M0 = hydra::Parameter::Create()
-		.Name("mass0" ).Value(0.895).Error(0.001).Limits(0.7, 0.9);
-
-		hydra::Parameter W0 = hydra::Parameter::Create()
-		.Name("width0").Value(0.055).Error(0.001).Limits(0.04, 0.06);
-
-		// fit model
-		hydra::Parameter M1 = hydra::Parameter::Create()
-		.Name("mass1" ).Value(1.430).Error(0.001).Limits(0.7, 0.9);
-
-		hydra::Parameter W1 = hydra::Parameter::Create()
-		.Name("width1").Value(0.109).Error(0.001).Limits(0.04, 0.06);
-
-
-
-		hydra::BreitWignerLineShape<hydra::PWave> BW0(M0, W0, B0_mass, K_mass, pi_mass, Jpsi_mass, 3.0 );
-		hydra::BreitWignerLineShape<hydra::DWave> BW1(M1, W1, B0_mass, K_mass, pi_mass, Jpsi_mass, 3.0 );
-
-	    hydra::M12SqPhaseSpaceLineShape<> phsp(B0_mass, K_mass, pi_mass, Jpsi_mass);
-
-		auto Norm = hydra::wrap_lambda(
-				[]__host__  __device__ (unsigned int n, hydra::complex<double>* x){
-			hydra::complex<double> r(0,0);
-			for(unsigned int i=0; i< n;i++)
-				r += x[i];
-
-			return hydra::norm(r);}
-		);
-
-		auto f = hydra::compose(Norm,  phsp );
-
-#ifdef _ROOT_AVAILABLE_
-
-		for(size_t i=0;  i<100; i++){
-
-			double x = hist_test.GetBinCenter(i);
-			hist_test.SetBinContent(i, phsp(x) );
+			}
 		}
-		//data
-		for(size_t i=0;  i<100; i++)
-			hist_data.SetBinContent(i+1, Hist_Data.GetBinContent(i));
+#else
+		std::cout << "Filling a ROOT Histogram... " << std::endl;
 
-		//fit
-		for (size_t i=0 ; i<=100 ; i++) {
-			double x = hist_fit.GetBinCenter(i);
-	        hist_fit.SetBinContent(i, fcn.GetPDF()(x) );
+		for(auto entry : Hist_Dalitz)
+		{
+			size_t bin     = hydra::get<0>(entry);
+			double content = hydra::get<1>(entry);
+			unsigned int bins[3];
+			Hist_Dalitz.GetIndexes(bin, bins);
+			Dalitz_Flat.SetBinContent(bins[0]+1, bins[1]+1, bins[2]+1, content);
+
 		}
-		hist_fit.Scale(hist_data.Integral()/hist_fit.Integral() );
+#endif
 
-		//signal component
-		auto   signal          = fcn.GetPDF().PDF(_0);
-		double signal_fraction = fcn.GetPDF().Coeficient(0)/fcn.GetPDF().GetCoefSum();
-		for (size_t i=0 ; i<=100 ; i++) {
-			double x = hist_signal.GetBinCenter(i);
-			hist_signal.SetBinContent(i, signal(x) );
+#endif
+
+		auto last = Events_d.Unweight(Model, 1.0);
+
+		std::cout <<std::endl;
+		std::cout << "<======= Toy data =======>"<< std::endl;
+		for( size_t i=0; i<10; i++ )
+			std::cout << Events_d[i] << std::endl;
+
+		toy_data.resize(last);
+		hydra::copy(Events_d.begin(), Events_d.begin()+last, toy_data.begin());
+
+	}//toy data production on device
+
+
+	//plot toy-data
+	{
+		hydra::Decays<3, hydra::device::sys_t > toy_data_temp(toy_data);
+		auto particles        = toy_data_temp.GetUnweightedDecays();
+		auto dalitz_variables = hydra::make_range( particles.begin(), particles.end(), dalitz_calculator);
+
+		std::cout << std::endl;
+		std::cout << std::endl;
+
+		std::cout << "<======= [Daliz variables] { ( MSq_12, MSq_13, MSq_23) } =======>"<< std::endl;
+
+		for( size_t i=0; i<10; i++ )
+			std::cout << dalitz_variables[i] << std::endl;
+
+		//flat dalitz histogram
+		hydra::SparseHistogram<double, 3,  hydra::device::sys_t> Hist_Dalitz{
+			{100,100,100},
+			{pow(K_MASS + PI_MASS,2), pow(K_MASS + PI_MASS,2),  pow(PI_MASS + PI_MASS,2)},
+			{pow(D_MASS - PI_MASS,2), pow(D_MASS - PI_MASS ,2), pow(D_MASS - K_MASS,2)}
+		};
+
+		Hist_Dalitz.Fill( dalitz_variables.begin(), dalitz_variables.end() );
+
+#ifdef 	_ROOT_AVAILABLE_
+
+#if THRUST_DEVICE_SYSTEM == THRUST_DEVICE_SYSTEM_CUDA
+
+		//if device is cuda, bring the histogram data to the host
+		//to fill the ROOT histogram faster
+		{
+			hydra::SparseHistogram<double, 3,  hydra::host::sys_t> Hist_Temp(Hist_Dalitz);
+			std::cout << "Filling a ROOT Histogram... " << std::endl;
+
+			for(auto entry : Hist_Temp)
+			{
+				size_t bin     = hydra::get<0>(entry);
+				double content = hydra::get<1>(entry);
+				unsigned int bins[3];
+				Hist_Temp.GetIndexes(bin, bins);
+				Dalitz_Resonances.SetBinContent(bins[0]+1, bins[1]+1, bins[2]+1, content);
+
+			}
 		}
-		hist_signal.Scale(hist_data.Integral()*signal_fraction/hist_signal.Integral());
+#else
+		std::cout << "Filling a ROOT Histogram... " << std::endl;
 
-		//signal component
-		auto   background          = fcn.GetPDF().PDF(_1);
-		double background_fraction = fcn.GetPDF().Coeficient(1)/fcn.GetPDF().GetCoefSum();
-		for (size_t i=0 ; i<=100 ; i++) {
-			double x = hist_background.GetBinCenter(i);
-			hist_background.SetBinContent(i, background(x) );
+		for(auto entry : Hist_Dalitz)
+		{
+			size_t bin     = hydra::get<0>(entry);
+			double content = hydra::get<1>(entry);
+			unsigned int bins[3];
+			Hist_Dalitz.GetIndexes(bin, bins);
+			Dalitz_Resonances.SetBinContent(bins[0]+1, bins[1]+1, bins[2]+1, content);
+
 		}
-		hist_background.Scale(hist_data.Integral()*background_fraction/hist_background.Integral());
+#endif
+
+#endif
+
+	}
+
+	// fit
+	{
+		//pdf
+		auto Model_PDF = hydra::make_pdf( Model,
+				hydra::PhaseSpaceIntegrator<3, hydra::device::sys_t>(D_MASS, {K_MASS, PI_MASS, PI_MASS}, 1000000));
+
+		hydra::Decays<3, hydra::device::sys_t > toy_data_temp(toy_data);
+		auto particles        = toy_data_temp.GetUnweightedDecays();
+
+		auto fcn = hydra::make_loglikehood_fcn(Model_PDF, particles.begin(),
+						particles.end());
+
+				//print level
+				ROOT::Minuit2::MnPrint::SetLevel(3);
+				hydra::Print::SetLevel(hydra::WARNING);
+
+				//minimization strategy
+				MnStrategy strategy(2);
+
+				//create Migrad minimizer
+				MnMigrad migrad_d(fcn, fcn.GetParameters().GetMnState() ,  strategy);
+
+				//print parameters before fitting
+				std::cout<<fcn.GetParameters().GetMnState()<<std::endl;
+
+				//Minimize and profile the time
+				auto start_d = std::chrono::high_resolution_clock::now();
+
+				FunctionMinimum minimum_d =  FunctionMinimum( migrad_d(50000, 5) );
+
+				auto end_d = std::chrono::high_resolution_clock::now();
+
+				std::chrono::duration<double, std::milli> elapsed_d = end_d - start_d;
+
+				//print parameters after fitting
+				std::cout<<"minimum: "<<minimum_d<<std::endl;
+	}
+
+
+#ifdef 	_ROOT_AVAILABLE_
+
+	TApplication *m_app=new TApplication("myapp",0,0);
+
+
+	TCanvas canvas_1("canvas_1", "Phase-space FLAT", 500, 500);
+	Dalitz_Flat.Project3D("yz")->Draw("colz");
+
+	TCanvas canvas_2("canvas_2", "Phase-space FLAT", 500, 500);
+	Dalitz_Flat.Project3D("xy")->Draw("colz");
+
+	TCanvas canvas_3("canvas_3", "Phase-space FLAT", 500, 500);
+	Dalitz_Resonances.Project3D("yz")->Draw("colz");
+
+	TCanvas canvas_4("canvas_4", "Phase-space FLAT", 500, 500);
+	Dalitz_Resonances.Project3D("xy")->Draw("colz");
 
 
 
+	m_app->Run();
 
-#endif //_ROOT_AVAILABLE_
-
-	}//scope end
-
-
-#ifdef _ROOT_AVAILABLE_
-
-	TApplication *myapp=new TApplication("myapp",0,0);
-
-	//draw histograms
-	TCanvas canvas_d("canvas_d" ,"Distributions - Device", 500, 500);
-
-	hist_data.Draw("e0");
-	hist_data.SetStats(0);
-	hist_data.SetLineColor(1);
-	hist_data.SetLineWidth(2);
-
-	hist_fit.Draw("histsameC");
-	hist_fit.SetStats(0);
-	hist_fit.SetLineColor(4);
-
-	hist_signal.Draw("histsameC");
-	hist_signal.SetStats(0);
-	hist_signal.SetLineColor(3);
-
-	hist_background.Draw("histsameC");
-	hist_background.SetStats(0);
-	hist_background.SetLineColor(2);
-	hist_background.SetLineStyle(2);
-
-	hist_fit.Draw("histsameC");
-	hist_data.Draw("e0same");
-
-
-	TCanvas canvas_test("canvas_test" ,"Distributions - Device", 500, 500);
-	hist_test.Draw("histC");
-
-	myapp->Run();
-
-#endif //_ROOT_AVAILABLE_
+#endif
 
 	return 0;
-
 }
-
 
 
 

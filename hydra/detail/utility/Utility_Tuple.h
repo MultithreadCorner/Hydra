@@ -662,13 +662,13 @@ namespace hydra {
 	 template<size_t I = 0, typename Return_Type, typename ArgType1, typename ArgType2, typename ... Tp>
 	 __host__  __device__
 	 inline typename HYDRA_EXTERNAL_NS::thrust::detail::enable_if<I == sizeof...(Tp), void>::type
-	 product_tuple2(Return_Type&, HYDRA_EXTERNAL_NS::thrust::tuple<Tp...> const&, ArgType1 const&, ArgType2 const&)
+	 product_tuple2(Return_Type&, HYDRA_EXTERNAL_NS::thrust::tuple<Tp...> &, ArgType1&, ArgType2&)
 	 {}
 
 	 template<size_t I = 0, typename Return_Type, typename ArgType1, typename ArgType2,  typename ... Tp>
 	 __host__  __device__
 	 inline typename HYDRA_EXTERNAL_NS::thrust::detail::enable_if<(I < (sizeof...(Tp))),void >::type
-	 product_tuple2(Return_Type& r, HYDRA_EXTERNAL_NS::thrust::tuple<Tp...> const& t, ArgType1 const& arg1, ArgType2 const& arg2)
+	 product_tuple2(Return_Type& r, HYDRA_EXTERNAL_NS::thrust::tuple<Tp...>& t, ArgType1& arg1, ArgType2& arg2)
 	 {
 		 r = r*((Return_Type) HYDRA_EXTERNAL_NS::thrust::get<I>(t)(std::forward<ArgType1&>(arg1), std::forward<ArgType2&>(arg2)));
 		 product_tuple2<I + 1, Return_Type, ArgType1, ArgType2,  Tp...>( r , t,arg1, arg2 );
@@ -856,7 +856,7 @@ namespace hydra {
 	 template<typename Return_Type, typename ArgType, typename ... Tp,
 	 typename=typename HYDRA_EXTERNAL_NS::thrust::detail::enable_if<std::is_convertible<Return_Type, double>::value || std::is_constructible<HYDRA_EXTERNAL_NS::thrust::complex<double>,Return_Type>::value >::type>
 	 __host__  __device__
-	 inline Return_Type product(ArgType const& x, HYDRA_EXTERNAL_NS::thrust::tuple<Tp...> const& t)
+	 inline Return_Type product(ArgType& x, HYDRA_EXTERNAL_NS::thrust::tuple<Tp...> & t)
 	 {
 		 Return_Type r=TypeTraits<Return_Type>::one();
 		 product_tuple(r, t, x);

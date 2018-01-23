@@ -101,7 +101,7 @@ namespace detail {
 				*( mother_mass_sq - ( daughter1_mass - daughter2_mass)*( daughter1_mass - daughter2_mass)) )/(2.0*mother_mass);
 	}
 
-
+/*
 	//
 	__host__ __device__ inline
 	double triangle_function( const double x, const double y, const double z)
@@ -121,7 +121,7 @@ namespace detail {
 		return numerator/denominator;
 
 	}
-
+*/
 
 
 }  // namespace hydra

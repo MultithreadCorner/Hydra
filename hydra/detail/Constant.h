@@ -52,9 +52,11 @@ public:
 	typedef void hydra_functor_tag;
 	typedef ReturnType return_type;
 	typedef   std::true_type is_functor;
-	__host__  Constant( ){};
 
-	__host__  Constant( const return_type _Cte):
+	Constant()=delete;
+
+	__host__
+	Constant( const return_type _Cte):
 				fCte(_Cte)
 	{};
 
@@ -64,7 +66,8 @@ public:
 	{}
 
 	template<typename ...T>
-	__host__ __device__ inline return_type  operator()(T ...args){ return fCte;}
+	__host__ __device__ inline return_type  operator()(T& ...args){ return fCte;}
+
 
 private:
 	return_type fCte;

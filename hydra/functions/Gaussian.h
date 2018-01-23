@@ -30,6 +30,7 @@
 #ifndef GAUSSIAN_H_
 #define GAUSSIAN_H_
 
+#include <hydra/detail/Config.h>
 #include <hydra/Types.h>
 #include <hydra/Function.h>
 #include <hydra/Pdf.h>
