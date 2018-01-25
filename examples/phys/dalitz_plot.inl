@@ -199,7 +199,7 @@ int main(int argv, char** argc)
     //https://arxiv.org/pdf/0802.4214.pdf
 
 	double NR_MAG         = 7.4;
-	double NR_PHI         = -18.4*0.01745329;
+	double NR_PHI         = (-18.4+180.0)*0.01745329;
 	double NR_CRe		  = NR_MAG*cos(NR_PHI);
 	double NR_CIm		  = NR_MAG*sin(NR_PHI);
 
@@ -245,11 +245,11 @@ int main(int argv, char** argc)
 
     //======================================================
 	//K(800)
-	auto mass    = hydra::Parameter::Create().Name("MASS_K800" ).Value(K800_MASS ).Error(0.0001).Limits(K800_MASS*0.9,  K800_MASS*1.1 );
-	auto width   = hydra::Parameter::Create().Name("WIDTH_K800").Value(K800_WIDTH).Error(0.0001).Limits(K800_WIDTH*0.9, K800_WIDTH*1.1);
+	auto mass    = hydra::Parameter::Create().Name("MASS_K800" ).Value(K800_MASS ).Error(0.0001).Limits(K800_MASS*0.95,  K800_MASS*1.05 );
+	auto width   = hydra::Parameter::Create().Name("WIDTH_K800").Value(K800_WIDTH).Error(0.0001).Limits(K800_WIDTH*0.95, K800_WIDTH*1.05);
 
-	auto coef_re = hydra::Parameter::Create().Name("A_RE_K800" ).Value(K800_CRe).Error(0.001).Limits(0.1,2.0);
-	auto coef_im = hydra::Parameter::Create().Name("A_IM_K800" ).Value(K800_CIm).Error(0.001).Limits(0.1,2.0);
+	auto coef_re = hydra::Parameter::Create().Name("A_RE_K800" ).Value(K800_CRe).Error(0.001).Limits(K800_CRe*0.95,K800_CRe*1.05);
+	auto coef_im = hydra::Parameter::Create().Name("A_IM_K800" ).Value(K800_CIm).Error(0.001).Limits(K800_CIm*0.95,K800_CIm*1.05);
 
 	Resonance<1, hydra::SWave> K800_Resonance_12(coef_re, coef_im, mass, width,
 		    	D_MASS,	K_MASS, PI_MASS, PI_MASS , 3.0);
@@ -257,15 +257,15 @@ int main(int argv, char** argc)
 	Resonance<3, hydra::SWave> K800_Resonance_13(coef_re, coef_im, mass, width,
 			    	D_MASS,	K_MASS, PI_MASS, PI_MASS , 3.0);
 
-	auto K800_Resonance = 0.5*(K800_Resonance_12 + K800_Resonance_13);
+	auto K800_Resonance = (K800_Resonance_12 + K800_Resonance_13);
 
 	//======================================================
 	//K*(892)
-	mass    = hydra::Parameter::Create().Name("MASS_KST_892" ).Value(KST_892_MASS ).Error(0.0001).Limits(KST_892_MASS*0.9,  KST_892_MASS*1.1 );
-	width   = hydra::Parameter::Create().Name("WIDTH_KST_892").Value(KST_892_WIDTH).Error(0.0001).Limits(KST_892_WIDTH*0.9, KST_892_WIDTH*1.1);
+	mass    = hydra::Parameter::Create().Name("MASS_KST_892" ).Value(KST_892_MASS ).Error(0.0001).Limits(KST_892_MASS*0.95,  KST_892_MASS*1.05 );
+	width   = hydra::Parameter::Create().Name("WIDTH_KST_892").Value(KST_892_WIDTH).Error(0.0001).Limits(KST_892_WIDTH*0.95, KST_892_WIDTH*1.05);
 
-	coef_re = hydra::Parameter::Create().Name("A_RE_KST_892" ).Value(KST_892_CRe).Error(0.001).Limits(0.1,2.0);
-	coef_im = hydra::Parameter::Create().Name("A_IM_KST_892" ).Value(KST_892_CIm).Error(0.001).Limits(0.1,2.0);
+	coef_re = hydra::Parameter::Create().Name("A_RE_KST_892" ).Value(KST_892_CRe).Error(0.001).Limits(KST_892_CRe*0.95,KST_892_CRe*1.05).Fixed();
+	coef_im = hydra::Parameter::Create().Name("A_IM_KST_892" ).Value(KST_892_CIm).Error(0.001).Limits(KST_892_CIm*0.95,KST_892_CIm*1.05).Fixed();
 
 	Resonance<1, hydra::PWave> KST_892_Resonance_12(coef_re, coef_im, mass, width,
 		    	D_MASS,	K_MASS, PI_MASS, PI_MASS , 3.0);
@@ -273,15 +273,15 @@ int main(int argv, char** argc)
 	Resonance<3, hydra::PWave> KST_892_Resonance_13(coef_re, coef_im, mass, width,
 			    	D_MASS,	K_MASS, PI_MASS, PI_MASS , 3.0);
 
-	auto KST_892_Resonance = 0.5*(KST_892_Resonance_12 - KST_892_Resonance_13);
+	auto KST_892_Resonance = (KST_892_Resonance_12 - KST_892_Resonance_13);
 
 	//======================================================
 	//K*0(1430)
-	mass    = hydra::Parameter::Create().Name("MASS_KST0_1430" ).Value(KST0_1430_MASS ).Error(0.0001).Limits(KST0_1430_MASS*0.9,  KST0_1430_MASS*1.1 );
-	width   = hydra::Parameter::Create().Name("WIDTH_KST0_1430").Value(KST0_1430_WIDTH).Error(0.0001).Limits(KST0_1430_WIDTH*0.9, KST0_1430_WIDTH*1.1);
+	mass    = hydra::Parameter::Create().Name("MASS_KST0_1430" ).Value(KST0_1430_MASS ).Error(0.0001).Limits(KST0_1430_MASS*0.95,  KST0_1430_MASS*1.05 );
+	width   = hydra::Parameter::Create().Name("WIDTH_KST0_1430").Value(KST0_1430_WIDTH).Error(0.0001).Limits(KST0_1430_WIDTH*0.95, KST0_1430_WIDTH*1.05);
 
-	coef_re = hydra::Parameter::Create().Name("A_RE_KST0_1430" ).Value(KST0_1430_CRe).Error(0.001).Limits(0.1,2.0);
-	coef_im = hydra::Parameter::Create().Name("A_IM_KST0_1430" ).Value(KST0_1430_CIm).Error(0.001).Limits(0.1,2.0);
+	coef_re = hydra::Parameter::Create().Name("A_RE_KST0_1430" ).Value(KST0_1430_CRe).Error(0.001).Limits(KST0_1430_CRe*0.95,KST0_1430_CRe*1.05);
+	coef_im = hydra::Parameter::Create().Name("A_IM_KST0_1430" ).Value(KST0_1430_CIm).Error(0.001).Limits(KST0_1430_CIm*0.95,KST0_1430_CIm*1.05);
 
 	Resonance<1, hydra::SWave> KST0_1430_Resonance_12(coef_re, coef_im, mass, width,
 		    	D_MASS,	K_MASS, PI_MASS, PI_MASS , 3.0);
@@ -289,15 +289,15 @@ int main(int argv, char** argc)
 	Resonance<3, hydra::SWave> KST0_1430_Resonance_13(coef_re, coef_im, mass, width,
 			    	D_MASS,	K_MASS, PI_MASS, PI_MASS , 3.0);
 
-	auto KST0_1430_Resonance = 0.5*(KST0_1430_Resonance_12 + KST0_1430_Resonance_13);
+	auto KST0_1430_Resonance = (KST0_1430_Resonance_12 + KST0_1430_Resonance_13);
 
 	//======================================================
 	//K*2(1430)
-	mass    = hydra::Parameter::Create().Name("MASS_KST2_1430" ).Value(KST2_1430_MASS ).Error(0.0001).Limits(KST2_1430_MASS*0.9,  KST2_1430_MASS*1.1 );
-	width   = hydra::Parameter::Create().Name("WIDTH_KST2_1430").Value(KST2_1430_WIDTH).Error(0.0001).Limits(KST2_1430_WIDTH*0.9, KST2_1430_WIDTH*1.1);
+	mass    = hydra::Parameter::Create().Name("MASS_KST2_1430" ).Value(KST2_1430_MASS ).Error(0.0001).Limits(KST2_1430_MASS*0.95,  KST2_1430_MASS*1.05 );
+	width   = hydra::Parameter::Create().Name("WIDTH_KST2_1430").Value(KST2_1430_WIDTH).Error(0.0001).Limits(KST2_1430_WIDTH*0.95, KST2_1430_WIDTH*1.05);
 
-	coef_re = hydra::Parameter::Create().Name("A_RE_KST2_1430" ).Value(KST2_1430_CRe).Error(0.001).Limits(0.1,2.0);
-	coef_im = hydra::Parameter::Create().Name("A_IM_KST2_1430" ).Value(KST2_1430_CIm).Error(0.001).Limits(0.1,2.0);
+	coef_re = hydra::Parameter::Create().Name("A_RE_KST2_1430" ).Value(KST2_1430_CRe).Error(0.001).Limits(KST2_1430_CRe*0.95,KST2_1430_CRe*1.05);
+	coef_im = hydra::Parameter::Create().Name("A_IM_KST2_1430" ).Value(KST2_1430_CIm).Error(0.001).Limits(KST2_1430_CIm*0.95,KST2_1430_CIm*1.05);
 
 	Resonance<1, hydra::DWave> KST2_1430_Resonance_12(coef_re, coef_im, mass, width,
 		    	D_MASS,	K_MASS, PI_MASS, PI_MASS , 3.0);
@@ -305,15 +305,15 @@ int main(int argv, char** argc)
 	Resonance<3, hydra::DWave> KST2_1430_Resonance_13(coef_re, coef_im, mass, width,
 			    	D_MASS,	K_MASS, PI_MASS, PI_MASS , 3.0);
 
-	auto KST2_1430_Resonance = 0.5*(KST2_1430_Resonance_12 + KST2_1430_Resonance_13);
+	auto KST2_1430_Resonance = (KST2_1430_Resonance_12 + KST2_1430_Resonance_13);
 
 	//======================================================
 	//K*(1680)
-	mass    = hydra::Parameter::Create().Name("MASS_KST_1680" ).Value(KST_1680_MASS ).Error(0.0001).Limits(KST_1680_MASS*0.9,  KST_1680_MASS*1.1 );
-	width   = hydra::Parameter::Create().Name("WIDTH_KST_1680").Value(KST_1680_WIDTH).Error(0.0001).Limits(KST_1680_WIDTH*0.9, KST_1680_WIDTH*1.1);
+	mass    = hydra::Parameter::Create().Name("MASS_KST_1680" ).Value(KST_1680_MASS ).Error(0.0001).Limits(KST_1680_MASS*0.95,  KST_1680_MASS*1.05 );
+	width   = hydra::Parameter::Create().Name("WIDTH_KST_1680").Value(KST_1680_WIDTH).Error(0.0001).Limits(KST_1680_WIDTH*0.95, KST_1680_WIDTH*1.05);
 
-	coef_re = hydra::Parameter::Create().Name("A_RE_KST_1680" ).Value(KST_1680_CRe).Error(0.001).Limits(0.1,2.0);
-	coef_im = hydra::Parameter::Create().Name("A_IM_KST_1680" ).Value(KST_1680_CIm).Error(0.001).Limits(0.1,2.0);
+	coef_re = hydra::Parameter::Create().Name("A_RE_KST_1680" ).Value(KST_1680_CRe).Error(0.001).Limits(KST_1680_CRe*0.95,KST_1680_CRe*1.05);
+	coef_im = hydra::Parameter::Create().Name("A_IM_KST_1680" ).Value(KST_1680_CIm).Error(0.001).Limits(KST_1680_CIm*0.95,KST_1680_CIm*1.05);
 
 	Resonance<1, hydra::PWave> KST_1680_Resonance_12(coef_re, coef_im, mass, width,
 			D_MASS,	K_MASS, PI_MASS, PI_MASS , 3.0);
@@ -322,12 +322,12 @@ int main(int argv, char** argc)
 			D_MASS,	K_MASS, PI_MASS, PI_MASS , 3.0);
 
 
-	auto KST_1680_Resonance = 0.5*(KST_1680_Resonance_12 - KST_1680_Resonance_13);
+	auto KST_1680_Resonance = (KST_1680_Resonance_12 - KST_1680_Resonance_13);
 
 	//======================================================
 	//NR
-	coef_re = hydra::Parameter::Create().Name("A_RE_NR" ).Value(NR_CRe).Error(0.001).Limits(0.1,2.0);
-	coef_im = hydra::Parameter::Create().Name("A_IM_NR" ).Value(NR_CIm).Error(0.001).Limits(0.1,2.0);
+	coef_re = hydra::Parameter::Create().Name("A_RE_NR" ).Value(NR_CRe).Error(0.001).Limits(NR_CRe*0.95,NR_CRe*1.05);
+	coef_im = hydra::Parameter::Create().Name("A_IM_NR" ).Value(NR_CIm).Error(0.001).Limits(NR_CIm*0.95,NR_CIm*1.05);
 
 
 	//======================================================

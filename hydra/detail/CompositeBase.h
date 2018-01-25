@@ -41,199 +41,223 @@
 
 namespace hydra {
 
+namespace detail {
 
 template<typename F0, typename F1, typename... Fs >
-struct  CompositeBase
+class  CompositeBase
 {
-	    //tag
-	    typedef void hydra_functor_tag;
 
-	    //typedefs
-	    typedef typename detail::common_type_t<F0::return_type, F1::return_type, Fs::return_type...> return_type ;
-		typedef typename HYDRA_EXTERNAL_NS::thrust::tuple<typename F1::return_type, typename Fs::return_type...> argument_type;
-		typedef typename HYDRA_EXTERNAL_NS::thrust::tuple<F1, Fs...> functors_type;
+public:
 
+	typedef typename HYDRA_EXTERNAL_NS::thrust::tuple<F0, F1, Fs...> functors_type;
 
-		CompositeBase()=delete;
+	CompositeBase()=delete;
 
 
-		CompositeBase(F0 const& f0, F1 const& f1,  Fs const& ...fs):
+	CompositeBase(F0 const& f0, F1 const& f1,  Fs const& ...fs):
 		fIndex(-1),
 		fCached(0),
-		fFtorTuple(HYDRA_EXTERNAL_NS::thrust::make_tuple(f0, f1, fs...))
-	  	{ }
+		fFtorTuple(HYDRA_EXTERNAL_NS::thrust::make_tuple(f0, f1, fs...)),
+		fNorm(1.0)
+	{ }
 
-		__host__ __device__ inline
-		CompositeBase(CompositeBase<F0,F1,Fs...> const& other):
-			fFtorTuple( other.GetFunctors() ),
-			fIndex( other.GetIndex() ),
-			fCached( other.IsCached() )
-		{ }
+	__host__ __device__ inline
+	CompositeBase(CompositeBase<F0,F1,Fs...> const& other):
+	fFtorTuple( other.GetFunctors() ),
+	fIndex( other.GetIndex() ),
+	fCached( other.IsCached() ),
+	fNorm(other.GetNorm())
+	{ }
 
-		__host__ __device__ inline
-		CompositeBase<F0,F1,Fs...>& operator=(CompositeBase<F0,F1,Fs...> const& other)
-		{
-			this->fFtorTuple = other.GetFunctors() ;
-			this->fIndex = other.GetIndex() ;
-			this->fCached = other.IsCached() ;
-			return *this;
-		}
+	__host__ __device__ inline
+	CompositeBase<F0,F1,Fs...>& operator=(CompositeBase<F0,F1,Fs...> const& other)
+	{
+		this->fFtorTuple = other.GetFunctors() ;
+		this->fIndex = other.GetIndex() ;
+		this->fCached = other.IsCached() ;
+		this->fNorm = other.GetNorm();
+		return *this;
+	}
 
-		inline void AddUserParameters(std::vector<hydra::Parameter*>& user_parameters )
-		{
-			detail::add_parameters_in_tuple(user_parameters, fFtorTuple );
-		}
+	inline void PrintRegisteredParameters()
+	{
+		HYDRA_CALLER ;
+		HYDRA_MSG << "Registered parameters begin:\n" << HYDRA_ENDL;
+		detail::print_parameters_in_tuple(fFtorTuple);
+		HYDRA_MSG <<"Registered parameters end.\n" << HYDRA_ENDL;
+		return;
+	}
 
-
-		inline void SetParameters(const std::vector<double>& parameters){
-
-			detail::set_functors_in_tuple(fFtorTuple, parameters);
-		}
-
-		inline size_t  GetParametersKey(){
-
-			std::vector<hydra::Parameter*> _parameters;
-			detail::set_functors_in_tuple(fFtorTuple, _parameters);
-
-			std::vector<double> _temp(_parameters.size());
-
-			for(size_t i=0; i< _parameters.size(); i++)
-				_temp[i]= *(_parameters[i]);
-
-			size_t key = detail::hash_range(_temp.begin(), _temp.end() );
-
-			return key;
-		}
-
-		inline size_t GetNumberOfParameters() const {
-
-			std::vector<hydra::Parameter*> _parameters;
-			detail::set_functors_in_tuple(fFtorTuple, _parameters);
-
-			return _parameters.size();
-
-		}
-
-		template<typename Int,
-		typename = typename std::enable_if<std::is_integral<Int>::value, void>::type>
-		inline const hydra::Parameter& GetParameter(Int i) const {
-
-			std::vector<hydra::Parameter*> _parameters;
-			detail::set_functors_in_tuple(fFtorTuple, _parameters);
+	inline void AddUserParameters(std::vector<hydra::Parameter*>& user_parameters )
+	{
+		detail::add_parameters_in_tuple(user_parameters, fFtorTuple );
+	}
 
 
-			return *(_parameters[i]);
-		}
+	inline void SetParameters(const std::vector<double>& parameters){
 
-		inline const hydra::Parameter& GetParameter(const char* name) const {
+		detail::set_functors_in_tuple(fFtorTuple, parameters);
+	}
 
-			size_t i=0;
+	inline size_t  GetParametersKey(){
 
-			std::vector<hydra::Parameter*> _parameters;
-			detail::set_functors_in_tuple(fFtorTuple, _parameters);
+		std::vector<hydra::Parameter*> _parameters;
+		detail::add_parameters_in_tuple(_parameters, fFtorTuple );
 
-			for(i=0; i<N; i++)
-				if (strcmp(_parameters[i]->GetName(),name)==0) break;
+		std::vector<double> _temp(_parameters.size());
 
-			return *(_parameters[i]) ;
-		}
+		for(size_t i=0; i< _parameters.size(); i++)
+			_temp[i]= *(_parameters[i]);
 
-		template<typename Int,
-		typename = typename std::enable_if<std::is_integral<Int>::value, void>::type>
-		inline hydra::Parameter& Parameter(Int i) {
+		size_t key = detail::hash_range(_temp.begin(), _temp.end() );
 
-			std::vector<hydra::Parameter*> _parameters;
-			detail::set_functors_in_tuple(fFtorTuple, _parameters);
+		return key;
+	}
 
-			return *(_parameters[i]);
-		}
+	inline size_t GetNumberOfParameters() const {
 
-		inline hydra::Parameter& Parameter(const char* name) {
+		std::vector<hydra::Parameter*> _parameters;
+		detail::add_parameters_in_tuple(_parameters, fFtorTuple );
 
-			size_t i=0;
+		return _parameters.size();
 
-			std::vector<hydra::Parameter*> _parameters;
-			detail::set_functors_in_tuple(fFtorTuple, _parameters);
+	}
 
-			for(i=0; i<N; i++)
-				if (strcmp(_parameters[i]->GetName(),name)==0) break;
+	template<typename Int,
+	typename = typename std::enable_if<std::is_integral<Int>::value, void>::type>
+	inline const hydra::Parameter& GetParameter(Int i) const {
 
-			return *(_parameters[i]) ;
-		}
+		std::vector<hydra::Parameter*> _parameters;
+		detail::add_parameters_in_tuple(_parameters, fFtorTuple );
 
 
-		template<typename Int,
-		typename = typename std::enable_if<std::is_integral<Int>::value, void>::type>
-		__host__ __device__ inline
-		void SetParameter(Int i, hydra::Parameter const& value) {
+		return *(_parameters[i]);
+	}
 
-			std::vector<hydra::Parameter*> _parameters;
-			detail::set_functors_in_tuple(fFtorTuple, _parameters);
+	inline const hydra::Parameter& GetParameter(const char* name) const {
 
-			(*_parameters[i])=value;
-		}
+		size_t i=0;
 
-		template<typename Int,
-		typename = typename std::enable_if<std::is_integral<Int>::value, void>::type>
-		__host__ __device__ inline
-		void SetParameter(Int i, double value) {
-			fParameters[i]=value;
-		}
+		std::vector<hydra::Parameter*> _parameters;
+		detail::add_parameters_in_tuple(_parameters, fFtorTuple );
 
-		__host__ inline
-		void SetParameter(const char* name, hydra::Parameter const& value) {
+		for(i=0; i< _parameters.size(); i++)
+			if (strcmp(_parameters[i]->GetName(),name)==0) break;
 
-			size_t i=0;
+		return *(_parameters[i]) ;
+	}
 
-			for(i=0; i<N; i++)
-				if (strcmp(fParameters[i].GetName(),name)==0){
-					fParameters[i]=value;
-					break;
-				}
-		}
+	template<typename Int,
+	typename = typename std::enable_if<std::is_integral<Int>::value, void>::type>
+	inline hydra::Parameter& Parameter(Int i) {
 
-		__host__ inline
-		void SetParameter(const char* name, double value) {
+		std::vector<hydra::Parameter*> _parameters;
+		detail::add_parameters_in_tuple(_parameters, fFtorTuple );
 
-			size_t i=0;
+		return *(_parameters[i]);
+	}
 
-			for(i=0; i<N; i++)
-				if (strcmp(fParameters[i].GetName(),name)==0){
-					fParameters[i]=value;
-					break;
-				}
-		}
+	inline hydra::Parameter& Parameter(const char* name) {
 
-		__host__ __device__ inline
-		functors_type GetFunctors() const {return this->fFtorTuple;}
+		size_t i=0;
 
-		__host__ __device__ inline
-		int GetIndex() const { return this->fIndex; }
+		std::vector<hydra::Parameter*> _parameters;
+		detail::add_parameters_in_tuple(_parameters, fFtorTuple );
 
-		__host__ __device__ inline
-		void SetIndex(int index) {this->fIndex = index;}
+		for(i=0; i<_parameters.size(); i++)
+			if (strcmp(_parameters[i]->GetName(),name)==0) break;
 
-		__host__ __device__ inline
-		bool IsCached() const
-		{ return this->fCached;}
-
-		__host__ __device__ inline
-		void SetCached(bool cached=true)
-		{ this->fCached = cached; }
+		return *(_parameters[i]) ;
+	}
 
 
-	private:
+	template<typename Int,
+	typename = typename std::enable_if<std::is_integral<Int>::value, void>::type>
+	inline void SetParameter(Int i, hydra::Parameter const& value) {
 
-	  	functors_type fFtorTuple;
-		int  fIndex;
-		bool fCached;
+		std::vector<hydra::Parameter*> _parameters;
+		detail::add_parameters_in_tuple(_parameters, fFtorTuple );
 
+		*(_parameters[i])=value;
+	}
+
+	template<typename Int,
+	typename = typename std::enable_if<std::is_integral<Int>::value, void>::type>
+	inline void SetParameter(Int i, double value) {
+		std::vector<hydra::Parameter*> _parameters;
+		detail::add_parameters_in_tuple(_parameters, fFtorTuple );
+
+		*(_parameters[i])=value;
+	}
+
+	inline	void SetParameter(const char* name, hydra::Parameter const& value) {
+
+		size_t i=0;
+
+		std::vector<hydra::Parameter*> _parameters;
+		detail::add_parameters_in_tuple(_parameters, fFtorTuple );
+
+		for(i=0; i<_parameters.size(); i++)
+			if (strcmp(_parameters[i]->GetName(),name)==0){
+				*(_parameters[i])=value;
+				break;
+			}
+	}
+
+	inline	void SetParameter(const char* name, double value) {
+
+		size_t i=0;
+
+		std::vector<hydra::Parameter*> _parameters;
+		detail::add_parameters_in_tuple(_parameters, fFtorTuple );
+
+
+		for(i=0; i<_parameters.size(); i++)
+			if (strcmp(_parameters[i]->GetName(),name)==0){
+				*(_parameters[i])=value;
+				break;
+			}
+	}
+
+	__host__ __device__ inline
+	const functors_type& GetFunctors() const {return fFtorTuple;}
+
+	__host__ __device__  inline
+	GReal_t GetNorm() const {
+		return fNorm;
+	}
+
+	__host__ __device__  inline
+	void SetNorm(GReal_t norm) {
+		fNorm = norm;
+	}
+
+	__host__ __device__ inline
+	int GetIndex() const { return this->fIndex; }
+
+	__host__ __device__ inline
+	void SetIndex(int index) {this->fIndex = index;}
+
+	__host__ __device__ inline
+	bool IsCached() const
+	{ return this->fCached;}
+
+	__host__ __device__ inline
+	void SetCached(bool cached=true)
+	{ this->fCached = cached; }
+
+protected:
+functors_type fFtorTuple;
+private:
+
+
+	int  fIndex;
+	bool fCached;
+	GReal_t fNorm;
 };
 
+}  // namespace detail
 
-
-
-
-}
+} // namespace hydra
 
 #endif /* COMPOSE_H_ */

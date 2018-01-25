@@ -37,123 +37,79 @@
 #include <hydra/detail/utility/Utility_Tuple.h>
 #include <hydra/detail/base_functor.h>
 #include <hydra/detail/Constant.h>
+#include <hydra/detail/CompositeBase.h>
 #include <hydra/Parameter.h>
+#include <hydra/Tuple.h>
 
 namespace hydra {
 
 
 template<typename F0, typename F1, typename... Fs >
-struct  Compose
+class Compose: public detail::CompositeBase<F0, F1, Fs...>
 {
+public:
 	    //tag
 	    typedef void hydra_functor_tag;
-	    //typedef typename detail::compose_base_functor<F0, F1,Fs...>::type base_type;
-		typedef typename F0::return_type  return_type;
+	    typedef typename F0::return_type  return_type;
 		typedef typename HYDRA_EXTERNAL_NS::thrust::tuple<typename F1::return_type, typename Fs::return_type...> argument_type;
-		typedef typename HYDRA_EXTERNAL_NS::thrust::tuple<F1, Fs...> functors_type;
+
 
 
 		Compose()=delete;
 
-
 		Compose(F0 const& f0, F1 const& f1,  Fs const& ...fs):
-		fIndex(-1),
-		fCached(0),
-		fF0(f0),
-	  	fFtorTuple(HYDRA_EXTERNAL_NS::thrust::make_tuple(f1, fs...))
-	  	{ }
+			detail::CompositeBase<F0, F1, Fs...>( f0, f1,fs...)
+		{ }
 
 		__host__ __device__ inline
 		Compose(Compose<F0,F1,Fs...> const& other):
-		    fF0( other.GetF0()),
-			fFtorTuple( other.GetFunctors() ),
-			fIndex( other.GetIndex() ),
-			fCached( other.IsCached() )
+		detail::CompositeBase<F0, F1, Fs...>( other)
 		{ }
 
 		__host__ __device__ inline
 		Compose<F0,F1,Fs...>& operator=(Compose<F0,F1,Fs...> const& other)
 		{
-			this->fF0= other.GetF0();
-			this->fFtorTuple = other.GetFunctors() ;
-			this->fIndex = other.GetIndex() ;
-			this->fCached = other.IsCached() ;
+			if(this==&other) return *this;
+			detail::CompositeBase<F0, F1, Fs...>::operator=( other);
+
 			return *this;
 		}
 
-		__host__ inline
-		void AddUserParameters(std::vector<hydra::Parameter*>& user_parameters )
-		{
-			fF0.AddUserParameters(user_parameters);
-			detail::add_parameters_in_tuple(user_parameters, fFtorTuple );
-		}
-
-
-		__host__ inline
-		void SetParameters(const std::vector<double>& parameters){
-
-			fF0.SetParameters(parameters);
-			detail::set_functors_in_tuple(fFtorTuple, parameters);
-		}
-
-		size_t  GetParametersKey(){
-
-			std::vector<hydra::Parameter*>& _parameters;
-			fF0.AddUserParameters(_parameters);
-			detail::set_functors_in_tuple(fFtorTuple, _parameters);
-
-			std::vector<double> _temp(_parameters.size());
-
-			for(size_t i=0; i< _parameters.size(); i++)
-				_temp[i]= *(_parameters[i]);
-
-			size_t key = detail::hash_range(_temp.begin(), _temp.end() );
-
-			return key;
-		}
-
-		__host__ __device__ inline
-		functors_type GetFunctors() const {return this->fFtorTuple;}
-
-		__host__ __device__ inline
-		F0 GetF0() const {return this->fF0;}
-
-		__host__ __device__ inline
-		int GetIndex() const { return this->fIndex; }
-
-		__host__ __device__ inline
-		void SetIndex(int index) {this->fIndex = index;}
-
-		__host__ __device__ inline
-		bool IsCached() const
-		{ return this->fCached;}
-
-		__host__ __device__ inline
-		void SetCached(bool cached=true)
-		{ this->fCached = cached; }
-
-
 	  	template<typename T1>
 	  	__host__ __device__ inline
-	  	return_type operator()(T1& t )
+	  	return_type operator()(T1& x )
 	  	{
-	  		return fF0(detail::invoke<functors_type, T1>(std::forward<T1&>(t), fFtorTuple));
+
+	  		//evaluating f(g_1(x), g_2(x), ..., g_n(x))
+
+	  		auto g = detail::dropFirst(this->fFtorTuple);
+
+	  		auto f =  hydra::get<0>(this->fFtorTuple);
+
+	  		typedef decltype(g) G_tuple ;
+
+	  		return f(detail::invoke<G_tuple, T1>(std::forward<T1&>(x),g ));
 	  	}
+
 
 	  	template<typename T1, typename T2>
 	  	__host__ __device__  inline
-	  	return_type operator()( T1& t, T2& cache)
+	  	return_type operator()( T1& x, T2& cache)
 	  	{
-	  		return fCached ? detail::extract<return_type,T2>(fIndex, std::forward<T2&>(cache)):\
-	  				fF0(detail::invoke< functors_type, T1, T2>(std::forward<T1&>(t),
-	  						std::forward<T2&>(cache),fFtorTuple));
+	  		//evaluating f(g_1(x), g_2(x), ..., g_n(x))
+
+	  		auto& g = detail::dropFirst(this->fFtorTuple);
+
+	  		auto& f =  hydra::get<0>(this->fFtorTuple);
+
+	  		typedef decltype(g) G_tuple ;
+
+	  		return this->IsCached() ?
+	  				detail::extract<return_type,T2>(this->GetIndex(), std::forward<T2&>(cache)):
+	  				f(detail::invoke< G_tuple, T1, T2>(std::forward<T1&>(x), std::forward<T2&>(cache), g));
 	  	}
 
-	private:
-	  	F0 fF0;
-		functors_type fFtorTuple;
-		int  fIndex;
-		bool fCached;
+
 
 };
 

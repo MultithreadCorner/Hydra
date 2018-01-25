@@ -68,7 +68,7 @@ struct LogLikelihood1
    	__host__ __device__ inline
    	GReal_t operator()(Type& x)
    	{
-		return log(fFunctor.GetNorm()*fFunctor( x ));
+		return ::log(fFunctor.GetNorm()*fFunctor( x ));
 	}
 
 private:
@@ -97,7 +97,7 @@ struct LogLikelihood2
 
 		double weight = 1.0;
 		multiply_tuple(weight, w );
-		return weight*log(fFunctor.GetNorm()*fFunctor( x ));
+		return weight*::log(fFunctor.GetNorm()*fFunctor( x ));
 	}
 
 private:

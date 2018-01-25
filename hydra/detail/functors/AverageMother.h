@@ -300,11 +300,14 @@ struct AverageMother
 
 		Vector4R Particles[SIZE];
 
+
 		GReal_t weight = process(evt, Particles);
+        Tuple_t particles_tuple{};
+        detail::assignArrayToTuple(particles_tuple, Particles);
 
 		StatsPHSP result;
 
-		result.fMean = fFunctor( (GUInt_t) SIZE,Particles);
+		result.fMean = fFunctor(particles_tuple);
 		result.fW    = weight;
 		result.fM2   = 0.0;
 

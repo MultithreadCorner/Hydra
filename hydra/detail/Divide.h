@@ -41,124 +41,57 @@
 #include <hydra/detail/utility/Utility_Tuple.h>
 #include <hydra/detail/base_functor.h>
 #include <hydra/detail/Constant.h>
+#include <hydra/detail/CompositeBase.h>
 #include <hydra/Parameter.h>
+#include <hydra/Tuple.h>
 
 namespace hydra {
 
 
 template<typename F1, typename F2 >
-struct  Divide
+class Divide: public detail::CompositeBase<F1, F2>
 {
+public:
+
 	//tag
 	typedef void hydra_functor_tag;
 	typedef   std::true_type is_functor;
 	typedef typename detail::divide_result<typename F1::return_type, typename F2::return_type>::type  return_type;
-	typedef typename HYDRA_EXTERNAL_NS::thrust::tuple<F1, F2> functors_type;
 
-	__host__
-	Divide():
-	fIndex(-1),
-	fCached(0)
-	{};
+	Divide() = delete;
 
-	__host__
 	Divide(F1 const& f1, F2 const& f2):
-	fIndex(-1),
-	fCached(0),
-	fFtorTuple(HYDRA_EXTERNAL_NS::thrust::make_tuple(f1, f2))
+	detail::CompositeBase<F1, F2>( f1, f2)
 	{ }
 
 	__host__ __device__
 	Divide(Divide<F1,F2> const& other):
-	fFtorTuple( other.GetFunctors() ),
-	fIndex( other.GetIndex() ),
-	fCached( other.IsCached() )
-	{ };
+	detail::CompositeBase<F1, F2>( other )
+	{ }
 
 	__host__ __device__
 	Divide<F1,F2>& operator=(Divide<F1,F2> const& other)
 	{
-		this->fFtorTuple = other.GetFunctors() ;
-		this->fIndex = other.GetIndex() ;
-		this->fCached = other.IsCached() ;
+		if(this==&other) return *this;
+		detail::CompositeBase< F1, F2>::operator=( other);
 		return *this;
 	}
-
-	__host__ inline
-	void AddUserParameters(std::vector<hydra::Parameter*>& user_parameters )
-	{
-		detail::add_parameters_in_tuple(user_parameters, fFtorTuple );
-	}
-
-	__host__ inline
-	void SetParameters(const std::vector<double>& parameters){
-
-		detail::set_functors_in_tuple(fFtorTuple, parameters);
-	}
-
-
-	size_t  GetParametersKey(){
-
-		std::vector<hydra::Parameter*>& _parameters;
-		detail::set_functors_in_tuple(fFtorTuple, _parameters);
-
-		std::vector<double> _temp(_parameters.size());
-
-		for(size_t i=0; i< _parameters.size(); i++)
-			_temp[i]= *(_parameters[i]);
-
-		size_t key = detail::hash_range(_temp.begin(), _temp.end() );
-
-		return key;
-	}
-
-	__host__ inline
-	void PrintRegisteredParameters()
-	{
-		HYDRA_CALLER ;
-		HYDRA_MSG << "Registered parameters begin:\n" << HYDRA_ENDL;
-		detail::print_parameters_in_tuple(fFtorTuple);
-		HYDRA_MSG <<"Registered parameters end.\n" << HYDRA_ENDL;
-		return;
-	}
-
-	__host__ __device__ inline
-	functors_type GetFunctors() const {return this->fFtorTuple;}
-
-	__host__ __device__ inline
-	int GetIndex() const { return this->fIndex; }
-
-	__host__ __device__ inline
-	void SetIndex(int index) {this->fIndex = index;}
-
-	__host__ __device__ inline
-	bool IsCached() const
-	{ return this->fCached;}
-
-	__host__ __device__ inline
-	void SetCached(bool cached=true)
-	{ this->fCached = cached; }
-
 
 	template<typename T1>
 	__host__ __device__ inline
 	return_type operator()(T1& t )
 	{
-		return HYDRA_EXTERNAL_NS::thrust::get<0>(fFtorTuple)(t)/HYDRA_EXTERNAL_NS::thrust::get<1>(fFtorTuple)(t);
+		return HYDRA_EXTERNAL_NS::thrust::get<0>(this->GetFunctors())(t)/HYDRA_EXTERNAL_NS::thrust::get<1>(this->GetFunctors())(t);
 	}
 
 	template<typename T1, typename T2>
 	__host__ __device__  inline
 	return_type operator()( T1& t, T2& cache)
 	{
-		return fCached ? detail::extract<return_type,T2>(fIndex, std::forward<T2&>(cache)):\
-				HYDRA_EXTERNAL_NS::thrust::get<0>(fFtorTuple)(t,cache)/HYDRA_EXTERNAL_NS::thrust::get<1>(fFtorTuple)(t,cache);
+		return this->IsCached() ? detail::extract<return_type,T2>( this->GetIndex(), std::forward<T2&>(cache)):\
+				HYDRA_EXTERNAL_NS::thrust::get<0>(this->GetFunctors())(t,cache)/HYDRA_EXTERNAL_NS::thrust::get<1>(this->GetFunctors())(t,cache);
 	}
 
-private:
-	functors_type fFtorTuple;
-	int  fIndex;
-	bool fCached;
 
 };
 
