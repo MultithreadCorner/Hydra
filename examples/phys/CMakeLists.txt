@@ -48,7 +48,7 @@ if(BUILD_CUDA_TARGETS)
         
           #+++++++++++++++++++++++++++++++++
          cuda_add_executable( dalitz_plot_cuda EXCLUDE_FROM_ALL dalitz_plot.cu    
-            OPTIONS -Xcompiler -fopenmp -DTHRUST_DEVICE_SYSTEM=THRUST_DEVICE_SYSTEM_CUDA  -DTHRUST_HOST_SYSTEM=THRUST_HOST_SYSTEM_CPP -lgomp
+            OPTIONS -Xcompiler -fopenmp -DTHRUST_DEVICE_SYSTEM=THRUST_DEVICE_SYSTEM_CUDA  -DTHRUST_HOST_SYSTEM=THRUST_HOST_SYSTEM_OMP -lgomp
             )
          target_link_libraries(dalitz_plot_cuda  ${ROOT_LIBRARIES} )
         

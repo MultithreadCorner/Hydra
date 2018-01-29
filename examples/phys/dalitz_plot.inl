@@ -380,15 +380,29 @@ int main(int argv, char** argc)
 			100, pow(PI_MASS + PI_MASS,2), pow(D_MASS -  K_MASS,2));
 
 	TH3D Dalitz_Resonances("Dalitz_Resonances",
-				"Flat Dalitz;"
-				"M^{2}(K^{-} #pi^{+}) [GeV^{2}/c^{4}];"
-				"M^{2}(K^{-} #pi^{+}) [GeV^{2}/c^{4}];"
-				"M^{2}(#pi^{+} #pi^{+}) [GeV^{2}/c^{4}]",
-				100, pow(K_MASS  + PI_MASS,2), pow(D_MASS - PI_MASS,2),
-				100, pow(K_MASS  + PI_MASS,2), pow(D_MASS - PI_MASS,2),
-				100, pow(PI_MASS + PI_MASS,2), pow(D_MASS -  K_MASS,2));
+			"Dalitz - Toy Data -;"
+			"M^{2}(K^{-} #pi^{+}) [GeV^{2}/c^{4}];"
+			"M^{2}(K^{-} #pi^{+}) [GeV^{2}/c^{4}];"
+			"M^{2}(#pi^{+} #pi^{+}) [GeV^{2}/c^{4}]",
+			100, pow(K_MASS  + PI_MASS,2), pow(D_MASS - PI_MASS,2),
+			100, pow(K_MASS  + PI_MASS,2), pow(D_MASS - PI_MASS,2),
+			100, pow(PI_MASS + PI_MASS,2), pow(D_MASS -  K_MASS,2));
 
 
+	TH3D Dalitz_Fit("Dalitz_Fit",
+			"Dalitz - Fit -;"
+			"M^{2}(K^{-} #pi^{+}) [GeV^{2}/c^{4}];"
+			"M^{2}(K^{-} #pi^{+}) [GeV^{2}/c^{4}];"
+			"M^{2}(#pi^{+} #pi^{+}) [GeV^{2}/c^{4}]",
+			100, pow(K_MASS  + PI_MASS,2), pow(D_MASS - PI_MASS,2),
+			100, pow(K_MASS  + PI_MASS,2), pow(D_MASS - PI_MASS,2),
+			100, pow(PI_MASS + PI_MASS,2), pow(D_MASS -  K_MASS,2));
+
+
+	//control plots
+	TH2D Normalization("normalization" , "Norm",
+			100, 0, 100,
+			100, 0, 100);
 
 #endif
 
@@ -396,6 +410,12 @@ int main(int argv, char** argc)
 
 	//toy data production on device
 	{
+		std::cout << std::endl;
+        std::cout << std::endl;
+		std::cout << "======================================" << std::endl;
+		std::cout << "======= 1 - GENERATE TOY-DATA ========" << std::endl;
+		std::cout << "======================================" << std::endl;
+
 		//allocate memory to hold the final states particles
 		hydra::Decays<3, hydra::device::sys_t > Events_d(nentries);
 
@@ -412,7 +432,7 @@ int main(int argv, char** argc)
 		std::cout << std::endl;
 		std::cout << std::endl;
 		std::cout << "----------------- Device ----------------"<< std::endl;
-		std::cout << "| B0 -> J/psi K pi"                       << std::endl;
+		std::cout << "| D+ -> K- pi+ pi+"                       << std::endl;
 		std::cout << "| Number of events :"<< nentries          << std::endl;
 		std::cout << "| Time (ms)        :"<< elapsed.count()   << std::endl;
 		std::cout << "-----------------------------------------"<< std::endl;
@@ -424,7 +444,7 @@ int main(int argv, char** argc)
 		std::cout << std::endl;
 		std::cout << std::endl;
 
-		std::cout << "<======= [Daliz variables] { weight : ( MSq_12, MSq_13, MSq_23) } =======>"<< std::endl;
+		std::cout << "<======= [Daliz variables]  weight : ( MSq_12, MSq_13, MSq_23)  =======>"<< std::endl;
 
 		for( size_t i=0; i<10; i++ )
 			std::cout << dalitz_weights[i] << " : "<< dalitz_variables[i] << std::endl;
@@ -436,10 +456,27 @@ int main(int argv, char** argc)
 				{pow(D_MASS - PI_MASS,2), pow(D_MASS - PI_MASS ,2), pow(D_MASS - K_MASS,2)}
 		};
 
+		start = std::chrono::high_resolution_clock::now();
+
 		Hist_Dalitz.Fill( dalitz_variables.begin(),
 				dalitz_variables.end(), dalitz_weights.begin()  );
 
-#ifdef 	_ROOT_AVAILABLE_
+		end = std::chrono::high_resolution_clock::now();
+
+		elapsed = end - start;
+
+		//output
+		std::cout << std::endl;
+		std::cout << std::endl;
+		std::cout << "----------------- Device ----------------"<< std::endl;
+		std::cout << "| Sparse histogram fill"                       << std::endl;
+		std::cout << "| Number of events :"<< nentries          << std::endl;
+		std::cout << "| Time (ms)        :"<< elapsed.count()   << std::endl;
+		std::cout << "-----------------------------------------"<< std::endl;
+		std::cout << std::endl;
+		std::cout << std::endl;
+
+		#ifdef 	_ROOT_AVAILABLE_
 
 #if THRUST_DEVICE_SYSTEM == THRUST_DEVICE_SYSTEM_CUDA
 
@@ -482,6 +519,9 @@ int main(int argv, char** argc)
 		for( size_t i=0; i<10; i++ )
 			std::cout << Events_d[i] << std::endl;
 
+
+		std::cout << std::endl <<"Toy Dataset size: "<< last << std::endl;
+
 		toy_data.resize(last);
 		hydra::copy(Events_d.begin(), Events_d.begin()+last, toy_data.begin());
 
@@ -490,12 +530,17 @@ int main(int argv, char** argc)
 
 	//plot toy-data
 	{
+		std::cout << std::endl;
+	    std::cout << std::endl;
+		std::cout << "======================================" << std::endl;
+		std::cout << "========= 2 - PLOT TOY-DATA ==========" << std::endl;
+		std::cout << "======================================" << std::endl;
+		std::cout <<  std::endl << std::endl;
+
 		hydra::Decays<3, hydra::device::sys_t > toy_data_temp(toy_data);
+
 		auto particles        = toy_data_temp.GetUnweightedDecays();
 		auto dalitz_variables = hydra::make_range( particles.begin(), particles.end(), dalitz_calculator);
-
-		std::cout << std::endl;
-		std::cout << std::endl;
 
 		std::cout << "<======= [Daliz variables] { ( MSq_12, MSq_13, MSq_23) } =======>"<< std::endl;
 
@@ -509,7 +554,24 @@ int main(int argv, char** argc)
 			{pow(D_MASS - PI_MASS,2), pow(D_MASS - PI_MASS ,2), pow(D_MASS - K_MASS,2)}
 		};
 
+		auto start = std::chrono::high_resolution_clock::now();
+
 		Hist_Dalitz.Fill( dalitz_variables.begin(), dalitz_variables.end() );
+
+		auto end = std::chrono::high_resolution_clock::now();
+
+		std::chrono::duration<double, std::milli> elapsed = end - start;
+
+		//output
+		std::cout << std::endl;
+		std::cout << std::endl;
+		std::cout << "----------------- Device ----------------"<< std::endl;
+		std::cout << "| Sparse histogram fill"                       << std::endl;
+		std::cout << "| Number of events :"<< nentries          << std::endl;
+		std::cout << "| Time (ms)        :"<< elapsed.count()   << std::endl;
+		std::cout << "-----------------------------------------"<< std::endl;
+		std::cout << std::endl;
+		std::cout << std::endl;
 
 #ifdef 	_ROOT_AVAILABLE_
 
@@ -549,49 +611,172 @@ int main(int argv, char** argc)
 
 	}
 
+
 	// fit
 	{
+		std::cout << std::endl;
+		std::cout << std::endl;
+		std::cout << "======================================" << std::endl;
+		std::cout << "=============== 3 - FIT ==============" << std::endl;
+		std::cout << "======================================" << std::endl;
+		std::cout <<  std::endl << std::endl;
 		//pdf
 		auto Model_PDF = hydra::make_pdf( Model,
-				hydra::PhaseSpaceIntegrator<3, hydra::device::sys_t>(D_MASS, {K_MASS, PI_MASS, PI_MASS}, 1000000));
+				hydra::PhaseSpaceIntegrator<3, hydra::device::sys_t>(D_MASS, {K_MASS, PI_MASS, PI_MASS}, 100000));
+
+		std::cout << "-----------------------------------------"<<std::endl;
+		std::cout <<"| Initial PDF Norm: "<< Model_PDF.GetNorm() << "̣ +/- " <<   Model_PDF.GetNormError() << std::endl;
+		std::cout << "-----------------------------------------"<<std::endl;
 
 		hydra::Decays<3, hydra::device::sys_t > toy_data_temp(toy_data);
 		auto particles        = toy_data_temp.GetUnweightedDecays();
 
 		auto fcn = hydra::make_loglikehood_fcn(Model_PDF, particles.begin(),
-						particles.end());
+				particles.end());
 
-				//print level
-				ROOT::Minuit2::MnPrint::SetLevel(3);
-				hydra::Print::SetLevel(hydra::WARNING);
+		//print level
+		ROOT::Minuit2::MnPrint::SetLevel(3);
+		hydra::Print::SetLevel(hydra::WARNING);
 
-				//minimization strategy
-				MnStrategy strategy(2);
+		//minimization strategy
+		MnStrategy strategy(2);
 
-				//create Migrad minimizer
-				MnMigrad migrad_d(fcn, fcn.GetParameters().GetMnState() ,  strategy);
+		//create Migrad minimizer
+		MnMigrad migrad_d(fcn, fcn.GetParameters().GetMnState() ,  strategy);
 
-				//print parameters before fitting
-				std::cout<<fcn.GetParameters().GetMnState()<<std::endl;
+		//print parameters before fitting
+		std::cout<<fcn.GetParameters().GetMnState()<<std::endl;
 
-				//Minimize and profile the time
-				auto start_d = std::chrono::high_resolution_clock::now();
+		//Minimize and profile the time
+		auto start_d = std::chrono::high_resolution_clock::now();
 
-				FunctionMinimum minimum_d =  FunctionMinimum( migrad_d(50000, 5) );
+		FunctionMinimum minimum_d =  FunctionMinimum( migrad_d(5000, 50) );
 
-				auto end_d = std::chrono::high_resolution_clock::now();
+		auto end_d = std::chrono::high_resolution_clock::now();
 
-				std::chrono::duration<double, std::milli> elapsed_d = end_d - start_d;
+		std::chrono::duration<double, std::milli> elapsed_d = end_d - start_d;
 
-				//print parameters after fitting
-				std::cout<<"minimum: "<<minimum_d<<std::endl;
+		//time
+		std::cout << "-----------------------------------------"<<std::endl;
+		std::cout << "| [Migrad] Time (ms) ="<< elapsed_d.count() <<std::endl;
+		std::cout << "-----------------------------------------"<<std::endl;
+
+		//print parameters after fitting
+		std::cout<<"minimum: "<<minimum_d<<std::endl;
+
+		//----------
+		//plot fit
+		//allocate memory to hold the final states particles
+		hydra::Decays<3, hydra::device::sys_t > fit_data(nentries);
+
+		auto start = std::chrono::high_resolution_clock::now();
+
+		//generate the final state particles
+		phsp.Generate(B0, fit_data.begin(), fit_data.end());
+
+		auto end = std::chrono::high_resolution_clock::now();
+
+		std::chrono::duration<double, std::milli> elapsed = end - start;
+
+		//output
+		std::cout << std::endl;
+		std::cout << std::endl;
+		std::cout << "----------- Device (fit data) -----------"<< std::endl;
+		std::cout << "| D+ -> K- pi+ pi+"                       << std::endl;
+		std::cout << "| Number of events :"<< nentries          << std::endl;
+		std::cout << "| Time (ms)        :"<< elapsed.count()   << std::endl;
+		std::cout << "-----------------------------------------"<< std::endl;
+
+
+		fit_data.Reweight(fcn.GetPDF().GetFunctor());
+
+		auto particles_fit        = fit_data.GetUnweightedDecays();
+		auto dalitz_variables_fit = hydra::make_range( particles_fit.begin(), particles_fit.end(), dalitz_calculator);
+		auto dalitz_weights_fit   = fit_data.GetWeights();
+
+		std::cout << std::endl;
+		std::cout << std::endl;
+
+		std::cout << "<======= [Daliz variables - fit] { weight : ( MSq_12, MSq_13, MSq_23) } =======>"<< std::endl;
+
+		for( size_t i=0; i<10; i++ )
+			std::cout << dalitz_weights_fit[i] << " : "<< dalitz_variables_fit[i] << std::endl;
+
+		//flat dalitz histogram
+		hydra::SparseHistogram<double, 3,  hydra::device::sys_t> Hist_Dalitz{
+			{100,100,100},
+			{pow(K_MASS + PI_MASS,2), pow(K_MASS + PI_MASS,2),  pow(PI_MASS + PI_MASS,2)},
+			{pow(D_MASS - PI_MASS,2), pow(D_MASS - PI_MASS ,2), pow(D_MASS - K_MASS,2)}
+		};
+
+		start = std::chrono::high_resolution_clock::now();
+
+		Hist_Dalitz.Fill( dalitz_variables_fit.begin(),
+				dalitz_variables_fit.end(), dalitz_weights_fit.begin()  );
+
+		end = std::chrono::high_resolution_clock::now();
+
+		elapsed = end - start;
+
+		//output
+		std::cout << std::endl;
+		std::cout << std::endl;
+		std::cout << "----------------- Device ----------------"<< std::endl;
+		std::cout << "| Sparse histogram fill"                       << std::endl;
+		std::cout << "| Number of events :"<< nentries          << std::endl;
+		std::cout << "| Time (ms)        :"<< elapsed.count()   << std::endl;
+		std::cout << "-----------------------------------------"<< std::endl;
+
+#ifdef 	_ROOT_AVAILABLE_
+
+#if THRUST_DEVICE_SYSTEM == THRUST_DEVICE_SYSTEM_CUDA
+
+		//if device is cuda, bring the histogram data to the host
+		//to fill the ROOT histogram faster
+		{
+			hydra::SparseHistogram<double, 3,  hydra::host::sys_t> Hist_Temp(Hist_Dalitz);
+			std::cout << "Filling a ROOT Histogram... " << std::endl;
+
+			for(auto entry : Hist_Temp)
+			{
+				size_t bin     = hydra::get<0>(entry);
+				double content = hydra::get<1>(entry);
+				unsigned int bins[3];
+				Hist_Temp.GetIndexes(bin, bins);
+				Dalitz_Fit.SetBinContent(bins[0]+1, bins[1]+1, bins[2]+1, content);
+
+			}
+		}
+#else
+		std::cout << "Filling a ROOT Histogram... " << std::endl;
+
+		for(auto entry : Hist_Dalitz)
+		{
+			size_t bin     = hydra::get<0>(entry);
+			double content = hydra::get<1>(entry);
+			unsigned int bins[3];
+			Hist_Dalitz.GetIndexes(bin, bins);
+			Dalitz_Fit.SetBinContent(bins[0]+1, bins[1]+1, bins[2]+1, content);
+
+		}
+#endif
+
+#endif
+
 	}
+
 
 
 #ifdef 	_ROOT_AVAILABLE_
 
+
+
+
+
+
 	TApplication *m_app=new TApplication("myapp",0,0);
 
+	Dalitz_Fit.Scale(Dalitz_Resonances.Integral()/Dalitz_Fit.Integral() );
 
 	TCanvas canvas_1("canvas_1", "Phase-space FLAT", 500, 500);
 	Dalitz_Flat.Project3D("yz")->Draw("colz");
@@ -605,6 +790,27 @@ int main(int argv, char** argc)
 	TCanvas canvas_4("canvas_4", "Phase-space FLAT", 500, 500);
 	Dalitz_Resonances.Project3D("xy")->Draw("colz");
 
+	TCanvas canvas_5("canvas_3", "Phase-space FLAT", 500, 500);
+	Dalitz_Fit.Project3D("yz")->Draw("colz");
+
+	TCanvas canvas_6("canvas_4", "Phase-space FLAT", 500, 500);
+	Dalitz_Fit.Project3D("xy")->Draw("colz");
+
+	//projections
+	TCanvas canvas_x("canvas_x", "", 500, 500);
+	Dalitz_Fit.Project3D("x")->Draw("hist");
+	Dalitz_Fit.Project3D("x")->SetLineColor(2);
+	Dalitz_Resonances.Project3D("x")->Draw("e0same");
+
+	TCanvas canvas_y("canvas_y", "", 500, 500);
+	Dalitz_Fit.Project3D("y")->Draw("hist");
+	Dalitz_Fit.Project3D("y")->SetLineColor(2);
+	Dalitz_Resonances.Project3D("y")->Draw("e0same");
+
+	TCanvas canvas_z("canvas_z", "", 500, 500);
+	Dalitz_Fit.Project3D("z")->Draw("hist");
+	Dalitz_Fit.Project3D("z")->SetLineColor(2);
+	Dalitz_Resonances.Project3D("z")->Draw("e0same");
 
 
 	m_app->Run();
@@ -613,6 +819,7 @@ int main(int argv, char** argc)
 
 	return 0;
 }
+
 
 
 

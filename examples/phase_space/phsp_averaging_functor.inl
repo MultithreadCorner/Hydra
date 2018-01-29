@@ -148,6 +148,7 @@ int main(int argv, char** argc)
 
 		return (pd * mq2 - pq * qd)
 				/ sqrt((pq * pq - mq2 * mp2) * (qd * qd - mq2 * md2));
+		//return 1.0;
 	};
 
 	auto cosTheta = hydra::wrap_lambda(COSHELANG);

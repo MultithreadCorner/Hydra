@@ -296,10 +296,7 @@ struct AverageMother
 		typedef typename hydra::detail::tuple_type<N,
 				Vector4R>::type Tuple_t;
 
-		constexpr size_t SIZE = HYDRA_EXTERNAL_NS::thrust::tuple_size<Tuple_t>::value;
-
-		Vector4R Particles[SIZE];
-
+		Vector4R Particles[N];
 
 		GReal_t weight = process(evt, Particles);
         Tuple_t particles_tuple{};
