@@ -195,7 +195,7 @@ int main(int argv, char** argc)
 	}
 
 	//-----------------
-    //magnitudes and phases from
+    //magnitudes and phases from Cleo-c model
     //https://arxiv.org/pdf/0802.4214.pdf
 
 	double NR_MAG         = 7.4;
@@ -203,8 +203,8 @@ int main(int argv, char** argc)
 	double NR_CRe		  = NR_MAG*cos(NR_PHI);
 	double NR_CIm		  = NR_MAG*sin(NR_PHI);
 
-	double K800_MASS  	  = 0.797 ;
-	double K800_WIDTH     = 0.410;
+	double K800_MASS  	  = 0.809 ;
+	double K800_WIDTH     = 0.470;
 	double K800_MAG       = 5.01;
 	double K800_PHI       = (-163.7+180.0)*0.01745329;
 	double K800_CRe		  = K800_MAG*cos(K800_PHI);
@@ -252,10 +252,10 @@ int main(int argv, char** argc)
 	auto coef_im = hydra::Parameter::Create().Name("A_IM_K800" ).Value(K800_CIm).Error(0.001).Limits(K800_CIm*0.95,K800_CIm*1.05);
 
 	Resonance<1, hydra::SWave> K800_Resonance_12(coef_re, coef_im, mass, width,
-		    	D_MASS,	K_MASS, PI_MASS, PI_MASS , 3.0);
+		    	D_MASS,	K_MASS, PI_MASS, PI_MASS , 5.0);
 
 	Resonance<3, hydra::SWave> K800_Resonance_13(coef_re, coef_im, mass, width,
-			    	D_MASS,	K_MASS, PI_MASS, PI_MASS , 3.0);
+			    	D_MASS,	K_MASS, PI_MASS, PI_MASS , 5.0);
 
 	auto K800_Resonance = (K800_Resonance_12 + K800_Resonance_13);
 
@@ -268,10 +268,10 @@ int main(int argv, char** argc)
 	coef_im = hydra::Parameter::Create().Name("A_IM_KST_892" ).Value(KST_892_CIm).Error(0.001).Limits(KST_892_CIm*0.95,KST_892_CIm*1.05).Fixed();
 
 	Resonance<1, hydra::PWave> KST_892_Resonance_12(coef_re, coef_im, mass, width,
-		    	D_MASS,	K_MASS, PI_MASS, PI_MASS , 3.0);
+		    	D_MASS,	K_MASS, PI_MASS, PI_MASS , 5.0);
 
 	Resonance<3, hydra::PWave> KST_892_Resonance_13(coef_re, coef_im, mass, width,
-			    	D_MASS,	K_MASS, PI_MASS, PI_MASS , 3.0);
+			    	D_MASS,	K_MASS, PI_MASS, PI_MASS , 5.0);
 
 	auto KST_892_Resonance = (KST_892_Resonance_12 - KST_892_Resonance_13);
 
@@ -284,10 +284,10 @@ int main(int argv, char** argc)
 	coef_im = hydra::Parameter::Create().Name("A_IM_KST0_1430" ).Value(KST0_1430_CIm).Error(0.001).Limits(KST0_1430_CIm*0.95,KST0_1430_CIm*1.05);
 
 	Resonance<1, hydra::SWave> KST0_1430_Resonance_12(coef_re, coef_im, mass, width,
-		    	D_MASS,	K_MASS, PI_MASS, PI_MASS , 3.0);
+		    	D_MASS,	K_MASS, PI_MASS, PI_MASS , 5.0);
 
 	Resonance<3, hydra::SWave> KST0_1430_Resonance_13(coef_re, coef_im, mass, width,
-			    	D_MASS,	K_MASS, PI_MASS, PI_MASS , 3.0);
+			    	D_MASS,	K_MASS, PI_MASS, PI_MASS , 5.0);
 
 	auto KST0_1430_Resonance = (KST0_1430_Resonance_12 + KST0_1430_Resonance_13);
 
@@ -300,10 +300,10 @@ int main(int argv, char** argc)
 	coef_im = hydra::Parameter::Create().Name("A_IM_KST2_1430" ).Value(KST2_1430_CIm).Error(0.001).Limits(KST2_1430_CIm*0.95,KST2_1430_CIm*1.05);
 
 	Resonance<1, hydra::DWave> KST2_1430_Resonance_12(coef_re, coef_im, mass, width,
-		    	D_MASS,	K_MASS, PI_MASS, PI_MASS , 3.0);
+		    	D_MASS,	K_MASS, PI_MASS, PI_MASS , 5.0);
 
 	Resonance<3, hydra::DWave> KST2_1430_Resonance_13(coef_re, coef_im, mass, width,
-			    	D_MASS,	K_MASS, PI_MASS, PI_MASS , 3.0);
+			    	D_MASS,	K_MASS, PI_MASS, PI_MASS , 5.0);
 
 	auto KST2_1430_Resonance = (KST2_1430_Resonance_12 + KST2_1430_Resonance_13);
 
@@ -316,10 +316,10 @@ int main(int argv, char** argc)
 	coef_im = hydra::Parameter::Create().Name("A_IM_KST_1680" ).Value(KST_1680_CIm).Error(0.001).Limits(KST_1680_CIm*0.95,KST_1680_CIm*1.05);
 
 	Resonance<1, hydra::PWave> KST_1680_Resonance_12(coef_re, coef_im, mass, width,
-			D_MASS,	K_MASS, PI_MASS, PI_MASS , 3.0);
+			D_MASS,	K_MASS, PI_MASS, PI_MASS , 5.0);
 
 	Resonance<3, hydra::PWave> KST_1680_Resonance_13(coef_re, coef_im, mass, width,
-			D_MASS,	K_MASS, PI_MASS, PI_MASS , 3.0);
+			D_MASS,	K_MASS, PI_MASS, PI_MASS , 5.0);
 
 
 	auto KST_1680_Resonance = (KST_1680_Resonance_12 - KST_1680_Resonance_13);
@@ -331,7 +331,9 @@ int main(int argv, char** argc)
 
 
 	//======================================================
-	//Total amplitude
+	//Total: Model |N.R + \sum{ Resonaces }|^2
+
+	//parametric lambda
 	auto Norm = hydra::wrap_lambda(
 					[]__host__  __device__ (unsigned int np, const hydra::Parameter* p, unsigned int n, hydra::complex<double>* x){
 
@@ -342,6 +344,7 @@ int main(int argv, char** argc)
 				return hydra::norm(r);
 	}, coef_re, coef_im);
 
+	//model-functor
 	auto Model = hydra::compose(Norm,
 			K800_Resonance,
 			KST_892_Resonance,
