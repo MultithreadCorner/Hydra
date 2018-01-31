@@ -403,9 +403,10 @@ int main(int argv, char** argc)
 
 
 	//control plots
-	TH2D Normalization("normalization" , "Norm",
-			100, 0, 100,
-			100, 0, 100);
+	TH2D Normalization("normalization" ,
+			"Model PDF Normalization;Norm;Error",
+			100, 302.0, 304.0,
+			100, 0.4, 1.2);
 
 #endif
 
@@ -625,7 +626,7 @@ int main(int argv, char** argc)
 		std::cout <<  std::endl << std::endl;
 		//pdf
 		auto Model_PDF = hydra::make_pdf( Model,
-				hydra::PhaseSpaceIntegrator<3, hydra::device::sys_t>(D_MASS, {K_MASS, PI_MASS, PI_MASS}, 100000));
+				hydra::PhaseSpaceIntegrator<3, hydra::device::sys_t>(D_MASS, {K_MASS, PI_MASS, PI_MASS}, 500000));
 
 		std::cout << "-----------------------------------------"<<std::endl;
 		std::cout <<"| Initial PDF Norm: "<< Model_PDF.GetNorm() << "̣ +/- " <<   Model_PDF.GetNormError() << std::endl;
@@ -653,7 +654,7 @@ int main(int argv, char** argc)
 		//Minimize and profile the time
 		auto start_d = std::chrono::high_resolution_clock::now();
 
-		FunctionMinimum minimum_d =  FunctionMinimum( migrad_d(5000, 50) );
+		FunctionMinimum minimum_d =  FunctionMinimum( migrad_d(5000, 5) );
 
 		auto end_d = std::chrono::high_resolution_clock::now();
 
@@ -732,6 +733,17 @@ int main(int argv, char** argc)
 
 #ifdef 	_ROOT_AVAILABLE_
 
+		for(auto x: fcn.GetPDF().GetNormCache() ){
+
+			std::cout << "Key : "    << x.first
+					  << " Value : " << x.second.first
+					  << " Error : " << x.second.second
+					  << std::endl;
+			Normalization.Fill(x.second.first, x.second.second );
+		}
+
+
+
 #if THRUST_DEVICE_SYSTEM == THRUST_DEVICE_SYSTEM_CUDA
 
 		//if device is cuda, bring the histogram data to the host
@@ -749,6 +761,7 @@ int main(int argv, char** argc)
 				Dalitz_Fit.SetBinContent(bins[0]+1, bins[1]+1, bins[2]+1, content);
 
 			}
+
 		}
 #else
 		std::cout << "Filling a ROOT Histogram... " << std::endl;
@@ -814,6 +827,9 @@ int main(int argv, char** argc)
 	Dalitz_Fit.Project3D("z")->Draw("hist");
 	Dalitz_Fit.Project3D("z")->SetLineColor(2);
 	Dalitz_Resonances.Project3D("z")->Draw("e0same");
+
+	TCanvas canvas_7("canvas_7", "Normalization", 500, 500);
+	Normalization.Draw("colz");
 
 
 	m_app->Run();

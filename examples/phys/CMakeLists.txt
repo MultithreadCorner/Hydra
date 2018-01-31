@@ -189,7 +189,7 @@ IF(BUILD_OMP_TARGETS)
     set_target_properties( dalitz_plot_omp PROPERTIES 
     COMPILE_FLAGS "-fopenmp -DTHRUST_HOST_SYSTEM=THRUST_HOST_SYSTEM_CPP -DTHRUST_DEVICE_SYSTEM=THRUST_DEVICE_SYSTEM_OMP -lgomp")
     
-    target_link_libraries(dalitz_plot_omp   ${ROOT_LIBRARIES})
+    target_link_libraries(dalitz_plot_omp   ${ROOT_LIBRARIES} )
 
      add_dependencies(examples dalitz_plot_omp)
         
