@@ -38,6 +38,7 @@
 #include <hydra/detail/base_functor.h>
 #include <hydra/detail/Constant.h>
 #include <hydra/Parameter.h>
+#include <hydra/Placeholders.h>
 
 namespace hydra {
 
@@ -221,6 +222,13 @@ public:
 
 	__host__ __device__ inline
 	const functors_type& GetFunctors() const {return fFtorTuple;}
+
+	template<unsigned int I>
+	inline typename HYDRA_EXTERNAL_NS::thrust::tuple_element<I,functors_type>::type&
+	GetFunctor(hydra::placeholders::placeholder<I> const& )
+	{return HYDRA_EXTERNAL_NS::thrust::get<I>(fFtorTuple);}
+
+
 
 	__host__ __device__  inline
 	GReal_t GetNorm() const {

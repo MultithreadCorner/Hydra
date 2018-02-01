@@ -171,6 +171,9 @@ private:
 
 };
 
+template<typename Amplitude>
+TH3D histogram_component( Amplitude const& amp, std::array<double, 3> const& masses, const char* name, size_t nentries);
+
 int main(int argv, char** argc)
 {
 	size_t nentries = 0;
@@ -405,8 +408,10 @@ int main(int argv, char** argc)
 	//control plots
 	TH2D Normalization("normalization" ,
 			"Model PDF Normalization;Norm;Error",
-			100, 302.0, 304.0,
-			100, 0.4, 1.2);
+			200, 275.0, 305.0,
+			200, 0.58, 0.64);
+
+	TH3D KST800_12;
 
 #endif
 
@@ -706,7 +711,7 @@ int main(int argv, char** argc)
 		for( size_t i=0; i<10; i++ )
 			std::cout << dalitz_weights_fit[i] << " : "<< dalitz_variables_fit[i] << std::endl;
 
-		//flat dalitz histogram
+		//model dalitz histogram
 		hydra::SparseHistogram<double, 3,  hydra::device::sys_t> Hist_Dalitz{
 			{100,100,100},
 			{pow(K_MASS + PI_MASS,2), pow(K_MASS + PI_MASS,2),  pow(PI_MASS + PI_MASS,2)},
@@ -777,6 +782,10 @@ int main(int argv, char** argc)
 		}
 #endif
 
+
+		KST800_12 = histogram_component( fcn.GetPDF().GetFunctor().GetFunctor(_1).GetFunctor(_0),
+				{D_MASS,K_MASS, PI_MASS}, "KST800_12", nentries);
+
 #endif
 
 	}
@@ -786,13 +795,13 @@ int main(int argv, char** argc)
 #ifdef 	_ROOT_AVAILABLE_
 
 
-
-
-
-
 	TApplication *m_app=new TApplication("myapp",0,0);
 
+	//KST800_12.Scale(1.0/Dalitz_Fit.Integral());
+
 	Dalitz_Fit.Scale(Dalitz_Resonances.Integral()/Dalitz_Fit.Integral() );
+
+	KST800_12.Scale(Dalitz_Resonances.Integral()/Dalitz_Fit.Integral());
 
 	TCanvas canvas_1("canvas_1", "Phase-space FLAT", 500, 500);
 	Dalitz_Flat.Project3D("yz")->Draw("colz");
@@ -817,6 +826,7 @@ int main(int argv, char** argc)
 	Dalitz_Fit.Project3D("x")->Draw("hist");
 	Dalitz_Fit.Project3D("x")->SetLineColor(2);
 	Dalitz_Resonances.Project3D("x")->Draw("e0same");
+	KST800_12.Project3D("x")->Draw("histsame");
 
 	TCanvas canvas_y("canvas_y", "", 500, 500);
 	Dalitz_Fit.Project3D("y")->Draw("hist");
@@ -831,6 +841,9 @@ int main(int argv, char** argc)
 	TCanvas canvas_7("canvas_7", "Normalization", 500, 500);
 	Normalization.Draw("colz");
 
+	TCanvas canvas_8("canvas_8", "KST800_12", 500, 500);
+	KST800_12.Project3D("x")->Draw("colz");
+
 
 	m_app->Run();
 
@@ -839,6 +852,82 @@ int main(int argv, char** argc)
 	return 0;
 }
 
+template<typename Amplitude>
+TH3D histogram_component( Amplitude const& amp, std::array<double, 3> const& masses, const char* name, size_t nentries)
+{
+	const double D_MASS         = masses[0];// D+ mass
+	const double K_MASS         = masses[1];// K+ mass
+	const double PI_MASS        = masses[2];// pi mass
+
+	TH3D Component(name,
+			";"
+			"M^{2}(K^{-} #pi^{+}) [GeV^{2}/c^{4}];"
+			"M^{2}(K^{-} #pi^{+}) [GeV^{2}/c^{4}];"
+			"M^{2}(#pi^{+} #pi^{+}) [GeV^{2}/c^{4}]",
+			100, pow(K_MASS  + PI_MASS,2), pow(D_MASS - PI_MASS,2),
+			100, pow(K_MASS  + PI_MASS,2), pow(D_MASS - PI_MASS,2),
+			100, pow(PI_MASS + PI_MASS,2), pow(D_MASS -  K_MASS,2));
+
+	//--------------------
+	//generator
+	hydra::Vector4R D(D_MASS, 0.0, 0.0, 0.0);
+	// Create PhaseSpace object for B0-> K pi pi
+	hydra::PhaseSpace<3> phsp{K_MASS, PI_MASS, PI_MASS};
+
+	// functor to calculate the 2-body masses
+	auto dalitz_calculator = hydra::wrap_lambda(
+			[]__host__ __device__(unsigned int n, hydra::Vector4R* p ){
+
+		double   M2_12 = (p[0]+p[1]).mass2();
+		double   M2_13 = (p[0]+p[2]).mass2();
+		double   M2_23 = (p[1]+p[2]).mass2();
+
+		return hydra::make_tuple(M2_12, M2_13, M2_23);
+	});
+
+	//norm lambda
+	auto Norm = hydra::wrap_lambda(
+			[]__host__  __device__ (unsigned int n, hydra::complex<double>* x){
+
+		return hydra::norm(x[0]);
+	});
+
+	//functor
+	auto functor = hydra::compose(Norm, amp);
+
+	hydra::Decays<3, hydra::host::sys_t > events(nentries);
+
+	phsp.Generate(D, events.begin(), events.end());
+
+	events.Reweight(functor);
+
+	auto particles        = events.GetUnweightedDecays();
+	auto dalitz_variables = hydra::make_range( particles.begin(), particles.end(), dalitz_calculator);
+	auto dalitz_weights   = events.GetWeights();
+
+	//model dalitz histogram
+	hydra::SparseHistogram<double, 3,  hydra::host::sys_t> Hist_Component{
+		{100,100,100},
+		{pow(K_MASS + PI_MASS,2), pow(K_MASS + PI_MASS,2),  pow(PI_MASS + PI_MASS,2)},
+		{pow(D_MASS - PI_MASS,2), pow(D_MASS - PI_MASS ,2), pow(D_MASS - K_MASS,2)}
+	};
+
+	Hist_Component.Fill( dalitz_variables.begin(),
+					dalitz_variables.end(), dalitz_weights.begin()  );
+
+	for(auto entry : Hist_Component){
+
+		size_t bin     = hydra::get<0>(entry);
+		double content = hydra::get<1>(entry);
+		unsigned int bins[3];
+		Hist_Component.GetIndexes(bin, bins);
+		Component.SetBinContent(bins[0]+1, bins[1]+1, bins[2]+1, content);
+
+	}
+
+	return Component;
+
+}
 
 
 
