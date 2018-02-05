@@ -906,6 +906,10 @@ int main(int argv, char** argc)
 	//=============================================================
 	//projections
 	TH1* hist=0;
+	const char* axis =0;
+
+	//==============================
+	axis =
 
 	TCanvas canvas_x("canvas_x", "", 500, 500);
 
