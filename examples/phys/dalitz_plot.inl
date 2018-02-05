@@ -411,8 +411,6 @@ int main(int argv, char** argc)
 			200, 275.0, 305.0,
 			200, 0.58, 0.64);
 
-	TH3D KST800_12;
-
 #endif
 
 	hydra::Decays<3, hydra::host::sys_t > toy_data;
@@ -659,7 +657,7 @@ int main(int argv, char** argc)
 		//Minimize and profile the time
 		auto start_d = std::chrono::high_resolution_clock::now();
 
-		FunctionMinimum minimum_d =  FunctionMinimum( migrad_d(5000, 5) );
+		FunctionMinimum minimum_d =  FunctionMinimum( migrad_d(5000, 50) );
 
 		auto end_d = std::chrono::high_resolution_clock::now();
 
@@ -783,9 +781,6 @@ int main(int argv, char** argc)
 #endif
 
 
-		KST800_12 = histogram_component( fcn.GetPDF().GetFunctor().GetFunctor(_1).GetFunctor(_0),
-				{D_MASS,K_MASS, PI_MASS}, "KST800_12", nentries);
-
 #endif
 
 	}
@@ -797,11 +792,7 @@ int main(int argv, char** argc)
 
 	TApplication *m_app=new TApplication("myapp",0,0);
 
-	//KST800_12.Scale(1.0/Dalitz_Fit.Integral());
-
 	Dalitz_Fit.Scale(Dalitz_Resonances.Integral()/Dalitz_Fit.Integral() );
-
-	KST800_12.Scale(Dalitz_Resonances.Integral()/Dalitz_Fit.Integral());
 
 	TCanvas canvas_1("canvas_1", "Phase-space FLAT", 500, 500);
 	Dalitz_Flat.Project3D("yz")->Draw("colz");
@@ -826,7 +817,6 @@ int main(int argv, char** argc)
 	Dalitz_Fit.Project3D("x")->Draw("hist");
 	Dalitz_Fit.Project3D("x")->SetLineColor(2);
 	Dalitz_Resonances.Project3D("x")->Draw("e0same");
-	KST800_12.Project3D("x")->Draw("histsame");
 
 	TCanvas canvas_y("canvas_y", "", 500, 500);
 	Dalitz_Fit.Project3D("y")->Draw("hist");
@@ -840,9 +830,6 @@ int main(int argv, char** argc)
 
 	TCanvas canvas_7("canvas_7", "Normalization", 500, 500);
 	Normalization.Draw("colz");
-
-	TCanvas canvas_8("canvas_8", "KST800_12", 500, 500);
-	KST800_12.Project3D("x")->Draw("colz");
 
 
 	m_app->Run();

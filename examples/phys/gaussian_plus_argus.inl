@@ -181,6 +181,8 @@ int main(int argv, char** argc)
 		for(size_t i=0; i< 10; i++)
 			std::cout << "[" << i << "] :" << range[i] << std::endl;
 
+		std::cout<< std::endl<< "data size :"<< range.size() << std::endl;
+
 		//make model and fcn
 		auto fcn = hydra::make_loglikehood_fcn( model, range.begin(), range.end() );
 
@@ -189,7 +191,7 @@ int main(int argv, char** argc)
 		ROOT::Minuit2::MnPrint::SetLevel(3);
 		hydra::Print::SetLevel(hydra::WARNING);
 		//minimization strategy
-		MnStrategy strategy(1);
+		MnStrategy strategy(2);
 
 		// create Migrad minimizer
 		MnMigrad migrad_d(fcn, fcn.GetParameters().GetMnState() ,  strategy);
@@ -200,7 +202,7 @@ int main(int argv, char** argc)
 
 		auto start_d = std::chrono::high_resolution_clock::now();
 
-		FunctionMinimum minimum_d =  FunctionMinimum(migrad_d(5000, 5));
+		FunctionMinimum minimum_d =  FunctionMinimum(migrad_d(50000, 10));
 
 		auto end_d = std::chrono::high_resolution_clock::now();
 
