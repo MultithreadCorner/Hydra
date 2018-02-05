@@ -174,6 +174,10 @@ private:
 template<typename Amplitude>
 TH3D histogram_component( Amplitude const& amp, std::array<double, 3> const& masses, const char* name, size_t nentries);
 
+template<typename Amplitude, typename Model>
+double fit_fraction( Amplitude const& amp, Model const& model, std::array<double, 3> const& masses, size_t nentries);
+
+
 int main(int argv, char** argc)
 {
 	size_t nentries = 0;
@@ -208,7 +212,7 @@ int main(int argv, char** argc)
 
 	double K800_MASS  	  = 0.809 ;
 	double K800_WIDTH     = 0.470;
-	double K800_MAG       = 5.01;
+	double K800_MAG       = 5.1;
 	double K800_PHI       = (-163.7+180.0)*0.01745329;
 	double K800_CRe		  = K800_MAG*cos(K800_PHI);
 	double K800_CIm		  = K800_MAG*sin(K800_PHI);
@@ -411,7 +415,13 @@ int main(int argv, char** argc)
 			200, 275.0, 305.0,
 			200, 0.58, 0.64);
 
-	TH3D KST800_12;
+	TH3D  KST800_12_HIST,  KST800_13_HIST,  KST892_12_HIST,  KST892_13_HIST,
+	     KST1425_12_HIST, KST1425_13_HIST, KST1430_12_HIST, KST1430_13_HIST,
+	     KST1680_12_HIST, KST1680_13_HIST;
+
+	double  KST800_12_FF,  KST800_13_FF,  KST892_12_FF,  KST892_13_FF,
+		     KST1425_12_FF, KST1425_13_FF, KST1430_12_FF, KST1430_13_FF,
+		     KST1680_12_FF, KST1680_13_FF;
 
 #endif
 
@@ -736,14 +746,74 @@ int main(int argv, char** argc)
 		std::cout << "| Time (ms)        :"<< elapsed.count()   << std::endl;
 		std::cout << "-----------------------------------------"<< std::endl;
 
+
+		//==================================
+		// Optimized components
+		//==================================
+		auto Opt_Model = fcn.GetPDF().GetFunctor();
+
+		auto KST800_12 = fcn.GetPDF().GetFunctor().GetFunctor(_1).GetFunctor(_0);
+		auto KST800_13 = fcn.GetPDF().GetFunctor().GetFunctor(_1).GetFunctor(_1);
+
+		auto KST892_12 = fcn.GetPDF().GetFunctor().GetFunctor(_2).GetFunctor(_0);
+		auto KST892_13 = fcn.GetPDF().GetFunctor().GetFunctor(_2).GetFunctor(_1);
+
+		auto KST1425_12 = fcn.GetPDF().GetFunctor().GetFunctor(_3).GetFunctor(_0);
+		auto KST1425_13 = fcn.GetPDF().GetFunctor().GetFunctor(_3).GetFunctor(_1);
+
+		auto KST1430_12 = fcn.GetPDF().GetFunctor().GetFunctor(_4).GetFunctor(_0);
+		auto KST1430_13 = fcn.GetPDF().GetFunctor().GetFunctor(_4).GetFunctor(_1);
+
+		auto KST1680_12 = fcn.GetPDF().GetFunctor().GetFunctor(_5).GetFunctor(_0);
+		auto KST1680_13 = fcn.GetPDF().GetFunctor().GetFunctor(_5).GetFunctor(_1);
+
+		//==================================
+		// Draw components
+		//==================================
+		KST800_12_HIST  =	histogram_component(KST800_12 , {D_MASS, K_MASS, PI_MASS}, "KST800_12_HIST", nentries);
+		KST800_13_HIST  =	histogram_component(KST800_13 , {D_MASS, K_MASS, PI_MASS}, "KST800_13_HIST", nentries);
+		KST892_12_HIST  =	histogram_component(KST892_12 , {D_MASS, K_MASS, PI_MASS}, "KST892_12_HIST", nentries);
+		KST892_13_HIST  =	histogram_component(KST892_13 , {D_MASS, K_MASS, PI_MASS}, "KST892_13_HIST", nentries);
+		KST1425_12_HIST =	histogram_component(KST1425_12, {D_MASS, K_MASS, PI_MASS}, "KST1425_12_HIST", nentries);
+		KST1425_13_HIST =	histogram_component(KST1425_13, {D_MASS, K_MASS, PI_MASS}, "KST1425_13_HIST", nentries);
+		KST1430_12_HIST =	histogram_component(KST1430_12, {D_MASS, K_MASS, PI_MASS}, "KST1430_12_HIST", nentries);
+		KST1430_13_HIST =	histogram_component(KST1430_13, {D_MASS, K_MASS, PI_MASS}, "KST1430_13_HIST", nentries);
+		KST1680_12_HIST =	histogram_component(KST1680_12, {D_MASS, K_MASS, PI_MASS}, "KST1680_12_HIST", nentries);
+		KST1680_13_HIST =	histogram_component(KST1680_13, {D_MASS, K_MASS, PI_MASS}, "KST1680_13_HIST", nentries);
+
+		//==================================
+		// Fit fractions
+		//==================================
+		KST800_12_FF  =	fit_fraction(KST800_12 , Opt_Model, {D_MASS, K_MASS, PI_MASS},  nentries);
+		KST800_13_FF  =	fit_fraction(KST800_13 , Opt_Model, {D_MASS, K_MASS, PI_MASS},  nentries);
+		KST892_12_FF  =	fit_fraction(KST892_12 , Opt_Model, {D_MASS, K_MASS, PI_MASS},  nentries);
+		KST892_13_FF  =	fit_fraction(KST892_13 , Opt_Model, {D_MASS, K_MASS, PI_MASS},  nentries);
+		KST1425_12_FF =	fit_fraction(KST1425_12 , Opt_Model, {D_MASS, K_MASS, PI_MASS}, nentries);
+		KST1425_13_FF =	fit_fraction(KST1425_13 , Opt_Model, {D_MASS, K_MASS, PI_MASS}, nentries);
+		KST1430_12_FF =	fit_fraction(KST1430_12 , Opt_Model, {D_MASS, K_MASS, PI_MASS}, nentries);
+		KST1430_13_FF =	fit_fraction(KST1430_13 , Opt_Model, {D_MASS, K_MASS, PI_MASS}, nentries);
+		KST1680_12_FF =	fit_fraction(KST1680_12 , Opt_Model, {D_MASS, K_MASS, PI_MASS}, nentries);
+		KST1680_13_FF =	fit_fraction(KST1680_13 , Opt_Model, {D_MASS, K_MASS, PI_MASS}, nentries);
+
+		std::cout << "KST800_12_FF :" << KST800_12_FF << std::endl;
+		std::cout << "KST800_13_FF :" << KST800_13_FF << std::endl;
+		std::cout << "KST892_12_FF :" << KST892_12_FF << std::endl;
+		std::cout << "KST892_13_FF :" << KST892_13_FF << std::endl;
+		std::cout << "KST1425_12_FF :" << KST1425_12_FF << std::endl;
+		std::cout << "KST1425_13_FF :" << KST1425_13_FF << std::endl;
+		std::cout << "KST1430_12_FF :" << KST1430_12_FF << std::endl;
+		std::cout << "KST1430_13_FF :" << KST1430_13_FF << std::endl;
+		std::cout << "KST1680_12_FF :" << KST1680_12_FF << std::endl;
+		std::cout << "KST1680_13_FF :" << KST1680_13_FF << std::endl;
+		std::cout << "Sum :" << KST800_12_FF + KST800_13_FF +
+				KST892_12_FF + KST892_13_FF + KST1425_12_FF +
+				KST1425_13_FF + KST1430_12_FF + KST1430_13_FF + KST1680_12_FF
+				+ KST1680_13_FF << std::endl;
+
 #ifdef 	_ROOT_AVAILABLE_
 
 		for(auto x: fcn.GetPDF().GetNormCache() ){
 
-			std::cout << "Key : "    << x.first
-					  << " Value : " << x.second.first
-					  << " Error : " << x.second.second
-					  << std::endl;
 			Normalization.Fill(x.second.first, x.second.second );
 		}
 
@@ -783,8 +853,7 @@ int main(int argv, char** argc)
 #endif
 
 
-		KST800_12 = histogram_component( fcn.GetPDF().GetFunctor().GetFunctor(_1).GetFunctor(_0),
-				{D_MASS,K_MASS, PI_MASS}, "KST800_12", nentries);
+
 
 #endif
 
@@ -797,11 +866,23 @@ int main(int argv, char** argc)
 
 	TApplication *m_app=new TApplication("myapp",0,0);
 
-	//KST800_12.Scale(1.0/Dalitz_Fit.Integral());
 
 	Dalitz_Fit.Scale(Dalitz_Resonances.Integral()/Dalitz_Fit.Integral() );
 
-	KST800_12.Scale(Dalitz_Resonances.Integral()/Dalitz_Fit.Integral());
+	KST800_12_HIST.Scale( KST800_12_FF*Dalitz_Fit.Integral()/KST800_12_HIST.Integral() );
+	KST800_13_HIST.Scale( KST800_13_FF*Dalitz_Fit.Integral()/KST800_13_HIST.Integral() );
+
+	KST892_12_HIST.Scale( KST892_12_FF*Dalitz_Fit.Integral()/KST892_12_HIST.Integral() );
+	KST892_13_HIST.Scale( KST892_13_FF*Dalitz_Fit.Integral()/KST892_13_HIST.Integral() );
+
+	KST1425_12_HIST.Scale( KST1425_12_FF*Dalitz_Fit.Integral()/KST1425_12_HIST.Integral() );
+	KST1425_13_HIST.Scale( KST1425_13_FF*Dalitz_Fit.Integral()/KST1425_13_HIST.Integral() );
+
+	KST1430_12_HIST.Scale( KST1430_12_FF*Dalitz_Fit.Integral()/KST1430_12_HIST.Integral() );
+	KST1430_13_HIST.Scale( KST1430_13_FF*Dalitz_Fit.Integral()/KST1430_13_HIST.Integral() );
+
+	KST1680_12_HIST.Scale( KST1680_12_FF*Dalitz_Fit.Integral()/KST1680_12_HIST.Integral() );
+	KST1680_13_HIST.Scale( KST1680_13_FF*Dalitz_Fit.Integral()/KST1680_13_HIST.Integral() );
 
 	TCanvas canvas_1("canvas_1", "Phase-space FLAT", 500, 500);
 	Dalitz_Flat.Project3D("yz")->Draw("colz");
@@ -821,12 +902,68 @@ int main(int argv, char** argc)
 	TCanvas canvas_6("canvas_4", "Phase-space FLAT", 500, 500);
 	Dalitz_Fit.Project3D("xy")->Draw("colz");
 
+
+	//=============================================================
 	//projections
+	TH1* hist=0;
+
 	TCanvas canvas_x("canvas_x", "", 500, 500);
-	Dalitz_Fit.Project3D("x")->Draw("hist");
-	Dalitz_Fit.Project3D("x")->SetLineColor(2);
-	Dalitz_Resonances.Project3D("x")->Draw("e0same");
-	KST800_12.Project3D("x")->Draw("histsame");
+
+	hist= Dalitz_Fit.Project3D("x")->DrawCopy("hist");
+	hist->SetLineColor(2);
+	hist->SetLineWidth(2);
+
+	hist= Dalitz_Resonances.Project3D("x")->DrawCopy("e0same");
+	hist->SetMarkerStyle(8);
+	hist->SetMarkerSize(0.6);
+
+	auto KST800_Color = kViolet-5;
+	auto KST892_Color = kBlue;
+	auto KST1425_Color = kGreen-2;
+	auto KST1430_Color = kOrange-3;
+	auto KST1680_Color = kYellow-2;
+
+	hist = KST800_12_HIST.Project3D("x")->DrawCopy("histsame");
+	hist->SetLineColor(KST800_Color);
+	hist->SetLineWidth(2);
+	hist = KST800_13_HIST.Project3D("x")->DrawCopy("histsame");
+	hist->SetLineStyle(2);
+	hist->SetLineColor(KST800_Color);
+	hist->SetLineWidth(2);
+
+	hist = KST892_12_HIST.Project3D("x")->DrawCopy("histsame");
+	hist->SetLineColor(KST892_Color);
+	hist->SetLineWidth(2);
+	hist = KST892_13_HIST.Project3D("x")->DrawCopy("histsame");
+	hist->SetLineStyle(2);
+	hist->SetLineColor(KST892_Color);
+	hist->SetLineWidth(2);
+
+	hist = KST1680_12_HIST.Project3D("x")->DrawCopy("histsame");
+	hist->SetLineColor(KST1680_Color);
+	hist->SetLineWidth(2);
+	hist = KST1680_13_HIST.Project3D("x")->DrawCopy("histsame");
+	hist->SetLineStyle(2);
+	hist->SetLineColor(KST1680_Color);
+	hist->SetLineWidth(2);
+
+	hist = KST1425_12_HIST.Project3D("x")->DrawCopy("histsame");
+	hist->SetLineColor(KST1425_Color);
+	hist->SetLineWidth(2);
+	hist = KST1425_13_HIST.Project3D("x")->DrawCopy("histsame");
+	hist->SetLineStyle(2);
+	hist->SetLineColor(KST1425_Color);
+	hist->SetLineWidth(2);
+
+	hist = KST1430_12_HIST.Project3D("x")->DrawCopy("histsame");
+	hist->SetLineColor(KST1430_Color);
+	hist->SetLineWidth(2);
+	hist = KST1430_13_HIST.Project3D("x")->DrawCopy("histsame");
+	hist->SetLineColor(KST1430_Color);
+	hist->SetLineStyle(2);
+	hist->SetLineWidth(2);
+
+	//=============================================================
 
 	TCanvas canvas_y("canvas_y", "", 500, 500);
 	Dalitz_Fit.Project3D("y")->Draw("hist");
@@ -841,8 +978,6 @@ int main(int argv, char** argc)
 	TCanvas canvas_7("canvas_7", "Normalization", 500, 500);
 	Normalization.Draw("colz");
 
-	TCanvas canvas_8("canvas_8", "KST800_12", 500, 500);
-	KST800_12.Project3D("x")->Draw("colz");
 
 
 	m_app->Run();
@@ -850,6 +985,39 @@ int main(int argv, char** argc)
 #endif
 
 	return 0;
+}
+
+
+template<typename Amplitude, typename Model>
+double fit_fraction( Amplitude const& amp, Model const& model, std::array<double, 3> const& masses, size_t nentries)
+{
+	const double D_MASS         = masses[0];// D+ mass
+	const double K_MASS         = masses[1];// K+ mass
+	const double PI_MASS        = masses[2];// pi mass
+
+	//--------------------
+	//generator
+	hydra::Vector4R D(D_MASS, 0.0, 0.0, 0.0);
+
+	// Create PhaseSpace object for B0-> K pi pi
+	hydra::PhaseSpace<3> phsp{K_MASS, PI_MASS, PI_MASS};
+
+	//norm lambda
+	auto Norm = hydra::wrap_lambda( []__host__  __device__ (unsigned int n, hydra::complex<double>* x){
+
+		return hydra::norm(x[0]);
+	});
+
+	//functor
+	auto functor = hydra::compose(Norm, amp);
+
+
+	auto amp_int   = phsp.AverageOn(hydra::host::sys, D, functor, nentries);
+	auto model_int = phsp.AverageOn(hydra::host::sys, D, model,   nentries);
+
+
+	return amp_int.first/model_int.first;
+
 }
 
 template<typename Amplitude>
