@@ -90,6 +90,8 @@
 #include <TH3D.h>
 #include <TApplication.h>
 #include <TCanvas.h>
+#include <TLegend.h>
+#include <TLegendEntry.h>
 
 #endif //_ROOT_AVAILABLE_
 
@@ -212,7 +214,7 @@ int main(int argv, char** argc)
 
 	double K800_MASS  	  = 0.809 ;
 	double K800_WIDTH     = 0.470;
-	double K800_MAG       = 5.1;
+	double K800_MAG       = 2.0;
 	double K800_PHI       = (-163.7+180.0)*0.01745329;
 	double K800_CRe		  = K800_MAG*cos(K800_PHI);
 	double K800_CIm		  = K800_MAG*sin(K800_PHI);
@@ -382,18 +384,18 @@ int main(int argv, char** argc)
 	//
 	TH3D Dalitz_Flat("Dalitz_Flat",
 			"Flat Dalitz;"
-			"M^{2}(K^{-} #pi^{+}) [GeV^{2}/c^{4}];"
-			"M^{2}(K^{-} #pi^{+}) [GeV^{2}/c^{4}];"
-			"M^{2}(#pi^{+} #pi^{+}) [GeV^{2}/c^{4}]",
+			"M^{2}(K^{-} #pi_{1}^{+}) [GeV^{2}/c^{4}];"
+			"M^{2}(K^{-} #pi_{2}^{+}) [GeV^{2}/c^{4}];"
+			"M^{2}(#pi_{1}^{+} #pi_{2}^{+}) [GeV^{2}/c^{4}]",
 			100, pow(K_MASS  + PI_MASS,2), pow(D_MASS - PI_MASS,2),
 			100, pow(K_MASS  + PI_MASS,2), pow(D_MASS - PI_MASS,2),
 			100, pow(PI_MASS + PI_MASS,2), pow(D_MASS -  K_MASS,2));
 
 	TH3D Dalitz_Resonances("Dalitz_Resonances",
 			"Dalitz - Toy Data -;"
-			"M^{2}(K^{-} #pi^{+}) [GeV^{2}/c^{4}];"
-			"M^{2}(K^{-} #pi^{+}) [GeV^{2}/c^{4}];"
-			"M^{2}(#pi^{+} #pi^{+}) [GeV^{2}/c^{4}]",
+			"M^{2}(K^{-} #pi_{1}^{+}) [GeV^{2}/c^{4}];"
+			"M^{2}(K^{-} #pi_{2}^{+}) [GeV^{2}/c^{4}];"
+			"M^{2}(#pi_{1}^{+} #pi_{2}^{+}) [GeV^{2}/c^{4}]",
 			100, pow(K_MASS  + PI_MASS,2), pow(D_MASS - PI_MASS,2),
 			100, pow(K_MASS  + PI_MASS,2), pow(D_MASS - PI_MASS,2),
 			100, pow(PI_MASS + PI_MASS,2), pow(D_MASS -  K_MASS,2));
@@ -401,9 +403,9 @@ int main(int argv, char** argc)
 
 	TH3D Dalitz_Fit("Dalitz_Fit",
 			"Dalitz - Fit -;"
-			"M^{2}(K^{-} #pi^{+}) [GeV^{2}/c^{4}];"
-			"M^{2}(K^{-} #pi^{+}) [GeV^{2}/c^{4}];"
-			"M^{2}(#pi^{+} #pi^{+}) [GeV^{2}/c^{4}]",
+			"M^{2}(K^{-} #pi_{1}^{+}) [GeV^{2}/c^{4}];"
+			"M^{2}(K^{-} #pi_{2}^{+}) [GeV^{2}/c^{4}];"
+			"M^{2}(#pi_{1}^{+} #pi_{2}^{+}) [GeV^{2}/c^{4}]",
 			100, pow(K_MASS  + PI_MASS,2), pow(D_MASS - PI_MASS,2),
 			100, pow(K_MASS  + PI_MASS,2), pow(D_MASS - PI_MASS,2),
 			100, pow(PI_MASS + PI_MASS,2), pow(D_MASS -  K_MASS,2));
@@ -684,6 +686,7 @@ int main(int argv, char** argc)
 		//print parameters after fitting
 		std::cout<<"minimum: "<<minimum_d<<std::endl;
 
+		nentries = 2000000;
 		//----------
 		//plot fit
 		//allocate memory to hold the final states particles
@@ -908,64 +911,165 @@ int main(int argv, char** argc)
 	TH1* hist=0;
 	const char* axis =0;
 
-	//==============================
-	axis =
-
-	TCanvas canvas_x("canvas_x", "", 500, 500);
-
-	canvas_x->SetLogy(1);
-
-	hist= Dalitz_Fit.Project3D("x")->DrawCopy("hist");
-	hist->SetLineColor(2);
-	hist->SetLineWidth(2);
-	hist->SetMinimum(0.001);
-
-	hist= Dalitz_Resonances.Project3D("x")->DrawCopy("e0same");
-	hist->SetMarkerStyle(8);
-	hist->SetMarkerSize(0.6);
-
 	auto KST800_Color  = kViolet-5;
 	auto KST892_Color  = kBlue;
 	auto KST1425_Color = kGreen-2;
 	auto KST1430_Color = kOrange-3;
 	auto KST1680_Color = kYellow-2;
 
-	hist = KST800_12_HIST.Project3D("x")->DrawCopy("histsame");
+	//==============================
+	axis = "x";
+
+	TCanvas canvas_x("canvas_x", "", 600, 600);
+
+	canvas_x.SetLogy(1);
+
+	auto legend = TLegend(0.262542,0.125436,0.690635,0.344948);
+	//legend.SetHeader("M^{2}(K^{-} #pi_{1}^{+})","C"); // option "C" allows to center the header
+	legend.SetEntrySeparation(0.3);
+	legend.SetNColumns(2);
+
+
+
+	hist= Dalitz_Fit.Project3D(axis)->DrawCopy("hist");
+	hist->SetLineColor(2);
+	hist->SetLineWidth(2);
+	hist->SetMinimum(0.001);
+	hist->SetStats(0);
+	hist->SetTitle("");
+
+	legend.AddEntry(hist,"Fit","l");
+
+	hist= Dalitz_Resonances.Project3D(axis)->DrawCopy("e0same");
+	hist->SetMarkerStyle(8);
+	hist->SetMarkerSize(0.6);
+	hist->SetStats(0);
+
+	legend.AddEntry(hist,"Data","lep");
+
+	hist = KST800_12_HIST.Project3D(axis)->DrawCopy("histCsame");
 	hist->SetLineColor(KST800_Color);
 	hist->SetLineWidth(2);
-	hist = KST800_13_HIST.Project3D("x")->DrawCopy("histsame");
+
+	legend.AddEntry(hist,"#kappa_{12}","l");
+
+	hist = KST800_13_HIST.Project3D(axis)->DrawCopy("histCsame");
 	hist->SetLineStyle(2);
 	hist->SetLineColor(KST800_Color);
 	hist->SetLineWidth(2);
 
-	hist = KST892_12_HIST.Project3D("x")->DrawCopy("histsame");
+	legend.AddEntry(hist,"#kappa_{13}","l");
+
+
+	hist = KST892_12_HIST.Project3D(axis)->DrawCopy("histCsame");
 	hist->SetLineColor(KST892_Color);
 	hist->SetLineWidth(2);
-	hist = KST892_13_HIST.Project3D("x")->DrawCopy("histsame");
+
+	legend.AddEntry(hist,"K*(892)_{12}","l");
+
+	hist = KST892_13_HIST.Project3D(axis)->DrawCopy("histCsame");
 	hist->SetLineStyle(2);
 	hist->SetLineColor(KST892_Color);
 	hist->SetLineWidth(2);
 
-	hist = KST1680_12_HIST.Project3D("x")->DrawCopy("histsame");
+	legend.AddEntry(hist,"K*(892)_{13}","l");
+
+
+	hist = KST1680_12_HIST.Project3D(axis)->DrawCopy("histCsame");
 	hist->SetLineColor(KST1680_Color);
 	hist->SetLineWidth(2);
-	hist = KST1680_13_HIST.Project3D("x")->DrawCopy("histsame");
+
+	legend.AddEntry(hist,"K_{1}(1680)_{12}","l");
+
+	hist = KST1680_13_HIST.Project3D(axis)->DrawCopy("histCsame");
 	hist->SetLineStyle(2);
 	hist->SetLineColor(KST1680_Color);
 	hist->SetLineWidth(2);
 
-	hist = KST1425_12_HIST.Project3D("x")->DrawCopy("histsame");
+	legend.AddEntry(hist,"K_{1}(1680)_{13}","l");
+
+	hist = KST1425_12_HIST.Project3D(axis)->DrawCopy("histCsame");
 	hist->SetLineColor(KST1425_Color);
 	hist->SetLineWidth(2);
-	hist = KST1425_13_HIST.Project3D("x")->DrawCopy("histsame");
+
+	legend.AddEntry(hist,"K*_{0}(1425)_{12}","l");
+
+	hist = KST1425_13_HIST.Project3D(axis)->DrawCopy("histCsame");
 	hist->SetLineStyle(2);
 	hist->SetLineColor(KST1425_Color);
 	hist->SetLineWidth(2);
 
-	hist = KST1430_12_HIST.Project3D("x")->DrawCopy("histsame");
+	legend.AddEntry(hist,"K*_{0}(1425)_{13}","l");
+
+	hist = KST1430_12_HIST.Project3D(axis)->DrawCopy("histCsame");
 	hist->SetLineColor(KST1430_Color);
 	hist->SetLineWidth(2);
-	hist = KST1430_13_HIST.Project3D("x")->DrawCopy("histsame");
+
+	legend.AddEntry(hist,"K*_{2}(1430)_{12}","l");
+
+	hist = KST1430_13_HIST.Project3D(axis)->DrawCopy("histCsame");
+	hist->SetLineColor(KST1430_Color);
+	hist->SetLineStyle(2);
+	hist->SetLineWidth(2);
+
+	legend.AddEntry(hist,"K*_{2}(1430)_{13}","l");
+
+	legend.Draw();
+	//=============================================================
+
+	axis = "y";
+
+	TCanvas canvas_y("canvas_y", "", 500, 500);
+
+	canvas_y.SetLogy(1);
+
+	hist= Dalitz_Fit.Project3D(axis)->DrawCopy("hist");
+	hist->SetLineColor(2);
+	hist->SetLineWidth(2);
+	hist->SetMinimum(0.001);
+	hist->SetStats(0);
+
+	hist= Dalitz_Resonances.Project3D(axis)->DrawCopy("e0same");
+	hist->SetMarkerStyle(8);
+	hist->SetMarkerSize(0.6);
+	hist->SetStats(0);
+
+	hist = KST800_12_HIST.Project3D(axis)->DrawCopy("histCsame");
+	hist->SetLineColor(KST800_Color);
+	hist->SetLineWidth(2);
+	hist = KST800_13_HIST.Project3D(axis)->DrawCopy("histCsame");
+	hist->SetLineStyle(2);
+	hist->SetLineColor(KST800_Color);
+	hist->SetLineWidth(2);
+
+	hist = KST892_12_HIST.Project3D(axis)->DrawCopy("histCsame");
+	hist->SetLineColor(KST892_Color);
+	hist->SetLineWidth(2);
+	hist = KST892_13_HIST.Project3D(axis)->DrawCopy("histCsame");
+	hist->SetLineStyle(2);
+	hist->SetLineColor(KST892_Color);
+	hist->SetLineWidth(2);
+
+	hist = KST1680_12_HIST.Project3D(axis)->DrawCopy("histCsame");
+	hist->SetLineColor(KST1680_Color);
+	hist->SetLineWidth(2);
+	hist = KST1680_13_HIST.Project3D(axis)->DrawCopy("histCsame");
+	hist->SetLineStyle(2);
+	hist->SetLineColor(KST1680_Color);
+	hist->SetLineWidth(2);
+
+	hist = KST1425_12_HIST.Project3D(axis)->DrawCopy("histCsame");
+	hist->SetLineColor(KST1425_Color);
+	hist->SetLineWidth(2);
+	hist = KST1425_13_HIST.Project3D(axis)->DrawCopy("histCsame");
+	hist->SetLineStyle(2);
+	hist->SetLineColor(KST1425_Color);
+	hist->SetLineWidth(2);
+
+	hist = KST1430_12_HIST.Project3D(axis)->DrawCopy("histCsame");
+	hist->SetLineColor(KST1430_Color);
+	hist->SetLineWidth(2);
+	hist = KST1430_13_HIST.Project3D(axis)->DrawCopy("histCsame");
 	hist->SetLineColor(KST1430_Color);
 	hist->SetLineStyle(2);
 	hist->SetLineWidth(2);
@@ -973,15 +1077,65 @@ int main(int argv, char** argc)
 	//=============================================================
 
 
-	TCanvas canvas_y("canvas_y", "", 500, 500);
-	Dalitz_Fit.Project3D("y")->Draw("hist");
-	Dalitz_Fit.Project3D("y")->SetLineColor(2);
-	Dalitz_Resonances.Project3D("y")->Draw("e0same");
+
+	axis = "z";
 
 	TCanvas canvas_z("canvas_z", "", 500, 500);
-	Dalitz_Fit.Project3D("z")->Draw("hist");
-	Dalitz_Fit.Project3D("z")->SetLineColor(2);
-	Dalitz_Resonances.Project3D("z")->Draw("e0same");
+
+	canvas_z.SetLogy(1);
+
+	hist= Dalitz_Fit.Project3D(axis)->DrawCopy("hist");
+	hist->SetLineColor(2);
+	hist->SetLineWidth(2);
+	hist->SetMinimum(0.001);
+	hist->SetStats(0);
+
+	hist= Dalitz_Resonances.Project3D(axis)->DrawCopy("e0same");
+	hist->SetMarkerStyle(8);
+	hist->SetMarkerSize(0.6);
+	hist->SetStats(0);
+
+	hist = KST800_12_HIST.Project3D(axis)->DrawCopy("histCsame");
+	hist->SetLineColor(KST800_Color);
+	hist->SetLineWidth(2);
+	hist = KST800_13_HIST.Project3D(axis)->DrawCopy("histCsame");
+	hist->SetLineStyle(2);
+	hist->SetLineColor(KST800_Color);
+	hist->SetLineWidth(2);
+
+	hist = KST892_12_HIST.Project3D(axis)->DrawCopy("histCsame");
+	hist->SetLineColor(KST892_Color);
+	hist->SetLineWidth(2);
+	hist = KST892_13_HIST.Project3D(axis)->DrawCopy("histCsame");
+	hist->SetLineStyle(2);
+	hist->SetLineColor(KST892_Color);
+	hist->SetLineWidth(2);
+
+	hist = KST1680_12_HIST.Project3D(axis)->DrawCopy("histCsame");
+	hist->SetLineColor(KST1680_Color);
+	hist->SetLineWidth(2);
+	hist = KST1680_13_HIST.Project3D(axis)->DrawCopy("histCsame");
+	hist->SetLineStyle(2);
+	hist->SetLineColor(KST1680_Color);
+	hist->SetLineWidth(2);
+
+	hist = KST1425_12_HIST.Project3D(axis)->DrawCopy("histCsame");
+	hist->SetLineColor(KST1425_Color);
+	hist->SetLineWidth(2);
+	hist = KST1425_13_HIST.Project3D(axis)->DrawCopy("histCsame");
+	hist->SetLineStyle(2);
+	hist->SetLineColor(KST1425_Color);
+	hist->SetLineWidth(2);
+
+	hist = KST1430_12_HIST.Project3D(axis)->DrawCopy("histCsame");
+	hist->SetLineColor(KST1430_Color);
+	hist->SetLineWidth(2);
+	hist = KST1430_13_HIST.Project3D(axis)->DrawCopy("histCsame");
+	hist->SetLineColor(KST1430_Color);
+	hist->SetLineStyle(2);
+	hist->SetLineWidth(2);
+
+	//=============================================================
 
 	TCanvas canvas_7("canvas_7", "Normalization", 500, 500);
 	Normalization.Draw("colz");
