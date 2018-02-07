@@ -1028,6 +1028,7 @@ int main(int argv, char** argc)
 	hist->SetLineWidth(2);
 	hist->SetMinimum(0.001);
 	hist->SetStats(0);
+	hist->SetTitle("");
 
 	hist= Dalitz_Resonances.Project3D(axis)->DrawCopy("e0same");
 	hist->SetMarkerStyle(8);
@@ -1089,6 +1090,7 @@ int main(int argv, char** argc)
 	hist->SetLineWidth(2);
 	hist->SetMinimum(0.001);
 	hist->SetStats(0);
+	hist->SetTitle("");
 
 	hist= Dalitz_Resonances.Project3D(axis)->DrawCopy("e0same");
 	hist->SetMarkerStyle(8);
