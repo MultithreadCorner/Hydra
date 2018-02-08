@@ -381,8 +381,7 @@ int main(int argv, char** argc)
 	//Total: Model |N.R + \sum{ Resonaces }|^2
 
 	//parametric lambda
-	auto Norm = hydra::wrap_lambda(
-					[]__host__  __device__ ( unsigned int n, hydra::complex<double>* x){
+	auto Norm = hydra::wrap_lambda( []__host__  __device__ ( unsigned int n, hydra::complex<double>* x){
 
 				hydra::complex<double> r(0,0);
 
@@ -545,7 +544,7 @@ int main(int argv, char** argc)
 		//to fill the ROOT histogram faster
 		{
 			hydra::SparseHistogram<double, 3,  hydra::host::sys_t> Hist_Temp(Hist_Dalitz);
-			std::cout << "Filling a ROOT Histogram... " << std::endl;
+			std::cout << "Filling a ROOT Histogram... " ;
 
 			for(auto entry : Hist_Temp)
 			{
@@ -556,6 +555,8 @@ int main(int argv, char** argc)
 				Dalitz_Flat.SetBinContent(bins[0]+1, bins[1]+1, bins[2]+1, content);
 
 			}
+
+			std::cout << " done!" << std::endl;
 		}
 #else
 		std::cout << "Filling a ROOT Histogram... " << std::endl;
@@ -569,6 +570,8 @@ int main(int argv, char** argc)
 			Dalitz_Flat.SetBinContent(bins[0]+1, bins[1]+1, bins[2]+1, content);
 
 		}
+
+		std::cout << " done!" << std::endl;
 #endif
 
 #endif
@@ -711,7 +714,7 @@ int main(int argv, char** argc)
 		//Minimize and profile the time
 		auto start_d = std::chrono::high_resolution_clock::now();
 
-		FunctionMinimum minimum_d =  FunctionMinimum( migrad_d(5000, 50) );
+		FunctionMinimum minimum_d =  FunctionMinimum( migrad_d(5000,100) );
 
 		auto end_d = std::chrono::high_resolution_clock::now();
 
@@ -1331,8 +1334,8 @@ double fit_fraction( Amplitude const& amp, Model const& model, std::array<double
 	auto functor = hydra::compose(Norm, amp);
 
 
-	auto amp_int   = phsp.AverageOn(hydra::host::sys, D, functor, nentries);
-	auto model_int = phsp.AverageOn(hydra::host::sys, D, model,   nentries);
+	auto amp_int   = phsp.AverageOn(hydra::device::sys, D, functor, nentries);
+	auto model_int = phsp.AverageOn(hydra::device::sys, D, model,   nentries);
 
 
 	return amp_int.first/model_int.first;
@@ -1382,7 +1385,7 @@ TH3D histogram_component( Amplitude const& amp, std::array<double, 3> const& mas
 	//functor
 	auto functor = hydra::compose(Norm, amp);
 
-	hydra::Decays<3, hydra::host::sys_t > events(nentries);
+	hydra::Decays<3, hydra::device::sys_t > events(nentries);
 
 	phsp.Generate(D, events.begin(), events.end());
 
@@ -1393,7 +1396,7 @@ TH3D histogram_component( Amplitude const& amp, std::array<double, 3> const& mas
 	auto dalitz_weights   = events.GetWeights();
 
 	//model dalitz histogram
-	hydra::SparseHistogram<double, 3,  hydra::host::sys_t> Hist_Component{
+	hydra::SparseHistogram<double, 3,  hydra::device::sys_t> Hist_Component{
 		{100,100,100},
 		{pow(K_MASS + PI_MASS,2), pow(K_MASS + PI_MASS,2),  pow(PI_MASS + PI_MASS,2)},
 		{pow(D_MASS - PI_MASS,2), pow(D_MASS - PI_MASS ,2), pow(D_MASS - K_MASS,2)}

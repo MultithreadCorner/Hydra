@@ -164,7 +164,7 @@ size_t Decays<N, detail::BackendPolicy<BACKEND> >::Unweight(
 
 	auto middle = HYDRA_EXTERNAL_NS::thrust::stable_partition(this->begin(), this->end(), first, predicate2);
 
-
+	HYDRA_EXTERNAL_NS::thrust::return_temporary_buffer(system_t(), values.first);
 	//done!
 	return (size_t) HYDRA_EXTERNAL_NS::thrust::distance(begin(), middle);
 
