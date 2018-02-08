@@ -397,8 +397,7 @@ int main(int argv, char** argc)
 			KST0_1430_Resonance,
 			KST2_1430_Resonance,
 			KST_1680_Resonance,
-			NR
-			);
+			NR );
 
 	//--------------------
 	//generator
@@ -450,19 +449,19 @@ int main(int argv, char** argc)
 
 
 	//control plots
-	TH2D Normalization("normalization" ,
+	TH2D Normalization("normalization",
 			"Model PDF Normalization;Norm;Error",
 			200, 275.0, 305.0,
 			200, 0.58, 0.64);
 
 
-	TH3D  KST800_12_HIST,  KST800_13_HIST,  KST892_12_HIST,  KST892_13_HIST,
-	     KST1425_12_HIST, KST1425_13_HIST, KST1430_12_HIST, KST1430_13_HIST,
-	     KST1680_12_HIST, KST1680_13_HIST, NR_HIST ;
+	TH3D  KST800_12_HIST , KST800_13_HIST,  KST892_12_HIST,  KST892_13_HIST,
+	      KST1425_12_HIST, KST1425_13_HIST, KST1430_12_HIST, KST1430_13_HIST,
+	      KST1680_12_HIST, KST1680_13_HIST, NR_HIST ;
 
 	double  KST800_12_FF,  KST800_13_FF,  KST892_12_FF,  KST892_13_FF,
-		     KST1425_12_FF, KST1425_13_FF, KST1430_12_FF, KST1430_13_FF,
-		     KST1680_12_FF, KST1680_13_FF, NR_FF;
+		    KST1425_12_FF, KST1425_13_FF, KST1430_12_FF, KST1430_13_FF,
+		    KST1680_12_FF, KST1680_13_FF, NR_FF;
 
 #endif
 
@@ -586,8 +585,10 @@ int main(int argv, char** argc)
 
 		std::cout << std::endl <<"Toy Dataset size: "<< last << std::endl;
 
-		toy_data.resize(last);
-		hydra::copy(Events_d.begin(), Events_d.begin()+last, toy_data.begin());
+		//toy_data.resize(last);
+		//hydra::copy(Events_d.begin(), Events_d.begin()+last, toy_data.begin());
+		toy_data.insert(toy_data.begin(), Events_d.begin(), Events_d.begin()+last );
+
 
 	}//toy data production on device
 
@@ -1308,6 +1309,9 @@ int main(int argv, char** argc)
 
 	return 0;
 }
+
+
+
 
 
 template<typename Amplitude, typename Model>

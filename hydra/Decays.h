@@ -899,7 +899,7 @@ private:
 	//----
 	template<size_t I, typename ...Iterators >
 	inline typename HYDRA_EXTERNAL_NS::thrust::detail::enable_if<(I == N), void >::type
-	__insert( size_type pos, HYDRA_EXTERNAL_NS::thrust::tuple<Iterators...>,
+	__insert_helper( size_type pos, HYDRA_EXTERNAL_NS::thrust::tuple<Iterators...>,
 			HYDRA_EXTERNAL_NS::thrust::tuple<Iterators...>  ) {	}
 
 	template< size_t I =0, typename ...Iterators >

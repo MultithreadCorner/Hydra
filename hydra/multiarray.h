@@ -266,16 +266,12 @@ public:
 
 	template< typename InputIterator>
 	inline typename HYDRA_EXTERNAL_NS::thrust::detail::enable_if<
-	detail::is_instantiation_of<HYDRA_EXTERNAL_NS::thrust::tuple,
-		typename HYDRA_EXTERNAL_NS::thrust::detail::remove_const<
-			typename HYDRA_EXTERNAL_NS::thrust::detail::remove_reference< InputIterator >::type >::type >::value ||
-	detail::is_instantiation_of<HYDRA_EXTERNAL_NS::thrust::detail::tuple_of_iterator_references,
-		typename HYDRA_EXTERNAL_NS::thrust::detail::remove_const<
-			typename HYDRA_EXTERNAL_NS::thrust::detail::remove_reference< InputIterator >::type>::type >::value, void>::type
+	 detail::is_instantiation_of< HYDRA_EXTERNAL_NS::thrust::zip_iterator, InputIterator>::value, void>::type
 	insert(iterator pos, InputIterator first, InputIterator last)
 	{
 		size_type position = HYDRA_EXTERNAL_NS::thrust::distance(begin(), pos);
-		this->__insert(position, first, last);
+
+		this->__insert(position, first.get_iterator_tuple(), last.get_iterator_tuple());
 	}
 
 
@@ -864,15 +860,15 @@ private:
 	// insert
 	template<size_t I,typename InputIterator >
 	 inline typename HYDRA_EXTERNAL_NS::thrust::detail::enable_if<(I == N), void >::type
-	__insert(size_type position, InputIterator first, InputIterator last ){}
+	__insert(size_type, InputIterator const&, InputIterator const& ){}
 
 	template<size_t I=0,typename InputIterator >
 	 inline typename HYDRA_EXTERNAL_NS::thrust::detail::enable_if<(I < N), void >::type
-	__insert(size_type position, InputIterator first, InputIterator last  )
+	__insert(size_type position, InputIterator const& first, InputIterator const& last  )
 	{
 		std::get<I>(fData).insert(std::get<I>(fData).begin() + position,
-				std::get<I>(first),
-				std::get<I>(last) );
+				HYDRA_EXTERNAL_NS::thrust::get<I>(first),
+				HYDRA_EXTERNAL_NS::thrust::get<I>(last) );
 
 		__insert<I + 1>( position,  first, last );
 	}

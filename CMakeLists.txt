@@ -39,7 +39,7 @@ endif()
 #options to gcc-DTHRUST_VARIADIC_TUPLE -D_GLIBCXX_USE_CXX11_ABI=0 
 
 
-set(CMAKE_CXX_FLAGS "-ftemplate-backtrace-limit=0 --std=c++11 -W -march=native -fPIC -O4" CACHE STRING "compile flags" FORCE)
+set(CMAKE_CXX_FLAGS "-ftemplate-backtrace-limit=0 --std=c++11 -W -march=native -fPIC -O4 -ldl" CACHE STRING "compile flags" FORCE)
 
 # get TCLAP
 find_package(TCLAP REQUIRED)
