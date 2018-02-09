@@ -35,7 +35,9 @@
 #include <chrono>
 #include <random>
 #include <algorithm>
-
+#include <cstdlib>
+#include <iostream>
+#include <ctime>
 //command line
 #include <tclap/CmdLine.h>
 
@@ -217,6 +219,8 @@ TH3D histogram_component( Amplitude const& amp, std::array<double, 3> const& mas
 template<typename Amplitude, typename Model>
 double fit_fraction( Amplitude const& amp, Model const& model, std::array<double, 3> const& masses, size_t nentries);
 
+template<typename Backend, typename Model, typename Container >
+size_t generate_dataset(Backend const& system, Model const& model, std::array<double, 3> const& masses, Container& decays, size_t nevents);
 
 int main(int argv, char** argc)
 {
@@ -476,12 +480,14 @@ int main(int argv, char** argc)
 		std::cout << "======================================" << std::endl;
 
 		//allocate memory to hold the final states particles
-		hydra::Decays<3, hydra::device::sys_t > Events_d(nentries);
+		//hydra::Decays<3, hydra::device::sys_t > Events_d(nentries);
 
 		auto start = std::chrono::high_resolution_clock::now();
 
+		generate_dataset(hydra::device::sys, Model,  {D_MASS, K_MASS, PI_MASS}, toy_data, nentries);
+
 		//generate the final state particles
-		phsp.Generate(B0, Events_d.begin(), Events_d.end());
+		//phsp.Generate(B0, Events_d.begin(), Events_d.end());
 
 		auto end = std::chrono::high_resolution_clock::now();
 
@@ -492,10 +498,11 @@ int main(int argv, char** argc)
 		std::cout << std::endl;
 		std::cout << "----------------- Device ----------------"<< std::endl;
 		std::cout << "| D+ -> K- pi+ pi+"                       << std::endl;
-		std::cout << "| Number of events :"<< nentries          << std::endl;
+		std::cout << "| Number of events :"<< toy_data.size()         << std::endl;
 		std::cout << "| Time (ms)        :"<< elapsed.count()   << std::endl;
 		std::cout << "-----------------------------------------"<< std::endl;
 
+		/*
 		auto particles        = Events_d.GetUnweightedDecays();
 		auto dalitz_variables = hydra::make_range( particles.begin(), particles.end(), dalitz_calculator);
 		auto dalitz_weights   = Events_d.GetWeights();
@@ -583,13 +590,13 @@ int main(int argv, char** argc)
 			std::cout << Events_d[i] << std::endl;
 
 
-		std::cout << std::endl <<"Toy Dataset size: "<< last << std::endl;
+
 
 		//toy_data.resize(last);
 		//hydra::copy(Events_d.begin(), Events_d.begin()+last, toy_data.begin());
 		toy_data.insert(toy_data.begin(), Events_d.begin(), Events_d.begin()+last );
-
-
+*/
+		std::cout << std::endl <<"Toy Dataset size: "<< toy_data.size() << std::endl;
 	}//toy data production on device
 
 
@@ -1311,6 +1318,42 @@ int main(int argv, char** argc)
 }
 
 
+template<typename Backend, typename Model, typename Container >
+size_t generate_dataset(Backend const& system, Model const& model, std::array<double, 3> const& masses, Container& decays, size_t nevents)
+{
+	const double D_MASS         = masses[0];// D+ mass
+	const double K_MASS         = masses[1];// K+ mass
+	const double PI_MASS        = masses[2];// pi mass
+
+	//generator
+	hydra::Vector4R D(D_MASS, 0.0, 0.0, 0.0);
+
+	// Create PhaseSpace object for B0-> K pi pi
+	hydra::PhaseSpace<3> phsp{K_MASS, PI_MASS, PI_MASS};
+
+	//allocate memory to hold the final states particles
+	hydra::Decays<3, Backend > _data(5*nevents);
+
+	std::srand(std::time(nullptr));
+
+	do {
+		phsp.SetSeed(std::rand());
+
+		//generate the final state particles
+		phsp.Generate(D, _data.begin(), _data.end());
+
+		auto last = _data.Unweight(model, 1.0);
+
+		decays.insert(decays.size()==0? decays.begin():decays.end(),
+				_data.begin(), _data.begin()+last );
+
+	} while(decays.size()<nevents );
+
+	decays.erase(decays.begin()+nevents, decays.end());
+
+	return decays.size();
+
+}
 
 
 

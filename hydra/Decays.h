@@ -963,7 +963,7 @@ private:
 	void __erase( size_type pos ) {
 
 		fWeights.erase( fWeights.begin()+pos );
-		__insert_helper(pos);
+		__erase_helper(pos);
 	}
 
 	//-----
@@ -976,8 +976,8 @@ private:
 	inline typename HYDRA_EXTERNAL_NS::thrust::detail::enable_if<(I < N), void >::type
 	__erase_helper(size_type first, size_type last)
 	{
-		std::get<I>(fDecays).erase( HYDRA_EXTERNAL_NS::thrust::get<I>(fDecays).begin() + first,
-				HYDRA_EXTERNAL_NS::thrust::get<I>(fDecays).begin() + last );
+		std::get<I>(fDecays).erase( std::get<I>(fDecays).begin() + first,
+				std::get<I>(fDecays).begin() + last );
 
 		__erase_helper<I+1>(first, last);
 	}
@@ -985,7 +985,7 @@ private:
 	void __erase( size_type first, size_type last ) {
 
 		fWeights.erase( fWeights.begin()+first,  fWeights.begin()+ last);
-		__insert_helper(first, last );
+		__erase_helper(first, last );
 	}
 
 
