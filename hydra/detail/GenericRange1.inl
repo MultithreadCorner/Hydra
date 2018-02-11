@@ -32,6 +32,8 @@
 #include <hydra/detail/Config.h>
 #include <hydra/detail/BackendPolicy.h>
 #include <hydra/Distance.h>
+#include <hydra/detail/external/thrust/iterator/iterator_traits.h>
+
 
 namespace hydra {
 
@@ -39,6 +41,12 @@ template<typename Iterator>
 class GenericRange<Iterator>{
 
 public:
+	//stl-like typedefs
+	typedef typename HYDRA_EXTERNAL_NS::thrust::iterator_traits<Iterator>::difference_type    difference_type;
+	typedef typename HYDRA_EXTERNAL_NS::thrust::iterator_traits<Iterator>::value_type         value_type;
+	typedef typename HYDRA_EXTERNAL_NS::thrust::iterator_traits<Iterator>::pointer            pointer;
+	typedef typename HYDRA_EXTERNAL_NS::thrust::iterator_traits<Iterator>::reference          reference;
+	typedef typename HYDRA_EXTERNAL_NS::thrust::iterator_traits<Iterator>::iterator_category  iterator_category;
 
 	GenericRange()=delete;
 
@@ -90,10 +98,14 @@ public:
 		fEnd = end;
 	}
 
-	auto operator[](size_t i)
-	-> decltype(begin()[0] )
+	reference  operator[](size_t i)
 	{
-	 return fBegin[i];
+		return fBegin[i];
+	}
+
+	const reference  operator[](size_t i) const
+	{
+		return fBegin[i];
 	}
 
 

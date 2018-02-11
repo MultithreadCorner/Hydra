@@ -50,6 +50,7 @@
 #include <hydra/detail/external/thrust/iterator/reverse_iterator.h>
 #include <hydra/detail/external/thrust/iterator/constant_iterator.h>
 #include <hydra/detail/external/thrust/iterator/transform_iterator.h>
+#include <hydra/detail/external/thrust/iterator/iterator_traits.h>
 #include <hydra/detail/external/thrust/partition.h>
 #include <hydra/detail/external/thrust/random.h>
 #include <hydra/detail/external/thrust/extrema.h>

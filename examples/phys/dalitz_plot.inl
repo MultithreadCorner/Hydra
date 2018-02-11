@@ -324,7 +324,7 @@ int main(int argv, char** argc)
 	Resonance<3, hydra::PWave> KST_892_Resonance_13(coef_re, coef_im, mass, width,
 			    	D_MASS,	K_MASS, PI_MASS, PI_MASS , 5.0);
 
-	auto KST_892_Resonance = (KST_892_Resonance_12 - KST_892_Resonance_13);
+	auto KST_892_Resonance = KST_892_Resonance_12 - KST_892_Resonance_13;
 
 	//======================================================
 	//K*0(1430)
@@ -396,7 +396,7 @@ int main(int argv, char** argc)
 
 	//model-functor
 	auto Model = hydra::compose(Norm,
-			K800_Resonance,
+		    K800_Resonance,
 			KST_892_Resonance,
 			KST0_1430_Resonance,
 			KST2_1430_Resonance,
@@ -502,101 +502,9 @@ int main(int argv, char** argc)
 		std::cout << "| Time (ms)        :"<< elapsed.count()   << std::endl;
 		std::cout << "-----------------------------------------"<< std::endl;
 
-		/*
-		auto particles        = Events_d.GetUnweightedDecays();
-		auto dalitz_variables = hydra::make_range( particles.begin(), particles.end(), dalitz_calculator);
-		auto dalitz_weights   = Events_d.GetWeights();
 
-		std::cout << std::endl;
-		std::cout << std::endl;
-
-		std::cout << "<======= [Daliz variables]  weight : ( MSq_12, MSq_13, MSq_23)  =======>"<< std::endl;
-
-		for( size_t i=0; i<10; i++ )
-			std::cout << dalitz_weights[i] << " : "<< dalitz_variables[i] << std::endl;
-
-		//flat dalitz histogram
-		hydra::SparseHistogram<double, 3,  hydra::device::sys_t> Hist_Dalitz{
-				{100,100,100},
-				{pow(K_MASS + PI_MASS,2), pow(K_MASS + PI_MASS,2),  pow(PI_MASS + PI_MASS,2)},
-				{pow(D_MASS - PI_MASS,2), pow(D_MASS - PI_MASS ,2), pow(D_MASS - K_MASS,2)}
-		};
-
-		start = std::chrono::high_resolution_clock::now();
-
-		Hist_Dalitz.Fill( dalitz_variables.begin(),
-				dalitz_variables.end(), dalitz_weights.begin()  );
-
-		end = std::chrono::high_resolution_clock::now();
-
-		elapsed = end - start;
-
-		//output
-		std::cout << std::endl;
-		std::cout << std::endl;
-		std::cout << "----------------- Device ----------------"<< std::endl;
-		std::cout << "| Sparse histogram fill"                       << std::endl;
-		std::cout << "| Number of events :"<< nentries          << std::endl;
-		std::cout << "| Time (ms)        :"<< elapsed.count()   << std::endl;
-		std::cout << "-----------------------------------------"<< std::endl;
-		std::cout << std::endl;
-		std::cout << std::endl;
-
-		#ifdef 	_ROOT_AVAILABLE_
-
-#if THRUST_DEVICE_SYSTEM == THRUST_DEVICE_SYSTEM_CUDA
-
-		//if device is cuda, bring the histogram data to the host
-		//to fill the ROOT histogram faster
-		{
-			hydra::SparseHistogram<double, 3,  hydra::host::sys_t> Hist_Temp(Hist_Dalitz);
-			std::cout << "Filling a ROOT Histogram... " ;
-
-			for(auto entry : Hist_Temp)
-			{
-				size_t bin     = hydra::get<0>(entry);
-				double content = hydra::get<1>(entry);
-				unsigned int bins[3];
-				Hist_Temp.GetIndexes(bin, bins);
-				Dalitz_Flat.SetBinContent(bins[0]+1, bins[1]+1, bins[2]+1, content);
-
-			}
-
-			std::cout << " done!" << std::endl;
-		}
-#else
-		std::cout << "Filling a ROOT Histogram... " << std::endl;
-
-		for(auto entry : Hist_Dalitz)
-		{
-			size_t bin     = hydra::get<0>(entry);
-			double content = hydra::get<1>(entry);
-			unsigned int bins[3];
-			Hist_Dalitz.GetIndexes(bin, bins);
-			Dalitz_Flat.SetBinContent(bins[0]+1, bins[1]+1, bins[2]+1, content);
-
-		}
-
-		std::cout << " done!" << std::endl;
-#endif
-
-#endif
-
-		auto last = Events_d.Unweight(Model, 1.0);
-
-		std::cout <<std::endl;
-		std::cout << "<======= Toy data =======>"<< std::endl;
-		for( size_t i=0; i<10; i++ )
-			std::cout << Events_d[i] << std::endl;
-
-
-
-
-		//toy_data.resize(last);
-		//hydra::copy(Events_d.begin(), Events_d.begin()+last, toy_data.begin());
-		toy_data.insert(toy_data.begin(), Events_d.begin(), Events_d.begin()+last );
-*/
 		std::cout << std::endl <<"Toy Dataset size: "<< toy_data.size() << std::endl;
+
 	}//toy data production on device
 
 
@@ -1334,7 +1242,7 @@ size_t generate_dataset(Backend const& system, Model const& model, std::array<do
 	//allocate memory to hold the final states particles
 	hydra::Decays<3, Backend > _data(5*nevents);
 
-	std::srand(std::time(nullptr));
+	std::srand(753159456852);
 
 	do {
 		phsp.SetSeed(std::rand());
