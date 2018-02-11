@@ -188,7 +188,7 @@ auto wrap_lambda_helper(L const& f, ReturnType r, HYDRA_EXTERNAL_NS::thrust::tup
 template<typename L, typename ...T>
 auto wrap_lambda(L const& f,  T ...pars)
 -> decltype(detail::wrap_lambda_helper(f, typename detail::function_traits<L>::return_type() ,
-		typename detail::function_traits<L>::args_type(),  std::array<Parameter, sizeof...(T)>{}))
+		typename detail::function_traits<L>::args_type(),  std::array<Parameter, sizeof...(T)>()))
 {
 	typedef detail::function_traits<L> traits;
 	typename traits::return_type r = typename traits::return_type();
