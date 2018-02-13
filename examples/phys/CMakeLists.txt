@@ -122,9 +122,9 @@ if(BUILD_TBB_TARGETS)
     )
     
     set_target_properties( dalitz_plot_tbb PROPERTIES 
-    COMPILE_FLAGS "-DTHRUST_HOST_SYSTEM=THRUST_HOST_SYSTEM_CPP -DTHRUST_DEVICE_SYSTEM=THRUST_DEVICE_SYSTEM_TBB
+    COMPILE_FLAGS "-DTHRUST_HOST_SYSTEM=THRUST_HOST_SYSTEM_CPP -DTHRUST_DEVICE_SYSTEM=THRUST_DEVICE_SYSTEM_TBB" )
     
-    target_link_libraries(dalitz_plot_tbb tbb ${ROOT_LIBRARIES} )
+    target_link_libraries(dalitz_plot_tbb tbb ${ROOT_LIBRARIES})
 
     add_dependencies(examples dalitz_plot_tbb)
      
@@ -195,13 +195,13 @@ IF(BUILD_OMP_TARGETS)
     
     #+++++++++++++++++++++++++++++++
     add_executable(dalitz_plot_omp EXCLUDE_FROM_ALL
-   dalitz_plot.cpp
+    dalitz_plot.cpp
     )
     
     set_target_properties( dalitz_plot_omp PROPERTIES 
     COMPILE_FLAGS "-fopenmp -DTHRUST_HOST_SYSTEM=THRUST_HOST_SYSTEM_CPP -DTHRUST_DEVICE_SYSTEM=THRUST_DEVICE_SYSTEM_OMP -lgomp")
     
-    target_link_libraries(dalitz_plot_omp   ${ROOT_LIBRARIES} )
+    target_link_libraries(dalitz_plot_omp   ${ROOT_LIBRARIES})
 
      add_dependencies(examples dalitz_plot_omp)
         
@@ -264,7 +264,7 @@ IF(BUILD_CPP_TARGETS)
     set_target_properties( breit_wigner_plus_polynomial_cpp PROPERTIES 
     COMPILE_FLAGS "-DTHRUST_HOST_SYSTEM=THRUST_HOST_SYSTEM_CPP -DTHRUST_DEVICE_SYSTEM=THRUST_DEVICE_SYSTEM_CPP")
     
-    target_link_libraries( breit_wigner_plus_polynomial_cpp   ${ROOT_LIBRARIES})
+    target_link_libraries(breit_wigner_plus_polynomial_cpp ${ROOT_LIBRARIES})
 
     add_dependencies(examples breit_wigner_plus_polynomial_cpp)
         
@@ -278,9 +278,9 @@ IF(BUILD_CPP_TARGETS)
     set_target_properties( dalitz_plot_cpp PROPERTIES 
     COMPILE_FLAGS "-DTHRUST_HOST_SYSTEM=THRUST_HOST_SYSTEM_CPP -DTHRUST_DEVICE_SYSTEM=THRUST_DEVICE_SYSTEM_CPP")
     
-    target_link_libraries(dalitz_plot_cpp   ${ROOT_LIBRARIES} )
+    target_link_libraries(dalitz_plot_cpp   ${ROOT_LIBRARIES})
 
-     add_dependencies(examples dalitz_plot_cpp)
+    add_dependencies(examples dalitz_plot_cpp)
         
     
 endif(BUILD_CPP_TARGETS)
