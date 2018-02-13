@@ -112,10 +112,22 @@ if(BUILD_TBB_TARGETS)
     COMPILE_FLAGS "-DTHRUST_HOST_SYSTEM=THRUST_HOST_SYSTEM_CPP -DTHRUST_DEVICE_SYSTEM=THRUST_DEVICE_SYSTEM_TBB")
     
     target_link_libraries( breit_wigner_plus_polynomial_tbb tbb  ${ROOT_LIBRARIES})
-   
-     #     add_dependencies(examples breit_wigner_plus_polynomial_tbb)
+        add_dependencies(examples breit_wigner_plus_polynomial_tbb)
         
-   
+           
+    
+    #+++++++++++++++++++++++++++++++
+    add_executable(dalitz_plot_tbb EXCLUDE_FROM_ALL
+    dalitz_plot.cpp
+    )
+    
+    set_target_properties( dalitz_plot_tbb PROPERTIES 
+    COMPILE_FLAGS "-DTHRUST_HOST_SYSTEM=THRUST_HOST_SYSTEM_CPP -DTHRUST_DEVICE_SYSTEM=THRUST_DEVICE_SYSTEM_TBB
+    
+    target_link_libraries(dalitz_plot_tbb tbb ${ROOT_LIBRARIES} )
+
+    add_dependencies(examples dalitz_plot_tbb)
+     
     
 endif(BUILD_TBB_TARGETS)
 
@@ -246,7 +258,7 @@ IF(BUILD_CPP_TARGETS)
     
     #+++++++++++++++++++++++++++++++
     add_executable(breit_wigner_plus_polynomial_cpp EXCLUDE_FROM_ALL
-   breit_wigner_plus_polynomial.cpp
+    breit_wigner_plus_polynomial.cpp
     )
     
     set_target_properties( breit_wigner_plus_polynomial_cpp PROPERTIES 
@@ -254,8 +266,21 @@ IF(BUILD_CPP_TARGETS)
     
     target_link_libraries( breit_wigner_plus_polynomial_cpp   ${ROOT_LIBRARIES})
 
-        # add_dependencies(examples breit_wigner_plus_polynomial_cpp)
+    add_dependencies(examples breit_wigner_plus_polynomial_cpp)
         
+            
     
+    #+++++++++++++++++++++++++++++++
+    add_executable(dalitz_plot_cpp EXCLUDE_FROM_ALL
+    dalitz_plot.cpp
+    )
+    
+    set_target_properties( dalitz_plot_cpp PROPERTIES 
+    COMPILE_FLAGS "-DTHRUST_HOST_SYSTEM=THRUST_HOST_SYSTEM_CPP -DTHRUST_DEVICE_SYSTEM=THRUST_DEVICE_SYSTEM_CPP")
+    
+    target_link_libraries(dalitz_plot_cpp   ${ROOT_LIBRARIES} )
+
+     add_dependencies(examples dalitz_plot_cpp)
+        
     
 endif(BUILD_CPP_TARGETS)

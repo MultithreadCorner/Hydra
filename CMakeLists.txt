@@ -51,7 +51,7 @@ include_directories(${TCLAP_INCLUDE_DIR})
 #include_directories(./thrust)
 
 # get ROOT
-find_package(ROOT)
+find_package(ROOT COMPONENTS Minuit2)
 if(ROOT_FOUND)
 include_directories(${ROOT_INCLUDE_DIR})
 link_directories(${ROOT_LIBRARY_DIR})
@@ -156,6 +156,7 @@ MESSAGE(STATUS "Include directories: " ${INCLUDE_DIRECTORIES} )
 MESSAGE(STATUS "Install diretory: " ${CMAKE_INSTALL_PREFIX}  )
 
 file(MAKE_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/plots)
+file(MAKE_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/plots/dalitz)
 
 
 #+++++++++++++++++++++++++++

@@ -38,6 +38,7 @@
 #include <cstdlib>
 #include <iostream>
 #include <ctime>
+
 //command line
 #include <tclap/CmdLine.h>
 
@@ -220,7 +221,7 @@ template<typename Amplitude, typename Model>
 double fit_fraction( Amplitude const& amp, Model const& model, std::array<double, 3> const& masses, size_t nentries);
 
 template<typename Backend, typename Model, typename Container >
-size_t generate_dataset(Backend const& system, Model const& model, std::array<double, 3> const& masses, Container& decays, size_t nevents);
+size_t generate_dataset(Backend const& system, Model const& model, std::array<double, 3> const& masses, Container& decays, size_t nevents, size_t bunch_size);
 
 int main(int argv, char** argc)
 {
@@ -423,6 +424,7 @@ int main(int argv, char** argc)
 
 #ifdef 	_ROOT_AVAILABLE_
 	//
+	/*
 	TH3D Dalitz_Flat("Dalitz_Flat",
 			"Flat Dalitz;"
 			"M^{2}(K^{-} #pi_{1}^{+}) [GeV^{2}/c^{4}];"
@@ -431,7 +433,7 @@ int main(int argv, char** argc)
 			100, pow(K_MASS  + PI_MASS,2), pow(D_MASS - PI_MASS,2),
 			100, pow(K_MASS  + PI_MASS,2), pow(D_MASS - PI_MASS,2),
 			100, pow(PI_MASS + PI_MASS,2), pow(D_MASS -  K_MASS,2));
-
+*/
 	TH3D Dalitz_Resonances("Dalitz_Resonances",
 			"Dalitz - Toy Data -;"
 			"M^{2}(K^{-} #pi_{1}^{+}) [GeV^{2}/c^{4}];"
@@ -484,7 +486,7 @@ int main(int argv, char** argc)
 
 		auto start = std::chrono::high_resolution_clock::now();
 
-		generate_dataset(hydra::device::sys, Model,  {D_MASS, K_MASS, PI_MASS}, toy_data, nentries);
+		generate_dataset(hydra::device::sys, Model,  {D_MASS, K_MASS, PI_MASS}, toy_data, nentries, 3*nentries);
 
 		//generate the final state particles
 		//phsp.Generate(B0, Events_d.begin(), Events_d.end());
@@ -781,11 +783,30 @@ int main(int argv, char** argc)
 
 #ifdef 	_ROOT_AVAILABLE_
 
-		for(auto x: fcn.GetPDF().GetNormCache() ){
+		{
+			std::vector<double> integrals;
+			std::vector<double> integrals_error;
 
-			Normalization.Fill(x.second.first, x.second.second );
+			for(auto x: fcn.GetPDF().GetNormCache() ){
+				integrals.push_back(x.second.first);
+				integrals_error.push_back(x.second.second);
+
+			}
+
+			auto integral_bounds = std::minmax_element(integrals.begin(),
+					integrals.end());
+
+			auto  integral_error_bounds = std::minmax_element(integrals_error.begin(),
+					integrals_error.end());
+
+			Normalization.GetXaxis()->SetLimits(*integral_bounds.first, *integral_bounds.second);
+			Normalization.GetYaxis()->SetLimits(*integral_error_bounds.first, *integral_error_bounds.second);
+
+			for(auto x: fcn.GetPDF().GetNormCache() ){
+
+				Normalization.Fill(x.second.first, x.second.second );
+			}
 		}
-
 
 
 #if THRUST_DEVICE_SYSTEM == THRUST_DEVICE_SYSTEM_CUDA
@@ -853,23 +874,35 @@ int main(int argv, char** argc)
 
 	NR_HIST.Scale( NR_FF*Dalitz_Fit.Integral()/NR_HIST.Integral() );
 
-	TCanvas canvas_1("canvas_1", "Phase-space FLAT", 500, 500);
-	Dalitz_Flat.Project3D("yz")->Draw("colz");
+	//=============================================================
+	//projections
+	TH1* hist2D=0;
 
-	TCanvas canvas_2("canvas_2", "Phase-space FLAT", 500, 500);
-	Dalitz_Flat.Project3D("xy")->Draw("colz");
+	TCanvas canvas_3("canvas_3", "Dataset", 500, 500);
+	hist2D = Dalitz_Resonances.Project3D("yz");
+	hist2D->SetTitle("");
+	hist2D->Draw("colz");
+	canvas_3.SaveAs("plots/dalitz/Dataset1.pdf");
 
-	TCanvas canvas_3("canvas_3", "Phase-space FLAT", 500, 500);
-	Dalitz_Resonances.Project3D("yz")->Draw("colz");
+	TCanvas canvas_4("canvas_4", "Dataset", 500, 500);
+	hist2D = Dalitz_Resonances.Project3D("xy");
+	hist2D->SetTitle("");
+	hist2D->Draw("colz");
+	canvas_4.SaveAs("plots/dalitz/Dataset2.pdf");
 
-	TCanvas canvas_4("canvas_4", "Phase-space FLAT", 500, 500);
-	Dalitz_Resonances.Project3D("xy")->Draw("colz");
 
-	TCanvas canvas_5("canvas_3", "Phase-space FLAT", 500, 500);
-	Dalitz_Fit.Project3D("yz")->Draw("colz");
+	TCanvas canvas_5("canvas_3", "Fit", 500, 500);
+	hist2D = Dalitz_Fit.Project3D("yz");
+	hist2D->SetTitle("");
+	hist2D->Draw("colz");
+	canvas_5.SaveAs("plots/dalitz/FitResult1.pdf");
+
 
 	TCanvas canvas_6("canvas_4", "Phase-space FLAT", 500, 500);
-	Dalitz_Fit.Project3D("xy")->Draw("colz");
+	Dalitz_Fit.Project3D("xy");
+	hist2D->SetTitle("");
+	hist2D->Draw("colz");
+	canvas_6.SaveAs("plots/dalitz/FitResult2.pdf");
 
 
 	//=============================================================
@@ -895,7 +928,7 @@ int main(int argv, char** argc)
 
 	TCanvas canvas_x("canvas_x", "", 600, 750);
 
-	canvas_x.SetLogy(1);
+
 
 	auto legend_x = TLegend( X1NDC, Y1NDC, X2NDC, Y2NDC);
 	//legend.SetHeader("M^{2}(K^{-} #pi_{1}^{+})","C"); // option "C" allows to center the header
@@ -993,16 +1026,19 @@ int main(int argv, char** argc)
 
 	legend_x.AddEntry(hist,"NR","l");
 
+	canvas_x.SaveAs("plots/dalitz/Proj_X.pdf");
 
+	canvas_x.SetLogy(1);
 
 	legend_x.Draw();
+
+	canvas_x.SaveAs("plots/dalitz/Proj_LogX.pdf");
+
 	//=============================================================
 
 	axis = "y";
 
 	TCanvas canvas_y("canvas_y", "", 600, 750);
-
-	canvas_y.SetLogy(1);
 
 
 	auto legend_y = TLegend( X1NDC, Y1NDC, X2NDC, Y2NDC);
@@ -1101,7 +1137,14 @@ int main(int argv, char** argc)
 
 	legend_y.AddEntry(hist,"NR","l");
 
+	canvas_y.SaveAs("plots/dalitz/Proj_Y.pdf");
+
+	canvas_y.SetLogy(1);
+
 	legend_y.Draw();
+
+	canvas_y.SaveAs("plots/dalitz/Proj_LogY.pdf");
+
 
 	//=============================================================
 
@@ -1110,9 +1153,6 @@ int main(int argv, char** argc)
 	axis = "z";
 
 	TCanvas canvas_z("canvas_z", "", 600, 750);
-
-	canvas_z.SetLogy(1);
-
 
 	auto legend_z = TLegend( X1NDC, Y1NDC, X2NDC, Y2NDC);
 	//legend.SetHeader("M^{2}(K^{-} #pi_{1}^{+})","C"); // option "C" allows to center the header
@@ -1210,7 +1250,13 @@ int main(int argv, char** argc)
 
 	legend_z.AddEntry(hist,"NR","l");
 
+	canvas_z.SaveAs("plots/dalitz/Proj_Z.pdf");
+
+	canvas_z.SetLogy(1);
+
 	legend_z.Draw();
+
+	canvas_z.SaveAs("plots/dalitz/Proj_LogZ.pdf");
 
 	//=============================================================
 
@@ -1227,7 +1273,7 @@ int main(int argv, char** argc)
 
 
 template<typename Backend, typename Model, typename Container >
-size_t generate_dataset(Backend const& system, Model const& model, std::array<double, 3> const& masses, Container& decays, size_t nevents)
+size_t generate_dataset(Backend const& system, Model const& model, std::array<double, 3> const& masses, Container& decays, size_t nevents, size_t bunch_size)
 {
 	const double D_MASS         = masses[0];// D+ mass
 	const double K_MASS         = masses[1];// K+ mass
@@ -1240,9 +1286,9 @@ size_t generate_dataset(Backend const& system, Model const& model, std::array<do
 	hydra::PhaseSpace<3> phsp{K_MASS, PI_MASS, PI_MASS};
 
 	//allocate memory to hold the final states particles
-	hydra::Decays<3, Backend > _data(5*nevents);
+	hydra::Decays<3, Backend > _data(bunch_size);
 
-	std::srand(753159456852);
+	std::srand(7531594562);
 
 	do {
 		phsp.SetSeed(std::rand());
