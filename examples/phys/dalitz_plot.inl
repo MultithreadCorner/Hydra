@@ -891,16 +891,18 @@ int main(int argv, char** argc)
 	canvas_4.SaveAs("plots/dalitz/Dataset2.pdf");
 
 
-	TCanvas canvas_5("canvas_3", "Fit", 500, 500);
+	TCanvas canvas_5("canvas_5", "Fit", 500, 500);
 	hist2D = Dalitz_Fit.Project3D("yz");
 	hist2D->SetTitle("");
+	hist2D->SetStats(0);
 	hist2D->Draw("colz");
 	canvas_5.SaveAs("plots/dalitz/FitResult1.pdf");
 
 
 	TCanvas canvas_6("canvas_4", "Phase-space FLAT", 500, 500);
-	Dalitz_Fit.Project3D("xy");
+	hist2D = Dalitz_Fit.Project3D("xy");
 	hist2D->SetTitle("");
+	hist2D->SetStats(0);
 	hist2D->Draw("colz");
 	canvas_6.SaveAs("plots/dalitz/FitResult2.pdf");
 
