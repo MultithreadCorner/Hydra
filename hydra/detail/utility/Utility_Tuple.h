@@ -603,24 +603,24 @@ namespace hydra {
 	 template<size_t I = 0, typename Return_Type, typename ArgType, typename ... Tp>
 	 __host__  __device__
 	 inline typename HYDRA_EXTERNAL_NS::thrust::detail::enable_if<(I < sizeof...(Tp)), void >::type
-	 sum_tuple(Return_Type& r, HYDRA_EXTERNAL_NS::thrust::tuple<Tp...>& t, ArgType& arg)
+	 sum_tuple(Return_Type& r, HYDRA_EXTERNAL_NS::thrust::tuple<Tp...>const& t, ArgType const& arg)
 	 {
-		 r = r+ (Return_Type) HYDRA_EXTERNAL_NS::thrust::get<I>(t)(std::forward<ArgType&>(arg));
+		 r = r+ (Return_Type) HYDRA_EXTERNAL_NS::thrust::get<I>(t)(std::forward<ArgType  const&>(arg));
 		 sum_tuple<I + 1, Return_Type, ArgType, Tp...>( r , t,arg );
 	 }
 
 	 template<size_t I = 0, typename Return_Type, typename ArgType1, typename ArgType2, typename ... Tp>
 	 __host__  __device__
 	 inline typename HYDRA_EXTERNAL_NS::thrust::detail::enable_if<I == sizeof...(Tp), void>::type
-	 sum_tuple2(Return_Type&, HYDRA_EXTERNAL_NS::thrust::tuple<Tp...>&, ArgType1&, ArgType2& )
+	 sum_tuple2(Return_Type&, HYDRA_EXTERNAL_NS::thrust::tuple<Tp...>const&, ArgType1 const&, ArgType2 const& )
 	 {}
 
 	 template<size_t I = 0, typename Return_Type, typename ArgType1, typename ArgType2, typename ... Tp>
 	 __host__  __device__
 	 inline typename HYDRA_EXTERNAL_NS::thrust::detail::enable_if<(I < sizeof...(Tp)), void >::type
-	 sum_tuple2(Return_Type& r, HYDRA_EXTERNAL_NS::thrust::tuple<Tp...>& t, ArgType1& arg1, ArgType2& arg2)
+	 sum_tuple2(Return_Type& r, HYDRA_EXTERNAL_NS::thrust::tuple<Tp...> const& t, ArgType1 const& arg1, ArgType2 const& arg2)
 	 {
-		 r = r + (Return_Type) HYDRA_EXTERNAL_NS::thrust::get<I>(t)(std::forward<ArgType1&>(arg1), std::forward<ArgType2&>(arg2));
+		 r = r + (Return_Type) HYDRA_EXTERNAL_NS::thrust::get<I>(t)(std::forward<ArgType1 const&>(arg1), std::forward<ArgType2 const&>(arg2));
 		 sum_tuple2<I + 1, Return_Type, ArgType1, ArgType2, Tp...>( r , t,arg1, arg2);
 	 }
 
@@ -728,6 +728,27 @@ namespace hydra {
 		 return invoke_normalized_helper( x, tup, make_index_sequence<Size> { });
 	 }
 
+	 //evaluate a tuple of functors and return a tuple of results
+	 //evaluate a tuple of functors and return a tuple of results
+	 __hydra_exec_check_disable__
+	 template< typename Tup, typename ArgType, size_t ... index>
+	 __host__ __device__
+	 inline auto invoke_normalized_helper( ArgType const& x, Tup const& tup, index_sequence<index...>)
+	 -> decltype(HYDRA_EXTERNAL_NS::thrust::make_tuple(HYDRA_EXTERNAL_NS::thrust::get<index>(tup)(x)...))
+	 {
+		 return HYDRA_EXTERNAL_NS::thrust::make_tuple(HYDRA_EXTERNAL_NS::thrust::get<index>(tup).GetNorm()*HYDRA_EXTERNAL_NS::thrust::get<index>(tup)(x)...);
+	 }
+
+	 __hydra_exec_check_disable__
+	 template< typename Tup, typename ArgType>
+	 __host__  __device__
+	 inline auto invoke_normalized(ArgType const& x, Tup const& tup)
+	 -> decltype(invoke_helper(x, tup, make_index_sequence< HYDRA_EXTERNAL_NS::thrust::tuple_size<Tup>::value> { }))
+	 {
+		 constexpr size_t Size = HYDRA_EXTERNAL_NS::thrust::tuple_size<Tup>::value;
+		 return invoke_normalized_helper( x, tup, make_index_sequence<Size> { });
+	 }
+
 
 
 	 __hydra_exec_check_disable__
@@ -749,6 +770,27 @@ namespace hydra {
 		 return invoke_helper( x, tup, make_index_sequence<Size> { });
 	 }
 
+	 __hydra_exec_check_disable__
+	 template< typename Tup, typename ArgType, size_t ... index>
+	 __host__ __device__
+	 inline auto invoke_helper( ArgType  const& x, Tup const& tup, index_sequence<index...>)
+	 -> decltype(HYDRA_EXTERNAL_NS::thrust::make_tuple(HYDRA_EXTERNAL_NS::thrust::get<index>(tup)(x)...))
+	 {
+		 return HYDRA_EXTERNAL_NS::thrust::make_tuple(HYDRA_EXTERNAL_NS::thrust::get<index>(tup)(x)...);
+	 }
+
+	 __hydra_exec_check_disable__
+	 template< typename Tup, typename ArgType>
+	 __host__  __device__
+	 inline auto invoke(ArgType const& x, Tup const& tup)
+	 -> decltype(invoke_helper(x, tup, make_index_sequence< HYDRA_EXTERNAL_NS::thrust::tuple_size<Tup>::value> { }))
+	 {
+		 constexpr size_t Size = HYDRA_EXTERNAL_NS::thrust::tuple_size<Tup>::value;
+		 return invoke_helper( x, tup, make_index_sequence<Size> { });
+	 }
+
+
+
 	 //evaluate a tuple of functors and return a tuple of results
 	 __hydra_exec_check_disable__
 	 template<typename Tup, typename ArgType1, typename ArgType2, size_t ... index>
@@ -763,6 +805,28 @@ namespace hydra {
 	 template< typename Tup, typename ArgType1, typename ArgType2>
 	 __host__  __device__
 	 inline auto invoke(ArgType1& x, ArgType2& y,  Tup& tup)
+	 -> decltype(invoke_helper( x, y, tup, make_index_sequence< HYDRA_EXTERNAL_NS::thrust::tuple_size<Tup>::value> { }) )
+	 {
+		 constexpr size_t Size = HYDRA_EXTERNAL_NS::thrust::tuple_size<Tup>::value;
+		 return invoke_helper( x, y, tup, make_index_sequence<Size> { });
+	 }
+
+
+
+	 //evaluate a tuple of functors and return a tuple of results
+	 __hydra_exec_check_disable__
+	 template<typename Tup, typename ArgType1, typename ArgType2, size_t ... index>
+	 __host__ __device__
+	 inline auto invoke_helper( ArgType1 const& x, ArgType2 const& y, Tup const& tup, index_sequence<index...>)
+	 -> decltype( HYDRA_EXTERNAL_NS::thrust::make_tuple(HYDRA_EXTERNAL_NS::thrust::get<index>(tup)(x,y)...) )
+	 {
+		 return  HYDRA_EXTERNAL_NS::thrust::make_tuple(HYDRA_EXTERNAL_NS::thrust::get<index>(tup)(x,y)...);
+	 }
+
+	 __hydra_exec_check_disable__
+	 template< typename Tup, typename ArgType1, typename ArgType2>
+	 __host__  __device__
+	 inline auto invoke(ArgType1 const& x, ArgType2 const& y,  Tup const& tup)
 	 -> decltype(invoke_helper( x, y, tup, make_index_sequence< HYDRA_EXTERNAL_NS::thrust::tuple_size<Tup>::value> { }) )
 	 {
 		 constexpr size_t Size = HYDRA_EXTERNAL_NS::thrust::tuple_size<Tup>::value;
@@ -842,6 +906,16 @@ namespace hydra {
 		 return r;
 	 }
 
+	 template<typename Return_Type, typename ArgType, typename ... Tp,
+	 typename=typename HYDRA_EXTERNAL_NS::thrust::detail::enable_if<std::is_convertible<Return_Type, double>::value || std::is_constructible<HYDRA_EXTERNAL_NS::thrust::complex<double>,Return_Type>::value >::type >
+	 __host__  __device__
+	 inline Return_Type accumulate(ArgType const& x, HYDRA_EXTERNAL_NS::thrust::tuple<Tp...> const& t)
+	 {
+		 Return_Type r=TypeTraits<Return_Type>::zero();
+		 sum_tuple(r, t, x);
+		 return r;
+	 }
+
 	 template<typename Return_Type, typename ArgType1, typename ArgType2,
 	 typename ... Tp, typename=typename HYDRA_EXTERNAL_NS::thrust::detail::enable_if<std::is_convertible<Return_Type, double>::value || std::is_constructible<HYDRA_EXTERNAL_NS::thrust::complex<double>,Return_Type>::value>::type>
 	 __host__  __device__
@@ -851,6 +925,20 @@ namespace hydra {
 		 sum_tuple2(r, t, x, y);
 		 return r;
 	 }
+
+
+	 template<typename Return_Type, typename ArgType1, typename ArgType2,
+	 typename ... Tp, typename=typename HYDRA_EXTERNAL_NS::thrust::detail::enable_if<std::is_convertible<Return_Type, double>::value || std::is_constructible<HYDRA_EXTERNAL_NS::thrust::complex<double>,Return_Type>::value>::type>
+	 __host__  __device__
+	 inline Return_Type accumulate2(ArgType1 const& x, ArgType2 const& y, HYDRA_EXTERNAL_NS::thrust::tuple<Tp...> const& t)
+	 {
+		 Return_Type r=TypeTraits<Return_Type>::zero();
+		 sum_tuple2(r, t, x, y);
+		 return r;
+	 }
+
+
+
 
 	 //accumulate by product
 	 template<typename Return_Type, typename ArgType, typename ... Tp,

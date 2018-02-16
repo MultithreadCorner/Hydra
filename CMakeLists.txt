@@ -111,7 +111,7 @@ endif(CUDA_FOUND)
 
 SET(BUILD_CPP_TARGETS  ON)
 
-if( OPENMP_CXX_FOUND )
+if( OPENMP_CXX_FOUND OR OPENMP_FOUND )
         SET(BUILD_OMP_TARGETS  ON)
 else()
         SET(BUILD_OMP_TARGETS  OFF)
@@ -158,6 +158,7 @@ file(MAKE_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/plots/dalitz)
 #+++++++++++++++++++++++++++
 add_custom_target(examples)
 
+
 include(${Hydra_CMAKE_DIR}/AddHydraExample.cmake)
 
 add_subdirectory(examples/phase_space)
@@ -168,6 +169,7 @@ add_subdirectory(examples/histograming)
 add_subdirectory(examples/async)
 add_subdirectory(examples/misc)
 add_subdirectory(examples/phys)
+
 
 install(DIRECTORY Hydra
   DESTINATION include)
