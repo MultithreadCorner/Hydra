@@ -1,6 +1,7 @@
 ### CMakeList for MC Hydra
 
 cmake_minimum_required(VERSION 3.0)
+cmake_policy(SET CMP0054 OLD)
 
 # project name
 project(Hydra)
@@ -29,6 +30,8 @@ SET(Hydra_CMAKE_DIR "${PROJECT_SOURCE_DIR}/cmake")
 SET(CMAKE_MODULE_PATH "${Hydra_CMAKE_DIR}" ${CMAKE_MODULE_PATH})
 SET(CMAKE_VERBOSE_MAKEFILE  ON)
 
+
+
 #options to gcc
 include(CheckCXXCompilerFlag)
 CHECK_CXX_COMPILER_FLAG("--std=c++11" COMPILER_SUPPORTS_CXX11)
@@ -36,19 +39,11 @@ if(NOT COMPILER_SUPPORTS_CXX11)
  message(FATAL "The compiler ${CMAKE_CXX_COMPILER} has no C++11 support. Please use a different C++ compiler.")
 endif()
 
-#options to gcc-DTHRUST_VARIADIC_TUPLE -D_GLIBCXX_USE_CXX11_ABI=0 
-
-
 set(CMAKE_CXX_FLAGS "-ftemplate-backtrace-limit=0 --std=c++11 -W -march=native -fPIC -O4 -ldl" CACHE STRING "compile flags" FORCE)
 
 # get TCLAP
 find_package(TCLAP REQUIRED)
 include_directories(${TCLAP_INCLUDE_DIR})
-
-
-# get THRUST
-#find_package(Thrust 1.8.3 REQUIRED)
-#include_directories(./thrust)
 
 # get ROOT
 find_package(ROOT COMPONENTS Minuit2)
@@ -58,12 +53,12 @@ link_directories(${ROOT_LIBRARY_DIR})
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -D_ROOT_AVAILABLE_")
 endif(ROOT_FOUND)
 
-SET(CUDA_SEPARABLE_COMPILATION ON)
 #get CUDA
 find_package(CUDA 8.0) 
 if(CUDA_FOUND)
 link_directories( ${CUDA_TOOLKIT_ROOT_DIR}/lib64/)
 endif(CUDA_FOUND)
+
 #get TBB
 find_package(TBB )
 if(TBB_FOUND)
@@ -73,21 +68,17 @@ endif(TBB_FOUND)
 
 #get OpenMP
 find_package(OpenMP)
-if(OPENMP_FOUND)
+if(OPENMP_CXX_FOUND)
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${OpenMP_CXX_FLAGS}")
-endif(OPENMP_FOUND)
+endif(OPENMP_CXX_FOUND)
 
 
 #generate API documentation with Doxygen
 find_package(Doxygen)
 option(BUILD_DOCUMENTATION "Create and install the HTML based API documentation (requires Doxygen)" NO)
 
-
 #including directories
-
 include_directories(include;  ${PROJECT_SOURCE_DIR})
-
-
 
 if(CUDA_FOUND)
 
@@ -104,7 +95,7 @@ if(CUDA_FOUND)
 	   LIST(APPEND CUDA_NVCC_FLAGS " -Xcompiler -D_MWAITXINTRIN_H_INCLUDED ")
     	endif()
     	
-    if(CMAKE_CXX_COMPILER_VERSION VERSION_GREATER 5.4)
+        if(CMAKE_CXX_COMPILER_VERSION VERSION_GREATER 5.4)
 	    LIST(APPEND CUDA_NVCC_FLAGS " -Xcompiler -D__CORRECT_ISO_CPP11_MATH_H_PROTO ")
     	endif()
 	# Detect CUDA architecture and get best NVCC flags
@@ -114,14 +105,13 @@ if(CUDA_FOUND)
 	SELECT_NVCC_ARCH_FLAGS(NVCC_FLAGS_EXTRA)
 	
 	LIST(APPEND CUDA_NVCC_FLAGS ${NVCC_FLAGS_EXTRA})
-
-	
     		
 endif(CUDA_FOUND)
 
+
 SET(BUILD_CPP_TARGETS  ON)
 
-if( OPENMP_FOUND )
+if( OPENMP_CXX_FOUND )
         SET(BUILD_OMP_TARGETS  ON)
 else()
         SET(BUILD_OMP_TARGETS  OFF)
@@ -140,20 +130,24 @@ else()
 endif(TBB_FOUND)
 
 # messages
-MESSAGE(STATUS "Build CUDA/NVCC-based targets: ${BUILD_CUDA_TARGETS}")
 MESSAGE(STATUS "TCLAP Include path: ${TCLAP_INCLUDE_DIR}")
-MESSAGE(STATUS "Thrust Include path: ${THRUST_INCLUDE_DIR}")
-MESSAGE(STATUS "ROOT Include path: ${ROOT_INCLUDE_DIR}")
-MESSAGE(STATUS "ROOT Library path: ${ROOT_LIBRARY_DIR}" )
-MESSAGE(STATUS "ROOT Libraries: ${ROOT_LIBRARIES}")
-MESSAGE(STATUS "project source dir: " ${PROJECT_SOURCE_DIR} )
-MESSAGE(STATUS "project build dir: " ${PROJECT_BINARY_DIR} )
-MESSAGE(STATUS "CUDA include: " ${CUDA_INCLUDE_DIRS})
-MESSAGE(STATUS "CUDA libraries: " ${CUDA_LIBRARIES}  )
-MESSAGE(STATUS "NVCC cflags: " ${CUDA_NVCC_FLAGS} )
-MESSAGE(STATUS "GCC cflags: " ${CMAKE_CXX_FLAGS} )
-MESSAGE(STATUS "Include directories: " ${INCLUDE_DIRECTORIES} )
-MESSAGE(STATUS "Install diretory: " ${CMAKE_INSTALL_PREFIX}  )
+MESSAGE(STATUS "ROOT include path: ${ROOT_INCLUDE_DIR}")
+MESSAGE(STATUS "ROOT library path: ${ROOT_LIBRARY_DIR}" )
+MESSAGE(STATUS "ROOT libraries: ${ROOT_LIBRARIES}")
+MESSAGE(STATUS "Build CUDA/NVCC-based targets: ${BUILD_CUDA_TARGETS}")
+MESSAGE(STATUS "CUDA include: ${CUDA_INCLUDE_DIRS}" )
+MESSAGE(STATUS "CUDA libraries: ${CUDA_LIBRARIES}"  )
+MESSAGE(STATUS "NVCC flags: ${CUDA_NVCC_FLAGS}" )
+MESSAGE(STATUS "Build TBB targets: ${BUILD_TBB_TARGETS}")
+MESSAGE(STATUS "TBB include: ${TBB_INCLUDE_DIRS}" )
+MESSAGE(STATUS "TBB libraries: ${TBB_LIBRARIES}" )
+MESSAGE(STATUS "Build OpenMP targets: ${BUILD_OMP_TARGETS}")
+MESSAGE(STATUS "OpenMP flags: ${OpenMP_CXX_FLAGS}" )
+MESSAGE(STATUS "OpenMP libraries:  ${OpenMP_CXX_LIBRARIES}" )
+MESSAGE(STATUS "Host compiler flags: ${CMAKE_CXX_FLAGS}" )
+MESSAGE(STATUS "Install diretory: ${CMAKE_INSTALL_PREFIX}"  )
+MESSAGE(STATUS "Project source dir: ${PROJECT_SOURCE_DIR}" )
+MESSAGE(STATUS "Project build dir: ${PROJECT_BINARY_DIR}" )
 
 file(MAKE_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/plots)
 file(MAKE_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/plots/dalitz)
@@ -163,6 +157,8 @@ file(MAKE_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/plots/dalitz)
 #        EXAMPLES          +
 #+++++++++++++++++++++++++++
 add_custom_target(examples)
+
+include(${Hydra_CMAKE_DIR}/AddHydraExample.cmake)
 
 add_subdirectory(examples/phase_space)
 add_subdirectory(examples/numerical_integration)

@@ -100,7 +100,7 @@ public:
 		final = HYDRA_EXTERNAL_NS::thrust::transform_reduce(select_system(system),
 				this->begin(), this->end(), NLL, init, HYDRA_EXTERNAL_NS::thrust::plus<GReal_t>());
 
-		return (GReal_t)this->GetDataSize()-final ;
+		return (GReal_t)this->GetDataSize() -final ;
 	}
 
 	template<size_t M = sizeof...(IteratorW)>
@@ -136,7 +136,7 @@ public:
 		final = HYDRA_EXTERNAL_NS::thrust::inner_product(select_system(system), this->begin(), this->end(),this->wbegin(),
 				init,HYDRA_EXTERNAL_NS::thrust::plus<GReal_t>(),NLL );
 
-		return (GReal_t)this->GetDataSize()-final ;
+		return (GReal_t)this->GetDataSize() -final ;
 	}
 
 };

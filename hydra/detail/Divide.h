@@ -79,14 +79,14 @@ public:
 
 	template<typename T1>
 	__host__ __device__ inline
-	return_type operator()(T1& t )
+	return_type operator()(T1& t ) const
 	{
 		return HYDRA_EXTERNAL_NS::thrust::get<0>(this->GetFunctors())(t)/HYDRA_EXTERNAL_NS::thrust::get<1>(this->GetFunctors())(t);
 	}
 
 	template<typename T1, typename T2>
 	__host__ __device__  inline
-	return_type operator()( T1& t, T2& cache)
+	return_type operator()( T1& t, T2& cache) const
 	{
 		return this->IsCached() ? detail::extract<return_type,T2>( this->GetIndex(), std::forward<T2&>(cache)):\
 				HYDRA_EXTERNAL_NS::thrust::get<0>(this->GetFunctors())(t,cache)/HYDRA_EXTERNAL_NS::thrust::get<1>(this->GetFunctors())(t,cache);

@@ -155,7 +155,7 @@ struct AddPdfFunctor
 
 	template<typename T> inline
 	 __host__ __device__
-	GReal_t operator()(T&& t )
+	GReal_t operator()(T&& t ) const
 	{
 
 		auto pdf_res_tuple = detail::invoke_normalized<functors_tuple_type, T>( t, fFunctors);
@@ -173,7 +173,7 @@ struct AddPdfFunctor
 
 	template<typename T1, typename T2>
 	 __host__ __device__
-	inline	GReal_t operator()(T1&& x, T2&& cache)
+	inline	GReal_t operator()(T1&& x, T2&& cache) const
 	{
 
 

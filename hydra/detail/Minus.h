@@ -81,14 +81,14 @@ class  Minus: public detail::CompositeBase<F1, F2>
 
 	  	template<typename T1>
 	  	__host__ __device__ inline
-	  	return_type operator()(T1& t )
+	  	return_type operator()(T1& t ) const
 	  	{
 	  		return hydra::get<0>(this->fFtorTuple)(t)-hydra::get<1>(this->fFtorTuple)(t);
 	  	}
 
 	  	template<typename T1, typename T2>
 	  	__host__ __device__  inline
-	  	return_type operator()( T1& t, T2& cache)
+	  	return_type operator()( T1& t, T2& cache) const
 	  	{
 	  		return this->IsCached()? detail::extract<return_type,T2>(this->GetIndex(), std::forward<T2&>(cache)):
 	  				hydra::get<0>(this->fFtorTuple)(t,cache)-hydra::get<1>(this->fFtorTuple)(t,cache);

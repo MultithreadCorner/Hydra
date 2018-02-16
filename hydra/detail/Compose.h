@@ -77,7 +77,7 @@ public:
 
 	  	template<typename T1>
 	  	__host__ __device__ inline
-	  	return_type operator()(T1& x )
+	  	return_type operator()(T1& x ) const
 	  	{
 
 	  		//evaluating f(g_1(x), g_2(x), ..., g_n(x))
@@ -94,7 +94,7 @@ public:
 
 	  	template<typename T1, typename T2>
 	  	__host__ __device__  inline
-	  	return_type operator()( T1& x, T2& cache)
+	  	return_type operator()( T1& x, T2& cache) const
 	  	{
 	  		//evaluating f(g_1(x), g_2(x), ..., g_n(x))
 

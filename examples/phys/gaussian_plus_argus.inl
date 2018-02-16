@@ -114,14 +114,14 @@ int main(int argv, char** argc)
     double max   =  5.30;
 
 	//generator
-	hydra::Random<> Generator(154);
+	hydra::Random<> Generator(1504);
 
 	//===========================
     //fit model gaussian + argus
 
 	//Gaussian
-	hydra::Parameter  mean  = hydra::Parameter::Create().Name("Mean").Value( 5.28).Error(0.0001).Limits(5.27,5.29);
-	hydra::Parameter  sigma = hydra::Parameter::Create().Name("Sigma").Value(0.0027).Error(0.0001).Limits(0.0025,0.0029);
+	hydra::Parameter  mean  = hydra::Parameter::Create().Name("Mean").Value( 5.28).Error(0.0001).Limits(5.25,5.29);
+	hydra::Parameter  sigma = hydra::Parameter::Create().Name("Sigma").Value(0.0027).Error(0.0001).Limits(0.0025,0.0028);
 
 	//gaussian function evaluating on the first argument
 	hydra::Gaussian<> signal(mean, sigma);
@@ -132,7 +132,7 @@ int main(int argv, char** argc)
 	//Argus
     //parameters
     auto  m0     = hydra::Parameter::Create().Name("M0").Value(5.291).Error(0.0001).Limits(5.28, 5.3);
-    auto  slope  = hydra::Parameter::Create().Name("Slope").Value(-20.0).Error(0.0001).Limits(-50.0, -1.0);
+    auto  slope  = hydra::Parameter::Create().Name("Slope").Value(-20.0).Error(0.0001).Limits(-40.0, -10.0);
     auto  power  = hydra::Parameter::Create().Name("Power").Value(0.5).Fixed();
 
     //gaussian function evaluating on the first argument
@@ -189,7 +189,7 @@ int main(int argv, char** argc)
 		//-------------------------------------------------------
 		//fit
 		ROOT::Minuit2::MnPrint::SetLevel(3);
-		hydra::Print::SetLevel(hydra::WARNING);
+		//hydra::Print::SetLevel(hydra::WARNING);
 		//minimization strategy
 		MnStrategy strategy(2);
 
@@ -202,7 +202,7 @@ int main(int argv, char** argc)
 
 		auto start_d = std::chrono::high_resolution_clock::now();
 
-		FunctionMinimum minimum_d =  FunctionMinimum(migrad_d(50000, 10));
+		FunctionMinimum minimum_d =  FunctionMinimum(migrad_d(50000, 50));
 
 		auto end_d = std::chrono::high_resolution_clock::now();
 

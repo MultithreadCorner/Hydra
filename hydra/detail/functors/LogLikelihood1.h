@@ -56,25 +56,26 @@ template<typename FUNCTOR>
 struct LogLikelihood1
 {
 	LogLikelihood1(FUNCTOR const& functor):
-		fFunctor(functor)
+		fFunctor(functor),
+		fNorm(functor.GetNorm())
 	{}
 
 	__host__ __device__ inline
 	LogLikelihood1( LogLikelihood1<FUNCTOR> const& other):
-	  fFunctor(other.fFunctor)
+	fFunctor(other.fFunctor),
+	fNorm(other.fNorm)
 	{}
 
 	template<typename Type>
-   	__host__ __device__ inline
-   	GReal_t operator()(Type& x)
-   	{
-		return ::log(fFunctor.GetNorm()*fFunctor( x ));
+	__host__ __device__ inline
+	GReal_t operator()(Type& x) const
+	{
+		return ::log(fNorm*fFunctor( x ));
 	}
 
-private:
 
-    FUNCTOR fFunctor;
-
+	FUNCTOR  fFunctor;
+	const GReal_t fNorm;
 };
 
 
@@ -82,28 +83,29 @@ template<typename FUNCTOR>
 struct LogLikelihood2
 {
 	LogLikelihood2(FUNCTOR const& functor):
-		fFunctor(functor)
+		fFunctor(functor),
+		fNorm(functor.GetNorm())
 	{}
 
 	__host__ __device__ inline
 	LogLikelihood2( LogLikelihood1<FUNCTOR> const& other):
-	  fFunctor(other.fFunctor)
+	  fFunctor(other.fFunctor),
+		fNorm(other.fNorm)
 	{}
 
 	template<typename Args, typename Weights>
    	__host__ __device__ inline
-   	GReal_t operator()(Args& x, Weights& w)
+   	GReal_t operator()(Args& x, Weights& w) const
    	{
 
 		double weight = 1.0;
 		multiply_tuple(weight, w );
-		return weight*::log(fFunctor.GetNorm()*fFunctor( x ));
+		return weight*::log(fNorm*fFunctor( x ));
 	}
 
-private:
 
     FUNCTOR fFunctor;
-
+    const GReal_t fNorm;
 };
 
 }//namespace detail

@@ -155,8 +155,6 @@ public:
 		hydra::Vector4R p2 = p[_I2];
 		hydra::Vector4R p3 = p[_I3];
 
-		hydra::CosTheta fCosDecayAngle;
-		hydra::ZemachFunction<L> fAngularDist;
 
 		fLineShape.SetParameter(0, _par[2]);
 		fLineShape.SetParameter(1, _par[3]);
@@ -172,6 +170,8 @@ public:
 private:
 
 	mutable hydra::BreitWignerLineShape<L> fLineShape;
+	hydra::CosTheta fCosDecayAngle;
+	hydra::ZemachFunction<L> fAngularDist;
 
 
 };
@@ -481,15 +481,10 @@ int main(int argv, char** argc)
 		std::cout << "======= 1 - GENERATE TOY-DATA ========" << std::endl;
 		std::cout << "======================================" << std::endl;
 
-		//allocate memory to hold the final states particles
-		//hydra::Decays<3, hydra::device::sys_t > Events_d(nentries);
 
 		auto start = std::chrono::high_resolution_clock::now();
 
 		generate_dataset(hydra::device::sys, Model,  {D_MASS, K_MASS, PI_MASS}, toy_data, nentries, 3*nentries);
-
-		//generate the final state particles
-		//phsp.Generate(B0, Events_d.begin(), Events_d.end());
 
 		auto end = std::chrono::high_resolution_clock::now();
 
