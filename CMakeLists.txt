@@ -68,9 +68,9 @@ endif(TBB_FOUND)
 
 #get OpenMP
 find_package(OpenMP)
-if(OPENMP_CXX_FOUND)
+if(OPENMP_CXX_FOUND OR OPENMP_FOUND)
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${OpenMP_CXX_FLAGS}")
-endif(OPENMP_CXX_FOUND)
+endif(OPENMP_CXX_FOUND OR OPENMP_FOUND)
 
 
 #generate API documentation with Doxygen
