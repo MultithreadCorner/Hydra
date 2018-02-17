@@ -36,7 +36,7 @@
 
 #include <hydra/detail/Config.h>
 #include <hydra/detail/BackendPolicy.h>
-#include <hydra/cpp/System.h>
+#include <hydra/host/System.h>
 #include <hydra/Types.h>
 #include <hydra/GaussKronrodRules.h>
 #include <hydra/detail/functors/ProcessGaussKronrodQuadrature.h>

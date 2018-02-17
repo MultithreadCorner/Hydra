@@ -42,7 +42,6 @@
 //this lib
 #include <hydra/device/System.h>
 #include <hydra/host/System.h>
-#include <hydra/omp/System.h>
 #include <hydra/Function.h>
 #include <hydra/FunctionWrapper.h>
 #include <hydra/Random.h>
@@ -163,7 +162,7 @@ int main(int argv, char** argc)
 		//------------------
 	    //make model
 		//numerical integral to normalize the pdfs
-		hydra::GaussKronrodQuadrature<61,50, hydra::omp::sys_t> GKQ61_d(min,  max);
+		hydra::GaussKronrodQuadrature<61,50, hydra::device::sys_t> GKQ61_d(min,  max);
 
 		//convert functors to pdfs
 		auto Gauss_PDF = hydra::make_pdf(gaussian  , GKQ61_d);
