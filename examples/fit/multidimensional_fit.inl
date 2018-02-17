@@ -39,7 +39,6 @@
 #include <tclap/CmdLine.h>
 
 //this lib
-#include <hydra/omp/System.h>
 #include <hydra/device/System.h>
 #include <hydra/host/System.h>
 #include <hydra/Function.h>
@@ -180,7 +179,7 @@ int main(int argv, char** argc) {
 
 	}, meanx_p, sigmax_p, meany_p, sigmay_p, meanz_p, sigmaz_p);
 
-	hydra::GenzMalikQuadrature<3, hydra::omp::sys_t> Integrator({min, min, min},{ max, max, max },500);
+	hydra::GenzMalikQuadrature<3, hydra::device::sys_t> Integrator({min, min, min},{ max, max, max },500);
 	//make model and fcn
 	auto model = hydra::make_pdf(gaussian, Integrator);
 
