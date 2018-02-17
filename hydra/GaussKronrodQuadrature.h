@@ -36,7 +36,7 @@
 
 #include <hydra/detail/Config.h>
 #include <hydra/detail/BackendPolicy.h>
-#include <hydra/cpp/System.h>
+#include <hydra/host/System.h>
 #include <hydra/Types.h>
 #include <hydra/GaussKronrodRules.h>
 #include <hydra/detail/functors/ProcessGaussKronrodQuadrature.h>
@@ -102,13 +102,8 @@ public:
 
 	typedef HYDRA_EXTERNAL_NS::thrust::tuple<double, double, double, double, double> row_t;
 
-	//typedef HYDRA_EXTERNAL_NS::thrust::host_vector<row_t>   row_list_h;
-	//typedef HYDRA_EXTERNAL_NS::thrust::device_vector<row_t> row_list_d;
-
-	typedef multivector<row_t, hydra::cpp::sys_t> table_h;
+	typedef multivector<row_t, hydra::host::sys_t> table_h;
 	typedef multivector<row_t, hydra::detail::BackendPolicy<BACKEND>> table_d;
-	//typedef multivector<row_list_h> table_h;
-	//typedef multivector<row_list_d> table_d;
 
 
 	GaussKronrodQuadrature(GReal_t xlower, GReal_t xupper):

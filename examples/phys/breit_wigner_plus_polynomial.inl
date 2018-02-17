@@ -133,7 +133,7 @@ int main(int argv, char** argc)
     auto  c2  = hydra::Parameter::Create().Name("C_2").Value( 0.5).Error(0.0001).Limits( 0.0, 1.0);
 
     //Polynomial function evaluating on the first argument
-    auto Background_PDF = hydra::make_pdf( hydra::Polynomial<2>({c0, c1, c2}),
+    auto Background_PDF = hydra::make_pdf( hydra::Polynomial<2>(std::array<hydra::Parameter,3>{c0, c1, c2}),
     		hydra::PolynomialAnalyticalIntegral(min, max));
 
     //------------------
