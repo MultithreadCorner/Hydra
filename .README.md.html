@@ -2,7 +2,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>/home/augalves/Development/Release/Hydra_Official_Repo/Hydra/.README.md.html</title>
+<title>/home/augalves/Development/Release/Hydra/.README.md.html</title>
 
 
 <style type="text/css">
@@ -654,11 +654,11 @@ function setDocumentScrollTop(ypos)
  <li>Numerical integration of multidimensional functions using self-adaptive Monte Carlo and quadrature methods.</li> 
  <li>Multidimensional sparse and dense histograming of large samples.</li> 
 </ul> 
-<p>Hydra also provides a bunch of custom types, optimized containers and number of algorithms and constructs to maximaze performance, avoiding unecessary usage of memory and without losing the flexibility and protability to compile and run the same code across different platforms and deployment scenarios.</p> 
-<p>For example, just changing .cu to .cpp in any source code writen only using the Hydra and standard C++11 is enough to compile your application for OpenMP or TBB compatible devices using GCC or CLang in a machine without a NVIDIA GPU installed.</p> 
+<p>Hydra also provides a bunch of custom types, optimized containers and number of algorithms and constructs to maximaze performance, avoiding unecessary usage of memory and without losing the flexibility and protability to compile and run the same code across different platforms and deployment scenarios. For example the plots below</p> 
+<p>For example, just changing .cu to .cpp in any source code writen only using the Hydra and standard C++11 is enough to compile your application for OpenMP or TBB compatible devices using GCC or other compiler in a machine without a NVIDIA GPU installed.</p> 
 <p>In summary, using Hydra, the user can transparently typical bottle-neck calculations to a suitable parallel device and get speed-up factors ranging from some dozens to hundeds.</p> 
 <h2> <a id="hydra-and-thrust" class="anchor" href="#hydra-and-thrust" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Hydra and Thrust</h2> 
-<p>Hydra is implemented on top of the <a href="https://thrust.github.io/">Thrust library</a> and rely strongly on Thrust's containers, algorithms and backend managment systems. The official version of Thrust supports tuples with maximum ten elements. In order to overcome this limitation, Hydra uses the <a href="https://github.com/andrewcorrigan/thrust-multi-permutation-iterator">unoficial version, forked from the original, by Andrew Currigan and collaborators</a>. This version implements variadic tuples and related classes, as well as provides some additional functionalities, which are missing in the official Thrust.</p> 
+<p>Hydra is implemented on top of the <a href="https://thrust.github.io/" rel="nofollow">Thrust library</a> and rely strongly on Thrust's containers, algorithms and backend managment systems. The official version of Thrust supports tuples with maximum ten elements. In order to overcome this limitation, Hydra uses the <a href="https://github.com/andrewcorrigan/thrust-multi-permutation-iterator">unoficial version, forked from the original, by Andrew Currigan and collaborators</a>. This version implements variadic tuples and related classes, as well as provides some additional functionalities, which are missing in the official Thrust.</p> 
 <p>The version of Thrust distributed with Hydra is maintained by <a href="https://github.com/MultithreadCorner">MultithreadCorner</a>. It is basically a fork of Currigan's repository, which was merged with the latest official release available in github (Thrust 1.8.3).</p> 
 <p><em><strong>Hydra does not depend or conflits with the official Thrust library distributed with the CUDA-SDK.</strong></em></p> 
 <h2> <a id="supported-paralels-backends" class="anchor" href="#supported-paralels-backends" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Supported Paralels Backends</h2> 
@@ -673,21 +673,21 @@ function setDocumentScrollTop(ypos)
 </div> 
 <p>The available &quot;host&quot; and &quot;device&quot; backends can be freely combined. Two important features related to the Hydra's design and the backend configuration:</p> 
 <ul> 
- <li>If CUDA backend is not used, <a href="https://developer.nvidia.com/cuda-toolkit">NVCC and the CUDA runtime</a> are not necessary. The programs can be compiled with GCC, CLang or other host compiler compatible with C++11 directly.</li> 
+ <li>If CUDA backend is not used, <a href="https://developer.nvidia.com/cuda-toolkit" rel="nofollow">NVCC and the CUDA runtime</a> are not necessary. The programs can be compiled with GCC, CLang or other host compiler compatible with C++11 directly.</li> 
  <li>Programs written using only Hydra, Thrust, STL and standard c++ constructs, it means programs without any raw CUDA code or calls to the CUDA runtime API, can be compiled with NVCC, to run on CUDA backends, or a suitable host compiler to run on OpenMP , TBB and CPP backends. <strong>Just change the source file extention from .cu to .cpp, or something else the host compiler understands.</strong> </li> 
 </ul> 
 <h2> <a id="the-latest-version" class="anchor" href="#the-latest-version" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>The Latest Version</h2> 
 <p>The latest version can be found on the <a href="https://github.com/MultithreadCorner/Hydra/releases">project relases page</a>.</p> 
 <h2> <a id="documentation" class="anchor" href="#documentation" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Documentation</h2> 
-<p>The complete and updated <a href="http://www.doxygen.org/">Doxygen</a> source code documentation of this release is available in HTML format on the <a href="http://multithreadcorner.github.io/Hydra/">reference manual</a> webpage. Users can also browse the documentation by class, file or name using the following links:</p> 
-<p>1.<a href="http://multithreadcorner.github.io/Hydra/classes.html">classes</a></p> 
-<p>2.<a href="http://multithreadcorner.github.io/Hydra/files.html">files</a></p> 
-<p>3.<a href="http://multithreadcorner.github.io/Hydra/namespacemembers.html">names</a></p> 
+<p>The complete and updated <a href="http://www.doxygen.org/" rel="nofollow">Doxygen</a> source code documentation of this release is available in HTML format on the <a href="http://multithreadcorner.github.io/Hydra/" rel="nofollow">reference manual</a> webpage. Users can also browse the documentation by class, file or name using the following links:</p> 
+<p>1.<a href="http://multithreadcorner.github.io/Hydra/classes.html" rel="nofollow">classes</a></p> 
+<p>2.<a href="http://multithreadcorner.github.io/Hydra/files.html" rel="nofollow">files</a></p> 
+<p>3.<a href="http://multithreadcorner.github.io/Hydra/namespacemembers.html" rel="nofollow">names</a></p> 
 <p>A manual explaining the different features is hosted on ....</p> 
 <h2> <a id="installation-and-requirements" class="anchor" href="#installation-and-requirements" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Installation and requirements</h2> 
-<p>Hydra is a header only library, so no build process is necessary to install it. Just place the <code>hydra</code> folder and its contents where your system can find it. The library run on Linux systems and requires at least a host compiler supporting C++11. To use NVidia's GPUs, CUDA 8 or higher is required.<br /> A suite of examples demonstrating the basic features of the library are included in the <code>examples</code> folder. All the examples are organized in .inl files, which implements the <code>main()</code> function. These files are included by .cpp and .cu files, which are compiled according with the availability of backends. TBB and CUDA backends requires the a installation of the corresponding libraries and runtimes. These code samples uses, but does not requires <a href="https://root.cern.ch/">ROOT</a> for graphics, and <a href="http://tclap.sourceforge.net/">TCLAP</a> library for process command line arguments.</p> 
+<p>Hydra is a header only library, so no build process is necessary to install it. Just place the <code>hydra</code> folder and its contents where your system can find it. The library run on Linux systems and requires at least a host compiler supporting C++11. To use NVidia's GPUs, CUDA 8 or higher is required.<br /> A suite of examples demonstrating the basic features of the library are included in the <code>examples</code> folder. All the examples are organized in .inl files, which implements the <code>main()</code> function. These files are included by .cpp and .cu files, which are compiled according with the availability of backends. TBB and CUDA backends requires the a installation of the corresponding libraries and runtimes. These code samples uses, but does not requires <a href="https://root.cern.ch/" rel="nofollow">ROOT</a> for graphics, and <a href="http://tclap.sourceforge.net/" rel="nofollow">TCLAP</a> library for process command line arguments.</p> 
 <h2> <a id="examples" class="anchor" href="#examples" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Examples</h2> 
-<p>The examples are built using <a href="https://cmake.org/">CMAKE</a> following the following instructions:</p> 
+<p>The examples are built using <a href="https://cmake.org/" rel="nofollow">CMAKE</a> following the following instructions:</p> 
 <ol> 
  <li>clone the git repository: <code>git clone https://github.com/MultithreadCorner/Hydra.git</code> </li> 
  <li>create a build directory: <code>mkdir build</code> </li> 
@@ -707,11 +707,11 @@ function setDocumentScrollTop(ypos)
 </ol> 
 <p>Each compiled example executable will have an postfix (ex.: _cuda, _omp, _tbb) to indicate the deployed device backend.<br /> All examples use CPP as host backend.</p> 
 <h2> <a id="licensing" class="anchor" href="#licensing" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Licensing</h2> 
-<p>Hydra is released under the <a href="http://www.gnu.org/licenses/gpl-3.0.en.html">GNU General Public License version 3</a>. Please see the file called <a href="https://github.com/MultithreadCorner/Hydra/blob/master/COPYING">COPYING</a>.</p> 
+<p>Hydra is released under the <a href="http://www.gnu.org/licenses/gpl-3.0.en.html" rel="nofollow">GNU General Public License version 3</a>. Please see the file called <a href="https://github.com/MultithreadCorner/Hydra/blob/master/COPYING">COPYING</a>.</p> 
 <h2> <a id="contact-the-developers" class="anchor" href="#contact-the-developers" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Contact the developers</h2> 
 <p>Here’s what you should do if you need help or would like to contribute:</p> 
 <ol> 
- <li>If you need help or would like to ask a general question, subscribe and use <a href="https://groups.google.com/forum/#!forum/hydra-libray-users">https://groups.google.com/forum/#!forum/hydra-libray-users</a>.</li> 
+ <li>If you need help or would like to ask a general question, subscribe and use <a href="https://groups.google.com/forum/#!forum/hydra-libray-users" rel="nofollow">https://groups.google.com/forum/#!forum/hydra-libray-users</a>.</li> 
  <li>If you found a bug, use GitHub issues.</li> 
  <li>If you have an idea, suggestion of whatever, use GitHub issues.</li> 
  <li>If you want to contribute, submit a pull request <a href="https://github.com/MultithreadCorner/Hydra">https://github.com/MultithreadCorner/Hydra</a>.</li> 
@@ -719,6 +719,6 @@ function setDocumentScrollTop(ypos)
 <h2> <a id="author" class="anchor" href="#author" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Author</h2> 
 <p>Hydra was created and is mantained by <a href=".@AAAlvesJr.md.html">Antonio Augusto Alves Jr</a>.</p> 
 <h2> <a id="acknowledgement" class="anchor" href="#acknowledgement" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Acknowledgement</h2> 
-<p>Hydra's development has been supported by the <a href="http://nsf.gov/index.jsp">National Science Foundation</a> under the grant number <a href="http://nsf.gov/awardsearch/showAward?AWD_ID=1414736">PHY-1414736</a>. Any opinions, findings, and conclusions or recommendations expressed in this material are those of the developers and do not necessarily reflect the views of the National Science Foundation.</p>
+<p>Hydra's development has been supported by the <a href="http://nsf.gov/index.jsp" rel="nofollow">National Science Foundation</a> under the grant number <a href="http://nsf.gov/awardsearch/showAward?AWD_ID=1414736" rel="nofollow">PHY-1414736</a>. Any opinions, findings, and conclusions or recommendations expressed in this material are those of the developers and do not necessarily reflect the views of the National Science Foundation.</p>
 </body>
 </html>

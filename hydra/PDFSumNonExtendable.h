@@ -275,9 +275,9 @@ typedef void hydra_pdf_tag;
 
 
 	template<typename T1> inline
-	GReal_t operator()(T1&& t )
+	GReal_t operator()(T1&& t ) const
 	{
-		auto pdf_res_tuple = detail::invoke<pdfs_tuple_type, T1>( t, fPDFs);
+		auto pdf_res_tuple = detail::invoke( t, fPDFs);
 		GReal_t pdf_res_array[npdfs];
 		detail::tupleToArray( pdf_res_tuple, pdf_res_array );
 
@@ -290,7 +290,7 @@ typedef void hydra_pdf_tag;
 
 
 	template<typename T1, typename T2>
-	inline	GReal_t operator()( T1&& t, T2&& cache)
+	inline	GReal_t operator()( T1&& t, T2&& cache) const
 	{
 
 		auto pdf_res_tuple = detail::invoke<GReal_t,pdfs_tuple_type, T1, T2>( t, cache, fPDFs);

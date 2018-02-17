@@ -24,11 +24,15 @@ Currently Hydra supports:
 * Multidimensional sparse and dense histograming of large samples. 
 
 Hydra also provides a bunch of custom types, optimized containers and number of algorithms and constructs to maximaze performance, avoiding unecessary usage of memory and without losing the flexibility and protability to compile and run the same code across different platforms and deployment scenarios. 
+For example the plots below 
+
 
 For example, just changing .cu to .cpp in any source code writen only using the Hydra and standard C++11 is enough
-to compile your application for OpenMP or TBB compatible devices using GCC or CLang in a machine without a NVIDIA GPU installed.
+to compile your application for OpenMP or TBB compatible devices using GCC or other compiler in a machine without a NVIDIA GPU installed.
 
 In summary, using Hydra, the user can transparently typical bottle-neck calculations to a suitable parallel device and get speed-up factors ranging from some dozens to hundeds.  
+
+
 
 Hydra and Thrust
 ----------------

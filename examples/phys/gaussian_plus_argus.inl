@@ -56,9 +56,6 @@
 #include <hydra/functions/Gaussian.h>
 #include <hydra/functions/ArgusShape.h>
 #include <hydra/Placeholders.h>
-#include <hydra/Complex.h>
-#include <hydra/functions/BreitWignerLineShape.h>
-#include <hydra/functions/M12SqPhaseSpaceLineShape.h>
 
 //Minuit2
 #include "Minuit2/FunctionMinimum.h"
@@ -121,7 +118,7 @@ int main(int argv, char** argc)
 
 	//Gaussian
 	hydra::Parameter  mean  = hydra::Parameter::Create().Name("Mean").Value( 5.28).Error(0.0001).Limits(5.25,5.29);
-	hydra::Parameter  sigma = hydra::Parameter::Create().Name("Sigma").Value(0.0027).Error(0.0001).Limits(0.0025,0.0028);
+	hydra::Parameter  sigma = hydra::Parameter::Create().Name("Sigma").Value(0.0026).Error(0.0001).Limits(0.0024,0.0028);
 
 	//gaussian function evaluating on the first argument
 	hydra::Gaussian<> signal(mean, sigma);
@@ -132,7 +129,7 @@ int main(int argv, char** argc)
 	//Argus
     //parameters
     auto  m0     = hydra::Parameter::Create().Name("M0").Value(5.291).Error(0.0001).Limits(5.28, 5.3);
-    auto  slope  = hydra::Parameter::Create().Name("Slope").Value(-20.0).Error(0.0001).Limits(-40.0, -10.0);
+    auto  slope  = hydra::Parameter::Create().Name("Slope").Value(-20.0).Error(0.0001).Limits(-30.0, -10.0);
     auto  power  = hydra::Parameter::Create().Name("Power").Value(0.5).Fixed();
 
     //gaussian function evaluating on the first argument
@@ -220,45 +217,12 @@ int main(int argv, char** argc)
 		hydra::DenseHistogram<double, 1, hydra::device::sys_t> Hist_Data(100, min, max);
 		Hist_Data.Fill( range.begin(), range.end() );
 
-		// fit model
-		hydra::Parameter M0 = hydra::Parameter::Create()
-		.Name("mass0" ).Value(0.895).Error(0.001).Limits(0.7, 0.9);
-
-		hydra::Parameter W0 = hydra::Parameter::Create()
-		.Name("width0").Value(0.055).Error(0.001).Limits(0.04, 0.06);
-
-		// fit model
-		hydra::Parameter M1 = hydra::Parameter::Create()
-		.Name("mass1" ).Value(1.430).Error(0.001).Limits(0.7, 0.9);
-
-		hydra::Parameter W1 = hydra::Parameter::Create()
-		.Name("width1").Value(0.109).Error(0.001).Limits(0.04, 0.06);
 
 
-
-		hydra::BreitWignerLineShape<hydra::PWave> BW0(M0, W0, B0_mass, K_mass, pi_mass, Jpsi_mass, 3.0 );
-		hydra::BreitWignerLineShape<hydra::DWave> BW1(M1, W1, B0_mass, K_mass, pi_mass, Jpsi_mass, 3.0 );
-
-	    hydra::M12SqPhaseSpaceLineShape<> phsp(B0_mass, K_mass, pi_mass, Jpsi_mass);
-
-		auto Norm = hydra::wrap_lambda(
-				[]__host__  __device__ (unsigned int n, hydra::complex<double>* x){
-			hydra::complex<double> r(0,0);
-			for(unsigned int i=0; i< n;i++)
-				r += x[i];
-
-			return hydra::norm(r);}
-		);
-
-		auto f = hydra::compose(Norm,  phsp );
 
 #ifdef _ROOT_AVAILABLE_
 
-		for(size_t i=0;  i<100; i++){
 
-			double x = hist_test.GetBinCenter(i);
-			hist_test.SetBinContent(i, phsp(x) );
-		}
 		//data
 		for(size_t i=0;  i<100; i++)
 			hist_data.SetBinContent(i+1, Hist_Data.GetBinContent(i));
@@ -324,9 +288,6 @@ int main(int argv, char** argc)
 	hist_fit.Draw("histsameC");
 	hist_data.Draw("e0same");
 
-
-	TCanvas canvas_test("canvas_test" ,"Distributions - Device", 500, 500);
-	hist_test.Draw("histC");
 
 	myapp->Run();
 
