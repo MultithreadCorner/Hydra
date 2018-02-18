@@ -281,7 +281,7 @@ typedef void hydra_pdf_tag;
 
 	template<unsigned int I>
 	typename HYDRA_EXTERNAL_NS::thrust::tuple_element<I,pdfs_tuple_type>::type&
-	PDF( hydra::placeholders::placeholder<I> const& index ){
+	PDF( hydra::placeholders::placeholder<I> ){
 
 		return HYDRA_EXTERNAL_NS::thrust::get<I>(fPDFs);
 	}

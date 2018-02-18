@@ -80,7 +80,7 @@ double BarrierFactor(const double d, const double p0, const double p);
 
 
 template<> __host__ __device__   inline
-double BarrierFactor<hydra::SWave>(const double radi, const double p0, const double p) {
+double BarrierFactor<hydra::SWave>(const double, const double, const double) {
 	return 1.0;
 }
 

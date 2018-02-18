@@ -148,14 +148,14 @@ template<class ...A> struct CanConvert{
 	struct ObjSelector<true>
 	{
 		template<typename T1, typename T2>
-		static T1 select(T1 const& obj1, T2 const& obj2 ){ return obj1;}
+		static T1 select(T1 const& obj1, T2 const& /*obj2*/ ){ return obj1;}
 	};
 
 	template<>
 	struct ObjSelector<false>
 	{
 		template<typename T1, typename T2>
-		static T2 select(T1 const& obj1, T2 const& obj2 ){ return obj2;}
+		static T2 select(T1 const& /*obj1*/, T2 const& obj2 ){ return obj2;}
 	};
 
 
@@ -180,7 +180,7 @@ template<class ...A> struct CanConvert{
 	//----------------------------------------
 	template<typename T, size_t N, size_t I>
 	typename std::enable_if< (I==N), void  >::type
-	multiply( std::array<T, N> const&  obj, T& result )
+	multiply( std::array<T, N> const& , T&  )
 	{ }
 
 	template<typename T, size_t N, size_t I=0>
@@ -197,7 +197,7 @@ template<class ...A> struct CanConvert{
 	//----------------------------------------
 	template<typename T, size_t N, size_t I>
 	typename std::enable_if< (I==N), void  >::type
-	multiply( T (&obj)[N] , T& result )
+	multiply( T (&)[N] , T& )
 	{ }
 
 	template<typename T, size_t N, size_t I=0>
@@ -217,7 +217,7 @@ template<class ...A> struct CanConvert{
 	//end of recursion
 	template<typename T, size_t DIM, size_t I>
 	typename std::enable_if< (I==DIM) && (std::is_integral<T>::value), void  >::type
-	get_indexes(size_t index, std::array<T, DIM> const& depths, std::array<T,DIM>& indexes)
+	get_indexes(size_t , std::array<T, DIM> const& , std::array<T,DIM>& )
 	{}
 
 	//begin of the recursion
@@ -243,7 +243,7 @@ template<class ...A> struct CanConvert{
 	//end of recursion
 	template<typename T, size_t DIM, size_t I>
 	typename std::enable_if< (I==DIM) && (std::is_integral<T>::value), void  >::type
-	get_indexes(size_t index, T ( &detpths)[DIM], T (&indexes)[DIM])
+	get_indexes(size_t , T ( &)[DIM], T (&)[DIM])
 	{}
 
 	//begin of the recursion

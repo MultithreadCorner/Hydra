@@ -215,7 +215,7 @@ void SparseHistogram<T, N,  detail::BackendPolicy<BACKEND>, detail::multidimensi
 		Iterator begin, Iterator end )
 {
 	typedef  typename HYDRA_EXTERNAL_NS::thrust::iterator_system<Iterator>::type system1_t;
-	system1_t system1();
+	system1_t system1;
 
 	typedef  typename HYDRA_EXTERNAL_NS::thrust::detail::remove_reference<
 				decltype(select_system(exec_policy,fSystem, system1))>::type common_system_t;
@@ -321,7 +321,7 @@ void SparseHistogram<T, 1,  detail::BackendPolicy<BACKEND>, detail::unidimension
 		Iterator begin, Iterator end )
 {
 	typedef  typename HYDRA_EXTERNAL_NS::thrust::iterator_system<Iterator>::type system1_t;
-	system1_t system1();
+	system1_t system1;
 
 	typedef  typename HYDRA_EXTERNAL_NS::thrust::detail::remove_reference<
 			decltype(select_system(exec_policy,fSystem, system1))>::type common_system_t;

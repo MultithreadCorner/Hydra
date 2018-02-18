@@ -182,7 +182,7 @@ public:
 
 	template<typename T>
 	__host__ __device__ inline
-	hydra::complex<double> Evaluate(unsigned int n, T*x)  const	{
+	hydra::complex<double> Evaluate(unsigned int, T*x)  const	{
 
 		const double m = x[ArgIndex] ;
 

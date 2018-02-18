@@ -47,7 +47,7 @@
 #include <hydra/detail/external/thrust/functional.h>
 
 
-
+#if(0)
 namespace hydra{
 
 
@@ -131,6 +131,6 @@ private:
 
 
 }//namespace hydra
-
+#endif
 
 #endif /* LOGLIKELIHOOD_H_*/

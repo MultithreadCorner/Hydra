@@ -66,7 +66,7 @@ public:
 	{}
 
 	template<typename ...T>
-	__host__ __device__ inline return_type  operator()(T& ...args){ return fCte;}
+	__host__ __device__ inline return_type  operator()(T&& ...){ return fCte;}
 
 
 private:

@@ -121,7 +121,7 @@ public:
 
 	template<typename T>
 	__host__ __device__ inline
-	double Evaluate(unsigned int n, T*x)  const	{
+	double Evaluate(unsigned int, T*x)  const	{
 
 		double beta = x[ArgIndex] ;
 		double r = wignerd(beta);

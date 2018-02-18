@@ -54,7 +54,7 @@ class CosTheta:public BaseFunctor<CosTheta, double, 0>
 
 public:
 
-	__host__ __device__
+
 	CosTheta()=default;
 
 	__host__  __device__ inline
@@ -65,7 +65,7 @@ public:
 		}
 
 	__host__ __device__ inline
-	double Evaluate(unsigned int n, hydra::Vector4R* p)  const {
+	double Evaluate(unsigned int , hydra::Vector4R* p)  const {
 
 		hydra::Vector4R P = p[0];
 		hydra::Vector4R Q = p[1];

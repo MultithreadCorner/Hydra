@@ -151,8 +151,7 @@ struct ProcessGenzMalikUnaryCall
 	template<size_t I>
 	typename std::enable_if< (I==N), void  >::type
 	__host__ __device__ inline
-	get_transformed_abscissa( rule_abscissa_t const& original_abscissa, abscissa_t& transformed_abscissa )
-	{	}
+	get_transformed_abscissa( rule_abscissa_t const& , abscissa_t& ){}
 
 	template<size_t I=0>
 	typename std::enable_if< (I<N), void  >::type

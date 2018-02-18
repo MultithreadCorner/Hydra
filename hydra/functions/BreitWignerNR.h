@@ -63,7 +63,7 @@ public:
 		BaseFunctor<BreitWignerNR<ArgIndex>, double,2>(other)
 		{}
 
-	__host__ __device__
+	__host__ __device__ inline
 	BreitWignerNR<ArgIndex>&
 	operator=(BreitWignerNR<ArgIndex> const& other ){
 		if(this==&other) return  *this;
@@ -73,7 +73,7 @@ public:
 
 	template<typename T>
 	__host__ __device__ inline
-	double Evaluate(unsigned int n, T*x)  const
+	double Evaluate(unsigned int, T*x)  const
 	{
 		double mean  = _par[0];
 		double width = _par[1];

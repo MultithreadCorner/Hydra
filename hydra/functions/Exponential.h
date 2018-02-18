@@ -72,7 +72,7 @@ public:
 
 	template<typename T>
 	__host__ __device__
-	inline double Evaluate(unsigned int n, T* x)  const	{
+	inline double Evaluate(unsigned int, T* x)  const	{
 
 		return  CHECK_VALUE(exp(x[ ArgIndex]*_par[0] ),"par[0]=%f ", _par[0] ) ;
 	}

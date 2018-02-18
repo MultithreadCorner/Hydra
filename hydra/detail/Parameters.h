@@ -260,21 +260,21 @@ class Parameters<0>{
 
 public:
 
-	__host__  __device__
+
 	Parameters() = default;
 
-	Parameters(std::initializer_list<Parameter> init_parameters)
+	Parameters(std::initializer_list<Parameter>)
 	{ }
 
-	Parameters(std::array<Parameter,0> const& init_parameters)
+	Parameters(std::array<Parameter,0> const& )
 	{	}
 
 	__host__ __device__
-	Parameters(Parameters<0> const& other)
+	Parameters(Parameters<0> const& )
 	{	}
 
 	__host__ __device__
-	Parameters<0>& operator=(Parameters<0> const& other)
+	Parameters<0>& operator=(Parameters<0> const& )
 	{	return *this;	}
 
 
@@ -298,9 +298,9 @@ public:
 	 * @param parameters
 	 */
 	__host__ inline
-	void SetParameters(const std::vector<double>& parameters){}
+	void SetParameters(const std::vector<double>&){}
 
-	inline	void AddUserParameters(std::vector<hydra::Parameter*>& user_parameters ){}
+	inline	void AddUserParameters(std::vector<hydra::Parameter*>&  ){}
 
 	__host__ __device__ inline
 	size_t GetNumberOfParameters() const { 	return 0; 	}

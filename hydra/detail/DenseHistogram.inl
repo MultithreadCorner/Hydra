@@ -223,7 +223,7 @@ template<hydra::detail::Backend BACKEND2, typename Iterator>
 void DenseHistogram<T, N,  hydra::detail::BackendPolicy<BACKEND>, detail::multidimensional>::Fill(detail::BackendPolicy<BACKEND2> const& exec_policy, Iterator begin, Iterator end )
 {
 	typedef  typename HYDRA_EXTERNAL_NS::thrust::iterator_system<Iterator>::type system1_t;
-		system1_t system1();
+		system1_t system1;
 
 		typedef  typename HYDRA_EXTERNAL_NS::thrust::detail::remove_reference<
 					decltype(select_system(exec_policy,fSystem, system1))>::type common_system_t;
@@ -334,7 +334,7 @@ void DenseHistogram< T,1, detail::BackendPolicy<BACKEND>, detail::unidimensional
 		Iterator begin, Iterator end )
 {
 	typedef  typename HYDRA_EXTERNAL_NS::thrust::iterator_system<Iterator>::type system1_t;
-	system1_t system1();
+	system1_t system1;
 
 	typedef  typename HYDRA_EXTERNAL_NS::thrust::detail::remove_reference<
 			decltype(select_system(exec_policy, fSystem,system1))>::type common_system_t;
