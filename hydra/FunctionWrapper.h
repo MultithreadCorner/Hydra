@@ -162,7 +162,7 @@ namespace detail {
 
 
 template<typename L, typename ReturnType, typename ...Args, size_t N>
-auto wrap_lambda_helper(L const& f, ReturnType r, HYDRA_EXTERNAL_NS::thrust::tuple<Args...>const& t,
+auto wrap_lambda_helper(L const& f, ReturnType, HYDRA_EXTERNAL_NS::thrust::tuple<Args...>const& ,
 		std::array<Parameter, N> const& parameters)
 -> LambdaWrapper<ReturnType(Args...), L, N>
 {
@@ -170,7 +170,7 @@ auto wrap_lambda_helper(L const& f, ReturnType r, HYDRA_EXTERNAL_NS::thrust::tup
 }
 
 template<typename L, typename ReturnType, typename ...Args>
-auto wrap_lambda_helper(L const& f, ReturnType r, HYDRA_EXTERNAL_NS::thrust::tuple<Args...>const& t)
+auto wrap_lambda_helper(L const& f, ReturnType , HYDRA_EXTERNAL_NS::thrust::tuple<Args...>const& )
 -> LambdaWrapper<ReturnType(Args...), L, 0>
 {
 	return LambdaWrapper<ReturnType(Args...), L, 0>(f);

@@ -167,7 +167,7 @@ int main(int argv, char** argc)
 
 	//C++11 lambda for angle between the planes [K,pi] and [mu+, mu-]
 	auto DELTA = [] __host__ __device__ (hydra::Vector4R const& d2, hydra::Vector4R const& d3,
-			hydra::Vector4R const& h1, hydra::Vector4R const& h2 )
+			hydra::Vector4R const& h1, hydra::Vector4R const&  )
 	{
 		hydra::Vector4R D = d2 + d3;
 

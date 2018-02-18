@@ -44,7 +44,7 @@ namespace hydra {
 /** array streamer helper **/
 template<  size_t N, typename T, size_t I>
 inline typename std::enable_if<(I==N), void>::type
-stream_array_helper(std::ostream& os, std::array<T,N> const&  obj)
+stream_array_helper(std::ostream& , std::array<T,N> const& )
 { }
 
 template< size_t N, typename T, size_t I=0>
@@ -71,7 +71,7 @@ inline std::ostream& operator<<(std::ostream& os, std::array<T, N> const&  obj)
 /** tuple streamer helper **/
 template<size_t I, typename ...T>
 inline typename std::enable_if<(I==sizeof ...(T)), void>::type
-stream_tuple_helper(std::ostream& os, std::tuple<T...> const&  obj)
+stream_tuple_helper(std::ostream& , std::tuple<T...> const&  )
 { }
 
 template<size_t I=0, typename ...T>

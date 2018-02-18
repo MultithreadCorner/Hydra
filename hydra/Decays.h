@@ -198,7 +198,7 @@ public:
 		template<unsigned int I>
 		__host__ __device__ inline
 		typename HYDRA_EXTERNAL_NS::thrust::detail::enable_if< (I==N+1), void >::type
-		__convert(value_type const& v , decay_t& r){ }
+		__convert(value_type const& , decay_t&){ }
 
 		template<unsigned int I=0>
 		__host__ __device__ inline
@@ -900,7 +900,7 @@ private:
 	//----
 	template<size_t I, typename ...Iterators >
 	inline typename HYDRA_EXTERNAL_NS::thrust::detail::enable_if<(I == N), void >::type
-	__insert_helper( size_type pos, HYDRA_EXTERNAL_NS::thrust::tuple<Iterators...>,
+	__insert_helper( size_type , HYDRA_EXTERNAL_NS::thrust::tuple<Iterators...>,
 			HYDRA_EXTERNAL_NS::thrust::tuple<Iterators...>  ) {	}
 
 	template< size_t I =0, typename ...Iterators >

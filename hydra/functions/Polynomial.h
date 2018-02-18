@@ -71,7 +71,7 @@ public:
 
 	template<typename T>
 	__host__ __device__
-	inline double Evaluate(unsigned int n, T* x)  const
+	inline double Evaluate(unsigned int , T* x)  const
 	{
 		double coefs[Order+1]{};
 		for(unsigned int i =0; i<Order+1; i++)
@@ -98,7 +98,7 @@ private:
 	template<unsigned int I>
 	__host__ __device__ inline
 	typename std::enable_if<(I==Order+1), void >::type
-	polynomial_helper( const double(&coef)[Order+1],  const double, double&)  const {}
+	polynomial_helper( const double(&)[Order+1],  const double, double&)  const {}
 
 	template<unsigned int I=0>
 	__host__ __device__ inline
@@ -178,7 +178,7 @@ private:
 	template<unsigned int N, unsigned int I>
 	__host__ __device__ inline
 	typename std::enable_if<(I==N), void >::type
-	polynomial_integral_helper( const double, const double(&coef)[N], double&) const {}
+	polynomial_integral_helper( const double, const double(&)[N], double&) const {}
 
 	template<unsigned int N, unsigned int I=0>
 	__host__ __device__ inline

@@ -432,14 +432,14 @@ public:
 
 	template<unsigned int I>
 	 inline typename HYDRA_EXTERNAL_NS::thrust::tuple_element<I, iterator_t>::type
-	begin(placeholders::placeholder<I> index)
+	begin(placeholders::placeholder<I> )
 	{
 		return HYDRA_EXTERNAL_NS::thrust::get<I>(fData).begin();
 	}
 
 	template<unsigned int I>
 	 inline typename HYDRA_EXTERNAL_NS::thrust::tuple_element<I, iterator_t>::type
-	end(placeholders::placeholder<I>  index)
+	end(placeholders::placeholder<I>  )
 	{
 		return HYDRA_EXTERNAL_NS::thrust::get<I>(fData).end();
 	}
@@ -460,14 +460,14 @@ public:
 
 	template<unsigned int I>
 	 inline typename HYDRA_EXTERNAL_NS::thrust::tuple_element<I, reverse_iterator_t>::type
-	rbegin(placeholders::placeholder<I>  index)
+	rbegin(placeholders::placeholder<I>  )
 	{
 		return HYDRA_EXTERNAL_NS::thrust::get<I>(fData).rbegin();
 	}
 
 	template<unsigned int I>
 	 inline typename HYDRA_EXTERNAL_NS::thrust::tuple_element<I, reverse_iterator_t>::type
-	rend(placeholders::placeholder<I>  index)
+	rend(placeholders::placeholder<I>  )
 	{
 		return HYDRA_EXTERNAL_NS::thrust::get<I>(fData).rend();
 	}
@@ -489,14 +489,14 @@ public:
 
 	template<unsigned int I>
 	 inline	typename HYDRA_EXTERNAL_NS::thrust::tuple_element<I, const_iterator_t>::type
-	begin(placeholders::placeholder<I> index) const
+	begin(placeholders::placeholder<I> ) const
 	{
 		return HYDRA_EXTERNAL_NS::thrust::get<I>(fData).cbegin();
 	}
 
 	template<unsigned int I>
 	 inline	typename HYDRA_EXTERNAL_NS::thrust::tuple_element<I, const_iterator_t>::type
-	end(placeholders::placeholder<I> index) const
+	end(placeholders::placeholder<I> ) const
 	{
 		return HYDRA_EXTERNAL_NS::thrust::get<I>(fData).cend();
 	}
@@ -517,14 +517,14 @@ public:
 
 	template<unsigned int I>
 	inline typename HYDRA_EXTERNAL_NS::thrust::tuple_element<I, const_iterator_t>::type
-	cbegin(placeholders::placeholder<I> index)  const
+	cbegin(placeholders::placeholder<I> )  const
 	{
 		return HYDRA_EXTERNAL_NS::thrust::get<I>(fData).cbegin();
 	}
 
 	template<unsigned int I>
 	 	inline typename HYDRA_EXTERNAL_NS::thrust::tuple_element<I, const_iterator_t>::type
-	cend(placeholders::placeholder<I>  index) const
+	cend(placeholders::placeholder<I>  ) const
 	{
 		return HYDRA_EXTERNAL_NS::thrust::get<I>(fData).cend();
 	}
@@ -545,14 +545,14 @@ public:
 
 	template<unsigned int I>
 	 inline typename HYDRA_EXTERNAL_NS::thrust::tuple_element<I, const_reverse_iterator_t>::type
-	rbegin(placeholders::placeholder<I>  index) const
+	rbegin(placeholders::placeholder<I>  ) const
 	{
 		return HYDRA_EXTERNAL_NS::thrust::get<I>(fData).crbegin();
 	}
 
 	template<unsigned int I>
 	 inline typename HYDRA_EXTERNAL_NS::thrust::tuple_element<I, const_reverse_iterator_t>::type
-	rend(placeholders::placeholder<I>  index) const
+	rend(placeholders::placeholder<I>  ) const
 	{
 		return HYDRA_EXTERNAL_NS::thrust::get<I>(fData).crend();
 	}
@@ -573,21 +573,21 @@ public:
 
 	template<unsigned int I>
 	 inline typename HYDRA_EXTERNAL_NS::thrust::tuple_element<I, const_reverse_iterator_t>::type
-	crbegin(placeholders::placeholder<I>  index) const
+	crbegin(placeholders::placeholder<I>  ) const
 	{
 		return HYDRA_EXTERNAL_NS::thrust::get<I>(fData).crbegin();
 	}
 
 	template<unsigned int I>
 	 inline typename HYDRA_EXTERNAL_NS::thrust::tuple_element<I, const_reverse_iterator_t>::type
-	crend(placeholders::placeholder<I>  index) const
+	crend(placeholders::placeholder<I>  ) const
 	{
 		return HYDRA_EXTERNAL_NS::thrust::get<I>(fData).crend();
 	}
 
 	template<unsigned int I>
 	 inline const typename HYDRA_EXTERNAL_NS::thrust::tuple_element<I, storage_t>::type&
-	column(placeholders::placeholder<I>  index ) const
+	column(placeholders::placeholder<I>   ) const
 	{
 		return HYDRA_EXTERNAL_NS::thrust::get<I>(fData);
 	}
@@ -599,7 +599,7 @@ public:
 	//
 	template<unsigned int I>
 	inline	typename HYDRA_EXTERNAL_NS::thrust::tuple_element<I, iterator_t>::type
-	operator[](placeholders::placeholder<I> index)
+	operator[](placeholders::placeholder<I>  index)
 	{	return begin(index) ;	}
 
 	template<unsigned int I>
@@ -724,7 +724,7 @@ private:
 	// shrink_to_fit
 	template<size_t I>
 	 inline typename HYDRA_EXTERNAL_NS::thrust::detail::enable_if<(I == N), void >::type
-	__reserve(size_type size){}
+	__reserve(size_type ){}
 
 	template<size_t I=0>
 	 inline typename HYDRA_EXTERNAL_NS::thrust::detail::enable_if<(I < N), void >::type
@@ -738,7 +738,7 @@ private:
 	// erase
 	template<size_t I>
 	 inline typename HYDRA_EXTERNAL_NS::thrust::detail::enable_if<(I == N), void>::type
-	__erase_helper( size_type position){ }
+	__erase_helper( size_type ){ }
 
 	template<size_t I=0>
 	 inline typename HYDRA_EXTERNAL_NS::thrust::detail::enable_if<(I < N), void>::type
@@ -761,7 +761,7 @@ private:
 
 	template<size_t I>
 	 inline typename HYDRA_EXTERNAL_NS::thrust::detail::enable_if<(I == N), void>::type
-	__erase_helper( size_type first_position,  size_type last_position){}
+	__erase_helper( size_type ,  size_type ){}
 
 	template<size_t I=0>
 	 inline typename HYDRA_EXTERNAL_NS::thrust::detail::enable_if<(I < N), void>::type
@@ -785,7 +785,7 @@ private:
 	// insert
 	template<size_t I>
 	 inline typename HYDRA_EXTERNAL_NS::thrust::detail::enable_if<(I == N), void >::type
-	__insert_helper( size_type position,  const value_type &x){}
+	__insert_helper( size_type ,  const value_type&){}
 
 	template<size_t I=0>
 	 inline typename HYDRA_EXTERNAL_NS::thrust::detail::enable_if<(I < N), void >::type
@@ -809,7 +809,7 @@ private:
 	// insert
 	template<size_t I>
 	 inline typename HYDRA_EXTERNAL_NS::thrust::detail::enable_if<(I == N), void >::type
-	__insert_helper( size_type position, size_type n, const value_type &x){}
+	__insert_helper( size_type, size_type, const value_type & ){}
 
 	template<size_t I=0>
 	 inline typename HYDRA_EXTERNAL_NS::thrust::detail::enable_if<(I < N), void >::type
@@ -831,7 +831,7 @@ private:
 	// insert
 	template<size_t I,typename InputIterator >
 	 inline typename HYDRA_EXTERNAL_NS::thrust::detail::enable_if<(I == N), void >::type
-	__insert(size_type position, InputIterator first, InputIterator last ){}
+	__insert(size_type , InputIterator , InputIterator  ){}
 
 	template<size_t I=0,typename InputIterator >
 	 inline typename HYDRA_EXTERNAL_NS::thrust::detail::enable_if<(I < N), void >::type
@@ -873,8 +873,8 @@ private:
 	//begin
 	template<unsigned int I1, unsigned int I2,unsigned int ...IN >
 	inline columns_iterator< iterator_t, I1, I2,IN...>
-	__begin(placeholders::placeholder<I1> c1, placeholders::placeholder<I2> c2,
-			placeholders::placeholder<IN>...cn) {
+	__begin(placeholders::placeholder<I1> , placeholders::placeholder<I2>,
+			placeholders::placeholder<IN>...) {
 		return HYDRA_EXTERNAL_NS::thrust::make_zip_iterator(
 				HYDRA_EXTERNAL_NS::thrust::make_tuple(
 						HYDRA_EXTERNAL_NS::thrust::get<I1>(fData).begin(),
@@ -897,8 +897,8 @@ private:
 	//const begin
 	template<unsigned int I1, unsigned int I2,unsigned int ...IN >
 	inline columns_iterator< const_iterator_t, I1, I2,IN...>
-	__begin(placeholders::placeholder<I1> c1, placeholders::placeholder<I2> c2,
-			placeholders::placeholder<IN>...cn) const {
+	__begin(placeholders::placeholder<I1> , placeholders::placeholder<I2> ,
+			placeholders::placeholder<IN>...) const {
 		return HYDRA_EXTERNAL_NS::thrust::make_zip_iterator(
 				HYDRA_EXTERNAL_NS::thrust::make_tuple(
 						HYDRA_EXTERNAL_NS::thrust::get<I1>(fData).begin(),
@@ -921,8 +921,8 @@ private:
 	//const begin
 	template<unsigned int I1, unsigned int I2,unsigned int ...IN >
 	inline columns_iterator< const_iterator_t, I1, I2,IN...>
-	__cbegin(placeholders::placeholder<I1> c1, placeholders::placeholder<I2> c2,
-			placeholders::placeholder<IN>...cn) const {
+	__cbegin(placeholders::placeholder<I1>, placeholders::placeholder<I2> ,
+			placeholders::placeholder<IN>...) const {
 		return HYDRA_EXTERNAL_NS::thrust::make_zip_iterator(
 				HYDRA_EXTERNAL_NS::thrust::make_tuple(
 						HYDRA_EXTERNAL_NS::thrust::get<I1>(fData).cbegin(),
@@ -945,8 +945,8 @@ private:
 	//end
 	 template<unsigned int I1, unsigned int I2,unsigned int ...IN >
 	 inline columns_iterator< iterator_t, I1, I2,IN...>
-	 __end(placeholders::placeholder<I1> c1, placeholders::placeholder<I2> c2,
-			 placeholders::placeholder<IN>...cn) {
+	 __end(placeholders::placeholder<I1> , placeholders::placeholder<I2> ,
+			 placeholders::placeholder<IN>...) {
 		 return HYDRA_EXTERNAL_NS::thrust::make_zip_iterator(
 				 HYDRA_EXTERNAL_NS::thrust::make_tuple(
 						 HYDRA_EXTERNAL_NS::thrust::get<I1>(fData).end(),
@@ -969,8 +969,8 @@ private:
 	//const end
 	template<unsigned int I1, unsigned int I2,unsigned int ...IN >
 	inline columns_iterator< const_iterator_t, I1, I2,IN...>
-	__end(placeholders::placeholder<I1> c1, placeholders::placeholder<I2> c2,
-			placeholders::placeholder<IN>...cn) const {
+	__end(placeholders::placeholder<I1> , placeholders::placeholder<I2> ,
+			placeholders::placeholder<IN>...) const {
 		return HYDRA_EXTERNAL_NS::thrust::make_zip_iterator(
 				HYDRA_EXTERNAL_NS::thrust::make_tuple(
 						HYDRA_EXTERNAL_NS::thrust::get<I1>(fData).end(),
@@ -993,8 +993,8 @@ private:
 	//const end
 	template<unsigned int I1, unsigned int I2,unsigned int ...IN >
 		inline columns_iterator< const_iterator_t, I1, I2,IN...>
-		__cend(placeholders::placeholder<I1> c1, placeholders::placeholder<I2> c2,
-				placeholders::placeholder<IN>...cn) const {
+		__cend(placeholders::placeholder<I1> , placeholders::placeholder<I2> ,
+				placeholders::placeholder<IN>...) const {
 			return HYDRA_EXTERNAL_NS::thrust::make_zip_iterator(
 					HYDRA_EXTERNAL_NS::thrust::make_tuple(
 							HYDRA_EXTERNAL_NS::thrust::get<I1>(fData).cend(),
@@ -1017,8 +1017,8 @@ private:
 	//rbegin
 	 template<unsigned int I1, unsigned int I2,unsigned int ...IN >
 	 inline columns_iterator< reverse_iterator_t, I1, I2,IN...>
-	 __rbegin(placeholders::placeholder<I1> c1, placeholders::placeholder<I2> c2,
-			 placeholders::placeholder<IN>...cn) {
+	 __rbegin(placeholders::placeholder<I1> , placeholders::placeholder<I2>,
+			 placeholders::placeholder<IN>...) {
 		 return HYDRA_EXTERNAL_NS::thrust::make_zip_iterator(
 				 HYDRA_EXTERNAL_NS::thrust::make_tuple(
 						 HYDRA_EXTERNAL_NS::thrust::get<I1>(fData).rbegin(),
@@ -1041,8 +1041,8 @@ private:
 	//const rbegin
 	template<unsigned int I1, unsigned int I2,unsigned int ...IN >
 	inline columns_iterator< const_reverse_iterator_t, I1, I2,IN...>
-	__rbegin(placeholders::placeholder<I1> c1, placeholders::placeholder<I2> c2,
-			placeholders::placeholder<IN>...cn) const {
+	__rbegin(placeholders::placeholder<I1> , placeholders::placeholder<I2> ,
+			placeholders::placeholder<IN>...) const {
 		return HYDRA_EXTERNAL_NS::thrust::make_zip_iterator(
 				HYDRA_EXTERNAL_NS::thrust::make_tuple(
 						HYDRA_EXTERNAL_NS::thrust::get<I1>(fData).rbegin(),
@@ -1065,8 +1065,8 @@ private:
 	//crbegin
 	template<unsigned int I1, unsigned int I2,unsigned int ...IN >
 	inline columns_iterator< const_reverse_iterator_t, I1, I2,IN...>
-	__crbegin(placeholders::placeholder<I1> c1, placeholders::placeholder<I2> c2,
-			placeholders::placeholder<IN>...cn) const {
+	__crbegin(placeholders::placeholder<I1> , placeholders::placeholder<I2> ,
+			placeholders::placeholder<IN>...) const {
 		return HYDRA_EXTERNAL_NS::thrust::make_zip_iterator(
 				HYDRA_EXTERNAL_NS::thrust::make_tuple(
 						HYDRA_EXTERNAL_NS::thrust::get<I1>(fData).crbegin(),
@@ -1089,8 +1089,8 @@ private:
 	//rend
 	template<unsigned int I1, unsigned int I2,unsigned int ...IN >
 	inline columns_iterator< reverse_iterator_t, I1, I2,IN...>
-	__rend(placeholders::placeholder<I1> c1, placeholders::placeholder<I2> c2,
-			placeholders::placeholder<IN>...cn) {
+	__rend(placeholders::placeholder<I1> , placeholders::placeholder<I2> ,
+			placeholders::placeholder<IN>...) {
 		return HYDRA_EXTERNAL_NS::thrust::make_zip_iterator(
 				HYDRA_EXTERNAL_NS::thrust::make_tuple(
 						HYDRA_EXTERNAL_NS::thrust::get<I1>(fData).rend(),
@@ -1113,8 +1113,8 @@ private:
 	//const rend
 	template<unsigned int I1, unsigned int I2,unsigned int ...IN >
 	inline columns_iterator< const_reverse_iterator_t, I1, I2,IN...>
-	__rend(placeholders::placeholder<I1> c1, placeholders::placeholder<I2> c2,
-			placeholders::placeholder<IN>...cn) const {
+	__rend(placeholders::placeholder<I1> , placeholders::placeholder<I2> ,
+			placeholders::placeholder<IN>...) const {
 		return HYDRA_EXTERNAL_NS::thrust::make_zip_iterator(
 				HYDRA_EXTERNAL_NS::thrust::make_tuple(
 						HYDRA_EXTERNAL_NS::thrust::get<I1>(fData).rend(),
@@ -1137,8 +1137,8 @@ private:
 	//crend
 	template<unsigned int I1, unsigned int I2,unsigned int ...IN >
 	inline columns_iterator< const_reverse_iterator_t, I1, I2,IN...>
-	__crend(placeholders::placeholder<I1> c1, placeholders::placeholder<I2> c2,
-			placeholders::placeholder<IN>...cn) const {
+	__crend(placeholders::placeholder<I1> , placeholders::placeholder<I2> ,
+			placeholders::placeholder<IN>...) const {
 		return HYDRA_EXTERNAL_NS::thrust::make_zip_iterator(
 				HYDRA_EXTERNAL_NS::thrust::make_tuple(
 						HYDRA_EXTERNAL_NS::thrust::get<I1>(fData).crend(),

@@ -228,13 +228,13 @@ public:
 
 	template<unsigned int I>
     typename HYDRA_EXTERNAL_NS::thrust::tuple_element<I, decays_type >::type&
-	GetDecay(placeholders::placeholder<I> const& p) {
+	GetDecay(placeholders::placeholder<I> ) {
 		return HYDRA_EXTERNAL_NS::thrust::get<I>(this->fDecays);
 	}
 
 	template<unsigned int I>
 	typename HYDRA_EXTERNAL_NS::thrust::tuple_element<I, decays_type >::type const&
-	GetDecay(placeholders::placeholder<I> const& p) const {
+	GetDecay(placeholders::placeholder<I> ) const {
 		return HYDRA_EXTERNAL_NS::thrust::get<I>(this->fDecays);
 	}
 
@@ -551,7 +551,7 @@ private:
 
 template<size_t ...N,hydra::detail::Backend BACKEND >
 Chains< Decays<N, hydra::detail::BackendPolicy<BACKEND> >...>
-make_chain( hydra::detail::BackendPolicy<BACKEND> const& policy, size_t entries )
+make_chain( hydra::detail::BackendPolicy<BACKEND>, size_t entries )
 {
 	return std::move( Chains<Decays<N, hydra::detail::BackendPolicy<BACKEND> >...>(entries) );
 }

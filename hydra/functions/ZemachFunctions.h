@@ -62,10 +62,8 @@ template<Wave L, unsigned int ArgIndex=0>
 class ZemachFunction: public BaseFunctor<ZemachFunction<L,ArgIndex>, double, 0>{
 
 public:
-	__host__  __device__
+
 	ZemachFunction()=default;
-
-
 
 	__host__  __device__ inline
 	ZemachFunction<L, ArgIndex>&
@@ -78,10 +76,9 @@ public:
 
 	template<typename T>
 	__host__ __device__ inline
-	double Evaluate(unsigned int n, T*x)  const	{
+	double Evaluate(unsigned int , T*x)  const	{
 
-		const double theta = x[ArgIndex] ;
-		return  legendre_polynomial<L>( theta );
+		return  legendre_polynomial<L>( x[ArgIndex] );
 
 	}
 
@@ -98,7 +95,7 @@ public:
 
 
 template<>__host__ __device__ inline
-double legendre_polynomial<0>(const double x){
+double legendre_polynomial<0>(const double ){
 
 	return 1.0;
 }

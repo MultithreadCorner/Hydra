@@ -976,7 +976,7 @@ __TUPLE_ANNOTATION
 
 template<class... TTypes, class... UTypes>
 __TUPLE_ANNOTATION
-  bool __tuple_lt(const tuple<TTypes...>& t, const tuple<UTypes...>& u, __tuple_index_sequence<>)
+  bool __tuple_lt(const tuple<TTypes...>& , const tuple<UTypes...>& , __tuple_index_sequence<>)
 {
   return false;
 }

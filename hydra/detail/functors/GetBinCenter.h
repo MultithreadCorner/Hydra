@@ -91,7 +91,7 @@ struct GetBinCenter: public HYDRA_EXTERNAL_NS::thrust::unary_function<size_t, ty
 	//----------------------------------------
 	template< size_t I>
 	__host__ __device__ inline typename std::enable_if< (I==N), void  >::type
-	multiply( size_t (&obj)[N] , size_t&  )
+	multiply( size_t (&)[N] , size_t&  )
 	{ }
 
 	template<size_t I=0>
@@ -106,7 +106,7 @@ struct GetBinCenter: public HYDRA_EXTERNAL_NS::thrust::unary_function<size_t, ty
 	//end of recursion
 	template<size_t I>
 	__host__ __device__ inline typename std::enable_if< (I==N), void  >::type
-	get_indexes(size_t,  size_t (&indexes)[N])
+	get_indexes(size_t,  size_t (&)[N])
 	{}
 
 	//begin of the recursion

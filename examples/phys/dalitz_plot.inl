@@ -132,7 +132,7 @@ public:
 	fLineShape(other.GetLineShape())
 	{}
 
-	__host__ __device__
+	__host__ __device__ inline
 	Resonance< CHANNEL ,L>&
 	operator=( Resonance< CHANNEL ,L> const& other)
 	{
@@ -144,7 +144,7 @@ public:
 		return *this;
 	}
 
-	__host__ __device__
+	__host__ __device__ inline
 	hydra::BreitWignerLineShape<L> const& GetLineShape() const {	return fLineShape; }
 
 	__host__ __device__ inline

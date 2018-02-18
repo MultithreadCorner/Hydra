@@ -413,7 +413,7 @@ private:
 
 	template<typename Int,size_t I>
 	typename HYDRA_EXTERNAL_NS::thrust::detail::enable_if< (I== N) && std::is_integral<Int>::value, void>::type
-	get_global_bin(const Int (&indexes)[N], size_t& index){ }
+	get_global_bin(const Int (&)[N], size_t& ){ }
 
 	template<typename Int,size_t I=0>
 	typename HYDRA_EXTERNAL_NS::thrust::detail::enable_if< (I< N) && std::is_integral<Int>::value, void>::type
@@ -429,7 +429,7 @@ private:
 
 	template<typename Int,size_t I>
 	typename HYDRA_EXTERNAL_NS::thrust::detail::enable_if< (I== N) && std::is_integral<Int>::value, void>::type
-	get_global_bin( std::array<Int,N> const& indexes, size_t& index){ }
+	get_global_bin( std::array<Int,N> const& , size_t& ){ }
 
 	template<typename Int,size_t I=0>
 	typename HYDRA_EXTERNAL_NS::thrust::detail::enable_if< (I< N) && std::is_integral<Int>::value, void>::type
@@ -454,7 +454,7 @@ private:
 	//----------------------------------------
 	template<size_t I>
 	typename std::enable_if< (I==N), void  >::type
-	multiply( std::array<size_t, N> const&  obj, size_t& result )
+	multiply( std::array<size_t, N> const& , size_t&  )
 	{ }
 
 	template<size_t I=0>
@@ -471,7 +471,7 @@ private:
 	//----------------------------------------
 	template< size_t I>
 	typename std::enable_if< (I==N), void  >::type
-	multiply( size_t (&obj)[N] , size_t& result )
+	multiply( size_t (&)[N] , size_t&  )
 	{ }
 
 	template<size_t I=0>
@@ -491,7 +491,7 @@ private:
 	template<typename Int, size_t I,
 	typename = typename std::enable_if<std::is_integral<Int>::value, void>::type>
 	typename std::enable_if< (I==N), void  >::type
-	get_indexes(size_t index,  std::array<Int,N>& indexes)
+	get_indexes(size_t,  std::array<Int,N>& )
 	{}
 
 	//begin of the recursion
@@ -514,7 +514,7 @@ private:
 	template<typename Int, size_t I,
 	typename = typename std::enable_if<std::is_integral<Int>::value, void>::type>
 	typename std::enable_if< (I==N), void  >::type
-	get_indexes(size_t index, Int (&indexes)[N])
+	get_indexes(size_t , Int (&)[N])
 	{}
 
 	//begin of the recursion

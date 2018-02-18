@@ -124,7 +124,7 @@ public:
 };
 
 template<typename Functor>
-bool HasAnalyticalIntegral( Functor& f){
+bool HasAnalyticalIntegral( Functor&){
 	return has_analytical_integral<Functor, GReal_t(const GReal_t*,  const GReal_t*)>::value;
 }
 

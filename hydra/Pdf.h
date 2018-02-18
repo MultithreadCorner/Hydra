@@ -273,7 +273,7 @@ public:
 
 
    template<typename T>
-   inline  GReal_t operator()( T* x, T* p=0) const
+   inline  GReal_t operator()( T* x, T*) const
   	{
 
   	  		return fFunctor.GetNorm()*fFunctor(x);

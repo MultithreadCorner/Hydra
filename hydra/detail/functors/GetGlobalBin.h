@@ -86,7 +86,7 @@ struct GetGlobalBin: public HYDRA_EXTERNAL_NS::thrust::unary_function<typename t
 	template<size_t I>
 	__host__ __device__
 	typename HYDRA_EXTERNAL_NS::thrust::detail::enable_if< I== N, void>::type
-	get_global_bin(const size_t (&indexes)[N], size_t& index){ }
+	get_global_bin(const size_t (&)[N], size_t& ){ }
 
 	template<size_t I=0>
 	__host__ __device__

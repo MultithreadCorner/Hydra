@@ -183,10 +183,10 @@ template<typename DerivedPolicy,
          typename RandomAccessIterator,
          typename StrictWeakOrdering>
 __host__ __device__
-  void stable_sort(thrust::execution_policy<DerivedPolicy> &,
-                   RandomAccessIterator first,
-                   RandomAccessIterator last,
-                   StrictWeakOrdering comp)
+  void stable_sort(thrust::execution_policy<DerivedPolicy> & /*exec*/,
+                   RandomAccessIterator /*first*/,
+                   RandomAccessIterator /*last*/,
+                   StrictWeakOrdering /*comp*/)
 {
   // unimplemented primitive
   THRUST_STATIC_ASSERT( (thrust::detail::depend_on_instantiation<RandomAccessIterator, false>::value) );
@@ -198,11 +198,11 @@ template<typename DerivedPolicy,
          typename RandomAccessIterator2,
          typename StrictWeakOrdering>
 __host__ __device__
-  void stable_sort_by_key(thrust::execution_policy<DerivedPolicy> &,
-                          RandomAccessIterator1 keys_first,
-                          RandomAccessIterator1 keys_last,
-                          RandomAccessIterator2 values_first,
-                          StrictWeakOrdering comp)
+  void stable_sort_by_key(thrust::execution_policy<DerivedPolicy> &/*exec*/,
+                          RandomAccessIterator1 /*keys_first*/,
+                          RandomAccessIterator1 /*keys_last*/,
+                          RandomAccessIterator2 /*values_first*/,
+                          StrictWeakOrdering /*comp*/)
 {
   // unimplemented primitive
   THRUST_STATIC_ASSERT( (thrust::detail::depend_on_instantiation<RandomAccessIterator1, false>::value) );

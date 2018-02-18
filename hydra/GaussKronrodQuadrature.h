@@ -102,6 +102,7 @@ public:
 
 	typedef HYDRA_EXTERNAL_NS::thrust::tuple<double, double, double, double, double> row_t;
 
+
 	typedef multivector<row_t, hydra::host::sys_t> table_h;
 	typedef multivector<row_t, hydra::detail::BackendPolicy<BACKEND>> table_d;
 
