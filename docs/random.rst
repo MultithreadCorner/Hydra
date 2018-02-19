@@ -1,8 +1,7 @@
 Random number generation and PDF sampling
 =========================================
 
-Generation of random numbers and sampling of multidimensional PDFs is supported in Hydra through
-the class ``hydra::Random<typename Engine>``, where ``Engine`` is the random number generator engine. The only argument of the ``hydra::Random`` constructor is the random number generation seed. There are four random number engines available 
+The generation of random numbers and sampling of multidimensional PDFs is supported in Hydra through the class ``hydra::Random<typename Engine>``, where ``Engine`` is the random number generator engine. The only argument of the ``hydra::Random`` constructor is the seed of random number generator. There are four random number engines available 
 
 1. ``hydra::minstd_rand0``: implements a version of the Minimal Standard random number generation algorithm.
 2. ``hydra::minstd_rand``: implements a version of the Minimal Standard random number generation algorithm.
@@ -10,8 +9,7 @@ the class ``hydra::Random<typename Engine>``, where ``Engine`` is the random num
 4. ``hydra::ranlux48``:  RANLUX level-4 random number generation algorithm.
 5. ``hydra::taus88``:  L'Ecuyer's 1996 three-component Tausworthe random number generator.
 
-The default random number generation engine is ``hydra::minstd_rand0``.
-This class provides methods that take iterators pointing to containers that will be filled with random numbers distributed according the requested distributions. If an explicit back-end policy is passed, the generation is parallelized in the corresponding back-end, otherwise the class will process the random number generation in the back-end the containers is allocated. The 
+The default random number generation engine is ``hydra::minstd_rand0``, which produces pseudo-random numbers with quality appropriated for most applications. This class provides methods that take iterators pointing to containers that will be filled with random numbers distributed according the requested distributions. If an explicit back-end policy is passed, the generation is parallelized in the corresponding back-end, otherwise the class will process the random number generation in the back-end the containers is allocated. 
 
 Sampling basic distributions
 ----------------------------
@@ -39,10 +37,13 @@ The example below show how to use these methods
 
 	//uniform distribution in the interval [-5,5]
 	Generator.Uniform(-5.0, 5.0, data.begin(), data.end());
+
 	//Gaussian distribion with mean=0 and sigma =1
 	Generator.Gauss(0.0, 1.0, data.begin(), data.end());
+	
 	//exponential distribion with tau=1
 	Generator.Exp(1.0, data.begin(), data.end());
+	
 	//Breit-Wigner with mean 2.0 width 0.2 
 	Generator.BreitWigner(2.0, 0.2, data_d.begin(), data_d.end());
 		
@@ -51,11 +52,12 @@ Multidimensional PDF sampling
 -----------------------------
 
 
-The class ``hydra::Random`` supports the sampling of multidimensional probability density functions (PDF) through the method ``hydra::Random::Sample(begin, end, min, max, functor)``, where ``min`` and ``max`` are static arrays or ``std::array`` objects representing the limits of the multidimensional region. ``functor`` is a Hydra functor representing the PDF. 
+The class ``hydra::Random`` also supports the sampling of multidimensional probability density functions (PDF) through the method ``hydra::Random::Sample(begin, end, min, max, functor)``, where ``min`` and ``max`` are static arrays or ``std::array`` objects representing the limits of the multidimensional region. ``functor`` is a Hydra functor representing the PDF. 
 
-The PDFs are sampled using the accept-reject method. The ``hydra::Random::Sample`` returns a ``hydra::GenericRange`` object pointing to a range filled with the sampled numbers. The PDF sampling
+The PDFs are sampled using a parallel version of the accept-reject method. The 
+ ``hdra::Random::Sample`` returns a ``hydra::GenericRange`` object pointing to a range filled with the sampled numbers. The PDF sampling
 is processed filling the container with random numbers and reordering it to reproduce the shape 
-of the PDF, no memory reallocation is performed. The range returned by the method points to a sub-set of the original container, the size of this range depends on the efficiency of the accept-reject for the given PDF.
+of the PDF, no memory reallocation is performed during this process. The range returned by the method points to a sub-set of the original container, the size of this range depends on the efficiency of the accept-reject for the given PDF. 
 
 The code below shows how to sample a three-dimensional PDF
 

@@ -176,11 +176,11 @@ Objects representing  likelihood FCNs can be conveniently instantiated using the
 sPlots
 -------
 
-The sPlot technique is used to unfold the contributions of the different sources to the distribution of a data sample in a given variable. The sPlot tool applies in the context of a Likelihood fit which is performed on the data sample to determine the yields of the various sources. 
+The sPlot technique is used to unfold the contributions of different sources to the data sample in a given variable. The sPlot tool applies in the context of a Likelihood fit which needs to be performed on the data sample to determine the yields corresponding to the various sources. 
 
-Hydra handles sPlots using the class ``hydra::SPlot<PDF1, PDF2,PDFs...>`` where ``PDF1``, ``PDF2`` and so on, are the probability density functions describing the populations contributing to the dataset as modeled in a given variable, called discriminating variable. The other variables of interest, present in the dataset are referred as control variables and are statistically unfolded using the so called *sweights*. For each entry in the dataset, ``hydra::SPlot<PDF1, PDF2,PDFs...>`` calculates a set of weights, where each one correspond to a data source described by the corresponding PDF. It is responsibility of the user to allocate memory to store the sweights.
+Hydra handles sPlots using the class ``hydra::SPlot<PDF1, PDF2,PDFs...>`` where ``PDF1``, ``PDF2`` and ``PDFs...`` are the probability density functions describing the populations contributing to the dataset as modeled in a given variable referred as discriminating variable. The other variables of interest, present in the dataset are referred as control variables and are statistically unfolded using the so called *sweights*. For each entry in the dataset, ``hydra::SPlot<PDF1, PDF2,PDFs...>`` calculates a set of weights, where each one corresponds to a data source described by the corresponding PDF. It is responsibility of the user to allocate memory to store the *sweights*.
 
-
+The weights are calculated invoking the method ``hydra::SPlot::Generate``, which returns the covariant matrix among the yields in the data sample.  
 
 .. code-block:: cpp
 
@@ -195,6 +195,5 @@ Hydra handles sPlots using the class ``hydra::SPlot<PDF1, PDF2,PDFs...>`` where 
 	//create splot
 	auto splot  = hydra::make_splot( fcn.GetPDF() );
 
-	auto covar = splot.Generate( dataset.begin(), dataset.end(), sweigts.begin());
+	auto covarm = splot.Generate( dataset.begin(), dataset.end(), sweigts.begin());
 
-	

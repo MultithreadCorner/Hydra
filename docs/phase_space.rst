@@ -4,27 +4,28 @@ Phase-space Monte Carlo
 Phase-Space Monte Carlo simulates the kinematics of a particle with a given four-momentum
 decaying to a n-particle final state, without intermediate resonances. Samples 
 of phase-space Monte Carlo events are widely used in HEP studies where 
-the calculation of phase-space volume is required as well as a starting point to implement and to describe the properties of models with one or more resonances or to simulate the response of the detector to decay's products [James]_. 
+the calculation of phase-space volume is required as well as a starting point to implement and describe the properties of models with one or more resonances or even to simulate the response of the detector to decay's products [James]_. 
 
 Hydra provides an implementation of the Raubold-Lynch method [James]_
 and can generate the full kinematics of decays with any number of particles in the final state.
-Sequential decays, evaluation of model, production of weighted and unweighted samples and many other features are also supported.
+Sequential decays, evaluation of models, production of weighted and unweighted samples and many other features are also supported.
 
 
 Decays and decay chains
 -----------------------
 
-Decays are stored in the dedicated vector-like container ``hydra::Decays<N,BACKEND>`` 
-where ``N`` is the number of particles in the final state and ``BACKEND``is the memory space where to allocate the storage. ``hydra::Decays<N,BACKEND>`` can be aggregated to describe sequential decays using ``hydra::Chains<Decays...>``.
+The four-vector of the generated final-state particles are stored in the dedicated vector-like container ``hydra::Decays<N,BACKEND>`` 
+where ``N`` is the number of particles in the final state and ``BACKEND``is the memory space where allocate the storage. ``hydra::Decays<N,BACKEND>`` can be aggregated to describe sequential decays using ``hydra::Chains<Decays...>`` objects.
 
-Both classes are iterable, but the ``hydra::Chains<Decays...>`` container does not implement a full vector-like interface yet. Preallocated  ``hydra::Decays<N,BACKEND>`` can not be added to a ``hydra::Chains<Decays...>``.
+Both classes are iterable, but the ``hydra::Chains<Decays...>`` container does not implement a full vector-like interface. Pre-allocated ``hydra::Decays<N,BACKEND>`` can not be added to a 
+``hydra::Chains<Decays...>``.
 
 Phase-space Monte Carlo generator.
 ----------------------------------
 
 The phase-space Monte Carlo generator is represented by the class ``hydra::PhaseSpace<N,RNG>``, where is the number of particles and ``RGN`` is underlying random number generator to be used. 
 The constructor of the ``hydra::PhaseSpace`` takes as parameter an array with the masses of the final state particles.  The decays are generated invoking the overloaded 
-``hydra::PhaseSpace::Generate(...)`` method. This method can take a ``hydra::Vector4R``, describing momentum of the mother particle, or iterators pointing for a container storing a list of mother particles; and the iterators pointing to the ``hydra::Decays<N,BACKEND>`` container that will hold the generated final states. If an explicit policy policy is passed, the generation is parallelized in the corresponding back-end, otherwise the class will process the random number generation in the back-end the containers is allocated.
+``hydra::PhaseSpace::Generate(...)`` method. This method can take a ``hydra::Vector4R``, describing momentum of a only mother particle or iterators pointing for a container storing a list of mother particles and the iterators pointing to the ``hydra::Decays<N,BACKEND>`` container that will hold the generated final states. If an explicit policy policy is passed, the generation is parallelized in the corresponding back-end, otherwise the class will process the random number generation in the back-end where the containers are allocated.
 
 Generating one-level decays
 ...........................
@@ -101,7 +102,7 @@ Generating sequential decays
 
 The code below shows how to generate a sample of 20 million decay chains :math:`B^0 \to J/\psi K^+ \pi^-` with :math:`J/\psi \to \mu^+ \mu^-`. 
 
-The first step to process the chain is to the generate the decays  :math:`B^0 \to J/\psi K^+ \pi^-`, then the list of :math:`J/\psi` candidates is passed to the instance of ``hydra::PhaseSpace`` to generate the  :math:`J/\psi \to \mu^+ \mu^-` corresponding to each :math:`J/\psi` mother. 
+The first step to process the decay chain is to the generate the decays  :math:`B^0 \to J/\psi K^+ \pi^-`, then the list of :math:`J/\psi` candidates is passed to the instance of ``hydra::PhaseSpace`` to generate the  :math:`J/\psi \to \mu^+ \mu^-` corresponding to each :math:`J/\psi` mother. 
 Notice that the decay events stored in a given chain are accessed using a ``hydra::placeholder``.  
 
 .. code-block:: cpp

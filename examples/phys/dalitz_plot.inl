@@ -484,7 +484,7 @@ int main(int argv, char** argc)
 
 		auto start = std::chrono::high_resolution_clock::now();
 
-		generate_dataset(hydra::device::sys, Model,  {D_MASS, K_MASS, PI_MASS}, toy_data, nentries, 3*nentries);
+		generate_dataset(hydra::device::sys, Model,  {D_MASS, K_MASS, PI_MASS}, toy_data, nentries, 2*nentries);
 
 		auto end = std::chrono::high_resolution_clock::now();
 

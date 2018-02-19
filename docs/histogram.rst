@@ -2,13 +2,12 @@ Histograms
 ==========
 
 Hydra implements two classes dedicated to calculate multidimensional histograms in parallel.
-One class for dense histograms and other for sparse histograms. These classes provides only the basic functionality to calculate the histogram using one of the supported parallel back-ends. 
+One class for dense histograms and other for sparse histograms. These classes provide only the basic functionality to calculate the histogram using one of the supported parallel back-ends. 
 Once calculated, the histogram contents can be exported to external libraries, like ROOT, for
 drawing etc. 
 
 The histograms classes does not process event-by-event. They takes iterators pointing to containers storing the data and process it at once. This approach is orders of magnitude more efficient than iterate over the container and histogram in entry-by-entry basis. 
 
-If a explicit policy is not specified, the histogram is processed in the back-end the data is stored. 
 
 Binning convention
 ------------------
@@ -30,7 +29,9 @@ bin numbers per bin.
 Dense histograms
 ----------------
 
-Dense histograms store all bins, including ones with zero content. In Hydra, they are represented by the class ``hydra::DenseHistogram<<NDimensions, Type>``, where ``NDimensions`` is the number of dimensions and ``Type`` is the type  of the histogram's  values.
+Dense histograms store all bins, including ones with zero content. In Hydra, they are represented by the class ``hydra::DenseHistogram<Type, NDimensions, Backend>``, where ``NDimensions`` is the number of dimensions, ``Type`` is the type  of the histogram's  values and ``Backend`` is memory space where the histogram is allocated.
+
+The code snippet below shows how to instantiate and fill a dense histogram in Hydra:
 
 .. code-block:: cpp
 	
@@ -66,7 +67,7 @@ Dense histograms store all bins, including ones with zero content. In Hydra, the
 Sparse histograms 
 -----------------
 
-Sparse histograms store only bins with non-zero content. In Hydra, they are represented by the class ``hydra::SparseHistogram<NDimensions, Type>``, where ``NDimensions`` is the number of dimensions and ``Type`` is the type  of the histogram's  values.
+Sparse histograms store only bins with non-zero content. In Hydra, they are represented by the class ``hydra::SparseHistogram<Type, NDimensions, Backend>``, where ``NDimensions`` is the number of dimensions,  ``Type`` is the type  of the histogram's  values and ``Backend`` is memory space where the histogram is allocated.
 
 .. code-block:: cpp
 
