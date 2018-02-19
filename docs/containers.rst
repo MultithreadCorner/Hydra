@@ -17,7 +17,7 @@ Hydra's one-dimensional containers are aliases to the corresponding [Thrust]_ ve
 	2. ``hydra::host::vector`` : storage allocated in the device back-end defined at compile time using the macro ``THRUST_HOST_SYSTEM``
 	3. ``hydra::omp::vector`` : storage allocated in the [OpenMP]_ back-end. Usually the CPU memory space.  
 	4. ``hydra::tbb::vector`` : storage allocated in the [TBB]_ back-end. Usually the CPU memory space.
-	5. ``hydra::cuda::vector`` : storage allocated in the [CUDA]_ back-end. Usually the GPU memory space.
+	5. ``hydra::cuda::vector`` : storage allocated in the [CUDA]_ back-end. The GPU memory space.
 	6. ``hydra::cpp::vector`` : storage allocated in the [CPP]_ back-end. Usually the CPU memory 
 	
 The usage of these containers is extensively documented in the [Thrust]_ library. 
@@ -29,11 +29,9 @@ Hydra implements two multidimensional containers:``hydra::multivector`` and ``hy
 These containers store data using [SoA]_ layout and provides a STL-vector compliant interface.
 
 The best way to understand how these containers operates is to visualize them as a table, there each row corresponds to a entry and each column to a dimension. The design of ``hydra::multivector`` and ``hydra::multiarray`` makes possible to iterate over the container to access a complete row
-or to iterate over one or more columns to access only the data of interest in a given entry. 
+or to iterate over one or more columns to access only the data of interest in a given entry, without to load the entire row. 
 
-When the user iterates over the whole container, each entry (row) is returned as a . If the user iterates over one single column, the entries have the type of the column. If two or more columns are accessed, entry's data is returned as a  ``hydra::tuple``.
-Hydra's multi-dimensional containers can how any type of data per dimension, but there is not real
-gain using these containers for describing dimensions with non-POD data. 
+When the user iterates over the whole container, each entry (row) is returned as a ``hydra::tuple``. If the user iterates over one single column, the entries have the type of the column. If two or more columns are accessed, entry's data is returned as again as  ``hydra::tuple`` containing only the elements of interest. Hydra's multi-dimensional containers can hold any type of data per dimension, but there is not real gain using these containers for describing dimensions with non-POD data. 
 
 Both containers can store the state of arbitrary objects and perform type conversions on-the-fly, using suitable overloaded iterators and ``push_back()`` methods. 
 
@@ -72,7 +70,7 @@ this will print in stdout something like it :
 	...
 	(9, 18, 9.0, 18.0)
 
-To access the columns the user needs to deploy ``hydra::placeholders``: _0, _1, _2...
+To access the columns the user needs to deploy ``hydra::placeholders``: _0, _1, _2,...,_99; 
 
 .. code-block:: cpp
 	:name: multivector-example2
@@ -105,7 +103,7 @@ now in stdout the user will get:
 	...
 	(18, 18.0)
 
-Now suppose that one want to interpret the data stored in mvector as a pair of complex numbers, represented by the types ``hydra::complex<int>`` and ``hydra::complex<double>``. 
+Now suppose that one want to interpret the data stored in ``mvector`` as a pair of complex numbers, represented by the types ``hydra::complex<int>`` and ``hydra::complex<double>``. 
 It is not necessary to access each field stored in each entry to perform a conversion invoking the corresponding constructors. The next example shows how this can be accomplished in a more elegant way using a lambda function:
 
 .. code-block:: cpp 
@@ -225,19 +223,19 @@ It is not necessary to access each field stored in each entry to perform a conve
 	...
 
 	hydra::multiarray<4, double, hydra::device::sys_t> marray;
-
+	
 	for(int i=0; i<10;i++){
 		marray.push_back(hydra::make_tuple( i, 2*i, i, 2*i));
 	}
     
   	auto caster = [] __host__ device__ (hydra::tuple<double, double, double, double>& entry ){
-
+  	
     	hydra::complex<double> c1(hydra::get<0>(entry), hydra::get<1>(entry));
     	hydra::complex<double> c2(hydra::get<2>(entry), hydra::get<2>(entry));
     	return hydra::make_pair(  c1, c2); 
     
     };
-
+    
 	for(auto x = marray.begin(caster); x != marray.end(caster); x++ ) 
    		std::cout << *x << std::endl;
 
