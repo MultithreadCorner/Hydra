@@ -89,7 +89,7 @@ The complete and updated [Doxygen](http://www.doxygen.org/) source code document
 
 A manual explaining the different features is available in the following formats:
 
-* [HTML](https://readthedocs.org/projects/hydra-documentation/)
+* [HTML](https://hydra-documentation.readthedocs.io/en/latest/)
 * [PDF](https://readthedocs.org/projects/hydra-documentation/downloads/pdf/latest/)
 * [EPUB](https://readthedocs.org/projects/hydra-documentation/downloads/epub/latest/)
 
