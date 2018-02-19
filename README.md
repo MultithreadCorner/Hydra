@@ -1,4 +1,4 @@
-
+[![Documentation Status](https://readthedocs.org/projects/hydra-documentation/badge/?version=latest)](http://hydra-documentation.readthedocs.io/en/latest/?badge=latest)
 
 <img src="logo_Hydra.png" width="500">
 
