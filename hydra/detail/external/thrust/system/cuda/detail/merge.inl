@@ -216,7 +216,7 @@ RandomAccessIterator3 merge(execution_policy<DerivedPolicy> &exec,
   // X Note to the user: If you've found this line due to a compiler error, X
   // X you need to compile your code using nvcc, rather than g++ or cl.exe  X
   // ========================================================================
-  THRUST_STATIC_ASSERT( (thrust::detail::depend_on_instantiation<RandomAccessIterator1, THRUST_DEVICE_COMPILER == THRUST_DEVICE_COMPILER_NVCC>::value) );
+  HYDRA_THRUST_STATIC_ASSERT( (thrust::detail::depend_on_instantiation<RandomAccessIterator1, HYDRA_THRUST_DEVICE_COMPILER == HYDRA_THRUST_DEVICE_COMPILER_NVCC>::value) );
 
   struct workaround
   {

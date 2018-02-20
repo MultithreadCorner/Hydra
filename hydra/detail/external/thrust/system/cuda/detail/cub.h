@@ -25,7 +25,7 @@
 
 // if the macros are already defined, save them and undefine them
 
-#if !defined(__GNUC__) || (THRUST_GCC_VERSION >= 40300)
+#if !defined(__GNUC__) || (HYDRA_THRUST_GCC_VERSION >= 40300)
 #  ifdef CUB_NS_PREFIX
 #    pragma push_macro("CUB_NS_PREFIX")
 #    undef CUB_NS_PREFIX
@@ -75,7 +75,7 @@
 
 // redefine the macros if they were defined previously
 
-#if !defined(__GNUC__) || (THRUST_GCC_VERSION >= 40300)
+#if !defined(__GNUC__) || (HYDRA_THRUST_GCC_VERSION >= 40300)
 #  ifdef CUB_NS_PREFIX_NEEDS_RESTORE
 #    pragma pop_macro("CUB_NS_PREFIX")
 #    undef CUB_NS_PREFIX_NEEDS_RESTORE

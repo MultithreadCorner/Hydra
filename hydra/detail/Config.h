@@ -31,14 +31,66 @@
 #ifndef CONFIG_H_
 #define CONFIG_H_
 
-#define CUDA_API_PER_THREAD_DEFAULT_STREAM
+#define CUDA 1 // device
+#define OMP  2 // device + host
+#define TBB  3 // device + host
+#define CPP  4 // device + host
+
+
+
+#if (__cplusplus < 201103L)
+#error "[Hydra]:  Hydra needs at least a C++11 compliant compiler"
+#endif
+
+#if (HYDRA_HOST_SYSTEM!=CPP && HYDRA_HOST_SYSTEM!=OMP && HYDRA_HOST_SYSTEM!=TBB)
+
+#error "[Hydra]: Backend not supported. Supported host backends are {CPP, OMP, TBB}."
+
+#endif
+
+#if (HYDRA_DEVICE_SYSTEM!=CPP && HYDRA_DEVICE_SYSTEM!=OMP && HYDRA_DEVICE_SYSTEM!=TBB  && HYDRA_DEVICE_SYSTEM!=CUDA )
+#error "[Hydra]: Backend not supported. Supported device backends are {CPP, OMP, TBB, CUDA}"
+#endif
+
+
+#ifndef HYDRA_HOST_SYSTEM
+#define HYDRA_HOST_SYSTEM HYDRA_THRUST_HOST_SYSTEM_CPP
+#endif
+
+//host definition
+#if (HYDRA_HOST_SYSTEM==CPP)
+	#define HYDRA_THRUST_HOST_SYSTEM HYDRA_THRUST_HOST_SYSTEM_CPP
+#elif (HYDRA_HOST_SYSTEM==OMP)
+	#define HYDRA_THRUST_HOST_SYSTEM HYDRA_THRUST_HOST_SYSTEM_OMP
+#elif (HYDRA_HOST_SYSTEM==TBB)
+	#define HYDRA_THRUST_HOST_SYSTEM HYDRA_THRUST_HOST_SYSTEM_TBB
+#endif
+
+
+#ifndef HYDRA_DEVICE_SYSTEM
+#define HYDRA_DEVICE_SYSTEM HYDRA_THRUST_DEVICE_SYSTEM_CPP
+#endif
+
+//device definition
+#if   (HYDRA_DEVICE_SYSTEM==CPP)
+	#define HYDRA_THRUST_DEVICE_SYSTEM HYDRA_THRUST_DEVICE_SYSTEM_CPP
+#elif (HYDRA_DEVICE_SYSTEM==OMP)
+	#define HYDRA_THRUST_DEVICE_SYSTEM HYDRA_THRUST_DEVICE_SYSTEM_OMP
+#elif (HYDRA_DEVICE_SYSTEM==TBB)
+	#define HYDRA_THRUST_DEVICE_SYSTEM HYDRA_THRUST_DEVICE_SYSTEM_TBB
+#elif (HYDRA_DEVICE_SYSTEM==CUDA)
+	#define HYDRA_THRUST_DEVICE_SYSTEM HYDRA_THRUST_DEVICE_SYSTEM_CUDA
+	#define CUDA_API_PER_THREAD_DEFAULT_STREAM
+#endif
+
 
 
 #include <hydra/detail/external/thrust/detail/config.h>
 #include <hydra/detail/external/thrust/detail/config/host_device.h>
 
 
-#define THRUST_VARIADIC_TUPLE
+
+#define HYDRA_THRUST_VARIADIC_TUPLE
 
 #define __hydra_exec_check_disable__  __thrust_exec_check_disable__
 

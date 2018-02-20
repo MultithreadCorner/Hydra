@@ -15,7 +15,7 @@
  */
 
 // do not attempt to compile this file with any other compiler
-#if THRUST_DEVICE_COMPILER == THRUST_DEVICE_COMPILER_NVCC
+#if HYDRA_THRUST_DEVICE_COMPILER == HYDRA_THRUST_DEVICE_COMPILER_NVCC
 
 #include <hydra/detail/external/thrust/system/cuda/detail/runtime_introspection.h>
 #include <hydra/detail/external/thrust/system/cuda/detail/cuda_launch_config.h>
@@ -108,5 +108,5 @@ thrust::tuple<size_t,size_t,size_t> launch_calculator<Closure>::with_variable_bl
 
 HYDRA_EXTERNAL_NAMESPACE_END
 
-#endif // THRUST_DEVICE_COMPILER == THRUST_DEVICE_COMPILER_NVCC
+#endif // HYDRA_THRUST_DEVICE_COMPILER == HYDRA_THRUST_DEVICE_COMPILER_NVCC
 

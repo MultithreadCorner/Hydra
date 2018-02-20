@@ -41,7 +41,7 @@ namespace hydra
 {
 
 
-#if THRUST_DEVICE_SYSTEM==THRUST_DEVICE_SYSTEM_CUDA
+#if HYDRA_THRUST_DEVICE_SYSTEM==HYDRA_THRUST_DEVICE_SYSTEM_CUDA
 	/*!
 	 * Generic template typedef for HYDRA_EXTERNAL_NS::thrust::host_vector. Use it instead of Thrust implementation
 	 * in order to avoid problems to compile OpenMP based applications using gcc and without a cuda runtime installation.

@@ -44,9 +44,9 @@ void synchronize(const char* message = "")
 inline __host__ __device__
 void synchronize_if_enabled(const char* message = "")
 {
-// XXX we rely on __THRUST_SYNCHRONOUS here
+// XXX we rely on __HYDRA_THRUST_SYNCHRONOUS here
 //     note we always have to synchronize in __device__ code
-#if __THRUST_SYNCHRONOUS || defined(__CUDA_ARCH__)
+#if __HYDRA_THRUST_SYNCHRONOUS || defined(__CUDA_ARCH__)
   synchronize(message);
 #else
   // WAR "unused parameter" warning

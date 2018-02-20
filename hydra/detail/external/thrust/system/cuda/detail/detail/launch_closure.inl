@@ -44,7 +44,7 @@ namespace detail
 namespace detail
 {
 
-#if THRUST_DEVICE_COMPILER == THRUST_DEVICE_COMPILER_NVCC
+#if HYDRA_THRUST_DEVICE_COMPILER == HYDRA_THRUST_DEVICE_COMPILER_NVCC
 template<typename Closure>
 __global__ __launch_bounds__(Closure::context_type::ThreadsPerBlock::value, Closure::context_type::BlocksPerMultiprocessor::value)
 void launch_closure_by_value(Closure f)
@@ -67,7 +67,7 @@ void launch_closure_by_value(Closure) {}
 template<typename Closure>
 void launch_closure_by_pointer(const Closure *) {}
 
-#endif // THRUST_DEVICE_COMPILER_NVCC
+#endif // HYDRA_THRUST_DEVICE_COMPILER_NVCC
 
 template<typename Closure,
          bool launch_by_value = sizeof(Closure) <= 256>
@@ -88,7 +88,7 @@ template<typename Closure,
     // this ensures that the kernel gets instantiated identically for all values of __CUDA_ARCH__
     get_launch_function();
 
-#if THRUST_DEVICE_COMPILER == THRUST_DEVICE_COMPILER_NVCC
+#if HYDRA_THRUST_DEVICE_COMPILER == HYDRA_THRUST_DEVICE_COMPILER_NVCC
 #if __BULK_HAS_CUDART__
     launch_function_t kernel = get_launch_function();
 
@@ -106,7 +106,7 @@ template<typename Closure,
       synchronize_if_enabled("launch_closure_by_value");
     }
 #endif // __BULK_HAS_CUDART__
-#endif // THRUST_DEVICE_COMPILER_NVCC
+#endif // HYDRA_THRUST_DEVICE_COMPILER_NVCC
   }
 }; // end closure_launcher_base
 
@@ -129,7 +129,7 @@ template<typename Closure>
     // this ensures that the kernel gets instantiated identically for all values of __CUDA_ARCH__
     launch_function_t kernel = get_launch_function();
 
-#if THRUST_DEVICE_COMPILER == THRUST_DEVICE_COMPILER_NVCC
+#if HYDRA_THRUST_DEVICE_COMPILER == HYDRA_THRUST_DEVICE_COMPILER_NVCC
 #if __BULK_HAS_CUDART__
     if(num_blocks > 0)
     {
@@ -142,7 +142,7 @@ template<typename Closure>
       synchronize_if_enabled("launch_closure_by_pointer");
     }
 #endif // __BULK_HAS_CUDART__
-#endif // THRUST_DEVICE_COMPILER_NVCC
+#endif // HYDRA_THRUST_DEVICE_COMPILER_NVCC
   }
 };
 

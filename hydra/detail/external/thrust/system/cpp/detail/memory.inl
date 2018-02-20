@@ -24,7 +24,7 @@ HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
 
 // XXX WAR an issue with MSVC 2005 (cl v14.00) incorrectly implementing
 //     pointer_raw_pointer for pointer by specializing it here
-#if (THRUST_HOST_COMPILER == THRUST_HOST_COMPILER_MSVC) && (_MSC_VER <= 1400)
+#if (HYDRA_THRUST_HOST_COMPILER == HYDRA_THRUST_HOST_COMPILER_MSVC) && (_MSC_VER <= 1400)
 namespace detail
 {
 

@@ -51,7 +51,7 @@ void synchronize_if_enabled(const char *message)
 {
 // XXX this could potentially be a runtime decision
 //     note we always have to synchronize in __device__ code
-#if __THRUST_SYNCHRONOUS || defined(__CUDA_ARCH__)
+#if __HYDRA_THRUST_SYNCHRONOUS || defined(__CUDA_ARCH__)
   synchronize(message);
 #else
   // WAR "unused parameter" warning

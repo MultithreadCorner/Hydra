@@ -50,7 +50,7 @@ __host__ __device__
                        StrictWeakOrdering /*comp*/)
 {
   // unimplemented
-  THRUST_STATIC_ASSERT( (thrust::detail::depend_on_instantiation<InputIterator1, false>::value) );
+  HYDRA_THRUST_STATIC_ASSERT( (thrust::detail::depend_on_instantiation<InputIterator1, false>::value) );
   return result;
 } // end merge()
 

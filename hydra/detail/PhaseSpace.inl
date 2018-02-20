@@ -209,10 +209,11 @@ void PhaseSpace<N,GRND>::Generate(Vector4R const& mother, Iterator begin, Iterat
 	 * Run the generator and calculate the maximum weight. It takes as input the fourvector of the mother particle
 	 * in any system of reference. The daughters will be generated in this system.
 	 */
-
+/*
 #if(THRUST_DEVICE_SYSTEM==THRUST_DEVICE_BACKEND_CUDA && (BACKEND==device))
 	cudaDeviceSetCacheConfig(cudaFuncCachePreferL1);
 #endif
+*/
 	if (EnergyChecker( mother )){
 
 	detail::DecayMother<N,GRND> decayer(mother,fMasses, fSeed);
@@ -231,11 +232,11 @@ void PhaseSpace<N,GRND>::Generate( Iterator1 begin, Iterator1 end, Iterator2 dau
 	 * Run the generator and calculate the maximum weight. It takes as input the device vector with the four-vectors of the mother particle
 	 * in any system of reference. The daughters will be generated in this system.
 	 */
-
+/*
 #if(THRUST_DEVICE_SYSTEM==THRUST_DEVICE_BACKEND_CUDA && (BACKEND==device))
 	cudaDeviceSetCacheConfig(cudaFuncCachePreferL1);
 #endif
-
+*/
 	if (EnergyChecker( begin, end)){
 
 	detail::DecayMothers<N,GRND> decayer(fMasses, fSeed);
@@ -257,10 +258,11 @@ void PhaseSpace<N,GRND>::Generate(hydra::detail::BackendPolicy<BACKEND> const& e
 	 * Run the generator and calculate the maximum weight. It takes as input the fourvector of the mother particle
 	 * in any system of reference. The daughters will be generated in this system.
 	 */
-
+/*
 #if(THRUST_DEVICE_SYSTEM==THRUST_DEVICE_BACKEND_CUDA && (BACKEND==device))
 	cudaDeviceSetCacheConfig(cudaFuncCachePreferL1);
 #endif
+*/
 	if (EnergyChecker( mother )){
 
 	detail::DecayMother<N,GRND> decayer(mother,fMasses, fSeed);
@@ -279,11 +281,11 @@ void PhaseSpace<N,GRND>::Generate(hydra::detail::BackendPolicy<BACKEND> const& e
 	 * Run the generator and calculate the maximum weight. It takes as input the device vector with the four-vectors of the mother particle
 	 * in any system of reference. The daughters will be generated in this system.
 	 */
-
+/*
 #if(THRUST_DEVICE_SYSTEM==THRUST_DEVICE_BACKEND_CUDA && (BACKEND==device))
 	cudaDeviceSetCacheConfig(cudaFuncCachePreferL1);
 #endif
-
+*/
 	if (EnergyChecker( begin, end)){
 
 	detail::DecayMothers<N,GRND> decayer(fMasses, fSeed);

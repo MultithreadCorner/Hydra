@@ -122,16 +122,16 @@ template<typename T> struct is_pod
    : public integral_constant<
        bool,
        is_void<T>::value || is_pointer<T>::value || is_arithmetic<T>::value
-#if THRUST_HOST_COMPILER == THRUST_HOST_COMPILER_MSVC || \
-    THRUST_HOST_COMPILER == THRUST_HOST_COMPILER_CLANG
+#if HYDRA_THRUST_HOST_COMPILER == HYDRA_THRUST_HOST_COMPILER_MSVC || \
+    HYDRA_THRUST_HOST_COMPILER == HYDRA_THRUST_HOST_COMPILER_CLANG
 // use intrinsic type traits
        || __is_pod(T)
-#elif THRUST_HOST_COMPILER == THRUST_HOST_COMPILER_GCC
+#elif HYDRA_THRUST_HOST_COMPILER == HYDRA_THRUST_HOST_COMPILER_GCC
 // only use the intrinsic for >= 4.3
 #if (__GNUC__ >= 4) && (__GNUC_MINOR__ >= 3)
        || __is_pod(T)
 #endif // GCC VERSION
-#endif // THRUST_HOST_COMPILER
+#endif // HYDRA_THRUST_HOST_COMPILER
      >
  {};
 
@@ -140,15 +140,15 @@ template<typename T> struct has_trivial_constructor
   : public integral_constant<
       bool,
       is_pod<T>::value
-#if THRUST_HOST_COMPILER == THRUST_HOST_COMPILER_MSVC || \
-    THRUST_HOST_COMPILER == THRUST_HOST_COMPILER_CLANG
+#if HYDRA_THRUST_HOST_COMPILER == HYDRA_THRUST_HOST_COMPILER_MSVC || \
+    HYDRA_THRUST_HOST_COMPILER == HYDRA_THRUST_HOST_COMPILER_CLANG
       || __has_trivial_constructor(T)
-#elif THRUST_HOST_COMPILER == THRUST_HOST_COMPILER_GCC
+#elif HYDRA_THRUST_HOST_COMPILER == HYDRA_THRUST_HOST_COMPILER_GCC
 // only use the intrinsic for >= 4.3
 #if (__GNUC__ >= 4) && (__GNUC_MINOR__ >= 3)
       || __has_trivial_constructor(T)
 #endif // GCC VERSION
-#endif // THRUST_HOST_COMPILER
+#endif // HYDRA_THRUST_HOST_COMPILER
       >
 {};
 
@@ -156,15 +156,15 @@ template<typename T> struct has_trivial_copy_constructor
   : public integral_constant<
       bool,
       is_pod<T>::value
-#if THRUST_HOST_COMPILER == THRUST_HOST_COMPILER_MSVC || \
-    THRUST_HOST_COMPILER == THRUST_HOST_COMPILER_CLANG
+#if HYDRA_THRUST_HOST_COMPILER == HYDRA_THRUST_HOST_COMPILER_MSVC || \
+    HYDRA_THRUST_HOST_COMPILER == HYDRA_THRUST_HOST_COMPILER_CLANG
       || __has_trivial_copy(T)
-#elif THRUST_HOST_COMPILER == THRUST_HOST_COMPILER_GCC
+#elif HYDRA_THRUST_HOST_COMPILER == HYDRA_THRUST_HOST_COMPILER_GCC
 // only use the intrinsic for >= 4.3
 #if (__GNUC__ >= 4) && (__GNUC_MINOR__ >= 3)
       || __has_trivial_copy(T)
 #endif // GCC VERSION
-#endif // THRUST_HOST_COMPILER
+#endif // HYDRA_THRUST_HOST_COMPILER
     >
 {};
 
@@ -309,8 +309,8 @@ template<typename T>
 }; // end is_int_or_cref
 
 
-__THRUST_DISABLE_MSVC_POSSIBLE_LOSS_OF_DATA_WARNING_BEGIN
-__THRUST_DISABLE_MSVC_FORCING_VALUE_TO_BOOL_BEGIN
+__HYDRA_THRUST_DISABLE_MSVC_POSSIBLE_LOSS_OF_DATA_WARNING_BEGIN
+__HYDRA_THRUST_DISABLE_MSVC_FORCING_VALUE_TO_BOOL_BEGIN
 
 
 template<typename From, typename To>
@@ -329,8 +329,8 @@ template<typename From, typename To>
 }; // end is_convertible_sfinae
 
 
-__THRUST_DISABLE_MSVC_FORCING_VALUE_TO_BOOL_END
-__THRUST_DISABLE_MSVC_POSSIBLE_LOSS_OF_DATA_WARNING_END
+__HYDRA_THRUST_DISABLE_MSVC_FORCING_VALUE_TO_BOOL_END
+__HYDRA_THRUST_DISABLE_MSVC_POSSIBLE_LOSS_OF_DATA_WARNING_END
 
 
 template<typename From, typename To>

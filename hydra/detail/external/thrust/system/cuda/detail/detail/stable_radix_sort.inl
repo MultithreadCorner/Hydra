@@ -17,7 +17,7 @@
 #include <hydra/detail/external/thrust/detail/config.h>
 
 // do not attempt to compile this file with any other compiler
-#if THRUST_DEVICE_COMPILER == THRUST_DEVICE_COMPILER_NVCC
+#if HYDRA_THRUST_DEVICE_COMPILER == HYDRA_THRUST_DEVICE_COMPILER_NVCC
 
 #include <hydra/detail/external/thrust/detail/copy.h>
 #include <hydra/detail/external/thrust/iterator/iterator_traits.h>
@@ -525,5 +525,5 @@ void stable_radix_sort_by_key(execution_policy<DerivedPolicy> &exec,
 } // end HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
 
 HYDRA_EXTERNAL_NAMESPACE_END
-#endif // THRUST_DEVICE_COMPILER == THRUST_DEVICE_COMPILER_NVCC
+#endif // HYDRA_THRUST_DEVICE_COMPILER == HYDRA_THRUST_DEVICE_COMPILER_NVCC
 

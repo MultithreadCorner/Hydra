@@ -107,7 +107,7 @@ template<
 
 } // end detail
 
-#ifdef THRUST_VARIADIC_TUPLE
+#ifdef HYDRA_THRUST_VARIADIC_TUPLE
 // define tuple_size, tuple_element, etc.
 template<class... Types>
 struct tuple_size<detail::tuple_of_iterator_references<Types...>>
