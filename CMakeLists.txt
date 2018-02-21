@@ -2,18 +2,51 @@
 
 cmake_minimum_required(VERSION 3.1)
 
+# Find Hydra version from source
+file(STRINGS hydra/Hydra.h TMPVERSION
+    REGEX "^#define Hydra_VERSION[ \t]+([0-9]+)$")
+string(REGEX REPLACE
+    "^#define Hydra_VERSION[ \t]+([0-9]+)00([0-9]+)0([0-9]+)$"
+    "\\1.\\2.\\3"
+    TMPVERSION "${TMPVERSION}")
+
 # Project name and version
 project(Hydra LANGUAGES CXX
-              VERSION 1.0.0)
+    VERSION ${TMPVERSION})
 
-# Warn user if system is not UNIX
+message(STATUS "Building Hydra ${Hydra_VERSION}")
+
+# Kill the build if system is not UNIX
+# (Developers, please change FATAL_ERROR to WARNING
+# and try to make this work, then provide the fixes
+# to the upstream repository)
 if(NOT UNIX)
-  message(WARNING "This is an unsupported system.")
+    message(FATAL_ERROR "This is an unsupported system.")
 endif()
 
+# Check to see if this is the main project or a subproject
+if (CMAKE_CURRENT_SOURCE_DIR STREQUAL CMAKE_SOURCE_DIR)
+    set(MASTER_PROJECT ON)
+else()
+    set(MASTER_PROJECT OFF)
+endif()
+
+
 # Adding the helper files in the cmake subdirectory
-set(Hydra_CMAKE_DIR "${PROJECT_SOURCE_DIR}/cmake")
+set(Hydra_CMAKE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/cmake")
 set(CMAKE_MODULE_PATH "${Hydra_CMAKE_DIR}" ${CMAKE_MODULE_PATH})
+
+# This is a place to add compiler specific code
+if("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang")
+    # Do something with Clang compilers
+elseif("${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU")
+    # Do something with GCC compilers
+elseif("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Intel")
+    # Do something with Intel compilers
+elseif("${CMAKE_CXX_COMPILER_ID}" STREQUAL "MSVC")
+    # Do something with Microsoft compilers? Can't be reached due to FATAL_ERROR above.
+endif()
+
 
 # Options to gcc
 include(CheckCXXCompilerFlag)
@@ -22,7 +55,7 @@ if(NOT COMPILER_SUPPORTS_CXX11)
     message(FATAL_ERROR "The compiler ${CMAKE_CXX_COMPILER} has no C++11 support. Please use a different C++ compiler.")
 endif()
 
-set(CMAKE_CXX_FLAGS "-ftemplate-backtrace-limit=0 --std=c++11 -W -march=native -fPIC -O4 -ldl" CACHE STRING "compile flags" FORCE)
+set(CMAKE_CXX_FLAGS "-ftemplate-backtrace-limit=0 --std=c++11 -W -march=native -fPIC -O4 ${CMAKE_DL_LIBS}" CACHE STRING "compile flags" FORCE)
 
 # Get TCLAP
 find_package(TCLAP REQUIRED)
@@ -37,7 +70,7 @@ if(ROOT_FOUND)
 endif(ROOT_FOUND)
 
 # Get TBB
-find_package(TBB )
+find_package(TBB)
 if(TBB_FOUND)
     include_directories(${TBB_INCLUDE_DIRS})
     link_directories(${TBB_LIBRARY})
@@ -54,37 +87,37 @@ find_package(Doxygen)
 option(BUILD_DOCUMENTATION "Create and install the HTML based API documentation (requires Doxygen)" NO)
 
 # Include directories
-include_directories(${PROJECT_SOURCE_DIR})
+include_directories(${CMAKE_CURRENT_SOURCE_DIR})
 
 # Get CUDA
-find_package(CUDA 8.0) 
+find_package(CUDA 8.0)
 if(CUDA_FOUND)
     link_directories( ${CUDA_TOOLKIT_ROOT_DIR}/lib64/)
 
     # Set cuda flags
-	
+
     set(CUDA_NVCC_FLAGS ${CUDA_NVCC_FLAGS}  -ftemplate-backtrace-limit=0; --cudart ;  static ; -O4 ;--expt-relaxed-constexpr; -fmad=true; --expt-extended-lambda;--relocatable-device-code=false ;
         -Xptxas -dlcm=ca; -Xptxas --opt-level=4 )
 
     set(CUDA_PROPAGATE_HOST_FLAGS ON)
     set(CUDA_SEPARABLE_COMPILATION OFF)
     set(CUDA_VERBOSE_BUILD OFF)
-	
+
     if(CMAKE_CXX_COMPILER_VERSION VERSION_GREATER 4.8)
         list(APPEND CUDA_NVCC_FLAGS " -Xcompiler -D_MWAITXINTRIN_H_INCLUDED ")
     endif()
-    	
+
     if(CMAKE_CXX_COMPILER_VERSION VERSION_GREATER 5.4)
         list(APPEND CUDA_NVCC_FLAGS " -Xcompiler -D__CORRECT_ISO_CPP11_MATH_H_PROTO ")
     endif()
 	# Detect CUDA architecture and get best NVCC flags
-	
+
     include(${CMAKE_CURRENT_SOURCE_DIR}/cmake/FindCudaArch.cmake)
-	
+
     select_nvcc_arch_flags(NVCC_FLAGS_EXTRA)
-	
+
     list(APPEND CUDA_NVCC_FLAGS ${NVCC_FLAGS_EXTRA})
-    		
+
 endif(CUDA_FOUND)
 
 
@@ -96,7 +129,7 @@ else()
     set(BUILD_OMP_TARGETS OFF)
 endif()
 
-if( CUDA_FOUND )
+if(CUDA_FOUND)
     set(BUILD_CUDA_TARGETS ON)
 else()
     set(BUILD_CUDA_TARGETS OFF)
@@ -109,7 +142,7 @@ else()
 endif(TBB_FOUND)
 
 # If this is not included as a subproject
-if(CMAKE_PROJECT_NAME STREQUAL PROJECT_NAME)
+if(MASTER_PROJECT)
 
     # Messages
     message(STATUS "TCLAP Include path: ${TCLAP_INCLUDE_DIR}")
@@ -130,14 +163,11 @@ if(CMAKE_PROJECT_NAME STREQUAL PROJECT_NAME)
     message(STATUS "Install diretory: ${CMAKE_INSTALL_PREFIX}"  )
     message(STATUS "Project source dir: ${PROJECT_SOURCE_DIR}" )
     message(STATUS "Project build dir: ${PROJECT_BINARY_DIR}" )
-
-    # This is just the default setting, it can be turned
-    # on and off by the user using -DHYDRA_EXAMPLES=ON, etc.
-    option(HYDRA_EXAMPLES "Build the Hydra examples" ON)
-# If this is a subproject of another project	
-else()
-    option(HYDRA_EXAMPLES "Build the Hydra examples" OFF)
 endif()
+
+# This is just the default setting, it can be turned
+# on and off by the user using -DHYDRA_EXAMPLES=ON, etc.
+option(HYDRA_EXAMPLES "Build the Hydra examples" ${MASTER_PROJECT})
 
 file(MAKE_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/plots)
 file(MAKE_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/plots/dalitz)
@@ -151,7 +181,6 @@ add_custom_target(examples)
 include(${Hydra_CMAKE_DIR}/AddHydraExample.cmake)
 
 if(HYDRA_EXAMPLES)
-
     if(NOT TCLAP_FOUND)
         message(FATAL_ERROR "TCLAP is needed to build the examples.")
     endif()
@@ -167,11 +196,11 @@ if(HYDRA_EXAMPLES)
 endif()
 
 install(DIRECTORY Hydra
-  DESTINATION include)
+        DESTINATION include)
 
 install(DIRECTORY src
         DESTINATION src/hydra/samples)
-  
+
 install(DIRECTORY cmake
         DESTINATION src/hydra/cmake)
 
@@ -182,7 +211,7 @@ install(FILES
   README.md
   CHANGELOG.md
   DESTINATION src/Hydra)
-  
+
 
 if(BUILD_DOCUMENTATION)
 
@@ -202,15 +231,15 @@ if(BUILD_DOCUMENTATION)
         VERBATIM)
 
     install(DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/doc DESTINATION src/hydra/doc)
-    
+
 endif()
 
 # build a CPack driven installer package
 include (InstallRequiredSystemLibraries)
 set(CPACK_SOURCE_IGNORE_FILES  build/*)
-set(CPACK_RESOURCE_FILE_LICENSE  
+set(CPACK_RESOURCE_FILE_LICENSE
      "${CMAKE_CURRENT_SOURCE_DIR}/COPYING")
-set(CPACK_RESOURCE_FILE_README  
+set(CPACK_RESOURCE_FILE_README
      "${CMAKE_CURRENT_SOURCE_DIR}/README.md")
 set(CPACK_PACKAGE_VERSION_MAJOR "${Hydra_VERSION_MAJOR}")
 set(CPACK_PACKAGE_VERSION_MINOR "${Hydra_VERSION_MINOR}")
