@@ -54,16 +54,16 @@ Hydra uses the underlying Thrust's "backend systems" to control how the algorith
 mapped to and executed on the parallel processors and accelerators available to a given application. 
 When is necessary, the backends can be specified using the symbols hydra::device::sys_t, hydra::host::sys_t,
 hydra::omp::sys_t, hydra::tbb::sys_t, hydra::cuda::sys_t, hydra::cpp::sys_t.
-The backends hydra::device::sys_t and hydra::host::sys_t are selected in compile time using the macros ```THRUST_HOST_SYSTEM``` and ```THRUST_DEVICE_SYSTEM```.
+The backends hydra::device::sys_t and hydra::host::sys_t are selected in compile time using the macros ```HYDRA_HOST_SYSTEM``` and ```HYDRA_DEVICE_SYSTEM```.
 The following possibilities are available:
  
-* host: THRUST_HOST_SYSTEM_CPP, THRUST_HOST_SYSTEM_OMP, THRUST_HOST_SYSTEM_TBB
-* device: THRUST_DEVICE_SYSTEM_CPP, THRUST_DEVICE_SYSTEM_OMP, THRUST_DEVICE_SYSTEM_TBB, THRUST_DEVICE_SYSTEM_CUDA
+* host: CPP, OMP, TBB
+* device: CPP, OMP, TBB, CUDA
 
 For example, this will compile ```my_program.cu``` using OpenMP as host backend and CUDA as device backend:
 
 ```bash
-nvcc -Xcompiler -fopenmp -DTHRUST_HOST_SYSTEM=THRUST_HOST_SYSTEM_OMP -DTHRUST_DEVICE_SYSTEM=THRUST_DEVICE_SYSTEM_CUDA  my_program.cu
+nvcc -Xcompiler -fopenmp -DHYDRA_HOST_SYSTEM=OMP -DHYDRA_DEVICE_SYSTEM=CUDA  my_program.cu
 ```
 The available "host" and "device" backends can be freely combined. 
 Two important features related to the Hydra's design and the backend configuration:
