@@ -1,6 +1,6 @@
 /*----------------------------------------------------------------------------
  *
-+9 *   Copyright (C) 2016 - 2017 Antonio Augusto Alves Junior
++9 *   Copyright (C) 2016 - 2018 Antonio Augusto Alves Junior
  *
  *   This file is part of Hydra Data Analysis Framework.
  *
