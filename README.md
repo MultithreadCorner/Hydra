@@ -1,5 +1,5 @@
-
-
+[![Documentation Status](https://readthedocs.org/projects/hydra-documentation/badge/?version=latest)](http://hydra-documentation.readthedocs.io/en/latest/?badge=latest)
+-----------
 <img src="logo_Hydra.png" width="500">
 
 What is it?
@@ -54,16 +54,16 @@ Hydra uses the underlying Thrust's "backend systems" to control how the algorith
 mapped to and executed on the parallel processors and accelerators available to a given application. 
 When is necessary, the backends can be specified using the symbols hydra::device::sys_t, hydra::host::sys_t,
 hydra::omp::sys_t, hydra::tbb::sys_t, hydra::cuda::sys_t, hydra::cpp::sys_t.
-The backends hydra::device::sys_t and hydra::host::sys_t are selected in compile time using the macros ```THRUST_HOST_SYSTEM``` and ```THRUST_DEVICE_SYSTEM```.
+The backends hydra::device::sys_t and hydra::host::sys_t are selected in compile time using the macros ```HYDRA_HOST_SYSTEM``` and ```HYDRA_DEVICE_SYSTEM```.
 The following possibilities are available:
  
-* host: THRUST_HOST_SYSTEM_CPP, THRUST_HOST_SYSTEM_OMP, THRUST_HOST_SYSTEM_TBB
-* device: THRUST_DEVICE_SYSTEM_CPP, THRUST_DEVICE_SYSTEM_OMP, THRUST_DEVICE_SYSTEM_TBB, THRUST_DEVICE_SYSTEM_CUDA
+* host: CPP, OMP, TBB
+* device: CPP, OMP, TBB, CUDA
 
 For example, this will compile ```my_program.cu``` using OpenMP as host backend and CUDA as device backend:
 
 ```bash
-nvcc -Xcompiler -fopenmp -DTHRUST_HOST_SYSTEM=THRUST_HOST_SYSTEM_OMP -DTHRUST_DEVICE_SYSTEM=THRUST_DEVICE_SYSTEM_CUDA  my_program.cu
+nvcc -Xcompiler -fopenmp -DHYDRA_HOST_SYSTEM=OMP -DHYDRA_DEVICE_SYSTEM=CUDA  my_program.cu
 ```
 The available "host" and "device" backends can be freely combined. 
 Two important features related to the Hydra's design and the backend configuration:
@@ -75,23 +75,23 @@ Two important features related to the Hydra's design and the backend configurati
 The Latest Version
 ------------------
 
-The latest version can be found on the 
-[project relases page](https://github.com/MultithreadCorner/Hydra/releases).
+
 
 Documentation
 -------------
 
-The complete and updated [Doxygen](http://www.doxygen.org/) source code documentation of this release is available in HTML format on the
-[reference manual](http://multithreadcorner.github.io/Hydra/) webpage.
-Users can also browse the documentation by class, file or name using the following links:
+### Doxygen
 
-1.[classes](http://multithreadcorner.github.io/Hydra/classes.html)
 
-2.[files](http://multithreadcorner.github.io/Hydra/files.html)
+The complete and updated [Doxygen](http://www.doxygen.org/) source code documentation is not available yet.
 
-3.[names](http://multithreadcorner.github.io/Hydra/namespacemembers.html)
+### Manual 
 
-A manual explaining the different features is hosted on ....
+A manual explaining the different features is available in the following formats:
+
+* [HTML](https://hydra-documentation.readthedocs.io/en/latest/)
+* [PDF](https://readthedocs.org/projects/hydra-documentation/downloads/pdf/latest/)
+* [EPUB](https://readthedocs.org/projects/hydra-documentation/downloads/epub/latest/)
 
 Installation and requirements 
 -----------------------------
@@ -109,13 +109,16 @@ Examples
 The examples are built using [CMAKE](https://cmake.org/) following the following instructions:
 
 1. clone the git repository: `git clone https://github.com/MultithreadCorner/Hydra.git`
-2. create a build directory: `mkdir build` 
-3. go to build directory: `cd build`
-4. `cmake ../Hydra`
-5. `make`
+2. go to the Hydra repository: `cd Hydra`
+2. checkout the `hydra_rc2.0` branch:`git checkout hydra_rc2.0`  
+3. create a build directory: `mkdir build` 
+4. go to build directory: `cd build`
+5. `cmake ..`
+6. `make`
 
 
-The examples are distributed in directories and are named according to the functionalities they ilustrates.
+The compiled examples will be placed in the build/examples folder. The sub-directories are named according to the functionalities they ilustrates.
+
 The examples are listed below:
 
 1. __async__ : async_mc
