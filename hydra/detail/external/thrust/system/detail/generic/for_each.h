@@ -46,7 +46,7 @@ InputIterator for_each(HYDRA_EXTERNAL_NS::thrust::execution_policy<DerivedPolicy
                        UnaryFunction )
 {
   // unimplemented
-  THRUST_STATIC_ASSERT( (HYDRA_EXTERNAL_NS::thrust::detail::depend_on_instantiation<InputIterator, false>::value) );
+  HYDRA_THRUST_STATIC_ASSERT( (HYDRA_EXTERNAL_NS::thrust::detail::depend_on_instantiation<InputIterator, false>::value) );
   return first;
 } // end for_each()
 
@@ -62,7 +62,7 @@ InputIterator for_each_n(HYDRA_EXTERNAL_NS::thrust::execution_policy<DerivedPoli
                          UnaryFunction )
 {
   // unimplemented
-  THRUST_STATIC_ASSERT( (HYDRA_EXTERNAL_NS::thrust::detail::depend_on_instantiation<InputIterator, false>::value) );
+  HYDRA_THRUST_STATIC_ASSERT( (HYDRA_EXTERNAL_NS::thrust::detail::depend_on_instantiation<InputIterator, false>::value) );
   return first;
 } // end for_each_n()
 

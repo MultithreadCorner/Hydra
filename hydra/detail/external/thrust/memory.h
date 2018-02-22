@@ -42,7 +42,7 @@ HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
  *  type ensures type safety when dispatching standard algorithms on ranges resident in memory.
  *
  *  \p pointer generalizes \p device_ptr by relaxing the backend system associated with the \p pointer.
- *  Instead of the backend system specified by \p THRUST_DEFAULT_DEVICE_BACKEND, \p pointer's
+ *  Instead of the backend system specified by \p HYDRA_THRUST_DEFAULT_DEVICE_BACKEND, \p pointer's
  *  system is given by its second template parameter, \p Tag. For the purpose of Thrust dispatch,
  *  <tt>device_ptr<Element></tt> and <tt>pointer<Element,device_system_tag></tt> are considered equivalent.
  *

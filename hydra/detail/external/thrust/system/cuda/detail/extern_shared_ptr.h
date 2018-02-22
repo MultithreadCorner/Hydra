@@ -33,7 +33,7 @@ template<typename T>
 {
 // don't attempt to compile with any compiler other than nvcc
 // due to use of __shared__ below
-#if THRUST_DEVICE_COMPILER == THRUST_DEVICE_COMPILER_NVCC
+#if HYDRA_THRUST_DEVICE_COMPILER == HYDRA_THRUST_DEVICE_COMPILER_NVCC
   public:
     __device__
     inline operator T * (void)
@@ -48,7 +48,7 @@ template<typename T>
       extern __shared__ int4 smem[];
       return reinterpret_cast<const T*>(smem);
     }
-#endif // THRUST_DEVICE_COMPILER_NVCC
+#endif // HYDRA_THRUST_DEVICE_COMPILER_NVCC
 }; // end extern_shared_ptr
 
 } // end detail

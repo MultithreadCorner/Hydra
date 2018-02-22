@@ -115,7 +115,7 @@ template<typename RealType>
   __host__ __device__
   typename uniform_real_distribution<RealType>::result_type
     uniform_real_distribution<RealType>
-      ::min THRUST_PREVENT_MACRO_SUBSTITUTION (void) const
+      ::min HYDRA_THRUST_PREVENT_MACRO_SUBSTITUTION (void) const
 {
   return a();
 } // end uniform_real_distribution::min()
@@ -124,7 +124,7 @@ template<typename RealType>
   __host__ __device__
   typename uniform_real_distribution<RealType>::result_type
     uniform_real_distribution<RealType>
-      ::max THRUST_PREVENT_MACRO_SUBSTITUTION (void) const
+      ::max HYDRA_THRUST_PREVENT_MACRO_SUBSTITUTION (void) const
 {
   return b();
 } // end uniform_real_distribution::max()

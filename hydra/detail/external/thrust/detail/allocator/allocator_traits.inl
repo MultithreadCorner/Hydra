@@ -27,7 +27,7 @@ namespace detail
 namespace allocator_traits_detail
 {
 
-__THRUST_DEFINE_IS_CALL_POSSIBLE(has_member_allocate_with_hint_impl, allocate)
+__HYDRA_THRUST_DEFINE_IS_CALL_POSSIBLE(has_member_allocate_with_hint_impl, allocate)
 
 template<typename Alloc>
   class has_member_allocate_with_hint
@@ -64,7 +64,7 @@ __host__ __device__
 }
 
 
-__THRUST_DEFINE_IS_CALL_POSSIBLE(has_member_construct1_impl, construct)
+__HYDRA_THRUST_DEFINE_IS_CALL_POSSIBLE(has_member_construct1_impl, construct)
 
 template<typename Alloc, typename T>
   struct has_member_construct1
@@ -93,7 +93,7 @@ template<typename Alloc, typename T>
 }
 
 
-__THRUST_DEFINE_IS_CALL_POSSIBLE(has_member_construct2_impl, construct)
+__HYDRA_THRUST_DEFINE_IS_CALL_POSSIBLE(has_member_construct2_impl, construct)
 
 template<typename Alloc, typename T, typename Arg1>
   struct has_member_construct2
@@ -121,7 +121,7 @@ template<typename Alloc, typename T, typename Arg1>
 }
 
 
-__THRUST_DEFINE_IS_CALL_POSSIBLE(has_member_destroy_impl, destroy)
+__HYDRA_THRUST_DEFINE_IS_CALL_POSSIBLE(has_member_destroy_impl, destroy)
 
 template<typename Alloc, typename T>
   struct has_member_destroy
@@ -149,7 +149,7 @@ template<typename Alloc, typename T>
 }
 
 
-__THRUST_DEFINE_IS_CALL_POSSIBLE(has_member_max_size_impl, max_size)
+__HYDRA_THRUST_DEFINE_IS_CALL_POSSIBLE(has_member_max_size_impl, max_size)
 
 template<typename Alloc>
   class has_member_max_size

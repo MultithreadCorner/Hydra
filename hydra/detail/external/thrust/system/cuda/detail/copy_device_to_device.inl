@@ -50,7 +50,7 @@ OutputIterator copy_device_to_device(execution_policy<DerivedPolicy> &exec,
     // general case (mixed types)
     typedef typename thrust::iterator_traits<InputIterator>::value_type InputType;
 
-#if THRUST_DEVICE_COMPILER == THRUST_DEVICE_COMPILER_NVCC
+#if HYDRA_THRUST_DEVICE_COMPILER == HYDRA_THRUST_DEVICE_COMPILER_NVCC
     return thrust::transform(exec, begin, end, result, thrust::identity<InputType>());
 #else
     // we're not compiling with nvcc: copy [begin, end) to temp host memory
@@ -68,7 +68,7 @@ OutputIterator copy_device_to_device(execution_policy<DerivedPolicy> &exec,
     result = thrust::system::cuda::detail::copy_cross_system(temp2.begin(), temp2.end(), result);
 
     return result;
-#endif // THRUST_DEVICE_COMPILER_NVCC
+#endif // HYDRA_THRUST_DEVICE_COMPILER_NVCC
 }
 
 

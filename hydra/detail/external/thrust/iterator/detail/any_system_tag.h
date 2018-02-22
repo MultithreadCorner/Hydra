@@ -31,7 +31,7 @@ struct any_system_tag
 };
 
 // TODO remove this in 1.7.0
-typedef THRUST_DEPRECATED any_system_tag any_space_tag;
+typedef HYDRA_THRUST_DEPRECATED any_system_tag any_space_tag;
 
 } // end thrust
 

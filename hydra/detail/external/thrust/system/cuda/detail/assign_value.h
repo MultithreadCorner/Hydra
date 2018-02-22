@@ -33,7 +33,7 @@ namespace detail
 
 // XXX WAR an issue with msvc 2005 (cl v14.00) which creates multiply-defined
 //     symbols resulting from assign_value
-#if (THRUST_HOST_COMPILER == THRUST_HOST_COMPILER_MSVC) && (_MSC_VER <= 1400)
+#if (HYDRA_THRUST_HOST_COMPILER == HYDRA_THRUST_HOST_COMPILER_MSVC) && (_MSC_VER <= 1400)
 
 namespace
 {
@@ -104,7 +104,7 @@ inline __host__ __device__
 
 // XXX WAR an issue with msvc 2005 (cl v14.00) which creates multiply-defined
 //     symbols resulting from assign_value
-#if (THRUST_HOST_COMPILER == THRUST_HOST_COMPILER_MSVC) && (_MSC_VER <= 1400)
+#if (HYDRA_THRUST_HOST_COMPILER == HYDRA_THRUST_HOST_COMPILER_MSVC) && (_MSC_VER <= 1400)
 
 namespace
 {

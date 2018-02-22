@@ -84,9 +84,9 @@ template<typename Iterator> struct iterator_system;
 
 // TODO remove this in Thrust v1.7.0
 template<typename Iterator>
-  struct THRUST_DEPRECATED iterator_space
+  struct HYDRA_THRUST_DEPRECATED iterator_space
 {
-  typedef THRUST_DEPRECATED typename iterator_system<Iterator>::type type;
+  typedef HYDRA_THRUST_DEPRECATED typename iterator_system<Iterator>::type type;
 };
 
 

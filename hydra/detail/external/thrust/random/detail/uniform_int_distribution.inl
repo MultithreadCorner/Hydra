@@ -129,7 +129,7 @@ template<typename IntType>
   __host__ __device__
   typename uniform_int_distribution<IntType>::result_type
     uniform_int_distribution<IntType>
-      ::min THRUST_PREVENT_MACRO_SUBSTITUTION (void) const
+      ::min HYDRA_THRUST_PREVENT_MACRO_SUBSTITUTION (void) const
 {
   return a();
 } // end uniform_int_distribution::min()
@@ -139,7 +139,7 @@ template<typename IntType>
   __host__ __device__
   typename uniform_int_distribution<IntType>::result_type
     uniform_int_distribution<IntType>
-      ::max THRUST_PREVENT_MACRO_SUBSTITUTION (void) const
+      ::max HYDRA_THRUST_PREVENT_MACRO_SUBSTITUTION (void) const
 {
   return b();
 } // end uniform_int_distribution::max()

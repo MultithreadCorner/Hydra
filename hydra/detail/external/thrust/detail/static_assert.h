@@ -29,16 +29,16 @@
  */
 
 //
-// Helper macro THRUST_JOIN (based on BOOST_JOIN):
+// Helper macro HYDRA_THRUST_JOIN (based on BOOST_JOIN):
 // The following piece of macro magic joins the two
 // arguments together, even when one of the arguments is
 // itself a macro (see 16.3.1 in C++ standard).  The key
 // is that macro expansion of macro arguments does not
-// occur in THRUST_DO_JOIN2 but does in THRUST_DO_JOIN.
+// occur in HYDRA_THRUST_DO_JOIN2 but does in HYDRA_THRUST_DO_JOIN.
 //
-#define THRUST_JOIN( X, Y ) THRUST_DO_JOIN( X, Y )
-#define THRUST_DO_JOIN( X, Y ) THRUST_DO_JOIN2(X,Y)
-#define THRUST_DO_JOIN2( X, Y ) X##Y
+#define HYDRA_THRUST_JOIN( X, Y ) HYDRA_THRUST_DO_JOIN( X, Y )
+#define HYDRA_THRUST_DO_JOIN( X, Y ) HYDRA_THRUST_DO_JOIN2(X,Y)
+#define HYDRA_THRUST_DO_JOIN2( X, Y ) X##Y
 
 HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
 {
@@ -66,22 +66,22 @@ template<typename, bool x>
 
 HYDRA_EXTERNAL_NAMESPACE_END
 
-#if (THRUST_HOST_COMPILER == THRUST_HOST_COMPILER_GCC) && (THRUST_GCC_VERSION >= 40800)
+#if (HYDRA_THRUST_HOST_COMPILER == HYDRA_THRUST_HOST_COMPILER_GCC) && (HYDRA_THRUST_GCC_VERSION >= 40800)
   // gcc 4.8+ will complain about this typedef being unused unless we annotate it as such
-#  define THRUST_STATIC_ASSERT( B ) \
+#  define HYDRA_THRUST_STATIC_ASSERT( B ) \
    typedef HYDRA_EXTERNAL_NS::thrust::detail::static_assert_test<\
       sizeof(HYDRA_EXTERNAL_NS::thrust::detail::STATIC_ASSERTION_FAILURE< (bool)( B ) >)>\
-         THRUST_JOIN(thrust_static_assert_typedef_, __LINE__) __attribute__((unused))
-#elif (THRUST_HOST_COMPILER == THRUST_HOST_COMPILER_CLANG)
+         HYDRA_THRUST_JOIN(thrust_static_assert_typedef_, __LINE__) __attribute__((unused))
+#elif (HYDRA_THRUST_HOST_COMPILER == HYDRA_THRUST_HOST_COMPILER_CLANG)
   // clang will complain about this typedef being unused unless we annotate it as such
-#  define THRUST_STATIC_ASSERT( B ) \
+#  define HYDRA_THRUST_STATIC_ASSERT( B ) \
    typedef HYDRA_EXTERNAL_NS::thrust::detail::static_assert_test<\
       sizeof(HYDRA_EXTERNAL_NS::thrust::detail::STATIC_ASSERTION_FAILURE< (bool)( B ) >)>\
-         THRUST_JOIN(thrust_static_assert_typedef_, __LINE__) __attribute__((unused))
+         HYDRA_THRUST_JOIN(thrust_static_assert_typedef_, __LINE__) __attribute__((unused))
 #else
-#  define THRUST_STATIC_ASSERT( B ) \
+#  define HYDRA_THRUST_STATIC_ASSERT( B ) \
    typedef HYDRA_EXTERNAL_NS::thrust::detail::static_assert_test<\
       sizeof(HYDRA_EXTERNAL_NS::thrust::detail::STATIC_ASSERTION_FAILURE< (bool)( B ) >)>\
-         THRUST_JOIN(thrust_static_assert_typedef_, __LINE__)
+         HYDRA_THRUST_JOIN(thrust_static_assert_typedef_, __LINE__)
 #endif // gcc 4.8+
 

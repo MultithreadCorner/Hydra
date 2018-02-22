@@ -24,7 +24,7 @@
 
 // if the macros are already defined, save them and undefine them
 
-#if !defined(__GNUC__) || (THRUST_GCC_VERSION >= 40300)
+#if !defined(__GNUC__) || (HYDRA_THRUST_GCC_VERSION >= 40300)
 #  ifdef BULK_NAMESPACE_PREFIX
 #    pragma push_macro("BULK_NAMESPACE_PREFIX")
 #    undef BULK_NAMESPACE_PREFIX
@@ -55,7 +55,7 @@
 
 // redefine the macros if they were defined previously
 
-#if !defined(__GNUC__) || (THRUST_GCC_VERSION >= 40300)
+#if !defined(__GNUC__) || (HYDRA_THRUST_GCC_VERSION >= 40300)
 #  ifdef BULK_NAMESPACE_PREFIX_NEEDS_RESTORE
 #    pragma pop_macro("BULK_NAMESPACE_PREFIX")
 #    undef BULK_NAMESPACE_PREFIX_NEEDS_RESTORE

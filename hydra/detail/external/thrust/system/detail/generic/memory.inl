@@ -37,7 +37,7 @@ __host__ __device__
   void malloc(thrust::execution_policy<DerivedPolicy> &, Size)
 {
   // unimplemented
-  THRUST_STATIC_ASSERT( (thrust::detail::depend_on_instantiation<Size, false>::value) );
+  HYDRA_THRUST_STATIC_ASSERT( (thrust::detail::depend_on_instantiation<Size, false>::value) );
 }
 
 
@@ -57,7 +57,7 @@ __host__ __device__
   void free(thrust::execution_policy<DerivedPolicy> &, Pointer)
 {
   // unimplemented
-  THRUST_STATIC_ASSERT( (thrust::detail::depend_on_instantiation<Pointer, false>::value) );
+  HYDRA_THRUST_STATIC_ASSERT( (thrust::detail::depend_on_instantiation<Pointer, false>::value) );
 }
 
 
@@ -66,7 +66,7 @@ __host__ __device__
 void assign_value(thrust::execution_policy<DerivedPolicy> &, Pointer1, Pointer2)
 {
   // unimplemented
-  THRUST_STATIC_ASSERT( (thrust::detail::depend_on_instantiation<Pointer1, false>::value) );
+  HYDRA_THRUST_STATIC_ASSERT( (thrust::detail::depend_on_instantiation<Pointer1, false>::value) );
 }
 
 
@@ -75,7 +75,7 @@ __host__ __device__
 void get_value(thrust::execution_policy<DerivedPolicy> &, Pointer)
 {
   // unimplemented
-  THRUST_STATIC_ASSERT( (thrust::detail::depend_on_instantiation<Pointer, false>::value) );
+  HYDRA_THRUST_STATIC_ASSERT( (thrust::detail::depend_on_instantiation<Pointer, false>::value) );
 }
 
 
@@ -84,7 +84,7 @@ __host__ __device__
 void iter_swap(tag, Pointer1, Pointer2)
 {
   // unimplemented
-  THRUST_STATIC_ASSERT( (thrust::detail::depend_on_instantiation<Pointer1, false>::value) );
+  HYDRA_THRUST_STATIC_ASSERT( (thrust::detail::depend_on_instantiation<Pointer1, false>::value) );
 }
 
 

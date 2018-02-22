@@ -18,7 +18,7 @@
 
 #include <hydra/detail/external/thrust/detail/type_traits.h>
 
-#define __THRUST_DEFINE_HAS_MEMBER_FUNCTION(trait_name, member_function_name)                                \
+#define __HYDRA_THRUST_DEFINE_HAS_MEMBER_FUNCTION(trait_name, member_function_name)                                \
 template<typename T, typename Signature> class trait_name;                                                   \
                                                                                                              \
 template<typename T, typename Result>                                                                        \

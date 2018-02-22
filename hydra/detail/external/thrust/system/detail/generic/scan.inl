@@ -118,7 +118,7 @@ __host__ __device__
                                 BinaryFunction /*binary_op*/)
 {
   // unimplemented primitive
-  THRUST_STATIC_ASSERT( (thrust::detail::depend_on_instantiation<InputIterator, false>::value) );
+  HYDRA_THRUST_STATIC_ASSERT( (thrust::detail::depend_on_instantiation<InputIterator, false>::value) );
   return result;
 } // end inclusive_scan
 
@@ -137,7 +137,7 @@ __host__ __device__
                                 BinaryFunction /*binary_op*/)
 {
   // unimplemented primitive
-  THRUST_STATIC_ASSERT( (thrust::detail::depend_on_instantiation<InputIterator, false>::value) );
+  HYDRA_THRUST_STATIC_ASSERT( (thrust::detail::depend_on_instantiation<InputIterator, false>::value) );
   return result;
 } // end exclusive_scan()
 

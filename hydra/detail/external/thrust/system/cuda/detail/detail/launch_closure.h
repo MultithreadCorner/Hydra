@@ -45,20 +45,20 @@ struct launch_bounds
 struct thread_array : public launch_bounds<>
 {
 // CUDA built-in variables require nvcc
-#if THRUST_DEVICE_COMPILER == THRUST_DEVICE_COMPILER_NVCC
+#if HYDRA_THRUST_DEVICE_COMPILER == HYDRA_THRUST_DEVICE_COMPILER_NVCC
   __device__ __thrust_forceinline__ unsigned int thread_index(void) const { return threadIdx.x; }
   __device__ __thrust_forceinline__ unsigned int thread_count(void) const { return blockDim.x * gridDim.x; } 
 #else
   __device__ __thrust_forceinline__ unsigned int thread_index(void) const { return 0; }
   __device__ __thrust_forceinline__ unsigned int thread_count(void) const { return 0; } 
-#endif // THRUST_DEVICE_COMPILER_NVCC
+#endif // HYDRA_THRUST_DEVICE_COMPILER_NVCC
 };
 
 
 struct blocked_thread_array : public launch_bounds<>
 {
 // CUDA built-in variables require nvcc
-#if THRUST_DEVICE_COMPILER == THRUST_DEVICE_COMPILER_NVCC
+#if HYDRA_THRUST_DEVICE_COMPILER == HYDRA_THRUST_DEVICE_COMPILER_NVCC
   __device__ __thrust_forceinline__ unsigned int thread_index(void)    const { return threadIdx.x; }
   __device__ __thrust_forceinline__ unsigned int block_dimension(void) const { return blockDim.x;  } 
   __device__ __thrust_forceinline__ unsigned int block_index(void)     const { return blockIdx.x;  }
@@ -72,7 +72,7 @@ struct blocked_thread_array : public launch_bounds<>
   __device__ __thrust_forceinline__ unsigned int grid_dimension(void)  const { return 0; }
   __device__ __thrust_forceinline__ unsigned int linear_index(void)    const { return 0; }
   __device__ __thrust_forceinline__ void         barrier(void)               {           }
-#endif // THRUST_DEVICE_COMPILER_NVCC
+#endif // HYDRA_THRUST_DEVICE_COMPILER_NVCC
 };
 
 
@@ -80,7 +80,7 @@ template <unsigned int _ThreadsPerBlock>
 struct statically_blocked_thread_array : public launch_bounds<_ThreadsPerBlock,1>
 {
 // CUDA built-in variables require nvcc
-#if THRUST_DEVICE_COMPILER == THRUST_DEVICE_COMPILER_NVCC
+#if HYDRA_THRUST_DEVICE_COMPILER == HYDRA_THRUST_DEVICE_COMPILER_NVCC
   __device__ __thrust_forceinline__ unsigned int thread_index(void)    const { return threadIdx.x;      }
   __device__ __thrust_forceinline__ unsigned int block_dimension(void) const { return _ThreadsPerBlock; } // minor optimization
   __device__ __thrust_forceinline__ unsigned int block_index(void)     const { return blockIdx.x;       }
@@ -94,7 +94,7 @@ struct statically_blocked_thread_array : public launch_bounds<_ThreadsPerBlock,1
   __device__ __thrust_forceinline__ unsigned int grid_dimension(void)  const { return 0; }
   __device__ __thrust_forceinline__ unsigned int linear_index(void)    const { return 0; }
   __device__ __thrust_forceinline__ void         barrier(void)               {           }
-#endif // THRUST_DEVICE_COMPILER_NVCC
+#endif // HYDRA_THRUST_DEVICE_COMPILER_NVCC
 };
 
 template<typename DerivedPolicy, typename Closure, typename Size>

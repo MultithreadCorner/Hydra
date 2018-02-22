@@ -189,7 +189,7 @@ __host__ __device__
                    StrictWeakOrdering /*comp*/)
 {
   // unimplemented primitive
-  THRUST_STATIC_ASSERT( (thrust::detail::depend_on_instantiation<RandomAccessIterator, false>::value) );
+  HYDRA_THRUST_STATIC_ASSERT( (thrust::detail::depend_on_instantiation<RandomAccessIterator, false>::value) );
 } // end stable_sort()
 
 
@@ -205,7 +205,7 @@ __host__ __device__
                           StrictWeakOrdering /*comp*/)
 {
   // unimplemented primitive
-  THRUST_STATIC_ASSERT( (thrust::detail::depend_on_instantiation<RandomAccessIterator1, false>::value) );
+  HYDRA_THRUST_STATIC_ASSERT( (thrust::detail::depend_on_instantiation<RandomAccessIterator1, false>::value) );
 } // end stable_sort_by_key()
 
 

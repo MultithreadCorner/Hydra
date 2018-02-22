@@ -50,8 +50,8 @@ RandomAccessIterator for_each_n(execution_policy<DerivedPolicy> &,
   // X Note to the user: If you've found this line due to a compiler error, X
   // X you need to enable OpenMP support in your compiler.                  X
   // ========================================================================
-  THRUST_STATIC_ASSERT( (thrust::detail::depend_on_instantiation<RandomAccessIterator,
-                        (THRUST_DEVICE_COMPILER_IS_OMP_CAPABLE == THRUST_TRUE)>::value) );
+  HYDRA_THRUST_STATIC_ASSERT( (thrust::detail::depend_on_instantiation<RandomAccessIterator,
+                        (HYDRA_THRUST_DEVICE_COMPILER_IS_OMP_CAPABLE == HYDRA_THRUST_TRUE)>::value) );
 
   if (n <= 0) return first;  //empty range
 
@@ -61,7 +61,7 @@ RandomAccessIterator for_each_n(execution_policy<DerivedPolicy> &,
 // do not attempt to compile the body of this function, which depends on #pragma omp,
 // without support from the compiler
 // XXX implement the body of this function in another file to eliminate this ugliness
-#if (THRUST_DEVICE_COMPILER_IS_OMP_CAPABLE == THRUST_TRUE)
+#if (HYDRA_THRUST_DEVICE_COMPILER_IS_OMP_CAPABLE == HYDRA_THRUST_TRUE)
   // use a signed type for the iteration variable or suffer the consequences of warnings
   typedef typename thrust::iterator_difference<RandomAccessIterator>::type DifferenceType;
   DifferenceType signed_n = n;
@@ -73,7 +73,7 @@ RandomAccessIterator for_each_n(execution_policy<DerivedPolicy> &,
     RandomAccessIterator temp = first + i;
     wrapped_f(*temp);
   }
-#endif // THRUST_DEVICE_COMPILER_IS_OMP_CAPABLE
+#endif // HYDRA_THRUST_DEVICE_COMPILER_IS_OMP_CAPABLE
 
   return first + n;
 } // end for_each_n() 

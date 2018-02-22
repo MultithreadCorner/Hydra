@@ -97,7 +97,7 @@ operator<<(std::basic_ostream<charT, traits> &os,
 namespace detail
 {
 
-#if (THRUST_HOST_COMPILER == THRUST_HOST_COMPILER_MSVC) && (_MSC_VER <= 1400)
+#if (HYDRA_THRUST_HOST_COMPILER == HYDRA_THRUST_HOST_COMPILER_MSVC) && (_MSC_VER <= 1400)
 // XXX WAR MSVC 2005 problem with correctly implementing
 //     pointer_raw_pointer for pointer by specializing it here
 template<typename Element, typename Tag, typename Reference, typename Derived>
@@ -108,7 +108,7 @@ template<typename Element, typename Tag, typename Reference, typename Derived>
 #endif
 
 
-#if (THRUST_HOST_COMPILER == THRUST_HOST_COMPILER_GCC) && (THRUST_GCC_VERSION < 40200)
+#if (HYDRA_THRUST_HOST_COMPILER == HYDRA_THRUST_HOST_COMPILER_GCC) && (HYDRA_THRUST_GCC_VERSION < 40200)
 // XXX WAR g++-4.1 problem with correctly implementing
 //     pointer_element for pointer by specializing it here
 template<typename Element, typename Tag>

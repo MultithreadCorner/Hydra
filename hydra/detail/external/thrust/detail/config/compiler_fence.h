@@ -19,7 +19,7 @@
 #include <hydra/detail/external/thrust/detail/config.h>
 
 // msvc case
-#if THRUST_HOST_COMPILER == THRUST_HOST_COMPILER_MSVC
+#if HYDRA_THRUST_HOST_COMPILER == HYDRA_THRUST_HOST_COMPILER_MSVC
 
 #ifndef _DEBUG
 
@@ -33,19 +33,19 @@
 #endif // _DEBUG
 
 // gcc case
-#elif THRUST_HOST_COMPILER == THRUST_HOST_COMPILER_GCC
+#elif HYDRA_THRUST_HOST_COMPILER == HYDRA_THRUST_HOST_COMPILER_GCC
 
-#if THRUST_GCC_VERSION >= 40200 // atomic built-ins were introduced ~4.2
+#if HYDRA_THRUST_GCC_VERSION >= 40200 // atomic built-ins were introduced ~4.2
 #define __thrust_compiler_fence() __sync_synchronize()
 #else
 // allow the code to compile without any guarantees
 #define __thrust_compiler_fence() do {} while (0)
-#endif // THRUST_GCC_VERSION
+#endif // HYDRA_THRUST_GCC_VERSION
 
 // unknown case
-#elif THRUST_HOST_COMPILER == THRUST_HOST_COMPILER_CLANG
+#elif HYDRA_THRUST_HOST_COMPILER == HYDRA_THRUST_HOST_COMPILER_CLANG
 #define __thrust_compiler_fence() __sync_synchronize()
-#elif THRUST_HOST_COMPILER == THRUST_HOST_COMPILER_UNKNOWN
+#elif HYDRA_THRUST_HOST_COMPILER == HYDRA_THRUST_HOST_COMPILER_UNKNOWN
 
 // allow the code to compile without any guarantees
 #define __thrust_compiler_fence() do {} while (0)
