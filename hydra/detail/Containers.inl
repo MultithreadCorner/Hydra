@@ -33,7 +33,7 @@
 #include <hydra/detail/external/thrust/device_vector.h>
 #include <hydra/detail/external/thrust/host_vector.h>
 #include <hydra/detail/external/thrust/complex.h>
-#if THRUST_DEVICE_SYSTEM==THRUST_DEVICE_SYSTEM_CUDA
+#if HYDRA_THRUST_DEVICE_SYSTEM==HYDRA_THRUST_DEVICE_SYSTEM_CUDA
 #include <hydra/detail/external/thrust/system/cuda/experimental/pinned_allocator.h>
 #endif
 

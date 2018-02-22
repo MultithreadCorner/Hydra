@@ -72,11 +72,13 @@ endif()
 # Check for required components
 include( FindPackageHandleStandardArgs )
 find_package_handle_standard_args( Hydra
-  FOUND_VAR HYDRA_FOUND
+  FOUND_VAR Hydra_FOUND
   REQUIRED_VARS HYDRA_INCLUDE_DIR
   VERSION_VAR HYDRA_VERSION
   )
 
-if(HYDRA_FOUND)
+if(Hydra_FOUND)
   set(HYDRA_INCLUDE_DIRS ${HYDRA_INCLUDE_DIR})
 endif()
+
+mark_as_advanced(HYDRA_INCLUDE_DIR)
