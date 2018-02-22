@@ -720,13 +720,13 @@ template<typename T, typename Alloc>
       const size_type old_size = size();
 
       // compute the new capacity after the allocation
-      size_type new_capacity = old_size + thrust::max THRUST_PREVENT_MACRO_SUBSTITUTION (old_size, num_new_elements);
+      size_type new_capacity = old_size + thrust::max HYDRA_THRUST_PREVENT_MACRO_SUBSTITUTION (old_size, num_new_elements);
 
       // allocate exponentially larger new storage
-      new_capacity = thrust::max THRUST_PREVENT_MACRO_SUBSTITUTION <size_type>(new_capacity, 2 * capacity());
+      new_capacity = thrust::max HYDRA_THRUST_PREVENT_MACRO_SUBSTITUTION <size_type>(new_capacity, 2 * capacity());
 
       // do not exceed maximum storage
-      new_capacity = thrust::min THRUST_PREVENT_MACRO_SUBSTITUTION <size_type>(new_capacity, max_size());
+      new_capacity = thrust::min HYDRA_THRUST_PREVENT_MACRO_SUBSTITUTION <size_type>(new_capacity, max_size());
 
       if(new_capacity > max_size())
       {
@@ -792,13 +792,13 @@ template<typename T, typename Alloc>
       const size_type old_size = size();
 
       // compute the new capacity after the allocation
-      size_type new_capacity = old_size + thrust::max THRUST_PREVENT_MACRO_SUBSTITUTION (old_size, n);
+      size_type new_capacity = old_size + thrust::max HYDRA_THRUST_PREVENT_MACRO_SUBSTITUTION (old_size, n);
 
       // allocate exponentially larger new storage
-      new_capacity = thrust::max THRUST_PREVENT_MACRO_SUBSTITUTION <size_type>(new_capacity, 2 * capacity());
+      new_capacity = thrust::max HYDRA_THRUST_PREVENT_MACRO_SUBSTITUTION <size_type>(new_capacity, 2 * capacity());
 
       // do not exceed maximum storage
-      new_capacity = thrust::min THRUST_PREVENT_MACRO_SUBSTITUTION <size_type>(new_capacity, max_size());
+      new_capacity = thrust::min HYDRA_THRUST_PREVENT_MACRO_SUBSTITUTION <size_type>(new_capacity, max_size());
 
       // create new storage
       storage_type new_storage(new_capacity);
@@ -888,13 +888,13 @@ template<typename T, typename Alloc>
       const size_type old_size = size();
 
       // compute the new capacity after the allocation
-      size_type new_capacity = old_size + thrust::max THRUST_PREVENT_MACRO_SUBSTITUTION (old_size, n);
+      size_type new_capacity = old_size + thrust::max HYDRA_THRUST_PREVENT_MACRO_SUBSTITUTION (old_size, n);
 
       // allocate exponentially larger new storage
-      new_capacity = thrust::max THRUST_PREVENT_MACRO_SUBSTITUTION <size_type>(new_capacity, 2 * capacity());
+      new_capacity = thrust::max HYDRA_THRUST_PREVENT_MACRO_SUBSTITUTION <size_type>(new_capacity, 2 * capacity());
 
       // do not exceed maximum storage
-      new_capacity = thrust::min THRUST_PREVENT_MACRO_SUBSTITUTION <size_type>(new_capacity, max_size());
+      new_capacity = thrust::min HYDRA_THRUST_PREVENT_MACRO_SUBSTITUTION <size_type>(new_capacity, max_size());
 
       if(new_capacity > max_size())
       {

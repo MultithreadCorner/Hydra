@@ -221,7 +221,7 @@ inline __device__
 inline __device__ int pop_count(unsigned int x)
 {
 // guard use of __popc from other compilers
-#if THRUST_DEVICE_COMPILER == THRUST_DEVICE_COMPILER_NVCC
+#if HYDRA_THRUST_DEVICE_COMPILER == HYDRA_THRUST_DEVICE_COMPILER_NVCC
   return __popc(x);
 #else
   return x;
@@ -596,7 +596,7 @@ OutputIterator set_operation(thrust::cuda::execution_policy<DerivedPolicy> &exec
   // X Note to the user: If you've found this line due to a compiler error, X
   // X you need to compile your code using nvcc, rather than g++ or cl.exe  X
   // ========================================================================
-  THRUST_STATIC_ASSERT( (thrust::detail::depend_on_instantiation<InputIterator1, THRUST_DEVICE_COMPILER == THRUST_DEVICE_COMPILER_NVCC>::value) );
+  HYDRA_THRUST_STATIC_ASSERT( (thrust::detail::depend_on_instantiation<InputIterator1, HYDRA_THRUST_DEVICE_COMPILER == HYDRA_THRUST_DEVICE_COMPILER_NVCC>::value) );
 
   using thrust::system::cuda::detail::device_properties;
   using thrust::system::cuda::detail::detail::launch_closure;

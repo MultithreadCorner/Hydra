@@ -26,7 +26,7 @@ HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
 //     pointer_raw_pointer for pointer by specializing it here
 //     note that we specialize it here, before the use of raw_pointer_cast
 //     below, which causes pointer_raw_pointer's instantiation
-#if (THRUST_HOST_COMPILER == THRUST_HOST_COMPILER_MSVC) && (_MSC_VER <= 1400)
+#if (HYDRA_THRUST_HOST_COMPILER == HYDRA_THRUST_HOST_COMPILER_MSVC) && (_MSC_VER <= 1400)
 namespace detail
 {
 

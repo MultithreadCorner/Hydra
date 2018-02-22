@@ -35,7 +35,7 @@ namespace detail
 {
 
 
-__THRUST_DEFINE_HAS_NESTED_TYPE(is_wrapped_reference, wrapped_reference_hint)
+__HYDRA_THRUST_DEFINE_HAS_NESTED_TYPE(is_wrapped_reference, wrapped_reference_hint)
 
 
 // wrapped reference-like things which aren't strictly wrapped references

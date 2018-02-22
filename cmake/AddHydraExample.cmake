@@ -9,7 +9,7 @@ function(ADD_HYDRA_EXAMPLE target_name)
                   cuda_add_executable("${target_name}_cuda"
                    #EXCLUDE_FROM_ALL 
                    "${target_name}.cu"    
-                   OPTIONS -Xcompiler -DTHRUST_DEVICE_SYSTEM=THRUST_DEVICE_SYSTEM_CUDA  -DTHRUST_HOST_SYSTEM=THRUST_HOST_SYSTEM_CPP)
+                   OPTIONS -Xcompiler -DHYDRA_DEVICE_SYSTEM=CUDA -DHYDRA_HOST_SYSTEM=CPP)
                     
                   target_link_libraries("${target_name}_cuda" ${ROOT_LIBRARIES} )
                  
@@ -27,7 +27,7 @@ function(ADD_HYDRA_EXAMPLE target_name)
                  "${target_name}.cpp" )
                     
                  set_target_properties( "${target_name}_tbb" 
-                  PROPERTIES COMPILE_FLAGS "-DTHRUST_HOST_SYSTEM=THRUST_HOST_SYSTEM_CPP -DTHRUST_DEVICE_SYSTEM=THRUST_DEVICE_SYSTEM_TBB")
+                  PROPERTIES COMPILE_FLAGS "-DHYDRA_HOST_SYSTEM=CPP -DHYDRA_DEVICE_SYSTEM=TBB")
                     
                  target_link_libraries( "${target_name}_tbb" ${ROOT_LIBRARIES} ${TBB_LIBRARIES} )
                    
@@ -45,7 +45,7 @@ function(ADD_HYDRA_EXAMPLE target_name)
                  "${target_name}.cpp" )
                     
                  set_target_properties( "${target_name}_cpp" 
-                  PROPERTIES COMPILE_FLAGS "-DTHRUST_HOST_SYSTEM=THRUST_HOST_SYSTEM_CPP -DTHRUST_DEVICE_SYSTEM=THRUST_DEVICE_SYSTEM_CPP")
+                  PROPERTIES COMPILE_FLAGS "-DHYDRA_HOST_SYSTEM=CPP -DHYDRA_DEVICE_SYSTEM=CPP")
                     
                  target_link_libraries( "${target_name}_cpp" ${ROOT_LIBRARIES} ${TBB_LIBRARIES} )
                    
@@ -64,7 +64,7 @@ function(ADD_HYDRA_EXAMPLE target_name)
                  "${target_name}.cpp" )
                     
                  set_target_properties( "${target_name}_omp" 
-                  PROPERTIES COMPILE_FLAGS "-DTHRUST_HOST_SYSTEM=THRUST_HOST_SYSTEM_CPP -DTHRUST_DEVICE_SYSTEM=THRUST_DEVICE_SYSTEM_OMP ${OpenMP_CXX_FLAGS}")
+                  PROPERTIES COMPILE_FLAGS "-DHYDRA_HOST_SYSTEM=CPP -DHYDRA_DEVICE_SYSTEM=OMP ${OpenMP_CXX_FLAGS}")
                     
                  target_link_libraries( "${target_name}_omp" ${ROOT_LIBRARIES} ${OpenMP_CXX_LIBRARIES})
                    

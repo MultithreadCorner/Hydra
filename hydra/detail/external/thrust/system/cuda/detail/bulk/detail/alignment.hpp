@@ -191,13 +191,13 @@ template<std::size_t Align> struct aligned_type
 {
   struct __align__(Align) type { };
 };
-#  endif // THRUST_HOST_COMPILER
+#  endif // HYDRA_THRUST_HOST_COMPILER
 #else
 template<std::size_t Align> struct aligned_type
 {
   struct type { };
 };
-#endif // THRUST_DEVICE_COMPILER
+#endif // HYDRA_THRUST_DEVICE_COMPILER
 
 
 template<std::size_t Len, std::size_t Align>

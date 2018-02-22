@@ -229,7 +229,7 @@ template <typename IteratorTuple>
  *
  *  \see zip_iterator
  */
-#ifdef THRUST_VARIADIC_TUPLE
+#ifdef HYDRA_THRUST_VARIADIC_TUPLE
 template<typename... Iterators>
 inline __host__ __device__
 zip_iterator<thrust::tuple<Iterators...>> make_zip_iterator(thrust::tuple<Iterators...> t);

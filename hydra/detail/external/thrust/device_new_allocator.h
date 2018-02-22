@@ -149,7 +149,7 @@ template<typename T>
     __host__ __device__
     inline size_type max_size() const
     {
-      return std::numeric_limits<size_type>::max THRUST_PREVENT_MACRO_SUBSTITUTION () / sizeof(T);
+      return std::numeric_limits<size_type>::max HYDRA_THRUST_PREVENT_MACRO_SUBSTITUTION () / sizeof(T);
     } // end max_size()
 
     /*! Compares against another \p device_malloc_allocator for equality.

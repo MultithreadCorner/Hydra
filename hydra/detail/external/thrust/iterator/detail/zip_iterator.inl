@@ -129,7 +129,7 @@ template<typename IteratorTuple>
 		  - HYDRA_EXTERNAL_NS::thrust::get<0>(get_iterator_tuple());
 } // end zip_iterator::distance_to()
 
-#ifdef THRUST_VARIADIC_TUPLE
+#ifdef HYDRA_THRUST_VARIADIC_TUPLE
 template<typename... Iterators>
 __host__ __device__
   zip_iterator<thrust::tuple<Iterators...>> make_zip_iterator(thrust::tuple<Iterators...> t)

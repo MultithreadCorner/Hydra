@@ -397,7 +397,7 @@ OutputIterator set_difference(thrust::execution_policy<DerivedPolicy> &exec,
                               StrictWeakOrdering                       comp)
 {
   // unimplemented primitive
-  THRUST_STATIC_ASSERT( (thrust::detail::depend_on_instantiation<InputIterator1, false>::value) );
+  HYDRA_THRUST_STATIC_ASSERT( (thrust::detail::depend_on_instantiation<InputIterator1, false>::value) );
   return result;
 } // end set_difference()
 
@@ -417,7 +417,7 @@ OutputIterator set_intersection(thrust::execution_policy<DerivedPolicy> &exec,
                                 StrictWeakOrdering                       comp)
 {
   // unimplemented primitive
-  THRUST_STATIC_ASSERT( (thrust::detail::depend_on_instantiation<InputIterator1, false>::value) );
+  HYDRA_THRUST_STATIC_ASSERT( (thrust::detail::depend_on_instantiation<InputIterator1, false>::value) );
   return result;
 } // end set_intersection()
 
@@ -437,7 +437,7 @@ OutputIterator set_symmetric_difference(thrust::execution_policy<DerivedPolicy> 
                                         StrictWeakOrdering                       comp)
 {
   // unimplemented primitive
-  THRUST_STATIC_ASSERT( (thrust::detail::depend_on_instantiation<InputIterator1, false>::value) );
+  HYDRA_THRUST_STATIC_ASSERT( (thrust::detail::depend_on_instantiation<InputIterator1, false>::value) );
   return result;
 } // end set_symmetric_difference()
 
@@ -457,7 +457,7 @@ OutputIterator set_union(thrust::execution_policy<DerivedPolicy> &exec,
                          StrictWeakOrdering                       comp)
 {
   // unimplemented primitive
-  THRUST_STATIC_ASSERT( (thrust::detail::depend_on_instantiation<InputIterator1, false>::value) );
+  HYDRA_THRUST_STATIC_ASSERT( (thrust::detail::depend_on_instantiation<InputIterator1, false>::value) );
   return result;
 } // end set_union()
 

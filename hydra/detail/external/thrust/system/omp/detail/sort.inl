@@ -18,7 +18,7 @@
 #include <hydra/detail/external/thrust/detail/config.h>
 
 // don't attempt to #include this file without omp support
-#if (THRUST_DEVICE_COMPILER_IS_OMP_CAPABLE == THRUST_TRUE)
+#if (HYDRA_THRUST_DEVICE_COMPILER_IS_OMP_CAPABLE == HYDRA_THRUST_TRUE)
 #include <omp.h>
 #endif // omp support
 
@@ -106,10 +106,10 @@ void stable_sort(execution_policy<DerivedPolicy> &exec,
   // X Note to the user: If you've found this line due to a compiler error, X
   // X you need to enable OpenMP support in your compiler.                  X
   // ========================================================================
-  THRUST_STATIC_ASSERT( (thrust::detail::depend_on_instantiation<RandomAccessIterator,
-                        (THRUST_DEVICE_COMPILER_IS_OMP_CAPABLE == THRUST_TRUE)>::value) );
+  HYDRA_THRUST_STATIC_ASSERT( (thrust::detail::depend_on_instantiation<RandomAccessIterator,
+                        (HYDRA_THRUST_DEVICE_COMPILER_IS_OMP_CAPABLE == HYDRA_THRUST_TRUE)>::value) );
 
-#if (THRUST_DEVICE_COMPILER_IS_OMP_CAPABLE == THRUST_TRUE)
+#if (HYDRA_THRUST_DEVICE_COMPILER_IS_OMP_CAPABLE == HYDRA_THRUST_TRUE)
   typedef typename thrust::iterator_difference<RandomAccessIterator>::type IndexType;
   
   if(first == last)
@@ -165,7 +165,7 @@ void stable_sort(execution_policy<DerivedPolicy> &exec,
       #pragma omp barrier
     }
   }
-#endif // THRUST_DEVICE_COMPILER_IS_OMP_CAPABLE
+#endif // HYDRA_THRUST_DEVICE_COMPILER_IS_OMP_CAPABLE
 }
 
 
@@ -184,10 +184,10 @@ void stable_sort_by_key(execution_policy<DerivedPolicy> &exec,
   // X Note to the user: If you've found this line due to a compiler error, X
   // X you need to enable OpenMP support in your compiler.                  X
   // ========================================================================
-  THRUST_STATIC_ASSERT( (thrust::detail::depend_on_instantiation<RandomAccessIterator1,
-                        (THRUST_DEVICE_COMPILER_IS_OMP_CAPABLE == THRUST_TRUE)>::value) );
+  HYDRA_THRUST_STATIC_ASSERT( (thrust::detail::depend_on_instantiation<RandomAccessIterator1,
+                        (HYDRA_THRUST_DEVICE_COMPILER_IS_OMP_CAPABLE == HYDRA_THRUST_TRUE)>::value) );
 
-#if (THRUST_DEVICE_COMPILER_IS_OMP_CAPABLE == THRUST_TRUE)
+#if (HYDRA_THRUST_DEVICE_COMPILER_IS_OMP_CAPABLE == HYDRA_THRUST_TRUE)
   typedef typename thrust::iterator_difference<RandomAccessIterator1>::type IndexType;
   
   if(keys_first == keys_last)
@@ -245,7 +245,7 @@ void stable_sort_by_key(execution_policy<DerivedPolicy> &exec,
       #pragma omp barrier
     }
   }
-#endif // THRUST_DEVICE_COMPILER_IS_OMP_CAPABLE
+#endif // HYDRA_THRUST_DEVICE_COMPILER_IS_OMP_CAPABLE
 }
 
 

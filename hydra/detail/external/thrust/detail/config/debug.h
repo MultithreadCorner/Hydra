@@ -16,17 +16,17 @@
 
 #pragma once
 
-#ifndef THRUST_DEBUG
+#ifndef HYDRA_THRUST_DEBUG
 #  ifndef NDEBUG
 #    if defined(DEBUG) || defined(_DEBUG)
-#      define THRUST_DEBUG 1
+#      define HYDRA_THRUST_DEBUG 1
 #    endif // (DEBUG || _DEBUG)
 #  endif // NDEBUG
-#endif // THRUST_DEBUG
+#endif // HYDRA_THRUST_DEBUG
 
-#if THRUST_DEBUG
-#  ifndef __THRUST_SYNCHRONOUS
-#    define __THRUST_SYNCHRONOUS 1
-#  endif // __THRUST_SYNCHRONOUS
-#endif // THRUST_DEBUG
+#if HYDRA_THRUST_DEBUG
+#  ifndef __HYDRA_THRUST_SYNCHRONOUS
+#    define __HYDRA_THRUST_SYNCHRONOUS 1
+#  endif // __HYDRA_THRUST_SYNCHRONOUS
+#endif // HYDRA_THRUST_DEBUG
 

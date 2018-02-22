@@ -34,7 +34,7 @@
 
 #include <hydra/detail/external/thrust/version.h>
 
-#if THRUST_VERSION < 100800
+#if HYDRA_THRUST_VERSION < 100800
 #error "Bulk requires Thrust v1.8 (http://thrust.github.io) or better."
 #endif
 

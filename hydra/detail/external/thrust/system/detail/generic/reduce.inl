@@ -65,7 +65,7 @@ __host__ __device__
                     BinaryFunction /*binary_op*/)
 {
   // unimplemented
-  THRUST_STATIC_ASSERT( (thrust::detail::depend_on_instantiation<RandomAccessIterator, false>::value) );
+  HYDRA_THRUST_STATIC_ASSERT( (thrust::detail::depend_on_instantiation<RandomAccessIterator, false>::value) );
   return OutputType();
 } // end reduce()
 

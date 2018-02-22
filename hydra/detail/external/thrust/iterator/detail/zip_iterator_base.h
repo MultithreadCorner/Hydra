@@ -261,7 +261,7 @@ namespace zip_iterator_base_ns
 {
 
 
-#ifdef THRUST_VARIADIC_TUPLE
+#ifdef HYDRA_THRUST_VARIADIC_TUPLE
 template<typename Tuple, typename IndexSequence>
   struct tuple_of_iterator_references_helper;
 
@@ -309,7 +309,7 @@ template<typename IteratorTuple>
     iterator_reference
   >::type tuple_of_references;
 
-#ifdef THRUST_VARIADIC_TUPLE
+#ifdef HYDRA_THRUST_VARIADIC_TUPLE
   // map thrust::tuple<T...> to tuple_of_iterator_references<T...>
   typedef typename tuple_of_iterator_references_helper<
     tuple_of_references,

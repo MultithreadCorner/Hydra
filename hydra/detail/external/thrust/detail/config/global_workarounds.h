@@ -19,7 +19,7 @@
 #include <hydra/detail/external/thrust/detail/config/compiler.h>
 
 // XXX workaround gcc 4.8+'s complaints about unused local typedefs by silencing them globally
-#if defined(THRUST_GCC_VERSION) && (THRUST_GCC_VERSION >= 40800)
+#if defined(HYDRA_THRUST_GCC_VERSION) && (HYDRA_THRUST_GCC_VERSION >= 40800)
 #  if defined(__NVCC__) && (CUDA_VERSION >= 6000)
 #    pragma GCC diagnostic ignored "-Wunused-local-typedefs"
 #  endif // nvcc & cuda 6+

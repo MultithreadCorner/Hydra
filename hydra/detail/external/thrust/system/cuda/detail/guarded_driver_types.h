@@ -28,12 +28,12 @@
 #  ifdef __host__
 #    pragma push_macro("__host__")
 #    undef __host__
-#    define THRUST_HOST_NEEDS_RESTORATION
+#    define HYDRA_THRUST_HOST_NEEDS_RESTORATION
 #  endif
 #  ifdef __device__
 #    pragma push_macro("__device__")
 #    undef __device__
-#    define THRUST_DEVICE_NEEDS_RESTORATION
+#    define HYDRA_THRUST_DEVICE_NEEDS_RESTORATION
 #  endif
 #else // GNUC pre 4.5.0
 #  if !defined(__DRIVER_TYPES_H__)
@@ -51,13 +51,13 @@
 
 
 #if !defined(__GNUC__) || ((10000 * __GNUC__ + 100 * __GNUC_MINOR__ + __GNUC_PATCHLEVEL__) >= 40500)
-#  ifdef THRUST_HOST_NEEDS_RESTORATION
+#  ifdef HYDRA_THRUST_HOST_NEEDS_RESTORATION
 #    pragma pop_macro("__host__")
-#    undef THRUST_HOST_NEEDS_RESTORATION
+#    undef HYDRA_THRUST_HOST_NEEDS_RESTORATION
 #  endif
-#  ifdef THRUST_DEVICE_NEEDS_RESTORATION
+#  ifdef HYDRA_THRUST_DEVICE_NEEDS_RESTORATION
 #    pragma pop_macro("__device__")
-#    undef THRUST_DEVICE_NEEDS_RESTORATION
+#    undef HYDRA_THRUST_DEVICE_NEEDS_RESTORATION
 #  endif
 #endif // __GNUC__
 

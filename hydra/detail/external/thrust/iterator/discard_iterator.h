@@ -25,7 +25,7 @@
 #include <hydra/detail/external/thrust/iterator/detail/discard_iterator_base.h>
 #include <hydra/detail/external/thrust/iterator/iterator_facade.h>
 
-__THRUST_DISABLE_MSVC_POSSIBLE_LOSS_OF_DATA_WARNING_BEGIN
+__HYDRA_THRUST_DISABLE_MSVC_POSSIBLE_LOSS_OF_DATA_WARNING_BEGIN
 
 HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
 {
@@ -169,5 +169,5 @@ discard_iterator<> make_discard_iterator(discard_iterator<>::difference_type i =
   
 HYDRA_EXTERNAL_NAMESPACE_END
 
-__THRUST_DISABLE_MSVC_POSSIBLE_LOSS_OF_DATA_WARNING_END
+__HYDRA_THRUST_DISABLE_MSVC_POSSIBLE_LOSS_OF_DATA_WARNING_END
 
