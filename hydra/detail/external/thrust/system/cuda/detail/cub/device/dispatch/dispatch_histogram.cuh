@@ -200,7 +200,7 @@ struct DipatchHistogram
         int             num_output_levels;          // Number of levels in array
 
         // Initializer
-        __host__ __device__ __forceinline__ void Init(
+        __hydra_host__ __hydra_device__ __forceinline__ void Init(
             LevelIteratorT  d_levels,               // Pointer to levels array
             int             num_output_levels)      // Number of levels in array
         {
@@ -210,7 +210,7 @@ struct DipatchHistogram
 
         // Method for converting samples to bin-ids
         template <CacheLoadModifier LOAD_MODIFIER, typename _SampleT>
-        __host__ __device__ __forceinline__ void BinSelect(_SampleT sample, int &bin, bool valid)
+        __hydra_host__ __hydra_device__ __forceinline__ void BinSelect(_SampleT sample, int &bin, bool valid)
         {
             /// Level iterator wrapper type
             typedef typename If<IsPointer<LevelIteratorT>::VALUE,
@@ -241,7 +241,7 @@ struct DipatchHistogram
 
         // Initializer
         template <typename _LevelT>
-        __host__ __device__ __forceinline__ void Init(
+        __hydra_host__ __hydra_device__ __forceinline__ void Init(
             int     num_output_levels,  // Number of levels in array
             _LevelT max,                // Max sample level (exclusive)
             _LevelT min,                // Min sample level (inclusive)
@@ -254,7 +254,7 @@ struct DipatchHistogram
         }
 
         // Initializer (float specialization)
-        __host__ __device__ __forceinline__ void Init(
+        __hydra_host__ __hydra_device__ __forceinline__ void Init(
             int    num_output_levels,   // Number of levels in array
             float   max,                // Max sample level (exclusive)
             float   min,                // Min sample level (inclusive)
@@ -267,7 +267,7 @@ struct DipatchHistogram
         }
 
         // Initializer (double specialization)
-        __host__ __device__ __forceinline__ void Init(
+        __hydra_host__ __hydra_device__ __forceinline__ void Init(
             int    num_output_levels,   // Number of levels in array
             double max,                 // Max sample level (exclusive)
             double min,                 // Min sample level (inclusive)
@@ -281,7 +281,7 @@ struct DipatchHistogram
 
         // Method for converting samples to bin-ids
         template <CacheLoadModifier LOAD_MODIFIER, typename _SampleT>
-        __host__ __device__ __forceinline__ void BinSelect(_SampleT sample, int &bin, bool valid)
+        __hydra_host__ __hydra_device__ __forceinline__ void BinSelect(_SampleT sample, int &bin, bool valid)
         {
             LevelT level_sample = (LevelT) sample;
 
@@ -291,7 +291,7 @@ struct DipatchHistogram
 
         // Method for converting samples to bin-ids (float specialization)
         template <CacheLoadModifier LOAD_MODIFIER>
-        __host__ __device__ __forceinline__ void BinSelect(float sample, int &bin, bool valid)
+        __hydra_host__ __hydra_device__ __forceinline__ void BinSelect(float sample, int &bin, bool valid)
         {
             LevelT level_sample = (LevelT) sample;
 
@@ -301,7 +301,7 @@ struct DipatchHistogram
 
         // Method for converting samples to bin-ids (double specialization)
         template <CacheLoadModifier LOAD_MODIFIER>
-        __host__ __device__ __forceinline__ void BinSelect(double sample, int &bin, bool valid)
+        __hydra_host__ __hydra_device__ __forceinline__ void BinSelect(double sample, int &bin, bool valid)
         {
             LevelT level_sample = (LevelT) sample;
 
@@ -316,7 +316,7 @@ struct DipatchHistogram
     {
         // Method for converting samples to bin-ids
         template <CacheLoadModifier LOAD_MODIFIER, typename _SampleT>
-        __host__ __device__ __forceinline__ void BinSelect(_SampleT sample, int &bin, bool valid)
+        __hydra_host__ __hydra_device__ __forceinline__ void BinSelect(_SampleT sample, int &bin, bool valid)
         {
             if (valid)
                 bin = (int) sample;

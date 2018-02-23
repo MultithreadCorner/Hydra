@@ -71,14 +71,14 @@ public:
 
 
 
-	__host__ __device__ inline
+	__hydra_host__ __hydra_device__ inline
 	Parameters(Parameters<N> const& other)
 	{
 		for(unsigned int i=0; i<N; i++)
 			this->SetParameter(i, other.GetParameter(i));
 	}
 
-	__host__ __device__ inline
+	__hydra_host__ __hydra_device__ inline
 	Parameters<N>& operator=(Parameters<N> const& other)
 	{
 		if(this == &other) return *this;
@@ -113,7 +113,7 @@ public:
 	 * @brief Set parameters
 	 * @param parameters
 	 */
-	__host__ inline
+	__hydra_host__ inline
 	void SetParameters(const std::vector<double>& parameters)
 	{
 
@@ -154,24 +154,24 @@ public:
 		return key;
 	}
 
-	__host__ __device__ inline
+	__hydra_host__ __hydra_device__ inline
 	 size_t GetNumberOfParameters() const {
 		return N;
 	}
 
-	__host__ __device__ inline
+	__hydra_host__ __hydra_device__ inline
 	const hydra::Parameter* GetParameters() const {
 		return &fParameters[0];
 	}
 
 	template<typename Int,
 			typename = typename std::enable_if<std::is_integral<Int>::value, void>::type>
-	__host__ __device__ inline
+	__hydra_host__ __hydra_device__ inline
 	const hydra::Parameter& GetParameter(Int i) const {
 		return fParameters[i];
 	}
 
-	__host__ inline
+	__hydra_host__ inline
 	const hydra::Parameter& GetParameter(const char* name) const {
 
 		size_t i=0;
@@ -184,12 +184,12 @@ public:
 
 	template<typename Int,
 		typename = typename std::enable_if<std::is_integral<Int>::value, void>::type>
-	__host__ __device__ inline
+	__hydra_host__ __hydra_device__ inline
 	hydra::Parameter& Parameter(Int i) {
 		return fParameters[i];
 	}
 
-	__host__ inline
+	__hydra_host__ inline
 	hydra::Parameter& Parameter(const char* name) {
 
 		size_t i=0;
@@ -202,19 +202,19 @@ public:
 
 	template<typename Int,
 	typename = typename std::enable_if<std::is_integral<Int>::value, void>::type>
-	__host__ __device__ inline
+	__hydra_host__ __hydra_device__ inline
 	void SetParameter(Int i, hydra::Parameter const& value) {
 		fParameters[i]=value;
 	}
 
 	template<typename Int,
 		typename = typename std::enable_if<std::is_integral<Int>::value, void>::type>
-	__host__ __device__ inline
+	__hydra_host__ __hydra_device__ inline
 	void SetParameter(Int i, double value) {
 		fParameters[i]=value;
 	}
 
-	__host__ inline
+	__hydra_host__ inline
 	void SetParameter(const char* name, hydra::Parameter const& value) {
 
 		size_t i=0;
@@ -226,7 +226,7 @@ public:
 			}
 	}
 
-	__host__ inline
+	__hydra_host__ inline
 	void SetParameter(const char* name, double value) {
 
 		size_t i=0;
@@ -240,7 +240,7 @@ public:
 
 	template<typename Int,
 		typename = typename std::enable_if<std::is_integral<Int>::value, void>::type>
-	__host__ __device__  inline
+	__hydra_host__ __hydra_device__  inline
 	GReal_t operator[](Int i) const {
 		return (GReal_t ) fParameters[i];
 	}
@@ -269,11 +269,11 @@ public:
 	Parameters(std::array<Parameter,0> const& )
 	{	}
 
-	__host__ __device__
+	__hydra_host__ __hydra_device__
 	Parameters(Parameters<0> const& )
 	{	}
 
-	__host__ __device__
+	__hydra_host__ __hydra_device__
 	Parameters<0>& operator=(Parameters<0> const& )
 	{	return *this;	}
 
@@ -297,12 +297,12 @@ public:
 	 * @brief Set parameters
 	 * @param parameters
 	 */
-	__host__ inline
+	__hydra_host__ inline
 	void SetParameters(const std::vector<double>&){}
 
 	inline	void AddUserParameters(std::vector<hydra::Parameter*>&  ){}
 
-	__host__ __device__ inline
+	__hydra_host__ __hydra_device__ inline
 	size_t GetNumberOfParameters() const { 	return 0; 	}
 
 };

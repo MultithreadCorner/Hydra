@@ -33,7 +33,7 @@ namespace generic
 
 
 template<typename ExecutionPolicy, typename InputIterator>
-__host__ __device__
+__hydra_host__ __hydra_device__
   typename thrust::iterator_traits<InputIterator>::value_type
     reduce(thrust::execution_policy<ExecutionPolicy> &exec, InputIterator first, InputIterator last)
 {
@@ -45,7 +45,7 @@ __host__ __device__
 
 
 template<typename ExecutionPolicy, typename InputIterator, typename T>
-__host__ __device__
+__hydra_host__ __hydra_device__
   T reduce(thrust::execution_policy<ExecutionPolicy> &exec, InputIterator first, InputIterator last, T init)
 {
   // use plus<T> by default
@@ -57,7 +57,7 @@ template<typename ExecutionPolicy,
          typename RandomAccessIterator,
          typename OutputType,
          typename BinaryFunction>
-__host__ __device__
+__hydra_host__ __hydra_device__
   OutputType reduce(thrust::execution_policy<ExecutionPolicy> &/*exec*/,
                     RandomAccessIterator /*first*/,
                     RandomAccessIterator /*last*/,

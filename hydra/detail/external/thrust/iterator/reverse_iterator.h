@@ -159,7 +159,7 @@ template<typename BidirectionalIterator>
   public:
     /*! Default constructor does nothing.
      */
-    __host__ __device__
+    __hydra_host__ __hydra_device__
     reverse_iterator(void) {}
 
     /*! \p Constructor accepts a \c BidirectionalIterator pointing to a range
@@ -167,7 +167,7 @@ template<typename BidirectionalIterator>
      *
      *  \param x A \c BidirectionalIterator pointing to a range to reverse.
      */
-    __host__ __device__
+    __hydra_host__ __hydra_device__
     explicit reverse_iterator(BidirectionalIterator x);
 
     /*! \p Copy constructor allows construction from a related compatible
@@ -176,7 +176,7 @@ template<typename BidirectionalIterator>
      *  \param r A \p reverse_iterator to copy from.
      */
     template<typename OtherBidirectionalIterator>
-    __host__ __device__
+    __hydra_host__ __hydra_device__
     reverse_iterator(reverse_iterator<OtherBidirectionalIterator> const &r
 // XXX msvc screws this up
 // XXX remove these guards when we have static_assert
@@ -194,20 +194,20 @@ template<typename BidirectionalIterator>
    */
   private:
     __thrust_exec_check_disable__
-    __host__ __device__
+    __hydra_host__ __hydra_device__
     typename super_t::reference dereference(void) const;
 
-    __host__ __device__
+    __hydra_host__ __hydra_device__
     void increment(void);
 
-    __host__ __device__
+    __hydra_host__ __hydra_device__
     void decrement(void);
 
-    __host__ __device__
+    __hydra_host__ __hydra_device__
     void advance(typename super_t::difference_type n);
 
     template<typename OtherBidirectionalIterator>
-    __host__ __device__
+    __hydra_host__ __hydra_device__
     typename super_t::difference_type
     distance_to(reverse_iterator<OtherBidirectionalIterator> const &y) const;
   /*! \endcond
@@ -222,7 +222,7 @@ template<typename BidirectionalIterator>
  *  \return A new \p reverse_iterator which reverses the range \p x.
  */
 template<typename BidirectionalIterator>
-__host__ __device__
+__hydra_host__ __hydra_device__
 reverse_iterator<BidirectionalIterator> make_reverse_iterator(BidirectionalIterator x);
 
 

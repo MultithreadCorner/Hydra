@@ -41,13 +41,13 @@ namespace detail
 // note that malloc returns a raw pointer to avoid
 // depending on the heavyweight hydra/detail/external/thrust/system/cuda/memory.h header
 template<typename DerivedPolicy>
-__host__ __device__
+__hydra_host__ __hydra_device__
 void *malloc(execution_policy<DerivedPolicy> &, std::size_t n)
 {
   void *result = 0;
 
 #ifndef __CUDA_ARCH__
-  // XXX use cudaMalloc in __device__ code when it becomes available
+  // XXX use cudaMalloc in __hydra_device__ code when it becomes available
   cudaError_t error = cudaMalloc(reinterpret_cast<void**>(&result), n);
 
   if(error)
@@ -63,11 +63,11 @@ void *malloc(execution_policy<DerivedPolicy> &, std::size_t n)
 
 
 template<typename DerivedPolicy, typename Pointer>
-__host__ __device__
+__hydra_host__ __hydra_device__
 void free(execution_policy<DerivedPolicy> &, Pointer ptr)
 {
 #ifndef __CUDA_ARCH__
-  // XXX use cudaFree in __device__ code when it becomes available
+  // XXX use cudaFree in __hydra_device__ code when it becomes available
   throw_on_error(cudaFree(thrust::raw_pointer_cast(ptr)), "cudaFree in free");
 #else
   thrust::free(thrust::seq, ptr);

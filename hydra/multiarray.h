@@ -1293,7 +1293,7 @@ template<typename T,size_t N,  hydra::detail::Backend BACKEND1, hydra::detail::B
 bool operator==(const multiarray<T, N, hydra::detail::BackendPolicy<BACKEND1>>& lhs,
                 const multiarray<T, N, hydra::detail::BackendPolicy<BACKEND2>>& rhs){
 
-	auto comparison = []__host__ __device__(
+	auto comparison = []__hydra_host__ __hydra_device__(
 			HYDRA_EXTERNAL_NS::thrust::tuple<
 			typename detail::tuple_type<N, T>::type,
 			typename detail::tuple_type<N, T>::type
@@ -1313,7 +1313,7 @@ template<typename T,size_t N,  hydra::detail::Backend BACKEND1, hydra::detail::B
 bool operator!=(const multiarray<T,N,  hydra::detail::BackendPolicy<BACKEND1>>& lhs,
                 const multiarray<T,N,  hydra::detail::BackendPolicy<BACKEND2>>& rhs){
 
-	auto comparison = []__host__ __device__(
+	auto comparison = []__hydra_host__ __hydra_device__(
 			HYDRA_EXTERNAL_NS::thrust::tuple<
 			typename detail::tuple_type<N, T>::type,
 			typename detail::tuple_type<N, T>::type

@@ -40,27 +40,27 @@ namespace generic
 {
 
 template<typename DerivedPolicy, typename Size>
-__host__ __device__
+__hydra_host__ __hydra_device__
 void malloc(thrust::execution_policy<DerivedPolicy> &, Size);
 
 template<typename T, typename DerivedPolicy>
-__host__ __device__
+__hydra_host__ __hydra_device__
 thrust::pointer<T,DerivedPolicy> malloc(thrust::execution_policy<DerivedPolicy> &s, std::size_t n);
 
 template<typename DerivedPolicy, typename Pointer>
-__host__ __device__
+__hydra_host__ __hydra_device__
 void free(thrust::execution_policy<DerivedPolicy> &, Pointer);
 
 template<typename Pointer1, typename Pointer2>
-__host__ __device__
+__hydra_host__ __hydra_device__
 void assign_value(tag, Pointer1, Pointer2);
 
 template<typename DerivedPolicy, typename Pointer>
-__host__ __device__
+__hydra_host__ __hydra_device__
 void get_value(thrust::execution_policy<DerivedPolicy> &, Pointer);
 
 template<typename Pointer1, typename Pointer2>
-__host__ __device__
+__hydra_host__ __hydra_device__
 void iter_swap(tag, Pointer1, Pointer2);
 
 } // end generic

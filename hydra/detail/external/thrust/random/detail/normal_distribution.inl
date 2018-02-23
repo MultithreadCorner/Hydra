@@ -35,7 +35,7 @@ namespace random
 
 
 template<typename RealType>
-  __host__ __device__
+  __hydra_host__ __hydra_device__
   normal_distribution<RealType>
     ::normal_distribution(RealType a, RealType b)
       :super_t(),m_param(a,b)
@@ -44,7 +44,7 @@ template<typename RealType>
 
 
 template<typename RealType>
-  __host__ __device__
+  __hydra_host__ __hydra_device__
   normal_distribution<RealType>
     ::normal_distribution(const param_type &parm)
       :super_t(),m_param(parm)
@@ -53,7 +53,7 @@ template<typename RealType>
 
 
 template<typename RealType>
-  __host__ __device__
+  __hydra_host__ __hydra_device__
   void normal_distribution<RealType>
     ::reset(void)
 {
@@ -63,7 +63,7 @@ template<typename RealType>
 
 template<typename RealType>
   template<typename UniformRandomNumberGenerator>
-    __host__ __device__
+    __hydra_host__ __hydra_device__
     typename normal_distribution<RealType>::result_type
       normal_distribution<RealType>
         ::operator()(UniformRandomNumberGenerator &urng)
@@ -74,7 +74,7 @@ template<typename RealType>
 
 template<typename RealType>
   template<typename UniformRandomNumberGenerator>
-    __host__ __device__
+    __hydra_host__ __hydra_device__
     typename normal_distribution<RealType>::result_type
       normal_distribution<RealType>
         ::operator()(UniformRandomNumberGenerator &urng,
@@ -85,7 +85,7 @@ template<typename RealType>
 
 
 template<typename RealType>
-  __host__ __device__
+  __hydra_host__ __hydra_device__
   typename normal_distribution<RealType>::param_type
     normal_distribution<RealType>
       ::param(void) const
@@ -95,7 +95,7 @@ template<typename RealType>
 
 
 template<typename RealType>
-  __host__ __device__
+  __hydra_host__ __hydra_device__
   void normal_distribution<RealType>
     ::param(const param_type &parm)
 {
@@ -104,7 +104,7 @@ template<typename RealType>
 
 
 template<typename RealType>
-  __host__ __device__
+  __hydra_host__ __hydra_device__
   typename normal_distribution<RealType>::result_type
     normal_distribution<RealType>
       ::min HYDRA_THRUST_PREVENT_MACRO_SUBSTITUTION (void) const
@@ -114,14 +114,14 @@ template<typename RealType>
 
 
 template<typename RealType>
-  __host__ __device__
+  __hydra_host__ __hydra_device__
   typename normal_distribution<RealType>::result_type
     normal_distribution<RealType>
       ::max HYDRA_THRUST_PREVENT_MACRO_SUBSTITUTION (void) const
 {
   // XXX this solution is pretty terrible
   // we can't use numeric_traits<RealType>::max because nvcc will
-  // complain that it is a __host__ function
+  // complain that it is a __hydra_host__ function
   union
   {
     thrust::detail::uint32_t inf_as_int;
@@ -135,7 +135,7 @@ template<typename RealType>
 
 
 template<typename RealType>
-  __host__ __device__
+  __hydra_host__ __hydra_device__
   typename normal_distribution<RealType>::result_type
     normal_distribution<RealType>
       ::mean(void) const
@@ -145,7 +145,7 @@ template<typename RealType>
 
 
 template<typename RealType>
-  __host__ __device__
+  __hydra_host__ __hydra_device__
   typename normal_distribution<RealType>::result_type
     normal_distribution<RealType>
       ::stddev(void) const
@@ -155,7 +155,7 @@ template<typename RealType>
 
 
 template<typename RealType>
-  __host__ __device__
+  __hydra_host__ __hydra_device__
   bool normal_distribution<RealType>
     ::equal(const normal_distribution &rhs) const
 {
@@ -212,7 +212,7 @@ template<typename RealType>
 
 
 template<typename RealType>
-__host__ __device__
+__hydra_host__ __hydra_device__
 bool operator==(const normal_distribution<RealType> &lhs,
                 const normal_distribution<RealType> &rhs)
 {
@@ -221,7 +221,7 @@ bool operator==(const normal_distribution<RealType> &lhs,
 
 
 template<typename RealType>
-__host__ __device__
+__hydra_host__ __hydra_device__
 bool operator!=(const normal_distribution<RealType> &lhs,
                 const normal_distribution<RealType> &rhs)
 {

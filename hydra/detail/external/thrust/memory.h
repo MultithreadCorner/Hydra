@@ -81,7 +81,7 @@ template<typename Element, typename Tag, typename Reference = thrust::use_defaul
     
     /*! \p pointer's default constructor initializes its encapsulated pointer to \c 0
      */
-    __host__ __device__
+    __hydra_host__ __hydra_device__
     pointer();
 
     /*! This constructor allows construction of a <tt>pointer<const T, ...></tt> from a <tt>T*</tt>.
@@ -90,7 +90,7 @@ template<typename Element, typename Tag, typename Reference = thrust::use_defaul
      *  \tparam OtherElement \p OtherElement shall be convertible to \p Element.
      */
     template<typename OtherElement>
-    __host__ __device__
+    __hydra_host__ __hydra_device__
     explicit pointer(OtherElement *ptr);
 
     /*! This contructor allows initialization from another pointer-like object.
@@ -101,7 +101,7 @@ template<typename Element, typename Tag, typename Reference = thrust::use_defaul
      *                       and its element type shall be convertible to \p Element.
      */
     template<typename OtherPointer>
-    __host__ __device__
+    __hydra_host__ __hydra_device__
     pointer(const OtherPointer &other,
             typename thrust::detail::enable_if_pointer_is_convertible<
               OtherPointer,
@@ -117,7 +117,7 @@ template<typename Element, typename Tag, typename Reference = thrust::use_defaul
      *                       and its element type shall be convertible to \p Element.
      */
     template<typename OtherPointer>
-    __host__ __device__
+    __hydra_host__ __hydra_device__
     typename thrust::detail::enable_if_pointer_is_convertible<
       OtherPointer,
       pointer,
@@ -128,7 +128,7 @@ template<typename Element, typename Tag, typename Reference = thrust::use_defaul
     /*! \p get returns this \p pointer's encapsulated raw pointer.
      *  \return This \p pointer's raw pointer.
      */
-    __host__ __device__
+    __hydra_host__ __hydra_device__
     Element *get() const;
 };
 #endif
@@ -166,7 +166,7 @@ template<typename Element, typename Pointer, typename Derived = thrust::use_defa
      *
      *  \param ptr A \p pointer to copy from.
      */
-    __host__ __device__
+    __hydra_host__ __hydra_device__
     explicit reference(const pointer &ptr);
 
     /*! This copy constructor accepts a const reference to another
@@ -182,7 +182,7 @@ template<typename Element, typename Pointer, typename Derived = thrust::use_defa
      *  <tt>reference<const T,...></tt> from <tt>reference<T,...></tt>.
      */
     template<typename OtherElement, typename OtherPointer, typename OtherDerived>
-    __host__ __device__
+    __hydra_host__ __hydra_device__
     reference(const reference<OtherElement,OtherPointer,OtherDerived> &other,
               typename thrust::detail::enable_if_convertible<
                 typename reference<OtherElement,OtherPointer,OtherDerived>::pointer,
@@ -194,7 +194,7 @@ template<typename Element, typename Pointer, typename Derived = thrust::use_defa
      *  \param other The other \p reference to assign from.
      *  \return <tt>static_cast<derived_type&>(*this)</tt>
      */
-    __host__ __device__
+    __hydra_host__ __hydra_device__
     derived_type &operator=(const reference &other);
 
     /*! Assignment operator copy assigns from another \p reference of related type.
@@ -207,7 +207,7 @@ template<typename Element, typename Pointer, typename Derived = thrust::use_defa
      *  \tparam OtherDerived the derived type of the other \p reference.
      */
     template<typename OtherElement, typename OtherPointer, typename OtherDerived>
-    __host__ __device__
+    __hydra_host__ __hydra_device__
     derived_type &operator=(const reference<OtherElement,OtherPointer,OtherDerived> &other);
 
     /*! Assignment operator assigns from a \p value_type.
@@ -215,7 +215,7 @@ template<typename Element, typename Pointer, typename Derived = thrust::use_defa
      *  \param x The \p value_type to assign from.
      *  \return <tt>static_cast<derived_type&>(*this)</tt>.
      */
-    __host__ __device__
+    __hydra_host__ __hydra_device__
     derived_type &operator=(const value_type &x);
 
     /*! Address-of operator returns a \p pointer pointing to the object
@@ -224,7 +224,7 @@ template<typename Element, typename Pointer, typename Derived = thrust::use_defa
      *
      *  \return A \p pointer pointing to the referenct object.
      */
-    __host__ __device__
+    __hydra_host__ __hydra_device__
     pointer operator&() const;
 
     /*! Conversion operator converts this \p reference to \p value_type by
@@ -232,7 +232,7 @@ template<typename Element, typename Pointer, typename Derived = thrust::use_defa
      *  
      *  \return A copy of the referent object.
      */
-    __host__ __device__
+    __hydra_host__ __hydra_device__
     operator value_type () const;
 
     /*! Swaps the value of the referent object with another.
@@ -240,7 +240,7 @@ template<typename Element, typename Pointer, typename Derived = thrust::use_defa
      *  \param other The other \p reference with which to swap.
      *  \note The argument is of type \p derived_type rather than \p reference.
      */
-    __host__ __device__
+    __hydra_host__ __hydra_device__
     void swap(derived_type &other);
 
     /*! Prefix increment operator increments the referent object.
@@ -301,7 +301,7 @@ template<typename Element, typename Pointer, typename Derived = thrust::use_defa
  *  \see device_malloc
  */
 template<typename DerivedPolicy>
-__host__ __device__
+__hydra_host__ __hydra_device__
 pointer<void,DerivedPolicy> malloc(const thrust::detail::execution_policy_base<DerivedPolicy> &system, std::size_t n);
 
 
@@ -339,7 +339,7 @@ pointer<void,DerivedPolicy> malloc(const thrust::detail::execution_policy_base<D
  *  \see device_malloc
  */
 template<typename T, typename DerivedPolicy>
-__host__ __device__
+__hydra_host__ __hydra_device__
 pointer<T,DerivedPolicy> malloc(const thrust::detail::execution_policy_base<DerivedPolicy> &system, std::size_t n);
 
 
@@ -392,7 +392,7 @@ pointer<T,DerivedPolicy> malloc(const thrust::detail::execution_policy_base<Deri
  *  \see return_temporary_buffer
  */
 template<typename T, typename DerivedPolicy>
-__host__ __device__
+__hydra_host__ __hydra_device__
 thrust::pair<thrust::pointer<T,DerivedPolicy>, typename thrust::pointer<T,DerivedPolicy>::difference_type>
 get_temporary_buffer(const thrust::detail::execution_policy_base<DerivedPolicy> &system, typename thrust::pointer<T,DerivedPolicy>::difference_type n);
 
@@ -435,7 +435,7 @@ get_temporary_buffer(const thrust::detail::execution_policy_base<DerivedPolicy> 
  *  \endcode
  */
 template<typename DerivedPolicy, typename Pointer>
-__host__ __device__
+__hydra_host__ __hydra_device__
 void free(const thrust::detail::execution_policy_base<DerivedPolicy> &system, Pointer ptr);
 
 
@@ -481,7 +481,7 @@ void free(const thrust::detail::execution_policy_base<DerivedPolicy> &system, Po
  *  \see get_temporary_buffer
  */
 template<typename DerivedPolicy, typename Pointer>
-__host__ __device__
+__hydra_host__ __hydra_device__
 void return_temporary_buffer(const thrust::detail::execution_policy_base<DerivedPolicy> &system, Pointer p);
 
 
@@ -497,7 +497,7 @@ void return_temporary_buffer(const thrust::detail::execution_policy_base<Derived
  *  \see raw_reference_cast
  */
 template<typename Pointer>
-__host__ __device__
+__hydra_host__ __hydra_device__
 inline typename thrust::detail::pointer_traits<Pointer>::raw_pointer
   raw_pointer_cast(const Pointer &ptr);
 
@@ -514,7 +514,7 @@ inline typename thrust::detail::pointer_traits<Pointer>::raw_pointer
  *  \see raw_pointer_cast
  */
 template<typename T>
-__host__ __device__
+__hydra_host__ __hydra_device__
 inline typename detail::raw_reference<T>::type
   raw_reference_cast(T &ref);
 
@@ -531,7 +531,7 @@ inline typename detail::raw_reference<T>::type
  *  \see raw_pointer_cast
  */
 template<typename T>
-__host__ __device__
+__hydra_host__ __hydra_device__
 inline typename detail::raw_reference<const T>::type
   raw_reference_cast(const T &ref);
 

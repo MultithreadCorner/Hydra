@@ -33,7 +33,7 @@ namespace generic
 
 
 template<typename DerivedPolicy, typename Size>
-__host__ __device__
+__hydra_host__ __hydra_device__
   void malloc(thrust::execution_policy<DerivedPolicy> &, Size)
 {
   // unimplemented
@@ -42,7 +42,7 @@ __host__ __device__
 
 
 template<typename T, typename DerivedPolicy>
-__host__ __device__
+__hydra_host__ __hydra_device__
   thrust::pointer<T,DerivedPolicy>
     malloc(thrust::execution_policy<DerivedPolicy> &exec, std::size_t n)
 {
@@ -53,7 +53,7 @@ __host__ __device__
 
 
 template<typename DerivedPolicy, typename Pointer>
-__host__ __device__
+__hydra_host__ __hydra_device__
   void free(thrust::execution_policy<DerivedPolicy> &, Pointer)
 {
   // unimplemented
@@ -62,7 +62,7 @@ __host__ __device__
 
 
 template<typename DerivedPolicy, typename Pointer1, typename Pointer2>
-__host__ __device__
+__hydra_host__ __hydra_device__
 void assign_value(thrust::execution_policy<DerivedPolicy> &, Pointer1, Pointer2)
 {
   // unimplemented
@@ -71,7 +71,7 @@ void assign_value(thrust::execution_policy<DerivedPolicy> &, Pointer1, Pointer2)
 
 
 template<typename DerivedPolicy, typename Pointer>
-__host__ __device__
+__hydra_host__ __hydra_device__
 void get_value(thrust::execution_policy<DerivedPolicy> &, Pointer)
 {
   // unimplemented
@@ -80,7 +80,7 @@ void get_value(thrust::execution_policy<DerivedPolicy> &, Pointer)
 
 
 template<typename Pointer1, typename Pointer2>
-__host__ __device__
+__hydra_host__ __hydra_device__
 void iter_swap(tag, Pointer1, Pointer2)
 {
   // unimplemented

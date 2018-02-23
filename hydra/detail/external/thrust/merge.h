@@ -99,7 +99,7 @@ template<typename DerivedPolicy,
          typename InputIterator1,
          typename InputIterator2,
          typename OutputIterator>
-__host__ __device__
+__hydra_host__ __hydra_device__
   OutputIterator merge(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                        InputIterator1 first1,
                        InputIterator1 last1,
@@ -235,7 +235,7 @@ template<typename DerivedPolicy,
          typename InputIterator2,
          typename OutputIterator,
          typename StrictWeakCompare>
-__host__ __device__
+__hydra_host__ __hydra_device__
   OutputIterator merge(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                        InputIterator1 first1,
                        InputIterator1 last1,
@@ -394,7 +394,7 @@ template<typename InputIterator1,
  *  \see \p is_sorted
  */
 template<typename DerivedPolicy, typename InputIterator1, typename InputIterator2, typename InputIterator3, typename InputIterator4, typename OutputIterator1, typename OutputIterator2>
-__host__ __device__
+__hydra_host__ __hydra_device__
   thrust::pair<OutputIterator1,OutputIterator2>
     merge_by_key(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                  InputIterator1 keys_first1, InputIterator1 keys_last1,
@@ -575,7 +575,7 @@ template<typename InputIterator1, typename InputIterator2, typename InputIterato
  *  \see \p is_sorted
  */
 template<typename DerivedPolicy, typename InputIterator1, typename InputIterator2, typename InputIterator3, typename InputIterator4, typename OutputIterator1, typename OutputIterator2, typename Compare>
-__host__ __device__
+__hydra_host__ __hydra_device__
   thrust::pair<OutputIterator1,OutputIterator2>
     merge_by_key(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                  InputIterator1 keys_first1, InputIterator1 keys_last1,

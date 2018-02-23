@@ -36,7 +36,7 @@ namespace sequential
 template<typename DerivedPolicy,
          typename InputIterator,
          typename OutputIterator>
-__host__ __device__
+__hydra_host__ __hydra_device__
   OutputIterator copy(sequential::execution_policy<DerivedPolicy> &exec,
                       InputIterator first,
                       InputIterator last,
@@ -47,7 +47,7 @@ template<typename DerivedPolicy,
          typename InputIterator,
          typename Size,
          typename OutputIterator>
-__host__ __device__
+__hydra_host__ __hydra_device__
   OutputIterator copy_n(sequential::execution_policy<DerivedPolicy> &exec,
                         InputIterator first,
                         Size n,

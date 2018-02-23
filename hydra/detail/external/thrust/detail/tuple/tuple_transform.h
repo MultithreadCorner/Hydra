@@ -38,7 +38,7 @@ template<typename Tuple,
          size_t... I>
   struct tuple_transform_functor<Tuple,UnaryMetaFunction,UnaryFunction,thrust::__index_sequence<I...>>
 {
-  static __host__
+  static __hydra_host__
   typename tuple_meta_transform<Tuple,UnaryMetaFunction>::type
   do_it_on_the_host(const Tuple &t, UnaryFunction f)
   {
@@ -47,7 +47,7 @@ template<typename Tuple,
     return XfrmTuple(f(thrust::get<I>(t))...);
   }
 
-  static __host__ __device__
+  static __hydra_host__ __hydra_device__
   typename tuple_meta_transform<Tuple,UnaryMetaFunction>::type
   do_it_on_the_host_or_device(const Tuple &t, UnaryFunction f)
   {
@@ -71,7 +71,7 @@ template<template<typename> class UnaryMetaFunction,
          typename Tuple,
          typename UnaryFunction>
 typename tuple_meta_transform<Tuple,UnaryMetaFunction>::type
-__host__ __device__
+__hydra_host__ __hydra_device__
 tuple_host_device_transform(const Tuple &t, UnaryFunction f)
 {
   return tuple_transform_functor<Tuple,UnaryMetaFunction,UnaryFunction>::do_it_on_the_host_or_device(t,f);

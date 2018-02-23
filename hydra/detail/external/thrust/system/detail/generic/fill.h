@@ -31,7 +31,7 @@ namespace generic
 
 
 template<typename DerivedPolicy, typename OutputIterator, typename Size, typename T>
-__host__ __device__
+__hydra_host__ __hydra_device__
   OutputIterator fill_n(thrust::execution_policy<DerivedPolicy> &exec,
                         OutputIterator first,
                         Size n,
@@ -42,7 +42,7 @@ __host__ __device__
 }
 
 template<typename DerivedPolicy, typename ForwardIterator, typename T>
-__host__ __device__
+__hydra_host__ __hydra_device__
   void fill(thrust::execution_policy<DerivedPolicy> &exec,
             ForwardIterator first,
             ForwardIterator last,

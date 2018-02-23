@@ -23,7 +23,7 @@ HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
 /* --- Constructors --- */
 
 template <typename T>
-inline __host__ __device__  complex<T>
+inline __hydra_host__ __hydra_device__  complex<T>
 ::complex(const T & re, const T& im)
 {
   real(re);
@@ -32,7 +32,7 @@ inline __host__ __device__  complex<T>
 
 template <typename T>
 template <typename X> 
-inline __host__ __device__ complex<T>
+inline __hydra_host__ __hydra_device__ complex<T>
 ::complex(const complex<X> & z)
 {
   // The explicit T() is there no prevent Visual Studio from complaining
@@ -43,7 +43,7 @@ inline __host__ __device__ complex<T>
 
 template <typename T>
 template <typename X> 
-inline __host__ complex<T>
+inline __hydra_host__ complex<T>
 ::complex(const std::complex<X> & z)
 {
   // The explicit T() is there no prevent Visual Studio from complaining
@@ -57,7 +57,7 @@ inline __host__ complex<T>
 /* --- Compound Assignment Operators --- */
 
 template <typename T>
-__host__ __device__  inline 
+__hydra_host__ __hydra_device__  inline 
 complex<T>& complex<T>::operator+=(const complex<T> z)
 {
   real(real()+z.real());
@@ -66,7 +66,7 @@ complex<T>& complex<T>::operator+=(const complex<T> z)
 }
 
 template <typename T>
-__host__ __device__
+__hydra_host__ __hydra_device__
 inline complex<T>& complex<T>::operator-=(const complex<T> z)
 {
   real(real()-z.real());
@@ -75,7 +75,7 @@ inline complex<T>& complex<T>::operator-=(const complex<T> z)
 }
 
 template <typename T>
-__host__ __device__
+__hydra_host__ __hydra_device__
 inline complex<T>& complex<T>::operator*=(const complex<T> z)
 {
   *this = *this * z;
@@ -83,7 +83,7 @@ inline complex<T>& complex<T>::operator*=(const complex<T> z)
 }
 
 template <typename T>
-__host__ __device__
+__hydra_host__ __hydra_device__
 inline complex<T>& complex<T>::operator/=(const complex<T> z)
 {
   *this = *this / z;
@@ -95,7 +95,7 @@ inline complex<T>& complex<T>::operator/=(const complex<T> z)
 /* --- Equality Operators --- */
 
 template <typename T> 
-  __host__ __device__
+  __hydra_host__ __hydra_device__
   inline bool operator==(const complex<T>& lhs, const complex<T>& rhs){
   if(lhs.real() == rhs.real() && lhs.imag() == rhs.imag()){
     return true;
@@ -104,7 +104,7 @@ template <typename T>
 }
 
 template <typename T> 
-  __host__ __device__
+  __hydra_host__ __hydra_device__
   inline bool operator==(const T & lhs, const complex<T>& rhs){
   if(lhs == rhs.real() && rhs.imag() == 0){
     return true;
@@ -113,7 +113,7 @@ template <typename T>
 }
 
 template <typename T> 
-  __host__ __device__
+  __hydra_host__ __hydra_device__
   inline bool operator==(const complex<T> & lhs, const T& rhs){
   if(lhs.real() == rhs && lhs.imag() == 0){
     return true;
@@ -122,19 +122,19 @@ template <typename T>
 }
 
 template <typename T> 
-  __host__ __device__
+  __hydra_host__ __hydra_device__
   inline bool operator!=(const complex<T>& lhs, const complex<T>& rhs){
   return !(lhs == rhs);
 }
 
 template <typename T> 
-  __host__ __device__
+  __hydra_host__ __hydra_device__
   inline bool operator!=(const T & lhs, const complex<T>& rhs){
   return !(lhs == rhs);
 }
 
 template <typename T> 
-  __host__ __device__
+  __hydra_host__ __hydra_device__
   inline bool operator!=(const complex<T> & lhs, const T& rhs){
   return !(lhs == rhs);
 }

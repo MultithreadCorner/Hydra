@@ -53,7 +53,7 @@ struct BlockHistogramAtomic
 
 
     /// Constructor
-    __device__ __forceinline__ BlockHistogramAtomic(
+    __hydra_device__ __forceinline__ BlockHistogramAtomic(
         TempStorage &temp_storage)
     {}
 
@@ -63,7 +63,7 @@ struct BlockHistogramAtomic
         typename            T,
         typename            CounterT,     
         int                 ITEMS_PER_THREAD>
-    __device__ __forceinline__ void Composite(
+    __hydra_device__ __forceinline__ void Composite(
         T                   (&items)[ITEMS_PER_THREAD],     ///< [in] Calling thread's input values to histogram
         CounterT             histogram[BINS])                 ///< [out] Reference to shared/device-accessible memory histogram
     {

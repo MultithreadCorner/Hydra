@@ -42,7 +42,7 @@ template<typename DerivedPolicy> struct execution_policy_base {};
 
 
 template<typename DerivedPolicy>
-__host__ __device__
+__hydra_host__ __hydra_device__
 inline execution_policy_base<DerivedPolicy> &strip_const(const execution_policy_base<DerivedPolicy> &x)
 {
   return const_cast<execution_policy_base<DerivedPolicy>&>(x);
@@ -50,7 +50,7 @@ inline execution_policy_base<DerivedPolicy> &strip_const(const execution_policy_
 
 
 template<typename DerivedPolicy>
-__host__ __device__
+__hydra_host__ __hydra_device__
 inline DerivedPolicy &derived_cast(execution_policy_base<DerivedPolicy> &x)
 {
   return static_cast<DerivedPolicy&>(x);
@@ -58,7 +58,7 @@ inline DerivedPolicy &derived_cast(execution_policy_base<DerivedPolicy> &x)
 
 
 template<typename DerivedPolicy>
-__host__ __device__
+__hydra_host__ __hydra_device__
 inline const DerivedPolicy &derived_cast(const execution_policy_base<DerivedPolicy> &x)
 {
   return static_cast<const DerivedPolicy&>(x);

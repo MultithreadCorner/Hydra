@@ -75,16 +75,16 @@ namespace hydra {
  *  - S. U. Chung, Formulas for Angular-Momentum Barrier Factors, BNL-QGS-06-101
  */
 template<hydra::Wave L>
-__host__ __device__   inline
+__hydra_host__ __hydra_device__   inline
 double BarrierFactor(const double d, const double p0, const double p);
 
 
-template<> __host__ __device__   inline
+template<> __hydra_host__ __hydra_device__   inline
 double BarrierFactor<hydra::SWave>(const double, const double, const double) {
 	return 1.0;
 }
 
-template<> __host__ __device__   inline
+template<> __hydra_host__ __hydra_device__   inline
 double BarrierFactor<hydra::PWave>(const double radi, const double p0, const double p) {
 
 	double z  =  radi*p;
@@ -93,7 +93,7 @@ double BarrierFactor<hydra::PWave>(const double radi, const double p0, const dou
 	return ::sqrt( (1 + z0*z0)/(1 + z*z) );
 }
 
-template<> __host__ __device__   inline
+template<> __hydra_host__ __hydra_device__   inline
 double BarrierFactor<hydra::DWave>(const double radi, const double p0, const double p) {
 
 	double z  =  radi*p;
@@ -102,7 +102,7 @@ double BarrierFactor<hydra::DWave>(const double radi, const double p0, const dou
 	return ::sqrt((9 + 3*z0*z0 + z0*z0*z0*z0)/(9 + 3*z*z + z*z*z*z));
 }
 
-template<> __host__ __device__   inline
+template<> __hydra_host__ __hydra_device__   inline
 double BarrierFactor<hydra::FWave>(const double radi, const double p0, const double p) {
 
 	double z  =  radi*p;
@@ -113,7 +113,7 @@ double BarrierFactor<hydra::FWave>(const double radi, const double p0, const dou
 }
 
 
-template<>  __host__ __device__   inline
+template<>  __hydra_host__ __hydra_device__   inline
 double BarrierFactor<hydra::GWave>(const double radi, const double p0, const double p)  {
 
 	double z  =  radi*p;
@@ -127,7 +127,7 @@ double BarrierFactor<hydra::GWave>(const double radi, const double p0, const dou
 }
 
 
-template<> __host__ __device__   inline
+template<> __hydra_host__ __hydra_device__   inline
 double BarrierFactor<hydra::HWave>(const double radi, const double p0, const double p) {
 
 	double z  =  radi*p;

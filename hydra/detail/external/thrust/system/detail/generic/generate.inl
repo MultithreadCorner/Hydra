@@ -32,7 +32,7 @@ namespace generic
 template<typename ExecutionPolicy,
          typename ForwardIterator,
          typename Generator>
-__host__ __device__
+__hydra_host__ __hydra_device__
   void generate(thrust::execution_policy<ExecutionPolicy> &exec,
                 ForwardIterator first,
                 ForwardIterator last,
@@ -45,7 +45,7 @@ template<typename ExecutionPolicy,
          typename OutputIterator,
          typename Size,
          typename Generator>
-__host__ __device__
+__hydra_host__ __hydra_device__
   OutputIterator generate_n(thrust::execution_policy<ExecutionPolicy> &exec,
                             OutputIterator first,
                             Size n,

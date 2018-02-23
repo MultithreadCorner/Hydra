@@ -69,7 +69,7 @@ public:
 			fMotherMass(mother_mass)
 			{}
 
-		__host__  __device__
+		__hydra_host__  __hydra_device__
 		M12SqPhaseSpaceLineShape(M12SqPhaseSpaceLineShape<ArgIndex>  const& other):
 			BaseFunctor<M12SqPhaseSpaceLineShape<ArgIndex>, double, 0>(other),
 			fDaughter1Mass(other.GetDaughter1Mass()),
@@ -78,7 +78,7 @@ public:
 			fMotherMass(other.GetMotherMass())
 			{}
 
-		__host__  __device__
+		__hydra_host__  __hydra_device__
 		M12SqPhaseSpaceLineShape<ArgIndex>&
 		operator=(M12SqPhaseSpaceLineShape<ArgIndex>  const& other)
 		{
@@ -95,49 +95,49 @@ public:
 			 return  *this;
 		}
 
-		__host__  __device__ inline
+		__hydra_host__  __hydra_device__ inline
 		double GetDaughter1Mass() const {
 			return fDaughter1Mass;
 		}
 
-		__host__  __device__ inline
+		__hydra_host__  __hydra_device__ inline
 		void SetDaughter1Mass(double daughter1Mass) {
 			fDaughter1Mass = daughter1Mass;
 		}
 
-		__host__  __device__ inline
+		__hydra_host__  __hydra_device__ inline
 		double GetDaughter2Mass() const {
 			return fDaughter2Mass;
 		}
 
-		__host__  __device__ inline
+		__hydra_host__  __hydra_device__ inline
 		void SetDaughter2Mass(double daughter2Mass) {
 			fDaughter2Mass = daughter2Mass;
 		}
 
-		__host__  __device__ inline
+		__hydra_host__  __hydra_device__ inline
 		double GetDaughter3Mass() const {
 			return fDaughter3Mass;
 		}
 
-		__host__  __device__ inline
+		__hydra_host__  __hydra_device__ inline
 		void SetDaughter3Mass(double daughter3Mass) {
 			fDaughter3Mass = daughter3Mass;
 		}
 
-		__host__  __device__ inline
+		__hydra_host__  __hydra_device__ inline
 		double GetMotherMass() const {
 			return fMotherMass;
 		}
 
-		__host__  __device__ inline
+		__hydra_host__  __hydra_device__ inline
 		void SetMotherMass(double motherMass) {
 			fMotherMass = motherMass;
 		}
 
 
 		template<typename T>
-		__host__ __device__ inline
+		__hydra_host__ __hydra_device__ inline
 		double Evaluate(unsigned int , T*x)  const	{
 
 			const double m2 = x[ArgIndex] ;
@@ -147,7 +147,7 @@ public:
 		}
 
 		template<typename T>
-		__host__ __device__ inline
+		__hydra_host__ __hydra_device__ inline
 		double Evaluate(T x)  const {
 
 			double m2 =  get<ArgIndex>(x);
@@ -159,7 +159,7 @@ public:
 private:
 
 
-		__host__ __device__   inline
+		__hydra_host__ __hydra_device__   inline
 		double LineShape(const double m2 ) const {
 
 			double p = pmf( fMotherMass, ::sqrt(m2), fDaughter3Mass);

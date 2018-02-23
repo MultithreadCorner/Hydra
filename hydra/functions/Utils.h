@@ -40,13 +40,13 @@ enum Wave{ SWave=0, PWave, DWave, FWave, GWave, HWave };
 namespace detail {
 
 	template<typename T, unsigned int N, unsigned int I>
-	inline __host__ __device__
+	inline __hydra_host__ __hydra_device__
 	typename std::enable_if<I==N, void >::type
 	pow_helper(T const, T&){}
 
 
 	template<typename T, unsigned int N, unsigned int I>
-	inline __host__ __device__
+	inline __hydra_host__ __hydra_device__
 	typename std::enable_if< (I< N), void >::type
 	pow_helper(T const x, T& r){
 		r *= x ;
@@ -61,7 +61,7 @@ namespace detail {
  * @return
  */
 	template<typename T, unsigned int N>
-	inline __host__ __device__
+	inline __hydra_host__ __hydra_device__
 	T pow(const T x){
 		T r = 1;
 		detail::pow_helper<T,N,0>(x,r);
@@ -73,7 +73,7 @@ namespace detail {
  * @return
  */
 	template<typename T>
-	inline  __host__ __device__
+	inline  __hydra_host__ __hydra_device__
 	int nint(const T x)
 	{
 		// Round to nearest integer. Rounds half integers to the nearest
@@ -92,7 +92,7 @@ namespace detail {
  * @param daughter2_mass
  * @return
  */
-	__host__  __device__
+	__hydra_host__  __hydra_device__
 	inline double pmf( const double mother_mass, const double daughter1_mass, const double daughter2_mass) {
 
 		double mother_mass_sq  = mother_mass*mother_mass;

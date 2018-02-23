@@ -35,40 +35,40 @@ namespace scalar
 {
 
 template<typename RandomAccessIterator, typename Size, typename T, typename BinaryPredicate>
-__host__ __device__
+__hydra_host__ __hydra_device__
 RandomAccessIterator lower_bound_n(RandomAccessIterator first,
                                    Size n,
                                    const T &val,
                                    BinaryPredicate comp);
 
 template<typename RandomAccessIterator, typename T, typename BinaryPredicate>
-__host__ __device__
+__hydra_host__ __hydra_device__
 RandomAccessIterator lower_bound(RandomAccessIterator first, RandomAccessIterator last,
                                  const T &val,
                                  BinaryPredicate comp);
 
 template<typename RandomAccessIterator, typename Size, typename T, typename BinaryPredicate>
-__host__ __device__
+__hydra_host__ __hydra_device__
 RandomAccessIterator upper_bound_n(RandomAccessIterator first,
                                    Size n,
                                    const T &val,
                                    BinaryPredicate comp);
 
 template<typename RandomAccessIterator, typename T, typename BinaryPredicate>
-__host__ __device__
+__hydra_host__ __hydra_device__
 RandomAccessIterator upper_bound(RandomAccessIterator first, RandomAccessIterator last,
                                  const T &val,
                                  BinaryPredicate comp);
 
 template<typename RandomAccessIterator, typename T, typename BinaryPredicate>
-__host__ __device__
+__hydra_host__ __hydra_device__
   pair<RandomAccessIterator,RandomAccessIterator>
     equal_range(RandomAccessIterator first, RandomAccessIterator last,
                 const T &val,
                 BinaryPredicate comp);
 
 template<typename RandomAccessIterator, typename T, typename Compare>
-__host__ __device__
+__hydra_host__ __hydra_device__
 bool binary_search(RandomAccessIterator first, RandomAccessIterator last, const T &value, Compare comp);
 
 } // end scalar

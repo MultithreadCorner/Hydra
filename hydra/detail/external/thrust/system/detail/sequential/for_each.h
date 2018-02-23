@@ -39,7 +39,7 @@ __thrust_exec_check_disable__
 template<typename DerivedPolicy,
          typename InputIterator,
          typename UnaryFunction>
-__host__ __device__
+__hydra_host__ __hydra_device__
 InputIterator for_each(sequential::execution_policy<DerivedPolicy> &,
                        InputIterator first,
                        InputIterator last,
@@ -64,7 +64,7 @@ template<typename DerivedPolicy,
          typename InputIterator,
          typename Size,
          typename UnaryFunction>
-__host__ __device__
+__hydra_host__ __hydra_device__
 InputIterator for_each_n(sequential::execution_policy<DerivedPolicy> &,
                          InputIterator first,
                          Size n,

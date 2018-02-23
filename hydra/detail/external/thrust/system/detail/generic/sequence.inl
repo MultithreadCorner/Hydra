@@ -36,13 +36,13 @@ struct sequence_functor
 {
   T init, step;
 
-  __host__ __device__
+  __hydra_host__ __hydra_device__
   sequence_functor(T init, T step)
     : init(init), step(step)
   {}
 
   template<typename Index>
-  __host__ __device__
+  __hydra_host__ __hydra_device__
   T operator()(Index i) const
   {
     return init + step * i;
@@ -54,7 +54,7 @@ struct sequence_functor
 
 
 template<typename DerivedPolicy, typename ForwardIterator>
-__host__ __device__
+__hydra_host__ __hydra_device__
   void sequence(thrust::execution_policy<DerivedPolicy> &exec,
                 ForwardIterator first,
                 ForwardIterator last)
@@ -66,7 +66,7 @@ __host__ __device__
 
 
 template<typename DerivedPolicy, typename ForwardIterator, typename T>
-__host__ __device__
+__hydra_host__ __hydra_device__
   void sequence(thrust::execution_policy<DerivedPolicy> &exec,
                 ForwardIterator first,
                 ForwardIterator last,
@@ -77,7 +77,7 @@ __host__ __device__
 
 
 template<typename DerivedPolicy, typename ForwardIterator, typename T>
-__host__ __device__
+__hydra_host__ __hydra_device__
   void sequence(thrust::execution_policy<DerivedPolicy> &exec,
                 ForwardIterator first,
                 ForwardIterator last,

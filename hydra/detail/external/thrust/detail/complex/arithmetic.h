@@ -26,51 +26,51 @@ HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
   /* --- Binary Arithmetic Operators --- */
 
 template<typename ValueType>
-__host__ __device__ 
+__hydra_host__ __hydra_device__ 
 inline complex<ValueType> operator+(const complex<ValueType>& lhs,
 				      const complex<ValueType>& rhs){
   return complex<ValueType>(lhs.real()+rhs.real(),lhs.imag()+rhs.imag());
 }
 
 template<typename ValueType>
-__host__ __device__ 
+__hydra_host__ __hydra_device__ 
 inline complex<ValueType> operator+(const volatile complex<ValueType>& lhs,
 				      const volatile complex<ValueType>& rhs){
   return complex<ValueType>(lhs.real()+rhs.real(),lhs.imag()+rhs.imag());
 }
 
 template <typename ValueType> 
-__host__ __device__ 
+__hydra_host__ __hydra_device__ 
 inline complex<ValueType> operator+(const complex<ValueType>& lhs, const ValueType & rhs){
   return complex<ValueType>(lhs.real()+rhs,lhs.imag());
 }
 
 template <typename ValueType> 
-__host__ __device__ 
+__hydra_host__ __hydra_device__ 
 inline complex<ValueType> operator+(const ValueType& lhs, const complex<ValueType>& rhs){
   return complex<ValueType>(rhs.real()+lhs,rhs.imag());
 }
 
 template <typename ValueType> 
-__host__ __device__ 
+__hydra_host__ __hydra_device__ 
 inline complex<ValueType> operator-(const complex<ValueType>& lhs, const complex<ValueType>& rhs){
   return complex<ValueType>(lhs.real()-rhs.real(),lhs.imag()-rhs.imag());
 }
 
 template <typename ValueType> 
-__host__ __device__
+__hydra_host__ __hydra_device__
 inline complex<ValueType> operator-(const complex<ValueType>& lhs, const ValueType & rhs){
   return complex<ValueType>(lhs.real()-rhs,lhs.imag());
 }
 
 template <typename ValueType> 
-__host__ __device__
+__hydra_host__ __hydra_device__
 inline complex<ValueType> operator-(const ValueType& lhs, const complex<ValueType>& rhs){
   return complex<ValueType>(lhs-rhs.real(),-rhs.imag());
 }
 
 template <typename ValueType> 
-__host__ __device__
+__hydra_host__ __hydra_device__
 inline complex<ValueType> operator*(const complex<ValueType>& lhs,
 				      const complex<ValueType>& rhs){
   return complex<ValueType>(lhs.real()*rhs.real()-lhs.imag()*rhs.imag(),
@@ -78,20 +78,20 @@ inline complex<ValueType> operator*(const complex<ValueType>& lhs,
 }
 
 template <typename ValueType> 
-__host__ __device__
+__hydra_host__ __hydra_device__
 inline complex<ValueType> operator*(const complex<ValueType>& lhs, const ValueType & rhs){
   return complex<ValueType>(lhs.real()*rhs,lhs.imag()*rhs);
 }
 
 template <typename ValueType> 
-__host__ __device__
+__hydra_host__ __hydra_device__
 inline complex<ValueType> operator*(const ValueType& lhs, const complex<ValueType>& rhs){
   return complex<ValueType>(rhs.real()*lhs,rhs.imag()*lhs);
 }
 
 
 template <typename ValueType>
-__host__ __device__
+__hydra_host__ __hydra_device__
 inline complex<ValueType> operator/(const complex<ValueType>& lhs, const complex<ValueType>& rhs){
   ValueType s = std::abs(rhs.real()) + std::abs(rhs.imag());
   ValueType oos = ValueType(1.0) / s;
@@ -107,13 +107,13 @@ inline complex<ValueType> operator/(const complex<ValueType>& lhs, const complex
 }
 
 template <typename ValueType> 
-  __host__ __device__
+  __hydra_host__ __hydra_device__
   inline complex<ValueType> operator/(const complex<ValueType>& lhs, const ValueType & rhs){
   return complex<ValueType>(lhs.real()/rhs,lhs.imag()/rhs);
 }
 
 template <typename ValueType>
-  __host__ __device__
+  __hydra_host__ __hydra_device__
   inline complex<ValueType> operator/(const ValueType& lhs, const complex<ValueType>& rhs){
   return complex<ValueType>(lhs)/rhs;
 }
@@ -123,13 +123,13 @@ template <typename ValueType>
 /* --- Unary Arithmetic Operators --- */
 
 template <typename ValueType> 
-  __host__ __device__
+  __hydra_host__ __hydra_device__
   inline complex<ValueType> operator+(const complex<ValueType>& rhs){
   return rhs;
 }
 
 template <typename ValueType> 
-  __host__ __device__
+  __hydra_host__ __hydra_device__
   inline complex<ValueType> operator-(const complex<ValueType>& rhs){
   return rhs*-ValueType(1);
 }
@@ -139,55 +139,55 @@ template <typename ValueType>
 
 // As std::hypot is only C++11 we have to use the C interface
 template <typename ValueType>
-  __host__ __device__
+  __hydra_host__ __hydra_device__
   inline ValueType abs(const complex<ValueType>& z){
   return hypot(z.real(),z.imag());
 }
 
 namespace detail{
 namespace complex{	
-__host__ __device__ inline float abs(const thrust::complex<float>& z){
+__hydra_host__ __hydra_device__ inline float abs(const thrust::complex<float>& z){
   return hypotf(z.real(),z.imag());
 }
 
-__host__ __device__ inline double abs(const thrust::complex<double>& z){
+__hydra_host__ __hydra_device__ inline double abs(const thrust::complex<double>& z){
   return hypot(z.real(),z.imag());
 }
 }
 }
 
 template <>
-  __host__ __device__
+  __hydra_host__ __hydra_device__
   inline float abs(const complex<float>& z){
   return detail::complex::abs(z);
 }
 template<>
-  __host__ __device__
+  __hydra_host__ __hydra_device__
   inline double abs(const complex<double>& z){
   return detail::complex::abs(z);
 }
 
 
 template <typename ValueType>
-  __host__ __device__
+  __hydra_host__ __hydra_device__
   inline ValueType arg(const complex<ValueType>& z){
   return std::atan2(z.imag(),z.real());
 }
 
 template <typename ValueType>
-  __host__ __device__
+  __hydra_host__ __hydra_device__
   inline complex<ValueType> conj(const complex<ValueType>& z){
   return complex<ValueType>(z.real(),-z.imag());
 }
 
 template <typename ValueType>
-  __host__ __device__
+  __hydra_host__ __hydra_device__
   inline ValueType norm(const complex<ValueType>& z){
   return z.real()*z.real() + z.imag()*z.imag();
 }
 
 template <>
-  __host__ __device__
+  __hydra_host__ __hydra_device__
   inline float norm(const complex<float>& z){
   if(std::abs(z.real()) < ::sqrtf(FLT_MIN) && std::abs(z.imag()) < ::sqrtf(FLT_MIN)){
     float a = z.real()*4.0f;
@@ -198,7 +198,7 @@ template <>
 }
 
 template <>
-  __host__ __device__
+  __hydra_host__ __hydra_device__
   inline double norm(const complex<double>& z){
   if(std::abs(z.real()) < ::sqrt(DBL_MIN) && std::abs(z.imag()) < ::sqrt(DBL_MIN)){
     double a = z.real()*4.0;
@@ -209,7 +209,7 @@ template <>
 }
 
 template <typename ValueType>
-  __host__ __device__
+  __hydra_host__ __hydra_device__
   inline complex<ValueType> polar(const ValueType & m, const ValueType & theta){ 
   return complex<ValueType>(m * std::cos(theta),m * std::sin(theta));
 }

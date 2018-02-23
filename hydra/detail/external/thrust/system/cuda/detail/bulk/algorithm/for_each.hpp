@@ -29,7 +29,7 @@ template<typename ExecutionGroup,
          typename RandomAccessIterator,
          typename Size,
          typename Function>
-__device__
+__hydra_device__
 RandomAccessIterator for_each_n(ExecutionGroup &g, RandomAccessIterator first, Size n, Function f)
 {
   for(Size i = g.this_thread.index();
@@ -50,7 +50,7 @@ template<std::size_t bound,
          typename RandomAccessIterator,
          typename Size,
          typename Function>
-__device__
+__hydra_device__
 RandomAccessIterator for_each_n(bounded<bound, bulk::agent<grainsize> > &b,
                                 RandomAccessIterator first,
                                 Size n,

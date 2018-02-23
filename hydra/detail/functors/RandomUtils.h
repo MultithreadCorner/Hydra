@@ -53,13 +53,13 @@ struct RndCDF{
 		fSeed(seed),
 		fFunctor(functor)
 	{}
-	__host__ __device__
+	__hydra_host__ __hydra_device__
 	RndCDF( RndCDF<GRND, FUNCTOR> const& other):
 		fSeed(other.fSeed),
 		fFunctor(other.fFunctor)
 	{}
 
-	__host__ __device__
+	__hydra_host__ __hydra_device__
 	inline GReal_t operator()(size_t index)
 	{
 		GRND randEng(fSeed);
@@ -100,14 +100,14 @@ struct RndGauss{
 		fMean(mean),
 		fSigma(sigma)
 	{}
-	__host__ __device__
+	__hydra_host__ __hydra_device__
 	RndGauss( RndGauss<T, GRND> const& other):
 		fSeed(other.fSeed),
 		fMean(other.fMean),
 		fSigma(other.fSigma)
 	{}
 
-	__host__ __device__
+	__hydra_host__ __hydra_device__
 	inline T operator()(size_t index)
 	{
 		GRND randEng(fSeed);
@@ -131,7 +131,7 @@ struct RndUniform{
 		fMin(min),
 		fMax(max)
 	{}
-	__host__ __device__
+	__hydra_host__ __hydra_device__
 	RndUniform( RndUniform<T,GRND> const& other):
 		fSeed(other.fSeed),
 		fMin(other.fMin),
@@ -139,7 +139,7 @@ struct RndUniform{
 	{}
 
 
-	__host__ __device__
+	__hydra_host__ __hydra_device__
 	inline T operator()(size_t index)
 	{
 		GRND randEng(fSeed);
@@ -161,13 +161,13 @@ struct RndExp{
 		fSeed(seed),
 		fTau(tau)
 	{}
-	__host__ __device__
+	__hydra_host__ __hydra_device__
 	RndExp( RndExp<T, GRND> const& other):
 		fSeed(other.fSeed),
 		fTau(other.fTau)
 	{}
 
-	__host__ __device__
+	__hydra_host__ __hydra_device__
 	inline T operator()(size_t index)
 	{
 		GRND randEng(fSeed);
@@ -189,14 +189,14 @@ struct RndBreitWigner{
 		fGamma(gamma)
 	{}
 
-	__host__ __device__
+	__hydra_host__ __hydra_device__
 	RndBreitWigner( RndBreitWigner<T, GRND> const& other):
 		fSeed(other.fSeed),
 		fMean(other.fMean),
 		fGamma(other.fGamma)
 	{}
 
-	__host__ __device__
+	__hydra_host__ __hydra_device__
 	inline T operator()(size_t index)
 	{
 		GRND randEng(fSeed);
@@ -223,14 +223,14 @@ struct RndFlag{
 		fVals(values)
 	{}
 
-	__host__ __device__
+	__hydra_host__ __hydra_device__
 	RndFlag(RndFlag<T, GRND> const& other):
 		fSeed(other.fSeed),
 		fValMax(other.fValMax),
 		fVals(other.fVals)
 	{}
 
-	__host__ __device__
+	__hydra_host__ __hydra_device__
 	inline GBool_t operator()(size_t index)
 	{
 		GRND randEng(fSeed*2);
@@ -261,7 +261,7 @@ struct RndTrial{
 		}
 	}
 
-	__host__ __device__
+	__hydra_host__ __hydra_device__
 	RndTrial(RndTrial<T, GRND,FUNCTOR, N> const& other):
 		fFunctor(other.fFunctor),
 		fSeed(other.fSeed)
@@ -274,7 +274,7 @@ struct RndTrial{
 
 
 	template<typename Tuple>
-	__host__ __device__
+	__hydra_host__ __hydra_device__
 	inline T operator()(size_t index, Tuple& t)
 	{
 		T* x[N];
@@ -309,7 +309,7 @@ struct RndTrial<T,GRND, FUNCTOR, 1>{
 		fMax(max)
 	{}
 
-	__host__ __device__
+	__hydra_host__ __hydra_device__
 	RndTrial(RndTrial<T, GRND,FUNCTOR, 1> const& other):
 		fFunctor(other.fFunctor),
 		fSeed(other.fSeed),
@@ -318,7 +318,7 @@ struct RndTrial<T,GRND, FUNCTOR, 1>{
 	{}
 
 
-	__host__ __device__
+	__hydra_host__ __hydra_device__
 	inline GReal_t operator()(size_t index, T& t)
 	{
 

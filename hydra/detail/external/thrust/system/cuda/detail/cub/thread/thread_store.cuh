@@ -111,7 +111,7 @@ template <
     CacheStoreModifier  MODIFIER,
     typename            OutputIteratorT,
     typename            T>
-__device__ __forceinline__ void ThreadStore(OutputIteratorT itr, T val);
+__hydra_device__ __forceinline__ void ThreadStore(OutputIteratorT itr, T val);
 
 
 //@}  end member group
@@ -125,14 +125,14 @@ template <int COUNT, int MAX>
 struct IterateThreadStore
 {
     template <CacheStoreModifier MODIFIER, typename T>
-    static __device__ __forceinline__ void Store(T *ptr, T *vals)
+    static __hydra_device__ __forceinline__ void Store(T *ptr, T *vals)
     {
         ThreadStore<MODIFIER>(ptr + COUNT, vals[COUNT]);
         IterateThreadStore<COUNT + 1, MAX>::template Store<MODIFIER>(ptr, vals);
     }
 
     template <typename OutputIteratorT, typename T>
-    static __device__ __forceinline__ void Dereference(OutputIteratorT ptr, T *vals)
+    static __hydra_device__ __forceinline__ void Dereference(OutputIteratorT ptr, T *vals)
     {
         ptr[COUNT] = vals[COUNT];
         IterateThreadStore<COUNT + 1, MAX>::Dereference(ptr, vals);
@@ -145,10 +145,10 @@ template <int MAX>
 struct IterateThreadStore<MAX, MAX>
 {
     template <CacheStoreModifier MODIFIER, typename T>
-    static __device__ __forceinline__ void Store(T * /*ptr*/, T * /*vals*/) {}
+    static __hydra_device__ __forceinline__ void Store(T * /*ptr*/, T * /*vals*/) {}
 
     template <typename OutputIteratorT, typename T>
-    static __device__ __forceinline__ void Dereference(OutputIteratorT /*ptr*/, T * /*vals*/) {}
+    static __hydra_device__ __forceinline__ void Dereference(OutputIteratorT /*ptr*/, T * /*vals*/) {}
 };
 
 
@@ -157,7 +157,7 @@ struct IterateThreadStore<MAX, MAX>
  */
 #define _CUB_STORE_16(cub_modifier, ptx_modifier)                                            \
     template<>                                                                              \
-    __device__ __forceinline__ void ThreadStore<cub_modifier, uint4*, uint4>(uint4* ptr, uint4 val)                         \
+    __hydra_device__ __forceinline__ void ThreadStore<cub_modifier, uint4*, uint4>(uint4* ptr, uint4 val)                         \
     {                                                                                       \
         asm volatile ("st."#ptx_modifier".v4.u32 [%0], {%1, %2, %3, %4};" : :               \
             _CUB_ASM_PTR_(ptr),                                                             \
@@ -167,7 +167,7 @@ struct IterateThreadStore<MAX, MAX>
             "r"(val.w));                                                                    \
     }                                                                                       \
     template<>                                                                              \
-    __device__ __forceinline__ void ThreadStore<cub_modifier, ulonglong2*, ulonglong2>(ulonglong2* ptr, ulonglong2 val)     \
+    __hydra_device__ __forceinline__ void ThreadStore<cub_modifier, ulonglong2*, ulonglong2>(ulonglong2* ptr, ulonglong2 val)     \
     {                                                                                       \
         asm volatile ("st."#ptx_modifier".v2.u64 [%0], {%1, %2};" : :                       \
             _CUB_ASM_PTR_(ptr),                                                             \
@@ -181,7 +181,7 @@ struct IterateThreadStore<MAX, MAX>
  */
 #define _CUB_STORE_8(cub_modifier, ptx_modifier)                                             \
     template<>                                                                              \
-    __device__ __forceinline__ void ThreadStore<cub_modifier, ushort4*, ushort4>(ushort4* ptr, ushort4 val)                 \
+    __hydra_device__ __forceinline__ void ThreadStore<cub_modifier, ushort4*, ushort4>(ushort4* ptr, ushort4 val)                 \
     {                                                                                       \
         asm volatile ("st."#ptx_modifier".v4.u16 [%0], {%1, %2, %3, %4};" : :               \
             _CUB_ASM_PTR_(ptr),                                                             \
@@ -191,7 +191,7 @@ struct IterateThreadStore<MAX, MAX>
             "h"(val.w));                                                                    \
     }                                                                                       \
     template<>                                                                              \
-    __device__ __forceinline__ void ThreadStore<cub_modifier, uint2*, uint2>(uint2* ptr, uint2 val)                         \
+    __hydra_device__ __forceinline__ void ThreadStore<cub_modifier, uint2*, uint2>(uint2* ptr, uint2 val)                         \
     {                                                                                       \
         asm volatile ("st."#ptx_modifier".v2.u32 [%0], {%1, %2};" : :                       \
             _CUB_ASM_PTR_(ptr),                                                             \
@@ -199,7 +199,7 @@ struct IterateThreadStore<MAX, MAX>
             "r"(val.y));                                                                    \
     }                                                                                       \
     template<>                                                                              \
-    __device__ __forceinline__ void ThreadStore<cub_modifier, unsigned long long*, unsigned long long>(unsigned long long* ptr, unsigned long long val)     \
+    __hydra_device__ __forceinline__ void ThreadStore<cub_modifier, unsigned long long*, unsigned long long>(unsigned long long* ptr, unsigned long long val)     \
     {                                                                                       \
         asm volatile ("st."#ptx_modifier".u64 [%0], %1;" : :                                \
             _CUB_ASM_PTR_(ptr),                                                             \
@@ -211,7 +211,7 @@ struct IterateThreadStore<MAX, MAX>
  */
 #define _CUB_STORE_4(cub_modifier, ptx_modifier)                                             \
     template<>                                                                              \
-    __device__ __forceinline__ void ThreadStore<cub_modifier, unsigned int*, unsigned int>(unsigned int* ptr, unsigned int val)                             \
+    __hydra_device__ __forceinline__ void ThreadStore<cub_modifier, unsigned int*, unsigned int>(unsigned int* ptr, unsigned int val)                             \
     {                                                                                       \
         asm volatile ("st."#ptx_modifier".u32 [%0], %1;" : :                                \
             _CUB_ASM_PTR_(ptr),                                                             \
@@ -224,7 +224,7 @@ struct IterateThreadStore<MAX, MAX>
  */
 #define _CUB_STORE_2(cub_modifier, ptx_modifier)                                             \
     template<>                                                                              \
-    __device__ __forceinline__ void ThreadStore<cub_modifier, unsigned short*, unsigned short>(unsigned short* ptr, unsigned short val)                     \
+    __hydra_device__ __forceinline__ void ThreadStore<cub_modifier, unsigned short*, unsigned short>(unsigned short* ptr, unsigned short val)                     \
     {                                                                                       \
         asm volatile ("st."#ptx_modifier".u16 [%0], %1;" : :                                \
             _CUB_ASM_PTR_(ptr),                                                             \
@@ -237,7 +237,7 @@ struct IterateThreadStore<MAX, MAX>
  */
 #define _CUB_STORE_1(cub_modifier, ptx_modifier)                                             \
     template<>                                                                              \
-    __device__ __forceinline__ void ThreadStore<cub_modifier, unsigned char*, unsigned char>(unsigned char* ptr, unsigned char val)                         \
+    __hydra_device__ __forceinline__ void ThreadStore<cub_modifier, unsigned char*, unsigned char>(unsigned char* ptr, unsigned char val)                         \
     {                                                                                       \
         asm volatile (                                                                      \
         "{"                                                                                 \
@@ -289,7 +289,7 @@ struct IterateThreadStore<MAX, MAX>
  * ThreadStore definition for STORE_DEFAULT modifier on iterator types
  */
 template <typename OutputIteratorT, typename T>
-__device__ __forceinline__ void ThreadStore(
+__hydra_device__ __forceinline__ void ThreadStore(
     OutputIteratorT             itr,
     T                           val,
     Int2Type<STORE_DEFAULT>     /*modifier*/,
@@ -303,7 +303,7 @@ __device__ __forceinline__ void ThreadStore(
  * ThreadStore definition for STORE_DEFAULT modifier on pointer types
  */
 template <typename T>
-__device__ __forceinline__ void ThreadStore(
+__hydra_device__ __forceinline__ void ThreadStore(
     T                           *ptr,
     T                           val,
     Int2Type<STORE_DEFAULT>     /*modifier*/,
@@ -317,7 +317,7 @@ __device__ __forceinline__ void ThreadStore(
  * ThreadStore definition for STORE_VOLATILE modifier on primitive pointer types
  */
 template <typename T>
-__device__ __forceinline__ void ThreadStoreVolatilePtr(
+__hydra_device__ __forceinline__ void ThreadStoreVolatilePtr(
     T                           *ptr,
     T                           val,
     Int2Type<true>              /*is_primitive*/)
@@ -330,7 +330,7 @@ __device__ __forceinline__ void ThreadStoreVolatilePtr(
  * ThreadStore definition for STORE_VOLATILE modifier on non-primitive pointer types
  */
 template <typename T>
-__device__ __forceinline__ void ThreadStoreVolatilePtr(
+__hydra_device__ __forceinline__ void ThreadStoreVolatilePtr(
     T                           *ptr,
     T                           val,
     Int2Type<false>             /*is_primitive*/)
@@ -358,7 +358,7 @@ __device__ __forceinline__ void ThreadStoreVolatilePtr(
  * ThreadStore definition for STORE_VOLATILE modifier on pointer types
  */
 template <typename T>
-__device__ __forceinline__ void ThreadStore(
+__hydra_device__ __forceinline__ void ThreadStore(
     T                           *ptr,
     T                           val,
     Int2Type<STORE_VOLATILE>    /*modifier*/,
@@ -372,7 +372,7 @@ __device__ __forceinline__ void ThreadStore(
  * ThreadStore definition for generic modifiers on pointer types
  */
 template <typename T, int MODIFIER>
-__device__ __forceinline__ void ThreadStore(
+__hydra_device__ __forceinline__ void ThreadStore(
     T                           *ptr,
     T                           val,
     Int2Type<MODIFIER>          /*modifier*/,
@@ -401,7 +401,7 @@ __device__ __forceinline__ void ThreadStore(
  * ThreadStore definition for generic modifiers
  */
 template <CacheStoreModifier MODIFIER, typename OutputIteratorT, typename T>
-__device__ __forceinline__ void ThreadStore(OutputIteratorT itr, T val)
+__hydra_device__ __forceinline__ void ThreadStore(OutputIteratorT itr, T val)
 {
     ThreadStore(
         itr,

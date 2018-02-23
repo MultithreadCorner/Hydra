@@ -34,7 +34,7 @@ template<typename DerivedPolicy,
          typename UnaryFunction, 
          typename OutputType,
          typename BinaryFunction>
-__host__ __device__
+__hydra_host__ __hydra_device__
   OutputType transform_reduce(thrust::execution_policy<DerivedPolicy> &exec,
                               InputIterator first,
                               InputIterator last,

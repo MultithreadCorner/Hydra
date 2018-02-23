@@ -43,21 +43,21 @@ namespace detail
 
 /*! Returns the current device ordinal.
  */
-inline __host__ __device__
+inline __hydra_host__ __hydra_device__
 int current_device();
 
 
 /*! Returns a copy of the device_properties_t structure
  *  that is associated with a given device.
  */
-inline __host__ __device__
+inline __hydra_host__ __hydra_device__
 device_properties_t device_properties(int device_id);
 
 
 /*! Returns a copy of the device_properties_t structure
  *  that is associated with the current device.
  */
-inline __host__ __device__
+inline __hydra_host__ __hydra_device__
 device_properties_t device_properties();
 
 
@@ -65,7 +65,7 @@ device_properties_t device_properties();
  *  that is associated with a given __global__ function
  */
 template<typename KernelFunction>
-inline __host__ __device__
+inline __hydra_host__ __hydra_device__
 function_attributes_t function_attributes(KernelFunction kernel);
 
 
@@ -73,7 +73,7 @@ function_attributes_t function_attributes(KernelFunction kernel);
  *  For example, returns 10 for sm_10 and 21 for sm_21
  *  \return The compute capability as an integer
  */
-inline __host__ __device__
+inline __hydra_host__ __hydra_device__
 size_t compute_capability(const device_properties_t &properties);
 
 
@@ -81,7 +81,7 @@ size_t compute_capability(const device_properties_t &properties);
  *  For example, returns 10 for sm_10 and 21 for sm_21
  *  \return The compute capability as an integer
  */
-inline __host__ __device__
+inline __hydra_host__ __hydra_device__
 size_t compute_capability();
 
 

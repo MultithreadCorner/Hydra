@@ -61,7 +61,7 @@ struct FCNWeightsReducerUnary: public HYDRA_EXTERNAL_NS::thrust::unary_function<
 {
 
 
-	__host__ __device__ 	inline
+	__hydra_host__ __hydra_device__ 	inline
 	double operator()(ArgType &t){
 		double r = 1.0;
 		detail::multiply_tuple(r,t);

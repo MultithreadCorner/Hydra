@@ -37,7 +37,7 @@ struct serial_bounded_set_symmetric_difference
 {
   // max_input_size <= 32
   template<typename Size, typename InputIterator1, typename InputIterator2, typename OutputIterator, typename Compare>
-  inline __device__
+  inline __hydra_device__
     thrust::detail::uint32_t operator()(Size max_input_size,
                                         InputIterator1 first1, InputIterator1 last1,
                                         InputIterator2 first2, InputIterator2 last2,
@@ -94,7 +94,7 @@ struct serial_bounded_set_symmetric_difference
 
 
   template<typename Size, typename InputIterator1, typename InputIterator2, typename Compare>
-  inline __device__
+  inline __hydra_device__
     Size count(Size max_input_size,
                InputIterator1 first1, InputIterator1 last1,
                InputIterator2 first2, InputIterator2 last2,
@@ -134,7 +134,7 @@ template<typename DerivedPolicy,
          typename RandomAccessIterator2, 
 	 typename RandomAccessIterator3,
          typename Compare>
-__host__ __device__
+__hydra_host__ __hydra_device__
 RandomAccessIterator3 set_symmetric_difference(execution_policy<DerivedPolicy> &exec,
                                                RandomAccessIterator1 first1,
                                                RandomAccessIterator1 last1,
@@ -145,7 +145,7 @@ RandomAccessIterator3 set_symmetric_difference(execution_policy<DerivedPolicy> &
 {
   struct workaround
   {
-    __host__ __device__
+    __hydra_host__ __hydra_device__
     static RandomAccessIterator3 parallel_path(execution_policy<DerivedPolicy> &exec,
                                                RandomAccessIterator1 first1,
                                                RandomAccessIterator1 last1,
@@ -157,7 +157,7 @@ RandomAccessIterator3 set_symmetric_difference(execution_policy<DerivedPolicy> &
       return thrust::system::cuda::detail::detail::set_operation(exec, first1, last1, first2, last2, result, comp, set_symmetric_difference_detail::serial_bounded_set_symmetric_difference());
     }
 
-    __host__ __device__
+    __hydra_host__ __hydra_device__
     static RandomAccessIterator3 sequential_path(execution_policy<DerivedPolicy> &,
                                                  RandomAccessIterator1 first1,
                                                  RandomAccessIterator1 last1,

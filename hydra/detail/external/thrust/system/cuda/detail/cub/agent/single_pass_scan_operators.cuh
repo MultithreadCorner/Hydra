@@ -68,13 +68,13 @@ struct BlockScanRunningPrefixOp
     T           running_total;      ///< Running block-wide prefix
 
     /// Constructor
-    __device__ __forceinline__ BlockScanRunningPrefixOp(ScanOpT op)
+    __hydra_device__ __forceinline__ BlockScanRunningPrefixOp(ScanOpT op)
     :
         op(op)
     {}
 
     /// Constructor
-    __device__ __forceinline__ BlockScanRunningPrefixOp(
+    __hydra_device__ __forceinline__ BlockScanRunningPrefixOp(
         T starting_prefix,
         ScanOpT op)
     :
@@ -85,7 +85,7 @@ struct BlockScanRunningPrefixOp
     /**
      * Prefix callback operator.  Returns the block-wide running_total in thread-0.
      */
-    __device__ __forceinline__ T operator()(
+    __hydra_device__ __forceinline__ T operator()(
         const T &block_aggregate)              ///< The aggregate sum of the BlockScan inputs
     {
         T retval = running_total;
@@ -167,7 +167,7 @@ struct ScanTileState<T, true>
     TxnWord *d_tile_descriptors;
 
     /// Constructor
-    __host__ __device__ __forceinline__
+    __hydra_host__ __hydra_device__ __forceinline__
     ScanTileState()
     :
         d_tile_descriptors(NULL)
@@ -175,7 +175,7 @@ struct ScanTileState<T, true>
 
 
     /// Initializer
-    __host__ __device__ __forceinline__
+    __hydra_host__ __hydra_device__ __forceinline__
     cudaError_t Init(
         int     /*num_tiles*/,                      ///< [in] Number of tiles
         void    *d_temp_storage,                    ///< [in] %Device-accessible allocation of temporary storage.  When NULL, the required allocation size is written to \p temp_storage_bytes and no work is done.
@@ -189,7 +189,7 @@ struct ScanTileState<T, true>
     /**
      * Compute device memory needed for tile status
      */
-    __host__ __device__ __forceinline__
+    __hydra_host__ __hydra_device__ __forceinline__
     static cudaError_t AllocationSize(
         int     num_tiles,                          ///< [in] Number of tiles
         size_t  &temp_storage_bytes)                ///< [out] Size in bytes of \t d_temp_storage allocation
@@ -202,7 +202,7 @@ struct ScanTileState<T, true>
     /**
      * Initialize (from device)
      */
-    __device__ __forceinline__ void InitializeStatus(int num_tiles)
+    __hydra_device__ __forceinline__ void InitializeStatus(int num_tiles)
     {
         int tile_idx = (blockIdx.x * blockDim.x) + threadIdx.x;
 
@@ -228,7 +228,7 @@ struct ScanTileState<T, true>
     /**
      * Update the specified tile's inclusive value and corresponding status
      */
-    __device__ __forceinline__ void SetInclusive(int tile_idx, T tile_inclusive)
+    __hydra_device__ __forceinline__ void SetInclusive(int tile_idx, T tile_inclusive)
     {
         TileDescriptor tile_descriptor;
         tile_descriptor.status = SCAN_TILE_INCLUSIVE;
@@ -243,7 +243,7 @@ struct ScanTileState<T, true>
     /**
      * Update the specified tile's partial value and corresponding status
      */
-    __device__ __forceinline__ void SetPartial(int tile_idx, T tile_partial)
+    __hydra_device__ __forceinline__ void SetPartial(int tile_idx, T tile_partial)
     {
         TileDescriptor tile_descriptor;
         tile_descriptor.status = SCAN_TILE_PARTIAL;
@@ -257,7 +257,7 @@ struct ScanTileState<T, true>
     /**
      * Wait for the corresponding tile to become non-invalid
      */
-    __device__ __forceinline__ void WaitForValid(
+    __hydra_device__ __forceinline__ void WaitForValid(
         int             tile_idx,
         StatusWord      &status,
         T               &value)
@@ -301,7 +301,7 @@ struct ScanTileState<T, false>
     T           *d_tile_inclusive;
 
     /// Constructor
-    __host__ __device__ __forceinline__
+    __hydra_host__ __hydra_device__ __forceinline__
     ScanTileState()
     :
         d_tile_status(NULL),
@@ -311,7 +311,7 @@ struct ScanTileState<T, false>
 
 
     /// Initializer
-    __host__ __device__ __forceinline__
+    __hydra_host__ __hydra_device__ __forceinline__
     cudaError_t Init(
         int     num_tiles,                          ///< [in] Number of tiles
         void    *d_temp_storage,                    ///< [in] %Device-accessible allocation of temporary storage.  When NULL, the required allocation size is written to \p temp_storage_bytes and no work is done.
@@ -344,7 +344,7 @@ struct ScanTileState<T, false>
     /**
      * Compute device memory needed for tile status
      */
-    __host__ __device__ __forceinline__
+    __hydra_host__ __hydra_device__ __forceinline__
     static cudaError_t AllocationSize(
         int     num_tiles,                          ///< [in] Number of tiles
         size_t  &temp_storage_bytes)                ///< [out] Size in bytes of \t d_temp_storage allocation
@@ -364,7 +364,7 @@ struct ScanTileState<T, false>
     /**
      * Initialize (from device)
      */
-    __device__ __forceinline__ void InitializeStatus(int num_tiles)
+    __hydra_device__ __forceinline__ void InitializeStatus(int num_tiles)
     {
         int tile_idx = (blockIdx.x * blockDim.x) + threadIdx.x;
         if (tile_idx < num_tiles)
@@ -384,7 +384,7 @@ struct ScanTileState<T, false>
     /**
      * Update the specified tile's inclusive value and corresponding status
      */
-    __device__ __forceinline__ void SetInclusive(int tile_idx, T tile_inclusive)
+    __hydra_device__ __forceinline__ void SetInclusive(int tile_idx, T tile_inclusive)
     {
         // Update tile inclusive value
         ThreadStore<STORE_CG>(d_tile_inclusive + TILE_STATUS_PADDING + tile_idx, tile_inclusive);
@@ -400,7 +400,7 @@ struct ScanTileState<T, false>
     /**
      * Update the specified tile's partial value and corresponding status
      */
-    __device__ __forceinline__ void SetPartial(int tile_idx, T tile_partial)
+    __hydra_device__ __forceinline__ void SetPartial(int tile_idx, T tile_partial)
     {
         // Update tile partial value
         ThreadStore<STORE_CG>(d_tile_partial + TILE_STATUS_PADDING + tile_idx, tile_partial);
@@ -415,7 +415,7 @@ struct ScanTileState<T, false>
     /**
      * Wait for the corresponding tile to become non-invalid
      */
-    __device__ __forceinline__ void WaitForValid(
+    __hydra_device__ __forceinline__ void WaitForValid(
         int             tile_idx,
         StatusWord      &status,
         T               &value)
@@ -463,7 +463,7 @@ struct ReduceByKeyScanTileState<ValueT, KeyT, false> :
     typedef ScanTileState<KeyValuePair<KeyT, ValueT> > SuperClass;
 
     /// Constructor
-    __host__ __device__ __forceinline__
+    __hydra_host__ __hydra_device__ __forceinline__
     ReduceByKeyScanTileState() : SuperClass() {}
 };
 
@@ -534,7 +534,7 @@ struct ReduceByKeyScanTileState<ValueT, KeyT, true>
 
 
     /// Constructor
-    __host__ __device__ __forceinline__
+    __hydra_host__ __hydra_device__ __forceinline__
     ReduceByKeyScanTileState()
     :
         d_tile_descriptors(NULL)
@@ -542,7 +542,7 @@ struct ReduceByKeyScanTileState<ValueT, KeyT, true>
 
 
     /// Initializer
-    __host__ __device__ __forceinline__
+    __hydra_host__ __hydra_device__ __forceinline__
     cudaError_t Init(
         int     /*num_tiles*/,                      ///< [in] Number of tiles
         void    *d_temp_storage,                    ///< [in] %Device-accessible allocation of temporary storage.  When NULL, the required allocation size is written to \p temp_storage_bytes and no work is done.
@@ -556,7 +556,7 @@ struct ReduceByKeyScanTileState<ValueT, KeyT, true>
     /**
      * Compute device memory needed for tile status
      */
-    __host__ __device__ __forceinline__
+    __hydra_host__ __hydra_device__ __forceinline__
     static cudaError_t AllocationSize(
         int     num_tiles,                          ///< [in] Number of tiles
         size_t  &temp_storage_bytes)                ///< [out] Size in bytes of \t d_temp_storage allocation
@@ -569,7 +569,7 @@ struct ReduceByKeyScanTileState<ValueT, KeyT, true>
     /**
      * Initialize (from device)
      */
-    __device__ __forceinline__ void InitializeStatus(int num_tiles)
+    __hydra_device__ __forceinline__ void InitializeStatus(int num_tiles)
     {
         int             tile_idx    = (blockIdx.x * blockDim.x) + threadIdx.x;
         TxnWord         val         = TxnWord();
@@ -594,7 +594,7 @@ struct ReduceByKeyScanTileState<ValueT, KeyT, true>
     /**
      * Update the specified tile's inclusive value and corresponding status
      */
-    __device__ __forceinline__ void SetInclusive(int tile_idx, KeyValuePairT tile_inclusive)
+    __hydra_device__ __forceinline__ void SetInclusive(int tile_idx, KeyValuePairT tile_inclusive)
     {
         TileDescriptor tile_descriptor;
         tile_descriptor.status  = SCAN_TILE_INCLUSIVE;
@@ -610,7 +610,7 @@ struct ReduceByKeyScanTileState<ValueT, KeyT, true>
     /**
      * Update the specified tile's partial value and corresponding status
      */
-    __device__ __forceinline__ void SetPartial(int tile_idx, KeyValuePairT tile_partial)
+    __hydra_device__ __forceinline__ void SetPartial(int tile_idx, KeyValuePairT tile_partial)
     {
         TileDescriptor tile_descriptor;
         tile_descriptor.status  = SCAN_TILE_PARTIAL;
@@ -625,7 +625,7 @@ struct ReduceByKeyScanTileState<ValueT, KeyT, true>
     /**
      * Wait for the corresponding tile to become non-invalid
      */
-    __device__ __forceinline__ void WaitForValid(
+    __hydra_device__ __forceinline__ void WaitForValid(
         int                     tile_idx,
         StatusWord              &status,
         KeyValuePairT           &value)
@@ -706,7 +706,7 @@ struct TilePrefixCallbackOp
     T                           inclusive_prefix;   ///< Inclusive prefix for the tile
 
     // Constructor
-    __device__ __forceinline__
+    __hydra_device__ __forceinline__
     TilePrefixCallbackOp(
         ScanTileStateT       &tile_status,
         TempStorage         &temp_storage,
@@ -720,7 +720,7 @@ struct TilePrefixCallbackOp
 
 
     // Block until all predecessors within the warp-wide window have non-invalid status
-    __device__ __forceinline__
+    __hydra_device__ __forceinline__
     void ProcessWindow(
         int         predecessor_idx,        ///< Preceding tile index to inspect
         StatusWord  &predecessor_status,    ///< [out] Preceding tile status
@@ -741,7 +741,7 @@ struct TilePrefixCallbackOp
 
 
     // BlockScan prefix callback functor (called by the first warp)
-    __device__ __forceinline__
+    __hydra_device__ __forceinline__
     T operator()(T block_aggregate)
     {
 
@@ -787,21 +787,21 @@ struct TilePrefixCallbackOp
     }
 
     // Get the exclusive prefix stored in temporary storage
-    __device__ __forceinline__
+    __hydra_device__ __forceinline__
     T GetExclusivePrefix()
     {
         return temp_storage.exclusive_prefix;
     }
 
     // Get the inclusive prefix stored in temporary storage
-    __device__ __forceinline__
+    __hydra_device__ __forceinline__
     T GetInclusivePrefix()
     {
         return temp_storage.inclusive_prefix;
     }
 
     // Get the block aggregate stored in temporary storage
-    __device__ __forceinline__
+    __hydra_device__ __forceinline__
     T GetBlockAggregate()
     {
         return temp_storage.block_aggregate;

@@ -98,14 +98,14 @@ private:
 public:
 
     /// Constructor
-    __host__ __device__ __forceinline__ DiscardOutputIterator(
+    __hydra_host__ __hydra_device__ __forceinline__ DiscardOutputIterator(
         OffsetT offset = 0)     ///< Base offset
     :
         offset(offset)
     {}
 
     /// Postfix increment
-    __host__ __device__ __forceinline__ self_type operator++(int)
+    __hydra_host__ __hydra_device__ __forceinline__ self_type operator++(int)
     {
         self_type retval = *this;
         offset++;
@@ -113,14 +113,14 @@ public:
     }
 
     /// Prefix increment
-    __host__ __device__ __forceinline__ self_type operator++()
+    __hydra_host__ __hydra_device__ __forceinline__ self_type operator++()
     {
         offset++;
         return *this;
     }
 
     /// Indirection
-    __host__ __device__ __forceinline__ self_type& operator*()
+    __hydra_host__ __hydra_device__ __forceinline__ self_type& operator*()
     {
         // return self reference, which can be assigned to anything
         return *this;
@@ -128,7 +128,7 @@ public:
 
     /// Addition
     template <typename Distance>
-    __host__ __device__ __forceinline__ self_type operator+(Distance n) const
+    __hydra_host__ __hydra_device__ __forceinline__ self_type operator+(Distance n) const
     {
         self_type retval(offset + n);
         return retval;
@@ -136,7 +136,7 @@ public:
 
     /// Addition assignment
     template <typename Distance>
-    __host__ __device__ __forceinline__ self_type& operator+=(Distance n)
+    __hydra_host__ __hydra_device__ __forceinline__ self_type& operator+=(Distance n)
     {
         offset += n;
         return *this;
@@ -144,7 +144,7 @@ public:
 
     /// Subtraction
     template <typename Distance>
-    __host__ __device__ __forceinline__ self_type operator-(Distance n) const
+    __hydra_host__ __hydra_device__ __forceinline__ self_type operator-(Distance n) const
     {
         self_type retval(offset - n);
         return retval;
@@ -152,54 +152,54 @@ public:
 
     /// Subtraction assignment
     template <typename Distance>
-    __host__ __device__ __forceinline__ self_type& operator-=(Distance n)
+    __hydra_host__ __hydra_device__ __forceinline__ self_type& operator-=(Distance n)
     {
         offset -= n;
         return *this;
     }
 
     /// Distance
-    __host__ __device__ __forceinline__ difference_type operator-(self_type other) const
+    __hydra_host__ __hydra_device__ __forceinline__ difference_type operator-(self_type other) const
     {
         return offset - other.offset;
     }
 
     /// Array subscript
     template <typename Distance>
-    __host__ __device__ __forceinline__ self_type& operator[](Distance n)
+    __hydra_host__ __hydra_device__ __forceinline__ self_type& operator[](Distance n)
     {
         // return self reference, which can be assigned to anything
         return *this;
     }
 
     /// Structure dereference
-    __host__ __device__ __forceinline__ pointer operator->()
+    __hydra_host__ __hydra_device__ __forceinline__ pointer operator->()
     {
         return;
     }
 
     /// Assignment to self (no-op)
-    __host__ __device__ __forceinline__ void operator=(self_type const& other)
+    __hydra_host__ __hydra_device__ __forceinline__ void operator=(self_type const& other)
     {
         offset = other.offset;
     }
 
     /// Assignment to anything else (no-op)
     template<typename T>
-    __host__ __device__ __forceinline__ void operator=(T const&)
+    __hydra_host__ __hydra_device__ __forceinline__ void operator=(T const&)
     {}
 
     /// Cast to void* operator
-    __host__ __device__ __forceinline__ operator void*() const { return NULL; }
+    __hydra_host__ __hydra_device__ __forceinline__ operator void*() const { return NULL; }
 
     /// Equal to
-    __host__ __device__ __forceinline__ bool operator==(const self_type& rhs)
+    __hydra_host__ __hydra_device__ __forceinline__ bool operator==(const self_type& rhs)
     {
         return (offset == rhs.offset);
     }
 
     /// Not equal to
-    __host__ __device__ __forceinline__ bool operator!=(const self_type& rhs)
+    __hydra_host__ __hydra_device__ __forceinline__ bool operator!=(const self_type& rhs)
     {
         return (offset != rhs.offset);
     }

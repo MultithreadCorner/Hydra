@@ -180,7 +180,7 @@ int main(int argv, char** argc)
 
 	// functor to calculate the 2-body masses
 	auto dalitz_calculator = hydra::wrap_lambda(
-			[]__host__ __device__(unsigned int n, hydra::Vector4R* p ){
+			[]__hydra_host__ __hydra_device__(unsigned int n, hydra::Vector4R* p ){
 
 			double   MSq_12 = (p[0]+p[1]).mass2();
 			double   MSq_13 = (p[0]+p[2]).mass2();
@@ -200,7 +200,7 @@ int main(int argv, char** argc)
 
 
 	// fit functor (breit-wigner)
-	auto breit_wigner = hydra::wrap_lambda( []__host__ __device__(unsigned int npar, const hydra::Parameter* params,
+	auto breit_wigner = hydra::wrap_lambda( []__hydra_host__ __hydra_device__(unsigned int npar, const hydra::Parameter* params,
 					unsigned int n, hydra::Vector4R* particles ){
 
 		double mass  = params[0];

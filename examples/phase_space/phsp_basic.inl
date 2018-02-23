@@ -146,7 +146,7 @@ int main(int argv, char** argc)
 
 
 	auto dalitz_calculator = hydra::wrap_lambda(
-			[]__host__ __device__ ( unsigned int np, hydra::Vector4R* particles){
+			[]__hydra_host__ __hydra_device__ ( unsigned int np, hydra::Vector4R* particles){
 
 		hydra::Vector4R Jpsi = particles[0];
 		hydra::Vector4R K    = particles[1];

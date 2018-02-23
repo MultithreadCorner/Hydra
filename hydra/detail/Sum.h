@@ -70,12 +70,12 @@ public:
 		detail::CompositeBase<F1,F2, Fs...>( f1, f2,fs...)
   	{ }
 
-	__host__ __device__
+	__hydra_host__ __hydra_device__
 	Sum(const Sum<F1,F2, Fs...>& other):
 		detail::CompositeBase<F1,F2, Fs...>(  other)
 	{ };
 
-	__host__ __device__ inline
+	__hydra_host__ __hydra_device__ inline
 	Sum<F1,F2, Fs...>& operator=(Sum<F1,F2, Fs...> const& other)
 	{
 		if(this==&other) return *this;
@@ -86,7 +86,7 @@ public:
 	}
 
   	template<typename T1>
-  	__host__ __device__ inline
+  	__hydra_host__ __hydra_device__ inline
   	return_type operator()(T1&& t ) const
   	{
   		return detail::accumulate<return_type,T1,F1,F2,Fs...>(std::forward<T1&>(t),this->fFtorTuple );
@@ -94,7 +94,7 @@ public:
   	}
 
   	template<typename T1, typename T2>
-  	__host__ __device__  inline
+  	__hydra_host__ __hydra_device__  inline
   	return_type operator()( T1&& t, T2&& cache) const
   	{
 
@@ -108,13 +108,13 @@ public:
 // + operator two functors
 template<typename T1, typename T2,
 typename=typename std::enable_if< T1::is_functor::value && T2::is_functor::value> >
-__host__  inline
+__hydra_host__  inline
 Sum<T1, T2> operator+(T1 const& F1, T2 const& F2){ return  Sum<T1,T2>(F1, F2); }
 
 template <typename T1, typename T2,
 typename=typename std::enable_if< (std::is_convertible<T1, double>::value ||\
 		std::is_constructible<HYDRA_EXTERNAL_NS::thrust::complex<double>,T1>::value) && T2::is_functor::value>::type >
-__host__  inline
+__hydra_host__  inline
 Sum<Constant<T1>, T2>
 operator+(T1 const cte, T2 const& F2){ return  Constant<T1>(cte)+F2; }
 
@@ -122,20 +122,19 @@ operator+(T1 const cte, T2 const& F2){ return  Constant<T1>(cte)+F2; }
 template <typename T1, typename T2,
 typename=typename std::enable_if< (std::is_convertible<T1, double>::value ||\
 		std::is_constructible<HYDRA_EXTERNAL_NS::thrust::complex<double>,T1>::value) && T2::is_functor::value>::type >
-__host__  inline
+__hydra_host__  inline
 Sum<Constant<T1>, T2>
 operator+(T2 const& F2, T1 const cte ){	return  Constant<T1>(cte)+F2; }
 
 // Convenience function
 template <typename F1, typename F2, typename ...Fs>
-__host__  inline
+__hydra_host__  inline
 Sum<F1, F2,Fs...>
 sum(F1 const& f1, F2 const& f2, Fs const&... functors )
 { return  Sum<F1, F2,Fs... >(f1,f2, functors ... ); }
 
 
 }
-
 
 
 #endif /* SUM_H_ */

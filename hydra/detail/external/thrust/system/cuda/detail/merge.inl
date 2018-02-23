@@ -38,7 +38,7 @@ namespace merge_detail
 
 
 template<std::size_t groupsize, std::size_t grainsize, typename RandomAccessIterator1, typename Size,typename RandomAccessIterator2, typename RandomAccessIterator3, typename RandomAccessIterator4, typename Compare>
-__device__
+__hydra_device__
 RandomAccessIterator4
   staged_merge(bulk_::concurrent_group<bulk_::agent<grainsize>,groupsize> &exec,
                RandomAccessIterator1 first1, Size n1,
@@ -67,7 +67,7 @@ RandomAccessIterator4
 struct merge_kernel
 {
   template<std::size_t groupsize, std::size_t grainsize, typename RandomAccessIterator1, typename Size1, typename RandomAccessIterator2, typename Size2, typename RandomAccessIterator3, typename RandomAccessIterator4, typename Compare>
-  __device__
+  __hydra_device__
   void operator()(bulk_::concurrent_group<bulk_::agent<grainsize>,groupsize> &g,
                   RandomAccessIterator1 first1, Size1 n1,
                   RandomAccessIterator2 first2, Size2 n2,
@@ -134,7 +134,7 @@ struct locate_merge_path
   RandomAccessIterator2 first2, last2;
   Compare comp;
 
-  __host__ __device__
+  __hydra_host__ __hydra_device__
   locate_merge_path(Size partition_size, RandomAccessIterator1 first1, RandomAccessIterator1 last1, RandomAccessIterator2 first2, RandomAccessIterator2 last2, Compare comp)
     : partition_size(partition_size),
       first1(first1), last1(last1),
@@ -143,7 +143,7 @@ struct locate_merge_path
   {}
 
   template<typename Index>
-  __device__
+  __hydra_device__
   Size operator()(Index i)
   {
     Size n1 = last1 - first1;
@@ -159,7 +159,7 @@ template<typename DerivedPolicy,
          typename RandomAccessIterator2, 
 	 typename RandomAccessIterator3,
          typename Compare>
-__host__ __device__
+__hydra_host__ __hydra_device__
 RandomAccessIterator3 merge(execution_policy<DerivedPolicy> &exec,
                             RandomAccessIterator1 first1,
                             RandomAccessIterator1 last1,
@@ -202,7 +202,7 @@ template<typename DerivedPolicy,
          typename RandomAccessIterator2, 
 	 typename RandomAccessIterator3,
          typename Compare>
-__host__ __device__
+__hydra_host__ __hydra_device__
 RandomAccessIterator3 merge(execution_policy<DerivedPolicy> &exec,
                             RandomAccessIterator1 first1,
                             RandomAccessIterator1 last1,
@@ -220,7 +220,7 @@ RandomAccessIterator3 merge(execution_policy<DerivedPolicy> &exec,
 
   struct workaround
   {
-    __host__ __device__
+    __hydra_host__ __hydra_device__
     static RandomAccessIterator3 parallel_path(execution_policy<DerivedPolicy> &exec,
                                                RandomAccessIterator1 first1,
                                                RandomAccessIterator1 last1,
@@ -232,7 +232,7 @@ RandomAccessIterator3 merge(execution_policy<DerivedPolicy> &exec,
       return thrust::system::cuda::detail::merge_detail::merge(exec, first1, last1, first2, last2, result, comp);
     }
 
-    __host__ __device__
+    __hydra_host__ __hydra_device__
     static RandomAccessIterator3 sequential_path(execution_policy<DerivedPolicy> &,
                                                  RandomAccessIterator1 first1,
                                                  RandomAccessIterator1 last1,

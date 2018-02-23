@@ -71,7 +71,7 @@ struct triple_chevron_launcher_base<block_size,Function,true>
 {
   typedef void (*global_function_pointer_t)(Function);
 
-  __host__ __device__
+  __hydra_host__ __hydra_device__
   static global_function_pointer_t global_function_pointer()
   {
     return launch_by_value<block_size,Function>;
@@ -95,7 +95,7 @@ struct triple_chevron_launcher_base<block_size,Function,false>
 {
   typedef void (*global_function_pointer_t)(const Function*);
 
-  __host__ __device__
+  __hydra_host__ __hydra_device__
   static global_function_pointer_t global_function_pointer()
   {
     return launch_by_pointer<block_size,Function>;
@@ -114,12 +114,12 @@ class triple_chevron_launcher : protected triple_chevron_launcher_base<block_siz
   public:
     typedef Function task_type;
 
-    inline __host__ __device__
+    inline __hydra_host__ __hydra_device__
     void launch(unsigned int num_blocks, unsigned int block_size, size_t num_dynamic_smem_bytes, cudaStream_t stream, task_type task)
     {
       struct workaround
       {
-        __host__ __device__
+        __hydra_host__ __hydra_device__
         static void supported_path(unsigned int num_blocks, unsigned int block_size, size_t num_dynamic_smem_bytes, cudaStream_t stream, task_type task)
         {
 #if __BULK_HAS_CUDART__
@@ -136,7 +136,7 @@ class triple_chevron_launcher : protected triple_chevron_launcher_base<block_siz
 #endif // __BULK_HAS_CUDART__
         }
 
-        __host__ __device__
+        __hydra_host__ __hydra_device__
         static void unsupported_path(unsigned int, unsigned int, size_t, cudaStream_t, task_type)
         {
           bulk::detail::terminate_with_message("triple_chevron_launcher::launch(): CUDA kernel launch requires CUDART.");
@@ -165,12 +165,12 @@ class triple_chevron_launcher<block_size_,Function,false> : protected triple_che
   public:
     typedef Function task_type;
 
-    inline __host__ __device__
+    inline __hydra_host__ __hydra_device__
     void launch(unsigned int num_blocks, unsigned int block_size, size_t num_dynamic_smem_bytes, cudaStream_t stream, task_type task)
     {
       struct workaround
       {
-        __host__ __device__
+        __hydra_host__ __hydra_device__
         static void supported_path(unsigned int num_blocks, unsigned int block_size, size_t num_dynamic_smem_bytes, cudaStream_t stream, task_type task)
         {
           bulk::detail::parameter_ptr<task_type> parm = bulk::detail::make_parameter<task_type>(task);
@@ -190,7 +190,7 @@ class triple_chevron_launcher<block_size_,Function,false> : protected triple_che
 #endif // __BULK_HAS_CUDART__
         }
 
-        __host__ __device__
+        __hydra_host__ __hydra_device__
         static void unsupported_path(unsigned int, unsigned int, size_t, cudaStream_t, task_type)
         {
           bulk::detail::terminate_with_message("triple_chevron_launcher::launch(): CUDA kernel launch requires CUDART.");

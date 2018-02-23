@@ -144,12 +144,12 @@ template<typename Void>
   struct capture_address
 {
   template<typename T>
-  __host__ __device__
+  __hydra_host__ __hydra_device__
   capture_address(T &r)
     : m_addr(&r)
   {}
 
-  inline __host__ __device__
+  inline __hydra_host__ __hydra_device__
   Void *operator&() const
   {
     return m_addr;
@@ -183,7 +183,7 @@ template<typename Ptr>
     typedef typename rebind_pointer<Ptr,U>::type other;
   };
 
-  __host__ __device__
+  __hydra_host__ __hydra_device__
   inline static pointer pointer_to(typename pointer_traits_detail::pointer_to_param<element_type>::type r)
   {
     // XXX this is supposed to be pointer::pointer_to(&r); (i.e., call a static member function of pointer called pointer_to)
@@ -195,7 +195,7 @@ template<typename Ptr>
   // thrust additions follow
   typedef typename pointer_raw_pointer<Ptr>::type raw_pointer;
 
-  __host__ __device__
+  __hydra_host__ __hydra_device__
   inline static raw_pointer get(pointer ptr)
   {
     return ptr.get();
@@ -215,7 +215,7 @@ template<typename T>
     typedef U* other;
   };
 
-  __host__ __device__
+  __hydra_host__ __hydra_device__
   inline static pointer pointer_to(typename pointer_traits_detail::pointer_to_param<element_type>::type r)
   {
     return &r;
@@ -224,7 +224,7 @@ template<typename T>
   // thrust additions follow
   typedef typename pointer_raw_pointer<T*>::type raw_pointer;
 
-  __host__ __device__
+  __hydra_host__ __hydra_device__
   inline static raw_pointer get(pointer ptr)
   {
     return ptr;

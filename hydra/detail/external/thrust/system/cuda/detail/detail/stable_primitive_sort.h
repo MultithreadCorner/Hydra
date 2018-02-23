@@ -34,7 +34,7 @@ namespace detail
 
 template<typename DerivedPolicy,
          typename RandomAccessIterator>
-__host__ __device__
+__hydra_host__ __hydra_device__
 void stable_primitive_sort(execution_policy<DerivedPolicy> &exec,
                            RandomAccessIterator first,
                            RandomAccessIterator last,
@@ -43,7 +43,7 @@ void stable_primitive_sort(execution_policy<DerivedPolicy> &exec,
 
 template<typename DerivedPolicy,
          typename RandomAccessIterator>
-__host__ __device__
+__hydra_host__ __hydra_device__
 void stable_primitive_sort(execution_policy<DerivedPolicy> &exec,
                            RandomAccessIterator first,
                            RandomAccessIterator last,
@@ -53,7 +53,7 @@ void stable_primitive_sort(execution_policy<DerivedPolicy> &exec,
 template<typename DerivedPolicy,
          typename RandomAccessIterator1,
          typename RandomAccessIterator2>
-__host__ __device__
+__hydra_host__ __hydra_device__
 void stable_primitive_sort_by_key(execution_policy<DerivedPolicy> &exec,
                                   RandomAccessIterator1 keys_first,
                                   RandomAccessIterator1 keys_last,
@@ -64,7 +64,7 @@ void stable_primitive_sort_by_key(execution_policy<DerivedPolicy> &exec,
 template<typename DerivedPolicy,
          typename RandomAccessIterator1,
          typename RandomAccessIterator2>
-__host__ __device__
+__hydra_host__ __hydra_device__
 void stable_primitive_sort_by_key(execution_policy<DerivedPolicy> &exec,
                                   RandomAccessIterator1 keys_first,
                                   RandomAccessIterator1 keys_last,

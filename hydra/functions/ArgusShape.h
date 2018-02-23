@@ -74,7 +74,7 @@ public:
 	 *
 	 * @param other
 	 */
-	__host__ __device__
+	__hydra_host__ __hydra_device__
 	ArgusShape(ArgusShape<ArgIndex> const& other ):
 		BaseFunctor<ArgusShape<ArgIndex>, double,3>(other)
 		{}
@@ -85,7 +85,7 @@ public:
 	 * @param other
 	 * @return
 	 */
-	__host__ __device__
+	__hydra_host__ __hydra_device__
 	ArgusShape<ArgIndex>&
 	operator=(ArgusShape<ArgIndex> const& other ){
 		if(this==&other) return  *this;
@@ -94,7 +94,7 @@ public:
 	}
 
 	template<typename T>
-	__host__ __device__ inline
+	__hydra_host__ __hydra_device__ inline
 	double Evaluate(unsigned int, T*x)  const {
 
 		double m  = x[ArgIndex]; //mass
@@ -108,7 +108,7 @@ public:
 	}
 
 	template<typename T>
-	__host__ __device__ inline
+	__hydra_host__ __hydra_device__ inline
 	double Evaluate(T x)  const {
 		double m  = hydra::get<ArgIndex>(x); //mass
 		double m0 = _par[0]; //resonance mass

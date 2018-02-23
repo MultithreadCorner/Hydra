@@ -43,7 +43,7 @@ template<typename RealType>
 {
   protected:
     template<typename UniformRandomNumberGenerator>
-    __host__ __device__
+    __hydra_host__ __hydra_device__
     RealType sample(UniformRandomNumberGenerator &urng, const RealType mean, const RealType stddev)
     {
       typedef typename UniformRandomNumberGenerator::result_type uint_type;
@@ -73,7 +73,7 @@ template<typename RealType>
     }
 
     // no-op
-    __host__ __device__
+    __hydra_host__ __hydra_device__
     void reset() {}
 };
 
@@ -98,7 +98,7 @@ template<typename RealType>
 
     // note that we promise to call this member function with the same mean and stddev
     template<typename UniformRandomNumberGenerator>
-    __host__ __device__
+    __hydra_host__ __hydra_device__
     RealType sample(UniformRandomNumberGenerator &urng, const RealType mean, const RealType stddev)
     {
       // implementation from Boost

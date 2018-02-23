@@ -31,7 +31,7 @@ namespace sequential
 
 
 template<typename DerivedPolicy, typename Pointer>
-__host__ __device__
+__hydra_host__ __hydra_device__
   typename thrust::iterator_value<Pointer>::type
     get_value(sequential::execution_policy<DerivedPolicy> &, Pointer ptr)
 {

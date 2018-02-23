@@ -36,7 +36,7 @@ template<std::size_t bound,
          typename RandomAccessIterator1,
          typename RandomAccessIterator2,
          typename Compare>
-__forceinline__ __device__
+__forceinline__ __hydra_device__
 void stable_sort_by_key(const bounded<bound,agent<grainsize> > &exec,
                         RandomAccessIterator1 keys_first, RandomAccessIterator1 keys_last,
                         RandomAccessIterator2 values_first,
@@ -50,7 +50,7 @@ namespace stable_merge_sort_detail
 
 
 template<std::size_t bound, std::size_t groupsize, std::size_t grainsize, typename KeyType, typename ValType, typename Compare>
-__device__
+__hydra_device__
 typename thrust::detail::enable_if<
   bound <= groupsize * grainsize
 >::type
@@ -126,7 +126,7 @@ template<std::size_t bound, std::size_t groupsize, std::size_t grainsize,
          typename RandomAccessIterator1,
          typename RandomAccessIterator2,
          typename Compare>
-__device__
+__hydra_device__
 typename thrust::detail::enable_if<
   bound <= groupsize * grainsize
 >::type

@@ -31,7 +31,7 @@ template<typename T, T a, T c, T m, bool = (m == 0)>
   static const T q = m / a;
   static const T r = m % a;
 
-  __host__ __device__
+  __hydra_host__ __hydra_device__
   T operator()(T x) const
   {
     if(a == 1)
@@ -74,7 +74,7 @@ template<typename T, T a, T c, T m, bool = (m == 0)>
 template<typename T, T a, T c, T m>
   struct static_mod<T,a,c,m,true>
 {
-  __host__ __device__
+  __hydra_host__ __hydra_device__
   T operator()(T x) const
   {
     return a * x + c;
@@ -82,7 +82,7 @@ template<typename T, T a, T c, T m>
 }; // end static_mod
 
 template<typename T, T a, T c, T m>
-__host__ __device__
+__hydra_host__ __hydra_device__
   T mod(T x)
 {
   static_mod<T,a,c,m> f;

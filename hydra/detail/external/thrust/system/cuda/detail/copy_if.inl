@@ -65,7 +65,7 @@ struct copy_if_intervals_closure
   typedef Context context_type;
   context_type context;
   
-  __host__ __device__
+  __hydra_host__ __hydra_device__
   copy_if_intervals_closure(InputIterator1 input,
                             InputIterator2 stencil,
                             InputIterator3 offsets,
@@ -74,7 +74,7 @@ struct copy_if_intervals_closure
                             Context context = Context())
     : input(input), stencil(stencil), offsets(offsets), decomp(decomp), output(output), context(context) {}
 
-  __device__ __thrust_forceinline__
+  __hydra_device__ __thrust_forceinline__
   void operator()(void)
   {
     typedef unsigned int PredicateType;
@@ -168,7 +168,7 @@ template<typename DerivedPolicy,
          typename InputIterator2,
          typename OutputIterator,
          typename Predicate>
-__host__ __device__
+__hydra_host__ __hydra_device__
 OutputIterator copy_if(execution_policy<DerivedPolicy> &exec,
                        InputIterator1 first,
                        InputIterator1 last,
@@ -223,7 +223,7 @@ template<typename DerivedPolicy,
          typename InputIterator2,
          typename OutputIterator,
          typename Predicate>
-__host__ __device__
+__hydra_host__ __hydra_device__
 OutputIterator copy_if(execution_policy<DerivedPolicy> &exec,
                        InputIterator1 first,
                        InputIterator1 last,
@@ -240,7 +240,7 @@ OutputIterator copy_if(execution_policy<DerivedPolicy> &exec,
 
   struct workaround
   {
-    __host__ __device__
+    __hydra_host__ __hydra_device__
     static OutputIterator parallel_path(execution_policy<DerivedPolicy> &exec,
                                         InputIterator1 first,
                                         InputIterator1 last,
@@ -251,7 +251,7 @@ OutputIterator copy_if(execution_policy<DerivedPolicy> &exec,
       return thrust::system::cuda::detail::copy_if_detail::copy_if(exec, first, last, stencil, output, pred);
     } // end parallel_path()
 
-    __host__ __device__
+    __hydra_host__ __hydra_device__
     static OutputIterator sequential_path(execution_policy<DerivedPolicy> &,
                                           InputIterator1 first,
                                           InputIterator1 last,

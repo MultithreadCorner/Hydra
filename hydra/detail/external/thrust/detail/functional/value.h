@@ -50,13 +50,13 @@ template<typename T>
       typedef T type;
     };
 
-    __host__ __device__
+    __hydra_host__ __hydra_device__
     value(const T &arg)
       : m_val(arg)
     {}
 
     template<typename Env>
-    __host__ __device__
+    __hydra_host__ __hydra_device__
       T eval(const Env &) const
     {
       return m_val;
@@ -67,7 +67,7 @@ template<typename T>
 }; // end value
 
 template<typename T>
-__host__ __device__
+__hydra_host__ __hydra_device__
 actor<value<T> > val(const T &x)
 {
   return value<T>(x);

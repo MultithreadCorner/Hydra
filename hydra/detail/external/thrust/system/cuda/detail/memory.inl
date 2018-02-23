@@ -46,24 +46,24 @@ namespace cuda
 
 template <typename T>
 template <typename OtherT>
-__host__ __device__ reference<T> &reference<T>::operator=(
+__hydra_host__ __hydra_device__ reference<T> &reference<T>::operator=(
     const reference<OtherT> &other) {
   return super_t::operator=(other);
 } // end reference::operator=()
 
 template <typename T>
-__host__ __device__ reference<T> &reference<T>::operator=(const value_type &x) {
+__hydra_host__ __hydra_device__ reference<T> &reference<T>::operator=(const value_type &x) {
   return super_t::operator=(x);
 } // end reference::operator=()
 
 template<typename T>
-__host__ __device__
+__hydra_host__ __hydra_device__
 void swap(reference<T> a, reference<T> b)
 {
   a.swap(b);
 } // end swap()
 
-__host__ __device__
+__hydra_host__ __hydra_device__
 pointer<void> malloc(std::size_t n)
 {
   tag cuda_tag;
@@ -71,14 +71,14 @@ pointer<void> malloc(std::size_t n)
 } // end malloc()
 
 template<typename T>
-__host__ __device__
+__hydra_host__ __hydra_device__
 pointer<T> malloc(std::size_t n)
 {
   pointer<void> raw_ptr = thrust::system::cuda::malloc(sizeof(T) * n);
   return pointer<T>(reinterpret_cast<T*>(raw_ptr.get()));
 } // end malloc()
 
-__host__ __device__
+__hydra_host__ __hydra_device__
 void free(pointer<void> ptr)
 {
   tag cuda_tag;

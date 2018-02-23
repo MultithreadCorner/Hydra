@@ -47,7 +47,7 @@ struct cons
 
 
   template<unsigned int default_value>
-  __host__ __device__
+  __hydra_host__ __hydra_device__
   static unsigned int get(unsigned int key)
   {
     return (key == Head::key) ? (Head::value) : Tail::template get<default_value>(key);
@@ -65,7 +65,7 @@ struct cons<Head,void>
   };
 
   template<unsigned int default_value>
-  __host__ __device__
+  __hydra_host__ __hydra_device__
   static unsigned int get(unsigned int key)
   {
     return (key == Head::key) ? (Head::value) : default_value;
@@ -115,7 +115,7 @@ struct static_map
     static const unsigned int value = impl::template static_get<key,default_value>::value;
   };
 
-  __host__ __device__
+  __hydra_host__ __hydra_device__
   static unsigned int get(unsigned int key)
   {
     return impl::template get<default_value>(key);
@@ -158,7 +158,7 @@ struct static_lookup
 
 
 template<typename StaticMap>
-__host__ __device__
+__hydra_host__ __hydra_device__
 unsigned int lookup(unsigned int key)
 {
   return StaticMap::get(key);

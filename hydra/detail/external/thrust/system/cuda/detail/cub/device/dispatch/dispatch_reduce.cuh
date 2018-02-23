@@ -150,7 +150,7 @@ __global__ void DeviceReduceSingleTileKernel(
 
 /// Normalize input iterator to segment offset
 template <typename T, typename OffsetT, typename IteratorT>
-__device__ __forceinline__
+__hydra_device__ __forceinline__
 void NormalizeReductionOutput(
     T &/*val*/,
     OffsetT /*base_offset*/,
@@ -160,7 +160,7 @@ void NormalizeReductionOutput(
 
 /// Normalize input iterator to segment offset (specialized for arg-index)
 template <typename KeyValuePairT, typename OffsetT, typename WrappedIteratorT, typename OutputValueT>
-__device__ __forceinline__
+__hydra_device__ __forceinline__
 void NormalizeReductionOutput(
     KeyValuePairT &val,
     OffsetT base_offset,

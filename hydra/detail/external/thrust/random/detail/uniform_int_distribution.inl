@@ -26,7 +26,7 @@ namespace random
 
 
 template<typename IntType>
-  __host__ __device__
+  __hydra_host__ __hydra_device__
   uniform_int_distribution<IntType>
     ::uniform_int_distribution(IntType a, IntType b)
       :m_param(a,b)
@@ -35,7 +35,7 @@ template<typename IntType>
 
 
 template<typename IntType>
-  __host__ __device__
+  __hydra_host__ __hydra_device__
   uniform_int_distribution<IntType>
     ::uniform_int_distribution(const param_type &parm)
       :m_param(parm)
@@ -44,7 +44,7 @@ template<typename IntType>
 
 
 template<typename IntType>
-  __host__ __device__
+  __hydra_host__ __hydra_device__
   void uniform_int_distribution<IntType>
     ::reset(void)
 {
@@ -53,7 +53,7 @@ template<typename IntType>
 
 template<typename IntType>
   template<typename UniformRandomNumberGenerator>
-    __host__ __device__
+    __hydra_host__ __hydra_device__
     typename uniform_int_distribution<IntType>::result_type
       uniform_int_distribution<IntType>
         ::operator()(UniformRandomNumberGenerator &urng)
@@ -64,7 +64,7 @@ template<typename IntType>
 
 template<typename IntType>
   template<typename UniformRandomNumberGenerator>
-    __host__ __device__
+    __hydra_host__ __hydra_device__
     typename uniform_int_distribution<IntType>::result_type
       uniform_int_distribution<IntType>
         ::operator()(UniformRandomNumberGenerator &urng, const param_type &parm)
@@ -87,7 +87,7 @@ template<typename IntType>
 
 
 template<typename IntType>
-  __host__ __device__
+  __hydra_host__ __hydra_device__
   typename uniform_int_distribution<IntType>::result_type
     uniform_int_distribution<IntType>
       ::a(void) const
@@ -97,7 +97,7 @@ template<typename IntType>
 
 
 template<typename IntType>
-  __host__ __device__
+  __hydra_host__ __hydra_device__
   typename uniform_int_distribution<IntType>::result_type
     uniform_int_distribution<IntType>
       ::b(void) const
@@ -107,7 +107,7 @@ template<typename IntType>
 
 
 template<typename IntType>
-  __host__ __device__
+  __hydra_host__ __hydra_device__
   typename uniform_int_distribution<IntType>::param_type
     uniform_int_distribution<IntType>
       ::param(void) const
@@ -117,7 +117,7 @@ template<typename IntType>
 
 
 template<typename IntType>
-  __host__ __device__
+  __hydra_host__ __hydra_device__
   void uniform_int_distribution<IntType>
     ::param(const param_type &parm)
 {
@@ -126,7 +126,7 @@ template<typename IntType>
 
 
 template<typename IntType>
-  __host__ __device__
+  __hydra_host__ __hydra_device__
   typename uniform_int_distribution<IntType>::result_type
     uniform_int_distribution<IntType>
       ::min HYDRA_THRUST_PREVENT_MACRO_SUBSTITUTION (void) const
@@ -136,7 +136,7 @@ template<typename IntType>
 
 
 template<typename IntType>
-  __host__ __device__
+  __hydra_host__ __hydra_device__
   typename uniform_int_distribution<IntType>::result_type
     uniform_int_distribution<IntType>
       ::max HYDRA_THRUST_PREVENT_MACRO_SUBSTITUTION (void) const
@@ -146,7 +146,7 @@ template<typename IntType>
 
 
 template<typename IntType>
-  __host__ __device__
+  __hydra_host__ __hydra_device__
   bool uniform_int_distribution<IntType>
     ::equal(const uniform_int_distribution &rhs) const
 {
@@ -203,7 +203,7 @@ template<typename IntType>
 
 
 template<typename IntType>
-__host__ __device__
+__hydra_host__ __hydra_device__
 bool operator==(const uniform_int_distribution<IntType> &lhs,
                 const uniform_int_distribution<IntType> &rhs)
 {
@@ -212,7 +212,7 @@ bool operator==(const uniform_int_distribution<IntType> &lhs,
 
 
 template<typename IntType>
-__host__ __device__
+__hydra_host__ __hydra_device__
 bool operator!=(const uniform_int_distribution<IntType> &lhs,
                 const uniform_int_distribution<IntType> &rhs)
 {

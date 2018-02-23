@@ -40,7 +40,7 @@ namespace hydra {
 namespace detail {
 
 template <class Iterator>
-__host__ __device__
+__hydra_host__ __hydra_device__
 void iter_swap(Iterator first, Iterator second)
 {
 
@@ -48,7 +48,7 @@ void iter_swap(Iterator first, Iterator second)
 }
 
 template <class Iterator>
-__host__ __device__
+__hydra_host__ __hydra_device__
 Iterator rotate(Iterator first, Iterator n_first, Iterator last)
 {
 
@@ -78,7 +78,7 @@ using hydra::detail::iter_swap;
 
 template<typename Iterator, typename Integer, typename Comparator>
 typename std::enable_if<std::is_integral<Integer>::value, void>::type
-__host__ __device__
+__hydra_host__ __hydra_device__
 nth_permutation(Iterator begin, Iterator end, Integer n, Comparator comp)
 {
   HYDRA_EXTERNAL_NS::thrust::sort(begin, end, comp);

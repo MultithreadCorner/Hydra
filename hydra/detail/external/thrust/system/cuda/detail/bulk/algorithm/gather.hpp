@@ -33,7 +33,7 @@ template<std::size_t bound,
          typename RandomAccessIterator1,
          typename RandomAccessIterator2,
          typename RandomAccessIterator3>
-__forceinline__ __device__
+__forceinline__ __hydra_device__
 RandomAccessIterator3 gather(const bounded<bound,agent<grainsize> > &,
                              RandomAccessIterator1 map_first,
                              RandomAccessIterator1 map_last,
@@ -67,7 +67,7 @@ RandomAccessIterator3 gather(const bounded<bound,agent<grainsize> > &,
 
 
 template<typename ExecutionGroup, typename RandomAccessIterator1, typename RandomAccessIterator2, typename RandomAccessIterator3>
-__forceinline__ __device__
+__forceinline__ __hydra_device__
 RandomAccessIterator3 gather(ExecutionGroup &g,
                              RandomAccessIterator1 map_first,
                              RandomAccessIterator1 map_last,

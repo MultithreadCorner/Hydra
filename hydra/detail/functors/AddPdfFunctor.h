@@ -81,7 +81,7 @@ struct AddPdfFunctor
 			fCoeficients[i]=coeficients[i].GetValue();
 	}
 
-    __host__ __device__
+    __hydra_host__ __hydra_device__
 	AddPdfFunctor(AddPdfFunctor< PDF1, PDF2, PDFs...> const& other ):
 		fFunctors( other.GetFunctors() ),
 		fCoefSum( other.GetCoefSum() )
@@ -91,7 +91,7 @@ struct AddPdfFunctor
 	}
 
 
-    __host__ __device__
+    __hydra_host__ __hydra_device__
     AddPdfFunctor< PDF1, PDF2, PDFs...>&
     operator=(AddPdfFunctor< PDF1, PDF2, PDFs...> const& other )
     {
@@ -104,7 +104,7 @@ struct AddPdfFunctor
     	return *this;
     }
 
-    __host__
+    __hydra_host__
     void PrintRegisteredParameters()
     {
     	HYDRA_CALLER ;
@@ -118,35 +118,35 @@ struct AddPdfFunctor
     	HYDRA_MSG <<"Registered parameters end."<< HYDRA_ENDL;
     	HYDRA_MSG << HYDRA_ENDL;
     }
-    __host__ __device__
+    __hydra_host__ __hydra_device__
 	const GReal_t* GetCoeficients() const
 	{
 		return fCoeficients;
 	}
-    __host__ __device__
+    __hydra_host__ __hydra_device__
 	GReal_t GetCoefSum() const
 	{
 		return fCoefSum;
 	}
-    __host__ __device__
+    __hydra_host__ __hydra_device__
 	void SetCoefSum(GReal_t coefSum)
 	{
 		fCoefSum = coefSum;
 	}
 
 
-	__host__ __device__  inline
+	__hydra_host__ __hydra_device__  inline
 	GReal_t GetNorm() const {
 		return 1.0 ;
 	}
 
-    __host__ __device__
+    __hydra_host__ __hydra_device__
 	const functors_tuple_type& GetFunctors() const
 	{
 		return fFunctors;
 	}
 
-    __host__ __device__
+    __hydra_host__ __hydra_device__
 	void SetFunctors(functors_tuple_type functors)
 	{
 		fFunctors = functors;
@@ -154,7 +154,7 @@ struct AddPdfFunctor
 
 
 	template<typename T> inline
-	 __host__ __device__
+	 __hydra_host__ __hydra_device__
 	GReal_t operator()(T&& t ) const
 	{
 
@@ -172,7 +172,7 @@ struct AddPdfFunctor
 	}
 
 	template<typename T1, typename T2>
-	 __host__ __device__
+	 __hydra_host__ __hydra_device__
 	inline	GReal_t operator()(T1&& x, T2&& cache) const
 	{
 
@@ -189,7 +189,7 @@ struct AddPdfFunctor
 	}
 
 	template<typename T>
-	 __host__ __device__
+	 __hydra_host__ __hydra_device__
 	inline	GReal_t operator()(GUInt_t , T *x)
 	{
 

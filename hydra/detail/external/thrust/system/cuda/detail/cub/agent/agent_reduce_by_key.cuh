@@ -134,12 +134,12 @@ struct AgentReduceByKey
         int             num_remaining;  ///< Items remaining
 
         /// Constructor
-        __host__ __device__ __forceinline__
+        __hydra_host__ __hydra_device__ __forceinline__
         GuardedInequalityWrapper(_EqualityOpT op, int num_remaining) : op(op), num_remaining(num_remaining) {}
 
         /// Boolean inequality operator, returns <tt>(a != b)</tt>
         template <typename T>
-        __host__ __device__ __forceinline__ bool operator()(const T &a, const T &b, int idx) const
+        __hydra_host__ __hydra_device__ __forceinline__ bool operator()(const T &a, const T &b, int idx) const
         {
             if (idx < num_remaining)
                 return !op(a, b);   // In bounds
@@ -267,7 +267,7 @@ struct AgentReduceByKey
     //---------------------------------------------------------------------
 
     // Constructor
-    __device__ __forceinline__
+    __hydra_device__ __forceinline__
     AgentReduceByKey(
         TempStorage&                temp_storage,       ///< Reference to temp_storage
         KeysInputIteratorT          d_keys_in,          ///< Input keys
@@ -297,7 +297,7 @@ struct AgentReduceByKey
     /**
      * Directly scatter flagged items to output offsets
      */
-    __device__ __forceinline__ void ScatterDirect(
+    __hydra_device__ __forceinline__ void ScatterDirect(
         KeyValuePairT   (&scatter_items)[ITEMS_PER_THREAD],
         OffsetT         (&segment_flags)[ITEMS_PER_THREAD],
         OffsetT         (&segment_indices)[ITEMS_PER_THREAD])
@@ -321,7 +321,7 @@ struct AgentReduceByKey
      * The exclusive scan causes each head flag to be paired with the previous
      * value aggregate: the scatter offsets must be decremented for value aggregates
      */
-    __device__ __forceinline__ void ScatterTwoPhase(
+    __hydra_device__ __forceinline__ void ScatterTwoPhase(
         KeyValuePairT   (&scatter_items)[ITEMS_PER_THREAD],
         OffsetT         (&segment_flags)[ITEMS_PER_THREAD],
         OffsetT         (&segment_indices)[ITEMS_PER_THREAD],
@@ -354,7 +354,7 @@ struct AgentReduceByKey
     /**
      * Scatter flagged items
      */
-    __device__ __forceinline__ void Scatter(
+    __hydra_device__ __forceinline__ void Scatter(
         KeyValuePairT   (&scatter_items)[ITEMS_PER_THREAD],
         OffsetT         (&segment_flags)[ITEMS_PER_THREAD],
         OffsetT         (&segment_indices)[ITEMS_PER_THREAD],
@@ -389,7 +389,7 @@ struct AgentReduceByKey
      * Process a tile of input (dynamic chained scan)
      */
     template <bool IS_LAST_TILE>                ///< Whether the current tile is the last tile
-    __device__ __forceinline__ void ConsumeTile(
+    __hydra_device__ __forceinline__ void ConsumeTile(
         OffsetT             num_remaining,      ///< Number of global input items remaining (including this tile)
         int                 tile_idx,           ///< Tile index
         OffsetT             tile_offset,        ///< Tile offset
@@ -519,7 +519,7 @@ struct AgentReduceByKey
     /**
      * Scan tiles of items as part of a dynamic chained scan
      */
-    __device__ __forceinline__ void ConsumeRange(
+    __hydra_device__ __forceinline__ void ConsumeRange(
         int                 num_items,          ///< Total number of input items
         ScanTileStateT&     tile_state,         ///< Global tile state descriptor
         int                 start_tile)         ///< The starting tile for the current grid

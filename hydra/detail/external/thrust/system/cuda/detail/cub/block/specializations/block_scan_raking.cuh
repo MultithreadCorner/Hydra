@@ -120,7 +120,7 @@ struct BlockScanRaking
 
     /// Templated reduction
     template <int ITERATION, typename ScanOp>
-    __device__ __forceinline__ T GuardedReduce(
+    __hydra_device__ __forceinline__ T GuardedReduce(
         T*                  raking_ptr,         ///< [in] Input array
         ScanOp              scan_op,            ///< [in] Binary reduction operator
         T                   raking_partial,     ///< [in] Prefix to seed reduction with
@@ -138,7 +138,7 @@ struct BlockScanRaking
 
     /// Templated reduction (base case)
     template <typename ScanOp>
-    __device__ __forceinline__ T GuardedReduce(
+    __hydra_device__ __forceinline__ T GuardedReduce(
         T*                          /*raking_ptr*/,    ///< [in] Input array
         ScanOp                      /*scan_op*/,       ///< [in] Binary reduction operator
         T                           raking_partial,    ///< [in] Prefix to seed reduction with
@@ -150,7 +150,7 @@ struct BlockScanRaking
 
     /// Templated copy
     template <int ITERATION>
-    __device__ __forceinline__ void CopySegment(
+    __hydra_device__ __forceinline__ void CopySegment(
         T*                  out,            ///< [out] Out array
         T*                  in,             ///< [in] Input array
         Int2Type<ITERATION> /*iteration*/)
@@ -161,7 +161,7 @@ struct BlockScanRaking
 
  
     /// Templated copy (base case)
-    __device__ __forceinline__ void CopySegment(
+    __hydra_device__ __forceinline__ void CopySegment(
         T*                  /*out*/,            ///< [out] Out array
         T*                  /*in*/,             ///< [in] Input array
         Int2Type<SEGMENT_LENGTH> /*iteration*/)
@@ -170,7 +170,7 @@ struct BlockScanRaking
 
     /// Performs upsweep raking reduction, returning the aggregate
     template <typename ScanOp>
-    __device__ __forceinline__ T Upsweep(
+    __hydra_device__ __forceinline__ T Upsweep(
         ScanOp scan_op)
     {
         T *smem_raking_ptr = BlockRakingLayout::RakingPtr(temp_storage.raking_grid, linear_tid);
@@ -186,7 +186,7 @@ struct BlockScanRaking
 
     /// Performs exclusive downsweep raking scan
     template <typename ScanOp>
-    __device__ __forceinline__ void ExclusiveDownsweep(
+    __hydra_device__ __forceinline__ void ExclusiveDownsweep(
         ScanOp          scan_op,
         T               raking_partial,
         bool            apply_prefix = true)
@@ -208,7 +208,7 @@ struct BlockScanRaking
 
     /// Performs inclusive downsweep raking scan
     template <typename ScanOp>
-    __device__ __forceinline__ void InclusiveDownsweep(
+    __hydra_device__ __forceinline__ void InclusiveDownsweep(
         ScanOp          scan_op,
         T               raking_partial,
         bool            apply_prefix = true)
@@ -233,7 +233,7 @@ struct BlockScanRaking
     //---------------------------------------------------------------------
 
     /// Constructor
-    __device__ __forceinline__ BlockScanRaking(
+    __hydra_device__ __forceinline__ BlockScanRaking(
         TempStorage &temp_storage)
     :
         temp_storage(temp_storage.Alias()),
@@ -247,7 +247,7 @@ struct BlockScanRaking
 
     /// Computes an exclusive thread block-wide prefix scan using the specified binary \p scan_op functor.  Each thread contributes one input element.  With no initial value, the output computed for <em>thread</em><sub>0</sub> is undefined.
     template <typename ScanOp>
-    __device__ __forceinline__ void ExclusiveScan(
+    __hydra_device__ __forceinline__ void ExclusiveScan(
         T               input,                          ///< [in] Calling thread's input item
         T               &exclusive_output,                        ///< [out] Calling thread's output item (may be aliased to \p input)
         ScanOp          scan_op)                        ///< [in] Binary scan operator
@@ -288,7 +288,7 @@ struct BlockScanRaking
 
     /// Computes an exclusive thread block-wide prefix scan using the specified binary \p scan_op functor.  Each thread contributes one input element.
     template <typename ScanOp>
-    __device__ __forceinline__ void ExclusiveScan(
+    __hydra_device__ __forceinline__ void ExclusiveScan(
         T               input,              ///< [in] Calling thread's input items
         T               &output,            ///< [out] Calling thread's output items (may be aliased to \p input)
         const T         &initial_value,     ///< [in] Initial value to seed the exclusive scan
@@ -331,7 +331,7 @@ struct BlockScanRaking
 
     /// Computes an exclusive thread block-wide prefix scan using the specified binary \p scan_op functor.  Each thread contributes one input element.  Also provides every thread with the block-wide \p block_aggregate of all inputs.  With no initial value, the output computed for <em>thread</em><sub>0</sub> is undefined.
     template <typename ScanOp>
-    __device__ __forceinline__ void ExclusiveScan(
+    __hydra_device__ __forceinline__ void ExclusiveScan(
         T               input,                          ///< [in] Calling thread's input item
         T               &output,                        ///< [out] Calling thread's output item (may be aliased to \p input)
         ScanOp          scan_op,                        ///< [in] Binary scan operator
@@ -382,7 +382,7 @@ struct BlockScanRaking
 
     /// Computes an exclusive thread block-wide prefix scan using the specified binary \p scan_op functor.  Each thread contributes one input element.  Also provides every thread with the block-wide \p block_aggregate of all inputs.
     template <typename ScanOp>
-    __device__ __forceinline__ void ExclusiveScan(
+    __hydra_device__ __forceinline__ void ExclusiveScan(
         T               input,              ///< [in] Calling thread's input items
         T               &output,            ///< [out] Calling thread's output items (may be aliased to \p input)
         const T         &initial_value,     ///< [in] Initial value to seed the exclusive scan
@@ -435,7 +435,7 @@ struct BlockScanRaking
     template <
         typename ScanOp,
         typename BlockPrefixCallbackOp>
-    __device__ __forceinline__ void ExclusiveScan(
+    __hydra_device__ __forceinline__ void ExclusiveScan(
         T                       input,                          ///< [in] Calling thread's input item
         T                       &output,                        ///< [out] Calling thread's output item (may be aliased to \p input)
         ScanOp                  scan_op,                        ///< [in] Binary scan operator
@@ -503,7 +503,7 @@ struct BlockScanRaking
 
     /// Computes an inclusive thread block-wide prefix scan using the specified binary \p scan_op functor.  Each thread contributes one input element.
     template <typename ScanOp>
-    __device__ __forceinline__ void InclusiveScan(
+    __hydra_device__ __forceinline__ void InclusiveScan(
         T               input,                          ///< [in] Calling thread's input item
         T               &output,                        ///< [out] Calling thread's output item (may be aliased to \p input)
         ScanOp          scan_op)                        ///< [in] Binary scan operator
@@ -545,7 +545,7 @@ struct BlockScanRaking
 
     /// Computes an inclusive thread block-wide prefix scan using the specified binary \p scan_op functor.  Each thread contributes one input element.  Also provides every thread with the block-wide \p block_aggregate of all inputs.
     template <typename ScanOp>
-    __device__ __forceinline__ void InclusiveScan(
+    __hydra_device__ __forceinline__ void InclusiveScan(
         T               input,                          ///< [in] Calling thread's input item
         T               &output,                        ///< [out] Calling thread's output item (may be aliased to \p input)
         ScanOp          scan_op,                        ///< [in] Binary scan operator
@@ -598,7 +598,7 @@ struct BlockScanRaking
     template <
         typename ScanOp,
         typename BlockPrefixCallbackOp>
-    __device__ __forceinline__ void InclusiveScan(
+    __hydra_device__ __forceinline__ void InclusiveScan(
         T                       input,                          ///< [in] Calling thread's input item
         T                       &output,                        ///< [out] Calling thread's output item (may be aliased to \p input)
         ScanOp                  scan_op,                        ///< [in] Binary scan operator

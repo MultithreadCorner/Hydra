@@ -37,7 +37,7 @@ struct par_t : thrust::system::cuda::detail::execution_policy<par_t>
   par_t() : thrust::system::cuda::detail::execution_policy<par_t>() {}
 
   template<typename Allocator>
-  __host__ __device__
+  __hydra_host__ __hydra_device__
   typename thrust::detail::enable_if<
     thrust::detail::is_allocator<Allocator>::value,
     thrust::detail::execute_with_allocator<Allocator, execute_on_stream_base>
@@ -47,7 +47,7 @@ struct par_t : thrust::system::cuda::detail::execution_policy<par_t>
     return thrust::detail::execute_with_allocator<Allocator, execute_on_stream_base>(alloc);
   }
 
-  __host__ __device__
+  __hydra_host__ __hydra_device__
   inline execute_on_stream on(const cudaStream_t &stream) const
   {
     return execute_on_stream(stream);
@@ -59,7 +59,7 @@ struct par_t : thrust::system::cuda::detail::execution_policy<par_t>
 
 
 #ifdef __CUDA_ARCH__
-static const __device__ detail::par_t par;
+static const __hydra_device__ detail::par_t par;
 #else
 static const detail::par_t par;
 #endif

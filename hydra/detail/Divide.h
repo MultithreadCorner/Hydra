@@ -64,12 +64,12 @@ public:
 	detail::CompositeBase<F1, F2>( f1, f2)
 	{ }
 
-	__host__ __device__
+	__hydra_host__ __hydra_device__
 	Divide(Divide<F1,F2> const& other):
 	detail::CompositeBase<F1, F2>( other )
 	{ }
 
-	__host__ __device__
+	__hydra_host__ __hydra_device__
 	Divide<F1,F2>& operator=(Divide<F1,F2> const& other)
 	{
 		if(this==&other) return *this;
@@ -78,14 +78,14 @@ public:
 	}
 
 	template<typename T1>
-	__host__ __device__ inline
+	__hydra_host__ __hydra_device__ inline
 	return_type operator()(T1& t ) const
 	{
 		return HYDRA_EXTERNAL_NS::thrust::get<0>(this->GetFunctors())(t)/HYDRA_EXTERNAL_NS::thrust::get<1>(this->GetFunctors())(t);
 	}
 
 	template<typename T1, typename T2>
-	__host__ __device__  inline
+	__hydra_host__ __hydra_device__  inline
 	return_type operator()( T1& t, T2& cache) const
 	{
 		return this->IsCached() ? detail::extract<return_type,T2>( this->GetIndex(), std::forward<T2&>(cache)):\
@@ -97,7 +97,7 @@ public:
 
 // devide: / operator two functors
 template <typename T1, typename T2, typename=typename std::enable_if< T1::is_functor::value && T2::is_functor::value> >
-__host__  inline
+__hydra_host__  inline
 Divide<T1,T2>
 operator/(T1 const& F1, T2 const& F2)
 {
@@ -107,7 +107,7 @@ operator/(T1 const& F1, T2 const& F2)
 template <typename T1, typename T2,
 typename=typename std::enable_if< (std::is_convertible<T1, double>::value ||\
 		std::is_constructible<HYDRA_EXTERNAL_NS::thrust::complex<double>,T1>::value) && T2::is_functor::value>::type >
-__host__  inline
+__hydra_host__  inline
 Divide<Constant<T1>, T2>
 operator/(T1 const cte, T2 const& F2){ return  Constant<T1>(cte)/F2; }
 
@@ -115,14 +115,14 @@ operator/(T1 const cte, T2 const& F2){ return  Constant<T1>(cte)/F2; }
 template <typename T1, typename T2,
 typename=typename std::enable_if< (std::is_convertible<T1, double>::value ||\
 		std::is_constructible<HYDRA_EXTERNAL_NS::thrust::complex<double>,T1>::value) && T2::is_functor::value>::type >
-__host__  inline
+__hydra_host__  inline
 Divide<T2,Constant<T1> >
 operator/(T2 const& F2, T1 const cte ){	return  F2/Constant<T1>(cte); }
 
 
 // Convenience function
 template < typename T1, typename T2, typename=typename std::enable_if< T1::is_functor::value && T2::is_functor::value>::type >
-__host__ inline
+__hydra_host__ inline
 Divide<T1,T2>
 divide(T1 const& F1, T1 const& F2)
 {

@@ -132,7 +132,7 @@ template<typename Element, typename Tag, typename Reference, typename Derived>
     // friend iterator_core_access to give it access to dereference
     friend class thrust::iterator_core_access;
 
-    __host__ __device__
+    __hydra_host__ __hydra_device__
     typename super_t::reference dereference() const;
 
     // don't provide access to this part of super_t's interface
@@ -144,19 +144,19 @@ template<typename Element, typename Tag, typename Reference, typename Derived>
 
     // constructors
     
-    __host__ __device__
+    __hydra_host__ __hydra_device__
     pointer();
 
     // OtherValue shall be convertible to Value
     // XXX consider making the pointer implementation a template parameter which defaults to Element *
     template<typename OtherElement>
-    __host__ __device__
+    __hydra_host__ __hydra_device__
     explicit pointer(OtherElement *ptr);
 
     // OtherPointer's element_type shall be convertible to Element
     // OtherPointer's system shall be convertible to Tag
     template<typename OtherPointer>
-    __host__ __device__
+    __hydra_host__ __hydra_device__
     pointer(const OtherPointer &other,
             typename thrust::detail::enable_if_pointer_is_convertible<
               OtherPointer,
@@ -168,7 +168,7 @@ template<typename Element, typename Tag, typename Reference, typename Derived>
     // OtherPointer's element_type shall be convertible to Element
     // OtherPointer's system shall be convertible to Tag
     template<typename OtherPointer>
-    __host__ __device__
+    __hydra_host__ __hydra_device__
     typename thrust::detail::enable_if_pointer_is_convertible<
       OtherPointer,
       pointer,
@@ -178,7 +178,7 @@ template<typename Element, typename Tag, typename Reference, typename Derived>
 
     // observers
 
-    __host__ __device__
+    __hydra_host__ __hydra_device__
     Element *get() const;
 }; // end pointer
 

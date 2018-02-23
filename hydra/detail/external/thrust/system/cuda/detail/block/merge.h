@@ -34,7 +34,7 @@ template<typename Context,
          typename RandomAccessIterator2,
          typename RandomAccessIterator3,
          typename StrictWeakOrdering>
-__device__ __thrust_forceinline__
+__hydra_device__ __thrust_forceinline__
   RandomAccessIterator3 merge(Context context,
                               RandomAccessIterator1 first1,
                               RandomAccessIterator1 last1,
@@ -56,7 +56,7 @@ template<typename Context,
          typename Size1,
          typename Size2,
          typename StrictWeakOrdering>
-__device__ __thrust_forceinline__
+__hydra_device__ __thrust_forceinline__
   void inplace_merge_by_key_n(Context context,
                               RandomAccessIterator1 keys_first,
                               RandomAccessIterator2 values_first,

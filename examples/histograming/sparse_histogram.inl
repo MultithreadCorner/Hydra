@@ -112,7 +112,7 @@ int main(int argv, char** argc)
 	 */
 
 
-	auto GAUSSIAN1 =  [=] __host__ __device__ (unsigned int n,double* x ){
+	auto GAUSSIAN1 =  [=] __hydra_host__ __hydra_device__ (unsigned int n,double* x ){
 
 		double g = 1.0;
 
@@ -131,7 +131,7 @@ int main(int argv, char** argc)
 	//Gaussian 2
 	double mean2   =  2.0;
 	double sigma2  =  1.0;
-	auto GAUSSIAN2 =  [=] __host__ __device__ (unsigned int n, double* x ){
+	auto GAUSSIAN2 =  [=] __hydra_host__ __hydra_device__ (unsigned int n, double* x ){
 
 		double g = 1.0;
 

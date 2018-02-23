@@ -58,12 +58,12 @@ public:
 		BaseFunctor<BreitWignerNR<ArgIndex>, double, 2>({mean, lambda})
 		{}
 
-	__host__ __device__
+	__hydra_host__ __hydra_device__
 	BreitWignerNR(BreitWignerNR<ArgIndex> const& other ):
 		BaseFunctor<BreitWignerNR<ArgIndex>, double,2>(other)
 		{}
 
-	__host__ __device__ inline
+	__hydra_host__ __hydra_device__ inline
 	BreitWignerNR<ArgIndex>&
 	operator=(BreitWignerNR<ArgIndex> const& other ){
 		if(this==&other) return  *this;
@@ -72,7 +72,7 @@ public:
 	}
 
 	template<typename T>
-	__host__ __device__ inline
+	__hydra_host__ __hydra_device__ inline
 	double Evaluate(unsigned int, T*x)  const
 	{
 		double mean  = _par[0];
@@ -86,7 +86,7 @@ public:
 	}
 
 	template<typename T>
-	__host__ __device__ inline
+	__hydra_host__ __hydra_device__ inline
 	double Evaluate(T x)  const
 	{
 		double mean  = _par[0];

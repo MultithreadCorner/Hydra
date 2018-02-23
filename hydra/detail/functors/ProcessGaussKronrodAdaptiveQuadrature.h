@@ -47,12 +47,12 @@ struct ProcessGaussKronrodAdaptiveQuadrature
 		fFunctor(functor)
 	{}
 
-	__host__ __device__ inline
+	__hydra_host__ __hydra_device__ inline
 	ProcessGaussKronrodAdaptiveQuadrature(ProcessGaussKronrodAdaptiveQuadrature<FUNCTOR> const& other ):
 	fFunctor(other.fFunctor)
 	{}
 
-	__host__ __device__ inline
+	__hydra_host__ __hydra_device__ inline
 	ProcessGaussKronrodAdaptiveQuadrature&
 	operator=(ProcessGaussKronrodAdaptiveQuadrature<FUNCTOR> const& other )
 	{
@@ -63,7 +63,7 @@ struct ProcessGaussKronrodAdaptiveQuadrature
 	}
 
 	template<typename T>
-	__host__ __device__ inline
+	__hydra_host__ __hydra_device__ inline
 	result_row_t operator()(T row)
 	{
 		GUInt_t bin                      = HYDRA_EXTERNAL_NS::thrust::get<0>(row);

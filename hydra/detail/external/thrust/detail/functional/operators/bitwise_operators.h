@@ -30,7 +30,7 @@ namespace functional
 {
 
 template<typename T1, typename T2>
-__host__ __device__
+__hydra_host__ __hydra_device__
 actor<
   composite<
     binary_operator<thrust::bit_and>,
@@ -46,7 +46,7 @@ operator&(const actor<T1> &_1, const T2 &_2)
 } // end operator&()
 
 template<typename T1, typename T2>
-__host__ __device__
+__hydra_host__ __hydra_device__
 actor<
   composite<
     binary_operator<thrust::bit_and>,
@@ -62,7 +62,7 @@ operator&(const T1 &_1, const actor<T2> &_2)
 } // end operator&()
 
 template<typename T1, typename T2>
-__host__ __device__
+__hydra_host__ __hydra_device__
 actor<
   composite<
     binary_operator<thrust::bit_and>,
@@ -78,7 +78,7 @@ operator&(const actor<T1> &_1, const actor<T2> &_2)
 } // end operator&()
 
 template<typename T1, typename T2>
-__host__ __device__
+__hydra_host__ __hydra_device__
 actor<
   composite<
     binary_operator<thrust::bit_or>,
@@ -94,7 +94,7 @@ operator|(const actor<T1> &_1, const T2 &_2)
 } // end operator|()
 
 template<typename T1, typename T2>
-__host__ __device__
+__hydra_host__ __hydra_device__
 actor<
   composite<
     binary_operator<thrust::bit_or>,
@@ -110,7 +110,7 @@ operator|(const T1 &_1, const actor<T2> &_2)
 } // end operator|()
 
 template<typename T1, typename T2>
-__host__ __device__
+__hydra_host__ __hydra_device__
 actor<
   composite<
     binary_operator<thrust::bit_or>,
@@ -126,7 +126,7 @@ operator|(const actor<T1> &_1, const actor<T2> &_2)
 } // end operator|()
 
 template<typename T1, typename T2>
-__host__ __device__
+__hydra_host__ __hydra_device__
 actor<
   composite<
     binary_operator<thrust::bit_xor>,
@@ -142,7 +142,7 @@ operator^(const actor<T1> &_1, const T2 &_2)
 } // end operator^()
 
 template<typename T1, typename T2>
-__host__ __device__
+__hydra_host__ __hydra_device__
 actor<
   composite<
     binary_operator<thrust::bit_xor>,
@@ -158,7 +158,7 @@ operator^(const T1 &_1, const actor<T2> &_2)
 } // end operator^()
 
 template<typename T1, typename T2>
-__host__ __device__
+__hydra_host__ __hydra_device__
 actor<
   composite<
     binary_operator<thrust::bit_xor>,
@@ -178,18 +178,18 @@ template<typename T>
   struct bit_not
     : public thrust::unary_function<T,T>
 {
-  __host__ __device__ T operator()(const T &x) const {return ~x;}
+  __hydra_host__ __hydra_device__ T operator()(const T &x) const {return ~x;}
 }; // end bit_not
 
 template<typename Eval>
-__host__ __device__
+__hydra_host__ __hydra_device__
 actor<
   composite<
     unary_operator<bit_not>,
     actor<Eval>
   >
 >
-__host__ __device__
+__hydra_host__ __hydra_device__
 operator~(const actor<Eval> &_1)
 {
   return compose(unary_operator<bit_not>(), _1);
@@ -200,11 +200,11 @@ template<typename T>
   struct bit_lshift
     : public thrust::binary_function<T,T,T>
 {
-  __host__ __device__ T operator()(const T &lhs, const T &rhs) const {return lhs << rhs;}
+  __hydra_host__ __hydra_device__ T operator()(const T &lhs, const T &rhs) const {return lhs << rhs;}
 }; // end bit_lshift
 
 template<typename T1, typename T2>
-__host__ __device__
+__hydra_host__ __hydra_device__
 actor<
   composite<
     binary_operator<bit_lshift>,
@@ -220,7 +220,7 @@ operator<<(const actor<T1> &_1, const T2 &_2)
 } // end operator<<()
 
 template<typename T1, typename T2>
-__host__ __device__
+__hydra_host__ __hydra_device__
 actor<
   composite<
     binary_operator<bit_lshift>,
@@ -236,7 +236,7 @@ operator<<(const T1 &_1, const actor<T2> &_2)
 } // end operator<<()
 
 template<typename T1, typename T2>
-__host__ __device__
+__hydra_host__ __hydra_device__
 actor<
   composite<
     binary_operator<bit_lshift>,
@@ -256,11 +256,11 @@ template<typename T>
   struct bit_rshift
     : public thrust::binary_function<T,T,T>
 {
-  __host__ __device__ T operator()(const T &lhs, const T &rhs) const {return lhs >> rhs;}
+  __hydra_host__ __hydra_device__ T operator()(const T &lhs, const T &rhs) const {return lhs >> rhs;}
 }; // end bit_rshift
 
 template<typename T1, typename T2>
-__host__ __device__
+__hydra_host__ __hydra_device__
 actor<
   composite<
     binary_operator<bit_rshift>,
@@ -276,7 +276,7 @@ operator>>(const actor<T1> &_1, const T2 &_2)
 } // end operator>>()
 
 template<typename T1, typename T2>
-__host__ __device__
+__hydra_host__ __hydra_device__
 actor<
   composite<
     binary_operator<bit_rshift>,
@@ -292,7 +292,7 @@ operator>>(const T1 &_1, const actor<T2> &_2)
 } // end operator>>()
 
 template<typename T1, typename T2>
-__host__ __device__
+__hydra_host__ __hydra_device__
 actor<
   composite<
     binary_operator<bit_rshift>,

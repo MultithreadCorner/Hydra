@@ -27,7 +27,7 @@ namespace detail
 
 
 template<typename Integer>
-__host__ __device__ __thrust_forceinline__
+__hydra_host__ __hydra_device__ __thrust_forceinline__
 Integer clz(Integer x)
 {
   // XXX optimize by lowering to intrinsics
@@ -48,7 +48,7 @@ Integer clz(Integer x)
 
 
 template<typename Integer>
-__host__ __device__ __thrust_forceinline__
+__hydra_host__ __hydra_device__ __thrust_forceinline__
 bool is_power_of_2(Integer x)
 {
   return 0 == (x & (x - 1));
@@ -56,7 +56,7 @@ bool is_power_of_2(Integer x)
 
 
 template<typename Integer>
-__host__ __device__ __thrust_forceinline__
+__hydra_host__ __hydra_device__ __thrust_forceinline__
 Integer log2(Integer x)
 {
   Integer num_bits = 8 * sizeof(Integer);
@@ -67,7 +67,7 @@ Integer log2(Integer x)
 
 
 template<typename Integer>
-__host__ __device__ __thrust_forceinline__
+__hydra_host__ __hydra_device__ __thrust_forceinline__
 Integer log2_ri(Integer x)
 {
   Integer result = log2(x);
@@ -83,7 +83,7 @@ Integer log2_ri(Integer x)
 
 
 template<typename Integer>
-__host__ __device__ __thrust_forceinline__
+__hydra_host__ __hydra_device__ __thrust_forceinline__
 bool is_odd(Integer x)
 {
   return 1 & x;

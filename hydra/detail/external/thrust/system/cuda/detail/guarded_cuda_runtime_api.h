@@ -19,19 +19,19 @@
 #include <hydra/detail/external/thrust/detail/config.h>
 
 // the purpose of this header is to check for the existence of macros
-// such as __host__ and __device__, which may already be defined by thrust
+// such as __hydra_host__ and __hydra_device__, which may already be defined by thrust
 // and to undefine them before entering cuda_runtime_api.h (which will redefine them)
 
 // we only try to do this stuff if cuda/include/host_defines.h has been included
 #if !defined(__HOST_DEFINES_H__)
 
-#ifdef __host__
-#undef __host__
-#endif // __host__
+#ifdef __hydra_host__
+#undef __hydra_host__
+#endif // __hydra_host__
 
-#ifdef __device__
-#undef __device__
-#endif // __device__
+#ifdef __hydra_device__
+#undef __hydra_device__
+#endif // __hydra_device__
 
 #endif // __HOST_DEFINES_H__
 

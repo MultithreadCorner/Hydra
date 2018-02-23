@@ -131,7 +131,7 @@ struct EvalMother
 
 	}
 
-	__host__ __device__
+	__hydra_host__ __hydra_device__
 	EvalMother( EvalMother<N, GRND, FUNCTOR,FUNCTORS...> const& other ):
 	fFunctors(other.fFunctors),
 	fSeed(other.fSeed ),
@@ -144,7 +144,7 @@ struct EvalMother
 
 
 
-	__host__      __device__ inline
+	__hydra_host__      __hydra_device__ inline
 	static GReal_t pdk(const GReal_t a, const GReal_t b,
 			const GReal_t c)
 	{
@@ -154,7 +154,7 @@ struct EvalMother
 		return ::sqrt( (a - b - c) * (a + b + c) * (a - b + c) * (a + b - c) ) / (2 * a);
 	}
 
-	__host__ __device__ inline
+	__hydra_host__ __hydra_device__ inline
 	void bbsort( GReal_t *array, GInt_t n)
 	{
 		// Improved bubble sort
@@ -180,7 +180,7 @@ struct EvalMother
 	}
 
 
-	__host__   __device__ inline
+	__hydra_host__   __hydra_device__ inline
 	constexpr static size_t hash(const size_t a, const size_t b)
 	{
 		//Matthew Szudzik pairing
@@ -188,7 +188,7 @@ struct EvalMother
         return   (((2 * a) >=  (2 * b) ? (2 * a) * (2 * a) + (2 * a) + (2 * b) : (2 * a) + (2 * b) * (2 * b)) / 2);
 	}
 
-	__host__   __device__ inline
+	__hydra_host__   __hydra_device__ inline
 	GReal_t process(const GInt_t evt, Vector4R (&daugters)[N])
 	{
 
@@ -304,7 +304,7 @@ struct EvalMother
 	}
 
 
-	__host__   __device__ inline result_tuple_type
+	__hydra_host__   __hydra_device__ inline result_tuple_type
 	operator()( size_t evt )
 	{
 		typedef typename hydra::detail::tuple_type<N,

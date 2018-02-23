@@ -38,7 +38,7 @@ template<typename DerivedPolicy,
          typename InputIterator,
          typename OutputIterator,
          typename AssociativeOperator>
-__host__ __device__
+__hydra_host__ __hydra_device__
 OutputIterator inclusive_scan(execution_policy<DerivedPolicy> &exec,
                               InputIterator first,
                               InputIterator last,
@@ -51,7 +51,7 @@ template<typename DerivedPolicy,
          typename OutputIterator,
          typename T,
          typename AssociativeOperator>
-__host__ __device__
+__hydra_host__ __hydra_device__
 OutputIterator exclusive_scan(execution_policy<DerivedPolicy> &exec,
                               InputIterator first,
                               InputIterator last,

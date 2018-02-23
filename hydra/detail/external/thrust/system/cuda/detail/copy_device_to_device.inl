@@ -40,7 +40,7 @@ namespace detail
 template<typename DerivedPolicy,
          typename InputIterator,
          typename OutputIterator>
-__host__ __device__
+__hydra_host__ __hydra_device__
 OutputIterator copy_device_to_device(execution_policy<DerivedPolicy> &exec,
                                      InputIterator begin, 
                                      InputIterator end, 
@@ -75,7 +75,7 @@ OutputIterator copy_device_to_device(execution_policy<DerivedPolicy> &exec,
 template<typename DerivedPolicy,
          typename InputIterator,
          typename OutputIterator>
-__host__ __device__
+__hydra_host__ __hydra_device__
 OutputIterator copy_device_to_device(execution_policy<DerivedPolicy> &exec,
                                      InputIterator begin, 
                                      InputIterator end, 
@@ -105,7 +105,7 @@ OutputIterator copy_device_to_device(execution_policy<DerivedPolicy> &exec,
 template<typename DerivedPolicy,
          typename InputIterator,
          typename OutputIterator>
-__host__ __device__
+__hydra_host__ __hydra_device__
 OutputIterator copy_device_to_device(execution_policy<DerivedPolicy> &exec,
                                      InputIterator begin, 
                                      InputIterator end, 

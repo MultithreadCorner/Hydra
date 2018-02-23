@@ -40,7 +40,7 @@ namespace detail {
 template<typename TypeIn, typename TypeOut >
 struct Caster:public HYDRA_EXTERNAL_NS::thrust::unary_function<TypeIn,TypeOut>{
 
-	__host__ __device__
+	__hydra_host__ __hydra_device__
 	inline TypeOut operator()( TypeIn & value){
 
 		return (TypeOut) value;

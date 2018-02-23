@@ -73,7 +73,7 @@ struct FlagAcceptReject
 	/**
 	 * hash function. Generate hashs to be used in random number generation initialization
 	 */
-	__host__   __device__ inline
+	__hydra_host__   __hydra_device__ inline
 	size_t hash(size_t a, size_t b)
 	{
 		//Matthew Szudzik pairing
@@ -88,7 +88,7 @@ struct FlagAcceptReject
 	 * operator(). Takes the events index and weight and so flag it as accepted and rejected
 	 *
 	 */
-	__host__ __device__ GBool_t operator ()(size_t idx, GReal_t weight)
+	__hydra_host__ __hydra_device__ GBool_t operator ()(size_t idx, GReal_t weight)
 	{
 
 		HYDRA_EXTERNAL_NS::thrust::default_random_engine randEng(hash(fSeed, idx));

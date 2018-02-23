@@ -46,7 +46,7 @@ template<typename T>
 } // end reference::operator=()
 
 template<typename T>
-__host__ __device__
+__hydra_host__ __hydra_device__
 void swap(reference<T> a, reference<T> b)
 {
   a.swap(b);

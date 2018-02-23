@@ -64,12 +64,12 @@ public:
 		BaseFunctor<CrystalBallShape<ArgIndex>, double, 4>({mean, sigma, alpha, n})
 		{}
 
-	__host__ __device__
+	__hydra_host__ __hydra_device__
 	CrystalBallShape(CrystalBallShape<ArgIndex> const& other ):
 		BaseFunctor<CrystalBallShape<ArgIndex>, double,4>(other)
 		{}
 
-	__host__ __device__
+	__hydra_host__ __hydra_device__
 	CrystalBallShape<ArgIndex>&
 	operator=(CrystalBallShape<ArgIndex> const& other ){
 		if(this==&other) return  *this;
@@ -78,7 +78,7 @@ public:
 	}
 
 	template<typename T>
-	__host__ __device__ inline
+	__hydra_host__ __hydra_device__ inline
 	double Evaluate(unsigned int , T*x)  const
 	{
 		double m     = x[ArgIndex]; //mass
@@ -98,7 +98,7 @@ public:
 	}
 
 	template<typename T>
-	__host__ __device__ inline
+	__hydra_host__ __hydra_device__ inline
 	double Evaluate(T x)  const
 	{
 		double m     = hydra::get<ArgIndex>(x); //mass

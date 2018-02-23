@@ -39,22 +39,22 @@ class strided_iterator
   public:
     typedef Size stride_type;
 
-    inline __host__ __device__
+    inline __hydra_host__ __hydra_device__
     strided_iterator()
       : super_t(), m_stride(1)
     {}
 
-    inline __host__ __device__
+    inline __hydra_host__ __hydra_device__
     strided_iterator(const strided_iterator& other)
       : super_t(other), m_stride(other.m_stride)
     {}
 
-    inline __host__ __device__
+    inline __hydra_host__ __hydra_device__
     strided_iterator(const Iterator &base, stride_type stride)
       : super_t(base), m_stride(stride)
     {}
 
-    inline __host__ __device__
+    inline __hydra_host__ __hydra_device__
     stride_type stride() const
     {
       return m_stride;
@@ -63,26 +63,26 @@ class strided_iterator
   private:
     friend class thrust::iterator_core_access;
 
-    __host__ __device__
+    __hydra_host__ __hydra_device__
     void increment()
     {
       super_t::base_reference() += stride();
     }
 
-    __host__ __device__
+    __hydra_host__ __hydra_device__
     void decrement()
     {
       super_t::base_reference() -= stride();
     }
 
-    __host__ __device__
+    __hydra_host__ __hydra_device__
     void advance(typename super_t::difference_type n)
     {
       super_t::base_reference() += n * stride();
     }
 
     template<typename OtherIterator>
-    __host__ __device__
+    __hydra_host__ __hydra_device__
     typename super_t::difference_type distance_to(const strided_iterator<OtherIterator> &other) const
     {
       if(other.base() >= this->base())
@@ -98,7 +98,7 @@ class strided_iterator
 
 
 template<typename Iterator, typename Size>
-__host__ __device__
+__hydra_host__ __hydra_device__
 strided_iterator<Iterator,Size> make_strided_iterator(Iterator iter, Size stride)
 {
   return strided_iterator<Iterator,Size>(iter, stride);

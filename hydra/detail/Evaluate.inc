@@ -48,13 +48,13 @@ struct process
 	{}
 
 	template<typename ArgType  >
-	__host__ __device__ ReturnType operator()(ArgType&& x)
+	__hydra_host__ __hydra_device__ ReturnType operator()(ArgType&& x)
 	{
 		return detail::invoke<T,ArgType>(x,fTuple);
 	}
 
 	template<typename ArgType1, typename ArgType2  >
-	__host__ __device__ ReturnType operator()(ArgType1&& x, ArgType2&& y )
+	__hydra_host__ __hydra_device__ ReturnType operator()(ArgType1&& x, ArgType2&& y )
 	{
 		return detail::invoke<T,ArgType1,ArgType2>(x,y,fTuple);
 	}

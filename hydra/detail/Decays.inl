@@ -44,13 +44,13 @@ struct EvalOnDaugthers: public HYDRA_EXTERNAL_NS::thrust::unary_function<
 	EvalOnDaugthers(Functor const& functor) :
 			fFunctor(functor) {	}
 
-	__host__  __device__
+	__hydra_host__  __hydra_device__
 	EvalOnDaugthers(EvalOnDaugthers<N, Functor, ArgType> const&other) :
 			fFunctor(other.fFunctor) {
 	}
 
 	//template<typename T>
-	__host__  __device__
+	__hydra_host__  __hydra_device__
 	GReal_t operator()(ArgType& value) {
 
 		typename detail::tuple_type<N,Vector4R>::type particles= detail::dropFirst(value);
@@ -70,11 +70,11 @@ struct FlagDaugthers: public HYDRA_EXTERNAL_NS::thrust::unary_function<size_t,
 			fVals(iterator), fMax(max) {
 	}
 
-	__host__  __device__
+	__hydra_host__  __hydra_device__
 	FlagDaugthers(FlagDaugthers<N> const&other) :
 			fVals(other.fVals), fMax(other.fMax) {
 	}
-	__host__  __device__
+	__hydra_host__  __hydra_device__
 	bool operator()(size_t idx) {
 		HYDRA_EXTERNAL_NS::thrust::default_random_engine randEng(159753654);
 		randEng.discard(idx);
@@ -207,7 +207,7 @@ bool operator==(const Decays<N1, hydra::detail::BackendPolicy<BACKEND1> >& lhs,
 			&& lhs.size() == rhs.size();
 	bool result = 1;
 
-	auto comp = []__host__ __device__(HYDRA_EXTERNAL_NS::thrust::tuple<
+	auto comp = []__hydra_host__ __hydra_device__(HYDRA_EXTERNAL_NS::thrust::tuple<
 			typename Decays<N1, hydra::detail::BackendPolicy<BACKEND1>>::value_type,
 			typename Decays<N2, hydra::detail::BackendPolicy<BACKEND2>>::value_type> const& values) {
 		return HYDRA_EXTERNAL_NS::thrust::get<0>(values)== HYDRA_EXTERNAL_NS::thrust::get<1>(values);
@@ -237,7 +237,7 @@ bool operator!=(const Decays<N1, hydra::detail::BackendPolicy<BACKEND1> >& lhs,
 			&& lhs.size() == rhs.size();
 	bool result = 1;
 
-	auto comp = []__host__ __device__(HYDRA_EXTERNAL_NS::thrust::tuple<
+	auto comp = []__hydra_host__ __hydra_device__(HYDRA_EXTERNAL_NS::thrust::tuple<
 			typename Decays<N1, hydra::detail::BackendPolicy<BACKEND1>>::value_type,
 			typename Decays<N2, hydra::detail::BackendPolicy<BACKEND2>>::value_type> const& values) {
 		return (HYDRA_EXTERNAL_NS::thrust::get<0>(values) == HYDRA_EXTERNAL_NS::thrust::get<1>(values));

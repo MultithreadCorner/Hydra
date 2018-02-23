@@ -45,7 +45,7 @@ namespace trivial_copy_detail
 
 
 template<typename Size>
-  inline __device__ thrust::pair<Size,Size> quotient_and_remainder(Size n, Size d)
+  inline __hydra_device__ thrust::pair<Size,Size> quotient_and_remainder(Size n, Size d)
 {
   Size quotient  = n / d;
   Size remainder = n - d * quotient; 
@@ -56,7 +56,7 @@ template<typename Size>
 // assumes the addresses dst & src are aligned to T boundaries
 template<typename Context,
          typename T>
-__device__ __thrust_forceinline__
+__hydra_device__ __thrust_forceinline__
 void aligned_copy(Context context, T *dst, const T *src, unsigned int num_elements)
 {
   for(unsigned int i = context.thread_index();
@@ -72,7 +72,7 @@ void aligned_copy(Context context, T *dst, const T *src, unsigned int num_elemen
 
 
 template <typename Context>
-__device__ __thrust_forceinline__
+__hydra_device__ __thrust_forceinline__
 void trivial_copy(Context context, void* destination_, const void* source_, size_t num_bytes)
 {
   // reinterpret at bytes
@@ -133,7 +133,7 @@ namespace dispatch
 template<typename Context,
          typename RandomAccessIterator1,
          typename RandomAccessIterator2>
-  __thrust_forceinline__ __device__
+  __thrust_forceinline__ __hydra_device__
   RandomAccessIterator2 copy(Context context,
                              RandomAccessIterator1 first,
                              RandomAccessIterator1 last,
@@ -153,7 +153,7 @@ template<typename Context,
 template<typename Context,
          typename RandomAccessIterator1,
          typename RandomAccessIterator2>
-  __thrust_forceinline__ __device__
+  __thrust_forceinline__ __hydra_device__
   RandomAccessIterator2 copy(Context context, 
                              RandomAccessIterator1 first,
                              RandomAccessIterator1 last,
@@ -183,7 +183,7 @@ template<typename Context,
 template<typename Context, 
          typename RandomAccessIterator1,
          typename RandomAccessIterator2>
-  __thrust_forceinline__ __device__
+  __thrust_forceinline__ __hydra_device__
   RandomAccessIterator2 copy(Context context,
                              RandomAccessIterator1 first,
                              RandomAccessIterator1 last,
@@ -201,7 +201,7 @@ template<typename Context,
 
 
 template<typename Context, typename RandomAccessIterator1, typename Size, typename RandomAccessIterator2>
-inline __device__
+inline __hydra_device__
 RandomAccessIterator2 async_copy_n(Context &ctx, RandomAccessIterator1 first, Size n, RandomAccessIterator2 result)
 {
   for(Size i = ctx.thread_index(); i < n; i += ctx.block_dimension())
@@ -214,7 +214,7 @@ RandomAccessIterator2 async_copy_n(Context &ctx, RandomAccessIterator1 first, Si
 
 
 template<typename Context, typename RandomAccessIterator1, typename Size, typename RandomAccessIterator2>
-inline __device__
+inline __hydra_device__
 RandomAccessIterator2 copy_n(Context &ctx, RandomAccessIterator1 first, Size n, RandomAccessIterator2 result)
 {
   result = async_copy_n(ctx, first, n, result);
@@ -225,7 +225,7 @@ RandomAccessIterator2 copy_n(Context &ctx, RandomAccessIterator1 first, Size n, 
 
 
 template<unsigned int work_per_thread, typename Context, typename RandomAccessIterator1, typename Size, typename RandomAccessIterator2>
-inline __device__
+inline __hydra_device__
 RandomAccessIterator2 async_copy_n_global_to_shared(Context &ctx, RandomAccessIterator1 first, Size n, RandomAccessIterator2 result)
 {
   typedef typename thrust::iterator_value<RandomAccessIterator1>::type value_type;
@@ -278,7 +278,7 @@ RandomAccessIterator2 async_copy_n_global_to_shared(Context &ctx, RandomAccessIt
 
 
 template<unsigned int work_per_thread, typename Context, typename RandomAccessIterator1, typename Size, typename RandomAccessIterator2>
-__device__
+__hydra_device__
 RandomAccessIterator2 copy_n_global_to_shared(Context &ctx, RandomAccessIterator1 first, Size n, RandomAccessIterator2 result)
 {
   result = async_copy_n_global_to_shared<work_per_thread>(ctx, first, n, result);

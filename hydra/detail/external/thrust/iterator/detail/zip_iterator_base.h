@@ -43,12 +43,12 @@ template<typename DiffType>
 class advance_iterator
 {
 public:
-  inline __host__ __device__
+  inline __hydra_host__ __hydra_device__
   advance_iterator(DiffType step) : m_step(step) {}
   
   __thrust_exec_check_disable__
   template<typename Iterator>
-  inline __host__ __device__
+  inline __hydra_host__ __hydra_device__
   void operator()(Iterator& it) const
   { it += m_step; }
 
@@ -61,7 +61,7 @@ struct increment_iterator
 {
   __thrust_exec_check_disable__
   template<typename Iterator>
-  inline __host__ __device__
+  inline __hydra_host__ __hydra_device__
   void operator()(Iterator& it)
   { ++it; }
 }; // end increment_iterator
@@ -71,7 +71,7 @@ struct decrement_iterator
 {
   __thrust_exec_check_disable__
   template<typename Iterator>
-  inline __host__ __device__
+  inline __hydra_host__ __hydra_device__
   void operator()(Iterator& it)
   { --it; }
 }; // end decrement_iterator
@@ -87,10 +87,10 @@ struct dereference_iterator
     type;
   }; // end apply
 
-  // XXX silence warnings of the form "calling a __host__ function from a __host__ __device__ function is not allowed
+  // XXX silence warnings of the form "calling a __hydra_host__ function from a __hydra_host__ __hydra_device__ function is not allowed
   __thrust_exec_check_disable__
   template<typename Iterator>
-  __host__ __device__
+  __hydra_host__ __hydra_device__
     typename apply<Iterator>::type operator()(Iterator const& it)
   {
     return *it;
@@ -157,14 +157,14 @@ template<
 
 
 template<typename Fun>
-inline __host__ __device__
+inline __hydra_host__ __hydra_device__
 Fun tuple_for_each_helper(Fun f)
 {
   return f;
 }
 
 template<typename Fun, typename T, typename... Types>
-inline __host__ __device__
+inline __hydra_host__ __hydra_device__
 Fun tuple_for_each_helper(Fun f, T& t, Types&... ts)
 {
   f(t);
@@ -172,7 +172,7 @@ Fun tuple_for_each_helper(Fun f, T& t, Types&... ts)
 };
 
 template<typename Fun, typename... Types, size_t... I>
-inline __host__ __device__
+inline __hydra_host__ __hydra_device__
 Fun tuple_for_each(thrust::tuple<Types...>& t, Fun f, thrust::__index_sequence<I...>)
 {
   return tuple_for_each_helper(f, thrust::get<I>(t)...);
@@ -180,7 +180,7 @@ Fun tuple_for_each(thrust::tuple<Types...>& t, Fun f, thrust::__index_sequence<I
 
 // for_each algorithm for tuples.
 template<typename Fun, typename... Types>
-inline __host__ __device__
+inline __hydra_host__ __hydra_device__
 Fun tuple_for_each(thrust::tuple<Types...>& t, Fun f)
 { 
   return tuple_for_each(t, f, thrust::__make_index_sequence<thrust::tuple_size<thrust::tuple<Types...>>::value>{});    // XXX __index_sequence_for<Types...>{} upon variadic tuple

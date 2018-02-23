@@ -29,7 +29,7 @@ namespace detail
 {
 
 template<typename ToPointer, typename FromPointer>
-__host__ __device__
+__hydra_host__ __hydra_device__
 ToPointer reinterpret_pointer_cast(FromPointer ptr)
 {
   typedef typename thrust::detail::pointer_element<ToPointer>::type to_element;
@@ -47,19 +47,19 @@ template<typename Allocator, template <typename> class BaseSystem>
 
   Allocator &m_alloc;
 
-  __host__ __device__
+  __hydra_host__ __hydra_device__
   execute_with_allocator(const super_t &super, Allocator &alloc)
     : super_t(super),
       m_alloc(alloc)
   {}
 
-  __host__ __device__
+  __hydra_host__ __hydra_device__
   execute_with_allocator(Allocator &alloc)
     : m_alloc(alloc)
   {}
 
   template<typename T>
-  __host__ __device__
+  __hydra_host__ __hydra_device__
     friend thrust::pair<T*,std::ptrdiff_t>
       get_temporary_buffer(execute_with_allocator &system, std::ptrdiff_t n)
   {

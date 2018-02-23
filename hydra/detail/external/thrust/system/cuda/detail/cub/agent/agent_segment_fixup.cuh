@@ -197,7 +197,7 @@ struct AgentSegmentFixup
     //---------------------------------------------------------------------
 
     // Constructor
-    __device__ __forceinline__
+    __hydra_device__ __forceinline__
     AgentSegmentFixup(
         TempStorage&                temp_storage,       ///< Reference to temp_storage
         PairsInputIteratorT         d_pairs_in,          ///< Input keys
@@ -224,7 +224,7 @@ struct AgentSegmentFixup
      * Process input tile.  Specialized for atomic-fixup
      */
     template <bool IS_LAST_TILE>
-    __device__ __forceinline__ void ConsumeTile(
+    __hydra_device__ __forceinline__ void ConsumeTile(
         OffsetT             num_remaining,      ///< Number of global input items remaining (including this tile)
         int                 tile_idx,           ///< Tile index
         OffsetT             tile_offset,        ///< Tile offset
@@ -264,7 +264,7 @@ struct AgentSegmentFixup
      * Process input tile.  Specialized for reduce-by-key fixup
      */
     template <bool IS_LAST_TILE>
-    __device__ __forceinline__ void ConsumeTile(
+    __hydra_device__ __forceinline__ void ConsumeTile(
         OffsetT             num_remaining,      ///< Number of global input items remaining (including this tile)
         int                 tile_idx,           ///< Tile index
         OffsetT             tile_offset,        ///< Tile offset
@@ -345,7 +345,7 @@ struct AgentSegmentFixup
     /**
      * Scan tiles of items as part of a dynamic chained scan
      */
-    __device__ __forceinline__ void ConsumeRange(
+    __hydra_device__ __forceinline__ void ConsumeRange(
         int                 num_items,          ///< Total number of input items
         int                 num_tiles,          ///< Total number of input tiles
         ScanTileStateT&     tile_state)         ///< Global tile state descriptor

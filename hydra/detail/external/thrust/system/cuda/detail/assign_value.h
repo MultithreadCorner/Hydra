@@ -39,18 +39,18 @@ namespace
 {
 
 template<typename DerivedPolicy, typename Pointer1, typename Pointer2>
-inline __host__ __device__
+inline __hydra_host__ __hydra_device__
   void assign_value_msvc2005_war(thrust::cuda::execution_policy<DerivedPolicy> &exec, Pointer1 dst, Pointer2 src)
 {
   // XXX war nvbugs/881631
   struct war_nvbugs_881631
   {
-    __host__ inline static void host_path(thrust::cuda::execution_policy<DerivedPolicy> &exec, Pointer1 dst, Pointer2 src)
+    __hydra_host__ inline static void host_path(thrust::cuda::execution_policy<DerivedPolicy> &exec, Pointer1 dst, Pointer2 src)
     {
       thrust::copy(exec, src, src + 1, dst);
     }
 
-    __device__ inline static void device_path(thrust::cuda::execution_policy<DerivedPolicy> &, Pointer1 dst, Pointer2 src)
+    __hydra_device__ inline static void device_path(thrust::cuda::execution_policy<DerivedPolicy> &, Pointer1 dst, Pointer2 src)
     {
       *thrust::raw_pointer_cast(dst) = *thrust::raw_pointer_cast(src);
     }
@@ -66,7 +66,7 @@ inline __host__ __device__
 } // end anon namespace
 
 template<typename DerivedPolicy, typename Pointer1, typename Pointer2>
-inline __host__ __device__
+inline __hydra_host__ __hydra_device__
   void assign_value(thrust::cuda::execution_policy<DerivedPolicy> &exec, Pointer1 dst, Pointer2 src)
 {
   return assign_value_msvc2005_war(exec,dst,src);
@@ -75,18 +75,18 @@ inline __host__ __device__
 #else
 
 template<typename DerivedPolicy, typename Pointer1, typename Pointer2>
-inline __host__ __device__
+inline __hydra_host__ __hydra_device__
   void assign_value(thrust::cuda::execution_policy<DerivedPolicy> &exec, Pointer1 dst, Pointer2 src)
 {
   // XXX war nvbugs/881631
   struct war_nvbugs_881631
   {
-    __host__ inline static void host_path(thrust::cuda::execution_policy<DerivedPolicy> &exec, Pointer1 dst, Pointer2 src)
+    __hydra_host__ inline static void host_path(thrust::cuda::execution_policy<DerivedPolicy> &exec, Pointer1 dst, Pointer2 src)
     {
       thrust::copy(exec, src, src + 1, dst);
     }
 
-    __device__ inline static void device_path(thrust::cuda::execution_policy<DerivedPolicy> &, Pointer1 dst, Pointer2 src)
+    __hydra_device__ inline static void device_path(thrust::cuda::execution_policy<DerivedPolicy> &, Pointer1 dst, Pointer2 src)
     {
       *thrust::raw_pointer_cast(dst) = *thrust::raw_pointer_cast(src);
     }
@@ -111,13 +111,13 @@ namespace
 
 
 template<typename System1, typename System2, typename Pointer1, typename Pointer2>
-inline __host__ __device__
+inline __hydra_host__ __hydra_device__
   void assign_value_msvc2005_war(cross_system<System1,System2> &systems, Pointer1 dst, Pointer2 src)
 {
   // XXX war nvbugs/881631
   struct war_nvbugs_881631
   {
-    __host__ inline static void host_path(cross_system<System1,System2> &systems, Pointer1 dst, Pointer2 src)
+    __hydra_host__ inline static void host_path(cross_system<System1,System2> &systems, Pointer1 dst, Pointer2 src)
     {
       // rotate the systems so that they are ordered the same as (src, dst)
       // for the call to thrust::copy
@@ -125,7 +125,7 @@ inline __host__ __device__
       thrust::copy(rotated_systems, src, src + 1, dst);
     }
 
-    __device__ inline static void device_path(cross_system<System1,System2> &systems, Pointer1 dst, Pointer2 src)
+    __hydra_device__ inline static void device_path(cross_system<System1,System2> &systems, Pointer1 dst, Pointer2 src)
     {
       // XXX forward the true cuda::execution_policy inside systems here
       //     instead of materializing a tag
@@ -146,7 +146,7 @@ inline __host__ __device__
 
 
 template<typename System1, typename System2, typename Pointer1, typename Pointer2>
-inline __host__ __device__
+inline __hydra_host__ __hydra_device__
   void assign_value(cross_system<System1,System2> &systems, Pointer1 dst, Pointer2 src)
 {
   return assign_value_msvc2005_war(systems,dst,src);
@@ -157,13 +157,13 @@ inline __host__ __device__
 
 
 template<typename System1, typename System2, typename Pointer1, typename Pointer2>
-inline __host__ __device__
+inline __hydra_host__ __hydra_device__
   void assign_value(cross_system<System1,System2> &systems, Pointer1 dst, Pointer2 src)
 {
   // XXX war nvbugs/881631
   struct war_nvbugs_881631
   {
-    __host__ inline static void host_path(cross_system<System1,System2> &systems, Pointer1 dst, Pointer2 src)
+    __hydra_host__ inline static void host_path(cross_system<System1,System2> &systems, Pointer1 dst, Pointer2 src)
     {
       // rotate the systems so that they are ordered the same as (src, dst)
       // for the call to thrust::copy
@@ -171,7 +171,7 @@ inline __host__ __device__
       thrust::copy(rotated_systems, src, src + 1, dst);
     }
 
-    __device__ inline static void device_path(cross_system<System1,System2> &systems, Pointer1 dst, Pointer2 src)
+    __hydra_device__ inline static void device_path(cross_system<System1,System2> &systems, Pointer1 dst, Pointer2 src)
     {
       // XXX forward the true cuda::execution_policy inside systems here
       //     instead of materializing a tag

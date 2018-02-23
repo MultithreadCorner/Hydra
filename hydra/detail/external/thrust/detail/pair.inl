@@ -21,7 +21,7 @@ HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
 {
 
 template <typename T1, typename T2>
-  __host__ __device__
+  __hydra_host__ __hydra_device__
   pair<T1,T2>
     ::pair(void)
       :first(),second()
@@ -31,7 +31,7 @@ template <typename T1, typename T2>
 
 
 template <typename T1, typename T2>
-  __host__ __device__
+  __hydra_host__ __hydra_device__
   pair<T1,T2>
     ::pair(const T1 &x, const T2 &y)
       :first(x),second(y)
@@ -42,7 +42,7 @@ template <typename T1, typename T2>
 
 template <typename T1, typename T2>
   template <typename U1, typename U2>
-    __host__ __device__
+    __hydra_host__ __hydra_device__
     pair<T1,T2>
       ::pair(const pair<U1,U2> &p)
         :first(p.first),second(p.second)
@@ -53,7 +53,7 @@ template <typename T1, typename T2>
 
 template <typename T1, typename T2>
   template <typename U1, typename U2>
-    __host__ __device__
+    __hydra_host__ __hydra_device__
     pair<T1,T2>
       ::pair(const std::pair<U1,U2> &p)
         :first(p.first),second(p.second)
@@ -63,7 +63,7 @@ template <typename T1, typename T2>
 
 
 template<typename T1, typename T2>
-  inline __host__ __device__
+  inline __hydra_host__ __hydra_device__
     void pair<T1,T2>
       ::swap(thrust::pair<T1,T2> &p)
 {
@@ -75,7 +75,7 @@ template<typename T1, typename T2>
 
 
 template <typename T1, typename T2>
-  inline __host__ __device__
+  inline __hydra_host__ __hydra_device__
     bool operator==(const pair<T1,T2> &x, const pair<T1,T2> &y)
 {
   return x.first == y.first && x.second == y.second;
@@ -83,7 +83,7 @@ template <typename T1, typename T2>
 
 
 template <typename T1, typename T2>
-  inline __host__ __device__
+  inline __hydra_host__ __hydra_device__
     bool operator<(const pair<T1,T2> &x, const pair<T1,T2> &y)
 {
   return x.first < y.first || (!(y.first < x.first) && x.second < y.second);
@@ -91,7 +91,7 @@ template <typename T1, typename T2>
 
 
 template <typename T1, typename T2>
-  inline __host__ __device__
+  inline __hydra_host__ __hydra_device__
     bool operator!=(const pair<T1,T2> &x, const pair<T1,T2> &y)
 {
   return !(x == y);
@@ -99,7 +99,7 @@ template <typename T1, typename T2>
 
 
 template <typename T1, typename T2>
-  inline __host__ __device__
+  inline __hydra_host__ __hydra_device__
     bool operator>(const pair<T1,T2> &x, const pair<T1,T2> &y)
 {
   return y < x;
@@ -107,7 +107,7 @@ template <typename T1, typename T2>
 
 
 template <typename T1, typename T2>
-  inline __host__ __device__
+  inline __hydra_host__ __hydra_device__
     bool operator<=(const pair<T1,T2> &x, const pair<T1,T2> &y)
 {
   return !(y < x);
@@ -115,7 +115,7 @@ template <typename T1, typename T2>
 
 
 template <typename T1, typename T2>
-  inline __host__ __device__
+  inline __hydra_host__ __hydra_device__
     bool operator>=(const pair<T1,T2> &x, const pair<T1,T2> &y)
 {
   return !(x < y);
@@ -123,7 +123,7 @@ template <typename T1, typename T2>
 
 
 template <typename T1, typename T2>
-  inline __host__ __device__
+  inline __hydra_host__ __hydra_device__
     void swap(pair<T1,T2> &x, pair<T1,T2> &y)
 {
   return x.swap(y);
@@ -131,7 +131,7 @@ template <typename T1, typename T2>
 
 
 template <typename T1, typename T2>
-  inline __host__ __device__
+  inline __hydra_host__ __hydra_device__
     pair<T1,T2> make_pair(T1 x, T2 y)
 {
   return pair<T1,T2>(x,y);
@@ -170,14 +170,14 @@ template<int N, typename Pair> struct pair_get {};
 template<typename Pair>
   struct pair_get<0, Pair>
 {
-  inline __host__ __device__
+  inline __hydra_host__ __hydra_device__
     const typename tuple_element<0, Pair>::type &
       operator()(const Pair &p) const
   {
     return p.first;
   } // end operator()()
 
-  inline __host__ __device__
+  inline __hydra_host__ __hydra_device__
     typename tuple_element<0, Pair>::type &
       operator()(Pair &p) const
   {
@@ -189,14 +189,14 @@ template<typename Pair>
 template<typename Pair>
   struct pair_get<1, Pair>
 {
-  inline __host__ __device__
+  inline __hydra_host__ __hydra_device__
     const typename tuple_element<1, Pair>::type &
       operator()(const Pair &p) const
   {
     return p.second;
   } // end operator()()
 
-  inline __host__ __device__
+  inline __hydra_host__ __hydra_device__
     typename tuple_element<1, Pair>::type &
       operator()(Pair &p) const
   {
@@ -209,7 +209,7 @@ template<typename Pair>
 
 
 template<unsigned int N, typename T1, typename T2>
-  inline __host__ __device__
+  inline __hydra_host__ __hydra_device__
     typename tuple_element<N, pair<T1,T2> >::type &
       get(pair<T1,T2> &p)
 {
@@ -217,7 +217,7 @@ template<unsigned int N, typename T1, typename T2>
 } // end get()
 
 template<unsigned int N, typename T1, typename T2>
-  inline __host__ __device__
+  inline __hydra_host__ __hydra_device__
     const typename tuple_element<N, pair<T1,T2> >::type &
       get(const pair<T1,T2> &p)
 {

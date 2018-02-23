@@ -77,7 +77,7 @@ struct ProcessCallsVegas
 
 	}
 
-	__host__ __device__
+	__hydra_host__ __hydra_device__
 	ProcessCallsVegas( ProcessCallsVegas<FUNCTOR,NDimensions,Precision, GRND> const& other):
 	fSeed(other.fSeed),
 	fNBins(other.fNBins),
@@ -95,12 +95,12 @@ struct ProcessCallsVegas
 		fBins[i]=bins[i];
 	}
 
-	__host__ __device__
+	__hydra_host__ __hydra_device__
 	~ProcessCallsVegas(){
 
 	};
 
-	__host__ __device__
+	__hydra_host__ __hydra_device__
 	inline GInt_t GetBoxCoordinate(GInt_t idx, GInt_t dim, GInt_t nboxes, GInt_t j)
 	{
 		GInt_t _idx = idx;
@@ -116,7 +116,7 @@ struct ProcessCallsVegas
 		return _coordinate;
 	}
 
-	__host__   __device__ inline
+	__hydra_host__   __hydra_device__ inline
 	size_t hash(size_t a, size_t b)
 	{
 		//Matthew Szudzik pairing
@@ -129,7 +129,7 @@ struct ProcessCallsVegas
 	}
 
 #ifdef __CUDA_ARCH__
-	__device__ inline
+	__hydra_device__ inline
 	void GetPointSobol(size_t index, GReal_t &volume, GReal_t (&point)[NDimensions], GUInt_t bin[NDimensions] )
 	{
 		skipahead(index*NDimensions, &fSobolState);
@@ -162,7 +162,7 @@ struct ProcessCallsVegas
 	}
 #endif
 
-	__host__ __device__ inline
+	__hydra_host__ __hydra_device__ inline
 	void GetPointRandom(size_t index, GReal_t &volume, GReal_t (&point)[NDimensions], GUInt_t bin[NDimensions] )
 	{
 		fRandonEngine.discard(index*NDimensions);
@@ -195,7 +195,7 @@ struct ProcessCallsVegas
 	}
 
 
-	__host__ __device__	inline
+	__hydra_host__ __hydra_device__	inline
 	void 	operator()( size_t index)
 	{
 		GReal_t volume = 1.0;

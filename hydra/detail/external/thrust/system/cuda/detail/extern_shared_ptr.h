@@ -35,14 +35,14 @@ template<typename T>
 // due to use of __shared__ below
 #if HYDRA_THRUST_DEVICE_COMPILER == HYDRA_THRUST_DEVICE_COMPILER_NVCC
   public:
-    __device__
+    __hydra_device__
     inline operator T * (void)
     {
       extern __shared__ int4 smem[];
       return reinterpret_cast<T*>(smem);
     }
 
-    __device__
+    __hydra_device__
     inline operator const T * (void) const
     {
       extern __shared__ int4 smem[];

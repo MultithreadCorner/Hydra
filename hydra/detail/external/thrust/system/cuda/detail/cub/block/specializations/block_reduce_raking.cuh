@@ -119,7 +119,7 @@ struct BlockReduceRaking
 
 
     /// Constructor
-    __device__ __forceinline__ BlockReduceRaking(
+    __hydra_device__ __forceinline__ BlockReduceRaking(
         TempStorage &temp_storage)
     :
         temp_storage(temp_storage.Alias()),
@@ -128,7 +128,7 @@ struct BlockReduceRaking
 
 
     template <bool IS_FULL_TILE, typename ReductionOp, int ITERATION>
-    __device__ __forceinline__ T RakingReduction(
+    __hydra_device__ __forceinline__ T RakingReduction(
         ReductionOp                 reduction_op,       ///< [in] Binary scan operator
         T                           *raking_segment,
         T                           partial,            ///< [in] <b>[<em>lane</em><sub>0</sub> only]</b> Warp-wide aggregate reduction of input items
@@ -145,7 +145,7 @@ struct BlockReduceRaking
     }
 
     template <bool IS_FULL_TILE, typename ReductionOp>
-    __device__ __forceinline__ T RakingReduction(
+    __hydra_device__ __forceinline__ T RakingReduction(
         ReductionOp                 /*reduction_op*/,   ///< [in] Binary scan operator
         T                           * /*raking_segment*/,
         T                           partial,            ///< [in] <b>[<em>lane</em><sub>0</sub> only]</b> Warp-wide aggregate reduction of input items
@@ -161,7 +161,7 @@ struct BlockReduceRaking
     template <
         bool                IS_FULL_TILE,
         typename            ReductionOp>
-    __device__ __forceinline__ T Reduce(
+    __hydra_device__ __forceinline__ T Reduce(
         T                   partial,            ///< [in] Calling thread's input partial reductions
         int                 num_valid,          ///< [in] Number of valid elements (may be less than BLOCK_THREADS)
         ReductionOp         reduction_op)       ///< [in] Binary reduction operator
@@ -204,7 +204,7 @@ struct BlockReduceRaking
 
     /// Computes a thread block-wide reduction using addition (+) as the reduction operator. The first num_valid threads each contribute one reduction partial.  The return value is only valid for thread<sub>0</sub>.
     template <bool IS_FULL_TILE>
-    __device__ __forceinline__ T Sum(
+    __hydra_device__ __forceinline__ T Sum(
         T                   partial,            ///< [in] Calling thread's input partial reductions
         int                 num_valid)          ///< [in] Number of valid elements (may be less than BLOCK_THREADS)
     {

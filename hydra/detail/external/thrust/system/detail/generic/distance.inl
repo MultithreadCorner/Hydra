@@ -32,7 +32,7 @@ namespace detail
 
 __thrust_exec_check_disable__
 template<typename InputIterator>
-inline __host__ __device__
+inline __hydra_host__ __hydra_device__
   typename thrust::iterator_traits<InputIterator>::difference_type
     distance(InputIterator first, InputIterator last, thrust::incrementable_traversal_tag)
 {
@@ -50,7 +50,7 @@ inline __host__ __device__
 
 __thrust_exec_check_disable__
 template<typename InputIterator>
-inline __host__ __device__
+inline __hydra_host__ __hydra_device__
   typename thrust::iterator_traits<InputIterator>::difference_type
     distance(InputIterator first, InputIterator last, thrust::random_access_traversal_tag)
 {
@@ -62,7 +62,7 @@ inline __host__ __device__
 
 
 template<typename InputIterator>
-inline __host__ __device__
+inline __hydra_host__ __hydra_device__
   typename thrust::iterator_traits<InputIterator>::difference_type
     distance(InputIterator first, InputIterator last)
 {

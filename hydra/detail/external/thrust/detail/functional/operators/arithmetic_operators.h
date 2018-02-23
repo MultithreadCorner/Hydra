@@ -30,14 +30,14 @@ namespace functional
 {
 
 template<typename Eval>
-__host__ __device__
+__hydra_host__ __hydra_device__
 actor<
   composite<
     unary_operator<thrust::negate>,
     actor<Eval>
   >
 >
-__host__ __device__
+__hydra_host__ __hydra_device__
 operator-(const actor<Eval> &_1)
 {
   return compose(unary_operator<thrust::negate>(), _1);
@@ -48,11 +48,11 @@ template<typename T>
   struct unary_plus
     : public thrust::unary_function<T,T>
 {
-  __host__ __device__ T operator()(const T &x) const {return +x;}
+  __hydra_host__ __hydra_device__ T operator()(const T &x) const {return +x;}
 }; // end unary_plus
 
 template<typename Eval>
-__host__ __device__
+__hydra_host__ __hydra_device__
 actor<
   composite<
     unary_operator<unary_plus>,
@@ -65,7 +65,7 @@ operator+(const actor<Eval> &_1)
 } // end operator+()
 
 template<typename T1, typename T2>
-__host__ __device__
+__hydra_host__ __hydra_device__
 actor<
   composite<
     binary_operator<thrust::plus>,
@@ -81,7 +81,7 @@ operator+(const actor<T1> &_1, const T2 &_2)
 } // end operator+()
 
 template<typename T1, typename T2>
-__host__ __device__
+__hydra_host__ __hydra_device__
 actor<
   composite<
     binary_operator<thrust::plus>,
@@ -97,7 +97,7 @@ operator+(const T1 &_1, const actor<T2> &_2)
 } // end operator+()
 
 template<typename T1, typename T2>
-__host__ __device__
+__hydra_host__ __hydra_device__
 actor<
   composite<
     binary_operator<thrust::plus>,
@@ -113,7 +113,7 @@ operator+(const actor<T1> &_1, const actor<T2> &_2)
 } // end operator+()
 
 template<typename T1, typename T2>
-__host__ __device__
+__hydra_host__ __hydra_device__
 actor<
   composite<
     binary_operator<thrust::minus>,
@@ -129,7 +129,7 @@ operator-(const T1 &_1, const actor<T2> &_2)
 } // end operator-()
 
 template<typename T1, typename T2>
-__host__ __device__
+__hydra_host__ __hydra_device__
 actor<
   composite<
     binary_operator<thrust::minus>,
@@ -145,7 +145,7 @@ operator-(const actor<T1> &_1, const T2 &_2)
 } // end operator-()
 
 template<typename T1, typename T2>
-__host__ __device__
+__hydra_host__ __hydra_device__
 actor<
   composite<
     binary_operator<thrust::minus>,
@@ -161,7 +161,7 @@ operator-(const actor<T1> &_1, const actor<T2> &_2)
 } // end operator-()
 
 template<typename T1, typename T2>
-__host__ __device__
+__hydra_host__ __hydra_device__
 actor<
   composite<
     binary_operator<thrust::multiplies>,
@@ -177,7 +177,7 @@ operator*(const T1 &_1, const actor<T2> &_2)
 } // end operator*()
 
 template<typename T1, typename T2>
-__host__ __device__
+__hydra_host__ __hydra_device__
 actor<
   composite<
     binary_operator<thrust::multiplies>,
@@ -193,7 +193,7 @@ operator*(const actor<T1> &_1, const T2 &_2)
 } // end operator*()
 
 template<typename T1, typename T2>
-__host__ __device__
+__hydra_host__ __hydra_device__
 actor<
   composite<
     binary_operator<thrust::multiplies>,
@@ -209,7 +209,7 @@ operator*(const actor<T1> &_1, const actor<T2> &_2)
 } // end operator*()
 
 template<typename T1, typename T2>
-__host__ __device__
+__hydra_host__ __hydra_device__
 actor<
   composite<
     binary_operator<thrust::divides>,
@@ -225,7 +225,7 @@ operator/(const actor<T1> &_1, const T2 &_2)
 } // end operator/()
 
 template<typename T1, typename T2>
-__host__ __device__
+__hydra_host__ __hydra_device__
 actor<
   composite<
     binary_operator<thrust::divides>,
@@ -241,7 +241,7 @@ operator/(const T1 &_1, const actor<T2> &_2)
 } // end operator/()
 
 template<typename T1, typename T2>
-__host__ __device__
+__hydra_host__ __hydra_device__
 actor<
   composite<
     binary_operator<thrust::divides>,
@@ -257,7 +257,7 @@ operator/(const actor<T1> &_1, const actor<T2> &_2)
 } // end operator/()
 
 template<typename T1, typename T2>
-__host__ __device__
+__hydra_host__ __hydra_device__
 actor<
   composite<
     binary_operator<thrust::modulus>,
@@ -273,7 +273,7 @@ operator%(const actor<T1> &_1, const T2 &_2)
 } // end operator%()
 
 template<typename T1, typename T2>
-__host__ __device__
+__hydra_host__ __hydra_device__
 actor<
   composite<
     binary_operator<thrust::modulus>,
@@ -289,7 +289,7 @@ operator%(const T1 &_1, const actor<T2> &_2)
 } // end operator%()
 
 template<typename T1, typename T2>
-__host__ __device__
+__hydra_host__ __hydra_device__
 actor<
   composite<
     binary_operator<thrust::modulus>,
@@ -309,11 +309,11 @@ template<typename T>
   struct prefix_increment
     : public thrust::unary_function<T&,T&>
 {
-  __host__ __device__ T& operator()(T &x) const { return ++x; }
+  __hydra_host__ __hydra_device__ T& operator()(T &x) const { return ++x; }
 }; // end prefix_increment
 
 template<typename Eval>
-__host__ __device__
+__hydra_host__ __hydra_device__
 actor<
   composite<
     unary_operator<prefix_increment>,
@@ -330,11 +330,11 @@ template<typename T>
   struct suffix_increment
     : public thrust::unary_function<T&,T>
 {
-  __host__ __device__ T operator()(T &x) const { return x++; }
+  __hydra_host__ __hydra_device__ T operator()(T &x) const { return x++; }
 }; // end suffix_increment
 
 template<typename Eval>
-__host__ __device__
+__hydra_host__ __hydra_device__
 actor<
   composite<
     unary_operator<suffix_increment>,
@@ -351,11 +351,11 @@ template<typename T>
   struct prefix_decrement
     : public thrust::unary_function<T&,T&>
 {
-  __host__ __device__ T& operator()(T &x) const { return --x; }
+  __hydra_host__ __hydra_device__ T& operator()(T &x) const { return --x; }
 }; // end prefix_decrement
 
 template<typename Eval>
-__host__ __device__
+__hydra_host__ __hydra_device__
 actor<
   composite<
     unary_operator<prefix_decrement>,
@@ -372,11 +372,11 @@ template<typename T>
   struct suffix_decrement
     : public thrust::unary_function<T&,T>
 {
-  __host__ __device__ T operator()(T &x) const { return x--; }
+  __hydra_host__ __hydra_device__ T operator()(T &x) const { return x--; }
 }; // end suffix_decrement
 
 template<typename Eval>
-__host__ __device__
+__hydra_host__ __hydra_device__
 actor<
   composite<
     unary_operator<suffix_decrement>,

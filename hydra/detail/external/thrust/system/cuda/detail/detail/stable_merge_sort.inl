@@ -61,7 +61,7 @@ template<unsigned int work_per_thread,
          typename Iterator,
          typename Size,
          typename Compare>
-__device__
+__hydra_device__
 void bounded_inplace_merge(Context &ctx, Iterator first, Size n1, Size n2, Compare comp)
 {
   Iterator first2 = first + n1;
@@ -102,7 +102,7 @@ template<unsigned int work_per_thread,
          typename Iterator3,
          typename Iterator4,
 	 typename Compare>
-__device__
+__hydra_device__
 void staged_bounded_merge(Context &ctx,
                           Iterator1 first1, Size1 n1,
                           Iterator2 first2, Size2 n2,
@@ -127,7 +127,7 @@ void staged_bounded_merge(Context &ctx,
 
 
 // Returns (start1, end1, start2, end2) into mergesort input lists between mp0 and mp1.
-inline __host__ __device__
+inline __hydra_host__ __hydra_device__
 thrust::tuple<int,int,int,int> find_mergesort_interval(int partition_first1, int partition_size, int num_blocks_per_merge, int block_idx, int num_elements_per_block, int n, int mp, int right_mp)
 {
   int partition_first2 = partition_first1 + partition_size;
@@ -154,7 +154,7 @@ thrust::tuple<int,int,int,int> find_mergesort_interval(int partition_first1, int
 }
 
 
-inline __host__ __device__
+inline __hydra_host__ __hydra_device__
 thrust::tuple<int,int,int,int> locate_merge_partitions(int n, int block_idx, int num_blocks_per_merge, int num_elements_per_block, int mp, int right_mp)
 {
   int first_block_in_partition = ~(num_blocks_per_merge - 1) & block_idx;
@@ -185,7 +185,7 @@ struct merge_adjacent_partitions_closure
   thrust::detail::wrapped_function<Compare,bool> comp;
 
 
-  __host__ __device__
+  __hydra_host__ __hydra_device__
   merge_adjacent_partitions_closure(Size num_blocks_per_merge, Iterator1 first, Size n, Iterator2 merge_paths, Iterator3 result, Compare comp)
     : num_blocks_per_merge(num_blocks_per_merge),
       first(first),
@@ -197,7 +197,7 @@ struct merge_adjacent_partitions_closure
 
 
   template<typename RandomAccessIterator>
-  __thrust_forceinline__ __device__
+  __thrust_forceinline__ __hydra_device__
   void operator()(RandomAccessIterator staging_buffer)
   {
     context_type ctx;
@@ -218,7 +218,7 @@ struct merge_adjacent_partitions_closure
   }
 
 
-  __thrust_forceinline__ __device__
+  __thrust_forceinline__ __hydra_device__
   void operator()()
   {
     typedef typename thrust::iterator_value<Iterator1>::type value_type;
@@ -241,7 +241,7 @@ template<unsigned int work_per_thread,
          typename Pointer,
          typename Iterator3,
          typename Compare>
-__host__ __device__
+__hydra_host__ __hydra_device__
 void merge_adjacent_partitions(thrust::system::cuda::execution_policy<DerivedPolicy> &exec,
                                Context context,
                                unsigned int block_size,
@@ -296,7 +296,7 @@ struct locate_merge_path
   Size num_blocks_per_merge;
   thrust::detail::wrapped_function<Compare,bool> comp;
 
-  __host__ __device__
+  __hydra_host__ __hydra_device__
   locate_merge_path(Iterator haystack_first, Size haystack_size, Size num_elements_per_block, Size num_blocks_per_merge, Compare comp)
     : haystack_first(haystack_first),
       haystack_size(haystack_size),
@@ -306,7 +306,7 @@ struct locate_merge_path
   {}
 
   template<typename Index>
-  __host__ __device__
+  __hydra_host__ __hydra_device__
   Index operator()(Index merge_path_idx)
   {
     // find the index of the first CTA that will participate in the eventual merge
@@ -333,7 +333,7 @@ struct locate_merge_path
 
 
 template<typename DerivedPolicy, typename Iterator1, typename Size1, typename Iterator2, typename Size2, typename Compare>
-__host__ __device__
+__hydra_host__ __hydra_device__
 void locate_merge_paths(thrust::system::cuda::execution_policy<DerivedPolicy> &exec,
                         Iterator1 result,
                         Size1 n,
@@ -350,7 +350,7 @@ void locate_merge_paths(thrust::system::cuda::execution_policy<DerivedPolicy> &e
 
 
 template<typename T>
-__host__ __device__
+__hydra_host__ __hydra_device__
 bool virtualize_smem(size_t num_elements_per_block)
 {
 #ifndef __CUDA_ARCH__
@@ -375,7 +375,7 @@ bool virtualize_smem(size_t num_elements_per_block)
 
 
 template<typename DerivedPolicy, typename RandomAccessIterator, typename Size, typename Compare>
-__host__ __device__
+__hydra_host__ __hydra_device__
 void stable_merge_sort_n(thrust::system::cuda::execution_policy<DerivedPolicy> &exec,
                          RandomAccessIterator first,
                          Size n,
@@ -441,7 +441,7 @@ void stable_merge_sort_n(thrust::system::cuda::execution_policy<DerivedPolicy> &
 
 
 template<typename DerivedPolicy, typename RandomAccessIterator, typename Compare>
-__host__ __device__
+__hydra_host__ __hydra_device__
 void stable_merge_sort(thrust::system::cuda::execution_policy<DerivedPolicy> &exec,
                        RandomAccessIterator first,
                        RandomAccessIterator last,
@@ -468,7 +468,7 @@ void stable_merge_sort(thrust::system::cuda::execution_policy<DerivedPolicy> &ex
 
 
 template<typename DerivedPolicy, typename RandomAccessIterator, typename Compare>
-__host__ __device__
+__hydra_host__ __hydra_device__
 void stable_merge_sort(thrust::system::cuda::execution_policy<DerivedPolicy> &exec,
                        RandomAccessIterator first,
                        RandomAccessIterator last,
@@ -494,7 +494,7 @@ void stable_merge_sort(thrust::system::cuda::execution_policy<DerivedPolicy> &ex
 
 
 template<typename DerivedPolicy, typename RandomAccessIterator1, typename RandomAccessIterator2, typename Compare>
-__host__ __device__
+__hydra_host__ __hydra_device__
 void stable_merge_sort_by_key(thrust::system::cuda::execution_policy<DerivedPolicy> &exec,
                               RandomAccessIterator1 keys_first,
                               RandomAccessIterator1 keys_last,

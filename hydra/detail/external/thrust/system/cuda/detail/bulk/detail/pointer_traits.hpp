@@ -25,7 +25,7 @@ namespace detail
 {
 
 
-inline __device__ unsigned int __isShared(const void *ptr)
+inline __hydra_device__ unsigned int __isShared(const void *ptr)
 {
   // XXX WAR unused variable warning
   (void) ptr;
@@ -50,13 +50,13 @@ inline __device__ unsigned int __isShared(const void *ptr)
 } // end __isShared()
 
 
-inline __device__ bool is_shared(const void *ptr)
+inline __hydra_device__ bool is_shared(const void *ptr)
 {
   return __isShared(ptr);
 } // end is_shared()
 
 
-inline __device__ bool is_global(const void *ptr)
+inline __hydra_device__ bool is_global(const void *ptr)
 {
   // XXX WAR unused variable warning
   (void) ptr;

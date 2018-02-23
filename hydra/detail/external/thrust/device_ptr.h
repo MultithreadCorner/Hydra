@@ -77,7 +77,7 @@ template<typename T>
   public:
     /*! \p device_ptr's null constructor initializes its raw pointer to \c 0.
      */
-    __host__ __device__
+    __hydra_host__ __hydra_device__
     device_ptr() : super_t() {}
 
     /*! \p device_ptr's copy constructor is templated to allow copying to a
@@ -87,14 +87,14 @@ template<typename T>
      *         device memory.
      */
     template<typename OtherT>
-    __host__ __device__
+    __hydra_host__ __hydra_device__
     explicit device_ptr(OtherT *ptr) : super_t(ptr) {}
 
     /*! \p device_ptr's copy constructor allows copying from another device_ptr with related type.
      *  \param other The \p device_ptr to copy from.
      */
     template<typename OtherT>
-    __host__ __device__
+    __hydra_host__ __hydra_device__
     device_ptr(const device_ptr<OtherT> &other) : super_t(other) {}
 
     /*! \p device_ptr's assignment operator allows assigning from another \p device_ptr with related type.
@@ -102,7 +102,7 @@ template<typename T>
      *  \return <tt>*this</tt>
      */
     template<typename OtherT>
-    __host__ __device__
+    __hydra_host__ __hydra_device__
     device_ptr &operator=(const device_ptr<OtherT> &other)
     {
       super_t::operator=(other);
@@ -115,7 +115,7 @@ template<typename T>
     /*! This method returns this \p device_ptr's raw pointer.
      *  \return This \p device_ptr's raw pointer.
      */
-    __host__ __device__
+    __hydra_host__ __hydra_device__
     T *get(void) const;
 #endif // end doxygen-only members
 }; // end device_ptr
@@ -151,7 +151,7 @@ operator<<(std::basic_ostream<charT, traits> &os, const device_ptr<T> &p);
  *  \return A device_ptr wrapping ptr.
  */
 template<typename T>
-__host__ __device__
+__hydra_host__ __hydra_device__
 inline device_ptr<T> device_pointer_cast(T *ptr);
 
 /*! This version of \p device_pointer_cast creates a copy of a device_ptr from another device_ptr.
@@ -161,7 +161,7 @@ inline device_ptr<T> device_pointer_cast(T *ptr);
  *  \return A copy of \p ptr.
  */
 template<typename T>
-__host__ __device__
+__hydra_host__ __hydra_device__
 inline device_ptr<T> device_pointer_cast(const device_ptr<T> &ptr);
 
 /*! \}

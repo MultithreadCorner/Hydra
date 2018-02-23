@@ -34,7 +34,7 @@ template<int i, int bound>
 struct stable_odd_even_transpose_sort_by_key_impl
 {
   template<typename RandomAccessIterator1, typename RandomAccessIterator2, typename Compare>
-  static __device__
+  static __hydra_device__
   void sort(RandomAccessIterator1 keys, RandomAccessIterator2 values, int n, Compare comp)
   {
     for(int j = 1 & i; j < bound - 1; j += 2)
@@ -56,7 +56,7 @@ struct stable_odd_even_transpose_sort_by_key_impl
 template<int i> struct stable_odd_even_transpose_sort_by_key_impl<i, i>
 {
   template<typename RandomAccessIterator1, typename RandomAccessIterator2, typename Compare>
-  static __device__ void sort(RandomAccessIterator1, RandomAccessIterator2, int, Compare) { }
+  static __hydra_device__ void sort(RandomAccessIterator1, RandomAccessIterator2, int, Compare) { }
 };
 
 
@@ -65,7 +65,7 @@ template<std::size_t bound,
          typename RandomAccessIterator1,
          typename RandomAccessIterator2,
          typename Compare>
-__forceinline__ __device__
+__forceinline__ __hydra_device__
 void stable_odd_even_transpose_sort_by_key(const bounded<bound,agent<grainsize> > &,
                                            RandomAccessIterator1 keys_first, RandomAccessIterator1 keys_last,
                                            RandomAccessIterator2 values_first,
@@ -79,7 +79,7 @@ template<int i, int bound>
 struct stable_odd_even_transpose_sort_impl
 {
   template<typename RandomAccessIterator, typename Compare>
-  static __device__
+  static __hydra_device__
   void sort(RandomAccessIterator keys, int n, Compare comp)
   {
     for(int j = 1 & i; j < bound - 1; j += 2)
@@ -100,7 +100,7 @@ struct stable_odd_even_transpose_sort_impl
 template<int i> struct stable_odd_even_transpose_sort_impl<i, i>
 {
   template<typename RandomAccessIterator, typename Compare>
-  static __device__ void sort(RandomAccessIterator, int, Compare) { }
+  static __hydra_device__ void sort(RandomAccessIterator, int, Compare) { }
 };
 
 
@@ -108,7 +108,7 @@ template<std::size_t bound,
          std::size_t grainsize,
          typename RandomAccessIterator,
          typename Compare>
-__forceinline__ __device__
+__forceinline__ __hydra_device__
 void stable_odd_even_transpose_sort(const bounded<bound,agent<grainsize> > &,
                                     RandomAccessIterator first, RandomAccessIterator last,
                                     Compare comp)
@@ -126,7 +126,7 @@ template<std::size_t bound,
          typename RandomAccessIterator1,
          typename RandomAccessIterator2,
          typename Compare>
-__forceinline__ __device__
+__forceinline__ __hydra_device__
 void stable_sort_by_key(const bounded<bound,agent<grainsize> > &exec,
                         RandomAccessIterator1 keys_first, RandomAccessIterator1 keys_last,
                         RandomAccessIterator2 values_first,
@@ -140,7 +140,7 @@ template<std::size_t bound,
          std::size_t grainsize,
          typename RandomAccessIterator,
          typename Compare>
-__forceinline__ __device__
+__forceinline__ __hydra_device__
 void stable_sort(const bounded<bound,agent<grainsize> > &exec,
                  RandomAccessIterator first, RandomAccessIterator last,
                  Compare comp)
@@ -153,7 +153,7 @@ template<std::size_t bound, std::size_t groupsize, std::size_t grainsize,
          typename RandomAccessIterator1,
          typename RandomAccessIterator2,
          typename Compare>
-__device__
+__hydra_device__
 typename thrust::detail::enable_if<
   bound <= groupsize * grainsize
 >::type

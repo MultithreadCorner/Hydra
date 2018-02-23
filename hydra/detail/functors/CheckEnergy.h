@@ -47,7 +47,7 @@ struct CheckEnergy
 	}
 
 	//copy
-	__host__      __device__
+	__hydra_host__      __hydra_device__
 	CheckEnergy(CheckEnergy<N> const& other)
 	{
 		for(size_t i=0; i<N; i++)
@@ -55,7 +55,7 @@ struct CheckEnergy
 	}
 
 	template<typename Type>
-	__host__ __device__
+	__hydra_host__ __hydra_device__
 	inline bool operator()(Type& particle)
 	{
 

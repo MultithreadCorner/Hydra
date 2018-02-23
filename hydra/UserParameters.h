@@ -207,7 +207,7 @@ private:
 };
 
 /*
-__host__
+__hydra_host__
 std::ostream& operator<<(std::ostream& os, UserParameters const& par){
 
 	return os << par.GetMnState() ;

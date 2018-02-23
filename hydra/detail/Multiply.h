@@ -72,12 +72,12 @@ class Multiply: public detail::CompositeBase< F1,F2, Fs...>
 	{ }
 
 
-	__host__ __device__
+	__hydra_host__ __hydra_device__
 	Multiply(const Multiply<F1,F2, Fs...>& other):
 	detail::CompositeBase<F1,F2,  Fs...>( other)
 	{ }
 
-	__host__ __device__
+	__hydra_host__ __hydra_device__
 	Multiply<F1,F2, Fs...>& operator=(Multiply<F1,F2, Fs...> const & other)
 	{
 		if(this==&other) return *this;
@@ -86,7 +86,7 @@ class Multiply: public detail::CompositeBase< F1,F2, Fs...>
 	}
 
   	template<typename T1>
-  	__host__ __device__ inline
+  	__hydra_host__ __hydra_device__ inline
   	return_type operator()(T1& t ) const
   	{
   		return detail::product<return_type,T1,F1,F2,Fs...>(t,this->fFtorTuple );
@@ -94,7 +94,7 @@ class Multiply: public detail::CompositeBase< F1,F2, Fs...>
   	}
 
   	template<typename T1, typename T2>
-  	__host__ __device__  inline
+  	__hydra_host__ __hydra_device__  inline
   	return_type operator()( T1& t, T2& cache) const
   	{
 
@@ -108,14 +108,14 @@ class Multiply: public detail::CompositeBase< F1,F2, Fs...>
 // multiplication: * operator two functors
 template <typename T1, typename T2,
 typename=typename std::enable_if< T1::is_functor::value && T2::is_functor::value>::type >
-__host__  inline
+__hydra_host__  inline
 Multiply<T1,T2>
 operator*(T1 const& F1, T2 const& F2){return  Multiply<T1, T2>(F1, F2); }
 
 template <typename T1, typename T2,
 typename=typename std::enable_if< (std::is_convertible<T1, double>::value ||\
 		std::is_constructible<HYDRA_EXTERNAL_NS::thrust::complex<double>,T1>::value) && T2::is_functor::value>::type >
-__host__  inline
+__hydra_host__  inline
 Multiply<Constant<T1>, T2>
 operator*(T1 const cte, T2 const& F2){
 	return Multiply< Constant<T1>, T2>(Constant<T1>(cte),F2);
@@ -125,14 +125,14 @@ operator*(T1 const cte, T2 const& F2){
 template <typename T1, typename T2,
 typename=typename std::enable_if< (std::is_convertible<T1, double>::value ||\
 		std::is_constructible<HYDRA_EXTERNAL_NS::thrust::complex<double>,T1>::value) && T2::is_functor::value>::type >
-__host__  inline
+__hydra_host__  inline
 Multiply<Constant<T1>, T2>
 operator*(T2 const& F2, T1 const cte ){	return  Constant<T1>(cte)*F2; }
 
 
 // Convenience function
 template <typename F1, typename F2, typename ...Fs>
-__host__  inline
+__hydra_host__  inline
 Multiply<F1,F2,Fs...>
 multiply(F1 const& f1, F2 const& f2, Fs const&... functors )
 { return  Multiply<F1,F2,Fs...>(f1,f2, functors ... ); }

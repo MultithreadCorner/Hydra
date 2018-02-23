@@ -75,14 +75,14 @@ template<typename Closure,
 {
   typedef void (*launch_function_t)(Closure); 
  
-  __host__ __device__
+  __hydra_host__ __hydra_device__
   static launch_function_t get_launch_function()
   {
     return launch_closure_by_value<Closure>;
   }
 
   template<typename DerivedPolicy, typename Size1, typename Size2, typename Size3>
-  __host__ __device__
+  __hydra_host__ __hydra_device__
   static void launch(execution_policy<DerivedPolicy> &exec, Closure f, Size1 num_blocks, Size2 block_size, Size3 smem_size)
   {
     // this ensures that the kernel gets instantiated identically for all values of __CUDA_ARCH__
@@ -97,7 +97,7 @@ template<typename Closure,
 #ifndef __CUDA_ARCH__
       kernel<<<(unsigned int) num_blocks, (unsigned int) block_size, (unsigned int) smem_size, stream(thrust::detail::derived_cast(exec))>>>(f);
 #else
-      // XXX we can't pass parameters with constructors to kernels launched through the triple chevrons in __device__ code
+      // XXX we can't pass parameters with constructors to kernels launched through the triple chevrons in __hydra_device__ code
       //     use cudaLaunchDevice directly
       void *param_buffer = cudaGetParameterBuffer(alignment_of<Closure>::value, sizeof(Closure));
       std::memcpy(param_buffer, &f, sizeof(Closure));
@@ -116,14 +116,14 @@ template<typename Closure>
 {
   typedef void (*launch_function_t)(const Closure *); 
  
-  __host__ __device__
+  __hydra_host__ __hydra_device__
   static launch_function_t get_launch_function(void)
   {
     return launch_closure_by_pointer<Closure>;
   }
 
   template<typename DerivedPolicy, typename Size1, typename Size2, typename Size3>
-  __host__ __device__
+  __hydra_host__ __hydra_device__
   static void launch(execution_policy<DerivedPolicy> &exec, Closure f, Size1 num_blocks, Size2 block_size, Size3 smem_size)
   {
     // this ensures that the kernel gets instantiated identically for all values of __CUDA_ARCH__
@@ -153,20 +153,20 @@ template<typename Closure>
 {
   typedef closure_launcher_base<Closure> super_t;
   
-  __host__ __device__
+  __hydra_host__ __hydra_device__
   static inline const device_properties_t& device_properties(void)
   {
     return device_properties();
   }
   
-  __host__ __device__
+  __hydra_host__ __hydra_device__
   static inline function_attributes_t function_attributes(void)
   {
     return thrust::system::cuda::detail::function_attributes(super_t::get_launch_function());
   }
 
   template<typename DerivedPolicy, typename Size1, typename Size2, typename Size3>
-  __host__ __device__
+  __hydra_host__ __hydra_device__
   static void launch(execution_policy<DerivedPolicy> &exec, Closure f, Size1 num_blocks, Size2 block_size, Size3 smem_size)
   {
     super_t::launch(exec,f,num_blocks,block_size,smem_size);
@@ -174,7 +174,7 @@ template<typename Closure>
 };
 
 template<typename DerivedPolicy, typename Closure, typename Size>
-__host__ __device__
+__hydra_host__ __hydra_device__
 void launch_closure(execution_policy<DerivedPolicy> &exec, Closure f, Size num_blocks)
 {
   launch_calculator<Closure> calculator;
@@ -182,14 +182,14 @@ void launch_closure(execution_policy<DerivedPolicy> &exec, Closure f, Size num_b
 } // end launch_closure()
 
 template<typename DerivedPolicy, typename Closure, typename Size1, typename Size2>
-__host__ __device__
+__hydra_host__ __hydra_device__
 void launch_closure(execution_policy<DerivedPolicy> &exec, Closure f, Size1 num_blocks, Size2 block_size)
 {
   launch_closure(exec, f, num_blocks, block_size, 0u);
 } // end launch_closure()
 
 template<typename DerivedPolicy, typename Closure, typename Size1, typename Size2, typename Size3>
-__host__ __device__
+__hydra_host__ __hydra_device__
 void launch_closure(execution_policy<DerivedPolicy> &exec, Closure f, Size1 num_blocks, Size2 block_size, Size3 smem_size)
 {
   closure_launcher<Closure>::launch(exec, f, num_blocks, block_size, smem_size);
@@ -201,7 +201,7 @@ namespace closure_attributes_detail
 
 
 template<typename Closure>
-inline __host__ __device__
+inline __hydra_host__ __hydra_device__
 function_attributes_t uncached_closure_attributes()
 {
   typedef closure_launcher<Closure> Launcher;
@@ -246,7 +246,7 @@ function_attributes_t cached_closure_attributes()
 
   
 template<typename Closure>
-__host__ __device__
+__hydra_host__ __hydra_device__
 function_attributes_t closure_attributes()
 {
 #ifndef __CUDA_ARCH__

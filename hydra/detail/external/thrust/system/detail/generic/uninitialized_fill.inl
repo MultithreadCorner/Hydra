@@ -35,7 +35,7 @@ namespace detail
 template<typename DerivedPolicy,
          typename ForwardIterator,
          typename T>
-__host__ __device__
+__hydra_host__ __hydra_device__
   void uninitialized_fill(thrust::execution_policy<DerivedPolicy> &exec,
                           ForwardIterator first,
                           ForwardIterator last,
@@ -48,7 +48,7 @@ __host__ __device__
 template<typename DerivedPolicy,
          typename ForwardIterator,
          typename T>
-__host__ __device__
+__hydra_host__ __hydra_device__
   void uninitialized_fill(thrust::execution_policy<DerivedPolicy> &exec,
                           ForwardIterator first,
                           ForwardIterator last,
@@ -64,7 +64,7 @@ template<typename DerivedPolicy,
          typename ForwardIterator,
          typename Size,
          typename T>
-__host__ __device__
+__hydra_host__ __hydra_device__
   ForwardIterator uninitialized_fill_n(thrust::execution_policy<DerivedPolicy> &exec,
                                        ForwardIterator first,
                                        Size n,
@@ -78,7 +78,7 @@ template<typename DerivedPolicy,
          typename ForwardIterator,
          typename Size,
          typename T>
-__host__ __device__
+__hydra_host__ __hydra_device__
   ForwardIterator uninitialized_fill_n(thrust::execution_policy<DerivedPolicy> &exec,
                                        ForwardIterator first,
                                        Size n,
@@ -95,7 +95,7 @@ __host__ __device__
 template<typename DerivedPolicy,
          typename ForwardIterator,
          typename T>
-__host__ __device__
+__hydra_host__ __hydra_device__
   void uninitialized_fill(thrust::execution_policy<DerivedPolicy> &exec,
                           ForwardIterator first,
                           ForwardIterator last,
@@ -113,7 +113,7 @@ template<typename DerivedPolicy,
          typename ForwardIterator,
          typename Size,
          typename T>
-__host__ __device__
+__hydra_host__ __hydra_device__
   ForwardIterator uninitialized_fill_n(thrust::execution_policy<DerivedPolicy> &exec,
                                        ForwardIterator first,
                                        Size n,

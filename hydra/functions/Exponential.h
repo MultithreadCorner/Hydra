@@ -57,11 +57,11 @@ public:
 	Exponential(Parameter const& tau):
 		BaseFunctor<Exponential<ArgIndex>, double, 1>({tau}) {}
 
-	__host__ __device__
+	__hydra_host__ __hydra_device__
 	Exponential(Exponential<ArgIndex> const& other):
 		BaseFunctor<Exponential<ArgIndex>, double, 1>(other) {}
 
-	__host__ __device__
+	__hydra_host__ __hydra_device__
 	inline Exponential<ArgIndex>&
 	operator=( Exponential<ArgIndex> const& other)
 	{
@@ -71,14 +71,14 @@ public:
 	}
 
 	template<typename T>
-	__host__ __device__
+	__hydra_host__ __hydra_device__
 	inline double Evaluate(unsigned int, T* x)  const	{
 
 		return  CHECK_VALUE(exp(x[ ArgIndex]*_par[0] ),"par[0]=%f ", _par[0] ) ;
 	}
 
 	template<typename T>
-	__host__ __device__ inline
+	__hydra_host__ __hydra_device__ inline
 	double Evaluate(T x)  const	{
 
 		return CHECK_VALUE(exp(get<ArgIndex>(x)*_par[0] ),"par[0]=%f ", _par[0] );

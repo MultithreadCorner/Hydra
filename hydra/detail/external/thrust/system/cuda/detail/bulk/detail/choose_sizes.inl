@@ -30,7 +30,7 @@ namespace detail
 
 
 template<typename Closure>
-__host__ __device__
+__hydra_host__ __hydra_device__
 thrust::pair<typename parallel_group<concurrent_group<> >::size_type,
              typename concurrent_group<>::size_type>
   choose_sizes(parallel_group<concurrent_group<> > g, Closure)
@@ -48,7 +48,7 @@ thrust::pair<typename parallel_group<concurrent_group<> >::size_type,
 
 
 template<typename Function>
-__host__ __device__
+__hydra_host__ __hydra_device__
 thrust::pair<typename parallel_group<concurrent_group<> >::size_type,
              typename concurrent_group<>::size_type>
   choose_sizes(parallel_group<concurrent_group<> > g, Function f)
@@ -58,7 +58,7 @@ thrust::pair<typename parallel_group<concurrent_group<> >::size_type,
 
 
 template<typename Function, typename Arg1>
-__host__ __device__
+__hydra_host__ __hydra_device__
 thrust::pair<typename parallel_group<concurrent_group<> >::size_type,
              typename concurrent_group<>::size_type>
   choose_sizes(parallel_group<concurrent_group<> > g, Function f, Arg1 arg1)
@@ -68,7 +68,7 @@ thrust::pair<typename parallel_group<concurrent_group<> >::size_type,
 
 
 template<typename Function, typename Arg1, typename Arg2>
-__host__ __device__
+__hydra_host__ __hydra_device__
 thrust::pair<typename parallel_group<concurrent_group<> >::size_type,
              typename concurrent_group<>::size_type>
   choose_sizes(parallel_group<concurrent_group<> > g, Function f, Arg1 arg1, Arg2 arg2)
@@ -78,7 +78,7 @@ thrust::pair<typename parallel_group<concurrent_group<> >::size_type,
 
 
 template<typename Function, typename Arg1, typename Arg2, typename Arg3>
-__host__ __device__
+__hydra_host__ __hydra_device__
 thrust::pair<typename parallel_group<concurrent_group<> >::size_type,
              typename concurrent_group<>::size_type>
   choose_sizes(parallel_group<concurrent_group<> > g, Function f, Arg1 arg1, Arg2 arg2, Arg3 arg3)
@@ -88,7 +88,7 @@ thrust::pair<typename parallel_group<concurrent_group<> >::size_type,
 
 
 template<typename Function, typename Arg1, typename Arg2, typename Arg3, typename Arg4>
-__host__ __device__
+__hydra_host__ __hydra_device__
 thrust::pair<typename parallel_group<concurrent_group<> >::size_type,
              typename concurrent_group<>::size_type>
   choose_sizes(parallel_group<concurrent_group<> > g, Function f, Arg1 arg1, Arg2 arg2, Arg3 arg3, Arg4 arg4)
@@ -98,7 +98,7 @@ thrust::pair<typename parallel_group<concurrent_group<> >::size_type,
 
 
 template<typename Function, typename Arg1, typename Arg2, typename Arg3, typename Arg4, typename Arg5>
-__host__ __device__
+__hydra_host__ __hydra_device__
 thrust::pair<typename parallel_group<concurrent_group<> >::size_type,
              typename concurrent_group<>::size_type>
   choose_sizes(parallel_group<concurrent_group<> > g, Function f, Arg1 arg1, Arg2 arg2, Arg3 arg3, Arg4 arg4, Arg5 arg5)
@@ -108,7 +108,7 @@ thrust::pair<typename parallel_group<concurrent_group<> >::size_type,
 
 
 template<typename Function, typename Arg1, typename Arg2, typename Arg3, typename Arg4, typename Arg5, typename Arg6>
-__host__ __device__
+__hydra_host__ __hydra_device__
 thrust::pair<typename parallel_group<concurrent_group<> >::size_type,
              typename concurrent_group<>::size_type>
   choose_sizes(parallel_group<concurrent_group<> > g, Function f, Arg1 arg1, Arg2 arg2, Arg3 arg3, Arg4 arg4, Arg5 arg5, Arg6 arg6)

@@ -81,7 +81,7 @@ template<typename DerivedPolicy,
          typename InputIterator1,
          typename InputIterator2,
          typename OutputType>
-__host__ __device__
+__hydra_host__ __hydra_device__
 OutputType inner_product(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                          InputIterator1 first1,
                          InputIterator1 last1,
@@ -189,7 +189,7 @@ template<typename DerivedPolicy,
          typename OutputType,
          typename BinaryFunction1,
          typename BinaryFunction2>
-__host__ __device__
+__hydra_host__ __hydra_device__
 OutputType inner_product(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                          InputIterator1 first1,
                          InputIterator1 last1,

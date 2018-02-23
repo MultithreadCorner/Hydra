@@ -33,7 +33,7 @@ namespace detail
 
 __thrust_exec_check_disable__
 template<typename T, typename Alloc>
-__host__ __device__
+__hydra_host__ __hydra_device__
   contiguous_storage<T,Alloc>
     ::contiguous_storage(const Alloc &alloc)
       :m_allocator(alloc),
@@ -45,7 +45,7 @@ __host__ __device__
 
 __thrust_exec_check_disable__
 template<typename T, typename Alloc>
-__host__ __device__
+__hydra_host__ __hydra_device__
   contiguous_storage<T,Alloc>
     ::contiguous_storage(size_type n, const Alloc &alloc)
       :m_allocator(alloc),
@@ -57,7 +57,7 @@ __host__ __device__
 
 __thrust_exec_check_disable__
 template<typename T, typename Alloc>
-__host__ __device__
+__hydra_host__ __hydra_device__
   contiguous_storage<T,Alloc>
     ::~contiguous_storage(void)
 {
@@ -65,7 +65,7 @@ __host__ __device__
 } // end contiguous_storage::~contiguous_storage()
 
 template<typename T, typename Alloc>
-__host__ __device__
+__hydra_host__ __hydra_device__
   typename contiguous_storage<T,Alloc>::size_type
     contiguous_storage<T,Alloc>
       ::size(void) const
@@ -74,7 +74,7 @@ __host__ __device__
 } // end contiguous_storage::size()
 
 template<typename T, typename Alloc>
-__host__ __device__
+__hydra_host__ __hydra_device__
   typename contiguous_storage<T,Alloc>::size_type
     contiguous_storage<T,Alloc>
       ::max_size(void) const
@@ -83,7 +83,7 @@ __host__ __device__
 } // end contiguous_storage::max_size()
 
 template<typename T, typename Alloc>
-__host__ __device__
+__hydra_host__ __hydra_device__
   typename contiguous_storage<T,Alloc>::iterator
     contiguous_storage<T,Alloc>
       ::begin(void)
@@ -92,7 +92,7 @@ __host__ __device__
 } // end contiguous_storage::begin()
 
 template<typename T, typename Alloc>
-__host__ __device__
+__hydra_host__ __hydra_device__
   typename contiguous_storage<T,Alloc>::const_iterator
     contiguous_storage<T,Alloc>
       ::begin(void) const
@@ -101,7 +101,7 @@ __host__ __device__
 } // end contiguous_storage::begin()
 
 template<typename T, typename Alloc>
-__host__ __device__
+__hydra_host__ __hydra_device__
   typename contiguous_storage<T,Alloc>::iterator
     contiguous_storage<T,Alloc>
       ::end(void)
@@ -110,7 +110,7 @@ __host__ __device__
 } // end contiguous_storage::end()
 
 template<typename T, typename Alloc>
-__host__ __device__
+__hydra_host__ __hydra_device__
   typename contiguous_storage<T,Alloc>::const_iterator
     contiguous_storage<T,Alloc>
       ::end(void) const
@@ -119,7 +119,7 @@ __host__ __device__
 } // end contiguous_storage::end()
 
 template<typename T, typename Alloc>
-__host__ __device__
+__hydra_host__ __hydra_device__
   typename contiguous_storage<T,Alloc>::reference
     contiguous_storage<T,Alloc>
       ::operator[](size_type n)
@@ -128,7 +128,7 @@ __host__ __device__
 } // end contiguous_storage::operator[]()
 
 template<typename T, typename Alloc>
-__host__ __device__
+__hydra_host__ __hydra_device__
   typename contiguous_storage<T,Alloc>::const_reference
     contiguous_storage<T,Alloc>
       ::operator[](size_type n) const
@@ -137,7 +137,7 @@ __host__ __device__
 } // end contiguous_storage::operator[]()
 
 template<typename T, typename Alloc>
-__host__ __device__
+__hydra_host__ __hydra_device__
   typename contiguous_storage<T,Alloc>::allocator_type
     contiguous_storage<T,Alloc>
       ::get_allocator(void) const
@@ -146,7 +146,7 @@ __host__ __device__
 } // end contiguous_storage::get_allocator()
 
 template<typename T, typename Alloc>
-__host__ __device__
+__hydra_host__ __hydra_device__
   void contiguous_storage<T,Alloc>
     ::allocate(size_type n)
 {
@@ -163,7 +163,7 @@ __host__ __device__
 } // end contiguous_storage::allocate()
 
 template<typename T, typename Alloc>
-__host__ __device__
+__hydra_host__ __hydra_device__
   void contiguous_storage<T,Alloc>
     ::deallocate(void)
 {
@@ -176,7 +176,7 @@ __host__ __device__
 } // end contiguous_storage::deallocate()
 
 template<typename T, typename Alloc>
-__host__ __device__
+__hydra_host__ __hydra_device__
   void contiguous_storage<T,Alloc>
     ::swap(contiguous_storage &x)
 {
@@ -187,7 +187,7 @@ __host__ __device__
 } // end contiguous_storage::swap()
 
 template<typename T, typename Alloc>
-__host__ __device__
+__hydra_host__ __hydra_device__
   void contiguous_storage<T,Alloc>
     ::default_construct_n(iterator first, size_type n)
 {
@@ -195,7 +195,7 @@ __host__ __device__
 } // end contiguous_storage::default_construct_n()
 
 template<typename T, typename Alloc>
-__host__ __device__
+__hydra_host__ __hydra_device__
   void contiguous_storage<T,Alloc>
     ::uninitialized_fill_n(iterator first, size_type n, const value_type &x)
 {
@@ -204,7 +204,7 @@ __host__ __device__
 
 template<typename T, typename Alloc>
   template<typename System, typename InputIterator>
-  __host__ __device__
+  __hydra_host__ __hydra_device__
     typename contiguous_storage<T,Alloc>::iterator
       contiguous_storage<T,Alloc>
         ::uninitialized_copy(thrust::execution_policy<System> &from_system, InputIterator first, InputIterator last, iterator result)
@@ -214,7 +214,7 @@ template<typename T, typename Alloc>
 
 template<typename T, typename Alloc>
   template<typename InputIterator>
-  __host__ __device__
+  __hydra_host__ __hydra_device__
     typename contiguous_storage<T,Alloc>::iterator
       contiguous_storage<T,Alloc>
         ::uninitialized_copy(InputIterator first, InputIterator last, iterator result)
@@ -227,7 +227,7 @@ template<typename T, typename Alloc>
 
 template<typename T, typename Alloc>
   template<typename System, typename InputIterator, typename Size>
-  __host__ __device__
+  __hydra_host__ __hydra_device__
     typename contiguous_storage<T,Alloc>::iterator
       contiguous_storage<T,Alloc>
         ::uninitialized_copy_n(thrust::execution_policy<System> &from_system, InputIterator first, Size n, iterator result)
@@ -237,7 +237,7 @@ template<typename T, typename Alloc>
 
 template<typename T, typename Alloc>
   template<typename InputIterator, typename Size>
-  __host__ __device__
+  __hydra_host__ __hydra_device__
     typename contiguous_storage<T,Alloc>::iterator
       contiguous_storage<T,Alloc>
         ::uninitialized_copy_n(InputIterator first, Size n, iterator result)
@@ -249,7 +249,7 @@ template<typename T, typename Alloc>
 } // end contiguous_storage::uninitialized_copy_n()
 
 template<typename T, typename Alloc>
-__host__ __device__
+__hydra_host__ __hydra_device__
   void contiguous_storage<T,Alloc>
     ::destroy(iterator first, iterator last)
 {
@@ -259,7 +259,7 @@ __host__ __device__
 } // end detail
 
 template<typename T, typename Alloc>
-__host__ __device__
+__hydra_host__ __hydra_device__
   void swap(detail::contiguous_storage<T,Alloc> &lhs, detail::contiguous_storage<T,Alloc> &rhs)
 {
   lhs.swap(rhs);

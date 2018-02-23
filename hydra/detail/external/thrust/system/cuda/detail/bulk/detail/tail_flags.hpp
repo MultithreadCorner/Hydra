@@ -48,17 +48,17 @@ template<typename RandomAccessIterator,
 
       typedef ValueType result_type;
 
-      __host__ __device__
+      __hydra_host__ __hydra_device__
       tail_flag_functor(RandomAccessIterator first, RandomAccessIterator last)
         : binary_pred(), iter(first), n(last - first)
       {}
 
-      __host__ __device__
+      __hydra_host__ __hydra_device__
       tail_flag_functor(RandomAccessIterator first, RandomAccessIterator last, BinaryPredicate binary_pred)
         : binary_pred(binary_pred), iter(first), n(last - first)
       {}
 
-      __host__ __device__ __thrust_forceinline__
+      __hydra_host__ __hydra_device__ __thrust_forceinline__
       result_type operator()(const IndexType &i)
       {
         return (i == (n - 1) || !binary_pred(iter[i], iter[i+1]));
@@ -74,7 +74,7 @@ template<typename RandomAccessIterator,
     > iterator;
 
     __bulk_exec_check_disable__
-    __host__ __device__
+    __hydra_host__ __hydra_device__
     tail_flags_(RandomAccessIterator first, RandomAccessIterator last)
       : m_begin(thrust::make_transform_iterator(thrust::counting_iterator<IndexType>(0),
                                                 tail_flag_functor(first, last))),
@@ -82,27 +82,27 @@ template<typename RandomAccessIterator,
     {}
 
     __bulk_exec_check_disable__
-    __host__ __device__
+    __hydra_host__ __hydra_device__
     tail_flags_(RandomAccessIterator first, RandomAccessIterator last, BinaryPredicate binary_pred)
       : m_begin(thrust::make_transform_iterator(thrust::counting_iterator<IndexType>(0),
                                                 tail_flag_functor(first, last, binary_pred))),
         m_end(m_begin + (last - first))
     {}
 
-    __host__ __device__
+    __hydra_host__ __hydra_device__
     iterator begin() const
     {
       return m_begin;
     }
 
-    __host__ __device__
+    __hydra_host__ __hydra_device__
     iterator end() const
     {
       return m_end;
     }
 
     template<typename OtherIndex>
-    __host__ __device__
+    __hydra_host__ __hydra_device__
     typename iterator::reference operator[](OtherIndex i)
     {
       return *(begin() + i);
@@ -114,7 +114,7 @@ template<typename RandomAccessIterator,
 
 
 template<typename RandomAccessIterator, typename BinaryPredicate>
-__host__ __device__
+__hydra_host__ __hydra_device__
 //tail_flags<RandomAccessIterator, BinaryPredicate>
 tail_flags_<RandomAccessIterator, BinaryPredicate>
   make_tail_flags(RandomAccessIterator first, RandomAccessIterator last, BinaryPredicate binary_pred)
@@ -125,7 +125,7 @@ tail_flags_<RandomAccessIterator, BinaryPredicate>
 
 
 template<typename RandomAccessIterator>
-__host__ __device__
+__hydra_host__ __hydra_device__
 //tail_flags<RandomAccessIterator>
 tail_flags_<RandomAccessIterator>
   make_tail_flags(RandomAccessIterator first, RandomAccessIterator last)

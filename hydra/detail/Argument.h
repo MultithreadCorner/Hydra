@@ -55,10 +55,10 @@ public:
 	typedef ReturnType return_type;
 
 	typedef   std::true_type is_functor;
-	__host__  Argument( ){};
+	__hydra_host__  Argument( ){};
 
 
-	__host__ __device__ inline
+	__hydra_host__ __hydra_device__ inline
 	return_type operator()( return_type arg){ return arg;}
 
 };

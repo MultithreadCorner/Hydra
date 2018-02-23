@@ -109,7 +109,7 @@ struct WarpReduceSmem
      ******************************************************************************/
 
     /// Constructor
-    __device__ __forceinline__ WarpReduceSmem(
+    __hydra_device__ __forceinline__ WarpReduceSmem(
         TempStorage     &temp_storage)
     :
         temp_storage(temp_storage.Alias()),
@@ -139,7 +139,7 @@ struct WarpReduceSmem
         int                 FOLDED_ITEMS_PER_LANE,  ///< Number of items folded into each lane
         typename            ReductionOp,
         int                 STEP>
-    __device__ __forceinline__ T ReduceStep(
+    __hydra_device__ __forceinline__ T ReduceStep(
         T                   input,                  ///< [in] Calling thread's input
         int                 folded_items_per_warp,  ///< [in] Total number of valid items folded into each logical warp
         ReductionOp         reduction_op,           ///< [in] Reduction operator
@@ -172,7 +172,7 @@ struct WarpReduceSmem
         bool                ALL_LANES_VALID,            ///< Whether all lanes in each warp are contributing a valid fold of items
         int                 FOLDED_ITEMS_PER_LANE,      ///< Number of items folded into each lane
         typename            ReductionOp>
-    __device__ __forceinline__ T ReduceStep(
+    __hydra_device__ __forceinline__ T ReduceStep(
         T                   input,                      ///< [in] Calling thread's input
         int                 /*folded_items_per_warp*/,  ///< [in] Total number of valid items folded into each logical warp
         ReductionOp         /*reduction_op*/,           ///< [in] Reduction operator
@@ -194,7 +194,7 @@ struct WarpReduceSmem
         bool            HEAD_SEGMENTED,     ///< Whether flags indicate a segment-head or a segment-tail
         typename        FlagT,
         typename        ReductionOp>
-    __device__ __forceinline__ T SegmentedReduce(
+    __hydra_device__ __forceinline__ T SegmentedReduce(
         T               input,                  ///< [in] Calling thread's input
         FlagT           flag,                   ///< [in] Whether or not the current lane is a segment head/tail
         ReductionOp     reduction_op,           ///< [in] Reduction operator
@@ -253,7 +253,7 @@ struct WarpReduceSmem
         bool            HEAD_SEGMENTED,     ///< Whether flags indicate a segment-head or a segment-tail
         typename        FlagT,
         typename        ReductionOp>
-    __device__ __forceinline__ T SegmentedReduce(
+    __hydra_device__ __forceinline__ T SegmentedReduce(
         T               input,                  ///< [in] Calling thread's input
         FlagT           flag,                   ///< [in] Whether or not the current lane is a segment head/tail
         ReductionOp     reduction_op,           ///< [in] Reduction operator
@@ -343,7 +343,7 @@ struct WarpReduceSmem
         bool                ALL_LANES_VALID,        ///< Whether all lanes in each warp are contributing a valid fold of items
         int                 FOLDED_ITEMS_PER_LANE,  ///< Number of items folded into each lane
         typename            ReductionOp>
-    __device__ __forceinline__ T Reduce(
+    __hydra_device__ __forceinline__ T Reduce(
         T                   input,                  ///< [in] Calling thread's input
         int                 folded_items_per_warp,  ///< [in] Total number of valid items folded into each logical warp
         ReductionOp         reduction_op)           ///< [in] Reduction operator
@@ -359,7 +359,7 @@ struct WarpReduceSmem
         bool            HEAD_SEGMENTED,     ///< Whether flags indicate a segment-head or a segment-tail
         typename        FlagT,
         typename        ReductionOp>
-    __device__ __forceinline__ T SegmentedReduce(
+    __hydra_device__ __forceinline__ T SegmentedReduce(
         T               input,              ///< [in] Calling thread's input
         FlagT            flag,               ///< [in] Whether or not the current lane is a segment head/tail
         ReductionOp     reduction_op)       ///< [in] Reduction operator

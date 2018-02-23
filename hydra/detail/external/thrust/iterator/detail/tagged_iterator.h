@@ -50,10 +50,10 @@ template<typename Iterator, typename Tag>
     typedef typename tagged_iterator_base<Iterator,Tag>::type super_t;
 
   public:
-    __host__ __device__
+    __hydra_host__ __hydra_device__
     tagged_iterator(void) {}
 
-    __host__ __device__
+    __hydra_host__ __hydra_device__
     explicit tagged_iterator(Iterator x)
       : super_t(x) {}
 }; // end tagged_iterator

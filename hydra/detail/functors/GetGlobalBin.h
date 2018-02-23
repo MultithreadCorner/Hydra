@@ -54,7 +54,7 @@ struct GetGlobalBin: public HYDRA_EXTERNAL_NS::thrust::unary_function<typename t
 		}
 	}
 
-	__host__ __device__
+	__hydra_host__ __hydra_device__
 	GetGlobalBin( GetGlobalBin<N, T> const& other ):
 	fNGlobalBins(other.fNGlobalBins)
 	{
@@ -66,7 +66,7 @@ struct GetGlobalBin: public HYDRA_EXTERNAL_NS::thrust::unary_function<typename t
 
 	}
 
-	__host__ __device__
+	__hydra_host__ __hydra_device__
 	GetGlobalBin<N, T>&
 	operator=( GetGlobalBin<N, T> const& other )
 	{
@@ -84,12 +84,12 @@ struct GetGlobalBin: public HYDRA_EXTERNAL_NS::thrust::unary_function<typename t
 	//k = i_1*(dim_2*...*dim_n) + i_2*(dim_3*...*dim_n) + ... + i_{n-1}*dim_n + i_n
 
 	template<size_t I>
-	__host__ __device__
+	__hydra_host__ __hydra_device__
 	typename HYDRA_EXTERNAL_NS::thrust::detail::enable_if< I== N, void>::type
 	get_global_bin(const size_t (&)[N], size_t& ){ }
 
 	template<size_t I=0>
-	__host__ __device__
+	__hydra_host__ __hydra_device__
 	typename HYDRA_EXTERNAL_NS::thrust::detail::enable_if< (I< N), void>::type
 	get_global_bin(const size_t (&indexes)[N], size_t& index)
 	{
@@ -103,7 +103,7 @@ struct GetGlobalBin: public HYDRA_EXTERNAL_NS::thrust::unary_function<typename t
 
 
 
-	__host__ __device__
+	__hydra_host__ __hydra_device__
 	size_t get_bin( T (&X)[N]){
 
 		size_t indexes[N];
@@ -117,7 +117,7 @@ struct GetGlobalBin: public HYDRA_EXTERNAL_NS::thrust::unary_function<typename t
 		return bin;
 	}
 
-	__host__ __device__
+	__hydra_host__ __hydra_device__
 	size_t operator()(ArgType value){
 
 		T X[N];
@@ -161,7 +161,7 @@ struct GetGlobalBin<1,T>: public HYDRA_EXTERNAL_NS::thrust::unary_function<T,siz
 		fNGlobalBins(grid)
 	{ }
 
-	__host__ __device__
+	__hydra_host__ __hydra_device__
 	GetGlobalBin( GetGlobalBin<1, T> const& other ):
 	fNGlobalBins(other.fNGlobalBins),
 	fGrid(other.fGrid ),
@@ -169,7 +169,7 @@ struct GetGlobalBin<1,T>: public HYDRA_EXTERNAL_NS::thrust::unary_function<T,siz
 	fLowerLimits(other.fLowerLimits )
 	{}
 
-	__host__ __device__
+	__hydra_host__ __hydra_device__
 	GetGlobalBin<1, T>&
 	operator=( GetGlobalBin<1, T> const& other )
 	{
@@ -183,13 +183,13 @@ struct GetGlobalBin<1,T>: public HYDRA_EXTERNAL_NS::thrust::unary_function<T,siz
 		return *this;
 	}
 
-	__host__ __device__
+	__hydra_host__ __hydra_device__
 	size_t get_bin(T X){
 
 		return size_t(X) ;
 	}
 
-	__host__ __device__
+	__hydra_host__ __hydra_device__
  size_t	operator()(T& value){
 
 		T X = value;

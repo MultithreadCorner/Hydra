@@ -41,7 +41,7 @@ template<typename T>
   struct assign
     : thrust::binary_function<T&,T,T&>
 {
-  __host__ __device__ T& operator()(T &lhs, const T &rhs) const { return lhs = rhs; }
+  __hydra_host__ __hydra_device__ T& operator()(T &lhs, const T &rhs) const { return lhs = rhs; }
 }; // end assign
 
 template<typename Eval, typename T>
@@ -57,7 +57,7 @@ template<typename Eval, typename T>
 }; // end assign_result
 
 template<typename Eval, typename T>
-  __host__ __device__
+  __hydra_host__ __hydra_device__
     typename assign_result<Eval,T>::type
       do_assign(const actor<Eval> &_1, const T &_2)
 {

@@ -30,25 +30,25 @@ namespace util
 
 // x/y rounding towards +infinity for integers, used to determine # of blocks/warps etc.
 template<typename L, typename R>
-  inline __host__ __device__ L divide_ri(const L x, const R y)
+  inline __hydra_host__ __hydra_device__ L divide_ri(const L x, const R y)
 {
     return (x + (y - 1)) / y;
 }
 
 // x/y rounding towards zero for integers, used to determine # of blocks/warps etc.
 template<typename L, typename R>
-  inline __host__ __device__ L divide_rz(const L x, const R y)
+  inline __hydra_host__ __hydra_device__ L divide_rz(const L x, const R y)
 {
     return x / y;
 }
 
 // round x towards infinity to the next multiple of y
 template<typename L, typename R>
-  inline __host__ __device__ L round_i(const L x, const R y){ return y * divide_ri(x, y); }
+  inline __hydra_host__ __hydra_device__ L round_i(const L x, const R y){ return y * divide_ri(x, y); }
 
 // round x towards zero to the next multiple of y
 template<typename L, typename R>
-  inline __host__ __device__ L round_z(const L x, const R y){ return y * divide_rz(x, y); }
+  inline __hydra_host__ __hydra_device__ L round_z(const L x, const R y){ return y * divide_rz(x, y); }
 
 } // end namespace util
 

@@ -33,7 +33,7 @@ namespace detail
 
 // sequential merge for when we have a static bound on the size of the result
 template<unsigned int result_size_bound, typename Iterator1, typename Iterator2, typename Iterator3, typename Compare>
-__device__
+__hydra_device__
 void sequential_bounded_merge(Iterator1 first1, Iterator1 last1,
                               Iterator2 first2, Iterator2 last2,
                               Iterator3 result,
@@ -83,7 +83,7 @@ void sequential_bounded_merge(Iterator1 first1, Iterator1 last1,
 
 
 template<typename Size, typename Iterator1, typename Iterator2, typename Compare>
-__device__
+__hydra_device__
 Size merge_path(Size pos, Iterator1 first1, Size n1, Iterator2 first2, Size n2, Compare comp)
 {
   Size begin = (pos >= n2) ? (pos - n2) : Size(0);

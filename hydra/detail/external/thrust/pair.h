@@ -68,14 +68,14 @@ template <typename T1, typename T2>
    *  and \p second using \c first_type & \c second_type's
    *  default constructors, respectively.
    */
-  __host__ __device__ pair(void);
+  __hydra_host__ __hydra_device__ pair(void);
 
   /*! This constructor accepts two objects to copy into this \p pair.
    *
    *  \param x The object to copy into \p first.
    *  \param y The object to copy into \p second.
    */
-  inline __host__ __device__
+  inline __hydra_host__ __hydra_device__
   pair(const T1 &x, const T2 &y);
 
   /*! This copy constructor copies from a \p pair whose types are
@@ -88,7 +88,7 @@ template <typename T1, typename T2>
    *  \tparam U2 is convertible to \c second_type.
    */
   template <typename U1, typename U2>
-  inline __host__ __device__
+  inline __hydra_host__ __hydra_device__
   pair(const pair<U1,U2> &p);
 
   /*! This copy constructor copies from a <tt>std::pair</tt> whose types are
@@ -101,14 +101,14 @@ template <typename T1, typename T2>
    *  \tparam U2 is convertible to \c second_type.
    */
   template <typename U1, typename U2>
-  inline __host__ __device__
+  inline __hydra_host__ __hydra_device__
   pair(const std::pair<U1,U2> &p);
 
   /*! \p swap swaps the elements of two <tt>pair</tt>s.
    *  
    *  \param p The other <tt>pair</tt> with which to swap.
    */
-  inline __host__ __device__
+  inline __hydra_host__ __hydra_device__
   void swap(pair &p);
 }; // end pair
 
@@ -123,7 +123,7 @@ template <typename T1, typename T2>
  *  \tparam T2 is a model of <a href="http://www.sgi.com/tech/stl/EqualityComparable.html">Equality Comparable</a>.
  */
 template <typename T1, typename T2>
-  inline __host__ __device__
+  inline __hydra_host__ __hydra_device__
     bool operator==(const pair<T1,T2> &x, const pair<T1,T2> &y);
 
 
@@ -137,7 +137,7 @@ template <typename T1, typename T2>
  *  \tparam T2 is a model of <a href="http://www.sgi.com/tech/stl/LessThanComparable.html">LessThan Comparable</a>.
  */
 template <typename T1, typename T2>
-  inline __host__ __device__
+  inline __hydra_host__ __hydra_device__
     bool operator<(const pair<T1,T2> &x, const pair<T1,T2> &y);
 
 
@@ -151,7 +151,7 @@ template <typename T1, typename T2>
  *  \tparam T2 is a model of <a href="http://www.sgi.com/tech/stl/EqualityComparable.html">Equality Comparable</a>.
  */
 template <typename T1, typename T2>
-  inline __host__ __device__
+  inline __hydra_host__ __hydra_device__
     bool operator!=(const pair<T1,T2> &x, const pair<T1,T2> &y);
 
 
@@ -165,7 +165,7 @@ template <typename T1, typename T2>
  *  \tparam T2 is a model of <a href="http://www.sgi.com/tech/stl/LessThanComparable.html">LessThan Comparable</a>.
  */
 template <typename T1, typename T2>
-  inline __host__ __device__
+  inline __hydra_host__ __hydra_device__
     bool operator>(const pair<T1,T2> &x, const pair<T1,T2> &y);
 
 
@@ -179,7 +179,7 @@ template <typename T1, typename T2>
  *  \tparam T2 is a model of <a href="http://www.sgi.com/tech/stl/LessThanComparable.html">LessThan Comparable</a>.
  */
 template <typename T1, typename T2>
-  inline __host__ __device__
+  inline __hydra_host__ __hydra_device__
     bool operator<=(const pair<T1,T2> &x, const pair<T1,T2> &y);
 
 
@@ -193,7 +193,7 @@ template <typename T1, typename T2>
  *  \tparam T2 is a model of <a href="http://www.sgi.com/tech/stl/LessThanComparable.html">LessThan Comparable</a>.
  */
 template <typename T1, typename T2>
-  inline __host__ __device__
+  inline __hydra_host__ __hydra_device__
     bool operator>=(const pair<T1,T2> &x, const pair<T1,T2> &y);
 
 
@@ -203,7 +203,7 @@ template <typename T1, typename T2>
  *  \param y The second \p pair to swap.
  */
 template <typename T1, typename T2>
-  inline __host__ __device__
+  inline __hydra_host__ __hydra_device__
     void swap(pair<T1,T2> &x, pair<T1,T2> &y);
 
 
@@ -217,7 +217,7 @@ template <typename T1, typename T2>
  *  \tparam T2 There are no requirements on the type of \p T2.
  */
 template <typename T1, typename T2>
-  inline __host__ __device__
+  inline __hydra_host__ __hydra_device__
     pair<T1,T2> make_pair(T1 x, T2 y);
 
 
@@ -251,7 +251,7 @@ template<typename Pair> struct tuple_size;
  */
 // XXX comment out these prototypes as a WAR to a problem on MSVC 2005
 //template<unsigned int N, typename T1, typename T2>
-//  inline __host__ __device__
+//  inline __hydra_host__ __hydra_device__
 //    typename tuple_element<N, pair<T1,T2> >::type &
 //      get(pair<T1,T2> &p);
 
@@ -267,7 +267,7 @@ template<typename Pair> struct tuple_size;
  */
 // XXX comment out these prototypes as a WAR to a problem on MSVC 2005
 //template<int N, typename T1, typename T2>
-//  inline __host__ __device__
+//  inline __hydra_host__ __hydra_device__
 //    const typename tuple_element<N, pair<T1,T2> >::type &
 //      get(const pair<T1,T2> &p);
 

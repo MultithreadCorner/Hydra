@@ -186,7 +186,7 @@ public:
 
 	struct __CastTupleToVector4
 	{
-		__host__ __device__
+		__hydra_host__ __hydra_device__
 		Vector4R operator()( tuple_t const& v){
 			Vector4R r =v; 	return r;
 		}
@@ -196,12 +196,12 @@ public:
 	struct __CastToWeightedDecay
 	{
 		template<unsigned int I>
-		__host__ __device__ inline
+		__hydra_host__ __hydra_device__ inline
 		typename HYDRA_EXTERNAL_NS::thrust::detail::enable_if< (I==N+1), void >::type
 		__convert(value_type const& , decay_t&){ }
 
 		template<unsigned int I=0>
-		__host__ __device__ inline
+		__hydra_host__ __hydra_device__ inline
 		typename HYDRA_EXTERNAL_NS::thrust::detail::enable_if< (I<N+1), void >::type
 		__convert(value_type const& v , decay_t& r)
 		{
@@ -210,7 +210,7 @@ public:
 			__convert<I+1>(v, r );
 		}
 
-		__host__ __device__ inline
+		__hydra_host__ __hydra_device__ inline
 		decay_t operator()( value_type const& v){
 			decay_t r{}; __convert(v, r ); 	return r;
 		}
@@ -222,24 +222,24 @@ public:
 	struct __CastToUnWeightedDecay
 	{
 		template<unsigned int I>
-		__host__ __device__ inline
+		__hydra_host__ __hydra_device__ inline
 		typename HYDRA_EXTERNAL_NS::thrust::detail::enable_if< (I==N), void >::type
 		__convert_helper(value_type& , udecay_t& ){ }
 
 		template<unsigned int I=0>
-		__host__ __device__ inline
+		__hydra_host__ __hydra_device__ inline
 		typename HYDRA_EXTERNAL_NS::thrust::detail::enable_if< (I<N), void >::type
 		__convert_helper(value_type& v , udecay_t& r)
 		{
 			HYDRA_EXTERNAL_NS::thrust::get<I>(r) = HYDRA_EXTERNAL_NS::thrust::get<I+1>(v);
 			__convert_helper<I+1>(v, r );
 		}
-		__host__ __device__ inline
+		__hydra_host__ __hydra_device__ inline
 		void __convert(value_type & v , udecay_t& r)
 		{
 			__convert_helper(v, r );
 		}
-		__host__ __device__ inline
+		__hydra_host__ __hydra_device__ inline
 		udecay_t operator()( value_type & v){
 			udecay_t r;
 			__convert( v , r);
@@ -560,7 +560,7 @@ public:
 	 * double mass  = ...;
 	 * double width = ...;
 	 *
-	 * auto bw = [ ]__host__ __device__(size_t n, hydra::Vector4R* particles )
+	 * auto bw = [ ]__hydra_host__ __hydra_device__(size_t n, hydra::Vector4R* particles )
 	 * {
 	 * auto   p0  = particles[0] ;
 	 * auto   p1  = particles[1] ;
@@ -616,7 +616,7 @@ public:
 	 * double mass  = ...;
 	 * double width = ...;
 	 *
-	 * auto bw = [ ]__host__ __device__(size_t n, hydra::Vector4R* particles )
+	 * auto bw = [ ]__hydra_host__ __hydra_device__(size_t n, hydra::Vector4R* particles )
 	 * {
 	 * auto   p0  = particles[0] ;
 	 * auto   p1  = particles[1] ;

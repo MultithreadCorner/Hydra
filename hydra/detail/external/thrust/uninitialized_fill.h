@@ -65,7 +65,7 @@ HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
  *  
  *  struct Int
  *  {
- *    __host__ __device__
+ *    __hydra_host__ __hydra_device__
  *    Int(int x) : val(x) {}
  *    int val;
  *  };  
@@ -88,7 +88,7 @@ HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
  *  \see \c device_malloc
  */
 template<typename DerivedPolicy, typename ForwardIterator, typename T>
-__host__ __device__
+__hydra_host__ __hydra_device__
   void uninitialized_fill(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                           ForwardIterator first,
                           ForwardIterator last,
@@ -121,7 +121,7 @@ __host__ __device__
  *  
  *  struct Int
  *  {
- *    __host__ __device__
+ *    __hydra_host__ __hydra_device__
  *    Int(int x) : val(x) {}
  *    int val;
  *  };  
@@ -181,7 +181,7 @@ template<typename ForwardIterator, typename T>
  *  
  *  struct Int
  *  {
- *    __host__ __device__
+ *    __hydra_host__ __hydra_device__
  *    Int(int x) : val(x) {}
  *    int val;
  *  };  
@@ -204,7 +204,7 @@ template<typename ForwardIterator, typename T>
  *  \see \c device_malloc
  */
 template<typename DerivedPolicy, typename ForwardIterator, typename Size, typename T>
-__host__ __device__
+__hydra_host__ __hydra_device__
   ForwardIterator uninitialized_fill_n(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                                        ForwardIterator first,
                                        Size n,
@@ -238,7 +238,7 @@ __host__ __device__
  *  
  *  struct Int
  *  {
- *    __host__ __device__
+ *    __hydra_host__ __hydra_device__
  *    Int(int x) : val(x) {}
  *    int val;
  *  };  

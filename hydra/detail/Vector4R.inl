@@ -30,7 +30,7 @@
 #define _VECTOR4R_INL_
 
 namespace hydra {
-__host__ __device__
+__hydra_host__ __hydra_device__
 inline Vector4R& Vector4R::operator+=(const Vector4R& v2)
 {
 
@@ -41,7 +41,7 @@ inline Vector4R& Vector4R::operator+=(const Vector4R& v2)
 
 	return *this;
 }
-__host__ __device__
+__hydra_host__ __hydra_device__
 inline Vector4R& Vector4R::operator-=(const Vector4R& v2)
 {
 
@@ -52,7 +52,7 @@ inline Vector4R& Vector4R::operator-=(const Vector4R& v2)
 
 	return *this;
 }
-__host__ __device__
+__hydra_host__ __hydra_device__
 inline GReal_t Vector4R::mass2() const
 {
 
@@ -60,7 +60,7 @@ inline GReal_t Vector4R::mass2() const
 }
 
 
-__host__ __device__
+__hydra_host__ __hydra_device__
 inline Vector4R& Vector4R::operator*=(GReal_t c)
 {
 
@@ -72,7 +72,7 @@ inline Vector4R& Vector4R::operator*=(GReal_t c)
 	return *this;
 }
 
-__host__ __device__
+__hydra_host__ __hydra_device__
 inline Vector4R& Vector4R::operator/=(GReal_t c)
 {
 
@@ -86,7 +86,7 @@ inline Vector4R& Vector4R::operator/=(GReal_t c)
 }
 
 
-__host__ __device__
+__hydra_host__ __hydra_device__
 inline GReal_t Vector4R::cont(const Vector4R& v4) const
 {
 
@@ -94,19 +94,19 @@ inline GReal_t Vector4R::cont(const Vector4R& v4) const
 }
 
 
-__host__ __device__
+__hydra_host__ __hydra_device__
 inline GReal_t Vector4R::get(GInt_t i) const
 {
 	return v[i];
 }
-__host__ __device__
+__hydra_host__ __hydra_device__
 inline void Vector4R::set(GInt_t i, GReal_t d)
 {
 
 	v[i] = d;
 }
 
-__host__ __device__ inline void Vector4R::set(GReal_t e, GReal_t p1, GReal_t p2,
+__hydra_host__ __hydra_device__ inline void Vector4R::set(GReal_t e, GReal_t p1, GReal_t p2,
 		GReal_t p3)
 {
 
@@ -118,7 +118,7 @@ __host__ __device__ inline void Vector4R::set(GReal_t e, GReal_t p1, GReal_t p2,
 
 
 
-__host__ __device__
+__hydra_host__ __hydra_device__
 inline Vector4R::Vector4R(GReal_t e, GReal_t p1, GReal_t p2, GReal_t p3)
 {
 
@@ -128,7 +128,7 @@ inline Vector4R::Vector4R(GReal_t e, GReal_t p1, GReal_t p2, GReal_t p3)
 	v[3] = p3;
 }
 
-__host__ __device__
+__hydra_host__ __hydra_device__
 inline Vector4R::Vector4R(const Vector4R& other)
 {
 	v[0] = other.get(0);
@@ -137,7 +137,7 @@ inline Vector4R::Vector4R(const Vector4R& other)
 	v[3] = other.get(3);
 }
 
-__host__ __device__
+__hydra_host__ __hydra_device__
 inline Vector4R::Vector4R(Vector4R&& other)
 {
 	v[0] = other.get(0);
@@ -147,7 +147,7 @@ inline Vector4R::Vector4R(Vector4R&& other)
 }
 
 
-__host__ __device__
+__hydra_host__ __hydra_device__
 inline Vector4R& Vector4R::operator=(Vector4R&& other)
 {
 	if(this==&other) return *this;
@@ -158,7 +158,7 @@ inline Vector4R& Vector4R::operator=(Vector4R&& other)
 	 return *this;
 }
 
-__host__ __device__
+__hydra_host__ __hydra_device__
 inline Vector4R& Vector4R::operator=(Vector4R const& other)
 {
 	if(this==&other) return *this;
@@ -170,7 +170,7 @@ inline Vector4R& Vector4R::operator=(Vector4R const& other)
 }
 
 
-__host__ __device__
+__hydra_host__ __hydra_device__
 inline void Vector4R::swap(Vector4R& other)
 {
 	if(this==&other) return;
@@ -182,7 +182,7 @@ inline void Vector4R::swap(Vector4R& other)
 }
 
 
-__host__ __device__
+__hydra_host__ __hydra_device__
 inline GReal_t Vector4R::mass() const
 {
 
@@ -199,7 +199,7 @@ inline GReal_t Vector4R::mass() const
 }
 
 
-__host__ __device__
+__hydra_host__ __hydra_device__
 inline void Vector4R::applyRotateEuler(GReal_t phi, GReal_t theta, GReal_t ksi)
 {
 
@@ -223,7 +223,7 @@ inline void Vector4R::applyRotateEuler(GReal_t phi, GReal_t theta, GReal_t ksi)
 }
 
 
-__host__ __device__
+__hydra_host__ __hydra_device__
 inline void Vector4R::applyBoostTo(const Vector4R& p4, bool inverse)
 {
 
@@ -236,7 +236,7 @@ inline void Vector4R::applyBoostTo(const Vector4R& p4, bool inverse)
 	return;
 
 }
-__host__ __device__
+__hydra_host__ __hydra_device__
 inline void Vector4R::applyBoostTo(const Vector3R& boost, bool inverse)
 {
 
@@ -298,7 +298,7 @@ inline void Vector4R::applyBoostTo(const Vector3R& boost, bool inverse)
 	}
 
 }
-__host__ __device__
+__hydra_host__ __hydra_device__
 inline void Vector4R::applyBoostTo(const GReal_t bx, const GReal_t by,
 		const GReal_t bz, bool inverse)
 {
@@ -357,7 +357,7 @@ inline void Vector4R::applyBoostTo(const GReal_t bx, const GReal_t by,
 	}
 
 }
-__host__ __device__
+__hydra_host__ __hydra_device__
 inline Vector4R Vector4R::cross(const Vector4R& p2)
 {
 
@@ -373,7 +373,7 @@ inline Vector4R Vector4R::cross(const Vector4R& p2)
 
 	return temp;
 }
-__host__ __device__
+__hydra_host__ __hydra_device__
 inline GReal_t Vector4R::d3mag() const
 
 // returns the 3 momentum mag.
@@ -386,7 +386,7 @@ inline GReal_t Vector4R::d3mag() const
 
 	return temp;
 } // r3mag
-__host__ __device__
+__hydra_host__ __hydra_device__
 inline GReal_t Vector4R::dot(const Vector4R& p2) const
 {
 
@@ -405,7 +405,7 @@ inline GReal_t Vector4R::dot(const Vector4R& p2) const
 
 // calculate (p1xp2)*p3 in the rest frame of
 // 4-vector *this (sub-optimal implementation)
-__host__ __device__
+__hydra_host__ __hydra_device__
 inline GReal_t Vector4R::scalartripler3(Vector4R p1,
 		Vector4R p2, Vector4R p3) const
 {
@@ -419,7 +419,7 @@ inline GReal_t Vector4R::scalartripler3(Vector4R p1,
 
 // Calculate the 3-d dot product of 4-vectors p1 and p2 in the rest frame of
 // 4-vector p0
-__host__ __device__
+__hydra_host__ __hydra_device__
 inline GReal_t Vector4R::dotr3(const Vector4R& p1, const Vector4R& p2) const
 {
 	return 1 / mass2() * ((*this) * p1) * ((*this) * p2) - p1 * p2;
@@ -427,14 +427,14 @@ inline GReal_t Vector4R::dotr3(const Vector4R& p1, const Vector4R& p2) const
 
 // Calculate the 3-d magnitude squared of 4-vector p1 in the rest frame of
 // 4-vector p0
-__host__ __device__
+__hydra_host__ __hydra_device__
 inline GReal_t Vector4R::mag2r3(const Vector4R& p1) const
 {
 	return Square((*this) * p1) / mass2() - p1.mass2();
 }
 
 // Calculate the 3-d magnitude 4-vector p1 in the rest frame of 4-vector p0.
-__host__ __device__
+__hydra_host__ __hydra_device__
 inline GReal_t Vector4R::magr3(const Vector4R& p1) const
 {
 	return sqrt(mag2r3(p1));

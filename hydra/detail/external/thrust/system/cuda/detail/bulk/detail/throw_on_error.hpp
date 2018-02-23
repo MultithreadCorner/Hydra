@@ -30,7 +30,7 @@ namespace detail
 {
 
 
-inline __host__ __device__
+inline __hydra_host__ __hydra_device__
 void throw_on_error(cudaError_t e, const char *message)
 {
   if(e)

@@ -58,13 +58,13 @@ struct cuda_launcher_base
   typedef typename ExecutionGroup::size_type                                       size_type;
 
 
-  __host__ __device__
+  __hydra_host__ __hydra_device__
   cuda_launcher_base()
     : m_device_properties(bulk::detail::device_properties())
   {}
 
 
-  __host__ __device__
+  __hydra_host__ __hydra_device__
   void launch(size_type num_blocks, size_type block_size, size_type num_dynamic_smem_bytes, cudaStream_t stream, task_type task)
   {
     if(num_blocks > 0)
@@ -76,7 +76,7 @@ struct cuda_launcher_base
   } // end launch()
 
 
-  __host__ __device__
+  __hydra_host__ __hydra_device__
   static size_type max_active_blocks_per_multiprocessor(const device_properties_t &props,
                                                         const function_attributes_t &attr,
                                                         size_type num_threads_per_block,
@@ -89,7 +89,7 @@ struct cuda_launcher_base
   // returns
   // 1. maximum number of additional dynamic smem bytes that would not lower the kernel's occupancy
   // 2. kernel occupancy
-  __host__ __device__
+  __hydra_host__ __hydra_device__
   static thrust::pair<size_type,size_type> dynamic_smem_occupancy_limit(const device_properties_t &props, const function_attributes_t &attr, size_type num_threads_per_block, size_type num_smem_bytes_per_block)
   {
     // figure out the kernel's occupancy with 0 bytes of dynamic smem
@@ -102,7 +102,7 @@ struct cuda_launcher_base
   } // end smem_occupancy_limit()
 
 
-  __host__ __device__
+  __hydra_host__ __hydra_device__
   size_type choose_heap_size(const device_properties_t &props, size_type group_size, size_type requested_size)
   {
     function_attributes_t attr = bulk::detail::function_attributes(super_t::global_function_pointer());
@@ -143,7 +143,7 @@ struct cuda_launcher_base
   } // end choose_smem_size()
 
 
-  __host__ __device__
+  __hydra_host__ __hydra_device__
   size_type choose_group_size(size_type requested_size)
   {
     size_type result = requested_size;
@@ -159,7 +159,7 @@ struct cuda_launcher_base
   } // end choose_group_size()
 
 
-  __host__ __device__
+  __hydra_host__ __hydra_device__
   size_type choose_subscription(size_type block_size)
   {
     // given no other info, this is a reasonable guess
@@ -167,7 +167,7 @@ struct cuda_launcher_base
   }
 
 
-  __host__ __device__
+  __hydra_host__ __hydra_device__
   size_type choose_num_groups(size_type requested_num_groups, size_type group_size)
   {
     size_type result = requested_num_groups;
@@ -185,7 +185,7 @@ struct cuda_launcher_base
   } // end choose_num_groups()
 
 
-  __host__ __device__
+  __hydra_host__ __hydra_device__
   size_type max_physical_grid_size()
   {
     // get the limit of the actual device
@@ -210,7 +210,7 @@ struct cuda_launcher_base
   } // end max_physical_grid_size()
 
 
-  __host__ __device__
+  __hydra_host__ __hydra_device__
   const device_properties_t &device_properties() const
   {
     return m_device_properties;
@@ -247,7 +247,7 @@ struct cuda_launcher<
   typedef typename super_t::task_type task_type;
 
   // launch(...) requires CUDA launch capability
-  __host__ __device__
+  __hydra_host__ __hydra_device__
   void launch(grid_type request, Closure c, cudaStream_t stream)
   {
     grid_type g = configure(request);
@@ -283,7 +283,7 @@ struct cuda_launcher<
     } // end if
   } // end go()
 
-  __host__ __device__
+  __hydra_host__ __hydra_device__
   grid_type configure(grid_type g)
   {
     size_type block_size = super_t::choose_group_size(g.this_exec.size());
@@ -294,7 +294,7 @@ struct cuda_launcher<
   } // end configure()
 
   // chooses a number of groups and a group size
-  __host__ __device__
+  __hydra_host__ __hydra_device__
   thrust::pair<size_type, size_type> choose_sizes(size_type requested_num_groups, size_type requested_group_size)
   {
     // if a static blocksize is set, we ignore the requested group size
@@ -334,7 +334,7 @@ struct cuda_launcher<
 
   typedef concurrent_group<agent<grainsize>,blocksize> block_type;
 
-  __host__ __device__
+  __hydra_host__ __hydra_device__
   void launch(block_type request, Closure c, cudaStream_t stream)
   {
     block_type b = configure(request);
@@ -349,7 +349,7 @@ struct cuda_launcher<
     } // end if
   } // end go()
 
-  __host__ __device__
+  __hydra_host__ __hydra_device__
   block_type configure(block_type b)
   {
     size_type block_size = super_t::choose_group_size(b.size());
@@ -375,7 +375,7 @@ struct cuda_launcher<
 
   typedef parallel_group<agent<grainsize>,groupsize> group_type;
 
-  __host__ __device__
+  __hydra_host__ __hydra_device__
   void launch(group_type g, Closure c, cudaStream_t stream)
   {
     size_type num_blocks, block_size;
@@ -389,7 +389,7 @@ struct cuda_launcher<
     } // end if
   } // end go()
 
-  __host__ __device__
+  __hydra_host__ __hydra_device__
   thrust::tuple<size_type,size_type> configure(group_type g)
   {
     size_type block_size = thrust::min<size_type>(g.size(), super_t::choose_group_size(use_default));

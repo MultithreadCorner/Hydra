@@ -40,7 +40,7 @@ template<typename DerivedPolicy,
          typename InputIterator, 
          typename OutputType,
          typename BinaryFunction>
-__host__ __device__
+__hydra_host__ __hydra_device__
   OutputType reduce(sequential::execution_policy<DerivedPolicy> &,
                     InputIterator begin,
                     InputIterator end,

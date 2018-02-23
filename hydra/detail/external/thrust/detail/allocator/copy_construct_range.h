@@ -25,7 +25,7 @@ namespace detail
 {
 
 template<typename System, typename Allocator, typename InputIterator, typename Pointer>
-__host__ __device__
+__hydra_host__ __hydra_device__
   Pointer copy_construct_range(thrust::execution_policy<System> &from_system,
                                Allocator &a,
                                InputIterator first,
@@ -33,7 +33,7 @@ __host__ __device__
                                Pointer result);
 
 template<typename System, typename Allocator, typename InputIterator, typename Size, typename Pointer>
-__host__ __device__
+__hydra_host__ __hydra_device__
   Pointer copy_construct_range_n(thrust::execution_policy<System> &from_system,
                                  Allocator &a,
                                  InputIterator first,

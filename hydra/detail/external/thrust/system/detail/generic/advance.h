@@ -29,7 +29,7 @@ namespace generic
 {
 
 template<typename InputIterator, typename Distance>
-__host__ __device__
+__hydra_host__ __hydra_device__
 void advance(InputIterator& i, Distance n);
 
 } // end namespace generic

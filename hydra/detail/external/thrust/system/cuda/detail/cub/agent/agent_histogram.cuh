@@ -248,7 +248,7 @@ struct AgentHistogram
     //---------------------------------------------------------------------
 
     // Initialize privatized bin counters
-    __device__ __forceinline__ void InitBinCounters(CounterT* privatized_histograms[NUM_ACTIVE_CHANNELS])
+    __hydra_device__ __forceinline__ void InitBinCounters(CounterT* privatized_histograms[NUM_ACTIVE_CHANNELS])
     {
         // Initialize histogram bin counts to zeros
         #pragma unroll
@@ -266,7 +266,7 @@ struct AgentHistogram
 
 
     // Initialize privatized bin counters.  Specialized for privatized shared-memory counters
-    __device__ __forceinline__ void InitSmemBinCounters()
+    __hydra_device__ __forceinline__ void InitSmemBinCounters()
     {
         CounterT* privatized_histograms[NUM_ACTIVE_CHANNELS];
 
@@ -278,7 +278,7 @@ struct AgentHistogram
 
 
     // Initialize privatized bin counters.  Specialized for privatized global-memory counters
-    __device__ __forceinline__ void InitGmemBinCounters()
+    __hydra_device__ __forceinline__ void InitGmemBinCounters()
     {
         InitBinCounters(d_privatized_histograms);
     }
@@ -289,7 +289,7 @@ struct AgentHistogram
     //---------------------------------------------------------------------
 
     // Update final output histograms from privatized histograms
-    __device__ __forceinline__ void StoreOutput(CounterT* privatized_histograms[NUM_ACTIVE_CHANNELS])
+    __hydra_device__ __forceinline__ void StoreOutput(CounterT* privatized_histograms[NUM_ACTIVE_CHANNELS])
     {
         // Barrier to make sure all threads are done updating counters
         CTA_SYNC();
@@ -320,7 +320,7 @@ struct AgentHistogram
 
 
     // Update final output histograms from privatized histograms.  Specialized for privatized shared-memory counters
-    __device__ __forceinline__ void StoreSmemOutput()
+    __hydra_device__ __forceinline__ void StoreSmemOutput()
     {
         CounterT* privatized_histograms[NUM_ACTIVE_CHANNELS];
         for (int CHANNEL = 0; CHANNEL < NUM_ACTIVE_CHANNELS; ++CHANNEL)
@@ -331,7 +331,7 @@ struct AgentHistogram
 
 
     // Update final output histograms from privatized histograms.  Specialized for privatized global-memory counters
-    __device__ __forceinline__ void StoreGmemOutput()
+    __hydra_device__ __forceinline__ void StoreGmemOutput()
     {
         StoreOutput(d_privatized_histograms);
     }
@@ -342,7 +342,7 @@ struct AgentHistogram
     //---------------------------------------------------------------------
 
     // Accumulate pixels.  Specialized for RLE compression.
-    __device__ __forceinline__ void AccumulatePixels(
+    __hydra_device__ __forceinline__ void AccumulatePixels(
         SampleT             samples[PIXELS_PER_THREAD][NUM_CHANNELS],
         bool                is_valid[PIXELS_PER_THREAD],
         CounterT*           privatized_histograms[NUM_ACTIVE_CHANNELS],
@@ -384,7 +384,7 @@ struct AgentHistogram
 
 
     // Accumulate pixels.  Specialized for individual accumulation of each pixel.
-    __device__ __forceinline__ void AccumulatePixels(
+    __hydra_device__ __forceinline__ void AccumulatePixels(
         SampleT             samples[PIXELS_PER_THREAD][NUM_CHANNELS],
         bool                is_valid[PIXELS_PER_THREAD],
         CounterT*           privatized_histograms[NUM_ACTIVE_CHANNELS],
@@ -408,7 +408,7 @@ struct AgentHistogram
     /**
      * Accumulate pixel, specialized for smem privatized histogram
      */
-    __device__ __forceinline__ void AccumulateSmemPixels(
+    __hydra_device__ __forceinline__ void AccumulateSmemPixels(
         SampleT             samples[PIXELS_PER_THREAD][NUM_CHANNELS],
         bool                is_valid[PIXELS_PER_THREAD])
     {
@@ -424,7 +424,7 @@ struct AgentHistogram
     /**
      * Accumulate pixel, specialized for gmem privatized histogram
      */
-    __device__ __forceinline__ void AccumulateGmemPixels(
+    __hydra_device__ __forceinline__ void AccumulateGmemPixels(
         SampleT             samples[PIXELS_PER_THREAD][NUM_CHANNELS],
         bool                is_valid[PIXELS_PER_THREAD])
     {
@@ -439,7 +439,7 @@ struct AgentHistogram
 
     // Load full, aligned tile using pixel iterator (multi-channel)
     template <int _NUM_ACTIVE_CHANNELS>
-    __device__ __forceinline__ void LoadFullAlignedTile(
+    __hydra_device__ __forceinline__ void LoadFullAlignedTile(
         OffsetT                         block_offset,
         int                             valid_samples,
         SampleT                         (&samples)[PIXELS_PER_THREAD][NUM_CHANNELS],
@@ -456,7 +456,7 @@ struct AgentHistogram
     }
 
     // Load full, aligned tile using quad iterator (single-channel)
-    __device__ __forceinline__ void LoadFullAlignedTile(
+    __hydra_device__ __forceinline__ void LoadFullAlignedTile(
         OffsetT                         block_offset,
         int                             valid_samples,
         SampleT                         (&samples)[PIXELS_PER_THREAD][NUM_CHANNELS],
@@ -473,7 +473,7 @@ struct AgentHistogram
     }
 
     // Load full, aligned tile
-    __device__ __forceinline__ void LoadTile(
+    __hydra_device__ __forceinline__ void LoadTile(
         OffsetT         block_offset,
         int             valid_samples,
         SampleT         (&samples)[PIXELS_PER_THREAD][NUM_CHANNELS],
@@ -484,7 +484,7 @@ struct AgentHistogram
     }
 
     // Load full, mis-aligned tile using sample iterator
-    __device__ __forceinline__ void LoadTile(
+    __hydra_device__ __forceinline__ void LoadTile(
         OffsetT         block_offset,
         int             valid_samples,
         SampleT         (&samples)[PIXELS_PER_THREAD][NUM_CHANNELS],
@@ -500,7 +500,7 @@ struct AgentHistogram
     }
 
     // Load partially-full, aligned tile using the pixel iterator
-    __device__ __forceinline__ void LoadTile(
+    __hydra_device__ __forceinline__ void LoadTile(
         OffsetT         block_offset,
         int             valid_samples,
         SampleT         (&samples)[PIXELS_PER_THREAD][NUM_CHANNELS],
@@ -521,7 +521,7 @@ struct AgentHistogram
     }
 
     // Load partially-full, mis-aligned tile using sample iterator
-    __device__ __forceinline__ void LoadTile(
+    __hydra_device__ __forceinline__ void LoadTile(
         OffsetT         block_offset,
         int             valid_samples,
         SampleT         (&samples)[PIXELS_PER_THREAD][NUM_CHANNELS],
@@ -545,7 +545,7 @@ struct AgentHistogram
     template <
         bool IS_ALIGNED,        // Whether the tile offset is aligned (quad-aligned for single-channel, pixel-aligned for multi-channel)
         bool IS_FULL_TILE>      // Whether the tile is full
-    __device__ __forceinline__ void ConsumeTile(OffsetT block_offset, int valid_samples)
+    __hydra_device__ __forceinline__ void ConsumeTile(OffsetT block_offset, int valid_samples)
     {
         SampleT     samples[PIXELS_PER_THREAD][NUM_CHANNELS];
         bool        is_valid[PIXELS_PER_THREAD];
@@ -578,7 +578,7 @@ struct AgentHistogram
 
     // Consume row tiles.  Specialized for work-stealing from queue
     template <bool IS_ALIGNED>
-    __device__ __forceinline__ void ConsumeTiles(
+    __hydra_device__ __forceinline__ void ConsumeTiles(
         OffsetT             num_row_pixels,             ///< The number of multi-channel pixels per row in the region of interest
         OffsetT             num_rows,                   ///< The number of rows in the region of interest
         OffsetT             row_stride_samples,         ///< The number of samples between starts of consecutive rows in the region of interest
@@ -626,7 +626,7 @@ struct AgentHistogram
 
     // Consume row tiles.  Specialized for even-share (striped across thread blocks)
     template <bool IS_ALIGNED>
-    __device__ __forceinline__ void ConsumeTiles(
+    __hydra_device__ __forceinline__ void ConsumeTiles(
         OffsetT             num_row_pixels,             ///< The number of multi-channel pixels per row in the region of interest
         OffsetT             num_rows,                   ///< The number of rows in the region of interest
         OffsetT             row_stride_samples,         ///< The number of samples between starts of consecutive rows in the region of interest
@@ -668,14 +668,14 @@ struct AgentHistogram
         CacheLoadModifier   _MODIFIER,
         typename            _ValueT,
         typename            _OffsetT>
-    __device__ __forceinline__ SampleT* NativePointer(CacheModifiedInputIterator<_MODIFIER, _ValueT, _OffsetT> itr)
+    __hydra_device__ __forceinline__ SampleT* NativePointer(CacheModifiedInputIterator<_MODIFIER, _ValueT, _OffsetT> itr)
     {
         return itr.ptr;
     }
 
     // Return a native pixel pointer (specialized for other types)
     template <typename IteratorT>
-    __device__ __forceinline__ SampleT* NativePointer(IteratorT itr)
+    __hydra_device__ __forceinline__ SampleT* NativePointer(IteratorT itr)
     {
         return NULL;
     }
@@ -690,7 +690,7 @@ struct AgentHistogram
     /**
      * Constructor
      */
-    __device__ __forceinline__ AgentHistogram(
+    __hydra_device__ __forceinline__ AgentHistogram(
         TempStorage         &temp_storage,                                      ///< Reference to temp_storage
         SampleIteratorT     d_samples,                                          ///< Input data to reduce
         int                 (&num_output_bins)[NUM_ACTIVE_CHANNELS],            ///< The number bins per final output histogram
@@ -725,7 +725,7 @@ struct AgentHistogram
     /**
      * Consume image
      */
-    __device__ __forceinline__ void ConsumeTiles(
+    __hydra_device__ __forceinline__ void ConsumeTiles(
         OffsetT             num_row_pixels,             ///< The number of multi-channel pixels per row in the region of interest
         OffsetT             num_rows,                   ///< The number of rows in the region of interest
         OffsetT             row_stride_samples,         ///< The number of samples between starts of consecutive rows in the region of interest
@@ -756,7 +756,7 @@ struct AgentHistogram
     /**
      * Initialize privatized bin counters.  Specialized for privatized shared-memory counters
      */
-    __device__ __forceinline__ void InitBinCounters()
+    __hydra_device__ __forceinline__ void InitBinCounters()
     {
         if (prefer_smem)
             InitSmemBinCounters();
@@ -768,7 +768,7 @@ struct AgentHistogram
     /**
      * Store privatized histogram to device-accessible memory.  Specialized for privatized shared-memory counters
      */
-    __device__ __forceinline__ void StoreOutput()
+    __hydra_device__ __forceinline__ void StoreOutput()
     {
         if (prefer_smem)
             StoreSmemOutput();

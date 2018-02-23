@@ -29,7 +29,7 @@ template<std::size_t grainsize,
          typename RandomAccessIterator2,
          typename T,
          typename BinaryOperation>
-__device__
+__hydra_device__
 RandomAccessIterator2 adjacent_difference(bulk::agent<grainsize> &exec,
                                           RandomAccessIterator1 first, RandomAccessIterator1 last,
                                           RandomAccessIterator2 result,
@@ -53,7 +53,7 @@ template<std::size_t groupsize,
          typename RandomAccessIterator2,
          typename T,
          typename BinaryOperation>
-__device__
+__hydra_device__
 RandomAccessIterator2 adjacent_difference(bulk::concurrent_group<bulk::agent<grainsize_>,groupsize> &g,
                                           RandomAccessIterator1 first, RandomAccessIterator1 last,
                                           RandomAccessIterator2 result,
@@ -112,7 +112,7 @@ template<std::size_t groupsize,
          typename RandomAccessIterator1,
          typename RandomAccessIterator2,
          typename BinaryOperation>
-__device__
+__hydra_device__
 RandomAccessIterator2 adjacent_difference(bulk::concurrent_group<bulk::agent<grainsize>,groupsize> &g,
                                           RandomAccessIterator1 first, RandomAccessIterator1 last,
                                           RandomAccessIterator2 result,

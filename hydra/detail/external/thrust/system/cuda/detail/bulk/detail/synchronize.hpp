@@ -29,7 +29,7 @@ namespace detail
 {
 
 
-inline __host__ __device__
+inline __hydra_host__ __hydra_device__
 void synchronize(const char* message = "")
 {
 #if __BULK_HAS_CUDART__
@@ -41,11 +41,11 @@ void synchronize(const char* message = "")
 } // end terminate()
 
 
-inline __host__ __device__
+inline __hydra_host__ __hydra_device__
 void synchronize_if_enabled(const char* message = "")
 {
 // XXX we rely on __HYDRA_THRUST_SYNCHRONOUS here
-//     note we always have to synchronize in __device__ code
+//     note we always have to synchronize in __hydra_device__ code
 #if __HYDRA_THRUST_SYNCHRONOUS || defined(__CUDA_ARCH__)
   synchronize(message);
 #else

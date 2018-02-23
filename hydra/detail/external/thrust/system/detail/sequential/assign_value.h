@@ -30,7 +30,7 @@ namespace sequential
 {
 
 template<typename DerivedPolicy, typename Pointer1, typename Pointer2>
-__host__ __device__
+__hydra_host__ __hydra_device__
   void assign_value(sequential::execution_policy<DerivedPolicy> &, Pointer1 dst, Pointer2 src)
 {
   *thrust::raw_pointer_cast(dst) = *thrust::raw_pointer_cast(src);

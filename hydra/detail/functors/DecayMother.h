@@ -121,7 +121,7 @@ struct DecayMother
 
 	}
 
-	__host__ __device__
+	__hydra_host__ __hydra_device__
 	DecayMother( DecayMother<N, GRND> const& other ):
 	fSeed(other.fSeed ),
 	fTeCmTm(other.fTeCmTm ),
@@ -133,7 +133,7 @@ struct DecayMother
 
 
 
-	__host__      __device__ inline
+	__hydra_host__      __hydra_device__ inline
 	static GReal_t pdk(const GReal_t a, const GReal_t b,
 			const GReal_t c)
 	{
@@ -143,7 +143,7 @@ struct DecayMother
 		return ::sqrt( (a - b - c) * (a + b + c) * (a - b + c) * (a + b - c) ) / (2 * a);
 	}
 
-	__host__ __device__ inline
+	__hydra_host__ __hydra_device__ inline
 	void bbsort( GReal_t *array, GInt_t n)
 	{
 		// Improved bubble sort
@@ -169,7 +169,7 @@ struct DecayMother
 	}
 
 
-	__host__   __device__ inline
+	__hydra_host__   __hydra_device__ inline
 	constexpr static size_t hash(const size_t a, const size_t b)
 	{
 		//Matthew Szudzik pairing
@@ -177,7 +177,7 @@ struct DecayMother
         return   (((2 * a) >=  (2 * b) ? (2 * a) * (2 * a) + (2 * a) + (2 * b) : (2 * a) + (2 * b) * (2 * b)) / 2);
 	}
 
-	__host__   __device__ inline
+	__hydra_host__   __hydra_device__ inline
 	GReal_t process(const GInt_t evt, Vector4R (&daugters)[N])
 	{
 
@@ -294,7 +294,7 @@ struct DecayMother
 	}
 
 	template<typename Tuple>
-	__host__  __device__ inline GReal_t operator()(const GInt_t evt, Tuple &particles)
+	__hydra_host__  __hydra_device__ inline GReal_t operator()(const GInt_t evt, Tuple &particles)
 	{
 
 		constexpr size_t SIZE = HYDRA_EXTERNAL_NS::thrust::tuple_size<Tuple>::value;

@@ -36,7 +36,7 @@ template<typename DerivedPolicy,
          typename RandomAccessIterator3,
          typename Compare,
          typename SetOperation>
-__host__ __device__
+__hydra_host__ __hydra_device__
 RandomAccessIterator3 set_operation(execution_policy<DerivedPolicy> &exec,
                                     RandomAccessIterator1 first1,
                                     RandomAccessIterator1 last1,

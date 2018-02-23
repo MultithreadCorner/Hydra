@@ -76,14 +76,14 @@ int main(int argv, char** argc)
 	}
 
 
-	auto caster = []__host__ __device__ ( hydra::tuple<int, int, double,double, double, double>& entry)
+	auto caster = []__hydra_host__ __hydra_device__ ( hydra::tuple<int, int, double,double, double, double>& entry)
 	{
 		return hydra::make_tuple(
 				hydra::complex<int>( hydra::get<0>(entry),hydra::get<1>(entry) ),
 				hydra::Vector4R( hydra::get<2>(entry), hydra::get<3>(entry) , hydra::get<4>(entry),hydra::get<5>(entry)));
 	};
 
-	auto reverse_caster = [] __host__ __device__ ( hydra::tuple<hydra::complex<int>, hydra::Vector4R> const& entry)
+	auto reverse_caster = [] __hydra_host__ __hydra_device__ ( hydra::tuple<hydra::complex<int>, hydra::Vector4R> const& entry)
 	{
 		hydra::complex<int> cvalue  = hydra::get<0>(entry);
 		hydra::Vector4R     vector4 = hydra::get<1>(entry);

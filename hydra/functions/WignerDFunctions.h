@@ -69,7 +69,7 @@ public:
 	WignerD( double j, double m, double n ):
 		fJ(j), fM(m), fN(n){}
 
-	__host__ __device__
+	__hydra_host__ __hydra_device__
 	WignerD( WignerD<ArgIndex> const& other):
 		BaseFunctor<WignerD<ArgIndex>, double, 0>(other),
 		fJ(other.GetJ()),
@@ -77,7 +77,7 @@ public:
 		fN(other.GetN())
 		{}
 
-	__host__ __device__
+	__hydra_host__ __hydra_device__
 	WignerD<ArgIndex>& operator=( WignerD<ArgIndex> const& other){
 
 		if(this == &other) return *this;
@@ -89,38 +89,38 @@ public:
 	}
 
 
-	__host__ __device__ inline
+	__hydra_host__ __hydra_device__ inline
 	double GetJ() const {
 		return fJ;
 	}
 
-	__host__ __device__ inline
+	__hydra_host__ __hydra_device__ inline
 	void SetJ(double j) {
 		fJ = j;
 	}
 
-	__host__ __device__ inline
+	__hydra_host__ __hydra_device__ inline
 	double GetM() const {
 		return fM;
 	}
 
-	__host__ __device__ inline
+	__hydra_host__ __hydra_device__ inline
 	void SetM(double m) {
 		fM = m;
 	}
 
-	__host__ __device__ inline
+	__hydra_host__ __hydra_device__ inline
 	double GetN() const {
 		return fN;
 	}
 
-	__host__ __device__ inline
+	__hydra_host__ __hydra_device__ inline
 	void SetN(double n) {
 		fN = n;
 	}
 
 	template<typename T>
-	__host__ __device__ inline
+	__hydra_host__ __hydra_device__ inline
 	double Evaluate(unsigned int, T*x)  const	{
 
 		double beta = x[ArgIndex] ;
@@ -131,7 +131,7 @@ public:
 	}
 
 	template<typename T>
-	__host__ __device__ inline
+	__hydra_host__ __hydra_device__ inline
 	double Evaluate(T x)  const {
 
 		double beta =  get<ArgIndex>(x);
@@ -143,7 +143,7 @@ public:
 
 private:
 
-	__host__ __device__ inline
+	__hydra_host__ __hydra_device__ inline
 	double wignerd(const double beta ) const {
 
 
@@ -165,7 +165,7 @@ private:
 
 	}
 
-	__host__ __device__ inline
+	__hydra_host__ __hydra_device__ inline
 	double wdf(const int jpm,const int jpn,const int jmm, const int jmn,const int mpn,const double  b) const {
 
 		using HYDRA_EXTERNAL_NS::thrust::max;

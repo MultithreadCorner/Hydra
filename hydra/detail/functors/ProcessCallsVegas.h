@@ -63,7 +63,7 @@ struct ProcessBoxesVegas
 {
 
 
-    __host__ __device__ inline
+    __hydra_host__ __hydra_device__ inline
     ResultVegas operator()(ResultVegas const& x, ResultVegas const& y)
     {
     	ResultVegas result;
@@ -120,7 +120,7 @@ public :
 				fFunctor(functor)
 				{}
 
-	__host__ __device__
+	__hydra_host__ __hydra_device__
 	ProcessCallsVegas( this_t const& other):
 	fSeed(other.fSeed),
 	fNBins(other.fNBins),
@@ -137,7 +137,7 @@ public :
 	{}
 
 
-	__host__ __device__
+	__hydra_host__ __hydra_device__
 	inline GInt_t GetBoxCoordinate(GInt_t idx, GInt_t dim, GInt_t nboxes, GInt_t j)
 	{
 		GInt_t _idx = idx;
@@ -153,7 +153,7 @@ public :
 		return _coordinate;
 	}
 
-	__host__   __device__ inline
+	__hydra_host__   __hydra_device__ inline
 	size_t hash(size_t a, size_t b)
 	{
 		//Matthew Szudzik pairing
@@ -166,7 +166,7 @@ public :
 	}
 
 
-	__host__   __device__ inline
+	__hydra_host__   __hydra_device__ inline
 	void get_point(const size_t  index, GReal_t &volume, GInt_t (&bin)[NDimensions], GReal_t (&x)[NDimensions] )
 	{
 
@@ -205,16 +205,16 @@ public :
 
 	}
 
-	__host__ __device__ inline
+	__hydra_host__ __hydra_device__ inline
 	size_t GetDistributionIndex(size_t index,  const GUInt_t dim) const
 	{ return index*NDimensions + dim; }
 
-	__host__ __device__ inline
+	__hydra_host__ __hydra_device__ inline
 	GUInt_t GetDistributionKey( const GUInt_t bin, const GUInt_t dim) const
 	{ return bin * NDimensions + dim; }
 
 
-	__host__ __device__ inline
+	__hydra_host__ __hydra_device__ inline
 	ResultVegas operator()( size_t index)
 	{
 

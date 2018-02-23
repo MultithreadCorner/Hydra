@@ -52,11 +52,11 @@ struct commutative_reduce_intervals_closure
   typedef Context context_type;
   context_type context;
 
-  __host__ __device__
+  __hydra_host__ __hydra_device__
   commutative_reduce_intervals_closure(InputIterator input, OutputIterator output, BinaryFunction binary_op, Decomposition decomposition, unsigned int shared_array_size, Context context = Context())
     : input(input), output(output), binary_op(binary_op), decomposition(decomposition), shared_array_size(shared_array_size), context(context) {}
 
-  __device__ __thrust_forceinline__
+  __hydra_device__ __thrust_forceinline__
   void operator()(void)
   {
     typedef typename thrust::iterator_value<OutputIterator>::type OutputType;
@@ -161,7 +161,7 @@ template<typename ExecutionPolicy,
          typename OutputIterator,
          typename BinaryFunction,
          typename Decomposition>
-__host__ __device__
+__hydra_host__ __hydra_device__
 void reduce_intervals(execution_policy<ExecutionPolicy> &exec,
                       InputIterator input,
                       OutputIterator output,

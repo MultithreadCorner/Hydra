@@ -34,7 +34,7 @@ template<typename DerivedPolicy,
          typename RandomAccessIterator2,
          typename RandomAccessIterator3,
          typename StrictWeakOrdering>
-__host__ __device__
+__hydra_host__ __hydra_device__
 RandomAccessIterator3 merge(execution_policy<DerivedPolicy> &exec,
                             RandomAccessIterator1 first1,
                             RandomAccessIterator1 last1,

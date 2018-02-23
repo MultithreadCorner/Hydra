@@ -35,7 +35,7 @@ template<std::size_t bound,
          typename RandomAccessIterator,
          typename T,
          typename BinaryFunction>
-__forceinline__ __device__
+__forceinline__ __hydra_device__
 T reduce(const bulk::bounded<bound,bulk::agent<grainsize> > &exec,
          RandomAccessIterator first,
          RandomAccessIterator last,
@@ -65,7 +65,7 @@ namespace reduce_detail
 
 
 template<typename ConcurrentGroup, typename RandomAccessIterator, typename Size, typename T, typename BinaryFunction>
-__device__ T destructive_reduce_n(ConcurrentGroup &g, RandomAccessIterator first, Size n, T init, BinaryFunction binary_op)
+__hydra_device__ T destructive_reduce_n(ConcurrentGroup &g, RandomAccessIterator first, Size n, T init, BinaryFunction binary_op)
 {
   typedef int size_type;
 
@@ -108,7 +108,7 @@ __device__ T destructive_reduce_n(ConcurrentGroup &g, RandomAccessIterator first
 
 
 template<std::size_t groupsize, std::size_t grainsize, typename RandomAccessIterator, typename T, typename BinaryFunction>
-__device__
+__hydra_device__
 T reduce(bulk::concurrent_group<bulk::agent<grainsize>,groupsize> &g,
          RandomAccessIterator first,
          RandomAccessIterator last,
@@ -220,7 +220,7 @@ T reduce(bulk::concurrent_group<bulk::agent<grainsize>,groupsize> &g,
 
 
 template<typename RandomAccessIterator, typename T, typename BinaryFunction>
-__device__
+__hydra_device__
 T reduce(bulk::concurrent_group<> &g,
          RandomAccessIterator first,
          RandomAccessIterator last,

@@ -120,7 +120,7 @@ template<typename UIntType, size_t w, size_t k, size_t q, size_t s>
      *  
      *  \param value The seed used to intialize this \p linear_feedback_shift_engine's state.
      */
-    __host__ __device__
+    __hydra_host__ __hydra_device__
     explicit linear_feedback_shift_engine(result_type value = default_seed);
 
     /*! This method initializes this \p linear_feedback_shift_engine's state, and optionally accepts
@@ -128,7 +128,7 @@ template<typename UIntType, size_t w, size_t k, size_t q, size_t s>
      *
      *  \param value The seed used to initializes this \p linear_feedback_shift_engine's state.
      */
-    __host__ __device__
+    __hydra_host__ __hydra_device__
     void seed(result_type value = default_seed);
 
     // generating functions
@@ -136,7 +136,7 @@ template<typename UIntType, size_t w, size_t k, size_t q, size_t s>
     /*! This member function produces a new random value and updates this \p linear_feedback_shift_engine's state.
      *  \return A new random number.
      */
-    __host__ __device__
+    __hydra_host__ __hydra_device__
     result_type operator()(void);
 
     /*! This member function advances this \p linear_feedback_shift_engine's state a given number of times
@@ -145,7 +145,7 @@ template<typename UIntType, size_t w, size_t k, size_t q, size_t s>
      *  \param z The number of random values to discard.
      *  \note This function is provided because an implementation may be able to accelerate it.
      */
-    __host__ __device__
+    __hydra_host__ __hydra_device__
     void discard(unsigned long long z);
 
     /*! \cond
@@ -155,7 +155,7 @@ template<typename UIntType, size_t w, size_t k, size_t q, size_t s>
 
     friend struct thrust::random::detail::random_core_access;
 
-    __host__ __device__
+    __hydra_host__ __hydra_device__
     bool equal(const linear_feedback_shift_engine &rhs) const;
 
     template<typename CharT, typename Traits>
@@ -175,7 +175,7 @@ template<typename UIntType, size_t w, size_t k, size_t q, size_t s>
  *  \return \c true if \p lhs is equal to \p rhs; \c false, otherwise.
  */
 template<typename UIntType_, size_t w_, size_t k_, size_t q_, size_t s_>
-__host__ __device__
+__hydra_host__ __hydra_device__
 bool operator==(const linear_feedback_shift_engine<UIntType_,w_,k_,q_,s_> &lhs,
                 const linear_feedback_shift_engine<UIntType_,w_,k_,q_,s_> &rhs);
 
@@ -186,7 +186,7 @@ bool operator==(const linear_feedback_shift_engine<UIntType_,w_,k_,q_,s_> &lhs,
  *  \return \c true if \p lhs is not equal to \p rhs; \c false, otherwise.
  */
 template<typename UIntType_, size_t w_, size_t k_, size_t q_, size_t s_>
-__host__ __device__
+__hydra_host__ __hydra_device__
 bool operator!=(const linear_feedback_shift_engine<UIntType_,w_,k_,q_,s_> &lhs,
                 const linear_feedback_shift_engine<UIntType_,w_,k_,q_,s_> &rhs);
 

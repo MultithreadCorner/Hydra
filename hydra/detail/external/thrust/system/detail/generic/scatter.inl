@@ -35,7 +35,7 @@ template<typename DerivedPolicy,
          typename InputIterator1,
          typename InputIterator2,
          typename RandomAccessIterator>
-__host__ __device__
+__hydra_host__ __hydra_device__
   void scatter(thrust::execution_policy<DerivedPolicy> &exec,
                InputIterator1 first,
                InputIterator1 last,
@@ -55,7 +55,7 @@ template<typename DerivedPolicy,
          typename InputIterator2,
          typename InputIterator3,
          typename RandomAccessIterator>
-__host__ __device__
+__hydra_host__ __hydra_device__
   void scatter_if(thrust::execution_policy<DerivedPolicy> &exec,
                   InputIterator1 first,
                   InputIterator1 last,
@@ -75,7 +75,7 @@ template<typename DerivedPolicy,
          typename InputIterator3,
          typename RandomAccessIterator,
          typename Predicate>
-__host__ __device__
+__hydra_host__ __hydra_device__
   void scatter_if(thrust::execution_policy<DerivedPolicy> &exec,
                   InputIterator1 first,
                   InputIterator1 last,

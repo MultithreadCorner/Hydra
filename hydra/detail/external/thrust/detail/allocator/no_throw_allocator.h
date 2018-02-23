@@ -30,7 +30,7 @@ template<typename BaseAllocator>
     typedef BaseAllocator super_t;
   
   public:
-    inline __host__ __device__
+    inline __hydra_host__ __hydra_device__
     no_throw_allocator(const BaseAllocator &other = BaseAllocator())
       : super_t(other)
     {}
@@ -41,7 +41,7 @@ template<typename BaseAllocator>
       typedef no_throw_allocator<typename super_t::template rebind<U>::other> other;
     }; // end rebind
 
-    __host__ __device__
+    __hydra_host__ __hydra_device__
     void deallocate(typename super_t::pointer p, typename super_t::size_type n)
     {
 #ifndef __CUDA_ARCH__
@@ -58,10 +58,10 @@ template<typename BaseAllocator>
 #endif
     } // end deallocate()
 
-    inline __host__ __device__
+    inline __hydra_host__ __hydra_device__
     bool operator==(no_throw_allocator const &other) { return super_t::operator==(other); }
 
-    inline __host__ __device__
+    inline __hydra_host__ __hydra_device__
     bool operator!=(no_throw_allocator const &other) { return super_t::operator!=(other); }
 }; // end no_throw_allocator
 

@@ -162,7 +162,7 @@ int main(int argv, char** argc) {
 	//fit function
 
 	auto gaussian = hydra::wrap_lambda(
-		[=] __host__ __device__	(unsigned int npar, const hydra::Parameter* params, unsigned int narg, double* x ){
+		[=] __hydra_host__ __hydra_device__	(unsigned int npar, const hydra::Parameter* params, unsigned int narg, double* x ){
 
 		double g = 1.0;
 
@@ -222,7 +222,7 @@ int main(int argv, char** argc) {
 					<< std::endl;
 		//filtering
 		auto filter = hydra::wrap_lambda(
-			[=]__host__ __device__(unsigned int n, double* x){
+			[=]__hydra_host__ __hydra_device__(unsigned int n, double* x){
 
 			bool decision = true;
 			for (unsigned int i=0; i<n; i++)

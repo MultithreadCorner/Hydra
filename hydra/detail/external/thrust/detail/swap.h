@@ -24,7 +24,7 @@ HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
 
 __thrust_exec_check_disable__
 template<typename Assignable1, typename Assignable2>
-__host__ __device__
+__hydra_host__ __hydra_device__
 inline void swap(Assignable1 &a, Assignable2 &b)
 {
   Assignable1 temp = a;

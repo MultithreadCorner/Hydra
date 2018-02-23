@@ -37,30 +37,30 @@ class trivial_decomposition
 
     typedef thrust::pair<size_type,size_type> range;
 
-    __host__ __device__
+    __hydra_host__ __hydra_device__
     trivial_decomposition()
       : m_n(0)
     {}
 
-    __host__ __device__
+    __hydra_host__ __hydra_device__
     trivial_decomposition(size_type n)
       : m_n(n)
     {}
 
-    __host__ __device__
+    __hydra_host__ __hydra_device__
     range operator[](size_type) const
     {
       return range(0, n());
     }
 
-    __host__ __device__
+    __hydra_host__ __hydra_device__
     size_type size() const
     {
       return 1;
     }
 
     // XXX think of a better name for this
-    __host__ __device__
+    __hydra_host__ __hydra_device__
     size_type n() const
     {
       return m_n;
@@ -72,7 +72,7 @@ class trivial_decomposition
 
 
 template<typename Size>
-__host__ __device__
+__hydra_host__ __hydra_device__
 trivial_decomposition<Size> make_trivial_decomposition(Size n)
 {
   return trivial_decomposition<Size>(n);
@@ -87,21 +87,21 @@ class blocked_decomposition
 
     typedef thrust::pair<size_type,size_type> range;
 
-    __host__ __device__
+    __hydra_host__ __hydra_device__
     blocked_decomposition()
       : m_n(0),
         m_block_size(0),
         m_num_partitions(0)
     {}
 
-    __host__ __device__
+    __hydra_host__ __hydra_device__
     blocked_decomposition(size_type n, Size block_size)
       : m_n(n),
         m_block_size(block_size),
         m_num_partitions((n + block_size - 1) / block_size)
     {}
 
-    __host__ __device__
+    __hydra_host__ __hydra_device__
     range operator[](size_type i) const
     {
       size_type first = i * m_block_size;
@@ -110,14 +110,14 @@ class blocked_decomposition
       return range(first, last);
     }
 
-    __host__ __device__
+    __hydra_host__ __hydra_device__
     size_type size() const
     {
       return m_num_partitions;
     }
 
     // XXX think of a better name for this
-    __host__ __device__
+    __hydra_host__ __hydra_device__
     size_type n() const
     {
       return m_n;
@@ -131,7 +131,7 @@ class blocked_decomposition
 
 
 template<typename Size>
-__host__ __device__
+__hydra_host__ __hydra_device__
 blocked_decomposition<Size> make_blocked_decomposition(Size n, Size block_size)
 {
   return blocked_decomposition<Size>(n,block_size);
@@ -146,12 +146,12 @@ class uniform_decomposition
     typedef blocked_decomposition<Size> super_t;
 
   public:
-    __host__ __device__
+    __hydra_host__ __hydra_device__
     uniform_decomposition()
       : super_t()
     {}
 
-    __host__ __device__
+    __hydra_host__ __hydra_device__
     uniform_decomposition(Size n, Size num_partitions)
       : super_t(n, n / num_partitions)
     {}
@@ -159,7 +159,7 @@ class uniform_decomposition
 
 
 template<typename Size>
-__host__ __device__
+__hydra_host__ __hydra_device__
 uniform_decomposition<Size> make_uniform_decomposition(Size n, Size num_partitions)
 {
   return uniform_decomposition<Size>(n,num_partitions);
@@ -174,14 +174,14 @@ class aligned_decomposition
 
     typedef thrust::pair<size_type,size_type> range;
 
-    __host__ __device__
+    __hydra_host__ __hydra_device__
     aligned_decomposition()
       : m_n(0),
         m_num_partitions(0),
         m_tile_size(0)
     {}
 
-    __host__ __device__
+    __hydra_host__ __hydra_device__
     aligned_decomposition(Size n, Size num_partitions, Size aligned_size)
       : m_n(n),
         m_num_partitions(num_partitions),
@@ -193,7 +193,7 @@ class aligned_decomposition
       m_last_partial_tile_size  =  num_tiles % size();
     }
 
-    __host__ __device__
+    __hydra_host__ __hydra_device__
     range operator[](Size i) const
     {
       range result = range_in_tiles(i);
@@ -202,21 +202,21 @@ class aligned_decomposition
       return result;
     }
 
-    __host__ __device__
+    __hydra_host__ __hydra_device__
     size_type size() const
     {
       return m_num_partitions;
     }
 
     // XXX think of a better name for this
-    __host__ __device__
+    __hydra_host__ __hydra_device__
     size_type n() const
     {
       return m_n;
     }
 
   private:
-    __host__ __device__
+    __hydra_host__ __hydra_device__
     range range_in_tiles(size_type i) const
     {
       range result;
@@ -238,7 +238,7 @@ class aligned_decomposition
 
 
 template<typename Size>
-__host__ __device__
+__hydra_host__ __hydra_device__
 aligned_decomposition<Size> make_aligned_decomposition(Size n, Size num_partitions, Size aligned_size)
 {
   return aligned_decomposition<Size>(n,num_partitions,aligned_size);

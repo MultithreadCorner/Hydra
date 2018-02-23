@@ -273,7 +273,7 @@ template<typename DerivedPolicy>
  *
  *  struct printf_functor
  *  {
- *    __host__ __device__
+ *    __hydra_host__ __hydra_device__
  *    void operator()(int x)
  *    {
  *      printf("%d\n", x);
@@ -322,7 +322,7 @@ static const detail::host_t host;
  *
  *  struct printf_functor
  *  {
- *    __host__ __device__
+ *    __hydra_host__ __hydra_device__
  *    void operator()(int x)
  *    {
  *      printf("%d\n", x);
@@ -341,7 +341,7 @@ static const detail::host_t host;
  *  \see thrust::device
  */
 #ifdef __CUDA_ARCH__
-static const __device__ detail::device_t device;
+static const __hydra_device__ detail::device_t device;
 #else
 static const detail::device_t device;
 #endif
@@ -366,7 +366,7 @@ static const detail::device_t device;
  *
  *  struct printf_functor
  *  {
- *    __host__ __device__
+ *    __hydra_host__ __hydra_device__
  *    void operator()(int x)
  *    {
  *      printf("%d\n", x);

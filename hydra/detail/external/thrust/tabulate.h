@@ -73,7 +73,7 @@ HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
  *  \see thrust::sequence
  */
 template<typename DerivedPolicy, typename ForwardIterator, typename UnaryOperation>
-__host__ __device__
+__hydra_host__ __hydra_device__
   void tabulate(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                 ForwardIterator first,
                 ForwardIterator last,

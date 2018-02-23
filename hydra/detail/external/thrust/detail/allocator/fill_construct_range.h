@@ -25,7 +25,7 @@ namespace detail
 
 
 template<typename Allocator, typename Pointer, typename Size, typename T>
-__host__ __device__
+__hydra_host__ __hydra_device__
 inline void fill_construct_range(Allocator &a, Pointer p, Size n, const T &value);
 
 

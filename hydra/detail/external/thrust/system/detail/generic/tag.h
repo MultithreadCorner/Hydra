@@ -37,7 +37,7 @@ namespace generic
 struct tag
 {
   template<typename T>
-  __host__ __device__ inline
+  __hydra_host__ __hydra_device__ inline
   tag(const T &) {}
 };
 

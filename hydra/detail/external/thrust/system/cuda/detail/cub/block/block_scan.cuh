@@ -244,7 +244,7 @@ private:
      ******************************************************************************/
 
     /// Internal storage allocator
-    __device__ __forceinline__ _TempStorage& PrivateStorage()
+    __hydra_device__ __forceinline__ _TempStorage& PrivateStorage()
     {
         __shared__ _TempStorage private_storage;
         return private_storage;
@@ -268,7 +268,7 @@ public:
     /**
      * \brief Collective constructor using a private static allocation of shared memory as temporary storage.
      */
-    __device__ __forceinline__ BlockScan()
+    __hydra_device__ __forceinline__ BlockScan()
     :
         temp_storage(PrivateStorage()),
         linear_tid(RowMajorTid(BLOCK_DIM_X, BLOCK_DIM_Y, BLOCK_DIM_Z))
@@ -278,7 +278,7 @@ public:
     /**
      * \brief Collective constructor using the specified memory allocation as temporary storage.
      */
-    __device__ __forceinline__ BlockScan(
+    __hydra_device__ __forceinline__ BlockScan(
         TempStorage &temp_storage)             ///< [in] Reference to memory allocation having layout type TempStorage
     :
         temp_storage(temp_storage.Alias()),
@@ -330,7 +330,7 @@ public:
      * corresponding output \p thread_data in those threads will be <tt>0, 1, ..., 127</tt>.
      *
      */
-    __device__ __forceinline__ void ExclusiveSum(
+    __hydra_device__ __forceinline__ void ExclusiveSum(
         T               input,                          ///< [in] Calling thread's input item
         T               &output)                        ///< [out] Calling thread's output item (may be aliased to \p input)
     {
@@ -377,7 +377,7 @@ public:
      * Furthermore the value \p 128 will be stored in \p block_aggregate for all threads.
      *
      */
-    __device__ __forceinline__ void ExclusiveSum(
+    __hydra_device__ __forceinline__ void ExclusiveSum(
         T               input,                          ///< [in] Calling thread's input item
         T               &output,                        ///< [out] Calling thread's output item (may be aliased to \p input)
         T               &block_aggregate)               ///< [out] block-wide aggregate reduction of input items
@@ -416,11 +416,11 @@ public:
      *     int running_total;
      *
      *     // Constructor
-     *     __device__ BlockPrefixCallbackOp(int running_total) : running_total(running_total) {}
+     *     __hydra_device__ BlockPrefixCallbackOp(int running_total) : running_total(running_total) {}
      *
      *     // Callback operator to be entered by the first warp of threads in the block.
      *     // Thread-0 is responsible for returning a value for seeding the block-wide scan.
-     *     __device__ int operator()(int block_aggregate)
+     *     __hydra_device__ int operator()(int block_aggregate)
      *     {
      *         int old_prefix = running_total;
      *         running_total += block_aggregate;
@@ -462,7 +462,7 @@ public:
      * \tparam BlockPrefixCallbackOp        <b>[inferred]</b> Call-back functor type having member <tt>T operator()(T block_aggregate)</tt>
      */
     template <typename BlockPrefixCallbackOp>
-    __device__ __forceinline__ void ExclusiveSum(
+    __hydra_device__ __forceinline__ void ExclusiveSum(
         T                       input,                          ///< [in] Calling thread's input item
         T                       &output,                        ///< [out] Calling thread's output item (may be aliased to \p input)
         BlockPrefixCallbackOp   &block_prefix_callback_op)      ///< [in-out] <b>[<em>warp</em><sub>0</sub> only]</b> Call-back functor for specifying a block-wide prefix to be applied to the logical input sequence.
@@ -518,7 +518,7 @@ public:
      * \tparam ITEMS_PER_THREAD     <b>[inferred]</b> The number of consecutive items partitioned onto each thread.
      */
     template <int ITEMS_PER_THREAD>
-    __device__ __forceinline__ void ExclusiveSum(
+    __hydra_device__ __forceinline__ void ExclusiveSum(
         T                 (&input)[ITEMS_PER_THREAD],   ///< [in] Calling thread's input items
         T                 (&output)[ITEMS_PER_THREAD])  ///< [out] Calling thread's output items (may be aliased to \p input)
     {
@@ -569,7 +569,7 @@ public:
      * \tparam ITEMS_PER_THREAD     <b>[inferred]</b> The number of consecutive items partitioned onto each thread.
      */
     template <int ITEMS_PER_THREAD>
-    __device__ __forceinline__ void ExclusiveSum(
+    __hydra_device__ __forceinline__ void ExclusiveSum(
         T                 (&input)[ITEMS_PER_THREAD],       ///< [in] Calling thread's input items
         T                 (&output)[ITEMS_PER_THREAD],      ///< [out] Calling thread's output items (may be aliased to \p input)
         T                 &block_aggregate)                 ///< [out] block-wide aggregate reduction of input items
@@ -611,11 +611,11 @@ public:
      *     int running_total;
      *
      *     // Constructor
-     *     __device__ BlockPrefixCallbackOp(int running_total) : running_total(running_total) {}
+     *     __hydra_device__ BlockPrefixCallbackOp(int running_total) : running_total(running_total) {}
      *
      *     // Callback operator to be entered by the first warp of threads in the block.
      *     // Thread-0 is responsible for returning a value for seeding the block-wide scan.
-     *     __device__ int operator()(int block_aggregate)
+     *     __hydra_device__ int operator()(int block_aggregate)
      *     {
      *         int old_prefix = running_total;
      *         running_total += block_aggregate;
@@ -670,7 +670,7 @@ public:
     template <
         int ITEMS_PER_THREAD,
         typename BlockPrefixCallbackOp>
-    __device__ __forceinline__ void ExclusiveSum(
+    __hydra_device__ __forceinline__ void ExclusiveSum(
         T                       (&input)[ITEMS_PER_THREAD],   ///< [in] Calling thread's input items
         T                       (&output)[ITEMS_PER_THREAD],  ///< [out] Calling thread's output items (may be aliased to \p input)
         BlockPrefixCallbackOp   &block_prefix_callback_op)    ///< [in-out] <b>[<em>warp</em><sub>0</sub> only]</b> Call-back functor for specifying a block-wide prefix to be applied to the logical input sequence.
@@ -725,7 +725,7 @@ public:
      * \tparam ScanOp               <b>[inferred]</b> Binary scan functor  type having member <tt>T operator()(const T &a, const T &b)</tt>
      */
     template <typename ScanOp>
-    __device__ __forceinline__ void ExclusiveScan(
+    __hydra_device__ __forceinline__ void ExclusiveScan(
         T               input,                          ///< [in] Calling thread's input item
         T               &output,                        ///< [out] Calling thread's output item (may be aliased to \p input)
         T               initial_value,                  ///< [in] Initial value to seed the exclusive scan (and is assigned to \p output[0] in <em>thread</em><sub>0</sub>)
@@ -775,7 +775,7 @@ public:
      * \tparam ScanOp   <b>[inferred]</b> Binary scan functor  type having member <tt>T operator()(const T &a, const T &b)</tt>
      */
     template <typename ScanOp>
-    __device__ __forceinline__ void ExclusiveScan(
+    __hydra_device__ __forceinline__ void ExclusiveScan(
         T               input,              ///< [in] Calling thread's input items
         T               &output,            ///< [out] Calling thread's output items (may be aliased to \p input)
         T               initial_value,      ///< [in] Initial value to seed the exclusive scan (and is assigned to \p output[0] in <em>thread</em><sub>0</sub>)
@@ -815,11 +815,11 @@ public:
      *     int running_total;
      *
      *     // Constructor
-     *     __device__ BlockPrefixCallbackOp(int running_total) : running_total(running_total) {}
+     *     __hydra_device__ BlockPrefixCallbackOp(int running_total) : running_total(running_total) {}
      *
      *     // Callback operator to be entered by the first warp of threads in the block.
      *     // Thread-0 is responsible for returning a value for seeding the block-wide scan.
-     *     __device__ int operator()(int block_aggregate)
+     *     __hydra_device__ int operator()(int block_aggregate)
      *     {
      *         int old_prefix = running_total;
      *         running_total = (block_aggregate > old_prefix) ? block_aggregate : old_prefix;
@@ -864,7 +864,7 @@ public:
     template <
         typename ScanOp,
         typename BlockPrefixCallbackOp>
-    __device__ __forceinline__ void ExclusiveScan(
+    __hydra_device__ __forceinline__ void ExclusiveScan(
         T                       input,                          ///< [in] Calling thread's input item
         T                       &output,                        ///< [out] Calling thread's output item (may be aliased to \p input)
         ScanOp                  scan_op,                        ///< [in] Binary scan functor 
@@ -926,7 +926,7 @@ public:
     template <
         int             ITEMS_PER_THREAD,
         typename        ScanOp>
-    __device__ __forceinline__ void ExclusiveScan(
+    __hydra_device__ __forceinline__ void ExclusiveScan(
         T                 (&input)[ITEMS_PER_THREAD],   ///< [in] Calling thread's input items
         T                 (&output)[ITEMS_PER_THREAD],  ///< [out] Calling thread's output items (may be aliased to \p input)
         T                 initial_value,                ///< [in] Initial value to seed the exclusive scan (and is assigned to \p output[0] in <em>thread</em><sub>0</sub>)
@@ -988,7 +988,7 @@ public:
     template <
         int             ITEMS_PER_THREAD,
         typename        ScanOp>
-    __device__ __forceinline__ void ExclusiveScan(
+    __hydra_device__ __forceinline__ void ExclusiveScan(
         T                 (&input)[ITEMS_PER_THREAD],   ///< [in] Calling thread's input items
         T                 (&output)[ITEMS_PER_THREAD],  ///< [out] Calling thread's output items (may be aliased to \p input)
         T                 initial_value,                ///< [in] Initial value to seed the exclusive scan (and is assigned to \p output[0] in <em>thread</em><sub>0</sub>)
@@ -1036,11 +1036,11 @@ public:
      *     int running_total;
      *
      *     // Constructor
-     *     __device__ BlockPrefixCallbackOp(int running_total) : running_total(running_total) {}
+     *     __hydra_device__ BlockPrefixCallbackOp(int running_total) : running_total(running_total) {}
      *
      *     // Callback operator to be entered by the first warp of threads in the block.
      *     // Thread-0 is responsible for returning a value for seeding the block-wide scan.
-     *     __device__ int operator()(int block_aggregate)
+     *     __hydra_device__ int operator()(int block_aggregate)
      *     {
      *         int old_prefix = running_total;
      *         running_total = (block_aggregate > old_prefix) ? block_aggregate : old_prefix;
@@ -1096,7 +1096,7 @@ public:
         int             ITEMS_PER_THREAD,
         typename        ScanOp,
         typename        BlockPrefixCallbackOp>
-    __device__ __forceinline__ void ExclusiveScan(
+    __hydra_device__ __forceinline__ void ExclusiveScan(
         T                       (&input)[ITEMS_PER_THREAD],     ///< [in] Calling thread's input items
         T                       (&output)[ITEMS_PER_THREAD],    ///< [out] Calling thread's output items (may be aliased to \p input)
         ScanOp                  scan_op,                        ///< [in] Binary scan functor
@@ -1133,7 +1133,7 @@ public:
      * \tparam ScanOp               <b>[inferred]</b> Binary scan functor  type having member <tt>T operator()(const T &a, const T &b)</tt>
      */
     template <typename ScanOp>
-    __device__ __forceinline__ void ExclusiveScan(
+    __hydra_device__ __forceinline__ void ExclusiveScan(
         T               input,                          ///< [in] Calling thread's input item
         T               &output,                        ///< [out] Calling thread's output item (may be aliased to \p input)
         ScanOp          scan_op)                        ///< [in] Binary scan functor
@@ -1153,7 +1153,7 @@ public:
      * \tparam ScanOp   <b>[inferred]</b> Binary scan functor  type having member <tt>T operator()(const T &a, const T &b)</tt>
      */
     template <typename ScanOp>
-    __device__ __forceinline__ void ExclusiveScan(
+    __hydra_device__ __forceinline__ void ExclusiveScan(
         T               input,                          ///< [in] Calling thread's input item
         T               &output,                        ///< [out] Calling thread's output item (may be aliased to \p input)
         ScanOp          scan_op,                        ///< [in] Binary scan functor
@@ -1184,7 +1184,7 @@ public:
     template <
         int             ITEMS_PER_THREAD,
         typename        ScanOp>
-    __device__ __forceinline__ void ExclusiveScan(
+    __hydra_device__ __forceinline__ void ExclusiveScan(
         T                 (&input)[ITEMS_PER_THREAD],   ///< [in] Calling thread's input items
         T                 (&output)[ITEMS_PER_THREAD],  ///< [out] Calling thread's output items (may be aliased to \p input)
         ScanOp            scan_op)                      ///< [in] Binary scan functor
@@ -1215,7 +1215,7 @@ public:
     template <
         int             ITEMS_PER_THREAD,
         typename        ScanOp>
-    __device__ __forceinline__ void ExclusiveScan(
+    __hydra_device__ __forceinline__ void ExclusiveScan(
         T               (&input)[ITEMS_PER_THREAD],     ///< [in] Calling thread's input items
         T               (&output)[ITEMS_PER_THREAD],    ///< [out] Calling thread's output items (may be aliased to \p input)
         ScanOp          scan_op,                        ///< [in] Binary scan functor
@@ -1276,7 +1276,7 @@ public:
      * corresponding output \p thread_data in those threads will be <tt>1, 2, ..., 128</tt>.
      *
      */
-    __device__ __forceinline__ void InclusiveSum(
+    __hydra_device__ __forceinline__ void InclusiveSum(
         T               input,                          ///< [in] Calling thread's input item
         T               &output)                        ///< [out] Calling thread's output item (may be aliased to \p input)
     {
@@ -1321,7 +1321,7 @@ public:
      * Furthermore the value \p 128 will be stored in \p block_aggregate for all threads.
      *
      */
-    __device__ __forceinline__ void InclusiveSum(
+    __hydra_device__ __forceinline__ void InclusiveSum(
         T               input,                          ///< [in] Calling thread's input item
         T               &output,                        ///< [out] Calling thread's output item (may be aliased to \p input)
         T               &block_aggregate)               ///< [out] block-wide aggregate reduction of input items
@@ -1359,11 +1359,11 @@ public:
      *     int running_total;
      *
      *     // Constructor
-     *     __device__ BlockPrefixCallbackOp(int running_total) : running_total(running_total) {}
+     *     __hydra_device__ BlockPrefixCallbackOp(int running_total) : running_total(running_total) {}
      *
      *     // Callback operator to be entered by the first warp of threads in the block.
      *     // Thread-0 is responsible for returning a value for seeding the block-wide scan.
-     *     __device__ int operator()(int block_aggregate)
+     *     __hydra_device__ int operator()(int block_aggregate)
      *     {
      *         int old_prefix = running_total;
      *         running_total += block_aggregate;
@@ -1405,7 +1405,7 @@ public:
      * \tparam BlockPrefixCallbackOp          <b>[inferred]</b> Call-back functor type having member <tt>T operator()(T block_aggregate)</tt>
      */
     template <typename BlockPrefixCallbackOp>
-    __device__ __forceinline__ void InclusiveSum(
+    __hydra_device__ __forceinline__ void InclusiveSum(
         T                       input,                          ///< [in] Calling thread's input item
         T                       &output,                        ///< [out] Calling thread's output item (may be aliased to \p input)
         BlockPrefixCallbackOp   &block_prefix_callback_op)      ///< [in-out] <b>[<em>warp</em><sub>0</sub> only]</b> Call-back functor for specifying a block-wide prefix to be applied to the logical input sequence.
@@ -1460,7 +1460,7 @@ public:
      * \tparam ITEMS_PER_THREAD     <b>[inferred]</b> The number of consecutive items partitioned onto each thread.
      */
     template <int ITEMS_PER_THREAD>
-    __device__ __forceinline__ void InclusiveSum(
+    __hydra_device__ __forceinline__ void InclusiveSum(
         T               (&input)[ITEMS_PER_THREAD],     ///< [in] Calling thread's input items
         T               (&output)[ITEMS_PER_THREAD])    ///< [out] Calling thread's output items (may be aliased to \p input)
     {
@@ -1527,7 +1527,7 @@ public:
      * \tparam ScanOp               <b>[inferred]</b> Binary scan functor  type having member <tt>T operator()(const T &a, const T &b)</tt>
      */
     template <int ITEMS_PER_THREAD>
-    __device__ __forceinline__ void InclusiveSum(
+    __hydra_device__ __forceinline__ void InclusiveSum(
         T               (&input)[ITEMS_PER_THREAD],     ///< [in] Calling thread's input items
         T               (&output)[ITEMS_PER_THREAD],    ///< [out] Calling thread's output items (may be aliased to \p input)
         T               &block_aggregate)               ///< [out] block-wide aggregate reduction of input items
@@ -1581,11 +1581,11 @@ public:
      *     int running_total;
      *
      *     // Constructor
-     *     __device__ BlockPrefixCallbackOp(int running_total) : running_total(running_total) {}
+     *     __hydra_device__ BlockPrefixCallbackOp(int running_total) : running_total(running_total) {}
      *
      *     // Callback operator to be entered by the first warp of threads in the block.
      *     // Thread-0 is responsible for returning a value for seeding the block-wide scan.
-     *     __device__ int operator()(int block_aggregate)
+     *     __hydra_device__ int operator()(int block_aggregate)
      *     {
      *         int old_prefix = running_total;
      *         running_total += block_aggregate;
@@ -1639,7 +1639,7 @@ public:
     template <
         int ITEMS_PER_THREAD,
         typename BlockPrefixCallbackOp>
-    __device__ __forceinline__ void InclusiveSum(
+    __hydra_device__ __forceinline__ void InclusiveSum(
         T                       (&input)[ITEMS_PER_THREAD],     ///< [in] Calling thread's input items
         T                       (&output)[ITEMS_PER_THREAD],    ///< [out] Calling thread's output items (may be aliased to \p input)
         BlockPrefixCallbackOp   &block_prefix_callback_op)      ///< [in-out] <b>[<em>warp</em><sub>0</sub> only]</b> Call-back functor for specifying a block-wide prefix to be applied to the logical input sequence.
@@ -1708,7 +1708,7 @@ public:
      * \tparam ScanOp               <b>[inferred]</b> Binary scan functor  type having member <tt>T operator()(const T &a, const T &b)</tt>
      */
     template <typename ScanOp>
-    __device__ __forceinline__ void InclusiveScan(
+    __hydra_device__ __forceinline__ void InclusiveScan(
         T               input,                          ///< [in] Calling thread's input item
         T               &output,                        ///< [out] Calling thread's output item (may be aliased to \p input)
         ScanOp          scan_op)                        ///< [in] Binary scan functor 
@@ -1757,7 +1757,7 @@ public:
      * \tparam ScanOp   <b>[inferred]</b> Binary scan functor  type having member <tt>T operator()(const T &a, const T &b)</tt>
      */
     template <typename ScanOp>
-    __device__ __forceinline__ void InclusiveScan(
+    __hydra_device__ __forceinline__ void InclusiveScan(
         T               input,                          ///< [in] Calling thread's input item
         T               &output,                        ///< [out] Calling thread's output item (may be aliased to \p input)
         ScanOp          scan_op,                        ///< [in] Binary scan functor 
@@ -1796,11 +1796,11 @@ public:
      *     int running_total;
      *
      *     // Constructor
-     *     __device__ BlockPrefixCallbackOp(int running_total) : running_total(running_total) {}
+     *     __hydra_device__ BlockPrefixCallbackOp(int running_total) : running_total(running_total) {}
      *
      *     // Callback operator to be entered by the first warp of threads in the block.
      *     // Thread-0 is responsible for returning a value for seeding the block-wide scan.
-     *     __device__ int operator()(int block_aggregate)
+     *     __hydra_device__ int operator()(int block_aggregate)
      *     {
      *         int old_prefix = running_total;
      *         running_total = (block_aggregate > old_prefix) ? block_aggregate : old_prefix;
@@ -1845,7 +1845,7 @@ public:
     template <
         typename ScanOp,
         typename BlockPrefixCallbackOp>
-    __device__ __forceinline__ void InclusiveScan(
+    __hydra_device__ __forceinline__ void InclusiveScan(
         T                       input,                          ///< [in] Calling thread's input item
         T                       &output,                        ///< [out] Calling thread's output item (may be aliased to \p input)
         ScanOp                  scan_op,                        ///< [in] Binary scan functor 
@@ -1905,7 +1905,7 @@ public:
     template <
         int             ITEMS_PER_THREAD,
         typename        ScanOp>
-    __device__ __forceinline__ void InclusiveScan(
+    __hydra_device__ __forceinline__ void InclusiveScan(
         T               (&input)[ITEMS_PER_THREAD],     ///< [in] Calling thread's input items
         T               (&output)[ITEMS_PER_THREAD],    ///< [out] Calling thread's output items (may be aliased to \p input)
         ScanOp          scan_op)                        ///< [in] Binary scan functor 
@@ -1975,7 +1975,7 @@ public:
     template <
         int             ITEMS_PER_THREAD,
         typename         ScanOp>
-    __device__ __forceinline__ void InclusiveScan(
+    __hydra_device__ __forceinline__ void InclusiveScan(
         T               (&input)[ITEMS_PER_THREAD],     ///< [in] Calling thread's input items
         T               (&output)[ITEMS_PER_THREAD],    ///< [out] Calling thread's output items (may be aliased to \p input)
         ScanOp          scan_op,                        ///< [in] Binary scan functor 
@@ -2029,11 +2029,11 @@ public:
      *     int running_total;
      *
      *     // Constructor
-     *     __device__ BlockPrefixCallbackOp(int running_total) : running_total(running_total) {}
+     *     __hydra_device__ BlockPrefixCallbackOp(int running_total) : running_total(running_total) {}
      *
      *     // Callback operator to be entered by the first warp of threads in the block.
      *     // Thread-0 is responsible for returning a value for seeding the block-wide scan.
-     *     __device__ int operator()(int block_aggregate)
+     *     __hydra_device__ int operator()(int block_aggregate)
      *     {
      *         int old_prefix = running_total;
      *         running_total = (block_aggregate > old_prefix) ? block_aggregate : old_prefix;
@@ -2089,7 +2089,7 @@ public:
         int             ITEMS_PER_THREAD,
         typename        ScanOp,
         typename        BlockPrefixCallbackOp>
-    __device__ __forceinline__ void InclusiveScan(
+    __hydra_device__ __forceinline__ void InclusiveScan(
         T                       (&input)[ITEMS_PER_THREAD],     ///< [in] Calling thread's input items
         T                       (&output)[ITEMS_PER_THREAD],    ///< [out] Calling thread's output items (may be aliased to \p input)
         ScanOp                  scan_op,                        ///< [in] Binary scan functor 

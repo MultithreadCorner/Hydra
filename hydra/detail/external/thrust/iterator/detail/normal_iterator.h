@@ -42,15 +42,15 @@ template<typename Pointer>
   typedef iterator_adaptor<normal_iterator<Pointer>, Pointer> super_t;
 
   public:
-    __host__ __device__
+    __hydra_host__ __hydra_device__
     normal_iterator() {}
 
-    __host__ __device__
+    __hydra_host__ __hydra_device__
     normal_iterator(Pointer p)
       : super_t(p) {}
     
     template<typename OtherPointer>
-    __host__ __device__
+    __hydra_host__ __hydra_device__
     normal_iterator(const normal_iterator<OtherPointer> &other,
                     typename thrust::detail::enable_if_convertible<
                       OtherPointer,
@@ -62,7 +62,7 @@ template<typename Pointer>
 
 
 template<typename Pointer>
-  inline __host__ __device__ normal_iterator<Pointer> make_normal_iterator(Pointer ptr)
+  inline __hydra_host__ __hydra_device__ normal_iterator<Pointer> make_normal_iterator(Pointer ptr)
 {
   return normal_iterator<Pointer>(ptr);
 }

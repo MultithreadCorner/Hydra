@@ -39,7 +39,7 @@ __thrust_exec_check_disable__
 template<typename DerivedPolicy,
          typename ForwardIterator,
          typename Predicate>
-__host__ __device__
+__hydra_host__ __hydra_device__
   ForwardIterator remove_if(sequential::execution_policy<DerivedPolicy> &,
                             ForwardIterator first,
                             ForwardIterator last,
@@ -82,7 +82,7 @@ template<typename DerivedPolicy,
          typename ForwardIterator,
          typename InputIterator,
          typename Predicate>
-__host__ __device__
+__hydra_host__ __hydra_device__
   ForwardIterator remove_if(sequential::execution_policy<DerivedPolicy> &,
                             ForwardIterator first,
                             ForwardIterator last,
@@ -131,7 +131,7 @@ template<typename DerivedPolicy,
          typename InputIterator,
          typename OutputIterator,
          typename Predicate>
-__host__ __device__
+__hydra_host__ __hydra_device__
   OutputIterator remove_copy_if(sequential::execution_policy<DerivedPolicy> &,
                                 InputIterator first,
                                 InputIterator last,
@@ -165,7 +165,7 @@ template<typename DerivedPolicy,
          typename InputIterator2,
          typename OutputIterator,
          typename Predicate>
-__host__ __device__
+__hydra_host__ __hydra_device__
   OutputIterator remove_copy_if(sequential::execution_policy<DerivedPolicy> &,
                                 InputIterator1 first,
                                 InputIterator1 last,

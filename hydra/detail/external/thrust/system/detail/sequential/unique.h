@@ -41,7 +41,7 @@ template<typename DerivedPolicy,
          typename InputIterator,
          typename OutputIterator,
          typename BinaryPredicate>
-__host__ __device__
+__hydra_host__ __hydra_device__
   OutputIterator unique_copy(sequential::execution_policy<DerivedPolicy> &/*exec*/,
                              InputIterator first,
                              InputIterator last,
@@ -79,7 +79,7 @@ __host__ __device__
 template<typename DerivedPolicy,
          typename ForwardIterator,
          typename BinaryPredicate>
-__host__ __device__
+__hydra_host__ __hydra_device__
   ForwardIterator unique(sequential::execution_policy<DerivedPolicy> &exec,
                          ForwardIterator first,
                          ForwardIterator last,

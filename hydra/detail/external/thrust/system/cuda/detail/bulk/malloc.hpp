@@ -29,14 +29,14 @@ namespace bulk
 {
 
 
-inline __device__ bool is_on_chip(void *ptr)
+inline __hydra_device__ bool is_on_chip(void *ptr)
 {
   return bulk::detail::is_shared(ptr);
 } // end is_on_chip()
 
 
 template<typename T>
-inline __device__ T *on_chip_cast(T *ptr)
+inline __hydra_device__ T *on_chip_cast(T *ptr)
 {
 #if defined(__NVCC__)
   // The below is UB in three ways:
@@ -69,14 +69,14 @@ extern __shared__ int s_data_segment_begin[];
 class os
 {
   public:
-    __device__ inline os(size_t max_data_segment_size)
+    __hydra_device__ inline os(size_t max_data_segment_size)
       : m_program_break(s_data_segment_begin),
         m_max_data_segment_size(max_data_segment_size)
     {
     }
 
 
-    __device__ inline int brk(void *end_data_segment)
+    __hydra_device__ inline int brk(void *end_data_segment)
     {
       if(end_data_segment <= m_program_break)
       {
@@ -88,7 +88,7 @@ class os
     }
 
 
-    __device__ inline void *sbrk(size_t increment)
+    __hydra_device__ inline void *sbrk(size_t increment)
     {
       if(data_segment_size() + increment <= m_max_data_segment_size)
       {
@@ -103,20 +103,20 @@ class os
     }
 
 
-    __device__ inline void *program_break() const
+    __hydra_device__ inline void *program_break() const
     {
       return m_program_break;
     }
 
     
-    __device__ inline void *data_segment_begin() const
+    __hydra_device__ inline void *data_segment_begin() const
     {
       return s_data_segment_begin;
     }
 
 
   private:
-    __device__ inline size_t data_segment_size()
+    __hydra_device__ inline size_t data_segment_size()
     {
       return reinterpret_cast<char*>(m_program_break) - reinterpret_cast<char*>(s_data_segment_begin);
     } // end data_segment_size()
@@ -133,11 +133,11 @@ class os
 class singleton_unsafe_on_chip_allocator
 {
   public:
-    __device__ inline singleton_unsafe_on_chip_allocator(size_t max_data_segment_size)
+    __hydra_device__ inline singleton_unsafe_on_chip_allocator(size_t max_data_segment_size)
       : m_os(max_data_segment_size)
     {}
   
-    __device__ inline void *allocate(size_t size)
+    __hydra_device__ inline void *allocate(size_t size)
     {
       size_t aligned_size = align8(size);
     
@@ -169,7 +169,7 @@ class singleton_unsafe_on_chip_allocator
     } // end allocate()
   
   
-    __device__ inline void deallocate(void *ptr)
+    __hydra_device__ inline void deallocate(void *ptr)
     {
       if(ptr != 0)
       {
@@ -204,48 +204,48 @@ class singleton_unsafe_on_chip_allocator
     class block : public bulk::detail::aligned_type<sizeof(size_t) + sizeof(block*)>::type
     {
       public:
-        __device__ inline size_t size() const
+        __hydra_device__ inline size_t size() const
         {
           return m_size;
         } // end size()
 
-        __device__ void set_size(size_t sz)
+        __hydra_device__ void set_size(size_t sz)
         {
           m_size = sz;
         } // end set_size()
 
-        __device__ inline block *prev() const
+        __hydra_device__ inline block *prev() const
         {
           return m_prev;
         } // end prev()
 
-        __device__ void set_prev(block *p)
+        __hydra_device__ void set_prev(block *p)
         {
           m_prev = p;
         } // end set_prev()
 
         // returns a pointer to the indexth byte within this block's data
-        __device__ inline void *byte_at(size_t index) const
+        __hydra_device__ inline void *byte_at(size_t index) const
         {
           return reinterpret_cast<char*>(data()) + index;
         } // end byte_at()
 
-        __device__ inline block *next() const
+        __hydra_device__ inline block *next() const
         {
           return reinterpret_cast<block*>(byte_at(size()));
         } // end next()
 
-        __device__ inline bool is_free() const
+        __hydra_device__ inline bool is_free() const
         {
           return m_is_free;
         } // end is_free()
 
-        __device__ inline void set_is_free(bool f)
+        __hydra_device__ inline void set_is_free(bool f)
         {
           m_is_free = f;
         } // end set_is_free()
 
-        __device__ inline void *data() const
+        __hydra_device__ inline void *data() const
         {
           return reinterpret_cast<char*>(const_cast<block*>(this)) + sizeof(block);
         } // end data()
@@ -262,19 +262,19 @@ class singleton_unsafe_on_chip_allocator
   
     os     m_os;
 
-    __device__ inline block *heap_begin() const
+    __hydra_device__ inline block *heap_begin() const
     {
       return reinterpret_cast<block*>(m_os.data_segment_begin());
     } // end heap_begin()
 
 
-    __device__ inline block *heap_end() const
+    __hydra_device__ inline block *heap_end() const
     {
       return reinterpret_cast<block*>(m_os.program_break());
     } // end heap_end();
   
   
-    __device__ inline void split_block(block *b, size_t size)
+    __hydra_device__ inline void split_block(block *b, size_t size)
     {
       block *new_block;
     
@@ -298,7 +298,7 @@ class singleton_unsafe_on_chip_allocator
     } // end split_block()
   
   
-    __device__ inline bool fuse_block(block *b)
+    __hydra_device__ inline bool fuse_block(block *b)
     {
       if(b->next() != heap_end() && b->next()->is_free())
       {
@@ -317,7 +317,7 @@ class singleton_unsafe_on_chip_allocator
     } // end fuse_block()
   
   
-    __device__ inline static block *get_block(void *data)
+    __hydra_device__ inline static block *get_block(void *data)
     {
       // the block metadata lives sizeof(block) bytes to the left of data
       void *ptr = reinterpret_cast<char*>(data) - sizeof(block);
@@ -325,7 +325,7 @@ class singleton_unsafe_on_chip_allocator
     } // end get_block()
   
   
-    __device__ inline static block *find_first_free_insertion_point(block *first, block *last, size_t size)
+    __hydra_device__ inline static block *find_first_free_insertion_point(block *first, block *last, size_t size)
     {
       block *prev = last;
     
@@ -339,7 +339,7 @@ class singleton_unsafe_on_chip_allocator
     } // end find_first_free_insertion_point()
   
   
-    __device__ inline block *extend_heap(block *prev, size_t size)
+    __hydra_device__ inline block *extend_heap(block *prev, size_t size)
     {
       // the new block goes at the current end of the heap
       block *new_block = heap_end();
@@ -359,7 +359,7 @@ class singleton_unsafe_on_chip_allocator
     } // end extend_heap()
   
   
-    __device__ inline static size_t align8(size_t size)
+    __hydra_device__ inline static size_t align8(size_t size)
     {
       return ((((size - 1) >> 3) << 3) + 8);
     } // end align4()
@@ -370,11 +370,11 @@ class singleton_on_chip_allocator
 {
   public:
 #if defined(__NVCC__) && defined(CUDA_VERSION) && (CUDA_VERSION <= 7000)
-    // XXX mark as __host__ to WAR a warning from uninitialized.construct
+    // XXX mark as __hydra_host__ to WAR a warning from uninitialized.construct
     // XXX eliminate this WAR after CUDA 8 is released
-    inline __device__ __host__
+    inline __hydra_device__ __hydra_host__
 #else
-    inline __device__
+    inline __hydra_device__
 #endif
     singleton_on_chip_allocator(size_t max_data_segment_size)
       : m_mutex(),
@@ -382,14 +382,14 @@ class singleton_on_chip_allocator
     {}
 
 
-    inline __device__
+    inline __hydra_device__
     void *unsafe_allocate(size_t size)
     {
       return m_alloc.allocate(size);
     }
 
 
-    inline __device__
+    inline __hydra_device__
     void *allocate(size_t size)
     {
       void *result;
@@ -404,14 +404,14 @@ class singleton_on_chip_allocator
     } // end allocate()
 
 
-    inline __device__
+    inline __hydra_device__
     void unsafe_deallocate(void *ptr)
     {
       m_alloc.deallocate(ptr);
     } // end unsafe_deallocate()
 
 
-    inline __device__
+    inline __hydra_device__
     void deallocate(void *ptr)
     {
       m_mutex.lock();
@@ -426,13 +426,13 @@ class singleton_on_chip_allocator
     class mutex
     {
       public:
-        inline __device__
+        inline __hydra_device__
         mutex()
           : m_in_use(0)
         {}
 
 
-        inline __device__
+        inline __hydra_device__
         bool try_lock()
         {
 #if __CUDA_ARCH__ >= 110
@@ -443,7 +443,7 @@ class singleton_on_chip_allocator
         } // end try_lock()
 
 
-        inline __device__
+        inline __hydra_device__
         void lock()
         {
           // spin while waiting
@@ -454,7 +454,7 @@ class singleton_on_chip_allocator
         } // end lock()
 
 
-        inline __device__
+        inline __hydra_device__
         void unlock()
         {
           m_in_use = 0;
@@ -480,33 +480,33 @@ __shared__  uninitialized<singleton_on_chip_allocator> s_on_chip_allocator;
 } // end anon namespace
 
 
-inline __device__ void init_on_chip_malloc(size_t max_data_segment_size)
+inline __hydra_device__ void init_on_chip_malloc(size_t max_data_segment_size)
 {
   s_on_chip_allocator.construct(max_data_segment_size);
 } // end init_on_chip_malloc()
 
 
-inline __device__ void *on_chip_malloc(size_t size)
+inline __hydra_device__ void *on_chip_malloc(size_t size)
 {
   void *result = s_on_chip_allocator.get().allocate(size);
   return on_chip_cast(result);
 } // end on_chip_malloc()
 
 
-inline __device__ void on_chip_free(void *ptr)
+inline __hydra_device__ void on_chip_free(void *ptr)
 {
   s_on_chip_allocator.get().deallocate(ptr);
 } // end on_chip_free()
 
 
-inline __device__ void *unsafe_on_chip_malloc(size_t size)
+inline __hydra_device__ void *unsafe_on_chip_malloc(size_t size)
 {
   void *result = s_on_chip_allocator.get().unsafe_allocate(size);
   return on_chip_cast(result);
 } // end unsafe_on_chip_malloc()
 
 
-inline __device__ void unsafe_on_chip_free(void *ptr)
+inline __hydra_device__ void unsafe_on_chip_free(void *ptr)
 {
   s_on_chip_allocator.get().unsafe_deallocate(ptr);
 } // end unsafe_on_chip_free()
@@ -515,7 +515,7 @@ inline __device__ void unsafe_on_chip_free(void *ptr)
 } // end detail
 
 
-inline __device__ void *shmalloc(size_t num_bytes)
+inline __hydra_device__ void *shmalloc(size_t num_bytes)
 {
   // first try on_chip_malloc
   void *result = detail::on_chip_malloc(num_bytes);
@@ -531,7 +531,7 @@ inline __device__ void *shmalloc(size_t num_bytes)
 } // end shmalloc()
 
 
-inline __device__ void *unsafe_shmalloc(size_t num_bytes)
+inline __hydra_device__ void *unsafe_shmalloc(size_t num_bytes)
 {
   // first try on_chip_malloc
   void *result = detail::unsafe_on_chip_malloc(num_bytes);
@@ -547,7 +547,7 @@ inline __device__ void *unsafe_shmalloc(size_t num_bytes)
 } // end unsafe_shmalloc()
 
 
-inline __device__ void shfree(void *ptr)
+inline __hydra_device__ void shfree(void *ptr)
 {
 #if __CUDA_ARCH__ >= 200
   if(bulk::is_on_chip(ptr))
@@ -564,7 +564,7 @@ inline __device__ void shfree(void *ptr)
 } // end shfree()
 
 
-inline __device__ void unsafe_shfree(void *ptr)
+inline __hydra_device__ void unsafe_shfree(void *ptr)
 {
 #if __CUDA_ARCH__ >= 200
   if(bulk::is_on_chip(ptr))
@@ -582,7 +582,7 @@ inline __device__ void unsafe_shfree(void *ptr)
 
 
 template<typename ConcurrentGroup>
-__device__
+__hydra_device__
 inline void *malloc(ConcurrentGroup &g, size_t num_bytes)
 {
   __shared__ void *s_result;
@@ -603,7 +603,7 @@ inline void *malloc(ConcurrentGroup &g, size_t num_bytes)
 
 
 template<typename ConcurrentGroup>
-__device__
+__hydra_device__
 inline void free(ConcurrentGroup &g, void *ptr)
 {
   if(g.this_exec.index() == 0)

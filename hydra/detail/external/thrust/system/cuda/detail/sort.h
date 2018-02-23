@@ -32,7 +32,7 @@ namespace detail
 template<typename DerivedPolicy,
          typename RandomAccessIterator,
          typename StrictWeakOrdering>
-__host__ __device__
+__hydra_host__ __hydra_device__
 void stable_sort(execution_policy<DerivedPolicy> &exec,
                  RandomAccessIterator first,
                  RandomAccessIterator last,
@@ -43,7 +43,7 @@ template<typename DerivedPolicy,
          typename RandomAccessIterator1,
          typename RandomAccessIterator2,
          typename StrictWeakOrdering>
-__host__ __device__
+__hydra_host__ __hydra_device__
 void stable_sort_by_key(execution_policy<DerivedPolicy> &exec,
                         RandomAccessIterator1 keys_first,
                         RandomAccessIterator1 keys_last,

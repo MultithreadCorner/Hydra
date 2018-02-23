@@ -29,12 +29,12 @@ namespace detail
 
 struct seq_t : thrust::system::detail::sequential::execution_policy<seq_t>
 {
-  __host__ __device__
+  __hydra_host__ __hydra_device__
   seq_t() : thrust::system::detail::sequential::execution_policy<seq_t>() {}
 
   // allow any execution_policy to convert to seq_t
   template<typename DerivedPolicy>
-  __host__ __device__
+  __hydra_host__ __hydra_device__
   seq_t(const thrust::execution_policy<DerivedPolicy> &)
     : thrust::system::detail::sequential::execution_policy<seq_t>()
   {}
@@ -52,7 +52,7 @@ struct seq_t : thrust::system::detail::sequential::execution_policy<seq_t>
 
 
 #ifdef __CUDA_ARCH__
-static const __device__ detail::seq_t seq;
+static const __hydra_device__ detail::seq_t seq;
 #else
 static const detail::seq_t seq;
 #endif

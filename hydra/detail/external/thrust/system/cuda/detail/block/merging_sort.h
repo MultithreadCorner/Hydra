@@ -38,7 +38,7 @@ namespace block
 
 
 template<typename RandomAccessIterator1, typename RandomAccessIterator2, typename Compare>
-__device__ void conditional_swap(RandomAccessIterator1 keys_first,
+__hydra_device__ void conditional_swap(RandomAccessIterator1 keys_first,
                                  RandomAccessIterator2 values_first,
                                  const unsigned int i,
                                  const unsigned int end,
@@ -75,7 +75,7 @@ template<typename Context,
          typename RandomAccessIterator1,
          typename RandomAccessIterator2,
          typename Compare>
-__device__ void transposition_sort(Context context,
+__hydra_device__ void transposition_sort(Context context,
                                    RandomAccessIterator1 keys_first,
                                    RandomAccessIterator2 values_first,
                                    const unsigned int i,
@@ -101,7 +101,7 @@ template<typename Context,
          typename RandomAccessIterator1,
          typename RandomAccessIterator2,
          typename StrictWeakOrdering>
-__device__ void merge(Context context,
+__hydra_device__ void merge(Context context,
                       RandomAccessIterator1 keys_first, 
                       RandomAccessIterator2 values_first,
                       const unsigned int i,
@@ -170,7 +170,7 @@ template<typename Context,
          typename RandomAccessIterator1,
          typename RandomAccessIterator2,
          typename StrictWeakOrdering>
-__device__ void merging_sort(Context context,
+__hydra_device__ void merging_sort(Context context,
                              RandomAccessIterator1 keys_first,
                              RandomAccessIterator2 values_first,
                              const unsigned int n,

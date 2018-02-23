@@ -85,7 +85,7 @@ template <typename Incrementable, typename System, typename Traversal, typename 
 template<typename Difference, typename Incrementable1, typename Incrementable2>
   struct iterator_distance
 {
-  __host__ __device__
+  __hydra_host__ __hydra_device__
   static Difference distance(Incrementable1 x, Incrementable2 y)
   {
     return y - x;
@@ -96,7 +96,7 @@ template<typename Difference, typename Incrementable1, typename Incrementable2>
 template<typename Difference, typename Incrementable1, typename Incrementable2>
   struct number_distance
 {
-  __host__ __device__
+  __hydra_host__ __hydra_device__
   static Difference distance(Incrementable1 x, Incrementable2 y)
   {
       return static_cast<Difference>(numeric_distance(x,y));
@@ -107,7 +107,7 @@ template<typename Difference, typename Incrementable1, typename Incrementable2>
 template<typename Difference, typename Incrementable1, typename Incrementable2, typename Enable = void>
   struct counting_iterator_equal
 {
-  __host__ __device__
+  __hydra_host__ __hydra_device__
   static bool equal(Incrementable1 x, Incrementable2 y)
   {
     return x == y;
@@ -127,7 +127,7 @@ template<typename Difference, typename Incrementable1, typename Incrementable2>
     >::type
   >
 {
-  __host__ __device__
+  __hydra_host__ __hydra_device__
   static bool equal(Incrementable1 x, Incrementable2 y)
   {
     typedef number_distance<Difference,Incrementable1,Incrementable2> d;

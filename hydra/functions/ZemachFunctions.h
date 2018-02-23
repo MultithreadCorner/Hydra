@@ -65,7 +65,7 @@ public:
 
 	ZemachFunction()=default;
 
-	__host__  __device__ inline
+	__hydra_host__  __hydra_device__ inline
 	ZemachFunction<L, ArgIndex>&
 	operator=(ZemachFunction<L, ArgIndex>  const& other){
 		if(this==&other) return  *this;
@@ -75,7 +75,7 @@ public:
 	}
 
 	template<typename T>
-	__host__ __device__ inline
+	__hydra_host__ __hydra_device__ inline
 	double Evaluate(unsigned int , T*x)  const	{
 
 		return  legendre_polynomial<L>( x[ArgIndex] );
@@ -83,7 +83,7 @@ public:
 	}
 
 	template<typename T>
-	__host__ __device__ inline
+	__hydra_host__ __hydra_device__ inline
 	double Evaluate(T x)  const {
 
 		const double theta =  get<ArgIndex>(x);
@@ -94,37 +94,37 @@ public:
 };
 
 
-template<>__host__ __device__ inline
+template<>__hydra_host__ __hydra_device__ inline
 double legendre_polynomial<0>(const double ){
 
 	return 1.0;
 }
 
-template<>__host__ __device__ inline
+template<>__hydra_host__ __hydra_device__ inline
 double legendre_polynomial<1>(const double x){
 
 	return -x;
 }
 
-template<>__host__ __device__ inline
+template<>__hydra_host__ __hydra_device__ inline
 double legendre_polynomial<2>(const double x){
 
 	return 0.5*(3.0*pow<double, 2>(x) -1) ;
 }
 
-template<>__host__ __device__ inline
+template<>__hydra_host__ __hydra_device__ inline
 double legendre_polynomial<3>(const double x){
 
 	return -0.5*(5.0*pow<double, 3>(x) - 3.0*x);
 }
 
-template<>__host__ __device__ inline
+template<>__hydra_host__ __hydra_device__ inline
 double legendre_polynomial<4>(const double x){
 
 	return 0.125*(35.0*pow<double, 4>(x) - 30.0*pow<double, 2>(x) + 3);
 }
 
-template<>__host__ __device__ inline
+template<>__hydra_host__ __hydra_device__ inline
 double legendre_polynomial<5>(const double x){
 
 	return -0.125*(63.0*pow<double, 5>(x) - 70.0*pow<double, 3>(x) + 15.0*x);

@@ -34,7 +34,7 @@ namespace generic
 
 
 template<typename ExecutionPolicy, typename BidirectionalIterator>
-__host__ __device__
+__hydra_host__ __hydra_device__
   void reverse(thrust::execution_policy<ExecutionPolicy> &exec,
                BidirectionalIterator first,
                BidirectionalIterator last)
@@ -54,7 +54,7 @@ __host__ __device__
 template<typename ExecutionPolicy,
          typename BidirectionalIterator,
          typename OutputIterator>
-__host__ __device__
+__hydra_host__ __hydra_device__
   OutputIterator reverse_copy(thrust::execution_policy<ExecutionPolicy> &exec,
                               BidirectionalIterator first,
                               BidirectionalIterator last,
