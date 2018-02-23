@@ -30,29 +30,20 @@
 
 #if HYDRA_THRUST_DEVICE_COMPILER != HYDRA_THRUST_DEVICE_COMPILER_NVCC
 
-// since __host__ & __hydra_device__ might have already be defined, only
+// since __host__ & __device__ might have already be defined, only
 // #define them if not defined already
 // XXX this will break if the client does #include <host_defines.h> later
 
 #ifndef __host__
 #define __host__
-#endif // __hydra_host__
+#endif // __host__
 
 #ifndef __device__
 #define __device__
-#endif // __hydra_device__
+#endif // _device__
 
-#ifndef __hydra_host__
-#define __hydra_host__ __host__
-#endif // __hydra_host__
 
-#ifndef __hydra_device__
-#define __hydra_device__ __device__
-#endif // __hydra_device__
 
-#ifndef __hydra_dual__
-#define __hydra_dual__ __host__ __device__
-#endif // __hydra_dual__
 
 
 #endif

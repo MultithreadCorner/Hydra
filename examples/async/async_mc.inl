@@ -153,7 +153,7 @@ int main(int argv, char** argc)
 	double sigma =  1.5;
     size_t nbins =  100;
 
-    auto GAUSSIAN3D =  [=] __hydra_host__ __hydra_device__ (unsigned int n,double* x ){
+    auto GAUSSIAN3D =  [=] __hydra_dual__ (unsigned int n,double* x ){
 
     	double g = 1.0;
 

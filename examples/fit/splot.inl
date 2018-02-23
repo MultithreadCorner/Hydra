@@ -215,7 +215,7 @@ int main(int argv, char** argc)
 			std::cout << "[" << i << "] :" << data_d[i] << std::endl;
 
 		//filtering
-		auto FILTER = [=]__hydra_host__ __hydra_device__(unsigned int n, double* x){
+		auto FILTER = [=] __hydra_dual__ (unsigned int n, double* x){
 			return (x[0] > min) && (x[0] < max );
 		};
 

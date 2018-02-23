@@ -148,7 +148,7 @@ int main(int argv, char** argc)
 	// Create PhaseSpace object for B0-> K pi J/psi
 	hydra::PhaseSpace<3> phsp(masses);
 
-	auto bw = [ ]__hydra_host__ __hydra_device__(unsigned int n, hydra::Vector4R* particles ){
+	auto bw = [ ] __hydra_dual__ (unsigned int n, hydra::Vector4R* particles ){
 
 		auto   p0  = particles[0] ;
 		auto   p1  = particles[1] ;

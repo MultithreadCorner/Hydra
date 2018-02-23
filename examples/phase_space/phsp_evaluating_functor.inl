@@ -149,17 +149,17 @@ int main(int argv, char** argc)
 	}
 
 	//C++11 lambda for invariant mass
-	auto M12Sq = [] __hydra_host__ __hydra_device__ (unsigned int , hydra::Vector4R	* p )
+	auto M12Sq = [] __hydra_dual__ (unsigned int , hydra::Vector4R	* p )
 	{ return  ( p[0] + p[2]).mass2(); };
 
 
 	//C++11 lambda for invariant mass
-	auto M23Sq = [] __hydra_host__ __hydra_device__ (unsigned int , hydra::Vector4R* p )
+	auto M23Sq = [] __hydra_dual__ (unsigned int , hydra::Vector4R* p )
 	{ return  ( p[1] + p[2]).mass2(); };
 
 
 	//C++11 lambda for cosine of helicity angle Kpi
-	auto COSHELANG = [] __hydra_host__ __hydra_device__ (unsigned int , hydra::Vector4R* P )
+	auto COSHELANG = [] __hydra_dual__ (unsigned int , hydra::Vector4R* P )
 	{
 		hydra::Vector4R p = P[1] + P[2] + P[0];
 		hydra::Vector4R q = P[2] + P[1];
@@ -177,7 +177,7 @@ int main(int argv, char** argc)
 
 
 	//C++11 lambda for cosine of helicity angle Kpi
-	auto COSHELANG2 = [] __hydra_host__ __hydra_device__ (unsigned int , hydra::Vector4R* P )
+	auto COSHELANG2 = [] __hydra_dual__ (unsigned int , hydra::Vector4R* P )
 	{
 
 		hydra::Vector4R s = P[1] + P[2] + P[0];

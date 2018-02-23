@@ -188,7 +188,7 @@ int main(int argv, char** argc)
 
 		//filtering
 		auto filter = hydra::wrap_lambda(
-			[=]__hydra_host__ __hydra_device__(unsigned int n, double* x){
+			[=] __hydra_dual__ (unsigned int n, double* x){
 				return (x[0] > min) && (x[0] < max );
 		});
 

@@ -126,13 +126,13 @@ public:
 	{}
 
 
-	__hydra_host__ __hydra_device__
+    __hydra_dual__
 	Resonance( Resonance< CHANNEL,L> const& other):
 	hydra::BaseFunctor<Resonance<CHANNEL ,L>, hydra::complex<double>, 4>(other),
 	fLineShape(other.GetLineShape())
 	{}
 
-	__hydra_host__ __hydra_device__ inline
+    __hydra_dual__  inline
 	Resonance< CHANNEL ,L>&
 	operator=( Resonance< CHANNEL ,L> const& other)
 	{
@@ -144,10 +144,10 @@ public:
 		return *this;
 	}
 
-	__hydra_host__ __hydra_device__ inline
+    __hydra_dual__  inline
 	hydra::BreitWignerLineShape<L> const& GetLineShape() const {	return fLineShape; }
 
-	__hydra_host__ __hydra_device__ inline
+    __hydra_dual__  inline
 	hydra::complex<double> Evaluate(unsigned int n, hydra::Vector4R* p)  const {
 
 
@@ -191,12 +191,12 @@ public:
 	{}
 
 
-	__hydra_host__ __hydra_device__
+	 __hydra_dual__
 	NonResonant( NonResonant const& other):
 	hydra::BaseFunctor<NonResonant, hydra::complex<double>, 2>(other)
 	{}
 
-	__hydra_host__ __hydra_device__
+	 __hydra_dual__
 	NonResonant& operator=( NonResonant const& other)
 	{
 		if(this==&other) return *this;
@@ -206,7 +206,7 @@ public:
 		return *this;
 	}
 
-	__hydra_host__ __hydra_device__ inline
+	 __hydra_dual__  inline
 	hydra::complex<double> Evaluate(unsigned int n, hydra::Vector4R* p)  const {
 
 		return hydra::complex<double>(_par[0], _par[1]);
@@ -386,7 +386,7 @@ int main(int argv, char** argc)
 	//Total: Model |N.R + \sum{ Resonaces }|^2
 
 	//parametric lambda
-	auto Norm = hydra::wrap_lambda( []__hydra_host__  __hydra_device__ ( unsigned int n, hydra::complex<double>* x){
+	auto Norm = hydra::wrap_lambda( [] __hydra_dual__ ( unsigned int n, hydra::complex<double>* x){
 
 				hydra::complex<double> r(0,0);
 
@@ -412,7 +412,7 @@ int main(int argv, char** argc)
 
 	// functor to calculate the 2-body masses
 	auto dalitz_calculator = hydra::wrap_lambda(
-			[]__hydra_host__ __hydra_device__(unsigned int n, hydra::Vector4R* p ){
+			[] __hydra_dual__ (unsigned int n, hydra::Vector4R* p ){
 
 		double   M2_12 = (p[0]+p[1]).mass2();
 		double   M2_13 = (p[0]+p[2]).mass2();
@@ -1323,7 +1323,7 @@ double fit_fraction( Amplitude const& amp, Model const& model, std::array<double
 	hydra::PhaseSpace<3> phsp{K_MASS, PI_MASS, PI_MASS};
 
 	//norm lambda
-	auto Norm = hydra::wrap_lambda( []__hydra_host__  __hydra_device__ (unsigned int n, hydra::complex<double>* x){
+	auto Norm = hydra::wrap_lambda( [] __hydra_dual__ (unsigned int n, hydra::complex<double>* x){
 
 		return hydra::norm(x[0]);
 	});
@@ -1364,7 +1364,7 @@ TH3D histogram_component( Amplitude const& amp, std::array<double, 3> const& mas
 
 	// functor to calculate the 2-body masses
 	auto dalitz_calculator = hydra::wrap_lambda(
-			[]__hydra_host__ __hydra_device__(unsigned int n, hydra::Vector4R* p ){
+			[] __hydra_dual__ (unsigned int n, hydra::Vector4R* p ){
 
 		double   M2_12 = (p[0]+p[1]).mass2();
 		double   M2_13 = (p[0]+p[2]).mass2();
@@ -1375,7 +1375,7 @@ TH3D histogram_component( Amplitude const& amp, std::array<double, 3> const& mas
 
 	//norm lambda
 	auto Norm = hydra::wrap_lambda(
-			[]__hydra_host__  __hydra_device__ (unsigned int n, hydra::complex<double>* x){
+			[] __hydra_dual__ (unsigned int n, hydra::complex<double>* x){
 
 		return hydra::norm(x[0]);
 	});
