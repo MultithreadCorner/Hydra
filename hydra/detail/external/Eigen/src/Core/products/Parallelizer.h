@@ -7,8 +7,8 @@
 // Public License v. 2.0. If a copy of the MPL was not distributed
 // with this file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
-#ifndef EIGEN_PARALLELIZER_H
-#define EIGEN_PARALLELIZER_H
+#ifndef HYDRA_EIGEN_PARALLELIZER_H
+#define HYDRA_EIGEN_PARALLELIZER_H
 
 HYDRA_EXTERNAL_NAMESPACE_BEGIN namespace Eigen {
 
@@ -17,7 +17,7 @@ namespace internal {
 /** \internal */
 inline void manage_multi_threading(Action action, int* v)
 {
-  static EIGEN_UNUSED int m_maxThreads = -1;
+  static HYDRA_EIGEN_UNUSED int m_maxThreads = -1;
 
   if(action==SetAction)
   {
@@ -27,7 +27,7 @@ inline void manage_multi_threading(Action action, int* v)
   else if(action==GetAction)
   {
     eigen_internal_assert(v!=0);
-    #ifdef EIGEN_HAS_OPENMP
+    #ifdef HYDRA_EIGEN_HAS_OPENMP
     if(m_maxThreads>0)
       *v = m_maxThreads;
     else
@@ -85,15 +85,15 @@ template<typename Index> struct GemmParallelInfo
 template<bool Condition, typename Functor, typename Index>
 void parallelize_gemm(const Functor& func, Index rows, Index cols, Index depth, bool transpose)
 {
-  // TODO when EIGEN_USE_BLAS is defined,
+  // TODO when HYDRA_EIGEN_USE_BLAS is defined,
   // we should still enable OMP for other scalar types
-#if !(defined (EIGEN_HAS_OPENMP)) || defined (EIGEN_USE_BLAS)
+#if !(defined (HYDRA_EIGEN_HAS_OPENMP)) || defined (HYDRA_EIGEN_USE_BLAS)
   // FIXME the transpose variable is only needed to properly split
   // the matrix product when multithreading is enabled. This is a temporary
   // fix to support row-major destination matrices. This whole
   // parallelizer mechanism has to be redisigned anyway.
-  EIGEN_UNUSED_VARIABLE(depth);
-  EIGEN_UNUSED_VARIABLE(transpose);
+  HYDRA_EIGEN_UNUSED_VARIABLE(depth);
+  HYDRA_EIGEN_UNUSED_VARIABLE(transpose);
   func(0,rows, 0,cols);
 #else
 
@@ -129,7 +129,7 @@ void parallelize_gemm(const Functor& func, Index rows, Index cols, Index depth, 
   if(transpose)
     std::swap(rows,cols);
 
-  ei_declare_aligned_stack_constructed_variable(GemmParallelInfo<Index>,info,threads,0);
+  hydra_ei_declare_aligned_stack_constructed_variable(GemmParallelInfo<Index>,info,threads,0);
 
   #pragma omp parallel num_threads(threads)
   {
@@ -160,4 +160,4 @@ void parallelize_gemm(const Functor& func, Index rows, Index cols, Index depth, 
 
 } /* end namespace Eigen */  HYDRA_EXTERNAL_NAMESPACE_END
 
-#endif // EIGEN_PARALLELIZER_H
+#endif // HYDRA_EIGEN_PARALLELIZER_H

@@ -8,8 +8,8 @@
 // Public License v. 2.0. If a copy of the MPL was not distributed
 // with this file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
-#ifndef EIGEN_PERMUTATIONMATRIX_H
-#define EIGEN_PERMUTATIONMATRIX_H
+#ifndef HYDRA_EIGEN_PERMUTATIONMATRIX_H
+#define HYDRA_EIGEN_PERMUTATIONMATRIX_H
 
 HYDRA_EXTERNAL_NAMESPACE_BEGIN namespace Eigen { 
 
@@ -49,7 +49,7 @@ class PermutationBase : public EigenBase<Derived>
     typedef EigenBase<Derived> Base;
   public:
 
-    #ifndef EIGEN_PARSED_BY_DOXYGEN
+    #ifndef HYDRA_EIGEN_PARSED_BY_DOXYGEN
     typedef typename Traits::IndicesType IndicesType;
     enum {
       Flags = Traits::Flags,
@@ -87,7 +87,7 @@ class PermutationBase : public EigenBase<Derived>
       return derived();
     }
 
-    #ifndef EIGEN_PARSED_BY_DOXYGEN
+    #ifndef HYDRA_EIGEN_PARSED_BY_DOXYGEN
     /** This is a special case of the templated operator=. Its purpose is to
       * prevent a default operator= from hiding the templated operator=.
       */
@@ -107,7 +107,7 @@ class PermutationBase : public EigenBase<Derived>
     /** \returns the size of a side of the respective square matrix, i.e., the number of indices */
     inline Index size() const { return Index(indices().size()); }
 
-    #ifndef EIGEN_PARSED_BY_DOXYGEN
+    #ifndef HYDRA_EIGEN_PARSED_BY_DOXYGEN
     template<typename DenseDerived>
     void evalTo(MatrixBase<DenseDerived>& other) const
     {
@@ -205,7 +205,7 @@ class PermutationBase : public EigenBase<Derived>
     /**** multiplication helpers to hopefully get RVO ****/
 
   
-#ifndef EIGEN_PARSED_BY_DOXYGEN
+#ifndef HYDRA_EIGEN_PARSED_BY_DOXYGEN
   protected:
     template<typename OtherDerived>
     void assignTranspose(const PermutationBase<OtherDerived>& other)
@@ -313,7 +313,7 @@ class PermutationMatrix : public PermutationBase<PermutationMatrix<SizeAtCompile
 
     typedef const PermutationMatrix& Nested;
 
-    #ifndef EIGEN_PARSED_BY_DOXYGEN
+    #ifndef HYDRA_EIGEN_PARSED_BY_DOXYGEN
     typedef typename Traits::IndicesType IndicesType;
     typedef typename Traits::StorageIndex StorageIndex;
     #endif
@@ -333,7 +333,7 @@ class PermutationMatrix : public PermutationBase<PermutationMatrix<SizeAtCompile
     inline PermutationMatrix(const PermutationBase<OtherDerived>& other)
       : m_indices(other.indices()) {}
 
-    #ifndef EIGEN_PARSED_BY_DOXYGEN
+    #ifndef HYDRA_EIGEN_PARSED_BY_DOXYGEN
     /** Standard copy constructor. Defined only to prevent a default copy constructor
       * from hiding the other templated constructor */
     inline PermutationMatrix(const PermutationMatrix& other) : m_indices(other.indices()) {}
@@ -373,7 +373,7 @@ class PermutationMatrix : public PermutationBase<PermutationMatrix<SizeAtCompile
       return Base::operator=(tr.derived());
     }
 
-    #ifndef EIGEN_PARSED_BY_DOXYGEN
+    #ifndef HYDRA_EIGEN_PARSED_BY_DOXYGEN
     /** This is a special case of the templated operator=. Its purpose is to
       * prevent a default operator= from hiding the templated operator=.
       */
@@ -392,7 +392,7 @@ class PermutationMatrix : public PermutationBase<PermutationMatrix<SizeAtCompile
 
     /**** multiplication helpers to hopefully get RVO ****/
 
-#ifndef EIGEN_PARSED_BY_DOXYGEN
+#ifndef HYDRA_EIGEN_PARSED_BY_DOXYGEN
     template<typename Other>
     PermutationMatrix(const InverseImpl<Other,PermutationStorage>& other)
       : m_indices(other.derived().nestedExpression().size())
@@ -436,7 +436,7 @@ class Map<PermutationMatrix<SizeAtCompileTime, MaxSizeAtCompileTime, _StorageInd
     typedef internal::traits<Map> Traits;
   public:
 
-    #ifndef EIGEN_PARSED_BY_DOXYGEN
+    #ifndef HYDRA_EIGEN_PARSED_BY_DOXYGEN
     typedef typename Traits::IndicesType IndicesType;
     typedef typename IndicesType::Scalar StorageIndex;
     #endif
@@ -459,7 +459,7 @@ class Map<PermutationMatrix<SizeAtCompileTime, MaxSizeAtCompileTime, _StorageInd
     Map& operator=(const TranspositionsBase<Other>& tr)
     { return Base::operator=(tr.derived()); }
 
-    #ifndef EIGEN_PARSED_BY_DOXYGEN
+    #ifndef HYDRA_EIGEN_PARSED_BY_DOXYGEN
     /** This is a special case of the templated operator=. Its purpose is to
       * prevent a default operator= from hiding the templated operator=.
       */
@@ -517,7 +517,7 @@ class PermutationWrapper : public PermutationBase<PermutationWrapper<_IndicesTyp
     typedef internal::traits<PermutationWrapper> Traits;
   public:
 
-    #ifndef EIGEN_PARSED_BY_DOXYGEN
+    #ifndef HYDRA_EIGEN_PARSED_BY_DOXYGEN
     typedef typename Traits::IndicesType IndicesType;
     #endif
 
@@ -538,7 +538,7 @@ class PermutationWrapper : public PermutationBase<PermutationWrapper<_IndicesTyp
 /** \returns the matrix with the permutation applied to the columns.
   */
 template<typename MatrixDerived, typename PermutationDerived>
-EIGEN_DEVICE_FUNC
+HYDRA_EIGEN_DEVICE_FUNC
 const Product<MatrixDerived, PermutationDerived, AliasFreeProduct>
 operator*(const MatrixBase<MatrixDerived> &matrix,
           const PermutationBase<PermutationDerived>& permutation)
@@ -550,7 +550,7 @@ operator*(const MatrixBase<MatrixDerived> &matrix,
 /** \returns the matrix with the permutation applied to the rows.
   */
 template<typename PermutationDerived, typename MatrixDerived>
-EIGEN_DEVICE_FUNC
+HYDRA_EIGEN_DEVICE_FUNC
 const Product<PermutationDerived, MatrixDerived, AliasFreeProduct>
 operator*(const PermutationBase<PermutationDerived> &permutation,
           const MatrixBase<MatrixDerived>& matrix)
@@ -572,7 +572,7 @@ class InverseImpl<PermutationType, PermutationStorage>
     typedef Inverse<PermutationType> InverseType;
     using EigenBase<Inverse<PermutationType> >::derived;
 
-    #ifndef EIGEN_PARSED_BY_DOXYGEN
+    #ifndef HYDRA_EIGEN_PARSED_BY_DOXYGEN
     typedef typename PermutationType::DenseMatrixType DenseMatrixType;
     enum {
       RowsAtCompileTime = PermTraits::RowsAtCompileTime,
@@ -582,7 +582,7 @@ class InverseImpl<PermutationType, PermutationStorage>
     };
     #endif
 
-    #ifndef EIGEN_PARSED_BY_DOXYGEN
+    #ifndef HYDRA_EIGEN_PARSED_BY_DOXYGEN
     template<typename DenseDerived>
     void evalTo(MatrixBase<DenseDerived>& other) const
     {
@@ -630,4 +630,4 @@ template<> struct AssignmentKind<DenseShape,PermutationShape> { typedef EigenBas
 
 } /* end namespace Eigen */  HYDRA_EXTERNAL_NAMESPACE_END
 
-#endif // EIGEN_PERMUTATIONMATRIX_H
+#endif // HYDRA_EIGEN_PERMUTATIONMATRIX_H

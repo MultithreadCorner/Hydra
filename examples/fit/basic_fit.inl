@@ -57,7 +57,6 @@
 #include "Minuit2/MnMigrad.h"
 #include "Minuit2/MnMinimize.h"
 
-
 /*-------------------------------------
  * Include classes from ROOT to fill
  * and draw histograms and plots.
@@ -71,7 +70,6 @@
 #include <TCanvas.h>
 
 #endif //_ROOT_AVAILABLE_
-
 
 using namespace ROOT::Minuit2;
 

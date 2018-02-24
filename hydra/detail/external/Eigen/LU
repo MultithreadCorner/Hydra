@@ -5,8 +5,8 @@
 // Public License v. 2.0. If a copy of the MPL was not distributed
 // with this file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
-#ifndef EIGEN_LU_MODULE_H
-#define EIGEN_LU_MODULE_H
+#ifndef HYDRA_EIGEN_LU_MODULE_H
+#define HYDRA_EIGEN_LU_MODULE_H
 
 #include "hydra/detail/external/Eigen/Core"
 
@@ -27,7 +27,7 @@
 #include "hydra/detail/external/Eigen/src/misc/Image.h"
 #include "hydra/detail/external/Eigen/src/LU/FullPivLU.h"
 #include "hydra/detail/external/Eigen/src/LU/PartialPivLU.h"
-#ifdef EIGEN_USE_LAPACKE
+#ifdef HYDRA_EIGEN_USE_LAPACKE
 #include "hydra/detail/external/Eigen/src/misc/lapacke.h"
 #include "hydra/detail/external/Eigen/src/LU/PartialPivLU_LAPACKE.h"
 #endif
@@ -36,11 +36,11 @@
 
 // Use the SSE optimized version whenever possible. At the moment the
 // SSE version doesn't compile when AVX is enabled
-#if defined EIGEN_VECTORIZE_SSE && !defined EIGEN_VECTORIZE_AVX
+#if defined HYDRA_EIGEN_VECTORIZE_SSE && !defined HYDRA_EIGEN_VECTORIZE_AVX
   #include "hydra/detail/external/Eigen/src/LU/arch/Inverse_SSE.h"
 #endif
 
 #include "hydra/detail/external/Eigen/src/Core/util/ReenableStupidWarnings.h"
 
-#endif // EIGEN_LU_MODULE_H
+#endif // HYDRA_EIGEN_LU_MODULE_H
 /* vim: set filetype=cpp et sw=2 ts=2 ai: */

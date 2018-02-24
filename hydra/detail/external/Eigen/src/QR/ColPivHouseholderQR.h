@@ -8,8 +8,8 @@
 // Public License v. 2.0. If a copy of the MPL was not distributed
 // with this file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
-#ifndef EIGEN_COLPIVOTINGHOUSEHOLDERQR_H
-#define EIGEN_COLPIVOTINGHOUSEHOLDERQR_H
+#ifndef HYDRA_EIGEN_COLPIVOTINGHOUSEHOLDERQR_H
+#define HYDRA_EIGEN_COLPIVOTINGHOUSEHOLDERQR_H
 
 HYDRA_EXTERNAL_NAMESPACE_BEGIN namespace Eigen {
 
@@ -414,9 +414,9 @@ template<typename _MatrixType> class ColPivHouseholderQR
       return Success;
     }
 
-    #ifndef EIGEN_PARSED_BY_DOXYGEN
+    #ifndef HYDRA_EIGEN_PARSED_BY_DOXYGEN
     template<typename RhsType, typename DstType>
-    EIGEN_DEVICE_FUNC
+    HYDRA_EIGEN_DEVICE_FUNC
     void _solve_impl(const RhsType &rhs, DstType &dst) const;
     #endif
 
@@ -426,7 +426,7 @@ template<typename _MatrixType> class ColPivHouseholderQR
 
     static void check_template_parameters()
     {
-      EIGEN_STATIC_ASSERT_NON_INTEGER(Scalar);
+      HYDRA_EIGEN_STATIC_ASSERT_NON_INTEGER(Scalar);
     }
 
     void computeInPlace();
@@ -579,7 +579,7 @@ void ColPivHouseholderQR<MatrixType>::computeInPlace()
   m_isInitialized = true;
 }
 
-#ifndef EIGEN_PARSED_BY_DOXYGEN
+#ifndef HYDRA_EIGEN_PARSED_BY_DOXYGEN
 template<typename _MatrixType>
 template<typename RhsType, typename DstType>
 void ColPivHouseholderQR<_MatrixType>::_solve_impl(const RhsType &rhs, DstType &dst) const
@@ -650,4 +650,4 @@ MatrixBase<Derived>::colPivHouseholderQr() const
 
 } /* end namespace Eigen */  HYDRA_EXTERNAL_NAMESPACE_END
 
-#endif // EIGEN_COLPIVOTINGHOUSEHOLDERQR_H
+#endif // HYDRA_EIGEN_COLPIVOTINGHOUSEHOLDERQR_H

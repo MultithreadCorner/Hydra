@@ -9,8 +9,8 @@
 // Public License v. 2.0. If a copy of the MPL was not distributed
 // with this file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
-#ifndef EIGEN_GENERALIZEDEIGENSOLVER_H
-#define EIGEN_GENERALIZEDEIGENSOLVER_H
+#ifndef HYDRA_EIGEN_GENERALIZEDEIGENSOLVER_H
+#define HYDRA_EIGEN_GENERALIZEDEIGENSOLVER_H
 
 #include "./RealQZ.h"
 
@@ -270,8 +270,8 @@ template<typename _MatrixType> class GeneralizedEigenSolver
     
     static void check_template_parameters()
     {
-      EIGEN_STATIC_ASSERT_NON_INTEGER(Scalar);
-      EIGEN_STATIC_ASSERT(!NumTraits<Scalar>::IsComplex, NUMERIC_TYPE_MUST_BE_REAL);
+      HYDRA_EIGEN_STATIC_ASSERT_NON_INTEGER(Scalar);
+      HYDRA_EIGEN_STATIC_ASSERT(!NumTraits<Scalar>::IsComplex, NUMERIC_TYPE_MUST_BE_REAL);
     }
     
     EigenvectorsType m_eivec;
@@ -416,4 +416,4 @@ GeneralizedEigenSolver<MatrixType>::compute(const MatrixType& A, const MatrixTyp
 
 } /* end namespace Eigen */  HYDRA_EXTERNAL_NAMESPACE_END
 
-#endif // EIGEN_GENERALIZEDEIGENSOLVER_H
+#endif // HYDRA_EIGEN_GENERALIZEDEIGENSOLVER_H

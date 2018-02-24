@@ -8,8 +8,8 @@
 // Public License v. 2.0. If a copy of the MPL was not distributed
 // with this file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
-#ifndef EIGEN_SPARSEVIEW_H
-#define EIGEN_SPARSEVIEW_H
+#ifndef HYDRA_EIGEN_SPARSEVIEW_H
+#define HYDRA_EIGEN_SPARSEVIEW_H
 
 HYDRA_EXTERNAL_NAMESPACE_BEGIN namespace Eigen { 
 
@@ -48,7 +48,7 @@ class SparseView : public SparseMatrixBase<SparseView<MatrixType> >
   typedef typename internal::remove_all<MatrixTypeNested>::type _MatrixTypeNested;
   typedef SparseMatrixBase<SparseView > Base;
 public:
-  EIGEN_SPARSE_PUBLIC_INTERFACE(SparseView)
+  HYDRA_EIGEN_SPARSE_PUBLIC_INTERFACE(SparseView)
   typedef typename internal::remove_all<MatrixType>::type NestedExpression;
 
   explicit SparseView(const MatrixType& mat, const Scalar& reference = Scalar(0),
@@ -93,13 +93,13 @@ struct unary_evaluator<SparseView<ArgType>, IteratorBased>
         typedef typename XprType::Scalar Scalar;
       public:
 
-        EIGEN_STRONG_INLINE InnerIterator(const unary_evaluator& sve, Index outer)
+        HYDRA_EIGEN_STRONG_INLINE InnerIterator(const unary_evaluator& sve, Index outer)
           : EvalIterator(sve.m_argImpl,outer), m_view(sve.m_view)
         {
           incrementToNonZero();
         }
 
-        EIGEN_STRONG_INLINE InnerIterator& operator++()
+        HYDRA_EIGEN_STRONG_INLINE InnerIterator& operator++()
         {
           EvalIterator::operator++();
           incrementToNonZero();
@@ -149,30 +149,30 @@ struct unary_evaluator<SparseView<ArgType>, IndexBased>
     {
       public:
 
-        EIGEN_STRONG_INLINE InnerIterator(const unary_evaluator& sve, Index outer)
+        HYDRA_EIGEN_STRONG_INLINE InnerIterator(const unary_evaluator& sve, Index outer)
           : m_sve(sve), m_inner(0), m_outer(outer), m_end(sve.m_view.innerSize())
         {
           incrementToNonZero();
         }
 
-        EIGEN_STRONG_INLINE InnerIterator& operator++()
+        HYDRA_EIGEN_STRONG_INLINE InnerIterator& operator++()
         {
           m_inner++;
           incrementToNonZero();
           return *this;
         }
 
-        EIGEN_STRONG_INLINE Scalar value() const
+        HYDRA_EIGEN_STRONG_INLINE Scalar value() const
         {
           return (IsRowMajor) ? m_sve.m_argImpl.coeff(m_outer, m_inner)
                               : m_sve.m_argImpl.coeff(m_inner, m_outer);
         }
 
-        EIGEN_STRONG_INLINE StorageIndex index() const { return m_inner; }
+        HYDRA_EIGEN_STRONG_INLINE StorageIndex index() const { return m_inner; }
         inline Index row() const { return IsRowMajor ? m_outer : index(); }
         inline Index col() const { return IsRowMajor ? index() : m_outer; }
 
-        EIGEN_STRONG_INLINE operator bool() const { return m_inner < m_end && m_inner>=0; }
+        HYDRA_EIGEN_STRONG_INLINE operator bool() const { return m_inner < m_end && m_inner>=0; }
 
       protected:
         const unary_evaluator &m_sve;

@@ -7,8 +7,8 @@
 // Public License v. 2.0. If a copy of the MPL was not distributed
 // with this file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
-#ifndef EIGEN_SWAP_H
-#define EIGEN_SWAP_H
+#ifndef HYDRA_EIGEN_SWAP_H
+#define HYDRA_EIGEN_SWAP_H
 
 HYDRA_EXTERNAL_NAMESPACE_BEGIN namespace Eigen { 
 
@@ -30,7 +30,7 @@ public:
   typedef typename Base::DstXprType DstXprType;
   typedef swap_assign_op<Scalar> Functor;
   
-  EIGEN_DEVICE_FUNC generic_dense_assignment_kernel(DstEvaluatorTypeT &dst, const SrcEvaluatorTypeT &src, const Functor &func, DstXprType& dstExpr)
+  HYDRA_EIGEN_DEVICE_FUNC generic_dense_assignment_kernel(DstEvaluatorTypeT &dst, const SrcEvaluatorTypeT &src, const Functor &func, DstXprType& dstExpr)
     : Base(dst, src, func, dstExpr)
   {}
   
@@ -64,4 +64,4 @@ public:
 
 } /* end namespace Eigen */  HYDRA_EXTERNAL_NAMESPACE_END
 
-#endif // EIGEN_SWAP_H
+#endif // HYDRA_EIGEN_SWAP_H

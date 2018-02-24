@@ -7,8 +7,8 @@
 // Public License v. 2.0. If a copy of the MPL was not distributed
 // with this file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
-#ifndef EIGEN_LLT_H
-#define EIGEN_LLT_H
+#ifndef HYDRA_EIGEN_LLT_H
+#define HYDRA_EIGEN_LLT_H
 
 HYDRA_EXTERNAL_NAMESPACE_BEGIN namespace Eigen {
 
@@ -198,9 +198,9 @@ template<typename _MatrixType, int _UpLo> class LLT
     template<typename VectorType>
     LLT rankUpdate(const VectorType& vec, const RealScalar& sigma = 1);
 
-    #ifndef EIGEN_PARSED_BY_DOXYGEN
+    #ifndef HYDRA_EIGEN_PARSED_BY_DOXYGEN
     template<typename RhsType, typename DstType>
-    EIGEN_DEVICE_FUNC
+    HYDRA_EIGEN_DEVICE_FUNC
     void _solve_impl(const RhsType &rhs, DstType &dst) const;
     #endif
 
@@ -208,7 +208,7 @@ template<typename _MatrixType, int _UpLo> class LLT
 
     static void check_template_parameters()
     {
-      EIGEN_STATIC_ASSERT_NON_INTEGER(Scalar);
+      HYDRA_EIGEN_STATIC_ASSERT_NON_INTEGER(Scalar);
     }
 
     /** \internal
@@ -368,13 +368,13 @@ template<typename Scalar> struct llt_inplace<Scalar, Upper>
   typedef typename NumTraits<Scalar>::Real RealScalar;
 
   template<typename MatrixType>
-  static EIGEN_STRONG_INLINE Index unblocked(MatrixType& mat)
+  static HYDRA_EIGEN_STRONG_INLINE Index unblocked(MatrixType& mat)
   {
     Transpose<MatrixType> matt(mat);
     return llt_inplace<Scalar, Lower>::unblocked(matt);
   }
   template<typename MatrixType>
-  static EIGEN_STRONG_INLINE Index blocked(MatrixType& mat)
+  static HYDRA_EIGEN_STRONG_INLINE Index blocked(MatrixType& mat)
   {
     Transpose<MatrixType> matt(mat);
     return llt_inplace<Scalar, Lower>::blocked(matt);
@@ -456,7 +456,7 @@ template<typename _MatrixType, int _UpLo>
 template<typename VectorType>
 LLT<_MatrixType,_UpLo> LLT<_MatrixType,_UpLo>::rankUpdate(const VectorType& v, const RealScalar& sigma)
 {
-  EIGEN_STATIC_ASSERT_VECTOR_ONLY(VectorType);
+  HYDRA_EIGEN_STATIC_ASSERT_VECTOR_ONLY(VectorType);
   eigen_assert(v.size()==m_matrix.cols());
   eigen_assert(m_isInitialized);
   if(internal::llt_inplace<typename MatrixType::Scalar, UpLo>::rankUpdate(m_matrix,v,sigma)>=0)
@@ -467,7 +467,7 @@ LLT<_MatrixType,_UpLo> LLT<_MatrixType,_UpLo>::rankUpdate(const VectorType& v, c
   return *this;
 }
 
-#ifndef EIGEN_PARSED_BY_DOXYGEN
+#ifndef HYDRA_EIGEN_PARSED_BY_DOXYGEN
 template<typename _MatrixType,int _UpLo>
 template<typename RhsType, typename DstType>
 void LLT<_MatrixType,_UpLo>::_solve_impl(const RhsType &rhs, DstType &dst) const
@@ -531,4 +531,4 @@ SelfAdjointView<MatrixType, UpLo>::llt() const
 
 } /* end namespace Eigen */  HYDRA_EXTERNAL_NAMESPACE_END
 
-#endif // EIGEN_LLT_H
+#endif // HYDRA_EIGEN_LLT_H

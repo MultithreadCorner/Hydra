@@ -8,8 +8,8 @@
 // Public License v. 2.0. If a copy of the MPL was not distributed
 // with this file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
-#ifndef EIGEN_CWISE_UNARY_OP_H
-#define EIGEN_CWISE_UNARY_OP_H
+#ifndef HYDRA_EIGEN_CWISE_UNARY_OP_H
+#define HYDRA_EIGEN_CWISE_UNARY_OP_H
 
 HYDRA_EXTERNAL_NAMESPACE_BEGIN namespace Eigen { 
 
@@ -57,30 +57,30 @@ class CwiseUnaryOp : public CwiseUnaryOpImpl<UnaryOp, XprType, typename internal
   public:
 
     typedef typename CwiseUnaryOpImpl<UnaryOp, XprType,typename internal::traits<XprType>::StorageKind>::Base Base;
-    EIGEN_GENERIC_PUBLIC_INTERFACE(CwiseUnaryOp)
+    HYDRA_EIGEN_GENERIC_PUBLIC_INTERFACE(CwiseUnaryOp)
     typedef typename internal::ref_selector<XprType>::type XprTypeNested;
     typedef typename internal::remove_all<XprType>::type NestedExpression;
 
-    EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE
+    HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE
     explicit CwiseUnaryOp(const XprType& xpr, const UnaryOp& func = UnaryOp())
       : m_xpr(xpr), m_functor(func) {}
 
-    EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE
+    HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE
     Index rows() const { return m_xpr.rows(); }
-    EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE
+    HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE
     Index cols() const { return m_xpr.cols(); }
 
     /** \returns the functor representing the unary operation */
-    EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE
+    HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE
     const UnaryOp& functor() const { return m_functor; }
 
     /** \returns the nested expression */
-    EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE
+    HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE
     const typename internal::remove_all<XprTypeNested>::type&
     nestedExpression() const { return m_xpr; }
 
     /** \returns the nested expression */
-    EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE
+    HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE
     typename internal::remove_all<XprTypeNested>::type&
     nestedExpression() { return m_xpr; }
 
@@ -100,4 +100,4 @@ public:
 
 } /* end namespace Eigen */  HYDRA_EXTERNAL_NAMESPACE_END
 
-#endif // EIGEN_CWISE_UNARY_OP_H
+#endif // HYDRA_EIGEN_CWISE_UNARY_OP_H

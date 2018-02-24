@@ -5,8 +5,8 @@
 // Public License v. 2.0. If a copy of the MPL was not distributed
 // with this file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
-#ifndef EIGEN_QR_MODULE_H
-#define EIGEN_QR_MODULE_H
+#ifndef HYDRA_EIGEN_QR_MODULE_H
+#define HYDRA_EIGEN_QR_MODULE_H
 
 #include "hydra/detail/external/Eigen/Core"
 
@@ -35,7 +35,7 @@
 #include "hydra/detail/external/Eigen/src/QR/FullPivHouseholderQR.h"
 #include "hydra/detail/external/Eigen/src/QR/ColPivHouseholderQR.h"
 #include "hydra/detail/external/Eigen/src/QR/CompleteOrthogonalDecomposition.h"
-#ifdef EIGEN_USE_LAPACKE
+#ifdef HYDRA_EIGEN_USE_LAPACKE
 #include "hydra/detail/external/Eigen/src/misc/lapacke.h"
 #include "hydra/detail/external/Eigen/src/QR/HouseholderQR_LAPACKE.h"
 #include "hydra/detail/external/Eigen/src/QR/ColPivHouseholderQR_LAPACKE.h"
@@ -43,5 +43,5 @@
 
 #include "hydra/detail/external/Eigen/src/Core/util/ReenableStupidWarnings.h"
 
-#endif // EIGEN_QR_MODULE_H
+#endif // HYDRA_EIGEN_QR_MODULE_H
 /* vim: set filetype=cpp et sw=2 ts=2 ai: */

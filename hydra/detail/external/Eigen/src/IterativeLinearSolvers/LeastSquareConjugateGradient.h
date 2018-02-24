@@ -7,8 +7,8 @@
 // Public License v. 2.0. If a copy of the MPL was not distributed
 // with this file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
-#ifndef EIGEN_LEAST_SQUARE_CONJUGATE_GRADIENT_H
-#define EIGEN_LEAST_SQUARE_CONJUGATE_GRADIENT_H
+#ifndef HYDRA_EIGEN_LEAST_SQUARE_CONJUGATE_GRADIENT_H
+#define HYDRA_EIGEN_LEAST_SQUARE_CONJUGATE_GRADIENT_H
 
 HYDRA_EXTERNAL_NAMESPACE_BEGIN namespace Eigen { 
 
@@ -24,7 +24,7 @@ namespace internal {
   * \param tol_error On input the tolerance error, on output an estimation of the relative error.
   */
 template<typename MatrixType, typename Rhs, typename Dest, typename Preconditioner>
-EIGEN_DONT_INLINE
+HYDRA_EIGEN_DONT_INLINE
 void least_square_conjugate_gradient(const MatrixType& mat, const Rhs& rhs, Dest& x,
                                      const Preconditioner& precond, Index& iters,
                                      typename Dest::RealScalar& tol_error)
@@ -213,4 +213,4 @@ public:
 
 } /* end namespace Eigen */  HYDRA_EXTERNAL_NAMESPACE_END
 
-#endif // EIGEN_LEAST_SQUARE_CONJUGATE_GRADIENT_H
+#endif // HYDRA_EIGEN_LEAST_SQUARE_CONJUGATE_GRADIENT_H

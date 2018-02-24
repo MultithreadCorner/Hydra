@@ -7,8 +7,8 @@
 // Public License v. 2.0. If a copy of the MPL was not distributed
 // with this file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
-#ifndef EIGEN_REPLICATE_H
-#define EIGEN_REPLICATE_H
+#ifndef HYDRA_EIGEN_REPLICATE_H
+#define HYDRA_EIGEN_REPLICATE_H
 
 HYDRA_EXTERNAL_NAMESPACE_BEGIN namespace Eigen { 
 
@@ -66,34 +66,34 @@ template<typename MatrixType,int RowFactor,int ColFactor> class Replicate
   public:
 
     typedef typename internal::dense_xpr_base<Replicate>::type Base;
-    EIGEN_DENSE_PUBLIC_INTERFACE(Replicate)
+    HYDRA_EIGEN_DENSE_PUBLIC_INTERFACE(Replicate)
     typedef typename internal::remove_all<MatrixType>::type NestedExpression;
 
     template<typename OriginalMatrixType>
-    EIGEN_DEVICE_FUNC
+    HYDRA_EIGEN_DEVICE_FUNC
     inline explicit Replicate(const OriginalMatrixType& matrix)
       : m_matrix(matrix), m_rowFactor(RowFactor), m_colFactor(ColFactor)
     {
-      EIGEN_STATIC_ASSERT((internal::is_same<typename internal::remove_const<MatrixType>::type,OriginalMatrixType>::value),
+      HYDRA_EIGEN_STATIC_ASSERT((internal::is_same<typename internal::remove_const<MatrixType>::type,OriginalMatrixType>::value),
                           THE_MATRIX_OR_EXPRESSION_THAT_YOU_PASSED_DOES_NOT_HAVE_THE_EXPECTED_TYPE)
       eigen_assert(RowFactor!=Dynamic && ColFactor!=Dynamic);
     }
 
     template<typename OriginalMatrixType>
-    EIGEN_DEVICE_FUNC
+    HYDRA_EIGEN_DEVICE_FUNC
     inline Replicate(const OriginalMatrixType& matrix, Index rowFactor, Index colFactor)
       : m_matrix(matrix), m_rowFactor(rowFactor), m_colFactor(colFactor)
     {
-      EIGEN_STATIC_ASSERT((internal::is_same<typename internal::remove_const<MatrixType>::type,OriginalMatrixType>::value),
+      HYDRA_EIGEN_STATIC_ASSERT((internal::is_same<typename internal::remove_const<MatrixType>::type,OriginalMatrixType>::value),
                           THE_MATRIX_OR_EXPRESSION_THAT_YOU_PASSED_DOES_NOT_HAVE_THE_EXPECTED_TYPE)
     }
 
-    EIGEN_DEVICE_FUNC
+    HYDRA_EIGEN_DEVICE_FUNC
     inline Index rows() const { return m_matrix.rows() * m_rowFactor.value(); }
-    EIGEN_DEVICE_FUNC
+    HYDRA_EIGEN_DEVICE_FUNC
     inline Index cols() const { return m_matrix.cols() * m_colFactor.value(); }
 
-    EIGEN_DEVICE_FUNC
+    HYDRA_EIGEN_DEVICE_FUNC
     const _MatrixTypeNested& nestedExpression() const
     { 
       return m_matrix; 
@@ -139,4 +139,4 @@ VectorwiseOp<ExpressionType,Direction>::replicate(Index factor) const
 
 } /* end namespace Eigen */  HYDRA_EXTERNAL_NAMESPACE_END
 
-#endif // EIGEN_REPLICATE_H
+#endif // HYDRA_EIGEN_REPLICATE_H

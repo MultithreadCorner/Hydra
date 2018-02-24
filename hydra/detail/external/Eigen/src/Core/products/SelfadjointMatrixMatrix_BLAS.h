@@ -30,8 +30,8 @@
  ********************************************************************************
 */
 
-#ifndef EIGEN_SELFADJOINT_MATRIX_MATRIX_BLAS_H
-#define EIGEN_SELFADJOINT_MATRIX_MATRIX_BLAS_H
+#ifndef HYDRA_EIGEN_SELFADJOINT_MATRIX_MATRIX_BLAS_H
+#define HYDRA_EIGEN_SELFADJOINT_MATRIX_MATRIX_BLAS_H
 
 HYDRA_EXTERNAL_NAMESPACE_BEGIN namespace Eigen { 
 
@@ -40,7 +40,7 @@ namespace internal {
 
 /* Optimized selfadjoint matrix * matrix (?SYMM/?HEMM) product */
 
-#define EIGEN_BLAS_SYMM_L(EIGTYPE, BLASTYPE, EIGPREFIX, BLASPREFIX) \
+#define HYDRA_EIGEN_BLAS_SYMM_L(EIGTYPE, BLASTYPE, EIGPREFIX, BLASPREFIX) \
 template <typename Index, \
           int LhsStorageOrder, bool ConjugateLhs, \
           int RhsStorageOrder, bool ConjugateRhs> \
@@ -87,7 +87,7 @@ struct product_selfadjoint_matrix<EIGTYPE,Index,LhsStorageOrder,true,ConjugateLh
 };
 
 
-#define EIGEN_BLAS_HEMM_L(EIGTYPE, BLASTYPE, EIGPREFIX, BLASPREFIX) \
+#define HYDRA_EIGEN_BLAS_HEMM_L(EIGTYPE, BLASTYPE, EIGPREFIX, BLASPREFIX) \
 template <typename Index, \
           int LhsStorageOrder, bool ConjugateLhs, \
           int RhsStorageOrder, bool ConjugateRhs> \
@@ -149,15 +149,15 @@ struct product_selfadjoint_matrix<EIGTYPE,Index,LhsStorageOrder,true,ConjugateLh
   } \
 };
 
-EIGEN_BLAS_SYMM_L(double, double, d, d)
-EIGEN_BLAS_SYMM_L(float, float, f, s)
-EIGEN_BLAS_HEMM_L(dcomplex, double, cd, z)
-EIGEN_BLAS_HEMM_L(scomplex, float, cf, c)
+HYDRA_EIGEN_BLAS_SYMM_L(double, double, d, d)
+HYDRA_EIGEN_BLAS_SYMM_L(float, float, f, s)
+HYDRA_EIGEN_BLAS_HEMM_L(dcomplex, double, cd, z)
+HYDRA_EIGEN_BLAS_HEMM_L(scomplex, float, cf, c)
 
 
 /* Optimized matrix * selfadjoint matrix (?SYMM/?HEMM) product */
 
-#define EIGEN_BLAS_SYMM_R(EIGTYPE, BLASTYPE, EIGPREFIX, BLASPREFIX) \
+#define HYDRA_EIGEN_BLAS_SYMM_R(EIGTYPE, BLASTYPE, EIGPREFIX, BLASPREFIX) \
 template <typename Index, \
           int LhsStorageOrder, bool ConjugateLhs, \
           int RhsStorageOrder, bool ConjugateRhs> \
@@ -203,7 +203,7 @@ struct product_selfadjoint_matrix<EIGTYPE,Index,LhsStorageOrder,false,ConjugateL
 };
 
 
-#define EIGEN_BLAS_HEMM_R(EIGTYPE, BLASTYPE, EIGPREFIX, BLASPREFIX) \
+#define HYDRA_EIGEN_BLAS_HEMM_R(EIGTYPE, BLASTYPE, EIGPREFIX, BLASPREFIX) \
 template <typename Index, \
           int LhsStorageOrder, bool ConjugateLhs, \
           int RhsStorageOrder, bool ConjugateRhs> \
@@ -263,13 +263,13 @@ struct product_selfadjoint_matrix<EIGTYPE,Index,LhsStorageOrder,false,ConjugateL
   } \
 };
 
-EIGEN_BLAS_SYMM_R(double, double, d, d)
-EIGEN_BLAS_SYMM_R(float, float, f, s)
-EIGEN_BLAS_HEMM_R(dcomplex, double, cd, z)
-EIGEN_BLAS_HEMM_R(scomplex, float, cf, c)
+HYDRA_EIGEN_BLAS_SYMM_R(double, double, d, d)
+HYDRA_EIGEN_BLAS_SYMM_R(float, float, f, s)
+HYDRA_EIGEN_BLAS_HEMM_R(dcomplex, double, cd, z)
+HYDRA_EIGEN_BLAS_HEMM_R(scomplex, float, cf, c)
 
 } // end namespace internal
 
 } /* end namespace Eigen */  HYDRA_EXTERNAL_NAMESPACE_END
 
-#endif // EIGEN_SELFADJOINT_MATRIX_MATRIX_BLAS_H
+#endif // HYDRA_EIGEN_SELFADJOINT_MATRIX_MATRIX_BLAS_H

@@ -7,8 +7,8 @@
 // Public License v. 2.0. If a copy of the MPL was not distributed
 // with this file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
-#ifndef EIGEN_UMFPACKSUPPORT_H
-#define EIGEN_UMFPACKSUPPORT_H
+#ifndef HYDRA_EIGEN_UMFPACKSUPPORT_H
+#define HYDRA_EIGEN_UMFPACKSUPPORT_H
 
 HYDRA_EXTERNAL_NAMESPACE_BEGIN namespace Eigen {
 
@@ -503,4 +503,4 @@ bool UmfPackLU<MatrixType>::_solve_impl(const MatrixBase<BDerived> &b, MatrixBas
 
 } /* end namespace Eigen */  HYDRA_EXTERNAL_NAMESPACE_END
 
-#endif // EIGEN_UMFPACKSUPPORT_H
+#endif // HYDRA_EIGEN_UMFPACKSUPPORT_H

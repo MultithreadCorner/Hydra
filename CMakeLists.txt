@@ -41,6 +41,9 @@ endif()
 
 set(CMAKE_CXX_FLAGS "-ftemplate-backtrace-limit=0 --std=c++11 -W -march=native -fPIC -O4 -ldl" CACHE STRING "compile flags" FORCE)
 
+include_directories("/usr/include/eigen3")
+
+
 # get TCLAP
 find_package(TCLAP REQUIRED)
 include_directories(${TCLAP_INCLUDE_DIR})

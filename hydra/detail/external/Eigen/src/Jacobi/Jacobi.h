@@ -8,8 +8,8 @@
 // Public License v. 2.0. If a copy of the MPL was not distributed
 // with this file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
-#ifndef EIGEN_JACOBI_H
-#define EIGEN_JACOBI_H
+#ifndef HYDRA_EIGEN_JACOBI_H
+#define HYDRA_EIGEN_JACOBI_H
 
 HYDRA_EXTERNAL_NAMESPACE_BEGIN namespace Eigen { 
 
@@ -299,7 +299,7 @@ inline void MatrixBase<Derived>::applyOnTheRight(Index p, Index q, const JacobiR
 
 namespace internal {
 template<typename VectorX, typename VectorY, typename OtherScalar>
-void /*EIGEN_DONT_INLINE*/ apply_rotation_in_the_plane(DenseBase<VectorX>& xpr_x, DenseBase<VectorY>& xpr_y, const JacobiRotation<OtherScalar>& j)
+void /*HYDRA_EIGEN_DONT_INLINE*/ apply_rotation_in_the_plane(DenseBase<VectorX>& xpr_x, DenseBase<VectorY>& xpr_y, const JacobiRotation<OtherScalar>& j)
 {
   typedef typename VectorX::Scalar Scalar;
   enum {
@@ -313,8 +313,8 @@ void /*EIGEN_DONT_INLINE*/ apply_rotation_in_the_plane(DenseBase<VectorX>& xpr_x
   Index incrx = xpr_x.derived().innerStride();
   Index incry = xpr_y.derived().innerStride();
 
-  Scalar* EIGEN_RESTRICT x = &xpr_x.derived().coeffRef(0);
-  Scalar* EIGEN_RESTRICT y = &xpr_y.derived().coeffRef(0);
+  Scalar* HYDRA_EIGEN_RESTRICT x = &xpr_x.derived().coeffRef(0);
+  Scalar* HYDRA_EIGEN_RESTRICT y = &xpr_y.derived().coeffRef(0);
   
   OtherScalar c = j.c();
   OtherScalar s = j.s();
@@ -347,8 +347,8 @@ void /*EIGEN_DONT_INLINE*/ apply_rotation_in_the_plane(DenseBase<VectorX>& xpr_x
       y[i] = -s * xi + numext::conj(c) * yi;
     }
 
-    Scalar* EIGEN_RESTRICT px = x + alignedStart;
-    Scalar* EIGEN_RESTRICT py = y + alignedStart;
+    Scalar* HYDRA_EIGEN_RESTRICT px = x + alignedStart;
+    Scalar* HYDRA_EIGEN_RESTRICT py = y + alignedStart;
 
     if(internal::first_default_aligned(x, size)==alignedStart)
     {
@@ -400,14 +400,14 @@ void /*EIGEN_DONT_INLINE*/ apply_rotation_in_the_plane(DenseBase<VectorX>& xpr_x
   else if(VectorX::SizeAtCompileTime != Dynamic &&
           (VectorX::Flags & VectorY::Flags & PacketAccessBit) &&
           (PacketSize == OtherPacketSize) &&
-          (EIGEN_PLAIN_ENUM_MIN(evaluator<VectorX>::Alignment, evaluator<VectorY>::Alignment)>0)) // FIXME should be compared to the required alignment
+          (HYDRA_EIGEN_PLAIN_ENUM_MIN(evaluator<VectorX>::Alignment, evaluator<VectorY>::Alignment)>0)) // FIXME should be compared to the required alignment
   {
     const OtherPacket pc = pset1<OtherPacket>(c);
     const OtherPacket ps = pset1<OtherPacket>(s);
     conj_helper<OtherPacket,Packet,NumTraits<OtherPacket>::IsComplex,false> pcj;
     conj_helper<OtherPacket,Packet,false,false> pm;
-    Scalar* EIGEN_RESTRICT px = x;
-    Scalar* EIGEN_RESTRICT py = y;
+    Scalar* HYDRA_EIGEN_RESTRICT px = x;
+    Scalar* HYDRA_EIGEN_RESTRICT py = y;
     for(Index i=0; i<size; i+=PacketSize)
     {
       Packet xi = pload<Packet>(px);
@@ -438,4 +438,4 @@ void /*EIGEN_DONT_INLINE*/ apply_rotation_in_the_plane(DenseBase<VectorX>& xpr_x
 
 } /* end namespace Eigen */  HYDRA_EXTERNAL_NAMESPACE_END
 
-#endif // EIGEN_JACOBI_H
+#endif // HYDRA_EIGEN_JACOBI_H

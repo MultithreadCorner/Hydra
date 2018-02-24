@@ -7,8 +7,8 @@
 // Public License v. 2.0. If a copy of the MPL was not distributed
 // with this file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
-#ifndef EIGEN_INVERSE_H
-#define EIGEN_INVERSE_H
+#ifndef HYDRA_EIGEN_INVERSE_H
+#define HYDRA_EIGEN_INVERSE_H
 
 HYDRA_EXTERNAL_NAMESPACE_BEGIN namespace Eigen { 
 
@@ -51,14 +51,14 @@ public:
   typedef typename internal::ref_selector<Inverse>::type Nested;
   typedef typename internal::remove_all<XprType>::type NestedExpression;
   
-  explicit EIGEN_DEVICE_FUNC Inverse(const XprType &xpr)
+  explicit HYDRA_EIGEN_DEVICE_FUNC Inverse(const XprType &xpr)
     : m_xpr(xpr)
   {}
 
-  EIGEN_DEVICE_FUNC Index rows() const { return m_xpr.rows(); }
-  EIGEN_DEVICE_FUNC Index cols() const { return m_xpr.cols(); }
+  HYDRA_EIGEN_DEVICE_FUNC Index rows() const { return m_xpr.rows(); }
+  HYDRA_EIGEN_DEVICE_FUNC Index cols() const { return m_xpr.cols(); }
 
-  EIGEN_DEVICE_FUNC const XprTypeNestedCleaned& nestedExpression() const { return m_xpr; }
+  HYDRA_EIGEN_DEVICE_FUNC const XprTypeNestedCleaned& nestedExpression() const { return m_xpr; }
 
 protected:
   XprTypeNested m_xpr;
@@ -115,4 +115,4 @@ protected:
 
 } /* end namespace Eigen */  HYDRA_EXTERNAL_NAMESPACE_END
 
-#endif // EIGEN_INVERSE_H
+#endif // HYDRA_EIGEN_INVERSE_H

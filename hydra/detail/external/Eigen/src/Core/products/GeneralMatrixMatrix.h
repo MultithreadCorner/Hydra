@@ -7,8 +7,8 @@
 // Public License v. 2.0. If a copy of the MPL was not distributed
 // with this file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
-#ifndef EIGEN_GENERAL_MATRIX_MATRIX_H
-#define EIGEN_GENERAL_MATRIX_MATRIX_H
+#ifndef HYDRA_EIGEN_GENERAL_MATRIX_MATRIX_H
+#define HYDRA_EIGEN_GENERAL_MATRIX_MATRIX_H
 
 HYDRA_EXTERNAL_NAMESPACE_BEGIN namespace Eigen {
 
@@ -26,7 +26,7 @@ struct general_matrix_matrix_product<Index,LhsScalar,LhsStorageOrder,ConjugateLh
   typedef gebp_traits<RhsScalar,LhsScalar> Traits;
 
   typedef typename ScalarBinaryOpTraits<LhsScalar, RhsScalar>::ReturnType ResScalar;
-  static EIGEN_STRONG_INLINE void run(
+  static HYDRA_EIGEN_STRONG_INLINE void run(
     Index rows, Index cols, Index depth,
     const LhsScalar* lhs, Index lhsStride,
     const RhsScalar* rhs, Index rhsStride,
@@ -79,7 +79,7 @@ static void run(Index rows, Index cols, Index depth,
   gemm_pack_rhs<RhsScalar, Index, RhsMapper, Traits::nr, RhsStorageOrder> pack_rhs;
   gebp_kernel<LhsScalar, RhsScalar, Index, ResMapper, Traits::mr, Traits::nr, ConjugateLhs, ConjugateRhs> gebp;
 
-#ifdef EIGEN_HAS_OPENMP
+#ifdef HYDRA_EIGEN_HAS_OPENMP
   if(info)
   {
     // this is the parallel version!
@@ -90,7 +90,7 @@ static void run(Index rows, Index cols, Index depth,
     eigen_internal_assert(blockA!=0);
 
     std::size_t sizeB = kc*nc;
-    ei_declare_aligned_stack_constructed_variable(RhsScalar, blockB, sizeB, 0);
+    hydra_ei_declare_aligned_stack_constructed_variable(RhsScalar, blockB, sizeB, 0);
 
     // For each horizontal panel of the rhs, and corresponding vertical panel of the lhs...
     for(Index k=0; k<depth; k+=kc)
@@ -151,16 +151,16 @@ static void run(Index rows, Index cols, Index depth,
     }
   }
   else
-#endif // EIGEN_HAS_OPENMP
+#endif // HYDRA_EIGEN_HAS_OPENMP
   {
-    EIGEN_UNUSED_VARIABLE(info);
+    HYDRA_EIGEN_UNUSED_VARIABLE(info);
 
     // this is the sequential version!
     std::size_t sizeA = kc*mc;
     std::size_t sizeB = kc*nc;
 
-    ei_declare_aligned_stack_constructed_variable(LhsScalar, blockA, sizeA, blocking.blockA());
-    ei_declare_aligned_stack_constructed_variable(RhsScalar, blockB, sizeB, blocking.blockB());
+    hydra_ei_declare_aligned_stack_constructed_variable(LhsScalar, blockA, sizeA, blocking.blockA());
+    hydra_ei_declare_aligned_stack_constructed_variable(RhsScalar, blockB, sizeB, blocking.blockB());
 
     const bool pack_rhs_once = mc!=rows && kc==depth && nc==cols;
 
@@ -290,12 +290,12 @@ class gemm_blocking_space<StorageOrder,_LhsScalar,_RhsScalar,MaxRows, MaxCols, M
       SizeB = ActualCols * MaxDepth
     };
 
-#if EIGEN_MAX_STATIC_ALIGN_BYTES >= EIGEN_DEFAULT_ALIGN_BYTES
-    EIGEN_ALIGN_MAX LhsScalar m_staticA[SizeA];
-    EIGEN_ALIGN_MAX RhsScalar m_staticB[SizeB];
+#if HYDRA_EIGEN_MAX_STATIC_ALIGN_BYTES >= HYDRA_EIGEN_DEFAULT_ALIGN_BYTES
+    HYDRA_EIGEN_ALIGN_MAX LhsScalar m_staticA[SizeA];
+    HYDRA_EIGEN_ALIGN_MAX RhsScalar m_staticB[SizeB];
 #else
-    EIGEN_ALIGN_MAX char m_staticA[SizeA * sizeof(LhsScalar) + EIGEN_DEFAULT_ALIGN_BYTES-1];
-    EIGEN_ALIGN_MAX char m_staticB[SizeB * sizeof(RhsScalar) + EIGEN_DEFAULT_ALIGN_BYTES-1];
+    HYDRA_EIGEN_ALIGN_MAX char m_staticA[SizeA * sizeof(LhsScalar) + HYDRA_EIGEN_DEFAULT_ALIGN_BYTES-1];
+    HYDRA_EIGEN_ALIGN_MAX char m_staticB[SizeB * sizeof(RhsScalar) + HYDRA_EIGEN_DEFAULT_ALIGN_BYTES-1];
 #endif
 
   public:
@@ -305,12 +305,12 @@ class gemm_blocking_space<StorageOrder,_LhsScalar,_RhsScalar,MaxRows, MaxCols, M
       this->m_mc = ActualRows;
       this->m_nc = ActualCols;
       this->m_kc = MaxDepth;
-#if EIGEN_MAX_STATIC_ALIGN_BYTES >= EIGEN_DEFAULT_ALIGN_BYTES
+#if HYDRA_EIGEN_MAX_STATIC_ALIGN_BYTES >= HYDRA_EIGEN_DEFAULT_ALIGN_BYTES
       this->m_blockA = m_staticA;
       this->m_blockB = m_staticB;
 #else
-      this->m_blockA = reinterpret_cast<LhsScalar*>((internal::UIntPtr(m_staticA) + (EIGEN_DEFAULT_ALIGN_BYTES-1)) & ~std::size_t(EIGEN_DEFAULT_ALIGN_BYTES-1));
-      this->m_blockB = reinterpret_cast<RhsScalar*>((internal::UIntPtr(m_staticB) + (EIGEN_DEFAULT_ALIGN_BYTES-1)) & ~std::size_t(EIGEN_DEFAULT_ALIGN_BYTES-1));
+      this->m_blockA = reinterpret_cast<LhsScalar*>((internal::UIntPtr(m_staticA) + (HYDRA_EIGEN_DEFAULT_ALIGN_BYTES-1)) & ~std::size_t(HYDRA_EIGEN_DEFAULT_ALIGN_BYTES-1));
+      this->m_blockB = reinterpret_cast<RhsScalar*>((internal::UIntPtr(m_staticB) + (HYDRA_EIGEN_DEFAULT_ALIGN_BYTES-1)) & ~std::size_t(HYDRA_EIGEN_DEFAULT_ALIGN_BYTES-1));
 #endif
     }
 
@@ -419,7 +419,7 @@ struct generic_product_impl<Lhs,Rhs,DenseShape,DenseShape,GemmProduct>
   typedef typename internal::remove_all<ActualRhsType>::type ActualRhsTypeCleaned;
 
   enum {
-    MaxDepthAtCompileTime = EIGEN_SIZE_MIN_PREFER_FIXED(Lhs::MaxColsAtCompileTime,Rhs::MaxRowsAtCompileTime)
+    MaxDepthAtCompileTime = HYDRA_EIGEN_SIZE_MIN_PREFER_FIXED(Lhs::MaxColsAtCompileTime,Rhs::MaxRowsAtCompileTime)
   };
 
   typedef generic_product_impl<Lhs,Rhs,DenseShape,DenseShape,CoeffBasedProductMode> lazyproduct;
@@ -489,4 +489,4 @@ struct generic_product_impl<Lhs,Rhs,DenseShape,DenseShape,GemmProduct>
 
 } /* end namespace Eigen */  HYDRA_EXTERNAL_NAMESPACE_END
 
-#endif // EIGEN_GENERAL_MATRIX_MATRIX_H
+#endif // HYDRA_EIGEN_GENERAL_MATRIX_MATRIX_H

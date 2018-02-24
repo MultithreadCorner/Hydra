@@ -7,8 +7,8 @@
 // Public License v. 2.0. If a copy of the MPL was not distributed
 // with this file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
-#ifndef EIGEN_TYPE_CASTING_AVX_H
-#define EIGEN_TYPE_CASTING_AVX_H
+#ifndef HYDRA_EIGEN_TYPE_CASTING_AVX_H
+#define HYDRA_EIGEN_TYPE_CASTING_AVX_H
 
 HYDRA_EXTERNAL_NAMESPACE_BEGIN namespace Eigen {
 
@@ -36,11 +36,11 @@ struct type_casting_traits<int, float> {
 
 
 
-template<> EIGEN_STRONG_INLINE Packet8i pcast<Packet8f, Packet8i>(const Packet8f& a) {
+template<> HYDRA_EIGEN_STRONG_INLINE Packet8i pcast<Packet8f, Packet8i>(const Packet8f& a) {
   return _mm256_cvtps_epi32(a);
 }
 
-template<> EIGEN_STRONG_INLINE Packet8f pcast<Packet8i, Packet8f>(const Packet8i& a) {
+template<> HYDRA_EIGEN_STRONG_INLINE Packet8f pcast<Packet8i, Packet8f>(const Packet8i& a) {
   return _mm256_cvtepi32_ps(a);
 }
 
@@ -48,4 +48,4 @@ template<> EIGEN_STRONG_INLINE Packet8f pcast<Packet8i, Packet8f>(const Packet8i
 
 } /* end namespace Eigen */  HYDRA_EXTERNAL_NAMESPACE_END
 
-#endif // EIGEN_TYPE_CASTING_AVX_H
+#endif // HYDRA_EIGEN_TYPE_CASTING_AVX_H

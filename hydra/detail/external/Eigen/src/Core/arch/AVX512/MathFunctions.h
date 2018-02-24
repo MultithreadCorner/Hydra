@@ -7,61 +7,61 @@
 // Public License v. 2.0. If a copy of the MPL was not distributed
 // with this file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
-#ifndef THIRD_PARTY_EIGEN3_EIGEN_SRC_CORE_ARCH_AVX512_MATHFUNCTIONS_H_
-#define THIRD_PARTY_EIGEN3_EIGEN_SRC_CORE_ARCH_AVX512_MATHFUNCTIONS_H_
+#ifndef THIRD_PARTY_EIGEN3_HYDRA_EIGEN_SRC_CORE_ARCH_AVX512_MATHFUNCTIONS_H_
+#define THIRD_PARTY_EIGEN3_HYDRA_EIGEN_SRC_CORE_ARCH_AVX512_MATHFUNCTIONS_H_
 
 HYDRA_EXTERNAL_NAMESPACE_BEGIN namespace Eigen {
 
 namespace internal {
 
 // Disable the code for older versions of gcc that don't support many of the required avx512 instrinsics.
-#if EIGEN_GNUC_AT_LEAST(5, 3)
+#if HYDRA_EIGEN_GNUC_AT_LEAST(5, 3)
 
-#define _EIGEN_DECLARE_CONST_Packet16f(NAME, X) \
+#define _HYDRA_EIGEN_DECLARE_CONST_Packet16f(NAME, X) \
   const Packet16f p16f_##NAME = pset1<Packet16f>(X)
 
-#define _EIGEN_DECLARE_CONST_Packet16f_FROM_INT(NAME, X) \
+#define _HYDRA_EIGEN_DECLARE_CONST_Packet16f_FROM_INT(NAME, X) \
   const Packet16f p16f_##NAME = (__m512)pset1<Packet16i>(X)
 
-#define _EIGEN_DECLARE_CONST_Packet8d(NAME, X) \
+#define _HYDRA_EIGEN_DECLARE_CONST_Packet8d(NAME, X) \
   const Packet8d p8d_##NAME = pset1<Packet8d>(X)
 
-#define _EIGEN_DECLARE_CONST_Packet8d_FROM_INT64(NAME, X) \
+#define _HYDRA_EIGEN_DECLARE_CONST_Packet8d_FROM_INT64(NAME, X) \
   const Packet8d p8d_##NAME = _mm512_castsi512_pd(_mm512_set1_epi64(X))
 
 // Natural logarithm
 // Computes log(x) as log(2^e * m) = C*e + log(m), where the constant C =log(2)
 // and m is in the range [sqrt(1/2),sqrt(2)). In this range, the logarithm can
 // be easily approximated by a polynomial centered on m=1 for stability.
-#if defined(EIGEN_VECTORIZE_AVX512DQ)
+#if defined(HYDRA_EIGEN_VECTORIZE_AVX512DQ)
 template <>
-EIGEN_DEFINE_FUNCTION_ALLOWING_MULTIPLE_DEFINITIONS EIGEN_UNUSED Packet16f
+HYDRA_EIGEN_DEFINE_FUNCTION_ALLOWING_MULTIPLE_DEFINITIONS HYDRA_EIGEN_UNUSED Packet16f
 plog<Packet16f>(const Packet16f& _x) {
   Packet16f x = _x;
-  _EIGEN_DECLARE_CONST_Packet16f(1, 1.0f);
-  _EIGEN_DECLARE_CONST_Packet16f(half, 0.5f);
-  _EIGEN_DECLARE_CONST_Packet16f(126f, 126.0f);
+  _HYDRA_EIGEN_DECLARE_CONST_Packet16f(1, 1.0f);
+  _HYDRA_EIGEN_DECLARE_CONST_Packet16f(half, 0.5f);
+  _HYDRA_EIGEN_DECLARE_CONST_Packet16f(126f, 126.0f);
 
-  _EIGEN_DECLARE_CONST_Packet16f_FROM_INT(inv_mant_mask, ~0x7f800000);
+  _HYDRA_EIGEN_DECLARE_CONST_Packet16f_FROM_INT(inv_mant_mask, ~0x7f800000);
 
   // The smallest non denormalized float number.
-  _EIGEN_DECLARE_CONST_Packet16f_FROM_INT(min_norm_pos, 0x00800000);
-  _EIGEN_DECLARE_CONST_Packet16f_FROM_INT(minus_inf, 0xff800000);
-  _EIGEN_DECLARE_CONST_Packet16f_FROM_INT(nan, 0x7fc00000);
+  _HYDRA_EIGEN_DECLARE_CONST_Packet16f_FROM_INT(min_norm_pos, 0x00800000);
+  _HYDRA_EIGEN_DECLARE_CONST_Packet16f_FROM_INT(minus_inf, 0xff800000);
+  _HYDRA_EIGEN_DECLARE_CONST_Packet16f_FROM_INT(nan, 0x7fc00000);
 
   // Polynomial coefficients.
-  _EIGEN_DECLARE_CONST_Packet16f(cephes_SQRTHF, 0.707106781186547524f);
-  _EIGEN_DECLARE_CONST_Packet16f(cephes_log_p0, 7.0376836292E-2f);
-  _EIGEN_DECLARE_CONST_Packet16f(cephes_log_p1, -1.1514610310E-1f);
-  _EIGEN_DECLARE_CONST_Packet16f(cephes_log_p2, 1.1676998740E-1f);
-  _EIGEN_DECLARE_CONST_Packet16f(cephes_log_p3, -1.2420140846E-1f);
-  _EIGEN_DECLARE_CONST_Packet16f(cephes_log_p4, +1.4249322787E-1f);
-  _EIGEN_DECLARE_CONST_Packet16f(cephes_log_p5, -1.6668057665E-1f);
-  _EIGEN_DECLARE_CONST_Packet16f(cephes_log_p6, +2.0000714765E-1f);
-  _EIGEN_DECLARE_CONST_Packet16f(cephes_log_p7, -2.4999993993E-1f);
-  _EIGEN_DECLARE_CONST_Packet16f(cephes_log_p8, +3.3333331174E-1f);
-  _EIGEN_DECLARE_CONST_Packet16f(cephes_log_q1, -2.12194440e-4f);
-  _EIGEN_DECLARE_CONST_Packet16f(cephes_log_q2, 0.693359375f);
+  _HYDRA_EIGEN_DECLARE_CONST_Packet16f(cephes_SQRTHF, 0.707106781186547524f);
+  _HYDRA_EIGEN_DECLARE_CONST_Packet16f(cephes_log_p0, 7.0376836292E-2f);
+  _HYDRA_EIGEN_DECLARE_CONST_Packet16f(cephes_log_p1, -1.1514610310E-1f);
+  _HYDRA_EIGEN_DECLARE_CONST_Packet16f(cephes_log_p2, 1.1676998740E-1f);
+  _HYDRA_EIGEN_DECLARE_CONST_Packet16f(cephes_log_p3, -1.2420140846E-1f);
+  _HYDRA_EIGEN_DECLARE_CONST_Packet16f(cephes_log_p4, +1.4249322787E-1f);
+  _HYDRA_EIGEN_DECLARE_CONST_Packet16f(cephes_log_p5, -1.6668057665E-1f);
+  _HYDRA_EIGEN_DECLARE_CONST_Packet16f(cephes_log_p6, +2.0000714765E-1f);
+  _HYDRA_EIGEN_DECLARE_CONST_Packet16f(cephes_log_p7, -2.4999993993E-1f);
+  _HYDRA_EIGEN_DECLARE_CONST_Packet16f(cephes_log_p8, +3.3333331174E-1f);
+  _HYDRA_EIGEN_DECLARE_CONST_Packet16f(cephes_log_q1, -2.12194440e-4f);
+  _HYDRA_EIGEN_DECLARE_CONST_Packet16f(cephes_log_q2, 0.693359375f);
 
   // invalid_mask is set to true when x is NaN
   __mmask16 invalid_mask =
@@ -128,23 +128,23 @@ plog<Packet16f>(const Packet16f& _x) {
 // "m = floor(x/log(2)+1/2)" and "r" is the remainder. The result is then
 // "exp(x) = 2^m*exp(r)" where exp(r) is in the range [-1,1).
 template <>
-EIGEN_DEFINE_FUNCTION_ALLOWING_MULTIPLE_DEFINITIONS EIGEN_UNUSED Packet16f
+HYDRA_EIGEN_DEFINE_FUNCTION_ALLOWING_MULTIPLE_DEFINITIONS HYDRA_EIGEN_UNUSED Packet16f
 pexp<Packet16f>(const Packet16f& _x) {
-  _EIGEN_DECLARE_CONST_Packet16f(1, 1.0f);
-  _EIGEN_DECLARE_CONST_Packet16f(half, 0.5f);
-  _EIGEN_DECLARE_CONST_Packet16f(127, 127.0f);
+  _HYDRA_EIGEN_DECLARE_CONST_Packet16f(1, 1.0f);
+  _HYDRA_EIGEN_DECLARE_CONST_Packet16f(half, 0.5f);
+  _HYDRA_EIGEN_DECLARE_CONST_Packet16f(127, 127.0f);
 
-  _EIGEN_DECLARE_CONST_Packet16f(exp_hi, 88.3762626647950f);
-  _EIGEN_DECLARE_CONST_Packet16f(exp_lo, -88.3762626647949f);
+  _HYDRA_EIGEN_DECLARE_CONST_Packet16f(exp_hi, 88.3762626647950f);
+  _HYDRA_EIGEN_DECLARE_CONST_Packet16f(exp_lo, -88.3762626647949f);
 
-  _EIGEN_DECLARE_CONST_Packet16f(cephes_LOG2EF, 1.44269504088896341f);
+  _HYDRA_EIGEN_DECLARE_CONST_Packet16f(cephes_LOG2EF, 1.44269504088896341f);
 
-  _EIGEN_DECLARE_CONST_Packet16f(cephes_exp_p0, 1.9875691500E-4f);
-  _EIGEN_DECLARE_CONST_Packet16f(cephes_exp_p1, 1.3981999507E-3f);
-  _EIGEN_DECLARE_CONST_Packet16f(cephes_exp_p2, 8.3334519073E-3f);
-  _EIGEN_DECLARE_CONST_Packet16f(cephes_exp_p3, 4.1665795894E-2f);
-  _EIGEN_DECLARE_CONST_Packet16f(cephes_exp_p4, 1.6666665459E-1f);
-  _EIGEN_DECLARE_CONST_Packet16f(cephes_exp_p5, 5.0000001201E-1f);
+  _HYDRA_EIGEN_DECLARE_CONST_Packet16f(cephes_exp_p0, 1.9875691500E-4f);
+  _HYDRA_EIGEN_DECLARE_CONST_Packet16f(cephes_exp_p1, 1.3981999507E-3f);
+  _HYDRA_EIGEN_DECLARE_CONST_Packet16f(cephes_exp_p2, 8.3334519073E-3f);
+  _HYDRA_EIGEN_DECLARE_CONST_Packet16f(cephes_exp_p3, 4.1665795894E-2f);
+  _HYDRA_EIGEN_DECLARE_CONST_Packet16f(cephes_exp_p4, 1.6666665459E-1f);
+  _HYDRA_EIGEN_DECLARE_CONST_Packet16f(cephes_exp_p5, 5.0000001201E-1f);
 
   // Clamp x.
   Packet16f x = pmax(pmin(_x, p16f_exp_hi), p16f_exp_lo);
@@ -155,7 +155,7 @@ pexp<Packet16f>(const Packet16f& _x) {
 
   // Get r = x - m*ln(2). Note that we can do this without losing more than one
   // ulp precision due to the FMA instruction.
-  _EIGEN_DECLARE_CONST_Packet16f(nln2, -0.6931471805599453f);
+  _HYDRA_EIGEN_DECLARE_CONST_Packet16f(nln2, -0.6931471805599453f);
   Packet16f r = _mm512_fmadd_ps(m, p16f_nln2, x);
   Packet16f r2 = pmul(r, r);
 
@@ -179,29 +179,29 @@ pexp<Packet16f>(const Packet16f& _x) {
 }
 
 /*template <>
-EIGEN_DEFINE_FUNCTION_ALLOWING_MULTIPLE_DEFINITIONS EIGEN_UNUSED Packet8d
+HYDRA_EIGEN_DEFINE_FUNCTION_ALLOWING_MULTIPLE_DEFINITIONS HYDRA_EIGEN_UNUSED Packet8d
 pexp<Packet8d>(const Packet8d& _x) {
   Packet8d x = _x;
 
-  _EIGEN_DECLARE_CONST_Packet8d(1, 1.0);
-  _EIGEN_DECLARE_CONST_Packet8d(2, 2.0);
+  _HYDRA_EIGEN_DECLARE_CONST_Packet8d(1, 1.0);
+  _HYDRA_EIGEN_DECLARE_CONST_Packet8d(2, 2.0);
 
-  _EIGEN_DECLARE_CONST_Packet8d(exp_hi, 709.437);
-  _EIGEN_DECLARE_CONST_Packet8d(exp_lo, -709.436139303);
+  _HYDRA_EIGEN_DECLARE_CONST_Packet8d(exp_hi, 709.437);
+  _HYDRA_EIGEN_DECLARE_CONST_Packet8d(exp_lo, -709.436139303);
 
-  _EIGEN_DECLARE_CONST_Packet8d(cephes_LOG2EF, 1.4426950408889634073599);
+  _HYDRA_EIGEN_DECLARE_CONST_Packet8d(cephes_LOG2EF, 1.4426950408889634073599);
 
-  _EIGEN_DECLARE_CONST_Packet8d(cephes_exp_p0, 1.26177193074810590878e-4);
-  _EIGEN_DECLARE_CONST_Packet8d(cephes_exp_p1, 3.02994407707441961300e-2);
-  _EIGEN_DECLARE_CONST_Packet8d(cephes_exp_p2, 9.99999999999999999910e-1);
+  _HYDRA_EIGEN_DECLARE_CONST_Packet8d(cephes_exp_p0, 1.26177193074810590878e-4);
+  _HYDRA_EIGEN_DECLARE_CONST_Packet8d(cephes_exp_p1, 3.02994407707441961300e-2);
+  _HYDRA_EIGEN_DECLARE_CONST_Packet8d(cephes_exp_p2, 9.99999999999999999910e-1);
 
-  _EIGEN_DECLARE_CONST_Packet8d(cephes_exp_q0, 3.00198505138664455042e-6);
-  _EIGEN_DECLARE_CONST_Packet8d(cephes_exp_q1, 2.52448340349684104192e-3);
-  _EIGEN_DECLARE_CONST_Packet8d(cephes_exp_q2, 2.27265548208155028766e-1);
-  _EIGEN_DECLARE_CONST_Packet8d(cephes_exp_q3, 2.00000000000000000009e0);
+  _HYDRA_EIGEN_DECLARE_CONST_Packet8d(cephes_exp_q0, 3.00198505138664455042e-6);
+  _HYDRA_EIGEN_DECLARE_CONST_Packet8d(cephes_exp_q1, 2.52448340349684104192e-3);
+  _HYDRA_EIGEN_DECLARE_CONST_Packet8d(cephes_exp_q2, 2.27265548208155028766e-1);
+  _HYDRA_EIGEN_DECLARE_CONST_Packet8d(cephes_exp_q3, 2.00000000000000000009e0);
 
-  _EIGEN_DECLARE_CONST_Packet8d(cephes_exp_C1, 0.693145751953125);
-  _EIGEN_DECLARE_CONST_Packet8d(cephes_exp_C2, 1.42860682030941723212e-6);
+  _HYDRA_EIGEN_DECLARE_CONST_Packet8d(cephes_exp_C1, 0.693145751953125);
+  _HYDRA_EIGEN_DECLARE_CONST_Packet8d(cephes_exp_C2, 1.42860682030941723212e-6);
 
   // clamp x
   x = pmax(pmin(x, p8d_exp_hi), p8d_exp_lo);
@@ -248,18 +248,18 @@ pexp<Packet8d>(const Packet8d& _x) {
   }*/
 
 // Functions for sqrt.
-// The EIGEN_FAST_MATH version uses the _mm_rsqrt_ps approximation and one step
+// The HYDRA_EIGEN_FAST_MATH version uses the _mm_rsqrt_ps approximation and one step
 // of Newton's method, at a cost of 1-2 bits of precision as opposed to the
 // exact solution. The main advantage of this approach is not just speed, but
 // also the fact that it can be inlined and pipelined with other computations,
 // further reducing its effective latency.
-#if EIGEN_FAST_MATH
+#if HYDRA_EIGEN_FAST_MATH
 template <>
-EIGEN_DEFINE_FUNCTION_ALLOWING_MULTIPLE_DEFINITIONS EIGEN_UNUSED Packet16f
+HYDRA_EIGEN_DEFINE_FUNCTION_ALLOWING_MULTIPLE_DEFINITIONS HYDRA_EIGEN_UNUSED Packet16f
 psqrt<Packet16f>(const Packet16f& _x) {
-  _EIGEN_DECLARE_CONST_Packet16f(one_point_five, 1.5f);
-  _EIGEN_DECLARE_CONST_Packet16f(minus_half, -0.5f);
-  _EIGEN_DECLARE_CONST_Packet16f_FROM_INT(flt_min, 0x00800000);
+  _HYDRA_EIGEN_DECLARE_CONST_Packet16f(one_point_five, 1.5f);
+  _HYDRA_EIGEN_DECLARE_CONST_Packet16f(minus_half, -0.5f);
+  _HYDRA_EIGEN_DECLARE_CONST_Packet16f_FROM_INT(flt_min, 0x00800000);
 
   Packet16f neg_half = pmul(_x, p16f_minus_half);
 
@@ -278,11 +278,11 @@ psqrt<Packet16f>(const Packet16f& _x) {
 }
 
 template <>
-EIGEN_DEFINE_FUNCTION_ALLOWING_MULTIPLE_DEFINITIONS EIGEN_UNUSED Packet8d
+HYDRA_EIGEN_DEFINE_FUNCTION_ALLOWING_MULTIPLE_DEFINITIONS HYDRA_EIGEN_UNUSED Packet8d
 psqrt<Packet8d>(const Packet8d& _x) {
-  _EIGEN_DECLARE_CONST_Packet8d(one_point_five, 1.5);
-  _EIGEN_DECLARE_CONST_Packet8d(minus_half, -0.5);
-  _EIGEN_DECLARE_CONST_Packet8d_FROM_INT64(dbl_min, 0x0010000000000000LL);
+  _HYDRA_EIGEN_DECLARE_CONST_Packet8d(one_point_five, 1.5);
+  _HYDRA_EIGEN_DECLARE_CONST_Packet8d(minus_half, -0.5);
+  _HYDRA_EIGEN_DECLARE_CONST_Packet8d_FROM_INT64(dbl_min, 0x0010000000000000LL);
 
   Packet8d neg_half = pmul(_x, p8d_minus_half);
 
@@ -304,11 +304,11 @@ psqrt<Packet8d>(const Packet8d& _x) {
 }
 #else
 template <>
-EIGEN_STRONG_INLINE Packet16f psqrt<Packet16f>(const Packet16f& x) {
+HYDRA_EIGEN_STRONG_INLINE Packet16f psqrt<Packet16f>(const Packet16f& x) {
   return _mm512_sqrt_ps(x);
 }
 template <>
-EIGEN_STRONG_INLINE Packet8d psqrt<Packet8d>(const Packet8d& x) {
+HYDRA_EIGEN_STRONG_INLINE Packet8d psqrt<Packet8d>(const Packet8d& x) {
   return _mm512_sqrt_pd(x);
 }
 #endif
@@ -318,15 +318,15 @@ EIGEN_STRONG_INLINE Packet8d psqrt<Packet8d>(const Packet8d& x) {
 // and fill in NaN/Inf where needed. Note that this function only exists as an
 // iterative version for doubles since there is no instruction for diretly
 // computing the reciprocal square root in AVX-512.
-#ifdef EIGEN_FAST_MATH
+#ifdef HYDRA_EIGEN_FAST_MATH
 template <>
-EIGEN_DEFINE_FUNCTION_ALLOWING_MULTIPLE_DEFINITIONS EIGEN_UNUSED Packet16f
+HYDRA_EIGEN_DEFINE_FUNCTION_ALLOWING_MULTIPLE_DEFINITIONS HYDRA_EIGEN_UNUSED Packet16f
 prsqrt<Packet16f>(const Packet16f& _x) {
-  _EIGEN_DECLARE_CONST_Packet16f_FROM_INT(inf, 0x7f800000);
-  _EIGEN_DECLARE_CONST_Packet16f_FROM_INT(nan, 0x7fc00000);
-  _EIGEN_DECLARE_CONST_Packet16f(one_point_five, 1.5f);
-  _EIGEN_DECLARE_CONST_Packet16f(minus_half, -0.5f);
-  _EIGEN_DECLARE_CONST_Packet16f_FROM_INT(flt_min, 0x00800000);
+  _HYDRA_EIGEN_DECLARE_CONST_Packet16f_FROM_INT(inf, 0x7f800000);
+  _HYDRA_EIGEN_DECLARE_CONST_Packet16f_FROM_INT(nan, 0x7fc00000);
+  _HYDRA_EIGEN_DECLARE_CONST_Packet16f(one_point_five, 1.5f);
+  _HYDRA_EIGEN_DECLARE_CONST_Packet16f(minus_half, -0.5f);
+  _HYDRA_EIGEN_DECLARE_CONST_Packet16f_FROM_INT(flt_min, 0x00800000);
 
   Packet16f neg_half = pmul(_x, p16f_minus_half);
 
@@ -350,13 +350,13 @@ prsqrt<Packet16f>(const Packet16f& _x) {
 }
 
 template <>
-EIGEN_DEFINE_FUNCTION_ALLOWING_MULTIPLE_DEFINITIONS EIGEN_UNUSED Packet8d
+HYDRA_EIGEN_DEFINE_FUNCTION_ALLOWING_MULTIPLE_DEFINITIONS HYDRA_EIGEN_UNUSED Packet8d
 prsqrt<Packet8d>(const Packet8d& _x) {
-  _EIGEN_DECLARE_CONST_Packet8d_FROM_INT64(inf, 0x7ff0000000000000LL);
-  _EIGEN_DECLARE_CONST_Packet8d_FROM_INT64(nan, 0x7ff1000000000000LL);
-  _EIGEN_DECLARE_CONST_Packet8d(one_point_five, 1.5);
-  _EIGEN_DECLARE_CONST_Packet8d(minus_half, -0.5);
-  _EIGEN_DECLARE_CONST_Packet8d_FROM_INT64(dbl_min, 0x0010000000000000LL);
+  _HYDRA_EIGEN_DECLARE_CONST_Packet8d_FROM_INT64(inf, 0x7ff0000000000000LL);
+  _HYDRA_EIGEN_DECLARE_CONST_Packet8d_FROM_INT64(nan, 0x7ff1000000000000LL);
+  _HYDRA_EIGEN_DECLARE_CONST_Packet8d(one_point_five, 1.5);
+  _HYDRA_EIGEN_DECLARE_CONST_Packet8d(minus_half, -0.5);
+  _HYDRA_EIGEN_DECLARE_CONST_Packet8d_FROM_INT64(dbl_min, 0x0010000000000000LL);
 
   Packet8d neg_half = pmul(_x, p8d_minus_half);
 
@@ -383,7 +383,7 @@ prsqrt<Packet8d>(const Packet8d& _x) {
 }
 #else
 template <>
-EIGEN_STRONG_INLINE Packet16f prsqrt<Packet16f>(const Packet16f& x) {
+HYDRA_EIGEN_STRONG_INLINE Packet16f prsqrt<Packet16f>(const Packet16f& x) {
   return _mm512_rsqrt28_ps(x);
 }
 #endif
@@ -393,4 +393,4 @@ EIGEN_STRONG_INLINE Packet16f prsqrt<Packet16f>(const Packet16f& x) {
 
 }  /* end namespace Eigen */  HYDRA_EXTERNAL_NAMESPACE_END
 
-#endif  // THIRD_PARTY_EIGEN3_EIGEN_SRC_CORE_ARCH_AVX512_MATHFUNCTIONS_H_
+#endif  // THIRD_PARTY_EIGEN3_HYDRA_EIGEN_SRC_CORE_ARCH_AVX512_MATHFUNCTIONS_H_

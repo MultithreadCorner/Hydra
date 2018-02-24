@@ -8,8 +8,8 @@
 // Public License v. 2.0. If a copy of the MPL was not distributed
 // with this file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
-#ifndef EIGEN_INCOMPLETE_CHOlESKY_H
-#define EIGEN_INCOMPLETE_CHOlESKY_H
+#ifndef HYDRA_EIGEN_INCOMPLETE_CHOlESKY_H
+#define HYDRA_EIGEN_INCOMPLETE_CHOlESKY_H
 
 #include <vector>
 #include <list>
@@ -25,7 +25,7 @@ HYDRA_EXTERNAL_NAMESPACE_BEGIN namespace Eigen {
   * \tparam _UpLo The triangular part that will be used for the computations. It can be Lower
     *               or Upper. Default is Lower.
   * \tparam _OrderingType The ordering method to use, either AMDOrdering<> or NaturalOrdering<>. Default is AMDOrdering<int>,
-  *                       unless EIGEN_MPL2_ONLY is defined, in which case the default is NaturalOrdering<int>.
+  *                       unless HYDRA_EIGEN_MPL2_ONLY is defined, in which case the default is NaturalOrdering<int>.
   *
   * \implsparsesolverconcept
   *
@@ -42,7 +42,7 @@ HYDRA_EXTERNAL_NAMESPACE_BEGIN namespace Eigen {
   *
   */
 template <typename Scalar, int _UpLo = Lower, typename _OrderingType =
-#ifndef EIGEN_MPL2_ONLY
+#ifndef HYDRA_EIGEN_MPL2_ONLY
 AMDOrdering<int>
 #else
 NaturalOrdering<int>

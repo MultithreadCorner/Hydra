@@ -10,8 +10,8 @@
 // with this file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
 
-#ifndef EIGEN_COREEVALUATORS_H
-#define EIGEN_COREEVALUATORS_H
+#ifndef HYDRA_EIGEN_COREEVALUATORS_H
+#define HYDRA_EIGEN_COREEVALUATORS_H
 
 HYDRA_EXTERNAL_NAMESPACE_BEGIN namespace Eigen {
   
@@ -90,7 +90,7 @@ template<typename T>
 struct evaluator : public unary_evaluator<T>
 {
   typedef unary_evaluator<T> Base;
-  EIGEN_DEVICE_FUNC explicit evaluator(const T& xpr) : Base(xpr) {}
+  HYDRA_EIGEN_DEVICE_FUNC explicit evaluator(const T& xpr) : Base(xpr) {}
 };
 
 
@@ -99,7 +99,7 @@ template<typename T>
 struct evaluator<const T>
   : evaluator<T>
 {
-  EIGEN_DEVICE_FUNC
+  HYDRA_EIGEN_DEVICE_FUNC
   explicit evaluator(const T& xpr) : evaluator<T>(xpr) {}
 };
 
@@ -142,22 +142,22 @@ struct evaluator<PlainObjectBase<Derived> >
     Alignment = traits<Derived>::Alignment
   };
   
-  EIGEN_DEVICE_FUNC evaluator()
+  HYDRA_EIGEN_DEVICE_FUNC evaluator()
     : m_data(0),
       m_outerStride(IsVectorAtCompileTime  ? 0 
                                            : int(IsRowMajor) ? ColsAtCompileTime 
                                            : RowsAtCompileTime)
   {
-    EIGEN_INTERNAL_CHECK_COST_VALUE(CoeffReadCost);
+    HYDRA_EIGEN_INTERNAL_CHECK_COST_VALUE(CoeffReadCost);
   }
   
-  EIGEN_DEVICE_FUNC explicit evaluator(const PlainObjectType& m)
+  HYDRA_EIGEN_DEVICE_FUNC explicit evaluator(const PlainObjectType& m)
     : m_data(m.data()), m_outerStride(IsVectorAtCompileTime ? 0 : m.outerStride()) 
   {
-    EIGEN_INTERNAL_CHECK_COST_VALUE(CoeffReadCost);
+    HYDRA_EIGEN_INTERNAL_CHECK_COST_VALUE(CoeffReadCost);
   }
 
-  EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE
+  HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE
   CoeffReturnType coeff(Index row, Index col) const
   {
     if (IsRowMajor)
@@ -166,13 +166,13 @@ struct evaluator<PlainObjectBase<Derived> >
       return m_data[row + col * m_outerStride.value()];
   }
 
-  EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE
+  HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE
   CoeffReturnType coeff(Index index) const
   {
     return m_data[index];
   }
 
-  EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE
+  HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE
   Scalar& coeffRef(Index row, Index col)
   {
     if (IsRowMajor)
@@ -181,14 +181,14 @@ struct evaluator<PlainObjectBase<Derived> >
       return const_cast<Scalar*>(m_data)[row + col * m_outerStride.value()];
   }
 
-  EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE
+  HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE
   Scalar& coeffRef(Index index)
   {
     return const_cast<Scalar*>(m_data)[index];
   }
 
   template<int LoadMode, typename PacketType>
-  EIGEN_STRONG_INLINE
+  HYDRA_EIGEN_STRONG_INLINE
   PacketType packet(Index row, Index col) const
   {
     if (IsRowMajor)
@@ -198,14 +198,14 @@ struct evaluator<PlainObjectBase<Derived> >
   }
 
   template<int LoadMode, typename PacketType>
-  EIGEN_STRONG_INLINE
+  HYDRA_EIGEN_STRONG_INLINE
   PacketType packet(Index index) const
   {
     return ploadt<PacketType, LoadMode>(m_data + index);
   }
 
   template<int StoreMode,typename PacketType>
-  EIGEN_STRONG_INLINE
+  HYDRA_EIGEN_STRONG_INLINE
   void writePacket(Index row, Index col, const PacketType& x)
   {
     if (IsRowMajor)
@@ -217,7 +217,7 @@ struct evaluator<PlainObjectBase<Derived> >
   }
 
   template<int StoreMode, typename PacketType>
-  EIGEN_STRONG_INLINE
+  HYDRA_EIGEN_STRONG_INLINE
   void writePacket(Index index, const PacketType& x)
   {
     return pstoret<Scalar, PacketType, StoreMode>(const_cast<Scalar*>(m_data) + index, x);
@@ -238,9 +238,9 @@ struct evaluator<Matrix<Scalar, Rows, Cols, Options, MaxRows, MaxCols> >
 {
   typedef Matrix<Scalar, Rows, Cols, Options, MaxRows, MaxCols> XprType;
   
-  EIGEN_DEVICE_FUNC evaluator() {}
+  HYDRA_EIGEN_DEVICE_FUNC evaluator() {}
 
-  EIGEN_DEVICE_FUNC explicit evaluator(const XprType& m)
+  HYDRA_EIGEN_DEVICE_FUNC explicit evaluator(const XprType& m)
     : evaluator<PlainObjectBase<XprType> >(m) 
   { }
 };
@@ -251,9 +251,9 @@ struct evaluator<Array<Scalar, Rows, Cols, Options, MaxRows, MaxCols> >
 {
   typedef Array<Scalar, Rows, Cols, Options, MaxRows, MaxCols> XprType;
 
-  EIGEN_DEVICE_FUNC evaluator() {}
+  HYDRA_EIGEN_DEVICE_FUNC evaluator() {}
   
-  EIGEN_DEVICE_FUNC explicit evaluator(const XprType& m)
+  HYDRA_EIGEN_DEVICE_FUNC explicit evaluator(const XprType& m)
     : evaluator<PlainObjectBase<XprType> >(m) 
   { }
 };
@@ -272,58 +272,58 @@ struct unary_evaluator<Transpose<ArgType>, IndexBased>
     Alignment = evaluator<ArgType>::Alignment
   };
 
-  EIGEN_DEVICE_FUNC explicit unary_evaluator(const XprType& t) : m_argImpl(t.nestedExpression()) {}
+  HYDRA_EIGEN_DEVICE_FUNC explicit unary_evaluator(const XprType& t) : m_argImpl(t.nestedExpression()) {}
 
   typedef typename XprType::Scalar Scalar;
   typedef typename XprType::CoeffReturnType CoeffReturnType;
 
-  EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE
+  HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE
   CoeffReturnType coeff(Index row, Index col) const
   {
     return m_argImpl.coeff(col, row);
   }
 
-  EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE
+  HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE
   CoeffReturnType coeff(Index index) const
   {
     return m_argImpl.coeff(index);
   }
 
-  EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE
+  HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE
   Scalar& coeffRef(Index row, Index col)
   {
     return m_argImpl.coeffRef(col, row);
   }
 
-  EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE
+  HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE
   typename XprType::Scalar& coeffRef(Index index)
   {
     return m_argImpl.coeffRef(index);
   }
 
   template<int LoadMode, typename PacketType>
-  EIGEN_STRONG_INLINE
+  HYDRA_EIGEN_STRONG_INLINE
   PacketType packet(Index row, Index col) const
   {
     return m_argImpl.template packet<LoadMode,PacketType>(col, row);
   }
 
   template<int LoadMode, typename PacketType>
-  EIGEN_STRONG_INLINE
+  HYDRA_EIGEN_STRONG_INLINE
   PacketType packet(Index index) const
   {
     return m_argImpl.template packet<LoadMode,PacketType>(index);
   }
 
   template<int StoreMode, typename PacketType>
-  EIGEN_STRONG_INLINE
+  HYDRA_EIGEN_STRONG_INLINE
   void writePacket(Index row, Index col, const PacketType& x)
   {
     m_argImpl.template writePacket<StoreMode,PacketType>(col, row, x);
   }
 
   template<int StoreMode, typename PacketType>
-  EIGEN_STRONG_INLINE
+  HYDRA_EIGEN_STRONG_INLINE
   void writePacket(Index index, const PacketType& x)
   {
     m_argImpl.template writePacket<StoreMode,PacketType>(index, x);
@@ -344,28 +344,28 @@ template<typename Scalar,typename NullaryOp,
 struct nullary_wrapper
 {
   template <typename IndexType>
-  EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE Scalar operator()(const NullaryOp& op, IndexType i, IndexType j) const { return op(i,j); }
+  HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE Scalar operator()(const NullaryOp& op, IndexType i, IndexType j) const { return op(i,j); }
   template <typename IndexType>
-  EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE Scalar operator()(const NullaryOp& op, IndexType i) const { return op(i); }
+  HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE Scalar operator()(const NullaryOp& op, IndexType i) const { return op(i); }
 
-  template <typename T, typename IndexType> EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE T packetOp(const NullaryOp& op, IndexType i, IndexType j) const { return op.template packetOp<T>(i,j); }
-  template <typename T, typename IndexType> EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE T packetOp(const NullaryOp& op, IndexType i) const { return op.template packetOp<T>(i); }
+  template <typename T, typename IndexType> HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE T packetOp(const NullaryOp& op, IndexType i, IndexType j) const { return op.template packetOp<T>(i,j); }
+  template <typename T, typename IndexType> HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE T packetOp(const NullaryOp& op, IndexType i) const { return op.template packetOp<T>(i); }
 };
 
 template<typename Scalar,typename NullaryOp>
 struct nullary_wrapper<Scalar,NullaryOp,true,false,false>
 {
   template <typename IndexType>
-  EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE Scalar operator()(const NullaryOp& op, IndexType=0, IndexType=0) const { return op(); }
-  template <typename T, typename IndexType> EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE T packetOp(const NullaryOp& op, IndexType=0, IndexType=0) const { return op.template packetOp<T>(); }
+  HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE Scalar operator()(const NullaryOp& op, IndexType=0, IndexType=0) const { return op(); }
+  template <typename T, typename IndexType> HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE T packetOp(const NullaryOp& op, IndexType=0, IndexType=0) const { return op.template packetOp<T>(); }
 };
 
 template<typename Scalar,typename NullaryOp>
 struct nullary_wrapper<Scalar,NullaryOp,false,false,true>
 {
   template <typename IndexType>
-  EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE Scalar operator()(const NullaryOp& op, IndexType i, IndexType j=0) const { return op(i,j); }
-  template <typename T, typename IndexType> EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE T packetOp(const NullaryOp& op, IndexType i, IndexType j=0) const { return op.template packetOp<T>(i,j); }
+  HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE Scalar operator()(const NullaryOp& op, IndexType i, IndexType j=0) const { return op(i,j); }
+  template <typename T, typename IndexType> HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE T packetOp(const NullaryOp& op, IndexType i, IndexType j=0) const { return op.template packetOp<T>(i,j); }
 };
 
 // We need the following specialization for vector-only functors assigned to a runtime vector,
@@ -375,25 +375,25 @@ template<typename Scalar,typename NullaryOp>
 struct nullary_wrapper<Scalar,NullaryOp,false,true,false>
 {
   template <typename IndexType>
-  EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE Scalar operator()(const NullaryOp& op, IndexType i, IndexType j) const {
+  HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE Scalar operator()(const NullaryOp& op, IndexType i, IndexType j) const {
     eigen_assert(i==0 || j==0);
     return op(i+j);
   }
-  template <typename T, typename IndexType> EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE T packetOp(const NullaryOp& op, IndexType i, IndexType j) const {
+  template <typename T, typename IndexType> HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE T packetOp(const NullaryOp& op, IndexType i, IndexType j) const {
     eigen_assert(i==0 || j==0);
     return op.template packetOp<T>(i+j);
   }
 
   template <typename IndexType>
-  EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE Scalar operator()(const NullaryOp& op, IndexType i) const { return op(i); }
+  HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE Scalar operator()(const NullaryOp& op, IndexType i) const { return op(i); }
   template <typename T, typename IndexType>
-  EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE T packetOp(const NullaryOp& op, IndexType i) const { return op.template packetOp<T>(i); }
+  HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE T packetOp(const NullaryOp& op, IndexType i) const { return op.template packetOp<T>(i); }
 };
 
 template<typename Scalar,typename NullaryOp>
 struct nullary_wrapper<Scalar,NullaryOp,false,false,false> {};
 
-#if 0 && EIGEN_COMP_MSVC>0
+#if 0 && HYDRA_EIGEN_COMP_MSVC>0
 // Disable this ugly workaround. This is now handled in traits<Ref>::match,
 // but this piece of code might still become handly if some other weird compilation
 // erros pop up again.
@@ -420,14 +420,14 @@ template<typename Scalar,typename NullaryOp>
 struct nullary_wrapper<Scalar,NullaryOp,true,true,true>
 {
   template <typename IndexType>
-  EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE Scalar operator()(const NullaryOp& op, IndexType i, IndexType j) const {
+  HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE Scalar operator()(const NullaryOp& op, IndexType i, IndexType j) const {
     return nullary_wrapper<Scalar,NullaryOp,
     has_nullary_operator<NullaryOp,nullary_wrapper_workaround_msvc<IndexType> >::value,
     has_unary_operator<NullaryOp,nullary_wrapper_workaround_msvc<IndexType> >::value,
     has_binary_operator<NullaryOp,nullary_wrapper_workaround_msvc<IndexType> >::value>().operator()(op,i,j);
   }
   template <typename IndexType>
-  EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE Scalar operator()(const NullaryOp& op, IndexType i) const {
+  HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE Scalar operator()(const NullaryOp& op, IndexType i) const {
     return nullary_wrapper<Scalar,NullaryOp,
     has_nullary_operator<NullaryOp,nullary_wrapper_workaround_msvc<IndexType> >::value,
     has_unary_operator<NullaryOp,nullary_wrapper_workaround_msvc<IndexType> >::value,
@@ -435,14 +435,14 @@ struct nullary_wrapper<Scalar,NullaryOp,true,true,true>
   }
 
   template <typename T, typename IndexType>
-  EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE T packetOp(const NullaryOp& op, IndexType i, IndexType j) const {
+  HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE T packetOp(const NullaryOp& op, IndexType i, IndexType j) const {
     return nullary_wrapper<Scalar,NullaryOp,
     has_nullary_operator<NullaryOp,nullary_wrapper_workaround_msvc<IndexType> >::value,
     has_unary_operator<NullaryOp,nullary_wrapper_workaround_msvc<IndexType> >::value,
     has_binary_operator<NullaryOp,nullary_wrapper_workaround_msvc<IndexType> >::value>().template packetOp<T>(op,i,j);
   }
   template <typename T, typename IndexType>
-  EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE T packetOp(const NullaryOp& op, IndexType i) const {
+  HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE T packetOp(const NullaryOp& op, IndexType i) const {
     return nullary_wrapper<Scalar,NullaryOp,
     has_nullary_operator<NullaryOp,nullary_wrapper_workaround_msvc<IndexType> >::value,
     has_unary_operator<NullaryOp,nullary_wrapper_workaround_msvc<IndexType> >::value,
@@ -469,37 +469,37 @@ struct evaluator<CwiseNullaryOp<NullaryOp,PlainObjectType> >
     Alignment = AlignedMax
   };
 
-  EIGEN_DEVICE_FUNC explicit evaluator(const XprType& n)
+  HYDRA_EIGEN_DEVICE_FUNC explicit evaluator(const XprType& n)
     : m_functor(n.functor()), m_wrapper()
   {
-    EIGEN_INTERNAL_CHECK_COST_VALUE(CoeffReadCost);
+    HYDRA_EIGEN_INTERNAL_CHECK_COST_VALUE(CoeffReadCost);
   }
 
   typedef typename XprType::CoeffReturnType CoeffReturnType;
 
   template <typename IndexType>
-  EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE
+  HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE
   CoeffReturnType coeff(IndexType row, IndexType col) const
   {
     return m_wrapper(m_functor, row, col);
   }
 
   template <typename IndexType>
-  EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE
+  HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE
   CoeffReturnType coeff(IndexType index) const
   {
     return m_wrapper(m_functor,index);
   }
 
   template<int LoadMode, typename PacketType, typename IndexType>
-  EIGEN_STRONG_INLINE
+  HYDRA_EIGEN_STRONG_INLINE
   PacketType packet(IndexType row, IndexType col) const
   {
     return m_wrapper.template packetOp<PacketType>(m_functor, row, col);
   }
 
   template<int LoadMode, typename PacketType, typename IndexType>
-  EIGEN_STRONG_INLINE
+  HYDRA_EIGEN_STRONG_INLINE
   PacketType packet(IndexType index) const
   {
     return m_wrapper.template packetOp<PacketType>(m_functor, index);
@@ -526,38 +526,38 @@ struct unary_evaluator<CwiseUnaryOp<UnaryOp, ArgType>, IndexBased >
     Alignment = evaluator<ArgType>::Alignment
   };
 
-  EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE
+  HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE
   explicit unary_evaluator(const XprType& op)
     : m_functor(op.functor()), 
       m_argImpl(op.nestedExpression()) 
   {
-    EIGEN_INTERNAL_CHECK_COST_VALUE(functor_traits<UnaryOp>::Cost);
-    EIGEN_INTERNAL_CHECK_COST_VALUE(CoeffReadCost);
+    HYDRA_EIGEN_INTERNAL_CHECK_COST_VALUE(functor_traits<UnaryOp>::Cost);
+    HYDRA_EIGEN_INTERNAL_CHECK_COST_VALUE(CoeffReadCost);
   }
 
   typedef typename XprType::CoeffReturnType CoeffReturnType;
 
-  EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE
+  HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE
   CoeffReturnType coeff(Index row, Index col) const
   {
     return m_functor(m_argImpl.coeff(row, col));
   }
 
-  EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE
+  HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE
   CoeffReturnType coeff(Index index) const
   {
     return m_functor(m_argImpl.coeff(index));
   }
 
   template<int LoadMode, typename PacketType>
-  EIGEN_STRONG_INLINE
+  HYDRA_EIGEN_STRONG_INLINE
   PacketType packet(Index row, Index col) const
   {
     return m_functor.packetOp(m_argImpl.template packet<LoadMode, PacketType>(row, col));
   }
 
   template<int LoadMode, typename PacketType>
-  EIGEN_STRONG_INLINE
+  HYDRA_EIGEN_STRONG_INLINE
   PacketType packet(Index index) const
   {
     return m_functor.packetOp(m_argImpl.template packet<LoadMode, PacketType>(index));
@@ -578,7 +578,7 @@ struct evaluator<CwiseTernaryOp<TernaryOp, Arg1, Arg2, Arg3> >
   typedef CwiseTernaryOp<TernaryOp, Arg1, Arg2, Arg3> XprType;
   typedef ternary_evaluator<CwiseTernaryOp<TernaryOp, Arg1, Arg2, Arg3> > Base;
   
-  EIGEN_DEVICE_FUNC explicit evaluator(const XprType& xpr) : Base(xpr) {}
+  HYDRA_EIGEN_DEVICE_FUNC explicit evaluator(const XprType& xpr) : Base(xpr) {}
 };
 
 template<typename TernaryOp, typename Arg1, typename Arg2, typename Arg3>
@@ -604,37 +604,37 @@ struct ternary_evaluator<CwiseTernaryOp<TernaryOp, Arg1, Arg2, Arg3>, IndexBased
         )
      ),
     Flags = (Flags0 & ~RowMajorBit) | (Arg1Flags & RowMajorBit),
-    Alignment = EIGEN_PLAIN_ENUM_MIN(
-        EIGEN_PLAIN_ENUM_MIN(evaluator<Arg1>::Alignment, evaluator<Arg2>::Alignment),
+    Alignment = HYDRA_EIGEN_PLAIN_ENUM_MIN(
+        HYDRA_EIGEN_PLAIN_ENUM_MIN(evaluator<Arg1>::Alignment, evaluator<Arg2>::Alignment),
         evaluator<Arg3>::Alignment)
   };
 
-  EIGEN_DEVICE_FUNC explicit ternary_evaluator(const XprType& xpr)
+  HYDRA_EIGEN_DEVICE_FUNC explicit ternary_evaluator(const XprType& xpr)
     : m_functor(xpr.functor()),
       m_arg1Impl(xpr.arg1()), 
       m_arg2Impl(xpr.arg2()), 
       m_arg3Impl(xpr.arg3())  
   {
-    EIGEN_INTERNAL_CHECK_COST_VALUE(functor_traits<TernaryOp>::Cost);
-    EIGEN_INTERNAL_CHECK_COST_VALUE(CoeffReadCost);
+    HYDRA_EIGEN_INTERNAL_CHECK_COST_VALUE(functor_traits<TernaryOp>::Cost);
+    HYDRA_EIGEN_INTERNAL_CHECK_COST_VALUE(CoeffReadCost);
   }
 
   typedef typename XprType::CoeffReturnType CoeffReturnType;
 
-  EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE
+  HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE
   CoeffReturnType coeff(Index row, Index col) const
   {
     return m_functor(m_arg1Impl.coeff(row, col), m_arg2Impl.coeff(row, col), m_arg3Impl.coeff(row, col));
   }
 
-  EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE
+  HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE
   CoeffReturnType coeff(Index index) const
   {
     return m_functor(m_arg1Impl.coeff(index), m_arg2Impl.coeff(index), m_arg3Impl.coeff(index));
   }
 
   template<int LoadMode, typename PacketType>
-  EIGEN_STRONG_INLINE
+  HYDRA_EIGEN_STRONG_INLINE
   PacketType packet(Index row, Index col) const
   {
     return m_functor.packetOp(m_arg1Impl.template packet<LoadMode,PacketType>(row, col),
@@ -643,7 +643,7 @@ struct ternary_evaluator<CwiseTernaryOp<TernaryOp, Arg1, Arg2, Arg3>, IndexBased
   }
 
   template<int LoadMode, typename PacketType>
-  EIGEN_STRONG_INLINE
+  HYDRA_EIGEN_STRONG_INLINE
   PacketType packet(Index index) const
   {
     return m_functor.packetOp(m_arg1Impl.template packet<LoadMode,PacketType>(index),
@@ -668,7 +668,7 @@ struct evaluator<CwiseBinaryOp<BinaryOp, Lhs, Rhs> >
   typedef CwiseBinaryOp<BinaryOp, Lhs, Rhs> XprType;
   typedef binary_evaluator<CwiseBinaryOp<BinaryOp, Lhs, Rhs> > Base;
   
-  EIGEN_DEVICE_FUNC explicit evaluator(const XprType& xpr) : Base(xpr) {}
+  HYDRA_EIGEN_DEVICE_FUNC explicit evaluator(const XprType& xpr) : Base(xpr) {}
 };
 
 template<typename BinaryOp, typename Lhs, typename Rhs>
@@ -693,34 +693,34 @@ struct binary_evaluator<CwiseBinaryOp<BinaryOp, Lhs, Rhs>, IndexBased, IndexBase
         )
      ),
     Flags = (Flags0 & ~RowMajorBit) | (LhsFlags & RowMajorBit),
-    Alignment = EIGEN_PLAIN_ENUM_MIN(evaluator<Lhs>::Alignment,evaluator<Rhs>::Alignment)
+    Alignment = HYDRA_EIGEN_PLAIN_ENUM_MIN(evaluator<Lhs>::Alignment,evaluator<Rhs>::Alignment)
   };
 
-  EIGEN_DEVICE_FUNC explicit binary_evaluator(const XprType& xpr)
+  HYDRA_EIGEN_DEVICE_FUNC explicit binary_evaluator(const XprType& xpr)
     : m_functor(xpr.functor()),
       m_lhsImpl(xpr.lhs()), 
       m_rhsImpl(xpr.rhs())  
   {
-    EIGEN_INTERNAL_CHECK_COST_VALUE(functor_traits<BinaryOp>::Cost);
-    EIGEN_INTERNAL_CHECK_COST_VALUE(CoeffReadCost);
+    HYDRA_EIGEN_INTERNAL_CHECK_COST_VALUE(functor_traits<BinaryOp>::Cost);
+    HYDRA_EIGEN_INTERNAL_CHECK_COST_VALUE(CoeffReadCost);
   }
 
   typedef typename XprType::CoeffReturnType CoeffReturnType;
 
-  EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE
+  HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE
   CoeffReturnType coeff(Index row, Index col) const
   {
     return m_functor(m_lhsImpl.coeff(row, col), m_rhsImpl.coeff(row, col));
   }
 
-  EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE
+  HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE
   CoeffReturnType coeff(Index index) const
   {
     return m_functor(m_lhsImpl.coeff(index), m_rhsImpl.coeff(index));
   }
 
   template<int LoadMode, typename PacketType>
-  EIGEN_STRONG_INLINE
+  HYDRA_EIGEN_STRONG_INLINE
   PacketType packet(Index row, Index col) const
   {
     return m_functor.packetOp(m_lhsImpl.template packet<LoadMode,PacketType>(row, col),
@@ -728,7 +728,7 @@ struct binary_evaluator<CwiseBinaryOp<BinaryOp, Lhs, Rhs>, IndexBased, IndexBase
   }
 
   template<int LoadMode, typename PacketType>
-  EIGEN_STRONG_INLINE
+  HYDRA_EIGEN_STRONG_INLINE
   PacketType packet(Index index) const
   {
     return m_functor.packetOp(m_lhsImpl.template packet<LoadMode,PacketType>(index),
@@ -757,36 +757,36 @@ struct unary_evaluator<CwiseUnaryView<UnaryOp, ArgType>, IndexBased>
     Alignment = 0 // FIXME it is not very clear why alignment is necessarily lost...
   };
 
-  EIGEN_DEVICE_FUNC explicit unary_evaluator(const XprType& op)
+  HYDRA_EIGEN_DEVICE_FUNC explicit unary_evaluator(const XprType& op)
     : m_unaryOp(op.functor()), 
       m_argImpl(op.nestedExpression()) 
   {
-    EIGEN_INTERNAL_CHECK_COST_VALUE(functor_traits<UnaryOp>::Cost);
-    EIGEN_INTERNAL_CHECK_COST_VALUE(CoeffReadCost);
+    HYDRA_EIGEN_INTERNAL_CHECK_COST_VALUE(functor_traits<UnaryOp>::Cost);
+    HYDRA_EIGEN_INTERNAL_CHECK_COST_VALUE(CoeffReadCost);
   }
 
   typedef typename XprType::Scalar Scalar;
   typedef typename XprType::CoeffReturnType CoeffReturnType;
 
-  EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE
+  HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE
   CoeffReturnType coeff(Index row, Index col) const
   {
     return m_unaryOp(m_argImpl.coeff(row, col));
   }
 
-  EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE
+  HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE
   CoeffReturnType coeff(Index index) const
   {
     return m_unaryOp(m_argImpl.coeff(index));
   }
 
-  EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE
+  HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE
   Scalar& coeffRef(Index row, Index col)
   {
     return m_unaryOp(m_argImpl.coeffRef(row, col));
   }
 
-  EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE
+  HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE
   Scalar& coeffRef(Index index)
   {
     return m_unaryOp(m_argImpl.coeffRef(index));
@@ -818,42 +818,42 @@ struct mapbase_evaluator : evaluator_base<Derived>
     CoeffReadCost = NumTraits<Scalar>::ReadCost
   };
 
-  EIGEN_DEVICE_FUNC explicit mapbase_evaluator(const XprType& map)
+  HYDRA_EIGEN_DEVICE_FUNC explicit mapbase_evaluator(const XprType& map)
     : m_data(const_cast<PointerType>(map.data())),
       m_innerStride(map.innerStride()),
       m_outerStride(map.outerStride())
   {
-    EIGEN_STATIC_ASSERT(EIGEN_IMPLIES(evaluator<Derived>::Flags&PacketAccessBit, internal::inner_stride_at_compile_time<Derived>::ret==1),
+    HYDRA_EIGEN_STATIC_ASSERT(HYDRA_EIGEN_IMPLIES(evaluator<Derived>::Flags&PacketAccessBit, internal::inner_stride_at_compile_time<Derived>::ret==1),
                         PACKET_ACCESS_REQUIRES_TO_HAVE_INNER_STRIDE_FIXED_TO_1);
-    EIGEN_INTERNAL_CHECK_COST_VALUE(CoeffReadCost);
+    HYDRA_EIGEN_INTERNAL_CHECK_COST_VALUE(CoeffReadCost);
   }
 
-  EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE
+  HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE
   CoeffReturnType coeff(Index row, Index col) const
   {
     return m_data[col * colStride() + row * rowStride()];
   }
 
-  EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE
+  HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE
   CoeffReturnType coeff(Index index) const
   {
     return m_data[index * m_innerStride.value()];
   }
 
-  EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE
+  HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE
   Scalar& coeffRef(Index row, Index col)
   {
     return m_data[col * colStride() + row * rowStride()];
   }
 
-  EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE
+  HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE
   Scalar& coeffRef(Index index)
   {
     return m_data[index * m_innerStride.value()];
   }
 
   template<int LoadMode, typename PacketType>
-  EIGEN_STRONG_INLINE
+  HYDRA_EIGEN_STRONG_INLINE
   PacketType packet(Index row, Index col) const
   {
     PointerType ptr = m_data + row * rowStride() + col * colStride();
@@ -861,14 +861,14 @@ struct mapbase_evaluator : evaluator_base<Derived>
   }
 
   template<int LoadMode, typename PacketType>
-  EIGEN_STRONG_INLINE
+  HYDRA_EIGEN_STRONG_INLINE
   PacketType packet(Index index) const
   {
     return internal::ploadt<PacketType, LoadMode>(m_data + index * m_innerStride.value());
   }
 
   template<int StoreMode, typename PacketType>
-  EIGEN_STRONG_INLINE
+  HYDRA_EIGEN_STRONG_INLINE
   void writePacket(Index row, Index col, const PacketType& x)
   {
     PointerType ptr = m_data + row * rowStride() + col * colStride();
@@ -876,15 +876,15 @@ struct mapbase_evaluator : evaluator_base<Derived>
   }
 
   template<int StoreMode, typename PacketType>
-  EIGEN_STRONG_INLINE
+  HYDRA_EIGEN_STRONG_INLINE
   void writePacket(Index index, const PacketType& x)
   {
     internal::pstoret<Scalar, PacketType, StoreMode>(m_data + index * m_innerStride.value(), x);
   }
 protected:
-  EIGEN_DEVICE_FUNC
+  HYDRA_EIGEN_DEVICE_FUNC
   inline Index rowStride() const { return XprType::IsRowMajor ? m_outerStride.value() : m_innerStride.value(); }
-  EIGEN_DEVICE_FUNC
+  HYDRA_EIGEN_DEVICE_FUNC
   inline Index colStride() const { return XprType::IsRowMajor ? m_innerStride.value() : m_outerStride.value(); }
 
   PointerType m_data;
@@ -920,7 +920,7 @@ struct evaluator<Map<PlainObjectType, MapOptions, StrideType> >
     Alignment = int(MapOptions)&int(AlignedMask)
   };
 
-  EIGEN_DEVICE_FUNC explicit evaluator(const XprType& map)
+  HYDRA_EIGEN_DEVICE_FUNC explicit evaluator(const XprType& map)
     : mapbase_evaluator<XprType, PlainObjectType>(map) 
   { }
 };
@@ -938,7 +938,7 @@ struct evaluator<Ref<PlainObjectType, RefOptions, StrideType> >
     Alignment = evaluator<Map<PlainObjectType, RefOptions, StrideType> >::Alignment
   };
 
-  EIGEN_DEVICE_FUNC explicit evaluator(const XprType& ref)
+  HYDRA_EIGEN_DEVICE_FUNC explicit evaluator(const XprType& ref)
     : mapbase_evaluator<XprType, PlainObjectType>(ref) 
   { }
 };
@@ -988,12 +988,12 @@ struct evaluator<Block<ArgType, BlockRows, BlockCols, InnerPanel> >
     
     PacketAlignment = unpacket_traits<PacketScalar>::alignment,
     Alignment0 = (InnerPanel && (OuterStrideAtCompileTime!=Dynamic) && (((OuterStrideAtCompileTime * int(sizeof(Scalar))) % int(PacketAlignment)) == 0)) ? int(PacketAlignment) : 0,
-    Alignment = EIGEN_PLAIN_ENUM_MIN(evaluator<ArgType>::Alignment, Alignment0)
+    Alignment = HYDRA_EIGEN_PLAIN_ENUM_MIN(evaluator<ArgType>::Alignment, Alignment0)
   };
   typedef block_evaluator<ArgType, BlockRows, BlockCols, InnerPanel> block_evaluator_type;
-  EIGEN_DEVICE_FUNC explicit evaluator(const XprType& block) : block_evaluator_type(block)
+  HYDRA_EIGEN_DEVICE_FUNC explicit evaluator(const XprType& block) : block_evaluator_type(block)
   {
-    EIGEN_INTERNAL_CHECK_COST_VALUE(CoeffReadCost);
+    HYDRA_EIGEN_INTERNAL_CHECK_COST_VALUE(CoeffReadCost);
   }
 };
 
@@ -1004,7 +1004,7 @@ struct block_evaluator<ArgType, BlockRows, BlockCols, InnerPanel, /*HasDirectAcc
 {
   typedef Block<ArgType, BlockRows, BlockCols, InnerPanel> XprType;
 
-  EIGEN_DEVICE_FUNC explicit block_evaluator(const XprType& block)
+  HYDRA_EIGEN_DEVICE_FUNC explicit block_evaluator(const XprType& block)
     : unary_evaluator<XprType>(block) 
   {}
 };
@@ -1015,7 +1015,7 @@ struct unary_evaluator<Block<ArgType, BlockRows, BlockCols, InnerPanel>, IndexBa
 {
   typedef Block<ArgType, BlockRows, BlockCols, InnerPanel> XprType;
 
-  EIGEN_DEVICE_FUNC explicit unary_evaluator(const XprType& block)
+  HYDRA_EIGEN_DEVICE_FUNC explicit unary_evaluator(const XprType& block)
     : m_argImpl(block.nestedExpression()), 
       m_startRow(block.startRow()), 
       m_startCol(block.startCol()) 
@@ -1028,39 +1028,39 @@ struct unary_evaluator<Block<ArgType, BlockRows, BlockCols, InnerPanel>, IndexBa
     RowsAtCompileTime = XprType::RowsAtCompileTime
   };
  
-  EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE
+  HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE
   CoeffReturnType coeff(Index row, Index col) const
   { 
     return m_argImpl.coeff(m_startRow.value() + row, m_startCol.value() + col); 
   }
   
-  EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE
+  HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE
   CoeffReturnType coeff(Index index) const
   { 
     return coeff(RowsAtCompileTime == 1 ? 0 : index, RowsAtCompileTime == 1 ? index : 0);
   }
 
-  EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE
+  HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE
   Scalar& coeffRef(Index row, Index col)
   { 
     return m_argImpl.coeffRef(m_startRow.value() + row, m_startCol.value() + col); 
   }
   
-  EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE
+  HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE
   Scalar& coeffRef(Index index)
   { 
     return coeffRef(RowsAtCompileTime == 1 ? 0 : index, RowsAtCompileTime == 1 ? index : 0);
   }
  
   template<int LoadMode, typename PacketType>
-  EIGEN_STRONG_INLINE
+  HYDRA_EIGEN_STRONG_INLINE
   PacketType packet(Index row, Index col) const 
   { 
     return m_argImpl.template packet<LoadMode,PacketType>(m_startRow.value() + row, m_startCol.value() + col); 
   }
 
   template<int LoadMode, typename PacketType>
-  EIGEN_STRONG_INLINE
+  HYDRA_EIGEN_STRONG_INLINE
   PacketType packet(Index index) const 
   { 
     return packet<LoadMode,PacketType>(RowsAtCompileTime == 1 ? 0 : index,
@@ -1068,14 +1068,14 @@ struct unary_evaluator<Block<ArgType, BlockRows, BlockCols, InnerPanel>, IndexBa
   }
   
   template<int StoreMode, typename PacketType>
-  EIGEN_STRONG_INLINE
+  HYDRA_EIGEN_STRONG_INLINE
   void writePacket(Index row, Index col, const PacketType& x) 
   {
     return m_argImpl.template writePacket<StoreMode,PacketType>(m_startRow.value() + row, m_startCol.value() + col, x); 
   }
   
   template<int StoreMode, typename PacketType>
-  EIGEN_STRONG_INLINE
+  HYDRA_EIGEN_STRONG_INLINE
   void writePacket(Index index, const PacketType& x) 
   {
     return writePacket<StoreMode,PacketType>(RowsAtCompileTime == 1 ? 0 : index,
@@ -1100,11 +1100,11 @@ struct block_evaluator<ArgType, BlockRows, BlockCols, InnerPanel, /* HasDirectAc
   typedef Block<ArgType, BlockRows, BlockCols, InnerPanel> XprType;
   typedef typename XprType::Scalar Scalar;
 
-  EIGEN_DEVICE_FUNC explicit block_evaluator(const XprType& block)
+  HYDRA_EIGEN_DEVICE_FUNC explicit block_evaluator(const XprType& block)
     : mapbase_evaluator<XprType, typename XprType::PlainObject>(block) 
   {
     // TODO: for the 3.3 release, this should be turned to an internal assertion, but let's keep it as is for the beta lifetime
-    eigen_assert(((internal::UIntPtr(block.data()) % EIGEN_PLAIN_ENUM_MAX(1,evaluator<XprType>::Alignment)) == 0) && "data is not aligned");
+    eigen_assert(((internal::UIntPtr(block.data()) % HYDRA_EIGEN_PLAIN_ENUM_MAX(1,evaluator<XprType>::Alignment)) == 0) && "data is not aligned");
   }
 };
 
@@ -1120,25 +1120,25 @@ struct evaluator<Select<ConditionMatrixType, ThenMatrixType, ElseMatrixType> >
   typedef Select<ConditionMatrixType, ThenMatrixType, ElseMatrixType> XprType;
   enum {
     CoeffReadCost = evaluator<ConditionMatrixType>::CoeffReadCost
-                  + EIGEN_PLAIN_ENUM_MAX(evaluator<ThenMatrixType>::CoeffReadCost,
+                  + HYDRA_EIGEN_PLAIN_ENUM_MAX(evaluator<ThenMatrixType>::CoeffReadCost,
                                          evaluator<ElseMatrixType>::CoeffReadCost),
 
     Flags = (unsigned int)evaluator<ThenMatrixType>::Flags & evaluator<ElseMatrixType>::Flags & HereditaryBits,
     
-    Alignment = EIGEN_PLAIN_ENUM_MIN(evaluator<ThenMatrixType>::Alignment, evaluator<ElseMatrixType>::Alignment)
+    Alignment = HYDRA_EIGEN_PLAIN_ENUM_MIN(evaluator<ThenMatrixType>::Alignment, evaluator<ElseMatrixType>::Alignment)
   };
 
-  EIGEN_DEVICE_FUNC explicit evaluator(const XprType& select)
+  HYDRA_EIGEN_DEVICE_FUNC explicit evaluator(const XprType& select)
     : m_conditionImpl(select.conditionMatrix()),
       m_thenImpl(select.thenMatrix()),
       m_elseImpl(select.elseMatrix())
   {
-    EIGEN_INTERNAL_CHECK_COST_VALUE(CoeffReadCost);
+    HYDRA_EIGEN_INTERNAL_CHECK_COST_VALUE(CoeffReadCost);
   }
  
   typedef typename XprType::CoeffReturnType CoeffReturnType;
 
-  EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE
+  HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE
   CoeffReturnType coeff(Index row, Index col) const
   {
     if (m_conditionImpl.coeff(row, col))
@@ -1147,7 +1147,7 @@ struct evaluator<Select<ConditionMatrixType, ThenMatrixType, ElseMatrixType> >
       return m_elseImpl.coeff(row, col);
   }
 
-  EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE
+  HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE
   CoeffReturnType coeff(Index index) const
   {
     if (m_conditionImpl.coeff(index))
@@ -1185,14 +1185,14 @@ struct unary_evaluator<Replicate<ArgType, RowFactor, ColFactor> >
     Alignment = evaluator<ArgTypeNestedCleaned>::Alignment
   };
 
-  EIGEN_DEVICE_FUNC explicit unary_evaluator(const XprType& replicate)
+  HYDRA_EIGEN_DEVICE_FUNC explicit unary_evaluator(const XprType& replicate)
     : m_arg(replicate.nestedExpression()),
       m_argImpl(m_arg),
       m_rows(replicate.nestedExpression().rows()),
       m_cols(replicate.nestedExpression().cols())
   {}
  
-  EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE
+  HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE
   CoeffReturnType coeff(Index row, Index col) const
   {
     // try to avoid using modulo; this is a pure optimization strategy
@@ -1206,7 +1206,7 @@ struct unary_evaluator<Replicate<ArgType, RowFactor, ColFactor> >
     return m_argImpl.coeff(actual_row, actual_col);
   }
   
-  EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE
+  HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE
   CoeffReturnType coeff(Index index) const
   {
     // try to avoid using modulo; this is a pure optimization strategy
@@ -1218,7 +1218,7 @@ struct unary_evaluator<Replicate<ArgType, RowFactor, ColFactor> >
   }
 
   template<int LoadMode, typename PacketType>
-  EIGEN_STRONG_INLINE
+  HYDRA_EIGEN_STRONG_INLINE
   PacketType packet(Index row, Index col) const
   {
     const Index actual_row = internal::traits<XprType>::RowsAtCompileTime==1 ? 0
@@ -1232,7 +1232,7 @@ struct unary_evaluator<Replicate<ArgType, RowFactor, ColFactor> >
   }
   
   template<int LoadMode, typename PacketType>
-  EIGEN_STRONG_INLINE
+  HYDRA_EIGEN_STRONG_INLINE
   PacketType packet(Index index) const
   {
     const Index actual_index = internal::traits<XprType>::RowsAtCompileTime==1
@@ -1274,16 +1274,16 @@ struct evaluator<PartialReduxExpr<ArgType, MemberOp, Direction> >
     Alignment = 0 // FIXME this will need to be improved once PartialReduxExpr is vectorized
   };
 
-  EIGEN_DEVICE_FUNC explicit evaluator(const XprType xpr)
+  HYDRA_EIGEN_DEVICE_FUNC explicit evaluator(const XprType xpr)
     : m_arg(xpr.nestedExpression()), m_functor(xpr.functor())
   {
-    EIGEN_INTERNAL_CHECK_COST_VALUE(TraversalSize==Dynamic ? HugeCost : int(CostOpType::value));
-    EIGEN_INTERNAL_CHECK_COST_VALUE(CoeffReadCost);
+    HYDRA_EIGEN_INTERNAL_CHECK_COST_VALUE(TraversalSize==Dynamic ? HugeCost : int(CostOpType::value));
+    HYDRA_EIGEN_INTERNAL_CHECK_COST_VALUE(CoeffReadCost);
   }
 
   typedef typename XprType::CoeffReturnType CoeffReturnType;
 
-  EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE
+  HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE
   const Scalar coeff(Index i, Index j) const
   {
     if (Direction==Vertical)
@@ -1292,7 +1292,7 @@ struct evaluator<PartialReduxExpr<ArgType, MemberOp, Direction> >
       return m_functor(m_arg.row(i));
   }
 
-  EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE
+  HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE
   const Scalar coeff(Index index) const
   {
     if (Direction==Vertical)
@@ -1323,58 +1323,58 @@ struct evaluator_wrapper_base
     Alignment = evaluator<ArgType>::Alignment
   };
 
-  EIGEN_DEVICE_FUNC explicit evaluator_wrapper_base(const ArgType& arg) : m_argImpl(arg) {}
+  HYDRA_EIGEN_DEVICE_FUNC explicit evaluator_wrapper_base(const ArgType& arg) : m_argImpl(arg) {}
 
   typedef typename ArgType::Scalar Scalar;
   typedef typename ArgType::CoeffReturnType CoeffReturnType;
 
-  EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE
+  HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE
   CoeffReturnType coeff(Index row, Index col) const
   {
     return m_argImpl.coeff(row, col);
   }
 
-  EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE
+  HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE
   CoeffReturnType coeff(Index index) const
   {
     return m_argImpl.coeff(index);
   }
 
-  EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE
+  HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE
   Scalar& coeffRef(Index row, Index col)
   {
     return m_argImpl.coeffRef(row, col);
   }
 
-  EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE
+  HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE
   Scalar& coeffRef(Index index)
   {
     return m_argImpl.coeffRef(index);
   }
 
   template<int LoadMode, typename PacketType>
-  EIGEN_STRONG_INLINE
+  HYDRA_EIGEN_STRONG_INLINE
   PacketType packet(Index row, Index col) const
   {
     return m_argImpl.template packet<LoadMode,PacketType>(row, col);
   }
 
   template<int LoadMode, typename PacketType>
-  EIGEN_STRONG_INLINE
+  HYDRA_EIGEN_STRONG_INLINE
   PacketType packet(Index index) const
   {
     return m_argImpl.template packet<LoadMode,PacketType>(index);
   }
 
   template<int StoreMode, typename PacketType>
-  EIGEN_STRONG_INLINE
+  HYDRA_EIGEN_STRONG_INLINE
   void writePacket(Index row, Index col, const PacketType& x)
   {
     m_argImpl.template writePacket<StoreMode>(row, col, x);
   }
 
   template<int StoreMode, typename PacketType>
-  EIGEN_STRONG_INLINE
+  HYDRA_EIGEN_STRONG_INLINE
   void writePacket(Index index, const PacketType& x)
   {
     m_argImpl.template writePacket<StoreMode>(index, x);
@@ -1390,7 +1390,7 @@ struct unary_evaluator<MatrixWrapper<TArgType> >
 {
   typedef MatrixWrapper<TArgType> XprType;
 
-  EIGEN_DEVICE_FUNC explicit unary_evaluator(const XprType& wrapper)
+  HYDRA_EIGEN_DEVICE_FUNC explicit unary_evaluator(const XprType& wrapper)
     : evaluator_wrapper_base<MatrixWrapper<TArgType> >(wrapper.nestedExpression())
   { }
 };
@@ -1401,7 +1401,7 @@ struct unary_evaluator<ArrayWrapper<TArgType> >
 {
   typedef ArrayWrapper<TArgType> XprType;
 
-  EIGEN_DEVICE_FUNC explicit unary_evaluator(const XprType& wrapper)
+  HYDRA_EIGEN_DEVICE_FUNC explicit unary_evaluator(const XprType& wrapper)
     : evaluator_wrapper_base<ArrayWrapper<TArgType> >(wrapper.nestedExpression())
   { }
 };
@@ -1443,40 +1443,40 @@ struct unary_evaluator<Reverse<ArgType, Direction> >
     Alignment = 0 // FIXME in some rare cases, Alignment could be preserved, like a Vector4f.
   };
 
-  EIGEN_DEVICE_FUNC explicit unary_evaluator(const XprType& reverse)
+  HYDRA_EIGEN_DEVICE_FUNC explicit unary_evaluator(const XprType& reverse)
     : m_argImpl(reverse.nestedExpression()),
       m_rows(ReverseRow ? reverse.nestedExpression().rows() : 1),
       m_cols(ReverseCol ? reverse.nestedExpression().cols() : 1)
   { }
  
-  EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE
+  HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE
   CoeffReturnType coeff(Index row, Index col) const
   {
     return m_argImpl.coeff(ReverseRow ? m_rows.value() - row - 1 : row,
                            ReverseCol ? m_cols.value() - col - 1 : col);
   }
 
-  EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE
+  HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE
   CoeffReturnType coeff(Index index) const
   {
     return m_argImpl.coeff(m_rows.value() * m_cols.value() - index - 1);
   }
 
-  EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE
+  HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE
   Scalar& coeffRef(Index row, Index col)
   {
     return m_argImpl.coeffRef(ReverseRow ? m_rows.value() - row - 1 : row,
                               ReverseCol ? m_cols.value() - col - 1 : col);
   }
 
-  EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE
+  HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE
   Scalar& coeffRef(Index index)
   {
     return m_argImpl.coeffRef(m_rows.value() * m_cols.value() - index - 1);
   }
 
   template<int LoadMode, typename PacketType>
-  EIGEN_STRONG_INLINE
+  HYDRA_EIGEN_STRONG_INLINE
   PacketType packet(Index row, Index col) const
   {
     enum {
@@ -1491,7 +1491,7 @@ struct unary_evaluator<Reverse<ArgType, Direction> >
   }
 
   template<int LoadMode, typename PacketType>
-  EIGEN_STRONG_INLINE
+  HYDRA_EIGEN_STRONG_INLINE
   PacketType packet(Index index) const
   {
     enum { PacketSize = unpacket_traits<PacketType>::size };
@@ -1499,7 +1499,7 @@ struct unary_evaluator<Reverse<ArgType, Direction> >
   }
 
   template<int LoadMode, typename PacketType>
-  EIGEN_STRONG_INLINE
+  HYDRA_EIGEN_STRONG_INLINE
   void writePacket(Index row, Index col, const PacketType& x)
   {
     // FIXME we could factorize some code with packet(i,j)
@@ -1516,7 +1516,7 @@ struct unary_evaluator<Reverse<ArgType, Direction> >
   }
 
   template<int LoadMode, typename PacketType>
-  EIGEN_STRONG_INLINE
+  HYDRA_EIGEN_STRONG_INLINE
   void writePacket(Index index, const PacketType& x)
   {
     enum { PacketSize = unpacket_traits<PacketType>::size };
@@ -1550,7 +1550,7 @@ struct evaluator<Diagonal<ArgType, DiagIndex> >
     Alignment = 0
   };
 
-  EIGEN_DEVICE_FUNC explicit evaluator(const XprType& diagonal)
+  HYDRA_EIGEN_DEVICE_FUNC explicit evaluator(const XprType& diagonal)
     : m_argImpl(diagonal.nestedExpression()),
       m_index(diagonal.index())
   { }
@@ -1558,25 +1558,25 @@ struct evaluator<Diagonal<ArgType, DiagIndex> >
   typedef typename XprType::Scalar Scalar;
   typedef typename XprType::CoeffReturnType CoeffReturnType;
 
-  EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE
+  HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE
   CoeffReturnType coeff(Index row, Index) const
   {
     return m_argImpl.coeff(row + rowOffset(), row + colOffset());
   }
 
-  EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE
+  HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE
   CoeffReturnType coeff(Index index) const
   {
     return m_argImpl.coeff(index + rowOffset(), index + colOffset());
   }
 
-  EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE
+  HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE
   Scalar& coeffRef(Index row, Index)
   {
     return m_argImpl.coeffRef(row + rowOffset(), row + colOffset());
   }
 
-  EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE
+  HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE
   Scalar& coeffRef(Index index)
   {
     return m_argImpl.coeffRef(index + rowOffset(), index + colOffset());
@@ -1587,8 +1587,8 @@ protected:
   const internal::variable_if_dynamicindex<Index, XprType::DiagIndex> m_index;
 
 private:
-  EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE Index rowOffset() const { return m_index.value() > 0 ? 0 : -m_index.value(); }
-  EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE Index colOffset() const { return m_index.value() > 0 ? m_index.value() : 0; }
+  HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE Index rowOffset() const { return m_index.value() > 0 ? 0 : -m_index.value(); }
+  HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE Index colOffset() const { return m_index.value() > 0 ? m_index.value() : 0; }
 };
 
 
@@ -1614,7 +1614,7 @@ class EvalToTemp
  public:
  
   typedef typename dense_xpr_base<EvalToTemp>::type Base;
-  EIGEN_GENERIC_PUBLIC_INTERFACE(EvalToTemp)
+  HYDRA_EIGEN_GENERIC_PUBLIC_INTERFACE(EvalToTemp)
  
   explicit EvalToTemp(const ArgType& arg)
     : m_arg(arg)
@@ -1647,14 +1647,14 @@ struct evaluator<EvalToTemp<ArgType> >
   typedef typename ArgType::PlainObject         PlainObject;
   typedef evaluator<PlainObject> Base;
   
-  EIGEN_DEVICE_FUNC explicit evaluator(const XprType& xpr)
+  HYDRA_EIGEN_DEVICE_FUNC explicit evaluator(const XprType& xpr)
     : m_result(xpr.arg())
   {
     ::new (static_cast<Base*>(this)) Base(m_result);
   }
 
   // This constructor is used when nesting an EvalTo evaluator in another evaluator
-  EIGEN_DEVICE_FUNC evaluator(const ArgType& arg)
+  HYDRA_EIGEN_DEVICE_FUNC evaluator(const ArgType& arg)
     : m_result(arg)
   {
     ::new (static_cast<Base*>(this)) Base(m_result);
@@ -1668,4 +1668,4 @@ protected:
 
 } /* end namespace Eigen */  HYDRA_EXTERNAL_NAMESPACE_END
 
-#endif // EIGEN_COREEVALUATORS_H
+#endif // HYDRA_EIGEN_COREEVALUATORS_H

@@ -42,8 +42,8 @@ LDL License:
 
 #include "../Core/util/NonMPL2.h"
 
-#ifndef EIGEN_SIMPLICIAL_CHOLESKY_IMPL_H
-#define EIGEN_SIMPLICIAL_CHOLESKY_IMPL_H
+#ifndef HYDRA_EIGEN_SIMPLICIAL_CHOLESKY_IMPL_H
+#define HYDRA_EIGEN_SIMPLICIAL_CHOLESKY_IMPL_H
 
 HYDRA_EXTERNAL_NAMESPACE_BEGIN namespace Eigen {
 
@@ -55,7 +55,7 @@ void SimplicialCholeskyBase<Derived>::analyzePattern_preordered(const CholMatrix
   m_parent.resize(size);
   m_nonZerosPerCol.resize(size);
 
-  ei_declare_aligned_stack_constructed_variable(StorageIndex, tags, size, 0);
+  hydra_ei_declare_aligned_stack_constructed_variable(StorageIndex, tags, size, 0);
 
   for(StorageIndex k = 0; k < size; ++k)
   {
@@ -112,9 +112,9 @@ void SimplicialCholeskyBase<Derived>::factorize_preordered(const CholMatrixType&
   StorageIndex* Li = m_matrix.innerIndexPtr();
   Scalar* Lx = m_matrix.valuePtr();
 
-  ei_declare_aligned_stack_constructed_variable(Scalar, y, size, 0);
-  ei_declare_aligned_stack_constructed_variable(StorageIndex,  pattern, size, 0);
-  ei_declare_aligned_stack_constructed_variable(StorageIndex,  tags, size, 0);
+  hydra_ei_declare_aligned_stack_constructed_variable(Scalar, y, size, 0);
+  hydra_ei_declare_aligned_stack_constructed_variable(StorageIndex,  pattern, size, 0);
+  hydra_ei_declare_aligned_stack_constructed_variable(StorageIndex,  tags, size, 0);
 
   bool ok = true;
   m_diag.resize(DoLDLT ? size : 0);
@@ -196,4 +196,4 @@ void SimplicialCholeskyBase<Derived>::factorize_preordered(const CholMatrixType&
 
 } /* end namespace Eigen */  HYDRA_EXTERNAL_NAMESPACE_END
 
-#endif // EIGEN_SIMPLICIAL_CHOLESKY_IMPL_H
+#endif // HYDRA_EIGEN_SIMPLICIAL_CHOLESKY_IMPL_H

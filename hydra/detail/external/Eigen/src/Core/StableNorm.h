@@ -7,8 +7,8 @@
 // Public License v. 2.0. If a copy of the MPL was not distributed
 // with this file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
-#ifndef EIGEN_STABLENORM_H
-#define EIGEN_STABLENORM_H
+#ifndef HYDRA_EIGEN_STABLENORM_H
+#define HYDRA_EIGEN_STABLENORM_H
 
 HYDRA_EXTERNAL_NAMESPACE_BEGIN namespace Eigen { 
 
@@ -170,8 +170,8 @@ MatrixBase<Derived>::stableNorm() const
   enum {
     CanAlign = (   (int(DerivedCopyClean::Flags)&DirectAccessBit)
                 || (int(internal::evaluator<DerivedCopyClean>::Alignment)>0) // FIXME Alignment)>0 might not be enough
-               ) && (blockSize*sizeof(Scalar)*2<EIGEN_STACK_ALLOCATION_LIMIT)
-                 && (EIGEN_MAX_STATIC_ALIGN_BYTES>0) // if we cannot allocate on the stack, then let's not bother about this optimization
+               ) && (blockSize*sizeof(Scalar)*2<HYDRA_EIGEN_STACK_ALLOCATION_LIMIT)
+                 && (HYDRA_EIGEN_MAX_STATIC_ALIGN_BYTES>0) // if we cannot allocate on the stack, then let's not bother about this optimization
   };
   typedef typename internal::conditional<CanAlign, Ref<const Matrix<Scalar,Dynamic,1,0,blockSize,1>, internal::evaluator<DerivedCopyClean>::Alignment>,
                                                    typename DerivedCopyClean::ConstSegmentReturnType>::type SegmentWrapper;
@@ -218,4 +218,4 @@ MatrixBase<Derived>::hypotNorm() const
 
 } /* end namespace Eigen */  HYDRA_EXTERNAL_NAMESPACE_END
 
-#endif // EIGEN_STABLENORM_H
+#endif // HYDRA_EIGEN_STABLENORM_H

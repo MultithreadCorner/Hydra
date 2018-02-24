@@ -7,8 +7,8 @@
 // Public License v. 2.0. If a copy of the MPL was not distributed
 // with this file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
-#ifndef EIGEN_FORCEALIGNEDACCESS_H
-#define EIGEN_FORCEALIGNEDACCESS_H
+#ifndef HYDRA_EIGEN_FORCEALIGNEDACCESS_H
+#define HYDRA_EIGEN_FORCEALIGNEDACCESS_H
 
 HYDRA_EXTERNAL_NAMESPACE_BEGIN namespace Eigen {
 
@@ -37,31 +37,31 @@ template<typename ExpressionType> class ForceAlignedAccess
   public:
 
     typedef typename internal::dense_xpr_base<ForceAlignedAccess>::type Base;
-    EIGEN_DENSE_PUBLIC_INTERFACE(ForceAlignedAccess)
+    HYDRA_EIGEN_DENSE_PUBLIC_INTERFACE(ForceAlignedAccess)
 
-    EIGEN_DEVICE_FUNC explicit inline ForceAlignedAccess(const ExpressionType& matrix) : m_expression(matrix) {}
+    HYDRA_EIGEN_DEVICE_FUNC explicit inline ForceAlignedAccess(const ExpressionType& matrix) : m_expression(matrix) {}
 
-    EIGEN_DEVICE_FUNC inline Index rows() const { return m_expression.rows(); }
-    EIGEN_DEVICE_FUNC inline Index cols() const { return m_expression.cols(); }
-    EIGEN_DEVICE_FUNC inline Index outerStride() const { return m_expression.outerStride(); }
-    EIGEN_DEVICE_FUNC inline Index innerStride() const { return m_expression.innerStride(); }
+    HYDRA_EIGEN_DEVICE_FUNC inline Index rows() const { return m_expression.rows(); }
+    HYDRA_EIGEN_DEVICE_FUNC inline Index cols() const { return m_expression.cols(); }
+    HYDRA_EIGEN_DEVICE_FUNC inline Index outerStride() const { return m_expression.outerStride(); }
+    HYDRA_EIGEN_DEVICE_FUNC inline Index innerStride() const { return m_expression.innerStride(); }
 
-    EIGEN_DEVICE_FUNC inline const CoeffReturnType coeff(Index row, Index col) const
+    HYDRA_EIGEN_DEVICE_FUNC inline const CoeffReturnType coeff(Index row, Index col) const
     {
       return m_expression.coeff(row, col);
     }
 
-    EIGEN_DEVICE_FUNC inline Scalar& coeffRef(Index row, Index col)
+    HYDRA_EIGEN_DEVICE_FUNC inline Scalar& coeffRef(Index row, Index col)
     {
       return m_expression.const_cast_derived().coeffRef(row, col);
     }
 
-    EIGEN_DEVICE_FUNC inline const CoeffReturnType coeff(Index index) const
+    HYDRA_EIGEN_DEVICE_FUNC inline const CoeffReturnType coeff(Index index) const
     {
       return m_expression.coeff(index);
     }
 
-    EIGEN_DEVICE_FUNC inline Scalar& coeffRef(Index index)
+    HYDRA_EIGEN_DEVICE_FUNC inline Scalar& coeffRef(Index index)
     {
       return m_expression.const_cast_derived().coeffRef(index);
     }
@@ -90,7 +90,7 @@ template<typename ExpressionType> class ForceAlignedAccess
       m_expression.const_cast_derived().template writePacket<Aligned>(index, x);
     }
 
-    EIGEN_DEVICE_FUNC operator const ExpressionType&() const { return m_expression; }
+    HYDRA_EIGEN_DEVICE_FUNC operator const ExpressionType&() const { return m_expression; }
 
   protected:
     const ExpressionType& m_expression;
@@ -143,4 +143,4 @@ MatrixBase<Derived>::forceAlignedAccessIf()
 
 } /* end namespace Eigen */  HYDRA_EXTERNAL_NAMESPACE_END
 
-#endif // EIGEN_FORCEALIGNEDACCESS_H
+#endif // HYDRA_EIGEN_FORCEALIGNEDACCESS_H

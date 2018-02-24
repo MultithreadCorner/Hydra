@@ -30,8 +30,8 @@
  ********************************************************************************
 */
 
-#ifndef EIGEN_TRIANGULAR_MATRIX_VECTOR_BLAS_H
-#define EIGEN_TRIANGULAR_MATRIX_VECTOR_BLAS_H
+#ifndef HYDRA_EIGEN_TRIANGULAR_MATRIX_VECTOR_BLAS_H
+#define HYDRA_EIGEN_TRIANGULAR_MATRIX_VECTOR_BLAS_H
 
 HYDRA_EXTERNAL_NAMESPACE_BEGIN namespace Eigen { 
 
@@ -47,7 +47,7 @@ template<typename Index, int Mode, typename LhsScalar, bool ConjLhs, typename Rh
 struct triangular_matrix_vector_product_trmv :
   triangular_matrix_vector_product<Index,Mode,LhsScalar,ConjLhs,RhsScalar,ConjRhs,StorageOrder,BuiltIn> {};
 
-#define EIGEN_BLAS_TRMV_SPECIALIZE(Scalar) \
+#define HYDRA_EIGEN_BLAS_TRMV_SPECIALIZE(Scalar) \
 template<typename Index, int Mode, bool ConjLhs, bool ConjRhs> \
 struct triangular_matrix_vector_product<Index,Mode,Scalar,ConjLhs,Scalar,ConjRhs,ColMajor,Specialized> { \
  static void run(Index _rows, Index _cols, const Scalar* _lhs, Index lhsStride, \
@@ -65,13 +65,13 @@ struct triangular_matrix_vector_product<Index,Mode,Scalar,ConjLhs,Scalar,ConjRhs
   } \
 };
 
-EIGEN_BLAS_TRMV_SPECIALIZE(double)
-EIGEN_BLAS_TRMV_SPECIALIZE(float)
-EIGEN_BLAS_TRMV_SPECIALIZE(dcomplex)
-EIGEN_BLAS_TRMV_SPECIALIZE(scomplex)
+HYDRA_EIGEN_BLAS_TRMV_SPECIALIZE(double)
+HYDRA_EIGEN_BLAS_TRMV_SPECIALIZE(float)
+HYDRA_EIGEN_BLAS_TRMV_SPECIALIZE(dcomplex)
+HYDRA_EIGEN_BLAS_TRMV_SPECIALIZE(scomplex)
 
 // implements col-major: res += alpha * op(triangular) * vector
-#define EIGEN_BLAS_TRMV_CM(EIGTYPE, BLASTYPE, EIGPREFIX, BLASPREFIX) \
+#define HYDRA_EIGEN_BLAS_TRMV_CM(EIGTYPE, BLASTYPE, EIGPREFIX, BLASPREFIX) \
 template<typename Index, int Mode, bool ConjLhs, bool ConjRhs> \
 struct triangular_matrix_vector_product_trmv<Index,Mode,EIGTYPE,ConjLhs,EIGTYPE,ConjRhs,ColMajor> { \
   enum { \
@@ -147,13 +147,13 @@ struct triangular_matrix_vector_product_trmv<Index,Mode,EIGTYPE,ConjLhs,EIGTYPE,
   } \
 };
 
-EIGEN_BLAS_TRMV_CM(double,   double, d,  d)
-EIGEN_BLAS_TRMV_CM(dcomplex, double, cd, z)
-EIGEN_BLAS_TRMV_CM(float,    float,  f,  s)
-EIGEN_BLAS_TRMV_CM(scomplex, float,  cf, c)
+HYDRA_EIGEN_BLAS_TRMV_CM(double,   double, d,  d)
+HYDRA_EIGEN_BLAS_TRMV_CM(dcomplex, double, cd, z)
+HYDRA_EIGEN_BLAS_TRMV_CM(float,    float,  f,  s)
+HYDRA_EIGEN_BLAS_TRMV_CM(scomplex, float,  cf, c)
 
 // implements row-major: res += alpha * op(triangular) * vector
-#define EIGEN_BLAS_TRMV_RM(EIGTYPE, BLASTYPE, EIGPREFIX, BLASPREFIX) \
+#define HYDRA_EIGEN_BLAS_TRMV_RM(EIGTYPE, BLASTYPE, EIGPREFIX, BLASPREFIX) \
 template<typename Index, int Mode, bool ConjLhs, bool ConjRhs> \
 struct triangular_matrix_vector_product_trmv<Index,Mode,EIGTYPE,ConjLhs,EIGTYPE,ConjRhs,RowMajor> { \
   enum { \
@@ -229,13 +229,13 @@ struct triangular_matrix_vector_product_trmv<Index,Mode,EIGTYPE,ConjLhs,EIGTYPE,
   } \
 };
 
-EIGEN_BLAS_TRMV_RM(double,   double, d,  d)
-EIGEN_BLAS_TRMV_RM(dcomplex, double, cd, z)
-EIGEN_BLAS_TRMV_RM(float,    float,  f,  s)
-EIGEN_BLAS_TRMV_RM(scomplex, float,  cf, c)
+HYDRA_EIGEN_BLAS_TRMV_RM(double,   double, d,  d)
+HYDRA_EIGEN_BLAS_TRMV_RM(dcomplex, double, cd, z)
+HYDRA_EIGEN_BLAS_TRMV_RM(float,    float,  f,  s)
+HYDRA_EIGEN_BLAS_TRMV_RM(scomplex, float,  cf, c)
 
 } // end namespase internal
 
 } /* end namespace Eigen */  HYDRA_EXTERNAL_NAMESPACE_END
 
-#endif // EIGEN_TRIANGULAR_MATRIX_VECTOR_BLAS_H
+#endif // HYDRA_EIGEN_TRIANGULAR_MATRIX_VECTOR_BLAS_H

@@ -9,8 +9,8 @@
 // with this file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
 
-#ifndef EIGEN_SPARSE_LU_H
-#define EIGEN_SPARSE_LU_H
+#ifndef HYDRA_EIGEN_SPARSE_LU_H
+#define HYDRA_EIGEN_SPARSE_LU_H
 
 HYDRA_EXTERNAL_NAMESPACE_BEGIN namespace Eigen {
 
@@ -180,7 +180,7 @@ class SparseLU : public SparseSolverBase<SparseLU<_MatrixType,_OrderingType> >, 
       m_diagpivotthresh = thresh; 
     }
 
-#ifdef EIGEN_PARSED_BY_DOXYGEN
+#ifdef HYDRA_EIGEN_PARSED_BY_DOXYGEN
     /** \returns the solution X of \f$ A X = B \f$ using the current decomposition of A.
       *
       * \warning the destination matrix X in X = this->solve(B) must be colmun-major.
@@ -189,7 +189,7 @@ class SparseLU : public SparseSolverBase<SparseLU<_MatrixType,_OrderingType> >, 
       */
     template<typename Rhs>
     inline const Solve<SparseLU, Rhs> solve(const MatrixBase<Rhs>& B) const;
-#endif // EIGEN_PARSED_BY_DOXYGEN
+#endif // HYDRA_EIGEN_PARSED_BY_DOXYGEN
     
     /** \brief Reports whether previous computation was successful.
       *
@@ -218,7 +218,7 @@ class SparseLU : public SparseSolverBase<SparseLU<_MatrixType,_OrderingType> >, 
     {
       Dest& X(X_base.derived());
       eigen_assert(m_factorizationIsOk && "The matrix should be factorized first");
-      EIGEN_STATIC_ASSERT((Dest::Flags&RowMajorBit)==0,
+      HYDRA_EIGEN_STATIC_ASSERT((Dest::Flags&RowMajorBit)==0,
                         THIS_METHOD_IS_ONLY_FOR_COLUMN_MAJOR_MATRICES);
       
       // Permute the right hand side to form X = Pr*B
@@ -425,7 +425,7 @@ void SparseLU<MatrixType, OrderingType>::analyzePattern(const MatrixType& mat)
   {
     m_mat.uncompress(); //NOTE: The effect of this command is only to create the InnerNonzeros pointers. FIXME : This vector is filled but not subsequently used.  
     // Then, permute only the column pointers
-    ei_declare_aligned_stack_constructed_variable(StorageIndex,outerIndexPtr,mat.cols()+1,mat.isCompressed()?const_cast<StorageIndex*>(mat.outerIndexPtr()):0);
+    hydra_ei_declare_aligned_stack_constructed_variable(StorageIndex,outerIndexPtr,mat.cols()+1,mat.isCompressed()?const_cast<StorageIndex*>(mat.outerIndexPtr()):0);
     
     // If the input matrix 'mat' is uncompressed, then the outer-indices do not match the ones of m_mat, and a copy is thus needed.
     if(!mat.isCompressed()) 

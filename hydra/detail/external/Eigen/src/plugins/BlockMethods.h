@@ -8,7 +8,7 @@
 // Public License v. 2.0. If a copy of the MPL was not distributed
 // with this file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
-#ifndef EIGEN_PARSED_BY_DOXYGEN
+#ifndef HYDRA_EIGEN_PARSED_BY_DOXYGEN
 
 /// \internal expression type of a column */
 typedef Block<Derived, internal::traits<Derived>::RowsAtCompileTime, 1, !IsRowMajor> ColXpr;
@@ -40,7 +40,7 @@ typedef const VectorBlock<const Derived> ConstSegmentReturnType;
 template<int Size> struct FixedSegmentReturnType { typedef VectorBlock<Derived, Size> Type; };
 template<int Size> struct ConstFixedSegmentReturnType { typedef const VectorBlock<const Derived, Size> Type; };
 
-#endif // not EIGEN_PARSED_BY_DOXYGEN
+#endif // not HYDRA_EIGEN_PARSED_BY_DOXYGEN
 
 /// \returns a dynamic-size expression of a block in *this.
 ///
@@ -56,18 +56,18 @@ template<int Size> struct ConstFixedSegmentReturnType { typedef const VectorBloc
 /// when it is applied to a fixed-size matrix, it inherits a fixed maximal size,
 /// which means that evaluating it does not cause a dynamic memory allocation.
 ///
-EIGEN_DOC_BLOCK_ADDONS_NOT_INNER_PANEL
+HYDRA_EIGEN_DOC_BLOCK_ADDONS_NOT_INNER_PANEL
 ///
 /// \sa class Block, block(Index,Index)
 ///
-EIGEN_DEVICE_FUNC
+HYDRA_EIGEN_DEVICE_FUNC
 inline BlockXpr block(Index startRow, Index startCol, Index blockRows, Index blockCols)
 {
   return BlockXpr(derived(), startRow, startCol, blockRows, blockCols);
 }
 
 /// This is the const version of block(Index,Index,Index,Index). */
-EIGEN_DEVICE_FUNC
+HYDRA_EIGEN_DEVICE_FUNC
 inline const ConstBlockXpr block(Index startRow, Index startCol, Index blockRows, Index blockCols) const
 {
   return ConstBlockXpr(derived(), startRow, startCol, blockRows, blockCols);
@@ -84,18 +84,18 @@ inline const ConstBlockXpr block(Index startRow, Index startCol, Index blockRows
 /// Example: \include MatrixBase_topRightCorner_int_int.cpp
 /// Output: \verbinclude MatrixBase_topRightCorner_int_int.out
 ///
-EIGEN_DOC_BLOCK_ADDONS_NOT_INNER_PANEL
+HYDRA_EIGEN_DOC_BLOCK_ADDONS_NOT_INNER_PANEL
 ///
 /// \sa class Block, block(Index,Index,Index,Index)
 ///
-EIGEN_DEVICE_FUNC
+HYDRA_EIGEN_DEVICE_FUNC
 inline BlockXpr topRightCorner(Index cRows, Index cCols)
 {
   return BlockXpr(derived(), 0, cols() - cCols, cRows, cCols);
 }
 
 /// This is the const version of topRightCorner(Index, Index).
-EIGEN_DEVICE_FUNC
+HYDRA_EIGEN_DEVICE_FUNC
 inline const ConstBlockXpr topRightCorner(Index cRows, Index cCols) const
 {
   return ConstBlockXpr(derived(), 0, cols() - cCols, cRows, cCols);
@@ -109,12 +109,12 @@ inline const ConstBlockXpr topRightCorner(Index cRows, Index cCols) const
 /// Example: \include MatrixBase_template_int_int_topRightCorner.cpp
 /// Output: \verbinclude MatrixBase_template_int_int_topRightCorner.out
 ///
-EIGEN_DOC_BLOCK_ADDONS_NOT_INNER_PANEL
+HYDRA_EIGEN_DOC_BLOCK_ADDONS_NOT_INNER_PANEL
 ///
 /// \sa class Block, block<int,int>(Index,Index)
 ///
 template<int CRows, int CCols>
-EIGEN_DEVICE_FUNC
+HYDRA_EIGEN_DEVICE_FUNC
 inline typename FixedBlockXpr<CRows,CCols>::Type topRightCorner()
 {
   return typename FixedBlockXpr<CRows,CCols>::Type(derived(), 0, cols() - CCols);
@@ -122,7 +122,7 @@ inline typename FixedBlockXpr<CRows,CCols>::Type topRightCorner()
 
 /// This is the const version of topRightCorner<int, int>().
 template<int CRows, int CCols>
-EIGEN_DEVICE_FUNC
+HYDRA_EIGEN_DEVICE_FUNC
 inline const typename ConstFixedBlockXpr<CRows,CCols>::Type topRightCorner() const
 {
   return typename ConstFixedBlockXpr<CRows,CCols>::Type(derived(), 0, cols() - CCols);
@@ -143,7 +143,7 @@ inline const typename ConstFixedBlockXpr<CRows,CCols>::Type topRightCorner() con
 /// Example: \include MatrixBase_template_int_int_topRightCorner_int_int.cpp
 /// Output: \verbinclude MatrixBase_template_int_int_topRightCorner_int_int.out
 ///
-EIGEN_DOC_BLOCK_ADDONS_NOT_INNER_PANEL
+HYDRA_EIGEN_DOC_BLOCK_ADDONS_NOT_INNER_PANEL
 ///
 /// \sa class Block
 ///
@@ -170,18 +170,18 @@ inline const typename ConstFixedBlockXpr<CRows,CCols>::Type topRightCorner(Index
 /// Example: \include MatrixBase_topLeftCorner_int_int.cpp
 /// Output: \verbinclude MatrixBase_topLeftCorner_int_int.out
 ///
-EIGEN_DOC_BLOCK_ADDONS_NOT_INNER_PANEL
+HYDRA_EIGEN_DOC_BLOCK_ADDONS_NOT_INNER_PANEL
 ///
 /// \sa class Block, block(Index,Index,Index,Index)
 ///
-EIGEN_DEVICE_FUNC
+HYDRA_EIGEN_DEVICE_FUNC
 inline BlockXpr topLeftCorner(Index cRows, Index cCols)
 {
   return BlockXpr(derived(), 0, 0, cRows, cCols);
 }
 
 /// This is the const version of topLeftCorner(Index, Index).
-EIGEN_DEVICE_FUNC
+HYDRA_EIGEN_DEVICE_FUNC
 inline const ConstBlockXpr topLeftCorner(Index cRows, Index cCols) const
 {
   return ConstBlockXpr(derived(), 0, 0, cRows, cCols);
@@ -194,12 +194,12 @@ inline const ConstBlockXpr topLeftCorner(Index cRows, Index cCols) const
 /// Example: \include MatrixBase_template_int_int_topLeftCorner.cpp
 /// Output: \verbinclude MatrixBase_template_int_int_topLeftCorner.out
 ///
-EIGEN_DOC_BLOCK_ADDONS_NOT_INNER_PANEL
+HYDRA_EIGEN_DOC_BLOCK_ADDONS_NOT_INNER_PANEL
 ///
 /// \sa class Block, block(Index,Index,Index,Index)
 ///
 template<int CRows, int CCols>
-EIGEN_DEVICE_FUNC
+HYDRA_EIGEN_DEVICE_FUNC
 inline typename FixedBlockXpr<CRows,CCols>::Type topLeftCorner()
 {
   return typename FixedBlockXpr<CRows,CCols>::Type(derived(), 0, 0);
@@ -207,7 +207,7 @@ inline typename FixedBlockXpr<CRows,CCols>::Type topLeftCorner()
 
 /// This is the const version of topLeftCorner<int, int>().
 template<int CRows, int CCols>
-EIGEN_DEVICE_FUNC
+HYDRA_EIGEN_DEVICE_FUNC
 inline const typename ConstFixedBlockXpr<CRows,CCols>::Type topLeftCorner() const
 {
   return typename ConstFixedBlockXpr<CRows,CCols>::Type(derived(), 0, 0);
@@ -228,7 +228,7 @@ inline const typename ConstFixedBlockXpr<CRows,CCols>::Type topLeftCorner() cons
 /// Example: \include MatrixBase_template_int_int_topLeftCorner_int_int.cpp
 /// Output: \verbinclude MatrixBase_template_int_int_topLeftCorner_int_int.out
 ///
-EIGEN_DOC_BLOCK_ADDONS_NOT_INNER_PANEL
+HYDRA_EIGEN_DOC_BLOCK_ADDONS_NOT_INNER_PANEL
 ///
 /// \sa class Block
 ///
@@ -255,18 +255,18 @@ inline const typename ConstFixedBlockXpr<CRows,CCols>::Type topLeftCorner(Index 
 /// Example: \include MatrixBase_bottomRightCorner_int_int.cpp
 /// Output: \verbinclude MatrixBase_bottomRightCorner_int_int.out
 ///
-EIGEN_DOC_BLOCK_ADDONS_NOT_INNER_PANEL
+HYDRA_EIGEN_DOC_BLOCK_ADDONS_NOT_INNER_PANEL
 ///
 /// \sa class Block, block(Index,Index,Index,Index)
 ///
-EIGEN_DEVICE_FUNC
+HYDRA_EIGEN_DEVICE_FUNC
 inline BlockXpr bottomRightCorner(Index cRows, Index cCols)
 {
   return BlockXpr(derived(), rows() - cRows, cols() - cCols, cRows, cCols);
 }
 
 /// This is the const version of bottomRightCorner(Index, Index).
-EIGEN_DEVICE_FUNC
+HYDRA_EIGEN_DEVICE_FUNC
 inline const ConstBlockXpr bottomRightCorner(Index cRows, Index cCols) const
 {
   return ConstBlockXpr(derived(), rows() - cRows, cols() - cCols, cRows, cCols);
@@ -279,12 +279,12 @@ inline const ConstBlockXpr bottomRightCorner(Index cRows, Index cCols) const
 /// Example: \include MatrixBase_template_int_int_bottomRightCorner.cpp
 /// Output: \verbinclude MatrixBase_template_int_int_bottomRightCorner.out
 ///
-EIGEN_DOC_BLOCK_ADDONS_NOT_INNER_PANEL
+HYDRA_EIGEN_DOC_BLOCK_ADDONS_NOT_INNER_PANEL
 ///
 /// \sa class Block, block(Index,Index,Index,Index)
 ///
 template<int CRows, int CCols>
-EIGEN_DEVICE_FUNC
+HYDRA_EIGEN_DEVICE_FUNC
 inline typename FixedBlockXpr<CRows,CCols>::Type bottomRightCorner()
 {
   return typename FixedBlockXpr<CRows,CCols>::Type(derived(), rows() - CRows, cols() - CCols);
@@ -292,7 +292,7 @@ inline typename FixedBlockXpr<CRows,CCols>::Type bottomRightCorner()
 
 /// This is the const version of bottomRightCorner<int, int>().
 template<int CRows, int CCols>
-EIGEN_DEVICE_FUNC
+HYDRA_EIGEN_DEVICE_FUNC
 inline const typename ConstFixedBlockXpr<CRows,CCols>::Type bottomRightCorner() const
 {
   return typename ConstFixedBlockXpr<CRows,CCols>::Type(derived(), rows() - CRows, cols() - CCols);
@@ -313,7 +313,7 @@ inline const typename ConstFixedBlockXpr<CRows,CCols>::Type bottomRightCorner() 
 /// Example: \include MatrixBase_template_int_int_bottomRightCorner_int_int.cpp
 /// Output: \verbinclude MatrixBase_template_int_int_bottomRightCorner_int_int.out
 ///
-EIGEN_DOC_BLOCK_ADDONS_NOT_INNER_PANEL
+HYDRA_EIGEN_DOC_BLOCK_ADDONS_NOT_INNER_PANEL
 ///
 /// \sa class Block
 ///
@@ -340,18 +340,18 @@ inline const typename ConstFixedBlockXpr<CRows,CCols>::Type bottomRightCorner(In
 /// Example: \include MatrixBase_bottomLeftCorner_int_int.cpp
 /// Output: \verbinclude MatrixBase_bottomLeftCorner_int_int.out
 ///
-EIGEN_DOC_BLOCK_ADDONS_NOT_INNER_PANEL
+HYDRA_EIGEN_DOC_BLOCK_ADDONS_NOT_INNER_PANEL
 ///
 /// \sa class Block, block(Index,Index,Index,Index)
 ///
-EIGEN_DEVICE_FUNC
+HYDRA_EIGEN_DEVICE_FUNC
 inline BlockXpr bottomLeftCorner(Index cRows, Index cCols)
 {
   return BlockXpr(derived(), rows() - cRows, 0, cRows, cCols);
 }
 
 /// This is the const version of bottomLeftCorner(Index, Index).
-EIGEN_DEVICE_FUNC
+HYDRA_EIGEN_DEVICE_FUNC
 inline const ConstBlockXpr bottomLeftCorner(Index cRows, Index cCols) const
 {
   return ConstBlockXpr(derived(), rows() - cRows, 0, cRows, cCols);
@@ -364,12 +364,12 @@ inline const ConstBlockXpr bottomLeftCorner(Index cRows, Index cCols) const
 /// Example: \include MatrixBase_template_int_int_bottomLeftCorner.cpp
 /// Output: \verbinclude MatrixBase_template_int_int_bottomLeftCorner.out
 ///
-EIGEN_DOC_BLOCK_ADDONS_NOT_INNER_PANEL
+HYDRA_EIGEN_DOC_BLOCK_ADDONS_NOT_INNER_PANEL
 ///
 /// \sa class Block, block(Index,Index,Index,Index)
 ///
 template<int CRows, int CCols>
-EIGEN_DEVICE_FUNC
+HYDRA_EIGEN_DEVICE_FUNC
 inline typename FixedBlockXpr<CRows,CCols>::Type bottomLeftCorner()
 {
   return typename FixedBlockXpr<CRows,CCols>::Type(derived(), rows() - CRows, 0);
@@ -377,7 +377,7 @@ inline typename FixedBlockXpr<CRows,CCols>::Type bottomLeftCorner()
 
 /// This is the const version of bottomLeftCorner<int, int>().
 template<int CRows, int CCols>
-EIGEN_DEVICE_FUNC
+HYDRA_EIGEN_DEVICE_FUNC
 inline const typename ConstFixedBlockXpr<CRows,CCols>::Type bottomLeftCorner() const
 {
   return typename ConstFixedBlockXpr<CRows,CCols>::Type(derived(), rows() - CRows, 0);
@@ -398,7 +398,7 @@ inline const typename ConstFixedBlockXpr<CRows,CCols>::Type bottomLeftCorner() c
 /// Example: \include MatrixBase_template_int_int_bottomLeftCorner_int_int.cpp
 /// Output: \verbinclude MatrixBase_template_int_int_bottomLeftCorner_int_int.out
 ///
-EIGEN_DOC_BLOCK_ADDONS_NOT_INNER_PANEL
+HYDRA_EIGEN_DOC_BLOCK_ADDONS_NOT_INNER_PANEL
 ///
 /// \sa class Block
 ///
@@ -424,18 +424,18 @@ inline const typename ConstFixedBlockXpr<CRows,CCols>::Type bottomLeftCorner(Ind
 /// Example: \include MatrixBase_topRows_int.cpp
 /// Output: \verbinclude MatrixBase_topRows_int.out
 ///
-EIGEN_DOC_BLOCK_ADDONS_INNER_PANEL_IF(row-major)
+HYDRA_EIGEN_DOC_BLOCK_ADDONS_INNER_PANEL_IF(row-major)
 ///
 /// \sa class Block, block(Index,Index,Index,Index)
 ///
-EIGEN_DEVICE_FUNC
+HYDRA_EIGEN_DEVICE_FUNC
 inline RowsBlockXpr topRows(Index n)
 {
   return RowsBlockXpr(derived(), 0, 0, n, cols());
 }
 
 /// This is the const version of topRows(Index).
-EIGEN_DEVICE_FUNC
+HYDRA_EIGEN_DEVICE_FUNC
 inline ConstRowsBlockXpr topRows(Index n) const
 {
   return ConstRowsBlockXpr(derived(), 0, 0, n, cols());
@@ -452,12 +452,12 @@ inline ConstRowsBlockXpr topRows(Index n) const
 /// Example: \include MatrixBase_template_int_topRows.cpp
 /// Output: \verbinclude MatrixBase_template_int_topRows.out
 ///
-EIGEN_DOC_BLOCK_ADDONS_INNER_PANEL_IF(row-major)
+HYDRA_EIGEN_DOC_BLOCK_ADDONS_INNER_PANEL_IF(row-major)
 ///
 /// \sa class Block, block(Index,Index,Index,Index)
 ///
 template<int N>
-EIGEN_DEVICE_FUNC
+HYDRA_EIGEN_DEVICE_FUNC
 inline typename NRowsBlockXpr<N>::Type topRows(Index n = N)
 {
   return typename NRowsBlockXpr<N>::Type(derived(), 0, 0, n, cols());
@@ -465,7 +465,7 @@ inline typename NRowsBlockXpr<N>::Type topRows(Index n = N)
 
 /// This is the const version of topRows<int>().
 template<int N>
-EIGEN_DEVICE_FUNC
+HYDRA_EIGEN_DEVICE_FUNC
 inline typename ConstNRowsBlockXpr<N>::Type topRows(Index n = N) const
 {
   return typename ConstNRowsBlockXpr<N>::Type(derived(), 0, 0, n, cols());
@@ -480,18 +480,18 @@ inline typename ConstNRowsBlockXpr<N>::Type topRows(Index n = N) const
 /// Example: \include MatrixBase_bottomRows_int.cpp
 /// Output: \verbinclude MatrixBase_bottomRows_int.out
 ///
-EIGEN_DOC_BLOCK_ADDONS_INNER_PANEL_IF(row-major)
+HYDRA_EIGEN_DOC_BLOCK_ADDONS_INNER_PANEL_IF(row-major)
 ///
 /// \sa class Block, block(Index,Index,Index,Index)
 ///
-EIGEN_DEVICE_FUNC
+HYDRA_EIGEN_DEVICE_FUNC
 inline RowsBlockXpr bottomRows(Index n)
 {
   return RowsBlockXpr(derived(), rows() - n, 0, n, cols());
 }
 
 /// This is the const version of bottomRows(Index).
-EIGEN_DEVICE_FUNC
+HYDRA_EIGEN_DEVICE_FUNC
 inline ConstRowsBlockXpr bottomRows(Index n) const
 {
   return ConstRowsBlockXpr(derived(), rows() - n, 0, n, cols());
@@ -508,12 +508,12 @@ inline ConstRowsBlockXpr bottomRows(Index n) const
 /// Example: \include MatrixBase_template_int_bottomRows.cpp
 /// Output: \verbinclude MatrixBase_template_int_bottomRows.out
 ///
-EIGEN_DOC_BLOCK_ADDONS_INNER_PANEL_IF(row-major)
+HYDRA_EIGEN_DOC_BLOCK_ADDONS_INNER_PANEL_IF(row-major)
 ///
 /// \sa class Block, block(Index,Index,Index,Index)
 ///
 template<int N>
-EIGEN_DEVICE_FUNC
+HYDRA_EIGEN_DEVICE_FUNC
 inline typename NRowsBlockXpr<N>::Type bottomRows(Index n = N)
 {
   return typename NRowsBlockXpr<N>::Type(derived(), rows() - n, 0, n, cols());
@@ -521,7 +521,7 @@ inline typename NRowsBlockXpr<N>::Type bottomRows(Index n = N)
 
 /// This is the const version of bottomRows<int>().
 template<int N>
-EIGEN_DEVICE_FUNC
+HYDRA_EIGEN_DEVICE_FUNC
 inline typename ConstNRowsBlockXpr<N>::Type bottomRows(Index n = N) const
 {
   return typename ConstNRowsBlockXpr<N>::Type(derived(), rows() - n, 0, n, cols());
@@ -537,18 +537,18 @@ inline typename ConstNRowsBlockXpr<N>::Type bottomRows(Index n = N) const
 /// Example: \include DenseBase_middleRows_int.cpp
 /// Output: \verbinclude DenseBase_middleRows_int.out
 ///
-EIGEN_DOC_BLOCK_ADDONS_INNER_PANEL_IF(row-major)
+HYDRA_EIGEN_DOC_BLOCK_ADDONS_INNER_PANEL_IF(row-major)
 ///
 /// \sa class Block, block(Index,Index,Index,Index)
 ///
-EIGEN_DEVICE_FUNC
+HYDRA_EIGEN_DEVICE_FUNC
 inline RowsBlockXpr middleRows(Index startRow, Index n)
 {
   return RowsBlockXpr(derived(), startRow, 0, n, cols());
 }
 
 /// This is the const version of middleRows(Index,Index).
-EIGEN_DEVICE_FUNC
+HYDRA_EIGEN_DEVICE_FUNC
 inline ConstRowsBlockXpr middleRows(Index startRow, Index n) const
 {
   return ConstRowsBlockXpr(derived(), startRow, 0, n, cols());
@@ -566,12 +566,12 @@ inline ConstRowsBlockXpr middleRows(Index startRow, Index n) const
 /// Example: \include DenseBase_template_int_middleRows.cpp
 /// Output: \verbinclude DenseBase_template_int_middleRows.out
 ///
-EIGEN_DOC_BLOCK_ADDONS_INNER_PANEL_IF(row-major)
+HYDRA_EIGEN_DOC_BLOCK_ADDONS_INNER_PANEL_IF(row-major)
 ///
 /// \sa class Block, block(Index,Index,Index,Index)
 ///
 template<int N>
-EIGEN_DEVICE_FUNC
+HYDRA_EIGEN_DEVICE_FUNC
 inline typename NRowsBlockXpr<N>::Type middleRows(Index startRow, Index n = N)
 {
   return typename NRowsBlockXpr<N>::Type(derived(), startRow, 0, n, cols());
@@ -579,7 +579,7 @@ inline typename NRowsBlockXpr<N>::Type middleRows(Index startRow, Index n = N)
 
 /// This is the const version of middleRows<int>().
 template<int N>
-EIGEN_DEVICE_FUNC
+HYDRA_EIGEN_DEVICE_FUNC
 inline typename ConstNRowsBlockXpr<N>::Type middleRows(Index startRow, Index n = N) const
 {
   return typename ConstNRowsBlockXpr<N>::Type(derived(), startRow, 0, n, cols());
@@ -594,18 +594,18 @@ inline typename ConstNRowsBlockXpr<N>::Type middleRows(Index startRow, Index n =
 /// Example: \include MatrixBase_leftCols_int.cpp
 /// Output: \verbinclude MatrixBase_leftCols_int.out
 ///
-EIGEN_DOC_BLOCK_ADDONS_INNER_PANEL_IF(column-major)
+HYDRA_EIGEN_DOC_BLOCK_ADDONS_INNER_PANEL_IF(column-major)
 ///
 /// \sa class Block, block(Index,Index,Index,Index)
 ///
-EIGEN_DEVICE_FUNC
+HYDRA_EIGEN_DEVICE_FUNC
 inline ColsBlockXpr leftCols(Index n)
 {
   return ColsBlockXpr(derived(), 0, 0, rows(), n);
 }
 
 /// This is the const version of leftCols(Index).
-EIGEN_DEVICE_FUNC
+HYDRA_EIGEN_DEVICE_FUNC
 inline ConstColsBlockXpr leftCols(Index n) const
 {
   return ConstColsBlockXpr(derived(), 0, 0, rows(), n);
@@ -622,12 +622,12 @@ inline ConstColsBlockXpr leftCols(Index n) const
 /// Example: \include MatrixBase_template_int_leftCols.cpp
 /// Output: \verbinclude MatrixBase_template_int_leftCols.out
 ///
-EIGEN_DOC_BLOCK_ADDONS_INNER_PANEL_IF(column-major)
+HYDRA_EIGEN_DOC_BLOCK_ADDONS_INNER_PANEL_IF(column-major)
 ///
 /// \sa class Block, block(Index,Index,Index,Index)
 ///
 template<int N>
-EIGEN_DEVICE_FUNC
+HYDRA_EIGEN_DEVICE_FUNC
 inline typename NColsBlockXpr<N>::Type leftCols(Index n = N)
 {
   return typename NColsBlockXpr<N>::Type(derived(), 0, 0, rows(), n);
@@ -635,7 +635,7 @@ inline typename NColsBlockXpr<N>::Type leftCols(Index n = N)
 
 /// This is the const version of leftCols<int>().
 template<int N>
-EIGEN_DEVICE_FUNC
+HYDRA_EIGEN_DEVICE_FUNC
 inline typename ConstNColsBlockXpr<N>::Type leftCols(Index n = N) const
 {
   return typename ConstNColsBlockXpr<N>::Type(derived(), 0, 0, rows(), n);
@@ -650,18 +650,18 @@ inline typename ConstNColsBlockXpr<N>::Type leftCols(Index n = N) const
 /// Example: \include MatrixBase_rightCols_int.cpp
 /// Output: \verbinclude MatrixBase_rightCols_int.out
 ///
-EIGEN_DOC_BLOCK_ADDONS_INNER_PANEL_IF(column-major)
+HYDRA_EIGEN_DOC_BLOCK_ADDONS_INNER_PANEL_IF(column-major)
 ///
 /// \sa class Block, block(Index,Index,Index,Index)
 ///
-EIGEN_DEVICE_FUNC
+HYDRA_EIGEN_DEVICE_FUNC
 inline ColsBlockXpr rightCols(Index n)
 {
   return ColsBlockXpr(derived(), 0, cols() - n, rows(), n);
 }
 
 /// This is the const version of rightCols(Index).
-EIGEN_DEVICE_FUNC
+HYDRA_EIGEN_DEVICE_FUNC
 inline ConstColsBlockXpr rightCols(Index n) const
 {
   return ConstColsBlockXpr(derived(), 0, cols() - n, rows(), n);
@@ -678,12 +678,12 @@ inline ConstColsBlockXpr rightCols(Index n) const
 /// Example: \include MatrixBase_template_int_rightCols.cpp
 /// Output: \verbinclude MatrixBase_template_int_rightCols.out
 ///
-EIGEN_DOC_BLOCK_ADDONS_INNER_PANEL_IF(column-major)
+HYDRA_EIGEN_DOC_BLOCK_ADDONS_INNER_PANEL_IF(column-major)
 ///
 /// \sa class Block, block(Index,Index,Index,Index)
 ///
 template<int N>
-EIGEN_DEVICE_FUNC
+HYDRA_EIGEN_DEVICE_FUNC
 inline typename NColsBlockXpr<N>::Type rightCols(Index n = N)
 {
   return typename NColsBlockXpr<N>::Type(derived(), 0, cols() - n, rows(), n);
@@ -691,7 +691,7 @@ inline typename NColsBlockXpr<N>::Type rightCols(Index n = N)
 
 /// This is the const version of rightCols<int>().
 template<int N>
-EIGEN_DEVICE_FUNC
+HYDRA_EIGEN_DEVICE_FUNC
 inline typename ConstNColsBlockXpr<N>::Type rightCols(Index n = N) const
 {
   return typename ConstNColsBlockXpr<N>::Type(derived(), 0, cols() - n, rows(), n);
@@ -707,18 +707,18 @@ inline typename ConstNColsBlockXpr<N>::Type rightCols(Index n = N) const
 /// Example: \include DenseBase_middleCols_int.cpp
 /// Output: \verbinclude DenseBase_middleCols_int.out
 ///
-EIGEN_DOC_BLOCK_ADDONS_INNER_PANEL_IF(column-major)
+HYDRA_EIGEN_DOC_BLOCK_ADDONS_INNER_PANEL_IF(column-major)
 ///
 /// \sa class Block, block(Index,Index,Index,Index)
 ///
-EIGEN_DEVICE_FUNC
+HYDRA_EIGEN_DEVICE_FUNC
 inline ColsBlockXpr middleCols(Index startCol, Index numCols)
 {
   return ColsBlockXpr(derived(), 0, startCol, rows(), numCols);
 }
 
 /// This is the const version of middleCols(Index,Index).
-EIGEN_DEVICE_FUNC
+HYDRA_EIGEN_DEVICE_FUNC
 inline ConstColsBlockXpr middleCols(Index startCol, Index numCols) const
 {
   return ConstColsBlockXpr(derived(), 0, startCol, rows(), numCols);
@@ -736,12 +736,12 @@ inline ConstColsBlockXpr middleCols(Index startCol, Index numCols) const
 /// Example: \include DenseBase_template_int_middleCols.cpp
 /// Output: \verbinclude DenseBase_template_int_middleCols.out
 ///
-EIGEN_DOC_BLOCK_ADDONS_INNER_PANEL_IF(column-major)
+HYDRA_EIGEN_DOC_BLOCK_ADDONS_INNER_PANEL_IF(column-major)
 ///
 /// \sa class Block, block(Index,Index,Index,Index)
 ///
 template<int N>
-EIGEN_DEVICE_FUNC
+HYDRA_EIGEN_DEVICE_FUNC
 inline typename NColsBlockXpr<N>::Type middleCols(Index startCol, Index n = N)
 {
   return typename NColsBlockXpr<N>::Type(derived(), 0, startCol, rows(), n);
@@ -749,7 +749,7 @@ inline typename NColsBlockXpr<N>::Type middleCols(Index startCol, Index n = N)
 
 /// This is the const version of middleCols<int>().
 template<int N>
-EIGEN_DEVICE_FUNC
+HYDRA_EIGEN_DEVICE_FUNC
 inline typename ConstNColsBlockXpr<N>::Type middleCols(Index startCol, Index n = N) const
 {
   return typename ConstNColsBlockXpr<N>::Type(derived(), 0, startCol, rows(), n);
@@ -771,12 +771,12 @@ inline typename ConstNColsBlockXpr<N>::Type middleCols(Index startCol, Index n =
 /// \note since block is a templated member, the keyword template has to be used
 /// if the matrix type is also a template parameter: \code m.template block<3,3>(1,1); \endcode
 ///
-EIGEN_DOC_BLOCK_ADDONS_NOT_INNER_PANEL
+HYDRA_EIGEN_DOC_BLOCK_ADDONS_NOT_INNER_PANEL
 ///
 /// \sa class Block, block(Index,Index,Index,Index)
 ///
 template<int NRows, int NCols>
-EIGEN_DEVICE_FUNC
+HYDRA_EIGEN_DEVICE_FUNC
 inline typename FixedBlockXpr<NRows,NCols>::Type block(Index startRow, Index startCol)
 {
   return typename FixedBlockXpr<NRows,NCols>::Type(derived(), startRow, startCol);
@@ -784,7 +784,7 @@ inline typename FixedBlockXpr<NRows,NCols>::Type block(Index startRow, Index sta
 
 /// This is the const version of block<>(Index, Index). */
 template<int NRows, int NCols>
-EIGEN_DEVICE_FUNC
+HYDRA_EIGEN_DEVICE_FUNC
 inline const typename ConstFixedBlockXpr<NRows,NCols>::Type block(Index startRow, Index startCol) const
 {
   return typename ConstFixedBlockXpr<NRows,NCols>::Type(derived(), startRow, startCol);
@@ -807,7 +807,7 @@ inline const typename ConstFixedBlockXpr<NRows,NCols>::Type block(Index startRow
 /// Example: \include MatrixBase_template_int_int_block_int_int_int_int.cpp
 /// Output: \verbinclude MatrixBase_template_int_int_block_int_int_int_int.cpp
 ///
-EIGEN_DOC_BLOCK_ADDONS_NOT_INNER_PANEL
+HYDRA_EIGEN_DOC_BLOCK_ADDONS_NOT_INNER_PANEL
 ///
 /// \sa class Block, block(Index,Index,Index,Index)
 ///
@@ -831,17 +831,17 @@ inline const typename ConstFixedBlockXpr<NRows,NCols>::Type block(Index startRow
 /// Example: \include MatrixBase_col.cpp
 /// Output: \verbinclude MatrixBase_col.out
 ///
-EIGEN_DOC_BLOCK_ADDONS_INNER_PANEL_IF(column-major)
+HYDRA_EIGEN_DOC_BLOCK_ADDONS_INNER_PANEL_IF(column-major)
 /**
   * \sa row(), class Block */
-EIGEN_DEVICE_FUNC
+HYDRA_EIGEN_DEVICE_FUNC
 inline ColXpr col(Index i)
 {
   return ColXpr(derived(), i);
 }
 
 /// This is the const version of col().
-EIGEN_DEVICE_FUNC
+HYDRA_EIGEN_DEVICE_FUNC
 inline ConstColXpr col(Index i) const
 {
   return ConstColXpr(derived(), i);
@@ -852,17 +852,17 @@ inline ConstColXpr col(Index i) const
 /// Example: \include MatrixBase_row.cpp
 /// Output: \verbinclude MatrixBase_row.out
 ///
-EIGEN_DOC_BLOCK_ADDONS_INNER_PANEL_IF(row-major)
+HYDRA_EIGEN_DOC_BLOCK_ADDONS_INNER_PANEL_IF(row-major)
 /**
   * \sa col(), class Block */
-EIGEN_DEVICE_FUNC
+HYDRA_EIGEN_DEVICE_FUNC
 inline RowXpr row(Index i)
 {
   return RowXpr(derived(), i);
 }
 
 /// This is the const version of row(). */
-EIGEN_DEVICE_FUNC
+HYDRA_EIGEN_DEVICE_FUNC
 inline ConstRowXpr row(Index i) const
 {
   return ConstRowXpr(derived(), i);
@@ -884,19 +884,19 @@ inline ConstRowXpr row(Index i) const
 ///
 /// \sa class Block, segment(Index)
 ///
-EIGEN_DEVICE_FUNC
+HYDRA_EIGEN_DEVICE_FUNC
 inline SegmentReturnType segment(Index start, Index n)
 {
-  EIGEN_STATIC_ASSERT_VECTOR_ONLY(Derived)
+  HYDRA_EIGEN_STATIC_ASSERT_VECTOR_ONLY(Derived)
   return SegmentReturnType(derived(), start, n);
 }
 
 
 /// This is the const version of segment(Index,Index).
-EIGEN_DEVICE_FUNC
+HYDRA_EIGEN_DEVICE_FUNC
 inline ConstSegmentReturnType segment(Index start, Index n) const
 {
-  EIGEN_STATIC_ASSERT_VECTOR_ONLY(Derived)
+  HYDRA_EIGEN_STATIC_ASSERT_VECTOR_ONLY(Derived)
   return ConstSegmentReturnType(derived(), start, n);
 }
 
@@ -915,18 +915,18 @@ inline ConstSegmentReturnType segment(Index start, Index n) const
 ///
 /// \sa class Block, block(Index,Index)
 ///
-EIGEN_DEVICE_FUNC
+HYDRA_EIGEN_DEVICE_FUNC
 inline SegmentReturnType head(Index n)
 {
-  EIGEN_STATIC_ASSERT_VECTOR_ONLY(Derived)
+  HYDRA_EIGEN_STATIC_ASSERT_VECTOR_ONLY(Derived)
   return SegmentReturnType(derived(), 0, n);
 }
 
 /// This is the const version of head(Index).
-EIGEN_DEVICE_FUNC
+HYDRA_EIGEN_DEVICE_FUNC
 inline ConstSegmentReturnType head(Index n) const
 {
-  EIGEN_STATIC_ASSERT_VECTOR_ONLY(Derived)
+  HYDRA_EIGEN_STATIC_ASSERT_VECTOR_ONLY(Derived)
   return ConstSegmentReturnType(derived(), 0, n);
 }
 
@@ -945,18 +945,18 @@ inline ConstSegmentReturnType head(Index n) const
 ///
 /// \sa class Block, block(Index,Index)
 ///
-EIGEN_DEVICE_FUNC
+HYDRA_EIGEN_DEVICE_FUNC
 inline SegmentReturnType tail(Index n)
 {
-  EIGEN_STATIC_ASSERT_VECTOR_ONLY(Derived)
+  HYDRA_EIGEN_STATIC_ASSERT_VECTOR_ONLY(Derived)
   return SegmentReturnType(derived(), this->size() - n, n);
 }
 
 /// This is the const version of tail(Index).
-EIGEN_DEVICE_FUNC
+HYDRA_EIGEN_DEVICE_FUNC
 inline ConstSegmentReturnType tail(Index n) const
 {
-  EIGEN_STATIC_ASSERT_VECTOR_ONLY(Derived)
+  HYDRA_EIGEN_STATIC_ASSERT_VECTOR_ONLY(Derived)
   return ConstSegmentReturnType(derived(), this->size() - n, n);
 }
 
@@ -977,19 +977,19 @@ inline ConstSegmentReturnType tail(Index n) const
 /// \sa class Block
 ///
 template<int N>
-EIGEN_DEVICE_FUNC
+HYDRA_EIGEN_DEVICE_FUNC
 inline typename FixedSegmentReturnType<N>::Type segment(Index start, Index n = N)
 {
-  EIGEN_STATIC_ASSERT_VECTOR_ONLY(Derived)
+  HYDRA_EIGEN_STATIC_ASSERT_VECTOR_ONLY(Derived)
   return typename FixedSegmentReturnType<N>::Type(derived(), start, n);
 }
 
 /// This is the const version of segment<int>(Index).
 template<int N>
-EIGEN_DEVICE_FUNC
+HYDRA_EIGEN_DEVICE_FUNC
 inline typename ConstFixedSegmentReturnType<N>::Type segment(Index start, Index n = N) const
 {
-  EIGEN_STATIC_ASSERT_VECTOR_ONLY(Derived)
+  HYDRA_EIGEN_STATIC_ASSERT_VECTOR_ONLY(Derived)
   return typename ConstFixedSegmentReturnType<N>::Type(derived(), start, n);
 }
 
@@ -1009,19 +1009,19 @@ inline typename ConstFixedSegmentReturnType<N>::Type segment(Index start, Index 
 /// \sa class Block
 ///
 template<int N>
-EIGEN_DEVICE_FUNC
+HYDRA_EIGEN_DEVICE_FUNC
 inline typename FixedSegmentReturnType<N>::Type head(Index n = N)
 {
-  EIGEN_STATIC_ASSERT_VECTOR_ONLY(Derived)
+  HYDRA_EIGEN_STATIC_ASSERT_VECTOR_ONLY(Derived)
   return typename FixedSegmentReturnType<N>::Type(derived(), 0, n);
 }
 
 /// This is the const version of head<int>().
 template<int N>
-EIGEN_DEVICE_FUNC
+HYDRA_EIGEN_DEVICE_FUNC
 inline typename ConstFixedSegmentReturnType<N>::Type head(Index n = N) const
 {
-  EIGEN_STATIC_ASSERT_VECTOR_ONLY(Derived)
+  HYDRA_EIGEN_STATIC_ASSERT_VECTOR_ONLY(Derived)
   return typename ConstFixedSegmentReturnType<N>::Type(derived(), 0, n);
 }
 
@@ -1041,18 +1041,18 @@ inline typename ConstFixedSegmentReturnType<N>::Type head(Index n = N) const
 /// \sa class Block
 ///
 template<int N>
-EIGEN_DEVICE_FUNC
+HYDRA_EIGEN_DEVICE_FUNC
 inline typename FixedSegmentReturnType<N>::Type tail(Index n = N)
 {
-  EIGEN_STATIC_ASSERT_VECTOR_ONLY(Derived)
+  HYDRA_EIGEN_STATIC_ASSERT_VECTOR_ONLY(Derived)
   return typename FixedSegmentReturnType<N>::Type(derived(), size() - n);
 }
 
 /// This is the const version of tail<int>.
 template<int N>
-EIGEN_DEVICE_FUNC
+HYDRA_EIGEN_DEVICE_FUNC
 inline typename ConstFixedSegmentReturnType<N>::Type tail(Index n = N) const
 {
-  EIGEN_STATIC_ASSERT_VECTOR_ONLY(Derived)
+  HYDRA_EIGEN_STATIC_ASSERT_VECTOR_ONLY(Derived)
   return typename ConstFixedSegmentReturnType<N>::Type(derived(), size() - n);
 }

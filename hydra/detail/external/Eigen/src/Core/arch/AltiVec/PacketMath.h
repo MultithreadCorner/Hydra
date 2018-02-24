@@ -7,28 +7,28 @@
 // Public License v. 2.0. If a copy of the MPL was not distributed
 // with this file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
-#ifndef EIGEN_PACKET_MATH_ALTIVEC_H
-#define EIGEN_PACKET_MATH_ALTIVEC_H
+#ifndef HYDRA_EIGEN_PACKET_MATH_ALTIVEC_H
+#define HYDRA_EIGEN_PACKET_MATH_ALTIVEC_H
 
 HYDRA_EXTERNAL_NAMESPACE_BEGIN namespace Eigen {
 
 namespace internal {
 
-#ifndef EIGEN_CACHEFRIENDLY_PRODUCT_THRESHOLD
-#define EIGEN_CACHEFRIENDLY_PRODUCT_THRESHOLD 4
+#ifndef HYDRA_EIGEN_CACHEFRIENDLY_PRODUCT_THRESHOLD
+#define HYDRA_EIGEN_CACHEFRIENDLY_PRODUCT_THRESHOLD 4
 #endif
 
-#ifndef EIGEN_HAS_SINGLE_INSTRUCTION_MADD
-#define EIGEN_HAS_SINGLE_INSTRUCTION_MADD
+#ifndef HYDRA_EIGEN_HAS_SINGLE_INSTRUCTION_MADD
+#define HYDRA_EIGEN_HAS_SINGLE_INSTRUCTION_MADD
 #endif
 
-#ifndef EIGEN_HAS_SINGLE_INSTRUCTION_CJMADD
-#define EIGEN_HAS_SINGLE_INSTRUCTION_CJMADD
+#ifndef HYDRA_EIGEN_HAS_SINGLE_INSTRUCTION_CJMADD
+#define HYDRA_EIGEN_HAS_SINGLE_INSTRUCTION_CJMADD
 #endif
 
 // NOTE Altivec has 32 registers, but Eigen only accepts a value of 8 or 16
-#ifndef EIGEN_ARCH_DEFAULT_NUMBER_OF_REGISTERS
-#define EIGEN_ARCH_DEFAULT_NUMBER_OF_REGISTERS  32
+#ifndef HYDRA_EIGEN_ARCH_DEFAULT_NUMBER_OF_REGISTERS
+#define HYDRA_EIGEN_ARCH_DEFAULT_NUMBER_OF_REGISTERS  32
 #endif
 
 typedef __vector float          Packet4f;
@@ -41,25 +41,25 @@ typedef __vector unsigned char  Packet16uc;
 // We don't want to write the same code all the time, but we need to reuse the constants
 // and it doesn't really work to declare them global, so we define macros instead
 
-#define _EIGEN_DECLARE_CONST_FAST_Packet4f(NAME,X) \
+#define _HYDRA_EIGEN_DECLARE_CONST_FAST_Packet4f(NAME,X) \
   Packet4f p4f_##NAME = reinterpret_cast<Packet4f>(vec_splat_s32(X))
 
-#define _EIGEN_DECLARE_CONST_FAST_Packet4i(NAME,X) \
+#define _HYDRA_EIGEN_DECLARE_CONST_FAST_Packet4i(NAME,X) \
   Packet4i p4i_##NAME = vec_splat_s32(X)
 
-#define _EIGEN_DECLARE_CONST_Packet4f(NAME,X) \
+#define _HYDRA_EIGEN_DECLARE_CONST_Packet4f(NAME,X) \
   Packet4f p4f_##NAME = pset1<Packet4f>(X)
 
-#define _EIGEN_DECLARE_CONST_Packet4i(NAME,X) \
+#define _HYDRA_EIGEN_DECLARE_CONST_Packet4i(NAME,X) \
   Packet4i p4i_##NAME = pset1<Packet4i>(X)
 
-#define _EIGEN_DECLARE_CONST_Packet2d(NAME,X) \
+#define _HYDRA_EIGEN_DECLARE_CONST_Packet2d(NAME,X) \
   Packet2d p2d_##NAME = pset1<Packet2d>(X)
 
-#define _EIGEN_DECLARE_CONST_Packet2l(NAME,X) \
+#define _HYDRA_EIGEN_DECLARE_CONST_Packet2l(NAME,X) \
   Packet2l p2l_##NAME = pset1<Packet2l>(X)
 
-#define _EIGEN_DECLARE_CONST_Packet4f_FROM_INT(NAME,X) \
+#define _HYDRA_EIGEN_DECLARE_CONST_Packet4f_FROM_INT(NAME,X) \
   const Packet4f p4f_##NAME = reinterpret_cast<Packet4f>(pset1<Packet4i>(X))
 
 #define DST_CHAN 1
@@ -67,11 +67,11 @@ typedef __vector unsigned char  Packet16uc;
 
 
 // These constants are endian-agnostic
-static _EIGEN_DECLARE_CONST_FAST_Packet4f(ZERO, 0); //{ 0.0, 0.0, 0.0, 0.0}
-static _EIGEN_DECLARE_CONST_FAST_Packet4i(ZERO, 0); //{ 0, 0, 0, 0,}
-static _EIGEN_DECLARE_CONST_FAST_Packet4i(ONE,1); //{ 1, 1, 1, 1}
-static _EIGEN_DECLARE_CONST_FAST_Packet4i(MINUS16,-16); //{ -16, -16, -16, -16}
-static _EIGEN_DECLARE_CONST_FAST_Packet4i(MINUS1,-1); //{ -1, -1, -1, -1}
+static _HYDRA_EIGEN_DECLARE_CONST_FAST_Packet4f(ZERO, 0); //{ 0.0, 0.0, 0.0, 0.0}
+static _HYDRA_EIGEN_DECLARE_CONST_FAST_Packet4i(ZERO, 0); //{ 0, 0, 0, 0,}
+static _HYDRA_EIGEN_DECLARE_CONST_FAST_Packet4i(ONE,1); //{ 1, 1, 1, 1}
+static _HYDRA_EIGEN_DECLARE_CONST_FAST_Packet4i(MINUS16,-16); //{ -16, -16, -16, -16}
+static _HYDRA_EIGEN_DECLARE_CONST_FAST_Packet4i(MINUS1,-1); //{ -1, -1, -1, -1}
 static Packet4f p4f_MZERO = (Packet4f) vec_sl((Packet4ui)p4i_MINUS1, (Packet4ui)p4i_MINUS1); //{ 0x80000000, 0x80000000, 0x80000000, 0x80000000}
 #ifndef __VSX__
 static Packet4f p4f_ONE = vec_ctf(p4i_ONE, 0); //{ 1.0, 1.0, 1.0, 1.0}
@@ -85,12 +85,12 @@ static Packet16uc p16uc_DUPLICATE32_HI = { 0,1,2,3, 0,1,2,3, 4,5,6,7, 4,5,6,7 };
 
 // Mask alignment
 #ifdef __PPC64__
-#define _EIGEN_MASK_ALIGNMENT	0xfffffffffffffff0
+#define _HYDRA_EIGEN_MASK_ALIGNMENT	0xfffffffffffffff0
 #else
-#define _EIGEN_MASK_ALIGNMENT	0xfffffff0
+#define _HYDRA_EIGEN_MASK_ALIGNMENT	0xfffffff0
 #endif
 
-#define _EIGEN_ALIGNED_PTR(x)	((std::ptrdiff_t)(x) & _EIGEN_MASK_ALIGNMENT)
+#define _HYDRA_EIGEN_ALIGNED_PTR(x)	((std::ptrdiff_t)(x) & _HYDRA_EIGEN_MASK_ALIGNMENT)
 
 // Handle endianness properly while loading constants
 // Define global static constants:
@@ -123,10 +123,10 @@ static Packet16uc p16uc_COMPLEX32_REV2 = vec_sld(p16uc_FORWARD, p16uc_FORWARD, 8
 static Packet16uc p16uc_COMPLEX32_REV2 = vec_sld(p16uc_PSET64_HI, p16uc_PSET64_LO, 8);                                            //{ 8,9,10,11, 12,13,14,15, 0,1,2,3, 4,5,6,7 };
 #endif // _BIG_ENDIAN
 
-#if EIGEN_HAS_BUILTIN(__builtin_prefetch) || EIGEN_COMP_GNUC
-  #define EIGEN_PPC_PREFETCH(ADDR) __builtin_prefetch(ADDR);
+#if HYDRA_EIGEN_HAS_BUILTIN(__builtin_prefetch) || HYDRA_EIGEN_COMP_GNUC
+  #define HYDRA_EIGEN_PPC_PREFETCH(ADDR) __builtin_prefetch(ADDR);
 #else
-  #define EIGEN_PPC_PREFETCH(ADDR) asm( "   dcbt [%[addr]]\n" :: [addr] "r" (ADDR) : "cc" );
+  #define HYDRA_EIGEN_PPC_PREFETCH(ADDR) asm( "   dcbt [%[addr]]\n" :: [addr] "r" (ADDR) : "cc" );
 #endif
 
 template<> struct packet_traits<float>  : default_packet_traits
@@ -152,7 +152,7 @@ template<> struct packet_traits<float>  : default_packet_traits
     HasExp  = 1,
 #ifdef __VSX__
     HasSqrt = 1,
-#if !EIGEN_COMP_CLANG
+#if !HYDRA_EIGEN_COMP_CLANG
     HasRsqrt = 1,
 #else
     HasRsqrt = 0,
@@ -236,9 +236,9 @@ inline std::ostream & operator <<(std::ostream & s, const Packet4ui & v)
 }
 
 // Need to define them first or we get specialization after instantiation errors
-template<> EIGEN_STRONG_INLINE Packet4f pload<Packet4f>(const float* from)
+template<> HYDRA_EIGEN_STRONG_INLINE Packet4f pload<Packet4f>(const float* from)
 {
-  EIGEN_DEBUG_ALIGNED_LOAD
+  HYDRA_EIGEN_DEBUG_ALIGNED_LOAD
 #ifdef __VSX__
   return vec_vsx_ld(0, from);
 #else
@@ -246,9 +246,9 @@ template<> EIGEN_STRONG_INLINE Packet4f pload<Packet4f>(const float* from)
 #endif
 }
 
-template<> EIGEN_STRONG_INLINE Packet4i pload<Packet4i>(const int*     from)
+template<> HYDRA_EIGEN_STRONG_INLINE Packet4i pload<Packet4i>(const int*     from)
 {
-  EIGEN_DEBUG_ALIGNED_LOAD
+  HYDRA_EIGEN_DEBUG_ALIGNED_LOAD
 #ifdef __VSX__
   return vec_vsx_ld(0, from);
 #else
@@ -256,9 +256,9 @@ template<> EIGEN_STRONG_INLINE Packet4i pload<Packet4i>(const int*     from)
 #endif
 }
 
-template<> EIGEN_STRONG_INLINE void pstore<float>(float*   to, const Packet4f& from)
+template<> HYDRA_EIGEN_STRONG_INLINE void pstore<float>(float*   to, const Packet4f& from)
 {
-  EIGEN_DEBUG_ALIGNED_STORE
+  HYDRA_EIGEN_DEBUG_ALIGNED_STORE
 #ifdef __VSX__
   vec_vsx_st(from, 0, to);
 #else
@@ -266,9 +266,9 @@ template<> EIGEN_STRONG_INLINE void pstore<float>(float*   to, const Packet4f& f
 #endif
 }
 
-template<> EIGEN_STRONG_INLINE void pstore<int>(int*       to, const Packet4i& from)
+template<> HYDRA_EIGEN_STRONG_INLINE void pstore<int>(int*       to, const Packet4i& from)
 {
-  EIGEN_DEBUG_ALIGNED_STORE
+  HYDRA_EIGEN_DEBUG_ALIGNED_STORE
 #ifdef __VSX__
   vec_vsx_st(from, 0, to);
 #else
@@ -276,16 +276,16 @@ template<> EIGEN_STRONG_INLINE void pstore<int>(int*       to, const Packet4i& f
 #endif
 }
 
-template<> EIGEN_STRONG_INLINE Packet4f pset1<Packet4f>(const float&  from) {
+template<> HYDRA_EIGEN_STRONG_INLINE Packet4f pset1<Packet4f>(const float&  from) {
   Packet4f v = {from, from, from, from};
   return v;
 }
 
-template<> EIGEN_STRONG_INLINE Packet4i pset1<Packet4i>(const int&    from)   {
+template<> HYDRA_EIGEN_STRONG_INLINE Packet4i pset1<Packet4i>(const int&    from)   {
   Packet4i v = {from, from, from, from};
   return v;
 }
-template<> EIGEN_STRONG_INLINE void
+template<> HYDRA_EIGEN_STRONG_INLINE void
 pbroadcast4<Packet4f>(const float *a,
                       Packet4f& a0, Packet4f& a1, Packet4f& a2, Packet4f& a3)
 {
@@ -295,7 +295,7 @@ pbroadcast4<Packet4f>(const float *a,
   a2 = vec_splat(a3, 2);
   a3 = vec_splat(a3, 3);
 }
-template<> EIGEN_STRONG_INLINE void
+template<> HYDRA_EIGEN_STRONG_INLINE void
 pbroadcast4<Packet4i>(const int *a,
                       Packet4i& a0, Packet4i& a1, Packet4i& a2, Packet4i& a3)
 {
@@ -306,36 +306,36 @@ pbroadcast4<Packet4i>(const int *a,
   a3 = vec_splat(a3, 3);
 }
 
-template<> EIGEN_DEVICE_FUNC inline Packet4f pgather<float, Packet4f>(const float* from, Index stride)
+template<> HYDRA_EIGEN_DEVICE_FUNC inline Packet4f pgather<float, Packet4f>(const float* from, Index stride)
 {
-  float EIGEN_ALIGN16 af[4];
+  float HYDRA_EIGEN_ALIGN16 af[4];
   af[0] = from[0*stride];
   af[1] = from[1*stride];
   af[2] = from[2*stride];
   af[3] = from[3*stride];
  return pload<Packet4f>(af);
 }
-template<> EIGEN_DEVICE_FUNC inline Packet4i pgather<int, Packet4i>(const int* from, Index stride)
+template<> HYDRA_EIGEN_DEVICE_FUNC inline Packet4i pgather<int, Packet4i>(const int* from, Index stride)
 {
-  int EIGEN_ALIGN16 ai[4];
+  int HYDRA_EIGEN_ALIGN16 ai[4];
   ai[0] = from[0*stride];
   ai[1] = from[1*stride];
   ai[2] = from[2*stride];
   ai[3] = from[3*stride];
  return pload<Packet4i>(ai);
 }
-template<> EIGEN_DEVICE_FUNC inline void pscatter<float, Packet4f>(float* to, const Packet4f& from, Index stride)
+template<> HYDRA_EIGEN_DEVICE_FUNC inline void pscatter<float, Packet4f>(float* to, const Packet4f& from, Index stride)
 {
-  float EIGEN_ALIGN16 af[4];
+  float HYDRA_EIGEN_ALIGN16 af[4];
   pstore<float>(af, from);
   to[0*stride] = af[0];
   to[1*stride] = af[1];
   to[2*stride] = af[2];
   to[3*stride] = af[3];
 }
-template<> EIGEN_DEVICE_FUNC inline void pscatter<int, Packet4i>(int* to, const Packet4i& from, Index stride)
+template<> HYDRA_EIGEN_DEVICE_FUNC inline void pscatter<int, Packet4i>(int* to, const Packet4i& from, Index stride)
 {
-  int EIGEN_ALIGN16 ai[4];
+  int HYDRA_EIGEN_ALIGN16 ai[4];
   pstore<int>((int *)ai, from);
   to[0*stride] = ai[0];
   to[1*stride] = ai[1];
@@ -343,25 +343,25 @@ template<> EIGEN_DEVICE_FUNC inline void pscatter<int, Packet4i>(int* to, const 
   to[3*stride] = ai[3];
 }
 
-template<> EIGEN_STRONG_INLINE Packet4f plset<Packet4f>(const float& a) { return pset1<Packet4f>(a) + p4f_COUNTDOWN; }
-template<> EIGEN_STRONG_INLINE Packet4i plset<Packet4i>(const int& a)   { return pset1<Packet4i>(a) + p4i_COUNTDOWN; }
+template<> HYDRA_EIGEN_STRONG_INLINE Packet4f plset<Packet4f>(const float& a) { return pset1<Packet4f>(a) + p4f_COUNTDOWN; }
+template<> HYDRA_EIGEN_STRONG_INLINE Packet4i plset<Packet4i>(const int& a)   { return pset1<Packet4i>(a) + p4i_COUNTDOWN; }
 
-template<> EIGEN_STRONG_INLINE Packet4f padd<Packet4f>(const Packet4f& a, const Packet4f& b) { return a + b; }
-template<> EIGEN_STRONG_INLINE Packet4i padd<Packet4i>(const Packet4i& a, const Packet4i& b) { return a + b; }
+template<> HYDRA_EIGEN_STRONG_INLINE Packet4f padd<Packet4f>(const Packet4f& a, const Packet4f& b) { return a + b; }
+template<> HYDRA_EIGEN_STRONG_INLINE Packet4i padd<Packet4i>(const Packet4i& a, const Packet4i& b) { return a + b; }
 
-template<> EIGEN_STRONG_INLINE Packet4f psub<Packet4f>(const Packet4f& a, const Packet4f& b) { return a - b; }
-template<> EIGEN_STRONG_INLINE Packet4i psub<Packet4i>(const Packet4i& a, const Packet4i& b) { return a - b; }
+template<> HYDRA_EIGEN_STRONG_INLINE Packet4f psub<Packet4f>(const Packet4f& a, const Packet4f& b) { return a - b; }
+template<> HYDRA_EIGEN_STRONG_INLINE Packet4i psub<Packet4i>(const Packet4i& a, const Packet4i& b) { return a - b; }
 
-template<> EIGEN_STRONG_INLINE Packet4f pnegate(const Packet4f& a) { return p4f_ZERO - a; }
-template<> EIGEN_STRONG_INLINE Packet4i pnegate(const Packet4i& a) { return p4i_ZERO - a; }
+template<> HYDRA_EIGEN_STRONG_INLINE Packet4f pnegate(const Packet4f& a) { return p4f_ZERO - a; }
+template<> HYDRA_EIGEN_STRONG_INLINE Packet4i pnegate(const Packet4i& a) { return p4i_ZERO - a; }
 
-template<> EIGEN_STRONG_INLINE Packet4f pconj(const Packet4f& a) { return a; }
-template<> EIGEN_STRONG_INLINE Packet4i pconj(const Packet4i& a) { return a; }
+template<> HYDRA_EIGEN_STRONG_INLINE Packet4f pconj(const Packet4f& a) { return a; }
+template<> HYDRA_EIGEN_STRONG_INLINE Packet4i pconj(const Packet4i& a) { return a; }
 
-template<> EIGEN_STRONG_INLINE Packet4f pmul<Packet4f>(const Packet4f& a, const Packet4f& b) { return vec_madd(a,b, p4f_MZERO); }
-template<> EIGEN_STRONG_INLINE Packet4i pmul<Packet4i>(const Packet4i& a, const Packet4i& b) { return a * b; }
+template<> HYDRA_EIGEN_STRONG_INLINE Packet4f pmul<Packet4f>(const Packet4f& a, const Packet4f& b) { return vec_madd(a,b, p4f_MZERO); }
+template<> HYDRA_EIGEN_STRONG_INLINE Packet4i pmul<Packet4i>(const Packet4i& a, const Packet4i& b) { return a * b; }
 
-template<> EIGEN_STRONG_INLINE Packet4f pdiv<Packet4f>(const Packet4f& a, const Packet4f& b)
+template<> HYDRA_EIGEN_STRONG_INLINE Packet4f pdiv<Packet4f>(const Packet4f& a, const Packet4f& b)
 {
 #ifndef __VSX__  // VSX actually provides a div instruction
   Packet4f t, y_0, y_1;
@@ -379,41 +379,41 @@ template<> EIGEN_STRONG_INLINE Packet4f pdiv<Packet4f>(const Packet4f& a, const 
 #endif
 }
 
-template<> EIGEN_STRONG_INLINE Packet4i pdiv<Packet4i>(const Packet4i& /*a*/, const Packet4i& /*b*/)
+template<> HYDRA_EIGEN_STRONG_INLINE Packet4i pdiv<Packet4i>(const Packet4i& /*a*/, const Packet4i& /*b*/)
 { eigen_assert(false && "packet integer division are not supported by AltiVec");
   return pset1<Packet4i>(0);
 }
 
 // for some weird raisons, it has to be overloaded for packet of integers
-template<> EIGEN_STRONG_INLINE Packet4f pmadd(const Packet4f& a, const Packet4f& b, const Packet4f& c) { return vec_madd(a,b,c); }
-template<> EIGEN_STRONG_INLINE Packet4i pmadd(const Packet4i& a, const Packet4i& b, const Packet4i& c) { return a*b + c; }
+template<> HYDRA_EIGEN_STRONG_INLINE Packet4f pmadd(const Packet4f& a, const Packet4f& b, const Packet4f& c) { return vec_madd(a,b,c); }
+template<> HYDRA_EIGEN_STRONG_INLINE Packet4i pmadd(const Packet4i& a, const Packet4i& b, const Packet4i& c) { return a*b + c; }
 
-template<> EIGEN_STRONG_INLINE Packet4f pmin<Packet4f>(const Packet4f& a, const Packet4f& b) { return vec_min(a, b); }
-template<> EIGEN_STRONG_INLINE Packet4i pmin<Packet4i>(const Packet4i& a, const Packet4i& b) { return vec_min(a, b); }
+template<> HYDRA_EIGEN_STRONG_INLINE Packet4f pmin<Packet4f>(const Packet4f& a, const Packet4f& b) { return vec_min(a, b); }
+template<> HYDRA_EIGEN_STRONG_INLINE Packet4i pmin<Packet4i>(const Packet4i& a, const Packet4i& b) { return vec_min(a, b); }
 
-template<> EIGEN_STRONG_INLINE Packet4f pmax<Packet4f>(const Packet4f& a, const Packet4f& b) { return vec_max(a, b); }
-template<> EIGEN_STRONG_INLINE Packet4i pmax<Packet4i>(const Packet4i& a, const Packet4i& b) { return vec_max(a, b); }
+template<> HYDRA_EIGEN_STRONG_INLINE Packet4f pmax<Packet4f>(const Packet4f& a, const Packet4f& b) { return vec_max(a, b); }
+template<> HYDRA_EIGEN_STRONG_INLINE Packet4i pmax<Packet4i>(const Packet4i& a, const Packet4i& b) { return vec_max(a, b); }
 
-template<> EIGEN_STRONG_INLINE Packet4f pand<Packet4f>(const Packet4f& a, const Packet4f& b) { return vec_and(a, b); }
-template<> EIGEN_STRONG_INLINE Packet4i pand<Packet4i>(const Packet4i& a, const Packet4i& b) { return vec_and(a, b); }
+template<> HYDRA_EIGEN_STRONG_INLINE Packet4f pand<Packet4f>(const Packet4f& a, const Packet4f& b) { return vec_and(a, b); }
+template<> HYDRA_EIGEN_STRONG_INLINE Packet4i pand<Packet4i>(const Packet4i& a, const Packet4i& b) { return vec_and(a, b); }
 
-template<> EIGEN_STRONG_INLINE Packet4f por<Packet4f>(const Packet4f& a, const Packet4f& b) { return vec_or(a, b); }
-template<> EIGEN_STRONG_INLINE Packet4i por<Packet4i>(const Packet4i& a, const Packet4i& b) { return vec_or(a, b); }
+template<> HYDRA_EIGEN_STRONG_INLINE Packet4f por<Packet4f>(const Packet4f& a, const Packet4f& b) { return vec_or(a, b); }
+template<> HYDRA_EIGEN_STRONG_INLINE Packet4i por<Packet4i>(const Packet4i& a, const Packet4i& b) { return vec_or(a, b); }
 
-template<> EIGEN_STRONG_INLINE Packet4f pxor<Packet4f>(const Packet4f& a, const Packet4f& b) { return vec_xor(a, b); }
-template<> EIGEN_STRONG_INLINE Packet4i pxor<Packet4i>(const Packet4i& a, const Packet4i& b) { return vec_xor(a, b); }
+template<> HYDRA_EIGEN_STRONG_INLINE Packet4f pxor<Packet4f>(const Packet4f& a, const Packet4f& b) { return vec_xor(a, b); }
+template<> HYDRA_EIGEN_STRONG_INLINE Packet4i pxor<Packet4i>(const Packet4i& a, const Packet4i& b) { return vec_xor(a, b); }
 
-template<> EIGEN_STRONG_INLINE Packet4f pandnot<Packet4f>(const Packet4f& a, const Packet4f& b) { return vec_and(a, vec_nor(b, b)); }
-template<> EIGEN_STRONG_INLINE Packet4i pandnot<Packet4i>(const Packet4i& a, const Packet4i& b) { return vec_and(a, vec_nor(b, b)); }
+template<> HYDRA_EIGEN_STRONG_INLINE Packet4f pandnot<Packet4f>(const Packet4f& a, const Packet4f& b) { return vec_and(a, vec_nor(b, b)); }
+template<> HYDRA_EIGEN_STRONG_INLINE Packet4i pandnot<Packet4i>(const Packet4i& a, const Packet4i& b) { return vec_and(a, vec_nor(b, b)); }
 
-template<> EIGEN_STRONG_INLINE Packet4f pround<Packet4f>(const Packet4f& a) { return vec_round(a); }
-template<> EIGEN_STRONG_INLINE Packet4f pceil<Packet4f>(const  Packet4f& a) { return vec_ceil(a); }
-template<> EIGEN_STRONG_INLINE Packet4f pfloor<Packet4f>(const Packet4f& a) { return vec_floor(a); }
+template<> HYDRA_EIGEN_STRONG_INLINE Packet4f pround<Packet4f>(const Packet4f& a) { return vec_round(a); }
+template<> HYDRA_EIGEN_STRONG_INLINE Packet4f pceil<Packet4f>(const  Packet4f& a) { return vec_ceil(a); }
+template<> HYDRA_EIGEN_STRONG_INLINE Packet4f pfloor<Packet4f>(const Packet4f& a) { return vec_floor(a); }
 
 #ifdef _BIG_ENDIAN
-template<> EIGEN_STRONG_INLINE Packet4f ploadu<Packet4f>(const float* from)
+template<> HYDRA_EIGEN_STRONG_INLINE Packet4f ploadu<Packet4f>(const float* from)
 {
-  EIGEN_DEBUG_ALIGNED_LOAD
+  HYDRA_EIGEN_DEBUG_ALIGNED_LOAD
   Packet16uc MSQ, LSQ;
   Packet16uc mask;
   MSQ = vec_ld(0, (unsigned char *)from);          // most significant quadword
@@ -422,9 +422,9 @@ template<> EIGEN_STRONG_INLINE Packet4f ploadu<Packet4f>(const float* from)
   return (Packet4f) vec_perm(MSQ, LSQ, mask);           // align the data
 
 }
-template<> EIGEN_STRONG_INLINE Packet4i ploadu<Packet4i>(const int* from)
+template<> HYDRA_EIGEN_STRONG_INLINE Packet4i ploadu<Packet4i>(const int* from)
 {
-  EIGEN_DEBUG_ALIGNED_LOAD
+  HYDRA_EIGEN_DEBUG_ALIGNED_LOAD
   // Taken from http://developer.apple.com/hardwaredrivers/ve/alignment.html
   Packet16uc MSQ, LSQ;
   Packet16uc mask;
@@ -435,26 +435,26 @@ template<> EIGEN_STRONG_INLINE Packet4i ploadu<Packet4i>(const int* from)
 }
 #else
 // We also need ot redefine little endian loading of Packet4i/Packet4f using VSX
-template<> EIGEN_STRONG_INLINE Packet4i ploadu<Packet4i>(const int* from)
+template<> HYDRA_EIGEN_STRONG_INLINE Packet4i ploadu<Packet4i>(const int* from)
 {
-  EIGEN_DEBUG_UNALIGNED_LOAD
-  return (Packet4i) vec_vsx_ld((long)from & 15, (const int*) _EIGEN_ALIGNED_PTR(from));
+  HYDRA_EIGEN_DEBUG_UNALIGNED_LOAD
+  return (Packet4i) vec_vsx_ld((long)from & 15, (const int*) _HYDRA_EIGEN_ALIGNED_PTR(from));
 }
-template<> EIGEN_STRONG_INLINE Packet4f ploadu<Packet4f>(const float* from)
+template<> HYDRA_EIGEN_STRONG_INLINE Packet4f ploadu<Packet4f>(const float* from)
 {
-  EIGEN_DEBUG_UNALIGNED_LOAD
-  return (Packet4f) vec_vsx_ld((long)from & 15, (const float*) _EIGEN_ALIGNED_PTR(from));
+  HYDRA_EIGEN_DEBUG_UNALIGNED_LOAD
+  return (Packet4f) vec_vsx_ld((long)from & 15, (const float*) _HYDRA_EIGEN_ALIGNED_PTR(from));
 }
 #endif
 
-template<> EIGEN_STRONG_INLINE Packet4f ploaddup<Packet4f>(const float*   from)
+template<> HYDRA_EIGEN_STRONG_INLINE Packet4f ploaddup<Packet4f>(const float*   from)
 {
   Packet4f p;
   if((std::ptrdiff_t(from) % 16) == 0)  p = pload<Packet4f>(from);
   else                                  p = ploadu<Packet4f>(from);
   return vec_perm(p, p, p16uc_DUPLICATE32_HI);
 }
-template<> EIGEN_STRONG_INLINE Packet4i ploaddup<Packet4i>(const int*     from)
+template<> HYDRA_EIGEN_STRONG_INLINE Packet4i ploaddup<Packet4i>(const int*     from)
 {
   Packet4i p;
   if((std::ptrdiff_t(from) % 16) == 0)  p = pload<Packet4i>(from);
@@ -463,9 +463,9 @@ template<> EIGEN_STRONG_INLINE Packet4i ploaddup<Packet4i>(const int*     from)
 }
 
 #ifdef _BIG_ENDIAN
-template<> EIGEN_STRONG_INLINE void pstoreu<float>(float*  to, const Packet4f& from)
+template<> HYDRA_EIGEN_STRONG_INLINE void pstoreu<float>(float*  to, const Packet4f& from)
 {
-  EIGEN_DEBUG_UNALIGNED_STORE
+  HYDRA_EIGEN_DEBUG_UNALIGNED_STORE
   // Taken from http://developer.apple.com/hardwaredrivers/ve/alignment.html
   // Warning: not thread safe!
   Packet16uc MSQ, LSQ, edges;
@@ -481,9 +481,9 @@ template<> EIGEN_STRONG_INLINE void pstoreu<float>(float*  to, const Packet4f& f
   vec_st( LSQ, 15, (unsigned char *)to );                   // Store the LSQ part first
   vec_st( MSQ, 0, (unsigned char *)to );                    // Store the MSQ part
 }
-template<> EIGEN_STRONG_INLINE void pstoreu<int>(int*      to, const Packet4i& from)
+template<> HYDRA_EIGEN_STRONG_INLINE void pstoreu<int>(int*      to, const Packet4i& from)
 {
-  EIGEN_DEBUG_UNALIGNED_STORE
+  HYDRA_EIGEN_DEBUG_UNALIGNED_STORE
   // Taken from http://developer.apple.com/hardwaredrivers/ve/alignment.html
   // Warning: not thread safe!
   Packet16uc MSQ, LSQ, edges;
@@ -501,36 +501,36 @@ template<> EIGEN_STRONG_INLINE void pstoreu<int>(int*      to, const Packet4i& f
 }
 #else
 // We also need ot redefine little endian loading of Packet4i/Packet4f using VSX
-template<> EIGEN_STRONG_INLINE void pstoreu<int>(int*       to, const Packet4i& from)
+template<> HYDRA_EIGEN_STRONG_INLINE void pstoreu<int>(int*       to, const Packet4i& from)
 {
-  EIGEN_DEBUG_ALIGNED_STORE
-  vec_vsx_st(from, (long)to & 15, (int*) _EIGEN_ALIGNED_PTR(to));
+  HYDRA_EIGEN_DEBUG_ALIGNED_STORE
+  vec_vsx_st(from, (long)to & 15, (int*) _HYDRA_EIGEN_ALIGNED_PTR(to));
 }
-template<> EIGEN_STRONG_INLINE void pstoreu<float>(float*   to, const Packet4f& from)
+template<> HYDRA_EIGEN_STRONG_INLINE void pstoreu<float>(float*   to, const Packet4f& from)
 {
-  EIGEN_DEBUG_ALIGNED_STORE
-  vec_vsx_st(from, (long)to & 15, (float*) _EIGEN_ALIGNED_PTR(to));
+  HYDRA_EIGEN_DEBUG_ALIGNED_STORE
+  vec_vsx_st(from, (long)to & 15, (float*) _HYDRA_EIGEN_ALIGNED_PTR(to));
 }
 #endif
 
-template<> EIGEN_STRONG_INLINE void prefetch<float>(const float* addr)    { EIGEN_PPC_PREFETCH(addr); }
-template<> EIGEN_STRONG_INLINE void prefetch<int>(const int*     addr)    { EIGEN_PPC_PREFETCH(addr); }
+template<> HYDRA_EIGEN_STRONG_INLINE void prefetch<float>(const float* addr)    { HYDRA_EIGEN_PPC_PREFETCH(addr); }
+template<> HYDRA_EIGEN_STRONG_INLINE void prefetch<int>(const int*     addr)    { HYDRA_EIGEN_PPC_PREFETCH(addr); }
 
-template<> EIGEN_STRONG_INLINE float  pfirst<Packet4f>(const Packet4f& a) { float EIGEN_ALIGN16 x; vec_ste(a, 0, &x); return x; }
-template<> EIGEN_STRONG_INLINE int    pfirst<Packet4i>(const Packet4i& a) { int   EIGEN_ALIGN16 x; vec_ste(a, 0, &x); return x; }
+template<> HYDRA_EIGEN_STRONG_INLINE float  pfirst<Packet4f>(const Packet4f& a) { float HYDRA_EIGEN_ALIGN16 x; vec_ste(a, 0, &x); return x; }
+template<> HYDRA_EIGEN_STRONG_INLINE int    pfirst<Packet4i>(const Packet4i& a) { int   HYDRA_EIGEN_ALIGN16 x; vec_ste(a, 0, &x); return x; }
 
-template<> EIGEN_STRONG_INLINE Packet4f preverse(const Packet4f& a)
+template<> HYDRA_EIGEN_STRONG_INLINE Packet4f preverse(const Packet4f& a)
 {
   return reinterpret_cast<Packet4f>(vec_perm(reinterpret_cast<Packet16uc>(a), reinterpret_cast<Packet16uc>(a), p16uc_REVERSE32));
 }
-template<> EIGEN_STRONG_INLINE Packet4i preverse(const Packet4i& a)
+template<> HYDRA_EIGEN_STRONG_INLINE Packet4i preverse(const Packet4i& a)
 {
   return reinterpret_cast<Packet4i>(vec_perm(reinterpret_cast<Packet16uc>(a), reinterpret_cast<Packet16uc>(a), p16uc_REVERSE32)); }
 
-template<> EIGEN_STRONG_INLINE Packet4f pabs(const Packet4f& a) { return vec_abs(a); }
-template<> EIGEN_STRONG_INLINE Packet4i pabs(const Packet4i& a) { return vec_abs(a); }
+template<> HYDRA_EIGEN_STRONG_INLINE Packet4f pabs(const Packet4f& a) { return vec_abs(a); }
+template<> HYDRA_EIGEN_STRONG_INLINE Packet4i pabs(const Packet4i& a) { return vec_abs(a); }
 
-template<> EIGEN_STRONG_INLINE float predux<Packet4f>(const Packet4f& a)
+template<> HYDRA_EIGEN_STRONG_INLINE float predux<Packet4f>(const Packet4f& a)
 {
   Packet4f b, sum;
   b   = vec_sld(a, a, 8);
@@ -540,7 +540,7 @@ template<> EIGEN_STRONG_INLINE float predux<Packet4f>(const Packet4f& a)
   return pfirst(sum);
 }
 
-template<> EIGEN_STRONG_INLINE Packet4f preduxp<Packet4f>(const Packet4f* vecs)
+template<> HYDRA_EIGEN_STRONG_INLINE Packet4f preduxp<Packet4f>(const Packet4f* vecs)
 {
   Packet4f v[4], sum[4];
 
@@ -568,7 +568,7 @@ template<> EIGEN_STRONG_INLINE Packet4f preduxp<Packet4f>(const Packet4f* vecs)
   return sum[0];
 }
 
-template<> EIGEN_STRONG_INLINE int predux<Packet4i>(const Packet4i& a)
+template<> HYDRA_EIGEN_STRONG_INLINE int predux<Packet4i>(const Packet4i& a)
 {
   Packet4i sum;
   sum = vec_sums(a, p4i_ZERO);
@@ -580,7 +580,7 @@ template<> EIGEN_STRONG_INLINE int predux<Packet4i>(const Packet4i& a)
   return pfirst(sum);
 }
 
-template<> EIGEN_STRONG_INLINE Packet4i preduxp<Packet4i>(const Packet4i* vecs)
+template<> HYDRA_EIGEN_STRONG_INLINE Packet4i preduxp<Packet4i>(const Packet4i* vecs)
 {
   Packet4i v[4], sum[4];
 
@@ -610,22 +610,22 @@ template<> EIGEN_STRONG_INLINE Packet4i preduxp<Packet4i>(const Packet4i* vecs)
 
 // Other reduction functions:
 // mul
-template<> EIGEN_STRONG_INLINE float predux_mul<Packet4f>(const Packet4f& a)
+template<> HYDRA_EIGEN_STRONG_INLINE float predux_mul<Packet4f>(const Packet4f& a)
 {
   Packet4f prod;
   prod = pmul(a, vec_sld(a, a, 8));
   return pfirst(pmul(prod, vec_sld(prod, prod, 4)));
 }
 
-template<> EIGEN_STRONG_INLINE int predux_mul<Packet4i>(const Packet4i& a)
+template<> HYDRA_EIGEN_STRONG_INLINE int predux_mul<Packet4i>(const Packet4i& a)
 {
-  EIGEN_ALIGN16 int aux[4];
+  HYDRA_EIGEN_ALIGN16 int aux[4];
   pstore(aux, a);
   return aux[0] * aux[1] * aux[2] * aux[3];
 }
 
 // min
-template<> EIGEN_STRONG_INLINE float predux_min<Packet4f>(const Packet4f& a)
+template<> HYDRA_EIGEN_STRONG_INLINE float predux_min<Packet4f>(const Packet4f& a)
 {
   Packet4f b, res;
   b = vec_min(a, vec_sld(a, a, 8));
@@ -633,7 +633,7 @@ template<> EIGEN_STRONG_INLINE float predux_min<Packet4f>(const Packet4f& a)
   return pfirst(res);
 }
 
-template<> EIGEN_STRONG_INLINE int predux_min<Packet4i>(const Packet4i& a)
+template<> HYDRA_EIGEN_STRONG_INLINE int predux_min<Packet4i>(const Packet4i& a)
 {
   Packet4i b, res;
   b = vec_min(a, vec_sld(a, a, 8));
@@ -642,7 +642,7 @@ template<> EIGEN_STRONG_INLINE int predux_min<Packet4i>(const Packet4i& a)
 }
 
 // max
-template<> EIGEN_STRONG_INLINE float predux_max<Packet4f>(const Packet4f& a)
+template<> HYDRA_EIGEN_STRONG_INLINE float predux_max<Packet4f>(const Packet4f& a)
 {
   Packet4f b, res;
   b = vec_max(a, vec_sld(a, a, 8));
@@ -650,7 +650,7 @@ template<> EIGEN_STRONG_INLINE float predux_max<Packet4f>(const Packet4f& a)
   return pfirst(res);
 }
 
-template<> EIGEN_STRONG_INLINE int predux_max<Packet4i>(const Packet4i& a)
+template<> HYDRA_EIGEN_STRONG_INLINE int predux_max<Packet4i>(const Packet4i& a)
 {
   Packet4i b, res;
   b = vec_max(a, vec_sld(a, a, 8));
@@ -661,7 +661,7 @@ template<> EIGEN_STRONG_INLINE int predux_max<Packet4i>(const Packet4i& a)
 template<int Offset>
 struct palign_impl<Offset,Packet4f>
 {
-  static EIGEN_STRONG_INLINE void run(Packet4f& first, const Packet4f& second)
+  static HYDRA_EIGEN_STRONG_INLINE void run(Packet4f& first, const Packet4f& second)
   {
 #ifdef _BIG_ENDIAN
     switch (Offset % 4) {
@@ -688,7 +688,7 @@ struct palign_impl<Offset,Packet4f>
 template<int Offset>
 struct palign_impl<Offset,Packet4i>
 {
-  static EIGEN_STRONG_INLINE void run(Packet4i& first, const Packet4i& second)
+  static HYDRA_EIGEN_STRONG_INLINE void run(Packet4i& first, const Packet4i& second)
   {
 #ifdef _BIG_ENDIAN
     switch (Offset % 4) {
@@ -712,7 +712,7 @@ struct palign_impl<Offset,Packet4i>
   }
 };
 
-EIGEN_DEVICE_FUNC inline void
+HYDRA_EIGEN_DEVICE_FUNC inline void
 ptranspose(PacketBlock<Packet4f,4>& kernel) {
   Packet4f t0, t1, t2, t3;
   t0 = vec_mergeh(kernel.packet[0], kernel.packet[2]);
@@ -725,7 +725,7 @@ ptranspose(PacketBlock<Packet4f,4>& kernel) {
   kernel.packet[3] = vec_mergel(t1, t3);
 }
 
-EIGEN_DEVICE_FUNC inline void
+HYDRA_EIGEN_DEVICE_FUNC inline void
 ptranspose(PacketBlock<Packet4i,4>& kernel) {
   Packet4i t0, t1, t2, t3;
   t0 = vec_mergeh(kernel.packet[0], kernel.packet[2]);
@@ -738,13 +738,13 @@ ptranspose(PacketBlock<Packet4i,4>& kernel) {
   kernel.packet[3] = vec_mergel(t1, t3);
 }
 
-template<> EIGEN_STRONG_INLINE Packet4i pblend(const Selector<4>& ifPacket, const Packet4i& thenPacket, const Packet4i& elsePacket) {
+template<> HYDRA_EIGEN_STRONG_INLINE Packet4i pblend(const Selector<4>& ifPacket, const Packet4i& thenPacket, const Packet4i& elsePacket) {
   Packet4ui select = { ifPacket.select[0], ifPacket.select[1], ifPacket.select[2], ifPacket.select[3] };
   Packet4ui mask = reinterpret_cast<Packet4ui>(vec_cmpeq(reinterpret_cast<Packet4ui>(select), reinterpret_cast<Packet4ui>(p4i_ONE)));
   return vec_sel(elsePacket, thenPacket, mask);
 }
 
-template<> EIGEN_STRONG_INLINE Packet4f pblend(const Selector<4>& ifPacket, const Packet4f& thenPacket, const Packet4f& elsePacket) {
+template<> HYDRA_EIGEN_STRONG_INLINE Packet4f pblend(const Selector<4>& ifPacket, const Packet4f& thenPacket, const Packet4f& elsePacket) {
   Packet4ui select = { ifPacket.select[0], ifPacket.select[1], ifPacket.select[2], ifPacket.select[3] };
   Packet4ui mask = reinterpret_cast<Packet4ui>(vec_cmpeq(reinterpret_cast<Packet4ui>(select), reinterpret_cast<Packet4ui>(p4i_ONE)));
   return vec_sel(elsePacket, thenPacket, mask);
@@ -756,7 +756,7 @@ template<> EIGEN_STRONG_INLINE Packet4f pblend(const Selector<4>& ifPacket, cons
 typedef __vector double              Packet2d;
 typedef __vector unsigned long long  Packet2ul;
 typedef __vector long long           Packet2l;
-#if EIGEN_COMP_CLANG
+#if HYDRA_EIGEN_COMP_CLANG
 typedef Packet2ul                    Packet2bl;
 #else
 typedef __vector __bool long         Packet2bl;
@@ -776,12 +776,12 @@ static Packet2d p2d_COUNTDOWN = reinterpret_cast<Packet2d>(vec_sld(reinterpret_c
 
 template<int index> Packet2d vec_splat_dbl(Packet2d& a);
 
-template<> EIGEN_STRONG_INLINE Packet2d vec_splat_dbl<0>(Packet2d& a)
+template<> HYDRA_EIGEN_STRONG_INLINE Packet2d vec_splat_dbl<0>(Packet2d& a)
 {
   return reinterpret_cast<Packet2d>(vec_perm(a, a, p16uc_PSET64_HI));
 }
 
-template<> EIGEN_STRONG_INLINE Packet2d vec_splat_dbl<1>(Packet2d& a)
+template<> HYDRA_EIGEN_STRONG_INLINE Packet2d vec_splat_dbl<1>(Packet2d& a)
 {
   return reinterpret_cast<Packet2d>(vec_perm(a, a, p16uc_PSET64_LO));
 }
@@ -842,9 +842,9 @@ inline std::ostream & operator <<(std::ostream & s, const Packet2d & v)
 }
 
 // Need to define them first or we get specialization after instantiation errors
-template<> EIGEN_STRONG_INLINE Packet2d pload<Packet2d>(const double* from)
+template<> HYDRA_EIGEN_STRONG_INLINE Packet2d pload<Packet2d>(const double* from)
 {
-  EIGEN_DEBUG_ALIGNED_LOAD
+  HYDRA_EIGEN_DEBUG_ALIGNED_LOAD
 #ifdef __VSX__
   return vec_vsx_ld(0, from);
 #else
@@ -852,9 +852,9 @@ template<> EIGEN_STRONG_INLINE Packet2d pload<Packet2d>(const double* from)
 #endif
 }
 
-template<> EIGEN_STRONG_INLINE void pstore<double>(double*   to, const Packet2d& from)
+template<> HYDRA_EIGEN_STRONG_INLINE void pstore<double>(double*   to, const Packet2d& from)
 {
-  EIGEN_DEBUG_ALIGNED_STORE
+  HYDRA_EIGEN_DEBUG_ALIGNED_STORE
 #ifdef __VSX__
   vec_vsx_st(from, 0, to);
 #else
@@ -862,12 +862,12 @@ template<> EIGEN_STRONG_INLINE void pstore<double>(double*   to, const Packet2d&
 #endif
 }
 
-template<> EIGEN_STRONG_INLINE Packet2d pset1<Packet2d>(const double&  from) {
+template<> HYDRA_EIGEN_STRONG_INLINE Packet2d pset1<Packet2d>(const double&  from) {
   Packet2d v = {from, from};
   return v;
 }
 
-template<> EIGEN_STRONG_INLINE void
+template<> HYDRA_EIGEN_STRONG_INLINE void
 pbroadcast4<Packet2d>(const double *a,
                       Packet2d& a0, Packet2d& a1, Packet2d& a2, Packet2d& a3)
 {
@@ -879,60 +879,60 @@ pbroadcast4<Packet2d>(const double *a,
   a3 = vec_splat_dbl<1>(a3);
 }
 
-template<> EIGEN_DEVICE_FUNC inline Packet2d pgather<double, Packet2d>(const double* from, Index stride)
+template<> HYDRA_EIGEN_DEVICE_FUNC inline Packet2d pgather<double, Packet2d>(const double* from, Index stride)
 {
-  double EIGEN_ALIGN16 af[2];
+  double HYDRA_EIGEN_ALIGN16 af[2];
   af[0] = from[0*stride];
   af[1] = from[1*stride];
  return pload<Packet2d>(af);
 }
-template<> EIGEN_DEVICE_FUNC inline void pscatter<double, Packet2d>(double* to, const Packet2d& from, Index stride)
+template<> HYDRA_EIGEN_DEVICE_FUNC inline void pscatter<double, Packet2d>(double* to, const Packet2d& from, Index stride)
 {
-  double EIGEN_ALIGN16 af[2];
+  double HYDRA_EIGEN_ALIGN16 af[2];
   pstore<double>(af, from);
   to[0*stride] = af[0];
   to[1*stride] = af[1];
 }
 
-template<> EIGEN_STRONG_INLINE Packet2d plset<Packet2d>(const double& a) { return pset1<Packet2d>(a) + p2d_COUNTDOWN; }
+template<> HYDRA_EIGEN_STRONG_INLINE Packet2d plset<Packet2d>(const double& a) { return pset1<Packet2d>(a) + p2d_COUNTDOWN; }
 
-template<> EIGEN_STRONG_INLINE Packet2d padd<Packet2d>(const Packet2d& a, const Packet2d& b) { return a + b; }
+template<> HYDRA_EIGEN_STRONG_INLINE Packet2d padd<Packet2d>(const Packet2d& a, const Packet2d& b) { return a + b; }
 
-template<> EIGEN_STRONG_INLINE Packet2d psub<Packet2d>(const Packet2d& a, const Packet2d& b) { return a - b; }
+template<> HYDRA_EIGEN_STRONG_INLINE Packet2d psub<Packet2d>(const Packet2d& a, const Packet2d& b) { return a - b; }
 
-template<> EIGEN_STRONG_INLINE Packet2d pnegate(const Packet2d& a) { return p2d_ZERO - a; }
+template<> HYDRA_EIGEN_STRONG_INLINE Packet2d pnegate(const Packet2d& a) { return p2d_ZERO - a; }
 
-template<> EIGEN_STRONG_INLINE Packet2d pconj(const Packet2d& a) { return a; }
+template<> HYDRA_EIGEN_STRONG_INLINE Packet2d pconj(const Packet2d& a) { return a; }
 
-template<> EIGEN_STRONG_INLINE Packet2d pmul<Packet2d>(const Packet2d& a, const Packet2d& b) { return vec_madd(a,b,p2d_MZERO); }
-template<> EIGEN_STRONG_INLINE Packet2d pdiv<Packet2d>(const Packet2d& a, const Packet2d& b) { return vec_div(a,b); }
+template<> HYDRA_EIGEN_STRONG_INLINE Packet2d pmul<Packet2d>(const Packet2d& a, const Packet2d& b) { return vec_madd(a,b,p2d_MZERO); }
+template<> HYDRA_EIGEN_STRONG_INLINE Packet2d pdiv<Packet2d>(const Packet2d& a, const Packet2d& b) { return vec_div(a,b); }
 
 // for some weird raisons, it has to be overloaded for packet of integers
-template<> EIGEN_STRONG_INLINE Packet2d pmadd(const Packet2d& a, const Packet2d& b, const Packet2d& c) { return vec_madd(a, b, c); }
+template<> HYDRA_EIGEN_STRONG_INLINE Packet2d pmadd(const Packet2d& a, const Packet2d& b, const Packet2d& c) { return vec_madd(a, b, c); }
 
-template<> EIGEN_STRONG_INLINE Packet2d pmin<Packet2d>(const Packet2d& a, const Packet2d& b) { return vec_min(a, b); }
+template<> HYDRA_EIGEN_STRONG_INLINE Packet2d pmin<Packet2d>(const Packet2d& a, const Packet2d& b) { return vec_min(a, b); }
 
-template<> EIGEN_STRONG_INLINE Packet2d pmax<Packet2d>(const Packet2d& a, const Packet2d& b) { return vec_max(a, b); }
+template<> HYDRA_EIGEN_STRONG_INLINE Packet2d pmax<Packet2d>(const Packet2d& a, const Packet2d& b) { return vec_max(a, b); }
 
-template<> EIGEN_STRONG_INLINE Packet2d pand<Packet2d>(const Packet2d& a, const Packet2d& b) { return vec_and(a, b); }
+template<> HYDRA_EIGEN_STRONG_INLINE Packet2d pand<Packet2d>(const Packet2d& a, const Packet2d& b) { return vec_and(a, b); }
 
-template<> EIGEN_STRONG_INLINE Packet2d por<Packet2d>(const Packet2d& a, const Packet2d& b) { return vec_or(a, b); }
+template<> HYDRA_EIGEN_STRONG_INLINE Packet2d por<Packet2d>(const Packet2d& a, const Packet2d& b) { return vec_or(a, b); }
 
-template<> EIGEN_STRONG_INLINE Packet2d pxor<Packet2d>(const Packet2d& a, const Packet2d& b) { return vec_xor(a, b); }
+template<> HYDRA_EIGEN_STRONG_INLINE Packet2d pxor<Packet2d>(const Packet2d& a, const Packet2d& b) { return vec_xor(a, b); }
 
-template<> EIGEN_STRONG_INLINE Packet2d pandnot<Packet2d>(const Packet2d& a, const Packet2d& b) { return vec_and(a, vec_nor(b, b)); }
+template<> HYDRA_EIGEN_STRONG_INLINE Packet2d pandnot<Packet2d>(const Packet2d& a, const Packet2d& b) { return vec_and(a, vec_nor(b, b)); }
 
-template<> EIGEN_STRONG_INLINE Packet2d pround<Packet2d>(const Packet2d& a) { return vec_round(a); }
-template<> EIGEN_STRONG_INLINE Packet2d pceil<Packet2d>(const  Packet2d& a) { return vec_ceil(a); }
-template<> EIGEN_STRONG_INLINE Packet2d pfloor<Packet2d>(const Packet2d& a) { return vec_floor(a); }
+template<> HYDRA_EIGEN_STRONG_INLINE Packet2d pround<Packet2d>(const Packet2d& a) { return vec_round(a); }
+template<> HYDRA_EIGEN_STRONG_INLINE Packet2d pceil<Packet2d>(const  Packet2d& a) { return vec_ceil(a); }
+template<> HYDRA_EIGEN_STRONG_INLINE Packet2d pfloor<Packet2d>(const Packet2d& a) { return vec_floor(a); }
 
-template<> EIGEN_STRONG_INLINE Packet2d ploadu<Packet2d>(const double* from)
+template<> HYDRA_EIGEN_STRONG_INLINE Packet2d ploadu<Packet2d>(const double* from)
 {
-  EIGEN_DEBUG_ALIGNED_LOAD
-  return (Packet2d) vec_vsx_ld((long)from & 15, (const double*) _EIGEN_ALIGNED_PTR(from));
+  HYDRA_EIGEN_DEBUG_ALIGNED_LOAD
+  return (Packet2d) vec_vsx_ld((long)from & 15, (const double*) _HYDRA_EIGEN_ALIGNED_PTR(from));
 }
 
-template<> EIGEN_STRONG_INLINE Packet2d ploaddup<Packet2d>(const double*   from)
+template<> HYDRA_EIGEN_STRONG_INLINE Packet2d ploaddup<Packet2d>(const double*   from)
 {
   Packet2d p;
   if((std::ptrdiff_t(from) % 16) == 0)  p = pload<Packet2d>(from);
@@ -940,23 +940,23 @@ template<> EIGEN_STRONG_INLINE Packet2d ploaddup<Packet2d>(const double*   from)
   return vec_splat_dbl<0>(p);
 }
 
-template<> EIGEN_STRONG_INLINE void pstoreu<double>(double*  to, const Packet2d& from)
+template<> HYDRA_EIGEN_STRONG_INLINE void pstoreu<double>(double*  to, const Packet2d& from)
 {
-  EIGEN_DEBUG_ALIGNED_STORE
-  vec_vsx_st((Packet4f)from, (long)to & 15, (float*) _EIGEN_ALIGNED_PTR(to));
+  HYDRA_EIGEN_DEBUG_ALIGNED_STORE
+  vec_vsx_st((Packet4f)from, (long)to & 15, (float*) _HYDRA_EIGEN_ALIGNED_PTR(to));
 }
 
-template<> EIGEN_STRONG_INLINE void prefetch<double>(const double* addr) { EIGEN_PPC_PREFETCH(addr); }
+template<> HYDRA_EIGEN_STRONG_INLINE void prefetch<double>(const double* addr) { HYDRA_EIGEN_PPC_PREFETCH(addr); }
 
-template<> EIGEN_STRONG_INLINE double  pfirst<Packet2d>(const Packet2d& a) { double EIGEN_ALIGN16 x[2]; pstore<double>(x, a); return x[0]; }
+template<> HYDRA_EIGEN_STRONG_INLINE double  pfirst<Packet2d>(const Packet2d& a) { double HYDRA_EIGEN_ALIGN16 x[2]; pstore<double>(x, a); return x[0]; }
 
-template<> EIGEN_STRONG_INLINE Packet2d preverse(const Packet2d& a)
+template<> HYDRA_EIGEN_STRONG_INLINE Packet2d preverse(const Packet2d& a)
 {
   return reinterpret_cast<Packet2d>(vec_perm(reinterpret_cast<Packet16uc>(a), reinterpret_cast<Packet16uc>(a), p16uc_REVERSE64));
 }
-template<> EIGEN_STRONG_INLINE Packet2d pabs(const Packet2d& a) { return vec_abs(a); }
+template<> HYDRA_EIGEN_STRONG_INLINE Packet2d pabs(const Packet2d& a) { return vec_abs(a); }
 
-template<> EIGEN_STRONG_INLINE double predux<Packet2d>(const Packet2d& a)
+template<> HYDRA_EIGEN_STRONG_INLINE double predux<Packet2d>(const Packet2d& a)
 {
   Packet2d b, sum;
   b   = reinterpret_cast<Packet2d>(vec_sld(reinterpret_cast<Packet4f>(a), reinterpret_cast<Packet4f>(a), 8));
@@ -964,7 +964,7 @@ template<> EIGEN_STRONG_INLINE double predux<Packet2d>(const Packet2d& a)
   return pfirst<Packet2d>(sum);
 }
 
-template<> EIGEN_STRONG_INLINE Packet2d preduxp<Packet2d>(const Packet2d* vecs)
+template<> HYDRA_EIGEN_STRONG_INLINE Packet2d preduxp<Packet2d>(const Packet2d* vecs)
 {
   Packet2d v[2], sum;
   v[0] = vecs[0] + reinterpret_cast<Packet2d>(vec_sld(reinterpret_cast<Packet4f>(vecs[0]), reinterpret_cast<Packet4f>(vecs[0]), 8));
@@ -980,19 +980,19 @@ template<> EIGEN_STRONG_INLINE Packet2d preduxp<Packet2d>(const Packet2d* vecs)
 }
 // Other reduction functions:
 // mul
-template<> EIGEN_STRONG_INLINE double predux_mul<Packet2d>(const Packet2d& a)
+template<> HYDRA_EIGEN_STRONG_INLINE double predux_mul<Packet2d>(const Packet2d& a)
 {
   return pfirst(pmul(a, reinterpret_cast<Packet2d>(vec_sld(reinterpret_cast<Packet4ui>(a), reinterpret_cast<Packet4ui>(a), 8))));
 }
 
 // min
-template<> EIGEN_STRONG_INLINE double predux_min<Packet2d>(const Packet2d& a)
+template<> HYDRA_EIGEN_STRONG_INLINE double predux_min<Packet2d>(const Packet2d& a)
 {
   return pfirst(pmin(a, reinterpret_cast<Packet2d>(vec_sld(reinterpret_cast<Packet4ui>(a), reinterpret_cast<Packet4ui>(a), 8))));
 }
 
 // max
-template<> EIGEN_STRONG_INLINE double predux_max<Packet2d>(const Packet2d& a)
+template<> HYDRA_EIGEN_STRONG_INLINE double predux_max<Packet2d>(const Packet2d& a)
 {
   return pfirst(pmax(a, reinterpret_cast<Packet2d>(vec_sld(reinterpret_cast<Packet4ui>(a), reinterpret_cast<Packet4ui>(a), 8))));
 }
@@ -1000,7 +1000,7 @@ template<> EIGEN_STRONG_INLINE double predux_max<Packet2d>(const Packet2d& a)
 template<int Offset>
 struct palign_impl<Offset,Packet2d>
 {
-  static EIGEN_STRONG_INLINE void run(Packet2d& first, const Packet2d& second)
+  static HYDRA_EIGEN_STRONG_INLINE void run(Packet2d& first, const Packet2d& second)
   {
     if (Offset == 1)
 #ifdef _BIG_ENDIAN
@@ -1011,7 +1011,7 @@ struct palign_impl<Offset,Packet2d>
   }
 };
 
-EIGEN_DEVICE_FUNC inline void
+HYDRA_EIGEN_DEVICE_FUNC inline void
 ptranspose(PacketBlock<Packet2d,2>& kernel) {
   Packet2d t0, t1;
   t0 = vec_perm(kernel.packet[0], kernel.packet[1], p16uc_TRANSPOSE64_HI);
@@ -1020,7 +1020,7 @@ ptranspose(PacketBlock<Packet2d,2>& kernel) {
   kernel.packet[1] = t1;
 }
 
-template<> EIGEN_STRONG_INLINE Packet2d pblend(const Selector<2>& ifPacket, const Packet2d& thenPacket, const Packet2d& elsePacket) {
+template<> HYDRA_EIGEN_STRONG_INLINE Packet2d pblend(const Selector<2>& ifPacket, const Packet2d& thenPacket, const Packet2d& elsePacket) {
   Packet2l select = { ifPacket.select[0], ifPacket.select[1] };
   Packet2bl mask = vec_cmpeq(reinterpret_cast<Packet2d>(select), reinterpret_cast<Packet2d>(p2l_ONE));
   return vec_sel(elsePacket, thenPacket, mask);
@@ -1030,4 +1030,4 @@ template<> EIGEN_STRONG_INLINE Packet2d pblend(const Selector<2>& ifPacket, cons
 
 } /* end namespace Eigen */  HYDRA_EXTERNAL_NAMESPACE_END
 
-#endif // EIGEN_PACKET_MATH_ALTIVEC_H
+#endif // HYDRA_EIGEN_PACKET_MATH_ALTIVEC_H

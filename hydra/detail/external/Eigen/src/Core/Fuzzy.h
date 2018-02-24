@@ -8,8 +8,8 @@
 // Public License v. 2.0. If a copy of the MPL was not distributed
 // with this file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
-#ifndef EIGEN_FUZZY_H
-#define EIGEN_FUZZY_H
+#ifndef HYDRA_EIGEN_FUZZY_H
+#define HYDRA_EIGEN_FUZZY_H
 
 HYDRA_EXTERNAL_NAMESPACE_BEGIN namespace Eigen { 
 
@@ -19,7 +19,7 @@ namespace internal
 template<typename Derived, typename OtherDerived, bool is_integer = NumTraits<typename Derived::Scalar>::IsInteger>
 struct isApprox_selector
 {
-  EIGEN_DEVICE_FUNC
+  HYDRA_EIGEN_DEVICE_FUNC
   static bool run(const Derived& x, const OtherDerived& y, const typename Derived::RealScalar& prec)
   {
     typename internal::nested_eval<Derived,2>::type nested(x);
@@ -31,7 +31,7 @@ struct isApprox_selector
 template<typename Derived, typename OtherDerived>
 struct isApprox_selector<Derived, OtherDerived, true>
 {
-  EIGEN_DEVICE_FUNC
+  HYDRA_EIGEN_DEVICE_FUNC
   static bool run(const Derived& x, const OtherDerived& y, const typename Derived::RealScalar&)
   {
     return x.matrix() == y.matrix();
@@ -41,7 +41,7 @@ struct isApprox_selector<Derived, OtherDerived, true>
 template<typename Derived, typename OtherDerived, bool is_integer = NumTraits<typename Derived::Scalar>::IsInteger>
 struct isMuchSmallerThan_object_selector
 {
-  EIGEN_DEVICE_FUNC
+  HYDRA_EIGEN_DEVICE_FUNC
   static bool run(const Derived& x, const OtherDerived& y, const typename Derived::RealScalar& prec)
   {
     return x.cwiseAbs2().sum() <= numext::abs2(prec) * y.cwiseAbs2().sum();
@@ -51,7 +51,7 @@ struct isMuchSmallerThan_object_selector
 template<typename Derived, typename OtherDerived>
 struct isMuchSmallerThan_object_selector<Derived, OtherDerived, true>
 {
-  EIGEN_DEVICE_FUNC
+  HYDRA_EIGEN_DEVICE_FUNC
   static bool run(const Derived& x, const OtherDerived&, const typename Derived::RealScalar&)
   {
     return x.matrix() == Derived::Zero(x.rows(), x.cols()).matrix();
@@ -61,7 +61,7 @@ struct isMuchSmallerThan_object_selector<Derived, OtherDerived, true>
 template<typename Derived, bool is_integer = NumTraits<typename Derived::Scalar>::IsInteger>
 struct isMuchSmallerThan_scalar_selector
 {
-  EIGEN_DEVICE_FUNC
+  HYDRA_EIGEN_DEVICE_FUNC
   static bool run(const Derived& x, const typename Derived::RealScalar& y, const typename Derived::RealScalar& prec)
   {
     return x.cwiseAbs2().sum() <= numext::abs2(prec * y);
@@ -71,7 +71,7 @@ struct isMuchSmallerThan_scalar_selector
 template<typename Derived>
 struct isMuchSmallerThan_scalar_selector<Derived, true>
 {
-  EIGEN_DEVICE_FUNC
+  HYDRA_EIGEN_DEVICE_FUNC
   static bool run(const Derived& x, const typename Derived::RealScalar&, const typename Derived::RealScalar&)
   {
     return x.matrix() == Derived::Zero(x.rows(), x.cols()).matrix();
@@ -152,4 +152,4 @@ bool DenseBase<Derived>::isMuchSmallerThan(
 
 } /* end namespace Eigen */  HYDRA_EXTERNAL_NAMESPACE_END
 
-#endif // EIGEN_FUZZY_H
+#endif // HYDRA_EIGEN_FUZZY_H

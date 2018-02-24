@@ -8,8 +8,8 @@
 // Public License v. 2.0. If a copy of the MPL was not distributed
 // with this file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
-#ifndef EIGEN_HOUSEHOLDER_H
-#define EIGEN_HOUSEHOLDER_H
+#ifndef HYDRA_EIGEN_HOUSEHOLDER_H
+#define HYDRA_EIGEN_HOUSEHOLDER_H
 
 HYDRA_EXTERNAL_NAMESPACE_BEGIN namespace Eigen { 
 
@@ -70,7 +70,7 @@ void MatrixBase<Derived>::makeHouseholder(
   using std::sqrt;
   using numext::conj;
   
-  EIGEN_STATIC_ASSERT_VECTOR_ONLY(EssentialPart)
+  HYDRA_EIGEN_STATIC_ASSERT_VECTOR_ONLY(EssentialPart)
   VectorBlock<const Derived, EssentialPart::SizeAtCompileTime> tail(derived(), 1, size()-1);
   
   RealScalar tailSqNorm = size()==1 ? RealScalar(0) : tail.squaredNorm();
@@ -169,4 +169,4 @@ void MatrixBase<Derived>::applyHouseholderOnTheRight(
 
 } /* end namespace Eigen */  HYDRA_EXTERNAL_NAMESPACE_END
 
-#endif // EIGEN_HOUSEHOLDER_H
+#endif // HYDRA_EIGEN_HOUSEHOLDER_H

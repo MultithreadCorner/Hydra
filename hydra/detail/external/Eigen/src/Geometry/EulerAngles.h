@@ -7,8 +7,8 @@
 // Public License v. 2.0. If a copy of the MPL was not distributed
 // with this file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
-#ifndef EIGEN_EULERANGLES_H
-#define EIGEN_EULERANGLES_H
+#ifndef HYDRA_EIGEN_EULERANGLES_H
+#define HYDRA_EIGEN_EULERANGLES_H
 
 HYDRA_EXTERNAL_NAMESPACE_BEGIN namespace Eigen { 
 
@@ -33,14 +33,14 @@ HYDRA_EXTERNAL_NAMESPACE_BEGIN namespace Eigen {
   * \sa class AngleAxis
   */
 template<typename Derived>
-EIGEN_DEVICE_FUNC inline Matrix<typename MatrixBase<Derived>::Scalar,3,1>
+HYDRA_EIGEN_DEVICE_FUNC inline Matrix<typename MatrixBase<Derived>::Scalar,3,1>
 MatrixBase<Derived>::eulerAngles(Index a0, Index a1, Index a2) const
 {
-  EIGEN_USING_STD_MATH(atan2)
-  EIGEN_USING_STD_MATH(sin)
-  EIGEN_USING_STD_MATH(cos)
+  HYDRA_EIGEN_USING_STD_MATH(atan2)
+  HYDRA_EIGEN_USING_STD_MATH(sin)
+  HYDRA_EIGEN_USING_STD_MATH(cos)
   /* Implemented from Graphics Gems IV */
-  EIGEN_STATIC_ASSERT_MATRIX_SPECIFIC_SIZE(Derived,3,3)
+  HYDRA_EIGEN_STATIC_ASSERT_MATRIX_SPECIFIC_SIZE(Derived,3,3)
 
   Matrix<Scalar,3,1> res;
   typedef Matrix<typename Derived::Scalar,2,1> Vector2;
@@ -56,10 +56,10 @@ MatrixBase<Derived>::eulerAngles(Index a0, Index a1, Index a2) const
     if((odd && res[0]<Scalar(0)) || ((!odd) && res[0]>Scalar(0)))
     {
       if(res[0] > Scalar(0)) {
-        res[0] -= Scalar(EIGEN_PI);
+        res[0] -= Scalar(HYDRA_EIGEN_PI);
       }
       else {
-        res[0] += Scalar(EIGEN_PI);
+        res[0] += Scalar(HYDRA_EIGEN_PI);
       }
       Scalar s2 = Vector2(coeff(j,i), coeff(k,i)).norm();
       res[1] = -atan2(s2, coeff(i,i));
@@ -90,10 +90,10 @@ MatrixBase<Derived>::eulerAngles(Index a0, Index a1, Index a2) const
     Scalar c2 = Vector2(coeff(i,i), coeff(i,j)).norm();
     if((odd && res[0]<Scalar(0)) || ((!odd) && res[0]>Scalar(0))) {
       if(res[0] > Scalar(0)) {
-        res[0] -= Scalar(EIGEN_PI);
+        res[0] -= Scalar(HYDRA_EIGEN_PI);
       }
       else {
-        res[0] += Scalar(EIGEN_PI);
+        res[0] += Scalar(HYDRA_EIGEN_PI);
       }
       res[1] = atan2(-coeff(i,k), -c2);
     }
@@ -111,4 +111,4 @@ MatrixBase<Derived>::eulerAngles(Index a0, Index a1, Index a2) const
 
 } /* end namespace Eigen */  HYDRA_EXTERNAL_NAMESPACE_END
 
-#endif // EIGEN_EULERANGLES_H
+#endif // HYDRA_EIGEN_EULERANGLES_H

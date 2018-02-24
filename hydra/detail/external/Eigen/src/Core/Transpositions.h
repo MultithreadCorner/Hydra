@@ -7,8 +7,8 @@
 // Public License v. 2.0. If a copy of the MPL was not distributed
 // with this file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
-#ifndef EIGEN_TRANSPOSITIONS_H
-#define EIGEN_TRANSPOSITIONS_H
+#ifndef HYDRA_EIGEN_TRANSPOSITIONS_H
+#define HYDRA_EIGEN_TRANSPOSITIONS_H
 
 HYDRA_EXTERNAL_NAMESPACE_BEGIN namespace Eigen { 
 
@@ -34,7 +34,7 @@ class TranspositionsBase
       return derived();
     }
     
-    #ifndef EIGEN_PARSED_BY_DOXYGEN
+    #ifndef HYDRA_EIGEN_PARSED_BY_DOXYGEN
     /** This is a special case of the templated operator=. Its purpose is to
       * prevent a default operator= from hiding the templated operator=.
       */
@@ -171,7 +171,7 @@ class Transpositions : public TranspositionsBase<Transpositions<SizeAtCompileTim
     inline Transpositions(const TranspositionsBase<OtherDerived>& other)
       : m_indices(other.indices()) {}
 
-    #ifndef EIGEN_PARSED_BY_DOXYGEN
+    #ifndef HYDRA_EIGEN_PARSED_BY_DOXYGEN
     /** Standard copy constructor. Defined only to prevent a default copy constructor
       * from hiding the other templated constructor */
     inline Transpositions(const Transpositions& other) : m_indices(other.indices()) {}
@@ -189,7 +189,7 @@ class Transpositions : public TranspositionsBase<Transpositions<SizeAtCompileTim
       return Base::operator=(other);
     }
 
-    #ifndef EIGEN_PARSED_BY_DOXYGEN
+    #ifndef HYDRA_EIGEN_PARSED_BY_DOXYGEN
     /** This is a special case of the templated operator=. Its purpose is to
       * prevent a default operator= from hiding the templated operator=.
       */
@@ -253,7 +253,7 @@ class Map<Transpositions<SizeAtCompileTime,MaxSizeAtCompileTime,_StorageIndex>,P
       return Base::operator=(other);
     }
 
-    #ifndef EIGEN_PARSED_BY_DOXYGEN
+    #ifndef HYDRA_EIGEN_PARSED_BY_DOXYGEN
     /** This is a special case of the templated operator=. Its purpose is to
       * prevent a default operator= from hiding the templated operator=.
       */
@@ -306,7 +306,7 @@ class TranspositionsWrapper
       return Base::operator=(other);
     }
 
-    #ifndef EIGEN_PARSED_BY_DOXYGEN
+    #ifndef HYDRA_EIGEN_PARSED_BY_DOXYGEN
     /** This is a special case of the templated operator=. Its purpose is to
       * prevent a default operator= from hiding the templated operator=.
       */
@@ -333,7 +333,7 @@ class TranspositionsWrapper
 /** \returns the \a matrix with the \a transpositions applied to the columns.
   */
 template<typename MatrixDerived, typename TranspositionsDerived>
-EIGEN_DEVICE_FUNC
+HYDRA_EIGEN_DEVICE_FUNC
 const Product<MatrixDerived, TranspositionsDerived, AliasFreeProduct>
 operator*(const MatrixBase<MatrixDerived> &matrix,
           const TranspositionsBase<TranspositionsDerived>& transpositions)
@@ -345,7 +345,7 @@ operator*(const MatrixBase<MatrixDerived> &matrix,
 /** \returns the \a matrix with the \a transpositions applied to the rows.
   */
 template<typename TranspositionsDerived, typename MatrixDerived>
-EIGEN_DEVICE_FUNC
+HYDRA_EIGEN_DEVICE_FUNC
 const Product<TranspositionsDerived, MatrixDerived, AliasFreeProduct>
 operator*(const TranspositionsBase<TranspositionsDerived> &transpositions,
           const MatrixBase<MatrixDerived>& matrix)
@@ -404,4 +404,4 @@ class Transpose<TranspositionsBase<TranspositionsDerived> >
 
 } /* end namespace Eigen */  HYDRA_EXTERNAL_NAMESPACE_END
 
-#endif // EIGEN_TRANSPOSITIONS_H
+#endif // HYDRA_EIGEN_TRANSPOSITIONS_H

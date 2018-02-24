@@ -8,8 +8,8 @@
 // Public License v. 2.0. If a copy of the MPL was not distributed
 // with this file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
-#ifndef EIGEN_FULLPIVOTINGHOUSEHOLDERQR_H
-#define EIGEN_FULLPIVOTINGHOUSEHOLDERQR_H
+#ifndef HYDRA_EIGEN_FULLPIVOTINGHOUSEHOLDERQR_H
+#define HYDRA_EIGEN_FULLPIVOTINGHOUSEHOLDERQR_H
 
 HYDRA_EXTERNAL_NAMESPACE_BEGIN namespace Eigen { 
 
@@ -72,8 +72,8 @@ template<typename _MatrixType> class FullPivHouseholderQR
     typedef internal::FullPivHouseholderQRMatrixQReturnType<MatrixType> MatrixQReturnType;
     typedef typename internal::plain_diag_type<MatrixType>::type HCoeffsType;
     typedef Matrix<StorageIndex, 1,
-                   EIGEN_SIZE_MIN_PREFER_DYNAMIC(ColsAtCompileTime,RowsAtCompileTime), RowMajor, 1,
-                   EIGEN_SIZE_MIN_PREFER_FIXED(MaxColsAtCompileTime,MaxRowsAtCompileTime)> IntDiagSizeVectorType;
+                   HYDRA_EIGEN_SIZE_MIN_PREFER_DYNAMIC(ColsAtCompileTime,RowsAtCompileTime), RowMajor, 1,
+                   HYDRA_EIGEN_SIZE_MIN_PREFER_FIXED(MaxColsAtCompileTime,MaxRowsAtCompileTime)> IntDiagSizeVectorType;
     typedef PermutationMatrix<ColsAtCompileTime, MaxColsAtCompileTime> PermutationType;
     typedef typename internal::plain_row_type<MatrixType>::type RowVectorType;
     typedef typename internal::plain_col_type<MatrixType>::type ColVectorType;
@@ -393,9 +393,9 @@ template<typename _MatrixType> class FullPivHouseholderQR
       */
     RealScalar maxPivot() const { return m_maxpivot; }
     
-    #ifndef EIGEN_PARSED_BY_DOXYGEN
+    #ifndef HYDRA_EIGEN_PARSED_BY_DOXYGEN
     template<typename RhsType, typename DstType>
-    EIGEN_DEVICE_FUNC
+    HYDRA_EIGEN_DEVICE_FUNC
     void _solve_impl(const RhsType &rhs, DstType &dst) const;
     #endif
 
@@ -403,7 +403,7 @@ template<typename _MatrixType> class FullPivHouseholderQR
     
     static void check_template_parameters()
     {
-      EIGEN_STATIC_ASSERT_NON_INTEGER(Scalar);
+      HYDRA_EIGEN_STATIC_ASSERT_NON_INTEGER(Scalar);
     }
     
     void computeInPlace();
@@ -536,7 +536,7 @@ void FullPivHouseholderQR<MatrixType>::computeInPlace()
   m_isInitialized = true;
 }
 
-#ifndef EIGEN_PARSED_BY_DOXYGEN
+#ifndef HYDRA_EIGEN_PARSED_BY_DOXYGEN
 template<typename _MatrixType>
 template<typename RhsType, typename DstType>
 void FullPivHouseholderQR<_MatrixType>::_solve_impl(const RhsType &rhs, DstType &dst) const
@@ -673,4 +673,4 @@ MatrixBase<Derived>::fullPivHouseholderQr() const
 
 } /* end namespace Eigen */  HYDRA_EXTERNAL_NAMESPACE_END
 
-#endif // EIGEN_FULLPIVOTINGHOUSEHOLDERQR_H
+#endif // HYDRA_EIGEN_FULLPIVOTINGHOUSEHOLDERQR_H

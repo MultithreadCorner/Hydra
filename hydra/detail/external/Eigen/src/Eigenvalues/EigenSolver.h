@@ -8,8 +8,8 @@
 // Public License v. 2.0. If a copy of the MPL was not distributed
 // with this file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
-#ifndef EIGEN_EIGENSOLVER_H
-#define EIGEN_EIGENSOLVER_H
+#ifndef HYDRA_EIGEN_EIGENSOLVER_H
+#define HYDRA_EIGEN_EIGENSOLVER_H
 
 #include "./RealSchur.h"
 
@@ -304,8 +304,8 @@ template<typename _MatrixType> class EigenSolver
     
     static void check_template_parameters()
     {
-      EIGEN_STATIC_ASSERT_NON_INTEGER(Scalar);
-      EIGEN_STATIC_ASSERT(!NumTraits<Scalar>::IsComplex, NUMERIC_TYPE_MUST_BE_REAL);
+      HYDRA_EIGEN_STATIC_ASSERT_NON_INTEGER(Scalar);
+      HYDRA_EIGEN_STATIC_ASSERT(!NumTraits<Scalar>::IsComplex, NUMERIC_TYPE_MUST_BE_REAL);
     }
     
     MatrixType m_eivec;
@@ -619,4 +619,4 @@ void EigenSolver<MatrixType>::doComputeEigenvectors()
 
 } /* end namespace Eigen */  HYDRA_EXTERNAL_NAMESPACE_END
 
-#endif // EIGEN_EIGENSOLVER_H
+#endif // HYDRA_EIGEN_EIGENSOLVER_H

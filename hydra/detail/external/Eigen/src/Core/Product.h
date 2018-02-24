@@ -7,8 +7,8 @@
 // Public License v. 2.0. If a copy of the MPL was not distributed
 // with this file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
-#ifndef EIGEN_PRODUCT_H
-#define EIGEN_PRODUCT_H
+#ifndef HYDRA_EIGEN_PRODUCT_H
+#define HYDRA_EIGEN_PRODUCT_H
 
 HYDRA_EXTERNAL_NAMESPACE_BEGIN namespace Eigen {
 
@@ -40,7 +40,7 @@ struct traits<Product<Lhs, Rhs, Option> >
     MaxColsAtCompileTime = RhsTraits::MaxColsAtCompileTime,
     
     // FIXME: only needed by GeneralMatrixMatrixTriangular
-    InnerSize = EIGEN_SIZE_MIN_PREFER_FIXED(LhsTraits::ColsAtCompileTime, RhsTraits::RowsAtCompileTime),
+    InnerSize = HYDRA_EIGEN_SIZE_MIN_PREFER_FIXED(LhsTraits::ColsAtCompileTime, RhsTraits::RowsAtCompileTime),
     
     // The storage order is somewhat arbitrary here. The correct one will be determined through the evaluator.
     Flags = (MaxRowsAtCompileTime==1 && MaxColsAtCompileTime!=1) ? RowMajorBit
@@ -83,25 +83,25 @@ class Product : public ProductImpl<_Lhs,_Rhs,Option,
         typename internal::product_promote_storage_type<typename internal::traits<Lhs>::StorageKind,
                                                         typename internal::traits<Rhs>::StorageKind,
                                                         internal::product_type<Lhs,Rhs>::ret>::ret>::Base Base;
-    EIGEN_GENERIC_PUBLIC_INTERFACE(Product)
+    HYDRA_EIGEN_GENERIC_PUBLIC_INTERFACE(Product)
 
     typedef typename internal::ref_selector<Lhs>::type LhsNested;
     typedef typename internal::ref_selector<Rhs>::type RhsNested;
     typedef typename internal::remove_all<LhsNested>::type LhsNestedCleaned;
     typedef typename internal::remove_all<RhsNested>::type RhsNestedCleaned;
 
-    EIGEN_DEVICE_FUNC Product(const Lhs& lhs, const Rhs& rhs) : m_lhs(lhs), m_rhs(rhs)
+    HYDRA_EIGEN_DEVICE_FUNC Product(const Lhs& lhs, const Rhs& rhs) : m_lhs(lhs), m_rhs(rhs)
     {
       eigen_assert(lhs.cols() == rhs.rows()
         && "invalid matrix product"
         && "if you wanted a coeff-wise or a dot product use the respective explicit functions");
     }
 
-    EIGEN_DEVICE_FUNC inline Index rows() const { return m_lhs.rows(); }
-    EIGEN_DEVICE_FUNC inline Index cols() const { return m_rhs.cols(); }
+    HYDRA_EIGEN_DEVICE_FUNC inline Index rows() const { return m_lhs.rows(); }
+    HYDRA_EIGEN_DEVICE_FUNC inline Index cols() const { return m_rhs.cols(); }
 
-    EIGEN_DEVICE_FUNC const LhsNestedCleaned& lhs() const { return m_lhs; }
-    EIGEN_DEVICE_FUNC const RhsNestedCleaned& rhs() const { return m_rhs; }
+    HYDRA_EIGEN_DEVICE_FUNC const LhsNestedCleaned& lhs() const { return m_lhs; }
+    HYDRA_EIGEN_DEVICE_FUNC const RhsNestedCleaned& rhs() const { return m_rhs; }
 
   protected:
 
@@ -152,7 +152,7 @@ class ProductImpl<Lhs,Rhs,Option,Dense>
   public:
     
     typedef typename internal::dense_product_base<Lhs, Rhs, Option> Base;
-    EIGEN_DENSE_PUBLIC_INTERFACE(Derived)
+    HYDRA_EIGEN_DENSE_PUBLIC_INTERFACE(Derived)
   protected:
     enum {
       IsOneByOne = (RowsAtCompileTime == 1 || RowsAtCompileTime == Dynamic) && 
@@ -162,17 +162,17 @@ class ProductImpl<Lhs,Rhs,Option,Dense>
     
   public:
   
-    EIGEN_DEVICE_FUNC Scalar coeff(Index row, Index col) const
+    HYDRA_EIGEN_DEVICE_FUNC Scalar coeff(Index row, Index col) const
     {
-      EIGEN_STATIC_ASSERT(EnableCoeff, THIS_METHOD_IS_ONLY_FOR_INNER_OR_LAZY_PRODUCTS);
+      HYDRA_EIGEN_STATIC_ASSERT(EnableCoeff, THIS_METHOD_IS_ONLY_FOR_INNER_OR_LAZY_PRODUCTS);
       eigen_assert( (Option==LazyProduct) || (this->rows() == 1 && this->cols() == 1) );
       
       return internal::evaluator<Derived>(derived()).coeff(row,col);
     }
 
-    EIGEN_DEVICE_FUNC Scalar coeff(Index i) const
+    HYDRA_EIGEN_DEVICE_FUNC Scalar coeff(Index i) const
     {
-      EIGEN_STATIC_ASSERT(EnableCoeff, THIS_METHOD_IS_ONLY_FOR_INNER_OR_LAZY_PRODUCTS);
+      HYDRA_EIGEN_STATIC_ASSERT(EnableCoeff, THIS_METHOD_IS_ONLY_FOR_INNER_OR_LAZY_PRODUCTS);
       eigen_assert( (Option==LazyProduct) || (this->rows() == 1 && this->cols() == 1) );
       
       return internal::evaluator<Derived>(derived()).coeff(i);
@@ -183,4 +183,4 @@ class ProductImpl<Lhs,Rhs,Option,Dense>
 
 } /* end namespace Eigen */  HYDRA_EXTERNAL_NAMESPACE_END
 
-#endif // EIGEN_PRODUCT_H
+#endif // HYDRA_EIGEN_PRODUCT_H

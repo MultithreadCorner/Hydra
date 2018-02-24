@@ -30,8 +30,8 @@
  ********************************************************************************
 */
 
-#ifndef EIGEN_GENERAL_MATRIX_MATRIX_BLAS_H
-#define EIGEN_GENERAL_MATRIX_MATRIX_BLAS_H
+#ifndef HYDRA_EIGEN_GENERAL_MATRIX_MATRIX_BLAS_H
+#define HYDRA_EIGEN_GENERAL_MATRIX_MATRIX_BLAS_H
 
 HYDRA_EXTERNAL_NAMESPACE_BEGIN namespace Eigen { 
 
@@ -112,4 +112,4 @@ GEMM_SPECIALIZATION(scomplex, cf, float,  c)
 
 } /* end namespace Eigen */  HYDRA_EXTERNAL_NAMESPACE_END
 
-#endif // EIGEN_GENERAL_MATRIX_MATRIX_BLAS_H
+#endif // HYDRA_EIGEN_GENERAL_MATRIX_MATRIX_BLAS_H

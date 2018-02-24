@@ -30,15 +30,15 @@
  ********************************************************************************
 */
 
-#ifndef EIGEN_TRIANGULAR_SOLVER_MATRIX_BLAS_H
-#define EIGEN_TRIANGULAR_SOLVER_MATRIX_BLAS_H
+#ifndef HYDRA_EIGEN_TRIANGULAR_SOLVER_MATRIX_BLAS_H
+#define HYDRA_EIGEN_TRIANGULAR_SOLVER_MATRIX_BLAS_H
 
 HYDRA_EXTERNAL_NAMESPACE_BEGIN namespace Eigen {
 
 namespace internal {
 
 // implements LeftSide op(triangular)^-1 * general
-#define EIGEN_BLAS_TRSM_L(EIGTYPE, BLASTYPE, BLASPREFIX) \
+#define HYDRA_EIGEN_BLAS_TRSM_L(EIGTYPE, BLASTYPE, BLASPREFIX) \
 template <typename Index, int Mode, bool Conjugate, int TriStorageOrder> \
 struct triangular_solve_matrix<EIGTYPE,Index,OnTheLeft,Mode,Conjugate,TriStorageOrder,ColMajor> \
 { \
@@ -84,14 +84,14 @@ struct triangular_solve_matrix<EIGTYPE,Index,OnTheLeft,Mode,Conjugate,TriStorage
  } \
 };
 
-EIGEN_BLAS_TRSM_L(double,   double, d)
-EIGEN_BLAS_TRSM_L(dcomplex, double, z)
-EIGEN_BLAS_TRSM_L(float,    float,  s)
-EIGEN_BLAS_TRSM_L(scomplex, float,  c)
+HYDRA_EIGEN_BLAS_TRSM_L(double,   double, d)
+HYDRA_EIGEN_BLAS_TRSM_L(dcomplex, double, z)
+HYDRA_EIGEN_BLAS_TRSM_L(float,    float,  s)
+HYDRA_EIGEN_BLAS_TRSM_L(scomplex, float,  c)
 
 
 // implements RightSide general * op(triangular)^-1
-#define EIGEN_BLAS_TRSM_R(EIGTYPE, BLASTYPE, BLASPREFIX) \
+#define HYDRA_EIGEN_BLAS_TRSM_R(EIGTYPE, BLASTYPE, BLASPREFIX) \
 template <typename Index, int Mode, bool Conjugate, int TriStorageOrder> \
 struct triangular_solve_matrix<EIGTYPE,Index,OnTheRight,Mode,Conjugate,TriStorageOrder,ColMajor> \
 { \
@@ -138,14 +138,14 @@ struct triangular_solve_matrix<EIGTYPE,Index,OnTheRight,Mode,Conjugate,TriStorag
  } \
 };
 
-EIGEN_BLAS_TRSM_R(double,   double, d)
-EIGEN_BLAS_TRSM_R(dcomplex, double, z)
-EIGEN_BLAS_TRSM_R(float,    float,  s)
-EIGEN_BLAS_TRSM_R(scomplex, float,  c)
+HYDRA_EIGEN_BLAS_TRSM_R(double,   double, d)
+HYDRA_EIGEN_BLAS_TRSM_R(dcomplex, double, z)
+HYDRA_EIGEN_BLAS_TRSM_R(float,    float,  s)
+HYDRA_EIGEN_BLAS_TRSM_R(scomplex, float,  c)
 
 
 } // end namespace internal
 
 } /* end namespace Eigen */  HYDRA_EXTERNAL_NAMESPACE_END
 
-#endif // EIGEN_TRIANGULAR_SOLVER_MATRIX_BLAS_H
+#endif // HYDRA_EIGEN_TRIANGULAR_SOLVER_MATRIX_BLAS_H

@@ -7,8 +7,8 @@
 // Public License v. 2.0. If a copy of the MPL was not distributed
 // with this file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
-#ifndef EIGEN_SELFADJOINTMATRIX_H
-#define EIGEN_SELFADJOINTMATRIX_H
+#ifndef HYDRA_EIGEN_SELFADJOINTMATRIX_H
+#define HYDRA_EIGEN_SELFADJOINTMATRIX_H
 
 HYDRA_EXTERNAL_NAMESPACE_BEGIN namespace Eigen { 
 
@@ -69,23 +69,23 @@ template<typename _MatrixType, unsigned int UpLo> class SelfAdjointView
     };
     typedef typename MatrixType::PlainObject PlainObject;
 
-    EIGEN_DEVICE_FUNC
+    HYDRA_EIGEN_DEVICE_FUNC
     explicit inline SelfAdjointView(MatrixType& matrix) : m_matrix(matrix)
     {}
 
-    EIGEN_DEVICE_FUNC
+    HYDRA_EIGEN_DEVICE_FUNC
     inline Index rows() const { return m_matrix.rows(); }
-    EIGEN_DEVICE_FUNC
+    HYDRA_EIGEN_DEVICE_FUNC
     inline Index cols() const { return m_matrix.cols(); }
-    EIGEN_DEVICE_FUNC
+    HYDRA_EIGEN_DEVICE_FUNC
     inline Index outerStride() const { return m_matrix.outerStride(); }
-    EIGEN_DEVICE_FUNC
+    HYDRA_EIGEN_DEVICE_FUNC
     inline Index innerStride() const { return m_matrix.innerStride(); }
 
     /** \sa MatrixBase::coeff()
       * \warning the coordinates must fit into the referenced triangular part
       */
-    EIGEN_DEVICE_FUNC
+    HYDRA_EIGEN_DEVICE_FUNC
     inline Scalar coeff(Index row, Index col) const
     {
       Base::check_coordinates_internal(row, col);
@@ -95,26 +95,26 @@ template<typename _MatrixType, unsigned int UpLo> class SelfAdjointView
     /** \sa MatrixBase::coeffRef()
       * \warning the coordinates must fit into the referenced triangular part
       */
-    EIGEN_DEVICE_FUNC
+    HYDRA_EIGEN_DEVICE_FUNC
     inline Scalar& coeffRef(Index row, Index col)
     {
-      EIGEN_STATIC_ASSERT_LVALUE(SelfAdjointView);
+      HYDRA_EIGEN_STATIC_ASSERT_LVALUE(SelfAdjointView);
       Base::check_coordinates_internal(row, col);
       return m_matrix.coeffRef(row, col);
     }
 
     /** \internal */
-    EIGEN_DEVICE_FUNC
+    HYDRA_EIGEN_DEVICE_FUNC
     const MatrixTypeNestedCleaned& _expression() const { return m_matrix; }
 
-    EIGEN_DEVICE_FUNC
+    HYDRA_EIGEN_DEVICE_FUNC
     const MatrixTypeNestedCleaned& nestedExpression() const { return m_matrix; }
-    EIGEN_DEVICE_FUNC
+    HYDRA_EIGEN_DEVICE_FUNC
     MatrixTypeNestedCleaned& nestedExpression() { return m_matrix; }
 
     /** Efficient triangular matrix times vector/matrix product */
     template<typename OtherDerived>
-    EIGEN_DEVICE_FUNC
+    HYDRA_EIGEN_DEVICE_FUNC
     const Product<SelfAdjointView,OtherDerived>
     operator*(const MatrixBase<OtherDerived>& rhs) const
     {
@@ -123,15 +123,15 @@ template<typename _MatrixType, unsigned int UpLo> class SelfAdjointView
 
     /** Efficient vector/matrix times triangular matrix product */
     template<typename OtherDerived> friend
-    EIGEN_DEVICE_FUNC
+    HYDRA_EIGEN_DEVICE_FUNC
     const Product<OtherDerived,SelfAdjointView>
     operator*(const MatrixBase<OtherDerived>& lhs, const SelfAdjointView& rhs)
     {
       return Product<OtherDerived,SelfAdjointView>(lhs.derived(),rhs);
     }
     
-    friend EIGEN_DEVICE_FUNC
-    const SelfAdjointView<const EIGEN_SCALAR_BINARYOP_EXPR_RETURN_TYPE(Scalar,MatrixType,product),UpLo>
+    friend HYDRA_EIGEN_DEVICE_FUNC
+    const SelfAdjointView<const HYDRA_EIGEN_SCALAR_BINARYOP_EXPR_RETURN_TYPE(Scalar,MatrixType,product),UpLo>
     operator*(const Scalar& s, const SelfAdjointView& mat)
     {
       return (s*mat.nestedExpression()).template selfadjointView<UpLo>();
@@ -148,7 +148,7 @@ template<typename _MatrixType, unsigned int UpLo> class SelfAdjointView
       * \sa rankUpdate(const MatrixBase<DerivedU>&, Scalar)
       */
     template<typename DerivedU, typename DerivedV>
-    EIGEN_DEVICE_FUNC
+    HYDRA_EIGEN_DEVICE_FUNC
     SelfAdjointView& rankUpdate(const MatrixBase<DerivedU>& u, const MatrixBase<DerivedV>& v, const Scalar& alpha = Scalar(1));
 
     /** Perform a symmetric rank K update of the selfadjoint matrix \c *this:
@@ -162,7 +162,7 @@ template<typename _MatrixType, unsigned int UpLo> class SelfAdjointView
       * \sa rankUpdate(const MatrixBase<DerivedU>&, const MatrixBase<DerivedV>&, Scalar)
       */
     template<typename DerivedU>
-    EIGEN_DEVICE_FUNC
+    HYDRA_EIGEN_DEVICE_FUNC
     SelfAdjointView& rankUpdate(const MatrixBase<DerivedU>& u, const Scalar& alpha = Scalar(1));
 
     /** \returns an expression of a triangular view extracted from the current selfadjoint view of a given triangular part
@@ -176,7 +176,7 @@ template<typename _MatrixType, unsigned int UpLo> class SelfAdjointView
       * \sa MatrixBase::triangularView(), class TriangularView
       */
     template<unsigned int TriMode>
-    EIGEN_DEVICE_FUNC
+    HYDRA_EIGEN_DEVICE_FUNC
     typename internal::conditional<(TriMode&(Upper|Lower))==(UpLo&(Upper|Lower)),
                                    TriangularView<MatrixType,TriMode>,
                                    TriangularView<typename MatrixType::AdjointReturnType,TriMode> >::type
@@ -191,29 +191,29 @@ template<typename _MatrixType, unsigned int UpLo> class SelfAdjointView
 
     typedef SelfAdjointView<const MatrixConjugateReturnType,Mode> ConjugateReturnType;
     /** \sa MatrixBase::conjugate() const */
-    EIGEN_DEVICE_FUNC
+    HYDRA_EIGEN_DEVICE_FUNC
     inline const ConjugateReturnType conjugate() const
     { return ConjugateReturnType(m_matrix.conjugate()); }
 
     typedef SelfAdjointView<const typename MatrixType::AdjointReturnType,TransposeMode> AdjointReturnType;
     /** \sa MatrixBase::adjoint() const */
-    EIGEN_DEVICE_FUNC
+    HYDRA_EIGEN_DEVICE_FUNC
     inline const AdjointReturnType adjoint() const
     { return AdjointReturnType(m_matrix.adjoint()); }
 
     typedef SelfAdjointView<typename MatrixType::TransposeReturnType,TransposeMode> TransposeReturnType;
      /** \sa MatrixBase::transpose() */
-    EIGEN_DEVICE_FUNC
+    HYDRA_EIGEN_DEVICE_FUNC
     inline TransposeReturnType transpose()
     {
-      EIGEN_STATIC_ASSERT_LVALUE(MatrixType)
+      HYDRA_EIGEN_STATIC_ASSERT_LVALUE(MatrixType)
       typename MatrixType::TransposeReturnType tmp(m_matrix);
       return TransposeReturnType(tmp);
     }
 
     typedef SelfAdjointView<const typename MatrixType::ConstTransposeReturnType,TransposeMode> ConstTransposeReturnType;
     /** \sa MatrixBase::transpose() const */
-    EIGEN_DEVICE_FUNC
+    HYDRA_EIGEN_DEVICE_FUNC
     inline const ConstTransposeReturnType transpose() const
     {
       return ConstTransposeReturnType(m_matrix.transpose());
@@ -224,7 +224,7 @@ template<typename _MatrixType, unsigned int UpLo> class SelfAdjointView
       * This method simply returns the diagonal of the nested expression, thus by-passing the SelfAdjointView decorator.
       *
       * \sa MatrixBase::diagonal(), class Diagonal */
-    EIGEN_DEVICE_FUNC
+    HYDRA_EIGEN_DEVICE_FUNC
     typename MatrixType::ConstDiagonalReturnType diagonal() const
     {
       return typename MatrixType::ConstDiagonalReturnType(m_matrix);
@@ -242,9 +242,9 @@ template<typename _MatrixType, unsigned int UpLo> class SelfAdjointView
     /** Return type of eigenvalues() */
     typedef Matrix<RealScalar, internal::traits<MatrixType>::ColsAtCompileTime, 1> EigenvaluesReturnType;
 
-    EIGEN_DEVICE_FUNC
+    HYDRA_EIGEN_DEVICE_FUNC
     EigenvaluesReturnType eigenvalues() const;
-    EIGEN_DEVICE_FUNC
+    HYDRA_EIGEN_DEVICE_FUNC
     RealScalar operatorNorm() const;
 
   protected:
@@ -292,11 +292,11 @@ public:
   typedef typename Base::AssignmentTraits AssignmentTraits;
   
   
-  EIGEN_DEVICE_FUNC triangular_dense_assignment_kernel(DstEvaluatorType &dst, const SrcEvaluatorType &src, const Functor &func, DstXprType& dstExpr)
+  HYDRA_EIGEN_DEVICE_FUNC triangular_dense_assignment_kernel(DstEvaluatorType &dst, const SrcEvaluatorType &src, const Functor &func, DstXprType& dstExpr)
     : Base(dst, src, func, dstExpr)
   {}
   
-  EIGEN_DEVICE_FUNC void assignCoeff(Index row, Index col)
+  HYDRA_EIGEN_DEVICE_FUNC void assignCoeff(Index row, Index col)
   {
     eigen_internal_assert(row!=col);
     Scalar tmp = m_src.coeff(row,col);
@@ -304,12 +304,12 @@ public:
     m_functor.assignCoeff(m_dst.coeffRef(col,row), numext::conj(tmp));
   }
   
-  EIGEN_DEVICE_FUNC void assignDiagonalCoeff(Index id)
+  HYDRA_EIGEN_DEVICE_FUNC void assignDiagonalCoeff(Index id)
   {
     Base::assignCoeff(id,id);
   }
   
-  EIGEN_DEVICE_FUNC void assignOppositeCoeff(Index, Index)
+  HYDRA_EIGEN_DEVICE_FUNC void assignOppositeCoeff(Index, Index)
   { eigen_internal_assert(false && "should never be called"); }
 };
 
@@ -347,4 +347,4 @@ MatrixBase<Derived>::selfadjointView()
 
 } /* end namespace Eigen */  HYDRA_EXTERNAL_NAMESPACE_END
 
-#endif // EIGEN_SELFADJOINTMATRIX_H
+#endif // HYDRA_EIGEN_SELFADJOINTMATRIX_H

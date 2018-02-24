@@ -9,8 +9,8 @@
 // Public License v. 2.0. If a copy of the MPL was not distributed
 // with this file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
-#ifndef EIGEN_REVERSE_H
-#define EIGEN_REVERSE_H
+#ifndef HYDRA_EIGEN_REVERSE_H
+#define HYDRA_EIGEN_REVERSE_H
 
 HYDRA_EXTERNAL_NAMESPACE_BEGIN namespace Eigen { 
 
@@ -66,7 +66,7 @@ template<typename MatrixType, int Direction> class Reverse
   public:
 
     typedef typename internal::dense_xpr_base<Reverse>::type Base;
-    EIGEN_DENSE_PUBLIC_INTERFACE(Reverse)
+    HYDRA_EIGEN_DENSE_PUBLIC_INTERFACE(Reverse)
     typedef typename internal::remove_all<MatrixType>::type NestedExpression;
     using Base::IsRowMajor;
 
@@ -85,19 +85,19 @@ template<typename MatrixType, int Direction> class Reverse
     typedef internal::reverse_packet_cond<PacketScalar,ReversePacket> reverse_packet;
   public:
 
-    EIGEN_DEVICE_FUNC explicit inline Reverse(const MatrixType& matrix) : m_matrix(matrix) { }
+    HYDRA_EIGEN_DEVICE_FUNC explicit inline Reverse(const MatrixType& matrix) : m_matrix(matrix) { }
 
-    EIGEN_INHERIT_ASSIGNMENT_OPERATORS(Reverse)
+    HYDRA_EIGEN_INHERIT_ASSIGNMENT_OPERATORS(Reverse)
 
-    EIGEN_DEVICE_FUNC inline Index rows() const { return m_matrix.rows(); }
-    EIGEN_DEVICE_FUNC inline Index cols() const { return m_matrix.cols(); }
+    HYDRA_EIGEN_DEVICE_FUNC inline Index rows() const { return m_matrix.rows(); }
+    HYDRA_EIGEN_DEVICE_FUNC inline Index cols() const { return m_matrix.cols(); }
 
-    EIGEN_DEVICE_FUNC inline Index innerStride() const
+    HYDRA_EIGEN_DEVICE_FUNC inline Index innerStride() const
     {
       return -m_matrix.innerStride();
     }
 
-    EIGEN_DEVICE_FUNC const typename internal::remove_all<typename MatrixType::Nested>::type&
+    HYDRA_EIGEN_DEVICE_FUNC const typename internal::remove_all<typename MatrixType::Nested>::type&
     nestedExpression() const 
     {
       return m_matrix;
@@ -208,4 +208,4 @@ void VectorwiseOp<ExpressionType,Direction>::reverseInPlace()
 
 } /* end namespace Eigen */  HYDRA_EXTERNAL_NAMESPACE_END
 
-#endif // EIGEN_REVERSE_H
+#endif // HYDRA_EIGEN_REVERSE_H

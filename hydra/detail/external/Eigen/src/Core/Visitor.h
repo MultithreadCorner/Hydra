@@ -7,8 +7,8 @@
 // Public License v. 2.0. If a copy of the MPL was not distributed
 // with this file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
-#ifndef EIGEN_VISITOR_H
-#define EIGEN_VISITOR_H
+#ifndef HYDRA_EIGEN_VISITOR_H
+#define HYDRA_EIGEN_VISITOR_H
 
 HYDRA_EXTERNAL_NAMESPACE_BEGIN namespace Eigen { 
 
@@ -22,7 +22,7 @@ struct visitor_impl
     row = (UnrollCount-1) % Derived::RowsAtCompileTime
   };
 
-  EIGEN_DEVICE_FUNC
+  HYDRA_EIGEN_DEVICE_FUNC
   static inline void run(const Derived &mat, Visitor& visitor)
   {
     visitor_impl<Visitor, Derived, UnrollCount-1>::run(mat, visitor);
@@ -33,7 +33,7 @@ struct visitor_impl
 template<typename Visitor, typename Derived>
 struct visitor_impl<Visitor, Derived, 1>
 {
-  EIGEN_DEVICE_FUNC
+  HYDRA_EIGEN_DEVICE_FUNC
   static inline void run(const Derived &mat, Visitor& visitor)
   {
     return visitor.init(mat.coeff(0, 0), 0, 0);
@@ -43,7 +43,7 @@ struct visitor_impl<Visitor, Derived, 1>
 template<typename Visitor, typename Derived>
 struct visitor_impl<Visitor, Derived, Dynamic>
 {
-  EIGEN_DEVICE_FUNC
+  HYDRA_EIGEN_DEVICE_FUNC
   static inline void run(const Derived& mat, Visitor& visitor)
   {
     visitor.init(mat.coeff(0,0), 0, 0);
@@ -60,7 +60,7 @@ template<typename XprType>
 class visitor_evaluator
 {
 public:
-  EIGEN_DEVICE_FUNC
+  HYDRA_EIGEN_DEVICE_FUNC
   explicit visitor_evaluator(const XprType &xpr) : m_evaluator(xpr), m_xpr(xpr) {}
   
   typedef typename XprType::Scalar Scalar;
@@ -71,11 +71,11 @@ public:
     CoeffReadCost = internal::evaluator<XprType>::CoeffReadCost
   };
   
-  EIGEN_DEVICE_FUNC Index rows() const { return m_xpr.rows(); }
-  EIGEN_DEVICE_FUNC Index cols() const { return m_xpr.cols(); }
-  EIGEN_DEVICE_FUNC Index size() const { return m_xpr.size(); }
+  HYDRA_EIGEN_DEVICE_FUNC Index rows() const { return m_xpr.rows(); }
+  HYDRA_EIGEN_DEVICE_FUNC Index cols() const { return m_xpr.cols(); }
+  HYDRA_EIGEN_DEVICE_FUNC Index size() const { return m_xpr.size(); }
 
-  EIGEN_DEVICE_FUNC CoeffReturnType coeff(Index row, Index col) const
+  HYDRA_EIGEN_DEVICE_FUNC CoeffReturnType coeff(Index row, Index col) const
   { return m_evaluator.coeff(row, col); }
   
 protected:
@@ -103,7 +103,7 @@ protected:
   */
 template<typename Derived>
 template<typename Visitor>
-EIGEN_DEVICE_FUNC
+HYDRA_EIGEN_DEVICE_FUNC
 void DenseBase<Derived>::visit(Visitor& visitor) const
 {
   typedef typename internal::visitor_evaluator<Derived> ThisEvaluator;
@@ -111,7 +111,7 @@ void DenseBase<Derived>::visit(Visitor& visitor) const
   
   enum {
     unroll =  SizeAtCompileTime != Dynamic
-           && SizeAtCompileTime * ThisEvaluator::CoeffReadCost + (SizeAtCompileTime-1) * internal::functor_traits<Visitor>::Cost <= EIGEN_UNROLLING_LIMIT
+           && SizeAtCompileTime * ThisEvaluator::CoeffReadCost + (SizeAtCompileTime-1) * internal::functor_traits<Visitor>::Cost <= HYDRA_EIGEN_UNROLLING_LIMIT
   };
   return internal::visitor_impl<Visitor, ThisEvaluator, unroll ? int(SizeAtCompileTime) : Dynamic>::run(thisEval, visitor);
 }
@@ -127,7 +127,7 @@ struct coeff_visitor
   typedef typename Derived::Scalar Scalar;
   Index row, col;
   Scalar res;
-  EIGEN_DEVICE_FUNC
+  HYDRA_EIGEN_DEVICE_FUNC
   inline void init(const Scalar& value, Index i, Index j)
   {
     res = value;
@@ -145,7 +145,7 @@ template <typename Derived>
 struct min_coeff_visitor : coeff_visitor<Derived>
 {
   typedef typename Derived::Scalar Scalar;
-  EIGEN_DEVICE_FUNC
+  HYDRA_EIGEN_DEVICE_FUNC
   void operator() (const Scalar& value, Index i, Index j)
   {
     if(value < this->res)
@@ -173,7 +173,7 @@ template <typename Derived>
 struct max_coeff_visitor : coeff_visitor<Derived>
 {
   typedef typename Derived::Scalar Scalar; 
-  EIGEN_DEVICE_FUNC
+  HYDRA_EIGEN_DEVICE_FUNC
   void operator() (const Scalar& value, Index i, Index j)
   {
     if(value > this->res)
@@ -202,7 +202,7 @@ struct functor_traits<max_coeff_visitor<Scalar> > {
   */
 template<typename Derived>
 template<typename IndexType>
-EIGEN_DEVICE_FUNC
+HYDRA_EIGEN_DEVICE_FUNC
 typename internal::traits<Derived>::Scalar
 DenseBase<Derived>::minCoeff(IndexType* rowId, IndexType* colId) const
 {
@@ -220,11 +220,11 @@ DenseBase<Derived>::minCoeff(IndexType* rowId, IndexType* colId) const
   */
 template<typename Derived>
 template<typename IndexType>
-EIGEN_DEVICE_FUNC
+HYDRA_EIGEN_DEVICE_FUNC
 typename internal::traits<Derived>::Scalar
 DenseBase<Derived>::minCoeff(IndexType* index) const
 {
-  EIGEN_STATIC_ASSERT_VECTOR_ONLY(Derived)
+  HYDRA_EIGEN_STATIC_ASSERT_VECTOR_ONLY(Derived)
   internal::min_coeff_visitor<Derived> minVisitor;
   this->visit(minVisitor);
   *index = IndexType((RowsAtCompileTime==1) ? minVisitor.col : minVisitor.row);
@@ -239,7 +239,7 @@ DenseBase<Derived>::minCoeff(IndexType* index) const
   */
 template<typename Derived>
 template<typename IndexType>
-EIGEN_DEVICE_FUNC
+HYDRA_EIGEN_DEVICE_FUNC
 typename internal::traits<Derived>::Scalar
 DenseBase<Derived>::maxCoeff(IndexType* rowPtr, IndexType* colPtr) const
 {
@@ -257,11 +257,11 @@ DenseBase<Derived>::maxCoeff(IndexType* rowPtr, IndexType* colPtr) const
   */
 template<typename Derived>
 template<typename IndexType>
-EIGEN_DEVICE_FUNC
+HYDRA_EIGEN_DEVICE_FUNC
 typename internal::traits<Derived>::Scalar
 DenseBase<Derived>::maxCoeff(IndexType* index) const
 {
-  EIGEN_STATIC_ASSERT_VECTOR_ONLY(Derived)
+  HYDRA_EIGEN_STATIC_ASSERT_VECTOR_ONLY(Derived)
   internal::max_coeff_visitor<Derived> maxVisitor;
   this->visit(maxVisitor);
   *index = (RowsAtCompileTime==1) ? maxVisitor.col : maxVisitor.row;
@@ -270,4 +270,4 @@ DenseBase<Derived>::maxCoeff(IndexType* index) const
 
 } /* end namespace Eigen */  HYDRA_EXTERNAL_NAMESPACE_END
 
-#endif // EIGEN_VISITOR_H
+#endif // HYDRA_EIGEN_VISITOR_H

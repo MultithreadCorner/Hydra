@@ -7,8 +7,8 @@
 // Public License v. 2.0. If a copy of the MPL was not distributed
 // with this file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
-#ifndef EIGEN_SPARSEDENSEPRODUCT_H
-#define EIGEN_SPARSEDENSEPRODUCT_H
+#ifndef HYDRA_EIGEN_SPARSEDENSEPRODUCT_H
+#define HYDRA_EIGEN_SPARSEDENSEPRODUCT_H
 
 HYDRA_EXTERNAL_NAMESPACE_BEGIN namespace Eigen { 
 
@@ -36,14 +36,14 @@ struct sparse_time_dense_product_impl<SparseLhsType,DenseRhsType,DenseResType, t
     LhsEval lhsEval(lhs);
     
     Index n = lhs.outerSize();
-#ifdef EIGEN_HAS_OPENMP
+#ifdef HYDRA_EIGEN_HAS_OPENMP
     HYDRA_EXTERNAL_NS::Eigen::initParallel();
     Index threads = HYDRA_EXTERNAL_NS::Eigen::nbThreads();
 #endif
     
     for(Index c=0; c<rhs.cols(); ++c)
     {
-#ifdef EIGEN_HAS_OPENMP
+#ifdef HYDRA_EIGEN_HAS_OPENMP
       // This 20000 threshold has been found experimentally on 2D and 3D Poisson problems.
       // It basically represents the minimal amount of work to be done to be worth it.
       if(threads>1 && lhsEval.nonZerosEstimate() > 20000)
@@ -236,12 +236,12 @@ public:
         m_factor(get(xprEval.m_rhsXprImpl, outer, typename internal::traits<ActualRhs>::StorageKind() ))
     {}
     
-    EIGEN_STRONG_INLINE Index outer() const { return m_outer; }
-    EIGEN_STRONG_INLINE Index row()   const { return NeedToTranspose ? m_outer : LhsIterator::index(); }
-    EIGEN_STRONG_INLINE Index col()   const { return NeedToTranspose ? LhsIterator::index() : m_outer; }
+    HYDRA_EIGEN_STRONG_INLINE Index outer() const { return m_outer; }
+    HYDRA_EIGEN_STRONG_INLINE Index row()   const { return NeedToTranspose ? m_outer : LhsIterator::index(); }
+    HYDRA_EIGEN_STRONG_INLINE Index col()   const { return NeedToTranspose ? LhsIterator::index() : m_outer; }
 
-    EIGEN_STRONG_INLINE Scalar value() const { return LhsIterator::value() * m_factor; }
-    EIGEN_STRONG_INLINE operator bool() const { return LhsIterator::operator bool() && (!m_empty); }
+    HYDRA_EIGEN_STRONG_INLINE Scalar value() const { return LhsIterator::value() * m_factor; }
+    HYDRA_EIGEN_STRONG_INLINE operator bool() const { return LhsIterator::operator bool() && (!m_empty); }
     
   protected:
     Scalar get(const RhsEval &rhs, Index outer, Dense = Dense()) const
@@ -266,14 +266,14 @@ public:
   sparse_dense_outer_product_evaluator(const Lhs1 &lhs, const ActualRhs &rhs)
      : m_lhs(lhs), m_lhsXprImpl(m_lhs), m_rhsXprImpl(rhs)
   {
-    EIGEN_INTERNAL_CHECK_COST_VALUE(CoeffReadCost);
+    HYDRA_EIGEN_INTERNAL_CHECK_COST_VALUE(CoeffReadCost);
   }
   
   // transpose case
   sparse_dense_outer_product_evaluator(const ActualRhs &rhs, const Lhs1 &lhs)
      : m_lhs(lhs), m_lhsXprImpl(m_lhs), m_rhsXprImpl(rhs)
   {
-    EIGEN_INTERNAL_CHECK_COST_VALUE(CoeffReadCost);
+    HYDRA_EIGEN_INTERNAL_CHECK_COST_VALUE(CoeffReadCost);
   }
     
 protected:
@@ -317,4 +317,4 @@ struct product_evaluator<Product<Lhs, Rhs, DefaultProduct>, OuterProduct, DenseS
 
 } /* end namespace Eigen */  HYDRA_EXTERNAL_NAMESPACE_END
 
-#endif // EIGEN_SPARSEDENSEPRODUCT_H
+#endif // HYDRA_EIGEN_SPARSEDENSEPRODUCT_H

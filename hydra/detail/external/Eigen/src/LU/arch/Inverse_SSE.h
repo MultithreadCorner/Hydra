@@ -24,8 +24,8 @@
 // any purpose, and specifically disclaims all warranties.
 // See LEGAL.TXT for all the legal information.
 
-#ifndef EIGEN_INVERSE_SSE_H
-#define EIGEN_INVERSE_SSE_H
+#ifndef HYDRA_EIGEN_INVERSE_SSE_H
+#define HYDRA_EIGEN_INVERSE_SSE_H
 
 HYDRA_EXTERNAL_NAMESPACE_BEGIN namespace Eigen { 
 
@@ -44,7 +44,7 @@ struct compute_inverse_size4<Architecture::SSE, float, MatrixType, ResultType>
   static void run(const MatrixType& mat, ResultType& result)
   {
     ActualMatrixType matrix(mat);
-    EIGEN_ALIGN16 const unsigned int _Sign_PNNP[4] = { 0x00000000, 0x80000000, 0x80000000, 0x00000000 };
+    HYDRA_EIGEN_ALIGN16 const unsigned int _Sign_PNNP[4] = { 0x00000000, 0x80000000, 0x80000000, 0x00000000 };
 
     // Load the full matrix into registers
     __m128 _L1 = matrix.template packet<MatrixAlignment>( 0);
@@ -335,4 +335,4 @@ struct compute_inverse_size4<Architecture::SSE, double, MatrixType, ResultType>
 
 } /* end namespace Eigen */  HYDRA_EXTERNAL_NAMESPACE_END
 
-#endif // EIGEN_INVERSE_SSE_H
+#endif // HYDRA_EIGEN_INVERSE_SSE_H

@@ -30,8 +30,8 @@
  ********************************************************************************
 */
 
-#ifndef EIGEN_GENERAL_MATRIX_MATRIX_TRIANGULAR_BLAS_H
-#define EIGEN_GENERAL_MATRIX_MATRIX_TRIANGULAR_BLAS_H
+#ifndef HYDRA_EIGEN_GENERAL_MATRIX_MATRIX_TRIANGULAR_BLAS_H
+#define HYDRA_EIGEN_GENERAL_MATRIX_MATRIX_TRIANGULAR_BLAS_H
 
 HYDRA_EXTERNAL_NAMESPACE_BEGIN namespace Eigen {
 
@@ -44,12 +44,12 @@ struct general_matrix_matrix_rankupdate :
 
 
 // try to go to BLAS specialization
-#define EIGEN_BLAS_RANKUPDATE_SPECIALIZE(Scalar) \
+#define HYDRA_EIGEN_BLAS_RANKUPDATE_SPECIALIZE(Scalar) \
 template <typename Index, int LhsStorageOrder, bool ConjugateLhs, \
                           int RhsStorageOrder, bool ConjugateRhs, int  UpLo> \
 struct general_matrix_matrix_triangular_product<Index,Scalar,LhsStorageOrder,ConjugateLhs, \
                Scalar,RhsStorageOrder,ConjugateRhs,ColMajor,UpLo,Specialized> { \
-  static EIGEN_STRONG_INLINE void run(Index size, Index depth,const Scalar* lhs, Index lhsStride, \
+  static HYDRA_EIGEN_STRONG_INLINE void run(Index size, Index depth,const Scalar* lhs, Index lhsStride, \
                           const Scalar* rhs, Index rhsStride, Scalar* res, Index resStride, Scalar alpha, level3_blocking<Scalar, Scalar>& blocking) \
   { \
     if ( lhs==rhs && ((UpLo&(Lower|Upper)==UpLo)) ) { \
@@ -65,14 +65,14 @@ struct general_matrix_matrix_triangular_product<Index,Scalar,LhsStorageOrder,Con
   } \
 };
 
-EIGEN_BLAS_RANKUPDATE_SPECIALIZE(double)
-EIGEN_BLAS_RANKUPDATE_SPECIALIZE(float)
+HYDRA_EIGEN_BLAS_RANKUPDATE_SPECIALIZE(double)
+HYDRA_EIGEN_BLAS_RANKUPDATE_SPECIALIZE(float)
 // TODO handle complex cases
-// EIGEN_BLAS_RANKUPDATE_SPECIALIZE(dcomplex)
-// EIGEN_BLAS_RANKUPDATE_SPECIALIZE(scomplex)
+// HYDRA_EIGEN_BLAS_RANKUPDATE_SPECIALIZE(dcomplex)
+// HYDRA_EIGEN_BLAS_RANKUPDATE_SPECIALIZE(scomplex)
 
 // SYRK for float/double
-#define EIGEN_BLAS_RANKUPDATE_R(EIGTYPE, BLASTYPE, BLASFUNC) \
+#define HYDRA_EIGEN_BLAS_RANKUPDATE_R(EIGTYPE, BLASTYPE, BLASFUNC) \
 template <typename Index, int AStorageOrder, bool ConjugateA, int  UpLo> \
 struct general_matrix_matrix_rankupdate<Index,EIGTYPE,AStorageOrder,ConjugateA,ColMajor,UpLo> { \
   enum { \
@@ -80,7 +80,7 @@ struct general_matrix_matrix_rankupdate<Index,EIGTYPE,AStorageOrder,ConjugateA,C
     LowUp = IsLower ? Lower : Upper, \
     conjA = ((AStorageOrder==ColMajor) && ConjugateA) ? 1 : 0 \
   }; \
-  static EIGEN_STRONG_INLINE void run(Index size, Index depth,const EIGTYPE* lhs, Index lhsStride, \
+  static HYDRA_EIGEN_STRONG_INLINE void run(Index size, Index depth,const EIGTYPE* lhs, Index lhsStride, \
                           const EIGTYPE* /*rhs*/, Index /*rhsStride*/, EIGTYPE* res, Index resStride, EIGTYPE alpha, level3_blocking<EIGTYPE, EIGTYPE>& /*blocking*/) \
   { \
   /* typedef Matrix<EIGTYPE, Dynamic, Dynamic, RhsStorageOrder> MatrixRhs;*/ \
@@ -93,7 +93,7 @@ struct general_matrix_matrix_rankupdate<Index,EIGTYPE,AStorageOrder,ConjugateA,C
 };
 
 // HERK for complex data
-#define EIGEN_BLAS_RANKUPDATE_C(EIGTYPE, BLASTYPE, RTYPE, BLASFUNC) \
+#define HYDRA_EIGEN_BLAS_RANKUPDATE_C(EIGTYPE, BLASTYPE, RTYPE, BLASFUNC) \
 template <typename Index, int AStorageOrder, bool ConjugateA, int  UpLo> \
 struct general_matrix_matrix_rankupdate<Index,EIGTYPE,AStorageOrder,ConjugateA,ColMajor,UpLo> { \
   enum { \
@@ -101,7 +101,7 @@ struct general_matrix_matrix_rankupdate<Index,EIGTYPE,AStorageOrder,ConjugateA,C
     LowUp = IsLower ? Lower : Upper, \
     conjA = (((AStorageOrder==ColMajor) && ConjugateA) || ((AStorageOrder==RowMajor) && !ConjugateA)) ? 1 : 0 \
   }; \
-  static EIGEN_STRONG_INLINE void run(Index size, Index depth,const EIGTYPE* lhs, Index lhsStride, \
+  static HYDRA_EIGEN_STRONG_INLINE void run(Index size, Index depth,const EIGTYPE* lhs, Index lhsStride, \
                           const EIGTYPE* /*rhs*/, Index /*rhsStride*/, EIGTYPE* res, Index resStride, EIGTYPE alpha, level3_blocking<EIGTYPE, EIGTYPE>& /*blocking*/) \
   { \
    typedef Matrix<EIGTYPE, Dynamic, Dynamic, AStorageOrder> MatrixType; \
@@ -126,16 +126,16 @@ struct general_matrix_matrix_rankupdate<Index,EIGTYPE,AStorageOrder,ConjugateA,C
 };
 
 
-EIGEN_BLAS_RANKUPDATE_R(double, double, dsyrk_)
-EIGEN_BLAS_RANKUPDATE_R(float,  float,  ssyrk_)
+HYDRA_EIGEN_BLAS_RANKUPDATE_R(double, double, dsyrk_)
+HYDRA_EIGEN_BLAS_RANKUPDATE_R(float,  float,  ssyrk_)
 
 // TODO hanlde complex cases
-// EIGEN_BLAS_RANKUPDATE_C(dcomplex, double, double, zherk_)
-// EIGEN_BLAS_RANKUPDATE_C(scomplex, float,  float, cherk_)
+// HYDRA_EIGEN_BLAS_RANKUPDATE_C(dcomplex, double, double, zherk_)
+// HYDRA_EIGEN_BLAS_RANKUPDATE_C(scomplex, float,  float, cherk_)
 
 
 } // end namespace internal
 
 } /* end namespace Eigen */  HYDRA_EXTERNAL_NAMESPACE_END
 
-#endif // EIGEN_GENERAL_MATRIX_MATRIX_TRIANGULAR_BLAS_H
+#endif // HYDRA_EIGEN_GENERAL_MATRIX_MATRIX_TRIANGULAR_BLAS_H

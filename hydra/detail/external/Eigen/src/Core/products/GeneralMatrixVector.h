@@ -7,8 +7,8 @@
 // Public License v. 2.0. If a copy of the MPL was not distributed
 // with this file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
-#ifndef EIGEN_GENERAL_MATRIX_VECTOR_H
-#define EIGEN_GENERAL_MATRIX_VECTOR_H
+#ifndef HYDRA_EIGEN_GENERAL_MATRIX_VECTOR_H
+#define HYDRA_EIGEN_GENERAL_MATRIX_VECTOR_H
 
 HYDRA_EXTERNAL_NAMESPACE_BEGIN namespace Eigen {
 
@@ -76,7 +76,7 @@ typedef typename conditional<Vectorizable,_LhsPacket,LhsScalar>::type LhsPacket;
 typedef typename conditional<Vectorizable,_RhsPacket,RhsScalar>::type RhsPacket;
 typedef typename conditional<Vectorizable,_ResPacket,ResScalar>::type ResPacket;
 
-EIGEN_DONT_INLINE static void run(
+HYDRA_EIGEN_DONT_INLINE static void run(
   Index rows, Index cols,
   const LhsMapper& lhs,
   const RhsMapper& rhs,
@@ -85,19 +85,19 @@ EIGEN_DONT_INLINE static void run(
 };
 
 template<typename Index, typename LhsScalar, typename LhsMapper, bool ConjugateLhs, typename RhsScalar, typename RhsMapper, bool ConjugateRhs, int Version>
-EIGEN_DONT_INLINE void general_matrix_vector_product<Index,LhsScalar,LhsMapper,ColMajor,ConjugateLhs,RhsScalar,RhsMapper,ConjugateRhs,Version>::run(
+HYDRA_EIGEN_DONT_INLINE void general_matrix_vector_product<Index,LhsScalar,LhsMapper,ColMajor,ConjugateLhs,RhsScalar,RhsMapper,ConjugateRhs,Version>::run(
   Index rows, Index cols,
   const LhsMapper& lhs,
   const RhsMapper& rhs,
         ResScalar* res, Index resIncr,
   RhsScalar alpha)
 {
-  EIGEN_UNUSED_VARIABLE(resIncr);
+  HYDRA_EIGEN_UNUSED_VARIABLE(resIncr);
   eigen_internal_assert(resIncr==1);
-  #ifdef _EIGEN_ACCUMULATE_PACKETS
-  #error _EIGEN_ACCUMULATE_PACKETS has already been defined
+  #ifdef _HYDRA_EIGEN_ACCUMULATE_PACKETS
+  #error _HYDRA_EIGEN_ACCUMULATE_PACKETS has already been defined
   #endif
-  #define _EIGEN_ACCUMULATE_PACKETS(Alignment0,Alignment13,Alignment2) \
+  #define _HYDRA_EIGEN_ACCUMULATE_PACKETS(Alignment0,Alignment13,Alignment2) \
     pstore(&res[j], \
       padd(pload<ResPacket>(&res[j]), \
         padd( \
@@ -216,11 +216,11 @@ EIGEN_DONT_INLINE void general_matrix_vector_product<Index,LhsScalar,LhsMapper,C
         {
           case AllAligned:
             for (Index j = alignedStart; j<alignedSize; j+=ResPacketSize)
-              _EIGEN_ACCUMULATE_PACKETS(Aligned,Aligned,Aligned);
+              _HYDRA_EIGEN_ACCUMULATE_PACKETS(Aligned,Aligned,Aligned);
             break;
           case EvenAligned:
             for (Index j = alignedStart; j<alignedSize; j+=ResPacketSize)
-              _EIGEN_ACCUMULATE_PACKETS(Aligned,Unaligned,Aligned);
+              _HYDRA_EIGEN_ACCUMULATE_PACKETS(Aligned,Unaligned,Aligned);
             break;
           case FirstAligned:
           {
@@ -259,12 +259,12 @@ EIGEN_DONT_INLINE void general_matrix_vector_product<Index,LhsScalar,LhsMapper,C
               }
             }
             for (; j<alignedSize; j+=ResPacketSize)
-              _EIGEN_ACCUMULATE_PACKETS(Aligned,Unaligned,Unaligned);
+              _HYDRA_EIGEN_ACCUMULATE_PACKETS(Aligned,Unaligned,Unaligned);
             break;
           }
           default:
             for (Index j = alignedStart; j<alignedSize; j+=ResPacketSize)
-              _EIGEN_ACCUMULATE_PACKETS(Unaligned,Unaligned,Unaligned);
+              _HYDRA_EIGEN_ACCUMULATE_PACKETS(Unaligned,Unaligned,Unaligned);
             break;
         }
       }
@@ -318,7 +318,7 @@ EIGEN_DONT_INLINE void general_matrix_vector_product<Index,LhsScalar,LhsMapper,C
     else
       break;
   } while(Vectorizable);
-  #undef _EIGEN_ACCUMULATE_PACKETS
+  #undef _HYDRA_EIGEN_ACCUMULATE_PACKETS
 }
 
 /* Optimized row-major matrix * vector product:
@@ -352,7 +352,7 @@ typedef typename conditional<Vectorizable,_LhsPacket,LhsScalar>::type LhsPacket;
 typedef typename conditional<Vectorizable,_RhsPacket,RhsScalar>::type RhsPacket;
 typedef typename conditional<Vectorizable,_ResPacket,ResScalar>::type ResPacket;
 
-EIGEN_DONT_INLINE static void run(
+HYDRA_EIGEN_DONT_INLINE static void run(
   Index rows, Index cols,
   const LhsMapper& lhs,
   const RhsMapper& rhs,
@@ -361,7 +361,7 @@ EIGEN_DONT_INLINE static void run(
 };
 
 template<typename Index, typename LhsScalar, typename LhsMapper, bool ConjugateLhs, typename RhsScalar, typename RhsMapper, bool ConjugateRhs, int Version>
-EIGEN_DONT_INLINE void general_matrix_vector_product<Index,LhsScalar,LhsMapper,RowMajor,ConjugateLhs,RhsScalar,RhsMapper,ConjugateRhs,Version>::run(
+HYDRA_EIGEN_DONT_INLINE void general_matrix_vector_product<Index,LhsScalar,LhsMapper,RowMajor,ConjugateLhs,RhsScalar,RhsMapper,ConjugateRhs,Version>::run(
   Index rows, Index cols,
   const LhsMapper& lhs,
   const RhsMapper& rhs,
@@ -370,11 +370,11 @@ EIGEN_DONT_INLINE void general_matrix_vector_product<Index,LhsScalar,LhsMapper,R
 {
   eigen_internal_assert(rhs.stride()==1);
 
-  #ifdef _EIGEN_ACCUMULATE_PACKETS
-  #error _EIGEN_ACCUMULATE_PACKETS has already been defined
+  #ifdef _HYDRA_EIGEN_ACCUMULATE_PACKETS
+  #error _HYDRA_EIGEN_ACCUMULATE_PACKETS has already been defined
   #endif
 
-  #define _EIGEN_ACCUMULATE_PACKETS(Alignment0,Alignment13,Alignment2) {\
+  #define _HYDRA_EIGEN_ACCUMULATE_PACKETS(Alignment0,Alignment13,Alignment2) {\
     RhsPacket b = rhs.getVectorMapper(j, 0).template load<RhsPacket, Aligned>(0);  \
     ptmp0 = pcj.pmadd(lhs0.template load<LhsPacket, Alignment0>(j), b, ptmp0); \
     ptmp1 = pcj.pmadd(lhs1.template load<LhsPacket, Alignment13>(j), b, ptmp1); \
@@ -463,8 +463,8 @@ EIGEN_DONT_INLINE void general_matrix_vector_product<Index,LhsScalar,LhsMapper,R
   Index rowBound = ((rows-skipRows)/rowsAtOnce)*rowsAtOnce + skipRows;
   for (Index i=skipRows; i<rowBound; i+=rowsAtOnce)
   {
-    // FIXME: what is the purpose of this EIGEN_ALIGN_DEFAULT ??
-    EIGEN_ALIGN_MAX ResScalar tmp0 = ResScalar(0);
+    // FIXME: what is the purpose of this HYDRA_EIGEN_ALIGN_DEFAULT ??
+    HYDRA_EIGEN_ALIGN_MAX ResScalar tmp0 = ResScalar(0);
     ResScalar tmp1 = ResScalar(0), tmp2 = ResScalar(0), tmp3 = ResScalar(0);
 
     // this helps the compiler generating good binary code
@@ -492,11 +492,11 @@ EIGEN_DONT_INLINE void general_matrix_vector_product<Index,LhsScalar,LhsMapper,R
         {
           case AllAligned:
             for (Index j = alignedStart; j<alignedSize; j+=RhsPacketSize)
-              _EIGEN_ACCUMULATE_PACKETS(Aligned,Aligned,Aligned);
+              _HYDRA_EIGEN_ACCUMULATE_PACKETS(Aligned,Aligned,Aligned);
             break;
           case EvenAligned:
             for (Index j = alignedStart; j<alignedSize; j+=RhsPacketSize)
-              _EIGEN_ACCUMULATE_PACKETS(Aligned,Unaligned,Aligned);
+              _HYDRA_EIGEN_ACCUMULATE_PACKETS(Aligned,Unaligned,Aligned);
             break;
           case FirstAligned:
           {
@@ -537,12 +537,12 @@ EIGEN_DONT_INLINE void general_matrix_vector_product<Index,LhsScalar,LhsMapper,R
               }
             }
             for (; j<alignedSize; j+=RhsPacketSize)
-              _EIGEN_ACCUMULATE_PACKETS(Aligned,Unaligned,Unaligned);
+              _HYDRA_EIGEN_ACCUMULATE_PACKETS(Aligned,Unaligned,Unaligned);
             break;
           }
           default:
             for (Index j = alignedStart; j<alignedSize; j+=RhsPacketSize)
-              _EIGEN_ACCUMULATE_PACKETS(Unaligned,Unaligned,Unaligned);
+              _HYDRA_EIGEN_ACCUMULATE_PACKETS(Unaligned,Unaligned,Unaligned);
             break;
         }
         tmp0 += predux(ptmp0);
@@ -573,7 +573,7 @@ EIGEN_DONT_INLINE void general_matrix_vector_product<Index,LhsScalar,LhsMapper,R
   {
     for (Index i=start; i<end; ++i)
     {
-      EIGEN_ALIGN_MAX ResScalar tmp0 = ResScalar(0);
+      HYDRA_EIGEN_ALIGN_MAX ResScalar tmp0 = ResScalar(0);
       ResPacket ptmp0 = pset1<ResPacket>(tmp0);
       const LhsScalars lhs0 = lhs.getVectorMapper(i, 0);
       // process first unaligned result's coeffs
@@ -609,11 +609,11 @@ EIGEN_DONT_INLINE void general_matrix_vector_product<Index,LhsScalar,LhsMapper,R
       break;
   } while(Vectorizable);
 
-  #undef _EIGEN_ACCUMULATE_PACKETS
+  #undef _HYDRA_EIGEN_ACCUMULATE_PACKETS
 }
 
 } // end namespace internal
 
 } /* end namespace Eigen */  HYDRA_EXTERNAL_NAMESPACE_END
 
-#endif // EIGEN_GENERAL_MATRIX_VECTOR_H
+#endif // HYDRA_EIGEN_GENERAL_MATRIX_VECTOR_H

@@ -9,33 +9,33 @@
  * Julien Pommier's sse math library: http://gruntthepeon.free.fr/ssemath/
  */
 
-#ifndef EIGEN_MATH_FUNCTIONS_NEON_H
-#define EIGEN_MATH_FUNCTIONS_NEON_H
+#ifndef HYDRA_EIGEN_MATH_FUNCTIONS_NEON_H
+#define HYDRA_EIGEN_MATH_FUNCTIONS_NEON_H
 
 HYDRA_EXTERNAL_NAMESPACE_BEGIN namespace Eigen {
 
 namespace internal {
 
-template<> EIGEN_DEFINE_FUNCTION_ALLOWING_MULTIPLE_DEFINITIONS EIGEN_UNUSED
+template<> HYDRA_EIGEN_DEFINE_FUNCTION_ALLOWING_MULTIPLE_DEFINITIONS HYDRA_EIGEN_UNUSED
 Packet4f pexp<Packet4f>(const Packet4f& _x)
 {
   Packet4f x = _x;
   Packet4f tmp, fx;
 
-  _EIGEN_DECLARE_CONST_Packet4f(1 , 1.0f);
-  _EIGEN_DECLARE_CONST_Packet4f(half, 0.5f);
-  _EIGEN_DECLARE_CONST_Packet4i(0x7f, 0x7f);
-  _EIGEN_DECLARE_CONST_Packet4f(exp_hi,  88.3762626647950f);
-  _EIGEN_DECLARE_CONST_Packet4f(exp_lo, -88.3762626647949f);
-  _EIGEN_DECLARE_CONST_Packet4f(cephes_LOG2EF, 1.44269504088896341f);
-  _EIGEN_DECLARE_CONST_Packet4f(cephes_exp_C1, 0.693359375f);
-  _EIGEN_DECLARE_CONST_Packet4f(cephes_exp_C2, -2.12194440e-4f);
-  _EIGEN_DECLARE_CONST_Packet4f(cephes_exp_p0, 1.9875691500E-4f);
-  _EIGEN_DECLARE_CONST_Packet4f(cephes_exp_p1, 1.3981999507E-3f);
-  _EIGEN_DECLARE_CONST_Packet4f(cephes_exp_p2, 8.3334519073E-3f);
-  _EIGEN_DECLARE_CONST_Packet4f(cephes_exp_p3, 4.1665795894E-2f);
-  _EIGEN_DECLARE_CONST_Packet4f(cephes_exp_p4, 1.6666665459E-1f);
-  _EIGEN_DECLARE_CONST_Packet4f(cephes_exp_p5, 5.0000001201E-1f);
+  _HYDRA_EIGEN_DECLARE_CONST_Packet4f(1 , 1.0f);
+  _HYDRA_EIGEN_DECLARE_CONST_Packet4f(half, 0.5f);
+  _HYDRA_EIGEN_DECLARE_CONST_Packet4i(0x7f, 0x7f);
+  _HYDRA_EIGEN_DECLARE_CONST_Packet4f(exp_hi,  88.3762626647950f);
+  _HYDRA_EIGEN_DECLARE_CONST_Packet4f(exp_lo, -88.3762626647949f);
+  _HYDRA_EIGEN_DECLARE_CONST_Packet4f(cephes_LOG2EF, 1.44269504088896341f);
+  _HYDRA_EIGEN_DECLARE_CONST_Packet4f(cephes_exp_C1, 0.693359375f);
+  _HYDRA_EIGEN_DECLARE_CONST_Packet4f(cephes_exp_C2, -2.12194440e-4f);
+  _HYDRA_EIGEN_DECLARE_CONST_Packet4f(cephes_exp_p0, 1.9875691500E-4f);
+  _HYDRA_EIGEN_DECLARE_CONST_Packet4f(cephes_exp_p1, 1.3981999507E-3f);
+  _HYDRA_EIGEN_DECLARE_CONST_Packet4f(cephes_exp_p2, 8.3334519073E-3f);
+  _HYDRA_EIGEN_DECLARE_CONST_Packet4f(cephes_exp_p3, 4.1665795894E-2f);
+  _HYDRA_EIGEN_DECLARE_CONST_Packet4f(cephes_exp_p4, 1.6666665459E-1f);
+  _HYDRA_EIGEN_DECLARE_CONST_Packet4f(cephes_exp_p5, 5.0000001201E-1f);
 
   x = vminq_f32(x, p4f_exp_hi);
   x = vmaxq_f32(x, p4f_exp_lo);
@@ -88,4 +88,4 @@ Packet4f pexp<Packet4f>(const Packet4f& _x)
 
 } /* end namespace Eigen */  HYDRA_EXTERNAL_NAMESPACE_END
 
-#endif // EIGEN_MATH_FUNCTIONS_NEON_H
+#endif // HYDRA_EIGEN_MATH_FUNCTIONS_NEON_H

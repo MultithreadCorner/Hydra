@@ -30,14 +30,14 @@
  ********************************************************************************
 */
 
-#ifndef EIGEN_REAL_SCHUR_LAPACKE_H
-#define EIGEN_REAL_SCHUR_LAPACKE_H
+#ifndef HYDRA_EIGEN_REAL_SCHUR_LAPACKE_H
+#define HYDRA_EIGEN_REAL_SCHUR_LAPACKE_H
 
 HYDRA_EXTERNAL_NAMESPACE_BEGIN namespace Eigen { 
 
 /** \internal Specialization for the data types supported by LAPACKe */
 
-#define EIGEN_LAPACKE_SCHUR_REAL(EIGTYPE, LAPACKE_TYPE, LAPACKE_PREFIX, LAPACKE_PREFIX_U, EIGCOLROW, LAPACKE_COLROW) \
+#define HYDRA_EIGEN_LAPACKE_SCHUR_REAL(EIGTYPE, LAPACKE_TYPE, LAPACKE_PREFIX, LAPACKE_PREFIX_U, EIGCOLROW, LAPACKE_COLROW) \
 template<> template<typename InputType> inline \
 RealSchur<Matrix<EIGTYPE, Dynamic, Dynamic, EIGCOLROW> >& \
 RealSchur<Matrix<EIGTYPE, Dynamic, Dynamic, EIGCOLROW> >::compute(const EigenBase<InputType>& matrix, bool computeU) \
@@ -67,11 +67,11 @@ RealSchur<Matrix<EIGTYPE, Dynamic, Dynamic, EIGCOLROW> >::compute(const EigenBas
 \
 }
 
-EIGEN_LAPACKE_SCHUR_REAL(double,   double, d, D, ColMajor, LAPACK_COL_MAJOR)
-EIGEN_LAPACKE_SCHUR_REAL(float,    float,  s, S, ColMajor, LAPACK_COL_MAJOR)
-EIGEN_LAPACKE_SCHUR_REAL(double,   double, d, D, RowMajor, LAPACK_ROW_MAJOR)
-EIGEN_LAPACKE_SCHUR_REAL(float,    float,  s, S, RowMajor, LAPACK_ROW_MAJOR)
+HYDRA_EIGEN_LAPACKE_SCHUR_REAL(double,   double, d, D, ColMajor, LAPACK_COL_MAJOR)
+HYDRA_EIGEN_LAPACKE_SCHUR_REAL(float,    float,  s, S, ColMajor, LAPACK_COL_MAJOR)
+HYDRA_EIGEN_LAPACKE_SCHUR_REAL(double,   double, d, D, RowMajor, LAPACK_ROW_MAJOR)
+HYDRA_EIGEN_LAPACKE_SCHUR_REAL(float,    float,  s, S, RowMajor, LAPACK_ROW_MAJOR)
 
 } /* end namespace Eigen */  HYDRA_EXTERNAL_NAMESPACE_END
 
-#endif // EIGEN_REAL_SCHUR_LAPACKE_H
+#endif // HYDRA_EIGEN_REAL_SCHUR_LAPACKE_H

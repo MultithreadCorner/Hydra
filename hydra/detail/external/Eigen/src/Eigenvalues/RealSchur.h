@@ -8,8 +8,8 @@
 // Public License v. 2.0. If a copy of the MPL was not distributed
 // with this file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
-#ifndef EIGEN_REAL_SCHUR_H
-#define EIGEN_REAL_SCHUR_H
+#ifndef HYDRA_EIGEN_REAL_SCHUR_H
+#define HYDRA_EIGEN_REAL_SCHUR_H
 
 #include "./HessenbergDecomposition.h"
 
@@ -543,4 +543,4 @@ inline void RealSchur<MatrixType>::performFrancisQRStep(Index il, Index im, Inde
 
 } /* end namespace Eigen */  HYDRA_EXTERNAL_NAMESPACE_END
 
-#endif // EIGEN_REAL_SCHUR_H
+#endif // HYDRA_EIGEN_REAL_SCHUR_H

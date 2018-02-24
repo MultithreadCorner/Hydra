@@ -8,8 +8,8 @@
 // Public License v. 2.0. If a copy of the MPL was not distributed
 // with this file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
-#ifndef EIGEN_MATRIXBASE_H
-#define EIGEN_MATRIXBASE_H
+#ifndef HYDRA_EIGEN_MATRIXBASE_H
+#define HYDRA_EIGEN_MATRIXBASE_H
 
 HYDRA_EXTERNAL_NAMESPACE_BEGIN namespace Eigen {
 
@@ -41,7 +41,7 @@ HYDRA_EXTERNAL_NAMESPACE_BEGIN namespace Eigen {
   * \endcode
   *
   * This class can be extended with the help of the plugin mechanism described on the page
-  * \ref TopicCustomizing_Plugins by defining the preprocessor symbol \c EIGEN_MATRIXBASE_PLUGIN.
+  * \ref TopicCustomizing_Plugins by defining the preprocessor symbol \c HYDRA_EIGEN_MATRIXBASE_PLUGIN.
   *
   * \sa \blank \ref TopicClassHierarchy
   */
@@ -49,7 +49,7 @@ template<typename Derived> class MatrixBase
   : public DenseBase<Derived>
 {
   public:
-#ifndef EIGEN_PARSED_BY_DOXYGEN
+#ifndef HYDRA_EIGEN_PARSED_BY_DOXYGEN
     typedef MatrixBase StorageBaseType;
     typedef typename internal::traits<Derived>::StorageKind StorageKind;
     typedef typename internal::traits<Derived>::StorageIndex StorageIndex;
@@ -85,24 +85,24 @@ template<typename Derived> class MatrixBase
     typedef typename Base::ConstTransposeReturnType ConstTransposeReturnType;
     typedef typename Base::RowXpr RowXpr;
     typedef typename Base::ColXpr ColXpr;
-#endif // not EIGEN_PARSED_BY_DOXYGEN
+#endif // not HYDRA_EIGEN_PARSED_BY_DOXYGEN
 
 
 
-#ifndef EIGEN_PARSED_BY_DOXYGEN
+#ifndef HYDRA_EIGEN_PARSED_BY_DOXYGEN
     /** type of the equivalent square matrix */
-    typedef Matrix<Scalar,EIGEN_SIZE_MAX(RowsAtCompileTime,ColsAtCompileTime),
-                          EIGEN_SIZE_MAX(RowsAtCompileTime,ColsAtCompileTime)> SquareMatrixType;
-#endif // not EIGEN_PARSED_BY_DOXYGEN
+    typedef Matrix<Scalar,HYDRA_EIGEN_SIZE_MAX(RowsAtCompileTime,ColsAtCompileTime),
+                          HYDRA_EIGEN_SIZE_MAX(RowsAtCompileTime,ColsAtCompileTime)> SquareMatrixType;
+#endif // not HYDRA_EIGEN_PARSED_BY_DOXYGEN
 
     /** \returns the size of the main diagonal, which is min(rows(),cols()).
       * \sa rows(), cols(), SizeAtCompileTime. */
-    EIGEN_DEVICE_FUNC
+    HYDRA_EIGEN_DEVICE_FUNC
     inline Index diagonalSize() const { return (numext::mini)(rows(),cols()); }
 
     typedef typename Base::PlainObject PlainObject;
 
-#ifndef EIGEN_PARSED_BY_DOXYGEN
+#ifndef HYDRA_EIGEN_PARSED_BY_DOXYGEN
     /** \internal Represents a matrix with all coefficients equal to one another*/
     typedef CwiseNullaryOp<internal::scalar_constant_op<Scalar>,PlainObject> ConstantReturnType;
     /** \internal the return type of MatrixBase::adjoint() */
@@ -118,51 +118,51 @@ template<typename Derived> class MatrixBase
     typedef Block<const CwiseNullaryOp<internal::scalar_identity_op<Scalar>, SquareMatrixType>,
                   internal::traits<Derived>::RowsAtCompileTime,
                   internal::traits<Derived>::ColsAtCompileTime> BasisReturnType;
-#endif // not EIGEN_PARSED_BY_DOXYGEN
+#endif // not HYDRA_EIGEN_PARSED_BY_DOXYGEN
 
-#define EIGEN_CURRENT_STORAGE_BASE_CLASS HYDRA_EXTERNAL_NS::Eigen::MatrixBase
-#define EIGEN_DOC_UNARY_ADDONS(X,Y)
+#define HYDRA_EIGEN_CURRENT_STORAGE_BASE_CLASS HYDRA_EXTERNAL_NS::Eigen::MatrixBase
+#define HYDRA_EIGEN_DOC_UNARY_ADDONS(X,Y)
 #   include "../plugins/CommonCwiseUnaryOps.h"
 #   include "../plugins/CommonCwiseBinaryOps.h"
 #   include "../plugins/MatrixCwiseUnaryOps.h"
 #   include "../plugins/MatrixCwiseBinaryOps.h"
-#   ifdef EIGEN_MATRIXBASE_PLUGIN
-#     include EIGEN_MATRIXBASE_PLUGIN
+#   ifdef HYDRA_EIGEN_MATRIXBASE_PLUGIN
+#     include HYDRA_EIGEN_MATRIXBASE_PLUGIN
 #   endif
-#undef EIGEN_CURRENT_STORAGE_BASE_CLASS
-#undef EIGEN_DOC_UNARY_ADDONS
+#undef HYDRA_EIGEN_CURRENT_STORAGE_BASE_CLASS
+#undef HYDRA_EIGEN_DOC_UNARY_ADDONS
 
     /** Special case of the template operator=, in order to prevent the compiler
       * from generating a default operator= (issue hit with g++ 4.1)
       */
-    EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE
+    HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE
     Derived& operator=(const MatrixBase& other);
 
     // We cannot inherit here via Base::operator= since it is causing
     // trouble with MSVC.
 
     template <typename OtherDerived>
-    EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE
+    HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE
     Derived& operator=(const DenseBase<OtherDerived>& other);
 
     template <typename OtherDerived>
-    EIGEN_DEVICE_FUNC
+    HYDRA_EIGEN_DEVICE_FUNC
     Derived& operator=(const EigenBase<OtherDerived>& other);
 
     template<typename OtherDerived>
-    EIGEN_DEVICE_FUNC
+    HYDRA_EIGEN_DEVICE_FUNC
     Derived& operator=(const ReturnByValue<OtherDerived>& other);
 
     template<typename OtherDerived>
-    EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE
+    HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE
     Derived& operator+=(const MatrixBase<OtherDerived>& other);
     template<typename OtherDerived>
-    EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE
+    HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE
     Derived& operator-=(const MatrixBase<OtherDerived>& other);
 
 #ifdef __CUDACC__
     template<typename OtherDerived>
-    EIGEN_DEVICE_FUNC
+    HYDRA_EIGEN_DEVICE_FUNC
     const Product<Derived,OtherDerived,LazyProduct>
     operator*(const MatrixBase<OtherDerived> &other) const
     { return this->lazyProduct(other); }
@@ -175,7 +175,7 @@ template<typename Derived> class MatrixBase
 #endif
 
     template<typename OtherDerived>
-    EIGEN_DEVICE_FUNC
+    HYDRA_EIGEN_DEVICE_FUNC
     const Product<Derived,OtherDerived,LazyProduct>
     lazyProduct(const MatrixBase<OtherDerived> &other) const;
 
@@ -189,93 +189,93 @@ template<typename Derived> class MatrixBase
     void applyOnTheRight(const EigenBase<OtherDerived>& other);
 
     template<typename DiagonalDerived>
-    EIGEN_DEVICE_FUNC
+    HYDRA_EIGEN_DEVICE_FUNC
     const Product<Derived, DiagonalDerived, LazyProduct>
     operator*(const DiagonalBase<DiagonalDerived> &diagonal) const;
 
     template<typename OtherDerived>
-    EIGEN_DEVICE_FUNC
+    HYDRA_EIGEN_DEVICE_FUNC
     typename ScalarBinaryOpTraits<typename internal::traits<Derived>::Scalar,typename internal::traits<OtherDerived>::Scalar>::ReturnType
     dot(const MatrixBase<OtherDerived>& other) const;
 
-    EIGEN_DEVICE_FUNC RealScalar squaredNorm() const;
-    EIGEN_DEVICE_FUNC RealScalar norm() const;
+    HYDRA_EIGEN_DEVICE_FUNC RealScalar squaredNorm() const;
+    HYDRA_EIGEN_DEVICE_FUNC RealScalar norm() const;
     RealScalar stableNorm() const;
     RealScalar blueNorm() const;
     RealScalar hypotNorm() const;
-    EIGEN_DEVICE_FUNC const PlainObject normalized() const;
-    EIGEN_DEVICE_FUNC const PlainObject stableNormalized() const;
-    EIGEN_DEVICE_FUNC void normalize();
-    EIGEN_DEVICE_FUNC void stableNormalize();
+    HYDRA_EIGEN_DEVICE_FUNC const PlainObject normalized() const;
+    HYDRA_EIGEN_DEVICE_FUNC const PlainObject stableNormalized() const;
+    HYDRA_EIGEN_DEVICE_FUNC void normalize();
+    HYDRA_EIGEN_DEVICE_FUNC void stableNormalize();
 
-    EIGEN_DEVICE_FUNC const AdjointReturnType adjoint() const;
-    EIGEN_DEVICE_FUNC void adjointInPlace();
+    HYDRA_EIGEN_DEVICE_FUNC const AdjointReturnType adjoint() const;
+    HYDRA_EIGEN_DEVICE_FUNC void adjointInPlace();
 
     typedef Diagonal<Derived> DiagonalReturnType;
-    EIGEN_DEVICE_FUNC
+    HYDRA_EIGEN_DEVICE_FUNC
     DiagonalReturnType diagonal();
 
     typedef typename internal::add_const<Diagonal<const Derived> >::type ConstDiagonalReturnType;
-    EIGEN_DEVICE_FUNC
+    HYDRA_EIGEN_DEVICE_FUNC
     ConstDiagonalReturnType diagonal() const;
 
     template<int Index> struct DiagonalIndexReturnType { typedef Diagonal<Derived,Index> Type; };
     template<int Index> struct ConstDiagonalIndexReturnType { typedef const Diagonal<const Derived,Index> Type; };
 
     template<int Index>
-    EIGEN_DEVICE_FUNC
+    HYDRA_EIGEN_DEVICE_FUNC
     typename DiagonalIndexReturnType<Index>::Type diagonal();
 
     template<int Index>
-    EIGEN_DEVICE_FUNC
+    HYDRA_EIGEN_DEVICE_FUNC
     typename ConstDiagonalIndexReturnType<Index>::Type diagonal() const;
 
     typedef Diagonal<Derived,DynamicIndex> DiagonalDynamicIndexReturnType;
     typedef typename internal::add_const<Diagonal<const Derived,DynamicIndex> >::type ConstDiagonalDynamicIndexReturnType;
 
-    EIGEN_DEVICE_FUNC
+    HYDRA_EIGEN_DEVICE_FUNC
     DiagonalDynamicIndexReturnType diagonal(Index index);
-    EIGEN_DEVICE_FUNC
+    HYDRA_EIGEN_DEVICE_FUNC
     ConstDiagonalDynamicIndexReturnType diagonal(Index index) const;
 
     template<unsigned int Mode> struct TriangularViewReturnType { typedef TriangularView<Derived, Mode> Type; };
     template<unsigned int Mode> struct ConstTriangularViewReturnType { typedef const TriangularView<const Derived, Mode> Type; };
 
     template<unsigned int Mode>
-    EIGEN_DEVICE_FUNC
+    HYDRA_EIGEN_DEVICE_FUNC
     typename TriangularViewReturnType<Mode>::Type triangularView();
     template<unsigned int Mode>
-    EIGEN_DEVICE_FUNC
+    HYDRA_EIGEN_DEVICE_FUNC
     typename ConstTriangularViewReturnType<Mode>::Type triangularView() const;
 
     template<unsigned int UpLo> struct SelfAdjointViewReturnType { typedef SelfAdjointView<Derived, UpLo> Type; };
     template<unsigned int UpLo> struct ConstSelfAdjointViewReturnType { typedef const SelfAdjointView<const Derived, UpLo> Type; };
 
     template<unsigned int UpLo>
-    EIGEN_DEVICE_FUNC
+    HYDRA_EIGEN_DEVICE_FUNC
     typename SelfAdjointViewReturnType<UpLo>::Type selfadjointView();
     template<unsigned int UpLo>
-    EIGEN_DEVICE_FUNC
+    HYDRA_EIGEN_DEVICE_FUNC
     typename ConstSelfAdjointViewReturnType<UpLo>::Type selfadjointView() const;
 
     const SparseView<Derived> sparseView(const Scalar& m_reference = Scalar(0),
                                          const typename NumTraits<Scalar>::Real& m_epsilon = NumTraits<Scalar>::dummy_precision()) const;
-    EIGEN_DEVICE_FUNC static const IdentityReturnType Identity();
-    EIGEN_DEVICE_FUNC static const IdentityReturnType Identity(Index rows, Index cols);
-    EIGEN_DEVICE_FUNC static const BasisReturnType Unit(Index size, Index i);
-    EIGEN_DEVICE_FUNC static const BasisReturnType Unit(Index i);
-    EIGEN_DEVICE_FUNC static const BasisReturnType UnitX();
-    EIGEN_DEVICE_FUNC static const BasisReturnType UnitY();
-    EIGEN_DEVICE_FUNC static const BasisReturnType UnitZ();
-    EIGEN_DEVICE_FUNC static const BasisReturnType UnitW();
+    HYDRA_EIGEN_DEVICE_FUNC static const IdentityReturnType Identity();
+    HYDRA_EIGEN_DEVICE_FUNC static const IdentityReturnType Identity(Index rows, Index cols);
+    HYDRA_EIGEN_DEVICE_FUNC static const BasisReturnType Unit(Index size, Index i);
+    HYDRA_EIGEN_DEVICE_FUNC static const BasisReturnType Unit(Index i);
+    HYDRA_EIGEN_DEVICE_FUNC static const BasisReturnType UnitX();
+    HYDRA_EIGEN_DEVICE_FUNC static const BasisReturnType UnitY();
+    HYDRA_EIGEN_DEVICE_FUNC static const BasisReturnType UnitZ();
+    HYDRA_EIGEN_DEVICE_FUNC static const BasisReturnType UnitW();
 
-    EIGEN_DEVICE_FUNC
+    HYDRA_EIGEN_DEVICE_FUNC
     const DiagonalWrapper<const Derived> asDiagonal() const;
     const PermutationWrapper<const Derived> asPermutation() const;
 
-    EIGEN_DEVICE_FUNC
+    HYDRA_EIGEN_DEVICE_FUNC
     Derived& setIdentity();
-    EIGEN_DEVICE_FUNC
+    HYDRA_EIGEN_DEVICE_FUNC
     Derived& setIdentity(Index rows, Index cols);
 
     bool isIdentity(const RealScalar& prec = NumTraits<Scalar>::dummy_precision()) const;
@@ -294,7 +294,7 @@ template<typename Derived> class MatrixBase
       *          fuzzy comparison such as isApprox()
       * \sa isApprox(), operator!= */
     template<typename OtherDerived>
-    EIGEN_DEVICE_FUNC inline bool operator==(const MatrixBase<OtherDerived>& other) const
+    HYDRA_EIGEN_DEVICE_FUNC inline bool operator==(const MatrixBase<OtherDerived>& other) const
     { return cwiseEqual(other).all(); }
 
     /** \returns true if at least one pair of coefficients of \c *this and \a other are not exactly equal to each other.
@@ -302,7 +302,7 @@ template<typename Derived> class MatrixBase
       *          fuzzy comparison such as isApprox()
       * \sa isApprox(), operator== */
     template<typename OtherDerived>
-    EIGEN_DEVICE_FUNC inline bool operator!=(const MatrixBase<OtherDerived>& other) const
+    HYDRA_EIGEN_DEVICE_FUNC inline bool operator!=(const MatrixBase<OtherDerived>& other) const
     { return cwiseNotEqual(other).any(); }
 
     NoAlias<Derived,HYDRA_EXTERNAL_NS::Eigen::MatrixBase > noalias();
@@ -314,19 +314,19 @@ template<typename Derived> class MatrixBase
     template<bool Enable> inline const Derived& forceAlignedAccessIf() const { return derived(); }
     template<bool Enable> inline Derived& forceAlignedAccessIf() { return derived(); }
 
-    EIGEN_DEVICE_FUNC Scalar trace() const;
+    HYDRA_EIGEN_DEVICE_FUNC Scalar trace() const;
 
-    template<int p> EIGEN_DEVICE_FUNC RealScalar lpNorm() const;
+    template<int p> HYDRA_EIGEN_DEVICE_FUNC RealScalar lpNorm() const;
 
-    EIGEN_DEVICE_FUNC MatrixBase<Derived>& matrix() { return *this; }
-    EIGEN_DEVICE_FUNC const MatrixBase<Derived>& matrix() const { return *this; }
+    HYDRA_EIGEN_DEVICE_FUNC MatrixBase<Derived>& matrix() { return *this; }
+    HYDRA_EIGEN_DEVICE_FUNC const MatrixBase<Derived>& matrix() const { return *this; }
 
     /** \returns an \link HYDRA_EXTERNAL_NS::Eigen::ArrayBase Array \endlink expression of this matrix
       * \sa ArrayBase::matrix() */
-    EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE ArrayWrapper<Derived> array() { return ArrayWrapper<Derived>(derived()); }
+    HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE ArrayWrapper<Derived> array() { return ArrayWrapper<Derived>(derived()); }
     /** \returns a const \link HYDRA_EXTERNAL_NS::Eigen::ArrayBase Array \endlink expression of this matrix
       * \sa ArrayBase::matrix() */
-    EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE const ArrayWrapper<const Derived> array() const { return ArrayWrapper<const Derived>(derived()); }
+    HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE const ArrayWrapper<const Derived> array() const { return ArrayWrapper<const Derived>(derived()); }
 
 /////////// LU module ///////////
 
@@ -376,16 +376,16 @@ template<typename Derived> class MatrixBase
 
 /////////// Geometry module ///////////
 
-    #ifndef EIGEN_PARSED_BY_DOXYGEN
+    #ifndef HYDRA_EIGEN_PARSED_BY_DOXYGEN
     /// \internal helper struct to form the return type of the cross product
     template<typename OtherDerived> struct cross_product_return_type {
       typedef typename ScalarBinaryOpTraits<typename internal::traits<Derived>::Scalar,typename internal::traits<OtherDerived>::Scalar>::ReturnType Scalar;
       typedef Matrix<Scalar,MatrixBase::RowsAtCompileTime,MatrixBase::ColsAtCompileTime> type;
     };
-    #endif // EIGEN_PARSED_BY_DOXYGEN
+    #endif // HYDRA_EIGEN_PARSED_BY_DOXYGEN
     template<typename OtherDerived>
-    EIGEN_DEVICE_FUNC
-#ifndef EIGEN_PARSED_BY_DOXYGEN
+    HYDRA_EIGEN_DEVICE_FUNC
+#ifndef HYDRA_EIGEN_PARSED_BY_DOXYGEN
     inline typename cross_product_return_type<OtherDerived>::type
 #else
     inline PlainObject
@@ -393,20 +393,20 @@ template<typename Derived> class MatrixBase
     cross(const MatrixBase<OtherDerived>& other) const;
 
     template<typename OtherDerived>
-    EIGEN_DEVICE_FUNC
+    HYDRA_EIGEN_DEVICE_FUNC
     inline PlainObject cross3(const MatrixBase<OtherDerived>& other) const;
 
-    EIGEN_DEVICE_FUNC
+    HYDRA_EIGEN_DEVICE_FUNC
     inline PlainObject unitOrthogonal(void) const;
 
-    EIGEN_DEVICE_FUNC
+    HYDRA_EIGEN_DEVICE_FUNC
     inline Matrix<Scalar,3,1> eulerAngles(Index a0, Index a1, Index a2) const;
 
     // put this as separate enum value to work around possible GCC 4.3 bug (?)
     enum { HomogeneousReturnTypeDirection = ColsAtCompileTime==1&&RowsAtCompileTime==1 ? ((internal::traits<Derived>::Flags&RowMajorBit)==RowMajorBit ? Horizontal : Vertical)
                                           : ColsAtCompileTime==1 ? Vertical : Horizontal };
     typedef Homogeneous<Derived, HomogeneousReturnTypeDirection> HomogeneousReturnType;
-    EIGEN_DEVICE_FUNC
+    HYDRA_EIGEN_DEVICE_FUNC
     inline HomogeneousReturnType homogeneous() const;
 
     enum {
@@ -415,8 +415,8 @@ template<typename Derived> class MatrixBase
     typedef Block<const Derived,
                   internal::traits<Derived>::ColsAtCompileTime==1 ? SizeMinusOne : 1,
                   internal::traits<Derived>::ColsAtCompileTime==1 ? 1 : SizeMinusOne> ConstStartMinusOne;
-    typedef EIGEN_EXPR_BINARYOP_SCALAR_RETURN_TYPE(ConstStartMinusOne,Scalar,quotient) HNormalizedReturnType;
-    EIGEN_DEVICE_FUNC
+    typedef HYDRA_EIGEN_EXPR_BINARYOP_SCALAR_RETURN_TYPE(ConstStartMinusOne,Scalar,quotient) HNormalizedReturnType;
+    HYDRA_EIGEN_DEVICE_FUNC
     inline const HNormalizedReturnType hnormalized() const;
 
 ////////// Householder module ///////////
@@ -444,7 +444,7 @@ template<typename Derived> class MatrixBase
 ///////// SparseCore module /////////
 
     template<typename OtherDerived>
-    EIGEN_STRONG_INLINE const typename SparseMatrixBase<OtherDerived>::template CwiseProductDenseReturnType<Derived>::Type
+    HYDRA_EIGEN_STRONG_INLINE const typename SparseMatrixBase<OtherDerived>::template CwiseProductDenseReturnType<Derived>::Type
     cwiseProduct(const SparseMatrixBase<OtherDerived> &other) const
     {
       return other.cwiseProduct(derived());
@@ -465,19 +465,19 @@ template<typename Derived> class MatrixBase
     const MatrixComplexPowerReturnValue<Derived> pow(const std::complex<RealScalar>& p) const;
 
   protected:
-    EIGEN_DEVICE_FUNC MatrixBase() : Base() {}
+    HYDRA_EIGEN_DEVICE_FUNC MatrixBase() : Base() {}
 
   private:
-    EIGEN_DEVICE_FUNC explicit MatrixBase(int);
-    EIGEN_DEVICE_FUNC MatrixBase(int,int);
-    template<typename OtherDerived> EIGEN_DEVICE_FUNC explicit MatrixBase(const MatrixBase<OtherDerived>&);
+    HYDRA_EIGEN_DEVICE_FUNC explicit MatrixBase(int);
+    HYDRA_EIGEN_DEVICE_FUNC MatrixBase(int,int);
+    template<typename OtherDerived> HYDRA_EIGEN_DEVICE_FUNC explicit MatrixBase(const MatrixBase<OtherDerived>&);
   protected:
     // mixing arrays and matrices is not legal
     template<typename OtherDerived> Derived& operator+=(const ArrayBase<OtherDerived>& )
-    {EIGEN_STATIC_ASSERT(std::ptrdiff_t(sizeof(typename OtherDerived::Scalar))==-1,YOU_CANNOT_MIX_ARRAYS_AND_MATRICES); return *this;}
+    {HYDRA_EIGEN_STATIC_ASSERT(std::ptrdiff_t(sizeof(typename OtherDerived::Scalar))==-1,YOU_CANNOT_MIX_ARRAYS_AND_MATRICES); return *this;}
     // mixing arrays and matrices is not legal
     template<typename OtherDerived> Derived& operator-=(const ArrayBase<OtherDerived>& )
-    {EIGEN_STATIC_ASSERT(std::ptrdiff_t(sizeof(typename OtherDerived::Scalar))==-1,YOU_CANNOT_MIX_ARRAYS_AND_MATRICES); return *this;}
+    {HYDRA_EIGEN_STATIC_ASSERT(std::ptrdiff_t(sizeof(typename OtherDerived::Scalar))==-1,YOU_CANNOT_MIX_ARRAYS_AND_MATRICES); return *this;}
 };
 
 
@@ -527,4 +527,4 @@ inline void MatrixBase<Derived>::applyOnTheLeft(const EigenBase<OtherDerived> &o
 
 } /* end namespace Eigen */  HYDRA_EXTERNAL_NAMESPACE_END
 
-#endif // EIGEN_MATRIXBASE_H
+#endif // HYDRA_EIGEN_MATRIXBASE_H

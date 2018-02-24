@@ -5,12 +5,12 @@
 // Public License v. 2.0. If a copy of the MPL was not distributed
 // with this file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
-#ifndef EIGEN_QTMALLOC_MODULE_H
-#define EIGEN_QTMALLOC_MODULE_H
+#ifndef HYDRA_EIGEN_QTMALLOC_MODULE_H
+#define HYDRA_EIGEN_QTMALLOC_MODULE_H
 
 #include "hydra/detail/external/Eigen/Core"
 
-#if (!EIGEN_MALLOC_ALREADY_ALIGNED)
+#if (!HYDRA_EIGEN_MALLOC_ALREADY_ALIGNED)
 
 #include "hydra/detail/external/Eigen/src/Core/util/DisableStupidWarnings.h"
 
@@ -36,5 +36,5 @@ void *qRealloc(void *ptr, std::size_t size)
 
 #endif
 
-#endif // EIGEN_QTMALLOC_MODULE_H
+#endif // HYDRA_EIGEN_QTMALLOC_MODULE_H
 /* vim: set filetype=cpp et sw=2 ts=2 ai: */

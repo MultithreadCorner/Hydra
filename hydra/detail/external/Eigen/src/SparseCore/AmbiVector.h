@@ -7,8 +7,8 @@
 // Public License v. 2.0. If a copy of the MPL was not distributed
 // with this file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
-#ifndef EIGEN_AMBIVECTOR_H
-#define EIGEN_AMBIVECTOR_H
+#ifndef HYDRA_EIGEN_AMBIVECTOR_H
+#define HYDRA_EIGEN_AMBIVECTOR_H
 
 HYDRA_EXTERNAL_NAMESPACE_BEGIN namespace Eigen { 
 
@@ -189,7 +189,7 @@ _Scalar& AmbiVector<_Scalar,_StorageIndex>::coeffRef(Index i)
     return m_buffer[i];
   else
   {
-    ListEl* EIGEN_RESTRICT llElements = reinterpret_cast<ListEl*>(m_buffer);
+    ListEl* HYDRA_EIGEN_RESTRICT llElements = reinterpret_cast<ListEl*>(m_buffer);
     // TODO factorize the following code to reduce code generation
     eigen_assert(m_mode==IsSparse);
     if (m_llSize==0)
@@ -258,7 +258,7 @@ _Scalar& AmbiVector<_Scalar,_StorageIndex>::coeff(Index i)
     return m_buffer[i];
   else
   {
-    ListEl* EIGEN_RESTRICT llElements = reinterpret_cast<ListEl*>(m_buffer);
+    ListEl* HYDRA_EIGEN_RESTRICT llElements = reinterpret_cast<ListEl*>(m_buffer);
     eigen_assert(m_mode==IsSparse);
     if ((m_llSize==0) || (i<llElements[m_llStart].index))
     {
@@ -307,7 +307,7 @@ class AmbiVector<_Scalar,_StorageIndex>::Iterator
       }
       else
       {
-        ListEl* EIGEN_RESTRICT llElements = reinterpret_cast<ListEl*>(m_vector.m_buffer);
+        ListEl* HYDRA_EIGEN_RESTRICT llElements = reinterpret_cast<ListEl*>(m_vector.m_buffer);
         m_currentEl = m_vector.m_llStart;
         while (m_currentEl>=0 && abs(llElements[m_currentEl].value)<=m_epsilon)
           m_currentEl = llElements[m_currentEl].next;
@@ -344,7 +344,7 @@ class AmbiVector<_Scalar,_StorageIndex>::Iterator
       }
       else
       {
-        ListEl* EIGEN_RESTRICT llElements = reinterpret_cast<ListEl*>(m_vector.m_buffer);
+        ListEl* HYDRA_EIGEN_RESTRICT llElements = reinterpret_cast<ListEl*>(m_vector.m_buffer);
         do {
           m_currentEl = llElements[m_currentEl].next;
         } while (m_currentEl>=0 && abs(llElements[m_currentEl].value)<=m_epsilon);
@@ -374,4 +374,4 @@ class AmbiVector<_Scalar,_StorageIndex>::Iterator
 
 } /* end namespace Eigen */  HYDRA_EXTERNAL_NAMESPACE_END
 
-#endif // EIGEN_AMBIVECTOR_H
+#endif // HYDRA_EIGEN_AMBIVECTOR_H

@@ -7,8 +7,8 @@
 // Public License v. 2.0. If a copy of the MPL was not distributed
 // with this file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
-#ifndef EIGEN_PASTIXSUPPORT_H
-#define EIGEN_PASTIXSUPPORT_H
+#ifndef HYDRA_EIGEN_PASTIXSUPPORT_H
+#define HYDRA_EIGEN_PASTIXSUPPORT_H
 
 HYDRA_EXTERNAL_NAMESPACE_BEGIN namespace Eigen { 
 
@@ -367,7 +367,7 @@ template<typename Rhs,typename Dest>
 bool PastixBase<Base>::_solve_impl(const MatrixBase<Rhs> &b, MatrixBase<Dest> &x) const
 {
   eigen_assert(m_isInitialized && "The matrix should be factorized first");
-  EIGEN_STATIC_ASSERT((Dest::Flags&RowMajorBit)==0,
+  HYDRA_EIGEN_STATIC_ASSERT((Dest::Flags&RowMajorBit)==0,
                      THIS_METHOD_IS_ONLY_FOR_COLUMN_MAJOR_MATRICES);
   int rhs = 1;
   

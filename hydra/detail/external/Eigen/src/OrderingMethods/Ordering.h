@@ -8,8 +8,8 @@
 // Public License v. 2.0. If a copy of the MPL was not distributed
 // with this file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
-#ifndef EIGEN_ORDERING_H
-#define EIGEN_ORDERING_H
+#ifndef HYDRA_EIGEN_ORDERING_H
+#define HYDRA_EIGEN_ORDERING_H
 
 HYDRA_EXTERNAL_NAMESPACE_BEGIN namespace Eigen {
   
@@ -38,7 +38,7 @@ void ordering_helper_at_plus_a(const MatrixType& A, MatrixType& symmat)
     
 }
 
-#ifndef EIGEN_MPL2_ONLY
+#ifndef HYDRA_EIGEN_MPL2_ONLY
 
 /** \ingroup OrderingMethods_Module
   * \class AMDOrdering
@@ -81,7 +81,7 @@ class AMDOrdering
     }
 };
 
-#endif // EIGEN_MPL2_ONLY
+#endif // HYDRA_EIGEN_MPL2_ONLY
 
 /** \ingroup OrderingMethods_Module
   * \class NaturalOrdering
@@ -144,7 +144,7 @@ class COLAMDOrdering
       for(StorageIndex i=0; i < nnz; i++)  A(i) = mat.innerIndexPtr()[i];
       // Call Colamd routine to compute the ordering 
       StorageIndex info = internal::colamd(m, n, Alen, A.data(), p.data(), knobs, stats); 
-      EIGEN_UNUSED_VARIABLE(info);
+      HYDRA_EIGEN_UNUSED_VARIABLE(info);
       eigen_assert( info && "COLAMD failed " );
       
       perm.resize(n);

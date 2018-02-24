@@ -7,8 +7,8 @@
 // Public License v. 2.0. If a copy of the MPL was not distributed
 // with this file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
-#ifndef EIGEN_CONSERVATIVESPARSESPARSEPRODUCT_H
-#define EIGEN_CONSERVATIVESPARSESPARSEPRODUCT_H
+#ifndef HYDRA_EIGEN_CONSERVATIVESPARSESPARSEPRODUCT_H
+#define HYDRA_EIGEN_CONSERVATIVESPARSESPARSEPRODUCT_H
 
 HYDRA_EXTERNAL_NAMESPACE_BEGIN namespace Eigen { 
 
@@ -24,9 +24,9 @@ static void conservative_sparse_sparse_product_impl(const Lhs& lhs, const Rhs& r
   Index cols = rhs.outerSize();
   eigen_assert(lhs.outerSize() == rhs.innerSize());
   
-  ei_declare_aligned_stack_constructed_variable(bool,   mask,     rows, 0);
-  ei_declare_aligned_stack_constructed_variable(Scalar, values,   rows, 0);
-  ei_declare_aligned_stack_constructed_variable(Index,  indices,  rows, 0);
+  hydra_ei_declare_aligned_stack_constructed_variable(bool,   mask,     rows, 0);
+  hydra_ei_declare_aligned_stack_constructed_variable(Scalar, values,   rows, 0);
+  hydra_ei_declare_aligned_stack_constructed_variable(Index,  indices,  rows, 0);
   
   std::memset(mask,0,sizeof(bool)*rows);
 
@@ -342,4 +342,4 @@ struct sparse_sparse_to_dense_product_selector<Lhs,Rhs,ResultType,RowMajor,RowMa
 
 } /* end namespace Eigen */  HYDRA_EXTERNAL_NAMESPACE_END
 
-#endif // EIGEN_CONSERVATIVESPARSESPARSEPRODUCT_H
+#endif // HYDRA_EIGEN_CONSERVATIVESPARSESPARSEPRODUCT_H

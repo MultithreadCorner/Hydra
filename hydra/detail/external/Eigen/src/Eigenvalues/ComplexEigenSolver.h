@@ -9,8 +9,8 @@
 // Public License v. 2.0. If a copy of the MPL was not distributed
 // with this file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
-#ifndef EIGEN_COMPLEX_EIGEN_SOLVER_H
-#define EIGEN_COMPLEX_EIGEN_SOLVER_H
+#ifndef HYDRA_EIGEN_COMPLEX_HYDRA_EIGEN_SOLVER_H
+#define HYDRA_EIGEN_COMPLEX_HYDRA_EIGEN_SOLVER_H
 
 #include "./ComplexSchur.h"
 
@@ -239,7 +239,7 @@ template<typename _MatrixType> class ComplexEigenSolver
     
     static void check_template_parameters()
     {
-      EIGEN_STATIC_ASSERT_NON_INTEGER(Scalar);
+      HYDRA_EIGEN_STATIC_ASSERT_NON_INTEGER(Scalar);
     }
     
     EigenvectorType m_eivec;
@@ -343,4 +343,4 @@ void ComplexEigenSolver<MatrixType>::sortEigenvalues(bool computeEigenvectors)
 
 } /* end namespace Eigen */  HYDRA_EXTERNAL_NAMESPACE_END
 
-#endif // EIGEN_COMPLEX_EIGEN_SOLVER_H
+#endif // HYDRA_EIGEN_COMPLEX_HYDRA_EIGEN_SOLVER_H

@@ -13,8 +13,8 @@
 // Public License v. 2.0. If a copy of the MPL was not distributed
 // with this file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
-#ifndef EIGEN_SVDBASE_H
-#define EIGEN_SVDBASE_H
+#ifndef HYDRA_EIGEN_SVDBASE_H
+#define HYDRA_EIGEN_SVDBASE_H
 
 HYDRA_EXTERNAL_NAMESPACE_BEGIN namespace Eigen {
 /** \ingroup SVD_Module
@@ -57,10 +57,10 @@ public:
   enum {
     RowsAtCompileTime = MatrixType::RowsAtCompileTime,
     ColsAtCompileTime = MatrixType::ColsAtCompileTime,
-    DiagSizeAtCompileTime = EIGEN_SIZE_MIN_PREFER_DYNAMIC(RowsAtCompileTime,ColsAtCompileTime),
+    DiagSizeAtCompileTime = HYDRA_EIGEN_SIZE_MIN_PREFER_DYNAMIC(RowsAtCompileTime,ColsAtCompileTime),
     MaxRowsAtCompileTime = MatrixType::MaxRowsAtCompileTime,
     MaxColsAtCompileTime = MatrixType::MaxColsAtCompileTime,
-    MaxDiagSizeAtCompileTime = EIGEN_SIZE_MIN_PREFER_FIXED(MaxRowsAtCompileTime,MaxColsAtCompileTime),
+    MaxDiagSizeAtCompileTime = HYDRA_EIGEN_SIZE_MIN_PREFER_FIXED(MaxRowsAtCompileTime,MaxColsAtCompileTime),
     MatrixOptions = MatrixType::Options
   };
 
@@ -210,9 +210,9 @@ public:
     return Solve<Derived, Rhs>(derived(), b.derived());
   }
   
-  #ifndef EIGEN_PARSED_BY_DOXYGEN
+  #ifndef HYDRA_EIGEN_PARSED_BY_DOXYGEN
   template<typename RhsType, typename DstType>
-  EIGEN_DEVICE_FUNC
+  HYDRA_EIGEN_DEVICE_FUNC
   void _solve_impl(const RhsType &rhs, DstType &dst) const;
   #endif
 
@@ -220,7 +220,7 @@ protected:
   
   static void check_template_parameters()
   {
-    EIGEN_STATIC_ASSERT_NON_INTEGER(Scalar);
+    HYDRA_EIGEN_STATIC_ASSERT_NON_INTEGER(Scalar);
   }
   
   // return true if already allocated
@@ -253,7 +253,7 @@ protected:
 
 };
 
-#ifndef EIGEN_PARSED_BY_DOXYGEN
+#ifndef HYDRA_EIGEN_PARSED_BY_DOXYGEN
 template<typename Derived>
 template<typename RhsType, typename DstType>
 void SVDBase<Derived>::_solve_impl(const RhsType &rhs, DstType &dst) const
@@ -295,7 +295,7 @@ bool SVDBase<MatrixType>::allocate(Index rows, Index cols, unsigned int computat
   m_computeThinV = (computationOptions & ComputeThinV) != 0;
   eigen_assert(!(m_computeFullU && m_computeThinU) && "SVDBase: you can't ask for both full and thin U");
   eigen_assert(!(m_computeFullV && m_computeThinV) && "SVDBase: you can't ask for both full and thin V");
-  eigen_assert(EIGEN_IMPLIES(m_computeThinU || m_computeThinV, MatrixType::ColsAtCompileTime==Dynamic) &&
+  eigen_assert(HYDRA_EIGEN_IMPLIES(m_computeThinU || m_computeThinV, MatrixType::ColsAtCompileTime==Dynamic) &&
 	       "SVDBase: thin U and V are only available when your matrix has a dynamic number of columns.");
 
   m_diagSize = (std::min)(m_rows, m_cols);
@@ -312,4 +312,4 @@ bool SVDBase<MatrixType>::allocate(Index rows, Index cols, unsigned int computat
 
 HYDRA_EXTERNAL_NAMESPACE_END
 
-#endif // EIGEN_SVDBASE_H
+#endif // HYDRA_EIGEN_SVDBASE_H

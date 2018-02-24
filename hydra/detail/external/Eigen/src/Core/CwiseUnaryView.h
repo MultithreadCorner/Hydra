@@ -7,8 +7,8 @@
 // Public License v. 2.0. If a copy of the MPL was not distributed
 // with this file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
-#ifndef EIGEN_CWISE_UNARY_VIEW_H
-#define EIGEN_CWISE_UNARY_VIEW_H
+#ifndef HYDRA_EIGEN_CWISE_UNARY_VIEW_H
+#define HYDRA_EIGEN_CWISE_UNARY_VIEW_H
 
 HYDRA_EXTERNAL_NAMESPACE_BEGIN namespace Eigen {
 
@@ -60,17 +60,17 @@ class CwiseUnaryView : public CwiseUnaryViewImpl<ViewOp, MatrixType, typename in
   public:
 
     typedef typename CwiseUnaryViewImpl<ViewOp, MatrixType,typename internal::traits<MatrixType>::StorageKind>::Base Base;
-    EIGEN_GENERIC_PUBLIC_INTERFACE(CwiseUnaryView)
+    HYDRA_EIGEN_GENERIC_PUBLIC_INTERFACE(CwiseUnaryView)
     typedef typename internal::ref_selector<MatrixType>::non_const_type MatrixTypeNested;
     typedef typename internal::remove_all<MatrixType>::type NestedExpression;
 
     explicit inline CwiseUnaryView(MatrixType& mat, const ViewOp& func = ViewOp())
       : m_matrix(mat), m_functor(func) {}
 
-    EIGEN_INHERIT_ASSIGNMENT_OPERATORS(CwiseUnaryView)
+    HYDRA_EIGEN_INHERIT_ASSIGNMENT_OPERATORS(CwiseUnaryView)
 
-    EIGEN_STRONG_INLINE Index rows() const { return m_matrix.rows(); }
-    EIGEN_STRONG_INLINE Index cols() const { return m_matrix.cols(); }
+    HYDRA_EIGEN_STRONG_INLINE Index rows() const { return m_matrix.rows(); }
+    HYDRA_EIGEN_STRONG_INLINE Index cols() const { return m_matrix.cols(); }
 
     /** \returns the functor representing unary operation */
     const ViewOp& functor() const { return m_functor; }
@@ -106,18 +106,18 @@ class CwiseUnaryViewImpl<ViewOp,MatrixType,Dense>
     typedef CwiseUnaryView<ViewOp, MatrixType> Derived;
     typedef typename internal::dense_xpr_base< CwiseUnaryView<ViewOp, MatrixType> >::type Base;
 
-    EIGEN_DENSE_PUBLIC_INTERFACE(Derived)
-    EIGEN_INHERIT_ASSIGNMENT_OPERATORS(CwiseUnaryViewImpl)
+    HYDRA_EIGEN_DENSE_PUBLIC_INTERFACE(Derived)
+    HYDRA_EIGEN_INHERIT_ASSIGNMENT_OPERATORS(CwiseUnaryViewImpl)
     
-    EIGEN_DEVICE_FUNC inline Scalar* data() { return &(this->coeffRef(0)); }
-    EIGEN_DEVICE_FUNC inline const Scalar* data() const { return &(this->coeff(0)); }
+    HYDRA_EIGEN_DEVICE_FUNC inline Scalar* data() { return &(this->coeffRef(0)); }
+    HYDRA_EIGEN_DEVICE_FUNC inline const Scalar* data() const { return &(this->coeff(0)); }
 
-    EIGEN_DEVICE_FUNC inline Index innerStride() const
+    HYDRA_EIGEN_DEVICE_FUNC inline Index innerStride() const
     {
       return derived().nestedExpression().innerStride() * sizeof(typename internal::traits<MatrixType>::Scalar) / sizeof(Scalar);
     }
 
-    EIGEN_DEVICE_FUNC inline Index outerStride() const
+    HYDRA_EIGEN_DEVICE_FUNC inline Index outerStride() const
     {
       return derived().nestedExpression().outerStride() * sizeof(typename internal::traits<MatrixType>::Scalar) / sizeof(Scalar);
     }
@@ -125,4 +125,4 @@ class CwiseUnaryViewImpl<ViewOp,MatrixType,Dense>
 
 } /* end namespace Eigen */  HYDRA_EXTERNAL_NAMESPACE_END
 
-#endif // EIGEN_CWISE_UNARY_VIEW_H
+#endif // HYDRA_EIGEN_CWISE_UNARY_VIEW_H

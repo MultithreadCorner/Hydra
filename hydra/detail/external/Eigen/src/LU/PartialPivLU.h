@@ -8,8 +8,8 @@
 // Public License v. 2.0. If a copy of the MPL was not distributed
 // with this file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
-#ifndef EIGEN_PARTIALLU_H
-#define EIGEN_PARTIALLU_H
+#ifndef HYDRA_EIGEN_PARTIALLU_H
+#define HYDRA_EIGEN_PARTIALLU_H
 
 HYDRA_EXTERNAL_NAMESPACE_BEGIN namespace Eigen {
 
@@ -79,8 +79,8 @@ template<typename _MatrixType> class PartialPivLU
 
     typedef _MatrixType MatrixType;
     typedef SolverBase<PartialPivLU> Base;
-    EIGEN_GENERIC_PUBLIC_INTERFACE(PartialPivLU)
-    // FIXME StorageIndex defined in EIGEN_GENERIC_PUBLIC_INTERFACE should be int
+    HYDRA_EIGEN_GENERIC_PUBLIC_INTERFACE(PartialPivLU)
+    // FIXME StorageIndex defined in HYDRA_EIGEN_GENERIC_PUBLIC_INTERFACE should be int
     enum {
       MaxRowsAtCompileTime = MatrixType::MaxRowsAtCompileTime,
       MaxColsAtCompileTime = MatrixType::MaxColsAtCompileTime
@@ -220,9 +220,9 @@ template<typename _MatrixType> class PartialPivLU
     inline Index rows() const { return m_lu.rows(); }
     inline Index cols() const { return m_lu.cols(); }
 
-    #ifndef EIGEN_PARSED_BY_DOXYGEN
+    #ifndef HYDRA_EIGEN_PARSED_BY_DOXYGEN
     template<typename RhsType, typename DstType>
-    EIGEN_DEVICE_FUNC
+    HYDRA_EIGEN_DEVICE_FUNC
     void _solve_impl(const RhsType &rhs, DstType &dst) const {
      /* The decomposition PA = LU can be rewritten as A = P^{-1} L U.
       * So we proceed as follows:
@@ -244,7 +244,7 @@ template<typename _MatrixType> class PartialPivLU
     }
 
     template<bool Conjugate, typename RhsType, typename DstType>
-    EIGEN_DEVICE_FUNC
+    HYDRA_EIGEN_DEVICE_FUNC
     void _solve_impl_transposed(const RhsType &rhs, DstType &dst) const {
      /* The decomposition PA = LU can be rewritten as A = P^{-1} L U.
       * So we proceed as follows:
@@ -275,7 +275,7 @@ template<typename _MatrixType> class PartialPivLU
 
     static void check_template_parameters()
     {
-      EIGEN_STATIC_ASSERT_NON_INTEGER(Scalar);
+      HYDRA_EIGEN_STATIC_ASSERT_NON_INTEGER(Scalar);
     }
 
     void compute();
@@ -608,4 +608,4 @@ MatrixBase<Derived>::lu() const
 
 } /* end namespace Eigen */  HYDRA_EXTERNAL_NAMESPACE_END
 
-#endif // EIGEN_PARTIALLU_H
+#endif // HYDRA_EIGEN_PARTIALLU_H

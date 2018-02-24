@@ -7,8 +7,8 @@
 // Public License v. 2.0. If a copy of the MPL was not distributed
 // with this file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
-#ifndef EIGEN_SOLVEWITHGUESS_H
-#define EIGEN_SOLVEWITHGUESS_H
+#ifndef HYDRA_EIGEN_SOLVEWITHGUESS_H
+#define HYDRA_EIGEN_SOLVEWITHGUESS_H
 
 HYDRA_EXTERNAL_NAMESPACE_BEGIN namespace Eigen {
 
@@ -50,12 +50,12 @@ public:
     : m_dec(dec), m_rhs(rhs), m_guess(guess)
   {}
   
-  EIGEN_DEVICE_FUNC Index rows() const { return m_dec.cols(); }
-  EIGEN_DEVICE_FUNC Index cols() const { return m_rhs.cols(); }
+  HYDRA_EIGEN_DEVICE_FUNC Index rows() const { return m_dec.cols(); }
+  HYDRA_EIGEN_DEVICE_FUNC Index cols() const { return m_rhs.cols(); }
 
-  EIGEN_DEVICE_FUNC const Decomposition& dec()   const { return m_dec; }
-  EIGEN_DEVICE_FUNC const RhsType&       rhs()   const { return m_rhs; }
-  EIGEN_DEVICE_FUNC const GuessType&     guess() const { return m_guess; }
+  HYDRA_EIGEN_DEVICE_FUNC const Decomposition& dec()   const { return m_dec; }
+  HYDRA_EIGEN_DEVICE_FUNC const RhsType&       rhs()   const { return m_rhs; }
+  HYDRA_EIGEN_DEVICE_FUNC const GuessType&     guess() const { return m_guess; }
 
 protected:
   const Decomposition &m_dec;
@@ -112,4 +112,4 @@ struct Assignment<DstXprType, SolveWithGuess<DecType,RhsType,GuessType>, interna
 
 } /* end namespace Eigen */  HYDRA_EXTERNAL_NAMESPACE_END
 
-#endif // EIGEN_SOLVEWITHGUESS_H
+#endif // HYDRA_EIGEN_SOLVEWITHGUESS_H

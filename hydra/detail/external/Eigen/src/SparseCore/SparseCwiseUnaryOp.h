@@ -7,8 +7,8 @@
 // Public License v. 2.0. If a copy of the MPL was not distributed
 // with this file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
-#ifndef EIGEN_SPARSE_CWISE_UNARY_OP_H
-#define EIGEN_SPARSE_CWISE_UNARY_OP_H
+#ifndef HYDRA_EIGEN_SPARSE_CWISE_UNARY_OP_H
+#define HYDRA_EIGEN_SPARSE_CWISE_UNARY_OP_H
 
 HYDRA_EXTERNAL_NAMESPACE_BEGIN namespace Eigen { 
 
@@ -30,8 +30,8 @@ struct unary_evaluator<CwiseUnaryOp<UnaryOp,ArgType>, IteratorBased>
     
     explicit unary_evaluator(const XprType& op) : m_functor(op.functor()), m_argImpl(op.nestedExpression())
     {
-      EIGEN_INTERNAL_CHECK_COST_VALUE(functor_traits<UnaryOp>::Cost);
-      EIGEN_INTERNAL_CHECK_COST_VALUE(CoeffReadCost);
+      HYDRA_EIGEN_INTERNAL_CHECK_COST_VALUE(functor_traits<UnaryOp>::Cost);
+      HYDRA_EIGEN_INTERNAL_CHECK_COST_VALUE(CoeffReadCost);
     }
     
     inline Index nonZerosEstimate() const {
@@ -53,14 +53,14 @@ class unary_evaluator<CwiseUnaryOp<UnaryOp,ArgType>, IteratorBased>::InnerIterat
     typedef typename unary_evaluator<CwiseUnaryOp<UnaryOp,ArgType>, IteratorBased>::EvalIterator Base;
   public:
 
-    EIGEN_STRONG_INLINE InnerIterator(const unary_evaluator& unaryOp, Index outer)
+    HYDRA_EIGEN_STRONG_INLINE InnerIterator(const unary_evaluator& unaryOp, Index outer)
       : Base(unaryOp.m_argImpl,outer), m_functor(unaryOp.m_functor)
     {}
 
-    EIGEN_STRONG_INLINE InnerIterator& operator++()
+    HYDRA_EIGEN_STRONG_INLINE InnerIterator& operator++()
     { Base::operator++(); return *this; }
 
-    EIGEN_STRONG_INLINE Scalar value() const { return m_functor(Base::value()); }
+    HYDRA_EIGEN_STRONG_INLINE Scalar value() const { return m_functor(Base::value()); }
 
   protected:
     const UnaryOp m_functor;
@@ -84,8 +84,8 @@ struct unary_evaluator<CwiseUnaryView<ViewOp,ArgType>, IteratorBased>
     
     explicit unary_evaluator(const XprType& op) : m_functor(op.functor()), m_argImpl(op.nestedExpression())
     {
-      EIGEN_INTERNAL_CHECK_COST_VALUE(functor_traits<ViewOp>::Cost);
-      EIGEN_INTERNAL_CHECK_COST_VALUE(CoeffReadCost);
+      HYDRA_EIGEN_INTERNAL_CHECK_COST_VALUE(functor_traits<ViewOp>::Cost);
+      HYDRA_EIGEN_INTERNAL_CHECK_COST_VALUE(CoeffReadCost);
     }
 
   protected:
@@ -103,15 +103,15 @@ class unary_evaluator<CwiseUnaryView<ViewOp,ArgType>, IteratorBased>::InnerItera
     typedef typename unary_evaluator<CwiseUnaryView<ViewOp,ArgType>, IteratorBased>::EvalIterator Base;
   public:
 
-    EIGEN_STRONG_INLINE InnerIterator(const unary_evaluator& unaryOp, Index outer)
+    HYDRA_EIGEN_STRONG_INLINE InnerIterator(const unary_evaluator& unaryOp, Index outer)
       : Base(unaryOp.m_argImpl,outer), m_functor(unaryOp.m_functor)
     {}
 
-    EIGEN_STRONG_INLINE InnerIterator& operator++()
+    HYDRA_EIGEN_STRONG_INLINE InnerIterator& operator++()
     { Base::operator++(); return *this; }
 
-    EIGEN_STRONG_INLINE Scalar value() const { return m_functor(Base::value()); }
-    EIGEN_STRONG_INLINE Scalar& valueRef() { return m_functor(Base::valueRef()); }
+    HYDRA_EIGEN_STRONG_INLINE Scalar value() const { return m_functor(Base::value()); }
+    HYDRA_EIGEN_STRONG_INLINE Scalar& valueRef() { return m_functor(Base::valueRef()); }
 
   protected:
     const ViewOp m_functor;
@@ -120,7 +120,7 @@ class unary_evaluator<CwiseUnaryView<ViewOp,ArgType>, IteratorBased>::InnerItera
 } // end namespace internal
 
 template<typename Derived>
-EIGEN_STRONG_INLINE Derived&
+HYDRA_EIGEN_STRONG_INLINE Derived&
 SparseMatrixBase<Derived>::operator*=(const Scalar& other)
 {
   typedef typename internal::evaluator<Derived>::InnerIterator EvalIterator;
@@ -132,7 +132,7 @@ SparseMatrixBase<Derived>::operator*=(const Scalar& other)
 }
 
 template<typename Derived>
-EIGEN_STRONG_INLINE Derived&
+HYDRA_EIGEN_STRONG_INLINE Derived&
 SparseMatrixBase<Derived>::operator/=(const Scalar& other)
 {
   typedef typename internal::evaluator<Derived>::InnerIterator EvalIterator;
@@ -145,4 +145,4 @@ SparseMatrixBase<Derived>::operator/=(const Scalar& other)
 
 } /* end namespace Eigen */  HYDRA_EXTERNAL_NAMESPACE_END
 
-#endif // EIGEN_SPARSE_CWISE_UNARY_OP_H
+#endif // HYDRA_EIGEN_SPARSE_CWISE_UNARY_OP_H
