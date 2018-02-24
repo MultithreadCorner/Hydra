@@ -605,7 +605,11 @@ struct hash<HYDRA_EXTERNAL_NS::Eigen::half> {
 // Add the missing shfl_xor intrinsic
 #if defined(__CUDA_ARCH__) && __CUDA_ARCH__ >= 300
 __device__ HYDRA_EIGEN_STRONG_INLINE HYDRA_EXTERNAL_NS::Eigen::half __shfl_xor(HYDRA_EXTERNAL_NS::Eigen::half var, int laneMask, int width=warpSize) {
+#if defined __CUDACC_VER__ && __CUDACC_VER__ < 90000
   return static_cast<HYDRA_EXTERNAL_NS::Eigen::half>(__shfl_xor(static_cast<float>(var), laneMask, width));
+#else
+return static_cast<HYDRA_EXTERNAL_NS::Eigen::half>(__shfl_xor_sync(0xFFFFFFFF, static_cast<float>(var), laneMask, width));
+#endif
 }
 #endif
 

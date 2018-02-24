@@ -87,7 +87,7 @@
 
 #endif //_ROOT_AVAILABLE_
 
-using namespace Eigen;
+
 using namespace ROOT::Minuit2;
 
 int main(int argv, char** argc)
