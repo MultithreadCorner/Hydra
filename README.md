@@ -2,6 +2,26 @@
 -----------
 <img src="logo_Hydra.png" width="500">
 
+Table of Contents
+=================
+
+* ## Hydra
+  * [What is it?](#what-is-it)
+  * [Main features](#main-features)
+  * [Hydra and Thrust](#hydra-and-thrust)
+  * [Supported Paralels Backends](#supported-paralels-backends)
+  * [The Latest Version](#the-latest-version)
+  * [Documentation](#documentation)
+    * [Reference manual](#reference-manual)
+    * [Users guide](#users-guide)
+  * [Installation and requirements](#installation-and-requirements)
+  * [Examples](#examples)
+  * [Licensing](#licensing)
+  * [Contact the developers](#contact-the-developers)
+  * [Author](#author)
+  * [Acknowledgement](#acknowledgement)
+  
+
 What is it?
 -----------
 
@@ -80,14 +100,14 @@ The Latest Version
 Documentation
 -------------
 
-### Doxygen
+### Reference manual
 
 
 The complete and updated [Doxygen](http://www.doxygen.org/) source code documentation is not available yet.
 
-### Manual 
+### User's Guide
 
-A manual explaining the different features is available in the following formats:
+The Hydra User's Guide is available in the following formats:
 
 * [HTML](https://hydra-documentation.readthedocs.io/en/latest/)
 * [PDF](https://readthedocs.org/projects/hydra-documentation/downloads/pdf/latest/)
