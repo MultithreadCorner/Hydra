@@ -43,6 +43,7 @@
 #include <stdexcept>
 #include <assert.h>
 #include <utility>
+#include <ratio>
 #include <hydra/detail/external/thrust/extrema.h>
 
 namespace hydra {
@@ -59,68 +60,37 @@ namespace hydra {
  *  Singapore 1988. CERNLIB DDJMNB function.
  */
 
-template<unsigned int ArgIndex=0>
+template<unsigned int J, int M, int N, unsigned int Denominator=1,  unsigned int ArgIndex=0>
 class WignerD: public BaseFunctor<WignerD<ArgIndex>, double, 0>
 {
+	constexpr static int JPM  = detail::nearest_int<J+M,Denominator>::value;
+	constexpr static int JPN  = detail::nearest_int<J+N,Denominator>::value;
+	constexpr static int JMM  = detail::nearest_int<J-M,Denominator>::value;
+	constexpr static int JMN  = detail::nearest_int<J-N,Denominator>::value;
+	constexpr static int MPN  = detail::nearest_int<M+N,Denominator>::value;
+
+	static_assert((JPM <0 || JPN < 0 || JMM < 0 || JMN < 0 || J < 0 || J > 25 ) ,
+	                  "[Hydra::WignerD] : Wrong parameters combination");
 public:
 
-	WignerD()=delete;
+	WignerD()=default;
 
-	WignerD( double j, double m, double n ):
-		fJ(j), fM(m), fN(n){}
-
-	__hydra_host__ __hydra_device__
-	WignerD( WignerD<ArgIndex> const& other):
-		BaseFunctor<WignerD<ArgIndex>, double, 0>(other),
-		fJ(other.GetJ()),
-		fM(other.GetM()),
-		fN(other.GetN())
+	__hydra_dual__
+	WignerD( WignerD<J, ArgIndex> const& other):
+		BaseFunctor<WignerD<ArgIndex>, double, 0>(other)
 		{}
 
-	__hydra_host__ __hydra_device__
+	__hydra_dual__
 	WignerD<ArgIndex>& operator=( WignerD<ArgIndex> const& other){
 
 		if(this == &other) return *this;
 		BaseFunctor<WignerD<ArgIndex>, double, 0>::operator=(other);
-		fJ = other.GetJ();
-		fM = other.GetM();
-		fN = other.GetN();
+
 		return *this;
 	}
 
-
-	__hydra_host__ __hydra_device__ inline
-	double GetJ() const {
-		return fJ;
-	}
-
-	__hydra_host__ __hydra_device__ inline
-	void SetJ(double j) {
-		fJ = j;
-	}
-
-	__hydra_host__ __hydra_device__ inline
-	double GetM() const {
-		return fM;
-	}
-
-	__hydra_host__ __hydra_device__ inline
-	void SetM(double m) {
-		fM = m;
-	}
-
-	__hydra_host__ __hydra_device__ inline
-	double GetN() const {
-		return fN;
-	}
-
-	__hydra_host__ __hydra_device__ inline
-	void SetN(double n) {
-		fN = n;
-	}
-
 	template<typename T>
-	__hydra_host__ __hydra_device__ inline
+	__hydra_dual__ inline
 	double Evaluate(unsigned int, T*x)  const	{
 
 		double beta = x[ArgIndex] ;
@@ -131,7 +101,7 @@ public:
 	}
 
 	template<typename T>
-	__hydra_host__ __hydra_device__ inline
+	__hydra_dual__ inline
 	double Evaluate(T x)  const {
 
 		double beta =  get<ArgIndex>(x);
@@ -143,30 +113,20 @@ public:
 
 private:
 
-	__hydra_host__ __hydra_device__ inline
-	double wignerd(const double beta ) const {
+	__hydra_dual__ inline
+	double wignerd( double beta ) const {
 
-
-		const int jpm = nint(fJ+fM);
-		const int jpn = nint(fJ+fN);
-		const int jmm = nint(fJ-fM);
-
-		const int jmn = nint(fJ-fN);
-		const int mpn = nint(fM+fN);
-
-		bool condition = (jpm<0 || jpn < 0 || jmm < 0 || jmn < 0 || fJ < 0 || fJ > 25 || beta < 0 || beta > 2.0*PI);
-
-		double r = condition ? printf("HYDRA WARNING: WignerD: Illegal argument(s) fJ=%g, fM=%g, fN=%g, beta=%g\n",fJ,fM,fN,beta):
-		    (beta == 0)  ? (jpm == jpn) :
-		    (beta == PI) ? (jpm == jmn) - 2*(::abs(jpm)%2 == 1):
-	    	(beta == 2.0*PI) ? (jpm == jpn) - 2*(::abs(mpn)%2 == 1) : wdf(jpm, jpn, jmm, jmn,mpn, beta);
+		double r = (beta < 0 || beta > 2.0*PI) ? printf("HYDRA WARNING: WignerD: Illegal argument  beta=%g\n", beta):
+		    (beta == 0)  ? (JPM == JPN ) :
+		    (beta == PI) ? (JPM == JMN ) - 2*(::abs(JPM)%2 == 1):
+	    	(beta == 2.0*PI) ? (JPM == JPN) - 2*(::abs(MPN)%2 == 1) : wdf(beta);
 
 		return r;
 
 	}
 
-	__hydra_host__ __hydra_device__ inline
-	double wdf(const int jpm,const int jpn,const int jmm, const int jmn,const int mpn,const double  b) const {
+	__hydra_dual__
+	inline double wdf( double  b) const {
 
 		using HYDRA_EXTERNAL_NS::thrust::max;
 		using HYDRA_EXTERNAL_NS::thrust::min;
@@ -174,18 +134,18 @@ private:
 		double r = 0;
 		double s  = ::log(::sin(b/2.0));
 		double c  = ::log(::fabs(::cos(b/2.0)));
-		double rt = 0.5*(fcl[jpm]+fcl[jmm]+fcl[jpn]+fcl[jmn]);
-		int k0    = max(0,mpn);
-		int kq    = (b > PI) ? k0+jpm+mpn: k0+jpm;
+		double rt = 0.5*(fcl[JPM]+fcl[JMM]+fcl[JPN]+fcl[JMN]);
+		int k0    = max(0,MPN);
+		int kq    = (b > PI) ? k0 + JPM + MPN: k0 + JPM;
 
 		double q  = 1 - 2*(kq%2 == 1);
 		kq = k0+k0;
-		double cx = kq-mpn;
-		double sx = jpm+jpn-kq;
+		double cx = kq-MPN;
+		double sx = JPM+JPN-kq;
 
-		for( int k=k0; k<= min(jpm,jpn); k++)
+		for( int k=k0; k<= min(JPM,JPN); k++)
 		{
-			r  += q*::exp(rt-fcl[k]-fcl[jpm-k]-fcl[jpn-k]-fcl[k-mpn]+ cx*c+sx*s);
+			r  += q*::exp(rt-fcl[k]-fcl[JPM-k]-fcl[JPM-k]-fcl[k-MPN]+ cx*c+sx*s);
 			cx += 2;
 			sx -= 2;
 			q   = -q;
@@ -221,12 +181,8 @@ private:
             1.40673923648234259e02 ,1.44565743946344886e02,
             1.48477766951773032e02 };
 
-	double fJ;
-	double fM;
-	double fN;
 
 };
-
 
 
 }  // namespace hydra

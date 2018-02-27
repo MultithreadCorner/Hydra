@@ -35,9 +35,32 @@
 
 namespace hydra {
 
+/**
+ * Orbital angular momentum tags.
+ */
 enum Wave{ SWave=0, PWave, DWave, FWave, GWave, HWave };
 
+
+
 namespace detail {
+	/**
+	 * Round to nearest integer at compile time.
+	 * Rounds half integers to the nearest even integer.
+	 */
+	template<int N, int D>
+	struct nearest_int {
+		private:
+			typedef std::ratio_add<std::ratio<N,D>, std::ratio<1,2>> sum;
+			typedef std::ratio_subtract<std::ratio<N,D>, std::ratio<1,2>> diff;
+
+		public:
+
+			static constexpr int value = std::ratio_greater<std::ratio<N,D>, std::ratio<0,D>>::value  ?
+					int( sum::num/sum::den) - (  int( sum::num/sum::den)  & 1 ) :
+					int( diff::num/diff::den) + (  int( diff::num/diff::den)  & 1 ) ;
+	};
+
+
 
 	template<typename T, unsigned int N, unsigned int I>
 	inline __hydra_host__ __hydra_device__
@@ -74,7 +97,7 @@ namespace detail {
  */
 	template<typename T>
 	inline  __hydra_host__ __hydra_device__
-	int nint(const T x)
+	constexpr int nint(const T x)
 	{
 		// Round to nearest integer. Rounds half integers to the nearest
 		// even integer.

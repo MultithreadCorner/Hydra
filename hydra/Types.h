@@ -74,6 +74,12 @@ const GBool_t kFalse = false;
 
 #define PI     3.1415926535897932384626422832795028841971
 
+namespace math_constants {
+
+const double sqrt2   = 1.41421356237309504880; //sqrt(2)
+const double inverse_sqrt2 = 0.707106781186547524401; // 1/sqrt(2)
+
+}//math_constants
 
 struct null_type
 {};
