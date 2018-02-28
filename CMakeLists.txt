@@ -1,48 +1,50 @@
-### CMakeList for MC Hydra
+### CMakeList for Hydra examples and documentation
 
-cmake_minimum_required(VERSION 3.0)
-#cmake_policy(SET CMP0054 OLD)
+cmake_minimum_required(VERSION 3.2)
 
 # project name
-project(Hydra)
-
-# The version number.
-set (Hydra_VERSION_MAJOR 1)
-set (Hydra_VERSION_MINOR 0)
-set (Hydra_VERSION_PATCH 0)
-
-if ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang")
- MESSAGE(STATUS "===> Compiling with Clang")
-elseif ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU")
- MESSAGE(STATUS "===> Compiling with GCC")
-elseif ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Intel")
- MESSAGE(STATUS "===> Compiling with Intel")
-elseif ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "MSVC")
- MESSAGE(STATUS "===> Compiling with MSVC")
-endif()
+project(Hydra_examples_and_documentation)
 
 # warn user if system is not UNIX
 if(NOT UNIX)
   message(FATAL_ERROR "This is an unsupported system.")
 endif()
 
+#cmake path dir
 SET(Hydra_CMAKE_DIR "${PROJECT_SOURCE_DIR}/cmake")
 SET(CMAKE_MODULE_PATH "${Hydra_CMAKE_DIR}" ${CMAKE_MODULE_PATH})
 SET(CMAKE_VERBOSE_MAKEFILE  ON)
 
-
-
-#options to gcc
+#check if compiler is C++11 compliant
 include(CheckCXXCompilerFlag)
 CHECK_CXX_COMPILER_FLAG("--std=c++11" COMPILER_SUPPORTS_CXX11)
 if(NOT COMPILER_SUPPORTS_CXX11)
  message(FATAL "The compiler ${CMAKE_CXX_COMPILER} has no C++11 support. Please use a different C++ compiler.")
 endif()
 
-set(CMAKE_CXX_FLAGS "-ftemplate-backtrace-limit=0 --std=c++11 -W -march=native -fPIC -O4 -ldl" CACHE STRING "compile flags" FORCE)
+#compiler flags
+if ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang")
 
-include_directories("/usr/include/eigen3")
+ MESSAGE(STATUS "Setting Clang flags")
+ set(CMAKE_CXX_FLAGS " --std=c++11 -W -march=native -fPIC -O3 -ldl" CACHE STRING "compile flags" FORCE)
+  
+elseif ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU")
 
+ MESSAGE(STATUS "Setting GCC flags")
+ set(CMAKE_CXX_FLAGS " --std=c++11 -W -march=native -fPIC -O4 -ldl" CACHE STRING "compile flags" FORCE)
+
+elseif ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Intel")
+ 
+ MESSAGE(STATUS "Setting ICC flags")
+ set(CMAKE_CXX_FLAGS " --std=c++11 -W -march=native -fPIC -O4 -ldl" CACHE STRING "compile flags" FORCE)
+  
+#elseif ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "MSVC")
+ #MESSAGE(STATUS "===> Compiling with MSVC")
+endif()
+
+# get Hydra
+find_package(Hydra REQUIRED)
+include_directories(${Hydra_INCLUDE_DIR})
 
 # get TCLAP
 find_package(TCLAP REQUIRED)
@@ -54,12 +56,40 @@ if(ROOT_FOUND)
 include_directories(${ROOT_INCLUDE_DIR})
 link_directories(${ROOT_LIBRARY_DIR})
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -D_ROOT_AVAILABLE_")
+if(${ROOT_Minuit2_LIBRARY} MATCHES "libMinuit2.so")
+set(Minuit2_FOUND ON)
+else(Minuit2_FOUND OFF)
+endif()
 endif(ROOT_FOUND)
 
 #get CUDA
 find_package(CUDA 8.0) 
 if(CUDA_FOUND)
 link_directories( ${CUDA_TOOLKIT_ROOT_DIR}/lib64/)
+
+#set cuda flags
+SET(CUDA_NVCC_FLAGS ${CUDA_NVCC_FLAGS}  -ftemplate-backtrace-limit=0; --cudart ;  static ; -O4 ;--expt-relaxed-constexpr; -fmad=true; --expt-extended-lambda;--relocatable-device-code=false ;
+-Xptxas -dlcm=ca; -Xptxas --opt-level=4 )
+
+SET(CUDA_PROPAGATE_HOST_FLAGS ON)
+SET(CUDA_SEPARABLE_COMPILATION OFF)
+SET(CUDA_VERBOSE_BUILD OFF)
+
+if(CMAKE_CXX_COMPILER_VERSION VERSION_GREATER 4.8)
+   LIST(APPEND CUDA_NVCC_FLAGS " -Xcompiler -D_MWAITXINTRIN_H_INCLUDED ")
+endif()
+
+if(CMAKE_CXX_COMPILER_VERSION VERSION_GREATER 5.4)
+    LIST(APPEND CUDA_NVCC_FLAGS " -Xcompiler -D__CORRECT_ISO_CPP11_MATH_H_PROTO ")
+endif()
+# Detect CUDA architecture and get best NVCC flags
+
+INCLUDE(${CMAKE_CURRENT_SOURCE_DIR}/cmake/FindCudaArch.cmake)
+
+SELECT_NVCC_ARCH_FLAGS(NVCC_FLAGS_EXTRA)
+
+LIST(APPEND CUDA_NVCC_FLAGS ${NVCC_FLAGS_EXTRA})
+        
 endif(CUDA_FOUND)
 
 #get TBB
@@ -80,41 +110,13 @@ endif(OPENMP_CXX_FOUND OR OPENMP_FOUND)
 find_package(Doxygen)
 option(BUILD_DOCUMENTATION "Create and install the HTML based API documentation (requires Doxygen)" NO)
 
-#including directories
-include_directories(include;  ${PROJECT_SOURCE_DIR})
+# examples etc
+include_directories(${CMAKE_CURRENT_SOURCE_DIR})
 
-if(CUDA_FOUND)
-
-	#set cuda flags
-	
-	SET(CUDA_NVCC_FLAGS ${CUDA_NVCC_FLAGS}  -ftemplate-backtrace-limit=0; --cudart ;  static ; -O4 ;--expt-relaxed-constexpr; -fmad=true; --expt-extended-lambda;--relocatable-device-code=false ;
-	-Xptxas -dlcm=ca; -Xptxas --opt-level=4 )
-
-        SET(CUDA_PROPAGATE_HOST_FLAGS ON)
-	SET(CUDA_SEPARABLE_COMPILATION OFF)
-	SET(CUDA_VERBOSE_BUILD OFF)
-	
-	if(CMAKE_CXX_COMPILER_VERSION VERSION_GREATER 4.8)
-	   LIST(APPEND CUDA_NVCC_FLAGS " -Xcompiler -D_MWAITXINTRIN_H_INCLUDED ")
-    	endif()
-    	
-        if(CMAKE_CXX_COMPILER_VERSION VERSION_GREATER 5.4)
-	    LIST(APPEND CUDA_NVCC_FLAGS " -Xcompiler -D__CORRECT_ISO_CPP11_MATH_H_PROTO ")
-    	endif()
-	# Detect CUDA architecture and get best NVCC flags
-	
-	INCLUDE(${CMAKE_CURRENT_SOURCE_DIR}/cmake/FindCudaArch.cmake)
-	
-	SELECT_NVCC_ARCH_FLAGS(NVCC_FLAGS_EXTRA)
-	
-	LIST(APPEND CUDA_NVCC_FLAGS ${NVCC_FLAGS_EXTRA})
-    		
-endif(CUDA_FOUND)
-
-
+#always on
 SET(BUILD_CPP_TARGETS  ON)
 
-
+#crucial for clang build, where openmp support is not embeded in the compiler
 if( OPENMP_CXX_FOUND OR OPENMP_FOUND)
 
         SET(BUILD_OMP_TARGETS  ON)
@@ -122,12 +124,14 @@ else()
         SET(BUILD_OMP_TARGETS  OFF)
 endif()
 
+#not every computer has a GPU and/or cuda installed or 
 if( CUDA_FOUND )
 	SET(BUILD_CUDA_TARGETS  ON)
 else()
 	SET(BUILD_CUDA_TARGETS  OFF)
 endif()
 
+# to enable tbb builds
 if(TBB_FOUND)
     SET(BUILD_TBB_TARGETS  ON)
 else()
@@ -139,6 +143,7 @@ MESSAGE(STATUS "TCLAP Include path: ${TCLAP_INCLUDE_DIR}")
 MESSAGE(STATUS "ROOT include path: ${ROOT_INCLUDE_DIR}")
 MESSAGE(STATUS "ROOT library path: ${ROOT_LIBRARY_DIR}" )
 MESSAGE(STATUS "ROOT libraries: ${ROOT_LIBRARIES}")
+MESSAGE(STATUS "ROOT::Minuit2 : ${ROOT_Minuit2_LIBRARY}")
 MESSAGE(STATUS "Build CUDA/NVCC-based targets: ${BUILD_CUDA_TARGETS}")
 MESSAGE(STATUS "CUDA include: ${CUDA_INCLUDE_DIRS}" )
 MESSAGE(STATUS "CUDA libraries: ${CUDA_LIBRARIES}"  )
@@ -161,22 +166,48 @@ file(MAKE_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/plots/dalitz)
 #+++++++++++++++++++++++++++
 #        EXAMPLES          +
 #+++++++++++++++++++++++++++
-add_custom_target(examples)
+include_directories(${CMAKE_CURRENT_SOURCE_DIR})
 
+add_custom_target(examples)
 
 include(${Hydra_CMAKE_DIR}/AddHydraExample.cmake)
 
 add_subdirectory(examples/phase_space)
 add_subdirectory(examples/numerical_integration)
 add_subdirectory(examples/random)
-add_subdirectory(examples/fit)
 add_subdirectory(examples/histograming)
 add_subdirectory(examples/async)
 add_subdirectory(examples/misc)
+if(Minuit2_FOUND)
 add_subdirectory(examples/phys)
+add_subdirectory(examples/fit)
+endif(Minuit2_FOUND)
 
+#+++++++++++++++++++++++++++
+#       DOXYGEN            +
+#+++++++++++++++++++++++++++
+if(BUILD_DOXYGEN_DOCUMENTATION)
 
-install(DIRECTORY Hydra
+    if(NOT DOXYGEN_FOUND)
+        message(FALTAL_ERROR "Doxygen documentation generation requested ( BUILD_DOXYGEN_DOCUMENTATION=ON) but Doxygen is not installed.")
+    endif()
+
+    set(doxyfile_in ${CMAKE_CURRENT_SOURCE_DIR}/Doxyfile.in)
+    set(doxyfile    ${CMAKE_CURRENT_SOURCE_DIR}/Doxyfile)
+
+    configure_file(${doxyfile_in} ${doxyfile} @ONLY)
+
+    add_custom_target(doc
+        COMMAND ${DOXYGEN_EXECUTABLE} ${doxyfile}
+        WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
+        COMMENT "Generating API documentation with Doxygen"
+        VERBATIM)
+
+    install(DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/doc DESTINATION src/hydra/doc)
+    
+endif(BUILD_DOXYGEN_DOCUMENTATION)
+
+install(DIRECTORY Hydra/hydra
   DESTINATION include)
 
 install(DIRECTORY 
@@ -197,26 +228,7 @@ install(FILES
   
 
 
-if(BUILD_DOCUMENTATION)
 
-    if(NOT DOXYGEN_FOUND)
-        message(FALTAL_ERROR "Doxygen is needed to build the documentation.")
-    endif()
-
-    set(doxyfile_in ${CMAKE_CURRENT_SOURCE_DIR}/Doxyfile.in)
-    set(doxyfile    ${CMAKE_CURRENT_SOURCE_DIR}/Doxyfile)
-
-    configure_file(${doxyfile_in} ${doxyfile} @ONLY)
-
-    add_custom_target(doc
-        COMMAND ${DOXYGEN_EXECUTABLE} ${doxyfile}
-        WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
-        COMMENT "Generating API documentation with Doxygen"
-        VERBATIM)
-
-    install(DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/doc DESTINATION src/hydra/doc)
-    
-endif()
 
 # build a CPack driven installer package
 include (InstallRequiredSystemLibraries)

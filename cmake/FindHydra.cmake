@@ -34,7 +34,7 @@
 
 find_path( HYDRA_INCLUDE_DIR
   PATHS
-   ${CMAKE_SOURCE_DIR}
+    ${CMAKE_SOURCE_DIR}
     /usr/include
     /usr/local/include
     ${HYDRA_DIR}
