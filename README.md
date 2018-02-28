@@ -60,10 +60,10 @@ The following possibilities are available:
 * host: CPP, OMP, TBB
 * device: CPP, OMP, TBB, CUDA
 
-For example, this will compile ```my_program.cu``` using OpenMP as host backend and CUDA as device backend:
+For example, this will compile ```my_program.cu``` using OpenMP as host backend and CUDA as device backend using the NVidia's compiler ```nvcc```:
 
 ```bash
-nvcc -Xcompiler -fopenmp -DHYDRA_HOST_SYSTEM=OMP -DHYDRA_DEVICE_SYSTEM=CUDA  my_program.cu
+nvcc  -I/path/to/Hydra -Xcompiler -fopenmp -DHYDRA_HOST_SYSTEM=OMP -DHYDRA_DEVICE_SYSTEM=CUDA  my_program.cu ...
 ```
 The available "host" and "device" backends can be freely combined. 
 Two important features related to the Hydra's design and the backend configuration:
