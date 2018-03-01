@@ -28,13 +28,6 @@
 #ifndef ASYNC_INL_
 #define ASYNC_INL_
 
-/**
- * \example
- * @param argv
- * @param argc
- * @return
- */
-
 
 #include <iostream>
 #include <assert.h>
@@ -117,8 +110,7 @@
 #endif //_ROOT_AVAILABLE_
 
 /**
- * @group examples
- *
+ * \example async.inl
  * This example demonstrates how to generate Monte Carlo samples in parallel
  * deploying different backends asynchronously.
  */

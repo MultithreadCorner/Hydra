@@ -31,6 +31,12 @@
 
 
 
+/**
+ * \example breit_wigner_plus_polynomial.inl
+ *
+ */
+
+
 
 #include <iostream>
 #include <assert.h>

@@ -29,6 +29,12 @@
 #ifndef MULTIDIMENSIONAL_FIT_INL_
 #define MULTIDIMENSIONAL_FIT_INL_
 
+/**
+ * \example multidimensional_fit.inl
+ *
+ */
+
+
 #include <iostream>
 #include <assert.h>
 #include <time.h>

@@ -29,6 +29,10 @@
 #ifndef DENSE_HISTOGRAM_INL_
 #define DENSE_HISTOGRAM_INL_
 
+/**
+ * \example dense_histogram.inl
+ *
+ */
 
 #include <iostream>
 #include <assert.h>

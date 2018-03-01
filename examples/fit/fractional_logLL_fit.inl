@@ -29,6 +29,10 @@
 #ifndef FRACTIONAL_LOGLL_FIT_INL_
 #define FRACTIONAL_LOGLL_FIT_INL_
 
+/**
+ * \example fractional_logLL_fit.inl
+ *
+ */
 
 #include <iostream>
 #include <assert.h>

@@ -53,6 +53,7 @@ template< size_t NRULE, size_t NBIN, typename  BACKEND>
 class GaussKronrodQuadrature;
 
 /**
+ * \class
  *  @ingroup numerical_integration
  *
  *  @brief  Gauss-Kronrod Quadrature.

@@ -29,6 +29,10 @@
 #ifndef MULTIARRAY_CONTAINER_INL_
 #define MULTIARRAY_CONTAINER_INL_
 
+/**
+ * \example multiarray_container.inl
+ *
+ */
 
 
 #include <iostream>

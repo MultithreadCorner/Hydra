@@ -30,6 +30,12 @@
 #define CRYSTAL_BALL_PLUS_EXPONENTIAL_INL_
 
 
+/**
+ * \example crystal_ball_plus_exponential.inl
+ *
+ */
+
+
 
 #include <iostream>
 #include <assert.h>

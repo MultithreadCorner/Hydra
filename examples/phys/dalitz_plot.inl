@@ -29,6 +29,14 @@
 #ifndef DALITZ_PLOT_INL_
 #define DALITZ_PLOT_INL_
 
+
+/**
+ * \example dalitz_plot.inl
+ *
+ */
+
+
+
 #include <iostream>
 #include <assert.h>
 #include <time.h>

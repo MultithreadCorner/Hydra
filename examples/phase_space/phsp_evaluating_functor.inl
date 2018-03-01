@@ -31,7 +31,8 @@
 
 
 /**
- * @example phsp_evaluating_functor.inl
+ * \examples phsp_evaluating_functor.inl
+ *
  * This example shows how to use the Hydra's
  * phase space Monte Carlo algorithms to
  * generate events of B0 -> J/psi K pi on fly and

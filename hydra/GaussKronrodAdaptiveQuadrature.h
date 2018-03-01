@@ -48,12 +48,15 @@
 
 namespace hydra {
 
-
+/**
+ * \class
+ * @ingroup numerical_integration
+ */
 template<size_t NRULE, size_t NBIN, typename BACKEND>
 class GaussKronrodAdaptiveQuadrature;
 
 
-/**
+/** \class
  *  @ingroup numerical_integration
  *
  *  @brief  Self-adaptive Gauss-Kronrod Quadrature.

@@ -29,7 +29,10 @@
 #ifndef MULTIVECTOR_CONTAINER_INL_
 #define MULTIVECTOR_CONTAINER_INL_
 
-
+/**
+ * \example multivector_container.inl
+ *
+ */
 
 #include <iostream>
 #include <assert.h>

@@ -32,7 +32,8 @@
 
 
 /**
- * @example phsp_averaging_functor.inl
+ * \example phsp_averaging_functor.inl
+ *
  * This example shows how to use the Hydra's
  * phase space Monte Carlo algorithms to calculate the
  * average value and corresponding variance of a functor

@@ -20,7 +20,7 @@
  *---------------------------------------------------------------------------*/
 
 /*
- * gauss_kronrod.inl
+ * adaptive_gauss_kronrod.inl
  *
  *  Created on: 17/07/2017
  *      Author: Antonio Augusto Alves Junior
@@ -32,8 +32,8 @@
 
 
 /**
- * @file
- * @example adaptive_gauss_kronrod.inl
+ * \example adaptive_gauss_kronrod.inl
+ *
  * This example show how to use the hydra::GaussKronrodAdaptiveQuadrature
  * self-adaptive numerical integration algorithm to calculate
  * the integral of a  Gaussian.

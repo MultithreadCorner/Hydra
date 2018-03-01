@@ -1,16 +1,13 @@
-PROJECT_NAME           = "Hydra"
-PROJECT_NUMBER         = 2.0.1
+#PROJECT_NAME          = "Hydra_examples_and_documentation"
+PROJECT_NUMBER         =  2.1.0
 
 STRIP_FROM_PATH        = /home/augalves/Development/Release/Hydra
  
-<<<<<<< HEAD
-INPUT                  = /home/augalves/Development/Release/Hydra/hydra /home/augalves/Development/Release/Hydra/docs  /home/augalves/Development/Release/Hydra/doxydefs /home/augalves/Development/Release/Hydra/examples /home/augalves/Development/Release/Hydra/README.md
-=======
-INPUT                  = /home/augalves/Development/Release/Hydra/hydra /home/augalves/Development/Release/Hydra/doxydefs /home/augalves/Development/Release/Hydra/docs /home/augalves/Development/Release/Hydra/README.md
->>>>>>> d9c0874adf9760aeb3ad9dac10d7c7f577d9d9cf
+INPUT                  = /home/augalves/Development/Release/Hydra/hydra /home/augalves/Development/Release/Hydra/doxydefs /home/augalves/Development/Release/Hydra/examples /home/augalves/Development/Release/Hydra/README.md
+
 
 USE_MDFILE_AS_MAINPAGE = /home/augalves/Development/Release/Hydra/README.md
-# PROJECT_LOGO           = /home/augalves/Development/Release/Hydra/logo_Hydra.png
+#PROJECT_LOGO          = /home/augalves/Development/Release/Hydra/logo_Hydra.png
 OUTPUT_DIRECTORY       = /home/augalves/Development/Release/HydraEclipseProj/doc
 
 # Doxyfile 1.8.11
@@ -19,9 +16,9 @@ OUTPUT_DIRECTORY       = /home/augalves/Development/Release/HydraEclipseProj/doc
 # Project related configuration options
 #---------------------------------------------------------------------------
 DOXYFILE_ENCODING      = UTF-8
-#PROJECT_NAME           = Hydra
+PROJECT_NAME           = Hydra
 #PROJECT_NUMBER         = 2.0.0
-PROJECT_BRIEF          = "A header only templated C++ library to perform data analysis on massively parallel platforms."
+PROJECT_BRIEF          = "A header-only templated C++ framework to perform data analysis on massively parallel platforms."
 CREATE_SUBDIRS         = NO
 ALLOW_UNICODE_NAMES    = NO
 OUTPUT_LANGUAGE        = English
@@ -173,14 +170,9 @@ FILE_PATTERNS          = *.cu \
 RECURSIVE              = YES
 EXCLUDE                = 
 EXCLUDE_SYMLINKS       = NO
-EXCLUDE_PATTERNS       = */external/*
-<<<<<<< HEAD
+EXCLUDE_PATTERNS       = */detail/*
 EXCLUDE_SYMBOLS        = 
 EXAMPLE_PATH           = /home/augalves/Development/Release/Hydra/examples
-=======
-EXCLUDE_SYMBOLS        = detail
-EXAMPLE_PATH           = /home/augalves/Development/Release/Hydra/src
->>>>>>> d9c0874adf9760aeb3ad9dac10d7c7f577d9d9cf
 EXAMPLE_PATTERNS       = *
 EXAMPLE_RECURSIVE      = YES
 IMAGE_PATH             = /home/augalves/Development/Release/Hydra, /home/augalves/Development/Release/HydraEclipseProj/plots

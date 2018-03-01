@@ -5,7 +5,6 @@
 Table of Contents
 =================
 
-* ## Hydra
   * [What is it?](#what-is-it)
   * [Main features](#main-features)
   * [Hydra and Thrust](#hydra-and-thrust)

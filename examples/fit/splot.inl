@@ -30,6 +30,12 @@
 #define SPLOT_INL_
 
 
+/**
+ * \example splot.inl
+ *
+ */
+
+
 #include <iostream>
 #include <assert.h>
 #include <time.h>

@@ -28,6 +28,11 @@
 #ifndef EXTENDED_LOGLL_FIT_INL_
 #define EXTENDED_LOGLL_FIT_INL_
 
+/**
+ * \example extended_logLL_fit.inl
+ *
+ */
+
 #include <iostream>
 #include <assert.h>
 #include <time.h>

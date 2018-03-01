@@ -29,6 +29,10 @@
 #ifndef BASIC_FIT_INL_
 #define BASIC_FIT_INL_
 
+/**
+ * \example basic_fit.inl
+ *
+ */
 
 #include <iostream>
 #include <assert.h>

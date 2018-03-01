@@ -29,6 +29,12 @@
 #ifndef SAMPLE_DISTRIBUTION_INL_
 #define SAMPLE_DISTRIBUTION_INL_
 
+/**
+ * \example sample_distribution.inl
+ *
+ */
+
+
 #include <iostream>
 #include <assert.h>
 #include <time.h>

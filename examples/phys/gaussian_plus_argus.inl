@@ -30,6 +30,12 @@
 #define GAUSSIANPLUSARGUS_H_
 
 
+/**
+ * \example gaussian_plus_argus.inl
+ *
+ */
+
+
 #include <iostream>
 #include <assert.h>
 #include <time.h>

@@ -28,6 +28,12 @@
 #ifndef BASIC_DISTRIBUTIONS_INL_
 #define BASIC_DISTRIBUTIONS_INL_
 
+/**
+ * \example basic_distributions.inl
+ *
+ */
+
+
 #include <iostream>
 #include <assert.h>
 #include <time.h>

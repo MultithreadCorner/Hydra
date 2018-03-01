@@ -30,8 +30,8 @@
 
 
 /**
- * @example phsp_basic.inl
- * This example shows how to use the Hydra's
+ * \example phsp_unweighting.inl
+ * \brief This example shows how to use the Hydra's
  * phase space Monte Carlo algorithms to
  * generate a sample of B0 -> J/psi K pi and
  * plot the Dalitz plot.

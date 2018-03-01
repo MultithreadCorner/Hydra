@@ -31,9 +31,9 @@
 
 
 
+
 /**
- * @file
- * @example gauss_kronrod.inl
+ * \example gauss_kronrod.inl
  * This example show how to use the hydra::GaussKronrodQuadrature
  * static numerical integration algorithm to calculate
  * the integral of a  Gaussian.

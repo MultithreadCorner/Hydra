@@ -29,6 +29,10 @@
 #ifndef SPARSE_HISTOGRAMING_INL_
 #define SPARSE_HISTOGRAMING_INL_
 
+/**
+ * \example sparse_histogram.inl
+ *
+ */
 
 
 #include <iostream>

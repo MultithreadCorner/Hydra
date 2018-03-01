@@ -30,8 +30,7 @@
 #define VEGAS_INL_
 
 /**
- * @file
- * @example vegas.inl
+ * \example vegas.inl
  * This example show how to use the hydra::Vegas
  * numerical integration algorithm to calculate
  * the integral of a five dimensional Gaussian.
