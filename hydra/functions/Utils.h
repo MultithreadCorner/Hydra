@@ -97,7 +97,7 @@ namespace detail {
  */
 	template<typename T>
 	inline  __hydra_host__ __hydra_device__
-	constexpr int nint(const T x)
+	int nint(const T x)
 	{
 		// Round to nearest integer. Rounds half integers to the nearest
 		// even integer.

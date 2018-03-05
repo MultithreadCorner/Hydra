@@ -29,8 +29,11 @@
 #ifndef ADDPDF_H_
 #define ADDPDF_H_
 
-
-
+/**
+ * \ingroup fit
+ * \file
+ * \brief Include this file to get the classes and functions necessary to build-up composed PDF models.
+ */
 #include <hydra/PDFSumExtendable.h>
 #include <hydra/PDFSumNonExtendable.h>
 

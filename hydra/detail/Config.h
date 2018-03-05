@@ -38,24 +38,33 @@
 
 
 
-#if (__cplusplus < 201103L)
-#error "[Hydra]:  Hydra needs at least a C++11 compliant compiler"
+#if(__cplusplus < 201103L)
+#error "[Hydra]:  Hydra requires at least a C++11 compliant compiler."
 #endif
 
-#if (HYDRA_HOST_SYSTEM!=CPP && HYDRA_HOST_SYSTEM!=OMP && HYDRA_HOST_SYSTEM!=TBB)
+
+#ifndef HYDRA_HOST_SYSTEM
+
+#define HYDRA_THRUST_HOST_SYSTEM HYDRA_THRUST_HOST_SYSTEM_CPP
+
+#elif (HYDRA_HOST_SYSTEM!=CPP && HYDRA_HOST_SYSTEM!=OMP && HYDRA_HOST_SYSTEM!=TBB)
 
 #error "[Hydra]: Backend not supported. Supported host backends are {CPP, OMP, TBB}."
 
 #endif
 
-#if (HYDRA_DEVICE_SYSTEM!=CPP && HYDRA_DEVICE_SYSTEM!=OMP && HYDRA_DEVICE_SYSTEM!=TBB  && HYDRA_DEVICE_SYSTEM!=CUDA )
+
+#ifndef HYDRA_DEVICE_SYSTEM
+
+#define HYDRA_THRUST_DEVICE_SYSTEM HYDRA_THRUST_DEVICE_SYSTEM_CPP
+
+#elif(HYDRA_DEVICE_SYSTEM!=CPP && HYDRA_DEVICE_SYSTEM!=OMP && HYDRA_DEVICE_SYSTEM!=TBB  && HYDRA_DEVICE_SYSTEM!=CUDA )
+
 #error "[Hydra]: Backend not supported. Supported device backends are {CPP, OMP, TBB, CUDA}"
+
 #endif
 
 
-#ifndef HYDRA_HOST_SYSTEM
-#define HYDRA_HOST_SYSTEM HYDRA_THRUST_HOST_SYSTEM_CPP
-#endif
 
 //host definition
 #if (HYDRA_HOST_SYSTEM==CPP)
@@ -66,10 +75,6 @@
 	#define HYDRA_THRUST_HOST_SYSTEM HYDRA_THRUST_HOST_SYSTEM_TBB
 #endif
 
-
-#ifndef HYDRA_DEVICE_SYSTEM
-#define HYDRA_DEVICE_SYSTEM HYDRA_THRUST_DEVICE_SYSTEM_CPP
-#endif
 
 //device definition
 #if   (HYDRA_DEVICE_SYSTEM==CPP)
@@ -98,7 +103,7 @@
 #if defined(__CUDACC__)
 #define __hydra_align__(n) __align__(n)
 #else
-  #define       __hydra_align__(n) __attribute__((aligned(n)))
+  #define  __hydra_align__(n) __attribute__((aligned(n)))
 #endif
 
 #ifdef __NVCC__

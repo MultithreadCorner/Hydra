@@ -47,27 +47,10 @@
 #include <utility>
 
 namespace hydra {
-/*
-namespace detail {
 
-
-template<typename PDF1, typename PDF2, typename ...PDFs>
-class AddPdfChecker:  public all_true<
-detail::is_hydra_pdf<PDF1>::value,
-detail::is_hydra_pdf<PDF2>::value,
-detail::is_hydra_pdf<PDFs>::value...>{} ;
-
-template<typename PDF1, typename PDF2, typename ...PDFs>
-class AddPdfBase: public std::enable_if<AddPdfChecker<PDF1,PDF2,PDFs...>::value>
-{};
-
-}  // namespace detail
-
-*/
 /**
- * @class
- * @ingroup fit
- * @brief Build a pdf adding other pdfs.
+ * \ingroup fit
+ * \brief Class representing a pdf object built summing up other pdfs.
  *
  * Given N unnormalized pdfs \f$F_i\f$ , this class define a object representing the sum
  * \f[ F_t = \sum_i^N c_i \times F_i \f]
@@ -354,7 +337,21 @@ private:
 };
 
 /**
- *\brief Convenience function to add pdfs without set template parameters explicitly.
+ * \ingroup fit
+ * \brief Function to build up extendable pdfs models.
+ *
+ * Given N unnormalized pdfs \f$F_i\f$ , this class define a object representing the sum
+ * \f[ F_t = \sum_i^N c_i \times F_i \f]
+ * The coefficients of the pdfs can represent fractions or yields. If the number of coefficients is equal to
+ * the number of pdfs, the coefficients are interpreted as yields. If the number of coefficients is \f$(N-1)\f$,
+ * the coefficients are interpreted as fractions defined in the interval [0,1].
+ * The coefficient of the last term is calculated as \f$ c_N=1 -\sum_i^{(N-1)} c_i \f$.
+ *
+ * @param var_list std::array<hydra::Parameter, N > holding the (N_{Pdf} -1) hydra::Parameter yields
+ * @param pdf1 hydra::Pdf object one
+ * @param pdf2 hydra::Pdf object two
+ * @param pdfs ... more pdfs
+ * @return
  */
 template<typename PDF1, typename PDF2, typename ...PDFs>
 PDFSumExtendable<PDF1, PDF2, PDFs...>

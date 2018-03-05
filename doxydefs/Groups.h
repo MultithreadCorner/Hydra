@@ -49,5 +49,9 @@
  * \brief Policies
  */
 
+/**
+ * \defgroup histogram Histogram
+ * \brief Histogram
+ */
 
 #endif /* GROUPS_H_ */

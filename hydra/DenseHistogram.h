@@ -47,11 +47,20 @@
 
 namespace hydra {
 
-
+/**
+ * \ingroup histogram
+ */
 template< typename T, size_t N, typename BACKEND, typename = typename detail::dimensionality<N>::type,
 	typename = typename std::enable_if<std::is_arithmetic<T>::value, void>::type>
 class DenseHistogram;
 
+/**
+ * \ingroup histogram
+ * \brief Class representing multidimensional dense histograms.
+ * \tparam T type of data to histogram
+ * \tparam N number of dimensions
+ * \tparam BACKEND memory space where histogram is allocated
+ */
 template<typename T, size_t N , hydra::detail::Backend BACKEND>
 class DenseHistogram< T, N,  detail::BackendPolicy<BACKEND>, detail::multidimensional>
 {
@@ -98,8 +107,7 @@ public:
 	}
 
 	template<typename Int, typename = typename std::enable_if<std::is_integral<Int>::value, void>::type>
-	DenseHistogram( std::array<Int, N> grid,
-				std::array<T, N> const& lowerlimits,   std::array<T, N> const& upperlimits):
+	DenseHistogram( std::array<Int, N> grid, std::array<T, N> const& lowerlimits,   std::array<T, N> const& upperlimits):
 					fNBins(1)
 		{
 			for( size_t i=0; i<N; i++){
@@ -113,9 +121,8 @@ public:
 		}
 
 	template<typename Int, typename = typename std::enable_if<std::is_integral<Int>::value, void>::type>
-		DenseHistogram( Int (&grid)[N],
-				T (&lowerlimits)[N],   T (&upperlimits)[N] ):
-					fNBins(1)
+	DenseHistogram( Int (&grid)[N],	T (&lowerlimits)[N],   T (&upperlimits)[N] ):
+				fNBins(1)
 		{
 			for( size_t i=0; i<N; i++){
 				fGrid[i]=grid[i];
@@ -127,6 +134,32 @@ public:
 			fContents.resize(fNBins  +2);
 		}
 
+
+
+
+	DenseHistogram(DenseHistogram< T, N, hydra::detail::BackendPolicy<BACKEND>, detail::multidimensional> const& other ):
+			fContents(other.GetContents())
+		{
+			for( size_t i=0; i<N; i++){
+				fGrid[i] = other.GetGrid(i);
+				fLowerLimits[i] = other.GetLowerLimits(i);
+				fUpperLimits[i] = other.GetUpperLimits(i);
+			}
+
+			fNBins= other.GetNBins();
+		}
+
+	DenseHistogram(DenseHistogram< T, N, hydra::detail::BackendPolicy<BACKEND>, detail::multidimensional>&& other ):
+			fContents(std::move(other.GetContents()))
+		{
+			for( size_t i=0; i<N; i++){
+				fGrid[i] = other.GetGrid(i);
+				fLowerLimits[i] = other.GetLowerLimits(i);
+				fUpperLimits[i] = other.GetUpperLimits(i);
+			}
+
+			fNBins= other.GetNBins();
+		}
 
 	DenseHistogram<T,N, hydra::detail::BackendPolicy<BACKEND>, detail::multidimensional>&
 	operator=(DenseHistogram<T, N, hydra::detail::BackendPolicy<BACKEND>, detail::multidimensional> const& other )
@@ -145,7 +178,26 @@ public:
 	}
 
 
-	DenseHistogram(DenseHistogram< T, N, hydra::detail::BackendPolicy<BACKEND>, detail::multidimensional> const& other ):
+	DenseHistogram<T,N, hydra::detail::BackendPolicy<BACKEND>, detail::multidimensional>&
+	operator=(DenseHistogram<T, N, hydra::detail::BackendPolicy<BACKEND>, detail::multidimensional>&& other )
+	{
+		if(this==&other) return *this;
+
+		fContents = std::move(other.GetContents());
+		for( size_t i=0; i<N; i++){
+			fGrid[i] = other.GetGrid(i);
+			fLowerLimits[i] = other.GetLowerLimits(i);
+			fUpperLimits[i] = other.GetUpperLimits(i);
+		}
+
+		fNBins= other.GetNBins();
+		return *this;
+	}
+
+
+
+	template<hydra::detail::Backend BACKEND2>
+	DenseHistogram(DenseHistogram< T, N, hydra::detail::BackendPolicy<BACKEND2>, detail::multidimensional> const& other ):
 			fContents(other.GetContents())
 		{
 			for( size_t i=0; i<N; i++){
@@ -172,18 +224,6 @@ public:
 		return *this;
 	}
 
-	template<hydra::detail::Backend BACKEND2>
-	DenseHistogram(DenseHistogram< T, N, hydra::detail::BackendPolicy<BACKEND2>, detail::multidimensional> const& other ):
-			fContents(other.GetContents())
-		{
-			for( size_t i=0; i<N; i++){
-				fGrid[i] = other.GetGrid(i);
-				fLowerLimits[i] = other.GetLowerLimits(i);
-				fUpperLimits[i] = other.GetUpperLimits(i);
-			}
-
-			fNBins= other.GetNBins();
-		}
 
 	 inline const storage_t& GetContents() const {
 		return fContents;
@@ -537,6 +577,10 @@ private:
 /*
  * 1D dimension specialization
  */
+/**
+ * \ingroup histogram
+ * \brief Class representing one-dimensional dense histogram.
+ */
 template< typename T, hydra::detail::Backend BACKEND >
 class DenseHistogram<T, 1,  hydra::detail::BackendPolicy<BACKEND>,   detail::unidimensional >{
 
@@ -572,12 +616,36 @@ public:
 		fNBins(other.GetNBins())
 	{}
 
+	DenseHistogram(DenseHistogram< T,1,  hydra::detail::BackendPolicy<BACKEND>,detail::unidimensional >&& other ):
+			fContents(std::move(other.GetContents())),
+			fGrid(other.GetGrid()),
+			fLowerLimits(other.GetLowerLimits()),
+			fUpperLimits(other.GetUpperLimits()),
+			fNBins(other.GetNBins())
+		{}
+
+
+
 	DenseHistogram<T,1, hydra::detail::BackendPolicy<BACKEND>, detail::multidimensional>&
 	operator=(DenseHistogram<T, 1, hydra::detail::BackendPolicy<BACKEND>, detail::unidimensional> const& other )
 	{
 		if(this==&other) return *this;
 
 		fContents = other.GetContents();
+		fGrid = other.GetGrid();
+		fLowerLimits = other.GetLowerLimits();
+		fUpperLimits = other.GetUpperLimits();
+		fNBins= other.GetNBins();
+
+		return *this;
+	}
+
+	DenseHistogram<T,1, hydra::detail::BackendPolicy<BACKEND>, detail::multidimensional>&
+	operator=(DenseHistogram<T, 1, hydra::detail::BackendPolicy<BACKEND>, detail::unidimensional>&& other )
+	{
+		if(this==&other) return *this;
+
+		fContents = std::move(other.GetContents());
 		fGrid = other.GetGrid();
 		fLowerLimits = other.GetLowerLimits();
 		fUpperLimits = other.GetUpperLimits();
@@ -715,6 +783,41 @@ private:
 	system_t fSystem;
 
 };
+
+/**
+ * \ingroup histogram
+ * \brief Function to make a N-dimensional dense histogram.
+ *
+ * @param backend
+ * @param grid  std::array storing the bins per dimension.
+ * @param lowerlimits std::array storing the lower limits per dimension.
+ * @param upperlimits  std::array storing the upper limits per dimension.
+ * @param first Iterator pointing to the begin of the data range.
+ * @param end Iterator pointing to the end of the data range.
+ * @return
+ */
+template<typename Iterator, typename T, size_t N , hydra::detail::Backend BACKEND>
+DenseHistogram< T, N,  detail::BackendPolicy<BACKEND>, detail::multidimensional>
+make_dense_histogram( detail::BackendPolicy<BACKEND> backend, std::array<size_t, N> grid,
+		std::array<T, N> const& lowerlimits,   std::array<T, N> const& upperlimits,
+		Iterator first, Iterator end);
+
+/**
+ * \ingroup histogram
+ * \brief Function to make a N-dimensional dense histogram.
+ *
+ * @param backend
+ * @param grid  std::array storing the bins per dimension.
+ * @param lowerlimits std::array storing the lower limits per dimension.
+ * @param upperlimits  std::array storing the upper limits per dimension.
+ * @param first Iterator pointing to the begin of the data range.
+ * @param end Iterator pointing to the end of the data range.
+ * @return
+ */
+template<typename Iterator, typename T, hydra::detail::Backend BACKEND>
+DenseHistogram< T, 1,  detail::BackendPolicy<BACKEND>, detail::multidimensional>
+make_dense_histogram( detail::BackendPolicy<BACKEND> backend, size_t grid, T lowerlimits, T upperlimits,
+		Iterator first, Iterator end);
 
 
 }  // namespace hydra

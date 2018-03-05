@@ -37,7 +37,14 @@
 
 namespace hydra {
 
-
+/**
+ * \ingroup fit
+ * \brief LogLikehood object for not composed models represented by hydra::Pdf objects
+ * \tparam Functor
+ * \tparam Integrator
+ * \tparam IteratorD
+ * \tparam IteratorW
+ */
 template<typename Functor, typename Integrator, typename IteratorD, typename ...IteratorW>
 class LogLikelihoodFCN< Pdf<Functor,Integrator> , IteratorD, IteratorW...>: public FCN<LogLikelihoodFCN< Pdf<Functor,Integrator>,IteratorD, IteratorW... > >{
 
@@ -141,6 +148,15 @@ public:
 
 };
 
+/**
+ * \ingroup fit
+ * \brief Conveniency function to build up loglikehood fcns
+ * @param pdf hydra::Pdf object
+ * @param first iteraror pointing to begin of data range
+ * @param last iteraror pointing to end of data range
+ * @param weights iteraror pointing to begin of weights range
+ * @return
+ */
 template< typename Functor, typename Integrator,  typename Iterator, typename ...Iterators>
 auto make_loglikehood_fcn(Pdf<Functor,Integrator> const& pdf, Iterator first, Iterator last,  Iterators... weights )
 -> LogLikelihoodFCN< Pdf<Functor,Integrator>, Iterator , Iterators... >

@@ -71,16 +71,16 @@ namespace hydra {
 
 
 /**
- * @ingroup phsp
- * @brief This class implements phase-space Monte Carlo generation in hydra.
+ * \ingroup phsp
+ * \brief This class implements phase-space Monte Carlo generation in hydra.
  *
  * The events are generated in the center-of-mass frame, but the decay products are finally boosted using the betas of the original particle.
  * The code is based on the Raubold and Lynch method as documented in [F. James, Monte Carlo Phase Space, CERN 68-15 (1968)](https://cds.cern.ch/record/275743).
  *
  * Note that Momentum, Energy units are @f$GeV/C@f$ , @f$GeV/C^2@f$ .
  *
- *@tparam N is the number of particles in final state.
- *@tparam GRND underlying random number generator. See the options in HYDRA_EXTERNAL_NS::thrust::random namespace.
+ *\tparam N is the number of particles in final state.
+ *\tparam GRND underlying random number generator. See the options in HYDRA_EXTERNAL_NS::thrust::random namespace.
  */
 template <size_t N, typename GRND=HYDRA_EXTERNAL_NS::thrust::random::default_random_engine>
 class PhaseSpace {

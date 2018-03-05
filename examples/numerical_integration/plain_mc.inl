@@ -26,6 +26,8 @@
  *      Author: Antonio Augusto Alves Junior
  */
 
+#ifndef PLAIN_MC_INL_
+#define PLAIN_MC_INL_
 
 /**
  * \example plain_mc.inl
@@ -145,3 +147,4 @@ int main(int argv, char** argc)
 
 	}
 
+#endif /* PLAIN_INL_ */

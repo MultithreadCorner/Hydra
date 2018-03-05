@@ -50,10 +50,17 @@
 
 namespace hydra {
 
+/**
+ * \ingroup histogram
+ */
 template<typename T, size_t N,  typename BACKEND, typename = typename detail::dimensionality<N>::type,
 	typename = typename std::enable_if<std::is_arithmetic<T>::value, void>::type>
 class SparseHistogram;
 
+/**
+ * \ingroup histogram
+ * Class representing multidimensional sparse histogram.
+ */
 template<typename T, size_t N, hydra::detail::Backend BACKEND >
 class SparseHistogram<T, N,  detail::BackendPolicy<BACKEND>, detail::multidimensional>
 {
@@ -541,9 +548,9 @@ private:
 
 };
 
-
-/*
- * 1D dimension specialization
+/**
+ * \ingroup histogram
+ * Class representing one-dimensional sparse histogram.
  */
 template< typename T, hydra::detail::Backend BACKEND >
 class SparseHistogram<T,1, detail::BackendPolicy<BACKEND>,  detail::unidimensional >{
@@ -753,6 +760,40 @@ private:
 	system_t fSystem;
 };
 
+/**
+ * \ingroup histogram
+ * \brief Function to make a N-dimensional sparse histogram.
+ *
+ * @param backend
+ * @param grid  std::array storing the bins per dimension.
+ * @param lowerlimits std::array storing the lower limits per dimension.
+ * @param upperlimits  std::array storing the upper limits per dimension.
+ * @param first Iterator pointing to the begin of the data range.
+ * @param end Iterator pointing to the end of the data range.
+ * @return
+ */
+template<typename Iterator, typename T, size_t N , hydra::detail::Backend BACKEND>
+SparseHistogram< T, N,  detail::BackendPolicy<BACKEND>, detail::multidimensional>
+make_sparse_histogram( detail::BackendPolicy<BACKEND> backend, std::array<size_t, N> grid,
+		std::array<T, N> const& lowerlimits,   std::array<T, N> const& upperlimits,
+		Iterator first, Iterator end);
+
+/**
+ * \ingroup histogram
+ * \brief Function to make a N-dimensional sparse histogram.
+ *
+ * @param backend
+ * @param grid  std::array storing the bins per dimension.
+ * @param lowerlimits std::array storing the lower limits per dimension.
+ * @param upperlimits  std::array storing the upper limits per dimension.
+ * @param first Iterator pointing to the begin of the data range.
+ * @param end Iterator pointing to the end of the data range.
+ * @return
+ */
+template<typename Iterator, typename T, hydra::detail::Backend BACKEND>
+SparseHistogram< T, 1,  detail::BackendPolicy<BACKEND>, detail::multidimensional>
+make_sparse_histogram( detail::BackendPolicy<BACKEND> backend, size_t grid, T lowerlimits, T upperlimits,
+		Iterator first, Iterator end);
 
 
 }  // namespace hydra

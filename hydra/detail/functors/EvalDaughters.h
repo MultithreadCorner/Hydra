@@ -30,10 +30,7 @@
  *      Author: Antonio Augusto Alves Junior
  */
 
-/**
- * \file
- * \ingroup phsp
- */
+
 
 
 #ifndef _EVALONDAUGHTERS_H_

@@ -62,12 +62,13 @@ detail::is_hydra_integrator<INTEGRATOR>::value >
 
 
 /**
- * @brief Class describing probability density functions.
- * @ingroup fit
+ *
+ * \brief Class representing probability density functions.
+ * \ingroup fit
  * A hydra::Pdf has two components:
  *
- *  1. non-normalized functor, describing the shape.
- *  2. integration algorithm or functor for analytical integration, which normalizes the functor.
+ *  \tparam FUNCTOR unnormalized functor, describing the shape.
+ *  \tparam INTEGRATOR integration algorithm or functor for analytical integration, which normalizes the functor.
  */
 template<typename FUNCTOR, typename INTEGRATOR>
 class Pdf: public detail::PdfBase<FUNCTOR, INTEGRATOR>
@@ -292,11 +293,12 @@ private:
 
 
 /**
- * @brief Build a hydra::Pdf given a shape described by a functor and a integrator
+ * \ingroup fit
+ * \brief Build a hydra::Pdf given a shape described by a functor and a integrator
  *  (algorithm or functor).
- * @param functor shape.
- * @param integrator algorithm or functor.
- * @return a hydra::Pdf instance.
+ * \param functor shape.
+ * \param integrator algorithm or functor.
+ * \return a hydra::Pdf instance.
  */
 template<typename FUNCTOR, typename INTEGRATOR>
 Pdf<FUNCTOR, INTEGRATOR> make_pdf( FUNCTOR const& functor,  INTEGRATOR integrator)

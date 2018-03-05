@@ -26,8 +26,8 @@
  *      Author: Antonio Augusto Alves Junior
  */
 
-#ifndef GAUSS_KRONROD_INL_
-#define GAUSS_KRONROD_INL_
+#ifndef ADAPTIVE_GAUSS_KRONROD_INL_
+#define ADAPTIVE_GAUSS_KRONROD_INL_
 
 
 
@@ -127,4 +127,4 @@ int main(int argv, char** argc)
 
 
 
-#endif /* GAUSS_KRONROD_INL_ */
+#endif /* ADAPTIVE_GAUSS_KRONROD_INL_ */

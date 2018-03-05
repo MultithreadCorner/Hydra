@@ -59,12 +59,17 @@
 #include <hydra/detail/external/thrust/tuple.h>
 
 namespace hydra {
-
+/**
+* \ingroup phsp
+*/
 template<size_t N, typename BACKEND>
 class Decays;
 
 /**
- * \class
+ * \ingroup phsp
+ * \brief This class provides storage for N-particle final states. Data is stored using SoA layout.
+ * \tparam N number of particles in the final state
+ * \tparam BACKEND memory space to allocate storage for the particles.
  */
 template<size_t N, hydra::detail::Backend BACKEND>
 class Decays<N, hydra::detail::BackendPolicy<BACKEND> > {

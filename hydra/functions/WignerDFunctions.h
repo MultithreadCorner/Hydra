@@ -49,7 +49,7 @@
 namespace hydra {
 
 /**
- * @class WignerD
+ * \class WignerD
  *
  *  Calculates the beta-term
  *                   \f[ d^j_{mn}(beta) \f]
@@ -61,7 +61,7 @@ namespace hydra {
  */
 
 template<unsigned int J, int M, int N, unsigned int Denominator=1,  unsigned int ArgIndex=0>
-class WignerD: public BaseFunctor<WignerD<ArgIndex>, double, 0>
+class WignerD: public BaseFunctor<WignerD<J, M,Denominator,ArgIndex>, double, 0>
 {
 	constexpr static int JPM  = detail::nearest_int<J+M,Denominator>::value;
 	constexpr static int JPN  = detail::nearest_int<J+N,Denominator>::value;
@@ -76,15 +76,15 @@ public:
 	WignerD()=default;
 
 	__hydra_dual__
-	WignerD( WignerD<J, ArgIndex> const& other):
-		BaseFunctor<WignerD<ArgIndex>, double, 0>(other)
+	WignerD( WignerD<J, M,Denominator, ArgIndex> const& other):
+		BaseFunctor<WignerD<J, M,Denominator,ArgIndex>, double, 0>(other)
 		{}
 
 	__hydra_dual__
-	WignerD<ArgIndex>& operator=( WignerD<ArgIndex> const& other){
+	WignerD<J, M,Denominator,ArgIndex>& operator=( WignerD<J, M,Denominator,ArgIndex> const& other){
 
 		if(this == &other) return *this;
-		BaseFunctor<WignerD<ArgIndex>, double, 0>::operator=(other);
+		BaseFunctor<WignerD<J, M,Denominator,ArgIndex>, double, 0>::operator=(other);
 
 		return *this;
 	}

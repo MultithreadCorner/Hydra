@@ -39,8 +39,8 @@
 namespace hydra {
 
 /**
- * @ingroup numerical_integration
- * @brief Simple structure to hold the results of the Plain MC numerical integration.
+ * \ingroup numerical_integration
+ * \brief Simple structure to hold the results of the Plain MC numerical integration.
  */
 struct PlainState
 {

@@ -54,8 +54,8 @@ class CosTheta:public BaseFunctor<CosTheta, double, 0>
 
 public:
 
-
-	CosTheta()=default;
+	__hydra_host__  __hydra_device__
+	CosTheta(){};
 
 	__hydra_host__  __hydra_device__ inline
 	CosTheta&		operator=( CosTheta const& other){
@@ -109,7 +109,11 @@ private:
 				/ ::sqrt((pq * pq - mq2 * mp2) * (qd * qd - mq2 * md2));
 
 		}
+
+
+
 };
+
 }  // namespace hydra
 
 

@@ -26,11 +26,6 @@
  *      Author: Antonio Augusto Alves Junior
  */
 
-/**
- * \file
- * \ingroup numerical_integration
- */
-
 
 #ifndef VEGASSTATE_INL_
 #define VEGASSTATE_INL_
@@ -247,6 +242,120 @@ VegasState( VegasState<N, hydra::detail::BackendPolicy <BACKEND2>> const& other)
 		fBackendXLow(other.GetBackendXLow()),
 		//fBackendDistribution(other.GetBackendDistribution()),
 		fOStream(std::cout) {}
+
+
+
+template<size_t N , hydra::detail::Backend BACKEND>
+VegasState<N,hydra::detail::BackendPolicy<BACKEND>>&
+VegasState<N, hydra::detail::BackendPolicy<BACKEND>>::operator=(VegasState<N,hydra::detail::BackendPolicy<BACKEND>> const& other)
+{
+	if(this==&other)return *this;
+        fTrainingIterations=other.GetTrainingIterations();
+        fTrainedGridFrozen=other.IsTrainedGridFrozen();
+		fAlpha=other.GetAlpha();
+		fNDimensions=other.GetNDimensions();
+		fNBinsMax=other.GetNBinsMax();
+		fNBins=other.GetNBins();
+		fNBoxes=other.GetNBoxes();
+		fVolume=other.GetVolume();
+		fMode=other.GetMode();
+		fVerbose=other.GetVerbose();
+		fIterations=other.GetIterations();
+		fStage=other.GetStage();
+		fJacobian=other.GetJacobian();
+		fWeightedIntSum=other.GetWeightedIntSum();
+		fSumOfWeights=other.GetSumOfWeights();
+		fChiSum=other.GetChiSum();
+		fChiSquare=other.GetChiSquare();
+		fResult=other.GetResult();
+		fSigma=other.GetSigma();
+		fItStart=other.GetItStart();
+		fItNum=other.GetItNum();
+		fSamples=other.GetSamples();
+		fMaxError=other.GetMaxError();
+		fUseRelativeError=other.IsUseRelativeError();
+		fCallsPerBox=other.GetCallsPerBox();
+		fCalls=other.GetCalls();
+		fTrainingCalls=other.GetTrainingCalls();
+		fDeltaX=other.GetDeltaX();
+		fDistribution=other.GetDistribution();
+		fXi=other.GetXi();
+		fXin=other.GetXin();
+		fWeight=other.GetWeight();
+		fXLow=other.GetXLow();
+		fXUp=other.GetXUp();
+		fIterationResult=other.GetIterationResult();
+		fIterationSigma=other.GetIterationSigma();
+		fCumulatedResult=other.GetCumulatedResult();
+		fCumulatedSigma=other.GetCumulatedSigma();
+		fIterationDuration=other.GetIterationDuration();
+		fBackendDeltaX=other.GetBackendDeltaX();
+		fBackendXi=other.GetBackendXi();
+		fBackendXLow=other.GetBackendXLow();
+		//fBackendDistribution=other.GetBackendDistribution();
+
+		fOStream =other.GetOStream();
+
+		return *this;
+
+}
+
+template<size_t N , hydra::detail::Backend BACKEND>
+template<hydra::detail::Backend BACKEND2>
+VegasState<N,hydra::detail::BackendPolicy<BACKEND>>&
+VegasState<N, hydra::detail::BackendPolicy<BACKEND>>::operator=( VegasState<N, hydra::detail::BackendPolicy <BACKEND2>> const& other)
+{
+	if(this==&other)return *this;
+
+        fTrainingIterations=other.GetTrainingIterations();
+        fTrainedGridFrozen=other.IsTrainedGridFrozen();
+		fAlpha=other.GetAlpha();
+		fNDimensions=other.GetNDimensions();
+		fNBinsMax=other.GetNBinsMax();
+		fNBins=other.GetNBins();
+		fNBoxes=other.GetNBoxes();
+		fVolume=other.GetVolume();
+		fMode=other.GetMode();
+		fVerbose=other.GetVerbose();
+		fIterations=other.GetIterations();
+		fStage=other.GetStage();
+		fJacobian=other.GetJacobian();
+		fWeightedIntSum=other.GetWeightedIntSum();
+		fSumOfWeights=other.GetSumOfWeights();
+		fChiSum=other.GetChiSum();
+		fChiSquare=other.GetChiSquare();
+		fResult=other.GetResult();
+		fSigma=other.GetSigma();
+		fItStart=other.GetItStart();
+		fItNum=other.GetItNum();
+		fSamples=other.GetSamples();
+		fMaxError=other.GetMaxError();
+		fUseRelativeError=other.IsUseRelativeError();
+		fCallsPerBox=other.GetCallsPerBox();
+		fCalls=other.GetCalls();
+		fTrainingCalls=other.GetTrainingCalls();
+		fDeltaX=other.GetDeltaX();
+		fDistribution=other.GetDistribution();
+		fXi=other.GetXi();
+		fXin=other.GetXin();
+		fWeight=other.GetWeight();
+		fXLow=other.GetXLow();
+		fXUp=other.GetXUp();
+		fIterationResult=other.GetIterationResult();
+		fIterationSigma=other.GetIterationSigma();
+		fCumulatedResult=other.GetCumulatedResult();
+		fCumulatedSigma=other.GetCumulatedSigma();
+		fIterationDuration=other.GetIterationDuration();
+		fBackendDeltaX=other.GetBackendDeltaX();
+		fBackendXi=other.GetBackendXi();
+		fBackendXLow=other.GetBackendXLow();
+		//fBackendDistribution=other.GetBackendDistribution();
+		fOStream =other.GetOStream();
+
+		return *this;
+}
+
+
 
 template<size_t N , hydra::detail::Backend BACKEND>
 void VegasState<N, hydra::detail::BackendPolicy<BACKEND>>::ClearStoredIterations()

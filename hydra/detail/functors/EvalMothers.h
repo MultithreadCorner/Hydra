@@ -26,10 +26,6 @@
  *      Author: Antonio Augusto Alves Junior
  */
 
-/**
- * \file
- * \ingroup phsp
- */
 
 #ifndef EVALMOTHERS_H_
 #define EVALMOTHERS_H_

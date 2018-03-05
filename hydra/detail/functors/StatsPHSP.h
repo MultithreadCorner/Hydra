@@ -27,10 +27,6 @@
  */
 
 
-/**
- * \file
- * \ingroup phsp
- */
 
 #ifndef STATSPHSP_H_
 #define STATSPHSP_H_

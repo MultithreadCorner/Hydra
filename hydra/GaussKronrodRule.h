@@ -26,10 +26,7 @@
  *      Author: Antonio Augusto Alves Junior
  */
 
-/**
- * \file
- * \ingroup numerical_integration
- */
+
 
 #ifndef GAUSSKRONRODRULE_H_
 #define GAUSSKRONRODRULE_H_
@@ -44,7 +41,11 @@
 
 namespace hydra {
 
-
+/**
+ * \ingroup numerical_integration
+ * \brief Rules for Gauss-Kronrod quadrature.
+ *
+ */
 template<size_t N>
 struct GaussKronrodRule
 {
@@ -85,6 +86,7 @@ struct GaussKronrodRule
 
 
 	}
+
 	__hydra_host__  __hydra_device__
 	GaussKronrodRule(GaussKronrodRule<N> const& other	)
 	{
@@ -97,8 +99,9 @@ struct GaussKronrodRule
 		}
 
 	}
+
 	__hydra_host__  __hydra_device__
-	GaussKronrodRule& operator=(GaussKronrodRule<N> const& other	)
+	inline GaussKronrodRule& operator=(GaussKronrodRule<N> const& other	)
 	{
 		if(this == &other) return *this;
 
@@ -135,7 +138,8 @@ struct GaussKronrodRule
 	}
 
 	__hydra_host__  __hydra_device__
-	HYDRA_EXTERNAL_NS::thrust::tuple<GReal_t, GReal_t, GReal_t> GetAbscissa(size_t index, GReal_t xlower, GReal_t xupper  )
+	inline HYDRA_EXTERNAL_NS::thrust::tuple<GReal_t, GReal_t, GReal_t>
+	GetAbscissa(size_t index, GReal_t xlower, GReal_t xupper  )
 		{
 
 		GReal_t a = (xupper - xlower)/2.0;

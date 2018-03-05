@@ -25,8 +25,8 @@
  *      Author: Antonio Augusto Alves Junior
  */
 
-#ifndef PHSP_BASIC_INL_
-#define PHSP_BASIC_INL_
+#ifndef PHSP_UNWEIGHTING_INL_
+#define PHSP_UNWEIGHTING_INL_
 
 
 /**
@@ -248,4 +248,4 @@ int main(int argv, char** argc)
 }
 
 
-#endif /* PHSP_BASIC_INL_ */
+#endif /* PHSP_UNWEIGHTING_INL_ */

@@ -63,7 +63,8 @@ class ZemachFunction: public BaseFunctor<ZemachFunction<L,ArgIndex>, double, 0>{
 
 public:
 
-	ZemachFunction()=default;
+	__hydra_host__  __hydra_device__
+	ZemachFunction(){};
 
 	__hydra_host__  __hydra_device__ inline
 	ZemachFunction<L, ArgIndex>&

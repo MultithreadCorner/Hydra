@@ -39,9 +39,19 @@
 
 namespace hydra {
 
+/**
+ * \ingroup phsp
+ *
+ */
 template <size_t N, typename Backend,  typename GRND=HYDRA_EXTERNAL_NS::thrust::random::default_random_engine>
 class PhaseSpaceIntegrator;
 
+/**
+ * \ingroup phsp numerical integration for Pdfs evaluated over a N-particle phase-space.
+ * \tparam BACKEND to perform the calculation.
+ * \tparam N is the number of particles in final state.
+ * \tparam GRND underlying random number generator. See the options in HYDRA_EXTERNAL_NS::thrust::random namespace.
+ */
 template <size_t N, hydra::detail::Backend BACKEND,  typename GRND>
 class PhaseSpaceIntegrator<N,  hydra::detail::BackendPolicy<BACKEND>, GRND>:
 public Integrator<PhaseSpaceIntegrator<N,  hydra::detail::BackendPolicy<BACKEND>, GRND>>

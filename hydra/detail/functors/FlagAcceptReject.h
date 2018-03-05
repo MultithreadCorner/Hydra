@@ -32,11 +32,6 @@
 
 
 
-/**
- * \file
- * \ingroup phsp
- */
-
 #ifndef FLAGACCEPTEDREJECTED_H_
 #define FLAGACCEPTEDREJECTED_H_
 

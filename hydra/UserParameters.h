@@ -26,12 +26,6 @@
  *      Author: Antonio Augusto Alves Junior
  */
 
-/**
- * \file
- * \ingroup fit
- */
-
-
 #ifndef USERPARAMETERS_H_
 #define USERPARAMETERS_H_
 
@@ -54,7 +48,12 @@
 
 namespace hydra {
 
-
+/**
+ * \ingroup fit
+ * \class UserParameters
+ * \brief Class implementing a interface to ROOT::Minuit2::MnUserParameters
+ *
+ */
 class UserParameters
 {
 public:
@@ -65,11 +64,20 @@ public:
 		fVariables( std::vector<Parameter*> ())
 	{ }
 
+	/**
+	 * Copy constructor
+	 * @param other
+	 */
 	UserParameters( UserParameters const& other):
 		fMnState( new ROOT::Minuit2::MnUserParameters(*other.GetMnStatePtr())),
 		fVariables(other.GetVariables())
 	{	}
 
+	/**
+	 * Assignment operator
+	 * @param other
+	 * @return
+	 */
 	UserParameters& operator= ( UserParameters const& other)
 	{
 		if(this ==&other) return *this;
@@ -83,6 +91,12 @@ public:
 	}
 
 
+	/**
+	 * Add a parameter to be tracked by ROOT::Minuit2
+	 *
+	 * @param param
+	 * @param update_size
+	 */
 	void AddParameter( Parameter* param, GBool_t update_size=1 )
 	{
 		if(param->HasError() && param->IsLimited()){
@@ -109,7 +123,10 @@ public:
 
 
 
-
+	/**
+	 * Update model parameters with the values hold by an ROOT::Minuit2::FunctionMinimum object
+	 * @param minimum
+	 */
 	void UpdateParameters(ROOT::Minuit2::FunctionMinimum const& minimum )
 	{
 		auto optimized_parameters =  minimum.UserParameters();
@@ -121,6 +138,10 @@ public:
 
 	}
 
+	/**
+	 * Update model parameters errors with the values hold by an ROOT::Minuit2::MinosError object
+	 * @param minos_error
+	 */
 	void UpdateParameterLimits(ROOT::Minuit2::MinosError const& minos_error )
 	{
 
@@ -138,6 +159,9 @@ public:
 		return;
 	}
 
+	/**
+	 * Print the parameters
+	 */
 	void PrintParameters(){
 
 		if(!fVariables.size()){
@@ -156,10 +180,14 @@ public:
 		return;
 	}
 
+	/**
+	 * Print the parameters (ROOT::Minuit2)
+	 */
 	void PrintMinuitParameters(){
 		std::cout<< this->GetMnState() << std::endl;
 		return;
 	}
+
 
 	const std::vector<Parameter* >& GetVariables() const {
 		return fVariables;
@@ -175,21 +203,37 @@ public:
 			this->AddParameter( fVariables[i], 0);
 	}
 
+	/**
+	 * Get an constant reference to the hold ROOT::Minuit2::MnUserParameters
+	 * @return
+	 */
 	const ROOT::Minuit2::MnUserParameters& GetMnState() const
 	{
 		return *fMnState;
 	}
 
+	/**
+	 * Get a constant reference to the hold ROOT::Minuit2::MnUserParameters
+	 * @return
+	 */
 	ROOT::Minuit2::MnUserParameters& GetMnState()
 	{
 		return *fMnState;
 	}
 
+	/**
+	 * Get a constant reference to the hold std::unique_ptr<ROOT::Minuit2::MnUserParameters>
+	 * @return
+	 */
 	const std::unique_ptr<ROOT::Minuit2::MnUserParameters>& GetMnStatePtr() const
 	{
 		return fMnState;
 	}
 
+	/**
+	 * Set the ROOT::Minuit2 state
+	 * @param state ROOT::Minuit2::MnUserParameters object.
+	 */
 	void SetMnState( ROOT::Minuit2::MnUserParameters const& state)
 	{
 		std::unique_ptr<ROOT::Minuit2::MnUserParameters>
@@ -206,13 +250,17 @@ private:
 
 };
 
-/*
-__hydra_host__
+/**
+ * Print the ROOT::Minuit2 state to stream
+ * @param os std::ostream
+ * @param par hydra::UserParameters
+ * @return
+ */
 std::ostream& operator<<(std::ostream& os, UserParameters const& par){
 
 	return os << par.GetMnState() ;
 }
-*/
+
 
 }  // namespace hydra
 

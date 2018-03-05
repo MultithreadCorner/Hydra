@@ -498,6 +498,30 @@ void DenseHistogram<T,1, detail::BackendPolicy<BACKEND>, detail::unidimensional 
 
 }
 
+template<typename Iterator, typename T, size_t N , hydra::detail::Backend BACKEND>
+DenseHistogram< T, N,  detail::BackendPolicy<BACKEND>, detail::multidimensional>
+make_dense_histogram( detail::BackendPolicy<BACKEND>, std::array<size_t, N> grid,
+		std::array<T, N> const& lowerlimits,   std::array<T, N> const& upperlimits,
+		Iterator first, Iterator end){
+
+	hydra::DenseHistogram< T, N, detail::BackendPolicy<BACKEND>> _Hist( grid, lowerlimits, upperlimits);
+	_Hist.Fill(first, end);
+
+	return _Hist;
+}
+
+template<typename Iterator, typename T, hydra::detail::Backend BACKEND>
+DenseHistogram< T, 1,  detail::BackendPolicy<BACKEND>, detail::multidimensional>
+make_dense_histogram( detail::BackendPolicy<BACKEND>, size_t grid, T lowerlimits,  T upperlimits,
+		Iterator first, Iterator end){
+
+	hydra::DenseHistogram< T, 1, detail::BackendPolicy<BACKEND>> _Hist( grid, lowerlimits, upperlimits);
+	_Hist.Fill(first, end);
+
+	return _Hist;
+
+}
+
 }  // namespace hydra
 
 //#endif /* DENSEHISTOGRAM_INL_ */
