@@ -178,7 +178,7 @@ public:
 private:
 
 	mutable hydra::BreitWignerLineShape<L> fLineShape;
-	hydra::CosTheta fCosDecayAngle;
+	hydra::CosHelicityAngle fCosDecayAngle;
 	hydra::ZemachFunction<L> fAngularDist;
 
 

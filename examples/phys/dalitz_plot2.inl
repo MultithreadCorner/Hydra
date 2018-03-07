@@ -82,7 +82,7 @@
 #include "Minuit2/MnMigrad.h"
 #include "Minuit2/MnMinimize.h"
 
- * Include classes from ROOT to fill
+ //Include classes from ROOT to fill
 #ifdef _ROOT_AVAILABLE_
 
 #include <TROOT.h>
@@ -168,7 +168,7 @@ public:
 private:
 
 	mutable hydra::BreitWignerLineShape<L> fLineShape;
-	hydra::CosTheta fCosDecayAngle;
+	hydra::CosHelicityAngle fCosDecayAngle;
 	hydra::ZemachFunction<L> fAngularDist;
 
 

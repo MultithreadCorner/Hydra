@@ -49,18 +49,18 @@ namespace hydra {
  *  This functor calculates the cosine of the helicity angle of the particle with four-vector D,
  *  daughther of the particle with four-vector Q and grand daugther of particle  four-vector P .
  */
-class CosTheta:public BaseFunctor<CosTheta, double, 0>
+class CosHelicityAngle:public BaseFunctor<CosHelicityAngle, double, 0>
 {
 
 public:
 
 	__hydra_host__  __hydra_device__
-	CosTheta(){};
+	CosHelicityAngle(){};
 
 	__hydra_host__  __hydra_device__ inline
-	CosTheta&		operator=( CosTheta const& other){
+	CosHelicityAngle&		operator=( CosHelicityAngle const& other){
 			if(this==&other) return  *this;
-			BaseFunctor<CosTheta,double, 0>::operator=(other);
+			BaseFunctor<CosHelicityAngle,double, 0>::operator=(other);
 			return  *this;
 		}
 
