@@ -153,7 +153,8 @@ namespace hydra {
 
             const double resonance_mass = _par[0];
             const double rho1 = _par[1];
-            const double rho2 = _par[2];
+            const double temp_rho2 = _par[2];
+            const double rho2 = temp_rho2*rho1;
 
             return m > (fDaughter1Mass + fDaughter2Mass) && m < (fMotherMass - fDaughter3Mass) ?
                    LineShape(m, resonance_mass, rho1, rho2) : hydra::complex<double>(0.0, 0.0);
@@ -161,19 +162,6 @@ namespace hydra {
 
     private:
 
-
-        /*__hydra_host__ __hydra_device__ inline
-        double Width(const double m, const double resonance_mass, const double resonance_width,
-                     const double p0, const double p) const {
-
-            const double B = BarrierFactor<ResonanceWave>(fRadi, p0, p);
-
-            return resonance_width * \
-                pow<double, 2 * ResonanceWave + 1>(p / p0) * \
-                (resonance_mass / m) * \
-                B * B;
-
-        }*/
 
         __hydra_host__ __hydra_device__ inline
         hydra::complex<double>
