@@ -62,7 +62,6 @@ typedef float GReal_t;///< Double 8 bytes or float 4 bytes
 typedef double GReal_t;///< Double 16 bytes or float 4 bytes
 #endif
 
-
 //---- constants ---------------------------------------------------------------
 
 #ifndef NULL

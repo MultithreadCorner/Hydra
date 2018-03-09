@@ -71,9 +71,7 @@
 #include <hydra/SparseHistogram.h>
 
 #include <hydra/functions/BreitWignerLineShape.h>
-#include <hydra/functions/WignerDFunctions.h>
-#include <hydra/functions/CosHelicityAngle.h>
-#include <hydra/functions/ZemachFunctions.h>
+#include <hydra/functions/DalitzAngularDistribution.h>
 
 //Minuit2
 #include "Minuit2/FunctionMinimum.h"
@@ -105,9 +103,12 @@ class Resonance: public hydra::BaseFunctor<Resonance<CHANNEL,L>, hydra::complex<
 {
 	using hydra::BaseFunctor<Resonance<CHANNEL,L>, hydra::complex<double>, 4>::_par;
 
-	constexpr static unsigned int _I1 = CHANNEL-1;
-	constexpr static unsigned int _I2 = (CHANNEL!=3)*CHANNEL;
-	constexpr static unsigned int _I3 = 3-( (CHANNEL-1) + (CHANNEL!=3)*CHANNEL );
+	constexpr static unsigned int _M1 = CHANNEL-1;
+	constexpr static unsigned int _M2 = (CHANNEL!=3)*CHANNEL;
+	constexpr static unsigned int _M3 = 3-( (CHANNEL-1) + (CHANNEL!=3)*CHANNEL );
+
+	constexpr static unsigned int _I1 = CHANNEL;
+	constexpr static unsigned int _I2 = (CHANNEL!=3)*CHANNEL+1;
 
 
 public:
@@ -168,9 +169,7 @@ public:
 private:
 
 	mutable hydra::BreitWignerLineShape<L> fLineShape;
-	hydra::CosHelicityAngle fCosDecayAngle;
-	hydra::ZemachFunction<L> fAngularDist;
-
+	hydra::DalitzAngularDistribution<L>
 
 };
 
