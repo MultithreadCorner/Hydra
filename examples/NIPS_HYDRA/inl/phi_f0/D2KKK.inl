@@ -101,66 +101,67 @@ using namespace hydra::placeholders;
 template<unsigned int CHANNEL, hydra::Wave L>
 class Resonance: public hydra::BaseFunctor<Resonance<CHANNEL,L>, hydra::complex<double>, 4>
 {
-    using hydra::BaseFunctor<Resonance<CHANNEL,L>, hydra::complex<double>, 4>::_par;
+	using hydra::BaseFunctor<Resonance<CHANNEL,L>, hydra::complex<double>, 4>::_par;
 
-    constexpr static unsigned int _I1 = CHANNEL-1;
-    constexpr static unsigned int _I2 = (CHANNEL!=3)*CHANNEL;
-    constexpr static unsigned int _I3 = 3-( (CHANNEL-1) + (CHANNEL!=3)*CHANNEL );
+	constexpr static unsigned int _I1 = CHANNEL-1;
+	constexpr static unsigned int _I2 = (CHANNEL!=3)*CHANNEL;
+	constexpr static unsigned int _I3 = 3-( (CHANNEL-1) + (CHANNEL!=3)*CHANNEL );
 
 
 public:
 
-    Resonance() = delete;
+	Resonance() = delete;
 
-    Resonance(hydra::Parameter const& c_re, hydra::Parameter const& c_im,
-              hydra::Parameter const& mass, hydra::Parameter const& width,
-              double mother_mass,	double daugther1_mass,
-              double daugther2_mass, double daugther3_mass,
-              double radi):
-            hydra::BaseFunctor<Resonance<CHANNEL,L>, hydra::complex<double>, 4>{c_re, c_im, mass, width},
-            fLineShape(mass, width, mother_mass, daugther1_mass, daugther2_mass, daugther3_mass, radi)
-    {}
-
-
-    __hydra_dual__
-    Resonance( Resonance< CHANNEL,L> const& other):
-            hydra::BaseFunctor<Resonance<CHANNEL ,L>, hydra::complex<double>, 4>(other),
-            fLineShape(other.GetLineShape())
-    {}
-
-    __hydra_dual__  inline
-    Resonance< CHANNEL ,L>&
-    operator=( Resonance< CHANNEL ,L> const& other)
-    {
-        if(this==&other) return *this;
-
-        hydra::BaseFunctor<Resonance<CHANNEL ,L>, hydra::complex<double>, 4>::operator=(other);
-        fLineShape=other.GetLineShape();
-
-        return *this;
-    }
-
-    __hydra_dual__  inline
-    hydra::BreitWignerLineShape<L> const& GetLineShape() const {	return fLineShape; }
-
-    __hydra_dual__  inline
-    hydra::complex<double> Evaluate(unsigned int n, hydra::Vector4R* p)  const {
+	Resonance(hydra::Parameter const& c_re, hydra::Parameter const& c_im,
+			  hydra::Parameter const& mass, hydra::Parameter const& width,
+			  double mother_mass,	double daugther1_mass,
+			  double daugther2_mass, double daugther3_mass,
+			  double radi):
+			hydra::BaseFunctor<Resonance<CHANNEL,L>, hydra::complex<double>, 4>{c_re, c_im, mass, width},
+			fLineShape(mass, width, mother_mass, daugther1_mass, daugther2_mass, daugther3_mass, radi)
+	{}
 
 
-        hydra::Vector4R p1 = p[_I1];
-        hydra::Vector4R p2 = p[_I2];
-        hydra::Vector4R p3 = p[_I3];
+	__host__ __device__
+	Resonance( Resonance< CHANNEL,L> const& other):
+			hydra::BaseFunctor<Resonance<CHANNEL ,L>, hydra::complex<double>, 4>(other),
+			fLineShape(other.GetLineShape())
+	{}
+
+	__host__ __device__ inline
+	Resonance< CHANNEL ,L>&
+	operator=( Resonance< CHANNEL ,L> const& other)
+	{
+		if(this==&other) return *this;
+
+		hydra::BaseFunctor<Resonance<CHANNEL ,L>, hydra::complex<double>, 4>::operator=(other);
+		fLineShape=other.GetLineShape();
+
+		return *this;
+	}
+
+	__host__ __device__ inline
+	hydra::BreitWignerLineShape<L> const& GetLineShape() const {	return fLineShape; }
+
+	__host__ __device__ inline
+	hydra::complex<double> Evaluate(unsigned int n, hydra::Vector4R* p)  const {
 
 
-        fLineShape.SetParameter(0, _par[2]);
-        fLineShape.SetParameter(1, _par[3]);
+		hydra::Vector4R p1 = p[_I1];
+		hydra::Vector4R p2 = p[_I2];
+		hydra::Vector4R p3 = p[_I3];
 
-        double theta = fCosDecayAngle((p1 + p2 + p3), (p1 + p2), p1);
-        double angular = fAngularDist(theta);
-        auto r = hydra::complex<double>(_par[0], _par[1]) * fLineShape((p1 + p2).mass()) * angular;
 
-        return r;
-    }
+		fLineShape.SetParameter(0, _par[2]);
+		fLineShape.SetParameter(1, _par[3]);
+
+		double theta = fCosDecayAngle( (p1+p2+p3), (p1+p2), p1 );
+		double angular = fAngularDist(theta);
+		auto r = hydra::complex<double>(_par[0], _par[1])*fLineShape((p1+p2).mass())*angular;
+
+		return r;
+
+	}
 
 private:
 
@@ -176,37 +177,37 @@ private:
 class NonResonant: public hydra::BaseFunctor<NonResonant, hydra::complex<double>, 2>
 {
 
-    using hydra::BaseFunctor<NonResonant, hydra::complex<double>, 2>::_par;
+	using hydra::BaseFunctor<NonResonant, hydra::complex<double>, 2>::_par;
 
 public:
 
-    NonResonant() = delete;
+	NonResonant() = delete;
 
-    NonResonant(hydra::Parameter const& c_re, hydra::Parameter const& c_im):
-            hydra::BaseFunctor<NonResonant, hydra::complex<double>, 2>{c_re, c_im}
-    {}
+	NonResonant(hydra::Parameter const& c_re, hydra::Parameter const& c_im):
+			hydra::BaseFunctor<NonResonant, hydra::complex<double>, 2>{c_re, c_im}
+	{}
 
 
-    __hydra_dual__
-    NonResonant( NonResonant const& other):
-            hydra::BaseFunctor<NonResonant, hydra::complex<double>, 2>(other)
-    {}
+	__host__ __device__
+	NonResonant( NonResonant const& other):
+	hydra::BaseFunctor<NonResonant, hydra::complex<double>, 2>(other)
+	{}
 
-    __hydra_dual__
-    NonResonant& operator=( NonResonant const& other)
-    {
-        if(this==&other) return *this;
+	__host__ __device__
+	NonResonant& operator=( NonResonant const& other)
+	{
+		if(this==&other) return *this;
 
-        hydra::BaseFunctor<NonResonant, hydra::complex<double>, 2>::operator=(other);
+		hydra::BaseFunctor<NonResonant, hydra::complex<double>, 2>::operator=(other);
 
-        return *this;
-    }
+		return *this;
+	}
 
-    __hydra_dual__  inline
-    hydra::complex<double> Evaluate(unsigned int n, hydra::Vector4R* p)  const {
+	__host__ __device__ inline
+	hydra::complex<double> Evaluate(unsigned int n, hydra::Vector4R* p)  const {
 
-        return hydra::complex<double>(_par[0], _par[1]);
-    }
+		return hydra::complex<double>(_par[0], _par[1]);
+	}
 
 };
 
@@ -229,12 +230,12 @@ public:
             fLineShape(mean,rho1,rho2,mother_mass,daugther1_mass,daugther2_mass,daugther3_mass,radi)
     {}
 
-    __hydra_dual__ Flatte( Flatte<CHANNEL,L> const& other):
+    __host__ __device__ Flatte( Flatte<CHANNEL,L> const& other):
             hydra::BaseFunctor<Flatte<CHANNEL,L>, hydra::complex<double>, 5>(other),
             fLineShape(other.GetLineShape())
     {}
 
-    __hydra_dual__ inline
+    __host__ __device__ inline
     Flatte<CHANNEL,L>&
     operator=( Flatte<CHANNEL,L> const& other)
     {
@@ -246,11 +247,11 @@ public:
         return *this;
     }
 
-    __hydra_dual__ inline
+    __host__ __device__ inline
     hydra::FlatteLineShape<CHANNEL,L> const& GetLineShape() const {	return fLineShape; }
 
 
-    __hydra_dual__ hydra::complex<double> Evaluate(unsigned int n, hydra::Vector4R* p)  const {
+    __host__ __device__ hydra::complex<double> Evaluate(unsigned int n, hydra::Vector4R* p)  const {
 
         hydra::Vector4R p1 = p[_I1];
         hydra::Vector4R p2 = p[_I2];
@@ -319,15 +320,14 @@ int main(int argv, char** argc)
 
 	//
 
-/*
     double Phi_MASS		  = 1.019461;
     double Phi_Width	  = 0.004266;
     double Phi_RC		  = 1.0;
     double Phi_IMC		  = 0.0;
 
     double f0_MASS        = 0.965;
-    double f0_RC          = 12.341 * cos(-62.852 * (M_PI / 180))/10;
-    double f0_IMC         = 12.341 * sin(-62.852 * (M_PI / 180))/10;
+    double f0_RC          = 12.341 * cos(-62.852 * (M_PI / 180));
+    double f0_IMC         = 12.341 * sin(-62.852 * (M_PI / 180));
     double f0_rho1        = 0.165;
     double f0_rho2        = 4.21*f0_rho1;
 
@@ -342,34 +342,6 @@ int main(int argv, char** argc)
     double D_MASS         = 1.86962;
     double Kplus_MASS     = 0.493677;  // K+ mass
     double Kminus_MASS    = Kplus_MASS;
-
-*/
-
-    //liang model2 results
-
-    double Phi_MASS		  = 1.019461;
-    double Phi_Width	  = 0.004266;
-    double Phi_RC		  = 1.0;
-    double Phi_IMC		  = 0.0;
-
-    double f0_MASS        = 0.965;
-    double f0_RC          = 3.20;
-    double f0_IMC         = -59.3;
-    double f0_rho1        = 0.165;
-    double f0_rho2        = 4.21*f0_rho1;
-
-    double f0X_MASS		  = 1.430;
-    double f0X_Width	  = 0.348;
-    double f0X_RC		  = 3.52;
-    double f0X_IMC        = 13.8;
-
-    double NR_RC		  = 1.0;
-    double NR_IMC		  = 0.0;
-
-    double D_MASS         = 1.86962;
-    double Kplus_MASS     = 0.493677;  // K+ mass
-    double Kminus_MASS    = Kplus_MASS;
-
 
     //======================================================
 	//Phi
@@ -391,10 +363,10 @@ int main(int argv, char** argc)
 	 //======================================================
 	//f0(X)
 
-    auto massf0x    = hydra::Parameter::Create().Name("MASS_f0(X)" ).Value(f0X_MASS ).Error(0.019).Fixed();
-    auto widthf0x   = hydra::Parameter::Create().Name("WIDTH_f0(X)").Value(f0X_Width).Error(0.049).Fixed();
-    auto coef_ref0x = hydra::Parameter::Create().Name("f0(X)_RC" ).Value(f0X_RC).Error(0.58).Limits(-100,+100);
-    auto coef_imf0x = hydra::Parameter::Create().Name("f0(X)_IM" ).Value(f0X_IMC).Error(8.1).Limits(-100,+100);
+    auto massf0x    = hydra::Parameter::Create().Name("MASS_f0(X)" ).Value(f0X_MASS ).Fixed();
+    auto widthf0x   = hydra::Parameter::Create().Name("WIDTH_f0(X)").Value(f0X_Width).Fixed();
+    auto coef_ref0x = hydra::Parameter::Create().Name("f0(X)_RC" ).Value(f0X_RC).Error(0.0001).Limits(-100,+100);
+    auto coef_imf0x = hydra::Parameter::Create().Name("f0(X)_IM" ).Value(f0X_IMC).Error(0.0001).Limits(-100,+100);
 
     Resonance<1, hydra::SWave> f0X_Resonance_12(coef_ref0x, coef_imf0x, massf0x, widthf0x,
                 D_MASS,	Kminus_MASS, Kplus_MASS, Kplus_MASS , 1.5);
@@ -407,8 +379,8 @@ int main(int argv, char** argc)
     //======================================================
     //f0
 
-    auto f0_amp_real = hydra::Parameter::Create().Name("f0_amp_real").Value(f0_RC).Error(0.12).Limits(-100, +100);
-    auto f0_amp_imag = hydra::Parameter::Create().Name("f0_amp_imag").Value(f0_IMC).Error(5.1).Limits(-100, +100);
+    auto f0_amp_real = hydra::Parameter::Create().Name("f0_amp_real").Value(f0_RC).Error(0.0001).Limits(-100, +100);
+    auto f0_amp_imag = hydra::Parameter::Create().Name("f0_amp_imag").Value(f0_IMC).Error(0.0001).Limits(-100, +100);
     auto f0Mass = hydra::Parameter::Create().Name("MASS_f0").Value(f0_MASS).Fixed();
     auto f0g1 = hydra::Parameter::Create().Name("f0_g1").Value(f0_rho1).Fixed();
     auto rg1og2 = hydra::Parameter::Create().Name("rg1og2").Value(f0_rho2).Fixed();
@@ -417,7 +389,7 @@ int main(int argv, char** argc)
     Flatte<1,hydra::SWave> f0_Resonance_12(f0_amp_real,f0_amp_imag,f0Mass,f0g1,rg1og2,D_MASS,Kminus_MASS,Kplus_MASS,Kplus_MASS,1.5);
     Flatte<3,hydra::SWave> f0_Resonance_13(f0_amp_real,f0_amp_imag,f0Mass,f0g1,rg1og2,D_MASS,Kminus_MASS,Kplus_MASS,Kplus_MASS,1.5);
 
-    auto f0_Resonance = (f0_Resonance_13 + f0_Resonance_12);
+    auto f0_Resonance = (f0_Resonance_12 + f0_Resonance_13);
 
 	//======================================================
 
@@ -442,8 +414,8 @@ int main(int argv, char** argc)
 	//model-functor
 	auto Model = hydra::compose(Norm,
 		    Phi_Resonance,
-			f0X_Resonance, f0_Resonance
-	);
+			f0_Resonance
+			);
 
 	//--------------------
 	//generator
@@ -493,11 +465,10 @@ int main(int argv, char** argc)
 
 
 	TH3D    Phi_12_HIST,Phi_13_HIST,
-            f0X_12_HIST,f0X_13_HIST,
-            f0_12_HIST,f0_13_HIST ;
+            f0_12_HIST,f0_13_HIST
+            ;
 
 	double  Phi_12_FF,  Phi_13_FF,
-            f0X_12_FF,f0X_13_FF,
             f0_12_FF,f0_13_FF
             ;
 #endif
@@ -775,19 +746,15 @@ int main(int argv, char** argc)
 
 		auto Phi_12 = fcn.GetPDF().GetFunctor().GetFunctor(_1).GetFunctor(_0);
 		auto Phi_13 = fcn.GetPDF().GetFunctor().GetFunctor(_1).GetFunctor(_1);
-		auto f0X_12 = fcn.GetPDF().GetFunctor().GetFunctor(_2).GetFunctor(_0);
-		auto f0X_13 = fcn.GetPDF().GetFunctor().GetFunctor(_2).GetFunctor(_1);
-        auto f0_12  = fcn.GetPDF().GetFunctor().GetFunctor(_3).GetFunctor(_0);
-        auto f0_13  = fcn.GetPDF().GetFunctor().GetFunctor(_3).GetFunctor(_1);
+		auto f0_12  = fcn.GetPDF().GetFunctor().GetFunctor(_2).GetFunctor(_0);
+        auto f0_13  = fcn.GetPDF().GetFunctor().GetFunctor(_2).GetFunctor(_1);
 
 		//==================================
 		// Draw components
 		//==================================
 		Phi_12_HIST  =	histogram_component(Phi_12 , {D_MASS, Kminus_MASS, Kplus_MASS}, "Phi_12_HIST", nentries);
 		Phi_13_HIST  =	histogram_component(Phi_13 , {D_MASS, Kminus_MASS, Kplus_MASS}, "Phi_13_HIST", nentries);
-		f0X_12_HIST  =	histogram_component(f0X_12 , {D_MASS, Kminus_MASS, Kplus_MASS}, "f0X_12_HIST", nentries);
-		f0X_13_HIST  =	histogram_component(f0X_13 , {D_MASS, Kminus_MASS, Kplus_MASS}, "f0X_13_HIST", nentries);
-        f0_12_HIST   =	histogram_component(f0_12 , {D_MASS, Kminus_MASS, Kplus_MASS}, "f0_12_HIST", nentries);
+		f0_12_HIST   =	histogram_component(f0_12 , {D_MASS, Kminus_MASS, Kplus_MASS}, "f0_12_HIST", nentries);
         f0_13_HIST   =	histogram_component(f0_13 , {D_MASS, Kminus_MASS, Kplus_MASS}, "f0_13_HIST", nentries);
 
 
@@ -796,19 +763,15 @@ int main(int argv, char** argc)
 		//==================================
 		Phi_12_FF  =	fit_fraction(Phi_12 , Opt_Model, {D_MASS, Kminus_MASS, Kplus_MASS},  nentries);
 		Phi_13_FF  =	fit_fraction(Phi_13 , Opt_Model, {D_MASS, Kminus_MASS, Kplus_MASS},  nentries);
-		f0X_12_FF  =	fit_fraction(f0X_12 , Opt_Model, {D_MASS, Kminus_MASS, Kplus_MASS},  nentries);
-		f0X_13_FF  =	fit_fraction(f0X_13 , Opt_Model, {D_MASS, Kminus_MASS, Kplus_MASS},  nentries);
-        f0_12_FF   =	fit_fraction(f0_12 , Opt_Model, {D_MASS, Kminus_MASS, Kplus_MASS},  nentries);
+		f0_12_FF   =	fit_fraction(f0_12 , Opt_Model, {D_MASS, Kminus_MASS, Kplus_MASS},  nentries);
         f0_13_FF   =	fit_fraction(f0_13 , Opt_Model, {D_MASS, Kminus_MASS, Kplus_MASS},  nentries);
 
 		std::cout << "Phi_12_FF :" << Phi_12_FF << std::endl;
 		std::cout << "Phi_13_FF :" << Phi_13_FF << std::endl;
-		std::cout << "f0X_12_FF :" << f0X_12_FF << std::endl;
-		std::cout << "f0X_13_FF :" << f0X_13_FF << std::endl;
-        std::cout << "f0_12_FF :" << f0_12_FF << std::endl;
+		std::cout << "f0_12_FF :" << f0_12_FF << std::endl;
         std::cout << "f0_13_FF :" << f0_13_FF << std::endl;
 		std::cout << "Sum :"
-				  << Phi_12_FF  + Phi_13_FF + f0X_12_FF + f0X_13_FF + f0_12_FF + f0_13_FF  << std::endl;
+				  << Phi_12_FF  + Phi_13_FF + f0_12_FF + f0_13_FF   << std::endl;
 
 #ifdef 	_ROOT_AVAILABLE_
 
@@ -888,9 +851,7 @@ int main(int argv, char** argc)
 
 	Phi_12_HIST.Scale( Phi_12_FF*Dalitz_Fit.Integral()/Phi_12_HIST.Integral() );
 	Phi_13_HIST.Scale( Phi_13_FF*Dalitz_Fit.Integral()/Phi_13_HIST.Integral() );
-	f0X_12_HIST.Scale( f0X_12_FF*Dalitz_Fit.Integral()/f0X_12_HIST.Integral() );
-	f0X_13_HIST.Scale( f0X_13_FF*Dalitz_Fit.Integral()/f0X_13_HIST.Integral() );
-    f0_12_HIST.Scale( f0_12_FF*Dalitz_Fit.Integral()/f0_12_HIST.Integral() );
+	f0_12_HIST.Scale( f0_12_FF*Dalitz_Fit.Integral()/f0_12_HIST.Integral() );
     f0_13_HIST.Scale( f0_13_FF*Dalitz_Fit.Integral()/f0_13_HIST.Integral() );
 
 	//=============================================================
@@ -984,21 +945,7 @@ int main(int argv, char** argc)
 
 	legend_x.AddEntry(hist,"{#Phi}_{13}","l");
 
-	hist = f0X_12_HIST.Project3D(axis)->DrawCopy("histCsame");
-	//hist->SetLineStyle(2);
-	hist->SetLineColor(f0X_Color);
-	hist->SetLineWidth(2);
-
-	legend_x.AddEntry(hist,"{f0(X)}_{12}","l");
-
-	hist = f0X_13_HIST.Project3D(axis)->DrawCopy("histCsame");
-	hist->SetLineStyle(2);
-	hist->SetLineColor(f0X_Color);
-	hist->SetLineWidth(2);
-
-	legend_x.AddEntry(hist,"{f0(X)}_{13}","l");
-
-    hist = f0_12_HIST.Project3D(axis)->DrawCopy("histCsame");
+	hist = f0_12_HIST.Project3D(axis)->DrawCopy("histCsame");
     //hist->SetLineStyle(2);
     hist->SetLineColor(f0_Color);
     hist->SetLineWidth(2);
@@ -1011,8 +958,6 @@ int main(int argv, char** argc)
     hist->SetLineWidth(2);
 
     legend_x.AddEntry(hist,"{f0}_{13}","l");
-
-
 
 	canvas_x.SaveAs("Proj_X.png");
 
@@ -1064,22 +1009,7 @@ int main(int argv, char** argc)
 
 	legend_y.AddEntry(hist,"{#Phi}_{13}","l");
 
-	hist = f0X_12_HIST.Project3D(axis)->DrawCopy("histCsame");
-	//hist->SetLineStyle(2);
-	hist->SetLineColor(f0X_Color);
-	hist->SetLineWidth(2);
-
-	legend_y.AddEntry(hist,"{f0(X)}_{12}","l");
-
-	hist = f0X_13_HIST.Project3D(axis)->DrawCopy("histCsame");
-	hist->SetLineStyle(2);
-	hist->SetLineColor(f0X_Color);
-	hist->SetLineWidth(2);
-
-	legend_y.AddEntry(hist,"{f0(X)}_{13}","l");
-
-
-    hist = f0_12_HIST.Project3D(axis)->DrawCopy("histCsame");
+	hist = f0_12_HIST.Project3D(axis)->DrawCopy("histCsame");
     //hist->SetLineStyle(2);
     hist->SetLineColor(f0_Color);
     hist->SetLineWidth(2);
@@ -1092,8 +1022,6 @@ int main(int argv, char** argc)
     hist->SetLineWidth(2);
 
     legend_y.AddEntry(hist,"{f0}_{13}","l");
-
-
 
 	canvas_y.SaveAs("Proj_Y.png");
 
@@ -1147,22 +1075,7 @@ int main(int argv, char** argc)
 
 	legend_z.AddEntry(hist,"{#Phi}_{13}","l");
 
-	hist = f0X_12_HIST.Project3D(axis)->DrawCopy("histCsame");
-	//hist->SetLineStyle(2);
-	hist->SetLineColor(f0X_Color);
-	hist->SetLineWidth(2);
-
-	legend_z.AddEntry(hist,"{f0(X)}_{12}","l");
-
-	hist = f0X_13_HIST.Project3D(axis)->DrawCopy("histCsame");
-	hist->SetLineStyle(2);
-	hist->SetLineColor(f0X_Color);
-	hist->SetLineWidth(2);
-
-	legend_z.AddEntry(hist,"{f0(X)}_{13}","l");
-
-
-    hist = f0_12_HIST.Project3D(axis)->DrawCopy("histCsame");
+	hist = f0_12_HIST.Project3D(axis)->DrawCopy("histCsame");
     //hist->SetLineStyle(2);
     hist->SetLineColor(f0_Color);
     hist->SetLineWidth(2);
@@ -1175,7 +1088,6 @@ int main(int argv, char** argc)
     hist->SetLineWidth(2);
 
     legend_z.AddEntry(hist,"{f0}_{13}","l");
-
 
 	canvas_z.SaveAs("Proj_Z.png");
 

@@ -153,8 +153,7 @@ namespace hydra {
 
             const double resonance_mass = _par[0];
             const double rho1 = _par[1];
-            const double temp_rho2 = _par[2];
-            const double rho2 = temp_rho2*rho1;
+            const double rho2 = _par[2];
 
             return m > (fDaughter1Mass + fDaughter2Mass) && m < (fMotherMass - fDaughter3Mass) ?
                    LineShape(m, resonance_mass, rho1, rho2) : hydra::complex<double>(0.0, 0.0);
@@ -167,7 +166,7 @@ namespace hydra {
         hydra::complex<double>
         LineShape(const double s, const double resonance_mass, const double g1 , const double g2) const {
 
-
+            hydra::complex<double> ret(0.0,0.0);
 
             double pipmass = 0.13957018;
             double pi0mass = 0.1349766;
@@ -183,32 +182,33 @@ namespace hydra {
                 double rhokk_real = 0, rhokk_imag = 0;
 
 
-
                 if(s >= twopimasssq)
-                    rhopipi_real = (2. / 3) * TMath::Sqrt(1 - twopimasssq / s); // Above pi+pi- threshold
+                    rhopipi_real = (2. / 3) * TMath::Sqrt(1 - twopimasssq / s ); // Above pi+pi- threshold
                 else
                     rhopipi_imag = (2. / 3) * TMath::Sqrt(-1 + twopimasssq / s);
                 if(s >= twopi0masssq)
-                    rhopipi_real = (1. / 3) * TMath::Sqrt(1 - twopi0masssq / s); // Above pi0pi0 threshold
+                    rhopipi_real = (1. / 3) * TMath::Sqrt(1 - twopi0masssq / s ); // Above pi0pi0 threshold
                 else
-                    rhopipi_imag = (1. / 3) * TMath::Sqrt(-1 + twopi0masssq / s);
+                    rhopipi_imag = (1. / 3) * TMath::Sqrt(-1 + twopi0masssq / s );
                 if(s >= twokmasssq)
-                    rhokk_real = 0.5 * TMath::Sqrt(1 - twokmasssq / s); // Above K+K- threshold
+                    rhokk_real = 0.5 * TMath::Sqrt(1 - twokmasssq / s ); // Above K+K- threshold
                 else
-                    rhokk_imag = 0.5 * TMath::Sqrt(-1 + twokmasssq / s);
+                    rhokk_imag = 0.5 * TMath::Sqrt(-1 + twokmasssq / s );
                 if(s >= twok0masssq)
-                    rhokk_real = 0.5 * TMath::Sqrt(1 - twok0masssq / s); // Above K0K0 threshold
+                    rhokk_real = 0.5 * TMath::Sqrt(1 - twok0masssq / s ); // Above K0K0 threshold
                 else
-                    rhokk_imag = 0.5 * TMath::Sqrt(-1 + twok0masssq / s);
+                    rhokk_imag = 0.5 * TMath::Sqrt(-1 + twok0masssq / s );
+
                 double A = (resonance_mass * resonance_mass - s) + resonance_mass * (rhopipi_imag * g1 + rhokk_imag * g2);
                 double B = resonance_mass * (rhopipi_real * g1 + rhokk_real * g2);
                 double C = 1.0 / (A * A + B * B);
+
                 hydra::complex<double> retur(A * C, B * C);
 
 
+                ret+=retur;
 
-
-            return retur;
+            return ret;
 
 
         }
