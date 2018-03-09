@@ -1,6 +1,11 @@
-//
-// Created by juan on 07/03/18.
-//
+/*
+ * FlatteLineShape.h
+ *
+ *  Created on: 09/03/2018 Based on Liang Sun code
+ *      Author: Juan
+ *
+ *
+ */
 
 #ifndef HYDRA_EXAMPLES_AND_DOCUMENTATION_FLATTELINESHAPE_H
 #define HYDRA_EXAMPLES_AND_DOCUMENTATION_FLATTELINESHAPE_H
