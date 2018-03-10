@@ -1,8 +1,29 @@
+/*----------------------------------------------------------------------------
+ *
+ *   Copyright (C) 2016 - 2018 Antonio Augusto Alves Junior
+ *
+ *   This file is part of Hydra Data Analysis Framework.
+ *
+ *   Hydra is free software: you can redistribute it and/or modify
+ *   it under the terms of the GNU General Public License as published by
+ *   the Free Software Foundation, either version 3 of the License, or
+ *   (at your option) any later version.
+ *
+ *   Hydra is distributed in the hope that it will be useful,
+ *   but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *   GNU General Public License for more details.
+ *
+ *   You should have received a copy of the GNU General Public License
+ *   along with Hydra.  If not, see <http://www.gnu.org/licenses/>.
+ *
+ *---------------------------------------------------------------------------*/
+
 /*
  * FlatteLineShape.h
  *
- *  Created on: 09/03/2018 Based on Liang Sun code
- *      Author: Juan
+ *  Created on: 03/09/2018 Based on Goofit Flatte code
+ *      Author: Juan B de S Leite
  *
  *
  */
@@ -30,6 +51,15 @@
 
 namespace hydra {
 
+    /*
+     * @FlatteLineShape
+     * The  Flatté  formulation  is  used  when  a second channel opens close to a resonance.
+     * T(m_{ab}) = 1 / ( m_{r}^{2} - m_{ab}^{2} - i(#rho_{1}*g_{1}^{2} + #rho_{2}*g_{2}^{2})
+     * where g_{1}^{2} + g_{2}^{2} = m_{0}*#Gamma_{r}
+     * @tparam unsigned int CHANNEL
+    */
+
+
     template<unsigned int CHANNEL, unsigned int ArgIndex = 0>
     class FlatteLineShape : public BaseFunctor<FlatteLineShape<CHANNEL, ArgIndex>, hydra::complex<double>, 3> {
         using BaseFunctor<FlatteLineShape<CHANNEL, ArgIndex>, hydra::complex<double>, 3>::_par;
@@ -55,7 +85,7 @@ namespace hydra {
                 BaseFunctor<FlatteLineShape<CHANNEL, ArgIndex>, hydra::complex<double>, 3>{mean, rho1, rho2},
                 fDaughter1Mass(daugther1_mass),
                 fDaughter2Mass(daugther2_mass),
-                fDaughter3Mass(daugther3_mass),
+                fBachelorMass(daugther3_mass),
                 fMotherMass(mother_mass),
                 fRadi(radi) {}
 
@@ -64,7 +94,7 @@ namespace hydra {
                 BaseFunctor<FlatteLineShape<CHANNEL, ArgIndex>, hydra::complex<double>, 3>(other),
                 fDaughter1Mass(other.GetDaughter1Mass()),
                 fDaughter2Mass(other.GetDaughter2Mass()),
-                fDaughter3Mass(other.GetDaughter3Mass()),
+                fBachelorMass(other.GetDaughter3Mass()),
                 fMotherMass(other.GetMotherMass()),
                 fRadi(other.GetRadi()) {}
 
@@ -78,7 +108,7 @@ namespace hydra {
 
             fDaughter1Mass = other.GetDaughter1Mass();
             fDaughter2Mass = other.GetDaughter2Mass();
-            fDaughter3Mass = other.GetDaughter3Mass();
+            fBachelorMass = other.GetDaughter3Mass();
             fMotherMass = other.GetMotherMass();
             fRadi = other.GetRadi();
 
@@ -107,12 +137,12 @@ namespace hydra {
 
         __hydra_host__  __hydra_device__ inline
         double GetDaughter3Mass() const {
-            return fDaughter3Mass;
+            return fBachelorMass;
         }
 
         __hydra_host__  __hydra_device__ inline
         void SetDaughter3Mass(double daughter3Mass) {
-            fDaughter3Mass = daughter3Mass;
+            fBachelorMass = daughter3Mass;
         }
 
         __hydra_host__  __hydra_device__ inline
@@ -145,7 +175,7 @@ namespace hydra {
             const double rho1 = _par[1];
             const double rho2 = _par[2];
 
-            return m > (fDaughter1Mass + fDaughter2Mass) && m < (fMotherMass - fDaughter3Mass) ?
+            return m > (fDaughter1Mass + fDaughter2Mass) && m < (fMotherMass - fBachelorMass) ?
                    LineShape(m, resonance_mass, rho1, rho2) : hydra::complex<double>(0.0, 0.0);
 
         }
@@ -160,7 +190,7 @@ namespace hydra {
             const double rho1 = _par[1];
             const double rho2 = _par[2];
 
-            return m > (fDaughter1Mass + fDaughter2Mass) && m < (fMotherMass - fDaughter3Mass) ?
+            return m > (fDaughter1Mass + fDaughter2Mass) && m < (fMotherMass - fBachelorMass) ?
                    LineShape(m, resonance_mass, rho1, rho2) : hydra::complex<double>(0.0, 0.0);
         }
 
@@ -170,8 +200,6 @@ namespace hydra {
         __hydra_host__ __hydra_device__ inline
         hydra::complex<double>
         LineShape(const double s, const double resonance_mass, const double g1 , const double g2) const {
-
-            hydra::complex<double> ret(0.0,0.0);
 
             double pipmass = 0.13957018;
             double pi0mass = 0.1349766;
@@ -183,44 +211,47 @@ namespace hydra {
             double twokmasssq   = 4 * kpmass * kpmass;
             double twok0masssq  = 4 * k0mass * k0mass;
 
-                double rhopipi_real = 0, rhopipi_imag = 0;
-                double rhokk_real = 0, rhokk_imag = 0;
+            double rhopipi_real = 0;
+            double rhopipi_imag = 0;
+            double rhokk_real   = 0;
+            double rhokk_imag   = 0;
 
 
                 if(s >= twopimasssq)
                     rhopipi_real = (2. / 3) * TMath::Sqrt(1 - twopimasssq / s ); // Above pi+pi- threshold
                 else
                     rhopipi_imag = (2. / 3) * TMath::Sqrt(-1 + twopimasssq / s);
+
                 if(s >= twopi0masssq)
                     rhopipi_real = (1. / 3) * TMath::Sqrt(1 - twopi0masssq / s ); // Above pi0pi0 threshold
                 else
                     rhopipi_imag = (1. / 3) * TMath::Sqrt(-1 + twopi0masssq / s );
+
                 if(s >= twokmasssq)
                     rhokk_real = 0.5 * TMath::Sqrt(1 - twokmasssq / s ); // Above K+K- threshold
                 else
                     rhokk_imag = 0.5 * TMath::Sqrt(-1 + twokmasssq / s );
+
                 if(s >= twok0masssq)
                     rhokk_real = 0.5 * TMath::Sqrt(1 - twok0masssq / s ); // Above K0K0 threshold
                 else
                     rhokk_imag = 0.5 * TMath::Sqrt(-1 + twok0masssq / s );
 
-                double A = (resonance_mass * resonance_mass - s) + resonance_mass * (rhopipi_imag * g1 + rhokk_imag * g2);
-                double B = resonance_mass * (rhopipi_real * g1 + rhokk_real * g2);
-                double C = 1.0 / (A * A + B * B);
+                double A = (resonance_mass*resonance_mass - s) + resonance_mass*(rhopipi_imag*g1 + rhokk_imag*g2);
+                double B = resonance_mass*(rhopipi_real*g1 + rhokk_real*g2);
+                double C = 1.0 / (A*A + B*B);
 
-                hydra::complex<double> retur(A * C, B * C);
+                hydra::complex<double> retur(A*C, B*C);
 
 
-                ret+=retur;
-
-            return ret;
+            return retur;
 
 
         }
 
         double fDaughter1Mass;
         double fDaughter2Mass;
-        double fDaughter3Mass;
+        double fBachelorMass;
         double fMotherMass;
         double fRadi;
 

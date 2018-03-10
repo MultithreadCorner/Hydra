@@ -1,5 +1,33 @@
-#ifndef D2KKK_INL_
-#define D2KKK_INL_
+/*----------------------------------------------------------------------------
+ *
+ *   Copyright (C) 2016 - 2018 Antonio Augusto Alves Junior
+ *
+ *   This file is part of Hydra Data Analysis Framework.
+ *
+ *   Hydra is free software: you can redistribute it and/or modify
+ *   it under the terms of the GNU General Public License as published by
+ *   the Free Software Foundation, either version 3 of the License, or
+ *   (at your option) any later version.
+ *
+ *   Hydra is distributed in the hope that it will be useful,
+ *   but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *   GNU General Public License for more details.
+ *
+ *   You should have received a copy of the GNU General Public License
+ *   along with Hydra.  If not, see <http://www.gnu.org/licenses/>.
+ *
+ *---------------------------------------------------------------------------*/
+
+/*
+ * FlatteLineShape.inl
+ *
+ *  Created on: 03/09/2018
+ *      Author: Juan B de S Leite
+ */
+
+#ifndef FlatteLineShape_INL
+#define FlatteLineShape_INL
 
 #include <iostream>
 #include <fstream>
@@ -101,67 +129,66 @@ using namespace hydra::placeholders;
 template<unsigned int CHANNEL, hydra::Wave L>
 class Resonance: public hydra::BaseFunctor<Resonance<CHANNEL,L>, hydra::complex<double>, 4>
 {
-	using hydra::BaseFunctor<Resonance<CHANNEL,L>, hydra::complex<double>, 4>::_par;
+    using hydra::BaseFunctor<Resonance<CHANNEL,L>, hydra::complex<double>, 4>::_par;
 
-	constexpr static unsigned int _I1 = CHANNEL-1;
-	constexpr static unsigned int _I2 = (CHANNEL!=3)*CHANNEL;
-	constexpr static unsigned int _I3 = 3-( (CHANNEL-1) + (CHANNEL!=3)*CHANNEL );
+    constexpr static unsigned int _I1 = CHANNEL-1;
+    constexpr static unsigned int _I2 = (CHANNEL!=3)*CHANNEL;
+    constexpr static unsigned int _I3 = 3-( (CHANNEL-1) + (CHANNEL!=3)*CHANNEL );
 
 
 public:
 
-	Resonance() = delete;
+    Resonance() = delete;
 
-	Resonance(hydra::Parameter const& c_re, hydra::Parameter const& c_im,
-			  hydra::Parameter const& mass, hydra::Parameter const& width,
-			  double mother_mass,	double daugther1_mass,
-			  double daugther2_mass, double daugther3_mass,
-			  double radi):
-			hydra::BaseFunctor<Resonance<CHANNEL,L>, hydra::complex<double>, 4>{c_re, c_im, mass, width},
-			fLineShape(mass, width, mother_mass, daugther1_mass, daugther2_mass, daugther3_mass, radi)
-	{}
-
-
-	__host__ __device__
-	Resonance( Resonance< CHANNEL,L> const& other):
-			hydra::BaseFunctor<Resonance<CHANNEL ,L>, hydra::complex<double>, 4>(other),
-			fLineShape(other.GetLineShape())
-	{}
-
-	__host__ __device__ inline
-	Resonance< CHANNEL ,L>&
-	operator=( Resonance< CHANNEL ,L> const& other)
-	{
-		if(this==&other) return *this;
-
-		hydra::BaseFunctor<Resonance<CHANNEL ,L>, hydra::complex<double>, 4>::operator=(other);
-		fLineShape=other.GetLineShape();
-
-		return *this;
-	}
-
-	__host__ __device__ inline
-	hydra::BreitWignerLineShape<L> const& GetLineShape() const {	return fLineShape; }
-
-	__host__ __device__ inline
-	hydra::complex<double> Evaluate(unsigned int n, hydra::Vector4R* p)  const {
+    Resonance(hydra::Parameter const& c_re, hydra::Parameter const& c_im,
+              hydra::Parameter const& mass, hydra::Parameter const& width,
+              double mother_mass,	double daugther1_mass,
+              double daugther2_mass, double daugther3_mass,
+              double radi):
+            hydra::BaseFunctor<Resonance<CHANNEL,L>, hydra::complex<double>, 4>{c_re, c_im, mass, width},
+            fLineShape(mass, width, mother_mass, daugther1_mass, daugther2_mass, daugther3_mass, radi)
+    {}
 
 
-		hydra::Vector4R p1 = p[_I1];
-		hydra::Vector4R p2 = p[_I2];
-		hydra::Vector4R p3 = p[_I3];
+    __hydra_dual__
+    Resonance( Resonance< CHANNEL,L> const& other):
+            hydra::BaseFunctor<Resonance<CHANNEL ,L>, hydra::complex<double>, 4>(other),
+            fLineShape(other.GetLineShape())
+    {}
+
+    __hydra_dual__  inline
+    Resonance< CHANNEL ,L>&
+    operator=( Resonance< CHANNEL ,L> const& other)
+    {
+        if(this==&other) return *this;
+
+        hydra::BaseFunctor<Resonance<CHANNEL ,L>, hydra::complex<double>, 4>::operator=(other);
+        fLineShape=other.GetLineShape();
+
+        return *this;
+    }
+
+    __hydra_dual__  inline
+    hydra::BreitWignerLineShape<L> const& GetLineShape() const {	return fLineShape; }
+
+    __hydra_dual__  inline
+    hydra::complex<double> Evaluate(unsigned int n, hydra::Vector4R* p)  const {
 
 
-		fLineShape.SetParameter(0, _par[2]);
-		fLineShape.SetParameter(1, _par[3]);
+        hydra::Vector4R p1 = p[_I1];
+        hydra::Vector4R p2 = p[_I2];
+        hydra::Vector4R p3 = p[_I3];
 
-		double theta = fCosDecayAngle( (p1+p2+p3), (p1+p2), p1 );
-		double angular = fAngularDist(theta);
-		auto r = hydra::complex<double>(_par[0], _par[1])*fLineShape((p1+p2).mass())*angular;
 
-		return r;
+        fLineShape.SetParameter(0, _par[2]);
+        fLineShape.SetParameter(1, _par[3]);
 
-	}
+        double theta = fCosDecayAngle((p1 + p2 + p3), (p1 + p2), p1);
+        double angular = fAngularDist(theta);
+        auto r = hydra::complex<double>(_par[0], _par[1]) * fLineShape((p1 + p2).mass()) * angular;
+
+        return r;
+    }
 
 private:
 
@@ -177,37 +204,37 @@ private:
 class NonResonant: public hydra::BaseFunctor<NonResonant, hydra::complex<double>, 2>
 {
 
-	using hydra::BaseFunctor<NonResonant, hydra::complex<double>, 2>::_par;
+    using hydra::BaseFunctor<NonResonant, hydra::complex<double>, 2>::_par;
 
 public:
 
-	NonResonant() = delete;
+    NonResonant() = delete;
 
-	NonResonant(hydra::Parameter const& c_re, hydra::Parameter const& c_im):
-			hydra::BaseFunctor<NonResonant, hydra::complex<double>, 2>{c_re, c_im}
-	{}
+    NonResonant(hydra::Parameter const& c_re, hydra::Parameter const& c_im):
+            hydra::BaseFunctor<NonResonant, hydra::complex<double>, 2>{c_re, c_im}
+    {}
 
 
-	__host__ __device__
-	NonResonant( NonResonant const& other):
-	hydra::BaseFunctor<NonResonant, hydra::complex<double>, 2>(other)
-	{}
+    __hydra_dual__
+    NonResonant( NonResonant const& other):
+            hydra::BaseFunctor<NonResonant, hydra::complex<double>, 2>(other)
+    {}
 
-	__host__ __device__
-	NonResonant& operator=( NonResonant const& other)
-	{
-		if(this==&other) return *this;
+    __hydra_dual__
+    NonResonant& operator=( NonResonant const& other)
+    {
+        if(this==&other) return *this;
 
-		hydra::BaseFunctor<NonResonant, hydra::complex<double>, 2>::operator=(other);
+        hydra::BaseFunctor<NonResonant, hydra::complex<double>, 2>::operator=(other);
 
-		return *this;
-	}
+        return *this;
+    }
 
-	__host__ __device__ inline
-	hydra::complex<double> Evaluate(unsigned int n, hydra::Vector4R* p)  const {
+    __hydra_dual__  inline
+    hydra::complex<double> Evaluate(unsigned int n, hydra::Vector4R* p)  const {
 
-		return hydra::complex<double>(_par[0], _par[1]);
-	}
+        return hydra::complex<double>(_par[0], _par[1]);
+    }
 
 };
 
@@ -224,18 +251,18 @@ public:
 
     Flatte() = delete;
 
-    Flatte(hydra::Parameter const& c_re, hydra::Parameter const& c_im,hydra::Parameter const& mean, hydra::Parameter const& rho1 , hydra::Parameter const& rho2,
-           double mother_mass,	double daugther1_mass, double daugther2_mass, double daugther3_mass,double radi):
+    Flatte(hydra::Parameter const& c_re, hydra::Parameter const& c_im, hydra::Parameter const& mean, hydra::Parameter const& rho1 , hydra::Parameter const& rho2,
+           double mother_mass,	double daugther1_mass, double daugther2_mass, double daugther3_mass, double radi):
             hydra::BaseFunctor<Flatte<CHANNEL,L>, hydra::complex<double>, 5>{c_re, c_im, mean, rho1, rho2},
             fLineShape(mean,rho1,rho2,mother_mass,daugther1_mass,daugther2_mass,daugther3_mass,radi)
     {}
 
-    __host__ __device__ Flatte( Flatte<CHANNEL,L> const& other):
+    __hydra_dual__ Flatte( Flatte<CHANNEL,L> const& other):
             hydra::BaseFunctor<Flatte<CHANNEL,L>, hydra::complex<double>, 5>(other),
             fLineShape(other.GetLineShape())
     {}
 
-    __host__ __device__ inline
+    __hydra_dual__ inline
     Flatte<CHANNEL,L>&
     operator=( Flatte<CHANNEL,L> const& other)
     {
@@ -247,11 +274,11 @@ public:
         return *this;
     }
 
-    __host__ __device__ inline
+    __hydra_dual__ inline
     hydra::FlatteLineShape<CHANNEL,L> const& GetLineShape() const {	return fLineShape; }
 
 
-    __host__ __device__ hydra::complex<double> Evaluate(unsigned int n, hydra::Vector4R* p)  const {
+    __hydra_dual__ hydra::complex<double> Evaluate(unsigned int n, hydra::Vector4R* p)  const {
 
         hydra::Vector4R p1 = p[_I1];
         hydra::Vector4R p2 = p[_I2];
@@ -314,11 +341,7 @@ int main(int argv, char** argc)
 	}
 
 	//-----------------
-    //Liang's Model
-
-
-
-	//
+   
 
     double Phi_MASS		  = 1.019461;
     double Phi_Width	  = 0.004266;
@@ -326,27 +349,22 @@ int main(int argv, char** argc)
     double Phi_IMC		  = 0.0;
 
     double f0_MASS        = 0.965;
-    double f0_RC          = 12.341 * cos(-62.852 * (M_PI / 180));
-    double f0_IMC         = 12.341 * sin(-62.852 * (M_PI / 180));
+	double f0_MAG		  = 12.341;
+	double f0_Phase		  = -62.852*(M_PI / 180) ;
+    double f0_RC          = f0_MAG * cos(f0_Phase);
+    double f0_IMC         = f0_MAG * sin(f0_Phase);
     double f0_rho1        = 0.165;
     double f0_rho2        = 4.21*f0_rho1;
-
-    double f0X_MASS		  = 1.41478;
-    double f0X_Width	  = 0.309491;
-    double f0X_RC		  = 11.918 * cos(20.248 * (M_PI / 180));
-    double f0X_IMC        = 11.918 * sin(20.248 * (M_PI / 180));
-
-    double NR_RC		  = 1.0;
-    double NR_IMC		  = 0.0;
 
     double D_MASS         = 1.86962;
     double Kplus_MASS     = 0.493677;  // K+ mass
     double Kminus_MASS    = Kplus_MASS;
 
+
     //======================================================
 	//Phi
-	auto mass    = hydra::Parameter::Create().Name("MASS_Phi" ).Value(Phi_MASS ).Error(0.01).Limits(0.7,  1.8 ).Fixed();
-	auto width   = hydra::Parameter::Create().Name("WIDTH_Phi").Value(Phi_Width).Error(0.001).Limits(1.e-5, 1.e-1).Fixed();
+	auto mass    = hydra::Parameter::Create().Name("MASS_Phi" ).Value(Phi_MASS ).Error(0.01).Fixed();
+	auto width   = hydra::Parameter::Create().Name("WIDTH_Phi").Value(Phi_Width).Error(0.001).Fixed();
 	auto coef_re = hydra::Parameter::Create().Name("Phi_RC" ).Value(Phi_RC).Fixed();
 	auto coef_im = hydra::Parameter::Create().Name("Phi_IM" ).Value(Phi_IMC).Fixed();
 
@@ -361,45 +379,24 @@ int main(int argv, char** argc)
 
 
 	 //======================================================
-	//f0(X)
 
-    auto massf0x    = hydra::Parameter::Create().Name("MASS_f0(X)" ).Value(f0X_MASS ).Fixed();
-    auto widthf0x   = hydra::Parameter::Create().Name("WIDTH_f0(X)").Value(f0X_Width).Fixed();
-    auto coef_ref0x = hydra::Parameter::Create().Name("f0(X)_RC" ).Value(f0X_RC).Error(0.0001).Limits(-100,+100);
-    auto coef_imf0x = hydra::Parameter::Create().Name("f0(X)_IM" ).Value(f0X_IMC).Error(0.0001).Limits(-100,+100);
-
-    Resonance<1, hydra::SWave> f0X_Resonance_12(coef_ref0x, coef_imf0x, massf0x, widthf0x,
-                D_MASS,	Kminus_MASS, Kplus_MASS, Kplus_MASS , 1.5);
-
-    Resonance<3, hydra::SWave> f0X_Resonance_13(coef_ref0x, coef_imf0x, massf0x, widthf0x,
-                    D_MASS,	Kminus_MASS, Kplus_MASS, Kplus_MASS , 1.5);
-
-    auto f0X_Resonance = (f0X_Resonance_12 + f0X_Resonance_13);
-
-    //======================================================
     //f0
 
-    auto f0_amp_real = hydra::Parameter::Create().Name("f0_amp_real").Value(f0_RC).Error(0.0001).Limits(-100, +100);
-    auto f0_amp_imag = hydra::Parameter::Create().Name("f0_amp_imag").Value(f0_IMC).Error(0.0001).Limits(-100, +100);
+    auto coef_ref0 = hydra::Parameter::Create().Name("f0_RC").Value(f0_RC).Error(0.0001);
+    auto coef_imf0 = hydra::Parameter::Create().Name("f0_IM").Value(f0_IMC).Error(0.0001);
     auto f0Mass = hydra::Parameter::Create().Name("MASS_f0").Value(f0_MASS).Fixed();
     auto f0g1 = hydra::Parameter::Create().Name("f0_g1").Value(f0_rho1).Fixed();
-    auto rg1og2 = hydra::Parameter::Create().Name("rg1og2").Value(f0_rho2).Fixed();
+    auto rg1og2 = hydra::Parameter::Create().Name("f0_g1xg2").Value(f0_rho2).Fixed();
 
 
-    Flatte<1,hydra::SWave> f0_Resonance_12(f0_amp_real,f0_amp_imag,f0Mass,f0g1,rg1og2,D_MASS,Kminus_MASS,Kplus_MASS,Kplus_MASS,1.5);
-    Flatte<3,hydra::SWave> f0_Resonance_13(f0_amp_real,f0_amp_imag,f0Mass,f0g1,rg1og2,D_MASS,Kminus_MASS,Kplus_MASS,Kplus_MASS,1.5);
+    Flatte<1,hydra::SWave> f0_Resonance_12(coef_ref0,coef_imf0,f0Mass,f0g1,rg1og2,D_MASS,Kminus_MASS,Kplus_MASS,Kplus_MASS,1.5);
+    Flatte<3,hydra::SWave> f0_Resonance_13(coef_ref0,coef_imf0,f0Mass,f0g1,rg1og2,D_MASS,Kminus_MASS,Kplus_MASS,Kplus_MASS,1.5);
 
     auto f0_Resonance = (f0_Resonance_12 + f0_Resonance_13);
 
 	//======================================================
 
-	//NR
-	coef_re = hydra::Parameter::Create().Name("A_RE_NR" ).Value(NR_RC).Error(0.001).Limits(-100,+100);
-	coef_im = hydra::Parameter::Create().Name("A_IM_NR" ).Value(NR_IMC).Error(0.001).Limits(-100,+100);
-
-	auto NR = NonResonant(coef_re, coef_im);
-	//======================================================
-	//Total: Model |N.R + \sum{ Resonaces }|^2
+	//Total: Model |sum{ Resonaces }|^2
 
 	//parametric lambda
 	auto Norm = hydra::wrap_lambda( []__host__  __device__ ( unsigned int n, hydra::complex<double>* x){
@@ -413,9 +410,8 @@ int main(int argv, char** argc)
 
 	//model-functor
 	auto Model = hydra::compose(Norm,
-		    Phi_Resonance,
-			f0_Resonance
-			);
+		    Phi_Resonance, f0_Resonance
+	);
 
 	//--------------------
 	//generator
@@ -439,9 +435,9 @@ int main(int argv, char** argc)
 
 	TH3D Dalitz_Resonances("Dalitz_Resonances",
 			"Dalitz - Toy Data -;"
-			"M^{2}(K^{-} #K_{1}^{+}) [GeV^{2}/c^{4}];"
-			"M^{2}(K^{-} #K_{2}^{+}) [GeV^{2}/c^{4}];"
-			"M^{2}(#K_{1}^{+} #K_{2}^{+}) [GeV^{2}/c^{4}]",
+			"M^{2}(K^{-} K_{1}^{+}) [GeV^{2}/c^{4}];"
+			"M^{2}(K^{-} K_{2}^{+}) [GeV^{2}/c^{4}];"
+			"M^{2}(K_{1}^{+} K_{2}^{+}) [GeV^{2}/c^{4}]",
 			100, pow(Kminus_MASS  + Kplus_MASS,2), pow(D_MASS - Kplus_MASS,2),
 			100, pow(Kminus_MASS  + Kplus_MASS,2), pow(D_MASS - Kplus_MASS,2),
 			100, pow(Kplus_MASS + Kplus_MASS,2), pow(D_MASS -  Kminus_MASS,2));
@@ -449,9 +445,9 @@ int main(int argv, char** argc)
 
 	TH3D Dalitz_Fit("Dalitz_Fit",
 			"Dalitz - Fit -;"
-			"M^{2}(K^{-} #K_{1}^{+}) [GeV^{2}/c^{4}];"
-			"M^{2}(K^{-} #K_{2}^{+}) [GeV^{2}/c^{4}];"
-			"M^{2}(#K_{1}^{+} #K_{2}^{+}) [GeV^{2}/c^{4}]",
+			"M^{2}(K^{-} K_{1}^{+}) [GeV^{2}/c^{4}];"
+			"M^{2}(K^{-} K_{2}^{+}) [GeV^{2}/c^{4}];"
+			"M^{2}(K_{1}^{+} K_{2}^{+}) [GeV^{2}/c^{4}]",
 			100, pow(Kminus_MASS  + Kplus_MASS,2), pow(D_MASS - Kplus_MASS,2),
 			100, pow(Kminus_MASS  + Kplus_MASS,2), pow(D_MASS - Kplus_MASS,2),
 			100, pow(Kplus_MASS + Kplus_MASS,2), pow(D_MASS -  Kminus_MASS,2));
@@ -465,8 +461,7 @@ int main(int argv, char** argc)
 
 
 	TH3D    Phi_12_HIST,Phi_13_HIST,
-            f0_12_HIST,f0_13_HIST
-            ;
+            f0_12_HIST,f0_13_HIST ;
 
 	double  Phi_12_FF,  Phi_13_FF,
             f0_12_FF,f0_13_FF
@@ -505,35 +500,6 @@ int main(int argv, char** argc)
 		std::cout << std::endl <<"Toy Dataset size: "<< toy_data.size() << std::endl;
 
 	}//toy data production on device
-
-	std::ofstream writer;
-	writer.open("toyData.txt");
-
-	if(!writer.is_open()){
-		std::cout << "file not open" << std::endl;
-	}else {
-
-		for (auto event : toy_data) {
-
-			double weight = hydra::get<0>(event);
-			hydra::Vector4R Kminus = hydra::get<1>(event);
-			hydra::Vector4R Kplus1 = hydra::get<2>(event);
-			hydra::Vector4R Kplus2 = hydra::get<3>(event);
-
-			double MKminusKplus1 = (Kminus + Kplus1).mass2();
-			double MKminusKplus2 = (Kminus + Kplus2).mass2();
-
-			writer << MKminusKplus1 << '\t' << MKminusKplus2 << std::endl;
-		}
-
-		std::cout << "toyfile.txt generated" <<std::endl;
-	}
-
-
-
-	writer.close();
-
-
 
 	//plot toy-data
 	{
@@ -771,7 +737,7 @@ int main(int argv, char** argc)
 		std::cout << "f0_12_FF :" << f0_12_FF << std::endl;
         std::cout << "f0_13_FF :" << f0_13_FF << std::endl;
 		std::cout << "Sum :"
-				  << Phi_12_FF  + Phi_13_FF + f0_12_FF + f0_13_FF   << std::endl;
+				  << Phi_12_FF  + Phi_13_FF  + f0_12_FF + f0_13_FF  << std::endl;
 
 #ifdef 	_ROOT_AVAILABLE_
 
@@ -865,7 +831,7 @@ int main(int argv, char** argc)
 	canvas_3.SaveAs("Dataset1.png");
 
 	TCanvas canvas_4("canvas_4", "Dataset", 500, 500);
-	hist2D = Dalitz_Resonances.Project3D("xy");
+	hist2D = Dalitz_Resonances.Project3D("yx");
 	hist2D->SetTitle("");
 	hist2D->Draw("colz");
 	canvas_4.SaveAs("Dataset2.png");
@@ -880,7 +846,7 @@ int main(int argv, char** argc)
 
 
 	TCanvas canvas_6("canvas_4", "Phase-space FLAT", 500, 500);
-	hist2D = Dalitz_Fit.Project3D("xy");
+	hist2D = Dalitz_Fit.Project3D("yx");
 	hist2D->SetTitle("");
 	hist2D->SetStats(0);
 	hist2D->Draw("colz");
@@ -893,9 +859,7 @@ int main(int argv, char** argc)
 	const char* axis =0;
 
 	auto Phi_Color  = kViolet-5;
-	auto f0X_Color  = kBlue;
-    auto f0_Color = kGreen;
-	auto NR_Color      = kBlack;
+	auto f0_Color = kGreen;
 
 	double X1NDC = 0.262458;
 	double Y1NDC = 0.127544;
@@ -945,7 +909,7 @@ int main(int argv, char** argc)
 
 	legend_x.AddEntry(hist,"{#Phi}_{13}","l");
 
-	hist = f0_12_HIST.Project3D(axis)->DrawCopy("histCsame");
+    hist = f0_12_HIST.Project3D(axis)->DrawCopy("histCsame");
     //hist->SetLineStyle(2);
     hist->SetLineColor(f0_Color);
     hist->SetLineWidth(2);
@@ -958,6 +922,8 @@ int main(int argv, char** argc)
     hist->SetLineWidth(2);
 
     legend_x.AddEntry(hist,"{f0}_{13}","l");
+
+
 
 	canvas_x.SaveAs("Proj_X.png");
 
@@ -1022,6 +988,8 @@ int main(int argv, char** argc)
     hist->SetLineWidth(2);
 
     legend_y.AddEntry(hist,"{f0}_{13}","l");
+
+
 
 	canvas_y.SaveAs("Proj_Y.png");
 
@@ -1088,6 +1056,7 @@ int main(int argv, char** argc)
     hist->SetLineWidth(2);
 
     legend_z.AddEntry(hist,"{f0}_{13}","l");
+
 
 	canvas_z.SaveAs("Proj_Z.png");
 
@@ -1161,7 +1130,7 @@ double fit_fraction( Amplitude const& amp, Model const& model, std::array<double
 	//generator
 	hydra::Vector4R D(D_MASS, 0.0, 0.0, 0.0);
 
-	// Create PhaseSpace object for B0-> K pi pi
+	// Create PhaseSpace object for D-> K K K
 	hydra::PhaseSpace<3> phsp{Kminus_MASS, Kplus_MASS, Kplus_MASS};
 
 	//norm lambda
@@ -1190,9 +1159,9 @@ TH3D histogram_component( Amplitude const& amp, std::array<double, 3> const& mas
 	const double Kplus_MASS        = masses[2];// K- mass
 
 	TH3D Component(name,
-			"M^{2}(K^{-} #K_{1}^{+}) [GeV^{2}/c^{4}];"
-			"M^{2}(K^{-} #K_{2}^{+}) [GeV^{2}/c^{4}];"
-			"M^{2}(#K_{1}^{+} #K_{2}^{+}) [GeV^{2}/c^{4}]",
+			"M^{2}(K^{-} K_{1}^{+}) [GeV^{2}/c^{4}];"
+			"M^{2}(K^{-} K_{2}^{+}) [GeV^{2}/c^{4}];"
+			"M^{2}(K_{1}^{+} K_{2}^{+}) [GeV^{2}/c^{4}]",
 			100, pow(Kminus_MASS  + Kplus_MASS,2), pow(D_MASS - Kplus_MASS,2),
 			100, pow(Kminus_MASS  + Kplus_MASS,2), pow(D_MASS - Kplus_MASS,2),
 			100, pow(Kplus_MASS + Kplus_MASS,2), pow(D_MASS -  Kminus_MASS,2));
@@ -1260,4 +1229,4 @@ TH3D histogram_component( Amplitude const& amp, std::array<double, 3> const& mas
 
 
 
-#endif /* D2KKK_INL_ */
+#endif /* FlatteLineShape_INL */

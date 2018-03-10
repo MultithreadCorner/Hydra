@@ -20,17 +20,17 @@
  *---------------------------------------------------------------------------*/
 
 /*
- * dalitz_plot.cpp
+ * FlatteLineShape.cu
  *
- *  Created on: 19/01/2018
- *      Author: Antonio Augusto Alves Junior
+ *    Created on: 03/09/2018
+ *      Author: Juan B de S Leite
  */
 
-#ifndef D2KKK_CPP_
-#define D2KKK_CPP_
+#ifndef Flatte_CU_
+#define Flatte_CU_
 
 
-#include <examples/NIPS_HYDRA/D2KKK.inl>
+#include <examples/phys/FlatteLineShape.inl>
 
 
-#endif /* D2KKK_CPP_ */
+#endif /* FlatteLineShape_CU_ */
