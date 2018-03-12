@@ -98,17 +98,15 @@
 using namespace ROOT::Minuit2;
 using namespace hydra::placeholders;
 
+/* Resonance with Breit-Wigner lineshape and Zemach angular distribution*/
+
 template<unsigned int CHANNEL, hydra::Wave L>
 class Resonance: public hydra::BaseFunctor<Resonance<CHANNEL,L>, hydra::complex<double>, 4>
 {
 	using hydra::BaseFunctor<Resonance<CHANNEL,L>, hydra::complex<double>, 4>::_par;
 
-	constexpr static unsigned int _M1 = CHANNEL-1;
-	constexpr static unsigned int _M2 = (CHANNEL!=3)*CHANNEL;
-	constexpr static unsigned int _M3 = 3-( (CHANNEL-1) + (CHANNEL!=3)*CHANNEL );
-
-	constexpr static unsigned int _I1 = CHANNEL;
-	constexpr static unsigned int _I2 = (CHANNEL!=3)*CHANNEL+1;
+	static constexpr unsigned int _M12=CHANNEL-1;
+	static constexpr unsigned int _M23= CHANNEL==3?0:CHANNEL;
 
 
 public:
@@ -118,10 +116,11 @@ public:
 	Resonance(hydra::Parameter const& c_re, hydra::Parameter const& c_im,
 			hydra::Parameter const& mass, hydra::Parameter const& width,
 			double mother_mass,	double daugther1_mass,
-			double daugther2_mass, double daugther3_mass,
+			double daugther2_mass, double bachelor_mass,
 			double radi):
 			hydra::BaseFunctor<Resonance<CHANNEL,L>, hydra::complex<double>, 4>{c_re, c_im, mass, width},
-			fLineShape(mass, width, mother_mass, daugther1_mass, daugther2_mass, daugther3_mass, radi)
+			fLineShape(mass, width, mother_mass, daugther1_mass, daugther2_mass, bachelor_mass, radi),
+			fAngularDistribution(mother_mass, daugther1_mass, daugther2_mass, daugther3_mass)
 	{}
 
 
@@ -147,20 +146,14 @@ public:
 	hydra::BreitWignerLineShape<L> const& GetLineShape() const {	return fLineShape; }
 
     __hydra_dual__  inline
-	hydra::complex<double> Evaluate(unsigned int n, hydra::Vector4R* p)  const {
-
-
-		hydra::Vector4R p1 = p[_I1];
-		hydra::Vector4R p2 = p[_I2];
-		hydra::Vector4R p3 = p[_I3];
-
+	hydra::complex<double> Evaluate(unsigned int n, double* masses)  const {
 
 		fLineShape.SetParameter(0, _par[2]);
 		fLineShape.SetParameter(1, _par[3]);
 
-		double theta = fCosDecayAngle( (p1+p2+p3), (p1+p2), p1 );
-		double angular = fAngularDist(theta);
-		auto r = hydra::complex<double>(_par[0], _par[1])*fLineShape((p1+p2).mass())*angular;
+		auto r = hydra::complex<double>(_par[0], _par[1])*
+				fLineShape(masses[_M12])*
+				fAngularDistribution(masses[_M12], masses[_M23]);
 
 		return r;
 
@@ -174,6 +167,7 @@ private:
 };
 
 
+/* Non-resonant contribution*/
 class NonResonant: public hydra::BaseFunctor<NonResonant, hydra::complex<double>, 2>
 {
 
@@ -204,7 +198,7 @@ public:
 	}
 
 	 __hydra_dual__  inline
-	hydra::complex<double> Evaluate(unsigned int n, hydra::Vector4R* p)  const {
+	hydra::complex<double> Evaluate(unsigned int n, double* m)  const {
 
 		return hydra::complex<double>(_par[0], _par[1]);
 	}
@@ -401,22 +395,37 @@ int main(int argv, char** argc)
 			KST_1680_Resonance,
 			NR );
 
+	// functor to calculate the 2-body squared masses
+	auto dalitz_calculator = hydra::wrap_lambda(
+			[] __hydra_dual__ (unsigned int n, hydra::Vector4R* p ){
+
+		double   M2_12 = (p[0]+p[1]).mass2();
+		double   M2_23 = (p[1]+p[2]).mass2();
+		double   M2_31 = (p[0]+p[2]).mass2();
+
+
+		return hydra::make_tuple(M2_12, M2_23, M2_31);
+	});
+
+	// functor to calculate the 2-body squared masses
+	auto mass_calculator = hydra::wrap_lambda(
+			[] __hydra_dual__ (unsigned int n, hydra::Vector4R* p ){
+
+		double   M_12 = (p[0]+p[1]).mass();
+		double   M_23 = (p[1]+p[2]).mass();
+		double   M_31 = (p[0]+p[2]).mass();
+
+
+		return hydra::make_tuple(M_12, M_23, M_31);
+	});
+
+
 	//--------------------
 	//generator
 	hydra::Vector4R B0(D_MASS, 0.0, 0.0, 0.0);
 	// Create PhaseSpace object for B0-> K pi J/psi
 	hydra::PhaseSpace<3> phsp{K_MASS, PI_MASS, PI_MASS};
 
-	// functor to calculate the 2-body masses
-	auto dalitz_calculator = hydra::wrap_lambda(
-			[] __hydra_dual__ (unsigned int n, hydra::Vector4R* p ){
-
-		double   M2_12 = (p[0]+p[1]).mass2();
-		double   M2_13 = (p[0]+p[2]).mass2();
-		double   M2_23 = (p[1]+p[2]).mass2();
-
-		return hydra::make_tuple(M2_12, M2_13, M2_23);
-	});
 
 
 #ifdef 	_ROOT_AVAILABLE_
@@ -425,18 +434,18 @@ int main(int argv, char** argc)
 	TH3D Dalitz_Resonances("Dalitz_Resonances",
 			"Dalitz - Toy Data -;"
 			"M^{2}(K^{-} #pi_{1}^{+}) [GeV^{2}/c^{4}];"
-			"M^{2}(K^{-} #pi_{2}^{+}) [GeV^{2}/c^{4}];"
-			"M^{2}(#pi_{1}^{+} #pi_{2}^{+}) [GeV^{2}/c^{4}]",
+			"M^{2}(#pi_{1}^{+} #pi_{2}^{+}) [GeV^{2}/c^{4}];"
+			"M^{2}(K^{-} #pi_{2}^{+}) [GeV^{2}/c^{4}]",
 			100, pow(K_MASS  + PI_MASS,2), pow(D_MASS - PI_MASS,2),
-			100, pow(K_MASS  + PI_MASS,2), pow(D_MASS - PI_MASS,2),
-			100, pow(PI_MASS + PI_MASS,2), pow(D_MASS -  K_MASS,2));
+			100, pow(PI_MASS + PI_MASS,2), pow(D_MASS -  K_MASS,2),
+			100, pow(K_MASS  + PI_MASS,2), pow(D_MASS - PI_MASS,2) );
 
 
 	TH3D Dalitz_Fit("Dalitz_Fit",
 			"Dalitz - Fit -;"
 			"M^{2}(K^{-} #pi_{1}^{+}) [GeV^{2}/c^{4}];"
-			"M^{2}(K^{-} #pi_{2}^{+}) [GeV^{2}/c^{4}];"
-			"M^{2}(#pi_{1}^{+} #pi_{2}^{+}) [GeV^{2}/c^{4}]",
+			"M^{2}(#pi_{1}^{+} #pi_{2}^{+}) [GeV^{2}/c^{4}];"
+			"M^{2}(K^{-} #pi_{2}^{+}) [GeV^{2}/c^{4}]",
 			100, pow(K_MASS  + PI_MASS,2), pow(D_MASS - PI_MASS,2),
 			100, pow(K_MASS  + PI_MASS,2), pow(D_MASS - PI_MASS,2),
 			100, pow(PI_MASS + PI_MASS,2), pow(D_MASS -  K_MASS,2));
@@ -459,7 +468,7 @@ int main(int argv, char** argc)
 
 #endif
 
-	hydra::Decays<3, hydra::host::sys_t > toy_data;
+	hydra::multiarray<3, double, hydra::host::sys_t > toy_data;
 
 	//toy data production on device
 	{
@@ -1258,7 +1267,7 @@ int main(int argv, char** argc)
 
 
 template<typename Backend, typename Model, typename Container >
-size_t generate_dataset(Backend const& system, Model const& model, std::array<double, 3> const& masses, Container& decays, size_t nevents, size_t bunch_size)
+size_t generate_dataset(Backend const& system, Model const& model, std::array<double, 3> const& masses, Container& dataset, size_t nevents, size_t bunch_size)
 {
 	const double D_MASS         = masses[0];// D+ mass
 	const double K_MASS         = masses[1];// K+ mass
@@ -1273,7 +1282,7 @@ size_t generate_dataset(Backend const& system, Model const& model, std::array<do
 	//allocate memory to hold the final states particles
 	hydra::Decays<3, Backend > _data(bunch_size);
 
-	std::srand(7531594562);
+	std::srand(7531562);
 
 	do {
 		phsp.SetSeed(std::rand());
@@ -1283,14 +1292,27 @@ size_t generate_dataset(Backend const& system, Model const& model, std::array<do
 
 		auto last = _data.Unweight(model, 1.0);
 
-		decays.insert(decays.size()==0? decays.begin():decays.end(),
-				_data.begin(), _data.begin()+last );
+		// functor to calculate the 2-body squared masses
+		auto mass_calculator = hydra::wrap_lambda(
+		 	[] __hydra_dual__ (unsigned int n, hydra::Vector4R* p ){
 
-	} while(decays.size()<nevents );
+				double   M_12 = (p[0]+p[1]).mass();
+				double   M_23 = (p[1]+p[2]).mass();
+				double   M_31 = (p[0]+p[2]).mass();
 
-	decays.erase(decays.begin()+nevents, decays.end());
+				return hydra::make_tuple(M_12, M_23, M_31);
+			});
 
-	return decays.size();
+		auto range = hydra::make_range(_data.begin(), _data.begin()+last, mass_calculator);
+
+		dataset.insert(dataset.size()==0? dataset.begin():dataset.end(),
+				range.begin(), range.end() );
+
+	} while(dataset.size()<nevents );
+
+	dataset.erase(dataset.begin()+nevents, dataset.end());
+
+	return dataset.size();
 
 }
 

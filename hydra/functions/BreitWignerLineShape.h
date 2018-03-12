@@ -196,7 +196,7 @@ public:
 
 	template<typename T>
 	__hydra_host__ __hydra_device__ inline
-	hydra::complex<double> Evaluate(T x)  const {
+	hydra::complex<double> Evaluate(T& x)  const {
 
 		double m =  get<ArgIndex>(x);
 
@@ -207,16 +207,8 @@ public:
 				LineShape(m,resonance_mass, resonance_width): hydra::complex<double>(0.0, 0.0) ;
 	}
 
-	/*
-	template<typename T>
-	__hydra_host__ __hydra_device__ inline
-	hydra::complex<double> operator()(const double m, const double resonance_mass, const double resonance_width  )  const	{
 
-		return  m > (fDaughter1Mass+fDaughter2Mass) && m<(fMotherMass-fBachelorMass) ?
-				LineShape(m,resonance_mass, resonance_width): hydra::complex<double>(0.0, 0.0) ;
 
-	}
-*/
 private:
 
 
