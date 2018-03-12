@@ -65,8 +65,20 @@ public:
 	fCte(return_type(other.fCte))
 	{}
 
+	inline void PrintRegisteredParameters(){}
+
+	inline void AddUserParameters(std::vector<hydra::Parameter*>& user_parameters ){}
+
+	inline void SetParameters(const std::vector<double>& parameters){}
+
+	inline size_t  GetParametersKey(){ return 99999999;}
+
+	inline size_t GetNumberOfParameters() const { return 0;	}
+
+
+
 	template<typename ...T>
-	__hydra_host__ __hydra_device__ inline return_type  operator()(T&& ...){ return fCte;}
+	__hydra_host__ __hydra_device__ inline return_type  operator()(T& ...) const { return fCte;}
 
 
 private:

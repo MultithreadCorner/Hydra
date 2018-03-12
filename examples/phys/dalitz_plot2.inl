@@ -169,7 +169,7 @@ public:
 private:
 
 	mutable hydra::BreitWignerLineShape<L> fLineShape;
-	hydra::DalitzAngularDistribution<L>
+	hydra::DalitzAngularDistribution<L> fAngularDistribution;
 
 };
 

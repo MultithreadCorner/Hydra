@@ -1033,7 +1033,16 @@ namespace hydra {
 	 }
 
 
-
+	 //accumulate by product
+	 template<typename Return_Type, typename ArgType, typename ... Tp,
+	 typename=typename HYDRA_EXTERNAL_NS::thrust::detail::enable_if<std::is_convertible<Return_Type, double>::value || std::is_constructible<HYDRA_EXTERNAL_NS::thrust::complex<double>,Return_Type>::value >::type>
+	 __hydra_host__  __hydra_device__
+	 inline Return_Type product(ArgType const& x, HYDRA_EXTERNAL_NS::thrust::tuple<Tp...>  const& t)
+	 {
+		 Return_Type r=TypeTraits<Return_Type>::one();
+		 product_tuple(r, t, x);
+		 return r;
+	 }
 
 	 //accumulate by product
 	 template<typename Return_Type, typename ArgType, typename ... Tp,
@@ -1043,6 +1052,17 @@ namespace hydra {
 	 {
 		 Return_Type r=TypeTraits<Return_Type>::one();
 		 product_tuple(r, t, x);
+		 return r;
+	 }
+
+	 template<typename Return_Type, typename ArgType1,typename ArgType2, typename ... Tp,
+	 typename=typename HYDRA_EXTERNAL_NS::thrust::detail::enable_if<std::is_convertible<Return_Type, double>::value || std::is_constructible<HYDRA_EXTERNAL_NS::thrust::complex<double>,Return_Type>::value >::type>
+	 __hydra_host__  __hydra_device__
+	 inline Return_Type product2(ArgType1 const& x, ArgType2 const& y, HYDRA_EXTERNAL_NS::thrust::tuple<Tp...> const& t)
+	 {
+		 Return_Type r=TypeTraits<Return_Type>::one();
+		 constexpr size_t N=HYDRA_EXTERNAL_NS::thrust::tuple_size< HYDRA_EXTERNAL_NS::thrust::tuple<Tp...>>::value;
+		 product_tuple3<0,N,Return_Type,ArgType1, ArgType2,Tp...>(r, t, x, y);
 		 return r;
 	 }
 

@@ -89,6 +89,7 @@ class Multiply: public detail::CompositeBase< F1,F2, Fs...>
   	__hydra_host__ __hydra_device__ inline
   	return_type operator()(T1& t ) const
   	{
+
   		return detail::product<return_type,T1,F1,F2,Fs...>(t,this->fFtorTuple );
 
   	}

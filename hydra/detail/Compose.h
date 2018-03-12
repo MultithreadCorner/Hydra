@@ -88,7 +88,7 @@ public:
 
 	  		typedef decltype(g) G_tuple ;
 
-	  		return f(detail::invoke<G_tuple, T1>(std::forward<T1&>(x),g ));
+	  		return f(detail::invoke<G_tuple, T1>(x,g ));
 	  	}
 
 

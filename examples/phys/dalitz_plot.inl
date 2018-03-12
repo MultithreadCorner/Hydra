@@ -258,14 +258,14 @@ int main(int argv, char** argc)
     //magnitudes and phases from Cleo-c model
     //https://arxiv.org/pdf/0802.4214.pdf
 
-	double NR_MAG         = 7.4;
+	double NR_MAG         = 4.8;
 	double NR_PHI         = (-18.4+180.0)*0.01745329;
 	double NR_CRe		  = NR_MAG*cos(NR_PHI);
 	double NR_CIm		  = NR_MAG*sin(NR_PHI);
 
 	double K800_MASS  	  = 0.809 ;
 	double K800_WIDTH     = 0.470;
-	double K800_MAG       = 2.0;
+	double K800_MAG       = 2.25;
 	double K800_PHI       = (-163.7+180.0)*0.01745329;
 	double K800_CRe		  = K800_MAG*cos(K800_PHI);
 	double K800_CIm		  = K800_MAG*sin(K800_PHI);
@@ -279,22 +279,22 @@ int main(int argv, char** argc)
 
 	double KST0_1430_MASS  = 1.425;
 	double KST0_1430_WIDTH = 0.270;
-	double KST0_1430_MAG   = 3.0;
-	double KST0_1430_PHI   = (49.7-180.0)*0.01745329;
+	double KST0_1430_MAG   = 1.50;
+	double KST0_1430_PHI   = (45.7-180.0)*0.01745329;
 	double KST0_1430_CRe   = KST0_1430_MAG*cos(KST0_1430_PHI);
 	double KST0_1430_CIm   = KST0_1430_MAG*sin(KST0_1430_PHI);
 
 	double KST2_1430_MASS  = 1.4324;
 	double KST2_1430_WIDTH = 0.109;
 	double KST2_1430_MAG   = 0.962;
-	double KST2_1430_PHI   = (-29.9+180.0)*0.01745329;
+	double KST2_1430_PHI   = (-33.9+180.0)*0.01745329;
 	double KST2_1430_CRe   = KST2_1430_MAG*cos(KST2_1430_PHI);
 	double KST2_1430_CIm   = KST2_1430_MAG*sin(KST2_1430_PHI);
 
 	double KST_1680_MASS  = 1.718;
 	double KST_1680_WIDTH = 0.322;
-	double KST_1680_MAG   = 6.5;
-	double KST_1680_PHI   = (29.0)*0.01745329;
+	double KST_1680_MAG   = 2.5;
+	double KST_1680_PHI   = (26.0)*0.01745329;
 	double KST_1680_CRe	  = KST_1680_MAG*cos(KST_1680_PHI);
 	double KST_1680_CIm	  = KST_1680_MAG*sin(KST_1680_PHI);
 
@@ -333,7 +333,7 @@ int main(int argv, char** argc)
 	Resonance<3, hydra::PWave> KST_892_Resonance_13(coef_re, coef_im, mass, width,
 			    	D_MASS,	K_MASS, PI_MASS, PI_MASS , 5.0);
 
-	auto KST_892_Resonance = KST_892_Resonance_12 - KST_892_Resonance_13;
+	auto KST_892_Resonance = (KST_892_Resonance_12 - KST_892_Resonance_13);
 
 	//======================================================
 	//K*0(1430)

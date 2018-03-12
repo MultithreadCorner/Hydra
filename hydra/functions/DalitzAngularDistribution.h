@@ -54,14 +54,15 @@ namespace hydra {
 template<Wave L>
 double zemach_function(const double x);
 
-template<unsigned int P1, unsigned int P2>
-double cos_decay_angle(const double M0Sq, const double M1Sq, const double M2Sq, const double M3Sq,
-		const double M12, const double M23, const double M31);
-
-
-template<Wave L>
+template<Wave L, unsigned int CHANNEL=1>
 class DalitzAngularDistribution<L>:public BaseFunctor<DalitzAngularDistribution<L>, double, 0>
 {
+	static_assert(CHANNEL==0 || CHANNEL>3, "[Hydra::DalitzAngularDistribution]:  CHANNEL template parameter allowed values are {1,2,3}" );
+	// 1 -> (0,1)
+	// 2 -> (1,2)
+	// 3 -> (2,0)
+	static constexpr unsigned int _M12=CHANNEL-1;
+	static constexpr unsigned int _M23= CHANNEL==3?0:CHANNEL;
 
 public:
 
@@ -92,7 +93,7 @@ public:
 		this->fDaughter1Mass = other.GetDaughter1Mass();
 		this->fDaughter2Mass = other.GetDaughter2Mass();
 		this->fBachelorMass  = other.GetBachelorMass();
-		this->fMotherMass = other.GetMotherMass();
+		this->fMotherMass    = other.GetMotherMass();
 
 		return  *this;
 	}
@@ -100,43 +101,58 @@ public:
 	__hydra_host__ __hydra_device__ inline
 	double Evaluate(unsigned int , double* invariant_masses)  const {
 
-		double M12Sq  = pow<2>(invariant_masses[0]);
-		double M23Sq  = pow<2>(invariant_masses[1]);
-		double M31Sq  = pow<2>(invariant_masses[2]);
+		double M12Sq  = pow<2>(invariant_masses[_M12]);
+		double M23Sq  = pow<2>(invariant_masses[_M23]);
 
-		return zemach_function<L>(cos_decay_angle(M12Sq, M23Sq, M31Sq));
-
+		return zemach_function<L>(cos_decay_angle(M12Sq, M23Sq));
 	}
 
 
+	__hydra_host__ __hydra_device__ inline
+	double operator()(double M12, double M23 )  const {
+
+			double M12Sq  = pow<2>(invariant_masses[_M12]);
+			double M23Sq  = pow<2>(invariant_masses[_M23]);
+
+			return zemach_function<L>(cos_decay_angle(M12Sq, M23Sq));
+	}
+
+	__hydra_host__ __hydra_device__ inline
 	double GetBachelorMass() const {
 		return fBachelorMass;
 	}
 
+	__hydra_host__ __hydra_device__ inline
 	void SetBachelorMass(double bachelorMass) {
 		fBachelorMass = bachelorMass;
 	}
 
+	__hydra_host__ __hydra_device__ inline
 	double GetDaughter1Mass() const {
 		return fDaughter1Mass;
 	}
 
+	__hydra_host__ __hydra_device__ inline
 	void SetDaughter1Mass(double daughter1Mass) {
 		fDaughter1Mass = daughter1Mass;
 	}
 
+	__hydra_host__ __hydra_device__ inline
 	double GetDaughter2Mass() const {
 		return fDaughter2Mass;
 	}
 
+	__hydra_host__ __hydra_device__ inline
 	void SetDaughter2Mass(double daughter2Mass) {
 		fDaughter2Mass = daughter2Mass;
 	}
 
+	__hydra_host__ __hydra_device__ inline
 	double GetMotherMass() const {
 		return fMotherMass;
 	}
 
+	__hydra_host__ __hydra_device__ inline
 	void SetMotherMass(double motherMass) {
 		fMotherMass = motherMass;
 	}
@@ -151,11 +167,13 @@ private:
 	}
 
 	__hydra_host__ __hydra_device__ inline
-	double cos_decay_angle(const double M0Sq, const double M1Sq, const double M2Sq, const double M3Sq,
-			const double M12Sq, const double M23Sq, const double M31Sq){
+	double cos_decay_angle(const double M12Sq, const double M23Sq){
 
-		return ((M0Sq - M23Sq - M1Sq)*( M23Sq + M2Sq -M3Sq ) + 2*M23*(M1Sq + M2Sq - M12Sq))/
-				::sqrt(triangular_function(M0Sq, M23Sq, M1Sq ))*::sqrt(triangular_function(M23Sq, M2Sq, M3Sq ));
+		return ((pow<2>(fMotherMass) - M23Sq - pow<2>(fDaughter1Mass))*\
+				( M23Sq + pow<2>(fDaughter2Mass) - pow<2>(fBachelorMass) )\
+				+ 2*M23*(pow<2>(fDaughter1Mass) + pow<2>(fDaughter2Mass) - M12Sq))/\
+				::sqrt(triangular_function(pow<2>(fMotherMass), M23Sq, pow<2>(fDaughter1Mass) ))\
+				 *::sqrt(triangular_function(M23Sq, pow<2>(fDaughter2Mass), pow<2>(fBachelorMass)));
 	}
 
 	double fDaughter1Mass;
@@ -166,25 +184,6 @@ private:
 };
 
 
-
-template<>
-__hydra_host__ __hydra_device__ inline
-double cos_decay_angle<2,3>(const double M0Sq, const double M1Sq, const double M2Sq, const double M3Sq,
-		const double M12, const double M23, const double M31){
-
-	return ((M0Sq - M31 - M2Sq)*( M31 + M3Sq -M1Sq ) + 2*M31*(M2Sq + M3Sq - M23))/
-			::sqrt(triangular_function(M0Sq, M31, M2Sq ))*::sqrt(triangular_function(M31, M3Sq, M1Sq ));
-}
-
-template<>
-__hydra_host__ __hydra_device__ inline
-double cos_decay_angle<3,1>(const double M0Sq, const double M1Sq, const double M2Sq, const double M3Sq,
-		const double M12Sq, const double M23Sq, const double M31Sq){
-
-	return ((M0Sq - M12Sq - M3Sq)*( M12Sq + M1Sq -M2Sq ) + 2*M12Sq*(M3Sq + M1Sq - M31Sq))/
-			::sqrt(triangular_function(M0Sq, M12Sq, M3Sq ))*::sqrt(triangular_function(M12Sq, M1Sq, M2Sq ));
-
-}
 
 /*
  * Zemach angular distribution specializations
