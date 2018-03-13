@@ -120,14 +120,15 @@ public:
 			double radi):
 			hydra::BaseFunctor<Resonance<CHANNEL,L>, hydra::complex<double>, 4>{c_re, c_im, mass, width},
 			fLineShape(mass, width, mother_mass, daugther1_mass, daugther2_mass, bachelor_mass, radi),
-			fAngularDistribution(mother_mass, daugther1_mass, daugther2_mass, daugther3_mass)
+			fAngularDistribution(mother_mass, daugther1_mass, daugther2_mass, bachelor_mass)
 	{}
 
 
     __hydra_dual__
 	Resonance( Resonance< CHANNEL,L> const& other):
 	hydra::BaseFunctor<Resonance<CHANNEL ,L>, hydra::complex<double>, 4>(other),
-	fLineShape(other.GetLineShape())
+	fLineShape(other.GetLineShape()),
+	fAngularDistribution(other.GetAngularDistribution())
 	{}
 
     __hydra_dual__  inline
@@ -138,12 +139,16 @@ public:
 
 		hydra::BaseFunctor<Resonance<CHANNEL ,L>, hydra::complex<double>, 4>::operator=(other);
 		fLineShape=other.GetLineShape();
+		fAngularDistribution=other.GetAngularDistribution();
 
 		return *this;
 	}
 
     __hydra_dual__  inline
 	hydra::BreitWignerLineShape<L> const& GetLineShape() const {	return fLineShape; }
+
+    __hydra_dual__  inline
+    hydra::DalitzAngularDistribution<L> const& GetAngularDistribution() const { return fAngularDistribution; }
 
     __hydra_dual__  inline
 	hydra::complex<double> Evaluate(unsigned int n, double* masses)  const {
@@ -158,6 +163,8 @@ public:
 		return r;
 
 	}
+
+
 
 private:
 
@@ -430,7 +437,7 @@ int main(int argv, char** argc)
 
 #ifdef 	_ROOT_AVAILABLE_
 	//
-	TH3D Dalitz_Flat("Dalitz_Flat",
+
 	TH3D Dalitz_Resonances("Dalitz_Resonances",
 			"Dalitz - Toy Data -;"
 			"M^{2}(K^{-} #pi_{1}^{+}) [GeV^{2}/c^{4}];"
@@ -468,7 +475,7 @@ int main(int argv, char** argc)
 
 #endif
 
-	hydra::multiarray<3, double, hydra::host::sys_t > toy_data;
+	hydra::multiarray<double,3,  hydra::host::sys_t > toy_data;
 
 	//toy data production on device
 	{
@@ -501,7 +508,7 @@ int main(int argv, char** argc)
 
 	}//toy data production on device
 
-
+/*
 	//plot toy-data
 	{
 		std::cout << std::endl;
@@ -584,8 +591,8 @@ int main(int argv, char** argc)
 #endif
 
 	}
-
-
+*/
+/*
 	// fit
 	{
 		std::cout << std::endl;
@@ -839,8 +846,8 @@ int main(int argv, char** argc)
 
 	}
 
-
-
+*/
+/*
 #ifdef 	_ROOT_AVAILABLE_
 
 
@@ -1261,8 +1268,9 @@ int main(int argv, char** argc)
 	m_app->Run();
 
 #endif
-
+*/
 	return 0;
+
 }
 
 
@@ -1282,7 +1290,29 @@ size_t generate_dataset(Backend const& system, Model const& model, std::array<do
 	//allocate memory to hold the final states particles
 	hydra::Decays<3, Backend > _data(bunch_size);
 
+
+
 	std::srand(7531562);
+
+	// functor to calculate the 2-body squared masses
+	auto mass_calculator = hydra::wrap_lambda(
+			[] __hydra_dual__ (unsigned int n, hydra::Vector4R* p ){
+
+		double   M_12 = (p[0]+p[1]).mass();
+		double   M_23 = (p[1]+p[2]).mass();
+		double   M_31 = (p[0]+p[2]).mass();
+
+		return hydra::make_tuple(M_12, M_23, M_31);
+	});
+
+	//Norm_Model lambda
+	auto _model = hydra::wrap_lambda( [=] __hydra_dual__ (unsigned int n, double* x){
+
+		return model(n,x);
+	});
+
+	//functor_model
+	auto _functor = hydra::compose(_model, mass_calculator );
 
 	do {
 		phsp.SetSeed(std::rand());
@@ -1290,11 +1320,10 @@ size_t generate_dataset(Backend const& system, Model const& model, std::array<do
 		//generate the final state particles
 		phsp.Generate(D, _data.begin(), _data.end());
 
-		auto last = _data.Unweight(model, 1.0);
+		auto last = _data.Unweight( functor_model, 1.0);
 
 		// functor to calculate the 2-body squared masses
-		auto mass_calculator = hydra::wrap_lambda(
-		 	[] __hydra_dual__ (unsigned int n, hydra::Vector4R* p ){
+		auto mass_calculator = hydra::wrap_lambda( [] __hydra_dual__ (unsigned int n, hydra::Vector4R* p ){
 
 				double   M_12 = (p[0]+p[1]).mass();
 				double   M_23 = (p[1]+p[2]).mass();
@@ -1332,18 +1361,39 @@ double fit_fraction( Amplitude const& amp, Model const& model, std::array<double
 	// Create PhaseSpace object for B0-> K pi pi
 	hydra::PhaseSpace<3> phsp{K_MASS, PI_MASS, PI_MASS};
 
-	//norm lambda
-	auto Norm = hydra::wrap_lambda( [] __hydra_dual__ (unsigned int n, hydra::complex<double>* x){
+	// functor to calculate the 2-body squared masses
+	auto mass_calculator = hydra::wrap_lambda(
+			[] __hydra_dual__ (unsigned int n, hydra::Vector4R* p ){
 
-		return hydra::norm(x[0]);
+		double   M_12 = (p[0]+p[1]).mass();
+		double   M_23 = (p[1]+p[2]).mass();
+		double   M_31 = (p[0]+p[2]).mass();
+
+		return hydra::make_tuple(M_12, M_23, M_31);
 	});
 
-	//functor
-	auto functor = hydra::compose(Norm, amp);
+	//Norm_Amp lambda
+	auto Norm_Amp = hydra::wrap_lambda( [=] __hydra_dual__ (unsigned int n, double* x){
+
+		return hydra::norm( amp(n,x));
+	});
+
+	//Norm_Model lambda
+	auto Norm_Model = hydra::wrap_lambda( [=] __hydra_dual__ (unsigned int n, double* x){
+
+		return hydra::norm( model(n,x));
+	});
 
 
-	auto amp_int   = phsp.AverageOn(hydra::device::sys, D, functor, nentries);
-	auto model_int = phsp.AverageOn(hydra::device::sys, D, model,   nentries);
+	//functor_amp
+	auto functor_amp   = hydra::compose(Norm_Amp, mass_calculator );
+
+	//functor_model
+	auto functor_model = hydra::compose(Norm_Model, mass_calculator );
+
+
+	auto amp_int   = phsp.AverageOn(hydra::device::sys, D, functor_amp, nentries);
+	auto model_int = phsp.AverageOn(hydra::device::sys, D, functor_model, nentries);
 
 
 	return amp_int.first/model_int.first;
@@ -1383,21 +1433,31 @@ TH3D histogram_component( Amplitude const& amp, std::array<double, 3> const& mas
 		return hydra::make_tuple(M2_12, M2_13, M2_23);
 	});
 
-	//norm lambda
-	auto Norm = hydra::wrap_lambda(
-			[] __hydra_dual__ (unsigned int n, hydra::complex<double>* x){
+	// functor to calculate the 2-body squared masses
+	auto mass_calculator = hydra::wrap_lambda(
+			[] __hydra_dual__ (unsigned int n, hydra::Vector4R* p ){
 
-		return hydra::norm(x[0]);
+		double   M_12 = (p[0]+p[1]).mass();
+		double   M_23 = (p[1]+p[2]).mass();
+		double   M_31 = (p[0]+p[2]).mass();
+
+		return hydra::make_tuple(M_12, M_23, M_31);
+	});
+
+	//Norm_Amp lambda
+	auto Norm_Amp = hydra::wrap_lambda( [=] __hydra_dual__ (unsigned int n, double* x){
+
+		return hydra::norm( amp(n,x));
 	});
 
 	//functor
-	auto functor = hydra::compose(Norm, amp);
+	auto functor_amp = hydra::compose(Norm_Amp, mass_calculator );
 
 	hydra::Decays<3, hydra::device::sys_t > events(nentries);
 
 	phsp.Generate(D, events.begin(), events.end());
 
-	events.Reweight(functor);
+	events.Reweight(functor_amp);
 
 	auto particles        = events.GetUnweightedDecays();
 	auto dalitz_variables = hydra::make_range( particles.begin(), particles.end(), dalitz_calculator);

@@ -55,9 +55,9 @@ template<Wave L>
 double zemach_function(const double x);
 
 template<Wave L, unsigned int CHANNEL=1>
-class DalitzAngularDistribution<L>:public BaseFunctor<DalitzAngularDistribution<L>, double, 0>
+class DalitzAngularDistribution:public BaseFunctor<DalitzAngularDistribution<L,CHANNEL >, double, 0>
 {
-	static_assert(CHANNEL==0 || CHANNEL>3, "[Hydra::DalitzAngularDistribution]:  CHANNEL template parameter allowed values are {1,2,3}" );
+	static_assert(CHANNEL>0 || CHANNEL<3, "[Hydra::DalitzAngularDistribution]:  CHANNEL template parameter allowed values are {1,2,3}" );
 	// 1 -> (0,1)
 	// 2 -> (1,2)
 	// 3 -> (2,0)
@@ -65,6 +65,9 @@ class DalitzAngularDistribution<L>:public BaseFunctor<DalitzAngularDistribution<
 	static constexpr unsigned int _M23= CHANNEL==3?0:CHANNEL;
 
 public:
+
+
+	DalitzAngularDistribution()=delete;
 
 	DalitzAngularDistribution(double mother_mass, double daughter1_mass, double daughter2_mass, double bachelor_mass):
 		fDaughter1Mass(daughter1_mass),
@@ -74,8 +77,8 @@ public:
     {}
 
 	__hydra_host__  __hydra_device__
-	DalitzAngularDistribution( DalitzAngularDistribution<L> const& other):
-	BaseFunctor<DalitzAngularDistribution<L>,double, 0>(other),
+	DalitzAngularDistribution( DalitzAngularDistribution<L,CHANNEL> const& other):
+	BaseFunctor<DalitzAngularDistribution<L,CHANNEL>,double, 0>(other),
 	fDaughter1Mass(other.GetDaughter1Mass()),
 	fDaughter2Mass(other.GetDaughter2Mass()),
 	fBachelorMass(other.GetBachelorMass()),
@@ -83,12 +86,12 @@ public:
 	{}
 
 	__hydra_host__  __hydra_device__ inline
-	DalitzAngularDistribution<L>&
-	operator=( DalitzAngularDistribution<L> const& other){
+	DalitzAngularDistribution<L,CHANNEL>&
+	operator=( DalitzAngularDistribution<L,CHANNEL> const& other){
 
 		if(this==&other) return  *this;
 
-		BaseFunctor<DalitzAngularDistribution<L>,double, 0>::operator=(other);
+		BaseFunctor<DalitzAngularDistribution<L,CHANNEL>,double, 0>::operator=(other);
 
 		this->fDaughter1Mass = other.GetDaughter1Mass();
 		this->fDaughter2Mass = other.GetDaughter2Mass();
@@ -101,8 +104,8 @@ public:
 	__hydra_host__ __hydra_device__ inline
 	double Evaluate(unsigned int , double* invariant_masses)  const {
 
-		double M12Sq  = pow<2>(invariant_masses[_M12]);
-		double M23Sq  = pow<2>(invariant_masses[_M23]);
+		double M12Sq  = pow<double,2>(invariant_masses[_M12]);
+		double M23Sq  = pow<double,2>(invariant_masses[_M23]);
 
 		return zemach_function<L>(cos_decay_angle(M12Sq, M23Sq));
 	}
@@ -111,8 +114,8 @@ public:
 	__hydra_host__ __hydra_device__ inline
 	double operator()(double M12, double M23 )  const {
 
-			double M12Sq  = pow<2>(invariant_masses[_M12]);
-			double M23Sq  = pow<2>(invariant_masses[_M23]);
+			double M12Sq  = pow<double,2>(M12);
+			double M23Sq  = pow<double,2>(M23);
 
 			return zemach_function<L>(cos_decay_angle(M12Sq, M23Sq));
 	}
@@ -163,17 +166,17 @@ private:
 	__hydra_host__ __hydra_device__ inline
 	double triangular_function(const double M12){
 
-		return (pow<2>(M12) - pow<2>(fDaughter1Mass + fDaughter2Mass))*(pow<2>(M12) - pow<2>(fDaughter1Mass - fDaughter2Mass));
+		return (pow<double,2>(M12) - pow<double,2>(fDaughter1Mass + fDaughter2Mass))*(pow<double,2>(M12) - pow<double,2>(fDaughter1Mass - fDaughter2Mass));
 	}
 
 	__hydra_host__ __hydra_device__ inline
 	double cos_decay_angle(const double M12Sq, const double M23Sq){
 
-		return ((pow<2>(fMotherMass) - M23Sq - pow<2>(fDaughter1Mass))*\
-				( M23Sq + pow<2>(fDaughter2Mass) - pow<2>(fBachelorMass) )\
-				+ 2*M23*(pow<2>(fDaughter1Mass) + pow<2>(fDaughter2Mass) - M12Sq))/\
-				::sqrt(triangular_function(pow<2>(fMotherMass), M23Sq, pow<2>(fDaughter1Mass) ))\
-				 *::sqrt(triangular_function(M23Sq, pow<2>(fDaughter2Mass), pow<2>(fBachelorMass)));
+		return ((pow<double,2>(fMotherMass) - M23Sq - pow<double,2>(fDaughter1Mass))*\
+				( M23Sq + pow<double,2>(fDaughter2Mass) - pow<double,2>(fBachelorMass) )\
+				+ 2*M23Sq*(pow<double,2>(fDaughter1Mass) + pow<double,2>(fDaughter2Mass) - M12Sq))/\
+				::sqrt(triangular_function(pow<double,2>(fMotherMass), M23Sq, pow<double,2>(fDaughter1Mass) ))\
+				 *::sqrt(triangular_function(M23Sq, pow<double,2>(fDaughter2Mass), pow<double,2>(fBachelorMass)));
 	}
 
 	double fDaughter1Mass;
