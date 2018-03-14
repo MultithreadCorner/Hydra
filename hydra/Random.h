@@ -309,6 +309,39 @@ private:
 
 };
 
+/**
+ * \ingroup random
+ *
+ * This functions reorder a dataset to put produce a unweighted sample according to the weights
+ * [wbegin, wend]. The length of the range [wbegin, wend] should be equal or greater than
+ * the dataset size.
+ *
+ * @param policy parallel backend to perform the unweighting
+ * @param wbegin iterator pointing to the begin of the range of weights
+ * @param wend  iterator pointing to the begin of the range of weights
+ * @param begin iterator pointing to the begin of the range of data
+ * @return
+ */
+template<hydra::detail::Backend  BACKEND, typename Iterator1, typename Iterator2>
+GenericRange<Iterator2> unweight( hydra::detail::BackendPolicy<BACKEND> const& policy, Iterator1 wbegin, Iterator1 wend , Iterator2 begin);
+
+
+
+/**
+ * \ingroup random
+ *
+ * This functions reorder a dataset to put produce a unweighted sample according to @param functor .
+ *
+ * @param policy
+ * @param begin
+ * @param end
+ * @param functor
+ * @return the index of the last entry of the unweighted event.
+ */
+template<hydra::detail::Backend  BACKEND, typename Functor, typename Iterator>
+GenericRange<Iterator>  unweight( hydra::detail::BackendPolicy<BACKEND> const& policy, Iterator begin, Iterator end, Functor const& functor);
+
+
 
 
 

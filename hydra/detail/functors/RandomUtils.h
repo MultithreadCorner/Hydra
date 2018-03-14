@@ -214,17 +214,18 @@ struct RndBreitWigner{
 
 };
 
-template<typename T,typename GRND>
+template<typename T, typename Iterator,typename GRND>
 struct RndFlag{
 
-	RndFlag(const size_t seed, const T max_value, const T* values ):
+
+	RndFlag(const size_t seed, const T max_value, Iterator values ):
 		fSeed(seed),
 		fValMax(max_value),
 		fVals(values)
 	{}
 
 	__hydra_host__ __hydra_device__
-	RndFlag(RndFlag<T, GRND> const& other):
+	RndFlag(RndFlag<T,Iterator, GRND> const& other):
 		fSeed(other.fSeed),
 		fValMax(other.fValMax),
 		fVals(other.fVals)
@@ -242,7 +243,7 @@ struct RndFlag{
 
 	size_t  fSeed;
 	T fValMax;
-	const T* __restrict__ fVals;
+	Iterator fVals;
 };
 
 
