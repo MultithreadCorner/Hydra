@@ -19,88 +19,53 @@
  *
  *---------------------------------------------------------------------------*/
 
+
 /*
- * DalitzAngularDistribution.h
+ * DalitzChecker.h
  *
- *  Created on: 09/03/2018
+ *  Created on: Mar 15, 2018
  *      Author: Antonio Augusto Alves Junior
  */
 
-#ifndef DALITZANGULARDISTRIBUTION_H_
-#define DALITZANGULARDISTRIBUTION_H_
-
-
-#include <hydra/detail/Config.h>
-#include <hydra/Types.h>
-#include <hydra/Function.h>
-#include <hydra/detail/utility/CheckValue.h>
-#include <hydra/functions/Utils.h>
-#include <hydra/Tuple.h>
-#include <tuple>
-#include <limits>
-#include <stdexcept>
-#include <assert.h>
-#include <utility>
-#include <cmath>
-
+#ifndef DALITZCHECKER_H_
+#define DALITZCHECKER_H_
 
 namespace hydra {
 
-/**
- * \ingroup functors
- *
- */
-
-template<Wave L>
-double zemach_function(const double x);
-
-/**
- * \FIXME
- *
- * include the correct number template of parameters
- */
-
-template<Wave L, unsigned int CHANNEL=1>
-class DalitzAngularDistribution:public BaseFunctor<DalitzAngularDistribution<L,CHANNEL >, double, 0>
+class DalitzChecker:public BaseFunctor<DalitzChecker, bool, 0>
 {
-	static_assert(CHANNEL>0 || CHANNEL<3, "[Hydra::DalitzAngularDistribution]:"
-			" CHANNEL template parameter allowed values are {1,2,3}" );
-
-	static constexpr unsigned int _M12=CHANNEL-1;
-	static constexpr unsigned int _M23= CHANNEL==3?0:CHANNEL;
 
 public:
 
+	DalitzChecker()=delete;
 
-	DalitzAngularDistribution()=delete;
-
-	DalitzAngularDistribution(double mother_mass, double daughter1_mass, double daughter2_mass, double bachelor_mass):
+	DalitzChecker(double mother_mass, double daughter1_mass, double daughter2_mass, double daughter3_mass):
 		fDaughter1Mass(daughter1_mass),
 		fDaughter2Mass(daughter2_mass),
-		fBachelorMass(bachelor_mass),
+		fDaughter3Mass(daughter3_mass),
 		fMotherMass(mother_mass)
     {}
 
 	__hydra_host__  __hydra_device__
-	DalitzAngularDistribution( DalitzAngularDistribution<L,CHANNEL> const& other):
-	BaseFunctor<DalitzAngularDistribution<L,CHANNEL>,double, 0>(other),
+	DalitzChecker( DalitzChecker const& other):
+	BaseFunctor<DalitzChecker,double, 0>(other),
 	fDaughter1Mass(other.GetDaughter1Mass()),
 	fDaughter2Mass(other.GetDaughter2Mass()),
-	fBachelorMass(other.GetBachelorMass()),
+	fDaughter3Mass(other.GetDaughter3Mass()),
 	fMotherMass(other.GetMotherMass())
 	{}
 
 	__hydra_host__  __hydra_device__ inline
-	DalitzAngularDistribution<L,CHANNEL>&
-	operator=( DalitzAngularDistribution<L,CHANNEL> const& other){
+	DalitzChecker&
+	operator=( DalitzChecker const& other){
 
 		if(this==&other) return  *this;
 
-		BaseFunctor<DalitzAngularDistribution<L,CHANNEL>,double, 0>::operator=(other);
+		BaseFunctor<DalitzChecker,double, 0>::operator=(other);
 
 		this->fDaughter1Mass = other.GetDaughter1Mass();
 		this->fDaughter2Mass = other.GetDaughter2Mass();
-		this->fBachelorMass  = other.GetBachelorMass();
+		this->fDaughter3Mass = other.GetDaughter3Mass();
 		this->fMotherMass    = other.GetMotherMass();
 
 		return  *this;
@@ -126,13 +91,13 @@ public:
 	}
 
 	__hydra_host__ __hydra_device__ inline
-	double GetBachelorMass() const {
-		return fBachelorMass;
+	double GetDaughter3Mass() const {
+		return fDaughter3Mass;
 	}
 
 	__hydra_host__ __hydra_device__ inline
-	void SetBachelorMass(double bachelorMass) {
-		fBachelorMass = bachelorMass;
+	void SetDaughter3Mass(double bachelorMass) {
+		fDaughter3Mass = bachelorMass;
 	}
 
 	__hydra_host__ __hydra_device__ inline
@@ -178,71 +143,21 @@ private:
 	double cos_decay_angle(const double M12Sq, const double M23Sq){
 
 		return ((pow<double,2>(fMotherMass) - M23Sq - pow<double,2>(fDaughter1Mass))*\
-				( M23Sq + pow<double,2>(fDaughter2Mass) - pow<double,2>(fBachelorMass) )\
+				( M23Sq + pow<double,2>(fDaughter2Mass) - pow<double,2>(fDaughter3Mass) )\
 				+ 2*M23Sq*(pow<double,2>(fDaughter1Mass) + pow<double,2>(fDaughter2Mass) - M12Sq))/\
 				::sqrt(triangular_function(pow<double,2>(fMotherMass), M23Sq, pow<double,2>(fDaughter1Mass) ))\
-				 *::sqrt(triangular_function(M23Sq, pow<double,2>(fDaughter2Mass), pow<double,2>(fBachelorMass)));
+				 *::sqrt(triangular_function(M23Sq, pow<double,2>(fDaughter2Mass), pow<double,2>(fDaughter3Mass)));
 	}
 
 	double fDaughter1Mass;
 	double fDaughter2Mass;
-	double fBachelorMass;
+	double fDaughter3Mass;
 	double fMotherMass;
 
 };
 
 
 
-/*
- * Zemach angular distribution specializations
- */
-template<>
-__hydra_host__ __hydra_device__ inline
-double zemach_function<SWave>(const double ){
-
-	return 1.0;
-}
-
-template<>
-__hydra_host__ __hydra_device__ inline
-double zemach_function<PWave>(const double x){
-
-	return -x;
-}
-
-template<>
-__hydra_host__ __hydra_device__ inline
-double zemach_function<DWave>(const double x){
-
-	return 0.5*(3.0*pow<double, 2>(x) -1) ;
-}
-
-template<>
-__hydra_host__ __hydra_device__ inline
-double zemach_function<FWave>(const double x){
-
-	return -0.5*(5.0*pow<double, 3>(x) - 3.0*x);
-}
-
-template<>
-__hydra_host__ __hydra_device__ inline
-double zemach_function<GWave>(const double x){
-
-	return 0.125*(35.0*pow<double, 4>(x) - 30.0*pow<double, 2>(x) + 3);
-}
-
-template<>
-__hydra_host__ __hydra_device__ inline
-double zemach_function<HWave>(const double x){
-
-	return -0.125*(63.0*pow<double, 5>(x) - 70.0*pow<double, 3>(x) + 15.0*x);
-}
-
-
-
 }  // namespace hydra
 
-
-
-
-#endif /* DALITZANGULARDISTRIBUTION_H_ */
+#endif /* DALITZCHECKER_H_ */

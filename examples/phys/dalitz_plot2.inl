@@ -403,30 +403,6 @@ int main(int argv, char** argc)
 			KST_1680_Resonance,
 			NR );
 
-	// functor to calculate the 2-body squared masses
-	auto dalitz_calculator = hydra::wrap_lambda(
-			[] __hydra_dual__ (unsigned int n, hydra::Vector4R* p ){
-
-		double   M2_12 = (p[0]+p[1]).mass2();
-		double   M2_23 = (p[1]+p[2]).mass2();
-		double   M2_31 = (p[0]+p[2]).mass2();
-
-
-		return hydra::make_tuple(M2_12, M2_23, M2_31);
-	});
-
-	// functor to calculate the 2-body squared masses
-	auto mass_calculator = hydra::wrap_lambda(
-			[] __hydra_dual__ (unsigned int n, hydra::Vector4R* p ){
-
-		double   M_12 = (p[0]+p[1]).mass();
-		double   M_23 = (p[1]+p[2]).mass();
-		double   M_31 = (p[0]+p[2]).mass();
-
-
-		return hydra::make_tuple(M_12, M_23, M_31);
-	});
-
 
 	//--------------------
 	//generator
@@ -504,12 +480,17 @@ int main(int argv, char** argc)
 		std::cout << "| Time (ms)        :"<< elapsed.count()   << std::endl;
 		std::cout << "-----------------------------------------"<< std::endl;
 
+		std::cout << "|======= masses =======|"<< std::endl;
+		std::cout << "i : (M_12 M_13 M_23)"<< std::endl;
+
+		for( size_t i=0; i<10; i++ )
+		std::cout << i << " : " << toy_data[i] << std::endl<< std::endl;
 
 		std::cout << std::endl <<"Toy Dataset size: "<< toy_data.size() << std::endl;
 
 	}//toy data production on device
 
-/*
+
 	//plot toy-data
 	{
 		std::cout << std::endl;
@@ -519,15 +500,19 @@ int main(int argv, char** argc)
 		std::cout << "======================================" << std::endl;
 		std::cout <<  std::endl << std::endl;
 
-		hydra::Decays<3, hydra::device::sys_t > toy_data_temp(toy_data);
+		hydra::multiarray<double, 3, hydra::device::sys_t> toy_data_temp(toy_data);
 
-		auto particles        = toy_data_temp.GetUnweightedDecays();
-		auto dalitz_variables = hydra::make_range( particles.begin(), particles.end(), dalitz_calculator);
+		//functor to transform (M_12, M_23, M_31) -> (M^2_12, M^2_23, M^2_31)
+		auto mass_sq = hydra::wrap_lambda( []__hydra_dual__ (unsigned int n, double* masses){
 
-		std::cout << "<======= [Daliz variables] { ( MSq_12, MSq_13, MSq_23) } =======>"<< std::endl;
+			return hydra::make_tuple(masses[0]*masses[0], masses[1]*masses[1], masses[2]*masses[2] );
+		});
+
+		std::cout << "|======= Daliz variables =======|"<< std::endl;
+		std::cout << "i : (MSq_12 MSq_13 MSq_23)"<< std::endl;
 
 		for( size_t i=0; i<10; i++ )
-			std::cout << dalitz_variables[i] << std::endl;
+			std::cout << i << " : " << toy_data_temp[mass_sq][i] << std::endl;
 
 		//flat dalitz histogram
 		hydra::SparseHistogram<double, 3,  hydra::device::sys_t> Hist_Dalitz{
@@ -538,7 +523,8 @@ int main(int argv, char** argc)
 
 		auto start = std::chrono::high_resolution_clock::now();
 
-		Hist_Dalitz.Fill( dalitz_variables.begin(), dalitz_variables.end() );
+		Hist_Dalitz.Fill( toy_data_temp.begin(mass_sq),
+				toy_data_temp.end( mass_sq) );
 
 		auto end = std::chrono::high_resolution_clock::now();
 
@@ -548,7 +534,7 @@ int main(int argv, char** argc)
 		std::cout << std::endl;
 		std::cout << std::endl;
 		std::cout << "----------------- Device ----------------"<< std::endl;
-		std::cout << "| Sparse histogram fill"                       << std::endl;
+		std::cout << "| 3D Sparse histogram: toy data"          << std::endl;
 		std::cout << "| Number of events :"<< nentries          << std::endl;
 		std::cout << "| Time (ms)        :"<< elapsed.count()   << std::endl;
 		std::cout << "-----------------------------------------"<< std::endl;
@@ -591,9 +577,9 @@ int main(int argv, char** argc)
 
 #endif
 
-	}
-*/
-/*
+	}//plot toy-data
+
+
 	// fit
 	{
 		std::cout << std::endl;
@@ -847,7 +833,6 @@ int main(int argv, char** argc)
 
 	}
 
-*/
 /*
 #ifdef 	_ROOT_AVAILABLE_
 
@@ -1365,9 +1350,9 @@ double fit_fraction( Amplitude const& amp, Model const& model, std::array<double
 	});
 
 	//Norm_Model lambda
-	auto Norm_Model = hydra::wrap_lambda( [=] __hydra_dual__ (unsigned int n, double* x){
+	auto _Model = hydra::wrap_lambda( [=] __hydra_dual__ (unsigned int n, double* x){
 
-		return hydra::norm( model(n,x));
+		return model(n,x);
 	});
 
 
@@ -1375,7 +1360,7 @@ double fit_fraction( Amplitude const& amp, Model const& model, std::array<double
 	auto functor_amp   = hydra::compose(Norm_Amp, mass_calculator );
 
 	//functor_model
-	auto functor_model = hydra::compose(Norm_Model, mass_calculator );
+	auto functor_model = hydra::compose(_Model, mass_calculator );
 
 
 	auto amp_int   = phsp.AverageOn(hydra::device::sys, D, functor_amp, nentries);
