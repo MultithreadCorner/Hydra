@@ -30,7 +30,6 @@
 #ifndef RANDOM_H_
 #define RANDOM_H_
 
-#include <array>
 
 #include <hydra/detail/Config.h>
 #include <hydra/detail/BackendPolicy.h>
@@ -50,6 +49,9 @@
 #include <hydra/detail/external/thrust/iterator/iterator_traits.h>
 #include <hydra/detail/external/thrust/system/detail/generic/select_system.h>
 #include <hydra/detail/external/thrust/partition.h>
+
+#include <array>
+#include <utility>
 
 namespace hydra{
 
@@ -339,7 +341,8 @@ GenericRange<Iterator2> unweight( hydra::detail::BackendPolicy<BACKEND> const& p
  * @return the index of the last entry of the unweighted event.
  */
 template<hydra::detail::Backend  BACKEND, typename Functor, typename Iterator>
-GenericRange<Iterator>  unweight( hydra::detail::BackendPolicy<BACKEND> const& policy, Iterator begin, Iterator end, Functor const& functor);
+typename std::enable_if< hydra::detail::is_hydra_functor<Functor>::value, GenericRange<Iterator>>::type
+unweight( hydra::detail::BackendPolicy<BACKEND> const& policy, Iterator begin, Iterator end, Functor const& functor);
 
 
 

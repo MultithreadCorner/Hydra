@@ -55,6 +55,7 @@
 #include <hydra/Tuple.h>
 #include <hydra/GenericRange.h>
 #include <hydra/Distance.h>
+#include <hydra/Random.h>
 
 #include <hydra/LogLikelihoodFCN.h>
 #include <hydra/Parameter.h>
@@ -1288,54 +1289,39 @@ size_t generate_dataset(Backend const& system, Model const& model, std::array<do
 	hydra::PhaseSpace<3> phsp{K_MASS, PI_MASS, PI_MASS};
 
 	//allocate memory to hold the final states particles
-	hydra::Decays<3, Backend > _data(bunch_size);
+	hydra::multiarray<double, 4, Backend > _data(bunch_size);
 
-
-
-	std::srand(7531562);
-
-	// functor to calculate the 2-body squared masses
-	auto mass_calculator = hydra::wrap_lambda(
+	// functors to calculate the 2-body squared masses
+	auto mass_12 = hydra::wrap_lambda(
 			[] __hydra_dual__ (unsigned int n, hydra::Vector4R* p ){
 
-		double   M_12 = (p[0]+p[1]).mass();
-		double   M_23 = (p[1]+p[2]).mass();
-		double   M_31 = (p[0]+p[2]).mass();
-
-		return hydra::make_tuple(M_12, M_23, M_31);
+		return (p[0]+p[1]).mass();
 	});
 
-	//Norm_Model lambda
-	auto _model = hydra::wrap_lambda( [=] __hydra_dual__ (unsigned int n, double* x){
+	auto mass_23 = hydra::wrap_lambda(
+			[] __hydra_dual__ (unsigned int n, hydra::Vector4R* p ){
 
-		return model(n,x);
+		return (p[1]+p[2]).mass();
 	});
 
-	//functor_model
-	auto _functor = hydra::compose(_model, mass_calculator );
+	auto mass_31 = hydra::wrap_lambda(
+			[] __hydra_dual__ (unsigned int n, hydra::Vector4R* p ){
+
+		return (p[0]+p[2]).mass();
+	});
+
+	std::srand(7531562);
 
 	do {
 		phsp.SetSeed(std::rand());
 
 		//generate the final state particles
-		phsp.Generate(D, _data.begin(), _data.end());
+		phsp.Evaluate(D, _data.begin(), _data.end(), mass_12, mass_23, mass_31);
 
-		auto last = _data.Unweight( functor_model, 1.0);
-
-		// functor to calculate the 2-body squared masses
-		auto mass_calculator = hydra::wrap_lambda( [] __hydra_dual__ (unsigned int n, hydra::Vector4R* p ){
-
-				double   M_12 = (p[0]+p[1]).mass();
-				double   M_23 = (p[1]+p[2]).mass();
-				double   M_31 = (p[0]+p[2]).mass();
-
-				return hydra::make_tuple(M_12, M_23, M_31);
-			});
-
-		auto range = hydra::make_range(_data.begin(), _data.begin()+last, mass_calculator);
+		auto range = hydra::unweight(Backend{}, _data.begin(_0), _data.end(_0), _data.begin( _1, _2, _3) );
 
 		dataset.insert(dataset.size()==0? dataset.begin():dataset.end(),
-				range.begin(), range.end() );
+				_data.begin( _1, _2, _3), _data.begin( _1, _2, _3) + range.size() );
 
 	} while(dataset.size()<nevents );
 

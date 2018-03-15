@@ -247,7 +247,7 @@ struct EvalMother
 		{
 
 			daugters[i].set(
-					sqrt(pd[i - 1] * pd[i - 1] + fMasses[i] * fMasses[i]), 0.0,
+					::sqrt(pd[i - 1] * pd[i - 1] + fMasses[i] * fMasses[i]), 0.0,
 					-pd[i - 1], 0.0);
 
 			GReal_t cZ = 2 * uniDist(randEng) -1 ;

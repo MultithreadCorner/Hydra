@@ -367,7 +367,7 @@ GenericRange<Iterator> Random<GRND>::Sample( hydra::detail::BackendPolicy<BACKEN
 template<hydra::detail::Backend  BACKEND, typename Iterator1, typename Iterator2>
 GenericRange<Iterator2> unweight( hydra::detail::BackendPolicy<BACKEND> const& policy, Iterator1 wbegin, Iterator1 wend , Iterator2 begin){
 
-	typedef typename Iterator1::return_type value_type;
+	typedef typename Iterator1::value_type value_type;
 
 	size_t ntrials = HYDRA_EXTERNAL_NS::thrust::distance( wbegin, wend);
 
@@ -378,14 +378,15 @@ GenericRange<Iterator2> unweight( hydra::detail::BackendPolicy<BACKEND> const& p
 	HYDRA_EXTERNAL_NS::thrust::counting_iterator<size_t> first(0);
 	HYDRA_EXTERNAL_NS::thrust::counting_iterator<size_t> last = first + ntrials;
 
-	Iterator1 r = HYDRA_EXTERNAL_NS::thrust::partition(policy, begin, begin+ntrials, first,
+	Iterator2 r = HYDRA_EXTERNAL_NS::thrust::partition(policy, begin, begin+ntrials, first,
 				detail::RndFlag<value_type, Iterator1, HYDRA_EXTERNAL_NS::thrust::random::default_random_engine>(ntrials, max_value, wbegin) );
 
 	return  make_range(begin , r);
 }
 
 template<hydra::detail::Backend  BACKEND, typename Functor, typename Iterator>
-GenericRange<Iterator> unweight( hydra::detail::BackendPolicy<BACKEND> const& policy, Iterator begin, Iterator end, Functor const& functor){
+typename std::enable_if< hydra::detail::is_hydra_functor<Functor>::value, GenericRange<Iterator>>::type
+unweight( hydra::detail::BackendPolicy<BACKEND> const& policy, Iterator begin, Iterator end, Functor const& functor){
 
 	typedef typename Functor::return_type value_type;
 
