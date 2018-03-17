@@ -178,9 +178,10 @@ add_subdirectory(examples/random)
 add_subdirectory(examples/histograming)
 add_subdirectory(examples/async)
 add_subdirectory(examples/misc)
+add_subdirectory(examples/phys)
 
 if(Minuit2_FOUND)
-add_subdirectory(examples/phys)
+
 add_subdirectory(examples/fit)
 
 endif(Minuit2_FOUND)

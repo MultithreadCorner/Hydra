@@ -218,9 +218,9 @@ namespace hydra {
 
 
                 if(s >= twopimasssq)
-                    rhopipi_real = (2. / 3) * TMath::Sqrt(1 - twopimasssq / s ); // Above pi+pi- threshold
+                    rhopipi_real = (2. / 3) * ::sqrt(1 - twopimasssq / s ); // Above pi+pi- threshold
                 else
-                    rhopipi_imag = (2. / 3) * TMath::Sqrt(-1 + twopimasssq / s);
+                    rhopipi_imag = (2. / 3) * ::sqrt(-1 + twopimasssq / s);
 
                 if(s >= twopi0masssq)
                     rhopipi_real = (1. / 3) * TMath::Sqrt(1 - twopi0masssq / s ); // Above pi0pi0 threshold

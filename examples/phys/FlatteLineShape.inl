@@ -350,7 +350,7 @@ int main(int argv, char** argc)
 
     double f0_MASS        = 0.965;
 	double f0_MAG		  = 12.341;
-	double f0_Phase		  = -62.852*(M_PI / 180) ;
+	double f0_Phase		  = -62.852*(M_PI / 180) +M_PI;
     double f0_RC          = f0_MAG * cos(f0_Phase);
     double f0_IMC         = f0_MAG * sin(f0_Phase);
     double f0_rho1        = 0.165;
@@ -381,9 +381,8 @@ int main(int argv, char** argc)
 	 //======================================================
 
     //f0
-
-    auto coef_ref0 = hydra::Parameter::Create().Name("f0_RC").Value(f0_RC).Error(0.0001);
-    auto coef_imf0 = hydra::Parameter::Create().Name("f0_IM").Value(f0_IMC).Error(0.0001);
+    auto coef_ref0 = hydra::Parameter::Create().Name("f0_RC").Value(f0_RC).Error(0.0001).Limits(-100,100);
+    auto coef_imf0 = hydra::Parameter::Create().Name("f0_IM").Value(f0_IMC).Error(0.0001).Limits(-100,100);
     auto f0Mass = hydra::Parameter::Create().Name("MASS_f0").Value(f0_MASS).Fixed();
     auto f0g1 = hydra::Parameter::Create().Name("f0_g1").Value(f0_rho1).Fixed();
     auto rg1og2 = hydra::Parameter::Create().Name("f0_g1xg2").Value(f0_rho2).Fixed();
@@ -403,7 +402,8 @@ int main(int argv, char** argc)
 
 				hydra::complex<double> r(0,0);
 
-				for(unsigned int i=0; i< n;i++)	r += x[i];
+				for(unsigned int i=0; i<n; i++)
+                    r += x[i];
 
 				return hydra::norm(r);
 	});
@@ -464,7 +464,8 @@ int main(int argv, char** argc)
             f0_12_HIST,f0_13_HIST ;
 
 	double  Phi_12_FF,  Phi_13_FF,
-            f0_12_FF,f0_13_FF
+            f0_12_FF,f0_13_FF,
+            Phi_all_FF, f0_all_FF
             ;
 #endif
 
@@ -498,6 +499,35 @@ int main(int argv, char** argc)
 
 
 		std::cout << std::endl <<"Toy Dataset size: "<< toy_data.size() << std::endl;
+
+        std::ofstream writer;
+        writer.open("toyData.txt");
+
+        if(!writer.is_open()){
+            std::cout << "file not open" << std::endl;
+        }else {
+
+            for (auto event : toy_data) {
+
+                double weight = hydra::get<0>(event);
+                hydra::Vector4R Kminus = hydra::get<1>(event);
+                hydra::Vector4R Kplus1 = hydra::get<2>(event);
+                hydra::Vector4R Kplus2 = hydra::get<3>(event);
+
+                double MKminusKplus1 = (Kminus + Kplus1).mass2();
+                double MKminusKplus2 = (Kminus + Kplus2).mass2();
+
+                writer << MKminusKplus1 << '\t' << MKminusKplus2 << std::endl;
+            }
+
+            std::cout << "toyfile.txt generated" <<std::endl;
+        }
+
+
+
+        writer.close();
+
+
 
 	}//toy data production on device
 
@@ -712,8 +742,11 @@ int main(int argv, char** argc)
 
 		auto Phi_12 = fcn.GetPDF().GetFunctor().GetFunctor(_1).GetFunctor(_0);
 		auto Phi_13 = fcn.GetPDF().GetFunctor().GetFunctor(_1).GetFunctor(_1);
+        auto Phi_all = fcn.GetPDF().GetFunctor().GetFunctor(_1);
 		auto f0_12  = fcn.GetPDF().GetFunctor().GetFunctor(_2).GetFunctor(_0);
         auto f0_13  = fcn.GetPDF().GetFunctor().GetFunctor(_2).GetFunctor(_1);
+        auto f0_all = fcn.GetPDF().GetFunctor().GetFunctor(_2);
+
 
 		//==================================
 		// Draw components
@@ -729,15 +762,26 @@ int main(int argv, char** argc)
 		//==================================
 		Phi_12_FF  =	fit_fraction(Phi_12 , Opt_Model, {D_MASS, Kminus_MASS, Kplus_MASS},  nentries);
 		Phi_13_FF  =	fit_fraction(Phi_13 , Opt_Model, {D_MASS, Kminus_MASS, Kplus_MASS},  nentries);
+        Phi_all_FF  =	fit_fraction(Phi_all , Opt_Model, {D_MASS, Kminus_MASS, Kplus_MASS},  nentries);
 		f0_12_FF   =	fit_fraction(f0_12 , Opt_Model, {D_MASS, Kminus_MASS, Kplus_MASS},  nentries);
         f0_13_FF   =	fit_fraction(f0_13 , Opt_Model, {D_MASS, Kminus_MASS, Kplus_MASS},  nentries);
+        f0_all_FF  =	fit_fraction(f0_all , Opt_Model, {D_MASS, Kminus_MASS, Kplus_MASS},  nentries);
 
 		std::cout << "Phi_12_FF :" << Phi_12_FF << std::endl;
 		std::cout << "Phi_13_FF :" << Phi_13_FF << std::endl;
+        std::cout << "Phi_all_FF :" << Phi_all_FF << std::endl;
 		std::cout << "f0_12_FF :" << f0_12_FF << std::endl;
         std::cout << "f0_13_FF :" << f0_13_FF << std::endl;
+        std::cout << "f0_all_FF :" << f0_all_FF << std::endl;
 		std::cout << "Sum :"
 				  << Phi_12_FF  + Phi_13_FF  + f0_12_FF + f0_13_FF  << std::endl;
+
+		std::cout << "Phi_12_FF :" << fit_fraction(Phi_Resonance_12, Model, {D_MASS, Kminus_MASS, Kplus_MASS},  nentries) << std::endl;
+		std::cout << "Phi_13_FF :" << fit_fraction(Phi_Resonance_13, Model, {D_MASS, Kminus_MASS, Kplus_MASS},  nentries) << std::endl;
+		std::cout << "Phi_FF :" << fit_fraction(Phi_Resonance, Model, {D_MASS, Kminus_MASS, Kplus_MASS},  nentries) << std::endl;
+		std::cout << "f0_12_FF: " << fit_fraction(f0_Resonance_12, Model, {D_MASS, Kminus_MASS, Kplus_MASS},  nentries) << std::endl;
+		std::cout << "f0_13_FF: " << fit_fraction(f0_Resonance_13, Model, {D_MASS, Kminus_MASS, Kplus_MASS},  nentries) << std::endl;
+        std::cout << "f0_FF: " << fit_fraction(f0_Resonance, Model, {D_MASS, Kminus_MASS, Kplus_MASS},  nentries) << std::endl;
 
 #ifdef 	_ROOT_AVAILABLE_
 
@@ -815,12 +859,12 @@ int main(int argv, char** argc)
 
 	Dalitz_Fit.Scale(Dalitz_Resonances.Integral()/Dalitz_Fit.Integral() );
 
-	Phi_12_HIST.Scale( Phi_12_FF*Dalitz_Fit.Integral()/Phi_12_HIST.Integral() );
-	Phi_13_HIST.Scale( Phi_13_FF*Dalitz_Fit.Integral()/Phi_13_HIST.Integral() );
+	Phi_12_HIST.Scale(Phi_12_FF*Dalitz_Fit.Integral()/Phi_12_HIST.Integral() );
+	Phi_13_HIST.Scale(Phi_13_FF*Dalitz_Fit.Integral()/Phi_13_HIST.Integral() );
 	f0_12_HIST.Scale( f0_12_FF*Dalitz_Fit.Integral()/f0_12_HIST.Integral() );
     f0_13_HIST.Scale( f0_13_FF*Dalitz_Fit.Integral()/f0_13_HIST.Integral() );
 
-	//=============================================================
+    //=============================================================
 	//projections
 	TH1* hist2D=0;
 
@@ -1133,6 +1177,7 @@ double fit_fraction( Amplitude const& amp, Model const& model, std::array<double
 	// Create PhaseSpace object for D-> K K K
 	hydra::PhaseSpace<3> phsp{Kminus_MASS, Kplus_MASS, Kplus_MASS};
 
+
 	//norm lambda
 	auto Norm = hydra::wrap_lambda( []__host__  __device__ (unsigned int n, hydra::complex<double>* x){
 
@@ -1145,7 +1190,6 @@ double fit_fraction( Amplitude const& amp, Model const& model, std::array<double
 
 	auto amp_int   = phsp.AverageOn(hydra::device::sys, D, functor, nentries);
 	auto model_int = phsp.AverageOn(hydra::device::sys, D, model,   nentries);
-
 
 	return amp_int.first/model_int.first;
 
