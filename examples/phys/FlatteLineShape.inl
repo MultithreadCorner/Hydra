@@ -350,11 +350,11 @@ int main(int argv, char** argc)
 
     double f0_MASS        = 0.965;
 	double f0_MAG		  = 12.341;
-	double f0_Phase		  = -62.852*(M_PI / 180) +M_PI;
-    double f0_RC          = f0_MAG * cos(f0_Phase);
-    double f0_IMC         = f0_MAG * sin(f0_Phase);
+	double f0_Phase		  = -62.852*(M_PI / 180.0 ) + M_PI; // 2.044618312126317
+    double f0_RC          = f0_MAG * cos(f0_Phase); //-5.631081433470062
+    double f0_IMC         = f0_MAG * sin(f0_Phase); //10.981402592093087
     double f0_rho1        = 0.165;
-    double f0_rho2        = 4.21*f0_rho1;
+    double f0_rho2        = 4.21*f0_rho1; // 0.69465
 
     double D_MASS         = 1.86962;
     double Kplus_MASS     = 0.493677;  // K+ mass
@@ -381,8 +381,8 @@ int main(int argv, char** argc)
 	 //======================================================
 
     //f0
-    auto coef_ref0 = hydra::Parameter::Create().Name("f0_RC").Value(f0_RC).Error(0.0001).Limits(-100,100);
-    auto coef_imf0 = hydra::Parameter::Create().Name("f0_IM").Value(f0_IMC).Error(0.0001).Limits(-100,100);
+    auto coef_ref0 = hydra::Parameter::Create().Name("f0_RC").Value(f0_RC).Error(0.0001).Limits(-f0_RC*20.0,+f0_RC*20.0);
+    auto coef_imf0 = hydra::Parameter::Create().Name("f0_IM").Value(f0_IMC).Error(0.0001).Limits(-f0_IMC*20.0,+f0_IMC*20.0);
     auto f0Mass = hydra::Parameter::Create().Name("MASS_f0").Value(f0_MASS).Fixed();
     auto f0g1 = hydra::Parameter::Create().Name("f0_g1").Value(f0_rho1).Fixed();
     auto rg1og2 = hydra::Parameter::Create().Name("f0_g1xg2").Value(f0_rho2).Fixed();

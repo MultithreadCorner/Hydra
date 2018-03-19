@@ -22,7 +22,7 @@
 /*
  * FlatteLineShape.h
  *
- *  Created on: 03/09/2018 Based on Goofit Flatte code
+ *  Created on: 03/09/2018 Based on Goofit Flatte Code
  *      Author: Juan B de S Leite
  *
  *
@@ -223,19 +223,19 @@ namespace hydra {
                     rhopipi_imag = (2. / 3) * ::sqrt(-1 + twopimasssq / s);
 
                 if(s >= twopi0masssq)
-                    rhopipi_real = (1. / 3) * TMath::Sqrt(1 - twopi0masssq / s ); // Above pi0pi0 threshold
+                    rhopipi_real = (1. / 3) * ::sqrt(1 - twopi0masssq / s ); // Above pi0pi0 threshold
                 else
-                    rhopipi_imag = (1. / 3) * TMath::Sqrt(-1 + twopi0masssq / s );
+                    rhopipi_imag = (1. / 3) * ::sqrt(-1 + twopi0masssq / s );
 
                 if(s >= twokmasssq)
-                    rhokk_real = 0.5 * TMath::Sqrt(1 - twokmasssq / s ); // Above K+K- threshold
+                    rhokk_real = 0.5 * ::sqrt(1 - twokmasssq / s ); // Above K+K- threshold
                 else
-                    rhokk_imag = 0.5 * TMath::Sqrt(-1 + twokmasssq / s );
+                    rhokk_imag = 0.5 * ::sqrt(-1 + twokmasssq / s );
 
                 if(s >= twok0masssq)
-                    rhokk_real = 0.5 * TMath::Sqrt(1 - twok0masssq / s ); // Above K0K0 threshold
+                    rhokk_real = 0.5 * ::sqrt(1 - twok0masssq / s ); // Above K0K0 threshold
                 else
-                    rhokk_imag = 0.5 * TMath::Sqrt(-1 + twok0masssq / s );
+                    rhokk_imag = 0.5 * ::sqrt(-1 + twok0masssq / s );
 
                 double A = (resonance_mass*resonance_mass - s) + resonance_mass*(rhopipi_imag*g1 + rhokk_imag*g2);
                 double B = resonance_mass*(rhopipi_real*g1 + rhokk_real*g2);
