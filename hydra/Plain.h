@@ -53,8 +53,9 @@ struct Plain;
 
 
 /**
- * @ingroup numerical_integration
- * @brief This class implements the Plain MC numerical integration algorithm in Hydra.
+ * \ingroup numerical_integration
+ *
+ * \brief This class implements the Plain MC numerical integration algorithm in Hydra.
  * The plain Monte Carlo algorithm samples points randomly from the integration region
  * to estimate the integral and its error. Using this algorithm the estimate of the integral \f$E(f|N)\f$
  * for N randomly distributed points \f$x_i\f$ is given by,
@@ -140,6 +141,22 @@ public:
 		fXLow(other.GetXLow())
 	{ }
 
+	Plain<N, hydra::detail::BackendPolicy<BACKEND>, GRND>&
+	operator=( Plain<N, hydra::detail::BackendPolicy<BACKEND>, GRND> const& other)
+	{
+		if( this==&other) return *this;
+
+		this->fSeed     = other.GetSeed() ;
+		this->fNCalls   = other.GetNCalls();
+		this->fResult   = other.GetResult();
+		this->fAbsError = other.GetAbsError() ;
+		this->fVolume = other.GetVolume();
+		this->fDeltaX = other.GetDeltaX();
+		this->fXLow   = other.GetXLow();
+
+		return *this;
+	}
+
 	template<hydra::detail::Backend BACKEND2>
 	Plain( Plain<N, hydra::detail::BackendPolicy<BACKEND2>, GRND> const& other):
 	fSeed(other.GetSeed() ),
@@ -151,6 +168,23 @@ public:
 	fXLow(other.GetXLow())
 	{ }
 
+	template<hydra::detail::Backend BACKEND2>
+	Plain<N, hydra::detail::BackendPolicy<BACKEND>, GRND>&
+    operator=( Plain<N, hydra::detail::BackendPolicy<BACKEND2>, GRND> const& other)
+	{
+		if( this==&other) return *this;
+
+		this->fSeed   = other.GetSeed() ;
+		this->fNCalls = other.GetNCalls() ;
+		this->fResult = other.GetResult();
+		this->fAbsError = other.GetAbsError() ;
+		this->fVolume = other.GetVolume() ;
+		this->fDeltaX = other.GetDeltaX() ;
+		this->fXLow   = other.GetXLow();
+
+		return *this;
+	}
+
 
 
 	/**
@@ -159,13 +193,13 @@ public:
 	 * @return std::pair<GReal_t, GReal_t> with the integration result and error.
 	 */
 	template<typename FUNCTOR>
-	std::pair<GReal_t, GReal_t>  Integrate(FUNCTOR const& fFunctor );
+	inline std::pair<GReal_t, GReal_t>  Integrate(FUNCTOR const& fFunctor );
 
 	/**
 	 * @brief Get the absolute error of integration.
 	 * @return error of integration.
 	 */
-	GReal_t GetSigma() const {
+	inline GReal_t GetSigma() const {
 			return fAbsError;
 		}
 
@@ -173,7 +207,7 @@ public:
 	 * @brief Get the absolute error of integration.
 	 * @return error of integration.
 	 */
-	GReal_t GetAbsError() const {
+	inline GReal_t GetAbsError() const {
 		return fAbsError;
 	}
 
@@ -181,7 +215,7 @@ public:
 	 * Set the absolute error of integration.
 	 * @param absError error of integration.
 	 */
-	void SetAbsError(GReal_t absError) {
+	inline void SetAbsError(GReal_t absError) {
 		fAbsError = absError;
 	}
 
@@ -189,7 +223,7 @@ public:
 	 * @brief Get a vector with the width of the integration region in each direction.
 	 * @return HYDRA_EXTERNAL_NS::thrust::[backend]::vector<double>.
 	 */
-	const vector_t& GetDeltaX() const {
+	inline const vector_t& GetDeltaX() const {
 		return fDeltaX;
 	}
 
@@ -197,49 +231,49 @@ public:
 	 * @brief Set a vector with the width of the integration region in each direction.
 	 * @param deltaX
 	 */
-	void SetDeltaX(const std::vector<GReal_t>& deltaX) {
+	inline void SetDeltaX(const std::vector<GReal_t>& deltaX) {
 		fDeltaX = deltaX;
 	}
 
 
-	size_t GetNCalls() const {
+	inline size_t GetNCalls() const {
 		return fNCalls;
 	}
 
-	void SetNCalls(size_t nCalls) {
+	inline void SetNCalls(size_t nCalls) {
 		fNCalls = nCalls;
 	}
 
-	GReal_t GetResult() const {
+	inline GReal_t GetResult() const {
 		return fResult;
 	}
 
-	void SetResult(GReal_t result) {
+	inline void SetResult(GReal_t result) {
 		fResult = result;
 	}
 
 
-	GReal_t GetVolume() const {
+	inline GReal_t GetVolume() const {
 		return fVolume;
 	}
 
-	void SetVolume(GReal_t volume) {
+	inline void SetVolume(GReal_t volume) {
 		fVolume = volume;
 	}
 
-	const vector_t& GetXLow() const {
+	inline const vector_t& GetXLow() const {
 		return fXLow;
 	}
 
-	void SetXLow(const std::vector<GReal_t>&  xLow) {
+	inline void SetXLow(const std::vector<GReal_t>&  xLow) {
 		fXLow = xLow;
 	}
 
-	size_t GetSeed() const {
+	inline size_t GetSeed() const {
 		return fSeed;
 	}
 
-	void SetSeed(const size_t& seed) {
+	inline void SetSeed(const size_t& seed) {
 		fSeed = seed;
 	}
 

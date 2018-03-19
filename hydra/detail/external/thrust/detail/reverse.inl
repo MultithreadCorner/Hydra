@@ -32,7 +32,7 @@ HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
 
 __thrust_exec_check_disable__
 template<typename DerivedPolicy, typename BidirectionalIterator>
-__host__ __device__
+__hydra_host__ __hydra_device__
   void reverse(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                BidirectionalIterator first,
                BidirectionalIterator last)
@@ -44,7 +44,7 @@ __host__ __device__
 
 __thrust_exec_check_disable__
 template<typename DerivedPolicy, typename BidirectionalIterator, typename OutputIterator>
-__host__ __device__
+__hydra_host__ __hydra_device__
   OutputIterator reverse_copy(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                               BidirectionalIterator first,
                               BidirectionalIterator last,

@@ -15,15 +15,17 @@
  */
 
 /*! \file host_device.h
- *  \brief Defines __host__ and __device__
+ *  \brief Defines __hydra_host__ and __hydra_device__
+ *  Modified to define __hydra_host__, __hydra_device__ and __hydra_dual__
+ *  in order to avoid redefinitions when including hydra headers in other packages
  */
 
 #pragma once
 
 #include <hydra/detail/external/thrust/detail/config.h>
 
-// since nvcc defines __host__ and __device__ for us,
-// and only nvcc knows what to do with __host__ and __device__,
+// since nvcc defines __host__ and __hydra_device__ for us,
+// and only nvcc knows what to do with __host__ and __hydra_device__,
 // define them to be the empty string for other compilers
 
 #if HYDRA_THRUST_DEVICE_COMPILER != HYDRA_THRUST_DEVICE_COMPILER_NVCC
@@ -38,7 +40,11 @@
 
 #ifndef __device__
 #define __device__
-#endif // __device__
+#endif // _device__
+
+
+
+
 
 #endif
 

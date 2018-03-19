@@ -57,10 +57,10 @@ struct min_element_reduction
 {
   BinaryPredicate comp;
 
-  __host__ __device__ 
+  __hydra_host__ __hydra_device__ 
   min_element_reduction(BinaryPredicate comp) : comp(comp){}
 
-  __host__ __device__ 
+  __hydra_host__ __hydra_device__ 
   thrust::tuple<InputType, IndexType>
   operator()(const thrust::tuple<InputType, IndexType>& lhs, 
              const thrust::tuple<InputType, IndexType>& rhs )
@@ -84,10 +84,10 @@ struct max_element_reduction
 {
   BinaryPredicate comp;
 
-  __host__ __device__ 
+  __hydra_host__ __hydra_device__ 
   max_element_reduction(BinaryPredicate comp) : comp(comp){}
 
-  __host__ __device__ 
+  __hydra_host__ __hydra_device__ 
   thrust::tuple<InputType, IndexType>
   operator()(const thrust::tuple<InputType, IndexType>& lhs, 
              const thrust::tuple<InputType, IndexType>& rhs )
@@ -113,10 +113,10 @@ struct minmax_element_reduction
 {
   BinaryPredicate comp;
 
-  __host__ __device__
+  __hydra_host__ __hydra_device__
   minmax_element_reduction(BinaryPredicate comp) : comp(comp){}
 
-  __host__ __device__ 
+  __hydra_host__ __hydra_device__ 
   thrust::tuple< thrust::tuple<InputType,IndexType>, thrust::tuple<InputType,IndexType> >
   operator()(const thrust::tuple< thrust::tuple<InputType,IndexType>, thrust::tuple<InputType,IndexType> >& lhs, 
              const thrust::tuple< thrust::tuple<InputType,IndexType>, thrust::tuple<InputType,IndexType> >& rhs )
@@ -131,7 +131,7 @@ struct minmax_element_reduction
 template <typename InputType, typename IndexType>
 struct duplicate_tuple
 {
-  __host__ __device__ 
+  __hydra_host__ __hydra_device__ 
   thrust::tuple< thrust::tuple<InputType,IndexType>, thrust::tuple<InputType,IndexType> >
   operator()(const thrust::tuple<InputType,IndexType>& t)
   {
@@ -144,7 +144,7 @@ struct duplicate_tuple
 
 
 template <typename DerivedPolicy, typename ForwardIterator>
-__host__ __device__
+__hydra_host__ __hydra_device__
 ForwardIterator min_element(thrust::execution_policy<DerivedPolicy> &exec,
                             ForwardIterator first,
                             ForwardIterator last)
@@ -156,7 +156,7 @@ ForwardIterator min_element(thrust::execution_policy<DerivedPolicy> &exec,
 
 
 template <typename DerivedPolicy, typename ForwardIterator, typename BinaryPredicate>
-__host__ __device__
+__hydra_host__ __hydra_device__
 ForwardIterator min_element(thrust::execution_policy<DerivedPolicy> &exec,
                             ForwardIterator first,
                             ForwardIterator last,
@@ -181,7 +181,7 @@ ForwardIterator min_element(thrust::execution_policy<DerivedPolicy> &exec,
 
 
 template <typename DerivedPolicy, typename ForwardIterator>
-__host__ __device__
+__hydra_host__ __hydra_device__
 ForwardIterator max_element(thrust::execution_policy<DerivedPolicy> &exec,
                             ForwardIterator first,
                             ForwardIterator last)
@@ -193,7 +193,7 @@ ForwardIterator max_element(thrust::execution_policy<DerivedPolicy> &exec,
 
 
 template <typename DerivedPolicy, typename ForwardIterator, typename BinaryPredicate>
-__host__ __device__
+__hydra_host__ __hydra_device__
 ForwardIterator max_element(thrust::execution_policy<DerivedPolicy> &exec,
                             ForwardIterator first,
                             ForwardIterator last,
@@ -218,7 +218,7 @@ ForwardIterator max_element(thrust::execution_policy<DerivedPolicy> &exec,
 
 
 template <typename DerivedPolicy, typename ForwardIterator>
-__host__ __device__
+__hydra_host__ __hydra_device__
 thrust::pair<ForwardIterator,ForwardIterator> minmax_element(thrust::execution_policy<DerivedPolicy> &exec,
                                                              ForwardIterator first, 
                                                              ForwardIterator last)
@@ -230,7 +230,7 @@ thrust::pair<ForwardIterator,ForwardIterator> minmax_element(thrust::execution_p
 
 
 template <typename DerivedPolicy, typename ForwardIterator, typename BinaryPredicate>
-__host__ __device__
+__hydra_host__ __hydra_device__
 thrust::pair<ForwardIterator,ForwardIterator> minmax_element(thrust::execution_policy<DerivedPolicy> &exec,
                                                              ForwardIterator first, 
                                                              ForwardIterator last,

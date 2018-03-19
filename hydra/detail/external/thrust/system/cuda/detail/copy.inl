@@ -32,7 +32,7 @@ namespace detail
 template<typename System,
          typename InputIterator,
          typename OutputIterator>
-__host__ __device__
+__hydra_host__ __hydra_device__
 OutputIterator copy(execution_policy<System> &system,
                     InputIterator first,
                     InputIterator last,
@@ -59,7 +59,7 @@ template<typename System,
          typename InputIterator,
          typename Size,
          typename OutputIterator>
-__host__ __device__
+__hydra_host__ __hydra_device__
 OutputIterator copy_n(execution_policy<System> &system,
                       InputIterator first,
                       Size n,

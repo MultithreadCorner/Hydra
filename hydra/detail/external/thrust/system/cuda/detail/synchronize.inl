@@ -29,14 +29,14 @@ namespace detail
 {
 
 
-inline __host__ __device__
+inline __hydra_host__ __hydra_device__
 void synchronize(const char *message)
 {
   throw_on_error(cudaDeviceSynchronize(), message);
 } // end synchronize()
 
 
-inline __host__ __device__
+inline __hydra_host__ __hydra_device__
 void synchronize(cudaStream_t stream, const char *message)
 {
 #if !defined(__CUDA_ARCH__)
@@ -46,11 +46,11 @@ void synchronize(cudaStream_t stream, const char *message)
 #endif
 }
 
-inline __host__ __device__
+inline __hydra_host__ __hydra_device__
 void synchronize_if_enabled(const char *message)
 {
 // XXX this could potentially be a runtime decision
-//     note we always have to synchronize in __device__ code
+//     note we always have to synchronize in __hydra_device__ code
 #if __HYDRA_THRUST_SYNCHRONOUS || defined(__CUDA_ARCH__)
   synchronize(message);
 #else

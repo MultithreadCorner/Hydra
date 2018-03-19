@@ -61,7 +61,7 @@ struct FCNWeightsReducerUnary: public HYDRA_EXTERNAL_NS::thrust::unary_function<
 {
 
 
-	__host__ __device__ 	inline
+	__hydra_host__ __hydra_device__ 	inline
 	double operator()(ArgType &t){
 		double r = 1.0;
 		detail::multiply_tuple(r,t);
@@ -72,9 +72,19 @@ struct FCNWeightsReducerUnary: public HYDRA_EXTERNAL_NS::thrust::unary_function<
 
 } //namespace detail
 
+/**
+ * \ingroup fit
+ * FCN base class
+ */
 template<typename T>
 class FCN;
 
+/**
+ * \ingroup fit
+ * \tparam Estimator estimator base class
+ * \tparam Iterator iterator pointing to the data
+ * \tparam Iterators more iterators pointing to weights, cache etc.
+ */
 template< template<typename ...> class Estimator, typename PDF, typename Iterator, typename ...Iterators>
 class FCN<Estimator<PDF,Iterator,Iterators...>>: public ROOT::Minuit2::FCNBase
 {

@@ -7,8 +7,8 @@
 // Public License v. 2.0. If a copy of the MPL was not distributed
 // with this file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
-#ifndef EIGEN_NUMTRAITS_H
-#define EIGEN_NUMTRAITS_H
+#ifndef HYDRA_EIGEN_NUMTRAITS_H
+#define HYDRA_EIGEN_NUMTRAITS_H
 
 HYDRA_EXTERNAL_NAMESPACE_BEGIN namespace Eigen {
 
@@ -106,19 +106,19 @@ template<typename T> struct GenericNumTraits
   typedef T Nested;
   typedef T Literal;
 
-  EIGEN_DEVICE_FUNC
+  HYDRA_EIGEN_DEVICE_FUNC
   static inline Real epsilon()
   {
     return numext::numeric_limits<T>::epsilon();
   }
 
-  EIGEN_DEVICE_FUNC
+  HYDRA_EIGEN_DEVICE_FUNC
   static inline int digits10()
   {
     return internal::default_digits10_impl<T>::run();
   }
 
-  EIGEN_DEVICE_FUNC
+  HYDRA_EIGEN_DEVICE_FUNC
   static inline Real dummy_precision()
   {
     // make sure to override this for floating-point types
@@ -126,22 +126,22 @@ template<typename T> struct GenericNumTraits
   }
 
 
-  EIGEN_DEVICE_FUNC
+  HYDRA_EIGEN_DEVICE_FUNC
   static inline T highest() {
     return (numext::numeric_limits<T>::max)();
   }
 
-  EIGEN_DEVICE_FUNC
+  HYDRA_EIGEN_DEVICE_FUNC
   static inline T lowest()  {
     return IsInteger ? (numext::numeric_limits<T>::min)() : (-(numext::numeric_limits<T>::max)());
   }
 
-  EIGEN_DEVICE_FUNC
+  HYDRA_EIGEN_DEVICE_FUNC
   static inline T infinity() {
     return numext::numeric_limits<T>::infinity();
   }
 
-  EIGEN_DEVICE_FUNC
+  HYDRA_EIGEN_DEVICE_FUNC
   static inline T quiet_NaN() {
     return numext::numeric_limits<T>::quiet_NaN();
   }
@@ -153,13 +153,13 @@ template<typename T> struct NumTraits : GenericNumTraits<T>
 template<> struct NumTraits<float>
   : GenericNumTraits<float>
 {
-  EIGEN_DEVICE_FUNC
+  HYDRA_EIGEN_DEVICE_FUNC
   static inline float dummy_precision() { return 1e-5f; }
 };
 
 template<> struct NumTraits<double> : GenericNumTraits<double>
 {
-  EIGEN_DEVICE_FUNC
+  HYDRA_EIGEN_DEVICE_FUNC
   static inline double dummy_precision() { return 1e-12; }
 };
 
@@ -182,11 +182,11 @@ template<typename _Real> struct NumTraits<std::complex<_Real> >
     MulCost = 4 * NumTraits<Real>::MulCost + 2 * NumTraits<Real>::AddCost
   };
 
-  EIGEN_DEVICE_FUNC
+  HYDRA_EIGEN_DEVICE_FUNC
   static inline Real epsilon() { return NumTraits<Real>::epsilon(); }
-  EIGEN_DEVICE_FUNC
+  HYDRA_EIGEN_DEVICE_FUNC
   static inline Real dummy_precision() { return NumTraits<Real>::dummy_precision(); }
-  EIGEN_DEVICE_FUNC
+  HYDRA_EIGEN_DEVICE_FUNC
   static inline int digits10() { return NumTraits<Real>::digits10(); }
 };
 
@@ -211,9 +211,9 @@ struct NumTraits<Array<Scalar, Rows, Cols, Options, MaxRows, MaxCols> >
     MulCost  = ArrayType::SizeAtCompileTime==Dynamic ? HugeCost : ArrayType::SizeAtCompileTime * NumTraits<Scalar>::MulCost
   };
 
-  EIGEN_DEVICE_FUNC
+  HYDRA_EIGEN_DEVICE_FUNC
   static inline RealScalar epsilon() { return NumTraits<RealScalar>::epsilon(); }
-  EIGEN_DEVICE_FUNC
+  HYDRA_EIGEN_DEVICE_FUNC
   static inline RealScalar dummy_precision() { return NumTraits<RealScalar>::dummy_precision(); }
 
   static inline int digits10() { return NumTraits<Scalar>::digits10(); }
@@ -245,4 +245,4 @@ template<> struct NumTraits<void> {};
 
 } /* end namespace Eigen */  HYDRA_EXTERNAL_NAMESPACE_END
 
-#endif // EIGEN_NUMTRAITS_H
+#endif // HYDRA_EIGEN_NUMTRAITS_H

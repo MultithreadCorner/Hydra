@@ -31,7 +31,7 @@ namespace generic
 
 template<typename DerivedPolicy,
          typename ForwardIterator>
-__host__ __device__
+__hydra_host__ __hydra_device__
 ForwardIterator unique(thrust::execution_policy<DerivedPolicy> &exec,
                        ForwardIterator first,
                        ForwardIterator last);
@@ -40,7 +40,7 @@ ForwardIterator unique(thrust::execution_policy<DerivedPolicy> &exec,
 template<typename DerivedPolicy,
          typename ForwardIterator,
          typename BinaryPredicate>
-__host__ __device__
+__hydra_host__ __hydra_device__
 ForwardIterator unique(thrust::execution_policy<DerivedPolicy> &exec,
                        ForwardIterator first,
                        ForwardIterator last,
@@ -50,7 +50,7 @@ ForwardIterator unique(thrust::execution_policy<DerivedPolicy> &exec,
 template<typename DerivedPolicy,
          typename InputIterator,
          typename OutputIterator>
-__host__ __device__
+__hydra_host__ __hydra_device__
 OutputIterator unique_copy(thrust::execution_policy<DerivedPolicy> &exec,
                            InputIterator first,
                            InputIterator last,
@@ -61,7 +61,7 @@ template<typename DerivedPolicy,
          typename InputIterator,
          typename OutputIterator,
          typename BinaryPredicate>
-__host__ __device__
+__hydra_host__ __hydra_device__
 OutputIterator unique_copy(thrust::execution_policy<DerivedPolicy> &exec,
                            InputIterator first,
                            InputIterator last,

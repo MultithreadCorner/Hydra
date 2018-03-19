@@ -247,7 +247,8 @@ GenericRange<Iterator>  Random<GRND>::Sample(Iterator begin, Iterator end ,
 
 	//std::cout << "Sample max =======> " << max_value << std::endl;
 
-	Iterator r = HYDRA_EXTERNAL_NS::thrust::partition(begin, end, first, detail::RndFlag<value_type,GRND>(fSeed+ntrials, max_value, values.first.get()) );
+	Iterator r = HYDRA_EXTERNAL_NS::thrust::partition(begin, end, first,
+			detail::RndFlag<value_type, decltype(values.first),GRND>(fSeed+ntrials, max_value, values.first) );
 
 	// deallocate storage with HYDRA_EXTERNAL_NS::thrust::return_temporary_buffer
 	HYDRA_EXTERNAL_NS::thrust::return_temporary_buffer(system_t(), values.first);
@@ -278,7 +279,8 @@ GenericRange<Iterator> Random<GRND>::Sample( hydra::detail::BackendPolicy<BACKEN
 	//get the maximum value
 	value_type max_value = *( HYDRA_EXTERNAL_NS::thrust::max_element(policy,values.first, values.first+ values.second) );
 
-	Iterator r = HYDRA_EXTERNAL_NS::thrust::partition(policy, begin, end, first, detail::RndFlag<value_type,GRND>(fSeed+ntrials, max_value, values.first.get()) );
+	Iterator r = HYDRA_EXTERNAL_NS::thrust::partition(policy, begin, end, first,
+			detail::RndFlag<value_type, decltype(values.first),GRND>(fSeed+ntrials, max_value, values.first) );
 
 	// deallocate storage with HYDRA_EXTERNAL_NS::thrust::return_temporary_buffer
 	HYDRA_EXTERNAL_NS::thrust::return_temporary_buffer( policy, values.first);
@@ -316,7 +318,7 @@ GenericRange<Iterator>  Random<GRND>::Sample(Iterator begin, Iterator end ,
 	value_type max_value = *( HYDRA_EXTERNAL_NS::thrust::max_element(system_t(),values.first, values.first+ values.second) );
 
 	Iterator r = HYDRA_EXTERNAL_NS::thrust::partition(begin, end, first,
-			detail::RndFlag<value_type, GRND>(fSeed+ntrials, max_value, values.first.get()) );
+			detail::RndFlag<value_type, decltype(values.first), GRND>(fSeed+ntrials, max_value, values.first) );
    
 	// deallocate storage with HYDRA_EXTERNAL_NS::thrust::return_temporary_buffer
 	HYDRA_EXTERNAL_NS::thrust::return_temporary_buffer(system_t(), values.first);
@@ -352,7 +354,7 @@ GenericRange<Iterator> Random<GRND>::Sample( hydra::detail::BackendPolicy<BACKEN
 	value_type max_value = *( HYDRA_EXTERNAL_NS::thrust::max_element(policy,values.first, values.first+ values.second) );
 
 	Iterator r = HYDRA_EXTERNAL_NS::thrust::partition(policy, begin, end, first,
-			detail::RndFlag<value_type, GRND>(fSeed+ntrials, max_value, values.first.get()) );
+			detail::RndFlag<value_type, decltype(values.first), GRND>(fSeed+ntrials, max_value, values.first) );
 
 	// deallocate storage with HYDRA_EXTERNAL_NS::thrust::return_temporary_buffer
 	HYDRA_EXTERNAL_NS::thrust::return_temporary_buffer(policy, values.first);
@@ -361,7 +363,60 @@ GenericRange<Iterator> Random<GRND>::Sample( hydra::detail::BackendPolicy<BACKEN
 }
 
 
+
+template<hydra::detail::Backend  BACKEND, typename Iterator1, typename Iterator2>
+GenericRange<Iterator2> unweight( hydra::detail::BackendPolicy<BACKEND> const& policy, Iterator1 wbegin, Iterator1 wend , Iterator2 begin){
+
+	typedef typename Iterator1::value_type value_type;
+
+	size_t ntrials = HYDRA_EXTERNAL_NS::thrust::distance( wbegin, wend);
+
+	//get the maximum value
+	value_type max_value = *( HYDRA_EXTERNAL_NS::thrust::max_element(policy,  wbegin, wend ) );
+
+	// create iterators
+	HYDRA_EXTERNAL_NS::thrust::counting_iterator<size_t> first(0);
+	HYDRA_EXTERNAL_NS::thrust::counting_iterator<size_t> last = first + ntrials;
+
+	Iterator2 r = HYDRA_EXTERNAL_NS::thrust::partition(policy, begin, begin+ntrials, first,
+				detail::RndFlag<value_type, Iterator1, HYDRA_EXTERNAL_NS::thrust::random::default_random_engine>(ntrials, max_value, wbegin) );
+
+	return  make_range(begin , r);
 }
+
+template<hydra::detail::Backend  BACKEND, typename Functor, typename Iterator>
+typename std::enable_if< hydra::detail::is_hydra_functor<Functor>::value, GenericRange<Iterator>>::type
+unweight( hydra::detail::BackendPolicy<BACKEND> const& policy, Iterator begin, Iterator end, Functor const& functor){
+
+	typedef typename Functor::return_type value_type;
+
+    size_t ntrials = HYDRA_EXTERNAL_NS::thrust::distance( begin, end);
+
+    auto values = HYDRA_EXTERNAL_NS::thrust::get_temporary_buffer<value_type>(policy, ntrials);
+
+	// create iterators
+	HYDRA_EXTERNAL_NS::thrust::counting_iterator<size_t> first(0);
+	HYDRA_EXTERNAL_NS::thrust::counting_iterator<size_t> last = first + ntrials;
+
+
+	//calculate the functor values
+	HYDRA_EXTERNAL_NS::thrust::transform(policy, begin, end, values.first, functor);
+
+	//get the maximum value
+	value_type max_value = *( HYDRA_EXTERNAL_NS::thrust::max_element(policy,values.first, values.first + values.second) );
+
+	Iterator r = HYDRA_EXTERNAL_NS::thrust::partition(policy, begin, end, first,
+			detail::RndFlag<value_type, decltype(values.first), HYDRA_EXTERNAL_NS::thrust::random::default_random_engine>(ntrials, max_value, values.first ) );
+
+	// deallocate storage with HYDRA_EXTERNAL_NS::thrust::return_temporary_buffer
+	HYDRA_EXTERNAL_NS::thrust::return_temporary_buffer(policy, values.first);
+
+	return  make_range(begin , r);
+
+}
+
+
+}//namespace hydra
 
 
 

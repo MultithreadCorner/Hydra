@@ -35,7 +35,7 @@ namespace detail
 
 
 template<typename IndexType>
-__host__ __device__
+__hydra_host__ __hydra_device__
 thrust::system::detail::internal::uniform_decomposition<IndexType> default_decomposition(IndexType n);
 
 

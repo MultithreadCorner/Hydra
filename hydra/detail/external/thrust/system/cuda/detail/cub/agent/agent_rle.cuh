@@ -149,7 +149,7 @@ struct AgentRle
         OffsetT         num_remaining;
         EqualityOpT      equality_op;
 
-        __device__ __forceinline__ OobInequalityOp(
+        __hydra_device__ __forceinline__ OobInequalityOp(
             OffsetT     num_remaining,
             EqualityOpT  equality_op)
         :
@@ -158,7 +158,7 @@ struct AgentRle
         {}
 
         template <typename Index>
-        __host__ __device__ __forceinline__ bool operator()(T first, T second, Index idx)
+        __hydra_host__ __hydra_device__ __forceinline__ bool operator()(T first, T second, Index idx)
         {
             if (!LAST_TILE || (idx < num_remaining))
                 return !equality_op(first, second);
@@ -266,7 +266,7 @@ struct AgentRle
     //---------------------------------------------------------------------
 
     // Constructor
-    __device__ __forceinline__
+    __hydra_device__ __forceinline__
     AgentRle(
         TempStorage                 &temp_storage,      ///< [in] Reference to temp_storage
         InputIteratorT              d_in,               ///< [in] Pointer to input sequence of data items
@@ -290,7 +290,7 @@ struct AgentRle
     //---------------------------------------------------------------------
 
     template <bool FIRST_TILE, bool LAST_TILE>
-    __device__ __forceinline__ void InitializeSelections(
+    __hydra_device__ __forceinline__ void InitializeSelections(
         OffsetT             tile_offset,
         OffsetT             num_remaining,
         T                   (&items)[ITEMS_PER_THREAD],
@@ -364,7 +364,7 @@ struct AgentRle
     /**
      * Scan of allocations
      */
-    __device__ __forceinline__ void WarpScanAllocations(
+    __hydra_device__ __forceinline__ void WarpScanAllocations(
         LengthOffsetPair    &tile_aggregate,
         LengthOffsetPair    &warp_aggregate,
         LengthOffsetPair    &warp_exclusive_in_tile,
@@ -418,7 +418,7 @@ struct AgentRle
      * Two-phase scatter, specialized for warp time-slicing
      */
     template <bool FIRST_TILE>
-    __device__ __forceinline__ void ScatterTwoPhase(
+    __hydra_device__ __forceinline__ void ScatterTwoPhase(
         OffsetT             tile_num_runs_exclusive_in_global,
         OffsetT             warp_num_runs_aggregate,
         OffsetT             warp_num_runs_exclusive_in_tile,
@@ -477,7 +477,7 @@ struct AgentRle
      * Two-phase scatter
      */
     template <bool FIRST_TILE>
-    __device__ __forceinline__ void ScatterTwoPhase(
+    __hydra_device__ __forceinline__ void ScatterTwoPhase(
         OffsetT             tile_num_runs_exclusive_in_global,
         OffsetT             warp_num_runs_aggregate,
         OffsetT             warp_num_runs_exclusive_in_tile,
@@ -535,7 +535,7 @@ struct AgentRle
      * Direct scatter
      */
     template <bool FIRST_TILE>
-    __device__ __forceinline__ void ScatterDirect(
+    __hydra_device__ __forceinline__ void ScatterDirect(
         OffsetT             tile_num_runs_exclusive_in_global,
         OffsetT             warp_num_runs_aggregate,
         OffsetT             warp_num_runs_exclusive_in_tile,
@@ -569,7 +569,7 @@ struct AgentRle
      * Scatter
      */
     template <bool FIRST_TILE>
-    __device__ __forceinline__ void Scatter(
+    __hydra_device__ __forceinline__ void Scatter(
         OffsetT             tile_num_runs_aggregate,
         OffsetT             tile_num_runs_exclusive_in_global,
         OffsetT             warp_num_runs_aggregate,
@@ -614,7 +614,7 @@ struct AgentRle
      */
     template <
         bool                LAST_TILE>
-    __device__ __forceinline__ LengthOffsetPair ConsumeTile(
+    __hydra_device__ __forceinline__ LengthOffsetPair ConsumeTile(
         OffsetT             num_items,          ///< Total number of global input items
         OffsetT             num_remaining,      ///< Number of global input items remaining (including this tile)
         int                 tile_idx,           ///< Tile index
@@ -798,7 +798,7 @@ struct AgentRle
      * Scan tiles of items as part of a dynamic chained scan
      */
     template <typename NumRunsIteratorT>            ///< Output iterator type for recording number of items selected
-    __device__ __forceinline__ void ConsumeRange(
+    __hydra_device__ __forceinline__ void ConsumeRange(
         int                 num_tiles,              ///< Total number of input tiles
         ScanTileStateT&     tile_status,            ///< Global list of tile status
         NumRunsIteratorT    d_num_runs_out)         ///< Output pointer for total number of runs identified

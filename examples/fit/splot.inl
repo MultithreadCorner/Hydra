@@ -30,6 +30,12 @@
 #define SPLOT_INL_
 
 
+/**
+ * \example splot.inl
+ *
+ */
+
+
 #include <iostream>
 #include <assert.h>
 #include <time.h>
@@ -215,7 +221,7 @@ int main(int argv, char** argc)
 			std::cout << "[" << i << "] :" << data_d[i] << std::endl;
 
 		//filtering
-		auto FILTER = [=]__host__ __device__(unsigned int n, double* x){
+		auto FILTER = [=] __hydra_dual__ (unsigned int n, double* x){
 			return (x[0] > min) && (x[0] < max );
 		};
 

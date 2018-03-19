@@ -7,8 +7,8 @@
 // Public License v. 2.0. If a copy of the MPL was not distributed
 // with this file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
-#ifndef EIGEN_SPARSE_MAP_H
-#define EIGEN_SPARSE_MAP_H
+#ifndef HYDRA_EIGEN_SPARSE_MAP_H
+#define HYDRA_EIGEN_SPARSE_MAP_H
 
 HYDRA_EXTERNAL_NAMESPACE_BEGIN namespace Eigen {
 
@@ -217,7 +217,7 @@ class SparseMapBase<Derived,WriteAccessors>
   *
   * \sa class Map, class SparseMatrix, class Ref<SparseMatrixType,Options>
   */
-#ifndef EIGEN_PARSED_BY_DOXYGEN
+#ifndef HYDRA_EIGEN_PARSED_BY_DOXYGEN
 template<typename MatScalar, int MatOptions, typename MatIndex, int Options, typename StrideType>
 class Map<SparseMatrix<MatScalar,MatOptions,MatIndex>, Options, StrideType>
   : public SparseMapBase<Map<SparseMatrix<MatScalar,MatOptions,MatIndex>, Options, StrideType> >
@@ -229,7 +229,7 @@ class Map<SparseMatrixType>
 {
   public:
     typedef SparseMapBase<Map> Base;
-    EIGEN_SPARSE_PUBLIC_INTERFACE(Map)
+    HYDRA_EIGEN_SPARSE_PUBLIC_INTERFACE(Map)
     enum { IsRowMajor = Base::IsRowMajor };
 
   public:
@@ -246,7 +246,7 @@ class Map<SparseMatrixType>
                StorageIndex* innerIndexPtr, Scalar* valuePtr, StorageIndex* innerNonZerosPtr = 0)
       : Base(rows, cols, nnz, outerIndexPtr, innerIndexPtr, valuePtr, innerNonZerosPtr)
     {}
-#ifndef EIGEN_PARSED_BY_DOXYGEN
+#ifndef HYDRA_EIGEN_PARSED_BY_DOXYGEN
     /** Empty destructor */
     inline ~Map() {}
 };
@@ -257,7 +257,7 @@ class Map<const SparseMatrix<MatScalar,MatOptions,MatIndex>, Options, StrideType
 {
   public:
     typedef SparseMapBase<Map> Base;
-    EIGEN_SPARSE_PUBLIC_INTERFACE(Map)
+    HYDRA_EIGEN_SPARSE_PUBLIC_INTERFACE(Map)
     enum { IsRowMajor = Base::IsRowMajor };
 
   public:
@@ -302,4 +302,4 @@ struct evaluator<Map<const SparseMatrix<MatScalar,MatOptions,MatIndex>, Options,
 
 } /* end namespace Eigen */  HYDRA_EXTERNAL_NAMESPACE_END
 
-#endif // EIGEN_SPARSE_MAP_H
+#endif // HYDRA_EIGEN_SPARSE_MAP_H

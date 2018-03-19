@@ -30,7 +30,7 @@
 
 
 /**
- * @example phsp_basic.inl
+ * \example phsp_basic.inl
  * This example shows how to use the Hydra's
  * phase space Monte Carlo algorithms to
  * generate a sample of B0 -> J/psi K pi and
@@ -146,7 +146,7 @@ int main(int argv, char** argc)
 
 
 	auto dalitz_calculator = hydra::wrap_lambda(
-			[]__host__ __device__ ( unsigned int np, hydra::Vector4R* particles){
+			[] __hydra_dual__ ( unsigned int np, hydra::Vector4R* particles){
 
 		hydra::Vector4R Jpsi = particles[0];
 		hydra::Vector4R K    = particles[1];

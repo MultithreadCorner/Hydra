@@ -7,8 +7,8 @@
 // Public License v. 2.0. If a copy of the MPL was not distributed
 // with this file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
-#ifndef EIGEN_SPARSE_COMPRESSED_BASE_H
-#define EIGEN_SPARSE_COMPRESSED_BASE_H
+#ifndef HYDRA_EIGEN_SPARSE_COMPRESSED_BASE_H
+#define HYDRA_EIGEN_SPARSE_COMPRESSED_BASE_H
 
 HYDRA_EXTERNAL_NAMESPACE_BEGIN namespace Eigen { 
 
@@ -38,7 +38,7 @@ class SparseCompressedBase
 {
   public:
     typedef SparseMatrixBase<Derived> Base;
-    EIGEN_SPARSE_PUBLIC_INTERFACE(SparseCompressedBase)
+    HYDRA_EIGEN_SPARSE_PUBLIC_INTERFACE(SparseCompressedBase)
     using Base::operator=;
     using Base::IsRowMajor;
     
@@ -175,13 +175,13 @@ class SparseCompressedBase<Derived>::InnerIterator
     explicit InnerIterator(const SparseCompressedBase& mat)
       : m_values(mat.valuePtr()), m_indices(mat.innerIndexPtr()), m_outer(0), m_id(0), m_end(mat.nonZeros())
     {
-      EIGEN_STATIC_ASSERT_VECTOR_ONLY(Derived);
+      HYDRA_EIGEN_STATIC_ASSERT_VECTOR_ONLY(Derived);
     }
 
     explicit InnerIterator(const internal::CompressedStorage<Scalar,StorageIndex>& data)
       : m_values(data.valuePtr()), m_indices(data.indexPtr()), m_outer(0), m_id(0), m_end(data.size())
     {
-      EIGEN_STATIC_ASSERT_VECTOR_ONLY(Derived);
+      HYDRA_EIGEN_STATIC_ASSERT_VECTOR_ONLY(Derived);
     }
 
     inline InnerIterator& operator++() { m_id++; return *this; }
@@ -235,13 +235,13 @@ class SparseCompressedBase<Derived>::ReverseInnerIterator
     explicit ReverseInnerIterator(const SparseCompressedBase& mat)
       : m_values(mat.valuePtr()), m_indices(mat.innerIndexPtr()), m_outer(0), m_start(0), m_id(mat.nonZeros())
     {
-      EIGEN_STATIC_ASSERT_VECTOR_ONLY(Derived);
+      HYDRA_EIGEN_STATIC_ASSERT_VECTOR_ONLY(Derived);
     }
 
     explicit ReverseInnerIterator(const internal::CompressedStorage<Scalar,StorageIndex>& data)
       : m_values(data.valuePtr()), m_indices(data.indexPtr()), m_outer(0), m_start(0), m_id(data.size())
     {
-      EIGEN_STATIC_ASSERT_VECTOR_ONLY(Derived);
+      HYDRA_EIGEN_STATIC_ASSERT_VECTOR_ONLY(Derived);
     }
 
     inline ReverseInnerIterator& operator--() { --m_id; return *this; }
@@ -281,11 +281,11 @@ struct evaluator<SparseCompressedBase<Derived> >
   
   evaluator() : m_matrix(0), m_zero(0)
   {
-    EIGEN_INTERNAL_CHECK_COST_VALUE(CoeffReadCost);
+    HYDRA_EIGEN_INTERNAL_CHECK_COST_VALUE(CoeffReadCost);
   }
   explicit evaluator(const Derived &mat) : m_matrix(&mat), m_zero(0)
   {
-    EIGEN_INTERNAL_CHECK_COST_VALUE(CoeffReadCost);
+    HYDRA_EIGEN_INTERNAL_CHECK_COST_VALUE(CoeffReadCost);
   }
   
   inline Index nonZerosEstimate() const {
@@ -338,4 +338,4 @@ protected:
 
 } /* end namespace Eigen */  HYDRA_EXTERNAL_NAMESPACE_END
 
-#endif // EIGEN_SPARSE_COMPRESSED_BASE_H
+#endif // HYDRA_EIGEN_SPARSE_COMPRESSED_BASE_H

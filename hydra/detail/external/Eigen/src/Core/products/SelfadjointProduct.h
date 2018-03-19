@@ -7,8 +7,8 @@
 // Public License v. 2.0. If a copy of the MPL was not distributed
 // with this file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
-#ifndef EIGEN_SELFADJOINT_PRODUCT_H
-#define EIGEN_SELFADJOINT_PRODUCT_H
+#ifndef HYDRA_EIGEN_SELFADJOINT_PRODUCT_H
+#define HYDRA_EIGEN_SELFADJOINT_PRODUCT_H
 
 /**********************************************************************
 * This file implements a self adjoint product: C += A A^T updating only
@@ -66,7 +66,7 @@ struct selfadjoint_product_selector<MatrixType,OtherType,UpLo,true>
     };
     internal::gemv_static_vector_if<Scalar,OtherType::SizeAtCompileTime,OtherType::MaxSizeAtCompileTime,!UseOtherDirectly> static_other;
 
-    ei_declare_aligned_stack_constructed_variable(Scalar, actualOtherPtr, other.size(),
+    hydra_ei_declare_aligned_stack_constructed_variable(Scalar, actualOtherPtr, other.size(),
       (UseOtherDirectly ? const_cast<Scalar*>(actualOther.data()) : static_other.data()));
       
     if(!UseOtherDirectly)
@@ -130,4 +130,4 @@ SelfAdjointView<MatrixType,UpLo>& SelfAdjointView<MatrixType,UpLo>
 
 } /* end namespace Eigen */  HYDRA_EXTERNAL_NAMESPACE_END
 
-#endif // EIGEN_SELFADJOINT_PRODUCT_H
+#endif // HYDRA_EIGEN_SELFADJOINT_PRODUCT_H

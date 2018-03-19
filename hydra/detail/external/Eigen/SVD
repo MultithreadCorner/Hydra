@@ -5,8 +5,8 @@
 // Public License v. 2.0. If a copy of the MPL was not distributed
 // with this file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
-#ifndef EIGEN_SVD_MODULE_H
-#define EIGEN_SVD_MODULE_H
+#ifndef HYDRA_EIGEN_SVD_MODULE_H
+#define HYDRA_EIGEN_SVD_MODULE_H
 
 #include "hydra/detail/external/Eigen/QR"
 #include "hydra/detail/external/Eigen/Householder"
@@ -36,12 +36,12 @@
 #include "hydra/detail/external/Eigen/src/SVD/SVDBase.h"
 #include "hydra/detail/external/Eigen/src/SVD/JacobiSVD.h"
 #include "hydra/detail/external/Eigen/src/SVD/BDCSVD.h"
-#if defined(EIGEN_USE_LAPACKE) && !defined(EIGEN_USE_LAPACKE_STRICT)
+#if defined(HYDRA_EIGEN_USE_LAPACKE) && !defined(HYDRA_EIGEN_USE_LAPACKE_STRICT)
 #include "hydra/detail/external/Eigen/src/misc/lapacke.h"
 #include "hydra/detail/external/Eigen/src/SVD/JacobiSVD_LAPACKE.h"
 #endif
 
 #include "hydra/detail/external/Eigen/src/Core/util/ReenableStupidWarnings.h"
 
-#endif // EIGEN_SVD_MODULE_H
+#endif // HYDRA_EIGEN_SVD_MODULE_H
 /* vim: set filetype=cpp et sw=2 ts=2 ai: */

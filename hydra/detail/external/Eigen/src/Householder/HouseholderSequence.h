@@ -8,8 +8,8 @@
 // Public License v. 2.0. If a copy of the MPL was not distributed
 // with this file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
-#ifndef EIGEN_HOUSEHOLDER_SEQUENCE_H
-#define EIGEN_HOUSEHOLDER_SEQUENCE_H
+#ifndef HYDRA_EIGEN_HOUSEHOLDER_SEQUENCE_H
+#define HYDRA_EIGEN_HOUSEHOLDER_SEQUENCE_H
 
 HYDRA_EXTERNAL_NAMESPACE_BEGIN namespace Eigen { 
 
@@ -467,4 +467,4 @@ HouseholderSequence<VectorsType,CoeffsType,OnTheRight> rightHouseholderSequence(
 
 } /* end namespace Eigen */  HYDRA_EXTERNAL_NAMESPACE_END
 
-#endif // EIGEN_HOUSEHOLDER_SEQUENCE_H
+#endif // HYDRA_EIGEN_HOUSEHOLDER_SEQUENCE_H

@@ -7,8 +7,8 @@
 // Public License v. 2.0. If a copy of the MPL was not distributed
 // with this file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
-#ifndef EIGEN_GENERAL_BLOCK_PANEL_H
-#define EIGEN_GENERAL_BLOCK_PANEL_H
+#ifndef HYDRA_EIGEN_GENERAL_BLOCK_PANEL_H
+#define HYDRA_EIGEN_GENERAL_BLOCK_PANEL_H
 
 
 HYDRA_EXTERNAL_NAMESPACE_BEGIN namespace Eigen {
@@ -25,7 +25,7 @@ inline std::ptrdiff_t manage_caching_sizes_helper(std::ptrdiff_t a, std::ptrdiff
   return a<=0 ? b : a;
 }
 
-#if EIGEN_ARCH_i386_OR_x86_64
+#if HYDRA_EIGEN_ARCH_i386_OR_x86_64
 const std::ptrdiff_t defaultL1CacheSize = 32*1024;
 const std::ptrdiff_t defaultL2CacheSize = 256*1024;
 const std::ptrdiff_t defaultL3CacheSize = 2*1024*1024;
@@ -147,7 +147,7 @@ void evaluateProductBlockingSizesHeuristic(Index& k, Index& m, Index& n, Index n
   else {
     // In unit tests we do not want to use extra large matrices,
     // so we reduce the cache size to check the blocking strategy is not flawed
-#ifdef EIGEN_DEBUG_SMALL_PRODUCT_BLOCKS
+#ifdef HYDRA_EIGEN_DEBUG_SMALL_PRODUCT_BLOCKS
     l1 = 9*1024;
     l2 = 32*1024;
     l3 = 512*1024;
@@ -193,7 +193,7 @@ void evaluateProductBlockingSizesHeuristic(Index& k, Index& m, Index& n, Index n
     //      actual_l2 = max(l2, l3/nb_core_sharing_l3)
     // The number below is quite conservative: it is better to underestimate the cache size rather than overestimating it)
     // For instance, it corresponds to 6MB of L3 shared among 4 cores.
-    #ifdef EIGEN_DEBUG_SMALL_PRODUCT_BLOCKS
+    #ifdef HYDRA_EIGEN_DEBUG_SMALL_PRODUCT_BLOCKS
     const Index actual_l2 = l3;
     #else
     const Index actual_l2 = 1572864; // == 1.5 MB
@@ -262,17 +262,17 @@ void evaluateProductBlockingSizesHeuristic(Index& k, Index& m, Index& n, Index n
 template <typename Index>
 inline bool useSpecificBlockingSizes(Index& k, Index& m, Index& n)
 {
-#ifdef EIGEN_TEST_SPECIFIC_BLOCKING_SIZES
-  if (EIGEN_TEST_SPECIFIC_BLOCKING_SIZES) {
-    k = numext::mini<Index>(k, EIGEN_TEST_SPECIFIC_BLOCKING_SIZE_K);
-    m = numext::mini<Index>(m, EIGEN_TEST_SPECIFIC_BLOCKING_SIZE_M);
-    n = numext::mini<Index>(n, EIGEN_TEST_SPECIFIC_BLOCKING_SIZE_N);
+#ifdef HYDRA_EIGEN_TEST_SPECIFIC_BLOCKING_SIZES
+  if (HYDRA_EIGEN_TEST_SPECIFIC_BLOCKING_SIZES) {
+    k = numext::mini<Index>(k, HYDRA_EIGEN_TEST_SPECIFIC_BLOCKING_SIZE_K);
+    m = numext::mini<Index>(m, HYDRA_EIGEN_TEST_SPECIFIC_BLOCKING_SIZE_M);
+    n = numext::mini<Index>(n, HYDRA_EIGEN_TEST_SPECIFIC_BLOCKING_SIZE_N);
     return true;
   }
 #else
-  EIGEN_UNUSED_VARIABLE(k)
-  EIGEN_UNUSED_VARIABLE(m)
-  EIGEN_UNUSED_VARIABLE(n)
+  HYDRA_EIGEN_UNUSED_VARIABLE(k)
+  HYDRA_EIGEN_UNUSED_VARIABLE(m)
+  HYDRA_EIGEN_UNUSED_VARIABLE(n)
 #endif
   return false;
 }
@@ -307,28 +307,28 @@ inline void computeProductBlockingSizes(Index& k, Index& m, Index& n, Index num_
   computeProductBlockingSizes<LhsScalar,RhsScalar,1,Index>(k, m, n, num_threads);
 }
 
-#ifdef EIGEN_HAS_SINGLE_INSTRUCTION_CJMADD
+#ifdef HYDRA_EIGEN_HAS_SINGLE_INSTRUCTION_CJMADD
   #define CJMADD(CJ,A,B,C,T)  C = CJ.pmadd(A,B,C);
 #else
 
   // FIXME (a bit overkill maybe ?)
 
   template<typename CJ, typename A, typename B, typename C, typename T> struct gebp_madd_selector {
-    EIGEN_ALWAYS_INLINE static void run(const CJ& cj, A& a, B& b, C& c, T& /*t*/)
+    HYDRA_EIGEN_ALWAYS_INLINE static void run(const CJ& cj, A& a, B& b, C& c, T& /*t*/)
     {
       c = cj.pmadd(a,b,c);
     }
   };
 
   template<typename CJ, typename T> struct gebp_madd_selector<CJ,T,T,T,T> {
-    EIGEN_ALWAYS_INLINE static void run(const CJ& cj, T& a, T& b, T& c, T& t)
+    HYDRA_EIGEN_ALWAYS_INLINE static void run(const CJ& cj, T& a, T& b, T& c, T& t)
     {
       t = b; t = cj.pmul(a,t); c = padd(c,t);
     }
   };
 
   template<typename CJ, typename A, typename B, typename C, typename T>
-  EIGEN_STRONG_INLINE void gebp_madd(const CJ& cj, A& a, B& b, C& c, T& t)
+  HYDRA_EIGEN_STRONG_INLINE void gebp_madd(const CJ& cj, A& a, B& b, C& c, T& t)
   {
     gebp_madd_selector<CJ,A,B,C,T>::run(cj,a,b,c,t);
   }
@@ -363,16 +363,16 @@ public:
     RhsPacketSize = Vectorizable ? packet_traits<RhsScalar>::size : 1,
     ResPacketSize = Vectorizable ? packet_traits<ResScalar>::size : 1,
     
-    NumberOfRegisters = EIGEN_ARCH_DEFAULT_NUMBER_OF_REGISTERS,
+    NumberOfRegisters = HYDRA_EIGEN_ARCH_DEFAULT_NUMBER_OF_REGISTERS,
 
     // register block size along the N direction must be 1 or 4
     nr = 4,
 
     // register block size along the M direction (currently, this one cannot be modified)
-    default_mr = (EIGEN_PLAIN_ENUM_MIN(16,NumberOfRegisters)/2/nr)*LhsPacketSize,
-#if defined(EIGEN_HAS_SINGLE_INSTRUCTION_MADD) && !defined(EIGEN_VECTORIZE_ALTIVEC) && !defined(EIGEN_VECTORIZE_VSX)
+    default_mr = (HYDRA_EIGEN_PLAIN_ENUM_MIN(16,NumberOfRegisters)/2/nr)*LhsPacketSize,
+#if defined(HYDRA_EIGEN_HAS_SINGLE_INSTRUCTION_MADD) && !defined(HYDRA_EIGEN_VECTORIZE_ALTIVEC) && !defined(HYDRA_EIGEN_VECTORIZE_VSX)
     // we assume 16 registers
-    // See bug 992, if the scalar type is not vectorizable but that EIGEN_HAS_SINGLE_INSTRUCTION_MADD is defined,
+    // See bug 992, if the scalar type is not vectorizable but that HYDRA_EIGEN_HAS_SINGLE_INSTRUCTION_MADD is defined,
     // then using 3*LhsPacketSize triggers non-implemented paths in syrk.
     mr = Vectorizable ? 3*LhsPacketSize : default_mr,
 #else
@@ -393,67 +393,67 @@ public:
 
   typedef ResPacket AccPacket;
   
-  EIGEN_STRONG_INLINE void initAcc(AccPacket& p)
+  HYDRA_EIGEN_STRONG_INLINE void initAcc(AccPacket& p)
   {
     p = pset1<ResPacket>(ResScalar(0));
   }
   
-  EIGEN_STRONG_INLINE void broadcastRhs(const RhsScalar* b, RhsPacket& b0, RhsPacket& b1, RhsPacket& b2, RhsPacket& b3)
+  HYDRA_EIGEN_STRONG_INLINE void broadcastRhs(const RhsScalar* b, RhsPacket& b0, RhsPacket& b1, RhsPacket& b2, RhsPacket& b3)
   {
     pbroadcast4(b, b0, b1, b2, b3);
   }
   
-//   EIGEN_STRONG_INLINE void broadcastRhs(const RhsScalar* b, RhsPacket& b0, RhsPacket& b1)
+//   HYDRA_EIGEN_STRONG_INLINE void broadcastRhs(const RhsScalar* b, RhsPacket& b0, RhsPacket& b1)
 //   {
 //     pbroadcast2(b, b0, b1);
 //   }
   
   template<typename RhsPacketType>
-  EIGEN_STRONG_INLINE void loadRhs(const RhsScalar* b, RhsPacketType& dest) const
+  HYDRA_EIGEN_STRONG_INLINE void loadRhs(const RhsScalar* b, RhsPacketType& dest) const
   {
     dest = pset1<RhsPacketType>(*b);
   }
   
-  EIGEN_STRONG_INLINE void loadRhsQuad(const RhsScalar* b, RhsPacket& dest) const
+  HYDRA_EIGEN_STRONG_INLINE void loadRhsQuad(const RhsScalar* b, RhsPacket& dest) const
   {
     dest = ploadquad<RhsPacket>(b);
   }
 
   template<typename LhsPacketType>
-  EIGEN_STRONG_INLINE void loadLhs(const LhsScalar* a, LhsPacketType& dest) const
+  HYDRA_EIGEN_STRONG_INLINE void loadLhs(const LhsScalar* a, LhsPacketType& dest) const
   {
     dest = pload<LhsPacketType>(a);
   }
 
   template<typename LhsPacketType>
-  EIGEN_STRONG_INLINE void loadLhsUnaligned(const LhsScalar* a, LhsPacketType& dest) const
+  HYDRA_EIGEN_STRONG_INLINE void loadLhsUnaligned(const LhsScalar* a, LhsPacketType& dest) const
   {
     dest = ploadu<LhsPacketType>(a);
   }
 
   template<typename LhsPacketType, typename RhsPacketType, typename AccPacketType>
-  EIGEN_STRONG_INLINE void madd(const LhsPacketType& a, const RhsPacketType& b, AccPacketType& c, AccPacketType& tmp) const
+  HYDRA_EIGEN_STRONG_INLINE void madd(const LhsPacketType& a, const RhsPacketType& b, AccPacketType& c, AccPacketType& tmp) const
   {
     conj_helper<LhsPacketType,RhsPacketType,ConjLhs,ConjRhs> cj;
     // It would be a lot cleaner to call pmadd all the time. Unfortunately if we
     // let gcc allocate the register in which to store the result of the pmul
     // (in the case where there is no FMA) gcc fails to figure out how to avoid
     // spilling register.
-#ifdef EIGEN_HAS_SINGLE_INSTRUCTION_MADD
-    EIGEN_UNUSED_VARIABLE(tmp);
+#ifdef HYDRA_EIGEN_HAS_SINGLE_INSTRUCTION_MADD
+    HYDRA_EIGEN_UNUSED_VARIABLE(tmp);
     c = cj.pmadd(a,b,c);
 #else
     tmp = b; tmp = cj.pmul(a,tmp); c = padd(c,tmp);
 #endif
   }
 
-  EIGEN_STRONG_INLINE void acc(const AccPacket& c, const ResPacket& alpha, ResPacket& r) const
+  HYDRA_EIGEN_STRONG_INLINE void acc(const AccPacket& c, const ResPacket& alpha, ResPacket& r) const
   {
     r = pmadd(c,alpha,r);
   }
   
   template<typename ResPacketHalf>
-  EIGEN_STRONG_INLINE void acc(const ResPacketHalf& c, const ResPacketHalf& alpha, ResPacketHalf& r) const
+  HYDRA_EIGEN_STRONG_INLINE void acc(const ResPacketHalf& c, const ResPacketHalf& alpha, ResPacketHalf& r) const
   {
     r = pmadd(c,alpha,r);
   }
@@ -476,13 +476,13 @@ public:
     RhsPacketSize = Vectorizable ? packet_traits<RhsScalar>::size : 1,
     ResPacketSize = Vectorizable ? packet_traits<ResScalar>::size : 1,
     
-    NumberOfRegisters = EIGEN_ARCH_DEFAULT_NUMBER_OF_REGISTERS,
+    NumberOfRegisters = HYDRA_EIGEN_ARCH_DEFAULT_NUMBER_OF_REGISTERS,
     nr = 4,
-#if defined(EIGEN_HAS_SINGLE_INSTRUCTION_MADD) && !defined(EIGEN_VECTORIZE_ALTIVEC) && !defined(EIGEN_VECTORIZE_VSX)
+#if defined(HYDRA_EIGEN_HAS_SINGLE_INSTRUCTION_MADD) && !defined(HYDRA_EIGEN_VECTORIZE_ALTIVEC) && !defined(HYDRA_EIGEN_VECTORIZE_VSX)
     // we assume 16 registers
     mr = 3*LhsPacketSize,
 #else
-    mr = (EIGEN_PLAIN_ENUM_MIN(16,NumberOfRegisters)/2/nr)*LhsPacketSize,
+    mr = (HYDRA_EIGEN_PLAIN_ENUM_MIN(16,NumberOfRegisters)/2/nr)*LhsPacketSize,
 #endif
 
     LhsProgress = LhsPacketSize,
@@ -499,62 +499,62 @@ public:
 
   typedef ResPacket AccPacket;
 
-  EIGEN_STRONG_INLINE void initAcc(AccPacket& p)
+  HYDRA_EIGEN_STRONG_INLINE void initAcc(AccPacket& p)
   {
     p = pset1<ResPacket>(ResScalar(0));
   }
 
-  EIGEN_STRONG_INLINE void loadRhs(const RhsScalar* b, RhsPacket& dest) const
+  HYDRA_EIGEN_STRONG_INLINE void loadRhs(const RhsScalar* b, RhsPacket& dest) const
   {
     dest = pset1<RhsPacket>(*b);
   }
   
-  EIGEN_STRONG_INLINE void loadRhsQuad(const RhsScalar* b, RhsPacket& dest) const
+  HYDRA_EIGEN_STRONG_INLINE void loadRhsQuad(const RhsScalar* b, RhsPacket& dest) const
   {
     dest = pset1<RhsPacket>(*b);
   }
 
-  EIGEN_STRONG_INLINE void loadLhs(const LhsScalar* a, LhsPacket& dest) const
+  HYDRA_EIGEN_STRONG_INLINE void loadLhs(const LhsScalar* a, LhsPacket& dest) const
   {
     dest = pload<LhsPacket>(a);
   }
 
-  EIGEN_STRONG_INLINE void loadLhsUnaligned(const LhsScalar* a, LhsPacket& dest) const
+  HYDRA_EIGEN_STRONG_INLINE void loadLhsUnaligned(const LhsScalar* a, LhsPacket& dest) const
   {
     dest = ploadu<LhsPacket>(a);
   }
 
-  EIGEN_STRONG_INLINE void broadcastRhs(const RhsScalar* b, RhsPacket& b0, RhsPacket& b1, RhsPacket& b2, RhsPacket& b3)
+  HYDRA_EIGEN_STRONG_INLINE void broadcastRhs(const RhsScalar* b, RhsPacket& b0, RhsPacket& b1, RhsPacket& b2, RhsPacket& b3)
   {
     pbroadcast4(b, b0, b1, b2, b3);
   }
   
-//   EIGEN_STRONG_INLINE void broadcastRhs(const RhsScalar* b, RhsPacket& b0, RhsPacket& b1)
+//   HYDRA_EIGEN_STRONG_INLINE void broadcastRhs(const RhsScalar* b, RhsPacket& b0, RhsPacket& b1)
 //   {
 //     pbroadcast2(b, b0, b1);
 //   }
 
-  EIGEN_STRONG_INLINE void madd(const LhsPacket& a, const RhsPacket& b, AccPacket& c, RhsPacket& tmp) const
+  HYDRA_EIGEN_STRONG_INLINE void madd(const LhsPacket& a, const RhsPacket& b, AccPacket& c, RhsPacket& tmp) const
   {
     madd_impl(a, b, c, tmp, typename conditional<Vectorizable,true_type,false_type>::type());
   }
 
-  EIGEN_STRONG_INLINE void madd_impl(const LhsPacket& a, const RhsPacket& b, AccPacket& c, RhsPacket& tmp, const true_type&) const
+  HYDRA_EIGEN_STRONG_INLINE void madd_impl(const LhsPacket& a, const RhsPacket& b, AccPacket& c, RhsPacket& tmp, const true_type&) const
   {
-#ifdef EIGEN_HAS_SINGLE_INSTRUCTION_MADD
-    EIGEN_UNUSED_VARIABLE(tmp);
+#ifdef HYDRA_EIGEN_HAS_SINGLE_INSTRUCTION_MADD
+    HYDRA_EIGEN_UNUSED_VARIABLE(tmp);
     c.v = pmadd(a.v,b,c.v);
 #else
     tmp = b; tmp = pmul(a.v,tmp); c.v = padd(c.v,tmp);
 #endif
   }
 
-  EIGEN_STRONG_INLINE void madd_impl(const LhsScalar& a, const RhsScalar& b, ResScalar& c, RhsScalar& /*tmp*/, const false_type&) const
+  HYDRA_EIGEN_STRONG_INLINE void madd_impl(const LhsScalar& a, const RhsScalar& b, ResScalar& c, RhsScalar& /*tmp*/, const false_type&) const
   {
     c += a * b;
   }
 
-  EIGEN_STRONG_INLINE void acc(const AccPacket& c, const ResPacket& alpha, ResPacket& r) const
+  HYDRA_EIGEN_STRONG_INLINE void acc(const AccPacket& c, const ResPacket& alpha, ResPacket& r) const
   {
     r = cj.pmadd(c,alpha,r);
   }
@@ -631,38 +631,38 @@ public:
   typedef typename conditional<Vectorizable,ScalarPacket,Scalar>::type ResPacket;
   typedef typename conditional<Vectorizable,DoublePacketType,Scalar>::type AccPacket;
   
-  EIGEN_STRONG_INLINE void initAcc(Scalar& p) { p = Scalar(0); }
+  HYDRA_EIGEN_STRONG_INLINE void initAcc(Scalar& p) { p = Scalar(0); }
 
-  EIGEN_STRONG_INLINE void initAcc(DoublePacketType& p)
+  HYDRA_EIGEN_STRONG_INLINE void initAcc(DoublePacketType& p)
   {
     p.first   = pset1<RealPacket>(RealScalar(0));
     p.second  = pset1<RealPacket>(RealScalar(0));
   }
 
   // Scalar path
-  EIGEN_STRONG_INLINE void loadRhs(const RhsScalar* b, ResPacket& dest) const
+  HYDRA_EIGEN_STRONG_INLINE void loadRhs(const RhsScalar* b, ResPacket& dest) const
   {
     dest = pset1<ResPacket>(*b);
   }
 
   // Vectorized path
-  EIGEN_STRONG_INLINE void loadRhs(const RhsScalar* b, DoublePacketType& dest) const
+  HYDRA_EIGEN_STRONG_INLINE void loadRhs(const RhsScalar* b, DoublePacketType& dest) const
   {
     dest.first  = pset1<RealPacket>(real(*b));
     dest.second = pset1<RealPacket>(imag(*b));
   }
   
-  EIGEN_STRONG_INLINE void loadRhsQuad(const RhsScalar* b, ResPacket& dest) const
+  HYDRA_EIGEN_STRONG_INLINE void loadRhsQuad(const RhsScalar* b, ResPacket& dest) const
   {
     loadRhs(b,dest);
   }
-  EIGEN_STRONG_INLINE void loadRhsQuad(const RhsScalar* b, DoublePacketType& dest) const
+  HYDRA_EIGEN_STRONG_INLINE void loadRhsQuad(const RhsScalar* b, DoublePacketType& dest) const
   {
     eigen_internal_assert(unpacket_traits<ScalarPacket>::size<=4);
     loadRhs(b,dest);
   }
   
-  EIGEN_STRONG_INLINE void broadcastRhs(const RhsScalar* b, RhsPacket& b0, RhsPacket& b1, RhsPacket& b2, RhsPacket& b3)
+  HYDRA_EIGEN_STRONG_INLINE void broadcastRhs(const RhsScalar* b, RhsPacket& b0, RhsPacket& b1, RhsPacket& b2, RhsPacket& b3)
   {
     // FIXME not sure that's the best way to implement it!
     loadRhs(b+0, b0);
@@ -672,7 +672,7 @@ public:
   }
   
   // Vectorized path
-  EIGEN_STRONG_INLINE void broadcastRhs(const RhsScalar* b, DoublePacketType& b0, DoublePacketType& b1)
+  HYDRA_EIGEN_STRONG_INLINE void broadcastRhs(const RhsScalar* b, DoublePacketType& b0, DoublePacketType& b1)
   {
     // FIXME not sure that's the best way to implement it!
     loadRhs(b+0, b0);
@@ -680,7 +680,7 @@ public:
   }
   
   // Scalar path
-  EIGEN_STRONG_INLINE void broadcastRhs(const RhsScalar* b, RhsScalar& b0, RhsScalar& b1)
+  HYDRA_EIGEN_STRONG_INLINE void broadcastRhs(const RhsScalar* b, RhsScalar& b0, RhsScalar& b1)
   {
     // FIXME not sure that's the best way to implement it!
     loadRhs(b+0, b0);
@@ -688,30 +688,30 @@ public:
   }
 
   // nothing special here
-  EIGEN_STRONG_INLINE void loadLhs(const LhsScalar* a, LhsPacket& dest) const
+  HYDRA_EIGEN_STRONG_INLINE void loadLhs(const LhsScalar* a, LhsPacket& dest) const
   {
     dest = pload<LhsPacket>((const typename unpacket_traits<LhsPacket>::type*)(a));
   }
 
-  EIGEN_STRONG_INLINE void loadLhsUnaligned(const LhsScalar* a, LhsPacket& dest) const
+  HYDRA_EIGEN_STRONG_INLINE void loadLhsUnaligned(const LhsScalar* a, LhsPacket& dest) const
   {
     dest = ploadu<LhsPacket>((const typename unpacket_traits<LhsPacket>::type*)(a));
   }
 
-  EIGEN_STRONG_INLINE void madd(const LhsPacket& a, const RhsPacket& b, DoublePacketType& c, RhsPacket& /*tmp*/) const
+  HYDRA_EIGEN_STRONG_INLINE void madd(const LhsPacket& a, const RhsPacket& b, DoublePacketType& c, RhsPacket& /*tmp*/) const
   {
     c.first   = padd(pmul(a,b.first), c.first);
     c.second  = padd(pmul(a,b.second),c.second);
   }
 
-  EIGEN_STRONG_INLINE void madd(const LhsPacket& a, const RhsPacket& b, ResPacket& c, RhsPacket& /*tmp*/) const
+  HYDRA_EIGEN_STRONG_INLINE void madd(const LhsPacket& a, const RhsPacket& b, ResPacket& c, RhsPacket& /*tmp*/) const
   {
     c = cj.pmadd(a,b,c);
   }
   
-  EIGEN_STRONG_INLINE void acc(const Scalar& c, const Scalar& alpha, Scalar& r) const { r += alpha * c; }
+  HYDRA_EIGEN_STRONG_INLINE void acc(const Scalar& c, const Scalar& alpha, Scalar& r) const { r += alpha * c; }
   
-  EIGEN_STRONG_INLINE void acc(const DoublePacketType& c, const ResPacket& alpha, ResPacket& r) const
+  HYDRA_EIGEN_STRONG_INLINE void acc(const DoublePacketType& c, const ResPacket& alpha, ResPacket& r) const
   {
     // assemble c
     ResPacket tmp;
@@ -761,10 +761,10 @@ public:
     RhsPacketSize = Vectorizable ? packet_traits<RhsScalar>::size : 1,
     ResPacketSize = Vectorizable ? packet_traits<ResScalar>::size : 1,
     
-    NumberOfRegisters = EIGEN_ARCH_DEFAULT_NUMBER_OF_REGISTERS,
+    NumberOfRegisters = HYDRA_EIGEN_ARCH_DEFAULT_NUMBER_OF_REGISTERS,
     // FIXME: should depend on NumberOfRegisters
     nr = 4,
-    mr = (EIGEN_PLAIN_ENUM_MIN(16,NumberOfRegisters)/2/nr)*ResPacketSize,
+    mr = (HYDRA_EIGEN_PLAIN_ENUM_MIN(16,NumberOfRegisters)/2/nr)*ResPacketSize,
 
     LhsProgress = ResPacketSize,
     RhsProgress = 1
@@ -780,12 +780,12 @@ public:
 
   typedef ResPacket AccPacket;
 
-  EIGEN_STRONG_INLINE void initAcc(AccPacket& p)
+  HYDRA_EIGEN_STRONG_INLINE void initAcc(AccPacket& p)
   {
     p = pset1<ResPacket>(ResScalar(0));
   }
 
-  EIGEN_STRONG_INLINE void loadRhs(const RhsScalar* b, RhsPacket& dest) const
+  HYDRA_EIGEN_STRONG_INLINE void loadRhs(const RhsScalar* b, RhsPacket& dest) const
   {
     dest = pset1<RhsPacket>(*b);
   }
@@ -795,38 +795,38 @@ public:
     pbroadcast4(b, b0, b1, b2, b3);
   }
   
-//   EIGEN_STRONG_INLINE void broadcastRhs(const RhsScalar* b, RhsPacket& b0, RhsPacket& b1)
+//   HYDRA_EIGEN_STRONG_INLINE void broadcastRhs(const RhsScalar* b, RhsPacket& b0, RhsPacket& b1)
 //   {
 //     // FIXME not sure that's the best way to implement it!
 //     b0 = pload1<RhsPacket>(b+0);
 //     b1 = pload1<RhsPacket>(b+1);
 //   }
 
-  EIGEN_STRONG_INLINE void loadLhs(const LhsScalar* a, LhsPacket& dest) const
+  HYDRA_EIGEN_STRONG_INLINE void loadLhs(const LhsScalar* a, LhsPacket& dest) const
   {
     dest = ploaddup<LhsPacket>(a);
   }
   
-  EIGEN_STRONG_INLINE void loadRhsQuad(const RhsScalar* b, RhsPacket& dest) const
+  HYDRA_EIGEN_STRONG_INLINE void loadRhsQuad(const RhsScalar* b, RhsPacket& dest) const
   {
     eigen_internal_assert(unpacket_traits<RhsPacket>::size<=4);
     loadRhs(b,dest);
   }
 
-  EIGEN_STRONG_INLINE void loadLhsUnaligned(const LhsScalar* a, LhsPacket& dest) const
+  HYDRA_EIGEN_STRONG_INLINE void loadLhsUnaligned(const LhsScalar* a, LhsPacket& dest) const
   {
     dest = ploaddup<LhsPacket>(a);
   }
 
-  EIGEN_STRONG_INLINE void madd(const LhsPacket& a, const RhsPacket& b, AccPacket& c, RhsPacket& tmp) const
+  HYDRA_EIGEN_STRONG_INLINE void madd(const LhsPacket& a, const RhsPacket& b, AccPacket& c, RhsPacket& tmp) const
   {
     madd_impl(a, b, c, tmp, typename conditional<Vectorizable,true_type,false_type>::type());
   }
 
-  EIGEN_STRONG_INLINE void madd_impl(const LhsPacket& a, const RhsPacket& b, AccPacket& c, RhsPacket& tmp, const true_type&) const
+  HYDRA_EIGEN_STRONG_INLINE void madd_impl(const LhsPacket& a, const RhsPacket& b, AccPacket& c, RhsPacket& tmp, const true_type&) const
   {
-#ifdef EIGEN_HAS_SINGLE_INSTRUCTION_MADD
-    EIGEN_UNUSED_VARIABLE(tmp);
+#ifdef HYDRA_EIGEN_HAS_SINGLE_INSTRUCTION_MADD
+    HYDRA_EIGEN_UNUSED_VARIABLE(tmp);
     c.v = pmadd(a,b.v,c.v);
 #else
     tmp = b; tmp.v = pmul(a,tmp.v); c = padd(c,tmp);
@@ -834,12 +834,12 @@ public:
     
   }
 
-  EIGEN_STRONG_INLINE void madd_impl(const LhsScalar& a, const RhsScalar& b, ResScalar& c, RhsScalar& /*tmp*/, const false_type&) const
+  HYDRA_EIGEN_STRONG_INLINE void madd_impl(const LhsScalar& a, const RhsScalar& b, ResScalar& c, RhsScalar& /*tmp*/, const false_type&) const
   {
     c += a * b;
   }
 
-  EIGEN_STRONG_INLINE void acc(const AccPacket& c, const ResPacket& alpha, ResPacket& r) const
+  HYDRA_EIGEN_STRONG_INLINE void acc(const AccPacket& c, const ResPacket& alpha, ResPacket& r) const
   {
     r = cj.pmadd(alpha,c,r);
   }
@@ -881,14 +881,14 @@ struct gebp_kernel
     ResPacketSize = Traits::ResPacketSize
   };
 
-  EIGEN_DONT_INLINE
+  HYDRA_EIGEN_DONT_INLINE
   void operator()(const DataMapper& res, const LhsScalar* blockA, const RhsScalar* blockB,
                   Index rows, Index depth, Index cols, ResScalar alpha,
                   Index strideA=-1, Index strideB=-1, Index offsetA=0, Index offsetB=0);
 };
 
 template<typename LhsScalar, typename RhsScalar, typename Index, typename DataMapper, int mr, int nr, bool ConjugateLhs, bool ConjugateRhs>
-EIGEN_DONT_INLINE
+HYDRA_EIGEN_DONT_INLINE
 void gebp_kernel<LhsScalar,RhsScalar,Index,DataMapper,mr,nr,ConjugateLhs,ConjugateRhs>
   ::operator()(const DataMapper& res, const LhsScalar* blockA, const RhsScalar* blockB,
                Index rows, Index depth, Index cols, ResScalar alpha,
@@ -963,16 +963,16 @@ void gebp_kernel<LhsScalar,RhsScalar,Index,DataMapper,mr,nr,ConjugateLhs,Conjuga
 
           for(Index k=0; k<peeled_kc; k+=pk)
           {
-            EIGEN_ASM_COMMENT("begin gebp micro kernel 3pX4");
+            HYDRA_EIGEN_ASM_COMMENT("begin gebp micro kernel 3pX4");
             RhsPacket B_0, T0;
             LhsPacket A2;
 
-#define EIGEN_GEBP_ONESTEP(K) \
+#define HYDRA_EIGEN_GEBP_ONESTEP(K) \
             do { \
-              EIGEN_ASM_COMMENT("begin step of gebp micro kernel 3pX4"); \
-              EIGEN_ASM_COMMENT("Note: these asm comments work around bug 935!"); \
+              HYDRA_EIGEN_ASM_COMMENT("begin step of gebp micro kernel 3pX4"); \
+              HYDRA_EIGEN_ASM_COMMENT("Note: these asm comments work around bug 935!"); \
               internal::prefetch(blA+(3*K+16)*LhsProgress); \
-              if (EIGEN_ARCH_ARM) { internal::prefetch(blB+(4*K+16)*RhsProgress); } /* Bug 953 */ \
+              if (HYDRA_EIGEN_ARCH_ARM) { internal::prefetch(blB+(4*K+16)*RhsProgress); } /* Bug 953 */ \
               traits.loadLhs(&blA[(0+3*K)*LhsProgress], A0);  \
               traits.loadLhs(&blA[(1+3*K)*LhsProgress], A1);  \
               traits.loadLhs(&blA[(2+3*K)*LhsProgress], A2);  \
@@ -992,35 +992,35 @@ void gebp_kernel<LhsScalar,RhsScalar,Index,DataMapper,mr,nr,ConjugateLhs,Conjuga
               traits.madd(A0, B_0, C3 , T0); \
               traits.madd(A1, B_0, C7,  T0); \
               traits.madd(A2, B_0, C11, B_0); \
-              EIGEN_ASM_COMMENT("end step of gebp micro kernel 3pX4"); \
+              HYDRA_EIGEN_ASM_COMMENT("end step of gebp micro kernel 3pX4"); \
             } while(false)
 
             internal::prefetch(blB);
-            EIGEN_GEBP_ONESTEP(0);
-            EIGEN_GEBP_ONESTEP(1);
-            EIGEN_GEBP_ONESTEP(2);
-            EIGEN_GEBP_ONESTEP(3);
-            EIGEN_GEBP_ONESTEP(4);
-            EIGEN_GEBP_ONESTEP(5);
-            EIGEN_GEBP_ONESTEP(6);
-            EIGEN_GEBP_ONESTEP(7);
+            HYDRA_EIGEN_GEBP_ONESTEP(0);
+            HYDRA_EIGEN_GEBP_ONESTEP(1);
+            HYDRA_EIGEN_GEBP_ONESTEP(2);
+            HYDRA_EIGEN_GEBP_ONESTEP(3);
+            HYDRA_EIGEN_GEBP_ONESTEP(4);
+            HYDRA_EIGEN_GEBP_ONESTEP(5);
+            HYDRA_EIGEN_GEBP_ONESTEP(6);
+            HYDRA_EIGEN_GEBP_ONESTEP(7);
 
             blB += pk*4*RhsProgress;
             blA += pk*3*Traits::LhsProgress;
 
-            EIGEN_ASM_COMMENT("end gebp micro kernel 3pX4");
+            HYDRA_EIGEN_ASM_COMMENT("end gebp micro kernel 3pX4");
           }
           // process remaining peeled loop
           for(Index k=peeled_kc; k<depth; k++)
           {
             RhsPacket B_0, T0;
             LhsPacket A2;
-            EIGEN_GEBP_ONESTEP(0);
+            HYDRA_EIGEN_GEBP_ONESTEP(0);
             blB += 4*RhsProgress;
             blA += 3*Traits::LhsProgress;
           }
 
-#undef EIGEN_GEBP_ONESTEP
+#undef HYDRA_EIGEN_GEBP_ONESTEP
 
           ResPacket R0, R1, R2;
           ResPacket alphav = pset1<ResPacket>(alpha);
@@ -1091,12 +1091,12 @@ void gebp_kernel<LhsScalar,RhsScalar,Index,DataMapper,mr,nr,ConjugateLhs,Conjuga
           
           for(Index k=0; k<peeled_kc; k+=pk)
           {
-            EIGEN_ASM_COMMENT("begin gebp micro kernel 3pX1");
+            HYDRA_EIGEN_ASM_COMMENT("begin gebp micro kernel 3pX1");
             RhsPacket B_0;
-#define EIGEN_GEBGP_ONESTEP(K) \
+#define HYDRA_EIGEN_GEBGP_ONESTEP(K) \
             do { \
-              EIGEN_ASM_COMMENT("begin step of gebp micro kernel 3pX1"); \
-              EIGEN_ASM_COMMENT("Note: these asm comments work around bug 935!"); \
+              HYDRA_EIGEN_ASM_COMMENT("begin step of gebp micro kernel 3pX1"); \
+              HYDRA_EIGEN_ASM_COMMENT("Note: these asm comments work around bug 935!"); \
               traits.loadLhs(&blA[(0+3*K)*LhsProgress], A0);  \
               traits.loadLhs(&blA[(1+3*K)*LhsProgress], A1);  \
               traits.loadLhs(&blA[(2+3*K)*LhsProgress], A2);  \
@@ -1104,33 +1104,33 @@ void gebp_kernel<LhsScalar,RhsScalar,Index,DataMapper,mr,nr,ConjugateLhs,Conjuga
               traits.madd(A0, B_0, C0, B_0); \
               traits.madd(A1, B_0, C4, B_0); \
               traits.madd(A2, B_0, C8, B_0); \
-              EIGEN_ASM_COMMENT("end step of gebp micro kernel 3pX1"); \
+              HYDRA_EIGEN_ASM_COMMENT("end step of gebp micro kernel 3pX1"); \
             } while(false)
         
-            EIGEN_GEBGP_ONESTEP(0);
-            EIGEN_GEBGP_ONESTEP(1);
-            EIGEN_GEBGP_ONESTEP(2);
-            EIGEN_GEBGP_ONESTEP(3);
-            EIGEN_GEBGP_ONESTEP(4);
-            EIGEN_GEBGP_ONESTEP(5);
-            EIGEN_GEBGP_ONESTEP(6);
-            EIGEN_GEBGP_ONESTEP(7);
+            HYDRA_EIGEN_GEBGP_ONESTEP(0);
+            HYDRA_EIGEN_GEBGP_ONESTEP(1);
+            HYDRA_EIGEN_GEBGP_ONESTEP(2);
+            HYDRA_EIGEN_GEBGP_ONESTEP(3);
+            HYDRA_EIGEN_GEBGP_ONESTEP(4);
+            HYDRA_EIGEN_GEBGP_ONESTEP(5);
+            HYDRA_EIGEN_GEBGP_ONESTEP(6);
+            HYDRA_EIGEN_GEBGP_ONESTEP(7);
 
             blB += pk*RhsProgress;
             blA += pk*3*Traits::LhsProgress;
 
-            EIGEN_ASM_COMMENT("end gebp micro kernel 3pX1");
+            HYDRA_EIGEN_ASM_COMMENT("end gebp micro kernel 3pX1");
           }
 
           // process remaining peeled loop
           for(Index k=peeled_kc; k<depth; k++)
           {
             RhsPacket B_0;
-            EIGEN_GEBGP_ONESTEP(0);
+            HYDRA_EIGEN_GEBGP_ONESTEP(0);
             blB += RhsProgress;
             blA += 3*Traits::LhsProgress;
           }
-#undef EIGEN_GEBGP_ONESTEP
+#undef HYDRA_EIGEN_GEBGP_ONESTEP
           ResPacket R0, R1, R2;
           ResPacket alphav = pset1<ResPacket>(alpha);
 
@@ -1194,13 +1194,13 @@ void gebp_kernel<LhsScalar,RhsScalar,Index,DataMapper,mr,nr,ConjugateLhs,Conjuga
 
           for(Index k=0; k<peeled_kc; k+=pk)
           {
-            EIGEN_ASM_COMMENT("begin gebp micro kernel 2pX4");
+            HYDRA_EIGEN_ASM_COMMENT("begin gebp micro kernel 2pX4");
             RhsPacket B_0, B1, B2, B3, T0;
 
-   #define EIGEN_GEBGP_ONESTEP(K) \
+   #define HYDRA_EIGEN_GEBGP_ONESTEP(K) \
             do {                                                                \
-              EIGEN_ASM_COMMENT("begin step of gebp micro kernel 2pX4");        \
-              EIGEN_ASM_COMMENT("Note: these asm comments work around bug 935!"); \
+              HYDRA_EIGEN_ASM_COMMENT("begin step of gebp micro kernel 2pX4");        \
+              HYDRA_EIGEN_ASM_COMMENT("Note: these asm comments work around bug 935!"); \
               traits.loadLhs(&blA[(0+2*K)*LhsProgress], A0);                    \
               traits.loadLhs(&blA[(1+2*K)*LhsProgress], A1);                    \
               traits.broadcastRhs(&blB[(0+4*K)*RhsProgress], B_0, B1, B2, B3);  \
@@ -1212,34 +1212,34 @@ void gebp_kernel<LhsScalar,RhsScalar,Index,DataMapper,mr,nr,ConjugateLhs,Conjuga
               traits.madd(A1, B2,  C6, B2);                                     \
               traits.madd(A0, B3,  C3, T0);                                     \
               traits.madd(A1, B3,  C7, B3);                                     \
-              EIGEN_ASM_COMMENT("end step of gebp micro kernel 2pX4");          \
+              HYDRA_EIGEN_ASM_COMMENT("end step of gebp micro kernel 2pX4");          \
             } while(false)
             
             internal::prefetch(blB+(48+0));
-            EIGEN_GEBGP_ONESTEP(0);
-            EIGEN_GEBGP_ONESTEP(1);
-            EIGEN_GEBGP_ONESTEP(2);
-            EIGEN_GEBGP_ONESTEP(3);
+            HYDRA_EIGEN_GEBGP_ONESTEP(0);
+            HYDRA_EIGEN_GEBGP_ONESTEP(1);
+            HYDRA_EIGEN_GEBGP_ONESTEP(2);
+            HYDRA_EIGEN_GEBGP_ONESTEP(3);
             internal::prefetch(blB+(48+16));
-            EIGEN_GEBGP_ONESTEP(4);
-            EIGEN_GEBGP_ONESTEP(5);
-            EIGEN_GEBGP_ONESTEP(6);
-            EIGEN_GEBGP_ONESTEP(7);
+            HYDRA_EIGEN_GEBGP_ONESTEP(4);
+            HYDRA_EIGEN_GEBGP_ONESTEP(5);
+            HYDRA_EIGEN_GEBGP_ONESTEP(6);
+            HYDRA_EIGEN_GEBGP_ONESTEP(7);
 
             blB += pk*4*RhsProgress;
             blA += pk*(2*Traits::LhsProgress);
 
-            EIGEN_ASM_COMMENT("end gebp micro kernel 2pX4");
+            HYDRA_EIGEN_ASM_COMMENT("end gebp micro kernel 2pX4");
           }
           // process remaining peeled loop
           for(Index k=peeled_kc; k<depth; k++)
           {
             RhsPacket B_0, B1, B2, B3, T0;
-            EIGEN_GEBGP_ONESTEP(0);
+            HYDRA_EIGEN_GEBGP_ONESTEP(0);
             blB += 4*RhsProgress;
             blA += 2*Traits::LhsProgress;
           }
-#undef EIGEN_GEBGP_ONESTEP
+#undef HYDRA_EIGEN_GEBGP_ONESTEP
 
           ResPacket R0, R1, R2, R3;
           ResPacket alphav = pset1<ResPacket>(alpha);
@@ -1295,45 +1295,45 @@ void gebp_kernel<LhsScalar,RhsScalar,Index,DataMapper,mr,nr,ConjugateLhs,Conjuga
 
           for(Index k=0; k<peeled_kc; k+=pk)
           {
-            EIGEN_ASM_COMMENT("begin gebp micro kernel 2pX1");
+            HYDRA_EIGEN_ASM_COMMENT("begin gebp micro kernel 2pX1");
             RhsPacket B_0, B1;
         
-#define EIGEN_GEBGP_ONESTEP(K) \
+#define HYDRA_EIGEN_GEBGP_ONESTEP(K) \
             do {                                                                  \
-              EIGEN_ASM_COMMENT("begin step of gebp micro kernel 2pX1");          \
-              EIGEN_ASM_COMMENT("Note: these asm comments work around bug 935!"); \
+              HYDRA_EIGEN_ASM_COMMENT("begin step of gebp micro kernel 2pX1");          \
+              HYDRA_EIGEN_ASM_COMMENT("Note: these asm comments work around bug 935!"); \
               traits.loadLhs(&blA[(0+2*K)*LhsProgress], A0);                      \
               traits.loadLhs(&blA[(1+2*K)*LhsProgress], A1);                      \
               traits.loadRhs(&blB[(0+K)*RhsProgress], B_0);                       \
               traits.madd(A0, B_0, C0, B1);                                       \
               traits.madd(A1, B_0, C4, B_0);                                      \
-              EIGEN_ASM_COMMENT("end step of gebp micro kernel 2pX1");            \
+              HYDRA_EIGEN_ASM_COMMENT("end step of gebp micro kernel 2pX1");            \
             } while(false)
         
-            EIGEN_GEBGP_ONESTEP(0);
-            EIGEN_GEBGP_ONESTEP(1);
-            EIGEN_GEBGP_ONESTEP(2);
-            EIGEN_GEBGP_ONESTEP(3);
-            EIGEN_GEBGP_ONESTEP(4);
-            EIGEN_GEBGP_ONESTEP(5);
-            EIGEN_GEBGP_ONESTEP(6);
-            EIGEN_GEBGP_ONESTEP(7);
+            HYDRA_EIGEN_GEBGP_ONESTEP(0);
+            HYDRA_EIGEN_GEBGP_ONESTEP(1);
+            HYDRA_EIGEN_GEBGP_ONESTEP(2);
+            HYDRA_EIGEN_GEBGP_ONESTEP(3);
+            HYDRA_EIGEN_GEBGP_ONESTEP(4);
+            HYDRA_EIGEN_GEBGP_ONESTEP(5);
+            HYDRA_EIGEN_GEBGP_ONESTEP(6);
+            HYDRA_EIGEN_GEBGP_ONESTEP(7);
 
             blB += pk*RhsProgress;
             blA += pk*2*Traits::LhsProgress;
 
-            EIGEN_ASM_COMMENT("end gebp micro kernel 2pX1");
+            HYDRA_EIGEN_ASM_COMMENT("end gebp micro kernel 2pX1");
           }
 
           // process remaining peeled loop
           for(Index k=peeled_kc; k<depth; k++)
           {
             RhsPacket B_0, B1;
-            EIGEN_GEBGP_ONESTEP(0);
+            HYDRA_EIGEN_GEBGP_ONESTEP(0);
             blB += RhsProgress;
             blA += 2*Traits::LhsProgress;
           }
-#undef EIGEN_GEBGP_ONESTEP
+#undef HYDRA_EIGEN_GEBGP_ONESTEP
           ResPacket R0, R1;
           ResPacket alphav = pset1<ResPacket>(alpha);
 
@@ -1386,47 +1386,47 @@ void gebp_kernel<LhsScalar,RhsScalar,Index,DataMapper,mr,nr,ConjugateLhs,Conjuga
 
           for(Index k=0; k<peeled_kc; k+=pk)
           {
-            EIGEN_ASM_COMMENT("begin gebp micro kernel 1pX4");
+            HYDRA_EIGEN_ASM_COMMENT("begin gebp micro kernel 1pX4");
             RhsPacket B_0, B1, B2, B3;
                
-#define EIGEN_GEBGP_ONESTEP(K) \
+#define HYDRA_EIGEN_GEBGP_ONESTEP(K) \
             do {                                                                \
-              EIGEN_ASM_COMMENT("begin step of gebp micro kernel 1pX4");        \
-              EIGEN_ASM_COMMENT("Note: these asm comments work around bug 935!"); \
+              HYDRA_EIGEN_ASM_COMMENT("begin step of gebp micro kernel 1pX4");        \
+              HYDRA_EIGEN_ASM_COMMENT("Note: these asm comments work around bug 935!"); \
               traits.loadLhs(&blA[(0+1*K)*LhsProgress], A0);                    \
               traits.broadcastRhs(&blB[(0+4*K)*RhsProgress], B_0, B1, B2, B3);  \
               traits.madd(A0, B_0, C0, B_0);                                    \
               traits.madd(A0, B1,  C1, B1);                                     \
               traits.madd(A0, B2,  C2, B2);                                     \
               traits.madd(A0, B3,  C3, B3);                                     \
-              EIGEN_ASM_COMMENT("end step of gebp micro kernel 1pX4");          \
+              HYDRA_EIGEN_ASM_COMMENT("end step of gebp micro kernel 1pX4");          \
             } while(false)
             
             internal::prefetch(blB+(48+0));
-            EIGEN_GEBGP_ONESTEP(0);
-            EIGEN_GEBGP_ONESTEP(1);
-            EIGEN_GEBGP_ONESTEP(2);
-            EIGEN_GEBGP_ONESTEP(3);
+            HYDRA_EIGEN_GEBGP_ONESTEP(0);
+            HYDRA_EIGEN_GEBGP_ONESTEP(1);
+            HYDRA_EIGEN_GEBGP_ONESTEP(2);
+            HYDRA_EIGEN_GEBGP_ONESTEP(3);
             internal::prefetch(blB+(48+16));
-            EIGEN_GEBGP_ONESTEP(4);
-            EIGEN_GEBGP_ONESTEP(5);
-            EIGEN_GEBGP_ONESTEP(6);
-            EIGEN_GEBGP_ONESTEP(7);
+            HYDRA_EIGEN_GEBGP_ONESTEP(4);
+            HYDRA_EIGEN_GEBGP_ONESTEP(5);
+            HYDRA_EIGEN_GEBGP_ONESTEP(6);
+            HYDRA_EIGEN_GEBGP_ONESTEP(7);
 
             blB += pk*4*RhsProgress;
             blA += pk*1*LhsProgress;
 
-            EIGEN_ASM_COMMENT("end gebp micro kernel 1pX4");
+            HYDRA_EIGEN_ASM_COMMENT("end gebp micro kernel 1pX4");
           }
           // process remaining peeled loop
           for(Index k=peeled_kc; k<depth; k++)
           {
             RhsPacket B_0, B1, B2, B3;
-            EIGEN_GEBGP_ONESTEP(0);
+            HYDRA_EIGEN_GEBGP_ONESTEP(0);
             blB += 4*RhsProgress;
             blA += 1*LhsProgress;
           }
-#undef EIGEN_GEBGP_ONESTEP
+#undef HYDRA_EIGEN_GEBGP_ONESTEP
 
           ResPacket R0, R1;
           ResPacket alphav = pset1<ResPacket>(alpha);
@@ -1465,43 +1465,43 @@ void gebp_kernel<LhsScalar,RhsScalar,Index,DataMapper,mr,nr,ConjugateLhs,Conjuga
 
           for(Index k=0; k<peeled_kc; k+=pk)
           {
-            EIGEN_ASM_COMMENT("begin gebp micro kernel 1pX1");
+            HYDRA_EIGEN_ASM_COMMENT("begin gebp micro kernel 1pX1");
             RhsPacket B_0;
         
-#define EIGEN_GEBGP_ONESTEP(K) \
+#define HYDRA_EIGEN_GEBGP_ONESTEP(K) \
             do {                                                                \
-              EIGEN_ASM_COMMENT("begin step of gebp micro kernel 1pX1");        \
-              EIGEN_ASM_COMMENT("Note: these asm comments work around bug 935!"); \
+              HYDRA_EIGEN_ASM_COMMENT("begin step of gebp micro kernel 1pX1");        \
+              HYDRA_EIGEN_ASM_COMMENT("Note: these asm comments work around bug 935!"); \
               traits.loadLhs(&blA[(0+1*K)*LhsProgress], A0);                    \
               traits.loadRhs(&blB[(0+K)*RhsProgress], B_0);                     \
               traits.madd(A0, B_0, C0, B_0);                                    \
-              EIGEN_ASM_COMMENT("end step of gebp micro kernel 1pX1");          \
+              HYDRA_EIGEN_ASM_COMMENT("end step of gebp micro kernel 1pX1");          \
             } while(false);
 
-            EIGEN_GEBGP_ONESTEP(0);
-            EIGEN_GEBGP_ONESTEP(1);
-            EIGEN_GEBGP_ONESTEP(2);
-            EIGEN_GEBGP_ONESTEP(3);
-            EIGEN_GEBGP_ONESTEP(4);
-            EIGEN_GEBGP_ONESTEP(5);
-            EIGEN_GEBGP_ONESTEP(6);
-            EIGEN_GEBGP_ONESTEP(7);
+            HYDRA_EIGEN_GEBGP_ONESTEP(0);
+            HYDRA_EIGEN_GEBGP_ONESTEP(1);
+            HYDRA_EIGEN_GEBGP_ONESTEP(2);
+            HYDRA_EIGEN_GEBGP_ONESTEP(3);
+            HYDRA_EIGEN_GEBGP_ONESTEP(4);
+            HYDRA_EIGEN_GEBGP_ONESTEP(5);
+            HYDRA_EIGEN_GEBGP_ONESTEP(6);
+            HYDRA_EIGEN_GEBGP_ONESTEP(7);
 
             blB += pk*RhsProgress;
             blA += pk*1*Traits::LhsProgress;
 
-            EIGEN_ASM_COMMENT("end gebp micro kernel 1pX1");
+            HYDRA_EIGEN_ASM_COMMENT("end gebp micro kernel 1pX1");
           }
 
           // process remaining peeled loop
           for(Index k=peeled_kc; k<depth; k++)
           {
             RhsPacket B_0;
-            EIGEN_GEBGP_ONESTEP(0);
+            HYDRA_EIGEN_GEBGP_ONESTEP(0);
             blB += RhsProgress;
             blA += 1*Traits::LhsProgress;
           }
-#undef EIGEN_GEBGP_ONESTEP
+#undef HYDRA_EIGEN_GEBGP_ONESTEP
           ResPacket R0;
           ResPacket alphav = pset1<ResPacket>(alpha);
           R0 = r0.loadPacket(0 * Traits::ResPacketSize);
@@ -1689,19 +1689,19 @@ template<typename Scalar, typename Index, typename DataMapper, int Pack1, int Pa
 struct gemm_pack_lhs<Scalar, Index, DataMapper, Pack1, Pack2, ColMajor, Conjugate, PanelMode>
 {
   typedef typename DataMapper::LinearMapper LinearMapper;
-  EIGEN_DONT_INLINE void operator()(Scalar* blockA, const DataMapper& lhs, Index depth, Index rows, Index stride=0, Index offset=0);
+  HYDRA_EIGEN_DONT_INLINE void operator()(Scalar* blockA, const DataMapper& lhs, Index depth, Index rows, Index stride=0, Index offset=0);
 };
 
 template<typename Scalar, typename Index, typename DataMapper, int Pack1, int Pack2, bool Conjugate, bool PanelMode>
-EIGEN_DONT_INLINE void gemm_pack_lhs<Scalar, Index, DataMapper, Pack1, Pack2, ColMajor, Conjugate, PanelMode>
+HYDRA_EIGEN_DONT_INLINE void gemm_pack_lhs<Scalar, Index, DataMapper, Pack1, Pack2, ColMajor, Conjugate, PanelMode>
   ::operator()(Scalar* blockA, const DataMapper& lhs, Index depth, Index rows, Index stride, Index offset)
 {
   typedef typename packet_traits<Scalar>::type Packet;
   enum { PacketSize = packet_traits<Scalar>::size };
 
-  EIGEN_ASM_COMMENT("EIGEN PRODUCT PACK LHS");
-  EIGEN_UNUSED_VARIABLE(stride);
-  EIGEN_UNUSED_VARIABLE(offset);
+  HYDRA_EIGEN_ASM_COMMENT("EIGEN PRODUCT PACK LHS");
+  HYDRA_EIGEN_UNUSED_VARIABLE(stride);
+  HYDRA_EIGEN_UNUSED_VARIABLE(offset);
   eigen_assert(((!PanelMode) && stride==0 && offset==0) || (PanelMode && stride>=depth && offset<=stride));
   eigen_assert( ((Pack1%PacketSize)==0 && Pack1<=4*PacketSize) || (Pack1<=4) );
   conj_if<NumTraits<Scalar>::IsComplex && Conjugate> cj;
@@ -1797,19 +1797,19 @@ template<typename Scalar, typename Index, typename DataMapper, int Pack1, int Pa
 struct gemm_pack_lhs<Scalar, Index, DataMapper, Pack1, Pack2, RowMajor, Conjugate, PanelMode>
 {
   typedef typename DataMapper::LinearMapper LinearMapper;
-  EIGEN_DONT_INLINE void operator()(Scalar* blockA, const DataMapper& lhs, Index depth, Index rows, Index stride=0, Index offset=0);
+  HYDRA_EIGEN_DONT_INLINE void operator()(Scalar* blockA, const DataMapper& lhs, Index depth, Index rows, Index stride=0, Index offset=0);
 };
 
 template<typename Scalar, typename Index, typename DataMapper, int Pack1, int Pack2, bool Conjugate, bool PanelMode>
-EIGEN_DONT_INLINE void gemm_pack_lhs<Scalar, Index, DataMapper, Pack1, Pack2, RowMajor, Conjugate, PanelMode>
+HYDRA_EIGEN_DONT_INLINE void gemm_pack_lhs<Scalar, Index, DataMapper, Pack1, Pack2, RowMajor, Conjugate, PanelMode>
   ::operator()(Scalar* blockA, const DataMapper& lhs, Index depth, Index rows, Index stride, Index offset)
 {
   typedef typename packet_traits<Scalar>::type Packet;
   enum { PacketSize = packet_traits<Scalar>::size };
 
-  EIGEN_ASM_COMMENT("EIGEN PRODUCT PACK LHS");
-  EIGEN_UNUSED_VARIABLE(stride);
-  EIGEN_UNUSED_VARIABLE(offset);
+  HYDRA_EIGEN_ASM_COMMENT("EIGEN PRODUCT PACK LHS");
+  HYDRA_EIGEN_UNUSED_VARIABLE(stride);
+  HYDRA_EIGEN_UNUSED_VARIABLE(offset);
   eigen_assert(((!PanelMode) && stride==0 && offset==0) || (PanelMode && stride>=depth && offset<=stride));
   conj_if<NumTraits<Scalar>::IsComplex && Conjugate> cj;
   Index count = 0;
@@ -1893,16 +1893,16 @@ struct gemm_pack_rhs<Scalar, Index, DataMapper, nr, ColMajor, Conjugate, PanelMo
   typedef typename packet_traits<Scalar>::type Packet;
   typedef typename DataMapper::LinearMapper LinearMapper;
   enum { PacketSize = packet_traits<Scalar>::size };
-  EIGEN_DONT_INLINE void operator()(Scalar* blockB, const DataMapper& rhs, Index depth, Index cols, Index stride=0, Index offset=0);
+  HYDRA_EIGEN_DONT_INLINE void operator()(Scalar* blockB, const DataMapper& rhs, Index depth, Index cols, Index stride=0, Index offset=0);
 };
 
 template<typename Scalar, typename Index, typename DataMapper, int nr, bool Conjugate, bool PanelMode>
-EIGEN_DONT_INLINE void gemm_pack_rhs<Scalar, Index, DataMapper, nr, ColMajor, Conjugate, PanelMode>
+HYDRA_EIGEN_DONT_INLINE void gemm_pack_rhs<Scalar, Index, DataMapper, nr, ColMajor, Conjugate, PanelMode>
   ::operator()(Scalar* blockB, const DataMapper& rhs, Index depth, Index cols, Index stride, Index offset)
 {
-  EIGEN_ASM_COMMENT("EIGEN PRODUCT PACK RHS COLMAJOR");
-  EIGEN_UNUSED_VARIABLE(stride);
-  EIGEN_UNUSED_VARIABLE(offset);
+  HYDRA_EIGEN_ASM_COMMENT("EIGEN PRODUCT PACK RHS COLMAJOR");
+  HYDRA_EIGEN_UNUSED_VARIABLE(stride);
+  HYDRA_EIGEN_UNUSED_VARIABLE(offset);
   eigen_assert(((!PanelMode) && stride==0 && offset==0) || (PanelMode && stride>=depth && offset<=stride));
   conj_if<NumTraits<Scalar>::IsComplex && Conjugate> cj;
   Index packet_cols8 = nr>=8 ? (cols/8) * 8 : 0;
@@ -2017,16 +2017,16 @@ struct gemm_pack_rhs<Scalar, Index, DataMapper, nr, RowMajor, Conjugate, PanelMo
   typedef typename packet_traits<Scalar>::type Packet;
   typedef typename DataMapper::LinearMapper LinearMapper;
   enum { PacketSize = packet_traits<Scalar>::size };
-  EIGEN_DONT_INLINE void operator()(Scalar* blockB, const DataMapper& rhs, Index depth, Index cols, Index stride=0, Index offset=0);
+  HYDRA_EIGEN_DONT_INLINE void operator()(Scalar* blockB, const DataMapper& rhs, Index depth, Index cols, Index stride=0, Index offset=0);
 };
 
 template<typename Scalar, typename Index, typename DataMapper, int nr, bool Conjugate, bool PanelMode>
-EIGEN_DONT_INLINE void gemm_pack_rhs<Scalar, Index, DataMapper, nr, RowMajor, Conjugate, PanelMode>
+HYDRA_EIGEN_DONT_INLINE void gemm_pack_rhs<Scalar, Index, DataMapper, nr, RowMajor, Conjugate, PanelMode>
   ::operator()(Scalar* blockB, const DataMapper& rhs, Index depth, Index cols, Index stride, Index offset)
 {
-  EIGEN_ASM_COMMENT("EIGEN PRODUCT PACK RHS ROWMAJOR");
-  EIGEN_UNUSED_VARIABLE(stride);
-  EIGEN_UNUSED_VARIABLE(offset);
+  HYDRA_EIGEN_ASM_COMMENT("EIGEN PRODUCT PACK RHS ROWMAJOR");
+  HYDRA_EIGEN_UNUSED_VARIABLE(stride);
+  HYDRA_EIGEN_UNUSED_VARIABLE(offset);
   eigen_assert(((!PanelMode) && stride==0 && offset==0) || (PanelMode && stride>=depth && offset<=stride));
   conj_if<NumTraits<Scalar>::IsComplex && Conjugate> cj;
   Index packet_cols8 = nr>=8 ? (cols/8) * 8 : 0;
@@ -2146,4 +2146,4 @@ inline void setCpuCacheSizes(std::ptrdiff_t l1, std::ptrdiff_t l2, std::ptrdiff_
 
 } /* end namespace Eigen */  HYDRA_EXTERNAL_NAMESPACE_END
 
-#endif // EIGEN_GENERAL_BLOCK_PANEL_H
+#endif // HYDRA_EIGEN_GENERAL_BLOCK_PANEL_H

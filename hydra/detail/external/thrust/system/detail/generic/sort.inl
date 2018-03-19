@@ -40,7 +40,7 @@ namespace generic
 
 template<typename DerivedPolicy,
          typename RandomAccessIterator>
-__host__ __device__
+__hydra_host__ __hydra_device__
   void sort(thrust::execution_policy<DerivedPolicy> &exec,
             RandomAccessIterator first,
             RandomAccessIterator last)
@@ -53,7 +53,7 @@ __host__ __device__
 template<typename DerivedPolicy,
          typename RandomAccessIterator,
          typename StrictWeakOrdering>
-__host__ __device__
+__hydra_host__ __hydra_device__
   void sort(thrust::execution_policy<DerivedPolicy> &exec,
             RandomAccessIterator first,
             RandomAccessIterator last,
@@ -67,7 +67,7 @@ __host__ __device__
 template<typename DerivedPolicy,
          typename RandomAccessIterator1,
          typename RandomAccessIterator2>
-__host__ __device__
+__hydra_host__ __hydra_device__
   void sort_by_key(thrust::execution_policy<DerivedPolicy> &exec,
                    RandomAccessIterator1 keys_first,
                    RandomAccessIterator1 keys_last,
@@ -82,7 +82,7 @@ template<typename DerivedPolicy,
          typename RandomAccessIterator1,
          typename RandomAccessIterator2,
          typename StrictWeakOrdering>
-__host__ __device__
+__hydra_host__ __hydra_device__
   void sort_by_key(thrust::execution_policy<DerivedPolicy> &exec,
                    RandomAccessIterator1 keys_first,
                    RandomAccessIterator1 keys_last,
@@ -96,7 +96,7 @@ __host__ __device__
 
 template<typename DerivedPolicy,
          typename RandomAccessIterator>
-__host__ __device__
+__hydra_host__ __hydra_device__
   void stable_sort(thrust::execution_policy<DerivedPolicy> &exec,
                    RandomAccessIterator first,
                    RandomAccessIterator last)
@@ -109,7 +109,7 @@ __host__ __device__
 template<typename DerivedPolicy,
          typename RandomAccessIterator1,
          typename RandomAccessIterator2>
-__host__ __device__
+__hydra_host__ __hydra_device__
   void stable_sort_by_key(thrust::execution_policy<DerivedPolicy> &exec,
                           RandomAccessIterator1 keys_first,
                           RandomAccessIterator1 keys_last,
@@ -121,7 +121,7 @@ __host__ __device__
 
 
 template<typename DerivedPolicy, typename ForwardIterator>
-__host__ __device__
+__hydra_host__ __hydra_device__
   bool is_sorted(thrust::execution_policy<DerivedPolicy> &exec,
                  ForwardIterator first,
                  ForwardIterator last)
@@ -133,7 +133,7 @@ __host__ __device__
 template<typename DerivedPolicy,
          typename ForwardIterator,
          typename Compare>
-__host__ __device__
+__hydra_host__ __hydra_device__
   bool is_sorted(thrust::execution_policy<DerivedPolicy> &exec,
                  ForwardIterator first,
                  ForwardIterator last,
@@ -144,7 +144,7 @@ __host__ __device__
 
 
 template<typename DerivedPolicy, typename ForwardIterator>
-__host__ __device__
+__hydra_host__ __hydra_device__
   ForwardIterator is_sorted_until(thrust::execution_policy<DerivedPolicy> &exec,
                                   ForwardIterator first,
                                   ForwardIterator last)
@@ -158,7 +158,7 @@ __host__ __device__
 template<typename DerivedPolicy,
          typename ForwardIterator,
          typename Compare>
-__host__ __device__
+__hydra_host__ __hydra_device__
   ForwardIterator is_sorted_until(thrust::execution_policy<DerivedPolicy> &exec,
                                   ForwardIterator first,
                                   ForwardIterator last,
@@ -182,7 +182,7 @@ __host__ __device__
 template<typename DerivedPolicy,
          typename RandomAccessIterator,
          typename StrictWeakOrdering>
-__host__ __device__
+__hydra_host__ __hydra_device__
   void stable_sort(thrust::execution_policy<DerivedPolicy> & /*exec*/,
                    RandomAccessIterator /*first*/,
                    RandomAccessIterator /*last*/,
@@ -197,7 +197,7 @@ template<typename DerivedPolicy,
          typename RandomAccessIterator1,
          typename RandomAccessIterator2,
          typename StrictWeakOrdering>
-__host__ __device__
+__hydra_host__ __hydra_device__
   void stable_sort_by_key(thrust::execution_policy<DerivedPolicy> &/*exec*/,
                           RandomAccessIterator1 /*keys_first*/,
                           RandomAccessIterator1 /*keys_last*/,

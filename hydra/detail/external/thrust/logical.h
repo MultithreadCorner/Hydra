@@ -73,7 +73,7 @@ HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
  *  \see transform_reduce
  */
 template<typename DerivedPolicy, typename InputIterator, typename Predicate>
-__host__ __device__
+__hydra_host__ __hydra_device__
 bool all_of(const thrust::detail::execution_policy_base<DerivedPolicy> &exec, InputIterator first, InputIterator last, Predicate pred);
 
 
@@ -150,7 +150,7 @@ bool all_of(InputIterator first, InputIterator last, Predicate pred);
  *  \see transform_reduce
  */
 template<typename DerivedPolicy, typename InputIterator, typename Predicate>
-__host__ __device__
+__hydra_host__ __hydra_device__
 bool any_of(const thrust::detail::execution_policy_base<DerivedPolicy> &exec, InputIterator first, InputIterator last, Predicate pred);
    
 
@@ -228,7 +228,7 @@ bool any_of(InputIterator first, InputIterator last, Predicate pred);
  *  \see transform_reduce
  */
 template<typename DerivedPolicy, typename InputIterator, typename Predicate>
-__host__ __device__
+__hydra_host__ __hydra_device__
 bool none_of(const thrust::detail::execution_policy_base<DerivedPolicy> &exec, InputIterator first, InputIterator last, Predicate pred);
 
 

@@ -60,7 +60,7 @@ template<template<typename> class UnaryOperator>
   };
 
   template<typename Env>
-  __host__ __device__
+  __hydra_host__ __hydra_device__
   typename result<Env>::type eval(const Env &e) const
   {
     typename operator_type<Env>::type op;
@@ -101,7 +101,7 @@ template<template<typename> class BinaryOperator>
   };
 
   template<typename Env>
-  __host__ __device__
+  __hydra_host__ __hydra_device__
   typename result<Env>::type eval(const Env &e) const
   {
     typename operator_type<Env>::type op;

@@ -29,14 +29,14 @@ namespace detail
 {
 
 
-inline __host__ __device__
+inline __hydra_host__ __hydra_device__
 void synchronize(const char *message = "");
 
-inline __host__ __device__
+inline __hydra_host__ __hydra_device__
 void synchronize(cudaStream_t stream, const char *message = "");
 
 
-inline __host__ __device__
+inline __hydra_host__ __hydra_device__
 void synchronize_if_enabled(const char *message = "");
 
 

@@ -8,8 +8,8 @@
 // Public License v. 2.0. If a copy of the MPL was not distributed
 // with this file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
-#ifndef EIGEN_FORWARDDECLARATIONS_H
-#define EIGEN_FORWARDDECLARATIONS_H
+#ifndef HYDRA_EIGEN_FORWARDDECLARATIONS_H
+#define HYDRA_EIGEN_FORWARDDECLARATIONS_H
 
 HYDRA_EXTERNAL_NAMESPACE_BEGIN namespace Eigen {
 namespace internal {
@@ -55,19 +55,19 @@ class DenseCoeffsBase;
 
 template<typename _Scalar, int _Rows, int _Cols,
          int _Options = AutoAlign |
-#if EIGEN_GNUC_AT(3,4)
+#if HYDRA_EIGEN_GNUC_AT(3,4)
     // workaround a bug in at least gcc 3.4.6
     // the innermost ?: ternary operator is misparsed. We write it slightly
     // differently and this makes gcc 3.4.6 happy, but it's ugly.
-    // The error would only show up with EIGEN_DEFAULT_TO_ROW_MAJOR is defined
-    // (when EIGEN_DEFAULT_MATRIX_STORAGE_ORDER_OPTION is RowMajor)
+    // The error would only show up with HYDRA_EIGEN_DEFAULT_TO_ROW_MAJOR is defined
+    // (when HYDRA_EIGEN_DEFAULT_MATRIX_STORAGE_ORDER_OPTION is RowMajor)
                           ( (_Rows==1 && _Cols!=1) ? HYDRA_EXTERNAL_NS::Eigen::RowMajor
-                          : !(_Cols==1 && _Rows!=1) ?  EIGEN_DEFAULT_MATRIX_STORAGE_ORDER_OPTION
+                          : !(_Cols==1 && _Rows!=1) ?  HYDRA_EIGEN_DEFAULT_MATRIX_STORAGE_ORDER_OPTION
                           : HYDRA_EXTERNAL_NS::Eigen::ColMajor ),
 #else
                           ( (_Rows==1 && _Cols!=1) ? HYDRA_EXTERNAL_NS::Eigen::RowMajor
                           : (_Cols==1 && _Rows!=1) ? HYDRA_EXTERNAL_NS::Eigen::ColMajor
-                          : EIGEN_DEFAULT_MATRIX_STORAGE_ORDER_OPTION ),
+                          : HYDRA_EIGEN_DEFAULT_MATRIX_STORAGE_ORDER_OPTION ),
 #endif
          int _MaxRows = _Rows,
          int _MaxCols = _Cols
@@ -225,19 +225,19 @@ struct IOFormat;
 // Array module
 template<typename _Scalar, int _Rows, int _Cols,
          int _Options = AutoAlign |
-#if EIGEN_GNUC_AT(3,4)
+#if HYDRA_EIGEN_GNUC_AT(3,4)
     // workaround a bug in at least gcc 3.4.6
     // the innermost ?: ternary operator is misparsed. We write it slightly
     // differently and this makes gcc 3.4.6 happy, but it's ugly.
-    // The error would only show up with EIGEN_DEFAULT_TO_ROW_MAJOR is defined
-    // (when EIGEN_DEFAULT_MATRIX_STORAGE_ORDER_OPTION is RowMajor)
+    // The error would only show up with HYDRA_EIGEN_DEFAULT_TO_ROW_MAJOR is defined
+    // (when HYDRA_EIGEN_DEFAULT_MATRIX_STORAGE_ORDER_OPTION is RowMajor)
                           ( (_Rows==1 && _Cols!=1) ? HYDRA_EXTERNAL_NS::Eigen::RowMajor
-                          : !(_Cols==1 && _Rows!=1) ?  EIGEN_DEFAULT_MATRIX_STORAGE_ORDER_OPTION
+                          : !(_Cols==1 && _Rows!=1) ?  HYDRA_EIGEN_DEFAULT_MATRIX_STORAGE_ORDER_OPTION
                           : HYDRA_EXTERNAL_NS::Eigen::ColMajor ),
 #else
                           ( (_Rows==1 && _Cols!=1) ? HYDRA_EXTERNAL_NS::Eigen::RowMajor
                           : (_Cols==1 && _Rows!=1) ? HYDRA_EXTERNAL_NS::Eigen::ColMajor
-                          : EIGEN_DEFAULT_MATRIX_STORAGE_ORDER_OPTION ),
+                          : HYDRA_EIGEN_DEFAULT_MATRIX_STORAGE_ORDER_OPTION ),
 #endif
          int _MaxRows = _Rows, int _MaxCols = _Cols> class Array;
 template<typename ConditionMatrixType, typename ThenMatrixType, typename ElseMatrixType> class Select;
@@ -299,4 +299,4 @@ struct stem_function
 
 } /* end namespace Eigen */  HYDRA_EXTERNAL_NAMESPACE_END
 
-#endif // EIGEN_FORWARDDECLARATIONS_H
+#endif // HYDRA_EIGEN_FORWARDDECLARATIONS_H

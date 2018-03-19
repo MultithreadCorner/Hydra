@@ -31,7 +31,7 @@ namespace detail
 {
 
 
-__host__ __device__
+__hydra_host__ __hydra_device__
 inline device_properties_t device_properties_uncached(int device_id)
 {
   device_properties_t prop = {0,{0,0,0},0,0,0,0,0,0,0};
@@ -91,7 +91,7 @@ inline device_properties_t device_properties_cached(int device_id)
 }
 
 
-__host__ __device__
+__hydra_host__ __hydra_device__
 inline device_properties_t device_properties(int device_id)
 {
 #ifndef __CUDA_ARCH__
@@ -102,7 +102,7 @@ inline device_properties_t device_properties(int device_id)
 }
 
 
-__host__ __device__
+__hydra_host__ __hydra_device__
 inline int current_device()
 {
   int result = -1;
@@ -120,7 +120,7 @@ inline int current_device()
 }
 
 
-__host__ __device__
+__hydra_host__ __hydra_device__
 inline device_properties_t device_properties()
 {
   return device_properties(current_device());
@@ -128,7 +128,7 @@ inline device_properties_t device_properties()
 
 
 template <typename KernelFunction>
-__host__ __device__
+__hydra_host__ __hydra_device__
 inline function_attributes_t function_attributes(KernelFunction kernel)
 {
 #if __BULK_HAS_CUDART__
@@ -156,14 +156,14 @@ inline function_attributes_t function_attributes(KernelFunction kernel)
 #endif // __CUDACC__
 }
 
-__host__ __device__
+__hydra_host__ __hydra_device__
 inline size_t compute_capability(const device_properties_t &properties)
 {
   return 10 * properties.major + properties.minor;
 }
 
 
-__host__ __device__
+__hydra_host__ __hydra_device__
 inline size_t compute_capability()
 {
   return compute_capability(device_properties());

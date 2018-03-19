@@ -33,7 +33,7 @@ HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
 
 __thrust_exec_check_disable__
 template<typename DerivedPolicy, typename InputIterator>
-__host__ __device__
+__hydra_host__ __hydra_device__
   typename thrust::iterator_traits<InputIterator>::value_type
     reduce(const thrust::detail::execution_policy_base<DerivedPolicy> &exec, InputIterator first, InputIterator last)
 {
@@ -44,7 +44,7 @@ __host__ __device__
 
 __thrust_exec_check_disable__
 template<typename DerivedPolicy, typename InputIterator, typename T>
-__host__ __device__
+__hydra_host__ __hydra_device__
   T reduce(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
            InputIterator first,
            InputIterator last,
@@ -60,7 +60,7 @@ template<typename DerivedPolicy,
          typename InputIterator,
          typename T,
          typename BinaryFunction>
-__host__ __device__
+__hydra_host__ __hydra_device__
   T reduce(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
            InputIterator first,
            InputIterator last,
@@ -78,7 +78,7 @@ template<typename DerivedPolicy,
          typename InputIterator2,
          typename OutputIterator1,
          typename OutputIterator2>
-__host__ __device__
+__hydra_host__ __hydra_device__
   thrust::pair<OutputIterator1,OutputIterator2>
   reduce_by_key(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                 InputIterator1 keys_first, 
@@ -99,7 +99,7 @@ template<typename DerivedPolicy,
          typename OutputIterator1,
          typename OutputIterator2,
          typename BinaryPredicate>
-__host__ __device__
+__hydra_host__ __hydra_device__
   thrust::pair<OutputIterator1,OutputIterator2>
   reduce_by_key(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                 InputIterator1 keys_first, 
@@ -122,7 +122,7 @@ template<typename DerivedPolicy,
          typename OutputIterator2,
          typename BinaryPredicate,
          typename BinaryFunction>
-__host__ __device__
+__hydra_host__ __hydra_device__
   thrust::pair<OutputIterator1,OutputIterator2>
   reduce_by_key(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                 InputIterator1 keys_first, 

@@ -107,7 +107,7 @@ template<typename RealType = double>
      *  \param a The smallest floating point number to potentially produce. Defaults to \c 0.0.
      *  \param b The smallest number larger than the largest floating point number to potentially produce. Defaults to \c 1.0.
      */
-    __host__ __device__
+    __hydra_host__ __hydra_device__
     explicit uniform_real_distribution(RealType a = 0.0, RealType b = 1.0);
 
     /*! This constructor creates a new \p uniform_real_distribution from a \p param_type object
@@ -115,12 +115,12 @@ template<typename RealType = double>
      *  
      *  \param parm A \p param_type object encapsulating the parameters (i.e., the range) of the distribution.
      */
-    __host__ __device__
+    __hydra_host__ __hydra_device__
     explicit uniform_real_distribution(const param_type &parm);
 
     /*! This does nothing.  It is included to conform to the requirements of the RandomDistribution concept.
      */
-    __host__ __device__
+    __hydra_host__ __hydra_device__
     void reset(void);
 
     // generating functions
@@ -131,7 +131,7 @@ template<typename RealType = double>
      *  \param urng The \p UniformRandomNumberGenerator to use as a source of randomness.
      */
     template<typename UniformRandomNumberGenerator>
-    __host__ __device__
+    __hydra_host__ __hydra_device__
     result_type operator()(UniformRandomNumberGenerator &urng);
 
     /*! This method produces a new uniform random integer as if by creating a new \p uniform_real_distribution 
@@ -143,7 +143,7 @@ template<typename RealType = double>
      *              to draw from.
      */
     template<typename UniformRandomNumberGenerator>
-    __host__ __device__
+    __hydra_host__ __hydra_device__
     result_type operator()(UniformRandomNumberGenerator &urng, const param_type &parm);
 
     // property functions
@@ -153,7 +153,7 @@ template<typename RealType = double>
      *
      *  \return The lower bound of this \p uniform_real_distribution's half-open interval.
      */
-    __host__ __device__
+    __hydra_host__ __hydra_device__
     result_type a(void) const;
 
     /*! This method returns the value of the parameter with which this \p uniform_real_distribution
@@ -161,7 +161,7 @@ template<typename RealType = double>
      *
      *  \return The upper bound of this \p uniform_real_distribution's half-open interval.
      */
-    __host__ __device__
+    __hydra_host__ __hydra_device__
     result_type b(void) const;
 
     /*! This method returns a \p param_type object encapsulating the parameters with which this
@@ -169,7 +169,7 @@ template<typename RealType = double>
      *
      *  \return A \p param_type object enapsulating the half-open interval of this \p uniform_real_distribution.
      */
-    __host__ __device__
+    __hydra_host__ __hydra_device__
     param_type param(void) const;
 
     /*! This method changes the parameters of this \p uniform_real_distribution using the values encapsulated
@@ -177,21 +177,21 @@ template<typename RealType = double>
      *
      *  \param parm A \p param_type object encapsulating the new half-open interval of this \p uniform_real_distribution.
      */
-    __host__ __device__
+    __hydra_host__ __hydra_device__
     void param(const param_type &parm);
 
     /*! This method returns the smallest floating point number this \p uniform_real_distribution can potentially produce.
      *
      *  \return The lower bound of this \p uniform_real_distribution's half-open interval.
      */
-    __host__ __device__
+    __hydra_host__ __hydra_device__
     result_type min HYDRA_THRUST_PREVENT_MACRO_SUBSTITUTION (void) const;
 
     /*! This method returns the smallest number larger than largest floating point number this \p uniform_real_distribution can potentially produce.
      *
      *  \return The upper bound of this \p uniform_real_distribution's half-open interval.
      */
-    __host__ __device__
+    __hydra_host__ __hydra_device__
     result_type max HYDRA_THRUST_PREVENT_MACRO_SUBSTITUTION (void) const;
 
     /*! \cond
@@ -201,7 +201,7 @@ template<typename RealType = double>
 
     friend struct thrust::random::detail::random_core_access;
 
-    __host__ __device__
+    __hydra_host__ __hydra_device__
     bool equal(const uniform_real_distribution &rhs) const;
 
     template<typename CharT, typename Traits>
@@ -220,7 +220,7 @@ template<typename RealType = double>
  *  \return \c true if \p lhs is equal to \p rhs; \c false, otherwise.
  */
 template<typename RealType>
-__host__ __device__
+__hydra_host__ __hydra_device__
 bool operator==(const uniform_real_distribution<RealType> &lhs,
                 const uniform_real_distribution<RealType> &rhs);
 
@@ -231,7 +231,7 @@ bool operator==(const uniform_real_distribution<RealType> &lhs,
  *  \return \c true if \p lhs is not equal to \p rhs; \c false, otherwise.
  */
 template<typename RealType>
-__host__ __device__
+__hydra_host__ __hydra_device__
 bool operator!=(const uniform_real_distribution<RealType> &lhs,
                 const uniform_real_distribution<RealType> &rhs);
 

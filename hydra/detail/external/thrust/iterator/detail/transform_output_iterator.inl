@@ -32,13 +32,13 @@ template <typename UnaryFunction, typename OutputIterator>
   class transform_output_iterator_proxy
 {
   public:
-    __host__ __device__
+    __hydra_host__ __hydra_device__
     transform_output_iterator_proxy(const OutputIterator& out, UnaryFunction fun) : out(out), fun(fun)
     {
     }
 
     template <typename T>
-    __host__ __device__
+    __hydra_host__ __hydra_device__
     transform_output_iterator_proxy operator=(const T& x)
     {
       *out = fun(x);

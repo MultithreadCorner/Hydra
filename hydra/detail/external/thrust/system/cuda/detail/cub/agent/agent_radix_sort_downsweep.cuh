@@ -233,7 +233,7 @@ struct AgentRadixSortDownsweep
      * Scatter ranked keys through shared memory, then to device-accessible memory
      */
     template <bool FULL_TILE>
-    __device__ __forceinline__ void ScatterKeys(
+    __hydra_device__ __forceinline__ void ScatterKeys(
         UnsignedBits    (&twiddled_keys)[ITEMS_PER_THREAD],
         OffsetT         (&relative_bin_offsets)[ITEMS_PER_THREAD],
         int             (&ranks)[ITEMS_PER_THREAD],
@@ -270,7 +270,7 @@ struct AgentRadixSortDownsweep
      * Scatter ranked values through shared memory, then to device-accessible memory
      */
     template <bool FULL_TILE>
-    __device__ __forceinline__ void ScatterValues(
+    __hydra_device__ __forceinline__ void ScatterValues(
         ValueT      (&values)[ITEMS_PER_THREAD],
         OffsetT     (&relative_bin_offsets)[ITEMS_PER_THREAD],
         int         (&ranks)[ITEMS_PER_THREAD],
@@ -305,7 +305,7 @@ struct AgentRadixSortDownsweep
      * Load a tile of keys (specialized for full tile, any ranking algorithm)
      */
     template <int _RANK_ALGORITHM>
-    __device__ __forceinline__ void LoadKeys(
+    __hydra_device__ __forceinline__ void LoadKeys(
         UnsignedBits                (&keys)[ITEMS_PER_THREAD],
         OffsetT                     block_offset,
         OffsetT                     valid_items,
@@ -324,7 +324,7 @@ struct AgentRadixSortDownsweep
      * Load a tile of keys (specialized for partial tile, any ranking algorithm)
      */
     template <int _RANK_ALGORITHM>
-    __device__ __forceinline__ void LoadKeys(
+    __hydra_device__ __forceinline__ void LoadKeys(
         UnsignedBits                (&keys)[ITEMS_PER_THREAD],
         OffsetT                     block_offset,
         OffsetT                     valid_items,
@@ -342,7 +342,7 @@ struct AgentRadixSortDownsweep
     /**
      * Load a tile of keys (specialized for full tile, match ranking algorithm)
      */
-    __device__ __forceinline__ void LoadKeys(
+    __hydra_device__ __forceinline__ void LoadKeys(
         UnsignedBits                (&keys)[ITEMS_PER_THREAD],
         OffsetT                     block_offset,
         OffsetT                     valid_items,
@@ -357,7 +357,7 @@ struct AgentRadixSortDownsweep
     /**
      * Load a tile of keys (specialized for partial tile, match ranking algorithm)
      */
-    __device__ __forceinline__ void LoadKeys(
+    __hydra_device__ __forceinline__ void LoadKeys(
         UnsignedBits                (&keys)[ITEMS_PER_THREAD],
         OffsetT                     block_offset,
         OffsetT                     valid_items,
@@ -373,7 +373,7 @@ struct AgentRadixSortDownsweep
      * Load a tile of values (specialized for full tile, any ranking algorithm)
      */
     template <int _RANK_ALGORITHM>
-    __device__ __forceinline__ void LoadValues(
+    __hydra_device__ __forceinline__ void LoadValues(
         ValueT                      (&values)[ITEMS_PER_THREAD],
         OffsetT                     block_offset,
         OffsetT                     valid_items,
@@ -391,7 +391,7 @@ struct AgentRadixSortDownsweep
      * Load a tile of values (specialized for partial tile, any ranking algorithm)
      */
     template <int _RANK_ALGORITHM>
-    __device__ __forceinline__ void LoadValues(
+    __hydra_device__ __forceinline__ void LoadValues(
         ValueT                      (&values)[ITEMS_PER_THREAD],
         OffsetT                     block_offset,
         OffsetT                     valid_items,
@@ -408,7 +408,7 @@ struct AgentRadixSortDownsweep
     /**
      * Load a tile of items (specialized for full tile, match ranking algorithm)
      */
-    __device__ __forceinline__ void LoadValues(
+    __hydra_device__ __forceinline__ void LoadValues(
         ValueT                      (&values)[ITEMS_PER_THREAD],
         OffsetT                     block_offset,
         volatile OffsetT                     valid_items,
@@ -422,7 +422,7 @@ struct AgentRadixSortDownsweep
     /**
      * Load a tile of items (specialized for partial tile, match ranking algorithm)
      */
-    __device__ __forceinline__ void LoadValues(
+    __hydra_device__ __forceinline__ void LoadValues(
         ValueT                      (&values)[ITEMS_PER_THREAD],
         OffsetT                     block_offset,
         volatile OffsetT                     valid_items,
@@ -437,7 +437,7 @@ struct AgentRadixSortDownsweep
      * Truck along associated values
      */
     template <bool FULL_TILE>
-    __device__ __forceinline__ void GatherScatterValues(
+    __hydra_device__ __forceinline__ void GatherScatterValues(
         OffsetT         (&relative_bin_offsets)[ITEMS_PER_THREAD],
         int             (&ranks)[ITEMS_PER_THREAD],
         OffsetT         block_offset,
@@ -467,7 +467,7 @@ struct AgentRadixSortDownsweep
      * Truck along associated values (specialized for key-only sorting)
      */
     template <bool FULL_TILE>
-    __device__ __forceinline__ void GatherScatterValues(
+    __hydra_device__ __forceinline__ void GatherScatterValues(
         OffsetT         (&/*relative_bin_offsets*/)[ITEMS_PER_THREAD],
         int             (&/*ranks*/)[ITEMS_PER_THREAD],
         OffsetT         /*block_offset*/,
@@ -480,7 +480,7 @@ struct AgentRadixSortDownsweep
      * Process tile
      */
     template <bool FULL_TILE>
-    __device__ __forceinline__ void ProcessTile(
+    __hydra_device__ __forceinline__ void ProcessTile(
         OffsetT block_offset,
         const OffsetT &valid_items = TILE_ITEMS)
     {
@@ -593,7 +593,7 @@ struct AgentRadixSortDownsweep
     template <
         typename InputIteratorT,
         typename T>
-    __device__ __forceinline__ void Copy(
+    __hydra_device__ __forceinline__ void Copy(
         InputIteratorT  d_in,
         T               *d_out,
         OffsetT         block_offset,
@@ -629,7 +629,7 @@ struct AgentRadixSortDownsweep
      * Copy tiles within the range of input (specialized for NullType)
      */
     template <typename InputIteratorT>
-    __device__ __forceinline__ void Copy(
+    __hydra_device__ __forceinline__ void Copy(
         InputIteratorT  /*d_in*/,
         NullType        * /*d_out*/,
         OffsetT         /*block_offset*/,
@@ -644,7 +644,7 @@ struct AgentRadixSortDownsweep
     /**
      * Constructor
      */
-    __device__ __forceinline__ AgentRadixSortDownsweep(
+    __hydra_device__ __forceinline__ AgentRadixSortDownsweep(
         TempStorage     &temp_storage,
         OffsetT         (&bin_offset)[BINS_TRACKED_PER_THREAD],
         OffsetT         num_items,
@@ -684,7 +684,7 @@ struct AgentRadixSortDownsweep
     /**
      * Constructor
      */
-    __device__ __forceinline__ AgentRadixSortDownsweep(
+    __hydra_device__ __forceinline__ AgentRadixSortDownsweep(
         TempStorage     &temp_storage,
         OffsetT         num_items,
         OffsetT         *d_spine,
@@ -731,7 +731,7 @@ struct AgentRadixSortDownsweep
     /**
      * Distribute keys from a segment of input tiles.
      */
-    __device__ __forceinline__ void ProcessRegion(
+    __hydra_device__ __forceinline__ void ProcessRegion(
         OffsetT   block_offset,
         OffsetT   block_end)
     {

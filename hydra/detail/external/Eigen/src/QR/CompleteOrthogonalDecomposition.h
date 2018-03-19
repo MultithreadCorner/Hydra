@@ -7,8 +7,8 @@
 // Public License v. 2.0. If a copy of the MPL was not distributed
 // with this file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
-#ifndef EIGEN_COMPLETEORTHOGONALDECOMPOSITION_H
-#define EIGEN_COMPLETEORTHOGONALDECOMPOSITION_H
+#ifndef HYDRA_EIGEN_COMPLETEORTHOGONALDECOMPOSITION_H
+#define HYDRA_EIGEN_COMPLETEORTHOGONALDECOMPOSITION_H
 
 HYDRA_EXTERNAL_NAMESPACE_BEGIN namespace Eigen {
 
@@ -365,14 +365,14 @@ class CompleteOrthogonalDecomposition {
     return Success;
   }
 
-#ifndef EIGEN_PARSED_BY_DOXYGEN
+#ifndef HYDRA_EIGEN_PARSED_BY_DOXYGEN
   template <typename RhsType, typename DstType>
-  EIGEN_DEVICE_FUNC void _solve_impl(const RhsType& rhs, DstType& dst) const;
+  HYDRA_EIGEN_DEVICE_FUNC void _solve_impl(const RhsType& rhs, DstType& dst) const;
 #endif
 
  protected:
   static void check_template_parameters() {
-    EIGEN_STATIC_ASSERT_NON_INTEGER(Scalar);
+    HYDRA_EIGEN_STATIC_ASSERT_NON_INTEGER(Scalar);
   }
 
   void computeInPlace();
@@ -486,7 +486,7 @@ void CompleteOrthogonalDecomposition<MatrixType>::applyZAdjointOnTheLeftInPlace(
   }
 }
 
-#ifndef EIGEN_PARSED_BY_DOXYGEN
+#ifndef HYDRA_EIGEN_PARSED_BY_DOXYGEN
 template <typename _MatrixType>
 template <typename RhsType, typename DstType>
 void CompleteOrthogonalDecomposition<_MatrixType>::_solve_impl(
@@ -559,4 +559,4 @@ MatrixBase<Derived>::completeOrthogonalDecomposition() const {
 
 }  /* end namespace Eigen */  HYDRA_EXTERNAL_NAMESPACE_END
 
-#endif  // EIGEN_COMPLETEORTHOGONALDECOMPOSITION_H
+#endif  // HYDRA_EIGEN_COMPLETEORTHOGONALDECOMPOSITION_H

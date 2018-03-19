@@ -29,7 +29,10 @@
 #ifndef BINNED_EXTENDED_LOGLL_FIT_INL_
 #define BINNED_EXTENDED_LOGLL_FIT_INL_
 
-
+/**
+ * \example binned_extended_logLL_fit.inl
+ *
+ */
 
 #include <iostream>
 #include <assert.h>

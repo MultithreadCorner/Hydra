@@ -92,13 +92,13 @@ template<typename Allocator>
 {
   Allocator &a;
 
-  __host__ __device__
+  __hydra_host__ __hydra_device__
   destroy_via_allocator(Allocator &a)
     : a(a)
   {}
 
   template<typename T>
-  inline __host__ __device__
+  inline __hydra_host__ __hydra_device__
   void operator()(T &x)
   {
     allocator_traits<Allocator>::destroy(a, &x);
@@ -108,7 +108,7 @@ template<typename Allocator>
 
 // destroy_range case 1: destroy via allocator
 template<typename Allocator, typename Pointer, typename Size>
-__host__ __device__
+__hydra_host__ __hydra_device__
   typename enable_if_destroy_range_case1<Allocator,Pointer>::type
     destroy_range(Allocator &a, Pointer p, Size n)
 {
@@ -121,7 +121,7 @@ struct gozer
 {
   __thrust_exec_check_disable__
   template<typename T>
-  inline __host__ __device__
+  inline __hydra_host__ __hydra_device__
   void operator()(T &x)
   {
     x.~T();
@@ -130,7 +130,7 @@ struct gozer
 
 // destroy_range case 2: destroy without the allocator
 template<typename Allocator, typename Pointer, typename Size>
-__host__ __device__
+__hydra_host__ __hydra_device__
   typename enable_if_destroy_range_case2<Allocator,Pointer>::type
     destroy_range(Allocator &a, Pointer p, Size n)
 {
@@ -140,7 +140,7 @@ __host__ __device__
 
 // destroy_range case 3: no-op
 template<typename Allocator, typename Pointer, typename Size>
-__host__ __device__
+__hydra_host__ __hydra_device__
   typename enable_if_destroy_range_case3<Allocator,Pointer>::type
     destroy_range(Allocator &, Pointer, Size)
 {
@@ -152,7 +152,7 @@ __host__ __device__
 
 
 template<typename Allocator, typename Pointer, typename Size>
-__host__ __device__
+__hydra_host__ __hydra_device__
   void destroy_range(Allocator &a, Pointer p, Size n)
 {
   return allocator_traits_detail::destroy_range(a,p,n);

@@ -58,12 +58,12 @@ struct CacheEvaluator {
 	   fFunctors(hydra::make_tuple(functors...))
 	 { }
 
-	 __host__ __device__
+	 __hydra_host__ __hydra_device__
 	 CacheEvaluator(CacheEvaluator<Functors...> const& other):
 	   fFunctors(other->fFunctors)
 	 { }
 
-	 __host__ __device__
+	 __hydra_host__ __hydra_device__
 	 CacheEvaluator<Functors...>&
 	 operator=(CacheEvaluator<Functors...> const& other)
 	 {
@@ -73,7 +73,7 @@ struct CacheEvaluator {
 	 }
 
 	template<typename T>
-	__host__ __device__
+	__hydra_host__ __hydra_device__
 	return_type operator()(T& value){
 
 		return detail::invoke(value, fFunctors);

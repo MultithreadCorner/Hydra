@@ -29,6 +29,10 @@
 #ifndef MULTIARRAY_CONTAINER_INL_
 #define MULTIARRAY_CONTAINER_INL_
 
+/**
+ * \example multiarray_container.inl
+ *
+ */
 
 
 #include <iostream>
@@ -76,14 +80,14 @@ int main(int argv, char** argc)
 	}
 
 
-	auto caster = []__host__ __device__ ( hydra::tuple<double,double, double,double, double, double>& entry)
+	auto caster = [] __hydra_dual__ ( hydra::tuple<double,double, double,double, double, double>& entry)
 	{
 		return hydra::make_tuple(
 				hydra::complex<double>( hydra::get<0>(entry),hydra::get<1>(entry) ),
 				hydra::Vector4R( hydra::get<2>(entry), hydra::get<3>(entry) , hydra::get<4>(entry),hydra::get<5>(entry)));
 	};
 
-	auto reverse_caster = [] __host__ __device__ ( hydra::tuple<hydra::complex<int>, hydra::Vector4R> const& entry)
+	auto reverse_caster = [] __hydra_dual__ ( hydra::tuple<hydra::complex<int>, hydra::Vector4R> const& entry)
 	{
 		hydra::complex<double> cvalue  = hydra::get<0>(entry);
 		hydra::Vector4R     vector4 = hydra::get<1>(entry);

@@ -102,7 +102,7 @@ public:
     /**
      * \brief Constructor.
      */
-    __host__ __device__ __forceinline__ GridEvenShare() :
+    __hydra_host__ __hydra_device__ __forceinline__ GridEvenShare() :
         total_tiles(0),
         big_shares(0),
         big_share_items(0),
@@ -119,7 +119,7 @@ public:
     /**
      * \brief Dispatch initializer. To be called prior prior to kernel launch.
      */
-    __host__ __device__ __forceinline__ void DispatchInit(
+    __hydra_host__ __hydra_device__ __forceinline__ void DispatchInit(
         OffsetT num_items,          ///< Total number of input items
         int     max_grid_size,      ///< Maximum grid size allowable (actual grid size may be less if not warranted by the the number of input items)
         int     tile_items)         ///< Number of data items per input tile
@@ -143,7 +143,7 @@ public:
      * consecutive sequence of input tiles.
      */
     template <int TILE_ITEMS>
-    __device__ __forceinline__ void BlockInit(
+    __hydra_device__ __forceinline__ void BlockInit(
         int block_id,
         Int2Type<GRID_MAPPING_RAKE> /*strategy_tag*/)
     {
@@ -170,7 +170,7 @@ public:
      * of input tiles.
      */
     template <int TILE_ITEMS>
-    __device__ __forceinline__ void BlockInit(
+    __hydra_device__ __forceinline__ void BlockInit(
         int block_id,
         Int2Type<GRID_MAPPING_STRIP_MINE> /*strategy_tag*/)
     {
@@ -188,7 +188,7 @@ public:
     template <
         int TILE_ITEMS,
         GridMappingStrategy STRATEGY>
-    __device__ __forceinline__ void BlockInit()
+    __hydra_device__ __forceinline__ void BlockInit()
     {
         BlockInit<TILE_ITEMS>(blockIdx.x, Int2Type<STRATEGY>());
     }
@@ -200,7 +200,7 @@ public:
      * of input tiles.
      */
     template <int TILE_ITEMS>
-    __device__ __forceinline__ void BlockInit(
+    __hydra_device__ __forceinline__ void BlockInit(
         OffsetT block_offset,                       ///< [in] Threadblock begin offset (inclusive)
         OffsetT block_end)                          ///< [in] Threadblock end offset (exclusive)
     {

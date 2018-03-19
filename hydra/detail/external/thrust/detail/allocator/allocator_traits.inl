@@ -42,7 +42,7 @@ template<typename Alloc>
 };
 
 template<typename Alloc>
-__host__ __device__
+__hydra_host__ __hydra_device__
   typename enable_if<
     has_member_allocate_with_hint<Alloc>::value,
     typename allocator_traits<Alloc>::pointer
@@ -53,7 +53,7 @@ __host__ __device__
 }
 
 template<typename Alloc>
-__host__ __device__
+__hydra_host__ __hydra_device__
   typename disable_if<
     has_member_allocate_with_hint<Alloc>::value,
     typename allocator_traits<Alloc>::pointer
@@ -73,7 +73,7 @@ template<typename Alloc, typename T>
 
 __thrust_exec_check_disable__
 template<typename Alloc, typename T>
-  inline __host__ __device__
+  inline __hydra_host__ __hydra_device__
     typename enable_if<
       has_member_construct1<Alloc,T>::value
     >::type
@@ -83,7 +83,7 @@ template<typename Alloc, typename T>
 }
 
 template<typename Alloc, typename T>
-  inline __host__ __device__
+  inline __hydra_host__ __hydra_device__
     typename disable_if<
       has_member_construct1<Alloc,T>::value
     >::type
@@ -101,7 +101,7 @@ template<typename Alloc, typename T, typename Arg1>
 {};
 
 template<typename Alloc, typename T, typename Arg1>
-  inline __host__ __device__
+  inline __hydra_host__ __hydra_device__
     typename enable_if<
       has_member_construct2<Alloc,T,Arg1>::value
     >::type
@@ -111,7 +111,7 @@ template<typename Alloc, typename T, typename Arg1>
 }
 
 template<typename Alloc, typename T, typename Arg1>
-  inline __host__ __device__
+  inline __hydra_host__ __hydra_device__
     typename disable_if<
       has_member_construct2<Alloc,T,Arg1>::value
     >::type
@@ -129,7 +129,7 @@ template<typename Alloc, typename T>
 {};
 
 template<typename Alloc, typename T>
-  inline __host__ __device__
+  inline __hydra_host__ __hydra_device__
     typename enable_if<
       has_member_destroy<Alloc,T>::value
     >::type
@@ -139,7 +139,7 @@ template<typename Alloc, typename T>
 }
 
 template<typename Alloc, typename T>
-  inline __host__ __device__
+  inline __hydra_host__ __hydra_device__
     typename disable_if<
       has_member_destroy<Alloc,T>::value
     >::type
@@ -162,7 +162,7 @@ template<typename Alloc>
 };
 
 template<typename Alloc>
-__host__ __device__
+__hydra_host__ __hydra_device__
   typename enable_if<
     has_member_max_size<Alloc>::value,
     typename allocator_traits<Alloc>::size_type
@@ -173,7 +173,7 @@ __host__ __device__
 }
 
 template<typename Alloc>
-__host__ __device__
+__hydra_host__ __hydra_device__
   typename disable_if<
     has_member_max_size<Alloc>::value,
     typename allocator_traits<Alloc>::size_type
@@ -185,7 +185,7 @@ __host__ __device__
 }
 
 template<typename Alloc>
-__host__ __device__
+__hydra_host__ __hydra_device__
   typename enable_if<
     has_member_system<Alloc>::value,
     typename allocator_system<Alloc>::type &
@@ -197,7 +197,7 @@ __host__ __device__
 }
 
 template<typename Alloc>
-__host__ __device__
+__hydra_host__ __hydra_device__
   typename disable_if<
     has_member_system<Alloc>::value,
     typename allocator_system<Alloc>::type
@@ -214,7 +214,7 @@ __host__ __device__
 
 
 template<typename Alloc>
-__host__ __device__
+__hydra_host__ __hydra_device__
   typename allocator_traits<Alloc>::pointer
     allocator_traits<Alloc>
       ::allocate(Alloc &a, typename allocator_traits<Alloc>::size_type n)
@@ -222,7 +222,7 @@ __host__ __device__
   struct workaround_warnings
   {
     __thrust_exec_check_disable__
-    static __host__ __device__ 
+    static __hydra_host__ __hydra_device__ 
     typename allocator_traits<Alloc>::pointer
       allocate(Alloc &a, typename allocator_traits<Alloc>::size_type n)
     {
@@ -234,7 +234,7 @@ __host__ __device__
 }
 
 template<typename Alloc>
-__host__ __device__
+__hydra_host__ __hydra_device__
   typename allocator_traits<Alloc>::pointer
     allocator_traits<Alloc>
       ::allocate(Alloc &a, typename allocator_traits<Alloc>::size_type n, typename allocator_traits<Alloc>::const_void_pointer hint)
@@ -243,14 +243,14 @@ __host__ __device__
 }
 
 template<typename Alloc>
-__host__ __device__
+__hydra_host__ __hydra_device__
   void allocator_traits<Alloc>
     ::deallocate(Alloc &a, typename allocator_traits<Alloc>::pointer p, typename allocator_traits<Alloc>::size_type n)
 {
   struct workaround_warnings
   {
     __thrust_exec_check_disable__
-    static __host__ __device__
+    static __hydra_host__ __hydra_device__
     void deallocate(Alloc &a, typename allocator_traits<Alloc>::pointer p, typename allocator_traits<Alloc>::size_type n)
     {
       return a.deallocate(p,n);
@@ -262,7 +262,7 @@ __host__ __device__
 
 template<typename Alloc>
   template<typename T>
-  __host__ __device__
+  __hydra_host__ __hydra_device__
     void allocator_traits<Alloc>
       ::construct(allocator_type &a, T *p)
 {
@@ -271,7 +271,7 @@ template<typename Alloc>
 
 template<typename Alloc>
   template<typename T, typename Arg1>
-  __host__ __device__
+  __hydra_host__ __hydra_device__
     void allocator_traits<Alloc>
       ::construct(allocator_type &a, T *p, const Arg1 &arg1)
 {
@@ -280,7 +280,7 @@ template<typename Alloc>
 
 template<typename Alloc>
   template<typename T>
-  __host__ __device__
+  __hydra_host__ __hydra_device__
     void allocator_traits<Alloc>
       ::destroy(allocator_type &a, T *p)
 {
@@ -288,7 +288,7 @@ template<typename Alloc>
 }
 
 template<typename Alloc>
-__host__ __device__
+__hydra_host__ __hydra_device__
   typename allocator_traits<Alloc>::size_type
     allocator_traits<Alloc>
       ::max_size(const allocator_type &a)
@@ -297,7 +297,7 @@ __host__ __device__
 }
 
 template<typename Alloc>
-__host__ __device__
+__hydra_host__ __hydra_device__
   typename allocator_system<Alloc>::get_result_type
     allocator_system<Alloc>
       ::get(Alloc &a)

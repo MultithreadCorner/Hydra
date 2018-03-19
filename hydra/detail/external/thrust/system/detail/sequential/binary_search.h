@@ -41,7 +41,7 @@ template<typename DerivedPolicy,
          typename ForwardIterator,
          typename T,
          typename StrictWeakOrdering>
-__host__ __device__
+__hydra_host__ __hydra_device__
 ForwardIterator lower_bound(sequential::execution_policy<DerivedPolicy> &,
                             ForwardIterator first,
                             ForwardIterator last,
@@ -86,7 +86,7 @@ template<typename DerivedPolicy,
          typename ForwardIterator,
          typename T,
          typename StrictWeakOrdering>
-__host__ __device__
+__hydra_host__ __hydra_device__
 ForwardIterator upper_bound(sequential::execution_policy<DerivedPolicy> &,
                             ForwardIterator first,
                             ForwardIterator last,
@@ -131,7 +131,7 @@ template<typename DerivedPolicy,
          typename ForwardIterator,
          typename T,
          typename StrictWeakOrdering>
-__host__ __device__
+__hydra_host__ __hydra_device__
 bool binary_search(sequential::execution_policy<DerivedPolicy> &exec,
                    ForwardIterator first,
                    ForwardIterator last,

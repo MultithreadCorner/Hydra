@@ -7,8 +7,8 @@
 // Public License v. 2.0. If a copy of the MPL was not distributed
 // with this file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
-#ifndef EIGEN_SPARSE_DIAGONAL_PRODUCT_H
-#define EIGEN_SPARSE_DIAGONAL_PRODUCT_H
+#ifndef HYDRA_EIGEN_SPARSE_DIAGONAL_PRODUCT_H
+#define HYDRA_EIGEN_SPARSE_DIAGONAL_PRODUCT_H
 
 HYDRA_EXTERNAL_NAMESPACE_BEGIN namespace Eigen { 
 
@@ -72,7 +72,7 @@ public:
         m_coeff(xprEval.m_diagCoeffImpl.coeff(outer))
     {}
     
-    EIGEN_STRONG_INLINE Scalar value() const { return m_coeff * SparseXprInnerIterator::value(); }
+    HYDRA_EIGEN_STRONG_INLINE Scalar value() const { return m_coeff * SparseXprInnerIterator::value(); }
   protected:
     typename DiagonalCoeffType::Scalar m_coeff;
   };
@@ -112,7 +112,7 @@ struct sparse_diagonal_product_evaluator<SparseXprType, DiagCoeffType, SDP_AsCwi
     inline Index col() const    { return SparseXprType::IsRowMajor ? m_sparseIter.index() : m_sparseIter.outer(); }
     inline Index row() const    { return SparseXprType::IsRowMajor ? m_sparseIter.outer() : m_sparseIter.index(); }
     
-    EIGEN_STRONG_INLINE InnerIterator& operator++() { ++m_sparseIter; return *this; }
+    HYDRA_EIGEN_STRONG_INLINE InnerIterator& operator++() { ++m_sparseIter; return *this; }
     inline operator bool() const  { return m_sparseIter; }
     
   protected:
@@ -135,4 +135,4 @@ protected:
 
 } /* end namespace Eigen */  HYDRA_EXTERNAL_NAMESPACE_END
 
-#endif // EIGEN_SPARSE_DIAGONAL_PRODUCT_H
+#endif // HYDRA_EIGEN_SPARSE_DIAGONAL_PRODUCT_H

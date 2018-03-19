@@ -29,8 +29,8 @@
  ********************************************************************************
 */
 
-#ifndef EIGEN_PARDISOSUPPORT_H
-#define EIGEN_PARDISOSUPPORT_H
+#ifndef HYDRA_EIGEN_PARDISOSUPPORT_H
+#define HYDRA_EIGEN_PARDISOSUPPORT_H
 
 HYDRA_EXTERNAL_NAMESPACE_BEGIN namespace Eigen { 
 
@@ -540,4 +540,4 @@ class PardisoLDLT : public PardisoImpl< PardisoLDLT<MatrixType,Options> >
 
 } /* end namespace Eigen */  HYDRA_EXTERNAL_NAMESPACE_END
 
-#endif // EIGEN_PARDISOSUPPORT_H
+#endif // HYDRA_EIGEN_PARDISOSUPPORT_H

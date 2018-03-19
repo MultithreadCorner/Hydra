@@ -35,7 +35,7 @@ namespace runtime_introspection_detail
 {
 
 
-__host__ __device__
+__hydra_host__ __hydra_device__
 inline void uncached_device_properties(device_properties_t &p, int device_id)
 {
 #ifndef __CUDA_ARCH__
@@ -117,7 +117,7 @@ inline void cached_device_properties(device_properties_t &p, int device_id)
 } // end runtime_introspection_detail
 
 
-inline __host__ __device__
+inline __hydra_host__ __hydra_device__
 device_properties_t device_properties(int device_id)
 {
   device_properties_t result;
@@ -130,7 +130,7 @@ device_properties_t device_properties(int device_id)
 }
 
 
-inline __host__ __device__
+inline __hydra_host__ __hydra_device__
 int current_device()
 {
   int result = -1;
@@ -152,7 +152,7 @@ int current_device()
 }
 
 
-inline __host__ __device__
+inline __hydra_host__ __hydra_device__
 device_properties_t device_properties()
 {
   return device_properties(current_device());
@@ -160,7 +160,7 @@ device_properties_t device_properties()
 
 
 template<typename KernelFunction>
-__host__ __device__
+__hydra_host__ __hydra_device__
 inline function_attributes_t function_attributes(KernelFunction kernel)
 {
 #if !defined(__CUDA_ARCH__) || (__CUDA_ARCH__ >= 350)
@@ -188,14 +188,14 @@ inline function_attributes_t function_attributes(KernelFunction kernel)
 }
 
 
-inline __host__ __device__
+inline __hydra_host__ __hydra_device__
 size_t compute_capability(const device_properties_t &properties)
 {
   return 10 * properties.major + properties.minor;
 }
 
 
-inline __host__ __device__
+inline __hydra_host__ __hydra_device__
 size_t compute_capability(void)
 {
   return compute_capability(device_properties());

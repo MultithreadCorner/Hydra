@@ -32,7 +32,7 @@ namespace sequential
 
 
 template<typename DerivedPolicy>
-inline __host__ __device__
+inline __hydra_host__ __hydra_device__
 void *malloc(execution_policy<DerivedPolicy> &, std::size_t n)
 {
 #if !defined(__CUDA_ARCH__) || (__CUDA_ARCH__ >= 200)
@@ -44,7 +44,7 @@ void *malloc(execution_policy<DerivedPolicy> &, std::size_t n)
 
 
 template<typename DerivedPolicy, typename Pointer>
-inline __host__ __device__
+inline __hydra_host__ __hydra_device__
 void free(sequential::execution_policy<DerivedPolicy> &, Pointer ptr)
 {
 #if !defined(__CUDA_ARCH__) || (__CUDA_ARCH__ >= 200)

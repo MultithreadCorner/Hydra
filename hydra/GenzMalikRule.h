@@ -62,6 +62,12 @@ class GenzMalikRuleBase{};
 template<size_t DIM, typename BACKEND>
 class GenzMalikRule;
 
+/**
+ * \ingroup numerical_integration
+ *
+ * \brief Class representing Genz-Malik rule.
+ *
+ */
 template<size_t DIM, hydra::detail::Backend   BACKEND>
 class GenzMalikRule<DIM, hydra::detail::BackendPolicy<BACKEND>>:
            GenzMalikRuleBase<typename std::enable_if< (DIM>1), void >::type >
@@ -175,7 +181,7 @@ public:
 		}
 
 		template<hydra::detail::Backend BACKEND2>
-		GenzMalikRule<DIM,hydra::detail::BackendPolicy<BACKEND>>&
+		inline GenzMalikRule<DIM,hydra::detail::BackendPolicy<BACKEND>>&
 		operator=( GenzMalikRule<DIM,hydra::detail::BackendPolicy<BACKEND2>> const& other)
 		{
 
@@ -212,142 +218,142 @@ public:
 				HYDRA_MSG << "Genz-Malik Rule end."              << HYDRA_ENDL;
 			}
 
-	const vector_abscissa_t& GetAbscissas() const
+	inline const vector_abscissa_t& GetAbscissas() const
 	{
 		return fAbscissas;
 	}
 
-	void SetAbscissas(const vector_abscissa_t& abscissas)
+	inline void SetAbscissas(const vector_abscissa_t& abscissas)
 	{
 		fAbscissas = abscissas;
 	}
 
-	GReal_t GetLambda2() const
+	inline GReal_t GetLambda2() const
 	{
 		return fLambda2;
 	}
 
-	void SetLambda2(GReal_t lambda2)
+	inline void SetLambda2(GReal_t lambda2)
 	{
 		fLambda2 = lambda2;
 	}
 
-	GReal_t GetLambda3() const
+	inline GReal_t GetLambda3() const
 	{
 		return fLambda3;
 	}
 
-	void SetLambda3(GReal_t lambda3)
+	inline void SetLambda3(GReal_t lambda3)
 	{
 		fLambda3 = lambda3;
 	}
 
-	GReal_t GetLambda4() const
+	inline GReal_t GetLambda4() const
 	{
 		return fLambda4;
 	}
 
-	void SetLambda4(GReal_t lambda4)
+	inline void SetLambda4(GReal_t lambda4)
 	{
 		fLambda4 = lambda4;
 	}
 
-	GReal_t GetLambda5() const
+	inline GReal_t GetLambda5() const
 	{
 		return fLambda5;
 	}
 
-	void SetLambda5(GReal_t lambda5)
+	inline void SetLambda5(GReal_t lambda5)
 	{
 		fLambda5 = lambda5;
 	}
 
-	GReal_t GetRule5Weight1() const
+	inline GReal_t GetRule5Weight1() const
 	{
 		return fRule5Weight1;
 	}
 
-	void SetRule5Weight1(GReal_t rule5Weight1)
+	inline void SetRule5Weight1(GReal_t rule5Weight1)
 	{
 		fRule5Weight1 = rule5Weight1;
 	}
 
-	GReal_t GetRule5Weight2() const
+	inline GReal_t GetRule5Weight2() const
 	{
 		return fRule5Weight2;
 	}
 
-	void SetRule5Weight2(GReal_t rule5Weight2)
+	inline void SetRule5Weight2(GReal_t rule5Weight2)
 	{
 		fRule5Weight2 = rule5Weight2;
 	}
 
-	GReal_t GetRule5Weight3() const
+	inline GReal_t GetRule5Weight3() const
 	{
 		return fRule5Weight3;
 	}
 
-	void SetRule5Weight3(GReal_t rule5Weight3)
+	inline void SetRule5Weight3(GReal_t rule5Weight3)
 	{
 		fRule5Weight3 = rule5Weight3;
 	}
 
-	GReal_t GetRule5Weight4() const
+	inline GReal_t GetRule5Weight4() const
 	{
 		return fRule5Weight4;
 	}
 
-	void SetRule5Weight4(GReal_t rule5Weight4)
+	inline void SetRule5Weight4(GReal_t rule5Weight4)
 	{
 		fRule5Weight4 = rule5Weight4;
 	}
 
-	GReal_t GetRule7Weight1() const
+	inline GReal_t GetRule7Weight1() const
 	{
 		return fRule7Weight1;
 	}
 
-	void SetRule7Weight1(GReal_t rule7Weight1)
+	inline void SetRule7Weight1(GReal_t rule7Weight1)
 	{
 		fRule7Weight1 = rule7Weight1;
 	}
 
-	GReal_t GetRule7Weight2() const
+	inline GReal_t GetRule7Weight2() const
 	{
 		return fRule7Weight2;
 	}
 
-	void SetRule7Weight2(GReal_t rule7Weight2)
+	inline void SetRule7Weight2(GReal_t rule7Weight2)
 	{
 		fRule7Weight2 = rule7Weight2;
 	}
 
-	GReal_t GetRule7Weight3() const
+	inline GReal_t GetRule7Weight3() const
 	{
 		return fRule7Weight3;
 	}
 
-	void SetRule7Weight3(GReal_t rule7Weight3)
+	inline void SetRule7Weight3(GReal_t rule7Weight3)
 	{
 		fRule7Weight3 = rule7Weight3;
 	}
 
-	GReal_t GetRule7Weight4() const
+	inline GReal_t GetRule7Weight4() const
 	{
 		return fRule7Weight4;
 	}
 
-	void SetRule7Weight4(GReal_t rule7Weight4)
+	inline void SetRule7Weight4(GReal_t rule7Weight4)
 	{
 		fRule7Weight4 = rule7Weight4;
 	}
 
-	GReal_t GetRule7Weight5() const
+	inline GReal_t GetRule7Weight5() const
 	{
 		return fRule7Weight5;
 	}
 
-	void SetRule7Weight5(GReal_t rule7Weight5)
+	inline void SetRule7Weight5(GReal_t rule7Weight5)
 	{
 		fRule7Weight5 = rule7Weight5;
 	}
@@ -355,25 +361,25 @@ public:
 	private:
 
 		template<size_t N=0>
-	    typename std::enable_if< (N==0), GULong64_t>::type twoN()
+		inline   typename std::enable_if< (N==0), GULong64_t>::type twoN()
 		{
 			return 1;
 		}
 
 		template<size_t N=0>
-		typename std::enable_if< (N>0), GULong64_t>::type twoN()
+		inline typename std::enable_if< (N>0), GULong64_t>::type twoN()
 		{
 			return 2*twoN<N-1>();
 		}
 
-		void set_abscissas()
+		inline void set_abscissas()
 		{
 			for(unsigned int odr=0; odr<6; odr++)
 			add_abscissas<GChar_t, DIM>(odr);
 		}
 
 		template<typename T, size_t N=1>
-		void permute_abscissas( AbscissaCategory_t category, GReal_t rule5_weight, GReal_t rule7_weight, GReal_t lambda,
+		inline void permute_abscissas( AbscissaCategory_t category, GReal_t rule5_weight, GReal_t rule7_weight, GReal_t lambda,
 			 std::array<T, N> const& seed, vector_abscissa_t& container)
 		{
 
@@ -434,7 +440,7 @@ public:
 
 
 		template<typename T, size_t N>
-		void add_abscissas( unsigned int order)
+		inline void add_abscissas( unsigned int order)
 		{
 		  typedef std::array<T, N> X_t;
 

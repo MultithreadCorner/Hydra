@@ -7,8 +7,8 @@
 // Public License v. 2.0. If a copy of the MPL was not distributed
 // with this file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
-#ifndef EIGEN_SPARSEMATRIXBASE_H
-#define EIGEN_SPARSEMATRIXBASE_H
+#ifndef HYDRA_EIGEN_SPARSEMATRIXBASE_H
+#define HYDRA_EIGEN_SPARSEMATRIXBASE_H
 
 HYDRA_EXTERNAL_NAMESPACE_BEGIN namespace Eigen { 
 
@@ -21,7 +21,7 @@ HYDRA_EXTERNAL_NAMESPACE_BEGIN namespace Eigen {
   * \tparam Derived is the derived type, e.g. a sparse matrix type, or an expression, etc.
   *
   * This class can be extended with the help of the plugin mechanism described on the page
-  * \ref TopicCustomizing_Plugins by defining the preprocessor symbol \c EIGEN_SPARSEMATRIXBASE_PLUGIN.
+  * \ref TopicCustomizing_Plugins by defining the preprocessor symbol \c HYDRA_EIGEN_SPARSEMATRIXBASE_PLUGIN.
   */
 template<typename Derived> class SparseMatrixBase
   : public EigenBase<Derived>
@@ -97,7 +97,7 @@ template<typename Derived> class SparseMatrixBase
       InnerSizeAtCompileTime = int(IsVectorAtCompileTime) ? int(SizeAtCompileTime)
                              : int(IsRowMajor) ? int(ColsAtCompileTime) : int(RowsAtCompileTime),
 
-      #ifndef EIGEN_PARSED_BY_DOXYGEN
+      #ifndef HYDRA_EIGEN_PARSED_BY_DOXYGEN
       _HasDirectAccess = (int(Flags)&DirectAccessBit) ? 1 : 0 // workaround sunCC
       #endif
     };
@@ -113,7 +113,7 @@ template<typename Derived> class SparseMatrixBase
     // FIXME storage order do not match evaluator storage order
     typedef SparseMatrix<Scalar, Flags&RowMajorBit ? RowMajor : ColMajor, StorageIndex> PlainObject;
 
-#ifndef EIGEN_PARSED_BY_DOXYGEN
+#ifndef HYDRA_EIGEN_PARSED_BY_DOXYGEN
     /** This is the "real scalar" type; if the \a Scalar type is already real numbers
       * (e.g. int, float or double) then \a RealScalar is just the same as \a Scalar. If
       * \a Scalar is \a std::complex<T> then RealScalar is \a T.
@@ -132,8 +132,8 @@ template<typename Derived> class SparseMatrixBase
     /** type of the equivalent dense matrix */
     typedef Matrix<Scalar,RowsAtCompileTime,ColsAtCompileTime> DenseMatrixType;
     /** type of the equivalent square matrix */
-    typedef Matrix<Scalar,EIGEN_SIZE_MAX(RowsAtCompileTime,ColsAtCompileTime),
-                          EIGEN_SIZE_MAX(RowsAtCompileTime,ColsAtCompileTime)> SquareMatrixType;
+    typedef Matrix<Scalar,HYDRA_EIGEN_SIZE_MAX(RowsAtCompileTime,ColsAtCompileTime),
+                          HYDRA_EIGEN_SIZE_MAX(RowsAtCompileTime,ColsAtCompileTime)> SquareMatrixType;
 
     inline const Derived& derived() const { return *static_cast<const Derived*>(this); }
     inline Derived& derived() { return *static_cast<Derived*>(this); }
@@ -142,30 +142,30 @@ template<typename Derived> class SparseMatrixBase
 
     typedef EigenBase<Derived> Base;
 
-#endif // not EIGEN_PARSED_BY_DOXYGEN
+#endif // not HYDRA_EIGEN_PARSED_BY_DOXYGEN
 
-#define EIGEN_CURRENT_STORAGE_BASE_CLASS HYDRA_EXTERNAL_NS::Eigen::SparseMatrixBase
-#ifdef EIGEN_PARSED_BY_DOXYGEN
-#define EIGEN_DOC_UNARY_ADDONS(METHOD,OP)           /** <p>This method does not change the sparsity of \c *this: the OP is applied to explicitly stored coefficients only. \sa SparseCompressedBase::coeffs() </p> */
-#define EIGEN_DOC_BLOCK_ADDONS_NOT_INNER_PANEL      /** <p> \warning This method returns a read-only expression for any sparse matrices. \sa \ref TutorialSparse_SubMatrices "Sparse block operations" </p> */
-#define EIGEN_DOC_BLOCK_ADDONS_INNER_PANEL_IF(COND) /** <p> \warning This method returns a read-write expression for COND sparse matrices only. Otherwise, the returned expression is read-only. \sa \ref TutorialSparse_SubMatrices "Sparse block operations" </p> */
+#define HYDRA_EIGEN_CURRENT_STORAGE_BASE_CLASS HYDRA_EXTERNAL_NS::Eigen::SparseMatrixBase
+#ifdef HYDRA_EIGEN_PARSED_BY_DOXYGEN
+#define HYDRA_EIGEN_DOC_UNARY_ADDONS(METHOD,OP)           /** <p>This method does not change the sparsity of \c *this: the OP is applied to explicitly stored coefficients only. \sa SparseCompressedBase::coeffs() </p> */
+#define HYDRA_EIGEN_DOC_BLOCK_ADDONS_NOT_INNER_PANEL      /** <p> \warning This method returns a read-only expression for any sparse matrices. \sa \ref TutorialSparse_SubMatrices "Sparse block operations" </p> */
+#define HYDRA_EIGEN_DOC_BLOCK_ADDONS_INNER_PANEL_IF(COND) /** <p> \warning This method returns a read-write expression for COND sparse matrices only. Otherwise, the returned expression is read-only. \sa \ref TutorialSparse_SubMatrices "Sparse block operations" </p> */
 #else
-#define EIGEN_DOC_UNARY_ADDONS(X,Y)
-#define EIGEN_DOC_BLOCK_ADDONS_NOT_INNER_PANEL
-#define EIGEN_DOC_BLOCK_ADDONS_INNER_PANEL_IF(COND)
+#define HYDRA_EIGEN_DOC_UNARY_ADDONS(X,Y)
+#define HYDRA_EIGEN_DOC_BLOCK_ADDONS_NOT_INNER_PANEL
+#define HYDRA_EIGEN_DOC_BLOCK_ADDONS_INNER_PANEL_IF(COND)
 #endif
 #   include "../plugins/CommonCwiseUnaryOps.h"
 #   include "../plugins/CommonCwiseBinaryOps.h"
 #   include "../plugins/MatrixCwiseUnaryOps.h"
 #   include "../plugins/MatrixCwiseBinaryOps.h"
 #   include "../plugins/BlockMethods.h"
-#   ifdef EIGEN_SPARSEMATRIXBASE_PLUGIN
-#     include EIGEN_SPARSEMATRIXBASE_PLUGIN
+#   ifdef HYDRA_EIGEN_SPARSEMATRIXBASE_PLUGIN
+#     include HYDRA_EIGEN_SPARSEMATRIXBASE_PLUGIN
 #   endif
-#undef EIGEN_CURRENT_STORAGE_BASE_CLASS
-#undef EIGEN_DOC_UNARY_ADDONS
-#undef EIGEN_DOC_BLOCK_ADDONS_NOT_INNER_PANEL
-#undef EIGEN_DOC_BLOCK_ADDONS_INNER_PANEL_IF
+#undef HYDRA_EIGEN_CURRENT_STORAGE_BASE_CLASS
+#undef HYDRA_EIGEN_DOC_UNARY_ADDONS
+#undef HYDRA_EIGEN_DOC_BLOCK_ADDONS_NOT_INNER_PANEL
+#undef HYDRA_EIGEN_DOC_BLOCK_ADDONS_INNER_PANEL_IF
 
     /** \returns the number of rows. \sa cols() */
     inline Index rows() const { return derived().rows(); }
@@ -288,7 +288,7 @@ template<typename Derived> class SparseMatrixBase
     };
 
     template<typename OtherDerived>
-    EIGEN_STRONG_INLINE const typename CwiseProductDenseReturnType<OtherDerived>::Type
+    HYDRA_EIGEN_STRONG_INLINE const typename CwiseProductDenseReturnType<OtherDerived>::Type
     cwiseProduct(const MatrixBase<OtherDerived> &other) const;
 
     // sparse * diagonal
@@ -402,4 +402,4 @@ template<typename Derived> class SparseMatrixBase
 
 } /* end namespace Eigen */  HYDRA_EXTERNAL_NAMESPACE_END
 
-#endif // EIGEN_SPARSEMATRIXBASE_H
+#endif // HYDRA_EIGEN_SPARSEMATRIXBASE_H

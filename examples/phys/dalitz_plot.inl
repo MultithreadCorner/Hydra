@@ -29,6 +29,14 @@
 #ifndef DALITZ_PLOT_INL_
 #define DALITZ_PLOT_INL_
 
+
+/**
+ * \example dalitz_plot.inl
+ *
+ */
+
+
+
 #include <iostream>
 #include <assert.h>
 #include <time.h>
@@ -126,13 +134,13 @@ public:
 	{}
 
 
-	__host__ __device__
+    __hydra_dual__
 	Resonance( Resonance< CHANNEL,L> const& other):
 	hydra::BaseFunctor<Resonance<CHANNEL ,L>, hydra::complex<double>, 4>(other),
 	fLineShape(other.GetLineShape())
 	{}
 
-	__host__ __device__ inline
+    __hydra_dual__  inline
 	Resonance< CHANNEL ,L>&
 	operator=( Resonance< CHANNEL ,L> const& other)
 	{
@@ -144,10 +152,10 @@ public:
 		return *this;
 	}
 
-	__host__ __device__ inline
+    __hydra_dual__  inline
 	hydra::BreitWignerLineShape<L> const& GetLineShape() const {	return fLineShape; }
 
-	__host__ __device__ inline
+    __hydra_dual__  inline
 	hydra::complex<double> Evaluate(unsigned int n, hydra::Vector4R* p)  const {
 
 
@@ -170,7 +178,7 @@ public:
 private:
 
 	mutable hydra::BreitWignerLineShape<L> fLineShape;
-	hydra::CosTheta fCosDecayAngle;
+	hydra::CosHelicityAngle fCosDecayAngle;
 	hydra::ZemachFunction<L> fAngularDist;
 
 
@@ -191,12 +199,12 @@ public:
 	{}
 
 
-	__host__ __device__
+	 __hydra_dual__
 	NonResonant( NonResonant const& other):
 	hydra::BaseFunctor<NonResonant, hydra::complex<double>, 2>(other)
 	{}
 
-	__host__ __device__
+	 __hydra_dual__
 	NonResonant& operator=( NonResonant const& other)
 	{
 		if(this==&other) return *this;
@@ -206,7 +214,7 @@ public:
 		return *this;
 	}
 
-	__host__ __device__ inline
+	 __hydra_dual__  inline
 	hydra::complex<double> Evaluate(unsigned int n, hydra::Vector4R* p)  const {
 
 		return hydra::complex<double>(_par[0], _par[1]);
@@ -250,14 +258,14 @@ int main(int argv, char** argc)
     //magnitudes and phases from Cleo-c model
     //https://arxiv.org/pdf/0802.4214.pdf
 
-	double NR_MAG         = 7.4;
+	double NR_MAG         = 4.8;
 	double NR_PHI         = (-18.4+180.0)*0.01745329;
 	double NR_CRe		  = NR_MAG*cos(NR_PHI);
 	double NR_CIm		  = NR_MAG*sin(NR_PHI);
 
 	double K800_MASS  	  = 0.809 ;
 	double K800_WIDTH     = 0.470;
-	double K800_MAG       = 2.0;
+	double K800_MAG       = 2.25;
 	double K800_PHI       = (-163.7+180.0)*0.01745329;
 	double K800_CRe		  = K800_MAG*cos(K800_PHI);
 	double K800_CIm		  = K800_MAG*sin(K800_PHI);
@@ -271,22 +279,22 @@ int main(int argv, char** argc)
 
 	double KST0_1430_MASS  = 1.425;
 	double KST0_1430_WIDTH = 0.270;
-	double KST0_1430_MAG   = 3.0;
-	double KST0_1430_PHI   = (49.7-180.0)*0.01745329;
+	double KST0_1430_MAG   = 1.50;
+	double KST0_1430_PHI   = (45.7-180.0)*0.01745329;
 	double KST0_1430_CRe   = KST0_1430_MAG*cos(KST0_1430_PHI);
 	double KST0_1430_CIm   = KST0_1430_MAG*sin(KST0_1430_PHI);
 
 	double KST2_1430_MASS  = 1.4324;
 	double KST2_1430_WIDTH = 0.109;
 	double KST2_1430_MAG   = 0.962;
-	double KST2_1430_PHI   = (-29.9+180.0)*0.01745329;
+	double KST2_1430_PHI   = (-33.9+180.0)*0.01745329;
 	double KST2_1430_CRe   = KST2_1430_MAG*cos(KST2_1430_PHI);
 	double KST2_1430_CIm   = KST2_1430_MAG*sin(KST2_1430_PHI);
 
 	double KST_1680_MASS  = 1.718;
 	double KST_1680_WIDTH = 0.322;
-	double KST_1680_MAG   = 6.5;
-	double KST_1680_PHI   = (29.0)*0.01745329;
+	double KST_1680_MAG   = 2.5;
+	double KST_1680_PHI   = (26.0)*0.01745329;
 	double KST_1680_CRe	  = KST_1680_MAG*cos(KST_1680_PHI);
 	double KST_1680_CIm	  = KST_1680_MAG*sin(KST_1680_PHI);
 
@@ -325,7 +333,7 @@ int main(int argv, char** argc)
 	Resonance<3, hydra::PWave> KST_892_Resonance_13(coef_re, coef_im, mass, width,
 			    	D_MASS,	K_MASS, PI_MASS, PI_MASS , 5.0);
 
-	auto KST_892_Resonance = KST_892_Resonance_12 - KST_892_Resonance_13;
+	auto KST_892_Resonance = (KST_892_Resonance_12 - KST_892_Resonance_13);
 
 	//======================================================
 	//K*0(1430)
@@ -386,7 +394,7 @@ int main(int argv, char** argc)
 	//Total: Model |N.R + \sum{ Resonaces }|^2
 
 	//parametric lambda
-	auto Norm = hydra::wrap_lambda( []__host__  __device__ ( unsigned int n, hydra::complex<double>* x){
+	auto Norm = hydra::wrap_lambda( [] __hydra_dual__ ( unsigned int n, hydra::complex<double>* x){
 
 				hydra::complex<double> r(0,0);
 
@@ -404,6 +412,7 @@ int main(int argv, char** argc)
 			KST_1680_Resonance,
 			NR );
 
+
 	//--------------------
 	//generator
 	hydra::Vector4R B0(D_MASS, 0.0, 0.0, 0.0);
@@ -412,7 +421,7 @@ int main(int argv, char** argc)
 
 	// functor to calculate the 2-body masses
 	auto dalitz_calculator = hydra::wrap_lambda(
-			[]__host__ __device__(unsigned int n, hydra::Vector4R* p ){
+			[] __hydra_dual__ (unsigned int n, hydra::Vector4R* p ){
 
 		double   M2_12 = (p[0]+p[1]).mass2();
 		double   M2_13 = (p[0]+p[2]).mass2();
@@ -842,7 +851,7 @@ int main(int argv, char** argc)
 
 	}
 
-
+	return 0;
 
 #ifdef 	_ROOT_AVAILABLE_
 
@@ -1323,7 +1332,7 @@ double fit_fraction( Amplitude const& amp, Model const& model, std::array<double
 	hydra::PhaseSpace<3> phsp{K_MASS, PI_MASS, PI_MASS};
 
 	//norm lambda
-	auto Norm = hydra::wrap_lambda( []__host__  __device__ (unsigned int n, hydra::complex<double>* x){
+	auto Norm = hydra::wrap_lambda( [] __hydra_dual__ (unsigned int n, hydra::complex<double>* x){
 
 		return hydra::norm(x[0]);
 	});
@@ -1364,7 +1373,7 @@ TH3D histogram_component( Amplitude const& amp, std::array<double, 3> const& mas
 
 	// functor to calculate the 2-body masses
 	auto dalitz_calculator = hydra::wrap_lambda(
-			[]__host__ __device__(unsigned int n, hydra::Vector4R* p ){
+			[] __hydra_dual__ (unsigned int n, hydra::Vector4R* p ){
 
 		double   M2_12 = (p[0]+p[1]).mass2();
 		double   M2_13 = (p[0]+p[2]).mass2();
@@ -1375,7 +1384,7 @@ TH3D histogram_component( Amplitude const& amp, std::array<double, 3> const& mas
 
 	//norm lambda
 	auto Norm = hydra::wrap_lambda(
-			[]__host__  __device__ (unsigned int n, hydra::complex<double>* x){
+			[] __hydra_dual__ (unsigned int n, hydra::complex<double>* x){
 
 		return hydra::norm(x[0]);
 	});

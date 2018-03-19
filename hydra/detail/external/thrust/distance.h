@@ -64,7 +64,7 @@ HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
  *  \see http://www.sgi.com/tech/stl/distance.html
  */
 template<typename InputIterator>
-inline __host__ __device__
+inline __hydra_host__ __hydra_device__
   typename thrust::iterator_traits<InputIterator>::difference_type
     distance(InputIterator first, InputIterator last);
 

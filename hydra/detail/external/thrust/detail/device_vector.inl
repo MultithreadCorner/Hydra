@@ -26,7 +26,7 @@ HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
 
 template<typename T, typename Alloc>
   template<typename OtherT, typename OtherAlloc>
-    __host__
+    __hydra_host__
     device_vector<T,Alloc>
       ::device_vector(const host_vector<OtherT,OtherAlloc> &v)
         :Parent(v)

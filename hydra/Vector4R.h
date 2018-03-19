@@ -58,70 +58,70 @@ namespace hydra {
 class Vector4R
 {
 
-	__host__      __device__      inline friend Vector4R operator*(GReal_t d,
+	__hydra_host__      __hydra_device__      inline friend Vector4R operator*(GReal_t d,
 			const Vector4R& v2);
-	__host__      __device__      inline friend Vector4R operator*(const Vector4R& v2,
+	__hydra_host__      __hydra_device__      inline friend Vector4R operator*(const Vector4R& v2,
 			GReal_t d);
-	__host__      __device__      inline friend Vector4R operator/(const Vector4R& v2,
+	__hydra_host__      __hydra_device__      inline friend Vector4R operator/(const Vector4R& v2,
 			GReal_t d);
-	__host__      __device__      inline friend GReal_t operator*(const Vector4R& v1,
+	__hydra_host__      __hydra_device__      inline friend GReal_t operator*(const Vector4R& v1,
 			const Vector4R& v2);
-	__host__      __device__      inline friend Vector4R operator+(const Vector4R& v1,
+	__hydra_host__      __hydra_device__      inline friend Vector4R operator+(const Vector4R& v1,
 			const Vector4R& v2);
-	__host__      __device__      inline friend Vector4R operator-(const Vector4R& v1,
+	__hydra_host__      __hydra_device__      inline friend Vector4R operator-(const Vector4R& v1,
 			const Vector4R& v2);
 
 public:
 
 	inline Vector4R() =default;
-	__host__ __device__ inline Vector4R(GReal_t e, GReal_t px, GReal_t py,
+	__hydra_host__ __hydra_device__ inline Vector4R(GReal_t e, GReal_t px, GReal_t py,
 			GReal_t pz);
-	__host__ __device__ inline Vector4R(const Vector4R& other);
-	__host__ __device__ inline Vector4R(Vector4R&& other);
+	__hydra_host__ __hydra_device__ inline Vector4R(const Vector4R& other);
+	__hydra_host__ __hydra_device__ inline Vector4R(Vector4R&& other);
 
-	__host__ __device__ inline Vector4R& operator=(const Vector4R& other);
-	__host__ __device__ inline Vector4R& operator=(Vector4R&& other);
+	__hydra_host__ __hydra_device__ inline Vector4R& operator=(const Vector4R& other);
+	__hydra_host__ __hydra_device__ inline Vector4R& operator=(Vector4R&& other);
 
-	__host__ __device__ inline void swap( Vector4R& other);
+	__hydra_host__ __hydra_device__ inline void swap( Vector4R& other);
 
-	__host__ __device__ inline void set(GInt_t i, GReal_t d);
-	__host__ __device__ inline void set(GReal_t e, GReal_t px, GReal_t py,
+	__hydra_host__ __hydra_device__ inline void set(GInt_t i, GReal_t d);
+	__hydra_host__ __hydra_device__ inline void set(GReal_t e, GReal_t px, GReal_t py,
 			GReal_t pz);
-	__host__      __device__      inline Vector4R& operator*=(GReal_t c);
-	__host__      __device__      inline Vector4R& operator/=(GReal_t c);
-	__host__      __device__      inline Vector4R& operator+=(const Vector4R& v2);
-	__host__      __device__      inline Vector4R& operator-=(const Vector4R& v2);
-	__host__      __device__      inline GReal_t get(GInt_t i) const;
-	__host__      __device__      inline GReal_t cont(const Vector4R& v4) const;
-	__host__      inline friend std::ostream& operator<<(std::ostream& s,
+	__hydra_host__      __hydra_device__      inline Vector4R& operator*=(GReal_t c);
+	__hydra_host__      __hydra_device__      inline Vector4R& operator/=(GReal_t c);
+	__hydra_host__      __hydra_device__      inline Vector4R& operator+=(const Vector4R& v2);
+	__hydra_host__      __hydra_device__      inline Vector4R& operator-=(const Vector4R& v2);
+	__hydra_host__      __hydra_device__      inline GReal_t get(GInt_t i) const;
+	__hydra_host__      __hydra_device__      inline GReal_t cont(const Vector4R& v4) const;
+	__hydra_host__      inline friend std::ostream& operator<<(std::ostream& s,
 			const Vector4R& v);
-	__host__      __device__       inline GReal_t mass2() const;
-	__host__      __device__       inline GReal_t mass() const;
-	__host__ __device__ inline void applyRotateEuler(GReal_t alpha,
+	__hydra_host__      __hydra_device__       inline GReal_t mass2() const;
+	__hydra_host__      __hydra_device__       inline GReal_t mass() const;
+	__hydra_host__ __hydra_device__ inline void applyRotateEuler(GReal_t alpha,
 			GReal_t beta, GReal_t gamma);
-	__host__ __device__ inline void applyBoostTo(const Vector4R& p4,
+	__hydra_host__ __hydra_device__ inline void applyBoostTo(const Vector4R& p4,
 			bool inverse = false);
-	__host__ __device__ inline void applyBoostTo(const Vector3R& boost,
+	__hydra_host__ __hydra_device__ inline void applyBoostTo(const Vector3R& boost,
 			bool inverse = false);
-	__host__ __device__ inline void applyBoostTo(const GReal_t bx,
+	__hydra_host__ __hydra_device__ inline void applyBoostTo(const GReal_t bx,
 			const GReal_t by, const GReal_t bz, bool inverse = false);
-	__host__      __device__       inline Vector4R cross(const Vector4R& v2);
-	__host__      __device__       inline GReal_t dot(const Vector4R& v2) const;
-	__host__      __device__       inline GReal_t d3mag() const;
+	__hydra_host__      __hydra_device__       inline Vector4R cross(const Vector4R& v2);
+	__hydra_host__      __hydra_device__       inline GReal_t dot(const Vector4R& v2) const;
+	__hydra_host__      __hydra_device__       inline GReal_t d3mag() const;
 
 	// Added by AJB - calculate scalars in the rest frame of the current object
-	__host__      __device__       inline GReal_t scalartripler3( Vector4R p1,
+	__hydra_host__      __hydra_device__       inline GReal_t scalartripler3( Vector4R p1,
 			Vector4R p2, Vector4R p3) const;
-	__host__      __device__       inline GReal_t dotr3(const Vector4R& p1,
+	__hydra_host__      __hydra_device__       inline GReal_t dotr3(const Vector4R& p1,
 			const Vector4R& p2) const;
-	__host__      __device__       inline GReal_t mag2r3(const Vector4R& p1) const;
-	__host__      __device__       inline GReal_t magr3(const Vector4R& p1) const;
+	__hydra_host__      __hydra_device__       inline GReal_t mag2r3(const Vector4R& p1) const;
+	__hydra_host__      __hydra_device__       inline GReal_t magr3(const Vector4R& p1) const;
 
 private:
 
 	GReal_t v[4];
 
-	__host__      __device__      inline GReal_t Square(GReal_t x) const
+	__hydra_host__      __hydra_device__      inline GReal_t Square(GReal_t x) const
 	{
 		return x * x;
 	}
@@ -130,29 +130,29 @@ private:
 	_DeclareStorable(Vector4R, v[0], v[1] , v[2], v[3])
 };
 
-__host__ __device__
+__hydra_host__ __hydra_device__
 Vector4R rotateEuler(const Vector4R& rs, GReal_t alpha, GReal_t beta,
 		GReal_t gamma);
-__host__ __device__
+__hydra_host__ __hydra_device__
 Vector4R boostTo(const Vector4R& rs, const Vector4R& p4, bool inverse = false);
 
-__host__ __device__
+__hydra_host__ __hydra_device__
 Vector4R boostTo(const Vector4R& rs, const Vector3R& boost,
 		bool inverse = false);
 
-__host__ __device__
+__hydra_host__ __hydra_device__
 inline Vector4R operator*(GReal_t c, const Vector4R& v2)
 {
 
 	return Vector4R(v2) *= c;
 }
-__host__ __device__
+__hydra_host__ __hydra_device__
 inline Vector4R operator*(const Vector4R& v2, GReal_t c)
 {
 
 	return Vector4R(v2) *= c;
 }
-__host__ __device__
+__hydra_host__ __hydra_device__
 inline Vector4R operator/(const Vector4R& v2, GReal_t c)
 {
 
@@ -160,7 +160,7 @@ inline Vector4R operator/(const Vector4R& v2, GReal_t c)
 }
 
 
-__host__ __device__
+__hydra_host__ __hydra_device__
 inline GReal_t operator*(const Vector4R& v1, const Vector4R& v2)
 {
 
@@ -168,7 +168,7 @@ inline GReal_t operator*(const Vector4R& v1, const Vector4R& v2)
 			- v1.v[3] * v2.v[3];
 }
 
-__host__ __device__
+__hydra_host__ __hydra_device__
 inline void swap(Vector4R& v1, Vector4R& v2)
 {
 	return v1.swap(v2);
@@ -183,13 +183,13 @@ inline GReal_t Vector4R::cont(const Vector4R& v4) const
 }
 
 */
-__host__ __device__
+__hydra_host__ __hydra_device__
 inline Vector4R operator-(const Vector4R& v1, const Vector4R& v2)
 {
 
 	return Vector4R(v1) -= v2;
 }
-__host__ __device__
+__hydra_host__ __hydra_device__
 inline Vector4R operator+(const Vector4R& v1, const Vector4R& v2)
 {
 
@@ -197,7 +197,7 @@ inline Vector4R operator+(const Vector4R& v1, const Vector4R& v2)
 }
 
 
-__host__ __device__
+__hydra_host__ __hydra_device__
 inline Vector4R rotateEuler(const Vector4R& rs, GReal_t alpha, GReal_t beta,
 		GReal_t gamma)
 {
@@ -207,7 +207,7 @@ inline Vector4R rotateEuler(const Vector4R& rs, GReal_t alpha, GReal_t beta,
 	return tmp;
 
 }
-__host__ __device__
+__hydra_host__ __hydra_device__
 inline Vector4R boostTo(const Vector4R& rs, const Vector4R& p4, bool inverse)
 {
 
@@ -216,7 +216,7 @@ inline Vector4R boostTo(const Vector4R& rs, const Vector4R& p4, bool inverse)
 	return tmp;
 
 }
-__host__ __device__
+__hydra_host__ __hydra_device__
 inline Vector4R boostTo(const Vector4R& rs, const Vector3R& boost, bool inverse)
 {
 

@@ -37,7 +37,7 @@ namespace
 
 
 template<typename DerivedPolicy, typename Pointer>
-inline __host__ __device__
+inline __hydra_host__ __hydra_device__
   typename thrust::iterator_value<Pointer>::type
     get_value_msvc2005_war(execution_policy<DerivedPolicy> &exec, Pointer ptr)
 {
@@ -47,7 +47,7 @@ inline __host__ __device__
   struct war_nvbugs_881631
   {
 
-    __host__  inline static result_type host_path(execution_policy<DerivedPolicy> &exec, Pointer ptr)
+    __hydra_host__  inline static result_type host_path(execution_policy<DerivedPolicy> &exec, Pointer ptr)
     {
       // when called from host code, implement with assign_value
       // note that this requires a type with default constructor
@@ -60,7 +60,7 @@ inline __host__ __device__
       return result;
     }
 
-    __device__ inline static result_type device_path(execution_policy<DerivedPolicy> &, Pointer ptr)
+    __hydra_device__ inline static result_type device_path(execution_policy<DerivedPolicy> &, Pointer ptr)
     {
       // when called from device code, just do simple deref
       return *thrust::raw_pointer_cast(ptr);
@@ -79,7 +79,7 @@ inline __host__ __device__
 
 
 template<typename DerivedPolicy, typename Pointer>
-inline __host__ __device__
+inline __hydra_host__ __hydra_device__
   typename thrust::iterator_value<Pointer>::type
     get_value(execution_policy<DerivedPolicy> &exec, Pointer ptr)
 {

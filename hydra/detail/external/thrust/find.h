@@ -77,7 +77,7 @@ HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
  *  \see mismatch
  */
 template<typename DerivedPolicy, typename InputIterator, typename T>
-__host__ __device__
+__hydra_host__ __hydra_device__
 InputIterator find(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                    InputIterator first,
                    InputIterator last,
@@ -148,7 +148,7 @@ InputIterator find(InputIterator first,
  *
  *  struct greater_than_four
  *  {
- *    __host__ __device__
+ *    __hydra_host__ __hydra_device__
  *    bool operator()(int x)
  *    {
  *      return x > 4;
@@ -157,7 +157,7 @@ InputIterator find(InputIterator first,
  *
  *  struct greater_than_ten
  *  {
- *    __host__ __device__
+ *    __hydra_host__ __hydra_device__
  *    bool operator()(int x)
  *    {
  *      return x > 10;
@@ -184,7 +184,7 @@ InputIterator find(InputIterator first,
  *  \see mismatch
  */
 template<typename DerivedPolicy, typename InputIterator, typename Predicate>
-__host__ __device__
+__hydra_host__ __hydra_device__
 InputIterator find_if(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                       InputIterator first,
                       InputIterator last,
@@ -209,7 +209,7 @@ InputIterator find_if(const thrust::detail::execution_policy_base<DerivedPolicy>
  *
  *  struct greater_than_four
  *  {
- *    __host__ __device__
+ *    __hydra_host__ __hydra_device__
  *    bool operator()(int x)
  *    {
  *      return x > 4;
@@ -218,7 +218,7 @@ InputIterator find_if(const thrust::detail::execution_policy_base<DerivedPolicy>
  *
  *  struct greater_than_ten
  *  {
- *    __host__ __device__
+ *    __hydra_host__ __hydra_device__
  *    bool operator()(int x)
  *    {
  *      return x > 10;
@@ -274,7 +274,7 @@ InputIterator find_if(InputIterator first,
  *
  *  struct greater_than_four
  *  {
- *    __host__ __device__
+ *    __hydra_host__ __hydra_device__
  *    bool operator()(int x)
  *    {
  *      return x > 4;
@@ -283,7 +283,7 @@ InputIterator find_if(InputIterator first,
  *
  *  struct greater_than_ten
  *  {
- *    __host__ __device__
+ *    __hydra_host__ __hydra_device__
  *    bool operator()(int x)
  *    {
  *      return x > 10;
@@ -310,7 +310,7 @@ InputIterator find_if(InputIterator first,
  *  \see mismatch
  */
 template<typename DerivedPolicy, typename InputIterator, typename Predicate>
-__host__ __device__
+__hydra_host__ __hydra_device__
 InputIterator find_if_not(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                           InputIterator first,
                           InputIterator last,
@@ -335,7 +335,7 @@ InputIterator find_if_not(const thrust::detail::execution_policy_base<DerivedPol
  *
  *  struct greater_than_four
  *  {
- *    __host__ __device__
+ *    __hydra_host__ __hydra_device__
  *    bool operator()(int x)
  *    {
  *      return x > 4;
@@ -344,7 +344,7 @@ InputIterator find_if_not(const thrust::detail::execution_policy_base<DerivedPol
  *
  *  struct greater_than_ten
  *  {
- *    __host__ __device__
+ *    __hydra_host__ __hydra_device__
  *    bool operator()(int x)
  *    {
  *      return x > 10;

@@ -8,18 +8,18 @@
 // Public License v. 2.0. If a copy of the MPL was not distributed
 // with this file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
-#ifndef EIGEN_XPRHELPER_H
-#define EIGEN_XPRHELPER_H
+#ifndef HYDRA_EIGEN_XPRHELPER_H
+#define HYDRA_EIGEN_XPRHELPER_H
 
 // just a workaround because GCC seems to not really like empty structs
 // FIXME: gcc 4.3 generates bad code when strict-aliasing is enabled
 // so currently we simply disable this optimization for gcc 4.3
-#if EIGEN_COMP_GNUC && !EIGEN_GNUC_AT(4,3)
-  #define EIGEN_EMPTY_STRUCT_CTOR(X) \
-    EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE X() {} \
-    EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE X(const X& ) {}
+#if HYDRA_EIGEN_COMP_GNUC && !HYDRA_EIGEN_GNUC_AT(4,3)
+  #define HYDRA_EIGEN_EMPTY_STRUCT_CTOR(X) \
+    HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE X() {} \
+    HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE X(const X& ) {}
 #else
-  #define EIGEN_EMPTY_STRUCT_CTOR(X)
+  #define HYDRA_EIGEN_EMPTY_STRUCT_CTOR(X)
 #endif
 
 HYDRA_EXTERNAL_NAMESPACE_BEGIN namespace Eigen {
@@ -27,7 +27,7 @@ HYDRA_EXTERNAL_NAMESPACE_BEGIN namespace Eigen {
 namespace internal {
 
 template<typename IndexDest, typename IndexSrc>
-EIGEN_DEVICE_FUNC
+HYDRA_EIGEN_DEVICE_FUNC
 inline IndexDest convert_index(const IndexSrc& idx) {
   // for sizeof(IndexDest)>=sizeof(IndexSrc) compilers should be able to optimize this away:
   eigen_internal_assert(idx <= NumTraits<IndexDest>::highest() && "Index value to big for target type");
@@ -106,20 +106,20 @@ struct promote_index_type
 template<typename T, int Value> class variable_if_dynamic
 {
   public:
-    EIGEN_EMPTY_STRUCT_CTOR(variable_if_dynamic)
-    EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE explicit variable_if_dynamic(T v) { EIGEN_ONLY_USED_FOR_DEBUG(v); eigen_assert(v == T(Value)); }
-    EIGEN_DEVICE_FUNC static EIGEN_STRONG_INLINE T value() { return T(Value); }
-    EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE void setValue(T) {}
+    HYDRA_EIGEN_EMPTY_STRUCT_CTOR(variable_if_dynamic)
+    HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE explicit variable_if_dynamic(T v) { HYDRA_EIGEN_ONLY_USED_FOR_DEBUG(v); eigen_assert(v == T(Value)); }
+    HYDRA_EIGEN_DEVICE_FUNC static HYDRA_EIGEN_STRONG_INLINE T value() { return T(Value); }
+    HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE void setValue(T) {}
 };
 
 template<typename T> class variable_if_dynamic<T, Dynamic>
 {
     T m_value;
-    EIGEN_DEVICE_FUNC variable_if_dynamic() { eigen_assert(false); }
+    HYDRA_EIGEN_DEVICE_FUNC variable_if_dynamic() { eigen_assert(false); }
   public:
-    EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE explicit variable_if_dynamic(T value) : m_value(value) {}
-    EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE T value() const { return m_value; }
-    EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE void setValue(T value) { m_value = value; }
+    HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE explicit variable_if_dynamic(T value) : m_value(value) {}
+    HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE T value() const { return m_value; }
+    HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE void setValue(T value) { m_value = value; }
 };
 
 /** \internal like variable_if_dynamic but for DynamicIndex
@@ -127,20 +127,20 @@ template<typename T> class variable_if_dynamic<T, Dynamic>
 template<typename T, int Value> class variable_if_dynamicindex
 {
   public:
-    EIGEN_EMPTY_STRUCT_CTOR(variable_if_dynamicindex)
-    EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE explicit variable_if_dynamicindex(T v) { EIGEN_ONLY_USED_FOR_DEBUG(v); eigen_assert(v == T(Value)); }
-    EIGEN_DEVICE_FUNC static EIGEN_STRONG_INLINE T value() { return T(Value); }
-    EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE void setValue(T) {}
+    HYDRA_EIGEN_EMPTY_STRUCT_CTOR(variable_if_dynamicindex)
+    HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE explicit variable_if_dynamicindex(T v) { HYDRA_EIGEN_ONLY_USED_FOR_DEBUG(v); eigen_assert(v == T(Value)); }
+    HYDRA_EIGEN_DEVICE_FUNC static HYDRA_EIGEN_STRONG_INLINE T value() { return T(Value); }
+    HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE void setValue(T) {}
 };
 
 template<typename T> class variable_if_dynamicindex<T, DynamicIndex>
 {
     T m_value;
-    EIGEN_DEVICE_FUNC variable_if_dynamicindex() { eigen_assert(false); }
+    HYDRA_EIGEN_DEVICE_FUNC variable_if_dynamicindex() { eigen_assert(false); }
   public:
-    EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE explicit variable_if_dynamicindex(T value) : m_value(value) {}
-    EIGEN_DEVICE_FUNC T EIGEN_STRONG_INLINE value() const { return m_value; }
-    EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE void setValue(T value) { m_value = value; }
+    HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE explicit variable_if_dynamicindex(T value) : m_value(value) {}
+    HYDRA_EIGEN_DEVICE_FUNC T HYDRA_EIGEN_STRONG_INLINE value() const { return m_value; }
+    HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE void setValue(T value) { m_value = value; }
 };
 
 template<typename T> struct functor_traits
@@ -188,10 +188,10 @@ struct find_best_packet
   typedef typename find_best_packet_helper<Size,typename packet_traits<T>::type>::type type;
 };
 
-#if EIGEN_MAX_STATIC_ALIGN_BYTES>0
+#if HYDRA_EIGEN_MAX_STATIC_ALIGN_BYTES>0
 template<int ArrayBytes, int AlignmentBytes,
          bool Match     =  bool((ArrayBytes%AlignmentBytes)==0),
-         bool TryHalf   =  bool(EIGEN_MIN_ALIGN_BYTES<AlignmentBytes) >
+         bool TryHalf   =  bool(HYDRA_EIGEN_MIN_ALIGN_BYTES<AlignmentBytes) >
 struct compute_default_alignment_helper
 {
   enum { value = 0 };
@@ -220,18 +220,18 @@ struct compute_default_alignment_helper
 #endif
 
 template<typename T, int Size> struct compute_default_alignment {
-  enum { value = compute_default_alignment_helper<Size*sizeof(T),EIGEN_MAX_STATIC_ALIGN_BYTES>::value };
+  enum { value = compute_default_alignment_helper<Size*sizeof(T),HYDRA_EIGEN_MAX_STATIC_ALIGN_BYTES>::value };
 };
 
 template<typename T> struct compute_default_alignment<T,Dynamic> {
-  enum { value = EIGEN_MAX_ALIGN_BYTES };
+  enum { value = HYDRA_EIGEN_MAX_ALIGN_BYTES };
 };
 
 template<typename _Scalar, int _Rows, int _Cols,
          int _Options = AutoAlign |
                           ( (_Rows==1 && _Cols!=1) ? RowMajor
                           : (_Cols==1 && _Rows!=1) ? ColMajor
-                          : EIGEN_DEFAULT_MATRIX_STORAGE_ORDER_OPTION ),
+                          : HYDRA_EIGEN_DEFAULT_MATRIX_STORAGE_ORDER_OPTION ),
          int _MaxRows = _Rows,
          int _MaxCols = _Cols
 > class make_proper_matrix_type
@@ -453,7 +453,7 @@ template<typename T, int n, typename PlainObject = typename plain_object_eval<T>
 };
 
 template<typename T>
-EIGEN_DEVICE_FUNC
+HYDRA_EIGEN_DEVICE_FUNC
 inline T* const_cast_ptr(const T* ptr)
 {
   return const_cast<T*>(ptr);
@@ -608,8 +608,8 @@ struct plain_col_type
 template<typename ExpressionType, typename Scalar = typename ExpressionType::Scalar>
 struct plain_diag_type
 {
-  enum { diag_size = EIGEN_SIZE_MIN_PREFER_DYNAMIC(ExpressionType::RowsAtCompileTime, ExpressionType::ColsAtCompileTime),
-         max_diag_size = EIGEN_SIZE_MIN_PREFER_FIXED(ExpressionType::MaxRowsAtCompileTime, ExpressionType::MaxColsAtCompileTime)
+  enum { diag_size = HYDRA_EIGEN_SIZE_MIN_PREFER_DYNAMIC(ExpressionType::RowsAtCompileTime, ExpressionType::ColsAtCompileTime),
+         max_diag_size = HYDRA_EIGEN_SIZE_MIN_PREFER_FIXED(ExpressionType::MaxRowsAtCompileTime, ExpressionType::MaxColsAtCompileTime)
   };
   typedef Matrix<Scalar, diag_size, 1, ExpressionType::PlainObject::Options & ~RowMajor, max_diag_size, 1> MatrixDiagType;
   typedef Array<Scalar, diag_size, 1, ExpressionType::PlainObject::Options & ~RowMajor, max_diag_size, 1> ArrayDiagType;
@@ -691,7 +691,7 @@ template<bool Vectorized>
 struct scalar_div_cost<unsigned long,Vectorized,typename conditional<sizeof(long)==8,void,false_type>::type> { enum { value = 21 }; };
 
 
-#ifdef EIGEN_DEBUG_ASSIGN
+#ifdef HYDRA_EIGEN_DEBUG_ASSIGN
 std::string demangle_traversal(int t)
 {
   if(t==DefaultTraversal) return "DefaultTraversal";
@@ -764,10 +764,10 @@ std::string demangle_flags(int f)
   */
 template<typename ScalarA, typename ScalarB, typename BinaryOp=internal::scalar_product_op<ScalarA,ScalarB> >
 struct ScalarBinaryOpTraits
-#ifndef EIGEN_PARSED_BY_DOXYGEN
+#ifndef HYDRA_EIGEN_PARSED_BY_DOXYGEN
   // for backward compatibility, use the hints given by the (deprecated) internal::scalar_product_traits class.
   : internal::scalar_product_traits<ScalarA,ScalarB>
-#endif // EIGEN_PARSED_BY_DOXYGEN
+#endif // HYDRA_EIGEN_PARSED_BY_DOXYGEN
 {};
 
 template<typename T, typename BinaryOp>
@@ -812,10 +812,10 @@ struct ScalarBinaryOpTraits<void,void,BinaryOp>
 // It is tempting to always allow mixing different types but remember that this is often impossible in the vectorized paths.
 // So allowing mixing different types gives very unexpected errors when enabling vectorization, when the user tries to
 // add together a float matrix and a double matrix.
-#define EIGEN_CHECK_BINARY_COMPATIBILIY(BINOP,LHS,RHS) \
-  EIGEN_STATIC_ASSERT((HYDRA_EXTERNAL_NS::Eigen::internal::has_ReturnType<ScalarBinaryOpTraits<LHS, RHS,BINOP> >::value), \
+#define HYDRA_EIGEN_CHECK_BINARY_COMPATIBILIY(BINOP,LHS,RHS) \
+  HYDRA_EIGEN_STATIC_ASSERT((HYDRA_EXTERNAL_NS::Eigen::internal::has_ReturnType<ScalarBinaryOpTraits<LHS, RHS,BINOP> >::value), \
     YOU_MIXED_DIFFERENT_NUMERIC_TYPES__YOU_NEED_TO_USE_THE_CAST_METHOD_OF_MATRIXBASE_TO_CAST_NUMERIC_TYPES_EXPLICITLY)
     
 } /* end namespace Eigen */  HYDRA_EXTERNAL_NAMESPACE_END
 
-#endif // EIGEN_XPRHELPER_H
+#endif // HYDRA_EIGEN_XPRHELPER_H

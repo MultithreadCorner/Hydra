@@ -37,28 +37,28 @@ class closure
 
     typedef Tuple arguments_type;
 
-    __host__ __device__
+    __hydra_host__ __hydra_device__
     closure(function_type f, const arguments_type &args)
       :f(f),
        args(args)
     {}
 
 
-    __host__ __device__
+    __hydra_host__ __hydra_device__
     void operator()()
     {
       apply_from_tuple(f,args);
     }
 
 
-    __host__ __device__
+    __hydra_host__ __hydra_device__
     function_type function() const
     {
       return f;
     }
 
 
-    __host__ __device__
+    __hydra_host__ __hydra_device__
     arguments_type arguments() const
     {
       return args;
@@ -72,7 +72,7 @@ class closure
 
 
 template<typename Function, typename Arguments>
-__host__ __device__
+__hydra_host__ __hydra_device__
 const closure<Function,Arguments> &make_closure(const closure<Function,Arguments> &c)
 {
   return c;
@@ -80,7 +80,7 @@ const closure<Function,Arguments> &make_closure(const closure<Function,Arguments
 
 
 template<typename Function>
-__host__ __device__
+__hydra_host__ __hydra_device__
 closure<Function, thrust::tuple<> > make_closure(Function f)
 {
   return closure<Function,thrust::tuple<> >(f, thrust::tuple<>());
@@ -88,7 +88,7 @@ closure<Function, thrust::tuple<> > make_closure(Function f)
 
 
 template<typename Function, typename Arg1>
-__host__ __device__
+__hydra_host__ __hydra_device__
 closure<Function, thrust::tuple<Arg1> > make_closure(Function f, const Arg1 &a1)
 {
   return closure<Function,thrust::tuple<Arg1> >(f, thrust::make_tuple(a1));
@@ -96,7 +96,7 @@ closure<Function, thrust::tuple<Arg1> > make_closure(Function f, const Arg1 &a1)
 
 
 template<typename Function, typename Arg1, typename Arg2>
-__host__ __device__
+__hydra_host__ __hydra_device__
 closure<
   Function,
   thrust::tuple<Arg1,Arg2>
@@ -108,7 +108,7 @@ closure<
 
 
 template<typename Function, typename Arg1, typename Arg2, typename Arg3>
-__host__ __device__
+__hydra_host__ __hydra_device__
 closure<
   Function,
   thrust::tuple<Arg1,Arg2,Arg3>
@@ -120,7 +120,7 @@ closure<
 
 
 template<typename Function, typename Arg1, typename Arg2, typename Arg3, typename Arg4>
-__host__ __device__
+__hydra_host__ __hydra_device__
 closure<
   Function,
   thrust::tuple<Arg1,Arg2,Arg3,Arg4>
@@ -132,7 +132,7 @@ closure<
 
 
 template<typename Function, typename Arg1, typename Arg2, typename Arg3, typename Arg4, typename Arg5>
-__host__ __device__
+__hydra_host__ __hydra_device__
 closure<
   Function,
   thrust::tuple<Arg1,Arg2,Arg3,Arg4,Arg5>
@@ -144,7 +144,7 @@ closure<
 
 
 template<typename Function, typename Arg1, typename Arg2, typename Arg3, typename Arg4, typename Arg5, typename Arg6>
-__host__ __device__
+__hydra_host__ __hydra_device__
 closure<
   Function,
   thrust::tuple<Arg1,Arg2,Arg3,Arg4,Arg5,Arg6>
@@ -156,7 +156,7 @@ closure<
 
 
 template<typename Function, typename Arg1, typename Arg2, typename Arg3, typename Arg4, typename Arg5, typename Arg6, typename Arg7>
-__host__ __device__
+__hydra_host__ __hydra_device__
 closure<
   Function,
   thrust::tuple<Arg1,Arg2,Arg3,Arg4,Arg5,Arg6,Arg7>
@@ -168,7 +168,7 @@ closure<
 
 
 template<typename Function, typename Arg1, typename Arg2, typename Arg3, typename Arg4, typename Arg5, typename Arg6, typename Arg7, typename Arg8>
-__host__ __device__
+__hydra_host__ __hydra_device__
 closure<
   Function,
   thrust::tuple<Arg1,Arg2,Arg3,Arg4,Arg5,Arg6,Arg7,Arg8>
@@ -180,7 +180,7 @@ closure<
 
 
 template<typename Function, typename Arg1, typename Arg2, typename Arg3, typename Arg4, typename Arg5, typename Arg6, typename Arg7, typename Arg8, typename Arg9>
-__host__ __device__
+__hydra_host__ __hydra_device__
 closure<
   Function,
   thrust::tuple<Arg1,Arg2,Arg3,Arg4,Arg5,Arg6,Arg7,Arg8,Arg9>
@@ -192,7 +192,7 @@ closure<
 
 
 template<typename Function, typename Arg1, typename Arg2, typename Arg3, typename Arg4, typename Arg5, typename Arg6, typename Arg7, typename Arg8, typename Arg9, typename Arg10>
-__host__ __device__
+__hydra_host__ __hydra_device__
 closure<
   Function,
   thrust::tuple<Arg1,Arg2,Arg3,Arg4,Arg5,Arg6,Arg7,Arg8,Arg9,Arg10>

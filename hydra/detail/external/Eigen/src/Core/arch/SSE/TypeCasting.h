@@ -7,8 +7,8 @@
 // Public License v. 2.0. If a copy of the MPL was not distributed
 // with this file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
-#ifndef EIGEN_TYPE_CASTING_SSE_H
-#define EIGEN_TYPE_CASTING_SSE_H
+#ifndef HYDRA_EIGEN_TYPE_CASTING_SSE_H
+#define HYDRA_EIGEN_TYPE_CASTING_SSE_H
 
 HYDRA_EXTERNAL_NAMESPACE_BEGIN namespace Eigen {
 
@@ -23,7 +23,7 @@ struct type_casting_traits<float, int> {
   };
 };
 
-template<> EIGEN_STRONG_INLINE Packet4i pcast<Packet4f, Packet4i>(const Packet4f& a) {
+template<> HYDRA_EIGEN_STRONG_INLINE Packet4i pcast<Packet4f, Packet4i>(const Packet4f& a) {
   return _mm_cvttps_epi32(a);
 }
 
@@ -37,7 +37,7 @@ struct type_casting_traits<int, float> {
   };
 };
 
-template<> EIGEN_STRONG_INLINE Packet4f pcast<Packet4i, Packet4f>(const Packet4i& a) {
+template<> HYDRA_EIGEN_STRONG_INLINE Packet4f pcast<Packet4i, Packet4f>(const Packet4i& a) {
   return _mm_cvtepi32_ps(a);
 }
 
@@ -51,7 +51,7 @@ struct type_casting_traits<double, float> {
   };
 };
 
-template<> EIGEN_STRONG_INLINE Packet4f pcast<Packet2d, Packet4f>(const Packet2d& a, const Packet2d& b) {
+template<> HYDRA_EIGEN_STRONG_INLINE Packet4f pcast<Packet2d, Packet4f>(const Packet2d& a, const Packet2d& b) {
   return _mm_shuffle_ps(_mm_cvtpd_ps(a), _mm_cvtpd_ps(b), (1 << 2) | (1 << 6));
 }
 
@@ -64,7 +64,7 @@ struct type_casting_traits<float, double> {
   };
 };
 
-template<> EIGEN_STRONG_INLINE Packet2d pcast<Packet4f, Packet2d>(const Packet4f& a) {
+template<> HYDRA_EIGEN_STRONG_INLINE Packet2d pcast<Packet4f, Packet2d>(const Packet4f& a) {
   // Simply discard the second half of the input
   return _mm_cvtps_pd(a);
 }
@@ -74,4 +74,4 @@ template<> EIGEN_STRONG_INLINE Packet2d pcast<Packet4f, Packet2d>(const Packet4f
 
 } /* end namespace Eigen */  HYDRA_EXTERNAL_NAMESPACE_END
 
-#endif // EIGEN_TYPE_CASTING_SSE_H
+#endif // HYDRA_EIGEN_TYPE_CASTING_SSE_H

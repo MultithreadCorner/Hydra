@@ -39,13 +39,13 @@ class task_base
     typedef ExecutionGroup group_type;
     typedef Closure        closure_type;
 
-    __host__ __device__
+    __hydra_host__ __hydra_device__
     task_base(group_type g, closure_type c)
       : c(c), g(g)
     {}
 
   protected:
-    __host__ __device__
+    __hydra_host__ __hydra_device__
     static void substitute_placeholders_and_execute(group_type &g, closure_type &c)
     {
       // substitute placeholders with this_group
@@ -80,13 +80,13 @@ class task_base
     {
       group_type &g;
 
-      __device__
+      __hydra_device__
       substitutor(group_type &g)
         : g(g)
       {}
 
       template<unsigned int depth>
-      __device__
+      __hydra_device__
       typename bulk::detail::cursor_result<cursor<depth>,group_type>::type
       operator()(cursor<depth> c) const
       {
@@ -94,14 +94,14 @@ class task_base
       }
 
       template<typename T>
-      __device__
+      __hydra_device__
       T &operator()(T &x) const
       {
         return x;
       }
     };
 
-    __host__ __device__
+    __hydra_host__ __hydra_device__
     static substituted_arguments_type substitute_placeholders(group_type &g, typename closure_type::arguments_type args)
     {
       return bulk::detail::tuple_host_device_transform<substitutor_result>(args, substitutor(g));
@@ -131,7 +131,7 @@ template<typename Group, typename Closure> class cuda_task;
 template<typename Grid>
 struct grid_maker
 {
-  __host__ __device__
+  __hydra_host__ __hydra_device__
   static Grid make(typename Grid::size_type     size,
                    typename Grid::agent_type    block,
                    typename Grid::size_type     index)
@@ -144,7 +144,7 @@ struct grid_maker
 template<typename Block>
 struct grid_maker<parallel_group<Block,dynamic_group_size> >
 {
-  __host__ __device__
+  __hydra_host__ __hydra_device__
   static parallel_group<Block,dynamic_group_size> make(typename parallel_group<Block,dynamic_group_size>::size_type size,
                                                        Block block,
                                                        typename parallel_group<Block,dynamic_group_size>::size_type index)
@@ -157,7 +157,7 @@ struct grid_maker<parallel_group<Block,dynamic_group_size> >
 template<typename Block>
 struct block_maker
 {
-  __host__ __device__
+  __hydra_host__ __hydra_device__
   static Block make(typename Block::size_type     size,
                     typename Block::size_type     heap_size,
                     typename Block::agent_type    thread,
@@ -170,7 +170,7 @@ struct block_maker
 template<typename Thread>
 struct block_maker<concurrent_group<Thread,dynamic_group_size> >
 {
-  __host__ __device__
+  __hydra_host__ __hydra_device__
   static concurrent_group<Thread,dynamic_group_size> make(typename concurrent_group<Thread,dynamic_group_size>::size_type size,
                                                           typename concurrent_group<Thread,dynamic_group_size>::size_type heap_size,
                                                           Thread thread,
@@ -182,7 +182,7 @@ struct block_maker<concurrent_group<Thread,dynamic_group_size> >
 
 
 template<typename Grid>
-__host__ __device__
+__hydra_host__ __hydra_device__
 Grid make_grid(typename Grid::size_type size, typename Grid::agent_type block, typename Grid::size_type index = invalid_index)
 {
   return grid_maker<Grid>::make(size, block, index);
@@ -190,7 +190,7 @@ Grid make_grid(typename Grid::size_type size, typename Grid::agent_type block, t
 
 
 template<typename Block>
-__host__ __device__
+__hydra_host__ __hydra_device__
 Block make_block(typename Block::size_type size, typename Block::size_type heap_size, typename Block::agent_type thread = typename Block::agent_type(), typename Block::size_type index = invalid_index)
 {
   return block_maker<Block>::make(size, heap_size, thread, index);
@@ -225,13 +225,13 @@ class cuda_task<
 
   public:
 
-    __host__ __device__
+    __hydra_host__ __hydra_device__
     cuda_task(grid_type g, closure_type c, size_type offset)
       : super_t(g,c),
         block_offset(offset)
     {}
 
-    __device__
+    __hydra_device__
     void operator()()
     {
       // guard use of CUDA built-ins from foreign compilers
@@ -284,12 +284,12 @@ class cuda_task<
     typedef typename block_type::size_type  size_type;
 
   public:
-    __host__ __device__
+    __hydra_host__ __hydra_device__
     cuda_task(block_type b, closure_type c)
       : super_t(b,c)
     {}
 
-    __device__
+    __hydra_device__
     void operator()()
     {
       // guard use of CUDA built-ins from foreign compilers
@@ -330,12 +330,12 @@ class cuda_task<parallel_group<agent<grainsize>,groupsize>,Closure>
     typedef typename super_t::closure_type closure_type;
     typedef typename super_t::group_type   group_type;
 
-    __host__ __device__
+    __hydra_host__ __hydra_device__
     cuda_task(group_type g, closure_type c)
       : super_t(g,c)
     {}
 
-    __device__
+    __hydra_device__
     void operator()()
     {
       // guard use of CUDA built-ins from foreign compilers

@@ -205,7 +205,7 @@ private:
      ******************************************************************************/
 
     /// Internal storage allocator
-    __device__ __forceinline__ _TempStorage& PrivateStorage()
+    __hydra_device__ __forceinline__ _TempStorage& PrivateStorage()
     {
         __shared__ _TempStorage private_storage;
         return private_storage;
@@ -226,7 +226,7 @@ public:
     /**
      * \brief Collective constructor using a private static allocation of shared memory as temporary storage.
      */
-    __device__ __forceinline__ BlockHistogram()
+    __hydra_device__ __forceinline__ BlockHistogram()
     :
         temp_storage(PrivateStorage()),
         linear_tid(RowMajorTid(BLOCK_DIM_X, BLOCK_DIM_Y, BLOCK_DIM_Z))
@@ -236,7 +236,7 @@ public:
     /**
      * \brief Collective constructor using the specified memory allocation as temporary storage.
      */
-    __device__ __forceinline__ BlockHistogram(
+    __hydra_device__ __forceinline__ BlockHistogram(
         TempStorage &temp_storage)             ///< [in] Reference to memory allocation having layout type TempStorage
     :
         temp_storage(temp_storage.Alias()),
@@ -288,7 +288,7 @@ public:
      * \tparam CounterT              <b>[inferred]</b> Histogram counter type
      */
     template <typename CounterT     >
-    __device__ __forceinline__ void InitHistogram(CounterT      histogram[BINS])
+    __hydra_device__ __forceinline__ void InitHistogram(CounterT      histogram[BINS])
     {
         // Initialize histogram bin counts to zeros
         int histo_offset = 0;
@@ -344,7 +344,7 @@ public:
      */
     template <
         typename            CounterT     >
-    __device__ __forceinline__ void Histogram(
+    __hydra_device__ __forceinline__ void Histogram(
         T                   (&items)[ITEMS_PER_THREAD],     ///< [in] Calling thread's input values to histogram
         CounterT             histogram[BINS])                ///< [out] Reference to shared/device-accessible memory histogram
     {
@@ -401,7 +401,7 @@ public:
      */
     template <
         typename            CounterT     >
-    __device__ __forceinline__ void Composite(
+    __hydra_device__ __forceinline__ void Composite(
         T                   (&items)[ITEMS_PER_THREAD],     ///< [in] Calling thread's input values to histogram
         CounterT             histogram[BINS])                 ///< [out] Reference to shared/device-accessible memory histogram
     {

@@ -50,7 +50,7 @@ namespace detail
 
 struct isAccepted
 {
-  __host__ __device__
+  __hydra_host__ __hydra_device__
   bool operator()(const int x)
   {
     return (x == 1 ) ;

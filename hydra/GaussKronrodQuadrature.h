@@ -26,10 +26,6 @@
  *      Author: Antonio Augusto Alves Junior
  */
 
-/**
- * \file
- * \ingroup numerical_integration
- */
 
 #ifndef GAUSSKRONRODQUADRATURE_H_
 #define GAUSSKRONRODQUADRATURE_H_
@@ -53,6 +49,7 @@ template< size_t NRULE, size_t NBIN, typename  BACKEND>
 class GaussKronrodQuadrature;
 
 /**
+ * \class
  *  @ingroup numerical_integration
  *
  *  @brief  Gauss-Kronrod Quadrature.
@@ -151,7 +148,7 @@ public:
 	}
 
 	template< hydra::detail::Backend  BACKEND2 >
-	GaussKronrodQuadrature<NRULE,NBIN, hydra::detail::BackendPolicy<BACKEND> >&
+	inline GaussKronrodQuadrature<NRULE,NBIN, hydra::detail::BackendPolicy<BACKEND> >&
 	operator=(GaussKronrodQuadrature<NRULE,NBIN, hydra::detail::BackendPolicy<BACKEND2> > const& other)
 	{
 		if(this==&other) return *this;
@@ -182,31 +179,31 @@ public:
 		HYDRA_MSG << "GaussKronrodQuadrature end. " << HYDRA_ENDL;
 	}
 
-	GReal_t GetXLower() const
+	inline GReal_t GetXLower() const
 	{
 		return fXLower;
 	}
 
-	void SetXLower(GReal_t xLower)
+	inline void SetXLower(GReal_t xLower)
 	{
 		fXLower = xLower;
 		this->SetBins();
 		this->SetCallTable();
 	}
 
-	GReal_t GetXUpper() const
+	inline GReal_t GetXUpper() const
 	{
 		return fXUpper;
 	}
 
-	void SetXUpper(GReal_t xUpper)
+	inline void SetXUpper(GReal_t xUpper)
 	{
 		fXUpper = xUpper;
 		this->SetBins();
 		this->SetCallTable();
 	}
 
-	const GaussKronrodRule<NRULE>& GetRule() const
+	inline const GaussKronrodRule<NRULE>& GetRule() const
 	{
 		return fRule;
 	}

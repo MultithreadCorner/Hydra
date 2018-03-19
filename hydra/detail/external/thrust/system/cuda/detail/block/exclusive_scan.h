@@ -34,7 +34,7 @@ namespace block
 
 
 template<typename Context, typename RandomAccessIterator, typename T, typename BinaryFunction>
-inline __device__
+inline __hydra_device__
 typename thrust::iterator_value<RandomAccessIterator>::type
   inplace_exclusive_scan(Context &ctx, RandomAccessIterator first, T init, BinaryFunction op)
 {
@@ -58,7 +58,7 @@ typename thrust::iterator_value<RandomAccessIterator>::type
 
 
 template<typename Context, typename Iterator, typename T>
-inline __device__
+inline __hydra_device__
   typename thrust::iterator_value<Iterator>::type
     inplace_exclusive_scan(Context &ctx, Iterator first, T init)
 {

@@ -7,8 +7,8 @@
 // Public License v. 2.0. If a copy of the MPL was not distributed
 // with this file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
-#ifndef EIGEN_TYPE_CASTING_CUDA_H
-#define EIGEN_TYPE_CASTING_CUDA_H
+#ifndef HYDRA_EIGEN_TYPE_CASTING_CUDA_H
+#define HYDRA_EIGEN_TYPE_CASTING_CUDA_H
 
 HYDRA_EXTERNAL_NAMESPACE_BEGIN namespace Eigen {
 
@@ -16,10 +16,10 @@ namespace internal {
 
 template<>
 struct scalar_cast_op<float, HYDRA_EXTERNAL_NS::Eigen::half> {
-  EIGEN_EMPTY_STRUCT_CTOR(scalar_cast_op)
+  HYDRA_EIGEN_EMPTY_STRUCT_CTOR(scalar_cast_op)
   typedef HYDRA_EXTERNAL_NS::Eigen::half result_type;
-  EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE HYDRA_EXTERNAL_NS::Eigen::half operator() (const float& a) const {
-    #if defined(EIGEN_HAS_CUDA_FP16) && defined(__CUDA_ARCH__) && __CUDA_ARCH__ >= 300
+  HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE HYDRA_EXTERNAL_NS::Eigen::half operator() (const float& a) const {
+    #if defined(HYDRA_EIGEN_HAS_CUDA_FP16) && defined(__CUDA_ARCH__) && __CUDA_ARCH__ >= 300
       return __float2half(a);
     #else
       return HYDRA_EXTERNAL_NS::Eigen::half(a);
@@ -34,10 +34,10 @@ struct functor_traits<scalar_cast_op<float, HYDRA_EXTERNAL_NS::Eigen::half> >
 
 template<>
 struct scalar_cast_op<int, HYDRA_EXTERNAL_NS::Eigen::half> {
-  EIGEN_EMPTY_STRUCT_CTOR(scalar_cast_op)
+  HYDRA_EIGEN_EMPTY_STRUCT_CTOR(scalar_cast_op)
   typedef HYDRA_EXTERNAL_NS::Eigen::half result_type;
-  EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE HYDRA_EXTERNAL_NS::Eigen::half operator() (const int& a) const {
-    #if defined(EIGEN_HAS_CUDA_FP16) && defined(__CUDA_ARCH__) && __CUDA_ARCH__ >= 300
+  HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE HYDRA_EXTERNAL_NS::Eigen::half operator() (const int& a) const {
+    #if defined(HYDRA_EIGEN_HAS_CUDA_FP16) && defined(__CUDA_ARCH__) && __CUDA_ARCH__ >= 300
       return __float2half(static_cast<float>(a));
     #else
       return HYDRA_EXTERNAL_NS::Eigen::half(static_cast<float>(a));
@@ -52,10 +52,10 @@ struct functor_traits<scalar_cast_op<int, HYDRA_EXTERNAL_NS::Eigen::half> >
 
 template<>
 struct scalar_cast_op<HYDRA_EXTERNAL_NS::Eigen::half, float> {
-  EIGEN_EMPTY_STRUCT_CTOR(scalar_cast_op)
+  HYDRA_EIGEN_EMPTY_STRUCT_CTOR(scalar_cast_op)
   typedef float result_type;
-  EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE float operator() (const HYDRA_EXTERNAL_NS::Eigen::half& a) const {
-    #if defined(EIGEN_HAS_CUDA_FP16) && defined(__CUDA_ARCH__) && __CUDA_ARCH__ >= 300
+  HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE float operator() (const HYDRA_EXTERNAL_NS::Eigen::half& a) const {
+    #if defined(HYDRA_EIGEN_HAS_CUDA_FP16) && defined(__CUDA_ARCH__) && __CUDA_ARCH__ >= 300
       return __half2float(a);
     #else
       return static_cast<float>(a);
@@ -69,7 +69,7 @@ struct functor_traits<scalar_cast_op<HYDRA_EXTERNAL_NS::Eigen::half, float> >
 
 
 
-#if defined(EIGEN_HAS_CUDA_FP16) && defined(__CUDA_ARCH__) && __CUDA_ARCH__ >= 300
+#if defined(HYDRA_EIGEN_HAS_CUDA_FP16) && defined(__CUDA_ARCH__) && __CUDA_ARCH__ >= 300
 
 template <>
 struct type_casting_traits<HYDRA_EXTERNAL_NS::Eigen::half, float> {
@@ -80,7 +80,7 @@ struct type_casting_traits<HYDRA_EXTERNAL_NS::Eigen::half, float> {
   };
 };
 
-template<> EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE float4 pcast<half2, float4>(const half2& a, const half2& b) {
+template<> HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE float4 pcast<half2, float4>(const half2& a, const half2& b) {
   float2 r1 = __half22float2(a);
   float2 r2 = __half22float2(b);
   return make_float4(r1.x, r1.y, r2.x, r2.y);
@@ -95,12 +95,12 @@ struct type_casting_traits<float, HYDRA_EXTERNAL_NS::Eigen::half> {
   };
 };
 
-template<> EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE half2 pcast<float4, half2>(const float4& a) {
+template<> HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE half2 pcast<float4, half2>(const float4& a) {
   // Simply discard the second half of the input
   return __floats2half2_rn(a.x, a.y);
 }
 
-#elif defined EIGEN_VECTORIZE_AVX512
+#elif defined HYDRA_EIGEN_VECTORIZE_AVX512
 template <>
 struct type_casting_traits<half, float> {
   enum {
@@ -110,7 +110,7 @@ struct type_casting_traits<half, float> {
   };
 };
 
-template<> EIGEN_STRONG_INLINE Packet16f pcast<Packet16h, Packet16f>(const Packet16h& a) {
+template<> HYDRA_EIGEN_STRONG_INLINE Packet16f pcast<Packet16h, Packet16f>(const Packet16h& a) {
   return half2float(a);
 }
 
@@ -123,11 +123,11 @@ struct type_casting_traits<float, half> {
   };
 };
 
-template<> EIGEN_STRONG_INLINE Packet16h pcast<Packet16f, Packet16h>(const Packet16f& a) {
+template<> HYDRA_EIGEN_STRONG_INLINE Packet16h pcast<Packet16f, Packet16h>(const Packet16f& a) {
   return float2half(a);
 }
 
-#elif defined EIGEN_VECTORIZE_AVX
+#elif defined HYDRA_EIGEN_VECTORIZE_AVX
 
 template <>
 struct type_casting_traits<HYDRA_EXTERNAL_NS::Eigen::half, float> {
@@ -138,7 +138,7 @@ struct type_casting_traits<HYDRA_EXTERNAL_NS::Eigen::half, float> {
   };
 };
 
-template<> EIGEN_STRONG_INLINE Packet8f pcast<Packet8h, Packet8f>(const Packet8h& a) {
+template<> HYDRA_EIGEN_STRONG_INLINE Packet8f pcast<Packet8h, Packet8f>(const Packet8h& a) {
   return half2float(a);
 }
 
@@ -151,12 +151,12 @@ struct type_casting_traits<float, HYDRA_EXTERNAL_NS::Eigen::half> {
   };
 };
 
-template<> EIGEN_STRONG_INLINE Packet8h pcast<Packet8f, Packet8h>(const Packet8f& a) {
+template<> HYDRA_EIGEN_STRONG_INLINE Packet8h pcast<Packet8f, Packet8h>(const Packet8f& a) {
   return float2half(a);
 }
 
 // Disable the following code since it's broken on too many platforms / compilers.
-//#elif defined(EIGEN_VECTORIZE_SSE) && (!EIGEN_ARCH_x86_64) && (!EIGEN_COMP_MSVC)
+//#elif defined(HYDRA_EIGEN_VECTORIZE_SSE) && (!HYDRA_EIGEN_ARCH_x86_64) && (!HYDRA_EIGEN_COMP_MSVC)
 #elif 0
 
 template <>
@@ -168,7 +168,7 @@ struct type_casting_traits<HYDRA_EXTERNAL_NS::Eigen::half, float> {
   };
 };
 
-template<> EIGEN_STRONG_INLINE Packet4f pcast<Packet4h, Packet4f>(const Packet4h& a) {
+template<> HYDRA_EIGEN_STRONG_INLINE Packet4f pcast<Packet4h, Packet4f>(const Packet4h& a) {
   __int64_t a64 = _mm_cvtm64_si64(a.x);
   HYDRA_EXTERNAL_NS::Eigen::half h = raw_uint16_to_half(static_cast<unsigned short>(a64));
   float f1 = static_cast<float>(h);
@@ -190,8 +190,8 @@ struct type_casting_traits<float, HYDRA_EXTERNAL_NS::Eigen::half> {
   };
 };
 
-template<> EIGEN_STRONG_INLINE Packet4h pcast<Packet4f, Packet4h>(const Packet4f& a) {
-  EIGEN_ALIGN16 float aux[4];
+template<> HYDRA_EIGEN_STRONG_INLINE Packet4h pcast<Packet4f, Packet4h>(const Packet4f& a) {
+  HYDRA_EIGEN_ALIGN16 float aux[4];
   pstore(aux, a);
   HYDRA_EXTERNAL_NS::Eigen::half h0(aux[0]);
   HYDRA_EXTERNAL_NS::Eigen::half h1(aux[1]);
@@ -209,4 +209,4 @@ template<> EIGEN_STRONG_INLINE Packet4h pcast<Packet4f, Packet4h>(const Packet4f
 
 } /* end namespace Eigen */  HYDRA_EXTERNAL_NAMESPACE_END
 
-#endif // EIGEN_TYPE_CASTING_CUDA_H
+#endif // HYDRA_EIGEN_TYPE_CASTING_CUDA_H

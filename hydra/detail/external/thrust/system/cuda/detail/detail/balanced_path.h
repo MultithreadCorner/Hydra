@@ -34,7 +34,7 @@ namespace balanced_path_detail
 {
 
 template<bool UpperBound, typename IntT, typename It, typename T, typename Comp>
-__host__ __device__ void BinarySearchIteration(It data, int& begin, int& end,
+__hydra_host__ __hydra_device__ void BinarySearchIteration(It data, int& begin, int& end,
 	T key, int shift, Comp comp) {
 
 	IntT scale = (1<< shift) - 1;
@@ -47,7 +47,7 @@ __host__ __device__ void BinarySearchIteration(It data, int& begin, int& end,
 }
 
 template<bool UpperBound, typename T, typename It, typename Comp>
-__host__ __device__ int BinarySearch(It data, int count, T key, Comp comp) {
+__hydra_host__ __hydra_device__ int BinarySearch(It data, int count, T key, Comp comp) {
 	int begin = 0;
 	int end = count;
 	while(begin < end) 
@@ -56,7 +56,7 @@ __host__ __device__ int BinarySearch(It data, int count, T key, Comp comp) {
 }
 
 template<bool UpperBound, typename IntT, typename T, typename It, typename Comp>
-__host__ __device__ int BiasedBinarySearch(It data, int count, T key, 
+__hydra_host__ __hydra_device__ int BiasedBinarySearch(It data, int count, T key, 
 	IntT levels, Comp comp) {
 	int begin = 0;
 	int end = count;
@@ -76,7 +76,7 @@ __host__ __device__ int BiasedBinarySearch(It data, int count, T key,
 }
 
 template<bool UpperBound, typename It1, typename It2, typename Comp>
-__host__ __device__ int MergePath(It1 a, int aCount, It2 b, int bCount, int diag, Comp comp)
+__hydra_host__ __hydra_device__ int MergePath(It1 a, int aCount, It2 b, int bCount, int diag, Comp comp)
 {
   typedef typename thrust::iterator_traits<It1>::value_type T;
   
@@ -100,7 +100,7 @@ __host__ __device__ int MergePath(It1 a, int aCount, It2 b, int bCount, int diag
 
 
 template<typename RandomAccessIterator1, typename Size1, typename RandomAccessIterator2, typename Size2, typename Compare>
-__host__ __device__
+__hydra_host__ __hydra_device__
 thrust::pair<Size1,Size1>
   balanced_path(RandomAccessIterator1 first1, Size1 n1,
                 RandomAccessIterator2 first2, Size1 n2,

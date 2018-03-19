@@ -216,27 +216,27 @@ template<typename Alloc>
   // XXX rebind and rebind_traits are alias templates
   //     and so are omitted while c++11 is unavailable
 
-  inline __host__ __device__
+  inline __hydra_host__ __hydra_device__
   static pointer allocate(allocator_type &a, size_type n);
 
-  inline __host__ __device__
+  inline __hydra_host__ __hydra_device__
   static pointer allocate(allocator_type &a, size_type n, const_void_pointer hint);
 
-  inline __host__ __device__
+  inline __hydra_host__ __hydra_device__
   static void deallocate(allocator_type &a, pointer p, size_type n);
 
   // XXX should probably change T* to pointer below and then relax later
 
   template<typename T>
-  inline __host__ __device__ static void construct(allocator_type &a, T *p);
+  inline __hydra_host__ __hydra_device__ static void construct(allocator_type &a, T *p);
   
   template<typename T, typename Arg1>
-  inline __host__ __device__ static void construct(allocator_type &a, T *p, const Arg1 &arg1);
+  inline __hydra_host__ __hydra_device__ static void construct(allocator_type &a, T *p, const Arg1 &arg1);
 
   template<typename T>
-  inline __host__ __device__ static void destroy(allocator_type &a, T *p);
+  inline __hydra_host__ __hydra_device__ static void destroy(allocator_type &a, T *p);
 
-  inline __host__ __device__
+  inline __hydra_host__ __hydra_device__
   static size_type max_size(const allocator_type &a);
 }; // end allocator_traits
 
@@ -270,7 +270,7 @@ template<typename Alloc>
     identity_<type>                                           // else get() needs to return a value
   >::type get_result_type;
 
-  __host__ __device__
+  __hydra_host__ __hydra_device__
   inline static get_result_type get(Alloc &a);
 };
 

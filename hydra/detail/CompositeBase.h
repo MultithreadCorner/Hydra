@@ -62,7 +62,7 @@ public:
 		fNorm(1.0)
 	{ }
 
-	__host__ __device__ inline
+	__hydra_host__ __hydra_device__ inline
 	CompositeBase(CompositeBase<F0,F1,Fs...> const& other):
 	fFtorTuple( other.GetFunctors() ),
 	fIndex( other.GetIndex() ),
@@ -70,7 +70,7 @@ public:
 	fNorm(other.GetNorm())
 	{ }
 
-	__host__ __device__ inline
+	__hydra_host__ __hydra_device__ inline
 	CompositeBase<F0,F1,Fs...>& operator=(CompositeBase<F0,F1,Fs...> const& other)
 	{
 		this->fFtorTuple = other.GetFunctors() ;
@@ -220,7 +220,7 @@ public:
 			}
 	}
 
-	__host__ __device__ inline
+	__hydra_host__ __hydra_device__ inline
 	const functors_type& GetFunctors() const {return fFtorTuple;}
 
 	template<unsigned int I>
@@ -230,27 +230,27 @@ public:
 
 
 
-	__host__ __device__  inline
+	__hydra_host__ __hydra_device__  inline
 	GReal_t GetNorm() const {
 		return fNorm;
 	}
 
-	__host__ __device__  inline
+	__hydra_host__ __hydra_device__  inline
 	void SetNorm(GReal_t norm) {
 		fNorm = norm;
 	}
 
-	__host__ __device__ inline
+	__hydra_host__ __hydra_device__ inline
 	int GetIndex() const { return this->fIndex; }
 
-	__host__ __device__ inline
+	__hydra_host__ __hydra_device__ inline
 	void SetIndex(int index) {this->fIndex = index;}
 
-	__host__ __device__ inline
+	__hydra_host__ __hydra_device__ inline
 	bool IsCached() const
 	{ return this->fCached;}
 
-	__host__ __device__ inline
+	__hydra_host__ __hydra_device__ inline
 	void SetCached(bool cached=true)
 	{ this->fCached = cached; }
 

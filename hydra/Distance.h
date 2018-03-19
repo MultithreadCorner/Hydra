@@ -37,7 +37,7 @@
 namespace hydra {
 
 template<typename Iterator>
-inline __host__ __device__
+inline __hydra_host__ __hydra_device__
 auto distance(Iterator first, Iterator last)
 ->decltype( HYDRA_EXTERNAL_NS::thrust::distance<Iterator>(first,last))
 {

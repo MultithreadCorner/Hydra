@@ -200,7 +200,7 @@ public:
     /**
      * \brief Collective constructor using the specified memory allocation as temporary storage.  Logical warp and lane identifiers are constructed from <tt>threadIdx.x</tt>.
      */
-    __device__ __forceinline__ WarpReduce(
+    __hydra_device__ __forceinline__ WarpReduce(
         TempStorage &temp_storage)             ///< [in] Reference to memory allocation having layout type TempStorage
     :
         temp_storage(temp_storage.Alias())
@@ -248,7 +248,7 @@ public:
      * \p 2544, and \p 3568, respectively (and is undefined in other threads).
      *
      */
-    __device__ __forceinline__ T Sum(
+    __hydra_device__ __forceinline__ T Sum(
         T                   input)              ///< [in] Calling thread's input
     {
         return InternalWarpReduce(temp_storage).template Reduce<true, 1>(input, LOGICAL_WARP_THREADS, cub::Sum());
@@ -292,7 +292,7 @@ public:
      * undefined in other threads).
      *
      */
-    __device__ __forceinline__ T Sum(
+    __hydra_device__ __forceinline__ T Sum(
         T                   input,              ///< [in] Calling thread's input
         int                 valid_items)        ///< [in] Total number of valid items in the calling thread's logical warp (may be less than \p LOGICAL_WARP_THREADS)
     {
@@ -341,7 +341,7 @@ public:
      */
     template <
         typename            FlagT>
-    __device__ __forceinline__ T HeadSegmentedSum(
+    __hydra_device__ __forceinline__ T HeadSegmentedSum(
         T                   input,              ///< [in] Calling thread's input
         FlagT                head_flag)          ///< [in] Head flag denoting whether or not \p input is the start of a new segment
     {
@@ -388,7 +388,7 @@ public:
      */
     template <
         typename            FlagT>
-    __device__ __forceinline__ T TailSegmentedSum(
+    __hydra_device__ __forceinline__ T TailSegmentedSum(
         T                   input,              ///< [in] Calling thread's input
         FlagT                tail_flag)          ///< [in] Head flag denoting whether or not \p input is the start of a new segment
     {
@@ -442,7 +442,7 @@ public:
      * \tparam ReductionOp     <b>[inferred]</b> Binary reduction operator type having member <tt>T operator()(const T &a, const T &b)</tt>
      */
     template <typename ReductionOp>
-    __device__ __forceinline__ T Reduce(
+    __hydra_device__ __forceinline__ T Reduce(
         T                   input,              ///< [in] Calling thread's input
         ReductionOp         reduction_op)       ///< [in] Binary reduction operator
     {
@@ -491,7 +491,7 @@ public:
      * \tparam ReductionOp     <b>[inferred]</b> Binary reduction operator type having member <tt>T operator()(const T &a, const T &b)</tt>
      */
     template <typename ReductionOp>
-    __device__ __forceinline__ T Reduce(
+    __hydra_device__ __forceinline__ T Reduce(
         T                   input,              ///< [in] Calling thread's input
         ReductionOp         reduction_op,       ///< [in] Binary reduction operator
         int                 valid_items)        ///< [in] Total number of valid items in the calling thread's logical warp (may be less than \p LOGICAL_WARP_THREADS)
@@ -542,7 +542,7 @@ public:
     template <
         typename            ReductionOp,
         typename            FlagT>
-    __device__ __forceinline__ T HeadSegmentedReduce(
+    __hydra_device__ __forceinline__ T HeadSegmentedReduce(
         T                   input,              ///< [in] Calling thread's input
         FlagT                head_flag,          ///< [in] Head flag denoting whether or not \p input is the start of a new segment
         ReductionOp         reduction_op)       ///< [in] Reduction operator
@@ -593,7 +593,7 @@ public:
     template <
         typename            ReductionOp,
         typename            FlagT>
-    __device__ __forceinline__ T TailSegmentedReduce(
+    __hydra_device__ __forceinline__ T TailSegmentedReduce(
         T                   input,              ///< [in] Calling thread's input
         FlagT                tail_flag,          ///< [in] Tail flag denoting whether or not \p input is the end of the current segment
         ReductionOp         reduction_op)       ///< [in] Reduction operator

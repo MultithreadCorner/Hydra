@@ -7,8 +7,8 @@
 // Public License v. 2.0. If a copy of the MPL was not distributed
 // with this file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
-#ifndef EIGEN_COREITERATORS_H
-#define EIGEN_COREITERATORS_H
+#ifndef HYDRA_EIGEN_COREITERATORS_H
+#define HYDRA_EIGEN_COREITERATORS_H
 
 HYDRA_EXTERNAL_NAMESPACE_BEGIN namespace Eigen { 
 
@@ -43,19 +43,19 @@ public:
   {}
   
   /// \returns the value of the current coefficient.
-  EIGEN_STRONG_INLINE Scalar value() const          { return m_iter.value(); }
+  HYDRA_EIGEN_STRONG_INLINE Scalar value() const          { return m_iter.value(); }
   /** Increment the iterator \c *this to the next non-zero coefficient.
     * Explicit zeros are not skipped over. To skip explicit zeros, see class SparseView
     */
-  EIGEN_STRONG_INLINE InnerIterator& operator++()   { m_iter.operator++(); return *this; }
+  HYDRA_EIGEN_STRONG_INLINE InnerIterator& operator++()   { m_iter.operator++(); return *this; }
   /// \returns the column or row index of the current coefficient.
-  EIGEN_STRONG_INLINE Index index() const           { return m_iter.index(); }
+  HYDRA_EIGEN_STRONG_INLINE Index index() const           { return m_iter.index(); }
   /// \returns the row index of the current coefficient.
-  EIGEN_STRONG_INLINE Index row() const             { return m_iter.row(); }
+  HYDRA_EIGEN_STRONG_INLINE Index row() const             { return m_iter.row(); }
   /// \returns the column index of the current coefficient.
-  EIGEN_STRONG_INLINE Index col() const             { return m_iter.col(); }
+  HYDRA_EIGEN_STRONG_INLINE Index col() const             { return m_iter.col(); }
   /// \returns \c true if the iterator \c *this still references a valid coefficient.
-  EIGEN_STRONG_INLINE operator bool() const         { return m_iter; }
+  HYDRA_EIGEN_STRONG_INLINE operator bool() const         { return m_iter; }
   
 protected:
   EvaluatorType m_eval;
@@ -79,23 +79,23 @@ protected:
   enum { IsRowMajor = (XprType::Flags&RowMajorBit)==RowMajorBit };
   
 public:
-  EIGEN_STRONG_INLINE inner_iterator_selector(const EvaluatorType &eval, const Index &outerId, const Index &innerSize)
+  HYDRA_EIGEN_STRONG_INLINE inner_iterator_selector(const EvaluatorType &eval, const Index &outerId, const Index &innerSize)
     : m_eval(eval), m_inner(0), m_outer(outerId), m_end(innerSize)
   {}
 
-  EIGEN_STRONG_INLINE Scalar value() const
+  HYDRA_EIGEN_STRONG_INLINE Scalar value() const
   {
     return (IsRowMajor) ? m_eval.coeff(m_outer, m_inner)
                         : m_eval.coeff(m_inner, m_outer);
   }
 
-  EIGEN_STRONG_INLINE inner_iterator_selector& operator++() { m_inner++; return *this; }
+  HYDRA_EIGEN_STRONG_INLINE inner_iterator_selector& operator++() { m_inner++; return *this; }
 
-  EIGEN_STRONG_INLINE Index index() const { return m_inner; }
+  HYDRA_EIGEN_STRONG_INLINE Index index() const { return m_inner; }
   inline Index row() const { return IsRowMajor ? m_outer : index(); }
   inline Index col() const { return IsRowMajor ? index() : m_outer; }
 
-  EIGEN_STRONG_INLINE operator bool() const { return m_inner < m_end && m_inner>=0; }
+  HYDRA_EIGEN_STRONG_INLINE operator bool() const { return m_inner < m_end && m_inner>=0; }
 
 protected:
   const EvaluatorType& m_eval;
@@ -115,7 +115,7 @@ protected:
   typedef evaluator<XprType> EvaluatorType;
   
 public:
-  EIGEN_STRONG_INLINE inner_iterator_selector(const EvaluatorType &eval, const Index &outerId, const Index &/*innerSize*/)
+  HYDRA_EIGEN_STRONG_INLINE inner_iterator_selector(const EvaluatorType &eval, const Index &outerId, const Index &/*innerSize*/)
     : Base(eval, outerId)
   {}  
 };
@@ -124,4 +124,4 @@ public:
 
 } /* end namespace Eigen */  HYDRA_EXTERNAL_NAMESPACE_END
 
-#endif // EIGEN_COREITERATORS_H
+#endif // HYDRA_EIGEN_COREITERATORS_H

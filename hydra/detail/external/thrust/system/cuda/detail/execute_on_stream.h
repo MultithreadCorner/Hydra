@@ -30,7 +30,7 @@ namespace detail
 {
 
 
-__host__ __device__
+__hydra_host__ __hydra_device__
 inline cudaStream_t legacy_stream()
 {
 #if (CUDA_VERSION < 7000)
@@ -41,7 +41,7 @@ inline cudaStream_t legacy_stream()
 }
 
 
-__host__ __device__
+__hydra_host__ __hydra_device__
 inline cudaStream_t default_stream()
 {
   // XXX we might actually want to use the per-thread default stream instead
@@ -51,7 +51,7 @@ inline cudaStream_t default_stream()
 
 // given any old execution_policy, we return the default stream
 template<typename DerivedPolicy>
-__host__ __device__
+__hydra_host__ __hydra_device__
 inline cudaStream_t stream(const execution_policy<DerivedPolicy> &exec)
 {
   return default_stream();
@@ -64,17 +64,17 @@ class execute_on_stream_base
   : public thrust::system::cuda::detail::execution_policy<DerivedPolicy>
 {
   public:
-    __host__ __device__
+    __hydra_host__ __hydra_device__
     execute_on_stream_base()
       : m_stream(default_stream())
     {}
 
-    __host__ __device__
+    __hydra_host__ __hydra_device__
     execute_on_stream_base(cudaStream_t stream)
       : m_stream(stream)
     {}
 
-    __host__ __device__
+    __hydra_host__ __hydra_device__
     DerivedPolicy on(const cudaStream_t &s) const
     {
       // create a copy of *this to return
@@ -89,13 +89,13 @@ class execute_on_stream_base
 
   private:
     // stream() is a friend function because we call it through ADL
-    __host__ __device__
+    __hydra_host__ __hydra_device__
     friend inline cudaStream_t stream(const execute_on_stream_base &exec)
     {
       return exec.m_stream;
     }
 
-    __host__ __device__
+    __hydra_host__ __hydra_device__
     inline void set_stream(const cudaStream_t &s)
     {
       m_stream = s;
@@ -112,7 +112,7 @@ class execute_on_stream
   typedef execute_on_stream_base<execute_on_stream> super_t;
 
   public:
-    __host__ __device__
+    __hydra_host__ __hydra_device__
     inline execute_on_stream(cudaStream_t stream) 
       : super_t(stream)
     {}

@@ -7,8 +7,8 @@
 // Public License v. 2.0. If a copy of the MPL was not distributed
 // with this file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
-#ifndef EIGEN_SCALING_H
-#define EIGEN_SCALING_H
+#ifndef HYDRA_EIGEN_SCALING_H
+#define HYDRA_EIGEN_SCALING_H
 
 HYDRA_EXTERNAL_NAMESPACE_BEGIN namespace Eigen { 
 
@@ -113,7 +113,7 @@ public:
 // NOTE this operator is defiend in MatrixBase and not as a friend function
 // of UniformScaling to fix an internal crash of Intel's ICC
 template<typename Derived,typename Scalar>
-EIGEN_EXPR_BINARYOP_SCALAR_RETURN_TYPE(Derived,Scalar,product)
+HYDRA_EIGEN_EXPR_BINARYOP_SCALAR_RETURN_TYPE(Derived,Scalar,product)
 operator*(const MatrixBase<Derived>& matrix, const UniformScaling<Scalar>& s)
 { return matrix.derived() * s.factor(); }
 
@@ -167,4 +167,4 @@ UniformScaling<Scalar>::operator* (const Translation<Scalar,Dim>& t) const
 
 } /* end namespace Eigen */  HYDRA_EXTERNAL_NAMESPACE_END
 
-#endif // EIGEN_SCALING_H
+#endif // HYDRA_EIGEN_SCALING_H

@@ -31,7 +31,7 @@ namespace complex
 // It also provides an easy way to support compilers with missing C99 functions.
 // When possible, just use the names in the global scope.
 // Some platforms define these as macros, others as free functions.
-// Avoid using the std:: form of these as nvcc may treat std::foo() as __host__ functions.
+// Avoid using the std:: form of these as nvcc may treat std::foo() as __hydra_host__ functions.
 
 using ::log;
 using ::acos;
@@ -46,10 +46,10 @@ using ::cosh;
 using ::atan;
 
 template <typename T>
-inline __host__ __device__ T infinity();
+inline __hydra_host__ __hydra_device__ T infinity();
 
 template <>
-inline __host__ __device__ float infinity<float>()
+inline __hydra_host__ __hydra_device__ float infinity<float>()
 {
   float res;
   set_float_word(res, 0x7f800000);
@@ -58,7 +58,7 @@ inline __host__ __device__ float infinity<float>()
 
 
 template <>
-inline __host__ __device__ double infinity<double>()
+inline __hydra_host__ __hydra_device__ double infinity<double>()
 {
   double res;
   insert_words(res, 0x7ff00000,0);
@@ -66,35 +66,35 @@ inline __host__ __device__ double infinity<double>()
 }
 
 #if defined _MSC_VER
-__host__ __device__ inline int isinf(float x){
+__hydra_host__ __hydra_device__ inline int isinf(float x){
   return std::abs(x) == infinity<float>();
 }
 
-__host__ __device__ inline int isinf(double x){
+__hydra_host__ __hydra_device__ inline int isinf(double x){
   return std::abs(x) == infinity<double>();
 }
 
-__host__ __device__ inline int isnan(float x){
+__hydra_host__ __hydra_device__ inline int isnan(float x){
   return x != x;
 }
 
-__host__ __device__ inline int isnan(double x){
+__hydra_host__ __hydra_device__ inline int isnan(double x){
   return x != x;
 }
 
-__host__ __device__ inline int signbit(float x){
+__hydra_host__ __hydra_device__ inline int signbit(float x){
   return (*((uint32_t *)&x)) & 0x80000000;
 }
 
-__host__ __device__ inline int signbit(double x){
+__hydra_host__ __hydra_device__ inline int signbit(double x){
   return (*((uint32_t *)&x)) & 0x80000000;
 }
 
-__host__ __device__ inline int isfinite(float x){
+__hydra_host__ __hydra_device__ inline int isfinite(float x){
   return !isnan(x) && !isinf(x);
 }
 
-__host__ __device__ inline int isfinite(double x){
+__hydra_host__ __hydra_device__ inline int isfinite(double x){
   return !isnan(x) && !isinf(x);
 }
 
@@ -131,7 +131,7 @@ using ::atanh;
   
 #if defined _MSC_VER
 
-__host__ __device__ inline double copysign(double x, double y){
+__hydra_host__ __hydra_device__ inline double copysign(double x, double y){
   uint32_t hx,hy;
   get_high_word(hx,x);
   get_high_word(hy,y);
@@ -139,7 +139,7 @@ __host__ __device__ inline double copysign(double x, double y){
   return x;
 }
 
-__host__ __device__ inline float copysignf(float x, float y){
+__hydra_host__ __hydra_device__ inline float copysignf(float x, float y){
   uint32_t ix,iy;
   get_float_word(ix,x);
   get_float_word(iy,y);

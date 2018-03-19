@@ -38,8 +38,8 @@ typedef CwiseUnaryOp<internal::scalar_isfinite_op<Scalar>, const Derived> IsFini
   *
   * \sa <a href="group__CoeffwiseMathFunctions.html#cwisetable_abs">Math functions</a>, abs2()
   */
-EIGEN_DEVICE_FUNC
-EIGEN_STRONG_INLINE const AbsReturnType
+HYDRA_EIGEN_DEVICE_FUNC
+HYDRA_EIGEN_STRONG_INLINE const AbsReturnType
 abs() const
 {
   return AbsReturnType(derived());
@@ -52,8 +52,8 @@ abs() const
   *
   * \sa abs()
   */
-EIGEN_DEVICE_FUNC
-EIGEN_STRONG_INLINE const ArgReturnType
+HYDRA_EIGEN_DEVICE_FUNC
+HYDRA_EIGEN_STRONG_INLINE const ArgReturnType
 arg() const
 {
   return ArgReturnType(derived());
@@ -66,8 +66,8 @@ arg() const
   *
   * \sa <a href="group__CoeffwiseMathFunctions.html#cwisetable_abs2">Math functions</a>, abs(), square()
   */
-EIGEN_DEVICE_FUNC
-EIGEN_STRONG_INLINE const Abs2ReturnType
+HYDRA_EIGEN_DEVICE_FUNC
+HYDRA_EIGEN_STRONG_INLINE const Abs2ReturnType
 abs2() const
 {
   return Abs2ReturnType(derived());
@@ -83,7 +83,7 @@ abs2() const
   *
   * \sa <a href="group__CoeffwiseMathFunctions.html#cwisetable_exp">Math functions</a>, pow(), log(), sin(), cos()
   */
-EIGEN_DEVICE_FUNC
+HYDRA_EIGEN_DEVICE_FUNC
 inline const ExpReturnType
 exp() const
 {
@@ -100,7 +100,7 @@ exp() const
   *
   * \sa <a href="group__CoeffwiseMathFunctions.html#cwisetable_log">Math functions</a>, exp()
   */
-EIGEN_DEVICE_FUNC
+HYDRA_EIGEN_DEVICE_FUNC
 inline const LogReturnType
 log() const
 {
@@ -114,7 +114,7 @@ log() const
   *
   * \sa <a href="group__CoeffwiseMathFunctions.html#cwisetable_log1p">Math functions</a>, log()
   */
-EIGEN_DEVICE_FUNC
+HYDRA_EIGEN_DEVICE_FUNC
 inline const Log1pReturnType
 log1p() const
 {
@@ -130,7 +130,7 @@ log1p() const
   *
   * \sa <a href="group__CoeffwiseMathFunctions.html#cwisetable_log10">Math functions</a>, log()
   */
-EIGEN_DEVICE_FUNC
+HYDRA_EIGEN_DEVICE_FUNC
 inline const Log10ReturnType
 log10() const
 {
@@ -147,7 +147,7 @@ log10() const
   *
   * \sa <a href="group__CoeffwiseMathFunctions.html#cwisetable_sqrt">Math functions</a>, pow(), square()
   */
-EIGEN_DEVICE_FUNC
+HYDRA_EIGEN_DEVICE_FUNC
 inline const SqrtReturnType
 sqrt() const
 {
@@ -163,7 +163,7 @@ sqrt() const
   *
   * \sa pow(), square()
   */
-EIGEN_DEVICE_FUNC
+HYDRA_EIGEN_DEVICE_FUNC
 inline const RsqrtReturnType
 rsqrt() const
 {
@@ -179,7 +179,7 @@ rsqrt() const
   *
   * \sa pow(), square()
   */
-EIGEN_DEVICE_FUNC
+HYDRA_EIGEN_DEVICE_FUNC
 inline const SignReturnType
 sign() const
 {
@@ -197,7 +197,7 @@ sign() const
   *
   * \sa <a href="group__CoeffwiseMathFunctions.html#cwisetable_cos">Math functions</a>, sin(), acos()
   */
-EIGEN_DEVICE_FUNC
+HYDRA_EIGEN_DEVICE_FUNC
 inline const CosReturnType
 cos() const
 {
@@ -215,7 +215,7 @@ cos() const
   *
   * \sa <a href="group__CoeffwiseMathFunctions.html#cwisetable_sin">Math functions</a>, cos(), asin()
   */
-EIGEN_DEVICE_FUNC
+HYDRA_EIGEN_DEVICE_FUNC
 inline const SinReturnType
 sin() const
 {
@@ -229,7 +229,7 @@ sin() const
   *
   * \sa <a href="group__CoeffwiseMathFunctions.html#cwisetable_tan">Math functions</a>, cos(), sin()
   */
-EIGEN_DEVICE_FUNC
+HYDRA_EIGEN_DEVICE_FUNC
 inline const TanReturnType
 tan() const
 {
@@ -243,7 +243,7 @@ tan() const
   *
   * \sa <a href="group__CoeffwiseMathFunctions.html#cwisetable_atan">Math functions</a>, tan(), asin(), acos()
   */
-EIGEN_DEVICE_FUNC
+HYDRA_EIGEN_DEVICE_FUNC
 inline const AtanReturnType
 atan() const
 {
@@ -257,7 +257,7 @@ atan() const
   *
   * \sa <a href="group__CoeffwiseMathFunctions.html#cwisetable_acos">Math functions</a>, cos(), asin()
   */
-EIGEN_DEVICE_FUNC
+HYDRA_EIGEN_DEVICE_FUNC
 inline const AcosReturnType
 acos() const
 {
@@ -271,7 +271,7 @@ acos() const
   *
   * \sa <a href="group__CoeffwiseMathFunctions.html#cwisetable_asin">Math functions</a>, sin(), acos()
   */
-EIGEN_DEVICE_FUNC
+HYDRA_EIGEN_DEVICE_FUNC
 inline const AsinReturnType
 asin() const
 {
@@ -285,7 +285,7 @@ asin() const
   *
   * \sa <a href="group__CoeffwiseMathFunctions.html#cwisetable_tanh">Math functions</a>, tan(), sinh(), cosh()
   */
-EIGEN_DEVICE_FUNC
+HYDRA_EIGEN_DEVICE_FUNC
 inline const TanhReturnType
 tanh() const
 {
@@ -299,7 +299,7 @@ tanh() const
   *
   * \sa <a href="group__CoeffwiseMathFunctions.html#cwisetable_sinh">Math functions</a>, sin(), tanh(), cosh()
   */
-EIGEN_DEVICE_FUNC
+HYDRA_EIGEN_DEVICE_FUNC
 inline const SinhReturnType
 sinh() const
 {
@@ -313,7 +313,7 @@ sinh() const
   *
   * \sa <a href="group__CoeffwiseMathFunctions.html#cwisetable_cosh">Math functions</a>, tan(), sinh(), cosh()
   */
-EIGEN_DEVICE_FUNC
+HYDRA_EIGEN_DEVICE_FUNC
 inline const CoshReturnType
 cosh() const
 {
@@ -327,7 +327,7 @@ cosh() const
   *
   * \sa operator/(), operator*()
   */
-EIGEN_DEVICE_FUNC
+HYDRA_EIGEN_DEVICE_FUNC
 inline const InverseReturnType
 inverse() const
 {
@@ -341,7 +341,7 @@ inverse() const
   *
   * \sa <a href="group__CoeffwiseMathFunctions.html#cwisetable_squareE">Math functions</a>, abs2(), cube(), pow()
   */
-EIGEN_DEVICE_FUNC
+HYDRA_EIGEN_DEVICE_FUNC
 inline const SquareReturnType
 square() const
 {
@@ -355,7 +355,7 @@ square() const
   *
   * \sa <a href="group__CoeffwiseMathFunctions.html#cwisetable_cube">Math functions</a>, square(), pow()
   */
-EIGEN_DEVICE_FUNC
+HYDRA_EIGEN_DEVICE_FUNC
 inline const CubeReturnType
 cube() const
 {
@@ -369,7 +369,7 @@ cube() const
   *
   * \sa <a href="group__CoeffwiseMathFunctions.html#cwisetable_round">Math functions</a>, ceil(), floor()
   */
-EIGEN_DEVICE_FUNC
+HYDRA_EIGEN_DEVICE_FUNC
 inline const RoundReturnType
 round() const
 {
@@ -383,7 +383,7 @@ round() const
   *
   * \sa <a href="group__CoeffwiseMathFunctions.html#cwisetable_floor">Math functions</a>, ceil(), round()
   */
-EIGEN_DEVICE_FUNC
+HYDRA_EIGEN_DEVICE_FUNC
 inline const FloorReturnType
 floor() const
 {
@@ -397,7 +397,7 @@ floor() const
   *
   * \sa <a href="group__CoeffwiseMathFunctions.html#cwisetable_ceil">Math functions</a>, floor(), round()
   */
-EIGEN_DEVICE_FUNC
+HYDRA_EIGEN_DEVICE_FUNC
 inline const CeilReturnType
 ceil() const
 {
@@ -411,7 +411,7 @@ ceil() const
   *
   * \sa isfinite(), isinf()
   */
-EIGEN_DEVICE_FUNC
+HYDRA_EIGEN_DEVICE_FUNC
 inline const IsNaNReturnType
 isNaN() const
 {
@@ -425,7 +425,7 @@ isNaN() const
   *
   * \sa isnan(), isfinite()
   */
-EIGEN_DEVICE_FUNC
+HYDRA_EIGEN_DEVICE_FUNC
 inline const IsInfReturnType
 isInf() const
 {
@@ -439,7 +439,7 @@ isInf() const
   *
   * \sa isnan(), isinf()
   */
-EIGEN_DEVICE_FUNC
+HYDRA_EIGEN_DEVICE_FUNC
 inline const IsFiniteReturnType
 isFinite() const
 {
@@ -455,11 +455,11 @@ isFinite() const
   *
   * \sa operator!=()
   */
-EIGEN_DEVICE_FUNC
+HYDRA_EIGEN_DEVICE_FUNC
 inline const BooleanNotReturnType
 operator!() const
 {
-  EIGEN_STATIC_ASSERT((internal::is_same<bool,Scalar>::value),
+  HYDRA_EIGEN_STATIC_ASSERT((internal::is_same<bool,Scalar>::value),
                       THIS_METHOD_IS_ONLY_FOR_EXPRESSIONS_OF_BOOL);
   return BooleanNotReturnType(derived());
 }
@@ -485,7 +485,7 @@ typedef CwiseUnaryOp<internal::scalar_erfc_op<Scalar>, const Derived> ErfcReturn
   *
   * \sa <a href="group__CoeffwiseMathFunctions.html#cwisetable_lgamma">Math functions</a>, digamma()
   */
-EIGEN_DEVICE_FUNC
+HYDRA_EIGEN_DEVICE_FUNC
 inline const LgammaReturnType
 lgamma() const
 {
@@ -502,7 +502,7 @@ lgamma() const
   *
   * \sa <a href="group__CoeffwiseMathFunctions.html#cwisetable_digamma">Math functions</a>, HYDRA_EXTERNAL_NS::Eigen::digamma(), HYDRA_EXTERNAL_NS::Eigen::polygamma(), lgamma()
   */
-EIGEN_DEVICE_FUNC
+HYDRA_EIGEN_DEVICE_FUNC
 inline const DigammaReturnType
 digamma() const
 {
@@ -523,7 +523,7 @@ digamma() const
   *
   * \sa <a href="group__CoeffwiseMathFunctions.html#cwisetable_erf">Math functions</a>, erfc()
   */
-EIGEN_DEVICE_FUNC
+HYDRA_EIGEN_DEVICE_FUNC
 inline const ErfReturnType
 erf() const
 {
@@ -544,7 +544,7 @@ erf() const
   *
   * \sa <a href="group__CoeffwiseMathFunctions.html#cwisetable_erfc">Math functions</a>, erf()
   */
-EIGEN_DEVICE_FUNC
+HYDRA_EIGEN_DEVICE_FUNC
 inline const ErfcReturnType
 erfc() const
 {

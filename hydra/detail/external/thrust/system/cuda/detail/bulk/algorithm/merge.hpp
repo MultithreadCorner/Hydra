@@ -33,7 +33,7 @@ namespace bulk
 
 
 template<typename RandomAccessIterator1, typename Size, typename RandomAccessIterator2, typename Compare>
-__device__
+__hydra_device__
 Size merge_path(RandomAccessIterator1 first1, Size n1,
                 RandomAccessIterator2 first2, Size n2,
                 Size diag,
@@ -66,7 +66,7 @@ template<std::size_t bound,
          typename InputIterator2,
          typename OutputIterator,
          typename Compare>
-__device__
+__hydra_device__
 OutputIterator merge(const bulk::bounded<bound,agent<grainsize> > &e,
                      InputIterator1 first1, InputIterator1 last1,
                      InputIterator2 first2, InputIterator2 last2,
@@ -178,7 +178,7 @@ template<std::size_t bound, std::size_t grainsize,
          typename RandomAccessIterator5,
          typename RandomAccessIterator6,
          typename Compare>
-__device__
+__hydra_device__
 thrust::pair<RandomAccessIterator5,RandomAccessIterator6>
   merge_by_key(const bulk::bounded<bound,bulk::agent<grainsize> > &,
                RandomAccessIterator1 keys_first1, RandomAccessIterator1 keys_last1,
@@ -306,7 +306,7 @@ thrust::pair<RandomAccessIterator5,RandomAccessIterator6>
 
 
 template<std::size_t bound, std::size_t groupsize, std::size_t grainsize, typename RandomAccessIterator, typename Compare>
-__device__
+__hydra_device__
 typename thrust::detail::enable_if<
   (bound <= groupsize * grainsize)
 >::type
@@ -358,7 +358,7 @@ template<std::size_t bound, std::size_t groupsize, std::size_t grainsize,
          typename RandomAccessIterator2,
          typename RandomAccessIterator3,
          typename Compare>
-__device__
+__hydra_device__
 typename thrust::detail::enable_if<
   (bound <= groupsize * grainsize),
   RandomAccessIterator3
@@ -416,7 +416,7 @@ namespace merge_detail
 
 // XXX this should take a bounded
 template<std::size_t groupsize, std::size_t grainsize, typename RandomAccessIterator1, typename RandomAccessIterator2, typename RandomAccessIterator3, typename RandomAccessIterator4, typename Compare>
-__device__
+__hydra_device__
 RandomAccessIterator4
   bounded_merge_with_buffer(bulk::concurrent_group<bulk::agent<grainsize>,groupsize> &exec,
                             RandomAccessIterator1 first1, RandomAccessIterator1 last1,
@@ -452,7 +452,7 @@ RandomAccessIterator4
 
 
 template<std::size_t groupsize, std::size_t grainsize, typename RandomAccessIterator1, typename RandomAccessIterator2, typename RandomAccessIterator3, typename Compare>
-__device__
+__hydra_device__
 RandomAccessIterator3 merge(bulk::concurrent_group<bulk::agent<grainsize>,groupsize> &exec,
                             RandomAccessIterator1 first1, RandomAccessIterator1 last1,
                             RandomAccessIterator2 first2, RandomAccessIterator2 last2,
@@ -512,7 +512,7 @@ template<std::size_t groupsize, std::size_t grainsize,
          typename RandomAccessIterator5,
          typename RandomAccessIterator6,
          typename Compare>
-__device__
+__hydra_device__
 thrust::pair<RandomAccessIterator5,RandomAccessIterator6>
 merge_by_key(bulk::bounded<
                groupsize*grainsize,

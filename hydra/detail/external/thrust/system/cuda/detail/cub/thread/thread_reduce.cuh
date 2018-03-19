@@ -52,7 +52,7 @@ template <
     int         LENGTH,
     typename    T,
     typename    ReductionOp>
-__device__ __forceinline__ T ThreadReduce(
+__hydra_device__ __forceinline__ T ThreadReduce(
     T*                  input,                  ///< [in] Input array
     ReductionOp         reduction_op,           ///< [in] Binary reduction operator
     T                   prefix,                 ///< [in] Prefix to seed reduction with
@@ -79,7 +79,7 @@ template <
     int         LENGTH,
     typename    T,
     typename    ReductionOp>
-__device__ __forceinline__ T ThreadReduce(
+__hydra_device__ __forceinline__ T ThreadReduce(
     T*          input,                  ///< [in] Input array
     ReductionOp reduction_op,           ///< [in] Binary reduction operator
     T           prefix)                 ///< [in] Prefix to seed reduction with
@@ -99,7 +99,7 @@ template <
     int         LENGTH,
     typename    T,
     typename    ReductionOp>
-__device__ __forceinline__ T ThreadReduce(
+__hydra_device__ __forceinline__ T ThreadReduce(
     T*          input,                  ///< [in] Input array
     ReductionOp reduction_op)           ///< [in] Binary reduction operator
 {
@@ -119,7 +119,7 @@ template <
     int         LENGTH,
     typename    T,
     typename    ReductionOp>
-__device__ __forceinline__ T ThreadReduce(
+__hydra_device__ __forceinline__ T ThreadReduce(
     T           (&input)[LENGTH],       ///< [in] Input array
     ReductionOp reduction_op,           ///< [in] Binary reduction operator
     T           prefix)                 ///< [in] Prefix to seed reduction with
@@ -139,7 +139,7 @@ template <
     int         LENGTH,
     typename    T,
     typename    ReductionOp>
-__device__ __forceinline__ T ThreadReduce(
+__hydra_device__ __forceinline__ T ThreadReduce(
     T           (&input)[LENGTH],       ///< [in] Input array
     ReductionOp reduction_op)           ///< [in] Binary reduction operator
 {

@@ -26,10 +26,11 @@
  *      Author: Antonio Augusto Alves Junior
  */
 
+#ifndef PLAIN_MC_INL_
+#define PLAIN_MC_INL_
 
 /**
- * @file
- * @example plain_mc
+ * \example plain_mc.inl
  * This example show how to use the hydra::Plain
  * numerical integration algorithm to calculate
  * the integral of a five dimensional Gaussian.
@@ -103,7 +104,7 @@ int main(int argv, char** argc)
 	}
 
 	// create functor using C++11 lambda
-	auto GAUSSIAN = [=] __host__ __device__ (unsigned int n, double* x ){
+	auto GAUSSIAN = [=] __hydra_dual__ (unsigned int n, double* x ){
 
 		double g = 1.0;
 		double f = 0.0;
@@ -146,3 +147,4 @@ int main(int argv, char** argc)
 
 	}
 
+#endif /* PLAIN_INL_ */

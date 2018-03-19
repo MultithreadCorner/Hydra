@@ -1249,7 +1249,7 @@ template<typename ...T, hydra::detail::Backend BACKEND1, hydra::detail::Backend 
 bool operator==(const multivector<HYDRA_EXTERNAL_NS::thrust::tuple<T...>, hydra::detail::BackendPolicy<BACKEND1>>& lhs,
                 const multivector<HYDRA_EXTERNAL_NS::thrust::tuple<T...>, hydra::detail::BackendPolicy<BACKEND2>>& rhs){
 
-	auto comparison = []__host__ __device__(
+	auto comparison = []__hydra_host__ __hydra_device__(
 			HYDRA_EXTERNAL_NS::thrust::tuple< HYDRA_EXTERNAL_NS::thrust::tuple<T...>,
 				HYDRA_EXTERNAL_NS::thrust::tuple<T...> > const& values)
 	{
@@ -1267,7 +1267,7 @@ template<typename ...T, hydra::detail::Backend BACKEND1, hydra::detail::Backend 
 bool operator!=(const multivector<HYDRA_EXTERNAL_NS::thrust::tuple<T...>, hydra::detail::BackendPolicy<BACKEND1>>& lhs,
                 const multivector<HYDRA_EXTERNAL_NS::thrust::tuple<T...>, hydra::detail::BackendPolicy<BACKEND2>>& rhs){
 
-	auto comparison = []__host__ __device__(
+	auto comparison = []__hydra_host__ __hydra_device__(
 			HYDRA_EXTERNAL_NS::thrust::tuple< HYDRA_EXTERNAL_NS::thrust::tuple<T...>,
 			HYDRA_EXTERNAL_NS::thrust::tuple<T...>	> const& values){
 		return HYDRA_EXTERNAL_NS::thrust::get<0>(values)== HYDRA_EXTERNAL_NS::thrust::get<1>(values);

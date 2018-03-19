@@ -8,8 +8,8 @@
 // Public License v. 2.0. If a copy of the MPL was not distributed
 // with this file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
-#ifndef EIGEN_DIAGONAL_H
-#define EIGEN_DIAGONAL_H
+#ifndef HYDRA_EIGEN_DIAGONAL_H
+#define HYDRA_EIGEN_DIAGONAL_H
 
 HYDRA_EXTERNAL_NAMESPACE_BEGIN namespace Eigen { 
 
@@ -42,14 +42,14 @@ struct traits<Diagonal<MatrixType,DiagIndex> >
   typedef typename MatrixType::StorageKind StorageKind;
   enum {
     RowsAtCompileTime = (int(DiagIndex) == DynamicIndex || int(MatrixType::SizeAtCompileTime) == Dynamic) ? Dynamic
-                      : (EIGEN_PLAIN_ENUM_MIN(MatrixType::RowsAtCompileTime - EIGEN_PLAIN_ENUM_MAX(-DiagIndex, 0),
-                                              MatrixType::ColsAtCompileTime - EIGEN_PLAIN_ENUM_MAX( DiagIndex, 0))),
+                      : (HYDRA_EIGEN_PLAIN_ENUM_MIN(MatrixType::RowsAtCompileTime - HYDRA_EIGEN_PLAIN_ENUM_MAX(-DiagIndex, 0),
+                                              MatrixType::ColsAtCompileTime - HYDRA_EIGEN_PLAIN_ENUM_MAX( DiagIndex, 0))),
     ColsAtCompileTime = 1,
     MaxRowsAtCompileTime = int(MatrixType::MaxSizeAtCompileTime) == Dynamic ? Dynamic
-                         : DiagIndex == DynamicIndex ? EIGEN_SIZE_MIN_PREFER_FIXED(MatrixType::MaxRowsAtCompileTime,
+                         : DiagIndex == DynamicIndex ? HYDRA_EIGEN_SIZE_MIN_PREFER_FIXED(MatrixType::MaxRowsAtCompileTime,
                                                                               MatrixType::MaxColsAtCompileTime)
-                         : (EIGEN_PLAIN_ENUM_MIN(MatrixType::MaxRowsAtCompileTime - EIGEN_PLAIN_ENUM_MAX(-DiagIndex, 0),
-                                                 MatrixType::MaxColsAtCompileTime - EIGEN_PLAIN_ENUM_MAX( DiagIndex, 0))),
+                         : (HYDRA_EIGEN_PLAIN_ENUM_MIN(MatrixType::MaxRowsAtCompileTime - HYDRA_EIGEN_PLAIN_ENUM_MAX(-DiagIndex, 0),
+                                                 MatrixType::MaxColsAtCompileTime - HYDRA_EIGEN_PLAIN_ENUM_MAX( DiagIndex, 0))),
     MaxColsAtCompileTime = 1,
     MaskLvalueBit = is_lvalue<MatrixType>::value ? LvalueBit : 0,
     Flags = (unsigned int)_MatrixTypeNested::Flags & (RowMajorBit | MaskLvalueBit | DirectAccessBit) & ~RowMajorBit, // FIXME DirectAccessBit should not be handled by expressions
@@ -67,30 +67,30 @@ template<typename MatrixType, int _DiagIndex> class Diagonal
 
     enum { DiagIndex = _DiagIndex };
     typedef typename internal::dense_xpr_base<Diagonal>::type Base;
-    EIGEN_DENSE_PUBLIC_INTERFACE(Diagonal)
+    HYDRA_EIGEN_DENSE_PUBLIC_INTERFACE(Diagonal)
 
-    EIGEN_DEVICE_FUNC
+    HYDRA_EIGEN_DEVICE_FUNC
     explicit inline Diagonal(MatrixType& matrix, Index a_index = DiagIndex) : m_matrix(matrix), m_index(a_index) {}
 
-    EIGEN_INHERIT_ASSIGNMENT_OPERATORS(Diagonal)
+    HYDRA_EIGEN_INHERIT_ASSIGNMENT_OPERATORS(Diagonal)
 
-    EIGEN_DEVICE_FUNC
+    HYDRA_EIGEN_DEVICE_FUNC
     inline Index rows() const
     {
       return m_index.value()<0 ? numext::mini<Index>(m_matrix.cols(),m_matrix.rows()+m_index.value())
                                : numext::mini<Index>(m_matrix.rows(),m_matrix.cols()-m_index.value());
     }
 
-    EIGEN_DEVICE_FUNC
+    HYDRA_EIGEN_DEVICE_FUNC
     inline Index cols() const { return 1; }
 
-    EIGEN_DEVICE_FUNC
+    HYDRA_EIGEN_DEVICE_FUNC
     inline Index innerStride() const
     {
       return m_matrix.outerStride() + 1;
     }
 
-    EIGEN_DEVICE_FUNC
+    HYDRA_EIGEN_DEVICE_FUNC
     inline Index outerStride() const
     {
       return 0;
@@ -102,57 +102,57 @@ template<typename MatrixType, int _DiagIndex> class Diagonal
                        const Scalar
                      >::type ScalarWithConstIfNotLvalue;
 
-    EIGEN_DEVICE_FUNC
+    HYDRA_EIGEN_DEVICE_FUNC
     inline ScalarWithConstIfNotLvalue* data() { return &(m_matrix.coeffRef(rowOffset(), colOffset())); }
-    EIGEN_DEVICE_FUNC
+    HYDRA_EIGEN_DEVICE_FUNC
     inline const Scalar* data() const { return &(m_matrix.coeffRef(rowOffset(), colOffset())); }
 
-    EIGEN_DEVICE_FUNC
+    HYDRA_EIGEN_DEVICE_FUNC
     inline Scalar& coeffRef(Index row, Index)
     {
-      EIGEN_STATIC_ASSERT_LVALUE(MatrixType)
+      HYDRA_EIGEN_STATIC_ASSERT_LVALUE(MatrixType)
       return m_matrix.coeffRef(row+rowOffset(), row+colOffset());
     }
 
-    EIGEN_DEVICE_FUNC
+    HYDRA_EIGEN_DEVICE_FUNC
     inline const Scalar& coeffRef(Index row, Index) const
     {
       return m_matrix.coeffRef(row+rowOffset(), row+colOffset());
     }
 
-    EIGEN_DEVICE_FUNC
+    HYDRA_EIGEN_DEVICE_FUNC
     inline CoeffReturnType coeff(Index row, Index) const
     {
       return m_matrix.coeff(row+rowOffset(), row+colOffset());
     }
 
-    EIGEN_DEVICE_FUNC
+    HYDRA_EIGEN_DEVICE_FUNC
     inline Scalar& coeffRef(Index idx)
     {
-      EIGEN_STATIC_ASSERT_LVALUE(MatrixType)
+      HYDRA_EIGEN_STATIC_ASSERT_LVALUE(MatrixType)
       return m_matrix.coeffRef(idx+rowOffset(), idx+colOffset());
     }
 
-    EIGEN_DEVICE_FUNC
+    HYDRA_EIGEN_DEVICE_FUNC
     inline const Scalar& coeffRef(Index idx) const
     {
       return m_matrix.coeffRef(idx+rowOffset(), idx+colOffset());
     }
 
-    EIGEN_DEVICE_FUNC
+    HYDRA_EIGEN_DEVICE_FUNC
     inline CoeffReturnType coeff(Index idx) const
     {
       return m_matrix.coeff(idx+rowOffset(), idx+colOffset());
     }
 
-    EIGEN_DEVICE_FUNC
+    HYDRA_EIGEN_DEVICE_FUNC
     inline const typename internal::remove_all<typename MatrixType::Nested>::type& 
     nestedExpression() const 
     {
       return m_matrix;
     }
 
-    EIGEN_DEVICE_FUNC
+    HYDRA_EIGEN_DEVICE_FUNC
     inline Index index() const
     {
       return m_index.value();
@@ -164,12 +164,12 @@ template<typename MatrixType, int _DiagIndex> class Diagonal
 
   private:
     // some compilers may fail to optimize std::max etc in case of compile-time constants...
-    EIGEN_DEVICE_FUNC
-    EIGEN_STRONG_INLINE Index absDiagIndex() const { return m_index.value()>0 ? m_index.value() : -m_index.value(); }
-    EIGEN_DEVICE_FUNC
-    EIGEN_STRONG_INLINE Index rowOffset() const { return m_index.value()>0 ? 0 : -m_index.value(); }
-    EIGEN_DEVICE_FUNC
-    EIGEN_STRONG_INLINE Index colOffset() const { return m_index.value()>0 ? m_index.value() : 0; }
+    HYDRA_EIGEN_DEVICE_FUNC
+    HYDRA_EIGEN_STRONG_INLINE Index absDiagIndex() const { return m_index.value()>0 ? m_index.value() : -m_index.value(); }
+    HYDRA_EIGEN_DEVICE_FUNC
+    HYDRA_EIGEN_STRONG_INLINE Index rowOffset() const { return m_index.value()>0 ? 0 : -m_index.value(); }
+    HYDRA_EIGEN_DEVICE_FUNC
+    HYDRA_EIGEN_STRONG_INLINE Index colOffset() const { return m_index.value()>0 ? m_index.value() : 0; }
     // trigger a compile-time error if someone try to call packet
     template<int LoadMode> typename MatrixType::PacketReturnType packet(Index) const;
     template<int LoadMode> typename MatrixType::PacketReturnType packet(Index,Index) const;
@@ -254,4 +254,4 @@ MatrixBase<Derived>::diagonal() const
 
 } /* end namespace Eigen */  HYDRA_EXTERNAL_NAMESPACE_END
 
-#endif // EIGEN_DIAGONAL_H
+#endif // HYDRA_EIGEN_DIAGONAL_H

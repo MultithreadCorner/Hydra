@@ -8,8 +8,8 @@
 // Public License v. 2.0. If a copy of the MPL was not distributed
 // with this file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
-#ifndef EIGEN_MATRIX_H
-#define EIGEN_MATRIX_H
+#ifndef HYDRA_EIGEN_MATRIX_H
+#define HYDRA_EIGEN_MATRIX_H
 
 HYDRA_EXTERNAL_NAMESPACE_BEGIN namespace Eigen {
 
@@ -27,7 +27,7 @@ private:
       default_alignment = compute_default_alignment<_Scalar,max_size>::value,
       actual_alignment = ((_Options&DontAlign)==0) ? default_alignment : 0,
       required_alignment = unpacket_traits<PacketScalar>::alignment,
-      packet_access_bit = (packet_traits<_Scalar>::Vectorizable && (EIGEN_UNALIGNED_VECTORIZE || (actual_alignment>=required_alignment))) ? PacketAccessBit : 0
+      packet_access_bit = (packet_traits<_Scalar>::Vectorizable && (HYDRA_EIGEN_UNALIGNED_VECTORIZE || (actual_alignment>=required_alignment))) ? PacketAccessBit : 0
     };
     
 public:
@@ -106,7 +106,7 @@ public:
   * \endcode
   *
   * This class can be extended with the help of the plugin mechanism described on the page
-  * \ref TopicCustomizing_Plugins by defining the preprocessor symbol \c EIGEN_MATRIX_PLUGIN.
+  * \ref TopicCustomizing_Plugins by defining the preprocessor symbol \c HYDRA_EIGEN_MATRIX_PLUGIN.
   *
   * <i><b>Some notes:</b></i>
   *
@@ -143,7 +143,7 @@ public:
   * <tr><th>Matrix type</th><th>Equivalent C structure</th></tr>
   * <tr><td>\code Matrix<T,Dynamic,Dynamic> \endcode</td><td>\code
   * struct {
-  *   T *data;                  // with (size_t(data)%EIGEN_MAX_ALIGN_BYTES)==0
+  *   T *data;                  // with (size_t(data)%HYDRA_EIGEN_MAX_ALIGN_BYTES)==0
   *   HYDRA_EXTERNAL_NS::Eigen::Index rows, cols;
   *  };
   * \endcode</td></tr>
@@ -151,7 +151,7 @@ public:
   * Matrix<T,Dynamic,1>
   * Matrix<T,1,Dynamic> \endcode</td><td>\code
   * struct {
-  *   T *data;                  // with (size_t(data)%EIGEN_MAX_ALIGN_BYTES)==0
+  *   T *data;                  // with (size_t(data)%HYDRA_EIGEN_MAX_ALIGN_BYTES)==0
   *   HYDRA_EXTERNAL_NS::Eigen::Index size;
   *  };
   * \endcode</td></tr>
@@ -168,7 +168,7 @@ public:
   * \endcode</td></tr>
   * </table>
   * Note that in this table Rows, Cols, MaxRows and MaxCols are all positive integers. A(S) is defined to the largest possible power-of-two
-  * smaller to EIGEN_MAX_STATIC_ALIGN_BYTES.
+  * smaller to HYDRA_EIGEN_MAX_STATIC_ALIGN_BYTES.
   *
   * \see MatrixBase for the majority of the API methods for matrices, \ref TopicClassHierarchy,
   * \ref TopicStorageOrders
@@ -187,7 +187,7 @@ class Matrix
 
     enum { Options = _Options };
 
-    EIGEN_DENSE_PUBLIC_INTERFACE(Matrix)
+    HYDRA_EIGEN_DENSE_PUBLIC_INTERFACE(Matrix)
 
     typedef typename Base::PlainObject PlainObject;
 
@@ -202,8 +202,8 @@ class Matrix
       *
       * \callgraph
       */
-    EIGEN_DEVICE_FUNC
-    EIGEN_STRONG_INLINE Matrix& operator=(const Matrix& other)
+    HYDRA_EIGEN_DEVICE_FUNC
+    HYDRA_EIGEN_STRONG_INLINE Matrix& operator=(const Matrix& other)
     {
       return Base::_set(other);
     }
@@ -219,8 +219,8 @@ class Matrix
       * remain row-vectors and vectors remain vectors.
       */
     template<typename OtherDerived>
-    EIGEN_DEVICE_FUNC
-    EIGEN_STRONG_INLINE Matrix& operator=(const DenseBase<OtherDerived>& other)
+    HYDRA_EIGEN_DEVICE_FUNC
+    HYDRA_EIGEN_STRONG_INLINE Matrix& operator=(const DenseBase<OtherDerived>& other)
     {
       return Base::_set(other);
     }
@@ -232,15 +232,15 @@ class Matrix
       * \copydetails DenseBase::operator=(const EigenBase<OtherDerived> &other)
       */
     template<typename OtherDerived>
-    EIGEN_DEVICE_FUNC
-    EIGEN_STRONG_INLINE Matrix& operator=(const EigenBase<OtherDerived> &other)
+    HYDRA_EIGEN_DEVICE_FUNC
+    HYDRA_EIGEN_STRONG_INLINE Matrix& operator=(const EigenBase<OtherDerived> &other)
     {
       return Base::operator=(other);
     }
 
     template<typename OtherDerived>
-    EIGEN_DEVICE_FUNC
-    EIGEN_STRONG_INLINE Matrix& operator=(const ReturnByValue<OtherDerived>& func)
+    HYDRA_EIGEN_DEVICE_FUNC
+    HYDRA_EIGEN_STRONG_INLINE Matrix& operator=(const ReturnByValue<OtherDerived>& func)
     {
       return Base::operator=(func);
     }
@@ -255,57 +255,57 @@ class Matrix
       *
       * \sa resize(Index,Index)
       */
-    EIGEN_DEVICE_FUNC
-    EIGEN_STRONG_INLINE Matrix() : Base()
+    HYDRA_EIGEN_DEVICE_FUNC
+    HYDRA_EIGEN_STRONG_INLINE Matrix() : Base()
     {
       Base::_check_template_params();
-      EIGEN_INITIALIZE_COEFFS_IF_THAT_OPTION_IS_ENABLED
+      HYDRA_EIGEN_INITIALIZE_COEFFS_IF_THAT_OPTION_IS_ENABLED
     }
 
     // FIXME is it still needed
-    EIGEN_DEVICE_FUNC
+    HYDRA_EIGEN_DEVICE_FUNC
     explicit Matrix(internal::constructor_without_unaligned_array_assert)
       : Base(internal::constructor_without_unaligned_array_assert())
-    { Base::_check_template_params(); EIGEN_INITIALIZE_COEFFS_IF_THAT_OPTION_IS_ENABLED }
+    { Base::_check_template_params(); HYDRA_EIGEN_INITIALIZE_COEFFS_IF_THAT_OPTION_IS_ENABLED }
 
-#if EIGEN_HAS_RVALUE_REFERENCES
-    EIGEN_DEVICE_FUNC
-    Matrix(Matrix&& other) EIGEN_NOEXCEPT_IF(std::is_nothrow_move_constructible<Scalar>::value)
+#if HYDRA_EIGEN_HAS_RVALUE_REFERENCES
+    HYDRA_EIGEN_DEVICE_FUNC
+    Matrix(Matrix&& other) HYDRA_EIGEN_NOEXCEPT_IF(std::is_nothrow_move_constructible<Scalar>::value)
       : Base(std::move(other))
     {
       Base::_check_template_params();
       if (RowsAtCompileTime!=Dynamic && ColsAtCompileTime!=Dynamic)
         Base::_set_noalias(other);
     }
-    EIGEN_DEVICE_FUNC
-    Matrix& operator=(Matrix&& other) EIGEN_NOEXCEPT_IF(std::is_nothrow_move_assignable<Scalar>::value)
+    HYDRA_EIGEN_DEVICE_FUNC
+    Matrix& operator=(Matrix&& other) HYDRA_EIGEN_NOEXCEPT_IF(std::is_nothrow_move_assignable<Scalar>::value)
     {
       other.swap(*this);
       return *this;
     }
 #endif
 
-    #ifndef EIGEN_PARSED_BY_DOXYGEN
+    #ifndef HYDRA_EIGEN_PARSED_BY_DOXYGEN
 
     // This constructor is for both 1x1 matrices and dynamic vectors
     template<typename T>
-    EIGEN_DEVICE_FUNC
-    EIGEN_STRONG_INLINE explicit Matrix(const T& x)
+    HYDRA_EIGEN_DEVICE_FUNC
+    HYDRA_EIGEN_STRONG_INLINE explicit Matrix(const T& x)
     {
       Base::_check_template_params();
       Base::template _init1<T>(x);
     }
 
     template<typename T0, typename T1>
-    EIGEN_DEVICE_FUNC
-    EIGEN_STRONG_INLINE Matrix(const T0& x, const T1& y)
+    HYDRA_EIGEN_DEVICE_FUNC
+    HYDRA_EIGEN_STRONG_INLINE Matrix(const T0& x, const T1& y)
     {
       Base::_check_template_params();
       Base::template _init2<T0,T1>(x, y);
     }
     #else
     /** \brief Constructs a fixed-sized matrix initialized with coefficients starting at \a data */
-    EIGEN_DEVICE_FUNC
+    HYDRA_EIGEN_DEVICE_FUNC
     explicit Matrix(const Scalar *data);
 
     /** \brief Constructs a vector or row-vector with given dimension. \only_for_vectors
@@ -318,9 +318,9 @@ class Matrix
       * calling Matrix<double,1,1>(1) will call the initialization constructor: Matrix(const Scalar&).
       * For fixed-size \c 1x1 matrices it is therefore recommended to use the default
       * constructor Matrix() instead, especially when using one of the non standard
-      * \c EIGEN_INITIALIZE_MATRICES_BY_{ZERO,\c NAN} macros (see \ref TopicPreprocessorDirectives).
+      * \c HYDRA_EIGEN_INITIALIZE_MATRICES_BY_{ZERO,\c NAN} macros (see \ref TopicPreprocessorDirectives).
       */
-    EIGEN_STRONG_INLINE explicit Matrix(Index dim);
+    HYDRA_EIGEN_STRONG_INLINE explicit Matrix(Index dim);
     /** \brief Constructs an initialized 1x1 matrix with the given coefficient */
     Matrix(const Scalar& x);
     /** \brief Constructs an uninitialized matrix with \a rows rows and \a cols columns.
@@ -333,9 +333,9 @@ class Matrix
       * calling Matrix2f(2,1) will call the initialization constructor: Matrix(const Scalar& x, const Scalar& y).
       * For fixed-size \c 1x2 or \c 2x1 vectors it is therefore recommended to use the default
       * constructor Matrix() instead, especially when using one of the non standard
-      * \c EIGEN_INITIALIZE_MATRICES_BY_{ZERO,\c NAN} macros (see \ref TopicPreprocessorDirectives).
+      * \c HYDRA_EIGEN_INITIALIZE_MATRICES_BY_{ZERO,\c NAN} macros (see \ref TopicPreprocessorDirectives).
       */
-    EIGEN_DEVICE_FUNC
+    HYDRA_EIGEN_DEVICE_FUNC
     Matrix(Index rows, Index cols);
     
     /** \brief Constructs an initialized 2D vector with given coefficients */
@@ -343,21 +343,21 @@ class Matrix
     #endif
 
     /** \brief Constructs an initialized 3D vector with given coefficients */
-    EIGEN_DEVICE_FUNC
-    EIGEN_STRONG_INLINE Matrix(const Scalar& x, const Scalar& y, const Scalar& z)
+    HYDRA_EIGEN_DEVICE_FUNC
+    HYDRA_EIGEN_STRONG_INLINE Matrix(const Scalar& x, const Scalar& y, const Scalar& z)
     {
       Base::_check_template_params();
-      EIGEN_STATIC_ASSERT_VECTOR_SPECIFIC_SIZE(Matrix, 3)
+      HYDRA_EIGEN_STATIC_ASSERT_VECTOR_SPECIFIC_SIZE(Matrix, 3)
       m_storage.data()[0] = x;
       m_storage.data()[1] = y;
       m_storage.data()[2] = z;
     }
     /** \brief Constructs an initialized 4D vector with given coefficients */
-    EIGEN_DEVICE_FUNC
-    EIGEN_STRONG_INLINE Matrix(const Scalar& x, const Scalar& y, const Scalar& z, const Scalar& w)
+    HYDRA_EIGEN_DEVICE_FUNC
+    HYDRA_EIGEN_STRONG_INLINE Matrix(const Scalar& x, const Scalar& y, const Scalar& z, const Scalar& w)
     {
       Base::_check_template_params();
-      EIGEN_STATIC_ASSERT_VECTOR_SPECIFIC_SIZE(Matrix, 4)
+      HYDRA_EIGEN_STATIC_ASSERT_VECTOR_SPECIFIC_SIZE(Matrix, 4)
       m_storage.data()[0] = x;
       m_storage.data()[1] = y;
       m_storage.data()[2] = z;
@@ -366,34 +366,34 @@ class Matrix
 
 
     /** \brief Copy constructor */
-    EIGEN_DEVICE_FUNC
-    EIGEN_STRONG_INLINE Matrix(const Matrix& other) : Base(other)
+    HYDRA_EIGEN_DEVICE_FUNC
+    HYDRA_EIGEN_STRONG_INLINE Matrix(const Matrix& other) : Base(other)
     { }
 
     /** \brief Copy constructor for generic expressions.
       * \sa MatrixBase::operator=(const EigenBase<OtherDerived>&)
       */
     template<typename OtherDerived>
-    EIGEN_DEVICE_FUNC
-    EIGEN_STRONG_INLINE Matrix(const EigenBase<OtherDerived> &other)
+    HYDRA_EIGEN_DEVICE_FUNC
+    HYDRA_EIGEN_STRONG_INLINE Matrix(const EigenBase<OtherDerived> &other)
       : Base(other.derived())
     { }
 
-    EIGEN_DEVICE_FUNC inline Index innerStride() const { return 1; }
-    EIGEN_DEVICE_FUNC inline Index outerStride() const { return this->innerSize(); }
+    HYDRA_EIGEN_DEVICE_FUNC inline Index innerStride() const { return 1; }
+    HYDRA_EIGEN_DEVICE_FUNC inline Index outerStride() const { return this->innerSize(); }
 
     /////////// Geometry module ///////////
 
     template<typename OtherDerived>
-    EIGEN_DEVICE_FUNC
+    HYDRA_EIGEN_DEVICE_FUNC
     explicit Matrix(const RotationBase<OtherDerived,ColsAtCompileTime>& r);
     template<typename OtherDerived>
-    EIGEN_DEVICE_FUNC
+    HYDRA_EIGEN_DEVICE_FUNC
     Matrix& operator=(const RotationBase<OtherDerived,ColsAtCompileTime>& r);
 
     // allow to extend Matrix outside Eigen
-    #ifdef EIGEN_MATRIX_PLUGIN
-    #include EIGEN_MATRIX_PLUGIN
+    #ifdef HYDRA_EIGEN_MATRIX_PLUGIN
+    #include HYDRA_EIGEN_MATRIX_PLUGIN
     #endif
 
   protected:
@@ -423,7 +423,7 @@ class Matrix
   * \sa class Matrix
   */
 
-#define EIGEN_MAKE_TYPEDEFS(Type, TypeSuffix, Size, SizeSuffix)   \
+#define HYDRA_EIGEN_MAKE_TYPEDEFS(Type, TypeSuffix, Size, SizeSuffix)   \
 /** \ingroup matrixtypedefs */                                    \
 typedef Matrix<Type, Size, Size> Matrix##SizeSuffix##TypeSuffix;  \
 /** \ingroup matrixtypedefs */                                    \
@@ -431,31 +431,31 @@ typedef Matrix<Type, Size, 1>    Vector##SizeSuffix##TypeSuffix;  \
 /** \ingroup matrixtypedefs */                                    \
 typedef Matrix<Type, 1, Size>    RowVector##SizeSuffix##TypeSuffix;
 
-#define EIGEN_MAKE_FIXED_TYPEDEFS(Type, TypeSuffix, Size)         \
+#define HYDRA_EIGEN_MAKE_FIXED_TYPEDEFS(Type, TypeSuffix, Size)         \
 /** \ingroup matrixtypedefs */                                    \
 typedef Matrix<Type, Size, Dynamic> Matrix##Size##X##TypeSuffix;  \
 /** \ingroup matrixtypedefs */                                    \
 typedef Matrix<Type, Dynamic, Size> Matrix##X##Size##TypeSuffix;
 
-#define EIGEN_MAKE_TYPEDEFS_ALL_SIZES(Type, TypeSuffix) \
-EIGEN_MAKE_TYPEDEFS(Type, TypeSuffix, 2, 2) \
-EIGEN_MAKE_TYPEDEFS(Type, TypeSuffix, 3, 3) \
-EIGEN_MAKE_TYPEDEFS(Type, TypeSuffix, 4, 4) \
-EIGEN_MAKE_TYPEDEFS(Type, TypeSuffix, Dynamic, X) \
-EIGEN_MAKE_FIXED_TYPEDEFS(Type, TypeSuffix, 2) \
-EIGEN_MAKE_FIXED_TYPEDEFS(Type, TypeSuffix, 3) \
-EIGEN_MAKE_FIXED_TYPEDEFS(Type, TypeSuffix, 4)
+#define HYDRA_EIGEN_MAKE_TYPEDEFS_ALL_SIZES(Type, TypeSuffix) \
+HYDRA_EIGEN_MAKE_TYPEDEFS(Type, TypeSuffix, 2, 2) \
+HYDRA_EIGEN_MAKE_TYPEDEFS(Type, TypeSuffix, 3, 3) \
+HYDRA_EIGEN_MAKE_TYPEDEFS(Type, TypeSuffix, 4, 4) \
+HYDRA_EIGEN_MAKE_TYPEDEFS(Type, TypeSuffix, Dynamic, X) \
+HYDRA_EIGEN_MAKE_FIXED_TYPEDEFS(Type, TypeSuffix, 2) \
+HYDRA_EIGEN_MAKE_FIXED_TYPEDEFS(Type, TypeSuffix, 3) \
+HYDRA_EIGEN_MAKE_FIXED_TYPEDEFS(Type, TypeSuffix, 4)
 
-EIGEN_MAKE_TYPEDEFS_ALL_SIZES(int,                  i)
-EIGEN_MAKE_TYPEDEFS_ALL_SIZES(float,                f)
-EIGEN_MAKE_TYPEDEFS_ALL_SIZES(double,               d)
-EIGEN_MAKE_TYPEDEFS_ALL_SIZES(std::complex<float>,  cf)
-EIGEN_MAKE_TYPEDEFS_ALL_SIZES(std::complex<double>, cd)
+HYDRA_EIGEN_MAKE_TYPEDEFS_ALL_SIZES(int,                  i)
+HYDRA_EIGEN_MAKE_TYPEDEFS_ALL_SIZES(float,                f)
+HYDRA_EIGEN_MAKE_TYPEDEFS_ALL_SIZES(double,               d)
+HYDRA_EIGEN_MAKE_TYPEDEFS_ALL_SIZES(std::complex<float>,  cf)
+HYDRA_EIGEN_MAKE_TYPEDEFS_ALL_SIZES(std::complex<double>, cd)
 
-#undef EIGEN_MAKE_TYPEDEFS_ALL_SIZES
-#undef EIGEN_MAKE_TYPEDEFS
-#undef EIGEN_MAKE_FIXED_TYPEDEFS
+#undef HYDRA_EIGEN_MAKE_TYPEDEFS_ALL_SIZES
+#undef HYDRA_EIGEN_MAKE_TYPEDEFS
+#undef HYDRA_EIGEN_MAKE_FIXED_TYPEDEFS
 
 } /* end namespace Eigen */  HYDRA_EXTERNAL_NAMESPACE_END
 
-#endif // EIGEN_MATRIX_H
+#endif // HYDRA_EIGEN_MATRIX_H

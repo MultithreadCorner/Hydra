@@ -50,7 +50,7 @@ template <
     typename BIteratorT,
     typename OffsetT,
     typename CoordinateT>
-__host__ __device__ __forceinline__ void MergePathSearch(
+__hydra_host__ __hydra_device__ __forceinline__ void MergePathSearch(
     OffsetT         diagonal,
     AIteratorT      a,
     BIteratorT      b,
@@ -92,7 +92,7 @@ template <
     typename InputIteratorT,
     typename OffsetT,
     typename T>
-__device__ __forceinline__ OffsetT LowerBound(
+__hydra_device__ __forceinline__ OffsetT LowerBound(
     InputIteratorT      input,              ///< [in] Input sequence
     OffsetT             num_items,          ///< [in] Input sequence length
     T                   val)                ///< [in] Search key
@@ -123,7 +123,7 @@ template <
     typename InputIteratorT,
     typename OffsetT,
     typename T>
-__device__ __forceinline__ OffsetT UpperBound(
+__hydra_device__ __forceinline__ OffsetT UpperBound(
     InputIteratorT      input,              ///< [in] Input sequence
     OffsetT             num_items,          ///< [in] Input sequence length
     T                   val)                ///< [in] Search key

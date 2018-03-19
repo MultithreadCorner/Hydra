@@ -118,7 +118,7 @@ struct BlockHistogramSort
 
 
     /// Constructor
-    __device__ __forceinline__ BlockHistogramSort(
+    __hydra_device__ __forceinline__ BlockHistogramSort(
         TempStorage     &temp_storage)
     :
         temp_storage(temp_storage.Alias()),
@@ -133,12 +133,12 @@ struct BlockHistogramSort
         _TempStorage &temp_storage;
 
         // Constructor
-        __device__ __forceinline__ DiscontinuityOp(_TempStorage &temp_storage) :
+        __hydra_device__ __forceinline__ DiscontinuityOp(_TempStorage &temp_storage) :
             temp_storage(temp_storage)
         {}
 
         // Discontinuity predicate
-        __device__ __forceinline__ bool operator()(const T &a, const T &b, int b_index)
+        __hydra_device__ __forceinline__ bool operator()(const T &a, const T &b, int b_index)
         {
             if (a != b)
             {
@@ -159,7 +159,7 @@ struct BlockHistogramSort
     // Composite data onto an existing histogram
     template <
         typename            CounterT     >
-    __device__ __forceinline__ void Composite(
+    __hydra_device__ __forceinline__ void Composite(
         T                   (&items)[ITEMS_PER_THREAD],     ///< [in] Calling thread's input values to histogram
         CounterT            histogram[BINS])                 ///< [out] Reference to shared/device-accessible memory histogram
     {

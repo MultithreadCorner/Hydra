@@ -45,7 +45,7 @@ template<>
 class future<void>
 {
   public:
-    __host__ __device__
+    __hydra_host__ __hydra_device__
     ~future()
     {
       if(valid())
@@ -76,7 +76,7 @@ class future<void>
       } // end if
     } // end ~future()
 
-    __host__ __device__
+    __hydra_host__ __hydra_device__
     void wait() const
     {
       // XXX should probably check for valid() here
@@ -97,20 +97,20 @@ class future<void>
 #endif // __BULK_HAS_CUDART__
     } // end wait()
 
-    __host__ __device__
+    __hydra_host__ __hydra_device__
     bool valid() const
     {
       return m_event != 0;
     } // end valid()
 
-    __host__ __device__
+    __hydra_host__ __hydra_device__
     future()
       : m_stream(0), m_event(0), m_owns_stream(false)
     {}
 
     // simulate a move
     // XXX need to add rval_ref or something
-    __host__ __device__
+    __hydra_host__ __hydra_device__
     future(const future &other)
       : m_stream(0), m_event(0), m_owns_stream(false)
     {
@@ -121,7 +121,7 @@ class future<void>
 
     // simulate a move
     // XXX need to add rval_ref or something
-    __host__ __device__
+    __hydra_host__ __hydra_device__
     future &operator=(const future &other)
     {
       thrust::swap(m_stream,      const_cast<future&>(other).m_stream);
@@ -133,7 +133,7 @@ class future<void>
   private:
     friend struct detail::future_core_access;
 
-    __host__ __device__
+    __hydra_host__ __hydra_device__
     future(cudaStream_t s, bool owns_stream)
       : m_stream(s),m_owns_stream(owns_stream)
     {
@@ -159,13 +159,13 @@ namespace detail
 
 struct future_core_access
 {
-  __host__ __device__
+  __hydra_host__ __hydra_device__
   inline static future<void> create(cudaStream_t s, bool owns_stream)
   {
     return future<void>(s, owns_stream);
   } // end create_in_stream()
 
-  __host__ __device__
+  __hydra_host__ __hydra_device__
   inline static cudaEvent_t event(const future<void> &f)
   {
     return f.m_event;

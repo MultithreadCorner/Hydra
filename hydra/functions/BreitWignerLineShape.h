@@ -92,27 +92,27 @@ public:
 	 */
 	BreitWignerLineShape(Parameter const& mass, Parameter const& width,
 			double mother_mass,
-			double daugther1_mass, double daugther2_mass, double daugther3_mass,
+			double daugther1_mass, double daugther2_mass, double bachelor_mass,
 			double radi):
 		BaseFunctor<BreitWignerLineShape<ResonanceWave,MotherWave,ArgIndex>, hydra::complex<double>, 2>{mass,width},
 		fDaughter1Mass(daugther1_mass),
 		fDaughter2Mass(daugther2_mass),
-		fDaughter3Mass(daugther3_mass),
+		fBachelorMass(bachelor_mass),
 		fMotherMass(mother_mass),
 		fRadi(radi)
 	{}
 
-	__host__  __device__
+	__hydra_host__  __hydra_device__
 	BreitWignerLineShape(BreitWignerLineShape<ResonanceWave,MotherWave,ArgIndex>  const& other):
 		BaseFunctor<BreitWignerLineShape<ResonanceWave,MotherWave,ArgIndex>, hydra::complex<double>, 2>(other),
 		fDaughter1Mass(other.GetDaughter1Mass()),
 		fDaughter2Mass(other.GetDaughter2Mass()),
-		fDaughter3Mass(other.GetDaughter3Mass()),
+		fBachelorMass(other.GetBachelorMass()),
 		fMotherMass(other.GetMotherMass()),
 		fRadi(other.GetRadi())
 		{}
 
-	__host__  __device__
+	__hydra_host__  __hydra_device__
 	BreitWignerLineShape<ResonanceWave,MotherWave,ArgIndex>&
 	operator=(BreitWignerLineShape<ResonanceWave,MotherWave,ArgIndex>  const& other)
 	{
@@ -123,94 +123,96 @@ public:
 
 		fDaughter1Mass= other.GetDaughter1Mass();
 		fDaughter2Mass= other.GetDaughter2Mass();
-		fDaughter3Mass= other.GetDaughter3Mass();
+		fBachelorMass= other.GetBachelorMass();
 		fMotherMass= other.GetMotherMass();
 		fRadi= other.GetRadi();
 
 		 return  *this;
 	}
 
-	__host__  __device__ inline
+	__hydra_host__  __hydra_device__ inline
 	double GetDaughter1Mass() const {
 		return fDaughter1Mass;
 	}
 
-	__host__  __device__ inline
+	__hydra_host__  __hydra_device__ inline
 	void SetDaughter1Mass(double daughter1Mass) {
 		fDaughter1Mass = daughter1Mass;
 	}
 
-	__host__  __device__ inline
+	__hydra_host__  __hydra_device__ inline
 	double GetDaughter2Mass() const {
 		return fDaughter2Mass;
 	}
 
-	__host__  __device__ inline
+	__hydra_host__  __hydra_device__ inline
 	void SetDaughter2Mass(double daughter2Mass) {
 		fDaughter2Mass = daughter2Mass;
 	}
 
-	__host__  __device__ inline
-	double GetDaughter3Mass() const {
-		return fDaughter3Mass;
+	__hydra_host__  __hydra_device__ inline
+	double GetBachelorMass() const {
+		return fBachelorMass;
 	}
 
-	__host__  __device__ inline
-	void SetDaughter3Mass(double daughter3Mass) {
-		fDaughter3Mass = daughter3Mass;
+	__hydra_host__  __hydra_device__ inline
+	void SetBachelorMass(double daughter3Mass) {
+		fBachelorMass = daughter3Mass;
 	}
 
-	__host__  __device__ inline
+	__hydra_host__  __hydra_device__ inline
 	double GetMotherMass() const {
 		return fMotherMass;
 	}
 
-	__host__  __device__ inline
+	__hydra_host__  __hydra_device__ inline
 	void SetMotherMass(double motherMass) {
 		fMotherMass = motherMass;
 	}
 
-	__host__  __device__ inline
+	__hydra_host__  __hydra_device__ inline
 	double GetRadi() const {
 		return fRadi;
 	}
 
-	__host__  __device__ inline
+	__hydra_host__  __hydra_device__ inline
 	void SetRadi(double radi) {
 		fRadi = radi;
 	}
 
 	template<typename T>
-	__host__ __device__ inline
-	hydra::complex<double> Evaluate(unsigned int, T*x)  const	{
+	__hydra_host__ __hydra_device__ inline
+	hydra::complex<double> Evaluate(unsigned int, const T*x)  const	{
 
 		const double m = x[ArgIndex] ;
 
 		const double resonance_mass  = _par[0];
 		const double resonance_width = _par[1];
 
-		return  m > (fDaughter1Mass+fDaughter2Mass) && m<(fMotherMass-fDaughter3Mass) ?
+		return  m > (fDaughter1Mass+fDaughter2Mass) && m<(fMotherMass-fBachelorMass) ?
 				LineShape(m,resonance_mass, resonance_width): hydra::complex<double>(0.0, 0.0) ;
 
 	}
 
 	template<typename T>
-	__host__ __device__ inline
-	hydra::complex<double> Evaluate(T x)  const {
+	__hydra_host__ __hydra_device__ inline
+	hydra::complex<double> Evaluate(T& x)  const {
 
 		double m =  get<ArgIndex>(x);
 
 		const double resonance_mass  = _par[0];
 		const double resonance_width = _par[1];
 
-		return  m > (fDaughter1Mass+fDaughter2Mass) && m<(fMotherMass-fDaughter3Mass) ?
+		return  m > (fDaughter1Mass+fDaughter2Mass) && m<(fMotherMass-fBachelorMass) ?
 				LineShape(m,resonance_mass, resonance_width): hydra::complex<double>(0.0, 0.0) ;
 	}
+
+
 
 private:
 
 
-	   __host__ __device__  inline
+	   __hydra_host__ __hydra_device__  inline
 	 double  Width( const double m, const double resonance_mass, const double resonance_width,
 			   const double  p0, const double  p) const {
 
@@ -223,13 +225,13 @@ private:
 
 	   }
 
-	 __host__ __device__   inline
+	 __hydra_host__ __hydra_device__   inline
 	 hydra::complex<double> LineShape(const double m, const double resonance_mass, const double resonance_width ) const {
 
-		 const double p0 = pmf( fMotherMass, resonance_mass, fDaughter3Mass);
+		 const double p0 = pmf( fMotherMass, resonance_mass, fBachelorMass);
 		 const double q0 = pmf( resonance_mass, fDaughter1Mass, fDaughter2Mass);
 
-		 const double p  = pmf( fMotherMass, m, fDaughter3Mass);
+		 const double p  = pmf( fMotherMass, m, fBachelorMass);
 		 const double q  = pmf( m, fDaughter1Mass, fDaughter2Mass);
 
 		 const double width = Width( m, resonance_mass, resonance_width, q0, q);
@@ -247,7 +249,7 @@ private:
 
 	double fDaughter1Mass;
 	double fDaughter2Mass;
-	double fDaughter3Mass;
+	double fBachelorMass;
 	double fMotherMass;
 	double fRadi;
 

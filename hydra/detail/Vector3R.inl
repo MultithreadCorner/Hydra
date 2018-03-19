@@ -32,7 +32,7 @@
 namespace hydra {
 
 
-__host__ __device__
+__hydra_host__ __hydra_device__
 inline Vector3R& Vector3R::operator*=(const GReal_t c)
 {
 
@@ -41,7 +41,7 @@ inline Vector3R& Vector3R::operator*=(const GReal_t c)
 	v[2] *= c;
 	return *this;
 }
-__host__ __device__
+__hydra_host__ __hydra_device__
 inline Vector3R& Vector3R::operator/=(const GReal_t c)
 {
 
@@ -50,7 +50,7 @@ inline Vector3R& Vector3R::operator/=(const GReal_t c)
 	v[2] /= c;
 	return *this;
 }
-__host__ __device__
+__hydra_host__ __hydra_device__
 inline Vector3R& Vector3R::operator+=(const Vector3R& v2)
 {
 
@@ -59,7 +59,7 @@ inline Vector3R& Vector3R::operator+=(const Vector3R& v2)
 	v[2] += v2.v[2];
 	return *this;
 }
-__host__ __device__
+__hydra_host__ __hydra_device__
 inline Vector3R& Vector3R::operator-=(const Vector3R& v2)
 {
 
@@ -69,7 +69,7 @@ inline Vector3R& Vector3R::operator-=(const Vector3R& v2)
 	return *this;
 }
 
-__host__ __device__
+__hydra_host__ __hydra_device__
 inline void Vector3R::swap(Vector3R& other)
 {
 	if(this==&other) return;
@@ -80,18 +80,18 @@ inline void Vector3R::swap(Vector3R& other)
 	return ;
 }
 
-__host__ __device__
+__hydra_host__ __hydra_device__
 inline GReal_t Vector3R::get(GInt_t i) const
 {
 	return v[i];
 }
-__host__ __device__
+__hydra_host__ __hydra_device__
 inline void Vector3R::set(GInt_t i, GReal_t d)
 {
 
 	v[i] = d;
 }
-__host__ __device__
+__hydra_host__ __hydra_device__
 inline void Vector3R::set(GReal_t x, GReal_t y, GReal_t z)
 {
 
@@ -101,7 +101,7 @@ inline void Vector3R::set(GReal_t x, GReal_t y, GReal_t z)
 }
 
 
-__host__ __device__
+__hydra_host__ __hydra_device__
 inline Vector3R::Vector3R(GReal_t x, GReal_t y, GReal_t z)
 {
 
@@ -109,7 +109,7 @@ inline Vector3R::Vector3R(GReal_t x, GReal_t y, GReal_t z)
 	v[1] = y;
 	v[2] = z;
 }
-__host__ __device__
+__hydra_host__ __hydra_device__
 inline Vector3R::Vector3R(const Vector3R& other)
 {
 
@@ -118,7 +118,7 @@ inline Vector3R::Vector3R(const Vector3R& other)
 	v[2] = other.get(2);
 }
 
-__host__ __device__
+__hydra_host__ __hydra_device__
 inline Vector3R::Vector3R(Vector3R&& other)
 {
 
@@ -128,7 +128,7 @@ inline Vector3R::Vector3R(Vector3R&& other)
 }
 
 
-__host__ __device__
+__hydra_host__ __hydra_device__
 inline Vector3R& Vector3R::operator=(const Vector3R& other)
 {
 	if(this==&other) return *this;
@@ -141,7 +141,7 @@ inline Vector3R& Vector3R::operator=(const Vector3R& other)
 }
 
 
-__host__ __device__
+__hydra_host__ __hydra_device__
 inline Vector3R& Vector3R::operator=(Vector3R&& other)
 {
 	if(this==&other) return *this;
@@ -154,7 +154,7 @@ inline Vector3R& Vector3R::operator=(Vector3R&& other)
 }
 
 
-__host__ __device__
+__hydra_host__ __hydra_device__
 inline void Vector3R::applyRotateEuler(GReal_t phi, GReal_t theta, GReal_t ksi)
 {
 
@@ -178,7 +178,7 @@ inline void Vector3R::applyRotateEuler(GReal_t phi, GReal_t theta, GReal_t ksi)
 	v[1] = temp[1];
 	v[2] = temp[2];
 }
-__host__ __device__
+__hydra_host__ __hydra_device__
 inline GReal_t Vector3R::d3mag() const
 
 // returns the 3 momentum mag.
@@ -190,7 +190,7 @@ inline GReal_t Vector3R::d3mag() const
 
 	return temp;
 } // r3mag
-__host__ __device__
+__hydra_host__ __hydra_device__
 inline GReal_t Vector3R::dot(const Vector3R& p2)
 {
 

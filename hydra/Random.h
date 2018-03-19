@@ -30,7 +30,6 @@
 #ifndef RANDOM_H_
 #define RANDOM_H_
 
-#include <array>
 
 #include <hydra/detail/Config.h>
 #include <hydra/detail/BackendPolicy.h>
@@ -50,6 +49,9 @@
 #include <hydra/detail/external/thrust/iterator/iterator_traits.h>
 #include <hydra/detail/external/thrust/system/detail/generic/select_system.h>
 #include <hydra/detail/external/thrust/partition.h>
+
+#include <array>
+#include <utility>
 
 namespace hydra{
 
@@ -308,6 +310,40 @@ private:
 	GUInt_t fSeed;
 
 };
+
+/**
+ * \ingroup random
+ *
+ * This functions reorder a dataset to put produce a unweighted sample according to the weights
+ * [wbegin, wend]. The length of the range [wbegin, wend] should be equal or greater than
+ * the dataset size.
+ *
+ * @param policy parallel backend to perform the unweighting
+ * @param wbegin iterator pointing to the begin of the range of weights
+ * @param wend  iterator pointing to the begin of the range of weights
+ * @param begin iterator pointing to the begin of the range of data
+ * @return
+ */
+template<hydra::detail::Backend  BACKEND, typename Iterator1, typename Iterator2>
+GenericRange<Iterator2> unweight( hydra::detail::BackendPolicy<BACKEND> const& policy, Iterator1 wbegin, Iterator1 wend , Iterator2 begin);
+
+
+
+/**
+ * \ingroup random
+ *
+ * This functions reorder a dataset to put produce a unweighted sample according to @param functor .
+ *
+ * @param policy
+ * @param begin
+ * @param end
+ * @param functor
+ * @return the index of the last entry of the unweighted event.
+ */
+template<hydra::detail::Backend  BACKEND, typename Functor, typename Iterator>
+typename std::enable_if< hydra::detail::is_hydra_functor<Functor>::value, GenericRange<Iterator>>::type
+unweight( hydra::detail::BackendPolicy<BACKEND> const& policy, Iterator begin, Iterator end, Functor const& functor);
+
 
 
 

@@ -29,14 +29,14 @@ namespace detail
 {
 
 
-inline __device__
+inline __hydra_device__
 void terminate()
 {
   thrust::system::cuda::detail::bulk_::detail::terminate();
 }
 
 
-__host__ __device__
+__hydra_host__ __hydra_device__
 inline void terminate_with_message(const char* message)
 {
   thrust::system::cuda::detail::bulk_::detail::terminate_with_message(message);

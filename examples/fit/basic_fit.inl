@@ -29,6 +29,10 @@
 #ifndef BASIC_FIT_INL_
 #define BASIC_FIT_INL_
 
+/**
+ * \example basic_fit.inl
+ *
+ */
 
 #include <iostream>
 #include <assert.h>
@@ -57,7 +61,6 @@
 #include "Minuit2/MnMigrad.h"
 #include "Minuit2/MnMinimize.h"
 
-
 /*-------------------------------------
  * Include classes from ROOT to fill
  * and draw histograms and plots.
@@ -71,7 +74,6 @@
 #include <TCanvas.h>
 
 #endif //_ROOT_AVAILABLE_
-
 
 using namespace ROOT::Minuit2;
 
@@ -145,7 +147,7 @@ int main(int argv, char** argc)
 
 		//filtering
 		auto filter = hydra::wrap_lambda(
-				[=] __host__ __device__ (unsigned int n, double* x){
+				[=] __hydra_dual__ (unsigned int n, double* x){
 				return (x[0] > min) && (x[0] < max );
 		});
 

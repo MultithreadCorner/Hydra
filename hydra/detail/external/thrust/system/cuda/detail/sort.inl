@@ -102,7 +102,7 @@ template<typename RandomAccessIterator, typename StrictWeakCompare>
 template<typename DerivedPolicy,
          typename RandomAccessIterator,
          typename StrictWeakOrdering>
-__host__ __device__
+__hydra_host__ __hydra_device__
 typename enable_if_primitive_sort<RandomAccessIterator,StrictWeakOrdering>::type
   stable_sort(execution_policy<DerivedPolicy> &exec,
               RandomAccessIterator first,
@@ -125,7 +125,7 @@ typename enable_if_primitive_sort<RandomAccessIterator,StrictWeakOrdering>::type
 template<typename DerivedPolicy,
          typename RandomAccessIterator,
          typename StrictWeakOrdering>
-__host__ __device__
+__hydra_host__ __hydra_device__
 typename enable_if_comparison_sort<RandomAccessIterator,StrictWeakOrdering>::type
   stable_sort(execution_policy<DerivedPolicy> &exec,
               RandomAccessIterator first,
@@ -140,7 +140,7 @@ template<typename DerivedPolicy,
          typename RandomAccessIterator1,
          typename RandomAccessIterator2,
          typename StrictWeakOrdering>
-__host__ __device__
+__hydra_host__ __hydra_device__
 typename enable_if_primitive_sort<RandomAccessIterator1,StrictWeakOrdering>::type
   stable_sort_by_key(execution_policy<DerivedPolicy> &exec,
                      RandomAccessIterator1 keys_first,
@@ -171,7 +171,7 @@ template<typename DerivedPolicy,
          typename RandomAccessIterator1,
          typename RandomAccessIterator2,
          typename StrictWeakOrdering>
-__host__ __device__
+__hydra_host__ __hydra_device__
 typename enable_if_comparison_sort<RandomAccessIterator1,StrictWeakOrdering>::type
   stable_sort_by_key(execution_policy<DerivedPolicy> &exec,
                      RandomAccessIterator1 keys_first,
@@ -189,7 +189,7 @@ typename enable_if_comparison_sort<RandomAccessIterator1,StrictWeakOrdering>::ty
 template<typename DerivedPolicy,
          typename RandomAccessIterator,
          typename StrictWeakOrdering>
-__host__ __device__
+__hydra_host__ __hydra_device__
 void stable_sort(execution_policy<DerivedPolicy> &exec,
                  RandomAccessIterator first,
                  RandomAccessIterator last,
@@ -204,7 +204,7 @@ void stable_sort(execution_policy<DerivedPolicy> &exec,
 
   struct workaround
   {
-    __host__ __device__
+    __hydra_host__ __hydra_device__
     static void parallel_path(execution_policy<DerivedPolicy> &exec,
                               RandomAccessIterator first,
                               RandomAccessIterator last,
@@ -213,7 +213,7 @@ void stable_sort(execution_policy<DerivedPolicy> &exec,
       stable_sort_detail::stable_sort(exec, first, last, comp);
     }
 
-    __host__ __device__
+    __hydra_host__ __hydra_device__
     static void sequential_path(RandomAccessIterator first,
                                 RandomAccessIterator last,
                                 StrictWeakOrdering comp)
@@ -234,7 +234,7 @@ template<typename DerivedPolicy,
          typename RandomAccessIterator1,
          typename RandomAccessIterator2,
          typename StrictWeakOrdering>
-__host__ __device__
+__hydra_host__ __hydra_device__
 void stable_sort_by_key(execution_policy<DerivedPolicy> &exec,
                         RandomAccessIterator1 keys_first,
                         RandomAccessIterator1 keys_last,
@@ -250,7 +250,7 @@ void stable_sort_by_key(execution_policy<DerivedPolicy> &exec,
 
   struct workaround
   {
-    __host__ __device__
+    __hydra_host__ __hydra_device__
     static void parallel_path(execution_policy<DerivedPolicy> &exec,
                               RandomAccessIterator1 keys_first,
                               RandomAccessIterator1 keys_last,
@@ -260,7 +260,7 @@ void stable_sort_by_key(execution_policy<DerivedPolicy> &exec,
       stable_sort_detail::stable_sort_by_key(exec, keys_first, keys_last, values_first, comp);
     }
 
-    __host__ __device__
+    __hydra_host__ __hydra_device__
     static void sequential_path(RandomAccessIterator1 keys_first,
                                 RandomAccessIterator1 keys_last,
                                 RandomAccessIterator2 values_first,

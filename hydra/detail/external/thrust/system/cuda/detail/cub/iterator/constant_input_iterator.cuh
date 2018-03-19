@@ -127,7 +127,7 @@ private:
 public:
 
     /// Constructor
-    __host__ __device__ __forceinline__ ConstantInputIterator(
+    __hydra_host__ __hydra_device__ __forceinline__ ConstantInputIterator(
         ValueType   val,            ///< Starting value for the iterator instance to report
         OffsetT     offset = 0)     ///< Base offset
     :
@@ -136,7 +136,7 @@ public:
     {}
 
     /// Postfix increment
-    __host__ __device__ __forceinline__ self_type operator++(int)
+    __hydra_host__ __hydra_device__ __forceinline__ self_type operator++(int)
     {
         self_type retval = *this;
         offset++;
@@ -144,21 +144,21 @@ public:
     }
 
     /// Prefix increment
-    __host__ __device__ __forceinline__ self_type operator++()
+    __hydra_host__ __hydra_device__ __forceinline__ self_type operator++()
     {
         offset++;
         return *this;
     }
 
     /// Indirection
-    __host__ __device__ __forceinline__ reference operator*() const
+    __hydra_host__ __hydra_device__ __forceinline__ reference operator*() const
     {
         return val;
     }
 
     /// Addition
     template <typename Distance>
-    __host__ __device__ __forceinline__ self_type operator+(Distance n) const
+    __hydra_host__ __hydra_device__ __forceinline__ self_type operator+(Distance n) const
     {
         self_type retval(val, offset + n);
         return retval;
@@ -166,7 +166,7 @@ public:
 
     /// Addition assignment
     template <typename Distance>
-    __host__ __device__ __forceinline__ self_type& operator+=(Distance n)
+    __hydra_host__ __hydra_device__ __forceinline__ self_type& operator+=(Distance n)
     {
         offset += n;
         return *this;
@@ -174,7 +174,7 @@ public:
 
     /// Subtraction
     template <typename Distance>
-    __host__ __device__ __forceinline__ self_type operator-(Distance n) const
+    __hydra_host__ __hydra_device__ __forceinline__ self_type operator-(Distance n) const
     {
         self_type retval(val, offset - n);
         return retval;
@@ -182,39 +182,39 @@ public:
 
     /// Subtraction assignment
     template <typename Distance>
-    __host__ __device__ __forceinline__ self_type& operator-=(Distance n)
+    __hydra_host__ __hydra_device__ __forceinline__ self_type& operator-=(Distance n)
     {
         offset -= n;
         return *this;
     }
 
     /// Distance
-    __host__ __device__ __forceinline__ difference_type operator-(self_type other) const
+    __hydra_host__ __hydra_device__ __forceinline__ difference_type operator-(self_type other) const
     {
         return offset - other.offset;
     }
 
     /// Array subscript
     template <typename Distance>
-    __host__ __device__ __forceinline__ reference operator[](Distance /*n*/) const
+    __hydra_host__ __hydra_device__ __forceinline__ reference operator[](Distance /*n*/) const
     {
         return val;
     }
 
     /// Structure dereference
-    __host__ __device__ __forceinline__ pointer operator->()
+    __hydra_host__ __hydra_device__ __forceinline__ pointer operator->()
     {
         return &val;
     }
 
     /// Equal to
-    __host__ __device__ __forceinline__ bool operator==(const self_type& rhs)
+    __hydra_host__ __hydra_device__ __forceinline__ bool operator==(const self_type& rhs)
     {
         return (offset == rhs.offset) && ((val == rhs.val));
     }
 
     /// Not equal to
-    __host__ __device__ __forceinline__ bool operator!=(const self_type& rhs)
+    __hydra_host__ __hydra_device__ __forceinline__ bool operator!=(const self_type& rhs)
     {
         return (offset != rhs.offset) || (val!= rhs.val);
     }

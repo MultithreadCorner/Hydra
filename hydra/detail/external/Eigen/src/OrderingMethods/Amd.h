@@ -28,8 +28,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 
 #include "../Core/util/NonMPL2.h"
 
-#ifndef EIGEN_SPARSE_AMD_H
-#define EIGEN_SPARSE_AMD_H
+#ifndef HYDRA_EIGEN_SPARSE_AMD_H
+#define HYDRA_EIGEN_SPARSE_AMD_H
 
 HYDRA_EXTERNAL_NAMESPACE_BEGIN namespace Eigen { 
 
@@ -109,7 +109,7 @@ void minimum_degree_ordering(SparseMatrix<Scalar,ColMajor,StorageIndex>& C, Perm
   C.resizeNonZeros(t);
   
   // get workspace
-  ei_declare_aligned_stack_constructed_variable(StorageIndex,W,8*(n+1),0);
+  hydra_ei_declare_aligned_stack_constructed_variable(StorageIndex,W,8*(n+1),0);
   StorageIndex* len     = W;
   StorageIndex* nv      = W +   (n+1);
   StorageIndex* next    = W + 2*(n+1);
@@ -442,4 +442,4 @@ void minimum_degree_ordering(SparseMatrix<Scalar,ColMajor,StorageIndex>& C, Perm
 
 } /* end namespace Eigen */  HYDRA_EXTERNAL_NAMESPACE_END
 
-#endif // EIGEN_SPARSE_AMD_H
+#endif // HYDRA_EIGEN_SPARSE_AMD_H

@@ -48,7 +48,7 @@ namespace hydra {
 namespace detail {
 
 template<typename T, typename ...Ts>
-__host__ __device__
+__hydra_host__ __hydra_device__
 inline T CheckValue( T&& x, char const* fmt, char const* file, char const* function, unsigned int line, Ts&& ...par)
 {
 #ifndef __CUDA_ARCH__

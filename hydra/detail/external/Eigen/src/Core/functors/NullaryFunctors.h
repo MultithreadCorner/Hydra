@@ -7,8 +7,8 @@
 // Public License v. 2.0. If a copy of the MPL was not distributed
 // with this file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
-#ifndef EIGEN_NULLARY_FUNCTORS_H
-#define EIGEN_NULLARY_FUNCTORS_H
+#ifndef HYDRA_EIGEN_NULLARY_FUNCTORS_H
+#define HYDRA_EIGEN_NULLARY_FUNCTORS_H
 
 HYDRA_EXTERNAL_NAMESPACE_BEGIN namespace Eigen {
 
@@ -16,11 +16,11 @@ namespace internal {
 
 template<typename Scalar>
 struct scalar_constant_op {
-  EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE scalar_constant_op(const scalar_constant_op& other) : m_other(other.m_other) { }
-  EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE scalar_constant_op(const Scalar& other) : m_other(other) { }
-  EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE const Scalar operator() () const { return m_other; }
+  HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE scalar_constant_op(const scalar_constant_op& other) : m_other(other.m_other) { }
+  HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE scalar_constant_op(const Scalar& other) : m_other(other) { }
+  HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE const Scalar operator() () const { return m_other; }
   template<typename PacketType>
-  EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE const PacketType packetOp() const { return internal::pset1<PacketType>(m_other); }
+  HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE const PacketType packetOp() const { return internal::pset1<PacketType>(m_other); }
   const Scalar m_other;
 };
 template<typename Scalar>
@@ -29,9 +29,9 @@ struct functor_traits<scalar_constant_op<Scalar> >
          PacketAccess = packet_traits<Scalar>::Vectorizable, IsRepeatable = true }; };
 
 template<typename Scalar> struct scalar_identity_op {
-  EIGEN_EMPTY_STRUCT_CTOR(scalar_identity_op)
+  HYDRA_EIGEN_EMPTY_STRUCT_CTOR(scalar_identity_op)
   template<typename IndexType>
-  EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE const Scalar operator() (IndexType row, IndexType col) const { return row==col ? Scalar(1) : Scalar(0); }
+  HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE const Scalar operator() (IndexType row, IndexType col) const { return row==col ? Scalar(1) : Scalar(0); }
 };
 template<typename Scalar>
 struct functor_traits<scalar_identity_op<Scalar> >
@@ -48,7 +48,7 @@ struct linspaced_op_impl<Scalar,Packet,/*IsInteger*/false>
   {}
 
   template<typename IndexType>
-  EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE const Scalar operator() (IndexType i) const {
+  HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE const Scalar operator() (IndexType i) const {
     typedef typename NumTraits<Scalar>::Real RealScalar;
     if(m_flip)
       return (i==0)? m_low : (m_high - RealScalar(m_size1-i)*m_step);
@@ -57,7 +57,7 @@ struct linspaced_op_impl<Scalar,Packet,/*IsInteger*/false>
   }
 
   template<typename IndexType>
-  EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE const Packet packetOp(IndexType i) const
+  HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE const Packet packetOp(IndexType i) const
   {
     // Principle:
     // [low, ..., low] + ( [step, ..., step] * ( [i, ..., i] + [0, ..., size] ) )
@@ -97,7 +97,7 @@ struct linspaced_op_impl<Scalar,Packet,/*IsInteger*/true>
   {}
 
   template<typename IndexType>
-  EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE
+  HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE
   const Scalar operator() (IndexType i) const
   {
     if(m_use_divisor) return m_low + convert_index<Scalar>(i)/m_divisor;
@@ -133,10 +133,10 @@ template <typename Scalar, typename PacketType> struct linspaced_op
   {}
 
   template<typename IndexType>
-  EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE const Scalar operator() (IndexType i) const { return impl(i); }
+  HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE const Scalar operator() (IndexType i) const { return impl(i); }
 
   template<typename Packet,typename IndexType>
-  EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE const Packet packetOp(IndexType i) const { return impl.packetOp(i); }
+  HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE const Packet packetOp(IndexType i) const { return impl.packetOp(i); }
 
   // This proxy object handles the actual required temporaries and the different
   // implementations (integer vs. floating point).
@@ -151,7 +151,7 @@ template<typename Functor> struct functor_has_linear_access { enum { ret = !has_
 
 // For unreliable compilers, let's specialize the has_*ary_operator
 // helpers so that at least built-in nullary functors work fine.
-#if !( (EIGEN_COMP_MSVC>1600) || (EIGEN_GNUC_AT_LEAST(4,8)) || (EIGEN_COMP_ICC>=1600))
+#if !( (HYDRA_EIGEN_COMP_MSVC>1600) || (HYDRA_EIGEN_GNUC_AT_LEAST(4,8)) || (HYDRA_EIGEN_COMP_ICC>=1600))
 template<typename Scalar,typename IndexType>
 struct has_nullary_operator<scalar_constant_op<Scalar>,IndexType> { enum { value = 1}; };
 template<typename Scalar,typename IndexType>
@@ -185,4 +185,4 @@ struct has_binary_operator<scalar_random_op<Scalar>,IndexType> { enum { value = 
 
 } /* end namespace Eigen */  HYDRA_EXTERNAL_NAMESPACE_END
 
-#endif // EIGEN_NULLARY_FUNCTORS_H
+#endif // HYDRA_EIGEN_NULLARY_FUNCTORS_H

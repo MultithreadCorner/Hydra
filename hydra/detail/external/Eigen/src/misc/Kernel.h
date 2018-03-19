@@ -7,8 +7,8 @@
 // Public License v. 2.0. If a copy of the MPL was not distributed
 // with this file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
-#ifndef EIGEN_MISC_KERNEL_H
-#define EIGEN_MISC_KERNEL_H
+#ifndef HYDRA_EIGEN_MISC_KERNEL_H
+#define HYDRA_EIGEN_MISC_KERNEL_H
 
 HYDRA_EXTERNAL_NAMESPACE_BEGIN namespace Eigen { 
 
@@ -63,7 +63,7 @@ template<typename _DecompositionType> struct kernel_retval_base
 
 } // end namespace internal
 
-#define EIGEN_MAKE_KERNEL_HELPERS(DecompositionType) \
+#define HYDRA_EIGEN_MAKE_KERNEL_HELPERS(DecompositionType) \
   typedef typename DecompositionType::MatrixType MatrixType; \
   typedef typename MatrixType::Scalar Scalar; \
   typedef typename MatrixType::RealScalar RealScalar; \
@@ -76,4 +76,4 @@ template<typename _DecompositionType> struct kernel_retval_base
 
 } /* end namespace Eigen */  HYDRA_EXTERNAL_NAMESPACE_END
 
-#endif // EIGEN_MISC_KERNEL_H
+#endif // HYDRA_EIGEN_MISC_KERNEL_H

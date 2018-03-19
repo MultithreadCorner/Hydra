@@ -7,8 +7,8 @@
 // Public License v. 2.0. If a copy of the MPL was not distributed
 // with this file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
-#ifndef EIGEN_CHOLMODSUPPORT_H
-#define EIGEN_CHOLMODSUPPORT_H
+#ifndef HYDRA_EIGEN_CHOLMODSUPPORT_H
+#define HYDRA_EIGEN_CHOLMODSUPPORT_H
 
 HYDRA_EXTERNAL_NAMESPACE_BEGIN namespace Eigen { 
 
@@ -133,7 +133,7 @@ cholmod_sparse viewAsCholmod(const SparseSelfAdjointView<const SparseMatrix<_Sca
 template<typename Derived>
 cholmod_dense viewAsCholmod(MatrixBase<Derived>& mat)
 {
-  EIGEN_STATIC_ASSERT((internal::traits<Derived>::Flags&RowMajorBit)==0,THIS_METHOD_IS_ONLY_FOR_COLUMN_MAJOR_MATRICES);
+  HYDRA_EIGEN_STATIC_ASSERT((internal::traits<Derived>::Flags&RowMajorBit)==0,THIS_METHOD_IS_ONLY_FOR_COLUMN_MAJOR_MATRICES);
   typedef typename Derived::Scalar Scalar;
 
   cholmod_dense res;
@@ -193,7 +193,7 @@ class CholmodBase : public SparseSolverBase<Derived>
     CholmodBase()
       : m_cholmodFactor(0), m_info(Success), m_factorizationIsOk(false), m_analysisIsOk(false)
     {
-      EIGEN_STATIC_ASSERT((internal::is_same<double,RealScalar>::value), CHOLMOD_SUPPORTS_DOUBLE_PRECISION_ONLY);
+      HYDRA_EIGEN_STATIC_ASSERT((internal::is_same<double,RealScalar>::value), CHOLMOD_SUPPORTS_DOUBLE_PRECISION_ONLY);
       m_shiftOffset[0] = m_shiftOffset[1] = 0.0;
       cholmod_start(&m_cholmod);
     }
@@ -201,7 +201,7 @@ class CholmodBase : public SparseSolverBase<Derived>
     explicit CholmodBase(const MatrixType& matrix)
       : m_cholmodFactor(0), m_info(Success), m_factorizationIsOk(false), m_analysisIsOk(false)
     {
-      EIGEN_STATIC_ASSERT((internal::is_same<double,RealScalar>::value), CHOLMOD_SUPPORTS_DOUBLE_PRECISION_ONLY);
+      HYDRA_EIGEN_STATIC_ASSERT((internal::is_same<double,RealScalar>::value), CHOLMOD_SUPPORTS_DOUBLE_PRECISION_ONLY);
       m_shiftOffset[0] = m_shiftOffset[1] = 0.0;
       cholmod_start(&m_cholmod);
       compute(matrix);
@@ -279,14 +279,14 @@ class CholmodBase : public SparseSolverBase<Derived>
      *  See the Cholmod user guide for details. */
     cholmod_common& cholmod() { return m_cholmod; }
     
-    #ifndef EIGEN_PARSED_BY_DOXYGEN
+    #ifndef HYDRA_EIGEN_PARSED_BY_DOXYGEN
     /** \internal */
     template<typename Rhs,typename Dest>
     void _solve_impl(const MatrixBase<Rhs> &b, MatrixBase<Dest> &dest) const
     {
       eigen_assert(m_factorizationIsOk && "The decomposition is not in a valid state for solving, you must first call either compute() or symbolic()/numeric()");
       const Index size = m_cholmodFactor->n;
-      EIGEN_UNUSED_VARIABLE(size);
+      HYDRA_EIGEN_UNUSED_VARIABLE(size);
       eigen_assert(size==b.rows());
       
       // Cholmod needs column-major stoarge without inner-stride, which corresponds to the default behavior of Ref.
@@ -310,7 +310,7 @@ class CholmodBase : public SparseSolverBase<Derived>
     {
       eigen_assert(m_factorizationIsOk && "The decomposition is not in a valid state for solving, you must first call either compute() or symbolic()/numeric()");
       const Index size = m_cholmodFactor->n;
-      EIGEN_UNUSED_VARIABLE(size);
+      HYDRA_EIGEN_UNUSED_VARIABLE(size);
       eigen_assert(size==b.rows());
 
       // note: cs stands for Cholmod Sparse
@@ -326,7 +326,7 @@ class CholmodBase : public SparseSolverBase<Derived>
       dest.derived() = viewAsEigen<typename DestDerived::Scalar,ColMajor,typename DestDerived::StorageIndex>(*x_cs);
       cholmod_free_sparse(&x_cs, &m_cholmod);
     }
-    #endif // EIGEN_PARSED_BY_DOXYGEN
+    #endif // HYDRA_EIGEN_PARSED_BY_DOXYGEN
     
     
     /** Sets the shift parameter that will be used to adjust the diagonal coefficients during the numerical factorization.
@@ -636,4 +636,4 @@ class CholmodDecomposition : public CholmodBase<_MatrixType, _UpLo, CholmodDecom
 
 } /* end namespace Eigen */  HYDRA_EXTERNAL_NAMESPACE_END
 
-#endif // EIGEN_CHOLMODSUPPORT_H
+#endif // HYDRA_EIGEN_CHOLMODSUPPORT_H

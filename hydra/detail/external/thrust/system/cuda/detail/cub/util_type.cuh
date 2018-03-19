@@ -252,11 +252,11 @@ struct NullType
 #ifndef DOXYGEN_SHOULD_SKIP_THIS    // Do not document
 
     template <typename T>
-    __host__ __device__ __forceinline__ NullType& operator =(const T&) { return *this; }
+    __hydra_host__ __hydra_device__ __forceinline__ NullType& operator =(const T&) { return *this; }
 
-    __host__ __device__ __forceinline__ bool operator ==(const NullType&) { return true; }
+    __hydra_host__ __hydra_device__ __forceinline__ bool operator ==(const NullType&) { return true; }
 
-    __host__ __device__ __forceinline__ bool operator !=(const NullType&) { return false; }
+    __hydra_host__ __hydra_device__ __forceinline__ bool operator !=(const NullType&) { return false; }
 
 #endif // DOXYGEN_SHOULD_SKIP_THIS
 };
@@ -520,12 +520,12 @@ struct CubVector<T, 4>
     {                                                                                                   \
       typedef base_type       BaseType;                                                                 \
       typedef short_type##1   Type;                                                                     \
-      __host__ __device__ __forceinline__ CubVector operator+(const CubVector &other) const {           \
+      __hydra_host__ __hydra_device__ __forceinline__ CubVector operator+(const CubVector &other) const {           \
           CubVector retval;                                                                             \
           retval.x = x + other.x;                                                                       \
           return retval;                                                                                \
       }                                                                                                 \
-      __host__ __device__ __forceinline__ CubVector operator-(const CubVector &other) const {           \
+      __hydra_host__ __hydra_device__ __forceinline__ CubVector operator-(const CubVector &other) const {           \
           CubVector retval;                                                                             \
           retval.x = x - other.x;                                                                       \
           return retval;                                                                                \
@@ -536,13 +536,13 @@ struct CubVector<T, 4>
     {                                                                                                   \
         typedef base_type       BaseType;                                                               \
         typedef short_type##2   Type;                                                                   \
-        __host__ __device__ __forceinline__ CubVector operator+(const CubVector &other) const {         \
+        __hydra_host__ __hydra_device__ __forceinline__ CubVector operator+(const CubVector &other) const {         \
             CubVector retval;                                                                           \
             retval.x = x + other.x;                                                                     \
             retval.y = y + other.y;                                                                     \
             return retval;                                                                              \
         }                                                                                               \
-        __host__ __device__ __forceinline__ CubVector operator-(const CubVector &other) const {         \
+        __hydra_host__ __hydra_device__ __forceinline__ CubVector operator-(const CubVector &other) const {         \
             CubVector retval;                                                                           \
             retval.x = x - other.x;                                                                     \
             retval.y = y - other.y;                                                                     \
@@ -554,14 +554,14 @@ struct CubVector<T, 4>
     {                                                                                                   \
         typedef base_type       BaseType;                                                               \
         typedef short_type##3   Type;                                                                   \
-        __host__ __device__ __forceinline__ CubVector operator+(const CubVector &other) const {         \
+        __hydra_host__ __hydra_device__ __forceinline__ CubVector operator+(const CubVector &other) const {         \
             CubVector retval;                                                                           \
             retval.x = x + other.x;                                                                     \
             retval.y = y + other.y;                                                                     \
             retval.z = z + other.z;                                                                     \
             return retval;                                                                              \
         }                                                                                               \
-        __host__ __device__ __forceinline__ CubVector operator-(const CubVector &other) const {         \
+        __hydra_host__ __hydra_device__ __forceinline__ CubVector operator-(const CubVector &other) const {         \
             CubVector retval;                                                                           \
             retval.x = x - other.x;                                                                     \
             retval.y = y - other.y;                                                                     \
@@ -574,7 +574,7 @@ struct CubVector<T, 4>
     {                                                                                                   \
         typedef base_type       BaseType;                                                               \
         typedef short_type##4   Type;                                                                   \
-        __host__ __device__ __forceinline__ CubVector operator+(const CubVector &other) const {         \
+        __hydra_host__ __hydra_device__ __forceinline__ CubVector operator+(const CubVector &other) const {         \
             CubVector retval;                                                                           \
             retval.x = x + other.x;                                                                     \
             retval.y = y + other.y;                                                                     \
@@ -582,7 +582,7 @@ struct CubVector<T, 4>
             retval.w = w + other.w;                                                                     \
             return retval;                                                                              \
         }                                                                                               \
-        __host__ __device__ __forceinline__ CubVector operator-(const CubVector &other) const {         \
+        __hydra_host__ __hydra_device__ __forceinline__ CubVector operator-(const CubVector &other) const {         \
             CubVector retval;                                                                           \
             retval.x = x - other.x;                                                                     \
             retval.y = y - other.y;                                                                     \
@@ -639,7 +639,7 @@ struct Uninitialized
     DeviceWord storage[WORDS];
 
     /// Alias
-    __host__ __device__ __forceinline__ T& Alias()
+    __hydra_host__ __hydra_device__ __forceinline__ T& Alias()
     {
         return reinterpret_cast<T&>(*this);
     }
@@ -666,15 +666,15 @@ struct KeyValuePair
     Value   value;                      ///< Item value
 
     /// Constructor
-    __host__ __device__ __forceinline__
+    __hydra_host__ __hydra_device__ __forceinline__
     KeyValuePair() {}
 
     /// Constructor
-    __host__ __device__ __forceinline__
+    __hydra_host__ __hydra_device__ __forceinline__
     KeyValuePair(Key const& key, Value const& value) : key(key), value(value) {}
 
     /// Inequality operator
-    __host__ __device__ __forceinline__ bool operator !=(const KeyValuePair &b)
+    __hydra_host__ __hydra_device__ __forceinline__ bool operator !=(const KeyValuePair &b)
     {
         return (value != b.value) || (key != b.key);
     }
@@ -708,15 +708,15 @@ struct KeyValuePair<K, V, true, false>
     Pad     pad;
 
     /// Constructor
-    __host__ __device__ __forceinline__
+    __hydra_host__ __hydra_device__ __forceinline__
     KeyValuePair() {}
 
     /// Constructor
-    __host__ __device__ __forceinline__
+    __hydra_host__ __hydra_device__ __forceinline__
     KeyValuePair(Key const& key, Value const& value) : key(key), value(value) {}
 
     /// Inequality operator
-    __host__ __device__ __forceinline__ bool operator !=(const KeyValuePair &b)
+    __hydra_host__ __hydra_device__ __forceinline__ bool operator !=(const KeyValuePair &b)
     {
         return (value != b.value) || (key != b.key);
     }
@@ -737,15 +737,15 @@ struct KeyValuePair<K, V, false, true>
     Pad     pad;
 
     /// Constructor
-    __host__ __device__ __forceinline__
+    __hydra_host__ __hydra_device__ __forceinline__
     KeyValuePair() {}
 
     /// Constructor
-    __host__ __device__ __forceinline__
+    __hydra_host__ __hydra_device__ __forceinline__
     KeyValuePair(Key const& key, Value const& value) : key(key), value(value) {}
 
     /// Inequality operator
-    __host__ __device__ __forceinline__ bool operator !=(const KeyValuePair &b)
+    __hydra_host__ __hydra_device__ __forceinline__ bool operator !=(const KeyValuePair &b)
     {
         return (value != b.value) || (key != b.key);
     }
@@ -768,7 +768,7 @@ struct ArrayWrapper
     T array[COUNT];
 
     /// Constructor
-    __host__ __device__ __forceinline__ ArrayWrapper() {}
+    __hydra_host__ __hydra_device__ __forceinline__ ArrayWrapper() {}
 };
 
 #endif // DOXYGEN_SHOULD_SKIP_THIS
@@ -791,7 +791,7 @@ struct DoubleBuffer
     int selector;
 
     /// \brief Constructor
-    __host__ __device__ __forceinline__ DoubleBuffer()
+    __hydra_host__ __hydra_device__ __forceinline__ DoubleBuffer()
     {
         selector = 0;
         d_buffers[0] = NULL;
@@ -799,7 +799,7 @@ struct DoubleBuffer
     }
 
     /// \brief Constructor
-    __host__ __device__ __forceinline__ DoubleBuffer(
+    __hydra_host__ __hydra_device__ __forceinline__ DoubleBuffer(
         T *d_current,         ///< The currently valid buffer
         T *d_alternate)       ///< Alternate storage buffer of the same size as \p d_current
     {
@@ -809,10 +809,10 @@ struct DoubleBuffer
     }
 
     /// \brief Return pointer to the currently valid buffer
-    __host__ __device__ __forceinline__ T* Current() { return d_buffers[selector]; }
+    __hydra_host__ __hydra_device__ __forceinline__ T* Current() { return d_buffers[selector]; }
 
     /// \brief Return pointer to the currently invalid buffer
-    __host__ __device__ __forceinline__ T* Alternate() { return d_buffers[selector ^ 1]; }
+    __hydra_host__ __hydra_device__ __forceinline__ T* Alternate() { return d_buffers[selector ^ 1]; }
 
 };
 
@@ -963,23 +963,23 @@ struct BaseTraits<UNSIGNED_INTEGER, true, false, _UnsignedBits, T>
     };
 
 
-    static __device__ __forceinline__ UnsignedBits TwiddleIn(UnsignedBits key)
+    static __hydra_device__ __forceinline__ UnsignedBits TwiddleIn(UnsignedBits key)
     {
         return key;
     }
 
-    static __device__ __forceinline__ UnsignedBits TwiddleOut(UnsignedBits key)
+    static __hydra_device__ __forceinline__ UnsignedBits TwiddleOut(UnsignedBits key)
     {
         return key;
     }
 
-    static __host__ __device__ __forceinline__ T Max()
+    static __hydra_host__ __hydra_device__ __forceinline__ T Max()
     {
         UnsignedBits retval = MAX_KEY;
         return reinterpret_cast<T&>(retval);
     }
 
-    static __host__ __device__ __forceinline__ T Lowest()
+    static __hydra_host__ __hydra_device__ __forceinline__ T Lowest()
     {
         UnsignedBits retval = LOWEST_KEY;
         return reinterpret_cast<T&>(retval);
@@ -1006,23 +1006,23 @@ struct BaseTraits<SIGNED_INTEGER, true, false, _UnsignedBits, T>
         NULL_TYPE       = false,
     };
 
-    static __device__ __forceinline__ UnsignedBits TwiddleIn(UnsignedBits key)
+    static __hydra_device__ __forceinline__ UnsignedBits TwiddleIn(UnsignedBits key)
     {
         return key ^ HIGH_BIT;
     };
 
-    static __device__ __forceinline__ UnsignedBits TwiddleOut(UnsignedBits key)
+    static __hydra_device__ __forceinline__ UnsignedBits TwiddleOut(UnsignedBits key)
     {
         return key ^ HIGH_BIT;
     };
 
-    static __host__ __device__ __forceinline__ T Max()
+    static __hydra_host__ __hydra_device__ __forceinline__ T Max()
     {
         UnsignedBits retval = MAX_KEY;
         return reinterpret_cast<T&>(retval);
     }
 
-    static __host__ __device__ __forceinline__ T Lowest()
+    static __hydra_host__ __hydra_device__ __forceinline__ T Lowest()
     {
         UnsignedBits retval = LOWEST_KEY;
         return reinterpret_cast<T&>(retval);
@@ -1035,11 +1035,11 @@ struct FpLimits;
 template <>
 struct FpLimits<float>
 {
-    static __host__ __device__ __forceinline__ float Max() {
+    static __hydra_host__ __hydra_device__ __forceinline__ float Max() {
         return FLT_MAX;
     }
 
-    static __host__ __device__ __forceinline__ float Lowest() {
+    static __hydra_host__ __hydra_device__ __forceinline__ float Lowest() {
         return FLT_MAX * float(-1);
     }
 };
@@ -1047,11 +1047,11 @@ struct FpLimits<float>
 template <>
 struct FpLimits<double>
 {
-    static __host__ __device__ __forceinline__ double Max() {
+    static __hydra_host__ __hydra_device__ __forceinline__ double Max() {
         return DBL_MAX;
     }
 
-    static __host__ __device__ __forceinline__ double Lowest() {
+    static __hydra_host__ __hydra_device__ __forceinline__ double Lowest() {
         return DBL_MAX  * double(-1);
     }
 };
@@ -1076,23 +1076,23 @@ struct BaseTraits<FLOATING_POINT, true, false, _UnsignedBits, T>
         NULL_TYPE       = false,
     };
 
-    static __device__ __forceinline__ UnsignedBits TwiddleIn(UnsignedBits key)
+    static __hydra_device__ __forceinline__ UnsignedBits TwiddleIn(UnsignedBits key)
     {
         UnsignedBits mask = (key & HIGH_BIT) ? UnsignedBits(-1) : HIGH_BIT;
         return key ^ mask;
     };
 
-    static __device__ __forceinline__ UnsignedBits TwiddleOut(UnsignedBits key)
+    static __hydra_device__ __forceinline__ UnsignedBits TwiddleOut(UnsignedBits key)
     {
         UnsignedBits mask = (key & HIGH_BIT) ? HIGH_BIT : UnsignedBits(-1);
         return key ^ mask;
     };
 
-    static __host__ __device__ __forceinline__ T Max() {
+    static __hydra_host__ __hydra_device__ __forceinline__ T Max() {
         return FpLimits<T>::Max();
     }
 
-    static __host__ __device__ __forceinline__ T Lowest() {
+    static __hydra_host__ __hydra_device__ __forceinline__ T Lowest() {
         return FpLimits<T>::Lowest();
     }
 };

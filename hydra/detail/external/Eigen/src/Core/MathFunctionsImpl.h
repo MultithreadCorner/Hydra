@@ -8,8 +8,8 @@
 // Public License v. 2.0. If a copy of the MPL was not distributed
 // with this file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
-#ifndef EIGEN_MATHFUNCTIONSIMPL_H
-#define EIGEN_MATHFUNCTIONSIMPL_H
+#ifndef HYDRA_EIGEN_MATHFUNCTIONSIMPL_H
+#define HYDRA_EIGEN_MATHFUNCTIONSIMPL_H
 
 HYDRA_EXTERNAL_NAMESPACE_BEGIN namespace Eigen {
 
@@ -75,4 +75,4 @@ T generic_fast_tanh_float(const T& a_x)
 
 } /* end namespace Eigen */  HYDRA_EXTERNAL_NAMESPACE_END
 
-#endif // EIGEN_MATHFUNCTIONSIMPL_H
+#endif // HYDRA_EIGEN_MATHFUNCTIONSIMPL_H

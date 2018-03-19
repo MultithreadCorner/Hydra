@@ -59,12 +59,12 @@ public:
 		BaseFunctor<Gaussian<ArgIndex>, double, 2>({mean, sigma})
 		{}
 
-	__host__ __device__
+	__hydra_host__ __hydra_device__
 	Gaussian(Gaussian<ArgIndex> const& other ):
 		BaseFunctor<Gaussian<ArgIndex>, double,2>(other)
 		{}
 
-	__host__ __device__
+	__hydra_host__ __hydra_device__
 	Gaussian<ArgIndex>&
 	operator=(Gaussian<ArgIndex> const& other ){
 		if(this==&other) return  *this;
@@ -73,7 +73,7 @@ public:
 	}
 
 	template<typename T>
-	__host__ __device__ inline
+	__hydra_host__ __hydra_device__ inline
 	double Evaluate(unsigned int, T*x)  const	{
 		double m2 = (x[ArgIndex] - _par[0])*(x[ArgIndex] - _par[0] );
 		double s2 = _par[1]*_par[1];
@@ -82,7 +82,7 @@ public:
 	}
 
 	template<typename T>
-	__host__ __device__ inline
+	__hydra_host__ __hydra_device__ inline
 	double Evaluate(T x)  const {
 		double m2 = ( get<ArgIndex>(x) - _par[0])*(get<ArgIndex>(x) - _par[0] );
 		double s2 = _par[1]*_par[1];

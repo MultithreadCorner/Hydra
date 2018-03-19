@@ -8,11 +8,11 @@
 // Public License v. 2.0. If a copy of the MPL was not distributed
 // with this file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
-#ifndef EIGEN_MAPBASE_H
-#define EIGEN_MAPBASE_H
+#ifndef HYDRA_EIGEN_MAPBASE_H
+#define HYDRA_EIGEN_MAPBASE_H
 
-#define EIGEN_STATIC_ASSERT_INDEX_BASED_ACCESS(Derived) \
-      EIGEN_STATIC_ASSERT((int(internal::evaluator<Derived>::Flags) & LinearAccessBit) || Derived::IsVectorAtCompileTime, \
+#define HYDRA_EIGEN_STATIC_ASSERT_INDEX_BASED_ACCESS(Derived) \
+      HYDRA_EIGEN_STATIC_ASSERT((int(internal::evaluator<Derived>::Flags) & LinearAccessBit) || Derived::IsVectorAtCompileTime, \
                           YOU_ARE_TRYING_TO_USE_AN_INDEX_BASED_ACCESSOR_ON_AN_EXPRESSION_THAT_DOES_NOT_SUPPORT_THAT)
 
 HYDRA_EXTERNAL_NAMESPACE_BEGIN namespace Eigen { 
@@ -25,7 +25,7 @@ HYDRA_EXTERNAL_NAMESPACE_BEGIN namespace Eigen {
   * Map and Block objects with direct access.
   * Typical users do not have to directly deal with this class.
   *
-  * This class can be extended by through the macro plugin \c EIGEN_MAPBASE_PLUGIN.
+  * This class can be extended by through the macro plugin \c HYDRA_EIGEN_MAPBASE_PLUGIN.
   * See \link TopicCustomizing_Plugins customizing Eigen \endlink for details.
   *
   * The \c Derived class has to provide the following two methods describing the memory layout:
@@ -86,9 +86,9 @@ template<typename Derived> class MapBase<Derived, ReadOnlyAccessors>
     typedef typename Base::CoeffReturnType CoeffReturnType;
 
     /** \copydoc DenseBase::rows() */
-    EIGEN_DEVICE_FUNC inline Index rows() const { return m_rows.value(); }
+    HYDRA_EIGEN_DEVICE_FUNC inline Index rows() const { return m_rows.value(); }
     /** \copydoc DenseBase::cols() */
-    EIGEN_DEVICE_FUNC inline Index cols() const { return m_cols.value(); }
+    HYDRA_EIGEN_DEVICE_FUNC inline Index cols() const { return m_cols.value(); }
 
     /** Returns a pointer to the first coefficient of the matrix or vector.
       *
@@ -96,35 +96,35 @@ template<typename Derived> class MapBase<Derived, ReadOnlyAccessors>
       *
       * \sa innerStride(), outerStride()
       */
-    EIGEN_DEVICE_FUNC inline const Scalar* data() const { return m_data; }
+    HYDRA_EIGEN_DEVICE_FUNC inline const Scalar* data() const { return m_data; }
 
     /** \copydoc PlainObjectBase::coeff(Index,Index) const */
-    EIGEN_DEVICE_FUNC
+    HYDRA_EIGEN_DEVICE_FUNC
     inline const Scalar& coeff(Index rowId, Index colId) const
     {
       return m_data[colId * colStride() + rowId * rowStride()];
     }
 
     /** \copydoc PlainObjectBase::coeff(Index) const */
-    EIGEN_DEVICE_FUNC
+    HYDRA_EIGEN_DEVICE_FUNC
     inline const Scalar& coeff(Index index) const
     {
-      EIGEN_STATIC_ASSERT_INDEX_BASED_ACCESS(Derived)
+      HYDRA_EIGEN_STATIC_ASSERT_INDEX_BASED_ACCESS(Derived)
       return m_data[index * innerStride()];
     }
 
     /** \copydoc PlainObjectBase::coeffRef(Index,Index) const */
-    EIGEN_DEVICE_FUNC
+    HYDRA_EIGEN_DEVICE_FUNC
     inline const Scalar& coeffRef(Index rowId, Index colId) const
     {
       return this->m_data[colId * colStride() + rowId * rowStride()];
     }
 
     /** \copydoc PlainObjectBase::coeffRef(Index) const */
-    EIGEN_DEVICE_FUNC
+    HYDRA_EIGEN_DEVICE_FUNC
     inline const Scalar& coeffRef(Index index) const
     {
-      EIGEN_STATIC_ASSERT_INDEX_BASED_ACCESS(Derived)
+      HYDRA_EIGEN_STATIC_ASSERT_INDEX_BASED_ACCESS(Derived)
       return this->m_data[index * innerStride()];
     }
 
@@ -140,33 +140,33 @@ template<typename Derived> class MapBase<Derived, ReadOnlyAccessors>
     template<int LoadMode>
     inline PacketScalar packet(Index index) const
     {
-      EIGEN_STATIC_ASSERT_INDEX_BASED_ACCESS(Derived)
+      HYDRA_EIGEN_STATIC_ASSERT_INDEX_BASED_ACCESS(Derived)
       return internal::ploadt<PacketScalar, LoadMode>(m_data + index * innerStride());
     }
 
     /** \internal Constructor for fixed size matrices or vectors */
-    EIGEN_DEVICE_FUNC
+    HYDRA_EIGEN_DEVICE_FUNC
     explicit inline MapBase(PointerType dataPtr) : m_data(dataPtr), m_rows(RowsAtCompileTime), m_cols(ColsAtCompileTime)
     {
-      EIGEN_STATIC_ASSERT_FIXED_SIZE(Derived)
+      HYDRA_EIGEN_STATIC_ASSERT_FIXED_SIZE(Derived)
       checkSanity<Derived>();
     }
 
     /** \internal Constructor for dynamically sized vectors */
-    EIGEN_DEVICE_FUNC
+    HYDRA_EIGEN_DEVICE_FUNC
     inline MapBase(PointerType dataPtr, Index vecSize)
             : m_data(dataPtr),
               m_rows(RowsAtCompileTime == Dynamic ? vecSize : Index(RowsAtCompileTime)),
               m_cols(ColsAtCompileTime == Dynamic ? vecSize : Index(ColsAtCompileTime))
     {
-      EIGEN_STATIC_ASSERT_VECTOR_ONLY(Derived)
+      HYDRA_EIGEN_STATIC_ASSERT_VECTOR_ONLY(Derived)
       eigen_assert(vecSize >= 0);
       eigen_assert(dataPtr == 0 || SizeAtCompileTime == Dynamic || SizeAtCompileTime == vecSize);
       checkSanity<Derived>();
     }
 
     /** \internal Constructor for dynamically sized matrices */
-    EIGEN_DEVICE_FUNC
+    HYDRA_EIGEN_DEVICE_FUNC
     inline MapBase(PointerType dataPtr, Index rows, Index cols)
             : m_data(dataPtr), m_rows(rows), m_cols(cols)
     {
@@ -176,24 +176,24 @@ template<typename Derived> class MapBase<Derived, ReadOnlyAccessors>
       checkSanity<Derived>();
     }
 
-    #ifdef EIGEN_MAPBASE_PLUGIN
-    #include EIGEN_MAPBASE_PLUGIN
+    #ifdef HYDRA_EIGEN_MAPBASE_PLUGIN
+    #include HYDRA_EIGEN_MAPBASE_PLUGIN
     #endif
 
   protected:
 
     template<typename T>
-    EIGEN_DEVICE_FUNC
+    HYDRA_EIGEN_DEVICE_FUNC
     void checkSanity(typename internal::enable_if<(internal::traits<T>::Alignment>0),void*>::type = 0) const
     {
-#if EIGEN_MAX_ALIGN_BYTES>0
+#if HYDRA_EIGEN_MAX_ALIGN_BYTES>0
       eigen_assert((   ((internal::UIntPtr(m_data) % internal::traits<Derived>::Alignment) == 0)
                     || (cols() * rows() * innerStride() * sizeof(Scalar)) < internal::traits<Derived>::Alignment ) && "data is not aligned");
 #endif
     }
 
     template<typename T>
-    EIGEN_DEVICE_FUNC
+    HYDRA_EIGEN_DEVICE_FUNC
     void checkSanity(typename internal::enable_if<internal::traits<T>::Alignment==0,void*>::type = 0) const
     {}
 
@@ -243,21 +243,21 @@ template<typename Derived> class MapBase<Derived, WriteAccessors>
                     const Scalar
                   >::type ScalarWithConstIfNotLvalue;
 
-    EIGEN_DEVICE_FUNC
+    HYDRA_EIGEN_DEVICE_FUNC
     inline const Scalar* data() const { return this->m_data; }
-    EIGEN_DEVICE_FUNC
+    HYDRA_EIGEN_DEVICE_FUNC
     inline ScalarWithConstIfNotLvalue* data() { return this->m_data; } // no const-cast here so non-const-correct code will give a compile error
 
-    EIGEN_DEVICE_FUNC
+    HYDRA_EIGEN_DEVICE_FUNC
     inline ScalarWithConstIfNotLvalue& coeffRef(Index row, Index col)
     {
       return this->m_data[col * colStride() + row * rowStride()];
     }
 
-    EIGEN_DEVICE_FUNC
+    HYDRA_EIGEN_DEVICE_FUNC
     inline ScalarWithConstIfNotLvalue& coeffRef(Index index)
     {
-      EIGEN_STATIC_ASSERT_INDEX_BASED_ACCESS(Derived)
+      HYDRA_EIGEN_STATIC_ASSERT_INDEX_BASED_ACCESS(Derived)
       return this->m_data[index * innerStride()];
     }
 
@@ -271,16 +271,16 @@ template<typename Derived> class MapBase<Derived, WriteAccessors>
     template<int StoreMode>
     inline void writePacket(Index index, const PacketScalar& val)
     {
-      EIGEN_STATIC_ASSERT_INDEX_BASED_ACCESS(Derived)
+      HYDRA_EIGEN_STATIC_ASSERT_INDEX_BASED_ACCESS(Derived)
       internal::pstoret<Scalar, PacketScalar, StoreMode>
                 (this->m_data + index * innerStride(), val);
     }
 
-    EIGEN_DEVICE_FUNC explicit inline MapBase(PointerType dataPtr) : Base(dataPtr) {}
-    EIGEN_DEVICE_FUNC inline MapBase(PointerType dataPtr, Index vecSize) : Base(dataPtr, vecSize) {}
-    EIGEN_DEVICE_FUNC inline MapBase(PointerType dataPtr, Index rows, Index cols) : Base(dataPtr, rows, cols) {}
+    HYDRA_EIGEN_DEVICE_FUNC explicit inline MapBase(PointerType dataPtr) : Base(dataPtr) {}
+    HYDRA_EIGEN_DEVICE_FUNC inline MapBase(PointerType dataPtr, Index vecSize) : Base(dataPtr, vecSize) {}
+    HYDRA_EIGEN_DEVICE_FUNC inline MapBase(PointerType dataPtr, Index rows, Index cols) : Base(dataPtr, rows, cols) {}
 
-    EIGEN_DEVICE_FUNC
+    HYDRA_EIGEN_DEVICE_FUNC
     Derived& operator=(const MapBase& other)
     {
       ReadOnlyMapBase::Base::operator=(other);
@@ -292,8 +292,8 @@ template<typename Derived> class MapBase<Derived, WriteAccessors>
     using ReadOnlyMapBase::Base::operator=;
 };
 
-#undef EIGEN_STATIC_ASSERT_INDEX_BASED_ACCESS
+#undef HYDRA_EIGEN_STATIC_ASSERT_INDEX_BASED_ACCESS
 
 } /* end namespace Eigen */  HYDRA_EXTERNAL_NAMESPACE_END
 
-#endif // EIGEN_MAPBASE_H
+#endif // HYDRA_EIGEN_MAPBASE_H

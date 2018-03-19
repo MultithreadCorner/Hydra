@@ -38,7 +38,7 @@ namespace detail
 template<typename DerivedPolicy,
          typename RandomAccessIterator,
          typename UnaryFunction>
-__host__ __device__
+__hydra_host__ __hydra_device__
 RandomAccessIterator for_each(execution_policy<DerivedPolicy> &s,
                               RandomAccessIterator first,
                               RandomAccessIterator last,
@@ -49,7 +49,7 @@ template<typename DerivedPolicy,
          typename RandomAccessIterator,
          typename Size,
          typename UnaryFunction>
-__host__ __device__
+__hydra_host__ __hydra_device__
 RandomAccessIterator for_each_n(execution_policy<DerivedPolicy> &s,
                                 RandomAccessIterator first,
                                 Size n,

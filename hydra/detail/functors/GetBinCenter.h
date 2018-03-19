@@ -57,7 +57,7 @@ struct GetBinCenter: public HYDRA_EXTERNAL_NS::thrust::unary_function<size_t, ty
 		}
 	}
 
-	__host__ __device__
+	__hydra_host__ __hydra_device__
 	GetBinCenter( GetBinCenter<T, N> const& other ):
 	fNGlobalBins(other.fNGlobalBins)
 	{
@@ -70,7 +70,7 @@ struct GetBinCenter: public HYDRA_EXTERNAL_NS::thrust::unary_function<size_t, ty
 
 	}
 
-	__host__ __device__
+	__hydra_host__ __hydra_device__
 	GetBinCenter<T, N>&
 	operator=( GetBinCenter<T,N> const& other )
 	{
@@ -90,12 +90,12 @@ struct GetBinCenter: public HYDRA_EXTERNAL_NS::thrust::unary_function<size_t, ty
 	// multiply static array elements
 	//----------------------------------------
 	template< size_t I>
-	__host__ __device__ inline typename std::enable_if< (I==N), void  >::type
+	__hydra_host__ __hydra_device__ inline typename std::enable_if< (I==N), void  >::type
 	multiply( size_t (&)[N] , size_t&  )
 	{ }
 
 	template<size_t I=0>
-	__host__ __device__ inline typename std::enable_if< (I<N), void  >::type
+	__hydra_host__ __hydra_device__ inline typename std::enable_if< (I<N), void  >::type
 	multiply( size_t (&obj)[N], size_t& result )
 	{
 		result = I==0? 1.0: result;
@@ -105,13 +105,13 @@ struct GetBinCenter: public HYDRA_EXTERNAL_NS::thrust::unary_function<size_t, ty
 
 	//end of recursion
 	template<size_t I>
-	__host__ __device__ inline typename std::enable_if< (I==N), void  >::type
+	__hydra_host__ __hydra_device__ inline typename std::enable_if< (I==N), void  >::type
 	get_indexes(size_t,  size_t (&)[N])
 	{}
 
 	//begin of the recursion
 	template<size_t I=0>
-	__host__ __device__ inline typename std::enable_if< (I<N), void  >::type
+	__hydra_host__ __hydra_device__ inline typename std::enable_if< (I<N), void  >::type
 	get_indexes(size_t index,  size_t (&indexes)[N] )
 	{
 		size_t factor    =  1;
@@ -124,7 +124,7 @@ struct GetBinCenter: public HYDRA_EXTERNAL_NS::thrust::unary_function<size_t, ty
 
 
 
-	__host__ __device__ inline
+	__hydra_host__ __hydra_device__ inline
     typename tuple_type<N,T>::type operator()(size_t global_bin){
 
 		size_t  indexes[N];
@@ -166,7 +166,7 @@ struct GetBinCenter<T,1>: public HYDRA_EXTERNAL_NS::thrust::unary_function<T,T>
 		fIncrement((upperlimits - lowerlimits)/grid)
 	{ }
 
-	__host__ __device__
+	__hydra_host__ __hydra_device__
 	GetBinCenter( GetBinCenter<T, 1> const& other ):
 	fNGlobalBins(other.fNGlobalBins),
 	fGrid(other.fGrid ),
@@ -175,7 +175,7 @@ struct GetBinCenter<T,1>: public HYDRA_EXTERNAL_NS::thrust::unary_function<T,T>
 	fIncrement(other.fIncrement)
 	{}
 
-	__host__ __device__
+	__hydra_host__ __hydra_device__
 	GetBinCenter<T,1>&
 	operator=( GetBinCenter<T,1> const& other )
 	{
@@ -191,7 +191,7 @@ struct GetBinCenter<T,1>: public HYDRA_EXTERNAL_NS::thrust::unary_function<T,T>
 
 
 
-	__host__ __device__ inline
+	__hydra_host__ __hydra_device__ inline
   T	operator()(size_t global_bin){
 
 		return fLowerLimits + (global_bin +0.5)*fIncrement;

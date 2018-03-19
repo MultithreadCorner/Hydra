@@ -7,8 +7,8 @@
 // Public License v. 2.0. If a copy of the MPL was not distributed
 // with this file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
-#ifndef EIGEN_TRIANGULARMATRIXVECTOR_H
-#define EIGEN_TRIANGULARMATRIXVECTOR_H
+#ifndef HYDRA_EIGEN_TRIANGULARMATRIXVECTOR_H
+#define HYDRA_EIGEN_TRIANGULARMATRIXVECTOR_H
 
 HYDRA_EXTERNAL_NAMESPACE_BEGIN namespace Eigen {
 
@@ -26,16 +26,16 @@ struct triangular_matrix_vector_product<Index,Mode,LhsScalar,ConjLhs,RhsScalar,C
     HasUnitDiag = (Mode & UnitDiag)==UnitDiag,
     HasZeroDiag = (Mode & ZeroDiag)==ZeroDiag
   };
-  static EIGEN_DONT_INLINE  void run(Index _rows, Index _cols, const LhsScalar* _lhs, Index lhsStride,
+  static HYDRA_EIGEN_DONT_INLINE  void run(Index _rows, Index _cols, const LhsScalar* _lhs, Index lhsStride,
                                      const RhsScalar* _rhs, Index rhsIncr, ResScalar* _res, Index resIncr, const RhsScalar& alpha);
 };
 
 template<typename Index, int Mode, typename LhsScalar, bool ConjLhs, typename RhsScalar, bool ConjRhs, int Version>
-EIGEN_DONT_INLINE void triangular_matrix_vector_product<Index,Mode,LhsScalar,ConjLhs,RhsScalar,ConjRhs,ColMajor,Version>
+HYDRA_EIGEN_DONT_INLINE void triangular_matrix_vector_product<Index,Mode,LhsScalar,ConjLhs,RhsScalar,ConjRhs,ColMajor,Version>
   ::run(Index _rows, Index _cols, const LhsScalar* _lhs, Index lhsStride,
         const RhsScalar* _rhs, Index rhsIncr, ResScalar* _res, Index resIncr, const RhsScalar& alpha)
   {
-    static const Index PanelWidth = EIGEN_TUNE_TRIANGULAR_PANEL_WIDTH;
+    static const Index PanelWidth = HYDRA_EIGEN_TUNE_TRIANGULAR_PANEL_WIDTH;
     Index size = (std::min)(_rows,_cols);
     Index rows = IsLower ? _rows : (std::min)(_rows,_cols);
     Index cols = IsLower ? (std::min)(_rows,_cols) : _cols;
@@ -97,16 +97,16 @@ struct triangular_matrix_vector_product<Index,Mode,LhsScalar,ConjLhs,RhsScalar,C
     HasUnitDiag = (Mode & UnitDiag)==UnitDiag,
     HasZeroDiag = (Mode & ZeroDiag)==ZeroDiag
   };
-  static EIGEN_DONT_INLINE void run(Index _rows, Index _cols, const LhsScalar* _lhs, Index lhsStride,
+  static HYDRA_EIGEN_DONT_INLINE void run(Index _rows, Index _cols, const LhsScalar* _lhs, Index lhsStride,
                                     const RhsScalar* _rhs, Index rhsIncr, ResScalar* _res, Index resIncr, const ResScalar& alpha);
 };
 
 template<typename Index, int Mode, typename LhsScalar, bool ConjLhs, typename RhsScalar, bool ConjRhs,int Version>
-EIGEN_DONT_INLINE void triangular_matrix_vector_product<Index,Mode,LhsScalar,ConjLhs,RhsScalar,ConjRhs,RowMajor,Version>
+HYDRA_EIGEN_DONT_INLINE void triangular_matrix_vector_product<Index,Mode,LhsScalar,ConjLhs,RhsScalar,ConjRhs,RowMajor,Version>
   ::run(Index _rows, Index _cols, const LhsScalar* _lhs, Index lhsStride,
         const RhsScalar* _rhs, Index rhsIncr, ResScalar* _res, Index resIncr, const ResScalar& alpha)
   {
-    static const Index PanelWidth = EIGEN_TUNE_TRIANGULAR_PANEL_WIDTH;
+    static const Index PanelWidth = HYDRA_EIGEN_TUNE_TRIANGULAR_PANEL_WIDTH;
     Index diagSize = (std::min)(_rows,_cols);
     Index rows = IsLower ? _rows : diagSize;
     Index cols = IsLower ? diagSize : _cols;
@@ -216,7 +216,7 @@ template<int Mode> struct trmv_selector<Mode,ColMajor>
     typedef internal::blas_traits<Rhs> RhsBlasTraits;
     typedef typename RhsBlasTraits::DirectLinearAccessType ActualRhsType;
     
-    typedef Map<Matrix<ResScalar,Dynamic,1>, EIGEN_PLAIN_ENUM_MIN(AlignedMax,internal::packet_traits<ResScalar>::size)> MappedDest;
+    typedef Map<Matrix<ResScalar,Dynamic,1>, HYDRA_EIGEN_PLAIN_ENUM_MIN(AlignedMax,internal::packet_traits<ResScalar>::size)> MappedDest;
 
     typename internal::add_const_on_value_type<ActualLhsType>::type actualLhs = LhsBlasTraits::extract(lhs);
     typename internal::add_const_on_value_type<ActualRhsType>::type actualRhs = RhsBlasTraits::extract(rhs);
@@ -239,14 +239,14 @@ template<int Mode> struct trmv_selector<Mode,ColMajor>
 
     RhsScalar compatibleAlpha = get_factor<ResScalar,RhsScalar>::run(actualAlpha);
 
-    ei_declare_aligned_stack_constructed_variable(ResScalar,actualDestPtr,dest.size(),
+    hydra_ei_declare_aligned_stack_constructed_variable(ResScalar,actualDestPtr,dest.size(),
                                                   evalToDest ? dest.data() : static_dest.data());
 
     if(!evalToDest)
     {
-      #ifdef EIGEN_DENSE_STORAGE_CTOR_PLUGIN
+      #ifdef HYDRA_EIGEN_DENSE_STORAGE_CTOR_PLUGIN
       Index size = dest.size();
-      EIGEN_DENSE_STORAGE_CTOR_PLUGIN
+      HYDRA_EIGEN_DENSE_STORAGE_CTOR_PLUGIN
       #endif
       if(!alphaIsCompatible)
       {
@@ -304,14 +304,14 @@ template<int Mode> struct trmv_selector<Mode,RowMajor>
 
     gemv_static_vector_if<RhsScalar,ActualRhsTypeCleaned::SizeAtCompileTime,ActualRhsTypeCleaned::MaxSizeAtCompileTime,!DirectlyUseRhs> static_rhs;
 
-    ei_declare_aligned_stack_constructed_variable(RhsScalar,actualRhsPtr,actualRhs.size(),
+    hydra_ei_declare_aligned_stack_constructed_variable(RhsScalar,actualRhsPtr,actualRhs.size(),
         DirectlyUseRhs ? const_cast<RhsScalar*>(actualRhs.data()) : static_rhs.data());
 
     if(!DirectlyUseRhs)
     {
-      #ifdef EIGEN_DENSE_STORAGE_CTOR_PLUGIN
+      #ifdef HYDRA_EIGEN_DENSE_STORAGE_CTOR_PLUGIN
       Index size = actualRhs.size();
-      EIGEN_DENSE_STORAGE_CTOR_PLUGIN
+      HYDRA_EIGEN_DENSE_STORAGE_CTOR_PLUGIN
       #endif
       Map<typename ActualRhsTypeCleaned::PlainObject>(actualRhsPtr, actualRhs.size()) = actualRhs;
     }
@@ -333,4 +333,4 @@ template<int Mode> struct trmv_selector<Mode,RowMajor>
 
 } /* end namespace Eigen */  HYDRA_EXTERNAL_NAMESPACE_END
 
-#endif // EIGEN_TRIANGULARMATRIXVECTOR_H
+#endif // HYDRA_EIGEN_TRIANGULARMATRIXVECTOR_H

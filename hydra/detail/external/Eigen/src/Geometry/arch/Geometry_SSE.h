@@ -8,8 +8,8 @@
 // Public License v. 2.0. If a copy of the MPL was not distributed
 // with this file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
-#ifndef EIGEN_GEOMETRY_SSE_H
-#define EIGEN_GEOMETRY_SSE_H
+#ifndef HYDRA_EIGEN_GEOMETRY_SSE_H
+#define HYDRA_EIGEN_GEOMETRY_SSE_H
 
 HYDRA_EXTERNAL_NAMESPACE_BEGIN namespace Eigen { 
 
@@ -112,8 +112,8 @@ struct quat_product<Architecture::SSE, Derived, OtherDerived, double>
    */
   t1 = padd(pmul(a_ww, b_xy), pmul(a_yy, b_zw));
   t2 = psub(pmul(a_zz, b_xy), pmul(a_xx, b_zw));
-#ifdef EIGEN_VECTORIZE_SSE3
-  EIGEN_UNUSED_VARIABLE(mask)
+#ifdef HYDRA_EIGEN_VECTORIZE_SSE3
+  HYDRA_EIGEN_UNUSED_VARIABLE(mask)
   pstoret<double,Packet2d,ResAlignment>(&res.x(), _mm_addsub_pd(t1, preverse(t2)));
 #else
   pstoret<double,Packet2d,ResAlignment>(&res.x(), padd(t1, pxor(mask,preverse(t2))));
@@ -126,8 +126,8 @@ struct quat_product<Architecture::SSE, Derived, OtherDerived, double>
    */
   t1 = psub(pmul(a_ww, b_zw), pmul(a_yy, b_xy));
   t2 = padd(pmul(a_zz, b_zw), pmul(a_xx, b_xy));
-#ifdef EIGEN_VECTORIZE_SSE3
-  EIGEN_UNUSED_VARIABLE(mask)
+#ifdef HYDRA_EIGEN_VECTORIZE_SSE3
+  HYDRA_EIGEN_UNUSED_VARIABLE(mask)
   pstoret<double,Packet2d,ResAlignment>(&res.z(), preverse(_mm_addsub_pd(preverse(t1), t2)));
 #else
   pstoret<double,Packet2d,ResAlignment>(&res.z(), psub(t1, pxor(mask,preverse(t2))));
@@ -158,4 +158,4 @@ struct quat_conj<Architecture::SSE, Derived, double>
 
 } /* end namespace Eigen */  HYDRA_EXTERNAL_NAMESPACE_END
 
-#endif // EIGEN_GEOMETRY_SSE_H
+#endif // HYDRA_EIGEN_GEOMETRY_SSE_H

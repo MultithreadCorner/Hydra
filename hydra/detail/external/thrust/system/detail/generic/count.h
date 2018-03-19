@@ -31,13 +31,13 @@ namespace generic
 
 
 template <typename DerivedPolicy, typename InputIterator, typename EqualityComparable>
-__host__ __device__
+__hydra_host__ __hydra_device__
 typename thrust::iterator_traits<InputIterator>::difference_type
 count(thrust::execution_policy<DerivedPolicy> &exec, InputIterator first, InputIterator last, const EqualityComparable& value);
 
 
 template <typename DerivedPolicy, typename InputIterator, typename Predicate>
-__host__ __device__
+__hydra_host__ __hydra_device__
 typename thrust::iterator_traits<InputIterator>::difference_type
 count_if(thrust::execution_policy<DerivedPolicy> &exec, InputIterator first, InputIterator last, Predicate pred);
 

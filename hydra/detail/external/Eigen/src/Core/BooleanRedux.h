@@ -7,8 +7,8 @@
 // Public License v. 2.0. If a copy of the MPL was not distributed
 // with this file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
-#ifndef EIGEN_ALLANDANY_H
-#define EIGEN_ALLANDANY_H
+#ifndef HYDRA_EIGEN_ALLANDANY_H
+#define HYDRA_EIGEN_ALLANDANY_H
 
 HYDRA_EXTERNAL_NAMESPACE_BEGIN namespace Eigen { 
 
@@ -83,7 +83,7 @@ inline bool DenseBase<Derived>::all() const
   typedef internal::evaluator<Derived> Evaluator;
   enum {
     unroll = SizeAtCompileTime != Dynamic
-          && SizeAtCompileTime * (Evaluator::CoeffReadCost + NumTraits<Scalar>::AddCost) <= EIGEN_UNROLLING_LIMIT
+          && SizeAtCompileTime * (Evaluator::CoeffReadCost + NumTraits<Scalar>::AddCost) <= HYDRA_EIGEN_UNROLLING_LIMIT
   };
   Evaluator evaluator(derived());
   if(unroll)
@@ -107,7 +107,7 @@ inline bool DenseBase<Derived>::any() const
   typedef internal::evaluator<Derived> Evaluator;
   enum {
     unroll = SizeAtCompileTime != Dynamic
-          && SizeAtCompileTime * (Evaluator::CoeffReadCost + NumTraits<Scalar>::AddCost) <= EIGEN_UNROLLING_LIMIT
+          && SizeAtCompileTime * (Evaluator::CoeffReadCost + NumTraits<Scalar>::AddCost) <= HYDRA_EIGEN_UNROLLING_LIMIT
   };
   Evaluator evaluator(derived());
   if(unroll)
@@ -138,7 +138,7 @@ inline HYDRA_EXTERNAL_NS::Eigen::Index DenseBase<Derived>::count() const
 template<typename Derived>
 inline bool DenseBase<Derived>::hasNaN() const
 {
-#if EIGEN_COMP_MSVC || (defined __FAST_MATH__)
+#if HYDRA_EIGEN_COMP_MSVC || (defined __FAST_MATH__)
   return derived().array().isNaN().any();
 #else
   return !((derived().array()==derived().array()).all());
@@ -152,7 +152,7 @@ inline bool DenseBase<Derived>::hasNaN() const
 template<typename Derived>
 inline bool DenseBase<Derived>::allFinite() const
 {
-#if EIGEN_COMP_MSVC || (defined __FAST_MATH__)
+#if HYDRA_EIGEN_COMP_MSVC || (defined __FAST_MATH__)
   return derived().array().isFinite().all();
 #else
   return !((derived()-derived()).hasNaN());
@@ -161,4 +161,4 @@ inline bool DenseBase<Derived>::allFinite() const
     
 } /* end namespace Eigen */  HYDRA_EXTERNAL_NAMESPACE_END
 
-#endif // EIGEN_ALLANDANY_H
+#endif // HYDRA_EIGEN_ALLANDANY_H

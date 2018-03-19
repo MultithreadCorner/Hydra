@@ -150,7 +150,7 @@ private:
 public:
 
     /// Constructor
-    __host__ __device__ __forceinline__ TexObjInputIterator()
+    __hydra_host__ __hydra_device__ __forceinline__ TexObjInputIterator()
     :
         ptr(NULL),
         tex_offset(0),
@@ -187,7 +187,7 @@ public:
     }
 
     /// Postfix increment
-    __host__ __device__ __forceinline__ self_type operator++(int)
+    __hydra_host__ __hydra_device__ __forceinline__ self_type operator++(int)
     {
         self_type retval = *this;
         tex_offset++;
@@ -195,14 +195,14 @@ public:
     }
 
     /// Prefix increment
-    __host__ __device__ __forceinline__ self_type operator++()
+    __hydra_host__ __hydra_device__ __forceinline__ self_type operator++()
     {
         tex_offset++;
         return *this;
     }
 
     /// Indirection
-    __host__ __device__ __forceinline__ reference operator*() const
+    __hydra_host__ __hydra_device__ __forceinline__ reference operator*() const
     {
 #if (CUB_PTX_ARCH == 0)
         // Simply dereference the pointer on the host
@@ -226,7 +226,7 @@ public:
 
     /// Addition
     template <typename Distance>
-    __host__ __device__ __forceinline__ self_type operator+(Distance n) const
+    __hydra_host__ __hydra_device__ __forceinline__ self_type operator+(Distance n) const
     {
         self_type retval;
         retval.ptr          = ptr;
@@ -237,7 +237,7 @@ public:
 
     /// Addition assignment
     template <typename Distance>
-    __host__ __device__ __forceinline__ self_type& operator+=(Distance n)
+    __hydra_host__ __hydra_device__ __forceinline__ self_type& operator+=(Distance n)
     {
         tex_offset += n;
         return *this;
@@ -245,7 +245,7 @@ public:
 
     /// Subtraction
     template <typename Distance>
-    __host__ __device__ __forceinline__ self_type operator-(Distance n) const
+    __hydra_host__ __hydra_device__ __forceinline__ self_type operator-(Distance n) const
     {
         self_type retval;
         retval.ptr          = ptr;
@@ -256,40 +256,40 @@ public:
 
     /// Subtraction assignment
     template <typename Distance>
-    __host__ __device__ __forceinline__ self_type& operator-=(Distance n)
+    __hydra_host__ __hydra_device__ __forceinline__ self_type& operator-=(Distance n)
     {
         tex_offset -= n;
         return *this;
     }
 
     /// Distance
-    __host__ __device__ __forceinline__ difference_type operator-(self_type other) const
+    __hydra_host__ __hydra_device__ __forceinline__ difference_type operator-(self_type other) const
     {
         return tex_offset - other.tex_offset;
     }
 
     /// Array subscript
     template <typename Distance>
-    __host__ __device__ __forceinline__ reference operator[](Distance n) const
+    __hydra_host__ __hydra_device__ __forceinline__ reference operator[](Distance n) const
     {
         self_type offset = (*this) + n;
         return *offset;
     }
 
     /// Structure dereference
-    __host__ __device__ __forceinline__ pointer operator->()
+    __hydra_host__ __hydra_device__ __forceinline__ pointer operator->()
     {
         return &(*(*this));
     }
 
     /// Equal to
-    __host__ __device__ __forceinline__ bool operator==(const self_type& rhs)
+    __hydra_host__ __hydra_device__ __forceinline__ bool operator==(const self_type& rhs)
     {
         return ((ptr == rhs.ptr) && (tex_offset == rhs.tex_offset) && (tex_obj == rhs.tex_obj));
     }
 
     /// Not equal to
-    __host__ __device__ __forceinline__ bool operator!=(const self_type& rhs)
+    __hydra_host__ __hydra_device__ __forceinline__ bool operator!=(const self_type& rhs)
     {
         return ((ptr != rhs.ptr) || (tex_offset != rhs.tex_offset) || (tex_obj != rhs.tex_obj));
     }

@@ -27,10 +27,6 @@
  */
 
 
-/**
- * \file
- * \ingroup phsp
- */
 
 #ifndef STATSPHSP_H_
 #define STATSPHSP_H_
@@ -42,14 +38,14 @@ namespace detail {
 struct StatsPHSP
 {
 
-	__host__ __device__
+	__hydra_host__ __hydra_device__
 	StatsPHSP():
 		fMean(0),
 		fM2(0),
 		fW(0)
 		{}
 
-	__host__ __device__
+	__hydra_host__ __hydra_device__
 	StatsPHSP(StatsPHSP const& other):
 	fMean(other.fMean),
 	fM2(other.fM2),
@@ -68,7 +64,7 @@ struct AddStatsPHSP
 {
 
 
-    __host__ __device__ inline
+    __hydra_host__ __hydra_device__ inline
     StatsPHSP operator()( StatsPHSP const& x, StatsPHSP const& y)
     {
     	StatsPHSP result = StatsPHSP();

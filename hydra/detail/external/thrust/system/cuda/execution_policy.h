@@ -135,7 +135,7 @@ struct tag : thrust::system::cuda::execution_policy<tag> { unspecified };
  *
  *  struct printf_functor
  *  {
- *    __host__ __device__
+ *    __hydra_host__ __hydra_device__
  *    void operator()(int x)
  *    {
  *      printf("%d\n", x);
@@ -166,7 +166,7 @@ struct tag : thrust::system::cuda::execution_policy<tag> { unspecified };
  *
  *    printf_functor(cudaStream_t s) : s(s) {}
  *
- *    __host__ __device__
+ *    __hydra_host__ __hydra_device__
  *    void operator()(int)
  *    {
  *      printf("Hello, world from stream %p\n", static_cast<void*>(s));

@@ -7,8 +7,8 @@
 // Public License v. 2.0. If a copy of the MPL was not distributed
 // with this file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
-#ifndef EIGEN_CWISE_NULLARY_OP_H
-#define EIGEN_CWISE_NULLARY_OP_H
+#ifndef HYDRA_EIGEN_CWISE_NULLARY_OP_H
+#define HYDRA_EIGEN_CWISE_NULLARY_OP_H
 
 HYDRA_EXTERNAL_NAMESPACE_BEGIN namespace Eigen {
 
@@ -62,9 +62,9 @@ class CwiseNullaryOp : public internal::dense_xpr_base< CwiseNullaryOp<NullaryOp
   public:
 
     typedef typename internal::dense_xpr_base<CwiseNullaryOp>::type Base;
-    EIGEN_DENSE_PUBLIC_INTERFACE(CwiseNullaryOp)
+    HYDRA_EIGEN_DENSE_PUBLIC_INTERFACE(CwiseNullaryOp)
 
-    EIGEN_DEVICE_FUNC
+    HYDRA_EIGEN_DEVICE_FUNC
     CwiseNullaryOp(Index rows, Index cols, const NullaryOp& func = NullaryOp())
       : m_rows(rows), m_cols(cols), m_functor(func)
     {
@@ -74,13 +74,13 @@ class CwiseNullaryOp : public internal::dense_xpr_base< CwiseNullaryOp<NullaryOp
             && (ColsAtCompileTime == Dynamic || ColsAtCompileTime == cols));
     }
 
-    EIGEN_DEVICE_FUNC
-    EIGEN_STRONG_INLINE Index rows() const { return m_rows.value(); }
-    EIGEN_DEVICE_FUNC
-    EIGEN_STRONG_INLINE Index cols() const { return m_cols.value(); }
+    HYDRA_EIGEN_DEVICE_FUNC
+    HYDRA_EIGEN_STRONG_INLINE Index rows() const { return m_rows.value(); }
+    HYDRA_EIGEN_DEVICE_FUNC
+    HYDRA_EIGEN_STRONG_INLINE Index cols() const { return m_cols.value(); }
 
     /** \returns the functor representing the nullary operation */
-    EIGEN_DEVICE_FUNC
+    HYDRA_EIGEN_DEVICE_FUNC
     const NullaryOp& functor() const { return m_functor; }
 
   protected:
@@ -105,7 +105,7 @@ class CwiseNullaryOp : public internal::dense_xpr_base< CwiseNullaryOp<NullaryOp
   */
 template<typename Derived>
 template<typename CustomNullaryOp>
-EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE const CwiseNullaryOp<CustomNullaryOp, typename DenseBase<Derived>::PlainObject>
+HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE const CwiseNullaryOp<CustomNullaryOp, typename DenseBase<Derived>::PlainObject>
 DenseBase<Derived>::NullaryExpr(Index rows, Index cols, const CustomNullaryOp& func)
 {
   return CwiseNullaryOp<CustomNullaryOp, PlainObject>(rows, cols, func);
@@ -131,10 +131,10 @@ DenseBase<Derived>::NullaryExpr(Index rows, Index cols, const CustomNullaryOp& f
   */
 template<typename Derived>
 template<typename CustomNullaryOp>
-EIGEN_STRONG_INLINE const CwiseNullaryOp<CustomNullaryOp, typename DenseBase<Derived>::PlainObject>
+HYDRA_EIGEN_STRONG_INLINE const CwiseNullaryOp<CustomNullaryOp, typename DenseBase<Derived>::PlainObject>
 DenseBase<Derived>::NullaryExpr(Index size, const CustomNullaryOp& func)
 {
-  EIGEN_STATIC_ASSERT_VECTOR_ONLY(Derived)
+  HYDRA_EIGEN_STATIC_ASSERT_VECTOR_ONLY(Derived)
   if(RowsAtCompileTime == 1) return CwiseNullaryOp<CustomNullaryOp, PlainObject>(1, size, func);
   else return CwiseNullaryOp<CustomNullaryOp, PlainObject>(size, 1, func);
 }
@@ -150,7 +150,7 @@ DenseBase<Derived>::NullaryExpr(Index size, const CustomNullaryOp& func)
   */
 template<typename Derived>
 template<typename CustomNullaryOp>
-EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE const CwiseNullaryOp<CustomNullaryOp, typename DenseBase<Derived>::PlainObject>
+HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE const CwiseNullaryOp<CustomNullaryOp, typename DenseBase<Derived>::PlainObject>
 DenseBase<Derived>::NullaryExpr(const CustomNullaryOp& func)
 {
   return CwiseNullaryOp<CustomNullaryOp, PlainObject>(RowsAtCompileTime, ColsAtCompileTime, func);
@@ -170,7 +170,7 @@ DenseBase<Derived>::NullaryExpr(const CustomNullaryOp& func)
   * \sa class CwiseNullaryOp
   */
 template<typename Derived>
-EIGEN_STRONG_INLINE const typename DenseBase<Derived>::ConstantReturnType
+HYDRA_EIGEN_STRONG_INLINE const typename DenseBase<Derived>::ConstantReturnType
 DenseBase<Derived>::Constant(Index rows, Index cols, const Scalar& value)
 {
   return DenseBase<Derived>::NullaryExpr(rows, cols, internal::scalar_constant_op<Scalar>(value));
@@ -192,7 +192,7 @@ DenseBase<Derived>::Constant(Index rows, Index cols, const Scalar& value)
   * \sa class CwiseNullaryOp
   */
 template<typename Derived>
-EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE const typename DenseBase<Derived>::ConstantReturnType
+HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE const typename DenseBase<Derived>::ConstantReturnType
 DenseBase<Derived>::Constant(Index size, const Scalar& value)
 {
   return DenseBase<Derived>::NullaryExpr(size, internal::scalar_constant_op<Scalar>(value));
@@ -208,10 +208,10 @@ DenseBase<Derived>::Constant(Index size, const Scalar& value)
   * \sa class CwiseNullaryOp
   */
 template<typename Derived>
-EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE const typename DenseBase<Derived>::ConstantReturnType
+HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE const typename DenseBase<Derived>::ConstantReturnType
 DenseBase<Derived>::Constant(const Scalar& value)
 {
-  EIGEN_STATIC_ASSERT_FIXED_SIZE(Derived)
+  HYDRA_EIGEN_STATIC_ASSERT_FIXED_SIZE(Derived)
   return DenseBase<Derived>::NullaryExpr(RowsAtCompileTime, ColsAtCompileTime, internal::scalar_constant_op<Scalar>(value));
 }
 
@@ -220,10 +220,10 @@ DenseBase<Derived>::Constant(const Scalar& value)
   * \sa LinSpaced(Index,Scalar,Scalar), setLinSpaced(Index,const Scalar&,const Scalar&)
   */
 template<typename Derived>
-EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE const typename DenseBase<Derived>::RandomAccessLinSpacedReturnType
+HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE const typename DenseBase<Derived>::RandomAccessLinSpacedReturnType
 DenseBase<Derived>::LinSpaced(Sequential_t, Index size, const Scalar& low, const Scalar& high)
 {
-  EIGEN_STATIC_ASSERT_VECTOR_ONLY(Derived)
+  HYDRA_EIGEN_STATIC_ASSERT_VECTOR_ONLY(Derived)
   return DenseBase<Derived>::NullaryExpr(size, internal::linspaced_op<Scalar,PacketScalar>(low,high,size));
 }
 
@@ -232,11 +232,11 @@ DenseBase<Derived>::LinSpaced(Sequential_t, Index size, const Scalar& low, const
   * \sa LinSpaced(Scalar,Scalar)
   */
 template<typename Derived>
-EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE const typename DenseBase<Derived>::RandomAccessLinSpacedReturnType
+HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE const typename DenseBase<Derived>::RandomAccessLinSpacedReturnType
 DenseBase<Derived>::LinSpaced(Sequential_t, const Scalar& low, const Scalar& high)
 {
-  EIGEN_STATIC_ASSERT_VECTOR_ONLY(Derived)
-  EIGEN_STATIC_ASSERT_FIXED_SIZE(Derived)
+  HYDRA_EIGEN_STATIC_ASSERT_VECTOR_ONLY(Derived)
+  HYDRA_EIGEN_STATIC_ASSERT_FIXED_SIZE(Derived)
   return DenseBase<Derived>::NullaryExpr(Derived::SizeAtCompileTime, internal::linspaced_op<Scalar,PacketScalar>(low,high,Derived::SizeAtCompileTime));
 }
 
@@ -264,10 +264,10 @@ DenseBase<Derived>::LinSpaced(Sequential_t, const Scalar& low, const Scalar& hig
   * \sa setLinSpaced(Index,const Scalar&,const Scalar&), CwiseNullaryOp
   */
 template<typename Derived>
-EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE const typename DenseBase<Derived>::RandomAccessLinSpacedReturnType
+HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE const typename DenseBase<Derived>::RandomAccessLinSpacedReturnType
 DenseBase<Derived>::LinSpaced(Index size, const Scalar& low, const Scalar& high)
 {
-  EIGEN_STATIC_ASSERT_VECTOR_ONLY(Derived)
+  HYDRA_EIGEN_STATIC_ASSERT_VECTOR_ONLY(Derived)
   return DenseBase<Derived>::NullaryExpr(size, internal::linspaced_op<Scalar,PacketScalar>(low,high,size));
 }
 
@@ -276,17 +276,17 @@ DenseBase<Derived>::LinSpaced(Index size, const Scalar& low, const Scalar& high)
   * Special version for fixed size types which does not require the size parameter.
   */
 template<typename Derived>
-EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE const typename DenseBase<Derived>::RandomAccessLinSpacedReturnType
+HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE const typename DenseBase<Derived>::RandomAccessLinSpacedReturnType
 DenseBase<Derived>::LinSpaced(const Scalar& low, const Scalar& high)
 {
-  EIGEN_STATIC_ASSERT_VECTOR_ONLY(Derived)
-  EIGEN_STATIC_ASSERT_FIXED_SIZE(Derived)
+  HYDRA_EIGEN_STATIC_ASSERT_VECTOR_ONLY(Derived)
+  HYDRA_EIGEN_STATIC_ASSERT_FIXED_SIZE(Derived)
   return DenseBase<Derived>::NullaryExpr(Derived::SizeAtCompileTime, internal::linspaced_op<Scalar,PacketScalar>(low,high,Derived::SizeAtCompileTime));
 }
 
 /** \returns true if all coefficients in this matrix are approximately equal to \a val, to within precision \a prec */
 template<typename Derived>
-EIGEN_DEVICE_FUNC bool DenseBase<Derived>::isApproxToConstant
+HYDRA_EIGEN_DEVICE_FUNC bool DenseBase<Derived>::isApproxToConstant
 (const Scalar& val, const RealScalar& prec) const
 {
   typename internal::nested_eval<Derived,1>::type self(derived());
@@ -301,7 +301,7 @@ EIGEN_DEVICE_FUNC bool DenseBase<Derived>::isApproxToConstant
   *
   * \returns true if all coefficients in this matrix are approximately equal to \a value, to within precision \a prec */
 template<typename Derived>
-EIGEN_DEVICE_FUNC bool DenseBase<Derived>::isConstant
+HYDRA_EIGEN_DEVICE_FUNC bool DenseBase<Derived>::isConstant
 (const Scalar& val, const RealScalar& prec) const
 {
   return isApproxToConstant(val, prec);
@@ -312,7 +312,7 @@ EIGEN_DEVICE_FUNC bool DenseBase<Derived>::isConstant
   * \sa setConstant(), Constant(), class CwiseNullaryOp
   */
 template<typename Derived>
-EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE void DenseBase<Derived>::fill(const Scalar& val)
+HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE void DenseBase<Derived>::fill(const Scalar& val)
 {
   setConstant(val);
 }
@@ -322,7 +322,7 @@ EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE void DenseBase<Derived>::fill(const Scalar
   * \sa fill(), setConstant(Index,const Scalar&), setConstant(Index,Index,const Scalar&), setZero(), setOnes(), Constant(), class CwiseNullaryOp, setZero(), setOnes()
   */
 template<typename Derived>
-EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE Derived& DenseBase<Derived>::setConstant(const Scalar& val)
+HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE Derived& DenseBase<Derived>::setConstant(const Scalar& val)
 {
   return derived() = Constant(rows(), cols(), val);
 }
@@ -337,7 +337,7 @@ EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE Derived& DenseBase<Derived>::setConstant(c
   * \sa MatrixBase::setConstant(const Scalar&), setConstant(Index,Index,const Scalar&), class CwiseNullaryOp, MatrixBase::Constant(const Scalar&)
   */
 template<typename Derived>
-EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE Derived&
+HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE Derived&
 PlainObjectBase<Derived>::setConstant(Index size, const Scalar& val)
 {
   resize(size);
@@ -356,7 +356,7 @@ PlainObjectBase<Derived>::setConstant(Index size, const Scalar& val)
   * \sa MatrixBase::setConstant(const Scalar&), setConstant(Index,const Scalar&), class CwiseNullaryOp, MatrixBase::Constant(const Scalar&)
   */
 template<typename Derived>
-EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE Derived&
+HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE Derived&
 PlainObjectBase<Derived>::setConstant(Index rows, Index cols, const Scalar& val)
 {
   resize(rows, cols);
@@ -380,9 +380,9 @@ PlainObjectBase<Derived>::setConstant(Index rows, Index cols, const Scalar& val)
   * \sa LinSpaced(Index,const Scalar&,const Scalar&), CwiseNullaryOp
   */
 template<typename Derived>
-EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE Derived& DenseBase<Derived>::setLinSpaced(Index newSize, const Scalar& low, const Scalar& high)
+HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE Derived& DenseBase<Derived>::setLinSpaced(Index newSize, const Scalar& low, const Scalar& high)
 {
-  EIGEN_STATIC_ASSERT_VECTOR_ONLY(Derived)
+  HYDRA_EIGEN_STATIC_ASSERT_VECTOR_ONLY(Derived)
   return derived() = Derived::NullaryExpr(newSize, internal::linspaced_op<Scalar,PacketScalar>(low,high,newSize));
 }
 
@@ -400,9 +400,9 @@ EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE Derived& DenseBase<Derived>::setLinSpaced(
   * \sa LinSpaced(Index,const Scalar&,const Scalar&), setLinSpaced(Index, const Scalar&, const Scalar&), CwiseNullaryOp
   */
 template<typename Derived>
-EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE Derived& DenseBase<Derived>::setLinSpaced(const Scalar& low, const Scalar& high)
+HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE Derived& DenseBase<Derived>::setLinSpaced(const Scalar& low, const Scalar& high)
 {
-  EIGEN_STATIC_ASSERT_VECTOR_ONLY(Derived)
+  HYDRA_EIGEN_STATIC_ASSERT_VECTOR_ONLY(Derived)
   return setLinSpaced(size(), low, high);
 }
 
@@ -423,7 +423,7 @@ EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE Derived& DenseBase<Derived>::setLinSpaced(
   * \sa Zero(), Zero(Index)
   */
 template<typename Derived>
-EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE const typename DenseBase<Derived>::ConstantReturnType
+HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE const typename DenseBase<Derived>::ConstantReturnType
 DenseBase<Derived>::Zero(Index rows, Index cols)
 {
   return Constant(rows, cols, Scalar(0));
@@ -446,7 +446,7 @@ DenseBase<Derived>::Zero(Index rows, Index cols)
   * \sa Zero(), Zero(Index,Index)
   */
 template<typename Derived>
-EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE const typename DenseBase<Derived>::ConstantReturnType
+HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE const typename DenseBase<Derived>::ConstantReturnType
 DenseBase<Derived>::Zero(Index size)
 {
   return Constant(size, Scalar(0));
@@ -463,7 +463,7 @@ DenseBase<Derived>::Zero(Index size)
   * \sa Zero(Index), Zero(Index,Index)
   */
 template<typename Derived>
-EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE const typename DenseBase<Derived>::ConstantReturnType
+HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE const typename DenseBase<Derived>::ConstantReturnType
 DenseBase<Derived>::Zero()
 {
   return Constant(Scalar(0));
@@ -478,7 +478,7 @@ DenseBase<Derived>::Zero()
   * \sa class CwiseNullaryOp, Zero()
   */
 template<typename Derived>
-EIGEN_DEVICE_FUNC bool DenseBase<Derived>::isZero(const RealScalar& prec) const
+HYDRA_EIGEN_DEVICE_FUNC bool DenseBase<Derived>::isZero(const RealScalar& prec) const
 {
   typename internal::nested_eval<Derived,1>::type self(derived());
   for(Index j = 0; j < cols(); ++j)
@@ -496,7 +496,7 @@ EIGEN_DEVICE_FUNC bool DenseBase<Derived>::isZero(const RealScalar& prec) const
   * \sa class CwiseNullaryOp, Zero()
   */
 template<typename Derived>
-EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE Derived& DenseBase<Derived>::setZero()
+HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE Derived& DenseBase<Derived>::setZero()
 {
   return setConstant(Scalar(0));
 }
@@ -511,7 +511,7 @@ EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE Derived& DenseBase<Derived>::setZero()
   * \sa DenseBase::setZero(), setZero(Index,Index), class CwiseNullaryOp, DenseBase::Zero()
   */
 template<typename Derived>
-EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE Derived&
+HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE Derived&
 PlainObjectBase<Derived>::setZero(Index newSize)
 {
   resize(newSize);
@@ -529,7 +529,7 @@ PlainObjectBase<Derived>::setZero(Index newSize)
   * \sa DenseBase::setZero(), setZero(Index), class CwiseNullaryOp, DenseBase::Zero()
   */
 template<typename Derived>
-EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE Derived&
+HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE Derived&
 PlainObjectBase<Derived>::setZero(Index rows, Index cols)
 {
   resize(rows, cols);
@@ -553,7 +553,7 @@ PlainObjectBase<Derived>::setZero(Index rows, Index cols)
   * \sa Ones(), Ones(Index), isOnes(), class Ones
   */
 template<typename Derived>
-EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE const typename DenseBase<Derived>::ConstantReturnType
+HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE const typename DenseBase<Derived>::ConstantReturnType
 DenseBase<Derived>::Ones(Index rows, Index cols)
 {
   return Constant(rows, cols, Scalar(1));
@@ -576,7 +576,7 @@ DenseBase<Derived>::Ones(Index rows, Index cols)
   * \sa Ones(), Ones(Index,Index), isOnes(), class Ones
   */
 template<typename Derived>
-EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE const typename DenseBase<Derived>::ConstantReturnType
+HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE const typename DenseBase<Derived>::ConstantReturnType
 DenseBase<Derived>::Ones(Index newSize)
 {
   return Constant(newSize, Scalar(1));
@@ -593,7 +593,7 @@ DenseBase<Derived>::Ones(Index newSize)
   * \sa Ones(Index), Ones(Index,Index), isOnes(), class Ones
   */
 template<typename Derived>
-EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE const typename DenseBase<Derived>::ConstantReturnType
+HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE const typename DenseBase<Derived>::ConstantReturnType
 DenseBase<Derived>::Ones()
 {
   return Constant(Scalar(1));
@@ -608,7 +608,7 @@ DenseBase<Derived>::Ones()
   * \sa class CwiseNullaryOp, Ones()
   */
 template<typename Derived>
-EIGEN_DEVICE_FUNC bool DenseBase<Derived>::isOnes
+HYDRA_EIGEN_DEVICE_FUNC bool DenseBase<Derived>::isOnes
 (const RealScalar& prec) const
 {
   return isApproxToConstant(Scalar(1), prec);
@@ -622,7 +622,7 @@ EIGEN_DEVICE_FUNC bool DenseBase<Derived>::isOnes
   * \sa class CwiseNullaryOp, Ones()
   */
 template<typename Derived>
-EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE Derived& DenseBase<Derived>::setOnes()
+HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE Derived& DenseBase<Derived>::setOnes()
 {
   return setConstant(Scalar(1));
 }
@@ -637,7 +637,7 @@ EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE Derived& DenseBase<Derived>::setOnes()
   * \sa MatrixBase::setOnes(), setOnes(Index,Index), class CwiseNullaryOp, MatrixBase::Ones()
   */
 template<typename Derived>
-EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE Derived&
+HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE Derived&
 PlainObjectBase<Derived>::setOnes(Index newSize)
 {
   resize(newSize);
@@ -655,7 +655,7 @@ PlainObjectBase<Derived>::setOnes(Index newSize)
   * \sa MatrixBase::setOnes(), setOnes(Index), class CwiseNullaryOp, MatrixBase::Ones()
   */
 template<typename Derived>
-EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE Derived&
+HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE Derived&
 PlainObjectBase<Derived>::setOnes(Index rows, Index cols)
 {
   resize(rows, cols);
@@ -679,7 +679,7 @@ PlainObjectBase<Derived>::setOnes(Index rows, Index cols)
   * \sa Identity(), setIdentity(), isIdentity()
   */
 template<typename Derived>
-EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE const typename MatrixBase<Derived>::IdentityReturnType
+HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE const typename MatrixBase<Derived>::IdentityReturnType
 MatrixBase<Derived>::Identity(Index rows, Index cols)
 {
   return DenseBase<Derived>::NullaryExpr(rows, cols, internal::scalar_identity_op<Scalar>());
@@ -696,10 +696,10 @@ MatrixBase<Derived>::Identity(Index rows, Index cols)
   * \sa Identity(Index,Index), setIdentity(), isIdentity()
   */
 template<typename Derived>
-EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE const typename MatrixBase<Derived>::IdentityReturnType
+HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE const typename MatrixBase<Derived>::IdentityReturnType
 MatrixBase<Derived>::Identity()
 {
-  EIGEN_STATIC_ASSERT_FIXED_SIZE(Derived)
+  HYDRA_EIGEN_STATIC_ASSERT_FIXED_SIZE(Derived)
   return MatrixBase<Derived>::NullaryExpr(RowsAtCompileTime, ColsAtCompileTime, internal::scalar_identity_op<Scalar>());
 }
 
@@ -741,8 +741,8 @@ namespace internal {
 template<typename Derived, bool Big = (Derived::SizeAtCompileTime>=16)>
 struct setIdentity_impl
 {
-  EIGEN_DEVICE_FUNC
-  static EIGEN_STRONG_INLINE Derived& run(Derived& m)
+  HYDRA_EIGEN_DEVICE_FUNC
+  static HYDRA_EIGEN_STRONG_INLINE Derived& run(Derived& m)
   {
     return m = Derived::Identity(m.rows(), m.cols());
   }
@@ -751,8 +751,8 @@ struct setIdentity_impl
 template<typename Derived>
 struct setIdentity_impl<Derived, true>
 {
-  EIGEN_DEVICE_FUNC
-  static EIGEN_STRONG_INLINE Derived& run(Derived& m)
+  HYDRA_EIGEN_DEVICE_FUNC
+  static HYDRA_EIGEN_STRONG_INLINE Derived& run(Derived& m)
   {
     m.setZero();
     const Index size = numext::mini(m.rows(), m.cols());
@@ -771,7 +771,7 @@ struct setIdentity_impl<Derived, true>
   * \sa class CwiseNullaryOp, Identity(), Identity(Index,Index), isIdentity()
   */
 template<typename Derived>
-EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE Derived& MatrixBase<Derived>::setIdentity()
+HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE Derived& MatrixBase<Derived>::setIdentity()
 {
   return internal::setIdentity_impl<Derived>::run(derived());
 }
@@ -787,7 +787,7 @@ EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE Derived& MatrixBase<Derived>::setIdentity(
   * \sa MatrixBase::setIdentity(), class CwiseNullaryOp, MatrixBase::Identity()
   */
 template<typename Derived>
-EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE Derived& MatrixBase<Derived>::setIdentity(Index rows, Index cols)
+HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE Derived& MatrixBase<Derived>::setIdentity(Index rows, Index cols)
 {
   derived().resize(rows, cols);
   return setIdentity();
@@ -800,9 +800,9 @@ EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE Derived& MatrixBase<Derived>::setIdentity(
   * \sa MatrixBase::Unit(Index), MatrixBase::UnitX(), MatrixBase::UnitY(), MatrixBase::UnitZ(), MatrixBase::UnitW()
   */
 template<typename Derived>
-EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE const typename MatrixBase<Derived>::BasisReturnType MatrixBase<Derived>::Unit(Index newSize, Index i)
+HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE const typename MatrixBase<Derived>::BasisReturnType MatrixBase<Derived>::Unit(Index newSize, Index i)
 {
-  EIGEN_STATIC_ASSERT_VECTOR_ONLY(Derived)
+  HYDRA_EIGEN_STATIC_ASSERT_VECTOR_ONLY(Derived)
   return BasisReturnType(SquareMatrixType::Identity(newSize,newSize), i);
 }
 
@@ -815,9 +815,9 @@ EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE const typename MatrixBase<Derived>::BasisR
   * \sa MatrixBase::Unit(Index,Index), MatrixBase::UnitX(), MatrixBase::UnitY(), MatrixBase::UnitZ(), MatrixBase::UnitW()
   */
 template<typename Derived>
-EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE const typename MatrixBase<Derived>::BasisReturnType MatrixBase<Derived>::Unit(Index i)
+HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE const typename MatrixBase<Derived>::BasisReturnType MatrixBase<Derived>::Unit(Index i)
 {
-  EIGEN_STATIC_ASSERT_VECTOR_ONLY(Derived)
+  HYDRA_EIGEN_STATIC_ASSERT_VECTOR_ONLY(Derived)
   return BasisReturnType(SquareMatrixType::Identity(),i);
 }
 
@@ -828,7 +828,7 @@ EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE const typename MatrixBase<Derived>::BasisR
   * \sa MatrixBase::Unit(Index,Index), MatrixBase::Unit(Index), MatrixBase::UnitY(), MatrixBase::UnitZ(), MatrixBase::UnitW()
   */
 template<typename Derived>
-EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE const typename MatrixBase<Derived>::BasisReturnType MatrixBase<Derived>::UnitX()
+HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE const typename MatrixBase<Derived>::BasisReturnType MatrixBase<Derived>::UnitX()
 { return Derived::Unit(0); }
 
 /** \returns an expression of the Y axis unit vector (0,1{,0}^*)
@@ -838,7 +838,7 @@ EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE const typename MatrixBase<Derived>::BasisR
   * \sa MatrixBase::Unit(Index,Index), MatrixBase::Unit(Index), MatrixBase::UnitY(), MatrixBase::UnitZ(), MatrixBase::UnitW()
   */
 template<typename Derived>
-EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE const typename MatrixBase<Derived>::BasisReturnType MatrixBase<Derived>::UnitY()
+HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE const typename MatrixBase<Derived>::BasisReturnType MatrixBase<Derived>::UnitY()
 { return Derived::Unit(1); }
 
 /** \returns an expression of the Z axis unit vector (0,0,1{,0}^*)
@@ -848,7 +848,7 @@ EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE const typename MatrixBase<Derived>::BasisR
   * \sa MatrixBase::Unit(Index,Index), MatrixBase::Unit(Index), MatrixBase::UnitY(), MatrixBase::UnitZ(), MatrixBase::UnitW()
   */
 template<typename Derived>
-EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE const typename MatrixBase<Derived>::BasisReturnType MatrixBase<Derived>::UnitZ()
+HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE const typename MatrixBase<Derived>::BasisReturnType MatrixBase<Derived>::UnitZ()
 { return Derived::Unit(2); }
 
 /** \returns an expression of the W axis unit vector (0,0,0,1)
@@ -858,9 +858,9 @@ EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE const typename MatrixBase<Derived>::BasisR
   * \sa MatrixBase::Unit(Index,Index), MatrixBase::Unit(Index), MatrixBase::UnitY(), MatrixBase::UnitZ(), MatrixBase::UnitW()
   */
 template<typename Derived>
-EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE const typename MatrixBase<Derived>::BasisReturnType MatrixBase<Derived>::UnitW()
+HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE const typename MatrixBase<Derived>::BasisReturnType MatrixBase<Derived>::UnitW()
 { return Derived::Unit(3); }
 
 } /* end namespace Eigen */  HYDRA_EXTERNAL_NAMESPACE_END
 
-#endif // EIGEN_CWISE_NULLARY_OP_H
+#endif // HYDRA_EIGEN_CWISE_NULLARY_OP_H

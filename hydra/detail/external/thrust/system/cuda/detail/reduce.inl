@@ -44,7 +44,7 @@ namespace reduce_detail
 struct reduce_partitions
 {
   template<typename ConcurrentGroup, typename Iterator1, typename Iterator2, typename T, typename BinaryOperation>
-  __device__
+  __hydra_device__
   void operator()(ConcurrentGroup &this_group, Iterator1 first, Iterator1 last, Iterator2 result, T init, BinaryOperation binary_op)
   {
     T sum = bulk_::reduce(this_group, first, last, init, binary_op);
@@ -56,7 +56,7 @@ struct reduce_partitions
   }
 
   template<typename ConcurrentGroup, typename Iterator1, typename Iterator2, typename BinaryOperation>
-  __device__
+  __hydra_device__
   void operator()(ConcurrentGroup &this_group, Iterator1 first, Iterator1 last, Iterator2 result, BinaryOperation binary_op)
   {
     // noticeably faster to pass the last element as the init
@@ -66,7 +66,7 @@ struct reduce_partitions
 
 
   template<typename ConcurrentGroup, typename Iterator1, typename Decomposition, typename Iterator2, typename T, typename BinaryFunction>
-  __device__
+  __hydra_device__
   void operator()(ConcurrentGroup &this_group, Iterator1 first, Decomposition decomp, Iterator2 result, T init, BinaryFunction binary_op)
   {
     typename Decomposition::range range = decomp[this_group.index()];
@@ -90,7 +90,7 @@ template<typename DerivedPolicy,
          typename InputIterator,
          typename OutputType,
          typename BinaryFunction>
-__host__ __device__
+__hydra_host__ __hydra_device__
 OutputType tuned_reduce(execution_policy<DerivedPolicy> &exec,
                         InputIterator first,
                         InputIterator last,
@@ -139,7 +139,7 @@ template<typename DerivedPolicy,
          typename InputIterator,
          typename OutputType,
          typename BinaryFunction>
-__host__ __device__
+__hydra_host__ __hydra_device__
 OutputType general_reduce(execution_policy<DerivedPolicy> &exec,
                           InputIterator first,
                           InputIterator last,
@@ -188,7 +188,7 @@ template<typename DerivedPolicy,
          typename InputIterator,
          typename OutputType,
          typename BinaryFunction>
-__host__ __device__
+__hydra_host__ __hydra_device__
 typename thrust::detail::enable_if<
   thrust::detail::is_arithmetic<OutputType>::value,
   OutputType
@@ -208,7 +208,7 @@ template<typename DerivedPolicy,
          typename InputIterator,
          typename OutputType,
          typename BinaryFunction>
-__host__ __device__
+__hydra_host__ __hydra_device__
 typename thrust::detail::disable_if<
   thrust::detail::is_arithmetic<OutputType>::value,
   OutputType
@@ -231,7 +231,7 @@ template<typename DerivedPolicy,
          typename InputIterator,
          typename OutputType,
          typename BinaryFunction>
-__host__ __device__
+__hydra_host__ __hydra_device__
 OutputType reduce(execution_policy<DerivedPolicy> &exec,
                   InputIterator first,
                   InputIterator last,
@@ -247,7 +247,7 @@ OutputType reduce(execution_policy<DerivedPolicy> &exec,
 
   struct workaround
   {
-    __host__ __device__
+    __hydra_host__ __hydra_device__
     static OutputType parallel_path(execution_policy<DerivedPolicy> &exec,
                                     InputIterator first,
                                     InputIterator last,
@@ -257,7 +257,7 @@ OutputType reduce(execution_policy<DerivedPolicy> &exec,
       return thrust::system::cuda::detail::reduce_detail::reduce(exec, first, last, init, binary_op);
     }
 
-    __host__ __device__
+    __hydra_host__ __hydra_device__
     static OutputType sequential_path(execution_policy<DerivedPolicy> &,
                                       InputIterator first,
                                       InputIterator last,

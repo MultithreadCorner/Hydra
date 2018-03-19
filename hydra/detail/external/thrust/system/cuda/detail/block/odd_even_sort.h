@@ -39,7 +39,7 @@ namespace block
 template<typename KeyType,
          typename ValueType,
          typename StrictWeakOrdering>
-  __device__ void odd_even_sort(KeyType *keys,
+  __hydra_device__ void odd_even_sort(KeyType *keys,
                                 ValueType *data,
                                 const unsigned int n,
                                 StrictWeakOrdering comp)
@@ -85,7 +85,7 @@ template<typename KeyType,
 template<typename KeyType,
          typename ValueType,
          typename StrictWeakOrdering>
-  __device__ void stable_odd_even_sort(KeyType *keys,
+  __hydra_device__ void stable_odd_even_sort(KeyType *keys,
                                        ValueType *data,
                                        const unsigned int n,
                                        StrictWeakOrdering comp)

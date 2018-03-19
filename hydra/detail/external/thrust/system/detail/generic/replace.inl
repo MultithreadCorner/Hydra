@@ -37,11 +37,11 @@ namespace detail
 template<typename Predicate, typename NewType, typename OutputType>
   struct new_value_if
 {
-  __host__ __device__
+  __hydra_host__ __hydra_device__
   new_value_if(Predicate p, NewType nv):pred(p),new_value(nv){}
 
   template<typename InputType>
-  __host__ __device__
+  __hydra_host__ __hydra_device__
   OutputType operator()(const InputType &x) const
   {
     return pred(x) ? new_value : x;
@@ -50,7 +50,7 @@ template<typename Predicate, typename NewType, typename OutputType>
   // this version of operator()() works like the previous but
   // feeds its second argument to pred
   template<typename InputType, typename PredicateArgumentType>
-  __host__ __device__
+  __hydra_host__ __hydra_device__
   OutputType operator()(const InputType &x, const PredicateArgumentType &y)
   {
     return pred(y) ? new_value : x;
@@ -65,11 +65,11 @@ template<typename Predicate, typename NewType, typename OutputType>
 template<typename T>
   struct constant_unary
 {
-  __host__ __device__
+  __hydra_host__ __hydra_device__
   constant_unary(T _c):c(_c){}
 
   template<typename U>
-  __host__ __device__
+  __hydra_host__ __hydra_device__
   T operator()(U &/*x*/)
   {
     return c;
@@ -83,7 +83,7 @@ template<typename T>
 
 
 template<typename DerivedPolicy, typename InputIterator, typename OutputIterator, typename Predicate, typename T>
-__host__ __device__
+__hydra_host__ __hydra_device__
   OutputIterator replace_copy_if(thrust::execution_policy<DerivedPolicy> &exec,
                                  InputIterator first,
                                  InputIterator last,
@@ -99,7 +99,7 @@ __host__ __device__
 
 
 template<typename DerivedPolicy, typename InputIterator1, typename InputIterator2, typename OutputIterator, typename Predicate, typename T>
-__host__ __device__
+__hydra_host__ __hydra_device__
   OutputIterator replace_copy_if(thrust::execution_policy<DerivedPolicy> &exec,
                                  InputIterator1 first,
                                  InputIterator1 last,
@@ -116,7 +116,7 @@ __host__ __device__
 
 
 template<typename DerivedPolicy, typename InputIterator, typename OutputIterator, typename T>
-__host__ __device__
+__hydra_host__ __hydra_device__
   OutputIterator replace_copy(thrust::execution_policy<DerivedPolicy> &exec,
                               InputIterator first,
                               InputIterator last,
@@ -130,7 +130,7 @@ __host__ __device__
 
 
 template<typename DerivedPolicy, typename ForwardIterator, typename Predicate, typename T>
-__host__ __device__
+__hydra_host__ __hydra_device__
   void replace_if(thrust::execution_policy<DerivedPolicy> &exec,
                   ForwardIterator first,
                   ForwardIterator last,
@@ -143,7 +143,7 @@ __host__ __device__
 
 
 template<typename DerivedPolicy, typename ForwardIterator, typename InputIterator, typename Predicate, typename T>
-__host__ __device__
+__hydra_host__ __hydra_device__
   void replace_if(thrust::execution_policy<DerivedPolicy> &exec,
                   ForwardIterator first,
                   ForwardIterator last,
@@ -157,7 +157,7 @@ __host__ __device__
 
 
 template<typename DerivedPolicy, typename ForwardIterator, typename T>
-__host__ __device__
+__hydra_host__ __hydra_device__
   void replace(thrust::execution_policy<DerivedPolicy> &exec,
                ForwardIterator first,
                ForwardIterator last,

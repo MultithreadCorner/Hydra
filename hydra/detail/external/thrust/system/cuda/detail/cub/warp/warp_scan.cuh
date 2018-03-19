@@ -200,7 +200,7 @@ public:
     /**
      * \brief Collective constructor using the specified memory allocation as temporary storage.  Logical warp and lane identifiers are constructed from <tt>threadIdx.x</tt>.
      */
-    __device__ __forceinline__ WarpScan(
+    __hydra_device__ __forceinline__ WarpScan(
         TempStorage &temp_storage)             ///< [in] Reference to memory allocation having layout type TempStorage
     :
         temp_storage(temp_storage.Alias()),
@@ -251,7 +251,7 @@ public:
      * The corresponding output \p thread_data in each of the four warps of threads will be
      * <tt>1, 2, 3, ..., 32}</tt>.
      */
-    __device__ __forceinline__ void InclusiveSum(
+    __hydra_device__ __forceinline__ void InclusiveSum(
         T               input,              ///< [in] Calling thread's input item.
         T               &inclusive_output)  ///< [out] Calling thread's output item.  May be aliased with \p input.
     {
@@ -294,7 +294,7 @@ public:
      * The corresponding output \p thread_data in each of the four warps of threads will be
      * <tt>1, 2, 3, ..., 32}</tt>.  Furthermore, \p warp_aggregate for all threads in all warps will be \p 32.
      */
-    __device__ __forceinline__ void InclusiveSum(
+    __hydra_device__ __forceinline__ void InclusiveSum(
         T               input,              ///< [in] Calling thread's input item.
         T               &inclusive_output,  ///< [out] Calling thread's output item.  May be aliased with \p input.
         T               &warp_aggregate)    ///< [out] Warp-wide aggregate reduction of input items.
@@ -346,7 +346,7 @@ public:
      * <tt>0, 1, 2, ..., 31}</tt>.
      *
      */
-    __device__ __forceinline__ void ExclusiveSum(
+    __hydra_device__ __forceinline__ void ExclusiveSum(
         T               input,              ///< [in] Calling thread's input item.
         T               &exclusive_output)  ///< [out] Calling thread's output item.  May be aliased with \p input.
     {
@@ -391,7 +391,7 @@ public:
      * The corresponding output \p thread_data in each of the four warps of threads will be
      * <tt>0, 1, 2, ..., 31}</tt>.  Furthermore, \p warp_aggregate for all threads in all warps will be \p 32.
      */
-    __device__ __forceinline__ void ExclusiveSum(
+    __hydra_device__ __forceinline__ void ExclusiveSum(
         T               input,              ///< [in] Calling thread's input item.
         T               &exclusive_output,  ///< [out] Calling thread's output item.  May be aliased with \p input.
         T               &warp_aggregate)    ///< [out] Warp-wide aggregate reduction of input items.
@@ -444,7 +444,7 @@ public:
      * \tparam ScanOp     <b>[inferred]</b> Binary scan operator type having member <tt>T operator()(const T &a, const T &b)</tt>
      */
     template <typename ScanOp>
-    __device__ __forceinline__ void InclusiveScan(
+    __hydra_device__ __forceinline__ void InclusiveScan(
         T               input,              ///< [in] Calling thread's input item.
         T               &inclusive_output,  ///< [out] Calling thread's output item.  May be aliased with \p input.
         ScanOp          scan_op)            ///< [in] Binary scan operator
@@ -494,7 +494,7 @@ public:
      * \tparam ScanOp     <b>[inferred]</b> Binary scan operator type having member <tt>T operator()(const T &a, const T &b)</tt>
      */
     template <typename ScanOp>
-    __device__ __forceinline__ void InclusiveScan(
+    __hydra_device__ __forceinline__ void InclusiveScan(
         T               input,              ///< [in] Calling thread's input item.
         T               &inclusive_output,  ///< [out] Calling thread's output item.  May be aliased with \p input.
         ScanOp          scan_op,            ///< [in] Binary scan operator
@@ -548,7 +548,7 @@ public:
      * \tparam ScanOp     <b>[inferred]</b> Binary scan operator type having member <tt>T operator()(const T &a, const T &b)</tt>
      */
     template <typename ScanOp>
-    __device__ __forceinline__ void ExclusiveScan(
+    __hydra_device__ __forceinline__ void ExclusiveScan(
         T               input,              ///< [in] Calling thread's input item.
         T               &exclusive_output,  ///< [out] Calling thread's output item.  May be aliased with \p input.
         ScanOp          scan_op)            ///< [in] Binary scan operator
@@ -604,7 +604,7 @@ public:
      * \tparam ScanOp     <b>[inferred]</b> Binary scan operator type having member <tt>T operator()(const T &a, const T &b)</tt>
      */
     template <typename ScanOp>
-    __device__ __forceinline__ void ExclusiveScan(
+    __hydra_device__ __forceinline__ void ExclusiveScan(
         T               input,              ///< [in] Calling thread's input item.
         T               &exclusive_output,  ///< [out] Calling thread's output item.  May be aliased with \p input.
         T               initial_value,      ///< [in] Initial value to seed the exclusive scan
@@ -665,7 +665,7 @@ public:
      * \tparam ScanOp     <b>[inferred]</b> Binary scan operator type having member <tt>T operator()(const T &a, const T &b)</tt>
      */
     template <typename ScanOp>
-    __device__ __forceinline__ void ExclusiveScan(
+    __hydra_device__ __forceinline__ void ExclusiveScan(
         T               input,              ///< [in] Calling thread's input item.
         T               &exclusive_output,   ///< [out] Calling thread's output item.  May be aliased with \p input.
         ScanOp          scan_op,            ///< [in] Binary scan operator
@@ -726,7 +726,7 @@ public:
      * \tparam ScanOp     <b>[inferred]</b> Binary scan operator type having member <tt>T operator()(const T &a, const T &b)</tt>
      */
     template <typename ScanOp>
-    __device__ __forceinline__ void ExclusiveScan(
+    __hydra_device__ __forceinline__ void ExclusiveScan(
         T               input,              ///< [in] Calling thread's input item.
         T               &exclusive_output,  ///< [out] Calling thread's output item.  May be aliased with \p input.
         T               initial_value,      ///< [in] Initial value to seed the exclusive scan
@@ -796,7 +796,7 @@ public:
      * \tparam ScanOp     <b>[inferred]</b> Binary scan operator type having member <tt>T operator()(const T &a, const T &b)</tt>
      */
     template <typename ScanOp>
-    __device__ __forceinline__ void Scan(
+    __hydra_device__ __forceinline__ void Scan(
         T               input,              ///< [in] Calling thread's input item.
         T               &inclusive_output,  ///< [out] Calling thread's inclusive-scan output item.
         T               &exclusive_output,  ///< [out] Calling thread's exclusive-scan output item.
@@ -855,7 +855,7 @@ public:
      * \tparam ScanOp     <b>[inferred]</b> Binary scan operator type having member <tt>T operator()(const T &a, const T &b)</tt>
      */
     template <typename ScanOp>
-    __device__ __forceinline__ void Scan(
+    __hydra_device__ __forceinline__ void Scan(
         T               input,              ///< [in] Calling thread's input item.
         T               &inclusive_output,  ///< [out] Calling thread's inclusive-scan output item.
         T               &exclusive_output,  ///< [out] Calling thread's exclusive-scan output item.
@@ -919,7 +919,7 @@ public:
      * <tt>{32, 32, ..., 32}</tt> in warp<sub>1</sub>,
      * <tt>{64, 64, ..., 64}</tt> in warp<sub>2</sub>, etc.
      */
-    __device__ __forceinline__ T Broadcast(
+    __hydra_device__ __forceinline__ T Broadcast(
         T               input,              ///< [in] The value to broadcast
         unsigned int    src_lane)           ///< [in] Which warp lane is to do the broadcasting
     {

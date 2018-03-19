@@ -47,12 +47,12 @@ struct scan_head_flags_functor
   typedef result_type first_argument_type;
   typedef result_type second_argument_type;
 
-  __host__ __device__
+  __hydra_host__ __hydra_device__
   scan_head_flags_functor(BinaryFunction binary_op)
     : binary_op(binary_op)
   {}
 
-  __host__ __device__
+  __hydra_host__ __hydra_device__
   result_type operator()(const first_argument_type &a, const second_argument_type &b)
   {
     ValueType val = thrust::get<0>(b) ? thrust::get<1>(b) : binary_op(thrust::get<1>(a), thrust::get<1>(b));
@@ -69,7 +69,7 @@ template<typename ConcurrentGroup,
          typename InputIterator3,
          typename OutputIterator1,
          typename OutputIterator2>
-__device__
+__hydra_device__
 void scatter_tails_n(ConcurrentGroup &group,
                      InputIterator1 flags_first,
                      Size n,
@@ -128,7 +128,7 @@ thrust::tuple<
   typename thrust::iterator_value<InputIterator1>::type,
   typename thrust::iterator_value<OutputIterator2>::type
 >
-__device__
+__hydra_device__
 reduce_by_key(bulk::concurrent_group<bulk::agent<grainsize>,groupsize> &g,
               InputIterator1 keys_first, InputIterator1 keys_last,
               InputIterator2 values_first,

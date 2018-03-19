@@ -32,13 +32,13 @@ namespace generic
 
 
 template<typename DerivedPolicy, typename InputIterator>
-__host__ __device__
+__hydra_host__ __hydra_device__
   typename thrust::iterator_traits<InputIterator>::value_type
     reduce(thrust::execution_policy<DerivedPolicy> &exec, InputIterator first, InputIterator last);
 
 
 template<typename DerivedPolicy, typename InputIterator, typename T>
-__host__ __device__
+__hydra_host__ __hydra_device__
   T reduce(thrust::execution_policy<DerivedPolicy> &exec, InputIterator first, InputIterator last, T init);
 
 
@@ -46,7 +46,7 @@ template<typename DerivedPolicy,
          typename InputIterator,
          typename T,
          typename BinaryFunction>
-__host__ __device__
+__hydra_host__ __hydra_device__
   T reduce(thrust::execution_policy<DerivedPolicy> &exec, InputIterator first, InputIterator last, T init, BinaryFunction binary_op);
 
 

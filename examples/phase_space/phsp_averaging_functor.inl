@@ -32,7 +32,8 @@
 
 
 /**
- * @example phsp_averaging_functor.inl
+ * \example phsp_averaging_functor.inl
+ *
  * This example shows how to use the Hydra's
  * phase space Monte Carlo algorithms to calculate the
  * average value and corresponding variance of a functor
@@ -130,7 +131,7 @@ int main(int argv, char** argc)
 	}
 
 	//C++11 lambda for cosine of helicity angle Kpi
-	auto COSHELANG = [] __host__ __device__ (unsigned int n,  hydra::Vector4R *fvectors )
+	auto COSHELANG = [] __hydra_dual__ (unsigned int n,  hydra::Vector4R *fvectors )
 	{
 		hydra::Vector4R p1 = fvectors[0];
 		hydra::Vector4R p2 = fvectors[1];

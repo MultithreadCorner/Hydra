@@ -70,7 +70,7 @@ template<typename System1, typename System2>
   struct cross_system
     : thrust::execution_policy<cross_system<System1,System2> >
 {
-  inline __host__ __device__
+  inline __hydra_host__ __hydra_device__
   cross_system(thrust::execution_policy<System1> &system1,
                thrust::execution_policy<System2> &system2)
     : system1(system1), system2(system2)
@@ -79,7 +79,7 @@ template<typename System1, typename System2>
   thrust::execution_policy<System1> &system1;
   thrust::execution_policy<System2> &system2;
 
-  inline __host__ __device__
+  inline __hydra_host__ __hydra_device__
   cross_system<System2,System1> rotate() const
   {
     return cross_system<System2,System1>(system2,system1);
@@ -91,7 +91,7 @@ template<typename System1, typename System2>
 
 // cpp interop
 template<typename System1, typename System2>
-inline __host__ __device__
+inline __hydra_host__ __hydra_device__
 cross_system<System1,System2> select_system(const execution_policy<System1> &system1, const thrust::cpp::execution_policy<System2> &system2)
 {
   thrust::execution_policy<System1> &non_const_system1 = const_cast<execution_policy<System1>&>(system1);
@@ -101,7 +101,7 @@ cross_system<System1,System2> select_system(const execution_policy<System1> &sys
 
 
 template<typename System1, typename System2>
-inline __host__ __device__
+inline __hydra_host__ __hydra_device__
 cross_system<System1,System2> select_system(const thrust::cpp::execution_policy<System1> &system1, execution_policy<System2> &system2)
 {
   thrust::cpp::execution_policy<System1> &non_const_system1 = const_cast<thrust::cpp::execution_policy<System1>&>(system1);

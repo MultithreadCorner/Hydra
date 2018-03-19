@@ -38,7 +38,7 @@ namespace detail
 struct swap_pair_elements
 {
   template <typename Tuple>
-  __host__ __device__
+  __hydra_host__ __hydra_device__
   void operator()(Tuple t)
   {
     // use unqualified swap to allow ADL to catch any user-defined swap
@@ -54,7 +54,7 @@ struct swap_pair_elements
 template<typename DerivedPolicy,
          typename ForwardIterator1,
          typename ForwardIterator2>
-__host__ __device__
+__hydra_host__ __hydra_device__
   ForwardIterator2 swap_ranges(thrust::execution_policy<DerivedPolicy> &exec,
                                ForwardIterator1 first1,
                                ForwardIterator1 last1,

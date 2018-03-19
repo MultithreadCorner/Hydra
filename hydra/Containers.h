@@ -61,8 +61,8 @@ typedef HYDRA_EXTERNAL_NS::thrust::complex<GReal_t> GComplex_t; /*! Typedef for 
 
 //-----------------------------------------------------------------------
 
-typedef mc_host_vector<Vector4R> FourVectors_h; /*! Vector4R host vector. Use it to store four-vectors at __host__.*/
-typedef mc_host_vector<Vector3R> ThreeVectors_h; /*! Vector3R host vector. Use it to store four-vectors at __host__.*/
+typedef mc_host_vector<Vector4R> FourVectors_h; /*! Vector4R host vector. Use it to store four-vectors at __hydra_host__.*/
+typedef mc_host_vector<Vector3R> ThreeVectors_h; /*! Vector3R host vector. Use it to store four-vectors at __hydra_host__.*/
 
 //-----------------------------------------------------------------------
 //basic containers on host

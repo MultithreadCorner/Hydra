@@ -8,8 +8,8 @@
 // Public License v. 2.0. If a copy of the MPL was not distributed
 // with this file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
-#ifndef EIGEN_BIDIAGONALIZATION_H
-#define EIGEN_BIDIAGONALIZATION_H
+#ifndef HYDRA_EIGEN_BIDIAGONALIZATION_H
+#define HYDRA_EIGEN_BIDIAGONALIZATION_H
 
 HYDRA_EXTERNAL_NAMESPACE_BEGIN namespace Eigen { 
 
@@ -360,7 +360,7 @@ UpperBidiagonalization<_MatrixType>& UpperBidiagonalization<_MatrixType>::comput
 {
   Index rows = matrix.rows();
   Index cols = matrix.cols();
-  EIGEN_ONLY_USED_FOR_DEBUG(cols);
+  HYDRA_EIGEN_ONLY_USED_FOR_DEBUG(cols);
 
   eigen_assert(rows >= cols && "UpperBidiagonalization is only for Arices satisfying rows>=cols.");
 
@@ -382,8 +382,8 @@ UpperBidiagonalization<_MatrixType>& UpperBidiagonalization<_MatrixType>::comput
 {
   Index rows = matrix.rows();
   Index cols = matrix.cols();
-  EIGEN_ONLY_USED_FOR_DEBUG(rows);
-  EIGEN_ONLY_USED_FOR_DEBUG(cols);
+  HYDRA_EIGEN_ONLY_USED_FOR_DEBUG(rows);
+  HYDRA_EIGEN_ONLY_USED_FOR_DEBUG(cols);
 
   eigen_assert(rows >= cols && "UpperBidiagonalization is only for Arices satisfying rows>=cols.");
 
@@ -411,4 +411,4 @@ MatrixBase<Derived>::bidiagonalization() const
 
 } /* end namespace Eigen */  HYDRA_EXTERNAL_NAMESPACE_END
 
-#endif // EIGEN_BIDIAGONALIZATION_H
+#endif // HYDRA_EIGEN_BIDIAGONALIZATION_H

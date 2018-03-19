@@ -20,20 +20,20 @@
  *---------------------------------------------------------------------------*/
 
 /*
- * gauss_kronrod.inl
+ * adaptive_gauss_kronrod.inl
  *
  *  Created on: 17/07/2017
  *      Author: Antonio Augusto Alves Junior
  */
 
-#ifndef GAUSS_KRONROD_INL_
-#define GAUSS_KRONROD_INL_
+#ifndef ADAPTIVE_GAUSS_KRONROD_INL_
+#define ADAPTIVE_GAUSS_KRONROD_INL_
 
 
 
 /**
- * @file
- * @example adaptive_gauss_kronrod.inl
+ * \example adaptive_gauss_kronrod.inl
+ *
  * This example show how to use the hydra::GaussKronrodAdaptiveQuadrature
  * self-adaptive numerical integration algorithm to calculate
  * the integral of a  Gaussian.
@@ -89,7 +89,7 @@ int main(int argv, char** argc)
 
 
 	// create functor using C++11 lambda
-	auto GAUSSIAN = [=] __host__ __device__ (unsigned int n, double* x ){
+	auto GAUSSIAN = [=] __hydra_dual__ (unsigned int n, double* x ){
 
 		double m2 = (x[0] - mean )*(x[0] - mean );
 		double s2 = sigma*sigma;
@@ -127,4 +127,4 @@ int main(int argv, char** argc)
 
 
 
-#endif /* GAUSS_KRONROD_INL_ */
+#endif /* ADAPTIVE_GAUSS_KRONROD_INL_ */

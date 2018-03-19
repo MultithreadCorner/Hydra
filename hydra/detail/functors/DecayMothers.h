@@ -30,10 +30,7 @@
  *      Author: Antonio Augusto Alves Junior
  */
 
-/**
- * \file
- * \ingroup phsp
- */
+
 
 #ifndef _DECAYMOTHERS_H_
 #define _DECAYMOTHERS_H_
@@ -71,7 +68,7 @@ struct DecayMothers
 	}
 
 	//copy
-	__host__      __device__
+	__hydra_host__      __hydra_device__
 	DecayMothers(DecayMothers<N, GRND> const& other)
 	{
 		fSeed = other.fSeed;
@@ -81,7 +78,7 @@ struct DecayMothers
 
 
 
-	__host__      __device__ inline
+	__hydra_host__      __hydra_device__ inline
 	static GReal_t pdk(const GReal_t a, const GReal_t b,
 			const GReal_t c)
 	{
@@ -89,7 +86,7 @@ struct DecayMothers
 		return ::sqrt( (a - b - c) * (a + b + c) * (a - b + c) * (a + b - c) ) / (2 * a);;
 	}
 
-	__host__ __device__ void bbsort(GReal_t *array, GInt_t n)
+	__hydra_host__ __hydra_device__ void bbsort(GReal_t *array, GInt_t n)
 	{
 		// Improved bubble sort
 		for (GInt_t c = 0; c < n; c++)
@@ -112,7 +109,7 @@ struct DecayMothers
 
 	}
 
-	__host__   __device__ inline
+	__hydra_host__   __hydra_device__ inline
 	constexpr static size_t hash(const size_t a, const size_t b)
 		{
 			//Matthew Szudzik pairing
@@ -124,7 +121,7 @@ struct DecayMothers
 		    return   (((2 * a) >=  (2 * b) ? (2 * a) * (2 * a) + (2 * a) + (2 * b) : (2 * a) + (2 * b) * (2 * b)) / 2);
 		}
 
-	__host__      __device__ GReal_t process(const GInt_t evt,
+	__hydra_host__      __hydra_device__ GReal_t process(const GInt_t evt,
 			Vector4R (&particles)[N+1])
 	{
 
@@ -258,7 +255,7 @@ struct DecayMothers
 
 	}
 	template<typename Tuple>
-		__host__      __device__ GReal_t operator()(const GInt_t evt, Tuple &particles)
+		__hydra_host__      __hydra_device__ GReal_t operator()(const GInt_t evt, Tuple &particles)
 			{
 
 		constexpr size_t SIZE = HYDRA_EXTERNAL_NS::thrust::tuple_size<Tuple>::value;

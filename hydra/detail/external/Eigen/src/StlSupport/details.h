@@ -8,18 +8,18 @@
 // Public License v. 2.0. If a copy of the MPL was not distributed
 // with this file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
-#ifndef EIGEN_STL_DETAILS_H
-#define EIGEN_STL_DETAILS_H
+#ifndef HYDRA_EIGEN_STL_DETAILS_H
+#define HYDRA_EIGEN_STL_DETAILS_H
 
-#ifndef EIGEN_ALIGNED_ALLOCATOR
-  #define EIGEN_ALIGNED_ALLOCATOR HYDRA_EXTERNAL_NS::Eigen::aligned_allocator
+#ifndef HYDRA_EIGEN_ALIGNED_ALLOCATOR
+  #define HYDRA_EIGEN_ALIGNED_ALLOCATOR HYDRA_EXTERNAL_NS::Eigen::aligned_allocator
 #endif
 
 HYDRA_EXTERNAL_NAMESPACE_BEGIN namespace Eigen {
 
   // This one is needed to prevent reimplementing the whole std::vector.
   template <class T>
-  class aligned_allocator_indirection : public EIGEN_ALIGNED_ALLOCATOR<T>
+  class aligned_allocator_indirection : public HYDRA_EIGEN_ALIGNED_ALLOCATOR<T>
   {
   public:
     typedef std::size_t     size_type;
@@ -37,21 +37,21 @@ HYDRA_EXTERNAL_NAMESPACE_BEGIN namespace Eigen {
     };
 
     aligned_allocator_indirection() {}
-    aligned_allocator_indirection(const aligned_allocator_indirection& ) : EIGEN_ALIGNED_ALLOCATOR<T>() {}
-    aligned_allocator_indirection(const EIGEN_ALIGNED_ALLOCATOR<T>& ) {}
+    aligned_allocator_indirection(const aligned_allocator_indirection& ) : HYDRA_EIGEN_ALIGNED_ALLOCATOR<T>() {}
+    aligned_allocator_indirection(const HYDRA_EIGEN_ALIGNED_ALLOCATOR<T>& ) {}
     template<class U>
     aligned_allocator_indirection(const aligned_allocator_indirection<U>& ) {}
     template<class U>
-    aligned_allocator_indirection(const EIGEN_ALIGNED_ALLOCATOR<U>& ) {}
+    aligned_allocator_indirection(const HYDRA_EIGEN_ALIGNED_ALLOCATOR<U>& ) {}
     ~aligned_allocator_indirection() {}
   };
 
-#if EIGEN_COMP_MSVC
+#if HYDRA_EIGEN_COMP_MSVC
 
   // sometimes, MSVC detects, at compile time, that the argument x
   // in std::vector::resize(size_t s,T x) won't be aligned and generate an error
   // even if this function is never called. Whence this little wrapper.
-#define EIGEN_WORKAROUND_MSVC_STL_SUPPORT(T) \
+#define HYDRA_EIGEN_WORKAROUND_MSVC_STL_SUPPORT(T) \
   typename HYDRA_EXTERNAL_NS::Eigen::internal::conditional< \
     HYDRA_EXTERNAL_NS::Eigen::internal::is_arithmetic<T>::value, \
     T, \
@@ -75,7 +75,7 @@ HYDRA_EXTERNAL_NAMESPACE_BEGIN namespace Eigen {
 
 #else
 
-#define EIGEN_WORKAROUND_MSVC_STL_SUPPORT(T) T
+#define HYDRA_EIGEN_WORKAROUND_MSVC_STL_SUPPORT(T) T
 
 #endif
 
@@ -83,4 +83,4 @@ HYDRA_EXTERNAL_NAMESPACE_BEGIN namespace Eigen {
 
 HYDRA_EXTERNAL_NAMESPACE_END
 
-#endif // EIGEN_STL_DETAILS_H
+#endif // HYDRA_EIGEN_STL_DETAILS_H

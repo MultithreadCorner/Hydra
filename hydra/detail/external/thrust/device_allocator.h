@@ -101,18 +101,18 @@ template<typename T>
 
     /*! No-argument constructor has no effect.
      */
-    __host__ __device__
+    __hydra_host__ __hydra_device__
     inline device_allocator() {}
 
     /*! Copy constructor has no effect.
      */
-    __host__ __device__
+    __hydra_host__ __hydra_device__
     inline device_allocator(device_allocator const&) {}
 
     /*! Constructor from other \p allocator has no effect.
      */
     template<typename U>
-    __host__ __device__
+    __hydra_host__ __hydra_device__
     inline device_allocator(device_allocator<U> const&) {}
 }; // end device_allocator
 

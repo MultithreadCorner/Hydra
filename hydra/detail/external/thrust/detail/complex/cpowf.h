@@ -22,7 +22,7 @@ HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust{
 
 /* This function should be changed as soon as FreeBSD's msun gets a cpowf function */
 template <>
-__host__ __device__
+__hydra_host__ __hydra_device__
 inline complex<float> pow(const complex<float>& z, const complex<float> & exponent){
   return thrust::exp(thrust::log(z)*exponent);
 }

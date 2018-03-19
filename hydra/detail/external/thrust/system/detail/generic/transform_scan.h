@@ -35,7 +35,7 @@ template<typename ExecutionPolicy,
          typename OutputIterator,
          typename UnaryFunction,
          typename BinaryFunction>
-__host__ __device__
+__hydra_host__ __hydra_device__
   OutputIterator transform_inclusive_scan(thrust::execution_policy<ExecutionPolicy> &exec,
                                           InputIterator first,
                                           InputIterator last,
@@ -49,7 +49,7 @@ template<typename ExecutionPolicy,
          typename UnaryFunction,
          typename T,
          typename AssociativeOperator>
-__host__ __device__
+__hydra_host__ __hydra_device__
   OutputIterator transform_exclusive_scan(thrust::execution_policy<ExecutionPolicy> &exec,
                                           InputIterator first,
                                           InputIterator last,

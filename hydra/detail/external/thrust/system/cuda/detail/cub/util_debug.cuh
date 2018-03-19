@@ -65,7 +65,7 @@ namespace cub {
  *
  * \return The CUDA error.
  */
-__host__ __device__ __forceinline__ cudaError_t Debug(
+__hydra_host__ __hydra_device__ __forceinline__ cudaError_t Debug(
     cudaError_t     error,
     const char*     filename,
     int             line)
@@ -120,7 +120,7 @@ __host__ __device__ __forceinline__ cudaError_t Debug(
         #pragma clang diagnostic ignored "-Wc++11-extensions"
         #pragma clang diagnostic ignored "-Wunnamed-type-template-args"
             template <class... Args>
-            inline __host__ __device__ void va_printf(char const* format, Args const&... args)
+            inline __hydra_host__ __hydra_device__ void va_printf(char const* format, Args const&... args)
             {
         #ifdef __CUDA_ARCH__
               printf(format, blockIdx.z, blockIdx.y, blockIdx.x, threadIdx.z, threadIdx.y, threadIdx.x, args...);

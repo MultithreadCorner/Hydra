@@ -81,7 +81,7 @@ HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
  *  \see inclusive_scan
  */
 template<typename DerivedPolicy, typename InputIterator, typename OutputIterator>
-__host__ __device__
+__hydra_host__ __hydra_device__
 OutputIterator adjacent_difference(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                                    InputIterator first, InputIterator last, 
                                    OutputIterator result);
@@ -136,7 +136,7 @@ OutputIterator adjacent_difference(const thrust::detail::execution_policy_base<D
  *  \see inclusive_scan
  */
 template<typename DerivedPolicy, typename InputIterator, typename OutputIterator, typename BinaryFunction>
-__host__ __device__
+__hydra_host__ __hydra_device__
 OutputIterator adjacent_difference(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                                    InputIterator first, InputIterator last,
                                    OutputIterator result,

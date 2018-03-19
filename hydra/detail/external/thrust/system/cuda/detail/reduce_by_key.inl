@@ -56,7 +56,7 @@ struct reduce_by_key_kernel
            typename RandomAccessIterator7,
            typename BinaryPredicate,
            typename BinaryFunction>
-  __device__
+  __hydra_device__
   thrust::pair<RandomAccessIterator3,RandomAccessIterator4>
   operator()(ConcurrentGroup &g,
              RandomAccessIterator1 keys_first,
@@ -132,7 +132,7 @@ struct reduce_by_key_kernel
            typename BinaryPredicate,
            typename BinaryFunction,
            typename Iterator>
-  __device__
+  __hydra_device__
   void operator()(ConcurrentGroup      &g,
                   RandomAccessIterator1 keys_first,
                   RandomAccessIterator1 keys_last,
@@ -165,7 +165,7 @@ struct tuple_and
   typedef bool result_type;
 
   template<typename Tuple>
-  __host__ __device__
+  __hydra_host__ __hydra_device__
   bool operator()(Tuple t)
   {
     return thrust::get<0>(t) && thrust::get<1>(t);
@@ -179,7 +179,7 @@ template<typename DerivedPolicy,
          typename Iterator3,
          typename Iterator4,
          typename BinaryFunction>
-__host__ __device__
+__hydra_host__ __hydra_device__
 void sum_tail_carries(execution_policy<DerivedPolicy> &exec,
                       Iterator1 interval_values_first,
                       Iterator1 interval_values_last,
@@ -229,7 +229,7 @@ template<typename Size,
          typename OutputIterator2,
          typename BinaryPredicate,
          typename BinaryFunction>
-__host__ __device__
+__hydra_host__ __hydra_device__
 thrust::pair<OutputIterator1,OutputIterator2>
 reduce_by_key(execution_policy<DerivedPolicy> &exec,
               InputIterator1 keys_first, 
@@ -340,7 +340,7 @@ template<typename DerivedPolicy,
          typename OutputIterator2,
          typename BinaryPredicate,
          typename BinaryFunction>
-__host__ __device__
+__hydra_host__ __hydra_device__
 thrust::pair<OutputIterator1,OutputIterator2>
 reduce_by_key(execution_policy<DerivedPolicy> &exec,
               InputIterator1 keys_first, 
@@ -392,7 +392,7 @@ template<typename DerivedPolicy,
          typename OutputIterator2,
          typename BinaryPredicate,
          typename BinaryFunction>
-__host__ __device__
+__hydra_host__ __hydra_device__
 thrust::pair<OutputIterator1,OutputIterator2>
 reduce_by_key(execution_policy<DerivedPolicy> &exec,
               InputIterator1 keys_first, 
@@ -412,7 +412,7 @@ reduce_by_key(execution_policy<DerivedPolicy> &exec,
 
   struct workaround
   {
-    static __host__ __device__
+    static __hydra_host__ __hydra_device__
     thrust::pair<OutputIterator1,OutputIterator2>
     parallel_path(execution_policy<DerivedPolicy> &exec,
                   InputIterator1 keys_first,
@@ -426,7 +426,7 @@ reduce_by_key(execution_policy<DerivedPolicy> &exec,
       return thrust::system::cuda::detail::reduce_by_key_detail::reduce_by_key(exec, keys_first, keys_last, values_first, keys_result, values_result, binary_pred, binary_op);
     }
 
-    static __host__ __device__
+    static __hydra_host__ __hydra_device__
     thrust::pair<OutputIterator1,OutputIterator2>
     sequential_path(execution_policy<DerivedPolicy> &,
                     InputIterator1 keys_first,

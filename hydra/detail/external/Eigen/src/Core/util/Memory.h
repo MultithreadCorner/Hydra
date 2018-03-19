@@ -17,10 +17,10 @@
 *** Platform checks for aligned malloc functions                           ***
 *****************************************************************************/
 
-#ifndef EIGEN_MEMORY_H
-#define EIGEN_MEMORY_H
+#ifndef HYDRA_EIGEN_MEMORY_H
+#define HYDRA_EIGEN_MEMORY_H
 
-#ifndef EIGEN_MALLOC_ALREADY_ALIGNED
+#ifndef HYDRA_EIGEN_MALLOC_ALREADY_ALIGNED
 
 // Try to determine automatically if malloc is already aligned.
 
@@ -32,29 +32,29 @@
 // page 114, "[The] LP64 model [...] is used by all 64-bit UNIX ports" so it's indeed
 // quite safe, at least within the context of glibc, to equate 64-bit with LP64.
 #if defined(__GLIBC__) && ((__GLIBC__>=2 && __GLIBC_MINOR__ >= 8) || __GLIBC__>2) \
- && defined(__LP64__) && ! defined( __SANITIZE_ADDRESS__ ) && (EIGEN_DEFAULT_ALIGN_BYTES == 16)
-  #define EIGEN_GLIBC_MALLOC_ALREADY_ALIGNED 1
+ && defined(__LP64__) && ! defined( __SANITIZE_ADDRESS__ ) && (HYDRA_EIGEN_DEFAULT_ALIGN_BYTES == 16)
+  #define HYDRA_EIGEN_GLIBC_MALLOC_ALREADY_ALIGNED 1
 #else
-  #define EIGEN_GLIBC_MALLOC_ALREADY_ALIGNED 0
+  #define HYDRA_EIGEN_GLIBC_MALLOC_ALREADY_ALIGNED 0
 #endif
 
 // FreeBSD 6 seems to have 16-byte aligned malloc
 //   See http://svn.freebsd.org/viewvc/base/stable/6/lib/libc/stdlib/malloc.c?view=markup
 // FreeBSD 7 seems to have 16-byte aligned malloc except on ARM and MIPS architectures
 //   See http://svn.freebsd.org/viewvc/base/stable/7/lib/libc/stdlib/malloc.c?view=markup
-#if defined(__FreeBSD__) && !(EIGEN_ARCH_ARM || EIGEN_ARCH_MIPS) && (EIGEN_DEFAULT_ALIGN_BYTES == 16)
-  #define EIGEN_FREEBSD_MALLOC_ALREADY_ALIGNED 1
+#if defined(__FreeBSD__) && !(HYDRA_EIGEN_ARCH_ARM || HYDRA_EIGEN_ARCH_MIPS) && (HYDRA_EIGEN_DEFAULT_ALIGN_BYTES == 16)
+  #define HYDRA_EIGEN_FREEBSD_MALLOC_ALREADY_ALIGNED 1
 #else
-  #define EIGEN_FREEBSD_MALLOC_ALREADY_ALIGNED 0
+  #define HYDRA_EIGEN_FREEBSD_MALLOC_ALREADY_ALIGNED 0
 #endif
 
-#if (EIGEN_OS_MAC && (EIGEN_DEFAULT_ALIGN_BYTES == 16))     \
- || (EIGEN_OS_WIN64 && (EIGEN_DEFAULT_ALIGN_BYTES == 16))   \
- || EIGEN_GLIBC_MALLOC_ALREADY_ALIGNED              \
- || EIGEN_FREEBSD_MALLOC_ALREADY_ALIGNED
-  #define EIGEN_MALLOC_ALREADY_ALIGNED 1
+#if (HYDRA_EIGEN_OS_MAC && (HYDRA_EIGEN_DEFAULT_ALIGN_BYTES == 16))     \
+ || (HYDRA_EIGEN_OS_WIN64 && (HYDRA_EIGEN_DEFAULT_ALIGN_BYTES == 16))   \
+ || HYDRA_EIGEN_GLIBC_MALLOC_ALREADY_ALIGNED              \
+ || HYDRA_EIGEN_FREEBSD_MALLOC_ALREADY_ALIGNED
+  #define HYDRA_EIGEN_MALLOC_ALREADY_ALIGNED 1
 #else
-  #define EIGEN_MALLOC_ALREADY_ALIGNED 0
+  #define HYDRA_EIGEN_MALLOC_ALREADY_ALIGNED 0
 #endif
 
 #endif
@@ -63,10 +63,10 @@ HYDRA_EXTERNAL_NAMESPACE_BEGIN namespace Eigen {
 
 namespace internal {
 
-EIGEN_DEVICE_FUNC 
+HYDRA_EIGEN_DEVICE_FUNC 
 inline void throw_std_bad_alloc()
 {
-  #ifdef EIGEN_EXCEPTIONS
+  #ifdef HYDRA_EIGEN_EXCEPTIONS
     throw std::bad_alloc();
   #else
     std::size_t huge = static_cast<std::size_t>(-1);
@@ -85,9 +85,9 @@ inline void throw_std_bad_alloc()
   */
 inline void* handmade_aligned_malloc(std::size_t size)
 {
-  void *original = std::malloc(size+EIGEN_DEFAULT_ALIGN_BYTES);
+  void *original = std::malloc(size+HYDRA_EIGEN_DEFAULT_ALIGN_BYTES);
   if (original == 0) return 0;
-  void *aligned = reinterpret_cast<void*>((reinterpret_cast<std::size_t>(original) & ~(std::size_t(EIGEN_DEFAULT_ALIGN_BYTES-1))) + EIGEN_DEFAULT_ALIGN_BYTES);
+  void *aligned = reinterpret_cast<void*>((reinterpret_cast<std::size_t>(original) & ~(std::size_t(HYDRA_EIGEN_DEFAULT_ALIGN_BYTES-1))) + HYDRA_EIGEN_DEFAULT_ALIGN_BYTES);
   *(reinterpret_cast<void**>(aligned) - 1) = original;
   return aligned;
 }
@@ -108,9 +108,9 @@ inline void* handmade_aligned_realloc(void* ptr, std::size_t size, std::size_t =
   if (ptr == 0) return handmade_aligned_malloc(size);
   void *original = *(reinterpret_cast<void**>(ptr) - 1);
   std::ptrdiff_t previous_offset = static_cast<char *>(ptr)-static_cast<char *>(original);
-  original = std::realloc(original,size+EIGEN_DEFAULT_ALIGN_BYTES);
+  original = std::realloc(original,size+HYDRA_EIGEN_DEFAULT_ALIGN_BYTES);
   if (original == 0) return 0;
-  void *aligned = reinterpret_cast<void*>((reinterpret_cast<std::size_t>(original) & ~(std::size_t(EIGEN_DEFAULT_ALIGN_BYTES-1))) + EIGEN_DEFAULT_ALIGN_BYTES);
+  void *aligned = reinterpret_cast<void*>((reinterpret_cast<std::size_t>(original) & ~(std::size_t(HYDRA_EIGEN_DEFAULT_ALIGN_BYTES-1))) + HYDRA_EIGEN_DEFAULT_ALIGN_BYTES);
   void *previous_aligned = static_cast<char *>(original)+previous_offset;
   if(aligned!=previous_aligned)
     std::memmove(aligned, previous_aligned, size);
@@ -123,42 +123,42 @@ inline void* handmade_aligned_realloc(void* ptr, std::size_t size, std::size_t =
 *** Implementation of portable aligned versions of malloc/free/realloc     ***
 *****************************************************************************/
 
-#ifdef EIGEN_NO_MALLOC
-EIGEN_DEVICE_FUNC inline void check_that_malloc_is_allowed()
+#ifdef HYDRA_EIGEN_NO_MALLOC
+HYDRA_EIGEN_DEVICE_FUNC inline void check_that_malloc_is_allowed()
 {
-  eigen_assert(false && "heap allocation is forbidden (EIGEN_NO_MALLOC is defined)");
+  eigen_assert(false && "heap allocation is forbidden (HYDRA_EIGEN_NO_MALLOC is defined)");
 }
-#elif defined EIGEN_RUNTIME_NO_MALLOC
-EIGEN_DEVICE_FUNC inline bool is_malloc_allowed_impl(bool update, bool new_value = false)
+#elif defined HYDRA_EIGEN_RUNTIME_NO_MALLOC
+HYDRA_EIGEN_DEVICE_FUNC inline bool is_malloc_allowed_impl(bool update, bool new_value = false)
 {
   static bool value = true;
   if (update == 1)
     value = new_value;
   return value;
 }
-EIGEN_DEVICE_FUNC inline bool is_malloc_allowed() { return is_malloc_allowed_impl(false); }
-EIGEN_DEVICE_FUNC inline bool set_is_malloc_allowed(bool new_value) { return is_malloc_allowed_impl(true, new_value); }
-EIGEN_DEVICE_FUNC inline void check_that_malloc_is_allowed()
+HYDRA_EIGEN_DEVICE_FUNC inline bool is_malloc_allowed() { return is_malloc_allowed_impl(false); }
+HYDRA_EIGEN_DEVICE_FUNC inline bool set_is_malloc_allowed(bool new_value) { return is_malloc_allowed_impl(true, new_value); }
+HYDRA_EIGEN_DEVICE_FUNC inline void check_that_malloc_is_allowed()
 {
-  eigen_assert(is_malloc_allowed() && "heap allocation is forbidden (EIGEN_RUNTIME_NO_MALLOC is defined and g_is_malloc_allowed is false)");
+  eigen_assert(is_malloc_allowed() && "heap allocation is forbidden (HYDRA_EIGEN_RUNTIME_NO_MALLOC is defined and g_is_malloc_allowed is false)");
 }
 #else 
-EIGEN_DEVICE_FUNC inline void check_that_malloc_is_allowed()
+HYDRA_EIGEN_DEVICE_FUNC inline void check_that_malloc_is_allowed()
 {}
 #endif
 
 /** \internal Allocates \a size bytes. The returned pointer is guaranteed to have 16 or 32 bytes alignment depending on the requirements.
   * On allocation error, the returned pointer is null, and std::bad_alloc is thrown.
   */
-EIGEN_DEVICE_FUNC inline void* aligned_malloc(std::size_t size)
+HYDRA_EIGEN_DEVICE_FUNC inline void* aligned_malloc(std::size_t size)
 {
   check_that_malloc_is_allowed();
 
   void *result;
-  #if (EIGEN_DEFAULT_ALIGN_BYTES==0) || EIGEN_MALLOC_ALREADY_ALIGNED
+  #if (HYDRA_EIGEN_DEFAULT_ALIGN_BYTES==0) || HYDRA_EIGEN_MALLOC_ALREADY_ALIGNED
     result = std::malloc(size);
-    #if EIGEN_DEFAULT_ALIGN_BYTES==16
-    eigen_assert((size<16 || (std::size_t(result)%16)==0) && "System's malloc returned an unaligned pointer. Compile with EIGEN_MALLOC_ALREADY_ALIGNED=0 to fallback to handmade alignd memory allocator.");
+    #if HYDRA_EIGEN_DEFAULT_ALIGN_BYTES==16
+    eigen_assert((size<16 || (std::size_t(result)%16)==0) && "System's malloc returned an unaligned pointer. Compile with HYDRA_EIGEN_MALLOC_ALREADY_ALIGNED=0 to fallback to handmade alignd memory allocator.");
     #endif
   #else
     result = handmade_aligned_malloc(size);
@@ -171,9 +171,9 @@ EIGEN_DEVICE_FUNC inline void* aligned_malloc(std::size_t size)
 }
 
 /** \internal Frees memory allocated with aligned_malloc. */
-EIGEN_DEVICE_FUNC inline void aligned_free(void *ptr)
+HYDRA_EIGEN_DEVICE_FUNC inline void aligned_free(void *ptr)
 {
-  #if (EIGEN_DEFAULT_ALIGN_BYTES==0) || EIGEN_MALLOC_ALREADY_ALIGNED
+  #if (HYDRA_EIGEN_DEFAULT_ALIGN_BYTES==0) || HYDRA_EIGEN_MALLOC_ALREADY_ALIGNED
     std::free(ptr);
   #else
     handmade_aligned_free(ptr);
@@ -187,10 +187,10 @@ EIGEN_DEVICE_FUNC inline void aligned_free(void *ptr)
   */
 inline void* aligned_realloc(void *ptr, std::size_t new_size, std::size_t old_size)
 {
-  EIGEN_UNUSED_VARIABLE(old_size);
+  HYDRA_EIGEN_UNUSED_VARIABLE(old_size);
 
   void *result;
-#if (EIGEN_DEFAULT_ALIGN_BYTES==0) || EIGEN_MALLOC_ALREADY_ALIGNED
+#if (HYDRA_EIGEN_DEFAULT_ALIGN_BYTES==0) || HYDRA_EIGEN_MALLOC_ALREADY_ALIGNED
   result = std::realloc(ptr,new_size);
 #else
   result = handmade_aligned_realloc(ptr,new_size,old_size);
@@ -209,12 +209,12 @@ inline void* aligned_realloc(void *ptr, std::size_t new_size, std::size_t old_si
 /** \internal Allocates \a size bytes. If Align is true, then the returned ptr is 16-byte-aligned.
   * On allocation error, the returned pointer is null, and a std::bad_alloc is thrown.
   */
-template<bool Align> EIGEN_DEVICE_FUNC inline void* conditional_aligned_malloc(std::size_t size)
+template<bool Align> HYDRA_EIGEN_DEVICE_FUNC inline void* conditional_aligned_malloc(std::size_t size)
 {
   return aligned_malloc(size);
 }
 
-template<> EIGEN_DEVICE_FUNC inline void* conditional_aligned_malloc<false>(std::size_t size)
+template<> HYDRA_EIGEN_DEVICE_FUNC inline void* conditional_aligned_malloc<false>(std::size_t size)
 {
   check_that_malloc_is_allowed();
 
@@ -225,12 +225,12 @@ template<> EIGEN_DEVICE_FUNC inline void* conditional_aligned_malloc<false>(std:
 }
 
 /** \internal Frees memory allocated with conditional_aligned_malloc */
-template<bool Align> EIGEN_DEVICE_FUNC inline void conditional_aligned_free(void *ptr)
+template<bool Align> HYDRA_EIGEN_DEVICE_FUNC inline void conditional_aligned_free(void *ptr)
 {
   aligned_free(ptr);
 }
 
-template<> EIGEN_DEVICE_FUNC inline void conditional_aligned_free<false>(void *ptr)
+template<> HYDRA_EIGEN_DEVICE_FUNC inline void conditional_aligned_free<false>(void *ptr)
 {
   std::free(ptr);
 }
@@ -252,7 +252,7 @@ template<> inline void* conditional_aligned_realloc<false>(void* ptr, std::size_
 /** \internal Destructs the elements of an array.
   * The \a size parameters tells on how many objects to call the destructor of T.
   */
-template<typename T> EIGEN_DEVICE_FUNC inline void destruct_elements_of_array(T *ptr, std::size_t size)
+template<typename T> HYDRA_EIGEN_DEVICE_FUNC inline void destruct_elements_of_array(T *ptr, std::size_t size)
 {
   // always destruct an array starting from the end.
   if(ptr)
@@ -262,18 +262,18 @@ template<typename T> EIGEN_DEVICE_FUNC inline void destruct_elements_of_array(T 
 /** \internal Constructs the elements of an array.
   * The \a size parameter tells on how many objects to call the constructor of T.
   */
-template<typename T> EIGEN_DEVICE_FUNC inline T* construct_elements_of_array(T *ptr, std::size_t size)
+template<typename T> HYDRA_EIGEN_DEVICE_FUNC inline T* construct_elements_of_array(T *ptr, std::size_t size)
 {
   std::size_t i;
-  EIGEN_TRY
+  HYDRA_EIGEN_TRY
   {
       for (i = 0; i < size; ++i) ::new (ptr + i) T;
       return ptr;
   }
-  EIGEN_CATCH(...)
+  HYDRA_EIGEN_CATCH(...)
   {
     destruct_elements_of_array(ptr, i);
-    EIGEN_THROW;
+    HYDRA_EIGEN_THROW;
   }
   return NULL;
 }
@@ -283,7 +283,7 @@ template<typename T> EIGEN_DEVICE_FUNC inline T* construct_elements_of_array(T *
 *****************************************************************************/
 
 template<typename T>
-EIGEN_DEVICE_FUNC EIGEN_ALWAYS_INLINE void check_size_for_overflow(std::size_t size)
+HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_ALWAYS_INLINE void check_size_for_overflow(std::size_t size)
 {
   if(size > std::size_t(-1) / sizeof(T))
     throw_std_bad_alloc();
@@ -293,34 +293,34 @@ EIGEN_DEVICE_FUNC EIGEN_ALWAYS_INLINE void check_size_for_overflow(std::size_t s
   * On allocation error, the returned pointer is undefined, but a std::bad_alloc is thrown.
   * The default constructor of T is called.
   */
-template<typename T> EIGEN_DEVICE_FUNC inline T* aligned_new(std::size_t size)
+template<typename T> HYDRA_EIGEN_DEVICE_FUNC inline T* aligned_new(std::size_t size)
 {
   check_size_for_overflow<T>(size);
   T *result = reinterpret_cast<T*>(aligned_malloc(sizeof(T)*size));
-  EIGEN_TRY
+  HYDRA_EIGEN_TRY
   {
     return construct_elements_of_array(result, size);
   }
-  EIGEN_CATCH(...)
+  HYDRA_EIGEN_CATCH(...)
   {
     aligned_free(result);
-    EIGEN_THROW;
+    HYDRA_EIGEN_THROW;
   }
   return result;
 }
 
-template<typename T, bool Align> EIGEN_DEVICE_FUNC inline T* conditional_aligned_new(std::size_t size)
+template<typename T, bool Align> HYDRA_EIGEN_DEVICE_FUNC inline T* conditional_aligned_new(std::size_t size)
 {
   check_size_for_overflow<T>(size);
   T *result = reinterpret_cast<T*>(conditional_aligned_malloc<Align>(sizeof(T)*size));
-  EIGEN_TRY
+  HYDRA_EIGEN_TRY
   {
     return construct_elements_of_array(result, size);
   }
-  EIGEN_CATCH(...)
+  HYDRA_EIGEN_CATCH(...)
   {
     conditional_aligned_free<Align>(result);
-    EIGEN_THROW;
+    HYDRA_EIGEN_THROW;
   }
   return result;
 }
@@ -328,7 +328,7 @@ template<typename T, bool Align> EIGEN_DEVICE_FUNC inline T* conditional_aligned
 /** \internal Deletes objects constructed with aligned_new
   * The \a size parameters tells on how many objects to call the destructor of T.
   */
-template<typename T> EIGEN_DEVICE_FUNC inline void aligned_delete(T *ptr, std::size_t size)
+template<typename T> HYDRA_EIGEN_DEVICE_FUNC inline void aligned_delete(T *ptr, std::size_t size)
 {
   destruct_elements_of_array<T>(ptr, size);
   aligned_free(ptr);
@@ -337,13 +337,13 @@ template<typename T> EIGEN_DEVICE_FUNC inline void aligned_delete(T *ptr, std::s
 /** \internal Deletes objects constructed with conditional_aligned_new
   * The \a size parameters tells on how many objects to call the destructor of T.
   */
-template<typename T, bool Align> EIGEN_DEVICE_FUNC inline void conditional_aligned_delete(T *ptr, std::size_t size)
+template<typename T, bool Align> HYDRA_EIGEN_DEVICE_FUNC inline void conditional_aligned_delete(T *ptr, std::size_t size)
 {
   destruct_elements_of_array<T>(ptr, size);
   conditional_aligned_free<Align>(ptr);
 }
 
-template<typename T, bool Align> EIGEN_DEVICE_FUNC inline T* conditional_aligned_realloc_new(T* pts, std::size_t new_size, std::size_t old_size)
+template<typename T, bool Align> HYDRA_EIGEN_DEVICE_FUNC inline T* conditional_aligned_realloc_new(T* pts, std::size_t new_size, std::size_t old_size)
 {
   check_size_for_overflow<T>(new_size);
   check_size_for_overflow<T>(old_size);
@@ -352,21 +352,21 @@ template<typename T, bool Align> EIGEN_DEVICE_FUNC inline T* conditional_aligned
   T *result = reinterpret_cast<T*>(conditional_aligned_realloc<Align>(reinterpret_cast<void*>(pts), sizeof(T)*new_size, sizeof(T)*old_size));
   if(new_size > old_size)
   {
-    EIGEN_TRY
+    HYDRA_EIGEN_TRY
     {
       construct_elements_of_array(result+old_size, new_size-old_size);
     }
-    EIGEN_CATCH(...)
+    HYDRA_EIGEN_CATCH(...)
     {
       conditional_aligned_free<Align>(result);
-      EIGEN_THROW;
+      HYDRA_EIGEN_THROW;
     }
   }
   return result;
 }
 
 
-template<typename T, bool Align> EIGEN_DEVICE_FUNC inline T* conditional_aligned_new_auto(std::size_t size)
+template<typename T, bool Align> HYDRA_EIGEN_DEVICE_FUNC inline T* conditional_aligned_new_auto(std::size_t size)
 {
   if(size==0)
     return 0; // short-cut. Also fixes Bug 884
@@ -374,14 +374,14 @@ template<typename T, bool Align> EIGEN_DEVICE_FUNC inline T* conditional_aligned
   T *result = reinterpret_cast<T*>(conditional_aligned_malloc<Align>(sizeof(T)*size));
   if(NumTraits<T>::RequireInitialization)
   {
-    EIGEN_TRY
+    HYDRA_EIGEN_TRY
     {
       construct_elements_of_array(result, size);
     }
-    EIGEN_CATCH(...)
+    HYDRA_EIGEN_CATCH(...)
     {
       conditional_aligned_free<Align>(result);
-      EIGEN_THROW;
+      HYDRA_EIGEN_THROW;
     }
   }
   return result;
@@ -396,20 +396,20 @@ template<typename T, bool Align> inline T* conditional_aligned_realloc_new_auto(
   T *result = reinterpret_cast<T*>(conditional_aligned_realloc<Align>(reinterpret_cast<void*>(pts), sizeof(T)*new_size, sizeof(T)*old_size));
   if(NumTraits<T>::RequireInitialization && (new_size > old_size))
   {
-    EIGEN_TRY
+    HYDRA_EIGEN_TRY
     {
       construct_elements_of_array(result+old_size, new_size-old_size);
     }
-    EIGEN_CATCH(...)
+    HYDRA_EIGEN_CATCH(...)
     {
       conditional_aligned_free<Align>(result);
-      EIGEN_THROW;
+      HYDRA_EIGEN_THROW;
     }
   }
   return result;
 }
 
-template<typename T, bool Align> EIGEN_DEVICE_FUNC inline void conditional_aligned_delete_auto(T *ptr, std::size_t size)
+template<typename T, bool Align> HYDRA_EIGEN_DEVICE_FUNC inline void conditional_aligned_delete_auto(T *ptr, std::size_t size)
 {
   if(NumTraits<T>::RequireInitialization)
     destruct_elements_of_array<T>(ptr, size);
@@ -436,7 +436,7 @@ template<typename T, bool Align> EIGEN_DEVICE_FUNC inline void conditional_align
   * \sa first_default_aligned()
   */
 template<int Alignment, typename Scalar, typename Index>
-EIGEN_DEVICE_FUNC inline Index first_aligned(const Scalar* array, Index size)
+HYDRA_EIGEN_DEVICE_FUNC inline Index first_aligned(const Scalar* array, Index size)
 {
   const Index ScalarSize = sizeof(Scalar);
   const Index AlignmentSize = Alignment / ScalarSize;
@@ -464,7 +464,7 @@ EIGEN_DEVICE_FUNC inline Index first_aligned(const Scalar* array, Index size)
 /** \internal Returns the index of the first element of the array that is well aligned with respect the largest packet requirement.
    * \sa first_aligned(Scalar*,Index) and first_default_aligned(DenseBase<Derived>) */
 template<typename Scalar, typename Index>
-EIGEN_DEVICE_FUNC inline Index first_default_aligned(const Scalar* array, Index size)
+HYDRA_EIGEN_DEVICE_FUNC inline Index first_default_aligned(const Scalar* array, Index size)
 {
   typedef typename packet_traits<Scalar>::type DefaultPacketType;
   return first_aligned<unpacket_traits<DefaultPacketType>::alignment>(array, size);
@@ -482,13 +482,13 @@ inline Index first_multiple(Index size, Index base)
 // use memcpy on trivial types, i.e., on types that does not require an initialization ctor.
 template<typename T, bool UseMemcpy> struct smart_copy_helper;
 
-template<typename T> EIGEN_DEVICE_FUNC void smart_copy(const T* start, const T* end, T* target)
+template<typename T> HYDRA_EIGEN_DEVICE_FUNC void smart_copy(const T* start, const T* end, T* target)
 {
   smart_copy_helper<T,!NumTraits<T>::RequireInitialization>::run(start, end, target);
 }
 
 template<typename T> struct smart_copy_helper<T,true> {
-  EIGEN_DEVICE_FUNC static inline void run(const T* start, const T* end, T* target)
+  HYDRA_EIGEN_DEVICE_FUNC static inline void run(const T* start, const T* end, T* target)
   {
     IntPtr size = IntPtr(end)-IntPtr(start);
     if(size==0) return;
@@ -498,7 +498,7 @@ template<typename T> struct smart_copy_helper<T,true> {
 };
 
 template<typename T> struct smart_copy_helper<T,false> {
-  EIGEN_DEVICE_FUNC static inline void run(const T* start, const T* end, T* target)
+  HYDRA_EIGEN_DEVICE_FUNC static inline void run(const T* start, const T* end, T* target)
   { std::copy(start, end, target); }
 };
 
@@ -540,13 +540,13 @@ template<typename T> struct smart_memmove_helper<T,false> {
 *** Implementation of runtime stack allocation (falling back to malloc)    ***
 *****************************************************************************/
 
-// you can overwrite Eigen's default behavior regarding alloca by defining EIGEN_ALLOCA
+// you can overwrite Eigen's default behavior regarding alloca by defining HYDRA_EIGEN_ALLOCA
 // to the appropriate stack allocation function
-#ifndef EIGEN_ALLOCA
-  #if EIGEN_OS_LINUX || EIGEN_OS_MAC || (defined alloca)
-    #define EIGEN_ALLOCA alloca
-  #elif EIGEN_COMP_MSVC
-    #define EIGEN_ALLOCA _alloca
+#ifndef HYDRA_EIGEN_ALLOCA
+  #if HYDRA_EIGEN_OS_LINUX || HYDRA_EIGEN_OS_MAC || (defined alloca)
+    #define HYDRA_EIGEN_ALLOCA alloca
+  #elif HYDRA_EIGEN_COMP_MSVC
+    #define HYDRA_EIGEN_ALLOCA _alloca
   #endif
 #endif
 
@@ -608,88 +608,88 @@ template<typename T> void swap(scoped_array<T> &a,scoped_array<T> &b)
 
 /** \internal
   * Declares, allocates and construct an aligned buffer named NAME of SIZE elements of type TYPE on the stack
-  * if SIZE is smaller than EIGEN_STACK_ALLOCATION_LIMIT, and if stack allocation is supported by the platform
+  * if SIZE is smaller than HYDRA_EIGEN_STACK_ALLOCATION_LIMIT, and if stack allocation is supported by the platform
   * (currently, this is Linux and Visual Studio only). Otherwise the memory is allocated on the heap.
   * The allocated buffer is automatically deleted when exiting the scope of this declaration.
   * If BUFFER is non null, then the declared variable is simply an alias for BUFFER, and no allocation/deletion occurs.
   * Here is an example:
   * \code
   * {
-  *   ei_declare_aligned_stack_constructed_variable(float,data,size,0);
+  *   hydra_ei_declare_aligned_stack_constructed_variable(float,data,size,0);
   *   // use data[0] to data[size-1]
   * }
   * \endcode
-  * The underlying stack allocation function can controlled with the EIGEN_ALLOCA preprocessor token.
+  * The underlying stack allocation function can controlled with the HYDRA_EIGEN_ALLOCA preprocessor token.
   */
-#ifdef EIGEN_ALLOCA
+#ifdef HYDRA_EIGEN_ALLOCA
   
-  #if EIGEN_DEFAULT_ALIGN_BYTES>0
-    // We always manually re-align the result of EIGEN_ALLOCA.
+  #if HYDRA_EIGEN_DEFAULT_ALIGN_BYTES>0
+    // We always manually re-align the result of HYDRA_EIGEN_ALLOCA.
     // If alloca is already aligned, the compiler should be smart enough to optimize away the re-alignment.
-    #define EIGEN_ALIGNED_ALLOCA(SIZE) reinterpret_cast<void*>((internal::UIntPtr(EIGEN_ALLOCA(SIZE+EIGEN_DEFAULT_ALIGN_BYTES-1)) + EIGEN_DEFAULT_ALIGN_BYTES-1) & ~(std::size_t(EIGEN_DEFAULT_ALIGN_BYTES-1)))
+    #define HYDRA_EIGEN_ALIGNED_ALLOCA(SIZE) reinterpret_cast<void*>((internal::UIntPtr(HYDRA_EIGEN_ALLOCA(SIZE+HYDRA_EIGEN_DEFAULT_ALIGN_BYTES-1)) + HYDRA_EIGEN_DEFAULT_ALIGN_BYTES-1) & ~(std::size_t(HYDRA_EIGEN_DEFAULT_ALIGN_BYTES-1)))
   #else
-    #define EIGEN_ALIGNED_ALLOCA(SIZE) EIGEN_ALLOCA(SIZE)
+    #define HYDRA_EIGEN_ALIGNED_ALLOCA(SIZE) HYDRA_EIGEN_ALLOCA(SIZE)
   #endif
 
-  #define ei_declare_aligned_stack_constructed_variable(TYPE,NAME,SIZE,BUFFER) \
+  #define hydra_ei_declare_aligned_stack_constructed_variable(TYPE,NAME,SIZE,BUFFER) \
     HYDRA_EXTERNAL_NS::Eigen::internal::check_size_for_overflow<TYPE>(SIZE); \
     TYPE* NAME = (BUFFER)!=0 ? (BUFFER) \
                : reinterpret_cast<TYPE*>( \
-                      (sizeof(TYPE)*SIZE<=EIGEN_STACK_ALLOCATION_LIMIT) ? EIGEN_ALIGNED_ALLOCA(sizeof(TYPE)*SIZE) \
+                      (sizeof(TYPE)*SIZE<=HYDRA_EIGEN_STACK_ALLOCATION_LIMIT) ? HYDRA_EIGEN_ALIGNED_ALLOCA(sizeof(TYPE)*SIZE) \
                     : HYDRA_EXTERNAL_NS::Eigen::internal::aligned_malloc(sizeof(TYPE)*SIZE) );  \
-    HYDRA_EXTERNAL_NS::Eigen::internal::aligned_stack_memory_handler<TYPE> EIGEN_CAT(NAME,_stack_memory_destructor)((BUFFER)==0 ? NAME : 0,SIZE,sizeof(TYPE)*SIZE>EIGEN_STACK_ALLOCATION_LIMIT)
+    HYDRA_EXTERNAL_NS::Eigen::internal::aligned_stack_memory_handler<TYPE> HYDRA_EIGEN_CAT(NAME,_stack_memory_destructor)((BUFFER)==0 ? NAME : 0,SIZE,sizeof(TYPE)*SIZE>HYDRA_EIGEN_STACK_ALLOCATION_LIMIT)
 
 #else
 
-  #define ei_declare_aligned_stack_constructed_variable(TYPE,NAME,SIZE,BUFFER) \
+  #define hydra_ei_declare_aligned_stack_constructed_variable(TYPE,NAME,SIZE,BUFFER) \
     HYDRA_EXTERNAL_NS::Eigen::internal::check_size_for_overflow<TYPE>(SIZE); \
     TYPE* NAME = (BUFFER)!=0 ? BUFFER : reinterpret_cast<TYPE*>(HYDRA_EXTERNAL_NS::Eigen::internal::aligned_malloc(sizeof(TYPE)*SIZE));    \
-    HYDRA_EXTERNAL_NS::Eigen::internal::aligned_stack_memory_handler<TYPE> EIGEN_CAT(NAME,_stack_memory_destructor)((BUFFER)==0 ? NAME : 0,SIZE,true)
+    HYDRA_EXTERNAL_NS::Eigen::internal::aligned_stack_memory_handler<TYPE> HYDRA_EIGEN_CAT(NAME,_stack_memory_destructor)((BUFFER)==0 ? NAME : 0,SIZE,true)
     
 #endif
 
 
 /*****************************************************************************
-*** Implementation of EIGEN_MAKE_ALIGNED_OPERATOR_NEW [_IF]                ***
+*** Implementation of HYDRA_EIGEN_MAKE_ALIGNED_OPERATOR_NEW [_IF]                ***
 *****************************************************************************/
 
-#if EIGEN_MAX_ALIGN_BYTES!=0
-  #define EIGEN_MAKE_ALIGNED_OPERATOR_NEW_NOTHROW(NeedsToAlign) \
-      void* operator new(std::size_t size, const std::nothrow_t&) EIGEN_NO_THROW { \
-        EIGEN_TRY { return HYDRA_EXTERNAL_NS::Eigen::internal::conditional_aligned_malloc<NeedsToAlign>(size); } \
-        EIGEN_CATCH (...) { return 0; } \
+#if HYDRA_EIGEN_MAX_ALIGN_BYTES!=0
+  #define HYDRA_EIGEN_MAKE_ALIGNED_OPERATOR_NEW_NOTHROW(NeedsToAlign) \
+      void* operator new(std::size_t size, const std::nothrow_t&) HYDRA_EIGEN_NO_THROW { \
+        HYDRA_EIGEN_TRY { return HYDRA_EXTERNAL_NS::Eigen::internal::conditional_aligned_malloc<NeedsToAlign>(size); } \
+        HYDRA_EIGEN_CATCH (...) { return 0; } \
       }
-  #define EIGEN_MAKE_ALIGNED_OPERATOR_NEW_IF(NeedsToAlign) \
+  #define HYDRA_EIGEN_MAKE_ALIGNED_OPERATOR_NEW_IF(NeedsToAlign) \
       void *operator new(std::size_t size) { \
         return HYDRA_EXTERNAL_NS::Eigen::internal::conditional_aligned_malloc<NeedsToAlign>(size); \
       } \
       void *operator new[](std::size_t size) { \
         return HYDRA_EXTERNAL_NS::Eigen::internal::conditional_aligned_malloc<NeedsToAlign>(size); \
       } \
-      void operator delete(void * ptr) EIGEN_NO_THROW { HYDRA_EXTERNAL_NS::Eigen::internal::conditional_aligned_free<NeedsToAlign>(ptr); } \
-      void operator delete[](void * ptr) EIGEN_NO_THROW { HYDRA_EXTERNAL_NS::Eigen::internal::conditional_aligned_free<NeedsToAlign>(ptr); } \
-      void operator delete(void * ptr, std::size_t /* sz */) EIGEN_NO_THROW { HYDRA_EXTERNAL_NS::Eigen::internal::conditional_aligned_free<NeedsToAlign>(ptr); } \
-      void operator delete[](void * ptr, std::size_t /* sz */) EIGEN_NO_THROW { HYDRA_EXTERNAL_NS::Eigen::internal::conditional_aligned_free<NeedsToAlign>(ptr); } \
+      void operator delete(void * ptr) HYDRA_EIGEN_NO_THROW { HYDRA_EXTERNAL_NS::Eigen::internal::conditional_aligned_free<NeedsToAlign>(ptr); } \
+      void operator delete[](void * ptr) HYDRA_EIGEN_NO_THROW { HYDRA_EXTERNAL_NS::Eigen::internal::conditional_aligned_free<NeedsToAlign>(ptr); } \
+      void operator delete(void * ptr, std::size_t /* sz */) HYDRA_EIGEN_NO_THROW { HYDRA_EXTERNAL_NS::Eigen::internal::conditional_aligned_free<NeedsToAlign>(ptr); } \
+      void operator delete[](void * ptr, std::size_t /* sz */) HYDRA_EIGEN_NO_THROW { HYDRA_EXTERNAL_NS::Eigen::internal::conditional_aligned_free<NeedsToAlign>(ptr); } \
       /* in-place new and delete. since (at least afaik) there is no actual   */ \
       /* memory allocated we can safely let the default implementation handle */ \
       /* this particular case. */ \
       static void *operator new(std::size_t size, void *ptr) { return ::operator new(size,ptr); } \
       static void *operator new[](std::size_t size, void* ptr) { return ::operator new[](size,ptr); } \
-      void operator delete(void * memory, void *ptr) EIGEN_NO_THROW { return ::operator delete(memory,ptr); } \
-      void operator delete[](void * memory, void *ptr) EIGEN_NO_THROW { return ::operator delete[](memory,ptr); } \
+      void operator delete(void * memory, void *ptr) HYDRA_EIGEN_NO_THROW { return ::operator delete(memory,ptr); } \
+      void operator delete[](void * memory, void *ptr) HYDRA_EIGEN_NO_THROW { return ::operator delete[](memory,ptr); } \
       /* nothrow-new (returns zero instead of std::bad_alloc) */ \
-      EIGEN_MAKE_ALIGNED_OPERATOR_NEW_NOTHROW(NeedsToAlign) \
-      void operator delete(void *ptr, const std::nothrow_t&) EIGEN_NO_THROW { \
+      HYDRA_EIGEN_MAKE_ALIGNED_OPERATOR_NEW_NOTHROW(NeedsToAlign) \
+      void operator delete(void *ptr, const std::nothrow_t&) HYDRA_EIGEN_NO_THROW { \
         HYDRA_EXTERNAL_NS::Eigen::internal::conditional_aligned_free<NeedsToAlign>(ptr); \
       } \
       typedef void eigen_aligned_operator_new_marker_type;
 #else
-  #define EIGEN_MAKE_ALIGNED_OPERATOR_NEW_IF(NeedsToAlign)
+  #define HYDRA_EIGEN_MAKE_ALIGNED_OPERATOR_NEW_IF(NeedsToAlign)
 #endif
 
-#define EIGEN_MAKE_ALIGNED_OPERATOR_NEW EIGEN_MAKE_ALIGNED_OPERATOR_NEW_IF(true)
-#define EIGEN_MAKE_ALIGNED_OPERATOR_NEW_IF_VECTORIZABLE_FIXED_SIZE(Scalar,Size) \
-  EIGEN_MAKE_ALIGNED_OPERATOR_NEW_IF(bool(((Size)!=HYDRA_EXTERNAL_NS::Eigen::Dynamic) && ((sizeof(Scalar)*(Size))%EIGEN_MAX_ALIGN_BYTES==0)))
+#define HYDRA_EIGEN_MAKE_ALIGNED_OPERATOR_NEW HYDRA_EIGEN_MAKE_ALIGNED_OPERATOR_NEW_IF(true)
+#define HYDRA_EIGEN_MAKE_ALIGNED_OPERATOR_NEW_IF_VECTORIZABLE_FIXED_SIZE(Scalar,Size) \
+  HYDRA_EIGEN_MAKE_ALIGNED_OPERATOR_NEW_IF(bool(((Size)!=HYDRA_EXTERNAL_NS::Eigen::Dynamic) && ((sizeof(Scalar)*(Size))%HYDRA_EIGEN_MAX_ALIGN_BYTES==0)))
 
 /****************************************************************************/
 
@@ -750,32 +750,32 @@ public:
 
 //---------- Cache sizes ----------
 
-#if !defined(EIGEN_NO_CPUID)
-#  if EIGEN_COMP_GNUC && EIGEN_ARCH_i386_OR_x86_64
-#    if defined(__PIC__) && EIGEN_ARCH_i386
+#if !defined(HYDRA_EIGEN_NO_CPUID)
+#  if HYDRA_EIGEN_COMP_GNUC && HYDRA_EIGEN_ARCH_i386_OR_x86_64
+#    if defined(__PIC__) && HYDRA_EIGEN_ARCH_i386
        // Case for x86 with PIC
-#      define EIGEN_CPUID(abcd,func,id) \
+#      define HYDRA_EIGEN_CPUID(abcd,func,id) \
          __asm__ __volatile__ ("xchgl %%ebx, %k1;cpuid; xchgl %%ebx,%k1": "=a" (abcd[0]), "=&r" (abcd[1]), "=c" (abcd[2]), "=d" (abcd[3]) : "a" (func), "c" (id));
-#    elif defined(__PIC__) && EIGEN_ARCH_x86_64
+#    elif defined(__PIC__) && HYDRA_EIGEN_ARCH_x86_64
        // Case for x64 with PIC. In theory this is only a problem with recent gcc and with medium or large code model, not with the default small code model.
        // However, we cannot detect which code model is used, and the xchg overhead is negligible anyway.
-#      define EIGEN_CPUID(abcd,func,id) \
+#      define HYDRA_EIGEN_CPUID(abcd,func,id) \
         __asm__ __volatile__ ("xchg{q}\t{%%}rbx, %q1; cpuid; xchg{q}\t{%%}rbx, %q1": "=a" (abcd[0]), "=&r" (abcd[1]), "=c" (abcd[2]), "=d" (abcd[3]) : "0" (func), "2" (id));
 #    else
        // Case for x86_64 or x86 w/o PIC
-#      define EIGEN_CPUID(abcd,func,id) \
+#      define HYDRA_EIGEN_CPUID(abcd,func,id) \
          __asm__ __volatile__ ("cpuid": "=a" (abcd[0]), "=b" (abcd[1]), "=c" (abcd[2]), "=d" (abcd[3]) : "0" (func), "2" (id) );
 #    endif
-#  elif EIGEN_COMP_MSVC
-#    if (EIGEN_COMP_MSVC > 1500) && EIGEN_ARCH_i386_OR_x86_64
-#      define EIGEN_CPUID(abcd,func,id) __cpuidex((int*)abcd,func,id)
+#  elif HYDRA_EIGEN_COMP_MSVC
+#    if (HYDRA_EIGEN_COMP_MSVC > 1500) && HYDRA_EIGEN_ARCH_i386_OR_x86_64
+#      define HYDRA_EIGEN_CPUID(abcd,func,id) __cpuidex((int*)abcd,func,id)
 #    endif
 #  endif
 #endif
 
 namespace internal {
 
-#ifdef EIGEN_CPUID
+#ifdef HYDRA_EIGEN_CPUID
 
 inline bool cpuid_is_vendor(int abcd[4], const int vendor[3])
 {
@@ -790,7 +790,7 @@ inline void queryCacheSizes_intel_direct(int& l1, int& l2, int& l3)
   int cache_type = 0;
   do {
     abcd[0] = abcd[1] = abcd[2] = abcd[3] = 0;
-    EIGEN_CPUID(abcd,0x4,cache_id);
+    HYDRA_EIGEN_CPUID(abcd,0x4,cache_id);
     cache_type  = (abcd[0] & 0x0F) >> 0;
     if(cache_type==1||cache_type==3) // data or unified cache
     {
@@ -819,7 +819,7 @@ inline void queryCacheSizes_intel_codes(int& l1, int& l2, int& l3)
   int abcd[4];
   abcd[0] = abcd[1] = abcd[2] = abcd[3] = 0;
   l1 = l2 = l3 = 0;
-  EIGEN_CPUID(abcd,0x00000002,0);
+  HYDRA_EIGEN_CPUID(abcd,0x00000002,0);
   unsigned char * bytes = reinterpret_cast<unsigned char *>(abcd)+2;
   bool check_for_p2_core2 = false;
   for(int i=0; i<14; ++i)
@@ -906,10 +906,10 @@ inline void queryCacheSizes_amd(int& l1, int& l2, int& l3)
 {
   int abcd[4];
   abcd[0] = abcd[1] = abcd[2] = abcd[3] = 0;
-  EIGEN_CPUID(abcd,0x80000005,0);
+  HYDRA_EIGEN_CPUID(abcd,0x80000005,0);
   l1 = (abcd[2] >> 24) * 1024; // C[31:24] = L1 size in KB
   abcd[0] = abcd[1] = abcd[2] = abcd[3] = 0;
-  EIGEN_CPUID(abcd,0x80000006,0);
+  HYDRA_EIGEN_CPUID(abcd,0x80000006,0);
   l2 = (abcd[2] >> 16) * 1024; // C[31;16] = l2 cache size in KB
   l3 = ((abcd[3] & 0xFFFC000) >> 18) * 512 * 1024; // D[31;18] = l3 cache size in 512KB
 }
@@ -919,14 +919,14 @@ inline void queryCacheSizes_amd(int& l1, int& l2, int& l3)
  * Queries and returns the cache sizes in Bytes of the L1, L2, and L3 data caches respectively */
 inline void queryCacheSizes(int& l1, int& l2, int& l3)
 {
-  #ifdef EIGEN_CPUID
+  #ifdef HYDRA_EIGEN_CPUID
   int abcd[4];
   const int GenuineIntel[] = {0x756e6547, 0x49656e69, 0x6c65746e};
   const int AuthenticAMD[] = {0x68747541, 0x69746e65, 0x444d4163};
   const int AMDisbetter_[] = {0x69444d41, 0x74656273, 0x21726574}; // "AMDisbetter!"
 
   // identify the CPU vendor
-  EIGEN_CPUID(abcd,0x0,0);
+  HYDRA_EIGEN_CPUID(abcd,0x0,0);
   int max_std_funcs = abcd[1];
   if(cpuid_is_vendor(abcd,GenuineIntel))
     queryCacheSizes_intel(l1,l2,l3,max_std_funcs);
@@ -974,4 +974,4 @@ inline int queryTopLevelCacheSize()
 
 } /* end namespace Eigen */  HYDRA_EXTERNAL_NAMESPACE_END
 
-#endif // EIGEN_MEMORY_H
+#endif // HYDRA_EIGEN_MEMORY_H

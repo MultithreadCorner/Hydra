@@ -31,6 +31,12 @@
 #define DOUBLE_GAUSSIAN_PLUS_EXPONENTIAL_INL_
 
 
+/**
+ * \example double_gaussian_plus_exponential.inl
+ *
+ */
+
+
 #include <iostream>
 #include <assert.h>
 #include <time.h>

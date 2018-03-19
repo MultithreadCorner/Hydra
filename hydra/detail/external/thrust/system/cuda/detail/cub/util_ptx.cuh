@@ -84,7 +84,7 @@ namespace cub {
 /**
  * \brief Shift-right then add.  Returns (\p x >> \p shift) + \p addend.
  */
-__device__ __forceinline__ unsigned int SHR_ADD(
+__hydra_device__ __forceinline__ unsigned int SHR_ADD(
     unsigned int x,
     unsigned int shift,
     unsigned int addend)
@@ -103,7 +103,7 @@ __device__ __forceinline__ unsigned int SHR_ADD(
 /**
  * \brief Shift-left then add.  Returns (\p x << \p shift) + \p addend.
  */
-__device__ __forceinline__ unsigned int SHL_ADD(
+__hydra_device__ __forceinline__ unsigned int SHL_ADD(
     unsigned int x,
     unsigned int shift,
     unsigned int addend)
@@ -124,7 +124,7 @@ __device__ __forceinline__ unsigned int SHL_ADD(
  * Bitfield-extract.
  */
 template <typename UnsignedBits, int BYTE_LEN>
-__device__ __forceinline__ unsigned int BFE(
+__hydra_device__ __forceinline__ unsigned int BFE(
     UnsignedBits            source,
     unsigned int            bit_start,
     unsigned int            num_bits,
@@ -145,7 +145,7 @@ __device__ __forceinline__ unsigned int BFE(
  * Bitfield-extract for 64-bit types.
  */
 template <typename UnsignedBits>
-__device__ __forceinline__ unsigned int BFE(
+__hydra_device__ __forceinline__ unsigned int BFE(
     UnsignedBits            source,
     unsigned int            bit_start,
     unsigned int            num_bits,
@@ -161,7 +161,7 @@ __device__ __forceinline__ unsigned int BFE(
  * \brief Bitfield-extract.  Extracts \p num_bits from \p source starting at bit-offset \p bit_start.  The input \p source may be an 8b, 16b, 32b, or 64b unsigned integer type.
  */
 template <typename UnsignedBits>
-__device__ __forceinline__ unsigned int BFE(
+__hydra_device__ __forceinline__ unsigned int BFE(
     UnsignedBits source,
     unsigned int bit_start,
     unsigned int num_bits)
@@ -173,7 +173,7 @@ __device__ __forceinline__ unsigned int BFE(
 /**
  * \brief Bitfield insert.  Inserts the \p num_bits least significant bits of \p y into \p x at bit-offset \p bit_start.
  */
-__device__ __forceinline__ void BFI(
+__hydra_device__ __forceinline__ void BFI(
     unsigned int &ret,
     unsigned int x,
     unsigned int y,
@@ -195,7 +195,7 @@ __device__ __forceinline__ void BFI(
 /**
  * \brief Three-operand add.  Returns \p x + \p y + \p z.
  */
-__device__ __forceinline__ unsigned int IADD3(unsigned int x, unsigned int y, unsigned int z)
+__hydra_device__ __forceinline__ unsigned int IADD3(unsigned int x, unsigned int y, unsigned int z)
 {
 #if CUB_PTX_ARCH >= 200
     asm ("vadd.u32.u32.u32.add %0, %1, %2, %3;" : "=r"(x) : "r"(x), "r"(y), "r"(z));
@@ -232,7 +232,7 @@ __device__ __forceinline__ unsigned int IADD3(unsigned int x, unsigned int y, un
  * \endcode
  *
  */
-__device__ __forceinline__ int PRMT(unsigned int a, unsigned int b, unsigned int index)
+__hydra_device__ __forceinline__ int PRMT(unsigned int a, unsigned int b, unsigned int index)
 {
     int ret;
     asm ("prmt.b32 %0, %1, %2, %3;" : "=r"(ret) : "r"(a), "r"(b), "r"(index));
@@ -244,7 +244,7 @@ __device__ __forceinline__ int PRMT(unsigned int a, unsigned int b, unsigned int
 /**
  * Sync-threads barrier.
  */
-__device__ __forceinline__ void BAR(int count)
+__hydra_device__ __forceinline__ void BAR(int count)
 {
     asm volatile("bar.sync 1, %0;" : : "r"(count));
 }
@@ -252,7 +252,7 @@ __device__ __forceinline__ void BAR(int count)
 /**
  * CTA barrier
  */
-__device__  __forceinline__ void CTA_SYNC()
+__hydra_device__  __forceinline__ void CTA_SYNC()
 {
     __syncthreads();
 }
@@ -261,7 +261,7 @@ __device__  __forceinline__ void CTA_SYNC()
 /**
  * CTA barrier with predicate
  */
-__device__  __forceinline__ int CTA_SYNC_AND(int p)
+__hydra_device__  __forceinline__ int CTA_SYNC_AND(int p)
 {
     return __syncthreads_and(p);
 }
@@ -270,7 +270,7 @@ __device__  __forceinline__ int CTA_SYNC_AND(int p)
 /**
  * Warp barrier
  */
-__device__  __forceinline__ void WARP_SYNC(unsigned int member_mask)
+__hydra_device__  __forceinline__ void WARP_SYNC(unsigned int member_mask)
 {
 #ifdef CUB_USE_COOPERATIVE_GROUPS
     __syncwarp(member_mask);
@@ -281,7 +281,7 @@ __device__  __forceinline__ void WARP_SYNC(unsigned int member_mask)
 /**
  * Warp any
  */
-__device__  __forceinline__ int WARP_ANY(int predicate, unsigned int member_mask)
+__hydra_device__  __forceinline__ int WARP_ANY(int predicate, unsigned int member_mask)
 {
 #ifdef CUB_USE_COOPERATIVE_GROUPS
     return __any_sync(member_mask, predicate);
@@ -294,7 +294,7 @@ __device__  __forceinline__ int WARP_ANY(int predicate, unsigned int member_mask
 /**
  * Warp any
  */
-__device__  __forceinline__ int WARP_ALL(int predicate, unsigned int member_mask)
+__hydra_device__  __forceinline__ int WARP_ALL(int predicate, unsigned int member_mask)
 {
 #ifdef CUB_USE_COOPERATIVE_GROUPS
     return __all_sync(member_mask, predicate);
@@ -307,7 +307,7 @@ __device__  __forceinline__ int WARP_ALL(int predicate, unsigned int member_mask
 /**
  * Warp ballot
  */
-__device__  __forceinline__ int WARP_BALLOT(int predicate, unsigned int member_mask)
+__hydra_device__  __forceinline__ int WARP_BALLOT(int predicate, unsigned int member_mask)
 {
 #ifdef CUB_USE_COOPERATIVE_GROUPS
     return __ballot_sync(member_mask, predicate);
@@ -319,7 +319,7 @@ __device__  __forceinline__ int WARP_BALLOT(int predicate, unsigned int member_m
 /**
  * Warp synchronous shfl_up
  */
-__device__ __forceinline__ 
+__hydra_device__ __forceinline__ 
 unsigned int SHFL_UP_SYNC(unsigned int word, int src_offset, int first_lane, unsigned int member_mask)
 {
 #ifdef CUB_USE_COOPERATIVE_GROUPS
@@ -335,7 +335,7 @@ unsigned int SHFL_UP_SYNC(unsigned int word, int src_offset, int first_lane, uns
 /**
  * Warp synchronous shfl_down
  */
-__device__ __forceinline__ 
+__hydra_device__ __forceinline__ 
 unsigned int SHFL_DOWN_SYNC(unsigned int word, int src_offset, int last_lane, unsigned int member_mask)
 {
 #ifdef CUB_USE_COOPERATIVE_GROUPS
@@ -351,7 +351,7 @@ unsigned int SHFL_DOWN_SYNC(unsigned int word, int src_offset, int last_lane, un
 /**
  * Warp synchronous shfl_idx
  */
-__device__ __forceinline__ 
+__hydra_device__ __forceinline__ 
 unsigned int SHFL_IDX_SYNC(unsigned int word, int src_lane, int last_lane, unsigned int member_mask)
 {
 #ifdef CUB_USE_COOPERATIVE_GROUPS
@@ -367,7 +367,7 @@ unsigned int SHFL_IDX_SYNC(unsigned int word, int src_lane, int last_lane, unsig
 /**
  * Floating point multiply. (Mantissa LSB rounds towards zero.)
  */
-__device__ __forceinline__ float FMUL_RZ(float a, float b)
+__hydra_device__ __forceinline__ float FMUL_RZ(float a, float b)
 {
     float d;
     asm ("mul.rz.f32 %0, %1, %2;" : "=f"(d) : "f"(a), "f"(b));
@@ -378,7 +378,7 @@ __device__ __forceinline__ float FMUL_RZ(float a, float b)
 /**
  * Floating point multiply-add. (Mantissa LSB rounds towards zero.)
  */
-__device__ __forceinline__ float FFMA_RZ(float a, float b, float c)
+__hydra_device__ __forceinline__ float FFMA_RZ(float a, float b, float c)
 {
     float d;
     asm ("fma.rz.f32 %0, %1, %2, %3;" : "=f"(d) : "f"(a), "f"(b), "f"(c));
@@ -390,7 +390,7 @@ __device__ __forceinline__ float FFMA_RZ(float a, float b, float c)
 /**
  * \brief Terminates the calling thread
  */
-__device__ __forceinline__ void ThreadExit() {
+__hydra_device__ __forceinline__ void ThreadExit() {
     asm volatile("exit;");
 }    
 
@@ -398,7 +398,7 @@ __device__ __forceinline__ void ThreadExit() {
 /**
  * \brief  Abort execution and generate an interrupt to the host CPU
  */
-__device__ __forceinline__ void ThreadTrap() {
+__hydra_device__ __forceinline__ void ThreadTrap() {
     asm volatile("trap;");
 }
 
@@ -406,7 +406,7 @@ __device__ __forceinline__ void ThreadTrap() {
 /**
  * \brief Returns the row-major linear thread identifier for a multidimensional thread block
  */
-__device__ __forceinline__ int RowMajorTid(int block_dim_x, int block_dim_y, int block_dim_z)
+__hydra_device__ __forceinline__ int RowMajorTid(int block_dim_x, int block_dim_y, int block_dim_z)
 {
     return ((block_dim_z == 1) ? 0 : (threadIdx.z * block_dim_x * block_dim_y)) +
             ((block_dim_y == 1) ? 0 : (threadIdx.y * block_dim_x)) +
@@ -417,7 +417,7 @@ __device__ __forceinline__ int RowMajorTid(int block_dim_x, int block_dim_y, int
 /**
  * \brief Returns the warp lane ID of the calling thread
  */
-__device__ __forceinline__ unsigned int LaneId()
+__hydra_device__ __forceinline__ unsigned int LaneId()
 {
     unsigned int ret;
     asm ("mov.u32 %0, %%laneid;" : "=r"(ret) );
@@ -428,7 +428,7 @@ __device__ __forceinline__ unsigned int LaneId()
 /**
  * \brief Returns the warp ID of the calling thread.  Warp ID is guaranteed to be unique among warps, but may not correspond to a zero-based ranking within the thread block.
  */
-__device__ __forceinline__ unsigned int WarpId()
+__hydra_device__ __forceinline__ unsigned int WarpId()
 {
     unsigned int ret;
     asm ("mov.u32 %0, %%warpid;" : "=r"(ret) );
@@ -438,7 +438,7 @@ __device__ __forceinline__ unsigned int WarpId()
 /**
  * \brief Returns the warp lane mask of all lanes less than the calling thread
  */
-__device__ __forceinline__ unsigned int LaneMaskLt()
+__hydra_device__ __forceinline__ unsigned int LaneMaskLt()
 {
     unsigned int ret;
     asm ("mov.u32 %0, %%lanemask_lt;" : "=r"(ret) );
@@ -448,7 +448,7 @@ __device__ __forceinline__ unsigned int LaneMaskLt()
 /**
  * \brief Returns the warp lane mask of all lanes less than or equal to the calling thread
  */
-__device__ __forceinline__ unsigned int LaneMaskLe()
+__hydra_device__ __forceinline__ unsigned int LaneMaskLe()
 {
     unsigned int ret;
     asm ("mov.u32 %0, %%lanemask_le;" : "=r"(ret) );
@@ -458,7 +458,7 @@ __device__ __forceinline__ unsigned int LaneMaskLe()
 /**
  * \brief Returns the warp lane mask of all lanes greater than the calling thread
  */
-__device__ __forceinline__ unsigned int LaneMaskGt()
+__hydra_device__ __forceinline__ unsigned int LaneMaskGt()
 {
     unsigned int ret;
     asm ("mov.u32 %0, %%lanemask_gt;" : "=r"(ret) );
@@ -468,7 +468,7 @@ __device__ __forceinline__ unsigned int LaneMaskGt()
 /**
  * \brief Returns the warp lane mask of all lanes greater than or equal to the calling thread
  */
-__device__ __forceinline__ unsigned int LaneMaskGe()
+__hydra_device__ __forceinline__ unsigned int LaneMaskGe()
 {
     unsigned int ret;
     asm ("mov.u32 %0, %%lanemask_ge;" : "=r"(ret) );
@@ -509,7 +509,7 @@ __device__ __forceinline__ unsigned int LaneMaskGe()
  *
  */
 template <typename T>
-__device__ __forceinline__ T ShuffleUp(
+__hydra_device__ __forceinline__ T ShuffleUp(
     T               input,              ///< [in] The value to broadcast
     int             src_offset,         ///< [in] The relative down-offset of the peer to read from
     int             first_lane,         ///< [in] Index of first lane in segment (typically 0)
@@ -567,7 +567,7 @@ __device__ __forceinline__ T ShuffleUp(
  *
  */
 template <typename T>
-__device__ __forceinline__ T ShuffleDown(
+__hydra_device__ __forceinline__ T ShuffleDown(
     T               input,              ///< [in] The value to broadcast
     int             src_offset,         ///< [in] The relative up-offset of the peer to read from
     int             last_lane,          ///< [in] Index of first lane in segment (typically 31)
@@ -628,7 +628,7 @@ __device__ __forceinline__ T ShuffleDown(
  *
  */
 template <typename T>
-__device__ __forceinline__ T ShuffleIndex(
+__hydra_device__ __forceinline__ T ShuffleIndex(
     T               input,                  ///< [in] The value to broadcast
     int             src_lane,               ///< [in] Which warp lane is to do the broadcasting
     int             logical_warp_threads,   ///< [in] Number of threads per logical warp
@@ -671,7 +671,7 @@ __device__ __forceinline__ T ShuffleIndex(
  * LABEL_BITS of \p label as the calling thread.
  */
 template <int LABEL_BITS>
-inline __device__ unsigned int MatchAny(unsigned int label)
+inline __hydra_device__ unsigned int MatchAny(unsigned int label)
 {
     unsigned int retval;
 

@@ -32,7 +32,7 @@ template<std::size_t bound,
          typename RandomAccessIterator,
          typename T,
          typename BinaryFunction>
-__forceinline__ __device__
+__forceinline__ __hydra_device__
 T accumulate(const bounded<bound,bulk::agent<grainsize> > &exec,
              RandomAccessIterator first,
              RandomAccessIterator last,
@@ -64,7 +64,7 @@ namespace accumulate_detail
 // XXX this implementation is simply an inplace inclusive scan
 //     we could potentially do better with an implementation which uses Sean's bitfield reverse trick
 template<typename ConcurrentGroup, typename RandomAccessIterator, typename Size, typename T, typename BinaryFunction>
-__device__ T destructive_accumulate_n(ConcurrentGroup &g, RandomAccessIterator first, Size n, T init, BinaryFunction binary_op)
+__hydra_device__ T destructive_accumulate_n(ConcurrentGroup &g, RandomAccessIterator first, Size n, T init, BinaryFunction binary_op)
 {
   typedef typename ConcurrentGroup::size_type size_type;
 
@@ -117,7 +117,7 @@ struct buffer
 
 
 template<std::size_t groupsize, std::size_t grainsize, typename RandomAccessIterator, typename T, typename BinaryFunction>
-__device__
+__hydra_device__
 T accumulate(bulk::concurrent_group<bulk::agent<grainsize>,groupsize> &g,
              RandomAccessIterator first,
              RandomAccessIterator last,
@@ -196,7 +196,7 @@ T accumulate(bulk::concurrent_group<bulk::agent<grainsize>,groupsize> &g,
 
 
 template<std::size_t groupsize, std::size_t grainsize, typename RandomAccessIterator, typename T, typename BinaryFunction>
-__device__
+__hydra_device__
 T accumulate(bulk::concurrent_group<bulk::agent<grainsize>, groupsize> &g,
              RandomAccessIterator first,
              RandomAccessIterator last,

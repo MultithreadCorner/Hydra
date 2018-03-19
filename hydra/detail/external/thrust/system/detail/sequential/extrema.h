@@ -40,7 +40,7 @@ __thrust_exec_check_disable__
 template<typename DerivedPolicy,
          typename ForwardIterator,
          typename BinaryPredicate>
-__host__ __device__
+__hydra_host__ __hydra_device__
 ForwardIterator min_element(sequential::execution_policy<DerivedPolicy> &,
                             ForwardIterator first, 
                             ForwardIterator last,
@@ -70,7 +70,7 @@ __thrust_exec_check_disable__
 template<typename DerivedPolicy,
          typename ForwardIterator,
          typename BinaryPredicate>
-__host__ __device__
+__hydra_host__ __hydra_device__
 ForwardIterator max_element(sequential::execution_policy<DerivedPolicy> &,
                             ForwardIterator first, 
                             ForwardIterator last,
@@ -100,7 +100,7 @@ __thrust_exec_check_disable__
 template<typename DerivedPolicy,
          typename ForwardIterator,
          typename BinaryPredicate>
-__host__ __device__
+__hydra_host__ __hydra_device__
 thrust::pair<ForwardIterator,ForwardIterator> minmax_element(sequential::execution_policy<DerivedPolicy> &,
                                                              ForwardIterator first, 
                                                              ForwardIterator last,

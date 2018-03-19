@@ -7,8 +7,8 @@
 // Public License v. 2.0. If a copy of the MPL was not distributed
 // with this file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
-#ifndef EIGEN_ARRAYWRAPPER_H
-#define EIGEN_ARRAYWRAPPER_H
+#ifndef HYDRA_EIGEN_ARRAYWRAPPER_H
+#define HYDRA_EIGEN_ARRAYWRAPPER_H
 
 HYDRA_EXTERNAL_NAMESPACE_BEGIN namespace Eigen { 
 
@@ -43,8 +43,8 @@ class ArrayWrapper : public ArrayBase<ArrayWrapper<ExpressionType> >
 {
   public:
     typedef ArrayBase<ArrayWrapper> Base;
-    EIGEN_DENSE_PUBLIC_INTERFACE(ArrayWrapper)
-    EIGEN_INHERIT_ASSIGNMENT_OPERATORS(ArrayWrapper)
+    HYDRA_EIGEN_DENSE_PUBLIC_INTERFACE(ArrayWrapper)
+    HYDRA_EIGEN_INHERIT_ASSIGNMENT_OPERATORS(ArrayWrapper)
     typedef typename internal::remove_all<ExpressionType>::type NestedExpression;
 
     typedef typename internal::conditional<
@@ -57,41 +57,41 @@ class ArrayWrapper : public ArrayBase<ArrayWrapper<ExpressionType> >
 
     using Base::coeffRef;
 
-    EIGEN_DEVICE_FUNC
-    explicit EIGEN_STRONG_INLINE ArrayWrapper(ExpressionType& matrix) : m_expression(matrix) {}
+    HYDRA_EIGEN_DEVICE_FUNC
+    explicit HYDRA_EIGEN_STRONG_INLINE ArrayWrapper(ExpressionType& matrix) : m_expression(matrix) {}
 
-    EIGEN_DEVICE_FUNC
+    HYDRA_EIGEN_DEVICE_FUNC
     inline Index rows() const { return m_expression.rows(); }
-    EIGEN_DEVICE_FUNC
+    HYDRA_EIGEN_DEVICE_FUNC
     inline Index cols() const { return m_expression.cols(); }
-    EIGEN_DEVICE_FUNC
+    HYDRA_EIGEN_DEVICE_FUNC
     inline Index outerStride() const { return m_expression.outerStride(); }
-    EIGEN_DEVICE_FUNC
+    HYDRA_EIGEN_DEVICE_FUNC
     inline Index innerStride() const { return m_expression.innerStride(); }
 
-    EIGEN_DEVICE_FUNC
+    HYDRA_EIGEN_DEVICE_FUNC
     inline ScalarWithConstIfNotLvalue* data() { return m_expression.data(); }
-    EIGEN_DEVICE_FUNC
+    HYDRA_EIGEN_DEVICE_FUNC
     inline const Scalar* data() const { return m_expression.data(); }
 
-    EIGEN_DEVICE_FUNC
+    HYDRA_EIGEN_DEVICE_FUNC
     inline const Scalar& coeffRef(Index rowId, Index colId) const
     {
       return m_expression.coeffRef(rowId, colId);
     }
 
-    EIGEN_DEVICE_FUNC
+    HYDRA_EIGEN_DEVICE_FUNC
     inline const Scalar& coeffRef(Index index) const
     {
       return m_expression.coeffRef(index);
     }
 
     template<typename Dest>
-    EIGEN_DEVICE_FUNC
+    HYDRA_EIGEN_DEVICE_FUNC
     inline void evalTo(Dest& dst) const { dst = m_expression; }
 
     const typename internal::remove_all<NestedExpressionType>::type& 
-    EIGEN_DEVICE_FUNC
+    HYDRA_EIGEN_DEVICE_FUNC
     nestedExpression() const 
     {
       return m_expression;
@@ -99,11 +99,11 @@ class ArrayWrapper : public ArrayBase<ArrayWrapper<ExpressionType> >
 
     /** Forwards the resizing request to the nested expression
       * \sa DenseBase::resize(Index)  */
-    EIGEN_DEVICE_FUNC
+    HYDRA_EIGEN_DEVICE_FUNC
     void resize(Index newSize) { m_expression.resize(newSize); }
     /** Forwards the resizing request to the nested expression
       * \sa DenseBase::resize(Index,Index)*/
-    EIGEN_DEVICE_FUNC
+    HYDRA_EIGEN_DEVICE_FUNC
     void resize(Index rows, Index cols) { m_expression.resize(rows,cols); }
 
   protected:
@@ -141,8 +141,8 @@ class MatrixWrapper : public MatrixBase<MatrixWrapper<ExpressionType> >
 {
   public:
     typedef MatrixBase<MatrixWrapper<ExpressionType> > Base;
-    EIGEN_DENSE_PUBLIC_INTERFACE(MatrixWrapper)
-    EIGEN_INHERIT_ASSIGNMENT_OPERATORS(MatrixWrapper)
+    HYDRA_EIGEN_DENSE_PUBLIC_INTERFACE(MatrixWrapper)
+    HYDRA_EIGEN_INHERIT_ASSIGNMENT_OPERATORS(MatrixWrapper)
     typedef typename internal::remove_all<ExpressionType>::type NestedExpression;
 
     typedef typename internal::conditional<
@@ -155,36 +155,36 @@ class MatrixWrapper : public MatrixBase<MatrixWrapper<ExpressionType> >
 
     using Base::coeffRef;
 
-    EIGEN_DEVICE_FUNC
+    HYDRA_EIGEN_DEVICE_FUNC
     explicit inline MatrixWrapper(ExpressionType& matrix) : m_expression(matrix) {}
 
-    EIGEN_DEVICE_FUNC
+    HYDRA_EIGEN_DEVICE_FUNC
     inline Index rows() const { return m_expression.rows(); }
-    EIGEN_DEVICE_FUNC
+    HYDRA_EIGEN_DEVICE_FUNC
     inline Index cols() const { return m_expression.cols(); }
-    EIGEN_DEVICE_FUNC
+    HYDRA_EIGEN_DEVICE_FUNC
     inline Index outerStride() const { return m_expression.outerStride(); }
-    EIGEN_DEVICE_FUNC
+    HYDRA_EIGEN_DEVICE_FUNC
     inline Index innerStride() const { return m_expression.innerStride(); }
 
-    EIGEN_DEVICE_FUNC
+    HYDRA_EIGEN_DEVICE_FUNC
     inline ScalarWithConstIfNotLvalue* data() { return m_expression.data(); }
-    EIGEN_DEVICE_FUNC
+    HYDRA_EIGEN_DEVICE_FUNC
     inline const Scalar* data() const { return m_expression.data(); }
 
-    EIGEN_DEVICE_FUNC
+    HYDRA_EIGEN_DEVICE_FUNC
     inline const Scalar& coeffRef(Index rowId, Index colId) const
     {
       return m_expression.derived().coeffRef(rowId, colId);
     }
 
-    EIGEN_DEVICE_FUNC
+    HYDRA_EIGEN_DEVICE_FUNC
     inline const Scalar& coeffRef(Index index) const
     {
       return m_expression.coeffRef(index);
     }
 
-    EIGEN_DEVICE_FUNC
+    HYDRA_EIGEN_DEVICE_FUNC
     const typename internal::remove_all<NestedExpressionType>::type& 
     nestedExpression() const 
     {
@@ -193,11 +193,11 @@ class MatrixWrapper : public MatrixBase<MatrixWrapper<ExpressionType> >
 
     /** Forwards the resizing request to the nested expression
       * \sa DenseBase::resize(Index)  */
-    EIGEN_DEVICE_FUNC
+    HYDRA_EIGEN_DEVICE_FUNC
     void resize(Index newSize) { m_expression.resize(newSize); }
     /** Forwards the resizing request to the nested expression
       * \sa DenseBase::resize(Index,Index)*/
-    EIGEN_DEVICE_FUNC
+    HYDRA_EIGEN_DEVICE_FUNC
     void resize(Index rows, Index cols) { m_expression.resize(rows,cols); }
 
   protected:
@@ -206,4 +206,4 @@ class MatrixWrapper : public MatrixBase<MatrixWrapper<ExpressionType> >
 
 } /* end namespace Eigen */  HYDRA_EXTERNAL_NAMESPACE_END
 
-#endif // EIGEN_ARRAYWRAPPER_H
+#endif // HYDRA_EIGEN_ARRAYWRAPPER_H

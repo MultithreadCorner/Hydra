@@ -51,7 +51,7 @@ template<typename FromTag, typename ToTag, typename Result>
 
 
 template<typename Tag, typename Iterator>
-__host__ __device__
+__hydra_host__ __hydra_device__
   thrust::detail::tagged_iterator<Iterator,Tag>
     reinterpret_tag(Iterator iter)
 {
@@ -61,7 +61,7 @@ __host__ __device__
 
 // specialization for raw pointer
 template<typename Tag, typename T>
-__host__ __device__
+__hydra_host__ __hydra_device__
   thrust::pointer<T,Tag>
     reinterpret_tag(T *ptr)
 {
@@ -71,7 +71,7 @@ __host__ __device__
 
 // specialization for thrust::pointer
 template<typename Tag, typename T, typename OtherTag, typename Reference, typename Derived>
-__host__ __device__
+__hydra_host__ __hydra_device__
   thrust::pointer<T,Tag>
     reinterpret_tag(thrust::pointer<T,OtherTag,Reference,Derived> ptr)
 {
@@ -81,7 +81,7 @@ __host__ __device__
 
 // avoid deeply-nested tagged_iterator
 template<typename Tag, typename BaseIterator, typename OtherTag>
-__host__ __device__
+__hydra_host__ __hydra_device__
   thrust::detail::tagged_iterator<BaseIterator,Tag>
     reinterpret_tag(thrust::detail::tagged_iterator<BaseIterator,OtherTag> iter)
 {
@@ -90,7 +90,7 @@ __host__ __device__
 
 
 template<typename Tag, typename Iterator>
-__host__ __device__
+__hydra_host__ __hydra_device__
   typename thrust::detail::enable_if_retaggable<
     typename thrust::iterator_system<Iterator>::type,
     Tag,
@@ -104,7 +104,7 @@ __host__ __device__
 
 // specialization for raw pointer
 template<typename Tag, typename T>
-__host__ __device__
+__hydra_host__ __hydra_device__
   typename thrust::detail::enable_if_retaggable<
     typename thrust::iterator_system<T*>::type,
     Tag,
@@ -118,7 +118,7 @@ __host__ __device__
 
 // specialization for thrust::pointer
 template<typename Tag, typename T, typename OtherTag>
-__host__ __device__
+__hydra_host__ __hydra_device__
   typename thrust::detail::enable_if_retaggable<
     OtherTag,
     Tag,
@@ -132,7 +132,7 @@ __host__ __device__
 
 // avoid deeply-nested tagged_iterator
 template<typename Tag, typename BaseIterator, typename OtherTag>
-__host__ __device__
+__hydra_host__ __hydra_device__
   typename thrust::detail::enable_if_retaggable<
     OtherTag,
     Tag,

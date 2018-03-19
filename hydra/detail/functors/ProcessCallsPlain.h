@@ -60,7 +60,7 @@ struct ProcessCallsPlainUnary
 		fFunctor(functor)
 	{}
 
-	__host__ __device__ inline
+	__hydra_host__ __hydra_device__ inline
 	ProcessCallsPlainUnary( ProcessCallsPlainUnary<FUNCTOR,N, GRND> const& other):
 	fSeed(other.fSeed),
 	fXLow(other.fXLow),
@@ -69,7 +69,7 @@ struct ProcessCallsPlainUnary
 	{}
 
 	template<typename GRND2>
-	 __host__ __device__ inline
+	 __hydra_host__ __hydra_device__ inline
 	ProcessCallsPlainUnary( ProcessCallsPlainUnary<FUNCTOR,N, GRND2> const& other):
 	    fSeed(other.fSeed),
 		fXLow(other.fXLow),
@@ -79,7 +79,7 @@ struct ProcessCallsPlainUnary
 
 
 
-	__host__ __device__ inline
+	__hydra_host__ __hydra_device__ inline
 	PlainState operator()(size_t index)
 	 {
 
@@ -123,7 +123,7 @@ struct ProcessCallsPlainBinary
                                      PlainState const&,
                                      PlainState >
 {
-    __host__ __device__ inline
+    __hydra_host__ __hydra_device__ inline
     PlainState operator()(const PlainState& x, const PlainState& y)
     {
     	PlainState result;

@@ -114,7 +114,7 @@ struct BlockReduceRakingCommutativeOnly
 
 
     /// Constructor
-    __device__ __forceinline__ BlockReduceRakingCommutativeOnly(
+    __hydra_device__ __forceinline__ BlockReduceRakingCommutativeOnly(
         TempStorage &temp_storage)
     :
         temp_storage(temp_storage.Alias()),
@@ -124,7 +124,7 @@ struct BlockReduceRakingCommutativeOnly
 
     /// Computes a thread block-wide reduction using addition (+) as the reduction operator. The first num_valid threads each contribute one reduction partial.  The return value is only valid for thread<sub>0</sub>.
     template <bool FULL_TILE>
-    __device__ __forceinline__ T Sum(
+    __hydra_device__ __forceinline__ T Sum(
         T                   partial,            ///< [in] Calling thread's input partial reductions
         int                 num_valid)          ///< [in] Number of valid elements (may be less than BLOCK_THREADS)
     {
@@ -160,7 +160,7 @@ struct BlockReduceRakingCommutativeOnly
     template <
         bool                FULL_TILE,
         typename            ReductionOp>
-    __device__ __forceinline__ T Reduce(
+    __hydra_device__ __forceinline__ T Reduce(
         T                   partial,            ///< [in] Calling thread's input partial reductions
         int                 num_valid,          ///< [in] Number of valid elements (may be less than BLOCK_THREADS)
         ReductionOp         reduction_op)       ///< [in] Binary reduction operator

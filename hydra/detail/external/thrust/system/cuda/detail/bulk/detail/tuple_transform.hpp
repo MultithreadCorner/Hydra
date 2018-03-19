@@ -38,14 +38,14 @@ template<typename Tuple,
          typename UnaryFunction>
   struct tuple_transform_functor<Tuple,UnaryMetaFunction,UnaryFunction,0>
 {
-  static __host__
+  static __hydra_host__
   typename tuple_meta_transform<Tuple,UnaryMetaFunction>::type
   do_it_on_the_host(const Tuple &t, UnaryFunction f)
   {
     return thrust::tuple<>();
   }
 
-  static __host__ __device__
+  static __hydra_host__ __hydra_device__
   typename tuple_meta_transform<Tuple,UnaryMetaFunction>::type
   do_it_on_the_host_or_device(const Tuple &t, UnaryFunction f)
   {
@@ -59,7 +59,7 @@ template<typename Tuple,
          typename UnaryFunction>
   struct tuple_transform_functor<Tuple,UnaryMetaFunction,UnaryFunction,1>
 {
-  static __host__
+  static __hydra_host__
   typename tuple_meta_transform<Tuple,UnaryMetaFunction>::type
   do_it_on_the_host(const Tuple &t, UnaryFunction f)
   {
@@ -68,7 +68,7 @@ template<typename Tuple,
     return XfrmTuple(f(thrust::get<0>(t)));
   }
 
-  static __host__ __device__
+  static __hydra_host__ __hydra_device__
   typename tuple_meta_transform<Tuple,UnaryMetaFunction>::type
   do_it_on_the_host_or_device(const Tuple &t, UnaryFunction f)
   {
@@ -84,7 +84,7 @@ template<typename Tuple,
          typename UnaryFunction>
   struct tuple_transform_functor<Tuple,UnaryMetaFunction,UnaryFunction,2>
 {
-  static __host__
+  static __hydra_host__
   typename tuple_meta_transform<Tuple,UnaryMetaFunction>::type
   do_it_on_the_host(const Tuple &t, UnaryFunction f)
   {
@@ -94,7 +94,7 @@ template<typename Tuple,
                      f(thrust::get<1>(t)));
   }
 
-  static __host__ __device__
+  static __hydra_host__ __hydra_device__
   typename tuple_meta_transform<Tuple,UnaryMetaFunction>::type
   do_it_on_the_host_or_device(const Tuple &t, UnaryFunction f)
   {
@@ -111,7 +111,7 @@ template<typename Tuple,
          typename UnaryFunction>
   struct tuple_transform_functor<Tuple,UnaryMetaFunction,UnaryFunction,3>
 {
-  static __host__
+  static __hydra_host__
   typename tuple_meta_transform<Tuple,UnaryMetaFunction>::type
   do_it_on_the_host(const Tuple &t, UnaryFunction f)
   {
@@ -122,7 +122,7 @@ template<typename Tuple,
                      f(thrust::get<2>(t)));
   }
 
-  static __host__ __device__
+  static __hydra_host__ __hydra_device__
   typename tuple_meta_transform<Tuple,UnaryMetaFunction>::type
   do_it_on_the_host_or_device(const Tuple &t, UnaryFunction f)
   {
@@ -140,7 +140,7 @@ template<typename Tuple,
          typename UnaryFunction>
   struct tuple_transform_functor<Tuple,UnaryMetaFunction,UnaryFunction,4>
 {
-  static __host__
+  static __hydra_host__
   typename tuple_meta_transform<Tuple,UnaryMetaFunction>::type
   do_it_on_the_host(const Tuple &t, UnaryFunction f)
   {
@@ -152,7 +152,7 @@ template<typename Tuple,
                      f(thrust::get<3>(t)));
   }
 
-  static __host__ __device__
+  static __hydra_host__ __hydra_device__
   typename tuple_meta_transform<Tuple,UnaryMetaFunction>::type
   do_it_on_the_host_or_device(const Tuple &t, UnaryFunction f)
   {
@@ -171,7 +171,7 @@ template<typename Tuple,
          typename UnaryFunction>
   struct tuple_transform_functor<Tuple,UnaryMetaFunction,UnaryFunction,5>
 {
-  static __host__
+  static __hydra_host__
   typename tuple_meta_transform<Tuple,UnaryMetaFunction>::type
   do_it_on_the_host(const Tuple &t, UnaryFunction f)
   {
@@ -184,7 +184,7 @@ template<typename Tuple,
                      f(thrust::get<4>(t)));
   }
 
-  static __host__ __device__
+  static __hydra_host__ __hydra_device__
   typename tuple_meta_transform<Tuple,UnaryMetaFunction>::type
   do_it_on_the_host_or_device(const Tuple &t, UnaryFunction f)
   {
@@ -204,7 +204,7 @@ template<typename Tuple,
          typename UnaryFunction>
   struct tuple_transform_functor<Tuple,UnaryMetaFunction,UnaryFunction,6>
 {
-  static __host__
+  static __hydra_host__
   typename tuple_meta_transform<Tuple,UnaryMetaFunction>::type
   do_it_on_the_host(const Tuple &t, UnaryFunction f)
   {
@@ -218,7 +218,7 @@ template<typename Tuple,
                      f(thrust::get<5>(t)));
   }
 
-  static __host__ __device__
+  static __hydra_host__ __hydra_device__
   typename tuple_meta_transform<Tuple,UnaryMetaFunction>::type
   do_it_on_the_host_or_device(const Tuple &t, UnaryFunction f)
   {
@@ -239,7 +239,7 @@ template<typename Tuple,
          typename UnaryFunction>
   struct tuple_transform_functor<Tuple,UnaryMetaFunction,UnaryFunction,7>
 {
-  static __host__
+  static __hydra_host__
   typename tuple_meta_transform<Tuple,UnaryMetaFunction>::type
   do_it_on_the_host(const Tuple &t, UnaryFunction f)
   {
@@ -254,7 +254,7 @@ template<typename Tuple,
                      f(thrust::get<6>(t)));
   }
 
-  static __host__ __device__
+  static __hydra_host__ __hydra_device__
   typename tuple_meta_transform<Tuple,UnaryMetaFunction>::type
   do_it_on_the_host_or_device(const Tuple &t, UnaryFunction f)
   {
@@ -276,7 +276,7 @@ template<typename Tuple,
          typename UnaryFunction>
   struct tuple_transform_functor<Tuple,UnaryMetaFunction,UnaryFunction,8>
 {
-  static __host__
+  static __hydra_host__
   typename tuple_meta_transform<Tuple,UnaryMetaFunction>::type
   do_it_on_the_host(const Tuple &t, UnaryFunction f)
   {
@@ -292,7 +292,7 @@ template<typename Tuple,
                      f(thrust::get<7>(t)));
   }
 
-  static __host__ __device__
+  static __hydra_host__ __hydra_device__
   typename tuple_meta_transform<Tuple,UnaryMetaFunction>::type
   do_it_on_the_host_or_device(const Tuple &t, UnaryFunction f)
   {
@@ -315,7 +315,7 @@ template<typename Tuple,
          typename UnaryFunction>
   struct tuple_transform_functor<Tuple,UnaryMetaFunction,UnaryFunction,9>
 {
-  static __host__
+  static __hydra_host__
   typename tuple_meta_transform<Tuple,UnaryMetaFunction>::type
   do_it_on_the_host(const Tuple &t, UnaryFunction f)
   {
@@ -332,7 +332,7 @@ template<typename Tuple,
                      f(thrust::get<8>(t)));
   }
 
-  static __host__ __device__
+  static __hydra_host__ __hydra_device__
   typename tuple_meta_transform<Tuple,UnaryMetaFunction>::type
   do_it_on_the_host_or_device(const Tuple &t, UnaryFunction f)
   {
@@ -356,7 +356,7 @@ template<typename Tuple,
          typename UnaryFunction>
   struct tuple_transform_functor<Tuple,UnaryMetaFunction,UnaryFunction,10>
 {
-  static __host__
+  static __hydra_host__
   typename tuple_meta_transform<Tuple,UnaryMetaFunction>::type
   do_it_on_the_host(const Tuple &t, UnaryFunction f)
   {
@@ -374,7 +374,7 @@ template<typename Tuple,
                      f(thrust::get<9>(t)));
   }
 
-  static __host__ __device__
+  static __hydra_host__ __hydra_device__
   typename tuple_meta_transform<Tuple,UnaryMetaFunction>::type
   do_it_on_the_host_or_device(const Tuple &t, UnaryFunction f)
   {
@@ -407,7 +407,7 @@ template<template<typename> class UnaryMetaFunction,
          typename Tuple,
          typename UnaryFunction>
 typename tuple_meta_transform<Tuple,UnaryMetaFunction>::type
-__host__ __device__
+__hydra_host__ __hydra_device__
 tuple_host_device_transform(const Tuple &t, UnaryFunction f)
 {
   return tuple_transform_functor<Tuple,UnaryMetaFunction,UnaryFunction>::do_it_on_the_host_or_device(t,f);

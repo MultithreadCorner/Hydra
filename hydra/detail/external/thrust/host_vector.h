@@ -66,7 +66,7 @@ template<typename T, typename Alloc = std::allocator<T> >
 
     /*! This constructor creates an empty \p host_vector.
      */
-    __host__
+    __hydra_host__
     host_vector(void)
       :Parent() {}
 
@@ -74,14 +74,14 @@ template<typename T, typename Alloc = std::allocator<T> >
      */
     //  Define an empty destructor to explicitly specify
     //  its execution space qualifier, as a workaround for nvcc warning
-    __host__
+    __hydra_host__
     ~host_vector(void) {}
 
     /*! This constructor creates a \p host_vector with the given
      *  size.
      *  \param n The number of elements to initially create.
      */
-    __host__
+    __hydra_host__
     explicit host_vector(size_type n)
       :Parent(n) {}
 
@@ -90,14 +90,14 @@ template<typename T, typename Alloc = std::allocator<T> >
      *  \param n The number of elements to initially create.
      *  \param value An element to copy.
      */
-    __host__
+    __hydra_host__
     explicit host_vector(size_type n, const value_type &value)
       :Parent(n,value) {}
 
     /*! Copy constructor copies from an exemplar \p host_vector.
      *  \param v The \p host_vector to copy.
      */
-    __host__
+    __hydra_host__
     host_vector(const host_vector &v)
       :Parent(v) {}
 
@@ -105,7 +105,7 @@ template<typename T, typename Alloc = std::allocator<T> >
     /*! Move constructor moves from another host_vector.
      *  \param v The host_vector to move.
      */
-     __host__
+     __hydra_host__
     host_vector(host_vector &&v)
       :Parent(std::move(v)) {}
   #endif
@@ -113,7 +113,7 @@ template<typename T, typename Alloc = std::allocator<T> >
   /*! Assign operator copies from an exemplar \p host_vector.
    *  \param v The \p host_vector to copy.
    */
-  __host__
+  __hydra_host__
   host_vector &operator=(const host_vector &v)
   { Parent::operator=(v); return *this; }
 
@@ -121,7 +121,7 @@ template<typename T, typename Alloc = std::allocator<T> >
     /*! Move assign operator moves from another host_vector.
      *  \param v The host_vector to move.
      */
-     __host__
+     __hydra_host__
      host_vector &operator=(host_vector &&v)
      { Parent::operator=(std::move(v)); return *this; }
   #endif
@@ -130,7 +130,7 @@ template<typename T, typename Alloc = std::allocator<T> >
      *  \param v The \p host_vector to copy.
      */
     template<typename OtherT, typename OtherAlloc>
-    __host__
+    __hydra_host__
     host_vector(const host_vector<OtherT,OtherAlloc> &v)
       :Parent(v) {}
 
@@ -138,7 +138,7 @@ template<typename T, typename Alloc = std::allocator<T> >
      *  \param v The \p host_vector to copy.
      */
     template<typename OtherT, typename OtherAlloc>
-    __host__
+    __hydra_host__
     host_vector &operator=(const host_vector<OtherT,OtherAlloc> &v)
     { Parent::operator=(v); return *this; }
 
@@ -146,7 +146,7 @@ template<typename T, typename Alloc = std::allocator<T> >
      *  \param v The <tt>std::vector</tt> to copy.
      */
     template<typename OtherT, typename OtherAlloc>
-    __host__
+    __hydra_host__
     host_vector(const std::vector<OtherT,OtherAlloc> &v)
       :Parent(v) {}
 
@@ -154,7 +154,7 @@ template<typename T, typename Alloc = std::allocator<T> >
      *  \param v The <tt>std::vector</tt> to copy.
      */
     template<typename OtherT, typename OtherAlloc>
-    __host__
+    __hydra_host__
     host_vector &operator=(const std::vector<OtherT,OtherAlloc> &v)
     { Parent::operator=(v); return *this;}
 
@@ -162,14 +162,14 @@ template<typename T, typename Alloc = std::allocator<T> >
      *  \param v The \p device_vector to copy.
      */
     template<typename OtherT, typename OtherAlloc>
-    __host__
+    __hydra_host__
     host_vector(const device_vector<OtherT,OtherAlloc> &v);
 
     /*! Assign operator copies from an exemplar \p device_vector.
      *  \param v The \p device_vector to copy.
      */
     template<typename OtherT, typename OtherAlloc>
-    __host__
+    __hydra_host__
     host_vector &operator=(const device_vector<OtherT,OtherAlloc> &v)
     { Parent::operator=(v); return *this; }
 
@@ -178,7 +178,7 @@ template<typename T, typename Alloc = std::allocator<T> >
      *  \param last The end of the range.
      */
     template<typename InputIterator>
-    __host__
+    __hydra_host__
     host_vector(InputIterator first, InputIterator last)
       :Parent(first, last) {}
 

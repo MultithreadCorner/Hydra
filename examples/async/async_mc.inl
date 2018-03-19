@@ -28,13 +28,6 @@
 #ifndef ASYNC_INL_
 #define ASYNC_INL_
 
-/**
- * \example
- * @param argv
- * @param argc
- * @return
- */
-
 
 #include <iostream>
 #include <assert.h>
@@ -117,8 +110,7 @@
 #endif //_ROOT_AVAILABLE_
 
 /**
- * @group examples
- *
+ * \example async.inl
  * This example demonstrates how to generate Monte Carlo samples in parallel
  * deploying different backends asynchronously.
  */
@@ -153,7 +145,7 @@ int main(int argv, char** argc)
 	double sigma =  1.5;
     size_t nbins =  100;
 
-    auto GAUSSIAN3D =  [=] __host__ __device__ (unsigned int n,double* x ){
+    auto GAUSSIAN3D =  [=] __hydra_dual__ (unsigned int n,double* x ){
 
     	double g = 1.0;
 

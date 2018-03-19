@@ -7,8 +7,8 @@
 // Public License v. 2.0. If a copy of the MPL was not distributed
 // with this file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
-#ifndef EIGEN_SIMPLICIAL_CHOLESKY_H
-#define EIGEN_SIMPLICIAL_CHOLESKY_H
+#ifndef HYDRA_EIGEN_SIMPLICIAL_CHOLESKY_H
+#define HYDRA_EIGEN_SIMPLICIAL_CHOLESKY_H
 
 HYDRA_EXTERNAL_NAMESPACE_BEGIN namespace Eigen { 
 
@@ -136,7 +136,7 @@ class SimplicialCholeskyBase : public SparseSolverBase<Derived>
       return derived();
     }
 
-#ifndef EIGEN_PARSED_BY_DOXYGEN
+#ifndef HYDRA_EIGEN_PARSED_BY_DOXYGEN
     /** \internal */
     template<typename Stream>
     void dumpMemory(Stream& s)
@@ -185,7 +185,7 @@ class SimplicialCholeskyBase : public SparseSolverBase<Derived>
       internal::solve_sparse_through_dense_panels(derived(), b, dest);
     }
 
-#endif // EIGEN_PARSED_BY_DOXYGEN
+#endif // HYDRA_EIGEN_PARSED_BY_DOXYGEN
 
   protected:
     
@@ -686,4 +686,4 @@ void SimplicialCholeskyBase<Derived>::ordering(const MatrixType& a, ConstCholMat
 
 } /* end namespace Eigen */  HYDRA_EXTERNAL_NAMESPACE_END
 
-#endif // EIGEN_SIMPLICIAL_CHOLESKY_H
+#endif // HYDRA_EIGEN_SIMPLICIAL_CHOLESKY_H

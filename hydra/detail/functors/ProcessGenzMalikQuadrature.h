@@ -80,7 +80,7 @@ struct ProcessGenzMalikUnaryCall
 		}
 	}
 
-	__host__ __device__
+	__hydra_host__ __hydra_device__
 	ProcessGenzMalikUnaryCall(ProcessGenzMalikUnaryCall< N, FUNCTOR, RuleIterator> const& other ):
 	fFunctor(other.GetFunctor())
 	{
@@ -92,7 +92,7 @@ struct ProcessGenzMalikUnaryCall
 		}
 	}
 
-	__host__ __device__
+	__hydra_host__ __hydra_device__
 	ProcessGenzMalikUnaryCall< N, FUNCTOR, RuleIterator>&
 	operator=(ProcessGenzMalikUnaryCall< N, FUNCTOR, RuleIterator> const& other )
 	{
@@ -110,7 +110,7 @@ struct ProcessGenzMalikUnaryCall
 	}
 
 	template<typename T>
-	__host__ __device__
+	__hydra_host__ __hydra_device__
 	inline data_type operator()(T&& rule_abscissa)
 	{
 
@@ -137,12 +137,12 @@ struct ProcessGenzMalikUnaryCall
 	}
 
 
-	__host__ __device__ inline
+	__hydra_host__ __hydra_device__ inline
 	FUNCTOR GetFunctor() const {
 		return fFunctor;
 	}
 
-	__host__ __device__ inline
+	__hydra_host__ __hydra_device__ inline
 	void SetFunctor(FUNCTOR functor) {
 		fFunctor = functor;
 	}
@@ -150,12 +150,12 @@ struct ProcessGenzMalikUnaryCall
 
 	template<size_t I>
 	typename std::enable_if< (I==N), void  >::type
-	__host__ __device__ inline
+	__hydra_host__ __hydra_device__ inline
 	get_transformed_abscissa( rule_abscissa_t const& , abscissa_t& ){}
 
 	template<size_t I=0>
 	typename std::enable_if< (I<N), void  >::type
-	__host__ __device__ inline
+	__hydra_host__ __hydra_device__ inline
 	get_transformed_abscissa( rule_abscissa_t const& original_abscissa,
 			abscissa_t& transformed_abscissa  )
 	{
@@ -166,7 +166,7 @@ struct ProcessGenzMalikUnaryCall
 		get_transformed_abscissa<I+1>(original_abscissa, transformed_abscissa );
 	}
 
-	__host__ __device__ inline
+	__hydra_host__ __hydra_device__ inline
 	GBool_t set_four_difference_central(GReal_t value,  GReal_t * const __restrict__ fdarray)
 	{
 
@@ -176,7 +176,7 @@ struct ProcessGenzMalikUnaryCall
 return 1;
 	}
 
-	__host__ __device__ inline
+	__hydra_host__ __hydra_device__ inline
 	GBool_t set_four_difference_unilateral(GChar_t index, GReal_t value, GReal_t* const __restrict__  fdarray)
 	{
 
@@ -187,7 +187,7 @@ return 1;
 		return 1;
 	}
 
-	__host__ __device__ inline
+	__hydra_host__ __hydra_device__ inline
 	GBool_t set_four_difference_multilateral( GReal_t * const __restrict__ fdarray)
 		{
 
@@ -215,7 +215,7 @@ struct ProcessGenzMalikBinaryCall:
 		                                typename hydra::detail::tuple_type<N+2, GReal_t>::type      >
 {
 
-	__host__ __device__
+	__hydra_host__ __hydra_device__
 	inline typename hydra::detail::tuple_type<N+2, GReal_t>::type
 	operator()(typename hydra::detail::tuple_type<N+2, GReal_t>::type box1,
 			typename hydra::detail::tuple_type<N+2, GReal_t>::type box2)
@@ -245,7 +245,7 @@ struct ProcessGenzMalikBox
 			fRuleEnd(end)
 		{}
 
-	__host__ __device__
+	__hydra_host__ __hydra_device__
 	ProcessGenzMalikBox(ProcessGenzMalikBox< N, FUNCTOR, RuleIterator,BoxIterator > const& other ):
 	fFunctor(other.fFunctor),
 	fBoxBegin(other.fBoxBegin),
@@ -254,7 +254,7 @@ struct ProcessGenzMalikBox
 	fRuleEnd(other.fRuleEnd)
 	{}
 
-	__host__ __device__ inline
+	__hydra_host__ __hydra_device__ inline
 	ProcessGenzMalikBox< N, FUNCTOR, RuleIterator,BoxIterator >&
 	operator=(ProcessGenzMalikBox< N, FUNCTOR, RuleIterator,BoxIterator > const& other )
 	{
@@ -269,7 +269,7 @@ struct ProcessGenzMalikBox
 		return *this;
 	}
 
-	__host__
+	__hydra_host__
 	inline void operator()(size_t index)
 	{
 		typedef typename hydra::detail::tuple_type<N+2, GReal_t>::type tuple_t;

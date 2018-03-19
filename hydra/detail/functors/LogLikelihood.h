@@ -75,7 +75,7 @@ struct LogLikelihood
 		fCached(cached)
 	{}
 
-	__host__ __device__ inline
+	__hydra_host__ __hydra_device__ inline
 	LogLikelihood( LogLikelihood<FUNCTOR, PointType,IteratorData, IteratorCache> const& other):
 	  fDataBegin(other.fDataBegin),
 	  fCacheBegin(other.fCacheBegin),
@@ -87,11 +87,11 @@ struct LogLikelihood
 	{}
 
 	__hydra_exec_check_disable__
-	__host__ __device__
+	__hydra_host__ __hydra_device__
 	~LogLikelihood(){}
 
     template<typename U = cache_value_type >
-	__host__ __device__ inline
+	__hydra_host__ __hydra_device__ inline
 	GReal_t operator()(size_t index, const typename std::enable_if< !std::is_same<U,
 	       	null_type>::value, void >::type* dummy=0 ){
 
@@ -104,7 +104,7 @@ struct LogLikelihood
 	}
 
     template<typename U = cache_value_type >
-   	__host__ __device__ inline
+   	__hydra_host__ __hydra_device__ inline
    	GReal_t operator()(size_t index, const typename std::enable_if< std::is_same<U,
    	       	null_type>::value, void >::type* dummy=0 ){
 

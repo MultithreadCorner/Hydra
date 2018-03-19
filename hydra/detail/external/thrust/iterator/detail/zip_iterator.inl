@@ -24,7 +24,7 @@ HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
 
 
 template<typename IteratorTuple>
-__host__ __device__
+__hydra_host__ __hydra_device__
   zip_iterator<IteratorTuple>
     ::zip_iterator(void)
 {
@@ -32,7 +32,7 @@ __host__ __device__
 
 
 template<typename IteratorTuple>
-__host__ __device__
+__hydra_host__ __hydra_device__
   zip_iterator<IteratorTuple>
     ::zip_iterator(IteratorTuple iterator_tuple)
       :m_iterator_tuple(iterator_tuple)
@@ -42,7 +42,7 @@ __host__ __device__
 
 template<typename IteratorTuple>
   template<typename OtherIteratorTuple>
-  __host__ __device__
+  __hydra_host__ __hydra_device__
     zip_iterator<IteratorTuple>
       ::zip_iterator(const zip_iterator<OtherIteratorTuple> &other,
                      typename thrust::detail::enable_if_convertible<
@@ -55,7 +55,7 @@ template<typename IteratorTuple>
 
 
 template<typename IteratorTuple>
-__host__ __device__
+__hydra_host__ __hydra_device__
 const IteratorTuple &zip_iterator<IteratorTuple>
   ::get_iterator_tuple(void) const
 {
@@ -65,7 +65,7 @@ const IteratorTuple &zip_iterator<IteratorTuple>
 
 template<typename IteratorTuple>
   typename zip_iterator<IteratorTuple>::super_t::reference
-  __host__ __device__
+  __hydra_host__ __hydra_device__
     zip_iterator<IteratorTuple>
       ::dereference(void) const
 {
@@ -78,7 +78,7 @@ template<typename IteratorTuple>
 __thrust_exec_check_disable__
 template<typename IteratorTuple>
   template<typename OtherIteratorTuple>
-  __host__ __device__
+  __hydra_host__ __hydra_device__
     bool zip_iterator<IteratorTuple>
       ::equal(const zip_iterator<OtherIteratorTuple> &other) const
 {
@@ -87,7 +87,7 @@ template<typename IteratorTuple>
 
 
 template<typename IteratorTuple>
-__host__ __device__
+__hydra_host__ __hydra_device__
   void zip_iterator<IteratorTuple>
     ::advance(typename super_t::difference_type n)
 {
@@ -98,7 +98,7 @@ __host__ __device__
 
 
 template<typename IteratorTuple>
-__host__ __device__
+__hydra_host__ __hydra_device__
   void zip_iterator<IteratorTuple>
     ::increment(void)
 {
@@ -108,7 +108,7 @@ __host__ __device__
 
 
 template<typename IteratorTuple>
-__host__ __device__
+__hydra_host__ __hydra_device__
   void zip_iterator<IteratorTuple>
     ::decrement(void)
 {
@@ -120,7 +120,7 @@ __host__ __device__
 __thrust_exec_check_disable__
 template<typename IteratorTuple>
   template <typename OtherIteratorTuple>
-  __host__ __device__
+  __hydra_host__ __hydra_device__
     typename zip_iterator<IteratorTuple>::super_t::difference_type
       zip_iterator<IteratorTuple>
         ::distance_to(const zip_iterator<OtherIteratorTuple> &other) const
@@ -131,7 +131,7 @@ template<typename IteratorTuple>
 
 #ifdef HYDRA_THRUST_VARIADIC_TUPLE
 template<typename... Iterators>
-__host__ __device__
+__hydra_host__ __hydra_device__
   zip_iterator<thrust::tuple<Iterators...>> make_zip_iterator(thrust::tuple<Iterators...> t)
 {
     return zip_iterator<thrust::tuple<Iterators...>>(t);
@@ -139,14 +139,14 @@ __host__ __device__
 
 
 template<typename... Iterators>
-__host__ __device__
+__hydra_host__ __hydra_device__
   zip_iterator<thrust::tuple<Iterators...>> make_zip_iterator(Iterators... its)
 {
     return make_zip_iterator(thrust::make_tuple(its...));
 } // end make_zip_iterator()
 #else
 template<typename IteratorTuple>
-__host__ __device__
+__hydra_host__ __hydra_device__
   zip_iterator<IteratorTuple> make_zip_iterator(IteratorTuple t)
 {
   return zip_iterator<IteratorTuple>(t);

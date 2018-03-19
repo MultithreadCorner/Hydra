@@ -58,35 +58,35 @@ template<typename Element, typename Pointer, typename Derived>
     typedef Pointer                                              pointer;
     typedef typename thrust::detail::remove_const<Element>::type value_type;
 
-    __host__ __device__
+    __hydra_host__ __hydra_device__
     explicit reference(const pointer &ptr);
 
     template<typename OtherElement, typename OtherPointer, typename OtherDerived>
-    __host__ __device__
+    __hydra_host__ __hydra_device__
     reference(const reference<OtherElement,OtherPointer,OtherDerived> &other,
               typename thrust::detail::enable_if_convertible<
                 typename reference<OtherElement,OtherPointer,OtherDerived>::pointer,
                 pointer
               >::type * = 0);
 
-    __host__ __device__
+    __hydra_host__ __hydra_device__
     derived_type &operator=(const reference &other);
 
     // XXX this may need an enable_if
     template<typename OtherElement, typename OtherPointer, typename OtherDerived>
-    __host__ __device__
+    __hydra_host__ __hydra_device__
     derived_type &operator=(const reference<OtherElement,OtherPointer,OtherDerived> &other);
 
-    __host__ __device__
+    __hydra_host__ __hydra_device__
     derived_type &operator=(const value_type &x);
 
-    __host__ __device__
+    __hydra_host__ __hydra_device__
     pointer operator&() const;
 
-    __host__ __device__
+    __hydra_host__ __hydra_device__
     operator value_type () const;
 
-    __host__ __device__
+    __hydra_host__ __hydra_device__
     void swap(derived_type &other);
 
     derived_type &operator++();
@@ -134,30 +134,30 @@ template<typename Element, typename Pointer, typename Derived>
     template <typename OtherElement, typename OtherPointer, typename OtherDerived> friend class reference;
 
     template<typename System>
-    __host__ __device__
+    __hydra_host__ __hydra_device__
     inline value_type strip_const_get_value(const System &system) const;
 
     template<typename OtherPointer>
-    __host__ __device__
+    __hydra_host__ __hydra_device__
     inline void assign_from(OtherPointer src);
 
     // XXX this helper exists only to avoid warnings about null references from the other assign_from
     template<typename System1, typename System2, typename OtherPointer>
-    inline __host__ __device__
+    inline __hydra_host__ __hydra_device__
     void assign_from(System1 *system1, System2 *system2, OtherPointer src);
 
     template<typename System, typename OtherPointer>
-    __host__ __device__
+    __hydra_host__ __hydra_device__
     inline void strip_const_assign_value(const System &system, OtherPointer src);
 
     // XXX this helper exists only to avoid warnings about null references from the other swap
     template<typename System>
-    inline __host__ __device__
+    inline __hydra_host__ __hydra_device__
     void swap(System *system, derived_type &other);
 
     // XXX this helper exists only to avoid warnings about null references from operator value_type ()
     template<typename System>
-    inline __host__ __device__
+    inline __hydra_host__ __hydra_device__
     value_type convert_to_value_type(System *system) const;
 }; // end reference
 

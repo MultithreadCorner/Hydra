@@ -52,45 +52,45 @@ namespace hydra {
 class Vector3R
 {
 
-	__host__      __device__      friend Vector3R rotateEuler(const Vector3R& v,
+	__hydra_host__      __hydra_device__      friend Vector3R rotateEuler(const Vector3R& v,
 			GReal_t phi, GReal_t theta, GReal_t ksi);
 
-	__host__      __device__      inline friend Vector3R operator*(GReal_t c,
+	__hydra_host__      __hydra_device__      inline friend Vector3R operator*(GReal_t c,
 			const Vector3R& v2);
-	__host__      __device__      inline friend GReal_t operator*(const Vector3R& v1,
+	__hydra_host__      __hydra_device__      inline friend GReal_t operator*(const Vector3R& v1,
 			const Vector3R& v2);
-	__host__      __device__      inline friend Vector3R operator+(const Vector3R& v1,
+	__hydra_host__      __hydra_device__      inline friend Vector3R operator+(const Vector3R& v1,
 			const Vector3R& v2);
-	__host__      __device__      inline friend Vector3R operator-(const Vector3R& v1,
+	__hydra_host__      __hydra_device__      inline friend Vector3R operator-(const Vector3R& v1,
 			const Vector3R& v2);
-	__host__      __device__      inline friend Vector3R operator*(const Vector3R& v1,
+	__hydra_host__      __hydra_device__      inline friend Vector3R operator*(const Vector3R& v1,
 			GReal_t c);
-	__host__      __device__      inline friend Vector3R operator/(const Vector3R& v1,
+	__hydra_host__      __hydra_device__      inline friend Vector3R operator/(const Vector3R& v1,
 			GReal_t c);
-	__host__      __device__      friend Vector3R cross(const Vector3R& v1,
+	__hydra_host__      __hydra_device__      friend Vector3R cross(const Vector3R& v1,
 			const Vector3R& v2);
 
 public:
 	inline Vector3R()=default;
-	__host__ __device__ inline Vector3R(GReal_t x, GReal_t y, GReal_t z);
-	__host__ __device__ inline Vector3R(const Vector3R& other);
-	__host__ __device__ inline Vector3R(Vector3R&& other);
-	__host__ __device__ inline Vector3R& operator=(const Vector3R& other);
-	__host__ __device__ inline Vector3R& operator=(Vector3R&& other);
-	__host__ __device__ inline void swap(Vector3R& other);
-	__host__      __device__      inline Vector3R& operator*=(const GReal_t c);
-	__host__      __device__      inline Vector3R& operator/=(const GReal_t c);
-	__host__      __device__      inline Vector3R& operator+=(const Vector3R& v2);
-	__host__      __device__      inline Vector3R& operator-=(const Vector3R& v2);
-	__host__ __device__ inline void set(GInt_t i, GReal_t d);
-	__host__ __device__ inline void set(GReal_t x, GReal_t y, GReal_t z);
-	__host__ __device__ inline void applyRotateEuler(GReal_t phi, GReal_t theta,
+	__hydra_host__ __hydra_device__ inline Vector3R(GReal_t x, GReal_t y, GReal_t z);
+	__hydra_host__ __hydra_device__ inline Vector3R(const Vector3R& other);
+	__hydra_host__ __hydra_device__ inline Vector3R(Vector3R&& other);
+	__hydra_host__ __hydra_device__ inline Vector3R& operator=(const Vector3R& other);
+	__hydra_host__ __hydra_device__ inline Vector3R& operator=(Vector3R&& other);
+	__hydra_host__ __hydra_device__ inline void swap(Vector3R& other);
+	__hydra_host__      __hydra_device__      inline Vector3R& operator*=(const GReal_t c);
+	__hydra_host__      __hydra_device__      inline Vector3R& operator/=(const GReal_t c);
+	__hydra_host__      __hydra_device__      inline Vector3R& operator+=(const Vector3R& v2);
+	__hydra_host__      __hydra_device__      inline Vector3R& operator-=(const Vector3R& v2);
+	__hydra_host__ __hydra_device__ inline void set(GInt_t i, GReal_t d);
+	__hydra_host__ __hydra_device__ inline void set(GReal_t x, GReal_t y, GReal_t z);
+	__hydra_host__ __hydra_device__ inline void applyRotateEuler(GReal_t phi, GReal_t theta,
 			GReal_t ksi);
-	__host__      __device__      inline GReal_t get(GInt_t i) const;
-	__host__       inline friend std::ostream& operator<<(std::ostream& s,
+	__hydra_host__      __hydra_device__      inline GReal_t get(GInt_t i) const;
+	__hydra_host__       inline friend std::ostream& operator<<(std::ostream& s,
 			const Vector3R& v);
-	__host__      __device__      inline GReal_t dot(const Vector3R& v2);
-	__host__      __device__      inline GReal_t d3mag() const;
+	__hydra_host__      __hydra_device__      inline GReal_t dot(const Vector3R& v2);
+	__hydra_host__      __hydra_device__      inline GReal_t d3mag() const;
 
 private:
 
@@ -99,44 +99,44 @@ private:
 	_DeclareStorable(Vector3R, v[0], v[1] , v[2])
 };
 
-__host__ __device__
+__hydra_host__ __hydra_device__
 inline void swap(Vector3R& v1, Vector3R& v2)
 {
 	return v1.swap(v2);
 }
 
 
-__host__ __device__
+__hydra_host__ __hydra_device__
 inline Vector3R operator*(GReal_t c, const Vector3R& v2)
 {
 
 	return Vector3R(v2) *= c;
 }
-__host__ __device__
+__hydra_host__ __hydra_device__
 inline Vector3R operator*(const Vector3R& v1, GReal_t c)
 {
 
 	return Vector3R(v1) *= c;
 }
-__host__ __device__
+__hydra_host__ __hydra_device__
 inline Vector3R operator/(const Vector3R& v1, GReal_t c)
 {
 
 	return Vector3R(v1) /= c;
 }
-__host__ __device__
+__hydra_host__ __hydra_device__
 inline GReal_t operator*(const Vector3R& v1, const Vector3R& v2)
 {
 
 	return v1.v[0] * v2.v[0] + v1.v[1] * v2.v[1] + v1.v[2] * v2.v[2];
 }
-__host__ __device__
+__hydra_host__ __hydra_device__
 inline Vector3R operator+(const Vector3R& v1, const Vector3R& v2)
 {
 
 	return Vector3R(v1) += v2;
 }
-__host__ __device__
+__hydra_host__ __hydra_device__
 inline Vector3R operator-(const Vector3R& v1, const Vector3R& v2)
 {
 
@@ -153,7 +153,7 @@ inline ostream& operator<<(ostream& s, const Vector3R& v)
 	return s;
 
 }
-__host__ __device__
+__hydra_host__ __hydra_device__
 inline Vector3R cross(const Vector3R& p1, const Vector3R& p2)
 {
 
@@ -166,7 +166,7 @@ inline Vector3R cross(const Vector3R& p1, const Vector3R& p2)
 
 }
 
-__host__ __device__
+__hydra_host__ __hydra_device__
 inline Vector3R rotateEuler(const Vector3R& v,	GReal_t phi, GReal_t theta, GReal_t ksi)
 {
 	Vector3R vect(v);

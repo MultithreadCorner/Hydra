@@ -35,7 +35,7 @@ namespace block
  * Upon return the elements in [data + 1, data + n) have unspecified values.
  */
 template <typename Context, typename ValueIterator, typename BinaryFunction>
-__device__ __thrust_forceinline__
+__hydra_device__ __thrust_forceinline__
 void reduce_n(Context context, ValueIterator data, unsigned int n, BinaryFunction binary_op)
 {
   if (context.block_dimension() < n)

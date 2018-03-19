@@ -31,7 +31,7 @@ HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
 
 __thrust_exec_check_disable__
 template<typename DerivedPolicy, typename InputIterator, typename Predicate>
-__host__ __device__
+__hydra_host__ __hydra_device__
 bool all_of(const thrust::detail::execution_policy_base<DerivedPolicy> &exec, InputIterator first, InputIterator last, Predicate pred)
 {
   using thrust::system::detail::generic::all_of;
@@ -41,7 +41,7 @@ bool all_of(const thrust::detail::execution_policy_base<DerivedPolicy> &exec, In
 
 __thrust_exec_check_disable__
 template<typename DerivedPolicy, typename InputIterator, typename Predicate>
-__host__ __device__
+__hydra_host__ __hydra_device__
 bool any_of(const thrust::detail::execution_policy_base<DerivedPolicy> &exec, InputIterator first, InputIterator last, Predicate pred)
 {
   using thrust::system::detail::generic::any_of;
@@ -51,7 +51,7 @@ bool any_of(const thrust::detail::execution_policy_base<DerivedPolicy> &exec, In
 
 __thrust_exec_check_disable__
 template<typename DerivedPolicy, typename InputIterator, typename Predicate>
-__host__ __device__
+__hydra_host__ __hydra_device__
 bool none_of(const thrust::detail::execution_policy_base<DerivedPolicy> &exec, InputIterator first, InputIterator last, Predicate pred)
 {
   using thrust::system::detail::generic::none_of;

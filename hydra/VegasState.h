@@ -116,6 +116,21 @@ public:
 	template<hydra::detail::Backend BACKEND2>
 	VegasState(const VegasState<N,hydra::detail::BackendPolicy<BACKEND2>> &state);
 
+
+	VegasState<N,hydra::detail::BackendPolicy<BACKEND>>&
+	operator=(const VegasState<N,hydra::detail::BackendPolicy<BACKEND>> &state);
+
+	/**
+	 * @brief Copy constructor for a state in a different backend.
+	 * @param state
+	 * @tparam BACKEND2 different backend.
+	 */
+	template<hydra::detail::Backend BACKEND2>
+	VegasState<N,hydra::detail::BackendPolicy<BACKEND>>&
+	operator=(const VegasState<N,hydra::detail::BackendPolicy<BACKEND2>> &state);
+
+
+
     /**
      * @brief  Clear results of previously stored iterations.
      */

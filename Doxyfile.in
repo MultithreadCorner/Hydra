@@ -1,16 +1,13 @@
-PROJECT_NAME           = "@CMAKE_PROJECT_NAME@"
-PROJECT_NUMBER         = 2.0.1
+#PROJECT_NAME          = "@CMAKE_PROJECT_NAME@"
+PROJECT_NUMBER         =  @HYDRA_VERSION@
 
 STRIP_FROM_PATH        = @CMAKE_CURRENT_SOURCE_DIR@
  
-<<<<<<< HEAD
-INPUT                  = @CMAKE_CURRENT_SOURCE_DIR@/hydra @CMAKE_CURRENT_SOURCE_DIR@/docs  @CMAKE_CURRENT_SOURCE_DIR@/doxydefs @CMAKE_CURRENT_SOURCE_DIR@/examples @CMAKE_CURRENT_SOURCE_DIR@/README.md
-=======
-INPUT                  = @CMAKE_CURRENT_SOURCE_DIR@/hydra @CMAKE_CURRENT_SOURCE_DIR@/doxydefs @CMAKE_CURRENT_SOURCE_DIR@/docs @CMAKE_CURRENT_SOURCE_DIR@/README.md
->>>>>>> d9c0874adf9760aeb3ad9dac10d7c7f577d9d9cf
+INPUT                  = @CMAKE_CURRENT_SOURCE_DIR@/hydra @CMAKE_CURRENT_SOURCE_DIR@/doxydefs @CMAKE_CURRENT_SOURCE_DIR@/examples @CMAKE_CURRENT_SOURCE_DIR@/README.md
+
 
 USE_MDFILE_AS_MAINPAGE = @CMAKE_CURRENT_SOURCE_DIR@/README.md
-# PROJECT_LOGO           = @CMAKE_CURRENT_SOURCE_DIR@/logo_Hydra.png
+#PROJECT_LOGO          = @CMAKE_CURRENT_SOURCE_DIR@/logo_Hydra.png
 OUTPUT_DIRECTORY       = @CMAKE_CURRENT_BINARY_DIR@/doc
 
 # Doxyfile 1.8.11
@@ -19,9 +16,9 @@ OUTPUT_DIRECTORY       = @CMAKE_CURRENT_BINARY_DIR@/doc
 # Project related configuration options
 #---------------------------------------------------------------------------
 DOXYFILE_ENCODING      = UTF-8
-#PROJECT_NAME           = Hydra
+PROJECT_NAME           = Hydra
 #PROJECT_NUMBER         = 2.0.0
-PROJECT_BRIEF          = "A header only templated C++ library to perform data analysis on massively parallel platforms."
+PROJECT_BRIEF          = "A header-only templated C++ framework to perform data analysis on massively parallel platforms."
 CREATE_SUBDIRS         = NO
 ALLOW_UNICODE_NAMES    = NO
 OUTPUT_LANGUAGE        = English
@@ -173,14 +170,9 @@ FILE_PATTERNS          = *.cu \
 RECURSIVE              = YES
 EXCLUDE                = 
 EXCLUDE_SYMLINKS       = NO
-EXCLUDE_PATTERNS       = */external/*
-<<<<<<< HEAD
+EXCLUDE_PATTERNS       = *detail/external*
 EXCLUDE_SYMBOLS        = 
 EXAMPLE_PATH           = @CMAKE_CURRENT_SOURCE_DIR@/examples
-=======
-EXCLUDE_SYMBOLS        = detail
-EXAMPLE_PATH           = @CMAKE_CURRENT_SOURCE_DIR@/src
->>>>>>> d9c0874adf9760aeb3ad9dac10d7c7f577d9d9cf
 EXAMPLE_PATTERNS       = *
 EXAMPLE_RECURSIVE      = YES
 IMAGE_PATH             = @CMAKE_CURRENT_SOURCE_DIR@, @CMAKE_CURRENT_BINARY_DIR@/plots

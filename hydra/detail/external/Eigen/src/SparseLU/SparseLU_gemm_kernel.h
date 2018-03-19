@@ -7,8 +7,8 @@
 // Public License v. 2.0. If a copy of the MPL was not distributed
 // with this file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
-#ifndef EIGEN_SPARSELU_GEMM_KERNEL_H
-#define EIGEN_SPARSELU_GEMM_KERNEL_H
+#ifndef HYDRA_EIGEN_SPARSELU_GEMM_KERNEL_H
+#define HYDRA_EIGEN_SPARSELU_GEMM_KERNEL_H
 
 HYDRA_EXTERNAL_NAMESPACE_BEGIN namespace Eigen {
 
@@ -22,14 +22,14 @@ namespace internal {
   *  - C must have the same alignment as A
   */
 template<typename Scalar>
-EIGEN_DONT_INLINE
+HYDRA_EIGEN_DONT_INLINE
 void sparselu_gemm(Index m, Index n, Index d, const Scalar* A, Index lda, const Scalar* B, Index ldb, Scalar* C, Index ldc)
 {
   using namespace HYDRA_EXTERNAL_NS::Eigen::internal;
   
   typedef typename packet_traits<Scalar>::type Packet;
   enum {
-    NumberOfRegisters = EIGEN_ARCH_DEFAULT_NUMBER_OF_REGISTERS,
+    NumberOfRegisters = HYDRA_EIGEN_ARCH_DEFAULT_NUMBER_OF_REGISTERS,
     PacketSize = packet_traits<Scalar>::size,
     PM = 8,                             // peeling in M
     RN = 2,                             // register blocking
@@ -126,7 +126,7 @@ void sparselu_gemm(Index m, Index n, Index d, const Scalar* A, Index lda, const 
         // process rows of A' - C' with aggressive vectorization and peeling 
         for(Index i=0; i<actual_b_end1; i+=PacketSize*8)
         {
-          EIGEN_ASM_COMMENT("SPARSELU_GEMML_KERNEL1");
+          HYDRA_EIGEN_ASM_COMMENT("SPARSELU_GEMML_KERNEL1");
                     prefetch((A0+i+(5)*PacketSize));
                     prefetch((A1+i+(5)*PacketSize));
           if(RK==4) prefetch((A2+i+(5)*PacketSize));
@@ -218,7 +218,7 @@ void sparselu_gemm(Index m, Index n, Index d, const Scalar* A, Index lda, const 
         // agressive vectorization and peeling
         for(Index i=0; i<actual_b_end1; i+=PacketSize*8)
         {
-          EIGEN_ASM_COMMENT("SPARSELU_GEMML_KERNEL2");
+          HYDRA_EIGEN_ASM_COMMENT("SPARSELU_GEMML_KERNEL2");
           WORK(0);
           WORK(1);
           WORK(2);
@@ -278,4 +278,4 @@ void sparselu_gemm(Index m, Index n, Index d, const Scalar* A, Index lda, const 
 } // namespace Eigen
 HYDRA_EXTERNAL_NAMESPACE_END
 
-#endif // EIGEN_SPARSELU_GEMM_KERNEL_H
+#endif // HYDRA_EIGEN_SPARSELU_GEMM_KERNEL_H

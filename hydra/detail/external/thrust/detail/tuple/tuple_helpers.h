@@ -43,7 +43,7 @@ struct get_or_result
 // get the ith element of a Tuple, unless i >= tuple_size<Tuple>,
 // in which case return x
 template<int i, typename Tuple, typename T>
-inline __host__ __device__
+inline __hydra_host__ __hydra_device__
 typename lazy_enable_if<
   i < tuple_size<Tuple>::value,
   tuple_element<i,Tuple>
@@ -55,7 +55,7 @@ get_or(const Tuple &t, const T &val)
 
 
 template<int i, typename Tuple, typename T>
-inline __host__ __device__
+inline __hydra_host__ __hydra_device__
 typename enable_if<
   i >= tuple_size<Tuple>::value,
   const T&
@@ -67,7 +67,7 @@ get_or(const Tuple &t, const T &val)
 
 
 template<int i, typename Tuple, typename T>
-inline __host__ __device__
+inline __hydra_host__ __hydra_device__
 typename enable_if<
   i >= tuple_size<Tuple>::value,
   T&
@@ -110,7 +110,7 @@ struct tuple_tail_result
 
 
 template<typename Tuple>
-inline __host__ __device__
+inline __hydra_host__ __hydra_device__
 typename enable_if<
   (tuple_size<Tuple>::value > 1),
   typename tuple_tail_result<Tuple>::type
@@ -132,7 +132,7 @@ typename enable_if<
 
 
 template<typename Tuple>
-inline __host__ __device__
+inline __hydra_host__ __hydra_device__
 typename enable_if<
   (tuple_size<Tuple>::value <= 1),
   typename tuple_tail_result<Tuple>::type
@@ -150,7 +150,7 @@ typename enable_if<
 
 
 template<bool b, typename True, typename False>
-inline __host__ __device__
+inline __hydra_host__ __hydra_device__
 typename enable_if<b, const True&>::type
 if_else(const True &t, const False &f)
 {
@@ -159,7 +159,7 @@ if_else(const True &t, const False &f)
 
 
 template<bool b, typename True, typename False>
-inline __host__ __device__
+inline __hydra_host__ __hydra_device__
 typename enable_if<b, True&>::type
 if_else(True &t, const False &f)
 {
@@ -168,7 +168,7 @@ if_else(True &t, const False &f)
 
 
 template<bool b, typename True, typename False>
-inline __host__ __device__
+inline __hydra_host__ __hydra_device__
 typename enable_if<!b, False&>::type
 if_else(const True &t, False &f)
 {
@@ -177,7 +177,7 @@ if_else(const True &t, False &f)
 
 
 template<bool b, typename True, typename False>
-inline __host__ __device__
+inline __hydra_host__ __hydra_device__
 typename enable_if<!b, const False&>::type
 if_else(const True &t, const False &f)
 {
@@ -222,7 +222,7 @@ struct tuple_append_result
 
 // append x to a tuple, producing a copy of t with x appended
 template<typename T, typename Tuple>
-inline __host__ __device__
+inline __hydra_host__ __hydra_device__
 typename enable_if<
   tuple_size<Tuple>::value < 10,
   typename tuple_append_result<T,Tuple>::type
@@ -254,7 +254,7 @@ tuple_append(const Tuple &t, const T &x)
 
 
 template<typename T, typename Tuple>
-inline __host__ __device__
+inline __hydra_host__ __hydra_device__
 typename enable_if<
   tuple_size<Tuple>::value < 10,
   typename tuple_append_result<T,Tuple>::type

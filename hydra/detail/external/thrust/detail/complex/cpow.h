@@ -23,26 +23,26 @@
 HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust{
 
 template <typename T>
-  __host__ __device__
+  __hydra_host__ __hydra_device__
   inline complex<T> pow(const complex<T>& z, const complex<T> & exponent){
   return thrust::exp(thrust::log(z)*exponent);
 }
 
 /* This function should be changed as soon as FreeBSD's msun gets a cpow function */
 template <>
-  __host__ __device__
+  __hydra_host__ __hydra_device__
   inline complex<double> pow(const complex<double>& z, const complex<double> & exponent){
   return thrust::exp(thrust::log(z)*exponent);
 }
 
 template <typename T>
-  __host__ __device__
+  __hydra_host__ __hydra_device__
   inline complex<T> pow(const complex<T>& z, const T & exponent){
   return thrust::exp(thrust::log(z)*exponent);
 }
 
 template <typename T>
-  __host__ __device__
+  __hydra_host__ __hydra_device__
   inline complex<T> pow(const T & x, const complex<T> & exponent){
   return thrust::exp(std::log(x)*exponent);
 }
@@ -50,21 +50,21 @@ template <typename T>
 #if !defined _MSC_VER
 
 template <typename T, typename U>
-  __host__ __device__ 
+  __hydra_host__ __hydra_device__ 
   inline complex<typename detail::promoted_numerical_type<T,U>::type > pow(const complex<T>& z, const complex<T>& exponent){
   typedef typename detail::promoted_numerical_type<T,U>::type PromotedType;
   return thrust::exp(thrust::log(complex<PromotedType>(z))*complex<PromotedType>(exponent));
 }
 
 template <typename T, typename U>
-  __host__ __device__ 
+  __hydra_host__ __hydra_device__ 
   inline complex<typename detail::promoted_numerical_type<T,U>::type > pow(const complex<T>& z, const U& exponent){
   typedef typename detail::promoted_numerical_type<T,U>::type PromotedType;
   return thrust::exp(thrust::log(complex<PromotedType>(z))*PromotedType(exponent));
 }
 
 template <typename T, typename U>
-  __host__ __device__ 
+  __hydra_host__ __hydra_device__ 
   inline complex<typename detail::promoted_numerical_type<T,U>::type > pow(const T& x, const complex<U>& exponent){
   typedef typename detail::promoted_numerical_type<T,U>::type PromotedType;
   return thrust::exp(std::log(PromotedType(x))*complex<PromotedType>(exponent));

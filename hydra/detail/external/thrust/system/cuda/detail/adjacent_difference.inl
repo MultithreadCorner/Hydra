@@ -49,10 +49,10 @@ struct last_index_in_each_interval : public thrust::unary_function<typename Deco
 
   Decomposition decomp;
 
-  __host__ __device__
+  __hydra_host__ __hydra_device__
   last_index_in_each_interval(Decomposition decomp) : decomp(decomp) {}
 
-  __host__ __device__
+  __hydra_host__ __hydra_device__
   index_type operator()(index_type interval)
   {
     return decomp[interval].end() - 1;
@@ -77,7 +77,7 @@ struct adjacent_difference_closure
 
   typedef Context context_type;
   
-  __host__ __device__
+  __hydra_host__ __hydra_device__
   adjacent_difference_closure(InputIterator1 input,
                               InputIterator2 input_copy,
                               OutputIterator output,
@@ -86,7 +86,7 @@ struct adjacent_difference_closure
                               Context        context = Context())
     : input(input), input_copy(input_copy), output(output), binary_op(binary_op), decomp(decomp), context(context) {}
 
-  __device__ __thrust_forceinline__
+  __hydra_device__ __thrust_forceinline__
   void operator()(void)
   {
     typedef typename thrust::iterator_value<InputIterator1>::type  InputType;
@@ -153,7 +153,7 @@ template<typename DerivedPolicy,
          typename InputIterator,
          typename OutputIterator,
          typename BinaryFunction>
-__host__ __device__
+__hydra_host__ __hydra_device__
 OutputIterator adjacent_difference(execution_policy<DerivedPolicy> &exec,
                                    InputIterator first, InputIterator last,
                                    OutputIterator result,
@@ -206,7 +206,7 @@ template<typename DerivedPolicy,
          typename InputIterator,
          typename OutputIterator,
          typename BinaryFunction>
-__host__ __device__
+__hydra_host__ __hydra_device__
 OutputIterator adjacent_difference(execution_policy<DerivedPolicy> &exec,
                                    InputIterator first, InputIterator last,
                                    OutputIterator result,
@@ -221,7 +221,7 @@ OutputIterator adjacent_difference(execution_policy<DerivedPolicy> &exec,
 
   struct workaround
   {
-    __host__ __device__
+    __hydra_host__ __hydra_device__
     static OutputIterator parallel_path(execution_policy<DerivedPolicy> &exec,
                                         InputIterator first, InputIterator last,
                                         OutputIterator result,
@@ -230,7 +230,7 @@ OutputIterator adjacent_difference(execution_policy<DerivedPolicy> &exec,
       return thrust::system::cuda::detail::adjacent_difference_detail::adjacent_difference(exec, first, last, result, binary_op);
     }
 
-    __host__ __device__
+    __hydra_host__ __hydra_device__
     static OutputIterator sequential_path(execution_policy<DerivedPolicy> &,
                                           InputIterator first, InputIterator last,
                                           OutputIterator result,

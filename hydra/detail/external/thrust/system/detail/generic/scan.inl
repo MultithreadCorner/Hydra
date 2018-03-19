@@ -39,7 +39,7 @@ namespace generic
 template<typename ExecutionPolicy,
          typename InputIterator,
          typename OutputIterator>
-__host__ __device__
+__hydra_host__ __hydra_device__
   OutputIterator inclusive_scan(thrust::execution_policy<ExecutionPolicy> &exec,
                                 InputIterator first,
                                 InputIterator last,
@@ -66,7 +66,7 @@ __host__ __device__
 template<typename ExecutionPolicy,
          typename InputIterator,
          typename OutputIterator>
-__host__ __device__
+__hydra_host__ __hydra_device__
   OutputIterator exclusive_scan(thrust::execution_policy<ExecutionPolicy> &exec,
                                 InputIterator first,
                                 InputIterator last,
@@ -94,7 +94,7 @@ template<typename ExecutionPolicy,
          typename InputIterator,
          typename OutputIterator,
          typename T>
-__host__ __device__
+__hydra_host__ __hydra_device__
   OutputIterator exclusive_scan(thrust::execution_policy<ExecutionPolicy> &exec,
                                 InputIterator first,
                                 InputIterator last,
@@ -110,7 +110,7 @@ template<typename ExecutionPolicy,
          typename InputIterator,
          typename OutputIterator,
          typename BinaryFunction>
-__host__ __device__
+__hydra_host__ __hydra_device__
   OutputIterator inclusive_scan(thrust::execution_policy<ExecutionPolicy> &/*exec*/,
                                 InputIterator /*first*/,
                                 InputIterator /*last*/,
@@ -128,7 +128,7 @@ template<typename ExecutionPolicy,
          typename OutputIterator,
          typename T,
          typename BinaryFunction>
-__host__ __device__
+__hydra_host__ __hydra_device__
   OutputIterator exclusive_scan(thrust::execution_policy<ExecutionPolicy> &/*exec*/,
                                 InputIterator /*first*/,
                                 InputIterator /*last*/,

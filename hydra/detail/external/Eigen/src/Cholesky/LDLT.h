@@ -10,8 +10,8 @@
 // Public License v. 2.0. If a copy of the MPL was not distributed
 // with this file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
-#ifndef EIGEN_LDLT_H
-#define EIGEN_LDLT_H
+#ifndef HYDRA_EIGEN_LDLT_H
+#define HYDRA_EIGEN_LDLT_H
 
 HYDRA_EXTERNAL_NAMESPACE_BEGIN namespace Eigen {
 
@@ -256,9 +256,9 @@ template<typename _MatrixType, int _UpLo> class LDLT
       return m_info;
     }
 
-    #ifndef EIGEN_PARSED_BY_DOXYGEN
+    #ifndef HYDRA_EIGEN_PARSED_BY_DOXYGEN
     template<typename RhsType, typename DstType>
-    EIGEN_DEVICE_FUNC
+    HYDRA_EIGEN_DEVICE_FUNC
     void _solve_impl(const RhsType &rhs, DstType &dst) const;
     #endif
 
@@ -266,7 +266,7 @@ template<typename _MatrixType, int _UpLo> class LDLT
 
     static void check_template_parameters()
     {
-      EIGEN_STATIC_ASSERT_NON_INTEGER(Scalar);
+      HYDRA_EIGEN_STATIC_ASSERT_NON_INTEGER(Scalar);
     }
 
     /** \internal
@@ -451,14 +451,14 @@ template<> struct ldlt_inplace<Lower>
 template<> struct ldlt_inplace<Upper>
 {
   template<typename MatrixType, typename TranspositionType, typename Workspace>
-  static EIGEN_STRONG_INLINE bool unblocked(MatrixType& mat, TranspositionType& transpositions, Workspace& temp, SignMatrix& sign)
+  static HYDRA_EIGEN_STRONG_INLINE bool unblocked(MatrixType& mat, TranspositionType& transpositions, Workspace& temp, SignMatrix& sign)
   {
     Transpose<MatrixType> matt(mat);
     return ldlt_inplace<Lower>::unblocked(matt, transpositions, temp, sign);
   }
 
   template<typename MatrixType, typename TranspositionType, typename Workspace, typename WType>
-  static EIGEN_STRONG_INLINE bool update(MatrixType& mat, TranspositionType& transpositions, Workspace& tmp, WType& w, const typename MatrixType::RealScalar& sigma=1)
+  static HYDRA_EIGEN_STRONG_INLINE bool update(MatrixType& mat, TranspositionType& transpositions, Workspace& tmp, WType& w, const typename MatrixType::RealScalar& sigma=1)
   {
     Transpose<MatrixType> matt(mat);
     return ldlt_inplace<Lower>::update(matt, transpositions, tmp, w.conjugate(), sigma);
@@ -552,7 +552,7 @@ LDLT<MatrixType,_UpLo>& LDLT<MatrixType,_UpLo>::rankUpdate(const MatrixBase<Deri
   return *this;
 }
 
-#ifndef EIGEN_PARSED_BY_DOXYGEN
+#ifndef HYDRA_EIGEN_PARSED_BY_DOXYGEN
 template<typename _MatrixType, int _UpLo>
 template<typename RhsType, typename DstType>
 void LDLT<_MatrixType,_UpLo>::_solve_impl(const RhsType &rhs, DstType &dst) const
@@ -666,4 +666,4 @@ MatrixBase<Derived>::ldlt() const
 
 } /* end namespace Eigen */  HYDRA_EXTERNAL_NAMESPACE_END
 
-#endif // EIGEN_LDLT_H
+#endif // HYDRA_EIGEN_LDLT_H

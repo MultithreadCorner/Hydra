@@ -8,8 +8,8 @@
 // Public License v. 2.0. If a copy of the MPL was not distributed
 // with this file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
-#ifndef EIGEN_TRIANGULARMATRIX_H
-#define EIGEN_TRIANGULARMATRIX_H
+#ifndef HYDRA_EIGEN_TRIANGULARMATRIX_H
+#define HYDRA_EIGEN_TRIANGULARMATRIX_H
 
 HYDRA_EXTERNAL_NAMESPACE_BEGIN namespace Eigen { 
 
@@ -52,68 +52,68 @@ template<typename Derived> class TriangularBase : public EigenBase<Derived>
     typedef DenseMatrixType DenseType;
     typedef Derived const& Nested;
 
-    EIGEN_DEVICE_FUNC
+    HYDRA_EIGEN_DEVICE_FUNC
     inline TriangularBase() { eigen_assert(!((Mode&UnitDiag) && (Mode&ZeroDiag))); }
 
-    EIGEN_DEVICE_FUNC
+    HYDRA_EIGEN_DEVICE_FUNC
     inline Index rows() const { return derived().rows(); }
-    EIGEN_DEVICE_FUNC
+    HYDRA_EIGEN_DEVICE_FUNC
     inline Index cols() const { return derived().cols(); }
-    EIGEN_DEVICE_FUNC
+    HYDRA_EIGEN_DEVICE_FUNC
     inline Index outerStride() const { return derived().outerStride(); }
-    EIGEN_DEVICE_FUNC
+    HYDRA_EIGEN_DEVICE_FUNC
     inline Index innerStride() const { return derived().innerStride(); }
     
     // dummy resize function
     void resize(Index rows, Index cols)
     {
-      EIGEN_UNUSED_VARIABLE(rows);
-      EIGEN_UNUSED_VARIABLE(cols);
+      HYDRA_EIGEN_UNUSED_VARIABLE(rows);
+      HYDRA_EIGEN_UNUSED_VARIABLE(cols);
       eigen_assert(rows==this->rows() && cols==this->cols());
     }
 
-    EIGEN_DEVICE_FUNC
+    HYDRA_EIGEN_DEVICE_FUNC
     inline Scalar coeff(Index row, Index col) const  { return derived().coeff(row,col); }
-    EIGEN_DEVICE_FUNC
+    HYDRA_EIGEN_DEVICE_FUNC
     inline Scalar& coeffRef(Index row, Index col) { return derived().coeffRef(row,col); }
 
     /** \see MatrixBase::copyCoeff(row,col)
       */
     template<typename Other>
-    EIGEN_DEVICE_FUNC
-    EIGEN_STRONG_INLINE void copyCoeff(Index row, Index col, Other& other)
+    HYDRA_EIGEN_DEVICE_FUNC
+    HYDRA_EIGEN_STRONG_INLINE void copyCoeff(Index row, Index col, Other& other)
     {
       derived().coeffRef(row, col) = other.coeff(row, col);
     }
 
-    EIGEN_DEVICE_FUNC
+    HYDRA_EIGEN_DEVICE_FUNC
     inline Scalar operator()(Index row, Index col) const
     {
       check_coordinates(row, col);
       return coeff(row,col);
     }
-    EIGEN_DEVICE_FUNC
+    HYDRA_EIGEN_DEVICE_FUNC
     inline Scalar& operator()(Index row, Index col)
     {
       check_coordinates(row, col);
       return coeffRef(row,col);
     }
 
-    #ifndef EIGEN_PARSED_BY_DOXYGEN
-    EIGEN_DEVICE_FUNC
+    #ifndef HYDRA_EIGEN_PARSED_BY_DOXYGEN
+    HYDRA_EIGEN_DEVICE_FUNC
     inline const Derived& derived() const { return *static_cast<const Derived*>(this); }
-    EIGEN_DEVICE_FUNC
+    HYDRA_EIGEN_DEVICE_FUNC
     inline Derived& derived() { return *static_cast<Derived*>(this); }
-    #endif // not EIGEN_PARSED_BY_DOXYGEN
+    #endif // not HYDRA_EIGEN_PARSED_BY_DOXYGEN
 
     template<typename DenseDerived>
-    EIGEN_DEVICE_FUNC
+    HYDRA_EIGEN_DEVICE_FUNC
     void evalTo(MatrixBase<DenseDerived> &other) const;
     template<typename DenseDerived>
-    EIGEN_DEVICE_FUNC
+    HYDRA_EIGEN_DEVICE_FUNC
     void evalToLazy(MatrixBase<DenseDerived> &other) const;
 
-    EIGEN_DEVICE_FUNC
+    HYDRA_EIGEN_DEVICE_FUNC
     DenseMatrixType toDenseMatrix() const
     {
       DenseMatrixType res(rows(), cols());
@@ -125,18 +125,18 @@ template<typename Derived> class TriangularBase : public EigenBase<Derived>
 
     void check_coordinates(Index row, Index col) const
     {
-      EIGEN_ONLY_USED_FOR_DEBUG(row);
-      EIGEN_ONLY_USED_FOR_DEBUG(col);
+      HYDRA_EIGEN_ONLY_USED_FOR_DEBUG(row);
+      HYDRA_EIGEN_ONLY_USED_FOR_DEBUG(col);
       eigen_assert(col>=0 && col<cols() && row>=0 && row<rows());
       const int mode = int(Mode) & ~SelfAdjoint;
-      EIGEN_ONLY_USED_FOR_DEBUG(mode);
+      HYDRA_EIGEN_ONLY_USED_FOR_DEBUG(mode);
       eigen_assert((mode==Upper && col>=row)
                 || (mode==Lower && col<=row)
                 || ((mode==StrictlyUpper || mode==UnitUpper) && col>row)
                 || ((mode==StrictlyLower || mode==UnitLower) && col<row));
     }
 
-    #ifdef EIGEN_INTERNAL_DEBUGGING
+    #ifdef HYDRA_EIGEN_INTERNAL_DEBUGGING
     void check_coordinates_internal(Index row, Index col) const
     {
       check_coordinates(row, col);
@@ -213,7 +213,7 @@ template<typename _MatrixType, unsigned int _Mode> class TriangularView
       IsVectorAtCompileTime = false
     };
 
-    EIGEN_DEVICE_FUNC
+    HYDRA_EIGEN_DEVICE_FUNC
     explicit inline TriangularView(MatrixType& matrix) : m_matrix(matrix)
     {}
     
@@ -222,60 +222,60 @@ template<typename _MatrixType, unsigned int _Mode> class TriangularView
     { return Base::operator=(other); }
 
     /** \copydoc EigenBase::rows() */
-    EIGEN_DEVICE_FUNC
+    HYDRA_EIGEN_DEVICE_FUNC
     inline Index rows() const { return m_matrix.rows(); }
     /** \copydoc EigenBase::cols() */
-    EIGEN_DEVICE_FUNC
+    HYDRA_EIGEN_DEVICE_FUNC
     inline Index cols() const { return m_matrix.cols(); }
 
     /** \returns a const reference to the nested expression */
-    EIGEN_DEVICE_FUNC
+    HYDRA_EIGEN_DEVICE_FUNC
     const NestedExpression& nestedExpression() const { return m_matrix; }
 
     /** \returns a reference to the nested expression */
-    EIGEN_DEVICE_FUNC
+    HYDRA_EIGEN_DEVICE_FUNC
     NestedExpression& nestedExpression() { return m_matrix; }
     
     typedef TriangularView<const MatrixConjugateReturnType,Mode> ConjugateReturnType;
     /** \sa MatrixBase::conjugate() const */
-    EIGEN_DEVICE_FUNC
+    HYDRA_EIGEN_DEVICE_FUNC
     inline const ConjugateReturnType conjugate() const
     { return ConjugateReturnType(m_matrix.conjugate()); }
 
     typedef TriangularView<const typename MatrixType::AdjointReturnType,TransposeMode> AdjointReturnType;
     /** \sa MatrixBase::adjoint() const */
-    EIGEN_DEVICE_FUNC
+    HYDRA_EIGEN_DEVICE_FUNC
     inline const AdjointReturnType adjoint() const
     { return AdjointReturnType(m_matrix.adjoint()); }
 
     typedef TriangularView<typename MatrixType::TransposeReturnType,TransposeMode> TransposeReturnType;
      /** \sa MatrixBase::transpose() */
-    EIGEN_DEVICE_FUNC
+    HYDRA_EIGEN_DEVICE_FUNC
     inline TransposeReturnType transpose()
     {
-      EIGEN_STATIC_ASSERT_LVALUE(MatrixType)
+      HYDRA_EIGEN_STATIC_ASSERT_LVALUE(MatrixType)
       typename MatrixType::TransposeReturnType tmp(m_matrix);
       return TransposeReturnType(tmp);
     }
     
     typedef TriangularView<const typename MatrixType::ConstTransposeReturnType,TransposeMode> ConstTransposeReturnType;
     /** \sa MatrixBase::transpose() const */
-    EIGEN_DEVICE_FUNC
+    HYDRA_EIGEN_DEVICE_FUNC
     inline const ConstTransposeReturnType transpose() const
     {
       return ConstTransposeReturnType(m_matrix.transpose());
     }
 
     template<typename Other>
-    EIGEN_DEVICE_FUNC
+    HYDRA_EIGEN_DEVICE_FUNC
     inline const Solve<TriangularView, Other> 
     solve(const MatrixBase<Other>& other) const
     { return Solve<TriangularView, Other>(*this, other.derived()); }
     
   // workaround MSVC ICE
-  #if EIGEN_COMP_MSVC
+  #if HYDRA_EIGEN_COMP_MSVC
     template<int Side, typename Other>
-    EIGEN_DEVICE_FUNC
+    HYDRA_EIGEN_DEVICE_FUNC
     inline const internal::triangular_solve_retval<Side,TriangularView, Other>
     solve(const MatrixBase<Other>& other) const
     { return Base::template solve<Side>(other); }
@@ -287,25 +287,25 @@ template<typename _MatrixType, unsigned int _Mode> class TriangularView
       *
       * This is a shortcut for \code this->nestedExpression().selfadjointView<(*this)::Mode>() \endcode
       * \sa MatrixBase::selfadjointView() */
-    EIGEN_DEVICE_FUNC
+    HYDRA_EIGEN_DEVICE_FUNC
     SelfAdjointView<MatrixTypeNestedNonRef,Mode> selfadjointView()
     {
-      EIGEN_STATIC_ASSERT((Mode&(UnitDiag|ZeroDiag))==0,PROGRAMMING_ERROR);
+      HYDRA_EIGEN_STATIC_ASSERT((Mode&(UnitDiag|ZeroDiag))==0,PROGRAMMING_ERROR);
       return SelfAdjointView<MatrixTypeNestedNonRef,Mode>(m_matrix);
     }
 
     /** This is the const version of selfadjointView() */
-    EIGEN_DEVICE_FUNC
+    HYDRA_EIGEN_DEVICE_FUNC
     const SelfAdjointView<MatrixTypeNestedNonRef,Mode> selfadjointView() const
     {
-      EIGEN_STATIC_ASSERT((Mode&(UnitDiag|ZeroDiag))==0,PROGRAMMING_ERROR);
+      HYDRA_EIGEN_STATIC_ASSERT((Mode&(UnitDiag|ZeroDiag))==0,PROGRAMMING_ERROR);
       return SelfAdjointView<MatrixTypeNestedNonRef,Mode>(m_matrix);
     }
 
 
     /** \returns the determinant of the triangular matrix
       * \sa MatrixBase::determinant() */
-    EIGEN_DEVICE_FUNC
+    HYDRA_EIGEN_DEVICE_FUNC
     Scalar determinant() const
     {
       if (Mode & UnitDiag)
@@ -356,53 +356,53 @@ template<typename _MatrixType, unsigned int _Mode> class TriangularViewImpl<_Mat
 
     /** \returns the outer-stride of the underlying dense matrix
       * \sa DenseCoeffsBase::outerStride() */
-    EIGEN_DEVICE_FUNC
+    HYDRA_EIGEN_DEVICE_FUNC
     inline Index outerStride() const { return derived().nestedExpression().outerStride(); }
     /** \returns the inner-stride of the underlying dense matrix
       * \sa DenseCoeffsBase::innerStride() */
-    EIGEN_DEVICE_FUNC
+    HYDRA_EIGEN_DEVICE_FUNC
     inline Index innerStride() const { return derived().nestedExpression().innerStride(); }
 
     /** \sa MatrixBase::operator+=() */
     template<typename Other>
-    EIGEN_DEVICE_FUNC
+    HYDRA_EIGEN_DEVICE_FUNC
     TriangularViewType&  operator+=(const DenseBase<Other>& other) {
       internal::call_assignment_no_alias(derived(), other.derived(), internal::add_assign_op<Scalar,typename Other::Scalar>());
       return derived();
     }
     /** \sa MatrixBase::operator-=() */
     template<typename Other>
-    EIGEN_DEVICE_FUNC
+    HYDRA_EIGEN_DEVICE_FUNC
     TriangularViewType&  operator-=(const DenseBase<Other>& other) {
       internal::call_assignment_no_alias(derived(), other.derived(), internal::sub_assign_op<Scalar,typename Other::Scalar>());
       return derived();
     }
     
     /** \sa MatrixBase::operator*=() */
-    EIGEN_DEVICE_FUNC
+    HYDRA_EIGEN_DEVICE_FUNC
     TriangularViewType&  operator*=(const typename internal::traits<MatrixType>::Scalar& other) { return *this = derived().nestedExpression() * other; }
     /** \sa DenseBase::operator/=() */
-    EIGEN_DEVICE_FUNC
+    HYDRA_EIGEN_DEVICE_FUNC
     TriangularViewType&  operator/=(const typename internal::traits<MatrixType>::Scalar& other) { return *this = derived().nestedExpression() / other; }
 
     /** \sa MatrixBase::fill() */
-    EIGEN_DEVICE_FUNC
+    HYDRA_EIGEN_DEVICE_FUNC
     void fill(const Scalar& value) { setConstant(value); }
     /** \sa MatrixBase::setConstant() */
-    EIGEN_DEVICE_FUNC
+    HYDRA_EIGEN_DEVICE_FUNC
     TriangularViewType& setConstant(const Scalar& value)
     { return *this = MatrixType::Constant(derived().rows(), derived().cols(), value); }
     /** \sa MatrixBase::setZero() */
-    EIGEN_DEVICE_FUNC
+    HYDRA_EIGEN_DEVICE_FUNC
     TriangularViewType& setZero() { return setConstant(Scalar(0)); }
     /** \sa MatrixBase::setOnes() */
-    EIGEN_DEVICE_FUNC
+    HYDRA_EIGEN_DEVICE_FUNC
     TriangularViewType& setOnes() { return setConstant(Scalar(1)); }
 
     /** \sa MatrixBase::coeff()
       * \warning the coordinates must fit into the referenced triangular part
       */
-    EIGEN_DEVICE_FUNC
+    HYDRA_EIGEN_DEVICE_FUNC
     inline Scalar coeff(Index row, Index col) const
     {
       Base::check_coordinates_internal(row, col);
@@ -412,43 +412,43 @@ template<typename _MatrixType, unsigned int _Mode> class TriangularViewImpl<_Mat
     /** \sa MatrixBase::coeffRef()
       * \warning the coordinates must fit into the referenced triangular part
       */
-    EIGEN_DEVICE_FUNC
+    HYDRA_EIGEN_DEVICE_FUNC
     inline Scalar& coeffRef(Index row, Index col)
     {
-      EIGEN_STATIC_ASSERT_LVALUE(TriangularViewType);
+      HYDRA_EIGEN_STATIC_ASSERT_LVALUE(TriangularViewType);
       Base::check_coordinates_internal(row, col);
       return derived().nestedExpression().coeffRef(row, col);
     }
 
     /** Assigns a triangular matrix to a triangular part of a dense matrix */
     template<typename OtherDerived>
-    EIGEN_DEVICE_FUNC
+    HYDRA_EIGEN_DEVICE_FUNC
     TriangularViewType& operator=(const TriangularBase<OtherDerived>& other);
 
     /** Shortcut for\code *this = other.other.triangularView<(*this)::Mode>() \endcode */
     template<typename OtherDerived>
-    EIGEN_DEVICE_FUNC
+    HYDRA_EIGEN_DEVICE_FUNC
     TriangularViewType& operator=(const MatrixBase<OtherDerived>& other);
 
-#ifndef EIGEN_PARSED_BY_DOXYGEN
-    EIGEN_DEVICE_FUNC
+#ifndef HYDRA_EIGEN_PARSED_BY_DOXYGEN
+    HYDRA_EIGEN_DEVICE_FUNC
     TriangularViewType& operator=(const TriangularViewImpl& other)
     { return *this = other.derived().nestedExpression(); }
 
     /** \deprecated */
     template<typename OtherDerived>
-    EIGEN_DEVICE_FUNC
+    HYDRA_EIGEN_DEVICE_FUNC
     void lazyAssign(const TriangularBase<OtherDerived>& other);
 
     /** \deprecated */
     template<typename OtherDerived>
-    EIGEN_DEVICE_FUNC
+    HYDRA_EIGEN_DEVICE_FUNC
     void lazyAssign(const MatrixBase<OtherDerived>& other);
 #endif
 
     /** Efficient triangular matrix times vector/matrix product */
     template<typename OtherDerived>
-    EIGEN_DEVICE_FUNC
+    HYDRA_EIGEN_DEVICE_FUNC
     const Product<TriangularViewType,OtherDerived>
     operator*(const MatrixBase<OtherDerived>& rhs) const
     {
@@ -457,7 +457,7 @@ template<typename _MatrixType, unsigned int _Mode> class TriangularViewImpl<_Mat
 
     /** Efficient vector/matrix times triangular matrix product */
     template<typename OtherDerived> friend
-    EIGEN_DEVICE_FUNC
+    HYDRA_EIGEN_DEVICE_FUNC
     const Product<OtherDerived,TriangularViewType>
     operator*(const MatrixBase<OtherDerived>& lhs, const TriangularViewImpl& rhs)
     {
@@ -488,7 +488,7 @@ template<typename _MatrixType, unsigned int _Mode> class TriangularViewImpl<_Mat
       * \sa TriangularView::solveInPlace()
       */
     template<int Side, typename Other>
-    EIGEN_DEVICE_FUNC
+    HYDRA_EIGEN_DEVICE_FUNC
     inline const internal::triangular_solve_retval<Side,TriangularViewType, Other>
     solve(const MatrixBase<Other>& other) const;
 
@@ -502,55 +502,55 @@ template<typename _MatrixType, unsigned int _Mode> class TriangularViewImpl<_Mat
       * See TriangularView:solve() for the details.
       */
     template<int Side, typename OtherDerived>
-    EIGEN_DEVICE_FUNC
+    HYDRA_EIGEN_DEVICE_FUNC
     void solveInPlace(const MatrixBase<OtherDerived>& other) const;
 
     template<typename OtherDerived>
-    EIGEN_DEVICE_FUNC
+    HYDRA_EIGEN_DEVICE_FUNC
     void solveInPlace(const MatrixBase<OtherDerived>& other) const
     { return solveInPlace<OnTheLeft>(other); }
 
     /** Swaps the coefficients of the common triangular parts of two matrices */
     template<typename OtherDerived>
-    EIGEN_DEVICE_FUNC
-#ifdef EIGEN_PARSED_BY_DOXYGEN
+    HYDRA_EIGEN_DEVICE_FUNC
+#ifdef HYDRA_EIGEN_PARSED_BY_DOXYGEN
     void swap(TriangularBase<OtherDerived> &other)
 #else
     void swap(TriangularBase<OtherDerived> const & other)
 #endif
     {
-      EIGEN_STATIC_ASSERT_LVALUE(OtherDerived);
+      HYDRA_EIGEN_STATIC_ASSERT_LVALUE(OtherDerived);
       call_assignment(derived(), other.const_cast_derived(), internal::swap_assign_op<Scalar>());
     }
 
     /** \deprecated
       * Shortcut for \code (*this).swap(other.triangularView<(*this)::Mode>()) \endcode */
     template<typename OtherDerived>
-    EIGEN_DEVICE_FUNC
+    HYDRA_EIGEN_DEVICE_FUNC
     void swap(MatrixBase<OtherDerived> const & other)
     {
-      EIGEN_STATIC_ASSERT_LVALUE(OtherDerived);
+      HYDRA_EIGEN_STATIC_ASSERT_LVALUE(OtherDerived);
       call_assignment(derived(), other.const_cast_derived(), internal::swap_assign_op<Scalar>());
     }
 
     template<typename RhsType, typename DstType>
-    EIGEN_DEVICE_FUNC
-    EIGEN_STRONG_INLINE void _solve_impl(const RhsType &rhs, DstType &dst) const {
+    HYDRA_EIGEN_DEVICE_FUNC
+    HYDRA_EIGEN_STRONG_INLINE void _solve_impl(const RhsType &rhs, DstType &dst) const {
       if(!internal::is_same_dense(dst,rhs))
         dst = rhs;
       this->solveInPlace(dst);
     }
 
     template<typename ProductType>
-    EIGEN_DEVICE_FUNC
-    EIGEN_STRONG_INLINE TriangularViewType& _assignProduct(const ProductType& prod, const Scalar& alpha, bool beta);
+    HYDRA_EIGEN_DEVICE_FUNC
+    HYDRA_EIGEN_STRONG_INLINE TriangularViewType& _assignProduct(const ProductType& prod, const Scalar& alpha, bool beta);
 };
 
 /***************************************************************************
 * Implementation of triangular evaluation/assignment
 ***************************************************************************/
 
-#ifndef EIGEN_PARSED_BY_DOXYGEN
+#ifndef HYDRA_EIGEN_PARSED_BY_DOXYGEN
 // FIXME should we keep that possibility
 template<typename MatrixType, unsigned int Mode>
 template<typename OtherDerived>
@@ -750,12 +750,12 @@ public:
   typedef typename Base::AssignmentTraits AssignmentTraits;
   
   
-  EIGEN_DEVICE_FUNC triangular_dense_assignment_kernel(DstEvaluatorType &dst, const SrcEvaluatorType &src, const Functor &func, DstXprType& dstExpr)
+  HYDRA_EIGEN_DEVICE_FUNC triangular_dense_assignment_kernel(DstEvaluatorType &dst, const SrcEvaluatorType &src, const Functor &func, DstXprType& dstExpr)
     : Base(dst, src, func, dstExpr)
   {}
   
-#ifdef EIGEN_INTERNAL_DEBUGGING
-  EIGEN_DEVICE_FUNC void assignCoeff(Index row, Index col)
+#ifdef HYDRA_EIGEN_INTERNAL_DEBUGGING
+  HYDRA_EIGEN_DEVICE_FUNC void assignCoeff(Index row, Index col)
   {
     eigen_internal_assert(row!=col);
     Base::assignCoeff(row,col);
@@ -764,14 +764,14 @@ public:
   using Base::assignCoeff;
 #endif
   
-  EIGEN_DEVICE_FUNC void assignDiagonalCoeff(Index id)
+  HYDRA_EIGEN_DEVICE_FUNC void assignDiagonalCoeff(Index id)
   {
          if(Mode==UnitDiag && SetOpposite) m_functor.assignCoeff(m_dst.coeffRef(id,id), Scalar(1));
     else if(Mode==ZeroDiag && SetOpposite) m_functor.assignCoeff(m_dst.coeffRef(id,id), Scalar(0));
     else if(Mode==0)                       Base::assignCoeff(id,id);
   }
   
-  EIGEN_DEVICE_FUNC void assignOppositeCoeff(Index row, Index col)
+  HYDRA_EIGEN_DEVICE_FUNC void assignOppositeCoeff(Index row, Index col)
   { 
     eigen_internal_assert(row!=col);
     if(SetOpposite)
@@ -780,7 +780,7 @@ public:
 };
 
 template<int Mode, bool SetOpposite, typename DstXprType, typename SrcXprType, typename Functor>
-EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE
+HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE
 void call_triangular_assignment_loop(DstXprType& dst, const SrcXprType& src, const Functor &func)
 {
   typedef evaluator<DstXprType> DstEvaluatorType;
@@ -801,14 +801,14 @@ void call_triangular_assignment_loop(DstXprType& dst, const SrcXprType& src, con
   enum {
       unroll = DstXprType::SizeAtCompileTime != Dynamic
             && SrcEvaluatorType::CoeffReadCost < HugeCost
-            && DstXprType::SizeAtCompileTime * (DstEvaluatorType::CoeffReadCost+SrcEvaluatorType::CoeffReadCost) / 2 <= EIGEN_UNROLLING_LIMIT
+            && DstXprType::SizeAtCompileTime * (DstEvaluatorType::CoeffReadCost+SrcEvaluatorType::CoeffReadCost) / 2 <= HYDRA_EIGEN_UNROLLING_LIMIT
     };
   
   triangular_assignment_loop<Kernel, Mode, unroll ? int(DstXprType::SizeAtCompileTime) : Dynamic, SetOpposite>::run(kernel);
 }
 
 template<int Mode, bool SetOpposite, typename DstXprType, typename SrcXprType>
-EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE
+HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE
 void call_triangular_assignment_loop(DstXprType& dst, const SrcXprType& src)
 {
   call_triangular_assignment_loop<Mode,SetOpposite>(dst, src, internal::assign_op<typename DstXprType::Scalar,typename SrcXprType::Scalar>());
@@ -822,7 +822,7 @@ template<> struct AssignmentKind<TriangularShape,DenseShape>      { typedef Dens
 template< typename DstXprType, typename SrcXprType, typename Functor>
 struct Assignment<DstXprType, SrcXprType, Functor, Triangular2Triangular>
 {
-  EIGEN_DEVICE_FUNC static void run(DstXprType &dst, const SrcXprType &src, const Functor &func)
+  HYDRA_EIGEN_DEVICE_FUNC static void run(DstXprType &dst, const SrcXprType &src, const Functor &func)
   {
     eigen_assert(int(DstXprType::Mode) == int(SrcXprType::Mode));
     
@@ -833,7 +833,7 @@ struct Assignment<DstXprType, SrcXprType, Functor, Triangular2Triangular>
 template< typename DstXprType, typename SrcXprType, typename Functor>
 struct Assignment<DstXprType, SrcXprType, Functor, Triangular2Dense>
 {
-  EIGEN_DEVICE_FUNC static void run(DstXprType &dst, const SrcXprType &src, const Functor &func)
+  HYDRA_EIGEN_DEVICE_FUNC static void run(DstXprType &dst, const SrcXprType &src, const Functor &func)
   {
     call_triangular_assignment_loop<SrcXprType::Mode, (SrcXprType::Mode&SelfAdjoint)==0>(dst, src, func);  
   }
@@ -842,7 +842,7 @@ struct Assignment<DstXprType, SrcXprType, Functor, Triangular2Dense>
 template< typename DstXprType, typename SrcXprType, typename Functor>
 struct Assignment<DstXprType, SrcXprType, Functor, Dense2Triangular>
 {
-  EIGEN_DEVICE_FUNC static void run(DstXprType &dst, const SrcXprType &src, const Functor &func)
+  HYDRA_EIGEN_DEVICE_FUNC static void run(DstXprType &dst, const SrcXprType &src, const Functor &func)
   {
     call_triangular_assignment_loop<DstXprType::Mode, false>(dst, src, func);  
   }
@@ -863,7 +863,7 @@ struct triangular_assignment_loop
   
   typedef typename Kernel::Scalar Scalar;
 
-  EIGEN_DEVICE_FUNC
+  HYDRA_EIGEN_DEVICE_FUNC
   static inline void run(Kernel &kernel)
   {
     triangular_assignment_loop<Kernel, Mode, UnrollCount-1, SetOpposite>::run(kernel);
@@ -881,7 +881,7 @@ struct triangular_assignment_loop
 template<typename Kernel, unsigned int Mode, bool SetOpposite>
 struct triangular_assignment_loop<Kernel, Mode, 0, SetOpposite>
 {
-  EIGEN_DEVICE_FUNC
+  HYDRA_EIGEN_DEVICE_FUNC
   static inline void run(Kernel &) {}
 };
 
@@ -895,7 +895,7 @@ template<typename Kernel, unsigned int Mode, bool SetOpposite>
 struct triangular_assignment_loop<Kernel, Mode, Dynamic, SetOpposite>
 {
   typedef typename Kernel::Scalar Scalar;
-  EIGEN_DEVICE_FUNC
+  HYDRA_EIGEN_DEVICE_FUNC
   static inline void run(Kernel &kernel)
   {
     for(Index j = 0; j < kernel.cols(); ++j)
@@ -980,4 +980,4 @@ struct Assignment<DstXprType, Product<Lhs,Rhs,DefaultProduct>, internal::sub_ass
 
 } /* end namespace Eigen */  HYDRA_EXTERNAL_NAMESPACE_END
 
-#endif // EIGEN_TRIANGULARMATRIX_H
+#endif // HYDRA_EIGEN_TRIANGULARMATRIX_H

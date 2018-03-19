@@ -17,14 +17,14 @@
 // Public License v. 2.0. If a copy of the MPL was not distributed
 // with this file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
-#ifndef EIGEN_BDCSVD_H
-#define EIGEN_BDCSVD_H
-// #define EIGEN_BDCSVD_DEBUG_VERBOSE
-// #define EIGEN_BDCSVD_SANITY_CHECKS
+#ifndef HYDRA_EIGEN_BDCSVD_H
+#define HYDRA_EIGEN_BDCSVD_H
+// #define HYDRA_EIGEN_BDCSVD_DEBUG_VERBOSE
+// #define HYDRA_EIGEN_BDCSVD_SANITY_CHECKS
 
 HYDRA_EXTERNAL_NAMESPACE_BEGIN namespace Eigen {
 
-#ifdef EIGEN_BDCSVD_DEBUG_VERBOSE
+#ifdef HYDRA_EIGEN_BDCSVD_DEBUG_VERBOSE
 IOFormat bdcsvdfmt(8, 0, ", ", "\n", "  [", "]");
 #endif
   
@@ -81,10 +81,10 @@ public:
   enum {
     RowsAtCompileTime = MatrixType::RowsAtCompileTime, 
     ColsAtCompileTime = MatrixType::ColsAtCompileTime, 
-    DiagSizeAtCompileTime = EIGEN_SIZE_MIN_PREFER_DYNAMIC(RowsAtCompileTime, ColsAtCompileTime), 
+    DiagSizeAtCompileTime = HYDRA_EIGEN_SIZE_MIN_PREFER_DYNAMIC(RowsAtCompileTime, ColsAtCompileTime), 
     MaxRowsAtCompileTime = MatrixType::MaxRowsAtCompileTime, 
     MaxColsAtCompileTime = MatrixType::MaxColsAtCompileTime, 
-    MaxDiagSizeAtCompileTime = EIGEN_SIZE_MIN_PREFER_FIXED(MaxRowsAtCompileTime, MaxColsAtCompileTime), 
+    MaxDiagSizeAtCompileTime = HYDRA_EIGEN_SIZE_MIN_PREFER_FIXED(MaxRowsAtCompileTime, MaxColsAtCompileTime), 
     MatrixOptions = MatrixType::Options
   };
 
@@ -237,7 +237,7 @@ void BDCSVD<MatrixType>::allocate(Index rows, Index cols, unsigned int computati
 template<typename MatrixType>
 BDCSVD<MatrixType>& BDCSVD<MatrixType>::compute(const MatrixType& matrix, unsigned int computationOptions) 
 {
-#ifdef EIGEN_BDCSVD_DEBUG_VERBOSE
+#ifdef HYDRA_EIGEN_BDCSVD_DEBUG_VERBOSE
   std::cout << "\n\n\n======================================================================================================================\n\n\n";
 #endif
   allocate(matrix.rows(), matrix.cols(), computationOptions);
@@ -295,7 +295,7 @@ BDCSVD<MatrixType>& BDCSVD<MatrixType>::compute(const MatrixType& matrix, unsign
     }
   }
 
-#ifdef EIGEN_BDCSVD_DEBUG_VERBOSE
+#ifdef HYDRA_EIGEN_BDCSVD_DEBUG_VERBOSE
 //   std::cout << "m_naiveU\n" << m_naiveU << "\n\n";
 //   std::cout << "m_naiveV\n" << m_naiveV << "\n\n";
 #endif
@@ -462,7 +462,7 @@ void BDCSVD<MatrixType>::divide (Index firstCol, Index lastCol, Index firstRowW,
     s0 = betaK * phi / r0;
   }
   
-#ifdef EIGEN_BDCSVD_SANITY_CHECKS
+#ifdef HYDRA_EIGEN_BDCSVD_SANITY_CHECKS
   assert(m_naiveU.allFinite());
   assert(m_naiveV.allFinite());
   assert(m_computed.allFinite());
@@ -501,7 +501,7 @@ void BDCSVD<MatrixType>::divide (Index firstCol, Index lastCol, Index firstRowW,
     m_naiveU.row(0).segment(firstCol + k + 1, n - k - 1).setZero();
   }
   
-#ifdef EIGEN_BDCSVD_SANITY_CHECKS
+#ifdef HYDRA_EIGEN_BDCSVD_SANITY_CHECKS
   assert(m_naiveU.allFinite());
   assert(m_naiveV.allFinite());
   assert(m_computed.allFinite());
@@ -511,12 +511,12 @@ void BDCSVD<MatrixType>::divide (Index firstCol, Index lastCol, Index firstRowW,
   m_computed.col(firstCol + shift).segment(firstCol + shift + 1, k) = alphaK * l.transpose().real();
   m_computed.col(firstCol + shift).segment(firstCol + shift + k + 1, n - k - 1) = betaK * f.transpose().real();
 
-#ifdef EIGEN_BDCSVD_DEBUG_VERBOSE
+#ifdef HYDRA_EIGEN_BDCSVD_DEBUG_VERBOSE
   ArrayXr tmp1 = (m_computed.block(firstCol+shift, firstCol+shift, n, n)).jacobiSvd().singularValues();
 #endif
   // Second part: try to deflate singular values in combined matrix
   deflation(firstCol, lastCol, k, firstRowW, firstColW, shift);
-#ifdef EIGEN_BDCSVD_DEBUG_VERBOSE
+#ifdef HYDRA_EIGEN_BDCSVD_DEBUG_VERBOSE
   ArrayXr tmp2 = (m_computed.block(firstCol+shift, firstCol+shift, n, n)).jacobiSvd().singularValues();
   std::cout << "\n\nj1 = " << tmp1.transpose().format(bdcsvdfmt) << "\n";
   std::cout << "j2 = " << tmp2.transpose().format(bdcsvdfmt) << "\n\n";
@@ -533,7 +533,7 @@ void BDCSVD<MatrixType>::divide (Index firstCol, Index lastCol, Index firstRowW,
   VectorType singVals;
   computeSVDofM(firstCol + shift, n, UofSVD, singVals, VofSVD);
   
-#ifdef EIGEN_BDCSVD_SANITY_CHECKS
+#ifdef HYDRA_EIGEN_BDCSVD_SANITY_CHECKS
   assert(UofSVD.allFinite());
   assert(VofSVD.allFinite());
 #endif
@@ -549,7 +549,7 @@ void BDCSVD<MatrixType>::divide (Index firstCol, Index lastCol, Index firstRowW,
   
   if (m_compV)  structured_update(m_naiveV.block(firstRowW, firstColW, n, n), VofSVD, (n+1)/2);
   
-#ifdef EIGEN_BDCSVD_SANITY_CHECKS
+#ifdef HYDRA_EIGEN_BDCSVD_SANITY_CHECKS
   assert(m_naiveU.allFinite());
   assert(m_naiveV.allFinite());
   assert(m_computed.allFinite());
@@ -582,7 +582,7 @@ void BDCSVD<MatrixType>::computeSVDofM(Index firstCol, Index n, MatrixXr& U, Vec
   U.resize(n+1, n+1);
   if (m_compV) V.resize(n, n);
 
-#ifdef EIGEN_BDCSVD_DEBUG_VERBOSE
+#ifdef HYDRA_EIGEN_BDCSVD_DEBUG_VERBOSE
   if (col0.hasNaN() || diag.hasNaN())
     std::cout << "\n\nHAS NAN\n\n";
 #endif
@@ -602,7 +602,7 @@ void BDCSVD<MatrixType>::computeSVDofM(Index firstCol, Index n, MatrixXr& U, Vec
   Map<ArrayXr> mus(m_workspace.data()+2*n, n);
   Map<ArrayXr> zhat(m_workspace.data()+3*n, n);
 
-#ifdef EIGEN_BDCSVD_DEBUG_VERBOSE
+#ifdef HYDRA_EIGEN_BDCSVD_DEBUG_VERBOSE
   std::cout << "computeSVDofM using:\n";
   std::cout << "  z: " << col0.transpose() << "\n";
   std::cout << "  d: " << diag.transpose() << "\n";
@@ -611,7 +611,7 @@ void BDCSVD<MatrixType>::computeSVDofM(Index firstCol, Index n, MatrixXr& U, Vec
   // Compute singVals, shifts, and mus
   computeSingVals(col0, diag, perm, singVals, shifts, mus);
   
-#ifdef EIGEN_BDCSVD_DEBUG_VERBOSE
+#ifdef HYDRA_EIGEN_BDCSVD_DEBUG_VERBOSE
   std::cout << "  j:        " << (m_computed.block(firstCol, firstCol, n, n)).jacobiSvd().singularValues().transpose().reverse() << "\n\n";
   std::cout << "  sing-val: " << singVals.transpose() << "\n";
   std::cout << "  mu:       " << mus.transpose() << "\n";
@@ -628,7 +628,7 @@ void BDCSVD<MatrixType>::computeSVDofM(Index firstCol, Index n, MatrixXr& U, Vec
   }
 #endif
   
-#ifdef EIGEN_BDCSVD_SANITY_CHECKS
+#ifdef HYDRA_EIGEN_BDCSVD_SANITY_CHECKS
   assert(singVals.allFinite());
   assert(mus.allFinite());
   assert(shifts.allFinite());
@@ -636,22 +636,22 @@ void BDCSVD<MatrixType>::computeSVDofM(Index firstCol, Index n, MatrixXr& U, Vec
   
   // Compute zhat
   perturbCol0(col0, diag, perm, singVals, shifts, mus, zhat);
-#ifdef  EIGEN_BDCSVD_DEBUG_VERBOSE
+#ifdef  HYDRA_EIGEN_BDCSVD_DEBUG_VERBOSE
   std::cout << "  zhat: " << zhat.transpose() << "\n";
 #endif
   
-#ifdef EIGEN_BDCSVD_SANITY_CHECKS
+#ifdef HYDRA_EIGEN_BDCSVD_SANITY_CHECKS
   assert(zhat.allFinite());
 #endif
   
   computeSingVecs(zhat, diag, perm, singVals, shifts, mus, U, V);
   
-#ifdef  EIGEN_BDCSVD_DEBUG_VERBOSE
+#ifdef  HYDRA_EIGEN_BDCSVD_DEBUG_VERBOSE
   std::cout << "U^T U: " << (U.transpose() * U - MatrixXr(MatrixXr::Identity(U.cols(),U.cols()))).norm() << "\n";
   std::cout << "V^T V: " << (V.transpose() * V - MatrixXr(MatrixXr::Identity(V.cols(),V.cols()))).norm() << "\n";
 #endif
   
-#ifdef EIGEN_BDCSVD_SANITY_CHECKS
+#ifdef HYDRA_EIGEN_BDCSVD_SANITY_CHECKS
   assert(U.allFinite());
   assert(V.allFinite());
   assert((U.transpose() * U - MatrixXr(MatrixXr::Identity(U.cols(),U.cols()))).norm() < 1e-14 * n);
@@ -680,7 +680,7 @@ void BDCSVD<MatrixType>::computeSVDofM(Index firstCol, Index n, MatrixXr& U, Vec
   U.leftCols(actual_n).rowwise().reverseInPlace();
   if (m_compV) V.leftCols(actual_n).rowwise().reverseInPlace();
   
-#ifdef EIGEN_BDCSVD_DEBUG_VERBOSE
+#ifdef HYDRA_EIGEN_BDCSVD_DEBUG_VERBOSE
   JacobiSVD<MatrixXr> jsvd(m_computed.block(firstCol, firstCol, n, n) );
   std::cout << "  * j:        " << jsvd.singularValues().transpose() << "\n\n";
   std::cout << "  * sing-val: " << singVals.transpose() << "\n";
@@ -741,7 +741,7 @@ void BDCSVD<MatrixType>::computeSingVals(const ArrayRef& col0, const ArrayRef& d
     // first decide whether it's closer to the left end or the right end
     RealScalar mid = left + (right-left) / Literal(2);
     RealScalar fMid = secularEq(mid, col0, diag, perm, diag, Literal(0));
-#ifdef EIGEN_BDCSVD_DEBUG_VERBOSE
+#ifdef HYDRA_EIGEN_BDCSVD_DEBUG_VERBOSE
     std::cout << right-left << "\n";
     std::cout << "fMid = " << fMid << " " << secularEq(mid-left, col0, diag, perm, diag-left, left) << " " << secularEq(mid-right, col0, diag, perm, diag-right, right)   << "\n";
     std::cout << "     = " << secularEq(0.1*(left+right), col0, diag, perm, diag, 0)
@@ -812,7 +812,7 @@ void BDCSVD<MatrixType>::computeSingVals(const ArrayRef& col0, const ArrayRef& d
     // fall back on bisection method if rational interpolation did not work
     if (useBisection)
     {
-#ifdef  EIGEN_BDCSVD_DEBUG_VERBOSE
+#ifdef  HYDRA_EIGEN_BDCSVD_DEBUG_VERBOSE
       std::cout << "useBisection for k = " << k << ", actual_n = " << actual_n << "\n";
 #endif
       RealScalar leftShifted, rightShifted;
@@ -831,11 +831,11 @@ void BDCSVD<MatrixType>::computeSingVals(const ArrayRef& col0, const ArrayRef& d
       
       RealScalar fLeft = secularEq(leftShifted, col0, diag, perm, diagShifted, shift);
 
-#if defined EIGEN_INTERNAL_DEBUGGING || defined EIGEN_BDCSVD_DEBUG_VERBOSE
+#if defined HYDRA_EIGEN_INTERNAL_DEBUGGING || defined HYDRA_EIGEN_BDCSVD_DEBUG_VERBOSE
       RealScalar fRight = secularEq(rightShifted, col0, diag, perm, diagShifted, shift);
 #endif
 
-#ifdef  EIGEN_BDCSVD_DEBUG_VERBOSE
+#ifdef  HYDRA_EIGEN_BDCSVD_DEBUG_VERBOSE
       if(!(fLeft * fRight<0))
       {
         std::cout << "fLeft: " << leftShifted << " - " << diagShifted.head(10).transpose()  << "\n ; " << bool(left==shift) << " " << (left-shift) << "\n";
@@ -908,14 +908,14 @@ void BDCSVD<MatrixType>::perturbCol0
         {
           Index j = i<k ? i : perm(l-1);
           prod *= ((singVals(j)+dk) / ((diag(i)+dk))) * ((mus(j)+(shifts(j)-dk)) / ((diag(i)-dk)));
-#ifdef EIGEN_BDCSVD_DEBUG_VERBOSE
+#ifdef HYDRA_EIGEN_BDCSVD_DEBUG_VERBOSE
           if(i!=k && std::abs(((singVals(j)+dk)*(mus(j)+(shifts(j)-dk)))/((diag(i)+dk)*(diag(i)-dk)) - 1) > 0.9 )
             std::cout << "     " << ((singVals(j)+dk)*(mus(j)+(shifts(j)-dk)))/((diag(i)+dk)*(diag(i)-dk)) << " == (" << (singVals(j)+dk) << " * " << (mus(j)+(shifts(j)-dk))
                        << ") / (" << (diag(i)+dk) << " * " << (diag(i)-dk) << ")\n";
 #endif
         }
       }
-#ifdef EIGEN_BDCSVD_DEBUG_VERBOSE
+#ifdef HYDRA_EIGEN_BDCSVD_DEBUG_VERBOSE
       std::cout << "zhat(" << k << ") =  sqrt( " << prod << ")  ;  " << (singVals(last) + dk) << " * " << mus(last) + shifts(last) << " - " << dk << "\n";
 #endif
       RealScalar tmp = sqrt(prod);
@@ -1010,7 +1010,7 @@ void BDCSVD<MatrixType>::deflation44(Index firstColu , Index firstColm, Index fi
   RealScalar c = m_computed(firstColm+i, firstColm);
   RealScalar s = m_computed(firstColm+j, firstColm);
   RealScalar r = sqrt(numext::abs2(c) + numext::abs2(s));
-#ifdef  EIGEN_BDCSVD_DEBUG_VERBOSE
+#ifdef  HYDRA_EIGEN_BDCSVD_DEBUG_VERBOSE
   std::cout << "deflation 4.4: " << i << "," << j << " -> " << c << " " << s << " " << r << " ; "
     << m_computed(firstColm + i-1, firstColm)  << " "
     << m_computed(firstColm + i, firstColm)  << " "
@@ -1056,20 +1056,20 @@ void BDCSVD<MatrixType>::deflation(Index firstCol, Index lastCol, Index k, Index
   RealScalar epsilon_strict = numext::maxi<RealScalar>(considerZero,NumTraits<RealScalar>::epsilon() * maxDiag);
   RealScalar epsilon_coarse = Literal(8) * NumTraits<RealScalar>::epsilon() * numext::maxi<RealScalar>(col0.cwiseAbs().maxCoeff(), maxDiag);
   
-#ifdef EIGEN_BDCSVD_SANITY_CHECKS
+#ifdef HYDRA_EIGEN_BDCSVD_SANITY_CHECKS
   assert(m_naiveU.allFinite());
   assert(m_naiveV.allFinite());
   assert(m_computed.allFinite());
 #endif
 
-#ifdef  EIGEN_BDCSVD_DEBUG_VERBOSE  
+#ifdef  HYDRA_EIGEN_BDCSVD_DEBUG_VERBOSE  
   std::cout << "\ndeflate:" << diag.head(k+1).transpose() << "  |  " << diag.segment(k+1,length-k-1).transpose() << "\n";
 #endif
   
   //condition 4.1
   if (diag(0) < epsilon_coarse)
   { 
-#ifdef  EIGEN_BDCSVD_DEBUG_VERBOSE
+#ifdef  HYDRA_EIGEN_BDCSVD_DEBUG_VERBOSE
     std::cout << "deflation 4.1, because " << diag(0) << " < " << epsilon_coarse << "\n";
 #endif
     diag(0) = epsilon_coarse;
@@ -1079,7 +1079,7 @@ void BDCSVD<MatrixType>::deflation(Index firstCol, Index lastCol, Index k, Index
   for (Index i=1;i<length;++i)
     if (abs(col0(i)) < epsilon_strict)
     {
-#ifdef  EIGEN_BDCSVD_DEBUG_VERBOSE
+#ifdef  HYDRA_EIGEN_BDCSVD_DEBUG_VERBOSE
       std::cout << "deflation 4.2, set z(" << i << ") to zero because " << abs(col0(i)) << " < " << epsilon_strict << "  (diag(" << i << ")=" << diag(i) << ")\n";
 #endif
       col0(i) = Literal(0);
@@ -1089,18 +1089,18 @@ void BDCSVD<MatrixType>::deflation(Index firstCol, Index lastCol, Index k, Index
   for (Index i=1;i<length; i++)
     if (diag(i) < epsilon_coarse)
     {
-#ifdef  EIGEN_BDCSVD_DEBUG_VERBOSE
+#ifdef  HYDRA_EIGEN_BDCSVD_DEBUG_VERBOSE
       std::cout << "deflation 4.3, cancel z(" << i << ")=" << col0(i) << " because diag(" << i << ")=" << diag(i) << " < " << epsilon_coarse << "\n";
 #endif
       deflation43(firstCol, shift, i, length);
     }
 
-#ifdef EIGEN_BDCSVD_SANITY_CHECKS
+#ifdef HYDRA_EIGEN_BDCSVD_SANITY_CHECKS
   assert(m_naiveU.allFinite());
   assert(m_naiveV.allFinite());
   assert(m_computed.allFinite());
 #endif
-#ifdef EIGEN_BDCSVD_DEBUG_VERBOSE
+#ifdef HYDRA_EIGEN_BDCSVD_DEBUG_VERBOSE
   std::cout << "to be sorted: " << diag.transpose() << "\n\n";
 #endif
   {
@@ -1179,7 +1179,7 @@ void BDCSVD<MatrixType>::deflation(Index firstCol, Index lastCol, Index k, Index
       realInd[i] = pi;
     }
   }
-#ifdef EIGEN_BDCSVD_DEBUG_VERBOSE
+#ifdef HYDRA_EIGEN_BDCSVD_DEBUG_VERBOSE
   std::cout << "sorted: " << diag.transpose().format(bdcsvdfmt) << "\n";
   std::cout << "      : " << col0.transpose() << "\n\n";
 #endif
@@ -1191,7 +1191,7 @@ void BDCSVD<MatrixType>::deflation(Index firstCol, Index lastCol, Index k, Index
     for(; i>1;--i)
        if( (diag(i) - diag(i-1)) < NumTraits<RealScalar>::epsilon()*maxDiag )
       {
-#ifdef EIGEN_BDCSVD_DEBUG_VERBOSE
+#ifdef HYDRA_EIGEN_BDCSVD_DEBUG_VERBOSE
         std::cout << "deflation 4.4 with i = " << i << " because " << (diag(i) - diag(i-1)) << " < " << NumTraits<RealScalar>::epsilon()*diag(i) << "\n";
 #endif
         eigen_internal_assert(abs(diag(i) - diag(i-1))<epsilon_coarse && " diagonal entries are not properly sorted");
@@ -1199,12 +1199,12 @@ void BDCSVD<MatrixType>::deflation(Index firstCol, Index lastCol, Index k, Index
       }
   }
   
-#ifdef EIGEN_BDCSVD_SANITY_CHECKS
+#ifdef HYDRA_EIGEN_BDCSVD_SANITY_CHECKS
   for(Index j=2;j<length;++j)
     assert(diag(j-1)<=diag(j) || abs(diag(j))<considerZero);
 #endif
   
-#ifdef EIGEN_BDCSVD_SANITY_CHECKS
+#ifdef HYDRA_EIGEN_BDCSVD_SANITY_CHECKS
   assert(m_naiveU.allFinite());
   assert(m_naiveV.allFinite());
   assert(m_computed.allFinite());

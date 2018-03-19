@@ -112,9 +112,9 @@ namespace hydra {
 	{
 
 		typedef T type;
-		__host__  __device__ inline static type zero(){ return type(0.0) ;}
-		__host__  __device__ inline static type one(){ return type(1.0) ;}
-		__host__  __device__ inline static type invalid(){ return std::numeric_limits<T>::quiet_NaN() ;}
+		__hydra_host__  __hydra_device__ inline static type zero(){ return type(0.0) ;}
+		__hydra_host__  __hydra_device__ inline static type one(){ return type(1.0) ;}
+		__hydra_host__  __hydra_device__ inline static type invalid(){ return std::numeric_limits<T>::quiet_NaN() ;}
 
 	};
 
@@ -123,9 +123,9 @@ namespace hydra {
 	{
 
 		typedef HYDRA_EXTERNAL_NS::thrust::complex<T> type;
-		__host__  __device__ inline static type zero(){ return type(0.0,0.0) ;}
-		__host__  __device__ inline static type one(){ return type(1.0, 0.0) ;}
-		__host__  __device__ inline static type invalid(){ return  std::numeric_limits<T>::quiet_NaN()  ;}
+		__hydra_host__  __hydra_device__ inline static type zero(){ return type(0.0,0.0) ;}
+		__hydra_host__  __hydra_device__ inline static type one(){ return type(1.0, 0.0) ;}
+		__hydra_host__  __hydra_device__ inline static type invalid(){ return  std::numeric_limits<T>::quiet_NaN()  ;}
 
 	};
 

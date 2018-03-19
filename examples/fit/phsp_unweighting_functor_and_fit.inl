@@ -25,12 +25,13 @@
  *      Author: Antonio Augusto Alves Junior
  */
 
-#ifndef PHSP_BASIC_INL_
-#define PHSP_BASIC_INL_
+#ifndef PHSP_UNWEIGHTING_FUNCTOR_AND_FIT_INL_
+#define PHSP_UNWEIGHTING_FUNCTOR_AND_FIT_INL_
 
 
 /**
- * @example phsp_basic.inl
+ * @group examples
+ *
  * This example shows how to use the Hydra's
  * phase space Monte Carlo algorithms to
  * generate a sample of B0 -> J/psi K pi and
@@ -180,7 +181,7 @@ int main(int argv, char** argc)
 
 	// functor to calculate the 2-body masses
 	auto dalitz_calculator = hydra::wrap_lambda(
-			[]__host__ __device__(unsigned int n, hydra::Vector4R* p ){
+			[] __hydra_dual__ (unsigned int n, hydra::Vector4R* p ){
 
 			double   MSq_12 = (p[0]+p[1]).mass2();
 			double   MSq_13 = (p[0]+p[2]).mass2();
@@ -200,7 +201,7 @@ int main(int argv, char** argc)
 
 
 	// fit functor (breit-wigner)
-	auto breit_wigner = hydra::wrap_lambda( []__host__ __device__(unsigned int npar, const hydra::Parameter* params,
+	auto breit_wigner = hydra::wrap_lambda( [] __hydra_dual__ (unsigned int npar, const hydra::Parameter* params,
 					unsigned int n, hydra::Vector4R* particles ){
 
 		double mass  = params[0];
@@ -516,4 +517,4 @@ int main(int argv, char** argc)
 }
 
 
-#endif /* PHSP_BASIC_INL_ */
+#endif /* UNWEIGHTING_FUNCTOR_AND_FIT_INL_ */

@@ -50,7 +50,7 @@ namespace sequential
 __thrust_exec_check_disable__
 template<typename ForwardIterator1,
          typename ForwardIterator2>
-__host__ __device__
+__hydra_host__ __hydra_device__
 void iter_swap(ForwardIterator1 iter1, ForwardIterator2 iter2)
 {
   // XXX this isn't correct because it doesn't use thrust::swap
@@ -68,7 +68,7 @@ __thrust_exec_check_disable__
 template<typename DerivedPolicy,
          typename ForwardIterator,
          typename Predicate>
-__host__ __device__
+__hydra_host__ __hydra_device__
   ForwardIterator partition(sequential::execution_policy<DerivedPolicy> &,
                             ForwardIterator first,
                             ForwardIterator last,
@@ -109,7 +109,7 @@ template<typename DerivedPolicy,
          typename ForwardIterator,
          typename InputIterator,
          typename Predicate>
-__host__ __device__
+__hydra_host__ __hydra_device__
   ForwardIterator partition(sequential::execution_policy<DerivedPolicy> &,
                             ForwardIterator first,
                             ForwardIterator last,
@@ -158,7 +158,7 @@ __thrust_exec_check_disable__
 template<typename DerivedPolicy,
          typename ForwardIterator,
          typename Predicate>
-__host__ __device__
+__hydra_host__ __hydra_device__
   ForwardIterator stable_partition(sequential::execution_policy<DerivedPolicy> &exec,
                                    ForwardIterator first,
                                    ForwardIterator last,
@@ -206,7 +206,7 @@ template<typename DerivedPolicy,
          typename ForwardIterator,
          typename InputIterator,
          typename Predicate>
-__host__ __device__
+__hydra_host__ __hydra_device__
   ForwardIterator stable_partition(sequential::execution_policy<DerivedPolicy> &exec,
                                    ForwardIterator first,
                                    ForwardIterator last,
@@ -258,7 +258,7 @@ template<typename DerivedPolicy,
          typename OutputIterator1,
          typename OutputIterator2,
          typename Predicate>
-__host__ __device__
+__hydra_host__ __hydra_device__
   thrust::pair<OutputIterator1,OutputIterator2>
     stable_partition_copy(sequential::execution_policy<DerivedPolicy> &,
                           InputIterator first,
@@ -298,7 +298,7 @@ template<typename DerivedPolicy,
          typename OutputIterator1,
          typename OutputIterator2,
          typename Predicate>
-__host__ __device__
+__hydra_host__ __hydra_device__
   thrust::pair<OutputIterator1,OutputIterator2>
     stable_partition_copy(sequential::execution_policy<DerivedPolicy> &,
                           InputIterator1 first,

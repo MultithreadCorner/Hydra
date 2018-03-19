@@ -7,8 +7,8 @@
 // Public License v. 2.0. If a copy of the MPL was not distributed
 // with this file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
-#ifndef EIGEN_STL_FUNCTORS_H
-#define EIGEN_STL_FUNCTORS_H
+#ifndef HYDRA_EIGEN_STL_FUNCTORS_H
+#define HYDRA_EIGEN_STL_FUNCTORS_H
 
 HYDRA_EXTERNAL_NAMESPACE_BEGIN namespace Eigen {
 
@@ -72,7 +72,7 @@ template<typename T>
 struct functor_traits<std::not_equal_to<T> >
 { enum { Cost = 1, PacketAccess = false }; };
 
-#if (__cplusplus < 201103L) && (EIGEN_COMP_MSVC <= 1900)
+#if (__cplusplus < 201103L) && (HYDRA_EIGEN_COMP_MSVC <= 1900)
 // std::binder* are deprecated since c++11 and will be removed in c++17
 template<typename T>
 struct functor_traits<std::binder2nd<T> >
@@ -91,7 +91,7 @@ template<typename T>
 struct functor_traits<std::binary_negate<T> >
 { enum { Cost = 1 + functor_traits<T>::Cost, PacketAccess = false }; };
 
-#ifdef EIGEN_STDEXT_SUPPORT
+#ifdef HYDRA_EIGEN_STDEXT_SUPPORT
 
 template<typename T0,typename T1>
 struct functor_traits<std::project1st<T0,T1> >
@@ -117,16 +117,16 @@ template<typename T0,typename T1,typename T2>
 struct functor_traits<std::binary_compose<T0,T1,T2> >
 { enum { Cost = functor_traits<T0>::Cost + functor_traits<T1>::Cost + functor_traits<T2>::Cost, PacketAccess = false }; };
 
-#endif // EIGEN_STDEXT_SUPPORT
+#endif // HYDRA_EIGEN_STDEXT_SUPPORT
 
 // allow to add new functors and specializations of functor_traits from outside Eigen.
 // this macro is really needed because functor_traits must be specialized after it is declared but before it is used...
-#ifdef EIGEN_FUNCTORS_PLUGIN
-#include EIGEN_FUNCTORS_PLUGIN
+#ifdef HYDRA_EIGEN_FUNCTORS_PLUGIN
+#include HYDRA_EIGEN_FUNCTORS_PLUGIN
 #endif
 
 } // end namespace internal
 
 } /* end namespace Eigen */  HYDRA_EXTERNAL_NAMESPACE_END
 
-#endif // EIGEN_STL_FUNCTORS_H
+#endif // HYDRA_EIGEN_STL_FUNCTORS_H

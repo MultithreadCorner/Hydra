@@ -32,7 +32,7 @@ HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
 
 __thrust_exec_check_disable__
 template<typename DerivedPolicy, typename InputIterator, typename EqualityComparable>
-__host__ __device__
+__hydra_host__ __hydra_device__
   typename thrust::iterator_traits<InputIterator>::difference_type
     count(const thrust::detail::execution_policy_base<DerivedPolicy> &exec, InputIterator first, InputIterator last, const EqualityComparable& value)
 {
@@ -43,7 +43,7 @@ __host__ __device__
 
 __thrust_exec_check_disable__
 template<typename DerivedPolicy, typename InputIterator, typename Predicate>
-__host__ __device__
+__hydra_host__ __hydra_device__
   typename thrust::iterator_traits<InputIterator>::difference_type
     count_if(const thrust::detail::execution_policy_base<DerivedPolicy> &exec, InputIterator first, InputIterator last, Predicate pred)
 {

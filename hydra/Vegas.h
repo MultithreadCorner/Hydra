@@ -48,8 +48,9 @@ template<size_t N, typename  BACKEND,  typename GRND=HYDRA_EXTERNAL_NS::thrust::
 class Vegas ;
 
 /**
- * @ingroup numerical_integration
- * @brief Class to perform numerical integration using Vegas algorithm.
+ * \ingroup numerical_integration
+ *
+ * \brief Class to perform numerical integration using Vegas algorithm.
  *
  *  The VEGAS algorithm of Lepage is based on importance sampling.
  *  It samples points from the probability distribution described by the
@@ -84,10 +85,27 @@ public:
 		}
 
 
-		Vegas(VegasState<N, hydra::detail::BackendPolicy<BACKEND>> const& state):
+	Vegas(VegasState<N, hydra::detail::BackendPolicy<BACKEND>> const& state):
 		Integrator<Vegas<N, hydra::detail::BackendPolicy<BACKEND>,GRND>>(),
 		fState(state)
 		{}
+
+
+
+	Vegas( Vegas< N, hydra::detail::BackendPolicy<BACKEND>, GRND> const& other):
+	Integrator<Vegas<N, hydra::detail::BackendPolicy<BACKEND>,GRND>>(),
+	fState(other.GetState())
+	{}
+
+	Vegas< N, hydra::detail::BackendPolicy<BACKEND>, GRND>&
+	operator=( Vegas< N, hydra::detail::BackendPolicy<BACKEND>, GRND> const& other)
+	{
+		if(this == &other) return *this;
+
+		this->fState =other.GetState();
+		return *this;
+
+	}
 
 
 	template< hydra::detail::Backend  BACKEND2, typename GRND2>
@@ -95,6 +113,17 @@ public:
 	Integrator<Vegas<N, hydra::detail::BackendPolicy<BACKEND>,GRND>>(),
 	fState(other.GetState())
 	{}
+
+	template< hydra::detail::Backend  BACKEND2, typename GRND2>
+	Vegas< N, hydra::detail::BackendPolicy<BACKEND>, GRND>&
+	operator=( Vegas< N, hydra::detail::BackendPolicy<BACKEND2>, GRND2> const& other)
+	{
+		if(this == &other) return *this;
+
+		this->fState =other.GetState();
+		return *this;
+
+	}
 
 
 	void PrintLimits()  ;
@@ -106,20 +135,20 @@ public:
 			GReal_t cumulated_integral, GReal_t cumulated_sigma,
 			GReal_t time) ;
 
-	VegasState<N,hydra::detail::BackendPolicy<BACKEND>>& GetState()  {
+	inline VegasState<N,hydra::detail::BackendPolicy<BACKEND>>& GetState()  {
 		return fState;
 	}
 
-	VegasState<N,hydra::detail::BackendPolicy<BACKEND>> const& GetState() const {
+	inline VegasState<N,hydra::detail::BackendPolicy<BACKEND>> const& GetState() const {
 			return fState;
 		}
 
-	void SetState(VegasState<N,hydra::detail::BackendPolicy<BACKEND>> const& state) {
+	inline void SetState(VegasState<N,hydra::detail::BackendPolicy<BACKEND>> const& state) {
 		fState = state;
 	}
 
 	template<typename FUNCTOR>
-	std::pair<GReal_t, GReal_t> Integrate(FUNCTOR const& fFunctor);
+	inline std::pair<GReal_t, GReal_t> Integrate(FUNCTOR const& fFunctor);
 
 private:
 

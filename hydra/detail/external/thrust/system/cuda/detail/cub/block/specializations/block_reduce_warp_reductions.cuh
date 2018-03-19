@@ -100,7 +100,7 @@ struct BlockReduceWarpReductions
 
 
     /// Constructor
-    __device__ __forceinline__ BlockReduceWarpReductions(
+    __hydra_device__ __forceinline__ BlockReduceWarpReductions(
         TempStorage &temp_storage)
     :
         temp_storage(temp_storage.Alias()),
@@ -111,7 +111,7 @@ struct BlockReduceWarpReductions
 
 
     template <bool FULL_TILE, typename ReductionOp, int SUCCESSOR_WARP>
-    __device__ __forceinline__ T ApplyWarpAggregates(
+    __hydra_device__ __forceinline__ T ApplyWarpAggregates(
         ReductionOp                 reduction_op,       ///< [in] Binary scan operator
         T                           warp_aggregate,     ///< [in] <b>[<em>lane</em><sub>0</sub> only]</b> Warp-wide aggregate reduction of input items
         int                         num_valid,          ///< [in] Number of valid elements (may be less than BLOCK_THREADS)
@@ -126,7 +126,7 @@ struct BlockReduceWarpReductions
     }
 
     template <bool FULL_TILE, typename ReductionOp>
-    __device__ __forceinline__ T ApplyWarpAggregates(
+    __hydra_device__ __forceinline__ T ApplyWarpAggregates(
         ReductionOp         /*reduction_op*/,   ///< [in] Binary scan operator
         T                   warp_aggregate,     ///< [in] <b>[<em>lane</em><sub>0</sub> only]</b> Warp-wide aggregate reduction of input items
         int                 /*num_valid*/,      ///< [in] Number of valid elements (may be less than BLOCK_THREADS)
@@ -140,7 +140,7 @@ struct BlockReduceWarpReductions
     template <
         bool                FULL_TILE,
         typename            ReductionOp>
-    __device__ __forceinline__ T ApplyWarpAggregates(
+    __hydra_device__ __forceinline__ T ApplyWarpAggregates(
         ReductionOp         reduction_op,       ///< [in] Binary scan operator
         T                   warp_aggregate,     ///< [in] <b>[<em>lane</em><sub>0</sub> only]</b> Warp-wide aggregate reduction of input items
         int                 num_valid)          ///< [in] Number of valid elements (may be less than BLOCK_THREADS)
@@ -165,7 +165,7 @@ struct BlockReduceWarpReductions
 
     /// Computes a thread block-wide reduction using addition (+) as the reduction operator. The first num_valid threads each contribute one reduction partial.  The return value is only valid for thread<sub>0</sub>.
     template <bool FULL_TILE>
-    __device__ __forceinline__ T Sum(
+    __hydra_device__ __forceinline__ T Sum(
         T                   input,          ///< [in] Calling thread's input partial reductions
         int                 num_valid)      ///< [in] Number of valid elements (may be less than BLOCK_THREADS)
     {
@@ -192,7 +192,7 @@ struct BlockReduceWarpReductions
     template <
         bool                FULL_TILE,
         typename            ReductionOp>
-    __device__ __forceinline__ T Reduce(
+    __hydra_device__ __forceinline__ T Reduce(
         T                   input,              ///< [in] Calling thread's input partial reductions
         int                 num_valid,          ///< [in] Number of valid elements (may be less than BLOCK_THREADS)
         ReductionOp         reduction_op)       ///< [in] Binary reduction operator

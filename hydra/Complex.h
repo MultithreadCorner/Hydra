@@ -44,38 +44,38 @@ template<typename T>
 using complex =  HYDRA_EXTERNAL_NS::thrust::complex<T>;
 
 
-template<typename  T> __host__ __device__
+template<typename  T> __hydra_host__ __hydra_device__
 T 	abs(const complex<T> & z){
 
 	return  HYDRA_EXTERNAL_NS::thrust::abs( z );
 }
 
-template<typename T > __host__ __device__
+template<typename T > __hydra_host__ __hydra_device__
 T 	arg (const complex<T> &z){
 
 	return HYDRA_EXTERNAL_NS::thrust::arg ( z );
 }
 
-template<typename T > __host__ __device__
+template<typename T > __hydra_host__ __hydra_device__
 T 	norm (const complex<T> &z){
 
 	return HYDRA_EXTERNAL_NS::thrust::norm(z);
 }
 
 
-template<typename T > __host__ __device__
+template<typename T > __hydra_host__ __hydra_device__
 complex<T> 	conj (const complex<T> &z){
 
 	return HYDRA_EXTERNAL_NS::thrust::conj(z);
 }
 
-template<typename T > __host__ __device__
+template<typename T > __hydra_host__ __hydra_device__
 complex<T> 	polar (const T &m, const T &theta=0){
 
 	return HYDRA_EXTERNAL_NS::thrust::polar(m, theta);
 }
 
-template<typename T > __host__ __device__
+template<typename T > __hydra_host__ __hydra_device__
 complex<T> 	proj (const T &z){
 
 	return HYDRA_EXTERNAL_NS::thrust::proj(z);
@@ -84,19 +84,19 @@ complex<T> 	proj (const T &z){
 // Multiplication
 using HYDRA_EXTERNAL_NS::thrust::operator*;
 /*
-template<typename T > __host__ __device__
+template<typename T > __hydra_host__ __hydra_device__
 complex<T> 	operator* (const complex<T> &lhs, const complex<T> &rhs){
 
 	return HYDRA_EXTERNAL_NS::thrust::operator*( lhs, rhs);
 }
 
-template<typename T > __host__ __device__
+template<typename T > __hydra_host__ __hydra_device__
 complex<T> 	operator* (const complex<T> &lhs, const T &rhs){
 
 	return HYDRA_EXTERNAL_NS::thrust::operator*( lhs, rhs);
 }
 
-template<typename T > __host__ __device__
+template<typename T > __hydra_host__ __hydra_device__
 complex<T> 	operator* (const T &lhs, const complex<T> &rhs){
 
 	return HYDRA_EXTERNAL_NS::thrust::operator*( lhs, rhs);
@@ -107,19 +107,19 @@ complex<T> 	operator* (const T &lhs, const complex<T> &rhs){
 using HYDRA_EXTERNAL_NS::thrust::operator/;
 
 /*
-template<typename T > __host__ __device__
+template<typename T > __hydra_host__ __hydra_device__
 complex<T> 	operator/ (const complex<T> &lhs, const complex<T> &rhs){
 
 	return HYDRA_EXTERNAL_NS::thrust::operator/( lhs, rhs);
 }
 
-template<typename T > __host__ __device__
+template<typename T > __hydra_host__ __hydra_device__
 complex<T> 	operator/ (const complex<T> &lhs, const T &rhs){
 
 	return HYDRA_EXTERNAL_NS::thrust::operator/( lhs, rhs);
 }
 
-template<typename T > __host__ __device__
+template<typename T > __hydra_host__ __hydra_device__
 complex<T> 	operator/ (const T &lhs, const complex<T> &rhs){
 
 	return HYDRA_EXTERNAL_NS::thrust::operator/( lhs, rhs);
@@ -130,19 +130,19 @@ complex<T> 	operator/ (const T &lhs, const complex<T> &rhs){
 // Addition
 using HYDRA_EXTERNAL_NS::thrust::operator+;
 /*
-template<typename T > __host__ __device__
+template<typename T > __hydra_host__ __hydra_device__
 complex<T> 	operator+ (const complex<T> &lhs, const complex<T> &rhs){
 
 	return HYDRA_EXTERNAL_NS::thrust::operator+( lhs, rhs);
 }
 
-template<typename T > __host__ __device__
+template<typename T > __hydra_host__ __hydra_device__
 complex<T> 	operator+ (const complex<T> &lhs, const T &rhs){
 
 	return HYDRA_EXTERNAL_NS::thrust::operator+( lhs, rhs);
 }
 
-template<typename T > __host__ __device__
+template<typename T > __hydra_host__ __hydra_device__
 complex<T> 	operator+ (const T &lhs, const complex<T> &rhs){
 
 	return HYDRA_EXTERNAL_NS::thrust::operator+( lhs, rhs);
@@ -152,19 +152,19 @@ complex<T> 	operator+ (const T &lhs, const complex<T> &rhs){
 //Minus
 using HYDRA_EXTERNAL_NS::thrust::operator-;
 /*
-template<typename T > __host__ __device__
+template<typename T > __hydra_host__ __hydra_device__
 complex<T> 	operator- (const complex<T> &lhs, const complex<T> &rhs){
 
 	return HYDRA_EXTERNAL_NS::thrust::operator-( lhs, rhs);
 }
 
-template<typename T > __host__ __device__
+template<typename T > __hydra_host__ __hydra_device__
 complex<T> 	operator- (const complex<T> &lhs, const T &rhs){
 
 	return HYDRA_EXTERNAL_NS::thrust::operator-( lhs, rhs);
 }
 
-template<typename T> __host__ __device__
+template<typename T> __hydra_host__ __hydra_device__
 complex<T> operator-(const T &lhs, const complex<T> &rhs){
 
 	return HYDRA_EXTERNAL_NS::thrust::operator-(lhs, rhs);
@@ -172,150 +172,150 @@ complex<T> operator-(const T &lhs, const complex<T> &rhs){
 */
 //Unary-operators
 /*
-template<typename T > __host__ __device__
+template<typename T > __hydra_host__ __hydra_device__
 complex<T> 	operator+ (const complex<T> &rhs){
 
 	return HYDRA_EXTERNAL_NS::thrust::operator+( rhs);
 }
 
-template<typename T > __host__ __device__
+template<typename T > __hydra_host__ __hydra_device__
 complex<T> 	operator- (const complex<T> &rhs){
 
 	return HYDRA_EXTERNAL_NS::thrust::operator-( rhs);
 }
 */
 //transcendental functions
-template<typename T > __host__ __device__
+template<typename T > __hydra_host__ __hydra_device__
 complex<T> 	exp(const complex<T> &z){
 
 	return HYDRA_EXTERNAL_NS::thrust::exp(z);
 }
 
-template<typename T > __host__ __device__
+template<typename T > __hydra_host__ __hydra_device__
 complex<T> 	log(const complex<T> &z){
 
 	return HYDRA_EXTERNAL_NS::thrust::log(z);
 }
 
-template<typename T > __host__ __device__
+template<typename T > __hydra_host__ __hydra_device__
 complex<T> 	log10(const complex<T> &z){
 
 	return HYDRA_EXTERNAL_NS::thrust::log10(z);
 }
 
-template<typename T > __host__ __device__
+template<typename T > __hydra_host__ __hydra_device__
 complex<T> 	pow(const complex<T> &x, const complex<T> &y){
 
 	return HYDRA_EXTERNAL_NS::thrust::pow(x,y);
 }
 
-template<typename T > __host__ __device__
+template<typename T > __hydra_host__ __hydra_device__
 complex<T>  pow(const complex<T> &x, const T &y){
 
 	return HYDRA_EXTERNAL_NS::thrust::pow(x,y);
 }
 
-template<typename T > __host__ __device__
+template<typename T > __hydra_host__ __hydra_device__
 complex<T> pow(const T &x, const complex<T> &y){
 
 	return HYDRA_EXTERNAL_NS::thrust::pow(x,y);
 }
 
 
-template<typename T , typename U > __host__ __device__
+template<typename T , typename U > __hydra_host__ __hydra_device__
 complex< typename HYDRA_EXTERNAL_NS::thrust::detail::promoted_numerical_type< T, U >::type >
 pow(const complex<T> &x, const complex< U > &y){
 
 	return HYDRA_EXTERNAL_NS::thrust::pow(x,y);
 }
 
-template<typename T , typename U > __host__ __device__
+template<typename T , typename U > __hydra_host__ __hydra_device__
 complex< typename HYDRA_EXTERNAL_NS::thrust::detail::promoted_numerical_type< T, U >::type >
 pow(const complex<T> &x, const U &y){
 
 	return HYDRA_EXTERNAL_NS::thrust::pow(x,y);
 }
 
-template<typename T , typename U > __host__ __device__
+template<typename T , typename U > __hydra_host__ __hydra_device__
 complex< typename HYDRA_EXTERNAL_NS::thrust::detail::promoted_numerical_type< T, U >::type >
 pow(const T &x, const complex< U > &y){
 
 	return HYDRA_EXTERNAL_NS::thrust::pow(x,y);
 }
 
-template<typename T > __host__ __device__
+template<typename T > __hydra_host__ __hydra_device__
 complex<T> 	sqrt(const complex<T> &z){
 
 	return HYDRA_EXTERNAL_NS::thrust::sqrt(z);
 }
 
-template<typename T > __host__ __device__
+template<typename T > __hydra_host__ __hydra_device__
 complex<T> 	cos(const complex<T> &z){
 
 	return HYDRA_EXTERNAL_NS::thrust::cos(z);
 }
 
-template<typename T > __host__ __device__
+template<typename T > __hydra_host__ __hydra_device__
 complex<T> 	sin(const complex<T> &z){
 
 	return HYDRA_EXTERNAL_NS::thrust::sin(z);
 }
 
-template<typename T > __host__ __device__
+template<typename T > __hydra_host__ __hydra_device__
 complex<T> 	tan(const complex<T> &z){
 
 	return HYDRA_EXTERNAL_NS::thrust::tan(z);
 }
 
-template<typename T > __host__ __device__
+template<typename T > __hydra_host__ __hydra_device__
 complex<T> cosh(const complex<T> &z){
 
 	return HYDRA_EXTERNAL_NS::thrust::cosh(z);
 }
 
-template<typename T > __host__ __device__
+template<typename T > __hydra_host__ __hydra_device__
 complex<T> sinh(const complex<T> &z){
 
 	return HYDRA_EXTERNAL_NS::thrust::sinh(z);
 }
 
-template<typename T > __host__ __device__
+template<typename T > __hydra_host__ __hydra_device__
 complex<T> tanh(const complex<T> &z){
 
 	return HYDRA_EXTERNAL_NS::thrust::tanh(z);
 }
 
-template<typename T > __host__ __device__
+template<typename T > __hydra_host__ __hydra_device__
 complex<T> acos (const complex<T> &z){
 
 	return HYDRA_EXTERNAL_NS::thrust::acos(z);
 }
 
-template<typename T > __host__ __device__
+template<typename T > __hydra_host__ __hydra_device__
 complex<T> asin(const complex<T> &z){
 
 	return HYDRA_EXTERNAL_NS::thrust::asin(z);
 }
 
-template<typename T > __host__ __device__
+template<typename T > __hydra_host__ __hydra_device__
 complex<T> atan(const complex<T> &z){
 
 	return HYDRA_EXTERNAL_NS::thrust::atan(z);
 }
 
-template<typename T >__host__ __device__
+template<typename T >__hydra_host__ __hydra_device__
 complex<T> acosh(const complex<T> &z){
 
 	return HYDRA_EXTERNAL_NS::thrust::acosh(z);
 }
 
-template<typename T > __host__ __device__
+template<typename T > __hydra_host__ __hydra_device__
 complex<T> asinh(const complex<T> &z){
 
 	return HYDRA_EXTERNAL_NS::thrust::asinh(z);
 }
 
-template<typename T > __host__ __device__
+template<typename T > __hydra_host__ __hydra_device__
 complex<T> atanh(const complex<T> &z){
 
 	return HYDRA_EXTERNAL_NS::thrust::atanh(z);
@@ -337,39 +337,39 @@ operator>> (std::basic_istream< charT, traits > &is, complex< ValueType > &z){
 }
 
 //logigal operators
-template<typename T >__host__ __device__
+template<typename T >__hydra_host__ __hydra_device__
 bool operator==(const complex<T> &lhs, const complex<T> &rhs){
 
 	return HYDRA_EXTERNAL_NS::thrust::operator==(lhs,rhs);
 }
 
-template<typename T >__host__ __device__
+template<typename T >__hydra_host__ __hydra_device__
 bool operator== (const T &lhs, const complex<T> &rhs){
 
 	return HYDRA_EXTERNAL_NS::thrust::operator==(lhs,rhs);
 }
 
 
-template<typename T >__host__ __device__
+template<typename T >__hydra_host__ __hydra_device__
 bool operator== (const complex<T> &lhs, const T &rhs){
 
 	return HYDRA_EXTERNAL_NS::thrust::operator==(lhs,rhs);
 }
 
 
-template<typename T >__host__ __device__
+template<typename T >__hydra_host__ __hydra_device__
 bool operator!= (const complex<T> &lhs, const complex<T> &rhs){
 
 	return HYDRA_EXTERNAL_NS::thrust::operator!=(lhs,rhs);
 }
 
-template<typename T >__host__ __device__
+template<typename T >__hydra_host__ __hydra_device__
 bool operator!= (const T &lhs, const complex<T> &rhs){
 
 	return HYDRA_EXTERNAL_NS::thrust::operator!=(lhs,rhs);
 }
 
-template<typename T >__host__ __device__
+template<typename T >__hydra_host__ __hydra_device__
 bool operator!= (const complex<T> &lhs, const T &rhs){
 
 	return HYDRA_EXTERNAL_NS::thrust::operator!=(lhs,rhs);

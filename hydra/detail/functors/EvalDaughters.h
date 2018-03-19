@@ -30,10 +30,7 @@
  *      Author: Antonio Augusto Alves Junior
  */
 
-/**
- * \file
- * \ingroup phsp
- */
+
 
 
 #ifndef _EVALONDAUGHTERS_H_
@@ -76,7 +73,7 @@ struct EvalOnDaughtersBinary
 {
 
 
-    __host__ __device__ inline
+    __hydra_host__ __hydra_device__ inline
     ResultPHSP operator()(ResultPHSP const& x, ResultPHSP const& y)
     {
     	ResultPHSP result;
@@ -160,7 +157,7 @@ struct EvalOnDaughters
 
 	}
 
-	__host__ __device__
+	__hydra_host__ __hydra_device__
 	EvalOnDaughters( EvalOnDaughters<N, BACKEND,FUNCTOR, GRND> const& other ):
 	fFunctor(other.fFunctor),
 	fSeed(other.fSeed ),
@@ -173,7 +170,7 @@ struct EvalOnDaughters
 
 
 
-	__host__      __device__ inline
+	__hydra_host__      __hydra_device__ inline
 	static GReal_t pdk(const GReal_t a, const GReal_t b,
 			const GReal_t c)
 	{
@@ -183,7 +180,7 @@ struct EvalOnDaughters
 		return ::sqrt( (a - b - c) * (a + b + c) * (a - b + c) * (a + b - c) ) / (2 * a);
 	}
 
-	__host__ __device__ inline
+	__hydra_host__ __hydra_device__ inline
 	void bbsort( GReal_t *array, GInt_t n)
 	{
 		// Improved bubble sort
@@ -209,7 +206,7 @@ struct EvalOnDaughters
 	}
 
 
-	__host__   __device__ inline
+	__hydra_host__   __hydra_device__ inline
 	constexpr static size_t hash(const size_t a, const size_t b)
 	{
 		//Matthew Szudzik pairing
@@ -217,7 +214,7 @@ struct EvalOnDaughters
         return   (((2 * a) >=  (2 * b) ? (2 * a) * (2 * a) + (2 * a) + (2 * b) : (2 * a) + (2 * b) * (2 * b)) / 2);
 	}
 
-	__host__   __device__ inline
+	__hydra_host__   __hydra_device__ inline
 	GReal_t process(const GInt_t evt, Vector4R (&daugters)[N])
 	{
 
@@ -333,7 +330,7 @@ struct EvalOnDaughters
 	}
 
 
-	__host__  __device__ inline
+	__hydra_host__  __hydra_device__ inline
 	ResultPHSP operator()(const GUInt_t evt)
 	{
 		typedef typename hydra::detail::tuple_type<N,

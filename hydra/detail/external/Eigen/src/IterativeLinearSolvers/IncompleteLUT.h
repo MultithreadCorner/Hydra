@@ -8,8 +8,8 @@
 // Public License v. 2.0. If a copy of the MPL was not distributed
 // with this file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
-#ifndef EIGEN_INCOMPLETE_LUT_H
-#define EIGEN_INCOMPLETE_LUT_H
+#ifndef HYDRA_EIGEN_INCOMPLETE_LUT_H
+#define HYDRA_EIGEN_INCOMPLETE_LUT_H
 
 
 HYDRA_EXTERNAL_NAMESPACE_BEGIN namespace Eigen { 
@@ -225,7 +225,7 @@ void IncompleteLUT<Scalar,StorageIndex>::analyzePattern(const _MatrixType& amat)
   // Compute the Fill-reducing permutation
   // Since ILUT does not perform any numerical pivoting,
   // it is highly preferable to keep the diagonal through symmetric permutations.
-#ifndef EIGEN_MPL2_ONLY
+#ifndef HYDRA_EIGEN_MPL2_ONLY
   // To this end, let's symmetrize the pattern and perform AMD on it.
   SparseMatrix<Scalar,ColMajor, StorageIndex> mat1 = amat;
   SparseMatrix<Scalar,ColMajor, StorageIndex> mat2 = amat.transpose();
@@ -459,4 +459,4 @@ void IncompleteLUT<Scalar,StorageIndex>::factorize(const _MatrixType& amat)
 
 } /* end namespace Eigen */  HYDRA_EXTERNAL_NAMESPACE_END
 
-#endif // EIGEN_INCOMPLETE_LUT_H
+#endif // HYDRA_EIGEN_INCOMPLETE_LUT_H

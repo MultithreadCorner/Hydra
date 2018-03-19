@@ -60,14 +60,14 @@ struct LogLikelihood1
 		fNorm(functor.GetNorm())
 	{}
 
-	__host__ __device__ inline
+	__hydra_host__ __hydra_device__ inline
 	LogLikelihood1( LogLikelihood1<FUNCTOR> const& other):
 	fFunctor(other.fFunctor),
 	fNorm(other.fNorm)
 	{}
 
 	template<typename Type>
-	__host__ __device__ inline
+	__hydra_host__ __hydra_device__ inline
 	GReal_t operator()(Type& x) const
 	{
 		return ::log(fNorm*fFunctor( x ));
@@ -87,14 +87,14 @@ struct LogLikelihood2
 		fNorm(functor.GetNorm())
 	{}
 
-	__host__ __device__ inline
+	__hydra_host__ __hydra_device__ inline
 	LogLikelihood2( LogLikelihood1<FUNCTOR> const& other):
 	  fFunctor(other.fFunctor),
 		fNorm(other.fNorm)
 	{}
 
 	template<typename Args, typename Weights>
-   	__host__ __device__ inline
+   	__hydra_host__ __hydra_device__ inline
    	GReal_t operator()(Args& x, Weights& w) const
    	{
 

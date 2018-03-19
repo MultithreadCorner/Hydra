@@ -60,7 +60,7 @@ struct Equality
 {
     /// Boolean equality operator, returns <tt>(a == b)</tt>
     template <typename T>
-    __host__ __device__ __forceinline__ bool operator()(const T &a, const T &b) const
+    __hydra_host__ __hydra_device__ __forceinline__ bool operator()(const T &a, const T &b) const
     {
         return a == b;
     }
@@ -74,7 +74,7 @@ struct Inequality
 {
     /// Boolean inequality operator, returns <tt>(a != b)</tt>
     template <typename T>
-    __host__ __device__ __forceinline__ bool operator()(const T &a, const T &b) const
+    __hydra_host__ __hydra_device__ __forceinline__ bool operator()(const T &a, const T &b) const
     {
         return a != b;
     }
@@ -91,12 +91,12 @@ struct InequalityWrapper
     EqualityOp op;
 
     /// Constructor
-    __host__ __device__ __forceinline__
+    __hydra_host__ __hydra_device__ __forceinline__
     InequalityWrapper(EqualityOp op) : op(op) {}
 
     /// Boolean inequality operator, returns <tt>(a != b)</tt>
     template <typename T>
-    __host__ __device__ __forceinline__ bool operator()(const T &a, const T &b)
+    __hydra_host__ __hydra_device__ __forceinline__ bool operator()(const T &a, const T &b)
     {
         return !op(a, b);
     }
@@ -110,7 +110,7 @@ struct Sum
 {
     /// Boolean sum operator, returns <tt>a + b</tt>
     template <typename T>
-    __host__ __device__ __forceinline__ T operator()(const T &a, const T &b) const
+    __hydra_host__ __hydra_device__ __forceinline__ T operator()(const T &a, const T &b) const
     {
         return a + b;
     }
@@ -124,7 +124,7 @@ struct Max
 {
     /// Boolean max operator, returns <tt>(a > b) ? a : b</tt>
     template <typename T>
-    __host__ __device__ __forceinline__ T operator()(const T &a, const T &b) const
+    __hydra_host__ __hydra_device__ __forceinline__ T operator()(const T &a, const T &b) const
     {
         return CUB_MAX(a, b);
     }
@@ -138,7 +138,7 @@ struct ArgMax
 {
     /// Boolean max operator, preferring the item having the smaller offset in case of ties
     template <typename T, typename OffsetT>
-    __host__ __device__ __forceinline__ KeyValuePair<OffsetT, T> operator()(
+    __hydra_host__ __hydra_device__ __forceinline__ KeyValuePair<OffsetT, T> operator()(
         const KeyValuePair<OffsetT, T> &a,
         const KeyValuePair<OffsetT, T> &b) const
     {
@@ -159,7 +159,7 @@ struct Min
 {
     /// Boolean min operator, returns <tt>(a < b) ? a : b</tt>
     template <typename T>
-    __host__ __device__ __forceinline__ T operator()(const T &a, const T &b) const
+    __hydra_host__ __hydra_device__ __forceinline__ T operator()(const T &a, const T &b) const
     {
         return CUB_MIN(a, b);
     }
@@ -173,7 +173,7 @@ struct ArgMin
 {
     /// Boolean min operator, preferring the item having the smaller offset in case of ties
     template <typename T, typename OffsetT>
-    __host__ __device__ __forceinline__ KeyValuePair<OffsetT, T> operator()(
+    __hydra_host__ __hydra_device__ __forceinline__ KeyValuePair<OffsetT, T> operator()(
         const KeyValuePair<OffsetT, T> &a,
         const KeyValuePair<OffsetT, T> &b) const
     {
@@ -195,7 +195,7 @@ struct CastOp
 {
     /// Cast operator, returns <tt>(B) a</tt>
     template <typename A>
-    __host__ __device__ __forceinline__ B operator()(const A &a) const
+    __hydra_host__ __hydra_device__ __forceinline__ B operator()(const A &a) const
     {
         return (B) a;
     }
@@ -216,12 +216,12 @@ private:
 public:
 
     /// Constructor
-    __host__ __device__ __forceinline__
+    __hydra_host__ __hydra_device__ __forceinline__
     SwizzleScanOp(ScanOp scan_op) : scan_op(scan_op) {}
 
     /// Switch the scan arguments
     template <typename T>
-    __host__ __device__ __forceinline__
+    __hydra_host__ __hydra_device__ __forceinline__
     T operator()(const T &a, const T &b)
     {
       T _a(a);
@@ -255,14 +255,14 @@ struct ReduceBySegmentOp
     ReductionOpT op;
 
     /// Constructor
-    __host__ __device__ __forceinline__ ReduceBySegmentOp() {}
+    __hydra_host__ __hydra_device__ __forceinline__ ReduceBySegmentOp() {}
 
     /// Constructor
-    __host__ __device__ __forceinline__ ReduceBySegmentOp(ReductionOpT op) : op(op) {}
+    __hydra_host__ __hydra_device__ __forceinline__ ReduceBySegmentOp(ReductionOpT op) : op(op) {}
 
     /// Scan operator
     template <typename KeyValuePairT>       ///< KeyValuePair pairing of T (value) and OffsetT (head flag)
-    __host__ __device__ __forceinline__ KeyValuePairT operator()(
+    __hydra_host__ __hydra_device__ __forceinline__ KeyValuePairT operator()(
         const KeyValuePairT &first,         ///< First partial reduction
         const KeyValuePairT &second)        ///< Second partial reduction
     {
@@ -284,14 +284,14 @@ struct ReduceByKeyOp
     ReductionOpT op;
 
     /// Constructor
-    __host__ __device__ __forceinline__ ReduceByKeyOp() {}
+    __hydra_host__ __hydra_device__ __forceinline__ ReduceByKeyOp() {}
 
     /// Constructor
-    __host__ __device__ __forceinline__ ReduceByKeyOp(ReductionOpT op) : op(op) {}
+    __hydra_host__ __hydra_device__ __forceinline__ ReduceByKeyOp(ReductionOpT op) : op(op) {}
 
     /// Scan operator
     template <typename KeyValuePairT>
-    __host__ __device__ __forceinline__ KeyValuePairT operator()(
+    __hydra_host__ __hydra_device__ __forceinline__ KeyValuePairT operator()(
         const KeyValuePairT &first,       ///< First partial reduction
         const KeyValuePairT &second)      ///< Second partial reduction
     {

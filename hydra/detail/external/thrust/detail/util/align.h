@@ -30,7 +30,7 @@ namespace util
 
 
 template<typename T>
-__host__ __device__
+__hydra_host__ __hydra_device__
 T *align_up(T * ptr, detail::uintptr_t bytes)
 {
   return (T *) ( bytes * (((detail::uintptr_t) ptr + (bytes - 1)) / bytes) );
@@ -38,7 +38,7 @@ T *align_up(T * ptr, detail::uintptr_t bytes)
 
 
 template<typename T>
-__host__ __device__
+__hydra_host__ __hydra_device__
 T *align_down(T * ptr, detail::uintptr_t bytes)
 {
   return (T *) ( bytes * (detail::uintptr_t(ptr) / bytes) );
@@ -46,7 +46,7 @@ T *align_down(T * ptr, detail::uintptr_t bytes)
 
 
 template<typename T>
-__host__ __device__
+__hydra_host__ __hydra_device__
 bool is_aligned(T * ptr, detail::uintptr_t bytes = sizeof(T))
 {
   return detail::uintptr_t(ptr) % bytes == 0;

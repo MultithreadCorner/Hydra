@@ -7,8 +7,8 @@
 // Public License v. 2.0. If a copy of the MPL was not distributed
 // with this file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
-#ifndef EIGEN_SPARSESOLVERBASE_H
-#define EIGEN_SPARSESOLVERBASE_H
+#ifndef HYDRA_EIGEN_SPARSESOLVERBASE_H
+#define HYDRA_EIGEN_SPARSESOLVERBASE_H
 
 HYDRA_EXTERNAL_NAMESPACE_BEGIN namespace Eigen { 
 
@@ -22,7 +22,7 @@ template<typename Decomposition, typename Rhs, typename Dest>
 typename enable_if<Rhs::ColsAtCompileTime!=1 && Dest::ColsAtCompileTime!=1>::type
 solve_sparse_through_dense_panels(const Decomposition &dec, const Rhs& rhs, Dest &dest)
 {
-  EIGEN_STATIC_ASSERT((Dest::Flags&RowMajorBit)==0,THIS_METHOD_IS_ONLY_FOR_COLUMN_MAJOR_MATRICES);
+  HYDRA_EIGEN_STATIC_ASSERT((Dest::Flags&RowMajorBit)==0,THIS_METHOD_IS_ONLY_FOR_COLUMN_MAJOR_MATRICES);
   typedef typename Dest::Scalar DestScalar;
   // we process the sparse rhs per block of NbColsAtOnce columns temporarily stored into a dense matrix.
   static const Index NbColsAtOnce = 4;
@@ -105,14 +105,14 @@ class SparseSolverBase : internal::noncopyable
       return Solve<Derived, Rhs>(derived(), b.derived());
     }
     
-    #ifndef EIGEN_PARSED_BY_DOXYGEN
+    #ifndef HYDRA_EIGEN_PARSED_BY_DOXYGEN
     /** \internal default implementation of solving with a sparse rhs */
     template<typename Rhs,typename Dest>
     void _solve_impl(const SparseMatrixBase<Rhs> &b, SparseMatrixBase<Dest> &dest) const
     {
       internal::solve_sparse_through_dense_panels(derived(), b.derived(), dest.derived());
     }
-    #endif // EIGEN_PARSED_BY_DOXYGEN
+    #endif // HYDRA_EIGEN_PARSED_BY_DOXYGEN
 
   protected:
     
@@ -121,4 +121,4 @@ class SparseSolverBase : internal::noncopyable
 
 } /* end namespace Eigen */  HYDRA_EXTERNAL_NAMESPACE_END
 
-#endif // EIGEN_SPARSESOLVERBASE_H
+#endif // HYDRA_EIGEN_SPARSESOLVERBASE_H

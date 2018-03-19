@@ -30,7 +30,7 @@ namespace detail
 
 
 template<typename ExecutionGroup, typename Closure>
-__host__ __device__
+__hydra_host__ __hydra_device__
 future<void> async_in_stream(ExecutionGroup g, Closure c, cudaStream_t s, cudaEvent_t before_event)
 {
 #if __BULK_HAS_CUDART__
@@ -50,18 +50,18 @@ future<void> async_in_stream(ExecutionGroup g, Closure c, cudaStream_t s, cudaEv
 
 
 template<typename ExecutionGroup, typename Closure>
-__host__ __device__
+__hydra_host__ __hydra_device__
 future<void> async(ExecutionGroup g, Closure c, cudaEvent_t before_event)
 {
   cudaStream_t s;
 
-  // XXX cudaStreamCreate is __host__-only
+  // XXX cudaStreamCreate is __hydra_host__-only
   //     figure out a way to support this that does not require creating a new stream
 #if (__BULK_HAS_CUDART__ && !defined(__CUDA_ARCH__))
   bulk::detail::throw_on_error(cudaStreamCreate(&s), "cudaStreamCreate in bulk::detail::async");
 #else
   s = 0;
-  bulk::detail::terminate_with_message("bulk::async(): cudaStreamCreate() is unsupported in __device__ code.");
+  bulk::detail::terminate_with_message("bulk::async(): cudaStreamCreate() is unsupported in __hydra_device__ code.");
 #endif
 
 #if __BULK_HAS_CUDART__
@@ -82,7 +82,7 @@ future<void> async(ExecutionGroup g, Closure c, cudaEvent_t before_event)
 
 
 template<typename ExecutionGroup, typename Closure>
-__host__ __device__
+__hydra_host__ __hydra_device__
 future<void> async(ExecutionGroup g, Closure c)
 {
   return bulk::detail::async_in_stream(g, c, 0, 0);
@@ -90,7 +90,7 @@ future<void> async(ExecutionGroup g, Closure c)
 
 
 template<typename ExecutionGroup, typename Closure>
-__host__ __device__
+__hydra_host__ __hydra_device__
 future<void> async(async_launch<ExecutionGroup> launch, Closure c)
 {
   return launch.is_stream_valid() ?
@@ -103,7 +103,7 @@ future<void> async(async_launch<ExecutionGroup> launch, Closure c)
 
 
 template<typename ExecutionGroup, typename Function>
-__host__ __device__
+__hydra_host__ __hydra_device__
 future<void> async(ExecutionGroup g, Function f)
 {
   return bulk::detail::async(g, detail::make_closure(f));
@@ -111,7 +111,7 @@ future<void> async(ExecutionGroup g, Function f)
 
 
 template<typename ExecutionGroup, typename Function, typename Arg1>
-__host__ __device__
+__hydra_host__ __hydra_device__
 future<void> async(ExecutionGroup g, Function f, Arg1 arg1)
 {
   return bulk::detail::async(g, detail::make_closure(f,arg1));
@@ -119,7 +119,7 @@ future<void> async(ExecutionGroup g, Function f, Arg1 arg1)
 
 
 template<typename ExecutionGroup, typename Function, typename Arg1, typename Arg2>
-__host__ __device__
+__hydra_host__ __hydra_device__
 future<void> async(ExecutionGroup g, Function f, Arg1 arg1, Arg2 arg2)
 {
   return bulk::detail::async(g, detail::make_closure(f,arg1,arg2));
@@ -127,7 +127,7 @@ future<void> async(ExecutionGroup g, Function f, Arg1 arg1, Arg2 arg2)
 
 
 template<typename ExecutionGroup, typename Function, typename Arg1, typename Arg2, typename Arg3>
-__host__ __device__
+__hydra_host__ __hydra_device__
 future<void> async(ExecutionGroup g, Function f, Arg1 arg1, Arg2 arg2, Arg3 arg3)
 {
   return bulk::detail::async(g, detail::make_closure(f,arg1,arg2,arg3));
@@ -135,7 +135,7 @@ future<void> async(ExecutionGroup g, Function f, Arg1 arg1, Arg2 arg2, Arg3 arg3
 
 
 template<typename ExecutionGroup, typename Function, typename Arg1, typename Arg2, typename Arg3, typename Arg4>
-__host__ __device__
+__hydra_host__ __hydra_device__
 future<void> async(ExecutionGroup g, Function f, Arg1 arg1, Arg2 arg2, Arg3 arg3, Arg4 arg4)
 {
   return bulk::detail::async(g, detail::make_closure(f,arg1,arg2,arg3,arg4));
@@ -143,7 +143,7 @@ future<void> async(ExecutionGroup g, Function f, Arg1 arg1, Arg2 arg2, Arg3 arg3
 
 
 template<typename ExecutionGroup, typename Function, typename Arg1, typename Arg2, typename Arg3, typename Arg4, typename Arg5>
-__host__ __device__
+__hydra_host__ __hydra_device__
 future<void> async(ExecutionGroup g, Function f, Arg1 arg1, Arg2 arg2, Arg3 arg3, Arg4 arg4, Arg5 arg5)
 {
   return bulk::detail::async(g, detail::make_closure(f,arg1,arg2,arg3,arg4,arg5));
@@ -151,7 +151,7 @@ future<void> async(ExecutionGroup g, Function f, Arg1 arg1, Arg2 arg2, Arg3 arg3
 
 
 template<typename ExecutionGroup, typename Function, typename Arg1, typename Arg2, typename Arg3, typename Arg4, typename Arg5, typename Arg6>
-__host__ __device__
+__hydra_host__ __hydra_device__
 future<void> async(ExecutionGroup g, Function f, Arg1 arg1, Arg2 arg2, Arg3 arg3, Arg4 arg4, Arg5 arg5, Arg6 arg6)
 {
   return bulk::detail::async(g, detail::make_closure(f,arg1,arg2,arg3,arg4,arg5,arg6));
@@ -159,7 +159,7 @@ future<void> async(ExecutionGroup g, Function f, Arg1 arg1, Arg2 arg2, Arg3 arg3
 
 
 template<typename ExecutionGroup, typename Function, typename Arg1, typename Arg2, typename Arg3, typename Arg4, typename Arg5, typename Arg6, typename Arg7>
-__host__ __device__
+__hydra_host__ __hydra_device__
 future<void> async(ExecutionGroup g, Function f, Arg1 arg1, Arg2 arg2, Arg3 arg3, Arg4 arg4, Arg5 arg5, Arg6 arg6, Arg7 arg7)
 {
   return bulk::detail::async(g, detail::make_closure(f,arg1,arg2,arg3,arg4,arg5,arg6,arg7));
@@ -167,7 +167,7 @@ future<void> async(ExecutionGroup g, Function f, Arg1 arg1, Arg2 arg2, Arg3 arg3
 
 
 template<typename ExecutionGroup, typename Function, typename Arg1, typename Arg2, typename Arg3, typename Arg4, typename Arg5, typename Arg6, typename Arg7, typename Arg8>
-__host__ __device__
+__hydra_host__ __hydra_device__
 future<void> async(ExecutionGroup g, Function f, Arg1 arg1, Arg2 arg2, Arg3 arg3, Arg4 arg4, Arg5 arg5, Arg6 arg6, Arg7 arg7, Arg8 arg8)
 {
   return bulk::detail::async(g, detail::make_closure(f,arg1,arg2,arg3,arg4,arg5,arg6,arg7,arg8));
@@ -175,7 +175,7 @@ future<void> async(ExecutionGroup g, Function f, Arg1 arg1, Arg2 arg2, Arg3 arg3
 
 
 template<typename ExecutionGroup, typename Function, typename Arg1, typename Arg2, typename Arg3, typename Arg4, typename Arg5, typename Arg6, typename Arg7, typename Arg8, typename Arg9>
-__host__ __device__
+__hydra_host__ __hydra_device__
 future<void> async(ExecutionGroup g, Function f, Arg1 arg1, Arg2 arg2, Arg3 arg3, Arg4 arg4, Arg5 arg5, Arg6 arg6, Arg7 arg7, Arg8 arg8, Arg9 arg9)
 {
   return bulk::detail::async(g, detail::make_closure(f,arg1,arg2,arg3,arg4,arg5,arg6,arg7,arg8,arg9));
@@ -183,7 +183,7 @@ future<void> async(ExecutionGroup g, Function f, Arg1 arg1, Arg2 arg2, Arg3 arg3
 
 
 template<typename ExecutionGroup, typename Function, typename Arg1, typename Arg2, typename Arg3, typename Arg4, typename Arg5, typename Arg6, typename Arg7, typename Arg8, typename Arg9, typename Arg10>
-__host__ __device__
+__hydra_host__ __hydra_device__
 future<void> async(ExecutionGroup g, Function f, Arg1 arg1, Arg2 arg2, Arg3 arg3, Arg4 arg4, Arg5 arg5, Arg6 arg6, Arg7 arg7, Arg8 arg8, Arg9 arg9, Arg10 arg10)
 {
   return bulk::detail::async(g, detail::make_closure(f,arg1,arg2,arg3,arg4,arg5,arg6,arg7,arg8,arg9,arg10));

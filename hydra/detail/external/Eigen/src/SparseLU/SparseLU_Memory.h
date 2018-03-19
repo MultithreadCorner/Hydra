@@ -28,8 +28,8 @@
  * the code was modified is included with the above copyright notice.
  */
 
-#ifndef EIGEN_SPARSELU_MEMORY
-#define EIGEN_SPARSELU_MEMORY
+#ifndef HYDRA_EIGEN_SPARSELU_MEMORY
+#define HYDRA_EIGEN_SPARSELU_MEMORY
 
 HYDRA_EXTERNAL_NAMESPACE_BEGIN namespace Eigen {
 namespace internal {
@@ -76,13 +76,13 @@ Index  SparseLUImpl<Scalar,StorageIndex>::expand(VectorType& vec, Index& length,
     old_vec = vec.segment(0,nbElts); 
   
   //Allocate or expand the current vector
-#ifdef EIGEN_EXCEPTIONS
+#ifdef HYDRA_EIGEN_EXCEPTIONS
   try
 #endif
   {
     vec.resize(new_len); 
   }
-#ifdef EIGEN_EXCEPTIONS
+#ifdef HYDRA_EIGEN_EXCEPTIONS
   catch(std::bad_alloc& )
 #else
   if(!vec.size())
@@ -107,13 +107,13 @@ Index  SparseLUImpl<Scalar,StorageIndex>::expand(VectorType& vec, Index& length,
       {
         alpha = (alpha + 1)/2;
         new_len = (std::max)(length+1,Index(alpha * length));
-#ifdef EIGEN_EXCEPTIONS
+#ifdef HYDRA_EIGEN_EXCEPTIONS
         try
 #endif
         {
           vec.resize(new_len); 
         }
-#ifdef EIGEN_EXCEPTIONS
+#ifdef HYDRA_EIGEN_EXCEPTIONS
         catch(std::bad_alloc& )
 #else
         if (!vec.size())
@@ -223,4 +223,4 @@ Index SparseLUImpl<Scalar,StorageIndex>::memXpand(VectorType& vec, Index& maxlen
 } // end namespace internal
 
 } /* end namespace Eigen */  HYDRA_EXTERNAL_NAMESPACE_END
-#endif // EIGEN_SPARSELU_MEMORY
+#endif // HYDRA_EIGEN_SPARSELU_MEMORY

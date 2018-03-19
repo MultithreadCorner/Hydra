@@ -158,7 +158,7 @@ template<typename DerivedPolicy,
          typename RandomAccessIterator1,
          typename Size,
          typename RandomAccessIterator2>
-__host__ __device__
+__hydra_host__ __hydra_device__
 void trivial_copy_n(execution_policy<DerivedPolicy> &exec,
                     RandomAccessIterator1 first,
                     Size n,

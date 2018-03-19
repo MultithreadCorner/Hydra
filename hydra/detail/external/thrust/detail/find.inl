@@ -31,7 +31,7 @@ HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
 
 __thrust_exec_check_disable__
 template<typename DerivedPolicy, typename InputIterator, typename T>
-__host__ __device__
+__hydra_host__ __hydra_device__
 InputIterator find(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                    InputIterator first,
                    InputIterator last,
@@ -44,7 +44,7 @@ InputIterator find(const thrust::detail::execution_policy_base<DerivedPolicy> &e
 
 __thrust_exec_check_disable__
 template<typename DerivedPolicy, typename InputIterator, typename Predicate>
-__host__ __device__
+__hydra_host__ __hydra_device__
 InputIterator find_if(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                       InputIterator first,
                       InputIterator last,
@@ -57,7 +57,7 @@ InputIterator find_if(const thrust::detail::execution_policy_base<DerivedPolicy>
 
 __thrust_exec_check_disable__
 template<typename DerivedPolicy, typename InputIterator, typename Predicate>
-__host__ __device__
+__hydra_host__ __hydra_device__
 InputIterator find_if_not(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                           InputIterator first,
                           InputIterator last,

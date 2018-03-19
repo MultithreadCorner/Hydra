@@ -392,7 +392,7 @@ struct tuple_cat_enable_if
 
 // terminal case of tuple_cat()
 template<typename Tuple>
-inline __host__ __device__
+inline __hydra_host__ __hydra_device__
 typename detail::tuple_cat_enable_if<Tuple>::type
   tuple_cat(const Tuple& t, const thrust::tuple<> &)
 {
@@ -401,7 +401,7 @@ typename detail::tuple_cat_enable_if<Tuple>::type
 
 
 template<typename Tuple1, typename Tuple2>
-inline __host__ __device__
+inline __hydra_host__ __hydra_device__
 typename detail::tuple_cat_enable_if<Tuple1,Tuple2>::type
   tuple_cat(const Tuple1 &t1, const Tuple2 &t2)
 {
@@ -414,7 +414,7 @@ typename detail::tuple_cat_enable_if<Tuple1,Tuple2>::type
 }
 
 template<typename Tuple1, typename... Tuples>
-inline __host__ __device__
+inline __hydra_host__ __hydra_device__
 typename detail::tuple_cat_enable_if<Tuple1, Tuples...>::type
   tuple_cat(const Tuple1& t1, const Tuples&... ts)
 {

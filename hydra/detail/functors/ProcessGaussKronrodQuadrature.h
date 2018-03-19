@@ -37,23 +37,23 @@ namespace hydra {
 
 struct GaussKronrodCall
 {
-	__host__ __device__ inline
+	__hydra_host__ __hydra_device__ inline
 	GaussKronrodCall():
 		fGaussCall(0),
 		fGaussKronrodCall(0)
 	{}
 
-	__host__ __device__ inline
+	__hydra_host__ __hydra_device__ inline
 	GaussKronrodCall(GReal_t gaussCall, GReal_t gaussKronrodCall):
 		fGaussCall( gaussCall ),
 		fGaussKronrodCall(gaussKronrodCall)
 	{}
-	__host__ __device__ inline
+	__hydra_host__ __hydra_device__ inline
 	GaussKronrodCall(GaussKronrodCall const& other):
 		fGaussCall(other.fGaussCall),
 		fGaussKronrodCall(other.fGaussKronrodCall ){}
 
-	__host__ __device__ inline
+	__hydra_host__ __hydra_device__ inline
 	GaussKronrodCall& operator=(GaussKronrodCall const& other)
 	{
 		if( this == &other) return *this;
@@ -77,12 +77,12 @@ struct GaussKronrodUnary
 	fFunctor(functor)
 	{}
 
-	__host__ __device__ inline
+	__hydra_host__ __hydra_device__ inline
 	GaussKronrodUnary(GaussKronrodUnary<FUNCTOR> const& other ):
 	fFunctor(other.fFunctor)
 	{}
 
-	__host__ __device__ inline
+	__hydra_host__ __hydra_device__ inline
 	GaussKronrodUnary& operator=(GaussKronrodUnary<FUNCTOR> const& other )
 	{
 		if( this== &other) return *this;
@@ -92,7 +92,7 @@ struct GaussKronrodUnary
 	}
 
 	template<typename T>
-	__host__ __device__ inline
+	__hydra_host__ __hydra_device__ inline
 	GaussKronrodCall operator()(T row)
 	{
 		GReal_t abscissa_X_P               = HYDRA_EXTERNAL_NS::thrust::get<0>(row);
@@ -120,7 +120,7 @@ struct GaussKronrodUnary
 struct GaussKronrodBinary: public HYDRA_EXTERNAL_NS::thrust::binary_function<GaussKronrodCall const&,
 		GaussKronrodCall const&, GaussKronrodCall>
 {
-	 __host__ __device__ inline
+	 __hydra_host__ __hydra_device__ inline
 	 GaussKronrodCall  operator()( GaussKronrodCall const& x, GaussKronrodCall const& y)
 	 {
 		 GaussKronrodCall result;

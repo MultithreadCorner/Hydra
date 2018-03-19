@@ -82,7 +82,7 @@ struct AverageMothers
 	}
 
 
-	__host__      __device__ inline
+	__hydra_host__      __hydra_device__ inline
 	static GReal_t pdk(const GReal_t a, const GReal_t b,
 			const GReal_t c)
 	{
@@ -90,7 +90,7 @@ struct AverageMothers
 		return ::sqrt( (a - b - c) * (a + b + c) * (a - b + c) * (a + b - c) ) / (2 * a);;
 	}
 
-	__host__ __device__ void bbsort(GReal_t *array, GInt_t n)
+	__hydra_host__ __hydra_device__ void bbsort(GReal_t *array, GInt_t n)
 	{
 		// Improved bubble sort
 		for (GInt_t c = 0; c < n; c++)
@@ -113,7 +113,7 @@ struct AverageMothers
 
 	}
 
-	__host__   __device__ inline
+	__hydra_host__   __hydra_device__ inline
 	constexpr static size_t hash(const size_t a, const size_t b)
 		{
 			//Matthew Szudzik pairing
@@ -125,7 +125,7 @@ struct AverageMothers
 		    return   (((2 * a) >=  (2 * b) ? (2 * a) * (2 * a) + (2 * a) + (2 * b) : (2 * a) + (2 * b) * (2 * b)) / 2);
 		}
 
-	__host__      __device__ GReal_t
+	__hydra_host__      __hydra_device__ GReal_t
 	process(const GInt_t evt, Vector4R (&particles)[N+1])
 	{
 
@@ -260,7 +260,7 @@ struct AverageMothers
 	}
 
 	template<typename Tuple>
-	__host__   __device__
+	__hydra_host__   __hydra_device__
 	StatsPHSP operator()(Tuple& particles)
 	{
 		typedef typename hydra::detail::tuple_type<N+1,

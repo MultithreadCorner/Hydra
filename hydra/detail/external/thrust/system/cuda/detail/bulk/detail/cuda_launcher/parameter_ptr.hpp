@@ -38,20 +38,20 @@ class parameter_ptr
   public:
     typedef T element_type;
 
-    __host__ __device__
+    __hydra_host__ __hydra_device__
     explicit parameter_ptr(element_type *ptr)
       : m_ptr(ptr)
     {}
 
     // XXX copy emulates a move
-    __host__ __device__
+    __hydra_host__ __hydra_device__
     parameter_ptr(const parameter_ptr& other_)
     {
       parameter_ptr& other = const_cast<parameter_ptr&>(other_);
       thrust::swap(m_ptr, other.m_ptr);
     }
 
-    __host__ __device__
+    __hydra_host__ __hydra_device__
     ~parameter_ptr()
     {
 #if __BULK_HAS_CUDART__
@@ -65,7 +65,7 @@ class parameter_ptr
     }
 
     // XXX assign emulates a move
-    __host__ __device__
+    __hydra_host__ __hydra_device__
     parameter_ptr& operator=(const parameter_ptr& other_)
     {
       parameter_ptr& other = const_cast<parameter_ptr&>(other_);
@@ -73,7 +73,7 @@ class parameter_ptr
       return *this;
     }
 
-    __host__ __device__
+    __hydra_host__ __hydra_device__
     T* get() const
     {
       return m_ptr;
@@ -85,7 +85,7 @@ class parameter_ptr
 
 
 template<typename T>
-__host__ __device__
+__hydra_host__ __hydra_device__
 parameter_ptr<T> make_parameter(const T& x)
 {
   T* raw_ptr = 0;

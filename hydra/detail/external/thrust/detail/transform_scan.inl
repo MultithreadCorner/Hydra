@@ -35,7 +35,7 @@ template<typename DerivedPolicy,
          typename OutputIterator,
          typename UnaryFunction,
          typename AssociativeOperator>
-__host__ __device__
+__hydra_host__ __hydra_device__
   OutputIterator transform_inclusive_scan(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                                           InputIterator first,
                                           InputIterator last,
@@ -55,7 +55,7 @@ template<typename DerivedPolicy,
          typename UnaryFunction,
          typename T,
          typename AssociativeOperator>
-__host__ __device__
+__hydra_host__ __hydra_device__
   OutputIterator transform_exclusive_scan(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                                           InputIterator first,
                                           InputIterator last,

@@ -69,7 +69,7 @@ HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
  *  \see http://www.sgi.com/tech/stl/iota.html
  */
 template<typename DerivedPolicy, typename ForwardIterator>
-__host__ __device__
+__hydra_host__ __hydra_device__
   void sequence(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                 ForwardIterator first,
                 ForwardIterator last);
@@ -150,7 +150,7 @@ template<typename ForwardIterator>
  *  \see http://www.sgi.com/tech/stl/iota.html
  */
 template<typename DerivedPolicy, typename ForwardIterator, typename T>
-__host__ __device__
+__hydra_host__ __hydra_device__
   void sequence(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                 ForwardIterator first,
                 ForwardIterator last,
@@ -237,7 +237,7 @@ template<typename ForwardIterator, typename T>
  *  \see http://www.sgi.com/tech/stl/iota.html
  */
 template<typename DerivedPolicy, typename ForwardIterator, typename T>
-__host__ __device__
+__hydra_host__ __hydra_device__
   void sequence(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                 ForwardIterator first,
                 ForwardIterator last,

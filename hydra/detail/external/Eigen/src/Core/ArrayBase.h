@@ -7,8 +7,8 @@
 // Public License v. 2.0. If a copy of the MPL was not distributed
 // with this file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
-#ifndef EIGEN_ARRAYBASE_H
-#define EIGEN_ARRAYBASE_H
+#ifndef HYDRA_EIGEN_ARRAYBASE_H
+#define HYDRA_EIGEN_ARRAYBASE_H
 
 HYDRA_EXTERNAL_NAMESPACE_BEGIN namespace Eigen { 
 
@@ -32,7 +32,7 @@ template<typename ExpressionType> class MatrixWrapper;
   * \tparam Derived is the derived type, e.g., an array or an expression type.
   *
   * This class can be extended with the help of the plugin mechanism described on the page
-  * \ref TopicCustomizing_Plugins by defining the preprocessor symbol \c EIGEN_ARRAYBASE_PLUGIN.
+  * \ref TopicCustomizing_Plugins by defining the preprocessor symbol \c HYDRA_EIGEN_ARRAYBASE_PLUGIN.
   *
   * \sa class MatrixBase, \ref TopicClassHierarchy
   */
@@ -40,7 +40,7 @@ template<typename Derived> class ArrayBase
   : public DenseBase<Derived>
 {
   public:
-#ifndef EIGEN_PARSED_BY_DOXYGEN
+#ifndef HYDRA_EIGEN_PARSED_BY_DOXYGEN
     /** The base class for a given storage type. */
     typedef ArrayBase StorageBaseType;
 
@@ -77,33 +77,33 @@ template<typename Derived> class ArrayBase
 
     typedef typename Base::CoeffReturnType CoeffReturnType;
 
-#endif // not EIGEN_PARSED_BY_DOXYGEN
+#endif // not HYDRA_EIGEN_PARSED_BY_DOXYGEN
 
-#ifndef EIGEN_PARSED_BY_DOXYGEN
+#ifndef HYDRA_EIGEN_PARSED_BY_DOXYGEN
     typedef typename Base::PlainObject PlainObject;
 
     /** \internal Represents a matrix with all coefficients equal to one another*/
     typedef CwiseNullaryOp<internal::scalar_constant_op<Scalar>,PlainObject> ConstantReturnType;
-#endif // not EIGEN_PARSED_BY_DOXYGEN
+#endif // not HYDRA_EIGEN_PARSED_BY_DOXYGEN
 
-#define EIGEN_CURRENT_STORAGE_BASE_CLASS HYDRA_EXTERNAL_NS::Eigen::ArrayBase
-#define EIGEN_DOC_UNARY_ADDONS(X,Y)
+#define HYDRA_EIGEN_CURRENT_STORAGE_BASE_CLASS HYDRA_EXTERNAL_NS::Eigen::ArrayBase
+#define HYDRA_EIGEN_DOC_UNARY_ADDONS(X,Y)
 #   include "../plugins/CommonCwiseUnaryOps.h"
 #   include "../plugins/MatrixCwiseUnaryOps.h"
 #   include "../plugins/ArrayCwiseUnaryOps.h"
 #   include "../plugins/CommonCwiseBinaryOps.h"
 #   include "../plugins/MatrixCwiseBinaryOps.h"
 #   include "../plugins/ArrayCwiseBinaryOps.h"
-#   ifdef EIGEN_ARRAYBASE_PLUGIN
-#     include EIGEN_ARRAYBASE_PLUGIN
+#   ifdef HYDRA_EIGEN_ARRAYBASE_PLUGIN
+#     include HYDRA_EIGEN_ARRAYBASE_PLUGIN
 #   endif
-#undef EIGEN_CURRENT_STORAGE_BASE_CLASS
-#undef EIGEN_DOC_UNARY_ADDONS
+#undef HYDRA_EIGEN_CURRENT_STORAGE_BASE_CLASS
+#undef HYDRA_EIGEN_DOC_UNARY_ADDONS
 
     /** Special case of the template operator=, in order to prevent the compiler
       * from generating a default operator= (issue hit with g++ 4.1)
       */
-    EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE
+    HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE
     Derived& operator=(const ArrayBase& other)
     {
       internal::call_assignment(derived(), other.derived());
@@ -112,48 +112,48 @@ template<typename Derived> class ArrayBase
     
     /** Set all the entries to \a value.
       * \sa DenseBase::setConstant(), DenseBase::fill() */
-    EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE
+    HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE
     Derived& operator=(const Scalar &value)
     { Base::setConstant(value); return derived(); }
 
-    EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE
+    HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE
     Derived& operator+=(const Scalar& scalar);
-    EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE
+    HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE
     Derived& operator-=(const Scalar& scalar);
 
     template<typename OtherDerived>
-    EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE
+    HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE
     Derived& operator+=(const ArrayBase<OtherDerived>& other);
     template<typename OtherDerived>
-    EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE
+    HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE
     Derived& operator-=(const ArrayBase<OtherDerived>& other);
 
     template<typename OtherDerived>
-    EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE
+    HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE
     Derived& operator*=(const ArrayBase<OtherDerived>& other);
 
     template<typename OtherDerived>
-    EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE
+    HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE
     Derived& operator/=(const ArrayBase<OtherDerived>& other);
 
   public:
-    EIGEN_DEVICE_FUNC
+    HYDRA_EIGEN_DEVICE_FUNC
     ArrayBase<Derived>& array() { return *this; }
-    EIGEN_DEVICE_FUNC
+    HYDRA_EIGEN_DEVICE_FUNC
     const ArrayBase<Derived>& array() const { return *this; }
 
     /** \returns an \link HYDRA_EXTERNAL_NS::Eigen::MatrixBase Matrix \endlink expression of this array
       * \sa MatrixBase::array() */
-    EIGEN_DEVICE_FUNC
+    HYDRA_EIGEN_DEVICE_FUNC
     MatrixWrapper<Derived> matrix() { return MatrixWrapper<Derived>(derived()); }
-    EIGEN_DEVICE_FUNC
+    HYDRA_EIGEN_DEVICE_FUNC
     const MatrixWrapper<const Derived> matrix() const { return MatrixWrapper<const Derived>(derived()); }
 
 //     template<typename Dest>
 //     inline void evalTo(Dest& dst) const { dst = matrix(); }
 
   protected:
-    EIGEN_DEVICE_FUNC
+    HYDRA_EIGEN_DEVICE_FUNC
     ArrayBase() : Base() {}
 
   private:
@@ -163,10 +163,10 @@ template<typename Derived> class ArrayBase
   protected:
     // mixing arrays and matrices is not legal
     template<typename OtherDerived> Derived& operator+=(const MatrixBase<OtherDerived>& )
-    {EIGEN_STATIC_ASSERT(std::ptrdiff_t(sizeof(typename OtherDerived::Scalar))==-1,YOU_CANNOT_MIX_ARRAYS_AND_MATRICES); return *this;}
+    {HYDRA_EIGEN_STATIC_ASSERT(std::ptrdiff_t(sizeof(typename OtherDerived::Scalar))==-1,YOU_CANNOT_MIX_ARRAYS_AND_MATRICES); return *this;}
     // mixing arrays and matrices is not legal
     template<typename OtherDerived> Derived& operator-=(const MatrixBase<OtherDerived>& )
-    {EIGEN_STATIC_ASSERT(std::ptrdiff_t(sizeof(typename OtherDerived::Scalar))==-1,YOU_CANNOT_MIX_ARRAYS_AND_MATRICES); return *this;}
+    {HYDRA_EIGEN_STATIC_ASSERT(std::ptrdiff_t(sizeof(typename OtherDerived::Scalar))==-1,YOU_CANNOT_MIX_ARRAYS_AND_MATRICES); return *this;}
 };
 
 /** replaces \c *this by \c *this - \a other.
@@ -175,7 +175,7 @@ template<typename Derived> class ArrayBase
   */
 template<typename Derived>
 template<typename OtherDerived>
-EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE Derived &
+HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE Derived &
 ArrayBase<Derived>::operator-=(const ArrayBase<OtherDerived> &other)
 {
   call_assignment(derived(), other.derived(), internal::sub_assign_op<Scalar,typename OtherDerived::Scalar>());
@@ -188,7 +188,7 @@ ArrayBase<Derived>::operator-=(const ArrayBase<OtherDerived> &other)
   */
 template<typename Derived>
 template<typename OtherDerived>
-EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE Derived &
+HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE Derived &
 ArrayBase<Derived>::operator+=(const ArrayBase<OtherDerived>& other)
 {
   call_assignment(derived(), other.derived(), internal::add_assign_op<Scalar,typename OtherDerived::Scalar>());
@@ -201,7 +201,7 @@ ArrayBase<Derived>::operator+=(const ArrayBase<OtherDerived>& other)
   */
 template<typename Derived>
 template<typename OtherDerived>
-EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE Derived &
+HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE Derived &
 ArrayBase<Derived>::operator*=(const ArrayBase<OtherDerived>& other)
 {
   call_assignment(derived(), other.derived(), internal::mul_assign_op<Scalar,typename OtherDerived::Scalar>());
@@ -214,7 +214,7 @@ ArrayBase<Derived>::operator*=(const ArrayBase<OtherDerived>& other)
   */
 template<typename Derived>
 template<typename OtherDerived>
-EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE Derived &
+HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE Derived &
 ArrayBase<Derived>::operator/=(const ArrayBase<OtherDerived>& other)
 {
   call_assignment(derived(), other.derived(), internal::div_assign_op<Scalar,typename OtherDerived::Scalar>());
@@ -223,4 +223,4 @@ ArrayBase<Derived>::operator/=(const ArrayBase<OtherDerived>& other)
 
 } /* end namespace Eigen */  HYDRA_EXTERNAL_NAMESPACE_END
 
-#endif // EIGEN_ARRAYBASE_H
+#endif // HYDRA_EIGEN_ARRAYBASE_H

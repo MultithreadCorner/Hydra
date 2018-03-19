@@ -7,8 +7,8 @@
 // Public License v. 2.0. If a copy of the MPL was not distributed
 // with this file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
-#ifndef EIGEN_ANGLEAXIS_H
-#define EIGEN_ANGLEAXIS_H
+#ifndef HYDRA_EIGEN_ANGLEAXIS_H
+#define HYDRA_EIGEN_ANGLEAXIS_H
 
 HYDRA_EXTERNAL_NAMESPACE_BEGIN namespace Eigen { 
 
@@ -69,61 +69,61 @@ protected:
 public:
 
   /** Default constructor without initialization. */
-  EIGEN_DEVICE_FUNC AngleAxis() {}
+  HYDRA_EIGEN_DEVICE_FUNC AngleAxis() {}
   /** Constructs and initialize the angle-axis rotation from an \a angle in radian
     * and an \a axis which \b must \b be \b normalized.
     *
     * \warning If the \a axis vector is not normalized, then the angle-axis object
     *          represents an invalid rotation. */
   template<typename Derived>
-  EIGEN_DEVICE_FUNC 
+  HYDRA_EIGEN_DEVICE_FUNC 
   inline AngleAxis(const Scalar& angle, const MatrixBase<Derived>& axis) : m_axis(axis), m_angle(angle) {}
   /** Constructs and initialize the angle-axis rotation from a quaternion \a q.
     * This function implicitly normalizes the quaternion \a q.
     */
   template<typename QuatDerived> 
-  EIGEN_DEVICE_FUNC inline explicit AngleAxis(const QuaternionBase<QuatDerived>& q) { *this = q; }
+  HYDRA_EIGEN_DEVICE_FUNC inline explicit AngleAxis(const QuaternionBase<QuatDerived>& q) { *this = q; }
   /** Constructs and initialize the angle-axis rotation from a 3x3 rotation matrix. */
   template<typename Derived>
-  EIGEN_DEVICE_FUNC inline explicit AngleAxis(const MatrixBase<Derived>& m) { *this = m; }
+  HYDRA_EIGEN_DEVICE_FUNC inline explicit AngleAxis(const MatrixBase<Derived>& m) { *this = m; }
 
   /** \returns the value of the rotation angle in radian */
-  EIGEN_DEVICE_FUNC Scalar angle() const { return m_angle; }
+  HYDRA_EIGEN_DEVICE_FUNC Scalar angle() const { return m_angle; }
   /** \returns a read-write reference to the stored angle in radian */
-  EIGEN_DEVICE_FUNC Scalar& angle() { return m_angle; }
+  HYDRA_EIGEN_DEVICE_FUNC Scalar& angle() { return m_angle; }
 
   /** \returns the rotation axis */
-  EIGEN_DEVICE_FUNC const Vector3& axis() const { return m_axis; }
+  HYDRA_EIGEN_DEVICE_FUNC const Vector3& axis() const { return m_axis; }
   /** \returns a read-write reference to the stored rotation axis.
     *
     * \warning The rotation axis must remain a \b unit vector.
     */
-  EIGEN_DEVICE_FUNC Vector3& axis() { return m_axis; }
+  HYDRA_EIGEN_DEVICE_FUNC Vector3& axis() { return m_axis; }
 
   /** Concatenates two rotations */
-  EIGEN_DEVICE_FUNC inline QuaternionType operator* (const AngleAxis& other) const
+  HYDRA_EIGEN_DEVICE_FUNC inline QuaternionType operator* (const AngleAxis& other) const
   { return QuaternionType(*this) * QuaternionType(other); }
 
   /** Concatenates two rotations */
-  EIGEN_DEVICE_FUNC inline QuaternionType operator* (const QuaternionType& other) const
+  HYDRA_EIGEN_DEVICE_FUNC inline QuaternionType operator* (const QuaternionType& other) const
   { return QuaternionType(*this) * other; }
 
   /** Concatenates two rotations */
-  friend EIGEN_DEVICE_FUNC inline QuaternionType operator* (const QuaternionType& a, const AngleAxis& b)
+  friend HYDRA_EIGEN_DEVICE_FUNC inline QuaternionType operator* (const QuaternionType& a, const AngleAxis& b)
   { return a * QuaternionType(b); }
 
   /** \returns the inverse rotation, i.e., an angle-axis with opposite rotation angle */
-  EIGEN_DEVICE_FUNC AngleAxis inverse() const
+  HYDRA_EIGEN_DEVICE_FUNC AngleAxis inverse() const
   { return AngleAxis(-m_angle, m_axis); }
 
   template<class QuatDerived>
-  EIGEN_DEVICE_FUNC AngleAxis& operator=(const QuaternionBase<QuatDerived>& q);
+  HYDRA_EIGEN_DEVICE_FUNC AngleAxis& operator=(const QuaternionBase<QuatDerived>& q);
   template<typename Derived>
-  EIGEN_DEVICE_FUNC AngleAxis& operator=(const MatrixBase<Derived>& m);
+  HYDRA_EIGEN_DEVICE_FUNC AngleAxis& operator=(const MatrixBase<Derived>& m);
 
   template<typename Derived>
-  EIGEN_DEVICE_FUNC AngleAxis& fromRotationMatrix(const MatrixBase<Derived>& m);
-  EIGEN_DEVICE_FUNC Matrix3 toRotationMatrix(void) const;
+  HYDRA_EIGEN_DEVICE_FUNC AngleAxis& fromRotationMatrix(const MatrixBase<Derived>& m);
+  HYDRA_EIGEN_DEVICE_FUNC Matrix3 toRotationMatrix(void) const;
 
   /** \returns \c *this with scalar type casted to \a NewScalarType
     *
@@ -131,24 +131,24 @@ public:
     * then this function smartly returns a const reference to \c *this.
     */
   template<typename NewScalarType>
-  EIGEN_DEVICE_FUNC inline typename internal::cast_return_type<AngleAxis,AngleAxis<NewScalarType> >::type cast() const
+  HYDRA_EIGEN_DEVICE_FUNC inline typename internal::cast_return_type<AngleAxis,AngleAxis<NewScalarType> >::type cast() const
   { return typename internal::cast_return_type<AngleAxis,AngleAxis<NewScalarType> >::type(*this); }
 
   /** Copy constructor with scalar type conversion */
   template<typename OtherScalarType>
-  EIGEN_DEVICE_FUNC inline explicit AngleAxis(const AngleAxis<OtherScalarType>& other)
+  HYDRA_EIGEN_DEVICE_FUNC inline explicit AngleAxis(const AngleAxis<OtherScalarType>& other)
   {
     m_axis = other.axis().template cast<Scalar>();
     m_angle = Scalar(other.angle());
   }
 
-  EIGEN_DEVICE_FUNC static inline const AngleAxis Identity() { return AngleAxis(Scalar(0), Vector3::UnitX()); }
+  HYDRA_EIGEN_DEVICE_FUNC static inline const AngleAxis Identity() { return AngleAxis(Scalar(0), Vector3::UnitX()); }
 
   /** \returns \c true if \c *this is approximately equal to \a other, within the precision
     * determined by \a prec.
     *
     * \sa MatrixBase::isApprox() */
-  EIGEN_DEVICE_FUNC bool isApprox(const AngleAxis& other, const typename NumTraits<Scalar>::Real& prec = NumTraits<Scalar>::dummy_precision()) const
+  HYDRA_EIGEN_DEVICE_FUNC bool isApprox(const AngleAxis& other, const typename NumTraits<Scalar>::Real& prec = NumTraits<Scalar>::dummy_precision()) const
   { return m_axis.isApprox(other.m_axis, prec) && internal::isApprox(m_angle,other.m_angle, prec); }
 };
 
@@ -167,10 +167,10 @@ typedef AngleAxis<double> AngleAxisd;
   */
 template<typename Scalar>
 template<typename QuatDerived>
-EIGEN_DEVICE_FUNC AngleAxis<Scalar>& AngleAxis<Scalar>::operator=(const QuaternionBase<QuatDerived>& q)
+HYDRA_EIGEN_DEVICE_FUNC AngleAxis<Scalar>& AngleAxis<Scalar>::operator=(const QuaternionBase<QuatDerived>& q)
 {
-  EIGEN_USING_STD_MATH(atan2)
-  EIGEN_USING_STD_MATH(abs)
+  HYDRA_EIGEN_USING_STD_MATH(atan2)
+  HYDRA_EIGEN_USING_STD_MATH(abs)
   Scalar n = q.vec().norm();
   if(n<NumTraits<Scalar>::epsilon())
     n = q.vec().stableNorm();
@@ -194,7 +194,7 @@ EIGEN_DEVICE_FUNC AngleAxis<Scalar>& AngleAxis<Scalar>::operator=(const Quaterni
   */
 template<typename Scalar>
 template<typename Derived>
-EIGEN_DEVICE_FUNC AngleAxis<Scalar>& AngleAxis<Scalar>::operator=(const MatrixBase<Derived>& mat)
+HYDRA_EIGEN_DEVICE_FUNC AngleAxis<Scalar>& AngleAxis<Scalar>::operator=(const MatrixBase<Derived>& mat)
 {
   // Since a direct conversion would not be really faster,
   // let's use the robust Quaternion implementation:
@@ -206,7 +206,7 @@ EIGEN_DEVICE_FUNC AngleAxis<Scalar>& AngleAxis<Scalar>::operator=(const MatrixBa
 **/
 template<typename Scalar>
 template<typename Derived>
-EIGEN_DEVICE_FUNC AngleAxis<Scalar>& AngleAxis<Scalar>::fromRotationMatrix(const MatrixBase<Derived>& mat)
+HYDRA_EIGEN_DEVICE_FUNC AngleAxis<Scalar>& AngleAxis<Scalar>::fromRotationMatrix(const MatrixBase<Derived>& mat)
 {
   return *this = QuaternionType(mat);
 }
@@ -215,10 +215,10 @@ EIGEN_DEVICE_FUNC AngleAxis<Scalar>& AngleAxis<Scalar>::fromRotationMatrix(const
   */
 template<typename Scalar>
 typename AngleAxis<Scalar>::Matrix3
-EIGEN_DEVICE_FUNC AngleAxis<Scalar>::toRotationMatrix(void) const
+HYDRA_EIGEN_DEVICE_FUNC AngleAxis<Scalar>::toRotationMatrix(void) const
 {
-  EIGEN_USING_STD_MATH(sin)
-  EIGEN_USING_STD_MATH(cos)
+  HYDRA_EIGEN_USING_STD_MATH(sin)
+  HYDRA_EIGEN_USING_STD_MATH(cos)
   Matrix3 res;
   Vector3 sin_axis  = sin(m_angle) * m_axis;
   Scalar c = cos(m_angle);
@@ -244,4 +244,4 @@ EIGEN_DEVICE_FUNC AngleAxis<Scalar>::toRotationMatrix(void) const
 
 } /* end namespace Eigen */  HYDRA_EXTERNAL_NAMESPACE_END
 
-#endif // EIGEN_ANGLEAXIS_H
+#endif // HYDRA_EIGEN_ANGLEAXIS_H

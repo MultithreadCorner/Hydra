@@ -92,7 +92,7 @@ struct GenzMalikBox
 
 	}
 
-	__host__ __device__
+	__hydra_host__ __hydra_device__
 	GenzMalikBox(GenzMalikBox<N> const& other):
 		fRule7(other.GetRule7() ),
 		fRule5(other.GetRule5() ),
@@ -111,7 +111,7 @@ struct GenzMalikBox
 		}
 	}
 
-	__host__ __device__
+	__hydra_host__ __hydra_device__
 	GenzMalikBox<N>& operator=(GenzMalikBox<N> const& other)
 	{
 		if(this==&other) return *this;
@@ -133,7 +133,7 @@ struct GenzMalikBox
 		return *this;
 	}
 
-	__host__ __device__
+	__hydra_host__ __hydra_device__
 	GenzMalikBox<N>& operator=(data_type & other)
 	{
 
@@ -178,57 +178,57 @@ struct GenzMalikBox
 
 	}
 
-	__host__ __device__
+	__hydra_host__ __hydra_device__
 	GReal_t GetFourDifference(size_t i) const {
 		return fFourDifference[i];
 	}
 
-	__host__ __device__
+	__hydra_host__ __hydra_device__
 	GReal_t GetRule5() const {
 		return fRule5;
 	}
 
-	__host__ __device__
+	__hydra_host__ __hydra_device__
 	void SetRule5(GReal_t rule5) {
 		fRule5 = rule5;
 	}
 
-	__host__ __device__
+	__hydra_host__ __hydra_device__
 	GReal_t GetRule7() const {
 		return fRule7;
 	}
 
-	__host__ __device__
+	__hydra_host__ __hydra_device__
 	void SetRule7(GReal_t rule7) {
 		fRule7 = rule7;
 	}
 
-	__host__ __device__
+	__hydra_host__ __hydra_device__
 	GReal_t GetVolume() const {
 		return fVolume;
 	}
 
-	__host__ __device__
+	__hydra_host__ __hydra_device__
 	void SetVolume(GReal_t volume) {
 		fVolume = volume;
 	}
 
-	__host__ __device__
+	__hydra_host__ __hydra_device__
 	GReal_t GetLowerLimit(size_t i) const {
 		return fLowerLimit[i];
 	}
 
-	__host__ __device__
+	__hydra_host__ __hydra_device__
 	GReal_t GetUpperLimit(size_t i) const {
 			return fUpperLimit[i];
 		}
 
-	__host__ __device__
+	__hydra_host__ __hydra_device__
 	GReal_t* GetLowerLimit()  {
 		return fLowerLimit;
 	}
 
-	__host__ __device__
+	__hydra_host__ __hydra_device__
 	GReal_t* GetUpperLimit()  {
 		return fUpperLimit;
 	}
@@ -236,34 +236,34 @@ struct GenzMalikBox
 
 
 
-	__host__ __device__
+	__hydra_host__ __hydra_device__
 	GReal_t GetError() const {
 
 		return fError;
 	}
 
-	__host__ __device__
+	__hydra_host__ __hydra_device__
 	void SetError(GReal_t error) {
 		fError = error;
 	}
 
-	__host__ __device__
+	__hydra_host__ __hydra_device__
 	GReal_t GetIntegral() const {
 
 		return fIntegral;
 	}
 
-	__host__ __device__
+	__hydra_host__ __hydra_device__
 	void SetIntegral(GReal_t integral) {
 		fIntegral = integral;
 	}
 
-	__host__ __device__
+	__hydra_host__ __hydra_device__
 	GReal_t GetErrorSq() const {
 		return fErrorSq;
 	}
 
-	__host__ __device__
+	__hydra_host__ __hydra_device__
 	void SetErrorSq(GReal_t errorSq) {
 		fErrorSq = errorSq;
 	}

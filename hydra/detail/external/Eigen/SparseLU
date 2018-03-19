@@ -8,8 +8,8 @@
 // Public License v. 2.0. If a copy of the MPL was not distributed
 // with this file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
-#ifndef EIGEN_SPARSELU_MODULE_H
-#define EIGEN_SPARSELU_MODULE_H
+#ifndef HYDRA_EIGEN_SPARSELU_MODULE_H
+#define HYDRA_EIGEN_SPARSELU_MODULE_H
 
 #include "hydra/detail/external/Eigen/SparseCore"
 
@@ -43,4 +43,4 @@
 #include "hydra/detail/external/Eigen/src/SparseLU/SparseLU_Utils.h"
 #include "hydra/detail/external/Eigen/src/SparseLU/SparseLU.h"
 
-#endif // EIGEN_SPARSELU_MODULE_H
+#endif // HYDRA_EIGEN_SPARSELU_MODULE_H

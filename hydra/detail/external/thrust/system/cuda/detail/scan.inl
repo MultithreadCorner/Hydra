@@ -43,14 +43,14 @@ namespace scan_detail
 struct inclusive_scan_n
 {
   template<typename ConcurrentGroup, typename InputIterator, typename Size, typename OutputIterator, typename T, typename BinaryFunction>
-  __device__ void operator()(ConcurrentGroup &this_group, InputIterator first, Size n, OutputIterator result, T init, BinaryFunction binary_op)
+  __hydra_device__ void operator()(ConcurrentGroup &this_group, InputIterator first, Size n, OutputIterator result, T init, BinaryFunction binary_op)
   {
     bulk_::inclusive_scan(this_group, first, first + n, result, init, binary_op);
   }
 
 
   template<typename ConcurrentGroup, typename InputIterator, typename Size, typename OutputIterator, typename BinaryFunction>
-  __device__ void operator()(ConcurrentGroup &this_group, InputIterator first, Size n, OutputIterator result, BinaryFunction binary_op)
+  __hydra_device__ void operator()(ConcurrentGroup &this_group, InputIterator first, Size n, OutputIterator result, BinaryFunction binary_op)
   {
     bulk_::inclusive_scan(this_group, first, first + n, result, binary_op);
   }
@@ -60,7 +60,7 @@ struct inclusive_scan_n
 struct exclusive_scan_n
 {
   template<typename ConcurrentGroup, typename InputIterator, typename Size, typename OutputIterator, typename T, typename BinaryFunction>
-  __device__ void operator()(ConcurrentGroup &this_group, InputIterator first, Size n, OutputIterator result, T init, BinaryFunction binary_op)
+  __hydra_device__ void operator()(ConcurrentGroup &this_group, InputIterator first, Size n, OutputIterator result, T init, BinaryFunction binary_op)
   {
     bulk_::exclusive_scan(this_group, first, first + n, result, init, binary_op);
   }
@@ -70,7 +70,7 @@ struct exclusive_scan_n
 struct inclusive_downsweep
 {
   template<typename ConcurrentGroup, typename RandomAccessIterator1, typename Decomposition, typename RandomAccessIterator2, typename RandomAccessIterator3, typename BinaryFunction>
-  __device__ void operator()(ConcurrentGroup &this_group,
+  __hydra_device__ void operator()(ConcurrentGroup &this_group,
                              RandomAccessIterator1 first,
                              Decomposition decomp,
                              RandomAccessIterator2 carries_first,
@@ -100,7 +100,7 @@ struct inclusive_downsweep
 struct exclusive_downsweep
 {
   template<typename ConcurrentGroup, typename RandomAccessIterator1, typename Decomposition, typename RandomAccessIterator2, typename RandomAccessIterator3, typename BinaryFunction>
-  __device__ void operator()(ConcurrentGroup &this_group,
+  __hydra_device__ void operator()(ConcurrentGroup &this_group,
                              RandomAccessIterator1 first,
                              Decomposition decomp,
                              RandomAccessIterator2 carries_first,
@@ -171,7 +171,7 @@ template<typename T1, typename T2>
 struct accumulate_tiles
 {
   template<typename ConcurrentGroup, typename RandomAccessIterator1, typename Decomposition, typename RandomAccessIterator2, typename BinaryFunction>
-  __device__ void operator()(ConcurrentGroup &this_group,
+  __hydra_device__ void operator()(ConcurrentGroup &this_group,
                              RandomAccessIterator1 first,
                              Decomposition decomp,
                              RandomAccessIterator2 result,
@@ -202,7 +202,7 @@ template<typename DerivedPolicy,
          typename InputIterator,
          typename OutputIterator,
          typename AssociativeOperator>
-__host__ __device__
+__hydra_host__ __hydra_device__
 OutputIterator inclusive_scan(execution_policy<DerivedPolicy> &exec,
                               InputIterator first,
                               InputIterator last,
@@ -289,7 +289,7 @@ template<typename DerivedPolicy,
          typename OutputIterator,
          typename T,
          typename AssociativeOperator>
-__host__ __device__
+__hydra_host__ __hydra_device__
 OutputIterator exclusive_scan(execution_policy<DerivedPolicy> &exec,
                               InputIterator first,
                               InputIterator last,
@@ -380,7 +380,7 @@ template<typename DerivedPolicy,
          typename InputIterator,
          typename OutputIterator,
          typename AssociativeOperator>
-__host__ __device__
+__hydra_host__ __hydra_device__
 OutputIterator inclusive_scan(execution_policy<DerivedPolicy> &exec,
                               InputIterator first,
                               InputIterator last,
@@ -396,7 +396,7 @@ OutputIterator inclusive_scan(execution_policy<DerivedPolicy> &exec,
 
   struct workaround
   {
-    __host__ __device__
+    __hydra_host__ __hydra_device__
     static OutputIterator parallel_path(execution_policy<DerivedPolicy> &exec,
                                         InputIterator first,
                                         InputIterator last,
@@ -406,7 +406,7 @@ OutputIterator inclusive_scan(execution_policy<DerivedPolicy> &exec,
       return thrust::system::cuda::detail::scan_detail::inclusive_scan(exec, first, last, result, binary_op);
     }
 
-    __host__ __device__
+    __hydra_host__ __hydra_device__
     static OutputIterator sequential_path(execution_policy<DerivedPolicy> &,
                                           InputIterator first,
                                           InputIterator last,
@@ -430,7 +430,7 @@ template<typename DerivedPolicy,
          typename OutputIterator,
          typename T,
          typename AssociativeOperator>
-__host__ __device__
+__hydra_host__ __hydra_device__
 OutputIterator exclusive_scan(execution_policy<DerivedPolicy> &exec,
                               InputIterator first,
                               InputIterator last,
@@ -447,7 +447,7 @@ OutputIterator exclusive_scan(execution_policy<DerivedPolicy> &exec,
 
   struct workaround
   {
-    __host__ __device__
+    __hydra_host__ __hydra_device__
     static OutputIterator parallel_path(execution_policy<DerivedPolicy> &exec,
                                         InputIterator first,
                                         InputIterator last,
@@ -458,7 +458,7 @@ OutputIterator exclusive_scan(execution_policy<DerivedPolicy> &exec,
       return thrust::system::cuda::detail::scan_detail::exclusive_scan(exec, first, last, result, init, binary_op);
     }
 
-    __host__ __device__
+    __hydra_host__ __hydra_device__
     static OutputIterator sequential_path(execution_policy<DerivedPolicy> &,
                                           InputIterator first,
                                           InputIterator last,

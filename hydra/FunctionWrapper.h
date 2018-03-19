@@ -83,7 +83,7 @@ public:
 	/**
 	 * Copy constructor
 	 */
-	__host__ __device__	 inline
+	__hydra_host__ __hydra_device__	 inline
 	LambdaWrapper(LambdaWrapper<ReturnType(ArgType...), L, N> const& other ):
 	BaseFunctor<LambdaWrapper<ReturnType(ArgType...),L, N>, ReturnType,N>(other),
 	fLambda( other.GetLambda())
@@ -92,7 +92,7 @@ public:
 	/**
 	 * Assignment operator
 	 */
-	__host__ __device__	 inline
+	__hydra_host__ __hydra_device__	 inline
 	LambdaWrapper<ReturnType(ArgType...), L, N>
 	operator=(LambdaWrapper<ReturnType(ArgType...), L, N> const& other )
 	{
@@ -106,12 +106,12 @@ public:
 	/**
 	 * Get the underlying lambda
 	 */
-	__host__ __device__	 inline
+	__hydra_host__ __hydra_device__	 inline
 	const L& GetLambda() const {return fLambda; }
 
 
 	template<size_t M=N, typename ...T>
-	__host__ __device__ inline
+	__hydra_host__ __hydra_device__ inline
 	typename std::enable_if< (M>0) &&( (sizeof...(ArgType) ==(sizeof ...(T)+2))) , ReturnType >::type
 	Evaluate(T... a)   const {
 
@@ -123,7 +123,7 @@ public:
 	}
 
 	template<size_t M=N, typename T>
-	__host__ __device__ inline
+	__hydra_host__ __hydra_device__ inline
 	typename std::enable_if< (M>0)&& sizeof...(ArgType)==3, ReturnType >::type
 	Evaluate(T a)    const {
 
@@ -133,7 +133,7 @@ public:
 	}
 
 	template< typename ...T, size_t M=N>
-	__host__ __device__ inline
+	__hydra_host__ __hydra_device__ inline
 	typename std::enable_if< (M==0) &&( (sizeof...(ArgType))>1), ReturnType >::type
 	Evaluate(T...a)   const {
 
@@ -143,7 +143,7 @@ public:
 	}
 
 	template<typename ...T, size_t M=N>
-	__host__ __device__ inline
+	__hydra_host__ __hydra_device__ inline
 	typename std::enable_if< (M==0)&& sizeof...(ArgType)==1, ReturnType >::type
 	Evaluate(T...a)   const {
 

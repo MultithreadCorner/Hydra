@@ -30,8 +30,8 @@
  ********************************************************************************
 */
 
-#ifndef EIGEN_TRIANGULAR_MATRIX_MATRIX_BLAS_H
-#define EIGEN_TRIANGULAR_MATRIX_MATRIX_BLAS_H
+#ifndef HYDRA_EIGEN_TRIANGULAR_MATRIX_MATRIX_BLAS_H
+#define HYDRA_EIGEN_TRIANGULAR_MATRIX_MATRIX_BLAS_H
 
 HYDRA_EXTERNAL_NAMESPACE_BEGIN namespace Eigen { 
 
@@ -50,7 +50,7 @@ struct product_triangular_matrix_matrix_trmm :
 
 
 // try to go to BLAS specialization
-#define EIGEN_BLAS_TRMM_SPECIALIZE(Scalar, LhsIsTriangular) \
+#define HYDRA_EIGEN_BLAS_TRMM_SPECIALIZE(Scalar, LhsIsTriangular) \
 template <typename Index, int Mode, \
           int LhsStorageOrder, bool ConjugateLhs, \
           int RhsStorageOrder, bool ConjugateRhs> \
@@ -65,17 +65,17 @@ struct product_triangular_matrix_matrix<Scalar,Index, Mode, LhsIsTriangular, \
   } \
 };
 
-EIGEN_BLAS_TRMM_SPECIALIZE(double, true)
-EIGEN_BLAS_TRMM_SPECIALIZE(double, false)
-EIGEN_BLAS_TRMM_SPECIALIZE(dcomplex, true)
-EIGEN_BLAS_TRMM_SPECIALIZE(dcomplex, false)
-EIGEN_BLAS_TRMM_SPECIALIZE(float, true)
-EIGEN_BLAS_TRMM_SPECIALIZE(float, false)
-EIGEN_BLAS_TRMM_SPECIALIZE(scomplex, true)
-EIGEN_BLAS_TRMM_SPECIALIZE(scomplex, false)
+HYDRA_EIGEN_BLAS_TRMM_SPECIALIZE(double, true)
+HYDRA_EIGEN_BLAS_TRMM_SPECIALIZE(double, false)
+HYDRA_EIGEN_BLAS_TRMM_SPECIALIZE(dcomplex, true)
+HYDRA_EIGEN_BLAS_TRMM_SPECIALIZE(dcomplex, false)
+HYDRA_EIGEN_BLAS_TRMM_SPECIALIZE(float, true)
+HYDRA_EIGEN_BLAS_TRMM_SPECIALIZE(float, false)
+HYDRA_EIGEN_BLAS_TRMM_SPECIALIZE(scomplex, true)
+HYDRA_EIGEN_BLAS_TRMM_SPECIALIZE(scomplex, false)
 
 // implements col-major += alpha * op(triangular) * op(general)
-#define EIGEN_BLAS_TRMM_L(EIGTYPE, BLASTYPE, EIGPREFIX, BLASPREFIX) \
+#define HYDRA_EIGEN_BLAS_TRMM_L(EIGTYPE, BLASTYPE, EIGPREFIX, BLASPREFIX) \
 template <typename Index, int Mode, \
           int LhsStorageOrder, bool ConjugateLhs, \
           int RhsStorageOrder, bool ConjugateRhs> \
@@ -110,7 +110,7 @@ struct product_triangular_matrix_matrix_trmm<EIGTYPE,Index,Mode,true, \
    if (rows != depth) { \
 \
      /* FIXME handle mkl_domain_get_max_threads */ \
-     /*int nthr = mkl_domain_get_max_threads(EIGEN_BLAS_DOMAIN_BLAS);*/ int nthr = 1;\
+     /*int nthr = mkl_domain_get_max_threads(HYDRA_EIGEN_BLAS_DOMAIN_BLAS);*/ int nthr = 1;\
 \
      if (((nthr==1) && (((std::max)(rows,depth)-diagSize)/(double)diagSize < 0.5))) { \
      /* Most likely no benefit to call TRMM or GEMM from BLAS */ \
@@ -180,13 +180,13 @@ struct product_triangular_matrix_matrix_trmm<EIGTYPE,Index,Mode,true, \
   } \
 };
 
-EIGEN_BLAS_TRMM_L(double, double, d, d)
-EIGEN_BLAS_TRMM_L(dcomplex, double, cd, z)
-EIGEN_BLAS_TRMM_L(float, float, f, s)
-EIGEN_BLAS_TRMM_L(scomplex, float, cf, c)
+HYDRA_EIGEN_BLAS_TRMM_L(double, double, d, d)
+HYDRA_EIGEN_BLAS_TRMM_L(dcomplex, double, cd, z)
+HYDRA_EIGEN_BLAS_TRMM_L(float, float, f, s)
+HYDRA_EIGEN_BLAS_TRMM_L(scomplex, float, cf, c)
 
 // implements col-major += alpha * op(general) * op(triangular)
-#define EIGEN_BLAS_TRMM_R(EIGTYPE, BLASTYPE, EIGPREFIX, BLASPREFIX) \
+#define HYDRA_EIGEN_BLAS_TRMM_R(EIGTYPE, BLASTYPE, EIGPREFIX, BLASPREFIX) \
 template <typename Index, int Mode, \
           int LhsStorageOrder, bool ConjugateLhs, \
           int RhsStorageOrder, bool ConjugateRhs> \
@@ -220,7 +220,7 @@ struct product_triangular_matrix_matrix_trmm<EIGTYPE,Index,Mode,false, \
 /* Non-square case - doesn't fit to BLAS ?TRMM. Fall to default triangular product or call BLAS ?GEMM*/ \
    if (cols != depth) { \
 \
-     int nthr = 1 /*mkl_domain_get_max_threads(EIGEN_BLAS_DOMAIN_BLAS)*/; \
+     int nthr = 1 /*mkl_domain_get_max_threads(HYDRA_EIGEN_BLAS_DOMAIN_BLAS)*/; \
 \
      if ((nthr==1) && (((std::max)(cols,depth)-diagSize)/(double)diagSize < 0.5)) { \
      /* Most likely no benefit to call TRMM or GEMM from BLAS*/ \
@@ -290,13 +290,13 @@ struct product_triangular_matrix_matrix_trmm<EIGTYPE,Index,Mode,false, \
   } \
 };
 
-EIGEN_BLAS_TRMM_R(double, double, d, d)
-EIGEN_BLAS_TRMM_R(dcomplex, double, cd, z)
-EIGEN_BLAS_TRMM_R(float, float, f, s)
-EIGEN_BLAS_TRMM_R(scomplex, float, cf, c)
+HYDRA_EIGEN_BLAS_TRMM_R(double, double, d, d)
+HYDRA_EIGEN_BLAS_TRMM_R(dcomplex, double, cd, z)
+HYDRA_EIGEN_BLAS_TRMM_R(float, float, f, s)
+HYDRA_EIGEN_BLAS_TRMM_R(scomplex, float, cf, c)
 
 } // end namespace internal
 
 } /* end namespace Eigen */  HYDRA_EXTERNAL_NAMESPACE_END
 
-#endif // EIGEN_TRIANGULAR_MATRIX_MATRIX_BLAS_H
+#endif // HYDRA_EIGEN_TRIANGULAR_MATRIX_MATRIX_BLAS_H

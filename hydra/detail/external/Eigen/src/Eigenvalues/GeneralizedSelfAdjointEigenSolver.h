@@ -8,8 +8,8 @@
 // Public License v. 2.0. If a copy of the MPL was not distributed
 // with this file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
-#ifndef EIGEN_GENERALIZEDSELFADJOINTEIGENSOLVER_H
-#define EIGEN_GENERALIZEDSELFADJOINTEIGENSOLVER_H
+#ifndef HYDRA_EIGEN_GENERALIZEDSELFADJOINTEIGENSOLVER_H
+#define HYDRA_EIGEN_GENERALIZEDSELFADJOINTEIGENSOLVER_H
 
 #include "./Tridiagonalization.h"
 
@@ -223,4 +223,4 @@ compute(const MatrixType& matA, const MatrixType& matB, int options)
 
 } /* end namespace Eigen */  HYDRA_EXTERNAL_NAMESPACE_END
 
-#endif // EIGEN_GENERALIZEDSELFADJOINTEIGENSOLVER_H
+#endif // HYDRA_EIGEN_GENERALIZEDSELFADJOINTEIGENSOLVER_H

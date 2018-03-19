@@ -7,15 +7,15 @@
 // Public License v. 2.0. If a copy of the MPL was not distributed
 // with this file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
-#ifndef EIGEN_PACKET_MATH_HALF_CUDA_H
-#define EIGEN_PACKET_MATH_HALF_CUDA_H
+#ifndef HYDRA_EIGEN_PACKET_MATH_HALF_CUDA_H
+#define HYDRA_EIGEN_PACKET_MATH_HALF_CUDA_H
 
 
 HYDRA_EXTERNAL_NAMESPACE_BEGIN namespace Eigen {
 namespace internal {
 
 // Most of the following operations require arch >= 3.0
-#if defined(EIGEN_HAS_CUDA_FP16) && defined(__CUDACC__) && defined(__CUDA_ARCH__) && __CUDA_ARCH__ >= 300
+#if defined(HYDRA_EIGEN_HAS_CUDA_FP16) && defined(__CUDACC__) && defined(__CUDA_ARCH__) && __CUDA_ARCH__ >= 300
 
 template<> struct is_arithmetic<half2> { enum { value = true }; };
 
@@ -41,33 +41,33 @@ template<> struct packet_traits<HYDRA_EXTERNAL_NS::Eigen::half> : default_packet
 
 template<> struct unpacket_traits<half2> { typedef HYDRA_EXTERNAL_NS::Eigen::half type; enum {size=2, alignment=Aligned16}; typedef half2 half; };
 
-template<> __device__ EIGEN_STRONG_INLINE half2 pset1<half2>(const HYDRA_EXTERNAL_NS::Eigen::half& from) {
+template<> __device__ HYDRA_EIGEN_STRONG_INLINE half2 pset1<half2>(const HYDRA_EXTERNAL_NS::Eigen::half& from) {
   return __half2half2(from);
 }
 
-template<> __device__ EIGEN_STRONG_INLINE half2 pload<half2>(const HYDRA_EXTERNAL_NS::Eigen::half* from) {
+template<> __device__ HYDRA_EIGEN_STRONG_INLINE half2 pload<half2>(const HYDRA_EXTERNAL_NS::Eigen::half* from) {
   return *reinterpret_cast<const half2*>(from);
 }
 
-template<> __device__ EIGEN_STRONG_INLINE half2 ploadu<half2>(const HYDRA_EXTERNAL_NS::Eigen::half* from) {
+template<> __device__ HYDRA_EIGEN_STRONG_INLINE half2 ploadu<half2>(const HYDRA_EXTERNAL_NS::Eigen::half* from) {
   return __halves2half2(from[0], from[1]);
 }
 
-template<> EIGEN_STRONG_INLINE half2 ploaddup<half2>(const HYDRA_EXTERNAL_NS::Eigen::half*  from) {
+template<> HYDRA_EIGEN_STRONG_INLINE half2 ploaddup<half2>(const HYDRA_EXTERNAL_NS::Eigen::half*  from) {
   return __halves2half2(from[0], from[0]);
 }
 
-template<> __device__ EIGEN_STRONG_INLINE void pstore<HYDRA_EXTERNAL_NS::Eigen::half>(HYDRA_EXTERNAL_NS::Eigen::half* to, const half2& from) {
+template<> __device__ HYDRA_EIGEN_STRONG_INLINE void pstore<HYDRA_EXTERNAL_NS::Eigen::half>(HYDRA_EXTERNAL_NS::Eigen::half* to, const half2& from) {
   *reinterpret_cast<half2*>(to) = from;
 }
 
-template<> __device__ EIGEN_STRONG_INLINE void pstoreu<HYDRA_EXTERNAL_NS::Eigen::half>(HYDRA_EXTERNAL_NS::Eigen::half* to, const half2& from) {
+template<> __device__ HYDRA_EIGEN_STRONG_INLINE void pstoreu<HYDRA_EXTERNAL_NS::Eigen::half>(HYDRA_EXTERNAL_NS::Eigen::half* to, const half2& from) {
   to[0] = __low2half(from);
   to[1] = __high2half(from);
 }
 
 template<>
- __device__ EIGEN_ALWAYS_INLINE half2 ploadt_ro<half2, Aligned>(const HYDRA_EXTERNAL_NS::Eigen::half* from) {
+ __device__ HYDRA_EIGEN_ALWAYS_INLINE half2 ploadt_ro<half2, Aligned>(const HYDRA_EXTERNAL_NS::Eigen::half* from) {
 #if __CUDA_ARCH__ >= 350
    return __ldg((const half2*)from);
 #else
@@ -76,7 +76,7 @@ template<>
 }
 
 template<>
-__device__ EIGEN_ALWAYS_INLINE half2 ploadt_ro<half2, Unaligned>(const HYDRA_EXTERNAL_NS::Eigen::half* from) {
+__device__ HYDRA_EIGEN_ALWAYS_INLINE half2 ploadt_ro<half2, Unaligned>(const HYDRA_EXTERNAL_NS::Eigen::half* from) {
 #if __CUDA_ARCH__ >= 350
    return __halves2half2(__ldg(from+0), __ldg(from+1));
 #else
@@ -84,33 +84,33 @@ __device__ EIGEN_ALWAYS_INLINE half2 ploadt_ro<half2, Unaligned>(const HYDRA_EXT
 #endif
 }
 
-template<> __device__ EIGEN_STRONG_INLINE half2 pgather<HYDRA_EXTERNAL_NS::Eigen::half, half2>(const HYDRA_EXTERNAL_NS::Eigen::half* from, Index stride) {
+template<> __device__ HYDRA_EIGEN_STRONG_INLINE half2 pgather<HYDRA_EXTERNAL_NS::Eigen::half, half2>(const HYDRA_EXTERNAL_NS::Eigen::half* from, Index stride) {
   return __halves2half2(from[0*stride], from[1*stride]);
 }
 
-template<> __device__ EIGEN_STRONG_INLINE void pscatter<HYDRA_EXTERNAL_NS::Eigen::half, half2>(HYDRA_EXTERNAL_NS::Eigen::half* to, const half2& from, Index stride) {
+template<> __device__ HYDRA_EIGEN_STRONG_INLINE void pscatter<HYDRA_EXTERNAL_NS::Eigen::half, half2>(HYDRA_EXTERNAL_NS::Eigen::half* to, const half2& from, Index stride) {
   to[stride*0] = __low2half(from);
   to[stride*1] = __high2half(from);
 }
 
-template<> __device__ EIGEN_STRONG_INLINE HYDRA_EXTERNAL_NS::Eigen::half pfirst<half2>(const half2& a) {
+template<> __device__ HYDRA_EIGEN_STRONG_INLINE HYDRA_EXTERNAL_NS::Eigen::half pfirst<half2>(const half2& a) {
   return __low2half(a);
 }
 /*
-template<> __device__ EIGEN_STRONG_INLINE half2 pabs<half2>(const half2& a) {
+template<> __device__ HYDRA_EIGEN_STRONG_INLINE half2 pabs<half2>(const half2& a) {
   half2 result;
   result.x = a.x & 0x7FFF7FFF;
   return result;
 }
 */
-template<> __device__ EIGEN_STRONG_INLINE half2 pabs<half2>(const half2& a) {
+template<> __device__ HYDRA_EIGEN_STRONG_INLINE half2 pabs<half2>(const half2& a) {
   half2 result;
   unsigned temp = *(reinterpret_cast<const unsigned*>(&(a)));
   *(reinterpret_cast<unsigned*>(&(result))) = temp & 0x7FFF7FFF;
   return result;
 }
 
-__device__ EIGEN_STRONG_INLINE void
+__device__ HYDRA_EIGEN_STRONG_INLINE void
 ptranspose(PacketBlock<half2,2>& kernel) {
   __half a1 = __low2half(kernel.packet[0]);
   __half a2 = __high2half(kernel.packet[0]);
@@ -120,7 +120,7 @@ ptranspose(PacketBlock<half2,2>& kernel) {
   kernel.packet[1] = __halves2half2(a2, b2);
 }
 
-template<> __device__ EIGEN_STRONG_INLINE half2 plset<half2>(const HYDRA_EXTERNAL_NS::Eigen::half& a) {
+template<> __device__ HYDRA_EIGEN_STRONG_INLINE half2 plset<half2>(const HYDRA_EXTERNAL_NS::Eigen::half& a) {
 #if __CUDA_ARCH__ >= 530
   return __halves2half2(a, __hadd(a, __float2half(1.0f)));
 #else
@@ -129,7 +129,7 @@ template<> __device__ EIGEN_STRONG_INLINE half2 plset<half2>(const HYDRA_EXTERNA
 #endif
 }
 
-template<> __device__ EIGEN_STRONG_INLINE half2 padd<half2>(const half2& a, const half2& b) {
+template<> __device__ HYDRA_EIGEN_STRONG_INLINE half2 padd<half2>(const half2& a, const half2& b) {
 #if __CUDA_ARCH__ >= 530
   return __hadd2(a, b);
 #else
@@ -143,7 +143,7 @@ template<> __device__ EIGEN_STRONG_INLINE half2 padd<half2>(const half2& a, cons
 #endif
 }
 
-template<> __device__ EIGEN_STRONG_INLINE half2 psub<half2>(const half2& a, const half2& b) {
+template<> __device__ HYDRA_EIGEN_STRONG_INLINE half2 psub<half2>(const half2& a, const half2& b) {
 #if __CUDA_ARCH__ >= 530
   return __hsub2(a, b);
 #else
@@ -157,7 +157,7 @@ template<> __device__ EIGEN_STRONG_INLINE half2 psub<half2>(const half2& a, cons
 #endif
 }
 
-template<> __device__ EIGEN_STRONG_INLINE half2 pnegate(const half2& a) {
+template<> __device__ HYDRA_EIGEN_STRONG_INLINE half2 pnegate(const half2& a) {
 #if __CUDA_ARCH__ >= 530
   return __hneg2(a);
 #else
@@ -167,9 +167,9 @@ template<> __device__ EIGEN_STRONG_INLINE half2 pnegate(const half2& a) {
 #endif
 }
 
-template<> __device__ EIGEN_STRONG_INLINE half2 pconj(const half2& a) { return a; }
+template<> __device__ HYDRA_EIGEN_STRONG_INLINE half2 pconj(const half2& a) { return a; }
 
-template<> __device__ EIGEN_STRONG_INLINE half2 pmul<half2>(const half2& a, const half2& b) {
+template<> __device__ HYDRA_EIGEN_STRONG_INLINE half2 pmul<half2>(const half2& a, const half2& b) {
 #if __CUDA_ARCH__ >= 530
   return __hmul2(a, b);
 #else
@@ -183,7 +183,7 @@ template<> __device__ EIGEN_STRONG_INLINE half2 pmul<half2>(const half2& a, cons
 #endif
 }
 
-template<> __device__ EIGEN_STRONG_INLINE half2 pmadd<half2>(const half2& a, const half2& b, const half2& c) {
+template<> __device__ HYDRA_EIGEN_STRONG_INLINE half2 pmadd<half2>(const half2& a, const half2& b, const half2& c) {
 #if __CUDA_ARCH__ >= 530
    return __hfma2(a, b, c);
 #else
@@ -199,7 +199,7 @@ template<> __device__ EIGEN_STRONG_INLINE half2 pmadd<half2>(const half2& a, con
 #endif
 }
 
-template<> __device__ EIGEN_STRONG_INLINE half2 pdiv<half2>(const half2& a, const half2& b) {
+template<> __device__ HYDRA_EIGEN_STRONG_INLINE half2 pdiv<half2>(const half2& a, const half2& b) {
   float a1 = __low2float(a);
   float a2 = __high2float(a);
   float b1 = __low2float(b);
@@ -209,7 +209,7 @@ template<> __device__ EIGEN_STRONG_INLINE half2 pdiv<half2>(const half2& a, cons
   return __floats2half2_rn(r1, r2);
 }
 
-template<> __device__ EIGEN_STRONG_INLINE half2 pmin<half2>(const half2& a, const half2& b) {
+template<> __device__ HYDRA_EIGEN_STRONG_INLINE half2 pmin<half2>(const half2& a, const half2& b) {
   float a1 = __low2float(a);
   float a2 = __high2float(a);
   float b1 = __low2float(b);
@@ -219,7 +219,7 @@ template<> __device__ EIGEN_STRONG_INLINE half2 pmin<half2>(const half2& a, cons
   return __halves2half2(r1, r2);
 }
 
-template<> __device__ EIGEN_STRONG_INLINE half2 pmax<half2>(const half2& a, const half2& b) {
+template<> __device__ HYDRA_EIGEN_STRONG_INLINE half2 pmax<half2>(const half2& a, const half2& b) {
   float a1 = __low2float(a);
   float a2 = __high2float(a);
   float b1 = __low2float(b);
@@ -229,7 +229,7 @@ template<> __device__ EIGEN_STRONG_INLINE half2 pmax<half2>(const half2& a, cons
   return __halves2half2(r1, r2);
 }
 
-template<> __device__ EIGEN_STRONG_INLINE HYDRA_EXTERNAL_NS::Eigen::half predux<half2>(const half2& a) {
+template<> __device__ HYDRA_EIGEN_STRONG_INLINE HYDRA_EXTERNAL_NS::Eigen::half predux<half2>(const half2& a) {
 #if __CUDA_ARCH__ >= 530
   return __hadd(__low2half(a), __high2half(a));
 #else
@@ -239,7 +239,7 @@ template<> __device__ EIGEN_STRONG_INLINE HYDRA_EXTERNAL_NS::Eigen::half predux<
 #endif
 }
 
-template<> __device__ EIGEN_STRONG_INLINE HYDRA_EXTERNAL_NS::Eigen::half predux_max<half2>(const half2& a) {
+template<> __device__ HYDRA_EIGEN_STRONG_INLINE HYDRA_EXTERNAL_NS::Eigen::half predux_max<half2>(const half2& a) {
 #if __CUDA_ARCH__ >= 530
   __half first = __low2half(a);
   __half second = __high2half(a);
@@ -251,7 +251,7 @@ template<> __device__ EIGEN_STRONG_INLINE HYDRA_EXTERNAL_NS::Eigen::half predux_
 #endif
 }
 
-template<> __device__ EIGEN_STRONG_INLINE HYDRA_EXTERNAL_NS::Eigen::half predux_min<half2>(const half2& a) {
+template<> __device__ HYDRA_EIGEN_STRONG_INLINE HYDRA_EXTERNAL_NS::Eigen::half predux_min<half2>(const half2& a) {
 #if __CUDA_ARCH__ >= 530
   __half first = __low2half(a);
   __half second = __high2half(a);
@@ -263,7 +263,7 @@ template<> __device__ EIGEN_STRONG_INLINE HYDRA_EXTERNAL_NS::Eigen::half predux_
 #endif
 }
 
-template<> __device__ EIGEN_STRONG_INLINE HYDRA_EXTERNAL_NS::Eigen::half predux_mul<half2>(const half2& a) {
+template<> __device__ HYDRA_EIGEN_STRONG_INLINE HYDRA_EXTERNAL_NS::Eigen::half predux_mul<half2>(const half2& a) {
 #if __CUDA_ARCH__ >= 530
   return __hmul(__low2half(a), __high2half(a));
 #else
@@ -273,7 +273,7 @@ template<> __device__ EIGEN_STRONG_INLINE HYDRA_EXTERNAL_NS::Eigen::half predux_
 #endif
 }
 
-template<> __device__ EIGEN_STRONG_INLINE half2 plog1p<half2>(const half2& a) {
+template<> __device__ HYDRA_EIGEN_STRONG_INLINE half2 plog1p<half2>(const half2& a) {
   float a1 = __low2float(a);
   float a2 = __high2float(a);
   float r1 = log1pf(a1);
@@ -283,29 +283,29 @@ template<> __device__ EIGEN_STRONG_INLINE half2 plog1p<half2>(const half2& a) {
 
 #if defined __CUDACC_VER__ && __CUDACC_VER__ >= 80000 && defined __CUDA_ARCH__ && __CUDA_ARCH__ >= 530
 
-template<>  __device__ EIGEN_STRONG_INLINE
+template<>  __device__ HYDRA_EIGEN_STRONG_INLINE
 half2 plog<half2>(const half2& a) {
   return h2log(a);
 }
 
-template<> __device__ EIGEN_STRONG_INLINE
+template<> __device__ HYDRA_EIGEN_STRONG_INLINE
 half2 pexp<half2>(const half2& a) {
   return h2exp(a);
 }
 
-template<> __device__ EIGEN_STRONG_INLINE
+template<> __device__ HYDRA_EIGEN_STRONG_INLINE
 half2 psqrt<half2>(const half2& a) {
   return h2sqrt(a);
 }
 
-template<> __device__ EIGEN_STRONG_INLINE
+template<> __device__ HYDRA_EIGEN_STRONG_INLINE
 half2 prsqrt<half2>(const half2& a) {
   return h2rsqrt(a);
 }
 
 #else
 
-template<> __device__ EIGEN_STRONG_INLINE half2 plog<half2>(const half2& a) {
+template<> __device__ HYDRA_EIGEN_STRONG_INLINE half2 plog<half2>(const half2& a) {
   float a1 = __low2float(a);
   float a2 = __high2float(a);
   float r1 = logf(a1);
@@ -313,7 +313,7 @@ template<> __device__ EIGEN_STRONG_INLINE half2 plog<half2>(const half2& a) {
   return __floats2half2_rn(r1, r2);
 }
 
-template<> __device__ EIGEN_STRONG_INLINE half2 pexp<half2>(const half2& a) {
+template<> __device__ HYDRA_EIGEN_STRONG_INLINE half2 pexp<half2>(const half2& a) {
   float a1 = __low2float(a);
   float a2 = __high2float(a);
   float r1 = expf(a1);
@@ -321,7 +321,7 @@ template<> __device__ EIGEN_STRONG_INLINE half2 pexp<half2>(const half2& a) {
   return __floats2half2_rn(r1, r2);
 }
 
-template<> __device__ EIGEN_STRONG_INLINE half2 psqrt<half2>(const half2& a) {
+template<> __device__ HYDRA_EIGEN_STRONG_INLINE half2 psqrt<half2>(const half2& a) {
   float a1 = __low2float(a);
   float a2 = __high2float(a);
   float r1 = sqrtf(a1);
@@ -329,7 +329,7 @@ template<> __device__ EIGEN_STRONG_INLINE half2 psqrt<half2>(const half2& a) {
   return __floats2half2_rn(r1, r2);
 }
 
-template<> __device__ EIGEN_STRONG_INLINE half2 prsqrt<half2>(const half2& a) {
+template<> __device__ HYDRA_EIGEN_STRONG_INLINE half2 prsqrt<half2>(const half2& a) {
   float a1 = __low2float(a);
   float a2 = __high2float(a);
   float r1 = rsqrtf(a1);
@@ -339,7 +339,7 @@ template<> __device__ EIGEN_STRONG_INLINE half2 prsqrt<half2>(const half2& a) {
 
 #endif
 
-#elif defined EIGEN_VECTORIZE_AVX512
+#elif defined HYDRA_EIGEN_VECTORIZE_AVX512
 
 typedef struct {
   __m256i x;
@@ -380,37 +380,37 @@ struct packet_traits<half> : default_packet_traits {
 
 template<> struct unpacket_traits<Packet16h> { typedef HYDRA_EXTERNAL_NS::Eigen::half type; enum {size=16, alignment=Aligned32}; typedef Packet16h half; };
 
-template<> EIGEN_STRONG_INLINE Packet16h pset1<Packet16h>(const HYDRA_EXTERNAL_NS::Eigen::half& from) {
+template<> HYDRA_EIGEN_STRONG_INLINE Packet16h pset1<Packet16h>(const HYDRA_EXTERNAL_NS::Eigen::half& from) {
   Packet16h result;
   result.x = _mm256_set1_epi16(from.x);
   return result;
 }
 
-template<> EIGEN_STRONG_INLINE HYDRA_EXTERNAL_NS::Eigen::half pfirst<Packet16h>(const Packet16h& from) {
+template<> HYDRA_EIGEN_STRONG_INLINE HYDRA_EXTERNAL_NS::Eigen::half pfirst<Packet16h>(const Packet16h& from) {
   return half_impl::raw_uint16_to_half(static_cast<unsigned short>(_mm256_extract_epi16(from.x, 0)));
 }
 
-template<> EIGEN_STRONG_INLINE Packet16h pload<Packet16h>(const HYDRA_EXTERNAL_NS::Eigen::half* from) {
+template<> HYDRA_EIGEN_STRONG_INLINE Packet16h pload<Packet16h>(const HYDRA_EXTERNAL_NS::Eigen::half* from) {
   Packet16h result;
   result.x = _mm256_load_si256(reinterpret_cast<const __m256i*>(from));
   return result;
 }
 
-template<> EIGEN_STRONG_INLINE Packet16h ploadu<Packet16h>(const HYDRA_EXTERNAL_NS::Eigen::half* from) {
+template<> HYDRA_EIGEN_STRONG_INLINE Packet16h ploadu<Packet16h>(const HYDRA_EXTERNAL_NS::Eigen::half* from) {
   Packet16h result;
   result.x = _mm256_loadu_si256(reinterpret_cast<const __m256i*>(from));
   return result;
 }
 
-template<> EIGEN_STRONG_INLINE void pstore<half>(HYDRA_EXTERNAL_NS::Eigen::half* to, const Packet16h& from) {
+template<> HYDRA_EIGEN_STRONG_INLINE void pstore<half>(HYDRA_EXTERNAL_NS::Eigen::half* to, const Packet16h& from) {
   _mm256_store_si256((__m256i*)to, from.x);
 }
 
-template<> EIGEN_STRONG_INLINE void pstoreu<half>(HYDRA_EXTERNAL_NS::Eigen::half* to, const Packet16h& from) {
+template<> HYDRA_EIGEN_STRONG_INLINE void pstoreu<half>(HYDRA_EXTERNAL_NS::Eigen::half* to, const Packet16h& from) {
   _mm256_storeu_si256((__m256i*)to, from.x);
 }
 
-template<> EIGEN_STRONG_INLINE Packet16h
+template<> HYDRA_EIGEN_STRONG_INLINE Packet16h
 ploadquad(const HYDRA_EXTERNAL_NS::Eigen::half* from) {
   Packet16h result;
   unsigned short a = from[0].x;
@@ -421,11 +421,11 @@ ploadquad(const HYDRA_EXTERNAL_NS::Eigen::half* from) {
   return result;
 }
 
-EIGEN_STRONG_INLINE Packet16f half2float(const Packet16h& a) {
-#ifdef EIGEN_HAS_FP16_C
+HYDRA_EIGEN_STRONG_INLINE Packet16f half2float(const Packet16h& a) {
+#ifdef HYDRA_EIGEN_HAS_FP16_C
   return _mm512_cvtph_ps(a.x);
 #else
-  EIGEN_ALIGN64 half aux[16];
+  HYDRA_EIGEN_ALIGN64 half aux[16];
   pstore(aux, a);
   float f0(aux[0]);
   float f1(aux[1]);
@@ -449,13 +449,13 @@ EIGEN_STRONG_INLINE Packet16f half2float(const Packet16h& a) {
 #endif
 }
 
-EIGEN_STRONG_INLINE Packet16h float2half(const Packet16f& a) {
-#ifdef EIGEN_HAS_FP16_C
+HYDRA_EIGEN_STRONG_INLINE Packet16h float2half(const Packet16f& a) {
+#ifdef HYDRA_EIGEN_HAS_FP16_C
   Packet16h result;
   result.x = _mm512_cvtps_ph(a, _MM_FROUND_TO_NEAREST_INT|_MM_FROUND_NO_EXC);
   return result;
 #else
-  EIGEN_ALIGN64 float aux[16];
+  HYDRA_EIGEN_ALIGN64 float aux[16];
   pstore(aux, a);
   half h0(aux[0]);
   half h1(aux[1]);
@@ -482,26 +482,26 @@ EIGEN_STRONG_INLINE Packet16h float2half(const Packet16f& a) {
 #endif
 }
 
-template<> EIGEN_STRONG_INLINE Packet16h padd<Packet16h>(const Packet16h& a, const Packet16h& b) {
+template<> HYDRA_EIGEN_STRONG_INLINE Packet16h padd<Packet16h>(const Packet16h& a, const Packet16h& b) {
   Packet16f af = half2float(a);
   Packet16f bf = half2float(b);
   Packet16f rf = padd(af, bf);
   return float2half(rf);
 }
 
-template<> EIGEN_STRONG_INLINE Packet16h pmul<Packet16h>(const Packet16h& a, const Packet16h& b) {
+template<> HYDRA_EIGEN_STRONG_INLINE Packet16h pmul<Packet16h>(const Packet16h& a, const Packet16h& b) {
   Packet16f af = half2float(a);
   Packet16f bf = half2float(b);
   Packet16f rf = pmul(af, bf);
   return float2half(rf);
 }
 
-template<> EIGEN_STRONG_INLINE half predux<Packet16h>(const Packet16h& from) {
+template<> HYDRA_EIGEN_STRONG_INLINE half predux<Packet16h>(const Packet16h& from) {
   Packet16f from_float = half2float(from);
   return half(predux(from_float));
 }
 
-template<> EIGEN_STRONG_INLINE Packet16h pgather<HYDRA_EXTERNAL_NS::Eigen::half, Packet16h>(const HYDRA_EXTERNAL_NS::Eigen::half* from, Index stride)
+template<> HYDRA_EIGEN_STRONG_INLINE Packet16h pgather<HYDRA_EXTERNAL_NS::Eigen::half, Packet16h>(const HYDRA_EXTERNAL_NS::Eigen::half* from, Index stride)
 {
   Packet16h result;
   result.x = _mm256_set_epi16(
@@ -512,9 +512,9 @@ template<> EIGEN_STRONG_INLINE Packet16h pgather<HYDRA_EXTERNAL_NS::Eigen::half,
   return result;
 }
 
-template<> EIGEN_STRONG_INLINE void pscatter<half, Packet16h>(half* to, const Packet16h& from, Index stride)
+template<> HYDRA_EIGEN_STRONG_INLINE void pscatter<half, Packet16h>(half* to, const Packet16h& from, Index stride)
 {
-  EIGEN_ALIGN64 half aux[16];
+  HYDRA_EIGEN_ALIGN64 half aux[16];
   pstore(aux, from);
   to[stride*0].x = aux[0].x;
   to[stride*1].x = aux[1].x;
@@ -534,7 +534,7 @@ template<> EIGEN_STRONG_INLINE void pscatter<half, Packet16h>(half* to, const Pa
   to[stride*15].x = aux[15].x;
 }
 
-EIGEN_STRONG_INLINE void
+HYDRA_EIGEN_STRONG_INLINE void
 ptranspose(PacketBlock<Packet16h,16>& kernel) {
   __m256i a = kernel.packet[0].x;
   __m256i b = kernel.packet[1].x;
@@ -642,9 +642,9 @@ ptranspose(PacketBlock<Packet16h,16>& kernel) {
   kernel.packet[15].x = a_p_f;
 }
 
-EIGEN_STRONG_INLINE void
+HYDRA_EIGEN_STRONG_INLINE void
 ptranspose(PacketBlock<Packet16h,8>& kernel) {
-  EIGEN_ALIGN64 half in[8][16];
+  HYDRA_EIGEN_ALIGN64 half in[8][16];
   pstore<half>(in[0], kernel.packet[0]);
   pstore<half>(in[1], kernel.packet[1]);
   pstore<half>(in[2], kernel.packet[2]);
@@ -654,7 +654,7 @@ ptranspose(PacketBlock<Packet16h,8>& kernel) {
   pstore<half>(in[6], kernel.packet[6]);
   pstore<half>(in[7], kernel.packet[7]);
 
-  EIGEN_ALIGN64 half out[8][16];
+  HYDRA_EIGEN_ALIGN64 half out[8][16];
 
   for (int i = 0; i < 8; ++i) {
     for (int j = 0; j < 8; ++j) {
@@ -675,15 +675,15 @@ ptranspose(PacketBlock<Packet16h,8>& kernel) {
   kernel.packet[7] = pload<Packet16h>(out[7]);
 }
 
-EIGEN_STRONG_INLINE void
+HYDRA_EIGEN_STRONG_INLINE void
 ptranspose(PacketBlock<Packet16h,4>& kernel) {
-  EIGEN_ALIGN64 half in[4][16];
+  HYDRA_EIGEN_ALIGN64 half in[4][16];
   pstore<half>(in[0], kernel.packet[0]);
   pstore<half>(in[1], kernel.packet[1]);
   pstore<half>(in[2], kernel.packet[2]);
   pstore<half>(in[3], kernel.packet[3]);
 
-  EIGEN_ALIGN64 half out[4][16];
+  HYDRA_EIGEN_ALIGN64 half out[4][16];
 
   for (int i = 0; i < 4; ++i) {
     for (int j = 0; j < 4; ++j) {
@@ -707,7 +707,7 @@ ptranspose(PacketBlock<Packet16h,4>& kernel) {
 }
 
 
-#elif defined EIGEN_VECTORIZE_AVX
+#elif defined HYDRA_EIGEN_VECTORIZE_AVX
 
 typedef struct {
   __m128i x;
@@ -748,37 +748,37 @@ struct packet_traits<HYDRA_EXTERNAL_NS::Eigen::half> : default_packet_traits {
 
 template<> struct unpacket_traits<Packet8h> { typedef HYDRA_EXTERNAL_NS::Eigen::half type; enum {size=8, alignment=Aligned16}; typedef Packet8h half; };
 
-template<> EIGEN_STRONG_INLINE Packet8h pset1<Packet8h>(const HYDRA_EXTERNAL_NS::Eigen::half& from) {
+template<> HYDRA_EIGEN_STRONG_INLINE Packet8h pset1<Packet8h>(const HYDRA_EXTERNAL_NS::Eigen::half& from) {
   Packet8h result;
   result.x = _mm_set1_epi16(from.x);
   return result;
 }
 
-template<> EIGEN_STRONG_INLINE HYDRA_EXTERNAL_NS::Eigen::half pfirst<Packet8h>(const Packet8h& from) {
+template<> HYDRA_EIGEN_STRONG_INLINE HYDRA_EXTERNAL_NS::Eigen::half pfirst<Packet8h>(const Packet8h& from) {
   return half_impl::raw_uint16_to_half(static_cast<unsigned short>(_mm_extract_epi16(from.x, 0)));
 }
 
-template<> EIGEN_STRONG_INLINE Packet8h pload<Packet8h>(const HYDRA_EXTERNAL_NS::Eigen::half* from) {
+template<> HYDRA_EIGEN_STRONG_INLINE Packet8h pload<Packet8h>(const HYDRA_EXTERNAL_NS::Eigen::half* from) {
   Packet8h result;
   result.x = _mm_load_si128(reinterpret_cast<const __m128i*>(from));
   return result;
 }
 
-template<> EIGEN_STRONG_INLINE Packet8h ploadu<Packet8h>(const HYDRA_EXTERNAL_NS::Eigen::half* from) {
+template<> HYDRA_EIGEN_STRONG_INLINE Packet8h ploadu<Packet8h>(const HYDRA_EXTERNAL_NS::Eigen::half* from) {
   Packet8h result;
   result.x = _mm_loadu_si128(reinterpret_cast<const __m128i*>(from));
   return result;
 }
 
-template<> EIGEN_STRONG_INLINE void pstore<HYDRA_EXTERNAL_NS::Eigen::half>(HYDRA_EXTERNAL_NS::Eigen::half* to, const Packet8h& from) {
+template<> HYDRA_EIGEN_STRONG_INLINE void pstore<HYDRA_EXTERNAL_NS::Eigen::half>(HYDRA_EXTERNAL_NS::Eigen::half* to, const Packet8h& from) {
   _mm_store_si128(reinterpret_cast<__m128i*>(to), from.x);
 }
 
-template<> EIGEN_STRONG_INLINE void pstoreu<HYDRA_EXTERNAL_NS::Eigen::half>(HYDRA_EXTERNAL_NS::Eigen::half* to, const Packet8h& from) {
+template<> HYDRA_EIGEN_STRONG_INLINE void pstoreu<HYDRA_EXTERNAL_NS::Eigen::half>(HYDRA_EXTERNAL_NS::Eigen::half* to, const Packet8h& from) {
   _mm_storeu_si128(reinterpret_cast<__m128i*>(to), from.x);
 }
 
-template<> EIGEN_STRONG_INLINE Packet8h
+template<> HYDRA_EIGEN_STRONG_INLINE Packet8h
 ploadquad<Packet8h>(const HYDRA_EXTERNAL_NS::Eigen::half* from) {
   Packet8h result;
   unsigned short a = from[0].x;
@@ -787,11 +787,11 @@ ploadquad<Packet8h>(const HYDRA_EXTERNAL_NS::Eigen::half* from) {
   return result;
 }
 
-EIGEN_STRONG_INLINE Packet8f half2float(const Packet8h& a) {
-#ifdef EIGEN_HAS_FP16_C
+HYDRA_EIGEN_STRONG_INLINE Packet8f half2float(const Packet8h& a) {
+#ifdef HYDRA_EIGEN_HAS_FP16_C
   return _mm256_cvtph_ps(a.x);
 #else
-  EIGEN_ALIGN32 HYDRA_EXTERNAL_NS::Eigen::half aux[8];
+  HYDRA_EIGEN_ALIGN32 HYDRA_EXTERNAL_NS::Eigen::half aux[8];
   pstore(aux, a);
   float f0(aux[0]);
   float f1(aux[1]);
@@ -806,13 +806,13 @@ EIGEN_STRONG_INLINE Packet8f half2float(const Packet8h& a) {
 #endif
 }
 
-EIGEN_STRONG_INLINE Packet8h float2half(const Packet8f& a) {
-#ifdef EIGEN_HAS_FP16_C
+HYDRA_EIGEN_STRONG_INLINE Packet8h float2half(const Packet8f& a) {
+#ifdef HYDRA_EIGEN_HAS_FP16_C
   Packet8h result;
   result.x = _mm256_cvtps_ph(a, _MM_FROUND_TO_NEAREST_INT|_MM_FROUND_NO_EXC);
   return result;
 #else
-  EIGEN_ALIGN32 float aux[8];
+  HYDRA_EIGEN_ALIGN32 float aux[8];
   pstore(aux, a);
   HYDRA_EXTERNAL_NS::Eigen::half h0(aux[0]);
   HYDRA_EXTERNAL_NS::Eigen::half h1(aux[1]);
@@ -829,32 +829,32 @@ EIGEN_STRONG_INLINE Packet8h float2half(const Packet8f& a) {
 #endif
 }
 
-template<> EIGEN_STRONG_INLINE Packet8h pconj(const Packet8h& a) { return a; }
+template<> HYDRA_EIGEN_STRONG_INLINE Packet8h pconj(const Packet8h& a) { return a; }
 
-template<> EIGEN_STRONG_INLINE Packet8h padd<Packet8h>(const Packet8h& a, const Packet8h& b) {
+template<> HYDRA_EIGEN_STRONG_INLINE Packet8h padd<Packet8h>(const Packet8h& a, const Packet8h& b) {
   Packet8f af = half2float(a);
   Packet8f bf = half2float(b);
   Packet8f rf = padd(af, bf);
   return float2half(rf);
 }
 
-template<> EIGEN_STRONG_INLINE Packet8h pmul<Packet8h>(const Packet8h& a, const Packet8h& b) {
+template<> HYDRA_EIGEN_STRONG_INLINE Packet8h pmul<Packet8h>(const Packet8h& a, const Packet8h& b) {
   Packet8f af = half2float(a);
   Packet8f bf = half2float(b);
   Packet8f rf = pmul(af, bf);
   return float2half(rf);
 }
 
-template<> EIGEN_STRONG_INLINE Packet8h pgather<HYDRA_EXTERNAL_NS::Eigen::half, Packet8h>(const HYDRA_EXTERNAL_NS::Eigen::half* from, Index stride)
+template<> HYDRA_EIGEN_STRONG_INLINE Packet8h pgather<HYDRA_EXTERNAL_NS::Eigen::half, Packet8h>(const HYDRA_EXTERNAL_NS::Eigen::half* from, Index stride)
 {
   Packet8h result;
   result.x = _mm_set_epi16(from[7*stride].x, from[6*stride].x, from[5*stride].x, from[4*stride].x, from[3*stride].x, from[2*stride].x, from[1*stride].x, from[0*stride].x);
   return result;
 }
 
-template<> EIGEN_STRONG_INLINE void pscatter<HYDRA_EXTERNAL_NS::Eigen::half, Packet8h>(HYDRA_EXTERNAL_NS::Eigen::half* to, const Packet8h& from, Index stride)
+template<> HYDRA_EIGEN_STRONG_INLINE void pscatter<HYDRA_EXTERNAL_NS::Eigen::half, Packet8h>(HYDRA_EXTERNAL_NS::Eigen::half* to, const Packet8h& from, Index stride)
 {
-  EIGEN_ALIGN32 HYDRA_EXTERNAL_NS::Eigen::half aux[8];
+  HYDRA_EIGEN_ALIGN32 HYDRA_EXTERNAL_NS::Eigen::half aux[8];
   pstore(aux, from);
   to[stride*0].x = aux[0].x;
   to[stride*1].x = aux[1].x;
@@ -866,31 +866,31 @@ template<> EIGEN_STRONG_INLINE void pscatter<HYDRA_EXTERNAL_NS::Eigen::half, Pac
   to[stride*7].x = aux[7].x;
 }
 
-template<> EIGEN_STRONG_INLINE HYDRA_EXTERNAL_NS::Eigen::half predux<Packet8h>(const Packet8h& a) {
+template<> HYDRA_EIGEN_STRONG_INLINE HYDRA_EXTERNAL_NS::Eigen::half predux<Packet8h>(const Packet8h& a) {
   Packet8f af = half2float(a);
   float reduced = predux<Packet8f>(af);
   return HYDRA_EXTERNAL_NS::Eigen::half(reduced);
 }
 
-template<> EIGEN_STRONG_INLINE HYDRA_EXTERNAL_NS::Eigen::half predux_max<Packet8h>(const Packet8h& a) {
+template<> HYDRA_EIGEN_STRONG_INLINE HYDRA_EXTERNAL_NS::Eigen::half predux_max<Packet8h>(const Packet8h& a) {
   Packet8f af = half2float(a);
   float reduced = predux_max<Packet8f>(af);
   return HYDRA_EXTERNAL_NS::Eigen::half(reduced);
 }
 
-template<> EIGEN_STRONG_INLINE HYDRA_EXTERNAL_NS::Eigen::half predux_min<Packet8h>(const Packet8h& a) {
+template<> HYDRA_EIGEN_STRONG_INLINE HYDRA_EXTERNAL_NS::Eigen::half predux_min<Packet8h>(const Packet8h& a) {
   Packet8f af = half2float(a);
   float reduced = predux_min<Packet8f>(af);
   return HYDRA_EXTERNAL_NS::Eigen::half(reduced);
 }
 
-template<> EIGEN_STRONG_INLINE HYDRA_EXTERNAL_NS::Eigen::half predux_mul<Packet8h>(const Packet8h& a) {
+template<> HYDRA_EIGEN_STRONG_INLINE HYDRA_EXTERNAL_NS::Eigen::half predux_mul<Packet8h>(const Packet8h& a) {
   Packet8f af = half2float(a);
   float reduced = predux_mul<Packet8f>(af);
   return HYDRA_EXTERNAL_NS::Eigen::half(reduced);
 }
 
-EIGEN_STRONG_INLINE void
+HYDRA_EIGEN_STRONG_INLINE void
 ptranspose(PacketBlock<Packet8h,8>& kernel) {
   __m128i a = kernel.packet[0].x;
   __m128i b = kernel.packet[1].x;
@@ -938,15 +938,15 @@ ptranspose(PacketBlock<Packet8h,8>& kernel) {
   kernel.packet[7].x = a7b7c7d7e7f7g7h7;
 }
 
-EIGEN_STRONG_INLINE void
+HYDRA_EIGEN_STRONG_INLINE void
 ptranspose(PacketBlock<Packet8h,4>& kernel) {
-  EIGEN_ALIGN32 HYDRA_EXTERNAL_NS::Eigen::half in[4][8];
+  HYDRA_EIGEN_ALIGN32 HYDRA_EXTERNAL_NS::Eigen::half in[4][8];
   pstore<HYDRA_EXTERNAL_NS::Eigen::half>(in[0], kernel.packet[0]);
   pstore<HYDRA_EXTERNAL_NS::Eigen::half>(in[1], kernel.packet[1]);
   pstore<HYDRA_EXTERNAL_NS::Eigen::half>(in[2], kernel.packet[2]);
   pstore<HYDRA_EXTERNAL_NS::Eigen::half>(in[3], kernel.packet[3]);
 
-  EIGEN_ALIGN32 HYDRA_EXTERNAL_NS::Eigen::half out[4][8];
+  HYDRA_EIGEN_ALIGN32 HYDRA_EXTERNAL_NS::Eigen::half out[4][8];
 
   for (int i = 0; i < 4; ++i) {
     for (int j = 0; j < 4; ++j) {
@@ -965,7 +965,7 @@ ptranspose(PacketBlock<Packet8h,4>& kernel) {
 
 
 // Disable the following code since it's broken on too many platforms / compilers.
-//#elif defined(EIGEN_VECTORIZE_SSE) && (!EIGEN_ARCH_x86_64) && (!EIGEN_COMP_MSVC)
+//#elif defined(HYDRA_EIGEN_VECTORIZE_SSE) && (!HYDRA_EIGEN_ARCH_x86_64) && (!HYDRA_EIGEN_COMP_MSVC)
 #elif 0
 
 typedef struct {
@@ -1007,19 +1007,19 @@ struct packet_traits<HYDRA_EXTERNAL_NS::Eigen::half> : default_packet_traits {
 
 template<> struct unpacket_traits<Packet4h> { typedef HYDRA_EXTERNAL_NS::Eigen::half type; enum {size=4, alignment=Aligned16}; typedef Packet4h half; };
 
-template<> EIGEN_STRONG_INLINE Packet4h pset1<Packet4h>(const HYDRA_EXTERNAL_NS::Eigen::half& from) {
+template<> HYDRA_EIGEN_STRONG_INLINE Packet4h pset1<Packet4h>(const HYDRA_EXTERNAL_NS::Eigen::half& from) {
   Packet4h result;
   result.x = _mm_set1_pi16(from.x);
   return result;
 }
 
-template<> EIGEN_STRONG_INLINE HYDRA_EXTERNAL_NS::Eigen::half pfirst<Packet4h>(const Packet4h& from) {
+template<> HYDRA_EIGEN_STRONG_INLINE HYDRA_EXTERNAL_NS::Eigen::half pfirst<Packet4h>(const Packet4h& from) {
   return half_impl::raw_uint16_to_half(static_cast<unsigned short>(_mm_cvtsi64_si32(from.x)));
 }
 
-template<> EIGEN_STRONG_INLINE Packet4h pconj(const Packet4h& a) { return a; }
+template<> HYDRA_EIGEN_STRONG_INLINE Packet4h pconj(const Packet4h& a) { return a; }
 
-template<> EIGEN_STRONG_INLINE Packet4h padd<Packet4h>(const Packet4h& a, const Packet4h& b) {
+template<> HYDRA_EIGEN_STRONG_INLINE Packet4h padd<Packet4h>(const Packet4h& a, const Packet4h& b) {
   __int64_t a64 = _mm_cvtm64_si64(a.x);
   __int64_t b64 = _mm_cvtm64_si64(b.x);
 
@@ -1042,7 +1042,7 @@ template<> EIGEN_STRONG_INLINE Packet4h padd<Packet4h>(const Packet4h& a, const 
   return result;
 }
 
-template<> EIGEN_STRONG_INLINE Packet4h pmul<Packet4h>(const Packet4h& a, const Packet4h& b) {
+template<> HYDRA_EIGEN_STRONG_INLINE Packet4h pmul<Packet4h>(const Packet4h& a, const Packet4h& b) {
   __int64_t a64 = _mm_cvtm64_si64(a.x);
   __int64_t b64 = _mm_cvtm64_si64(b.x);
 
@@ -1065,41 +1065,41 @@ template<> EIGEN_STRONG_INLINE Packet4h pmul<Packet4h>(const Packet4h& a, const 
   return result;
 }
 
-template<> EIGEN_STRONG_INLINE Packet4h pload<Packet4h>(const HYDRA_EXTERNAL_NS::Eigen::half* from) {
+template<> HYDRA_EIGEN_STRONG_INLINE Packet4h pload<Packet4h>(const HYDRA_EXTERNAL_NS::Eigen::half* from) {
   Packet4h result;
   result.x = _mm_cvtsi64_m64(*reinterpret_cast<const __int64_t*>(from));
   return result;
 }
 
-template<> EIGEN_STRONG_INLINE Packet4h ploadu<Packet4h>(const HYDRA_EXTERNAL_NS::Eigen::half* from) {
+template<> HYDRA_EIGEN_STRONG_INLINE Packet4h ploadu<Packet4h>(const HYDRA_EXTERNAL_NS::Eigen::half* from) {
   Packet4h result;
   result.x = _mm_cvtsi64_m64(*reinterpret_cast<const __int64_t*>(from));
   return result;
 }
 
-template<> EIGEN_STRONG_INLINE void pstore<HYDRA_EXTERNAL_NS::Eigen::half>(HYDRA_EXTERNAL_NS::Eigen::half* to, const Packet4h& from) {
+template<> HYDRA_EIGEN_STRONG_INLINE void pstore<HYDRA_EXTERNAL_NS::Eigen::half>(HYDRA_EXTERNAL_NS::Eigen::half* to, const Packet4h& from) {
   __int64_t r = _mm_cvtm64_si64(from.x);
   *(reinterpret_cast<__int64_t*>(to)) = r;
 }
 
-template<> EIGEN_STRONG_INLINE void pstoreu<HYDRA_EXTERNAL_NS::Eigen::half>(HYDRA_EXTERNAL_NS::Eigen::half* to, const Packet4h& from) {
+template<> HYDRA_EIGEN_STRONG_INLINE void pstoreu<HYDRA_EXTERNAL_NS::Eigen::half>(HYDRA_EXTERNAL_NS::Eigen::half* to, const Packet4h& from) {
   __int64_t r = _mm_cvtm64_si64(from.x);
   *(reinterpret_cast<__int64_t*>(to)) = r;
 }
 
-template<> EIGEN_STRONG_INLINE Packet4h
+template<> HYDRA_EIGEN_STRONG_INLINE Packet4h
 ploadquad<Packet4h>(const HYDRA_EXTERNAL_NS::Eigen::half* from) {
   return pset1<Packet4h>(*from);
 }
 
-template<> EIGEN_STRONG_INLINE Packet4h pgather<HYDRA_EXTERNAL_NS::Eigen::half, Packet4h>(const HYDRA_EXTERNAL_NS::Eigen::half* from, Index stride)
+template<> HYDRA_EIGEN_STRONG_INLINE Packet4h pgather<HYDRA_EXTERNAL_NS::Eigen::half, Packet4h>(const HYDRA_EXTERNAL_NS::Eigen::half* from, Index stride)
 {
   Packet4h result;
   result.x = _mm_set_pi16(from[3*stride].x, from[2*stride].x, from[1*stride].x, from[0*stride].x);
   return result;
 }
 
-template<> EIGEN_STRONG_INLINE void pscatter<HYDRA_EXTERNAL_NS::Eigen::half, Packet4h>(HYDRA_EXTERNAL_NS::Eigen::half* to, const Packet4h& from, Index stride)
+template<> HYDRA_EIGEN_STRONG_INLINE void pscatter<HYDRA_EXTERNAL_NS::Eigen::half, Packet4h>(HYDRA_EXTERNAL_NS::Eigen::half* to, const Packet4h& from, Index stride)
 {
   __int64_t a = _mm_cvtm64_si64(from.x);
   to[stride*0].x = static_cast<unsigned short>(a);
@@ -1108,7 +1108,7 @@ template<> EIGEN_STRONG_INLINE void pscatter<HYDRA_EXTERNAL_NS::Eigen::half, Pac
   to[stride*3].x = static_cast<unsigned short>(a >> 48);
 }
 
-EIGEN_STRONG_INLINE void
+HYDRA_EIGEN_STRONG_INLINE void
 ptranspose(PacketBlock<Packet4h,4>& kernel) {
   __m64 T0 = _mm_unpacklo_pi16(kernel.packet[0].x, kernel.packet[1].x);
   __m64 T1 = _mm_unpacklo_pi16(kernel.packet[2].x, kernel.packet[3].x);
@@ -1127,4 +1127,4 @@ ptranspose(PacketBlock<Packet4h,4>& kernel) {
 }
 HYDRA_EXTERNAL_NAMESPACE_END
 
-#endif // EIGEN_PACKET_MATH_HALF_CUDA_H
+#endif // HYDRA_EIGEN_PACKET_MATH_HALF_CUDA_H

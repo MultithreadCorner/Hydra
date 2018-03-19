@@ -45,7 +45,11 @@ namespace hydra {
 template<size_t N>
 struct GaussKronrodRuleSelector;
 
-
+/**
+ * \ingroup numerical_integration
+ * \brief Rules for Gauss-Kronrod quadrature.
+ *
+ */
 template<>
 struct GaussKronrodRuleSelector<15>
 {
@@ -90,6 +94,11 @@ GaussKronrodRule<15> fRule;
 
 };
 
+/**
+ * \ingroup numerical_integration
+ * \brief Rules for Gauss-Kronrod quadrature.
+ *
+ */
 template<>
 struct GaussKronrodRuleSelector<21>
 {
@@ -138,6 +147,11 @@ GaussKronrodRule<21> fRule;
 
 };
 
+/**
+ * \ingroup numerical_integration
+ * \brief Rules for Gauss-Kronrod quadrature.
+ *
+ */
 template<>
 struct GaussKronrodRuleSelector<31>
 {
@@ -202,6 +216,11 @@ struct GaussKronrodRuleSelector<31>
 
 		};
 
+/**
+ * \ingroup numerical_integration
+ * \brief Rules for Gauss-Kronrod quadrature.
+ *
+ */
 template<>
 struct GaussKronrodRuleSelector<41>
 {
@@ -280,6 +299,11 @@ struct GaussKronrodRuleSelector<41>
 
 		};
 
+/**
+ * \ingroup numerical_integration
+ * \brief Rules for Gauss-Kronrod quadrature.
+ *
+ */
 template<>
 struct GaussKronrodRuleSelector<51>
 {
@@ -373,6 +397,11 @@ struct GaussKronrodRuleSelector<51>
 
 		};
 
+/**
+ * \ingroup numerical_integration
+ * \brief Rules for Gauss-Kronrod quadrature.
+ *
+ */
 template<>
 struct GaussKronrodRuleSelector<61>
 {

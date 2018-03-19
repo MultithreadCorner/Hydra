@@ -78,7 +78,7 @@ private:
      ******************************************************************************/
 
     /// Internal storage allocator
-    __device__ __forceinline__ _TempStorage& PrivateStorage()
+    __hydra_device__ __forceinline__ _TempStorage& PrivateStorage()
     {
         __shared__ _TempStorage private_storage;
         return private_storage;
@@ -90,7 +90,7 @@ private:
     struct ApplyOp
     {
         // Apply flag operator
-        static __device__ __forceinline__ T FlagT(FlagOp flag_op, const T &a, const T &b, int idx)
+        static __hydra_device__ __forceinline__ T FlagT(FlagOp flag_op, const T &a, const T &b, int idx)
         {
             return flag_op(b, a, idx);
         }
@@ -101,7 +101,7 @@ private:
     struct ApplyOp<FlagOp, false>
     {
         // Apply flag operator
-        static __device__ __forceinline__ T FlagT(FlagOp flag_op, const T &a, const T &b, int /*idx*/)
+        static __hydra_device__ __forceinline__ T FlagT(FlagOp flag_op, const T &a, const T &b, int /*idx*/)
         {
             return flag_op(b, a);
         }
@@ -116,7 +116,7 @@ private:
             int             ITEMS_PER_THREAD,
             typename        FlagT,
             typename        FlagOp>
-        static __device__ __forceinline__ void FlagHeads(
+        static __hydra_device__ __forceinline__ void FlagHeads(
             int                     linear_tid,
             FlagT                   (&flags)[ITEMS_PER_THREAD],         ///< [out] Calling thread's discontinuity head_flags
             T                       (&input)[ITEMS_PER_THREAD],         ///< [in] Calling thread's input items
@@ -139,7 +139,7 @@ private:
             int             ITEMS_PER_THREAD,
             typename        FlagT,
             typename        FlagOp>
-        static __device__ __forceinline__ void FlagTails(
+        static __hydra_device__ __forceinline__ void FlagTails(
             int                     linear_tid,
             FlagT                   (&flags)[ITEMS_PER_THREAD],         ///< [out] Calling thread's discontinuity head_flags
             T                       (&input)[ITEMS_PER_THREAD],         ///< [in] Calling thread's input items
@@ -165,7 +165,7 @@ private:
             int             ITEMS_PER_THREAD,
             typename        FlagT,
             typename        FlagOp>
-        static __device__ __forceinline__ void FlagHeads(
+        static __hydra_device__ __forceinline__ void FlagHeads(
             int                     /*linear_tid*/,
             FlagT                   (&/*flags*/)[ITEMS_PER_THREAD],         ///< [out] Calling thread's discontinuity head_flags
             T                       (&/*input*/)[ITEMS_PER_THREAD],         ///< [in] Calling thread's input items
@@ -178,7 +178,7 @@ private:
             int             ITEMS_PER_THREAD,
             typename        FlagT,
             typename        FlagOp>
-        static __device__ __forceinline__ void FlagTails(
+        static __hydra_device__ __forceinline__ void FlagTails(
             int                     /*linear_tid*/,
             FlagT                   (&/*flags*/)[ITEMS_PER_THREAD],         ///< [out] Calling thread's discontinuity head_flags
             T                       (&/*input*/)[ITEMS_PER_THREAD],         ///< [in] Calling thread's input items
@@ -212,7 +212,7 @@ public:
     /**
      * \brief Collective constructor using a private static allocation of shared memory as temporary storage.
      */
-    __device__ __forceinline__ BlockAdjacentDifference()
+    __hydra_device__ __forceinline__ BlockAdjacentDifference()
     :
         temp_storage(PrivateStorage()),
         linear_tid(RowMajorTid(BLOCK_DIM_X, BLOCK_DIM_Y, BLOCK_DIM_Z))
@@ -222,7 +222,7 @@ public:
     /**
      * \brief Collective constructor using the specified memory allocation as temporary storage.
      */
-    __device__ __forceinline__ BlockAdjacentDifference(
+    __hydra_device__ __forceinline__ BlockAdjacentDifference(
         TempStorage &temp_storage)  ///< [in] Reference to memory allocation having layout type TempStorage
     :
         temp_storage(temp_storage.Alias()),
@@ -243,7 +243,7 @@ public:
         int             ITEMS_PER_THREAD,
         typename        FlagT,
         typename        FlagOp>
-    __device__ __forceinline__ void FlagHeads(
+    __hydra_device__ __forceinline__ void FlagHeads(
         FlagT           (&head_flags)[ITEMS_PER_THREAD],    ///< [out] Calling thread's discontinuity head_flags
         T               (&input)[ITEMS_PER_THREAD],         ///< [in] Calling thread's input items
         T               (&preds)[ITEMS_PER_THREAD],         ///< [out] Calling thread's predecessor items
@@ -273,7 +273,7 @@ public:
         int             ITEMS_PER_THREAD,
         typename        FlagT,
         typename        FlagOp>
-    __device__ __forceinline__ void FlagHeads(
+    __hydra_device__ __forceinline__ void FlagHeads(
         FlagT           (&head_flags)[ITEMS_PER_THREAD],    ///< [out] Calling thread's discontinuity head_flags
         T               (&input)[ITEMS_PER_THREAD],         ///< [in] Calling thread's input items
         T               (&preds)[ITEMS_PER_THREAD],         ///< [out] Calling thread's predecessor items
@@ -303,7 +303,7 @@ public:
         int             ITEMS_PER_THREAD,
         typename        FlagT,
         typename        FlagOp>
-    __device__ __forceinline__ void FlagHeads(
+    __hydra_device__ __forceinline__ void FlagHeads(
         FlagT           (&head_flags)[ITEMS_PER_THREAD],    ///< [out] Calling thread's discontinuity head_flags
         T               (&input)[ITEMS_PER_THREAD],         ///< [in] Calling thread's input items
         FlagOp          flag_op)                            ///< [in] Binary boolean flag predicate
@@ -317,7 +317,7 @@ public:
         int             ITEMS_PER_THREAD,
         typename        FlagT,
         typename        FlagOp>
-    __device__ __forceinline__ void FlagHeads(
+    __hydra_device__ __forceinline__ void FlagHeads(
         FlagT           (&head_flags)[ITEMS_PER_THREAD],    ///< [out] Calling thread's discontinuity head_flags
         T               (&input)[ITEMS_PER_THREAD],         ///< [in] Calling thread's input items
         FlagOp          flag_op,                            ///< [in] Binary boolean flag predicate
@@ -333,7 +333,7 @@ public:
         int             ITEMS_PER_THREAD,
         typename        FlagT,
         typename        FlagOp>
-    __device__ __forceinline__ void FlagTails(
+    __hydra_device__ __forceinline__ void FlagTails(
         FlagT           (&tail_flags)[ITEMS_PER_THREAD],    ///< [out] Calling thread's discontinuity tail_flags
         T               (&input)[ITEMS_PER_THREAD],         ///< [in] Calling thread's input items
         FlagOp          flag_op)                            ///< [in] Binary boolean flag predicate
@@ -361,7 +361,7 @@ public:
         int             ITEMS_PER_THREAD,
         typename        FlagT,
         typename        FlagOp>
-    __device__ __forceinline__ void FlagTails(
+    __hydra_device__ __forceinline__ void FlagTails(
         FlagT           (&tail_flags)[ITEMS_PER_THREAD],    ///< [out] Calling thread's discontinuity tail_flags
         T               (&input)[ITEMS_PER_THREAD],         ///< [in] Calling thread's input items
         FlagOp          flag_op,                            ///< [in] Binary boolean flag predicate
@@ -392,7 +392,7 @@ public:
         int             ITEMS_PER_THREAD,
         typename        FlagT,
         typename        FlagOp>
-    __device__ __forceinline__ void FlagHeadsAndTails(
+    __hydra_device__ __forceinline__ void FlagHeadsAndTails(
         FlagT           (&head_flags)[ITEMS_PER_THREAD],    ///< [out] Calling thread's discontinuity head_flags
         FlagT           (&tail_flags)[ITEMS_PER_THREAD],    ///< [out] Calling thread's discontinuity tail_flags
         T               (&input)[ITEMS_PER_THREAD],         ///< [in] Calling thread's input items
@@ -443,7 +443,7 @@ public:
         int             ITEMS_PER_THREAD,
         typename        FlagT,
         typename        FlagOp>
-    __device__ __forceinline__ void FlagHeadsAndTails(
+    __hydra_device__ __forceinline__ void FlagHeadsAndTails(
         FlagT           (&head_flags)[ITEMS_PER_THREAD],    ///< [out] Calling thread's discontinuity head_flags
         FlagT           (&tail_flags)[ITEMS_PER_THREAD],    ///< [out] Calling thread's discontinuity tail_flags
         T               tile_successor_item,                ///< [in] <b>[<em>thread</em><sub><tt>BLOCK_THREADS</tt>-1</sub> only]</b> Item with which to compare the last tile item (<tt>input</tt><sub><em>ITEMS_PER_THREAD</em>-1</sub> from <em>thread</em><sub><em>BLOCK_THREADS</em>-1</sub>).
@@ -495,7 +495,7 @@ public:
         int             ITEMS_PER_THREAD,
         typename        FlagT,
         typename        FlagOp>
-    __device__ __forceinline__ void FlagHeadsAndTails(
+    __hydra_device__ __forceinline__ void FlagHeadsAndTails(
         FlagT           (&head_flags)[ITEMS_PER_THREAD],    ///< [out] Calling thread's discontinuity head_flags
         T               tile_predecessor_item,              ///< [in] <b>[<em>thread</em><sub>0</sub> only]</b> Item with which to compare the first tile item (<tt>input<sub>0</sub></tt> from <em>thread</em><sub>0</sub>).
         FlagT           (&tail_flags)[ITEMS_PER_THREAD],    ///< [out] Calling thread's discontinuity tail_flags
@@ -542,7 +542,7 @@ public:
         int             ITEMS_PER_THREAD,
         typename        FlagT,
         typename        FlagOp>
-    __device__ __forceinline__ void FlagHeadsAndTails(
+    __hydra_device__ __forceinline__ void FlagHeadsAndTails(
         FlagT           (&head_flags)[ITEMS_PER_THREAD],    ///< [out] Calling thread's discontinuity head_flags
         T               tile_predecessor_item,              ///< [in] <b>[<em>thread</em><sub>0</sub> only]</b> Item with which to compare the first tile item (<tt>input<sub>0</sub></tt> from <em>thread</em><sub>0</sub>).
         FlagT           (&tail_flags)[ITEMS_PER_THREAD],    ///< [out] Calling thread's discontinuity tail_flags

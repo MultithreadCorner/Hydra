@@ -33,7 +33,7 @@ namespace block
 template<typename Context,
          typename InputIterator,
          typename BinaryFunction>
-__device__ __thrust_forceinline__
+__hydra_device__ __thrust_forceinline__
 void inclusive_scan(Context context,
                     InputIterator first,
                     BinaryFunction binary_op)
@@ -62,7 +62,7 @@ template<typename Context,
          typename InputIterator,
          typename Size,
          typename BinaryFunction>
-__device__ __thrust_forceinline__
+__hydra_device__ __thrust_forceinline__
 void inclusive_scan_n(Context context,
                       InputIterator first,
                       Size n,
@@ -89,7 +89,7 @@ template<typename Context,
          typename InputIterator1,
          typename InputIterator2,
          typename BinaryFunction>
-__device__ __thrust_forceinline__
+__hydra_device__ __thrust_forceinline__
 void inclusive_scan_by_flag(Context context,
                             InputIterator1 first1,
                             InputIterator2 first2,
@@ -121,7 +121,7 @@ template<typename Context,
          typename InputIterator2,
          typename Size,
          typename BinaryFunction>
-__device__ __thrust_forceinline__
+__hydra_device__ __thrust_forceinline__
 void inclusive_scan_by_flag_n(Context context,
                               InputIterator1 first1,
                               InputIterator2 first2,
@@ -154,7 +154,7 @@ void inclusive_scan_by_flag_n(Context context,
 
 
 template<typename Context, typename RandomAccessIterator, typename BinaryFunction>
-__device__ __thrust_forceinline__
+__hydra_device__ __thrust_forceinline__
 void inplace_inclusive_scan(Context &ctx, RandomAccessIterator first, BinaryFunction op)
 {
   typename thrust::iterator_value<RandomAccessIterator>::type x = first[ctx.thread_index()];
@@ -176,7 +176,7 @@ void inplace_inclusive_scan(Context &ctx, RandomAccessIterator first, BinaryFunc
 
 
 template<typename Context, typename RandomAccessIterator>
-__device__ __thrust_forceinline__
+__hydra_device__ __thrust_forceinline__
 void inplace_inclusive_scan(Context &ctx, RandomAccessIterator first)
 {
   block::inplace_inclusive_scan(ctx, first, thrust::plus<typename thrust::iterator_value<RandomAccessIterator>::type>());

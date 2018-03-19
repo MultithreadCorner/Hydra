@@ -73,7 +73,7 @@ public:
     /**
      * Synchronize
      */
-    __device__ __forceinline__ void Sync() const
+    __hydra_device__ __forceinline__ void Sync() const
     {
         volatile SyncFlag *d_vol_sync = d_sync;
 

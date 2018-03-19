@@ -38,14 +38,14 @@ template<typename Closure, typename RandomAccessIterator>
   size_t num_elements_per_block;
   RandomAccessIterator virtual_smem;
 
-  __host__ __device__ __thrust_forceinline__
+  __hydra_host__ __hydra_device__ __thrust_forceinline__
   virtualized_smem_closure(Closure closure, size_t num_elements_per_block, RandomAccessIterator virtual_smem)
     : super_t(closure),
       num_elements_per_block(num_elements_per_block),
       virtual_smem(virtual_smem)
   {}
 
-  __device__ __thrust_forceinline__
+  __hydra_device__ __thrust_forceinline__
   void operator()()
   {
     typename super_t::context_type ctx;

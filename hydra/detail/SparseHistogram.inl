@@ -481,6 +481,31 @@ void SparseHistogram<T, 1,  detail::BackendPolicy<BACKEND>,detail::unidimensiona
     HYDRA_EXTERNAL_NS::thrust::return_temporary_buffer(common_system_t(), reduced_keys.first);
 
 }
+
+template<typename Iterator, typename T, size_t N , hydra::detail::Backend BACKEND>
+SparseHistogram< T, N,  detail::BackendPolicy<BACKEND>, detail::multidimensional>
+make_sparse_histogram( detail::BackendPolicy<BACKEND>, std::array<size_t, N> grid,
+		std::array<T, N> const& lowerlimits,   std::array<T, N> const& upperlimits,
+		Iterator first, Iterator end){
+
+	hydra::SparseHistogram< T, N, detail::BackendPolicy<BACKEND>> _Hist( grid, lowerlimits, upperlimits);
+	_Hist.Fill(first, end);
+
+	return _Hist;
+}
+
+template<typename Iterator, typename T, hydra::detail::Backend BACKEND>
+SparseHistogram< T, 1,  detail::BackendPolicy<BACKEND>, detail::multidimensional>
+make_sparse_histogram( detail::BackendPolicy<BACKEND>, size_t grid, T lowerlimits,  T upperlimits,
+		Iterator first, Iterator end){
+
+	hydra::SparseHistogram< T, 1, detail::BackendPolicy<BACKEND>> _Hist( grid, lowerlimits, upperlimits);
+	_Hist.Fill(first, end);
+
+	return _Hist;
+
+}
+
 }  // namespace hydra
 
 

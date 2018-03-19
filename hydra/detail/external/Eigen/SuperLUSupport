@@ -5,15 +5,15 @@
 // Public License v. 2.0. If a copy of the MPL was not distributed
 // with this file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
-#ifndef EIGEN_SUPERLUSUPPORT_MODULE_H
-#define EIGEN_SUPERLUSUPPORT_MODULE_H
+#ifndef HYDRA_EIGEN_SUPERLUSUPPORT_MODULE_H
+#define HYDRA_EIGEN_SUPERLUSUPPORT_MODULE_H
 
 #include "hydra/detail/external/Eigen/SparseCore"
 
 #include "hydra/detail/external/Eigen/src/Core/util/DisableStupidWarnings.h"
 
 #ifdef EMPTY
-#define EIGEN_EMPTY_WAS_ALREADY_DEFINED
+#define HYDRA_EIGEN_EMPTY_WAS_ALREADY_DEFINED
 #endif
 
 typedef int int_t;
@@ -25,8 +25,8 @@ typedef int int_t;
 // so we remove it in favor of a SUPERLU_EMPTY token.
 // If EMPTY was already defined then we don't undef it.
 
-#if defined(EIGEN_EMPTY_WAS_ALREADY_DEFINED)
-# undef EIGEN_EMPTY_WAS_ALREADY_DEFINED
+#if defined(HYDRA_EIGEN_EMPTY_WAS_ALREADY_DEFINED)
+# undef HYDRA_EIGEN_EMPTY_WAS_ALREADY_DEFINED
 #elif defined(EMPTY)
 # undef EMPTY
 #endif
@@ -61,4 +61,4 @@ HYDRA_EXTERNAL_NAMESPACE_BEGIN namespace Eigen { struct SluMatrix; }
 
 #include "hydra/detail/external/Eigen/src/Core/util/ReenableStupidWarnings.h"
 
-#endif // EIGEN_SUPERLUSUPPORT_MODULE_H
+#endif // HYDRA_EIGEN_SUPERLUSUPPORT_MODULE_H

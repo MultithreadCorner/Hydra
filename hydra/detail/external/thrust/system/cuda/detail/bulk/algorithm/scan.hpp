@@ -33,7 +33,7 @@ namespace bulk
 
 
 template<std::size_t bound, std::size_t grainsize, typename RandomAccessIterator1, typename RandomAccessIterator2, typename T, typename BinaryFunction>
-__forceinline__ __device__
+__forceinline__ __hydra_device__
 RandomAccessIterator2
   inclusive_scan(const bounded<bound, bulk::agent<grainsize> > &exec,
                  RandomAccessIterator1 first,
@@ -56,7 +56,7 @@ RandomAccessIterator2
 
 
 template<std::size_t bound, std::size_t grainsize, typename RandomAccessIterator1, typename RandomAccessIterator2, typename T, typename BinaryFunction>
-__forceinline__ __device__
+__forceinline__ __hydra_device__
 RandomAccessIterator2
   exclusive_scan(const bounded<bound, bulk::agent<grainsize> > &exec,
                  RandomAccessIterator1 first,
@@ -99,7 +99,7 @@ struct scan_intermediate
 
 
 template<typename ConcurrentGroup, typename RandomAccessIterator, typename T, typename BinaryFunction>
-__device__ T inplace_exclusive_scan(ConcurrentGroup &g, RandomAccessIterator first, T init, BinaryFunction binary_op)
+__hydra_device__ T inplace_exclusive_scan(ConcurrentGroup &g, RandomAccessIterator first, T init, BinaryFunction binary_op)
 {
   typedef typename ConcurrentGroup::size_type size_type;
 
@@ -150,7 +150,7 @@ __device__ T inplace_exclusive_scan(ConcurrentGroup &g, RandomAccessIterator fir
 
 
 template<typename ConcurrentGroup, typename RandomAccessIterator, typename Size, typename T, typename BinaryFunction>
-__device__ T small_inplace_exclusive_scan(ConcurrentGroup &g, RandomAccessIterator first, Size n, T init, BinaryFunction binary_op)
+__hydra_device__ T small_inplace_exclusive_scan(ConcurrentGroup &g, RandomAccessIterator first, Size n, T init, BinaryFunction binary_op)
 {
   typedef typename ConcurrentGroup::size_type size_type;
 
@@ -211,7 +211,7 @@ __device__ T small_inplace_exclusive_scan(ConcurrentGroup &g, RandomAccessIterat
 
 // the upper bound on n is g.size()
 template<typename ConcurrentGroup, typename RandomAccessIterator, typename Size, typename T, typename BinaryFunction>
-__device__ T bounded_inplace_exclusive_scan(ConcurrentGroup &g, RandomAccessIterator first, Size n, T init, BinaryFunction binary_op)
+__hydra_device__ T bounded_inplace_exclusive_scan(ConcurrentGroup &g, RandomAccessIterator first, Size n, T init, BinaryFunction binary_op)
 {
   return (n == g.size()) ?
     inplace_exclusive_scan(g, first, init, binary_op) :
@@ -225,7 +225,7 @@ template<bool inclusive,
          typename RandomAccessIterator2,
          typename T,
          typename BinaryFunction>
-__device__
+__hydra_device__
 // XXX MSVC9 has trouble with this enable_if, so just don't bother with it
 //typename thrust::detail::enable_if<
 //  bound <= groupsize * grainsize,
@@ -333,7 +333,7 @@ struct scan_buffer
 
 
 template<bool inclusive, std::size_t groupsize, std::size_t grainsize, typename RandomAccessIterator1, typename RandomAccessIterator2, typename T, typename BinaryFunction>
-__device__ void scan_with_buffer(bulk::concurrent_group<bulk::agent<grainsize>,groupsize> &g,
+__hydra_device__ void scan_with_buffer(bulk::concurrent_group<bulk::agent<grainsize>,groupsize> &g,
                                  RandomAccessIterator1 first, RandomAccessIterator1 last,
                                  RandomAccessIterator2 result,
                                  T carry_in,
@@ -395,7 +395,7 @@ template<std::size_t bound,
          typename RandomAccessIterator2,
          typename T,
          typename BinaryFunction>
-__device__
+__hydra_device__
 typename thrust::detail::enable_if<
   bound <= groupsize * grainsize,
   RandomAccessIterator2
@@ -420,7 +420,7 @@ template<std::size_t bound,
          typename RandomAccessIterator1,
          typename RandomAccessIterator2,
          typename BinaryFunction>
-__device__
+__hydra_device__
 typename thrust::detail::enable_if<
   bound <= groupsize * grainsize,
   RandomAccessIterator2
@@ -458,7 +458,7 @@ template<std::size_t groupsize,
          typename RandomAccessIterator2,
          typename T,
          typename BinaryFunction>
-__device__ void inclusive_scan(bulk::concurrent_group<bulk::agent<grainsize>,groupsize> &g,
+__hydra_device__ void inclusive_scan(bulk::concurrent_group<bulk::agent<grainsize>,groupsize> &g,
                                RandomAccessIterator1 first, RandomAccessIterator1 last,
                                RandomAccessIterator2 result,
                                T init,
@@ -491,7 +491,7 @@ template<std::size_t size,
          typename RandomAccessIterator1,
          typename RandomAccessIterator2,
          typename BinaryFunction>
-__device__
+__hydra_device__
 RandomAccessIterator2
 inclusive_scan(bulk::concurrent_group<bulk::agent<grainsize>,size> &this_group,
                RandomAccessIterator1 first,
@@ -531,7 +531,7 @@ template<std::size_t bound, std::size_t groupsize, std::size_t grainsize,
          typename RandomAccessIterator2,
          typename T,
          typename BinaryFunction>
-__device__
+__hydra_device__
 typename thrust::detail::enable_if<
   bound <= groupsize * grainsize,
   RandomAccessIterator2
@@ -556,7 +556,7 @@ template<std::size_t groupsize,
          typename RandomAccessIterator2,
          typename T,
          typename BinaryFunction>
-__device__
+__hydra_device__
 typename thrust::detail::enable_if<
   (groupsize > 0),
   RandomAccessIterator2

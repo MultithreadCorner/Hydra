@@ -52,6 +52,7 @@ template<  size_t N, typename  BACKEND>
 class  GenzMalikQuadrature;
 
 /**
+ * \ingroup numerical_integration
  * \brief Non-adaptive Genz-Malik multidimensional quadrature
  *
  * Non-adaptive Genz-Malik multidimensional quadrature. This algorithm follows the original paper prescription

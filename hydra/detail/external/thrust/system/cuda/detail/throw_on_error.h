@@ -31,7 +31,7 @@ namespace detail
 {
 
 
-inline __host__ __device__
+inline __hydra_host__ __hydra_device__
 void throw_on_error(cudaError_t error, const char *message)
 {
   thrust::system::cuda::detail::bulk_::detail::throw_on_error(error, message);

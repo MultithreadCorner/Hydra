@@ -58,7 +58,7 @@ struct CovMatrixUnary
 				fCoeficients[i] = coeficients[i].GetValue();
 	}
 
-	__host__ __device__
+	__hydra_host__ __hydra_device__
 	CovMatrixUnary( CovMatrixUnary<F1, F2, Fs...> const& other ):
 		fFunctors( other.fFunctors )
 	{
@@ -66,7 +66,7 @@ struct CovMatrixUnary
 			fCoeficients[i] = other.fCoeficients[i];
 	}
 
-	__host__ __device__
+	__hydra_host__ __hydra_device__
 	CovMatrixUnary<F1, F2, Fs...> &
 	operator=( CovMatrixUnary<F1, F2, Fs...> const& other )
 	{
@@ -87,7 +87,7 @@ struct CovMatrixUnary
 
 
 	template<typename ...T, size_t ...I>
-	__host__ __device__ inline
+	__hydra_host__ __hydra_device__ inline
 	matrix_t combiner_helper(GReal_t denominator,HYDRA_EXTERNAL_NS::thrust::tuple<T...>& tpl,
 			hydra::detail::index_sequence<I...>)
 	{
@@ -100,7 +100,7 @@ struct CovMatrixUnary
 	}
 
 	template<typename ...T>
-	__host__ __device__ inline
+	__hydra_host__ __hydra_device__ inline
 	matrix_t combiner(GReal_t denominator, HYDRA_EXTERNAL_NS::thrust::tuple<T...>& tpl)
    {
 	    constexpr size_t N = sizeof ...(T);
@@ -111,7 +111,7 @@ struct CovMatrixUnary
 
 
 	template<typename Type>
-	__host__ __device__ inline
+	__hydra_host__ __hydra_device__ inline
 	matrix_t operator()(Type& x)
 	{
 		auto fvalues  = detail::invoke_normalized(x, fFunctors);
@@ -132,7 +132,7 @@ template<typename T>
 struct CovMatrixBinary
 		:public HYDRA_EXTERNAL_NS::thrust::binary_function< T const&, T const&, T >
 {
-	__host__ __device__ inline
+	__hydra_host__ __hydra_device__ inline
 	T operator()(T const& x, T const& y )
 	{
 		return x+y;
@@ -158,7 +158,7 @@ struct SWeights
 			fCoeficients[i] = coeficients[i].GetValue();
 	}
 
-	__host__ __device__ inline
+	__hydra_host__ __hydra_device__ inline
 	SWeights(SWeights<F1, F2, Fs...> const& other ):
 		fFunctors( other.fFunctors ),
 		fICovMatrix( other.fICovMatrix )
@@ -170,7 +170,7 @@ struct SWeights
 
 
 	template<typename Type>
-	__host__ __device__ inline
+	__hydra_host__ __hydra_device__ inline
 	tuple_t operator()(Type& x)
 	{
 		auto fvalues  = detail::invoke_normalized(x, fFunctors);

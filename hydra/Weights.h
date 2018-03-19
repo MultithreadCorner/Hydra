@@ -177,7 +177,7 @@ private:
 
 	GReal_t MakeSumW2()
 	{
-		auto sq = []__host__ __device__ (GReal_t x)
+		auto sq = []__hydra_host__ __hydra_device__ (GReal_t x)
 		{
 			return x*x;
 		};

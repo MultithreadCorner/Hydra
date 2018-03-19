@@ -27,7 +27,7 @@ namespace detail
 {
 
 
-__host__ __device__
+__hydra_host__ __hydra_device__
 inline void terminate()
 {
 #ifdef __CUDA_ARCH__
@@ -38,7 +38,7 @@ inline void terminate()
 } // end terminate()
 
 
-__host__ __device__
+__hydra_host__ __hydra_device__
 inline void terminate_with_message(const char* message)
 {
 #if __BULK_HAS_PRINTF__
@@ -49,7 +49,7 @@ inline void terminate_with_message(const char* message)
 }
 
 
-__host__ __device__
+__hydra_host__ __hydra_device__
 inline void terminate_on_error(cudaError_t e, const char* message)
 {
   if(e)

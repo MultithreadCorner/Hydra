@@ -38,7 +38,7 @@ template<
 
   public:
     // allow implicit construction from tuple<refs>
-    inline __host__ __device__
+    inline __hydra_host__ __hydra_device__
     tuple_of_iterator_references(const super_t &other)
       : super_t(other)
     {}
@@ -46,7 +46,7 @@ template<
     // allow assignment from tuples
     // XXX might be worthwhile to guard this with an enable_if is_assignable
     template<typename... OtherTypes>
-    inline __host__ __device__
+    inline __hydra_host__ __hydra_device__
     tuple_of_iterator_references &operator=(const thrust::tuple<OtherTypes...> &other)
     {
       super_t::operator=(other);
@@ -56,7 +56,7 @@ template<
     // allow assignment from pairs
     // XXX might be worthwhile to guard this with an enable_if is_assignable
     template<typename U1, typename U2>
-    inline __host__ __device__
+    inline __hydra_host__ __hydra_device__
     tuple_of_iterator_references &operator=(const thrust::pair<U1,U2> &other)
     {
       super_t::operator=(other);
@@ -68,7 +68,7 @@ template<
     //     we could captures reference<pair> this way
     template<typename Pointer, typename Derived,
              typename... OtherTypes>
-    inline __host__ __device__
+    inline __hydra_host__ __hydra_device__
 // XXX gcc-4.2 crashes on is_assignable
 //    typename thrust::detail::enable_if<
 //      thrust::detail::is_assignable<
@@ -93,11 +93,11 @@ template<
 #if 0   // C++11 constructor inheritance    -- not supported on gcc 4.7, try disabling if it causes problems
     using super_t::super_t;
 #else
-    inline __host__ __device__
+    inline __hydra_host__ __hydra_device__
     tuple_of_iterator_references() {}
 
     template<typename... UTypes>
-    inline __host__ __device__
+    inline __hydra_host__ __hydra_device__
     tuple_of_iterator_references(typename access_traits<UTypes>::parameter_type... ts)
       : super_t(ts...)
     {}

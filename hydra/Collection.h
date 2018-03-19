@@ -41,21 +41,21 @@ public: \
 typedef decltype( HYDRA_EXTERNAL_NS::thrust::make_tuple(__VA_ARGS__)) args_type; \
 typedef void hydra_convertible_to_tuple_tag; \
 template<typename ...T> \
-__host__ __device__ \
+__hydra_host__ __hydra_device__ \
 class_name( HYDRA_EXTERNAL_NS::thrust::tuple<T...> const& t) \
 { HYDRA_EXTERNAL_NS::thrust::tie(__VA_ARGS__) = t; } \
 template<typename ...T> \
-__host__ __device__ \
+__hydra_host__ __hydra_device__ \
 class_name& operator= ( HYDRA_EXTERNAL_NS::thrust::tuple<T...> const& t ) \
 {HYDRA_EXTERNAL_NS::thrust::tie(__VA_ARGS__) = t;\
 return *this; } \
 template<typename ...T> \
-__host__ __device__ \
+__hydra_host__ __hydra_device__ \
 class_name& operator= (HYDRA_EXTERNAL_NS::thrust::detail::tuple_of_iterator_references<T&...> const&  t ) \
 {HYDRA_EXTERNAL_NS::thrust::tie(__VA_ARGS__) = t; \
 return *this; } \
 template<typename ...T> \
-__host__ __device__ \
+__hydra_host__ __hydra_device__ \
 operator HYDRA_EXTERNAL_NS::thrust::tuple<T...> () { return HYDRA_EXTERNAL_NS::thrust::make_tuple(__VA_ARGS__); } \
 
 

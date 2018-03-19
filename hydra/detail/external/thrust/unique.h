@@ -77,7 +77,7 @@ HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
  */
 template<typename DerivedPolicy,
          typename ForwardIterator>
-__host__ __device__
+__hydra_host__ __hydra_device__
 ForwardIterator unique(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                        ForwardIterator first,
                        ForwardIterator last);
@@ -170,7 +170,7 @@ ForwardIterator unique(ForwardIterator first,
 template<typename DerivedPolicy,
          typename ForwardIterator,
          typename BinaryPredicate>
-__host__ __device__
+__hydra_host__ __hydra_device__
 ForwardIterator unique(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                        ForwardIterator first,
                        ForwardIterator last,
@@ -277,7 +277,7 @@ ForwardIterator unique(ForwardIterator first,
 template<typename DerivedPolicy,
          typename InputIterator,
          typename OutputIterator>
-__host__ __device__
+__hydra_host__ __hydra_device__
 OutputIterator unique_copy(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                            InputIterator first,
                            InputIterator last,
@@ -386,7 +386,7 @@ template<typename DerivedPolicy,
          typename InputIterator,
          typename OutputIterator,
          typename BinaryPredicate>
-__host__ __device__
+__hydra_host__ __hydra_device__
 OutputIterator unique_copy(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                            InputIterator first,
                            InputIterator last,
@@ -499,7 +499,7 @@ OutputIterator unique_copy(InputIterator first,
 template<typename DerivedPolicy,
          typename ForwardIterator1,
          typename ForwardIterator2>
-__host__ __device__
+__hydra_host__ __hydra_device__
   thrust::pair<ForwardIterator1,ForwardIterator2>
   unique_by_key(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                 ForwardIterator1 keys_first, 
@@ -620,7 +620,7 @@ template<typename DerivedPolicy,
          typename ForwardIterator1,
          typename ForwardIterator2,
          typename BinaryPredicate>
-__host__ __device__
+__hydra_host__ __hydra_device__
   thrust::pair<ForwardIterator1,ForwardIterator2>
     unique_by_key(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                   ForwardIterator1 keys_first, 
@@ -746,7 +746,7 @@ template<typename DerivedPolicy,
          typename InputIterator2,
          typename OutputIterator1,
          typename OutputIterator2>
-__host__ __device__
+__hydra_host__ __hydra_device__
   thrust::pair<OutputIterator1,OutputIterator2>
     unique_by_key_copy(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                        InputIterator1 keys_first, 
@@ -881,7 +881,7 @@ template<typename DerivedPolicy,
          typename OutputIterator1,
          typename OutputIterator2,
          typename BinaryPredicate>
-__host__ __device__
+__hydra_host__ __hydra_device__
   thrust::pair<OutputIterator1,OutputIterator2>
     unique_by_key_copy(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                        InputIterator1 keys_first, 

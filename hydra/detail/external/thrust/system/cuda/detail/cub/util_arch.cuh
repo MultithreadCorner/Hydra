@@ -61,9 +61,9 @@ namespace cub {
 #ifndef CUB_RUNTIME_FUNCTION
     #if !defined(__CUDA_ARCH__) || (__CUDA_ARCH__>= 350 && defined(__CUDACC_RDC__))
         #define CUB_RUNTIME_ENABLED
-        #define CUB_RUNTIME_FUNCTION __host__ __device__
+        #define CUB_RUNTIME_FUNCTION __hydra_host__ __hydra_device__
     #else
-        #define CUB_RUNTIME_FUNCTION __host__
+        #define CUB_RUNTIME_FUNCTION __hydra_host__
     #endif
 #endif
 

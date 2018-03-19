@@ -60,7 +60,7 @@ template <
     int         LENGTH,
     typename    T,
     typename    ScanOp>
-__device__ __forceinline__ T ThreadScanExclusive(
+__hydra_device__ __forceinline__ T ThreadScanExclusive(
     T                   inclusive,
     T                   exclusive,
     T                   *input,                 ///< [in] Input array
@@ -92,7 +92,7 @@ template <
     int         LENGTH,
     typename    T,
     typename    ScanOp>
-__device__ __forceinline__ T ThreadScanExclusive(
+__hydra_device__ __forceinline__ T ThreadScanExclusive(
     T           *input,                 ///< [in] Input array
     T           *output,                ///< [out] Output array (may be aliased to \p input)
     ScanOp      scan_op,                ///< [in] Binary scan operator
@@ -122,7 +122,7 @@ template <
     int         LENGTH,
     typename    T,
     typename    ScanOp>
-__device__ __forceinline__ T ThreadScanExclusive(
+__hydra_device__ __forceinline__ T ThreadScanExclusive(
     T           (&input)[LENGTH],       ///< [in] Input array
     T           (&output)[LENGTH],      ///< [out] Output array (may be aliased to \p input)
     ScanOp      scan_op,                ///< [in] Binary scan operator
@@ -144,7 +144,7 @@ template <
     int         LENGTH,
     typename    T,
     typename    ScanOp>
-__device__ __forceinline__ T ThreadScanInclusive(
+__hydra_device__ __forceinline__ T ThreadScanInclusive(
     T                   inclusive,
     T                   *input,                 ///< [in] Input array
     T                   *output,                ///< [out] Output array (may be aliased to \p input)
@@ -173,7 +173,7 @@ template <
     int         LENGTH,
     typename    T,
     typename    ScanOp>
-__device__ __forceinline__ T ThreadScanInclusive(
+__hydra_device__ __forceinline__ T ThreadScanInclusive(
     T           *input,                 ///< [in] Input array
     T           *output,                ///< [out] Output array (may be aliased to \p input)
     ScanOp      scan_op)                ///< [in] Binary scan operator
@@ -197,7 +197,7 @@ template <
     int         LENGTH,
     typename    T,
     typename    ScanOp>
-__device__ __forceinline__ T ThreadScanInclusive(
+__hydra_device__ __forceinline__ T ThreadScanInclusive(
     T           (&input)[LENGTH],       ///< [in] Input array
     T           (&output)[LENGTH],      ///< [out] Output array (may be aliased to \p input)
     ScanOp      scan_op)                ///< [in] Binary scan operator
@@ -217,7 +217,7 @@ template <
     int         LENGTH,
     typename    T,
     typename    ScanOp>
-__device__ __forceinline__ T ThreadScanInclusive(
+__hydra_device__ __forceinline__ T ThreadScanInclusive(
     T           *input,                 ///< [in] Input array
     T           *output,                ///< [out] Output array (may be aliased to \p input)
     ScanOp      scan_op,                ///< [in] Binary scan operator
@@ -247,7 +247,7 @@ template <
     int         LENGTH,
     typename    T,
     typename    ScanOp>
-__device__ __forceinline__ T ThreadScanInclusive(
+__hydra_device__ __forceinline__ T ThreadScanInclusive(
     T           (&input)[LENGTH],       ///< [in] Input array
     T           (&output)[LENGTH],      ///< [out] Output array (may be aliased to \p input)
     ScanOp      scan_op,                ///< [in] Binary scan operator

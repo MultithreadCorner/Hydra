@@ -8,8 +8,8 @@
 // Public License v. 2.0. If a copy of the MPL was not distributed
 // with this file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
-#ifndef EIGEN_CONSTANTS_H
-#define EIGEN_CONSTANTS_H
+#ifndef HYDRA_EIGEN_CONSTANTS_H
+#define HYDRA_EIGEN_CONSTANTS_H
 
 HYDRA_EXTERNAL_NAMESPACE_BEGIN namespace Eigen {
 
@@ -67,7 +67,7 @@ const unsigned int EvalBeforeNestingBit = 0x2;
 /** \ingroup flags
   * \deprecated
   * means the expression should be evaluated before any assignment */
-EIGEN_DEPRECATED
+HYDRA_EIGEN_DEPRECATED
 const unsigned int EvalBeforeAssigningBit = 0x4; // FIXME deprecated
 
 /** \ingroup flags
@@ -88,13 +88,13 @@ const unsigned int EvalBeforeAssigningBit = 0x4; // FIXME deprecated
   */
 const unsigned int PacketAccessBit = 0x8;
 
-#ifdef EIGEN_VECTORIZE
+#ifdef HYDRA_EIGEN_VECTORIZE
 /** \ingroup flags
   *
-  * If vectorization is enabled (EIGEN_VECTORIZE is defined) this constant
+  * If vectorization is enabled (HYDRA_EIGEN_VECTORIZE is defined) this constant
   * is set to the value \a PacketAccessBit.
   *
-  * If vectorization is not enabled (EIGEN_VECTORIZE is not defined) this constant
+  * If vectorization is not enabled (HYDRA_EIGEN_VECTORIZE is not defined) this constant
   * is set to the value 0.
   */
 const unsigned int ActualPacketAccessBit = PacketAccessBit;
@@ -159,7 +159,7 @@ const unsigned int DirectAccessBit = 0x40;
   * expression.packet<Aligned>(0);
   * \endcode
   */
-EIGEN_DEPRECATED const unsigned int AlignedBit = 0x80;
+HYDRA_EIGEN_DEPRECATED const unsigned int AlignedBit = 0x80;
 
 const unsigned int NestByRefBit = 0x100;
 
@@ -233,20 +233,20 @@ enum AlignmentType {
   Aligned128=128,     /**< Data pointer is aligned on a 128 bytes boundary. */
   AlignedMask=255,
   Aligned=16,         /**< \deprecated Synonym for Aligned16. */
-#if EIGEN_MAX_ALIGN_BYTES==128
+#if HYDRA_EIGEN_MAX_ALIGN_BYTES==128
   AlignedMax = Aligned128
-#elif EIGEN_MAX_ALIGN_BYTES==64
+#elif HYDRA_EIGEN_MAX_ALIGN_BYTES==64
   AlignedMax = Aligned64
-#elif EIGEN_MAX_ALIGN_BYTES==32
+#elif HYDRA_EIGEN_MAX_ALIGN_BYTES==32
   AlignedMax = Aligned32
-#elif EIGEN_MAX_ALIGN_BYTES==16
+#elif HYDRA_EIGEN_MAX_ALIGN_BYTES==16
   AlignedMax = Aligned16
-#elif EIGEN_MAX_ALIGN_BYTES==8
+#elif HYDRA_EIGEN_MAX_ALIGN_BYTES==8
   AlignedMax = Aligned8
-#elif EIGEN_MAX_ALIGN_BYTES==0
+#elif HYDRA_EIGEN_MAX_ALIGN_BYTES==0
   AlignedMax = Unaligned
 #else
-#error Invalid value for EIGEN_MAX_ALIGN_BYTES
+#error Invalid value for HYDRA_EIGEN_MAX_ALIGN_BYTES
 #endif
 };
 
@@ -339,7 +339,7 @@ enum SideType {
  *
  *   struct NoChange_t {};
  *   namespace {
- *     EIGEN_UNUSED NoChange_t NoChange;
+ *     HYDRA_EIGEN_UNUSED NoChange_t NoChange;
  *   }
  *
  * on the ground that it feels dangerous to disambiguate overloaded functions on enum/integer types.  
@@ -464,13 +464,13 @@ namespace Architecture
     AltiVec = 0x2,
     VSX = 0x3,
     NEON = 0x4,
-#if defined EIGEN_VECTORIZE_SSE
+#if defined HYDRA_EIGEN_VECTORIZE_SSE
     Target = SSE
-#elif defined EIGEN_VECTORIZE_ALTIVEC
+#elif defined HYDRA_EIGEN_VECTORIZE_ALTIVEC
     Target = AltiVec
-#elif defined EIGEN_VECTORIZE_VSX
+#elif defined HYDRA_EIGEN_VECTORIZE_VSX
     Target = VSX
-#elif defined EIGEN_VECTORIZE_NEON
+#elif defined HYDRA_EIGEN_VECTORIZE_NEON
     Target = NEON
 #else
     Target = Generic
@@ -544,4 +544,4 @@ enum ComparisonName {
 
 } /* end namespace Eigen */  HYDRA_EXTERNAL_NAMESPACE_END
 
-#endif // EIGEN_CONSTANTS_H
+#endif // HYDRA_EIGEN_CONSTANTS_H

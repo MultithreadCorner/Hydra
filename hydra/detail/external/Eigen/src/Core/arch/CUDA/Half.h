@@ -33,13 +33,13 @@
 // to disk and the likes), but fast on GPUs.
 
 
-#ifndef EIGEN_HALF_CUDA_H
-#define EIGEN_HALF_CUDA_H
+#ifndef HYDRA_EIGEN_HALF_CUDA_H
+#define HYDRA_EIGEN_HALF_CUDA_H
 
 #if __cplusplus > 199711L
-#define EIGEN_EXPLICIT_CAST(tgt_type) explicit operator tgt_type()
+#define HYDRA_EIGEN_EXPLICIT_CAST(tgt_type) explicit operator tgt_type()
 #else
-#define EIGEN_EXPLICIT_CAST(tgt_type) operator tgt_type()
+#define HYDRA_EIGEN_EXPLICIT_CAST(tgt_type) operator tgt_type()
 #endif
 
 
@@ -49,12 +49,12 @@ struct half;
 
 namespace half_impl {
 
-#if !defined(EIGEN_HAS_CUDA_FP16)
+#if !defined(HYDRA_EIGEN_HAS_CUDA_FP16)
 
 // Make our own __half_raw  definition that is similar to CUDA's.
 struct __half_raw  {
-  EIGEN_DEVICE_FUNC __half_raw () {}
-  explicit EIGEN_DEVICE_FUNC __half_raw (unsigned short raw) : x(raw) {}
+  HYDRA_EIGEN_DEVICE_FUNC __half_raw () {}
+  explicit HYDRA_EIGEN_DEVICE_FUNC __half_raw (unsigned short raw) : x(raw) {}
   unsigned short x;
 };
 #elif defined(__CUDACC_VER__)&&__CUDACC_VER__  < 90000
@@ -65,16 +65,16 @@ typedef __half __half_raw;
 
 
 
-EIGEN_STRONG_INLINE EIGEN_DEVICE_FUNC __half_raw raw_uint16_to_half(unsigned short x);
-EIGEN_STRONG_INLINE EIGEN_DEVICE_FUNC __half_raw float_to_half_rtne(float ff);
-EIGEN_STRONG_INLINE EIGEN_DEVICE_FUNC float half_to_float(__half_raw h);
+HYDRA_EIGEN_STRONG_INLINE HYDRA_EIGEN_DEVICE_FUNC __half_raw raw_uint16_to_half(unsigned short x);
+HYDRA_EIGEN_STRONG_INLINE HYDRA_EIGEN_DEVICE_FUNC __half_raw float_to_half_rtne(float ff);
+HYDRA_EIGEN_STRONG_INLINE HYDRA_EIGEN_DEVICE_FUNC float half_to_float(__half_raw h);
 
 struct half_base : public __half_raw {
-  EIGEN_DEVICE_FUNC half_base() {}
-  EIGEN_DEVICE_FUNC half_base(const half_base& h) : __half_raw(h) {}
-  EIGEN_DEVICE_FUNC half_base(const __half_raw& h) : __half_raw(h) {}
-#if defined(EIGEN_HAS_CUDA_FP16) && __CUDACC_VER__ >= 90000
-  EIGEN_DEVICE_FUNC half_base(const __half& h) : __half_raw(*(__half_raw*)&h) {}
+  HYDRA_EIGEN_DEVICE_FUNC half_base() {}
+  HYDRA_EIGEN_DEVICE_FUNC half_base(const half_base& h) : __half_raw(h) {}
+  HYDRA_EIGEN_DEVICE_FUNC half_base(const __half_raw& h) : __half_raw(h) {}
+#if defined(HYDRA_EIGEN_HAS_CUDA_FP16) && __CUDACC_VER__ >= 90000
+  HYDRA_EIGEN_DEVICE_FUNC half_base(const __half& h) : __half_raw(*(__half_raw*)&h) {}
 #endif
 };
 
@@ -82,68 +82,68 @@ struct half_base : public __half_raw {
 
 // Class definition.
 struct half : public half_impl::half_base {
-  #if !defined(EIGEN_HAS_CUDA_FP16) || __CUDACC_VER__  < 90000
+  #if !defined(HYDRA_EIGEN_HAS_CUDA_FP16) || __CUDACC_VER__  < 90000
     typedef half_impl::__half_raw __half_raw;
   #endif
 
-  EIGEN_DEVICE_FUNC half() {}
+  HYDRA_EIGEN_DEVICE_FUNC half() {}
 
-  EIGEN_DEVICE_FUNC half(const __half_raw& h) : half_impl::half_base(h) {}
-  EIGEN_DEVICE_FUNC half(const half& h) : half_impl::half_base(h) {}
-#if defined(EIGEN_HAS_CUDA_FP16) &&  __CUDACC_VER__ >= 90000
-  EIGEN_DEVICE_FUNC half(const __half& h) : half_impl::half_base(h) {}
+  HYDRA_EIGEN_DEVICE_FUNC half(const __half_raw& h) : half_impl::half_base(h) {}
+  HYDRA_EIGEN_DEVICE_FUNC half(const half& h) : half_impl::half_base(h) {}
+#if defined(HYDRA_EIGEN_HAS_CUDA_FP16) &&  __CUDACC_VER__ >= 90000
+  HYDRA_EIGEN_DEVICE_FUNC half(const __half& h) : half_impl::half_base(h) {}
 #endif
 
-  explicit EIGEN_DEVICE_FUNC half(bool b)
+  explicit HYDRA_EIGEN_DEVICE_FUNC half(bool b)
       : half_impl::half_base(half_impl::raw_uint16_to_half(b ? 0x3c00 : 0)) {}
   template<class T>
-  explicit EIGEN_DEVICE_FUNC half(const T& val)
+  explicit HYDRA_EIGEN_DEVICE_FUNC half(const T& val)
       : half_impl::half_base(half_impl::float_to_half_rtne(static_cast<float>(val))) {}
-  explicit EIGEN_DEVICE_FUNC half(float f)
+  explicit HYDRA_EIGEN_DEVICE_FUNC half(float f)
       : half_impl::half_base(half_impl::float_to_half_rtne(f)) {}
 
-  EIGEN_DEVICE_FUNC EIGEN_EXPLICIT_CAST(bool) const {
+  HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_EXPLICIT_CAST(bool) const {
     // +0.0 and -0.0 become false, everything else becomes true.
     return (x & 0x7fff) != 0;
   }
-  EIGEN_DEVICE_FUNC EIGEN_EXPLICIT_CAST(signed char) const {
+  HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_EXPLICIT_CAST(signed char) const {
     return static_cast<signed char>(half_impl::half_to_float(*this));
   }
-  EIGEN_DEVICE_FUNC EIGEN_EXPLICIT_CAST(unsigned char) const {
+  HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_EXPLICIT_CAST(unsigned char) const {
     return static_cast<unsigned char>(half_impl::half_to_float(*this));
   }
-  EIGEN_DEVICE_FUNC EIGEN_EXPLICIT_CAST(short) const {
+  HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_EXPLICIT_CAST(short) const {
     return static_cast<short>(half_impl::half_to_float(*this));
   }
-  EIGEN_DEVICE_FUNC EIGEN_EXPLICIT_CAST(unsigned short) const {
+  HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_EXPLICIT_CAST(unsigned short) const {
     return static_cast<unsigned short>(half_impl::half_to_float(*this));
   }
-  EIGEN_DEVICE_FUNC EIGEN_EXPLICIT_CAST(int) const {
+  HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_EXPLICIT_CAST(int) const {
     return static_cast<int>(half_impl::half_to_float(*this));
   }
-  EIGEN_DEVICE_FUNC EIGEN_EXPLICIT_CAST(unsigned int) const {
+  HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_EXPLICIT_CAST(unsigned int) const {
     return static_cast<unsigned int>(half_impl::half_to_float(*this));
   }
-  EIGEN_DEVICE_FUNC EIGEN_EXPLICIT_CAST(long) const {
+  HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_EXPLICIT_CAST(long) const {
     return static_cast<long>(half_impl::half_to_float(*this));
   }
-  EIGEN_DEVICE_FUNC EIGEN_EXPLICIT_CAST(unsigned long) const {
+  HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_EXPLICIT_CAST(unsigned long) const {
     return static_cast<unsigned long>(half_impl::half_to_float(*this));
   }
-  EIGEN_DEVICE_FUNC EIGEN_EXPLICIT_CAST(long long) const {
+  HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_EXPLICIT_CAST(long long) const {
     return static_cast<long long>(half_impl::half_to_float(*this));
   }
-  EIGEN_DEVICE_FUNC EIGEN_EXPLICIT_CAST(unsigned long long) const {
+  HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_EXPLICIT_CAST(unsigned long long) const {
     return static_cast<unsigned long long>(half_to_float(*this));
   }
-  EIGEN_DEVICE_FUNC EIGEN_EXPLICIT_CAST(float) const {
+  HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_EXPLICIT_CAST(float) const {
     return half_impl::half_to_float(*this);
   }
-  EIGEN_DEVICE_FUNC EIGEN_EXPLICIT_CAST(double) const {
+  HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_EXPLICIT_CAST(double) const {
     return static_cast<double>(half_impl::half_to_float(*this));
   }
 
-  EIGEN_DEVICE_FUNC half& operator=(const half& other) {
+  HYDRA_EIGEN_DEVICE_FUNC half& operator=(const half& other) {
     x = other.x;
     return *this;
   }
@@ -151,7 +151,7 @@ struct half : public half_impl::half_base {
 
 namespace half_impl {
 
-#if defined(EIGEN_HAS_CUDA_FP16) && defined(__CUDA_ARCH__) && __CUDA_ARCH__ >= 530
+#if defined(HYDRA_EIGEN_HAS_CUDA_FP16) && defined(__CUDA_ARCH__) && __CUDA_ARCH__ >= 530
 
 // Intrinsics for native fp16 support. Note that on current hardware,
 // these are no faster than fp32 arithmetic (you need to use the half2
@@ -215,55 +215,55 @@ __device__ bool operator >= (const half& a, const half& b) {
 // Definitions for CPUs and older CUDA, mostly working through conversion
 // to/from fp32.
 
-EIGEN_STRONG_INLINE EIGEN_DEVICE_FUNC half operator + (const half& a, const half& b) {
+HYDRA_EIGEN_STRONG_INLINE HYDRA_EIGEN_DEVICE_FUNC half operator + (const half& a, const half& b) {
   return half(float(a) + float(b));
 }
-EIGEN_STRONG_INLINE EIGEN_DEVICE_FUNC half operator * (const half& a, const half& b) {
+HYDRA_EIGEN_STRONG_INLINE HYDRA_EIGEN_DEVICE_FUNC half operator * (const half& a, const half& b) {
   return half(float(a) * float(b));
 }
-EIGEN_STRONG_INLINE EIGEN_DEVICE_FUNC half operator - (const half& a, const half& b) {
+HYDRA_EIGEN_STRONG_INLINE HYDRA_EIGEN_DEVICE_FUNC half operator - (const half& a, const half& b) {
   return half(float(a) - float(b));
 }
-EIGEN_STRONG_INLINE EIGEN_DEVICE_FUNC half operator / (const half& a, const half& b) {
+HYDRA_EIGEN_STRONG_INLINE HYDRA_EIGEN_DEVICE_FUNC half operator / (const half& a, const half& b) {
   return half(float(a) / float(b));
 }
-EIGEN_STRONG_INLINE EIGEN_DEVICE_FUNC half operator - (const half& a) {
+HYDRA_EIGEN_STRONG_INLINE HYDRA_EIGEN_DEVICE_FUNC half operator - (const half& a) {
   half result;
   result.x = a.x ^ 0x8000;
   return result;
 }
-EIGEN_STRONG_INLINE EIGEN_DEVICE_FUNC half& operator += (half& a, const half& b) {
+HYDRA_EIGEN_STRONG_INLINE HYDRA_EIGEN_DEVICE_FUNC half& operator += (half& a, const half& b) {
   a = half(float(a) + float(b));
   return a;
 }
-EIGEN_STRONG_INLINE EIGEN_DEVICE_FUNC half& operator *= (half& a, const half& b) {
+HYDRA_EIGEN_STRONG_INLINE HYDRA_EIGEN_DEVICE_FUNC half& operator *= (half& a, const half& b) {
   a = half(float(a) * float(b));
   return a;
 }
-EIGEN_STRONG_INLINE EIGEN_DEVICE_FUNC half& operator -= (half& a, const half& b) {
+HYDRA_EIGEN_STRONG_INLINE HYDRA_EIGEN_DEVICE_FUNC half& operator -= (half& a, const half& b) {
   a = half(float(a) - float(b));
   return a;
 }
-EIGEN_STRONG_INLINE EIGEN_DEVICE_FUNC half& operator /= (half& a, const half& b) {
+HYDRA_EIGEN_STRONG_INLINE HYDRA_EIGEN_DEVICE_FUNC half& operator /= (half& a, const half& b) {
   a = half(float(a) / float(b));
   return a;
 }
-EIGEN_STRONG_INLINE EIGEN_DEVICE_FUNC bool operator == (const half& a, const half& b) {
+HYDRA_EIGEN_STRONG_INLINE HYDRA_EIGEN_DEVICE_FUNC bool operator == (const half& a, const half& b) {
   return float(a) == float(b);
 }
-EIGEN_STRONG_INLINE EIGEN_DEVICE_FUNC bool operator != (const half& a, const half& b) {
+HYDRA_EIGEN_STRONG_INLINE HYDRA_EIGEN_DEVICE_FUNC bool operator != (const half& a, const half& b) {
   return float(a) != float(b);
 }
-EIGEN_STRONG_INLINE EIGEN_DEVICE_FUNC bool operator < (const half& a, const half& b) {
+HYDRA_EIGEN_STRONG_INLINE HYDRA_EIGEN_DEVICE_FUNC bool operator < (const half& a, const half& b) {
   return float(a) < float(b);
 }
-EIGEN_STRONG_INLINE EIGEN_DEVICE_FUNC bool operator <= (const half& a, const half& b) {
+HYDRA_EIGEN_STRONG_INLINE HYDRA_EIGEN_DEVICE_FUNC bool operator <= (const half& a, const half& b) {
   return float(a) <= float(b);
 }
-EIGEN_STRONG_INLINE EIGEN_DEVICE_FUNC bool operator > (const half& a, const half& b) {
+HYDRA_EIGEN_STRONG_INLINE HYDRA_EIGEN_DEVICE_FUNC bool operator > (const half& a, const half& b) {
   return float(a) > float(b);
 }
-EIGEN_STRONG_INLINE EIGEN_DEVICE_FUNC bool operator >= (const half& a, const half& b) {
+HYDRA_EIGEN_STRONG_INLINE HYDRA_EIGEN_DEVICE_FUNC bool operator >= (const half& a, const half& b) {
   return float(a) >= float(b);
 }
 
@@ -271,7 +271,7 @@ EIGEN_STRONG_INLINE EIGEN_DEVICE_FUNC bool operator >= (const half& a, const hal
 
 // Division by an index. Do it in full float precision to avoid accuracy
 // issues in converting the denominator to half.
-EIGEN_STRONG_INLINE EIGEN_DEVICE_FUNC half operator / (const half& a, Index b) {
+HYDRA_EIGEN_STRONG_INLINE HYDRA_EIGEN_DEVICE_FUNC half operator / (const half& a, Index b) {
   return half(static_cast<float>(a) / static_cast<float>(b));
 }
 
@@ -280,7 +280,7 @@ EIGEN_STRONG_INLINE EIGEN_DEVICE_FUNC half operator / (const half& a, Index b) {
 // these in hardware. If we need more performance on older/other CPUs, they are
 // also possible to vectorize directly.
 
-EIGEN_STRONG_INLINE EIGEN_DEVICE_FUNC __half_raw  raw_uint16_to_half(unsigned short x) {
+HYDRA_EIGEN_STRONG_INLINE HYDRA_EIGEN_DEVICE_FUNC __half_raw  raw_uint16_to_half(unsigned short x) {
   __half_raw  h;
   h.x = x;
   return h;
@@ -291,12 +291,12 @@ union FP32 {
   float f;
 };
 
-EIGEN_STRONG_INLINE EIGEN_DEVICE_FUNC __half_raw  float_to_half_rtne(float ff) {
-#if defined(EIGEN_HAS_CUDA_FP16) && defined(__CUDA_ARCH__) && __CUDA_ARCH__ >= 300
+HYDRA_EIGEN_STRONG_INLINE HYDRA_EIGEN_DEVICE_FUNC __half_raw  float_to_half_rtne(float ff) {
+#if defined(HYDRA_EIGEN_HAS_CUDA_FP16) && defined(__CUDA_ARCH__) && __CUDA_ARCH__ >= 300
 	__half tmp_ff = __float2half(ff);
 	  return *(__half_raw*)&tmp_ff;
 
-#elif defined(EIGEN_HAS_FP16_C)
+#elif defined(HYDRA_EIGEN_HAS_FP16_C)
   __half_raw h;
   h.x = _cvtss_sh(ff, 0);
   return h;
@@ -347,11 +347,11 @@ EIGEN_STRONG_INLINE EIGEN_DEVICE_FUNC __half_raw  float_to_half_rtne(float ff) {
 #endif
 }
 
-EIGEN_STRONG_INLINE EIGEN_DEVICE_FUNC float half_to_float(__half_raw h) {
-#if defined(EIGEN_HAS_CUDA_FP16) && defined(__CUDA_ARCH__) && __CUDA_ARCH__ >= 300
+HYDRA_EIGEN_STRONG_INLINE HYDRA_EIGEN_DEVICE_FUNC float half_to_float(__half_raw h) {
+#if defined(HYDRA_EIGEN_HAS_CUDA_FP16) && defined(__CUDA_ARCH__) && __CUDA_ARCH__ >= 300
   return __half2float(h);
 
-#elif defined(EIGEN_HAS_FP16_C)
+#elif defined(HYDRA_EIGEN_HAS_FP16_C)
   return _cvtsh_ss(h.x);
 
 #else
@@ -378,68 +378,68 @@ EIGEN_STRONG_INLINE EIGEN_DEVICE_FUNC float half_to_float(__half_raw h) {
 
 // --- standard functions ---
 
-EIGEN_STRONG_INLINE EIGEN_DEVICE_FUNC bool (isinf)(const half& a) {
+HYDRA_EIGEN_STRONG_INLINE HYDRA_EIGEN_DEVICE_FUNC bool (isinf)(const half& a) {
   return (a.x & 0x7fff) == 0x7c00;
 }
-EIGEN_STRONG_INLINE EIGEN_DEVICE_FUNC bool (isnan)(const half& a) {
-#if defined(EIGEN_HAS_CUDA_FP16) && defined(__CUDA_ARCH__) && __CUDA_ARCH__ >= 530
+HYDRA_EIGEN_STRONG_INLINE HYDRA_EIGEN_DEVICE_FUNC bool (isnan)(const half& a) {
+#if defined(HYDRA_EIGEN_HAS_CUDA_FP16) && defined(__CUDA_ARCH__) && __CUDA_ARCH__ >= 530
   return __hisnan(a);
 #else
   return (a.x & 0x7fff) > 0x7c00;
 #endif
 }
-EIGEN_STRONG_INLINE EIGEN_DEVICE_FUNC bool (isfinite)(const half& a) {
-  return !(isinf EIGEN_NOT_A_MACRO (a)) && !(isnan EIGEN_NOT_A_MACRO (a));
+HYDRA_EIGEN_STRONG_INLINE HYDRA_EIGEN_DEVICE_FUNC bool (isfinite)(const half& a) {
+  return !(isinf HYDRA_EIGEN_NOT_A_MACRO (a)) && !(isnan HYDRA_EIGEN_NOT_A_MACRO (a));
 }
 
-EIGEN_STRONG_INLINE EIGEN_DEVICE_FUNC half abs(const half& a) {
+HYDRA_EIGEN_STRONG_INLINE HYDRA_EIGEN_DEVICE_FUNC half abs(const half& a) {
   half result;
   result.x = a.x & 0x7FFF;
   return result;
 }
-EIGEN_STRONG_INLINE EIGEN_DEVICE_FUNC half exp(const half& a) {
+HYDRA_EIGEN_STRONG_INLINE HYDRA_EIGEN_DEVICE_FUNC half exp(const half& a) {
   return half(::expf(float(a)));
 }
-EIGEN_STRONG_INLINE EIGEN_DEVICE_FUNC half log(const half& a) {
-#if defined(EIGEN_HAS_CUDA_FP16) && defined __CUDACC_VER__ && __CUDACC_VER__ >= 80000 && defined(__CUDA_ARCH__) && __CUDA_ARCH__ >= 530
+HYDRA_EIGEN_STRONG_INLINE HYDRA_EIGEN_DEVICE_FUNC half log(const half& a) {
+#if defined(HYDRA_EIGEN_HAS_CUDA_FP16) && defined __CUDACC_VER__ && __CUDACC_VER__ >= 80000 && defined(__CUDA_ARCH__) && __CUDA_ARCH__ >= 530
   return HYDRA_EXTERNAL_NS::Eigen::half(::hlog(a));
 #else
   return half(::logf(float(a)));
 #endif
 }
-EIGEN_STRONG_INLINE EIGEN_DEVICE_FUNC half log1p(const half& a) {
+HYDRA_EIGEN_STRONG_INLINE HYDRA_EIGEN_DEVICE_FUNC half log1p(const half& a) {
   return half(numext::log1p(float(a)));
 }
-EIGEN_STRONG_INLINE EIGEN_DEVICE_FUNC half log10(const half& a) {
+HYDRA_EIGEN_STRONG_INLINE HYDRA_EIGEN_DEVICE_FUNC half log10(const half& a) {
   return half(::log10f(float(a)));
 }
-EIGEN_STRONG_INLINE EIGEN_DEVICE_FUNC half sqrt(const half& a) {
+HYDRA_EIGEN_STRONG_INLINE HYDRA_EIGEN_DEVICE_FUNC half sqrt(const half& a) {
   return half(::sqrtf(float(a)));
 }
-EIGEN_STRONG_INLINE EIGEN_DEVICE_FUNC half pow(const half& a, const half& b) {
+HYDRA_EIGEN_STRONG_INLINE HYDRA_EIGEN_DEVICE_FUNC half pow(const half& a, const half& b) {
   return half(::powf(float(a), float(b)));
 }
-EIGEN_STRONG_INLINE EIGEN_DEVICE_FUNC half sin(const half& a) {
+HYDRA_EIGEN_STRONG_INLINE HYDRA_EIGEN_DEVICE_FUNC half sin(const half& a) {
   return half(::sinf(float(a)));
 }
-EIGEN_STRONG_INLINE EIGEN_DEVICE_FUNC half cos(const half& a) {
+HYDRA_EIGEN_STRONG_INLINE HYDRA_EIGEN_DEVICE_FUNC half cos(const half& a) {
   return half(::cosf(float(a)));
 }
-EIGEN_STRONG_INLINE EIGEN_DEVICE_FUNC half tan(const half& a) {
+HYDRA_EIGEN_STRONG_INLINE HYDRA_EIGEN_DEVICE_FUNC half tan(const half& a) {
   return half(::tanf(float(a)));
 }
-EIGEN_STRONG_INLINE EIGEN_DEVICE_FUNC half tanh(const half& a) {
+HYDRA_EIGEN_STRONG_INLINE HYDRA_EIGEN_DEVICE_FUNC half tanh(const half& a) {
   return half(::tanhf(float(a)));
 }
-EIGEN_STRONG_INLINE EIGEN_DEVICE_FUNC half floor(const half& a) {
+HYDRA_EIGEN_STRONG_INLINE HYDRA_EIGEN_DEVICE_FUNC half floor(const half& a) {
   return half(::floorf(float(a)));
 }
-EIGEN_STRONG_INLINE EIGEN_DEVICE_FUNC half ceil(const half& a) {
+HYDRA_EIGEN_STRONG_INLINE HYDRA_EIGEN_DEVICE_FUNC half ceil(const half& a) {
   return half(::ceilf(float(a)));
 }
 
-EIGEN_STRONG_INLINE EIGEN_DEVICE_FUNC half (min)(const half& a, const half& b) {
-#if defined(EIGEN_HAS_CUDA_FP16) && defined(__CUDA_ARCH__) && __CUDA_ARCH__ >= 530
+HYDRA_EIGEN_STRONG_INLINE HYDRA_EIGEN_DEVICE_FUNC half (min)(const half& a, const half& b) {
+#if defined(HYDRA_EIGEN_HAS_CUDA_FP16) && defined(__CUDA_ARCH__) && __CUDA_ARCH__ >= 530
   return __hlt(b, a) ? b : a;
 #else
   const float f1 = static_cast<float>(a);
@@ -447,8 +447,8 @@ EIGEN_STRONG_INLINE EIGEN_DEVICE_FUNC half (min)(const half& a, const half& b) {
   return f2 < f1 ? b : a;
 #endif
 }
-EIGEN_STRONG_INLINE EIGEN_DEVICE_FUNC half (max)(const half& a, const half& b) {
-#if defined(EIGEN_HAS_CUDA_FP16) && defined(__CUDA_ARCH__) && __CUDA_ARCH__ >= 530
+HYDRA_EIGEN_STRONG_INLINE HYDRA_EIGEN_DEVICE_FUNC half (max)(const half& a, const half& b) {
+#if defined(HYDRA_EIGEN_HAS_CUDA_FP16) && defined(__CUDA_ARCH__) && __CUDA_ARCH__ >= 530
   return __hlt(a, b) ? b : a;
 #else
   const float f1 = static_cast<float>(a);
@@ -457,7 +457,7 @@ EIGEN_STRONG_INLINE EIGEN_DEVICE_FUNC half (max)(const half& a, const half& b) {
 #endif
 }
 
-EIGEN_ALWAYS_INLINE std::ostream& operator << (std::ostream& os, const half& v) {
+HYDRA_EIGEN_ALWAYS_INLINE std::ostream& operator << (std::ostream& os, const half& v) {
   os << static_cast<float>(v);
   return os;
 }
@@ -539,20 +539,20 @@ template<> struct NumTraits<HYDRA_EXTERNAL_NS::Eigen::half>
     RequireInitialization = false
   };
 
-  EIGEN_DEVICE_FUNC static EIGEN_STRONG_INLINE HYDRA_EXTERNAL_NS::Eigen::half epsilon() {
+  HYDRA_EIGEN_DEVICE_FUNC static HYDRA_EIGEN_STRONG_INLINE HYDRA_EXTERNAL_NS::Eigen::half epsilon() {
     return half_impl::raw_uint16_to_half(0x0800);
   }
-  EIGEN_DEVICE_FUNC static EIGEN_STRONG_INLINE HYDRA_EXTERNAL_NS::Eigen::half dummy_precision() { return HYDRA_EXTERNAL_NS::Eigen::half(1e-2f); }
-  EIGEN_DEVICE_FUNC static EIGEN_STRONG_INLINE HYDRA_EXTERNAL_NS::Eigen::half highest() {
+  HYDRA_EIGEN_DEVICE_FUNC static HYDRA_EIGEN_STRONG_INLINE HYDRA_EXTERNAL_NS::Eigen::half dummy_precision() { return HYDRA_EXTERNAL_NS::Eigen::half(1e-2f); }
+  HYDRA_EIGEN_DEVICE_FUNC static HYDRA_EIGEN_STRONG_INLINE HYDRA_EXTERNAL_NS::Eigen::half highest() {
     return half_impl::raw_uint16_to_half(0x7bff);
   }
-  EIGEN_DEVICE_FUNC static EIGEN_STRONG_INLINE HYDRA_EXTERNAL_NS::Eigen::half lowest() {
+  HYDRA_EIGEN_DEVICE_FUNC static HYDRA_EIGEN_STRONG_INLINE HYDRA_EXTERNAL_NS::Eigen::half lowest() {
     return half_impl::raw_uint16_to_half(0xfbff);
   }
-  EIGEN_DEVICE_FUNC static EIGEN_STRONG_INLINE HYDRA_EXTERNAL_NS::Eigen::half infinity() {
+  HYDRA_EIGEN_DEVICE_FUNC static HYDRA_EIGEN_STRONG_INLINE HYDRA_EXTERNAL_NS::Eigen::half infinity() {
     return half_impl::raw_uint16_to_half(0x7c00);
   }
-  EIGEN_DEVICE_FUNC static EIGEN_STRONG_INLINE HYDRA_EXTERNAL_NS::Eigen::half quiet_NaN() {
+  HYDRA_EIGEN_DEVICE_FUNC static HYDRA_EIGEN_STRONG_INLINE HYDRA_EXTERNAL_NS::Eigen::half quiet_NaN() {
     return half_impl::raw_uint16_to_half(0x7c01);
   }
 };
@@ -560,31 +560,31 @@ template<> struct NumTraits<HYDRA_EXTERNAL_NS::Eigen::half>
 } /* end namespace Eigen */  HYDRA_EXTERNAL_NAMESPACE_END
 
 // C-like standard mathematical functions and trancendentals.
-EIGEN_STRONG_INLINE EIGEN_DEVICE_FUNC HYDRA_EXTERNAL_NS::Eigen::half fabsh(const HYDRA_EXTERNAL_NS::Eigen::half& a) {
+HYDRA_EIGEN_STRONG_INLINE HYDRA_EIGEN_DEVICE_FUNC HYDRA_EXTERNAL_NS::Eigen::half fabsh(const HYDRA_EXTERNAL_NS::Eigen::half& a) {
   HYDRA_EXTERNAL_NS::Eigen::half result;
   result.x = a.x & 0x7FFF;
   return result;
 }
-EIGEN_STRONG_INLINE EIGEN_DEVICE_FUNC HYDRA_EXTERNAL_NS::Eigen::half exph(const HYDRA_EXTERNAL_NS::Eigen::half& a) {
+HYDRA_EIGEN_STRONG_INLINE HYDRA_EIGEN_DEVICE_FUNC HYDRA_EXTERNAL_NS::Eigen::half exph(const HYDRA_EXTERNAL_NS::Eigen::half& a) {
   return HYDRA_EXTERNAL_NS::Eigen::half(::expf(float(a)));
 }
-EIGEN_STRONG_INLINE EIGEN_DEVICE_FUNC HYDRA_EXTERNAL_NS::Eigen::half logh(const HYDRA_EXTERNAL_NS::Eigen::half& a) {
+HYDRA_EIGEN_STRONG_INLINE HYDRA_EIGEN_DEVICE_FUNC HYDRA_EXTERNAL_NS::Eigen::half logh(const HYDRA_EXTERNAL_NS::Eigen::half& a) {
 #if defined __CUDACC_VER__ && __CUDACC_VER__ >= 80000 && defined(__CUDA_ARCH__) && __CUDA_ARCH__ >= 530
   return HYDRA_EXTERNAL_NS::Eigen::half(::hlog(a));
 #else
   return HYDRA_EXTERNAL_NS::Eigen::half(::logf(float(a)));
 #endif
 }
-EIGEN_STRONG_INLINE EIGEN_DEVICE_FUNC HYDRA_EXTERNAL_NS::Eigen::half sqrth(const HYDRA_EXTERNAL_NS::Eigen::half& a) {
+HYDRA_EIGEN_STRONG_INLINE HYDRA_EIGEN_DEVICE_FUNC HYDRA_EXTERNAL_NS::Eigen::half sqrth(const HYDRA_EXTERNAL_NS::Eigen::half& a) {
   return HYDRA_EXTERNAL_NS::Eigen::half(::sqrtf(float(a)));
 }
-EIGEN_STRONG_INLINE EIGEN_DEVICE_FUNC HYDRA_EXTERNAL_NS::Eigen::half powh(const HYDRA_EXTERNAL_NS::Eigen::half& a, const HYDRA_EXTERNAL_NS::Eigen::half& b) {
+HYDRA_EIGEN_STRONG_INLINE HYDRA_EIGEN_DEVICE_FUNC HYDRA_EXTERNAL_NS::Eigen::half powh(const HYDRA_EXTERNAL_NS::Eigen::half& a, const HYDRA_EXTERNAL_NS::Eigen::half& b) {
   return HYDRA_EXTERNAL_NS::Eigen::half(::powf(float(a), float(b)));
 }
-EIGEN_STRONG_INLINE EIGEN_DEVICE_FUNC HYDRA_EXTERNAL_NS::Eigen::half floorh(const HYDRA_EXTERNAL_NS::Eigen::half& a) {
+HYDRA_EIGEN_STRONG_INLINE HYDRA_EIGEN_DEVICE_FUNC HYDRA_EXTERNAL_NS::Eigen::half floorh(const HYDRA_EXTERNAL_NS::Eigen::half& a) {
   return HYDRA_EXTERNAL_NS::Eigen::half(::floorf(float(a)));
 }
-EIGEN_STRONG_INLINE EIGEN_DEVICE_FUNC HYDRA_EXTERNAL_NS::Eigen::half ceilh(const HYDRA_EXTERNAL_NS::Eigen::half& a) {
+HYDRA_EIGEN_STRONG_INLINE HYDRA_EIGEN_DEVICE_FUNC HYDRA_EXTERNAL_NS::Eigen::half ceilh(const HYDRA_EXTERNAL_NS::Eigen::half& a) {
   return HYDRA_EXTERNAL_NS::Eigen::half(::ceilf(float(a)));
 }
 
@@ -593,7 +593,7 @@ namespace std {
 #if __cplusplus > 199711L
 template <>
 struct hash<HYDRA_EXTERNAL_NS::Eigen::half> {
-  EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE std::size_t operator()(const HYDRA_EXTERNAL_NS::Eigen::half& a) const {
+  HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE std::size_t operator()(const HYDRA_EXTERNAL_NS::Eigen::half& a) const {
     return static_cast<std::size_t>(a.x);
   }
 };
@@ -604,14 +604,18 @@ struct hash<HYDRA_EXTERNAL_NS::Eigen::half> {
 
 // Add the missing shfl_xor intrinsic
 #if defined(__CUDA_ARCH__) && __CUDA_ARCH__ >= 300
-__device__ EIGEN_STRONG_INLINE HYDRA_EXTERNAL_NS::Eigen::half __shfl_xor(HYDRA_EXTERNAL_NS::Eigen::half var, int laneMask, int width=warpSize) {
+__device__ HYDRA_EIGEN_STRONG_INLINE HYDRA_EXTERNAL_NS::Eigen::half __shfl_xor(HYDRA_EXTERNAL_NS::Eigen::half var, int laneMask, int width=warpSize) {
+#if defined __CUDACC_VER__ && __CUDACC_VER__ < 90000
   return static_cast<HYDRA_EXTERNAL_NS::Eigen::half>(__shfl_xor(static_cast<float>(var), laneMask, width));
+#else
+return static_cast<HYDRA_EXTERNAL_NS::Eigen::half>(__shfl_xor_sync(0xFFFFFFFF, static_cast<float>(var), laneMask, width));
+#endif
 }
 #endif
 
 // ldg() has an overload for __half_raw, but we also need one for HYDRA_EXTERNAL_NS::Eigen::half.
 #if defined(__CUDA_ARCH__) && __CUDA_ARCH__ >= 350
-EIGEN_STRONG_INLINE EIGEN_DEVICE_FUNC HYDRA_EXTERNAL_NS::Eigen::half __ldg(const HYDRA_EXTERNAL_NS::Eigen::half* ptr) {
+HYDRA_EIGEN_STRONG_INLINE HYDRA_EIGEN_DEVICE_FUNC HYDRA_EXTERNAL_NS::Eigen::half __ldg(const HYDRA_EXTERNAL_NS::Eigen::half* ptr) {
   return HYDRA_EXTERNAL_NS::Eigen::half_impl::raw_uint16_to_half(
       __ldg(reinterpret_cast<const unsigned short*>(ptr)));
 }
@@ -623,19 +627,19 @@ HYDRA_EXTERNAL_NAMESPACE_BEGIN namespace Eigen {
 namespace numext {
 
 template<>
-EIGEN_DEVICE_FUNC EIGEN_ALWAYS_INLINE
+HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_ALWAYS_INLINE
 bool (isnan)(const HYDRA_EXTERNAL_NS::Eigen::half& h) {
   return (half_impl::isnan)(h);
 }
 
 template<>
-EIGEN_DEVICE_FUNC EIGEN_ALWAYS_INLINE
+HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_ALWAYS_INLINE
 bool (isinf)(const HYDRA_EXTERNAL_NS::Eigen::half& h) {
   return (half_impl::isinf)(h);
 }
 
 template<>
-EIGEN_DEVICE_FUNC EIGEN_ALWAYS_INLINE
+HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_ALWAYS_INLINE
 bool (isfinite)(const HYDRA_EXTERNAL_NS::Eigen::half& h) {
   return (half_impl::isfinite)(h);
 }
@@ -645,4 +649,4 @@ HYDRA_EXTERNAL_NAMESPACE_END
 }  // namespace numext
 #endif
 
-#endif // EIGEN_HALF_CUDA_H
+#endif // HYDRA_EIGEN_HALF_CUDA_H

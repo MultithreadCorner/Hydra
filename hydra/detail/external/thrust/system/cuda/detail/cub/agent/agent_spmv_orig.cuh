@@ -268,7 +268,7 @@ struct AgentSpmv
     /**
      * Constructor
      */
-    __device__ __forceinline__ AgentSpmv(
+    __hydra_device__ __forceinline__ AgentSpmv(
         TempStorage&                    temp_storage,           ///< Reference to temp_storage
         SpmvParams<ValueT, OffsetT>&    spmv_params)            ///< SpMV input parameter bundle
     :
@@ -287,7 +287,7 @@ struct AgentSpmv
     /**
      * Consume a merge tile, specialized for direct-load of nonzeros
      */
-    __device__ __forceinline__ KeyValuePairT ConsumeTile(
+    __hydra_device__ __forceinline__ KeyValuePairT ConsumeTile(
         int             tile_idx,
         CoordinateT     tile_start_coord,
         CoordinateT     tile_end_coord,
@@ -411,7 +411,7 @@ struct AgentSpmv
     /**
      * Consume a merge tile, specialized for indirect load of nonzeros
      */
-    __device__ __forceinline__ KeyValuePairT ConsumeTile(
+    __hydra_device__ __forceinline__ KeyValuePairT ConsumeTile(
         int             tile_idx,
         CoordinateT     tile_start_coord,
         CoordinateT     tile_end_coord,
@@ -649,7 +649,7 @@ struct AgentSpmv
      * Consume a merge tile, specialized for indirect load of nonzeros
      * /
     template <typename IsDirectLoadT>
-    __device__ __forceinline__ KeyValuePairT ConsumeTile1(
+    __hydra_device__ __forceinline__ KeyValuePairT ConsumeTile1(
         int             tile_idx,
         CoordinateT     tile_start_coord,
         CoordinateT     tile_end_coord,
@@ -763,7 +763,7 @@ struct AgentSpmv
     /**
      * Consume a merge tile, specialized for indirect load of nonzeros
      * /
-    __device__ __forceinline__ KeyValuePairT ConsumeTile2(
+    __hydra_device__ __forceinline__ KeyValuePairT ConsumeTile2(
         int             tile_idx,
         CoordinateT     tile_start_coord,
         CoordinateT     tile_end_coord,
@@ -854,7 +854,7 @@ struct AgentSpmv
     /**
      * Consume input tile
      */
-    __device__ __forceinline__ void ConsumeTile(
+    __hydra_device__ __forceinline__ void ConsumeTile(
         CoordinateT*    d_tile_coordinates,     ///< [in] Pointer to the temporary array of tile starting coordinates
         KeyValuePairT*  d_tile_carry_pairs,     ///< [out] Pointer to the temporary array carry-out dot product row-ids, one per block
         int             num_merge_tiles)        ///< [in] Number of merge tiles

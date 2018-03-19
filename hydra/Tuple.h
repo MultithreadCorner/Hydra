@@ -146,7 +146,7 @@ template<class T> using tuple_size = HYDRA_EXTERNAL_NS::thrust::tuple_size<T>;
  */
 
 template<int N, typename ...T>
-__host__ __device__ inline
+__hydra_host__ __hydra_device__ inline
 typename HYDRA_EXTERNAL_NS::thrust::tuple_element<N,HYDRA_EXTERNAL_NS::thrust::tuple<T...>>::type
 get( HYDRA_EXTERNAL_NS::thrust::tuple<T...> const& t)
 {
@@ -155,7 +155,7 @@ get( HYDRA_EXTERNAL_NS::thrust::tuple<T...> const& t)
 
 
 template<int N, typename ...T>
-__host__ __device__ inline
+__hydra_host__ __hydra_device__ inline
 typename HYDRA_EXTERNAL_NS::thrust::tuple_element<N,HYDRA_EXTERNAL_NS::thrust::tuple<T...>>::type
 get( HYDRA_EXTERNAL_NS::thrust::tuple<T...> & t)
 {
@@ -163,7 +163,7 @@ get( HYDRA_EXTERNAL_NS::thrust::tuple<T...> & t)
 }
 
 template<int N, typename T1,  typename T2>
-__host__ __device__ inline
+__hydra_host__ __hydra_device__ inline
 typename HYDRA_EXTERNAL_NS::thrust::tuple_element<N,HYDRA_EXTERNAL_NS::thrust::pair<T1,T2>>::type
 get( HYDRA_EXTERNAL_NS::thrust::pair<T1,T2> && t)
 {
@@ -178,7 +178,7 @@ get( HYDRA_EXTERNAL_NS::thrust::pair<T1,T2> && t)
  *
  */
 template<class ...T>
-__host__ __device__ inline
+__hydra_host__ __hydra_device__ inline
 auto make_tuple(T const&... t)
 -> decltype(HYDRA_EXTERNAL_NS::thrust::make_tuple(t...))
 {
@@ -193,7 +193,7 @@ auto make_tuple(T const&... t)
  *
  */
 template<class ...T>
-__host__ __device__ inline
+__hydra_host__ __hydra_device__ inline
 auto make_tuple(T&&... t)
 -> decltype(HYDRA_EXTERNAL_NS::thrust::make_tuple( std::forward<T>(t)...))
 {
@@ -209,7 +209,7 @@ auto make_tuple(T&&... t)
  *
  */
 template<class T1, class T2 >
-__host__ __device__ inline
+__hydra_host__ __hydra_device__ inline
 auto make_pair( T1&& t1, T2&& t2 )
 -> decltype(HYDRA_EXTERNAL_NS::thrust::make_pair( std::forward<T1>(t1),std::forward<T2>(t2) ))
 {
@@ -224,7 +224,7 @@ auto make_pair( T1&& t1, T2&& t2 )
  *  \return A \p tuple object with members which are references to \p t.
  */
 template<class ...T>
-__host__ __device__ inline
+__hydra_host__ __hydra_device__ inline
 auto tie(T&& ...t)
 -> decltype(HYDRA_EXTERNAL_NS::thrust::tie(std::forward<T>(t)...))
 {

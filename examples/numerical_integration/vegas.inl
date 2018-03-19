@@ -30,8 +30,7 @@
 #define VEGAS_INL_
 
 /**
- * @file
- * @example vegas.inl
+ * \example vegas.inl
  * This example show how to use the hydra::Vegas
  * numerical integration algorithm to calculate
  * the integral of a five dimensional Gaussian.
@@ -116,7 +115,7 @@ int main(int argv, char** argc)
 	}
 
 	// create functor using C++11 lambda
-	auto GAUSSIAN = [=] __host__ __device__ (unsigned int n, double* x ){
+	auto GAUSSIAN = [=] __hydra_dual__ (unsigned int n, double* x ){
 
 		double g = 1.0;
 		double f = 0.0;

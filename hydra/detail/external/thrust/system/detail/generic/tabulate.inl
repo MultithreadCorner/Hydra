@@ -34,7 +34,7 @@ namespace generic
 template<typename DerivedPolicy,
          typename ForwardIterator,
          typename UnaryOperation>
-__host__ __device__
+__hydra_host__ __hydra_device__
   void tabulate(thrust::execution_policy<DerivedPolicy> &exec,
                 ForwardIterator first,
                 ForwardIterator last,

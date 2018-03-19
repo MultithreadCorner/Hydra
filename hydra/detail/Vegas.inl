@@ -26,11 +26,6 @@
  *      Author: Antonio Augusto Alves Junior
  */
 
-/**
- * \file
- * \ingroup numerical_integration
- */
-
 
 //#ifndef VEGAS_INL_
 //#define VEGAS_INL_

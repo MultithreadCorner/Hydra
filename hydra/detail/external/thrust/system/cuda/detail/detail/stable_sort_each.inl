@@ -48,7 +48,7 @@ template<int i, int n>
 struct impl
 {
   template<typename Iterator, typename Compare>
-  static __device__
+  static __hydra_device__
   void do_it(Iterator keys, Compare comp)
   {
     for(int j = 1 & i; j < n - 1; j += 2)
@@ -70,7 +70,7 @@ template<int i>
 struct impl<i,i>
 {
   template<typename Iterator, typename Compare>
-  static __device__
+  static __hydra_device__
   void do_it(Iterator, Compare) {}
 };
 
@@ -79,7 +79,7 @@ struct impl<i,i>
 
 
 template<int n, typename RandomAccessIterator, typename Compare>
-__device__
+__hydra_device__
 void static_stable_sort(RandomAccessIterator keys, Compare comp)
 {
   static_stable_odd_even_transpose_sort_detail::impl<0,n>::do_it(keys, comp);
@@ -88,7 +88,7 @@ void static_stable_sort(RandomAccessIterator keys, Compare comp)
 
 // sequential copy_n for when we have a static bound on the value of n
 template<unsigned int bound_n, typename RandomAccessIterator1, typename Size, typename RandomAccessIterator2>
-__device__
+__hydra_device__
 void bounded_copy_n(RandomAccessIterator1 first, Size n, RandomAccessIterator2 result)
 {
   for(unsigned int i = 0; i < bound_n; ++i)
@@ -106,7 +106,7 @@ namespace block
 
 
 template<unsigned int work_per_thread, typename Context, typename Iterator, typename Size, typename Compare>
-__device__
+__hydra_device__
 void bounded_inplace_merge_adjacent_partitions(Context &ctx,
                                                Iterator first,
                                                Size n,
@@ -155,7 +155,7 @@ void bounded_inplace_merge_adjacent_partitions(Context &ctx,
 
 
 template<unsigned int work_per_thread, typename Context, typename RandomAccessIterator, typename Size, typename Compare>
-__device__
+__hydra_device__
 void bounded_stable_sort(Context &ctx,
                          RandomAccessIterator first,
                          Size n,
@@ -229,7 +229,7 @@ struct stable_sort_each_copy_closure
   RandomAccessIterator2 result;
   thrust::detail::wrapped_function<Compare,bool> comp;
 
-  __host__ __device__
+  __hydra_host__ __hydra_device__
   stable_sort_each_copy_closure(RandomAccessIterator1 first, Size n, RandomAccessIterator2 result, Compare comp)
     : first(first),
       n(n),
@@ -239,7 +239,7 @@ struct stable_sort_each_copy_closure
 
 
   template<typename RandomAccessIterator>
-  __device__ __thrust_forceinline__
+  __hydra_device__ __thrust_forceinline__
   void operator()(RandomAccessIterator staging_buffer)
   {
     context_type ctx;
@@ -259,7 +259,7 @@ struct stable_sort_each_copy_closure
   }
 
 
-  __device__ __thrust_forceinline__
+  __hydra_device__ __thrust_forceinline__
   void operator()()
   {
     typedef typename thrust::iterator_value<RandomAccessIterator1>::type value_type;
@@ -283,7 +283,7 @@ template<unsigned int work_per_thread,
          typename Pointer,
          typename RandomAccessIterator2,
          typename Compare>
-__host__ __device__
+__hydra_host__ __hydra_device__
 void stable_sort_each_copy(execution_policy<DerivedPolicy> &exec,
                            Context context,
                            unsigned int block_size,

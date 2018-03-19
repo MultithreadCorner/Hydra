@@ -62,7 +62,7 @@ template<typename T>
 
 // max_input_size <= 32
 template<typename Size, typename InputIterator, typename OutputIterator>
-inline __device__
+inline __hydra_device__
   OutputIterator serial_bounded_copy_if(Size max_input_size,
                                         InputIterator first,
                                         uint32_t mask,
@@ -90,7 +90,7 @@ template<typename Size, typename InputIterator1, typename InputIterator2, typena
   Size n1, n2;
   Compare comp;
 
-  __host__ __device__
+  __hydra_host__ __hydra_device__
   find_partition_offsets_functor(Size partition_size,
                                  InputIterator1 first1, InputIterator1 last1,
                                  InputIterator2 first2, InputIterator2 last2,
@@ -101,7 +101,7 @@ template<typename Size, typename InputIterator1, typename InputIterator2, typena
       comp(comp)
   {}
 
-  inline __host__ __device__
+  inline __hydra_host__ __hydra_device__
   thrust::pair<Size,Size> operator()(Size i) const
   {
     Size diag = thrust::min(n1 + n2, i * partition_size);
@@ -114,7 +114,7 @@ template<typename Size, typename InputIterator1, typename InputIterator2, typena
 
 
 template<typename Size, typename DerivedPolicy, typename InputIterator1, typename InputIterator2, typename OutputIterator, typename Compare>
-__host__ __device__
+__hydra_host__ __hydra_device__
 OutputIterator find_partition_offsets(thrust::cuda::execution_policy<DerivedPolicy> &exec,
                                       Size num_partitions,
                                       Size partition_size,
@@ -138,7 +138,7 @@ namespace block
 
 
 template<unsigned int block_size, typename T>
-inline __device__
+inline __hydra_device__
 T right_neighbor(statically_blocked_thread_array<block_size> &ctx, const T &x, const T &boundary)
 {
   // stage this shift to conserve smem
@@ -187,7 +187,7 @@ T right_neighbor(statically_blocked_thread_array<block_size> &ctx, const T &x, c
 
 
 template<uint16_t block_size, uint16_t work_per_thread, typename InputIterator1, typename InputIterator2, typename Compare, typename SetOperation>
-inline __device__
+inline __hydra_device__
   unsigned int bounded_count_set_operation_n(statically_blocked_thread_array<block_size> &ctx,
                                              InputIterator1 first1, uint16_t n1,
                                              InputIterator2 first2, uint16_t n2,
@@ -218,7 +218,7 @@ inline __device__
 }
 
 
-inline __device__ int pop_count(unsigned int x)
+inline __hydra_device__ int pop_count(unsigned int x)
 {
 // guard use of __popc from other compilers
 #if HYDRA_THRUST_DEVICE_COMPILER == HYDRA_THRUST_DEVICE_COMPILER_NVCC
@@ -231,7 +231,7 @@ inline __device__ int pop_count(unsigned int x)
 
 
 template<uint16_t block_size, uint16_t work_per_thread, typename InputIterator1, typename InputIterator2, typename OutputIterator, typename Compare, typename SetOperation>
-inline __device__
+inline __hydra_device__
   OutputIterator bounded_set_operation_n(statically_blocked_thread_array<block_size> &ctx,
                                          InputIterator1 first1, uint16_t n1,
                                          InputIterator2 first2, uint16_t n2,
@@ -273,7 +273,7 @@ inline __device__
 
 
 template<uint16_t block_size, uint16_t work_per_thread, typename InputIterator1, typename InputIterator2, typename Compare, typename SetOperation>
-inline __device__
+inline __hydra_device__
   typename thrust::iterator_difference<InputIterator1>::type
     count_set_operation(statically_blocked_thread_array<block_size> &ctx,
                         InputIterator1 first1, InputIterator1 last1,
@@ -334,7 +334,7 @@ inline __device__
 
 
 template<uint16_t block_size, uint16_t work_per_thread, typename InputIterator1, typename InputIterator2, typename OutputIterator, typename Compare, typename SetOperation>
-inline __device__
+inline __hydra_device__
 OutputIterator set_operation(statically_blocked_thread_array<block_size> &ctx,
                              InputIterator1 first1, InputIterator1 last1,
                              InputIterator2 first2, InputIterator2 last2,
@@ -398,7 +398,7 @@ OutputIterator set_operation(statically_blocked_thread_array<block_size> &ctx,
 
 
 template<uint16_t threads_per_block, uint16_t work_per_thread, typename InputIterator1, typename Size, typename InputIterator2, typename InputIterator3, typename OutputIterator, typename Compare, typename SetOperation>
-  inline __device__ void count_set_operation(statically_blocked_thread_array<threads_per_block> &ctx,
+  inline __hydra_device__ void count_set_operation(statically_blocked_thread_array<threads_per_block> &ctx,
                                              InputIterator1                                      input_partition_offsets,
                                              Size                                                num_partitions,
                                              InputIterator2                                      first1,
@@ -446,7 +446,7 @@ template<uint16_t threads_per_block, uint16_t work_per_thread, typename InputIte
   Compare        comp;
   SetOperation   set_op;
 
-  __host__ __device__
+  __hydra_host__ __hydra_device__
   count_set_operation_closure(InputIterator1 input_partition_offsets,
                               Size           num_partitions,
                               InputIterator2 first1,
@@ -463,7 +463,7 @@ template<uint16_t threads_per_block, uint16_t work_per_thread, typename InputIte
       set_op(set_op)
   {}
 
-  inline __device__ void operator()() const
+  inline __hydra_device__ void operator()() const
   {
     context_type ctx;
     count_set_operation<threads_per_block,work_per_thread>(ctx, input_partition_offsets, num_partitions, first1, first2, result, comp, set_op);
@@ -472,7 +472,7 @@ template<uint16_t threads_per_block, uint16_t work_per_thread, typename InputIte
 
 
 template<uint16_t threads_per_block, uint16_t work_per_thread, typename InputIterator1, typename Size, typename InputIterator2, typename InputIterator3, typename OutputIterator, typename Compare, typename SetOperation>
-__host__ __device__
+__hydra_host__ __hydra_device__
   count_set_operation_closure<threads_per_block,work_per_thread,InputIterator1,Size,InputIterator2,InputIterator3,OutputIterator,Compare,SetOperation>
     make_count_set_operation_closure(InputIterator1 input_partition_offsets,
                                      Size           num_partitions,
@@ -488,7 +488,7 @@ __host__ __device__
 
 
 template<uint16_t threads_per_block, uint16_t work_per_thread, typename InputIterator1, typename Size, typename InputIterator2, typename InputIterator3, typename InputIterator4, typename OutputIterator, typename Compare, typename SetOperation>
-inline __device__
+inline __hydra_device__
   void set_operation(statically_blocked_thread_array<threads_per_block> &ctx,
                      InputIterator1                                      input_partition_offsets,
                      Size                                                num_partitions,
@@ -535,7 +535,7 @@ template<uint16_t threads_per_block, uint16_t work_per_thread, typename InputIte
   Compare        comp;
   SetOperation   set_op;
 
-  __host__ __device__
+  __hydra_host__ __hydra_device__
   set_operation_closure(InputIterator1 input_partition_offsets,
                         Size           num_partitions,
                         InputIterator2 first1,
@@ -554,7 +554,7 @@ template<uint16_t threads_per_block, uint16_t work_per_thread, typename InputIte
       set_op(set_op)
   {}
 
-  inline __device__ void operator()() const
+  inline __hydra_device__ void operator()() const
   {
     context_type ctx;
     set_operation<threads_per_block,work_per_thread>(ctx, input_partition_offsets, num_partitions, first1, first2, output_partition_offsets, result, comp, set_op);
@@ -563,7 +563,7 @@ template<uint16_t threads_per_block, uint16_t work_per_thread, typename InputIte
 
 
 template<uint16_t threads_per_block, uint16_t work_per_thread, typename InputIterator1, typename Size, typename InputIterator2, typename InputIterator3, typename InputIterator4, typename OutputIterator, typename Compare, typename SetOperation>
-__host__ __device__
+__hydra_host__ __hydra_device__
   set_operation_closure<threads_per_block,work_per_thread,InputIterator1,Size,InputIterator2,InputIterator3,InputIterator4,OutputIterator,Compare,SetOperation>
     make_set_operation_closure(InputIterator1 input_partition_offsets,
                                Size           num_partitions,
@@ -583,7 +583,7 @@ __host__ __device__
 
 
 template<typename DerivedPolicy, typename InputIterator1, typename InputIterator2, typename OutputIterator, typename Compare, typename SetOperation>
-__host__ __device__
+__hydra_host__ __hydra_device__
 OutputIterator set_operation(thrust::cuda::execution_policy<DerivedPolicy> &exec,
                              InputIterator1 first1, InputIterator1 last1,
                              InputIterator2 first2, InputIterator2 last2,

@@ -34,7 +34,7 @@ __thrust_exec_check_disable__
 template<typename DerivedPolicy,
          typename ForwardIterator,
          typename Predicate>
-__host__ __device__
+__hydra_host__ __hydra_device__
   ForwardIterator partition(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                             ForwardIterator first,
                             ForwardIterator last,
@@ -50,7 +50,7 @@ template<typename DerivedPolicy,
          typename ForwardIterator,
          typename InputIterator,
          typename Predicate>
-__host__ __device__
+__hydra_host__ __hydra_device__
   ForwardIterator partition(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                             ForwardIterator first,
                             ForwardIterator last,
@@ -68,7 +68,7 @@ template<typename DerivedPolicy,
          typename OutputIterator1,
          typename OutputIterator2,
          typename Predicate>
-__host__ __device__
+__hydra_host__ __hydra_device__
   thrust::pair<OutputIterator1,OutputIterator2>
     partition_copy(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                    InputIterator first,
@@ -89,7 +89,7 @@ template<typename DerivedPolicy,
          typename OutputIterator1,
          typename OutputIterator2,
          typename Predicate>
-__host__ __device__
+__hydra_host__ __hydra_device__
   thrust::pair<OutputIterator1,OutputIterator2>
     partition_copy(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                    InputIterator1 first,
@@ -108,7 +108,7 @@ __thrust_exec_check_disable__
 template<typename DerivedPolicy,
          typename ForwardIterator,
          typename Predicate>
-__host__ __device__
+__hydra_host__ __hydra_device__
   ForwardIterator stable_partition(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                                    ForwardIterator first,
                                    ForwardIterator last,
@@ -124,7 +124,7 @@ template<typename DerivedPolicy,
          typename ForwardIterator,
          typename InputIterator,
          typename Predicate>
-__host__ __device__
+__hydra_host__ __hydra_device__
   ForwardIterator stable_partition(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                                    ForwardIterator first,
                                    ForwardIterator last,
@@ -142,7 +142,7 @@ template<typename DerivedPolicy,
          typename OutputIterator1,
          typename OutputIterator2,
          typename Predicate>
-__host__ __device__
+__hydra_host__ __hydra_device__
   thrust::pair<OutputIterator1,OutputIterator2>
     stable_partition_copy(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                           InputIterator first,
@@ -163,7 +163,7 @@ template<typename DerivedPolicy,
          typename OutputIterator1,
          typename OutputIterator2,
          typename Predicate>
-__host__ __device__
+__hydra_host__ __hydra_device__
   thrust::pair<OutputIterator1,OutputIterator2>
     stable_partition_copy(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                           InputIterator1 first,
@@ -180,7 +180,7 @@ __host__ __device__
 
 __thrust_exec_check_disable__
 template<typename DerivedPolicy, typename ForwardIterator, typename Predicate>
-__host__ __device__
+__hydra_host__ __hydra_device__
   ForwardIterator partition_point(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                                   ForwardIterator first,
                                   ForwardIterator last,
@@ -193,7 +193,7 @@ __host__ __device__
 
 __thrust_exec_check_disable__
 template<typename DerivedPolicy, typename InputIterator, typename Predicate>
-__host__ __device__
+__hydra_host__ __hydra_device__
   bool is_partitioned(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                       InputIterator first,
                       InputIterator last,

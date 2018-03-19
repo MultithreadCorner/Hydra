@@ -28,6 +28,11 @@
 #ifndef EXTENDED_LOGLL_FIT_INL_
 #define EXTENDED_LOGLL_FIT_INL_
 
+/**
+ * \example extended_logLL_fit.inl
+ *
+ */
+
 #include <iostream>
 #include <assert.h>
 #include <time.h>
@@ -180,7 +185,7 @@ int main(int argv, char** argc)
 
 		//filtering
 		auto filter = hydra::wrap_lambda(
-				[=]__host__ __device__(unsigned int n, double* x){
+				[=] __hydra_dual__ (unsigned int n, double* x){
 					return (x[0] > min) && (x[0] < max );
 			});
 

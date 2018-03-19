@@ -8,18 +8,18 @@
 // Public License v. 2.0. If a copy of the MPL was not distributed
 // with this file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
-#ifndef EIGEN_DENSESTORAGEBASE_H
-#define EIGEN_DENSESTORAGEBASE_H
+#ifndef HYDRA_EIGEN_DENSESTORAGEBASE_H
+#define HYDRA_EIGEN_DENSESTORAGEBASE_H
 
-#if defined(EIGEN_INITIALIZE_MATRICES_BY_ZERO)
-# define EIGEN_INITIALIZE_COEFFS
-# define EIGEN_INITIALIZE_COEFFS_IF_THAT_OPTION_IS_ENABLED for(int i=0;i<base().size();++i) coeffRef(i)=Scalar(0);
-#elif defined(EIGEN_INITIALIZE_MATRICES_BY_NAN)
-# define EIGEN_INITIALIZE_COEFFS
-# define EIGEN_INITIALIZE_COEFFS_IF_THAT_OPTION_IS_ENABLED for(int i=0;i<base().size();++i) coeffRef(i)=std::numeric_limits<Scalar>::quiet_NaN();
+#if defined(HYDRA_EIGEN_INITIALIZE_MATRICES_BY_ZERO)
+# define HYDRA_EIGEN_INITIALIZE_COEFFS
+# define HYDRA_EIGEN_INITIALIZE_COEFFS_IF_THAT_OPTION_IS_ENABLED for(int i=0;i<base().size();++i) coeffRef(i)=Scalar(0);
+#elif defined(HYDRA_EIGEN_INITIALIZE_MATRICES_BY_NAN)
+# define HYDRA_EIGEN_INITIALIZE_COEFFS
+# define HYDRA_EIGEN_INITIALIZE_COEFFS_IF_THAT_OPTION_IS_ENABLED for(int i=0;i<base().size();++i) coeffRef(i)=std::numeric_limits<Scalar>::quiet_NaN();
 #else
-# undef EIGEN_INITIALIZE_COEFFS
-# define EIGEN_INITIALIZE_COEFFS_IF_THAT_OPTION_IS_ENABLED
+# undef HYDRA_EIGEN_INITIALIZE_COEFFS
+# define HYDRA_EIGEN_INITIALIZE_COEFFS_IF_THAT_OPTION_IS_ENABLED
 #endif
 
 HYDRA_EXTERNAL_NAMESPACE_BEGIN namespace Eigen {
@@ -28,16 +28,16 @@ namespace internal {
 
 template<int MaxSizeAtCompileTime> struct check_rows_cols_for_overflow {
   template<typename Index>
-  EIGEN_DEVICE_FUNC
-  static EIGEN_ALWAYS_INLINE void run(Index, Index)
+  HYDRA_EIGEN_DEVICE_FUNC
+  static HYDRA_EIGEN_ALWAYS_INLINE void run(Index, Index)
   {
   }
 };
 
 template<> struct check_rows_cols_for_overflow<Dynamic> {
   template<typename Index>
-  EIGEN_DEVICE_FUNC
-  static EIGEN_ALWAYS_INLINE void run(Index rows, Index cols)
+  HYDRA_EIGEN_DEVICE_FUNC
+  static HYDRA_EIGEN_ALWAYS_INLINE void run(Index rows, Index cols)
   {
     // http://hg.mozilla.org/mozilla-central/file/6c8a909977d3/xpcom/ds/CheckedInt.h#l242
     // we assume Index is signed
@@ -58,7 +58,7 @@ template<typename MatrixTypeA, typename MatrixTypeB, bool SwapPointers> struct m
 
 } // end namespace internal
 
-#ifdef EIGEN_PARSED_BY_DOXYGEN
+#ifdef HYDRA_EIGEN_PARSED_BY_DOXYGEN
 namespace doxygen {
 
 // This is a workaround to doxygen not being able to understand the inheritance logic
@@ -85,7 +85,7 @@ struct dense_xpr_base_dispatcher<Array<_Scalar, _Rows, _Cols, _Options, _MaxRows
   * \brief %Dense storage base class for matrices and arrays.
   *
   * This class can be extended with the help of the plugin mechanism described on the page
-  * \ref TopicCustomizing_Plugins by defining the preprocessor symbol \c EIGEN_PLAINOBJECTBASE_PLUGIN.
+  * \ref TopicCustomizing_Plugins by defining the preprocessor symbol \c HYDRA_EIGEN_PLAINOBJECTBASE_PLUGIN.
   *
   * \tparam Derived is the derived type, e.g., a Matrix or Array
   *
@@ -123,8 +123,8 @@ class PlainObjectBase : public internal::dense_xpr_base<Derived>::type
     typedef HYDRA_EXTERNAL_NS::Eigen::Map<Derived, Unaligned>  MapType;
     friend  class HYDRA_EXTERNAL_NS::Eigen::Map<const Derived, Unaligned>;
     typedef const HYDRA_EXTERNAL_NS::Eigen::Map<const Derived, Unaligned> ConstMapType;
-#if EIGEN_MAX_ALIGN_BYTES>0
-    // for EIGEN_MAX_ALIGN_BYTES==0, AlignedMax==Unaligned, and many compilers generate warnings for friend-ing a class twice.
+#if HYDRA_EIGEN_MAX_ALIGN_BYTES>0
+    // for HYDRA_EIGEN_MAX_ALIGN_BYTES==0, AlignedMax==Unaligned, and many compilers generate warnings for friend-ing a class twice.
     friend  class HYDRA_EXTERNAL_NS::Eigen::Map<Derived, AlignedMax>;
     friend  class HYDRA_EXTERNAL_NS::Eigen::Map<const Derived, AlignedMax>;
 #endif
@@ -140,24 +140,24 @@ class PlainObjectBase : public internal::dense_xpr_base<Derived>::type
 
   public:
     enum { NeedsToAlign = (SizeAtCompileTime != Dynamic) && (internal::traits<Derived>::Alignment>0) };
-    EIGEN_MAKE_ALIGNED_OPERATOR_NEW_IF(NeedsToAlign)
+    HYDRA_EIGEN_MAKE_ALIGNED_OPERATOR_NEW_IF(NeedsToAlign)
 
-    EIGEN_DEVICE_FUNC
+    HYDRA_EIGEN_DEVICE_FUNC
     Base& base() { return *static_cast<Base*>(this); }
-    EIGEN_DEVICE_FUNC
+    HYDRA_EIGEN_DEVICE_FUNC
     const Base& base() const { return *static_cast<const Base*>(this); }
 
-    EIGEN_DEVICE_FUNC
-    EIGEN_STRONG_INLINE Index rows() const { return m_storage.rows(); }
-    EIGEN_DEVICE_FUNC
-    EIGEN_STRONG_INLINE Index cols() const { return m_storage.cols(); }
+    HYDRA_EIGEN_DEVICE_FUNC
+    HYDRA_EIGEN_STRONG_INLINE Index rows() const { return m_storage.rows(); }
+    HYDRA_EIGEN_DEVICE_FUNC
+    HYDRA_EIGEN_STRONG_INLINE Index cols() const { return m_storage.cols(); }
 
     /** This is an overloaded version of DenseCoeffsBase<Derived,ReadOnlyAccessors>::coeff(Index,Index) const
       * provided to by-pass the creation of an evaluator of the expression, thus saving compilation efforts.
       *
       * See DenseCoeffsBase<Derived,ReadOnlyAccessors>::coeff(Index) const for details. */
-    EIGEN_DEVICE_FUNC
-    EIGEN_STRONG_INLINE const Scalar& coeff(Index rowId, Index colId) const
+    HYDRA_EIGEN_DEVICE_FUNC
+    HYDRA_EIGEN_STRONG_INLINE const Scalar& coeff(Index rowId, Index colId) const
     {
       if(Flags & RowMajorBit)
         return m_storage.data()[colId + rowId * m_storage.cols()];
@@ -169,8 +169,8 @@ class PlainObjectBase : public internal::dense_xpr_base<Derived>::type
       * provided to by-pass the creation of an evaluator of the expression, thus saving compilation efforts.
       *
       * See DenseCoeffsBase<Derived,ReadOnlyAccessors>::coeff(Index) const for details. */
-    EIGEN_DEVICE_FUNC
-    EIGEN_STRONG_INLINE const Scalar& coeff(Index index) const
+    HYDRA_EIGEN_DEVICE_FUNC
+    HYDRA_EIGEN_STRONG_INLINE const Scalar& coeff(Index index) const
     {
       return m_storage.data()[index];
     }
@@ -179,8 +179,8 @@ class PlainObjectBase : public internal::dense_xpr_base<Derived>::type
       * provided to by-pass the creation of an evaluator of the expression, thus saving compilation efforts.
       *
       * See DenseCoeffsBase<Derived,WriteAccessors>::coeffRef(Index,Index) const for details. */
-    EIGEN_DEVICE_FUNC
-    EIGEN_STRONG_INLINE Scalar& coeffRef(Index rowId, Index colId)
+    HYDRA_EIGEN_DEVICE_FUNC
+    HYDRA_EIGEN_STRONG_INLINE Scalar& coeffRef(Index rowId, Index colId)
     {
       if(Flags & RowMajorBit)
         return m_storage.data()[colId + rowId * m_storage.cols()];
@@ -192,16 +192,16 @@ class PlainObjectBase : public internal::dense_xpr_base<Derived>::type
       * provided to by-pass the creation of an evaluator of the expression, thus saving compilation efforts.
       *
       * See DenseCoeffsBase<Derived,WriteAccessors>::coeffRef(Index) const for details. */
-    EIGEN_DEVICE_FUNC
-    EIGEN_STRONG_INLINE Scalar& coeffRef(Index index)
+    HYDRA_EIGEN_DEVICE_FUNC
+    HYDRA_EIGEN_STRONG_INLINE Scalar& coeffRef(Index index)
     {
       return m_storage.data()[index];
     }
 
     /** This is the const version of coeffRef(Index,Index) which is thus synonym of coeff(Index,Index).
       * It is provided for convenience. */
-    EIGEN_DEVICE_FUNC
-    EIGEN_STRONG_INLINE const Scalar& coeffRef(Index rowId, Index colId) const
+    HYDRA_EIGEN_DEVICE_FUNC
+    HYDRA_EIGEN_STRONG_INLINE const Scalar& coeffRef(Index rowId, Index colId) const
     {
       if(Flags & RowMajorBit)
         return m_storage.data()[colId + rowId * m_storage.cols()];
@@ -211,15 +211,15 @@ class PlainObjectBase : public internal::dense_xpr_base<Derived>::type
 
     /** This is the const version of coeffRef(Index) which is thus synonym of coeff(Index).
       * It is provided for convenience. */
-    EIGEN_DEVICE_FUNC
-    EIGEN_STRONG_INLINE const Scalar& coeffRef(Index index) const
+    HYDRA_EIGEN_DEVICE_FUNC
+    HYDRA_EIGEN_STRONG_INLINE const Scalar& coeffRef(Index index) const
     {
       return m_storage.data()[index];
     }
 
     /** \internal */
     template<int LoadMode>
-    EIGEN_STRONG_INLINE PacketScalar packet(Index rowId, Index colId) const
+    HYDRA_EIGEN_STRONG_INLINE PacketScalar packet(Index rowId, Index colId) const
     {
       return internal::ploadt<PacketScalar, LoadMode>
                (m_storage.data() + (Flags & RowMajorBit
@@ -229,14 +229,14 @@ class PlainObjectBase : public internal::dense_xpr_base<Derived>::type
 
     /** \internal */
     template<int LoadMode>
-    EIGEN_STRONG_INLINE PacketScalar packet(Index index) const
+    HYDRA_EIGEN_STRONG_INLINE PacketScalar packet(Index index) const
     {
       return internal::ploadt<PacketScalar, LoadMode>(m_storage.data() + index);
     }
 
     /** \internal */
     template<int StoreMode>
-    EIGEN_STRONG_INLINE void writePacket(Index rowId, Index colId, const PacketScalar& val)
+    HYDRA_EIGEN_STRONG_INLINE void writePacket(Index rowId, Index colId, const PacketScalar& val)
     {
       internal::pstoret<Scalar, PacketScalar, StoreMode>
               (m_storage.data() + (Flags & RowMajorBit
@@ -246,17 +246,17 @@ class PlainObjectBase : public internal::dense_xpr_base<Derived>::type
 
     /** \internal */
     template<int StoreMode>
-    EIGEN_STRONG_INLINE void writePacket(Index index, const PacketScalar& val)
+    HYDRA_EIGEN_STRONG_INLINE void writePacket(Index index, const PacketScalar& val)
     {
       internal::pstoret<Scalar, PacketScalar, StoreMode>(m_storage.data() + index, val);
     }
 
     /** \returns a const pointer to the data array of this matrix */
-    EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE const Scalar *data() const
+    HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE const Scalar *data() const
     { return m_storage.data(); }
 
     /** \returns a pointer to the data array of this matrix */
-    EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE Scalar *data()
+    HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE Scalar *data()
     { return m_storage.data(); }
 
     /** Resizes \c *this to a \a rows x \a cols matrix.
@@ -275,20 +275,20 @@ class PlainObjectBase : public internal::dense_xpr_base<Derived>::type
       *
       * \sa resize(Index) for vectors, resize(NoChange_t, Index), resize(Index, NoChange_t)
       */
-    EIGEN_DEVICE_FUNC
-    EIGEN_STRONG_INLINE void resize(Index rows, Index cols)
+    HYDRA_EIGEN_DEVICE_FUNC
+    HYDRA_EIGEN_STRONG_INLINE void resize(Index rows, Index cols)
     {
-      eigen_assert(   EIGEN_IMPLIES(RowsAtCompileTime!=Dynamic,rows==RowsAtCompileTime)
-                   && EIGEN_IMPLIES(ColsAtCompileTime!=Dynamic,cols==ColsAtCompileTime)
-                   && EIGEN_IMPLIES(RowsAtCompileTime==Dynamic && MaxRowsAtCompileTime!=Dynamic,rows<=MaxRowsAtCompileTime)
-                   && EIGEN_IMPLIES(ColsAtCompileTime==Dynamic && MaxColsAtCompileTime!=Dynamic,cols<=MaxColsAtCompileTime)
+      eigen_assert(   HYDRA_EIGEN_IMPLIES(RowsAtCompileTime!=Dynamic,rows==RowsAtCompileTime)
+                   && HYDRA_EIGEN_IMPLIES(ColsAtCompileTime!=Dynamic,cols==ColsAtCompileTime)
+                   && HYDRA_EIGEN_IMPLIES(RowsAtCompileTime==Dynamic && MaxRowsAtCompileTime!=Dynamic,rows<=MaxRowsAtCompileTime)
+                   && HYDRA_EIGEN_IMPLIES(ColsAtCompileTime==Dynamic && MaxColsAtCompileTime!=Dynamic,cols<=MaxColsAtCompileTime)
                    && rows>=0 && cols>=0 && "Invalid sizes when resizing a matrix or array.");
       internal::check_rows_cols_for_overflow<MaxSizeAtCompileTime>::run(rows, cols);
-      #ifdef EIGEN_INITIALIZE_COEFFS
+      #ifdef HYDRA_EIGEN_INITIALIZE_COEFFS
         Index size = rows*cols;
         bool size_changed = size != this->size();
         m_storage.resize(size, rows, cols);
-        if(size_changed) EIGEN_INITIALIZE_COEFFS_IF_THAT_OPTION_IS_ENABLED
+        if(size_changed) HYDRA_EIGEN_INITIALIZE_COEFFS_IF_THAT_OPTION_IS_ENABLED
       #else
         m_storage.resize(rows*cols, rows, cols);
       #endif
@@ -305,20 +305,20 @@ class PlainObjectBase : public internal::dense_xpr_base<Derived>::type
       *
       * \sa resize(Index,Index), resize(NoChange_t, Index), resize(Index, NoChange_t)
       */
-    EIGEN_DEVICE_FUNC
+    HYDRA_EIGEN_DEVICE_FUNC
     inline void resize(Index size)
     {
-      EIGEN_STATIC_ASSERT_VECTOR_ONLY(PlainObjectBase)
+      HYDRA_EIGEN_STATIC_ASSERT_VECTOR_ONLY(PlainObjectBase)
       eigen_assert(((SizeAtCompileTime == Dynamic && (MaxSizeAtCompileTime==Dynamic || size<=MaxSizeAtCompileTime)) || SizeAtCompileTime == size) && size>=0);
-      #ifdef EIGEN_INITIALIZE_COEFFS
+      #ifdef HYDRA_EIGEN_INITIALIZE_COEFFS
         bool size_changed = size != this->size();
       #endif
       if(RowsAtCompileTime == 1)
         m_storage.resize(size, 1, size);
       else
         m_storage.resize(size, size, 1);
-      #ifdef EIGEN_INITIALIZE_COEFFS
-        if(size_changed) EIGEN_INITIALIZE_COEFFS_IF_THAT_OPTION_IS_ENABLED
+      #ifdef HYDRA_EIGEN_INITIALIZE_COEFFS
+        if(size_changed) HYDRA_EIGEN_INITIALIZE_COEFFS_IF_THAT_OPTION_IS_ENABLED
       #endif
     }
 
@@ -330,7 +330,7 @@ class PlainObjectBase : public internal::dense_xpr_base<Derived>::type
       *
       * \sa resize(Index,Index)
       */
-    EIGEN_DEVICE_FUNC
+    HYDRA_EIGEN_DEVICE_FUNC
     inline void resize(NoChange_t, Index cols)
     {
       resize(rows(), cols);
@@ -344,7 +344,7 @@ class PlainObjectBase : public internal::dense_xpr_base<Derived>::type
       *
       * \sa resize(Index,Index)
       */
-    EIGEN_DEVICE_FUNC
+    HYDRA_EIGEN_DEVICE_FUNC
     inline void resize(Index rows, NoChange_t)
     {
       resize(rows, cols());
@@ -358,8 +358,8 @@ class PlainObjectBase : public internal::dense_xpr_base<Derived>::type
       * remain row-vectors and vectors remain vectors.
       */
     template<typename OtherDerived>
-    EIGEN_DEVICE_FUNC 
-    EIGEN_STRONG_INLINE void resizeLike(const EigenBase<OtherDerived>& _other)
+    HYDRA_EIGEN_DEVICE_FUNC 
+    HYDRA_EIGEN_STRONG_INLINE void resizeLike(const EigenBase<OtherDerived>& _other)
     {
       const OtherDerived& other = _other.derived();
       internal::check_rows_cols_for_overflow<MaxSizeAtCompileTime>::run(other.rows(), other.cols());
@@ -386,8 +386,8 @@ class PlainObjectBase : public internal::dense_xpr_base<Derived>::type
       * Matrices are resized relative to the top-left element. In case values need to be 
       * appended to the matrix they will be uninitialized.
       */
-    EIGEN_DEVICE_FUNC
-    EIGEN_STRONG_INLINE void conservativeResize(Index rows, Index cols)
+    HYDRA_EIGEN_DEVICE_FUNC
+    HYDRA_EIGEN_STRONG_INLINE void conservativeResize(Index rows, Index cols)
     {
       internal::conservative_resize_like_impl<Derived>::run(*this, rows, cols);
     }
@@ -399,8 +399,8 @@ class PlainObjectBase : public internal::dense_xpr_base<Derived>::type
       *
       * In case the matrix is growing, new rows will be uninitialized.
       */
-    EIGEN_DEVICE_FUNC
-    EIGEN_STRONG_INLINE void conservativeResize(Index rows, NoChange_t)
+    HYDRA_EIGEN_DEVICE_FUNC
+    HYDRA_EIGEN_STRONG_INLINE void conservativeResize(Index rows, NoChange_t)
     {
       // Note: see the comment in conservativeResize(Index,Index)
       conservativeResize(rows, cols());
@@ -413,8 +413,8 @@ class PlainObjectBase : public internal::dense_xpr_base<Derived>::type
       *
       * In case the matrix is growing, new columns will be uninitialized.
       */
-    EIGEN_DEVICE_FUNC
-    EIGEN_STRONG_INLINE void conservativeResize(NoChange_t, Index cols)
+    HYDRA_EIGEN_DEVICE_FUNC
+    HYDRA_EIGEN_STRONG_INLINE void conservativeResize(NoChange_t, Index cols)
     {
       // Note: see the comment in conservativeResize(Index,Index)
       conservativeResize(rows(), cols);
@@ -428,8 +428,8 @@ class PlainObjectBase : public internal::dense_xpr_base<Derived>::type
       *
       * When values are appended, they will be uninitialized.
       */
-    EIGEN_DEVICE_FUNC
-    EIGEN_STRONG_INLINE void conservativeResize(Index size)
+    HYDRA_EIGEN_DEVICE_FUNC
+    HYDRA_EIGEN_STRONG_INLINE void conservativeResize(Index size)
     {
       internal::conservative_resize_like_impl<Derived>::run(*this, size);
     }
@@ -444,8 +444,8 @@ class PlainObjectBase : public internal::dense_xpr_base<Derived>::type
       * appended to the matrix they will copied from \c other.
       */
     template<typename OtherDerived>
-    EIGEN_DEVICE_FUNC
-    EIGEN_STRONG_INLINE void conservativeResizeLike(const DenseBase<OtherDerived>& other)
+    HYDRA_EIGEN_DEVICE_FUNC
+    HYDRA_EIGEN_STRONG_INLINE void conservativeResizeLike(const DenseBase<OtherDerived>& other)
     {
       internal::conservative_resize_like_impl<Derived,OtherDerived>::run(*this, other);
     }
@@ -453,24 +453,24 @@ class PlainObjectBase : public internal::dense_xpr_base<Derived>::type
     /** This is a special case of the templated operator=. Its purpose is to
       * prevent a default operator= from hiding the templated operator=.
       */
-    EIGEN_DEVICE_FUNC
-    EIGEN_STRONG_INLINE Derived& operator=(const PlainObjectBase& other)
+    HYDRA_EIGEN_DEVICE_FUNC
+    HYDRA_EIGEN_STRONG_INLINE Derived& operator=(const PlainObjectBase& other)
     {
       return _set(other);
     }
 
     /** \sa MatrixBase::lazyAssign() */
     template<typename OtherDerived>
-    EIGEN_DEVICE_FUNC
-    EIGEN_STRONG_INLINE Derived& lazyAssign(const DenseBase<OtherDerived>& other)
+    HYDRA_EIGEN_DEVICE_FUNC
+    HYDRA_EIGEN_STRONG_INLINE Derived& lazyAssign(const DenseBase<OtherDerived>& other)
     {
       _resize_to_match(other);
       return Base::lazyAssign(other.derived());
     }
 
     template<typename OtherDerived>
-    EIGEN_DEVICE_FUNC
-    EIGEN_STRONG_INLINE Derived& operator=(const ReturnByValue<OtherDerived>& func)
+    HYDRA_EIGEN_DEVICE_FUNC
+    HYDRA_EIGEN_STRONG_INLINE Derived& operator=(const ReturnByValue<OtherDerived>& func)
     {
       resize(func.rows(), func.cols());
       return Base::operator=(func);
@@ -480,33 +480,33 @@ class PlainObjectBase : public internal::dense_xpr_base<Derived>::type
     // by making all its constructor protected. See bug 1074.
   protected:
 
-    EIGEN_DEVICE_FUNC
-    EIGEN_STRONG_INLINE PlainObjectBase() : m_storage()
+    HYDRA_EIGEN_DEVICE_FUNC
+    HYDRA_EIGEN_STRONG_INLINE PlainObjectBase() : m_storage()
     {
 //       _check_template_params();
-//       EIGEN_INITIALIZE_COEFFS_IF_THAT_OPTION_IS_ENABLED
+//       HYDRA_EIGEN_INITIALIZE_COEFFS_IF_THAT_OPTION_IS_ENABLED
     }
 
-#ifndef EIGEN_PARSED_BY_DOXYGEN
+#ifndef HYDRA_EIGEN_PARSED_BY_DOXYGEN
     // FIXME is it still needed ?
     /** \internal */
-    EIGEN_DEVICE_FUNC
+    HYDRA_EIGEN_DEVICE_FUNC
     explicit PlainObjectBase(internal::constructor_without_unaligned_array_assert)
       : m_storage(internal::constructor_without_unaligned_array_assert())
     {
-//       _check_template_params(); EIGEN_INITIALIZE_COEFFS_IF_THAT_OPTION_IS_ENABLED
+//       _check_template_params(); HYDRA_EIGEN_INITIALIZE_COEFFS_IF_THAT_OPTION_IS_ENABLED
     }
 #endif
 
-#if EIGEN_HAS_RVALUE_REFERENCES
-    EIGEN_DEVICE_FUNC
-    PlainObjectBase(PlainObjectBase&& other) EIGEN_NOEXCEPT
+#if HYDRA_EIGEN_HAS_RVALUE_REFERENCES
+    HYDRA_EIGEN_DEVICE_FUNC
+    PlainObjectBase(PlainObjectBase&& other) HYDRA_EIGEN_NOEXCEPT
       : m_storage( std::move(other.m_storage) )
     {
     }
 
-    EIGEN_DEVICE_FUNC
-    PlainObjectBase& operator=(PlainObjectBase&& other) EIGEN_NOEXCEPT
+    HYDRA_EIGEN_DEVICE_FUNC
+    PlainObjectBase& operator=(PlainObjectBase&& other) HYDRA_EIGEN_NOEXCEPT
     {
       using std::swap;
       swap(m_storage, other.m_storage);
@@ -515,21 +515,21 @@ class PlainObjectBase : public internal::dense_xpr_base<Derived>::type
 #endif
 
     /** Copy constructor */
-    EIGEN_DEVICE_FUNC
-    EIGEN_STRONG_INLINE PlainObjectBase(const PlainObjectBase& other)
+    HYDRA_EIGEN_DEVICE_FUNC
+    HYDRA_EIGEN_STRONG_INLINE PlainObjectBase(const PlainObjectBase& other)
       : Base(), m_storage(other.m_storage) { }
-    EIGEN_DEVICE_FUNC
-    EIGEN_STRONG_INLINE PlainObjectBase(Index size, Index rows, Index cols)
+    HYDRA_EIGEN_DEVICE_FUNC
+    HYDRA_EIGEN_STRONG_INLINE PlainObjectBase(Index size, Index rows, Index cols)
       : m_storage(size, rows, cols)
     {
 //       _check_template_params();
-//       EIGEN_INITIALIZE_COEFFS_IF_THAT_OPTION_IS_ENABLED
+//       HYDRA_EIGEN_INITIALIZE_COEFFS_IF_THAT_OPTION_IS_ENABLED
     }
 
     /** \sa PlainObjectBase::operator=(const EigenBase<OtherDerived>&) */
     template<typename OtherDerived>
-    EIGEN_DEVICE_FUNC
-    EIGEN_STRONG_INLINE PlainObjectBase(const DenseBase<OtherDerived> &other)
+    HYDRA_EIGEN_DEVICE_FUNC
+    HYDRA_EIGEN_STRONG_INLINE PlainObjectBase(const DenseBase<OtherDerived> &other)
       : m_storage()
     {
       _check_template_params();
@@ -539,8 +539,8 @@ class PlainObjectBase : public internal::dense_xpr_base<Derived>::type
 
     /** \sa PlainObjectBase::operator=(const EigenBase<OtherDerived>&) */
     template<typename OtherDerived>
-    EIGEN_DEVICE_FUNC
-    EIGEN_STRONG_INLINE PlainObjectBase(const EigenBase<OtherDerived> &other)
+    HYDRA_EIGEN_DEVICE_FUNC
+    HYDRA_EIGEN_STRONG_INLINE PlainObjectBase(const EigenBase<OtherDerived> &other)
       : m_storage()
     {
       _check_template_params();
@@ -549,8 +549,8 @@ class PlainObjectBase : public internal::dense_xpr_base<Derived>::type
     }
     /** \brief Copy constructor with in-place evaluation */
     template<typename OtherDerived>
-    EIGEN_DEVICE_FUNC
-    EIGEN_STRONG_INLINE PlainObjectBase(const ReturnByValue<OtherDerived>& other)
+    HYDRA_EIGEN_DEVICE_FUNC
+    HYDRA_EIGEN_STRONG_INLINE PlainObjectBase(const ReturnByValue<OtherDerived>& other)
     {
       _check_template_params();
       // FIXME this does not automatically transpose vectors if necessary
@@ -564,8 +564,8 @@ class PlainObjectBase : public internal::dense_xpr_base<Derived>::type
       * \copydetails DenseBase::operator=(const EigenBase<OtherDerived> &other)
       */
     template<typename OtherDerived>
-    EIGEN_DEVICE_FUNC 
-    EIGEN_STRONG_INLINE Derived& operator=(const EigenBase<OtherDerived> &other)
+    HYDRA_EIGEN_DEVICE_FUNC 
+    HYDRA_EIGEN_STRONG_INLINE Derived& operator=(const EigenBase<OtherDerived> &other)
     {
       _resize_to_match(other);
       Base::operator=(other.derived());
@@ -646,23 +646,23 @@ class PlainObjectBase : public internal::dense_xpr_base<Derived>::type
     //@}
 
     using Base::setConstant;
-    EIGEN_DEVICE_FUNC Derived& setConstant(Index size, const Scalar& val);
-    EIGEN_DEVICE_FUNC Derived& setConstant(Index rows, Index cols, const Scalar& val);
+    HYDRA_EIGEN_DEVICE_FUNC Derived& setConstant(Index size, const Scalar& val);
+    HYDRA_EIGEN_DEVICE_FUNC Derived& setConstant(Index rows, Index cols, const Scalar& val);
 
     using Base::setZero;
-    EIGEN_DEVICE_FUNC Derived& setZero(Index size);
-    EIGEN_DEVICE_FUNC Derived& setZero(Index rows, Index cols);
+    HYDRA_EIGEN_DEVICE_FUNC Derived& setZero(Index size);
+    HYDRA_EIGEN_DEVICE_FUNC Derived& setZero(Index rows, Index cols);
 
     using Base::setOnes;
-    EIGEN_DEVICE_FUNC Derived& setOnes(Index size);
-    EIGEN_DEVICE_FUNC Derived& setOnes(Index rows, Index cols);
+    HYDRA_EIGEN_DEVICE_FUNC Derived& setOnes(Index size);
+    HYDRA_EIGEN_DEVICE_FUNC Derived& setOnes(Index rows, Index cols);
 
     using Base::setRandom;
     Derived& setRandom(Index size);
     Derived& setRandom(Index rows, Index cols);
 
-    #ifdef EIGEN_PLAINOBJECTBASE_PLUGIN
-    #include EIGEN_PLAINOBJECTBASE_PLUGIN
+    #ifdef HYDRA_EIGEN_PLAINOBJECTBASE_PLUGIN
+    #include HYDRA_EIGEN_PLAINOBJECTBASE_PLUGIN
     #endif
 
   protected:
@@ -674,14 +674,14 @@ class PlainObjectBase : public internal::dense_xpr_base<Derived>::type
       * remain row-vectors and vectors remain vectors.
       */
     template<typename OtherDerived>
-    EIGEN_DEVICE_FUNC 
-    EIGEN_STRONG_INLINE void _resize_to_match(const EigenBase<OtherDerived>& other)
+    HYDRA_EIGEN_DEVICE_FUNC 
+    HYDRA_EIGEN_STRONG_INLINE void _resize_to_match(const EigenBase<OtherDerived>& other)
     {
-      #ifdef EIGEN_NO_AUTOMATIC_RESIZING
+      #ifdef HYDRA_EIGEN_NO_AUTOMATIC_RESIZING
       eigen_assert((this->size()==0 || (IsVectorAtCompileTime ? (this->size() == other.size())
                  : (rows() == other.rows() && cols() == other.cols())))
-        && "Size mismatch. Automatic resizing is disabled because EIGEN_NO_AUTOMATIC_RESIZING is defined");
-      EIGEN_ONLY_USED_FOR_DEBUG(other);
+        && "Size mismatch. Automatic resizing is disabled because HYDRA_EIGEN_NO_AUTOMATIC_RESIZING is defined");
+      HYDRA_EIGEN_ONLY_USED_FOR_DEBUG(other);
       #else
       resizeLike(other);
       #endif
@@ -704,8 +704,8 @@ class PlainObjectBase : public internal::dense_xpr_base<Derived>::type
     // aliasing is dealt once in internall::call_assignment
     // so at this stage we have to assume aliasing... and resising has to be done later.
     template<typename OtherDerived>
-    EIGEN_DEVICE_FUNC 
-    EIGEN_STRONG_INLINE Derived& _set(const DenseBase<OtherDerived>& other)
+    HYDRA_EIGEN_DEVICE_FUNC 
+    HYDRA_EIGEN_STRONG_INLINE Derived& _set(const DenseBase<OtherDerived>& other)
     {
       internal::call_assignment(this->derived(), other.derived());
       return this->derived();
@@ -717,8 +717,8 @@ class PlainObjectBase : public internal::dense_xpr_base<Derived>::type
       * \sa operator=(const MatrixBase<OtherDerived>&), _set()
       */
     template<typename OtherDerived>
-    EIGEN_DEVICE_FUNC 
-    EIGEN_STRONG_INLINE Derived& _set_noalias(const DenseBase<OtherDerived>& other)
+    HYDRA_EIGEN_DEVICE_FUNC 
+    HYDRA_EIGEN_STRONG_INLINE Derived& _set_noalias(const DenseBase<OtherDerived>& other)
     {
       // I don't think we need this resize call since the lazyAssign will anyways resize
       // and lazyAssign will be called by the assign selector.
@@ -730,33 +730,33 @@ class PlainObjectBase : public internal::dense_xpr_base<Derived>::type
     }
 
     template<typename T0, typename T1>
-    EIGEN_DEVICE_FUNC
-    EIGEN_STRONG_INLINE void _init2(Index rows, Index cols, typename internal::enable_if<Base::SizeAtCompileTime!=2,T0>::type* = 0)
+    HYDRA_EIGEN_DEVICE_FUNC
+    HYDRA_EIGEN_STRONG_INLINE void _init2(Index rows, Index cols, typename internal::enable_if<Base::SizeAtCompileTime!=2,T0>::type* = 0)
     {
-      EIGEN_STATIC_ASSERT(bool(NumTraits<T0>::IsInteger) &&
+      HYDRA_EIGEN_STATIC_ASSERT(bool(NumTraits<T0>::IsInteger) &&
                           bool(NumTraits<T1>::IsInteger),
                           FLOATING_POINT_ARGUMENT_PASSED__INTEGER_WAS_EXPECTED)
       resize(rows,cols);
     }
     
     template<typename T0, typename T1>
-    EIGEN_DEVICE_FUNC 
-    EIGEN_STRONG_INLINE void _init2(const T0& val0, const T1& val1, typename internal::enable_if<Base::SizeAtCompileTime==2,T0>::type* = 0)
+    HYDRA_EIGEN_DEVICE_FUNC 
+    HYDRA_EIGEN_STRONG_INLINE void _init2(const T0& val0, const T1& val1, typename internal::enable_if<Base::SizeAtCompileTime==2,T0>::type* = 0)
     {
-      EIGEN_STATIC_ASSERT_VECTOR_SPECIFIC_SIZE(PlainObjectBase, 2)
+      HYDRA_EIGEN_STATIC_ASSERT_VECTOR_SPECIFIC_SIZE(PlainObjectBase, 2)
       m_storage.data()[0] = Scalar(val0);
       m_storage.data()[1] = Scalar(val1);
     }
     
     template<typename T0, typename T1>
-    EIGEN_DEVICE_FUNC 
-    EIGEN_STRONG_INLINE void _init2(const Index& val0, const Index& val1,
+    HYDRA_EIGEN_DEVICE_FUNC 
+    HYDRA_EIGEN_STRONG_INLINE void _init2(const Index& val0, const Index& val1,
                                     typename internal::enable_if<    (!internal::is_same<Index,Scalar>::value)
                                                                   && (internal::is_same<T0,Index>::value)
                                                                   && (internal::is_same<T1,Index>::value)
                                                                   && Base::SizeAtCompileTime==2,T1>::type* = 0)
     {
-      EIGEN_STATIC_ASSERT_VECTOR_SPECIFIC_SIZE(PlainObjectBase, 2)
+      HYDRA_EIGEN_STATIC_ASSERT_VECTOR_SPECIFIC_SIZE(PlainObjectBase, 2)
       m_storage.data()[0] = Scalar(val0);
       m_storage.data()[1] = Scalar(val1);
     }
@@ -764,87 +764,87 @@ class PlainObjectBase : public internal::dense_xpr_base<Derived>::type
     // The argument is convertible to the Index type and we either have a non 1x1 Matrix, or a dynamic-sized Array,
     // then the argument is meant to be the size of the object.
     template<typename T>
-    EIGEN_DEVICE_FUNC
-    EIGEN_STRONG_INLINE void _init1(Index size, typename internal::enable_if<    (Base::SizeAtCompileTime!=1 || !internal::is_convertible<T, Scalar>::value)
+    HYDRA_EIGEN_DEVICE_FUNC
+    HYDRA_EIGEN_STRONG_INLINE void _init1(Index size, typename internal::enable_if<    (Base::SizeAtCompileTime!=1 || !internal::is_convertible<T, Scalar>::value)
                                                                               && ((!internal::is_same<typename internal::traits<Derived>::XprKind,ArrayXpr>::value || Base::SizeAtCompileTime==Dynamic)),T>::type* = 0)
     {
-      // NOTE MSVC 2008 complains if we directly put bool(NumTraits<T>::IsInteger) as the EIGEN_STATIC_ASSERT argument.
+      // NOTE MSVC 2008 complains if we directly put bool(NumTraits<T>::IsInteger) as the HYDRA_EIGEN_STATIC_ASSERT argument.
       const bool is_integer = NumTraits<T>::IsInteger;
-      EIGEN_UNUSED_VARIABLE(is_integer);
-      EIGEN_STATIC_ASSERT(is_integer,
+      HYDRA_EIGEN_UNUSED_VARIABLE(is_integer);
+      HYDRA_EIGEN_STATIC_ASSERT(is_integer,
                           FLOATING_POINT_ARGUMENT_PASSED__INTEGER_WAS_EXPECTED)
       resize(size);
     }
     
     // We have a 1x1 matrix/array => the argument is interpreted as the value of the unique coefficient (case where scalar type can be implicitely converted)
     template<typename T>
-    EIGEN_DEVICE_FUNC
-    EIGEN_STRONG_INLINE void _init1(const Scalar& val0, typename internal::enable_if<Base::SizeAtCompileTime==1 && internal::is_convertible<T, Scalar>::value,T>::type* = 0)
+    HYDRA_EIGEN_DEVICE_FUNC
+    HYDRA_EIGEN_STRONG_INLINE void _init1(const Scalar& val0, typename internal::enable_if<Base::SizeAtCompileTime==1 && internal::is_convertible<T, Scalar>::value,T>::type* = 0)
     {
-      EIGEN_STATIC_ASSERT_VECTOR_SPECIFIC_SIZE(PlainObjectBase, 1)
+      HYDRA_EIGEN_STATIC_ASSERT_VECTOR_SPECIFIC_SIZE(PlainObjectBase, 1)
       m_storage.data()[0] = val0;
     }
     
     // We have a 1x1 matrix/array => the argument is interpreted as the value of the unique coefficient (case where scalar type match the index type)
     template<typename T>
-    EIGEN_DEVICE_FUNC
-    EIGEN_STRONG_INLINE void _init1(const Index& val0,
+    HYDRA_EIGEN_DEVICE_FUNC
+    HYDRA_EIGEN_STRONG_INLINE void _init1(const Index& val0,
                                     typename internal::enable_if<    (!internal::is_same<Index,Scalar>::value)
                                                                   && (internal::is_same<Index,T>::value)
                                                                   && Base::SizeAtCompileTime==1
                                                                   && internal::is_convertible<T, Scalar>::value,T*>::type* = 0)
     {
-      EIGEN_STATIC_ASSERT_VECTOR_SPECIFIC_SIZE(PlainObjectBase, 1)
+      HYDRA_EIGEN_STATIC_ASSERT_VECTOR_SPECIFIC_SIZE(PlainObjectBase, 1)
       m_storage.data()[0] = Scalar(val0);
     }
 
     // Initialize a fixed size matrix from a pointer to raw data
     template<typename T>
-    EIGEN_DEVICE_FUNC
-    EIGEN_STRONG_INLINE void _init1(const Scalar* data){
+    HYDRA_EIGEN_DEVICE_FUNC
+    HYDRA_EIGEN_STRONG_INLINE void _init1(const Scalar* data){
       this->_set_noalias(ConstMapType(data));
     }
 
     // Initialize an arbitrary matrix from a dense expression
     template<typename T, typename OtherDerived>
-    EIGEN_DEVICE_FUNC
-    EIGEN_STRONG_INLINE void _init1(const DenseBase<OtherDerived>& other){
+    HYDRA_EIGEN_DEVICE_FUNC
+    HYDRA_EIGEN_STRONG_INLINE void _init1(const DenseBase<OtherDerived>& other){
       this->_set_noalias(other);
     }
 
     // Initialize an arbitrary matrix from an object convertible to the Derived type.
     template<typename T>
-    EIGEN_DEVICE_FUNC
-    EIGEN_STRONG_INLINE void _init1(const Derived& other){
+    HYDRA_EIGEN_DEVICE_FUNC
+    HYDRA_EIGEN_STRONG_INLINE void _init1(const Derived& other){
       this->_set_noalias(other);
     }
 
     // Initialize an arbitrary matrix from a generic Eigen expression
     template<typename T, typename OtherDerived>
-    EIGEN_DEVICE_FUNC
-    EIGEN_STRONG_INLINE void _init1(const EigenBase<OtherDerived>& other){
+    HYDRA_EIGEN_DEVICE_FUNC
+    HYDRA_EIGEN_STRONG_INLINE void _init1(const EigenBase<OtherDerived>& other){
       this->derived() = other;
     }
 
     template<typename T, typename OtherDerived>
-    EIGEN_DEVICE_FUNC
-    EIGEN_STRONG_INLINE void _init1(const ReturnByValue<OtherDerived>& other)
+    HYDRA_EIGEN_DEVICE_FUNC
+    HYDRA_EIGEN_STRONG_INLINE void _init1(const ReturnByValue<OtherDerived>& other)
     {
       resize(other.rows(), other.cols());
       other.evalTo(this->derived());
     }
 
     template<typename T, typename OtherDerived, int ColsAtCompileTime>
-    EIGEN_DEVICE_FUNC
-    EIGEN_STRONG_INLINE void _init1(const RotationBase<OtherDerived,ColsAtCompileTime>& r)
+    HYDRA_EIGEN_DEVICE_FUNC
+    HYDRA_EIGEN_STRONG_INLINE void _init1(const RotationBase<OtherDerived,ColsAtCompileTime>& r)
     {
       this->derived() = r;
     }
     
     // For fixed-size Array<Scalar,...>
     template<typename T>
-    EIGEN_DEVICE_FUNC
-    EIGEN_STRONG_INLINE void _init1(const Scalar& val0,
+    HYDRA_EIGEN_DEVICE_FUNC
+    HYDRA_EIGEN_STRONG_INLINE void _init1(const Scalar& val0,
                                     typename internal::enable_if<    Base::SizeAtCompileTime!=Dynamic
                                                                   && Base::SizeAtCompileTime!=1
                                                                   && internal::is_convertible<T, Scalar>::value
@@ -855,8 +855,8 @@ class PlainObjectBase : public internal::dense_xpr_base<Derived>::type
     
     // For fixed-size Array<Index,...>
     template<typename T>
-    EIGEN_DEVICE_FUNC
-    EIGEN_STRONG_INLINE void _init1(const Index& val0,
+    HYDRA_EIGEN_DEVICE_FUNC
+    HYDRA_EIGEN_STRONG_INLINE void _init1(const Index& val0,
                                     typename internal::enable_if<    (!internal::is_same<Index,Scalar>::value)
                                                                   && (internal::is_same<Index,T>::value)
                                                                   && Base::SizeAtCompileTime!=Dynamic
@@ -872,13 +872,13 @@ class PlainObjectBase : public internal::dense_xpr_base<Derived>::type
 
   public:
     
-#ifndef EIGEN_PARSED_BY_DOXYGEN
+#ifndef HYDRA_EIGEN_PARSED_BY_DOXYGEN
     /** \internal
       * \brief Override DenseBase::swap() since for dynamic-sized matrices
       * of same type it is enough to swap the data pointers.
       */
     template<typename OtherDerived>
-    EIGEN_DEVICE_FUNC
+    HYDRA_EIGEN_DEVICE_FUNC
     void swap(DenseBase<OtherDerived> & other)
     {
       enum { SwapPointers = internal::is_same<Derived, OtherDerived>::value && Base::SizeAtCompileTime==Dynamic };
@@ -889,15 +889,15 @@ class PlainObjectBase : public internal::dense_xpr_base<Derived>::type
       * \brief const version forwarded to DenseBase::swap
       */
     template<typename OtherDerived>
-    EIGEN_DEVICE_FUNC
+    HYDRA_EIGEN_DEVICE_FUNC
     void swap(DenseBase<OtherDerived> const & other)
     { Base::swap(other.derived()); }
     
-    EIGEN_DEVICE_FUNC 
-    static EIGEN_STRONG_INLINE void _check_template_params()
+    HYDRA_EIGEN_DEVICE_FUNC 
+    static HYDRA_EIGEN_STRONG_INLINE void _check_template_params()
     {
-      EIGEN_STATIC_ASSERT((EIGEN_IMPLIES(MaxRowsAtCompileTime==1 && MaxColsAtCompileTime!=1, (Options&RowMajor)==RowMajor)
-                        && EIGEN_IMPLIES(MaxColsAtCompileTime==1 && MaxRowsAtCompileTime!=1, (Options&RowMajor)==0)
+      HYDRA_EIGEN_STATIC_ASSERT((HYDRA_EIGEN_IMPLIES(MaxRowsAtCompileTime==1 && MaxColsAtCompileTime!=1, (Options&RowMajor)==RowMajor)
+                        && HYDRA_EIGEN_IMPLIES(MaxColsAtCompileTime==1 && MaxRowsAtCompileTime!=1, (Options&RowMajor)==0)
                         && ((RowsAtCompileTime == Dynamic) || (RowsAtCompileTime >= 0))
                         && ((ColsAtCompileTime == Dynamic) || (ColsAtCompileTime >= 0))
                         && ((MaxRowsAtCompileTime == Dynamic) || (MaxRowsAtCompileTime >= 0))
@@ -920,7 +920,7 @@ struct conservative_resize_like_impl
   static void run(DenseBase<Derived>& _this, Index rows, Index cols)
   {
     if (_this.rows() == rows && _this.cols() == cols) return;
-    EIGEN_STATIC_ASSERT_DYNAMIC_SIZE(Derived)
+    HYDRA_EIGEN_STATIC_ASSERT_DYNAMIC_SIZE(Derived)
 
     if ( ( Derived::IsRowMajor && _this.cols() == cols) || // row-major and we change only the number of rows
          (!Derived::IsRowMajor && _this.rows() == rows) )  // column-major and we change only the number of columns
@@ -947,9 +947,9 @@ struct conservative_resize_like_impl
     // neither RowsAtCompileTime or ColsAtCompileTime must be Dynamic. If only one of the
     // dimensions is dynamic, one could use either conservativeResize(Index rows, NoChange_t) or
     // conservativeResize(NoChange_t, Index cols). For these methods new static asserts like
-    // EIGEN_STATIC_ASSERT_DYNAMIC_ROWS and EIGEN_STATIC_ASSERT_DYNAMIC_COLS would be good.
-    EIGEN_STATIC_ASSERT_DYNAMIC_SIZE(Derived)
-    EIGEN_STATIC_ASSERT_DYNAMIC_SIZE(OtherDerived)
+    // HYDRA_EIGEN_STATIC_ASSERT_DYNAMIC_ROWS and HYDRA_EIGEN_STATIC_ASSERT_DYNAMIC_COLS would be good.
+    HYDRA_EIGEN_STATIC_ASSERT_DYNAMIC_SIZE(Derived)
+    HYDRA_EIGEN_STATIC_ASSERT_DYNAMIC_SIZE(OtherDerived)
 
     if ( ( Derived::IsRowMajor && _this.cols() == other.cols()) || // row-major and we change only the number of rows
          (!Derived::IsRowMajor && _this.rows() == other.rows()) )  // column-major and we change only the number of columns
@@ -1007,7 +1007,7 @@ struct conservative_resize_like_impl<Derived,OtherDerived,true>
 template<typename MatrixTypeA, typename MatrixTypeB, bool SwapPointers>
 struct matrix_swap_impl
 {
-  EIGEN_DEVICE_FUNC
+  HYDRA_EIGEN_DEVICE_FUNC
   static inline void run(MatrixTypeA& a, MatrixTypeB& b)
   {
     a.base().swap(b);
@@ -1017,7 +1017,7 @@ struct matrix_swap_impl
 template<typename MatrixTypeA, typename MatrixTypeB>
 struct matrix_swap_impl<MatrixTypeA, MatrixTypeB, true>
 {
-  EIGEN_DEVICE_FUNC
+  HYDRA_EIGEN_DEVICE_FUNC
   static inline void run(MatrixTypeA& a, MatrixTypeB& b)
   {
     static_cast<typename MatrixTypeA::Base&>(a).m_storage.swap(static_cast<typename MatrixTypeB::Base&>(b).m_storage);
@@ -1028,4 +1028,4 @@ struct matrix_swap_impl<MatrixTypeA, MatrixTypeB, true>
 
 } /* end namespace Eigen */  HYDRA_EXTERNAL_NAMESPACE_END
 
-#endif // EIGEN_DENSESTORAGEBASE_H
+#endif // HYDRA_EIGEN_DENSESTORAGEBASE_H

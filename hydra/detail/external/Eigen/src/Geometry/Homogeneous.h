@@ -7,8 +7,8 @@
 // Public License v. 2.0. If a copy of the MPL was not distributed
 // with this file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
-#ifndef EIGEN_HOMOGENEOUS_H
-#define EIGEN_HOMOGENEOUS_H
+#ifndef HYDRA_EIGEN_HOMOGENEOUS_H
+#define HYDRA_EIGEN_HOMOGENEOUS_H
 
 HYDRA_EXTERNAL_NAMESPACE_BEGIN namespace Eigen { 
 
@@ -66,19 +66,19 @@ template<typename MatrixType,int _Direction> class Homogeneous
     enum { Direction = _Direction };
 
     typedef MatrixBase<Homogeneous> Base;
-    EIGEN_DENSE_PUBLIC_INTERFACE(Homogeneous)
+    HYDRA_EIGEN_DENSE_PUBLIC_INTERFACE(Homogeneous)
 
-    EIGEN_DEVICE_FUNC explicit inline Homogeneous(const MatrixType& matrix)
+    HYDRA_EIGEN_DEVICE_FUNC explicit inline Homogeneous(const MatrixType& matrix)
       : m_matrix(matrix)
     {}
 
-    EIGEN_DEVICE_FUNC inline Index rows() const { return m_matrix.rows() + (int(Direction)==Vertical   ? 1 : 0); }
-    EIGEN_DEVICE_FUNC inline Index cols() const { return m_matrix.cols() + (int(Direction)==Horizontal ? 1 : 0); }
+    HYDRA_EIGEN_DEVICE_FUNC inline Index rows() const { return m_matrix.rows() + (int(Direction)==Vertical   ? 1 : 0); }
+    HYDRA_EIGEN_DEVICE_FUNC inline Index cols() const { return m_matrix.cols() + (int(Direction)==Horizontal ? 1 : 0); }
     
-    EIGEN_DEVICE_FUNC const NestedExpression& nestedExpression() const { return m_matrix; }
+    HYDRA_EIGEN_DEVICE_FUNC const NestedExpression& nestedExpression() const { return m_matrix; }
 
     template<typename Rhs>
-    EIGEN_DEVICE_FUNC inline const Product<Homogeneous,Rhs>
+    HYDRA_EIGEN_DEVICE_FUNC inline const Product<Homogeneous,Rhs>
     operator* (const MatrixBase<Rhs>& rhs) const
     {
       eigen_assert(int(Direction)==Horizontal);
@@ -86,7 +86,7 @@ template<typename MatrixType,int _Direction> class Homogeneous
     }
 
     template<typename Lhs> friend
-    EIGEN_DEVICE_FUNC inline const Product<Lhs,Homogeneous>
+    HYDRA_EIGEN_DEVICE_FUNC inline const Product<Lhs,Homogeneous>
     operator* (const MatrixBase<Lhs>& lhs, const Homogeneous& rhs)
     {
       eigen_assert(int(Direction)==Vertical);
@@ -94,7 +94,7 @@ template<typename MatrixType,int _Direction> class Homogeneous
     }
 
     template<typename Scalar, int Dim, int Mode, int Options> friend
-    EIGEN_DEVICE_FUNC inline const Product<Transform<Scalar,Dim,Mode,Options>, Homogeneous >
+    HYDRA_EIGEN_DEVICE_FUNC inline const Product<Transform<Scalar,Dim,Mode,Options>, Homogeneous >
     operator* (const Transform<Scalar,Dim,Mode,Options>& lhs, const Homogeneous& rhs)
     {
       eigen_assert(int(Direction)==Vertical);
@@ -102,7 +102,7 @@ template<typename MatrixType,int _Direction> class Homogeneous
     }
 
     template<typename Func>
-    EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE typename internal::result_of<Func(Scalar,Scalar)>::type
+    HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE typename internal::result_of<Func(Scalar,Scalar)>::type
     redux(const Func& func) const
     {
       return func(m_matrix.redux(func), Scalar(1));
@@ -126,10 +126,10 @@ template<typename MatrixType,int _Direction> class Homogeneous
   * \sa VectorwiseOp::homogeneous(), class Homogeneous
   */
 template<typename Derived>
-EIGEN_DEVICE_FUNC inline typename MatrixBase<Derived>::HomogeneousReturnType
+HYDRA_EIGEN_DEVICE_FUNC inline typename MatrixBase<Derived>::HomogeneousReturnType
 MatrixBase<Derived>::homogeneous() const
 {
-  EIGEN_STATIC_ASSERT_VECTOR_ONLY(Derived);
+  HYDRA_EIGEN_STATIC_ASSERT_VECTOR_ONLY(Derived);
   return HomogeneousReturnType(derived());
 }
 
@@ -144,7 +144,7 @@ MatrixBase<Derived>::homogeneous() const
   *
   * \sa MatrixBase::homogeneous(), class Homogeneous */
 template<typename ExpressionType, int Direction>
-EIGEN_DEVICE_FUNC inline Homogeneous<ExpressionType,Direction>
+HYDRA_EIGEN_DEVICE_FUNC inline Homogeneous<ExpressionType,Direction>
 VectorwiseOp<ExpressionType,Direction>::homogeneous() const
 {
   return HomogeneousReturnType(_expression());
@@ -168,10 +168,10 @@ VectorwiseOp<ExpressionType,Direction>::homogeneous() const
   *
   * \sa VectorwiseOp::hnormalized() */
 template<typename Derived>
-EIGEN_DEVICE_FUNC inline const typename MatrixBase<Derived>::HNormalizedReturnType
+HYDRA_EIGEN_DEVICE_FUNC inline const typename MatrixBase<Derived>::HNormalizedReturnType
 MatrixBase<Derived>::hnormalized() const
 {
-  EIGEN_STATIC_ASSERT_VECTOR_ONLY(Derived);
+  HYDRA_EIGEN_STATIC_ASSERT_VECTOR_ONLY(Derived);
   return ConstStartMinusOne(derived(),0,0,
     ColsAtCompileTime==1?size()-1:1,
     ColsAtCompileTime==1?1:size()-1) / coeff(size()-1);
@@ -192,7 +192,7 @@ MatrixBase<Derived>::hnormalized() const
   *
   * \sa MatrixBase::hnormalized() */
 template<typename ExpressionType, int Direction>
-EIGEN_DEVICE_FUNC inline const typename VectorwiseOp<ExpressionType,Direction>::HNormalizedReturnType
+HYDRA_EIGEN_DEVICE_FUNC inline const typename VectorwiseOp<ExpressionType,Direction>::HNormalizedReturnType
 VectorwiseOp<ExpressionType,Direction>::hnormalized() const
 {
   return HNormalized_Block(_expression(),0,0,
@@ -216,7 +216,7 @@ template<typename MatrixOrTransformType>
 struct take_matrix_for_product
 {
   typedef MatrixOrTransformType type;
-  EIGEN_DEVICE_FUNC static const type& run(const type &x) { return x; }
+  HYDRA_EIGEN_DEVICE_FUNC static const type& run(const type &x) { return x; }
 };
 
 template<typename Scalar, int Dim, int Mode,int Options>
@@ -224,7 +224,7 @@ struct take_matrix_for_product<Transform<Scalar, Dim, Mode, Options> >
 {
   typedef Transform<Scalar, Dim, Mode, Options> TransformType;
   typedef typename internal::add_const<typename TransformType::ConstAffinePart>::type type;
-  EIGEN_DEVICE_FUNC static type run (const TransformType& x) { return x.affine(); }
+  HYDRA_EIGEN_DEVICE_FUNC static type run (const TransformType& x) { return x.affine(); }
 };
 
 template<typename Scalar, int Dim, int Options>
@@ -232,7 +232,7 @@ struct take_matrix_for_product<Transform<Scalar, Dim, Projective, Options> >
 {
   typedef Transform<Scalar, Dim, Projective, Options> TransformType;
   typedef typename TransformType::MatrixType type;
-  EIGEN_DEVICE_FUNC static const type& run (const TransformType& x) { return x.matrix(); }
+  HYDRA_EIGEN_DEVICE_FUNC static const type& run (const TransformType& x) { return x.matrix(); }
 };
 
 template<typename MatrixType,typename Lhs>
@@ -257,15 +257,15 @@ struct homogeneous_left_product_impl<Homogeneous<MatrixType,Vertical>,Lhs>
   typedef typename traits<homogeneous_left_product_impl>::LhsMatrixType LhsMatrixType;
   typedef typename remove_all<LhsMatrixType>::type LhsMatrixTypeCleaned;
   typedef typename remove_all<typename LhsMatrixTypeCleaned::Nested>::type LhsMatrixTypeNested;
-  EIGEN_DEVICE_FUNC homogeneous_left_product_impl(const Lhs& lhs, const MatrixType& rhs)
+  HYDRA_EIGEN_DEVICE_FUNC homogeneous_left_product_impl(const Lhs& lhs, const MatrixType& rhs)
     : m_lhs(take_matrix_for_product<Lhs>::run(lhs)),
       m_rhs(rhs)
   {}
 
-  EIGEN_DEVICE_FUNC inline Index rows() const { return m_lhs.rows(); }
-  EIGEN_DEVICE_FUNC inline Index cols() const { return m_rhs.cols(); }
+  HYDRA_EIGEN_DEVICE_FUNC inline Index rows() const { return m_lhs.rows(); }
+  HYDRA_EIGEN_DEVICE_FUNC inline Index cols() const { return m_rhs.cols(); }
 
-  template<typename Dest> EIGEN_DEVICE_FUNC void evalTo(Dest& dst) const
+  template<typename Dest> HYDRA_EIGEN_DEVICE_FUNC void evalTo(Dest& dst) const
   {
     // FIXME investigate how to allow lazy evaluation of this product when possible
     dst = Block<const LhsMatrixTypeNested,
@@ -296,14 +296,14 @@ struct homogeneous_right_product_impl<Homogeneous<MatrixType,Horizontal>,Rhs>
   : public ReturnByValue<homogeneous_right_product_impl<Homogeneous<MatrixType,Horizontal>,Rhs> >
 {
   typedef typename remove_all<typename Rhs::Nested>::type RhsNested;
-  EIGEN_DEVICE_FUNC homogeneous_right_product_impl(const MatrixType& lhs, const Rhs& rhs)
+  HYDRA_EIGEN_DEVICE_FUNC homogeneous_right_product_impl(const MatrixType& lhs, const Rhs& rhs)
     : m_lhs(lhs), m_rhs(rhs)
   {}
 
-  EIGEN_DEVICE_FUNC inline Index rows() const { return m_lhs.rows(); }
-  EIGEN_DEVICE_FUNC inline Index cols() const { return m_rhs.cols(); }
+  HYDRA_EIGEN_DEVICE_FUNC inline Index rows() const { return m_lhs.rows(); }
+  HYDRA_EIGEN_DEVICE_FUNC inline Index cols() const { return m_rhs.cols(); }
 
-  template<typename Dest> EIGEN_DEVICE_FUNC void evalTo(Dest& dst) const
+  template<typename Dest> HYDRA_EIGEN_DEVICE_FUNC void evalTo(Dest& dst) const
   {
     // FIXME investigate how to allow lazy evaluation of this product when possible
     dst = m_lhs * Block<const RhsNested,
@@ -336,7 +336,7 @@ struct unary_evaluator<Homogeneous<ArgType,Direction>, IndexBased>
   typedef typename XprType::PlainObject PlainObject;
   typedef evaluator<PlainObject> Base;
 
-  EIGEN_DEVICE_FUNC explicit unary_evaluator(const XprType& op)
+  HYDRA_EIGEN_DEVICE_FUNC explicit unary_evaluator(const XprType& op)
     : Base(), m_temp(op)
   {
     ::new (static_cast<Base*>(this)) Base(m_temp);
@@ -351,7 +351,7 @@ template< typename DstXprType, typename ArgType, typename Scalar>
 struct Assignment<DstXprType, Homogeneous<ArgType,Vertical>, internal::assign_op<Scalar,typename ArgType::Scalar>, Dense2Dense>
 {
   typedef Homogeneous<ArgType,Vertical> SrcXprType;
-  EIGEN_DEVICE_FUNC static void run(DstXprType &dst, const SrcXprType &src, const internal::assign_op<Scalar,typename ArgType::Scalar> &)
+  HYDRA_EIGEN_DEVICE_FUNC static void run(DstXprType &dst, const SrcXprType &src, const internal::assign_op<Scalar,typename ArgType::Scalar> &)
   {
     Index dstRows = src.rows();
     Index dstCols = src.cols();
@@ -368,7 +368,7 @@ template< typename DstXprType, typename ArgType, typename Scalar>
 struct Assignment<DstXprType, Homogeneous<ArgType,Horizontal>, internal::assign_op<Scalar,typename ArgType::Scalar>, Dense2Dense>
 {
   typedef Homogeneous<ArgType,Horizontal> SrcXprType;
-  EIGEN_DEVICE_FUNC static void run(DstXprType &dst, const SrcXprType &src, const internal::assign_op<Scalar,typename ArgType::Scalar> &)
+  HYDRA_EIGEN_DEVICE_FUNC static void run(DstXprType &dst, const SrcXprType &src, const internal::assign_op<Scalar,typename ArgType::Scalar> &)
   {
     Index dstRows = src.rows();
     Index dstCols = src.cols();
@@ -384,7 +384,7 @@ template<typename LhsArg, typename Rhs, int ProductTag>
 struct generic_product_impl<Homogeneous<LhsArg,Horizontal>, Rhs, HomogeneousShape, DenseShape, ProductTag>
 {
   template<typename Dest>
-  EIGEN_DEVICE_FUNC static void evalTo(Dest& dst, const Homogeneous<LhsArg,Horizontal>& lhs, const Rhs& rhs)
+  HYDRA_EIGEN_DEVICE_FUNC static void evalTo(Dest& dst, const Homogeneous<LhsArg,Horizontal>& lhs, const Rhs& rhs)
   {
     homogeneous_right_product_impl<Homogeneous<LhsArg,Horizontal>, Rhs>(lhs.nestedExpression(), rhs).evalTo(dst);
   }
@@ -415,7 +415,7 @@ struct product_evaluator<Product<Lhs, Rhs, LazyProduct>, ProductTag, Homogeneous
   typedef typename helper::Xpr RefactoredXpr;
   typedef evaluator<RefactoredXpr> Base;
   
-  EIGEN_DEVICE_FUNC explicit product_evaluator(const XprType& xpr)
+  HYDRA_EIGEN_DEVICE_FUNC explicit product_evaluator(const XprType& xpr)
     : Base(  xpr.lhs().nestedExpression() .lazyProduct(  xpr.rhs().template topRows<helper::Dim>(xpr.lhs().nestedExpression().cols()) )
             + ConstantBlock(xpr.rhs().row(xpr.rhs().rows()-1),xpr.lhs().rows(), 1) )
   {}
@@ -425,7 +425,7 @@ template<typename Lhs, typename RhsArg, int ProductTag>
 struct generic_product_impl<Lhs, Homogeneous<RhsArg,Vertical>, DenseShape, HomogeneousShape, ProductTag>
 {
   template<typename Dest>
-  EIGEN_DEVICE_FUNC static void evalTo(Dest& dst, const Lhs& lhs, const Homogeneous<RhsArg,Vertical>& rhs)
+  HYDRA_EIGEN_DEVICE_FUNC static void evalTo(Dest& dst, const Lhs& lhs, const Homogeneous<RhsArg,Vertical>& rhs)
   {
     homogeneous_left_product_impl<Homogeneous<RhsArg,Vertical>, Lhs>(lhs, rhs.nestedExpression()).evalTo(dst);
   }
@@ -468,7 +468,7 @@ struct product_evaluator<Product<Lhs, Rhs, LazyProduct>, ProductTag, DenseShape,
   typedef typename helper::Xpr RefactoredXpr;
   typedef evaluator<RefactoredXpr> Base;
   
-  EIGEN_DEVICE_FUNC explicit product_evaluator(const XprType& xpr)
+  HYDRA_EIGEN_DEVICE_FUNC explicit product_evaluator(const XprType& xpr)
     : Base(   xpr.lhs().template leftCols<helper::Dim>(xpr.rhs().nestedExpression().rows()) .lazyProduct( xpr.rhs().nestedExpression() )
             + ConstantBlock(xpr.lhs().col(xpr.lhs().cols()-1),1,xpr.rhs().cols()) )
   {}
@@ -479,7 +479,7 @@ struct generic_product_impl<Transform<Scalar,Dim,Mode,Options>, Homogeneous<RhsA
 {
   typedef Transform<Scalar,Dim,Mode,Options> TransformType;
   template<typename Dest>
-  EIGEN_DEVICE_FUNC static void evalTo(Dest& dst, const TransformType& lhs, const Homogeneous<RhsArg,Vertical>& rhs)
+  HYDRA_EIGEN_DEVICE_FUNC static void evalTo(Dest& dst, const TransformType& lhs, const Homogeneous<RhsArg,Vertical>& rhs)
   {
     homogeneous_left_product_impl<Homogeneous<RhsArg,Vertical>, TransformType>(lhs, rhs.nestedExpression()).evalTo(dst);
   }
@@ -494,4 +494,4 @@ struct permutation_matrix_product<ExpressionType, Side, Transposed, HomogeneousS
 
 } /* end namespace Eigen */  HYDRA_EXTERNAL_NAMESPACE_END
 
-#endif // EIGEN_HOMOGENEOUS_H
+#endif // HYDRA_EIGEN_HOMOGENEOUS_H

@@ -23,7 +23,7 @@ HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
 
 
 template<typename Element, typename Tag, typename Reference, typename Derived>
-  __host__ __device__
+  __hydra_host__ __hydra_device__
   pointer<Element,Tag,Reference,Derived>
     ::pointer()
       : super_t(static_cast<Element*>(0))
@@ -32,7 +32,7 @@ template<typename Element, typename Tag, typename Reference, typename Derived>
 
 template<typename Element, typename Tag, typename Reference, typename Derived>
   template<typename OtherElement>
-    __host__ __device__
+    __hydra_host__ __hydra_device__
     pointer<Element,Tag,Reference,Derived>
       ::pointer(OtherElement *other)
         : super_t(other)
@@ -41,7 +41,7 @@ template<typename Element, typename Tag, typename Reference, typename Derived>
 
 template<typename Element, typename Tag, typename Reference, typename Derived>
   template<typename OtherPointer>
-    __host__ __device__
+    __hydra_host__ __hydra_device__
     pointer<Element,Tag,Reference,Derived>
       ::pointer(const OtherPointer &other,
                 typename thrust::detail::enable_if_pointer_is_convertible<
@@ -54,7 +54,7 @@ template<typename Element, typename Tag, typename Reference, typename Derived>
 
 template<typename Element, typename Tag, typename Reference, typename Derived>
   template<typename OtherPointer>
-    __host__ __device__
+    __hydra_host__ __hydra_device__
     typename thrust::detail::enable_if_pointer_is_convertible<
       OtherPointer,
       pointer<Element,Tag,Reference,Derived>,
@@ -69,7 +69,7 @@ template<typename Element, typename Tag, typename Reference, typename Derived>
 
 
 template<typename Element, typename Tag, typename Reference, typename Derived>
-  __host__ __device__
+  __hydra_host__ __hydra_device__
   typename pointer<Element,Tag,Reference,Derived>::super_t::reference
     pointer<Element,Tag,Reference,Derived>
       ::dereference() const
@@ -79,7 +79,7 @@ template<typename Element, typename Tag, typename Reference, typename Derived>
 
 
 template<typename Element, typename Tag, typename Reference, typename Derived>
-  __host__ __device__
+  __hydra_host__ __hydra_device__
   Element *pointer<Element,Tag,Reference,Derived>
     ::get() const
 {

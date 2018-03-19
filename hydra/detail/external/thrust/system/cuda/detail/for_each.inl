@@ -43,7 +43,7 @@ namespace for_each_n_detail
 struct for_each_kernel
 {
   template<typename Iterator, typename Function, typename Size>
-  __host__ __device__
+  __hydra_host__ __hydra_device__
   void operator()(bulk_::parallel_group<bulk_::concurrent_group<> > &grid, Iterator first, Function f, Size n)
   {
     Size grid_size = grid.size() * grid.this_exec.size();
@@ -63,7 +63,7 @@ struct for_each_kernel
 
 
 template<typename Size>
-__host__ __device__
+__hydra_host__ __hydra_device__
 bool use_wide_counter(Size n, unsigned int narrow_grid_size)
 {
   // use the wide counter when n will not fit within an unsigned int
@@ -95,7 +95,7 @@ template<typename DerivedPolicy,
          typename RandomAccessIterator,
          typename Size,
          typename UnaryFunction>
-__host__ __device__
+__hydra_host__ __hydra_device__
 RandomAccessIterator for_each_n(execution_policy<DerivedPolicy> &exec,
                                 RandomAccessIterator first,
                                 Size n,
@@ -110,7 +110,7 @@ RandomAccessIterator for_each_n(execution_policy<DerivedPolicy> &exec,
 
   struct workaround
   {
-    __host__ __device__
+    __hydra_host__ __hydra_device__
     static RandomAccessIterator parallel_path(execution_policy<DerivedPolicy> &exec, RandomAccessIterator first, Size n, UnaryFunction f)
     {
       thrust::detail::wrapped_function<UnaryFunction,void> wrapped_f(f);
@@ -146,7 +146,7 @@ RandomAccessIterator for_each_n(execution_policy<DerivedPolicy> &exec,
       return first + n;
     }
 
-    __host__ __device__
+    __hydra_host__ __hydra_device__
     static RandomAccessIterator sequential_path(execution_policy<DerivedPolicy> &, RandomAccessIterator first, Size n, UnaryFunction f)
     {
       return thrust::for_each_n(thrust::seq, first, n, f);
@@ -164,7 +164,7 @@ RandomAccessIterator for_each_n(execution_policy<DerivedPolicy> &exec,
 template<typename DerivedPolicy,
          typename InputIterator,
          typename UnaryFunction>
-__host__ __device__
+__hydra_host__ __hydra_device__
 InputIterator for_each(execution_policy<DerivedPolicy> &exec,
                        InputIterator first,
                        InputIterator last,

@@ -30,14 +30,14 @@
  ********************************************************************************
 */
 
-#ifndef EIGEN_JACOBISVD_LAPACKE_H
-#define EIGEN_JACOBISVD_LAPACKE_H
+#ifndef HYDRA_EIGEN_JACOBISVD_LAPACKE_H
+#define HYDRA_EIGEN_JACOBISVD_LAPACKE_H
 
 HYDRA_EXTERNAL_NAMESPACE_BEGIN namespace Eigen { 
 
 /** \internal Specialization for the data types supported by LAPACKe */
 
-#define EIGEN_LAPACKE_SVD(EIGTYPE, LAPACKE_TYPE, LAPACKE_RTYPE, LAPACKE_PREFIX, EIGCOLROW, LAPACKE_COLROW) \
+#define HYDRA_EIGEN_LAPACKE_SVD(EIGTYPE, LAPACKE_TYPE, LAPACKE_RTYPE, LAPACKE_PREFIX, EIGCOLROW, LAPACKE_COLROW) \
 template<> inline \
 JacobiSVD<Matrix<EIGTYPE, Dynamic, Dynamic, EIGCOLROW, Dynamic, Dynamic>, ColPivHouseholderQRPreconditioner>& \
 JacobiSVD<Matrix<EIGTYPE, Dynamic, Dynamic, EIGCOLROW, Dynamic, Dynamic>, ColPivHouseholderQRPreconditioner>::compute(const Matrix<EIGTYPE, Dynamic, Dynamic, EIGCOLROW, Dynamic, Dynamic>& matrix, unsigned int computationOptions) \
@@ -75,16 +75,16 @@ JacobiSVD<Matrix<EIGTYPE, Dynamic, Dynamic, EIGCOLROW, Dynamic, Dynamic>, ColPiv
   return *this; \
 }
 
-EIGEN_LAPACKE_SVD(double,   double,                double, d, ColMajor, LAPACK_COL_MAJOR)
-EIGEN_LAPACKE_SVD(float,    float,                 float , s, ColMajor, LAPACK_COL_MAJOR)
-EIGEN_LAPACKE_SVD(dcomplex, lapack_complex_double, double, z, ColMajor, LAPACK_COL_MAJOR)
-EIGEN_LAPACKE_SVD(scomplex, lapack_complex_float,  float , c, ColMajor, LAPACK_COL_MAJOR)
+HYDRA_EIGEN_LAPACKE_SVD(double,   double,                double, d, ColMajor, LAPACK_COL_MAJOR)
+HYDRA_EIGEN_LAPACKE_SVD(float,    float,                 float , s, ColMajor, LAPACK_COL_MAJOR)
+HYDRA_EIGEN_LAPACKE_SVD(dcomplex, lapack_complex_double, double, z, ColMajor, LAPACK_COL_MAJOR)
+HYDRA_EIGEN_LAPACKE_SVD(scomplex, lapack_complex_float,  float , c, ColMajor, LAPACK_COL_MAJOR)
 
-EIGEN_LAPACKE_SVD(double,   double,                double, d, RowMajor, LAPACK_ROW_MAJOR)
-EIGEN_LAPACKE_SVD(float,    float,                 float , s, RowMajor, LAPACK_ROW_MAJOR)
-EIGEN_LAPACKE_SVD(dcomplex, lapack_complex_double, double, z, RowMajor, LAPACK_ROW_MAJOR)
-EIGEN_LAPACKE_SVD(scomplex, lapack_complex_float,  float , c, RowMajor, LAPACK_ROW_MAJOR)
+HYDRA_EIGEN_LAPACKE_SVD(double,   double,                double, d, RowMajor, LAPACK_ROW_MAJOR)
+HYDRA_EIGEN_LAPACKE_SVD(float,    float,                 float , s, RowMajor, LAPACK_ROW_MAJOR)
+HYDRA_EIGEN_LAPACKE_SVD(dcomplex, lapack_complex_double, double, z, RowMajor, LAPACK_ROW_MAJOR)
+HYDRA_EIGEN_LAPACKE_SVD(scomplex, lapack_complex_float,  float , c, RowMajor, LAPACK_ROW_MAJOR)
 
 } /* end namespace Eigen */  HYDRA_EXTERNAL_NAMESPACE_END
 
-#endif // EIGEN_JACOBISVD_LAPACKE_H
+#endif // HYDRA_EIGEN_JACOBISVD_LAPACKE_H

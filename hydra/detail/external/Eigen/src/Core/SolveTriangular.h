@@ -7,8 +7,8 @@
 // Public License v. 2.0. If a copy of the MPL was not distributed
 // with this file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
-#ifndef EIGEN_SOLVETRIANGULAR_H
-#define EIGEN_SOLVETRIANGULAR_H
+#ifndef HYDRA_EIGEN_SOLVETRIANGULAR_H
+#define HYDRA_EIGEN_SOLVETRIANGULAR_H
 
 HYDRA_EXTERNAL_NAMESPACE_BEGIN namespace Eigen { 
 
@@ -62,7 +62,7 @@ struct triangular_solver_selector<Lhs,Rhs,Side,Mode,NoUnrolling,1>
 
     bool useRhsDirectly = Rhs::InnerStrideAtCompileTime==1 || rhs.innerStride()==1;
 
-    ei_declare_aligned_stack_constructed_variable(RhsScalar,actualRhs,rhs.size(),
+    hydra_ei_declare_aligned_stack_constructed_variable(RhsScalar,actualRhs,rhs.size(),
                                                   (useRhsDirectly ? rhs.data() : 0));
                                                   
     if(!useRhsDirectly)
@@ -161,7 +161,7 @@ struct triangular_solver_selector<Lhs,Rhs,OnTheRight,Mode,CompleteUnrolling,1> {
 * TriangularView methods
 ***************************************************************************/
 
-#ifndef EIGEN_PARSED_BY_DOXYGEN
+#ifndef HYDRA_EIGEN_PARSED_BY_DOXYGEN
 template<typename MatrixType, unsigned int Mode>
 template<int Side, typename OtherDerived>
 void TriangularViewImpl<MatrixType,Mode,Dense>::solveInPlace(const MatrixBase<OtherDerived>& _other) const
@@ -229,4 +229,4 @@ template<int Side, typename TriangularType, typename Rhs> struct triangular_solv
 
 } /* end namespace Eigen */  HYDRA_EXTERNAL_NAMESPACE_END
 
-#endif // EIGEN_SOLVETRIANGULAR_H
+#endif // HYDRA_EIGEN_SOLVETRIANGULAR_H

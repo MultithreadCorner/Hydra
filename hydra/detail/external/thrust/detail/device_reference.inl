@@ -27,7 +27,7 @@ HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
 
 template<typename T>
   template<typename OtherT>
-    __host__ __device__
+    __hydra_host__ __hydra_device__
     device_reference<T> &
       device_reference<T>
         ::operator=(const device_reference<OtherT> &other)
@@ -36,7 +36,7 @@ template<typename T>
 } // end operator=()
 
 template<typename T>
-  __host__ __device__
+  __hydra_host__ __hydra_device__
   device_reference<T> &
     device_reference<T>
       ::operator=(const value_type &x)
@@ -45,7 +45,7 @@ template<typename T>
 } // end operator=()
 
 template<typename T>
-__host__ __device__
+__hydra_host__ __hydra_device__
 void swap(device_reference<T> &a, device_reference<T> &b)
 {
   a.swap(b);

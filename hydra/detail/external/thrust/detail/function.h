@@ -31,19 +31,19 @@ template<typename Function, typename Result>
   // mutable because Function::operator() might be const
   mutable Function m_f;
 
-  inline __host__ __device__
+  inline __hydra_host__ __hydra_device__
   wrapped_function()
     : m_f()
   {}
 
-  inline __host__ __device__
+  inline __hydra_host__ __hydra_device__
   wrapped_function(const Function &f)
     : m_f(f)
   {}
 
   __thrust_exec_check_disable__
   template<typename Argument>
-  inline __host__ __device__
+  inline __hydra_host__ __hydra_device__
     Result operator()(Argument &x) const
   {
     // we static cast to Result to handle void Result without error
@@ -53,7 +53,7 @@ template<typename Function, typename Result>
 
   __thrust_exec_check_disable__
   template<typename Argument>
-    inline __host__ __device__ Result operator()(const Argument &x) const
+    inline __hydra_host__ __hydra_device__ Result operator()(const Argument &x) const
   {
     // we static cast to Result to handle void Result without error
     // in case Function's result is non-void
@@ -62,7 +62,7 @@ template<typename Function, typename Result>
 
   __thrust_exec_check_disable__
   template<typename Argument1, typename Argument2>
-    inline __host__ __device__ Result operator()(Argument1 &x, Argument2 &y) const
+    inline __hydra_host__ __hydra_device__ Result operator()(Argument1 &x, Argument2 &y) const
   {
     // we static cast to Result to handle void Result without error
     // in case Function's result is non-void
@@ -71,7 +71,7 @@ template<typename Function, typename Result>
 
   __thrust_exec_check_disable__
   template<typename Argument1, typename Argument2>
-    inline __host__ __device__ Result operator()(const Argument1 &x, Argument2 &y) const
+    inline __hydra_host__ __hydra_device__ Result operator()(const Argument1 &x, Argument2 &y) const
   {
     // we static cast to Result to handle void Result without error
     // in case Function's result is non-void
@@ -80,7 +80,7 @@ template<typename Function, typename Result>
 
   __thrust_exec_check_disable__
   template<typename Argument1, typename Argument2>
-    inline __host__ __device__ Result operator()(const Argument1 &x, const Argument2 &y) const
+    inline __hydra_host__ __hydra_device__ Result operator()(const Argument1 &x, const Argument2 &y) const
   {
     // we static cast to Result to handle void Result without error
     // in case Function's result is non-void
@@ -89,7 +89,7 @@ template<typename Function, typename Result>
 
   __thrust_exec_check_disable__
   template<typename Argument1, typename Argument2>
-    inline __host__ __device__ Result operator()(Argument1 &x, const Argument2 &y) const
+    inline __hydra_host__ __hydra_device__ Result operator()(Argument1 &x, const Argument2 &y) const
   {
     // we static cast to Result to handle void Result without error
     // in case Function's result is non-void

@@ -56,11 +56,11 @@ public:
 	Polynomial(std::array<Parameter,Order+1> const& coeficients):
 		BaseFunctor<Polynomial<Order, ArgIndex>, double, Order+1>( coeficients) {}
 
-	__host__ __device__
+	__hydra_host__ __hydra_device__
 	Polynomial(Polynomial<Order, ArgIndex> const& other):
 		BaseFunctor<Polynomial<Order, ArgIndex>, double, Order+1>(other) {}
 
-	__host__ __device__
+	__hydra_host__ __hydra_device__
 	inline Polynomial<Order, ArgIndex>&
 	operator=( Polynomial<ArgIndex, Order> const& other)
 	{
@@ -70,7 +70,7 @@ public:
 	}
 
 	template<typename T>
-	__host__ __device__
+	__hydra_host__ __hydra_device__
 	inline double Evaluate(unsigned int , T* x)  const
 	{
 		double coefs[Order+1]{};
@@ -82,7 +82,7 @@ public:
 	}
 
 	template<typename T>
-	__host__ __device__ inline
+	__hydra_host__ __hydra_device__ inline
 	double Evaluate(T x)  const
 	{
 		double coefs[Order+1]{};
@@ -96,12 +96,12 @@ public:
 private:
 
 	template<unsigned int I>
-	__host__ __device__ inline
+	__hydra_host__ __hydra_device__ inline
 	typename std::enable_if<(I==Order+1), void >::type
 	polynomial_helper( const double(&)[Order+1],  const double, double&)  const {}
 
 	template<unsigned int I=0>
-	__host__ __device__ inline
+	__hydra_host__ __hydra_device__ inline
 	typename std::enable_if<(I<Order+1), void >::type
 	polynomial_helper( const double(&coef)[Order+1],  const double x, double& r)  const {
 
@@ -109,7 +109,7 @@ private:
 		polynomial_helper<I+1>( coef, x, r);
 	}
 
-	__host__ __device__ inline double polynomial( const double(&coef)[Order+1],  const double x) const {
+	__hydra_host__ __hydra_device__ inline double polynomial( const double(&coef)[Order+1],  const double x) const {
 
 		double r=0.0;
 		polynomial_helper( coef,x, r);
@@ -176,12 +176,12 @@ public:
 private:
 
 	template<unsigned int N, unsigned int I>
-	__host__ __device__ inline
+	__hydra_host__ __hydra_device__ inline
 	typename std::enable_if<(I==N), void >::type
 	polynomial_integral_helper( const double, const double(&)[N], double&) const {}
 
 	template<unsigned int N, unsigned int I=0>
-	__host__ __device__ inline
+	__hydra_host__ __hydra_device__ inline
 	typename std::enable_if<(I<N), void >::type
 	polynomial_integral_helper( const double x, const double(&coef)[N], double& r) const {
 
@@ -190,7 +190,7 @@ private:
 	}
 
 	template<unsigned int N>
-	__host__ __device__ inline double polynomial_integral(const double(&coef)[N], double x) const {
+	__hydra_host__ __hydra_device__ inline double polynomial_integral(const double(&coef)[N], double x) const {
 
 		double r=0.0;
 		polynomial_integral_helper<N,0>(x,coef, r);

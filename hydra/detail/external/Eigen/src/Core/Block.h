@@ -8,8 +8,8 @@
 // Public License v. 2.0. If a copy of the MPL was not distributed
 // with this file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
-#ifndef EIGEN_BLOCK_H
-#define EIGEN_BLOCK_H
+#ifndef HYDRA_EIGEN_BLOCK_H
+#define HYDRA_EIGEN_BLOCK_H
 
 HYDRA_EXTERNAL_NAMESPACE_BEGIN namespace Eigen { 
 
@@ -107,14 +107,14 @@ template<typename XprType, int BlockRows, int BlockCols, bool InnerPanel> class 
   public:
     //typedef typename Impl::Base Base;
     typedef Impl Base;
-    EIGEN_GENERIC_PUBLIC_INTERFACE(Block)
-    EIGEN_INHERIT_ASSIGNMENT_OPERATORS(Block)
+    HYDRA_EIGEN_GENERIC_PUBLIC_INTERFACE(Block)
+    HYDRA_EIGEN_INHERIT_ASSIGNMENT_OPERATORS(Block)
     
     typedef typename internal::remove_all<XprType>::type NestedExpression;
   
     /** Column or Row constructor
       */
-    EIGEN_DEVICE_FUNC
+    HYDRA_EIGEN_DEVICE_FUNC
     inline Block(XprType& xpr, Index i) : Impl(xpr,i)
     {
       eigen_assert( (i>=0) && (
@@ -124,18 +124,18 @@ template<typename XprType, int BlockRows, int BlockCols, bool InnerPanel> class 
 
     /** Fixed-size constructor
       */
-    EIGEN_DEVICE_FUNC
+    HYDRA_EIGEN_DEVICE_FUNC
     inline Block(XprType& xpr, Index startRow, Index startCol)
       : Impl(xpr, startRow, startCol)
     {
-      EIGEN_STATIC_ASSERT(RowsAtCompileTime!=Dynamic && ColsAtCompileTime!=Dynamic,THIS_METHOD_IS_ONLY_FOR_FIXED_SIZE)
+      HYDRA_EIGEN_STATIC_ASSERT(RowsAtCompileTime!=Dynamic && ColsAtCompileTime!=Dynamic,THIS_METHOD_IS_ONLY_FOR_FIXED_SIZE)
       eigen_assert(startRow >= 0 && BlockRows >= 0 && startRow + BlockRows <= xpr.rows()
              && startCol >= 0 && BlockCols >= 0 && startCol + BlockCols <= xpr.cols());
     }
 
     /** Dynamic-size constructor
       */
-    EIGEN_DEVICE_FUNC
+    HYDRA_EIGEN_DEVICE_FUNC
     inline Block(XprType& xpr,
           Index startRow, Index startCol,
           Index blockRows, Index blockCols)
@@ -158,10 +158,10 @@ class BlockImpl<XprType, BlockRows, BlockCols, InnerPanel, Dense>
     typedef typename XprType::StorageIndex StorageIndex;
   public:
     typedef Impl Base;
-    EIGEN_INHERIT_ASSIGNMENT_OPERATORS(BlockImpl)
-    EIGEN_DEVICE_FUNC inline BlockImpl(XprType& xpr, Index i) : Impl(xpr,i) {}
-    EIGEN_DEVICE_FUNC inline BlockImpl(XprType& xpr, Index startRow, Index startCol) : Impl(xpr, startRow, startCol) {}
-    EIGEN_DEVICE_FUNC
+    HYDRA_EIGEN_INHERIT_ASSIGNMENT_OPERATORS(BlockImpl)
+    HYDRA_EIGEN_DEVICE_FUNC inline BlockImpl(XprType& xpr, Index i) : Impl(xpr,i) {}
+    HYDRA_EIGEN_DEVICE_FUNC inline BlockImpl(XprType& xpr, Index startRow, Index startCol) : Impl(xpr, startRow, startCol) {}
+    HYDRA_EIGEN_DEVICE_FUNC
     inline BlockImpl(XprType& xpr, Index startRow, Index startCol, Index blockRows, Index blockCols)
       : Impl(xpr, startRow, startCol, blockRows, blockCols) {}
 };
@@ -177,14 +177,14 @@ template<typename XprType, int BlockRows, int BlockCols, bool InnerPanel, bool H
   public:
 
     typedef typename internal::dense_xpr_base<BlockType>::type Base;
-    EIGEN_DENSE_PUBLIC_INTERFACE(BlockType)
-    EIGEN_INHERIT_ASSIGNMENT_OPERATORS(BlockImpl_dense)
+    HYDRA_EIGEN_DENSE_PUBLIC_INTERFACE(BlockType)
+    HYDRA_EIGEN_INHERIT_ASSIGNMENT_OPERATORS(BlockImpl_dense)
 
     // class InnerIterator; // FIXME apparently never used
 
     /** Column or Row constructor
       */
-    EIGEN_DEVICE_FUNC
+    HYDRA_EIGEN_DEVICE_FUNC
     inline BlockImpl_dense(XprType& xpr, Index i)
       : m_xpr(xpr),
         // It is a row if and only if BlockRows==1 and BlockCols==XprType::ColsAtCompileTime,
@@ -199,7 +199,7 @@ template<typename XprType, int BlockRows, int BlockCols, bool InnerPanel, bool H
 
     /** Fixed-size constructor
       */
-    EIGEN_DEVICE_FUNC
+    HYDRA_EIGEN_DEVICE_FUNC
     inline BlockImpl_dense(XprType& xpr, Index startRow, Index startCol)
       : m_xpr(xpr), m_startRow(startRow), m_startCol(startCol),
                     m_blockRows(BlockRows), m_blockCols(BlockCols)
@@ -207,7 +207,7 @@ template<typename XprType, int BlockRows, int BlockCols, bool InnerPanel, bool H
 
     /** Dynamic-size constructor
       */
-    EIGEN_DEVICE_FUNC
+    HYDRA_EIGEN_DEVICE_FUNC
     inline BlockImpl_dense(XprType& xpr,
           Index startRow, Index startCol,
           Index blockRows, Index blockCols)
@@ -215,44 +215,44 @@ template<typename XprType, int BlockRows, int BlockCols, bool InnerPanel, bool H
                     m_blockRows(blockRows), m_blockCols(blockCols)
     {}
 
-    EIGEN_DEVICE_FUNC inline Index rows() const { return m_blockRows.value(); }
-    EIGEN_DEVICE_FUNC inline Index cols() const { return m_blockCols.value(); }
+    HYDRA_EIGEN_DEVICE_FUNC inline Index rows() const { return m_blockRows.value(); }
+    HYDRA_EIGEN_DEVICE_FUNC inline Index cols() const { return m_blockCols.value(); }
 
-    EIGEN_DEVICE_FUNC
+    HYDRA_EIGEN_DEVICE_FUNC
     inline Scalar& coeffRef(Index rowId, Index colId)
     {
-      EIGEN_STATIC_ASSERT_LVALUE(XprType)
+      HYDRA_EIGEN_STATIC_ASSERT_LVALUE(XprType)
       return m_xpr.coeffRef(rowId + m_startRow.value(), colId + m_startCol.value());
     }
 
-    EIGEN_DEVICE_FUNC
+    HYDRA_EIGEN_DEVICE_FUNC
     inline const Scalar& coeffRef(Index rowId, Index colId) const
     {
       return m_xpr.derived().coeffRef(rowId + m_startRow.value(), colId + m_startCol.value());
     }
 
-    EIGEN_DEVICE_FUNC
-    EIGEN_STRONG_INLINE const CoeffReturnType coeff(Index rowId, Index colId) const
+    HYDRA_EIGEN_DEVICE_FUNC
+    HYDRA_EIGEN_STRONG_INLINE const CoeffReturnType coeff(Index rowId, Index colId) const
     {
       return m_xpr.coeff(rowId + m_startRow.value(), colId + m_startCol.value());
     }
 
-    EIGEN_DEVICE_FUNC
+    HYDRA_EIGEN_DEVICE_FUNC
     inline Scalar& coeffRef(Index index)
     {
-      EIGEN_STATIC_ASSERT_LVALUE(XprType)
+      HYDRA_EIGEN_STATIC_ASSERT_LVALUE(XprType)
       return m_xpr.coeffRef(m_startRow.value() + (RowsAtCompileTime == 1 ? 0 : index),
                             m_startCol.value() + (RowsAtCompileTime == 1 ? index : 0));
     }
 
-    EIGEN_DEVICE_FUNC
+    HYDRA_EIGEN_DEVICE_FUNC
     inline const Scalar& coeffRef(Index index) const
     {
       return m_xpr.coeffRef(m_startRow.value() + (RowsAtCompileTime == 1 ? 0 : index),
                             m_startCol.value() + (RowsAtCompileTime == 1 ? index : 0));
     }
 
-    EIGEN_DEVICE_FUNC
+    HYDRA_EIGEN_DEVICE_FUNC
     inline const CoeffReturnType coeff(Index index) const
     {
       return m_xpr.coeff(m_startRow.value() + (RowsAtCompileTime == 1 ? 0 : index),
@@ -287,29 +287,29 @@ template<typename XprType, int BlockRows, int BlockCols, bool InnerPanel, bool H
           m_startCol.value() + (RowsAtCompileTime == 1 ? index : 0), val);
     }
 
-    #ifdef EIGEN_PARSED_BY_DOXYGEN
+    #ifdef HYDRA_EIGEN_PARSED_BY_DOXYGEN
     /** \sa MapBase::data() */
-    EIGEN_DEVICE_FUNC inline const Scalar* data() const;
-    EIGEN_DEVICE_FUNC inline Index innerStride() const;
-    EIGEN_DEVICE_FUNC inline Index outerStride() const;
+    HYDRA_EIGEN_DEVICE_FUNC inline const Scalar* data() const;
+    HYDRA_EIGEN_DEVICE_FUNC inline Index innerStride() const;
+    HYDRA_EIGEN_DEVICE_FUNC inline Index outerStride() const;
     #endif
 
-    EIGEN_DEVICE_FUNC
+    HYDRA_EIGEN_DEVICE_FUNC
     const typename internal::remove_all<XprTypeNested>::type& nestedExpression() const
     { 
       return m_xpr; 
     }
 
-    EIGEN_DEVICE_FUNC
+    HYDRA_EIGEN_DEVICE_FUNC
     XprType& nestedExpression() { return m_xpr; }
       
-    EIGEN_DEVICE_FUNC
+    HYDRA_EIGEN_DEVICE_FUNC
     StorageIndex startRow() const
     { 
       return m_startRow.value(); 
     }
       
-    EIGEN_DEVICE_FUNC
+    HYDRA_EIGEN_DEVICE_FUNC
     StorageIndex startCol() const
     { 
       return m_startCol.value(); 
@@ -337,12 +337,12 @@ class BlockImpl_dense<XprType,BlockRows,BlockCols, InnerPanel,true>
   public:
 
     typedef MapBase<BlockType> Base;
-    EIGEN_DENSE_PUBLIC_INTERFACE(BlockType)
-    EIGEN_INHERIT_ASSIGNMENT_OPERATORS(BlockImpl_dense)
+    HYDRA_EIGEN_DENSE_PUBLIC_INTERFACE(BlockType)
+    HYDRA_EIGEN_INHERIT_ASSIGNMENT_OPERATORS(BlockImpl_dense)
 
     /** Column or Row constructor
       */
-    EIGEN_DEVICE_FUNC
+    HYDRA_EIGEN_DEVICE_FUNC
     inline BlockImpl_dense(XprType& xpr, Index i)
       : Base(xpr.data() + i * (    ((BlockRows==1) && (BlockCols==XprType::ColsAtCompileTime) && (!XprTypeIsRowMajor)) 
                                 || ((BlockRows==XprType::RowsAtCompileTime) && (BlockCols==1) && ( XprTypeIsRowMajor)) ? xpr.innerStride() : xpr.outerStride()),
@@ -357,7 +357,7 @@ class BlockImpl_dense<XprType,BlockRows,BlockCols, InnerPanel,true>
 
     /** Fixed-size constructor
       */
-    EIGEN_DEVICE_FUNC
+    HYDRA_EIGEN_DEVICE_FUNC
     inline BlockImpl_dense(XprType& xpr, Index startRow, Index startCol)
       : Base(xpr.data()+xpr.innerStride()*(XprTypeIsRowMajor?startCol:startRow) + xpr.outerStride()*(XprTypeIsRowMajor?startRow:startCol)),
         m_xpr(xpr), m_startRow(startRow), m_startCol(startCol)
@@ -367,7 +367,7 @@ class BlockImpl_dense<XprType,BlockRows,BlockCols, InnerPanel,true>
 
     /** Dynamic-size constructor
       */
-    EIGEN_DEVICE_FUNC
+    HYDRA_EIGEN_DEVICE_FUNC
     inline BlockImpl_dense(XprType& xpr,
           Index startRow, Index startCol,
           Index blockRows, Index blockCols)
@@ -377,17 +377,17 @@ class BlockImpl_dense<XprType,BlockRows,BlockCols, InnerPanel,true>
       init();
     }
 
-    EIGEN_DEVICE_FUNC
+    HYDRA_EIGEN_DEVICE_FUNC
     const typename internal::remove_all<XprTypeNested>::type& nestedExpression() const
     { 
       return m_xpr; 
     }
 
-    EIGEN_DEVICE_FUNC
+    HYDRA_EIGEN_DEVICE_FUNC
     XprType& nestedExpression() { return m_xpr; }
       
     /** \sa MapBase::innerStride() */
-    EIGEN_DEVICE_FUNC
+    HYDRA_EIGEN_DEVICE_FUNC
     inline Index innerStride() const
     {
       return internal::traits<BlockType>::HasSameStorageOrderAsXprType
@@ -396,19 +396,19 @@ class BlockImpl_dense<XprType,BlockRows,BlockCols, InnerPanel,true>
     }
 
     /** \sa MapBase::outerStride() */
-    EIGEN_DEVICE_FUNC
+    HYDRA_EIGEN_DEVICE_FUNC
     inline Index outerStride() const
     {
       return m_outerStride;
     }
 
-    EIGEN_DEVICE_FUNC
+    HYDRA_EIGEN_DEVICE_FUNC
     StorageIndex startRow() const
     {
       return m_startRow.value();
     }
 
-    EIGEN_DEVICE_FUNC
+    HYDRA_EIGEN_DEVICE_FUNC
     StorageIndex startCol() const
     {
       return m_startCol.value();
@@ -420,9 +420,9 @@ class BlockImpl_dense<XprType,BlockRows,BlockCols, InnerPanel,true>
   protected:
   #endif
 
-    #ifndef EIGEN_PARSED_BY_DOXYGEN
+    #ifndef HYDRA_EIGEN_PARSED_BY_DOXYGEN
     /** \internal used by allowAligned() */
-    EIGEN_DEVICE_FUNC
+    HYDRA_EIGEN_DEVICE_FUNC
     inline BlockImpl_dense(XprType& xpr, const Scalar* data, Index blockRows, Index blockCols)
       : Base(data, blockRows, blockCols), m_xpr(xpr)
     {
@@ -431,7 +431,7 @@ class BlockImpl_dense<XprType,BlockRows,BlockCols, InnerPanel,true>
     #endif
 
   protected:
-    EIGEN_DEVICE_FUNC
+    HYDRA_EIGEN_DEVICE_FUNC
     void init()
     {
       m_outerStride = internal::traits<BlockType>::HasSameStorageOrderAsXprType
@@ -449,4 +449,4 @@ class BlockImpl_dense<XprType,BlockRows,BlockCols, InnerPanel,true>
 
 } /* end namespace Eigen */  HYDRA_EXTERNAL_NAMESPACE_END
 
-#endif // EIGEN_BLOCK_H
+#endif // HYDRA_EIGEN_BLOCK_H

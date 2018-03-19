@@ -7,8 +7,8 @@
 // Public License v. 2.0. If a copy of the MPL was not distributed
 // with this file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
-#ifndef EIGEN_MATH_FUNCTIONS_CUDA_H
-#define EIGEN_MATH_FUNCTIONS_CUDA_H
+#ifndef HYDRA_EIGEN_MATH_FUNCTIONS_CUDA_H
+#define HYDRA_EIGEN_MATH_FUNCTIONS_CUDA_H
 
 HYDRA_EXTERNAL_NAMESPACE_BEGIN namespace Eigen {
 
@@ -17,65 +17,65 @@ namespace internal {
 // Make sure this is only available when targeting a GPU: we don't want to
 // introduce conflicts between these packet_traits definitions and the ones
 // we'll use on the host side (SSE, AVX, ...)
-#if defined(__CUDACC__) && defined(EIGEN_USE_GPU)
-template<> EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE
+#if defined(__CUDACC__) && defined(HYDRA_EIGEN_USE_GPU)
+template<> HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE
 float4 plog<float4>(const float4& a)
 {
   return make_float4(logf(a.x), logf(a.y), logf(a.z), logf(a.w));
 }
 
-template<>  EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE
+template<>  HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE
 double2 plog<double2>(const double2& a)
 {
   using ::log;
   return make_double2(log(a.x), log(a.y));
 }
 
-template<> EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE
+template<> HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE
 float4 plog1p<float4>(const float4& a)
 {
   return make_float4(log1pf(a.x), log1pf(a.y), log1pf(a.z), log1pf(a.w));
 }
 
-template<>  EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE
+template<>  HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE
 double2 plog1p<double2>(const double2& a)
 {
   return make_double2(log1p(a.x), log1p(a.y));
 }
 
-template<> EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE
+template<> HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE
 float4 pexp<float4>(const float4& a)
 {
   return make_float4(expf(a.x), expf(a.y), expf(a.z), expf(a.w));
 }
 
-template<> EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE
+template<> HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE
 double2 pexp<double2>(const double2& a)
 {
   using ::exp;
   return make_double2(exp(a.x), exp(a.y));
 }
 
-template<> EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE
+template<> HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE
 float4 psqrt<float4>(const float4& a)
 {
   return make_float4(sqrtf(a.x), sqrtf(a.y), sqrtf(a.z), sqrtf(a.w));
 }
 
-template<> EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE
+template<> HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE
 double2 psqrt<double2>(const double2& a)
 {
   using ::sqrt;
   return make_double2(sqrt(a.x), sqrt(a.y));
 }
 
-template<> EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE
+template<> HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE
 float4 prsqrt<float4>(const float4& a)
 {
   return make_float4(rsqrtf(a.x), rsqrtf(a.y), rsqrtf(a.z), rsqrtf(a.w));
 }
 
-template<> EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE
+template<> HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE
 double2 prsqrt<double2>(const double2& a)
 {
   return make_double2(rsqrt(a.x), rsqrt(a.y));
@@ -88,4 +88,4 @@ double2 prsqrt<double2>(const double2& a)
 
 } /* end namespace Eigen */  HYDRA_EXTERNAL_NAMESPACE_END
 
-#endif // EIGEN_MATH_FUNCTIONS_CUDA_H
+#endif // HYDRA_EIGEN_MATH_FUNCTIONS_CUDA_H

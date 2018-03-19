@@ -7,8 +7,8 @@
 // Public License v. 2.0. If a copy of the MPL was not distributed
 // with this file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
-#ifndef EIGEN_SPARSE_REF_H
-#define EIGEN_SPARSE_REF_H
+#ifndef HYDRA_EIGEN_SPARSE_REF_H
+#define HYDRA_EIGEN_SPARSE_REF_H
 
 HYDRA_EXTERNAL_NAMESPACE_BEGIN namespace Eigen {
 
@@ -86,7 +86,7 @@ template<typename Derived> class SparseRefBase
 public:
 
   typedef SparseMapBase<Derived> Base;
-  EIGEN_SPARSE_PUBLIC_INTERFACE(SparseRefBase)
+  HYDRA_EIGEN_SPARSE_PUBLIC_INTERFACE(SparseRefBase)
 
   SparseRefBase()
     : Base(RowsAtCompileTime==Dynamic?0:RowsAtCompileTime,ColsAtCompileTime==Dynamic?0:ColsAtCompileTime, 0, 0, 0, 0, 0)
@@ -118,7 +118,7 @@ protected:
   *
   * \sa class Ref
   */
-#ifndef EIGEN_PARSED_BY_DOXYGEN
+#ifndef HYDRA_EIGEN_PARSED_BY_DOXYGEN
 template<typename MatScalar, int MatOptions, typename MatIndex, int Options, typename StrideType>
 class Ref<SparseMatrix<MatScalar,MatOptions,MatIndex>, Options, StrideType >
   : public internal::SparseRefBase<Ref<SparseMatrix<MatScalar,MatOptions,MatIndex>, Options, StrideType > >
@@ -137,14 +137,14 @@ class Ref<SparseMatrixType, Options>
   public:
 
     typedef internal::SparseRefBase<Ref> Base;
-    EIGEN_SPARSE_PUBLIC_INTERFACE(Ref)
+    HYDRA_EIGEN_SPARSE_PUBLIC_INTERFACE(Ref)
 
 
-    #ifndef EIGEN_PARSED_BY_DOXYGEN
+    #ifndef HYDRA_EIGEN_PARSED_BY_DOXYGEN
     template<int OtherOptions>
     inline Ref(SparseMatrix<MatScalar,OtherOptions,MatIndex>& expr)
     {
-      EIGEN_STATIC_ASSERT(bool(Traits::template match<SparseMatrix<MatScalar,OtherOptions,MatIndex> >::MatchAtCompileTime), STORAGE_LAYOUT_DOES_NOT_MATCH);
+      HYDRA_EIGEN_STATIC_ASSERT(bool(Traits::template match<SparseMatrix<MatScalar,OtherOptions,MatIndex> >::MatchAtCompileTime), STORAGE_LAYOUT_DOES_NOT_MATCH);
       eigen_assert( ((Options & int(StandardCompressedFormat))==0) || (expr.isCompressed()) );
       Base::construct(expr.derived());
     }
@@ -152,7 +152,7 @@ class Ref<SparseMatrixType, Options>
     template<int OtherOptions>
     inline Ref(MappedSparseMatrix<MatScalar,OtherOptions,MatIndex>& expr)
     {
-      EIGEN_STATIC_ASSERT(bool(Traits::template match<SparseMatrix<MatScalar,OtherOptions,MatIndex> >::MatchAtCompileTime), STORAGE_LAYOUT_DOES_NOT_MATCH);
+      HYDRA_EIGEN_STATIC_ASSERT(bool(Traits::template match<SparseMatrix<MatScalar,OtherOptions,MatIndex> >::MatchAtCompileTime), STORAGE_LAYOUT_DOES_NOT_MATCH);
       eigen_assert( ((Options & int(StandardCompressedFormat))==0) || (expr.isCompressed()) );
       Base::construct(expr.derived());
     }
@@ -165,8 +165,8 @@ class Ref<SparseMatrixType, Options>
     inline Ref(SparseCompressedBase<Derived>& expr)
     #endif
     {
-      EIGEN_STATIC_ASSERT(bool(internal::is_lvalue<Derived>::value), THIS_EXPRESSION_IS_NOT_A_LVALUE__IT_IS_READ_ONLY);
-      EIGEN_STATIC_ASSERT(bool(Traits::template match<Derived>::MatchAtCompileTime), STORAGE_LAYOUT_DOES_NOT_MATCH);
+      HYDRA_EIGEN_STATIC_ASSERT(bool(internal::is_lvalue<Derived>::value), THIS_EXPRESSION_IS_NOT_A_LVALUE__IT_IS_READ_ONLY);
+      HYDRA_EIGEN_STATIC_ASSERT(bool(Traits::template match<Derived>::MatchAtCompileTime), STORAGE_LAYOUT_DOES_NOT_MATCH);
       eigen_assert( ((Options & int(StandardCompressedFormat))==0) || (expr.isCompressed()) );
       Base::construct(expr.const_cast_derived());
     }
@@ -182,7 +182,7 @@ class Ref<const SparseMatrix<MatScalar,MatOptions,MatIndex>, Options, StrideType
   public:
 
     typedef internal::SparseRefBase<Ref> Base;
-    EIGEN_SPARSE_PUBLIC_INTERFACE(Ref)
+    HYDRA_EIGEN_SPARSE_PUBLIC_INTERFACE(Ref)
 
     template<typename Derived>
     inline Ref(const SparseMatrixBase<Derived>& expr) : m_hasCopy(false)
@@ -249,7 +249,7 @@ class Ref<const SparseMatrix<MatScalar,MatOptions,MatIndex>, Options, StrideType
   *
   * \sa class Ref
   */
-#ifndef EIGEN_PARSED_BY_DOXYGEN
+#ifndef HYDRA_EIGEN_PARSED_BY_DOXYGEN
 template<typename MatScalar, int MatOptions, typename MatIndex, int Options, typename StrideType>
 class Ref<SparseVector<MatScalar,MatOptions,MatIndex>, Options, StrideType >
   : public internal::SparseRefBase<Ref<SparseVector<MatScalar,MatOptions,MatIndex>, Options, StrideType > >
@@ -266,13 +266,13 @@ class Ref<SparseVectorType>
   public:
 
     typedef internal::SparseRefBase<Ref> Base;
-    EIGEN_SPARSE_PUBLIC_INTERFACE(Ref)
+    HYDRA_EIGEN_SPARSE_PUBLIC_INTERFACE(Ref)
 
-    #ifndef EIGEN_PARSED_BY_DOXYGEN
+    #ifndef HYDRA_EIGEN_PARSED_BY_DOXYGEN
     template<int OtherOptions>
     inline Ref(SparseVector<MatScalar,OtherOptions,MatIndex>& expr)
     {
-      EIGEN_STATIC_ASSERT(bool(Traits::template match<SparseVector<MatScalar,OtherOptions,MatIndex> >::MatchAtCompileTime), STORAGE_LAYOUT_DOES_NOT_MATCH);
+      HYDRA_EIGEN_STATIC_ASSERT(bool(Traits::template match<SparseVector<MatScalar,OtherOptions,MatIndex> >::MatchAtCompileTime), STORAGE_LAYOUT_DOES_NOT_MATCH);
       Base::construct(expr.derived());
     }
 
@@ -284,8 +284,8 @@ class Ref<SparseVectorType>
     inline Ref(SparseCompressedBase<Derived>& expr)
     #endif
     {
-      EIGEN_STATIC_ASSERT(bool(internal::is_lvalue<Derived>::value), THIS_EXPRESSION_IS_NOT_A_LVALUE__IT_IS_READ_ONLY);
-      EIGEN_STATIC_ASSERT(bool(Traits::template match<Derived>::MatchAtCompileTime), STORAGE_LAYOUT_DOES_NOT_MATCH);
+      HYDRA_EIGEN_STATIC_ASSERT(bool(internal::is_lvalue<Derived>::value), THIS_EXPRESSION_IS_NOT_A_LVALUE__IT_IS_READ_ONLY);
+      HYDRA_EIGEN_STATIC_ASSERT(bool(Traits::template match<Derived>::MatchAtCompileTime), STORAGE_LAYOUT_DOES_NOT_MATCH);
       Base::construct(expr.const_cast_derived());
     }
 };
@@ -300,7 +300,7 @@ class Ref<const SparseVector<MatScalar,MatOptions,MatIndex>, Options, StrideType
   public:
 
     typedef internal::SparseRefBase<Ref> Base;
-    EIGEN_SPARSE_PUBLIC_INTERFACE(Ref)
+    HYDRA_EIGEN_SPARSE_PUBLIC_INTERFACE(Ref)
 
     template<typename Derived>
     inline Ref(const SparseMatrixBase<Derived>& expr) : m_hasCopy(false)
@@ -394,4 +394,4 @@ struct evaluator<Ref<const SparseVector<MatScalar,MatOptions,MatIndex>, Options,
 
 } /* end namespace Eigen */  HYDRA_EXTERNAL_NAMESPACE_END
 
-#endif // EIGEN_SPARSE_REF_H
+#endif // HYDRA_EIGEN_SPARSE_REF_H

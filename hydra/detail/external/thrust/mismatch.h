@@ -87,7 +87,7 @@ HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
  *  \see find_if
  */
 template<typename DerivedPolicy, typename InputIterator1, typename InputIterator2>
-__host__ __device__
+__hydra_host__ __hydra_device__
 thrust::pair<InputIterator1, InputIterator2> mismatch(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                                                       InputIterator1 first1,
                                                       InputIterator1 last1,
@@ -193,7 +193,7 @@ thrust::pair<InputIterator1, InputIterator2> mismatch(InputIterator1 first1,
  *  \see find_if
  */
 template<typename DerivedPolicy, typename InputIterator1, typename InputIterator2, typename BinaryPredicate>
-__host__ __device__
+__hydra_host__ __hydra_device__
 thrust::pair<InputIterator1, InputIterator2> mismatch(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                                                       InputIterator1 first1,
                                                       InputIterator1 last1,

@@ -58,11 +58,11 @@ template<unsigned int i>
     {
     };
 
-    __host__ __device__
+    __hydra_host__ __hydra_device__
     argument(void){}
 
     template<typename Env>
-    __host__ __device__
+    __hydra_host__ __hydra_device__
     typename result<Env>::type eval(const Env &e) const
     {
       return thrust::get<i>(e);

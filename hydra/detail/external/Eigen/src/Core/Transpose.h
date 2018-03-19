@@ -8,8 +8,8 @@
 // Public License v. 2.0. If a copy of the MPL was not distributed
 // with this file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
-#ifndef EIGEN_TRANSPOSE_H
-#define EIGEN_TRANSPOSE_H
+#ifndef HYDRA_EIGEN_TRANSPOSE_H
+#define HYDRA_EIGEN_TRANSPOSE_H
 
 HYDRA_EXTERNAL_NAMESPACE_BEGIN namespace Eigen { 
 
@@ -57,24 +57,24 @@ template<typename MatrixType> class Transpose
     typedef typename internal::ref_selector<MatrixType>::non_const_type MatrixTypeNested;
 
     typedef typename TransposeImpl<MatrixType,typename internal::traits<MatrixType>::StorageKind>::Base Base;
-    EIGEN_GENERIC_PUBLIC_INTERFACE(Transpose)
+    HYDRA_EIGEN_GENERIC_PUBLIC_INTERFACE(Transpose)
     typedef typename internal::remove_all<MatrixType>::type NestedExpression;
 
-    EIGEN_DEVICE_FUNC
+    HYDRA_EIGEN_DEVICE_FUNC
     explicit inline Transpose(MatrixType& matrix) : m_matrix(matrix) {}
 
-    EIGEN_INHERIT_ASSIGNMENT_OPERATORS(Transpose)
+    HYDRA_EIGEN_INHERIT_ASSIGNMENT_OPERATORS(Transpose)
 
-    EIGEN_DEVICE_FUNC inline Index rows() const { return m_matrix.cols(); }
-    EIGEN_DEVICE_FUNC inline Index cols() const { return m_matrix.rows(); }
+    HYDRA_EIGEN_DEVICE_FUNC inline Index rows() const { return m_matrix.cols(); }
+    HYDRA_EIGEN_DEVICE_FUNC inline Index cols() const { return m_matrix.rows(); }
 
     /** \returns the nested expression */
-    EIGEN_DEVICE_FUNC
+    HYDRA_EIGEN_DEVICE_FUNC
     const typename internal::remove_all<MatrixTypeNested>::type&
     nestedExpression() const { return m_matrix; }
 
     /** \returns the nested expression */
-    EIGEN_DEVICE_FUNC
+    HYDRA_EIGEN_DEVICE_FUNC
     typename internal::remove_reference<MatrixTypeNested>::type&
     nestedExpression() { return m_matrix; }
 
@@ -119,11 +119,11 @@ template<typename MatrixType> class TransposeImpl<MatrixType,Dense>
 
     typedef typename internal::TransposeImpl_base<MatrixType>::type Base;
     using Base::coeffRef;
-    EIGEN_DENSE_PUBLIC_INTERFACE(Transpose<MatrixType>)
-    EIGEN_INHERIT_ASSIGNMENT_OPERATORS(TransposeImpl)
+    HYDRA_EIGEN_DENSE_PUBLIC_INTERFACE(Transpose<MatrixType>)
+    HYDRA_EIGEN_INHERIT_ASSIGNMENT_OPERATORS(TransposeImpl)
 
-    EIGEN_DEVICE_FUNC inline Index innerStride() const { return derived().nestedExpression().innerStride(); }
-    EIGEN_DEVICE_FUNC inline Index outerStride() const { return derived().nestedExpression().outerStride(); }
+    HYDRA_EIGEN_DEVICE_FUNC inline Index innerStride() const { return derived().nestedExpression().innerStride(); }
+    HYDRA_EIGEN_DEVICE_FUNC inline Index outerStride() const { return derived().nestedExpression().outerStride(); }
 
     typedef typename internal::conditional<
                        internal::is_lvalue<MatrixType>::value,
@@ -131,17 +131,17 @@ template<typename MatrixType> class TransposeImpl<MatrixType,Dense>
                        const Scalar
                      >::type ScalarWithConstIfNotLvalue;
 
-    EIGEN_DEVICE_FUNC inline ScalarWithConstIfNotLvalue* data() { return derived().nestedExpression().data(); }
-    EIGEN_DEVICE_FUNC inline const Scalar* data() const { return derived().nestedExpression().data(); }
+    HYDRA_EIGEN_DEVICE_FUNC inline ScalarWithConstIfNotLvalue* data() { return derived().nestedExpression().data(); }
+    HYDRA_EIGEN_DEVICE_FUNC inline const Scalar* data() const { return derived().nestedExpression().data(); }
 
     // FIXME: shall we keep the const version of coeffRef?
-    EIGEN_DEVICE_FUNC
+    HYDRA_EIGEN_DEVICE_FUNC
     inline const Scalar& coeffRef(Index rowId, Index colId) const
     {
       return derived().nestedExpression().coeffRef(colId, rowId);
     }
 
-    EIGEN_DEVICE_FUNC
+    HYDRA_EIGEN_DEVICE_FUNC
     inline const Scalar& coeffRef(Index index) const
     {
       return derived().nestedExpression().coeffRef(index);
@@ -317,7 +317,7 @@ inline void MatrixBase<Derived>::adjointInPlace()
   derived() = adjoint().eval();
 }
 
-#ifndef EIGEN_NO_DEBUG
+#ifndef HYDRA_EIGEN_NO_DEBUG
 
 // The following is to detect aliasing problems in most common cases.
 
@@ -396,8 +396,8 @@ void check_for_aliasing(const Dst &dst, const Src &src)
 
 } // end namespace internal
 
-#endif // EIGEN_NO_DEBUG
+#endif // HYDRA_EIGEN_NO_DEBUG
 
 } /* end namespace Eigen */  HYDRA_EXTERNAL_NAMESPACE_END
 
-#endif // EIGEN_TRANSPOSE_H
+#endif // HYDRA_EIGEN_TRANSPOSE_H

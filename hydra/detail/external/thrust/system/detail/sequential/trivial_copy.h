@@ -35,7 +35,7 @@ namespace sequential
 
 
 template<typename T>
-__host__ __device__
+__hydra_host__ __hydra_device__
   T *trivial_copy_n(const T *first,
                     std::ptrdiff_t n,
                     T *result)

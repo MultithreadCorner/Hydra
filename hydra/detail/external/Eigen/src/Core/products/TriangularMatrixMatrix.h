@@ -7,8 +7,8 @@
 // Public License v. 2.0. If a copy of the MPL was not distributed
 // with this file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
-#ifndef EIGEN_TRIANGULAR_MATRIX_MATRIX_H
-#define EIGEN_TRIANGULAR_MATRIX_MATRIX_H
+#ifndef HYDRA_EIGEN_TRIANGULAR_MATRIX_MATRIX_H
+#define HYDRA_EIGEN_TRIANGULAR_MATRIX_MATRIX_H
 
 HYDRA_EXTERNAL_NAMESPACE_BEGIN namespace Eigen { 
 
@@ -18,7 +18,7 @@ namespace internal {
 // struct gemm_pack_lhs_triangular
 // {
 //   Matrix<Scalar,mr,mr,
-//   void operator()(Scalar* blockA, const EIGEN_RESTRICT Scalar* _lhs, int lhsStride, int depth, int rows)
+//   void operator()(Scalar* blockA, const HYDRA_EIGEN_RESTRICT Scalar* _lhs, int lhsStride, int depth, int rows)
 //   {
 //     conj_if<NumTraits<Scalar>::IsComplex && Conjugate> cj;
 //     const_blas_data_mapper<Scalar, StorageOrder> lhs(_lhs,lhsStride);
@@ -56,7 +56,7 @@ struct product_triangular_matrix_matrix<Scalar,Index,Mode,LhsIsTriangular,
                                            LhsStorageOrder,ConjugateLhs,
                                            RhsStorageOrder,ConjugateRhs,RowMajor,Version>
 {
-  static EIGEN_STRONG_INLINE void run(
+  static HYDRA_EIGEN_STRONG_INLINE void run(
     Index rows, Index cols, Index depth,
     const Scalar* lhs, Index lhsStride,
     const Scalar* rhs, Index rhsStride,
@@ -86,12 +86,12 @@ struct product_triangular_matrix_matrix<Scalar,Index,Mode,true,
   
   typedef gebp_traits<Scalar,Scalar> Traits;
   enum {
-    SmallPanelWidth   = 2 * EIGEN_PLAIN_ENUM_MAX(Traits::mr,Traits::nr),
+    SmallPanelWidth   = 2 * HYDRA_EIGEN_PLAIN_ENUM_MAX(Traits::mr,Traits::nr),
     IsLower = (Mode&Lower) == Lower,
     SetDiag = (Mode&(ZeroDiag|UnitDiag)) ? 0 : 1
   };
 
-  static EIGEN_DONT_INLINE void run(
+  static HYDRA_EIGEN_DONT_INLINE void run(
     Index _rows, Index _cols, Index _depth,
     const Scalar* _lhs, Index lhsStride,
     const Scalar* _rhs, Index rhsStride,
@@ -102,7 +102,7 @@ struct product_triangular_matrix_matrix<Scalar,Index,Mode,true,
 template <typename Scalar, typename Index, int Mode,
           int LhsStorageOrder, bool ConjugateLhs,
           int RhsStorageOrder, bool ConjugateRhs, int Version>
-EIGEN_DONT_INLINE void product_triangular_matrix_matrix<Scalar,Index,Mode,true,
+HYDRA_EIGEN_DONT_INLINE void product_triangular_matrix_matrix<Scalar,Index,Mode,true,
                                                         LhsStorageOrder,ConjugateLhs,
                                                         RhsStorageOrder,ConjugateRhs,ColMajor,Version>::run(
     Index _rows, Index _cols, Index _depth,
@@ -134,8 +134,8 @@ EIGEN_DONT_INLINE void product_triangular_matrix_matrix<Scalar,Index,Mode,true,
     std::size_t sizeA = kc*mc;
     std::size_t sizeB = kc*cols;
 
-    ei_declare_aligned_stack_constructed_variable(Scalar, blockA, sizeA, blocking.blockA());
-    ei_declare_aligned_stack_constructed_variable(Scalar, blockB, sizeB, blocking.blockB());
+    hydra_ei_declare_aligned_stack_constructed_variable(Scalar, blockA, sizeA, blocking.blockA());
+    hydra_ei_declare_aligned_stack_constructed_variable(Scalar, blockB, sizeB, blocking.blockB());
 
     Matrix<Scalar,SmallPanelWidth,SmallPanelWidth,LhsStorageOrder> triangularBuffer((internal::constructor_without_unaligned_array_assert()));
     triangularBuffer.setZero();
@@ -236,12 +236,12 @@ struct product_triangular_matrix_matrix<Scalar,Index,Mode,false,
 {
   typedef gebp_traits<Scalar,Scalar> Traits;
   enum {
-    SmallPanelWidth   = EIGEN_PLAIN_ENUM_MAX(Traits::mr,Traits::nr),
+    SmallPanelWidth   = HYDRA_EIGEN_PLAIN_ENUM_MAX(Traits::mr,Traits::nr),
     IsLower = (Mode&Lower) == Lower,
     SetDiag = (Mode&(ZeroDiag|UnitDiag)) ? 0 : 1
   };
 
-  static EIGEN_DONT_INLINE void run(
+  static HYDRA_EIGEN_DONT_INLINE void run(
     Index _rows, Index _cols, Index _depth,
     const Scalar* _lhs, Index lhsStride,
     const Scalar* _rhs, Index rhsStride,
@@ -252,7 +252,7 @@ struct product_triangular_matrix_matrix<Scalar,Index,Mode,false,
 template <typename Scalar, typename Index, int Mode,
           int LhsStorageOrder, bool ConjugateLhs,
           int RhsStorageOrder, bool ConjugateRhs, int Version>
-EIGEN_DONT_INLINE void product_triangular_matrix_matrix<Scalar,Index,Mode,false,
+HYDRA_EIGEN_DONT_INLINE void product_triangular_matrix_matrix<Scalar,Index,Mode,false,
                                                         LhsStorageOrder,ConjugateLhs,
                                                         RhsStorageOrder,ConjugateRhs,ColMajor,Version>::run(
     Index _rows, Index _cols, Index _depth,
@@ -279,10 +279,10 @@ EIGEN_DONT_INLINE void product_triangular_matrix_matrix<Scalar,Index,Mode,false,
     Index mc = (std::min)(rows,blocking.mc());  // cache block size along the M direction
 
     std::size_t sizeA = kc*mc;
-    std::size_t sizeB = kc*cols+EIGEN_MAX_ALIGN_BYTES/sizeof(Scalar);
+    std::size_t sizeB = kc*cols+HYDRA_EIGEN_MAX_ALIGN_BYTES/sizeof(Scalar);
 
-    ei_declare_aligned_stack_constructed_variable(Scalar, blockA, sizeA, blocking.blockA());
-    ei_declare_aligned_stack_constructed_variable(Scalar, blockB, sizeB, blocking.blockB());
+    hydra_ei_declare_aligned_stack_constructed_variable(Scalar, blockA, sizeA, blocking.blockA());
+    hydra_ei_declare_aligned_stack_constructed_variable(Scalar, blockB, sizeB, blocking.blockB());
 
     Matrix<Scalar,SmallPanelWidth,SmallPanelWidth,RhsStorageOrder> triangularBuffer((internal::constructor_without_unaligned_array_assert()));
     triangularBuffer.setZero();
@@ -438,4 +438,4 @@ struct triangular_product_impl<Mode,LhsIsTriangular,Lhs,false,Rhs,false>
 
 } /* end namespace Eigen */  HYDRA_EXTERNAL_NAMESPACE_END
 
-#endif // EIGEN_TRIANGULAR_MATRIX_MATRIX_H
+#endif // HYDRA_EIGEN_TRIANGULAR_MATRIX_MATRIX_H

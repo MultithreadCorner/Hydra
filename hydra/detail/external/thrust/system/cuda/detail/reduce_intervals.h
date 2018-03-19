@@ -39,7 +39,7 @@ template<typename DerivedPolicy,
          typename OutputIterator,
          typename BinaryFunction,
          typename Decomposition>
-__host__ __device__
+__hydra_host__ __hydra_device__
 void reduce_intervals(execution_policy<DerivedPolicy> &exec,
                       InputIterator input,
                       OutputIterator output,

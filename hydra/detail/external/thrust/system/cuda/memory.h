@@ -174,7 +174,7 @@ template<typename T>
 
     /*! \p pointer's no-argument constructor initializes its encapsulated pointer to \c 0.
      */
-    __host__ __device__
+    __hydra_host__ __hydra_device__
     pointer() : super_t() {}
 
     /*! This constructor allows construction of a <tt>pointer<const T></tt> from a <tt>T*</tt>.
@@ -184,7 +184,7 @@ template<typename T>
      *  \tparam OtherT \p OtherT shall be convertible to \p T.
      */
     template<typename OtherT>
-    __host__ __device__
+    __hydra_host__ __hydra_device__
     explicit pointer(OtherT *ptr) : super_t(ptr) {}
 
     /*! This constructor allows construction from another pointer-like object with related type.
@@ -194,7 +194,7 @@ template<typename T>
      *          to \p thrust::system::cuda::tag and its element type shall be convertible to \p T.
      */
     template<typename OtherPointer>
-    __host__ __device__
+    __hydra_host__ __hydra_device__
     pointer(const OtherPointer &other,
             typename thrust::detail::enable_if_pointer_is_convertible<
               OtherPointer,
@@ -208,7 +208,7 @@ template<typename T>
      *          to \p thrust::system::cuda::tag and its element type shall be convertible to \p T.
      */
     template<typename OtherPointer>
-    __host__ __device__
+    __hydra_host__ __hydra_device__
     typename thrust::detail::enable_if_pointer_is_convertible<
       OtherPointer,
       pointer,
@@ -263,7 +263,7 @@ template<typename T>
      *
      *  \param ptr A \p pointer to copy from.
      */
-    __host__ __device__
+    __hydra_host__ __hydra_device__
     explicit reference(const pointer &ptr)
       : super_t(ptr)
     {}
@@ -278,7 +278,7 @@ template<typename T>
      *        from <tt>reference<T></tt>.
      */
     template<typename OtherT>
-    __host__ __device__
+    __hydra_host__ __hydra_device__
     reference(const reference<OtherT> &other,
               typename thrust::detail::enable_if_convertible<
                 typename reference<OtherT>::pointer,
@@ -294,7 +294,7 @@ template<typename T>
      *  \tparam OtherT The element type of the other \p reference.
      */
     template<typename OtherT>
-    __host__ __device__
+    __hydra_host__ __hydra_device__
     reference &operator=(const reference<OtherT> &other);
 
     /*! Assignment operator assigns from a \p value_type.
@@ -302,7 +302,7 @@ template<typename T>
      *  \param x The \p value_type to assign from.
      *  \return <tt>*this</tt>
      */
-    __host__ __device__
+    __hydra_host__ __hydra_device__
     reference &operator=(const value_type &x);
 }; // end reference
 
@@ -311,7 +311,7 @@ template<typename T>
  *  \p y The second \p reference ot interest.
  */
 template<typename T>
-__host__ __device__
+__hydra_host__ __hydra_device__
 void swap(reference<T> x, reference<T> y);
 
 /*! Allocates an area of memory available to Thrust's <tt>cuda</tt> system.
@@ -324,7 +324,7 @@ void swap(reference<T> x, reference<T> y);
  *  \see cuda::free
  *  \see std::malloc
  */
-inline __host__ __device__
+inline __hydra_host__ __hydra_device__
 pointer<void> malloc(std::size_t n);
 
 /*! Allocates a typed area of memory available to Thrust's <tt>cuda</tt> system.
@@ -338,7 +338,7 @@ pointer<void> malloc(std::size_t n);
  *  \see std::malloc
  */
 template<typename T>
-inline __host__ __device__
+inline __hydra_host__ __hydra_device__
 pointer<T> malloc(std::size_t n);
 
 /*! Deallocates an area of memory previously allocated by <tt>cuda::malloc</tt>.
@@ -347,7 +347,7 @@ pointer<T> malloc(std::size_t n);
  *  \see cuda::malloc
  *  \see std::free
  */
-inline __host__ __device__
+inline __hydra_host__ __hydra_device__
 void free(pointer<void> ptr);
 
 // XXX upon c++11
@@ -380,23 +380,23 @@ template<typename T>
 
   /*! No-argument constructor has no effect.
    */
-  __host__ __device__
+  __hydra_host__ __hydra_device__
   inline allocator() {}
 
   /*! Copy constructor has no effect.
    */
-  __host__ __device__
+  __hydra_host__ __hydra_device__
   inline allocator(const allocator &) {}
 
   /*! Constructor from other \p allocator has no effect.
    */
   template<typename U>
-  __host__ __device__
+  __hydra_host__ __hydra_device__
   inline allocator(const allocator<U> &) {}
 
   /*! Destructor has no effect.
    */
-  __host__ __device__
+  __hydra_host__ __hydra_device__
   inline ~allocator() {}
 
 }; // end allocator

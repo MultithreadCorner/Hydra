@@ -56,7 +56,7 @@ HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
  *  // note: functor inherits from unary_function
  *  struct square_root : public thrust::unary_function<float,float>
  *  {
- *    __host__ __device__
+ *    __hydra_host__ __hydra_device__
  *    float operator()(float x) const
  *    {
  *      return sqrtf(x);
@@ -113,7 +113,7 @@ template <typename UnaryFunction, typename OutputIterator>
    * \param fun An \c UnaryFunction used to transform the objects assigned to
    *            this \p transform_output_iterator.
    */
-    __host__ __device__
+    __hydra_host__ __hydra_device__
     transform_output_iterator(OutputIterator const& out, UnaryFunction fun) : super_t(out), fun(fun)
     {
     }
@@ -122,7 +122,7 @@ template <typename UnaryFunction, typename OutputIterator>
      */
   private:
 
-    __host__ __device__
+    __hydra_host__ __hydra_device__
     typename super_t::reference dereference() const
     {
         return detail::transform_output_iterator_proxy<UnaryFunction, OutputIterator>(this->base_reference(), fun);
@@ -146,7 +146,7 @@ template <typename UnaryFunction, typename OutputIterator>
 
 template <typename UnaryFunction, typename OutputIterator>
 transform_output_iterator<UnaryFunction, OutputIterator>
-__host__ __device__
+__hydra_host__ __hydra_device__
 make_transform_output_iterator(OutputIterator out, UnaryFunction fun)
 {
     return transform_output_iterator<UnaryFunction, OutputIterator>(out, fun);

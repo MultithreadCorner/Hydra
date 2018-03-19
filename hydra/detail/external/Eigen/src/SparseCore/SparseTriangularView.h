@@ -8,8 +8,8 @@
 // Public License v. 2.0. If a copy of the MPL was not distributed
 // with this file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
-#ifndef EIGEN_SPARSE_TRIANGULARVIEW_H
-#define EIGEN_SPARSE_TRIANGULARVIEW_H
+#ifndef HYDRA_EIGEN_SPARSE_TRIANGULARVIEW_H
+#define HYDRA_EIGEN_SPARSE_TRIANGULARVIEW_H
 
 HYDRA_EXTERNAL_NAMESPACE_BEGIN namespace Eigen {
 
@@ -41,15 +41,15 @@ template<typename MatrixType, unsigned int Mode> class TriangularViewImpl<Matrix
     typedef SparseMatrixBase<TriangularViewType> Base;
   public:
     
-    EIGEN_SPARSE_PUBLIC_INTERFACE(TriangularViewType)
+    HYDRA_EIGEN_SPARSE_PUBLIC_INTERFACE(TriangularViewType)
     
     typedef typename MatrixType::Nested MatrixTypeNested;
     typedef typename internal::remove_reference<MatrixTypeNested>::type MatrixTypeNestedNonRef;
     typedef typename internal::remove_all<MatrixTypeNested>::type MatrixTypeNestedCleaned;
 
     template<typename RhsType, typename DstType>
-    EIGEN_DEVICE_FUNC
-    EIGEN_STRONG_INLINE void _solve_impl(const RhsType &rhs, DstType &dst) const {
+    HYDRA_EIGEN_DEVICE_FUNC
+    HYDRA_EIGEN_STRONG_INLINE void _solve_impl(const RhsType &rhs, DstType &dst) const {
       if(!(internal::is_same<RhsType,DstType>::value && internal::extract_data(dst) == internal::extract_data(rhs)))
         dst = rhs;
       this->solveInPlace(dst);
@@ -102,7 +102,7 @@ public:
       typedef EvalIterator Base;
     public:
 
-      EIGEN_STRONG_INLINE InnerIterator(const unary_evaluator& xprEval, Index outer)
+      HYDRA_EIGEN_STRONG_INLINE InnerIterator(const unary_evaluator& xprEval, Index outer)
         : Base(xprEval.m_argImpl,outer), m_returnOne(false), m_containsDiag(Base::outer()<xprEval.m_arg.innerSize())
       {
         if(SkipFirst)
@@ -120,7 +120,7 @@ public:
         }
       }
 
-      EIGEN_STRONG_INLINE InnerIterator& operator++()
+      HYDRA_EIGEN_STRONG_INLINE InnerIterator& operator++()
       {
         if(HasUnitDiag && m_returnOne)
           m_returnOne = false;
@@ -137,7 +137,7 @@ public:
         return *this;
       }
       
-      EIGEN_STRONG_INLINE operator bool() const
+      HYDRA_EIGEN_STRONG_INLINE operator bool() const
       {
         if(HasUnitDiag && m_returnOne)
           return true;
@@ -186,4 +186,4 @@ SparseMatrixBase<Derived>::triangularView() const
 
 } /* end namespace Eigen */  HYDRA_EXTERNAL_NAMESPACE_END
 
-#endif // EIGEN_SPARSE_TRIANGULARVIEW_H
+#endif // HYDRA_EIGEN_SPARSE_TRIANGULARVIEW_H

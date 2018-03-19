@@ -29,6 +29,10 @@
 #ifndef SPARSE_HISTOGRAMING_INL_
 #define SPARSE_HISTOGRAMING_INL_
 
+/**
+ * \example sparse_histogram.inl
+ *
+ */
 
 
 #include <iostream>
@@ -112,7 +116,7 @@ int main(int argv, char** argc)
 	 */
 
 
-	auto GAUSSIAN1 =  [=] __host__ __device__ (unsigned int n,double* x ){
+	auto GAUSSIAN1 =  [=] __hydra_dual__ (unsigned int n,double* x ){
 
 		double g = 1.0;
 
@@ -131,7 +135,7 @@ int main(int argv, char** argc)
 	//Gaussian 2
 	double mean2   =  2.0;
 	double sigma2  =  1.0;
-	auto GAUSSIAN2 =  [=] __host__ __device__ (unsigned int n, double* x ){
+	auto GAUSSIAN2 =  [=] __hydra_dual__ (unsigned int n, double* x ){
 
 		double g = 1.0;
 

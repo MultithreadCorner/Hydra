@@ -28,7 +28,7 @@ HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
 
 __thrust_exec_check_disable__
 template<typename DerivedPolicy, typename ForwardIterator>
-__host__ __device__
+__hydra_host__ __hydra_device__
 ForwardIterator min_element(const thrust::detail::execution_policy_base<DerivedPolicy> &exec, ForwardIterator first, ForwardIterator last)
 {
   using thrust::system::detail::generic::min_element;
@@ -38,7 +38,7 @@ ForwardIterator min_element(const thrust::detail::execution_policy_base<DerivedP
 
 __thrust_exec_check_disable__
 template<typename DerivedPolicy, typename ForwardIterator, typename BinaryPredicate>
-__host__ __device__
+__hydra_host__ __hydra_device__
 ForwardIterator min_element(const thrust::detail::execution_policy_base<DerivedPolicy> &exec, ForwardIterator first, ForwardIterator last, BinaryPredicate comp)
 {
   using thrust::system::detail::generic::min_element;
@@ -48,7 +48,7 @@ ForwardIterator min_element(const thrust::detail::execution_policy_base<DerivedP
 
 __thrust_exec_check_disable__
 template<typename DerivedPolicy, typename ForwardIterator>
-__host__ __device__
+__hydra_host__ __hydra_device__
 ForwardIterator max_element(const thrust::detail::execution_policy_base<DerivedPolicy> &exec, ForwardIterator first, ForwardIterator last)
 {
   using thrust::system::detail::generic::max_element;
@@ -58,7 +58,7 @@ ForwardIterator max_element(const thrust::detail::execution_policy_base<DerivedP
 
 __thrust_exec_check_disable__
 template<typename DerivedPolicy, typename ForwardIterator, typename BinaryPredicate>
-__host__ __device__
+__hydra_host__ __hydra_device__
 ForwardIterator max_element(const thrust::detail::execution_policy_base<DerivedPolicy> &exec, ForwardIterator first, ForwardIterator last, BinaryPredicate comp)
 {
   using thrust::system::detail::generic::max_element;
@@ -68,7 +68,7 @@ ForwardIterator max_element(const thrust::detail::execution_policy_base<DerivedP
 
 __thrust_exec_check_disable__
 template<typename DerivedPolicy, typename ForwardIterator>
-__host__ __device__
+__hydra_host__ __hydra_device__
 thrust::pair<ForwardIterator,ForwardIterator> minmax_element(const thrust::detail::execution_policy_base<DerivedPolicy> &exec, ForwardIterator first, ForwardIterator last)
 {
   using thrust::system::detail::generic::minmax_element;
@@ -78,7 +78,7 @@ thrust::pair<ForwardIterator,ForwardIterator> minmax_element(const thrust::detai
 
 __thrust_exec_check_disable__
 template<typename DerivedPolicy, typename ForwardIterator, typename BinaryPredicate>
-__host__ __device__
+__hydra_host__ __hydra_device__
 thrust::pair<ForwardIterator,ForwardIterator> minmax_element(const thrust::detail::execution_policy_base<DerivedPolicy> &exec, ForwardIterator first, ForwardIterator last, BinaryPredicate comp)
 {
   using thrust::system::detail::generic::minmax_element;

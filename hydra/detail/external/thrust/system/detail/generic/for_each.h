@@ -39,7 +39,7 @@ namespace generic
 template<typename DerivedPolicy,
          typename InputIterator,
          typename UnaryFunction>
-__host__ __device__
+__hydra_host__ __hydra_device__
 InputIterator for_each(HYDRA_EXTERNAL_NS::thrust::execution_policy<DerivedPolicy>&,
                        InputIterator first,
                        InputIterator ,
@@ -55,7 +55,7 @@ template<typename DerivedPolicy,
          typename InputIterator,
          typename Size,
          typename UnaryFunction>
-__host__ __device__
+__hydra_host__ __hydra_device__
 InputIterator for_each_n(HYDRA_EXTERNAL_NS::thrust::execution_policy<DerivedPolicy>&,
                          InputIterator first,
                          Size ,

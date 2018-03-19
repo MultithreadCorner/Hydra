@@ -66,8 +66,8 @@
  *  Storage: new row subscripts; that is subscripts of PA.
  */
 
-#ifndef EIGEN_LU_STRUCTS
-#define EIGEN_LU_STRUCTS
+#ifndef HYDRA_EIGEN_LU_STRUCTS
+#define HYDRA_EIGEN_LU_STRUCTS
 HYDRA_EXTERNAL_NAMESPACE_BEGIN namespace Eigen {
 namespace internal {
   
@@ -107,4 +107,4 @@ struct perfvalues {
 } // end namespace internal
 
 } /* end namespace Eigen */  HYDRA_EXTERNAL_NAMESPACE_END
-#endif // EIGEN_LU_STRUCTS
+#endif // HYDRA_EIGEN_LU_STRUCTS

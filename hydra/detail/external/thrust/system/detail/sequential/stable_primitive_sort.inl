@@ -62,7 +62,7 @@ template<typename Iterator>
 template<typename DerivedPolicy,
          typename RandomAccessIterator>
   typename enable_if_bool_sort<RandomAccessIterator>::type
-__host__ __device__
+__hydra_host__ __hydra_device__
     stable_primitive_sort(sequential::execution_policy<DerivedPolicy> &exec,
                           RandomAccessIterator first, RandomAccessIterator last)
 {
@@ -75,7 +75,7 @@ __host__ __device__
 template<typename DerivedPolicy,
          typename RandomAccessIterator>
   typename disable_if_bool_sort<RandomAccessIterator>::type
-__host__ __device__
+__hydra_host__ __hydra_device__
     stable_primitive_sort(sequential::execution_policy<DerivedPolicy> &exec,
                           RandomAccessIterator first, RandomAccessIterator last)
 {
@@ -87,7 +87,7 @@ __host__ __device__
 struct logical_not_first
 {
   template<typename Tuple>
-  __host__ __device__
+  __hydra_host__ __hydra_device__
   bool operator()(Tuple t)
   {
     return !thrust::get<0>(t);
@@ -99,7 +99,7 @@ template<typename DerivedPolicy,
          typename RandomAccessIterator1,
          typename RandomAccessIterator2>
   typename enable_if_bool_sort<RandomAccessIterator1>::type
-__host__ __device__
+__hydra_host__ __hydra_device__
     stable_primitive_sort_by_key(sequential::execution_policy<DerivedPolicy> &exec,
                                  RandomAccessIterator1 keys_first, RandomAccessIterator1 keys_last,
                                  RandomAccessIterator2 values_first)
@@ -117,7 +117,7 @@ template<typename DerivedPolicy,
          typename RandomAccessIterator1,
          typename RandomAccessIterator2>
   typename disable_if_bool_sort<RandomAccessIterator1>::type
-__host__ __device__
+__hydra_host__ __hydra_device__
     stable_primitive_sort_by_key(sequential::execution_policy<DerivedPolicy> &exec,
                                  RandomAccessIterator1 keys_first, RandomAccessIterator1 keys_last,
                                  RandomAccessIterator2 values_first)
@@ -132,7 +132,7 @@ __host__ __device__
 
 template<typename DerivedPolicy,
          typename RandomAccessIterator>
-__host__ __device__
+__hydra_host__ __hydra_device__
 void stable_primitive_sort(sequential::execution_policy<DerivedPolicy> &exec,
                            RandomAccessIterator first,
                            RandomAccessIterator last)
@@ -144,7 +144,7 @@ void stable_primitive_sort(sequential::execution_policy<DerivedPolicy> &exec,
 template<typename DerivedPolicy,
          typename RandomAccessIterator1,
          typename RandomAccessIterator2>
-__host__ __device__
+__hydra_host__ __hydra_device__
 void stable_primitive_sort_by_key(sequential::execution_policy<DerivedPolicy> &exec,
                                   RandomAccessIterator1 keys_first,
                                   RandomAccessIterator1 keys_last,

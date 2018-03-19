@@ -34,3 +34,8 @@
 
 #include <hydra/detail/external/thrust/detail/config/config.h>
 
+#define __hydra_host__ __host__
+
+#define __hydra_device__ __device__
+
+#define __hydra_dual__ __host__ __device__

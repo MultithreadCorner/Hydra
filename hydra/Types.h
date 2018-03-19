@@ -62,7 +62,6 @@ typedef float GReal_t;///< Double 8 bytes or float 4 bytes
 typedef double GReal_t;///< Double 16 bytes or float 4 bytes
 #endif
 
-
 //---- constants ---------------------------------------------------------------
 
 #ifndef NULL
@@ -74,6 +73,12 @@ const GBool_t kFalse = false;
 
 #define PI     3.1415926535897932384626422832795028841971
 
+namespace math_constants {
+
+const double sqrt2   = 1.41421356237309504880; //sqrt(2)
+const double inverse_sqrt2 = 0.707106781186547524401; // 1/sqrt(2)
+
+}//math_constants
 
 struct null_type
 {};

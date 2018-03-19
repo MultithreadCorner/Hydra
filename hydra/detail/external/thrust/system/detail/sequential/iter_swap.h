@@ -32,7 +32,7 @@ namespace sequential
 
 
 template<typename Pointer1, typename Pointer2>
-__host__ __device__
+__hydra_host__ __hydra_device__
   void iter_swap(tag, Pointer1 a, Pointer2 b)
 {
   using thrust::swap;

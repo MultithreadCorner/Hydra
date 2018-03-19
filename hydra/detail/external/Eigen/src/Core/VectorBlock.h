@@ -8,8 +8,8 @@
 // Public License v. 2.0. If a copy of the MPL was not distributed
 // with this file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
-#ifndef EIGEN_VECTORBLOCK_H
-#define EIGEN_VECTORBLOCK_H
+#ifndef HYDRA_EIGEN_VECTORBLOCK_H
+#define HYDRA_EIGEN_VECTORBLOCK_H
 
 HYDRA_EXTERNAL_NAMESPACE_BEGIN namespace Eigen { 
 
@@ -65,32 +65,32 @@ template<typename VectorType, int Size> class VectorBlock
       IsColVector = !(internal::traits<VectorType>::Flags & RowMajorBit)
     };
   public:
-    EIGEN_DENSE_PUBLIC_INTERFACE(VectorBlock)
+    HYDRA_EIGEN_DENSE_PUBLIC_INTERFACE(VectorBlock)
 
     using Base::operator=;
 
     /** Dynamic-size constructor
       */
-    EIGEN_DEVICE_FUNC
+    HYDRA_EIGEN_DEVICE_FUNC
     inline VectorBlock(VectorType& vector, Index start, Index size)
       : Base(vector,
              IsColVector ? start : 0, IsColVector ? 0 : start,
              IsColVector ? size  : 1, IsColVector ? 1 : size)
     {
-      EIGEN_STATIC_ASSERT_VECTOR_ONLY(VectorBlock);
+      HYDRA_EIGEN_STATIC_ASSERT_VECTOR_ONLY(VectorBlock);
     }
 
     /** Fixed-size constructor
       */
-    EIGEN_DEVICE_FUNC
+    HYDRA_EIGEN_DEVICE_FUNC
     inline VectorBlock(VectorType& vector, Index start)
       : Base(vector, IsColVector ? start : 0, IsColVector ? 0 : start)
     {
-      EIGEN_STATIC_ASSERT_VECTOR_ONLY(VectorBlock);
+      HYDRA_EIGEN_STATIC_ASSERT_VECTOR_ONLY(VectorBlock);
     }
 };
 
 
 } /* end namespace Eigen */  HYDRA_EXTERNAL_NAMESPACE_END
 
-#endif // EIGEN_VECTORBLOCK_H
+#endif // HYDRA_EIGEN_VECTORBLOCK_H

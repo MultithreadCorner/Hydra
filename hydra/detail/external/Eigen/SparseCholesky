@@ -7,8 +7,8 @@
 // Public License v. 2.0. If a copy of the MPL was not distributed
 // with this file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
-#ifndef EIGEN_SPARSECHOLESKY_MODULE_H
-#define EIGEN_SPARSECHOLESKY_MODULE_H
+#ifndef HYDRA_EIGEN_SPARSECHOLESKY_MODULE_H
+#define HYDRA_EIGEN_SPARSECHOLESKY_MODULE_H
 
 #include "hydra/detail/external/Eigen/SparseCore"
 #include "hydra/detail/external/Eigen/OrderingMethods"
@@ -30,16 +30,16 @@
   * \endcode
   */
 
-#ifdef EIGEN_MPL2_ONLY
+#ifdef HYDRA_EIGEN_MPL2_ONLY
 #error The SparseCholesky module has nothing to offer in MPL2 only mode
 #endif
 
 #include "hydra/detail/external/Eigen/src/SparseCholesky/SimplicialCholesky.h"
 
-#ifndef EIGEN_MPL2_ONLY
+#ifndef HYDRA_EIGEN_MPL2_ONLY
 #include "hydra/detail/external/Eigen/src/SparseCholesky/SimplicialCholesky_impl.h"
 #endif
 
 #include "hydra/detail/external/Eigen/src/Core/util/ReenableStupidWarnings.h"
 
-#endif // EIGEN_SPARSECHOLESKY_MODULE_H
+#endif // HYDRA_EIGEN_SPARSECHOLESKY_MODULE_H

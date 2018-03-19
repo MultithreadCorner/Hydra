@@ -23,7 +23,7 @@ namespace random
 {
 
 template<typename UIntType, size_t w, size_t k, size_t q, size_t s>
-  __host__ __device__
+  __hydra_host__ __hydra_device__
   linear_feedback_shift_engine<UIntType,w,k,q,s>
     ::linear_feedback_shift_engine(result_type value)
 {
@@ -31,7 +31,7 @@ template<typename UIntType, size_t w, size_t k, size_t q, size_t s>
 } // end linear_feedback_shift_engine::linear_feedback_shift_engine()
 
 template<typename UIntType, size_t w, size_t k, size_t q, size_t s>
-  __host__ __device__
+  __hydra_host__ __hydra_device__
   void linear_feedback_shift_engine<UIntType,w,k,q,s>
     ::seed(result_type value)
 {
@@ -39,7 +39,7 @@ template<typename UIntType, size_t w, size_t k, size_t q, size_t s>
 } // end linear_feedback_shift_engine::seed()
 
 template<typename UIntType, size_t w, size_t k, size_t q, size_t s>
-  __host__ __device__
+  __hydra_host__ __hydra_device__
   typename linear_feedback_shift_engine<UIntType,w,k,q,s>::result_type
     linear_feedback_shift_engine<UIntType,w,k,q,s>
       ::operator()(void)
@@ -52,7 +52,7 @@ template<typename UIntType, size_t w, size_t k, size_t q, size_t s>
 
 
 template<typename UIntType, size_t w, size_t k, size_t q, size_t s>
-  __host__ __device__
+  __hydra_host__ __hydra_device__
   void linear_feedback_shift_engine<UIntType,w,k,q,s>
     ::discard(unsigned long long z)
 {
@@ -113,7 +113,7 @@ template<typename UIntType, size_t w, size_t k, size_t q, size_t s>
 
 
 template<typename UIntType, size_t w, size_t k, size_t q, size_t s>
-  __host__ __device__
+  __hydra_host__ __hydra_device__
   bool linear_feedback_shift_engine<UIntType,w,k,q,s>
     ::equal(const linear_feedback_shift_engine<UIntType,w,k,q,s> &rhs) const
 {
@@ -122,7 +122,7 @@ template<typename UIntType, size_t w, size_t k, size_t q, size_t s>
 
 
 template<typename UIntType, size_t w, size_t k, size_t q, size_t s>
-__host__ __device__
+__hydra_host__ __hydra_device__
 bool operator==(const linear_feedback_shift_engine<UIntType,w,k,q,s> &lhs,
                 const linear_feedback_shift_engine<UIntType,w,k,q,s> &rhs)
 {
@@ -131,7 +131,7 @@ bool operator==(const linear_feedback_shift_engine<UIntType,w,k,q,s> &lhs,
 
 
 template<typename UIntType, size_t w, size_t k, size_t q, size_t s>
-__host__ __device__
+__hydra_host__ __hydra_device__
 bool operator!=(const linear_feedback_shift_engine<UIntType,w,k,q,s> &lhs,
                 const linear_feedback_shift_engine<UIntType,w,k,q,s> &rhs)
 {
