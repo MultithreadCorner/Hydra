@@ -742,10 +742,8 @@ int main(int argv, char** argc)
 
 		auto Phi_12 = fcn.GetPDF().GetFunctor().GetFunctor(_1).GetFunctor(_0);
 		auto Phi_13 = fcn.GetPDF().GetFunctor().GetFunctor(_1).GetFunctor(_1);
-        auto Phi_all = fcn.GetPDF().GetFunctor().GetFunctor(_1);
 		auto f0_12  = fcn.GetPDF().GetFunctor().GetFunctor(_2).GetFunctor(_0);
         auto f0_13  = fcn.GetPDF().GetFunctor().GetFunctor(_2).GetFunctor(_1);
-        auto f0_all = fcn.GetPDF().GetFunctor().GetFunctor(_2);
 
 
 		//==================================
@@ -762,26 +760,15 @@ int main(int argv, char** argc)
 		//==================================
 		Phi_12_FF  =	fit_fraction(Phi_12 , Opt_Model, {D_MASS, Kminus_MASS, Kplus_MASS},  nentries);
 		Phi_13_FF  =	fit_fraction(Phi_13 , Opt_Model, {D_MASS, Kminus_MASS, Kplus_MASS},  nentries);
-        Phi_all_FF  =	fit_fraction(Phi_all , Opt_Model, {D_MASS, Kminus_MASS, Kplus_MASS},  nentries);
 		f0_12_FF   =	fit_fraction(f0_12 , Opt_Model, {D_MASS, Kminus_MASS, Kplus_MASS},  nentries);
         f0_13_FF   =	fit_fraction(f0_13 , Opt_Model, {D_MASS, Kminus_MASS, Kplus_MASS},  nentries);
-        f0_all_FF  =	fit_fraction(f0_all , Opt_Model, {D_MASS, Kminus_MASS, Kplus_MASS},  nentries);
 
 		std::cout << "Phi_12_FF :" << Phi_12_FF << std::endl;
 		std::cout << "Phi_13_FF :" << Phi_13_FF << std::endl;
-        std::cout << "Phi_all_FF :" << Phi_all_FF << std::endl;
 		std::cout << "f0_12_FF :" << f0_12_FF << std::endl;
         std::cout << "f0_13_FF :" << f0_13_FF << std::endl;
-        std::cout << "f0_all_FF :" << f0_all_FF << std::endl;
 		std::cout << "Sum :"
 				  << Phi_12_FF  + Phi_13_FF  + f0_12_FF + f0_13_FF  << std::endl;
-
-		std::cout << "Phi_12_FF :" << fit_fraction(Phi_Resonance_12, Model, {D_MASS, Kminus_MASS, Kplus_MASS},  nentries) << std::endl;
-		std::cout << "Phi_13_FF :" << fit_fraction(Phi_Resonance_13, Model, {D_MASS, Kminus_MASS, Kplus_MASS},  nentries) << std::endl;
-		std::cout << "Phi_FF :" << fit_fraction(Phi_Resonance, Model, {D_MASS, Kminus_MASS, Kplus_MASS},  nentries) << std::endl;
-		std::cout << "f0_12_FF: " << fit_fraction(f0_Resonance_12, Model, {D_MASS, Kminus_MASS, Kplus_MASS},  nentries) << std::endl;
-		std::cout << "f0_13_FF: " << fit_fraction(f0_Resonance_13, Model, {D_MASS, Kminus_MASS, Kplus_MASS},  nentries) << std::endl;
-        std::cout << "f0_FF: " << fit_fraction(f0_Resonance, Model, {D_MASS, Kminus_MASS, Kplus_MASS},  nentries) << std::endl;
 
 #ifdef 	_ROOT_AVAILABLE_
 
