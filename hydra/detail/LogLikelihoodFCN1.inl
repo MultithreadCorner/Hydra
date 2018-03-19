@@ -35,6 +35,7 @@
 #include <hydra/detail/external/thrust/transform_reduce.h>
 #include <hydra/detail/external/thrust/inner_product.h>
 
+
 namespace hydra {
 
 /**
