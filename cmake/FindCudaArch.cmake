@@ -23,9 +23,10 @@ ENDMACRO()
 #   DETECT_INSTALLED_GPUS(OUT_VARIABLE)
 FUNCTION(DETECT_INSTALLED_GPUS OUT_VARIABLE)
   IF(NOT CUDA_GPU_DETECT_OUTPUT)
-    SET(__cufile ${PROJECT_BINARY_DIR}/detect_cuda_archs.cu)
+    SET(__cufile ${PROJECT_BINARY_DIR}/detect_cuda_archs.cpp)
 
     file(WRITE ${__cufile} ""
+    "#include <cuda_runtime.h>\n"
       "#include <cstdio>\n"
       "int main()\n"
       "{\n"
@@ -41,10 +42,16 @@ FUNCTION(DETECT_INSTALLED_GPUS OUT_VARIABLE)
       "  return 0;\n"
       "}\n")
 
-    EXECUTE_PROCESS(COMMAND "${CUDA_NVCC_EXECUTABLE}" "--run" "${__cufile}"
-                    WORKING_DIRECTORY "${PROJECT_BINARY_DIR}/CMakeFiles/"
-                    RESULT_VARIABLE __nvcc_res OUTPUT_VARIABLE __nvcc_out
-                    ERROR_QUIET OUTPUT_STRIP_TRAILING_WHITESPACE)
+
+#    EXECUTE_PROCESS(COMMAND "${CUDA_NVCC_EXECUTABLE}" "--compiler-bindir=$ENV{CC}" "--run" "${__cufile}"
+#                    WORKING_DIRECTORY "${PROJECT_BINARY_DIR}/CMakeFiles/"
+#                    RESULT_VARIABLE __nvcc_res OUTPUT_VARIABLE __nvcc_out
+#                    ERROR_QUIET OUTPUT_STRIP_TRAILING_WHITESPACE)
+#                    
+      try_run(__nvcc_res compile_result ${PROJECT_BINARY_DIR} ${__cufile}
+            CMAKE_FLAGS "-DINCLUDE_DIRECTORIES=${CUDA_INCLUDE_DIRS}"
+            LINK_LIBRARIES ${CUDA_LIBRARIES}
+            RUN_OUTPUT_VARIABLE __nvcc_out)
 
     IF(__nvcc_res EQUAL 0)
       STRING(REPLACE "2.1" "2.1(2.0)" __nvcc_out "${__nvcc_out}")

@@ -1,6 +1,6 @@
 /*----------------------------------------------------------------------------
  *
- *   Copyright (C) 2016 Antonio Augusto Alves Junior
+ *   Copyright (C) 2016 - 2018 Antonio Augusto Alves Junior
  *
  *   This file is part of Hydra Data Analysis Framework.
  *
@@ -26,12 +26,6 @@
  *      Author: Antonio Augusto Alves Junior
  */
 
-/**
- * \file
- * \ingroup fit
- */
-
-
 #ifndef USERPARAMETERS_H_
 #define USERPARAMETERS_H_
 
@@ -54,7 +48,12 @@
 
 namespace hydra {
 
-
+/**
+ * \ingroup fit
+ * \class UserParameters
+ * \brief Class implementing a interface to ROOT::Minuit2::MnUserParameters
+ *
+ */
 class UserParameters
 {
 public:
@@ -62,20 +61,29 @@ public:
 
 	UserParameters():
 		fMnState(new ROOT::Minuit2::MnUserParameters()),
-		fVariables( std::vector<hydra::Parameter*> ())
+		fVariables( std::vector<Parameter*> ())
 	{ }
 
+	/**
+	 * Copy constructor
+	 * @param other
+	 */
 	UserParameters( UserParameters const& other):
-		fMnState( new ROOT::Minuit2::MnUserParameters(*other.GetStatePtr())),
+		fMnState( new ROOT::Minuit2::MnUserParameters(*other.GetMnStatePtr())),
 		fVariables(other.GetVariables())
 	{	}
 
+	/**
+	 * Assignment operator
+	 * @param other
+	 * @return
+	 */
 	UserParameters& operator= ( UserParameters const& other)
 	{
 		if(this ==&other) return *this;
 
 		std::unique_ptr<ROOT::Minuit2::MnUserParameters>
-		temp(new ROOT::Minuit2::MnUserParameters(*other.GetStatePtr()));
+		temp(new ROOT::Minuit2::MnUserParameters(*other.GetMnStatePtr()));
 
 		this->fMnState.swap(temp) ;
 		this->fVariables = other.GetVariables();
@@ -83,7 +91,13 @@ public:
 	}
 
 
-	void AddParameter( hydra::Parameter* param )
+	/**
+	 * Add a parameter to be tracked by ROOT::Minuit2
+	 *
+	 * @param param
+	 * @param update_size
+	 */
+	void AddParameter( Parameter* param, GBool_t update_size=1 )
 	{
 		if(param->HasError() && param->IsLimited()){
 			fMnState->Add(param->GetName(), param->GetValue(),
@@ -98,17 +112,25 @@ public:
 			fMnState->Add(param->GetName(), param->GetValue());
 		}
 
+		if( param->IsFixed())
+			fMnState->Fix( param->GetName());
+
 		param->SetIndex( fMnState->Index( param->GetName()) );
 
-		fVariables.push_back(param);
+		if( update_size)fVariables.push_back(param);
 
 	}
 
 
+
+	/**
+	 * Update model parameters with the values hold by an ROOT::Minuit2::FunctionMinimum object
+	 * @param minimum
+	 */
 	void UpdateParameters(ROOT::Minuit2::FunctionMinimum const& minimum )
 	{
 		auto optimized_parameters =  minimum.UserParameters();
-		for(hydra::Parameter* param: fVariables){
+		for(Parameter* param: fVariables){
 			param->SetValue( optimized_parameters.Value(param->GetName()));
 			param->SetError( optimized_parameters.Error(param->GetName()));
 		}
@@ -116,12 +138,16 @@ public:
 
 	}
 
+	/**
+	 * Update model parameters errors with the values hold by an ROOT::Minuit2::MinosError object
+	 * @param minos_error
+	 */
 	void UpdateParameterLimits(ROOT::Minuit2::MinosError const& minos_error )
 	{
 
 		std::string name = minos_error.LowerState().Name( minos_error.Parameter());
 		auto parameter = std::find_if(fVariables.begin(), fVariables.end(),
-				[&](hydra::Parameter* const p) { return std::string(p->GetName()) == name; } );
+				[&](Parameter* const p) { return std::string(p->GetName()) == name; } );
 
 		if (parameter == std::end(fVariables)) {
 			HYDRA_LOG(WARNING, " Parameter :"<< name << " not found. Limits not set.\n\n")
@@ -133,6 +159,9 @@ public:
 		return;
 	}
 
+	/**
+	 * Print the parameters
+	 */
 	void PrintParameters(){
 
 		if(!fVariables.size()){
@@ -151,35 +180,61 @@ public:
 		return;
 	}
 
+	/**
+	 * Print the parameters (ROOT::Minuit2)
+	 */
 	void PrintMinuitParameters(){
-		std::cout<< this->GetState() << std::endl;
+		std::cout<< this->GetMnState() << std::endl;
 		return;
 	}
 
-	const std::vector<hydra::Parameter* >& GetVariables() const {
+
+	const std::vector<Parameter* >& GetVariables() const {
 		return fVariables;
 	}
 
-	void SetVariables(const std::vector<hydra::Parameter*>& variables) {
+	void SetVariables(const std::vector<Parameter*>& variables)
+	{
 		fVariables = variables;
+		std::unique_ptr<ROOT::Minuit2::MnUserParameters>
+				temp(new ROOT::Minuit2::MnUserParameters());
+		this->fMnState.swap(temp) ;
+		for(size_t i=0; i < fVariables.size(); i++)
+			this->AddParameter( fVariables[i], 0);
 	}
 
-	const ROOT::Minuit2::MnUserParameters& GetState() const
+	/**
+	 * Get an constant reference to the hold ROOT::Minuit2::MnUserParameters
+	 * @return
+	 */
+	const ROOT::Minuit2::MnUserParameters& GetMnState() const
 	{
 		return *fMnState;
 	}
 
-	ROOT::Minuit2::MnUserParameters& GetState()
+	/**
+	 * Get a constant reference to the hold ROOT::Minuit2::MnUserParameters
+	 * @return
+	 */
+	ROOT::Minuit2::MnUserParameters& GetMnState()
 	{
 		return *fMnState;
 	}
 
-	const std::unique_ptr<ROOT::Minuit2::MnUserParameters>& GetStatePtr() const
+	/**
+	 * Get a constant reference to the hold std::unique_ptr<ROOT::Minuit2::MnUserParameters>
+	 * @return
+	 */
+	const std::unique_ptr<ROOT::Minuit2::MnUserParameters>& GetMnStatePtr() const
 	{
 		return fMnState;
 	}
 
-	void SetState( ROOT::Minuit2::MnUserParameters const& state)
+	/**
+	 * Set the ROOT::Minuit2 state
+	 * @param state ROOT::Minuit2::MnUserParameters object.
+	 */
+	void SetMnState( ROOT::Minuit2::MnUserParameters const& state)
 	{
 		std::unique_ptr<ROOT::Minuit2::MnUserParameters>
 		temp(new ROOT::Minuit2::MnUserParameters(state ));
@@ -190,15 +245,20 @@ public:
 
 
 private:
-	std::vector<hydra::Parameter*> fVariables;
+	std::vector<Parameter*> fVariables;
     std::unique_ptr<ROOT::Minuit2::MnUserParameters> fMnState;
 
 };
 
-__host__
+/**
+ * Print the ROOT::Minuit2 state to stream
+ * @param os std::ostream
+ * @param par hydra::UserParameters
+ * @return
+ */
 std::ostream& operator<<(std::ostream& os, UserParameters const& par){
 
-	return os << par.GetState() ;
+	return os << par.GetMnState() ;
 }
 
 

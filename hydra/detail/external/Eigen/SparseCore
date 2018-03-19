@@ -1,0 +1,69 @@
+// This file is part of Eigen, a lightweight C++ template library
+// for linear algebra.
+//
+// This Source Code Form is subject to the terms of the Mozilla
+// Public License v. 2.0. If a copy of the MPL was not distributed
+// with this file, You can obtain one at http://mozilla.org/MPL/2.0/.
+
+#ifndef HYDRA_EIGEN_SPARSECORE_MODULE_H
+#define HYDRA_EIGEN_SPARSECORE_MODULE_H
+
+#include "hydra/detail/external/Eigen/Core"
+
+#include "hydra/detail/external/Eigen/src/Core/util/DisableStupidWarnings.h"
+
+#include <vector>
+#include <map>
+#include <cstdlib>
+#include <cstring>
+#include <algorithm>
+
+/** 
+  * \defgroup SparseCore_Module SparseCore module
+  *
+  * This module provides a sparse matrix representation, and basic associated matrix manipulations
+  * and operations.
+  *
+  * See the \ref TutorialSparse "Sparse tutorial"
+  *
+  * \code
+  * #include <Eigen/SparseCore>
+  * \endcode
+  *
+  * This module depends on: Core.
+  */
+
+#include "hydra/detail/external/Eigen/src/SparseCore/SparseUtil.h"
+#include "hydra/detail/external/Eigen/src/SparseCore/SparseMatrixBase.h"
+#include "hydra/detail/external/Eigen/src/SparseCore/SparseAssign.h"
+#include "hydra/detail/external/Eigen/src/SparseCore/CompressedStorage.h"
+#include "hydra/detail/external/Eigen/src/SparseCore/AmbiVector.h"
+#include "hydra/detail/external/Eigen/src/SparseCore/SparseCompressedBase.h"
+#include "hydra/detail/external/Eigen/src/SparseCore/SparseMatrix.h"
+#include "hydra/detail/external/Eigen/src/SparseCore/SparseMap.h"
+#include "hydra/detail/external/Eigen/src/SparseCore/MappedSparseMatrix.h"
+#include "hydra/detail/external/Eigen/src/SparseCore/SparseVector.h"
+#include "hydra/detail/external/Eigen/src/SparseCore/SparseRef.h"
+#include "hydra/detail/external/Eigen/src/SparseCore/SparseCwiseUnaryOp.h"
+#include "hydra/detail/external/Eigen/src/SparseCore/SparseCwiseBinaryOp.h"
+#include "hydra/detail/external/Eigen/src/SparseCore/SparseTranspose.h"
+#include "hydra/detail/external/Eigen/src/SparseCore/SparseBlock.h"
+#include "hydra/detail/external/Eigen/src/SparseCore/SparseDot.h"
+#include "hydra/detail/external/Eigen/src/SparseCore/SparseRedux.h"
+#include "hydra/detail/external/Eigen/src/SparseCore/SparseView.h"
+#include "hydra/detail/external/Eigen/src/SparseCore/SparseDiagonalProduct.h"
+#include "hydra/detail/external/Eigen/src/SparseCore/ConservativeSparseSparseProduct.h"
+#include "hydra/detail/external/Eigen/src/SparseCore/SparseSparseProductWithPruning.h"
+#include "hydra/detail/external/Eigen/src/SparseCore/SparseProduct.h"
+#include "hydra/detail/external/Eigen/src/SparseCore/SparseDenseProduct.h"
+#include "hydra/detail/external/Eigen/src/SparseCore/SparseSelfAdjointView.h"
+#include "hydra/detail/external/Eigen/src/SparseCore/SparseTriangularView.h"
+#include "hydra/detail/external/Eigen/src/SparseCore/TriangularSolver.h"
+#include "hydra/detail/external/Eigen/src/SparseCore/SparsePermutation.h"
+#include "hydra/detail/external/Eigen/src/SparseCore/SparseFuzzy.h"
+#include "hydra/detail/external/Eigen/src/SparseCore/SparseSolverBase.h"
+
+#include "hydra/detail/external/Eigen/src/Core/util/ReenableStupidWarnings.h"
+
+#endif // HYDRA_EIGEN_SPARSECORE_MODULE_H
+

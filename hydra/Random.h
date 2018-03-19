@@ -1,6 +1,6 @@
 /*----------------------------------------------------------------------------
  *
- *   Copyright (C) 2016 Antonio Augusto Alves Junior
+ *   Copyright (C) 2016 - 2018 Antonio Augusto Alves Junior
  *
  *   This file is part of Hydra Data Analysis Framework.
  *
@@ -26,40 +26,104 @@
  *      Author: Antonio Augusto Alves Junior
  */
 
-/**
- * \file
- * \ingroup random
- */
 
 #ifndef RANDOM_H_
 #define RANDOM_H_
 
-#include <array>
 
 #include <hydra/detail/Config.h>
+#include <hydra/detail/BackendPolicy.h>
 #include <hydra/Types.h>
 #include <hydra/detail/functors/RandomUtils.h>
 #include <hydra/detail/TypeTraits.h>
 #include <hydra/detail/utility/Utility_Tuple.h>
 #include <hydra/Containers.h>
-#include <hydra/PointVector.h>
-//
-#include <thrust/copy.h>
-#include <thrust/count.h>
-#include <thrust/random.h>
-#include <thrust/distance.h>
-#include <thrust/extrema.h>
-#include <thrust/functional.h>
-#include <thrust/iterator/iterator_traits.h>
-#include <thrust/system/detail/generic/select_system.h>
+#include <hydra/GenericRange.h>
 
+//
+#include <hydra/detail/external/thrust/copy.h>
+#include <hydra/detail/external/thrust/random.h>
+#include <hydra/detail/external/thrust/distance.h>
+#include <hydra/detail/external/thrust/extrema.h>
+#include <hydra/detail/external/thrust/functional.h>
+#include <hydra/detail/external/thrust/iterator/iterator_traits.h>
+#include <hydra/detail/external/thrust/system/detail/generic/select_system.h>
+#include <hydra/detail/external/thrust/partition.h>
+
+#include <array>
+#include <utility>
 
 namespace hydra{
 
-template<typename GRND=thrust::random::default_random_engine>
+
+/*! \typedef default_random_engine
+ *  \brief An implementation-defined "default" random number engine.
+ *  \note \p default_random_engine is currently an alias for \p minstd_rand, and may change
+ *        in a future version.
+ */
+typedef HYDRA_EXTERNAL_NS::thrust::random::default_random_engine default_random_engine;
+
+
+/*! \typedef minstd_rand0
+ *  \brief A random number engine with predefined parameters which implements a version of
+ *         the Minimal Standard random number generation algorithm.
+ *  \note The 10000th consecutive invocation of a default-constructed object of type \p minstd_rand0
+ *        shall produce the value \c 1043618065 .
+ */
+typedef HYDRA_EXTERNAL_NS::thrust::random::minstd_rand0 minstd_rand0;
+
+/*! \typedef minstd_rand
+ *  \brief A random number engine with predefined parameters which implements a version of
+ *         the Minimal Standard random number generation algorithm.
+ *  \note The 10000th consecutive invocation of a default-constructed object of type \p minstd_rand
+ *        shall produce the value \c 399268537 .
+ */
+typedef HYDRA_EXTERNAL_NS::thrust::random::minstd_rand minstd_rand;
+
+
+/*! \typedef ranlux24
+ *  \brief A random number engine with predefined parameters which implements the
+ *         RANLUX level-3 random number generation algorithm.
+ *  \note The 10000th consecutive invocation of a default-constructed object of type \p ranlux24
+ *        shall produce the value \c 9901578 .
+ */
+typedef HYDRA_EXTERNAL_NS::thrust::random::ranlux24	ranlux24;
+
+/*! \typedef ranlux48
+ *  \brief A random number engine with predefined parameters which implements the
+ *         RANLUX level-4 random number generation algorithm.
+ *  \note The 10000th consecutive invocation of a default-constructed object of type \p ranlux48
+ *        shall produce the value \c 88229545517833 .
+ */
+typedef HYDRA_EXTERNAL_NS::thrust::random::ranlux48	ranlux48;
+
+/*! \typedef taus88
+ *  \brief A random number engine with predefined parameters which implements
+ *         L'Ecuyer's 1996 three-component Tausworthe random number generator.
+ *
+ *  \note The 10000th consecutive invocation of a default-constructed object of type \p taus88
+ *        shall produce the value \c 3535848941 .
+ */
+typedef HYDRA_EXTERNAL_NS::thrust::random::taus88 	taus88;
+
+/**
+ * @ingroup random
+ * @brief This class implements functionalities associated to random number generation and pdf sampling.
+ *
+ * hydra::Random instances can sample multidimensional hydra::Pdf and fill ranges with data corresponding to
+ * gaussian, exponential, uniform and Breit-Wigner distributions.
+ *
+ * @tparam GRND underlying random number generator.
+ *
+ */
+template<typename GRND=HYDRA_EXTERNAL_NS::thrust::random::default_random_engine>
 class Random{
 
 public:
+	Random():
+			fSeed(7895123)
+	{}
+
 	Random(GUInt_t seed):
 		fSeed(seed)
 {}
@@ -79,11 +143,11 @@ public:
 	}
 
 	/**
-	 * \warning{ the implementation of thrust::random::normal_distribution
+	 * \warning{ the implementation of HYDRA_EXTERNAL_NS::thrust::random::normal_distribution
 	 * is different between nvcc and gcc. Do not expect the same
 	 * numbers event by event.
 	 * Possible: implement myself ? (que inferno! :0)
-	 * Refs: see in thrust/random/detail/normal_distribution_base.h
+	 * Refs: see in hydra/detail/external/thrust/random/detail/normal_distribution_base.h
 	 * ```
 	 * template<typename RealType>
 	 * struct normal_distribution_base
@@ -97,35 +161,189 @@ public:
 	 *	```
 	 *}
 	 */
+
+    /**
+     * @brief Fill the range [begin, end] with numbers distributed according a Gaussian distribution.
+     * @param mean \f$\mu\f$ of the Gaussian distribution.
+     * @param sigma \f$\sigma\f$ of the Gaussian distribution.
+     * @param begin Iterator pointing to the begin of the range.
+     * @param end Iterator pointing to the end of the range.
+     */
 	template<typename Iterator>
-	void Gauss(GReal_t mean, GReal_t sigma, Iterator begin, Iterator end ) ;//-> decltype(*begin);
+	void Gauss(typename Iterator::value_type mean,typename Iterator::value_type sigma,
+			Iterator begin, Iterator end ) ;
+	 /**
+	     * @brief Fill the range [begin, end] with numbers distributed according a Gaussian distribution.
+	     * @param mean \f$\mu\f$ of the Gaussian distribution.
+	     * @param sigma \f$\sigma\f$ of the Gaussian distribution.
+	     * @param begin Iterator pointing to the begin of the range.
+	     * @param end Iterator pointing to the end of the range.
+	     */
+	template<hydra::detail::Backend  BACKEND, typename Iterator>
+	void Gauss( hydra::detail::BackendPolicy<BACKEND> const& policy, typename Iterator::value_type mean,typename Iterator::value_type sigma,
+				Iterator begin, Iterator end ) ;
 
+	/**
+	 * @brief Fill the range [begin, end] with numbers distributed according a Exponential distribution.
+	 * @param tau \f$\tau\f$ of the Exponential distribution
+	 * @param begin Iterator pointing to the begin of the range.
+	 * @param end Iterator pointing to the end of the range.
+	 */
 	template<typename Iterator>
-	void Exp(GReal_t tau, Iterator begin, Iterator end)  ;//-> decltype(*begin);
+	void Exp(typename Iterator::value_type tau, Iterator begin, Iterator end)  ;
 
+	/**
+	 * @brief Fill the range [begin, end] with numbers distributed according a Exponential distribution.
+	 * @param tau \f$\tau\f$ of the Exponential distribution
+	 * @param begin Iterator pointing to the begin of the range.
+	 * @param end Iterator pointing to the end of the range.
+	 */
+	template<hydra::detail::Backend  BACKEND, typename Iterator>
+	void Exp(hydra::detail::BackendPolicy<BACKEND> const& policy, typename Iterator::value_type tau, Iterator begin, Iterator end)  ;
+
+
+	/**
+	 * @brief Fill the range [begin, end] with numbers distributed according a Breit-Wigner distribution.
+	 * @param mean \f$\mu\f$ of the Breit-Wigner distribution.
+	 * @param gamma \f$\\Gamma\f$ of the Breit-Wigner distribution.
+	 * @param begin Iterator pointing to the begin of the range.
+	 * @param end Iterator pointing to the end of the range.
+	 */
 	template<typename Iterator>
-	void BreitWigner(GReal_t mean, GReal_t gamma, Iterator begin, Iterator end)  ;//-> decltype(*begin);
+	void BreitWigner(typename Iterator::value_type mean,
+			typename Iterator::value_type gamma, Iterator begin, Iterator end)  ;//-> decltype(*begin);
 
+	/**
+	 * @brief Fill the range [begin, end] with numbers distributed according a Breit-Wigner distribution.
+	 * @param mean \f$\mu\f$ of the Breit-Wigner distribution.
+	 * @param gamma \f$\\Gamma\f$ of the Breit-Wigner distribution.
+	 * @param begin Iterator pointing to the begin of the range.
+	 * @param end Iterator pointing to the end of the range.
+	 */
+	template<hydra::detail::Backend  BACKEND, typename Iterator>
+	void BreitWigner(hydra::detail::BackendPolicy<BACKEND> const& policy, typename Iterator::value_type mean,
+			typename Iterator::value_type gamma, Iterator begin, Iterator end)  ;//-> decltype(*begin);
+
+	/**
+	 * @brief Fill the range [begin, end] with numbers distributed according a Uniform distribution.
+	 * @param min minimum
+	 * @param max maximum
+	 * @param begin Iterator pointing to the begin of the range.
+	 * @param end Iterator pointing to the end of the range.
+	 */
 	template<typename Iterator>
-	void Uniform(GReal_t min, GReal_t max, Iterator begin, Iterator end) ;// -> decltype(*begin);
+	void Uniform(typename Iterator::value_type min,
+			typename Iterator::value_type max, Iterator begin, Iterator end) ;
 
-	template<typename FUNCTOR, typename Iterator>
-	void InverseCDF(FUNCTOR const& invcdf, Iterator begin, Iterator end)  ;//-> decltype(*begin);
+	/**
+	 * @brief Fill the range [begin, end] with numbers distributed according a Uniform distribution.
+	 * @param min minimum
+	 * @param max maximum
+	 * @param begin Iterator pointing to the begin of the range.
+	 * @param end Iterator pointing to the end of the range.
+	 */
+	template<hydra::detail::Backend  BACKEND, typename Iterator>
+	void Uniform(hydra::detail::BackendPolicy<BACKEND> const& policy, typename Iterator::value_type min,
+			typename Iterator::value_type max, Iterator begin, Iterator end) ;
 
-	template<unsigned int BACKEND, typename FUNCTOR, size_t N>
-	auto Sample(FUNCTOR const& functor, std::array<GReal_t,N> min,	std::array<GReal_t,N> max, size_t trials)
-	->	typename detail::if_then_else<BACKEND,
-	mc_device_vector< typename detail::tuple_type<N,GReal_t>::type >,
-	mc_host_vector< typename detail::tuple_type<N,GReal_t>::type> >::type;
-	//-> typename detail::BackendTraits<BACKEND>::template container<detail::tuple_type<N,GReal_t>::type>;
 
-	template<unsigned int BACKEND=device, typename FUNCTOR, size_t N >
-	void Sample(FUNCTOR const& functor, std::array<GReal_t,N> min, std::array<GReal_t,N> max,
-			PointVector<BACKEND, GReal_t, N, false, false>& result, size_t trials);
+	/**
+	 * @brief Fill a range with numbers distributed according a user defined distribution.
+	 * @param policy backend to perform the calculation.
+	 * @param functor hydra::Pdf instance that will be sampled.
+	 * @param min GReal_t min with lower limit of sampling region.
+	 * @param max GReal_t max with upper limit of sampling region.
+	 * @param trials number of trials.
+	 * @return a hydra::backend::vector<tuple<T1,T2...>>
+	 */
+	template<typename T, typename Iterator, typename FUNCTOR>
+	GenericRange<Iterator> Sample(Iterator begin, Iterator end ,
+			T min, T max, FUNCTOR const& functor);
+
+	/**
+	 * @brief Fill a range with numbers distributed according a user defined distribution.
+	 * @param policy backend to perform the calculation.
+	 * @param functor hydra::Pdf instance that will be sampled.
+	 * @param min GReal_t min with lower limit of sampling region.
+	 * @param max GReal_t max with upper limit of sampling region.
+	 * @param trials number of trials.
+	 * @return a hydra::backend::vector<tuple<T1,T2...>>
+	 */
+	template<hydra::detail::Backend  BACKEND, typename T, typename Iterator, typename FUNCTOR>
+	GenericRange<Iterator> Sample(hydra::detail::BackendPolicy<BACKEND> const& policy, Iterator begin, Iterator end ,
+			T min, T max, FUNCTOR const& functor);
+
+
+	/**
+	 * @brief Fill a range with numbers distributed according a user defined distribution.
+	 * @param policy backend to perform the calculation.
+	 * @param functor hydra::Pdf instance that will be sampled.
+	 * @param min std::array<GReal_t,N> min with lower limit of sampling region.
+	 * @param max  std::array<GReal_t,N> min with upper limit of sampling region.
+	 * @param trials number of trials.
+	 * @return a hydra::backend::vector<tuple<T1,T2...>>
+	 */
+	template<typename T, typename Iterator, typename FUNCTOR, size_t N >
+	GenericRange<Iterator> Sample(Iterator begin, Iterator end ,
+			std::array<T,N>const& min,
+			std::array<T,N>const& max,
+			FUNCTOR const& functor);
+
+
+	/**
+	 * @brief Fill a range with numbers distributed according a user defined distribution.
+	 * @param policy backend to perform the calculation.
+	 * @param functor hydra::Pdf instance that will be sampled.
+	 * @param min std::array<GReal_t,N> min with lower limit of sampling region.
+	 * @param max  std::array<GReal_t,N> min with upper limit of sampling region.
+	 * @param trials number of trials.
+	 * @return a hydra::backend::vector<tuple<T1,T2...>>
+	 */
+	template<hydra::detail::Backend  BACKEND, typename T, typename Iterator, typename FUNCTOR, size_t N >
+	GenericRange<Iterator> Sample(hydra::detail::BackendPolicy<BACKEND> const& policy, Iterator begin, Iterator end ,
+			std::array<T,N>const& min,
+			std::array<T,N>const& max,
+			FUNCTOR const& functor);
+
+
 private:
 	GUInt_t fSeed;
 
 };
+
+/**
+ * \ingroup random
+ *
+ * This functions reorder a dataset to put produce a unweighted sample according to the weights
+ * [wbegin, wend]. The length of the range [wbegin, wend] should be equal or greater than
+ * the dataset size.
+ *
+ * @param policy parallel backend to perform the unweighting
+ * @param wbegin iterator pointing to the begin of the range of weights
+ * @param wend  iterator pointing to the begin of the range of weights
+ * @param begin iterator pointing to the begin of the range of data
+ * @return
+ */
+template<hydra::detail::Backend  BACKEND, typename Iterator1, typename Iterator2>
+GenericRange<Iterator2> unweight( hydra::detail::BackendPolicy<BACKEND> const& policy, Iterator1 wbegin, Iterator1 wend , Iterator2 begin);
+
+
+
+/**
+ * \ingroup random
+ *
+ * This functions reorder a dataset to put produce a unweighted sample according to @param functor .
+ *
+ * @param policy
+ * @param begin
+ * @param end
+ * @param functor
+ * @return the index of the last entry of the unweighted event.
+ */
+template<hydra::detail::Backend  BACKEND, typename Functor, typename Iterator>
+typename std::enable_if< hydra::detail::is_hydra_functor<Functor>::value, GenericRange<Iterator>>::type
+unweight( hydra::detail::BackendPolicy<BACKEND> const& policy, Iterator begin, Iterator end, Functor const& functor);
+
 
 
 

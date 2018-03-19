@@ -1,0 +1,47 @@
+// This file is part of Eigen, a lightweight C++ template library
+// for linear algebra.
+//
+// This Source Code Form is subject to the terms of the Mozilla
+// Public License v. 2.0. If a copy of the MPL was not distributed
+// with this file, You can obtain one at http://mozilla.org/MPL/2.0/.
+
+#ifndef HYDRA_EIGEN_QR_MODULE_H
+#define HYDRA_EIGEN_QR_MODULE_H
+
+#include "hydra/detail/external/Eigen/Core"
+
+#include "hydra/detail/external/Eigen/src/Core/util/DisableStupidWarnings.h"
+
+#include "hydra/detail/external/Eigen/Cholesky"
+#include "hydra/detail/external/Eigen/Jacobi"
+#include "hydra/detail/external/Eigen/Householder"
+
+/** \defgroup QR_Module QR module
+  *
+  *
+  *
+  * This module provides various QR decompositions
+  * This module also provides some MatrixBase methods, including:
+  *  - MatrixBase::householderQr()
+  *  - MatrixBase::colPivHouseholderQr()
+  *  - MatrixBase::fullPivHouseholderQr()
+  *
+  * \code
+  * #include <Eigen/QR>
+  * \endcode
+  */
+
+#include "hydra/detail/external/Eigen/src/QR/HouseholderQR.h"
+#include "hydra/detail/external/Eigen/src/QR/FullPivHouseholderQR.h"
+#include "hydra/detail/external/Eigen/src/QR/ColPivHouseholderQR.h"
+#include "hydra/detail/external/Eigen/src/QR/CompleteOrthogonalDecomposition.h"
+#ifdef HYDRA_EIGEN_USE_LAPACKE
+#include "hydra/detail/external/Eigen/src/misc/lapacke.h"
+#include "hydra/detail/external/Eigen/src/QR/HouseholderQR_LAPACKE.h"
+#include "hydra/detail/external/Eigen/src/QR/ColPivHouseholderQR_LAPACKE.h"
+#endif
+
+#include "hydra/detail/external/Eigen/src/Core/util/ReenableStupidWarnings.h"
+
+#endif // HYDRA_EIGEN_QR_MODULE_H
+/* vim: set filetype=cpp et sw=2 ts=2 ai: */

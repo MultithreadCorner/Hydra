@@ -43,4 +43,15 @@
  * \defgroup generic Generic
  * \brief Generic types, definitions and algorithms
  */
+
+/**
+ * \defgroup policy Policy
+ * \brief Policies
+ */
+
+/**
+ * \defgroup histogram Histogram
+ * \brief Histogram
+ */
+
 #endif /* GROUPS_H_ */

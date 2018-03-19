@@ -1,6 +1,6 @@
 /*----------------------------------------------------------------------------
  *
- *   Copyright (C) 2016 Antonio Augusto Alves Junior
+ *   Copyright (C) 2016 - 2018 Antonio Augusto Alves Junior
  *
  *   This file is part of Hydra Data Analysis Framework.
  *
@@ -52,19 +52,34 @@ public:
 	typedef void hydra_functor_tag;
 	typedef ReturnType return_type;
 	typedef   std::true_type is_functor;
-	__host__  Constant( ){};
 
-	__host__  Constant( const return_type _Cte):
+	Constant()=delete;
+
+	__hydra_host__
+	Constant( const return_type _Cte):
 				fCte(_Cte)
 	{};
 
 	template<typename T>
-	__host__ __device__ inline Constant( const Constant<T>& other):
+	__hydra_host__ __hydra_device__ inline Constant( const Constant<T>& other):
 	fCte(return_type(other.fCte))
 	{}
 
+	inline void PrintRegisteredParameters(){}
+
+	inline void AddUserParameters(std::vector<hydra::Parameter*>& user_parameters ){}
+
+	inline void SetParameters(const std::vector<double>& parameters){}
+
+	inline size_t  GetParametersKey(){ return 99999999;}
+
+	inline size_t GetNumberOfParameters() const { return 0;	}
+
+
+
 	template<typename ...T>
-	__host__ __device__ inline return_type  operator()(T ...args){ return fCte;}
+	__hydra_host__ __hydra_device__ inline return_type  operator()(T& ...) const { return fCte;}
+
 
 private:
 	return_type fCte;

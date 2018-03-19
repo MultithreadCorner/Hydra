@@ -1,6 +1,6 @@
 /*----------------------------------------------------------------------------
  *
- *   Copyright (C) 2016 Antonio Augusto Alves Junior
+ *   Copyright (C) 2016 - 2018 Antonio Augusto Alves Junior
  *
  *   This file is part of Hydra Data Analysis Framework.
  *
@@ -51,7 +51,7 @@ namespace hydra {
 			std::size_t seed = 0;
 
 			for (; first != last; ++first) {
-				hash_combine(seed, (typename It::value_type)*first);
+				hash_combine(seed, *first);
 			}
 
 			return seed;
@@ -63,6 +63,8 @@ namespace hydra {
 				hash_combine(seed, *first);
 			}
 		}
+
+
 
 	}//namespace detail
 }//namespace hydra

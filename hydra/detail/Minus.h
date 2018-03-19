@@ -1,6 +1,6 @@
 /*----------------------------------------------------------------------------
  *
- *   Copyright (C) 2016 Antonio Augusto Alves Junior
+ *   Copyright (C) 2016 - 2018 Antonio Augusto Alves Junior
  *
  *   This file is part of Hydra Data Analysis Framework.
  *
@@ -41,132 +41,88 @@
 #include <hydra/detail/TypeTraits.h>
 #include <hydra/detail/utility/Utility_Tuple.h>
 #include <hydra/detail/base_functor.h>
+#include <hydra/Parameter.h>
+#include <hydra/detail/CompositeBase.h>
+#include <hydra/Parameter.h>
+#include <hydra/Tuple.h>
 
 namespace hydra {
 
 
 
 template<typename F1, typename F2 >
-struct  Minus
+class  Minus: public detail::CompositeBase<F1, F2>
 {
+	public:
 	    //tag
 		typedef void hydra_functor_tag;
 	    typedef   std::true_type is_functor;
 	    typedef typename detail::minus_result<typename F1::return_type,typename  F2::return_type>::type  return_type;
-		typedef typename thrust::tuple<F1, F2> functors_type;
 
-		__host__
-		Minus():
-		fIndex(-1),
-		fCached(0)
-		{};
+		Minus()=delete;
 
-		__host__
+		__hydra_host__
 		Minus(F1 const& f1, F2 const& f2):
-		fIndex(-1),
-		fCached(0),
-	  	fFtorTuple(thrust::make_tuple(f1, f2))
+		detail::CompositeBase<F1, F2>( f1, f2)
 	  	{ }
 
-		__host__ __device__
+		__hydra_host__ __hydra_device__
 		Minus(Minus<F1,F2> const& other):
-			fFtorTuple( other.GetFunctors() ),
-			fIndex( other.GetIndex() ),
-			fCached( other.IsCached() )
-		{ };
+		detail::CompositeBase<F1, F2>( other )
+		{ }
 
-		__host__ __device__
+		__hydra_host__ __hydra_device__
 		Minus<F1,F2>& operator=(Minus<F1,F2> const& other)
-			{
-				this->fFtorTuple = other.GetFunctors() ;
-				this->fIndex = other.GetIndex() ;
-				this->fCached = other.IsCached() ;
-				return *this;
-			}
-
-		__host__ inline
-			void SetParameters(const std::vector<double>& parameters){
-
-				detail::set_functors_in_tuple(fFtorTuple, parameters);
-		}
-
-		__host__ inline
-		void PrintRegisteredParameters()
 		{
-			HYDRA_CALLER ;
-			HYDRA_MSG << "Registered parameters begin:\n" << HYDRA_ENDL;
-			detail::print_parameters_in_tuple(fFtorTuple);
-			HYDRA_MSG <<"Registered parameters end.\n" << HYDRA_ENDL;
-			return;
+			if(this==&other) return *this;
+			detail::CompositeBase< F1, F2>::operator=( other);
+			return *this;
 		}
-
-		__host__ __device__ inline
-		functors_type GetFunctors() const {return this->fFtorTuple;}
-
-		__host__ __device__ inline
-		int GetIndex() const { return this->fIndex; }
-
-		__host__ __device__ inline
-		void SetIndex(int index) {this->fIndex = index;}
-
-		__host__ __device__ inline
-		bool IsCached() const
-		{ return this->fCached;}
-
-		__host__ __device__ inline
-		void SetCached(bool cached=true)
-		{ this->fCached = cached; }
-
 
 	  	template<typename T1>
-	  	__host__ __device__ inline
-	  	return_type operator()(T1& t )
+	  	__hydra_host__ __hydra_device__ inline
+	  	return_type operator()(T1& t ) const
 	  	{
-	  		return thrust::get<0>(fFtorTuple)(t)-thrust::get<1>(fFtorTuple)(t);
+	  		return hydra::get<0>(this->fFtorTuple)(t)-hydra::get<1>(this->fFtorTuple)(t);
 	  	}
 
 	  	template<typename T1, typename T2>
-	  	__host__ __device__  inline
-	  	return_type operator()( T1& t, T2& cache)
+	  	__hydra_host__ __hydra_device__  inline
+	  	return_type operator()( T1& t, T2& cache) const
 	  	{
-	  		if(fCached) return  detail::extract<return_type,T2>(fIndex, std::forward<T2&>(cache));
-	  		else return thrust::get<0>(fFtorTuple)(t,cache)-thrust::get<1>(fFtorTuple)(t,cache);
+	  		return this->IsCached()? detail::extract<return_type,T2>(this->GetIndex(), std::forward<T2&>(cache)):
+	  				hydra::get<0>(this->fFtorTuple)(t,cache)-hydra::get<1>(this->fFtorTuple)(t,cache);
 	  	}
-
-	private:
-		functors_type fFtorTuple;
-		int  fIndex;
-		bool fCached;
 
 };
 
 // devide: / operator two functors
 template <typename T1, typename T2,
 typename=typename std::enable_if< T1::is_functor::value && T2::is_functor::value> >
-__host__  inline
+__hydra_host__  inline
 Minus<T1,T2>
-operator-(T1 const& F1, T2 const& F2){return  Minus<T1, T2>(F1, F2);};
+operator-(T1 const& F1, T2 const& F2){return  Minus<T1, T2>(F1, F2);}
 
 template <typename T1, typename T2,
 typename=typename std::enable_if< (std::is_convertible<T1, double>::value ||\
-		std::is_constructible<thrust::complex<double>,T1>::value) && T2::is_functor::value>::type >
-__host__  inline
+		std::is_constructible<HYDRA_EXTERNAL_NS::thrust::complex<double>,T1>::value) && T2::is_functor::value>::type >
+__hydra_host__  inline
 Minus<Constant<T1>, T2>
-operator-(T1 const cte, T2 const& F2){return  Constant<T1>(cte)- F2;};
+operator-(T1 const cte, T2 const& F2){return  Constant<T1>(cte)- F2;}
 
 
 template <typename T1, typename T2,
 typename=typename std::enable_if< (std::is_convertible<T1, double>::value ||\
-		std::is_constructible<thrust::complex<double>,T1>::value) && T2::is_functor::value>::type >
-__host__  inline
+		std::is_constructible<HYDRA_EXTERNAL_NS::thrust::complex<double>,T1>::value) && T2::is_functor::value>::type >
+__hydra_host__  inline
 Minus<T2,Constant<T1> >
-operator-(T2 const& F2, T1 const cte ){return  F2- Constant<T1>(cte);};
+operator-(T2 const& F2, T1 const cte ){return  F2- Constant<T1>(cte);}
 
 // Convenience function
 template < typename T1, typename T2, typename=typename std::enable_if< T1::is_functor::value && T2::is_functor::value>::type >
-__host__ __device__  inline
+__hydra_host__ __hydra_device__  inline
 Minus<T1,T2>
-minus(T1 const& F1, T1 const& F2){return  Minus<T1,T2>(F1, F2);};
+minus(T1 const& F1, T1 const& F2){return  Minus<T1,T2>(F1, F2);}
 
 }
 

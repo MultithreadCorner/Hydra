@@ -1,6 +1,6 @@
 /*----------------------------------------------------------------------------
  *
- *   Copyright (C) 2016 Antonio Augusto Alves Junior
+ *   Copyright (C) 2016 - 2018 Antonio Augusto Alves Junior
  *
  *   This file is part of Hydra Data Analysis Framework.
  *
@@ -36,160 +36,105 @@
 #ifndef SUM_H_
 #define SUM_H_
 
-#include <type_traits>
+
 #include <hydra/detail/Config.h>
 #include <hydra/Types.h>
 #include <hydra/Function.h>
 #include <hydra/detail/utility/Utility_Tuple.h>
 #include <hydra/detail/base_functor.h>
 #include <hydra/detail/Constant.h>
-#include <thrust/tuple.h>
-
+#include <hydra/detail/external/thrust/tuple.h>
+#include <type_traits>
+#include <hydra/Parameter.h>
+#include <hydra/detail/CompositeBase.h>
+#include <hydra/Parameter.h>
+#include <hydra/Tuple.h>
 
 namespace hydra {
 
 
 template<typename F1, typename F2, typename ...Fs>
-struct  Sum
+class Sum: public detail::CompositeBase< F1,F2, Fs...>
 {
-
+public:
 	//tag
 	typedef void hydra_functor_tag;
 
 	typedef   std::true_type is_functor;
 	typedef typename detail::sum_result<typename F1::return_type ,typename  F2::return_type,typename  Fs::return_type...>::type  return_type;
-	typedef typename thrust::tuple<F1, F2, Fs...> functors_type;
 
-	__host__
-    Sum():
-    fIndex(-1),
-	fCached(0)
-	{};
+	Sum()=delete;
 
-	__host__
-    Sum(F1 const& f1, F2 const& f2, Fs const&... functors ):
-    fIndex(-1),
-	fCached(0),
-  	fFtorTuple(thrust::make_tuple(f1, f2, functors ...))
-  	{  	}
 
-	__host__ __device__ Sum(const Sum<F1,F2, Fs...>& other):
-				fFtorTuple( other.GetFunctors() ),
-				fIndex( other.GetIndex() ),
-				fCached( other.IsCached() )
+    Sum(F1 const& f1, F2 const& f2, Fs const&... fs ):
+		detail::CompositeBase<F1,F2, Fs...>( f1, f2,fs...)
+  	{ }
+
+	__hydra_host__ __hydra_device__
+	Sum(const Sum<F1,F2, Fs...>& other):
+		detail::CompositeBase<F1,F2, Fs...>(  other)
 	{ };
 
-	__host__ __device__
+	__hydra_host__ __hydra_device__ inline
 	Sum<F1,F2, Fs...>& operator=(Sum<F1,F2, Fs...> const& other)
 	{
-		this->fFtorTuple = other.GetFunctors() ;
-		this->fIndex = other.GetIndex() ;
-		this->fCached = other.IsCached() ;
+		if(this==&other) return *this;
+		detail::CompositeBase<F1,F2, Fs...>::operator=( other);
+
 		return *this;
+
 	}
-
-
-	__host__ inline
-	void SetParameters(const std::vector<double>& parameters){
-
-		detail::set_functors_in_tuple(fFtorTuple, parameters);
-	}
-
-	__host__ inline
-	void PrintRegisteredParameters()
-		{
-		    HYDRA_CALLER ;
-			HYDRA_MSG << "Registered parameters begin:" << HYDRA_ENDL;
-			detail::print_parameters_in_tuple(fFtorTuple);
-			HYDRA_MSG <<"Registered parameters end." << HYDRA_ENDL;
-			return;
-		}
-
-
-	__host__ __device__ inline
-	functors_type GetFunctors() const {return this->fFtorTuple;}
-
-	__host__ __device__ inline
-	int GetIndex() const { return this->fIndex; }
-
-	__host__ __device__ inline
-	void SetIndex(int index) {this->fIndex = index;}
-
-	__host__ __device__ inline
-	bool IsCached() const
-	{ return this->fCached;}
-
-	__host__ __device__ inline
-	void SetCached(bool cached=1)
-	{ this->fCached = cached; }
-
-
 
   	template<typename T1>
-  	__host__ __device__ inline
-  	return_type operator()(T1&& t )
+  	__hydra_host__ __hydra_device__ inline
+  	return_type operator()(T1&& t ) const
   	{
-  		return detail::accumulate<return_type,T1,F1,F2,Fs...>(std::forward<T1&>(t),fFtorTuple );
+  		return detail::accumulate<return_type,T1,F1,F2,Fs...>(std::forward<T1&>(t),this->fFtorTuple );
 
   	}
 
   	template<typename T1, typename T2>
-  	__host__ __device__  inline
-  	return_type operator()( T1&& t, T2&& cache)
+  	__hydra_host__ __hydra_device__  inline
+  	return_type operator()( T1&& t, T2&& cache) const
   	{
 
-  		return fCached ? detail::extract<return_type,T2>(fIndex, std::forward<T2&>(cache)):\
-  				detail::accumulate2<return_type,T1,T2,F1,F2,Fs...>(t,cache,fFtorTuple );
+  		return this->IsCached() ? detail::extract<return_type,T2>(this->GetIndex(), std::forward<T2&>(cache)):\
+  				detail::accumulate2<return_type,T1,T2,F1,F2,Fs...>(t,cache,this->fFtorTuple );
   	}
 
-  	template<typename T>
-  	  	__host__ __device__ inline
-  	  	return_type operator()( T* x, T* p)
-  	  	{
-
-  	  		return detail::accumulate2<return_type,T*,T*,F1,F2,Fs...>(x,p,fFtorTuple );
-  	  	}
-
-
-
-private:
-	functors_type fFtorTuple;
-	int  fIndex;
-	bool fCached;
 
 };
 
 // + operator two functors
 template<typename T1, typename T2,
 typename=typename std::enable_if< T1::is_functor::value && T2::is_functor::value> >
-__host__  inline
-Sum<T1, T2> operator+(T1 const& F1, T2 const& F2){ return  Sum<T1,T2>(F1, F2); };
+__hydra_host__  inline
+Sum<T1, T2> operator+(T1 const& F1, T2 const& F2){ return  Sum<T1,T2>(F1, F2); }
 
 template <typename T1, typename T2,
 typename=typename std::enable_if< (std::is_convertible<T1, double>::value ||\
-		std::is_constructible<thrust::complex<double>,T1>::value) && T2::is_functor::value>::type >
-__host__  inline
+		std::is_constructible<HYDRA_EXTERNAL_NS::thrust::complex<double>,T1>::value) && T2::is_functor::value>::type >
+__hydra_host__  inline
 Sum<Constant<T1>, T2>
-operator+(T1 const cte, T2 const& F2){ return  Constant<T1>(cte)+F2; };
+operator+(T1 const cte, T2 const& F2){ return  Constant<T1>(cte)+F2; }
 
 
 template <typename T1, typename T2,
 typename=typename std::enable_if< (std::is_convertible<T1, double>::value ||\
-		std::is_constructible<thrust::complex<double>,T1>::value) && T2::is_functor::value>::type >
-__host__  inline
+		std::is_constructible<HYDRA_EXTERNAL_NS::thrust::complex<double>,T1>::value) && T2::is_functor::value>::type >
+__hydra_host__  inline
 Sum<Constant<T1>, T2>
-operator+(T2 const& F2, T1 const cte ){	return  Constant<T1>(cte)+F2; };
+operator+(T2 const& F2, T1 const cte ){	return  Constant<T1>(cte)+F2; }
 
 // Convenience function
 template <typename F1, typename F2, typename ...Fs>
-__host__  inline
+__hydra_host__  inline
 Sum<F1, F2,Fs...>
 sum(F1 const& f1, F2 const& f2, Fs const&... functors )
-{ return  Sum<F1, F2,Fs... >(f1,f2, functors ... ); };
+{ return  Sum<F1, F2,Fs... >(f1,f2, functors ... ); }
 
 
 }
-
 
 
 #endif /* SUM_H_ */

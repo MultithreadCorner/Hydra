@@ -1,6 +1,6 @@
 /*----------------------------------------------------------------------------
  *
- *   Copyright (C) 2016 Antonio Augusto Alves Junior
+ *   Copyright (C) 2016 - 2018 Antonio Augusto Alves Junior
  *
  *   This file is part of Hydra Data Analysis Framework.
  *
@@ -31,43 +31,98 @@
 #ifndef CONFIG_H_
 #define CONFIG_H_
 
-#define CUDA_API_PER_THREAD_DEFAULT_STREAM
+#define CUDA 1 // device
+#define OMP  2 // device + host
+#define TBB  3 // device + host
+#define CPP  4 // device + host
 
-#include <thrust/detail/config.h>
-#include <thrust/detail/config/host_device.h>
-#include <omp.h>
 
 
-#if defined(__CUDACC__) && !(defined(__CUDA__) && defined(__clang__))
+#if(__cplusplus < 201103L)
+#error "[Hydra]:  Hydra requires at least a C++11 compliant compiler."
+#endif
 
-#define __hydra_exec_check_disable__ #pragma nv_exec_check_disable
 
-#else
+#ifndef HYDRA_HOST_SYSTEM
 
-#define __hydra_exec_check_disable__
+#define HYDRA_THRUST_HOST_SYSTEM HYDRA_THRUST_HOST_SYSTEM_CPP
+
+#elif (HYDRA_HOST_SYSTEM!=CPP && HYDRA_HOST_SYSTEM!=OMP && HYDRA_HOST_SYSTEM!=TBB)
+
+#error "[Hydra]: Backend not supported. Supported host backends are {CPP, OMP, TBB}."
 
 #endif
+
+
+#ifndef HYDRA_DEVICE_SYSTEM
+
+#define HYDRA_THRUST_DEVICE_SYSTEM HYDRA_THRUST_DEVICE_SYSTEM_CPP
+
+#elif(HYDRA_DEVICE_SYSTEM!=CPP && HYDRA_DEVICE_SYSTEM!=OMP && HYDRA_DEVICE_SYSTEM!=TBB  && HYDRA_DEVICE_SYSTEM!=CUDA )
+
+#error "[Hydra]: Backend not supported. Supported device backends are {CPP, OMP, TBB, CUDA}"
+
+#endif
+
+
+
+//host definition
+#if (HYDRA_HOST_SYSTEM==CPP)
+	#define HYDRA_THRUST_HOST_SYSTEM HYDRA_THRUST_HOST_SYSTEM_CPP
+#elif (HYDRA_HOST_SYSTEM==OMP)
+	#define HYDRA_THRUST_HOST_SYSTEM HYDRA_THRUST_HOST_SYSTEM_OMP
+#elif (HYDRA_HOST_SYSTEM==TBB)
+	#define HYDRA_THRUST_HOST_SYSTEM HYDRA_THRUST_HOST_SYSTEM_TBB
+#endif
+
+
+//device definition
+#if   (HYDRA_DEVICE_SYSTEM==CPP)
+	#define HYDRA_THRUST_DEVICE_SYSTEM HYDRA_THRUST_DEVICE_SYSTEM_CPP
+#elif (HYDRA_DEVICE_SYSTEM==OMP)
+	#define HYDRA_THRUST_DEVICE_SYSTEM HYDRA_THRUST_DEVICE_SYSTEM_OMP
+#elif (HYDRA_DEVICE_SYSTEM==TBB)
+	#define HYDRA_THRUST_DEVICE_SYSTEM HYDRA_THRUST_DEVICE_SYSTEM_TBB
+#elif (HYDRA_DEVICE_SYSTEM==CUDA)
+	#define HYDRA_THRUST_DEVICE_SYSTEM HYDRA_THRUST_DEVICE_SYSTEM_CUDA
+	#define CUDA_API_PER_THREAD_DEFAULT_STREAM
+#endif
+
+
+
+#include <hydra/detail/external/thrust/detail/config.h>
+#include <hydra/detail/external/thrust/detail/config/host_device.h>
+
+
+
+#define HYDRA_THRUST_VARIADIC_TUPLE
+
+#define __hydra_exec_check_disable__  __thrust_exec_check_disable__
+
 
 #if defined(__CUDACC__)
 #define __hydra_align__(n) __align__(n)
 #else
-  #define       __hydra_align__(n) __attribute__((aligned(n)))
+  #define  __hydra_align__(n) __attribute__((aligned(n)))
 #endif
 
-#if THRUST_DEVICE_SYSTEM==THRUST_DEVICE_SYSTEM_CUDA
+#ifdef __NVCC__
  #include <cuda.h>
  #include <cuda_runtime.h>
  #include <cuda_runtime_api.h>
  #include <math_functions.h>
- #include <thrust/system/cuda/execution_policy.h>
- #include <thrust/system/cuda/experimental/pinned_allocator.h>
+ #include <vector_functions.h>
 #endif
+
 
 #ifndef HYDRA_CERROR_LOG
 #define HYDRA_OS std::cerr
 #else
 #define HYDRA_OS HYDRA_CERROR_LOG
 #endif
+
+
+
 
 
 

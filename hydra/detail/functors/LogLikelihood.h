@@ -1,6 +1,6 @@
 /*----------------------------------------------------------------------------
  *
- *   Copyright (C) 2016 Antonio Augusto Alves Junior
+ *   Copyright (C) 2016 - 2018 Antonio Augusto Alves Junior
  *
  *   This file is part of Hydra Data Analysis Framework.
  *
@@ -32,36 +32,40 @@
  */
 
 
-#ifndef LOGLIKELIHOOD_H_
-#define LOGLIKELIHOOD_H_
+#ifndef _LOGLIKELIHOOD_H_
+#define _LOGLIKELIHOOD_H_
 
 
 #include <hydra/detail/Config.h>
 #include <hydra/Types.h>
 #include <hydra/detail/utility/Utility_Tuple.h>
 #include <hydra/detail/TypeTraits.h>
-#include <hydra/Point.h>
-#include <hydra/PointVector.h>
+//#include <hydra/Point.h>
+//#include <hydra/PointVector.h>
 
-#include <thrust/tuple.h>
-#include <thrust/functional.h>
+#include <hydra/detail/external/thrust/tuple.h>
+#include <hydra/detail/external/thrust/functional.h>
 
 
-
+#if(0)
 namespace hydra{
+
 
 namespace detail{
 
 
-template<typename FUNCTOR, typename IteratorData, typename IteratorCache>
+template<typename FUNCTOR, typename PointType, typename IteratorData, typename IteratorCache>
 struct LogLikelihood
 {
-	typedef typename thrust::iterator_traits<IteratorData>::value_type data_value_type;
-	typedef typename thrust::iterator_traits<IteratorCache>::value_type cache_value_type;
+	typedef typename HYDRA_EXTERNAL_NS::thrust::iterator_traits<IteratorData>::value_type data_value_type;
+	typedef typename HYDRA_EXTERNAL_NS::thrust::iterator_traits<IteratorCache>::value_type cache_value_type;
 
+	typedef PointType point_type;
 
-	LogLikelihood(FUNCTOR const& functor, GReal_t sumW, GReal_t sumW2, IteratorData dbegin, IteratorCache cbegin,
-		GBool_t weighted, GBool_t cached):
+	LogLikelihood(FUNCTOR const& functor,
+			GReal_t sumW, GReal_t sumW2,
+			IteratorData dbegin, IteratorCache cbegin,
+		    GBool_t weighted, GBool_t cached):
 		fDataBegin(dbegin),
 		fCacheBegin(cbegin),
 		fFunctor(functor),
@@ -71,8 +75,8 @@ struct LogLikelihood
 		fCached(cached)
 	{}
 
-	__host__ __device__ inline
-	LogLikelihood( LogLikelihood<FUNCTOR, IteratorData, IteratorCache> const& other):
+	__hydra_host__ __hydra_device__ inline
+	LogLikelihood( LogLikelihood<FUNCTOR, PointType,IteratorData, IteratorCache> const& other):
 	  fDataBegin(other.fDataBegin),
 	  fCacheBegin(other.fCacheBegin),
 	  fFunctor(other.fFunctor),
@@ -83,30 +87,30 @@ struct LogLikelihood
 	{}
 
 	__hydra_exec_check_disable__
-	__host__ __device__
+	__hydra_host__ __hydra_device__
 	~LogLikelihood(){}
 
     template<typename U = cache_value_type >
-	__host__ __device__ inline
+	__hydra_host__ __hydra_device__ inline
 	GReal_t operator()(size_t index, const typename std::enable_if< !std::is_same<U,
 	       	null_type>::value, void >::type* dummy=0 ){
 
-    	          cache_value_type      C = (cache_value_type) fCacheBegin[index];
-    	 typename data_value_type::type X = ((data_value_type) fDataBegin[index]).GetCoordinates() ;
-    	        GReal_t                 W = ((data_value_type) fDataBegin[index]).GetWeight() ;
+    	          auto      C = (cache_value_type) fCacheBegin[index];
+    	          auto      X = ((point_type) fDataBegin[index]).GetCoordinates() ;
+    	        GReal_t     W = ((point_type) fDataBegin[index]).GetWeight() ;
 
 
 		return fCached? W*log(fFunctor( X, C )) :  W*log(fFunctor( X ));
 	}
 
     template<typename U = cache_value_type >
-   	__host__ __device__ inline
+   	__hydra_host__ __hydra_device__ inline
    	GReal_t operator()(size_t index, const typename std::enable_if< std::is_same<U,
    	       	null_type>::value, void >::type* dummy=0 ){
 
 
-        typename data_value_type::type X = ((data_value_type) fDataBegin[index]).GetCoordinates() ;
-        GReal_t                        W = ((data_value_type) fDataBegin[index]).GetWeight() ;
+        auto X = ((point_type) fDataBegin[index]).GetCoordinates() ;
+        GReal_t  W = ((point_type) fDataBegin[index]).GetWeight() ;
 
 		return  W*log(fFunctor( X ));
 	}
@@ -125,7 +129,8 @@ private:
 
 }//namespace detail
 
-}//namespace hydra
 
+}//namespace hydra
+#endif
 
 #endif /* LOGLIKELIHOOD_H_*/

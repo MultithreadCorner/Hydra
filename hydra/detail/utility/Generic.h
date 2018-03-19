@@ -1,7 +1,7 @@
 
 /*----------------------------------------------------------------------------
  *
- *   Copyright (C) 2016 Antonio Augusto Alves Junior
+ *   Copyright (C) 2016 - 2018 Antonio Augusto Alves Junior
  *
  *   This file is part of Hydra Data Analysis Framework.
  *
@@ -39,6 +39,15 @@ namespace hydra {
 
 	namespace detail {
 
+	//-------------------------------------
+	// is this type an instance of other template?
+	template < template <typename...> class Template, typename T >
+	struct is_instantiation_of : std::false_type {};
+
+	template < template <typename...> class Template, typename... Args >
+	struct is_instantiation_of< Template, Template<Args...> > : std::true_type {};
+
+
 	//------------------------------------
 	// calculate COND1 && COND2 &&...&& CONDN. In summary a AND of all conditions
 	template<typename... Conds>
@@ -62,6 +71,12 @@ namespace hydra {
 template<class R, class...Ts>
 	using are_all_same = all_true<std::is_same<Ts, R>::value...>;
 
+
+template<class ...A> struct CanConvert{
+	template<class ...B> struct To{
+    typedef all_true< std::is_convertible<A,B>::value...> type;
+	};
+};
 	//-----------------------
 	//check if all types are the same and store result on are_all_same<>::value
 	//template<typename R, typename... T>
@@ -133,19 +148,120 @@ template<class R, class...Ts>
 	struct ObjSelector<true>
 	{
 		template<typename T1, typename T2>
-		static T1 select(T1 const& obj1, T2 const& obj2 ){ return obj1;}
+		static T1 select(T1 const& obj1, T2 const& /*obj2*/ ){ return obj1;}
 	};
 
 	template<>
 	struct ObjSelector<false>
 	{
 		template<typename T1, typename T2>
-		static T2 select(T1 const& obj1, T2 const& obj2 ){ return obj2;}
+		static T2 select(T1 const& /*obj1*/, T2 const& obj2 ){ return obj2;}
 	};
 
 
+	//pow c-time
+
+	template<int B, unsigned int E>
+	struct power {
+	    enum{ value = B*power<B, E-1>::value };
+	};
+
+	template< int B >
+	struct power<B, 0> {
+	    enum{ value = 1 };
+	};
+/*
+ *  conversion of one-dimensional index to multidimensional one
+ * ____________________________________________________________
+ */
+
+	//----------------------------------------
+	// multiply  std::array elements
+	//----------------------------------------
+	template<typename T, size_t N, size_t I>
+	typename std::enable_if< (I==N), void  >::type
+	multiply( std::array<T, N> const& , T&  )
+	{ }
+
+	template<typename T, size_t N, size_t I=0>
+	typename std::enable_if< (I<N), void  >::type
+	multiply( std::array<T, N> const&  obj, T& result )
+	{
+		result = I==0? 1.0: result;
+		result *= obj[I];
+		multiply< T, N, I+1>( obj, result );
+	}
+
+	//----------------------------------------
+	// multiply static array elements
+	//----------------------------------------
+	template<typename T, size_t N, size_t I>
+	typename std::enable_if< (I==N), void  >::type
+	multiply( T (&)[N] , T& )
+	{ }
+
+	template<typename T, size_t N, size_t I=0>
+	typename std::enable_if< (I<N), void  >::type
+	multiply( T (&obj)[N], T& result )
+	{
+		result = I==0? 1.0: result;
+		result *= obj[I];
+		multiply< T, N, I+1>( obj, result );
+	}
 
 
+
+	//-------------------------
+	// std::array version
+	//-------------------------
+	//end of recursion
+	template<typename T, size_t DIM, size_t I>
+	typename std::enable_if< (I==DIM) && (std::is_integral<T>::value), void  >::type
+	get_indexes(size_t , std::array<T, DIM> const& , std::array<T,DIM>& )
+	{}
+
+	//begin of the recursion
+	template<typename T, size_t DIM, size_t I=0>
+	typename std::enable_if< (I<DIM) && (std::is_integral<T>::value), void  >::type
+	get_indexes(size_t index, std::array<T, DIM> const& depths, std::array<T,DIM>& indexes)
+	{
+
+		size_t factor    =  1;
+	    multiply<size_t, DIM, I+1>(depths, factor );
+
+		indexes[I]  =  index/factor;
+
+	    size_t next_index =  index%factor;
+
+		get_indexes<T, DIM, I+1>(next_index, depths, indexes );
+
+	}
+
+	//-------------------------
+	// static array version
+	//-------------------------
+	//end of recursion
+	template<typename T, size_t DIM, size_t I>
+	typename std::enable_if< (I==DIM) && (std::is_integral<T>::value), void  >::type
+	get_indexes(size_t , T ( &)[DIM], T (&)[DIM])
+	{}
+
+	//begin of the recursion
+	template<typename T, size_t DIM, size_t I=0>
+	typename std::enable_if< (I<DIM) && (std::is_integral<T>::value), void  >::type
+	get_indexes(size_t index, T ( &depths)[DIM], T (&indexes)[DIM] )
+	{
+
+		size_t factor    =  1;
+	    multiply<size_t, DIM, I+1>(depths, factor );
+
+		indexes[I]  =  index/factor;
+
+	    size_t next_index =  index%factor;
+
+		get_indexes<T, DIM, I+1>(next_index, depths, indexes );
+
+	}
 
 	}//namespace detail
 }//namespace hydra

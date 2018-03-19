@@ -1,6 +1,6 @@
 /*----------------------------------------------------------------------------
  *
- *   Copyright (C) 2016 Antonio Augusto Alves Junior
+ *   Copyright (C) 2016 - 2018 Antonio Augusto Alves Junior
  *
  *   This file is part of Hydra Data Analysis Framework.
  *
@@ -26,12 +26,13 @@
  *      Author: Antonio Augusto Alves Junior
  */
 
-#ifndef VECTOR3R_INL_
-#define VECTOR3R_INL_
+#ifndef _VECTOR3R_INL_
+#define _VECTOR3R_INL_
 
-namespace hydra
-{
-__host__ __device__
+namespace hydra {
+
+
+__hydra_host__ __hydra_device__
 inline Vector3R& Vector3R::operator*=(const GReal_t c)
 {
 
@@ -40,7 +41,7 @@ inline Vector3R& Vector3R::operator*=(const GReal_t c)
 	v[2] *= c;
 	return *this;
 }
-__host__ __device__
+__hydra_host__ __hydra_device__
 inline Vector3R& Vector3R::operator/=(const GReal_t c)
 {
 
@@ -49,7 +50,7 @@ inline Vector3R& Vector3R::operator/=(const GReal_t c)
 	v[2] /= c;
 	return *this;
 }
-__host__ __device__
+__hydra_host__ __hydra_device__
 inline Vector3R& Vector3R::operator+=(const Vector3R& v2)
 {
 
@@ -58,7 +59,7 @@ inline Vector3R& Vector3R::operator+=(const Vector3R& v2)
 	v[2] += v2.v[2];
 	return *this;
 }
-__host__ __device__
+__hydra_host__ __hydra_device__
 inline Vector3R& Vector3R::operator-=(const Vector3R& v2)
 {
 
@@ -68,19 +69,29 @@ inline Vector3R& Vector3R::operator-=(const Vector3R& v2)
 	return *this;
 }
 
+__hydra_host__ __hydra_device__
+inline void Vector3R::swap(Vector3R& other)
+{
+	if(this==&other) return;
 
-__host__ __device__
+	Vector3R temp(*this);
+	*this= other;
+	other = temp;
+	return ;
+}
+
+__hydra_host__ __hydra_device__
 inline GReal_t Vector3R::get(GInt_t i) const
 {
 	return v[i];
 }
-__host__ __device__
+__hydra_host__ __hydra_device__
 inline void Vector3R::set(GInt_t i, GReal_t d)
 {
 
 	v[i] = d;
 }
-__host__ __device__
+__hydra_host__ __hydra_device__
 inline void Vector3R::set(GReal_t x, GReal_t y, GReal_t z)
 {
 
@@ -88,13 +99,9 @@ inline void Vector3R::set(GReal_t x, GReal_t y, GReal_t z)
 	v[1] = y;
 	v[2] = z;
 }
-__host__ __device__
-inline Vector3R::Vector3R()
-{
 
-	v[0] = v[1] = v[2] = 0.0;
-}
-__host__ __device__
+
+__hydra_host__ __hydra_device__
 inline Vector3R::Vector3R(GReal_t x, GReal_t y, GReal_t z)
 {
 
@@ -102,7 +109,7 @@ inline Vector3R::Vector3R(GReal_t x, GReal_t y, GReal_t z)
 	v[1] = y;
 	v[2] = z;
 }
-__host__ __device__
+__hydra_host__ __hydra_device__
 inline Vector3R::Vector3R(const Vector3R& other)
 {
 
@@ -111,7 +118,43 @@ inline Vector3R::Vector3R(const Vector3R& other)
 	v[2] = other.get(2);
 }
 
-__host__ __device__
+__hydra_host__ __hydra_device__
+inline Vector3R::Vector3R(Vector3R&& other)
+{
+
+	v[0] = other.get(0);
+	v[1] = other.get(1);
+	v[2] = other.get(2);
+}
+
+
+__hydra_host__ __hydra_device__
+inline Vector3R& Vector3R::operator=(const Vector3R& other)
+{
+	if(this==&other) return *this;
+
+	v[0] = other.get(0);
+	v[1] = other.get(1);
+	v[2] = other.get(2);
+
+	return *this;
+}
+
+
+__hydra_host__ __hydra_device__
+inline Vector3R& Vector3R::operator=(Vector3R&& other)
+{
+	if(this==&other) return *this;
+
+	v[0] = other.get(0);
+	v[1] = other.get(1);
+	v[2] = other.get(2);
+
+	return *this;
+}
+
+
+__hydra_host__ __hydra_device__
 inline void Vector3R::applyRotateEuler(GReal_t phi, GReal_t theta, GReal_t ksi)
 {
 
@@ -135,7 +178,7 @@ inline void Vector3R::applyRotateEuler(GReal_t phi, GReal_t theta, GReal_t ksi)
 	v[1] = temp[1];
 	v[2] = temp[2];
 }
-__host__ __device__
+__hydra_host__ __hydra_device__
 inline GReal_t Vector3R::d3mag() const
 
 // returns the 3 momentum mag.
@@ -147,7 +190,7 @@ inline GReal_t Vector3R::d3mag() const
 
 	return temp;
 } // r3mag
-__host__ __device__
+__hydra_host__ __hydra_device__
 inline GReal_t Vector3R::dot(const Vector3R& p2)
 {
 
@@ -160,5 +203,7 @@ inline GReal_t Vector3R::dot(const Vector3R& p2)
 	return temp;
 } //dot
 
-}
+
+
+}// namespace hydra
 #endif /* VECTOR3R_INL_ */

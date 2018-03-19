@@ -1,7 +1,7 @@
 
 /*----------------------------------------------------------------------------
  *
- *   Copyright (C) 2016 Antonio Augusto Alves Junior
+ *   Copyright (C) 2016 - 2018 Antonio Augusto Alves Junior
  *
  *   This file is part of Hydra Data Analysis Framework.
  *
@@ -38,28 +38,40 @@
 #include <hydra/detail/Config.h>
 #include <hydra/Types.h>
 #include <hydra/PlainState.h>
-#include <thrust/functional.h>
-#include <thrust/extrema.h>
+#include <hydra/detail/external/thrust/functional.h>
+#include <hydra/detail/external/thrust/extrema.h>
 #include <hydra/detail/utility/Utility_Tuple.h>
+#include <hydra/detail/external/thrust/random.h>
 
 namespace hydra {
+
 namespace detail {
 
 // ProcessCallsPlainUnary is a functor that takes in a value x and
 // returns a PlainState whose mean value is initialized to f(x).
-template <typename FUNCTOR, size_t N, typename GRND=thrust::random::default_random_engine>
+template <typename FUNCTOR, size_t N, typename GRND=HYDRA_EXTERNAL_NS::thrust::random::default_random_engine>
 struct ProcessCallsPlainUnary
 {
 
-	ProcessCallsPlainUnary(GReal_t* XLow, GReal_t  *DeltaX, FUNCTOR const& functor):
+	ProcessCallsPlainUnary(GReal_t* XLow, GReal_t  *DeltaX, size_t seed, FUNCTOR const& functor):
+		fSeed(seed),
 		fXLow(XLow),
 		fDeltaX(DeltaX),
 		fFunctor(functor)
 	{}
 
+	__hydra_host__ __hydra_device__ inline
+	ProcessCallsPlainUnary( ProcessCallsPlainUnary<FUNCTOR,N, GRND> const& other):
+	fSeed(other.fSeed),
+	fXLow(other.fXLow),
+	fDeltaX(other.fDeltaX),
+	fFunctor(other.fFunctor)
+	{}
+
 	template<typename GRND2>
-	 __host__ __device__ inline
+	 __hydra_host__ __hydra_device__ inline
 	ProcessCallsPlainUnary( ProcessCallsPlainUnary<FUNCTOR,N, GRND2> const& other):
+	    fSeed(other.fSeed),
 		fXLow(other.fXLow),
 		fDeltaX(other.fDeltaX),
 		fFunctor(other.fFunctor)
@@ -67,17 +79,19 @@ struct ProcessCallsPlainUnary
 
 
 
-	__host__ __device__ inline
-	PlainState operator()(size_t seed)
-	{
+	__hydra_host__ __hydra_device__ inline
+	PlainState operator()(size_t index)
+	 {
+
+		GRND randEng(fSeed);
+		randEng.discard(index);
+		HYDRA_EXTERNAL_NS::thrust::uniform_real_distribution<GReal_t> uniDist(0.0, 1.0);
 
 		GReal_t x[N];
-		GRND randEng( seed);
-		thrust::uniform_real_distribution<GReal_t> uniDist(0.0, 1.0);
 
-		for (GInt_t j = 0; j < N; j++) {
-
-			x[j] = fXLow[j] + uniDist(randEng)*fDeltaX[j];
+		for (size_t j = 0; j < N; j++) {
+			GReal_t r =  uniDist(randEng);
+			x[j] = fXLow[j] + r*fDeltaX[j];
 		}
 
 		GReal_t fval = fFunctor( detail::arrayToTuple<GReal_t, N>(x));
@@ -92,6 +106,7 @@ struct ProcessCallsPlainUnary
 		return result;
 	}
 
+	size_t fSeed;
 	FUNCTOR fFunctor;
 	GReal_t* __restrict__ fXLow;
 	GReal_t* __restrict__ fDeltaX;
@@ -104,11 +119,11 @@ struct ProcessCallsPlainUnary
 // approximation to the summary_stats for
 // all values that have been agregated so far
 struct ProcessCallsPlainBinary
-    : public thrust::binary_function<PlainState const&,
+    : public HYDRA_EXTERNAL_NS::thrust::binary_function<PlainState const&,
                                      PlainState const&,
                                      PlainState >
 {
-    __host__ __device__ inline
+    __hydra_host__ __hydra_device__ inline
     PlainState operator()(const PlainState& x, const PlainState& y)
     {
     	PlainState result;
@@ -121,10 +136,10 @@ struct ProcessCallsPlainBinary
 
         //Basic number of samples (n), min, and max
         result.fN   = n;
-        result.fMin = thrust::min(x.fMin, y.fMin);
-        result.fMax = thrust::max(x.fMax, y.fMax);
+        result.fMin = HYDRA_EXTERNAL_NS::thrust::min(x.fMin, y.fMin);
+        result.fMax = HYDRA_EXTERNAL_NS::thrust::max(x.fMax, y.fMax);
 
-        result.fMean = x.fMean + delta * y.fN / n;
+        result.fMean = (x.fMean* x.fN +  y.fMean* y.fN) / n;
 
         result.fM2  = x.fM2 + y.fM2;
         result.fM2 += delta2 * x.fN * y.fN / n;

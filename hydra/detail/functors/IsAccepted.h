@@ -1,6 +1,6 @@
 /*----------------------------------------------------------------------------
  *
- *   Copyright (C) 2016 Antonio Augusto Alves Junior
+ *   Copyright (C) 2016 - 2018 Antonio Augusto Alves Junior
  *
  *   This file is part of Hydra Data Analysis Framework.
  *
@@ -29,11 +29,11 @@
  */
 
 
+
 /**
  * \file
  * \ingroup phsp
  */
-
 
 #ifndef ISACCEPTED_H_
 #define ISACCEPTED_H_
@@ -50,7 +50,7 @@ namespace detail
 
 struct isAccepted
 {
-  __host__ __device__
+  __hydra_host__ __hydra_device__
   bool operator()(const int x)
   {
     return (x == 1 ) ;

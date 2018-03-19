@@ -1,6 +1,6 @@
 /*----------------------------------------------------------------------------
  *
- *   Copyright (C) 2016 Antonio Augusto Alves Junior
+ *   Copyright (C) 2016 - 2018 Antonio Augusto Alves Junior
  *
  *   This file is part of Hydra Data Analysis Framework.
  *
@@ -27,10 +27,7 @@
  *      Author: Antonio Augusto Alves Junior
  */
 
-/**
- * \file
- * \ingroup functor
- */
+
 
 
 #ifndef FUNCTION_H_
@@ -39,12 +36,17 @@
 #include <hydra/detail/Config.h>
 #include <hydra/Types.h>
 #include <hydra/detail/Print.h>
+#include <hydra/detail/Integrator.h>
 #include <hydra/Parameter.h>
 #include <hydra/detail/utility/Utility_Tuple.h>
 #include <hydra/detail/FunctorTraits.h>
-#include <thrust/iterator/detail/tuple_of_iterator_references.h>
-#include <thrust/iterator/zip_iterator.h>
-#include <thrust/tuple.h>
+#include <hydra/detail/Parameters.h>
+//#include <hydra/UserParameters.h>
+
+#include <hydra/detail/external/thrust/iterator/detail/tuple_of_iterator_references.h>
+#include <hydra/detail/external/thrust/iterator/zip_iterator.h>
+#include <hydra/detail/external/thrust/tuple.h>
+#include <hydra/detail/external/thrust/detail/type_traits.h>
 #include <array>
 #include <initializer_list>
 #include <memory>
@@ -53,399 +55,269 @@
 namespace hydra
 {
 
-/*
+/**
+ * @ingroup functor
+ * @brief Base class for all functors in hydra.
+ * @tparam Functor is "bare" c++ functor implementing the template<typename T> Evaluate(T x) method.
+ * @tparam ReturnType type returned by the functor' operator(). Same type returned by the "bare" c++ functor Evaluate() method.
+ * @tparam NPARAM number of parameters of the functor.
+ */
 template<typename Functor, typename ReturnType, size_t NPARAM>
-struct BaseFunctor
+class  BaseFunctor : public detail::Parameters<NPARAM>
 {
-	//tag
-    typedef void hydra_functor_tag;
 
+public:
+
+	//tag
+    typedef   void hydra_functor_tag;
 	typedef   ReturnType return_type;
 	typedef   std::true_type is_functor;
-    static const size_t parameter_count =NPARAM;
 
-	__host__ __device__
-	BaseFunctor():
+	/**
+	 * Default constructor
+	 */
+	__hydra_host__  __hydra_device__
+	explicit BaseFunctor():
+		detail::Parameters<NPARAM>(),
+		fCacheIndex(-1),
+		fCached(0),
+		fNorm(1.0),
+		_par(*this)
+	{}
+
+
+    /**
+     * @brief Constructor taking a list of parameters
+     * @param init_parameters std::initializer_list<Parameter> with the parameters of the functor.
+     */
+	BaseFunctor(std::initializer_list<Parameter> init_parameters):
+	detail::Parameters<NPARAM>( init_parameters ),
 	fCacheIndex(-1),
 	fCached(0),
-	fParamRegistered(0)
-	//fNorm(1.0)
-	{	}
+	fNorm(1.0),
+	_par(*this)
+	{}
 
-	__host__ __device__
+	/**
+	 * @brief Constructor taking std::array of parameters
+	 * @param init_parameters std::array<Parameter,NPARAM> with the parameters of the functor.
+	 */
+	BaseFunctor(std::array<Parameter,NPARAM> const& init_parameters):
+		detail::Parameters<NPARAM>( init_parameters ),
+		fCacheIndex(-1),
+		fCached(0),
+		fNorm(1.0),
+		_par(*this)
+		{ }
+
+
+	/**
+	 * @brief Copy constructor
+	 */
+	__hydra_host__ __hydra_device__
 	BaseFunctor(BaseFunctor<Functor,ReturnType, NPARAM> const& other):
+	detail::Parameters<NPARAM>( other),
 	fCacheIndex( other.GetCacheIndex() ),
 	fCached( other.IsCached() ),
-	fParamRegistered(0)
+	fNorm(other.GetNorm()),
+	_par(*this)
 	{
-		for(int i=0;i<NPARAM;i++){
-			fParameters[i]=other.GetParameter( i);
-		}
 
 	}
 
-	__host__ __device__
+	/**
+	 * @brief Assignment operator
+	 */
+	__hydra_host__ __hydra_device__ inline
 	BaseFunctor<Functor,ReturnType, NPARAM>&
 	operator=(BaseFunctor<Functor, ReturnType, NPARAM> const & other )
 	{
 		if(this != &other)
 		{
+			detail::Parameters<NPARAM>::operator=( other );
 			this->fCacheIndex     = other.GetCacheIndex();
 			this->fCached         = other.IsCached();
-			this->fParamRegistered =0;
-			for(int i=0;i<NPARAM;i++){
-				this->fParameters[i]=other.GetParameter( i);
-					}
-         }
+			this->fNorm = other.GetNorm();
+
+			_par=*this;
+
+		}
 		return *this;
 	}
 
-	__host__ __device__
-	~BaseFunctor()
-	{ }
 
-	__host__ __device__ inline
+	__hydra_host__ __hydra_device__ inline
 	Functor& GetFunctor() {return *static_cast<Functor*>(this);}
 
-	__host__ __device__ inline
+	__hydra_host__ __hydra_device__ inline
 	int GetCacheIndex() const { return this->fCacheIndex; }
 
-	__host__ __device__ inline
+	__hydra_host__ __hydra_device__ inline
 	void SetCacheIndex(int index) {fCacheIndex = index;}
 
-	__host__ __device__ inline
+	__hydra_host__ __hydra_device__ inline
 	bool IsCached() const
 	{ return this->fCached;}
 
-	__host__ __device__ inline
+	__hydra_host__ __hydra_device__ inline
 	void SetCached(bool cached=true)
 	{ fCached = cached; }
 
 
+	/**
+	 * @brief Print registered parameters.
+	 */
 	void PrintRegisteredParameters()
 	{
 
 		HYDRA_CALLER ;
 		HYDRA_MSG <<HYDRA_ENDL;
+		/*
 		HYDRA_MSG << "Registered parameters begin:" << HYDRA_ENDL;
 		for(size_t i=0; i<parameter_count; i++ )
+
 		HYDRA_MSG <<"  >> Parameter " << i <<") "<< fParameters[i] << HYDRA_ENDL;
+		*/
+		this->PrintParameters();
+
+		HYDRA_MSG <<"Normalization " << fNorm << HYDRA_ENDL;
 		HYDRA_MSG <<"Registered parameters end." << HYDRA_ENDL;
 		HYDRA_MSG <<HYDRA_ENDL;
 		return;
 	}
 
-	__host__ inline
-	void SetParameters(const std::vector<double>& parameters){
 
-		if(fCached) return;
+	__hydra_host__ __hydra_device__  inline
+	GReal_t GetNorm() const {
+		return fNorm;
+	}
 
-		for(size_t i=0; i< parameter_count; i++){
-			fParameters[i].Reset(parameters );
-		}
-
-		if (INFO >= hydra::Print::Level()  )
-		{
-			std::ostringstream stringStream;
-			for(size_t i=0; i< parameter_count; i++){
-			     stringStream << "Parameter["<< fParameters[i].GetIndex() <<"] :  " << parameters[fParameters[i].GetIndex() ]
-			                    << "  " << fParameters[i] << "\n";
-			}
-			HYDRA_LOG(INFO, stringStream.str().c_str() )
-		}
-
-		return;
+	__hydra_host__ __hydra_device__  inline
+	void SetNorm(GReal_t norm) {
+		fNorm = norm;
 	}
 
 
-	__host__  __device__ inline
-	 const Parameter GetParameter(size_t i) const {
-		return fParameters[i];
-	}
 
-
-	__host__ __device__  inline
-	Parameter& GetParameter(size_t i) {
-		return fParameters[i];
-	}
-
-
-	__host__ __device__  inline
-		void SetParameter(size_t i, Parameter const& par) {
-			 fParameters[i]=par;
-		}
-
-	__host__ __device__
-	GReal_t operaror[](size_t 1)
+	template<typename T>
+	__hydra_host__ __hydra_device__ inline
+	typename HYDRA_EXTERNAL_NS::thrust::detail::enable_if<
+	! ( detail::is_instantiation_of<HYDRA_EXTERNAL_NS::thrust::tuple,
+			typename HYDRA_EXTERNAL_NS::thrust::detail::remove_const<
+				typename HYDRA_EXTERNAL_NS::thrust::detail::remove_reference< T>::type
+			>::type >::value ||
+	    detail::is_instantiation_of< HYDRA_EXTERNAL_NS::thrust::detail::tuple_of_iterator_references,
+	        typename HYDRA_EXTERNAL_NS::thrust::detail::remove_const<
+	        	typename HYDRA_EXTERNAL_NS::thrust::detail::remove_reference<T>::type
+	        >::type >::value ) , return_type>::type
+	interface(T&& x)  const
 	{
-		return fParameters[i];
+		//fNArgs=1;
+		typename HYDRA_EXTERNAL_NS::thrust::detail::remove_const<typename HYDRA_EXTERNAL_NS::thrust::detail::remove_reference<T>::type >::type _x;
+
+		_x=x;
+		return static_cast<const Functor*>(this)->Evaluate(1, &_x);
 	}
 
-	template<typename T  >
-	__host__ __device__ inline
-	typename thrust::detail::enable_if< detail::is_homogeneous<
-	typename thrust::tuple_element<0, typename std::remove_reference<T>::type>::type, typename std::remove_reference<T>::type>::value, return_type>::type
-	interface(T&& x)
+
+	template<typename T>
+	__hydra_host__ __hydra_device__ inline
+	typename HYDRA_EXTERNAL_NS::thrust::detail::enable_if<(
+			  detail::is_instantiation_of<HYDRA_EXTERNAL_NS::thrust::tuple,
+			  typename HYDRA_EXTERNAL_NS::thrust::detail::remove_const<
+			  	  typename HYDRA_EXTERNAL_NS::thrust::detail::remove_reference<T>::type
+			  >::type >::value ||
+			  detail::is_instantiation_of<HYDRA_EXTERNAL_NS::thrust::detail::tuple_of_iterator_references,
+			  typename HYDRA_EXTERNAL_NS::thrust::detail::remove_const<
+			  	  typename HYDRA_EXTERNAL_NS::thrust::detail::remove_reference<T>::type
+			   >::type >::value ) &&
+	        detail::is_homogeneous<
+	        	typename HYDRA_EXTERNAL_NS::thrust::tuple_element<0,
+	        		typename HYDRA_EXTERNAL_NS::thrust::detail::remove_const<
+	        			typename HYDRA_EXTERNAL_NS::thrust::detail::remove_reference<T>::type
+	        		>::type
+	        	>::type,
+	        	typename HYDRA_EXTERNAL_NS::thrust::detail::remove_const<
+	        		typename HYDRA_EXTERNAL_NS::thrust::detail::remove_reference<T>::type
+	        	>::type
+	        >::value, return_type>::type
+	interface(T&& x)  const
 	{
-		typedef typename std::remove_reference<T>::type Tprime;
-		typedef typename std::remove_reference<typename thrust::tuple_element<0, Tprime>::type>::type first_type;
-		constexpr size_t N = thrust::tuple_size< Tprime >::value;
+		typedef  typename HYDRA_EXTERNAL_NS::thrust::detail::remove_const<typename HYDRA_EXTERNAL_NS::thrust::detail::remove_reference<T>::type>::type Tprime;
+		typedef typename HYDRA_EXTERNAL_NS::thrust::detail::remove_reference<typename HYDRA_EXTERNAL_NS::thrust::tuple_element<0, Tprime>::type>::type first_type;
+		constexpr size_t N = HYDRA_EXTERNAL_NS::thrust::tuple_size< Tprime >::value;
 
 		first_type Array[ N ];
 
 		detail::tupleToArray(x, &Array[0] );
-
-		return static_cast<Functor*>(this)->Evaluate(&Array[0]);
+		//fNArgs=N;
+		return static_cast<const Functor*>(this)->Evaluate(N, &Array[0]);
 
 
 	}
 
 	template<typename T >
-	__host__ __device__ inline
-	typename thrust::detail::enable_if<!detail::is_homogeneous<
-	typename thrust::tuple_element<0, typename std::remove_reference<T>::type>::type, typename std::remove_reference<T>::type>::value, return_type>::type
-	interface(T&& x)
+	__hydra_host__ __hydra_device__ inline
+	typename HYDRA_EXTERNAL_NS::thrust::detail::enable_if<
+	detail::is_instantiation_of<HYDRA_EXTERNAL_NS::thrust::tuple,
+		typename std::remove_reference<T>::type >::value &&
+	!(detail::is_homogeneous<
+	    typename HYDRA_EXTERNAL_NS::thrust::tuple_element< 0,
+	    	typename HYDRA_EXTERNAL_NS::thrust::detail::remove_const<
+	    		typename HYDRA_EXTERNAL_NS::thrust::detail::remove_reference<T>::type
+	    	>::type
+	    >::type,
+	    typename HYDRA_EXTERNAL_NS::thrust::detail::remove_const<
+	    	typename HYDRA_EXTERNAL_NS::thrust::detail::remove_reference<T>::type
+		>::type>::value), return_type>::type
+	interface(T&& x)  const
 	{
-
-		return static_cast<Functor*>(this)->Evaluate(x);
-
-
+		//fNArgs=0;
+		return static_cast<const Functor*>(this)->Evaluate(x);
 	}
 
 
 
 	template<typename T>
-	__host__  __device__ inline
-	return_type operator()( T* x, T* p=0  )
-	{return static_cast<Functor*>(this)->Evaluate(x); }
+	__hydra_host__  __hydra_device__ inline
+	return_type operator()(unsigned int n, T* x)  const
+	{
+
+		return static_cast<const Functor*>(this)->Evaluate(n,x);
+	}
 
 
 	template<typename T>
-	__host__ __device__ inline
-	return_type operator()( T&&  x )
-	{return interface< T>(std::forward< T >(x));}
+	__hydra_host__ __hydra_device__ inline
+	return_type operator()( T&&  x )  const
+	{
+		return  interface( std::forward<T>(x));
+
+	}
 
 
 	template<typename T1, typename T2>
-	__host__ __device__  inline
-	return_type operator()( T1&& x, T2 && cache)
+	__hydra_host__ __hydra_device__  inline
+	return_type operator()( T1&& x, T2&& cache)  const
 	{
 
-		return fCached ?\
-				detail::extract<return_type, T2 >(fCacheIndex, std::forward<T2>(cache)):\
-				operator()<T1>( std::forward<T1>(x) );
+
+		return fCached ? detail::extract<return_type, T2 >(fCacheIndex, std::forward<T2>(cache)):
+						operator()<T1>( std::forward<T1>(x) );
 	}
+
+
 
 
 private:
 
-	int  fCacheIndex;
+    int fCacheIndex;
 	bool fCached;
-	bool fParamRegistered;
-	Parameter fParameters[NPARAM];
+    GReal_t fNorm;
 
+protected:
 
-};
-*/
-
-template<typename Functor, typename ReturnType, size_t NPARAM>
-struct BaseFunctor
-{
-	//tag
-    typedef void hydra_functor_tag;
-
-	typedef   ReturnType return_type;
-	typedef   std::true_type is_functor;
-    static const size_t parameter_count =NPARAM;
-
-	__host__ __device__
-	BaseFunctor():
-	fCacheIndex(-1),
-	fCached(0),
-	fParamResgistered(0)
-	//fNorm(1.0)
-	{	}
-
-	__host__ __device__
-	BaseFunctor(BaseFunctor<Functor,ReturnType, NPARAM> const& other):
-	fCacheIndex( other.GetCacheIndex() ),
-	fCached( other.IsCached() ),
-	fParamResgistered(0)
-	//fNorm(other.GetNorm())
-	{ }
-
-	__host__ __device__ inline
-	BaseFunctor<Functor,ReturnType, NPARAM>&
-	operator=(BaseFunctor<Functor, ReturnType, NPARAM> const & other )
-	{
-		if(this != &other)
-		{
-			this->fCacheIndex     = other.GetCacheIndex();
-			this->fCached         = other.IsCached();
-			//this->fParameterIndex = other.GetParameterIndex();
-			//this->fNorm = other.GetNorm();
-			this->fParamResgistered =0;
-
-         }
-		return *this;
-	}
-
-	__host__ __device__
-	~BaseFunctor()
-	{ }
-
-	__host__ __device__ inline
-	Functor& GetFunctor() {return *static_cast<Functor*>(this);}
-
-	__host__ __device__ inline
-	int GetCacheIndex() const { return this->fCacheIndex; }
-
-	__host__ __device__ inline
-	void SetCacheIndex(int index) {fCacheIndex = index;}
-
-	__host__ __device__ inline
-	bool IsCached() const
-	{ return this->fCached;}
-
-	__host__ __device__ inline
-	void SetCached(bool cached=true)
-	{ fCached = cached; }
-
-	__host__ __device__ inline
-	void RegistryParameters( std::initializer_list<Parameter*> var_list){
-
-#ifndef __CUDA_ARCH__
-		int i=0;
-		for(Parameter* var: var_list)
-		{
-			//var->SetIndex(fParameterIndex +i+fParameterIndex);
-			fParameters[i]=var;
-			i++;
-		}
-		fParamResgistered=1;
-#endif
-
-	}
-
-
-	void PrintRegisteredParameters()
-	{
-		if(!fParamResgistered){
-			HYDRA_LOG(WARNING, "Parameters not registered, check client implementation. Nothing to dump. Exiting..." )
-		return;
-		}
-
-		HYDRA_CALLER ;
-		HYDRA_MSG <<HYDRA_ENDL;
-		HYDRA_MSG << "Registered parameters begin:" << HYDRA_ENDL;
-		for(size_t i=0; i<parameter_count; i++ )
-		HYDRA_MSG <<"  >> Parameter " << i <<") "<< *fParameters[i] << HYDRA_ENDL;
-		HYDRA_MSG <<"Registered parameters end." << HYDRA_ENDL;
-		HYDRA_MSG <<HYDRA_ENDL;
-		return;
-	}
-
-	__host__ inline
-	void SetParameters(const std::vector<double>& parameters){
-
-		if(fCached) return;
-		if(!fParamResgistered){
-					HYDRA_LOG(WARNING, "Parameters not registered, check client implementation. Nothing to dump. Exiting..." )
-		            return;
-				}
-		for(size_t i=0; i< parameter_count; i++){
-			*(fParameters[i])= parameters[fParameters[i]->GetIndex()];
-		}
-
-		if (INFO >= hydra::Print::Level()  )
-		{
-			std::ostringstream stringStream;
-			for(size_t i=0; i< parameter_count; i++){
-			     stringStream << "Parameter["<< fParameters[i]->GetIndex() <<"] :  " << parameters[fParameters[i]->GetIndex() ] << "  " << *fParameters[i] << "\n";
-			}
-			HYDRA_LOG(INFO, stringStream.str().c_str() )
-		}
-
-		return;
-	}
-
-
-	__host__  inline
-	 const Parameter* GetParameter(size_t i) const {
-		return fParameters[i];
-	}
-
-
-	__host__  inline
-	Parameter* GetParameter(size_t i) {
-		return fParameters[i];
-	}
-
-
-
-	template<typename T  >
-	__host__ __device__ inline
-	typename thrust::detail::enable_if< detail::is_homogeneous<
-	typename thrust::tuple_element<0, typename std::remove_reference<T>::type>::type, typename std::remove_reference<T>::type>::value, return_type>::type
-	interface(T&& x)
-	{
-		typedef typename std::remove_reference<T>::type Tprime;
-		typedef typename std::remove_reference<typename thrust::tuple_element<0, Tprime>::type>::type first_type;
-		constexpr size_t N = thrust::tuple_size< Tprime >::value;
-
-		first_type Array[ N ];
-
-		detail::tupleToArray(x, &Array[0] );
-
-		return static_cast<Functor*>(this)->Evaluate(&Array[0]);
-
-
-	}
-
-	template<typename T >
-	__host__ __device__ inline
-	typename thrust::detail::enable_if<!detail::is_homogeneous<
-	typename thrust::tuple_element<0, typename std::remove_reference<T>::type>::type, typename std::remove_reference<T>::type>::value, return_type>::type
-	interface(T&& x)
-	{
-
-		return static_cast<Functor*>(this)->Evaluate(x);
-
-
-	}
-
-
-
-	template<typename T>
-	__host__  __device__ inline
-	return_type operator()( T* x, T* p=0  )
-	{return static_cast<Functor*>(this)->Evaluate(x); }
-
-
-	template<typename T>
-	__host__ __device__ inline
-	return_type operator()( T&&  x )
-	{return interface< T>(std::forward< T >(x));}
-
-
-	template<typename T1, typename T2>
-	__host__ __device__  inline
-	return_type operator()( T1&& x, T2 && cache)
-	{
-
-		return fCached ?\
-				detail::extract<return_type, T2 >(fCacheIndex, std::forward<T2>(cache)):\
-				operator()<T1>( std::forward<T1>(x) );
-	}
-
-private:
-
-   // mutable GReal_t fNorm;
-	int  fCacheIndex;
-	bool fCached;
-	bool fParamResgistered;
-	Parameter* fParameters[NPARAM];
-
+    BaseFunctor<Functor, ReturnType, NPARAM>& _par;
 
 };
 

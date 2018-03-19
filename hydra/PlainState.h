@@ -1,6 +1,6 @@
 /*----------------------------------------------------------------------------
  *
- *   Copyright (C) 2016 Antonio Augusto Alves Junior
+ *   Copyright (C) 2016 - 2018 Antonio Augusto Alves Junior
  *
  *   This file is part of Hydra Data Analysis Framework.
  *
@@ -26,11 +26,6 @@
  *      Author: Antonio Augusto Alves Junior
  */
 
-/**
- * \file
- * \ingroup numerical_integration
- */
-
 
 #ifndef PLAINSTATE_H_
 #define PLAINSTATE_H_
@@ -38,12 +33,15 @@
 #include <limits>
 #include <hydra/detail/Config.h>
 #include <hydra/Types.h>
-#include <thrust/functional.h>
-#include <thrust/extrema.h>
+#include <hydra/detail/external/thrust/functional.h>
+#include <hydra/detail/external/thrust/extrema.h>
 
 namespace hydra {
 
-
+/**
+ * \ingroup numerical_integration
+ * \brief Simple structure to hold the results of the Plain MC numerical integration.
+ */
 struct PlainState
 {
 
@@ -54,7 +52,7 @@ struct PlainState
     GReal_t fMean;
     GReal_t fM2;
 
-    __host__ __device__
+    __hydra_host__ __hydra_device__
 PlainState():
 	fN(0),
 	fMean(0),
@@ -63,7 +61,7 @@ PlainState():
     fMax(std::numeric_limits<GReal_t>::max() )
     {}
 
-    __host__ __device__
+    __hydra_host__ __hydra_device__
    PlainState( PlainState const& other):
    	fN(other.fN),
    	fMean(other.fMean ),
@@ -74,10 +72,10 @@ PlainState():
 
 
 
-    __host__ __device__ inline
+    __hydra_host__ __hydra_device__ inline
     GReal_t variance()   { return fM2 / (fN - 1); }
 
-    __host__ __device__ inline
+    __hydra_host__ __hydra_device__ inline
     GReal_t variance_n() { return fM2 / fN; }
 
 };

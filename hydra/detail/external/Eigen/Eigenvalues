@@ -1,0 +1,57 @@
+// This file is part of Eigen, a lightweight C++ template library
+// for linear algebra.
+//
+// This Source Code Form is subject to the terms of the Mozilla
+// Public License v. 2.0. If a copy of the MPL was not distributed
+// with this file, You can obtain one at http://mozilla.org/MPL/2.0/.
+
+#ifndef HYDRA_EIGEN_EIGENVALUES_MODULE_H
+#define HYDRA_EIGEN_EIGENVALUES_MODULE_H
+
+#include "hydra/detail/external/Eigen/Core"
+
+#include "hydra/detail/external/Eigen/src/Core/util/DisableStupidWarnings.h"
+
+#include "hydra/detail/external/Eigen/Cholesky"
+#include "hydra/detail/external/Eigen/Jacobi"
+#include "hydra/detail/external/Eigen/Householder"
+#include "hydra/detail/external/Eigen/LU"
+#include "hydra/detail/external/Eigen/Geometry"
+
+/** \defgroup Eigenvalues_Module Eigenvalues module
+  *
+  *
+  *
+  * This module mainly provides various eigenvalue solvers.
+  * This module also provides some MatrixBase methods, including:
+  *  - MatrixBase::eigenvalues(),
+  *  - MatrixBase::operatorNorm()
+  *
+  * \code
+  * #include <Eigen/Eigenvalues>
+  * \endcode
+  */
+
+#include "hydra/detail/external/Eigen/src/misc/RealSvd2x2.h"
+#include "hydra/detail/external/Eigen/src/Eigenvalues/Tridiagonalization.h"
+#include "hydra/detail/external/Eigen/src/Eigenvalues/RealSchur.h"
+#include "hydra/detail/external/Eigen/src/Eigenvalues/EigenSolver.h"
+#include "hydra/detail/external/Eigen/src/Eigenvalues/SelfAdjointEigenSolver.h"
+#include "hydra/detail/external/Eigen/src/Eigenvalues/GeneralizedSelfAdjointEigenSolver.h"
+#include "hydra/detail/external/Eigen/src/Eigenvalues/HessenbergDecomposition.h"
+#include "hydra/detail/external/Eigen/src/Eigenvalues/ComplexSchur.h"
+#include "hydra/detail/external/Eigen/src/Eigenvalues/ComplexEigenSolver.h"
+#include "hydra/detail/external/Eigen/src/Eigenvalues/RealQZ.h"
+#include "hydra/detail/external/Eigen/src/Eigenvalues/GeneralizedEigenSolver.h"
+#include "hydra/detail/external/Eigen/src/Eigenvalues/MatrixBaseEigenvalues.h"
+#ifdef HYDRA_EIGEN_USE_LAPACKE
+#include "hydra/detail/external/Eigen/src/misc/lapacke.h"
+#include "hydra/detail/external/Eigen/src/Eigenvalues/RealSchur_LAPACKE.h"
+#include "hydra/detail/external/Eigen/src/Eigenvalues/ComplexSchur_LAPACKE.h"
+#include "hydra/detail/external/Eigen/src/Eigenvalues/SelfAdjointEigenSolver_LAPACKE.h"
+#endif
+
+#include "hydra/detail/external/Eigen/src/Core/util/ReenableStupidWarnings.h"
+
+#endif // HYDRA_EIGEN_EIGENVALUES_MODULE_H
+/* vim: set filetype=cpp et sw=2 ts=2 ai: */

@@ -1,6 +1,6 @@
 /*----------------------------------------------------------------------------
  *
- *   Copyright (C) 2016 Antonio Augusto Alves Junior
+ *   Copyright (C) 2016 - 2018 Antonio Augusto Alves Junior
  *
  *   This file is part of Hydra Data Analysis Framework.
  *
@@ -36,44 +36,28 @@
 
 #include <hydra/detail/Config.h>
 #include <hydra/Types.h>
-#include <thrust/pair.h>
+#include <utility>
 
 namespace hydra {
 
-template<typename ALGORITHM, size_t N>
+template<typename ALGORITHM>
 struct Integrator{
 
-	//tag
 	typedef void hydra_integrator_tag;
 
-	static const size_t dimension=N;
-
-	Integrator()
-	{};
-
 	template<typename FUNCTOR>
-	__host__ inline
-	thrust::pair<GReal_t, GReal_t> GetIntegral( FUNCTOR const& fFunctor ){
-
-	   static_cast<ALGORITHM*>(this)->Integrate(fFunctor );
-
-	   return thrust::make_pair( static_cast<ALGORITHM*>(this)->GetResult(),
-	    		static_cast<ALGORITHM*>(this)->GetAbsError() );
-	}
-
-
-	__host__ inline
-	thrust::pair<const GReal_t*, const GReal_t*> GetLimits( )
+	inline std::pair<GReal_t, GReal_t> operator()( FUNCTOR  const & functor)
 	{
-		return thrust::make_pair( static_cast<ALGORITHM*>(this)->GetLowerLimit(),
-				static_cast<ALGORITHM*>(this)->GetUpperLimit() );
-
+	//functor.SetNormalized(0);
+	auto result = static_cast<ALGORITHM*>(this)->Integrate(functor);
+	//functor.SetNormalized(1);
+	return result;
 	}
-
 
 
 
 };
+
 
 
 }  // namespace hydra

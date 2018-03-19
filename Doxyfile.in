@@ -1,12 +1,13 @@
-PROJECT_NAME           = "@CMAKE_PROJECT_NAME@"
-PROJECT_NUMBER         =  @Hydra_VERSION_MAJOR@.@Hydra_VERSION_MINOR@.@Hydra_VERSION_PATCH@
+#PROJECT_NAME          = "@CMAKE_PROJECT_NAME@"
+PROJECT_NUMBER         =  @HYDRA_VERSION@
 
 STRIP_FROM_PATH        = @CMAKE_CURRENT_SOURCE_DIR@
  
-INPUT                  = @CMAKE_CURRENT_SOURCE_DIR@/hydra @CMAKE_CURRENT_SOURCE_DIR@/doxydefs @CMAKE_CURRENT_SOURCE_DIR@/src @CMAKE_CURRENT_SOURCE_DIR@/README.md
+INPUT                  = @CMAKE_CURRENT_SOURCE_DIR@/hydra @CMAKE_CURRENT_SOURCE_DIR@/doxydefs @CMAKE_CURRENT_SOURCE_DIR@/examples @CMAKE_CURRENT_SOURCE_DIR@/README.md
+
 
 USE_MDFILE_AS_MAINPAGE = @CMAKE_CURRENT_SOURCE_DIR@/README.md
-PROJECT_LOGO           = @CMAKE_CURRENT_SOURCE_DIR@/Hydra.jpg
+#PROJECT_LOGO          = @CMAKE_CURRENT_SOURCE_DIR@/logo_Hydra.png
 OUTPUT_DIRECTORY       = @CMAKE_CURRENT_BINARY_DIR@/doc
 
 # Doxyfile 1.8.11
@@ -15,14 +16,14 @@ OUTPUT_DIRECTORY       = @CMAKE_CURRENT_BINARY_DIR@/doc
 # Project related configuration options
 #---------------------------------------------------------------------------
 DOXYFILE_ENCODING      = UTF-8
-#PROJECT_NAME           = Hydra
-#PROJECT_NUMBER         = 1.0.0
-PROJECT_BRIEF          = "A header only templated C++ library to perform data analysis on massively parallel platforms."
-CREATE_SUBDIRS         = YES
+PROJECT_NAME           = Hydra
+#PROJECT_NUMBER         = 2.0.0
+PROJECT_BRIEF          = "A header-only templated C++ framework to perform data analysis on massively parallel platforms."
+CREATE_SUBDIRS         = NO
 ALLOW_UNICODE_NAMES    = NO
 OUTPUT_LANGUAGE        = English
 BRIEF_MEMBER_DESC      = YES
-REPEAT_BRIEF           = NO
+REPEAT_BRIEF           = YES
 ABBREVIATE_BRIEF       = "The $name class" \
                          "The $name widget" \
                          "The $name file" \
@@ -39,16 +40,16 @@ INLINE_INHERITED_MEMB  = NO
 FULL_PATH_NAMES        = NO
 STRIP_FROM_PATH        = 
 STRIP_FROM_INC_PATH    = 
-SHORT_NAMES            = YES
+SHORT_NAMES            = NO
 JAVADOC_AUTOBRIEF      = YES
 QT_AUTOBRIEF           = YES
 MULTILINE_CPP_IS_BRIEF = YES
 INHERIT_DOCS           = YES
 SEPARATE_MEMBER_PAGES  = NO
 TAB_SIZE               = 4
-ALIASES                = 
+ALIASES                = YES
 TCL_SUBST              = 
-OPTIMIZE_OUTPUT_FOR_C  = NO
+OPTIMIZE_OUTPUT_FOR_C  = YES
 OPTIMIZE_OUTPUT_JAVA   = NO
 OPTIMIZE_FOR_FORTRAN   = NO
 OPTIMIZE_OUTPUT_VHDL   = NO
@@ -56,15 +57,15 @@ EXTENSION_MAPPING      = cu=C
 MARKDOWN_SUPPORT       = YES
 AUTOLINK_SUPPORT       = YES
 BUILTIN_STL_SUPPORT    = YES
-CPP_CLI_SUPPORT        = NO
-SIP_SUPPORT            = NO
+CPP_CLI_SUPPORT        = YES
+SIP_SUPPORT            = YES
 IDL_PROPERTY_SUPPORT   = NO
 DISTRIBUTE_GROUP_DOC   = YES
-GROUP_NESTED_COMPOUNDS = NO
+GROUP_NESTED_COMPOUNDS = YES
 SUBGROUPING            = YES
 INLINE_GROUPED_CLASSES = YES
 INLINE_SIMPLE_STRUCTS  = YES
-TYPEDEF_HIDES_STRUCT   = YES
+TYPEDEF_HIDES_STRUCT   = NO
 LOOKUP_CACHE_SIZE      = 0
 #---------------------------------------------------------------------------
 # Build related configuration options
@@ -72,34 +73,34 @@ LOOKUP_CACHE_SIZE      = 0
 EXTRACT_ALL            = YES
 EXTRACT_PRIVATE        = NO
 EXTRACT_PACKAGE        = NO
-EXTRACT_STATIC         = NO
+EXTRACT_STATIC         = YES
 EXTRACT_LOCAL_CLASSES  = YES
 EXTRACT_LOCAL_METHODS  = YES
-EXTRACT_ANON_NSPACES   = NO
+EXTRACT_ANON_NSPACES   = YES
 HIDE_UNDOC_MEMBERS     = NO
 HIDE_UNDOC_CLASSES     = NO
 HIDE_FRIEND_COMPOUNDS  = NO
 HIDE_IN_BODY_DOCS      = NO
-INTERNAL_DOCS          = NO
+INTERNAL_DOCS          = YES
 CASE_SENSE_NAMES       = YES
 HIDE_SCOPE_NAMES       = NO
 HIDE_COMPOUND_REFERENCE= NO
-SHOW_INCLUDE_FILES     = NO
+SHOW_INCLUDE_FILES     = YES
 SHOW_GROUPED_MEMB_INC  = YES
 FORCE_LOCAL_INCLUDES   = NO
 INLINE_INFO            = YES
 SORT_MEMBER_DOCS       = YES
 SORT_BRIEF_DOCS        = YES
 SORT_MEMBERS_CTORS_1ST = YES
-SORT_GROUP_NAMES       = NO
-SORT_BY_SCOPE_NAME     = NO
+SORT_GROUP_NAMES       = YES
+SORT_BY_SCOPE_NAME     = YES
 STRICT_PROTO_MATCHING  = NO
 GENERATE_TODOLIST      = YES
 GENERATE_TESTLIST      = YES
 GENERATE_BUGLIST       = YES
 GENERATE_DEPRECATEDLIST= YES
 ENABLED_SECTIONS       = 
-MAX_INITIALIZER_LINES  = 30
+MAX_INITIALIZER_LINES  = 50
 SHOW_USED_FILES        = YES
 SHOW_FILES             = YES
 SHOW_NAMESPACES        = YES
@@ -113,7 +114,7 @@ QUIET                  = NO
 WARNINGS               = YES
 WARN_IF_UNDOCUMENTED   = YES
 WARN_IF_DOC_ERROR      = YES
-WARN_NO_PARAMDOC       = NO
+WARN_NO_PARAMDOC       = YES
 WARN_AS_ERROR          = NO
 WARN_FORMAT            = "$file:$line: $text"
 WARN_LOGFILE           = 
@@ -126,7 +127,7 @@ FILE_PATTERNS          = *.cu \
                          *.cc \
                          *.cxx \
                          *.cpp \
-                         *.c++ \
+                         *.c++ \ 
                          *.java \
                          *.ii \
                          *.ixx \
@@ -151,6 +152,7 @@ FILE_PATTERNS          = *.cu \
                          *.markdown \
                          *.md \
                          *.mm \
+                         *.inl \
                          *.dox \
                          *.py \
                          *.f90 \
@@ -168,12 +170,12 @@ FILE_PATTERNS          = *.cu \
 RECURSIVE              = YES
 EXCLUDE                = 
 EXCLUDE_SYMLINKS       = NO
-EXCLUDE_PATTERNS       = 
-EXCLUDE_SYMBOLS        = detail
-EXAMPLE_PATH           = @CMAKE_CURRENT_SOURCE_DIR@/src
+EXCLUDE_PATTERNS       = *detail/external*
+EXCLUDE_SYMBOLS        = 
+EXAMPLE_PATH           = @CMAKE_CURRENT_SOURCE_DIR@/examples
 EXAMPLE_PATTERNS       = *
 EXAMPLE_RECURSIVE      = YES
-IMAGE_PATH             = @CMAKE_CURRENT_BINARY_DIR@/plots
+IMAGE_PATH             = @CMAKE_CURRENT_SOURCE_DIR@, @CMAKE_CURRENT_BINARY_DIR@/plots
 INPUT_FILTER           = 
 FILTER_PATTERNS        = 
 FILTER_SOURCE_FILES    = NO
@@ -183,19 +185,19 @@ FILTER_SOURCE_PATTERNS =
 #---------------------------------------------------------------------------
 SOURCE_BROWSER         = YES
 INLINE_SOURCES         = NO
-STRIP_CODE_COMMENTS    = YES
+STRIP_CODE_COMMENTS    = NO
 REFERENCED_BY_RELATION = YES
 REFERENCES_RELATION    = YES
 REFERENCES_LINK_SOURCE = YES
 SOURCE_TOOLTIPS        = YES
-USE_HTAGS              = NO
-VERBATIM_HEADERS       = NO
+USE_HTAGS              = YES
+VERBATIM_HEADERS       = YES
 #---------------------------------------------------------------------------
 # Configuration options related to the alphabetical class index
 #---------------------------------------------------------------------------
 ALPHABETICAL_INDEX     = YES
-COLS_IN_ALPHA_INDEX    = 5
-IGNORE_PREFIX          = 
+COLS_IN_ALPHA_INDEX    = 3
+IGNORE_PREFIX          = NO
 #---------------------------------------------------------------------------
 # Configuration options related to the HTML output
 #---------------------------------------------------------------------------
@@ -323,8 +325,8 @@ ENABLE_PREPROCESSING   = YES
 MACRO_EXPANSION        = YES
 EXPAND_ONLY_PREDEF     = NO
 SEARCH_INCLUDES        = YES
-INCLUDE_PATH           = 
-INCLUDE_FILE_PATTERNS  = 
+INCLUDE_PATH           = YES
+INCLUDE_FILE_PATTERNS  = YES
 PREDEFINED             = 
 EXPAND_AS_DEFINED      = 
 SKIP_FUNCTION_MACROS   = YES
@@ -343,7 +345,7 @@ PERL_PATH              = /usr/bin/perl
 CLASS_DIAGRAMS         = YES
 MSCGEN_PATH            = 
 DIA_PATH               = 
-HIDE_UNDOC_RELATIONS   = YES
+HIDE_UNDOC_RELATIONS   = NO
 HAVE_DOT               = YES
 DOT_NUM_THREADS        = 0
 DOT_FONTNAME           = Helvetica
@@ -369,8 +371,8 @@ MSCFILE_DIRS           =
 DIAFILE_DIRS           = 
 PLANTUML_JAR_PATH      = 
 PLANTUML_INCLUDE_PATH  = 
-DOT_GRAPH_MAX_NODES    = 50
-MAX_DOT_GRAPH_DEPTH    = 0
+DOT_GRAPH_MAX_NODES    = 100
+MAX_DOT_GRAPH_DEPTH    = 10
 DOT_TRANSPARENT        = YES
 DOT_MULTI_TARGETS      = YES
 GENERATE_LEGEND        = YES

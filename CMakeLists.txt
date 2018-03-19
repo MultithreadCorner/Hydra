@@ -1,267 +1,195 @@
-### CMakeList for MC Hydra
+### CMakeList for Hydra examples and documentation
 
-cmake_minimum_required(VERSION 2.8)
+cmake_minimum_required(VERSION 3.2)
 
 # project name
-project(Hydra)
-
-# The version number.
-set (Hydra_VERSION_MAJOR 1)
-set (Hydra_VERSION_MINOR 0)
-set (Hydra_VERSION_PATCH 0)
+project(Hydra_examples_and_documentation)
 
 # warn user if system is not UNIX
 if(NOT UNIX)
   message(FATAL_ERROR "This is an unsupported system.")
 endif()
 
-# configure a header file to pass some of the CMake settings
-# to the source code
-configure_file (
-  "${PROJECT_SOURCE_DIR}/hydra/Hydra.h.in"
-  "${PROJECT_SOURCE_DIR}/hydra/Hydra.h"
- )
-mark_as_advanced(Hydra_VERSION_MAJOR Hydra_VERSION_MINOR Hydra_VERSION_PATCH)
-
+#cmake path dir
 SET(Hydra_CMAKE_DIR "${PROJECT_SOURCE_DIR}/cmake")
 SET(CMAKE_MODULE_PATH "${Hydra_CMAKE_DIR}" ${CMAKE_MODULE_PATH})
 SET(CMAKE_VERBOSE_MAKEFILE  ON)
+
+#check if compiler is C++11 compliant
+include(CheckCXXCompilerFlag)
+CHECK_CXX_COMPILER_FLAG("--std=c++11" COMPILER_SUPPORTS_CXX11)
+if(NOT COMPILER_SUPPORTS_CXX11)
+ message(FATAL "The compiler ${CMAKE_CXX_COMPILER} has no C++11 support. Please use a different C++ compiler.")
+endif()
+
+#compiler flags
+if ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang")
+
+ MESSAGE(STATUS "Setting Clang flags")
+ set(CMAKE_CXX_FLAGS " --std=c++11 -W -march=native -fPIC -O3 -ldl" CACHE STRING "compile flags" FORCE)
+  
+elseif ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU")
+
+ MESSAGE(STATUS "Setting GCC flags")
+ set(CMAKE_CXX_FLAGS " --std=c++11 -W -march=native -fPIC -O4 -ldl" CACHE STRING "compile flags" FORCE)
+
+elseif ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Intel")
+ 
+ MESSAGE(STATUS "Setting ICC flags")
+ set(CMAKE_CXX_FLAGS " --std=c++11 -W -march=native -fPIC -O4 -ldl" CACHE STRING "compile flags" FORCE)
+  
+#elseif ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "MSVC")
+ #MESSAGE(STATUS "===> Compiling with MSVC")
+endif()
+
+# get Hydra
+find_package(Hydra REQUIRED)
+include_directories(${Hydra_INCLUDE_DIR})
 
 # get TCLAP
 find_package(TCLAP REQUIRED)
 include_directories(${TCLAP_INCLUDE_DIR})
 
-# get THRUST
-find_package(Thrust 1.8 REQUIRED)
-include_directories(./thrust)
-
 # get ROOT
-find_package(ROOT REQUIRED)
+find_package(ROOT COMPONENTS Minuit2)
+if(ROOT_FOUND)
 include_directories(${ROOT_INCLUDE_DIR})
 link_directories(${ROOT_LIBRARY_DIR})
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -D_ROOT_AVAILABLE_")
+if(${ROOT_Minuit2_LIBRARY} MATCHES "libMinuit2.so")
+set(Minuit2_FOUND ON)
+else(Minuit2_FOUND OFF)
+endif()
+endif(ROOT_FOUND)
 
-#cuda
-find_package(CUDA 6.5) 
+#get CUDA
+find_package(CUDA 8.0) 
+if(CUDA_FOUND)
+link_directories( ${CUDA_TOOLKIT_ROOT_DIR}/lib64/)
+
+#set cuda flags
+SET(CUDA_NVCC_FLAGS ${CUDA_NVCC_FLAGS}  -ftemplate-backtrace-limit=0; --cudart ;  static ; -O4 ;--expt-relaxed-constexpr; -fmad=true; --expt-extended-lambda;--relocatable-device-code=false ;
+-Xptxas -dlcm=ca; -Xptxas --opt-level=4 )
+
+SET(CUDA_PROPAGATE_HOST_FLAGS ON)
+SET(CUDA_SEPARABLE_COMPILATION OFF)
+SET(CUDA_VERBOSE_BUILD OFF)
+
+if(CMAKE_CXX_COMPILER_VERSION VERSION_GREATER 4.8)
+   LIST(APPEND CUDA_NVCC_FLAGS " -Xcompiler -D_MWAITXINTRIN_H_INCLUDED ")
+endif()
+
+if(CMAKE_CXX_COMPILER_VERSION VERSION_GREATER 5.4)
+    LIST(APPEND CUDA_NVCC_FLAGS " -Xcompiler -D__CORRECT_ISO_CPP11_MATH_H_PROTO ")
+endif()
+# Detect CUDA architecture and get best NVCC flags
+
+INCLUDE(${CMAKE_CURRENT_SOURCE_DIR}/cmake/FindCudaArch.cmake)
+
+SELECT_NVCC_ARCH_FLAGS(NVCC_FLAGS_EXTRA)
+
+LIST(APPEND CUDA_NVCC_FLAGS ${NVCC_FLAGS_EXTRA})
+        
+endif(CUDA_FOUND)
+
+#get TBB
+find_package(TBB )
+if(TBB_FOUND)
+include_directories(${TBB_INCLUDE_DIRS})
+link_directories(${TBB_LIBRARY})
+endif(TBB_FOUND)
+
+#get OpenMP
+find_package(OpenMP)
+if(OPENMP_CXX_FOUND OR OPENMP_FOUND)
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${OpenMP_CXX_FLAGS}")
+endif(OPENMP_CXX_FOUND OR OPENMP_FOUND)
+
 
 #generate API documentation with Doxygen
 find_package(Doxygen)
 option(BUILD_DOCUMENTATION "Create and install the HTML based API documentation (requires Doxygen)" NO)
 
-#options to gcc
-include(CheckCXXCompilerFlag)
-CHECK_CXX_COMPILER_FLAG("-std=c++11" COMPILER_SUPPORTS_CXX11)
-if(NOT COMPILER_SUPPORTS_CXX11)
- message(FATAL "The compiler ${CMAKE_CXX_COMPILER} has no C++11 support. Please use a different C++ compiler.")
-endif()
+# examples etc
+include_directories(${CMAKE_CURRENT_SOURCE_DIR})
 
-#options to gcc
-set(CMAKE_CXX_FLAGS "-D_GLIBCXX_USE_CXX11_ABI=0 -DTHRUST_VARIADIC_TUPLE --std=c++11  -march=native -fPIC -O3 -fopenmp -lgomp -Wl,--no-undefined,--no-allow-shlib-undefined" CACHE STRING "compile flags" FORCE)
+#always on
+SET(BUILD_CPP_TARGETS  ON)
 
-#including directories
+#crucial for clang build, where openmp support is not embeded in the compiler
+if( OPENMP_CXX_FOUND OR OPENMP_FOUND)
 
-include_directories(include;  ${PROJECT_SOURCE_DIR})
-
-
-
-if(CUDA_FOUND)
-
-	#set cuda flags
-	
-	SET(CUDA_NVCC_FLAGS ${CUDA_NVCC_FLAGS} --cudart ;  static ; -O4 ;--expt-relaxed-constexpr; -ftemplate-backtrace-limit=0; --expt-extended-lambda;--relocatable-device-code=false ; --generate-line-info ;
-	 -Xptxas -fmad=true ;-Xptxas -dlcm=cg; -Xptxas --opt-level=4   ) #) 
-# 
-	SET(CUDA_SEPARABLE_COMPILATION OFF)
-	SET(CUDA_VERBOSE_BUILD ON)
-	
-	# Detect CUDA architecture and get best NVCC flags
-	
-	INCLUDE(${CMAKE_CURRENT_SOURCE_DIR}/cmake/FindCudaArch.cmake)
-	
-	SELECT_NVCC_ARCH_FLAGS(NVCC_FLAGS_EXTRA)
-	
-	LIST(APPEND CUDA_NVCC_FLAGS ${NVCC_FLAGS_EXTRA})
-	#hack for gcc 5.x.x
-	if(CMAKE_CXX_COMPILER_VERSION VERSION_GREATER 4.9)
-	    LIST(APPEND CUDA_NVCC_FLAGS " -D_MWAITXINTRIN_H_INCLUDED ")
-    	endif()
-endif(CUDA_FOUND)
-
-if( CUDA_FOUND )
-
-	SET(BUILD_CUDA_TARGETS  ON)
-
+        SET(BUILD_OMP_TARGETS  ON)
 else()
-
-	SET(BUILD_CUDA_TARGETS  OFF)
-
+        SET(BUILD_OMP_TARGETS  OFF)
 endif()
+
+#not every computer has a GPU and/or cuda installed or 
+if( CUDA_FOUND )
+	SET(BUILD_CUDA_TARGETS  ON)
+else()
+	SET(BUILD_CUDA_TARGETS  OFF)
+endif()
+
+# to enable tbb builds
+if(TBB_FOUND)
+    SET(BUILD_TBB_TARGETS  ON)
+else()
+    SET(BUILD_TBB_TARGETS  OFF)
+endif(TBB_FOUND)
 
 # messages
-MESSAGE(STATUS "Build CUDA/NVCC-based targets: ${BUILD_CUDA_TARGETS}")
 MESSAGE(STATUS "TCLAP Include path: ${TCLAP_INCLUDE_DIR}")
-MESSAGE(STATUS "Thrust Include path: ${THRUST_INCLUDE_DIR}")
-MESSAGE(STATUS "ROOT Include path: ${ROOT_INCLUDE_DIR}")
-MESSAGE(STATUS "ROOT Library path: ${ROOT_LIBRARY_DIR}" )
-MESSAGE(STATUS "ROOT Libraries: ${ROOT_LIBRARIES}")
-MESSAGE(STATUS "project source dir: " ${PROJECT_SOURCE_DIR} )
-MESSAGE(STATUS "project build dir: " ${PROJECT_BINARY_DIR} )
-MESSAGE(STATUS "CUDA include: " ${CUDA_INCLUDE_DIRS})
-MESSAGE(STATUS "CUDA libraries: " ${CUDA_LIBRARIES}  )
-MESSAGE(STATUS "nvcc cflags: " ${CUDA_NVCC_FLAGS} )
-MESSAGE(STATUS "gcc cflags: " ${CMAKE_CXX_FLAGS} )
-MESSAGE(STATUS "Include directories: " ${INCLUDE_DIRECTORIES} )
-MESSAGE(STATUS "Install diretory: " ${CMAKE_INSTALL_PREFIX}  )
+MESSAGE(STATUS "ROOT include path: ${ROOT_INCLUDE_DIR}")
+MESSAGE(STATUS "ROOT library path: ${ROOT_LIBRARY_DIR}" )
+MESSAGE(STATUS "ROOT libraries: ${ROOT_LIBRARIES}")
+MESSAGE(STATUS "ROOT::Minuit2 : ${ROOT_Minuit2_LIBRARY}")
+MESSAGE(STATUS "Build CUDA/NVCC-based targets: ${BUILD_CUDA_TARGETS}")
+MESSAGE(STATUS "CUDA include: ${CUDA_INCLUDE_DIRS}" )
+MESSAGE(STATUS "CUDA libraries: ${CUDA_LIBRARIES}"  )
+MESSAGE(STATUS "NVCC flags: ${CUDA_NVCC_FLAGS}" )
+MESSAGE(STATUS "Build TBB targets: ${BUILD_TBB_TARGETS}")
+MESSAGE(STATUS "TBB include: ${TBB_INCLUDE_DIRS}" )
+MESSAGE(STATUS "TBB libraries: ${TBB_LIBRARIES}" )
+MESSAGE(STATUS "Build OpenMP targets: ${BUILD_OMP_TARGETS}")
+MESSAGE(STATUS "OpenMP flags: ${OpenMP_CXX_FLAGS}" )
+MESSAGE(STATUS "OpenMP libraries:  ${OpenMP_CXX_LIBRARIES}" )
+MESSAGE(STATUS "Host compiler flags: ${CMAKE_CXX_FLAGS}" )
+MESSAGE(STATUS "Install diretory: ${CMAKE_INSTALL_PREFIX}"  )
+MESSAGE(STATUS "Project source dir: ${PROJECT_SOURCE_DIR}" )
+MESSAGE(STATUS "Project build dir: ${PROJECT_BINARY_DIR}" )
 
 file(MAKE_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/plots)
-
-if(BUILD_CUDA_TARGETS)
-
-#make cuda targets
-#--------------------
-#phsp generation
- 
-    cuda_add_executable(Hydra_Example_NVCC_DEVICE_CUDA_HOST_OMP_PHSP
-    ${CMAKE_CURRENT_SOURCE_DIR}/src/HydraPhaseSpaceExample.cu
-    OPTIONS -Xcompiler -fopenmp -DTHRUST_DEVICE_SYSTEM=THRUST_DEVICE_SYSTEM_CUDA  -DTHRUST_HOST_SYSTEM=THRUST_HOST_SYSTEM_OMP -lgomp
-    )
-    
-    target_link_libraries(Hydra_Example_NVCC_DEVICE_CUDA_HOST_OMP_PHSP
-    ${ROOT_LIBRARIES}
-    rt    
-    )
-
-#random number generation
- 
-    cuda_add_executable(Hydra_Example_NVCC_DEVICE_CUDA_HOST_OMP_Random
-    ${CMAKE_CURRENT_SOURCE_DIR}/src/HydraRandomExample.cu
-    OPTIONS -Xcompiler -fopenmp -DTHRUST_DEVICE_SYSTEM=THRUST_DEVICE_SYSTEM_CUDA  -DTHRUST_HOST_SYSTEM=THRUST_HOST_SYSTEM_OMP -lgomp
-    )
-    
-    target_link_libraries(Hydra_Example_NVCC_DEVICE_CUDA_HOST_OMP_Random
-    ${ROOT_LIBRARIES}
-    rt    
-    )
-    
-#--------------
-#Data fitting
-
-    cuda_add_executable(Hydra_Example_NVCC_DEVICE_CUDA_HOST_OMP_Fit
-    ${CMAKE_CURRENT_SOURCE_DIR}/src/HydraFitExample.cu
-    OPTIONS -Xcompiler -fopenmp -DTHRUST_DEVICE_SYSTEM=THRUST_DEVICE_SYSTEM_CUDA  -DTHRUST_HOST_SYSTEM=THRUST_HOST_SYSTEM_OMP -lgomp
-    )
-    
-    target_link_libraries(Hydra_Example_NVCC_DEVICE_CUDA_HOST_OMP_Fit
-    ${ROOT_LIBRARIES}
-    rt
-    )
-
-#--------------
-#Lambda function evaluation
-	
-    cuda_add_executable(Hydra_Example_NVCC_DEVICE_CUDA_HOST_OMP_Eval
-    ${CMAKE_CURRENT_SOURCE_DIR}/src/HydraEvaluateExample.cu
-    OPTIONS -Xcompiler -fopenmp -DTHRUST_DEVICE_SYSTEM=THRUST_DEVICE_SYSTEM_CUDA -DTHRUST_HOST_SYSTEM=THRUST_HOST_SYSTEM_OMP  -lgomp
-    )
-    
-    target_link_libraries(Hydra_Example_NVCC_DEVICE_CUDA_HOST_OMP_Eval
-    ${ROOT_LIBRARIES}
-    rt
-    )
-    
-	
-    
-	
-	
-endif(BUILD_CUDA_TARGETS)
+file(MAKE_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/plots/dalitz)
 
 
-#--------------
-#phsp  generation
-add_executable(Hydra_Example_GCC_DEVICE_OMP_HOST_CPP_PHSP
-${CMAKE_CURRENT_SOURCE_DIR}/src/HydraPhaseSpaceExample.cpp
-)
+#+++++++++++++++++++++++++++
+#        EXAMPLES          +
+#+++++++++++++++++++++++++++
+include_directories(${CMAKE_CURRENT_SOURCE_DIR})
 
-set_target_properties(Hydra_Example_GCC_DEVICE_OMP_HOST_CPP_PHSP PROPERTIES 
-COMPILE_FLAGS "-fopenmp -DTHRUST_HOST_SYSTEM=THRUST_HOST_SYSTEM_CPP -DTHRUST_DEVICE_SYSTEM=THRUST_DEVICE_SYSTEM_OMP -lgomp")
+add_custom_target(examples)
 
-target_link_libraries(Hydra_Example_GCC_DEVICE_OMP_HOST_CPP_PHSP
-${ROOT_LIBRARIES}
-rt
-)
+include(${Hydra_CMAKE_DIR}/AddHydraExample.cmake)
 
+add_subdirectory(examples/phase_space)
+add_subdirectory(examples/numerical_integration)
+add_subdirectory(examples/random)
+add_subdirectory(examples/histograming)
+add_subdirectory(examples/async)
+add_subdirectory(examples/misc)
+if(Minuit2_FOUND)
+add_subdirectory(examples/phys)
+add_subdirectory(examples/fit)
+endif(Minuit2_FOUND)
 
-#--------------
-#random number generation
-add_executable(Hydra_Example_GCC_DEVICE_OMP_HOST_CPP_Random
-${CMAKE_CURRENT_SOURCE_DIR}/src/HydraRandomExample.cpp
-)
-
-set_target_properties(Hydra_Example_GCC_DEVICE_OMP_HOST_CPP_Random PROPERTIES 
-COMPILE_FLAGS "-fopenmp -DTHRUST_HOST_SYSTEM=THRUST_HOST_SYSTEM_CPP -DTHRUST_DEVICE_SYSTEM=THRUST_DEVICE_SYSTEM_OMP -lgomp")
-
-target_link_libraries(Hydra_Example_GCC_DEVICE_OMP_HOST_CPP_Random
-${ROOT_LIBRARIES}
-rt
-)
-
-
-#--------------
-#Fit
-add_executable(Hydra_Example_GCC_DEVICE_OMP_HOST_CPP_Fit
-${CMAKE_CURRENT_SOURCE_DIR}/src/HydraFitExample.cpp
-)
-
-set_target_properties(Hydra_Example_GCC_DEVICE_OMP_HOST_CPP_Fit PROPERTIES 
-COMPILE_FLAGS "-fopenmp -DTHRUST_HOST_SYSTEM=THRUST_HOST_SYSTEM_CPP -DTHRUST_DEVICE_SYSTEM=THRUST_DEVICE_SYSTEM_OMP -lgomp")
-
-target_link_libraries(Hydra_Example_GCC_DEVICE_OMP_HOST_CPP_Fit
-${ROOT_LIBRARIES}
-rt
-)
-
-
-#--------------
-#Lambda function evaluation
-
-add_executable(Hydra_Example_GCC_DEVICE_OMP_HOST_CPP_Eval
-${CMAKE_CURRENT_SOURCE_DIR}/src/HydraEvaluateExample.cpp
-)
-
-set_target_properties(Hydra_Example_GCC_DEVICE_OMP_HOST_CPP_Eval PROPERTIES 
-COMPILE_FLAGS  "-fopenmp -DTHRUST_DEVICE_SYSTEM=THRUST_DEVICE_SYSTEM_CPP -DTHRUST_HOST_SYSTEM=THRUST_HOST_SYSTEM_OMP -lgomp" )
-
-target_link_libraries(Hydra_Example_GCC_DEVICE_OMP_HOST_CPP_Eval
-${ROOT_LIBRARIES}
-rt
-)
-
-
-
-install(DIRECTORY Hydra
-  DESTINATION include)
-
-install(DIRECTORY 
-	src
-  DESTINATION src/hydra/samples)
-  
-install(DIRECTORY 
-	cmake
-  DESTINATION src/hydra/cmake)
-
-install(FILES
-  CMakeLists.txt
-  COPYING
-  THANKS.md
-  README.md
-  CHANGELOG.md
-  DESTINATION src/Hydra)
-  
-
-
-if(BUILD_DOCUMENTATION)
+#+++++++++++++++++++++++++++
+#       DOXYGEN            +
+#+++++++++++++++++++++++++++
+if(BUILD_DOXYGEN_DOCUMENTATION)
 
     if(NOT DOXYGEN_FOUND)
-        message(FALTAL_ERROR "Doxygen is needed to build the documentation.")
+        message(FALTAL_ERROR "Doxygen documentation generation requested ( BUILD_DOXYGEN_DOCUMENTATION=ON) but Doxygen is not installed.")
     endif()
 
     set(doxyfile_in ${CMAKE_CURRENT_SOURCE_DIR}/Doxyfile.in)
@@ -275,9 +203,32 @@ if(BUILD_DOCUMENTATION)
         COMMENT "Generating API documentation with Doxygen"
         VERBATIM)
 
-    install(DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/doc DESTINATION src/hydra/doc)
+    install(DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/doc DESTINATION hydra/doc)
     
-endif()
+endif(BUILD_DOXYGEN_DOCUMENTATION)
+
+install(DIRECTORY Hydra/hydra
+  DESTINATION include)
+
+install(DIRECTORY 
+	examples
+  DESTINATION hydra/bin/examples)
+  
+install(DIRECTORY 
+	cmake
+  DESTINATION hydra/cmake)
+
+install(FILES
+  CMakeLists.txt
+  COPYING
+  THANKS.md
+  README.md
+  CHANGELOG.md
+  DESTINATION src/Hydra)
+  
+
+
+
 
 # build a CPack driven installer package
 include (InstallRequiredSystemLibraries)

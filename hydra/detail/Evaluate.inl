@@ -1,6 +1,6 @@
 /*----------------------------------------------------------------------------
  *
- *   Copyright (C) 2016 Antonio Augusto Alves Junior
+ *   Copyright (C) 2016 - 2018 Antonio Augusto Alves Junior
  *
  *   This file is part of Hydra Data Analysis Framework.
  *
@@ -22,68 +22,97 @@
 /*
  * Evaluate.inl
  *
- *  Created on: 21/08/2016
+ *  Created on: 01/07/2017
  *      Author: Antonio Augusto Alves Junior
  */
-
-/**
- * \file
- * \ingroup functor
- */
-
 
 #ifndef EVALUATE_INL_
 #define EVALUATE_INL_
 
 namespace hydra {
 
-namespace detail {
-
-template<typename ReturnType,  typename T >
-struct process
+template< hydra::detail::Backend BACKEND, typename Iterator, typename Functor >
+auto eval(hydra::detail::BackendPolicy<BACKEND>, Functor const& functor, Iterator begin, Iterator end)
+-> typename hydra::detail::BackendPolicy<BACKEND>::template container<typename Functor::return_type>
 {
 
-	process(T const& f):
-		fTuple(f)
-	{}
+	typedef	typename hydra::detail::BackendPolicy<BACKEND>::template
+			container<typename Functor::return_type> container;
+	size_t size = HYDRA_EXTERNAL_NS::thrust::distance(begin, end) ;
+	container Table( size );
 
-	template<typename ArgType  >
-	__host__ __device__ ReturnType operator()(ArgType&& x)
-	{
-		return detail::invoke<T,ArgType>(x,fTuple);
-	}
+	//auto fBegin = HYDRA_EXTERNAL_NS::thrust::make_zip_iterator(HYDRA_EXTERNAL_NS::thrust::make_tuple(begin) );
+	//auto fEnd   = HYDRA_EXTERNAL_NS::thrust::make_zip_iterator(HYDRA_EXTERNAL_NS::thrust::make_tuple(end)   );
 
-	template<typename ArgType1, typename ArgType2  >
-	__host__ __device__ ReturnType operator()(ArgType1&& x, ArgType2&& y )
-	{
-		return detail::invoke<T,ArgType1,ArgType2>(x,y,fTuple);
-	}
+	HYDRA_EXTERNAL_NS::thrust::transform(begin, end ,  Table.begin(), functor );
 
-	T fTuple;
-
-};
-
-
-
-template<typename T, template<typename, typename...> class V,  size_t N>
-inline 	size_t get_size(std::array<V<T>*, N>const & Array)
-{
-	bool same_size=true;
-
-	for ( size_t n=1; n< N; n++ )
-	{
-		if( Array[n-1]->size() != Array[n]->size() )
-		{
-			same_size = false;
-			break;
-		}
-	}
-	return same_size ? Array[0]->size() : 0;
+	return std::move(Table);
 }
 
-}/* namespace detail */
+template<hydra::detail::Backend BACKEND, typename Iterator, typename ...Functors>
+auto eval(hydra::detail::BackendPolicy<BACKEND>, HYDRA_EXTERNAL_NS::thrust::tuple<Functors...> const& functors, Iterator begin, Iterator end)
+-> multivector<HYDRA_EXTERNAL_NS::thrust::tuple<typename Functors::return_type ...> , hydra::detail::BackendPolicy<BACKEND>>
+//-> multivector< typename hydra::detail::BackendPolicy<BACKEND>::template
+//container<HYDRA_EXTERNAL_NS::thrust::tuple<typename Functors::return_type ...> >>
+{
+	typedef multivector<HYDRA_EXTERNAL_NS::thrust::tuple<typename Functors::return_type ...>,
+			hydra::detail::BackendPolicy<BACKEND>> container;
+
+	size_t size = HYDRA_EXTERNAL_NS::thrust::distance(begin, end) ;
+	container Table( size );
 
 
-}// namespace hydra
+	HYDRA_EXTERNAL_NS::thrust::transform(begin, end ,  Table.begin(),
+			detail::process< HYDRA_EXTERNAL_NS::thrust::tuple<typename Functors::return_type ...>,
+			HYDRA_EXTERNAL_NS::thrust::tuple<Functors...>>(functors) );
+
+	return std::move(Table);
+}
+
+template<hydra::detail::Backend BACKEND, typename Functor, typename Iterator, typename ...Iterators>
+auto eval(hydra::detail::BackendPolicy<BACKEND>, Functor const& functor, Iterator begin, Iterator end, Iterators... begins)
+-> typename hydra::detail::BackendPolicy<BACKEND>::template
+container<typename Functor::return_type>
+{
+	typedef typename hydra::detail::BackendPolicy<BACKEND>::template
+			container<typename Functor::return_type> container;
+
+
+	size_t size = HYDRA_EXTERNAL_NS::thrust::distance(begin, end) ;
+	container Table( size );
+
+	auto fBegin = HYDRA_EXTERNAL_NS::thrust::make_zip_iterator(HYDRA_EXTERNAL_NS::thrust::make_tuple(begin, begins...) );
+	auto fEnd   = HYDRA_EXTERNAL_NS::thrust::make_zip_iterator(HYDRA_EXTERNAL_NS::thrust::make_tuple(end  , (begins+size)...) );
+
+	HYDRA_EXTERNAL_NS::thrust::transform(begin, end,  Table.begin(), functor );
+
+	return std::move(Table);
+}
+
+template<hydra::detail::Backend BACKEND, typename Iterator,  typename ...Iterators, typename ...Functors>
+auto eval(hydra::detail::BackendPolicy<BACKEND>, HYDRA_EXTERNAL_NS::thrust::tuple<Functors...> const& functors,
+		Iterator begin, Iterator end, Iterators... begins)
+-> multivector<HYDRA_EXTERNAL_NS::thrust::tuple<typename Functors::return_type ...> , hydra::detail::BackendPolicy<BACKEND> >
+//-> multivector< typename hydra::detail::BackendPolicy<BACKEND>::template
+//container<HYDRA_EXTERNAL_NS::thrust::tuple<typename Functors::return_type ...> >>
+{
+
+	typedef multivector<HYDRA_EXTERNAL_NS::thrust::tuple<typename Functors::return_type ...>
+	, hydra::detail::BackendPolicy<BACKEND> > container;
+
+	size_t size = HYDRA_EXTERNAL_NS::thrust::distance(begin, end) ;
+	container Table( size );
+
+	auto fBegin = HYDRA_EXTERNAL_NS::thrust::make_zip_iterator(HYDRA_EXTERNAL_NS::thrust::make_tuple(begin, begins...) );
+	auto fEnd   = HYDRA_EXTERNAL_NS::thrust::make_zip_iterator(HYDRA_EXTERNAL_NS::thrust::make_tuple(end  , (begins+size)...) );
+
+	HYDRA_EXTERNAL_NS::thrust::transform(fBegin, fEnd ,  Table.begin(),
+			detail::process< HYDRA_EXTERNAL_NS::thrust::tuple<typename Functors::return_type ...>,
+			HYDRA_EXTERNAL_NS::thrust::tuple<Functors...>>(functors) );
+
+	return std::move(Table);
+}
+
+}  // namespace hydra
 
 #endif /* EVALUATE_INL_ */
