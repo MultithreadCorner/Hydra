@@ -68,7 +68,7 @@ if(CUDA_FOUND)
 link_directories( ${CUDA_TOOLKIT_ROOT_DIR}/lib64/)
 
 #set cuda flags
-SET(CUDA_NVCC_FLAGS ${CUDA_NVCC_FLAGS}  -ftemplate-backtrace-limit=0; --cudart ;  static ; -O4 ;--expt-relaxed-constexpr; -fmad=true; --expt-extended-lambda;--relocatable-device-code=false ;
+SET(CUDA_NVCC_FLAGS ${CUDA_NVCC_FLAGS}  -ftemplate-backtrace-limit=0; --cudart;  static; -O4; --expt-relaxed-constexpr; -fmad=true; --expt-extended-lambda;--relocatable-device-code=false ;
 -Xptxas -dlcm=ca; -Xptxas --opt-level=4 )
 
 SET(CUDA_PROPAGATE_HOST_FLAGS ON)
@@ -104,7 +104,6 @@ find_package(OpenMP)
 if(OPENMP_CXX_FOUND OR OPENMP_FOUND)
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${OpenMP_CXX_FLAGS}")
 endif(OPENMP_CXX_FOUND OR OPENMP_FOUND)
-
 
 #generate API documentation with Doxygen
 find_package(Doxygen)
@@ -143,7 +142,7 @@ MESSAGE(STATUS "TCLAP Include path: ${TCLAP_INCLUDE_DIR}")
 MESSAGE(STATUS "ROOT include path: ${ROOT_INCLUDE_DIR}")
 MESSAGE(STATUS "ROOT library path: ${ROOT_LIBRARY_DIR}" )
 MESSAGE(STATUS "ROOT libraries: ${ROOT_LIBRARIES}")
-MESSAGE(STATUS "ROOT::Minuit2 : ${ROOT_Minuit2_LIBRARY}")
+MESSAGE(STATUS "ROOT::Minuit2: ${ROOT_Minuit2_LIBRARY}")
 MESSAGE(STATUS "Build CUDA/NVCC-based targets: ${BUILD_CUDA_TARGETS}")
 MESSAGE(STATUS "CUDA include: ${CUDA_INCLUDE_DIRS}" )
 MESSAGE(STATUS "CUDA libraries: ${CUDA_LIBRARIES}"  )
@@ -160,7 +159,6 @@ MESSAGE(STATUS "Project source dir: ${PROJECT_SOURCE_DIR}" )
 MESSAGE(STATUS "Project build dir: ${PROJECT_BINARY_DIR}" )
 
 file(MAKE_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/plots)
-file(MAKE_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/plots/dalitz)
 
 
 #+++++++++++++++++++++++++++
@@ -169,7 +167,6 @@ file(MAKE_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/plots/dalitz)
 include_directories(${CMAKE_CURRENT_SOURCE_DIR})
 
 add_custom_target(examples)
-
 include(${Hydra_CMAKE_DIR}/AddHydraExample.cmake)
 
 add_subdirectory(examples/phase_space)
@@ -182,6 +179,22 @@ if(Minuit2_FOUND)
 add_subdirectory(examples/phys)
 add_subdirectory(examples/fit)
 endif(Minuit2_FOUND)
+
+
+#+++++++++++++++++++++++++++
+#        TESTING           +
+#+++++++++++++++++++++++++++
+enable_testing()
+
+add_custom_target(tests)
+add_subdirectory(testing)
+
+#add_dependencies(tests 
+#Hydra_Test_Host_OMP_Device_CUDA
+#Hydra_Test_Host_CPP_Device_CUDA
+#Hydra_Test_Host_OMP_Device_OMP
+#Hydra_Test_Host_CPP_Device_OMP
+#)
 
 #+++++++++++++++++++++++++++
 #       DOXYGEN            +
@@ -203,44 +216,40 @@ if(BUILD_DOXYGEN_DOCUMENTATION)
         COMMENT "Generating API documentation with Doxygen"
         VERBATIM)
 
-    install(DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/doc DESTINATION hydra/doc)
+    install(DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/doc/html DESTINATION hydra/doc/doxygen)
     
 endif(BUILD_DOXYGEN_DOCUMENTATION)
 
-install(DIRECTORY Hydra/hydra
+
+#+++++++++++++++++++++++++++
+#         INSTALL          +
+#+++++++++++++++++++++++++++
+#install headers
+install(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/hydra
   DESTINATION include)
 
-install(DIRECTORY 
-	examples
+#install docs
+install(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/docs
+  DESTINATION hydra/docs)
+
+#install examples executables  
+if(EXISTS "${CMAKE_CURRENT_BINARY_DIR}/${examples}/")
+install(DIRECTORY  ${CMAKE_CURRENT_BINARY_DIR}/examples
   DESTINATION hydra/bin/examples)
-  
-install(DIRECTORY 
-	cmake
-  DESTINATION hydra/cmake)
+endif("${CMAKE_CURRENT_BINARY_DIR}/${examples}/")
 
-install(FILES
-  CMakeLists.txt
-  COPYING
-  THANKS.md
-  README.md
-  CHANGELOG.md
-  DESTINATION src/Hydra)
-  
+#install performance executables  
+if(EXISTS "${CMAKE_CURRENT_BINARY_DIR}/${performance}/")
+install(DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/performance
+  DESTINATION hydra/bin/performance)
+endif("${CMAKE_CURRENT_BINARY_DIR}/${performance}/")
 
+#install test executables  
+if(EXISTS "${CMAKE_CURRENT_BINARY_DIR}/${tests}/")
+install(DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/tests
+  DESTINATION hydra/bin/tests)
+endif("${CMAKE_CURRENT_BINARY_DIR}/${tests}/")
 
-
-
-# build a CPack driven installer package
-include (InstallRequiredSystemLibraries)
-set (CPACK_SOURCE_IGNORE_FILES  build/*)
-set (CPACK_RESOURCE_FILE_LICENSE  
-     "${CMAKE_CURRENT_SOURCE_DIR}/COPYING")
-set (CPACK_RESOURCE_FILE_README  
-     "${CMAKE_CURRENT_SOURCE_DIR}/README.md")
-set (CPACK_PACKAGE_VERSION_MAJOR "${Hydra_VERSION_MAJOR}")
-set (CPACK_PACKAGE_VERSION_MINOR "${Hydra_VERSION_MINOR}")
-set (CPACK_PACKAGE_VERSION_PATCH "${Hydra_VERSION_PATCH}")
-include (CPack)
-
-
-
+#install source  
+install(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
+  DESTINATION hydra/dist) 

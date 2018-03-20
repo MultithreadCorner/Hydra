@@ -116,6 +116,7 @@ public:
 
 	//constructors
 
+
 	multiarray() = default;
 
 	multiarray(size_t n) { __resize(n); };
