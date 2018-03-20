@@ -203,20 +203,26 @@ if(BUILD_DOXYGEN_DOCUMENTATION)
         COMMENT "Generating API documentation with Doxygen"
         VERBATIM)
 
-    install(DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/doc DESTINATION hydra/doc)
+    install(DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/doc DESTINATION hydra/doxgen)
     
 endif(BUILD_DOXYGEN_DOCUMENTATION)
 
-install(DIRECTORY Hydra/hydra
+
+
+install(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/hydra
   DESTINATION include)
 
-install(DIRECTORY 
-	examples
-  DESTINATION hydra/bin/examples)
+install(DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/examples
+  DESTINATION hydra/bin)
   
-install(DIRECTORY 
-	cmake
-  DESTINATION hydra/cmake)
+install(DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/performance
+    DESTINATION hydra/bin)
+  
+install(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/cmake
+  DESTINATION hydra/etc)
+  
+install(DIRECTORY  ${CMAKE_CURRENT_SOURCE_DIR}/docs
+  DESTINATION hydra/docs)
 
 install(FILES
   CMakeLists.txt
@@ -224,7 +230,7 @@ install(FILES
   THANKS.md
   README.md
   CHANGELOG.md
-  DESTINATION src/Hydra)
+  DESTINATION hydra/etc)
   
 
 
