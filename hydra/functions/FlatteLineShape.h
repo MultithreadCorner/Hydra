@@ -201,6 +201,37 @@ namespace hydra {
         hydra::complex<double>
         LineShape(const double s, const double resonance_mass, const double g1 , const double g2) const {
 
+            /* double rhopipi_real,_rhopipi_real,rhopipi_imag,_rhopipi_imag,rhokk_real,_rhokk_real,rhokk_imag,_rhokk_imag,A,B,C = 0;
+
+             double pipmass = 0.13957018;
+             double pi0mass = 0.1349766;
+             double kpmass  = 0.493677;
+             double k0mass  = 0.497614;
+
+             double twopimasssq  = 4 * pipmass * pipmass;
+             double twopi0masssq = 4 * pi0mass * pi0mass;
+             double twokmasssq   = 4 * kpmass * kpmass;
+             double twok0masssq  = 4 * k0mass * k0mass;
+
+             rhopipi_real = (s >= twopi0masssq && s < twopimasssq)*(1. / 3) * ::sqrt(1 - twopi0masssq / s );
+             _rhopipi_real= (s >= twopimasssq)*(2. / 3) * ::sqrt(1 - twopimasssq / s );
+
+             rhopipi_imag = (s < twopi0masssq )*(1. / 3) * ::sqrt(-1 + twopi0masssq / s );
+             _rhopipi_imag= (s >= twopi0masssq && s < twopimasssq)*(2. / 3) * ::sqrt(-1 + twopimasssq / s);
+
+
+             rhokk_real   = (s >= twokmasssq && s < twok0masssq)*0.5 * ::sqrt(1 - twokmasssq / s );
+              _rhokk_real  = (s >= twok0masssq)*0.5 * ::sqrt(1 - twok0masssq / s );
+
+
+             rhokk_imag   = (s < twokmasssq)*0.5 * ::sqrt(-1 + twokmasssq / s );
+             _rhokk_imag  = (s >= twokmasssq && s < twok0masssq)*0.5 * ::sqrt(-1 + twok0masssq / s );
+
+
+             A = (resonance_mass*resonance_mass - s) + resonance_mass*(   (rhopipi_imag + _rhopipi_imag)*g1 + (rhokk_imag + _rhokk_imag) *g2);
+             B = resonance_mass*( (rhopipi_real + _rhopipi_real)*g1 + (rhokk_real + _rhokk_real)*g2);
+             C = 1.0 / (A*A + B*B);*/
+
             double pipmass = 0.13957018;
             double pi0mass = 0.1349766;
             double kpmass  = 0.493677;
@@ -212,32 +243,35 @@ namespace hydra {
             double twok0masssq  = 4 * k0mass * k0mass;
 
             double rhopipi_real = 0;
+            double _rhopipi_real = 0;
             double rhopipi_imag = 0;
             double rhokk_real   = 0;
             double rhokk_imag   = 0;
 
-
-                if(s >= twopimasssq)
-                    rhopipi_real = (2. / 3) * ::sqrt(1 - twopimasssq / s ); // Above pi+pi- threshold
-                else
-                    rhopipi_imag = (2. / 3) * ::sqrt(-1 + twopimasssq / s);
 
                 if(s >= twopi0masssq)
                     rhopipi_real = (1. / 3) * ::sqrt(1 - twopi0masssq / s ); // Above pi0pi0 threshold
                 else
                     rhopipi_imag = (1. / 3) * ::sqrt(-1 + twopi0masssq / s );
 
-                if(s >= twokmasssq)
+                if(s >= twopimasssq)
+                    rhopipi_real = (2. / 3) * ::sqrt(1 - twopimasssq / s ); // Above pi+pi- threshold
+                else
+                    rhopipi_imag = (2. / 3) * ::sqrt(-1 + twopimasssq / s);
+
+
+                 if(s >= twokmasssq)
                     rhokk_real = 0.5 * ::sqrt(1 - twokmasssq / s ); // Above K+K- threshold
                 else
                     rhokk_imag = 0.5 * ::sqrt(-1 + twokmasssq / s );
 
-                if(s >= twok0masssq)
+               if(s >= twok0masssq)
                     rhokk_real = 0.5 * ::sqrt(1 - twok0masssq / s ); // Above K0K0 threshold
                 else
                     rhokk_imag = 0.5 * ::sqrt(-1 + twok0masssq / s );
 
-                double A = (resonance_mass*resonance_mass - s) + resonance_mass*(rhopipi_imag*g1 + rhokk_imag*g2);
+
+                double A = (resonance_mass*resonance_mass - s) + resonance_mass*(   rhopipi_imag*g1 + rhokk_imag*g2);
                 double B = resonance_mass*(rhopipi_real*g1 + rhokk_real*g2);
                 double C = 1.0 / (A*A + B*B);
 

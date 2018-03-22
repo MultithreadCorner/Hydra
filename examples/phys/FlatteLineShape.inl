@@ -381,8 +381,8 @@ int main(int argv, char** argc)
 	 //======================================================
 
     //f0
-    auto coef_ref0 = hydra::Parameter::Create().Name("f0_RC").Value(f0_RC).Error(0.0001).Limits(-f0_RC*20.0,+f0_RC*20.0);
-    auto coef_imf0 = hydra::Parameter::Create().Name("f0_IM").Value(f0_IMC).Error(0.0001).Limits(-f0_IMC*20.0,+f0_IMC*20.0);
+    auto coef_ref0 = hydra::Parameter::Create().Name("f0_RC").Value(f0_RC).Error(0.0001).Limits(f0_RC*20.0,-f0_RC*20.0);
+    auto coef_imf0 = hydra::Parameter::Create().Name("f0_IM").Value(f0_IMC).Error(0.0001).Limits(-f0_IMC*10.0,+f0_IMC*10.0);
     auto f0Mass = hydra::Parameter::Create().Name("MASS_f0").Value(f0_MASS).Fixed();
     auto f0g1 = hydra::Parameter::Create().Name("f0_g1").Value(f0_rho1).Fixed();
     auto rg1og2 = hydra::Parameter::Create().Name("f0_g1xg2").Value(f0_rho2).Fixed();
@@ -762,10 +762,7 @@ int main(int argv, char** argc)
 		f0_12_FF   =	fit_fraction(f0_12 , Opt_Model, {D_MASS, Kminus_MASS, Kplus_MASS},  nentries);
         f0_13_FF   =	fit_fraction(f0_13 , Opt_Model, {D_MASS, Kminus_MASS, Kplus_MASS},  nentries);
 
-        Phi_FF   =	fit_fraction(Phi_all , Opt_Model, {D_MASS, Kminus_MASS, Kplus_MASS},  nentries);
-        f0_FF   =	fit_fraction(f0_all , Opt_Model, {D_MASS, Kminus_MASS, Kplus_MASS},  nentries);
-
-		std::cout << "Phi_12_FF :" << Phi_12_FF << std::endl;
+       	std::cout << "Phi_12_FF :" << Phi_12_FF << std::endl;
 		std::cout << "Phi_13_FF :" << Phi_13_FF << std::endl;
 		std::cout << "f0_12_FF :" << f0_12_FF << std::endl;
         std::cout << "f0_13_FF :" << f0_13_FF << std::endl;
