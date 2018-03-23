@@ -6,7 +6,7 @@ STRIP_FROM_PATH        = /home/augalves/Development/Release/Hydra
 INPUT                  = /home/augalves/Development/Release/Hydra/hydra /home/augalves/Development/Release/Hydra/doxydefs /home/augalves/Development/Release/Hydra/examples /home/augalves/Development/Release/Hydra/README.md
 
 
-USE_MDFILE_AS_MAINPAGE = /home/augalves/Development/Release/Hydra/README.md
+USE_MDFILE_AS_MAINPAGE = /home/augalves/Development/Release/Hydra/doxydefs/README.md
 #PROJECT_LOGO          = /home/augalves/Development/Release/Hydra/logo_Hydra.png
 OUTPUT_DIRECTORY       = /home/augalves/Development/Release/HydraEclipseProj/doc
 
@@ -128,6 +128,7 @@ FILE_PATTERNS          = *.cu \
                          *.cxx \
                          *.cpp \
                          *.c++ \ 
+                         *.C \ 
                          *.java \
                          *.ii \
                          *.ixx \
@@ -209,9 +210,9 @@ HTML_FOOTER            =
 HTML_STYLESHEET        = 
 HTML_EXTRA_STYLESHEET  = 
 HTML_EXTRA_FILES       = 
-HTML_COLORSTYLE_HUE    = 120
-HTML_COLORSTYLE_SAT    = 80
-HTML_COLORSTYLE_GAMMA  = 120
+HTML_COLORSTYLE_HUE    = 215
+HTML_COLORSTYLE_SAT    = 115
+HTML_COLORSTYLE_GAMMA  = 130
 HTML_TIMESTAMP         = YES
 HTML_DYNAMIC_SECTIONS  = NO
 HTML_INDEX_NUM_ENTRIES = 100

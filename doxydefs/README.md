@@ -1,18 +1,10 @@
------------------------------
-
-[![Documentation Status](https://readthedocs.org/projects/hydra-documentation/badge/?version=latest)](http://hydra-documentation.readthedocs.io/en/latest/?badge=latest)
-
------------------------------
-
-<img src="logo_Hydra.png" width="500">
-
 Table of Contents
 =================
 
   * [What is it?](#what-is-it)
   * [Main features](#main-features)
   * [Hydra and Thrust](#hydra-and-thrust)
-  * [Supported Parallel Backends](#supported-parallel-backends)
+  * [Supported Paralels Backends](#supported-paralels-backends)
   * [The Latest Version](#the-latest-version)
   * [Documentation](#documentation)
     * [Reference manual](#reference-manual)
@@ -24,9 +16,6 @@ Table of Contents
   * [Author](#author)
   * [Acknowledgement](#acknowledgement)
   
---------------------------------------
-
-
 
 What is it?
 -----------
@@ -73,7 +62,7 @@ The version of Thrust distributed with Hydra is maintained by [MultithreadCorner
 ***Hydra does not depend or conflits with the official Thrust library distributed with the CUDA-SDK.***
 
 
-Supported Parallel Backends
+Supported Paralels Backends
 ---------------------------
 
 Hydra uses the underlying Thrust's "backend systems" to control how the algorithms algorithms get
@@ -86,10 +75,10 @@ The following possibilities are available:
 * host: CPP, OMP, TBB
 * device: CPP, OMP, TBB, CUDA
 
-For example, this will compile ```my_program.cu``` using OpenMP as host backend and CUDA as device backend using the NVidia's compiler ```nvcc```:
+For example, this will compile ```my_program.cu``` using OpenMP as host backend and CUDA as device backend:
 
 ```bash
-nvcc  -I/path/to/Hydra -Xcompiler -fopenmp -DHYDRA_HOST_SYSTEM=OMP -DHYDRA_DEVICE_SYSTEM=CUDA  my_program.cu ...
+nvcc -Xcompiler -fopenmp -DHYDRA_HOST_SYSTEM=OMP -DHYDRA_DEVICE_SYSTEM=CUDA  my_program.cu
 ```
 The available "host" and "device" backends can be freely combined. 
 Two important features related to the Hydra's design and the backend configuration:
@@ -100,6 +89,7 @@ Two important features related to the Hydra's design and the backend configurati
 
 The Latest Version
 ------------------
+
 
 Documentation
 -------------
@@ -161,16 +151,6 @@ The examples are listed below:
 
 Each compiled example executable will have an postfix (ex.: _cuda, _omp, _tbb) to indicate the deployed device backend.  
 All examples use CPP as host backend. 
-
-
-Recent publications and presentations at conferences and workshops
-------------------------------------------------------------------
-
-1. [A. A. Alves Junior, *Hydra: a C++11 framework for data analysis in massively parallel platforms*, Proceedings of the 18th International Workshop on Advanced Computing and Analysis Techniques in Physics Research, 21-25 August 2017 Seattle,USA](https://inspirehep.net/record/1636201/files/arXiv:1711.05683.pdf),
-2. [A. A. Alves Junior, *Hydra: Accelerating Data Analysis in Massively Parallel Platforms* - ACAT 2017, University of Washington, 21-25 August 2017, Seattle](https://indico.cern.ch/event/567550/contributions/2638690/)
-3. [A. A. Alves Junior, *Hydra: A Framework for Data Analysis in Massively Parallel Platforms* - NVIDIA’s GPU Technology Conference, May 8-11, 2017 - Silicon Valley, USA]()
-4. [A. A. Alves Junior, *Hydra* - HSF-HEP analysis ecosystem workshop, 22-24 May 2017 Amsterdam, Netherlands](https://indico.cern.ch/event/613842/)
-5. [A. A. Alves Junior, *MCBooster and Hydra: two libraries for high performance computing and data analysis in massively parallel platforms* -Perspectives of GPU computing in Science September 2016, Rome, Italy](http://www.roma1.infn.it/conference/GPU2016/pdf/talks/AlvesJr.pdf)
 
 Licensing
 ---------

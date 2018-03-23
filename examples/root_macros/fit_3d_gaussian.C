@@ -1,6 +1,6 @@
 /*----------------------------------------------------------------------------
  *
- *   Copyright (C) 2016 - 2018 Antonio Augusto Alves Junior
+ *   Copyright (C) 2016 - 2017 Antonio Augusto Alves Junior
  *
  *   This file is part of Hydra Data Analysis Framework.
  *
@@ -20,20 +20,18 @@
  *---------------------------------------------------------------------------*/
 
 /*
- * multidimensional_fit.inl
+ * fit_3d_gaussian.C
  *
- *  Created on: 01/09/2017
+ *  Created on: 23/03/2018
  *      Author: Antonio Augusto Alves Junior
  */
 
-#ifndef MULTIDIMENSIONAL_FIT_INL_
-#define MULTIDIMENSIONAL_FIT_INL_
-
-/**
- * \example multidimensional_fit.inl
- *
+/*!
+ * \example fit_gaussian.C
  */
 
+#define HYDRA_HOST_SYSTEM CPP
+#define HYDRA_DEVICE_SYSTEM TBB
 
 #include <iostream>
 #include <assert.h>
@@ -41,8 +39,6 @@
 #include <chrono>
 #include <random>
 #include <algorithm>
-//command line
-#include <tclap/CmdLine.h>
 
 //this lib
 #include <hydra/device/System.h>
@@ -77,12 +73,7 @@
 #include "Minuit2/ContoursError.h"
 #include "Minuit2/VariableMetricMinimizer.h"
 
-/*-------------------------------------
- * Include classes from ROOT to fill
- * and draw histograms and plots.
- *-------------------------------------
- */
-#ifdef _ROOT_AVAILABLE_
+//Classes from ROOT to fill
 
 #include <TROOT.h>
 #include <TH1D.h>
@@ -90,33 +81,24 @@
 #include <TApplication.h>
 #include <TCanvas.h>
 
-#endif //_ROOT_AVAILABLE_
 
 using namespace ROOT::Minuit2;
 
-int main(int argv, char** argc) {
-	size_t nentries = 0;
+/**
+ *
+ * This macro generates data and fit a 3D-Gaussian distribution in parallel.
+ *
+ * \note Call this macro in ROOT compile mode:
+ * ```
+ * root [0] .L fit_3d_gaussian.C+
+ * root [1] fit_3d_gaussian(5000000)
+ * ```
+ *
+ * \param nentries Number of points to generate.
+ */
+void fit_3d_gaussian(size_t nentries=1000000 ) {
 
-	try {
-
-		TCLAP::CmdLine cmd("Command line arguments for ", '=');
-
-		TCLAP::ValueArg < size_t
-				> EArg("n", "number-of-events", "Number of events", true, 10e6,
-						"size_t");
-		cmd.add(EArg);
-
-		// Parse the argv array.
-		cmd.parse(argv, argc);
-
-		// Get the value parsed by each arg.
-		nentries = EArg.getValue();
-
-	} catch (TCLAP::ArgException &e) {
-		std::cerr << "error: " << e.error() << " for arg " << e.argId()
-				<< std::endl;
-	}
-//-----------------
+    //-----------------
 	// some definitions
 	double min = -5.0;
 	double max = 5.0;
@@ -190,19 +172,15 @@ int main(int argv, char** argc) {
 	auto model = hydra::make_pdf(gaussian, Integrator);
 
 
-#ifdef _ROOT_AVAILABLE_
-
-	TH3D hist_data_d("hist_data_d", "3D Gaussian - Data - Device",
+	TH3D* hist_data_d = new TH3D("hist_data_d", "3D Gaussian - Data - Device",
 			100, min, max,
 			100, min, max,
 			100, min, max );
 
-	TH3D hist_mc_d("hist_mc_d", "3D Gaussian - Fit - Device",
+	TH3D* hist_mc_d = new TH3D ("hist_mc_d", "3D Gaussian - Fit - Device",
 			100, min, max,
 			100, min, max,
 			100, min, max );
-
-#endif //_ROOT_AVAILABLE_
 
 	//device
 	//------------------------
@@ -279,15 +257,13 @@ int main(int argv, char** argc) {
 		Hist_Data.Fill(range.begin(), range.end());
 
 
-#ifdef _ROOT_AVAILABLE_
-
 		for(size_t i=0;  i<100; i++){
 			for(size_t j=0;  j<100; j++){
 				for(size_t k=0;  k<100; k++){
 
 					size_t bin[3]={i,j,k};
 
-					hist_data_d.SetBinContent(i+1, j+1, k+1, Hist_Data.GetBinContent(bin )  );
+					hist_data_d->SetBinContent(i+1, j+1, k+1, Hist_Data.GetBinContent(bin )  );
 				}
 			}
 		}
@@ -296,57 +272,46 @@ int main(int argv, char** argc) {
 			for(size_t j=1; j< 101; j++ ) {
 				for(size_t k=1; k< 101; k++ ) {
 
-					double x = hist_mc_d.GetXaxis()->GetBinCenter(i);
-					double y = hist_mc_d.GetYaxis()->GetBinCenter(j);
-					double z = hist_mc_d.GetZaxis()->GetBinCenter(k);
+					double x = hist_mc_d->GetXaxis()->GetBinCenter(i);
+					double y = hist_mc_d->GetYaxis()->GetBinCenter(j);
+					double z = hist_mc_d->GetZaxis()->GetBinCenter(k);
 
 					auto value = hydra::make_tuple( x,y,z);
-					hist_mc_d.SetBinContent(hist_mc_d.GetBin(i,j,k), fcn.GetPDF().GetFunctor()(value));
+					hist_mc_d->SetBinContent(hist_mc_d->GetBin(i,j,k), fcn.GetPDF().GetFunctor()(value));
 
 				}
 			}
 		}
 
-		hist_mc_d.Scale(hist_data_d.Integral()/hist_mc_d.Integral() );
-
-
-#endif //_ROOT_AVAILABLE_
+		hist_mc_d->Scale(hist_data_d->Integral()/hist_mc_d->Integral() );
 
 	}
 
-#ifdef _ROOT_AVAILABLE_
-	TApplication *myapp=new TApplication("myapp",0,0);
 
 	//draw histograms
-	TCanvas canvas_d("canvas_d" ,"Distributions - Device", 1500, 500);
-	canvas_d.Divide(3,1);
-	canvas_d.cd(1);
-	hist_data_d.Project3D("x")->Draw("hist");
-	hist_mc_d.Project3D("x")->Draw("chistsame");
-	hist_mc_d.Project3D("x")->SetLineColor(2);
+	TCanvas* canvas_d = new TCanvas("canvas_d" ,"Distributions - Device", 1500, 500);
+	canvas_d->Divide(3,1);
+	canvas_d->cd(1);
+	hist_data_d->Project3D("x")->Draw("hist");
+	hist_mc_d->Project3D("x")->Draw("chistsame");
+	hist_mc_d->Project3D("x")->SetLineColor(2);
 
-	canvas_d.cd(2);
-	hist_data_d.Project3D("y")->Draw("hist");
-	hist_mc_d.Project3D("y")->Draw("chistsame");
-	hist_mc_d.Project3D("y")->SetLineColor(2);
+	canvas_d->cd(2);
+	hist_data_d->Project3D("y")->Draw("hist");
+	hist_mc_d->Project3D("y")->Draw("chistsame");
+	hist_mc_d->Project3D("y")->SetLineColor(2);
 
-	canvas_d.cd(3);
-	hist_data_d.Project3D("z")->Draw("hist");
-	hist_mc_d.Project3D("z")->Draw("chistsame");
-	hist_mc_d.Project3D("z")->SetLineColor(2);
+	canvas_d->cd(3);
+	hist_data_d->Project3D("z")->Draw("hist");
+	hist_mc_d->Project3D("z")->Draw("chistsame");
+	hist_mc_d->Project3D("z")->SetLineColor(2);
 
-	TCanvas canvas2_d("canvas_d" ,"Distributions - Device", 1000, 500);
-	canvas2_d.Divide(2,1);
-	canvas2_d.cd(1);
-	hist_data_d.Draw("iso");
-	canvas2_d.cd(2);
-	hist_mc_d.Draw("iso");
+	TCanvas* canvas2_d = new TCanvas("canvas_d" ,"Distributions - Device", 1000, 500);
+	canvas2_d->Divide(2,1);
+	canvas2_d->cd(1);
+	hist_data_d->Draw("iso");
+	canvas2_d->cd(2);
+	hist_mc_d->Draw("iso");
 
-	myapp->Run();
-
-#endif //_ROOT_AVAILABLE_
-
-	return 0;
 
 }
-#endif /* MULTIDIMENSIONAL_FIT_INL_ */

@@ -1,6 +1,6 @@
 /*----------------------------------------------------------------------------
  *
- *   Copyright (C) 2016 Antonio Augusto Alves Junior
+ *   Copyright (C) 2016 - 2018 Antonio Augusto Alves Junior
  *
  *   This file is part of Hydra Data Analysis Framework.
  *
@@ -29,10 +29,7 @@
 #ifndef LIST_TESTS_INL_
 #define LIST_TESTS_INL_
 
-#include <testing/Events.inl>
-#include <testing/Chain.inl>
 #include <testing/multivector.inl>
-#include <testing/Point.inl>
-#include <testing/PointVector.inl>
+//#include <testing/multiarray.inl>
 
 #endif /* LIST_TESTS_INL_ */

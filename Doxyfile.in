@@ -6,7 +6,7 @@ STRIP_FROM_PATH        = @CMAKE_CURRENT_SOURCE_DIR@
 INPUT                  = @CMAKE_CURRENT_SOURCE_DIR@/hydra @CMAKE_CURRENT_SOURCE_DIR@/doxydefs @CMAKE_CURRENT_SOURCE_DIR@/examples @CMAKE_CURRENT_SOURCE_DIR@/README.md
 
 
-USE_MDFILE_AS_MAINPAGE = @CMAKE_CURRENT_SOURCE_DIR@/README.md
+USE_MDFILE_AS_MAINPAGE = @CMAKE_CURRENT_SOURCE_DIR@/doxydefs/README.md
 #PROJECT_LOGO          = @CMAKE_CURRENT_SOURCE_DIR@/logo_Hydra.png
 OUTPUT_DIRECTORY       = @CMAKE_CURRENT_BINARY_DIR@/doc
 
@@ -128,6 +128,7 @@ FILE_PATTERNS          = *.cu \
                          *.cxx \
                          *.cpp \
                          *.c++ \ 
+                         *.C \ 
                          *.java \
                          *.ii \
                          *.ixx \
@@ -209,9 +210,9 @@ HTML_FOOTER            =
 HTML_STYLESHEET        = 
 HTML_EXTRA_STYLESHEET  = 
 HTML_EXTRA_FILES       = 
-HTML_COLORSTYLE_HUE    = 120
-HTML_COLORSTYLE_SAT    = 80
-HTML_COLORSTYLE_GAMMA  = 120
+HTML_COLORSTYLE_HUE    = 215
+HTML_COLORSTYLE_SAT    = 115
+HTML_COLORSTYLE_GAMMA  = 130
 HTML_TIMESTAMP         = YES
 HTML_DYNAMIC_SECTIONS  = NO
 HTML_INDEX_NUM_ENTRIES = 100

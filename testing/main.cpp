@@ -1,6 +1,6 @@
 /*----------------------------------------------------------------------------
  *
- *   Copyright (C) 2016 Antonio Augusto Alves Junior
+ *   Copyright (C) 2016 - 2018 Antonio Augusto Alves Junior
  *
  *   This file is part of Hydra Data Analysis Framework.
  *
@@ -20,14 +20,13 @@
  *---------------------------------------------------------------------------*/
 
 /*
- * unit_tests.cpp
+ * main.cpp
  *
- *  Created on: 13/11/2016
+ *  Created on: 21/03/2018
  *      Author: Antonio Augusto Alves Junior
  */
 
-
 #define CATCH_CONFIG_MAIN  // This tells Catch to provide a main() - only do this in one cpp file
-#include "catch/catch.hpp"
-
+#include <catch/catch.hpp>
+#include <testing/list_tests.inl>
 

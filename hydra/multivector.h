@@ -136,20 +136,34 @@ public:
 	 			typename HYDRA_EXTERNAL_NS::thrust::tuple_element< I2, Iterators >::type,
 	 			typename HYDRA_EXTERNAL_NS::thrust::tuple_element< IN, Iterators >::type...> >;
 
+	/**
+	 * Default constructor. This constructor creates an empty \p multivector.
+	 */
 	multivector() = default;
 
 
+	/**
+	 * Constructor initializing the \p multivector with \p n entries.
+	 * @param n The number of elements to initially create.
+	 */
 	multivector(size_t n){
 		__resize(n);
 	};
 
-
-
+    /**
+     * Constructor initializing the multivector with \p n copies of \p value .
+     * @param n number of elements
+     * @param value object to copy from (hydra::tuple or convertible to hydra::tuple)
+     */
 	multivector(size_t n, value_type const& value){
 		__resize(n);
 		HYDRA_EXTERNAL_NS::thrust::fill(begin(), end(), value );
 	};
 
+	/**
+	 * Constructor initializing the multivector with \p n copies of \p value .
+	 * @param pair hydra::pair<size_t, hydra::tuple<T...> >  object to copy from.
+	 */
 	template<typename Int, typename = typename HYDRA_EXTERNAL_NS::thrust::detail::enable_if<std::is_integral<Int>::value>::type >
 	multivector(hydra::pair<Int, HYDRA_EXTERNAL_NS::thrust::tuple<T...> > const& pair)
 	{
@@ -157,16 +171,29 @@ public:
 		HYDRA_EXTERNAL_NS::thrust::fill(begin(), end(), pair.second );
 	}
 
+
+	/**
+	 * Copy constructor
+	 * @param other
+	 */
 	multivector(multivector<HYDRA_EXTERNAL_NS::thrust::tuple<T...>, detail::BackendPolicy<BACKEND>> const& other )
 	{
 		__resize(other.size());
 		HYDRA_EXTERNAL_NS::thrust::copy(other.begin(), other.end(), begin());
 	}
 
+	/**
+	 * Move constructor
+	 * @param other
+	 */
 	multivector(multivector<HYDRA_EXTERNAL_NS::thrust::tuple<T...> ,detail::BackendPolicy<BACKEND>>&& other ):
 	fData(other.__move())
 	{}
 
+	/**
+	 * Copy constructor for containers allocated in different backends.
+	 * @param other
+	 */
 	template< hydra::detail::Backend BACKEND2>
 	multivector(multivector<HYDRA_EXTERNAL_NS::thrust::tuple<T...>,detail::BackendPolicy<BACKEND2>> const& other )
 	{
@@ -175,6 +202,10 @@ public:
 		HYDRA_EXTERNAL_NS::thrust::copy(other.begin(), other.end(), begin());
 	}
 
+	/*! This constructor builds a \p multivector from a range.
+	 *  \param first The beginning of the range.
+	 *  \param last The end of the range.
+	 */
 	template< typename Iterator>
 	multivector(Iterator first, Iterator last )
 	{
@@ -184,6 +215,11 @@ public:
 
 	}
 
+	/**
+	 * Assignment operator
+	 * @param other
+	 * @return
+	 */
 	multivector<HYDRA_EXTERNAL_NS::thrust::tuple<T...>,detail::BackendPolicy<BACKEND>>&
 	operator=(multivector<HYDRA_EXTERNAL_NS::thrust::tuple<T...>,detail::BackendPolicy<BACKEND>> const& other )
 	{
@@ -194,6 +230,11 @@ public:
 		return *this;
 	}
 
+	/**
+	 * Move-assignment operator
+	 * @param other
+	 * @return
+	 */
 	multivector<HYDRA_EXTERNAL_NS::thrust::tuple<T...>,detail::BackendPolicy<BACKEND>>&
 	operator=(multivector<HYDRA_EXTERNAL_NS::thrust::tuple<T...>,detail::BackendPolicy<BACKEND> >&& other )
 	{
@@ -202,6 +243,11 @@ public:
 		return *this;
 	}
 
+	/**
+	 * Assignment operator
+	 * @param other
+	 * @return
+	 */
 	template< hydra::detail::Backend BACKEND2>
 	multivector<HYDRA_EXTERNAL_NS::thrust::tuple<T...>,detail::BackendPolicy<BACKEND>>&
 	operator=(multivector<HYDRA_EXTERNAL_NS::thrust::tuple<T...>,detail::BackendPolicy<BACKEND2> > const& other )
@@ -211,64 +257,115 @@ public:
 	}
 
 
+    /*! This method erases the last element of this \p multivector, invalidating
+     *  all iterators and references to it.
+     */
 	inline void pop_back()
 	{
 		__pop_back();
 	}
 
+    /*! This method appends the given element to the end of this \p multivector.
+     *  \param x The element to append.
+     */
 	inline void	push_back(value_type const& value)
 	{
 		__push_back( value );
 	}
 
+    /*! This method appends the given element to the end of this \p multivector.
+     *  \param x The element to append.
+     *  \param functor Functor to convert the element to a value_type tuple
+     */
 	template<typename Functor, typename Obj>
 	inline void	push_back(Functor  const& functor, Obj const& obj)
 	{
 		__push_back( functor(obj) );
 	}
 
+	/*!
+	 *  Returns the number of elements in this \p multivector.
+	 */
 	inline size_type size() const
 	{
 		return HYDRA_EXTERNAL_NS::thrust::distance( begin(), end() );
 	}
 
+	/*! Returns the number of elements which have been reserved in this
+	 *  \p multivector.
+	 */
 	inline size_type capacity() const
 	{
 		return HYDRA_EXTERNAL_NS::thrust::get<0>(fData).capacity();
 	}
 
+    /*! This method returns true iff size() == 0.
+     *  \return true if size() == 0; false, otherwise.
+     */
 	inline bool empty() const
 	{
 		return HYDRA_EXTERNAL_NS::thrust::get<0>(fData).empty();
 	}
 
-	inline void resize(size_type size)
+	/*! \brief Resizes this \p multivector to the specified number of elements.
+	 *  \param new_size Number of elements this \p multivector should contain.
+	 *  \throw std::length_error If n exceeds max_size().
+	 *
+	 *  This method will resize this \p multivector to the specified number of
+	 *  elements.  If the number is smaller than this \p multivector's current
+	 *  size this \p multivector is truncated, otherwise this \p multivector is
+	 *  extended and new default initialized elements are populated.
+	 */
+	inline void resize(size_type new_size)
 	{
-		__resize(size);
+		__resize(new_size);
 	}
 
 
+    /*! This method resizes this \p multivector to 0.
+     */
 	inline void clear()
 	{
 		__clear();
 	}
 
+    /*! This method shrinks the capacity of this \p multivector to exactly
+     *  fit its elements.
+     */
 	inline void shrink_to_fit()
 	{
 		__shrink_to_fit();
 	}
 
+
+	/*! \brief If n is less than or equal to capacity(), this call has no effect.
+	 *         Otherwise, this method is a request for allocation of additional memory. If
+	 *         the request is successful, then capacity() is greater than or equal to
+	 *         n; otherwise, capacity() is unchanged. In either case, size() is unchanged.
+	 *  \throw std::length_error If n exceeds max_size().
+	 */
 	inline void reserve(size_type size)
 	{
 		__reserve(size);
 	}
 
+    /*! This method removes the element at position pos.
+     *  \param pos The position of the element of interest.
+     *  \return An iterator pointing to the new location of the element that followed the element
+     *          at position pos.
+     */
 	inline iterator erase(iterator pos)
 	{
 		size_type position = HYDRA_EXTERNAL_NS::thrust::distance(begin(), pos);
 		return __erase(position);
 	}
 
+    /*! This method removes the range of elements [first,last) from this \p multivector.
+     *  \param first The beginning of the range of elements to remove.
+     *  \param last The end of the range of elements to remove.
+     *  \return An iterator pointing to the new location of the element that followed the last
+     *          element in the sequence [first,last).
+     */
 	inline iterator erase(iterator first, iterator last)
 	{
 		size_type first_position = HYDRA_EXTERNAL_NS::thrust::distance(begin(), first);
@@ -277,12 +374,24 @@ public:
 		return __erase( first_position, last_position);
 	}
 
+    /*! This method inserts a single copy of a given exemplar value at the
+     *  specified position in this \p multivector.
+     *  \param position The insertion position.
+     *  \param x The exemplar element to copy & insert.
+     *  \return An iterator pointing to the newly inserted element.
+     */
 	inline iterator insert(iterator pos, const value_type &x)
 	{
 		size_type position = HYDRA_EXTERNAL_NS::thrust::distance(begin(), pos);
 		return __insert(position, x);
 	}
 
+	/*! This method inserts a copy of an exemplar value to a range at the
+	 *  specified position in this \p multivector.
+	 *  \param position The insertion position
+	 *  \param n The number of insertions to perform.
+	 *  \param x The value to replicate and insert.
+	 */
 	inline void insert(iterator pos, size_type n, const value_type &x)
 	{
 		size_type position = HYDRA_EXTERNAL_NS::thrust::distance(begin(), pos);
@@ -290,6 +399,15 @@ public:
 	}
 
 
+    /*! This method inserts a copy of an input range at the specified position
+     *  in this \p multivector.
+     *  \param position The insertion position.
+     *  \param first The beginning of the range to copy.
+     *  \param last  The end of the range to copy.
+     *
+     *  \tparam InputIterator is a model of <a href="http://www.sgi.com/tech/stl/InputIterator.html>Input Iterator</a>,
+     *                        and \p InputIterator's \c value_type is a model of <a href="http://www.sgi.com/tech/stl/Assignable.html">Assignable</a>.
+     */
 	template< typename InputIterator>
 	inline 	typename HYDRA_EXTERNAL_NS::thrust::detail::enable_if<
 	detail::is_instantiation_of<HYDRA_EXTERNAL_NS::thrust::tuple,
@@ -305,32 +423,55 @@ public:
 	}
 
 
+    /*! This method returns a const_reference referring to the first element of this
+     *  \p multivector.
+     *  \return The first element of this \p multivector.
+     */
 	inline reference front()
 	{
 		return __front();
 	}
 
+	/*! This method returns a reference pointing to the first element of this
+	 *  \p multivector.
+	 *  \return The first element of this \p multivector.
+	 */
 	inline const_reference front() const
 	{
 	   return __front();
 	}
 
+    /*! This method returns a reference referring to the last element of
+     *  this vector_dev.
+     *  \return The last element of this \p multivector.
+     */
 	inline reference back()
 	{
 		return __back();
 	}
 
+	/*! This method returns a const reference pointing to the last element of
+	 *  this \p multivector.
+	 *  \return The last element of this \p multivector.
+	 */
 	inline const_reference back() const
 	{
 		return __back();
 	}
 
-	//non-constant access
+    /*! This method returns an iterator pointing to the beginning of
+     *  this \p multivector.
+     *  \return iterator
+     */
 	inline 	iterator begin()
 	{
 		return __begin();
 	}
 
+	/*! This method returns a const_iterator pointing to one element past the
+	 *  last of this \p multivector.
+	 *  \return begin() + size().
+	 */
 	inline iterator end()
 	{
 		return __end();
@@ -591,7 +732,8 @@ public:
 	{
 		return HYDRA_EXTERNAL_NS::thrust::get<I>(fData);
 	}
-	//
+
+
 	template<typename Functor>
 	 inline caster_iterator<Functor> operator[](Functor const& caster)
 	{	return this->begin(caster) ;	}
@@ -608,10 +750,25 @@ public:
 	{	return cbegin(index); }
 
 
-	//
+	/*! \brief Subscript access to the data contained in this vector_dev.
+	 *  \param n The index of the element for which data should be accessed.
+	 *  \return Read/write reference to data.
+	 *
+	 *  This operator allows for easy, array-style, data access.
+	 *  Note that data access with this operator is unchecked and
+	 *  out_of_range lookups are not defined.
+	 */
 	inline	reference operator[](size_t n)
 	{	return begin()[n] ;	}
 
+	/*! \brief Subscript read access to the data contained in this vector_dev.
+	     *  \param n The index of the element for which data should be accessed.
+	     *  \return Read reference to data.
+	     *
+	     *  This operator allows for easy, array-style, data access.
+	     *  Note that data access with this operator is unchecked and
+	     *  out_of_range lookups are not defined.
+	     */
 	inline const_reference operator[](size_t n) const
 	{	return cbegin()[n]; }
 

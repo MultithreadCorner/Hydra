@@ -1,6 +1,6 @@
 /*----------------------------------------------------------------------------
  *
- *   Copyright (C) 2016 Antonio Augusto Alves Junior
+ *   Copyright (C) 2016 - 2018 Antonio Augusto Alves Junior
  *
  *   This file is part of Hydra Data Analysis Framework.
  *
@@ -20,15 +20,12 @@
  *---------------------------------------------------------------------------*/
 
 /*
- * list_tests.cu
+ * main.cu
  *
- *  Created on: 14/11/2016
+ *  Created on: 21/03/2018
  *      Author: Antonio Augusto Alves Junior
  */
 
-#include "catch/catch.hpp"
-#include <hydra/detail/Config.h>
-#include <hydra/Types.h>
+#define CATCH_CONFIG_MAIN  // This tells Catch to provide a main() - only do this in one cpp file
+#include <catch/catch.hpp>
 #include <testing/list_tests.inl>
-
-
