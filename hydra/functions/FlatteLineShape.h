@@ -219,8 +219,8 @@ namespace hydra {
             constexpr static double _2p3  = 0.666666667;
             static const double  two_pi0_factor =  ::sqrt(1 - twopi0masssq / s );
             static const double  two_pi_factor  =  ::sqrt(1 - twopimasssq / s );
-            static const double  two_pi0_factor_img =  ::sqrt(-1 + twopi0masssq / s );
-            static const double  two_pi_factor_img  =  ::sqrt(-1 + twopimasssq / s );
+            static const double  two_pi0_factor_img =  ::sqrt((-1 + twopi0masssq / s)*(twopi0masssq >= s) );
+            static const double  two_pi_factor_img  =  ::sqrt((-1 + twopimasssq / s)*(twopimasssq >= s)) );
 
             rhopipi_real = (s >= twopi0masssq)*_1p3*twopi0masssq;
 
@@ -230,8 +230,8 @@ namespace hydra {
             constexpr static double _1p2  = 0.5;
             static const double  two_k0_factor =  ::sqrt(1 - twok0masssq / s );
             static const double  two_k_factor  =  ::sqrt(1 - twokmasssq / s );
-            static const double  two_k0_factor_img =  ::sqrt(-1 + twok0masssq / s );
-            static const double  two_k_factor_img  =  ::sqrt(-1 + twokmasssq / s );
+            static const double  two_k0_factor_img =  ::sqrt((-1 + twok0masssq / s)*(twok0masssq>=s) );
+            static const double  two_k_factor_img  =  ::sqrt((-1 + twokmasssq / s)*(twokmasssq>=s) );
 
 
             rhokk_real   = (s >= twokmasssq && s < twok0masssq)*_1p2*two_k_factor +
