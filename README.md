@@ -1,6 +1,8 @@
+-----------------------------
+
 [![Documentation Status](https://readthedocs.org/projects/hydra-documentation/badge/?version=latest)](http://hydra-documentation.readthedocs.io/en/latest/?badge=latest)
 
------------
+-----------------------------
 
 <img src="logo_Hydra.png" width="500">
 
@@ -22,6 +24,9 @@ Table of Contents
   * [Author](#author)
   * [Acknowledgement](#acknowledgement)
   
+--------------------------------------
+
+
 
 What is it?
 -----------
@@ -80,10 +85,10 @@ The following possibilities are available:
 * host: CPP, OMP, TBB
 * device: CPP, OMP, TBB, CUDA
 
-For example, this will compile ```my_program.cu``` using OpenMP as host backend and CUDA as device backend:
+For example, this will compile ```my_program.cu``` using OpenMP as host backend and CUDA as device backend using the NVidia's compiler ```nvcc```:
 
 ```bash
-nvcc -Xcompiler -fopenmp -DHYDRA_HOST_SYSTEM=OMP -DHYDRA_DEVICE_SYSTEM=CUDA  my_program.cu
+nvcc  -I/path/to/Hydra -Xcompiler -fopenmp -DHYDRA_HOST_SYSTEM=OMP -DHYDRA_DEVICE_SYSTEM=CUDA  my_program.cu ...
 ```
 The available "host" and "device" backends can be freely combined. 
 Two important features related to Hydra's design and the backend configuration:
@@ -105,7 +110,9 @@ The complete and updated [Doxygen](http://www.doxygen.org/) source code document
 It is also possible to browse the documentation by class, file or name using the links:
 
 1.[classes](http://multithreadcorner.github.io/Hydra/classes.html)
+
 2.[files](http://multithreadcorner.github.io/Hydra/files.html)
+
 3.[names](http://multithreadcorner.github.io/Hydra/namespacemembers.html)
 
 
