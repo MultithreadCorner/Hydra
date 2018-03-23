@@ -464,8 +464,7 @@ int main(int argv, char** argc)
             f0_12_HIST,f0_13_HIST ;
 
 	double  Phi_12_FF,  Phi_13_FF,
-            f0_12_FF,f0_13_FF
-            ;
+            f0_12_FF,f0_13_FF;
 #endif
 
 	hydra::Decays<3, hydra::host::sys_t > toy_data;
