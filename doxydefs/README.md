@@ -1,8 +1,3 @@
-[![Documentation Status](https://readthedocs.org/projects/hydra-documentation/badge/?version=latest)](http://hydra-documentation.readthedocs.io/en/latest/?badge=latest)
-
------------
-<img src="logo_Hydra.png" width="500">
-
 Table of Contents
 =================
 
@@ -94,6 +89,8 @@ Two important features related to the Hydra's design and the backend configurati
 
 The Latest Version
 ------------------
+
+
 
 Documentation
 -------------
