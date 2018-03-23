@@ -1,7 +1,7 @@
 -----------------------------
 
-[![Documentation Status](https://readthedocs.org/projects/hydra-documentation/badge/?version=latest)](http://hydra-documentation.readthedocs.io/en/latest/?badge=latest)
-
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.1206262.svg)](https://doi.org/10.5281/zenodo.1206262)
+[![Documentation Status](https://readthedocs.org/projects/hydra-documentation/badge/?version=latest)](http://hydra-documentation.readthedocs.io/en/latest/?badge=latest) 
 -----------------------------
 
 <img src="logo_Hydra.png" width="500">
