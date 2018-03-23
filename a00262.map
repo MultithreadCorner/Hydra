@@ -1,15 +1,8 @@
-<map id="Plain.h" name="Plain.h">
-<area shape="rect" id="node2" href="$a00094.html" title="hydra/detail/Config.h" alt="" coords="1083,587,1226,613"/>
-<area shape="rect" id="node12" href="$a00139.html" title="hydra/Types.h" alt="" coords="201,587,306,613"/>
-<area shape="rect" id="node15" href="$a00127.html" title="hydra/PlainState.h" alt="" coords="1203,177,1333,203"/>
-<area shape="rect" id="node19" href="$a00131.html" title="hydra/detail/functors\l/ProcessCallsPlain.h" alt="" coords="1043,80,1187,121"/>
-<area shape="rect" id="node40" href="$a00126.html" title="hydra/detail/Plain.inl" alt="" coords="1659,87,1797,114"/>
-<area shape="rect" id="node20" href="$a00142.html" title="hydra/detail/utility\l/Utility_Tuple.h" alt="" coords="546,169,670,211"/>
-<area shape="rect" id="node21" href="$a00110.html" title="hydra/detail/utility\l/Generic.h" alt="" coords="195,259,319,300"/>
-<area shape="rect" id="node24" href="$a00140.html" title="hydra/detail/TypeTraits.h" alt="" coords="446,266,613,293"/>
-<area shape="rect" id="node25" href="$a00096.html" title="Typedef for useful container classes used in MCBooster. " alt="" coords="645,355,777,382"/>
-<area shape="rect" id="node27" href="$a00143.html" title="hydra/Vector3R.h" alt="" coords="523,512,647,539"/>
-<area shape="rect" id="node32" href="$a00145.html" title="hydra/Vector4R.h" alt="" coords="782,437,906,464"/>
-<area shape="rect" id="node31" href="$a00144.html" title="hydra/detail/Vector3R.inl" alt="" coords="355,587,520,613"/>
-<area shape="rect" id="node33" href="$a00146.html" title="hydra/detail/Vector4R.inl" alt="" coords="773,512,939,539"/>
+<map id="/home/augalves/Development/Release/Hydra/hydra/multivector.h" name="/home/augalves/Development/Release/Hydra/hydra/multivector.h">
+<area shape="rect" id="node2" href="$a00206.html" title="/home/augalves/Development\l/Release/Hydra/hydra/Evaluate.h" alt="" coords="5,102,220,143"/>
+<area shape="rect" id="node3" href="$a00227.html" title="/home/augalves/Development\l/Release/Hydra/hydra/GaussKronrod\lAdaptiveQuadrature.h" alt="" coords="244,95,480,151"/>
+<area shape="rect" id="node4" href="$a00230.html" title="/home/augalves/Development\l/Release/Hydra/hydra/GaussKronrod\lQuadrature.h" alt="" coords="504,95,740,151"/>
+<area shape="rect" id="node5" href="$a00242.html" title="/home/augalves/Development\l/Release/Hydra/hydra/GenzMalikQuadrature.h" alt="" coords="714,199,1005,240"/>
+<area shape="rect" id="node7" href="$a00245.html" title="/home/augalves/Development\l/Release/Hydra/hydra/GenzMalikRule.h" alt="" coords="815,102,1069,143"/>
+<area shape="rect" id="node6" href="$a00122.html" title="/home/augalves/Development\l/Release/Hydra/hydra/detail\l/functors/ProcessGenzMalikQuadrature.h" alt="" coords="728,288,991,344"/>
 </map>

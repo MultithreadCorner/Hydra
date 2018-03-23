@@ -1,2 +1,23 @@
-<map id="hydra::FlagAcceptReject" name="hydra::FlagAcceptReject">
+<map id="PDFSumNonExtendable.h" name="PDFSumNonExtendable.h">
+<area shape="rect" id="node2" href="$a00002.html" title="AddPdf.h" alt="" coords="581,155,657,181"/>
+<area shape="rect" id="node15" href="$a00191.html" title="LogLikelihoodFCN3.inl" alt="" coords="669,80,822,107"/>
+<area shape="rect" id="node3" href="$a00434.html" title="extended_logLL_fit.inl" alt="" coords="611,237,759,263"/>
+<area shape="rect" id="node6" href="$a00443.html" title="fractional_logLL_fit.inl" alt="" coords="830,237,978,263"/>
+<area shape="rect" id="node9" href="$a00452.html" title="multidimensional_fit.inl" alt="" coords="288,237,443,263"/>
+<area shape="rect" id="node12" href="$a00470.html" title="splot.inl" alt="" coords="519,237,585,263"/>
+<area shape="rect" id="node4" href="$a00428.html" title="extended_logLL_fit.cpp" alt="" coords="562,326,718,353"/>
+<area shape="rect" id="node5" href="$a00431.html" title="extended_logLL_fit.cu" alt="" coords="743,326,892,353"/>
+<area shape="rect" id="node7" href="$a00437.html" title="fractional_logLL_fit.cpp" alt="" coords="917,326,1073,353"/>
+<area shape="rect" id="node8" href="$a00440.html" title="fractional_logLL_fit.cu" alt="" coords="1097,326,1247,353"/>
+<area shape="rect" id="node10" href="$a00446.html" title="multidimensional_fit.cpp" alt="" coords="5,326,168,353"/>
+<area shape="rect" id="node11" href="$a00449.html" title="multidimensional_fit.cu" alt="" coords="192,326,347,353"/>
+<area shape="rect" id="node13" href="$a00464.html" title="splot.cpp" alt="" coords="371,326,445,353"/>
+<area shape="rect" id="node14" href="$a00467.html" title="splot.cu" alt="" coords="470,326,538,353"/>
+<area shape="rect" id="node16" href="$a00332.html" title="LogLikelihoodFCN.h" alt="" coords="681,155,821,181"/>
+<area shape="rect" id="node17" href="$a00425.html" title="basic_fit.inl" alt="" coords="1275,237,1363,263"/>
+<area shape="rect" id="node20" href="$a00461.html" title="phsp_unweighting_functor\l_and_fit.inl" alt="" coords="1505,229,1679,271"/>
+<area shape="rect" id="node18" href="$a00419.html" title="basic_fit.cpp" alt="" coords="1271,326,1367,353"/>
+<area shape="rect" id="node19" href="$a00422.html" title="basic_fit.cu" alt="" coords="1391,326,1481,353"/>
+<area shape="rect" id="node21" href="$a00455.html" title="phsp_unweighting_functor\l_and_fit.cpp" alt="" coords="1505,319,1679,360"/>
+<area shape="rect" id="node22" href="$a00458.html" title="phsp_unweighting_functor\l_and_fit.cu" alt="" coords="1703,319,1876,360"/>
 </map>

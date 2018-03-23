@@ -1,3 +1,5 @@
 <map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
-<area shape="rect" id="node1" href="$d5/d16/a00029.html" title="hydra::HyRndExp\&lt; GRND \&gt;" alt="" coords="5,5,196,32"/>
+<area shape="rect" id="node1" href="$classhydra_1_1detail_1_1CompositeBase.html" title="hydra::detail::Composite\lBase\&lt; F1, F2, Fs... \&gt;" alt="" coords="5,39,169,80"/>
+<area shape="rect" id="node2" href="$classhydra_1_1Multiply.html" title="hydra::Multiply\&lt; F1,\l F2, Fs \&gt;" alt="" coords="219,5,358,47"/>
+<area shape="rect" id="node3" href="$classhydra_1_1Sum.html" title="hydra::Sum\&lt; F1, F2,\l Fs \&gt;" alt="" coords="217,71,360,112"/>
 </map>

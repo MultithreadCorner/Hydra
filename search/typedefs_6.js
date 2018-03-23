@@ -1,7 +1,21 @@
 var searchData=
 [
-  ['hydra_5ffunctor_5ftag',['hydra_functor_tag',['../dd/da2/a00019.html#a6b5181815568cf022d3e5b28ba8986c0',1,'hydra::Argument::hydra_functor_tag()'],['../dc/de2/a00024.html#a4fa7b4bffd3c0b7905304769937ec5e9',1,'hydra::Compose::hydra_functor_tag()'],['../d3/dfe/a00025.html#ab0e0c64c040b59e598de23f861e576db',1,'hydra::Constant::hydra_functor_tag()'],['../d6/d5b/a00026.html#a761d4583d94ad370ceefe458c253c3d8',1,'hydra::Divide::hydra_functor_tag()'],['../de/d8c/a00036.html#a171c24d8f3690197ab4b819efd75db9d',1,'hydra::Minus::hydra_functor_tag()'],['../d1/dc6/a00037.html#a8735bbd9257e290c1c6d409cad16cfd4',1,'hydra::Multiply::hydra_functor_tag()'],['../d2/d79/a00051.html#ae9726834ed17257e37f2b768176aaaf5',1,'hydra::Sum::hydra_functor_tag()'],['../db/db2/a00020.html#a9eb43b40102a67bf3d838f3cd13b5b29',1,'hydra::BaseFunctor::hydra_functor_tag()']]],
-  ['hydra_5fintegrator_5ftag',['hydra_integrator_tag',['../dc/d87/a00032.html#a3949686e8fc2826a40da6210c86d0f75',1,'hydra::Integrator']]],
-  ['hydra_5fpdf_5ftag',['hydra_pdf_tag',['../d3/de7/a00039.html#a60ed223092d91987dbffd0d8b46ae9d8',1,'hydra::Pdf']]],
-  ['hydra_5fsum_5fpdf_5ftag',['hydra_sum_pdf_tag',['../d1/d2b/a00018.html#ac823d796593736a729d533cf8a3a4dfe',1,'hydra::AddPdf']]]
+  ['gbool_5ft',['GBool_t',['../namespacehydra.html#aa8c251ed5017d0638da929130062bcad',1,'hydra']]],
+  ['gbyte_5ft',['GByte_t',['../namespacehydra.html#ae2da2ab0037e6bca3cb7c15adc5c4125',1,'hydra']]],
+  ['gchar_5ft',['GChar_t',['../namespacehydra.html#a7ab04a199389c4989174dc115507fa89',1,'hydra']]],
+  ['gcomplex_5ft',['GComplex_t',['../namespacehydra.html#a7ab78a78009fd9969bce04250387d13e',1,'hydra']]],
+  ['gdouble_5ft',['GDouble_t',['../namespacehydra.html#af986267d40d932c5cbf0ae874a506f83',1,'hydra']]],
+  ['gfloat_5ft',['GFloat_t',['../namespacehydra.html#a71bab7b854d7b3c3042fe47201b765eb',1,'hydra']]],
+  ['gint_5ft',['GInt_t',['../namespacehydra.html#a0c9fb4d7195ab952da10a82d5c4ad30e',1,'hydra']]],
+  ['glong64_5ft',['GLong64_t',['../namespacehydra.html#a9d68c21fb715bbfb1edc5b1933b173e9',1,'hydra']]],
+  ['glong_5ft',['GLong_t',['../namespacehydra.html#a5f57a4025b40929c2708cd544c3a1ccd',1,'hydra']]],
+  ['glongdouble_5ft',['GLongDouble_t',['../namespacehydra.html#a751abe69b482cde879c718fd4775733f',1,'hydra']]],
+  ['greal_5ft',['GReal_t',['../namespacehydra.html#a971e94bcb8c43741d11f9d8eb98f5fab',1,'hydra']]],
+  ['gshort_5ft',['GShort_t',['../namespacehydra.html#a589c60d92ba893c28d814edd6e149a9c',1,'hydra']]],
+  ['gtext_5ft',['GText_t',['../namespacehydra.html#abc842c1ec8321e9637dee714dcdaebff',1,'hydra']]],
+  ['guchar_5ft',['GUChar_t',['../namespacehydra.html#a51ef97faee95aa79f3839eb7abdf5238',1,'hydra']]],
+  ['guint_5ft',['GUInt_t',['../namespacehydra.html#a251a7b1f515ac1ed9409afd67252a32b',1,'hydra']]],
+  ['gulong64_5ft',['GULong64_t',['../namespacehydra.html#a55e8443cd746900da90cb1f77807e7c0',1,'hydra']]],
+  ['gulong_5ft',['GULong_t',['../namespacehydra.html#abf9a0d54fd4ed46052939549edd086c5',1,'hydra']]],
+  ['gushort_5ft',['GUShort_t',['../namespacehydra.html#a911a3042526fac189d0c87a089f52955',1,'hydra']]]
 ];

@@ -1,8 +1,0 @@
-<map id="hydra::detail::index_sequence&lt; Ints &gt;" name="hydra::detail::index_sequence&lt; Ints &gt;">
-<area shape="rect" id="node2" href="$db/df3/a00034.html" title="{hydra::detail::index\l_sequence\&lt;\&gt;\n||+ size()\l}" alt="" coords="29,182,161,274"/>
-<area shape="rect" id="node4" href="$db/df3/a00034.html" title="{hydra::detail::index\l_sequence\&lt; 0 \&gt;\n||+ size()\l}" alt="" coords="195,182,327,274"/>
-<area shape="rect" id="node6" href="$db/df3/a00034.html" title="{hydra::detail::index\l_sequence\&lt; I1...,(sizeof...\l(I1)+I2)... \&gt;\n||+ size()\l}" alt="" coords="357,175,531,281"/>
-<area shape="rect" id="node3" href="$d1/dea/a00054.html" title="{hydra::detail::make\l_index_sequence\&lt; 0 \&gt;\n||}" alt="" coords="5,345,160,437"/>
-<area shape="rect" id="node5" href="$d4/d6d/a00055.html" title="{hydra::detail::make\l_index_sequence\&lt; 1 \&gt;\n||}" alt="" coords="184,345,339,437"/>
-<area shape="rect" id="node7" href="$d7/d46/a00002.html" title="{hydra::detail::_merge\l_and_renumber\&lt; index\l_sequence\&lt; I1... \&gt;, index\l_sequence\&lt; I2... \&gt; \&gt;\n||}" alt="" coords="363,331,533,452"/>
-</map>

@@ -1,8 +1,8 @@
 var a00149 =
 [
-    [ "VegasState", "a00088.html", "a00088" ],
-    [ "MODE_IMPORTANCE", "a00149.html#ad87c68ca6adb981f4c31ae73ef97de3baae772e8b4c5ada0e1e4c65495702176a", null ],
-    [ "MODE_IMPORTANCE_ONLY", "a00149.html#ad87c68ca6adb981f4c31ae73ef97de3ba28550661921a3af1306fa74a26b8569c", null ],
-    [ "MODE_STRATIFIED", "a00149.html#ad87c68ca6adb981f4c31ae73ef97de3bacb2c0124fecbf6c1182f1cf7cd9bc37a", null ],
-    [ "BINS_MAX", "a00149.html#ad87c68ca6adb981f4c31ae73ef97de3baba2629d0445cc7ef401fd6793f047da0", null ]
+    [ "Minus", "a01411.html", "a01411" ],
+    [ "minus", "a00149.html#aa9c135b2a31b8adc650408759756cd30", null ],
+    [ "operator-", "a00149.html#afd8d70910231348dc233cc60f55c07ae", null ],
+    [ "operator-", "a00149.html#a44ae849dd2d74a7d93322306d7679750", null ],
+    [ "operator-", "a00149.html#a8f3c44006ca3b703c77189d746e6323d", null ]
 ];

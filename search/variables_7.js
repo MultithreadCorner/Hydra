@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['stride',['stride',['../d2/dee/a00049.html#a6a899713c0b99eb5206bf09557e767ba',1,'hydra::strided_range::stride_functor::stride()'],['../d5/de0/a00050.html#a7ff3b3ab16bfe2eabf0d0893233362a9',1,'hydra::strided_range::stride()']]]
+  ['make_5findex_5fsequence_3c_20sizeof_2e_2e_2e_28t_29_20_2dn_20_3e',['make_index_sequence&lt; sizeof...(T) -N &gt;',['../namespacehydra_1_1detail.html#a6e5ce23b23364c64166f4c390f0f5f03',1,'hydra::detail']]]
 ];

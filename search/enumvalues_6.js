@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['warning',['WARNING',['../d0/d33/a00027.html#aed873b1b84fbec3791e721b22a52d1fea1bf857a06d5b8463494a6fcac6f4ea26',1,'hydra']]]
+  ['gwave',['GWave',['../namespacehydra.html#a0dc858c0fb14ade1e8abc19cdd0959e2a113622b6b528bfd4a76d68e9a99ac032',1,'hydra']]]
 ];

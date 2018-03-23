@@ -1,6 +1,0 @@
-<map id="hydra::Events::DaughtersBegin" name="hydra::Events::DaughtersBegin">
-<area shape="rect" id="node2" href="$a00023.html#a4bc30bbd45a57a1724f16f60b1353cf5" title="hydra::Events::Events" alt="" coords="231,5,383,32"/>
-<area shape="rect" id="node3" href="$a00001.html#ab9ff11feecf1326d0b788d755293c639" title="hydra::detail::launch\l_decayer" alt="" coords="238,57,377,98"/>
-<area shape="rect" id="node5" href="$a00023.html#ace3fe647bf093ad875cc1568ac8bdb53" title="hydra::Events::operator=" alt="" coords="224,123,391,149"/>
-<area shape="rect" id="node4" href="$a00063.html#a4ca0a20cd6c56424099b22b2bee2fa7e" title="hydra::PhaseSpace::\lGenerate" alt="" coords="439,57,583,98"/>
-</map>

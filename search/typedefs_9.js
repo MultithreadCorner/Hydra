@@ -1,9 +1,8 @@
 var searchData=
 [
-  ['particles_5fd',['Particles_d',['../d0/d33/a00027.html#ae34184a169c185689e065d0c30f9ffba',1,'hydra']]],
-  ['particles_5fh',['Particles_h',['../d0/d33/a00027.html#a9df2f3d6dc63cf297b0f74ba228f6c89',1,'hydra']]],
-  ['particlesset_5fd',['ParticlesSet_d',['../d0/d33/a00027.html#a65baa492bb35f81a20516af04f33bf7e',1,'hydra']]],
-  ['particlesset_5fh',['ParticlesSet_h',['../d0/d33/a00027.html#ae1617a8a1f00fa21f3311f8b8b636356',1,'hydra']]],
-  ['pdfs_5ftuple_5ftype',['pdfs_tuple_type',['../d1/d2b/a00018.html#a97a2fc471880e9c779e61f111850ca9e',1,'hydra::AddPdf']]],
-  ['permutationiterator',['PermutationIterator',['../d5/de0/a00050.html#a460f566b8ea570d9b6f06f22e16c779c',1,'hydra::strided_range']]]
+  ['matrix_5ft',['matrix_t',['../structhydra_1_1detail_1_1CovMatrixUnary.html#ab9616f1987f6d705bdf557cfddfde95f',1,'hydra::detail::CovMatrixUnary']]],
+  ['mc_5fdevice_5fvector',['mc_device_vector',['../namespacehydra.html#a648839818fa9d4a58c2195a55a51e773',1,'hydra']]],
+  ['mc_5fhost_5fvector',['mc_host_vector',['../namespacehydra.html#a6de6f086a44380382022dafca75de4c9',1,'hydra']]],
+  ['minstd_5frand',['minstd_rand',['../namespacehydra.html#aeccdd58e3a4c27246dadd0930e3fb569',1,'hydra']]],
+  ['minstd_5frand0',['minstd_rand0',['../namespacehydra.html#ab7c3603cf7a6c467176d8be9dd2c82fd',1,'hydra']]]
 ];

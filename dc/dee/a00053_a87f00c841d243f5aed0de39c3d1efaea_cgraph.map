@@ -1,9 +1,0 @@
-<map id="hydra::Vegas::Integrate" name="hydra::Vegas::Integrate">
-<area shape="rect" id="node2" href="$dc/dee/a00053.html#a95ec834aa57276a3538fb24d3ad46e00" title="hydra::Vegas::GetNCalls" alt="" coords="228,5,396,32"/>
-<area shape="rect" id="node3" href="$dc/dee/a00053.html#a6dcb8a436e43295b00a5152b3919b309" title="hydra::Vegas::PrintDistribution" alt="" coords="212,56,412,83"/>
-<area shape="rect" id="node4" href="$dc/dee/a00053.html#a1429836e94a38d48b49fe5fc3016dbd7" title="hydra::Vegas::PrintGrid" alt="" coords="233,107,391,133"/>
-<area shape="rect" id="node5" href="$dc/dee/a00053.html#a45cdf31c7f33e4631ef71ecc0cab397f" title="hydra::Vegas::PrintHead" alt="" coords="229,157,395,184"/>
-<area shape="rect" id="node6" href="$dc/dee/a00053.html#a8322c2133c602aea0dbd4f9ebb66444f" title="hydra::Vegas::PrintLimits" alt="" coords="227,208,397,235"/>
-<area shape="rect" id="node7" href="$dc/dee/a00053.html#a418070d8da07c0b1bbfcb825d4e9cf7c" title="hydra::Vegas::PrintResults" alt="" coords="223,259,401,285"/>
-<area shape="rect" id="node8" href="$dc/dee/a00053.html#a6b88ffae7c4c4969566066ce25abe40a" title="hydra::Vegas::SetNCalls" alt="" coords="229,309,395,336"/>
-</map>

@@ -1,5 +1,0 @@
-<map id="examples::Exp" name="examples::Exp">
-<area shape="rect" id="node2" href="$db/db2/a00020.html" title="{hydra::BaseFunctor\l\&lt; Exp, GReal_t, 1 \&gt;\n|+ parameter_count\l|+ BaseFunctor()\l+ BaseFunctor()\l+ ~BaseFunctor()\l+ GetCacheIndex()\l+ GetFunctor()\l+ GetParameter()\l+ GetParameter()\l+ interface()\l+ interface()\l+ IsCached()\land 9 more...\l}" alt="" coords="15,321,155,560"/>
-<area shape="rect" id="node3" href="$db/db2/a00020.html" title="{hydra::BaseFunctor\l\&lt; Functor, ReturnType,\l NPARAM \&gt;\n|+ parameter_count\l|+ BaseFunctor()\l+ BaseFunctor()\l+ ~BaseFunctor()\l+ GetCacheIndex()\l+ GetFunctor()\l+ GetParameter()\l+ GetParameter()\l+ interface()\l+ interface()\l+ IsCached()\land 9 more...\l}" alt="" coords="5,5,164,259"/>
-<area shape="rect" id="node4" href="$d8/d41/a00038.html" title="{hydra::Parameter\n||+ Parameter()\l+ Parameter()\l+ Parameter()\l+ Parameter()\l+ Parameter()\l+ Error()\l+ GetError()\l+ GetIndex()\l+ GetLowerLim()\l+ GetName()\land 29 more...\l+ Create()\l}" alt="" coords="179,321,302,560"/>
-</map>

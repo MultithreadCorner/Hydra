@@ -1,6 +1,0 @@
-<map id="hydra::DecayMother::process" name="hydra::DecayMother::process">
-<area shape="rect" id="node2" href="$d6/d2c/a00072.html#ac30a0beccf6db256aa597c079ee4e2f2" title="hydra::Vector4R::applyBoostTo" alt="" coords="193,5,399,32"/>
-<area shape="rect" id="node3" href="$d6/d2c/a00072.html#affcbf7dbcae345bc6a64843ceb4acf31" title="hydra::Vector4R::get" alt="" coords="225,56,367,83"/>
-<area shape="rect" id="node4" href="$d6/d2c/a00072.html#aba4a62b4e823cc5797b99a6275e08e0a" title="hydra::Vector4R::set" alt="" coords="225,107,367,133"/>
-<area shape="rect" id="node5" href="$d5/d16/a00029.html#aee5273a252e7fa6761ec8e77f8b713ef" title="hydra::sum" alt="" coords="253,157,339,184"/>
-</map>

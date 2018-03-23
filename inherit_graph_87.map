@@ -1,3 +1,4 @@
 <map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
-<area shape="rect" id="node1" href="$da/dec/a00080.html" title="hydra::Sum\&lt; F1, F2,\l Fs \&gt;" alt="" coords="5,5,148,47"/>
+<area shape="rect" id="node1" href="$structhydra_1_1detail_1_1index__sequence.html" title="hydra::detail::index\l_sequence\&lt; I1...,(sizeof...\l(I1)+I2)... \&gt;" alt="" coords="5,13,180,69"/>
+<area shape="rect" id="node2" href="$structhydra_1_1detail_1_1__merge__and__renumber_3_01index__sequence_3_01I1_8_8_8_01_4_00_01index73e1de0a5394a3c55b32c0d1818a4cc9.html" title="hydra::detail::_merge\l_and_renumber\&lt; index\l_sequence\&lt; I1... \&gt;, index\l_sequence\&lt; I2... \&gt; \&gt;" alt="" coords="228,5,399,76"/>
 </map>

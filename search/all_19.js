@@ -1,9 +1,7 @@
 var searchData=
 [
-  ['_7ebasefunctor',['~BaseFunctor',['../db/db2/a00020.html#afec62fc691e8a3f9908c65a8402a8b8e',1,'hydra::BaseFunctor']]],
-  ['_7eevents',['~Events',['../d5/d79/a00030.html#adee702c56aeb4bd8b3c4944655b4f403',1,'hydra::Events']]],
-  ['_7epdf',['~Pdf',['../d5/db6/a00042.html#a574288060a5cbdae706a85ac747f5a4b',1,'hydra::Pdf']]],
-  ['_7ephasespace',['~PhaseSpace',['../d6/d42/a00043.html#a1c9e44472db8f827cb97701a7a0ae195',1,'hydra::PhaseSpace']]],
-  ['_7epointvector',['~PointVector',['../d4/dca/a00048.html#ad3b8f2f1f8932631537dd80a96b3747f',1,'hydra::PointVector']]],
-  ['_7erandom',['~Random',['../d5/de0/a00050.html#abd8e96c690c86807455b92f641b1ad0e',1,'hydra::Random']]]
+  ['_7ecached_5fallocator',['~cached_allocator',['../classhydra_1_1detail_1_1cached__allocator.html#ab2b383b05156d808612328e0e74efecd',1,'hydra::detail::cached_allocator']]],
+  ['_7epdf',['~Pdf',['../group__fit.html#a76acfa97331d3ff48528ab4f492e4f9d',1,'hydra::Pdf']]],
+  ['_7eprocesscallsvegas',['~ProcessCallsVegas',['../structhydra_1_1detail_1_1ProcessCallsVegas.html#aac72be199d7bcdd9e6e7ce41a5856ec0',1,'hydra::detail::ProcessCallsVegas']]],
+  ['_7erandom',['~Random',['../group__random.html#abd8e96c690c86807455b92f641b1ad0e',1,'hydra::Random']]]
 ];

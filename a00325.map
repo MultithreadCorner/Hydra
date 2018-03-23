@@ -1,2 +1,8 @@
-<map id="strided_range&lt; Iterator &gt;::stride_functor" name="strided_range&lt; Iterator &gt;::stride_functor">
+<map id="GenzMalikRule.h" name="GenzMalikRule.h">
+<area shape="rect" id="node2" href="$a00170.html" title="GenzMalikQuadrature.inl" alt="" coords="300,80,465,107"/>
+<area shape="rect" id="node3" href="$a00320.html" title="GenzMalikQuadrature.h" alt="" coords="185,155,343,181"/>
+<area shape="rect" id="node4" href="$a00146.html" title="ProcessGenzMalikQuadrature.h" alt="" coords="279,229,486,256"/>
+<area shape="rect" id="node5" href="$a00452.html" title="multidimensional_fit.inl" alt="" coords="100,229,255,256"/>
+<area shape="rect" id="node6" href="$a00446.html" title="multidimensional_fit.cpp" alt="" coords="5,304,168,331"/>
+<area shape="rect" id="node7" href="$a00449.html" title="multidimensional_fit.cu" alt="" coords="192,304,347,331"/>
 </map>

@@ -1,6 +1,0 @@
-<map id="hydra::Point&lt; T, N, HasValueError, HasPointError &gt;" name="hydra::Point&lt; T, N, HasValueError, HasPointError &gt;">
-<area shape="rect" id="node2" href="$d5/d16/a00029.html" title="{hydra::ValueError\&lt;\l T, HasValueError \&gt;\n||}" alt="" coords="5,160,144,252"/>
-<area shape="rect" id="node3" href="$d5/d16/a00029.html#d0/de8/a00133" title="Value error to be interpreted as error on bin content or point weight depending on the case..." alt="" coords="9,5,140,97"/>
-<area shape="rect" id="node4" href="$d5/d16/a00029.html" title="{hydra::PointError\&lt;\l T, N, HasPointError \&gt;\n||}" alt="" coords="168,160,323,252"/>
-<area shape="rect" id="node5" href="$d5/d16/a00029.html#d5/deb/a00132" title="PointError add symmetric error to data points, just in case someone comes to need of it PointError is..." alt="" coords="181,5,309,97"/>
-</map>

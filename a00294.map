@@ -1,2 +1,10 @@
-<map id="hydra::detail::BackendTraits&lt; BACKEND &gt;" name="hydra::detail::BackendTraits&lt; BACKEND &gt;">
+<map id="Filter.h" name="Filter.h">
+<area shape="rect" id="node2" href="$a00053.html" title="hydra/detail/Config.h" alt="" coords="165,281,307,307"/>
+<area shape="rect" id="node5" href="$a00038.html" title="hydra/detail/BackendPolicy.h" alt="" coords="331,281,522,307"/>
+<area shape="rect" id="node7" href="$a00383.html" title="Common and useful typedefs. " alt="" coords="710,281,815,307"/>
+<area shape="rect" id="node8" href="$a00380.html" title="hydra/Tuple.h" alt="" coords="680,87,781,114"/>
+<area shape="rect" id="node15" href="$a00317.html" title="hydra/GenericRange.h" alt="" coords="399,87,551,114"/>
+<area shape="rect" id="node19" href="$a00083.html" title="hydra/detail/Filter.inl" alt="" coords="968,87,1107,114"/>
+<area shape="rect" id="node12" href="$a00254.html" title="hydra/detail/utility\l/Generic.h" alt="" coords="825,177,949,218"/>
+<area shape="rect" id="node16" href="$a00281.html" title="hydra/Distance.h" alt="" coords="465,184,586,211"/>
 </map>

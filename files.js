@@ -1,102 +1,280 @@
 var files =
 [
-    [ "AddPdf.h", "d7/df7/a00058.html", "d7/df7/a00058" ],
-    [ "Argument.h", "d3/d8b/a00059.html", [
-      [ "Argument", "dd/da2/a00019.html", "dd/da2/a00019" ]
+    [ "adaptive_gauss_kronrod.cpp", "adaptive__gauss__kronrod_8cpp.html", null ],
+    [ "adaptive_gauss_kronrod.cu", "adaptive__gauss__kronrod_8cu.html", null ],
+    [ "adaptive_gauss_kronrod.inl", "adaptive__gauss__kronrod_8inl.html", "adaptive__gauss__kronrod_8inl" ],
+    [ "AddPdf.h", "AddPdf_8h.html", null ],
+    [ "AddPdfBase.h", "AddPdfBase_8h.html", null ],
+    [ "AddPdfFunctor.h", "AddPdfFunctor_8h.html", null ],
+    [ "Argument.h", "Argument_8h.html", [
+      [ "Argument", "structhydra_1_1Argument.html", "structhydra_1_1Argument" ]
     ] ],
-    [ "Arithmetic_Tuple.h", "d9/d73/a00060.html", "d9/d73/a00060" ],
-    [ "base_functor.h", "d4/de8/a00061.html", null ],
-    [ "Compose.h", "df/d03/a00062.html", "df/d03/a00062" ],
-    [ "Config.h", "d1/d6f/a00063.html", "d1/d6f/a00063" ],
-    [ "Constant.h", "df/d5f/a00064.html", [
-      [ "Constant", "d3/dfe/a00025.html", "d3/dfe/a00025" ]
+    [ "Arithmetic_Tuple.h", "Arithmetic__Tuple_8h.html", "Arithmetic__Tuple_8h" ],
+    [ "async_mc.cu", "async__mc_8cu.html", null ],
+    [ "async_mc.inl", "async__mc_8inl.html", "async__mc_8inl" ],
+    [ "AverageMother.h", "AverageMother_8h.html", null ],
+    [ "AverageMothers.h", "AverageMothers_8h.html", null ],
+    [ "BackendPolicy.h", "BackendPolicy_8h.html", null ],
+    [ "base_functor.h", "base__functor_8h.html", null ],
+    [ "basic_distributions.cpp", "basic__distributions_8cpp.html", null ],
+    [ "basic_distributions.cu", "basic__distributions_8cu.html", null ],
+    [ "basic_distributions.inl", "basic__distributions_8inl.html", "basic__distributions_8inl" ],
+    [ "basic_fit.cpp", "basic__fit_8cpp.html", null ],
+    [ "basic_fit.cu", "basic__fit_8cu.html", null ],
+    [ "basic_fit.inl", "basic__fit_8inl.html", "basic__fit_8inl" ],
+    [ "Cache.h", "Cache_8h.html", [
+      [ "Cache", "namespacehydra.html#classhydra_1_1Cache", null ]
     ] ],
-    [ "Containers.h", "de/de1/a00065.html", "de/de1/a00065" ],
-    [ "Copy.h", "d9/db3/a00066.html", "d9/db3/a00066" ],
-    [ "DecayMother.h", "dc/ddf/a00067.html", null ],
-    [ "DecayMothers.h", "da/d24/a00068.html", null ],
-    [ "Divide.h", "d4/d31/a00069.html", "d4/d31/a00069" ],
-    [ "Evaluate.h", "d2/db1/a00070.html", "d2/db1/a00070" ],
-    [ "Events.h", "d0/d89/a00071.html", [
-      [ "Events", "dc/d3c/a00028.html", "dc/d3c/a00028" ]
+    [ "Caster.h", "Caster_8h.html", null ],
+    [ "Chain.inl", "Chain_8inl.html", "Chain_8inl" ],
+    [ "Chains.h", "Chains_8h.html", "Chains_8h" ],
+    [ "Chains.inl", "Chains_8inl.html", "Chains_8inl" ],
+    [ "CheckEnergy.h", "CheckEnergy_8h.html", null ],
+    [ "Collection.h", "Collection_8h.html", "Collection_8h" ],
+    [ "Complex.h", "Complex_8h.html", "Complex_8h" ],
+    [ "Compose.h", "Compose_8h.html", "Compose_8h" ],
+    [ "Config.h", "Config_8h.html", "Config_8h" ],
+    [ "Constant.h", "Constant_8h.html", [
+      [ "Constant", "structhydra_1_1Constant.html", "structhydra_1_1Constant" ]
     ] ],
-    [ "Exp.h", "d6/d2c/a00072.html", [
-      [ "Exp", "d5/d16/a00029.html", "d5/d16/a00029" ],
-      [ "InvExp", "d0/dc0/a00033.html", "d0/dc0/a00033" ]
+    [ "Containers.h", "Containers_8h.html", "Containers_8h" ],
+    [ "Containers.inl", "Containers_8inl.html", "Containers_8inl" ],
+    [ "Copy.h", "Copy_8h.html", "Copy_8h" ],
+    [ "CPP.h", "CPP_8h.html", "CPP_8h" ],
+    [ "CUDA.h", "CUDA_8h.html", "CUDA_8h" ],
+    [ "DecayMother.h", "DecayMother_8h.html", null ],
+    [ "DecayMothers.h", "DecayMothers_8h.html", null ],
+    [ "Decays.h", "Decays_8h.html", "Decays_8h" ],
+    [ "Decays.inl", "Decays_8inl.html", "Decays_8inl" ],
+    [ "dense_histogram.cpp", "dense__histogram_8cpp.html", null ],
+    [ "dense_histogram.cu", "dense__histogram_8cu.html", null ],
+    [ "dense_histogram.inl", "dense__histogram_8inl.html", "dense__histogram_8inl" ],
+    [ "DenseHistogram.h", "DenseHistogram_8h.html", [
+      [ "DenseHistogram", "namespacehydra.html#classhydra_1_1DenseHistogram", null ]
     ] ],
-    [ "FCN.h", "d1/d6e/a00073.html", [
-      [ "FCN", "d5/d79/a00030.html", "d5/d79/a00030" ]
+    [ "DenseHistogram.inl", "DenseHistogram_8inl.html", null ],
+    [ "DEVICE.h", "DEVICE_8h.html", "DEVICE_8h" ],
+    [ "Dimensionality.h", "Dimensionality_8h.html", null ],
+    [ "Distance.h", "Distance_8h.html", "Distance_8h" ],
+    [ "Divide.h", "Divide_8h.html", "Divide_8h" ],
+    [ "EvalDaughters.h", "EvalDaughters_8h.html", null ],
+    [ "EvalMother.h", "EvalMother_8h.html", null ],
+    [ "EvalMothers.h", "EvalMothers_8h.html", null ],
+    [ "Evaluate.h", "Evaluate_8h.html", "Evaluate_8h" ],
+    [ "Evaluate.inc", "Evaluate_8inc.html", null ],
+    [ "Evaluate.inl", "Evaluate_8inl.html", "Evaluate_8inl" ],
+    [ "Events.h", "Events_8h.html", [
+      [ "Events", "structhydra_1_1Events.html", "structhydra_1_1Events" ]
     ] ],
-    [ "FlagAcceptReject.h", "db/db6/a00074.html", null ],
-    [ "Function.h", "d9/da5/a00075.html", [
-      [ "BaseFunctor", "db/db2/a00020.html", "db/db2/a00020" ]
+    [ "Events.inl", "Events_8inl.html", "Events_8inl" ],
+    [ "extended_logLL_fit.cpp", "extended__logLL__fit_8cpp.html", null ],
+    [ "extended_logLL_fit.cu", "extended__logLL__fit_8cu.html", null ],
+    [ "extended_logLL_fit.inl", "extended__logLL__fit_8inl.html", "extended__logLL__fit_8inl" ],
+    [ "FCN.h", "FCN_8h.html", [
+      [ "FCN", "namespacehydra.html#classhydra_1_1FCN", null ],
+      [ "FCN< Estimator< PDF, Iterator, Visitors... > >", "classhydra_1_1FCN_3_01Estimator_3_01PDF_00_01Iterator_00_01Visitors_8_8_8_01_4_01_4.html", "classhydra_1_1FCN_3_01Estimator_3_01PDF_00_01Iterator_00_01Visitors_8_8_8_01_4_01_4" ]
     ] ],
-    [ "FunctionWrapper.h", "db/df8/a00076.html", "db/df8/a00076" ],
-    [ "FunctorArithmetic.h", "d1/d09/a00077.html", null ],
-    [ "FunctorTraits.h", "d9/da4/a00078.html", null ],
-    [ "Gauss.h", "d1/d51/a00079.html", [
-      [ "Gauss", "df/d61/a00031.html", "df/d61/a00031" ]
+    [ "Filter.h", "Filter_8h.html", "Filter_8h" ],
+    [ "Filter.inl", "Filter_8inl.html", "Filter_8inl" ],
+    [ "FlagAcceptReject.h", "FlagAcceptReject_8h.html", null ],
+    [ "fractional_logLL_fit.cpp", "fractional__logLL__fit_8cpp.html", null ],
+    [ "fractional_logLL_fit.cu", "fractional__logLL__fit_8cu.html", null ],
+    [ "fractional_logLL_fit.inl", "fractional__logLL__fit_8inl.html", "fractional__logLL__fit_8inl" ],
+    [ "Function.h", "Function_8h.html", null ],
+    [ "FunctionWrapper.h", "FunctionWrapper_8h.html", "FunctionWrapper_8h" ],
+    [ "FunctorArithmetic.h", "FunctorArithmetic_8h.html", null ],
+    [ "FunctorTraits.h", "FunctorTraits_8h.html", null ],
+    [ "gauss_kronrod.cpp", "gauss__kronrod_8cpp.html", null ],
+    [ "gauss_kronrod.cu", "gauss__kronrod_8cu.html", null ],
+    [ "gauss_kronrod.inl", "gauss__kronrod_8inl.html", "gauss__kronrod_8inl" ],
+    [ "GaussKronrodAdaptiveQuadrature.h", "GaussKronrodAdaptiveQuadrature_8h.html", [
+      [ "GaussKronrodAdaptiveQuadrature", "namespacehydra.html#classhydra_1_1GaussKronrodAdaptiveQuadrature", null ]
     ] ],
-    [ "Generic.h", "da/dec/a00080.html", null ],
-    [ "Groups.h", "d8/d53/a00081.html", null ],
-    [ "Hash.h", "d4/d63/a00082.html", null ],
-    [ "Hydra.h", "d2/d1f/a00083.html", "d2/d1f/a00083" ],
-    [ "HydraEvaluateExample.cpp", "d8/d84/a00001.html", "d8/d84/a00001" ],
-    [ "HydraEvaluateExample.cu", "d1/d7c/a00003.html", "d1/d7c/a00003" ],
-    [ "HydraFitExample.cpp", "dd/dad/a00005.html", "dd/dad/a00005" ],
-    [ "HydraFitExample.cu", "de/d5e/a00007.html", "de/d5e/a00007" ],
-    [ "HydraPhaseSpaceExample.cpp", "da/da0/a00009.html", "da/da0/a00009" ],
-    [ "HydraPhaseSpaceExample.cu", "da/d45/a00011.html", "da/d45/a00011" ],
-    [ "HydraRandomExample.cpp", "d7/dd4/a00013.html", "d7/dd4/a00013" ],
-    [ "HydraRandomExample.cu", "dd/d1b/a00015.html", "dd/d1b/a00015" ],
-    [ "Integrator.h", "df/d5d/a00084.html", [
-      [ "Integrator", "dc/d87/a00032.html", "dc/d87/a00032" ]
+    [ "GaussKronrodAdaptiveQuadrature.inl", "GaussKronrodAdaptiveQuadrature_8inl.html", "GaussKronrodAdaptiveQuadrature_8inl" ],
+    [ "GaussKronrodQuadrature.h", "GaussKronrodQuadrature_8h.html", [
+      [ "GaussKronrodQuadrature", "namespacehydra.html#classhydra_1_1GaussKronrodQuadrature", null ]
     ] ],
-    [ "IsAccepted.h", "df/d13/a00085.html", null ],
-    [ "LogLikelihood.h", "da/d2a/a00086.html", null ],
-    [ "LogLikelihoodFCN.h", "d1/d1e/a00087.html", "d1/d1e/a00087" ],
-    [ "Minus.h", "db/ddf/a00088.html", "db/ddf/a00088" ],
-    [ "Multiply.h", "db/dab/a00089.html", "db/dab/a00089" ],
-    [ "Parameter.h", "d9/dec/a00090.html", "d9/dec/a00090" ],
-    [ "Pdf.h", "da/d82/a00091.html", "da/d82/a00091" ],
-    [ "PhaseSpace.h", "d1/dc1/a00092.html", [
-      [ "PhaseSpace", "db/d3a/a00040.html", "db/d3a/a00040" ]
+    [ "GaussKronrodQuadrature.inl", "GaussKronrodQuadrature_8inl.html", "GaussKronrodQuadrature_8inl" ],
+    [ "GaussKronrodRule.h", "GaussKronrodRule_8h.html", [
+      [ "GaussKronrodRule", "structhydra_1_1GaussKronrodRule.html", "structhydra_1_1GaussKronrodRule" ]
     ] ],
-    [ "Plain.h", "d4/d7d/a00093.html", [
-      [ "Plain", "dd/d32/a00041.html", "dd/d32/a00041" ]
+    [ "GaussKronrodRules.h", "GaussKronrodRules_8h.html", [
+      [ "GaussKronrodRuleSelector", "namespacehydra.html#structhydra_1_1GaussKronrodRuleSelector", null ],
+      [ "GaussKronrodRuleSelector< 15 >", "structhydra_1_1GaussKronrodRuleSelector_3_0115_01_4.html", "structhydra_1_1GaussKronrodRuleSelector_3_0115_01_4" ],
+      [ "GaussKronrodRuleSelector< 21 >", "structhydra_1_1GaussKronrodRuleSelector_3_0121_01_4.html", "structhydra_1_1GaussKronrodRuleSelector_3_0121_01_4" ],
+      [ "GaussKronrodRuleSelector< 31 >", "structhydra_1_1GaussKronrodRuleSelector_3_0131_01_4.html", "structhydra_1_1GaussKronrodRuleSelector_3_0131_01_4" ],
+      [ "GaussKronrodRuleSelector< 41 >", "structhydra_1_1GaussKronrodRuleSelector_3_0141_01_4.html", "structhydra_1_1GaussKronrodRuleSelector_3_0141_01_4" ],
+      [ "GaussKronrodRuleSelector< 51 >", "structhydra_1_1GaussKronrodRuleSelector_3_0151_01_4.html", "structhydra_1_1GaussKronrodRuleSelector_3_0151_01_4" ],
+      [ "GaussKronrodRuleSelector< 61 >", "structhydra_1_1GaussKronrodRuleSelector_3_0161_01_4.html", "structhydra_1_1GaussKronrodRuleSelector_3_0161_01_4" ]
     ] ],
-    [ "PlainState.h", "dc/d54/a00094.html", [
-      [ "PlainState", "d5/db6/a00042.html", "d5/db6/a00042" ]
+    [ "Generic.h", "Generic_8h.html", null ],
+    [ "GenericRange.h", "GenericRange_8h.html", "GenericRange_8h" ],
+    [ "GenzMalikBox.h", "GenzMalikBox_8h.html", null ],
+    [ "GenzMalikQuadrature.h", "GenzMalikQuadrature_8h.html", [
+      [ "GenzMalikQuadrature", "namespacehydra.html#classhydra_1_1GenzMalikQuadrature", null ]
     ] ],
-    [ "Point.h", "d9/d77/a00095.html", "d9/d77/a00095" ],
-    [ "PointVector.h", "d9/df8/a00096.html", [
-      [ "PointVector", "d6/d97/a00045.html", "d6/d97/a00045" ]
+    [ "GenzMalikQuadrature.inl", "GenzMalikQuadrature_8inl.html", "GenzMalikQuadrature_8inl" ],
+    [ "GenzMalikRule.h", "GenzMalikRule_8h.html", [
+      [ "GenzMalikRule", "namespacehydra.html#classhydra_1_1GenzMalikRule", null ],
+      [ "GenzMalikRuleBase", "classhydra_1_1GenzMalikRuleBase.html", null ]
     ] ],
-    [ "Print.h", "d1/d84/a00097.html", "d1/d84/a00097" ],
-    [ "ProcessCallsPlain.h", "d1/d44/a00098.html", null ],
-    [ "ProcessCallsVegas.h", "da/d74/a00099.html", null ],
-    [ "Random.h", "d0/d61/a00100.html", [
-      [ "Random", "d6/d2d/a00047.html", "d6/d2d/a00047" ]
+    [ "GetGlobalBin.h", "GetGlobalBin_8h.html", null ],
+    [ "hydra/Groups.h", "hydra_2Groups_8h.html", null ],
+    [ "doxydefs/Groups.h", "doxydefs_2Groups_8h.html", null ],
+    [ "Hash.h", "Hash_8h.html", null ],
+    [ "HOST.h", "HOST_8h.html", "HOST_8h" ],
+    [ "Hydra.h", "Hydra_8h.html", "Hydra_8h" ],
+    [ "Integrator.h", "Integrator_8h.html", [
+      [ "Integrator", "structhydra_1_1Integrator.html", "structhydra_1_1Integrator" ]
     ] ],
-    [ "RandomUtils.h", "d4/d3a/a00101.html", null ],
-    [ "Range.h", "d9/dcc/a00102.html", "d9/dcc/a00102" ],
-    [ "strided_iterator.h", "d0/dc2/a00104.html", [
-      [ "stride_functor", "d2/dee/a00049.html", "d2/dee/a00049" ],
-      [ "strided_range", "d5/de0/a00050.html", "d5/de0/a00050" ]
+    [ "IsAccepted.h", "IsAccepted_8h.html", null ],
+    [ "IteratorTraits.h", "IteratorTraits_8h.html", null ],
+    [ "launch_decayers.inl", "launch__decayers_8inl.html", "launch__decayers_8inl" ],
+    [ "LogLikelihood.h", "LogLikelihood_8h.html", null ],
+    [ "LogLikelihood1.h", "LogLikelihood1_8h.html", null ],
+    [ "LogLikelihoodFCN.h", "LogLikelihoodFCN_8h.html", [
+      [ "LogLikelihoodFCN", "namespacehydra.html#classhydra_1_1LogLikelihoodFCN", null ]
     ] ],
-    [ "Sum.h", "d3/d32/a00105.html", "d3/d32/a00105" ],
-    [ "Types.h", "d7/d70/a00106.html", "d7/d70/a00106" ],
-    [ "TypeTraits.h", "df/d98/a00107.html", [
-      [ "common_type< T, thrust::complex< U > >", "de/d11/a00021.html", "de/d11/a00021" ],
-      [ "common_type< thrust::complex< T >, thrust::complex< U > >", "d7/de0/a00022.html", "d7/de0/a00022" ],
-      [ "common_type< thrust::complex< U >, T >", "d3/d52/a00023.html", "d3/d52/a00023" ]
+    [ "LogLikelihoodFCN1.inl", "LogLikelihoodFCN1_8inl.html", "LogLikelihoodFCN1_8inl" ],
+    [ "LogLikelihoodFCN2.inl", "LogLikelihoodFCN2_8inl.html", "LogLikelihoodFCN2_8inl" ],
+    [ "LogLikelihoodFCN3.inl", "LogLikelihoodFCN3_8inl.html", "LogLikelihoodFCN3_8inl" ],
+    [ "Minus.h", "Minus_8h.html", "Minus_8h" ],
+    [ "multiarray.h", "multiarray_8h.html", "multiarray_8h" ],
+    [ "multiarray_container.cpp", "multiarray__container_8cpp.html", null ],
+    [ "multiarray_container.cu", "multiarray__container_8cu.html", null ],
+    [ "multiarray_container.inl", "multiarray__container_8inl.html", "multiarray__container_8inl" ],
+    [ "multidimensional_fit.cpp", "multidimensional__fit_8cpp.html", null ],
+    [ "multidimensional_fit.cu", "multidimensional__fit_8cu.html", null ],
+    [ "multidimensional_fit.inl", "multidimensional__fit_8inl.html", "multidimensional__fit_8inl" ],
+    [ "Multiply.h", "Multiply_8h.html", "Multiply_8h" ],
+    [ "multivector.h", "multivector_8h.html", "multivector_8h" ],
+    [ "multivector_container.cpp", "multivector__container_8cpp.html", null ],
+    [ "multivector_container.cu", "multivector__container_8cu.html", null ],
+    [ "multivector_container.inl", "multivector__container_8inl.html", "multivector__container_8inl" ],
+    [ "OMP.h", "OMP_8h.html", "OMP_8h" ],
+    [ "Parameter.h", "Parameter_8h.html", "Parameter_8h" ],
+    [ "Parameters.h", "Parameters_8h.html", null ],
+    [ "Pdf.h", "Pdf_8h.html", "Pdf_8h" ],
+    [ "PDFSumExtendable.h", "PDFSumExtendable_8h.html", "PDFSumExtendable_8h" ],
+    [ "PDFSumNonExtendable.h", "PDFSumNonExtendable_8h.html", "PDFSumNonExtendable_8h" ],
+    [ "Permutation.h", "Permutation_8h.html", null ],
+    [ "Permute.h", "Permute_8h.html", null ],
+    [ "PhaseSpace.h", "PhaseSpace_8h.html", null ],
+    [ "PhaseSpace.inl", "PhaseSpace_8inl.html", "PhaseSpace_8inl" ],
+    [ "PhaseSpaceIntegrator.h", "PhaseSpaceIntegrator_8h.html", [
+      [ "PhaseSpaceIntegrator", "namespacehydra.html#classhydra_1_1PhaseSpaceIntegrator", null ]
     ] ],
-    [ "UserParameters.h", "d1/dd6/a00108.html", "d1/dd6/a00108" ],
-    [ "Utility_Tuple.h", "dd/d42/a00109.html", null ],
-    [ "Vector3R.h", "d4/d81/a00110.html", "d4/d81/a00110" ],
-    [ "Vector4R.h", "dd/d6d/a00111.html", "dd/d6d/a00111" ],
-    [ "Vegas.h", "db/d57/a00112.html", [
-      [ "Vegas", "d9/d2e/a00056.html", "d9/d2e/a00056" ]
+    [ "PhaseSpaceIntegrator.inl", "PhaseSpaceIntegrator_8inl.html", "PhaseSpaceIntegrator_8inl" ],
+    [ "phsp_averaging_functor.cpp", "phsp__averaging__functor_8cpp.html", null ],
+    [ "phsp_averaging_functor.cu", "phsp__averaging__functor_8cu.html", null ],
+    [ "phsp_averaging_functor.inl", "phsp__averaging__functor_8inl.html", "phsp__averaging__functor_8inl" ],
+    [ "phsp_basic.cpp", "phsp__basic_8cpp.html", null ],
+    [ "phsp_basic.cu", "phsp__basic_8cu.html", null ],
+    [ "phsp_basic.inl", "phsp__basic_8inl.html", "phsp__basic_8inl" ],
+    [ "phsp_chain.cpp", "phsp__chain_8cpp.html", null ],
+    [ "phsp_chain.cu", "phsp__chain_8cu.html", null ],
+    [ "phsp_chain.inl", "phsp__chain_8inl.html", "phsp__chain_8inl" ],
+    [ "phsp_evaluating_functor.cpp", "phsp__evaluating__functor_8cpp.html", null ],
+    [ "phsp_evaluating_functor.cu", "phsp__evaluating__functor_8cu.html", null ],
+    [ "phsp_evaluating_functor.inl", "phsp__evaluating__functor_8inl.html", "phsp__evaluating__functor_8inl" ],
+    [ "phsp_reweighting.cpp", "phsp__reweighting_8cpp.html", null ],
+    [ "phsp_reweighting.cu", "phsp__reweighting_8cu.html", null ],
+    [ "phsp_reweighting.inl", "phsp__reweighting_8inl.html", "phsp__reweighting_8inl" ],
+    [ "phsp_unweighting.cpp", "phsp__unweighting_8cpp.html", null ],
+    [ "phsp_unweighting.cu", "phsp__unweighting_8cu.html", null ],
+    [ "phsp_unweighting.inl", "phsp__unweighting_8inl.html", "phsp__unweighting_8inl" ],
+    [ "phsp_unweighting_functor.cpp", "phsp__unweighting__functor_8cpp.html", null ],
+    [ "phsp_unweighting_functor.cu", "phsp__unweighting__functor_8cu.html", null ],
+    [ "phsp_unweighting_functor.inl", "phsp__unweighting__functor_8inl.html", "phsp__unweighting__functor_8inl" ],
+    [ "phsp_unweighting_functor_and_fit.cpp", "phsp__unweighting__functor__and__fit_8cpp.html", null ],
+    [ "phsp_unweighting_functor_and_fit.cu", "phsp__unweighting__functor__and__fit_8cu.html", null ],
+    [ "phsp_unweighting_functor_and_fit.inl", "phsp__unweighting__functor__and__fit_8inl.html", "phsp__unweighting__functor__and__fit_8inl" ],
+    [ "Placeholders.h", "Placeholders_8h.html", [
+      [ "is_placeholder", "structhydra_1_1placeholders_1_1is__placeholder.html", null ],
+      [ "is_placeholder< placeholder< I > >", "structhydra_1_1placeholders_1_1is__placeholder_3_01placeholder_3_01I_01_4_01_4.html", null ],
+      [ "placeholder", "structhydra_1_1placeholders_1_1placeholder.html", "structhydra_1_1placeholders_1_1placeholder" ]
     ] ],
-    [ "VegasState.h", "d3/d00/a00113.html", "d3/d00/a00113" ]
+    [ "Placeholders.inl", "Placeholders_8inl.html", "Placeholders_8inl" ],
+    [ "Plain.h", "Plain_8h.html", [
+      [ "Plain", "namespacehydra.html#structhydra_1_1Plain", null ]
+    ] ],
+    [ "Plain.inl", "Plain_8inl.html", null ],
+    [ "plain_mc.cpp", "plain__mc_8cpp.html", null ],
+    [ "plain_mc.cu", "plain__mc_8cu.html", null ],
+    [ "plain_mc.inl", "plain__mc_8inl.html", "plain__mc_8inl" ],
+    [ "PlainState.h", "PlainState_8h.html", null ],
+    [ "PredicatesVegas.h", "PredicatesVegas_8h.html", null ],
+    [ "Print.h", "Print_8h.html", "Print_8h" ],
+    [ "ProcessCallsPlain.h", "ProcessCallsPlain_8h.html", null ],
+    [ "ProcessCallsVegas.h", "ProcessCallsVegas_8h.html", null ],
+    [ "ProcessGaussKronrodAdaptiveQuadrature.h", "ProcessGaussKronrodAdaptiveQuadrature_8h.html", [
+      [ "ProcessGaussKronrodAdaptiveQuadrature", "structhydra_1_1ProcessGaussKronrodAdaptiveQuadrature.html", "structhydra_1_1ProcessGaussKronrodAdaptiveQuadrature" ]
+    ] ],
+    [ "ProcessGaussKronrodQuadrature.h", "ProcessGaussKronrodQuadrature_8h.html", [
+      [ "GaussKronrodBinary", "structhydra_1_1GaussKronrodBinary.html", "structhydra_1_1GaussKronrodBinary" ],
+      [ "GaussKronrodCall", "structhydra_1_1GaussKronrodCall.html", "structhydra_1_1GaussKronrodCall" ],
+      [ "GaussKronrodUnary", "structhydra_1_1GaussKronrodUnary.html", "structhydra_1_1GaussKronrodUnary" ]
+    ] ],
+    [ "ProcessGenzMalikQuadrature.h", "ProcessGenzMalikQuadrature_8h.html", null ],
+    [ "ProcessSPlot.h", "ProcessSPlot_8h.html", null ],
+    [ "Random.h", "Random_8h.html", null ],
+    [ "Random.inl", "Random_8inl.html", "Random_8inl" ],
+    [ "RandomUtils.h", "RandomUtils_8h.html", null ],
+    [ "sample_distribution.cpp", "sample__distribution_8cpp.html", null ],
+    [ "sample_distribution.cu", "sample__distribution_8cu.html", null ],
+    [ "sample_distribution.inl", "sample__distribution_8inl.html", "sample__distribution_8inl" ],
+    [ "sparse_histogram.cpp", "sparse__histogram_8cpp.html", null ],
+    [ "sparse_histogram.cu", "sparse__histogram_8cu.html", null ],
+    [ "sparse_histogram.inl", "sparse__histogram_8inl.html", "sparse__histogram_8inl" ],
+    [ "SparseHistogram.h", "SparseHistogram_8h.html", [
+      [ "SparseHistogram", "namespacehydra.html#classhydra_1_1SparseHistogram", null ]
+    ] ],
+    [ "SparseHistogram.inl", "SparseHistogram_8inl.html", "SparseHistogram_8inl" ],
+    [ "splot.cpp", "splot_8cpp.html", null ],
+    [ "splot.cu", "splot_8cu.html", null ],
+    [ "SPlot.h", "SPlot_8h.html", "SPlot_8h" ],
+    [ "splot.inl", "splot_8inl.html", "splot_8inl" ],
+    [ "SPlot.inl", "SPlot_8inl.html", null ],
+    [ "StatsPHSP.h", "StatsPHSP_8h.html", null ],
+    [ "StreamSTL.h", "StreamSTL_8h.html", "StreamSTL_8h" ],
+    [ "strided_iterator.h", "strided__iterator_8h.html", null ],
+    [ "Sum.h", "Sum_8h.html", "Sum_8h" ],
+    [ "cpp/System.h", "cpp_2System_8h.html", null ],
+    [ "cuda/System.h", "cuda_2System_8h.html", null ],
+    [ "device/System.h", "device_2System_8h.html", null ],
+    [ "host/System.h", "host_2System_8h.html", null ],
+    [ "omp/System.h", "omp_2System_8h.html", null ],
+    [ "tbb/System.h", "tbb_2System_8h.html", null ],
+    [ "TBB.h", "TBB_8h.html", "TBB_8h" ],
+    [ "Tuple.h", "Tuple_8h.html", "Tuple_8h" ],
+    [ "Types.h", "Types_8h.html", "Types_8h" ],
+    [ "TypeTraits.h", "TypeTraits_8h.html", [
+      [ "common_type< HYDRA_EXTERNAL_NS::thrust::complex< T >, HYDRA_EXTERNAL_NS::thrust::complex< U > >", "structstd_1_1common__type_3_01HYDRA__EXTERNAL__NS_1_1thrust_1_1complex_3_01T_01_4_00_01HYDRA__EX2b76386747226f7737885e2d05401eb5.html", "structstd_1_1common__type_3_01HYDRA__EXTERNAL__NS_1_1thrust_1_1complex_3_01T_01_4_00_01HYDRA__EX2b76386747226f7737885e2d05401eb5" ],
+      [ "common_type< HYDRA_EXTERNAL_NS::thrust::complex< U >, T >", "structstd_1_1common__type_3_01HYDRA__EXTERNAL__NS_1_1thrust_1_1complex_3_01U_01_4_00_01T_01_4.html", "structstd_1_1common__type_3_01HYDRA__EXTERNAL__NS_1_1thrust_1_1complex_3_01U_01_4_00_01T_01_4" ],
+      [ "common_type< T, HYDRA_EXTERNAL_NS::thrust::complex< U > >", "structstd_1_1common__type_3_01T_00_01HYDRA__EXTERNAL__NS_1_1thrust_1_1complex_3_01U_01_4_01_4.html", "structstd_1_1common__type_3_01T_00_01HYDRA__EXTERNAL__NS_1_1thrust_1_1complex_3_01U_01_4_01_4" ]
+    ] ],
+    [ "UserParameters.h", "UserParameters_8h.html", [
+      [ "UserParameters", "classhydra_1_1UserParameters.html", "classhydra_1_1UserParameters" ]
+    ] ],
+    [ "Utility_Tuple.h", "Utility__Tuple_8h.html", null ],
+    [ "Variant.h", "Variant_8h.html", null ],
+    [ "variant_types.cpp", "variant__types_8cpp.html", null ],
+    [ "variant_types.cu", "variant__types_8cu.html", null ],
+    [ "variant_types.inl", "variant__types_8inl.html", "variant__types_8inl" ],
+    [ "Vector3R.h", "Vector3R_8h.html", "Vector3R_8h" ],
+    [ "Vector3R.inl", "Vector3R_8inl.html", "Vector3R_8inl" ],
+    [ "Vector4R.h", "Vector4R_8h.html", "Vector4R_8h" ],
+    [ "Vector4R.inl", "Vector4R_8inl.html", "Vector4R_8inl" ],
+    [ "vegas.cpp", "vegas_8cpp.html", null ],
+    [ "vegas.cu", "vegas_8cu.html", null ],
+    [ "Vegas.h", "Vegas_8h.html", [
+      [ "Vegas", "namespacehydra.html#classhydra_1_1Vegas", null ]
+    ] ],
+    [ "vegas.inl", "vegas_8inl.html", "vegas_8inl" ],
+    [ "Vegas.inl", "Vegas_8inl.html", "Vegas_8inl" ],
+    [ "VegasState.h", "VegasState_8h.html", "VegasState_8h" ],
+    [ "VegasState.inl", "VegasState_8inl.html", "VegasState_8inl" ],
+    [ "Weights.h", "Weights_8h.html", [
+      [ "Weights", "namespacehydra.html#classhydra_1_1Weights", null ]
+    ] ]
 ];

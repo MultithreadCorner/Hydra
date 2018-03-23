@@ -1,6 +1,26 @@
 var searchData=
 [
-  ['gauss_2eh',['Gauss.h',['../d1/d51/a00079.html',1,'']]],
-  ['generic_2eh',['Generic.h',['../da/dec/a00080.html',1,'']]],
-  ['groups_2eh',['Groups.h',['../d8/d53/a00081.html',1,'']]]
+  ['gauss_5fkronrod_2ecpp',['gauss_kronrod.cpp',['../gauss__kronrod_8cpp.html',1,'']]],
+  ['gauss_5fkronrod_2ecu',['gauss_kronrod.cu',['../gauss__kronrod_8cu.html',1,'']]],
+  ['gauss_5fkronrod_2einl',['gauss_kronrod.inl',['../gauss__kronrod_8inl.html',1,'']]],
+  ['gaussian_2eh',['Gaussian.h',['../Gaussian_8h.html',1,'']]],
+  ['gaussian_5fplus_5fargus_2ecpp',['gaussian_plus_argus.cpp',['../gaussian__plus__argus_8cpp.html',1,'']]],
+  ['gaussian_5fplus_5fargus_2ecu',['gaussian_plus_argus.cu',['../gaussian__plus__argus_8cu.html',1,'']]],
+  ['gaussian_5fplus_5fargus_2einl',['gaussian_plus_argus.inl',['../gaussian__plus__argus_8inl.html',1,'']]],
+  ['gausskronrodadaptivequadrature_2eh',['GaussKronrodAdaptiveQuadrature.h',['../GaussKronrodAdaptiveQuadrature_8h.html',1,'']]],
+  ['gausskronrodadaptivequadrature_2einl',['GaussKronrodAdaptiveQuadrature.inl',['../GaussKronrodAdaptiveQuadrature_8inl.html',1,'']]],
+  ['gausskronrodquadrature_2eh',['GaussKronrodQuadrature.h',['../GaussKronrodQuadrature_8h.html',1,'']]],
+  ['gausskronrodquadrature_2einl',['GaussKronrodQuadrature.inl',['../GaussKronrodQuadrature_8inl.html',1,'']]],
+  ['gausskronrodrule_2eh',['GaussKronrodRule.h',['../GaussKronrodRule_8h.html',1,'']]],
+  ['gausskronrodrules_2eh',['GaussKronrodRules.h',['../GaussKronrodRules_8h.html',1,'']]],
+  ['generic_2eh',['Generic.h',['../Generic_8h.html',1,'']]],
+  ['genericrange_2eh',['GenericRange.h',['../GenericRange_8h.html',1,'']]],
+  ['genericrange1_2einl',['GenericRange1.inl',['../GenericRange1_8inl.html',1,'']]],
+  ['genericrange2_2einl',['GenericRange2.inl',['../GenericRange2_8inl.html',1,'']]],
+  ['genzmalikbox_2eh',['GenzMalikBox.h',['../GenzMalikBox_8h.html',1,'']]],
+  ['genzmalikquadrature_2eh',['GenzMalikQuadrature.h',['../GenzMalikQuadrature_8h.html',1,'']]],
+  ['genzmalikquadrature_2einl',['GenzMalikQuadrature.inl',['../GenzMalikQuadrature_8inl.html',1,'']]],
+  ['genzmalikrule_2eh',['GenzMalikRule.h',['../GenzMalikRule_8h.html',1,'']]],
+  ['getbincenter_2eh',['GetBinCenter.h',['../GetBinCenter_8h.html',1,'']]],
+  ['getglobalbin_2eh',['GetGlobalBin.h',['../GetGlobalBin_8h.html',1,'']]]
 ];

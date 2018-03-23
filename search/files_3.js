@@ -1,6 +1,29 @@
 var searchData=
 [
-  ['decaymother_2eh',['DecayMother.h',['../dc/ddf/a00067.html',1,'']]],
-  ['decaymothers_2eh',['DecayMothers.h',['../da/d24/a00068.html',1,'']]],
-  ['divide_2eh',['Divide.h',['../d4/d31/a00069.html',1,'']]]
+  ['dalitz_5fplot_2ecpp',['dalitz_plot.cpp',['../dalitz__plot_8cpp.html',1,'']]],
+  ['dalitz_5fplot_2ecu',['dalitz_plot.cu',['../dalitz__plot_8cu.html',1,'']]],
+  ['dalitz_5fplot_2einl',['dalitz_plot.inl',['../dalitz__plot_8inl.html',1,'']]],
+  ['dalitz_5fplot2_2ecpp',['dalitz_plot2.cpp',['../dalitz__plot2_8cpp.html',1,'']]],
+  ['dalitz_5fplot2_2ecu',['dalitz_plot2.cu',['../dalitz__plot2_8cu.html',1,'']]],
+  ['dalitz_5fplot2_2einl',['dalitz_plot2.inl',['../dalitz__plot2_8inl.html',1,'']]],
+  ['dalitzangulardistribution_2eh',['DalitzAngularDistribution.h',['../DalitzAngularDistribution_8h.html',1,'']]],
+  ['dalitzchecker_2eh',['DalitzChecker.h',['../DalitzChecker_8h.html',1,'']]],
+  ['decaymother_2eh',['DecayMother.h',['../DecayMother_8h.html',1,'']]],
+  ['decaymothers_2eh',['DecayMothers.h',['../DecayMothers_8h.html',1,'']]],
+  ['decays_2eh',['Decays.h',['../Decays_8h.html',1,'']]],
+  ['decays_2einl',['Decays.inl',['../Decays_8inl.html',1,'']]],
+  ['dense_5fhistogram_2ecpp',['dense_histogram.cpp',['../dense__histogram_8cpp.html',1,'']]],
+  ['dense_5fhistogram_2ecu',['dense_histogram.cu',['../dense__histogram_8cu.html',1,'']]],
+  ['dense_5fhistogram_2einl',['dense_histogram.inl',['../dense__histogram_8inl.html',1,'']]],
+  ['densehistogram_2eh',['DenseHistogram.h',['../DenseHistogram_8h.html',1,'']]],
+  ['densehistogram_2einl',['DenseHistogram.inl',['../DenseHistogram_8inl.html',1,'']]],
+  ['device_2eh',['DEVICE.h',['../DEVICE_8h.html',1,'']]],
+  ['dimensionality_2eh',['Dimensionality.h',['../Dimensionality_8h.html',1,'']]],
+  ['distance_2eh',['Distance.h',['../Distance_8h.html',1,'']]],
+  ['divide_2eh',['Divide.h',['../Divide_8h.html',1,'']]],
+  ['double_5fgaussian_5fplus_5fexponential_2ecpp',['double_gaussian_plus_exponential.cpp',['../double__gaussian__plus__exponential_8cpp.html',1,'']]],
+  ['double_5fgaussian_5fplus_5fexponential_2ecu',['double_gaussian_plus_exponential.cu',['../double__gaussian__plus__exponential_8cu.html',1,'']]],
+  ['double_5fgaussian_5fplus_5fexponential_2einl',['double_gaussian_plus_exponential.inl',['../double__gaussian__plus__exponential_8inl.html',1,'']]],
+  ['groups_2eh',['Groups.h',['../doxydefs_2Groups_8h.html',1,'']]],
+  ['system_2eh',['System.h',['../device_2System_8h.html',1,'']]]
 ];

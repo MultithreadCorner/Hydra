@@ -1,5 +1,6 @@
 var searchData=
 [
-  ['random',['Random',['../d6/d2d/a00047.html',1,'hydra']]],
-  ['range',['Range',['../d4/dca/a00048.html',1,'hydra']]]
+  ['nearest_5fint',['nearest_int',['../structhydra_1_1detail_1_1nearest__int.html',1,'hydra::detail']]],
+  ['nonresonant',['NonResonant',['../classNonResonant.html',1,'']]],
+  ['null_5ftype',['null_type',['../namespacehydra.html#structhydra_1_1null__type',1,'hydra']]]
 ];

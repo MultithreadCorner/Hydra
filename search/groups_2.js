@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['generic',['Generic',['../de/d36/a00123.html',1,'']]]
+  ['generic',['Generic',['../group__generic.html',1,'']]]
 ];

@@ -1,4 +1,5 @@
 var searchData=
 [
-  ['last',['last',['../d5/de0/a00050.html#a055a4406b3e2efe712d916fd09d1124f',1,'hydra::strided_range']]]
+  ['gaussn',['GaussN',['../group__numerical__integration.html#adfc4d300ef41db442b0122f4b5ea9589',1,'hydra::GaussKronrodRule']]],
+  ['gaussweight',['GaussWeight',['../group__numerical__integration.html#aca90596d3e0629d50c8bf66c4bb09fb8',1,'hydra::GaussKronrodRule']]]
 ];

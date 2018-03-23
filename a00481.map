@@ -1,2 +1,4 @@
-<map id="hydra::detail::is_hydra_sum_pdf&lt; T, typename tag_type&lt; typename T::hydra_sum_pdf_tag &gt;::type &gt;" name="hydra::detail::is_hydra_sum_pdf&lt; T, typename tag_type&lt; typename T::hydra_sum_pdf_tag &gt;::type &gt;">
+<map id="dense_histogram.inl" name="dense_histogram.inl">
+<area shape="rect" id="node2" href="$a00473.html" title="dense_histogram.cpp" alt="" coords="5,80,152,107"/>
+<area shape="rect" id="node3" href="$a00476.html" title="dense_histogram.cu" alt="" coords="176,80,315,107"/>
 </map>

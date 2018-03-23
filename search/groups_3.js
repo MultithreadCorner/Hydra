@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['numerical_20integration',['Numerical integration',['../df/dc8/a00122.html',1,'']]]
+  ['histogram',['Histogram',['../group__histogram.html',1,'']]]
 ];

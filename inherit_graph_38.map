@@ -1,3 +1,9 @@
 <map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
-<area shape="rect" id="node1" href="$d1/d22/a00057.html" title="hydra::VegasState\&lt; N \&gt;" alt="" coords="5,5,169,32"/>
+<area shape="rect" id="node2" href="$classhydra_1_1detail_1_1AddPdfBase.html" title="hydra::detail::AddPdfBase\l\&lt; PDF1, PDF2, PDFs... \&gt;" alt="" coords="144,71,320,112"/>
+<area shape="rect" id="node6" href="$classhydra_1_1detail_1_1AddPdfBase.html" title="hydra::detail::AddPdfBase\l\&lt; PDF1, PDF2, PDFs \&gt;" alt="" coords="145,136,319,177"/>
+<area shape="rect" id="node7" href="$classhydra_1_1detail_1_1PdfBase.html" title="hydra::detail::PdfBase\l\&lt; FUNCTOR, INTEGRATOR \&gt;" alt="" coords="128,201,336,243"/>
+<area shape="rect" id="node3" href="$group__fit.html#classhydra_1_1PDFSumExtendable" title="Class representing a pdf object built summing up other pdfs. " alt="" coords="396,5,577,47"/>
+<area shape="rect" id="node4" href="$group__fit.html#classhydra_1_1PDFSumNonExtendable" title="Class representing a pdf object built summing a pdf adding other pdfs. " alt="" coords="384,71,589,112"/>
+<area shape="rect" id="node5" href="$classhydra_1_1SPlot.html" title="hydra::SPlot\&lt; PDF1,\l PDF2, PDFs \&gt;" alt="" coords="415,136,559,177"/>
+<area shape="rect" id="node8" href="$group__fit.html#classhydra_1_1Pdf" title="Class representing probability density functions. " alt="" coords="405,201,569,243"/>
 </map>

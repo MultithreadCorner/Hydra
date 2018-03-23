@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['data_20fitting',['Data fitting',['../d8/d87/a00118.html',1,'']]]
+  ['data_20fitting',['Data fitting',['../group__fit.html',1,'']]]
 ];

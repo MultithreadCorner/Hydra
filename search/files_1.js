@@ -1,4 +1,20 @@
 var searchData=
 [
-  ['base_5ffunctor_2eh',['base_functor.h',['../d4/de8/a00061.html',1,'']]]
+  ['backendpolicy_2eh',['BackendPolicy.h',['../BackendPolicy_8h.html',1,'']]],
+  ['base_5ffunctor_2eh',['base_functor.h',['../base__functor_8h.html',1,'']]],
+  ['basic_5fdistributions_2ecpp',['basic_distributions.cpp',['../basic__distributions_8cpp.html',1,'']]],
+  ['basic_5fdistributions_2ecu',['basic_distributions.cu',['../basic__distributions_8cu.html',1,'']]],
+  ['basic_5fdistributions_2einl',['basic_distributions.inl',['../basic__distributions_8inl.html',1,'']]],
+  ['basic_5ffit_2ecpp',['basic_fit.cpp',['../basic__fit_8cpp.html',1,'']]],
+  ['basic_5ffit_2ecu',['basic_fit.cu',['../basic__fit_8cu.html',1,'']]],
+  ['basic_5ffit_2einl',['basic_fit.inl',['../basic__fit_8inl.html',1,'']]],
+  ['binned_5fextended_5flogll_5ffit_2ecpp',['binned_extended_logLL_fit.cpp',['../binned__extended__logLL__fit_8cpp.html',1,'']]],
+  ['binned_5fextended_5flogll_5ffit_2ecu',['binned_extended_logLL_fit.cu',['../binned__extended__logLL__fit_8cu.html',1,'']]],
+  ['binned_5fextended_5flogll_5ffit_2einl',['binned_extended_logLL_fit.inl',['../binned__extended__logLL__fit_8inl.html',1,'']]],
+  ['blattweisskopffunctions_2eh',['BlattWeisskopfFunctions.h',['../BlattWeisskopfFunctions_8h.html',1,'']]],
+  ['breit_5fwigner_5fplus_5fpolynomial_2ecpp',['breit_wigner_plus_polynomial.cpp',['../breit__wigner__plus__polynomial_8cpp.html',1,'']]],
+  ['breit_5fwigner_5fplus_5fpolynomial_2ecu',['breit_wigner_plus_polynomial.cu',['../breit__wigner__plus__polynomial_8cu.html',1,'']]],
+  ['breit_5fwigner_5fplus_5fpolynomial_2einl',['breit_wigner_plus_polynomial.inl',['../breit__wigner__plus__polynomial_8inl.html',1,'']]],
+  ['breitwignerlineshape_2eh',['BreitWignerLineShape.h',['../BreitWignerLineShape_8h.html',1,'']]],
+  ['breitwignernr_2eh',['BreitWignerNR.h',['../BreitWignerNR_8h.html',1,'']]]
 ];

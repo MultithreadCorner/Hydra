@@ -1,3 +1,6 @@
-<map id="Vegas.inl" name="Vegas.inl">
-<area shape="rect" id="node2" href="$a00147.html" title="Vegas.h" alt="" coords="8,80,79,107"/>
+<map id="GenericRange.h" name="GenericRange.h">
+<area shape="rect" id="node2" href="$a00053.html" title="hydra/detail/Config.h" alt="" coords="163,162,306,189"/>
+<area shape="rect" id="node5" href="$a00038.html" title="hydra/detail/BackendPolicy.h" alt="" coords="330,162,521,189"/>
+<area shape="rect" id="node7" href="$a00281.html" title="hydra/Distance.h" alt="" coords="414,80,535,107"/>
+<area shape="rect" id="node8" href="$a00383.html" title="Common and useful typedefs. " alt="" coords="545,162,650,189"/>
 </map>
