@@ -20,5 +20,6 @@ var searchData=
   ['double_5fgaussian_5fplus_5fexponential_2ecu',['double_gaussian_plus_exponential.cu',['../double__gaussian__plus__exponential_8cu.html',1,'']]],
   ['double_5fgaussian_5fplus_5fexponential_2einl',['double_gaussian_plus_exponential.inl',['../double__gaussian__plus__exponential_8inl.html',1,'']]],
   ['groups_2eh',['Groups.h',['../doxydefs_2Groups_8h.html',1,'']]],
+  ['readme_2emd',['README.md',['../doxydefs_2README_8md.html',1,'']]],
   ['system_2eh',['System.h',['../device_2System_8h.html',1,'']]]
 ];

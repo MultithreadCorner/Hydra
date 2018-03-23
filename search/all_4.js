@@ -58,5 +58,6 @@ var searchData=
   ['dwave',['DWave',['../namespacehydra.html#a0dc858c0fb14ade1e8abc19cdd0959e2a74097dfe50b93307e587c23f9180b6b3',1,'hydra']]],
   ['data_20fitting',['Data fitting',['../group__fit.html',1,'']]],
   ['groups_2eh',['Groups.h',['../doxydefs_2Groups_8h.html',1,'']]],
+  ['readme_2emd',['README.md',['../doxydefs_2README_8md.html',1,'']]],
   ['system_2eh',['System.h',['../device_2System_8h.html',1,'']]]
 ];

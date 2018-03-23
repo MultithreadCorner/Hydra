@@ -24,7 +24,8 @@ for the JavaScript code in this file
 var NAVTREE =
 [
   [ "Hydra", "index.html", [
-    [ "[![Documentation Status](https://readthedocs.org/projects/hydra-documentation/badge/?version=latest)](http://hydra-documentation.readthedocs.io/en/latest/?badge=latest)", "index.html", null ],
+    [ "Table of Contents", "index.html", null ],
+    [ "README", "md__home_augalves_Development_Release_Hydra_README.html", null ],
     [ "Todo List", "todo.html", null ],
     [ "Modules", "modules.html", "modules" ],
     [ "Namespaces", "namespaces.html", [
@@ -78,9 +79,9 @@ var NAVTREEINDEX =
 "group__histogram.html#classhydra_1_1SparseHistogram_3_01T_00_011_00_01detail_1_1BackendPolicy_3_01BACKEND_01_4_00_01detail_1_1unidimensional_01_4",
 "group__numerical__integration.html#afe84e3501befc136aea9f9e126ee35b6",
 "group__phsp.html#af2667ab4b3f0081ba50ca5f9e4058051",
-"omp_2System_8h.html",
-"structhydra_1_1detail_1_1EvalMother.html#a4b66c24fc81946d0d19d49c145787869",
-"structhydra_1_1detail_1_1RndFlag.html#ae550767953fbed875b43ad6f377e46fe"
+"namespaces.html",
+"structhydra_1_1detail_1_1EvalMother.html#a2a4bb08c570b1cb51d3364220c9010e6",
+"structhydra_1_1detail_1_1RndFlag.html#a82c54b85e742bb678d4bfd9a65d5f528"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronisation';
