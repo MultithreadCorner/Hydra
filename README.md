@@ -153,7 +153,7 @@ The examples are listed below:
 5. __numerical_integration__ : adaptive_gauss_kronrod, gauss_kronrod, plain_mc, vegas
 6. __phase_space__ : phsp_averaging_functor, phsp_evaluating_functor, phsp_reweighting, phsp_basic, phsp_unweighting, phsp_chain, phsp_unweighting_functor
 7. __random__ :  basic_distributions, sample_distribution
-7. __root_macros__ :  macros to run examples in ROOT
+8. __root_macros__ :  macros to run examples in ROOT
 
 Each compiled example executable will have an postfix (ex.: _cuda, _omp, _tbb) to indicate the deployed device backend.  
 All examples use CPP as host backend. 
