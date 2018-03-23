@@ -1,6 +1,7 @@
 [![Documentation Status](https://readthedocs.org/projects/hydra-documentation/badge/?version=latest)](http://hydra-documentation.readthedocs.io/en/latest/?badge=latest)
 
 -----------
+
 <img src="logo_Hydra.png" width="500">
 
 Table of Contents
@@ -9,7 +10,7 @@ Table of Contents
   * [What is it?](#what-is-it)
   * [Main features](#main-features)
   * [Hydra and Thrust](#hydra-and-thrust)
-  * [Supported Paralels Backends](#supported-paralels-backends)
+  * [Supported Parallel Backends](#supported-parallel-backends)
   * [The Latest Version](#the-latest-version)
   * [Documentation](#documentation)
     * [Reference manual](#reference-manual)
@@ -67,7 +68,7 @@ The version of Thrust distributed with Hydra is maintained by [MultithreadCorner
 ***Hydra does not depend or conflits with the official Thrust library distributed with the CUDA-SDK.***
 
 
-Supported Paralels Backends
+Supported Parallel Backends
 ---------------------------
 
 Hydra uses the underlying Thrust's "backend systems" to control how the algorithms algorithms get
@@ -105,9 +106,7 @@ The complete and updated [Doxygen](http://www.doxygen.org/) source code document
 It is also possible to browse the documentation by class, file or name using the links:
 
 1.[classes](http://multithreadcorner.github.io/Hydra/classes.html)
-
 2.[files](http://multithreadcorner.github.io/Hydra/files.html)
-
 3.[names](http://multithreadcorner.github.io/Hydra/namespacemembers.html)
 
 

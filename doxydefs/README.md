@@ -91,7 +91,6 @@ The Latest Version
 ------------------
 
 
-
 Documentation
 -------------
 
@@ -102,9 +101,7 @@ The complete and updated [Doxygen](http://www.doxygen.org/) source code document
 It is also possible to browse the documentation by class, file or name using the links:
 
 1.[classes](http://multithreadcorner.github.io/Hydra/classes.html)
-
 2.[files](http://multithreadcorner.github.io/Hydra/files.html)
-
 3.[names](http://multithreadcorner.github.io/Hydra/namespacemembers.html)
 
 
