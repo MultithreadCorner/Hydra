@@ -9,7 +9,7 @@ Table of Contents
   * [What is it?](#what-is-it)
   * [Main features](#main-features)
   * [Hydra and Thrust](#hydra-and-thrust)
-  * [Supported Paralels Backends](#supported-paralels-backends)
+  * [Supported Parallel Backends](#supported-parallel-backends)
   * [The Latest Version](#the-latest-version)
   * [Documentation](#documentation)
     * [Reference manual](#reference-manual)
@@ -67,7 +67,7 @@ The version of Thrust distributed with Hydra is maintained by [MultithreadCorner
 ***Hydra does not depend or conflits with the official Thrust library distributed with the CUDA-SDK.***
 
 
-Supported Paralels Backends
+Supported Parallel Backends
 ---------------------------
 
 Hydra uses the underlying Thrust's "backend systems" to control how the algorithms algorithms get
