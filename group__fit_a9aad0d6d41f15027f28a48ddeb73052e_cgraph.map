@@ -1,0 +1,7 @@
+<map id="hydra::Pdf::operator=" name="hydra::Pdf::operator=">
+<area shape="rect" id="node2" href="$group__fit.html#a0695603afe8c3e1d3b8b241c94e5f757" title="Get a constant reference to the functor describing the shape. " alt="" coords="212,5,367,32"/>
+<area shape="rect" id="node3" href="$group__fit.html#afc3918ecf915a330d76c24fb73485e51" title="Get a reference to the integrator (functor or algorithm). " alt="" coords="206,56,373,83"/>
+<area shape="rect" id="node4" href="$group__fit.html#aca9a2726e42655cd67402d7d87ba339a" title="Get norm of the hydra::Pdf. " alt="" coords="218,107,361,133"/>
+<area shape="rect" id="node5" href="$group__fit.html#ae8209aa7c6fd8d184366d8eed7ce0347" title="Get cache table of normalization factors. " alt="" coords="199,157,380,184"/>
+<area shape="rect" id="node6" href="$group__fit.html#a713e1f9390d81030c5f6aa576fb37ee3" title="Get the error on the norm of the hydra::Pdf. " alt="" coords="204,208,375,235"/>
+</map>

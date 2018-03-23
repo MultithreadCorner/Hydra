@@ -1,0 +1,5 @@
+<map id="hydra::rotateEuler" name="hydra::rotateEuler">
+<area shape="rect" id="node2" href="$group__phsp.html#a6a39a2271379205a9284e0a124d55f45" title="hydra::Vector4R::applyRotate\lEuler" alt="" coords="179,23,373,65"/>
+<area shape="rect" id="node3" href="$namespacehydra.html#abb7154a99c3dfc0f0718e0b2762f11ac" title="hydra::cos" alt="" coords="421,5,504,32"/>
+<area shape="rect" id="node4" href="$namespacehydra.html#aebc492c9f6771b3d5a0741568c2076fe" title="hydra::sin" alt="" coords="423,56,502,83"/>
+</map>

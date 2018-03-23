@@ -59,7 +59,6 @@ var hierarchy =
     [ "hydra::detail::AverageMothers< N, GRND, FUNCTOR >", "structhydra_1_1detail_1_1AverageMothers.html", null ],
     [ "hydra::detail::BackendPolicy< BACKEND >", "namespacehydra_1_1detail.html#structhydra_1_1detail_1_1BackendPolicy", null ],
     [ "hydra::detail::bool_pack<... >", "namespacehydra_1_1detail.html#structhydra_1_1detail_1_1bool__pack", null ],
-    [ "hydra::detail::cached_allocator", "classhydra_1_1detail_1_1cached__allocator.html", null ],
     [ "hydra::detail::CacheEvaluator< Functors >", "structhydra_1_1detail_1_1CacheEvaluator.html", null ],
     [ "hydra::detail::CanConvert< A >", "namespacehydra_1_1detail.html#structhydra_1_1detail_1_1CanConvert", null ],
     [ "hydra::detail::CanConvert< A >::To< B >", "namespacehydra_1_1detail.html#structhydra_1_1detail_1_1CanConvert_1_1To", null ],
@@ -292,12 +291,6 @@ var hierarchy =
       [ "hydra::BaseFunctor< CubicSpiline< N, ArgIndex >, GReal_t, 0 >", "group__functor.html", [
         [ "hydra::CubicSpiline< N, ArgIndex >", "classhydra_1_1CubicSpiline.html", null ]
       ] ],
-      [ "hydra::BaseFunctor< DalitzAngularDistribution< L, CHANNEL >, double, 0 >", "group__functor.html", [
-        [ "hydra::DalitzAngularDistribution< L, CHANNEL >", "classhydra_1_1DalitzAngularDistribution.html", null ]
-      ] ],
-      [ "hydra::BaseFunctor< DalitzChecker, bool, 0 >", "group__functor.html", [
-        [ "hydra::DalitzChecker", "classhydra_1_1DalitzChecker.html", null ]
-      ] ],
       [ "hydra::BaseFunctor< Exponential< ArgIndex >, double, 1 >", "group__functor.html", [
         [ "hydra::Exponential< ArgIndex >", "classhydra_1_1Exponential.html", null ]
       ] ],
@@ -320,7 +313,6 @@ var hierarchy =
         [ "hydra::Polynomial< Order, ArgIndex >", "classhydra_1_1Polynomial.html", null ]
       ] ],
       [ "hydra::BaseFunctor< Resonance< CHANNEL, L >, hydra::complex< double >, 4 >", "group__functor.html", [
-        [ "Resonance< CHANNEL, L >", "classResonance.html", null ],
         [ "Resonance< CHANNEL, L >", "classResonance.html", null ]
       ] ],
       [ "hydra::BaseFunctor< WignerD< J, M, Denominator, ArgIndex >, double, 0 >", "group__functor.html", [
@@ -393,8 +385,6 @@ var hierarchy =
     [ "BaseFunctor< CosHelicityAngle, double, NPARAM > &", "namespace_3globalScope_4.html#classBaseFunctor_3_01CosHelicityAngle_00_01double_00_01NPARAM_01_4_01_6", null ],
     [ "BaseFunctor< CrystalBallShape< ArgIndex >, double, NPARAM > &", "namespace_3globalScope_4.html#classBaseFunctor_3_01CrystalBallShape_3_01ArgIndex_01_4_00_01double_00_01NPARAM_01_4_01_6", null ],
     [ "BaseFunctor< CubicSpiline< N, ArgIndex >, GReal_t, NPARAM > &", "namespace_3globalScope_4.html#classBaseFunctor_3_01CubicSpiline_3_01N_00_01ArgIndex_01_4_00_01GReal__t_00_01NPARAM_01_4_01_6", null ],
-    [ "BaseFunctor< DalitzAngularDistribution< L, CHANNEL >, double, NPARAM > &", "namespace_3globalScope_4.html#classBaseFunctor_3_01DalitzAngularDistribution_3_01L_00_01CHANNEL_01_4_00_01double_00_01NPARAM_01_4_01_6", null ],
-    [ "BaseFunctor< DalitzChecker, bool, NPARAM > &", "namespace_3globalScope_4.html#classBaseFunctor_3_01DalitzChecker_00_01bool_00_01NPARAM_01_4_01_6", null ],
     [ "BaseFunctor< Exponential< ArgIndex >, double, NPARAM > &", "namespace_3globalScope_4.html#classBaseFunctor_3_01Exponential_3_01ArgIndex_01_4_00_01double_00_01NPARAM_01_4_01_6", null ],
     [ "BaseFunctor< Gaussian< ArgIndex >, double, NPARAM > &", "namespace_3globalScope_4.html#classBaseFunctor_3_01Gaussian_3_01ArgIndex_01_4_00_01double_00_01NPARAM_01_4_01_6", null ],
     [ "BaseFunctor< LambdaWrapper< ReturnType(ArgType...), L, N >, ReturnType, NPARAM > &", "namespace_3globalScope_4.html#classBaseFunctor_3_01LambdaWrapper_3_01ReturnType_07ArgType_8_8_8_08_00_01L_00_01N_01_4_00_01ReturnType_00_01NPARAM_01_4_01_6", null ],

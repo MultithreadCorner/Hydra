@@ -1,0 +1,48 @@
+<map id="PhaseSpace.h" name="PhaseSpace.h">
+<area shape="rect" id="node5" href="$Config_8h.html" title="hydra/detail/Config.h" alt="" coords="2307,1121,2450,1148"/>
+<area shape="rect" id="node8" href="$BackendPolicy_8h.html" title="hydra/detail/BackendPolicy.h" alt="" coords="5094,757,5285,783"/>
+<area shape="rect" id="node10" href="$IteratorTraits_8h.html" title="hydra/detail/IteratorTraits.h" alt="" coords="7072,556,7251,583"/>
+<area shape="rect" id="node14" href="$Types_8h.html" title="Common and useful typedefs. " alt="" coords="4654,1121,4759,1148"/>
+<area shape="rect" id="node15" href="$Containers_8h.html" title="Typedefs for useful container classes used in MCBooster. " alt="" coords="1445,853,1577,880"/>
+<area shape="rect" id="node16" href="$Vector3R_8h.html" title="hydra/Vector3R.h" alt="" coords="467,1032,591,1059"/>
+<area shape="rect" id="node24" href="$Vector4R_8h.html" title="hydra/Vector4R.h" alt="" coords="910,943,1034,969"/>
+<area shape="rect" id="node31" href="$FlagAcceptReject_8h.html" title="hydra/detail/functors\l/FlagAcceptReject.h" alt="" coords="1056,445,1197,486"/>
+<area shape="rect" id="node33" href="$IsAccepted_8h.html" title="hydra/detail/functors\l/IsAccepted.h" alt="" coords="4846,1025,4986,1066"/>
+<area shape="rect" id="node34" href="$Generic_8h.html" title="hydra/detail/utility\l/Generic.h" alt="" coords="4306,653,4430,694"/>
+<area shape="rect" id="node36" href="$DecayMother_8h.html" title="hydra/detail/functors\l/DecayMother.h" alt="" coords="1273,445,1413,486"/>
+<area shape="rect" id="node48" href="$DecayMothers_8h.html" title="hydra/detail/functors\l/DecayMothers.h" alt="" coords="1742,445,1882,486"/>
+<area shape="rect" id="node49" href="$EvalMother_8h.html" title="hydra/detail/functors\l/EvalMother.h" alt="" coords="2471,177,2611,218"/>
+<area shape="rect" id="node53" href="$Print_8h.html" title="hydra/detail/Print.h" alt="" coords="2519,660,2649,687"/>
+<area shape="rect" id="node64" href="$StatsPHSP_8h.html" title="hydra/detail/functors\l/StatsPHSP.h" alt="" coords="1539,273,1679,315"/>
+<area shape="rect" id="node65" href="$EvalMothers_8h.html" title="hydra/detail/functors\l/EvalMothers.h" alt="" coords="2307,177,2447,218"/>
+<area shape="rect" id="node66" href="$CheckEnergy_8h.html" title="hydra/detail/functors\l/CheckEnergy.h" alt="" coords="5491,80,5631,121"/>
+<area shape="rect" id="node67" href="$Tuple_8h.html" title="hydra/Tuple.h" alt="" coords="5397,556,5499,583"/>
+<area shape="rect" id="node69" href="$Decays_8h.html" title="hydra/Decays.h" alt="" coords="5665,363,5780,389"/>
+<area shape="rect" id="node89" href="$launch__decayers_8inl.html" title="hydra/detail/launch\l_decayers.inl" alt="" coords="2893,80,3024,121"/>
+<area shape="rect" id="node97" href="$PhaseSpace_8inl.html" title="hydra/detail/PhaseSpace.inl" alt="" coords="8197,87,8381,114"/>
+<area shape="rect" id="node27" href="$Containers_8inl.html" title="hydra/detail/Containers.inl" alt="" coords="1452,943,1625,969"/>
+<area shape="rect" id="node20" href="$Collection_8h.html" title="hydra/Collection.h" alt="" coords="617,1121,743,1148"/>
+<area shape="rect" id="node23" href="$Vector3R_8inl.html" title="hydra/detail/Vector3R.inl" alt="" coords="427,1121,592,1148"/>
+<area shape="rect" id="node25" href="$Vector4R_8inl.html" title="hydra/detail/Vector4R.inl" alt="" coords="869,1032,1035,1059"/>
+<area shape="rect" id="node37" href="$Utility__Tuple_8h.html" title="hydra/detail/utility\l/Utility_Tuple.h" alt="" coords="3850,549,3974,590"/>
+<area shape="rect" id="node38" href="$TypeTraits_8h.html" title="hydra/detail/TypeTraits.h" alt="" coords="3042,757,3209,783"/>
+<area shape="rect" id="node43" href="$FunctorTraits_8h.html" title="hydra/detail/FunctorTraits.h" alt="" coords="3943,757,4124,783"/>
+<area shape="rect" id="node44" href="$Parameter_8h.html" title="hydra/Parameter.h" alt="" coords="2365,660,2494,687"/>
+<area shape="rect" id="node50" href="$FunctionWrapper_8h.html" title="hydra/FunctionWrapper.h" alt="" coords="3147,281,3315,307"/>
+<area shape="rect" id="node52" href="$Function_8h.html" title="hydra/Function.h" alt="" coords="3171,363,3290,389"/>
+<area shape="rect" id="node59" href="$Integrator_8h.html" title="hydra/detail/Integrator.h" alt="" coords="3998,556,4157,583"/>
+<area shape="rect" id="node60" href="$Parameters_8h.html" title="hydra/detail/Parameters.h" alt="" coords="3145,452,3316,479"/>
+<area shape="rect" id="node54" href="$StreamSTL_8h.html" title="hydra/detail/utility\l/StreamSTL.h" alt="" coords="2451,749,2575,791"/>
+<area shape="rect" id="node61" href="$Hash_8h.html" title="hydra/detail/Hash.h" alt="" coords="2825,556,2959,583"/>
+<area shape="rect" id="node70" href="$multiarray_8h.html" title="hydra/multiarray.h" alt="" coords="5558,452,5685,479"/>
+<area shape="rect" id="node72" href="$Placeholders_8h.html" title="hydra/Placeholders.h" alt="" coords="6701,556,6845,583"/>
+<area shape="rect" id="node77" href="$GenericRange_8h.html" title="hydra/GenericRange.h" alt="" coords="5760,452,5912,479"/>
+<area shape="rect" id="node88" href="$Decays_8inl.html" title="hydra/detail/Decays.inl" alt="" coords="6352,452,6507,479"/>
+<area shape="rect" id="node71" href="$Caster_8h.html" title="hydra/detail/functors\l/Caster.h" alt="" coords="2983,549,3123,590"/>
+<area shape="rect" id="node73" href="$Placeholders_8inl.html" title="hydra/detail/Placeholders.inl" alt="" coords="6465,660,6650,687"/>
+<area shape="rect" id="node78" href="$Distance_8h.html" title="hydra/Distance.h" alt="" coords="6242,660,6363,687"/>
+<area shape="rect" id="node80" href="$GenericRange1_8inl.html" title="hydra/detail/GenericRange1.inl" alt="" coords="6427,556,6627,583"/>
+<area shape="rect" id="node81" href="$GenericRange2_8inl.html" title="hydra/detail/GenericRange2.inl" alt="" coords="6203,556,6403,583"/>
+<area shape="rect" id="node90" href="$AverageMother_8h.html" title="hydra/detail/functors\l/AverageMother.h" alt="" coords="3161,177,3301,218"/>
+<area shape="rect" id="node91" href="$AverageMothers_8h.html" title="hydra/detail/functors\l/AverageMothers.h" alt="" coords="3325,177,3465,218"/>
+</map>

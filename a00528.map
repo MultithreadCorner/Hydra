@@ -1,0 +1,40 @@
+<map id="gauss_kronrod.cpp" name="gauss_kronrod.cpp">
+<area shape="rect" id="node2" href="$a00533.html" title="examples/numerical\l_integration/gauss_kronrod.inl" alt="" coords="4043,80,4238,121"/>
+<area shape="rect" id="node8" href="$a00296.html" title="hydra/Function.h" alt="" coords="3848,244,3966,271"/>
+<area shape="rect" id="node52" href="$a00308.html" title="hydra/GaussKronrodQuadrature.h" alt="" coords="1327,244,1543,271"/>
+<area shape="rect" id="node77" href="$a00299.html" title="hydra/FunctionWrapper.h" alt="" coords="4175,169,4343,196"/>
+<area shape="rect" id="node79" href="$a02386.html" title="hydra/host/System.h" alt="" coords="616,319,758,345"/>
+<area shape="rect" id="node81" href="$a02383.html" title="hydra/device/System.h" alt="" coords="552,244,708,271"/>
+<area shape="rect" id="node9" href="$a00053.html" title="hydra/detail/Config.h" alt="" coords="1858,988,2001,1015"/>
+<area shape="rect" id="node12" href="$a00383.html" title="Common and useful typedefs. " alt="" coords="3096,988,3201,1015"/>
+<area shape="rect" id="node13" href="$a00233.html" title="hydra/detail/Print.h" alt="" coords="1888,512,2019,539"/>
+<area shape="rect" id="node21" href="$a00176.html" title="hydra/detail/Integrator.h" alt="" coords="3433,408,3592,435"/>
+<area shape="rect" id="node23" href="$a00341.html" title="hydra/Parameter.h" alt="" coords="4246,512,4376,539"/>
+<area shape="rect" id="node46" href="$a00266.html" title="hydra/detail/utility\l/Utility_Tuple.h" alt="" coords="3996,401,4120,442"/>
+<area shape="rect" id="node48" href="$a00158.html" title="hydra/detail/FunctorTraits.h" alt="" coords="4398,609,4579,635"/>
+<area shape="rect" id="node49" href="$a00200.html" title="hydra/detail/Parameters.h" alt="" coords="3598,319,3768,345"/>
+<area shape="rect" id="node14" href="$a00263.html" title="hydra/detail/utility\l/StreamSTL.h" alt="" coords="2302,601,2426,643"/>
+<area shape="rect" id="node24" href="$a00248.html" title="hydra/detail/TypeTraits.h" alt="" coords="3708,609,3874,635"/>
+<area shape="rect" id="node25" href="$a00017.html" title="Typedefs for useful container classes used in MCBooster. " alt="" coords="346,705,478,732"/>
+<area shape="rect" id="node27" href="$a00392.html" title="hydra/Vector3R.h" alt="" coords="1046,899,1170,925"/>
+<area shape="rect" id="node34" href="$a00395.html" title="hydra/Vector4R.h" alt="" coords="1092,802,1216,829"/>
+<area shape="rect" id="node37" href="$a00059.html" title="hydra/detail/Containers.inl" alt="" coords="326,802,499,829"/>
+<area shape="rect" id="node30" href="$a00011.html" title="hydra/Collection.h" alt="" coords="2449,988,2576,1015"/>
+<area shape="rect" id="node33" href="$a00269.html" title="hydra/detail/Vector3R.inl" alt="" coords="1156,988,1322,1015"/>
+<area shape="rect" id="node35" href="$a00272.html" title="hydra/detail/Vector4R.inl" alt="" coords="1195,899,1360,925"/>
+<area shape="rect" id="node47" href="$a00254.html" title="hydra/detail/utility\l/Generic.h" alt="" coords="3793,505,3917,546"/>
+<area shape="rect" id="node53" href="$a00038.html" title="hydra/detail/BackendPolicy.h" alt="" coords="706,705,897,732"/>
+<area shape="rect" id="node54" href="$a02377.html" title="hydra/cpp/System.h" alt="" coords="936,319,1075,345"/>
+<area shape="rect" id="node58" href="$a00314.html" title="hydra/GaussKronrodRules.h" alt="" coords="1312,319,1499,345"/>
+<area shape="rect" id="node62" href="$a00143.html" title="hydra/detail/functors\l/ProcessGaussKronrodQuadrature.h" alt="" coords="2651,891,2883,933"/>
+<area shape="rect" id="node63" href="$a00338.html" title="hydra/multivector.h" alt="" coords="2586,319,2719,345"/>
+<area shape="rect" id="node74" href="$a00164.html" title="hydra/detail/GaussKronrod\lQuadrature.inl" alt="" coords="943,601,1119,643"/>
+<area shape="rect" id="node55" href="$a00215.html" title="hydra/detail/policies\l/backends/CPP.h" alt="" coords="1230,601,1368,643"/>
+<area shape="rect" id="node59" href="$a00311.html" title="hydra/GaussKronrodRule.h" alt="" coords="1190,408,1368,435"/>
+<area shape="rect" id="node64" href="$a00095.html" title="hydra/detail/functors\l/Caster.h" alt="" coords="2582,401,2722,442"/>
+<area shape="rect" id="node66" href="$a00380.html" title="hydra/Tuple.h" alt="" coords="3616,408,3718,435"/>
+<area shape="rect" id="node68" href="$a00359.html" title="hydra/Placeholders.h" alt="" coords="3214,408,3358,435"/>
+<area shape="rect" id="node69" href="$a00209.html" title="hydra/detail/Placeholders.inl" alt="" coords="2836,512,3021,539"/>
+<area shape="rect" id="node80" href="$a00224.html" title="hydra/detail/policies\l/backends/HOST.h" alt="" coords="614,601,752,643"/>
+<area shape="rect" id="node82" href="$a00221.html" title="hydra/detail/policies\l/backends/DEVICE.h" alt="" coords="442,601,590,643"/>
+</map>

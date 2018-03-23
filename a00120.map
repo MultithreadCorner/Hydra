@@ -1,0 +1,17 @@
+<map id="GetGlobalBin.h" name="GetGlobalBin.h">
+<area shape="rect" id="node3" href="$a00380.html" title="hydra/Tuple.h" alt="" coords="142,169,243,196"/>
+<area shape="rect" id="node10" href="$a00266.html" title="hydra/detail/utility\l/Utility_Tuple.h" alt="" coords="700,80,824,121"/>
+<area shape="rect" id="node7" href="$a00254.html" title="hydra/detail/utility\l/Generic.h" alt="" coords="388,251,512,293"/>
+<area shape="rect" id="node11" href="$a00053.html" title="hydra/detail/Config.h" alt="" coords="1825,631,1968,657"/>
+<area shape="rect" id="node14" href="$a00383.html" title="Common and useful typedefs. " alt="" coords="448,631,553,657"/>
+<area shape="rect" id="node15" href="$a00248.html" title="hydra/detail/TypeTraits.h" alt="" coords="1299,259,1465,285"/>
+<area shape="rect" id="node36" href="$a00158.html" title="hydra/detail/FunctorTraits.h" alt="" coords="587,259,769,285"/>
+<area shape="rect" id="node37" href="$a00341.html" title="hydra/Parameter.h" alt="" coords="1052,169,1181,196"/>
+<area shape="rect" id="node16" href="$a00017.html" title="Typedefs for useful container classes used in MCBooster. " alt="" coords="1089,363,1221,389"/>
+<area shape="rect" id="node18" href="$a00392.html" title="hydra/Vector3R.h" alt="" coords="705,541,829,568"/>
+<area shape="rect" id="node25" href="$a00395.html" title="hydra/Vector4R.h" alt="" coords="881,452,1005,479"/>
+<area shape="rect" id="node28" href="$a00059.html" title="hydra/detail/Containers.inl" alt="" coords="1511,452,1685,479"/>
+<area shape="rect" id="node22" href="$a00011.html" title="hydra/Collection.h" alt="" coords="1036,631,1163,657"/>
+<area shape="rect" id="node24" href="$a00269.html" title="hydra/detail/Vector3R.inl" alt="" coords="662,631,827,657"/>
+<area shape="rect" id="node26" href="$a00272.html" title="hydra/detail/Vector4R.inl" alt="" coords="1006,541,1171,568"/>
+</map>

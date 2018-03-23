@@ -1,0 +1,4 @@
+<map id="hydra::norm" name="hydra::norm">
+<area shape="rect" id="node2" href="$group__functor.html#ada9a2f22433e0c66ea46df1cd3eed8bd" title="hydra::BaseFunctor\l\&lt; LambdaWrapper\&lt; ReturnType\l(ArgType...), L, N \&gt;, ReturnType,\l N \&gt;::operator()" alt="" coords="144,5,360,76"/>
+<area shape="rect" id="node3" href="$group__functor.html#a271725ea39c8819afeea3b3e284fdd84" title="hydra::BaseFunctor\l\&lt; LambdaWrapper\&lt; ReturnType\l(ArgType...), L, N \&gt;, ReturnType,\l N \&gt;::SetNorm" alt="" coords="144,100,360,171"/>
+</map>

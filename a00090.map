@@ -1,0 +1,24 @@
+<map id="AverageMother.h" name="AverageMother.h">
+<area shape="rect" id="node2" href="$a00053.html" title="hydra/detail/Config.h" alt="" coords="2641,884,2783,911"/>
+<area shape="rect" id="node5" href="$a00038.html" title="hydra/detail/BackendPolicy.h" alt="" coords="609,355,799,382"/>
+<area shape="rect" id="node7" href="$a00383.html" title="Common and useful typedefs. " alt="" coords="975,884,1081,911"/>
+<area shape="rect" id="node8" href="$a00017.html" title="Typedefs for useful container classes used in MCBooster. " alt="" coords="1235,616,1367,643"/>
+<area shape="rect" id="node11" href="$a00392.html" title="hydra/Vector3R.h" alt="" coords="246,795,370,821"/>
+<area shape="rect" id="node19" href="$a00395.html" title="hydra/Vector4R.h" alt="" coords="466,705,590,732"/>
+<area shape="rect" id="node26" href="$a00266.html" title="hydra/detail/utility\l/Utility_Tuple.h" alt="" coords="1905,348,2029,389"/>
+<area shape="rect" id="node37" href="$a00299.html" title="hydra/FunctionWrapper.h" alt="" coords="2047,87,2215,114"/>
+<area shape="rect" id="node52" href="$a00155.html" title="hydra/detail/functors\l/StatsPHSP.h" alt="" coords="3155,80,3295,121"/>
+<area shape="rect" id="node22" href="$a00059.html" title="hydra/detail/Containers.inl" alt="" coords="1276,705,1449,732"/>
+<area shape="rect" id="node15" href="$a00011.html" title="hydra/Collection.h" alt="" coords="602,884,729,911"/>
+<area shape="rect" id="node18" href="$a00269.html" title="hydra/detail/Vector3R.inl" alt="" coords="316,884,481,911"/>
+<area shape="rect" id="node20" href="$a00272.html" title="hydra/detail/Vector4R.inl" alt="" coords="445,795,611,821"/>
+<area shape="rect" id="node27" href="$a00254.html" title="hydra/detail/utility\l/Generic.h" alt="" coords="1551,512,1675,553"/>
+<area shape="rect" id="node29" href="$a00248.html" title="hydra/detail/TypeTraits.h" alt="" coords="1855,519,2022,546"/>
+<area shape="rect" id="node33" href="$a00158.html" title="hydra/detail/FunctorTraits.h" alt="" coords="1343,437,1524,464"/>
+<area shape="rect" id="node34" href="$a00341.html" title="hydra/Parameter.h" alt="" coords="2482,437,2611,464"/>
+<area shape="rect" id="node39" href="$a00296.html" title="hydra/Function.h" alt="" coords="2071,169,2190,196"/>
+<area shape="rect" id="node40" href="$a00233.html" title="hydra/detail/Print.h" alt="" coords="833,437,964,464"/>
+<area shape="rect" id="node46" href="$a00176.html" title="hydra/detail/Integrator.h" alt="" coords="2617,355,2775,382"/>
+<area shape="rect" id="node48" href="$a00200.html" title="hydra/detail/Parameters.h" alt="" coords="2168,259,2339,285"/>
+<area shape="rect" id="node41" href="$a00263.html" title="hydra/detail/utility\l/StreamSTL.h" alt="" coords="666,512,790,553"/>
+</map>

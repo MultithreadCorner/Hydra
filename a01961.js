@@ -1,0 +1,25 @@
+var a01961 =
+[
+    [ "base_type", "a01961.html#a71045ad2dfadfdc6f5e7b32d235ca79e", null ],
+    [ "functor_type", "a01961.html#a2b4f42deafa8b6c4d3bf573f63508537", null ],
+    [ "functors_tuple_type", "a01961.html#ad704b6023a8785d92cc8d257148c06a8", null ],
+    [ "hydra_sum_pdf_tag", "a01961.html#ac397c9fdf1d8c543b0c0b48a37a1556e", null ],
+    [ "pdfs_tuple_type", "a01961.html#a60d4b9bedd916a5c643dfeb6c0667cb4", null ],
+    [ "PDFSumExtendable", "a01961.html#a488dd046421036dff01362bfc0ca9bd2", null ],
+    [ "PDFSumExtendable", "a01961.html#a1acd5fbbc449b014d27bb32ca011ef8c", null ],
+    [ "AddUserParameters", "a01961.html#ab4566d027fe4a340e3f2b6a038472ff4", null ],
+    [ "GetCoeficient", "a01961.html#a1cc62e3d5404225976596630554e8ee5", null ],
+    [ "GetCoefSum", "a01961.html#a8351d322ccf19e2616597356519a1b1e", null ],
+    [ "GetFunctor", "a01961.html#a2747ba6a45428e3307ffccaa30f0191e", null ],
+    [ "GetFunctors", "a01961.html#a1b59c7be9583ad122a5afd4095f791a3", null ],
+    [ "GetPDFs", "a01961.html#a61e26aaedc57b14a65937ce8d02f5811", null ],
+    [ "IsExtended", "a01961.html#a01a695de804a39e8d307f9ead854588d", null ],
+    [ "operator()", "a01961.html#abe585775f077cd6c7d98023237dd4458", null ],
+    [ "operator()", "a01961.html#a856561781c2ba63e54edfb22e62e3f3f", null ],
+    [ "operator()", "a01961.html#a73109116dfb39da8de43b4cce22f7534", null ],
+    [ "operator=", "a01961.html#abadfade8e34cfbfa8d9a713df5e84bb0", null ],
+    [ "PrintRegisteredParameters", "a01961.html#afc78d11b6fc663576c5f81590849197c", null ],
+    [ "SetExtended", "a01961.html#a6963658f2848acf99bc4d2114d810614", null ],
+    [ "SetParameters", "a01961.html#a1be67190fd2a1073bea5ed47156875dd", null ],
+    [ "npdfs", "a01961.html#a19678b5d43cd6f93dc8e790b1018dc8e", null ]
+];

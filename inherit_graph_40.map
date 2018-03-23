@@ -1,9 +1,3 @@
 <map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
-<area shape="rect" id="node2" href="$structhydra_1_1detail_1_1AddStatsPHSP.html" title="hydra::detail::AddStatsPHSP" alt="" coords="170,5,362,32"/>
-<area shape="rect" id="node3" href="$structhydra_1_1detail_1_1CovMatrixBinary.html" title="hydra::detail::CovMatrix\lBinary\&lt; T \&gt;" alt="" coords="185,57,347,98"/>
-<area shape="rect" id="node4" href="$structhydra_1_1detail_1_1EvalOnDaughtersBinary.html" title="hydra::detail::EvalOnDaughters\lBinary" alt="" coords="164,122,368,163"/>
-<area shape="rect" id="node5" href="$structhydra_1_1detail_1_1ProcessBoxesVegas.html" title="hydra::detail::ProcessBoxes\lVegas" alt="" coords="173,187,359,229"/>
-<area shape="rect" id="node6" href="$structhydra_1_1detail_1_1ProcessCallsPlainBinary.html" title="hydra::detail::ProcessCalls\lPlainBinary" alt="" coords="177,253,355,294"/>
-<area shape="rect" id="node7" href="$structhydra_1_1detail_1_1ProcessGenzMalikBinaryCall.html" title="hydra::detail::ProcessGenz\lMalikBinaryCall\&lt; N \&gt;" alt="" coords="176,318,356,359"/>
-<area shape="rect" id="node8" href="$structhydra_1_1GaussKronrodBinary.html" title="hydra::GaussKronrodBinary" alt="" coords="175,384,357,411"/>
+<area shape="rect" id="node1" href="$namespacehydra_1_1detail.html#structhydra_1_1detail_1_1append__to__type__seq" title="hydra::detail::append\l_to_type_seq\&lt; typename,\l typename \&gt;" alt="" coords="5,5,179,61"/>
 </map>

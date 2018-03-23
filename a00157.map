@@ -1,0 +1,32 @@
+<map id="StatsPHSP.h" name="StatsPHSP.h">
+<area shape="rect" id="node2" href="$a00089.html" title="AverageMother.h" alt="" coords="1218,80,1339,107"/>
+<area shape="rect" id="node4" href="$a00353.html" title="PhaseSpace.h" alt="" coords="1307,229,1413,256"/>
+<area shape="rect" id="node29" href="$a00092.html" title="AverageMothers.h" alt="" coords="1065,80,1193,107"/>
+<area shape="rect" id="node30" href="$a00110.html" title="EvalMother.h" alt="" coords="1364,80,1463,107"/>
+<area shape="rect" id="node31" href="$a00113.html" title="EvalMothers.h" alt="" coords="1487,80,1593,107"/>
+<area shape="rect" id="node3" href="$a00182.html" title="launch_decayers.inl" alt="" coords="1238,155,1375,181"/>
+<area shape="rect" id="node5" href="$a00461.html" title="phsp_unweighting_functor\l_and_fit.inl" alt="" coords="203,304,376,345"/>
+<area shape="rect" id="node8" href="$a00560.html" title="phsp_averaging_functor.inl" alt="" coords="611,311,789,338"/>
+<area shape="rect" id="node11" href="$a00569.html" title="phsp_basic.inl" alt="" coords="953,311,1058,338"/>
+<area shape="rect" id="node14" href="$a00578.html" title="phsp_chain.inl" alt="" coords="1222,311,1327,338"/>
+<area shape="rect" id="node17" href="$a00587.html" title="phsp_evaluating_functor.inl" alt="" coords="1357,311,1537,338"/>
+<area shape="rect" id="node20" href="$a00596.html" title="phsp_reweighting.inl" alt="" coords="1775,311,1915,338"/>
+<area shape="rect" id="node23" href="$a00605.html" title="phsp_unweighting.inl" alt="" coords="2114,311,2257,338"/>
+<area shape="rect" id="node26" href="$a00614.html" title="phsp_unweighting_functor.inl" alt="" coords="2458,311,2649,338"/>
+<area shape="rect" id="node6" href="$a00455.html" title="phsp_unweighting_functor\l_and_fit.cpp" alt="" coords="5,393,179,435"/>
+<area shape="rect" id="node7" href="$a00458.html" title="phsp_unweighting_functor\l_and_fit.cu" alt="" coords="203,393,376,435"/>
+<area shape="rect" id="node9" href="$a00554.html" title="phsp_averaging_functor.cpp" alt="" coords="401,401,586,427"/>
+<area shape="rect" id="node10" href="$a00557.html" title="phsp_averaging_functor.cu" alt="" coords="611,401,789,427"/>
+<area shape="rect" id="node12" href="$a00563.html" title="phsp_basic.cpp" alt="" coords="814,401,927,427"/>
+<area shape="rect" id="node13" href="$a00566.html" title="phsp_basic.cu" alt="" coords="952,401,1059,427"/>
+<area shape="rect" id="node15" href="$a00572.html" title="phsp_chain.cpp" alt="" coords="1083,401,1197,427"/>
+<area shape="rect" id="node16" href="$a00575.html" title="phsp_chain.cu" alt="" coords="1221,401,1328,427"/>
+<area shape="rect" id="node18" href="$a00581.html" title="phsp_evaluating_functor.cpp" alt="" coords="1353,401,1541,427"/>
+<area shape="rect" id="node19" href="$a00584.html" title="phsp_evaluating_functor.cu" alt="" coords="1565,401,1747,427"/>
+<area shape="rect" id="node21" href="$a00590.html" title="phsp_reweighting.cpp" alt="" coords="1771,401,1919,427"/>
+<area shape="rect" id="node22" href="$a00593.html" title="phsp_reweighting.cu" alt="" coords="1944,401,2085,427"/>
+<area shape="rect" id="node24" href="$a00599.html" title="phsp_unweighting.cpp" alt="" coords="2110,401,2261,427"/>
+<area shape="rect" id="node25" href="$a00602.html" title="phsp_unweighting.cu" alt="" coords="2285,401,2429,427"/>
+<area shape="rect" id="node27" href="$a00608.html" title="phsp_unweighting_functor.cpp" alt="" coords="2454,401,2653,427"/>
+<area shape="rect" id="node28" href="$a00611.html" title="phsp_unweighting_functor.cu" alt="" coords="2677,401,2867,427"/>
+</map>

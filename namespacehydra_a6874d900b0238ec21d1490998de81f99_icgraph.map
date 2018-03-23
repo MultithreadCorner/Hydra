@@ -1,0 +1,21 @@
+<map id="hydra::begin" name="hydra::begin">
+<area shape="rect" id="node2" href="$group__phsp.html#a84cf55e24af9ba83224d7f3d3e4e0a6f" title="Calculate the mean and the &#160;of a functor over the phase&#45;space given a list of mother particles..." alt="" coords="177,5,321,47"/>
+<area shape="rect" id="node3" href="$group__random.html#a13fa0fd745359a7ab80e359db48fa08c" title="Fill the range [begin, end] with numbers distributed according a Breit&#45;Wigner distribution. " alt="" coords="399,71,585,98"/>
+<area shape="rect" id="node5" href="$group__generic.html#gae24ab75c18fd15430a4f071f1a426e80" title="Evaluate a hydra functor on a range using the parallel policy. " alt="" coords="205,375,292,402"/>
+<area shape="rect" id="node6" href="$classhydra_1_1LogLikelihoodFCN_3_01PDFSumExtendable_3_01Pdfs_8_8_8_01_4_00_01Iterator_01_4.html#abefc9a1e5b622f47b4f35acb38496a8c" title="hydra::LogLikelihoodFCN\l\&lt; PDFSumExtendable\&lt; Pdfs...\l \&gt;, Iterator \&gt;::Eval" alt="" coords="147,426,351,482"/>
+<area shape="rect" id="node7" href="$classhydra_1_1LogLikelihoodFCN_3_01Pdf_3_01Functor_00_01Integrator_01_4_00_01Iterator_01_4.html#a3428e8d2e65fb633129ed84467e7328b" title="hydra::LogLikelihoodFCN\l\&lt; Pdf\&lt; Functor, Integrator\l \&gt;, Iterator \&gt;::Eval" alt="" coords="162,506,335,562"/>
+<area shape="rect" id="node8" href="$classhydra_1_1LogLikelihoodFCN_3_01PDFSumNonExtendable_3_01Pdfs_8_8_8_01_4_00_01Iterator_01_4.html#a67153f6a6e74c8e1f36ea1ed657d7781" title="hydra::LogLikelihoodFCN\l\&lt; PDFSumNonExtendable\l\&lt; Pdfs... \&gt;, Iterator \&gt;::Eval" alt="" coords="159,586,339,642"/>
+<area shape="rect" id="node9" href="$group__random.html#a140d7eb65c2c22c66094841098526dd3" title="Fill the range [begin, end] with numbers distributed according a Exponential distribution. " alt="" coords="177,666,320,693"/>
+<area shape="rect" id="node11" href="$group__random.html#a5ee13c32177c69b4bd9b9b7fa7b3209e" title="Fill the range [begin, end] with numbers distributed according a Gaussian distribution. " alt="" coords="413,122,571,149"/>
+<area shape="rect" id="node12" href="$group__phsp.html#a299ad039adfe2099758ccad7e775b614" title="Generate a phase&#45;space given a range of mother particles and a output range. " alt="" coords="177,717,321,759"/>
+<area shape="rect" id="node13" href="$namespacehydra.html#a66310c43220a83278f7e1588cf2d0feb" title="hydra::make_chain" alt="" coords="426,375,558,402"/>
+<area shape="rect" id="node14" href="$namespacehydra.html#a8d210727c4d8b6989542eff5fd3f6319" title="hydra::make_range" alt="" coords="182,274,315,301"/>
+<area shape="rect" id="node18" href="$group__random.html#ac65eeb80e6378894c9a2a22660f6205f" title="Fill a range with numbers distributed according a user defined distribution. " alt="" coords="411,223,573,250"/>
+<area shape="rect" id="node19" href="$classhydra_1_1FCN_3_01Estimator_3_01PDF_00_01Iterator_00_01Visitors_8_8_8_01_4_01_4.html#ae62a623d770658e30a4d2730afffb5d2" title="hydra::FCN\&lt; Estimator\l\&lt; PDF, Iterator, Visitors...\l \&gt; \&gt;::SetBegin" alt="" coords="161,783,336,839"/>
+<area shape="rect" id="node20" href="$group__random.html#a1c201ad9f2112b4f6a298bc4cb2783d5" title="Fill the range [begin, end] with numbers distributed according a Uniform distribution. " alt="" coords="409,173,575,199"/>
+<area shape="rect" id="node4" href="$async__mc_8inl.html#a1c03069360f1f90a556eb537e0ff8a72" title="examples " alt="" coords="633,147,684,174"/>
+<area shape="rect" id="node10" href="$basic__distributions_8inl.html#a1c03069360f1f90a556eb537e0ff8a72" title="main" alt="" coords="467,666,517,693"/>
+<area shape="rect" id="node15" href="$namespacehydra.html#a4f175cc8f2c59f6cf2c416354fdb951f" title="Apply a filter to the range [first, last] and return a pair of iterators for the filtered events..." alt="" coords="429,274,555,301"/>
+<area shape="rect" id="node17" href="$phsp__unweighting__functor__and__fit_8inl.html#a1c03069360f1f90a556eb537e0ff8a72" title="main" alt="" coords="467,325,517,351"/>
+<area shape="rect" id="node16" href="$basic__fit_8inl.html#a1c03069360f1f90a556eb537e0ff8a72" title="main" alt="" coords="633,274,684,301"/>
+</map>

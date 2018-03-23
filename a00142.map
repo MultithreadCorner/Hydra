@@ -1,0 +1,6 @@
+<map id="ProcessGaussKronrodAdaptiveQuadrature.h" name="ProcessGaussKronrodAdaptiveQuadrature.h">
+<area shape="rect" id="node2" href="$a00305.html" title="GaussKronrodAdaptiveQuadrature.h" alt="" coords="88,95,319,121"/>
+<area shape="rect" id="node3" href="$a00524.html" title="adaptive_gauss_kronrod.inl" alt="" coords="113,169,293,196"/>
+<area shape="rect" id="node4" href="$a00518.html" title="adaptive_gauss_kronrod.cpp" alt="" coords="5,244,193,271"/>
+<area shape="rect" id="node5" href="$a00521.html" title="adaptive_gauss_kronrod.cu" alt="" coords="218,244,399,271"/>
+</map>

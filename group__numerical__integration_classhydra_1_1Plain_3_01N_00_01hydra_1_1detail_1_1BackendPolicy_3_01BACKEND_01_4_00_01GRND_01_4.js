@@ -1,0 +1,26 @@
+var group__numerical__integration_classhydra_1_1Plain_3_01N_00_01hydra_1_1detail_1_1BackendPolicy_3_01BACKEND_01_4_00_01GRND_01_4 =
+[
+    [ "Plain", "group__numerical__integration.html#a811aaae034af5b10d651d576af60b137", null ],
+    [ "Plain", "group__numerical__integration.html#a0b50cec0c773507bc5b1f17bbb26784e", null ],
+    [ "Plain", "group__numerical__integration.html#a0faec22477c7174d877d977c48ef6a7f", null ],
+    [ "Plain", "group__numerical__integration.html#a911071d77076daf7edfe3f52d2a28b2c", null ],
+    [ "Plain", "group__numerical__integration.html#aadaff9b74184a596b5e97d3e44501135", null ],
+    [ "GetAbsError", "group__numerical__integration.html#af6d26cbda308a6bd0f9c133478aa02aa", null ],
+    [ "GetDeltaX", "group__numerical__integration.html#a459aea07b946e8dfbdf3f0a84adc09e0", null ],
+    [ "GetNCalls", "group__numerical__integration.html#a351707221d3278ba6a792fc83c9c83f9", null ],
+    [ "GetResult", "group__numerical__integration.html#a5eafa0100eb3d6ece477c4faacca4526", null ],
+    [ "GetSeed", "group__numerical__integration.html#a04650246a2ca76e31ee2e47032b895df", null ],
+    [ "GetSigma", "group__numerical__integration.html#ab396fb2e2c9ad9d66aeb9ce01770f8b0", null ],
+    [ "GetVolume", "group__numerical__integration.html#ad8d4c64e47a2c7361dc8ed94996aa4ca", null ],
+    [ "GetXLow", "group__numerical__integration.html#a60e98fb729d11d4284df25d1a0c4002e", null ],
+    [ "Integrate", "group__numerical__integration.html#a1c6aec85266359854a8649a499f60dd1", null ],
+    [ "operator=", "group__numerical__integration.html#a1fa79e6ca01ceae7aee53e6c92bd60b0", null ],
+    [ "operator=", "group__numerical__integration.html#ae4e3c7d5629c2cfa87cc9eba91d4a273", null ],
+    [ "SetAbsError", "group__numerical__integration.html#a9d746868615227c85a9e326d5e76afb9", null ],
+    [ "SetDeltaX", "group__numerical__integration.html#abfbf1ca0b8fe4db87917e8d7ee6724e4", null ],
+    [ "SetNCalls", "group__numerical__integration.html#af699163286921fdfe9356fe8ea2c8ed0", null ],
+    [ "SetResult", "group__numerical__integration.html#a66cbddd54b8304f0b0405d34810dbe10", null ],
+    [ "SetSeed", "group__numerical__integration.html#a8616a6b3fccfdf1cfda1ca5c96db6131", null ],
+    [ "SetVolume", "group__numerical__integration.html#aeba30bf4b38be3ae291f811ac279217a", null ],
+    [ "SetXLow", "group__numerical__integration.html#ab7c40a39d45a8551e2e03012aab88a3b", null ]
+];

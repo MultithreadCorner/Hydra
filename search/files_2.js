@@ -24,6 +24,5 @@ var searchData=
   ['crystalballshape_2eh',['CrystalBallShape.h',['../CrystalBallShape_8h.html',1,'']]],
   ['cubicspiline_2eh',['CubicSpiline.h',['../CubicSpiline_8h.html',1,'']]],
   ['cuda_2eh',['CUDA.h',['../CUDA_8h.html',1,'']]],
-  ['cudacachedallocator_2eh',['CudaCachedAllocator.h',['../CudaCachedAllocator_8h.html',1,'']]],
   ['system_2eh',['System.h',['../cpp_2System_8h.html',1,'(Global Namespace)'],['../cuda_2System_8h.html',1,'(Global Namespace)']]]
 ];

@@ -1,0 +1,20 @@
+<map id="main" name="main">
+<area shape="rect" id="node2" href="$group__fit.html#afcb827c519d5a9395192358fba358728" title="hydra::Parameter::Create" alt="" coords="115,5,284,32"/>
+<area shape="rect" id="node4" href="$namespacehydra.html#ae7f8d7b0cfc77696dd1ba9aaf31d23a7" title="hydra::end" alt="" coords="397,191,479,217"/>
+<area shape="rect" id="node5" href="$group__fit.html#a9faea07ef7ea36231838f227f8c8a1c7" title="hydra::Parameter::Error" alt="" coords="120,107,279,133"/>
+<area shape="rect" id="node6" href="$group__phsp.html#a2bc929273f54d8e7e45f90aff2813194" title="Generate a phase&#45;space given a mother particle and a output range. " alt="" coords="127,158,271,199"/>
+<area shape="rect" id="node7" href="$group__fit.html#a19bbd8c8155327bbd2d2a689c6eaad9f" title="hydra::Parameter::Limits" alt="" coords="117,224,282,251"/>
+<area shape="rect" id="node8" href="$namespacehydra.html#a2940519393c31b1d5566e1894e01bad7" title="hydra::make_loglikehood_fcn" alt="" coords="104,275,295,301"/>
+<area shape="rect" id="node9" href="$namespacehydra.html#a2d468a0d98a74f41479f8ccb95f5533e" title="Build a hydra::Pdf given a shape described by a functor and a integrator (algorithm or functor)..." alt="" coords="140,325,259,352"/>
+<area shape="rect" id="node10" href="$namespacehydra.html#a8d210727c4d8b6989542eff5fd3f6319" title="hydra::make_range" alt="" coords="133,376,266,403"/>
+<area shape="rect" id="node12" href="$group__phsp.html#a7f617ab3292ed83e381c87a79be9e08f" title="hydra::Vector4R::mass" alt="" coords="121,427,278,453"/>
+<area shape="rect" id="node14" href="$group__fit.html#a47861993e8a8e57b88324d7d060e31b5" title="hydra::Parameter::Name" alt="" coords="117,477,282,504"/>
+<area shape="rect" id="node15" href="$namespacehydra.html#ad17e6f0c375b2466aa3f5f3cac2bbe7c" title="hydra::pow" alt="" coords="156,528,243,555"/>
+<area shape="rect" id="node17" href="$classhydra_1_1Print.html#a03a2522e2192b2509284f25b4b899c7c" title="hydra::Print::SetLevel" alt="" coords="125,579,273,605"/>
+<area shape="rect" id="node18" href="$group__fit.html#a706c308f57ea396e2cfe6c22f1b6b442" title="hydra::Parameter::Value" alt="" coords="118,629,281,656"/>
+<area shape="rect" id="node19" href="$group__functor.html#ga06bab1ad739e661a92fbf918012c9736" title="Function template for wrap a C++11 lambda into a hydra lambda with a certain number of parameters..." alt="" coords="130,680,269,707"/>
+<area shape="rect" id="node3" href="$group__fit.html#a442e7fd55af0ce0fda6fc37c8fd049ea" title="hydra::Parameter::Parameter" alt="" coords="343,5,533,32"/>
+<area shape="rect" id="node11" href="$namespacehydra.html#a6874d900b0238ec21d1490998de81f99" title="hydra::begin" alt="" coords="391,376,485,403"/>
+<area shape="rect" id="node13" href="$namespacehydra.html#ac9c54fb833c00a61ad29f0203620ec27" title="hydra::sqrt" alt="" coords="396,427,480,453"/>
+<area shape="rect" id="node16" href="$namespacehydra.html#aa8b268e8ec63688dfa15b64c335dfdb7" title="hydra::pow" alt="" coords="395,528,481,555"/>
+</map>

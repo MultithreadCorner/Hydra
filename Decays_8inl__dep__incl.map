@@ -1,0 +1,32 @@
+<map id="Decays.inl" name="Decays.inl">
+<area shape="rect" id="node2" href="$Decays_8h.html" title="Decays.h" alt="" coords="1464,80,1543,107"/>
+<area shape="rect" id="node3" href="$Chains_8h.html" title="Chains.h" alt="" coords="911,155,986,181"/>
+<area shape="rect" id="node7" href="$PhaseSpace_8h.html" title="PhaseSpace.h" alt="" coords="1450,155,1557,181"/>
+<area shape="rect" id="node8" href="$phsp__unweighting__functor__and__fit_8inl.html" title="phsp_unweighting_functor\l_and_fit.inl" alt="" coords="662,229,835,271"/>
+<area shape="rect" id="node14" href="$phsp__basic_8inl.html" title="phsp_basic.inl" alt="" coords="969,237,1075,263"/>
+<area shape="rect" id="node17" href="$phsp__evaluating__functor_8inl.html" title="phsp_evaluating_functor.inl" alt="" coords="1208,237,1388,263"/>
+<area shape="rect" id="node20" href="$phsp__reweighting_8inl.html" title="phsp_reweighting.inl" alt="" coords="1721,237,1861,263"/>
+<area shape="rect" id="node23" href="$phsp__unweighting_8inl.html" title="phsp_unweighting.inl" alt="" coords="2025,237,2168,263"/>
+<area shape="rect" id="node26" href="$phsp__unweighting__functor_8inl.html" title="phsp_unweighting_functor.inl" alt="" coords="2351,237,2541,263"/>
+<area shape="rect" id="node29" href="$dalitz__plot_8inl.html" title="dalitz_plot.inl" alt="" coords="2757,237,2855,263"/>
+<area shape="rect" id="node4" href="$phsp__chain_8inl.html" title="phsp_chain.inl" alt="" coords="255,237,360,263"/>
+<area shape="rect" id="node5" href="$phsp__chain_8cpp.html" title="phsp_chain.cpp" alt="" coords="5,326,119,353"/>
+<area shape="rect" id="node6" href="$phsp__chain_8cu.html" title="phsp_chain.cu" alt="" coords="143,326,250,353"/>
+<area shape="rect" id="node11" href="$phsp__averaging__functor_8inl.html" title="phsp_averaging_functor.inl" alt="" coords="1415,237,1592,263"/>
+<area shape="rect" id="node9" href="$phsp__unweighting__functor__and__fit_8cpp.html" title="phsp_unweighting_functor\l_and_fit.cpp" alt="" coords="274,319,447,360"/>
+<area shape="rect" id="node10" href="$phsp__unweighting__functor__and__fit_8cu.html" title="phsp_unweighting_functor\l_and_fit.cu" alt="" coords="471,319,645,360"/>
+<area shape="rect" id="node12" href="$phsp__averaging__functor_8cpp.html" title="phsp_averaging_functor.cpp" alt="" coords="1357,326,1543,353"/>
+<area shape="rect" id="node13" href="$phsp__averaging__functor_8cu.html" title="phsp_averaging_functor.cu" alt="" coords="1567,326,1746,353"/>
+<area shape="rect" id="node15" href="$phsp__basic_8cpp.html" title="phsp_basic.cpp" alt="" coords="669,326,783,353"/>
+<area shape="rect" id="node16" href="$phsp__basic_8cu.html" title="phsp_basic.cu" alt="" coords="807,326,914,353"/>
+<area shape="rect" id="node18" href="$phsp__evaluating__functor_8cpp.html" title="phsp_evaluating_functor.cpp" alt="" coords="939,326,1127,353"/>
+<area shape="rect" id="node19" href="$phsp__evaluating__functor_8cu.html" title="phsp_evaluating_functor.cu" alt="" coords="1151,326,1333,353"/>
+<area shape="rect" id="node21" href="$phsp__reweighting_8cpp.html" title="phsp_reweighting.cpp" alt="" coords="1771,326,1919,353"/>
+<area shape="rect" id="node22" href="$phsp__reweighting_8cu.html" title="phsp_reweighting.cu" alt="" coords="1943,326,2085,353"/>
+<area shape="rect" id="node24" href="$phsp__unweighting_8cpp.html" title="phsp_unweighting.cpp" alt="" coords="2109,326,2260,353"/>
+<area shape="rect" id="node25" href="$phsp__unweighting_8cu.html" title="phsp_unweighting.cu" alt="" coords="2285,326,2429,353"/>
+<area shape="rect" id="node27" href="$phsp__unweighting__functor_8cpp.html" title="phsp_unweighting_functor.cpp" alt="" coords="2453,326,2652,353"/>
+<area shape="rect" id="node28" href="$phsp__unweighting__functor_8cu.html" title="phsp_unweighting_functor.cu" alt="" coords="2676,326,2867,353"/>
+<area shape="rect" id="node30" href="$dalitz__plot_8cpp.html" title="dalitz_plot.cpp" alt="" coords="2891,326,2998,353"/>
+<area shape="rect" id="node31" href="$dalitz__plot_8cu.html" title="dalitz_plot.cu" alt="" coords="3022,326,3121,353"/>
+</map>

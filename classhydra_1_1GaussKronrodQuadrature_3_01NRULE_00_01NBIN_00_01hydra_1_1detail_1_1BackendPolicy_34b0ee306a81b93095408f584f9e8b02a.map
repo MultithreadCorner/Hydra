@@ -1,0 +1,4 @@
+<map id="hydra::GaussKronrodQuadrature&lt; NRULE, NBIN, hydra::detail::BackendPolicy&lt; BACKEND &gt; &gt;" name="hydra::GaussKronrodQuadrature&lt; NRULE, NBIN, hydra::detail::BackendPolicy&lt; BACKEND &gt; &gt;">
+<area shape="rect" id="node2" href="$structhydra_1_1Integrator.html" title="{hydra::Integrator\&lt;\l GaussKronrodQuadrature\l\&lt; NRULE, NBIN, hydra::detail\l::BackendPolicy\&lt; BACKEND \&gt; \&gt; \&gt;\n||+ operator()()\l}" alt="" coords="5,189,236,311"/>
+<area shape="rect" id="node3" href="$structhydra_1_1Integrator.html" title="{hydra::Integrator\&lt;\l ALGORITHM \&gt;\n||+ operator()()\l}" alt="" coords="58,5,183,97"/>
+</map>

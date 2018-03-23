@@ -10,11 +10,11 @@
 <title>Graphical Class Hierarchy</title>
 <!-- Node0 -->
 <g id="node1" class="node"><title>Node0</title>
-<g id="a_node1"><a xlink:href="structhydra_1_1detail_1_1function__traits_3_01ReturnType_07ClassType_1_1_5_08_07Args_01_6_8_8_8_08_4.html" target="_top" xlink:title="hydra::detail::function\l_traits\&lt; ReturnType(ClassType\l::*)(Args &amp;...)\&gt;">
+<g id="a_node1"><a xlink:href="structhydra_1_1detail_1_1function__traits_3_01ReturnType_07ClassType_1_1_5_08_07Args_8_8_8_08_01const_01_4.html#structhydra_1_1detail_1_1function__traits_3_01ReturnType_07ClassType_1_1_5_08_07Args_8_8_8_08_01const_01_4_1_1arg" target="_top" xlink:title="hydra::detail::function\l_traits\&lt; ReturnType(ClassType\l::*)(Args...) const \&gt;::arg\&lt; i \&gt;">
 <polygon fill="none" stroke="black" points="0,-0.5 0,-41.5 154,-41.5 154,-0.5 0,-0.5"/>
 <text text-anchor="start" x="8" y="-29.5" font-family="Helvetica,sans-Serif" font-size="10.00">hydra::detail::function</text>
 <text text-anchor="start" x="8" y="-18.5" font-family="Helvetica,sans-Serif" font-size="10.00">_traits&lt; ReturnType(ClassType</text>
-<text text-anchor="middle" x="77" y="-7.5" font-family="Helvetica,sans-Serif" font-size="10.00">::*)(Args &amp;...)&gt;</text>
+<text text-anchor="middle" x="77" y="-7.5" font-family="Helvetica,sans-Serif" font-size="10.00">::*)(Args...) const &gt;::arg&lt; i &gt;</text>
 </a>
 </g>
 </g>

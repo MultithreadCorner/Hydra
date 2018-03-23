@@ -6,7 +6,6 @@ var searchData=
   ['device',['device',['../namespacehydra_1_1detail_1_1device.html',1,'hydra::detail::device'],['../namespacehydra_1_1device.html',1,'hydra::device']]],
   ['experimental',['experimental',['../namespacehydra_1_1experimental.html',1,'hydra']]],
   ['groups_2eh',['Groups.h',['../hydra_2Groups_8h.html',1,'']]],
-  ['halfinteger_2eh',['HalfInteger.h',['../HalfInteger_8h.html',1,'']]],
   ['has_5fanalytical_5fintegral',['has_analytical_integral',['../namespacehydra_1_1detail.html#structhydra_1_1detail_1_1has__analytical__integral',1,'hydra::detail']]],
   ['has_5fanalytical_5fintegral_3c_20c_2c_20ret_28args_2e_2e_2e_29_3e',['has_analytical_integral&lt; C, Ret(Args...)&gt;',['../structhydra_1_1detail_1_1has__analytical__integral_3_01C_00_01Ret_07Args_8_8_8_08_4.html',1,'hydra::detail']]],
   ['hasanalyticalintegral',['HasAnalyticalIntegral',['../namespacehydra_1_1detail.html#a61c0e2d68c6b5f15b5b519229d4d1643',1,'hydra::detail']]],

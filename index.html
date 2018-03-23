@@ -172,10 +172,7 @@ A suite of examples demonstrating the basic features of the library are included
 <p>The examples are built using <a href="https://cmake.org/">CMAKE</a> following the following instructions:</p>
 <ol type="1">
 <li>clone the git repository: <code>git clone <a href="https://github.com/MultithreadCorner/Hydra.git">https://github.com/MultithreadCorner/Hydra.git</a></code></li>
-<li>go to the Hydra repository: <code>cd Hydra</code></li>
-</ol>
-<ol type="1">
-<li>checkout the <code>hydra_rc2.0</code> branch:<code>git checkout hydra_rc2.0</code> <br />
+<li>go to the Hydra repository: <code>cd Hydra</code> <br />
 3. create a build directory: <code>mkdir build</code></li>
 <li>go to build directory: <code>cd build</code></li>
 <li><code>cmake ..</code></li>
@@ -191,6 +188,9 @@ A suite of examples demonstrating the basic features of the library are included
 <li><b>numerical_integration</b> : adaptive_gauss_kronrod, gauss_kronrod, plain_mc, vegas</li>
 <li><b>phase_space</b> : phsp_averaging_functor, phsp_evaluating_functor, phsp_reweighting, phsp_basic, phsp_unweighting, phsp_chain, phsp_unweighting_functor</li>
 <li><b>random</b> : basic_distributions, sample_distribution</li>
+</ol>
+<ol type="1">
+<li><b>root_macros</b> : macros to run examples in ROOT</li>
 </ol>
 <p>Each compiled example executable will have an postfix (ex.: _cuda, _omp, _tbb) to indicate the deployed device backend. <br />
 All examples use CPP as host backend.</p>
@@ -213,7 +213,7 @@ All examples use CPP as host backend.</p>
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="footer">Generated on Fri Mar 23 2018 11:07:57 for Hydra by
+    <li class="footer">Generated on Fri Mar 23 2018 12:08:59 for Hydra by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.14 </li>
   </ul>

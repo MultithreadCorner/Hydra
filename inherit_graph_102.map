@@ -1,0 +1,40 @@
+<map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
+<area shape="rect" id="node1" href="$classhydra_1_1detail_1_1Parameters.html" title="hydra::detail::Parameters\l\&lt; NPARAM \&gt;" alt="" coords="5,778,173,819"/>
+<area shape="rect" id="node2" href="$group__functor.html" title="hydra::BaseFunctor\l\&lt; ArgusShape\&lt; ArgIndex\l \&gt;, double, 3 \&gt;" alt="" coords="258,5,427,61"/>
+<area shape="rect" id="node4" href="$group__functor.html" title="hydra::BaseFunctor\l\&lt; BreitWignerLineShape\l\&lt; ResonanceWave, MotherWave,\l ArgIndex \&gt;, hydra::complex\l\&lt; double \&gt;, 2 \&gt;" alt="" coords="233,85,453,171"/>
+<area shape="rect" id="node6" href="$group__functor.html" title="hydra::BaseFunctor\l\&lt; BreitWignerLineShape\l\&lt; ResonanceWave, SWave,\l 0 \&gt;, hydra::complex\&lt; double \&gt;, 2 \&gt;" alt="" coords="227,195,458,266"/>
+<area shape="rect" id="node8" href="$group__functor.html" title="hydra::BaseFunctor\l\&lt; BreitWignerNR\&lt; ArgIndex\l \&gt;, double, 2 \&gt;" alt="" coords="249,291,436,347"/>
+<area shape="rect" id="node10" href="$group__functor.html" title="hydra::BaseFunctor\l\&lt; CosHelicityAngle,\l double, 0 \&gt;" alt="" coords="273,371,412,427"/>
+<area shape="rect" id="node12" href="$group__functor.html" title="hydra::BaseFunctor\l\&lt; CrystalBallShape\&lt;\l ArgIndex \&gt;, double, 4 \&gt;" alt="" coords="261,451,424,507"/>
+<area shape="rect" id="node14" href="$group__functor.html" title="hydra::BaseFunctor\l\&lt; CubicSpiline\&lt; N, ArgIndex\l \&gt;, GReal_t, 0 \&gt;" alt="" coords="248,531,437,587"/>
+<area shape="rect" id="node16" href="$group__functor.html" title="hydra::BaseFunctor\l\&lt; Exponential\&lt; ArgIndex\l \&gt;, double, 1 \&gt;" alt="" coords="259,611,426,667"/>
+<area shape="rect" id="node18" href="$group__functor.html" title="hydra::BaseFunctor\l\&lt; Gaussian\&lt; ArgIndex\l \&gt;, double, 2 \&gt;" alt="" coords="266,691,419,747"/>
+<area shape="rect" id="node20" href="$group__functor.html" title="hydra::BaseFunctor\l\&lt; LambdaWrapper\&lt; ReturnType\l(ArgType...), L, N \&gt;, ReturnType, N \&gt;" alt="" coords="221,771,464,827"/>
+<area shape="rect" id="node22" href="$group__functor.html" title="hydra::BaseFunctor\l\&lt; M12PhaseSpaceLineShape\l\&lt; ArgIndex \&gt;, double, 0 \&gt;" alt="" coords="245,851,440,907"/>
+<area shape="rect" id="node24" href="$group__functor.html" title="hydra::BaseFunctor\l\&lt; M12SqPhaseSpaceLineShape\l\&lt; ArgIndex \&gt;, double, 0 \&gt;" alt="" coords="237,931,448,987"/>
+<area shape="rect" id="node26" href="$group__functor.html" title="hydra::BaseFunctor\l\&lt; NonResonant, hydra\l::complex\&lt; double \&gt;, 2 \&gt;" alt="" coords="259,1011,427,1067"/>
+<area shape="rect" id="node28" href="$group__functor.html" title="hydra::BaseFunctor\l\&lt; Polynomial\&lt; Order,\l ArgIndex \&gt;, double,\l Order+1 \&gt;" alt="" coords="269,1091,416,1162"/>
+<area shape="rect" id="node30" href="$group__functor.html" title="hydra::BaseFunctor\l\&lt; Resonance\&lt; CHANNEL,\l L \&gt;, hydra::complex\l\&lt; double \&gt;, 4 \&gt;" alt="" coords="252,1186,433,1257"/>
+<area shape="rect" id="node32" href="$group__functor.html" title="hydra::BaseFunctor\l\&lt; WignerD\&lt; J, M, Denominator,\l ArgIndex \&gt;, double, 0 \&gt;" alt="" coords="238,1281,447,1337"/>
+<area shape="rect" id="node34" href="$group__functor.html" title="hydra::BaseFunctor\l\&lt; ZemachFunction\&lt; L,\l 0 \&gt;, double, 0 \&gt;" alt="" coords="265,1361,420,1417"/>
+<area shape="rect" id="node36" href="$group__functor.html" title="hydra::BaseFunctor\l\&lt; ZemachFunction\&lt; L,\l ArgIndex \&gt;, double, 0 \&gt;" alt="" coords="261,1441,424,1497"/>
+<area shape="rect" id="node38" href="$group__functor.html#classhydra_1_1BaseFunctor" title="Base class for all functors in hydra. " alt="" coords="263,1521,422,1577"/>
+<area shape="rect" id="node3" href="$classhydra_1_1ArgusShape.html" title="Implementation describing the ARGUS background shape. " alt="" coords="553,13,694,54"/>
+<area shape="rect" id="node5" href="$classhydra_1_1BreitWignerLineShape.html" title="hydra::BreitWignerLineShape\l\&lt; ResonanceWave, MotherWave,\l ArgIndex \&gt;" alt="" coords="513,100,733,156"/>
+<area shape="rect" id="node7" href="$classhydra_1_1BreitWignerLineShape.html" title="hydra::BreitWignerLineShape\&lt; L \&gt;" alt="" coords="512,217,735,244"/>
+<area shape="rect" id="node9" href="$classhydra_1_1BreitWignerNR.html" title="hydra::BreitWignerNR\l\&lt; ArgIndex \&gt;" alt="" coords="548,298,699,339"/>
+<area shape="rect" id="node11" href="$classhydra_1_1CosHelicityAngle.html" title="hydra::CosHelicityAngle" alt="" coords="542,385,705,412"/>
+<area shape="rect" id="node13" href="$classhydra_1_1CrystalBallShape.html" title="Implementation the Crystal Ball line shape. " alt="" coords="542,458,705,499"/>
+<area shape="rect" id="node15" href="$classhydra_1_1CubicSpiline.html" title=" &#160;&#160;A simple method for a one—dimensional interpolation on a given set of data points (xi..." alt="" coords="556,538,691,579"/>
+<area shape="rect" id="node17" href="$classhydra_1_1Exponential.html" title="hydra::Exponential\l\&lt; ArgIndex \&gt;" alt="" coords="558,618,689,659"/>
+<area shape="rect" id="node19" href="$classhydra_1_1Gaussian.html" title="hydra::Gaussian\&lt; ArgIndex \&gt;" alt="" coords="527,705,720,732"/>
+<area shape="rect" id="node21" href="$group__functor.html#classhydra_1_1LambdaWrapper_3_01ReturnType_07ArgType_8_8_8_08_00_01L_00_01N_01_4" title="Wrapper for lambda functions. " alt="" coords="538,771,709,827"/>
+<area shape="rect" id="node23" href="$classhydra_1_1M12PhaseSpaceLineShape.html" title="Two&#45;body phase&#45;space distribution for : . " alt="" coords="531,858,716,899"/>
+<area shape="rect" id="node25" href="$classhydra_1_1M12SqPhaseSpaceLineShape.html" title="Two&#45;body phase&#45;space distribution for : . " alt="" coords="523,938,724,979"/>
+<area shape="rect" id="node27" href="$classNonResonant.html" title="NonResonant" alt="" coords="572,1025,675,1052"/>
+<area shape="rect" id="node29" href="$classhydra_1_1Polynomial.html" title="hydra::Polynomial\&lt;\l Order, ArgIndex \&gt;" alt="" coords="556,1106,691,1147"/>
+<area shape="rect" id="node31" href="$classResonance.html" title="Resonance\&lt; CHANNEL, L \&gt;" alt="" coords="527,1208,719,1235"/>
+<area shape="rect" id="node33" href="$classhydra_1_1WignerD.html" title="Calculates the beta&#45;term &#160;in the matrix element of the finite rotation operator (Wigner&#39;s D&#45;function)..." alt="" coords="553,1281,694,1337"/>
+<area shape="rect" id="node35" href="$classhydra_1_1ZemachFunction.html" title="hydra::ZemachFunction\&lt; L \&gt;" alt="" coords="528,1376,719,1403"/>
+<area shape="rect" id="node37" href="$classhydra_1_1ZemachFunction.html" title="Zemach&#39;s angular probability distribution for 3&#45;body decays of spinless particle into spinless final ..." alt="" coords="544,1449,703,1490"/>
+</map>

@@ -1,0 +1,13 @@
+var structhydra_1_1detail_1_1ProcessCallsVegas_3_01FUNCTOR_00_01NDimensions_00_01hydra_1_1detail_1_1d02dd45e61a2dbf17b7be7b9bd27e346 =
+[
+    [ "state_t", "structhydra_1_1detail_1_1ProcessCallsVegas_3_01FUNCTOR_00_01NDimensions_00_01hydra_1_1detail_1_1d02dd45e61a2dbf17b7be7b9bd27e346.html#a638e6208505ef7addce3c06efac2d4ee", null ],
+    [ "this_t", "structhydra_1_1detail_1_1ProcessCallsVegas_3_01FUNCTOR_00_01NDimensions_00_01hydra_1_1detail_1_1d02dd45e61a2dbf17b7be7b9bd27e346.html#a048013ad316c18e6f38c67729f2fe9b1", null ],
+    [ "ProcessCallsVegas", "structhydra_1_1detail_1_1ProcessCallsVegas_3_01FUNCTOR_00_01NDimensions_00_01hydra_1_1detail_1_1d02dd45e61a2dbf17b7be7b9bd27e346.html#a5ded69631c2afdb594ec6f19dfe12df5", null ],
+    [ "ProcessCallsVegas", "structhydra_1_1detail_1_1ProcessCallsVegas_3_01FUNCTOR_00_01NDimensions_00_01hydra_1_1detail_1_1d02dd45e61a2dbf17b7be7b9bd27e346.html#a876d016af551641625b1fcce6cb813e7", null ],
+    [ "get_point", "structhydra_1_1detail_1_1ProcessCallsVegas_3_01FUNCTOR_00_01NDimensions_00_01hydra_1_1detail_1_1d02dd45e61a2dbf17b7be7b9bd27e346.html#a0aa9ec9ea4aaea1076112c83445f8fb7", null ],
+    [ "GetBoxCoordinate", "structhydra_1_1detail_1_1ProcessCallsVegas_3_01FUNCTOR_00_01NDimensions_00_01hydra_1_1detail_1_1d02dd45e61a2dbf17b7be7b9bd27e346.html#a8cfa4a594f27dc0c8b94b3b59d041465", null ],
+    [ "GetDistributionIndex", "structhydra_1_1detail_1_1ProcessCallsVegas_3_01FUNCTOR_00_01NDimensions_00_01hydra_1_1detail_1_1d02dd45e61a2dbf17b7be7b9bd27e346.html#a120c730da16098ee4ff7cb7f0d1d5062", null ],
+    [ "GetDistributionKey", "structhydra_1_1detail_1_1ProcessCallsVegas_3_01FUNCTOR_00_01NDimensions_00_01hydra_1_1detail_1_1d02dd45e61a2dbf17b7be7b9bd27e346.html#a5e5703ef2c5a2dace4f9daeb6e6c93d6", null ],
+    [ "hash", "structhydra_1_1detail_1_1ProcessCallsVegas_3_01FUNCTOR_00_01NDimensions_00_01hydra_1_1detail_1_1d02dd45e61a2dbf17b7be7b9bd27e346.html#a8121a073feed3df919eb4cdafea4705a", null ],
+    [ "operator()", "structhydra_1_1detail_1_1ProcessCallsVegas_3_01FUNCTOR_00_01NDimensions_00_01hydra_1_1detail_1_1d02dd45e61a2dbf17b7be7b9bd27e346.html#a35739090d0d2038c4f3b33dce445117d", null ]
+];

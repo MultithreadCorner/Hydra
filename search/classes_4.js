@@ -1,7 +1,5 @@
 var searchData=
 [
-  ['dalitzangulardistribution',['DalitzAngularDistribution',['../classhydra_1_1DalitzAngularDistribution.html',1,'hydra']]],
-  ['dalitzchecker',['DalitzChecker',['../classhydra_1_1DalitzChecker.html',1,'hydra']]],
   ['decaymother',['DecayMother',['../structhydra_1_1detail_1_1DecayMother.html',1,'hydra::detail']]],
   ['decaymothers',['DecayMothers',['../structhydra_1_1detail_1_1DecayMothers.html',1,'hydra::detail']]],
   ['decays',['Decays',['../group__phsp.html#classhydra_1_1Decays',1,'hydra']]],

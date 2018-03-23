@@ -68,19 +68,19 @@ var NAVTREEINDEX =
 [
 ".html",
 ".html",
-"GenericRange_8h.html",
-"SparseHistogram_8h.html#ga9a1d65c69312c606d2379539278aa702",
-"basic_distributions_8inl-example.html",
-"classhydra_1_1GaussKronrodQuadrature_3_01NRULE_00_01NBIN_00_01hydra_1_1detail_1_1BackendPolicy_3_01BACKEND_01_4_01_4.html#a5162eaafe187db763f5f9a7cd407cece",
-"classhydra_1_1detail_1_1Parameters_3_010_01_4.html#a7df5eb02ac5f9bc42ef73f0438276401",
-"dalitz__plot_8inl.html#a2bdb6a5a65d1bbaf33f08dd544a478cf",
-"group__fit.html#a87ae70ce610a89e82ef1e0ba6467f4f1",
-"group__histogram.html#a938d6d80a85968fc9de3e8c5184836d1",
-"group__numerical__integration.html#ac0f78ff5d2c6a33aaa03fdc7a0ab3767",
-"group__phsp.html#ab7489373096c0ba621c715cd338a267b",
-"namespacehydra_1_1detail.html#structhydra_1_1detail_1_1tag__type",
-"structhydra_1_1detail_1_1BackendPolicy_3_01Backend_1_1Host_01_4.html#aaebdc8554bbe7407233ccdc7f346aed2",
-"structhydra_1_1detail_1_1ProcessCallsVegas.html#aac72be199d7bcdd9e6e7ce41a5856ec0"
+"GetBinCenter_8h.html",
+"Sum_8h.html#a81ab71f63c56b41e970fee5c7fa48915",
+"classNonResonant.html#ae671b91ac60f1d73c64bd4f291c8099a",
+"classhydra_1_1GenericRange_3_01Iterator_01_4.html#a5942109278833e4e526db6a4cddadac5",
+"classhydra_1_1multiarray_3_01T_00_01N_00_01hydra_1_1detail_1_1BackendPolicy_3_01BACKEND_01_4_01_4.html#a639c1599ac0e713fe4227a6516400309",
+"functions_func_l.html",
+"group__fit.html#ad2e2fe6f587647d6b1f9233e094209ed",
+"group__histogram.html#classhydra_1_1SparseHistogram_3_01T_00_011_00_01detail_1_1BackendPolicy_3_01BACKEND_01_4_00_01detail_1_1unidimensional_01_4",
+"group__numerical__integration.html#afe84e3501befc136aea9f9e126ee35b6",
+"group__phsp.html#af2667ab4b3f0081ba50ca5f9e4058051",
+"omp_2System_8h.html",
+"structhydra_1_1detail_1_1EvalMother.html#a4b66c24fc81946d0d19d49c145787869",
+"structhydra_1_1detail_1_1RndFlag.html#ae550767953fbed875b43ad6f377e46fe"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronisation';

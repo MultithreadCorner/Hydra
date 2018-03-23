@@ -1,0 +1,8 @@
+<map id="hydra::FCN&lt; T &gt;" name="hydra::FCN&lt; T &gt;">
+<area shape="rect" id="node2" href="$group__fit.html" title="{hydra::FCN\&lt; LogLikelihood\lFCN\&lt; PDFSumExtendable\&lt;\l Pdfs... \&gt;, IteratorD, Iterator\lW ... \&gt; \&gt;\n||}" alt="" coords="13,189,202,311"/>
+<area shape="rect" id="node4" href="$group__fit.html" title="{hydra::FCN\&lt; LogLikelihood\lFCN\&lt; PDFSumNonExtendable\l\&lt; Pdfs... \&gt;, IteratorD, Iterator\lW ... \&gt; \&gt;\n||}" alt="" coords="226,189,431,311"/>
+<area shape="rect" id="node6" href="$group__fit.html" title="{hydra::FCN\&lt; LogLikelihood\lFCN\&lt; Pdf\&lt; Functor, Integrator\l \&gt;, IteratorD, IteratorW... \&gt; \&gt;\n||}" alt="" coords="456,197,657,303"/>
+<area shape="rect" id="node3" href="$group__fit.html#classhydra_1_1LogLikelihoodFCN_3_01PDFSumExtendable_3_01Pdfs_8_8_8_01_4_00_01IteratorD_00_01IteratorW_8_8_8_01_4" title="LogLikehood object for composed models represented by hydra::PDFSumExtendable&lt;Pdfs...&gt; objects. " alt="" coords="5,367,209,533"/>
+<area shape="rect" id="node5" href="$group__fit.html#classhydra_1_1LogLikelihoodFCN_3_01PDFSumNonExtendable_3_01Pdfs_8_8_8_01_4_00_01IteratorD_00_01IteratorW_8_8_8_01_4" title="LogLikehood object for composed models represented by hydra::PDFSumNonExtendable&lt;Pdfs...&gt; objects. " alt="" coords="240,360,417,540"/>
+<area shape="rect" id="node7" href="$group__fit.html#classhydra_1_1LogLikelihoodFCN_3_01Pdf_3_01Functor_00_01Integrator_01_4_00_01IteratorD_00_01IteratorW_8_8_8_01_4" title="LogLikehood object for not composed models represented by hydra::Pdf objects. " alt="" coords="467,367,646,533"/>
+</map>

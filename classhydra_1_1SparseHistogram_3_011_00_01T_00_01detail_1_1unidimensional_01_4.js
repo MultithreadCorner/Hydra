@@ -1,0 +1,25 @@
+var classhydra_1_1SparseHistogram_3_011_00_01T_00_01detail_1_1unidimensional_01_4 =
+[
+    [ "SparseHistogram", "classhydra_1_1SparseHistogram_3_011_00_01T_00_01detail_1_1unidimensional_01_4.html#ac73146739829ecb3d89b17d603475380", null ],
+    [ "SparseHistogram", "classhydra_1_1SparseHistogram_3_011_00_01T_00_01detail_1_1unidimensional_01_4.html#a699dd02324148a9c1fd7f02d2285424f", null ],
+    [ "SparseHistogram", "classhydra_1_1SparseHistogram_3_011_00_01T_00_01detail_1_1unidimensional_01_4.html#a390ab34b4a1710b87421e0ec1e7f9f76", null ],
+    [ "begin", "classhydra_1_1SparseHistogram_3_011_00_01T_00_01detail_1_1unidimensional_01_4.html#a3a2820b149a420aee02c658cf2c2f6cb", null ],
+    [ "begin", "classhydra_1_1SparseHistogram_3_011_00_01T_00_01detail_1_1unidimensional_01_4.html#a6e3cc2f4353160b2a428876d754f4953", null ],
+    [ "data", "classhydra_1_1SparseHistogram_3_011_00_01T_00_01detail_1_1unidimensional_01_4.html#ac07ff214de88749e7d89a68d4232a6a8", null ],
+    [ "end", "classhydra_1_1SparseHistogram_3_011_00_01T_00_01detail_1_1unidimensional_01_4.html#a2cd39df471178150c4d9d28851e18003", null ],
+    [ "end", "classhydra_1_1SparseHistogram_3_011_00_01T_00_01detail_1_1unidimensional_01_4.html#af1bf623202818406174c0c080cb95929", null ],
+    [ "Fill", "classhydra_1_1SparseHistogram_3_011_00_01T_00_01detail_1_1unidimensional_01_4.html#a0ac456fa7f44b20abbe7efcf290c1c19", null ],
+    [ "Fill", "classhydra_1_1SparseHistogram_3_011_00_01T_00_01detail_1_1unidimensional_01_4.html#a95f130cd74f3cb707bd4dc6869dc9dcc", null ],
+    [ "GetBinContent", "classhydra_1_1SparseHistogram_3_011_00_01T_00_01detail_1_1unidimensional_01_4.html#ae22118175b6adf1908484670529dc158", null ],
+    [ "GetBins", "classhydra_1_1SparseHistogram_3_011_00_01T_00_01detail_1_1unidimensional_01_4.html#a3112b0a5907757e5c9ae2e5c6f34ec06", null ],
+    [ "GetContents", "classhydra_1_1SparseHistogram_3_011_00_01T_00_01detail_1_1unidimensional_01_4.html#a74af327f12fea2116d9bfa41dc603cc9", null ],
+    [ "GetGrid", "classhydra_1_1SparseHistogram_3_011_00_01T_00_01detail_1_1unidimensional_01_4.html#a49267def40f1b8ca93d883472147d2c0", null ],
+    [ "GetLowerLimits", "classhydra_1_1SparseHistogram_3_011_00_01T_00_01detail_1_1unidimensional_01_4.html#af1344617986ed533e48a1006ff5948c6", null ],
+    [ "GetNBins", "classhydra_1_1SparseHistogram_3_011_00_01T_00_01detail_1_1unidimensional_01_4.html#a9e63aeaa9560d68a5a3002a02893e7b6", null ],
+    [ "GetUpperLimits", "classhydra_1_1SparseHistogram_3_011_00_01T_00_01detail_1_1unidimensional_01_4.html#aba481b3472aa85f969f79302d9a28404", null ],
+    [ "operator[]", "classhydra_1_1SparseHistogram_3_011_00_01T_00_01detail_1_1unidimensional_01_4.html#a2e66787e6ba95fcb2d3f9b1fba13b5ca", null ],
+    [ "operator[]", "classhydra_1_1SparseHistogram_3_011_00_01T_00_01detail_1_1unidimensional_01_4.html#aab6eb2498485b23c746e3428dc3f22eb", null ],
+    [ "SetBins", "classhydra_1_1SparseHistogram_3_011_00_01T_00_01detail_1_1unidimensional_01_4.html#a7fa66ba0e7145184a1b5067d41e93314", null ],
+    [ "SetContents", "classhydra_1_1SparseHistogram_3_011_00_01T_00_01detail_1_1unidimensional_01_4.html#a1602446d228ea79a3f96625a8b232317", null ],
+    [ "size", "classhydra_1_1SparseHistogram_3_011_00_01T_00_01detail_1_1unidimensional_01_4.html#a01fcc6beea9f0d6eb0f53622887c7f00", null ]
+];

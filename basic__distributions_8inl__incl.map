@@ -1,0 +1,36 @@
+<map id="basic_distributions.inl" name="basic_distributions.inl">
+<area shape="rect" id="node7" href="$device_2System_8h.html" title="hydra/device/System.h" alt="" coords="1090,80,1246,107"/>
+<area shape="rect" id="node32" href="$host_2System_8h.html" title="hydra/host/System.h" alt="" coords="1785,155,1927,181"/>
+<area shape="rect" id="node34" href="$Function_8h.html" title="hydra/Function.h" alt="" coords="2365,155,2483,181"/>
+<area shape="rect" id="node60" href="$FunctionWrapper_8h.html" title="hydra/FunctionWrapper.h" alt="" coords="2459,80,2627,107"/>
+<area shape="rect" id="node62" href="$Random_8h.html" title="hydra/Random.h" alt="" coords="3785,155,3903,181"/>
+<area shape="rect" id="node79" href="$Copy_8h.html" title="hydra/Copy.h" alt="" coords="966,512,1066,539"/>
+<area shape="rect" id="node8" href="$DEVICE_8h.html" title="hydra/detail/policies\l/backends/DEVICE.h" alt="" coords="1318,505,1466,546"/>
+<area shape="rect" id="node9" href="$Config_8h.html" title="hydra/detail/Config.h" alt="" coords="2723,899,2866,925"/>
+<area shape="rect" id="node12" href="$BackendPolicy_8h.html" title="hydra/detail/BackendPolicy.h" alt="" coords="2001,616,2191,643"/>
+<area shape="rect" id="node14" href="$Containers_8h.html" title="Typedefs for useful container classes used in MCBooster. " alt="" coords="1059,616,1191,643"/>
+<area shape="rect" id="node17" href="$Types_8h.html" title="Common and useful typedefs. " alt="" coords="1394,899,1499,925"/>
+<area shape="rect" id="node18" href="$Vector3R_8h.html" title="hydra/Vector3R.h" alt="" coords="315,809,439,836"/>
+<area shape="rect" id="node25" href="$Vector4R_8h.html" title="hydra/Vector4R.h" alt="" coords="441,713,565,739"/>
+<area shape="rect" id="node28" href="$Containers_8inl.html" title="hydra/detail/Containers.inl" alt="" coords="1272,713,1445,739"/>
+<area shape="rect" id="node21" href="$Collection_8h.html" title="hydra/Collection.h" alt="" coords="570,899,697,925"/>
+<area shape="rect" id="node24" href="$Vector3R_8inl.html" title="hydra/detail/Vector3R.inl" alt="" coords="296,899,461,925"/>
+<area shape="rect" id="node26" href="$Vector4R_8inl.html" title="hydra/detail/Vector4R.inl" alt="" coords="565,809,731,836"/>
+<area shape="rect" id="node33" href="$HOST_8h.html" title="hydra/detail/policies\l/backends/HOST.h" alt="" coords="1707,505,1845,546"/>
+<area shape="rect" id="node35" href="$Print_8h.html" title="hydra/detail/Print.h" alt="" coords="1369,423,1500,449"/>
+<area shape="rect" id="node43" href="$Integrator_8h.html" title="hydra/detail/Integrator.h" alt="" coords="2033,341,2191,367"/>
+<area shape="rect" id="node45" href="$Parameter_8h.html" title="hydra/Parameter.h" alt="" coords="2409,423,2538,449"/>
+<area shape="rect" id="node52" href="$Utility__Tuple_8h.html" title="hydra/detail/utility\l/Utility_Tuple.h" alt="" coords="2922,333,3046,375"/>
+<area shape="rect" id="node54" href="$FunctorTraits_8h.html" title="hydra/detail/FunctorTraits.h" alt="" coords="2664,423,2845,449"/>
+<area shape="rect" id="node55" href="$Parameters_8h.html" title="hydra/detail/Parameters.h" alt="" coords="2051,244,2221,271"/>
+<area shape="rect" id="node36" href="$StreamSTL_8h.html" title="hydra/detail/utility\l/StreamSTL.h" alt="" coords="1507,505,1631,546"/>
+<area shape="rect" id="node46" href="$TypeTraits_8h.html" title="hydra/detail/TypeTraits.h" alt="" coords="2995,512,3162,539"/>
+<area shape="rect" id="node53" href="$Generic_8h.html" title="hydra/detail/utility\l/Generic.h" alt="" coords="3403,505,3527,546"/>
+<area shape="rect" id="node56" href="$Hash_8h.html" title="hydra/detail/Hash.h" alt="" coords="1822,341,1957,367"/>
+<area shape="rect" id="node63" href="$RandomUtils_8h.html" title="hydra/detail/functors\l/RandomUtils.h" alt="" coords="4313,237,4453,278"/>
+<area shape="rect" id="node68" href="$GenericRange_8h.html" title="hydra/GenericRange.h" alt="" coords="3831,341,3983,367"/>
+<area shape="rect" id="node77" href="$Random_8inl.html" title="hydra/detail/Random.inl" alt="" coords="4642,244,4801,271"/>
+<area shape="rect" id="node69" href="$Distance_8h.html" title="hydra/Distance.h" alt="" coords="3907,512,4029,539"/>
+<area shape="rect" id="node70" href="$GenericRange1_8inl.html" title="hydra/detail/GenericRange1.inl" alt="" coords="3805,423,4005,449"/>
+<area shape="rect" id="node72" href="$GenericRange2_8inl.html" title="hydra/detail/GenericRange2.inl" alt="" coords="4080,423,4280,449"/>
+</map>

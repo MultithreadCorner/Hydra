@@ -1,0 +1,45 @@
+<map id="AddPdfBase.h" name="AddPdfBase.h">
+<area shape="rect" id="node2" href="$PDFSumExtendable_8h.html" title="PDFSumExtendable.h" alt="" coords="2205,80,2357,107"/>
+<area shape="rect" id="node44" href="$SPlot_8h.html" title="SPlot.h" alt="" coords="2362,155,2427,181"/>
+<area shape="rect" id="node3" href="$AddPdf_8h.html" title="Include this file to get the classes and functions necessary to build&#45;up composed PDF models..." alt="" coords="2283,229,2359,256"/>
+<area shape="rect" id="node35" href="$LogLikelihoodFCN2_8inl.html" title="LogLikelihoodFCN2.inl" alt="" coords="2079,155,2233,181"/>
+<area shape="rect" id="node36" href="$LogLikelihoodFCN_8h.html" title="LogLikelihoodFCN.h" alt="" coords="2086,229,2226,256"/>
+<area shape="rect" id="node4" href="$binned__extended__logLL__fit_8inl.html" title="binned_extended_logLL\l_fit.inl" alt="" coords="2409,304,2567,345"/>
+<area shape="rect" id="node7" href="$extended__logLL__fit_8inl.html" title="extended_logLL_fit.inl" alt="" coords="1639,311,1787,338"/>
+<area shape="rect" id="node10" href="$fractional__logLL__fit_8inl.html" title="fractional_logLL_fit.inl" alt="" coords="1903,311,2051,338"/>
+<area shape="rect" id="node13" href="$multidimensional__fit_8inl.html" title="multidimensional_fit.inl" alt="" coords="2079,311,2233,338"/>
+<area shape="rect" id="node16" href="$splot_8inl.html" title="splot.inl" alt="" coords="3181,311,3248,338"/>
+<area shape="rect" id="node19" href="$breit__wigner__plus__polynomial_8inl.html" title="breit_wigner_plus_polynomial.inl" alt="" coords="2591,311,2801,338"/>
+<area shape="rect" id="node22" href="$crystal__ball__plus__exponential_8inl.html" title="crystal_ball_plus_exponential.inl" alt="" coords="2825,311,3034,338"/>
+<area shape="rect" id="node25" href="$dalitz__plot_8inl.html" title="dalitz_plot.inl" alt="" coords="3059,311,3157,338"/>
+<area shape="rect" id="node28" href="$double__gaussian__plus__exponential_8inl.html" title="double_gaussian_plus\l_exponential.inl" alt="" coords="975,304,1126,345"/>
+<area shape="rect" id="node31" href="$gaussian__plus__argus_8inl.html" title="gaussian_plus_argus.inl" alt="" coords="1317,311,1478,338"/>
+<area shape="rect" id="node34" href="$fit__3d__gaussian_8C.html" title="fit_3d_gaussian.C" alt="" coords="2258,311,2385,338"/>
+<area shape="rect" id="node5" href="$binned__extended__logLL__fit_8cpp.html" title="binned_extended_logLL\l_fit.cpp" alt="" coords="2441,393,2599,435"/>
+<area shape="rect" id="node6" href="$binned__extended__logLL__fit_8cu.html" title="binned_extended_logLL\l_fit.cu" alt="" coords="2623,393,2782,435"/>
+<area shape="rect" id="node8" href="$extended__logLL__fit_8cpp.html" title="extended_logLL_fit.cpp" alt="" coords="1366,401,1522,427"/>
+<area shape="rect" id="node9" href="$extended__logLL__fit_8cu.html" title="extended_logLL_fit.cu" alt="" coords="1547,401,1696,427"/>
+<area shape="rect" id="node11" href="$fractional__logLL__fit_8cpp.html" title="fractional_logLL_fit.cpp" alt="" coords="1721,401,1877,427"/>
+<area shape="rect" id="node12" href="$fractional__logLL__fit_8cu.html" title="fractional_logLL_fit.cu" alt="" coords="1901,401,2051,427"/>
+<area shape="rect" id="node14" href="$multidimensional__fit_8cpp.html" title="multidimensional_fit.cpp" alt="" coords="2075,401,2237,427"/>
+<area shape="rect" id="node15" href="$multidimensional__fit_8cu.html" title="multidimensional_fit.cu" alt="" coords="2261,401,2416,427"/>
+<area shape="rect" id="node17" href="$splot_8cpp.html" title="splot.cpp" alt="" coords="4013,401,4088,427"/>
+<area shape="rect" id="node18" href="$splot_8cu.html" title="splot.cu" alt="" coords="4113,401,4181,427"/>
+<area shape="rect" id="node20" href="$breit__wigner__plus__polynomial_8cpp.html" title="breit_wigner_plus_polynomial.cpp" alt="" coords="2806,401,3023,427"/>
+<area shape="rect" id="node21" href="$breit__wigner__plus__polynomial_8cu.html" title="breit_wigner_plus_polynomial.cu" alt="" coords="3048,401,3259,427"/>
+<area shape="rect" id="node23" href="$crystal__ball__plus__exponential_8cpp.html" title="crystal_ball_plus_exponential.cpp" alt="" coords="3283,401,3501,427"/>
+<area shape="rect" id="node24" href="$crystal__ball__plus__exponential_8cu.html" title="crystal_ball_plus_exponential.cu" alt="" coords="3525,401,3736,427"/>
+<area shape="rect" id="node26" href="$dalitz__plot_8cpp.html" title="dalitz_plot.cpp" alt="" coords="3760,401,3867,427"/>
+<area shape="rect" id="node27" href="$dalitz__plot_8cu.html" title="dalitz_plot.cu" alt="" coords="3891,401,3989,427"/>
+<area shape="rect" id="node29" href="$double__gaussian__plus__exponential_8cpp.html" title="double_gaussian_plus\l_exponential.cpp" alt="" coords="635,393,786,435"/>
+<area shape="rect" id="node30" href="$double__gaussian__plus__exponential_8cu.html" title="double_gaussian_plus\l_exponential.cu" alt="" coords="810,393,961,435"/>
+<area shape="rect" id="node32" href="$gaussian__plus__argus_8cpp.html" title="gaussian_plus_argus.cpp" alt="" coords="985,401,1154,427"/>
+<area shape="rect" id="node33" href="$gaussian__plus__argus_8cu.html" title="gaussian_plus_argus.cu" alt="" coords="1179,401,1341,427"/>
+<area shape="rect" id="node37" href="$basic__fit_8inl.html" title="basic_fit.inl" alt="" coords="225,311,313,338"/>
+<area shape="rect" id="node40" href="$phsp__unweighting__functor__and__fit_8inl.html" title="phsp_unweighting_functor\l_and_fit.inl" alt="" coords="437,304,611,345"/>
+<area shape="rect" id="node43" href="$fit__gaussian_8C.html" title="fit_gaussian.C" alt="" coords="95,311,201,338"/>
+<area shape="rect" id="node38" href="$basic__fit_8cpp.html" title="basic_fit.cpp" alt="" coords="5,401,101,427"/>
+<area shape="rect" id="node39" href="$basic__fit_8cu.html" title="basic_fit.cu" alt="" coords="126,401,215,427"/>
+<area shape="rect" id="node41" href="$phsp__unweighting__functor__and__fit_8cpp.html" title="phsp_unweighting_functor\l_and_fit.cpp" alt="" coords="240,393,413,435"/>
+<area shape="rect" id="node42" href="$phsp__unweighting__functor__and__fit_8cu.html" title="phsp_unweighting_functor\l_and_fit.cu" alt="" coords="437,393,611,435"/>
+</map>

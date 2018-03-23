@@ -27,8 +27,6 @@ var searchData=
   ['basefunctor_3c_20coshelicityangle_2c_20double_2c_200_20_3e',['BaseFunctor&lt; CosHelicityAngle, double, 0 &gt;',['../group__functor.html',1,'hydra']]],
   ['basefunctor_3c_20crystalballshape_3c_20argindex_20_3e_2c_20double_2c_204_20_3e',['BaseFunctor&lt; CrystalBallShape&lt; ArgIndex &gt;, double, 4 &gt;',['../group__functor.html',1,'hydra']]],
   ['basefunctor_3c_20cubicspiline_3c_20n_2c_20argindex_20_3e_2c_20greal_5ft_2c_200_20_3e',['BaseFunctor&lt; CubicSpiline&lt; N, ArgIndex &gt;, GReal_t, 0 &gt;',['../group__functor.html',1,'hydra']]],
-  ['basefunctor_3c_20dalitzangulardistribution_3c_20l_2c_20channel_20_3e_2c_20double_2c_200_20_3e',['BaseFunctor&lt; DalitzAngularDistribution&lt; L, CHANNEL &gt;, double, 0 &gt;',['../group__functor.html',1,'hydra']]],
-  ['basefunctor_3c_20dalitzchecker_2c_20bool_2c_200_20_3e',['BaseFunctor&lt; DalitzChecker, bool, 0 &gt;',['../group__functor.html',1,'hydra']]],
   ['basefunctor_3c_20exponential_3c_20argindex_20_3e_2c_20double_2c_201_20_3e',['BaseFunctor&lt; Exponential&lt; ArgIndex &gt;, double, 1 &gt;',['../group__functor.html',1,'hydra']]],
   ['basefunctor_3c_20gaussian_3c_20argindex_20_3e_2c_20double_2c_202_20_3e',['BaseFunctor&lt; Gaussian&lt; ArgIndex &gt;, double, 2 &gt;',['../group__functor.html',1,'hydra']]],
   ['basefunctor_3c_20lambdawrapper_3c_20returntype_28argtype_2e_2e_2e_29_2c_20l_2c_20n_20_3e_2c_20returntype_2c_20n_20_3e',['BaseFunctor&lt; LambdaWrapper&lt; ReturnType(ArgType...), L, N &gt;, ReturnType, N &gt;',['../group__functor.html',1,'hydra']]],

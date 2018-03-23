@@ -1,0 +1,13 @@
+<map id="GaussKronrodRules.h" name="GaussKronrodRules.h">
+<area shape="rect" id="node2" href="$GaussKronrodAdaptiveQuadrature_8h.html" title="GaussKronrodAdaptiveQuadrature.h" alt="" coords="203,80,433,107"/>
+<area shape="rect" id="node6" href="$GaussKronrodQuadrature_8h.html" title="GaussKronrodQuadrature.h" alt="" coords="461,80,641,107"/>
+<area shape="rect" id="node3" href="$adaptive__gauss__kronrod_8inl.html" title="adaptive_gauss_kronrod.inl" alt="" coords="219,155,399,181"/>
+<area shape="rect" id="node4" href="$adaptive__gauss__kronrod_8cpp.html" title="adaptive_gauss_kronrod.cpp" alt="" coords="5,229,193,256"/>
+<area shape="rect" id="node5" href="$adaptive__gauss__kronrod_8cu.html" title="adaptive_gauss_kronrod.cu" alt="" coords="218,229,399,256"/>
+<area shape="rect" id="node7" href="$splot_8inl.html" title="splot.inl" alt="" coords="518,155,585,181"/>
+<area shape="rect" id="node10" href="$gauss__kronrod_8inl.html" title="gauss_kronrod.inl" alt="" coords="619,155,743,181"/>
+<area shape="rect" id="node8" href="$splot_8cpp.html" title="splot.cpp" alt="" coords="423,229,498,256"/>
+<area shape="rect" id="node9" href="$splot_8cu.html" title="splot.cu" alt="" coords="523,229,591,256"/>
+<area shape="rect" id="node11" href="$gauss__kronrod_8cpp.html" title="gauss_kronrod.cpp" alt="" coords="615,229,747,256"/>
+<area shape="rect" id="node12" href="$gauss__kronrod_8cu.html" title="gauss_kronrod.cu" alt="" coords="771,229,897,256"/>
+</map>

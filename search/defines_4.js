@@ -1,6 +1,5 @@
 var searchData=
 [
-  ['dalitz_5fplot2_5finl_5f',['DALITZ_PLOT2_INL_',['../dalitz__plot2_8inl.html#abe2cf28e86fad15b328278f856b35c47',1,'dalitz_plot2.inl']]],
   ['dalitz_5fplot_5fcpp_5f',['DALITZ_PLOT_CPP_',['../dalitz__plot_8cpp.html#a5d0be89d9de3e0ccf0e3db2247624802',1,'dalitz_plot.cpp']]],
   ['dalitz_5fplot_5fcu_5f',['DALITZ_PLOT_CU_',['../dalitz__plot_8cu.html#abecc5168fb4766f9039d93e97b9a410d',1,'dalitz_plot.cu']]],
   ['dalitz_5fplot_5finl_5f',['DALITZ_PLOT_INL_',['../dalitz__plot_8inl.html#af33e470841e266f3e17c169317b20a29',1,'dalitz_plot.inl']]],

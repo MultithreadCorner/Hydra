@@ -1,0 +1,25 @@
+<map id="Filter.h" name="Filter.h">
+<area shape="rect" id="node2" href="$basic__fit_8inl.html" title="basic_fit.inl" alt="" coords="127,80,215,107"/>
+<area shape="rect" id="node5" href="$extended__logLL__fit_8inl.html" title="extended_logLL_fit.inl" alt="" coords="421,80,569,107"/>
+<area shape="rect" id="node8" href="$fractional__logLL__fit_8inl.html" title="fractional_logLL_fit.inl" alt="" coords="775,80,923,107"/>
+<area shape="rect" id="node11" href="$multidimensional__fit_8inl.html" title="multidimensional_fit.inl" alt="" coords="1135,80,1289,107"/>
+<area shape="rect" id="node14" href="$splot_8inl.html" title="splot.inl" alt="" coords="1343,80,1409,107"/>
+<area shape="rect" id="node17" href="$breit__wigner__plus__polynomial_8inl.html" title="breit_wigner_plus_polynomial.inl" alt="" coords="1483,80,1693,107"/>
+<area shape="rect" id="node20" href="$gaussian__plus__argus_8inl.html" title="gaussian_plus_argus.inl" alt="" coords="1717,80,1878,107"/>
+<area shape="rect" id="node23" href="$fit__3d__gaussian_8C.html" title="fit_3d_gaussian.C" alt="" coords="1902,80,2029,107"/>
+<area shape="rect" id="node24" href="$fit__gaussian_8C.html" title="fit_gaussian.C" alt="" coords="2053,80,2160,107"/>
+<area shape="rect" id="node3" href="$basic__fit_8cpp.html" title="basic_fit.cpp" alt="" coords="5,155,101,181"/>
+<area shape="rect" id="node4" href="$basic__fit_8cu.html" title="basic_fit.cu" alt="" coords="126,155,215,181"/>
+<area shape="rect" id="node6" href="$extended__logLL__fit_8cpp.html" title="extended_logLL_fit.cpp" alt="" coords="239,155,395,181"/>
+<area shape="rect" id="node7" href="$extended__logLL__fit_8cu.html" title="extended_logLL_fit.cu" alt="" coords="420,155,569,181"/>
+<area shape="rect" id="node9" href="$fractional__logLL__fit_8cpp.html" title="fractional_logLL_fit.cpp" alt="" coords="594,155,750,181"/>
+<area shape="rect" id="node10" href="$fractional__logLL__fit_8cu.html" title="fractional_logLL_fit.cu" alt="" coords="775,155,924,181"/>
+<area shape="rect" id="node12" href="$multidimensional__fit_8cpp.html" title="multidimensional_fit.cpp" alt="" coords="948,155,1111,181"/>
+<area shape="rect" id="node13" href="$multidimensional__fit_8cu.html" title="multidimensional_fit.cu" alt="" coords="1135,155,1289,181"/>
+<area shape="rect" id="node15" href="$splot_8cpp.html" title="splot.cpp" alt="" coords="1313,155,1388,181"/>
+<area shape="rect" id="node16" href="$splot_8cu.html" title="splot.cu" alt="" coords="1413,155,1481,181"/>
+<area shape="rect" id="node18" href="$breit__wigner__plus__polynomial_8cpp.html" title="breit_wigner_plus_polynomial.cpp" alt="" coords="1505,155,1722,181"/>
+<area shape="rect" id="node19" href="$breit__wigner__plus__polynomial_8cu.html" title="breit_wigner_plus_polynomial.cu" alt="" coords="1747,155,1957,181"/>
+<area shape="rect" id="node21" href="$gaussian__plus__argus_8cpp.html" title="gaussian_plus_argus.cpp" alt="" coords="1982,155,2151,181"/>
+<area shape="rect" id="node22" href="$gaussian__plus__argus_8cu.html" title="gaussian_plus_argus.cu" alt="" coords="2176,155,2339,181"/>
+</map>

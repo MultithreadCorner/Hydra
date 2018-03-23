@@ -1,0 +1,27 @@
+var classhydra_1_1PDFSumNonExtendable =
+[
+    [ "base_type", "classhydra_1_1PDFSumNonExtendable.html#a610672120b34eaf01871b9f2ca8994db", null ],
+    [ "functor_type", "classhydra_1_1PDFSumNonExtendable.html#a0b69c94379a847c91903cd048ac400d6", null ],
+    [ "functors_tuple_type", "classhydra_1_1PDFSumNonExtendable.html#ad15dd718cb34aea5b5a1b42ed85c01b7", null ],
+    [ "hydra_pdf_tag", "classhydra_1_1PDFSumNonExtendable.html#a8a310502b9fdaf5d447aefeda0ddf5fb", null ],
+    [ "hydra_sum_pdf_tag", "classhydra_1_1PDFSumNonExtendable.html#a7f97634e10da486449dbbeb70bedfbe3", null ],
+    [ "pdfs_tuple_type", "classhydra_1_1PDFSumNonExtendable.html#ab9e7f1d098e3a2742d988785a83a0a41", null ],
+    [ "PDFSumNonExtendable", "classhydra_1_1PDFSumNonExtendable.html#af6006c2c4e9653ad64250d5c093dcf8c", null ],
+    [ "PDFSumNonExtendable", "classhydra_1_1PDFSumNonExtendable.html#a4eb82a2a0146ff901834d1eb8cb6bfb1", null ],
+    [ "AddUserParameters", "classhydra_1_1PDFSumNonExtendable.html#ae9b264f4f08660b3eb2de1a2091b0efd", null ],
+    [ "Coeficient", "classhydra_1_1PDFSumNonExtendable.html#a0b7d401048ba7eaa9a8de969b5d61e94", null ],
+    [ "GetCoeficient", "classhydra_1_1PDFSumNonExtendable.html#ac6ae9ea04b3976dc486cfd65fb149ff1", null ],
+    [ "GetCoefPartialSum", "classhydra_1_1PDFSumNonExtendable.html#ad3e08ddc89e9a4729b12edd1485639a7", null ],
+    [ "GetCoefSum", "classhydra_1_1PDFSumNonExtendable.html#ad5d20257ddc737e74eacfaf0f11c9e00", null ],
+    [ "GetFunctor", "classhydra_1_1PDFSumNonExtendable.html#ac5b80705373769c0b303399c80ec4f9f", null ],
+    [ "GetFunctors", "classhydra_1_1PDFSumNonExtendable.html#a5d0f73e71f2f603889630e4eb572ebf9", null ],
+    [ "GetPDFs", "classhydra_1_1PDFSumNonExtendable.html#aafcddb58efe517fc913cb7c651709536", null ],
+    [ "operator()", "classhydra_1_1PDFSumNonExtendable.html#a146e29721ba28a6c600c3d2f4462bf25", null ],
+    [ "operator()", "classhydra_1_1PDFSumNonExtendable.html#ac235e7b3c7b65d44363733e4b4cd9b24", null ],
+    [ "operator()", "classhydra_1_1PDFSumNonExtendable.html#a381e79fb5e60dde8f18ef6a9e43d5b85", null ],
+    [ "operator=", "classhydra_1_1PDFSumNonExtendable.html#addfe623055b4f8e75d8db7107580d588", null ],
+    [ "PDF", "classhydra_1_1PDFSumNonExtendable.html#a9d0f68327b938fcefe243f1d910c39c4", null ],
+    [ "PrintRegisteredParameters", "classhydra_1_1PDFSumNonExtendable.html#ac9f939303f8c0097041b4344df011a32", null ],
+    [ "SetParameters", "classhydra_1_1PDFSumNonExtendable.html#aea0e146712d1b046b370261a1d38f8ea", null ],
+    [ "npdfs", "classhydra_1_1PDFSumNonExtendable.html#a32280b9960487e1b223b433f6ed5348b", null ]
+];

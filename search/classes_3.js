@@ -2,7 +2,6 @@ var searchData=
 [
   ['cache',['Cache',['../namespacehydra.html#classhydra_1_1Cache',1,'hydra']]],
   ['cache_3c_20hydra_3a_3adetail_3a_3abackendpolicy_3c_20backend_20_3e_2c_20functors_2e_2e_2e_20_3e',['Cache&lt; hydra::detail::BackendPolicy&lt; BACKEND &gt;, Functors... &gt;',['../classhydra_1_1Cache_3_01hydra_1_1detail_1_1BackendPolicy_3_01BACKEND_01_4_00_01Functors_8_8_8_01_4.html',1,'hydra']]],
-  ['cached_5fallocator',['cached_allocator',['../classhydra_1_1detail_1_1cached__allocator.html',1,'hydra::detail']]],
   ['cacheevaluator',['CacheEvaluator',['../structhydra_1_1detail_1_1CacheEvaluator.html',1,'hydra::detail']]],
   ['canconvert',['CanConvert',['../namespacehydra_1_1detail.html#structhydra_1_1detail_1_1CanConvert',1,'hydra::detail']]],
   ['caster',['Caster',['../structhydra_1_1detail_1_1Caster.html',1,'hydra::detail']]],

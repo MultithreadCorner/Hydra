@@ -1,0 +1,19 @@
+<map id="ProcessCallsVegas.h" name="ProcessCallsVegas.h">
+<area shape="rect" id="node2" href="$a00053.html" title="hydra/detail/Config.h" alt="" coords="1204,631,1346,657"/>
+<area shape="rect" id="node5" href="$a00383.html" title="Common and useful typedefs. " alt="" coords="2113,631,2218,657"/>
+<area shape="rect" id="node6" href="$a00266.html" title="hydra/detail/utility\l/Utility_Tuple.h" alt="" coords="2129,80,2253,121"/>
+<area shape="rect" id="node38" href="$a00401.html" title="hydra/VegasState.h" alt="" coords="498,251,636,278"/>
+<area shape="rect" id="node7" href="$a00254.html" title="hydra/detail/utility\l/Generic.h" alt="" coords="2190,244,2314,285"/>
+<area shape="rect" id="node10" href="$a00248.html" title="hydra/detail/TypeTraits.h" alt="" coords="1401,251,1568,278"/>
+<area shape="rect" id="node32" href="$a00158.html" title="hydra/detail/FunctorTraits.h" alt="" coords="2390,251,2571,278"/>
+<area shape="rect" id="node33" href="$a00341.html" title="hydra/Parameter.h" alt="" coords="1856,169,1985,196"/>
+<area shape="rect" id="node11" href="$a00017.html" title="Typedefs for useful container classes used in MCBooster. " alt="" coords="1209,348,1341,375"/>
+<area shape="rect" id="node13" href="$a00392.html" title="hydra/Vector3R.h" alt="" coords="1516,541,1640,568"/>
+<area shape="rect" id="node21" href="$a00395.html" title="hydra/Vector4R.h" alt="" coords="1572,445,1696,471"/>
+<area shape="rect" id="node24" href="$a00059.html" title="hydra/detail/Containers.inl" alt="" coords="936,445,1110,471"/>
+<area shape="rect" id="node17" href="$a00011.html" title="hydra/Collection.h" alt="" coords="1904,631,2030,657"/>
+<area shape="rect" id="node20" href="$a00269.html" title="hydra/detail/Vector3R.inl" alt="" coords="1626,631,1791,657"/>
+<area shape="rect" id="node22" href="$a00272.html" title="hydra/detail/Vector4R.inl" alt="" coords="1664,541,1830,568"/>
+<area shape="rect" id="node39" href="$a00038.html" title="hydra/detail/BackendPolicy.h" alt="" coords="596,348,786,375"/>
+<area shape="rect" id="node42" href="$a00278.html" title="hydra/detail/VegasState.inl" alt="" coords="392,348,571,375"/>
+</map>

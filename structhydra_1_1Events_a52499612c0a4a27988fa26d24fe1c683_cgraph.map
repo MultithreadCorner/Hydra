@@ -1,0 +1,12 @@
+<map id="hydra::Events::operator=" name="hydra::Events::operator=">
+<area shape="rect" id="node2" href="$namespacehydra.html#a28aa8ffeea73bf98ccab0fb7cd1c8116" title="hydra::copy" alt="" coords="274,5,365,32"/>
+<area shape="rect" id="node4" href="$structhydra_1_1Events.html#aeb6808e9f3217959d13fa731de1336cb" title="hydra::Events::Daughters\lBegin" alt="" coords="234,57,405,98"/>
+<area shape="rect" id="node5" href="$structhydra_1_1Events.html#a2d462a0907f21df9129e1a7143990450" title="hydra::Events::DaughtersEnd" alt="" coords="222,123,417,149"/>
+<area shape="rect" id="node6" href="$structhydra_1_1Events.html#a4e9aa8dbcb85e25ba8c0917260aab492" title="hydra::Events::FlagsBegin" alt="" coords="231,173,407,200"/>
+<area shape="rect" id="node7" href="$structhydra_1_1Events.html#a3179da080f739e9000e6289f6b59982c" title="hydra::Events::FlagsEnd" alt="" coords="236,224,403,251"/>
+<area shape="rect" id="node8" href="$structhydra_1_1Events.html#a27de21a3cb642a2eb5a14553ef5029ae" title="hydra::Events::GetMaxWeight" alt="" coords="220,275,419,301"/>
+<area shape="rect" id="node9" href="$structhydra_1_1Events.html#aac3d45111c242c9c22e07b91d793c68e" title="hydra::Events::GetNEvents" alt="" coords="228,325,411,352"/>
+<area shape="rect" id="node10" href="$structhydra_1_1Events.html#a2258dd3648df72afa137e913861e4ed8" title="hydra::Events::WeightsBegin" alt="" coords="223,376,415,403"/>
+<area shape="rect" id="node11" href="$structhydra_1_1Events.html#a6a3e90de4b056f81ff734cda38a6ab47" title="hydra::Events::WeightsEnd" alt="" coords="228,427,411,453"/>
+<area shape="rect" id="node3" href="$namespacehydra.html#a98b97d9c4a1b0350ef7c2d646c8c504a" title="hydra::copy" alt="" coords="467,5,557,32"/>
+</map>
