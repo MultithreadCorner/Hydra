@@ -26,9 +26,9 @@ Table of Contents
 What is it?
 -----------
 
-Hydra is a C++11 compliant and header only framework designed to perform commom data analysis tasks on massivelly parallel platforms. Hydra provides a collection of containers and algorithms commomly used in HEP data analysis, which can deploys transparently OpenMP, CUDA and TBB enabled devices, allowing the user to re-use the same code across a large range of available multi-core CPU and accelerators. The framework design is focused on performance and precision. 
+Hydra is a C++11 compliant and header only framework designed to perform commom data analysis tasks on massively parallel platforms. Hydra provides a collection of containers and algorithms commonly used in HEP data analysis, which can deploy  transparently OpenMP, CUDA and TBB enabled devices, allowing the user to re-use the same code across a large range of available multi-core CPU and accelerators. The framework design is focused on performance and precision. 
 
-The core algorithms follow as close as is possible the implementations widely used in framworks like ROOT and libraries 
+The core algorithms follow as close as possible the implementations widely used in framworks like ROOT and libraries 
 like GSL.
 
 Main features
@@ -42,25 +42,24 @@ Currently Hydra supports:
 * Calculation of S-Plots, a popular technique for statistical unfolding of populations contributing to a sample.   
 * Evaluation of multidimensional functions over heterogeneos data sets. 
 * Numerical integration of multidimensional functions using self-adaptive Monte Carlo and quadrature methods.
-* Multidimensional sparse and dense histograming of large samples. 
+* Multidimensional sparse and dense histogramming of large samples. 
 
-Hydra also provides a bunch of custom types, optimized containers and number of algorithms and constructs to maximaze performance, avoiding unecessary usage of memory and without losing the flexibility and protability to compile and run the same code across different platforms and deployment scenarios. 
-For example the plots below 
+Hydra also provides a bunch of custom types, optimized containers and a number of algorithms and constructs to maximaze performance, avoiding unecessary usage of memory and without losing the flexibility and portability to compile and run the same code across different platforms and deployment scenarios.  
 
 
 For example, just changing .cu to .cpp in any source code writen only using the Hydra and standard C++11 is enough
 to compile your application for OpenMP or TBB compatible devices using GCC or other compiler in a machine without a NVIDIA GPU installed.
 
-In summary, using Hydra, the user can transparently typical bottle-neck calculations to a suitable parallel device and get speed-up factors ranging from some dozens to hundeds.  
+In summary, by using Hydra the user can transparently typical bottle-neck calculations to a suitable parallel device and get speed-up factors ranging from dozens to hundreds.  
 
 
 
 Hydra and Thrust
 ----------------
 
-Hydra is implemented on top of the [Thrust library](https://thrust.github.io/) and rely strongly on Thrust's containers, algorithms and backend managment systems.
+Hydra is implemented on top of the [Thrust library](https://thrust.github.io/) and relies strongly on Thrust's containers, algorithms and backend managment systems.
 The official version of Thrust supports tuples with maximum ten elements. In order to overcome this limitation, Hydra uses the 
-[unoficial version, forked from the original, by Andrew Currigan and collaborators](https://github.com/andrewcorrigan/thrust-multi-permutation-iterator). 
+[unofficial version, forked from the original, by Andrew Currigan and collaborators](https://github.com/andrewcorrigan/thrust-multi-permutation-iterator). 
 This version implements variadic tuples and related classes, as well as provides some additional functionalities, which are missing in the official Thrust.
 
 The version of Thrust distributed with Hydra is maintained by [MultithreadCorner](https://github.com/MultithreadCorner). It is basically a fork of Currigan's repository, which was merged with the latest official release available in github (Thrust 1.8.3). 
@@ -71,9 +70,9 @@ The version of Thrust distributed with Hydra is maintained by [MultithreadCorner
 Supported Parallel Backends
 ---------------------------
 
-Hydra uses the underlying Thrust's "backend systems" to control how the algorithms algorithms get
+Hydra uses the underlying Thrust's "backend systems" to control how the algorithms get
 mapped to and executed on the parallel processors and accelerators available to a given application. 
-When is necessary, the backends can be specified using the symbols hydra::device::sys_t, hydra::host::sys_t,
+When necessary, the backends can be specified using the symbols hydra::device::sys_t, hydra::host::sys_t,
 hydra::omp::sys_t, hydra::tbb::sys_t, hydra::cuda::sys_t, hydra::cpp::sys_t.
 The backends hydra::device::sys_t and hydra::host::sys_t are selected in compile time using the macros ```HYDRA_HOST_SYSTEM``` and ```HYDRA_DEVICE_SYSTEM```.
 The following possibilities are available:
@@ -87,10 +86,10 @@ For example, this will compile ```my_program.cu``` using OpenMP as host backend 
 nvcc -Xcompiler -fopenmp -DHYDRA_HOST_SYSTEM=OMP -DHYDRA_DEVICE_SYSTEM=CUDA  my_program.cu
 ```
 The available "host" and "device" backends can be freely combined. 
-Two important features related to the Hydra's design and the backend configuration:
+Two important features related to Hydra's design and the backend configuration:
 
 * If CUDA backend is not used, [NVCC and the CUDA runtime](https://developer.nvidia.com/cuda-toolkit) are not necessary. The programs can be compiled with GCC, CLang or other host compiler compatible with C++11 directly.
-* Programs written using only Hydra, Thrust, STL and standard c++ constructs, it means programs without any raw CUDA code or calls to the CUDA runtime API, can be compiled with NVCC, to run on CUDA backends, or a suitable host compiler to run on OpenMP , TBB and CPP backends. **Just change the source file extention from .cu to .cpp, or something else the host compiler understands.**        
+* Programs written using only Hydra, Thrust, STL and standard c++ constructs, it means programs without any raw CUDA code or calls to the CUDA runtime API, can be compiled with NVCC, to run on CUDA backends, or a suitable host compiler to run on OpenMP , TBB and CPP backends. **Just change the source file extension from .cu to .cpp, or something else the host compiler understands.**        
 
 
 The Latest Version
@@ -126,12 +125,12 @@ Just place the `hydra` folder and its contents where your system can find it.
 The library run on Linux systems and requires at least a host compiler supporting C++11. To use NVidia's GPUs, CUDA 8 or higher is required.  
 A suite of examples demonstrating the basic features of the library are included in the `examples` folder.
 All the examples are organized in .inl files, which implements the `main()` function. These files are included by .cpp and .cu
-files, which are compiled according with the availability of backends. TBB and CUDA backends requires the a installation of the corresponding libraries and runtimes.
+files, which are compiled according with the availability of backends. TBB and CUDA backends requires the installation of the corresponding libraries and runtimes.
 These code samples uses, but does not requires [ROOT](https://root.cern.ch/) for graphics, and [TCLAP](http://tclap.sourceforge.net/) library for process command line arguments. 
 
 Examples
 --------
-The examples are built using [CMAKE](https://cmake.org/) following the following instructions:
+The examples are built using [CMAKE](https://cmake.org/) with the following instructions:
 
 1. clone the git repository: `git clone https://github.com/MultithreadCorner/Hydra.git`
 2. go to the Hydra repository: `cd Hydra`  
