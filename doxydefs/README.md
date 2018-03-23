@@ -34,13 +34,14 @@ Main features
 
 Currently Hydra supports:
 
-* Generation of phase-space Monte Carlo samples with any number of particles in the final states. Sequential decays, calculation of integrals of models over the corresponding phase-space and production of weighted and unweighted samples, which can be flat or distributed following a model provided by the user.  
+* Generation of phase-space Monte Carlo samples with any number of particles in the final states. Sequential decays, calculation of integrals of models 
+over the corresponding phase-space and production of weighted and unweighted samples, which can be flat or distributed following a model provided by the user.
 * Sampling of multidimensional pdfs.
 * Multidimensional maximum likelihood fits using binned and unbinned data sets.
-* Calculation of S-Plots, a popular technique for statistical unfolding of populations contributing to a sample.   
-* Evaluation of multidimensional functions over heterogeneos data sets. 
+* Calculation of S-Plots, a popular technique for statistical unfolding of populations contributing to a sample.
+* Evaluation of multidimensional functions over heterogeneos data sets.
 * Numerical integration of multidimensional functions using self-adaptive Monte Carlo and quadrature methods.
-* Multidimensional sparse and dense histogramming of large samples. 
+* Multidimensional sparse and dense histogramming of large samples.
 
 Hydra also provides a bunch of custom types, optimized containers and a number of algorithms and constructs to maximaze performance, avoiding unecessary usage of memory and without losing the flexibility and portability to compile and run the same code across different platforms and deployment scenarios.  
 
@@ -162,7 +163,7 @@ Recent publications and presentations at conferences and workshops
 
 1. [A. A. Alves Junior, *Hydra: a C++11 framework for data analysis in massively parallel platforms*, Proceedings of the 18th International Workshop on Advanced Computing and Analysis Techniques in Physics Research, 21-25 August 2017 Seattle,USA](https://inspirehep.net/record/1636201/files/arXiv:1711.05683.pdf),
 2. [A. A. Alves Junior, *Hydra: Accelerating Data Analysis in Massively Parallel Platforms* - ACAT 2017, University of Washington, 21-25 August 2017, Seattle](https://indico.cern.ch/event/567550/contributions/2638690/)
-3. [A. A. Alves Junior, *Hydra: A Framework for Data Analysis in Massively Parallel Platforms* - NVIDIA’s GPU Technology Conference, May 8-11, 2017 - Silicon Valley, USA]()
+3. [A. A. Alves Junior, *Hydra: A Framework for Data Analysis in Massively Parallel Platforms* - NVIDIA’s GPU Technology Conference, May 8-11, 2017 - Silicon Valley, USA](http://on-demand.gputechconf.com/gtc/2017/presentation/S7340-antonio-augusto-alves-hydra-a-framework-for-data-analysis-in-massively-parallel-platforms.pdf)
 4. [A. A. Alves Junior, *Hydra* - HSF-HEP analysis ecosystem workshop, 22-24 May 2017 Amsterdam, Netherlands](https://indico.cern.ch/event/613842/)
 5. [A. A. Alves Junior, *MCBooster and Hydra: two libraries for high performance computing and data analysis in massively parallel platforms* -Perspectives of GPU computing in Science September 2016, Rome, Italy](http://www.roma1.infn.it/conference/GPU2016/pdf/talks/AlvesJr.pdf)
 
