@@ -95,15 +95,20 @@ Two important features related to the Hydra's design and the backend configurati
 The Latest Version
 ------------------
 
-
-
 Documentation
 -------------
 
 ### Reference manual
 
+The complete and updated [Doxygen](http://www.doxygen.org/) source code documentation in HTML format is available at the
+[Reference documentation](https://multithreadcorner.github.io/Hydra/index.html) web-page.
+It is also possible to browse the documentation by class, file or name using the links:
 
-The complete and updated [Doxygen](http://www.doxygen.org/) source code documentation is not available yet.
+1.[classes](http://multithreadcorner.github.io/Hydra/classes.html)
+
+2.[files](http://multithreadcorner.github.io/Hydra/files.html)
+
+3.[names](http://multithreadcorner.github.io/Hydra/namespacemembers.html)
 
 ### User's Guide
 
