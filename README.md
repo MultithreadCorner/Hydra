@@ -128,8 +128,7 @@ Examples
 The examples are built using [CMAKE](https://cmake.org/) following the following instructions:
 
 1. clone the git repository: `git clone https://github.com/MultithreadCorner/Hydra.git`
-2. go to the Hydra repository: `cd Hydra`
-2. checkout the `hydra_rc2.0` branch:`git checkout hydra_rc2.0`  
+2. go to the Hydra repository: `cd Hydra`  
 3. create a build directory: `mkdir build` 
 4. go to build directory: `cd build`
 5. `cmake ..`
@@ -147,6 +146,7 @@ The examples are listed below:
 5. __numerical_integration__ : adaptive_gauss_kronrod, gauss_kronrod, plain_mc, vegas
 6. __phase_space__ : phsp_averaging_functor, phsp_evaluating_functor, phsp_reweighting, phsp_basic, phsp_unweighting, phsp_chain, phsp_unweighting_functor
 7. __random__ :  basic_distributions, sample_distribution
+7. __root_macros__ :  macros to run examples in ROOT
 
 Each compiled example executable will have an postfix (ex.: _cuda, _omp, _tbb) to indicate the deployed device backend.  
 All examples use CPP as host backend. 

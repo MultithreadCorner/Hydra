@@ -234,22 +234,22 @@ install(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/docs
   DESTINATION hydra/docs)
 
 #install examples executables  
-if(EXISTS "${CMAKE_CURRENT_BINARY_DIR}/${examples}/")
+if(EXISTS "${CMAKE_CURRENT_BINARY_DIR}/examples/")
 install(DIRECTORY  ${CMAKE_CURRENT_BINARY_DIR}/examples
   DESTINATION hydra/bin/examples)
-endif("${CMAKE_CURRENT_BINARY_DIR}/${examples}/")
+endif(EXISTS "${CMAKE_CURRENT_BINARY_DIR}/examples/")
 
 #install performance executables  
-if(EXISTS "${CMAKE_CURRENT_BINARY_DIR}/${performance}/")
+if(EXISTS "${CMAKE_CURRENT_BINARY_DIR}/performance/")
 install(DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/performance
   DESTINATION hydra/bin/performance)
-endif("${CMAKE_CURRENT_BINARY_DIR}/${performance}/")
+endif(EXISTS "${CMAKE_CURRENT_BINARY_DIR}/performance/")
 
 #install test executables  
-if(EXISTS "${CMAKE_CURRENT_BINARY_DIR}/${tests}/")
+if(EXISTS "${CMAKE_CURRENT_BINARY_DIR}/tests/")
 install(DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/tests
   DESTINATION hydra/bin/tests)
-endif("${CMAKE_CURRENT_BINARY_DIR}/${tests}/")
+endif(EXISTS "${CMAKE_CURRENT_BINARY_DIR}/tests/")
 
 #install source  
 install(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}

@@ -1,35 +1,62 @@
 project(testing)
 
+message(STATUS "-----------")
+#+++++++++++++++++++++++++
+# CUDA TARGETS           |
+#+++++++++++++++++++++++++
 if(BUILD_CUDA_TARGETS)
-
-cuda_add_executable(Hydra_Test_Host_OMP_Device_CUDA EXCLUDE_FROM_ALL
-    unit_tests.cu
-    list_tests.cu
-    OPTIONS  -Xcompiler -fopenmp -DTHRUST_DEVICE_SYSTEM=THRUST_DEVICE_SYSTEM_CUDA -DTHRUST_HOST_SYSTEM=THRUST_HOST_SYSTEM_OMP  -lgomp
-    )
-    add_test(Hydra_Test_Host_OMP_Device_CUDA Hydra_Test_Host_OMP_Device_CUDA)
-    
-cuda_add_executable(Hydra_Test_Host_CPP_Device_CUDA EXCLUDE_FROM_ALL
-    unit_tests.cu
-    list_tests.cu
-    OPTIONS  -Xcompiler -fopenmp -DTHRUST_DEVICE_SYSTEM=THRUST_DEVICE_SYSTEM_CUDA -DTHRUST_HOST_SYSTEM=THRUST_HOST_SYSTEM_CPP  -lgomp
-    )
-    add_test(Hydra_Test_Host_CPP_Device_CUDA Hydra_Test_Host_CPP_Device_CUDA)
-    
+          message(STATUS "Adding target tests to CUDA backend. Executable file name: tests_cuda")
+          
+          cuda_add_executable(tests_cuda main.cu  OPTIONS -Xcompiler -DHYDRA_DEVICE_SYSTEM=CUDA -DHYDRA_HOST_SYSTEM=CPP)
+          
+          target_link_libraries("tests_cuda" ${ROOT_LIBRARIES} )
+         
+          add_dependencies(tests tests_cuda)
+        
 endif(BUILD_CUDA_TARGETS)
-
-add_executable(Hydra_Test_Host_OMP_Device_OMP EXCLUDE_FROM_ALL
-    unit_tests.cpp
-    list_tests.cpp
-)
-set_target_properties(Hydra_Test_Host_OMP_Device_OMP PROPERTIES 
-COMPILE_FLAGS  "-fopenmp -DTHRUST_DEVICE_SYSTEM=THRUST_DEVICE_SYSTEM_OMP -DTHRUST_HOST_SYSTEM=THRUST_HOST_SYSTEM_OMP -lgomp" LINKER_LANGUAGE CXX )
-add_test(Hydra_Test_Host_OMP_Device_OMP Hydra_Test_Host_OMP_Device_OMP)
-
-add_executable(Hydra_Test_Host_CPP_Device_OMP EXCLUDE_FROM_ALL
-    unit_tests.cpp
-    list_tests.cpp
-)
-set_target_properties(Hydra_Test_Host_CPP_Device_OMP PROPERTIES 
-COMPILE_FLAGS  "-x c++ -fopenmp -DTHRUST_DEVICE_SYSTEM=THRUST_DEVICE_SYSTEM_CPP -DTHRUST_HOST_SYSTEM=THRUST_HOST_SYSTEM_OMP -lgomp" LINKER_LANGUAGE CXX )
-add_test(Hydra_Test_Host_CPP_Device_OMP Hydra_Test_Host_CPP_Device_OMP)
+    
+        #+++++++++++++++++++++++++
+# TBB TARGETS            |
+#+++++++++++++++++++++++++
+if(BUILD_TBB_TARGETS)
+         message(STATUS "Adding target tests to TBB backend. Executable file name: tests_tbb")
+         add_executable(tests_tbb main.cpp )
+            
+         set_target_properties( tests_tbb PROPERTIES COMPILE_FLAGS "-DHYDRA_HOST_SYSTEM=CPP -DHYDRA_DEVICE_SYSTEM=TBB")
+            
+         target_link_libraries( tests_tbb ${ROOT_LIBRARIES} ${TBB_LIBRARIES} )
+           
+         add_dependencies(tests tests_tbb)
+               
+ endif(BUILD_TBB_TARGETS)
+ 
+#+++++++++++++++++++++++++
+# CPP TARGETS            |
+#+++++++++++++++++++++++++
+if(BUILD_CPP_TARGETS)
+         message(STATUS "Adding target tests to CPP backend. Executable file name: tests_cpp")
+         add_executable(tests_cpp main.cpp )
+            
+         set_target_properties( tests_cpp  PROPERTIES COMPILE_FLAGS "-DHYDRA_HOST_SYSTEM=CPP -DHYDRA_DEVICE_SYSTEM=CPP")
+            
+         target_link_libraries( tests_cpp ${ROOT_LIBRARIES} ${TBB_LIBRARIES} )
+           
+         add_dependencies(tests tests_cpp)
+               
+ endif(BUILD_CPP_TARGETS)
+ 
+  
+#+++++++++++++++++++++++++
+# OMP TARGETS            |
+#+++++++++++++++++++++++++
+if(BUILD_OMP_TARGETS)
+         message(STATUS "Adding target tests to OMP backend. Executable file name: tests_omp")
+         add_executable(tests_omp main.cpp )
+            
+         set_target_properties( tests_omp PROPERTIES COMPILE_FLAGS "-DHYDRA_HOST_SYSTEM=CPP -DHYDRA_DEVICE_SYSTEM=OMP ${OpenMP_CXX_FLAGS}")
+            
+         target_link_libraries( tests_omp ${ROOT_LIBRARIES} ${OpenMP_CXX_LIBRARIES})
+           
+         add_dependencies(tests tests_omp)
+               
+ endif(BUILD_OMP_TARGETS)
