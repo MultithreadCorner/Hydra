@@ -1,6 +1,6 @@
------------------------------
-
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.1206261.svg)](https://doi.org/10.5281/zenodo.1206261)
 [![Documentation Status](https://readthedocs.org/projects/hydra-documentation/badge/?version=latest)](http://hydra-documentation.readthedocs.io/en/latest/?badge=latest)
+[![latest version](https://badge.fury.io/gh/MultithreadCorner%2FHydra.svg)](https://badge.fury.io/gh/MultithreadCorner%2FHydra)
 
 -----------------------------
 
@@ -99,6 +99,7 @@ Two important features related to Hydra's design and the backend configuration:
 
 The Latest Version
 ------------------
+The latest release can be downloaded [here](https://github.com/MultithreadCorner/Hydra/releases/latest).
 
 Documentation
 -------------
@@ -116,7 +117,7 @@ It is also possible to browse the documentation by class, file or name using the
 3.[names](http://multithreadcorner.github.io/Hydra/namespacemembers.html)
 
 
-### User's Guide
+### User's guide
 
 The Hydra User's Guide is available in the following formats:
 
@@ -172,6 +173,24 @@ Recent publications and presentations at conferences and workshops
 3. [A. A. Alves Junior, *Hydra: A Framework for Data Analysis in Massively Parallel Platforms* - NVIDIA’s GPU Technology Conference, May 8-11, 2017 - Silicon Valley, USA](http://on-demand.gputechconf.com/gtc/2017/presentation/S7340-antonio-augusto-alves-hydra-a-framework-for-data-analysis-in-massively-parallel-platforms.pdf)
 4. [A. A. Alves Junior, *Hydra* - HSF-HEP analysis ecosystem workshop, 22-24 May 2017 Amsterdam, Netherlands](https://indico.cern.ch/event/613842/)
 5. [A. A. Alves Junior, *MCBooster and Hydra: two libraries for high performance computing and data analysis in massively parallel platforms* -Perspectives of GPU computing in Science September 2016, Rome, Italy](http://www.roma1.infn.it/conference/GPU2016/pdf/talks/AlvesJr.pdf)
+
+How to cite Hydra
+-----------------
+
+[1]Alves Junior, A.A. - MultithreadCorner/Hydra, (2018). doi:10.5281/zenodo.1206262
+
+bibtex:
+```
+@misc{hydra,
+  
+  author       = {Alves Junior, A A},
+  title        = {MultithreadCorner/Hydra},
+  month        = March,
+  year         = 2018,
+  doi          = {10.5281/zenodo.1206261},
+  url          = {https://doi.org/10.5281/zenodo.1206261}
+}
+```
 
 Licensing
 ---------
