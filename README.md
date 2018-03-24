@@ -99,6 +99,7 @@ Two important features related to Hydra's design and the backend configuration:
 
 The Latest Version
 ------------------
+The latest release can be downloaded [here](https://github.com/MultithreadCorner/Hydra/releases/latest).
 
 Documentation
 -------------
