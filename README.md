@@ -181,14 +181,14 @@ How to cite Hydra
 
 bibtex:
 ```
-@misc{antonio_augusto_alves_junior_2018_1206262,
+@misc{hydra,
   
   author       = {Alves Junior, A A},
   title        = {MultithreadCorner/Hydra},
   month        = March,
   year         = 2018,
-  doi          = {10.5281/zenodo.1206262},
-  url          = {https://doi.org/10.5281/zenodo.1206262}
+  doi          = {10.5281/zenodo.1206261},
+  url          = {https://doi.org/10.5281/zenodo.1206261}
 }
 ```
 
