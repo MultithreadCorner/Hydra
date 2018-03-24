@@ -117,7 +117,7 @@ It is also possible to browse the documentation by class, file or name using the
 3.[names](http://multithreadcorner.github.io/Hydra/namespacemembers.html)
 
 
-### User's Guide
+### User's guide
 
 The Hydra User's Guide is available in the following formats:
 
