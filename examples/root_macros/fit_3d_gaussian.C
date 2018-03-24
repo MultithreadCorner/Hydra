@@ -30,8 +30,6 @@
  * \example fit_gaussian.C
  */
 
-#define HYDRA_HOST_SYSTEM CPP
-#define HYDRA_DEVICE_SYSTEM TBB
 
 #include <iostream>
 #include <assert.h>
@@ -39,6 +37,14 @@
 #include <chrono>
 #include <random>
 #include <algorithm>
+
+#ifndef HYDRA_HOST_SYSTEM
+#define HYDRA_HOST_SYSTEM CPP
+#endif
+
+#ifndef HYDRA_DEVICE_SYSTEM
+#define HYDRA_DEVICE_SYSTEM TBB
+#endif
 
 //this lib
 #include <hydra/device/System.h>

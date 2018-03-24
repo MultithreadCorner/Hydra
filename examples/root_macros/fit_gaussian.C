@@ -35,9 +35,13 @@
 #include <time.h>
 #include <chrono>
 
+#ifndef HYDRA_HOST_SYSTEM
 #define HYDRA_HOST_SYSTEM CPP
-#define HYDRA_DEVICE_SYSTEM TBB
+#endif
 
+#ifndef HYDRA_DEVICE_SYSTEM
+#define HYDRA_DEVICE_SYSTEM TBB
+#endif
 //this lib
 #include <hydra/device/System.h>
 #include <hydra/Function.h>
