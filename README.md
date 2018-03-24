@@ -174,6 +174,24 @@ Recent publications and presentations at conferences and workshops
 4. [A. A. Alves Junior, *Hydra* - HSF-HEP analysis ecosystem workshop, 22-24 May 2017 Amsterdam, Netherlands](https://indico.cern.ch/event/613842/)
 5. [A. A. Alves Junior, *MCBooster and Hydra: two libraries for high performance computing and data analysis in massively parallel platforms* -Perspectives of GPU computing in Science September 2016, Rome, Italy](http://www.roma1.infn.it/conference/GPU2016/pdf/talks/AlvesJr.pdf)
 
+How to cite Hydra
+-----------------
+
+[1]Alves Junior, A.A. - MultithreadCorner/Hydra, (2018). doi:10.5281/zenodo.1206262
+
+bibtex:
+```
+@misc{antonio_augusto_alves_junior_2018_1206262,
+  
+  author       = {Alves Junior, A A},
+  title        = {MultithreadCorner/Hydra},
+  month        = March,
+  year         = 2018,
+  doi          = {10.5281/zenodo.1206262},
+  url          = {https://doi.org/10.5281/zenodo.1206262}
+}
+```
+
 Licensing
 ---------
 
