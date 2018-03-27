@@ -177,7 +177,7 @@ Recent publications and presentations at conferences and workshops
 How to cite Hydra
 -----------------
 
-[1]Alves Junior, A.A. - MultithreadCorner/Hydra, (2018). doi:10.5281/zenodo.1206262
+[1]Alves Junior, A.A. - MultithreadCorner/Hydra, (2018). doi:10.5281/zenodo.1206261
 
 bibtex:
 ```
