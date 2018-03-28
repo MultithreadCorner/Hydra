@@ -41,7 +41,8 @@ __hydra_host__ __hydra_device__
                     T *result)
 {
 #ifndef __CUDA_ARCH__
-  std::memmove(result, first, n * sizeof(T));
+  if(first)
+	  std::memmove(result, first, n * sizeof(T));
   return result + n;
 #else
   return thrust::system::detail::sequential::general_copy_n(first, n, result);

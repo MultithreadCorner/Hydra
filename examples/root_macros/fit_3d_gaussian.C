@@ -188,8 +188,7 @@ void fit_3d_gaussian(size_t nentries=1000000 ) {
 			100, min, max,
 			100, min, max );
 
-	//device
-	//------------------------
+	//device begin
 	{
 
 		//3D device/host buffer
@@ -291,7 +290,7 @@ void fit_3d_gaussian(size_t nentries=1000000 ) {
 
 		hist_mc_d->Scale(hist_data_d->Integral()/hist_mc_d->Integral() );
 
-	}
+	}//device end
 
 
 	//draw histograms

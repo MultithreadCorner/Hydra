@@ -285,15 +285,15 @@ int main(int argv, char** argc)
 
 	TCanvas canvas1_d("canvas1_d", "Phase-space Host", 500, 500);
 	Dalitz_d.Draw("colz");
-	canvas1_d.Print("plots/phsp_chain_d1.png");
+	//canvas1_d.Print("plots/phsp_chain_d1.png");
 
 	TCanvas canvas2_d("canvas2_d", "Phase-space Host", 500, 500);
 	CosTheta_d.Draw("hist");
-	canvas2_d.Print("plots/phsp_chain_d2.png");
+	//canvas2_d.Print("plots/phsp_chain_d2.png");
 
 	TCanvas canvas3_d("canvas3_d", "Phase-space Host", 500, 500);
 	Delta_d.Draw("hist");
-	canvas3_d.Print("plots/phsp_chain_d3.png");
+	//canvas3_d.Print("plots/phsp_chain_d3.png");
 
 	m_app->Run();
 
