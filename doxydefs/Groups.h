@@ -54,4 +54,9 @@
  * \brief Histogram
  */
 
+/**
+ * \defgroup common_functions Common functors
+ * \brief Common functors, line-shapes and functions.
+ */
+
 #endif /* GROUPS_H_ */

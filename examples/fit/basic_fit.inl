@@ -32,6 +32,9 @@
 /**
  * \example basic_fit.inl
  *
+ * This example shows how to generate a normal distributed dataset
+ * and fit a hydra::Gaussian distribution.
+ *
  */
 
 #include <iostream>
@@ -116,7 +119,7 @@ int main(int argv, char** argc)
 	hydra::Parameter  sigma_p = hydra::Parameter::Create().Name("Sigma").Value(0.5).Error(0.0001).Limits(0.01, 1.5);
 
 
-	//gaussian function evaluating on argument one
+	//gaussian function evaluating on argument zero
 	hydra::Gaussian<> gaussian(mean_p,sigma_p);
 
 	//make model (pdf with analytical integral)

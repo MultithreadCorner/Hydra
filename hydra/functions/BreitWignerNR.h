@@ -43,6 +43,12 @@
 #include <cassert>
 #include <utility>
 
+/**
+ * \ingroup common_functions
+ *
+ * \class BreitWignerNR implements a non-relativistic Breit-Wigner shape
+ */
+
 namespace hydra {
 
 template<unsigned int ArgIndex=0>

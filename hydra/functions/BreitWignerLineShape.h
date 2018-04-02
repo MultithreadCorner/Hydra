@@ -50,7 +50,9 @@ namespace hydra {
 
 
 /**
- * @BreitWignerLineShape
+ * \ingroup common_functions
+ *
+ * \class BreitWignerLineShape
  *
  * Breit-Wigner line shape for 3 body resonant decays \f$ A -> r c , r-> a b\f$ ,
  * where A is a "long-lived" particle and \f$ a, b\f$ and \f$c\f$ are the final states.

@@ -32,6 +32,7 @@
 /**
  * \example dense_histogram.inl
  *
+ * This example shows the basic usage of the hydra::DenseHistogram class.
  */
 
 #include <iostream>
