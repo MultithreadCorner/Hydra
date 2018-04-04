@@ -238,27 +238,28 @@ public:
 
 };
 
-template<unsigned int CHANNEL,hydra::Wave L> class Flatte: public hydra::BaseFunctor<Flatte<CHANNEL,L>, hydra::complex<double>, 5>
+template<unsigned int CHANNEL,hydra::Wave L> class Flatte: public hydra::BaseFunctor<Flatte<CHANNEL,L>, hydra::complex<double>, 3>
 {
 
     constexpr static unsigned int _I1 = CHANNEL-1;
     constexpr static unsigned int _I2 = (CHANNEL!=3)*CHANNEL;
     constexpr static unsigned int _I3 = 3-( (CHANNEL-1) + (CHANNEL!=3)*CHANNEL );
 
-    using hydra::BaseFunctor<Flatte<CHANNEL,L>, hydra::complex<double>, 5>::_par;
+    using hydra::BaseFunctor<Flatte<CHANNEL,L>, hydra::complex<double>, 3>::_par;
 
 public:
 
     Flatte() = delete;
 
-    Flatte(hydra::Parameter const& c_re, hydra::Parameter const& c_im, hydra::Parameter const& mean, hydra::Parameter const& rho1 , hydra::Parameter const& rho2,
-           double mother_mass,	double daugther1_mass, double daugther2_mass, double daugther3_mass, double radi):
-            hydra::BaseFunctor<Flatte<CHANNEL,L>, hydra::complex<double>, 5>{c_re, c_im, mean, rho1, rho2},
-            fLineShape(mean,rho1,rho2,mother_mass,daugther1_mass,daugther2_mass,daugther3_mass,radi)
+    Flatte(hydra::Parameter const& c_re, hydra::Parameter const& c_im, hydra::Parameter const& mean,
+           std::vector<std::vector<double>> const& params,double mother_mass,	double daugther1_mass, double daugther2_mass,
+           double daugther3_mass, double radi):
+            hydra::BaseFunctor<Flatte<CHANNEL,L>, hydra::complex<double>, 3>{c_re, c_im, mean},
+            fLineShape(mean,params,mother_mass,daugther1_mass,daugther2_mass,daugther3_mass,radi)
     {}
 
     __hydra_dual__ Flatte( Flatte<CHANNEL,L> const& other):
-            hydra::BaseFunctor<Flatte<CHANNEL,L>, hydra::complex<double>, 5>(other),
+            hydra::BaseFunctor<Flatte<CHANNEL,L>, hydra::complex<double>, 3>(other),
             fLineShape(other.GetLineShape())
     {}
 
@@ -268,7 +269,7 @@ public:
     {
         if(this==&other) return *this;
 
-        hydra::BaseFunctor<Flatte<CHANNEL,L>, hydra::complex<double>, 5>::operator=(other);
+        hydra::BaseFunctor<Flatte<CHANNEL,L>, hydra::complex<double>, 3>::operator=(other);
         fLineShape=other.GetLineShape();
 
         return *this;
@@ -285,15 +286,12 @@ public:
         hydra::Vector4R p3 = p[_I3];
 
         fLineShape.SetParameter(0,_par[2]);
-        fLineShape.SetParameter(1,_par[3]);
-        fLineShape.SetParameter(2,_par[4]);
-
         double theta = fCosDecayAngle( (p1+p2+p3), (p1+p2), p1 );
         double angular = fAngularDist(theta);
 
         auto r = hydra::complex<double>(_par[0],_par[1])*fLineShape((p1+p2).mass())*angular;
 
-        return r;
+	    return r;
     }
 
 private:
@@ -360,8 +358,11 @@ int main(int argv, char** argc)
     double Kplus_MASS     = 0.493677;  // K+ mass
     double Kminus_MASS    = Kplus_MASS;
 
+    //Flatté
+    double pi_MASS = 0.13957018;
+    std::vector<std::vector<double>> params = {{pi_MASS,pi_MASS,f0_rho1},{Kplus_MASS,Kplus_MASS,f0_rho2}};
 
-    //======================================================
+	//======================================================
 	//Phi
 	auto mass    = hydra::Parameter::Create().Name("MASS_Phi" ).Value(Phi_MASS ).Error(0.01).Fixed();
 	auto width   = hydra::Parameter::Create().Name("WIDTH_Phi").Value(Phi_Width).Error(0.001).Fixed();
@@ -388,8 +389,8 @@ int main(int argv, char** argc)
     auto rg1og2 = hydra::Parameter::Create().Name("f0_g1xg2").Value(f0_rho2).Fixed();
 
 
-    Flatte<1,hydra::SWave> f0_Resonance_12(coef_ref0,coef_imf0,f0Mass,f0g1,rg1og2,D_MASS,Kminus_MASS,Kplus_MASS,Kplus_MASS,1.5);
-    Flatte<3,hydra::SWave> f0_Resonance_13(coef_ref0,coef_imf0,f0Mass,f0g1,rg1og2,D_MASS,Kminus_MASS,Kplus_MASS,Kplus_MASS,1.5);
+    Flatte<1,hydra::SWave> f0_Resonance_12(coef_ref0,coef_imf0,f0Mass,params,D_MASS,Kminus_MASS,Kplus_MASS,Kplus_MASS,1.5);
+    Flatte<3,hydra::SWave> f0_Resonance_13(coef_ref0,coef_imf0,f0Mass,params,D_MASS,Kminus_MASS,Kplus_MASS,Kplus_MASS,1.5);
 
     auto f0_Resonance = (f0_Resonance_12 + f0_Resonance_13);
 

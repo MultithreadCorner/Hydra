@@ -40,6 +40,7 @@
 #include <hydra/Complex.h>
 #include <hydra/functions/Utils.h>
 #include <hydra/functions/BlattWeisskopfFunctions.h>
+#include <hydra/Vector4R.h>
 #include <tuple>
 #include <limits>
 #include <stdexcept>
@@ -61,8 +62,8 @@ namespace hydra {
 
 
     template<unsigned int CHANNEL, unsigned int ArgIndex = 0>
-    class FlatteLineShape : public BaseFunctor<FlatteLineShape<CHANNEL, ArgIndex>, hydra::complex<double>, 3> {
-        using BaseFunctor<FlatteLineShape<CHANNEL, ArgIndex>, hydra::complex<double>, 3>::_par;
+    class FlatteLineShape : public BaseFunctor<FlatteLineShape<CHANNEL, ArgIndex>, hydra::complex<double>, 1> {
+        using BaseFunctor<FlatteLineShape<CHANNEL, ArgIndex>, hydra::complex<double>, 1>::_par;
 
     public:
 
@@ -78,11 +79,13 @@ namespace hydra {
  * @param daugther3_mass daughter particle 2 mass
  * @param radi decay vertex radio.
  */
-        FlatteLineShape(hydra::Parameter const& mean, hydra::Parameter const& rho1 , hydra::Parameter const& rho2,
+        FlatteLineShape(hydra::Parameter const& mean,
+                        std::vector<std::vector<double>> params,
                         double mother_mass,
                         double daugther1_mass, double daugther2_mass, double daugther3_mass,
                         double radi) :
-                BaseFunctor<FlatteLineShape<CHANNEL, ArgIndex>, hydra::complex<double>, 3>{mean, rho1, rho2},
+                BaseFunctor<FlatteLineShape<CHANNEL, ArgIndex>, hydra::complex<double>,1>{mean},
+                fParams(params),
                 fDaughter1Mass(daugther1_mass),
                 fDaughter2Mass(daugther2_mass),
                 fBachelorMass(daugther3_mass),
@@ -91,7 +94,8 @@ namespace hydra {
 
         __hydra_host__  __hydra_device__
         FlatteLineShape(FlatteLineShape<CHANNEL, ArgIndex> const &other) :
-                BaseFunctor<FlatteLineShape<CHANNEL, ArgIndex>, hydra::complex<double>, 3>(other),
+                BaseFunctor<FlatteLineShape<CHANNEL, ArgIndex>, hydra::complex<double>, 1>(other),
+                fParams(other.GetParams()),
                 fDaughter1Mass(other.GetDaughter1Mass()),
                 fDaughter2Mass(other.GetDaughter2Mass()),
                 fBachelorMass(other.GetDaughter3Mass()),
@@ -104,8 +108,9 @@ namespace hydra {
             if (this == &other) return *this;
 
             BaseFunctor<FlatteLineShape<CHANNEL, ArgIndex>,
-                    hydra::complex<double>, 3>::operator=(other);
+                    hydra::complex<double>, 7>::operator=(other);
 
+            fParams = other.GetParams();
             fDaughter1Mass = other.GetDaughter1Mass();
             fDaughter2Mass = other.GetDaughter2Mass();
             fBachelorMass = other.GetDaughter3Mass();
@@ -114,6 +119,18 @@ namespace hydra {
 
             return *this;
         }
+
+        __hydra_host__  __hydra_device__ inline
+        std::vector<std::vector<double>>GetParams() const {
+            return fParams;
+        }
+
+        __hydra_host__  __hydra_device__ inline
+        void SetDaughter1Mass(std::vector<std::vector<double>> _params) {
+            fParams = _params;
+        }
+
+
 
         __hydra_host__  __hydra_device__ inline
         double GetDaughter1Mass() const {
@@ -170,13 +187,9 @@ namespace hydra {
         hydra::complex<double> Evaluate(unsigned int, T *x) const {
 
             const double m = x[ArgIndex];
-
             const double resonance_mass = _par[0];
-            const double rho1 = _par[1];
-            const double rho2 = _par[2];
 
-            return m > (fDaughter1Mass + fDaughter2Mass) && m < (fMotherMass - fBachelorMass) ?
-                   LineShape(m, resonance_mass, rho1, rho2) : hydra::complex<double>(0.0, 0.0);
+            return LineShape( m , resonance_mass) ;
 
         }
 
@@ -184,70 +197,39 @@ namespace hydra {
         __hydra_host__ __hydra_device__ inline
         hydra::complex<double> Evaluate(T x) const {
 
-            double m = get<ArgIndex>(x);
-
+			const double m = get<ArgIndex>(x);
             const double resonance_mass = _par[0];
-            const double rho1 = _par[1];
-            const double rho2 = _par[2];
 
-            return m > (fDaughter1Mass + fDaughter2Mass) && m < (fMotherMass - fBachelorMass) ?
-                   LineShape(m, resonance_mass, rho1, rho2) : hydra::complex<double>(0.0, 0.0);
+            return LineShape( m , resonance_mass) ;
         }
 
     private:
+        __hydra_host__ __hydra_device__ inline
+        hydra::complex<double>
+        sqrtCplx(const double in) const { return (in > 0) ? hydra::complex<double>(::sqrt(in), 0.0) : hydra::complex<double>(0.0, ::sqrt(-in)); }
 
-        __hydra_dual__ inline
-        hydra::complex<double> LineShape(const double s, const double resonance_mass, const double g1 , const double g2) const {
+        __hydra_host__ __hydra_device__ inline
+        hydra::complex<double>
+        LineShape(const double s, const double resonance_mass) const {
 
-            double pipmass = 0.13957018;
-            double pi0mass = 0.1349766;
-            double kpmass  = 0.493677;
-            double k0mass  = 0.497614;
+		hydra::complex<double> w;
 
-            double twopimasssq  = 4 * pipmass * pipmass;
-            double twopi0masssq = 4 * pi0mass * pi0mass;
-            double twokmasssq   = 4 * kpmass * kpmass;
-            double twok0masssq  = 4 * k0mass * k0mass;
+for(size_t i = 0; i < fParams.size() ; i++) {
 
-            double rhokk_real   = 0;
-            double rhokk_imag   = 0;
-            double rhopipi_real = 0;
-            double rhopipi_imag = 0;
+        double m1a = fParams[i][0];
+        double m1b = fParams[i][1];
+        double g   = fParams[i][2];
 
+        w += g * g * sqrtCplx((1 - (m1a - m1b) * (m1a - m1b) / s*s ) *
+                          (1 - (m1a + m1b) * (m1a + m1b) / s*s ));
 
-            constexpr static double _1p3  = 0.333333333;
-            constexpr static double _2p3  = 0.666666667;
-            static const double  two_pi0_factor =  ::sqrt(1 - twopi0masssq / s );
-            static const double  two_pi_factor  =  ::sqrt(1 - twopimasssq / s );
-            static const double  two_pi0_factor_img =  ::sqrt((-1 + twopi0masssq / s)*(twopi0masssq >= s) );
-            static const double  two_pi_factor_img  =  ::sqrt((-1 + twopimasssq / s)*(twopimasssq >= s)) );
+}
 
-            rhopipi_real = (s >= twopi0masssq)*_1p3*twopi0masssq;
+		hydra::complex<double> denom =   resonance_mass - s*s - hydra::complex<double>(0.0,1.0)*w;
 
-            rhopipi_imag = (s >= twopi0masssq && s < twokmasssq)* (_2p3 * two_pi_factor_img )+
-                           (s < twopi0masssq)*_1p3*two_pi0_factor_img;
+		hydra::complex<double> ampl = hydra::complex<double>(1.0,0.0)/denom;
 
-            constexpr static double _1p2  = 0.5;
-            static const double  two_k0_factor =  ::sqrt(1 - twok0masssq / s );
-            static const double  two_k_factor  =  ::sqrt(1 - twokmasssq / s );
-            static const double  two_k0_factor_img =  ::sqrt((-1 + twok0masssq / s)*(twok0masssq>=s) );
-            static const double  two_k_factor_img  =  ::sqrt((-1 + twokmasssq / s)*(twokmasssq>=s) );
-
-
-            rhokk_real   = (s >= twokmasssq && s < twok0masssq)*_1p2*two_k_factor +
-                           (s >= twok0masssq)*_1p2*two_k0_factor;
-
-            rhokk_imag    = (s < twok0masssq)*_1p2*two_k0_factor_img;
-
-
-                double A = (resonance_mass*resonance_mass - s) + resonance_mass*(rhopipi_imag*g1 + rhokk_imag*g2);
-                double B = resonance_mass*(rhopipi_real*g1 + rhokk_real*g2);
-                double C = 1.0 / (A*A + B*B);
-
-                hydra::complex<double> retur(A*C, B*C);
-
-                return retur;
-
+		return ampl;
 
         }
 
@@ -256,6 +238,7 @@ namespace hydra {
         double fBachelorMass;
         double fMotherMass;
         double fRadi;
+        std::vector<std::vector<double>> fParams;
 
     };
 
