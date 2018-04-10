@@ -32,6 +32,7 @@
 /**
  * \example multidimensional_fit.inl
  *
+ * This example implements a 3D dimensional Gaussian fit.
  */
 
 

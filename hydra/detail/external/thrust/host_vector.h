@@ -24,6 +24,7 @@
 #include <hydra/detail/external/thrust/detail/config.h>
 #include <memory>
 #include <hydra/detail/external/thrust/detail/vector_base.h>
+#include <hydra/detail/external/thrust/system/cpp/memory.h>
 #include <vector>
 #include <utility>
 
@@ -49,7 +50,7 @@ template<typename T, typename Alloc> class device_vector;
  *  \see http://www.sgi.com/tech/stl/Vector.html
  *  \see device_vector
  */
-template<typename T, typename Alloc = std::allocator<T> >
+template<typename T, typename Alloc = cpp::allocator<T> >
   class host_vector
     : public detail::vector_base<T,Alloc>
 {

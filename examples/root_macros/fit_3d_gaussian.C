@@ -30,8 +30,6 @@
  * \example fit_gaussian.C
  */
 
-#define HYDRA_HOST_SYSTEM CPP
-#define HYDRA_DEVICE_SYSTEM TBB
 
 #include <iostream>
 #include <assert.h>
@@ -39,6 +37,14 @@
 #include <chrono>
 #include <random>
 #include <algorithm>
+
+#ifndef HYDRA_HOST_SYSTEM
+#define HYDRA_HOST_SYSTEM CPP
+#endif
+
+#ifndef HYDRA_DEVICE_SYSTEM
+#define HYDRA_DEVICE_SYSTEM TBB
+#endif
 
 //this lib
 #include <hydra/device/System.h>
@@ -182,8 +188,7 @@ void fit_3d_gaussian(size_t nentries=1000000 ) {
 			100, min, max,
 			100, min, max );
 
-	//device
-	//------------------------
+	//device begin
 	{
 
 		//3D device/host buffer
@@ -285,7 +290,7 @@ void fit_3d_gaussian(size_t nentries=1000000 ) {
 
 		hist_mc_d->Scale(hist_data_d->Integral()/hist_mc_d->Integral() );
 
-	}
+	}//device end
 
 
 	//draw histograms

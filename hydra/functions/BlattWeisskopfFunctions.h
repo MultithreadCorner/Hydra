@@ -48,6 +48,8 @@ namespace hydra {
 
 
 /**
+ * \ingroup common_functions
+ *
  * Blatt-Weisskopf B' functions
  *
  * These functions are normalized to give to give

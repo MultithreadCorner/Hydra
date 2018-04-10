@@ -30,12 +30,12 @@
 
 
 /**
- * @group examples
+ * \example phsp_basic.inl
  *
  * This example shows how to use the Hydra's
- * phase space Monte Carlo algorithms to
+ * phase space Monte Carlo generation and integration algorithms to
  * generate a sample of B0 -> J/psi K pi and
- * plot the Dalitz plot.
+ * unweights to produce a B0-> K*(892) J/psi and fits a Breit-Wigner shape.
  */
 
 
