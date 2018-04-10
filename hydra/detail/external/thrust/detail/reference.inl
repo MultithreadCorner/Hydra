@@ -117,9 +117,21 @@ template<typename Element, typename Pointer, typename Derived>
   // XXX use null a reference for dispatching
   // XXX this assumes that the eventual invocation of
   // XXX get_value will not access system state
+
+#ifndef  __CLING__
+
   System *system = 0;
 
   return convert_to_value_type(system);
+
+#else
+
+  System system{};
+
+  return convert_to_value_type(&system);
+
+#endif
+
 } // end reference::operator value_type ()
 
 
@@ -163,10 +175,21 @@ template<typename Element, typename Pointer, typename Derived>
   // XXX use null references for dispatching
   // XXX this assumes that the eventual invocation of
   // XXX assign_value will not access system state
+
+#ifndef  __CLING__
+
   System1 *system1 = 0;
   System2 *system2 = 0;
 
   assign_from(system1, system2, src);
+
+#else
+  System1 system1{};
+  System2 system2{};
+
+  assign_from(&system1, &system2, src);
+#endif
+
 } // end assign_from()
 
 
