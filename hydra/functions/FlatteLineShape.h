@@ -80,27 +80,16 @@ namespace hydra {
  * @param radi decay vertex radio.
  */
         FlatteLineShape(hydra::Parameter const& mean,
-                        std::array<std::array<double,3>,2> params,
-                        double mother_mass,
-                        double daugther1_mass, double daugther2_mass, double daugther3_mass,
-                        double radi) :
+                        std::array<std::array<double,3>,2> params) :
                 BaseFunctor<FlatteLineShape<CHANNEL, ArgIndex>, hydra::complex<double>,1>{mean},
-                fParams(params),
-                fDaughter1Mass(daugther1_mass),
-                fDaughter2Mass(daugther2_mass),
-                fBachelorMass(daugther3_mass),
-                fMotherMass(mother_mass),
-                fRadi(radi) {}
+                fParams(params)
+                {}
 
         __hydra_host__  __hydra_device__
         FlatteLineShape(FlatteLineShape<CHANNEL, ArgIndex> const &other) :
                 BaseFunctor<FlatteLineShape<CHANNEL, ArgIndex>, hydra::complex<double>, 1>(other),
-                fParams(other.GetParams()),
-                fDaughter1Mass(other.GetDaughter1Mass()),
-                fDaughter2Mass(other.GetDaughter2Mass()),
-                fBachelorMass(other.GetDaughter3Mass()),
-                fMotherMass(other.GetMotherMass()),
-                fRadi(other.GetRadi()) {}
+                fParams(other.GetParams())
+                 {}
 
         __hydra_host__  __hydra_device__
         FlatteLineShape<CHANNEL, ArgIndex> &
@@ -108,14 +97,9 @@ namespace hydra {
             if (this == &other) return *this;
 
             BaseFunctor<FlatteLineShape<CHANNEL, ArgIndex>,
-                    hydra::complex<double>, 7>::operator=(other);
+                    hydra::complex<double>, 1>::operator=(other);
 
             fParams = other.GetParams();
-            fDaughter1Mass = other.GetDaughter1Mass();
-            fDaughter2Mass = other.GetDaughter2Mass();
-            fBachelorMass = other.GetDaughter3Mass();
-            fMotherMass = other.GetMotherMass();
-            fRadi = other.GetRadi();
 
             return *this;
         }
@@ -126,60 +110,8 @@ namespace hydra {
         }
 
         __hydra_host__  __hydra_device__ inline
-        void SetDaughter1Mass(std::array<std::array<double,3>,2> _params) {
+        void SetParams(std::array<std::array<double,3>,2> _params) {
             fParams = _params;
-        }
-
-
-
-        __hydra_host__  __hydra_device__ inline
-        double GetDaughter1Mass() const {
-            return fDaughter1Mass;
-        }
-
-        __hydra_host__  __hydra_device__ inline
-        void SetDaughter1Mass(double daughter1Mass) {
-            fDaughter1Mass = daughter1Mass;
-        }
-
-        __hydra_host__  __hydra_device__ inline
-        double GetDaughter2Mass() const {
-            return fDaughter2Mass;
-        }
-
-        __hydra_host__  __hydra_device__ inline
-        void SetDaughter2Mass(double daughter2Mass) {
-            fDaughter2Mass = daughter2Mass;
-        }
-
-        __hydra_host__  __hydra_device__ inline
-        double GetDaughter3Mass() const {
-            return fBachelorMass;
-        }
-
-        __hydra_host__  __hydra_device__ inline
-        void SetDaughter3Mass(double daughter3Mass) {
-            fBachelorMass = daughter3Mass;
-        }
-
-        __hydra_host__  __hydra_device__ inline
-        double GetMotherMass() const {
-            return fMotherMass;
-        }
-
-        __hydra_host__  __hydra_device__ inline
-        void SetMotherMass(double motherMass) {
-            fMotherMass = motherMass;
-        }
-
-        __hydra_host__  __hydra_device__ inline
-        double GetRadi() const {
-            return fRadi;
-        }
-
-        __hydra_host__  __hydra_device__ inline
-        void SetRadi(double radi) {
-            fRadi = radi;
         }
 
         template<typename T>
@@ -235,12 +167,7 @@ namespace hydra {
 
         }
 
-        double fDaughter1Mass;
-        double fDaughter2Mass;
-        double fBachelorMass;
-        double fMotherMass;
-        double fRadi;
-        std::array<std::array<double,3>,2> fParams;
+       std::array<std::array<double,3>,2> fParams;
 
     };
 

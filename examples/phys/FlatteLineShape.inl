@@ -252,10 +252,9 @@ public:
     Flatte() = delete;
 
     Flatte(hydra::Parameter const& c_re, hydra::Parameter const& c_im, hydra::Parameter const& mean,
-           std::array<std::array<double,3>,2> const &params,double mother_mass,	double daugther1_mass, double daugther2_mass,
-           double daugther3_mass, double radi):
+           std::array<std::array<double,3>,2> const &params):
             hydra::BaseFunctor<Flatte<CHANNEL,L>, hydra::complex<double>, 3>{c_re, c_im, mean},
-            fLineShape(mean,params,mother_mass,daugther1_mass,daugther2_mass,daugther3_mass,radi)
+            fLineShape(mean,params)
     {}
 
     __hydra_dual__ Flatte( Flatte<CHANNEL,L> const& other):
@@ -390,8 +389,8 @@ int main(int argv, char** argc)
     auto rg1og2 = hydra::Parameter::Create().Name("f0_g1xg2").Value(f0_rho2).Fixed();
 
 
-    Flatte<1,hydra::SWave> f0_Resonance_12(coef_ref0,coef_imf0,f0Mass,params,D_MASS,Kminus_MASS,Kplus_MASS,Kplus_MASS,1.5);
-    Flatte<3,hydra::SWave> f0_Resonance_13(coef_ref0,coef_imf0,f0Mass,params,D_MASS,Kminus_MASS,Kplus_MASS,Kplus_MASS,1.5);
+    Flatte<1,hydra::SWave> f0_Resonance_12(coef_ref0,coef_imf0,f0Mass,params);
+    Flatte<3,hydra::SWave> f0_Resonance_13(coef_ref0,coef_imf0,f0Mass,params);
 
     auto f0_Resonance = (f0_Resonance_12 + f0_Resonance_13);
 
