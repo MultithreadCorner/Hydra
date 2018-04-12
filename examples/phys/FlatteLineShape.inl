@@ -252,7 +252,7 @@ public:
     Flatte() = delete;
 
     Flatte(hydra::Parameter const& c_re, hydra::Parameter const& c_im, hydra::Parameter const& mean,
-           std::vector<std::vector<double>> const& params,double mother_mass,	double daugther1_mass, double daugther2_mass,
+           std::array<std::array<double,3>,2> const &params,double mother_mass,	double daugther1_mass, double daugther2_mass,
            double daugther3_mass, double radi):
             hydra::BaseFunctor<Flatte<CHANNEL,L>, hydra::complex<double>, 3>{c_re, c_im, mean},
             fLineShape(mean,params,mother_mass,daugther1_mass,daugther2_mass,daugther3_mass,radi)
@@ -360,7 +360,8 @@ int main(int argv, char** argc)
 
     //Flatté
     double pi_MASS = 0.13957018;
-    std::vector<std::vector<double>> params = {{pi_MASS,pi_MASS,f0_rho1},{Kplus_MASS,Kplus_MASS,f0_rho2}};
+    std::array<std::array<double,3>,2> params = {{{pi_MASS,pi_MASS,f0_rho1},{Kplus_MASS,Kplus_MASS,f0_rho2}}};
+    //std::vector<std::vector<double>> params = {{pi_MASS,pi_MASS,f0_rho1},{Kplus_MASS,Kplus_MASS,f0_rho2}};
 
 	//======================================================
 	//Phi

@@ -80,7 +80,7 @@ namespace hydra {
  * @param radi decay vertex radio.
  */
         FlatteLineShape(hydra::Parameter const& mean,
-                        std::vector<std::vector<double>> params,
+                        std::array<std::array<double,3>,2> params,
                         double mother_mass,
                         double daugther1_mass, double daugther2_mass, double daugther3_mass,
                         double radi) :
@@ -121,12 +121,12 @@ namespace hydra {
         }
 
         __hydra_host__  __hydra_device__ inline
-        std::vector<std::vector<double>>GetParams() const {
+        std::array<std::array<double,3>,2> GetParams() const {
             return fParams;
         }
 
         __hydra_host__  __hydra_device__ inline
-        void SetDaughter1Mass(std::vector<std::vector<double>> _params) {
+        void SetDaughter1Mass(std::array<std::array<double,3>,2> _params) {
             fParams = _params;
         }
 
@@ -204,32 +204,34 @@ namespace hydra {
         }
 
     private:
+
         __hydra_host__ __hydra_device__ inline
         hydra::complex<double>
         sqrtCplx(const double in) const { return (in > 0) ? hydra::complex<double>(::sqrt(in), 0.0) : hydra::complex<double>(0.0, ::sqrt(-in)); }
 
-        __hydra_host__ __hydra_device__ inline
-        hydra::complex<double>
-        LineShape(const double s, const double resonance_mass) const {
 
-		hydra::complex<double> w;
+        __hydra_host__ __hydra_device__ inline hydra::complex<double> LineShape(const double s, const double resonance_mass) const  {
 
-for(size_t i = 0; i < fParams.size() ; i++) {
+            hydra::complex<double> w;
 
-        double m1a = fParams[i][0];
-        double m1b = fParams[i][1];
-        double g   = fParams[i][2];
 
-        w += g * g * sqrtCplx((1 - (m1a - m1b) * (m1a - m1b) / s*s ) *
-                          (1 - (m1a + m1b) * (m1a + m1b) / s*s ));
 
-}
+            for(size_t i = 0; i < fParams.size() ; i++) {
 
-		hydra::complex<double> denom =   resonance_mass - s*s - hydra::complex<double>(0.0,1.0)*w;
+                double m1a = fParams[i][0];
+                double m1b = fParams[i][1];
+                double g   = fParams[i][2];
 
-		hydra::complex<double> ampl = hydra::complex<double>(1.0,0.0)/denom;
+                w += g * g * sqrtCplx((1 - (m1a - m1b) * (m1a - m1b) / s*s ) *
+                                      (1 - (m1a + m1b) * (m1a + m1b) / s*s ));
 
-		return ampl;
+            }
+
+            hydra::complex<double> denom =   resonance_mass - s*s - hydra::complex<double>(0.0,1.0)*w;
+
+            hydra::complex<double> ampl = hydra::complex<double>(1.0,0.0)/denom;
+
+            return ampl;
 
         }
 
@@ -238,7 +240,7 @@ for(size_t i = 0; i < fParams.size() ; i++) {
         double fBachelorMass;
         double fMotherMass;
         double fRadi;
-        std::vector<std::vector<double>> fParams;
+        std::array<std::array<double,3>,2> fParams;
 
     };
 
