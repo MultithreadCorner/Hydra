@@ -183,7 +183,7 @@ private:
 		}
 		else
 		{
-			integral =-sigma_right*::erf((fUpperLimit - mean)/xscaleR) +  sigma_left*::erf((fLowerLimit - mean)/xscaleL);
+			integral =sigma_right*::erf((fUpperLimit - mean)/xscaleR) -  sigma_left*::erf((fLowerLimit - mean)/xscaleL);
 		}
 
 		return integral*sqrt_pi_over_two;
