@@ -44,12 +44,19 @@ namespace hydra {
 
 template< size_t NBins, size_t ArgIndex>
 template<typename Iterator>
-void GaussianKDE<NBins, ArgIndex>::build_KDE(Iterator begin, Iterator end, double h) {
+void GaussianKDE<NBins, ArgIndex>::BuildKDE(Iterator begin, Iterator end, double h) {
 
-auto _KDE = [](double x){
+	auto _KDE = [](double x){
 
-	return r;
+		double init = 0;
+
+		double sum  = HYDRA_EXTERNAL_NS::thrust::transform_reduce(begin, end,
+				GaussianKDE<NBins, ArgIndex>::Kernel(x,fH), 0.0,
+				HYDRA_EXTERNAL_NS::thrust::plus() );
+
+		return  sum/(fH*HYDRA_EXTERNAL_NS::thrust::distance(begin, end) ) ;
 	};
+
 
 
 }

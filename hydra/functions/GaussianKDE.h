@@ -48,7 +48,7 @@ namespace hydra {
 template< size_t NBins, size_t ArgIndex=0>
 class GaussianKDE: public BaseFunctor<GaussianKDE<NBins, ArgIndex>, double, 0>
 {
-	using BaseFunctor<GaussianKDE<NBins, ArgIndex>, double, 3>::_par;
+	using BaseFunctor<GaussianKDE<NBins, ArgIndex>, double, 0>::_par;
 
 public:
 
@@ -57,9 +57,11 @@ public:
 		Kernel()=delete;
 
 		Kernel(double h, double x):
+			BaseFunctor<GaussianKDE<NBins, ArgIndex>, double, 0>(),
 			fX(x), fH(h){}
 
 		Kernel(Kernel const& other):
+			BaseFunctor<GaussianKDE<NBins, ArgIndex>, double, 0>(other),
 			fX(other.fX), fH(other.fH){}
 
 		Kernel& operator=(Kernel const& other){
@@ -83,18 +85,18 @@ public:
 
 	};
 
+	//-------------------------
+
 	GaussianKDE() = delete;
 
 	template<typename Iterator>
-	GaussianKDE(Iterator begin, Iterator end, double h):
-	fH(h)
+	GaussianKDE(double min, double max, Iterator begin, Iterator end, double h)
 	{
-		build_KDE(begin, end);
+		BuildKDE(min, max, h, begin, end);
 	}
 
 
 	GaussianKDE(GaussianKDE<NBins, ArgIndex> const& other):
-	fH(other.GetH()),
 	fSpiline(other.GetSpiline())
 	{}
 
@@ -114,14 +116,30 @@ public:
 
 	void SetH(double h) {
 		fH = h;
+		BuildKDE(begin, end);
 	}
+
+	double GetMaximum() const {
+		return fMaximum;
+
+	}
+
+	void SetMaximum(double maximum) {
+		fMaximum = maximum;
+		BuildKDE(begin, end);
+	}
+
+	double GetMinimum() const {
+		return fMinimum;
+	}
+
+	void SetMinimum(double minimum) {
+		fMinimum = minimum;
+	}
+
 
 	const CubicSpiline<NBins, ArgIndex>& GetSpiline() const {
 		return fSpiline;
-	}
-
-	void SetSpiline(const CubicSpiline<NBins, ArgIndex>& spiline) {
-		fSpiline = spiline;
 	}
 
 	template<typename T>
@@ -149,9 +167,11 @@ public:
 private:
 
 	template<typename Iterator>
-	void build_KDE(Iterator begin, Iterator end, double h);
+	void BuildKDE(Iterator begin, Iterator end, double h);
 
 	double fH;
+	double fMinimum;
+	double fMaximum;
 	CubicSpiline<NBins,ArgIndex> fSpiline;
 
 
