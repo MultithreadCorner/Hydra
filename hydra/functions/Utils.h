@@ -31,7 +31,7 @@
 
 #include <hydra/Types.h>
 #include <utility>
-
+#include <ratio>
 
 namespace hydra {
 
@@ -63,8 +63,8 @@ namespace detail {
 
 
 	template<typename T, unsigned int N, unsigned int I>
-	inline __hydra_host__ __hydra_device__
-	typename std::enable_if<I==N, void >::type
+	__hydra_host__ __hydra_device__
+	inline typename std::enable_if<I==N, void >::type
 	pow_helper(T const, T&){}
 
 
