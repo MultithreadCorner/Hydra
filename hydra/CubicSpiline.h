@@ -73,10 +73,11 @@ class CubicSpiline: public BaseFunctor<CubicSpiline<N, ArgIndex>, GReal_t , 0>
 public:
 
 
-	CubicSpiline()=delete;
+	CubicSpiline() = default;
 
 	template<typename Iterator1, typename Iterator2>
-	CubicSpiline( Iterator1 xbegin, Iterator2 ybegin )
+	CubicSpiline( Iterator1 xbegin, Iterator2 ybegin ):
+	BaseFunctor<CubicSpiline<N, ArgIndex>, GReal_t , 0>()
 	{
 		//populates fH and fX
 		HYDRA_EXTERNAL_NS::thrust::copy( ybegin, ybegin+N,  fD );
@@ -97,7 +98,7 @@ public:
 	}
 
 	__hydra_host__ __hydra_device__ inline
-	CubicSpiline<N>* operator=(CubicSpiline<N, ArgIndex> const& other )
+	CubicSpiline<N>& operator=(CubicSpiline<N, ArgIndex> const& other )
 	{
 		if(this == &other) return *this;
 
@@ -112,19 +113,19 @@ public:
 		return *this;
 	}
 
-	__hydra_host__ __hydra_device__ inline
-	const GReal_t* GetD() const {
+	__hydra_host__ __hydra_device__
+	inline const GReal_t* GetD() const {
 		return fD;
 	}
 
-	__hydra_host__ __hydra_device__ inline
-	const GReal_t* GetX() const {
+	__hydra_host__ __hydra_device__
+	inline const GReal_t* GetX() const {
 		return fX;
 	}
 
 	template<typename T>
-	__hydra_host__ __hydra_device__ inline
-	double Evaluate(unsigned int n, T*x)  const {
+	__hydra_host__ __hydra_device__
+	inline double Evaluate(unsigned int n, T*x)  const {
 
 		GReal_t X  = x[ArgIndex];
 
@@ -134,8 +135,8 @@ public:
 	}
 
 	template<typename T>
-	__hydra_host__ __hydra_device__ inline
-	double Evaluate(T x)  const {
+	__hydra_host__ __hydra_device__
+	inline double Evaluate(T x)  const {
 
 		GReal_t X  = hydra::get<ArgIndex>(x); //mass
 
@@ -146,8 +147,8 @@ public:
 
 private:
 
-	__hydra_host__ __hydra_device__ inline
-	double spiline( const double x) const
+	__hydra_host__ __hydra_device__
+	inline double spiline( const double x) const
 	{
 		using HYDRA_EXTERNAL_NS::thrust::min;
 

@@ -128,7 +128,9 @@ template<typename Element, typename Pointer, typename Derived>
 
   System system{};
   return convert_to_value_type(&system);
+
 #endif
+
 } // end reference::operator value_type ()
 
 
@@ -220,6 +222,7 @@ template<typename Element, typename Pointer, typename Derived>
     ::swap(derived_type &other)
 {
   typedef typename thrust::iterator_system<pointer>::type System;
+
 #if !(defined(HYDRA_THRUST_DEVICE_INTERPRETER)||defined(HYDRA_THRUST_HOST_INTERPRETER))
   // XXX avoid default-constructing a system
   // XXX use null references for dispatching
