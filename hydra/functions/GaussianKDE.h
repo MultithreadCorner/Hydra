@@ -36,6 +36,7 @@
 #include <hydra/detail/Integrator.h>
 #include <hydra/detail/utility/CheckValue.h>
 #include <hydra/Parameter.h>
+#include <hydra/CubicSpiline.h>
 #include <hydra/Tuple.h>
 #include <tuple>
 #include <limits>
@@ -56,15 +57,20 @@ public:
 	{
 		Kernel()=delete;
 
+		__hydra_host__ __hydra_device__
 		Kernel(double h, double x):
-			BaseFunctor<GaussianKDE<NBins, ArgIndex>, double, 0>(),
-			fX(x), fH(h){}
+		  fX(x),
+		  fH(h)
+		{}
 
+		__hydra_host__ __hydra_device__
 		Kernel(Kernel const& other):
-			BaseFunctor<GaussianKDE<NBins, ArgIndex>, double, 0>(other),
-			fX(other.fX), fH(other.fH){}
+			fX(other.fX),
+			fH(other.fH)
+		{}
 
-		Kernel& operator=(Kernel const& other){
+		__hydra_host__ __hydra_device__
+		inline 	Kernel& operator=(Kernel const& other){
 
 			if(this == &other) return *this;
 
@@ -74,7 +80,8 @@ public:
 			return *this;
 		}
 
-		double operator()(double x){
+		__hydra_host__ __hydra_device__
+		inline 	double operator()(double x){
 
 			double m = (x - fX)/fH;
 			return  hydra::math_constants::inverse_sqrt2Pi*exp(-0.5*m*m);
@@ -90,55 +97,31 @@ public:
 	GaussianKDE() = delete;
 
 	template<typename Iterator>
-	GaussianKDE(double min, double max, Iterator begin, Iterator end, double h)
+	GaussianKDE(double min, double max, double h, Iterator begin, Iterator end):
+	BaseFunctor<GaussianKDE<NBins, ArgIndex>, double, 0>()
 	{
-		BuildKDE(min, max, h, begin, end);
+		fSpiline=BuildKDE(min, max, h, begin, end);
 	}
 
 
+	__hydra_host__ __hydra_device__
 	GaussianKDE(GaussianKDE<NBins, ArgIndex> const& other):
+	BaseFunctor<GaussianKDE<NBins, ArgIndex>, double, 0>(other),
 	fSpiline(other.GetSpiline())
 	{}
 
-	GaussianKDE<NBins, ArgIndex>&
+	__hydra_host__ __hydra_device__
+	inline 	GaussianKDE<NBins, ArgIndex>&
 	operator=(GaussianKDE<NBins, ArgIndex> const& other)
 	{
 		if(this == &other) return *this;
-		fH=other.GetH();
+		BaseFunctor<GaussianKDE<NBins, ArgIndex>, double, 0>::operator=(other);
 		fSpiline=other.GetSpiline();
 		return *this;
 	}
 
-
-	double GetH() const {
-		return fH;
-	}
-
-	void SetH(double h) {
-		fH = h;
-		BuildKDE(begin, end);
-	}
-
-	double GetMaximum() const {
-		return fMaximum;
-
-	}
-
-	void SetMaximum(double maximum) {
-		fMaximum = maximum;
-		BuildKDE(begin, end);
-	}
-
-	double GetMinimum() const {
-		return fMinimum;
-	}
-
-	void SetMinimum(double minimum) {
-		fMinimum = minimum;
-	}
-
-
-	const CubicSpiline<NBins, ArgIndex>& GetSpiline() const {
+	__hydra_host__ __hydra_device__
+	inline 	const CubicSpiline<NBins, ArgIndex>& GetSpiline() const {
 		return fSpiline;
 	}
 
@@ -167,12 +150,10 @@ public:
 private:
 
 	template<typename Iterator>
-	void BuildKDE(Iterator begin, Iterator end, double h);
+	__hydra_host__ __hydra_device__
+	inline 	CubicSpiline<NBins>  BuildKDE(double min, double max, double h, Iterator begin, Iterator end);
 
-	double fH;
-	double fMinimum;
-	double fMaximum;
-	CubicSpiline<NBins,ArgIndex> fSpiline;
+	CubicSpiline<NBins> fSpiline;
 
 
 };

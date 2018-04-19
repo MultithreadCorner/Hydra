@@ -13,6 +13,9 @@ CHANGES
   * Hermite
   * Legendre
 
+3. 1D kernel density estimation functor: GaussianKDE 
+4. Bifurcated Gaussian functor:  BifurcatedGaussian
+
 # Bug fixes
 
 1. Null pointer breaking CLING 
