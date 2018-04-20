@@ -53,11 +53,16 @@
 #define HYDRA_DEVICE_SYSTEM TBB
 #endif
 
+#include <hydra/host/System.h>
+#include <hydra/device/System.h>
 #include <hydra/PhaseSpace.h>
 #include <hydra/Decays.h>
 #include <hydra/Vector4R.h>
-#include <hydra/host/System.h>
-#include <hydra/device/System.h>
+#include <hydra/Tuple.h>
+#include <hydra/Function.h>
+#include <hydra/FunctionWrapper.h>
+#include <hydra/DenseHistogram.h>
+
 /*-------------------------------------
  * Include classes from ROOT to fill
  * and draw histograms and plots.
@@ -69,8 +74,34 @@
 #include <TLorentzVector.h>
 #include <TGenPhaseSpace.h>
 
+template<typename Backend>
+void generate_decays(Backend const& policy, TH2D* histogram, size_t nentries);
 
-void three_body_phsp(size_t nentries=100000)
+void three_body_phsp(const char* backend ="device",  size_t nentries=100000 ){
+
+	double B0_mass    = 5.27955;   // B0 mass
+	double Jpsi_mass  = 3.0969;    // J/psi mass
+	double K_mass     = 0.493677;  // K+ mass
+	double pi_mass    = 0.13957061;// pi mass
+
+
+	TH2D* Dalitz = new TH2D("Dalitz",
+			"Device;M^{2}(J/psi #pi) [GeV^{2}/c^{4}]; M^{2}(K #pi) [GeV^{2}/c^{4}]",
+			100, pow(Jpsi_mass + pi_mass,2), pow(B0_mass - K_mass,2),
+			100, pow(K_mass + pi_mass,2), pow(B0_mass - Jpsi_mass,2));
+
+	if (strcmp(backend, "device") == 0)
+		generate_decays( hydra::device::sys, Dalitz, nentries);
+	else
+		generate_decays( hydra::host::sys, Dalitz, nentries);
+
+
+	Dalitz->Draw();
+}
+
+
+template<typename Backend>
+void generate_decays(Backend const& policy, TH2D* histogram, size_t nentries)
 {
 
 	double B0_mass    = 5.27955;   // B0 mass
@@ -84,69 +115,63 @@ void three_body_phsp(size_t nentries=100000)
 	// Create PhaseSpace object for B0-> K pi J/psi
 	hydra::PhaseSpace<3> phsp{Jpsi_mass, K_mass, pi_mass};
 
-	//Device
-	//timing
-	std::chrono::duration<double, std::milli> elapsed_d;
+	// Histogram
+	hydra::DenseHistogram<double, 2, hydra::device::sys_t> Dalitz({100,100},
+			{pow(Jpsi_mass + pi_mass,2), pow(K_mass + pi_mass,2)},
+			{pow(B0_mass - K_mass,2)   , pow(B0_mass - Jpsi_mass,2)});
+
+	// Dalitz
+	auto dalitz_calculator = hydra::wrap_lambda(
+			[] __hydra_dual__ ( unsigned int np, hydra::Vector4R* particles){
+
+		hydra::Vector4R Jpsi = particles[0];
+		hydra::Vector4R K    = particles[1];
+		hydra::Vector4R pi   = particles[2];
+
+		double M2_Jpsi_pi = (Jpsi + pi).mass2();
+		double M2_Kpi     = (K + pi).mass2();
+
+		return hydra::make_tuple(M2_Jpsi_pi, M2_Kpi);
+	});
+
+	//Device timing
+	std::chrono::duration<double, std::milli> elapsed_generation;
+	std::chrono::duration<double, std::milli> elapsed_histogram;
 	{
 
-		hydra::Decays<3, hydra::device::sys_t> Events_d(nentries);
+		auto events = hydra::make_decays<3>(policy, nentries);
 
 		auto start = std::chrono::high_resolution_clock::now();
 
 		//generate the final state particles
-		phsp.Generate(B0, Events_d.begin(), Events_d.end());
+		phsp.Generate(B0, events.begin(), events.end());
 
 		auto end = std::chrono::high_resolution_clock::now();
 
-		elapsed_d = end - start;
+		elapsed_generation = end - start;
 
-	}
 
-	//Host
-	//timing
-	std::chrono::duration<double, std::milli> elapsed_h;
-	{
+		auto dalitz_variables = hydra::make_range( events.GetUnweightedDecays().begin(),
+				events.GetUnweightedDecays().end(), dalitz_calculator);
 
-		hydra::Decays<3, hydra::host::sys_t> Events_h(nentries);
+		auto dalitz_weights   = events.GetWeights();
 
-		auto start = std::chrono::high_resolution_clock::now();
+		start = std::chrono::high_resolution_clock::now();
 
-		//generate the final state particles
-		phsp.Generate(B0, Events_h.begin(), Events_h.end());
+		Dalitz.Fill(dalitz_variables.begin(), dalitz_variables.end(),
+					               dalitz_weights.begin()  );
 
-		auto end = std::chrono::high_resolution_clock::now();
+		end = std::chrono::high_resolution_clock::now();
 
-		elapsed_h = end - start;
+		elapsed_histogram = end - start;
 
-	}
+		for(size_t i=0; i< 100; i++){
+			for(size_t j=0; j< 100; j++){
 
-	//TGenPhaseSpace
-	//timing
-	std::chrono::duration<double, std::milli> elapsed_r;
-	{
-		TLorentzVector P( 0.0, 0.0, 0.0, B0_mass);
-
-		double masses[3] = {Jpsi_mass, K_mass, pi_mass} ;
-
-		TGenPhaseSpace event;
-		event.SetDecay(P, 3, masses);
-
-		std::vector< std::tuple<double, TLorentzVector,TLorentzVector, TLorentzVector> > decays(nentries);
-
-		auto start = std::chrono::high_resolution_clock::now();
-		for (size_t n = 0;n<nentries; n++) {
-
-			Double_t weight    = event.Generate();
-			TLorentzVector *p0 = event.GetDecay(0);
-			TLorentzVector *p1 = event.GetDecay(1);
-			TLorentzVector *p2 = event.GetDecay(2);
-
-			decays[n]= std::make_tuple(weight, *p0, *p1, *p2 );
-
+				histogram->SetBinContent(i+1, j+1, Dalitz.GetBinContent({i,j}) );
+			}
 		}
-		auto end = std::chrono::high_resolution_clock::now();
 
-		elapsed_r = end - start;
 	}
 
 
@@ -156,9 +181,8 @@ void three_body_phsp(size_t nentries=100000)
 	std::cout << "----------------------------------------"   << std::endl;
 	std::cout << "| B0 -> J/psi K pi"                         << std::endl;
 	std::cout << "| Number of events :"<< nentries             << std::endl;
-	std::cout << "| Time in Hydra/device (ms):"<< elapsed_d.count()<< std::endl;
-	std::cout << "| Time in Hydra/host (ms) :" << elapsed_h.count()<< std::endl;
-	std::cout << "| Time in ROOT/TGenPhaseSpace (ms) :"<< elapsed_r.count()<< std::endl;
+	std::cout << "| generation (ms):"<< elapsed_generation.count()<< std::endl;
+	std::cout << "|  histogram (ms):"<< elapsed_histogram.count()<< std::endl;
 	std::cout << "-----------------------------------------"  << std::endl;
 
 

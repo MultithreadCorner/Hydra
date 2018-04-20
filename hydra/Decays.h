@@ -1220,6 +1220,13 @@ private:
 
 };
 
+template<size_t N, hydra::detail::Backend BACKEND>
+Decays<N, hydra::detail::BackendPolicy<BACKEND> >
+make_decays( hydra::detail::BackendPolicy<BACKEND>, size_t entries ){
+
+	return Decays<N, hydra::detail::BackendPolicy<BACKEND> >(entries);
+}
+
 template<size_t N1, hydra::detail::Backend BACKEND1,
          size_t N2, hydra::detail::Backend BACKEND2>
 bool operator==(const Decays<N1, hydra::detail::BackendPolicy<BACKEND1> >& lhs,
