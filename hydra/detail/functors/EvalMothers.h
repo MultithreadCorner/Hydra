@@ -85,7 +85,7 @@ struct EvalMothers
 			fSeed(other.fSeed)
 	{
 
-#pragma unroll N
+//#pragma unroll N
 		for(size_t i=0; i<N; i++)
 			fMasses[i] = other.fMasses[i];
 	}
@@ -146,7 +146,7 @@ struct EvalMothers
 
 		fTeCmTm = particles[0].mass();
 
-		#pragma unroll N
+//#pragma unroll N
 		for (size_t n = 0; n < N; n++)
 		{
 			fTeCmTm -= fMasses[n];
@@ -156,7 +156,7 @@ struct EvalMothers
 		GReal_t emmin = 0.0;
 		GReal_t wtmax = 1.0;
 
-		#pragma unroll N
+//#pragma unroll N
 		for (size_t n = 1; n < N; n++)
 		{
 			emmin += fMasses[n - 1];
@@ -171,7 +171,7 @@ struct EvalMothers
 
 		if (N > 2)
 		{
-			#pragma unroll N
+//#pragma unroll N
 			for (size_t n = 1; n < N - 1; n++)
 				rno[n] = uniDist(randEng) ;
 			    bbsort(&rno[1], N - 2);
@@ -181,7 +181,7 @@ struct EvalMothers
 		rno[N - 1] = 1;
 		GReal_t invMas[N], sum = 0.0;
 
-		#pragma unroll N
+//#pragma unroll N
 		for (size_t n = 0; n < N; n++)
 		{
 			sum += fMasses[n];
@@ -195,7 +195,7 @@ struct EvalMothers
 
 		GReal_t pd[N];
 
-		#pragma unroll N
+//#pragma unroll N
 		for (size_t n = 0; n < N - 1; n++)
 		{
 			pd[n] = pdk(invMas[n + 1], invMas[n], fMasses[n + 1]);
@@ -209,7 +209,7 @@ struct EvalMothers
 		particles[1].set(::sqrt(pd[0] * pd[0] + fMasses[0] * fMasses[0]), 0.0,
 				pd[0], 0.0);
 
-		#pragma unroll N
+//#pragma unroll N
 		for (size_t i = 1; i < N; i++)
 		{
 
@@ -251,7 +251,7 @@ struct EvalMothers
 		//
 		//---> final boost of all particles to the mother's frame
 		//
-		#pragma unroll N
+//#pragma unroll N
 		for (size_t n = 0; n < N; n++)
 		{
 
