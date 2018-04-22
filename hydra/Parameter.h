@@ -369,6 +369,14 @@ struct Parameter{
 	      return Parameter();
 	    }
 
+
+	__hydra_host__
+	static Parameter Create( GChar_t const* name ) {
+		return Parameter().Name(name);
+	}
+
+
+
 	__hydra_host__
 	Parameter& Name(std::string const& name ){
 		this->fName = const_cast<GChar_t*>(name.data());
