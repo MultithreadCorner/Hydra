@@ -50,7 +50,7 @@ template<typename T, typename Alloc> class device_vector;
  *  \see http://www.sgi.com/tech/stl/Vector.html
  *  \see device_vector
  */
-template<typename T, typename Alloc = cpp::allocator<T> >
+template<typename T, typename Alloc = std::allocator<T> >
   class host_vector
     : public detail::vector_base<T,Alloc>
 {

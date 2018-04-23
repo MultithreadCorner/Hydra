@@ -203,11 +203,8 @@ private:
 
 
 template<typename Iterator, typename ...Functors>
-Cache<typename detail::BackendTrait<
-typename HYDRA_EXTERNAL_NS::thrust::iterator_system<Iterator>::type>::backend , Functors...>
+Cache<typename detail::BackendTrait<typename HYDRA_EXTERNAL_NS::thrust::iterator_system<Iterator>::type>::backend, Functors...>
 make_cache(Iterator first, Iterator last, Functors&... functors){
-
-
 
 	return Cache< typename detail::BackendTrait<
 			typename HYDRA_EXTERNAL_NS::thrust::iterator_system<Iterator>::type>::backend,
