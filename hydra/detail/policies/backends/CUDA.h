@@ -55,6 +55,11 @@ struct BackendPolicy<Backend::Cuda>: HYDRA_EXTERNAL_NS::thrust::execution_policy
 
 };
 
+template<>
+struct BackendTrait<HYDRA_EXTERNAL_NS::thrust::execution_policy<cuda::cuda_t>>
+{
+	typedef hydra::detail::BackendPolicy<hydra::detail::Backend::Cuda> backend ;
+};
 
 }  // namespace detail
 
@@ -68,6 +73,7 @@ using   vector = hydra::detail::BackendPolicy<hydra::detail::Backend::Cuda>::con
 static const sys_t sys=sys_t();
 
 }  // namespace cuda
+
 
 }  // namespace hydra
 

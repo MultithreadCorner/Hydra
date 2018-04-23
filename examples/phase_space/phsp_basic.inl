@@ -165,6 +165,10 @@ int main(int argv, char** argc)
 
 		hydra::Decays<3, hydra::device::sys_t > Events_d(nentries);
 
+		typedef hydra::BackendTrait<
+				typename HYDRA_EXTERNAL_NS::thrust::iterator_system<hydra::Decays<3, hydra::device::sys_t >::iterator>::type
+				> backend;
+
 		auto start = std::chrono::high_resolution_clock::now();
 
 		//generate the final state particles

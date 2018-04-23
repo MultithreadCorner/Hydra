@@ -56,6 +56,11 @@ struct BackendPolicy<Backend::Cpp>: HYDRA_EXTERNAL_NS::thrust::execution_policy<
 
 };
 
+template<>
+struct BackendTrait<HYDRA_EXTERNAL_NS::thrust::execution_policy<detail::cpp::cpp_t>>
+{
+	typedef hydra::detail::BackendPolicy<hydra::detail::Backend::Cpp> backend ;
+};
 
 }  // namespace detail
 

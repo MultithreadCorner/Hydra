@@ -47,7 +47,7 @@ static const host_t   _host_;
 
 
 template<>
-struct BackendPolicy<Backend::Host>: HYDRA_EXTERNAL_NS::thrust::execution_policy<host::host_t>
+struct BackendPolicy<Backend::Host>: HYDRA_EXTERNAL_NS::thrust::host_execution_policy<host::host_t>
 {
 	const host::host_t backend= host::_host_;
 
@@ -55,6 +55,13 @@ struct BackendPolicy<Backend::Host>: HYDRA_EXTERNAL_NS::thrust::execution_policy
 	using   container = hydra::mc_host_vector<T>;
 
 };
+
+template<>
+struct BackendTrait<HYDRA_EXTERNAL_NS::thrust::host_execution_policy<detail::host::host_t>>
+{
+	typedef hydra::detail::BackendPolicy<hydra::detail::Backend::Host> backend ;
+};
+
 
 }  // namespace detail
 
@@ -69,7 +76,6 @@ using   vector = hydra::detail::BackendPolicy<hydra::detail::Backend::Host>::con
 static const sys_t sys=sys_t();
 
 }  // namespace host
-
 }  // namespace hydra
 
 

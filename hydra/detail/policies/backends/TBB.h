@@ -57,6 +57,12 @@ struct BackendPolicy<Backend::Tbb>: HYDRA_EXTERNAL_NS::thrust::execution_policy<
 };
 
 
+template<>
+struct BackendTrait<HYDRA_EXTERNAL_NS::thrust::execution_policy<tbb::tbb_t>>
+{
+	typedef hydra::detail::BackendPolicy<hydra::detail::Backend::Tbb> backend ;
+};
+
 
 }  // namespace detail
 

@@ -20,37 +20,11 @@
  *---------------------------------------------------------------------------*/
 
 /*
- * BackendPolicy.h
+ * caching_functors.cu
  *
- *  Created on: 19/05/2017
+ *  Created on: 23/04/2018
  *      Author: Antonio Augusto Alves Junior
  */
 
-/**
- * \ingroup policy
- * \brief Generic policies definition.
- */
-#ifndef BACKENDPOLICY_H_
-#define BACKENDPOLICY_H_
 
-#include <hydra/detail/external/thrust/execution_policy.h>
-
-namespace hydra {
-
-namespace detail {
-
-enum Backend{Host, Device, Cpp, Omp,Tbb,Cuda };
-
-template<Backend BACKEND>
-struct BackendPolicy;
-
-template<typename SYSTEM>
-struct BackendTrait;
-
-}  // namespace detail
-
-}//namespace hydra
-
-
-
-#endif /* BACKENDPOLICY_H_ */
+#include <examples/misc/caching_functors.inl>
