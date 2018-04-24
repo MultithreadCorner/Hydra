@@ -56,13 +56,6 @@ struct BackendPolicy<Backend::Host>: HYDRA_EXTERNAL_NS::thrust::host_execution_p
 
 };
 
-template<>
-struct BackendTrait<HYDRA_EXTERNAL_NS::thrust::host_execution_policy<detail::host::host_t>>
-{
-	typedef hydra::detail::BackendPolicy<hydra::detail::Backend::Host> backend ;
-};
-
-
 }  // namespace detail
 
 namespace host {

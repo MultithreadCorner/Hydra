@@ -44,8 +44,6 @@ enum Backend{Host, Device, Cpp, Omp,Tbb,Cuda };
 template<Backend BACKEND>
 struct BackendPolicy;
 
-template<typename SYSTEM>
-struct BackendTrait;
 
 }  // namespace detail
 

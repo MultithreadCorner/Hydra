@@ -109,8 +109,22 @@ int main(int argv, char** argc)
 	auto mass    = hydra::Parameter::Create("MASS_KST_892").Value(0.89555);
 	auto width   = hydra::Parameter::Create("WIDTH_KST_892").Value(0.0473);
 
+
+
 	 hydra::BreitWignerLineShape<hydra::PWave> breit_wigner(mass, width,
 			 B0_mass, K_mass, pi_mass, Jpsi_mass, 1.5);
+
+	 auto line_shape = hydra::wrap_lambda(
+			 [=]__hydra_dual__(unsigned int n, hydra::Vector4R* p){
+
+		 hydra::Vector4R p1 = p[0];
+		 hydra::Vector4R p2 = p[1];
+		 hydra::Vector4R p3 = p[2];
+
+		 double theta = (p1+p2).mass();
+
+         return breit_wigner(theta);
+	 });
 
 	 auto angular_distribution = hydra::wrap_lambda(
 			 []__hydra_dual__(unsigned int n, hydra::Vector4R* p){
@@ -130,15 +144,16 @@ int main(int argv, char** argc)
 	 //
 	 std::cout << "Before cache building:" << std::endl;
 	 std::cout << "Angular cache: "<< angular_distribution.GetCacheIndex() << std::endl;
-	 std::cout << "Breit-Wigner cache: "<< breit_wigner.GetCacheIndex() << std::endl;
+	 std::cout << "Breit-Wigner cache: "<< line_shape.GetCacheIndex() << std::endl;
+	 auto particles        = Events_d.GetUnweightedDecays();
 
-	 hydra::make_cache(Events_d.begin(), Events_d.end(),
-			 angular_distribution, breit_wigner);
+	 hydra::make_cache(hydra::device::sys, particles.begin(), particles.end(),
+			 angular_distribution, line_shape);
 
 	 //
 	 std::cout << "After cache building:" << std::endl;
 	 std::cout << "Angular cache: "<< angular_distribution.GetCacheIndex() << std::endl;
-	 std::cout << "Breit-Wigner cache: "<< breit_wigner.GetCacheIndex() << std::endl;
+	 std::cout << "Breit-Wigner cache: "<< line_shape.GetCacheIndex() << std::endl;
 
 
 	 return 0;

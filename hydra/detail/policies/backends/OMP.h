@@ -55,13 +55,6 @@ struct BackendPolicy<Backend::Omp>: HYDRA_EXTERNAL_NS::thrust::execution_policy<
 
 };
 
-template<>
-struct BackendTrait<HYDRA_EXTERNAL_NS::thrust::execution_policy<omp::omp_t>>
-{
-	typedef hydra::detail::BackendPolicy<hydra::detail::Backend::Omp> backend ;
-};
-
-
 }  // namespace detail
 
 namespace omp {

@@ -56,12 +56,6 @@ struct BackendPolicy<Backend::Device>: HYDRA_EXTERNAL_NS::thrust::device_executi
 
 };
 
-template<>
-struct BackendTrait<HYDRA_EXTERNAL_NS::thrust::device_execution_policy<detail::device::device_t>>
-{
-	typedef hydra::detail::BackendPolicy<hydra::detail::Backend::Device> backend ;
-};
-
 
 }  // namespace detail
 
