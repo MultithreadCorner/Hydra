@@ -67,7 +67,6 @@ using   vector = hydra::detail::BackendPolicy<hydra::detail::Backend::Omp>::cont
 static const sys_t sys=sys_t();
 
 }  // namespace omp
-
 }  // namespace hydra
 
 

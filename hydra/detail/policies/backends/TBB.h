@@ -56,8 +56,6 @@ struct BackendPolicy<Backend::Tbb>: HYDRA_EXTERNAL_NS::thrust::execution_policy<
 
 };
 
-
-
 }  // namespace detail
 
 namespace tbb {

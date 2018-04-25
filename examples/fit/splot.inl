@@ -33,6 +33,12 @@
 /**
  * \example splot.inl
  *
+ * This example shows how to perform S-plots using Hydra.
+ * A 2-dimensional dataset is generated. The first column
+ * is distributed as a Gaussian signal on top of an Exponential background.
+ * The signal distribution is associated to an exponentialy distributed control variable
+ * in the second colunm andd the background to the sum of two Gaussians.
+ *
  */
 
 

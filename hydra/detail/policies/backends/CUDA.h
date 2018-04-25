@@ -69,6 +69,7 @@ static const sys_t sys=sys_t();
 
 }  // namespace cuda
 
+
 }  // namespace hydra
 
 #endif /* CUDA_H_ */

@@ -1,6 +1,6 @@
 /*----------------------------------------------------------------------------
  *
- *   Copyright (C) 2016 - 2018 Antonio Augusto Alves Junior
+ *   Copyright (C) 2016 - 2017 Antonio Augusto Alves Junior
  *
  *   This file is part of Hydra Data Analysis Framework.
  *
@@ -20,56 +20,61 @@
  *---------------------------------------------------------------------------*/
 
 /*
- * CPP.h
+ * legendre.h
  *
- *  Created on: 16/05/2017
+ *  Created on: 08/04/2018
  *      Author: Antonio Augusto Alves Junior
  */
 
-#ifndef CPP_H_
-#define CPP_H_
+#ifndef LEGENDRE_H_
+#define LEGENDRE_H_
 
 #include <hydra/detail/Config.h>
-#include <hydra/detail/BackendPolicy.h>
-#include <hydra/detail/external/thrust/system/cpp/detail/par.h>
-#include <hydra/detail/external/thrust/system/cpp/vector.h>
+#include <hydra/Types.h>
+#include <hydra/Function.h>
+#include <hydra/detail/utility/CheckValue.h>
+#include <hydra/Tuple.h>
+#include <tuple>
+#include <limits>
+#include <stdexcept>
+#include <assert.h>
+#include <utility>
+#include <cmath>
 
 namespace hydra {
 
-namespace detail {
-
-namespace cpp {
-
-typedef HYDRA_EXTERNAL_NS::thrust::system::cpp::detail::par_t   cpp_t;
-static const cpp_t    _cpp_;
-
-}  // namespace cpp
-
-template<>
-struct BackendPolicy<Backend::Cpp>: HYDRA_EXTERNAL_NS::thrust::execution_policy<cpp::cpp_t>
-{
-	const cpp::cpp_t backend= cpp::_cpp_;
-
-	template<typename T>
-	using   container = HYDRA_EXTERNAL_NS::thrust::cpp::vector<T> ;
-
-
-};
-
-}  // namespace detail
-
-namespace cpp {
-
-typedef hydra::detail::BackendPolicy<hydra::detail::Backend::Cpp> sys_t;
-
 template<typename T>
-using   vector = hydra::detail::BackendPolicy<hydra::detail::Backend::Cpp>::container<T> ;
+__hydra_host__ __hydra_device__
+inline T legendre(unsigned n, const T x){
 
-static const sys_t sys=sys_t();
+	switch(n) {
 
-}  // namespace cpp
+	case 0:
+
+		return 1.0;
+
+	case 1:
+
+		return x;
+
+	default:
+
+		T LL = 1.0;
+		T LM = x;
+		T LN = static_cast<T>(0.0);
+
+		for(unsigned m=2; m<=n; m++){
+
+			LN = ((static_cast<T>(2)*m - static_cast<T>(1))/m ) * x * LM -
+					((static_cast<T>(m)- static_cast<T>(1))/m) * LL;
+			LL = LM;    LM = LN;
+		}
+
+		return LN;
+	}
+
+}
 
 }  // namespace hydra
 
-
-#endif /* CPP_H_ */
+#endif /* LEGENDRE_H_ */

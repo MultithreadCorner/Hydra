@@ -34,7 +34,7 @@
 #include <hydra/detail/BackendPolicy.h>
 #include <hydra/Types.h>
 #include <hydra/Containers.h>
-#include <hydra/multiarray.h>
+#include <hydra/multivector.h>
 #include <hydra/detail/utility/Utility_Tuple.h>
 #include <hydra/Tuple.h>
 
@@ -42,6 +42,7 @@
 #include <hydra/detail/external/thrust/distance.h>
 #include <hydra/detail/external/thrust/copy.h>
 #include <hydra/detail/external/thrust/transform.h>
+#include <hydra/detail/external/thrust/tuple.h>
 //std
 #include <utility>
 
@@ -52,7 +53,7 @@ namespace detail {
 template< typename ...Functors>
 struct CacheEvaluator {
 
-	typedef detail::tuple_type<N, GReal_t> return_type;
+	typedef HYDRA_EXTERNAL_NS::thrust::tuple<typename Functors::return_type ...> return_type;
 
 	 CacheEvaluator(Functors... functors):
 	   fFunctors(hydra::make_tuple(functors...))
@@ -60,7 +61,7 @@ struct CacheEvaluator {
 
 	 __hydra_host__ __hydra_device__
 	 CacheEvaluator(CacheEvaluator<Functors...> const& other):
-	   fFunctors(other->fFunctors)
+	   fFunctors(other.fFunctors)
 	 { }
 
 	 __hydra_host__ __hydra_device__
@@ -90,10 +91,12 @@ class Cache;
 
 template< hydra::detail::Backend BACKEND, typename ...Functors>
 class Cache< hydra::detail::BackendPolicy<BACKEND>, Functors...>{
+
+	typedef HYDRA_EXTERNAL_NS::thrust::tuple<typename Functors::return_type ...> tuple_type;
+
 public:
 
-
-	typedef multiarray<sizeof...(Functors),GReal_t, hydra::detail::BackendPolicy<BACKEND> > storage_type;
+	typedef multivector< tuple_type, hydra::detail::BackendPolicy<BACKEND> > storage_type;
 	typedef typename storage_type::iterator iterator;
 	typedef typename storage_type::const_iterator const_iterator;
 
@@ -102,9 +105,11 @@ public:
 	template< typename Iterator>
 	Cache(Iterator first, Iterator last, Functors&... functors)
 	{
+		SetCacheIndex(functors...);
+
 		fData.resize(HYDRA_EXTERNAL_NS::thrust::distance(first, last));
 		HYDRA_EXTERNAL_NS::thrust::transform( first, last,
-				fData.begin(), detail::CacheEvaluator(functors...) );
+				fData.begin(), detail::CacheEvaluator<Functors...>(functors...) );
 	}
 
 	Cache(Cache<hydra::detail::BackendPolicy<BACKEND>,Functors...> const& other):
@@ -166,6 +171,25 @@ public:
 
 private:
 
+	template<size_t I>
+	typename HYDRA_EXTERNAL_NS::thrust::detail::enable_if<(I == sizeof...(Functors)), void>::type
+	SetCacheIndexHelper(HYDRA_EXTERNAL_NS::thrust::tuple<Functors&...>){ }
+
+	template<size_t I=0>
+	typename HYDRA_EXTERNAL_NS::thrust::detail::enable_if<(I < sizeof...(Functors)), void>::type
+	SetCacheIndexHelper(HYDRA_EXTERNAL_NS::thrust::tuple<Functors&...> functors){
+
+		HYDRA_EXTERNAL_NS::thrust::get<I>(functors).SetCacheIndex(I);
+
+		SetCacheIndexHelper<I+1>(functors);
+	}
+
+
+	void SetCacheIndex(Functors& ...functors){
+
+		SetCacheIndexHelper(HYDRA_EXTERNAL_NS::thrust::tie(functors...));
+	}
+
 	const storage_type& GetData() const {
 		return fData;
 	}
@@ -176,6 +200,15 @@ private:
 
 	storage_type fData;
 };
+
+
+template< hydra::detail::Backend BACKEND, typename Iterator, typename ...Functors>
+auto make_cache(hydra::detail::BackendPolicy<BACKEND>, Iterator first, Iterator last, Functors&... functors)
+->Cache<hydra::detail::BackendPolicy<BACKEND>, Functors...>
+{
+
+	return Cache<hydra::detail::BackendPolicy<BACKEND>,Functors...>( first, last, functors...);
+}
 
 
 }  // namespace hydra

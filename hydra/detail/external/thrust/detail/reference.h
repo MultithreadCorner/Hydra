@@ -58,6 +58,7 @@ template<typename Element, typename Pointer, typename Derived>
     typedef Pointer                                              pointer;
     typedef typename thrust::detail::remove_const<Element>::type value_type;
 
+
     __hydra_host__ __hydra_device__
     explicit reference(const pointer &ptr);
 

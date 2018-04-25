@@ -1,6 +1,6 @@
 /*----------------------------------------------------------------------------
  *
- *   Copyright (C) 2016 - 2018 Antonio Augusto Alves Junior
+ *   Copyright (C) 2016 - 2017 Antonio Augusto Alves Junior
  *
  *   This file is part of Hydra Data Analysis Framework.
  *
@@ -18,23 +18,12 @@
  *   along with Hydra.  If not, see <http://www.gnu.org/licenses/>.
  *
  *---------------------------------------------------------------------------*/
+
 /*
- * phsp_chain.inl
+ * generate_decay_chain.C
  *
- *  Created on: Jul 10, 2017
+ *  Created on: 25/03/2018
  *      Author: Antonio Augusto Alves Junior
- */
-
-#ifndef PHSP_CHAIN_INL_
-#define PHSP_CHAIN_INL_
-
-/**
- * \example phsp_chain.inl
- *
- * This example shows how to use the Hydra's
- * phase space Monte Carlo algorithms to
- * generate a sample of B0 -> J/psi K pi and
- * plot the Dalitz plot.
  */
 
 
@@ -49,17 +38,20 @@
 #include <array>
 #include <chrono>
 
-/*---------------------------------
- * command line arguments
- *---------------------------------
- */
-#include <tclap/CmdLine.h>
 
 /*---------------------------------
  * Include hydra classes and
  * algorithms for
  *--------------------------------
  */
+#ifndef HYDRA_HOST_SYSTEM
+#define HYDRA_HOST_SYSTEM CPP
+#endif
+
+#ifndef HYDRA_DEVICE_SYSTEM
+#define HYDRA_DEVICE_SYSTEM TBB
+#endif
+
 
 #include <hydra/PhaseSpace.h>
 #include <hydra/Chains.h>
@@ -79,8 +71,6 @@
  * and draw histograms and plots.
  *-------------------------------------
  */
-#ifdef _ROOT_AVAILABLE_
-
 #include <TROOT.h>
 #include <TH1D.h>
 #include <TF1.h>
@@ -92,16 +82,13 @@
 #include <TString.h>
 #include <TStyle.h>
 
-#endif //_ROOT_AVAILABLE_
 
 
 using namespace hydra::placeholders;
 
-int main(int argv, char** argc)
+void generate_decay_chain(size_t  nentries =100000)
 {
 
-
-	size_t  nentries   = 0; // number of events to generate, to be get from command line
 
 	double B0_mass    = 5.27955;      // B0 mass
 	double Jpsi_mass  = 3.0969;       // J/psi mass
@@ -110,43 +97,17 @@ int main(int argv, char** argc)
 	double mu_mass    = 0.1056583745 ;// mu mass
 
 
-	try {
-
-		TCLAP::CmdLine cmd("Command line arguments for PHSP B0 -> J/psi K pi", '=');
-
-		TCLAP::ValueArg<size_t> NArg("n",
-				"nevents",
-				"Number of events to generate. Default is [ 10e6 ].",
-				true, 10e6, "unsigned long");
-		cmd.add(NArg);
-
-		// Parse the argv array.
-		cmd.parse(argv, argc);
-
-		// Get the value parsed by each arg.
-		nentries       = NArg.getValue();
-
-	}
-	catch (TCLAP::ArgException &e)  {
-		std::cerr << "error: " << e.error() << " for arg " << e.argId()
-																<< std::endl;
-	}
-
-#ifdef 	_ROOT_AVAILABLE_
-
-	TH2D Dalitz_d("Dalitz_d", "Device;M^{2}(J/psi #pi) [GeV^{2}/c^{4}]; M^{2}(K #pi) [GeV^{2}/c^{4}]",
+	TH2D* Dalitz_d = new TH2D("Dalitz_d", "Device;M^{2}(J/psi #pi) [GeV^{2}/c^{4}]; M^{2}(K #pi) [GeV^{2}/c^{4}]",
 			100, pow(Jpsi_mass + pi_mass,2), pow(B0_mass - K_mass,2),
 			100, pow(K_mass + pi_mass,2), pow(B0_mass - Jpsi_mass,2));
 
-	TH1D CosTheta_d("CosTheta_d", "Device; cos(#theta_{K*}), Events", 100, -1.0, 1.0);
+	TH1D* CosTheta_d = new TH1D("CosTheta_d", "Device; cos(#theta_{K*}), Events", 100, -1.0, 1.0);
 
-	TH1D    Delta_d("Delta_d", "Device; #delta #phi, Events", 100, 0.0, 3.5);
+	TH1D*    Delta_d = new TH1D("Delta_d", "Device; #delta #phi, Events", 100, 0.0, 3.5);
 
-#endif
-
-	//C++11 lambda for invariant mass
+	//C++11 lambda for Kpi invariant mass
 	auto M2 = [] __hydra_dual__ (hydra::Vector4R const& p1, hydra::Vector4R const& p2 )
-	{ return  ( p1 + p2).mass2(); };
+	{ return (p1 + p2).mass2(); };
 
 
 	//C++11 lambda for cosine of helicity angle Kpi
@@ -245,10 +206,10 @@ int main(int argv, char** argc)
 
 		//bring events to CPU memory space
 		auto Chain_h   = hydra::make_chain<3,2>(hydra::host::sys, nentries);
-		Chain_h   = Chain_d;
+		Chain_h  = Chain_d;
 
-#ifdef 	_ROOT_AVAILABLE_
-		for( auto event : Chain_h ) {
+		for( auto event : Chain_h )
+		{
 
 			auto   B0_decay    = hydra::get<1>(event) ;
 			auto   Jpsi_decay  = hydra::get<2>(event) ;
@@ -266,43 +227,26 @@ int main(int argv, char** argc)
 			double CosTheta   = COSHELANG(Jpsi, pi, K );
 			double DeltaAngle = DELTA(K, pi, mup, mum );
 
-			Dalitz_d.Fill(M2_Jpsipi, M2_Kpi , weight);
-			CosTheta_d.Fill(CosTheta , weight);
-			Delta_d.Fill(DeltaAngle, weight );
+			Dalitz_d->Fill(M2_Jpsipi, M2_Kpi , weight);
+			CosTheta_d->Fill(CosTheta , weight);
+			Delta_d->Fill(DeltaAngle, weight );
 		}
-#endif
 
-	}
-
+     }//end device
 
 
-
-#ifdef 	_ROOT_AVAILABLE_
-
-	TApplication *m_app=new TApplication("myapp",0,0);
 
 	//--------------------------------------
 
-	TCanvas canvas1_d("canvas1_d", "Phase-space Host", 500, 500);
-	Dalitz_d.Draw("colz");
-	//canvas1_d.Print("plots/phsp_chain_d1.png");
+	TCanvas* canvas1_d = new TCanvas("canvas1_d", "Phase-space Host", 500, 500);
+	Dalitz_d->Draw("colz");
+	Dalitz_d->SetMinimum(0.0);
 
-	TCanvas canvas2_d("canvas2_d", "Phase-space Host", 500, 500);
-	CosTheta_d.Draw("hist");
-	//canvas2_d.Print("plots/phsp_chain_d2.png");
+	TCanvas* canvas2_d = new TCanvas("canvas2_d", "Phase-space Host", 500, 500);
+	CosTheta_d->Draw("hist");
+	CosTheta_d->SetMinimum(0.0);
 
-	TCanvas canvas3_d("canvas3_d", "Phase-space Host", 500, 500);
-	Delta_d.Draw("hist");
-	//canvas3_d.Print("plots/phsp_chain_d3.png");
-
-	m_app->Run();
-
-#endif
-
-	return 0;
+	TCanvas* canvas3_d = new TCanvas("canvas3_d", "Phase-space Host", 500, 500);
+	Delta_d->Draw("hist");
+	Delta_d->SetMinimum(0.0);
 }
-
-
-
-
-#endif /* PHSP_CHAIN_INL_ */

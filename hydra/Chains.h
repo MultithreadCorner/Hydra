@@ -556,7 +556,7 @@ template<size_t ...N,hydra::detail::Backend BACKEND >
 Chains< Decays<N, hydra::detail::BackendPolicy<BACKEND> >...>
 make_chain( hydra::detail::BackendPolicy<BACKEND>, size_t entries )
 {
-	return std::move( Chains<Decays<N, hydra::detail::BackendPolicy<BACKEND> >...>(entries) );
+	return Chains<Decays<N, hydra::detail::BackendPolicy<BACKEND> >...>(entries) ;
 }
 
 }  // namespace hydra

@@ -301,7 +301,6 @@ public:
 	return_type operator()( T1&& x, T2&& cache)  const
 	{
 
-
 		return fCached ? detail::extract<return_type, T2 >(fCacheIndex, std::forward<T2>(cache)):
 						operator()<T1>( std::forward<T1>(x) );
 	}

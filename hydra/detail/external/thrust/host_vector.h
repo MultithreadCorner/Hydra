@@ -24,6 +24,7 @@
 #include <hydra/detail/external/thrust/detail/config.h>
 #include <memory>
 #include <hydra/detail/external/thrust/detail/vector_base.h>
+#include <hydra/detail/external/thrust/system/cpp/memory.h>
 #include <vector>
 #include <utility>
 

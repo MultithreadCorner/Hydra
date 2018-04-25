@@ -32,6 +32,11 @@
 /**
  * \example binned_extended_logLL_fit.inl
  *
+ * This example show how to perform an binned extended likelihood
+ * fit. The model has three components, two Gaussians and one Exponential,
+ * \f$ model(x) = N_1*Gaussian_1(x) + N_2*Gaussian_2(x) + N_3*Exponential()\f$
+ * The example first generating a dataset sampling the model in parallel and
+ * then fit the parameters and yields.
  */
 
 #include <iostream>

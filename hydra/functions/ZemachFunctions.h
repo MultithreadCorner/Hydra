@@ -33,6 +33,7 @@
 #include <hydra/Types.h>
 #include <hydra/Function.h>
 #include <hydra/detail/utility/CheckValue.h>
+#include <hydra/functions/Math.h>
 #include <hydra/Tuple.h>
 #include <tuple>
 #include <limits>
@@ -43,8 +44,6 @@
 
 namespace hydra {
 
-template<unsigned int L>
-double legendre_polynomial(const double x);
 
 /**
  * @class ZemachFunction
@@ -79,7 +78,7 @@ public:
 	__hydra_host__ __hydra_device__ inline
 	double Evaluate(unsigned int , T*x)  const	{
 
-		return  legendre_polynomial<L>( x[ArgIndex] );
+		return  legendre(L, -x[ArgIndex] );
 
 	}
 
@@ -89,47 +88,11 @@ public:
 
 		const double theta =  get<ArgIndex>(x);
 
-		return  legendre_polynomial<L>( theta );
+		return  legendre(L, -theta );
 	}
 
 };
 
-
-template<>__hydra_host__ __hydra_device__ inline
-double legendre_polynomial<0>(const double ){
-
-	return 1.0;
-}
-
-template<>__hydra_host__ __hydra_device__ inline
-double legendre_polynomial<1>(const double x){
-
-	return -x;
-}
-
-template<>__hydra_host__ __hydra_device__ inline
-double legendre_polynomial<2>(const double x){
-
-	return 0.5*(3.0*pow<double, 2>(x) -1) ;
-}
-
-template<>__hydra_host__ __hydra_device__ inline
-double legendre_polynomial<3>(const double x){
-
-	return -0.5*(5.0*pow<double, 3>(x) - 3.0*x);
-}
-
-template<>__hydra_host__ __hydra_device__ inline
-double legendre_polynomial<4>(const double x){
-
-	return 0.125*(35.0*pow<double, 4>(x) - 30.0*pow<double, 2>(x) + 3);
-}
-
-template<>__hydra_host__ __hydra_device__ inline
-double legendre_polynomial<5>(const double x){
-
-	return -0.125*(63.0*pow<double, 5>(x) - 70.0*pow<double, 3>(x) + 15.0*x);
-}
 
 
 }  // namespace hydra

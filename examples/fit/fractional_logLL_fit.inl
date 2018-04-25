@@ -32,6 +32,11 @@
 /**
  * \example fractional_logLL_fit.inl
  *
+ * This example show how to perform an unbinned likelihood
+ * fit. The model has three components, two Gaussians and one Exponential,
+ * \f$ model(x) = f_1*Gaussian_1(x) + f_2*Gaussian_2(x) + (1.0 - f_1 - f_2)*Exponential()\f$
+ * The example first generating a dataset sampling the model in parallel and
+ * then fit the parameters and fractions.
  */
 
 #include <iostream>

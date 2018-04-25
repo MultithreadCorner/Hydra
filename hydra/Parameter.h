@@ -369,6 +369,14 @@ struct Parameter{
 	      return Parameter();
 	    }
 
+
+	__hydra_host__
+	static Parameter Create( GChar_t const* name ) {
+		return Parameter().Name(name);
+	}
+
+
+
 	__hydra_host__
 	Parameter& Name(std::string const& name ){
 		this->fName = const_cast<GChar_t*>(name.data());
@@ -534,8 +542,6 @@ inline GReal_t operator/( GReal_t par1, Parameter par2 )
 }
 
 
-
-__hydra_host__
 inline std::ostream& operator<<(std::ostream& os, Parameter const& var){
 
 	return os<< "Hydra::Variable: "<< var.GetName()  << "[ " << var.GetValue()

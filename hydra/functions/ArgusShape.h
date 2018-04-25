@@ -45,9 +45,13 @@
 namespace hydra {
 
 /**
- * @class ArgusShape
+ * \ingroup common_functions
+ *
+ * \class ArgusShape
+ *
  * Implementation describing the ARGUS background shape.
- * @tparam ArgIndex : index of the argument when evaluating on multidimensional data. Default is 0.
+ *
+ * \tparam ArgIndex : index of the argument when evaluating on multidimensional data. Default is 0.
  */
 template<unsigned int ArgIndex=0>
 class ArgusShape: public BaseFunctor<ArgusShape<ArgIndex>, double, 3>

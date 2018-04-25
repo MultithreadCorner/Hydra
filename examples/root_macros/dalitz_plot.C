@@ -20,18 +20,16 @@
  *---------------------------------------------------------------------------*/
 
 /*
- * dalitz_plot.inl
+ * dalitz_plot.C
  *
  *  Created on: 29/12/2017
  *      Author: Antonio Augusto Alves Junior
  */
 
-#ifndef DALITZ_PLOT_INL_
-#define DALITZ_PLOT_INL_
 
 
 /**
- * \example dalitz_plot.inl
+ * \example dalitz_plot.C
  *
  */
 
@@ -47,8 +45,13 @@
 #include <iostream>
 #include <ctime>
 
-//command line
-#include <tclap/CmdLine.h>
+#ifndef HYDRA_HOST_SYSTEM
+#define HYDRA_HOST_SYSTEM CPP
+#endif
+
+#ifndef HYDRA_DEVICE_SYSTEM
+#define HYDRA_DEVICE_SYSTEM TBB
+#endif
 
 //hydra
 #include <hydra/host/System.h>
@@ -93,8 +96,6 @@
  * and draw histograms and plots.
  *-------------------------------------
  */
-#ifdef _ROOT_AVAILABLE_
-
 #include <TROOT.h>
 #include <TH1D.h>
 #include <TH2D.h>
@@ -103,8 +104,6 @@
 #include <TCanvas.h>
 #include <TLegend.h>
 #include <TLegendEntry.h>
-
-#endif //_ROOT_AVAILABLE_
 
 
 using namespace ROOT::Minuit2;
@@ -223,7 +222,7 @@ public:
 };
 
 template<typename Amplitude>
-TH3D histogram_component( Amplitude const& amp, std::array<double, 3> const& masses, const char* name, size_t nentries);
+TH3D* histogram_component( Amplitude const& amp, std::array<double, 3> const& masses, const char* name, size_t nentries);
 
 template<typename Amplitude, typename Model>
 double fit_fraction( Amplitude const& amp, Model const& model, std::array<double, 3> const& masses, size_t nentries);
@@ -231,28 +230,8 @@ double fit_fraction( Amplitude const& amp, Model const& model, std::array<double
 template<typename Backend, typename Model, typename Container >
 size_t generate_dataset(Backend const& system, Model const& model, std::array<double, 3> const& masses, Container& decays, size_t nevents, size_t bunch_size);
 
-int main(int argv, char** argc)
+void dalitz_plot(size_t nentries =50000)
 {
-	size_t nentries = 0;
-
-	try {
-
-		TCLAP::CmdLine cmd("Command line arguments for ", '=');
-
-		TCLAP::ValueArg<size_t> EArg("n", "number-of-events","Number of events", true, 10e6, "size_t");
-		cmd.add(EArg);
-
-		// Parse the argv array.
-		cmd.parse(argv, argc);
-
-		// Get the value parsed by each arg.
-		nentries = EArg.getValue();
-
-	}
-	catch (TCLAP::ArgException &e)  {
-		std::cerr << "error: " << e.error() << " for arg " << e.argId()
-														<< std::endl;
-	}
 
 	//-----------------
     //magnitudes and phases from Cleo-c model
@@ -431,19 +410,7 @@ int main(int argv, char** argc)
 	});
 
 
-#ifdef 	_ROOT_AVAILABLE_
-	//
-	/*
-	TH3D Dalitz_Flat("Dalitz_Flat",
-			"Flat Dalitz;"
-			"M^{2}(K^{-} #pi_{1}^{+}) [GeV^{2}/c^{4}];"
-			"M^{2}(K^{-} #pi_{2}^{+}) [GeV^{2}/c^{4}];"
-			"M^{2}(#pi_{1}^{+} #pi_{2}^{+}) [GeV^{2}/c^{4}]",
-			100, pow(K_MASS  + PI_MASS,2), pow(D_MASS - PI_MASS,2),
-			100, pow(K_MASS  + PI_MASS,2), pow(D_MASS - PI_MASS,2),
-			100, pow(PI_MASS + PI_MASS,2), pow(D_MASS -  K_MASS,2));
-*/
-	TH3D Dalitz_Resonances("Dalitz_Resonances",
+	TH3D* Dalitz_Resonances = new TH3D("Dalitz_Resonances",
 			"Dalitz - Toy Data -;"
 			"M^{2}(K^{-} #pi_{1}^{+}) [GeV^{2}/c^{4}];"
 			"M^{2}(K^{-} #pi_{2}^{+}) [GeV^{2}/c^{4}];"
@@ -453,7 +420,7 @@ int main(int argv, char** argc)
 			100, pow(PI_MASS + PI_MASS,2), pow(D_MASS -  K_MASS,2));
 
 
-	TH3D Dalitz_Fit("Dalitz_Fit",
+	TH3D* Dalitz_Fit = new TH3D("Dalitz_Fit",
 			"Dalitz - Fit -;"
 			"M^{2}(K^{-} #pi_{1}^{+}) [GeV^{2}/c^{4}];"
 			"M^{2}(K^{-} #pi_{2}^{+}) [GeV^{2}/c^{4}];"
@@ -464,21 +431,29 @@ int main(int argv, char** argc)
 
 
 	//control plots
-	TH2D Normalization("normalization",
+	TH2D* Normalization = new TH2D("normalization",
 			"Model PDF Normalization;Norm;Error",
 			200, 275.0, 305.0,
 			200, 0.58, 0.64);
 
 
-	TH3D  KST800_12_HIST , KST800_13_HIST,  KST892_12_HIST,  KST892_13_HIST,
-	      KST1425_12_HIST, KST1425_13_HIST, KST1430_12_HIST, KST1430_13_HIST,
-	      KST1680_12_HIST, KST1680_13_HIST, NR_HIST ;
+	TH3D*  KST800_12_HIST;
+	TH3D*  KST800_13_HIST;
+	TH3D*  KST892_12_HIST;
+	TH3D*  KST892_13_HIST;
+	TH3D*  KST1425_12_HIST;
+	TH3D*  KST1425_13_HIST;
+	TH3D*  KST1430_12_HIST;
+	TH3D*  KST1430_13_HIST;
+	TH3D*  KST1680_12_HIST;
+	TH3D*  KST1680_13_HIST;
+	TH3D*  NR_HIST ;
 
 	double  KST800_12_FF,  KST800_13_FF,  KST892_12_FF,  KST892_13_FF,
-		    KST1425_12_FF, KST1425_13_FF, KST1430_12_FF, KST1430_13_FF,
-		    KST1680_12_FF, KST1680_13_FF, NR_FF;
+	KST1425_12_FF, KST1425_13_FF, KST1430_12_FF, KST1430_13_FF,
+	KST1680_12_FF, KST1680_13_FF, NR_FF;
 
-#endif
+
 
 	hydra::Decays<3, hydra::host::sys_t > toy_data;
 
@@ -559,27 +534,6 @@ int main(int argv, char** argc)
 		std::cout << std::endl;
 		std::cout << std::endl;
 
-#ifdef 	_ROOT_AVAILABLE_
-
-#if THRUST_DEVICE_SYSTEM == THRUST_DEVICE_SYSTEM_CUDA
-
-		//if device is cuda, bring the histogram data to the host
-		//to fill the ROOT histogram faster
-		{
-			hydra::SparseHistogram<double, 3,  hydra::host::sys_t> Hist_Temp(Hist_Dalitz);
-			std::cout << "Filling a ROOT Histogram... " << std::endl;
-
-			for(auto entry : Hist_Temp)
-			{
-				size_t bin     = hydra::get<0>(entry);
-				double content = hydra::get<1>(entry);
-				unsigned int bins[3];
-				Hist_Temp.GetIndexes(bin, bins);
-				Dalitz_Resonances.SetBinContent(bins[0]+1, bins[1]+1, bins[2]+1, content);
-
-			}
-		}
-#else
 		std::cout << "Filling a ROOT Histogram... " << std::endl;
 
 		for(auto entry : Hist_Dalitz)
@@ -588,12 +542,10 @@ int main(int argv, char** argc)
 			double content = hydra::get<1>(entry);
 			unsigned int bins[3];
 			Hist_Dalitz.GetIndexes(bin, bins);
-			Dalitz_Resonances.SetBinContent(bins[0]+1, bins[1]+1, bins[2]+1, content);
+			Dalitz_Resonances->SetBinContent(bins[0]+1, bins[1]+1, bins[2]+1, content);
 
 		}
-#endif
 
-#endif
 
 	}
 
@@ -785,7 +737,6 @@ int main(int argv, char** argc)
 				     KST1425_13_FF + KST1430_12_FF + KST1430_13_FF +
 				     KST1680_12_FF + KST1680_13_FF + NR_FF << std::endl;
 
-#ifdef 	_ROOT_AVAILABLE_
 
 		{
 			std::vector<double> integrals;
@@ -803,36 +754,17 @@ int main(int argv, char** argc)
 			auto  integral_error_bounds = std::minmax_element(integrals_error.begin(),
 					integrals_error.end());
 
-			Normalization.GetXaxis()->SetLimits(*integral_bounds.first, *integral_bounds.second);
-			Normalization.GetYaxis()->SetLimits(*integral_error_bounds.first, *integral_error_bounds.second);
+			Normalization->GetXaxis()->SetLimits(*integral_bounds.first, *integral_bounds.second);
+			Normalization->GetYaxis()->SetLimits(*integral_error_bounds.first, *integral_error_bounds.second);
 
 			for(auto x: fcn.GetPDF().GetNormCache() ){
 
-				Normalization.Fill(x.second.first, x.second.second );
+				Normalization->Fill(x.second.first, x.second.second );
 			}
 		}
 
 
-#if THRUST_DEVICE_SYSTEM == THRUST_DEVICE_SYSTEM_CUDA
 
-		//if device is cuda, bring the histogram data to the host
-		//to fill the ROOT histogram faster
-		{
-			hydra::SparseHistogram<double, 3,  hydra::host::sys_t> Hist_Temp(Hist_Dalitz);
-			std::cout << "Filling a ROOT Histogram... " << std::endl;
-
-			for(auto entry : Hist_Temp)
-			{
-				size_t bin     = hydra::get<0>(entry);
-				double content = hydra::get<1>(entry);
-				unsigned int bins[3];
-				Hist_Temp.GetIndexes(bin, bins);
-				Dalitz_Fit.SetBinContent(bins[0]+1, bins[1]+1, bins[2]+1, content);
-
-			}
-
-		}
-#else
 		std::cout << "Filling a ROOT Histogram... " << std::endl;
 
 		for(auto entry : Hist_Dalitz)
@@ -841,74 +773,66 @@ int main(int argv, char** argc)
 			double content = hydra::get<1>(entry);
 			unsigned int bins[3];
 			Hist_Dalitz.GetIndexes(bin, bins);
-			Dalitz_Fit.SetBinContent(bins[0]+1, bins[1]+1, bins[2]+1, content);
+			Dalitz_Fit->SetBinContent(bins[0]+1, bins[1]+1, bins[2]+1, content);
 
 		}
-#endif
 
 
-#endif
 
 	}
 
 
 
-#ifdef 	_ROOT_AVAILABLE_
+	Dalitz_Fit->Scale(Dalitz_Resonances->Integral()/Dalitz_Fit->Integral() );
 
+	KST800_12_HIST->Scale( KST800_12_FF*Dalitz_Fit->Integral()/KST800_12_HIST->Integral() );
+	KST800_13_HIST->Scale( KST800_13_FF*Dalitz_Fit->Integral()/KST800_13_HIST->Integral() );
 
-	TApplication *m_app=new TApplication("myapp",0,0);
+	KST892_12_HIST->Scale( KST892_12_FF*Dalitz_Fit->Integral()/KST892_12_HIST->Integral() );
+	KST892_13_HIST->Scale( KST892_13_FF*Dalitz_Fit->Integral()/KST892_13_HIST->Integral() );
 
+	KST1425_12_HIST->Scale( KST1425_12_FF*Dalitz_Fit->Integral()/KST1425_12_HIST->Integral() );
+	KST1425_13_HIST->Scale( KST1425_13_FF*Dalitz_Fit->Integral()/KST1425_13_HIST->Integral() );
 
-	Dalitz_Fit.Scale(Dalitz_Resonances.Integral()/Dalitz_Fit.Integral() );
+	KST1430_12_HIST->Scale( KST1430_12_FF*Dalitz_Fit->Integral()/KST1430_12_HIST->Integral() );
+	KST1430_13_HIST->Scale( KST1430_13_FF*Dalitz_Fit->Integral()/KST1430_13_HIST->Integral() );
 
-	KST800_12_HIST.Scale( KST800_12_FF*Dalitz_Fit.Integral()/KST800_12_HIST.Integral() );
-	KST800_13_HIST.Scale( KST800_13_FF*Dalitz_Fit.Integral()/KST800_13_HIST.Integral() );
+	KST1680_12_HIST->Scale( KST1680_12_FF*Dalitz_Fit->Integral()/KST1680_12_HIST->Integral() );
+	KST1680_13_HIST->Scale( KST1680_13_FF*Dalitz_Fit->Integral()/KST1680_13_HIST->Integral() );
 
-	KST892_12_HIST.Scale( KST892_12_FF*Dalitz_Fit.Integral()/KST892_12_HIST.Integral() );
-	KST892_13_HIST.Scale( KST892_13_FF*Dalitz_Fit.Integral()/KST892_13_HIST.Integral() );
-
-	KST1425_12_HIST.Scale( KST1425_12_FF*Dalitz_Fit.Integral()/KST1425_12_HIST.Integral() );
-	KST1425_13_HIST.Scale( KST1425_13_FF*Dalitz_Fit.Integral()/KST1425_13_HIST.Integral() );
-
-	KST1430_12_HIST.Scale( KST1430_12_FF*Dalitz_Fit.Integral()/KST1430_12_HIST.Integral() );
-	KST1430_13_HIST.Scale( KST1430_13_FF*Dalitz_Fit.Integral()/KST1430_13_HIST.Integral() );
-
-	KST1680_12_HIST.Scale( KST1680_12_FF*Dalitz_Fit.Integral()/KST1680_12_HIST.Integral() );
-	KST1680_13_HIST.Scale( KST1680_13_FF*Dalitz_Fit.Integral()/KST1680_13_HIST.Integral() );
-
-	NR_HIST.Scale( NR_FF*Dalitz_Fit.Integral()/NR_HIST.Integral() );
+	NR_HIST->Scale( NR_FF*Dalitz_Fit->Integral()/NR_HIST->Integral() );
 
 	//=============================================================
 	//projections
 	TH1* hist2D=0;
 
-	TCanvas canvas_3("canvas_3", "Dataset", 500, 500);
-	hist2D = Dalitz_Resonances.Project3D("yz");
+	TCanvas* canvas_3 = new TCanvas("canvas_3", "Dataset", 500, 500);
+	hist2D = Dalitz_Resonances->Project3D("yz");
 	hist2D->SetTitle("");
 	hist2D->Draw("colz");
-	canvas_3.SaveAs("plots/dalitz/Dataset1.pdf");
+	canvas_3->SaveAs("plots/dalitz/Dataset1.pdf");
 
-	TCanvas canvas_4("canvas_4", "Dataset", 500, 500);
-	hist2D = Dalitz_Resonances.Project3D("xy");
+	TCanvas* canvas_4 = new TCanvas("canvas_4", "Dataset", 500, 500);
+	hist2D = Dalitz_Resonances->Project3D("xy");
 	hist2D->SetTitle("");
 	hist2D->Draw("colz");
-	canvas_4.SaveAs("plots/dalitz/Dataset2.pdf");
+	canvas_4->SaveAs("plots/dalitz/Dataset2.pdf");
 
 
-	TCanvas canvas_5("canvas_5", "Fit", 500, 500);
-	hist2D = Dalitz_Fit.Project3D("yz");
-	hist2D->SetTitle("");
-	hist2D->SetStats(0);
-	hist2D->Draw("colz");
-	canvas_5.SaveAs("plots/dalitz/FitResult1.pdf");
-
-
-	TCanvas canvas_6("canvas_4", "Phase-space FLAT", 500, 500);
-	hist2D = Dalitz_Fit.Project3D("xy");
+	TCanvas* canvas_5 = new TCanvas("canvas_5", "Fit", 500, 500);
+	hist2D = Dalitz_Fit->Project3D("yz");
 	hist2D->SetTitle("");
 	hist2D->SetStats(0);
 	hist2D->Draw("colz");
-	canvas_6.SaveAs("plots/dalitz/FitResult2.pdf");
+	canvas_5->SaveAs("plots/dalitz/FitResult1.pdf");
+
+
+	TCanvas* canvas_6 = new TCanvas("canvas_4", "Phase-space FLAT", 500, 500);
+	hist2D = Dalitz_Fit->Project3D("xy");
+	hist2D->SetTitle("");
+	hist2D->SetStats(0);
+	hist2D->Draw("colz");
+	canvas_6->SaveAs("plots/dalitz/FitResult2.pdf");
 
 
 	//=============================================================
@@ -932,224 +856,224 @@ int main(int argv, char** argc)
 	//==============================
 	axis = "x";
 
-	TCanvas canvas_x("canvas_x", "", 600, 750);
+	TCanvas* canvas_x = new TCanvas("canvas_x", "", 600, 750);
 
 
 
-	auto legend_x = TLegend( X1NDC, Y1NDC, X2NDC, Y2NDC);
+	auto legend_x = new TLegend( X1NDC, Y1NDC, X2NDC, Y2NDC);
 	//legend.SetHeader("M^{2}(K^{-} #pi_{1}^{+})","C"); // option "C" allows to center the header
-	legend_x.SetEntrySeparation(0.3);
-	legend_x.SetNColumns(2);
-	legend_x.SetBorderSize(0);
+	legend_x->SetEntrySeparation(0.3);
+	legend_x->SetNColumns(2);
+	legend_x->SetBorderSize(0);
 
-	hist= Dalitz_Fit.Project3D(axis)->DrawCopy("hist");
+	hist= Dalitz_Fit->Project3D(axis)->DrawCopy("hist");
 	hist->SetLineColor(2);
 	hist->SetLineWidth(2);
 	hist->SetMinimum(0.001);
 	hist->SetStats(0);
 	hist->SetTitle("");
 
-	legend_x.AddEntry(hist,"Fit","l");
+	legend_x->AddEntry(hist,"Fit","l");
 
-	hist= Dalitz_Resonances.Project3D(axis)->DrawCopy("e0same");
+	hist= Dalitz_Resonances->Project3D(axis)->DrawCopy("e0same");
 	hist->SetMarkerStyle(8);
 	hist->SetMarkerSize(0.6);
 	hist->SetStats(0);
 
-	legend_x.AddEntry(hist,"Data","lep");
+	legend_x->AddEntry(hist,"Data","lep");
 
-	hist = KST800_12_HIST.Project3D(axis)->DrawCopy("histCsame");
+	hist = KST800_12_HIST->Project3D(axis)->DrawCopy("histCsame");
 	hist->SetLineColor(KST800_Color);
 	hist->SetLineWidth(2);
 
-	legend_x.AddEntry(hist,"{#kappa}_{12}","l");
+	legend_x->AddEntry(hist,"{#kappa}_{12}","l");
 
-	hist = KST800_13_HIST.Project3D(axis)->DrawCopy("histCsame");
+	hist = KST800_13_HIST->Project3D(axis)->DrawCopy("histCsame");
 	hist->SetLineStyle(2);
 	hist->SetLineColor(KST800_Color);
 	hist->SetLineWidth(2);
 
-	legend_x.AddEntry(hist,"{#kappa}_{13}","l");
+	legend_x->AddEntry(hist,"{#kappa}_{13}","l");
 
 
-	hist = KST892_12_HIST.Project3D(axis)->DrawCopy("histCsame");
+	hist = KST892_12_HIST->Project3D(axis)->DrawCopy("histCsame");
 	hist->SetLineColor(KST892_Color);
 	hist->SetLineWidth(2);
 
-	legend_x.AddEntry(hist,"{K*(892)}_{12}","l");
+	legend_x->AddEntry(hist,"{K*(892)}_{12}","l");
 
-	hist = KST892_13_HIST.Project3D(axis)->DrawCopy("histCsame");
+	hist = KST892_13_HIST->Project3D(axis)->DrawCopy("histCsame");
 	hist->SetLineStyle(2);
 	hist->SetLineColor(KST892_Color);
 	hist->SetLineWidth(2);
 
-	legend_x.AddEntry(hist,"{K*(892)}_{13}","l");
+	legend_x->AddEntry(hist,"{K*(892)}_{13}","l");
 
 
-	hist = KST1680_12_HIST.Project3D(axis)->DrawCopy("histCsame");
+	hist = KST1680_12_HIST->Project3D(axis)->DrawCopy("histCsame");
 	hist->SetLineColor(KST1680_Color);
 	hist->SetLineWidth(2);
 
-	legend_x.AddEntry(hist,"{K_{1}(1680)}_{12}","l");
+	legend_x->AddEntry(hist,"{K_{1}(1680)}_{12}","l");
 
-	hist = KST1680_13_HIST.Project3D(axis)->DrawCopy("histCsame");
+	hist = KST1680_13_HIST->Project3D(axis)->DrawCopy("histCsame");
 	hist->SetLineStyle(2);
 	hist->SetLineColor(KST1680_Color);
 	hist->SetLineWidth(2);
 
-	legend_x.AddEntry(hist,"{K_{1}(1680)}_{13}","l");
+	legend_x->AddEntry(hist,"{K_{1}(1680)}_{13}","l");
 
-	hist = KST1425_12_HIST.Project3D(axis)->DrawCopy("histCsame");
+	hist = KST1425_12_HIST->Project3D(axis)->DrawCopy("histCsame");
 	hist->SetLineColor(KST1425_Color);
 	hist->SetLineWidth(2);
 
-	legend_x.AddEntry(hist,"{K*_{0}(1425)}_{12}","l");
+	legend_x->AddEntry(hist,"{K*_{0}(1425)}_{12}","l");
 
-	hist = KST1425_13_HIST.Project3D(axis)->DrawCopy("histCsame");
+	hist = KST1425_13_HIST->Project3D(axis)->DrawCopy("histCsame");
 	hist->SetLineStyle(2);
 	hist->SetLineColor(KST1425_Color);
 	hist->SetLineWidth(2);
 
-	legend_x.AddEntry(hist,"{K*_{0}(1425)}_{13}","l");
+	legend_x->AddEntry(hist,"{K*_{0}(1425)}_{13}","l");
 
-	hist = KST1430_12_HIST.Project3D(axis)->DrawCopy("histCsame");
+	hist = KST1430_12_HIST->Project3D(axis)->DrawCopy("histCsame");
 	hist->SetLineColor(KST1430_Color);
 	hist->SetLineWidth(2);
 
-	legend_x.AddEntry(hist,"{K*_{2}(1430)}_{12}","l");
+	legend_x->AddEntry(hist,"{K*_{2}(1430)}_{12}","l");
 
-	hist = KST1430_13_HIST.Project3D(axis)->DrawCopy("histCsame");
+	hist = KST1430_13_HIST->Project3D(axis)->DrawCopy("histCsame");
 	hist->SetLineColor(KST1430_Color);
 	hist->SetLineStyle(2);
 	hist->SetLineWidth(2);
 
-	legend_x.AddEntry(hist,"{K*_{2}(1430)}_{13}","l");
+	legend_x->AddEntry(hist,"{K*_{2}(1430)}_{13}","l");
 
-	hist = NR_HIST.Project3D(axis)->DrawCopy("histCsame");
+	hist = NR_HIST->Project3D(axis)->DrawCopy("histCsame");
 	hist->SetLineColor(NR_Color);
 	hist->SetLineStyle(5);
 	hist->SetLineWidth(2);
 
-	legend_x.AddEntry(hist,"NR","l");
+	legend_x->AddEntry(hist,"NR","l");
 
-	canvas_x.SaveAs("plots/dalitz/Proj_X.pdf");
+	canvas_x->SaveAs("plots/dalitz/Proj_X.pdf");
 
-	canvas_x.SetLogy(1);
+	canvas_x->SetLogy(1);
 
-	legend_x.Draw();
+	legend_x->Draw();
 
-	canvas_x.SaveAs("plots/dalitz/Proj_LogX.pdf");
+	canvas_x->SaveAs("plots/dalitz/Proj_LogX.pdf");
 
 	//=============================================================
 
 	axis = "y";
 
-	TCanvas canvas_y("canvas_y", "", 600, 750);
+	TCanvas* canvas_y = new TCanvas("canvas_y", "", 600, 750);
 
 
-	auto legend_y = TLegend( X1NDC, Y1NDC, X2NDC, Y2NDC);
+	auto legend_y =  new TLegend( X1NDC, Y1NDC, X2NDC, Y2NDC);
 	//legend.SetHeader("M^{2}(K^{-} #pi_{1}^{+})","C"); // option "C" allows to center the header
-	legend_y.SetEntrySeparation(0.3);
-	legend_y.SetNColumns(2);
-	legend_y.SetBorderSize(0);
+	legend_y->SetEntrySeparation(0.3);
+	legend_y->SetNColumns(2);
+	legend_y->SetBorderSize(0);
 
-	hist= Dalitz_Fit.Project3D(axis)->DrawCopy("hist");
+	hist= Dalitz_Fit->Project3D(axis)->DrawCopy("hist");
 	hist->SetLineColor(2);
 	hist->SetLineWidth(2);
 	hist->SetMinimum(0.001);
 	hist->SetStats(0);
 	hist->SetTitle("");
 
-	legend_y.AddEntry(hist,"Fit","l");
+	legend_y->AddEntry(hist,"Fit","l");
 
-	hist= Dalitz_Resonances.Project3D(axis)->DrawCopy("e0same");
+	hist= Dalitz_Resonances->Project3D(axis)->DrawCopy("e0same");
 	hist->SetMarkerStyle(8);
 	hist->SetMarkerSize(0.6);
 	hist->SetStats(0);
 
-	legend_y.AddEntry(hist,"Data","lep");
+	legend_y->AddEntry(hist,"Data","lep");
 
-	hist = KST800_12_HIST.Project3D(axis)->DrawCopy("histCsame");
+	hist = KST800_12_HIST->Project3D(axis)->DrawCopy("histCsame");
 	hist->SetLineColor(KST800_Color);
 	hist->SetLineWidth(2);
 
-	legend_y.AddEntry(hist,"{#kappa}_{12}","l");
+	legend_y->AddEntry(hist,"{#kappa}_{12}","l");
 
-	hist = KST800_13_HIST.Project3D(axis)->DrawCopy("histCsame");
+	hist = KST800_13_HIST->Project3D(axis)->DrawCopy("histCsame");
 	hist->SetLineStyle(2);
 	hist->SetLineColor(KST800_Color);
 	hist->SetLineWidth(2);
 
-	legend_y.AddEntry(hist,"{#kappa}_{13}","l");
+	legend_y->AddEntry(hist,"{#kappa}_{13}","l");
 
 
-	hist = KST892_12_HIST.Project3D(axis)->DrawCopy("histCsame");
+	hist = KST892_12_HIST->Project3D(axis)->DrawCopy("histCsame");
 	hist->SetLineColor(KST892_Color);
 	hist->SetLineWidth(2);
 
-	legend_y.AddEntry(hist,"{K*(892)}_{12}","l");
+	legend_y->AddEntry(hist,"{K*(892)}_{12}","l");
 
-	hist = KST892_13_HIST.Project3D(axis)->DrawCopy("histCsame");
+	hist = KST892_13_HIST->Project3D(axis)->DrawCopy("histCsame");
 	hist->SetLineStyle(2);
 	hist->SetLineColor(KST892_Color);
 	hist->SetLineWidth(2);
 
-	legend_y.AddEntry(hist,"{K*(892)}_{13}","l");
+	legend_y->AddEntry(hist,"{K*(892)}_{13}","l");
 
 
-	hist = KST1680_12_HIST.Project3D(axis)->DrawCopy("histCsame");
+	hist = KST1680_12_HIST->Project3D(axis)->DrawCopy("histCsame");
 	hist->SetLineColor(KST1680_Color);
 	hist->SetLineWidth(2);
 
-	legend_y.AddEntry(hist,"{K_{1}(1680)}_{12}","l");
+	legend_y->AddEntry(hist,"{K_{1}(1680)}_{12}","l");
 
-	hist = KST1680_13_HIST.Project3D(axis)->DrawCopy("histCsame");
+	hist = KST1680_13_HIST->Project3D(axis)->DrawCopy("histCsame");
 	hist->SetLineStyle(2);
 	hist->SetLineColor(KST1680_Color);
 	hist->SetLineWidth(2);
 
-	legend_y.AddEntry(hist,"{K_{1}(1680)}_{13}","l");
+	legend_y->AddEntry(hist,"{K_{1}(1680)}_{13}","l");
 
-	hist = KST1425_12_HIST.Project3D(axis)->DrawCopy("histCsame");
+	hist = KST1425_12_HIST->Project3D(axis)->DrawCopy("histCsame");
 	hist->SetLineColor(KST1425_Color);
 	hist->SetLineWidth(2);
 
-	legend_y.AddEntry(hist,"{K*_{0}(1425)}_{12}","l");
+	legend_y->AddEntry(hist,"{K*_{0}(1425)}_{12}","l");
 
-	hist = KST1425_13_HIST.Project3D(axis)->DrawCopy("histCsame");
+	hist = KST1425_13_HIST->Project3D(axis)->DrawCopy("histCsame");
 	hist->SetLineStyle(2);
 	hist->SetLineColor(KST1425_Color);
 	hist->SetLineWidth(2);
 
-	legend_y.AddEntry(hist,"{K*_{0}(1425)}_{13}","l");
+	legend_y->AddEntry(hist,"{K*_{0}(1425)}_{13}","l");
 
-	hist = KST1430_12_HIST.Project3D(axis)->DrawCopy("histCsame");
+	hist = KST1430_12_HIST->Project3D(axis)->DrawCopy("histCsame");
 	hist->SetLineColor(KST1430_Color);
 	hist->SetLineWidth(2);
 
-	legend_y.AddEntry(hist,"{K*_{2}(1430)}_{12}","l");
+	legend_y->AddEntry(hist,"{K*_{2}(1430)}_{12}","l");
 
-	hist = KST1430_13_HIST.Project3D(axis)->DrawCopy("histCsame");
+	hist = KST1430_13_HIST->Project3D(axis)->DrawCopy("histCsame");
 	hist->SetLineColor(KST1430_Color);
 	hist->SetLineStyle(2);
 	hist->SetLineWidth(2);
 
-	legend_y.AddEntry(hist,"{K*_{2}(1430)}_{13}","l");
+	legend_y->AddEntry(hist,"{K*_{2}(1430)}_{13}","l");
 
-	hist = NR_HIST.Project3D(axis)->DrawCopy("histCsame");
+	hist = NR_HIST->Project3D(axis)->DrawCopy("histCsame");
 	hist->SetLineColor(NR_Color);
 	hist->SetLineStyle(5);
 	hist->SetLineWidth(2);
 
-	legend_y.AddEntry(hist,"NR","l");
+	legend_y->AddEntry(hist,"NR","l");
 
-	canvas_y.SaveAs("plots/dalitz/Proj_Y.pdf");
+	canvas_y->SaveAs("plots/dalitz/Proj_Y.pdf");
 
-	canvas_y.SetLogy(1);
+	canvas_y->SetLogy(1);
 
-	legend_y.Draw();
+	legend_y->Draw();
 
-	canvas_y.SaveAs("plots/dalitz/Proj_LogY.pdf");
+	canvas_y->SaveAs("plots/dalitz/Proj_LogY.pdf");
 
 
 	//=============================================================
@@ -1158,123 +1082,120 @@ int main(int argv, char** argc)
 
 	axis = "z";
 
-	TCanvas canvas_z("canvas_z", "", 600, 750);
+	TCanvas* canvas_z = new TCanvas("canvas_z", "", 600, 750);
 
-	auto legend_z = TLegend( X1NDC, Y1NDC, X2NDC, Y2NDC);
+	auto legend_z =  new TLegend( X1NDC, Y1NDC, X2NDC, Y2NDC);
 	//legend.SetHeader("M^{2}(K^{-} #pi_{1}^{+})","C"); // option "C" allows to center the header
-	legend_z.SetEntrySeparation(0.3);
-	legend_z.SetNColumns(2);
-	legend_z.SetBorderSize(0);
+	legend_z->SetEntrySeparation(0.3);
+	legend_z->SetNColumns(2);
+	legend_z->SetBorderSize(0);
 
-	hist= Dalitz_Fit.Project3D(axis)->DrawCopy("hist");
+	hist= Dalitz_Fit->Project3D(axis)->DrawCopy("hist");
 	hist->SetLineColor(2);
 	hist->SetLineWidth(2);
 	hist->SetMinimum(0.001);
 	hist->SetStats(0);
 	hist->SetTitle("");
 
-	legend_z.AddEntry(hist,"Fit","l");
+	legend_z->AddEntry(hist,"Fit","l");
 
-	hist= Dalitz_Resonances.Project3D(axis)->DrawCopy("e0same");
+	hist= Dalitz_Resonances->Project3D(axis)->DrawCopy("e0same");
 	hist->SetMarkerStyle(8);
 	hist->SetMarkerSize(0.6);
 	hist->SetStats(0);
 
-	legend_z.AddEntry(hist,"Data","lep");
+	legend_z->AddEntry(hist,"Data","lep");
 
-	hist = KST800_12_HIST.Project3D(axis)->DrawCopy("histCsame");
+	hist = KST800_12_HIST->Project3D(axis)->DrawCopy("histCsame");
 	hist->SetLineColor(KST800_Color);
 	hist->SetLineWidth(2);
 
-	legend_z.AddEntry(hist,"{#kappa}_{12}","l");
+	legend_z->AddEntry(hist,"{#kappa}_{12}","l");
 
-	hist = KST800_13_HIST.Project3D(axis)->DrawCopy("histCsame");
+	hist = KST800_13_HIST->Project3D(axis)->DrawCopy("histCsame");
 	hist->SetLineStyle(2);
 	hist->SetLineColor(KST800_Color);
 	hist->SetLineWidth(2);
 
-	legend_z.AddEntry(hist,"{#kappa}_{13}","l");
+	legend_z->AddEntry(hist,"{#kappa}_{13}","l");
 
 
-	hist = KST892_12_HIST.Project3D(axis)->DrawCopy("histCsame");
+	hist = KST892_12_HIST->Project3D(axis)->DrawCopy("histCsame");
 	hist->SetLineColor(KST892_Color);
 	hist->SetLineWidth(2);
 
-	legend_z.AddEntry(hist,"{K*(892)}_{12}","l");
+	legend_z->AddEntry(hist,"{K*(892)}_{12}","l");
 
-	hist = KST892_13_HIST.Project3D(axis)->DrawCopy("histCsame");
+	hist = KST892_13_HIST->Project3D(axis)->DrawCopy("histCsame");
 	hist->SetLineStyle(2);
 	hist->SetLineColor(KST892_Color);
 	hist->SetLineWidth(2);
 
-	legend_z.AddEntry(hist,"{K*(892)}_{13}","l");
+	legend_z->AddEntry(hist,"{K*(892)}_{13}","l");
 
 
-	hist = KST1680_12_HIST.Project3D(axis)->DrawCopy("histCsame");
+	hist = KST1680_12_HIST->Project3D(axis)->DrawCopy("histCsame");
 	hist->SetLineColor(KST1680_Color);
 	hist->SetLineWidth(2);
 
-	legend_z.AddEntry(hist,"{K_{1}(1680)}_{12}","l");
+	legend_z->AddEntry(hist,"{K_{1}(1680)}_{12}","l");
 
-	hist = KST1680_13_HIST.Project3D(axis)->DrawCopy("histCsame");
+	hist = KST1680_13_HIST->Project3D(axis)->DrawCopy("histCsame");
 	hist->SetLineStyle(2);
 	hist->SetLineColor(KST1680_Color);
 	hist->SetLineWidth(2);
 
-	legend_z.AddEntry(hist,"{K_{1}(1680)}_{13}","l");
+	legend_z->AddEntry(hist,"{K_{1}(1680)}_{13}","l");
 
-	hist = KST1425_12_HIST.Project3D(axis)->DrawCopy("histCsame");
+	hist = KST1425_12_HIST->Project3D(axis)->DrawCopy("histCsame");
 	hist->SetLineColor(KST1425_Color);
 	hist->SetLineWidth(2);
 
-	legend_z.AddEntry(hist,"{K*_{0}(1425)}_{12}","l");
+	legend_z->AddEntry(hist,"{K*_{0}(1425)}_{12}","l");
 
-	hist = KST1425_13_HIST.Project3D(axis)->DrawCopy("histCsame");
+	hist = KST1425_13_HIST->Project3D(axis)->DrawCopy("histCsame");
 	hist->SetLineStyle(2);
 	hist->SetLineColor(KST1425_Color);
 	hist->SetLineWidth(2);
 
-	legend_z.AddEntry(hist,"{K*_{0}(1425)}_{13}","l");
+	legend_z->AddEntry(hist,"{K*_{0}(1425)}_{13}","l");
 
-	hist = KST1430_12_HIST.Project3D(axis)->DrawCopy("histCsame");
+	hist = KST1430_12_HIST->Project3D(axis)->DrawCopy("histCsame");
 	hist->SetLineColor(KST1430_Color);
 	hist->SetLineWidth(2);
 
-	legend_z.AddEntry(hist,"{K*_{2}(1430)}_{12}","l");
+	legend_z->AddEntry(hist,"{K*_{2}(1430)}_{12}","l");
 
-	hist = KST1430_13_HIST.Project3D(axis)->DrawCopy("histCsame");
+	hist = KST1430_13_HIST->Project3D(axis)->DrawCopy("histCsame");
 	hist->SetLineColor(KST1430_Color);
 	hist->SetLineStyle(2);
 	hist->SetLineWidth(2);
 
-	legend_z.AddEntry(hist,"{K*_{2}(1430)}_{13}","l");
+	legend_z->AddEntry(hist,"{K*_{2}(1430)}_{13}","l");
 
-	hist = NR_HIST.Project3D(axis)->DrawCopy("histCsame");
+	hist = NR_HIST->Project3D(axis)->DrawCopy("histCsame");
 	hist->SetLineColor(NR_Color);
 	hist->SetLineStyle(5);
 	hist->SetLineWidth(2);
 
-	legend_z.AddEntry(hist,"NR","l");
+	legend_z->AddEntry(hist,"NR","l");
 
-	canvas_z.SaveAs("plots/dalitz/Proj_Z.pdf");
+	canvas_z->SaveAs("plots/dalitz/Proj_Z.pdf");
 
-	canvas_z.SetLogy(1);
+	canvas_z->SetLogy(1);
 
-	legend_z.Draw();
+	legend_z->Draw();
 
-	canvas_z.SaveAs("plots/dalitz/Proj_LogZ.pdf");
+	canvas_z->SaveAs("plots/dalitz/Proj_LogZ.pdf");
 
 	//=============================================================
 
-	TCanvas canvas_7("canvas_7", "Normalization", 500, 500);
-	Normalization.Draw("colz");
+	TCanvas* canvas_7 = new TCanvas("canvas_7", "Normalization", 500, 500);
+	Normalization->Draw("colz");
 
 
-	m_app->Run();
 
-#endif
-
-	return 0;
+	//return 0;
 }
 
 
@@ -1350,13 +1271,13 @@ double fit_fraction( Amplitude const& amp, Model const& model, std::array<double
 }
 
 template<typename Amplitude>
-TH3D histogram_component( Amplitude const& amp, std::array<double, 3> const& masses, const char* name, size_t nentries)
+TH3D* histogram_component( Amplitude const& amp, std::array<double, 3> const& masses, const char* name, size_t nentries)
 {
 	const double D_MASS         = masses[0];// D+ mass
 	const double K_MASS         = masses[1];// K+ mass
 	const double PI_MASS        = masses[2];// pi mass
 
-	TH3D Component(name,
+	TH3D* Component = new TH3D(name,
 			";"
 			"M^{2}(K^{-} #pi^{+}) [GeV^{2}/c^{4}];"
 			"M^{2}(K^{-} #pi^{+}) [GeV^{2}/c^{4}];"
@@ -1418,7 +1339,7 @@ TH3D histogram_component( Amplitude const& amp, std::array<double, 3> const& mas
 		double content = hydra::get<1>(entry);
 		unsigned int bins[3];
 		Hist_Component.GetIndexes(bin, bins);
-		Component.SetBinContent(bins[0]+1, bins[1]+1, bins[2]+1, content);
+		Component->SetBinContent(bins[0]+1, bins[1]+1, bins[2]+1, content);
 
 	}
 
@@ -1426,6 +1347,3 @@ TH3D histogram_component( Amplitude const& amp, std::array<double, 3> const& mas
 
 }
 
-
-
-#endif /* DALITZ_PLOT_INL_ */
