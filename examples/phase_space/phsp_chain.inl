@@ -33,7 +33,7 @@
  *
  * This example shows how to use the Hydra's
  * phase space Monte Carlo algorithms to
- * generate a sample of B0 -> J/psi K pi and
+ * generate a sample of B0 -> J/psi K pi, J/psi-> mu+ mu- and
  * plot the Dalitz plot.
  */
 

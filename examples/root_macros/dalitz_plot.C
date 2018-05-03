@@ -1215,7 +1215,7 @@ size_t generate_dataset(Backend const& system, Model const& model, std::array<do
 	//allocate memory to hold the final states particles
 	hydra::Decays<3, Backend > _data(bunch_size);
 
-	std::srand(7531594562);
+	std::srand(75315562);
 
 	do {
 		phsp.SetSeed(std::rand());

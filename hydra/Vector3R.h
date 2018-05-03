@@ -91,6 +91,8 @@ public:
 			const Vector3R& v);
 	__hydra_host__      __hydra_device__      inline GReal_t dot(const Vector3R& v2);
 	__hydra_host__      __hydra_device__      inline GReal_t d3mag() const;
+	__hydra_host__      __hydra_device__      inline Vector3R unit() const;
+	__hydra_host__      __hydra_device__       inline Vector3R cross(const Vector3R& v2);
 
 private:
 

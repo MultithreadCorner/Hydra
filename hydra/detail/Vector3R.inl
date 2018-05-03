@@ -178,10 +178,11 @@ inline void Vector3R::applyRotateEuler(GReal_t phi, GReal_t theta, GReal_t ksi)
 	v[1] = temp[1];
 	v[2] = temp[2];
 }
+
+// returns the 3 momentum mag.
 __hydra_host__ __hydra_device__
 inline GReal_t Vector3R::d3mag() const
 
-// returns the 3 momentum mag.
 {
 	GReal_t temp;
 
@@ -189,7 +190,35 @@ inline GReal_t Vector3R::d3mag() const
 	temp = sqrt(temp);
 
 	return temp;
-} // r3mag
+}
+
+
+__hydra_host__ __hydra_device__
+inline Vector3R Vector3R::cross(const Vector3R& p2)
+{
+
+	//Calcs the cross product.  Added by djl on July 27, 1995.
+	//Modified for real vectros by ryd Aug 28-96
+
+	Vector3R temp;
+
+
+	temp.v[0] = v[1] * p2.v[2] - v[2] * p2.v[1];
+	temp.v[1] = v[2] * p2.v[0] - v[0] * p2.v[2];
+	temp.v[2] = v[0] * p2.v[1] - v[1] * p2.v[0];
+
+	return temp;
+}
+
+__hydra_host__ __hydra_device__
+inline Vector3R Vector3R::unit() const
+{
+	Vector3R e = *this;
+	e/=this->d3mag();
+	return e;
+}
+
+// r3mag
 __hydra_host__ __hydra_device__
 inline GReal_t Vector3R::dot(const Vector3R& p2)
 {
