@@ -46,6 +46,7 @@ fSeed(1)
 	for(size_t i=0;i<N;i++)
 		fMasses[i]= daughtersMasses[i];
 
+	fSeed *= detail::hash_range(&fMasses[0], &fMasses[0]+N);
 
 }
 
@@ -57,6 +58,7 @@ fSeed(1)
 	for(size_t i=0;i<N;i++)
 		fMasses[i]= daughtersMasses[i];
 
+	fSeed *= detail::hash_range(&fMasses[0], &fMasses[0]+N);
 }
 
 template <size_t N, typename GRND>
@@ -67,6 +69,7 @@ fSeed(1)
 	for(size_t i=0;i<N;i++)
 		fMasses[i]= daughtersMasses.begin()[i];
 
+	fSeed *= detail::hash_range(&fMasses[0], &fMasses[0]+N);
 }
 
 template <size_t N, typename GRND>

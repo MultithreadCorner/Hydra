@@ -54,6 +54,7 @@
 #include <hydra/detail/Print.h>
 #include <hydra/detail/functors/CheckEnergy.h>
 #include <hydra/Tuple.h>
+#include <hydra/detail/Hash.h>
 
 #include <hydra/Decays.h>
 

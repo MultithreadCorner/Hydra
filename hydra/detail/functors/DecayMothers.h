@@ -125,7 +125,8 @@ struct DecayMothers
 			Vector4R (&particles)[N+1])
 	{
 
-		GRND randEng( hash(evt,fSeed) );
+		GRND randEng( fSeed );//( hash(evt,fSeed) );
+		randEng.discard(evt+3*N);
 
 		HYDRA_EXTERNAL_NS::thrust::uniform_real_distribution<GReal_t> uniDist(0.0, 1.0);
 

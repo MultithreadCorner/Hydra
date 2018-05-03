@@ -106,6 +106,7 @@ public:
 	__hydra_host__ __hydra_device__ inline void applyBoostTo(const GReal_t bx,
 			const GReal_t by, const GReal_t bz, bool inverse = false);
 	__hydra_host__      __hydra_device__       inline Vector4R cross(const Vector4R& v2);
+	__hydra_host__      __hydra_device__       inline Vector3R vector3();
 	__hydra_host__      __hydra_device__       inline GReal_t dot(const Vector4R& v2) const;
 	__hydra_host__      __hydra_device__       inline GReal_t d3mag() const;
 
@@ -116,6 +117,7 @@ public:
 			const Vector4R& p2) const;
 	__hydra_host__      __hydra_device__       inline GReal_t mag2r3(const Vector4R& p1) const;
 	__hydra_host__      __hydra_device__       inline GReal_t magr3(const Vector4R& p1) const;
+
 
 private:
 

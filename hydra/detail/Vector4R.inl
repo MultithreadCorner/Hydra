@@ -357,6 +357,7 @@ inline void Vector4R::applyBoostTo(const GReal_t bx, const GReal_t by,
 	}
 
 }
+
 __hydra_host__ __hydra_device__
 inline Vector4R Vector4R::cross(const Vector4R& p2)
 {
@@ -373,6 +374,19 @@ inline Vector4R Vector4R::cross(const Vector4R& p2)
 
 	return temp;
 }
+
+__hydra_host__      __hydra_device__
+inline Vector3R Vector4R::vector3()
+{
+	Vector3R temp;
+
+
+	temp.set(v[1], v[2] , v[3] );
+
+	return temp;
+}
+
+
 __hydra_host__ __hydra_device__
 inline GReal_t Vector4R::d3mag() const
 
