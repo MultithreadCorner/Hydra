@@ -62,7 +62,7 @@ struct CheckEnergy
 		Vector4R mother = particle;
 		GReal_t fTeCmTm =  mother.mass();
 
-#pragma unroll N
+//#pragma unroll N
 		for (size_t n = 0; n < N; n++)
 		{
 			fTeCmTm -= fMasses[n];

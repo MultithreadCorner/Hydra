@@ -134,7 +134,7 @@ struct DecayMothers
 
 		fTeCmTm = particles[0].mass();
 
-		#pragma unroll N
+//#pragma unroll N
 		for (size_t n = 0; n < N; n++)
 		{
 			fTeCmTm -= fMasses[n];
@@ -144,7 +144,7 @@ struct DecayMothers
 		GReal_t emmin = 0.0;
 		GReal_t wtmax = 1.0;
 
-		#pragma unroll N
+//#pragma unroll N
 		for (size_t n = 1; n < N; n++)
 		{
 			emmin += fMasses[n - 1];
@@ -159,7 +159,7 @@ struct DecayMothers
 
 		if (N > 2)
 		{
-			#pragma unroll N
+//#pragma unroll N
 			for (size_t n = 1; n < N - 1; n++)
 				rno[n] = uniDist(randEng) ;
 			    bbsort(&rno[1], N - 2);
@@ -169,7 +169,7 @@ struct DecayMothers
 		rno[N - 1] = 1;
 		GReal_t invMas[N], sum = 0.0;
 
-		#pragma unroll N
+//#pragma unroll N
 		for (size_t n = 0; n < N; n++)
 		{
 			sum += fMasses[n];
@@ -183,7 +183,7 @@ struct DecayMothers
 
 		GReal_t pd[N];
 
-		#pragma unroll N
+//#pragma unroll N
 		for (size_t n = 0; n < N - 1; n++)
 		{
 			pd[n] = pdk(invMas[n + 1], invMas[n], fMasses[n + 1]);
@@ -197,7 +197,7 @@ struct DecayMothers
 		particles[1].set(::sqrt(pd[0] * pd[0] + fMasses[0] * fMasses[0]), 0.0,
 				pd[0], 0.0);
 
-		#pragma unroll N
+//#pragma unroll N
 		for (size_t i = 1; i < N; i++)
 		{
 
@@ -239,7 +239,7 @@ struct DecayMothers
 		//
 		//---> final boost of all particles to the mother's frame
 		//
-		#pragma unroll N
+//#pragma unroll N
 		for (size_t n = 0; n < N; n++)
 		{
 

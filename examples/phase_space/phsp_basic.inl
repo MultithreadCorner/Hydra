@@ -165,6 +165,7 @@ int main(int argv, char** argc)
 
 		hydra::Decays<3, hydra::device::sys_t > Events_d(nentries);
 
+
 		auto start = std::chrono::high_resolution_clock::now();
 
 		//generate the final state particles

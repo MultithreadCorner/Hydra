@@ -198,7 +198,7 @@ struct EvalMother
 
 		if (N > 2)
 		{
-#pragma unroll N
+//#pragma unroll N
 			for (size_t n = 1; n < N - 1; n++)
 			{
 				rno[n] =  uniDist(randEng) ;
@@ -212,7 +212,7 @@ struct EvalMother
 
 		GReal_t invMas[N], sum = 0.0;
 
-#pragma unroll N
+//#pragma unroll N
 		for (size_t n = 0; n < N; n++)
 		{
 			//printf("%d mass=%f \n",n, fMasses[n]);
@@ -228,7 +228,7 @@ struct EvalMother
 
 		GReal_t pd[N];
 
-#pragma unroll N
+//#pragma unroll N
 		for (size_t n = 0; n < N - 1; n++)
 		{
 			pd[n] = pdk(invMas[n + 1], invMas[n], fMasses[n + 1]);
@@ -242,7 +242,7 @@ struct EvalMother
 		daugters[0].set(::sqrt((GReal_t) pd[0] * pd[0] + fMasses[0] * fMasses[0]), 0.0,
 				pd[0], 0.0);
 
-#pragma unroll N
+//#pragma unroll N
 		for (size_t i = 1; i < N; i++)
 		{
 
@@ -284,7 +284,7 @@ struct EvalMother
 		//
 		//---> final boost of all particles to the mother's frame
 		//
-#pragma unroll N
+//#pragma unroll N
 		for (size_t n = 0; n < N; n++)
 		{
 

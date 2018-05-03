@@ -47,7 +47,7 @@ static const device_t   _device_;
 }  // namespace device
 
 template<>
-struct BackendPolicy<Backend::Device>: HYDRA_EXTERNAL_NS::thrust::execution_policy<device::device_t>
+struct BackendPolicy<Backend::Device>: HYDRA_EXTERNAL_NS::thrust::device_execution_policy<device::device_t>
 {
 	const device::device_t backend= device::_device_;
 

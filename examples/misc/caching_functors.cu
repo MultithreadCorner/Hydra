@@ -20,56 +20,11 @@
  *---------------------------------------------------------------------------*/
 
 /*
- * HOST.h
+ * caching_functors.cu
  *
- *  Created on: 16/05/2017
+ *  Created on: 23/04/2018
  *      Author: Antonio Augusto Alves Junior
  */
 
-#ifndef HOST_H_
-#define HOST_H_
 
-#include <hydra/detail/Config.h>
-#include <hydra/detail/BackendPolicy.h>
-#include <hydra/detail/external/thrust/execution_policy.h>
-#include <hydra/Containers.h>
-
-namespace hydra {
-
-namespace detail {
-
-namespace host {
-
-typedef HYDRA_EXTERNAL_NS::thrust::detail::host_t	            host_t;
-static const host_t   _host_;
-
-}  // namespace host
-
-
-template<>
-struct BackendPolicy<Backend::Host>: HYDRA_EXTERNAL_NS::thrust::host_execution_policy<host::host_t>
-{
-	const host::host_t backend= host::_host_;
-
-	template<typename T>
-	using   container = hydra::mc_host_vector<T>;
-
-};
-
-}  // namespace detail
-
-namespace host {
-
-
-typedef hydra::detail::BackendPolicy<hydra::detail::Backend::Host> sys_t;
-
-template<typename T>
-using   vector = hydra::detail::BackendPolicy<hydra::detail::Backend::Host>::container<T>;
-
-static const sys_t sys=sys_t();
-
-}  // namespace host
-}  // namespace hydra
-
-
-#endif /* HOST_H_ */
+#include <examples/misc/caching_functors.inl>

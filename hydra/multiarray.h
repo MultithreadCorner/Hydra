@@ -29,7 +29,7 @@
 #ifndef MULTIARRAY_H_
 #define MULTIARRAY_H_
 
-
+#include <array>
 #include <hydra/detail/Config.h>
 #include <hydra/detail/BackendPolicy.h>
 #include <hydra/detail/utility/Utility_Tuple.h>
@@ -43,7 +43,7 @@
 #include <hydra/detail/external/thrust/functional.h>
 #include <hydra/detail/external/thrust/detail/type_traits.h>
 #include <hydra/detail/external/thrust/iterator/transform_iterator.h>
-#include <array>
+
 
 namespace hydra {
 
@@ -823,7 +823,7 @@ private:
 	{
 		std::get<I>(fData).insert(
 				std::get<I>(fData).begin()+position,
-				std::get<I>(x) );
+				HYDRA_EXTERNAL_NS::thrust::get<I>(x) );
 
 		__insert_helper<I+1>(position,x);
 	}
@@ -847,12 +847,12 @@ private:
 	{
 		std::get<I>(fData).insert(
 				std::get<I>(fData).begin() + position, n,
-				std::get<I>(x) );
+				HYDRA_EXTERNAL_NS::thrust::get<I>(x) );
 	}
 
 	 inline iterator __insert(size_t position, size_type n,  const value_type &x )
 	{
-		__insert_helper(position, x  ,  n);
+		__insert_helper(position ,  n, x );
 		return begin()+position+n;
 	}
 

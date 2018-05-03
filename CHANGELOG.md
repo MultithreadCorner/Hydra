@@ -15,7 +15,9 @@ CHANGES
 
 3. 1D kernel density estimation functor: GaussianKDE 
 4. Bifurcated Gaussian functor:  BifurcatedGaussian
+5. `Parameter::Create('name')` method added 
 
 # Bug fixes
 
-1. Null pointer breaking CLING 
+1. Null pointer breaking build in CLING
+2. `multiarray::insert(...)` bug fixes
