@@ -57,6 +57,11 @@ public:
 	__hydra_host__  __hydra_device__
 	CosHelicityAngle(){};
 
+	__hydra_host__  __hydra_device__
+	CosHelicityAngle( CosHelicityAngle const& other):
+	BaseFunctor<CosHelicityAngle,double, 0>(other)
+	{ }
+
 	__hydra_host__  __hydra_device__ inline
 	CosHelicityAngle&		operator=( CosHelicityAngle const& other){
 			if(this==&other) return  *this;
