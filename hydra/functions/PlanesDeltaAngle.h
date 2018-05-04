@@ -20,7 +20,7 @@
  *---------------------------------------------------------------------------*/
 
 /*
- * ChiPlanesDeltaAngle.h
+ * PlanesDeltaAngle.h
  *
  *  Created on: 04/05/2018
  *      Author: Davide Brundu
@@ -28,8 +28,8 @@
 .*      GitHub:  dbrundu
  */
 
-#ifndef CHIPLANESDELTAANGLE_H_
-#define CHIPLANESDELTAANGLE_H_
+#ifndef PLANESDELTAANGLE_H_
+#define PLANESDELTAANGLE_H_
 
 #include <hydra/detail/Config.h>
 #include <hydra/Types.h>
@@ -46,23 +46,28 @@
 namespace hydra {
 
 /**
- * \class ChiPlanesDeltaAngle
+ * \class PlanesDeltaAngle
  *
  *  This functor calculates the delta angle between decay plane of the particle with four-vector d2 and d3 (same plane)
  *  and h1 (other plane)
  */
-class ChiPlanesDeltaAngle:public BaseFunctor<ChiPlanesDeltaAngle, double, 0>
+class PlanesDeltaAngle:public BaseFunctor<PlanesDeltaAngle, double, 0>
 {
 
 public:
 
 	__hydra_host__  __hydra_device__
-	ChiPlanesDeltaAngle(){};
+	PlanesDeltaAngle(){};   //class_name ( const class_name & )
+
+	__hydra_host__  __hydra_device__
+	PlanesDeltaAngle( PlanesDeltaAngle const& other):
+		BaseFunctor<PlanesDeltaAngle,double, 0>(other)
+	{}
 
 	__hydra_host__  __hydra_device__ inline
-	ChiPlanesDeltaAngle&		operator=( ChiPlanesDeltaAngle const& other){
+	PlanesDeltaAngle&		operator=( PlanesDeltaAngle const& other){
 			if(this==&other) return  *this;
-			BaseFunctor<ChiPlanesDeltaAngle,double, 0>::operator=(other);
+			BaseFunctor<PlanesDeltaAngle,double, 0>::operator=(other);
 			return  *this;
 		}
 
@@ -133,4 +138,4 @@ private:
 
 
 
-#endif /* CHIPLANESDELTAANGLE_H_ */
+#endif /* PLANESDELTAANGLE_H_ */

@@ -67,7 +67,7 @@
 #include <hydra/device/System.h>
 #include <hydra/Placeholders.h>
 
-#include <hydra/functions/ChiPlanesDeltaAngle.h>
+#include <hydra/functions/PlanesDeltaAngle.h>
 /*-------------------------------------
  * Include classes from ROOT to fill
  * and draw histograms and plots.
@@ -238,7 +238,7 @@ void generate_decay_chain(size_t  nentries =100000)
 			double M2_rhopi     = M2(rho,pip);
 			double CosTheta   = COSHELANG(rho, pip, pim );
 			double DeltaAngle = DELTA( pip, pim, mup, mum);
-			hydra::ChiPlanesDeltaAngle chi;
+			hydra::PlanesDeltaAngle chi;
 			double DeltaAngle2 = chi(pip, pim, mup, mum);
 			//std::cout << DeltaAngle << std::endl;
 			//std::cout << CosTheta << std::endl;
