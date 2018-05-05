@@ -122,8 +122,4 @@
 #endif
 
 
-
-
-
-
 #endif /* CUDA_H_ */
