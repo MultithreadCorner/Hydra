@@ -231,13 +231,13 @@ public:
 
 	template<unsigned int I>
     typename HYDRA_EXTERNAL_NS::thrust::tuple_element<I, decays_type >::type&
-	GetDecay(placeholders::placeholder<I> ) {
+	GetDecays(placeholders::placeholder<I> ) {
 		return HYDRA_EXTERNAL_NS::thrust::get<I>(this->fDecays);
 	}
 
 	template<unsigned int I>
 	typename HYDRA_EXTERNAL_NS::thrust::tuple_element<I, decays_type >::type const&
-	GetDecay(placeholders::placeholder<I> ) const {
+	GetDecays(placeholders::placeholder<I> ) const {
 		return HYDRA_EXTERNAL_NS::thrust::get<I>(this->fDecays);
 	}
 
