@@ -385,7 +385,32 @@ inline Vector3R Vector4R::vector3()
 
 	return temp;
 }
+__hydra_host__ __hydra_device__
+inline GReal_t Vector4R::p() const
 
+// returns the 3 momentum mag.
+{
+	GReal_t temp;
+
+	temp = v[1] * v[1] + v[2] * v[2] + v[3] * v[3];
+
+	temp = sqrt(temp);
+
+	return temp;
+} //
+
+__hydra_host__ __hydra_device__
+inline GReal_t Vector4R::p2() const
+
+// returns the 3 momentum mag.
+{
+	GReal_t temp;
+
+	temp = v[1] * v[1] + v[2] * v[2] + v[3] * v[3];
+
+
+	return temp;
+} //
 
 __hydra_host__ __hydra_device__
 inline GReal_t Vector4R::d3mag() const
@@ -400,6 +425,8 @@ inline GReal_t Vector4R::d3mag() const
 
 	return temp;
 } // r3mag
+
+
 __hydra_host__ __hydra_device__
 inline GReal_t Vector4R::dot(const Vector4R& p2) const
 {

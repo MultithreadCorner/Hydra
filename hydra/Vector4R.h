@@ -97,6 +97,10 @@ public:
 			const Vector4R& v);
 	__hydra_host__      __hydra_device__       inline GReal_t mass2() const;
 	__hydra_host__      __hydra_device__       inline GReal_t mass() const;
+	__hydra_host__      __hydra_device__       inline GReal_t p2() const;
+	__hydra_host__      __hydra_device__       inline GReal_t p() const;
+
+
 	__hydra_host__ __hydra_device__ inline void applyRotateEuler(GReal_t alpha,
 			GReal_t beta, GReal_t gamma);
 	__hydra_host__ __hydra_device__ inline void applyBoostTo(const Vector4R& p4,
