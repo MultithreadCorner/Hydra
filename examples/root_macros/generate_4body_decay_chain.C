@@ -23,7 +23,12 @@
  * generate_decay_chain.C
  *
  *  Created on: 25/03/2018
- *      Author: Antonio Augusto Alves Junior
+ *      Author: Davide Brundu
+ * 
+ *  Generate the decay chain D0 -> f0 (-> pi pi) rho (-> mu mu) 
+ *  Plot the Dalitz plot andt the Delta Angle between decay planes
+ *  both using the lambda and the hydra functor
+ *
  */
 
 
@@ -240,13 +245,9 @@ void generate_decay_chain(size_t  nentries =100000)
 			double DeltaAngle = DELTA( pip, pim, mup, mum);
 			hydra::PlanesDeltaAngle chi;
 			double DeltaAngle2 = chi(pip, pim, mup, mum);
-			//std::cout << DeltaAngle << std::endl;
-			//std::cout << CosTheta << std::endl;
-
-			//Dalitz_d->Fill(M2_rhopi, M2_pipi , weight);
-			//CosTheta_d->Fill(CosTheta , weight);
-			Delta_d->Fill(DeltaAngle);
-			Delta_d2->Fill(DeltaAngle2);
+			Dalitz_d->Fill(M2_rhopi, M2_pipi , weight);
+			Delta_lambda->Fill(DeltaAngle);
+			Delta_functor->Fill(DeltaAngle2);
 		}
 
      }//end device
@@ -255,19 +256,15 @@ void generate_decay_chain(size_t  nentries =100000)
 
 	//--------------------------------------
 
-	//TCanvas* canvas1_d = new TCanvas("canvas1_d", "Phase-space Host", 500, 500);
-	//Dalitz_d->Draw("colz");
-	//Dalitz_d->SetMinimum(0.0);
-
-	//TCanvas* canvas2_d = new TCanvas("canvas2_d", "Phase-space Host", 500, 500);
-	//CosTheta_d->Draw("hist");
-	//CosTheta_d->SetMinimum(0.0);
+	TCanvas* canvas1_d = new TCanvas("canvas1_d", "Phase-space Host", 500, 500);
+	Dalitz_d->Draw("colz");
+	Dalitz_d->SetMinimum(0.0);
 
 	TCanvas* canvas3_d = new TCanvas("canvas3_d", "Phase-space Host", 500, 500);
-	Delta_d->Draw("hist");
-	Delta_d->SetMinimum(0.0);
+	Delta_lambda->Draw("hist");
+	Delta_lambda->SetMinimum(0.0);
 
 	TCanvas* canvas4_d = new TCanvas("canvas4_d", "Phase-space Host", 500, 500);
-	Delta_d2->Draw("hist");
-	Delta_d2->SetMinimum(0.0);
+	Delta_functor->Draw("hist");
+	Delta_functor->SetMinimum(0.0);
 }
