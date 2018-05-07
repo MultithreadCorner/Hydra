@@ -20,14 +20,16 @@
  *---------------------------------------------------------------------------*/
 
 /*
- * CosHelicityAngle.h
+ * PlanesDeltaAngle.h
  *
- *  Created on: 29/12/2017
- *      Author: Antonio Augusto Alves Junior
+ *  Created on: 04/05/2018
+ *      Author: Davide Brundu
+.*      Address: davide.brundu@cern.ch
+.*      GitHub:  dbrundu
  */
 
-#ifndef COSHELICITYANGLE_H_
-#define COSHELICITYANGLE_H_
+#ifndef PLANESDELTAANGLE_H_
+#define PLANESDELTAANGLE_H_
 
 #include <hydra/detail/Config.h>
 #include <hydra/Types.h>
@@ -44,39 +46,39 @@
 namespace hydra {
 
 /**
- * \class CosTheta
+ * \class PlanesDeltaAngle
  *
- *  This functor calculates the cosine of the helicity angle of the particle with four-vector D,
- *  daughther of the particle with four-vector Q and grand daugther of particle  four-vector P .
+ *  This functor calculates the delta angle between decay plane of the particle with four-vector d2 and d3 (same plane)
+ *  and h1 (other plane)
  */
-class CosHelicityAngle:public BaseFunctor<CosHelicityAngle, double, 0>
+class PlanesDeltaAngle:public BaseFunctor<PlanesDeltaAngle, double, 0>
 {
 
 public:
 
 	__hydra_host__  __hydra_device__
-	CosHelicityAngle(){};
+	PlanesDeltaAngle(){};   //class_name ( const class_name & )
 
 	__hydra_host__  __hydra_device__
-	CosHelicityAngle( CosHelicityAngle const& other):
-	BaseFunctor<CosHelicityAngle,double, 0>(other)
-	{ }
+	PlanesDeltaAngle( PlanesDeltaAngle const& other):
+		BaseFunctor<PlanesDeltaAngle,double, 0>(other)
+	{}
 
 	__hydra_host__  __hydra_device__ inline
-	CosHelicityAngle&		operator=( CosHelicityAngle const& other){
+	PlanesDeltaAngle&		operator=( PlanesDeltaAngle const& other){
 			if(this==&other) return  *this;
-			BaseFunctor<CosHelicityAngle,double, 0>::operator=(other);
+			BaseFunctor<PlanesDeltaAngle,double, 0>::operator=(other);
 			return  *this;
 		}
 
 	__hydra_host__ __hydra_device__ inline
 	double Evaluate(unsigned int , hydra::Vector4R* p)  const {
 
-		hydra::Vector4R P = p[0];
-		hydra::Vector4R Q = p[1];
-		hydra::Vector4R D = p[2];
+		hydra::Vector4R d2 = p[0];
+		hydra::Vector4R d3 = p[1];
+		hydra::Vector4R h1 = p[2];
 
-		return cos_decay_angle( P, Q, D);
+		return chi_angle( d2, d3, h1);
 
 	}
 
@@ -84,34 +86,46 @@ public:
 	__hydra_host__ __hydra_device__ inline
 	double Evaluate(T p)  const {
 
-		hydra::Vector4R P = get<0>(p);
-		hydra::Vector4R Q = get<1>(p);
-		hydra::Vector4R D = get<2>(p);
+		hydra::Vector4R d2 = get<0>(p);
+		hydra::Vector4R d3 = get<1>(p);
+		hydra::Vector4R h1 = get<2>(p);
 
-		return cos_decay_angle( P, Q, D);
+		return chi_angle( d2, d3, h1);
 	}
 
 	__hydra_host__ __hydra_device__ inline
-	double operator()(Vector4R const& p, Vector4R const& q, Vector4R const& d) const {
+	double operator()(Vector4R const& d2, Vector4R const& d3, Vector4R const& h1,  Vector4R const& h2) const {
 
-		return cos_decay_angle( p, q, d);
+		return chi_angle( d2, d3, h1);
 
 	}
 
 private:
 
 	__hydra_host__ __hydra_device__ inline
-	GReal_t cos_decay_angle(Vector4R const& p, Vector4R const& q, Vector4R const& d)const {
+	GReal_t chi_angle(Vector4R const& d2, Vector4R const& d3, Vector4R const& h1)const {
 
-		GReal_t pd = p*d;
-		GReal_t pq = p*q;
-		GReal_t qd = q*d;
-		GReal_t mp2 = p.mass2();
-		GReal_t mq2 = q.mass2();
-		GReal_t md2 = d.mass2();
 
-		return (pd * mq2 - pq * qd)
-				/ ::sqrt((pq * pq - mq2 * mp2) * (qd * qd - mq2 * md2));
+		hydra::Vector4R D = d2 + d3;
+     
+		hydra::Vector4R d1_perp = d2 - (D.dot(d2) / D.dot(D)) * D;
+		hydra::Vector4R h1_perp = h1 - (D.dot(h1) / D.dot(D)) * D;
+
+		// orthogonal to both D and d1_perp
+		hydra::Vector4R d1_prime = D.cross(d1_perp);
+
+		d1_perp = d1_perp / d1_perp.d3mag();
+		d1_prime = d1_prime / d1_prime.d3mag();
+
+		GReal_t x, y;
+
+		x = d1_perp.dot(h1_perp);
+		y = d1_prime.dot(h1_perp);
+
+		GReal_t chi = ::atan2(y, x);
+      
+
+		return chi;
 
 		}
 
@@ -123,4 +137,5 @@ private:
 
 
 
-#endif /* COSHELICITYANGLE_H_ */
+
+#endif /* PLANESDELTAANGLE_H_ */
