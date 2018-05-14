@@ -38,7 +38,7 @@
 #include <hydra/detail/TypeTraits.h>
 #include <hydra/detail/utility/Utility_Tuple.h>
 #include <hydra/Containers.h>
-#include <hydra/GenericRange.h>
+#include <hydra/Range.h>
 
 //
 #include <hydra/detail/external/thrust/copy.h>
@@ -257,7 +257,7 @@ public:
 	 * @return a hydra::backend::vector<tuple<T1,T2...>>
 	 */
 	template<typename T, typename Iterator, typename FUNCTOR>
-	GenericRange<Iterator> Sample(Iterator begin, Iterator end ,
+	Range<Iterator> Sample(Iterator begin, Iterator end ,
 			T min, T max, FUNCTOR const& functor);
 
 	/**
@@ -270,7 +270,7 @@ public:
 	 * @return a hydra::backend::vector<tuple<T1,T2...>>
 	 */
 	template<hydra::detail::Backend  BACKEND, typename T, typename Iterator, typename FUNCTOR>
-	GenericRange<Iterator> Sample(hydra::detail::BackendPolicy<BACKEND> const& policy, Iterator begin, Iterator end ,
+	Range<Iterator> Sample(hydra::detail::BackendPolicy<BACKEND> const& policy, Iterator begin, Iterator end ,
 			T min, T max, FUNCTOR const& functor);
 
 
@@ -284,7 +284,7 @@ public:
 	 * @return a hydra::backend::vector<tuple<T1,T2...>>
 	 */
 	template<typename T, typename Iterator, typename FUNCTOR, size_t N >
-	GenericRange<Iterator> Sample(Iterator begin, Iterator end ,
+	Range<Iterator> Sample(Iterator begin, Iterator end ,
 			std::array<T,N>const& min,
 			std::array<T,N>const& max,
 			FUNCTOR const& functor);
@@ -300,7 +300,7 @@ public:
 	 * @return a hydra::backend::vector<tuple<T1,T2...>>
 	 */
 	template<hydra::detail::Backend  BACKEND, typename T, typename Iterator, typename FUNCTOR, size_t N >
-	GenericRange<Iterator> Sample(hydra::detail::BackendPolicy<BACKEND> const& policy, Iterator begin, Iterator end ,
+	Range<Iterator> Sample(hydra::detail::BackendPolicy<BACKEND> const& policy, Iterator begin, Iterator end ,
 			std::array<T,N>const& min,
 			std::array<T,N>const& max,
 			FUNCTOR const& functor);
@@ -325,7 +325,7 @@ private:
  * @return
  */
 template<hydra::detail::Backend  BACKEND, typename Iterator1, typename Iterator2>
-GenericRange<Iterator2> unweight( hydra::detail::BackendPolicy<BACKEND> const& policy, Iterator1 wbegin, Iterator1 wend , Iterator2 begin);
+Range<Iterator2> unweight( hydra::detail::BackendPolicy<BACKEND> const& policy, Iterator1 wbegin, Iterator1 wend , Iterator2 begin);
 
 
 
@@ -341,7 +341,7 @@ GenericRange<Iterator2> unweight( hydra::detail::BackendPolicy<BACKEND> const& p
  * @return the index of the last entry of the unweighted event.
  */
 template<hydra::detail::Backend  BACKEND, typename Functor, typename Iterator>
-typename std::enable_if< hydra::detail::is_hydra_functor<Functor>::value, GenericRange<Iterator>>::type
+typename std::enable_if< hydra::detail::is_hydra_functor<Functor>::value, Range<Iterator>>::type
 unweight( hydra::detail::BackendPolicy<BACKEND> const& policy, Iterator begin, Iterator end, Functor const& functor);
 
 

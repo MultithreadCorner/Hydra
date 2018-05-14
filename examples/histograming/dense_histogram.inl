@@ -54,7 +54,7 @@
 #include <hydra/Distance.h>
 #include <hydra/multiarray.h>
 #include <hydra/DenseHistogram.h>
-#include <hydra/GenericRange.h>
+#include <hydra/Range.h>
 #include <hydra/functions/Gaussian.h>
 
 /*-------------------------------------

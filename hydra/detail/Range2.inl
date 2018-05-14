@@ -20,14 +20,14 @@
  *---------------------------------------------------------------------------*/
 
 /*
- * GenericRange.h
+ * Range.h
  *
  *  Created on: 29/08/2017
  *      Author: Antonio Augusto Alves Junior
  */
 
-#ifndef GENERICRANGE2_INL_
-#define GENERICRANGE2_INL_
+#ifndef RANGE2_INL_
+#define RANGE2_INL_
 
 #include <hydra/detail/Config.h>
 #include <hydra/detail/BackendPolicy.h>
@@ -38,34 +38,34 @@
 namespace hydra {
 
 template<typename Iterator, typename Functor>
-class GenericRange<Iterator,Functor>{
+class Range<Iterator,Functor>{
 
 public:
 
 	typedef HYDRA_EXTERNAL_NS::thrust::transform_iterator<Functor, Iterator, typename Functor::return_type> iterator;
 
-	GenericRange()=delete;
+	Range()=delete;
 
-	GenericRange(Iterator begin, Iterator end, Functor functor):
+	Range(Iterator begin, Iterator end, Functor functor):
 		fBegin( begin),
 		fEnd( end ),
 		fFunctor(functor)
 		{}
 
-	GenericRange(Iterator begin,  size_t last, Functor functor):
+	Range(Iterator begin,  size_t last, Functor functor):
 			fBegin( begin),
 			fEnd( begin + last ),
 			fFunctor(functor)
 			{}
 
-	GenericRange(GenericRange<Iterator,Functor> const& other):
+	Range(Range<Iterator,Functor> const& other):
 			fBegin( other.GetBegin()),
 			fEnd( other.GetEnd() ),
 			fFunctor(other.GetFunctor())
 			{}
 
-	GenericRange<Iterator,Functor>&
-	operator=(GenericRange<Iterator,Functor> const& other){
+	Range<Iterator,Functor>&
+	operator=(Range<Iterator,Functor> const& other){
 
 		if(this==&other) return this;
 
@@ -119,9 +119,9 @@ private:
 };
 
 template<typename Iterator, typename Functor>
-typename HYDRA_EXTERNAL_NS::thrust::detail::enable_if< detail::is_hydra_functor<Functor>::value , GenericRange<Iterator, Functor> >::type
-make_range(Iterator begin, Iterator end,Functor const& functor ){
-	return GenericRange<Iterator, Functor>( begin, end, functor);
+typename HYDRA_EXTERNAL_NS::thrust::detail::enable_if< detail::is_hydra_functor<Functor>::value , Range<Iterator, Functor> >::type
+make_range(Iterator begin, Iterator end, Functor const& functor ){
+	return Range<Iterator, Functor>( begin, end, functor);
 }
 
 }  // namespace hydra

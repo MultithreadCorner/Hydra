@@ -56,7 +56,7 @@
 #include <hydra/Distance.h>
 #include <hydra/multiarray.h>
 #include <hydra/SparseHistogram.h>
-#include <hydra/GenericRange.h>
+#include <hydra/Range.h>
 /*-------------------------------------
  * Include classes from ROOT to fill
  * and draw histograms and plots.

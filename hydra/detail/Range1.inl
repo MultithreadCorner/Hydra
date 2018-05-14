@@ -20,14 +20,14 @@
  *---------------------------------------------------------------------------*/
 
 /*
- * GenericRange.h
+ * Range.h
  *
  *  Created on: 29/08/2017
  *      Author: Antonio Augusto Alves Junior
  */
 
-#ifndef GENERICRANGE1_INL_
-#define GENERICRANGE1_INL_
+#ifndef RANGE1_INL_
+#define RANGE1_INL_
 
 #include <hydra/detail/Config.h>
 #include <hydra/detail/BackendPolicy.h>
@@ -38,7 +38,7 @@
 namespace hydra {
 
 template<typename Iterator>
-class GenericRange<Iterator>{
+class Range<Iterator>{
 
 public:
 	//stl-like typedefs
@@ -48,25 +48,25 @@ public:
 	typedef typename HYDRA_EXTERNAL_NS::thrust::iterator_traits<Iterator>::reference          reference;
 	typedef typename HYDRA_EXTERNAL_NS::thrust::iterator_traits<Iterator>::iterator_category  iterator_category;
 
-	GenericRange()=delete;
+	Range()=delete;
 
-	GenericRange(Iterator begin, Iterator end):
+	Range(Iterator begin, Iterator end):
 		fBegin( begin),
 		fEnd( end )
 		{}
 
-	GenericRange(Iterator begin,  size_t last):
+	Range(Iterator begin,  size_t last):
 			fBegin( begin),
 			fEnd( begin + last )
 			{}
 
-	GenericRange(GenericRange<Iterator> const& other):
+	Range(Range<Iterator> const& other):
 			fBegin( other.GetBegin()),
 			fEnd( other.GetEnd() )
 			{}
 
-	GenericRange<Iterator>&
-	operator=(GenericRange<Iterator> const& other){
+	Range<Iterator>&
+	operator=(Range<Iterator> const& other){
 
 		if(this==&other) return this;
 
@@ -116,13 +116,13 @@ private:
 };
 
 template<typename Iterator>
-GenericRange<Iterator>
+Range<Iterator>
 make_range(Iterator begin, Iterator end ){
-	return GenericRange<Iterator>( begin, end);
+	return Range<Iterator>( begin, end);
 }
 
 }  // namespace hydra
 
 
 
-#endif /* GENERICRANGE_H_ */
+#endif /* Range_H_ */

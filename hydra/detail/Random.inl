@@ -222,7 +222,7 @@ void  Random<GRND>::BreitWigner(hydra::detail::BackendPolicy<BACKEND> const& pol
 
 template<typename GRND>
 template<typename T, typename Iterator, typename FUNCTOR>
-GenericRange<Iterator>  Random<GRND>::Sample(Iterator begin, Iterator end ,
+Range<Iterator>  Random<GRND>::Sample(Iterator begin, Iterator end ,
 		T min, T max,FUNCTOR const& functor)
 {
 	typedef T value_type;
@@ -258,7 +258,7 @@ GenericRange<Iterator>  Random<GRND>::Sample(Iterator begin, Iterator end ,
 
 template<typename GRND>
 template<hydra::detail::Backend  BACKEND, typename T, typename Iterator, typename FUNCTOR>
-GenericRange<Iterator> Random<GRND>::Sample( hydra::detail::BackendPolicy<BACKEND> const& policy,
+Range<Iterator> Random<GRND>::Sample( hydra::detail::BackendPolicy<BACKEND> const& policy,
 		Iterator begin, Iterator end ,	T min, T max, FUNCTOR const& functor)
 {
 	typedef T value_type;
@@ -291,7 +291,7 @@ GenericRange<Iterator> Random<GRND>::Sample( hydra::detail::BackendPolicy<BACKEN
 
 template<typename GRND>
 template<typename T, typename Iterator, typename FUNCTOR, size_t N >
-GenericRange<Iterator>  Random<GRND>::Sample(Iterator begin, Iterator end ,
+Range<Iterator>  Random<GRND>::Sample(Iterator begin, Iterator end ,
 		std::array<T,N> const& min,
 		std::array<T,N> const& max,
 		FUNCTOR const& functor)
@@ -329,7 +329,7 @@ GenericRange<Iterator>  Random<GRND>::Sample(Iterator begin, Iterator end ,
 
 template<typename GRND>
 template<hydra::detail::Backend  BACKEND, typename T, typename Iterator, typename FUNCTOR, size_t N >
-GenericRange<Iterator> Random<GRND>::Sample( hydra::detail::BackendPolicy<BACKEND> const& policy,
+Range<Iterator> Random<GRND>::Sample( hydra::detail::BackendPolicy<BACKEND> const& policy,
 		Iterator begin, Iterator end ,
 		std::array<T,N> const& min,
 		std::array<T,N> const& max,
@@ -365,7 +365,7 @@ GenericRange<Iterator> Random<GRND>::Sample( hydra::detail::BackendPolicy<BACKEN
 
 
 template<hydra::detail::Backend  BACKEND, typename Iterator1, typename Iterator2>
-GenericRange<Iterator2> unweight( hydra::detail::BackendPolicy<BACKEND> const& policy, Iterator1 wbegin, Iterator1 wend , Iterator2 begin){
+Range<Iterator2> unweight( hydra::detail::BackendPolicy<BACKEND> const& policy, Iterator1 wbegin, Iterator1 wend , Iterator2 begin){
 
 	typedef typename Iterator1::value_type value_type;
 
@@ -385,7 +385,7 @@ GenericRange<Iterator2> unweight( hydra::detail::BackendPolicy<BACKEND> const& p
 }
 
 template<hydra::detail::Backend  BACKEND, typename Functor, typename Iterator>
-typename std::enable_if< hydra::detail::is_hydra_functor<Functor>::value, GenericRange<Iterator>>::type
+typename std::enable_if< hydra::detail::is_hydra_functor<Functor>::value, Range<Iterator>>::type
 unweight( hydra::detail::BackendPolicy<BACKEND> const& policy, Iterator begin, Iterator end, Functor const& functor){
 
 	typedef typename Functor::return_type value_type;

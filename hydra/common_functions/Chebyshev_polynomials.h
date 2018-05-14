@@ -1,6 +1,6 @@
 /*----------------------------------------------------------------------------
  *
- *   Copyright (C) 2016 - 2018 Antonio Augusto Alves Junior
+ *   Copyright (C) 2016-2017 Antonio Augusto Alves Junior
  *
  *   This file is part of Hydra Data Analysis Framework.
  *
@@ -20,28 +20,39 @@
  *---------------------------------------------------------------------------*/
 
 /*
- * GenericRange.h
+ * Chebyshev_polynomials.h
  *
- *  Created on: 29/08/2017
+ *  Created on: 05/04/2018
  *      Author: Antonio Augusto Alves Junior
  */
 
-#ifndef GENERICRANGE_H_
-#define GENERICRANGE_H_
-
-#include <hydra/detail/Config.h>
-#include <hydra/detail/BackendPolicy.h>
-#include <hydra/Distance.h>
+#ifndef CHEBYSHEV_POLYNOMIALS_H_
+#define CHEBYSHEV_POLYNOMIALS_H_
 
 namespace hydra {
 
-template<typename ...T>
-class GenericRange;
+template<size_t N>
+__hydra_host__ __hydra_device__
+inline std::enable_if<N==0, double> Chebyshev_polynomial(const double ){
+
+	return 1.0;
+}
+
+template<size_t N>
+__hydra_host__ __hydra_device__
+inline std::enable_if<N==1, double> Chebyshev_polynomial(const double x){
+
+	return x;
+}
+
+template<size_t N>
+__hydra_host__ __hydra_device__
+inline std::enable_if< (N>2) , double> Chebyshev_polynomial(const double x){
+
+	return 2*x*Chebyshev_polynomial<N-1>(x) - Chebyshev_polynomial<N-2>(x);
+}
 
 }  // namespace hydra
 
-#include <hydra/detail/GenericRange1.inl>
-#include <hydra/detail/GenericRange2.inl>
 
-
-#endif /* GENERICRANGE_H_ */
+#endif /* CHEBYSHEV_POLYNOMIALS_H_ */

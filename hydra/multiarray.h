@@ -1203,7 +1203,7 @@ private:
 
 
 
-	 storage_t  __move()
+	storage_t&&  __move()
 	{
 		return std::move(fData);
 	}

@@ -20,26 +20,28 @@
  *---------------------------------------------------------------------------*/
 
 /*
- * Filter.inl
+ * GenericRange.h
  *
- *  Created on: 15/08/2017
+ *  Created on: 29/08/2017
  *      Author: Antonio Augusto Alves Junior
  */
 
-#ifndef FILTER_INL_
-#define FILTER_INL_
+#ifndef RANGE_H_
+#define RANGE_H_
 
+#include <hydra/detail/Config.h>
+#include <hydra/detail/BackendPolicy.h>
+#include <hydra/Distance.h>
 
 namespace hydra {
 
-template<typename Container, typename Functor>
-hydra::Range<typename Container::iterator>
-apply_filter(Container& container, Functor const& filter)
-{
-	typename Container::iterator new_end = HYDRA_EXTERNAL_NS::thrust::partition(container.begin(),container.end() , filter);
-     return hydra::make_range(container.begin(), new_end);
-}
+template<typename ...T>
+class Range;
 
-}  // namespace hydra
+}// namespace hydra
 
-#endif /* FILTER_INL_ */
+#include <hydra/detail/Range1.inl>
+#include <hydra/detail/Range2.inl>
+
+
+#endif /* RANGE_H_ */
