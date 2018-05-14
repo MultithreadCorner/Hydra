@@ -42,7 +42,7 @@
 #include <hydra/multiarray.h>
 #include <hydra/detail/utility/Utility_Tuple.h>
 #include <hydra/Tuple.h>
-#include <hydra/GenericRange.h>
+#include <hydra/Range.h>
 #include <hydra/Placeholders.h>
 //thrust
 #include <hydra/detail/external/thrust/copy.h>
@@ -416,35 +416,35 @@ public:
 	 * @param i index of particle.
 	 * @return std::pair of iterators {begin, end}.
 	 */
-	GenericRange< __caster_iterator< typename particles_type::iterator, tuple_t ,  __CastTupleToVector4> >
+	Range< __caster_iterator< typename particles_type::iterator, tuple_t ,  __CastTupleToVector4> >
 	GetParticles(size_t i){
 
 		return hydra::make_range(this->fDecays[i].begin(__CastTupleToVector4()),
 					this->fDecays[i].end(__CastTupleToVector4()));
 	}
 
-	GenericRange<weights_iterator >
+	Range<weights_iterator >
 	GetWeights(){
 
 			return hydra::make_range(this->fWeights.begin(),
 						this->fWeights.end());
 		}
 
-	GenericRange<weights_const_iterator >
+	Range<weights_const_iterator >
 	GetWeights() const {
 
 		return hydra::make_range(this->fWeights.begin(),
 				this->fWeights.end());
 	}
 
-	GenericRange<typename particles_type::iterator >
+	Range<typename particles_type::iterator >
 	GetDaughters(size_t i){
 
 			return hydra::make_range(this->fDecays[i].begin(),
 						this->fDecays[i].end());
 		}
 
-	GenericRange<typename particles_type::const_iterator >
+	Range<typename particles_type::const_iterator >
 	GetDaughters(size_t i) const {
 
 		return hydra::make_range(this->fDecays[i].begin(),
@@ -468,7 +468,7 @@ public:
 	 * @param j Component index
 	 * @return std::pair of iterators {begin, end}.
 	 */
-	GenericRange<typename particles_type::iterator_v >
+	Range<typename particles_type::iterator_v >
 	GetParticleComponents(size_t i, size_t j){
 
 		return hydra::make_range(this->fDecays[i].begin(j),
@@ -499,14 +499,14 @@ public:
 	}
 
 
-	GenericRange< __caster_iterator<iterator,  value_type, __CastToUnWeightedDecay > >
+	Range< __caster_iterator<iterator,  value_type, __CastToUnWeightedDecay > >
 	GetUnweightedDecays(){
 
 		return make_range(this->begin(__CastToUnWeightedDecay()),
 				    this->end(__CastToUnWeightedDecay()));
 	}
 
-	GenericRange<  __caster_iterator<iterator,  value_type, __CastToWeightedDecay > >
+	Range<  __caster_iterator<iterator,  value_type, __CastToWeightedDecay > >
 	GetWeightedDecays(){
 
 		return make_range(this->begin(__CastToWeightedDecay()),

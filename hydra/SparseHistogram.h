@@ -34,7 +34,7 @@
 #include <hydra/Types.h>
 #include <hydra/detail/Dimensionality.h>
 #include <hydra/detail/functors/GetBinCenter.h>
-#include <hydra/GenericRange.h>
+#include <hydra/Range.h>
 #include <hydra/Copy.h>
 
 #include <type_traits>
@@ -346,12 +346,12 @@ public:
 				fContents.begin()[index] : 0.0;
 	}
 
-	inline GenericRange<data_iterator> GetBinsContents() const {
+	inline Range<data_iterator> GetBinsContents() const {
 
 		return make_range( fContents.begin(), fContents.begin() + fNBins);
 	}
 
-	inline GenericRange< HYDRA_EXTERNAL_NS::thrust::transform_iterator<detail::GetBinCenter<T,N>, keys_iterator> >
+	inline Range< HYDRA_EXTERNAL_NS::thrust::transform_iterator<detail::GetBinCenter<T,N>, keys_iterator> >
 	GetBinsCenters() {
 
 		HYDRA_EXTERNAL_NS::thrust::transform_iterator<detail::GetBinCenter<T,N>, keys_iterator> first( fBins.begin(),
@@ -680,7 +680,7 @@ public:
 				fContents.begin()[bin] : 0.0;
 	}
 
-	inline GenericRange<HYDRA_EXTERNAL_NS::thrust::transform_iterator<detail::GetBinCenter<T,1>, keys_iterator> >
+	inline Range<HYDRA_EXTERNAL_NS::thrust::transform_iterator<detail::GetBinCenter<T,1>, keys_iterator> >
 	GetBinsCenters() {
 
 		HYDRA_EXTERNAL_NS::thrust::transform_iterator<detail::GetBinCenter<T,1>, keys_iterator >
@@ -689,7 +689,7 @@ public:
 		return make_range( first , first+fNBins);
 	}
 
-	inline GenericRange<iterator> GetBinsContents()  {
+	inline Range<iterator> GetBinsContents()  {
 
 	  	return make_range(begin(),begin()+fNBins );
 	}

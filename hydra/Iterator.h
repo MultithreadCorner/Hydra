@@ -20,26 +20,60 @@
  *---------------------------------------------------------------------------*/
 
 /*
- * Filter.inl
+ * Iterator.h
  *
- *  Created on: 15/08/2017
+ *  Created on: 12/05/2018
  *      Author: Antonio Augusto Alves Junior
  */
 
-#ifndef FILTER_INL_
-#define FILTER_INL_
-
+#ifndef ITERATOR_H_
+#define ITERATOR_H_
 
 namespace hydra {
 
-template<typename Container, typename Functor>
-hydra::Range<typename Container::iterator>
-apply_filter(Container& container, Functor const& filter)
-{
-	typename Container::iterator new_end = HYDRA_EXTERNAL_NS::thrust::partition(container.begin(),container.end() , filter);
-     return hydra::make_range(container.begin(), new_end);
-}
+//direct begin iterator
+template< class C >
+auto begin( C& c ) -> decltype(c.begin());
+
+template< class C >
+auto begin( const C& c ) -> decltype(c.begin());
+
+template< class T, size_t N >
+T* begin( T (&array)[N] );
+
+//reverse begin iterator
+template< class C >
+auto rbegin( C& c ) -> decltype(c.rbegin());
+
+template< class C >
+auto rbegin( const C& c ) -> decltype(c.rbegin());
+
+template< class T, size_t N >
+T* rbegin( T (&array)[N] );
+
+//direct end iterator
+template< class C >
+auto end( C& c ) -> decltype(c.end());
+
+template< class C >
+auto end( const C& c ) -> decltype(c.end());
+
+template< class T, size_t N >
+T* end( T (&array)[N] );
+
+//reverse end iterator
+template< class C >
+auto rend( C& c ) -> decltype(c.rend());
+
+template< class C >
+auto rend( const C& c ) -> decltype(c.rend());
+
+template< class T, size_t N >
+T* rend( T (&array)[N] );
+
 
 }  // namespace hydra
 
-#endif /* FILTER_INL_ */
+#include <hydra/detail/Iterator.inl>
+
+#endif /* ITERATOR_H_ */

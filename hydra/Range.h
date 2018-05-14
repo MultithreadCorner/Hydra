@@ -20,28 +20,30 @@
  *---------------------------------------------------------------------------*/
 
 /*
- * GenericRange.h
+ * Range.h
  *
  *  Created on: 29/08/2017
  *      Author: Antonio Augusto Alves Junior
  */
 
-#ifndef GENERICRANGE_H_
-#define GENERICRANGE_H_
+#ifndef RANGE_H_
+#define RANGE_H_
 
 #include <hydra/detail/Config.h>
 #include <hydra/detail/BackendPolicy.h>
 #include <hydra/Distance.h>
+#include <hydra/detail/Iterable_traits.h>
+#include <utility>
 
 namespace hydra {
 
 template<typename ...T>
-class GenericRange;
+class Range;
 
 }  // namespace hydra
 
-#include <hydra/detail/GenericRange1.inl>
-#include <hydra/detail/GenericRange2.inl>
+#include <hydra/detail/Range1.inl>
+#include <hydra/detail/Range2.inl>
 
 
-#endif /* GENERICRANGE_H_ */
+#endif /* RANGE_H_ */

@@ -20,7 +20,7 @@
  *---------------------------------------------------------------------------*/
 
 /*
- * GenericRange.h
+ * Range.h
  *
  *  Created on: 29/08/2017
  *      Author: Antonio Augusto Alves Junior
@@ -38,7 +38,7 @@
 namespace hydra {
 
 template<typename Iterator>
-class GenericRange<Iterator>{
+class Range<Iterator>{
 
 public:
 	//stl-like typedefs
@@ -48,25 +48,25 @@ public:
 	typedef typename HYDRA_EXTERNAL_NS::thrust::iterator_traits<Iterator>::reference          reference;
 	typedef typename HYDRA_EXTERNAL_NS::thrust::iterator_traits<Iterator>::iterator_category  iterator_category;
 
-	GenericRange()=delete;
+	Range()=delete;
 
-	GenericRange(Iterator begin, Iterator end):
+	Range(Iterator begin, Iterator end):
 		fBegin( begin),
 		fEnd( end )
 		{}
 
-	GenericRange(Iterator begin,  size_t last):
+	Range(Iterator begin,  size_t last):
 			fBegin( begin),
 			fEnd( begin + last )
 			{}
 
-	GenericRange(GenericRange<Iterator> const& other):
+	Range(Range<Iterator> const& other):
 			fBegin( other.GetBegin()),
 			fEnd( other.GetEnd() )
 			{}
 
-	GenericRange<Iterator>&
-	operator=(GenericRange<Iterator> const& other){
+	Range<Iterator>&
+	operator=(Range<Iterator> const& other){
 
 		if(this==&other) return this;
 
@@ -116,10 +116,38 @@ private:
 };
 
 template<typename Iterator>
-GenericRange<Iterator>
+Range<Iterator>
 make_range(Iterator begin, Iterator end ){
-	return GenericRange<Iterator>( begin, end);
+	return Range<Iterator>( begin, end);
 }
+
+template<typename Iterator>
+Range<HYDRA_EXTERNAL_NS::thrust::reverse_iterator<Iterator>>
+make_reverse_range(Iterator begin, Iterator end ){
+
+	typedef HYDRA_EXTERNAL_NS::thrust::reverse_iterator<Iterator> reverse_iterator_type;
+	return Range<reverse_iterator_type>(  reverse_iterator_type(end), reverse_iterator_type(begin));
+}
+
+template<typename Iterable>
+std::enable_if<hydra::detail::is_iterable<Iterable>::value,
+Range<decltype(std::decval<Iterable&>().begin())>>::type
+make_range(Iterable& container){
+
+	typedef decltype(hydra::begin(container)) iterator_type;
+	return Range<iterator_type>( hydra::begin(container), hydra::end(container));
+}
+
+template<typename Iterable>
+std::enable_if<hydra::detail::is_reverse_iterable<Iterable>::value,
+Range<decltype(std::decval<Iterable&>().rbegin())>>::type
+make_reverse_range(Iterable& container){
+
+	typedef decltype(hydra::rbegin(container)) iterator_type;
+	return Range<iterator_type>( hydra::rbegin(container), hydra::rend(container));
+}
+
+
 
 }  // namespace hydra
 
