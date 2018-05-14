@@ -121,6 +121,34 @@ make_range(Iterator begin, Iterator end ){
 	return Range<Iterator>( begin, end);
 }
 
+template<typename Iterator>
+Range<HYDRA_EXTERNAL_NS::thrust::reverse_iterator<Iterator>>
+make_reverse_range(Iterator begin, Iterator end ){
+
+	typedef HYDRA_EXTERNAL_NS::thrust::reverse_iterator<Iterator> reverse_iterator_type;
+	return Range<reverse_iterator_type>(  reverse_iterator_type(end), reverse_iterator_type(begin));
+}
+
+template<typename Iterable>
+std::enable_if<hydra::detail::is_iterable<Iterable>::value,
+Range<decltype(std::decval<Iterable&>().begin())>>::type
+make_range(Iterable& container){
+
+	typedef decltype(hydra::begin(container)) iterator_type;
+	return Range<iterator_type>( hydra::begin(container), hydra::end(container));
+}
+
+template<typename Iterable>
+std::enable_if<hydra::detail::is_reverse_iterable<Iterable>::value,
+Range<decltype(std::decval<Iterable&>().rbegin())>>::type
+make_reverse_range(Iterable& container){
+
+	typedef decltype(hydra::rbegin(container)) iterator_type;
+	return Range<iterator_type>( hydra::rbegin(container), hydra::rend(container));
+}
+
+
+
 }  // namespace hydra
 
 
