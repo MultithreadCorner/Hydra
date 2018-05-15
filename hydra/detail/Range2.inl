@@ -125,66 +125,114 @@ make_range(Iterator begin, Iterator end,Functor const& functor ){
 	return Range<Iterator, Functor>( begin, end, functor);
 }
 
-template<typename Iterable, typename Functor>
+template<typename Iterator, typename Functor>
 typename HYDRA_EXTERNAL_NS::thrust::detail::enable_if<
-    detail::is_reverse_iterable<Iterable>::value &&
     detail::is_hydra_functor<Functor>::value ,
-    Range<decltype(std::decval<Iterable&>().rbegin()), Functor> >::type
-make_reverse_range(Iterable& container,Functor const& functor ){
+    Range<HYDRA_EXTERNAL_NS::thrust::reverse_iterator<Iterator>, Functor> >::type
+make_reverse_range(Iterator begin, Iterator end,Functor const& functor ){
 
-	typedef decltype(hydra::rbegin(container)) iterator_reverse_type;
-	return Range<iterator_reverse_type, Functor>( hydra::rbegin(container),
-			hydra::rend(container), functor);
+	typedef HYDRA_EXTERNAL_NS::thrust::reverse_iterator<Iterator> reverse_iterator_type;
+
+		return Range<reverse_iterator_type>(
+				reverse_iterator_type(end),
+				reverse_iterator_type(begin) );
+
 }
-
 
 
 template<typename Iterable, typename Functor>
 typename HYDRA_EXTERNAL_NS::thrust::detail::enable_if<
 	detail::is_iterable<Iterable>::value &&
 	detail::is_hydra_functor<Functor>::value,
- Range<decltype(std::decval<Iterable&>().begin()), Functor> >::type
-make_range(Iterator begin, Iterator end,Functor const& functor ){
+ Range<decltype(std::declval<Iterable&>().begin()), Functor> >::type
+make_range(Iterable& iterable,Functor const& functor ){
 
-	typedef decltype(hydra::begin(container)) iterator_type;
-	return Range<iterator_type, Functor>( hydra::begin(container),
-			hydra::end(container), functor);
+	typedef decltype(hydra::begin(iterable)) iterator_type;
+	return Range<iterator_type, Functor>( hydra::begin(iterable),
+			hydra::end(iterable), functor);
 }
 
 template<typename Iterable, typename Functor>
 typename HYDRA_EXTERNAL_NS::thrust::detail::enable_if<
-    detail::is_iterable<Iterable>::value &&
-    detail::is_hydra_functor<Functor>::value ,
-    Range<decltype(std::decval<Iterable&>().begin()), Functor> >::type
-make_range(Iterable& container,Functor const& functor ){
+	detail::is_iterable<Iterable>::value &&
+	detail::is_hydra_functor<Functor>::value,
+ Range<decltype(std::declval<Iterable&>().begin()), Functor> >::type
+make_range(Iterable&& iterable,Functor const& functor ){
 
-	typedef decltype(hydra::begin(container)) iterator_type;
-	return Range<iterator_type, Functor>( hydra::begin(container),
-			hydra::end(container), functor);
+	typedef decltype(hydra::begin(iterable)) iterator_type;
+	return Range<iterator_type, Functor>( hydra::begin(iterable),
+			hydra::end(iterable), functor);
 }
 
-template<typename Iterable, typename Functor>
-typename HYDRA_EXTERNAL_NS::thrust::detail::enable_if<
-    detail::is_iterable<Iterable>::value &&
-    detail::is_hydra_functor<Functor>::value ,
-    Range<decltype(std::decval<Iterable&>().begin()), Functor> >::type
-operator|(Iterable& container, Functor const& functor){
 
-	typedef decltype(hydra::begin(container)) iterator_type;
-		return Range<iterator_type, Functor>( hydra::begin(container),
-				hydra::end(container), functor);
-}
 
 template<typename Iterable, typename Functor>
 typename HYDRA_EXTERNAL_NS::thrust::detail::enable_if<
     detail::is_reverse_iterable<Iterable>::value &&
     detail::is_hydra_functor<Functor>::value ,
-    Range<decltype(std::decval<Iterable&>().begin()), Functor> >::type
-operator!(Iterable& container, Functor const& functor){
+    Range<decltype(std::declval<Iterable&>().rbegin()), Functor> >::type
+make_reverse_range(Iterable& iterable,Functor const& functor ){
 
-	typedef decltype(hydra::begin(container)) iterator_type;
-		return Range<iterator_type, Functor>( hydra::begin(container),
-				hydra::end(container), functor);
+	typedef decltype(hydra::rbegin(iterable)) iterator_reverse_type;
+	return Range<iterator_reverse_type, Functor>( hydra::rbegin(iterable),
+			hydra::rend(iterable), functor);
+}
+
+
+template<typename Iterable, typename Functor>
+typename HYDRA_EXTERNAL_NS::thrust::detail::enable_if<
+    detail::is_reverse_iterable<Iterable>::value &&
+    detail::is_hydra_functor<Functor>::value ,
+    Range<decltype(std::declval<Iterable&>().rbegin()), Functor> >::type
+make_reverse_range(Iterable&& iterable,Functor const& functor ){
+
+	typedef decltype(hydra::rbegin(iterable)) iterator_reverse_type;
+	return Range<iterator_reverse_type, Functor>( hydra::rbegin(iterable),
+			hydra::rend(iterable), functor);
+}
+
+
+template<typename Iterable, typename Functor>
+typename HYDRA_EXTERNAL_NS::thrust::detail::enable_if<
+    detail::is_iterable<Iterable>::value &&
+    detail::is_hydra_functor<Functor>::value ,
+    Range<decltype(std::declval<Iterable&>().begin()), Functor> >::type
+operator|(Iterable& iterable, Functor const& functor){
+
+	typedef decltype(hydra::begin(iterable)) iterator_type;
+		return Range<iterator_type, Functor>( hydra::begin(iterable),
+				hydra::end(iterable), functor);
+}
+
+
+template<typename Iterable, typename Functor>
+typename HYDRA_EXTERNAL_NS::thrust::detail::enable_if<
+    detail::is_iterable<Iterable>::value &&
+    detail::is_hydra_functor<Functor>::value ,
+    Range<decltype(std::declval<Iterable&>().begin()), Functor> >::type
+operator|(Iterable&& iterable, Functor const& functor){
+
+	typedef decltype(hydra::begin(iterable)) iterator_type;
+		return Range<iterator_type, Functor>( hydra::begin(iterable),
+				hydra::end(iterable), functor);
+}
+
+template<typename Iterable>
+typename HYDRA_EXTERNAL_NS::thrust::detail::enable_if<
+    detail::is_iterable<Iterable>::value ,
+    Range<
+     HYDRA_EXTERNAL_NS::thrust::reverse_iterator<
+     	 decltype(std::declval<Iterable&>().begin())
+     >>>::type
+reverse(Iterable& iterable) {
+
+	typedef decltype(hydra::begin(iterable)) iterator_type;
+	typedef HYDRA_EXTERNAL_NS::thrust::reverse_iterator<iterator_type> reverse_iterator_type;
+
+		return Range<reverse_iterator_type>(
+				reverse_iterator_type(hydra::end(iterable)),
+				reverse_iterator_type(hydra::begin(iterable)) );
+
 }
 
 
