@@ -124,8 +124,6 @@ make_range(Iterator begin, Iterator end, Functor const& functor ){
 	return Range<Iterator, Functor>( begin, end, functor);
 }
 
-<<<<<<< HEAD
-=======
 template<typename Iterator, typename Functor>
 typename HYDRA_EXTERNAL_NS::thrust::detail::enable_if<
     detail::is_hydra_functor<Functor>::value ,
@@ -237,8 +235,6 @@ reverse(Iterable& iterable) {
 }
 
 
-
->>>>>>> a6a5260f1c4f41bc3a3ccc8efccaf02f9f19ae74
 }  // namespace hydra
 
 
