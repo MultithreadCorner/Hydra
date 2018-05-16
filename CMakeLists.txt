@@ -23,7 +23,7 @@ if(NOT COMPILER_SUPPORTS_CXX11)
 endif()
 
 #compiler flags
-if ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang")
+if ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang" OR "${CMAKE_CXX_COMPILER_ID}" STREQUAL "AppleClang" )
 
  MESSAGE(STATUS "Setting Clang flags")
  set(CMAKE_CXX_FLAGS " --std=c++11 -W -march=native -fPIC -O3 -ldl" CACHE STRING "compile flags" FORCE)
