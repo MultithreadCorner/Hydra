@@ -102,6 +102,7 @@ int main(int argv, char** argc)
 
 		hydra::multiarray<double, 3, hydra::device::sys_t> positions_d(nentries);
 
+
 		hydra::Random<> Generator{};
 
 		//generate positions
@@ -111,12 +112,12 @@ int main(int argv, char** argc)
 
 		}
 
-		auto range =  positions_d | length | is_inside;
+		auto range = hydra::columns(positions_d, _0,_1 ) | length | is_inside;
 
 		//print elements
 		std::cout<< std::endl << "________________________________________________________________________________" << std::endl<< std::endl;
 		for(size_t i=0; i<nentries; i++ )
-			if(range[i]) std::cout << i << ": "<< positions_d[i]<< std::endl;
+			if(range[i]) std::cout << i << ": "<< hydra::columns(positions_d, _0,_1 )[i]<< std::endl;
 
 
 	}//device
