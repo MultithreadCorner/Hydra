@@ -39,7 +39,6 @@
 #include <hydra/detail/functors/ProcessCallsVegas.h>
 #include <hydra/detail/Integrator.h>
 #include <utility>
-
 #include <hydra/detail/external/thrust/random.h>
 
 namespace hydra {

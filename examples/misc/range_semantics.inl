@@ -111,12 +111,13 @@ int main(int argv, char** argc)
 
 		}
 
-		auto range =  positions_d | length | is_inside;
+		auto range =  positions_d | length | is_inside ;
 
 		//print elements
 		std::cout<< std::endl << "________________________________________________________________________________" << std::endl<< std::endl;
 		for(size_t i=0; i<nentries; i++ )
-			if(range[i]) std::cout << i << ": "<< positions_d[i]<< std::endl;
+			if(range[i]) std::cout  << "Inside sphere : "<< positions_d[i]<< std::endl;
+			else std::cout  << "Outside sphere : "<< positions_d[i]<< std::endl;
 
 
 	}//device

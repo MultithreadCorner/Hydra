@@ -132,16 +132,36 @@ make_reverse_range(Iterator begin, Iterator end ){
 template<typename Iterable>
 typename std::enable_if<hydra::detail::is_iterable<Iterable>::value,
 Range<decltype(std::declval<Iterable&>().begin())>>::type
-make_range(Iterable& container){
+make_range(Iterable const& container){
 
 	typedef decltype(hydra::begin(container)) iterator_type;
 	return Range<iterator_type>( hydra::begin(container), hydra::end(container));
 }
 
 template<typename Iterable>
+typename std::enable_if<hydra::detail::is_iterable<Iterable>::value,
+Range<decltype(std::declval<Iterable&>().begin())>>::type
+make_range(Iterable&& container){
+
+	typedef decltype(hydra::begin(container)) iterator_type;
+	return Range<iterator_type>( hydra::begin(container), hydra::end(container));
+}
+
+
+
+template<typename Iterable>
 typename std::enable_if<hydra::detail::is_reverse_iterable<Iterable>::value,
 Range<decltype(std::declval<Iterable&>().rbegin())>>::type
-make_reverse_range(Iterable& container){
+make_reverse_range(Iterable const& container){
+
+	typedef decltype(hydra::rbegin(container)) iterator_type;
+	return Range<iterator_type>( hydra::rbegin(container), hydra::rend(container));
+}
+
+template<typename Iterable>
+typename std::enable_if<hydra::detail::is_reverse_iterable<Iterable>::value,
+Range<decltype(std::declval<Iterable&>().rbegin())>>::type
+make_reverse_range(Iterable&& container){
 
 	typedef decltype(hydra::rbegin(container)) iterator_type;
 	return Range<iterator_type>( hydra::rbegin(container), hydra::rend(container));
