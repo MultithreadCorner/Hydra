@@ -1356,16 +1356,16 @@ auto columns( multiarray<T,N, detail::BackendPolicy<BACKEND>>const& other, place
 {
 
 	typedef decltype( other.begin(cls...)) iterator_type;
-	return Range<iterator_type>( other.begin(cls...), other.begin(cls...));
+	return Range<iterator_type>( other.begin(cls...), other.end(cls...));
 }
 
 template<  hydra::detail::Backend BACKEND, typename T, size_t N, unsigned int...I>
-auto columns( multiarray<T,N, detail::BackendPolicy<BACKEND>>&& other, placeholders::placeholder<I>...cls)
+auto columns( multiarray<T,N, detail::BackendPolicy<BACKEND>>& other, placeholders::placeholder<I>...cls)
 -> Range<decltype(std::declval<multiarray<T,N, detail::BackendPolicy<BACKEND>>&&>().begin(placeholders::placeholder<I>{}...))>
 {
 
 	typedef decltype( other.begin(cls...)) iterator_type;
-	return Range<iterator_type>( other.begin(cls...), other.begin(cls...));
+	return Range<iterator_type>( other.begin(cls...), other.end(cls...));
 }
 
 

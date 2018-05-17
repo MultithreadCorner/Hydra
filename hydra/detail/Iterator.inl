@@ -29,28 +29,29 @@
 #ifndef ITERATOR_INL_
 #define ITERATOR_INL_
 
+#include <utility>
 #include <hydra/detail/external/thrust/iterator/reverse_iterator.h>
 
 namespace hydra {
 
 //directs iterators
 template< class C >
-auto begin( C& c ) -> decltype(c.begin()){
+auto begin(  const C& c ) -> decltype(c.begin()){
 	return c.begin();
 }
 
 template< class C >
-auto end( C& c ) -> decltype(c.end()){
+auto end(  const C& c ) -> decltype(c.end()){
 	return c.end();
 }
 
 template< class C >
-auto begin( const C& c ) -> decltype(c.begin()){
+auto begin( C&& c ) -> decltype(c.begin()){
 	return c.begin();
 }
 
 template< class C >
-auto end( const C& c ) -> decltype(c.end()){
+auto end( C&& c ) -> decltype(c.end()){
 	return c.end();
 }
 
@@ -66,12 +67,12 @@ T* end( T (&array)[N] ){
 
 //reverse iterators
 template< class C >
-auto rbegin( C& c ) -> decltype(c.rbegin()){
+auto rbegin( C&& c ) -> decltype(c.rbegin()){
 	return c.rbegin();
 }
 
 template< class C >
-auto rend( C& c ) -> decltype(c.rend()){
+auto rend( C&& c ) -> decltype(c.rend()){
 	return c.rend();
 }
 
@@ -87,7 +88,7 @@ auto rend( const C& c ) -> decltype(c.rend()){
 
 template< class T, size_t N >
 T* rbegin( T (&array)[N] ){
-	return HYDRA_EXTERNAL_NS::thrust::reverse_iterator<T*>(&array[N]);
+	return HYDRA_EXTERNAL_NS::thrust::reverse_iterator<T*>(&array[0]);
 }
 
 template< class T, size_t N >

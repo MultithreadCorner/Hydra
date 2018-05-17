@@ -38,7 +38,7 @@
 
 //
 #include <iostream>
-
+#include <algorithm>
 //hydra stuff
 #include <hydra/device/System.h>
 #include <hydra/host/System.h>
@@ -104,7 +104,7 @@ int main(int argv, char** argc)
 		std::cout << "=========================================="<<std::endl;
 
 
-		hydra::multiarray<double, 3, hydra::device::sys_t> positions_d(nentries);
+		hydra::multiarray<double, 3, hydra::device::sys_t> positions(nentries);
 
 
 		hydra::Random<> Generator{};
@@ -112,17 +112,21 @@ int main(int argv, char** argc)
 		//generate random positions in a box
 		for(size_t i=0; i<3; i++ ){
 			Generator.SetSeed(i);
-			Generator.Uniform(-1.0, 1.0, positions_d.begin(i), positions_d.end(i));
+			Generator.Uniform(-1.0, 1.0, positions.begin(i), positions.end(i));
 
 		}
 
-		auto range = hydra::columns(positions_d, _0,_1 ) | length | is_inside;
+		auto range = hydra::columns(positions, _0,_1 ) | length | is_inside;
 
+		std::for_each(range.begin(), range.end(), [](int x){ std::cout << (x) << std::endl; } );
+
+		//std::cout <<range.size()<< std::endl;;
 		//print elements
+		/*
 		for(size_t i=0; i<nentries; i++ )
-			if(range[i]) std::cout << i << " : "<< hydra::columns(positions_d, _0,_1 )[i] << " is inside."<< std::endl;
+			if(range[i]) std::cout << i << " : "<<range[i]<< " : "<< hydra::columns(positions_d, _0,_1 )[i] << " is inside."<< std::endl;
 			else std::cout << i << " : "<< hydra::columns(positions_d, _0,_1 )[i] << " is outside."<< std::endl;
-
+*/
 	}//device
 
 
