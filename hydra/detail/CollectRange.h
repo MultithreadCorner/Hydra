@@ -20,32 +20,38 @@
  *---------------------------------------------------------------------------*/
 
 /*
- * Range.h
+ * CollectRange.h
  *
- *  Created on: 29/08/2017
+ *  Created on: 19/05/2018
  *      Author: Antonio Augusto Alves Junior
  */
 
-#ifndef RANGE_H_
-#define RANGE_H_
+#ifndef COLLECTRANGE_H_
+#define COLLECTRANGE_H_
 
-#include <hydra/detail/Config.h>
-#include <hydra/detail/BackendPolicy.h>
-#include <hydra/Distance.h>
-#include <hydra/detail/Iterable_traits.h>
-#include <utility>
+
 
 namespace hydra {
 
-template<typename ...T>
-class Range;
+
+template<typename Iterable_Index, typename Iterable_Values>
+auto collect( Iterable_Index& indexing_scheme, Iterable_Values& collected_values)
+-> typename std::enable_if<hydra::detail::is_iterable<Iterable_Index>::value
+					    && hydra::detail::is_iterable<Iterable_Values>::value,
+Range<HYDRA_EXTERNAL_NS::thrust::permutation_iterator<
+		decltype(std::declval<Iterable_Values&>().begin()),
+		decltype(std::declval<Iterable_Index&>().begin())>
+>::type
+{
+	typedef HYDRA_EXTERNAL_NS::thrust::permutation_iterator<Iterable_Values,Iterable_Index> collect_iterator;
+	return make_range(collect_iterator(begin(collected_values), begin(indexing_scheme) ),
+			collect_iterator(begin(collected_values), end(indexing_scheme)) );
+
+
+}
 
 }  // namespace hydra
 
-#include <hydra/detail/Range1.inl>
-#include <hydra/detail/Range2.inl>
-#include <hydra/detail/CountingRange.inl>
-#include <hydra/detail/ConstantRange.inl>
 
 
-#endif /* RANGE_H_ */
+#endif /* COLLECTRANGE_H_ */

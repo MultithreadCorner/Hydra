@@ -20,32 +20,27 @@
  *---------------------------------------------------------------------------*/
 
 /*
- * Range.h
+ * CountingRange.inl
  *
- *  Created on: 29/08/2017
+ *  Created on: 20/05/2018
  *      Author: Antonio Augusto Alves Junior
  */
 
-#ifndef RANGE_H_
-#define RANGE_H_
+#ifndef COUNTINGRANGE_INL_
+#define COUNTINGRANGE_INL_
 
 #include <hydra/detail/Config.h>
-#include <hydra/detail/BackendPolicy.h>
-#include <hydra/Distance.h>
-#include <hydra/detail/Iterable_traits.h>
-#include <utility>
+#include <hydra/detail/external/thrust/iterator/counting_iterator.h>
 
 namespace hydra {
 
-template<typename ...T>
-class Range;
+Range<HYDRA_EXTERNAL_NS::thrust::counting_iterator<long int>>
+range(long int first, long int last){
+
+	return make_range( HYDRA_EXTERNAL_NS::thrust::counting_iterator<long int>(first),
+			HYDRA_EXTERNAL_NS::thrust::counting_iterator<long int>(last) );
+}
 
 }  // namespace hydra
 
-#include <hydra/detail/Range1.inl>
-#include <hydra/detail/Range2.inl>
-#include <hydra/detail/CountingRange.inl>
-#include <hydra/detail/ConstantRange.inl>
-
-
-#endif /* RANGE_H_ */
+#endif /* COUNTINGRANGE_INL_ */

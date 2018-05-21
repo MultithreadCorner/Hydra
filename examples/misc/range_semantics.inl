@@ -48,6 +48,7 @@
 #include <hydra/multiarray.h>
 #include <hydra/Placeholders.h>
 #include <hydra/Random.h>
+#include <hydra/Algorithm.h>
 
 //command line arguments
 #include <tclap/CmdLine.h>
@@ -116,17 +117,25 @@ int main(int argv, char** argc)
 
 		}
 
-		auto range = hydra::columns(positions, _0,_1 ) | length | is_inside;
+		auto sorted_range = hydra::sort_by_key(positions, hydra::columns(positions, _0,_1 ) | length ) | is_inside;
 
-		std::for_each(range.begin(), range.end(), [](int x){ std::cout << (x) << std::endl; } );
+		auto field = hydra::device::vector<int>(2);
+		field[0]=-10;
+		field[1]=10;
 
-		//std::cout <<range.size()<< std::endl;;
+
+
+		auto mapped = hydra::device::vector<int>(nentries);
+
+		hydra::scatter(field ,sorted_range, mapped  );
+
+		std::cout <<sorted_range.size()<< std::endl;;
 		//print elements
-		/*
+
 		for(size_t i=0; i<nentries; i++ )
-			if(range[i]) std::cout << i << " : "<<range[i]<< " : "<< hydra::columns(positions_d, _0,_1 )[i] << " is inside."<< std::endl;
-			else std::cout << i << " : "<< hydra::columns(positions_d, _0,_1 )[i] << " is outside."<< std::endl;
-*/
+			std::cout << i << " : " << sorted_range[i]<< " : " << mapped[i] << std::endl;
+
+
 	}//device
 
 

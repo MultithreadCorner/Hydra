@@ -20,32 +20,31 @@
  *---------------------------------------------------------------------------*/
 
 /*
- * Range.h
+ * ConstantRange.inl
  *
- *  Created on: 29/08/2017
+ *  Created on: 20/05/2018
  *      Author: Antonio Augusto Alves Junior
  */
 
-#ifndef RANGE_H_
-#define RANGE_H_
+#ifndef CONSTANTRANGE_INL_
+#define CONSTANTRANGE_INL_
 
 #include <hydra/detail/Config.h>
-#include <hydra/detail/BackendPolicy.h>
-#include <hydra/Distance.h>
-#include <hydra/detail/Iterable_traits.h>
-#include <utility>
+#include <hydra/detail/external/thrust/iterator/constant_iterator.h>
 
 namespace hydra {
 
-template<typename ...T>
-class Range;
+template<typename Value_Type>
+Range<HYDRA_EXTERNAL_NS::thrust::constant_iterator<Value_Type>>
+crange(const Value_Type&  value){
+
+	return make_range( HYDRA_EXTERNAL_NS::thrust::constant_iterator<Value_Type>(value),
+			HYDRA_EXTERNAL_NS::thrust::constant_iterator<Value_Type>(value) );
+}
 
 }  // namespace hydra
 
-#include <hydra/detail/Range1.inl>
-#include <hydra/detail/Range2.inl>
-#include <hydra/detail/CountingRange.inl>
-#include <hydra/detail/ConstantRange.inl>
 
 
-#endif /* RANGE_H_ */
+
+#endif /* CONSTANTRANGE_INL_ */

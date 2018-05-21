@@ -29,12 +29,7 @@
 #ifndef ALGORITHM_H_
 #define ALGORITHM_H_
 
-/**
- * \ingroup algorithm
- *
- * \brief This header offer a set of wrappers around thrust algorithms implementing range semantics.
- */
-
-
+#include <hydra/detail/Sort.inl>
+#include <hydra/detail/Scatter.inl>
 
 #endif /* ALGORITHM_H_ */
