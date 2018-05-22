@@ -29,26 +29,28 @@
 #ifndef RANGE_SEMANTICS_INL_
 #define RANGE_SEMANTICS_INL_
 
+/**
+ * \example range_semantics.inl
+ *
+ * This example shows how to use hydra range semantic
+ * to perform lazy calculations.
+ */
 
-
+//
 #include <iostream>
-#include <assert.h>
-#include <time.h>
-#include <chrono>
-
+#include <algorithm>
+//hydra stuff
 #include <hydra/device/System.h>
 #include <hydra/host/System.h>
 #include <hydra/Function.h>
 #include <hydra/FunctionWrapper.h>
 #include <hydra/Tuple.h>
-#include <hydra/multivector.h>
 #include <hydra/multiarray.h>
 #include <hydra/Placeholders.h>
 #include <hydra/Random.h>
 
-//command line
+//command line arguments
 #include <tclap/CmdLine.h>
-
 
 using namespace hydra::placeholders;
 
@@ -76,6 +78,7 @@ int main(int argv, char** argc)
 	}
 
 
+	// calculate the length of a n-dimensional vector
 	auto length = hydra::wrap_lambda(
 			[] __hydra_dual__ ( unsigned n, double* component){
 
@@ -87,6 +90,7 @@ int main(int argv, char** argc)
 		return ::sqrt(result);
 	});
 
+	// flag according distance to origin
 	auto is_inside =  hydra::wrap_lambda(
 			[] __hydra_dual__ (  unsigned n, double* radi){
 
@@ -100,25 +104,37 @@ int main(int argv, char** argc)
 		std::cout << "=========================================="<<std::endl;
 
 
-		hydra::multiarray<double, 3, hydra::device::sys_t> positions_d(nentries);
+		hydra::multiarray<double, 3, hydra::device::sys_t> positions(nentries);
+
 
 		hydra::Random<> Generator{};
 
-		//generate positions
+		//generate random positions in a box
 		for(size_t i=0; i<3; i++ ){
 			Generator.SetSeed(i);
-			Generator.Uniform(-1.0, 1.0, positions_d.begin(i), positions_d.end(i));
+			Generator.Uniform(-1.0, 1.0, positions.begin(i), positions.end(i));
 
 		}
 
-		auto range =  positions_d | length | is_inside ;
 
+		auto range = hydra::columns(positions, _0,_1 ) | length | is_inside;
+
+		std::for_each(range.begin(), range.end(), [](int x){ std::cout << (x) << std::endl; } );
+
+
+		//std::cout <<range.size()<< std::endl;;
 		//print elements
-		std::cout<< std::endl << "________________________________________________________________________________" << std::endl<< std::endl;
+		/*
 		for(size_t i=0; i<nentries; i++ )
+<<<<<<< HEAD
 			if(range[i]) std::cout  << "Inside sphere : "<< positions_d[i]<< std::endl;
 			else std::cout  << "Outside sphere : "<< positions_d[i]<< std::endl;
 
+
+=======
+			if(range[i]) std::cout << i << " : "<<range[i]<< " : "<< hydra::columns(positions_d, _0,_1 )[i] << " is inside."<< std::endl;
+			else std::cout << i << " : "<< hydra::columns(positions_d, _0,_1 )[i] << " is outside."<< std::endl;
+*/
 
 	}//device
 

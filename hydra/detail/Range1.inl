@@ -75,10 +75,23 @@ public:
 		return this;
 	}
 
+	Range<Iterator>&
+	operator=(Range<Iterator>&& other){
+
+		if(this==&other) return this;
+
+		fBegin = other.GetBegin();
+		fEnd = other.GetEnd();
+
+		return this;
+	}
+
 
 	Iterator begin(){ return fBegin;};
 
 	Iterator   end(){ return fEnd;};
+
+
 
 	size_t size() { return hydra::distance(fBegin, fEnd);}
 

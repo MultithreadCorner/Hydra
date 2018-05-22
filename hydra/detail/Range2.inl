@@ -64,6 +64,7 @@ public:
 			fFunctor(other.GetFunctor())
 			{}
 
+
 	Range<Iterator,Functor>&
 	operator=(Range<Iterator,Functor> const& other){
 
@@ -81,9 +82,13 @@ public:
 
 	iterator   end(){ return iterator(fEnd, fFunctor); };
 
+	iterator begin()const{ return iterator(fBegin, fFunctor); };
+
+		iterator   end()const{ return iterator(fEnd, fFunctor); };
 
 
-	size_t size() { return hydra::distance(this->begin(), this->end());}
+
+	size_t size() { return hydra::distance(fBegin, fEnd);}
 
 	Functor const& GetFunctor() const { return fFunctor;};
 
@@ -195,7 +200,7 @@ template<typename Iterable, typename Functor>
 typename HYDRA_EXTERNAL_NS::thrust::detail::enable_if<
     detail::is_iterable<Iterable>::value &&
     detail::is_hydra_functor<Functor>::value ,
-    Range<decltype(std::declval<Iterable&>().begin()), Functor> >::type
+    Range<decltype(std::declval<Iterable const&>().begin()), Functor> >::type
 operator|(Iterable const& iterable, Functor const& functor){
 
 	typedef decltype(hydra::begin(iterable)) iterator_type;
@@ -208,11 +213,13 @@ template<typename Iterable, typename Functor>
 typename HYDRA_EXTERNAL_NS::thrust::detail::enable_if<
     detail::is_iterable<Iterable>::value &&
     detail::is_hydra_functor<Functor>::value ,
-    Range<decltype(std::declval<Iterable&>().begin()), Functor> >::type
+    Range<decltype(std::declval<Iterable>().begin()), Functor> >::type
 operator|(Iterable&& iterable, Functor const& functor){
 
 	typedef decltype(hydra::begin(iterable)) iterator_type;
-		return Range<iterator_type, Functor>( hydra::begin(iterable),
+	std::cout <<HYDRA_EXTERNAL_NS::thrust::distance(hydra::begin(iterable),
+			hydra::end(iterable))<< std::endl;;
+		return /*Range<iterator_type, Functor>*/make_range( hydra::begin(iterable),
 				hydra::end(iterable), functor);
 }
 

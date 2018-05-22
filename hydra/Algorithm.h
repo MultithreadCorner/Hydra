@@ -20,60 +20,28 @@
  *---------------------------------------------------------------------------*/
 
 /*
- * Iterator.h
+ * Algorithm.h
  *
- *  Created on: 12/05/2018
+ *  Created on: 17/05/2018
  *      Author: Antonio Augusto Alves Junior
  */
 
-#ifndef ITERATOR_H_
-#define ITERATOR_H_
+#ifndef ALGORITHM_H_
+#define ALGORITHM_H_
 
+
+#include <thrust/find.h>
+
+/**
+ * \ingroup algorithm
+ *
+ * \brief This header offer a set of wrappers around thrust algorithms implementing range semantics.
+ */
 namespace hydra {
 
-//direct begin iterator
-template< class C >
-auto begin( C&& c ) -> decltype(c.begin());
-
-template< class C >
-auto begin( const C& c ) -> decltype(c.begin());
-
-template< class T, size_t N >
-T* begin( T (&array)[N] );
-
-//reverse begin iterator
-template< class C >
-auto rbegin( C&& c ) -> decltype(c.rbegin());
-
-template< class C >
-auto rbegin( const C& c ) -> decltype(c.rbegin());
-
-template< class T, size_t N >
-T* rbegin( T (&array)[N] );
-
-//direct end iterator
-template< class C >
-auto end( C&& c ) -> decltype(c.end());
-
-template< class C >
-auto end( const C& c ) -> decltype(c.end());
-
-template< class T, size_t N >
-T* end( T (&array)[N] );
-
-//reverse end iterator
-template< class C >
-auto rend( C&& c ) -> decltype(c.rend());
-
-template< class C >
-auto rend( const C& c ) -> decltype(c.rend());
-
-template< class T, size_t N >
-T* rend( T (&array)[N] );
 
 
 }  // namespace hydra
 
-#include <hydra/detail/Iterator.inl>
 
-#endif /* ITERATOR_H_ */
+#endif /* ALGORITHM_H_ */
