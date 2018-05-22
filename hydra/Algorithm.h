@@ -29,7 +29,10 @@
 #ifndef ALGORITHM_H_
 #define ALGORITHM_H_
 
+#include <hydra/detail/Copy.inl>
 #include <hydra/detail/Sort.inl>
 #include <hydra/detail/Scatter.inl>
+#include <hydra/detail/Gather.inl>
+#include <hydra/detail/ForEach.inl>
 
 #endif /* ALGORITHM_H_ */

@@ -34,8 +34,21 @@
 #include <hydra/detail/BackendPolicy.h>
 #include <hydra/Types.h>
 #include <hydra/detail/external/thrust/copy.h>
+#include <hydra/Range.h>
+#include <utility>
 
 namespace hydra {
+
+
+
+template<typename Iterable_Source, typename Iterable_Target>
+typename std::enable_if<hydra::detail::is_iterable<Iterable_Source>::value
+&& hydra::detail::is_iterable<Iterable_Target>::value,
+Range<decltype(std::declval<Iterable_Target&>().begin())>>::type
+copy(Iterable_Source source, Iterable_Source destination)
+{
+	return HYDRA_EXTERNAL_NS::thrust::copy(source.begin(), source.end(), destination.begin());
+}
 
 template<typename InputIterator, typename OutputIterator>
 OutputIterator copy(InputIterator first, InputIterator last, OutputIterator result)

@@ -81,7 +81,7 @@ int main(int argv, char** argc)
 
 	// calculate the length of a n-dimensional vector
 	auto length = hydra::wrap_lambda(
-			[] __hydra_dual__ ( unsigned n, double* component){
+			[] __hydra_dual__ ( unsigned  n, double* component){
 
 		double result =0;
 
@@ -107,17 +107,19 @@ int main(int argv, char** argc)
 
 		hydra::multiarray<double, 3, hydra::device::sys_t> positions(nentries);
 
-
 		hydra::Random<> Generator{};
 
 		//generate random positions in a box
 		for(size_t i=0; i<3; i++ ){
 			Generator.SetSeed(i);
-			Generator.Uniform(-1.0, 1.0, positions.begin(i), positions.end(i));
+			Generator.Uniform(-1.5, 1.5, positions.begin(i), positions.end(i));
 
 		}
 
 		auto sorted_range = hydra::sort_by_key(positions, hydra::columns(positions, _0,_1 ) | length ) | is_inside;
+
+		hydra::for_each(positions, []( hydra::tuple<double&, double&, double&> a){ a= hydra::tuple<double, double, double>{}; } );
+		hydra::for_each(positions, [](hydra::tuple<double, double, double> a){std::cout << a << std::endl;});
 
 		auto field = hydra::device::vector<int>(2);
 		field[0]=-10;
@@ -132,8 +134,6 @@ int main(int argv, char** argc)
 		std::cout <<sorted_range.size()<< std::endl;;
 		//print elements
 
-		for(size_t i=0; i<nentries; i++ )
-			std::cout << i << " : " << sorted_range[i]<< " : " << mapped[i] << std::endl;
 
 
 	}//device

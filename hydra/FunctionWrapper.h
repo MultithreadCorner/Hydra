@@ -83,8 +83,8 @@ public:
 	/**
 	 * Copy constructor
 	 */
-	__hydra_host__ __hydra_device__	 inline
-	LambdaWrapper(LambdaWrapper<ReturnType(ArgType...), L, N> const& other ):
+	__hydra_host__ __hydra_device__
+	inline	LambdaWrapper(LambdaWrapper<ReturnType(ArgType...), L, N> const& other ):
 	BaseFunctor<LambdaWrapper<ReturnType(ArgType...),L, N>, ReturnType,N>(other),
 	fLambda( other.GetLambda())
 	{	}
@@ -92,8 +92,8 @@ public:
 	/**
 	 * Assignment operator
 	 */
-	__hydra_host__ __hydra_device__	 inline
-	LambdaWrapper<ReturnType(ArgType...), L, N>
+	__hydra_host__ __hydra_device__
+	inline LambdaWrapper<ReturnType(ArgType...), L, N>
 	operator=(LambdaWrapper<ReturnType(ArgType...), L, N> const& other )
 	{
 		if(this==&other) return *this;
@@ -106,13 +106,13 @@ public:
 	/**
 	 * Get the underlying lambda
 	 */
-	__hydra_host__ __hydra_device__	 inline
-	const L& GetLambda() const {return fLambda; }
+	__hydra_host__ __hydra_device__
+	inline const L& GetLambda() const {return fLambda; }
 
 
 	template<size_t M=N, typename ...T>
-	__hydra_host__ __hydra_device__ inline
-	typename std::enable_if< (M>0) &&( (sizeof...(ArgType) ==(sizeof ...(T)+2))) , ReturnType >::type
+	__hydra_host__ __hydra_device__
+	inline typename std::enable_if< (M>0) &&( (sizeof...(ArgType) ==(sizeof ...(T)+2))) , ReturnType >::type
 	Evaluate(T... a)   const {
 
 		static_assert(
@@ -123,8 +123,8 @@ public:
 	}
 
 	template<size_t M=N, typename T>
-	__hydra_host__ __hydra_device__ inline
-	typename std::enable_if< (M>0)&& sizeof...(ArgType)==3, ReturnType >::type
+	__hydra_host__ __hydra_device__
+	inline typename std::enable_if< (M>0)&& sizeof...(ArgType)==3, ReturnType >::type
 	Evaluate(T a)    const {
 
 		static_assert( std::is_convertible<HYDRA_EXTERNAL_NS::thrust::tuple<unsigned int,  const hydra::Parameter*, T> , HYDRA_EXTERNAL_NS::thrust::tuple<ArgType...>>::value ,
@@ -133,8 +133,8 @@ public:
 	}
 
 	template< typename ...T, size_t M=N>
-	__hydra_host__ __hydra_device__ inline
-	typename std::enable_if< (M==0) &&( (sizeof...(ArgType))>1), ReturnType >::type
+	__hydra_host__ __hydra_device__
+	inline typename std::enable_if< (M==0) &&( (sizeof...(ArgType))>1), ReturnType >::type
 	Evaluate(T...a)   const {
 
 		static_assert( std::is_convertible<HYDRA_EXTERNAL_NS::thrust::tuple<T...> , HYDRA_EXTERNAL_NS::thrust::tuple<ArgType...>>::value ,
@@ -143,8 +143,8 @@ public:
 	}
 
 	template<typename ...T, size_t M=N>
-	__hydra_host__ __hydra_device__ inline
-	typename std::enable_if< (M==0)&& sizeof...(ArgType)==1, ReturnType >::type
+	__hydra_host__ __hydra_device__
+	inline typename std::enable_if< (M==0)&& sizeof...(ArgType)==1, ReturnType >::type
 	Evaluate(T...a)   const {
 
 		static_assert( std::is_convertible<HYDRA_EXTERNAL_NS::thrust::tuple<T...> , HYDRA_EXTERNAL_NS::thrust::tuple<ArgType...>>::value ,

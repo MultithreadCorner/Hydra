@@ -34,21 +34,19 @@
 #include <hydra/detail/BackendPolicy.h>
 #include <hydra/Types.h>
 #include <hydra/detail/external/thrust/for_each.h>
+#include <utility>
 
 namespace hydra {
 
-template<typename InputIterator, typename Functor>
-InputIterator for_each(InputIterator first, InputIterator last, Functor const functor)
+template<typename Iterable, typename Functor>
+	typename std::enable_if<hydra::detail::is_iterable<Iterable>::value,
+	Range<decltype(std::declval<Iterable&>().begin())>>::type
+for_each(Iterable&& iterable, Functor const& functor)
 {
-	return HYDRA_EXTERNAL_NS::thrust::for_each(first, last, functor);
+	HYDRA_EXTERNAL_NS::thrust::for_each( iterable.begin(), iterable.end(), functor);
+	return make_range( iterable.begin(), iterable.end());
 }
 
-template<detail::Backend Backend, typename InputIterator, typename Functor>
-InputIterator for_each(hydra::detail::BackendPolicy<Backend> const& policy, InputIterator first,
-		InputIterator last, Functor const functor)
-{
-	return HYDRA_EXTERNAL_NS::thrust::for_each( policy, first, last, functor);
-}
 
 }  // namespace hydra
 

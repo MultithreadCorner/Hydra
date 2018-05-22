@@ -35,7 +35,7 @@
 #include <hydra/detail/Config.h>
 #include <hydra/detail/BackendPolicy.h>
 #include <utility>
-#include <hydra/detail/external/thrust/scatter.h>
+#include <hydra/detail/external/thrust/gather.h>
 #include <hydra/Range.h>
 
 namespace hydra {

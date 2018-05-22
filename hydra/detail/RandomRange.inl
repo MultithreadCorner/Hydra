@@ -39,12 +39,6 @@
 
 namespace hydra {
 
-namespace detail {
-
-
-
-}  // namespace detail
-
 template<typename Value_Type>
 Range<HYDRA_EXTERNAL_NS::thrust::transform_iterator<
 detail::RndGauss<Value_Type, HYDRA_EXTERNAL_NS::thrust::random::default_random_engine> ,
@@ -77,8 +71,8 @@ random_uniform_range(const Value_Type& min, const Value_Type& max, size_t seed )
 	index_t last(std::numeric_limits<ssize_t>::max());
 
 	return make_range(
-			HYDRA_EXTERNAL_NS::thrust::transform_iterator<uniform_t, index_t, double>(first, uniform_t(seed, mean, width )),
-	        HYDRA_EXTERNAL_NS::thrust::transform_iterator<uniform_t, index_t, double>( last, uniform_t(seed, mean, width )));
+			HYDRA_EXTERNAL_NS::thrust::transform_iterator<uniform_t, index_t, double>(first, uniform_t(seed, min, max )),
+	        HYDRA_EXTERNAL_NS::thrust::transform_iterator<uniform_t, index_t, double>( last, uniform_t(seed, min, max )));
 
 }
 
