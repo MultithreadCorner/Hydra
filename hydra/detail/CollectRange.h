@@ -20,20 +20,38 @@
  *---------------------------------------------------------------------------*/
 
 /*
- * Algorithm.h
+ * CollectRange.h
  *
- *  Created on: 17/05/2018
+ *  Created on: 19/05/2018
  *      Author: Antonio Augusto Alves Junior
  */
 
-#ifndef ALGORITHM_H_
-#define ALGORITHM_H_
-
-#include <hydra/detail/Copy.inl>
-#include <hydra/detail/Sort.inl>
-#include <hydra/detail/Scatter.inl>
-#include <hydra/detail/Gather.inl>
-#include <hydra/detail/ForEach.inl>
+#ifndef COLLECTRANGE_H_
+#define COLLECTRANGE_H_
 
 
-#endif /* ALGORITHM_H_ */
+
+namespace hydra {
+
+
+template<typename Iterable_Index, typename Iterable_Values>
+auto collect( Iterable_Index& indexing_scheme, Iterable_Values& collected_values)
+-> typename std::enable_if<hydra::detail::is_iterable<Iterable_Index>::value
+					    && hydra::detail::is_iterable<Iterable_Values>::value,
+Range<HYDRA_EXTERNAL_NS::thrust::permutation_iterator<
+		decltype(std::declval<Iterable_Values&>().begin()),
+		decltype(std::declval<Iterable_Index&>().begin())>
+>::type
+{
+	typedef HYDRA_EXTERNAL_NS::thrust::permutation_iterator<Iterable_Values,Iterable_Index> collect_iterator;
+	return make_range(collect_iterator(begin(collected_values), begin(indexing_scheme) ),
+			collect_iterator(begin(collected_values), end(indexing_scheme)) );
+
+
+}
+
+}  // namespace hydra
+
+
+
+#endif /* COLLECTRANGE_H_ */

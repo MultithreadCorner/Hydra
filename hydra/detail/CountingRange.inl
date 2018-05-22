@@ -1,6 +1,6 @@
 /*----------------------------------------------------------------------------
  *
- *   Copyright (C) 2016-2017 Antonio Augusto Alves Junior
+ *   Copyright (C) 2016 - 2018 Antonio Augusto Alves Junior
  *
  *   This file is part of Hydra Data Analysis Framework.
  *
@@ -20,40 +20,27 @@
  *---------------------------------------------------------------------------*/
 
 /*
- * ForEach.h
+ * CountingRange.inl
  *
- *  Created on: 04/05/2018
+ *  Created on: 20/05/2018
  *      Author: Antonio Augusto Alves Junior
  */
 
-#ifndef FOREACH_H_
-#define FOREACH_H_
-
+#ifndef COUNTINGRANGE_INL_
+#define COUNTINGRANGE_INL_
 
 #include <hydra/detail/Config.h>
-#include <hydra/detail/BackendPolicy.h>
-#include <hydra/Types.h>
-#include <hydra/detail/external/thrust/for_each.h>
+#include <hydra/detail/external/thrust/iterator/counting_iterator.h>
 
 namespace hydra {
 
-template<typename InputIterator, typename Functor>
-InputIterator for_each(InputIterator first, InputIterator last, Functor const functor)
-{
-	return HYDRA_EXTERNAL_NS::thrust::for_each(first, last, functor);
-}
+Range<HYDRA_EXTERNAL_NS::thrust::counting_iterator<long int>>
+range(long int first, long int last){
 
-template<detail::Backend Backend, typename InputIterator, typename Functor>
-InputIterator for_each(hydra::detail::BackendPolicy<Backend> const& policy, InputIterator first,
-		InputIterator last, Functor const functor)
-{
-	return HYDRA_EXTERNAL_NS::thrust::for_each( policy, first, last, functor);
+	return make_range( HYDRA_EXTERNAL_NS::thrust::counting_iterator<long int>(first),
+			HYDRA_EXTERNAL_NS::thrust::counting_iterator<long int>(last) );
 }
 
 }  // namespace hydra
 
-
-
-
-
-#endif /* FOREACH_H_ */
+#endif /* COUNTINGRANGE_INL_ */

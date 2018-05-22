@@ -44,6 +44,9 @@ class Range;
 
 #include <hydra/detail/Range1.inl>
 #include <hydra/detail/Range2.inl>
+#include <hydra/detail/CountingRange.inl>
+#include <hydra/detail/ConstantRange.inl>
+#include <hydra/detail/RandomRange.inl>
 
 
 #endif /* RANGE_H_ */

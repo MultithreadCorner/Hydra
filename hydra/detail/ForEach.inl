@@ -1,6 +1,6 @@
 /*----------------------------------------------------------------------------
  *
- *   Copyright (C) 2016 - 2018 Antonio Augusto Alves Junior
+ *   Copyright (C) 2016-2017 Antonio Augusto Alves Junior
  *
  *   This file is part of Hydra Data Analysis Framework.
  *
@@ -20,20 +20,38 @@
  *---------------------------------------------------------------------------*/
 
 /*
- * Algorithm.h
+ * ForEach.h
  *
- *  Created on: 17/05/2018
+ *  Created on: 04/05/2018
  *      Author: Antonio Augusto Alves Junior
  */
 
-#ifndef ALGORITHM_H_
-#define ALGORITHM_H_
-
-#include <hydra/detail/Copy.inl>
-#include <hydra/detail/Sort.inl>
-#include <hydra/detail/Scatter.inl>
-#include <hydra/detail/Gather.inl>
-#include <hydra/detail/ForEach.inl>
+#ifndef FOREACH_H_
+#define FOREACH_H_
 
 
-#endif /* ALGORITHM_H_ */
+#include <hydra/detail/Config.h>
+#include <hydra/detail/BackendPolicy.h>
+#include <hydra/Types.h>
+#include <hydra/detail/external/thrust/for_each.h>
+#include <utility>
+
+namespace hydra {
+
+template<typename Iterable, typename Functor>
+	typename std::enable_if<hydra::detail::is_iterable<Iterable>::value,
+	Range<decltype(std::declval<Iterable&>().begin())>>::type
+for_each(Iterable&& iterable, Functor const& functor)
+{
+	HYDRA_EXTERNAL_NS::thrust::for_each( iterable.begin(), iterable.end(), functor);
+	return make_range( iterable.begin(), iterable.end());
+}
+
+
+}  // namespace hydra
+
+
+
+
+
+#endif /* FOREACH_H_ */

@@ -20,20 +20,31 @@
  *---------------------------------------------------------------------------*/
 
 /*
- * Algorithm.h
+ * ConstantRange.inl
  *
- *  Created on: 17/05/2018
+ *  Created on: 20/05/2018
  *      Author: Antonio Augusto Alves Junior
  */
 
-#ifndef ALGORITHM_H_
-#define ALGORITHM_H_
+#ifndef CONSTANTRANGE_INL_
+#define CONSTANTRANGE_INL_
 
-#include <hydra/detail/Copy.inl>
-#include <hydra/detail/Sort.inl>
-#include <hydra/detail/Scatter.inl>
-#include <hydra/detail/Gather.inl>
-#include <hydra/detail/ForEach.inl>
+#include <hydra/detail/Config.h>
+#include <hydra/detail/external/thrust/iterator/constant_iterator.h>
+
+namespace hydra {
+
+template<typename Value_Type>
+Range<HYDRA_EXTERNAL_NS::thrust::constant_iterator<Value_Type>>
+crange(const Value_Type&  value){
+
+	return make_range( HYDRA_EXTERNAL_NS::thrust::constant_iterator<Value_Type>(value),
+			HYDRA_EXTERNAL_NS::thrust::constant_iterator<Value_Type>(value) );
+}
+
+}  // namespace hydra
 
 
-#endif /* ALGORITHM_H_ */
+
+
+#endif /* CONSTANTRANGE_INL_ */
