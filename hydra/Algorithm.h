@@ -34,6 +34,7 @@
 #include <hydra/detail/Scatter.inl>
 #include <hydra/detail/Gather.inl>
 #include <hydra/detail/ForEach.inl>
-
+#include <hydra/detail/Reduce.inl>
+#include <hydra/detail/Transform.inl>
 
 #endif /* ALGORITHM_H_ */

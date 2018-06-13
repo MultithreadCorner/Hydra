@@ -62,7 +62,7 @@
 #include <hydra/UserParameters.h>
 #include <hydra/Pdf.h>
 #include <hydra/AddPdf.h>
-#include <hydra/Copy.h>
+#include <hydra/Algorithm.h>
 #include <hydra/Filter.h>
 #include <hydra/GaussKronrodQuadrature.h>
 #include <hydra/SPlot.h>

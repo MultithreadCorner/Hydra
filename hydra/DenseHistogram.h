@@ -36,7 +36,7 @@
 #include <hydra/detail/Dimensionality.h>
 #include <hydra/detail/functors/GetBinCenter.h>
 #include <hydra/Range.h>
-#include <hydra/Copy.h>
+#include <hydra/Algorithm.h>
 
 #include <hydra/detail/external/thrust/iterator/counting_iterator.h>
 

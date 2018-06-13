@@ -70,7 +70,7 @@
 #include <hydra/Function.h>
 #include <hydra/FunctorArithmetic.h>
 #include <hydra/FunctionWrapper.h>
-#include <hydra/Copy.h>
+#include <hydra/Algorithm.h>
 #include <hydra/Tuple.h>
 #include <hydra/host/System.h>
 #include <hydra/device/System.h>

@@ -48,7 +48,7 @@
 #include <hydra/Function.h>
 #include <hydra/FunctionWrapper.h>
 #include <hydra/Random.h>
-#include <hydra/Copy.h>
+#include <hydra/Algorithm.h>
 
 /*-------------------------------------
  * Include classes from ROOT to fill

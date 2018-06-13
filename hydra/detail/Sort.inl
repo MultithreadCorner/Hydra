@@ -32,7 +32,7 @@
 #include <hydra/detail/Config.h>
 #include <hydra/detail/BackendPolicy.h>
 #include <utility>
-#include <hydra/detail/external/thrust/find.h>
+#include <hydra/detail/external/thrust/sort.h>
 #include <hydra/Range.h>
 
 
@@ -40,7 +40,7 @@ namespace hydra {
 
 template<typename Iterable, typename Iterator=decltype(std::declval<Iterable>().begin())>
 typename std::enable_if<hydra::detail::is_iterable<Iterable>::value,
-Range<decltype(std::declval<Iterable&&>().begin())>>::type
+Range<decltype(std::declval<Iterable&>().begin())>>::type
 sort(Iterable& iterable){
 
 	HYDRA_EXTERNAL_NS::thrust::sort(iterable.begin(), iterable.end() );
@@ -51,7 +51,7 @@ sort(Iterable& iterable){
 template<typename Iterable, typename Functor,
 typename Iterator=decltype(std::declval<Iterable>().begin())>
 typename std::enable_if<hydra::detail::is_iterable<Iterable>::value,
-Range<decltype(std::declval<Iterable&&>().begin())>>::type
+Range<decltype(std::declval<Iterable&>().begin())>>::type
 sort(Iterable& iterable, Functor const& comparator){
 
 	HYDRA_EXTERNAL_NS::thrust::sort(iterable.begin(), iterable.end(), comparator);
@@ -64,7 +64,7 @@ typename Iterator=decltype(std::declval<Iterable>().begin()),
 typename Iterator_Key=decltype(std::declval<Iterable_Key>().begin()),
 typename Value_Key=decltype(*std::declval<Iterator_Key>().begin()) >
 typename std::enable_if<hydra::detail::is_iterable<Iterable>::value,
-Range<decltype(std::declval<Iterable&&>().begin())>>::type
+Range<decltype(std::declval<Iterable&>().begin())>>::type
 sort_by_key(Iterable& iterable, Iterable_Key& keys){
 
 	using HYDRA_EXTERNAL_NS::thrust::system::detail::generic::select_system;
@@ -85,7 +85,7 @@ template<typename Iterable,typename Iterator_Key, typename Functor,
 typename Iterator=decltype(std::declval<Iterable>().begin()),
 typename Value_Key=decltype(*std::declval<Range<Iterator_Key,Functor>>().begin()) >
 typename std::enable_if<hydra::detail::is_iterable<Iterable>::value,
-Range<decltype(std::declval<Iterable&&>().begin())>>::type
+Range<decltype(std::declval<Iterable&>().begin())>>::type
 sort_by_key(Iterable& iterable, Range<Iterator_Key,Functor>&& keys){
 
 	using HYDRA_EXTERNAL_NS::thrust::system::detail::generic::select_system;
