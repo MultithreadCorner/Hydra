@@ -45,9 +45,10 @@ template<typename Iterable_Source, typename Iterable_Target>
 typename std::enable_if<hydra::detail::is_iterable<Iterable_Source>::value
 && hydra::detail::is_iterable<Iterable_Target>::value,
 Range<decltype(std::declval<Iterable_Target&>().begin())>>::type
-copy(Iterable_Source source, Iterable_Source destination)
+copy(Iterable_Source& source, Iterable_Source& destination)
 {
-	return HYDRA_EXTERNAL_NS::thrust::copy(source.begin(), source.end(), destination.begin());
+	HYDRA_EXTERNAL_NS::thrust::copy(source.begin(), source.end(), destination.begin());
+	return make_range( destination.begin(), destination.end());
 }
 
 template<typename InputIterator, typename OutputIterator>
