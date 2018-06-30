@@ -194,7 +194,7 @@ int main(int argv, char** argc)
 
 
 			data_h.resize( range.size() );
-			hydra::copy( range.begin(), range.end(), data_h.begin());
+			hydra::copy( range, data_h);
 
 		}
 

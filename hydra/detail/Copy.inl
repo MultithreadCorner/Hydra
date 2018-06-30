@@ -45,12 +45,13 @@ template<typename Iterable_Source, typename Iterable_Target>
 typename std::enable_if<hydra::detail::is_iterable<Iterable_Source>::value
 && hydra::detail::is_iterable<Iterable_Target>::value,
 Range<decltype(std::declval<Iterable_Target&>().begin())>>::type
-copy(Iterable_Source& source, Iterable_Source& destination)
+copy(Iterable_Source& source, Iterable_Target& destination)
 {
 	HYDRA_EXTERNAL_NS::thrust::copy(source.begin(), source.end(), destination.begin());
 	return make_range( destination.begin(), destination.end());
 }
 
+/*
 template<typename InputIterator, typename OutputIterator>
 OutputIterator copy(InputIterator first, InputIterator last, OutputIterator result)
 {
@@ -63,6 +64,7 @@ OutputIterator copy(hydra::detail::BackendPolicy<Backend> const& policy, InputIt
 {
 	return HYDRA_EXTERNAL_NS::thrust::copy( policy, first, last, result);
 }
+*/
 
 }  // namespace hydra
 

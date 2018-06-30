@@ -52,6 +52,7 @@ gather(Iterable_Source& source, Iterable_Map& map, Iterable_Target& target){
 	return make_range(target.begin(), target.end() );
 }
 
+/*
 template<typename Iterable_Source, typename Iterable_Target, typename Iterator_Map>
 typename std::enable_if<hydra::detail::is_iterable<Iterable_Source>::value
 					 && hydra::detail::is_iterable<Iterable_Target>::value,
@@ -74,7 +75,7 @@ gather(Range<Iterator_Source>&& source, Range<Iterator_Map>&& map, Iterable_Targ
 	return make_range(target.begin(), target.end() );
 }
 
-
+*/
 
 
 

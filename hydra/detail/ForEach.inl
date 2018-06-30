@@ -41,7 +41,7 @@ namespace hydra {
 template<typename Iterable, typename Functor>
 	typename std::enable_if<hydra::detail::is_iterable<Iterable>::value,
 	Range<decltype(std::declval<Iterable&>().begin())>>::type
-for_each(Iterable&& iterable, Functor const& functor)
+for_each(Iterable& iterable, Functor const& functor)
 {
 	HYDRA_EXTERNAL_NS::thrust::for_each( iterable.begin(), iterable.end(), functor);
 	return make_range( iterable.begin(), iterable.end());

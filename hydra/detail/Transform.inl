@@ -44,7 +44,7 @@ template<typename Iterable_Input, typename Iterable_Output, typename Functor,
 typename Iterator=decltype(std::declval<Iterable_Output>().begin())>
 typename std::enable_if<hydra::detail::is_iterable<Iterable_Output>::value,
 Range<decltype(std::declval<Iterable_Output&>().begin())>>::type
-transform(Iterable_Input& iterable_input, Iterable_Output& iterable_output,  Functor const& unary_functor){
+transform(Iterable_Input const& iterable_input, Iterable_Output& iterable_output,  Functor const& unary_functor){
 
 	HYDRA_EXTERNAL_NS::thrust::transform(iterable_input.begin(), iterable_input.end(),
 			iterable_output.begin(), unary_functor);
