@@ -31,6 +31,8 @@
 
 #include <hydra/FCN.h>
 #include <hydra/Pdf.h>
+#include <hydra/detail/utility/Generic.h>
+#include <hydra/Range.h>
 #include <hydra/detail/functors/LogLikelihood1.h>
 #include <hydra/detail/external/thrust/transform_reduce.h>
 #include <hydra/detail/external/thrust/inner_product.h>
@@ -163,6 +165,16 @@ auto make_loglikehood_fcn(Pdf<Functor,Integrator> const& pdf, Iterator first, It
 -> LogLikelihoodFCN< Pdf<Functor,Integrator>, Iterator , Iterators... >
 {
 	return LogLikelihoodFCN< Pdf<Functor,Integrator>, Iterator >(pdf, first, last, weights...);
+}
+
+template< typename Functor, typename Integrator, typename Iterable, typename ...Iterables, typename U >
+inline typename std::enable_if< hydra::detail::is_iterable<Iterable>::value && U::value,
+LogLikelihoodFCN< Pdf<Functor,Integrator>,
+                  decltype(std::declval<Iterable&>().begin()),
+                  decltype(std::declval<Iterables&>().begin())... >>::type
+make_loglikehood_fcn(Pdf<Functor,Integrator> const& pdf, Iterable& points, Iterables&... weights )
+{
+	return make_loglikehood_fcn(pdf, points.begin(), points.end(), weights.begin()...);
 }
 
 }  // namespace hydra

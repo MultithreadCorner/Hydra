@@ -32,6 +32,7 @@
 #include <hydra/detail/Config.h>
 #include <hydra/detail/BackendPolicy.h>
 #include <hydra/Distance.h>
+#include <hydra/detail/Iterable_traits.h>
 #include <hydra/detail/external/thrust/iterator/iterator_traits.h>
 
 

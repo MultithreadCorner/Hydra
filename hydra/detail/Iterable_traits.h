@@ -36,6 +36,19 @@ namespace hydra {
 
 namespace detail {
 
+// Primary template
+template <typename T, typename U= int>
+struct is_iterable : std::false_type { };
+
+// Specialization for U = int
+template <typename T>
+struct is_iterable<T, decltype (
+        hydra::begin(std::declval<T&>()) != hydra::end(std::declval<T&>()),
+        void(), //'operator ,' overload ?
+        ++std::declval<decltype(hydra::begin(std::declval<T&>()))&>(),
+        void(*hydra::begin(std::declval<T&>())),0)> : std::true_type { };
+
+
 template <typename T>
     auto is_iterable_impl(int)
     -> decltype (
@@ -48,8 +61,9 @@ template <typename T>
     template <typename T>
     std::false_type is_iterable_impl(...);
 
-template <typename T>
-using is_iterable = decltype(is_iterable_impl<T>(0));
+//template <typename T>
+//using is_iterable = decltype(is_iterable_impl<T>(0));
+
 
 
 template <typename T>

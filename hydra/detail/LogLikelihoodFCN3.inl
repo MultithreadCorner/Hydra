@@ -165,11 +165,29 @@ public:
  * @param weights iteraror pointing to begin of weights range
  * @return
  */
-template<typename... Pdfs,  typename Iterator, typename ...Iterators>
+
+/*template<typename... Pdfs,  typename Iterator, typename ...Iterators>
 auto make_loglikehood_fcn(PDFSumNonExtendable<Pdfs...>const& pdf, Iterator first, Iterator last, Iterators... weights)
 -> LogLikelihoodFCN< PDFSumNonExtendable<Pdfs...>, Iterator,Iterators...  >
 {
 	return LogLikelihoodFCN< PDFSumNonExtendable<Pdfs...>, Iterator,Iterators... >(pdf,first,last,weights...);
+}
+*/
+template<typename...Functors, typename ...Integrators,  typename Iterator, typename ...Iterators>
+auto make_loglikehood_fcn(PDFSumNonExtendable<Pdf<Functors,Integrators>...> const& functor, Iterator first, Iterator last, Iterators... weights )
+-> LogLikelihoodFCN< PDFSumNonExtendable<Pdf<Functors,Integrators>...>, Iterator,Iterators... >
+{
+	return LogLikelihoodFCN< PDFSumNonExtendable<Pdf<Functors,Integrators>...>, Iterator,Iterators... >(functor,first,last,weights...);
+}
+
+template<typename...Functors, typename ...Integrators, typename Iterable, typename ...Iterables, typename U >
+inline typename std::enable_if< hydra::detail::is_iterable<Iterable>::value && U::value,
+LogLikelihoodFCN<  PDFSumNonExtendable<Pdf<Functors,Integrators>...>,
+                     decltype(std::declval<Iterable>().begin()),
+                     decltype(std::declval<Iterables>().begin())... > >::type
+make_loglikehood_fcn(PDFSumNonExtendable<Pdf<Functors,Integrators>...> const& functor, Iterable& points, Iterables&... weights )
+{
+	return make_loglikehood_fcn( functor, points.begin(), points.end(), weights.begin()...);
 }
 
 }  // namespace hydra
