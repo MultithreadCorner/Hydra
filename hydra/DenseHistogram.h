@@ -370,7 +370,12 @@ public:
 				std::numeric_limits<double>::max();
 	}
 
-    inline Range<iterator> GetBinsContents() const {
+    inline Range<const_iterator> GetBinsContents() const {
+
+    	return make_range(begin(), end());
+    }
+
+    inline Range<iterator> GetBinsContents() {
 
     	return make_range(begin(), end());
     }
@@ -722,7 +727,7 @@ public:
 
 	inline Range<HYDRA_EXTERNAL_NS::thrust::transform_iterator<detail::GetBinCenter<T,1>,
 	HYDRA_EXTERNAL_NS::thrust::counting_iterator<size_t>  > >
-	GetBinsCenters() {
+	GetBinsCenters() const {
 
 
 		HYDRA_EXTERNAL_NS::thrust::transform_iterator<detail::GetBinCenter<T,1>,
@@ -734,10 +739,17 @@ public:
 		return make_range( first , first+fNBins);
 	}
 
-	inline Range<iterator> GetBinsContents()  {
+	inline Range<const_iterator> GetBinsContents() const {
 
 	    	return make_range(begin(),begin()+fNBins );
 	}
+
+	inline Range<iterator> GetBinsContents()  {
+
+		    	return make_range(begin(),begin()+fNBins );
+		}
+
+
 	//stl interface
 	pointer data(){
 		return fContents.data();

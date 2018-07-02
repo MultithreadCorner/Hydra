@@ -20,21 +20,15 @@
  *---------------------------------------------------------------------------*/
 
 /*
- * range_semantics.inl
+ * zipping_iterables.inl
  *
- *  Created on: 15/05/2018
+ *  Created on: 02/07/2018
  *      Author: Antonio Augusto Alves Junior
  */
 
-#ifndef RANGE_SEMANTICS_INL_
-#define RANGE_SEMANTICS_INL_
+#ifndef ZIPPING_ITERABLES_INL_
+#define ZIPPING_ITERABLES_INL_
 
-/**
- * \example range_semantics.inl
- *
- * This example shows how to use hydra range semantic
- * to perform lazy calculations.
- */
 
 //
 #include <iostream>
@@ -49,6 +43,8 @@
 #include <hydra/Placeholders.h>
 #include <hydra/Random.h>
 #include <hydra/Algorithm.h>
+#include <hydra/Zip.h>
+#include <hydra/Range.h>
 
 //command line arguments
 #include <tclap/CmdLine.h>
@@ -79,25 +75,6 @@ int main(int argv, char** argc)
 	}
 
 
-	// calculate the length of a n-dimensional vector
-	auto length = hydra::wrap_lambda(
-			[] __hydra_dual__ ( unsigned  n, double* component){
-
-		double result =0;
-
-		for(unsigned i=0; i<n; i++)
-			result += component[i]* component[i];
-
-		return ::sqrt(result);
-	});
-
-	// flag according distance to origin
-	auto is_inside =  hydra::wrap_lambda(
-			[] __hydra_dual__ (  unsigned n, double* radi){
-
-		return radi[0]<1.0;
-	});
-
 	//device
 	{
 		std::cout << "=========================================="<<std::endl;
@@ -105,32 +82,34 @@ int main(int argv, char** argc)
 		std::cout << "=========================================="<<std::endl;
 
 
-		hydra::multiarray<double, 3, hydra::device::sys_t> positions(nentries);
+		hydra::device::vector<double> x( nentries , 1.0);
+		hydra::device::vector<double> y( nentries , 2.0);
+		hydra::device::vector<double> z( nentries , 3.0);
 
-		hydra::Random<> Generator{};
+		auto zipped_range = hydra::zip(	hydra::range(0,  nentries), x,y,z);
 
-		//generate random positions in a box
-		for(size_t i=0; i<3; i++ ){
+		//print
+		hydra::for_each(zipped_range, [] __hydra_dual__ ( hydra::tuple<long, double&, double&, double&> a){
 
-			Generator.SetSeed(i);
-			Generator.Uniform(-1.5, 1.5, positions.begin(i), positions.end(i));
-
-		}
-
-		auto sorted_range = hydra::sort_by_key(positions, hydra::columns(positions, _0,_1 ) | length ) | is_inside;
-
-		hydra::for_each(positions, [] __hydra_dual__ ( hydra::tuple<double&, double&, double&> a){ a= hydra::tuple<double, double, double>{}; } );
-		hydra::for_each(positions, [] __hydra_dual__ ( hydra::tuple<double, double, double> a){
-
-			printf("%f %f %f", hydra::get<0>(a),hydra::get<1>(a), hydra::get<2>(a));
+			printf("row i = %d : x = %f, y = %f, z = %f\n", hydra::get<0>(a),hydra::get<1>(a), hydra::get<2>(a), hydra::get<3>(a));
 
 		});
 
-		auto field = hydra::device::vector<int>(2);
-		field[0]=-10;
-		field[1]=10;
+		//modify
+		hydra::for_each(zipped_range, [] __hydra_dual__ ( hydra::tuple<long, double&, double&, double&> a){
 
+			hydra::get<1>(a) = 10;
+			hydra::get<2>(a) = 20;
+			hydra::get<3>(a) = 30;
 
+		});
+
+		//print again
+		hydra::for_each(zipped_range, [] __hydra_dual__ ( hydra::tuple<long, double&, double&, double&> a){
+
+			printf("row i = %d : x = %f, y = %f, z = %f\n", hydra::get<0>(a),hydra::get<1>(a), hydra::get<2>(a), hydra::get<3>(a));
+
+		});
 
 
 	}//device
@@ -141,4 +120,6 @@ int main(int argv, char** argc)
 
 
 
-#endif /* RANGE_SEMANTICS_INL_ */
+
+
+#endif /* ZIPPING_ITERABLES_INL_ */

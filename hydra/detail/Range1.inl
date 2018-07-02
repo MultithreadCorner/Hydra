@@ -92,6 +92,10 @@ public:
 
 	Iterator   end(){ return fEnd;};
 
+	const Iterator begin() const { return fBegin;};
+
+	const Iterator   end() const { return fEnd;};
+
 
 
 	size_t size() { return hydra::distance(fBegin, fEnd);}

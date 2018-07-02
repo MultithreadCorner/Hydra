@@ -82,9 +82,9 @@ public:
 
 	iterator   end(){ return iterator(fEnd, fFunctor); };
 
-	iterator begin()const{ return iterator(fBegin, fFunctor); };
+	const	iterator begin()const{ return iterator(fBegin, fFunctor); };
 
-		iterator   end()const{ return iterator(fEnd, fFunctor); };
+	const	iterator   end()const{ return iterator(fEnd, fFunctor); };
 
 
 

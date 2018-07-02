@@ -47,10 +47,10 @@ template<typename ...Iterables>
 typename std::enable_if< detail::all_true< detail::is_iterable<Iterables>::value...>::value,
 Range< HYDRA_EXTERNAL_NS::thrust::zip_iterator<
 	decltype(HYDRA_EXTERNAL_NS::thrust::make_tuple(std::declval<Iterables&>().begin()...))>>>::type
-zip(Iterables&... iterables){
+zip(Iterables&&... iterables){
 
-	return make_range( HYDRA_EXTERNAL_NS::thrust::make_zip_iterator(HYDRA_EXTERNAL_NS::thrust::make_tuple(iterables.begin()...)),
-			HYDRA_EXTERNAL_NS::thrust::make_zip_iterator(HYDRA_EXTERNAL_NS::thrust::make_tuple(iterables.end()...)) );
+	return make_range( HYDRA_EXTERNAL_NS::thrust::make_zip_iterator(HYDRA_EXTERNAL_NS::thrust::make_tuple(std::forward<Iterables>(iterables).begin()...)),
+			HYDRA_EXTERNAL_NS::thrust::make_zip_iterator(HYDRA_EXTERNAL_NS::thrust::make_tuple(std::forward<Iterables>(iterables).end()...)) );
 }
 
 
