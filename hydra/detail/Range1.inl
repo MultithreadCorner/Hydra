@@ -92,9 +92,9 @@ public:
 
 	Iterator   end(){ return fEnd;};
 
-	const Iterator begin() const { return fBegin;};
+	Iterator begin() const { return fBegin;};
 
-	const Iterator   end() const { return fEnd;};
+	Iterator   end() const { return fEnd;};
 
 
 

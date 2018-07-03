@@ -75,6 +75,9 @@ class DenseHistogram< T, N,  detail::BackendPolicy<BACKEND>, detail::multidimens
 
 public:
 
+	//tag
+	typedef   void hydra_dense_histogram_tag;
+
 	DenseHistogram()=delete;
 
 
@@ -741,12 +744,12 @@ public:
 
 	inline Range<const_iterator> GetBinsContents() const {
 
-	    	return make_range(begin(),begin()+fNBins );
+	    	return make_range(begin(), end());
 	}
 
 	inline Range<iterator> GetBinsContents()  {
 
-		    	return make_range(begin(),begin()+fNBins );
+		    	return make_range(begin(), end());
 		}
 
 

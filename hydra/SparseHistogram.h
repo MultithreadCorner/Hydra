@@ -92,6 +92,9 @@ class SparseHistogram<T, N,  detail::BackendPolicy<BACKEND>, detail::multidimens
 
 public:
 
+	//tag
+	typedef   void hydra_sparse_histogram_tag;
+
 	SparseHistogram()=delete;
 
 	explicit SparseHistogram( std::array<size_t , N> const& grid,
