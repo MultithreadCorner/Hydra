@@ -124,13 +124,8 @@ template< typename Functor, typename Integrator, typename Iterable, typename ...
 typename U =typename std::conditional<sizeof...(Iterables)==0, std::true_type, detail::all_true< detail::is_iterable<Iterables>::value...> >::type >
 inline typename std::enable_if< (!hydra::detail::is_hydra_dense_histogram<Iterable>::value) &&
 								(!hydra::detail::is_hydra_sparse_histogram<Iterable>::value) &&
-<<<<<<< HEAD
-								  hydra::detail::is_iterable<Iterable>::value &&
-								  U::value,
-=======
 								hydra::detail::is_iterable<Iterable>::value &&
 								U::value,
->>>>>>> f662e73616aa0a7ace241c556bee2063918b0ee4
 LogLikelihoodFCN< Pdf<Functor,Integrator>, decltype(std::declval< const Iterable&>().begin()),
                   decltype(std::declval< const Iterables&>().begin())... >>::type
 make_loglikehood_fcn(Pdf<Functor,Integrator> const& pdf, Iterable const& points, Iterables const&... weights );
