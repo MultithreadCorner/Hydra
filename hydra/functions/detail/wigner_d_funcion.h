@@ -30,10 +30,35 @@
 #ifndef WIGNER_D_FUNCION_H_
 #define WIGNER_D_FUNCION_H_
 
+
+namespace hydra {
+
+
 template<int I>
 struct _half{};
 
 template<int I>
 struct _unit{};
+
+template<typename J, typename M, typename N>
+double wigner_d_function(const double theta);
+
+template<>
+double wigner_d_function<_unit<0>,_unit<0>,_unit<0>>(const double theta){return 1.0;}
+
+//integer J
+#include <hydra/functions/detail/wignerd/wigner_J_1.inl>
+#include <hydra/functions/detail/wignerd/wigner_J_2.inl>
+#include <hydra/functions/detail/wignerd/wigner_J_3.inl>
+#include <hydra/functions/detail/wignerd/wigner_J_4.inl>
+#include <hydra/functions/detail/wignerd/wigner_J_5.inl>
+//half-integer J
+#include <hydra/functions/detail/wignerd/wigner_J_1_half.inl>
+#include <hydra/functions/detail/wignerd/wigner_J_3_half.inl>
+#include <hydra/functions/detail/wignerd/wigner_J_5_half.inl>
+#include <hydra/functions/detail/wignerd/wigner_J_7_half.inl>
+
+
+}  // namespace hydra
 
 #endif /* WIGNER_D_FUNCION_H_ */
