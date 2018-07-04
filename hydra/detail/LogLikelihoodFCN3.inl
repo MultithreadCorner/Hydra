@@ -175,7 +175,10 @@ auto make_loglikehood_fcn(PDFSumNonExtendable<Pdfs...>const& pdf, Iterator first
 
 
 template<typename ...Pdfs, typename Iterable, typename ...Iterables, typename U >
-inline typename std::enable_if< hydra::detail::is_iterable<Iterable>::value && U::value,
+inline typename std::enable_if< (!hydra::detail::is_hydra_dense_histogram<Iterable>::value) &&
+		                        (!hydra::detail::is_hydra_sparse_histogram<Iterable>::value) &&
+								hydra::detail::is_iterable<Iterable>::value &&
+								U::value,
 LogLikelihoodFCN<  PDFSumNonExtendable<Pdfs...>,
                      decltype(std::declval<Iterable>().begin()),
                      decltype(std::declval<Iterables>().begin())... > >::type
