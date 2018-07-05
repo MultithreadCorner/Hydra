@@ -43,6 +43,7 @@ struct _unit{};
 template<typename J, typename M, typename N>
 double wigner_d_function(const double theta);
 
+//trivial specialization
 template<>
 double wigner_d_function<_unit<0>,_unit<0>,_unit<0>>(const double theta){return 1.0;}
 
