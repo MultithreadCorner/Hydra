@@ -30,6 +30,11 @@
 #ifndef WIGNER_D_FUNCION_H_
 #define WIGNER_D_FUNCION_H_
 
+#include <hydra/detail/Config.h>
+#include <hydra/Types.h>
+#include <assert.h>
+#include <utility>
+#include <cmath>
 
 namespace hydra {
 
@@ -49,16 +54,17 @@ double wigner_d_function<_unit<0>,_unit<0>,_unit<0>>(const double theta){return 
 
 //integer J
 #include <hydra/functions/detail/wigner_d_function/wigner_J_unit_1.inl>
-#include <hydra/functions/detail/wigner_d_function/wigner_J_unit_2.inl>
-#include <hydra/functions/detail/wigner_d_function/wigner_J_unit_3.inl>
-#include <hydra/functions/detail/wigner_d_function/wigner_J_unit_4.inl>
-#include <hydra/functions/detail/wigner_d_function/wigner_J_unit_5.inl>
+//#include <hydra/functions/detail/wigner_d_function/wigner_J_unit_2.inl>
+//#include <hydra/functions/detail/wigner_d_function/wigner_J_unit_3.inl>
+//#include <hydra/functions/detail/wigner_d_function/wigner_J_unit_4.inl>
+//#include <hydra/functions/detail/wigner_d_function/wigner_J_unit_5.inl>
+
 //half-integer J
 #include <hydra/functions/detail/wigner_d_function/wigner_J_half_1.inl>
-#include <hydra/functions/detail/wigner_d_function/wigner_J_half_3.inl>
-#include <hydra/functions/detail/wigner_d_function/wigner_J_half_5.inl>
-#include <hydra/functions/detail/wigner_d_function/wigner_J_half_7.inl>
-
+//#include <hydra/functions/detail/wigner_d_function/wigner_J_half_3.inl>
+//#include <hydra/functions/detail/wigner_d_function/wigner_J_half_5.inl>
+///#include <hydra/functions/detail/wigner_d_function/wigner_J_half_7.inl>
+//#include <hydra/functions/detail/wigner_d_function/wigner_J_half_9.inl>
 
 }  // namespace hydra
 
