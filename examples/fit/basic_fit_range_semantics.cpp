@@ -20,28 +20,17 @@
  *---------------------------------------------------------------------------*/
 
 /*
- * GenericRange.h
+ * basic_fit_range_semantics.cpp
  *
- *  Created on: 29/08/2017
+ *  Created on: 01/07/2018
  *      Author: Antonio Augusto Alves Junior
  */
 
-#ifndef GENERICRANGE_H_
-#define GENERICRANGE_H_
-
-#include <hydra/detail/Config.h>
-#include <hydra/detail/BackendPolicy.h>
-#include <hydra/Distance.h>
-
-namespace hydra {
-
-template<typename ...T>
-class GenericRange;
-
-}  // namespace hydra
-
-#include <hydra/detail/GenericRange1.inl>
-#include <hydra/detail/GenericRange2.inl>
+#ifndef BASIC_FIT_RANGE_SEMANTICS_CPP_
+#define BASIC_FIT_RANGE_SEMANTICS_CPP_
 
 
-#endif /* GENERICRANGE_H_ */
+#include <examples/fit/basic_fit_range_semantics.inl>
+
+
+#endif /* BASIC_FIT_RANGE_SEMANTICS_CPP_ */

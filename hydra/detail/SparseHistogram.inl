@@ -61,7 +61,7 @@ void SparseHistogram<T, N,  detail::BackendPolicy<BACKEND>, detail::multidimensi
 	auto key_functor = detail::GetGlobalBin<N,T>(fGrid, fLowerLimits, fUpperLimits);
 
 	auto weights  = HYDRA_EXTERNAL_NS::thrust::get_temporary_buffer<double>(common_system_t(), data_size);
-	hydra::copy(wbegin, wbegin+data_size, weights.first);
+	HYDRA_EXTERNAL_NS::thrust::copy(wbegin, wbegin+data_size, weights.first);
 
 	auto keys_begin = HYDRA_EXTERNAL_NS::thrust::make_transform_iterator(begin, key_functor );
 	auto keys_end   = HYDRA_EXTERNAL_NS::thrust::make_transform_iterator(end, key_functor);
@@ -118,7 +118,7 @@ void SparseHistogram<T, N,  detail::BackendPolicy<BACKEND>, detail::multidimensi
 	auto key_functor = detail::GetGlobalBin<N,T>(fGrid, fLowerLimits, fUpperLimits);
 
 	auto weights  = HYDRA_EXTERNAL_NS::thrust::get_temporary_buffer<double>(common_system_t(), data_size);
-	hydra::copy(wbegin, wbegin+data_size, weights.first);
+	HYDRA_EXTERNAL_NS::thrust::copy(wbegin, wbegin+data_size, weights.first);
 
 	auto keys_begin = HYDRA_EXTERNAL_NS::thrust::make_transform_iterator(begin, key_functor );
 	auto keys_end   = HYDRA_EXTERNAL_NS::thrust::make_transform_iterator(end, key_functor);
@@ -385,7 +385,7 @@ void SparseHistogram<T, 1,  detail::BackendPolicy<BACKEND>, detail::unidimension
 
 	//work on local copy of data
 	auto weights  = HYDRA_EXTERNAL_NS::thrust::get_temporary_buffer<double>(common_system_t(), data_size);
-	hydra::copy(common_system_t(),wbegin, wbegin+data_size, weights.first);
+	HYDRA_EXTERNAL_NS::thrust::copy(common_system_t(),wbegin, wbegin+data_size, weights.first);
 
 	auto keys_begin = HYDRA_EXTERNAL_NS::thrust::make_transform_iterator(begin, key_functor );
 	auto keys_end   = HYDRA_EXTERNAL_NS::thrust::make_transform_iterator(end, key_functor);
@@ -444,7 +444,7 @@ void SparseHistogram<T, 1,  detail::BackendPolicy<BACKEND>,detail::unidimensiona
 
 	//work on local copy of data
 	auto weights  = HYDRA_EXTERNAL_NS::thrust::get_temporary_buffer<double>(common_system_t(), data_size);
-	hydra::copy(common_system_t(),wbegin, wbegin+data_size, weights.first);
+	HYDRA_EXTERNAL_NS::thrust::copy(common_system_t(),wbegin, wbegin+data_size, weights.first);
 
 	auto keys_begin = HYDRA_EXTERNAL_NS::thrust::make_transform_iterator(begin, key_functor );
 	auto keys_end   = HYDRA_EXTERNAL_NS::thrust::make_transform_iterator(end, key_functor);

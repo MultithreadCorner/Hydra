@@ -72,7 +72,7 @@
 #include <hydra/FunctorArithmetic.h>
 #include <hydra/FunctionWrapper.h>
 #include <hydra/Tuple.h>
-#include <hydra/GenericRange.h>
+#include <hydra/Range.h>
 
 #include <hydra/LogLikelihoodFCN.h>
 #include <hydra/Parameter.h>

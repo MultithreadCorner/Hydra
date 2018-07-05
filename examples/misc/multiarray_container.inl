@@ -117,8 +117,8 @@ int main(int argv, char** argc)
 				<< std::endl << std::endl;
 
 		//multiply first column by 1 using hydra::begin; hydra::end
-		for(auto x=hydra::begin<0>(mvector_d);
-				x!=hydra::end<0>(mvector_d); x++ ) *x *=2 ;
+		for(auto x=hydra::begin(_0,mvector_d);
+				x!=hydra::end(_0, mvector_d); x++ ) *x *=2 ;
 
 		//multiply second column by 4 using placeholders
 		for(auto x=mvector_d.begin(_1);

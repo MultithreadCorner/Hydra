@@ -48,7 +48,7 @@
 #include <hydra/Function.h>
 #include <hydra/FunctionWrapper.h>
 #include <hydra/Random.h>
-#include <hydra/Copy.h>
+#include <hydra/Algorithm.h>
 
 /*-------------------------------------
  * Include classes from ROOT to fill
@@ -114,7 +114,7 @@ int main(int argv, char** argc)
 		//-------------------------------------------------------
 		//uniform
 		Generator.Uniform(-5.0, 5.0, data_d.begin(), data_d.end());
-		hydra::copy(data_d.begin(), data_d.end(), data_h.begin());
+		hydra::copy(data_d,  data_h);
 
 		for(size_t i=0; i<10; i++)
 			std::cout << "< Random::Uniform > [" << i << "] :" << data_d[i] << std::endl;
@@ -127,7 +127,7 @@ int main(int argv, char** argc)
 		//-------------------------------------------------------
 		//gaussian
 		Generator.Gauss(0.0, 1.0, data_d.begin(), data_d.end());
-		hydra::copy(data_d.begin(), data_d.end(), data_h.begin());
+		hydra::copy(data_d,  data_h);
 
 		for(size_t i=0; i<10; i++)
 			std::cout << "< Random::Gauss > [" << i << "] :" << data_d[i] << std::endl;
@@ -140,7 +140,7 @@ int main(int argv, char** argc)
 		//-------------------------------------------------------
 		//exponential
 		Generator.Exp(1.0, data_d.begin(), data_d.end());
-		hydra::copy(data_d.begin(), data_d.end(),data_h.begin());
+		hydra::copy(data_d,  data_h);
 
 		for(size_t i=0; i<10; i++)
 			std::cout << "< Random::Exp > [" << i << "] :" << data_d[i] << std::endl;
@@ -153,7 +153,7 @@ int main(int argv, char** argc)
 		//-------------------------------------------------------
 		//breit-wigner
 		Generator.BreitWigner(2.0, 0.2, data_d.begin(), data_d.end());
-		hydra::copy(data_d.begin(), data_d.end(), data_h.begin());
+		hydra::copy(data_d,  data_h);
 
 		for(size_t i=0; i<10; i++)
 			std::cout << "< Random::BreitWigner > [" << i << "] :" << data_d[i] << std::endl;

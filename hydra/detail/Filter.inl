@@ -33,7 +33,7 @@
 namespace hydra {
 
 template<typename Container, typename Functor>
-hydra::GenericRange<typename Container::iterator>
+hydra::Range<typename Container::iterator>
 apply_filter(Container& container, Functor const& filter)
 {
 	typename Container::iterator new_end = HYDRA_EXTERNAL_NS::thrust::partition(container.begin(),container.end() , filter);

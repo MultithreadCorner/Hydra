@@ -67,7 +67,7 @@ struct GetBinCenter: public HYDRA_EXTERNAL_NS::thrust::unary_function<size_t, ty
 			fLowerLimits[i] = other.fLowerLimits[i];
 			fIncrement[i]=other.fIncrement[i];
 		}
-
+		fNGlobalBins =other.fNGlobalBins;
 	}
 
 	__hydra_host__ __hydra_device__

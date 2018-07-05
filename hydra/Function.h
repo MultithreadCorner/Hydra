@@ -128,8 +128,8 @@ public:
 	/**
 	 * @brief Assignment operator
 	 */
-	__hydra_host__ __hydra_device__ inline
-	BaseFunctor<Functor,ReturnType, NPARAM>&
+	__hydra_host__ __hydra_device__
+	inline BaseFunctor<Functor,ReturnType, NPARAM>&
 	operator=(BaseFunctor<Functor, ReturnType, NPARAM> const & other )
 	{
 		if(this != &other)
@@ -146,21 +146,21 @@ public:
 	}
 
 
-	__hydra_host__ __hydra_device__ inline
-	Functor& GetFunctor() {return *static_cast<Functor*>(this);}
+	__hydra_host__ __hydra_device__
+	inline Functor& GetFunctor() {return *static_cast<Functor*>(this);}
 
-	__hydra_host__ __hydra_device__ inline
-	int GetCacheIndex() const { return this->fCacheIndex; }
+	__hydra_host__ __hydra_device__
+	inline int GetCacheIndex() const { return this->fCacheIndex; }
 
-	__hydra_host__ __hydra_device__ inline
-	void SetCacheIndex(int index) {fCacheIndex = index;}
+	__hydra_host__ __hydra_device__
+	inline void SetCacheIndex(int index) {fCacheIndex = index;}
 
-	__hydra_host__ __hydra_device__ inline
-	bool IsCached() const
+	__hydra_host__ __hydra_device__
+	inline bool IsCached() const
 	{ return this->fCached;}
 
-	__hydra_host__ __hydra_device__ inline
-	void SetCached(bool cached=true)
+	__hydra_host__ __hydra_device__
+	inline void SetCached(bool cached=true)
 	{ fCached = cached; }
 
 
@@ -187,21 +187,21 @@ public:
 	}
 
 
-	__hydra_host__ __hydra_device__  inline
-	GReal_t GetNorm() const {
+	__hydra_host__ __hydra_device__
+	inline GReal_t GetNorm() const {
 		return fNorm;
 	}
 
-	__hydra_host__ __hydra_device__  inline
-	void SetNorm(GReal_t norm) {
+	__hydra_host__ __hydra_device__
+	inline void SetNorm(GReal_t norm) {
 		fNorm = norm;
 	}
 
 
 
 	template<typename T>
-	__hydra_host__ __hydra_device__ inline
-	typename HYDRA_EXTERNAL_NS::thrust::detail::enable_if<
+	__hydra_host__ __hydra_device__
+	inline typename HYDRA_EXTERNAL_NS::thrust::detail::enable_if<
 	! ( detail::is_instantiation_of<HYDRA_EXTERNAL_NS::thrust::tuple,
 			typename HYDRA_EXTERNAL_NS::thrust::detail::remove_const<
 				typename HYDRA_EXTERNAL_NS::thrust::detail::remove_reference< T>::type
@@ -221,8 +221,8 @@ public:
 
 
 	template<typename T>
-	__hydra_host__ __hydra_device__ inline
-	typename HYDRA_EXTERNAL_NS::thrust::detail::enable_if<(
+	__hydra_host__ __hydra_device__
+	inline typename HYDRA_EXTERNAL_NS::thrust::detail::enable_if<(
 			  detail::is_instantiation_of<HYDRA_EXTERNAL_NS::thrust::tuple,
 			  typename HYDRA_EXTERNAL_NS::thrust::detail::remove_const<
 			  	  typename HYDRA_EXTERNAL_NS::thrust::detail::remove_reference<T>::type
@@ -257,8 +257,8 @@ public:
 	}
 
 	template<typename T >
-	__hydra_host__ __hydra_device__ inline
-	typename HYDRA_EXTERNAL_NS::thrust::detail::enable_if<
+	__hydra_host__ __hydra_device__
+	inline typename HYDRA_EXTERNAL_NS::thrust::detail::enable_if<
 	detail::is_instantiation_of<HYDRA_EXTERNAL_NS::thrust::tuple,
 		typename std::remove_reference<T>::type >::value &&
 	!(detail::is_homogeneous<
@@ -279,34 +279,26 @@ public:
 
 
 	template<typename T>
-	__hydra_host__  __hydra_device__ inline
-	return_type operator()(unsigned int n, T* x)  const
+	__hydra_host__  __hydra_device__
+	inline return_type operator()(unsigned int n, T* x)  const
 	{
-
 		return static_cast<const Functor*>(this)->Evaluate(n,x);
 	}
 
-
 	template<typename T>
-	__hydra_host__ __hydra_device__ inline
-	return_type operator()( T&&  x )  const
+	__hydra_host__ __hydra_device__
+	inline return_type operator()( T&&  x )  const
 	{
 		return  interface( std::forward<T>(x));
-
 	}
 
-
 	template<typename T1, typename T2>
-	__hydra_host__ __hydra_device__  inline
-	return_type operator()( T1&& x, T2&& cache)  const
+	__hydra_host__ __hydra_device__
+	inline return_type operator()( T1&& x, T2&& cache)  const
 	{
-
 		return fCached ? detail::extract<return_type, T2 >(fCacheIndex, std::forward<T2>(cache)):
 						operator()<T1>( std::forward<T1>(x) );
 	}
-
-
-
 
 private:
 

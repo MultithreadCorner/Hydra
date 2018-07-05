@@ -67,7 +67,7 @@
 #include <hydra/Function.h>
 #include <hydra/FunctorArithmetic.h>
 #include <hydra/FunctionWrapper.h>
-#include <hydra/Copy.h>
+#include <hydra/Algorithm.h>
 #include <hydra/Tuple.h>
 #include <hydra/Vector3R.h>
 #include <hydra/Vector4R.h>
@@ -218,12 +218,12 @@ int main(int argv, char** argc)
 		auto start = std::chrono::high_resolution_clock::now();
 
 		//generate the final state particles for B0 -> K pi J/psi
-		phsp1.Generate(B0, Chain_d.GetDecay(_0).begin(), Chain_d.GetDecay(_0).end());
+		phsp1.Generate(B0, Chain_d.GetDecays(_0).begin(), Chain_d.GetDecays(_0).end());
 
 		//pass the list of J/psi to generate the final
 		//state particles for J/psi -> mu+ mu-
-		phsp2.Generate(Chain_d.GetDecay(_0).GetDaughters(0).begin(), Chain_d.GetDecay(_0).GetDaughters(0).end(),
-				Chain_d.GetDecay(_1).begin());
+		phsp2.Generate(Chain_d.GetDecays(_0).GetDaughters(0).begin(), Chain_d.GetDecays(_0).GetDaughters(0).end(),
+				Chain_d.GetDecays(_1).begin());
 
 		auto end = std::chrono::high_resolution_clock::now();
 

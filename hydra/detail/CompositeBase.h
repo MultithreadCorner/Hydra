@@ -54,7 +54,6 @@ public:
 
 	CompositeBase()=delete;
 
-
 	CompositeBase(F0 const& f0, F1 const& f1,  Fs const& ...fs):
 		fIndex(-1),
 		fCached(0),
@@ -62,16 +61,16 @@ public:
 		fNorm(1.0)
 	{ }
 
-	__hydra_host__ __hydra_device__ inline
-	CompositeBase(CompositeBase<F0,F1,Fs...> const& other):
+	__hydra_host__ __hydra_device__
+	inline CompositeBase(CompositeBase<F0,F1,Fs...> const& other):
 	fFtorTuple( other.GetFunctors() ),
 	fIndex( other.GetIndex() ),
 	fCached( other.IsCached() ),
 	fNorm(other.GetNorm())
-	{ }
+	{}
 
-	__hydra_host__ __hydra_device__ inline
-	CompositeBase<F0,F1,Fs...>& operator=(CompositeBase<F0,F1,Fs...> const& other)
+	__hydra_host__ __hydra_device__
+	inline CompositeBase<F0,F1,Fs...>& operator=(CompositeBase<F0,F1,Fs...> const& other)
 	{
 		this->fFtorTuple = other.GetFunctors() ;
 		this->fIndex = other.GetIndex() ;

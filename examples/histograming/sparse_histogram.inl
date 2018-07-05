@@ -51,12 +51,12 @@
 #include <hydra/FunctionWrapper.h>
 #include <hydra/FunctorArithmetic.h>
 #include <hydra/Random.h>
-#include <hydra/Copy.h>
+#include <hydra/Algorithm.h>
 #include <hydra/Tuple.h>
 #include <hydra/Distance.h>
 #include <hydra/multiarray.h>
 #include <hydra/SparseHistogram.h>
-#include <hydra/GenericRange.h>
+#include <hydra/Range.h>
 /*-------------------------------------
  * Include classes from ROOT to fill
  * and draw histograms and plots.

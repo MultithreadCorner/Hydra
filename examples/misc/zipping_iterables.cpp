@@ -20,37 +20,16 @@
  *---------------------------------------------------------------------------*/
 
 /*
- * Copy.h
+ * zipping_iterables.cpp
  *
- *  Created on: 25/09/2016
+ *  Created on: 02/07/2018
  *      Author: Antonio Augusto Alves Junior
  */
 
+#ifndef ZIPPING_ITERABLES_CPP_
+#define ZIPPING_ITERABLES_CPP_
 
-#ifndef COPY_H_
-#define COPY_H_
-
-#include <hydra/detail/Config.h>
-#include <hydra/detail/BackendPolicy.h>
-#include <hydra/Types.h>
-#include <hydra/detail/external/thrust/copy.h>
-
-namespace hydra {
-
-template<typename InputIterator, typename OutputIterator>
-OutputIterator copy(InputIterator first, InputIterator last, OutputIterator result)
-{
-	return HYDRA_EXTERNAL_NS::thrust::copy(first, last, result);
-}
-
-template<detail::Backend Backend, typename InputIterator, typename OutputIterator>
-OutputIterator copy(hydra::detail::BackendPolicy<Backend> const& policy, InputIterator first,
-		InputIterator last, OutputIterator result)
-{
-	return HYDRA_EXTERNAL_NS::thrust::copy( policy, first, last, result);
-}
-
-}  // namespace hydra
+#include<examples/misc/zipping_iterables.inl>
 
 
-#endif /* COPY_H_ */
+#endif /* ZIPPING_ITERABLES_CPP_ */

@@ -194,9 +194,7 @@ int main(int argv, char** argc)
 		Hist_Data.Fill( data_d.begin(), data_d.end() );
 
 		//make model and fcn
-		auto fcn   = hydra::make_loglikehood_fcn( model,
-				Hist_Data.GetBinsCenters().begin(), Hist_Data.GetBinsCenters().end(),
-				Hist_Data.GetBinsContents().begin());
+		auto fcn   = hydra::make_loglikehood_fcn( model, Hist_Data);
 
 		//-------------------------------------------------------
 		//fit

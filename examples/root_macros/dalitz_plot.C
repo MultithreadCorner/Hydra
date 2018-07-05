@@ -62,7 +62,7 @@
 #include <hydra/Placeholders.h>
 #include <hydra/Complex.h>
 #include <hydra/Tuple.h>
-#include <hydra/GenericRange.h>
+#include <hydra/Range.h>
 #include <hydra/Distance.h>
 
 #include <hydra/LogLikelihoodFCN.h>

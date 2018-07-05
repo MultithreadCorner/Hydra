@@ -1,6 +1,6 @@
 /*----------------------------------------------------------------------------
  *
- *   Copyright (C) 2016-2017 Antonio Augusto Alves Junior
+ *   Copyright (C) 2016 - 2018 Antonio Augusto Alves Junior
  *
  *   This file is part of Hydra Data Analysis Framework.
  *
@@ -20,40 +20,21 @@
  *---------------------------------------------------------------------------*/
 
 /*
- * ForEach.h
+ * Algorithm.h
  *
- *  Created on: 04/05/2018
+ *  Created on: 17/05/2018
  *      Author: Antonio Augusto Alves Junior
  */
 
-#ifndef FOREACH_H_
-#define FOREACH_H_
+#ifndef ALGORITHM_H_
+#define ALGORITHM_H_
 
+#include <hydra/detail/Copy.inl>
+#include <hydra/detail/Sort.inl>
+#include <hydra/detail/Scatter.inl>
+#include <hydra/detail/Gather.inl>
+#include <hydra/detail/ForEach.inl>
+#include <hydra/detail/Reduce.inl>
+#include <hydra/detail/Transform.inl>
 
-#include <hydra/detail/Config.h>
-#include <hydra/detail/BackendPolicy.h>
-#include <hydra/Types.h>
-#include <hydra/detail/external/thrust/for_each.h>
-
-namespace hydra {
-
-template<typename InputIterator, typename Functor>
-InputIterator for_each(InputIterator first, InputIterator last, Functor const functor)
-{
-	return HYDRA_EXTERNAL_NS::thrust::for_each(first, last, functor);
-}
-
-template<detail::Backend Backend, typename InputIterator, typename Functor>
-InputIterator for_each(hydra::detail::BackendPolicy<Backend> const& policy, InputIterator first,
-		InputIterator last, Functor const functor)
-{
-	return HYDRA_EXTERNAL_NS::thrust::for_each( policy, first, last, functor);
-}
-
-}  // namespace hydra
-
-
-
-
-
-#endif /* FOREACH_H_ */
+#endif /* ALGORITHM_H_ */
