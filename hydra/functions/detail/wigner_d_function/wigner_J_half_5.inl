@@ -170,6 +170,51 @@ double wigner_d_function<_half<5>,_half<1>,_half<-5>>(const double theta){
 	return  -math_constants::sqrt10*::pow(::sin(0.5*theta),3)*::pow(::cos(0.5*theta),2);
 }
 
+//---------------//
+
+//J=5/2, M=-1/2, N=5/2
+template<>
+double wigner_d_function<_half<5>,_half<-1>,_half<5>>(const double theta){
+
+	return  math_constants::sqrt10*::pow(::sin(0.5*theta),3)*::pow(::cos(0.5*theta),2); 
+}
+
+//J=5/2, M=-1/2, N=3/2
+template<>
+double wigner_d_function<_half<5>,_half<-1>,_half<3>>(const double theta){
+
+	return  -math_constants::sqrt2*::cos(0.5*theta)*::pow(::sin(0.5*theta),2)*(2.0 - 5.0*::pow(::cos(0.5*theta),2));
+}
+
+//J=5/2, M=-1/2, N=1/2
+template<>
+double wigner_d_function<_half<5>,_half<-1>,_half<1>>(const double theta){
+
+	return  -::sin(0.5*theta)*(3.0 - 12.0*::pow(::sin(0.5*theta),2) + 10.0*::pow(::sin(0.5*theta),4)) ;
+}
+
+
+//J=5/2, M=-1/2, N=-1/2
+template<>
+double wigner_d_function<_half<5>,_half<-1>,_half<-1>>(const double theta){
+
+	return  ::cos(0.5*theta)*(3.0 - 12.0*::pow(::cos(0.5*theta),2) + 10.0*::pow(::cos(0.5*theta),4)) ;
+}
+
+//J=5/2, M=-1/2, N=-3/2
+template<>
+double wigner_d_function<_half<5>,_half<-1>,_half<-3>>(const double theta){
+
+	return -math_constants::sqrt2*::sin(0.5*theta)*::pow(::cos(0.5*theta),2)*(2.0 - 5.0*::pow(::sin(0.5*theta),2));
+}
+
+//J=5/2, M=-1/2, N=-5/2
+template<>
+double wigner_d_function<_half<5>,_half<-1>,_half<-5>>(const double theta){
+
+	return  math_constants::sqrt10*::pow(::sin(0.5*theta),2)*::pow(::cos(0.5*theta),3);
+}
+
 }  // namespace hydra
 
 
