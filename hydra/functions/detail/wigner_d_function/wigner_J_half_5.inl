@@ -205,7 +205,7 @@ double wigner_d_function<_half<5>,_half<-1>,_half<-1>>(const double theta){
 template<>
 double wigner_d_function<_half<5>,_half<-1>,_half<-3>>(const double theta){
 
-	return -math_constants::sqrt2*::sin(0.5*theta)*::pow(::cos(0.5*theta),2)*(2.0 - 5.0*::pow(::sin(0.5*theta),2));
+	return  -math_constants::sqrt2*::sin(0.5*theta)*::pow(::cos(0.5*theta),2)*(2.0 - 5.0*::pow(::sin(0.5*theta),2));
 }
 
 //J=5/2, M=-1/2, N=-5/2
