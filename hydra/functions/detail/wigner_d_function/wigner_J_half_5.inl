@@ -190,7 +190,7 @@ double wigner_d_function<_half<5>,_half<-1>,_half<3>>(const double theta){
 template<>
 double wigner_d_function<_half<5>,_half<-1>,_half<1>>(const double theta){
 
-	return  -::sin(0.5*theta)*(3.0 - 12.0*::pow(::sin(0.5*theta),2) + 10.0*::pow(::sin(0.5*theta),4)) ;
+	return  ::sin(0.5*theta)*(3.0 - 12.0*::pow(::sin(0.5*theta),2) + 10.0*::pow(::sin(0.5*theta),4)) ;
 }
 
 
