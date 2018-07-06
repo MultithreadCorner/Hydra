@@ -118,8 +118,6 @@ WIGNER_D_FUNCTION(2, -2, -1, unit, )
 WIGNER_D_FUNCTION(2, -2, -2, unit, )
 
 
-
-
 }  // namespace hydra
 
 
