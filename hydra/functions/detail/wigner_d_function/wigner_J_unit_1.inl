@@ -30,72 +30,107 @@
 #ifndef WIGNER_J_UNIT_1_INL_
 #define WIGNER_J_UNIT_1_INL_
 
+#include<hydra/functions/detail/wigner_d_function/wigner_d_function_macro.inl>
 
-#include<hydra/functions/detail/wigner_d_funcion.h>
 
 namespace hydra {
 
+
+
 //J=1, M=1, N=1
+/*
 template<>
 double wigner_d_function<_unit<1>,_unit<1>,_unit<1>>(const double theta){
 
 	return 0.5*(1.0 + ::cos(theta) );
-}
+}*/
+
+WIGNER_D_FUNCTION(1,1,1,unit,0.5*(1.0+::cos(theta)))
+
 //J=1, M=1, N=0
+/*
 template<>
 double wigner_d_function<_unit<1>,_unit<1>,_unit<0>>(const double theta){
 
 	return -math_constants::sqrt2*::sin(theta);
 }
+*/
+
+WIGNER_D_FUNCTION(1,1,0,unit,-math_constants::sqrt2*::sin(theta))
+
 //J=1, M=1, N=-1
+/*
 template<>
 double wigner_d_function<_unit<1>,_unit<1>,_unit<-1>>(const double theta){
 
 	return  0.5*(1.0 - ::cos(theta) );
 }
+*/
+WIGNER_D_FUNCTION(1,1,-1,unit,0.5*(1.0 - ::cos(theta) ))
+
 //----------------------------
 
 //J=1, M=0, N=1
+/*
 template<>
 double wigner_d_function<_unit<1>,_unit<0>,_unit<1>>(const double theta){
 
 	return math_constants::sqrt2*::sin(theta);
 }
+*/
+WIGNER_D_FUNCTION(1,0,1,unit, math_constants::sqrt2*::sin(theta))
+
 //J=1, M=0, N=0
+/*
 template<>
 double wigner_d_function<_unit<1>,_unit<0>,_unit<0>>(const double theta){
 
 	return ::cos(theta);
 }
+*/
+WIGNER_D_FUNCTION(1,0,0,unit,::cos(theta))
+
 //J=1, M=0, N=-1
+/*
 template<>
 double wigner_d_function<_unit<1>,_unit<0>,_unit<-1>>(const double theta){
 
 	return  -math_constants::sqrt2*::sin(theta);
 }
+*/
+WIGNER_D_FUNCTION(1,0,-1,unit,-math_constants::sqrt2*::sin(theta))
 
 //----------------------------
 
 //J=1, M=-1, N=1
+/*
 template<>
 double wigner_d_function<_unit<1>,_unit<0>,_unit<1>>(const double theta){
 
 	return 0.5*(1.0 - ::cos(theta) );
 }
+*/
+WIGNER_D_FUNCTION(1,-1,1,unit,0.5*(1.0 - ::cos(theta) ))
+
 //J=1, M=-1, N=0
+/*
 template<>
 double wigner_d_function<_unit<1>,_unit<0>,_unit<0>>(const double theta){
 
 	return math_constants::sqrt2*::sin(theta);
 }
+*/
+WIGNER_D_FUNCTION(1,-1,0,unit,math_constants::sqrt2*::sin(theta))
+
 //J=1, M=-1, N=-1
+/*
 template<>
 double wigner_d_function<_unit<1>,_unit<0>,_unit<-1>>(const double theta){
 
 	return  0.5*(1.0 + ::cos(theta) );
 }
-
-
+*/
+WIGNER_D_FUNCTION(1,-1,-1,unit, 0.5*(1.0 + ::cos(theta) ))
 
 
 
