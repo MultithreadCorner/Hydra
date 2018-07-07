@@ -31,134 +31,75 @@
 #define WIGNER_J_HALF_3_INL_
 
 
-#include<hydra/functions/detail/wigner_d_funcion.h>
+#include<hydra/functions/detail/wigner_d_function/wigner_d_function_macro.inl>
 
 namespace hydra {
 
-//---------------//
-
-//J=3/2, M=3/2, N=3/2
-template<>
-double wigner_d_function<_half<3>,_half<3>,_half<3>>(const double theta){
-
-	return  ::pow(::cos(0.5*theta),3) ;
-}
-
-//J=3/2, M=3/2, N=1/2
-template<>
-double wigner_d_function<_half<3>,_half<3>,_half<1>>(const double theta){
-
-	return -math_constants::sqrt3*::sin(0.5*theta)*::pow(::cos(0.5*theta),2);
-}
-
-//J=3/2, M=3/2, N=-1/2
-template<>
-double wigner_d_function<_half<3>,_half<3>,_half<-1>>(const double theta){
-
-	return  math_constants::sqrt3*::pow(::sin(0.5*theta),2)*::cos(0.5*theta);
-}
-
-
-//J=3/2, M=3/2, N=-3/2
-template<>
-double wigner_d_function<_half<3>,_half<3>,_half<-3>>(const double theta){
-
-	return  -::pow(::sin(0.5*theta),3) ;
-}
-
-//---------------//
-
-//J=3/2, M=1/2, N=3/2
-template<>
-double wigner_d_function<_half<3>,_half<1>,_half<3>>(const double theta){
-
-	return  math_constants::sqrt3*::sin(0.5*theta)*::pow(::cos(0.5*theta),2) ;
-}
-
-//J=3/2, M=1/2, N=1/2
-template<>
-double wigner_d_function<_half<3>,_half<1>,_half<1>>(const double theta){
-
-	return ::cos(0.5*theta)*(3.0*::pow(::cos(0.5*theta),2) - 2.0);
-}
-
-//J=3/2, M=1/2, N=-1/2
-template<>
-double wigner_d_function<_half<3>,_half<1>,_half<-1>>(const double theta){
-
-	return  ::sin(0.5*theta)*(3.0*::pow(::sin(0.5*theta),2) - 2.0);
-}
-
-
-//J=3/2, M=1/2, N=-3/2
-template<>
-double wigner_d_function<_half<3>,_half<1>,_half<-3>>(const double theta){
-
-	return  math_constants::sqrt3*::cos(0.5*theta)*::pow(::sin(0.5*theta),2) ;
-}
-
-
-//---------------//
-
-//J=3/2, M=-1/2, N=3/2
-template<>
-double wigner_d_function<_half<3>,_half<-1>,_half<3>>(const double theta){
-
-	return  math_constants::sqrt3*::cos(0.5*theta)*::pow(::sin(0.5*theta),2) ;
-}
-
-//J=3/2, M=-1/2, N=1/2
-template<>
-double wigner_d_function<_half<3>,_half<-1>,_half<1>>(const double theta){
-
-	return -::sin(0.5*theta)*(3.0*::pow(::sin(0.5*theta),2) - 2.0);
-}
-
-//J=3/2, M=-1/2, N=-1/2
-template<>
-double wigner_d_function<_half<3>,_half<-1>,_half<-1>>(const double theta){
-
-	return  ::cos(0.5*theta)*(3.0*::pow(::cos(0.5*theta),2) - 2.0);
-}
-
-
-//J=3/2, M=-1/2, N=-3/2
-template<>
-double wigner_d_function<_half<3>,_half<-1>,_half<-3>>(const double theta){
-
-	return  -math_constants::sqrt3*::sin(0.5*theta)*::pow(::cos(0.5*theta),2) ;
-}
-
-//---------------//
-
-//J=3/2, M=-3/2, N=3/2
-template<>
-double wigner_d_function<_half<3>,_half<-3>,_half<3>>(const double theta){
-
-	return  ::pow(::sin(0.5*theta),3) ;
-}
-
-//J=3/2, M=-3/2, N=1/2
-template<>
-double wigner_d_function<_half<3>,_half<-3>,_half<1>>(const double theta){
-
-	return math_constants::sqrt3*::pow(::sin(0.5*theta),2)*::cos(0.5*theta);
-}
-
-//J=3/2, M=-3/2, N=-1/2
-template<>
-double wigner_d_function<_half<3>,_half<-3>,_half<-1>>(const double theta){
-
-	return  math_constants::sqrt3*::pow(::cos(0.5*theta),2)*::sin(0.5*theta);
-}
-
-
-//J=3/2, M=-3/2, N=-3/2
-template<>
-double wigner_d_function<_half<3>,_half<-3>,_half<-3>>(const double theta){
-
-	return  ::pow(::cos(0.5*theta),3) ;
-}
+// Generate wigner_d_function header template for J = 3/2
+//
+// J,M,N = {3/2, -3/2, -3/2}
+WIGNER_D_FUNCTION(3, -3, -3, half, ::pow(::cos(0.5*theta),3))
+//
+//
+// J,M,N = {3/2, -3/2, -1/2}
+WIGNER_D_FUNCTION(3, -3, -1, half, math_constants::sqrt3*::pow(::cos(0.5*theta),2)*::sin(0.5*theta))
+//
+//
+// J,M,N = {3/2, -3/2, 1/2}
+WIGNER_D_FUNCTION(3, -3, 1, half, math_constants::sqrt3*::pow(::sin(0.5*theta),2)*::cos(0.5*theta))
+//
+//
+// J,M,N = {3/2, -3/2, 3/2}
+WIGNER_D_FUNCTION(3, -3, 3, half, ::pow(::sin(0.5*theta),3))
+//
+//
+// J,M,N = {3/2, -1/2, -3/2}
+WIGNER_D_FUNCTION(3, -1, -3, half, -math_constants::sqrt3*::sin(0.5*theta)*::pow(::cos(0.5*theta),2))
+//
+//
+// J,M,N = {3/2, -1/2, -1/2}
+WIGNER_D_FUNCTION(3, -1, -1, half, ::cos(0.5*theta)*(3.0*::pow(::cos(0.5*theta),2) - 2.0))
+//
+//
+// J,M,N = {3/2, -1/2, 1/2}
+WIGNER_D_FUNCTION(3, -1, 1, half, -::sin(0.5*theta)*(3.0*::pow(::sin(0.5*theta),2) - 2.0))
+//
+//
+// J,M,N = {3/2, -1/2, 3/2}
+WIGNER_D_FUNCTION(3, -1, 3, half, math_constants::sqrt3*::cos(0.5*theta)*::pow(::sin(0.5*theta),2))
+//
+//
+// J,M,N = {3/2, 1/2, -3/2}
+WIGNER_D_FUNCTION(3, 1, -3, half, math_constants::sqrt3*::cos(0.5*theta)*::pow(::sin(0.5*theta),2))
+//
+//
+// J,M,N = {3/2, 1/2, -1/2}
+WIGNER_D_FUNCTION(3, 1, -1, half, ::sin(0.5*theta)*(3.0*::pow(::sin(0.5*theta),2) - 2.0))
+//
+//
+// J,M,N = {3/2, 1/2, 1/2}
+WIGNER_D_FUNCTION(3, 1, 1, half, ::cos(0.5*theta)*(3.0*::pow(::cos(0.5*theta),2) - 2.0))
+//
+//
+// J,M,N = {3/2, 1/2, 3/2}
+WIGNER_D_FUNCTION(3, 1, 3, half, math_constants::sqrt3*::sin(0.5*theta)*::pow(::cos(0.5*theta),2))
+//
+//
+// J,M,N = {3/2, 3/2, -3/2}
+WIGNER_D_FUNCTION(3, 3, -3, half, -::pow(::sin(0.5*theta),3))
+//
+//
+// J,M,N = {3/2, 3/2, -1/2}
+WIGNER_D_FUNCTION(3, 3, -1, half, math_constants::sqrt3*::pow(::sin(0.5*theta),2)*::cos(0.5*theta))
+//
+//
+// J,M,N = {3/2, 3/2, 1/2}
+WIGNER_D_FUNCTION(3, 3, 1, half, -math_constants::sqrt3*::sin(0.5*theta)*::pow(::cos(0.5*theta),2))
+//
+//
+// J,M,N = {3/2, 3/2, 3/2}
+WIGNER_D_FUNCTION(3, 3, 3, half, ::pow(::cos(0.5*theta),3))
+//
 
 
 }  // namespace hydra
