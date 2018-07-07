@@ -1,6 +1,6 @@
 /*----------------------------------------------------------------------------
  *
- *   Copyright (C) 2016 - 2017 Antonio Augusto Alves Junior
+ *   Copyright (C) 2016 - 2018 Antonio Augusto Alves Junior
  *
  *   This file is part of Hydra Data Analysis Framework.
  *
@@ -19,52 +19,22 @@
  *
  *---------------------------------------------------------------------------*/
 
-
 /*
- * wigner_J_half_1.inl
+ * wigner_d_function_macro.inl
  *
- *  Created on: Jul 5, 2018
+ *  Created on: 06/07/2018
  *      Author: Antonio Augusto Alves Junior
  */
 
-#ifndef WIGNER_J_HALF_1_INL_
-#define WIGNER_J_HALF_1_INL_
+#ifndef WIGNER_D_FUNCTION_MACRO_INL_
+#define WIGNER_D_FUNCTION_MACRO_INL_
 
 
-#include<hydra/functions/detail/wigner_d_funcion.h>
-
-namespace hydra {
-
-//J=1/2, M=1/2, N=1/2
-
-template<>
-double wigner_d_function<_half<1>,_half<1>,_half<1>>(const double theta){
-
-	return  ::cos(0.5*theta) ;
-}
-//J=1/2, M=1/2, N=-1/2
-template<>
-double wigner_d_function<_half<1>,_half<1>,_half<-1>>(const double theta){
-
-	return -::sin(0.5*theta);
-}
-//J=1/2, M=-1/2, N=1/2
-template<>
-double wigner_d_function<_half<1>,_half<1>,_half<-1>>(const double theta){
-
-	return  -::sin(0.5*theta);
-}
+#define WIGNER_D_FUNCTION(J, M, N, type, formula)\
+template<> inline double wigner_d_function<_##type<J>,_##type<M>,_##type<N>>(const double theta){\
+\
+	return formula;\
+}\
 
 
-//J=1/2, M=-1/2, N=-1/2
-template<>
-double wigner_d_function<_half<1>,_half<0>,_half<1>>(const double theta){
-
-	return ::cos(0.5*theta) ;
-}
-
-
-}  // namespace hydra
-
-
-#endif /* WIGNER_J_HALF_1_INL_ */
+#endif /* WIGNER_D_FUNCTION_MACRO_INL_ */

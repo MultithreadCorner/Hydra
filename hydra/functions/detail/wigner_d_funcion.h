@@ -35,6 +35,8 @@
 #include <assert.h>
 #include <utility>
 #include <cmath>
+#include<hydra/functions/detail/wigner_d_function/wigner_d_function_macro.inl>
+
 
 namespace hydra {
 
@@ -46,15 +48,13 @@ template<int I>
 struct _unit{};
 
 template<typename J, typename M, typename N>
-double wigner_d_function(const double theta);
+inline double wigner_d_function(const double theta);
 
-//trivial specialization
-template<>
-double wigner_d_function<_unit<0>,_unit<0>,_unit<0>>(const double theta){return 1.0;}
+WIGNER_D_FUNCTION(0,0,0,unit,1.0)
 
 //integer J
 #include <hydra/functions/detail/wigner_d_function/wigner_J_unit_1.inl>
-//#include <hydra/functions/detail/wigner_d_function/wigner_J_unit_2.inl>
+#include <hydra/functions/detail/wigner_d_function/wigner_J_unit_2.inl>
 //#include <hydra/functions/detail/wigner_d_function/wigner_J_unit_3.inl>
 //#include <hydra/functions/detail/wigner_d_function/wigner_J_unit_4.inl>
 //#include <hydra/functions/detail/wigner_d_function/wigner_J_unit_5.inl>
