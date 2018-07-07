@@ -39,147 +39,146 @@ namespace hydra {
 //
 // J,M,N = {5/2, -5/2, -5/2}
 WIGNER_D_FUNCTION(5, -5, -5, half, ::pow(::cos(0.5*theta),5))
-//
-//
+
+
 // J,M,N = {5/2, -5/2, -3/2}
 WIGNER_D_FUNCTION(5, -5, -3, half, math_constants::sqrt5*::sin(0.5*theta)*::pow(::cos(0.5*theta),4))
-//
-//
+
+
 // J,M,N = {5/2, -5/2, -1/2}
 WIGNER_D_FUNCTION(5, -5, -1, half, math_constants::sqrt10*::pow(::sin(0.5*theta),2)*::pow(::cos(0.5*theta),3))
-//
-//
+
+
 // J,M,N = {5/2, -5/2, 1/2}
 WIGNER_D_FUNCTION(5, -5, 1, half, math_constants::sqrt10*::pow(::sin(0.5*theta),3)*::pow(::cos(0.5*theta),2))
-//
-//
+
+
 // J,M,N = {5/2, -5/2, 3/2}
 WIGNER_D_FUNCTION(5, -5, 3, half, math_constants::sqrt5*::cos(0.5*theta)*::pow(::sin(0.5*theta),4))
-//
-//
+
+
 // J,M,N = {5/2, -5/2, 5/2}
 WIGNER_D_FUNCTION(5, -5, 5, half, ::pow(::sin(0.5*theta),5))
-//
-//
+
+
 // J,M,N = {5/2, -3/2, -5/2}
 WIGNER_D_FUNCTION(5, -3, -5, half,  -math_constants::sqrt5*::sin(0.5*theta)*::pow(::cos(0.5*theta),4))
-//
-//
+
+
 // J,M,N = {5/2, -3/2, -3/2}
 WIGNER_D_FUNCTION(5, -3, -3, half, ::pow(::cos(0.5*theta),3)*(1.0 - 5.0*::pow(sin(0.5*theta),2)))
-//
-//
+
+
 // J,M,N = {5/2, -3/2, -1/2}
 WIGNER_D_FUNCTION(5, -3, -1, half,  math_constants::sqrt2*::sin(0.5*theta)*::pow(::cos(0.5*theta),2)*(2.0 - 5.0*::pow(::sin(0.5*theta),2)))
-//
-//
+
+
 // J,M,N = {5/2, -3/2, 1/2}
 WIGNER_D_FUNCTION(5, -3, 1, half, -math_constants::sqrt2*::cos(0.5*theta)*::pow(::sin(0.5*theta),2)*(2.0 - 5.0*::pow(::cos(0.5*theta),2)))
-//
-//
+
+
 // J,M,N = {5/2, -3/2, 3/2}
 WIGNER_D_FUNCTION(5, -3, 3, half, -::pow(::sin(0.5*theta),3)*(1.0 - 5.0*::pow(cos(0.5*theta),2)))
-//
-//
+
+
 // J,M,N = {5/2, -3/2, 5/2}
 WIGNER_D_FUNCTION(5, -3, 5, half, math_constants::sqrt5*::cos(0.5*theta)*::pow(::sin(0.5*theta),4))
-//
-//
+
+
 // J,M,N = {5/2, -1/2, -5/2}
 WIGNER_D_FUNCTION(5, -1, -5, half, math_constants::sqrt10*::pow(::sin(0.5*theta),2)*::pow(::cos(0.5*theta),3))
-//
-//
+
+
 // J,M,N = {5/2, -1/2, -3/2}
 WIGNER_D_FUNCTION(5, -1, -3, half, -math_constants::sqrt2*::sin(0.5*theta)*::pow(::cos(0.5*theta),2)*(2.0 - 5.0*::pow(::sin(0.5*theta),2)))
-//
-//
+
+
 // J,M,N = {5/2, -1/2, -1/2}
 WIGNER_D_FUNCTION(5, -1, -1, half, ::cos(0.5*theta)*(3.0 - 12.0*::pow(::cos(0.5*theta),2) + 10.0*::pow(::cos(0.5*theta),4)))
-//
-//
+
+
 // J,M,N = {5/2, -1/2, 1/2}
 WIGNER_D_FUNCTION(5, -1, 1, half, ::sin(0.5*theta)*(3.0 - 12.0*::pow(::sin(0.5*theta),2) + 10.0*::pow(::sin(0.5*theta),4)))
-//
-//
+
+
 // J,M,N = {5/2, -1/2, 3/2}
 WIGNER_D_FUNCTION(5, -1, 3, half, -math_constants::sqrt2*::cos(0.5*theta)*::pow(::sin(0.5*theta),2)*(2.0 - 5.0*::pow(::cos(0.5*theta),2)))
-//
-//
+
+
 // J,M,N = {5/2, -1/2, 5/2}
 WIGNER_D_FUNCTION(5, -1, 5, half, math_constants::sqrt10*::pow(::sin(0.5*theta),3)*::pow(::cos(0.5*theta),2))
-//
-//
+
+
 // J,M,N = {5/2, 1/2, -5/2}
 WIGNER_D_FUNCTION(5, 1, -5, half, -math_constants::sqrt10*::pow(::sin(0.5*theta),3)*::pow(::cos(0.5*theta),2))
-//
-//
+
+
 // J,M,N = {5/2, 1/2, -3/2}
 WIGNER_D_FUNCTION(5, 1, -3, half, -math_constants::sqrt2*::cos(0.5*theta)*::pow(::sin(0.5*theta),2)*(2.0 - 5.0*::pow(::cos(0.5*theta),2)))
-//
-//
+
+
 // J,M,N = {5/2, 1/2, -1/2}
 WIGNER_D_FUNCTION(5, 1, -1, half, -::sin(0.5*theta)*(3.0 - 12.0*::pow(::sin(0.5*theta),2) + 10.0*::pow(::sin(0.5*theta),4)))
-//
-//
+
+
 // J,M,N = {5/2, 1/2, 1/2}
 WIGNER_D_FUNCTION(5, 1, 1, half, ::cos(0.5*theta)*(3.0 - 12.0*::pow(::cos(0.5*theta),2) + 10.0*::pow(::cos(0.5*theta),4)))
-//
-//
+
+
 // J,M,N = {5/2, 1/2, 3/2}
 WIGNER_D_FUNCTION(5, 1, 3, half, math_constants::sqrt2*::sin(0.5*theta)*::pow(::cos(0.5*theta),2)*(2.0 - 5.0*::pow(::sin(0.5*theta),2)))
-//
-//
+
+
 // J,M,N = {5/2, 1/2, 5/2}
 WIGNER_D_FUNCTION(5, 1, 5, half, math_constants::sqrt10*::pow(::sin(0.5*theta),2)*::pow(::cos(0.5*theta),3))
-//
-//
+
+
 // J,M,N = {5/2, 3/2, -5/2}
 WIGNER_D_FUNCTION(5, 3, -5, half, math_constants::sqrt5*::cos(0.5*theta)*::pow(::sin(0.5*theta),4))
-//
-//
+
+
 // J,M,N = {5/2, 3/2, -3/2}
 WIGNER_D_FUNCTION(5, 3, -3, half, ::pow(::sin(0.5*theta),3)*(1.0 - 5.0*::pow(cos(0.5*theta),2)))
-//
-//
+
+
 // J,M,N = {5/2, 3/2, -1/2}
 WIGNER_D_FUNCTION(5, 3, -1, half, -math_constants::sqrt2*::cos(0.5*theta)*::pow(::sin(0.5*theta),2)*(2.0 - 5.0*::pow(::cos(0.5*theta),2)))
-//
-//
+
+
 // J,M,N = {5/2, 3/2, 1/2}
 WIGNER_D_FUNCTION(5, 3, 1, half, -math_constants::sqrt2*::sin(0.5*theta)*::pow(::cos(0.5*theta),2)*(2.0 - 5.0*::pow(::sin(0.5*theta),2)))
-//
-//
+
+
 // J,M,N = {5/2, 3/2, 3/2}
 WIGNER_D_FUNCTION(5, 3, 3, half, ::pow(::cos(0.5*theta),3)*(1.0 - 5.0*::pow(sin(0.5*theta),2)))
-//
-//
+
+
 // J,M,N = {5/2, 3/2, 5/2}
 WIGNER_D_FUNCTION(5, 3, 5, half, math_constants::sqrt5*::sin(0.5*theta)*::pow(::cos(0.5*theta),4))
-//
-//
+
+
 // J,M,N = {5/2, 5/2, -5/2}
 WIGNER_D_FUNCTION(5, 5, -5, half, -::pow(::sin(0.5*theta),5))
-//
-//
+
+
 // J,M,N = {5/2, 5/2, -3/2}
 WIGNER_D_FUNCTION(5, 5, -3, half, math_constants::sqrt5*::cos(0.5*theta)*::pow(::sin(0.5*theta),4))
-//
-//
+
+
 // J,M,N = {5/2, 5/2, -1/2}
 WIGNER_D_FUNCTION(5, 5, -1, half, -math_constants::sqrt10*::pow(::sin(0.5*theta),3)*::pow(::cos(0.5*theta),2))
-//
-//
+
+
 // J,M,N = {5/2, 5/2, 1/2}
 WIGNER_D_FUNCTION(5, 5, 1, half, math_constants::sqrt10*::pow(::sin(0.5*theta),2)*::pow(::cos(0.5*theta),3))
-//
-//
+
+
 // J,M,N = {5/2, 5/2, 3/2}
 WIGNER_D_FUNCTION(5, 5, 3, half, -math_constants::sqrt5*::sin(0.5*theta)*::pow(::cos(0.5*theta),4))
-//
-//
+
+
 // J,M,N = {5/2, 5/2, 5/2}
 WIGNER_D_FUNCTION(5, 5, 5, half, ::pow(::cos(0.5*theta),5))
-//
 
 
 }  // namespace hydra
