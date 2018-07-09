@@ -43,13 +43,18 @@ typename std::enable_if<hydra::detail::is_iterable<Iterable_Source>::value
 					 && hydra::detail::is_iterable<Iterable_Target>::value
 					 && hydra::detail::is_iterable<Iterable_Map>::value,
 Range<decltype(std::declval<Iterable_Target&>().begin())>>::type
-scatter(Iterable_Source& source, Iterable_Map& map, Iterable_Target& target){
+scatter(Iterable_Source&& source, Iterable_Map&& map, Iterable_Target&& target){
 
-	HYDRA_EXTERNAL_NS::thrust::scatter( source.begin(), source.end(),
-			map.begin(), target.begin() );
-	return make_range(target.begin(), target.end() );
+	HYDRA_EXTERNAL_NS::thrust::scatter(std::forward<Iterable_Source>(source).begin(),
+			std::forward<Iterable_Source>(source).end(),
+			std::forward<Iterable_Map>(map).begin(),
+			std::forward<Iterable_Target>(target).begin() );
+
+	return make_range(std::forward<Iterable_Target>(target).begin(),
+			std::forward<Iterable_Target>(target).end() );
 }
 
+/*
 template<typename Iterable_Source, typename Iterable_Target, typename Iterator_Map>
 typename std::enable_if<hydra::detail::is_iterable<Iterable_Source>::value
 					 && hydra::detail::is_iterable<Iterable_Target>::value,
@@ -71,7 +76,7 @@ scatter(Range<Iterator_Source>&& source, Range<Iterator_Map>&& map, Iterable_Tar
 			map.begin(), target.begin() );
 	return make_range(target.begin(), target.end() );
 }
-
+*/
 
 
 

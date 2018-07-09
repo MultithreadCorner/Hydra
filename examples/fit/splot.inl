@@ -214,13 +214,13 @@ int main(int argv, char** argc)
 		//-------------------------------------------------------
 		// Bring data to host and suffle it to avoid biases
 
-		hydra::copy(data_d.begin(), data_d.end(),  data_h.begin());
+		hydra::copy(data_d,   data_h);
 
 		std::random_device rd;
 		std::mt19937 g(rd());
 		std::shuffle(data_h.begin(), data_h.end(), g);
 
-		hydra::copy(data_h.begin(), data_h.end(),  data_d.begin());
+		hydra::copy(data_h, data_d);
 
 		std::cout<< std::endl<< "Suffled data:"<< std::endl;
 		for(size_t i=0; i<10; i++)
@@ -295,7 +295,7 @@ int main(int argv, char** argc)
 
 		//bring data to device
 		hydra::multiarray< double,2, hydra::device::sys_t> data2_d(range.size());
-		hydra::copy( range.begin() , range.end(), data2_d.begin() );
+		hydra::copy( range ,  data2_d );
 
         //_______________________________
 		//histograms

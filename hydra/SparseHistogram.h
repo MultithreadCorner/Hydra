@@ -92,6 +92,9 @@ class SparseHistogram<T, N,  detail::BackendPolicy<BACKEND>, detail::multidimens
 
 public:
 
+	//tag
+	typedef   void hydra_sparse_histogram_tag;
+
 	SparseHistogram()=delete;
 
 	explicit SparseHistogram( std::array<size_t , N> const& grid,
@@ -405,6 +408,21 @@ public:
 
 	template<typename Iterator1, typename Iterator2>
 	void Fill(Iterator1 begin, Iterator1 end, Iterator2 wbegin);
+
+
+	template<typename Iterable>
+	inline typename std::enable_if< hydra::detail::is_iterable<Iterable>::value, void >::type
+	Fill(Iterable& container){
+		return this->Fill( container.begin(), container.end());
+	}
+
+	template<typename Iterable1, typename Iterable2>
+	inline typename std::enable_if< hydra::detail::is_iterable<Iterable1>::value
+	&&  hydra::detail::is_iterable<Iterable2>::value, void >::type
+	Fill(Iterable1& container, Iterable2& wbegin){
+		return this->Fill( container.begin(), container.end(), wbegin.begin());
+	}
+
 
 	template<hydra::detail::Backend BACKEND2,typename Iterator>
 	void Fill(detail::BackendPolicy<BACKEND2> const& exec_policy, Iterator begin, Iterator end);

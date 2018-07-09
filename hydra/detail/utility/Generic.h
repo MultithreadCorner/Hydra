@@ -64,9 +64,18 @@ namespace hydra {
 	//bool pack trick:
 	//example:
 	//
-	template<bool...> struct bool_pack;
+	template<bool...> struct bool_pack{};
+
+	//template<bool... bs>
+	//using all_true = std::is_same<bool_pack<bs..., true>, bool_pack<true, bs...> >;
+
 	template<bool... bs>
-	using all_true = std::is_same<bool_pack<bs..., true>, bool_pack<true, bs...> >;
+	struct all_true:std::is_same<bool_pack<bs..., true>, bool_pack<true, bs...> >{} ;
+
+	template<>
+	struct all_true<>:std::true_type{} ;
+
+
 
 template<class R, class...Ts>
 	using are_all_same = all_true<std::is_same<Ts, R>::value...>;

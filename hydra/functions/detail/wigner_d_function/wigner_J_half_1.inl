@@ -1,6 +1,6 @@
 /*----------------------------------------------------------------------------
  *
- *   Copyright (C) 2016-2017 Antonio Augusto Alves Junior
+ *   Copyright (C) 2016 - 2017 Antonio Augusto Alves Junior
  *
  *   This file is part of Hydra Data Analysis Framework.
  *
@@ -19,42 +19,52 @@
  *
  *---------------------------------------------------------------------------*/
 
+
 /*
- * ForEach.h
+ * wigner_J_half_1.inl
  *
- *  Created on: 04/05/2018
+ *  Created on: Jul 5, 2018
  *      Author: Antonio Augusto Alves Junior
  */
 
-#ifndef FOREACH_H_
-#define FOREACH_H_
+#ifndef WIGNER_J_HALF_1_INL_
+#define WIGNER_J_HALF_1_INL_
 
 
-#include <hydra/detail/Config.h>
-#include <hydra/detail/BackendPolicy.h>
-#include <hydra/Types.h>
-#include <hydra/detail/external/thrust/for_each.h>
-#include <utility>
+#include<hydra/functions/detail/wigner_d_funcion.h>
 
 namespace hydra {
 
-template<typename Iterable, typename Functor>
-	typename std::enable_if<hydra::detail::is_iterable<Iterable>::value,
-	Range<decltype(std::declval<Iterable&>().begin())>>::type
-for_each(Iterable&& iterable, Functor const& functor)
-{
-	HYDRA_EXTERNAL_NS::thrust::for_each( std::forward<Iterable>(iterable).begin(),
-			std::forward<Iterable>(iterable).end(), functor);
+//J=1/2, M=1/2, N=1/2
 
-	return make_range( std::forward<Iterable>(iterable).begin(),
-			           std::forward<Iterable>(iterable).end());
+template<>
+double wigner_d_function<_half<1>,_half<1>,_half<1>>(const double theta){
+
+	return  ::cos(0.5*theta) ;
+}
+//J=1/2, M=1/2, N=-1/2
+template<>
+double wigner_d_function<_half<1>,_half<1>,_half<-1>>(const double theta){
+
+	return -::sin(0.5*theta);
+}
+//J=1/2, M=-1/2, N=1/2
+template<>
+double wigner_d_function<_half<1>,_half<1>,_half<-1>>(const double theta){
+
+	return  -::sin(0.5*theta);
+}
+
+
+//J=1/2, M=-1/2, N=-1/2
+template<>
+double wigner_d_function<_half<1>,_half<0>,_half<1>>(const double theta){
+
+	return ::cos(0.5*theta) ;
 }
 
 
 }  // namespace hydra
 
 
-
-
-
-#endif /* FOREACH_H_ */
+#endif /* WIGNER_J_HALF_1_INL_ */

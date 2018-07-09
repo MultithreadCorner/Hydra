@@ -1,6 +1,6 @@
 /*----------------------------------------------------------------------------
  *
- *   Copyright (C) 2016-2017 Antonio Augusto Alves Junior
+ *   Copyright (C) 2016 - 2018 Antonio Augusto Alves Junior
  *
  *   This file is part of Hydra Data Analysis Framework.
  *
@@ -20,41 +20,45 @@
  *---------------------------------------------------------------------------*/
 
 /*
- * ForEach.h
+ * HistogramTraits.h
  *
- *  Created on: 04/05/2018
+ *  Created on: 03/07/2018
  *      Author: Antonio Augusto Alves Junior
  */
 
-#ifndef FOREACH_H_
-#define FOREACH_H_
+#ifndef HISTOGRAMTRAITS_H_
+#define HISTOGRAMTRAITS_H_
 
-
-#include <hydra/detail/Config.h>
-#include <hydra/detail/BackendPolicy.h>
+#include <type_traits>
 #include <hydra/Types.h>
-#include <hydra/detail/external/thrust/for_each.h>
-#include <utility>
+#include <hydra/DenseHistogram.h>
+#include <hydra/SparseHistogram.h>
 
 namespace hydra {
 
-template<typename Iterable, typename Functor>
-	typename std::enable_if<hydra::detail::is_iterable<Iterable>::value,
-	Range<decltype(std::declval<Iterable&>().begin())>>::type
-for_each(Iterable&& iterable, Functor const& functor)
-{
-	HYDRA_EXTERNAL_NS::thrust::for_each( std::forward<Iterable>(iterable).begin(),
-			std::forward<Iterable>(iterable).end(), functor);
+namespace detail {
 
-	return make_range( std::forward<Iterable>(iterable).begin(),
-			           std::forward<Iterable>(iterable).end());
-}
+//tags to identify hydra histograms
+template<class T, class R = void>
+struct histogram_type { typedef R type; };
+
+//dense histogram
+template<class T, class Enable = void>
+struct is_hydra_dense_histogram: std::false_type {};
+
+template<class T>
+struct is_hydra_dense_histogram<T, typename tag_type< typename T::hydra_dense_histogram_tag>::type>: std::true_type {};
+
+//sparse histogram
+template<class T, class Enable = void>
+struct is_hydra_sparse_histogram: std::false_type {};
+
+template<class T>
+struct is_hydra_sparse_histogram<T, typename tag_type< typename T::hydra_sparse_histogram_tag>::type>: std::true_type {};
 
 
-}  // namespace hydra
+}  // namespace detail
+}// namespace hydra
 
 
-
-
-
-#endif /* FOREACH_H_ */
+#endif /* HISTOGRAMTRAITS_H_ */

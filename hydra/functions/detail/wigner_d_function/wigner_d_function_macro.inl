@@ -1,6 +1,6 @@
 /*----------------------------------------------------------------------------
  *
- *   Copyright (C) 2016-2017 Antonio Augusto Alves Junior
+ *   Copyright (C) 2016 - 2018 Antonio Augusto Alves Junior
  *
  *   This file is part of Hydra Data Analysis Framework.
  *
@@ -20,41 +20,21 @@
  *---------------------------------------------------------------------------*/
 
 /*
- * ForEach.h
+ * wigner_d_function_macro.inl
  *
- *  Created on: 04/05/2018
+ *  Created on: 06/07/2018
  *      Author: Antonio Augusto Alves Junior
  */
 
-#ifndef FOREACH_H_
-#define FOREACH_H_
+#ifndef WIGNER_D_FUNCTION_MACRO_INL_
+#define WIGNER_D_FUNCTION_MACRO_INL_
 
 
-#include <hydra/detail/Config.h>
-#include <hydra/detail/BackendPolicy.h>
-#include <hydra/Types.h>
-#include <hydra/detail/external/thrust/for_each.h>
-#include <utility>
-
-namespace hydra {
-
-template<typename Iterable, typename Functor>
-	typename std::enable_if<hydra::detail::is_iterable<Iterable>::value,
-	Range<decltype(std::declval<Iterable&>().begin())>>::type
-for_each(Iterable&& iterable, Functor const& functor)
-{
-	HYDRA_EXTERNAL_NS::thrust::for_each( std::forward<Iterable>(iterable).begin(),
-			std::forward<Iterable>(iterable).end(), functor);
-
-	return make_range( std::forward<Iterable>(iterable).begin(),
-			           std::forward<Iterable>(iterable).end());
-}
+#define WIGNER_D_FUNCTION(J, M, N, type, formula)\
+template<> inline double wigner_d_function<_##type<J>,_##type<M>,_##type<N>>(const double theta){\
+\
+	return formula;\
+}\
 
 
-}  // namespace hydra
-
-
-
-
-
-#endif /* FOREACH_H_ */
+#endif /* WIGNER_D_FUNCTION_MACRO_INL_ */

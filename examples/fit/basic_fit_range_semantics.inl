@@ -20,31 +20,28 @@
  *---------------------------------------------------------------------------*/
 
 /*
- * binned_extended_logLL_fit.inl
+ * basic_fit_range_semantics.inl
  *
- *  Created on: 10/12/2017
+ *  Created on: 01/07/2018
  *      Author: Antonio Augusto Alves Junior
  */
 
-#ifndef BINNED_EXTENDED_LOGLL_FIT_INL_
-#define BINNED_EXTENDED_LOGLL_FIT_INL_
+#ifndef BASIC_FIT_RANGE_SEMANTICS_INL_
+#define BASIC_FIT_RANGE_SEMANTICS_INL_
+
 
 /**
- * \example binned_extended_logLL_fit.inl
+ * \example basic_fit_range_semantics.inl
  *
- * This example show how to perform an binned extended likelihood
- * fit. The model has three components, two Gaussians and one Exponential,
- * \f$ model(x) = N_1*Gaussian_1(x) + N_2*Gaussian_2(x) + N_3*Exponential()\f$
- * The example first generating a dataset sampling the model in parallel and
- * then fit the parameters and yields.
+ * This example shows how to generate a normal distributed dataset
+ * and fit a hydra::Gaussian distribution.
+ *
  */
 
 #include <iostream>
 #include <assert.h>
 #include <time.h>
 #include <chrono>
-#include <random>
-#include <algorithm>
 
 //command line
 #include <tclap/CmdLine.h>
@@ -58,10 +55,9 @@
 #include <hydra/Parameter.h>
 #include <hydra/UserParameters.h>
 #include <hydra/Pdf.h>
-#include <hydra/AddPdf.h>
-#include <hydra/DenseHistogram.h>
+#include <hydra/Filter.h>
 #include <hydra/functions/Gaussian.h>
-#include <hydra/functions/Exponential.h>
+#include <hydra/DenseHistogram.h>
 //Minuit2
 #include "Minuit2/FunctionMinimum.h"
 #include "Minuit2/MnUserParameterState.h"
@@ -83,8 +79,8 @@
 
 #endif //_ROOT_AVAILABLE_
 
-
 using namespace ROOT::Minuit2;
+
 
 int main(int argv, char** argc)
 {
@@ -110,57 +106,28 @@ int main(int argv, char** argc)
 	}
 
 	//-----------------
-    // some definitions
-    double min   =  0.0;
-    double max   =  10.0;
+	// some definitions
+	double min   = -5.0;
+	double max   =  5.0;
+	double mean  =  0.0;
+	double sigma =  1.0;
 
 	//generator
 	hydra::Random<> Generator( std::chrono::system_clock::now().time_since_epoch().count() );
 
-	//===========================
-    //fit model
-
-	hydra::Parameter  mean1_p  = hydra::Parameter::Create().Name("Mean_1").Value( 2.5) .Error(0.0001).Limits(0.0, 10.0);
-	hydra::Parameter  sigma1_p = hydra::Parameter::Create().Name("Sigma_1").Value(0.5).Error(0.0001).Limits(0.01, 1.5);
-
-	//gaussian function evaluating on the first argument
-	hydra::Gaussian<0> gaussian1(mean1_p, sigma1_p);
-	auto Gauss1_PDF = hydra::make_pdf(gaussian1, hydra::GaussianAnalyticalIntegral(min, max));
-
-    //-------------------------------------------
-
-    //gaussian 2
-    hydra::Parameter  mean2_p  = hydra::Parameter::Create().Name("Mean_2").Value(5.0) .Error(0.0001).Limits(0.0, 10.0);
-    hydra::Parameter  sigma2_p = hydra::Parameter::Create().Name("Sigma_2").Value(0.5).Error(0.0001).Limits(0.01, 1.5);
-
-    //gaussian function evaluating on the first argument
-    hydra::Gaussian<0> gaussian2(mean2_p, sigma2_p);
-    auto Gauss2_PDF = hydra::make_pdf(gaussian2, hydra::GaussianAnalyticalIntegral(min, max));
-
-    //--------------------------------------------
-
-    //exponential
-    //parameters
-    hydra::Parameter  tau_p  = hydra::Parameter::Create().Name("Tau").Value(1.0) .Error(0.0001).Limits(-2.0, 2.0);
-
-    //gaussian function evaluating on the first argument
-    hydra::Exponential<0> exponential(tau_p);
-    auto Exp_PDF = hydra::make_pdf(exponential, hydra::ExponentialAnalyticalIntegral(min, max));
+	//parameters
+	hydra::Parameter  mean_p  = hydra::Parameter::Create().Name("Mean").Value(0.5).Error(0.0001).Limits(-1.0, 1.0);
+	hydra::Parameter  sigma_p = hydra::Parameter::Create().Name("Sigma").Value(0.5).Error(0.0001).Limits(0.01, 1.5);
 
 
-    //------------------
-    //yields
-	hydra::Parameter N_Gauss_1_p("N_Gauss1" ,nentries, sqrt(nentries), nentries-nentries/2 , nentries+nentries/2) ;
-	hydra::Parameter N_Gauss_2_p("N_Gauss2" ,nentries, sqrt(nentries), nentries-nentries/2 , nentries+nentries/2) ;
-	hydra::Parameter     N_Exp_p("N_Exp" ,nentries, sqrt(nentries), nentries-nentries/2 , nentries+nentries/2) ;
+	//gaussian function evaluating on argument zero
+	hydra::Gaussian<> gaussian(mean_p,sigma_p);
+
+	//make model (pdf with analytical integral)
+	auto model = hydra::make_pdf(gaussian, hydra::GaussianAnalyticalIntegral(min, max) );
 
 
-	//make model
-	auto model = hydra::add_pdfs( {N_Gauss_1_p, N_Gauss_2_p, N_Exp_p }, Gauss1_PDF, Gauss2_PDF, Exp_PDF);
-	model.SetExtended(1);
-
-	//===========================
-
+	//------------------------
 #ifdef _ROOT_AVAILABLE_
 
 	TH1D hist_gaussian_d("gaussian_d", "Gaussian",    100, min, max);
@@ -168,67 +135,75 @@ int main(int argv, char** argc)
 
 #endif //_ROOT_AVAILABLE_
 
-	//begin scope
+	//begin raii scope
 	{
 
 		//1D device buffer
-		hydra::device::vector<double>  data_d(3*nentries);
+		hydra::device::vector<double>  data_d(nentries);
 
 		//-------------------------------------------------------
-		// Generate data
-
-		// gaussian1
-		Generator.Gauss(mean1_p.GetValue()+0.5, sigma1_p.GetValue()+0.5, data_d.begin(), data_d.begin()+nentries);
-
-		// gaussian1
-		Generator.Gauss(mean2_p.GetValue()+0.5, sigma2_p.GetValue()+0.5, data_d.begin()+nentries, data_d.begin()+2*nentries);
-
-		// exponential
-		Generator.Exp(tau_p.GetValue()+0.5, data_d.begin() + 2*nentries,  data_d.end());
+		//gaussian
+		Generator.Gauss(mean, sigma, data_d.begin(), data_d.end());
 
 		std::cout<< std::endl<< "Generated data:"<< std::endl;
 		for(size_t i=0; i<10; i++)
 			std::cout << "[" << i << "] :" << data_d[i] << std::endl;
 
-		hydra::DenseHistogram<double,1,  hydra::device::sys_t> Hist_Data(100, min, max);
-		Hist_Data.Fill( data_d.begin(), data_d.end() );
+		//filtering
+		auto filter = hydra::wrap_lambda(
+				[=] __hydra_dual__ (unsigned int n, double* x){
+				return (x[0] > min) && (x[0] < max );
+		});
 
-		//make model and fcn
-		auto fcn   = hydra::make_loglikehood_fcn( model, Hist_Data);
+		auto range  = hydra::apply_filter(data_d,  filter);
+
+		std::cout<< std::endl<< "Filtered data:"<< std::endl;
+		for(size_t i=0; i<10; i++)
+			std::cout << "[" << i << "] :" << range[i] << std::endl;
+
+		auto fcn   = hydra::make_loglikehood_fcn(model, range);
 
 		//-------------------------------------------------------
 		//fit
-		ROOT::Minuit2::MnPrint::SetLevel(-1);
+
+		ROOT::Minuit2::MnPrint::SetLevel(3);
 		hydra::Print::SetLevel(hydra::WARNING);
+
 		//minimization strategy
 		MnStrategy strategy(2);
 
-		// create Migrad minimizer
+		//create Migrad minimizer
 		MnMigrad migrad_d(fcn, fcn.GetParameters().GetMnState() ,  strategy);
 
+		//print parameters before fitting
 		std::cout<<fcn.GetParameters().GetMnState()<<std::endl;
 
-		// ... Minimize and profile the time
-
+		//Minimize and profile the time
 		auto start_d = std::chrono::high_resolution_clock::now();
+
 		FunctionMinimum minimum_d =  FunctionMinimum(migrad_d(std::numeric_limits<unsigned int>::max(), 5));
+
 		auto end_d = std::chrono::high_resolution_clock::now();
+
 		std::chrono::duration<double, std::milli> elapsed_d = end_d - start_d;
 
-		// output
-		std::cout<<"Minimum: "<< minimum_d << std::endl;
+		//print minuit result
+		std::cout<<"minimum: "<<minimum_d<<std::endl;
 
 		//time
 		std::cout << "-----------------------------------------"<<std::endl;
-		std::cout << "| [Fit] GPU Time (ms) ="<< elapsed_d.count() <<std::endl;
+		std::cout << "| GPU Time (ms) ="<< elapsed_d.count()    <<std::endl;
 		std::cout << "-----------------------------------------"<<std::endl;
+
+		hydra::DenseHistogram<double,1,  hydra::device::sys_t> Hist_Data(100, min, max);
+		Hist_Data.Fill( range );
 
 
 #ifdef _ROOT_AVAILABLE_
-
-		for(size_t i=0;  i<100; i++)
-			hist_gaussian_d.SetBinContent(i+1, Hist_Data.GetBinContent(i));
-
+		//draw data
+		for(size_t i=0;  i<100; i++){
+			hist_gaussian_d.SetBinContent(i+1, Hist_Data.GetBinContent(i)  );
+		}
 
 		//draw fitted function
 		hist_fitted_gaussian_d.Sumw2();
@@ -236,14 +211,14 @@ int main(int argv, char** argc)
 			double x = hist_fitted_gaussian_d.GetBinCenter(i);
 	        hist_fitted_gaussian_d.SetBinContent(i, fcn.GetPDF()(x) );
 		}
-		hist_fitted_gaussian_d.Scale(hist_gaussian_d.Integral()/hist_fitted_gaussian_d.Integral() );
 
+		hist_fitted_gaussian_d.Scale(hist_gaussian_d.Integral()/hist_fitted_gaussian_d.Integral() );
 #endif //_ROOT_AVAILABLE_
 
-	}//end scope
+	}//end raii scope
+
 
 #ifdef _ROOT_AVAILABLE_
-
 	TApplication *myapp=new TApplication("myapp",0,0);
 
 	//draw histograms
@@ -257,9 +232,8 @@ int main(int argv, char** argc)
 #endif //_ROOT_AVAILABLE_
 
 	return 0;
-
-
 }
 
 
-#endif /* BINNED_EXTENDED_LOGLL_FIT_INL_ */
+
+#endif /* BASIC_FIT_RANGE_SEMANTICS_INL_ */

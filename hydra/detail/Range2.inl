@@ -84,7 +84,7 @@ public:
 
 	iterator begin()const{ return iterator(fBegin, fFunctor); };
 
-		iterator   end()const{ return iterator(fEnd, fFunctor); };
+	iterator   end()const{ return iterator(fEnd, fFunctor); };
 
 
 

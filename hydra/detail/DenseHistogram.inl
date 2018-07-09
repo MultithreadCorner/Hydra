@@ -66,7 +66,7 @@ void DenseHistogram<T, N, detail::BackendPolicy<BACKEND>, detail::multidimension
 	//work on local copy of weights
 
 	auto weights  = HYDRA_EXTERNAL_NS::thrust::get_temporary_buffer<double>(common_system_t(), data_size);
-	hydra::copy(wbegin, wbegin+data_size, weights.first);
+	HYDRA_EXTERNAL_NS::thrust::copy(wbegin, wbegin+data_size, weights.first);
 
 	auto keys_begin = HYDRA_EXTERNAL_NS::thrust::make_transform_iterator(begin, key_functor );
 	auto keys_end   = HYDRA_EXTERNAL_NS::thrust::make_transform_iterator(end, key_functor);
@@ -126,7 +126,7 @@ void DenseHistogram<T, N, detail::BackendPolicy<BACKEND>, detail::multidimension
 	//work on local copy of weights
 
 	auto weights  = HYDRA_EXTERNAL_NS::thrust::get_temporary_buffer<double>(common_system_t(), data_size);
-	hydra::copy(wbegin, wbegin+data_size, weights.first);
+	HYDRA_EXTERNAL_NS::thrust::copy(wbegin, wbegin+data_size, weights.first);
 
 	auto keys_begin = HYDRA_EXTERNAL_NS::thrust::make_transform_iterator(begin, key_functor );
 	auto keys_end   = HYDRA_EXTERNAL_NS::thrust::make_transform_iterator(end, key_functor);
@@ -401,7 +401,7 @@ void DenseHistogram<T,1, detail::BackendPolicy<BACKEND>, detail::unidimensional>
 
 	//work on local copy of data
 	auto weights  = HYDRA_EXTERNAL_NS::thrust::get_temporary_buffer<double>(common_system_t(), data_size);
-	hydra::copy(wbegin, wbegin+data_size, weights.first);
+	HYDRA_EXTERNAL_NS::thrust::copy(wbegin, wbegin+data_size, weights.first);
 
 	auto keys_begin = HYDRA_EXTERNAL_NS::thrust::make_transform_iterator(begin, key_functor );
 	auto keys_end   = HYDRA_EXTERNAL_NS::thrust::make_transform_iterator(end, key_functor);
@@ -461,7 +461,7 @@ void DenseHistogram<T,1, detail::BackendPolicy<BACKEND>, detail::unidimensional 
 
 	//work on local copy of data
 	auto weights  = HYDRA_EXTERNAL_NS::thrust::get_temporary_buffer<double>(common_system_t(), data_size);
-	hydra::copy(wbegin, wbegin+data_size, weights.first);
+	HYDRA_EXTERNAL_NS::thrust::copy(wbegin, wbegin+data_size, weights.first);
 
 	auto keys_begin = HYDRA_EXTERNAL_NS::thrust::make_transform_iterator(begin, key_functor );
 	auto keys_end   = HYDRA_EXTERNAL_NS::thrust::make_transform_iterator(end, key_functor);

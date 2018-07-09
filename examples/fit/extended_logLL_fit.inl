@@ -201,7 +201,7 @@ int main(int argv, char** argc)
 			std::cout << "[" << i << "] :" << range.begin()[i] << std::endl;
 
 		//make model and fcn
-		auto fcn = hydra::make_loglikehood_fcn( model, range.begin(), range.end() );
+		auto fcn = hydra::make_loglikehood_fcn( model, range);//.begin(), range.end() );
 
 		//-------------------------------------------------------
 		//fit

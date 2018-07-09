@@ -164,6 +164,7 @@ public:
 	template<typename FUNCTOR,  typename Iterator>
 	std::pair<GReal_t, GReal_t> AverageOn(Iterator begin, Iterator end, FUNCTOR const& functor);
 
+
 	/**
 	 * @brief Evaluate a list of functors  over the phase-space
 	 * @param policy  Back-end;

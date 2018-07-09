@@ -38,22 +38,24 @@
 
 namespace hydra {
 
-template<typename Iterable, typename Iterator=decltype(std::declval<Iterable>().begin())>
+template<typename Iterable>
 typename std::enable_if<hydra::detail::is_iterable<Iterable>::value,
 typename HYDRA_EXTERNAL_NS::thrust::iterator_traits<decltype(std::declval<Iterable>().begin())>::value_type >::type
-reduce(Iterable& iterable){
+reduce(Iterable&& iterable){
 
-	return HYDRA_EXTERNAL_NS::thrust::reduce(iterable.begin(), iterable.end() );
+	return HYDRA_EXTERNAL_NS::thrust::reduce(std::forward<Iterable>(iterable).begin(),
+			std::forward<Iterable>(iterable).end() );
 }
 
-template<typename Iterable, typename Functor,
-typename Iterator=decltype(std::declval<Iterable>().begin())>
+template<typename Iterable, typename Functor>
 typename std::enable_if<hydra::detail::is_iterable<Iterable>::value,
 typename HYDRA_EXTERNAL_NS::thrust::iterator_traits<decltype(std::declval<Iterable>().begin())>::value_type >::type
-reduce(Iterable& iterable, Functor const& binary_functor){
+reduce(Iterable&& iterable, Functor const& binary_functor){
 
 
-	return HYDRA_EXTERNAL_NS::thrust::reduce(iterable.begin(), iterable.end(), binary_functor);
+	return HYDRA_EXTERNAL_NS::thrust::reduce(std::forward<Iterable>(iterable).begin(),
+			std::forward<Iterable>(iterable).end(),
+			binary_functor);
 }
 
 }  // namespace hydra

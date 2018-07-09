@@ -1,6 +1,6 @@
 /*----------------------------------------------------------------------------
  *
- *   Copyright (C) 2016-2017 Antonio Augusto Alves Junior
+ *   Copyright (C) 2016 - 2018 Antonio Augusto Alves Junior
  *
  *   This file is part of Hydra Data Analysis Framework.
  *
@@ -20,44 +20,42 @@
  *---------------------------------------------------------------------------*/
 
 /*
- * Transform.inl
+ * Zip.h
  *
- *  Created on: 11/06/2018
+ *  Created on: 29/06/2018
  *      Author: Antonio Augusto Alves Junior
  */
 
-#ifndef TRANSFORM_INL_
-#define TRANSFORM_INL_
-
+#ifndef ZIP_H_
+#define ZIP_H_
 
 #include <hydra/detail/Config.h>
 #include <hydra/detail/BackendPolicy.h>
-#include <utility>
-#include <hydra/detail/external/thrust/transform.h>
-#include <hydra/detail/external/thrust/iterator/iterator_traits.h>
+#include <hydra/detail/utility/Generic.h>
+#include <hydra/Tuple.h>
+#include <hydra/detail/external/thrust/iterator/zip_iterator.h>
+#include <hydra/detail/external/thrust/tuple.h>
 #include <hydra/Range.h>
 
 
+#include <utility>
+
 namespace hydra {
 
-template<typename Iterable_Input, typename Iterable_Output, typename Functor,
-typename Iterator=decltype(std::declval<Iterable_Output>().begin())>
-typename std::enable_if<hydra::detail::is_iterable<Iterable_Output>::value,
-Range<decltype(std::declval<Iterable_Output&>().begin())>>::type
-transform(Iterable_Input&& iterable_input, Iterable_Output&& iterable_output,  Functor const& unary_functor){
 
-	HYDRA_EXTERNAL_NS::thrust::transform(std::forward<Iterable_Input>(iterable_input).begin(),
-			std::forward<Iterable_Input>(iterable_input).end(),
-			std::forward<Iterable_Output>(iterable_output).begin(),
-			unary_functor);
+template<typename ...Iterables>
+typename std::enable_if< detail::all_true< detail::is_iterable<Iterables>::value...>::value,
+Range< HYDRA_EXTERNAL_NS::thrust::zip_iterator<
+	decltype(HYDRA_EXTERNAL_NS::thrust::make_tuple(std::declval<Iterables&>().begin()...))>>>::type
+zip(Iterables&&... iterables){
 
-	return make_range(std::forward<Iterable_Output>(iterable_output).begin(),
-			std::forward<Iterable_Output>(iterable_output).end());
+	return make_range( HYDRA_EXTERNAL_NS::thrust::make_zip_iterator(HYDRA_EXTERNAL_NS::thrust::make_tuple(std::forward<Iterables>(iterables).begin()...)),
+			HYDRA_EXTERNAL_NS::thrust::make_zip_iterator(HYDRA_EXTERNAL_NS::thrust::make_tuple(std::forward<Iterables>(iterables).end()...)) );
 }
-
 
 
 
 }  // namespace hydra
 
-#endif /* TRANSFORM_INL_ */
+
+#endif /* ZIP_H_ */
