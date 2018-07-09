@@ -22,9 +22,10 @@
 /*
  * wigner_J_unit_2.inl
  *
- *  Created on: 06/07/2018
+ *  Created on: Jul 08, 2018
  *      Author: Antonio Augusto Alves Junior
  */
+
 
 #ifndef WIGNER_J_UNIT_2_INL_
 #define WIGNER_J_UNIT_2_INL_
@@ -34,91 +35,106 @@
 
 namespace hydra {
 
-//J=2, M=2, N=2
-WIGNER_D_FUNCTION(2, 2, 2, unit, )
-
-//J=2, M=2, N=1
-WIGNER_D_FUNCTION(2, 2, 1, unit, )
-
-//J=2, M=2, N=0
-WIGNER_D_FUNCTION(2, 2, 0, unit, )
-
-//J=2, M=2, N=-1
-WIGNER_D_FUNCTION(2, 2, -1, unit, )
-
-//J=2, M=2, N=-2
-WIGNER_D_FUNCTION(2, 2, -2, unit, )
-
-//--------------
-
-//J=2, M=1, N=2
-WIGNER_D_FUNCTION(2, 1, 2, unit, )
-
-//J=2, M=1, N=1
-WIGNER_D_FUNCTION(2, 1, 1, unit, )
-
-//J=2, M=1, N=0
-WIGNER_D_FUNCTION(2, 1, 0, unit, )
-
-//J=2, M=1, N=-1
-WIGNER_D_FUNCTION(2, 1, -1, unit, )
-
-//J=2, M=1, N=-2
-WIGNER_D_FUNCTION(2, 1, -2, unit, )
-
-//--------------
-
-//J=2, M=0, N=2
-WIGNER_D_FUNCTION(2, 0, 2, unit, )
-
-//J=2, M=0, N=1
-WIGNER_D_FUNCTION(2, 0, 1, unit, )
-
-//J=2, M=0, N=0
-WIGNER_D_FUNCTION(2, 0, 0, unit, )
-
-//J=2, M=0, N=-1
-WIGNER_D_FUNCTION(2, 0, -1, unit, )
-
-//J=2, M=0, N=-2
-WIGNER_D_FUNCTION(2, 0, -2, unit, )
-
-//--------------
-
-//J=2, M=-1, N=2
-WIGNER_D_FUNCTION(2, -1, 2, unit, )
-
-//J=2, M=-1, N=1
-WIGNER_D_FUNCTION(2, -1, 1, unit, )
-
-//J=2, M=-1, N=0
-WIGNER_D_FUNCTION(2, -1, 0, unit, )
-
-//J=2, M=-1, N=-1
-WIGNER_D_FUNCTION(2, -1, -1, unit, )
-
-//J=2, M=-1, N=-2
-WIGNER_D_FUNCTION(2, -1, -2, unit, )
-
-//--------------
-
-//J=2, M=-2, N=2
-WIGNER_D_FUNCTION(2, -2, 2, unit, )
-
-//J=2, M=-2, N=1
-WIGNER_D_FUNCTION(2, -2, 1, unit, )
-
-//J=2, M=-2, N=0
-WIGNER_D_FUNCTION(2, -2, 0, unit, )
-
-//J=2, M=-2, N=-1
-WIGNER_D_FUNCTION(2, -2, -1, unit, )
-
-//J=2, M=-2, N=-2
-WIGNER_D_FUNCTION(2, -2, -2, unit, )
+// J,M,N = {2, -2, -2}
+//WIGNER_D_FUNCTION(2, -2, -2, unit, <uncomment this line and add the formula here>)
 
 
-}  // namespace hydra
+// J,M,N = {2, -2, -1}
+//WIGNER_D_FUNCTION(2, -2, -1, unit, <uncomment this line and add the formula here>)
+
+
+// J,M,N = {2, -2, 0}
+//WIGNER_D_FUNCTION(2, -2, 0, unit, <uncomment this line and add the formula here>)
+
+
+// J,M,N = {2, -2, 1}
+//WIGNER_D_FUNCTION(2, -2, 1, unit, <uncomment this line and add the formula here>)
+
+
+// J,M,N = {2, -2, 2}
+//WIGNER_D_FUNCTION(2, -2, 2, unit, <uncomment this line and add the formula here>)
+
+
+// J,M,N = {2, -1, -2}
+//WIGNER_D_FUNCTION(2, -1, -2, unit, <uncomment this line and add the formula here>)
+
+
+// J,M,N = {2, -1, -1}
+//WIGNER_D_FUNCTION(2, -1, -1, unit, <uncomment this line and add the formula here>)
+
+
+// J,M,N = {2, -1, 0}
+//WIGNER_D_FUNCTION(2, -1, 0, unit, <uncomment this line and add the formula here>)
+
+
+// J,M,N = {2, -1, 1}
+//WIGNER_D_FUNCTION(2, -1, 1, unit, <uncomment this line and add the formula here>)
+
+
+// J,M,N = {2, -1, 2}
+//WIGNER_D_FUNCTION(2, -1, 2, unit, <uncomment this line and add the formula here>)
+
+
+// J,M,N = {2, 0, -2}
+//WIGNER_D_FUNCTION(2, 0, -2, unit, <uncomment this line and add the formula here>)
+
+
+// J,M,N = {2, 0, -1}
+//WIGNER_D_FUNCTION(2, 0, -1, unit, <uncomment this line and add the formula here>)
+
+
+// J,M,N = {2, 0, 0}
+//WIGNER_D_FUNCTION(2, 0, 0, unit, <uncomment this line and add the formula here>)
+
+
+// J,M,N = {2, 0, 1}
+//WIGNER_D_FUNCTION(2, 0, 1, unit, <uncomment this line and add the formula here>)
+
+
+// J,M,N = {2, 0, 2}
+//WIGNER_D_FUNCTION(2, 0, 2, unit, <uncomment this line and add the formula here>)
+
+
+// J,M,N = {2, 1, -2}
+//WIGNER_D_FUNCTION(2, 1, -2, unit, <uncomment this line and add the formula here>)
+
+
+// J,M,N = {2, 1, -1}
+//WIGNER_D_FUNCTION(2, 1, -1, unit, <uncomment this line and add the formula here>)
+
+
+// J,M,N = {2, 1, 0}
+//WIGNER_D_FUNCTION(2, 1, 0, unit, <uncomment this line and add the formula here>)
+
+
+// J,M,N = {2, 1, 1}
+//WIGNER_D_FUNCTION(2, 1, 1, unit, <uncomment this line and add the formula here>)
+
+
+// J,M,N = {2, 1, 2}
+//WIGNER_D_FUNCTION(2, 1, 2, unit, <uncomment this line and add the formula here>)
+
+
+// J,M,N = {2, 2, -2}
+//WIGNER_D_FUNCTION(2, 2, -2, unit, <uncomment this line and add the formula here>)
+
+
+// J,M,N = {2, 2, -1}
+//WIGNER_D_FUNCTION(2, 2, -1, unit, <uncomment this line and add the formula here>)
+
+
+// J,M,N = {2, 2, 0}
+//WIGNER_D_FUNCTION(2, 2, 0, unit, <uncomment this line and add the formula here>)
+
+
+// J,M,N = {2, 2, 1}
+//WIGNER_D_FUNCTION(2, 2, 1, unit, <uncomment this line and add the formula here>)
+
+
+// J,M,N = {2, 2, 2}
+//WIGNER_D_FUNCTION(2, 2, 2, unit, <uncomment this line and add the formula here>)
+
+} \namespace hydra
 
 
 #endif /* WIGNER_J_UNIT_2_INL_ */
