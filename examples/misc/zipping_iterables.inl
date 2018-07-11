@@ -101,10 +101,7 @@ int main(int argv, char** argc)
 
 			hydra::get<1>(a) = 10;
 			hydra::get<2>(a) = 20;
-
-			hydra::WignerD<1,0,0> wigner_d;
-
-			hydra::get<3>(a) = wigner_d(0.5);
+			hydra::get<3>(a) = 30;
 		});
 
 		//print again
