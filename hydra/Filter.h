@@ -35,6 +35,7 @@
 #include <hydra/Types.h>
 #include <hydra/Tuple.h>
 #include <hydra/Range.h>
+#include <utility>
 
 //thrust
 #include <hydra/detail/external/thrust/partition.h>
@@ -53,9 +54,12 @@ namespace hydra {
  * @param filter Functor returning bool.
  * @return
  */
-template<typename Container, typename Functor>
-hydra::Range<typename Container::iterator>
-apply_filter(Container& container, Functor const& filter);
+template<typename Iterable, typename Functor>
+inline typename std::enable_if< hydra::detail::is_iterable<Iterable>::value,
+		 hydra::Range<decltype(std::declval<Iterable>().begin())>>::type
+apply_filter(Iterable&& container, Functor const& filter);
+
+
 
 }  // namespace hydra
 
