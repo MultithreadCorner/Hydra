@@ -168,7 +168,7 @@ PhaseSpace<N,GRND>::AverageOn(Iterator begin, Iterator end, FUNCTOR const& funct
 }
 
 template <size_t N, typename GRND>
-template<typename ...FUNCTOR, typename Iterator>
+template<typename Iterator, typename ...FUNCTOR>
 void PhaseSpace<N,GRND>::Evaluate(Vector4R const& mother, Iterator begin, Iterator end,
 		 FUNCTOR const& ...functors) {
 
@@ -204,6 +204,56 @@ if (EnergyChecker( mbegin, mend)){
 	}
 
 }
+
+//Evaluate range semantics interface ----------------------------
+
+
+template <size_t N, typename GRND>
+template<typename ...FUNCTOR, typename Iterable>
+inline typename std::enable_if< hydra::detail::is_iterable<Iterable>::value,
+			 hydra::Range<decltype(std::declval<Iterable>().begin())>>::type
+PhaseSpace<N,GRND>::Evaluate(Vector4R const& mother, Iterable&& result,
+		FUNCTOR const& ...functors) {
+
+	if (EnergyChecker( mother )){
+
+		detail::EvalMother<N,GRND,FUNCTOR...> evaluator( mother, fMasses, fSeed, functors...);
+
+		detail::launch_evaluator( std::forward<Iterable>(result).begin(),
+				std::forward<Iterable>(result).end(), evaluator );
+
+
+	}
+	else {
+		HYDRA_LOG(WARNING, "Not enough energy to generate all decays.Check the mass of the mother particle")
+	}
+
+}
+
+template <size_t N, typename GRND>
+template<typename ...FUNCTOR, typename IterableMother, typename Iterable>
+inline typename std::enable_if< hydra::detail::is_iterable<Iterable>::value &&
+	hydra::detail::is_iterable<IterableMother>::value,
+				 hydra::Range<decltype(std::declval<Iterable>().begin())>>::type
+PhaseSpace<N,GRND>::Evaluate( IterableMother&& mothers, Iterable&& result, FUNCTOR const& ...functors) {
+
+if (EnergyChecker( std::forward<IterableMother>(mothers).begin(),
+		std::forward<IterableMother>(mothers).end())){
+
+
+	detail::EvalMothers<N,GRND,FUNCTOR...> evaluator(fMasses, fSeed,functors... );
+
+	detail::launch_evaluator( std::forward<IterableMother>(mothers).begin(),
+			std::forward<IterableMother>(mothers).end(),
+			std::forward<Iterable>(result).begin(), evaluator );
+
+	}
+	else {
+		HYDRA_LOG(WARNING, "Not enough energy to generate all decays.Check the masses of the mother particles")
+	}
+
+}
+//---------------------------------------------------------------
 
 template <size_t N, typename GRND>
 template<typename Iterator>

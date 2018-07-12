@@ -173,7 +173,7 @@ public:
 	 * @param mother Mother particle four-vector;
 	 * @param functors Functors;
 	 */
-	template<typename ...FUNCTOR, typename Iterator>
+	template<typename Iterator, typename ...FUNCTOR >
 	void Evaluate(Vector4R const& mother, Iterator begin, Iterator end, FUNCTOR const& ...functors);
 
 	/**
@@ -187,6 +187,35 @@ public:
 	template<typename ...FUNCTOR, typename IteratorMother, typename Iterator>
 	void Evaluate(IteratorMother mbegin, IteratorMother mend,
 			Iterator begin, FUNCTOR const& ...functors);
+
+	//Evaluate range semantics interface ----------------------------
+
+	/**
+	 * @brief Evaluate a list of functors  over the phase-space
+	 * @param mother mother particle
+	 * @param result container for store the results
+	 * @param functors
+	 * @return A Range object pointing to the @param result container
+	 */
+	template<typename ...FUNCTOR, typename Iterable>
+	inline typename std::enable_if< hydra::detail::is_iterable<Iterable>::value,
+			 hydra::Range<decltype(std::declval<Iterable>().begin())>>::type
+	Evaluate(Vector4R const& mother, Iterable&& iterable, FUNCTOR const& ...functors);
+
+	/**
+	 * @brief Evaluate a list of functors  over the phase-space given a list vectors.
+	 * @param mothers list of mother particles;
+	 * @param result container for store the results
+	 * @param functors
+	 * @return A Range object pointing to the @param result container
+	 */
+	template<typename ...FUNCTOR, typename IterableMother, typename Iterable>
+	inline typename std::enable_if< hydra::detail::is_iterable<Iterable>::value &&
+	hydra::detail::is_iterable<IterableMother>::value,
+				 hydra::Range<decltype(std::declval<Iterable>().begin())>>::type
+	Evaluate(IterableMother&& mothers, Iterable&& result, FUNCTOR const& ...functors);
+
+	//--------------------------------------------------------------------
 
     /**
      * @brief Generate a phase-space  given a mother particle and a output range.

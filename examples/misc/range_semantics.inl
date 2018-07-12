@@ -119,10 +119,10 @@ int main(int argv, char** argc)
 
 		auto sorted_range = hydra::sort_by_key(positions, hydra::columns(positions, _0,_1 ) | length ) | is_inside;
 
-		hydra::for_each(positions, [] __hydra_dual__ ( hydra::tuple<double&, double&, double&> a){ a= hydra::tuple<double, double, double>{}; } );
+		hydra::for_each(positions, [] __hydra_dual__ ( hydra::tuple<double&, double&, double&> a){ a= hydra::tuple<double, double, double>{1,2,3}; } );
 		hydra::for_each(positions, [] __hydra_dual__ ( hydra::tuple<double, double, double> a){
 
-			printf("%f %f %f", hydra::get<0>(a),hydra::get<1>(a), hydra::get<2>(a));
+			printf("%f %f %f\n", hydra::get<0>(a),hydra::get<1>(a), hydra::get<2>(a));
 
 		});
 

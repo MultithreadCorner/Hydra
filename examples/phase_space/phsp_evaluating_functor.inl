@@ -230,7 +230,7 @@ int main(int argv, char** argc)
 
 		auto start = std::chrono::high_resolution_clock::now();
 		//generate the final state particles
-		phsp.Evaluate(B0, data_d.begin(), data_d.end(), m12Sq, m23Sq, cosTheta, cosTheta2);
+		phsp.Evaluate(B0, data_d,  m12Sq, m23Sq, cosTheta, cosTheta2);
 		auto end = std::chrono::high_resolution_clock::now();
 		std::chrono::duration<double, std::milli> elapsed = end - start;
 
