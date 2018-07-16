@@ -851,6 +851,26 @@ make_dense_histogram( detail::BackendPolicy<BACKEND> backend, std::array<size_t,
  * @param grid  std::array storing the bins per dimension.
  * @param lowerlimits std::array storing the lower limits per dimension.
  * @param upperlimits  std::array storing the upper limits per dimension.
+ * @param data Iterable storing the data to histogram.
+ * @return
+ */
+template<typename T, size_t N , hydra::detail::Backend BACKEND, typename Iterable >
+inline typename std::enable_if< hydra::detail::is_iterable<Iterable>::value,
+DenseHistogram< T, N,  detail::BackendPolicy<BACKEND>, detail::multidimensional>>::type
+make_dense_histogram( detail::BackendPolicy<BACKEND> backend, std::array<size_t, N> grid,
+		std::array<T, N> lowerlimits,   std::array<T, N> upperlimits,	Iterable&& data);
+
+
+
+
+/**
+ * \ingroup histogram
+ * \brief Function to make a N-dimensional dense histogram.
+ *
+ * @param backend
+ * @param grid  std::array storing the bins per dimension.
+ * @param lowerlimits std::array storing the lower limits per dimension.
+ * @param upperlimits  std::array storing the upper limits per dimension.
  * @param first Iterator pointing to the begin of the data range.
  * @param end Iterator pointing to the end of the data range.
  * @return

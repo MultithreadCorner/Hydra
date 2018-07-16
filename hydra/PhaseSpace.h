@@ -253,7 +253,31 @@ public:
 	template<typename Iterator1, typename Iterator2, hydra::detail::Backend BACKEND>
 	void Generate(hydra::detail::BackendPolicy<BACKEND> const& exec_policy , Iterator1 begin, Iterator1 end, Iterator2 daughters_begin);
 
+	// Generate range semantics ------------------------------------------------
+	/**
+	 * @brief Generate a phase-space  given a mother particle and a output range.
+	 * @param mother Mother particle.
+	 * @param begin Iterator pointing to the begin output range.
+	 * @param end Iterator pointing to the end output range.
+	 */
+	template<typename Iterable>
+	inline typename std::enable_if< hydra::detail::is_iterable<Iterable>::value,
+				 hydra::Range<decltype(std::declval<Iterable>().begin())>>::type
+	Generate(Vector4R const& mother, Iterable&& events);
 
+	/**
+	 * @brief Generate a phase-space  given a range of mother particles and a output range.
+	 * @param begin Iterator pointing to the begin of range of mother particles.
+	 * @param end Iterator pointing to the end  of range of mother particles.
+	 * @param daughters_begin Iterator pointing to the begin of range of daughter particles.
+	 */
+	template<typename IterableMothers, typename Iterable>
+	inline typename std::enable_if< hydra::detail::is_iterable<Iterable>::value &&
+		hydra::detail::is_iterable<IterableMothers>::value,
+					 hydra::Range<decltype(std::declval<Iterable>().begin())>>::type
+	Generate( IterableMothers&& mothers, Iterable&& daughters);
+
+	//--------------------------------------------------------------------------
 
 
 	/**

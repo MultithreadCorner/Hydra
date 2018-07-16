@@ -170,7 +170,7 @@ auto wrap_lambda_helper(L const& f, ReturnType, HYDRA_EXTERNAL_NS::thrust::tuple
 }
 
 template<typename L, typename ReturnType, typename ...Args>
-auto wrap_lambda_helper(L const& f, ReturnType , HYDRA_EXTERNAL_NS::thrust::tuple<Args...>const& )
+auto wrap_lambda_helper(L const& f, ReturnType&& , HYDRA_EXTERNAL_NS::thrust::tuple<Args...>&& )
 -> LambdaWrapper<ReturnType(Args...), L, 0>
 {
 	return LambdaWrapper<ReturnType(Args...), L, 0>(f);
@@ -186,9 +186,11 @@ auto wrap_lambda_helper(L const& f, ReturnType , HYDRA_EXTERNAL_NS::thrust::tupl
  * @return LambdaWrapper object.
  */
 template<typename L, typename ...T>
-auto wrap_lambda(L const& f,  T ...pars)
--> decltype(detail::wrap_lambda_helper(f, typename detail::function_traits<L>::return_type() ,
-		typename detail::function_traits<L>::args_type(),  std::array<Parameter, sizeof...(T)>()))
+auto wrap_lambda(L const& f,  T const& ...pars)
+-> decltype(detail::wrap_lambda_helper( std::declval<L>(),
+		std::declval<typename detail::function_traits<L>::return_type>() ,
+		std::declval<typename detail::function_traits<L>::args_type>() ,
+		std::declval<std::array<Parameter, sizeof...(T)>>()))
 {
 	typedef detail::function_traits<L> traits;
 	typename traits::return_type r = typename traits::return_type();
@@ -206,14 +208,14 @@ auto wrap_lambda(L const& f,  T ...pars)
  */
 template<typename L>
 auto wrap_lambda(L const& f)
--> decltype(detail::wrap_lambda_helper(f, typename detail::function_traits<L>::return_type() ,
-		typename detail::function_traits<L>::args_type()))
+-> decltype(detail::wrap_lambda_helper(std::declval<L>(),
+		std::declval<typename detail::function_traits<L>::return_type>() ,
+		std::declval<typename detail::function_traits<L>::args_type>()))
 {
-	typedef detail::function_traits<L> traits;
-	typename traits::return_type r = typename traits::return_type();
-	typename traits::args_type t;
 
-	return detail::wrap_lambda_helper(f, r, t);
+	return detail::wrap_lambda_helper(f,
+			typename detail::function_traits<L>::return_type{} ,
+			typename detail::function_traits<L>::args_type{});
 }
 
 

@@ -1,6 +1,6 @@
 /*----------------------------------------------------------------------------
  *
- *   Copyright (C) 2016 - 2018 Antonio Augusto Alves Junior
+ *   Copyright (C) 2016-2017 Antonio Augusto Alves Junior
  *
  *   This file is part of Hydra Data Analysis Framework.
  *
@@ -20,27 +20,40 @@
  *---------------------------------------------------------------------------*/
 
 /*
- * CountingRange.inl
+ * PhaseSpaceRange.inl
  *
- *  Created on: 20/05/2018
+ *  Created on: 12/07/2018
  *      Author: Antonio Augusto Alves Junior
  */
 
-#ifndef COUNTINGRANGE_INL_
-#define COUNTINGRANGE_INL_
+#ifndef PHASESPACERANGE_INL_
+#define PHASESPACERANGE_INL_
 
 #include <hydra/detail/Config.h>
 #include <hydra/detail/external/thrust/iterator/counting_iterator.h>
+#include <hydra/Vector4R.h>
+
+#include <array>
 
 namespace hydra {
 
+template <size_t N>
 Range<HYDRA_EXTERNAL_NS::thrust::counting_iterator<long int>>
-range(long int first, long int last ){
+phase_space_range(Vector4R const& mother, std::array<double, N> masses, size_t nentries ){
+
+
+	auto first_event = HYDRA_EXTERNAL_NS::thrust::counting_iterator<size_t>(0);
+	auto  last_event = HYDRA_EXTERNAL_NS::thrust::counting_iterator<size_t>(nentries);
+
+
 
 	return make_range( HYDRA_EXTERNAL_NS::thrust::counting_iterator<long int>(first),
 			HYDRA_EXTERNAL_NS::thrust::counting_iterator<long int>(last) );
+
 }
 
 }  // namespace hydra
 
-#endif /* COUNTINGRANGE_INL_ */
+
+
+#endif /* PHASESPACERANGE_INL_ */
