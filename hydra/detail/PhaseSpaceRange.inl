@@ -30,8 +30,11 @@
 #define PHASESPACERANGE_INL_
 
 #include <hydra/detail/Config.h>
+#include <hydra/detail/external/thrust/tuple.h>
 #include <hydra/detail/external/thrust/iterator/counting_iterator.h>
+#include <hydra/detail/external/thrust/iterator/transform_iterator.h>
 #include <hydra/Vector4R.h>
+#include <array>
 
 #include <array>
 
@@ -42,10 +45,16 @@ Range<HYDRA_EXTERNAL_NS::thrust::counting_iterator<long int>>
 phase_space_range(Vector4R const& mother, std::array<double, N> masses, size_t nentries ){
 
 
-	auto first_event = HYDRA_EXTERNAL_NS::thrust::counting_iterator<size_t>(0);
-	auto  last_event = HYDRA_EXTERNAL_NS::thrust::counting_iterator<size_t>(nentries);
+	typedef HYDRA_EXTERNAL_NS::thrust::tuple<double,
+			Vector4R, Vector4R, Vector4R, Vector4R> event_t;
 
+	typedef HYDRA_EXTERNAL_NS::thrust::counting_iterator<size_t> index_iterator;
 
+	auto first_index = index_iterator(0);
+	auto  last_index = index_iterator(nentries);
+
+    auto first_event = HYDRA_EXTERNAL_NS::thrust::transform_iterator<square_root,
+    		index_iterator, event_t>();
 
 	return make_range( HYDRA_EXTERNAL_NS::thrust::counting_iterator<long int>(first),
 			HYDRA_EXTERNAL_NS::thrust::counting_iterator<long int>(last) );

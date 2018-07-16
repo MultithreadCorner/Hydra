@@ -56,13 +56,9 @@ namespace hydra {
 namespace detail {
 
 
-template <size_t N, typename GRND, typename FUNCTOR, typename ...FUNCTORS >
+template <size_t N, typename GRND>
 struct GenerateDecay
 {
-	typedef  HYDRA_EXTERNAL_NS::thrust::tuple<FUNCTOR,FUNCTORS...> functors_tuple_type;
-
-	typedef  HYDRA_EXTERNAL_NS::thrust::tuple<typename FUNCTOR::return_type,
-			typename FUNCTORS::return_type...>  return_tuple_type;
 
 	typedef typename hydra::detail::tuple_cat_type<HYDRA_EXTERNAL_NS::thrust::tuple<GReal_t> , return_tuple_type>::type
 			result_tuple_type;
@@ -78,15 +74,12 @@ struct GenerateDecay
 
 
 	GReal_t fMasses[N];
-	functors_tuple_type fFunctors ;
 
 	//constructor
 	GenerateDecay(Vector4R const& mother,
 			const GReal_t (&masses)[N],
-			const GInt_t _seed,
-			FUNCTOR const& functor, FUNCTORS const& ...functors ):
-			fSeed(_seed),
-			fFunctors( HYDRA_EXTERNAL_NS::thrust::make_tuple(functor,functors...))
+			const GInt_t _seed ):
+			fSeed(_seed)
 	{
 
 		for(size_t i=0; i<N; i++) fMasses[i]=masses[i];
