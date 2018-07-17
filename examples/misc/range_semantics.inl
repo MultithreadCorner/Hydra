@@ -129,6 +129,10 @@ int main(int argv, char** argc)
 
 		});
 
+ std::array<double, 3> masses{0.13957061, 0.13957061,0.13957061};
+
+		auto events =  hydra::phase_space_range(hydra::Vector4R(0.493677, 0.0, 0.0, 0.0),masses, 1000);
+
 
 
 

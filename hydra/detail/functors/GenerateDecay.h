@@ -59,10 +59,10 @@ namespace detail {
 template <size_t N, typename GRND>
 struct GenerateDecay
 {
-
-	typedef typename hydra::detail::tuple_cat_type<HYDRA_EXTERNAL_NS::thrust::tuple<GReal_t> , return_tuple_type>::type
-			result_tuple_type;
-
+	typedef typename hydra::detail::tuple_cat_type<
+			 HYDRA_EXTERNAL_NS::thrust::tuple<double>,
+			 typename hydra::detail::tuple_type<N,Vector4R>::type
+			>::type		result_type;
 
 	GInt_t  fSeed;
 
@@ -120,9 +120,53 @@ struct GenerateDecay
 
 	}
 
+	//constructor
+		GenerateDecay(Vector4R const& mother,
+				std::array<double, N> const& masses,
+				const GInt_t _seed ):
+				fSeed(_seed)
+		{
+
+			for(size_t i=0; i<N; i++) fMasses[i]=masses[i];
+
+			GReal_t _fTeCmTm = mother.mass(); // total energy in C.M. minus the sum of the masses
+
+			for (size_t n = 0; n < N; n++)
+			{
+				_fTeCmTm -= masses[n];
+			}
+
+			GReal_t emmax = _fTeCmTm + masses[0];
+			GReal_t emmin = 0.0;
+			GReal_t wtmax = 1.0;
+			for (size_t n = 1; n < N; n++)
+			{
+				emmin += masses[n - 1];
+				emmax += masses[n];
+				wtmax *= pdk(emmax, emmin, masses[n]);
+			}
+			GReal_t _fWtMax = 1.0 / wtmax;
+
+			GReal_t _beta = mother.d3mag() / mother.get(0);
+
+			if (_beta)
+			{
+				GReal_t w = _beta / mother.d3mag();
+				fBeta0 = mother.get(0) * w;
+				fBeta1 = mother.get(1) * w;
+				fBeta2 = mother.get(2) * w;
+			}
+			else
+				fBeta0 = fBeta1 = fBeta2 = 0.0;
+
+			fTeCmTm = _fTeCmTm;
+			fWtMax = _fWtMax;
+
+
+		}
+
 	__hydra_host__ __hydra_device__
-	GenerateDecay( GenerateDecay<N, GRND, FUNCTOR,FUNCTORS...> const& other ):
-	fFunctors(other.fFunctors),
+	GenerateDecay( GenerateDecay<N, GRND> const& other ):
 	fSeed(other.fSeed ),
 	fTeCmTm(other.fTeCmTm ),
 	fWtMax(other.fWtMax ),
@@ -138,8 +182,6 @@ struct GenerateDecay
 			const GReal_t c)
 	{
 		//the PDK function
-		//GReal_t x = (a - b - c) * (a + b + c) * (a - b + c) * (a + b - c);
-		//x = sqrt( x ) / (2 * a);
 		return ::sqrt( (a - b - c) * (a + b + c) * (a - b + c) * (a + b - c) ) / (2 * a);
 	}
 
@@ -295,7 +337,7 @@ struct GenerateDecay
 
 
 	__hydra_host__   __hydra_device__
-	inline result_tuple_type operator()( size_t evt )
+	inline result_type operator()( size_t evt )
 	{
 		typedef typename hydra::detail::tuple_type<N,
 				Vector4R>::type Tuple_t;
@@ -310,10 +352,7 @@ struct GenerateDecay
 
 		hydra::detail::assignArrayToTuple(particles, Particles   );
 
-		return_tuple_type tmp = hydra::detail::invoke(particles, fFunctors);
-
-
-		return HYDRA_EXTERNAL_NS::thrust::tuple_cat(HYDRA_EXTERNAL_NS::thrust::make_tuple(weight), tmp );
+		return HYDRA_EXTERNAL_NS::thrust::tuple_cat(HYDRA_EXTERNAL_NS::thrust::make_tuple(weight),  particles);
 
 	}
 

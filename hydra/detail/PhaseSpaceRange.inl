@@ -33,6 +33,7 @@
 #include <hydra/detail/external/thrust/tuple.h>
 #include <hydra/detail/external/thrust/iterator/counting_iterator.h>
 #include <hydra/detail/external/thrust/iterator/transform_iterator.h>
+#include <hydra/detail/functors/GenerateDecay.h>
 #include <hydra/Vector4R.h>
 #include <array>
 
@@ -50,14 +51,17 @@ phase_space_range(Vector4R const& mother, std::array<double, N> masses, size_t n
 
 	typedef HYDRA_EXTERNAL_NS::thrust::counting_iterator<size_t> index_iterator;
 
+	typedef detail::GenerateDecay<N,HYDRA_EXTERNAL_NS::thrust::random::default_random_engine> decayer_t;
+
 	auto first_index = index_iterator(0);
 	auto  last_index = index_iterator(nentries);
 
-    auto first_event = HYDRA_EXTERNAL_NS::thrust::transform_iterator<square_root,
-    		index_iterator, event_t>();
+	auto decayer = decayer_t(mother, masses,456852);
 
-	return make_range( HYDRA_EXTERNAL_NS::thrust::counting_iterator<long int>(first),
-			HYDRA_EXTERNAL_NS::thrust::counting_iterator<long int>(last) );
+    auto first_event = HYDRA_EXTERNAL_NS::thrust::transform_iterator<decayer_t,index_iterator, event_t>(first_index, decayer);
+    auto  last_event = HYDRA_EXTERNAL_NS::thrust::transform_iterator<decayer_t,index_iterator, event_t>(last_index, decayer);
+
+	return make_range( first_event, last_event );
 
 }
 
