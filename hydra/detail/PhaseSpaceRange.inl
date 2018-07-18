@@ -42,12 +42,19 @@
 namespace hydra {
 
 template <size_t N>
-Range<HYDRA_EXTERNAL_NS::thrust::counting_iterator<long int>>
-phase_space_range(Vector4R const& mother, std::array<double, N> masses, size_t nentries ){
+Range<
+HYDRA_EXTERNAL_NS::thrust::transform_iterator<
+	detail::GenerateDecay<N,HYDRA_EXTERNAL_NS::thrust::random::default_random_engine>,
+	HYDRA_EXTERNAL_NS::thrust::counting_iterator<size_t>,
+	typename hydra::detail::tuple_cat_type< HYDRA_EXTERNAL_NS::thrust::tuple<double>,
+				 typename hydra::detail::tuple_type<N,Vector4R>::type>::type>>
+phase_space_range(Vector4R const& mother, std::array<double, N> masses, size_t nentries )
+{
+	typedef typename hydra::detail::tuple_cat_type<
+			 HYDRA_EXTERNAL_NS::thrust::tuple<double>,
+			 typename hydra::detail::tuple_type<N,Vector4R>::type
+			>::type	 event_t;
 
-
-	typedef HYDRA_EXTERNAL_NS::thrust::tuple<double,
-			Vector4R, Vector4R, Vector4R, Vector4R> event_t;
 
 	typedef HYDRA_EXTERNAL_NS::thrust::counting_iterator<size_t> index_iterator;
 

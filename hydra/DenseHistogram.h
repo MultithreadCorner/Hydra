@@ -794,14 +794,14 @@ public:
 
 	template<typename Iterable>
 	inline typename std::enable_if< hydra::detail::is_iterable<Iterable>::value, void >::type
-	Fill(Iterable& container){
-		return this->Fill( container.begin(), container.end());
+	Fill(Iterable&& container){
+		return this->Fill( std::forward<Iterable>(container).begin(), std::forward<Iterable>(container).end());
 	}
 
 	template<typename Iterable1, typename Iterable2>
 	inline typename std::enable_if< hydra::detail::is_iterable<Iterable1>::value
 	&&  hydra::detail::is_iterable<Iterable2>::value, void >::type
-	Fill(Iterable1& container, Iterable2& wbegin){
+	Fill(Iterable1&& container, Iterable2&& wbegin){
 		return this->Fill( container.begin(), container.end(), wbegin.begin());
 	}
 

@@ -49,6 +49,7 @@
 #include <hydra/Placeholders.h>
 #include <hydra/Random.h>
 #include <hydra/Algorithm.h>
+#include <hydra/DenseHistogram.h>
 
 //command line arguments
 #include <tclap/CmdLine.h>
@@ -129,9 +130,22 @@ int main(int argv, char** argc)
 
 		});
 
- std::array<double, 3> masses{0.13957061, 0.13957061,0.13957061};
+		std::array<double, 3> masses{0.13957061, 0.13957061,0.13957061};
 
-		auto events =  hydra::phase_space_range(hydra::Vector4R(0.493677, 0.0, 0.0, 0.0),masses, 1000);
+		auto events =  hydra::phase_space_range(hydra::Vector4R(0.493677, 0.0, 0.0, 0.0),masses, 100000);
+
+		auto invariant_mass = hydra::wrap_lambda(
+				[]__hydra_dual__( hydra::tuple<double, hydra::Vector4R, hydra::Vector4R, hydra::Vector4R> event ){
+
+			return (hydra::get<1>(event) + hydra::get<2>(event)).mass();
+		});
+
+		hydra::DenseHistogram<double,1, hydra::device::sys_t> Hist_Mass(100, masses[0]+masses[1], 0.493677 - masses[0]);
+		Hist_Mass.Fill( events|invariant_mass );
+
+		hydra::for_each(Hist_Mass, [] __hydra_dual__ ( double a){
+					printf("%f\n", a);
+				});
 
 
 
