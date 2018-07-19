@@ -46,13 +46,13 @@ auto end(  const C& c ) -> decltype(c.end()){
 }
 
 template< class C >
-auto begin( C&& c ) -> decltype(c.begin()){
-	return c.begin();
+auto begin( C&& c ) -> decltype(std::forward<C>(c).begin()){
+	return std::forward<C>(c).begin();
 }
 
 template< class C >
-auto end( C&& c ) -> decltype(c.end()){
-	return c.end();
+auto end( C&& c ) -> decltype(std::forward<C>(c).end()){
+	return std::forward<C>(c).end();
 }
 
 template< class T, size_t N >
@@ -67,13 +67,13 @@ T* end( T (&array)[N] ){
 
 //reverse iterators
 template< class C >
-auto rbegin( C&& c ) -> decltype(c.rbegin()){
-	return c.rbegin();
+auto rbegin( C&& c ) -> decltype(std::forward<C>(c).rbegin()){
+	return std::forward<C>(c).rbegin();
 }
 
 template< class C >
-auto rend( C&& c ) -> decltype(c.rend()){
-	return c.rend();
+auto rend( C&& c ) -> decltype(std::forward<C>(c).rend()){
+	return std::forward<C>(c).rend();
 }
 
 template< class C >

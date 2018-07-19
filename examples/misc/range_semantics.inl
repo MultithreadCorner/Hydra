@@ -141,9 +141,8 @@ int main(int argv, char** argc)
 		});
 
 		hydra::DenseHistogram<double,1, hydra::device::sys_t> Hist_Mass(100, masses[0]+masses[1], 0.493677 - masses[0]);
-		Hist_Mass.Fill( events|invariant_mass );
 
-		hydra::for_each(Hist_Mass, [] __hydra_dual__ ( double a){
+		hydra::for_each( Hist_Mass.Fill( events|invariant_mass ), [] __hydra_dual__ ( double a){
 					printf("%f\n", a);
 				});
 

@@ -31,10 +31,6 @@
 #ifndef _PHASESPACE_H_
 #define _PHASESPACE_H_
 
-#include <array>
-#include <vector>
-#include <initializer_list>
-
 #include <hydra/detail/Config.h>
 #include <hydra/detail/BackendPolicy.h>
 #include <hydra/detail/IteratorTraits.h>
@@ -67,6 +63,11 @@
 #include <hydra/detail/external/thrust/random.h>
 #include <hydra/detail/external/thrust/distance.h>
 #include <hydra/detail/external/thrust/equal.h>
+
+#include <array>
+#include <vector>
+#include <utility>
+#include <initializer_list>
 
 namespace hydra {
 
