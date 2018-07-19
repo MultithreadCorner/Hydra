@@ -111,8 +111,8 @@ public:
 	}
 
 	template<typename T>
-	__hydra_host__ __hydra_device__ inline
-	double Evaluate(T x)  const
+	__hydra_host__ __hydra_device__
+	inline double Evaluate(T x)  const
 	{
 		double coefs[Order+1]{};
 		for(unsigned int i =0; i<Order+1; i++)
@@ -127,20 +127,21 @@ public:
 private:
 
 	template<unsigned int I>
-	__hydra_host__ __hydra_device__ inline
-	typename std::enable_if<(I==Order+1), void >::type
+	__hydra_host__ __hydra_device__
+	inline typename std::enable_if<(I==Order+1), void >::type
 	polynomial_helper( const double(&)[Order+1],  const double, double&)  const {}
 
 	template<unsigned int I=0>
-	__hydra_host__ __hydra_device__ inline
-	typename std::enable_if<(I<Order+1), void >::type
+	__hydra_host__ __hydra_device__
+	inline typename std::enable_if<(I<Order+1), void >::type
 	polynomial_helper( const double(&coef)[Order+1],  const double x, double& r)  const {
 
 		r += coef[I]*chebychev_1st_kind(I, x);
 		polynomial_helper<I+1>( coef, x, r);
 	}
 
-	__hydra_host__ __hydra_device__ inline double polynomial( const double(&coef)[Order+1],  const double x) const {
+	__hydra_host__ __hydra_device__
+	inline double polynomial( const double(&coef)[Order+1],  const double x) const {
 
 		double r=0.0;
 		polynomial_helper( coef,x, r);

@@ -40,11 +40,14 @@
 #include <hydra/detail/external/thrust/system/detail/generic/select_system.h>
 #include <hydra/detail/external/thrust/iterator/iterator_traits.h>
 
+#include<utility>
+
 namespace hydra {
 
 template<typename T,size_t N,  hydra::detail::Backend BACKEND >
 template<typename Iterator1, typename Iterator2>
-void SparseHistogram<T, N,  detail::BackendPolicy<BACKEND>, detail::multidimensional>::Fill(Iterator1 begin, Iterator1 end, Iterator2 wbegin )
+SparseHistogram<T, N,  detail::BackendPolicy<BACKEND>, detail::multidimensional>&
+SparseHistogram<T, N,  detail::BackendPolicy<BACKEND>, detail::multidimensional>::Fill(Iterator1 begin, Iterator1 end, Iterator2 wbegin )
 {
 	using HYDRA_EXTERNAL_NS::thrust::system::detail::generic::select_system;
 	typedef  typename HYDRA_EXTERNAL_NS::thrust::iterator_system<Iterator1>::type system1_t;
@@ -95,12 +98,15 @@ void SparseHistogram<T, N,  detail::BackendPolicy<BACKEND>, detail::multidimensi
 	HYDRA_EXTERNAL_NS::thrust::return_temporary_buffer(common_system_t(), reduced_values.first);
 	HYDRA_EXTERNAL_NS::thrust::return_temporary_buffer(common_system_t(), reduced_keys.first);
 
+	return *this;
+
 }
 
 
 template< typename T,size_t N, hydra::detail::Backend BACKEND >
 template<hydra::detail::Backend BACKEND2, typename Iterator1, typename Iterator2>
-void SparseHistogram<T, N,  detail::BackendPolicy<BACKEND>, detail::multidimensional>::Fill(detail::BackendPolicy<BACKEND2> const& exec_policy,
+SparseHistogram<T, N,  detail::BackendPolicy<BACKEND>, detail::multidimensional>&
+SparseHistogram<T, N,  detail::BackendPolicy<BACKEND>, detail::multidimensional>::Fill(detail::BackendPolicy<BACKEND2> const& exec_policy,
 		Iterator1 begin, Iterator1 end, Iterator2 wbegin )
 {
 	using HYDRA_EXTERNAL_NS::thrust::system::detail::generic::select_system;
@@ -151,11 +157,13 @@ void SparseHistogram<T, N,  detail::BackendPolicy<BACKEND>, detail::multidimensi
 	HYDRA_EXTERNAL_NS::thrust::return_temporary_buffer(common_system_t(), reduced_values.first);
 	HYDRA_EXTERNAL_NS::thrust::return_temporary_buffer(common_system_t(), reduced_keys.first);
 
+	return *this;
 }
 
 template<typename T, size_t N,  hydra::detail::Backend BACKEND >
 template<typename Iterator>
-void SparseHistogram<T, N,  detail::BackendPolicy<BACKEND>, detail::multidimensional>::Fill(Iterator begin, Iterator end )
+SparseHistogram<T, N,  detail::BackendPolicy<BACKEND>, detail::multidimensional>&
+SparseHistogram<T, N,  detail::BackendPolicy<BACKEND>, detail::multidimensional>::Fill(Iterator begin, Iterator end )
 {
 	using HYDRA_EXTERNAL_NS::thrust::system::detail::generic::select_system;
 	typedef  typename HYDRA_EXTERNAL_NS::thrust::iterator_system<Iterator>::type system1_t;
@@ -206,12 +214,14 @@ void SparseHistogram<T, N,  detail::BackendPolicy<BACKEND>, detail::multidimensi
 	HYDRA_EXTERNAL_NS::thrust::return_temporary_buffer(common_system_t(), reduced_values.first);
 	HYDRA_EXTERNAL_NS::thrust::return_temporary_buffer(common_system_t(), reduced_keys.first);
 
+	return *this;
 
 }
 
 template<typename T,size_t N,  hydra::detail::Backend BACKEND >
 template<hydra::detail::Backend BACKEND2,typename Iterator>
-void SparseHistogram<T, N,  detail::BackendPolicy<BACKEND>, detail::multidimensional>::Fill(detail::BackendPolicy<BACKEND2> const& exec_policy,
+SparseHistogram<T, N,  detail::BackendPolicy<BACKEND>, detail::multidimensional>&
+SparseHistogram<T, N,  detail::BackendPolicy<BACKEND>, detail::multidimensional>::Fill(detail::BackendPolicy<BACKEND2> const& exec_policy,
 		Iterator begin, Iterator end )
 {
 	typedef  typename HYDRA_EXTERNAL_NS::thrust::iterator_system<Iterator>::type system1_t;
@@ -260,12 +270,14 @@ void SparseHistogram<T, N,  detail::BackendPolicy<BACKEND>, detail::multidimensi
 	HYDRA_EXTERNAL_NS::thrust::return_temporary_buffer(common_system_t(), reduced_values.first);
 	HYDRA_EXTERNAL_NS::thrust::return_temporary_buffer(common_system_t(), reduced_keys.first);
 
+	return *this;
 
 }
 
 template<typename T, hydra::detail::Backend BACKEND >
 template<typename Iterator>
-void SparseHistogram<T, 1,  detail::BackendPolicy<BACKEND>, detail::unidimensional>::Fill(Iterator begin, Iterator end )
+SparseHistogram<T, 1,  detail::BackendPolicy<BACKEND>, detail::unidimensional>&
+SparseHistogram<T, 1,  detail::BackendPolicy<BACKEND>, detail::unidimensional>::Fill(Iterator begin, Iterator end )
 {
 	using HYDRA_EXTERNAL_NS::thrust::system::detail::generic::select_system;
 	typedef  typename HYDRA_EXTERNAL_NS::thrust::iterator_system<Iterator>::type system1_t;
@@ -311,13 +323,15 @@ void SparseHistogram<T, 1,  detail::BackendPolicy<BACKEND>, detail::unidimension
     HYDRA_EXTERNAL_NS::thrust::return_temporary_buffer(common_system_t(), reduced_values.first);
     HYDRA_EXTERNAL_NS::thrust::return_temporary_buffer(common_system_t(), reduced_keys.first);
 
+	return *this;
 
 }
 
 
 template<typename T, hydra::detail::Backend BACKEND >
 template<hydra::detail::Backend BACKEND2, typename Iterator>
-void SparseHistogram<T, 1,  detail::BackendPolicy<BACKEND>, detail::unidimensional>::Fill(detail::BackendPolicy<BACKEND2> const& exec_policy,
+SparseHistogram<T, 1,  detail::BackendPolicy<BACKEND>, detail::unidimensional>&
+SparseHistogram<T, 1,  detail::BackendPolicy<BACKEND>, detail::unidimensional>::Fill(detail::BackendPolicy<BACKEND2> const& exec_policy,
 		Iterator begin, Iterator end )
 {
 	typedef  typename HYDRA_EXTERNAL_NS::thrust::iterator_system<Iterator>::type system1_t;
@@ -363,12 +377,14 @@ void SparseHistogram<T, 1,  detail::BackendPolicy<BACKEND>, detail::unidimension
     HYDRA_EXTERNAL_NS::thrust::return_temporary_buffer(common_system_t(), reduced_keys.first);
 
 
+	return *this;
 }
 
 
 template<typename T, hydra::detail::Backend BACKEND >
 template<typename Iterator1, typename Iterator2>
-void SparseHistogram<T, 1,  detail::BackendPolicy<BACKEND>, detail::unidimensional >::Fill(Iterator1 begin, Iterator1 end, Iterator2 wbegin )
+SparseHistogram<T, 1,  detail::BackendPolicy<BACKEND>, detail::unidimensional >&
+SparseHistogram<T, 1,  detail::BackendPolicy<BACKEND>, detail::unidimensional >::Fill(Iterator1 begin, Iterator1 end, Iterator2 wbegin )
 {
 	using HYDRA_EXTERNAL_NS::thrust::system::detail::generic::select_system;
 	typedef  typename HYDRA_EXTERNAL_NS::thrust::iterator_system<Iterator1>::type system1_t;
@@ -421,12 +437,14 @@ void SparseHistogram<T, 1,  detail::BackendPolicy<BACKEND>, detail::unidimension
     HYDRA_EXTERNAL_NS::thrust::return_temporary_buffer(common_system_t(), reduced_values.first);
     HYDRA_EXTERNAL_NS::thrust::return_temporary_buffer(common_system_t(), reduced_keys.first);
 
+	return *this;
 }
 
 
 template<typename T, hydra::detail::Backend BACKEND >
 template<hydra::detail::Backend BACKEND2,typename Iterator1, typename Iterator2>
-void SparseHistogram<T, 1,  detail::BackendPolicy<BACKEND>,detail::unidimensional >::Fill(detail::BackendPolicy<BACKEND2> const& exec_policy,
+SparseHistogram<T, 1,  detail::BackendPolicy<BACKEND>,detail::unidimensional >&
+SparseHistogram<T, 1,  detail::BackendPolicy<BACKEND>,detail::unidimensional >::Fill(detail::BackendPolicy<BACKEND2> const& exec_policy,
 		Iterator1 begin, Iterator1 end, Iterator2 wbegin )
 {
 	using HYDRA_EXTERNAL_NS::thrust::system::detail::generic::select_system;
@@ -480,6 +498,7 @@ void SparseHistogram<T, 1,  detail::BackendPolicy<BACKEND>,detail::unidimensiona
     HYDRA_EXTERNAL_NS::thrust::return_temporary_buffer(common_system_t(), reduced_values.first);
     HYDRA_EXTERNAL_NS::thrust::return_temporary_buffer(common_system_t(), reduced_keys.first);
 
+	return *this;
 }
 
 template<typename Iterator, typename T, size_t N , hydra::detail::Backend BACKEND>
@@ -494,6 +513,21 @@ make_sparse_histogram( detail::BackendPolicy<BACKEND>, std::array<size_t, N> gri
 	return _Hist;
 }
 
+
+template<typename Iterable, typename T, size_t N , hydra::detail::Backend BACKEND>
+inline typename std::enable_if< hydra::detail::is_iterable<Iterable>::value,
+SparseHistogram< T, N,  detail::BackendPolicy<BACKEND>, detail::multidimensional>>::type
+make_sparse_histogram( detail::BackendPolicy<BACKEND>, std::array<size_t, N> grid,
+		std::array<T, N> const& lowerlimits,   std::array<T, N> const& upperlimits,
+		Iterable&& iterable){
+
+	hydra::SparseHistogram< T, N, detail::BackendPolicy<BACKEND>> _Hist( grid, lowerlimits, upperlimits);
+	_Hist.Fill(std::forward<Iterable>(iterable).begin(),
+			std::forward<Iterable>(iterable).end());
+
+	return _Hist;
+}
+
 template<typename Iterator, typename T, hydra::detail::Backend BACKEND>
 SparseHistogram< T, 1,  detail::BackendPolicy<BACKEND>, detail::multidimensional>
 make_sparse_histogram( detail::BackendPolicy<BACKEND>, size_t grid, T lowerlimits,  T upperlimits,
@@ -503,8 +537,24 @@ make_sparse_histogram( detail::BackendPolicy<BACKEND>, size_t grid, T lowerlimit
 	_Hist.Fill(first, end);
 
 	return _Hist;
-
 }
+
+
+template<typename Iterable, typename T, hydra::detail::Backend BACKEND>
+inline typename std::enable_if< hydra::detail::is_iterable<Iterable>::value,
+SparseHistogram< T, 1,  detail::BackendPolicy<BACKEND>, detail::multidimensional>>::type
+make_sparse_histogram( detail::BackendPolicy<BACKEND>, size_t grid, T lowerlimits,  T upperlimits,
+		Iterable&& iterable){
+
+	hydra::SparseHistogram< T, 1, detail::BackendPolicy<BACKEND>> _Hist( grid, lowerlimits, upperlimits);
+	_Hist.Fill(std::forward<Iterable>(iterable).begin(),
+			std::forward<Iterable>(iterable).end());
+
+	return _Hist;
+}
+
+
+
 
 }  // namespace hydra
 
