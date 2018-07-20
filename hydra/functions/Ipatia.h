@@ -59,11 +59,28 @@ public:
 	  return *this;
     }
 
+  template<typename T>
+  __hydra_host__ __hydra_device__
+  inline double Evaluate(unsigned int, T*x)  const	{
+	  double X = x[ArgIndex] ;
+	  return  CHECK_VALUE(ipatia(X), "par[0]=%f, par[1]=%f, par[2]=%f, par[3]=%f , par[4]=%f, par[5]=%f,par[6]=%f",\
+			  _par[0], _par[1],_par[2], _par[3], _par[4], _par[5],_par[6]);
 
+  }
+
+  template<typename T>
+  __hydra_host__ __hydra_device__
+  inline double Evaluate(T x)  const {
+	  double X =  get<ArgIndex>(x);
+	  return  CHECK_VALUE(ipatia(X), "par[0]=%f, par[1]=%f, par[2]=%f, par[3]=%f , par[4]=%f, par[5]=%f,par[6]=%f",\
+				  _par[0], _par[1],_par[2], _par[3], _par[4], _par[5],_par[6]);
+
+  }
 
 
 private:
 
+  double ipatia( const double) const;
 
 
 };
