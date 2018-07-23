@@ -80,7 +80,9 @@ public:
 
 private:
 
-  double ipatia( const double) const;
+  double ipatia(const double,   const double,  const double, const double, const double  ) const;
+  double   left(const double,   const double,  const double, const double, const double  ) const;
+  double  right(const double,   const double,  const double, const double, const double  ) const;
 
 
 };

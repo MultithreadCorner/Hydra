@@ -31,9 +31,9 @@
 
 namespace hydra {
 
- double Ipatia<ArgIndex>::ipatia(const double x,const double mu,const double sigma,
+ double Ipatia<ArgIndex>::ipatia(const double x, const double mu,const double sigma,
 		                         const double a, const double n, const double a2, const double n2,
-		                         const double l, const double fb)
+		                         const double l, const double fb) const
 		{
 
 	    double d = x-mu;
@@ -42,42 +42,119 @@ namespace hydra {
 	    double a2sigma = a2*sigma;
 	    double out = 0.;
 
-	    if (l < 0.) {
-	    	double   beta = fb;
-	    	double  cons1 = -2.*l;
+
+	    double   beta = fb;
+	    double  cons1 = -2.*l;
 
 
-	    	double   delta = sigma*( (l>-1.0)  + ::sqrt(-2+cons1)*(l<=-1.0) );
+	    double   delta = sigma*( (l>-1.0)  + ::sqrt(-2+cons1)*(l<=-1.0) );
 
-	      double   delta2 = delta*delta;
+	    double   delta2 = delta*delta;
 
-	      if (d < -asigma ) {
-	    	  double  cons1 = ::exp(-beta*asigma);
-	    	  double   phi = 1. + asigma*asigma/delta2;
-	    	  double   k1 = cons1*::pow(phi,l-0.5);
-	    	  double   k2 = beta*k1- cons1*(l-0.5)*::pow(phi,l-1.5)*2*asigma/delta2;
-	    	  double   B = -asigma + n*k1/k2;
-	    	  double   A = k1*::pow(B+asigma,n);
-	        out = A*::pow(B-d,-n);
-	      }
-	      else if (d > a2sigma) {
-	    	  double   cons1 = ::exp(beta*a2sigma);
-	    	  double    phi = 1. + a2sigma*a2sigma/delta2;
-	    	  double   k1 = cons1*::pow(phi,l-0.5);
-	    	  double   k2 = beta*k1+ cons1*(l-0.5)*::pow(phi,l-1.5)*2.*a2sigma/delta2;
-	    	  double   B = -a2sigma - n2*k1/k2;
-	    	  double   A = k1*::pow(B+a2sigma,n2);
-	        out =  A*::pow(B+d,-n2);
-
-	      }
-	      else { out = ::exp(beta*d)*::pow(1. + d*d/delta2,l-0.5);}
+	    if (d < -asigma ) {
+	    	double  cons1 = ::exp(-beta*asigma);
+	    	double   phi = 1. + asigma*asigma/delta2;
+	    	double   k1 = cons1*::pow(phi,l-0.5);
+	    	double   k2 = beta*k1- cons1*(l-0.5)*::pow(phi,l-1.5)*2*asigma/delta2;
+	    	double   B = -asigma + n*k1/k2;
+	    	double   A = k1*::pow(B+asigma,n);
+	    	out = A*::pow(B-d,-n);
 	    }
+	    else if (d > a2sigma) {
+	    	double   cons1 = ::exp(beta*a2sigma);
+	    	double    phi = 1. + a2sigma*a2sigma/delta2;
+	    	double   k1 = cons1*::pow(phi,l-0.5);
+	    	double   k2 = beta*k1+ cons1*(l-0.5)*::pow(phi,l-1.5)*2.*a2sigma/delta2;
+	    	double   B = -a2sigma - n2*k1/k2;
+	    	double   A = k1*::pow(B+a2sigma,n2);
+	    	out =  A*::pow(B+d,-n2);
+
+	    }
+	    else { out = ::exp(beta*d)*::pow(1. + d*d/delta2,l-0.5);}
+
 
 	    return out;
 
  }
 
+ double Ipatia<ArgIndex>::left(const double x, const double mu,const double sigma,
+		 const double a, const double n, const double a2, const double n2,
+		 const double l) const {
 
+	 double d = x-mu;
+	 double asigma = a*sigma;
+	 double a2sigma = a2*sigma;
+	 double out = 0.;
+
+	 double  cons1 = -2.*l;
+
+
+	 double   delta = sigma*( (l>-1.0)  + ::sqrt(-2+cons1)*(l<=-1.0) );
+
+	 double   delta2 = delta*delta;
+
+
+	 double  cons1 = ::exp(-beta*asigma);
+	 double   phi = 1. + asigma*asigma/delta2;
+	 double   k1 = cons1*::pow(phi,l-0.5);
+	 double   k2 = beta*k1- cons1*(l-0.5)*::pow(phi,l-1.5)*2*asigma/delta2;
+	 double   B = -asigma + n*k1/k2;
+	 double   A = k1*::pow(B+asigma,n);
+
+	 return A*::pow(B-d,-n);
+
+ }
+
+ double Ipatia<ArgIndex>::right(const double x, const double mu,const double sigma,
+		 const double a, const double n, const double a2, const double n2,
+		 const double l) const{
+
+	 double d = x-mu;
+	 double asigma = a*sigma;
+	 double a2sigma = a2*sigma;
+	 double out = 0.;
+
+	 double  cons1 = -2.*l;
+
+	 double   delta = sigma*( (l>-1.0)  + ::sqrt(-2+cons1)*(l<=-1.0) );
+
+	 double   delta2 = delta*delta;
+
+
+
+	 double   cons1 = ::exp(beta*a2sigma);
+	 double    phi = 1. + a2sigma*a2sigma/delta2;
+	 double   k1 = cons1*::pow(phi,l-0.5);
+	 double   k2 = beta*k1+ cons1*(l-0.5)*::pow(phi,l-1.5)*2.*a2sigma/delta2;
+	 double   B = -a2sigma - n2*k1/k2;
+	 double   A = k1*::pow(B+a2sigma,n2);
+
+
+
+
+	 return  A*::pow(B+d,-n2);
+
+ }
+
+ double Ipatia<ArgIndex>::center(const double x, const double mu,const double sigma,
+		 const double a, const double n, const double a2, const double n2,
+		 const double l) const {
+
+	 double d = x-mu;
+	 double asigma = a*sigma;
+	 double a2sigma = a2*sigma;
+	 double out = 0.;
+
+	 double  cons1 = -2.*l;
+
+	 double   delta = sigma*( (l>-1.0)  + ::sqrt(-2+cons1)*(l<=-1.0) );
+
+	 double   delta2 = delta*delta;
+
+
+	 return ::exp(beta*d)*::pow(1. + d*d/delta2,l-0.5);
+
+ }
 
 }  // namespace hydra
 
