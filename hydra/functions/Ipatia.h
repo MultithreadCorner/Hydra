@@ -88,6 +88,6 @@ private:
 
 }  // namespace hydra
 
-
+#include <detail/Ipatia.inl>
 
 #endif /* IPATIA_H_ */
