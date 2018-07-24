@@ -33,6 +33,8 @@
 #ifndef CHISQUARE_H_
 #define CHISQUARE_H_
 
+#include <hydra/detail/Config.h>
+#include <hydra/detail/BackendPolicy.h>
 #include <hydra/Types.h>
 #include <hydra/Function.h>
 #include <hydra/Pdf.h>

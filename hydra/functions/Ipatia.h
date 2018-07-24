@@ -30,6 +30,20 @@
 #ifndef IPATIA_H_
 #define IPATIA_H_
 
+#include <hydra/detail/Config.h>
+#include <hydra/detail/BackendPolicy.h>
+#include <hydra/Types.h>
+#include <hydra/Function.h>
+#include <hydra/Pdf.h>
+#include <hydra/detail/Integrator.h>
+#include <hydra/detail/utility/CheckValue.h>
+#include <hydra/Parameter.h>
+#include <hydra/Tuple.h>
+#include <tuple>
+#include <limits>
+#include <stdexcept>
+#include <cassert>
+#include <utility>
 
 namespace hydra {
 
@@ -80,9 +94,19 @@ public:
 
 private:
 
-  double ipatia(const double,   const double,  const double, const double, const double  ) const;
-  double   left(const double,   const double,  const double, const double, const double  ) const;
-  double  right(const double,   const double,  const double, const double, const double  ) const;
+  double ipatia(const double x, const double mu,const double sigma,
+	         const double A1, const double N1, const double A2, const double N2,
+	         const double l, const double beta  ) const;
+
+  double   left(const double x, const double mu,const double sigma,
+	         const double A1, const double N1,
+	         const double l, const double beta  ) const;
+
+  double  right(const double x, const double mu,const double sigma,
+	        const double A2, const double N2,  const double l, const double beta  ) const;
+
+  double center(const double x, const double mu,const double sigma,
+	         const double l, const double beta  ) const;
 
 
 };

@@ -28,6 +28,10 @@
 
 #ifndef CRYSTALBALLSHAPE_H_
 #define CRYSTALBALLSHAPE_H_
+
+
+#include <hydra/detail/Config.h>
+#include <hydra/detail/BackendPolicy.h>
 #include <hydra/Types.h>
 #include <hydra/Function.h>
 #include <hydra/Pdf.h>
@@ -78,8 +82,8 @@ public:
 	}
 
 	template<typename T>
-	__hydra_host__ __hydra_device__ inline
-	double Evaluate(unsigned int , T*x)  const
+	__hydra_host__ __hydra_device__
+	inline double Evaluate(unsigned int , T*x)  const
 	{
 		double m     = x[ArgIndex]; //mass
 		double mean  = _par[0];
@@ -98,8 +102,8 @@ public:
 	}
 
 	template<typename T>
-	__hydra_host__ __hydra_device__ inline
-	double Evaluate(T x)  const
+	__hydra_host__ __hydra_device__
+	inline	double Evaluate(T x)  const
 	{
 		double m     = hydra::get<ArgIndex>(x); //mass
 		double mean  = _par[0];
