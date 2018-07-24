@@ -77,57 +77,43 @@ namespace hydra {
 
  }
 
- double Ipatia<ArgIndex>::left(const double x, const double mu,const double sigma,
-		 const double a, const double n, const double a2, const double n2,
-		 const double l) const {
+ double Ipatia<ArgIndex>::left(const double d, const double sigma,
+		 const double A1, const double N1, const double A2, const double N2,
+		 const double l,  const double beta) const {
 
-	 double d = x-mu;
-	 double asigma = a*sigma;
-	 double a2sigma = a2*sigma;
-	 double out = 0.;
+	 double  asigma = A1*sigma;
 
-	 double  cons1 = -2.*l;
+	 double  delta2 = sigma*( (l>-1.0)  + ::sqrt(-2+cons1)*(l<=-1.0) );
 
+	 delta2 *= delta2;
 
-	 double   delta = sigma*( (l>-1.0)  + ::sqrt(-2+cons1)*(l<=-1.0) );
-
-	 double   delta2 = delta*delta;
-
-
-	 double  cons1 = ::exp(-beta*asigma);
-	 double   phi = 1. + asigma*asigma/delta2;
+	 double   cons1 = ::exp(-beta*asigma);
+	 double   phi = 1.0 + asigma*asigma/delta2;
 	 double   k1 = cons1*::pow(phi,l-0.5);
-	 double   k2 = beta*k1- cons1*(l-0.5)*::pow(phi,l-1.5)*2*asigma/delta2;
+	 double   k2 = beta*k1- cons1*(l-0.5)*::pow(phi,l-1.5)*2.0*asigma/delta2;
 	 double   B = -asigma + n*k1/k2;
-	 double   A = k1*::pow(B+asigma,n);
+	 double   A = k1*::pow(B+asigma,N1);
 
 	 return A*::pow(B-d,-n);
 
  }
 
- double Ipatia<ArgIndex>::right(const double x, const double mu,const double sigma,
-		 const double a, const double n, const double a2, const double n2,
-		 const double l) const{
+ double Ipatia<ArgIndex>::right(const double d,const double sigma,
+		 const double A1, const double N1, const double A2, const double N2,
+		 const double l,  const double beta) const{
 
-	 double d = x-mu;
-	 double asigma = a*sigma;
-	 double a2sigma = a2*sigma;
-	 double out = 0.;
-
-	 double  cons1 = -2.*l;
+	 double a2sigma = A2*sigma;
 
 	 double   delta = sigma*( (l>-1.0)  + ::sqrt(-2+cons1)*(l<=-1.0) );
 
-	 double   delta2 = delta*delta;
-
-
+	 delta2 *= delta2;
 
 	 double   cons1 = ::exp(beta*a2sigma);
-	 double    phi = 1. + a2sigma*a2sigma/delta2;
+	 double   phi = 1. + a2sigma*a2sigma/delta2;
 	 double   k1 = cons1*::pow(phi,l-0.5);
 	 double   k2 = beta*k1+ cons1*(l-0.5)*::pow(phi,l-1.5)*2.*a2sigma/delta2;
 	 double   B = -a2sigma - n2*k1/k2;
-	 double   A = k1*::pow(B+a2sigma,n2);
+	 double   A = k1*::pow(B+a2sigma,N2);
 
 
 
