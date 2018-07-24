@@ -104,7 +104,7 @@ namespace hydra {
 
 	 double a2sigma = A2*sigma;
 
-	 double   delta = sigma*( (l>-1.0)  + ::sqrt(-2+cons1)*(l<=-1.0) );
+	 double  delta2 = sigma*( (l>-1.0)  + ::sqrt(-2+cons1)*(l<=-1.0) );
 
 	 delta2 *= delta2;
 
