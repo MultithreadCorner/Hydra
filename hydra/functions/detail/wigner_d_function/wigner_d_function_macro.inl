@@ -45,7 +45,13 @@ template<> inline double wigner_d_function<_##type<J>,_##type<M>,_##type<N>>(con
 #define WIGNER_D_FUNCTION_NEGATIVE_MN(J, M, N, type)\
 template<> inline double wigner_d_function<_##type<J>,_##type<M>,_##type<N>>(const double theta){\
 \
-	return wigner_d_function<_##type<J>,_##type<M>,_##type<N>>(theta);\
+	return ::pow(-1, M - N)*wigner_d_function<_##type<J>,_##type<M>,_##type<N>>(theta);\
+}\
+
+#define WIGNER_D_FUNCTION_SWAPPED_NEGATIVE_MN(J, M, N, type)\
+template<> inline double wigner_d_function<_##type<J>,_##type<M>,_##type<N>>(const double theta){\
+\
+	return wigner_d_function<_##type<J>,_##type<N>,_##type<M>>(theta);\
 }\
 
 
