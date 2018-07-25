@@ -134,7 +134,7 @@ namespace hydra {
 // J,M,N = {2, 2, 2}
 //WIGNER_D_FUNCTION(2, 2, 2, unit, <uncomment this line and add the formula here>)
 
-} \namespace hydra
+} //namespace hydra
 
 
 #endif /* WIGNER_J_UNIT_2_INL_ */

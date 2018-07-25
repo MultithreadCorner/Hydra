@@ -40,9 +40,7 @@
 #include <type_traits>
 #include <utility>
 #include <array>
-#include <vector>
-#include <tuple>
-#include <algorithm>
+
 
 #include <hydra/detail/external/thrust/iterator/iterator_traits.h>
 #include <hydra/detail/external/thrust/iterator/zip_iterator.h>
@@ -404,31 +402,39 @@ public:
 	}
 
 	template<typename Iterator>
-	void Fill(Iterator begin, Iterator end);
+	SparseHistogram<T, N, detail::BackendPolicy<BACKEND>, detail::multidimensional>&
+	Fill(Iterator begin, Iterator end);
 
 	template<typename Iterator1, typename Iterator2>
-	void Fill(Iterator1 begin, Iterator1 end, Iterator2 wbegin);
+	SparseHistogram<T, N, detail::BackendPolicy<BACKEND>, detail::multidimensional>&
+	Fill(Iterator1 begin, Iterator1 end, Iterator2 wbegin);
 
 
 	template<typename Iterable>
-	inline typename std::enable_if< hydra::detail::is_iterable<Iterable>::value, void >::type
-	Fill(Iterable& container){
-		return this->Fill( container.begin(), container.end());
+	inline typename std::enable_if< hydra::detail::is_iterable<Iterable>::value,
+	SparseHistogram<T, N, detail::BackendPolicy<BACKEND>, detail::multidimensional>& >::type
+	Fill(Iterable&& container){
+		return this->Fill( std::forward<Iterable>(container).begin(),
+				std::forward<Iterable>(container).end());
 	}
 
 	template<typename Iterable1, typename Iterable2>
 	inline typename std::enable_if< hydra::detail::is_iterable<Iterable1>::value
-	&&  hydra::detail::is_iterable<Iterable2>::value, void >::type
-	Fill(Iterable1& container, Iterable2& wbegin){
-		return this->Fill( container.begin(), container.end(), wbegin.begin());
+	&&  hydra::detail::is_iterable<Iterable2>::value,
+	SparseHistogram<T, N, detail::BackendPolicy<BACKEND>, detail::multidimensional>& >::type
+	Fill(Iterable1&& container, Iterable2&& wbegin){
+		return this->Fill( std::forward<Iterable1>(container).begin(),
+				std::forward<Iterable1>(container).end(), std::forward<Iterable2>(wbegin).begin());
 	}
 
 
 	template<hydra::detail::Backend BACKEND2,typename Iterator>
-	void Fill(detail::BackendPolicy<BACKEND2> const& exec_policy, Iterator begin, Iterator end);
+	inline SparseHistogram<T, N, detail::BackendPolicy<BACKEND>, detail::multidimensional>&
+	Fill(detail::BackendPolicy<BACKEND2> const& exec_policy, Iterator begin, Iterator end);
 
 	template<hydra::detail::Backend BACKEND2,typename Iterator1, typename Iterator2>
-	void Fill(detail::BackendPolicy<BACKEND2> const& exec_policy, Iterator1 begin, Iterator1 end, Iterator2 wbegin);
+	inline SparseHistogram<T, N, detail::BackendPolicy<BACKEND>, detail::multidimensional>&
+	Fill(detail::BackendPolicy<BACKEND2> const& exec_policy, Iterator1 begin, Iterator1 end, Iterator2 wbegin);
 
 
 
@@ -752,16 +758,39 @@ public:
 	}
 
 	template<typename Iterator>
-	void Fill(Iterator begin, Iterator end);
+	SparseHistogram<T,1, detail::BackendPolicy<BACKEND>,detail::unidimensional >&
+	Fill(Iterator begin, Iterator end);
 
 	template<typename Iterator1, typename Iterator2>
-	void Fill(Iterator1 begin, Iterator1 end, Iterator2 wbegin);
+	SparseHistogram<T,1, detail::BackendPolicy<BACKEND>,detail::unidimensional >&
+	Fill(Iterator1 begin, Iterator1 end, Iterator2 wbegin);
+
+
+	template<typename Iterable>
+	inline typename std::enable_if< hydra::detail::is_iterable<Iterable>::value,
+	SparseHistogram<T,1, detail::BackendPolicy<BACKEND>,detail::unidimensional >& >::type
+	Fill(Iterable&& container){
+		return this->Fill( std::forward<Iterable>(container).begin(),
+				std::forward<Iterable>(container).end());
+	}
+
+	template<typename Iterable1, typename Iterable2>
+	inline typename std::enable_if< hydra::detail::is_iterable<Iterable1>::value
+	&&  hydra::detail::is_iterable<Iterable2>::value,
+	SparseHistogram<T,1, detail::BackendPolicy<BACKEND>,detail::unidimensional >& >::type
+	Fill(Iterable1&& container, Iterable2&& wbegin){
+		return this->Fill( std::forward<Iterable1>(container).begin(),
+				std::forward<Iterable1>(container).end(), std::forward<Iterable2>(wbegin).begin());
+	}
+
 
 	template<hydra::detail::Backend BACKEND2,typename Iterator>
-	void Fill(detail::BackendPolicy<BACKEND2> const& exec_policy, Iterator begin, Iterator end);
+	SparseHistogram<T,1, detail::BackendPolicy<BACKEND>,detail::unidimensional >&
+	Fill(detail::BackendPolicy<BACKEND2> const& exec_policy, Iterator begin, Iterator end);
 
 	template<hydra::detail::Backend BACKEND2,typename Iterator1, typename Iterator2>
-	void Fill(detail::BackendPolicy<BACKEND2> const& exec_policy, Iterator1 begin, Iterator1 end, Iterator2 wbegin);
+	SparseHistogram<T,1, detail::BackendPolicy<BACKEND>,detail::unidimensional >&
+	Fill(detail::BackendPolicy<BACKEND2> const& exec_policy, Iterator1 begin, Iterator1 end, Iterator2 wbegin);
 
 
 

@@ -67,8 +67,8 @@ namespace detail {
 			detail::EvalMother<N, GRND,FUNCTOR, FUNCTORS...> const& evaluator) {
 
 		size_t nevents = HYDRA_EXTERNAL_NS::thrust::distance(begin, end);
-				HYDRA_EXTERNAL_NS::thrust::counting_iterator<size_t> first(0);
-				HYDRA_EXTERNAL_NS::thrust::counting_iterator<size_t> last = first + nevents;
+				HYDRA_EXTERNAL_NS::thrust::counting_iterator<GLong_t> first(0);
+				HYDRA_EXTERNAL_NS::thrust::counting_iterator<GLong_t> last = first + nevents;
 
 		HYDRA_EXTERNAL_NS::thrust::transform( first, last, begin, evaluator);
 

@@ -35,7 +35,7 @@
 namespace hydra {
 
 Range<HYDRA_EXTERNAL_NS::thrust::counting_iterator<long int>>
-range(long int first, long int last){
+range(long int first, long int last ){
 
 	return make_range( HYDRA_EXTERNAL_NS::thrust::counting_iterator<long int>(first),
 			HYDRA_EXTERNAL_NS::thrust::counting_iterator<long int>(last) );

@@ -49,6 +49,7 @@
 #include <hydra/Placeholders.h>
 #include <hydra/Random.h>
 #include <hydra/Algorithm.h>
+#include <hydra/DenseHistogram.h>
 
 //command line arguments
 #include <tclap/CmdLine.h>
@@ -119,18 +120,31 @@ int main(int argv, char** argc)
 
 		auto sorted_range = hydra::sort_by_key(positions, hydra::columns(positions, _0,_1 ) | length ) | is_inside;
 
-		hydra::for_each(positions, [] __hydra_dual__ ( hydra::tuple<double&, double&, double&> a){ a= hydra::tuple<double, double, double>{1,2,3}; } );
+		//hydra::for_each(positions, [] __hydra_dual__ ( hydra::tuple<double&, double&, double&> a){ a= hydra::tuple<double, double, double>{1,2,3}; } );
+
+		for(auto i:sorted_range) std::cout << i << std::endl;
+
 		hydra::for_each(positions, [] __hydra_dual__ ( hydra::tuple<double, double, double> a){
 
 			printf("%f %f %f\n", hydra::get<0>(a),hydra::get<1>(a), hydra::get<2>(a));
 
 		});
 
-		auto field = hydra::device::vector<int>(2);
-		field[0]=-10;
-		field[1]=10;
+		std::array<double, 3> masses{0.13957061, 0.13957061,0.13957061};
 
+		auto events =  hydra::phase_space_range(hydra::Vector4R(0.493677, 0.0, 0.0, 0.0),masses, 100000);
 
+		auto invariant_mass = hydra::wrap_lambda(
+				[]__hydra_dual__( hydra::tuple<double, hydra::Vector4R, hydra::Vector4R, hydra::Vector4R> event ){
+
+			return (hydra::get<1>(event) + hydra::get<2>(event)).mass();
+		});
+
+		hydra::DenseHistogram<double,1, hydra::device::sys_t> Hist_Mass(100, masses[0]+masses[1], 0.493677 - masses[0]);
+
+		hydra::for_each( Hist_Mass.Fill( events|invariant_mass ), [] __hydra_dual__ ( double a){
+					printf("%f\n", a);
+				});
 
 
 	}//device

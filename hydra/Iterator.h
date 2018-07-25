@@ -29,11 +29,19 @@
 #ifndef ITERATOR_H_
 #define ITERATOR_H_
 
+#include <hydra/detail/Config.h>
+#include <hydra/detail/BackendPolicy.h>
+
+#include <array>
+#include <vector>
+#include <utility>
+#include <initializer_list>
+
 namespace hydra {
 
 //direct begin iterator
 template< class C >
-auto begin( C&& c ) -> decltype(c.begin());
+auto begin( C&& c ) -> decltype(std::forward<C>(c).begin());
 
 template< class C >
 auto begin( const C& c ) -> decltype(c.begin());
@@ -43,7 +51,7 @@ T* begin( T (&array)[N] );
 
 //reverse begin iterator
 template< class C >
-auto rbegin( C&& c ) -> decltype(c.rbegin());
+auto rbegin( C&& c ) -> decltype(std::forward<C>(c).rbegin());
 
 template< class C >
 auto rbegin( const C& c ) -> decltype(c.rbegin());
@@ -53,7 +61,7 @@ T* rbegin( T (&array)[N] );
 
 //direct end iterator
 template< class C >
-auto end( C&& c ) -> decltype(c.end());
+auto end( C&& c ) -> decltype(std::forward<C>(c).end());
 
 template< class C >
 auto end( const C& c ) -> decltype(c.end());
@@ -63,7 +71,7 @@ T* end( T (&array)[N] );
 
 //reverse end iterator
 template< class C >
-auto rend( C&& c ) -> decltype(c.rend());
+auto rend( C&& c ) -> decltype(std::forward<C>(c).rend());
 
 template< class C >
 auto rend( const C& c ) -> decltype(c.rend());

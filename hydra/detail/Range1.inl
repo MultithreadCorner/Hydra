@@ -35,6 +35,7 @@
 #include <hydra/detail/Iterable_traits.h>
 #include <hydra/detail/external/thrust/iterator/iterator_traits.h>
 
+#include <utility>
 
 namespace hydra {
 
@@ -149,7 +150,7 @@ make_reverse_range(Iterator begin, Iterator end ){
 
 template<typename Iterable>
 typename std::enable_if<hydra::detail::is_iterable<Iterable>::value,
-Range<decltype(std::declval<Iterable&>().begin())>>::type
+Range<decltype(std::declval<Iterable>().begin())>>::type
 make_range(Iterable const& container){
 
 	typedef decltype(hydra::begin(container)) iterator_type;
@@ -158,18 +159,17 @@ make_range(Iterable const& container){
 
 template<typename Iterable>
 typename std::enable_if<hydra::detail::is_iterable<Iterable>::value,
-Range<decltype(std::declval<Iterable&>().begin())>>::type
+Range<decltype(std::declval<Iterable>().begin())>>::type
 make_range(Iterable&& container){
 
-	typedef decltype(hydra::begin(container)) iterator_type;
-	return Range<iterator_type>( hydra::begin(container), hydra::end(container));
+	typedef decltype(hydra::begin(std::forward<Iterable>(container))) iterator_type;
+	return Range<iterator_type>( hydra::begin(std::forward<Iterable>(container)),
+			hydra::end(std::forward<Iterable>(container)));
 }
-
-
 
 template<typename Iterable>
 typename std::enable_if<hydra::detail::is_reverse_iterable<Iterable>::value,
-Range<decltype(std::declval<Iterable&>().rbegin())>>::type
+Range<decltype(std::declval<Iterable>().rbegin())>>::type
 make_reverse_range(Iterable const& container){
 
 	typedef decltype(hydra::rbegin(container)) iterator_type;
@@ -178,11 +178,12 @@ make_reverse_range(Iterable const& container){
 
 template<typename Iterable>
 typename std::enable_if<hydra::detail::is_reverse_iterable<Iterable>::value,
-Range<decltype(std::declval<Iterable&>().rbegin())>>::type
+Range<decltype(std::declval<Iterable>().rbegin())>>::type
 make_reverse_range(Iterable&& container){
 
-	typedef decltype(hydra::rbegin(container)) iterator_type;
-	return Range<iterator_type>( hydra::rbegin(container), hydra::rend(container));
+	typedef decltype(hydra::rbegin(std::forward<Iterable>(container))) iterator_type;
+	return Range<iterator_type>( hydra::rbegin(std::forward<Iterable>(container)),
+			hydra::rend(std::forward<Iterable>(container)));
 }
 
 

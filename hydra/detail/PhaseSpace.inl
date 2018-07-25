@@ -228,6 +228,9 @@ PhaseSpace<N,GRND>::Evaluate(Vector4R const& mother, Iterable&& result,
 		HYDRA_LOG(WARNING, "Not enough energy to generate all decays.Check the mass of the mother particle")
 	}
 
+	return make_range( std::forward<Iterable>(result).begin(),
+			std::forward<Iterable>(result).end() );
+
 }
 
 template <size_t N, typename GRND>
@@ -252,6 +255,8 @@ if (EnergyChecker( std::forward<IterableMother>(mothers).begin(),
 		HYDRA_LOG(WARNING, "Not enough energy to generate all decays.Check the masses of the mother particles")
 	}
 
+return make_range( std::forward<Iterable>(result).begin(),
+			std::forward<Iterable>(result).end() );
 }
 //---------------------------------------------------------------
 
@@ -262,11 +267,7 @@ void PhaseSpace<N,GRND>::Generate(Vector4R const& mother, Iterator begin, Iterat
 	 * Run the generator and calculate the maximum weight. It takes as input the fourvector of the mother particle
 	 * in any system of reference. The daughters will be generated in this system.
 	 */
-/*
-#if(THRUST_DEVICE_SYSTEM==THRUST_DEVICE_BACKEND_CUDA && (BACKEND==device))
-	cudaDeviceSetCacheConfig(cudaFuncCachePreferL1);
-#endif
-*/
+
 	if (EnergyChecker( mother )){
 
 	detail::DecayMother<N,GRND> decayer(mother,fMasses, fSeed);
@@ -285,11 +286,6 @@ void PhaseSpace<N,GRND>::Generate( Iterator1 begin, Iterator1 end, Iterator2 dau
 	 * Run the generator and calculate the maximum weight. It takes as input the device vector with the four-vectors of the mother particle
 	 * in any system of reference. The daughters will be generated in this system.
 	 */
-/*
-#if(THRUST_DEVICE_SYSTEM==THRUST_DEVICE_BACKEND_CUDA && (BACKEND==device))
-	cudaDeviceSetCacheConfig(cudaFuncCachePreferL1);
-#endif
-*/
 	if (EnergyChecker( begin, end)){
 
 	detail::DecayMothers<N,GRND> decayer(fMasses, fSeed);
@@ -302,6 +298,60 @@ void PhaseSpace<N,GRND>::Generate( Iterator1 begin, Iterator1 end, Iterator2 dau
 
 
 }
+
+template <size_t N, typename GRND>
+template<typename Iterable>
+inline typename std::enable_if< hydra::detail::is_iterable<Iterable>::value,
+				 hydra::Range<decltype(std::declval<Iterable>().begin())>>::type
+PhaseSpace<N,GRND>::Generate(Vector4R const& mother, Iterable&& events){
+	/**
+	 * Run the generator and calculate the maximum weight. It takes as input the fourvector of the mother particle
+	 * in any system of reference. The daughters will be generated in this system.
+	 */
+
+	if (EnergyChecker( mother )){
+
+	detail::DecayMother<N,GRND> decayer(mother,fMasses, fSeed);
+	detail::launch_decayer(std::forward<Iterable>(events).begin(),
+			std::forward<Iterable>(events).end(), decayer );
+
+	}
+	else {
+		HYDRA_LOG(WARNING, "Not enough energy to generate all decays.Check the mass of the mother particle")
+	}
+
+	return make_range( std::forward<Iterable>(events).begin(),
+			std::forward<Iterable>(events).end() );
+}
+
+template <size_t N, typename GRND>
+template<typename IterableMothers, typename Iterable>
+inline typename std::enable_if< hydra::detail::is_iterable<Iterable>::value &&
+		hydra::detail::is_iterable<IterableMothers>::value,
+					 hydra::Range<decltype(std::declval<Iterable>().begin())>>::type
+PhaseSpace<N,GRND>::Generate( IterableMothers&& mothers, Iterable&& daughters){
+	/**
+	 * Run the generator and calculate the maximum weight. It takes as input the device vector with the four-vectors of the mother particle
+	 * in any system of reference. The daughters will be generated in this system.
+	 */
+	if (EnergyChecker( std::forward<IterableMothers>(mothers).begin(),
+			std::forward<IterableMothers>(mothers).end()))
+	{
+
+	detail::DecayMothers<N,GRND> decayer(fMasses, fSeed);
+	detail::launch_decayer(std::forward<IterableMothers>(mothers).begin(),
+			std::forward<IterableMothers>(mothers).end(),
+			std::forward<Iterable>(daughters).begin(), decayer );
+
+	}
+	else {
+		HYDRA_LOG(WARNING, "Not enough energy to generate all decays.Check the masses of the mother particles")
+	}
+
+	return make_range( std::forward<Iterable>(daughters).begin(),
+				std::forward<Iterable>(daughters).end() );
+}
+
 
 //========================
 template <size_t N, typename GRND>

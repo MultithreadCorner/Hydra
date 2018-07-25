@@ -29,6 +29,9 @@
 #ifndef UTILS_H_
 #define UTILS_H_
 
+
+#include <hydra/detail/Config.h>
+#include <hydra/detail/BackendPolicy.h>
 #include <hydra/Types.h>
 #include <utility>
 #include <ratio>
