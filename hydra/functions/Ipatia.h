@@ -54,9 +54,12 @@ public:
 
   Ipatia()=delete;
 
-  Ipatia( Parameter const& l, Parameter const& zeta, Parameter const& fb,
-	Parameter const& sigma, Parameter const& mu, Parameter const& a,Parameter const& n):
-		BaseFunctor<Gaussian<ArgIndex>, double, 7>({l,zeta,fb,sigma,mu,a,n}){}
+  Ipatia(Parameter const& mu, Parameter const& sigma,
+		 Parameter const& A1, Parameter const& N1,
+		 Parameter const& A2, Parameter const& N2,
+		 Parameter const& l,  Parameter const& beta,
+	):
+		BaseFunctor<Gaussian<ArgIndex>, double, 8>({ mu, sigma, A1, N1, A2, N2, l, beta}){}
 
   __hydra_host__ __hydra_device__
   Ipatia( Ipatia<ArgIndex> const& other):
