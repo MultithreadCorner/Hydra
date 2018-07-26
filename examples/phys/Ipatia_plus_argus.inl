@@ -55,6 +55,7 @@
 #include <hydra/functions/Ipatia.h>
 #include <hydra/functions/ArgusShape.h>
 #include <hydra/Placeholders.h>
+#include <hydra/GaussKronrodQuadrature.h>
 
 //Minuit2
 #include "Minuit2/FunctionMinimum.h"
@@ -63,7 +64,7 @@
 #include "Minuit2/MnMigrad.h"
 #include "Minuit2/MnMinimize.h"
 
- * Include classes from ROOT to fill
+// * Include classes from ROOT to fill
 #ifdef _ROOT_AVAILABLE_
 
 #include <TROOT.h>
@@ -112,28 +113,32 @@ int main(int argv, char** argc)
     //fit model gaussian + argus
 
 	//Ipatia
-	hydra::Parameter  mu  = hydra::Parameter::Create("mu").Value(5.28).Error(0.0001).Limits(5.25,5.29);
-	hydra::Parameter  sigma = hydra::Parameter::Create("sigma").Value(0.0026).Error(0.0001).Limits(0.0024,0.0028);
-	hydra::Parameter  L1  = hydra::Parameter::Create("L1").Value(0.5).Error(0.0001).Limits(0.1, 1.0);
-	hydra::Parameter  N1  = hydra::Parameter::Create("N1").Value(1.0).Error(0.0001).Limits(0.5, 1.5);
-	hydra::Parameter  L2  = hydra::Parameter::Create("L2").Value(0.8).Error(0.0001).Limits(0.5, 1.2);
-	hydra::Parameter  N2  = hydra::Parameter::Create("N2").Value(1.5).Error(0.0001).Limits(1.0, 2.0);
-	hydra::Parameter  alfa = hydra::Parameter::Create("alfa").Value(-2.0).Error(0.0001).Limits(-3.0, -1.2);
-	hydra::Parameter  beta = hydra::Parameter::Create("beta").Value(1.0).Error(0.0001).Limits(0.5, 1.5);
+	//core
+	auto mu    = hydra::Parameter::Create("mu").Value(5.28).Error(0.0001).Limits(5.27,5.29);
+	auto sigma = hydra::Parameter::Create("sigma").Value(0.0026).Error(0.0001).Limits(0.0020,0.0028);
+	//left tail
+	auto L1    = hydra::Parameter::Create("L1").Value(0.5).Error(0.0001).Limits(0.1, 1.0); // decay speed
+	auto N1    = hydra::Parameter::Create("N1").Value(2.0).Error(0.0001).Limits(4.5, 6.5); // tail deepness
+	//right tail
+	auto L2    = hydra::Parameter::Create("L2").Value(1.2).Error(0.0001).Limits(0.5, 1.5);// decay speed
+	auto N2    = hydra::Parameter::Create("N2").Value(9.5).Error(0.0001).Limits(8.5, 10.5);// tail deepness
+	//peakness
+	auto alfa  = hydra::Parameter::Create("alfa").Value(-6.5).Error(0.0001).Limits(-7.0, -6.0);
+	auto beta  = hydra::Parameter::Create("beta").Value(1.0).Error(0.0001).Limits(0.5, 1.5);
 
 
 	//ipatia function evaluating on the first argument
 	auto Signal_PDF = hydra::make_pdf(hydra::Ipatia<>(mu, sigma,L1,N1,L2,N2,alfa,beta),
-			hydra::GaussianAnalyticalIntegral(min, max));
+			hydra::GaussKronrodQuadrature<61,100, hydra::device::sys_t>(min,  max));
 
     //-------------------------------------------
 	//Argus
     //parameters
-    auto  m0     = hydra::Parameter::Create().Name("M0").Value(5.291).Error(0.0001).Limits(5.28, 5.3);
-    auto  slope  = hydra::Parameter::Create().Name("Slope").Value(-20.0).Error(0.0001).Limits(-30.0, -10.0);
-    auto  power  = hydra::Parameter::Create().Name("Power").Value(0.5).Fixed();
+    auto  m0     = hydra::Parameter::Create("M0").Value(5.291).Error(0.0001).Limits(5.28, 5.3);
+    auto  slope  = hydra::Parameter::Create("Slope").Value(-20.0).Error(0.0001).Limits(-30.0, -10.0);
+    auto  power  = hydra::Parameter::Create("Power").Value(0.5).Fixed();
 
-    //gaussian function evaluating on the first argument
+    //argus function evaluating on the first argument
     auto Background_PDF = hydra::make_pdf( hydra::ArgusShape<>(m0, slope, power),
     		hydra::ArgusShapeAnalyticalIntegral(min, max));
 
@@ -165,25 +170,25 @@ int main(int argv, char** argc)
 		// Generate data
 		auto range = Generator.Sample(data.begin(),  data.end(), min, max, model.GetFunctor());
 
-		std::cout<< std::endl<< "Generated data:"<< std::endl;
+		std::cout<< std::endl<< "Generated data (10 first elements):"<< std::endl;
 		for(size_t i=0; i< 10; i++)
 			std::cout << "[" << i << "] :" << range[i] << std::endl;
 
-		std::cout<< std::endl<< "data size :"<< range.size() << std::endl;
+		std::cout<< std::endl<< "Total dataset size :"<< range.size() << std::endl;
 
 		//make model and fcn
-		auto fcn = hydra::make_loglikehood_fcn( model, range.begin(), range.end() );
+		auto fcn = hydra::make_loglikehood_fcn( model, range );
 
 		//-------------------------------------------------------
 		//fit
 		ROOT::Minuit2::MnPrint::SetLevel(3);
-		//hydra::Print::SetLevel(hydra::WARNING);
-		//minimization strategy
+
 		MnStrategy strategy(2);
 
 		// create Migrad minimizer
 		MnMigrad migrad_d(fcn, fcn.GetParameters().GetMnState() ,  strategy);
 
+		//print parameters prior the fit
 		std::cout<<fcn.GetParameters().GetMnState()<<std::endl;
 
 		// ... Minimize and profile the time
@@ -206,7 +211,7 @@ int main(int argv, char** argc)
 
 		//--------------------------------------------
 		hydra::DenseHistogram<double, 1, hydra::device::sys_t> Hist_Data(100, min, max);
-		Hist_Data.Fill( range.begin(), range.end() );
+		Hist_Data.Fill( range );
 
 
 

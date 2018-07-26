@@ -47,9 +47,22 @@
 
 namespace hydra {
 
+/**
+ * \ingroup common_functions
+ *
+ * \class  hydra::Ipatia implements a version of the Ipatia distribution as described in
+ * the reference https://doi.org/10.1016/j.nima.2014.06.081.
+ *
+ * \note hydra::Ipatia works only the parameters zeta=0 and l<0.
+ * This limitation is mostly due the lack of fractional order Bessel function
+ * in CUDA platform.
+ */
+
 template<unsigned int ArgIndex=0>
-class Ipatia : public BaseFunctor<  Ipatia<ArgIndex>, double, 7>
+class Ipatia : public BaseFunctor<  Ipatia<ArgIndex>, double, 8>
 {
+	using BaseFunctor<Ipatia<ArgIndex>, double, 8>::_par;
+
 public:
 
   Ipatia()=delete;
@@ -57,11 +70,10 @@ public:
   Ipatia(Parameter const& mu, Parameter const& sigma,
 		 Parameter const& A1, Parameter const& N1,
 		 Parameter const& A2, Parameter const& N2,
-		 Parameter const& l,  Parameter const& beta,
-	):
-		BaseFunctor<Gaussian<ArgIndex>, double, 8>({ mu, sigma, A1, N1, A2, N2, l, beta})
+		 Parameter const& l,  Parameter const& beta	):
+		BaseFunctor<Ipatia<ArgIndex>, double, 8>({ mu, sigma, A1, N1, A2, N2, l, beta})
 		{
-	    if(_par[6].GetValue() > 0.0 || _par[6].GetMaximum() > 0.0 || par[6].GetManimum() > 0.0 ){
+	    if(this->GetParameter(6).GetValue() > 0.0 || this->GetParameter(6).GetUpperLim() > 0.0 || this->GetParameter(6).GetLowerLim() > 0.0 ){
 	    	HYDRA_LOG(INFO, "hydra::Ipatia's #6 is positive. This parameter needs be always negative. Exiting..." )
 	    	exit(0);
 	    }
@@ -70,7 +82,7 @@ public:
 
   __hydra_host__ __hydra_device__
   Ipatia( Ipatia<ArgIndex> const& other):
-    BaseFunctor< Ipatia<ArgIndex>, double, 7>(other)
+    BaseFunctor< Ipatia<ArgIndex>, double, 8>(other)
   		{}
 
 
@@ -79,7 +91,7 @@ public:
    {
 	  if(this ==&other) return *this;
 
-	  BaseFunctor< Ipatia<ArgIndex>, double, 7>::operator=(other);
+	  BaseFunctor< Ipatia<ArgIndex>, double, 8>::operator=(other);
 	  return *this;
     }
 
@@ -88,6 +100,7 @@ public:
   inline double Evaluate(unsigned int, T*x)  const	{
 
 	  double X     = x[ArgIndex] ;
+
 	  double mu    = _par[0];
 	  double sigma = _par[1];
 	  double A1    = _par[2];
@@ -97,7 +110,7 @@ public:
 	  double l     = _par[6];
 	  double beta  = _par[7];
 
-	  return  CHECK_VALUE(ipatia(X, mu, sigma, A1, N1, A2, N2, l, beta), "par[0]=%f, par[1]=%f, par[2]=%f, par[3]=%f , par[4]=%f, par[5]=%f,par[6]=%f,par[7]=%f",\
+	  return  CHECK_VALUE(ipatia(X, mu, sigma, A1, N1, A2, N2, l, beta), "par[0]=%f, par[1]=%f, par[2]=%f, par[3]=%f , par[4]=%f, par[5]=%f,par[6]=%f,par[7]=%f\n",\
 			  _par[0], _par[1],_par[2], _par[3], _par[4], _par[5],_par[6],_par[7]);
 
   }
@@ -105,8 +118,19 @@ public:
   template<typename T>
   __hydra_host__ __hydra_device__
   inline double Evaluate(T x)  const {
+
 	  double X =  get<ArgIndex>(x);
-	  return  CHECK_VALUE(ipatia(X, mu, sigma, A1, N1, A2, N2, l, beta), "par[0]=%f, par[1]=%f, par[2]=%f, par[3]=%f , par[4]=%f, par[5]=%f,par[6]=%f,par[7]=%f",\
+
+	  double mu    = _par[0];
+	  double sigma = _par[1];
+	  double A1    = _par[2];
+	  double N1    = _par[3];
+	  double A2    = _par[4];
+	  double N2    = _par[5];
+	  double l     = _par[6];
+	  double beta  = _par[7];
+
+	  return  CHECK_VALUE(ipatia(X, mu, sigma, A1, N1, A2, N2, l, beta), "par[0]=%f, par[1]=%f, par[2]=%f, par[3]=%f , par[4]=%f, par[5]=%f,par[6]=%f,par[7]=%f\n",\
 				  _par[0], _par[1],_par[2], _par[3], _par[4], _par[5],_par[6],_par[7]);
 
   }
@@ -120,17 +144,16 @@ private:
 	         const double l, const double beta  ) const;
 
   __hydra_host__ __hydra_device__
-  inline  double   left(const double x, const double mu,const double sigma,
-	         const double A1, const double N1,
-	         const double l, const double beta  ) const;
+  inline  double   left(const double d, const double sigma,
+	         const double A1, const double N1, const double l, const double beta  ) const;
 
   __hydra_host__ __hydra_device__
-  inline  double  right(const double x, const double mu,const double sigma,
-	        const double A2, const double N2,  const double l, const double beta  ) const;
+  inline  double  right(const double d,const double sigma,
+		  const double A2, const double N2,  const double l, const double beta  ) const;
 
   __hydra_host__ __hydra_device__
-  inline  double center(const double x, const double mu,const double sigma,
-	         const double l, const double beta  ) const;
+  inline  double center(const double d,const double sigma,
+	         const double l, const double beta ) const;
 
 
 };
@@ -138,6 +161,6 @@ private:
 
 }  // namespace hydra
 
-#include <detail/Ipatia.inl>
+#include <hydra/functions/detail/Ipatia.inl>
 
 #endif /* IPATIA_H_ */
