@@ -80,7 +80,8 @@ namespace hydra {
  */
 
 
- double Ipatia<ArgIndex>::ipatia(const double x, const double mu,const double sigma,
+__hydra_host__ __hydra_device__
+ inline  double Ipatia<ArgIndex>::ipatia(const double x, const double mu,const double sigma,
          const double A1, const double N1, const double A2, const double N2,
          const double l, const double beta) const {
 
@@ -94,7 +95,8 @@ namespace hydra {
  }
 
 
- double Ipatia<ArgIndex>::left(const double d, const double sigma,
+__hydra_host__ __hydra_device__
+ inline  double Ipatia<ArgIndex>::left(const double d, const double sigma,
 	 const double A1, const double N1, const double l,  const double beta) const {
 
 	 const double  asigma = A1*sigma;
@@ -114,7 +116,8 @@ namespace hydra {
 
  }
 
- double Ipatia<ArgIndex>::right(const double d,const double sigma,
+__hydra_host__ __hydra_device__
+ inline  double Ipatia<ArgIndex>::right(const double d,const double sigma,
 		const double A2, const double N2, const double l,  const double beta) const{
 
 	 const  double asigma = A2*sigma;
@@ -137,7 +140,8 @@ namespace hydra {
 
  }
 
- double Ipatia<ArgIndex>::center(const double d,const double sigma,
+__hydra_host__ __hydra_device__
+ inline  double Ipatia<ArgIndex>::center(const double d,const double sigma,
 		 const double l, const double beta) const {
 
 

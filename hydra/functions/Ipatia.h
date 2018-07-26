@@ -59,7 +59,14 @@ public:
 		 Parameter const& A2, Parameter const& N2,
 		 Parameter const& l,  Parameter const& beta,
 	):
-		BaseFunctor<Gaussian<ArgIndex>, double, 8>({ mu, sigma, A1, N1, A2, N2, l, beta}){}
+		BaseFunctor<Gaussian<ArgIndex>, double, 8>({ mu, sigma, A1, N1, A2, N2, l, beta})
+		{
+	    if(_par[6].GetValue() > 0.0 || _par[6].GetMaximum() > 0.0 || par[6].GetManimum() > 0.0 ){
+	    	HYDRA_LOG(INFO, "hydra::Ipatia's #6 is positive. This parameter needs be always negative. Exiting..." )
+	    	exit(0);
+	    }
+
+		}
 
   __hydra_host__ __hydra_device__
   Ipatia( Ipatia<ArgIndex> const& other):
@@ -79,9 +86,19 @@ public:
   template<typename T>
   __hydra_host__ __hydra_device__
   inline double Evaluate(unsigned int, T*x)  const	{
-	  double X = x[ArgIndex] ;
-	  return  CHECK_VALUE(ipatia(X), "par[0]=%f, par[1]=%f, par[2]=%f, par[3]=%f , par[4]=%f, par[5]=%f,par[6]=%f",\
-			  _par[0], _par[1],_par[2], _par[3], _par[4], _par[5],_par[6]);
+
+	  double X     = x[ArgIndex] ;
+	  double mu    = _par[0];
+	  double sigma = _par[1];
+	  double A1    = _par[2];
+	  double N1    = _par[3];
+	  double A2    = _par[4];
+	  double N2    = _par[5];
+	  double l     = _par[6];
+	  double beta  = _par[7];
+
+	  return  CHECK_VALUE(ipatia(X, mu, sigma, A1, N1, A2, N2, l, beta), "par[0]=%f, par[1]=%f, par[2]=%f, par[3]=%f , par[4]=%f, par[5]=%f,par[6]=%f,par[7]=%f",\
+			  _par[0], _par[1],_par[2], _par[3], _par[4], _par[5],_par[6],_par[7]);
 
   }
 
@@ -89,26 +106,30 @@ public:
   __hydra_host__ __hydra_device__
   inline double Evaluate(T x)  const {
 	  double X =  get<ArgIndex>(x);
-	  return  CHECK_VALUE(ipatia(X), "par[0]=%f, par[1]=%f, par[2]=%f, par[3]=%f , par[4]=%f, par[5]=%f,par[6]=%f",\
-				  _par[0], _par[1],_par[2], _par[3], _par[4], _par[5],_par[6]);
+	  return  CHECK_VALUE(ipatia(X, mu, sigma, A1, N1, A2, N2, l, beta), "par[0]=%f, par[1]=%f, par[2]=%f, par[3]=%f , par[4]=%f, par[5]=%f,par[6]=%f,par[7]=%f",\
+				  _par[0], _par[1],_par[2], _par[3], _par[4], _par[5],_par[6],_par[7]);
 
   }
 
 
 private:
 
-  double ipatia(const double x, const double mu,const double sigma,
+  __hydra_host__ __hydra_device__
+  inline  double ipatia(const double x, const double mu,const double sigma,
 	         const double A1, const double N1, const double A2, const double N2,
 	         const double l, const double beta  ) const;
 
-  double   left(const double x, const double mu,const double sigma,
+  __hydra_host__ __hydra_device__
+  inline  double   left(const double x, const double mu,const double sigma,
 	         const double A1, const double N1,
 	         const double l, const double beta  ) const;
 
-  double  right(const double x, const double mu,const double sigma,
+  __hydra_host__ __hydra_device__
+  inline  double  right(const double x, const double mu,const double sigma,
 	        const double A2, const double N2,  const double l, const double beta  ) const;
 
-  double center(const double x, const double mu,const double sigma,
+  __hydra_host__ __hydra_device__
+  inline  double center(const double x, const double mu,const double sigma,
 	         const double l, const double beta  ) const;
 
 
