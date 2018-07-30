@@ -108,7 +108,7 @@ private:
 	inline typename std::enable_if<(I<Order+1), void >::type
 	polynomial_helper( const double(&coef)[Order+1],  const double x, double& r)  const {
 
-		r += coef[I]*pow<double,I>(x);
+		r += coef[I]*hydra::pow<double,I>(x);
 		polynomial_helper<I+1>( coef, x, r);
 	}
 
