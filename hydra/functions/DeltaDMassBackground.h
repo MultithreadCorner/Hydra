@@ -84,7 +84,9 @@ public:
 
 	}
 
-};  // namespace hydra
 };
+
+
+}// namespace hydra
 
 #endif /* DELTADMASSBACKGROUND_H_ */
