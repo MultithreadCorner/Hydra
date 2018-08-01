@@ -30,6 +30,21 @@
 #ifndef DELTADMASSBACKGROUND_H_
 #define DELTADMASSBACKGROUND_H_
 
+#include <hydra/detail/Config.h>
+#include <hydra/detail/BackendPolicy.h>
+#include <hydra/Types.h>
+#include <hydra/Function.h>
+#include <hydra/Pdf.h>
+#include <hydra/detail/Integrator.h>
+#include <hydra/detail/utility/CheckValue.h>
+#include <hydra/Parameter.h>
+#include <hydra/Tuple.h>
+#include <tuple>
+#include <limits>
+#include <stdexcept>
+#include <cassert>
+#include <utility>
+
 
 namespace hydra {
 
@@ -66,7 +81,7 @@ public:
 
 		double arg   = (x[ArgIndex] - _par[0]);
 		double ratio = (arg/_par[0]);
-		double val   = arg>0 ? (1- ::exp(-arg/_par[3]))*::pow(ratio, _par[1]) + _par[2]*(ratio-1) : 0;
+		double val   = arg>0 ? (1.0- ::exp(-arg/_par[3]))*::pow(ratio, _par[1]) + _par[2]*(ratio-1.0) : 0;
 
 		return  CHECK_VALUE( (val>0 ? val : 0), "par[0]=%f, par[1]=%f, par[2]=%f, par[3]=%f ", _par[0], _par[1], _par[2], _par[3]);
 
@@ -78,7 +93,7 @@ public:
 
 		double arg   = get<ArgIndex>(x) - _par[0];
 		double ratio = (arg/_par[0]);
-		double val   = arg>0 ? (1- ::exp(-arg/_par[3]))*::pow(ratio, _par[1]) + _par[2]*(ratio-1) : 0;
+		double val   = arg>0 ? (1.0- ::exp(-arg/_par[3]))*::pow(ratio, _par[1]) + _par[2]*(ratio-1.0) : 0;
 
 		return  CHECK_VALUE( (val>0 ? val : 0), "par[0]=%f, par[1]=%f, par[2]=%f, par[3]=%f ", _par[0], _par[1], _par[2], _par[3]);
 
