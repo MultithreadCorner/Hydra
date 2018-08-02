@@ -12,8 +12,7 @@ rImplementation ##CHANGES
   * Laguerre
   * Hermite
   * Legendre
-
-3. 1D kernel density estimation functor: GaussianKDE 
+3. 1D kernel density estimation functor: GaussianKDE
 4. Bifurcated Gaussian functor:  BifurcatedGaussian
 5. `Parameter::Create("name")` method
 6. Wrappers around thrust algorithms using range semantics: gather, scatter, sort, sort_by_key, reduce, transform. See header `hydra/Algorithms.h`

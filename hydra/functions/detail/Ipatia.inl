@@ -31,75 +31,34 @@
 
 namespace hydra {
 
-/*
- double Ipatia<ArgIndex>::ipatia(const double x, const double mu,const double sigma,
-		                         const double a, const double n, const double a2, const double n2,
-		                         const double l, const double fb) const
-		{
-
-	    double d = x-mu;
-	    double cons0 = ::sqrt(zeta);
-	    double asigma = a*sigma;
-	    double a2sigma = a2*sigma;
-	    double out = 0.;
-
-
-	    double   beta = fb;
-	    double  cons1 = -2.*l;
-
-
-	    double   delta = sigma*( (l>-1.0)  + ::sqrt(-2+cons1)*(l<=-1.0) );
-
-	    double   delta2 = delta*delta;
-
-	    if (d < -asigma ) {
-	    	double  cons1 = ::exp(-beta*asigma);
-	    	double   phi = 1. + asigma*asigma/delta2;
-	    	double   k1 = cons1*::pow(phi,l-0.5);
-	    	double   k2 = beta*k1- cons1*(l-0.5)*::pow(phi,l-1.5)*2*asigma/delta2;
-	    	double   B = -asigma + n*k1/k2;
-	    	double   A = k1*::pow(B+asigma,n);
-	    	out = A*::pow(B-d,-n);
-	    }
-	    else if (d > a2sigma) {
-	    	double   cons1 = ::exp(beta*a2sigma);
-	    	double    phi = 1. + a2sigma*a2sigma/delta2;
-	    	double   k1 = cons1*::pow(phi,l-0.5);
-	    	double   k2 = beta*k1+ cons1*(l-0.5)*::pow(phi,l-1.5)*2.*a2sigma/delta2;
-	    	double   B = -a2sigma - n2*k1/k2;
-	    	double   A = k1*::pow(B+a2sigma,n2);
-	    	out =  A*::pow(B+d,-n2);
-
-	    }
-	    else { out = ::exp(beta*d)*::pow(1. + d*d/delta2,l-0.5);}
-
-
-	    return out;
-
- }
- */
-
-
- double Ipatia<ArgIndex>::ipatia(const double x, const double mu,const double sigma,
+template<unsigned int ArgIndex>
+__hydra_host__ __hydra_device__
+ inline  double Ipatia<ArgIndex>::ipatia(const double x, const double mu,const double sigma,
          const double A1, const double N1, const double A2, const double N2,
          const double l, const double beta) const {
 
 	 double d = x-mu;
 
-	 return (d < -A1*sigma ) *  left(d, sigma, A1, N1, l, beta) +
-			(d >  A2*sigma ) * right(d, sigma, A2, N2, l, beta) +
-			(d >= -A1*sigma ) &&  (d <=  A2*sigma ) * center(d, sigma, l, beta);
 
+	 double _left_   = (d < -A1*sigma );
+	 double _right_  = (d > A2*sigma );
+	 double _center_ = (d >= -A1*sigma) && (d <= A2*sigma );
+
+
+	 return    _left_*left(d, sigma, A1, N1, l, beta) +
+			  _right_*right(d, sigma, A2, N2, l, beta) +
+			 _center_*center(d, sigma, l, beta );
 
  }
 
-
- double Ipatia<ArgIndex>::left(const double d, const double sigma,
+template<unsigned int ArgIndex>
+__hydra_host__ __hydra_device__
+ inline  double Ipatia<ArgIndex>::left(const double d, const double sigma,
 	 const double A1, const double N1, const double l,  const double beta) const {
 
 	 const double  asigma = A1*sigma;
 
-	 double  delta2 = sigma*( (l>-1.0)  + ::sqrt(-2+cons1)*(l<=-1.0) );
+	 double  delta2 = (l>=-1.0)? sigma : sigma *::sqrt(-2 - 2.*l) ;
 
 	 delta2 *= delta2;
 
@@ -107,19 +66,36 @@ namespace hydra {
 	 const double   phi = 1.0 + asigma*asigma/delta2;
 	 const double   k1  = cons1*::pow(phi,l-0.5);
 	 const double   k2  = beta*k1- cons1*(l-0.5)*::pow(phi,l-1.5)*2.0*asigma/delta2;
-	 const double   B   = -asigma + n*k1/k2;
+	 const double   B   = -asigma + N1*k1/k2;
 	 const double   A   = k1*::pow(B+asigma,N1);
 
-	 return A*::pow(B-d,-n);
+	 /*
+	 std::cout << std::endl
+			 << "d " <<  d << std::endl
+			 << "asigma " <<  asigma << std::endl
+			 << "delta2 " << delta2 << std::endl
+			 << "cons1 " << ::exp(-beta*asigma) << std::endl
+			 << "phi " << 1.0 + asigma*asigma/delta2 << std::endl
+			 << "k1 "  << cons1*::pow(phi,l-0.5) << std::endl
+	         << "k2 "  << beta*k1- cons1*(l-0.5)*::pow(phi,l-1.5)*2.0*asigma/delta2 << std::endl
+	         << "B "    << -asigma + N1*k1/k2 << std::endl
+	         << "A "    << k1*::pow(B+asigma,N1) << std::endl
+	         << "A*::pow(B-d,-N1) " << A*::pow(B-d,-N1)
+			 << std::endl;
+	  */
+
+	 return (d < -A1*sigma )? A*::pow(B-d,-N1):0.0;
 
  }
 
- double Ipatia<ArgIndex>::right(const double d,const double sigma,
+template<unsigned int ArgIndex>
+__hydra_host__ __hydra_device__
+ inline  double Ipatia<ArgIndex>::right(const double d,const double sigma,
 		const double A2, const double N2, const double l,  const double beta) const{
 
 	 const  double asigma = A2*sigma;
 
-	 double  delta2 = sigma*( (l>-1.0)  + ::sqrt(-2+cons1)*(l<=-1.0) );
+	 double  delta2 = (l>=-1.0)? sigma : sigma *::sqrt(-2 - 2.*l) ;
 
 	 delta2 *= delta2;
 
@@ -130,25 +106,40 @@ namespace hydra {
 	 const double   B   = - asigma - N2*k1/k2;
 	 const double   A   = k1*::pow(B+asigma,N2);
 
+	 /*
 
+	 std::cout << std::endl
+				 << "d " <<  d << std::endl
+				 << "asigma " <<  asigma << std::endl
+				 << "delta2 " << delta2 << std::endl
+				 << "cons1 " << ::exp(-beta*asigma) << std::endl
+				 << "phi " << 1.0 + asigma*asigma/delta2 << std::endl
+				 << "k1 "  << cons1*::pow(phi,l-0.5) << std::endl
+		         << "k2 "  << beta*k1- cons1*(l-0.5)*::pow(phi,l-1.5)*2.0*asigma/delta2 << std::endl
+		         << "B "    << - asigma - N2*k1/k2 << std::endl
+		         << "A "    <<  k1*::pow(B+asigma,N2)<< std::endl
+		         << "A*::pow(B+d,-N2) " << A*::pow(B+d,-N2)
+				 << std::endl;
 
+	  */
 
-	 return  A*::pow(B+d,-n2);
+	 return (d > A2*sigma )? A*::pow(B+d,-N2):0.0;
 
  }
 
- double Ipatia<ArgIndex>::center(const double d,const double sigma,
-		 const double l, const double beta) const {
+template<unsigned int ArgIndex>
+__hydra_host__ __hydra_device__
+ inline  double Ipatia<ArgIndex>::center(const double d,const double sigma,
+		 const double l, const double beta ) const {
 
 
-	 const   double  cons1    = -2.*l;
 
-	 double   delta2 = sigma*( double(l>-1.0)  + ::sqrt(-2+cons1)*(l<=-1.0) );
+	 double   delta2 = (l>=-1.0) ? sigma: sigma*::sqrt(-2 -2.*l);
 
 	 delta2 *= delta2;
 
 
-	  return ::exp(beta*d)*::pow(1. + d*d/delta2,l-0.5);
+	  return  ::exp(beta*d)*::pow(1. + d*d/delta2,l-0.5)  ;
 
  }
 

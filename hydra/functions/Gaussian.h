@@ -74,20 +74,20 @@ public:
 	}
 
 	template<typename T>
-	__hydra_host__ __hydra_device__ inline
-	double Evaluate(unsigned int, T*x)  const	{
+	__hydra_host__ __hydra_device__
+	inline double Evaluate(unsigned int, T*x)  const	{
 		double m2 = (x[ArgIndex] - _par[0])*(x[ArgIndex] - _par[0] );
 		double s2 = _par[1]*_par[1];
-		return  CHECK_VALUE(exp(-m2/(2.0 * s2 )), "par[0]=%f, par[1]=%f", _par[0], _par[1]);
+		return  CHECK_VALUE(::exp(-m2/(2.0 * s2 )), "par[0]=%f, par[1]=%f", _par[0], _par[1]);
 
 	}
 
 	template<typename T>
-	__hydra_host__ __hydra_device__ inline
-	double Evaluate(T x)  const {
+	__hydra_host__ __hydra_device__
+	inline double Evaluate(T x)  const {
 		double m2 = ( get<ArgIndex>(x) - _par[0])*(get<ArgIndex>(x) - _par[0] );
 		double s2 = _par[1]*_par[1];
-		return CHECK_VALUE( exp(-m2/(2.0 * s2 )), "par[0]=%f, par[1]=%f", _par[0], _par[1]);
+		return CHECK_VALUE( ::exp(-m2/(2.0 * s2 )), "par[0]=%f, par[1]=%f", _par[0], _par[1]);
 
 	}
 

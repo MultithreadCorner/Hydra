@@ -39,6 +39,7 @@
 #include <hydra/Parameter.h>
 #include <hydra/Tuple.h>
 #include <hydra/functions/Math.h>
+#include <hydra/detail/utility/CheckValue.h>
 #include <tuple>
 #include <limits>
 #include <stdexcept>
