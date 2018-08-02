@@ -121,8 +121,8 @@ int main(int argv, char** argc)
 	auto L1    = hydra::Parameter::Create("L1").Value(1.40).Error(0.0001).Limits(1.3, 1.5); // decay speed
 	auto N1    = hydra::Parameter::Create("N1").Value(1.41).Error(0.0001).Limits(1.3, 1.5); // tail deepness
 	//right tail
-	auto L2    = hydra::Parameter::Create("L2").Value(3.26).Error(0.0001).Limits(3.0, 3.5);// decay speed
-	auto N2    = hydra::Parameter::Create("N2").Value(0.05).Error(0.0001).Limits(0.01, 0.5);// tail deepness
+	auto L2    = hydra::Parameter::Create("L2").Value(1.56).Error(0.0001).Limits(1.0, 3.5);// decay speed
+	auto N2    = hydra::Parameter::Create("N2").Value(1.5).Error(0.0001).Limits(0.01, 2.5);// tail deepness
 	//peakness
 	auto alfa  = hydra::Parameter::Create("alfa").Value(-1.14).Error(0.0001).Limits(-2.0, -0.5);
 	auto beta  = hydra::Parameter::Create("beta").Value(0.0).Error(0.0001).Limits(0.0, 1.5).Fixed();

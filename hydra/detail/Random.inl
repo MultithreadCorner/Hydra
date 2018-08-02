@@ -60,6 +60,16 @@ void  Random<GRND>::Gauss(typename Iterator::value_type mean, typename Iterator:
 
 }
 
+template<typename GRND>
+template<typename Iterable>
+inline typename std::enable_if< hydra::detail::is_iterable<Iterable>::value,
+hydra::Range<decltype(std::declval<Iterable>().begin())>>::type
+Random<GRND>::Gauss(typename Iterable::value_type mean, typename Iterable::value_type sigma, Iterable&& output)
+{
+	this->Gauss(mean, sigma, std::forward<Iterable>(output).begin(),  std::forward<Iterable>(output).end());
+	return make_range( std::forward<Iterable>(output).begin(),  std::forward<Iterable>(output).end());
+}
+
 
 template<typename GRND>
 template<hydra::detail::Backend  BACKEND, typename Iterator>
@@ -106,6 +116,17 @@ void Random<GRND>::Uniform(typename Iterator::value_type min, typename Iterator:
 
 }
 
+template<typename GRND>
+template<typename Iterable>
+inline typename std::enable_if< hydra::detail::is_iterable<Iterable>::value,
+hydra::Range<decltype(std::declval<Iterable>().begin())>>::type
+Random<GRND>::Uniform(typename Iterable::value_type min,	typename Iterable::value_type max, Iterable&& output){
+
+	this->Uniform(min, max, std::forward<Iterable>(output).begin(),  std::forward<Iterable>(output).end());
+	return make_range( std::forward<Iterable>(output).begin(),  std::forward<Iterable>(output).end());
+}
+
+
 /**
  * Fill the range (begin, end) with a uniform distribution between [min, max]
  */
@@ -151,6 +172,17 @@ void  Random<GRND>::Exp(typename Iterator::value_type tau,  Iterator begin, Iter
 
 }
 
+template<typename GRND>
+template<typename Iterable>
+inline typename std::enable_if< hydra::detail::is_iterable<Iterable>::value,
+hydra::Range<decltype(std::declval<Iterable>().begin())>>::type
+Random<GRND>::Exp(typename Iterable::value_type tau, Iterable&& output){
+
+	this->Exp(tau, std::forward<Iterable>(output).begin(),  std::forward<Iterable>(output).end());
+	return make_range( std::forward<Iterable>(output).begin(),  std::forward<Iterable>(output).end());
+}
+
+
 /**
  * Fill the range (begin, end) with an exponential distribution
  */
@@ -195,6 +227,17 @@ void  Random<GRND>::BreitWigner(typename Iterator::value_type mean, typename Ite
 	HYDRA_EXTERNAL_NS::thrust::transform(select_system(system), first, last, begin,
 			detail::RndBreitWigner<value_type,GRND>(fSeed+3,  mean, gamma));
 
+}
+
+
+template<typename GRND>
+template<typename Iterable>
+inline typename std::enable_if< hydra::detail::is_iterable<Iterable>::value,
+hydra::Range<decltype(std::declval<Iterable>().begin())>>::type
+Random<GRND>::BreitWigner(typename Iterable::value_type mean, typename Iterable::value_type sigma, Iterable&& output)
+{
+	this->BreitWigner(mean, sigma, std::forward<Iterable>(output).begin(),  std::forward<Iterable>(output).end());
+	return make_range( std::forward<Iterable>(output).begin(),  std::forward<Iterable>(output).end());
 }
 
 /**
@@ -254,6 +297,16 @@ Range<Iterator>  Random<GRND>::Sample(Iterator begin, Iterator end ,
 	HYDRA_EXTERNAL_NS::thrust::return_temporary_buffer(system_t(), values.first);
 
 	return make_range(begin , r);
+}
+
+template<typename GRND>
+template<typename T, typename Iterable, typename FUNCTOR>
+inline typename std::enable_if< hydra::detail::is_iterable<Iterable>::value,
+hydra::Range<decltype(std::declval<Iterable>().begin())>>::type
+Random<GRND>::Sample(Iterable&& output, T min, T max, FUNCTOR const& functor)
+{
+ return this->Sample(std::forward<Iterable>(output).begin(),  std::forward<Iterable>(output).end(),
+		  min,  max, functor);
 }
 
 template<typename GRND>
@@ -324,6 +377,17 @@ Range<Iterator>  Random<GRND>::Sample(Iterator begin, Iterator end ,
 	HYDRA_EXTERNAL_NS::thrust::return_temporary_buffer(system_t(), values.first);
 
 	return make_range(begin , r);
+}
+
+template<typename GRND>
+template<typename T, typename Iterable, typename FUNCTOR, size_t N >
+inline typename std::enable_if< hydra::detail::is_iterable<Iterable>::value,
+hydra::Range<decltype(std::declval<Iterable>().begin())>>::type
+Random<GRND>::Sample(Iterable&& output,
+		std::array<T,N>const& min, std::array<T,N>const& max, FUNCTOR const& functor)
+{
+ return this->Sample(std::forward<Iterable>(output).begin(),  std::forward<Iterable>(output).end(),
+		  min,  max, functor);
 }
 
 
