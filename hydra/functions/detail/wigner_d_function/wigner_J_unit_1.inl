@@ -30,7 +30,7 @@
 #ifndef WIGNER_J_UNIT_1_INL_
 #define WIGNER_J_UNIT_1_INL_
 
-#include<hydra/functions/detail/wigner_d_function/wigner_d_function_macro.inl>
+//#include<hydra/functions/detail/wigner_d_function/wigner_d_function_macro.inl>
 
 
 namespace hydra {
