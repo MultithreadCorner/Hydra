@@ -52,6 +52,8 @@ inline double wigner_d_function(const double theta);
 
 WIGNER_D_FUNCTION(0,0,0,unit,1.0)
 
+}  // namespace hydra
+
 //integer J
 #include <hydra/functions/detail/wigner_d_function/wigner_J_unit_1.inl>
 #include <hydra/functions/detail/wigner_d_function/wigner_J_unit_2.inl>
@@ -65,7 +67,5 @@ WIGNER_D_FUNCTION(0,0,0,unit,1.0)
 //#include <hydra/functions/detail/wigner_d_function/wigner_J_half_5.inl>
 ///#include <hydra/functions/detail/wigner_d_function/wigner_J_half_7.inl>
 //#include <hydra/functions/detail/wigner_d_function/wigner_J_half_9.inl>
-
-}  // namespace hydra
 
 #endif /* WIGNER_D_FUNCION_H_ */
