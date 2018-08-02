@@ -3,6 +3,7 @@ project(examples)
 #+++++++++++++++++++++++++++++++++
 # Hydra phys                     |
 #+++++++++++++++++++++++++++++++++
+ ADD_HYDRA_EXAMPLE(particle_mass) 
  ADD_HYDRA_EXAMPLE(ipatia_plus_argus)  
  ADD_HYDRA_EXAMPLE(gaussian_plus_argus)     
  ADD_HYDRA_EXAMPLE(crystal_ball_plus_exponential)     

@@ -140,7 +140,7 @@ template<typename Derived,
     /*! \p iterator_adaptor's default constructor does nothing.
      */
     __hydra_host__ __hydra_device__
-    iterator_adaptor()=delete;//{}
+    iterator_adaptor(){}
 
     /*! This constructor copies from a given instance of the \p Base iterator.
      */
