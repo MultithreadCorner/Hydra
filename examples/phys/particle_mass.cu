@@ -1,6 +1,6 @@
 /*----------------------------------------------------------------------------
  *
- *   Copyright (C) 2016 - 2018 Antonio Augusto Alves Junior
+ *   Copyright (C) 2016 - 2017 Antonio Augusto Alves Junior
  *
  *   This file is part of Hydra Data Analysis Framework.
  *
@@ -19,18 +19,13 @@
  *
  *---------------------------------------------------------------------------*/
 
+
 /*
- * kaon_mass.inl
+ * kaon_mass.cu
  *
- *  Created on: 02/08/2018
+ *  Created on: Aug 2, 2018
  *      Author: Antonio Augusto Alves Junior
  */
 
-#ifndef KAON_MASS_INL_
-#define KAON_MASS_INL_
+#include<examples/phys/particle_mass.inl>
 
-
-
-
-
-#endif /* KAON_MASS_INL_ */
