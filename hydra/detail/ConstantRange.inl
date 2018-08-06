@@ -36,7 +36,7 @@ namespace hydra {
 
 template<typename Value_Type>
 Range<HYDRA_EXTERNAL_NS::thrust::constant_iterator<Value_Type>>
-crange(const Value_Type&  value){
+constant_range(const Value_Type&  value){
 
 	return make_range( HYDRA_EXTERNAL_NS::thrust::constant_iterator<Value_Type>(value),
 			HYDRA_EXTERNAL_NS::thrust::constant_iterator<Value_Type>(value) );

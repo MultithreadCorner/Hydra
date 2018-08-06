@@ -163,7 +163,7 @@ private:
 		static const double sqrt_pi_over_two = 1.2533141373155002512079;
 		static const double sqrt_two         = 1.4142135623730950488017;
 
-		return sigma*sqrt_pi_over_two*( erf( (::log(x)-mean)/( sigma*sqrt_two ) ) );
+		return sigma*sqrt_pi_over_two*( ::erf( (::log(x)-mean)/( sigma*sqrt_two ) ) );
 	}
 
 	double fLowerLimit;
