@@ -36,201 +36,201 @@
 namespace hydra {
 
 // J,M,N = {3, -3, -3}
-//WIGNER_D_FUNCTION(3, -3, -3, unit, <uncomment this line and add the formula here>)
+WIGNER_D_FUNCTION_SWAPPED_MN(3, 3, 3, unit)
 
 
 // J,M,N = {3, -3, -2}
-//WIGNER_D_FUNCTION(3, -3, -2, unit, <uncomment this line and add the formula here>)
+WIGNER_D_FUNCTION_SWAPPED_MN(3, 2, 3, unit)
 
 
 // J,M,N = {3, -3, -1}
-//WIGNER_D_FUNCTION(3, -3, -1, unit, <uncomment this line and add the formula here>)
+WIGNER_D_FUNCTION_SWAPPED_NEGATIVE_MN(3, 1, 3, unit)
 
 
 // J,M,N = {3, -3, 0}
-//WIGNER_D_FUNCTION(3, -3, 0, unit, <uncomment this line and add the formula here>)
+WIGNER_D_FUNCTION_SWAPPED_NEGATIVE_MN(3, 0, 3, unit)
 
 
 // J,M,N = {3, -3, 1}
-//WIGNER_D_FUNCTION(3, -3, 1, unit, <uncomment this line and add the formula here>)
+WIGNER_D_FUNCTION_SWAPPED_NEGATIVE_MN(3, -1, 3, unit)
 
 
 // J,M,N = {3, -3, 2}
-//WIGNER_D_FUNCTION(3, -3, 2, unit, <uncomment this line and add the formula here>)
+WIGNER_D_FUNCTION_SWAPPED_NEGATIVE_MN(3, -2, 3, unit)
 
 
 // J,M,N = {3, -3, 3}
-//WIGNER_D_FUNCTION(3, -3, 3, unit, <uncomment this line and add the formula here>)
+WIGNER_D_FUNCTION_SWAPPED_NEGATIVE_MN(3, -3, 3, unit)
 
 
 // J,M,N = {3, -2, -3}
-//WIGNER_D_FUNCTION(3, -2, -3, unit, <uncomment this line and add the formula here>)
+WIGNER_D_FUNCTION_SWAPPED_NEGATIVE_MN(3, 2, 3, unit)
 
 
 // J,M,N = {3, -2, -2}
-//WIGNER_D_FUNCTION(3, -2, -2, unit, <uncomment this line and add the formula here>)
+WIGNER_D_FUNCTION_SWAPPED_NEGATIVE_MN(3, 2, 2, unit)
 
 
 // J,M,N = {3, -2, -1}
-//WIGNER_D_FUNCTION(3, -2, -1, unit, <uncomment this line and add the formula here>)
+WIGNER_D_FUNCTION_SWAPPED_NEGATIVE_MN(3, 1, 2, unit)
 
 
 // J,M,N = {3, -2, 0}
-//WIGNER_D_FUNCTION(3, -2, 0, unit, <uncomment this line and add the formula here>)
+WIGNER_D_FUNCTION_SWAPPED_NEGATIVE_MN(3, 0, 2, unit)
 
 
-// J,M,N = {3, -2, 1}
-//WIGNER_D_FUNCTION(3, -2, 1, unit, <uncomment this line and add the formula here>)
+// J,M,N = {3, -2, 1} => {3, 2, -1}
+WIGNER_D_FUNCTION_SWAPPED_NEGATIVE_MN(3, -1, 2, unit )
 
 
-// J,M,N = {3, -2, 2}
-//WIGNER_D_FUNCTION(3, -2, 2, unit, <uncomment this line and add the formula here>)
+// J,M,N = {3, -2, 2} => {3, 2, -2}
+WIGNER_D_FUNCTION_SWAPPED_MN(3, -2, 2, unit)
 
 
-// J,M,N = {3, -2, 3}
-//WIGNER_D_FUNCTION(3, -2, 3, unit, <uncomment this line and add the formula here>)
+// J,M,N = {3, -2, 3} => {3, 3, -2}
+WIGNER_D_FUNCTION_SWAPPED_MN(3, -2, 3, unit)
 
 
-// J,M,N = {3, -1, -3}
-//WIGNER_D_FUNCTION(3, -1, -3, unit, <uncomment this line and add the formula here>)
+// J,M,N = {3, -1, -3} => {3, 3, 1}
+WIGNER_D_FUNCTION_SWAPPED_NEGATIVE_MN(3, 1, 3, unit)
 
 
-// J,M,N = {3, -1, -2}
-//WIGNER_D_FUNCTION(3, -1, -2, unit, <uncomment this line and add the formula here>)
+// J,M,N = {3, -1, -2} => {3, 2, 1}
+WIGNER_D_FUNCTION_SWAPPED_NEGATIVE_MN(3, 1, 2, unit)
 
 
-// J,M,N = {3, -1, -1}
-//WIGNER_D_FUNCTION(3, -1, -1, unit, <uncomment this line and add the formula here>)
+// J,M,N = {3, -1, -1} => {3, 1, 1}
+WIGNER_D_FUNCTION_SWAPPED_NEGATIVE_MN(3, 1, 1, unit)
 
 
-// J,M,N = {3, -1, 0}
-//WIGNER_D_FUNCTION(3, -1, 0, unit, <uncomment this line and add the formula here>)
+// J,M,N = {3, -1, 0} => {3, 1, 0}
+WIGNER_D_FUNCTION_SWAPPED_NEGATIVE_MN(3, 1, 0, unit)
 
 
-// J,M,N = {3, -1, 1}
-//WIGNER_D_FUNCTION(3, -1, 1, unit, <uncomment this line and add the formula here>)
+// J,M,N = {3, -1, 1} => {3, 1, -1}
+WIGNER_D_FUNCTION_SWAPPED_MN(3, -1, 1, unit)
 
 
-// J,M,N = {3, -1, 2}
-//WIGNER_D_FUNCTION(3, -1, 2, unit, <uncomment this line and add the formula here>)
+// J,M,N = {3, -1, 2} => {3, 2, -1}
+WIGNER_D_FUNCTION_SWAPPED_MN(3, -1, 2, unit)
 
 
-// J,M,N = {3, -1, 3}
-//WIGNER_D_FUNCTION(3, -1, 3, unit, <uncomment this line and add the formula here>)
+// J,M,N = {3, -1, 3} => {3, 3, -1}
+WIGNER_D_FUNCTION_SWAPPED_MN(3, -1, 3, unit)
 
 
-// J,M,N = {3, 0, -3}
-//WIGNER_D_FUNCTION(3, 0, -3, unit, <uncomment this line and add the formula here>)
+// J,M,N = {3, 0, -3} => {3, 3, 0}
+WIGNER_D_FUNCTION_SWAPPED_NEGATIVE_MN(3, 0, 3, unit)
 
 
-// J,M,N = {3, 0, -2}
-//WIGNER_D_FUNCTION(3, 0, -2, unit, <uncomment this line and add the formula here>)
+// J,M,N = {3, 0, -2} => {3, 2, 0}
+WIGNER_D_FUNCTION_SWAPPED_NEGATIVE_MN(3, 0, 2, unit)
 
 
-// J,M,N = {3, 0, -1}
-//WIGNER_D_FUNCTION(3, 0, -1, unit, <uncomment this line and add the formula here>)
+// J,M,N = {3, 0, -1} => {3, -1, 0}
+WIGNER_D_FUNCTION_SWAPPED_NEGATIVE_MN(3, 0, 1, unit)
 
 
 // J,M,N = {3, 0, 0}
-//WIGNER_D_FUNCTION(3, 0, 0, unit, <uncomment this line and add the formula here>)
+WIGNER_D_FUNCTION(3, 0, 0, unit, -0.5*::cos(theta)*(3.0 - 5.0*::pow( ::cos(theta), 2.0) ))
 
 
 // J,M,N = {3, 0, 1}
-//WIGNER_D_FUNCTION(3, 0, 1, unit, <uncomment this line and add the formula here>)
+WIGNER_D_FUNCTION_SWAPPED_MN(3, 0, 1, unit)
 
 
 // J,M,N = {3, 0, 2}
-//WIGNER_D_FUNCTION(3, 0, 2, unit, <uncomment this line and add the formula here>)
+WIGNER_D_FUNCTION_SWAPPED_MN(3, 0, 2, unit)
 
 
 // J,M,N = {3, 0, 3}
-//WIGNER_D_FUNCTION(3, 0, 3, unit, <uncomment this line and add the formula here>)
+WIGNER_D_FUNCTION_SWAPPED_MN(3, 0, 3, unit)
 
 
-// J,M,N = {3, 1, -3}
-//WIGNER_D_FUNCTION(3, 1, -3, unit, <uncomment this line and add the formula here>)
+// J,M,N = {3, 1, -3} => {3, 3,-1}
+WIGNER_D_FUNCTION_SWAPPED_NEGATIVE_MN(3, -1, 3, unit)
 
 
-// J,M,N = {3, 1, -2}
-//WIGNER_D_FUNCTION(3, 1, -2, unit, <uncomment this line and add the formula here>)
+// J,M,N = {3, 1, -2} => {3, 2,-1}
+WIGNER_D_FUNCTION_SWAPPED_NEGATIVE_MN(3, -1, 2, unit)
 
 
 // J,M,N = {3, 1, -1}
-//WIGNER_D_FUNCTION(3, 1, -1, unit, <uncomment this line and add the formula here>)
+WIGNER_D_FUNCTION(3, 1, -1, unit, -0.125*(1.0 - ::cos(theta))( 1.0 - 10.0*::cos(theta) - 15.0*::pow(::cos(theta) , 2.0)) )
 
 
 // J,M,N = {3, 1, 0}
-//WIGNER_D_FUNCTION(3, 1, 0, unit, <uncomment this line and add the formula here>)
+WIGNER_D_FUNCTION(3, 1, 0, unit, 0.25*math_constants::sqrt3*::sin(theta)*(1.0 - 5.0*::pow(::cos(theta) , 2.0)))
 
 
 // J,M,N = {3, 1, 1}
-//WIGNER_D_FUNCTION(3, 1, 1, unit, <uncomment this line and add the formula here>)
+WIGNER_D_FUNCTION(3, 1, 1, unit, -0.125*(1.0 + ::cos(theta))( 1.0 + 10.0*::cos(theta) + 15.0*::pow(::cos(theta) , 2.0)) )
 
 
-// J,M,N = {3, 1, 2}
-//WIGNER_D_FUNCTION(3, 1, 2, unit, <uncomment this line and add the formula here>)
+// J,M,N = {3, 1, 2} => {3, 2, 1}
+WIGNER_D_FUNCTION_SWAPPED_MN(3, 1, 2, unit)
 
 
-// J,M,N = {3, 1, 3}
-//WIGNER_D_FUNCTION(3, 1, 3, unit, <uncomment this line and add the formula here>)
+// J,M,N = {3, 1, 3} => {3, 3, 1}
+WIGNER_D_FUNCTION_SWAPPED_MN(3, 1, 3, unit)
 
 
-// J,M,N = {3, 2, -3}
-//WIGNER_D_FUNCTION(3, 2, -3, unit, <uncomment this line and add the formula here>)
+// J,M,N = {3, 2, -3} => {3, -3, 2}
+WIGNER_D_FUNCTION_SWAPPED_MN(3, 2, -3, unit)
 
 
 // J,M,N = {3, 2, -2}
-//WIGNER_D_FUNCTION(3, 2, -2, unit, <uncomment this line and add the formula here>)
+WIGNER_D_FUNCTION(3, 2, -2, unit, -0.25*::pow( 1.0 - ::cos(theta), 2.0)*(2.0 + 3.0*::cos(theta)) )
 
 
 // J,M,N = {3, 2, -1}
-//WIGNER_D_FUNCTION(3, 2, -1, unit, <uncomment this line and add the formula here>)
+WIGNER_D_FUNCTION(3, 2, -1, unit, -0.125*math_constants::sqrt10*::sin(theta)*(1.0 + 2.0*::cos(theta) - 3.0*::pow( ::cos(theta), 2.0)) )
 
 
 // J,M,N = {3, 2, 0}
-//WIGNER_D_FUNCTION(3, 2, 0, unit, <uncomment this line and add the formula here>)
+WIGNER_D_FUNCTION(3, 2, 0, unit,  -0.25*math_constants::sqrt30*::cos(theta)*::pow(::sin(theta), 2.0))
 
 
 // J,M,N = {3, 2, 1}
-//WIGNER_D_FUNCTION(3, 2, 1, unit, <uncomment this line and add the formula here>)
+WIGNER_D_FUNCTION(3, 2, 1, unit, -0.125*math_constants::sqrt10*::sin(theta)*(1.0 - 2.0*::cos(theta) - 3.0*::pow( ::cos(theta), 2.0)) )
 
 
 // J,M,N = {3, 2, 2}
-//WIGNER_D_FUNCTION(3, 2, 2, unit, <uncomment this line and add the formula here>)
+WIGNER_D_FUNCTION(3, 2, 2, unit, -0.25*::pow( 1.0 + ::cos(theta), 2.0)*(2.0 - 3.0*::cos(theta)) )
 
 
-// J,M,N = {3, 2, 3}
-//WIGNER_D_FUNCTION(3, 2, 3, unit, <uncomment this line and add the formula here>)
+// J,M,N = {3, 2, 3} => {3, 3, 2}
+WIGNER_D_FUNCTION_SWAPPED_MN(3, 2, 3, unit)
 
 
 // J,M,N = {3, 3, -3}
-//WIGNER_D_FUNCTION(3, 3, -3, unit, <uncomment this line and add the formula here>)
+WIGNER_D_FUNCTION(3, 3, -3, unit,  0.125*::pow( 1.0 + ::cos(theta), 3.0))
 
 
 // J,M,N = {3, 3, -2}
-//WIGNER_D_FUNCTION(3, 3, -2, unit, <uncomment this line and add the formula here>)
+WIGNER_D_FUNCTION(3, 3, -2, unit,  -0.125*math_constants::sqrt6*::sin(theta)*::pow( 1.0 - ::cos(theta), 2.0) )
 
 
 // J,M,N = {3, 3, -1}
-//WIGNER_D_FUNCTION(3, 3, -1, unit, <uncomment this line and add the formula here>)
+WIGNER_D_FUNCTION(3, 3, -1, unit, -0.125*math_constants::sqrt15*::pow(::sin(theta),2.0)*(1.0-::cos(theta)) )
 
 
 // J,M,N = {3, 3, 0}
-//WIGNER_D_FUNCTION(3, 3, 0, unit, <uncomment this line and add the formula here>)
+WIGNER_D_FUNCTION(3, 3, 0, unit, 0.25*math_constants::sqrt5*::pow(::sin(theta),3.0))
 
 
 // J,M,N = {3, 3, 1}
-//WIGNER_D_FUNCTION(3, 3, 1, unit, <uncomment this line and add the formula here>)
+WIGNER_D_FUNCTION(3, 3, 1, unit, -0.125*math_constants::sqrt15*::pow(::sin(theta),2.0)*(1.0+::cos(theta)) )
 
 
 // J,M,N = {3, 3, 2}
-//WIGNER_D_FUNCTION(3, 3, 2, unit, <uncomment this line and add the formula here>)
+WIGNER_D_FUNCTION(3, 3, 2, unit, -0.125*math_constants::sqrt6*::sin(theta)*::pow( 1.0 + ::cos(theta), 2.0) )
 
 
 // J,M,N = {3, 3, 3}
-//WIGNER_D_FUNCTION(3, 3, 3, unit, <uncomment this line and add the formula here>)
+WIGNER_D_FUNCTION(3, 3, 3, unit, 0.125*::pow( 1.0 + ::cos(theta), 3.0))
 
-} \namespace hydra
+} //namespace hydra
 
 
 #endif /* WIGNER_J_UNIT_3_INL_ */

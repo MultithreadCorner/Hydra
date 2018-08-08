@@ -139,7 +139,7 @@ int main(int argv, char** argc)
 
 		//-------------------------------------------------------
 		//exponential
-		Generator.Exp(1.0, data_d.begin(), data_d.end());
+		Generator.Exp(1.0, data_d);
 		hydra::copy(data_d,  data_h);
 
 		for(size_t i=0; i<10; i++)

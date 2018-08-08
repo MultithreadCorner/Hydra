@@ -1,6 +1,6 @@
 /*----------------------------------------------------------------------------
  *
- *   Copyright (C) 2016 - 2018 Antonio Augusto Alves Junior
+ *   Copyright (C) 2016 - 2017 Antonio Augusto Alves Junior
  *
  *   This file is part of Hydra Data Analysis Framework.
  *
@@ -19,32 +19,14 @@
  *
  *---------------------------------------------------------------------------*/
 
+
 /*
- * ConstantRange.inl
+ * kaon_mass.cpp
  *
- *  Created on: 20/05/2018
+ *  Created on: Aug 2, 2018
  *      Author: Antonio Augusto Alves Junior
  */
 
-#ifndef CONSTANTRANGE_INL_
-#define CONSTANTRANGE_INL_
 
-#include <hydra/detail/Config.h>
-#include <hydra/detail/external/thrust/iterator/constant_iterator.h>
+#include<examples/phys/particle_mass.inl>
 
-namespace hydra {
-
-template<typename Value_Type>
-Range<HYDRA_EXTERNAL_NS::thrust::constant_iterator<Value_Type>>
-constant_range(const Value_Type&  value){
-
-	return make_range( HYDRA_EXTERNAL_NS::thrust::constant_iterator<Value_Type>(value),
-			HYDRA_EXTERNAL_NS::thrust::constant_iterator<Value_Type>(value) );
-}
-
-}  // namespace hydra
-
-
-
-
-#endif /* CONSTANTRANGE_INL_ */

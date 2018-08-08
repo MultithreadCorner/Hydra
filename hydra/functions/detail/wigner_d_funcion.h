@@ -68,6 +68,4 @@ WIGNER_D_FUNCTION(0,0,0,unit,1.0)
 ///#include <hydra/functions/detail/wigner_d_function/wigner_J_half_7.inl>
 //#include <hydra/functions/detail/wigner_d_function/wigner_J_half_9.inl>
 
-
-
 #endif /* WIGNER_D_FUNCION_H_ */

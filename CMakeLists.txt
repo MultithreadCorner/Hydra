@@ -42,14 +42,19 @@ elseif ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Intel")
  #MESSAGE(STATUS "===> Compiling with MSVC")
 endif()
 
+#-----------------------
 # get Hydra
 find_package(Hydra REQUIRED)
 include_directories(${Hydra_INCLUDE_DIR})
 
+#-----------------------
 # get TCLAP
 find_package(TCLAP REQUIRED)
+if(TCLAP_FOUND)
 include_directories(${TCLAP_INCLUDE_DIR})
+endif(TCLAP_FOUND)
 
+#-----------------------
 # get ROOT
 find_package(ROOT COMPONENTS Minuit2)
 if(ROOT_FOUND)
@@ -62,6 +67,15 @@ else(Minuit2_FOUND OFF)
 endif()
 endif(ROOT_FOUND)
 
+#-----------------------
+# get GSL
+find_package(GSL)
+if(GSL_FOUND)
+include_directories(${GSL_INCLUDE_DIRS})
+link_directories(${GSL_LIBRARIES})
+endif(GSL_FOUND)
+
+#-----------------------
 #get CUDA
 find_package(CUDA 8.0) 
 if(CUDA_FOUND)
@@ -92,6 +106,7 @@ LIST(APPEND CUDA_NVCC_FLAGS ${NVCC_FLAGS_EXTRA})
         
 endif(CUDA_FOUND)
 
+#-----------------------
 #get TBB
 find_package(TBB )
 if(TBB_FOUND)
@@ -99,6 +114,7 @@ include_directories(${TBB_INCLUDE_DIRS})
 link_directories(${TBB_LIBRARY})
 endif(TBB_FOUND)
 
+#-----------------------
 #get OpenMP
 find_package(OpenMP)
 if(OPENMP_CXX_FOUND OR OPENMP_FOUND)

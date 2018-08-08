@@ -50,7 +50,7 @@ double wigner_d_function<_half<1>,_half<1>,_half<-1>>(const double theta){
 }
 //J=1/2, M=-1/2, N=1/2
 template<>
-double wigner_d_function<_half<1>,_half<1>,_half<-1>>(const double theta){
+double wigner_d_function<_half<1>,_half<-1>,_half<1>>(const double theta){
 
 	return  -::sin(0.5*theta);
 }
@@ -58,7 +58,7 @@ double wigner_d_function<_half<1>,_half<1>,_half<-1>>(const double theta){
 
 //J=1/2, M=-1/2, N=-1/2
 template<>
-double wigner_d_function<_half<1>,_half<0>,_half<1>>(const double theta){
+double wigner_d_function<_half<1>,_half<-1>,_half<-1>>(const double theta){
 
 	return ::cos(0.5*theta) ;
 }

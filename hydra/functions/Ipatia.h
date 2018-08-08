@@ -45,6 +45,8 @@
 #include <cassert>
 #include <utility>
 
+#include "gsl/gsl_sf_hyperg.h"
+
 namespace hydra {
 
 /**
@@ -158,6 +160,154 @@ private:
 
 };
 
+
+class IpatiaAnalyticalIntegral: public Integrator<IpatiaAnalyticalIntegral>
+{
+
+public:
+
+	IpatiaAnalyticalIntegral(double min, double max):
+		fLowerLimit(min),
+		fUpperLimit(max)
+	{
+		assert( fLowerLimit < fUpperLimit && "hydra::IpatiaAnalyticalIntegral: MESSAGE << LowerLimit >= fUpperLimit >>");
+	 }
+
+	inline IpatiaAnalyticalIntegral(IpatiaAnalyticalIntegral const& other):
+		fLowerLimit(other.GetLowerLimit()),
+		fUpperLimit(other.GetUpperLimit())
+	{}
+
+	inline IpatiaAnalyticalIntegral&
+	operator=( IpatiaAnalyticalIntegral const& other)
+	{
+		if(this == &other) return *this;
+
+		this->fLowerLimit = other.GetLowerLimit();
+		this->fUpperLimit = other.GetUpperLimit();
+
+		return *this;
+	}
+
+	double GetLowerLimit() const {
+		return fLowerLimit;
+	}
+
+	void SetLowerLimit(double lowerLimit ) {
+		fLowerLimit = lowerLimit;
+	}
+
+	double GetUpperLimit() const {
+		return fUpperLimit;
+	}
+
+	void SetUpperLimit(double upperLimit) {
+		fUpperLimit = upperLimit;
+	}
+
+	template<typename FUNCTOR>	inline
+	std::pair<double, double> Integrate(FUNCTOR const& functor) const {
+
+		double output = integral(fLowerLimit-functor[0], fUpperLimit-functor[0],
+				functor[1], functor[2], functor[3], functor[4], functor[5], functor[6], functor[7]);
+
+		return std::make_pair(
+				CHECK_VALUE(output," par[0] = %f par[1] = %f fLowerLimit = %f fUpperLimit = %f", functor[0], functor[1], fLowerLimit,fUpperLimit ) ,0.0);
+	}
+
+
+private:
+
+	inline double integral(const double d0, const double d1, const double sigma,
+			 const double A1, const double N1, const double A2, const double N2,
+			 const double l, const  double beta ) const
+	{
+		// double d = x-mu;
+		//double alpha,  delta2, cons1, phi, A, B, k1, k2;
+		double ASigma1 = A1*sigma;
+		double ASigma2 = A2*sigma;
+		double I0 = 0;
+		double I1 = 0;
+		double I1a = 0;
+		double I1b = 0;
+
+		double delta = (l<=-1.0)? sigma *sqrt(-2 -2.*l) : sigma;
+
+		double delta2 = delta*delta;
+
+		if ((d0 > -ASigma1) && (d1 < ASigma2)){
+			return  d_hypergeometric(d1,delta, l) - d_hypergeometric(d0,delta, l);
+		}
+
+		if (d0 > ASigma2) {
+
+			double cons1 = 1.;
+			double phi = 1. + ASigma2*ASigma2/delta2;
+			double k1 = cons1*::pow(phi,l-0.5);
+			double k2 = beta*k1+ cons1*(l-0.5)*::pow(phi,l-1.5)*2.*ASigma2/delta2;
+			double B = -ASigma2 - N2*k1/k2;
+			double A = k1*::pow(B+ASigma2,N2);
+			return A*(::pow(B+d1,1-N2)/(1-N2) -::pow(B+d0,1-N2)/(1-N2) ) ;
+
+		}
+
+		if (d1 < -ASigma1) {
+			double cons1 = 1.;
+			double phi = 1. + ASigma1*ASigma1/delta2;
+			double k1 = cons1*::pow(phi,l-0.5);
+			double k2 = beta*k1- cons1*(l-0.5)*::pow(phi,l-1.5)*2*ASigma1/delta2;
+			double B = -ASigma1 + N1*k1/k2;
+			double A = k1*::pow(B+ASigma1,N1);
+			I0 = A*::pow(B-d0,1-N1)/(N1-1);
+			I1 = A*::pow(B-d1,1-N1)/(N1-1);
+			return I1 - I0;
+		}
+
+
+
+		if (d0 <-ASigma1) {
+			double cons1 = 1.;
+			double phi = 1. + ASigma1*ASigma1/delta2;
+			double 	k1 = cons1*::pow(phi,l-0.5);
+			double 	k2 = beta*k1- cons1*(l-0.5)*::pow(phi,l-1.5)*2*ASigma1/delta2;
+			double 	B = -ASigma1 + N1*k1/k2;
+			double A = k1*::pow(B+ASigma1,N1);
+			I0 = A*::pow(B-d0,1-N1)/(N1-1);
+			I1a = A*::pow(B+ASigma1,1-N1)/(N1-1) - d_hypergeometric(-ASigma1,delta, l);
+		}
+		else {  I0 = d_hypergeometric(d0,delta, l);}
+		if (d1 > ASigma2) {
+			double cons1 = 1.;
+			double phi = 1. + ASigma2*ASigma2/delta2;
+			double k1 = cons1*::pow(phi,l-0.5);
+			double k2 = beta*k1+ cons1*(l-0.5)*::pow(phi,l-1.5)*2.*ASigma2/delta2;
+			double B  = -ASigma2 - N2*k1/k2;
+			double A  = k1*::pow(B+ASigma2,N2);
+			   	  I1b = A*(::pow(B+d1,1-N2)/(1-N2) -::pow(B+ASigma2,1-N2)/(1-N2) ) - d_hypergeometric(d1,delta, l) +  d_hypergeometric(ASigma2,delta, l) ;
+		}
+		I1 = d_hypergeometric(d1,delta, l) + I1a + I1b;
+		return I1 - I0;
+
+
+	}
+
+	double hypergeometric_2F1(double a, double b, double c, double x) const {
+	  if (::fabs(x) <= 1) { return gsl_sf_hyperg_2F1(a,b,c,x);}
+	  else { return    gsl_sf_hyperg_2F1(c-a,b,c,1-1/(1-x))/::pow(1-x,b);}
+	 }
+
+	double d_hypergeometric(double d1, double delta,double l) const {
+
+	  return d1*hypergeometric_2F1(0.5,0.5-l,3./2,-d1*d1/(delta*delta));
+
+	}
+
+
+
+	double fLowerLimit;
+	double fUpperLimit;
+
+};
 
 }  // namespace hydra
 

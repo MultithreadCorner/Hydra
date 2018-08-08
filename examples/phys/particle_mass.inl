@@ -20,21 +20,14 @@
  *---------------------------------------------------------------------------*/
 
 /*
- * breit_wigner_plus_chebychev.inl
+ * kaon_mass.inl
  *
- *  Created on: 31/07/2018
+ *  Created on: 02/08/2018
  *      Author: Antonio Augusto Alves Junior
  */
 
-#ifndef BREIT_WIGNER_PLUS_CHEBYCHEV_INL_
-#define BREIT_WIGNER_PLUS_CHEBYCHEV_INL_
-
-
-/**
- * \example breit_wigner_plus_polynomial.inl
- *
- */
-
+#ifndef PARTICLE_MASS_INL_
+#define PARTICLE_MASS_INL_
 
 
 #include <iostream>
@@ -51,6 +44,7 @@
 #include <hydra/device/System.h>
 #include <hydra/Function.h>
 #include <hydra/FunctionWrapper.h>
+#include <hydra/FunctorArithmetic.h>
 #include <hydra/Random.h>
 #include <hydra/LogLikelihoodFCN.h>
 #include <hydra/Parameter.h>
@@ -59,9 +53,10 @@
 #include <hydra/AddPdf.h>
 #include <hydra/Filter.h>
 #include <hydra/DenseHistogram.h>
-#include <hydra/functions/BreitWignerNR.h>
-#include <hydra/functions/Chebychev.h>
+#include <hydra/functions/Ipatia.h>
+#include <hydra/functions/DeltaDMassBackground.h>
 #include <hydra/Placeholders.h>
+#include <hydra/GaussKronrodQuadrature.h>
 
 //Minuit2
 #include "Minuit2/FunctionMinimum.h"
@@ -70,7 +65,7 @@
 #include "Minuit2/MnMigrad.h"
 #include "Minuit2/MnMinimize.h"
 
-// Include classes from ROOT
+// * Include classes from ROOT to fill
 #ifdef _ROOT_AVAILABLE_
 
 #include <TROOT.h>
@@ -109,53 +104,75 @@ int main(int argv, char** argc)
 
 	//-----------------
     // some definitions
-    double min   =  0.0;
-    double max   =  15.0;
-    char const* model_name = "Breit-Wigner + Polynomial order 2";
+    double min   =  418.71;
+    double max   =  550.0 ;
+
 	//generator
-	hydra::Random<> Generator(154);
+	hydra::Random<> Generator(1504);
 
 	//===========================
-    //fit model Breit-Wigner + Polynomial
+    //fit model gaussian + argus
 
-	//Breit-Wigner
-	hydra::Parameter  mean  = hydra::Parameter::Create().Name("Mean" ).Value(6.0).Error(0.0001).Limits(5.0,7.0);
-	hydra::Parameter  width = hydra::Parameter::Create().Name("Width").Value(0.5).Error(0.0001).Limits(0.3,1.0);
+	//Ipatia
+	//core
+	auto mu    = hydra::Parameter::Create("mu").Value(493.677).Error(0.0001).Limits(493.5, 493.7);
+	auto sigma = hydra::Parameter::Create("sigma").Value(5.8).Error(0.0001).Limits(4.0,6.0);
+	//left tail
+	auto L1    = hydra::Parameter::Create("L1").Value(1.40).Error(0.0001).Limits(1.3, 1.5); // decay speed
+	auto N1    = hydra::Parameter::Create("N1").Value(1.41).Error(0.0001).Limits(1.3, 1.5); // tail deepness
+	//right tail
+	auto L2    = hydra::Parameter::Create("L2").Value(1.56).Error(0.0001).Limits(1.0, 3.5);// decay speed
+	auto N2    = hydra::Parameter::Create("N2").Value(1.5).Error(0.0001).Limits(0.01, 2.5);// tail deepness
+	//peakness
+	auto alfa  = hydra::Parameter::Create("alfa").Value(-1.14).Error(0.0001).Limits(-2.0, -0.5);
+	auto beta  = hydra::Parameter::Create("beta").Value(0.0).Error(0.0001).Limits(0.0, 1.5).Fixed();
 
-	//Breit-Wigner function evaluating on the first argument
-	auto Signal_PDF = hydra::make_pdf( hydra::BreitWignerNR<>(mean, width ),
-			hydra::BreitWignerNRAnalyticalIntegral(min, max));
+
+	//ipatia function evaluating on the first argument
+	auto Signal_PDF = hydra::make_pdf(hydra::Ipatia<>(mu, sigma,L1,N1,L2,N2,alfa,beta),
+			hydra::GaussKronrodQuadrature<61,100, hydra::device::sys_t>(min,  max));
 
     //-------------------------------------------
-	//Polynomial
-    //parameters
-    auto  c0  = hydra::Parameter::Create("C_0").Value( 1.5).Error(0.0001).Limits( 1.0, 2.0);
-    auto  c1  = hydra::Parameter::Create("C_1").Value( 0.2).Error(0.0001).Limits( 0.1, 0.3);
-    auto  c2  = hydra::Parameter::Create("C_2").Value( 0.1).Error(0.0001).Limits( 0.01, 0.2);
-    auto  c3  = hydra::Parameter::Create("C_3").Value( 0.1).Error(0.0001).Limits( 0.01, 0.2);
+	//Background
 
-    //Polynomial function evaluating on the first argument
-    auto Background_PDF = hydra::make_pdf( hydra::Chebychev<3>(min, max, std::array<hydra::Parameter,4>{c0, c1, c2, c3}),
-    		hydra::ChebychevAnalyticalIntegral(min, max));
+    //threshold
+    auto  M0     = hydra::Parameter::Create("M0").Value(418.0).Error(0.0001).Limits(415.0, 421.0);
+
+    //combinatorial
+    auto  A1 = hydra::Parameter::Create("A1").Value( 0.55).Error(0.0001).Limits(  0.4,  0.6);
+    auto  B1 = hydra::Parameter::Create("B1").Value( 0.067).Error(0.0001).Limits(  0.0,  0.1);
+    auto  C1 = hydra::Parameter::Create("C1").Value( 15.50).Error(0.0001).Limits( 10.0, 20.0);
+
+    auto Combinatorial_Background_PDF = hydra::make_pdf( hydra::DeltaDMassBackground<>(M0, A1, B1, C1),
+    		hydra::GaussKronrodQuadrature<61,100, hydra::device::sys_t>(min,  max));
+
+    //partial reconstructed -1.5, -10. , 15.
+    auto  A2 = hydra::Parameter::Create("A2").Value(-0.6).Error(0.0001).Limits( -0.7, -0.5); //-1.5, -0.5);
+    auto  B2 = hydra::Parameter::Create("B2").Value( 3.0).Error(0.0001).Limits( 1.0, 4.0);//-17.0, -14.0);
+    auto  C2 = hydra::Parameter::Create("C2").Value( 3.0).Error(0.0001).Limits(2.0 , 4.0);// 14.0, 18.0);
+
+    auto PartialRec_Background_PDF = hydra::make_pdf( hydra::DeltaDMassBackground<>(M0, A2, B2, C2),
+        		hydra::GaussKronrodQuadrature<61,100, hydra::device::sys_t>(min,  max));
 
     //------------------
     //yields
-	hydra::Parameter N_Signal("N_Signal"        ,500, 100, 100 , nentries) ;
-	hydra::Parameter N_Background("N_Background",2000, 100, 100 , nentries) ;
+	hydra::Parameter        N_Signal("N_Signal"        ,5000, 100, 100 , nentries) ;
+	hydra::Parameter N_Combinatorial("N_Combinatorial" ,6000, 100, 100 , nentries) ;
+	hydra::Parameter    N_PartialRec("N_PartialRec"    ,3000, 100, 100 , nentries) ;
 
 	//make model
-	auto model = hydra::add_pdfs( {N_Signal, N_Background}, Signal_PDF, Background_PDF);
-	model.SetExtended(1);
+	auto model = hydra::add_pdfs( {N_Signal, N_Combinatorial, N_PartialRec},
+			Signal_PDF, Combinatorial_Background_PDF, PartialRec_Background_PDF);
 
-	//===========================
+	model.SetExtended(true);
 
 #ifdef _ROOT_AVAILABLE_
 
-	TH1D 	hist_data("data"	, model_name, 100, min, max);
-	TH1D 	hist_fit("fit"  	, model_name, 100, min, max);
-	TH1D 	hist_signal("signal", model_name, 100, min, max);
-	TH1D 	hist_background("background"  , model_name, 100, min, max);
-
+	TH1D 	hist_data("data"	, "", 100, min, max);
+	TH1D 	hist_fit("fit"  	, "", 100, min, max);
+	TH1D 	hist_signal("signal", "", 100, min, max);
+	TH1D 	hist_combinatorial("combinatorial"  , "", 100, min, max);
+	TH1D 	hist_partialrec("partial"  , "", 100, min, max);
 
 #endif //_ROOT_AVAILABLE_
 
@@ -169,30 +186,32 @@ int main(int argv, char** argc)
 		// Generate data
 		auto range = Generator.Sample(data.begin(),  data.end(), min, max, model.GetFunctor());
 
-		std::cout<< std::endl<< "Generated data:"<< std::endl;
+		std::cout<< std::endl<< "Generated data (10 first elements):"<< std::endl;
 		for(size_t i=0; i< 10; i++)
 			std::cout << "[" << i << "] :" << range[i] << std::endl;
 
+		std::cout<< std::endl<< "Total dataset size :"<< range.size() << std::endl;
+
 		//make model and fcn
-		auto fcn = hydra::make_loglikehood_fcn( model, range.begin(), range.end() );
+		auto fcn = hydra::make_loglikehood_fcn( model, range );
 
 		//-------------------------------------------------------
 		//fit
 		ROOT::Minuit2::MnPrint::SetLevel(3);
-		hydra::Print::SetLevel(hydra::WARNING);
-		//minimization strategy
-		MnStrategy strategy(1);
+
+		MnStrategy strategy(2);
 
 		// create Migrad minimizer
 		MnMigrad migrad_d(fcn, fcn.GetParameters().GetMnState() ,  strategy);
 
+		//print parameters prior the fit
 		std::cout<<fcn.GetParameters().GetMnState()<<std::endl;
 
 		// ... Minimize and profile the time
 
 		auto start_d = std::chrono::high_resolution_clock::now();
 
-		FunctionMinimum minimum_d =  FunctionMinimum(migrad_d(5000, 5));
+		FunctionMinimum minimum_d =  FunctionMinimum(migrad_d(50000, 50));
 
 		auto end_d = std::chrono::high_resolution_clock::now();
 
@@ -208,9 +227,14 @@ int main(int argv, char** argc)
 
 		//--------------------------------------------
 		hydra::DenseHistogram<double, 1, hydra::device::sys_t> Hist_Data(100, min, max);
-		Hist_Data.Fill( range.begin(), range.end() );
+		Hist_Data.Fill( range );
+
+
+
 
 #ifdef _ROOT_AVAILABLE_
+
+
 		//data
 		for(size_t i=0;  i<100; i++)
 			hist_data.SetBinContent(i+1, Hist_Data.GetBinContent(i));
@@ -231,14 +255,23 @@ int main(int argv, char** argc)
 		}
 		hist_signal.Scale(hist_data.Integral()*signal_fraction/hist_signal.Integral());
 
-		//signal component
-		auto   background          = fcn.GetPDF().PDF(_1);
-		double background_fraction = fcn.GetPDF().Coeficient(1)/fcn.GetPDF().GetCoefSum();
+		//combinatorial component
+		auto   combinatorial       = fcn.GetPDF().PDF(_1);
+		double combinatorial_fraction = fcn.GetPDF().Coeficient(1)/fcn.GetPDF().GetCoefSum();
 		for (size_t i=0 ; i<=100 ; i++) {
-			double x = hist_background.GetBinCenter(i);
-			hist_background.SetBinContent(i, background(x) );
+			double x = hist_combinatorial.GetBinCenter(i);
+			hist_combinatorial.SetBinContent(i, combinatorial(x) );
 		}
-		hist_background.Scale(hist_data.Integral()*background_fraction/hist_background.Integral());
+		hist_combinatorial.Scale(hist_data.Integral()*combinatorial_fraction/hist_combinatorial.Integral());
+
+		//partial component
+		auto   partialrec          = fcn.GetPDF().PDF(_2);
+		double partialrec_fraction = fcn.GetPDF().Coeficient(2)/fcn.GetPDF().GetCoefSum();
+		for (size_t i=0 ; i<=100 ; i++) {
+			double x = hist_partialrec.GetBinCenter(i);
+			hist_partialrec.SetBinContent(i, partialrec(x) );
+		}
+		hist_partialrec.Scale(hist_data.Integral()*partialrec_fraction/hist_partialrec.Integral());
 
 
 
@@ -268,13 +301,20 @@ int main(int argv, char** argc)
 	hist_signal.SetStats(0);
 	hist_signal.SetLineColor(3);
 
-	hist_background.Draw("histsameC");
-	hist_background.SetStats(0);
-	hist_background.SetLineColor(2);
-	hist_background.SetLineStyle(2);
+	hist_combinatorial.Draw("histsameC");
+	hist_combinatorial.SetStats(0);
+	hist_combinatorial.SetLineColor(2);
+	hist_combinatorial.SetLineStyle(2);
+
+	hist_partialrec.Draw("histsameC");
+	hist_partialrec.SetStats(0);
+	hist_partialrec.SetLineColor(6);
+	hist_partialrec.SetLineStyle(2);
 
 	hist_fit.Draw("histsameC");
 	hist_data.Draw("e0same");
+
+
 	myapp->Run();
 
 #endif //_ROOT_AVAILABLE_
@@ -284,4 +324,7 @@ int main(int argv, char** argc)
 }
 
 
-#endif /* BREIT_WIGNER_PLUS_CHEBYCHEV_INL_ */
+
+
+
+#endif /* PARTICLE_MASS_INL_ */

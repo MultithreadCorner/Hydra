@@ -170,8 +170,8 @@ public:
      * @param end Iterator pointing to the end of the range.
      */
 	template<typename Iterator>
-	void Gauss(typename Iterator::value_type mean,typename Iterator::value_type sigma,
-			Iterator begin, Iterator end ) ;
+	void Gauss(double mean,double sigma,Iterator begin, Iterator end ) ;
+
 	 /**
 	     * @brief Fill the range [begin, end] with numbers distributed according a Gaussian distribution.
 	     * @param mean \f$\mu\f$ of the Gaussian distribution.
@@ -180,8 +180,19 @@ public:
 	     * @param end Iterator pointing to the end of the range.
 	     */
 	template<hydra::detail::Backend  BACKEND, typename Iterator>
-	void Gauss( hydra::detail::BackendPolicy<BACKEND> const& policy, typename Iterator::value_type mean,typename Iterator::value_type sigma,
-				Iterator begin, Iterator end ) ;
+	void Gauss( hydra::detail::BackendPolicy<BACKEND> const& policy,
+			double mean,double sigma, Iterator begin, Iterator end );
+
+    /**
+     * @brief Fill the range [begin, end] with numbers distributed according a Gaussian distribution.
+     * @param mean \f$\mu\f$ of the Gaussian distribution.
+     * @param sigma \f$\sigma\f$ of the Gaussian distribution.
+     * @param output range to store the generated values.
+     */
+	template<typename Iterable>
+	inline typename std::enable_if< hydra::detail::is_iterable<Iterable>::value,
+					 hydra::Range<decltype(std::declval<Iterable>().begin())>>::type
+	Gauss(double mean, double sigma,Iterable&& output) ;
 
 	/**
 	 * @brief Fill the range [begin, end] with numbers distributed according a Exponential distribution.
@@ -190,7 +201,7 @@ public:
 	 * @param end Iterator pointing to the end of the range.
 	 */
 	template<typename Iterator>
-	void Exp(typename Iterator::value_type tau, Iterator begin, Iterator end)  ;
+	void Exp(double tau, Iterator begin, Iterator end)  ;
 
 	/**
 	 * @brief Fill the range [begin, end] with numbers distributed according a Exponential distribution.
@@ -199,8 +210,17 @@ public:
 	 * @param end Iterator pointing to the end of the range.
 	 */
 	template<hydra::detail::Backend  BACKEND, typename Iterator>
-	void Exp(hydra::detail::BackendPolicy<BACKEND> const& policy, typename Iterator::value_type tau, Iterator begin, Iterator end)  ;
+	void Exp(hydra::detail::BackendPolicy<BACKEND> const& policy, double tau, Iterator begin, Iterator end)  ;
 
+	/**
+	 * @brief Fill the range [begin, end] with numbers distributed according a Exponential distribution.
+	 * @param tau \f$\tau\f$ of the Exponential distribution
+	 * @param output range to store the generated values.
+	 */
+	template<typename Iterable>
+	inline typename std::enable_if< hydra::detail::is_iterable<Iterable>::value,
+						 hydra::Range<decltype(std::declval<Iterable>().begin())>>::type
+	Exp(double tau, Iterable&& output );
 
 	/**
 	 * @brief Fill the range [begin, end] with numbers distributed according a Breit-Wigner distribution.
@@ -210,8 +230,7 @@ public:
 	 * @param end Iterator pointing to the end of the range.
 	 */
 	template<typename Iterator>
-	void BreitWigner(typename Iterator::value_type mean,
-			typename Iterator::value_type gamma, Iterator begin, Iterator end)  ;//-> decltype(*begin);
+	void BreitWigner(double mean,double gamma, Iterator begin, Iterator end)  ;//-> decltype(*begin);
 
 	/**
 	 * @brief Fill the range [begin, end] with numbers distributed according a Breit-Wigner distribution.
@@ -221,8 +240,19 @@ public:
 	 * @param end Iterator pointing to the end of the range.
 	 */
 	template<hydra::detail::Backend  BACKEND, typename Iterator>
-	void BreitWigner(hydra::detail::BackendPolicy<BACKEND> const& policy, typename Iterator::value_type mean,
-			typename Iterator::value_type gamma, Iterator begin, Iterator end)  ;//-> decltype(*begin);
+	void BreitWigner(hydra::detail::BackendPolicy<BACKEND> const& policy,
+			double mean, double gamma, Iterator begin, Iterator end)  ;//-> decltype(*begin);
+
+	/**
+	 * @brief Fill the range [begin, end] with numbers distributed according a Breit-Wigner distribution.
+	 * @param mean \f$\mu\f$ of the Breit-Wigner distribution.
+	 * @param gamma \f$\\Gamma\f$ of the Breit-Wigner distribution.
+	 * @param output range to store the generated values.
+	 */
+	template<typename Iterable>
+	inline typename std::enable_if< hydra::detail::is_iterable<Iterable>::value,
+							 hydra::Range<decltype(std::declval<Iterable>().begin())>>::type
+	BreitWigner(double mean, double gamma, Iterable&& output)  ;
 
 	/**
 	 * @brief Fill the range [begin, end] with numbers distributed according a Uniform distribution.
@@ -232,8 +262,7 @@ public:
 	 * @param end Iterator pointing to the end of the range.
 	 */
 	template<typename Iterator>
-	void Uniform(typename Iterator::value_type min,
-			typename Iterator::value_type max, Iterator begin, Iterator end) ;
+	void Uniform(double min, double max, Iterator begin, Iterator end) ;
 
 	/**
 	 * @brief Fill the range [begin, end] with numbers distributed according a Uniform distribution.
@@ -243,68 +272,108 @@ public:
 	 * @param end Iterator pointing to the end of the range.
 	 */
 	template<hydra::detail::Backend  BACKEND, typename Iterator>
-	void Uniform(hydra::detail::BackendPolicy<BACKEND> const& policy, typename Iterator::value_type min,
-			typename Iterator::value_type max, Iterator begin, Iterator end) ;
+	void Uniform(hydra::detail::BackendPolicy<BACKEND> const& policy,
+			double min, double max, Iterator begin, Iterator end) ;
+
+	/**
+	 * @brief Fill the range [begin, end] with numbers distributed according a Uniform distribution.
+	 * @param min minimum
+	 * @param max maximum
+	 * @param output range to store the generated values.
+	 */
+	template<typename Iterable>
+	inline typename std::enable_if< hydra::detail::is_iterable<Iterable>::value,
+	hydra::Range<decltype(std::declval<Iterable>().begin())>>::type
+	Uniform(double min,	double max, Iterable&& output) ;
 
 
 	/**
 	 * @brief Fill a range with numbers distributed according a user defined distribution.
-	 * @param policy backend to perform the calculation.
-	 * @param functor hydra::Pdf instance that will be sampled.
-	 * @param min GReal_t min with lower limit of sampling region.
-	 * @param max GReal_t max with upper limit of sampling region.
-	 * @param trials number of trials.
-	 * @return a hydra::backend::vector<tuple<T1,T2...>>
+	 * @param begin beginning of the range storing the generated values
+	 * @param end ending of the range storing the generated values
+	 * @param min lower limit of sampling region
+	 * @param max upper limit of sampling region.
+	 * @param functor distribution to be sampled
+	 * @return range with the generated values
 	 */
-	template<typename T, typename Iterator, typename FUNCTOR>
+	template<typename Iterator, typename FUNCTOR>
+	Range<Iterator> Sample(Iterator begin, Iterator end , double min, double max, FUNCTOR const& functor);
+
+	/**
+	 * @brief Fill a range with numbers distributed according a user defined distribution.
+	 * @param policy backend to perform the calculation.
+	 * @param begin beginning of the range storing the generated values
+	 * @param end ending of the range storing the generated values
+	 * @param min lower limit of sampling region
+	 * @param max upper limit of sampling region.
+	 * @param functor distribution to be sampled
+	 * @return range with the generated values
+	 */
+	template<hydra::detail::Backend  BACKEND, typename Iterator, typename FUNCTOR>
+	Range<Iterator> Sample(hydra::detail::BackendPolicy<BACKEND> const& policy,
+			Iterator begin, Iterator end ,	double min, double max, FUNCTOR const& functor);
+
+
+	/**
+	 * @brief Fill a range with numbers distributed according a user defined distribution.
+	 * @param output range storing the generated values
+	 * @param min lower limit of sampling region
+	 * @param max upper limit of sampling region.
+	 * @param functor distribution to be sampled
+	 * @return range with the generated values
+	 */
+	template< typename Iterable, typename FUNCTOR>
+	inline typename std::enable_if< hydra::detail::is_iterable<Iterable>::value,
+		hydra::Range<decltype(std::declval<Iterable>().begin())>>::type
+	Sample(Iterable&& output, double min, double max, FUNCTOR const& functor);
+
+	/**
+	 * @brief Fill a range with numbers distributed according a user defined distribution.
+	 * @param begin beginning of the range storing the generated values
+	 * @param end ending of the range storing the generated values
+	 * @param min array of lower limits of sampling region
+	 * @param max array of upper limits of sampling region.
+	 * @param functor distribution to be sampled
+	 * @return range with the generated values
+	 */
+	template<typename Iterator, typename FUNCTOR, size_t N >
 	Range<Iterator> Sample(Iterator begin, Iterator end ,
-			T min, T max, FUNCTOR const& functor);
-
-	/**
-	 * @brief Fill a range with numbers distributed according a user defined distribution.
-	 * @param policy backend to perform the calculation.
-	 * @param functor hydra::Pdf instance that will be sampled.
-	 * @param min GReal_t min with lower limit of sampling region.
-	 * @param max GReal_t max with upper limit of sampling region.
-	 * @param trials number of trials.
-	 * @return a hydra::backend::vector<tuple<T1,T2...>>
-	 */
-	template<hydra::detail::Backend  BACKEND, typename T, typename Iterator, typename FUNCTOR>
-	Range<Iterator> Sample(hydra::detail::BackendPolicy<BACKEND> const& policy, Iterator begin, Iterator end ,
-			T min, T max, FUNCTOR const& functor);
-
-
-	/**
-	 * @brief Fill a range with numbers distributed according a user defined distribution.
-	 * @param policy backend to perform the calculation.
-	 * @param functor hydra::Pdf instance that will be sampled.
-	 * @param min std::array<GReal_t,N> min with lower limit of sampling region.
-	 * @param max  std::array<GReal_t,N> min with upper limit of sampling region.
-	 * @param trials number of trials.
-	 * @return a hydra::backend::vector<tuple<T1,T2...>>
-	 */
-	template<typename T, typename Iterator, typename FUNCTOR, size_t N >
-	Range<Iterator> Sample(Iterator begin, Iterator end ,
-			std::array<T,N>const& min,
-			std::array<T,N>const& max,
+			std::array<double,N>const& min,
+			std::array<double,N>const& max,
 			FUNCTOR const& functor);
 
 
 	/**
 	 * @brief Fill a range with numbers distributed according a user defined distribution.
 	 * @param policy backend to perform the calculation.
-	 * @param functor hydra::Pdf instance that will be sampled.
-	 * @param min std::array<GReal_t,N> min with lower limit of sampling region.
-	 * @param max  std::array<GReal_t,N> min with upper limit of sampling region.
-	 * @param trials number of trials.
-	 * @return a hydra::backend::vector<tuple<T1,T2...>>
+	 * @param begin beginning of the range storing the generated values
+	 * @param end ending of the range storing the generated values
+	 * @param min array of lower limits of sampling region
+	 * @param max array of upper limits of sampling region.
+	 * @param functor distribution to be sampled
 	 */
-	template<hydra::detail::Backend  BACKEND, typename T, typename Iterator, typename FUNCTOR, size_t N >
-	Range<Iterator> Sample(hydra::detail::BackendPolicy<BACKEND> const& policy, Iterator begin, Iterator end ,
-			std::array<T,N>const& min,
-			std::array<T,N>const& max,
+	template<hydra::detail::Backend  BACKEND, typename Iterator, typename FUNCTOR, size_t N >
+	Range<Iterator> Sample(hydra::detail::BackendPolicy<BACKEND> const& policy,
+			Iterator begin, Iterator end ,
+			std::array<double,N>const& min,
+			std::array<double,N>const& max,
 			FUNCTOR const& functor);
 
+
+	/**
+	 * @brief Fill a range with numbers distributed according a user defined distribution.
+	 * @param output range storing the generated values
+	 * @param min array of lower limits of sampling region
+	 * @param max array of upper limits of sampling region.
+	 * @param functor distribution to be sampled
+	 * @return output range with the generated values
+	 */
+	template<typename Iterable, typename FUNCTOR, size_t N >
+	inline typename std::enable_if< hydra::detail::is_iterable<Iterable>::value,
+			hydra::Range<decltype(std::declval<Iterable>().begin())>>::type Sample(Iterable&& output ,
+			std::array<double,N>const& min,
+			std::array<double,N>const& max,
+			FUNCTOR const& functor);
 
 private:
 	GUInt_t fSeed;
