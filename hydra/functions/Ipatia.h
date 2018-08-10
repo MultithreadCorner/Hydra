@@ -45,7 +45,7 @@
 #include <cassert>
 #include <utility>
 
-#include "gsl/gsl_sf_hyperg.h"
+#include <gsl/gsl_sf_hyperg.h>
 
 namespace hydra {
 

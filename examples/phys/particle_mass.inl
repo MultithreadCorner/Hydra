@@ -130,13 +130,13 @@ int main(int argv, char** argc)
 
 	//ipatia function evaluating on the first argument
 	auto Signal_PDF = hydra::make_pdf(hydra::Ipatia<>(mu, sigma,L1,N1,L2,N2,alfa,beta),
-			hydra::GaussKronrodQuadrature<61,100, hydra::device::sys_t>(min,  max));
+			hydra::IpatiaAnalyticalIntegral(min,  max));
 
     //-------------------------------------------
 	//Background
 
     //threshold
-    auto  M0     = hydra::Parameter::Create("M0").Value(418.0).Error(0.0001).Limits(415.0, 421.0);
+    auto  M0     = hydra::Parameter::Create("M0").Value(418.71).Error(0.0001).Limits(415.0, 421.0).Fixed();
 
     //combinatorial
     auto  A1 = hydra::Parameter::Create("A1").Value( 0.55).Error(0.0001).Limits(  0.4,  0.6);
@@ -144,7 +144,7 @@ int main(int argv, char** argc)
     auto  C1 = hydra::Parameter::Create("C1").Value( 15.50).Error(0.0001).Limits( 10.0, 20.0);
 
     auto Combinatorial_Background_PDF = hydra::make_pdf( hydra::DeltaDMassBackground<>(M0, A1, B1, C1),
-    		hydra::GaussKronrodQuadrature<61,100, hydra::device::sys_t>(min,  max));
+    		hydra::GaussKronrodQuadrature<21,100, hydra::device::sys_t>(min,  max));
 
     //partial reconstructed -1.5, -10. , 15.
     auto  A2 = hydra::Parameter::Create("A2").Value(-0.6).Error(0.0001).Limits( -0.7, -0.5); //-1.5, -0.5);
@@ -152,7 +152,7 @@ int main(int argv, char** argc)
     auto  C2 = hydra::Parameter::Create("C2").Value( 3.0).Error(0.0001).Limits(2.0 , 4.0);// 14.0, 18.0);
 
     auto PartialRec_Background_PDF = hydra::make_pdf( hydra::DeltaDMassBackground<>(M0, A2, B2, C2),
-        		hydra::GaussKronrodQuadrature<61,100, hydra::device::sys_t>(min,  max));
+        		hydra::GaussKronrodQuadrature<21,100, hydra::device::sys_t>(min,  max));
 
     //------------------
     //yields
@@ -199,7 +199,7 @@ int main(int argv, char** argc)
 		//fit
 		ROOT::Minuit2::MnPrint::SetLevel(3);
 
-		MnStrategy strategy(2);
+		MnStrategy strategy(3);
 
 		// create Migrad minimizer
 		MnMigrad migrad_d(fcn, fcn.GetParameters().GetMnState() ,  strategy);
@@ -211,7 +211,7 @@ int main(int argv, char** argc)
 
 		auto start_d = std::chrono::high_resolution_clock::now();
 
-		FunctionMinimum minimum_d =  FunctionMinimum(migrad_d(50000, 50));
+		FunctionMinimum minimum_d =  FunctionMinimum(migrad_d(50000, 500));
 
 		auto end_d = std::chrono::high_resolution_clock::now();
 
