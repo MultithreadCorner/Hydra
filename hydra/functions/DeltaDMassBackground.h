@@ -36,6 +36,8 @@
 #include <hydra/Function.h>
 #include <hydra/Pdf.h>
 #include <hydra/detail/Integrator.h>
+#include <hydra/cpp/System.h>
+#include <hydra/GaussKronrodQuadrature.h>
 #include <hydra/detail/utility/CheckValue.h>
 #include <hydra/Parameter.h>
 #include <hydra/Tuple.h>
@@ -45,7 +47,7 @@
 #include <cassert>
 #include <utility>
 
-#include <gsl/gsl_sf_gamma_inc.h>
+#include <gsl/gsl_sf_gamma.h>
 
 namespace hydra {
 
@@ -80,11 +82,15 @@ public:
 	__hydra_host__ __hydra_device__
 	inline double Evaluate(unsigned int, T* x)  const	{
 
-		double arg   = (x[ArgIndex] - _par[0]);
-		double ratio = (arg/_par[0]);
-		double val   = arg>0 ? (1.0- ::exp(-arg/_par[3]))*::pow(ratio, _par[1]) + _par[2]*(ratio-1.0) : 0;
+		double delta   = (x[ArgIndex] - _par[0]);
+		double ratio   = (x[ArgIndex] / _par[0]);
 
-		return  CHECK_VALUE( (val>0 ? val : 0), "par[0]=%f, par[1]=%f, par[2]=%f, par[3]=%f ", _par[0], _par[1], _par[2], _par[3]);
+		// (1.0- exp(-x/c)))*pow(x/m, a) + b*(x/m-1.0)
+		double val   = delta > 0.0 ? (1.0- ::exp(-delta/_par[3]))*::pow(ratio, _par[1]) + _par[2]*(ratio-1.0) : 0.0;
+
+		double r = val > 0.0 ? val : 0.0;
+
+		return  CHECK_VALUE( r , "par[0]=%f, par[1]=%f, par[2]=%f, par[3]=%f ", _par[0], _par[1], _par[2], _par[3]);
 
 	}
 
@@ -93,21 +99,22 @@ public:
 	inline double Evaluate(T x)  const {
 
 		double arg   = get<ArgIndex>(x) - _par[0];
-		double ratio = (arg/_par[0]);
-		//                     (1.0- exp(-x/c)))*pow(x/m, a) + b*(x/m-1.0)
-		double val   = arg>0 ? (1.0- ::exp(-arg/_par[3]))*::pow(ratio, _par[1]) + _par[2]*(ratio-1.0) : 0;
 
-		return  CHECK_VALUE( (val>0 ? val : 0), "par[0]=%f, par[1]=%f, par[2]=%f, par[3]=%f ", _par[0], _par[1], _par[2], _par[3]);
+		double delta   = (get<ArgIndex>(x) - _par[0]);
+		double ratio   = (get<ArgIndex>(x) / _par[0]);
+
+		// (1.0- exp(-x/c)))*pow(x/m, a) + b*(x/m-1.0)
+		double val   = delta >0 ? (1.0- ::exp(-delta/_par[3]))*::pow(ratio, _par[1]) + _par[2]*(ratio-1.0) : 0.0;
+
+		double r = val > 0.0 ? val : 0.0;
+
+		return  CHECK_VALUE( r, "par[0]=%f, par[1]=%f, par[2]=%f, par[3]=%f ", _par[0], _par[1], _par[2], _par[3]);
 
 	}
 
 };
 
 
-/**
- * @class DeltaDMassBackgroundAnalyticalIntegral
- * Implementation of analytical integral for the ARGUS background shape with power = 0.5.
- */
 class DeltaDMassBackgroundAnalyticalIntegral: public Integrator<DeltaDMassBackgroundAnalyticalIntegral>
 {
 
@@ -115,14 +122,16 @@ public:
 
 	DeltaDMassBackgroundAnalyticalIntegral(double min, double max):
 		fLowerLimit(min),
-		fUpperLimit(max)
+		fUpperLimit(max),
+        NumIntegrator(min, max)
 	{
-		assert(fLowerLimit < fUpperLimit && "hydra::DeltaDMassBackgroundAnalyticalIntegral: MESSAGE << LowerLimit >= fUpperLimit >>");
-	}
+		assert( fLowerLimit < fUpperLimit && "hydra::ArgusShapeAnalyticalIntegral: MESSAGE << LowerLimit >= fUpperLimit >>");
+	 }
 
 	inline DeltaDMassBackgroundAnalyticalIntegral(DeltaDMassBackgroundAnalyticalIntegral const& other):
 		fLowerLimit(other.GetLowerLimit()),
-		fUpperLimit(other.GetUpperLimit())
+		fUpperLimit(other.GetUpperLimit()),
+		NumIntegrator(other.GetNumIntegrator())
 	{}
 
 	inline DeltaDMassBackgroundAnalyticalIntegral&
@@ -132,6 +141,7 @@ public:
 
 		this->fLowerLimit = other.GetLowerLimit();
 		this->fUpperLimit = other.GetUpperLimit();
+		this->NumIntegrator = other.GetNumIntegrator();
 
 		return *this;
 	}
@@ -152,40 +162,55 @@ public:
 		fUpperLimit = upperLimit;
 	}
 
+	const hydra::GaussKronrodQuadrature<61, 500, hydra::cpp::sys_t>& GetNumIntegrator() const {
+		return NumIntegrator;
+	}
+
 	template<typename FUNCTOR>	inline
-	std::pair<double, double> Integrate(FUNCTOR const& functor) const {
+	std::pair<double, double> Integrate(FUNCTOR const& functor)  {
+
+		if((functor[2] <= 0.0 && functor(fUpperLimit) <= 0.0 ) || functor[1] == -1.0){
+			HYDRA_CALLER ;
+			HYDRA_MSG << "Detected problematic parameters values:" << HYDRA_ENDL;
+			HYDRA_MSG << "(Parameters (#1 <= -1.0 && functor(fUpperLimit) < 0.0 ) or ( #2 < 0.0). Performing numerical integration." << HYDRA_ENDL;
+			return NumIntegrator(functor);
+
+		} else {
 
 
+			double min = fLowerLimit > functor[0] ? fLowerLimit : functor[0];
 
-		double r = cumulative(functor[0], functor[1],functor[2], functor[3],fUpperLimit)
-						 - cumulative(functor[0], functor[1], fLowerLimit);
+			double def_integral = cumulative(functor[0], functor[1],functor[2], functor[3], fUpperLimit)
+								- cumulative(functor[0], functor[1],functor[2], functor[3], min);
 
+			return std::make_pair(
+					CHECK_VALUE( def_integral," par[0] = %f par[1] = %f fLowerLimit = %f fUpperLimit = %f", functor[0], functor[1], min,fUpperLimit ) ,0.0);
 
-		return std::make_pair(
-				CHECK_VALUE(r, "par[0] = %f par[1] = %f par[2] = %f  fLowerLimit = %f fUpperLimit = %f", functor[0], functor[1], functor[2], fLowerLimit,fUpperLimit)
-			,0.0);
+		}
 	}
 
 
 private:
 
-	inline double cumulative( const double m0, const double a, const double b, const double c,  const double x) const
+	inline double cumulative(const double M0, const double A, const double B, const double C, const double x) const
 	{
-		double arg = x - m0;
 
-		double r = c*::pow(arg/c,-a)*::pow(arg/m0,a)*sf_gamma(a + 1, x/c)
-				+ ::pow(arg*(arg/m),a)/(a + 1) + b*x*((0.5 *x)/m - 1);
+		return C * ::pow(::exp(1.0), M0/C) * ::pow(C/M0, A) * inc_gamma(A+1.0, x/C) +
+				x * ::pow(x/M0, A)/(A + 1.0) +
+				B * x * (0.5*x/M0 - 1.0);
 	}
 
-	inline double sf_gamma(const double a, const double x ) const
-	{
-		return  gsl_sf_gamma_inc(a, x);
+	inline double inc_gamma( const double a, const double x) const {
+
+		return gsl_sf_gamma_inc(a, x);
 	}
 
 	double fLowerLimit;
 	double fUpperLimit;
-
+	hydra::GaussKronrodQuadrature<61,500, hydra::cpp::sys_t> NumIntegrator;
 };
+
+
 }// namespace hydra
 
 #endif /* DELTADMASSBACKGROUND_H_ */
