@@ -39,6 +39,7 @@
 #include <hydra/cpp/System.h>
 #include <hydra/GaussKronrodQuadrature.h>
 #include <hydra/detail/utility/CheckValue.h>
+#include <hydra/detail/utility/SafeCompare.h>
 #include <hydra/Parameter.h>
 #include <hydra/Tuple.h>
 #include <tuple>
@@ -169,10 +170,55 @@ public:
 	template<typename FUNCTOR>	inline
 	std::pair<double, double> Integrate(FUNCTOR const& functor)  {
 
-		if((functor[2] <= 0.0 && functor(fUpperLimit) <= 0.0 ) || functor[1] == -1.0){
+		const double value_at_max =  functor(fUpperLimit);
+		const double ratio = functor[0]/functor[3];
+
+		bool flag_unsafe_b   = !detail::SafeGreaterThan(functor[2], 0.0);
+		bool flag_unsafe_max = !detail::SafeGreaterThan(value_at_max, 0.0) ;
+		bool flag_unsafe_a   = !detail::SafeGreaterThan(functor[1], -1.0) ;
+		bool flag_unsafe_ratio  = !detail::SafeLessThan(ratio, 500.0) ;
+
+		if( flag_unsafe_max ||  flag_unsafe_a||flag_unsafe_ratio) {
+
+			if (WARNING >= Print::Level()  )
+			{
+				std::ostringstream stringStream;
+
+				stringStream << "Detected potentially problematic parameters values for analytical integration:\n";
+
+				if( flag_unsafe_max) {
+					stringStream << "Diagnosis: Functor value at fUpperLimit is negative or zero.\n"
+							     << "Diagnosis: fUpperLimit=" << fUpperLimit << "Functor(" << fUpperLimit << ")=" << value_at_max << ".\n";
+				}
+
+				if( flag_unsafe_a ) {
+					stringStream << "Diagnosis: parameter "<< functor.GetParameter(1).GetName() << " is less than -1.0.\n"
+							     << "Diagnosis: parameter value=" << functor.GetParameter(1).GetValue() << ".\n";
+				}
+
+				if( flag_unsafe_ratio ) {
+					stringStream << "Diagnosis: ratio of parameters "<< functor.GetParameter(0).GetName()
+								 << " and " << functor.GetParameter(3).GetName()
+								 << " is much greater than 1.0.\n"
+							     << "Diagnosis: parameter #0 value="
+							     << functor.GetParameter(0).GetValue()
+							     << " parameter #3 value="
+							     << functor.GetParameter(3).GetValue()
+							     << " ratio= " <<ratio << ".\n";
+				}
+				stringStream << "Switching to numerical integration.\n";
+				HYDRA_LOG(WARNING, stringStream.str().c_str() )
+
+			}
+
+			/*
 			HYDRA_CALLER ;
-			HYDRA_MSG << "Detected problematic parameters values:" << HYDRA_ENDL;
-			HYDRA_MSG << "(Parameters (#1 <= -1.0 && functor(fUpperLimit) < 0.0 ) or ( #2 < 0.0). Performing numerical integration." << HYDRA_ENDL;
+			HYDRA_MSG << "Detected potentially problematic parameters values for analytical integration:"<< HYDRA_ENDL;
+			if( flag_unsafe_max)  HYDRA_MSG << "Diagnosis: functor(fUpperLimit) < 0" << HYDRA_ENDL;
+			if(	flag_unsafe_a	) HYDRA_MSG << "Diagnosis: parameter #1 is less than -1 "  << HYDRA_ENDL;
+			if(	flag_unsafe_ratio	) HYDRA_MSG << "Diagnosis: ratio (parameter #0)/ (parameter #3) > 200 "  << HYDRA_ENDL;
+			HYDRA_MSG << "Switching to numerical integration." << HYDRA_ENDL;
+			*/
 			return NumIntegrator(functor);
 
 		} else {
@@ -184,7 +230,8 @@ public:
 								- cumulative(functor[0], functor[1],functor[2], functor[3], min);
 
 			return std::make_pair(
-					CHECK_VALUE( def_integral," par[0] = %f par[1] = %f fLowerLimit = %f fUpperLimit = %f", functor[0], functor[1], min,fUpperLimit ) ,0.0);
+					CHECK_VALUE( def_integral," par[0] = %f par[1] = %f par[2] = %f par[3] = %f fLowerLimit = %f fUpperLimit = %f",
+							functor[0], functor[1],functor[2], functor[3], min,fUpperLimit ) ,0.0);
 
 		}
 	}

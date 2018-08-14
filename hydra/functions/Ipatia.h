@@ -37,6 +37,7 @@
 #include <hydra/Pdf.h>
 #include <hydra/detail/Integrator.h>
 #include <hydra/detail/utility/CheckValue.h>
+#include <hydra/detail/utility/SafeCompare.h>
 #include <hydra/Parameter.h>
 #include <hydra/Tuple.h>
 #include <tuple>
@@ -212,7 +213,8 @@ public:
 				functor[1], functor[2], functor[3], functor[4], functor[5], functor[6], functor[7]);
 
 		return std::make_pair(
-				CHECK_VALUE(output," par[0] = %f par[1] = %f fLowerLimit = %f fUpperLimit = %f", functor[0], functor[1], fLowerLimit,fUpperLimit ) ,0.0);
+				CHECK_VALUE(output," par[0] = %f par[1] = %f par[2] = %f par[3] = %f par[4] = %f par[5] = %f par[6] = %f par[7] = %f  fLowerLimit = %f fUpperLimit = %f",
+						functor[0], functor[1], functor[2], functor[3], functor[4], functor[5], functor[6], functor[7], fLowerLimit,fUpperLimit ) ,0.0);
 	}
 
 
@@ -292,9 +294,18 @@ private:
 	}
 
 	double hypergeometric_2F1(double a, double b, double c, double x) const {
-	  if (::fabs(x) <= 1) { return gsl_sf_hyperg_2F1(a,b,c,x);}
-	  else { return    gsl_sf_hyperg_2F1(c-a,b,c,1-1/(1-x))/::pow(1-x,b);}
-	 }
+
+		if ( detail::SafeLessThan(::fabs(x), 1.0,1000*std::numeric_limits<double>::epsilon()) ){
+
+			//std::cout<< "x " << x << "c - a - b "<< c - a - b << std::endl;
+
+			return gsl_sf_hyperg_2F1(a,b,c,x);}
+
+		else {
+		//	std::cout << "x' " << 1-1/(1-x) <<  " ::pow(1-x,b) " << ::pow(1-x,b) << "  " << "c - a - b "<< c - a - b << std::endl;
+			return    gsl_sf_hyperg_2F1(c-a,b,c,1-1/(1-x))/::pow(1-x,b);
+		}
+	}
 
 	double d_hypergeometric(double d1, double delta,double l) const {
 
