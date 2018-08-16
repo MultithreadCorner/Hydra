@@ -55,6 +55,7 @@
 #include <hydra/DenseHistogram.h>
 #include <hydra/functions/Ipatia.h>
 #include <hydra/functions/DeltaDMassBackground.h>
+#include <hydra/functions/GeneralizedGamma.h>
 #include <hydra/Placeholders.h>
 #include <hydra/GaussKronrodQuadrature.h>
 
@@ -108,7 +109,7 @@ int main(int argv, char** argc)
     double max   =  550.0 ;
 
 	//generator
-	hydra::Random<> Generator(1504);
+	hydra::Random<> Generator(154);
 
 	//===========================
     //fit model gaussian + argus
@@ -116,49 +117,49 @@ int main(int argv, char** argc)
 	//Ipatia
 	//core
 	auto mu    = hydra::Parameter::Create("mu").Value(493.677).Error(0.0001).Limits(493.5, 493.7);
-	auto sigma = hydra::Parameter::Create("sigma").Value(5.8).Error(0.0001).Limits(4.0,6.0);
+	auto sigma = hydra::Parameter::Create("sigma").Value(3.5).Error(0.0001).Limits(2.0,5.0);
 	//left tail
-	auto L1    = hydra::Parameter::Create("L1").Value(1.40).Error(0.0001).Limits(1.3, 1.5); // decay speed
-	auto N1    = hydra::Parameter::Create("N1").Value(1.41).Error(0.0001).Limits(1.3, 1.5); // tail deepness
+	auto L1    = hydra::Parameter::Create("L1").Value(1.7).Error(0.0001).Limits(0.5, 2.6);
+	auto N1    = hydra::Parameter::Create("N1").Value(1.45).Error(0.0001).Limits(0.25, 2.7);
 	//right tail
-	auto L2    = hydra::Parameter::Create("L2").Value(1.56).Error(0.0001).Limits(1.0, 3.5);// decay speed
-	auto N2    = hydra::Parameter::Create("N2").Value(1.5).Error(0.0001).Limits(0.01, 2.5);// tail deepness
+	auto L2    = hydra::Parameter::Create("L2").Value(2.6).Error(0.0001).Limits(1.0, 3.5);
+	auto N2    = hydra::Parameter::Create("N2").Value(2.35).Error(0.0001).Limits(1.0, 3.5);
 	//peakness
-	auto alfa  = hydra::Parameter::Create("alfa").Value(-1.14).Error(0.0001).Limits(-2.0, -0.5);
-	auto beta  = hydra::Parameter::Create("beta").Value(0.0).Error(0.0001).Limits(0.0, 1.5).Fixed();
+	auto alfa  = hydra::Parameter::Create("alfa").Value(-1.1).Error(0.0001).Limits(-1.5, -0.5);
+	auto beta  = hydra::Parameter::Create("beta").Value(0.1).Error(0.0001).Limits(0.05, 0.5).Fixed();
 
 
 	//ipatia function evaluating on the first argument
 	auto Signal_PDF = hydra::make_pdf(hydra::Ipatia<>(mu, sigma,L1,N1,L2,N2,alfa,beta),
-			hydra::IpatiaAnalyticalIntegral(min,  max));
+		hydra::IpatiaAnalyticalIntegral(min,  max));
 
     //-------------------------------------------
 	//Background
 
     //threshold
-    auto  M0     = hydra::Parameter::Create("M0").Value(418.0).Error(0.0001).Limits(415.0, 421.0);
+    auto  M0     = hydra::Parameter::Create("M0").Value(418.71).Error(0.0001).Limits(415.0, 421.0).Fixed();
 
     //combinatorial
     auto  A1 = hydra::Parameter::Create("A1").Value( 0.55).Error(0.0001).Limits(  0.4,  0.6);
-    auto  B1 = hydra::Parameter::Create("B1").Value( 0.067).Error(0.0001).Limits(  0.0,  0.1);
+    auto  B1 = hydra::Parameter::Create("B1").Value( 0.067).Error(0.0001).Limits(  0.002,  0.1);
     auto  C1 = hydra::Parameter::Create("C1").Value( 15.50).Error(0.0001).Limits( 10.0, 20.0);
 
     auto Combinatorial_Background_PDF = hydra::make_pdf( hydra::DeltaDMassBackground<>(M0, A1, B1, C1),
-    		hydra::GaussKronrodQuadrature<61,100, hydra::device::sys_t>(min,  max));
+    		hydra::DeltaDMassBackgroundAnalyticalIntegral(min,  max));
 
     //partial reconstructed -1.5, -10. , 15.
-    auto  A2 = hydra::Parameter::Create("A2").Value(-0.6).Error(0.0001).Limits( -0.7, -0.5); //-1.5, -0.5);
-    auto  B2 = hydra::Parameter::Create("B2").Value( 3.0).Error(0.0001).Limits( 1.0, 4.0);//-17.0, -14.0);
-    auto  C2 = hydra::Parameter::Create("C2").Value( 3.0).Error(0.0001).Limits(2.0 , 4.0);// 14.0, 18.0);
+    auto  A2 = hydra::Parameter::Create("A2").Value(0.4).Error(0.0001).Limits( 0.3, 0.5);
+    auto  B2 = hydra::Parameter::Create("B2").Value(3.8).Error(0.0001).Limits( 1.0, 5.0);
+    auto  C2 = hydra::Parameter::Create("C2").Value(0.85).Error(0.0001).Limits(0.5 , 1.0);
 
-    auto PartialRec_Background_PDF = hydra::make_pdf( hydra::DeltaDMassBackground<>(M0, A2, B2, C2),
-        		hydra::GaussKronrodQuadrature<61,100, hydra::device::sys_t>(min,  max));
+    auto PartialRec_Background_PDF = hydra::make_pdf( hydra::GeneralizedGamma<>(M0, A2, B2, C2),
+    		hydra::GeneralizedGammaAnalyticalIntegral(min,  max));
 
     //------------------
     //yields
 	hydra::Parameter        N_Signal("N_Signal"        ,5000, 100, 100 , nentries) ;
 	hydra::Parameter N_Combinatorial("N_Combinatorial" ,6000, 100, 100 , nentries) ;
-	hydra::Parameter    N_PartialRec("N_PartialRec"    ,3000, 100, 100 , nentries) ;
+	hydra::Parameter    N_PartialRec("N_PartialRec"    ,2000, 100, 100 , nentries) ;
 
 	//make model
 	auto model = hydra::add_pdfs( {N_Signal, N_Combinatorial, N_PartialRec},
@@ -198,8 +199,9 @@ int main(int argv, char** argc)
 		//-------------------------------------------------------
 		//fit
 		ROOT::Minuit2::MnPrint::SetLevel(3);
+		//hydra::Print::SetLevel(hydra::INFO);
 
-		MnStrategy strategy(2);
+		MnStrategy strategy(1);
 
 		// create Migrad minimizer
 		MnMigrad migrad_d(fcn, fcn.GetParameters().GetMnState() ,  strategy);
