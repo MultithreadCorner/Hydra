@@ -38,6 +38,7 @@
 #include <hydra/cpp/System.h>
 #include <hydra/detail/utility/CheckValue.h>
 #include <hydra/detail/utility/SafeCompare.h>
+#include <hydra/detail/utility/MachineEpsilon.h>
 #include <hydra/Parameter.h>
 #include <hydra/Tuple.h>
 #include <tuple>
@@ -101,7 +102,7 @@ public:
 		const double B = _par[2];
 		const double C = _par[3];
 
-		const double r = detail::SafeGreaterThan(X, 0.0, ::fabs(X)*std::numeric_limits<double>::epsilon() ) ?
+		const double r = detail::SafeGreaterThan(X, 0.0, detail::machine_eps_f64() ) ?
 				A*::fabs(C)*::pow(A*X, B*C-1.0)*::exp(-::pow(A*X, C))/::tgamma(B): 0.0;
 
 		return  CHECK_VALUE( r, "par[0]=%f, par[1]=%f par[2]=%f, par[3]=%f", _par[0], _par[1], _par[2], _par[3]);
@@ -118,7 +119,7 @@ public:
 		const double B = _par[2];
 		const double C = _par[3];
 
-		const double r = detail::SafeGreaterThan(X, 0.0, ::fabs(X)*std::numeric_limits<double>::epsilon() ) ?
+		const double r = detail::SafeGreaterThan(X, 0.0, detail::machine_eps_f64() ) ?
 						A*::fabs(C)*::pow(A*X, B*C-1.0)*::exp(-::pow(A*X, C))/::tgamma(B): 0.0;
 
 		return  CHECK_VALUE( r, "par[0]=%f, par[1]=%f par[2]=%f, par[3]=%f", _par[0], _par[1], _par[2], _par[3]);

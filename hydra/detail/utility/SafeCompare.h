@@ -29,6 +29,13 @@
 #ifndef SAFECOMPARE_H_
 #define SAFECOMPARE_H_
 
+#include <hydra/detail/Config.h>
+#include <hydra/detail/utility/MachineEpsilon.h>
+
+#include <limits>
+#include <stdexcept>
+#include <utility>
+
 namespace hydra {
 
 namespace detail {
@@ -37,13 +44,14 @@ namespace detail {
 //implements relative method - do not use for comparing with zero
 //use this most of the time, tolerance needs to be meaningful in your context
 template<typename T>
-static bool ApproximatelyEqual(T a, T b, T tolerance = std::numeric_limits<T>::epsilon())
+__hydra_host__ __hydra_device__
+inline bool ApproximatelyEqual(T a, T b, T tolerance = machine_eps_f64())
 {
-    T diff = std::fabs(a - b);
+    T diff = ::fabs(a - b);
     if (diff <= tolerance)
         return true;
 
-    if (diff < std::fmax(std::fabs(a), std::fabs(b)) * tolerance)
+    if (diff < ::fmax(::fabs(a), ::fabs(b)) * tolerance)
         return true;
 
     return false;
@@ -52,9 +60,10 @@ static bool ApproximatelyEqual(T a, T b, T tolerance = std::numeric_limits<T>::e
 //supply tolerance that is meaningful in your context
 //for example, default tolerance may not work if you are comparing double with float
 template<typename T>
-static bool ApproximatelyZero(T a, T tolerance = std::numeric_limits<T>::epsilon())
+__hydra_host__ __hydra_device__
+inline bool ApproximatelyZero(T a, T tolerance = machine_eps_f64())
 {
-    if (std::fabs(a) <= tolerance)
+    if (::fabs(a) <= tolerance)
         return true;
     return false;
 }
@@ -63,25 +72,27 @@ static bool ApproximatelyZero(T a, T tolerance = std::numeric_limits<T>::epsilon
 //use this when you want to be on safe side
 //for example, don't start rover unless signal is above 1
 template<typename T>
-static bool SafeLessThan(T a, T b, T tolerance = std::numeric_limits<T>::epsilon())
+__hydra_host__ __hydra_device__
+inline bool SafeLessThan(T a, T b, T tolerance = machine_eps_f64())
 {
     T diff = a - b;
     if (diff < tolerance)
         return true;
 
-    if (diff < std::fmax(std::fabs(a), std::fabs(b)) * tolerance)
+    if (diff < ::fmax(::fabs(a), ::fabs(b)) * tolerance)
         return true;
 
     return false;
 }
 template<typename T>
-static bool SafeGreaterThan(T a, T b, T tolerance = std::numeric_limits<T>::epsilon())
+__hydra_host__ __hydra_device__
+inline bool SafeGreaterThan(T a, T b, T tolerance = machine_eps_f64())
 {
     T diff = a - b;
     if (diff > tolerance)
         return true;
 
-    if (diff > std::fmax(std::fabs(a), std::fabs(b)) * tolerance)
+    if (diff > ::fmax(::fabs(a), ::fabs(b)) * tolerance)
         return true;
 
     return false;
@@ -92,10 +103,11 @@ static bool SafeGreaterThan(T a, T b, T tolerance = std::numeric_limits<T>::epsi
 //for example, if you want to see if a is 1.0 by checking if its within
 //10 closest representable floating point numbers around 1.0.
 template<typename T>
-static bool WithinPrecisionInterval( T b, T a, unsigned int interval_size = 1)
+__hydra_host__ __hydra_device__
+inline bool WithinPrecisionInterval( T b, T a, unsigned int interval_size = 1)
 {
-    T min_a = a - (a - std::nextafter(a, std::numeric_limits<T>::lowest())) * interval_size;
-    T max_a = a + (std::nextafter(a, std::numeric_limits<T>::max()) - a) * interval_size;
+    T min_a = a - (a - ::nextafter(a, std::numeric_limits<T>::lowest())) * interval_size;
+    T max_a = a + (::nextafter(a, std::numeric_limits<T>::max()) - a) * interval_size;
 
     return min_a <= b && max_a >= b;
 }
