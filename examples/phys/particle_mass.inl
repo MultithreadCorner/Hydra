@@ -130,7 +130,7 @@ int main(int argv, char** argc)
 
 	//ipatia function evaluating on the first argument
 	auto Signal_PDF = hydra::make_pdf(hydra::Ipatia<>(mu, sigma,L1,N1,L2,N2,alfa,beta),
-			hydra::GaussKronrodQuadrature<61,100, hydra::device::sys_t>(min,  max));
+			hydra::IpatiaAnalyticalIntegral(min,  max));
 
     //-------------------------------------------
 	//Background
@@ -211,7 +211,7 @@ int main(int argv, char** argc)
 
 		auto start_d = std::chrono::high_resolution_clock::now();
 
-		FunctionMinimum minimum_d =  FunctionMinimum(migrad_d(50000, 50));
+		FunctionMinimum minimum_d =  FunctionMinimum(migrad_d(5000, 50));
 
 		auto end_d = std::chrono::high_resolution_clock::now();
 
