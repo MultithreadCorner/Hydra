@@ -77,7 +77,7 @@ public:
 		BaseFunctor<Ipatia<ArgIndex>, double, 8>({ mu, sigma, A1, N1, A2, N2, l, beta})
 		{
 	    if(this->GetParameter(6).GetValue() > 0.0 || this->GetParameter(6).GetUpperLim() > 0.0 || this->GetParameter(6).GetLowerLim() > 0.0 ){
-	    	HYDRA_LOG(INFO, "hydra::Ipatia's #6 is positive. This parameter needs be always negative. Exiting..." )
+	    	HYDRA_LOG(ERROR, "hydra::Ipatia's #6 is positive. This parameter needs be always negative. Exiting..." )
 	    	exit(0);
 	    }
 
@@ -295,14 +295,15 @@ private:
 
 	double hypergeometric_2F1(double a, double b, double c, double x) const {
 
-		if ( detail::SafeLessThan(::fabs(x), 1.0,std::numeric_limits<double>::epsilon()) ){
+		if ( detail::SafeLessThan(::fabs(x), 1.0, std::numeric_limits<double>::epsilon()) ){
 
 			//std::cout<< "x " << x << "c - a - b "<< c - a - b << std::endl;
 
 			return gsl_sf_hyperg_2F1(a,b,c,x);}
 
 		else {
-		//	std::cout << "x' " << 1-1/(1-x) <<  " ::pow(1-x,b) " << ::pow(1-x,b) << "  " << "c - a - b "<< c - a - b << std::endl;
+
+			//std::cout << "x" << x<<"x´= " << 1.0-1.0/(1.0-x) <<  " ::pow(1-x,b) =" << ::pow(1.0-x,b) << "  " << "c - a - b="<< c - a - b << std::endl;
 			return    gsl_sf_hyperg_2F1(c-a,b,c,1.0-1.0/(1.0-x))/::pow(1.0-x,b);
 		}
 	}
