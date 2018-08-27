@@ -38,6 +38,7 @@
 #include <hydra/detail/Integrator.h>
 #include <hydra/detail/utility/CheckValue.h>
 #include <hydra/detail/utility/SafeCompare.h>
+#include <hydra/GaussKronrodQuadrature.h>
 #include <hydra/Parameter.h>
 #include <hydra/Tuple.h>
 #include <tuple>
@@ -169,14 +170,16 @@ public:
 
 	IpatiaAnalyticalIntegral(double min, double max):
 		fLowerLimit(min),
-		fUpperLimit(max)
+		fUpperLimit(max),
+		fNumIntegrator(min, max)
 	{
 		assert( fLowerLimit < fUpperLimit && "hydra::IpatiaAnalyticalIntegral: MESSAGE << LowerLimit >= fUpperLimit >>");
 	 }
 
 	inline IpatiaAnalyticalIntegral(IpatiaAnalyticalIntegral const& other):
 		fLowerLimit(other.GetLowerLimit()),
-		fUpperLimit(other.GetUpperLimit())
+		fUpperLimit(other.GetUpperLimit()),
+		fNumIntegrator(other.GetNumIntegrator())
 	{}
 
 	inline IpatiaAnalyticalIntegral&
@@ -186,6 +189,7 @@ public:
 
 		this->fLowerLimit = other.GetLowerLimit();
 		this->fUpperLimit = other.GetUpperLimit();
+		this->fNumIntegrator = other.GetNumIntegrator();
 
 		return *this;
 	}
@@ -206,15 +210,38 @@ public:
 		fUpperLimit = upperLimit;
 	}
 
+	const hydra::GaussKronrodQuadrature<61, 500, hydra::cpp::sys_t>& GetNumIntegrator() const {
+		return fNumIntegrator;
+	}
+
 	template<typename FUNCTOR>	inline
-	std::pair<double, double> Integrate(FUNCTOR const& functor) const {
+	std::pair<double, double> Integrate(FUNCTOR const& functor)  {
 
 		double output = integral(fLowerLimit-functor[0], fUpperLimit-functor[0],
 				functor[1], functor[2], functor[3], functor[4], functor[5], functor[6], functor[7]);
 
+		if(::isnan(output)){
+
+			if (WARNING >= Print::Level()  )
+			{
+				std::ostringstream stringStream;
+
+				stringStream << "Detected NaN in analytical integration\n";
+				stringStream << "Switching to numerical integration.\n";
+
+				HYDRA_LOG(WARNING, stringStream.str().c_str() )
+
+			}
+
+			return fNumIntegrator(functor);
+		}
+		else{
+
 		return std::make_pair(
 				CHECK_VALUE(output," par[0] = %f par[1] = %f par[2] = %f par[3] = %f par[4] = %f par[5] = %f par[6] = %f par[7] = %f  fLowerLimit = %f fUpperLimit = %f",
 						functor[0], functor[1], functor[2], functor[3], functor[4], functor[5], functor[6], functor[7], fLowerLimit,fUpperLimit ) ,0.0);
+		}
+
 	}
 
 
@@ -233,12 +260,13 @@ private:
 		double I1a = 0;
 		double I1b = 0;
 
-		double delta = (l<-1.0)? sigma *sqrt(-2 -2.*l) : sigma;
+		double delta = (l<-1.0)? sigma *sqrt(-2.0 -2.*l) : sigma;
 
 		double delta2 = delta*delta;
 
 		if ((d0 > -ASigma1) && (d1 < ASigma2)){
-			return  d_hypergeometric(d1,delta, l) - d_hypergeometric(d0,delta, l);
+			return  d_hypergeometric(d1,delta, l) - d_hypergeometric(d0,delta, l);/*CHECK_VALUE(d_hypergeometric(d1,delta, l) - d_hypergeometric(d0,delta, l), "A: d0=%f d1=%f sigma=%f A1=%f N1=%f A2=%f N2=%f l=%f beta=%f ",
+					d0,	d1,	sigma, A1, N1, A2, N2, l,beta);*/
 		}
 
 		if (d0 > ASigma2) {
@@ -249,7 +277,8 @@ private:
 			double k2 = beta*k1+ cons1*(l-0.5)*::pow(phi,l-1.5)*2.*ASigma2/delta2;
 			double B = -ASigma2 - N2*k1/k2;
 			double A = k1*::pow(B+ASigma2,N2);
-			return A*(::pow(B+d1,1-N2)/(1-N2) -::pow(B+d0,1-N2)/(1-N2) ) ;
+			return A*(::pow(B+d1,1.0-N2)/(1.0-N2) -::pow(B+d0,1.0-N2)/(1.0-N2) );/*CHECK_VALUE(A*(::pow(B+d1,1.0-N2)/(1.0-N2) -::pow(B+d0,1.0-N2)/(1.0-N2) ), "B: cons1 = %f phi = %f k1 =%f k2 =%f B =%f A =%f",
+					cons1, phi, k1, k2, B,A 	) ;*/
 
 		}
 
@@ -257,11 +286,13 @@ private:
 			double cons1 = 1.;
 			double phi = 1. + ASigma1*ASigma1/delta2;
 			double k1 = cons1*::pow(phi,l-0.5);
-			double k2 = beta*k1- cons1*(l-0.5)*::pow(phi,l-1.5)*2*ASigma1/delta2;
+			double k2 = beta*k1- cons1*(l-0.5)*::pow(phi,l-1.5)*2.0*ASigma1/delta2;
 			double B = -ASigma1 + N1*k1/k2;
 			double A = k1*::pow(B+ASigma1,N1);
-			I0 = A*::pow(B-d0,1-N1)/(N1-1);
-			I1 = A*::pow(B-d1,1-N1)/(N1-1);
+			I0 = A*::pow(B-d0,1.0-N1)/(N1-1.0);/*CHECK_VALUE(A*::pow(B-d0,1.0-N1)/(N1-1.0), "C: cons1=%f phi=%f k1=%f k=%f B=%f A=%f",
+					cons1, phi, k1, k2, B,A 	);*/
+			I1 = A*::pow(B-d1,1.0-N1)/(N1-1.0);/*CHECK_VALUE(A*::pow(B-d1,1.0-N1)/(N1-1.0), "D: cons1=%f phi=%f k1=%f k2=%f B=%f A=%f",
+					cons1, phi, k1, k2, B,A 	);*/
 			return I1 - I0;
 		}
 
@@ -271,11 +302,13 @@ private:
 			double cons1 = 1.;
 			double phi = 1. + ASigma1*ASigma1/delta2;
 			double 	k1 = cons1*::pow(phi,l-0.5);
-			double 	k2 = beta*k1- cons1*(l-0.5)*::pow(phi,l-1.5)*2*ASigma1/delta2;
+			double 	k2 = beta*k1- cons1*(l-0.5)*::pow(phi,l-1.5)*2.0*ASigma1/delta2;
 			double 	B = -ASigma1 + N1*k1/k2;
 			double A = k1*::pow(B+ASigma1,N1);
-			I0 = A*::pow(B-d0,1-N1)/(N1-1);
-			I1a = A*::pow(B+ASigma1,1-N1)/(N1-1) - d_hypergeometric(-ASigma1,delta, l);
+			I0 = A*::pow(B-d0,1.0-N1)/(N1-1.0);/*CHECK_VALUE(A*::pow(B-d0,1.0-N1)/(N1-1.0), "E: cons1 = %f phi = %f k1 =%f k2 =%f B =%f A =%f",
+					cons1, phi, k1, k2, B,A 	);*/
+			I1a = A*::pow(B+ASigma1,1.0-N1)/(N1-1.0) - d_hypergeometric(-ASigma1,delta, l);/*CHECK_VALUE(A*::pow(B+ASigma1,1.0-N1)/(N1-1.0) - d_hypergeometric(-ASigma1,delta, l), "B: cons1 = %f phi = %f k1 =%f k2 =%f B =%f A =%f",
+					cons1, phi, k1, k2, B,A 	);*/
 		}
 		else {  I0 = d_hypergeometric(d0,delta, l);}
 		if (d1 > ASigma2) {
@@ -285,9 +318,12 @@ private:
 			double k2 = beta*k1+ cons1*(l-0.5)*::pow(phi,l-1.5)*2.*ASigma2/delta2;
 			double B  = -ASigma2 - N2*k1/k2;
 			double A  = k1*::pow(B+ASigma2,N2);
-			   	  I1b = A*(::pow(B+d1,1-N2)/(1-N2) -::pow(B+ASigma2,1-N2)/(1-N2) ) - d_hypergeometric(d1,delta, l) +  d_hypergeometric(ASigma2,delta, l) ;
+			   	  I1b = A*(::pow(B+d1,1.0-N2)/(1.0-N2) -::pow(B+ASigma2,1.0-N2)/(1.0-N2) ) - d_hypergeometric(d1,delta, l) +  d_hypergeometric(ASigma2,delta, l);/*CHECK_VALUE(A*(::pow(B+d1,1.0-N2)/(1.0-N2) -::pow(B+ASigma2,1.0-N2)/(1.0-N2) ) - d_hypergeometric(d1,delta, l) +  d_hypergeometric(ASigma2,delta, l) ,
+			   			  "F:d0=%f d1=%f sigma=%f A1=%f N1=%f A2=%f N2=%f l=%f beta=%f cons1=%f phi=%f k1=%f k2=%f B=%f A=%f ASigma2=%f  N2=%f",
+			   			d0,	d1,	sigma, A1, N1, A2, N2, l,beta, cons1, phi, k1, k2, B, A, ASigma2, N2);*/
 		}
-		I1 = d_hypergeometric(d1,delta, l) + I1a + I1b;
+		I1 = d_hypergeometric(d1,delta, l) + I1a + I1b;/*CHECK_VALUE(d_hypergeometric(d1,delta, l) + I1a + I1b,  "G:  d1 = %f delta =%f  l=%f I1a =%f  I1b=%f",
+				d1,delta, l,I1a, I1b );*/
 		return I1 - I0;
 
 
@@ -310,7 +346,7 @@ private:
 
 	double d_hypergeometric(double d1, double delta,double l) const {
 
-	  return d1*hypergeometric_2F1(0.5,0.5-l,3./2,-d1*d1/(delta*delta));
+	  return d1*hypergeometric_2F1(0.5,0.5-l,1.5,-d1*d1/(delta*delta));
 
 	}
 
@@ -318,7 +354,7 @@ private:
 
 	double fLowerLimit;
 	double fUpperLimit;
-
+	hydra::GaussKronrodQuadrature<61,500, hydra::cpp::sys_t> fNumIntegrator;
 };
 
 }  // namespace hydra
