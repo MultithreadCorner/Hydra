@@ -187,8 +187,8 @@ public:
 		 */
 		GReal_t fcn_value = GetFCNValue(parameters) ;
 
-	//	if(std::isnan(fcn_value)) return fFCNMaxValue;
-	//	if(fcn_value > fFCNMaxValue) fFCNMaxValue=fcn_value;
+		if(std::isnan(fcn_value)) return fFCNMaxValue;
+		if(fcn_value > fFCNMaxValue) fFCNMaxValue=fcn_value;
 
 		return fcn_value  ;
 
