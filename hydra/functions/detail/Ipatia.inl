@@ -58,7 +58,7 @@ __hydra_host__ __hydra_device__
 
 	 const double  asigma = A1*sigma;
 
-	 double  delta2 = (l>=-1.0)? sigma : sigma *::sqrt(-2 - 2.*l) ;
+	 double  delta2 = (l>=-1.0)? sigma : sigma *::sqrt(-2.0 - 2.*l) ;
 
 	 delta2 *= delta2;
 
@@ -95,7 +95,7 @@ __hydra_host__ __hydra_device__
 
 	 const  double asigma = A2*sigma;
 
-	 double  delta2 = (l>=-1.0)? sigma : sigma *::sqrt(-2 - 2.*l) ;
+	 double  delta2 = (l>=-1.0)? sigma : sigma *::sqrt(-2.0 - 2.*l) ;
 
 	 delta2 *= delta2;
 
@@ -134,7 +134,7 @@ __hydra_host__ __hydra_device__
 
 
 
-	 double   delta2 = (l>=-1.0) ? sigma: sigma*::sqrt(-2 -2.*l);
+	 double   delta2 = (l>=-1.0) ? sigma: sigma*::sqrt(-2.0 -2.*l);
 
 	 delta2 *= delta2;
 
