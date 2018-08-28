@@ -107,7 +107,7 @@ public:
 	fWBegin(HYDRA_EXTERNAL_NS::thrust::make_zip_iterator( HYDRA_EXTERNAL_NS::thrust::make_tuple(begins...))),
 	fWEnd(HYDRA_EXTERNAL_NS::thrust::make_zip_iterator(HYDRA_EXTERNAL_NS::thrust::make_tuple((begins + HYDRA_EXTERNAL_NS::thrust::distance(begin, end))...))),
 	fFCNCache(std::unordered_map<size_t, GReal_t>()),
-	fFCNMaxValue(std::numeric_limits<GReal_t>::min())
+	fFCNMaxValue(std::numeric_limits<GReal_t>::max())
 	{
 
 
@@ -187,8 +187,11 @@ public:
 		 */
 		GReal_t fcn_value = GetFCNValue(parameters) ;
 
-	//	if(std::isnan(fcn_value)) return fFCNMaxValue;
-	//	if(fcn_value > fFCNMaxValue) fFCNMaxValue=fcn_value;
+		if(!std::isnormal(fcn_value)){
+			std::cout << "NaN found." << std::endl;
+			return fFCNMaxValue;
+		}
+		//if(fcn_value > fFCNMaxValue) fFCNMaxValue=fcn_value;
 
 		return fcn_value  ;
 
@@ -351,7 +354,7 @@ private:
     Iterator fEnd;
     GReal_t  fErrorDef;
     GReal_t  fDataSize;
-    GReal_t  fFCNMaxValue;
+    mutable GReal_t  fFCNMaxValue;
     hydra::UserParameters fUserParameters ;
     mutable std::unordered_map<size_t, GReal_t> fFCNCache;
 
@@ -377,7 +380,7 @@ public:
 	fEnd(end),
 	fErrorDef(0.5),
 	fFCNCache(std::unordered_map<size_t, GReal_t>()),
-	fFCNMaxValue(std::numeric_limits<GReal_t>::min())
+	fFCNMaxValue(std::numeric_limits<GReal_t>::max())
 	{
 		fDataSize = HYDRA_EXTERNAL_NS::thrust::distance(fBegin, fEnd);
 		LoadFCNParameters();
@@ -441,8 +444,12 @@ public:
 		 */
 		GReal_t fcn_value = GetFCNValue(parameters);
 
-			if(std::isnan(fcn_value)) return fFCNMaxValue;
-			if(fcn_value > fFCNMaxValue) fFCNMaxValue=fcn_value;
+			if(!std::isnormal(fcn_value)){
+				std::cout << "NaN found." << std::endl;
+
+				return fFCNMaxValue;
+			}
+			//if(fcn_value > fFCNMaxValue) fFCNMaxValue=fcn_value;
 
 		return fcn_value;
 
