@@ -53,25 +53,31 @@
 
 namespace hydra {
 
-  template< template<size_t> class T, size_t J, size_t M, size_t N, unsigned int ArgIndex=0>
+  template<typename T1, typename T2, typename T3, unsigned int ArgIndex=0>
   class WignerD;
   
   
 /*---------------------
  * Specialization for 
- * unit values of J,N,M
+ * _unit or _half values of J,N,M
  *------------------- */
- 
-  template<size_t J, size_t M, size_t N, unsigned int ArgIndex>
-  class WignerD<_unit, J, M, N, ArgIndex>: public BaseFunctor< WignerD<_unit, J, M, N, ArgIndex>, double, 0>
-  {
-    constexpr static int JPM  = detail::nearest_int<J+M,1>::value;
-    constexpr static int JPN  = detail::nearest_int<J+N,1>::value;
-    constexpr static int JMM  = detail::nearest_int<J-M,1>::value;
-    constexpr static int JMN  = detail::nearest_int<J-N,1>::value;
-    constexpr static int MPN  = detail::nearest_int<M+N,1>::value;
 
-    static_assert((JPM <0 || JPN < 0 || JMM < 0 || JMN < 0 || J < 0 || J > 25 ) ,
+ 
+  template<template<int> class T, int J, int M, int N, unsigned int ArgIndex>
+  class WignerD< T<J>, T<M>, T<N>, ArgIndex>: public BaseFunctor<WignerD< T<J>, T<M>, T<N>>, double, 0>
+  {
+
+    typedef typename std::enable_if< std::is_same<T<0>,_half<0>>::value || std::is_same<T<0>,_unit<0>>::value, void>::type control_type;
+
+    typedef typename std::conditional< std::is_same<T<0>,_half<0>>::value, std::integral_constant<int,2>::type, std::integral_constant<int,1>::type >::type denominator_type;
+
+    constexpr static int JPM  = detail::nearest_int<J+M,denominator_type::value>::value;
+    constexpr static int JPN  = detail::nearest_int<J+N,denominator_type::value>::value;
+    constexpr static int JMM  = detail::nearest_int<J-M,denominator_type::value>::value;
+    constexpr static int JMN  = detail::nearest_int<J-N,denominator_type::value>::value;
+    constexpr static int MPN  = detail::nearest_int<M+N,denominator_type::value>::value;
+
+    static_assert(!(JPM <0 || JPN < 0 || JMM < 0 || JMN < 0 || J < 0 || J > 25 ) ,
                   "[Hydra::WignerD] : Wrong parameters combination");
                   
     public:
@@ -79,31 +85,31 @@ namespace hydra {
       WignerD()=default;
       
       __hydra_dual__
-      WignerD( WignerD<_unit, J, M, N, ArgIndex> const& other):
-            BaseFunctor<WignerD<_unit, J, M, N, ArgIndex>, double, 0>(other)
+      WignerD( WignerD<T<J>, T<M>, T<N>, ArgIndex> const& other):
+            BaseFunctor<WignerD<T<J>, T<M>, T<N>, ArgIndex>, double, 0>(other)
             {}
             
       __hydra_dual__
-      WignerD<_unit, J, M, N, ArgIndex>& operator=( WignerD<_unit, J, M, N, ArgIndex> const& other){
+      WignerD<T<J>, T<M>, T<N>, ArgIndex>& operator=( WignerD<T<J>, T<M>, T<N>, ArgIndex> const& other){
 
             if(this == &other) return *this;
-            BaseFunctor<WignerD<_unit, J, M, N, ArgIndex>, double, 0>::operator=(other);
+            BaseFunctor<WignerD<T<J>, T<M>, T<N>, ArgIndex>, double, 0>::operator=(other);
             return *this;
       }
       
       
-      template<typename T>
+      template<typename TT>
       __hydra_dual__ inline
-      double Evaluate(unsigned int, T*x)  const 
+      double Evaluate(unsigned int, TT*x)  const 
       {
             double beta = x[ArgIndex] ;
             double r = wignerd(beta);
             return  CHECK_VALUE(r, "r=%f", r);
       }
 
-      template<typename T>
+      template<typename TT>
       __hydra_dual__ inline
-      double Evaluate(T x)  const 
+      double Evaluate(TT x)  const 
       {
             double beta =  get<ArgIndex>(x);
             double r = wignerd(beta);
@@ -122,91 +128,27 @@ namespace hydra {
             return r;
       }
       
+      template<template<int> class U=T>
       __hydra_dual__
-      inline double wdf( double  b) const 
+      inline typename std::enable_if<std::is_same<U<0>,_half<0>>::value, double>::type
+      wdf( double  b) const
       {
-            r = wigner_d_function<_unit<J>,_unit<M>,_unit<N>>(b);
+            double r = wigner_d_function<_half<J>,_half<M>,_half<N>>(b);
+            return CHECK_VALUE(r, "r=%f", r);
+      }
+
+      template<template<int> class U=T>
+      __hydra_dual__
+      inline typename std::enable_if<std::is_same<U<0>,_unit<0>>::value, double>::type
+      wdf( double  b) const
+      {
+            double r = wigner_d_function<_unit<J>,_unit<M>,_unit<N>>(b);
             return CHECK_VALUE(r, "r=%f", r);
       }
       
   };
 
 
-
-
-/*---------------------
- * Specialization for 
- * half values of J,N,M
- *------------------- */
- 
-  template<size_t J, size_t M, size_t N, unsigned int ArgIndex>
-  class WignerD<_half, J, M, N, ArgIndex>: public BaseFunctor< WignerD<_half, J, M, N, ArgIndex>, double, 0>
-  {
-    constexpr static int JPM  = detail::nearest_int<J+M,2>::value;
-    constexpr static int JPN  = detail::nearest_int<J+N,2>::value;
-    constexpr static int JMM  = detail::nearest_int<J-M,2>::value;
-    constexpr static int JMN  = detail::nearest_int<J-N,2>::value;
-    constexpr static int MPN  = detail::nearest_int<M+N,2>::value;
-
-    static_assert((JPM <0 || JPN < 0 || JMM < 0 || JMN < 0 || J < 0 || J > 25 ) ,
-                  "[Hydra::WignerD] : Wrong parameters combination");
-                  
-    public:
-    
-      WignerD()=default;
-      
-      __hydra_dual__
-      WignerD( WignerD<_half, J, M, N, ArgIndex> const& other):
-            BaseFunctor<WignerD<_half, J, M, N, ArgIndex>, double, 0>(other)
-            {}
-            
-      __hydra_dual__
-      WignerD<_half, J, M, N, ArgIndex>& operator=( WignerD<_half, J, M, N, ArgIndex> const& other){
-
-            if(this == &other) return *this;
-            BaseFunctor<WignerD<_half, J, M, N, ArgIndex>, double, 0>::operator=(other);
-            return *this;
-      }
-      
-      
-      template<typename T>
-      __hydra_dual__ inline
-      double Evaluate(unsigned int, T*x)  const 
-      {
-            double beta = x[ArgIndex] ;
-            double r = wignerd(beta);
-            return  CHECK_VALUE(r, "r=%f", r);
-      }
-
-      template<typename T>
-      __hydra_dual__ inline
-      double Evaluate(T x)  const 
-      {
-            double beta =  get<ArgIndex>(x);
-            double r = wignerd(beta);
-            return  CHECK_VALUE(r, "r=%f", r);
-      }
-      
-    private:
-    
-      __hydra_dual__ inline
-      double wignerd( double beta ) const 
-      {
-            double r = (beta < 0 || beta > 2.0*PI) ? printf("HYDRA WARNING: WignerD: Illegal argument  beta=%g\n", beta):
-                  (beta == 0)  ? (JPM == JPN ) :
-                  (beta == PI) ? (JPM == JMN ) - 2*(::abs(JPM)%2 == 1):
-                  (beta == 2.0*PI) ? (JPM == JPN) - 2*(::abs(MPN)%2 == 1) : wdf(beta);
-            return r;
-      }
-      
-      __hydra_dual__
-      inline double wdf( double  b) const 
-      {
-            r = wigner_d_function<_half<J>,_half<M>,_half<N>>(b);
-            return CHECK_VALUE(r, "r=%f", r);
-      }
-      
-  };
 
 
 
@@ -215,13 +157,11 @@ namespace hydra {
  * to recall WignerD with types deduction
  *--------------------------------------- */
  
-  template<unsigned int ArgIndex=0, template<size_t> class T, size_t J, size_t M, size_t N>
-  WignerD<T, J, M, N, ArgIndex> Make_WignerD( T<J> const& obj1 , T<M> const& obj2, T<N> const& obj3)
+  template<unsigned int ArgIndex=0, template<int> class T, int J, int M, int N>
+  WignerD<T<J>, T<M>, T<N>, ArgIndex> Make_WignerD( T<J> const& obj1 , T<M> const& obj2, T<N> const& obj3)
   {
-    return WignerD<T, J, M, N, ArgIndex>{};
+    return WignerD<T<J>, T<M>, T<N>, ArgIndex>{};
   }
-
-
 
 
 
