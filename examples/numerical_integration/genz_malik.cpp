@@ -20,31 +20,15 @@
  *---------------------------------------------------------------------------*/
 
 /*
- * ConstantRange.inl
+ * genz_malik.cpp
  *
- *  Created on: 20/05/2018
+ *  Created on: 10/08/2018
  *      Author: Antonio Augusto Alves Junior
  */
 
-#ifndef CONSTANTRANGE_INL_
-#define CONSTANTRANGE_INL_
+#ifndef GENZ_MALIK_CPP_
+#define GENZ_MALIK_CPP_
 
-#include <hydra/detail/Config.h>
-#include <hydra/detail/external/thrust/iterator/constant_iterator.h>
+#include<examples/numerical_integration/genz_malik.inl>
 
-namespace hydra {
-
-template<typename Value_Type>
-Range<HYDRA_EXTERNAL_NS::thrust::constant_iterator<Value_Type>>
-constant_range(const Value_Type&  value){
-
-	return make_range( HYDRA_EXTERNAL_NS::thrust::constant_iterator<Value_Type>(value),
-			HYDRA_EXTERNAL_NS::thrust::constant_iterator<Value_Type>(value) );
-}
-
-}  // namespace hydra
-
-
-
-
-#endif /* CONSTANTRANGE_INL_ */
+#endif /* GENZ_MALIK_CPP_ */

@@ -20,44 +20,50 @@
  *---------------------------------------------------------------------------*/
 
 /*
- * GaussKronrodQuadrature.inl
+ * MachineEpsilon.h
  *
- *  Created on: 01/02/2017
+ *  Created on: 16/08/2018
  *      Author: Antonio Augusto Alves Junior
  */
 
-#ifndef GAUSSKRONRODQUADRATURE_INL_
-#define GAUSSKRONRODQUADRATURE_INL_
+#ifndef MACHINEEPSILON_H_
+#define MACHINEEPSILON_H_
 
 #include <hydra/detail/Config.h>
-#include <hydra/detail/BackendPolicy.h>
-#include <hydra/Types.h>
-#include <cmath>
-#include <tuple>
-#include <limits>
-#include <hydra/detail/external/thrust/transform_reduce.h>
 
 namespace hydra {
 
+namespace detail {
 
-template<size_t NRULE, size_t NBIN, hydra::detail::Backend  BACKEND>
-template<typename FUNCTOR>
-std::pair<GReal_t, GReal_t>
-GaussKronrodQuadrature<NRULE, NBIN, hydra::detail::BackendPolicy<BACKEND>>::Integrate(FUNCTOR const& functor)
-{
-	GaussKronrodCall init{};
-	init.fGaussCall =0;
-	init.fGaussKronrodCall =0;
+__hydra_host__ __hydra_device__
+inline double machine_eps_f64(double value=1.0) {
 
-	GaussKronrodCall result = HYDRA_EXTERNAL_NS::thrust::transform_reduce(fCallTable.begin(), fCallTable.end(),
-			GaussKronrodUnary<FUNCTOR>(functor),   init, GaussKronrodBinary() );
+    typedef union {long long i64; double f64; } f64_t;
 
-	GReal_t error = std::max(std::numeric_limits<GReal_t>::epsilon(),
-			std::pow(200.0*std::fabs(result.fGaussCall- result.fGaussKronrodCall ), 1.5));
+    f64_t s;
 
-	return std::pair<GReal_t, GReal_t>(result.fGaussKronrodCall, error);
+    s.f64 = value;
+    s.i64++;
+
+    return (s.f64 - value);
 }
+
+__hydra_host__ __hydra_device__
+inline float machine_eps_f32(float value=1.0) {
+
+    typedef union {int i32; float f32;} f32_t;
+
+    f32_t s;
+
+    s.f32 = value;
+    s.i32++;
+    return (s.f32 - value);
+}
+
+
+}  // namespace detail
 
 }  // namespace hydra
 
-#endif /* GAUSSKRONRODQUADRATURE_INL_ */
+
+#endif /* MACHINEEPSILON_H_ */

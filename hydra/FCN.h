@@ -50,6 +50,7 @@
 #include <vector>
 #include <cassert>
 #include <utility>
+#include <limits>
 
 
 namespace hydra {
@@ -105,7 +106,8 @@ public:
 	fEnd(end),
 	fWBegin(HYDRA_EXTERNAL_NS::thrust::make_zip_iterator( HYDRA_EXTERNAL_NS::thrust::make_tuple(begins...))),
 	fWEnd(HYDRA_EXTERNAL_NS::thrust::make_zip_iterator(HYDRA_EXTERNAL_NS::thrust::make_tuple((begins + HYDRA_EXTERNAL_NS::thrust::distance(begin, end))...))),
-	fFCNCache(std::unordered_map<size_t, GReal_t>())
+	fFCNCache(std::unordered_map<size_t, GReal_t>()),
+	fFCNMaxValue(std::numeric_limits<GReal_t>::max())
 	{
 
 
@@ -132,7 +134,8 @@ public:
 	fDataSize(other.GetDataSize()),
 	fErrorDef(other.GetErrorDef()),
 	fUserParameters(other.GetParameters()),
-	fFCNCache(other.GetFcnCache())
+	fFCNCache(other.GetFcnCache()),
+	fFCNMaxValue(other.GetFcnMaxValue())
 	{
 		LoadFCNParameters();
 	}
@@ -152,6 +155,7 @@ public:
 		fErrorDef = other.GetErrorDef();
 		fUserParameters = other.GetParameters();
 		fFCNCache = other.GetFcnCache();
+		fFCNMaxValue = other.GetFcnMaxValue();
 
 		return this;
 	}
@@ -181,9 +185,20 @@ public:
 		 * get the fcn_value corresponding to the parameters
 		 * cached values are returned for revisited parameters
 		 */
-		GReal_t fcn_value = GetFCNValue(parameters);
+		GReal_t fcn_value = GetFCNValue(parameters) ;
 
-		return fcn_value;
+
+		if(!std::isnormal(fcn_value)){
+			std::cout << "NaN found." << std::endl;
+			return fFCNMaxValue;
+		}
+		//if(fcn_value > fFCNMaxValue) fFCNMaxValue=fcn_value;
+
+		//if(std::isnan(fcn_value)) return fFCNMaxValue;
+		//if(fcn_value > fFCNMaxValue) fFCNMaxValue=fcn_value;
+
+
+		return fcn_value  ;
 
 	}
 
@@ -265,6 +280,16 @@ public:
 		return fWEnd;
 	}
 
+	GReal_t GetFcnMaxValue() const
+	{
+		return fFCNMaxValue;
+	}
+
+	void SetFcnMaxValue(GReal_t fcnMaxValue)
+	{
+		fFCNMaxValue = fcnMaxValue;
+	}
+
 private:
 
 	std::unordered_map<size_t, GReal_t>& GetFcnCache() const {
@@ -299,6 +324,7 @@ private:
 		}
 		else {
 			value = EvalFCN(parameters);
+
 			fFCNCache[key] = value;
 
 			if (INFO >= Print::Level()  )
@@ -331,8 +357,9 @@ private:
     witerator fWEnd;
     Iterator fBegin;
     Iterator fEnd;
-       GReal_t  fErrorDef;
+    GReal_t  fErrorDef;
     GReal_t  fDataSize;
+    mutable GReal_t  fFCNMaxValue;
     hydra::UserParameters fUserParameters ;
     mutable std::unordered_map<size_t, GReal_t> fFCNCache;
 
@@ -357,7 +384,8 @@ public:
 	fBegin(begin ),
 	fEnd(end),
 	fErrorDef(0.5),
-	fFCNCache(std::unordered_map<size_t, GReal_t>())
+	fFCNCache(std::unordered_map<size_t, GReal_t>()),
+	fFCNMaxValue(std::numeric_limits<GReal_t>::max())
 	{
 		fDataSize = HYDRA_EXTERNAL_NS::thrust::distance(fBegin, fEnd);
 		LoadFCNParameters();
@@ -371,7 +399,8 @@ public:
 	fEnd(other.GetEnd()),
 	fErrorDef(other.GetErrorDef()),
 	fUserParameters(other.GetParameters()),
-	fFCNCache(other.GetFcnCache())
+	fFCNCache(other.GetFcnCache()),
+	fFCNMaxValue(other.GetFcnMaxValue())
 	{
 		LoadFCNParameters();
 	}
@@ -388,6 +417,7 @@ public:
 		fErrorDef = other.GetErrorDef();
 		fUserParameters = other.GetParameters();
 		fFCNCache = other.GetFcnCache();
+		fFCNMaxValue= other.GetFcnMaxValue();
 
 		return this;
 	}
@@ -418,6 +448,13 @@ public:
 		 * cached values are returned for revisited parameters
 		 */
 		GReal_t fcn_value = GetFCNValue(parameters);
+
+			if(!std::isnormal(fcn_value)){
+				std::cout << "NaN found." << std::endl;
+
+				return fFCNMaxValue;
+			}
+			//if(fcn_value > fFCNMaxValue) fFCNMaxValue=fcn_value;
 
 		return fcn_value;
 
@@ -478,6 +515,16 @@ public:
 	{
 		return fEnd;
 	}
+
+		GReal_t GetFcnMaxValue() const
+		{
+			return fFCNMaxValue;
+		}
+
+		void SetFcnMaxValue(GReal_t fcnMaxValue)
+		{
+			fFCNMaxValue = fcnMaxValue;
+		}
 
 private:
 
@@ -544,6 +591,7 @@ private:
     iterator fBegin;
     iterator fEnd;
     GReal_t  fErrorDef;
+    mutable GReal_t   fFCNMaxValue;
     hydra::UserParameters fUserParameters ;
     mutable std::unordered_map<size_t, GReal_t> fFCNCache;
 

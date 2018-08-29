@@ -99,6 +99,28 @@ public:
 			size_t nboxes=10);
 
 	/**
+	 * Genz-Malik multidimensional quadrature constructor.
+	 * @param LowerLimit : c-like array with the lower limits of integration
+	 * @param UpperLimit : c-like array with the upper limits of integration
+	 * @param grid       : c-like array with the number of divisions per dimension
+	 */
+	GenzMalikQuadrature(const GReal_t (&LowerLimit)[N],
+			const GReal_t (&UpperLimit)[N],
+			const size_t (&grid)[N]);
+
+
+	/**
+	 * Genz-Malik multidimensional quadrature constructor.
+	 * @param LowerLimit :  c-like  with the lower limits of integration
+	 * @param UpperLimit :  c-like  with the upper limits of integration
+	 * @param nboxes     : max number of multidimensional boxes
+	 */
+	GenzMalikQuadrature(const GReal_t (&LowerLimit)[N],
+			const GReal_t (&UpperLimit)[N],	size_t nboxes=10);
+
+
+
+	/**
 	 * Copy constructor.
 	 * @param other : object on same back-end
 	 */

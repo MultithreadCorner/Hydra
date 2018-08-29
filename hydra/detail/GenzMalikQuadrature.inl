@@ -121,6 +121,79 @@ GenzMalikQuadrature<N, hydra::detail::BackendPolicy<BACKEND>>::GenzMalikQuadratu
 		}
 
 
+
+template<size_t N,hydra::detail::Backend  BACKEND>
+GenzMalikQuadrature<N, hydra::detail::BackendPolicy<BACKEND>>::GenzMalikQuadrature(const GReal_t (&LowerLimit)[N],
+		const GReal_t (&UpperLimit)[N], const size_t (&grid)[N])
+		{
+
+			size_t nboxes = 1;
+			hydra::detail::multiply(grid, nboxes );
+			//fBoxList.resize(nboxes);
+
+			std::array<GReal_t, N> width;
+
+			for( size_t i=0; i<N; i++)
+			{ width[i] = (UpperLimit[i] -  LowerLimit[i])/grid[i];  }
+
+			size_t mindex[N];
+			GReal_t  lower_limit[N];
+			GReal_t  upper_limit[N];
+
+			for(size_t index=0; index<nboxes; index++)
+			{
+				hydra::detail::get_indexes( index, grid,  mindex );
+
+				for( size_t dim=0; dim<N; dim++)
+				{
+					lower_limit[dim] =   LowerLimit[dim] + width[dim]*mindex[dim];
+					upper_limit[dim] =   LowerLimit[dim] + width[dim]*(mindex[dim]+1);
+				}
+				detail::GenzMalikBox<N> box(lower_limit, upper_limit);
+
+				fBoxList.push_back(box);
+
+			}
+		}
+
+
+template<size_t N,hydra::detail::Backend  BACKEND>
+GenzMalikQuadrature<N, hydra::detail::BackendPolicy<BACKEND>>::GenzMalikQuadrature(const GReal_t (&LowerLimit)[N],
+		const GReal_t (&UpperLimit)[N],	size_t nboxes)
+		{
+
+			std::array<size_t, N> grid;
+
+			GetGrid( nboxes, grid) ;
+			hydra::detail::multiply(grid, nboxes );
+
+			std::array<GReal_t, N> width;
+
+			for( size_t i=0; i<N; i++)
+				width[i] = (UpperLimit[i] -  LowerLimit[i])/grid[i];
+
+			std::array< size_t,N> mindex;
+			std::array<GReal_t,N> lower_limit;
+			std::array<GReal_t,N> upper_limit;
+
+			for(size_t index=0; index<nboxes; index++)
+			{
+				hydra::detail::get_indexes( index, grid,  mindex );
+
+				for( size_t dim=0; dim<N; dim++)
+				{
+					lower_limit[dim] =   LowerLimit[dim] + width[dim]*mindex[dim];
+					upper_limit[dim] =   LowerLimit[dim] + width[dim]*(mindex[dim]+1);
+				}
+
+				detail::GenzMalikBox<N> box(lower_limit, upper_limit);
+
+				fBoxList.push_back(box);
+
+			}
+		}
+
+
 template<size_t N, hydra::detail::Backend  BACKEND>
 GenzMalikQuadrature<N, hydra::detail::BackendPolicy<BACKEND>>::GenzMalikQuadrature( GenzMalikQuadrature<N, hydra::detail::BackendPolicy<BACKEND>> const& other):
 fBoxList(other.GetBoxList() ),

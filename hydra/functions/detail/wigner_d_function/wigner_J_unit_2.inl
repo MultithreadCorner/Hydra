@@ -36,103 +36,103 @@
 namespace hydra {
 
 // J,M,N = {2, -2, -2}
-//WIGNER_D_FUNCTION(2, -2, -2, unit, <uncomment this line and add the formula here>)
+WIGNER_D_FUNCTION(2, -2, -2, unit, 0.25*::pow((1.0 + ::cos(theta)), 2.0) )
 
 
 // J,M,N = {2, -2, -1}
-//WIGNER_D_FUNCTION(2, -2, -1, unit, <uncomment this line and add the formula here>)
+WIGNER_D_FUNCTION(2, -2, -1, unit, 0.5*::sin(theta)*(1.0+::cos(theta)))
 
 
 // J,M,N = {2, -2, 0}
-//WIGNER_D_FUNCTION(2, -2, 0, unit, <uncomment this line and add the formula here>)
+WIGNER_D_FUNCTION(2, -2, 0, unit, 0.5*math_constants::sqrt3_2*::pow(::sin(theta),2.0))
 
 
 // J,M,N = {2, -2, 1}
-//WIGNER_D_FUNCTION(2, -2, 1, unit, <uncomment this line and add the formula here>)
+WIGNER_D_FUNCTION(2, -2, 1, unit, 0.5*::sin(theta)*(1.0-::cos(theta)))
 
 
 // J,M,N = {2, -2, 2}
-//WIGNER_D_FUNCTION(2, -2, 2, unit, <uncomment this line and add the formula here>)
+WIGNER_D_FUNCTION(2, -2, 2, unit, 0.25*::pow((1.0 - ::cos(theta)), 2.0))
 
 
 // J,M,N = {2, -1, -2}
-//WIGNER_D_FUNCTION(2, -1, -2, unit, <uncomment this line and add the formula here>)
+WIGNER_D_FUNCTION(2, -1, -2, unit, -0.5*::sin(theta)*(1.0+::cos(theta)))
 
 
 // J,M,N = {2, -1, -1}
-//WIGNER_D_FUNCTION(2, -1, -1, unit, <uncomment this line and add the formula here>)
+WIGNER_D_FUNCTION(2, -1, -1, unit, ::pow(::cos(theta),2.0) + 0.5*::cos(theta)-0.5)
 
 
 // J,M,N = {2, -1, 0}
-//WIGNER_D_FUNCTION(2, -1, 0, unit, <uncomment this line and add the formula here>)
+WIGNER_D_FUNCTION(2, -1, 0, unit, math_constants::sqrt3_2*::sin(theta)*::cos(theta))
 
 
 // J,M,N = {2, -1, 1}
-//WIGNER_D_FUNCTION(2, -1, 1, unit, <uncomment this line and add the formula here>)
+WIGNER_D_FUNCTION(2, -1, 1, unit, -::pow(::cos(theta),2.0) + 0.5*::cos(theta)+0.5)
 
 
 // J,M,N = {2, -1, 2}
-//WIGNER_D_FUNCTION(2, -1, 2, unit, <uncomment this line and add the formula here>)
+WIGNER_D_FUNCTION(2, -1, 2, unit, 0.5*::sin(theta)*(1.0-::cos(theta)))
 
 
 // J,M,N = {2, 0, -2}
-//WIGNER_D_FUNCTION(2, 0, -2, unit, <uncomment this line and add the formula here>)
+WIGNER_D_FUNCTION(2, 0, -2, unit, 0.5*math_constants::sqrt3_2**::pow(::sin(theta),2))
 
 
 // J,M,N = {2, 0, -1}
-//WIGNER_D_FUNCTION(2, 0, -1, unit, <uncomment this line and add the formula here>)
+WIGNER_D_FUNCTION(2, 0, -1, unit, -math_constants::sqrt3_2*::sin(theta)*::cos(theta))
 
 
 // J,M,N = {2, 0, 0}
-//WIGNER_D_FUNCTION(2, 0, 0, unit, <uncomment this line and add the formula here>)
+WIGNER_D_FUNCTION(2, 0, 0, unit, 1.5*::pow(::cos(theta),2.0)-0.5)
 
 
 // J,M,N = {2, 0, 1}
-//WIGNER_D_FUNCTION(2, 0, 1, unit, <uncomment this line and add the formula here>)
+WIGNER_D_FUNCTION(2, 0, 1, unit, math_constants::sqrt3_2*::sin(theta)*::cos(theta))
 
 
 // J,M,N = {2, 0, 2}
-//WIGNER_D_FUNCTION(2, 0, 2, unit, <uncomment this line and add the formula here>)
+WIGNER_D_FUNCTION(2, 0, 2, unit, 0.5*math_constants::sqrt3_2**::pow(::sin(theta),2))
 
 
 // J,M,N = {2, 1, -2}
-//WIGNER_D_FUNCTION(2, 1, -2, unit, <uncomment this line and add the formula here>)
+WIGNER_D_FUNCTION(2, 1, -2, unit, -0.5*::sin(theta)*(1.0-::cos(theta)))
 
 
 // J,M,N = {2, 1, -1}
-//WIGNER_D_FUNCTION(2, 1, -1, unit, <uncomment this line and add the formula here>)
+WIGNER_D_FUNCTION(2, 1, -1, unit, -::pow(::cos(theta),2.0) + 0.5*::cos(theta) + 0.5)
 
 
 // J,M,N = {2, 1, 0}
-//WIGNER_D_FUNCTION(2, 1, 0, unit, <uncomment this line and add the formula here>)
+WIGNER_D_FUNCTION(2, 1, 0, unit, -math_constants::sqrt3_2*::sin(theta)*::cos(theta))
 
 
 // J,M,N = {2, 1, 1}
-//WIGNER_D_FUNCTION(2, 1, 1, unit, <uncomment this line and add the formula here>)
+WIGNER_D_FUNCTION(2, 1, 1, unit, ::pow(::cos(theta),2.0) + 0.5*::cos(theta) - 0.5)
 
 
 // J,M,N = {2, 1, 2}
-//WIGNER_D_FUNCTION(2, 1, 2, unit, <uncomment this line and add the formula here>)
+WIGNER_D_FUNCTION(2, 1, 2, unit, 0.5*::sin(theta)*(1+::cos(theta)))
 
 
 // J,M,N = {2, 2, -2}
-//WIGNER_D_FUNCTION(2, 2, -2, unit, <uncomment this line and add the formula here>)
+WIGNER_D_FUNCTION(2, 2, -2, unit, 0.25*::pow(1-::cos(theta),2))
 
 
 // J,M,N = {2, 2, -1}
-//WIGNER_D_FUNCTION(2, 2, -1, unit, <uncomment this line and add the formula here>)
+WIGNER_D_FUNCTION(2, 2, -1, unit, -0.5*::sin(theta)*(1-::cos(theta)))
 
 
 // J,M,N = {2, 2, 0}
-//WIGNER_D_FUNCTION(2, 2, 0, unit, <uncomment this line and add the formula here>)
+WIGNER_D_FUNCTION(2, 2, 0, unit, 0.5*math_constants::sqrt3_2*::pow(::sin(theta), 2.0))
 
 
 // J,M,N = {2, 2, 1}
-//WIGNER_D_FUNCTION(2, 2, 1, unit, <uncomment this line and add the formula here>)
+WIGNER_D_FUNCTION(2, 2, 1, unit, -0.5*::sin(theta)*(1+::cos(theta)))
 
 
 // J,M,N = {2, 2, 2}
-//WIGNER_D_FUNCTION(2, 2, 2, unit, <uncomment this line and add the formula here>)
+WIGNER_D_FUNCTION(2, 2, 2, unit, 0.25*::pow((1.0 + ::cos(theta)), 2.0))
 
 } //namespace hydra
 

@@ -28,6 +28,12 @@ rImplementation ##CHANGES
 9. Introduction of `hydra::make_loglikelihood_fcn` overloads supporting range semantics. 
 10. Introduction of `hydra::make_loglikelihood_fcn` overloads for binned datasets.
 11. Implementation of `hydra::begin`, `hydra::end`, `hydra::begin`, `hydra::rend`.
+12. Added Ipatia distribution.
+13. Added DeltaDMassBackground distribution.
+14. Added LogNormal distribution
+15. Range semantics for hydra::PhaseSpace
+
+
  
 
 # Bug fixes
