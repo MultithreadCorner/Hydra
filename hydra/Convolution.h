@@ -157,14 +157,16 @@ public:
 
 	Convolution( Functor const& functor, Kernel const& kernel, double kmin, double kmax, size_t nsamples =500):
 		detail::CompositeBase<Functor, Kernel>(functor,kernel),
-		fKMax(kmin),
-		fKMin(kmax),
-		fDelta((kmax-kmin/nsamples)),
+		fKMin(kmin),
+		fKMax(kmax),
+		fDelta((kmax-kmin)/nsamples),
 		fN(nsamples),
 		fNormalization(0)
 		{
-
-
+		for(int i=0 ; i<fN; i++){
+			GReal_t	    x_i = i*fDelta + fKMin;
+			fNormalization += HYDRA_EXTERNAL_NS::thrust::get<1>(this->GetFunctors())(x_i);
+		}
 		}
 
 	__hydra_host__ __hydra_device__
@@ -257,14 +259,13 @@ public:
 	}
 
 
-	template<typename T>
+
      __hydra_host__ __hydra_device__
-	inline double operator()(T x)
+	inline double operator()(double x)
 	{
 
 		GReal_t result = 0;
-		GReal_t normalization = 0;
-		GReal_t X  = hydra::get<ArgIndex>(x);
+		GReal_t X  = x;
 
 		for(int i=0 ; i<fN; i++){
 
@@ -272,6 +273,8 @@ public:
 			GReal_t	delta_i = X - x_i;
 			GReal_t  kernel = HYDRA_EXTERNAL_NS::thrust::get<1>(this->GetFunctors())(delta_i);
 			result         += HYDRA_EXTERNAL_NS::thrust::get<0>(this->GetFunctors())(x_i)*kernel;
+
+			std::cout << " x_i = " << x_i << " delta_i " << delta_i << std::endl;
 
 		}
 
