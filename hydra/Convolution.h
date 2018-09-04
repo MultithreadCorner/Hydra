@@ -274,8 +274,6 @@ public:
 			GReal_t  kernel = HYDRA_EXTERNAL_NS::thrust::get<1>(this->GetFunctors())(delta_i);
 			result         += HYDRA_EXTERNAL_NS::thrust::get<0>(this->GetFunctors())(x_i)*kernel;
 
-			std::cout << " x_i = " << x_i << " delta_i " << delta_i << std::endl;
-
 		}
 
 		return result/fNormalization;

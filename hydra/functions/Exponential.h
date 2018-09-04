@@ -68,7 +68,7 @@ public:
 	operator=( Exponential<ArgIndex> const& other)
 	{
 		if(this == &other) return *this;
-		BaseFunctor<Exponential,double,1>::operator=(other);
+		BaseFunctor<Exponential<ArgIndex>,double,1>::operator=(other);
 		return *this;
 	}
 
