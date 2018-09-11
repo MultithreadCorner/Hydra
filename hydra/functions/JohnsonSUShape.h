@@ -24,6 +24,7 @@
  *
  *  Created on: 29/08/2018
  *      Author: Davide Brundu
+ *              from RooJohnsonSU.cxx by Maurizio Martinelli
  *
  *  reference: Johnson, N. L. (1954). Systems of frequency curves derived from the first law of Laplace., Trabajos de Estadistica, 5, 283-291.
  */
