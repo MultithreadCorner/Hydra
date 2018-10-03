@@ -33,7 +33,7 @@
 #include <hydra/detail/BackendPolicy.h>
 #include <hydra/Types.h>
 #include <hydra/detail/Integrator.h>
-
+#include <hydra/PhaseSpace.h>
 #include <hydra/detail/Print.h>
 #include <tuple>
 
