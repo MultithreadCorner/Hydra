@@ -31,149 +31,37 @@
 
 #include <hydra/detail/Config.h>
 #include <hydra/Types.h>
-#include <hydra/detail/CompositeBase.h>
+#include <hydra/detail/BaseCompositeFunctor.h>
 #include <hydra/detail/utility/Utility_Tuple.h>
 #include <hydra/Parameter.h>
 #include <hydra/Tuple.h>
 
 namespace hydra {
-/*
-namespace detail {
-
-template<typename Kernel, typename  Functor>
-struct CauchyProduct
-{
-	CauchyProduct()=delete;
-
-	CauchyProduct(Functor functor, Kernel kernel, double min, double max,size_t n):
-		fFunctor(functor),
-		fKernel(kernel),
-		fKMin(min),
-		fKMax(max),
-		fDelta((max-min/n)),
-		fN(n)
-	{ }
-
-	__hydra_host__ __hydra_device__
-	CauchyProduct( CauchyProduct const& other):
-	fKernel(other.GetKernel()),
-	fFunctor(other.GetFunctor()),
-	fKMin(other.GetKMin()),
-	fKMax(other.GetKMax()),
-	fDelta(other.GetDelta()),
-	fN(other.GetN())
-	{}
-
-	__hydra_host__ __hydra_device__
-	CauchyProduct& operator=( CauchyProduct const& other){
-
-		if(this == &other) return *this;
-
-		fKernel  =other.GetKernel();
-		fFunctor =other.GetFunctor();
-		fDelta   =other.GetDelta();
-		fKMin    =other.GetKMin();
-		fKMax    =other.GetKMax();
-		fN       =other.GetN();
-
-		return *this;
-	}
-
-	__hydra_host__ __hydra_device__
-	const Kernel& GetKernel() const {
-		return fKernel;
-	}
-	__hydra_host__ __hydra_device__
-	void SetKernel(Kernel const& kernel) {
-		fKernel = kernel;
-	}
-
-	const Functor& GetFunctor() const {
-		return fFunctor;
-	}
-
-	void SetFunctor(Functor const& functor) {
-		fFunctor = functor;
-	}
-
-	__hydra_host__ __hydra_device__
-	size_t GetN() const {
-		return fN;
-	}
-
-	double GetKMax() const {
-		return fKMax;
-	}
-
-	double GetKMin() const {
-		return fKMin;
-	}
-
-	double GetDelta() const {
-		return fDelta;
-	}
-
-	__hydra_host__ __hydra_device__
-	inline double operator()(double x)
-	{
-
-		double result = 0;
-		double normalization = 0;
-
-		for(int i=0 ; i<N; i++){
-
-			double	    x_i = i*fDelta + fKMin;
-			double	delta_i = x - x_i;
-			double  kernel  = fKernel(delta_i);
-			result         += fFunctor(x)*kernel;
-			normalization  += kernel;
-		}
-
-		return result/normalization;
-	}
 
 
-private:
-
-	Kernel  fKernel;
-	Functor fFunctor;
-	double  fKMin;
-	double  fKMax;
-	double  fDelta;
-	size_t  fN;
-};
-
-}  // namespace detail
-*/
-
-/**
- * FIXME
- */
 template<typename Functor, typename Kernel,  unsigned int ArgIndex=0>
-class Convolution:  public detail::CompositeBase<Functor, Kernel>
+class Convolution:  public BaseCompositeFunctor<Convolution<Functor, Kernel, ArgIndex>, double, Functor, Kernel>
 {
 
 public:
+	Convolution() = delete;
 
-	Convolution( Functor const& functor, Kernel const& kernel, double kmin, double kmax, size_t nsamples =500):
-		detail::CompositeBase<Functor, Kernel>(functor,kernel),
-		fKMin(kmin),
-		fKMax(kmax),
+	Convolution( Functor const& functor, Kernel const& kernel, double kmin, double kmax, size_t nsamples =100):
+		BaseCompositeFunctor< Convolution<Functor, Kernel, ArgIndex>, double, Functor, Kernel>(functor,kernel),
+		fKernelMin(kmin),
+		fKernelMax(kmax),
 		fDelta((kmax-kmin)/nsamples),
 		fN(nsamples),
 		fNormalization(0)
 		{
-		for(int i=0 ; i<fN; i++){
-			GReal_t	    x_i = i*fDelta + fKMin;
-			fNormalization += HYDRA_EXTERNAL_NS::thrust::get<1>(this->GetFunctors())(x_i);
-		}
+		  NormalizeKernel();
 		}
 
 	__hydra_host__ __hydra_device__
-	Convolution( Convolution<Functor,Kernel, ArgIndex> const& other):
-	detail::CompositeBase<Functor, Kernel>(other),
-	fKMax(other.GetKMax()),
-	fKMin(other.GetKMin()),
+	Convolution( Convolution<Functor, Kernel, ArgIndex> const& other):
+	BaseCompositeFunctor< Convolution<Functor, Kernel, ArgIndex>, double,Functor, Kernel>(other),
+	fKernelMax(other.GetKernelMax()),
+	fKernelMin(other.GetKernelMin()),
 	fDelta(other.GetDelta()),
 	fN(other.GetN()),
 	fNormalization(other.GetNormalization())
@@ -185,9 +73,9 @@ public:
 
 		if(this == &other) return *this;
 
-		detail::CompositeBase<Functor, Kernel>::operator=(other);
-		fKMax 	 = other.GetKMax();
-		fKMin 	 = other.GetKMin();
+		BaseCompositeFunctor<Convolution<Functor,Kernel, ArgIndex>, double, Functor, Kernel>::operator=(other);
+		fKernelMax 	 = other.GetKernelMax();
+		fKernelMin 	 = other.GetKernelMin();
 		fDelta   = other.GetDelta();
 		fN       = other.GetN();
 		fNormalization = other.GetNormalization();
@@ -195,32 +83,29 @@ public:
 	}
 
 	__hydra_host__ __hydra_device__
-	double GetKMax() const {
-		return fKMax;
+	double GetKernelMax() const {
+		return fKernelMax;
 	}
 
 	__hydra_host__ __hydra_device__
-	void SetKMax(double kMax) {
-		fKMax = kMax;
+	void SetKernelMax(double kMax) {
+		fKernelMax = kMax;
 	}
 
 	__hydra_host__ __hydra_device__
-	double GetKMin() const {
-		return fKMin;
+	double GetKernelMin() const {
+		return fKernelMin;
 	}
 
 	__hydra_host__ __hydra_device__
-	void SetKMin(double kMin) {
-		fKMin = kMin;
+	void SetKernelMin(double kMin) {
+		fKernelMin = kMin;
 	}
 	__hydra_host__ __hydra_device__
 	double GetDelta() const {
 		return fDelta;
 	}
-	__hydra_host__ __hydra_device__
-	void SetDelta(double delta) {
-		fDelta = delta;
-	}
+
 	__hydra_host__ __hydra_device__
 	GReal_t GetNormalization() const {
 		return fNormalization;
@@ -230,25 +115,32 @@ public:
 		fNormalization = normalization;
 	}
 
+	__hydra_host__ __hydra_device__
 	GReal_t GetN() const {
 		return fN;
 	}
 
+	__hydra_host__ __hydra_device__
 	void SetN(GReal_t n) {
 		fN = n;
+		fDelta = (fKernelMax-fKernelMin)/fN;
+	}
+
+	virtual void Update() override {
+
+		NormalizeKernel();
 	}
 
 	template<typename T>
      __hydra_host__ __hydra_device__
-	inline double operator()(unsigned int n, T*x)
-	{
+	inline double Evaluate(unsigned int n, T*x) const	{
 
 		GReal_t result = 0;
 		GReal_t X  = x[ArgIndex];
 
 		for(int i=0 ; i<fN; i++){
 
-			GReal_t	    x_i = i*fDelta + fKMin;
+			GReal_t	    x_i = i*fDelta + fKernelMin;
 			GReal_t	delta_i = X - x_i;
 			GReal_t  kernel = HYDRA_EXTERNAL_NS::thrust::get<1>(this->GetFunctors())(delta_i);
 			result         += HYDRA_EXTERNAL_NS::thrust::get<0>(this->GetFunctors())(x_i)*kernel;
@@ -260,16 +152,15 @@ public:
 
 
 	template<typename T>
-	__hydra_host__ __hydra_device__
-	inline double operator()(unsigned int n, T*x)
-	{
+     __hydra_host__ __hydra_device__
+	inline double Evaluate(T& x) const {
 
 		GReal_t result = 0;
-		GReal_t X  = x[ArgIndex];
+		GReal_t X  = get<ArgIndex>(x);
 
 		for(int i=0 ; i<fN; i++){
 
-			GReal_t	    x_i = i*fDelta + fKMin;
+			GReal_t	    x_i = i*fDelta + fKernelMin;
 			GReal_t	delta_i = X - x_i;
 			GReal_t  kernel = HYDRA_EXTERNAL_NS::thrust::get<1>(this->GetFunctors())(delta_i);
 			result         += HYDRA_EXTERNAL_NS::thrust::get<0>(this->GetFunctors())(x_i)*kernel;
@@ -279,78 +170,36 @@ public:
 		return result/fNormalization;
 	}
 
-	template<template<typename ...T>class C>
-	__hydra_host__ __hydra_device__
-	inline double operator()(C<T...>)
-	{
-
-		GReal_t result = 0;
-		GReal_t X  = x[ArgIndex];
-
-		for(int i=0 ; i<fN; i++){
-
-			GReal_t	    x_i = i*fDelta + fKMin;
-			GReal_t	delta_i = X - x_i;
-			GReal_t  kernel = HYDRA_EXTERNAL_NS::thrust::get<1>(this->GetFunctors())(delta_i);
-			result         += HYDRA_EXTERNAL_NS::thrust::get<0>(this->GetFunctors())(x_i)*kernel;
-
-		}
-
-		return result/fNormalization;
-	}
-
-
-		__hydra_host__ __hydra_device__
-		inline double operator()(GReal_t x)
-		{
-
-			GReal_t result = 0;
-			GReal_t X  = x[ArgIndex];
-
-			for(int i=0 ; i<fN; i++){
-
-				GReal_t	    x_i = i*fDelta + fKMin;
-				GReal_t	delta_i = X - x_i;
-				GReal_t  kernel = HYDRA_EXTERNAL_NS::thrust::get<1>(this->GetFunctors())(delta_i);
-				result         += HYDRA_EXTERNAL_NS::thrust::get<0>(this->GetFunctors())(x_i)*kernel;
-
-			}
-
-			return result/fNormalization;
-		}
-
-
-
+	virtual ~Convolution()=default;
 
 private:
 
-     __hydra_host__ __hydra_device__
-	inline double convolute(double x)  const
-	{
+     void NormalizeKernel(){
 
-		GReal_t result = 0;
-		GReal_t X  = x;
+    	 for(int i=0 ; i<fN; i++){
+    		 GReal_t	    x_i = i*fDelta + fKernelMin;
+    		 fNormalization += HYDRA_EXTERNAL_NS::thrust::get<1>(this->GetFunctors())(x_i);
+    	 }
 
-		for(int i=0 ; i<fN; i++){
+     }
 
-			GReal_t	    x_i = i*fDelta + fKMin;
-			GReal_t	delta_i = X - x_i;
-			GReal_t  kernel = HYDRA_EXTERNAL_NS::thrust::get<1>(this->GetFunctors())(delta_i);
-			result         += HYDRA_EXTERNAL_NS::thrust::get<0>(this->GetFunctors())(x_i)*kernel;
-
-		}
-
-		return result/fNormalization;
-	}
-
-	GReal_t fKMax;
-	GReal_t fKMin;
+	GReal_t fKernelMax;
+	GReal_t fKernelMin;
 	GReal_t fDelta;
 	GReal_t fNormalization;
 	GReal_t fN;
 
 
 };
+
+template<typename Functor, typename Kernel,  unsigned int ArgIndex=0>
+auto convolute( Functor const& functor, Kernel const& kernel, double kmin, double kmax, size_t nsamples =100 )
+-> Convolution<Functor, Kernel, ArgIndex>
+{
+
+	return Convolution<Functor, Kernel, ArgIndex>( functor, kernel,kmin,kmax,nsamples);
+
+}
 
 
 }  // namespace hydra{

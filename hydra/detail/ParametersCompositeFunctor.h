@@ -1,6 +1,6 @@
 /*----------------------------------------------------------------------------
  *
- *   Copyright (C) 2016 - 2018 Antonio Augusto Alves Junior
+ *   Copyright (C) 2016-2017 Antonio Augusto Alves Junior
  *
  *   This file is part of Hydra Data Analysis Framework.
  *
@@ -20,14 +20,15 @@
  *---------------------------------------------------------------------------*/
 
 /*
- * CompositeBase.h
+ * ParametersCompositeFunctor.h
  *
- *  Created on: 11/07/2016
+ *  Created on: 08/09/2018
  *      Author: Antonio Augusto Alves Junior
  */
 
-#ifndef COMPOSITE_BASE_H_
-#define COMPOSITE_BASE_H_
+#ifndef PARAMETERSCOMPOSITEFUNCTOR_H_
+#define PARAMETERSCOMPOSITEFUNCTOR_H_
+
 
 
 
@@ -45,42 +46,36 @@ namespace hydra {
 namespace detail {
 
 template<typename F0, typename F1, typename... Fs >
-class  CompositeBase
+class  ParametersCompositeFunctor
 {
 
 public:
 
 	typedef typename HYDRA_EXTERNAL_NS::thrust::tuple<F0, F1, Fs...> functors_type;
 
-	CompositeBase()=delete;
+	ParametersCompositeFunctor()=delete;
 
-	CompositeBase(F0 const& f0, F1 const& f1,  Fs const& ...fs):
-		fIndex(-1),
-		fCached(0),
-		fFtorTuple(HYDRA_EXTERNAL_NS::thrust::make_tuple(f0, f1, fs...)),
-		fNorm(1.0)
+	ParametersCompositeFunctor(F0 const& f0, F1 const& f1,  Fs const& ...fs):
+		fFtorTuple(HYDRA_EXTERNAL_NS::thrust::make_tuple(f0, f1, fs...))
 	{ }
 
 	__hydra_host__ __hydra_device__
-	inline CompositeBase(CompositeBase<F0,F1,Fs...> const& other):
-	fFtorTuple( other.GetFunctors() ),
-	fIndex( other.GetIndex() ),
-	fCached( other.IsCached() ),
-	fNorm(other.GetNorm())
+	inline ParametersCompositeFunctor(ParametersCompositeFunctor<F0,F1,Fs...> const& other):
+	fFtorTuple( other.GetFunctors() )
 	{}
 
+
 	__hydra_host__ __hydra_device__
-	inline CompositeBase<F0,F1,Fs...>& operator=(CompositeBase<F0,F1,Fs...> const& other)
-	{
+	inline ParametersCompositeFunctor<F0,F1,Fs...>& operator=(ParametersCompositeFunctor<F0,F1,Fs...> const& other) {
+		if(this == &other) return *this;
+
 		this->fFtorTuple = other.GetFunctors() ;
-		this->fIndex = other.GetIndex() ;
-		this->fCached = other.IsCached() ;
-		this->fNorm = other.GetNorm();
+
 		return *this;
 	}
 
-	inline void PrintRegisteredParameters()
-	{
+	inline void PrintRegisteredParameters() {
+
 		HYDRA_CALLER ;
 		HYDRA_MSG << "Registered parameters begin:\n" << HYDRA_ENDL;
 		detail::print_parameters_in_tuple(fFtorTuple);
@@ -88,8 +83,8 @@ public:
 		return;
 	}
 
-	inline void AddUserParameters(std::vector<hydra::Parameter*>& user_parameters )
-	{
+	inline void AddUserParameters(std::vector<hydra::Parameter*>& user_parameters ) {
+
 		detail::add_parameters_in_tuple(user_parameters, fFtorTuple );
 	}
 
@@ -97,6 +92,7 @@ public:
 	inline void SetParameters(const std::vector<double>& parameters){
 
 		detail::set_functors_in_tuple(fFtorTuple, parameters);
+		Update();
 	}
 
 	inline size_t  GetParametersKey(){
@@ -224,49 +220,24 @@ public:
 
 	template<unsigned int I>
 	inline typename HYDRA_EXTERNAL_NS::thrust::tuple_element<I,functors_type>::type&
-	GetFunctor(hydra::placeholders::placeholder<I> const& )
-	{return HYDRA_EXTERNAL_NS::thrust::get<I>(fFtorTuple);}
+	GetFunctor(hydra::placeholders::placeholder<I> const& ){
 
-
-
-	__hydra_host__ __hydra_device__  inline
-	GReal_t GetNorm() const {
-		return fNorm;
+		return HYDRA_EXTERNAL_NS::thrust::get<I>(fFtorTuple);
 	}
 
-	__hydra_host__ __hydra_device__  inline
-	void SetNorm(GReal_t norm) {
-		fNorm = norm;
-	}
+	virtual void Update(){};
 
-	__hydra_host__ __hydra_device__ inline
-	int GetIndex() const { return this->fIndex; }
-
-	__hydra_host__ __hydra_device__ inline
-	void SetIndex(int index) {this->fIndex = index;}
-
-	__hydra_host__ __hydra_device__ inline
-	bool IsCached() const
-	{ return this->fCached;}
-
-	__hydra_host__ __hydra_device__ inline
-	void SetCached(bool cached=true)
-	{ this->fCached = cached; }
-
-protected:
-
-	functors_type fFtorTuple;
+	virtual ~ParametersCompositeFunctor()=default;
 
 private:
 
+	functors_type fFtorTuple;
 
-	int  fIndex;
-	bool fCached;
-	GReal_t fNorm;
 };
 
 }  // namespace detail
 
 } // namespace hydra
 
-#endif /* COMPOSE_H_ */
+
+#endif /* PARAMETERSCOMPOSITEFUNCTOR_H_ */
