@@ -259,9 +259,73 @@ public:
 	}
 
 
+	template<typename T>
+	__hydra_host__ __hydra_device__
+	inline double operator()(unsigned int n, T*x)
+	{
+
+		GReal_t result = 0;
+		GReal_t X  = x[ArgIndex];
+
+		for(int i=0 ; i<fN; i++){
+
+			GReal_t	    x_i = i*fDelta + fKMin;
+			GReal_t	delta_i = X - x_i;
+			GReal_t  kernel = HYDRA_EXTERNAL_NS::thrust::get<1>(this->GetFunctors())(delta_i);
+			result         += HYDRA_EXTERNAL_NS::thrust::get<0>(this->GetFunctors())(x_i)*kernel;
+
+		}
+
+		return result/fNormalization;
+	}
+
+	template<template<typename ...T>class C>
+	__hydra_host__ __hydra_device__
+	inline double operator()(C<T...>)
+	{
+
+		GReal_t result = 0;
+		GReal_t X  = x[ArgIndex];
+
+		for(int i=0 ; i<fN; i++){
+
+			GReal_t	    x_i = i*fDelta + fKMin;
+			GReal_t	delta_i = X - x_i;
+			GReal_t  kernel = HYDRA_EXTERNAL_NS::thrust::get<1>(this->GetFunctors())(delta_i);
+			result         += HYDRA_EXTERNAL_NS::thrust::get<0>(this->GetFunctors())(x_i)*kernel;
+
+		}
+
+		return result/fNormalization;
+	}
+
+
+		__hydra_host__ __hydra_device__
+		inline double operator()(GReal_t x)
+		{
+
+			GReal_t result = 0;
+			GReal_t X  = x[ArgIndex];
+
+			for(int i=0 ; i<fN; i++){
+
+				GReal_t	    x_i = i*fDelta + fKMin;
+				GReal_t	delta_i = X - x_i;
+				GReal_t  kernel = HYDRA_EXTERNAL_NS::thrust::get<1>(this->GetFunctors())(delta_i);
+				result         += HYDRA_EXTERNAL_NS::thrust::get<0>(this->GetFunctors())(x_i)*kernel;
+
+			}
+
+			return result/fNormalization;
+		}
+
+
+
+
+private:
 
      __hydra_host__ __hydra_device__
-	inline double operator()(double x)
+	inline double convolute(double x)  const
 	{
 
 		GReal_t result = 0;
@@ -278,9 +342,6 @@ public:
 
 		return result/fNormalization;
 	}
-
-
-private:
 
 	GReal_t fKMax;
 	GReal_t fKMin;
