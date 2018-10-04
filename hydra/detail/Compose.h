@@ -117,7 +117,7 @@ template < typename T0, typename T1, typename ...Ts,
 typename=typename std::enable_if<T0::is_functor::value &&
 								 T1::is_functor::value &&
 								 detail::all_true<Ts::is_functor::value...>::value >::type >
-__hydra_host__ __hydra_device__
+
 inline Compose<T0,T1,Ts...>
 compose(T0 const& F0, T1 const& F1, Ts const&...Fs){
 
