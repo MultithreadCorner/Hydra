@@ -192,7 +192,7 @@ private:
 
 };
 
-template<typename Functor, typename Kernel,  unsigned int ArgIndex=0>
+template<unsigned int ArgIndex, typename Functor, typename Kernel>
 auto convolute( Functor const& functor, Kernel const& kernel, double kmin, double kmax, size_t nsamples =100 )
 -> Convolution<Functor, Kernel, ArgIndex>
 {
@@ -202,7 +202,7 @@ auto convolute( Functor const& functor, Kernel const& kernel, double kmin, doubl
 }
 
 
-}  // namespace hydra{
+}  // namespace hydra
 
 
 #endif /* CONVOLUTION_H_ */
