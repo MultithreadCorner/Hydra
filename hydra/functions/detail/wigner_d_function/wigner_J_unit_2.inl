@@ -76,7 +76,7 @@ WIGNER_D_FUNCTION(2, -1, 2, unit, 0.5*::sin(theta)*(1.0-::cos(theta)))
 
 
 // J,M,N = {2, 0, -2}
-WIGNER_D_FUNCTION(2, 0, -2, unit, 0.5*math_constants::sqrt3_2**::pow(::sin(theta),2))
+WIGNER_D_FUNCTION(2, 0, -2, unit, 0.5*math_constants::sqrt3_2*::pow(::sin(theta),2))
 
 
 // J,M,N = {2, 0, -1}
@@ -92,7 +92,7 @@ WIGNER_D_FUNCTION(2, 0, 1, unit, math_constants::sqrt3_2*::sin(theta)*::cos(thet
 
 
 // J,M,N = {2, 0, 2}
-WIGNER_D_FUNCTION(2, 0, 2, unit, 0.5*math_constants::sqrt3_2**::pow(::sin(theta),2))
+WIGNER_D_FUNCTION(2, 0, 2, unit, 0.5*math_constants::sqrt3_2*::pow(::sin(theta),2))
 
 
 // J,M,N = {2, 1, -2}
