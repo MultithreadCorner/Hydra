@@ -1,6 +1,6 @@
 /*----------------------------------------------------------------------------
  *
- *   Copyright (C) 2016 - 2018 Antonio Augusto Alves Junior
+ *   Copyright (C) 2016-2017 Antonio Augusto Alves Junior
  *
  *   This file is part of Hydra Data Analysis Framework.
  *
@@ -19,17 +19,16 @@
  *
  *---------------------------------------------------------------------------*/
 
-
 /*
- * Function.h
+ * BaseCompositeFunctor.h
  *
- *  Created on: 05/05/2016
+ *  Created on: 08/09/2018
  *      Author: Antonio Augusto Alves Junior
  */
 
+#ifndef BASECOMPOSITEFUNCTOR_H_
+#define BASECOMPOSITEFUNCTOR_H_
 
-#ifndef FUNCTION_H_
-#define FUNCTION_H_
 
 #include <hydra/detail/Config.h>
 #include <hydra/Types.h>
@@ -38,7 +37,7 @@
 #include <hydra/Parameter.h>
 #include <hydra/detail/utility/Utility_Tuple.h>
 #include <hydra/detail/FunctorTraits.h>
-#include <hydra/detail/Parameters.h>
+#include <hydra/detail/ParametersCompositeFunctor.h>
 //#include <hydra/UserParameters.h>
 
 #include <hydra/detail/external/thrust/iterator/detail/tuple_of_iterator_references.h>
@@ -53,15 +52,9 @@
 namespace hydra
 {
 
-/**
- * @ingroup functor
- * @brief Base class for all functors in hydra.
- * @tparam Functor is "bare" c++ functor implementing the template<typename T> Evaluate(T x) method.
- * @tparam ReturnType type returned by the functor' operator(). Same type returned by the "bare" c++ functor Evaluate() method.
- * @tparam NPARAM number of parameters of the functor.
- */
-template<typename Functor, typename ReturnType, size_t NPARAM>
-class  BaseFunctor : public detail::Parameters<NPARAM>
+
+template<typename Composite,typename ReturnType, typename F1,    typename F2,   typename ...Fs>
+class  BaseCompositeFunctor : public detail::ParametersCompositeFunctor<F1, F2, Fs...>
 {
 
 public:
@@ -74,112 +67,64 @@ public:
 	/**
 	 * Default constructor
 	 */
+	BaseCompositeFunctor()=delete;
+
 	__hydra_host__  __hydra_device__
-	explicit BaseFunctor():
-		detail::Parameters<NPARAM>(),
+	explicit BaseCompositeFunctor(F1 const& f1, F2 const& f2, Fs const& ...fs):
+		detail::ParametersCompositeFunctor<F1, F2, Fs...>(f1, f2, fs...),
 		fCacheIndex(-1),
 		fCached(0),
-		fNorm(1.0),
-		_par(*this)
+		fNorm(1.0)
 	{}
-
-
-    /**
-     * @brief Constructor taking a list of parameters
-     * @param init_parameters std::initializer_list<Parameter> with the parameters of the functor.
-     */
-	BaseFunctor(std::initializer_list<Parameter> init_parameters):
-	detail::Parameters<NPARAM>( init_parameters ),
-	fCacheIndex(-1),
-	fCached(0),
-	fNorm(1.0),
-	_par(*this)
-	{}
-
-	/**
-	 * @brief Constructor taking std::array of parameters
-	 * @param init_parameters std::array<Parameter,NPARAM> with the parameters of the functor.
-	 */
-	BaseFunctor(std::array<Parameter,NPARAM> const& init_parameters):
-		detail::Parameters<NPARAM>( init_parameters ),
-		fCacheIndex(-1),
-		fCached(0),
-		fNorm(1.0),
-		_par(*this)
-		{ }
 
 
 	/**
 	 * @brief Copy constructor
 	 */
 	__hydra_host__ __hydra_device__
-	BaseFunctor(BaseFunctor<Functor,ReturnType, NPARAM> const& other):
-	detail::Parameters<NPARAM>( other),
+	BaseCompositeFunctor(BaseCompositeFunctor<Composite, ReturnType, F1, F2, Fs...> const& other):
+	detail::ParametersCompositeFunctor<F1, F2, Fs...>( other),
 	fCacheIndex( other.GetCacheIndex() ),
 	fCached( other.IsCached() ),
-	fNorm(other.GetNorm()),
-	_par(*this)
-	{ }
+	fNorm(other.GetNorm())
+	{}
 
 	/**
 	 * @brief Assignment operator
 	 */
 	__hydra_host__ __hydra_device__
-	inline BaseFunctor<Functor,ReturnType, NPARAM>&
-	operator=(BaseFunctor<Functor, ReturnType, NPARAM> const & other )
+	inline BaseCompositeFunctor<Composite,ReturnType, F1, F2, Fs...>&
+	operator=(BaseCompositeFunctor<Composite,ReturnType, F1, F2, Fs...> const & other )
 	{
-		if(this != &other)
-		{
-			detail::Parameters<NPARAM>::operator=( other );
-			this->fCacheIndex     = other.GetCacheIndex();
-			this->fCached         = other.IsCached();
-			this->fNorm = other.GetNorm();
+		if(this == &other) return *this;
 
-			_par=*this;
+		detail::ParametersCompositeFunctor<F1, F2, Fs...>::operator=( other );
+		this->fCacheIndex     = other.GetCacheIndex();
+		this->fCached         = other.IsCached();
+		this->fNorm = other.GetNorm();
 
-		}
 		return *this;
 	}
 
 
 	__hydra_host__ __hydra_device__
-	inline Functor& GetFunctor() {return *static_cast<Functor*>(this);}
+	inline int GetCacheIndex() const {
+		return this->fCacheIndex;
+	}
 
 	__hydra_host__ __hydra_device__
-	inline int GetCacheIndex() const { return this->fCacheIndex; }
+	inline void SetCacheIndex(int index) {
+		fCacheIndex = index;
+	}
 
 	__hydra_host__ __hydra_device__
-	inline void SetCacheIndex(int index) {fCacheIndex = index;}
+	inline bool IsCached() const {
+		return this->fCached;
+	}
 
 	__hydra_host__ __hydra_device__
-	inline bool IsCached() const
-	{ return this->fCached;}
-
-	__hydra_host__ __hydra_device__
-	inline void SetCached(bool cached=true)
-	{ fCached = cached; }
-
-
-	/**
-	 * @brief Print registered parameters.
-	 */
-	void PrintRegisteredParameters()
-	{
-
-		HYDRA_CALLER ;
-		HYDRA_MSG <<HYDRA_ENDL;
-		/*
-		HYDRA_MSG << "Registered parameters begin:" << HYDRA_ENDL;
-		for(size_t i=0; i<parameter_count; i++ )
-
-		HYDRA_MSG <<"  >> Parameter " << i <<") "<< fParameters[i] << HYDRA_ENDL;
-		*/
-		this->PrintParameters();
-
-		HYDRA_MSG <<"Normalization " << fNorm << HYDRA_ENDL;
-		HYDRA_MSG <<"Registered parameters end." << HYDRA_ENDL;
-		HYDRA_MSG <<HYDRA_ENDL;
-		return;
+	inline void SetCached(bool cached=true) {
+		fCached = cached;
 	}
 
 
@@ -195,22 +140,22 @@ public:
 
 	template<typename T>
 	__hydra_host__  __hydra_device__
-	inline return_type operator()(unsigned int n, T* x)  const
-	{
-		return static_cast<const Functor*>(this)->Evaluate(n,x);
+	inline return_type operator()(unsigned int n, T* x)  const {
+
+		return static_cast<const Composite*>(this)->Evaluate(n,x);
+
 	}
 
 	template<typename T>
 	__hydra_host__ __hydra_device__
-	inline return_type operator()( T&&  x )  const
-	{
+	inline return_type operator()( T&&  x )  const {
 		return  interface( std::forward<T>(x));
 	}
 
 	template<typename T1, typename T2>
 	__hydra_host__ __hydra_device__
-	inline return_type operator()( T1&& x, T2&& cache)  const
-	{
+	inline return_type operator()( T1&& x, T2&& cache)  const {
+
 		return fCached ? detail::extract<return_type, T2 >(fCacheIndex, std::forward<T2>(cache)):
 						operator()<T1>( std::forward<T1>(x) );
 	}
@@ -235,7 +180,7 @@ private:
 		typename HYDRA_EXTERNAL_NS::thrust::detail::remove_const<typename HYDRA_EXTERNAL_NS::thrust::detail::remove_reference<T>::type >::type _x;
 
 		_x=x;
-		return static_cast<const Functor*>(this)->Evaluate(1, &_x);
+		return static_cast<const Composite*>(this)->Evaluate(1, &_x);
 	}
 
 
@@ -270,7 +215,7 @@ private:
 
 		detail::tupleToArray(x, &Array[0] );
 		//fNArgs=N;
-		return static_cast<const Functor*>(this)->Evaluate(N, &Array[0]);
+		return static_cast<const Composite*>(this)->Evaluate(N, &Array[0]);
 
 
 	}
@@ -292,17 +237,13 @@ private:
 	interface(T&& x)  const
 	{
 		//fNArgs=0;
-		return static_cast<const Functor*>(this)->Evaluate(x);
+		return static_cast<const Composite*>(this)->Evaluate(x);
 	}
 
 
     int fCacheIndex;
 	bool fCached;
     GReal_t fNorm;
-
-protected:
-
-    BaseFunctor<Functor, ReturnType, NPARAM>& _par;
 
 };
 
@@ -311,4 +252,7 @@ protected:
 }//namespace hydra
 
 
-#endif /* FUNCTION_H_ */
+
+
+
+#endif /* BASECOMPOSITEFUNCTOR_H_ */

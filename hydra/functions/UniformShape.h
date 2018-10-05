@@ -1,6 +1,6 @@
 /*----------------------------------------------------------------------------
  *
- *   Copyright (C) 2016 - 2018 Antonio Augusto Alves Junior
+ *   Copyright (C) 2016-2017 Antonio Augusto Alves Junior
  *
  *   This file is part of Hydra Data Analysis Framework.
  *
@@ -19,16 +19,18 @@
  *
  *---------------------------------------------------------------------------*/
 
-
 /*
- * Exponential.h
+ * UniformShape.h
  *
- *  Created on: Dec 11, 2017
+ *  Created on: 15/09/2018
  *      Author: Antonio Augusto Alves Junior
  */
 
-#ifndef EXPONENTIAL_H_
-#define EXPONENTIAL_H_
+#ifndef UNIFORMSHAPE_H_
+#define UNIFORMSHAPE_H_
+
+
+
 
 #include <hydra/detail/Config.h>
 #include <hydra/detail/BackendPolicy.h>
@@ -46,29 +48,39 @@
 #include <utility>
 
 namespace hydra {
-
+/**
+ * \class UniformShape
+ * From: https://en.wikipedia.org/wiki/Uniform_distribution_(continuous)
+ *
+ * In probability theory and statistics, the continuous uniform distribution or rectangular
+ * distribution is a family of symmetric probability distributions such that for each member
+ * of the family, all intervals of the same length on the distribution's support are equally probable.
+ * The support is defined by the two parameters, a and b, which are its minimum and maximum values.
+ * The distribution is often abbreviated U(a,b).
+ *
+ */
 template<unsigned int ArgIndex=0>
-class Exponential:public BaseFunctor<Exponential<ArgIndex>, double, 1>
+class UniformShape:public BaseFunctor<UniformShape<ArgIndex>, double, 2>
 {
-	using BaseFunctor<Exponential<ArgIndex>, double, 1>::_par;
+	using BaseFunctor<UniformShape<ArgIndex>, double, 2>::_par;
 
 public:
 
-	Exponential() = delete;
+	UniformShape() = delete;
 
-	Exponential(Parameter const& tau):
-		BaseFunctor<Exponential<ArgIndex>, double, 1>({tau}) {}
-
-	__hydra_host__ __hydra_device__
-	Exponential(Exponential<ArgIndex> const& other):
-		BaseFunctor<Exponential<ArgIndex>, double, 1>(other) {}
+	UniformShape(Parameter const& A, Parameter const& B ):
+		BaseFunctor<UniformShape<ArgIndex>, double, 2>({A,B}) {}
 
 	__hydra_host__ __hydra_device__
-	inline Exponential<ArgIndex>&
-	operator=( Exponential<ArgIndex> const& other)
+	UniformShape(UniformShape<ArgIndex> const& other):
+		BaseFunctor<UniformShape<ArgIndex>, double, 2>(other) {}
+
+	__hydra_host__ __hydra_device__
+	inline UniformShape<ArgIndex>&
+	operator=( UniformShape<ArgIndex> const& other)
 	{
 		if(this == &other) return *this;
-		BaseFunctor<Exponential<ArgIndex>,double,1>::operator=(other);
+		BaseFunctor<UniformShape<ArgIndex>,double,2>::operator=(other);
 		return *this;
 	}
 
@@ -76,36 +88,46 @@ public:
 	__hydra_host__ __hydra_device__
 	inline double Evaluate(unsigned int, T* x)  const	{
 
-		return  CHECK_VALUE(exp(x[ ArgIndex]*_par[0] ),"par[0]=%f ", _par[0] ) ;
+		return  CHECK_VALUE( uniform(x[ ArgIndex], _par[0], _par[1] ),"par[0]=%f par[1]=%f ", _par[0] , _par[1] ) ;
 	}
 
 	template<typename T>
 	__hydra_host__ __hydra_device__ inline
 	double Evaluate(T x)  const	{
 
-		return CHECK_VALUE(exp(get<ArgIndex>(x)*_par[0] ),"par[0]=%f ", _par[0] );
+		return CHECK_VALUE( uniform(get<ArgIndex>(x), _par[0], _par[1] ),"par[0]=%f par[1]=%f ", _par[0] , _par[1] );
 	}
+private:
 
+	__hydra_host__ __hydra_device__
+	inline double uniform(const double x, const double a, const double b ) const {
+
+		double slope = 1.0/(b-a) ;
+
+		double filter = (x < b)&&(x>=a)? 1.0: 0.0;
+
+		return slope*filter;
+	}
 };
 
 
-class ExponentialAnalyticalIntegral:public Integrator<ExponentialAnalyticalIntegral>
+class UniformShapeAnalyticalIntegral:public Integrator<UniformShapeAnalyticalIntegral>
 {
 
 public:
 
-	ExponentialAnalyticalIntegral(double min, double max):
+	UniformShapeAnalyticalIntegral(double min, double max):
 	fLowerLimit(min),
 	fUpperLimit(max)
 	{}
 
-	inline ExponentialAnalyticalIntegral(ExponentialAnalyticalIntegral const& other):
+	inline UniformShapeAnalyticalIntegral(UniformShapeAnalyticalIntegral const& other):
 	fLowerLimit(other.GetLowerLimit()),
 	fUpperLimit(other.GetUpperLimit())
 	{}
 
-	inline ExponentialAnalyticalIntegral&
-	operator=( ExponentialAnalyticalIntegral const& other)
+	inline UniformShapeAnalyticalIntegral&
+	operator=( UniformShapeAnalyticalIntegral const& other)
 	{
 		if(this == &other) return *this;
 		this->fLowerLimit = other.GetLowerLimit();
@@ -132,12 +154,26 @@ public:
 	template<typename FUNCTOR>
 	inline std::pair<double, double> Integrate(FUNCTOR const& functor) const {
 
-		double tau = functor[0];
-		double r   =  (exp(fUpperLimit*tau) - exp(fLowerLimit*tau))/tau ;
-		return std::make_pair( CHECK_VALUE(r, "par[0]=%f ", tau ) , 0.0);
+		double a = functor[0];
+		double b = functor[1];
+
+		double r  =  (cdf(a, b, fUpperLimit) - cdf(a, b, fLowerLimit)) ;
+		return std::make_pair( CHECK_VALUE(r, "par[0]=%f par[1]=%f ", a, b ) , 0.0);
 	}
 
 private:
+
+	double cdf( const double a, const double b, const double x ) const {
+
+		if(x <= a) return 0.0;
+		else if(x >b ) return 1.0;
+		else if((x > a)&&(x<=b)) {
+
+			return (x-a)/(b-a);
+		}
+
+		return 0.0;
+	}
 
 	double fLowerLimit;
 	double fUpperLimit;
@@ -146,4 +182,5 @@ private:
 
 }  // namespace hydra
 
-#endif /* EXPONENTIAL_H_ */
+
+#endif /* UNIFORMSHAPE_H_ */

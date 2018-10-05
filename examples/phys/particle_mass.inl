@@ -213,7 +213,7 @@ int main(int argv, char** argc)
 
 		auto start_d = std::chrono::high_resolution_clock::now();
 
-		FunctionMinimum minimum_d =  FunctionMinimum(migrad_d(5000, 500));
+		FunctionMinimum minimum_d =  FunctionMinimum(migrad_d(5000, 50));
 
 		auto end_d = std::chrono::high_resolution_clock::now();
 

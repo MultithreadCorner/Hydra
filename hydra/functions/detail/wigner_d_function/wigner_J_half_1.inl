@@ -31,7 +31,7 @@
 #define WIGNER_J_HALF_1_INL_
 
 
-#include<hydra/functions/detail/wigner_d_funcion.h>
+//#include<hydra/functions/detail/wigner_d_funcion.h>
 
 namespace hydra {
 
