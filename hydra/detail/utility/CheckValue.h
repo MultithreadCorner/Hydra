@@ -69,9 +69,9 @@ inline T CheckValue( T&& x, char const* fmt, char const* file, char const* funct
 */
 
 
-	return std::forward<T>(x);//::isnan(std::forward<T>(x))?
-			//	 printf("\n HYDRA WARNING: NAN found on\n FILE:  %s \n FUNCTION: %s \n LINE: %d \n", file, function,line),\
-				// printf(fmt, std::forward<Ts>(par)... ),std::forward<T>(x)/*, kill<T>(std::forward<T>(x))*/ : std::forward<T>(x);
+	return ::isnan(std::forward<T>(x))?
+				 printf("\n HYDRA WARNING: NAN found on\n FILE:  %s \n FUNCTION: %s \n LINE: %d \n", file, function,line),\
+				 printf(fmt, std::forward<Ts>(par)... ),std::forward<T>(x)/*, kill<T>(std::forward<T>(x))*/ : std::forward<T>(x);
 
 //#endif
 }

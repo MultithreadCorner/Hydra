@@ -242,7 +242,7 @@ std::pair<GReal_t, GReal_t> GenzMalikQuadrature<N,hydra::detail::BackendPolicy<B
 	HYDRA_EXTERNAL_NS::thrust::counting_iterator<size_t> last = first + fBoxList.size();
 
 
-	HYDRA_EXTERNAL_NS::thrust::for_each(HYDRA_EXTERNAL_NS::thrust::host,first, last,
+	HYDRA_EXTERNAL_NS::thrust::for_each(,first, last,
 				detail::ProcessGenzMalikBox<N, FUNCTOR,const_rule_iterator, box_iterator>(functor,
 						fGenzMalikRule.GetAbscissas().begin(),fGenzMalikRule.GetAbscissas().end(),
 						fBoxList.begin(), fBoxList.end()));
