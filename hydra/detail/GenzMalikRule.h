@@ -77,7 +77,11 @@ GenzMalikRuleBase<typename std::enable_if< (DIM>1), void >::type >
 public:
 
 	//container for abscissas {x_1, x_2, ... , x_n} weights
-	typedef multiarray<double, DIM+2, system_type > storage_type;
+	typedef multiarray<double, DIM+3, system_type > storage_type;
+	//iterators
+	typedef storage_type::iterator iterator;
+	typedef storage_type::const_iterator const_iterator;
+
 	typedef storage_type::value_type abscissa_type;
 
 	GenzMalikRule():
@@ -203,6 +207,25 @@ public:
 	{
 		fAbscissas = abscissas;
 	}
+
+	inline iterator begin() {
+		return fAbscissas.begin();
+	}
+
+	inline iterator end() {
+		return fAbscissas.end();
+	}
+
+
+	inline const_iterator begin() const {
+		return fAbscissas.begin();
+	}
+
+	inline const_iterator end()  const {
+		return fAbscissas.end();
+	}
+
+
 
 	inline GReal_t GetLambda2() const
 	{
@@ -341,6 +364,7 @@ private:
 		abscissa_type x{};
 		HYDRA_EXTERNAL_NS::thrust::get<0>(x)= fRule5Weight1;
 		HYDRA_EXTERNAL_NS::thrust::get<1>(x)= fRule7Weight1;
+		HYDRA_EXTERNAL_NS::thrust::get<2>(x)= 6.0;
 
 		fAbscissas.push_back(x);
 	}
@@ -356,7 +380,7 @@ private:
 		do {
 
 			auto x = HYDRA_EXTERNAL_NS::thrust::tuple_cat(
-					HYDRA_EXTERNAL_NS::thrust::make_tuple(fRule5Weight2, fRule7Weight2),
+					HYDRA_EXTERNAL_NS::thrust::make_tuple(fRule5Weight2, fRule7Weight2,-4.0),
 					hydra::detail::arrayToTuple(x_temp));
 
 			fAbscissas.push_back(x);
@@ -370,7 +394,7 @@ private:
 		do {
 
 			auto x = HYDRA_EXTERNAL_NS::thrust::tuple_cat(
-					HYDRA_EXTERNAL_NS::thrust::make_tuple(fRule5Weight2, fRule7Weight2),
+					HYDRA_EXTERNAL_NS::thrust::make_tuple(fRule5Weight2, fRule7Weight2, -4.0),
 					hydra::detail::arrayToTuple(x_temp));
 
 			fAbscissas.push_back(x);
@@ -390,7 +414,7 @@ private:
 		do {
 
 			auto x = HYDRA_EXTERNAL_NS::thrust::tuple_cat(
-					HYDRA_EXTERNAL_NS::thrust::make_tuple(fRule5Weight3,fRule7Weight3),
+					HYDRA_EXTERNAL_NS::thrust::make_tuple(fRule5Weight3,fRule7Weight3, 1.0),
 					hydra::detail::arrayToTuple(x_temp));
 
 			fAbscissas.push_back(x);
@@ -404,7 +428,7 @@ private:
 		do {
 
 			auto x = HYDRA_EXTERNAL_NS::thrust::tuple_cat(
-					HYDRA_EXTERNAL_NS::thrust::make_tuple(fRule5Weight3,fRule7Weight3),
+					HYDRA_EXTERNAL_NS::thrust::make_tuple(fRule5Weight3,fRule7Weight3, 1.0),
 					hydra::detail::arrayToTuple(x_temp));
 
 			fAbscissas.push_back(x);
@@ -425,7 +449,7 @@ private:
 		do {
 
 			auto x = HYDRA_EXTERNAL_NS::thrust::tuple_cat(
-					HYDRA_EXTERNAL_NS::thrust::make_tuple(fRule5Weight4,fRule7Weight4),
+					HYDRA_EXTERNAL_NS::thrust::make_tuple(fRule5Weight4,fRule7Weight4, 0.0),
 					hydra::detail::arrayToTuple(x_temp));
 
 			fAbscissas.push_back(x);
@@ -440,7 +464,7 @@ private:
 		do {
 
 			auto x = HYDRA_EXTERNAL_NS::thrust::tuple_cat(
-					HYDRA_EXTERNAL_NS::thrust::make_tuple(fRule5Weight3,fRule7Weight3),
+					HYDRA_EXTERNAL_NS::thrust::make_tuple(fRule5Weight3,fRule7Weight3, 0.0),
 					hydra::detail::arrayToTuple(x_temp));
 
 			fAbscissas.push_back(x);
@@ -455,7 +479,7 @@ private:
 		do {
 
 			auto x = HYDRA_EXTERNAL_NS::thrust::tuple_cat(
-					HYDRA_EXTERNAL_NS::thrust::make_tuple(fRule5Weight3,fRule7Weight3),
+					HYDRA_EXTERNAL_NS::thrust::make_tuple(fRule5Weight3,fRule7Weight3, 0.0),
 					hydra::detail::arrayToTuple(x_temp));
 
 			fAbscissas.push_back(x);
@@ -479,7 +503,7 @@ private:
 			do {
 
 				auto x = HYDRA_EXTERNAL_NS::thrust::tuple_cat(
-						HYDRA_EXTERNAL_NS::thrust::make_tuple(fRule5Weight3,fRule7Weight3),
+						HYDRA_EXTERNAL_NS::thrust::make_tuple(fRule5Weight3,fRule7Weight3, 0.0),
 						hydra::detail::arrayToTuple(x_temp));
 
 				fAbscissas.push_back(x);
