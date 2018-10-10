@@ -64,10 +64,11 @@ template<  size_t N, hydra::detail::Backend  BACKEND>
 class  GenzMalikQuadrature<N, hydra::detail::BackendPolicy<BACKEND> >:
 public Integrator<typename std::enable_if< (N>1),GenzMalikQuadrature<N, hydra::detail::BackendPolicy<BACKEND>>>::type  >
 {
+	typedef  hydra::detail::BackendPolicy<BACKEND> system_type;
 
-	typedef std::vector<detail::GenzMalikBox<N>> box_list_type;
-	typedef typename box_list_type::iterator box_iterator;
-	typedef typename box_list_type::const_iterator const_box_iterator;
+	typedef system_type::template container<detail::GenzMalikBox<N>> box_list_type;
+	typedef typename box_list_type::iterator             boxes_iterator;
+	typedef typename box_list_type::const_iterator const_boxes_iterator;
 
 
 	typedef typename GenzMalikRule<N, hydra::detail::BackendPolicy<BACKEND>>::abscissa_iterator rule_iterator;

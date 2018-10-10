@@ -238,14 +238,11 @@ template<typename FUNCTOR>
 std::pair<GReal_t, GReal_t> GenzMalikQuadrature<N,hydra::detail::BackendPolicy<BACKEND>>::Integrate(FUNCTOR const& functor)
 {
 
-	HYDRA_EXTERNAL_NS::thrust::counting_iterator<size_t> first(0);
-	HYDRA_EXTERNAL_NS::thrust::counting_iterator<size_t> last = first + fBoxList.size();
 
+	detail::ProcessGenzMalikBox<N, FUNCTOR, rule_iterator,
+	   hydra::detail::BackendPolicy<BACKEND> > process_box(functor, fGenzMalikRule.begin(), fGenzMalikRule.end() ) ;
 
-	HYDRA_EXTERNAL_NS::thrust::for_each(,first, last,
-				detail::ProcessGenzMalikBox<N, FUNCTOR,const_rule_iterator, box_iterator>(functor,
-						fGenzMalikRule.GetAbscissas().begin(),fGenzMalikRule.GetAbscissas().end(),
-						fBoxList.begin(), fBoxList.end()));
+	HYDRA_EXTERNAL_NS::thrust::for_each(fBoxList.begin() , fBoxList.end(), process_box);
 
 
 	GReal_t integral=0;

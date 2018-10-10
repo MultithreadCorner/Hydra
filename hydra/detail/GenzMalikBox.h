@@ -54,7 +54,7 @@ struct GenzMalikBox
 
 	GenzMalikBox()=delete;
 
-
+	__hydra_host__ __hydra_device__
 	GenzMalikBox(GReal_t (&LowerLimit)[N], GReal_t (&UpperLimit)[N]):
 		fRule7(0),
 		fRule5(0),

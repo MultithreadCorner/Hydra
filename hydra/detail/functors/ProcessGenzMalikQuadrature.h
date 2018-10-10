@@ -57,7 +57,7 @@ namespace hydra {
 namespace detail {
 
 
-template<  size_t N, typename FUNCTOR, typename RuleIterator>
+template<  size_t N, typename FUNCTOR>
 struct ProcessGenzMalikUnaryCall
 {
 
@@ -67,11 +67,10 @@ struct ProcessGenzMalikUnaryCall
 
 	ProcessGenzMalikUnaryCall()=delete;
 
-	ProcessGenzMalikUnaryCall(GReal_t * __restrict__ lowerLimit, GReal_t * __restrict__ upperLimit, FUNCTOR const& functor):
-			fFunctor(functor)
+	ProcessGenzMalikUnaryCall(GReal_t * __restrict__ lowerLimit,
+			GReal_t * __restrict__ upperLimit, FUNCTOR const& functor):
+			fFunctor(functor){
 
-	{
-//#pragma unroll N
 		for(size_t i=0; i<N; i++)
 		{
 			fA[i] = (upperLimit[i] - lowerLimit[i])/2.0;
@@ -81,10 +80,9 @@ struct ProcessGenzMalikUnaryCall
 	}
 
 	__hydra_host__ __hydra_device__
-	ProcessGenzMalikUnaryCall(ProcessGenzMalikUnaryCall< N, FUNCTOR, RuleIterator> const& other ):
+	ProcessGenzMalikUnaryCall(ProcessGenzMalikUnaryCall< N, FUNCTOR> const& other ):
 	fFunctor(other.GetFunctor())
 	{
-//#pragma unroll N
 		for(size_t i=0; i<N; i++)
 		{
 			this->fA[i]=other.fA[i];
@@ -93,13 +91,13 @@ struct ProcessGenzMalikUnaryCall
 	}
 
 	__hydra_host__ __hydra_device__
-	ProcessGenzMalikUnaryCall< N, FUNCTOR, RuleIterator>&
-	operator=(ProcessGenzMalikUnaryCall< N, FUNCTOR, RuleIterator> const& other )
+	ProcessGenzMalikUnaryCall< N, FUNCTOR>&
+	operator=(ProcessGenzMalikUnaryCall< N, FUNCTOR> const& other )
 	{
 		if( this== &other) return *this;
 
 		fFunctor=other.GetFunctor();
-//#pragma unroll N
+
 		for(size_t i=0; i<N; i++)
 		{
 			this->fA[i]=other.fA[i];
@@ -150,13 +148,13 @@ struct ProcessGenzMalikUnaryCall
 
 	template<size_t I>
 	typename std::enable_if< (I==N), void  >::type
-	__hydra_host__ __hydra_device__ inline
-	get_transformed_abscissa( rule_abscissa_t const& , abscissa_t& ){}
+	__hydra_host__ __hydra_device__
+	inline get_transformed_abscissa( rule_abscissa_t const& , abscissa_t& ){}
 
 	template<size_t I=0>
 	typename std::enable_if< (I<N), void  >::type
-	__hydra_host__ __hydra_device__ inline
-	get_transformed_abscissa( rule_abscissa_t const& original_abscissa,
+	__hydra_host__ __hydra_device__
+	inline get_transformed_abscissa( rule_abscissa_t const& original_abscissa,
 			abscissa_t& transformed_abscissa  )
 	{
 
@@ -170,7 +168,7 @@ struct ProcessGenzMalikUnaryCall
 	GBool_t set_four_difference_central(GReal_t value,  GReal_t * const __restrict__ fdarray)
 	{
 
-//#pragma unroll N
+
 		for(size_t i=0; i<N; i++)
 			fdarray[i]=value;
 return 1;
@@ -180,7 +178,6 @@ return 1;
 	GBool_t set_four_difference_unilateral(GChar_t index, GReal_t value, GReal_t* const __restrict__  fdarray)
 	{
 
-//#pragma unroll N
 		for(size_t i=0; i<N; i++)
 		fdarray[i]= ((size_t)index==i)?value:0.0;
 
@@ -191,7 +188,6 @@ return 1;
 	GBool_t set_four_difference_multilateral( GReal_t * const __restrict__ fdarray)
 		{
 
-//#pragma unroll N
 			for(size_t i=0; i<N; i++)
 			fdarray[i]= 0.0;
 			return 1;
@@ -228,19 +224,19 @@ struct ProcessGenzMalikBinaryCall:
 };
 
 
+template<  size_t N, typename FUNCTOR, typename  BACKEND>
+struct ProcessGenzMalikBox;
 
-
-template <size_t N, typename FUNCTOR, typename RuleIterator, typename BoxIterator>
-struct ProcessGenzMalikBox
+template <size_t N, typename FUNCTOR, typename RuleIterator , hydra::detail::Backend  BACKEND>
+struct ProcessGenzMalikBox<N, FUNCTOR,hydra::detail::BackendPolicy<BACKEND> >
 {
 
-	ProcessGenzMalikBox(){};
+	typedef hydra::detail::BackendPolicy<BACKEND> system_type;
 
-	ProcessGenzMalikBox(FUNCTOR const& functor,
-				RuleIterator begin, RuleIterator end, BoxIterator box_begin, BoxIterator box_end):
+	ProcessGenzMalikBox()=delete;
+
+	ProcessGenzMalikBox(FUNCTOR const& functor, RuleIterator begin, RuleIterator end):
 			fFunctor(functor),
-			fBoxBegin(box_begin),
-			fBoxEnd(box_end),
 			fRuleBegin(begin),
 			fRuleEnd(end)
 		{}
@@ -248,8 +244,6 @@ struct ProcessGenzMalikBox
 	__hydra_host__ __hydra_device__
 	ProcessGenzMalikBox(ProcessGenzMalikBox< N, FUNCTOR, RuleIterator,BoxIterator > const& other ):
 	fFunctor(other.fFunctor),
-	fBoxBegin(other.fBoxBegin),
-	fBoxEnd(other.fBoxEnd),
 	fRuleBegin(other.fRuleBegin),
 	fRuleEnd(other.fRuleEnd)
 	{}
@@ -261,27 +255,21 @@ struct ProcessGenzMalikBox
 		if( this== &other) return *this;
 
 		fFunctor=other.fFunctor;
-		fBoxBegin=other.fBoxBegin;
-		fBoxEnd=other.fBoxEnd;
-		fRuleBegin=other.fRuleBegin;
+	    fRuleBegin=other.fRuleBegin;
 		fRuleEnd=other.fRuleEnd;
 
 		return *this;
 	}
 
-	__hydra_host__
-	inline void operator()(size_t index)
+	__hydra_host__ __hydra_device__
+	inline void operator()(GenzMalikBox<N>& hyperbox)
 	{
 		typedef typename hydra::detail::tuple_type<N+2, GReal_t>::type tuple_t;
-		/*
-		typedef hydra::mc_device_vector<tuple_t > device_super_t;
-		typedef hydra::mc_host_vector<tuple_t > host_super_t;
-		typedef multivector<device_super_t> device_rvector_t;
-		typedef multivector<host_super_t> host_rvector_t;
-*/
+		using HYDRA_EXTERNAL_NS::thrust::transform_reduce;
+
 		auto box_result =
-				HYDRA_EXTERNAL_NS::thrust::transform_reduce( fRuleBegin, fRuleEnd,
-				ProcessGenzMalikUnaryCall<N, FUNCTOR, RuleIterator>(fBoxBegin[index].GetLowerLimit(), fBoxBegin[index].GetUpperLimit(), fFunctor),
+				transform_reduce(system_type, fRuleBegin, fRuleEnd,
+				ProcessGenzMalikUnaryCall<N, FUNCTOR>(hyperbox.GetLowerLimit(), hyperbox.GetUpperLimit(), fFunctor),
 				tuple_t() ,
 				ProcessGenzMalikBinaryCall<N>());
 
@@ -290,8 +278,6 @@ struct ProcessGenzMalikBox
 	}
 
 	FUNCTOR fFunctor;
-	BoxIterator  fBoxBegin;
-	BoxIterator  fBoxEnd;
 	RuleIterator fRuleBegin;
 	RuleIterator fRuleEnd;
 
