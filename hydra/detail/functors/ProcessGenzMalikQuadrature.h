@@ -147,23 +147,47 @@ struct ProcessGenzMalikUnaryCall
 	}
 
 
-	template<size_t I>
-	typename std::enable_if< (I==N), void  >::type
+	template<typename Abscissa, typename TransAbscissa , size_t I>
 	__hydra_host__ __hydra_device__
-	inline get_transformed_abscissa( rule_abscissa_t const& , abscissa_t& ){}
+	inline typename std::enable_if< (I==N), void  >::type
+	get_transformed_abscissa( Abscissa const& ,  TransAbscissa& ){}
 
-	template<size_t I=0>
-	typename std::enable_if< (I<N), void  >::type
+	template<typename Abscissa, typename TransAbscissa , size_t I=0>
 	__hydra_host__ __hydra_device__
-	inline get_transformed_abscissa( rule_abscissa_t const& original_abscissa,
-			abscissa_t& transformed_abscissa  )
+	inline typename std::enable_if< (I<N), void  >::type
+	get_transformed_abscissa(  Abscissa const& abscissa, TransAbscissa& transformed_abscissa  )
 	{
 
 		HYDRA_EXTERNAL_NS::thrust::get<I>(transformed_abscissa)  =
-				fA[I]*HYDRA_EXTERNAL_NS::thrust::get<2>(original_abscissa )*HYDRA_EXTERNAL_NS::thrust::get<I+5>(original_abscissa )+ fB[I];
+				fA[I]*HYDRA_EXTERNAL_NS::thrust::get<2>( abscissa )*HYDRA_EXTERNAL_NS::thrust::get<I+5>( abscissa )+ fB[I];
 
 		get_transformed_abscissa<I+1>(original_abscissa, transformed_abscissa );
 	}
+
+
+	template<typename T, size_t N, size_t I>
+	typename std::enable_if< (I==N),void >::type
+	get_dim_helper( std::array<T,N> const&, int& ){ }
+
+	template<typename T, size_t N, size_t I=0>
+	typename std::enable_if< (I<N),void >::type
+	get_dim_helper( std::array<T,N> const& Array, int& result ){
+
+	 result += Array[I] ? I : 0;
+	 get_dim_helper<T,N,I+1>( Array, result );
+
+	}
+
+	template<typename T, size_t N, size_t I=0>
+	int get_dim( std::array<T,N> const& Array){
+
+	 int result = 0;
+	 get_dim_helper( Array, result );
+
+	 return result<N?result:-1;
+
+	}
+
 
 	__hydra_host__ __hydra_device__ inline
 	GBool_t set_four_difference_central(GReal_t value,  GReal_t * const __restrict__ fdarray)
