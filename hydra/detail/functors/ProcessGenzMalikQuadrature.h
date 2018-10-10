@@ -61,20 +61,19 @@ template<  size_t N, typename FUNCTOR>
 struct ProcessGenzMalikUnaryCall
 {
 
-	typedef typename RuleIterator::value_type rule_abscissa_t;
-	typedef typename hydra::detail::tuple_type<N,GReal_t >::type abscissa_t;
-	typedef typename hydra::detail::tuple_type<N+2, GReal_t>::type data_type;
+	typedef typename hydra::detail::tuple_type<N,GReal_t >::type   abscissa_type;
+	typedef typename hydra::detail::tuple_type<N+2, GReal_t>::type result_type;
 
 	ProcessGenzMalikUnaryCall()=delete;
 
-	ProcessGenzMalikUnaryCall(GReal_t * __restrict__ lowerLimit,
-			GReal_t * __restrict__ upperLimit, FUNCTOR const& functor):
-			fFunctor(functor){
+	ProcessGenzMalikUnaryCall(const double (&lowerLimit)[N], const double (&upperLimit)[N],
+			FUNCTOR const& functor):
+				fFunctor(functor){
 
 		for(size_t i=0; i<N; i++)
 		{
 			fA[i] = (upperLimit[i] - lowerLimit[i])/2.0;
-		    fB[i] = (upperLimit[i] + lowerLimit[i])/2.0;
+			fB[i] = (upperLimit[i] + lowerLimit[i])/2.0;
 
 		}
 	}
@@ -112,7 +111,9 @@ struct ProcessGenzMalikUnaryCall
 	inline data_type operator()(T&& rule_abscissa)
 	{
 
-		GChar_t index       = HYDRA_EXTERNAL_NS::thrust::get<4>(rule_abscissa);
+        auto rule5_weight            = HYDRA_EXTERNAL_NS::thrust::get<0>(rule_abscissa);
+        auto rule7_weight            = HYDRA_EXTERNAL_NS::thrust::get<1>(rule_abscissa);
+		auto four_difference_weight  = HYDRA_EXTERNAL_NS::thrust::get<2>(rule_abscissa);
 
 		abscissa_t args;
 		get_transformed_abscissa( rule_abscissa, args  );
@@ -135,13 +136,13 @@ struct ProcessGenzMalikUnaryCall
 	}
 
 
-	__hydra_host__ __hydra_device__ inline
-	FUNCTOR GetFunctor() const {
+	__hydra_host__ __hydra_device__
+	inline FUNCTOR GetFunctor() const {
 		return fFunctor;
 	}
 
-	__hydra_host__ __hydra_device__ inline
-	void SetFunctor(FUNCTOR functor) {
+	__hydra_host__ __hydra_device__
+	inline void SetFunctor(FUNCTOR functor) {
 		fFunctor = functor;
 	}
 
