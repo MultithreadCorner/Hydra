@@ -61,8 +61,8 @@ template<  size_t N, typename FUNCTOR>
 struct ProcessGenzMalikUnaryCall
 {
 
-	typedef typename hydra::detail::tuple_type<N,GReal_t >::type   abscissa_type;
-	typedef typename hydra::detail::tuple_type<N+2, GReal_t>::type result_type;
+	typedef typename hydra::detail::tuple_type<N  ,double>::type abscissa_type;
+	typedef typename hydra::detail::tuple_type<N+2,double>::type result_type;
 
 	ProcessGenzMalikUnaryCall()=delete;
 
@@ -108,29 +108,25 @@ struct ProcessGenzMalikUnaryCall
 
 	template<typename T>
 	__hydra_host__ __hydra_device__
-	inline data_type operator()(T&& rule_abscissa)
+	inline result_type operator()(T&& rule_abscissa)
 	{
 
         auto rule5_weight            = HYDRA_EXTERNAL_NS::thrust::get<0>(rule_abscissa);
         auto rule7_weight            = HYDRA_EXTERNAL_NS::thrust::get<1>(rule_abscissa);
 		auto four_difference_weight  = HYDRA_EXTERNAL_NS::thrust::get<2>(rule_abscissa);
 
-		abscissa_t args;
+		abscissa_type args{};
 		get_transformed_abscissa( rule_abscissa, args  );
 
+		int four_diff_index = get_dim(args);
 
-		GReal_t _temp[N+2]{0};
-		GReal_t fval  = fFunctor(args);
+		double _temp[N+2]{0};
+		double fval  = fFunctor(args);
+
 		_temp[0]      = fval*HYDRA_EXTERNAL_NS::thrust::get<1>(rule_abscissa);//w7;
 		_temp[1]      = fval*HYDRA_EXTERNAL_NS::thrust::get<0>(rule_abscissa);//w5;
+		_temp[four_diff_index]  = fval*HYDRA_EXTERNAL_NS::thrust::get<3>(rule_abscissa);//w_four_diff;
 
-		GReal_t fourdiff      = fval*HYDRA_EXTERNAL_NS::thrust::get<3>(rule_abscissa);//w_four_diff;
-
-		((size_t)index==N) ? set_four_difference_central(fourdiff,  &_temp[2] ):0;
-		(index>=0)&((size_t)index<N) ? set_four_difference_unilateral(index,fourdiff,  &_temp[2] ):0;
-		(index<0) ? set_four_difference_multilateral( &_temp[2]):0;
-
-       // hydra::detail::arrayToTuple<GReal_t, N+2>(&_temp[0]);
 
 		return hydra::detail::arrayToTuple<GReal_t, N+2>(&_temp[0]);;
 	}
@@ -149,43 +145,42 @@ struct ProcessGenzMalikUnaryCall
 
 	template<typename Abscissa, typename TransAbscissa , size_t I>
 	__hydra_host__ __hydra_device__
-	inline typename std::enable_if< (I==N), void  >::type
+	inline typename std::enable_if< (I== HYDRA_EXTERNAL_NS::thrust::tuple_size<TransAbscissa>::value), void  >::type
 	get_transformed_abscissa( Abscissa const& ,  TransAbscissa& ){}
 
 	template<typename Abscissa, typename TransAbscissa , size_t I=0>
 	__hydra_host__ __hydra_device__
-	inline typename std::enable_if< (I<N), void  >::type
+	inline typename std::enable_if< (I < HYDRA_EXTERNAL_NS::thrust::tuple_size<TransAbscissa>::value), void  >::type
 	get_transformed_abscissa(  Abscissa const& abscissa, TransAbscissa& transformed_abscissa  )
 	{
 
 		HYDRA_EXTERNAL_NS::thrust::get<I>(transformed_abscissa)  =
-				fA[I]*HYDRA_EXTERNAL_NS::thrust::get<2>( abscissa )*HYDRA_EXTERNAL_NS::thrust::get<I+5>( abscissa )+ fB[I];
+				fA[I]*HYDRA_EXTERNAL_NS::thrust::get<2>( abscissa )*HYDRA_EXTERNAL_NS::thrust::get<I+3>( abscissa )+ fB[I];
 
-		get_transformed_abscissa<I+1>(original_abscissa, transformed_abscissa );
+		get_transformed_abscissa<Abscissa,TransAbscissa,I+1>(original_abscissa, transformed_abscissa );
 	}
 
 
-	template<typename T, size_t N, size_t I>
-	typename std::enable_if< (I==N),void >::type
-	get_dim_helper( std::array<T,N> const&, int& ){ }
+	template<typename T, int I>
+	typename std::enable_if< (I==HYDRA_EXTERNAL_NS::thrust::tuple_size<T>::value),void >::type
+	get_dim_helper( T const&, int& ){ }
 
-	template<typename T, size_t N, size_t I=0>
-	typename std::enable_if< (I<N),void >::type
-	get_dim_helper( std::array<T,N> const& Array, int& result ){
+	template<typename T, int I=0>
+	typename std::enable_if< (I< HYDRA_EXTERNAL_NS::thrust::tuple_size<T>::value),void >::type
+	get_dim_helper( T const& X, int& result ){
 
-	 result += Array[I] ? I : 0;
-	 get_dim_helper<T,N,I+1>( Array, result );
+		result += HYDRA_EXTERNAL_NS::thrust::get<I>(X) ? I : 0;
+		get_dim_helper<T, I+1>(X, result );
 
 	}
 
-	template<typename T, size_t N, size_t I=0>
-	int get_dim( std::array<T,N> const& Array){
+	template<typename T,  size_t I=0>
+	int get_dim( T const& X){
 
-	 int result = 0;
-	 get_dim_helper( Array, result );
+		int result = 0;
+		get_dim_helper(X , result );
 
-	 return result<N?result:-1;
-
+		return result< HYDRA_EXTERNAL_NS::thrust::tuple_size<T>::value ? result : -1;
 	}
 
 
