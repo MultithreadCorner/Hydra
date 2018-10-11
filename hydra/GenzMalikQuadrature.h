@@ -37,7 +37,7 @@
 #include <hydra/detail/Config.h>
 #include <hydra/detail/BackendPolicy.h>
 #include <hydra/Types.h>
-#include <hydra/GenzMalikRule.h>
+#include <hydra/detail/GenzMalikRule.h>
 #include <hydra/detail/GenzMalikBox.h>
 #include <hydra/multivector.h>
 #include <hydra/detail/Integrator.h>
@@ -66,13 +66,13 @@ public Integrator<typename std::enable_if< (N>1),GenzMalikQuadrature<N, hydra::d
 {
 	typedef  hydra::detail::BackendPolicy<BACKEND> system_type;
 
-	typedef system_type::template container<detail::GenzMalikBox<N>> box_list_type;
+	typedef typename system_type::template container<detail::GenzMalikBox<N>> box_list_type;
 	typedef typename box_list_type::iterator             boxes_iterator;
 	typedef typename box_list_type::const_iterator const_boxes_iterator;
 
 
-	typedef typename GenzMalikRule<N, hydra::detail::BackendPolicy<BACKEND>>::abscissa_iterator rule_iterator;
-	typedef typename GenzMalikRule<N, hydra::detail::BackendPolicy<BACKEND>>::const_abscissa_iterator const_rule_iterator;
+	typedef typename GenzMalikRule<N, hydra::detail::BackendPolicy<BACKEND>>::iterator rule_iterator;
+	typedef typename GenzMalikRule<N, hydra::detail::BackendPolicy<BACKEND>>::const_iterator const_rule_iterator;
 
 public:
 

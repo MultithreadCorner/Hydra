@@ -38,7 +38,7 @@
 #include <hydra/detail/Print.h>
 #include <hydra/detail/utility/Utility_Tuple.h>
 #include <hydra/detail/utility/Generic.h>
-#include <hydra/multivector.h>
+#include <hydra/multiarray.h>
 //thrust
 #include <hydra/detail/external/thrust/tuple.h>
 #include <hydra/detail/external/thrust/detail/type_traits.h>
@@ -79,10 +79,10 @@ public:
 	//container for abscissas {x_1, x_2, ... , x_n} weights
 	typedef multiarray<double, DIM+3, system_type > storage_type;
 	//iterators
-	typedef storage_type::iterator iterator;
-	typedef storage_type::const_iterator const_iterator;
+	typedef typename storage_type::iterator iterator;
+	typedef typename storage_type::const_iterator const_iterator;
 
-	typedef storage_type::value_type abscissa_type;
+	typedef typename storage_type::value_type abscissa_type;
 
 	GenzMalikRule():
 		fLambda2( sqrt(9.0/70.0) ),
@@ -198,12 +198,12 @@ public:
 		HYDRA_MSG << "Genz-Malik Rule end."              << HYDRA_ENDL;
 	}
 
-	inline const vector_abscissa_t& GetAbscissas() const
+	inline const storage_type& GetAbscissas() const
 	{
 		return fAbscissas;
 	}
 
-	inline void SetAbscissas(const vector_abscissa_t& abscissas)
+	inline void SetAbscissas(const storage_type& abscissas)
 	{
 		fAbscissas = abscissas;
 	}
@@ -371,11 +371,11 @@ private:
 
 	inline void AddW2(){
 
-		std::array<double, N> x_temp{};
+		std::array<double, DIM> x_temp{};
 
 		//adding permutations of {lambda_2, 0, 0,...,0}
 		for(auto x:x_temp ) x=0;
-		x_temp[N-1] = fLambda2;
+		x_temp[DIM-1] = fLambda2;
 
 		do {
 
@@ -405,11 +405,11 @@ private:
 
 	inline void AddW3(){
 
-		std::array<double, N> x_temp{};
+		std::array<double, DIM> x_temp{};
 
 		//adding permutations of {lambda_3, 0, 0,...,0}
 		for(auto x:x_temp ) x=0;
-		x_temp[N-1] = fLambda3;
+		x_temp[DIM-1] = fLambda3;
 
 		do {
 
@@ -439,12 +439,12 @@ private:
 
 	inline void AddW4(){
 
-		std::array<double, N> x_temp{};
+		std::array<double, DIM> x_temp{};
 
 		//adding permutations of {lambda_4, lambda_4, 0, 0,...,0}
 		for(auto x:x_temp ) x=0;
-		x_temp[N-1] = fLambda4;
-		x_temp[N-2] = fLambda4;
+		x_temp[DIM-1] = fLambda4;
+		x_temp[DIM-2] = fLambda4;
 
 		do {
 
@@ -459,7 +459,7 @@ private:
 		//adding permutations of {lambda_4,-lambda_4, 0, 0,...,0}
 		for(auto x:x_temp ) x=0;
 		x_temp[0] = -fLambda4;
-		x_temp[N-1] =  fLambda4;
+		x_temp[DIM-1] =  fLambda4;
 
 		do {
 
@@ -491,13 +491,13 @@ private:
 	inline void AddW5(){
 
 		//adding permutations of {lambda_5,lambda_5,...,lambda_5}
-		std::array<double, N> x_temp{};
+		std::array<double, DIM> x_temp{};
 
-		for(size_t i=0;i<N+1;i++){
+		for(size_t i=0;i<DIM+1;i++){
 
-			for(size_t j=0;j<N;j++){
+			for(size_t j=0;j<DIM;j++){
 
-				x[j]= j<i ? -fLambda5: fLambda5;
+				x_temp[j]= j<i ? -fLambda5: fLambda5;
 			}
 
 			do {

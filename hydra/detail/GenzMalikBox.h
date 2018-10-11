@@ -48,9 +48,12 @@ namespace hydra {
 namespace detail {
 
 template<size_t N>
-struct GenzMalikBox
+class GenzMalikBox
 {
-	typedef typename hydra::detail::tuple_type<N+2, GReal_t>::type data_type;
+
+	typedef typename hydra::detail::tuple_type<N+2,double>::type result_type;
+
+public:
 
 	GenzMalikBox()=delete;
 
@@ -63,8 +66,8 @@ struct GenzMalikBox
 		fErrorSq(0)
 	{
 		fVolume =1.0;
-		for(size_t i=0; i<N; i++)
-		{
+		for(size_t i=0; i<N; i++) {
+
 			fFourDifference[i]=0;
 			fUpperLimit[i]=UpperLimit[i];
 			fLowerLimit[i]=LowerLimit[i];
@@ -134,7 +137,7 @@ struct GenzMalikBox
 	}
 
 	__hydra_host__ __hydra_device__
-	GenzMalikBox<N>& operator=(data_type & other)
+	GenzMalikBox<N>& operator=(result_type const& other)
 	{
 
 		GReal_t _temp[N+2];
@@ -148,7 +151,7 @@ struct GenzMalikBox
 				this->fFourDifference[i]=_temp[i+2];
 			}
 
-			GReal_t factor = this->fVolume/hydra::detail::power<2, N>::value;
+			GReal_t factor = this->fVolume/::pow(2.0, N);
 
 			this->fIntegral = factor*this->fRule7;
 			this->fError    = factor*std::abs(this->fRule7-this->fRule5);
@@ -178,9 +181,15 @@ struct GenzMalikBox
 
 	}
 
+
 	__hydra_host__ __hydra_device__
 	GReal_t GetFourDifference(size_t i) const {
 		return fFourDifference[i];
+	}
+
+	__hydra_host__ __hydra_device__
+	GReal_t SetFourDifference(size_t i, double value) const {
+		return fFourDifference[i]=value;
 	}
 
 	__hydra_host__ __hydra_device__
@@ -232,9 +241,6 @@ struct GenzMalikBox
 	GReal_t* GetUpperLimit()  {
 		return fUpperLimit;
 	}
-
-
-
 
 	__hydra_host__ __hydra_device__
 	GReal_t GetError() const {

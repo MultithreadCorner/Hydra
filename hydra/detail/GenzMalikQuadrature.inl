@@ -239,8 +239,7 @@ std::pair<GReal_t, GReal_t> GenzMalikQuadrature<N,hydra::detail::BackendPolicy<B
 {
 
 
-	detail::ProcessGenzMalikBox<N, FUNCTOR, rule_iterator,
-	   hydra::detail::BackendPolicy<BACKEND> > process_box(functor, fGenzMalikRule.begin(), fGenzMalikRule.end() ) ;
+	detail::ProcessGenzMalikBox<N, FUNCTOR, rule_iterator> process_box(functor, fGenzMalikRule.begin(), fGenzMalikRule.end() ) ;
 
 	HYDRA_EXTERNAL_NS::thrust::for_each(fBoxList.begin() , fBoxList.end(), process_box);
 
@@ -249,7 +248,7 @@ std::pair<GReal_t, GReal_t> GenzMalikQuadrature<N,hydra::detail::BackendPolicy<B
 
 	GReal_t    error=0;
 
-		for(auto box:fBoxList)
+		for(detail::GenzMalikBox<N> box:fBoxList)
 		{
 			integral+= box.GetIntegral();
 			error   +=  box.GetErrorSq();
