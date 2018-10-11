@@ -162,7 +162,7 @@ template< typename Functor, typename Integrator,  typename Iterator, typename ..
 auto make_loglikehood_fcn(Pdf<Functor,Integrator> const& pdf, Iterator first, Iterator last,  Iterators... weights )
 -> LogLikelihoodFCN< Pdf<Functor,Integrator>, Iterator , Iterators... >
 {
-	return LogLikelihoodFCN< Pdf<Functor,Integrator>, Iterator >(pdf, first, last, weights...);
+	return LogLikelihoodFCN< Pdf<Functor,Integrator>, Iterator , Iterators... >(pdf, first, last, weights...);
 }
 
 }  // namespace hydra
