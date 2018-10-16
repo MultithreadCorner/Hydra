@@ -77,7 +77,7 @@ GenzMalikRuleBase<typename std::enable_if< (DIM>1), void >::type >
 public:
 
 	//container for abscissas {x_1, x_2, ... , x_n} weights
-	typedef multiarray<double, DIM+3, system_type > storage_type;
+	typedef multiarray<double, DIM+4, system_type > storage_type;
 	//iterators
 	typedef typename storage_type::iterator iterator;
 	typedef typename storage_type::const_iterator const_iterator;
@@ -98,7 +98,7 @@ public:
 		fRule5Weight2(::pow(2.0,DIM)*(245.0/486.0)),
 		fRule5Weight3(::pow(2.0,DIM)*(265.0 - 100.0*DIM)/1458.0),
 		fRule5Weight4(::pow(2.0,DIM)*(25.0/729.0))
-	{ }
+	{ SetAbscissas();}
 
 
 	GenzMalikRule( GenzMalikRule<DIM, hydra::detail::BackendPolicy<BACKEND>> const& other):
@@ -365,6 +365,7 @@ private:
 		HYDRA_EXTERNAL_NS::thrust::get<0>(x)= fRule5Weight1;
 		HYDRA_EXTERNAL_NS::thrust::get<1>(x)= fRule7Weight1;
 		HYDRA_EXTERNAL_NS::thrust::get<2>(x)= 6.0;
+		HYDRA_EXTERNAL_NS::thrust::get<3>(x)= DIM;
 
 		fAbscissas.push_back(x);
 	}
@@ -374,30 +375,34 @@ private:
 		std::array<double, DIM> x_temp{};
 
 		//adding permutations of {lambda_2, 0, 0,...,0}
-		for(auto x:x_temp ) x=0;
+		for(auto& x:x_temp ) x=0;
 		x_temp[DIM-1] = fLambda2;
+        int dim = DIM-1;
 
 		do {
 
 			auto x = HYDRA_EXTERNAL_NS::thrust::tuple_cat(
-					HYDRA_EXTERNAL_NS::thrust::make_tuple(fRule5Weight2, fRule7Weight2,-4.0),
+					HYDRA_EXTERNAL_NS::thrust::make_tuple(fRule5Weight2, fRule7Weight2,-4.0, dim),
 					hydra::detail::arrayToTuple(x_temp));
 
 			fAbscissas.push_back(x);
+			dim--;
 
 		} while( std::next_permutation(x_temp.begin(), x_temp.end()) );
 
 		//adding permutations of {-lambda_2, 0, 0,...,0}
-		for(auto x:x_temp ) x=0;
+		for(auto& x:x_temp ) x=0;
 		x_temp[0] = -fLambda2;
+		dim = 0;
 
 		do {
 
 			auto x = HYDRA_EXTERNAL_NS::thrust::tuple_cat(
-					HYDRA_EXTERNAL_NS::thrust::make_tuple(fRule5Weight2, fRule7Weight2, -4.0),
+					HYDRA_EXTERNAL_NS::thrust::make_tuple(fRule5Weight2, fRule7Weight2, -4.0, dim),
 					hydra::detail::arrayToTuple(x_temp));
 
 			fAbscissas.push_back(x);
+			dim++;
 
 		} while( std::next_permutation(x_temp.begin(), x_temp.end()) );
 
@@ -408,30 +413,34 @@ private:
 		std::array<double, DIM> x_temp{};
 
 		//adding permutations of {lambda_3, 0, 0,...,0}
-		for(auto x:x_temp ) x=0;
+		for(auto& x:x_temp ) x=0;
 		x_temp[DIM-1] = fLambda3;
+		int dim = DIM-1;
 
 		do {
 
 			auto x = HYDRA_EXTERNAL_NS::thrust::tuple_cat(
-					HYDRA_EXTERNAL_NS::thrust::make_tuple(fRule5Weight3,fRule7Weight3, 1.0),
+					HYDRA_EXTERNAL_NS::thrust::make_tuple(fRule5Weight3,fRule7Weight3, 1.0, dim),
 					hydra::detail::arrayToTuple(x_temp));
 
 			fAbscissas.push_back(x);
+			dim--;
 
 		} while( std::next_permutation(x_temp.begin(), x_temp.end()) );
 
 		//adding permutations of {-lambda_3, 0, 0,...,0}
-		for(auto x:x_temp ) x=0;
+		for(auto& x:x_temp ) x=0;
 		x_temp[0] = -fLambda3;
+		dim = 0;
 
 		do {
 
 			auto x = HYDRA_EXTERNAL_NS::thrust::tuple_cat(
-					HYDRA_EXTERNAL_NS::thrust::make_tuple(fRule5Weight3,fRule7Weight3, 1.0),
+					HYDRA_EXTERNAL_NS::thrust::make_tuple(fRule5Weight3,fRule7Weight3, 1.0, dim),
 					hydra::detail::arrayToTuple(x_temp));
 
 			fAbscissas.push_back(x);
+			dim++;
 
 		} while( std::next_permutation(x_temp.begin(), x_temp.end()) );
 
@@ -442,14 +451,14 @@ private:
 		std::array<double, DIM> x_temp{};
 
 		//adding permutations of {lambda_4, lambda_4, 0, 0,...,0}
-		for(auto x:x_temp ) x=0;
+		for(auto& x:x_temp ) x=0;
 		x_temp[DIM-1] = fLambda4;
 		x_temp[DIM-2] = fLambda4;
 
 		do {
 
 			auto x = HYDRA_EXTERNAL_NS::thrust::tuple_cat(
-					HYDRA_EXTERNAL_NS::thrust::make_tuple(fRule5Weight4,fRule7Weight4, 0.0),
+					HYDRA_EXTERNAL_NS::thrust::make_tuple(fRule5Weight4,fRule7Weight4, 0.0,-1.0),
 					hydra::detail::arrayToTuple(x_temp));
 
 			fAbscissas.push_back(x);
@@ -457,14 +466,14 @@ private:
 		} while( std::next_permutation(x_temp.begin(), x_temp.end()) );
 
 		//adding permutations of {lambda_4,-lambda_4, 0, 0,...,0}
-		for(auto x:x_temp ) x=0;
+		for(auto& x:x_temp ) x=0;
 		x_temp[0] = -fLambda4;
 		x_temp[DIM-1] =  fLambda4;
 
 		do {
 
 			auto x = HYDRA_EXTERNAL_NS::thrust::tuple_cat(
-					HYDRA_EXTERNAL_NS::thrust::make_tuple(fRule5Weight3,fRule7Weight3, 0.0),
+					HYDRA_EXTERNAL_NS::thrust::make_tuple(fRule5Weight4,fRule7Weight4, 0.0,-1.0),
 					hydra::detail::arrayToTuple(x_temp));
 
 			fAbscissas.push_back(x);
@@ -472,14 +481,14 @@ private:
 		} while( std::next_permutation(x_temp.begin(), x_temp.end()) );
 
 		//adding permutations of {lambda_4,-lambda_4, 0, 0,...,0}
-		for(auto x:x_temp ) x=0;
+		for(auto& x:x_temp ) x=0;
 		x_temp[0] = -fLambda4;
 		x_temp[1] = -fLambda4;
 
 		do {
 
 			auto x = HYDRA_EXTERNAL_NS::thrust::tuple_cat(
-					HYDRA_EXTERNAL_NS::thrust::make_tuple(fRule5Weight3,fRule7Weight3, 0.0),
+					HYDRA_EXTERNAL_NS::thrust::make_tuple(fRule5Weight4,fRule7Weight4, 0.0,-1.0),
 					hydra::detail::arrayToTuple(x_temp));
 
 			fAbscissas.push_back(x);
@@ -503,7 +512,7 @@ private:
 			do {
 
 				auto x = HYDRA_EXTERNAL_NS::thrust::tuple_cat(
-						HYDRA_EXTERNAL_NS::thrust::make_tuple(fRule5Weight3,fRule7Weight3, 0.0),
+						HYDRA_EXTERNAL_NS::thrust::make_tuple(0.0,fRule7Weight5, 0.0,-1.0),
 						hydra::detail::arrayToTuple(x_temp));
 
 				fAbscissas.push_back(x);

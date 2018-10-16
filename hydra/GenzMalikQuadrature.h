@@ -42,6 +42,8 @@
 #include <hydra/multivector.h>
 #include <hydra/detail/Integrator.h>
 #include <hydra/detail/utility/Generic.h>
+#include <hydra/detail/external/thrust/memory.h>
+#include <hydra/detail/external/thrust/sort.h>
 
 #include <algorithm>
 #include <cmath>
@@ -66,7 +68,14 @@ public Integrator<typename std::enable_if< (N>1),GenzMalikQuadrature<N, hydra::d
 {
 	typedef  hydra::detail::BackendPolicy<BACKEND> system_type;
 
-	typedef typename system_type::template container<detail::GenzMalikBox<N>> box_list_type;
+	typedef typename system_type::template container<detail::GenzMalikBox<N>> device_box_list_type;
+
+	typedef std::vector<detail::GenzMalikBox<N>> box_list_type;
+	typedef HYDRA_EXTERNAL_NS::thrust::pair<
+			HYDRA_EXTERNAL_NS::thrust::pointer<detail::GenzMalikBox<N>, system_type>,
+			  std::ptrdiff_t> buffer_type;
+
+
 	typedef typename box_list_type::iterator             boxes_iterator;
 	typedef typename box_list_type::const_iterator const_boxes_iterator;
 
@@ -86,7 +95,12 @@ public:
 	 */
 	GenzMalikQuadrature(std::array<GReal_t,N> const& LowerLimit,
 			std::array<GReal_t,N> const& UpperLimit,
-			std::array<size_t, N> const& grid);
+			std::array<size_t, N> const& grid,
+			GReal_t relative_error=0.001):
+				fRelativeError(relative_error)
+	{
+		SetGeometry(LowerLimit, UpperLimit, grid);
+	}
 
 
 	/**
@@ -97,7 +111,10 @@ public:
 	 */
 	GenzMalikQuadrature(std::array<GReal_t,N> const& LowerLimit,
 			std::array<GReal_t,N> const& UpperLimit,
-			size_t nboxes=10);
+			size_t nboxes=10,
+			GReal_t relative_error=0.001):
+				fRelativeError(relative_error)
+	{ SetGeometry(LowerLimit, UpperLimit, nboxes); }
 
 	/**
 	 * Genz-Malik multidimensional quadrature constructor.
@@ -107,7 +124,10 @@ public:
 	 */
 	GenzMalikQuadrature(const GReal_t (&LowerLimit)[N],
 			const GReal_t (&UpperLimit)[N],
-			const size_t (&grid)[N]);
+			const size_t (&grid)[N],
+			GReal_t relative_error=0.001):
+				fRelativeError(relative_error)
+	{ SetGeometry(LowerLimit, UpperLimit, grid); }
 
 
 	/**
@@ -117,8 +137,10 @@ public:
 	 * @param nboxes     : max number of multidimensional boxes
 	 */
 	GenzMalikQuadrature(const GReal_t (&LowerLimit)[N],
-			const GReal_t (&UpperLimit)[N],	size_t nboxes=10);
-
+			const GReal_t (&UpperLimit)[N],	size_t nboxes=10,
+			GReal_t relative_error=0.001):
+				fRelativeError(relative_error)
+	{ SetGeometry(LowerLimit, UpperLimit, nboxes); }
 
 
 	/**
@@ -187,7 +209,28 @@ public:
 	}
 
 
+
+
 private:
+
+	template<typename FUNCTOR, typename BUFFER >
+	void AdaptiveIntegration(FUNCTOR const& functor, device_box_list_type& BoxList, BUFFER& buffer);
+
+	std::pair<GReal_t, GReal_t> CalculateIntegral(device_box_list_type const& BoxList);
+
+	void SetGeometry(std::array<GReal_t,N> const& LowerLimit,
+			         std::array<GReal_t,N> const& UpperLimit, std::array<size_t, N> const& grid);
+
+	void SetGeometry(std::array<GReal_t,N> const& LowerLimit,
+			         std::array<GReal_t,N> const& UpperLimit, size_t nboxes=10);
+
+	void SetGeometry(const GReal_t (&LowerLimit)[N],
+					 const GReal_t (&UpperLimit)[N], const size_t (&grid)[N]);
+
+	void SetGeometry(const GReal_t (&LowerLimit)[N],
+			         const GReal_t (&UpperLimit)[N], size_t nboxes=10);
+
+
 
 	void GetGrid( size_t nboxes , std::array<size_t, N>& grid )
 	{
@@ -197,6 +240,7 @@ private:
 
 	}
 
+	GReal_t fRelativeError;
 
 	GenzMalikRule<  N,  hydra::detail::BackendPolicy<BACKEND>> fGenzMalikRule;
 	box_list_type fBoxList;
