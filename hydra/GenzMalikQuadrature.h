@@ -213,8 +213,8 @@ public:
 
 private:
 
-	template<typename FUNCTOR, typename BUFFER >
-	void AdaptiveIntegration(FUNCTOR const& functor, device_box_list_type& BoxList, BUFFER& buffer);
+	template<typename FUNCTOR>
+	void AdaptiveIntegration(FUNCTOR const& functor, device_box_list_type& BoxList/*, BUFFER& buffer*/);
 
 	std::pair<GReal_t, GReal_t> CalculateIntegral(device_box_list_type const& BoxList);
 

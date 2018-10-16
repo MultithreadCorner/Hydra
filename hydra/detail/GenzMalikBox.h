@@ -50,6 +50,16 @@ namespace detail {
 template<size_t N>
 class GenzMalikBox;
 
+
+struct AddResultGenzMalikBoxes
+{
+	__hydra_host__ __hydra_device__
+	hydra::pair<double, double> operator()( hydra::pair<double, double> const& r1,  hydra::pair<double, double> const& r2 ){
+		return hydra::make_pair(r1.first + r2.first, r1.second + r2.second);
+	}
+};
+
+
 template<size_t N>
 struct CompareGenzMalikBoxes
 {
@@ -171,6 +181,12 @@ public:
 
 			return *this;
 	}
+	__hydra_host__ __hydra_device__
+	operator hydra::pair<double, double>() const {
+		return hydra::make_pair(this->fIntegral, this->fErrorSq );
+	}
+
+
 
 	void Print()
 	{
