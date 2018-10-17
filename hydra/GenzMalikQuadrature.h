@@ -230,7 +230,8 @@ private:
 	void SetGeometry(const GReal_t (&LowerLimit)[N],
 			         const GReal_t (&UpperLimit)[N], size_t nboxes=10);
 
-
+	template<typename Vector>
+	void SplitBoxes( Vector& boxes, size_t n );
 
 	void GetGrid( size_t nboxes , std::array<size_t, N>& grid )
 	{

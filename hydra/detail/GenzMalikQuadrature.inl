@@ -272,6 +272,8 @@ std::pair<GReal_t, GReal_t> GenzMalikQuadrature<N,hydra::detail::BackendPolicy<B
 
 			AdaptiveIntegration(functor, TempBoxList/*, buffer*/);
 
+			//std::cout << "Size: " << TempBoxList.size() << std::endl;
+
 			//auto stop = std::chrono::high_resolution_clock::now();
 			//std::chrono::duration<double, std::milli> elapsed = stop - start;
 			//std::cout << "AdaptiveIntegration Time (ms): " << elapsed.count() <<std::endl;
@@ -306,23 +308,41 @@ void GenzMalikQuadrature<N,
 	//std::chrono::duration<double, std::milli> elapsed = stop - start;
 	//std::cout << "Sort Time (ms): " << elapsed.count() <<std::endl;
 
-	//copy last element
-	detail::GenzMalikBox<N> highest_error_box(BoxList.back());
-
-	//divide highest_error_box and push_back
-	auto new_boxes=highest_error_box.Divide();
-
-	BoxList.back() =  new_boxes.first;
-	BoxList.push_back(new_boxes.second);
+	size_t n = BoxList.size()/4;
+	SplitBoxes(BoxList, n );
 
 	//launch calculation
 	HYDRA_EXTERNAL_NS::thrust::for_each(hydra::detail::BackendPolicy<BACKEND>{},
-			BoxList.end()-2, BoxList.end(), process_box);
+			BoxList.end()-2*n, BoxList.end(), process_box);
 
 }
 
 template<size_t N, hydra::detail::Backend  BACKEND>
-hydra::GenzMalikQuadrature<N,hydra::detail::BackendPolicy<BACKEND> >::SplitBoxes( size_t n);
+template<typename Vector>
+void hydra::GenzMalikQuadrature<N,
+         hydra::detail::BackendPolicy<BACKEND> >::SplitBoxes( Vector& boxes, size_t n ){
+
+	Vector new_boxes;
+	new_boxes.reserve(2*n);
+
+	do{
+		detail::GenzMalikBox<N> highest_error_box(boxes.back());
+		boxes.pop_back();
+
+		auto sub_boxes=highest_error_box.Divide();
+
+
+        new_boxes.push_back(sub_boxes.first);
+        new_boxes.push_back(sub_boxes.second);
+
+
+
+	}while( --n );
+
+	for(auto el:new_boxes)
+		boxes.push_back(el);
+
+}
 
 
 
