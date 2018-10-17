@@ -87,7 +87,7 @@ int main(int argv, char** argc)
 	}
 
 	//number of dimensions (user can change it)
-	constexpr size_t N = 5;
+	constexpr size_t N = 7;
 
 	//integration region limits
 	double  min[N];
@@ -127,7 +127,7 @@ int main(int argv, char** argc)
     {
     	//----------------------------------------------------------------------
     	//Genz-Malik integrator
-    	hydra::GenzMalikQuadrature<N,  hydra::device::sys_t > GM_d(min, max, boxes);
+    	hydra::GenzMalikQuadrature<N,  hydra::device::sys_t > GM_d(min, max, boxes, 0.5);
 
     	auto start = std::chrono::high_resolution_clock::now();
 

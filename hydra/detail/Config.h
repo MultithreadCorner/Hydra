@@ -110,8 +110,8 @@
  #include <cuda.h>
  #include <cuda_runtime.h>
  #include <cuda_runtime_api.h>
- #include <math_functions.h>
- #include <vector_functions.h>
+ //#include <math_functions.h>
+ //#include <vector_functions.h>
 #endif
 
 

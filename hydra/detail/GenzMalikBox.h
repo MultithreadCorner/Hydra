@@ -48,13 +48,38 @@ namespace hydra {
 namespace detail {
 
 template<size_t N>
-struct GenzMalikBox
+class GenzMalikBox;
+
+
+struct AddResultGenzMalikBoxes
 {
-	typedef typename hydra::detail::tuple_type<N+2, GReal_t>::type data_type;
+	__hydra_host__ __hydra_device__
+	hydra::pair<double, double> operator()( hydra::pair<double, double> const& r1,  hydra::pair<double, double> const& r2 ){
+		return hydra::make_pair(r1.first + r2.first, r1.second + r2.second);
+	}
+};
 
-	GenzMalikBox()=delete;
 
+template<size_t N>
+struct CompareGenzMalikBoxes
+{
+	__hydra_host__ __hydra_device__
+	bool operator()( detail::GenzMalikBox<N> const& box1,  detail::GenzMalikBox<N> const& box2 ){
+		return box1.GetError() < box2.GetError();
+	}
+};
 
+template<size_t N>
+class GenzMalikBox
+{
+
+	typedef typename hydra::detail::tuple_type<N+2,double>::type result_type;
+
+public:
+
+	GenzMalikBox()=default;
+
+	__hydra_host__ __hydra_device__
 	GenzMalikBox(GReal_t (&LowerLimit)[N], GReal_t (&UpperLimit)[N]):
 		fRule7(0),
 		fRule5(0),
@@ -63,8 +88,8 @@ struct GenzMalikBox
 		fErrorSq(0)
 	{
 		fVolume =1.0;
-		for(size_t i=0; i<N; i++)
-		{
+		for(size_t i=0; i<N; i++) {
+
 			fFourDifference[i]=0;
 			fUpperLimit[i]=UpperLimit[i];
 			fLowerLimit[i]=LowerLimit[i];
@@ -134,7 +159,7 @@ struct GenzMalikBox
 	}
 
 	__hydra_host__ __hydra_device__
-	GenzMalikBox<N>& operator=(data_type & other)
+	GenzMalikBox<N>& operator=(result_type const& other)
 	{
 
 		GReal_t _temp[N+2];
@@ -148,7 +173,7 @@ struct GenzMalikBox
 				this->fFourDifference[i]=_temp[i+2];
 			}
 
-			GReal_t factor = this->fVolume/hydra::detail::power<2, N>::value;
+			GReal_t factor = this->fVolume/::pow(2.0, N);
 
 			this->fIntegral = factor*this->fRule7;
 			this->fError    = factor*std::abs(this->fRule7-this->fRule5);
@@ -156,12 +181,19 @@ struct GenzMalikBox
 
 			return *this;
 	}
+	__hydra_host__ __hydra_device__
+	operator hydra::pair<double, double>() const {
+		return hydra::make_pair(this->fIntegral, this->fErrorSq );
+	}
+
+
 
 	void Print()
 	{
 		HYDRA_MSG << HYDRA_ENDL;
 		HYDRA_MSG << "Genz-Malik hyperbox begin: " << HYDRA_ENDL;
 		HYDRA_SPACED_MSG << "Integral: "  << fIntegral << HYDRA_ENDL;
+		HYDRA_SPACED_MSG << "Error: "     << fError << HYDRA_ENDL;
 		HYDRA_SPACED_MSG << "Volume: "  << fVolume << HYDRA_ENDL;
 		HYDRA_SPACED_MSG << "Rule7: "   << fRule7  << HYDRA_ENDL;
 		HYDRA_SPACED_MSG << "Rule5: "   << fRule5  << HYDRA_ENDL;
@@ -178,9 +210,50 @@ struct GenzMalikBox
 
 	}
 
+	inline hydra::pair<detail::GenzMalikBox<N>, detail::GenzMalikBox<N>> Divide(){
+
+		size_t max_index = HYDRA_EXTERNAL_NS::thrust::distance(fFourDifference,
+				HYDRA_EXTERNAL_NS::thrust::max_element(fFourDifference, fFourDifference +N));
+
+
+
+		auto middle =  0.5*(fUpperLimit[max_index ] - fLowerLimit[max_index ])+fLowerLimit[max_index ];
+
+
+        detail::GenzMalikBox<N> lower_box(*this);
+	    lower_box.SetUpperLimit(max_index, middle);
+	    lower_box.SetError(0.0);
+	    lower_box.SetErrorSq(0.0);
+	    lower_box.SetIntegral(0.0);
+
+
+		detail::GenzMalikBox<N> upper_box(*this);
+		upper_box.SetLowerLimit(max_index, middle);
+		upper_box.SetError(0.0);
+		upper_box.SetErrorSq(0.0);
+		upper_box.SetIntegral(0.0);
+		upper_box.SetIntegral(0.0);
+
+		for(size_t i=0; i<N; i++){
+			upper_box.SetFourDifference(i,0.0);
+			lower_box.SetFourDifference(i,0.0);
+		}
+
+
+		return hydra::make_pair(lower_box, upper_box);
+
+	}
+
+
+
 	__hydra_host__ __hydra_device__
 	GReal_t GetFourDifference(size_t i) const {
 		return fFourDifference[i];
+	}
+
+	__hydra_host__ __hydra_device__
+	GReal_t SetFourDifference(size_t i, double value) {
+		return fFourDifference[i]=value;
 	}
 
 	__hydra_host__ __hydra_device__
@@ -214,6 +287,19 @@ struct GenzMalikBox
 	}
 
 	__hydra_host__ __hydra_device__
+	void SetLowerLimit(size_t i, double value) {
+		fLowerLimit[i]=value;
+		this->UpdateVolume();
+	}
+
+	__hydra_host__ __hydra_device__
+	void SetUpperLimit(size_t i, double value) {
+		fUpperLimit[i]=value;
+		this->UpdateVolume();
+	}
+
+
+	__hydra_host__ __hydra_device__
 	GReal_t GetLowerLimit(size_t i) const {
 		return fLowerLimit[i];
 	}
@@ -232,9 +318,6 @@ struct GenzMalikBox
 	GReal_t* GetUpperLimit()  {
 		return fUpperLimit;
 	}
-
-
-
 
 	__hydra_host__ __hydra_device__
 	GReal_t GetError() const {
@@ -269,6 +352,14 @@ struct GenzMalikBox
 	}
 
 private:
+
+	__hydra_host__ __hydra_device__
+	void UpdateVolume(){
+		fVolume =1.0;
+		for(size_t i=0; i<N; i++)
+			fVolume *=(fUpperLimit[i]-fLowerLimit[i]);
+
+	}
 
 	GReal_t fIntegral;
 	GReal_t fError;
