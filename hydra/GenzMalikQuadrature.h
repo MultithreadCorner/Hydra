@@ -92,12 +92,16 @@ public:
 	 * @param LowerLimit : std::array with the lower limits of integration
 	 * @param UpperLimit : std::array with the upper limits of integration
 	 * @param grid       : std::array with the number of divisions per dimension
+	 * @param fraction : fraction of boxes to adapt.
+	 * @param fRelativeError: maximum relative error required
 	 */
 	GenzMalikQuadrature(std::array<GReal_t,N> const& LowerLimit,
 			std::array<GReal_t,N> const& UpperLimit,
 			std::array<size_t, N> const& grid,
+			GReal_t fraction=0.25,
 			GReal_t relative_error=0.001):
-				fRelativeError(relative_error)
+				fRelativeError(relative_error),
+				fFraction(fraction)
 	{
 		SetGeometry(LowerLimit, UpperLimit, grid);
 	}
@@ -108,12 +112,16 @@ public:
 	 * @param LowerLimit : std::array with the lower limits of integration
 	 * @param UpperLimit : std::array with the upper limits of integration
 	 * @param nboxes     : max number of multidimensional boxes
+	 * @param fraction : fraction of boxes to adapt.
+	 * @param fRelativeError: maximum relative error required
 	 */
 	GenzMalikQuadrature(std::array<GReal_t,N> const& LowerLimit,
 			std::array<GReal_t,N> const& UpperLimit,
 			size_t nboxes=10,
+			GReal_t fraction=0.25,
 			GReal_t relative_error=0.001):
-				fRelativeError(relative_error)
+				fRelativeError(relative_error),
+				fFraction(fraction)
 	{ SetGeometry(LowerLimit, UpperLimit, nboxes); }
 
 	/**
@@ -121,12 +129,16 @@ public:
 	 * @param LowerLimit : c-like array with the lower limits of integration
 	 * @param UpperLimit : c-like array with the upper limits of integration
 	 * @param grid       : c-like array with the number of divisions per dimension
+	 * @param fraction : fraction of boxes to adapt.
+	 * @param fRelativeError: maximum relative error required
 	 */
 	GenzMalikQuadrature(const GReal_t (&LowerLimit)[N],
 			const GReal_t (&UpperLimit)[N],
 			const size_t (&grid)[N],
+			GReal_t fraction=0.25,
 			GReal_t relative_error=0.001):
-				fRelativeError(relative_error)
+				fRelativeError(relative_error),
+				fFraction(fraction)
 	{ SetGeometry(LowerLimit, UpperLimit, grid); }
 
 
@@ -135,11 +147,16 @@ public:
 	 * @param LowerLimit :  c-like  with the lower limits of integration
 	 * @param UpperLimit :  c-like  with the upper limits of integration
 	 * @param nboxes     : max number of multidimensional boxes
+	 * @param fraction : fraction of boxes to adapt.
+	 * @param fRelativeError: maximum relative error required
 	 */
 	GenzMalikQuadrature(const GReal_t (&LowerLimit)[N],
-			const GReal_t (&UpperLimit)[N],	size_t nboxes=10,
+			const GReal_t (&UpperLimit)[N],
+			size_t nboxes=10,
+			GReal_t fraction=0.25,
 			GReal_t relative_error=0.001):
-				fRelativeError(relative_error)
+				fRelativeError(relative_error),
+				fFraction(fraction)
 	{ SetGeometry(LowerLimit, UpperLimit, nboxes); }
 
 
@@ -213,10 +230,11 @@ public:
 
 private:
 
-	template<typename FUNCTOR>
-	void AdaptiveIntegration(FUNCTOR const& functor, device_box_list_type& BoxList/*, BUFFER& buffer*/);
+	template<typename FUNCTOR, typename Vector>
+	void AdaptiveIntegration(FUNCTOR const& functor, Vector& BoxList);
 
-	std::pair<GReal_t, GReal_t> CalculateIntegral(device_box_list_type const& BoxList);
+	template<typename Vector>
+	std::pair<GReal_t, GReal_t> CalculateIntegral( Vector const& BoxList);
 
 	void SetGeometry(std::array<GReal_t,N> const& LowerLimit,
 			         std::array<GReal_t,N> const& UpperLimit, std::array<size_t, N> const& grid);
@@ -241,8 +259,9 @@ private:
 
 	}
 
-	GReal_t fRelativeError;
 
+	GReal_t fRelativeError;
+	GReal_t fFraction;
 	GenzMalikRule<  N,  hydra::detail::BackendPolicy<BACKEND>> fGenzMalikRule;
 	box_list_type fBoxList;
 

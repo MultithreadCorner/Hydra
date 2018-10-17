@@ -144,7 +144,7 @@ public:
 
 		_temp[0]      = fval*HYDRA_EXTERNAL_NS::thrust::get<0>(rule_abscissa);//w5;
 		_temp[1]      = fval*HYDRA_EXTERNAL_NS::thrust::get<1>(rule_abscissa);//w7;
-	    if(four_diff_index>=0 && four_diff_index<N){
+	    if(four_diff_index>=0 && four_diff_index<int(N)){
 	    	_temp[four_diff_index+2]  = fval*HYDRA_EXTERNAL_NS::thrust::get<2>(rule_abscissa);//w_four_diff;
 	    }
 	    else if(four_diff_index==N){
@@ -168,6 +168,15 @@ public:
 
 private:
 
+	/**
+	An integral over [a, b] must be changed into an integral over [−1, 1] before applying the quadrature rule.
+	This change of interval is be done in the following way:
+	\f$ \int_a^b f(x)\,dx = \frac{b-a}{2} \int_{-1}^1 f\left(\frac{b-a}{2}x + \frac{a+b}{2}\right)\,dx. \f$
+
+	Applying the Gaussian quadrature rule then results in the following approximation:
+
+	\f$ \int_a^b f(x)\,dx \approx \frac{b-a}{2} \sum_{i=1}^n w_i f\left(\frac{b-a}{2}x_i + \frac{a+b}{2}\right) \f$.
+	*/
 	template<typename Abscissa, typename TransAbscissa , size_t I>
 	__hydra_host__ __hydra_device__
 	inline typename std::enable_if< (I== HYDRA_EXTERNAL_NS::thrust::tuple_size<TransAbscissa>::value), void  >::type
@@ -199,7 +208,7 @@ private:
 		return abscissa;
 	}
 
-
+//-----------------------
 	template<typename T, int I>
 	__hydra_host__ __hydra_device__
 	typename std::enable_if< (I==N),void >::type

@@ -248,18 +248,19 @@ template<size_t N, hydra::detail::Backend  BACKEND>
 template<typename FUNCTOR>
 std::pair<GReal_t, GReal_t> GenzMalikQuadrature<N,hydra::detail::BackendPolicy<BACKEND>>::Integrate(FUNCTOR const& functor)
 {
-	device_box_list_type TempBoxList( fBoxList );
 
-	std::cout <<"Size "  <<  fBoxList.size() << std::endl;
+	box_list_type TempBoxList_h( fBoxList );
+
+	device_box_list_type TempBoxList_d( fBoxList );
 
 	detail::ProcessGenzMalikBox<N, FUNCTOR, rule_iterator> process_box(functor,
 			fGenzMalikRule.begin(), fGenzMalikRule.end() ) ;
 
-	HYDRA_EXTERNAL_NS::thrust::for_each(hydra::detail::BackendPolicy<BACKEND>{}, TempBoxList.begin(),
-			TempBoxList.end(), process_box);
+	HYDRA_EXTERNAL_NS::thrust::for_each(hydra::detail::BackendPolicy<BACKEND>{}, TempBoxList_d.begin(),
+			TempBoxList_d.end(), process_box);
 
 
-	auto result = CalculateIntegral(TempBoxList);
+	auto result = CalculateIntegral(TempBoxList_d);
 
 	if( result.second/result.first < fRelativeError)
 
@@ -270,7 +271,7 @@ std::pair<GReal_t, GReal_t> GenzMalikQuadrature<N,hydra::detail::BackendPolicy<B
 		do{
 			//auto start = std::chrono::high_resolution_clock::now();
 
-			AdaptiveIntegration(functor, TempBoxList/*, buffer*/);
+			AdaptiveIntegration(functor, TempBoxList_h);
 
 			//std::cout << "Size: " << TempBoxList.size() << std::endl;
 
@@ -278,7 +279,7 @@ std::pair<GReal_t, GReal_t> GenzMalikQuadrature<N,hydra::detail::BackendPolicy<B
 			//std::chrono::duration<double, std::milli> elapsed = stop - start;
 			//std::cout << "AdaptiveIntegration Time (ms): " << elapsed.count() <<std::endl;
 
-			result = CalculateIntegral(TempBoxList);
+			result = CalculateIntegral(TempBoxList_h);
 
 		} while( (result.second /result.first != 0) && result.second /result.first > fRelativeError );
 
@@ -289,10 +290,9 @@ std::pair<GReal_t, GReal_t> GenzMalikQuadrature<N,hydra::detail::BackendPolicy<B
 }
 
 template<size_t N, hydra::detail::Backend  BACKEND>
-template<typename FUNCTOR>
+template<typename FUNCTOR, typename Vector>
 void GenzMalikQuadrature<N,
-       hydra::detail::BackendPolicy<BACKEND>>::AdaptiveIntegration(FUNCTOR const& functor,
-    		   device_box_list_type& BoxList/*,BUFFER & buffer*/) {
+       hydra::detail::BackendPolicy<BACKEND>>::AdaptiveIntegration(FUNCTOR const& functor, Vector& BoxList) {
 
 
 	detail::ProcessGenzMalikBox<N, FUNCTOR, rule_iterator> process_box(functor,
@@ -301,19 +301,17 @@ void GenzMalikQuadrature<N,
 	//sort by error in increasing order
 	//auto start = std::chrono::high_resolution_clock::now();
 
-	HYDRA_EXTERNAL_NS::thrust::sort(hydra::detail::BackendPolicy<BACKEND>{},
-		    BoxList.begin(), BoxList.end(), detail::CompareGenzMalikBoxes<N>());
+	HYDRA_EXTERNAL_NS::thrust::sort(BoxList.begin(), BoxList.end(), detail::CompareGenzMalikBoxes<N>());
 
 	//auto stop = std::chrono::high_resolution_clock::now();
 	//std::chrono::duration<double, std::milli> elapsed = stop - start;
 	//std::cout << "Sort Time (ms): " << elapsed.count() <<std::endl;
 
-	size_t n = BoxList.size()/4;
+	size_t n = BoxList.size()*fFraction;
 	SplitBoxes(BoxList, n );
 
 	//launch calculation
-	HYDRA_EXTERNAL_NS::thrust::for_each(hydra::detail::BackendPolicy<BACKEND>{},
-			BoxList.end()-2*n, BoxList.end(), process_box);
+	HYDRA_EXTERNAL_NS::thrust::for_each(BoxList.end()-2*n, BoxList.end(), process_box);
 
 }
 
@@ -331,11 +329,8 @@ void hydra::GenzMalikQuadrature<N,
 
 		auto sub_boxes=highest_error_box.Divide();
 
-
         new_boxes.push_back(sub_boxes.first);
         new_boxes.push_back(sub_boxes.second);
-
-
 
 	}while( --n );
 
@@ -348,13 +343,14 @@ void hydra::GenzMalikQuadrature<N,
 
 
 template<size_t N, hydra::detail::Backend  BACKEND>
+template<typename Vector>
 std::pair<GReal_t, GReal_t>
-hydra::GenzMalikQuadrature<N,hydra::detail::BackendPolicy<BACKEND> >::CalculateIntegral( device_box_list_type const& BoxList){
+hydra::GenzMalikQuadrature<N,hydra::detail::BackendPolicy<BACKEND> >::CalculateIntegral( Vector const& BoxList){
 
-	auto result = HYDRA_EXTERNAL_NS::thrust::reduce(hydra::detail::BackendPolicy<BACKEND>{},
-			BoxList.begin(), BoxList.end(), hydra::pair<double, double>(0,0) ,detail::AddResultGenzMalikBoxes() );
+	auto result = HYDRA_EXTERNAL_NS::thrust::reduce(BoxList.begin(), BoxList.end(),
+			hydra::pair<double, double>(0,0) ,detail::AddResultGenzMalikBoxes() );
 
-	return std::pair<GReal_t, GReal_t>(result.first, std::sqrt(result.second));
+	return std::pair<GReal_t, GReal_t>(result.first, ::sqrt(result.second));
 }
 
 } // namespace hydra
