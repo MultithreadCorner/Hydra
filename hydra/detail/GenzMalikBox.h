@@ -85,12 +85,13 @@ public:
 		fRule5(0),
 		fIntegral(0),
 		fError(0),
-		fErrorSq(0)
+		fErrorSq(0),
+		fVolume(1.0),
+		fCutAxis(-1)
 	{
-		fVolume =1.0;
 		for(size_t i=0; i<N; i++) {
 
-			fFourDifference[i]=0;
+		    //fFourDifference[i]=0;
 			fUpperLimit[i]=UpperLimit[i];
 			fLowerLimit[i]=LowerLimit[i];
 			fVolume*=(UpperLimit[i]-LowerLimit[i]);
@@ -103,12 +104,13 @@ public:
 		fRule5(0),
 		fIntegral(0),
 		fError(0),
-		fErrorSq(0)
+		fErrorSq(0),
+		fVolume(1.0),
+		fCutAxis(-1)
 	{
-		fVolume =1.0;
 		for(size_t i=0; i<N; i++)
 		{
-			fFourDifference[i]=0;
+			//fFourDifference[i]=0;
 			fUpperLimit[i]=UpperLimit[i];
 			fLowerLimit[i]=LowerLimit[i];
 			fVolume *=(UpperLimit[i]-LowerLimit[i]);
@@ -124,12 +126,13 @@ public:
 		fVolume(other.GetVolume() ),
 		fIntegral(other.GetIntegral()),
 		fError(other.GetError()),
-		fErrorSq(other.GetErrorSq())
+		fErrorSq(other.GetErrorSq()),
+		fCutAxis(other.GetCutAxis())
 
 	{
 		for(size_t i=0; i<N; i++)
 		{
-			fFourDifference[i]=other.GetFourDifference(i);
+			//fFourDifference[i]=other.GetFourDifference(i);
 			fUpperLimit[i]=other.GetUpperLimit(i);
 			fLowerLimit[i]=other.GetLowerLimit(i);
 
@@ -147,10 +150,11 @@ public:
 		this->fIntegral = other.GetIntegral();
 		this->fError = other.GetError();
 		this->fErrorSq = other.GetErrorSq();
+		this->fCutAxis = other.GetCutAxis();
 
 		for(size_t i=0; i<N; i++)
 		{
-			this->fFourDifference[i]=other.GetFourDifference(i);
+			//this->fFourDifference[i]=other.GetFourDifference(i);
 			this->fUpperLimit[i]=other.GetUpperLimit(i);
 			this->fLowerLimit[i]=other.GetLowerLimit(i);
 		}
@@ -168,10 +172,12 @@ public:
 			this->fRule5 = _temp[0] ;
 			this->fRule7 = _temp[1] ;
 
+			/*
 			for(size_t i=0; i<N; i++)
 			{
 				this->fFourDifference[i]=_temp[i+2];
 			}
+            */
 
 			GReal_t factor = this->fVolume/::pow(2.0, N);
 
@@ -351,6 +357,14 @@ public:
 		fErrorSq = errorSq;
 	}
 
+	GInt_t GetCutAxis() const {
+		return fCutAxis;
+	}
+
+	void SetCutAxis(GInt_t cutAxis) {
+		fCutAxis = cutAxis;
+	}
+
 private:
 
 	__hydra_host__ __hydra_device__
@@ -361,15 +375,17 @@ private:
 
 	}
 
+
 	GReal_t fIntegral;
 	GReal_t fError;
 	GReal_t fErrorSq;
 	GReal_t fVolume;
 	GReal_t fRule7;
 	GReal_t fRule5;
-	GReal_t fFourDifference[N];
+	//GReal_t fFourDifference[N];
 	GReal_t fUpperLimit[N];
 	GReal_t fLowerLimit[N];
+	GInt_t  fCutAxis;
 
 };
 
