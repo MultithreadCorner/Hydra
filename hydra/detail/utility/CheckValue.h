@@ -29,6 +29,7 @@
 #ifndef CHECKVALUE_H_
 #define CHECKVALUE_H_
 
+#include <hydra/detail/Config.h>
 #include <stdio.h>
 #include <cmath>
 #include <utility>
