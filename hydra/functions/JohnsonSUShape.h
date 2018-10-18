@@ -55,6 +55,7 @@ namespace hydra {
 /**
  * @class JohnsonSUShape
  * Implementation the JohnsonSU line shape.
+ * https://en.wikipedia.org/wiki/Johnson%27s_SU-distribution
  *
  * @tparam ArgIndex : index of the argument when evaluating on multidimensional data. Default is 0.
  */
@@ -67,9 +68,9 @@ public:
 
 	JohnsonSUShape()=delete;
 
-	JohnsonSUShape(Parameter const& mean, Parameter const& width
-			, Parameter const& nu, Parameter const& tau):
-			BaseFunctor<JohnsonSUShape<ArgIndex>, double, 4>({mean, width, nu, tau})
+	JohnsonSUShape(Parameter const& gamma, Parameter const& delta
+			, Parameter const& xi, Parameter const& lambda):
+			BaseFunctor<JohnsonSUShape<ArgIndex>, double, 4>({gamma, delta, xi, lambda})
 			{}
 
 	__hydra_host__ __hydra_device__
@@ -87,52 +88,62 @@ public:
 
 	template<typename T>
 	__hydra_host__ __hydra_device__
-	inline double Evaluate(unsigned int , T*x)  const
+	inline double Evaluate(unsigned int , T* X)  const
 	{
-		double m     = x[ArgIndex]; //mass
-		double mean  = _par[0];
-		double width = _par[1];
-		double nu    = _par[2];
-		double tau   = _par[3];
+		double x      = X[ArgIndex];
+		//gathering parameters
+		double gamma  = _par[0];
+		double delta  = _par[1];
+		double xi     = _par[2];
+		//actually only 1/lambda is used
+		double inverse_lambda = 1.0/_par[3];
 
-		double w       = exp( tau * tau);
-		double omega   = - nu * tau;
-		double c       = 0.5 * (w-1) * (w * cosh(2 * omega) + 1);
-		c              = pow(c, -0.5);
-		double z       = (m - (mean + c * width * sqrt(w) * sinh(omega) )) / c / width;
-		double r       = -nu + asinh(z) / tau;
+		// z =  (x-xi)/lambda
+		double z    = (x-xi)*inverse_lambda;
 
-		double val     = 1. / (c * width * 2 * PI);
-		val *= 1. / (tau * sqrt(z*z+1));
-		val *= exp(-0.5 * r * r);
+		// A = \frac{\delta}{ \lambda * \sqrt{2\pi} }
+		double A = inverse_lambda*delta*hydra::math_constants::inverse_sqrt2Pi;
 
-		return CHECK_VALUE(val, "par[0]=%f, par[1]=%f, par[2]=%f, par[3]=%f", _par[0], _par[1], _par[2], _par[3]  );
+		//B = \frac{1}{\sqrt{1 + z^2}}
+		double B = 1.0/::sqrt( 1 + z*z);
+
+		// C = {(\gamma + \delta * \asinh(z) )}^{2}
+		double C = gamma + delta*::asinh(z); C *=C;
+
+		double result = A*B*::exp(-0.5*C);
+
+		return CHECK_VALUE(result, "par[0]=%f, par[1]=%f, par[2]=%f, par[3]=%f", _par[0], _par[1], _par[2], _par[3]  );
 		
 
 	}
 
 	template<typename T>
 	__hydra_host__ __hydra_device__
-	inline	double Evaluate(T x)  const
+	inline	double Evaluate(T const& X)  const
 	{
-		double m     = hydra::get<ArgIndex>(x); //mass
-		double mean  = _par[0];
-		double width = _par[1];
-		double nu    = _par[2];
-		double tau   = _par[3];
+		double x     = hydra::get<ArgIndex>(X);
+		//gathering parameters
+		double gamma = _par[0];
+		double delta = _par[1];
+		double xi    = _par[2];
+		//actually only 1/lambda is used
+		double inverse_lambda = 1.0/_par[3];
 
-		double w       = exp( tau * tau);
-		double omega   = - nu * tau;
-		double c       = 0.5 * (w-1) * (w * cosh(2 * omega) + 1);
-		c              = pow(c, -0.5);
-		double z       = (m - (mean + c * width * sqrt(w) * sinh(omega) )) / c / width;
-		double r       = -nu + asinh(z) / tau;
+		// z =  (x-xi)/lambda
+		double z    = (x-xi)*inverse_lambda;
 
-		double val     = 1. / (c * width * 2 * PI);
-		val *= 1. / (tau * sqrt(z*z+1));
-		val *= exp(-0.5 * r * r);
+		// A = \frac{\delta}{ \lambda * \sqrt{2\pi} }
+		double A = inverse_lambda*delta*hydra::math_constants::inverse_sqrt2Pi;
 
-		return CHECK_VALUE(val, "par[0]=%f, par[1]=%f, par[2]=%f, par[3]=%f", _par[0], _par[1], _par[2], _par[3]  );
+		//B = \frac{1}{\sqrt{1 + z^2}}
+		double B = 1.0/::sqrt( 1 + z*z);
+
+		// C = {(\gamma + \delta * \asinh(z) )}^{2}
+		double C = gamma + delta*::asinh(z); C *=C;
+
+		double result = A*B*::exp(-0.5*C);
+
+		return CHECK_VALUE(result, "par[0]=%f, par[1]=%f, par[2]=%f, par[3]=%f", _par[0], _par[1], _par[2], _par[3]  );
 	}
 };
 
@@ -186,7 +197,8 @@ public:
 	template<typename FUNCTOR>	inline
 	std::pair<double, double> Integrate(FUNCTOR const& functor) const {
 
-		double r = integral(functor[0], functor[1], functor[2], functor[3] );
+		double r = cumulative(functor[0], functor[1], functor[2], functor[3],  fUpperLimit)
+		- cumulative(functor[0], functor[1], functor[2], functor[3], fLowerLimit);
 
 		return std::make_pair(
 		CHECK_VALUE(r," par[0] = %f par[1] = %f par[2] = %f par[3] = %f fLowerLimit = %f fUpperLimit = %f",\
@@ -196,25 +208,18 @@ public:
 
 private:
 
-	inline double integral( const double mean,  const double width,  const double nu,  const double tau) const
+	inline double cumulative( const double gamma,  const double delta,  const double xi,  const double lambda, const double x) const
 	{
-		// calculate a few variables
-		double w       = exp( tau * tau);
-		double omega   = - nu * tau;
-		double c       = 0.5 * (w-1) * (w * cosh(2 * omega) + 1);
-		c              = pow(c, -0.5);
-		double zmax    = (- fUpperLimit + (mean + c * width * sqrt(w) * sinh(omega) )) / c / width;
-		double zmin    = (- fLowerLimit + (mean + c * width * sqrt(w) * sinh(omega) )) / c / width;
-		static const double pi = atan2(0.0,-1.0);
-		static const double PiBy2 = pi/2.0;
-		static const double rootPiBy2 = sqrt(PiBy2);
+		//actually only 1/lambda is used
+		double inverse_lambda = 1.0/lambda;
 
-		// the integral calculation
-		double ret = 0;
- 
-		ret =  -0.25/rootPiBy2* ( erf( (nu*tau + asinh( zmax ) )/(sqrt(2)*tau) )-
-				erf( (nu*tau + asinh( zmin ) )/(sqrt(2)*tau) ) );
-		return ret;
+		// z =  (x-xi)/lambda
+		double z    = (x-xi)*inverse_lambda;
+
+		// C = {(\gamma + \delta * \asinh(z) )}
+		double C = gamma + delta*::asinh(z);
+
+		return 0.5*(1.0 + ::erf(C*hydra::math_constants::inverse_sqrt2));
 	}
 
 	double fLowerLimit;
