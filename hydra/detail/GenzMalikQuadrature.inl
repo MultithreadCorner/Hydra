@@ -249,8 +249,6 @@ template<typename FUNCTOR>
 std::pair<GReal_t, GReal_t> GenzMalikQuadrature<N,hydra::detail::BackendPolicy<BACKEND>>::Integrate(FUNCTOR const& functor)
 {
 
-	box_list_type TempBoxList_h( fBoxList );
-
 	device_box_list_type TempBoxList_d( fBoxList );
 
 	detail::ProcessGenzMalikBox<N, FUNCTOR, rule_iterator> process_box(functor,
@@ -271,7 +269,7 @@ std::pair<GReal_t, GReal_t> GenzMalikQuadrature<N,hydra::detail::BackendPolicy<B
 		do{
 			//auto start = std::chrono::high_resolution_clock::now();
 
-			AdaptiveIntegration(functor, TempBoxList_h);
+			AdaptiveIntegration(functor, TempBoxList_d);
 
 			//std::cout << "Size: " << TempBoxList.size() << std::endl;
 
@@ -279,7 +277,7 @@ std::pair<GReal_t, GReal_t> GenzMalikQuadrature<N,hydra::detail::BackendPolicy<B
 			//std::chrono::duration<double, std::milli> elapsed = stop - start;
 			//std::cout << "AdaptiveIntegration Time (ms): " << elapsed.count() <<std::endl;
 
-			result = CalculateIntegral(TempBoxList_h);
+			result = CalculateIntegral(TempBoxList_d);
 
 		} while( (result.second /result.first != 0) && result.second /result.first > fRelativeError );
 
