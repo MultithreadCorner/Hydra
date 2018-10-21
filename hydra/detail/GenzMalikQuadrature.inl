@@ -271,7 +271,6 @@ std::pair<GReal_t, GReal_t> GenzMalikQuadrature<N,hydra::detail::BackendPolicy<B
 
 			AdaptiveIntegration(functor, TempBoxList_d);
 
-			//std::cout << "Size: " << TempBoxList.size() << std::endl;
 
 			//auto stop = std::chrono::high_resolution_clock::now();
 			//std::chrono::duration<double, std::milli> elapsed = stop - start;
