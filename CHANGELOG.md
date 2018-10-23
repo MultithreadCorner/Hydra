@@ -22,7 +22,8 @@ rImplementation ##CHANGES
   *  `hydra::random_exp_range(...)`,
   *  `hydra::random_flat_range(...)`,
   *  `hydra::range(first, last)` 
-  *  `hydra::crange(value)`
+  *  `hydra::constant_range(value)`
+  *  `hydra::phase_space_range(mother, masses, n)`
 
 8. Collecting range: `hydra::collect` to reorder a range of values according to a indexing scheme.
 9. Introduction of `hydra::make_loglikelihood_fcn` overloads supporting range semantics. 
