@@ -39,7 +39,7 @@ namespace hydra {
 WIGNER_D_FUNCTION(1,1,1,unit,0.5*(1.0+::cos(theta)))
 
 //J=1, M=1, N=0
-WIGNER_D_FUNCTION(1,1,0,unit,-math_constants::sqrt2*::sin(theta))
+WIGNER_D_FUNCTION(1,1,0,unit,-math_constants::inverse_sqrt2*::sin(theta))
 
 //J=1, M=1, N=-1
 WIGNER_D_FUNCTION(1,1,-1,unit,0.5*(1.0 - ::cos(theta) ))
@@ -47,13 +47,13 @@ WIGNER_D_FUNCTION(1,1,-1,unit,0.5*(1.0 - ::cos(theta) ))
 //----------------------------
 
 //J=1, M=0, N=1
-WIGNER_D_FUNCTION(1,0,1,unit, math_constants::sqrt2*::sin(theta))
+WIGNER_D_FUNCTION(1,0,1,unit, math_constants::inverse_sqrt2*::sin(theta))
 
 //J=1, M=0, N=0
 WIGNER_D_FUNCTION(1,0,0,unit,::cos(theta))
 
 //J=1, M=0, N=-1
-WIGNER_D_FUNCTION(1,0,-1,unit,-math_constants::sqrt2*::sin(theta))
+WIGNER_D_FUNCTION(1,0,-1,unit,-math_constants::inverse_sqrt2*::sin(theta))
 
 //----------------------------
 
@@ -61,7 +61,7 @@ WIGNER_D_FUNCTION(1,0,-1,unit,-math_constants::sqrt2*::sin(theta))
 WIGNER_D_FUNCTION(1,-1,1,unit,0.5*(1.0 - ::cos(theta) ))
 
 //J=1, M=-1, N=0
-WIGNER_D_FUNCTION(1,-1,0,unit,math_constants::sqrt2*::sin(theta))
+WIGNER_D_FUNCTION(1,-1,0,unit,math_constants::inverse_sqrt2*::sin(theta))
 
 //J=1, M=-1, N=-1
 WIGNER_D_FUNCTION(1,-1,-1,unit, 0.5*(1.0 + ::cos(theta) ))
