@@ -72,12 +72,12 @@ inline T jacobi(double a, double b, unsigned n, const T x){
 
 	case 1:
 
-		return (a-b)/2.0 + (1.0 + (a+b)/2.0)*x;
+		return (a-b)*0.5 + (1.0 + (a+b)*0.5)*x;
 
 	default:
 
 		T JL = 1.0;
-		T JM = (a-b)/2.0 + (1.0 + (a+b)/2.0)*x;
+		T JM = (a-b)*0.5 + (1.0 + (a+b)*0.5)*x;
 		T JN = static_cast<T>(0.0);
 
 		for(unsigned m=2; m<=n; m++){

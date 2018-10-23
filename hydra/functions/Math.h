@@ -130,7 +130,7 @@ for ''n'' = 2, 3, ....
  */
 template<typename T>
 __hydra_host__ __hydra_device__
-inline T jacobi(unsigned a, unsigned b, unsigned n, const T x);
+inline T jacobi(double a, double b, unsigned n, const T x);
 
 template<typename T>
 __hydra_host__ __hydra_device__
