@@ -132,7 +132,7 @@ inline T jacobi(unsigned a, unsigned b, unsigned n, const T x);
 
 template<typename T>
 __hydra_host__ __hydra_device__
-inline T wigner_d_matrix(unsigned j, unsigned m, unsigned n, const T theta)
+inline T wigner_d_matrix(unsigned j, unsigned m, unsigned n, const T theta);
 
 
 }  // namespace hydra
@@ -143,4 +143,5 @@ inline T wigner_d_matrix(unsigned j, unsigned m, unsigned n, const T theta)
 #include "hydra/functions/detail/chebychev.h"
 #include "hydra/functions/detail/jacobi.h"
 #include "hydra/functions/detail/wigner_d_matrix.h"
+
 #endif /* MATH_H_ */

@@ -50,7 +50,8 @@ namespace hydra {
 
 template<typename T>
 __hydra_host__ __hydra_device__
-inline T wigner_d_matrix(unsigned j, unsigned m, unsigned n, const T theta){
+inline T wigner_d_matrix(unsigned j, int m, int n, const T theta){
+
 
 	unsigned mu = ::abs(m-n);
 	unsigned nu = ::abs(m+n);
@@ -58,7 +59,9 @@ inline T wigner_d_matrix(unsigned j, unsigned m, unsigned n, const T theta){
 	int      xi = n>m?1: ::pow(-1,n-m);
 
 	double factor = ::sqrt(::tgamma(s+1)*::tgamma(s+mu+nu)/::tgamma(s+mu)*::tgamma(s+nu));
-
+    // FIXME:
+	// all previous definitions expensive are independent of theta and can be saved if
+	// wigner_d_matrix is promoted to a functor
 	return xi*factor*::pow(::sin(theta*0.5),mu)*::pow(::cos(theta*0.5),nu)*jacobi(mu,nu,s, ::cos(theta));
 
 }

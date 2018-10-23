@@ -45,6 +45,8 @@
 
 namespace hydra {
 
+
+
 namespace detail {
 
 namespace jacobi {
@@ -62,7 +64,7 @@ template<typename T>
 __hydra_host__ __hydra_device__
 inline T jacobi(unsigned a, unsigned b, unsigned n, const T x){
 
-	using hydra::detail::jacobi::cn;
+	using hydra::detail::jacobi::c_n;
 
 	switch(n) {
 
