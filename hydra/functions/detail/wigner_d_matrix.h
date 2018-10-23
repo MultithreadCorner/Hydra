@@ -53,9 +53,9 @@ __hydra_host__ __hydra_device__
 inline T wigner_d_matrix(double j, double m, double n, const T theta){
 
 
-	double mu = ::fabs(m-n);
-	double nu = ::fabs(m+n);
-	unsigned s	= j-0.5*(mu+nu);
+	double mu = ::fabs(rint(m-n));
+	double nu = ::fabs(rint(m+n));
+	unsigned s	= rint(j-0.5*(mu+nu));
 	int      xi = n>m ? 1: ::pow(-1,n-m);
 
 	double factor = ::sqrt(::tgamma(s+1)*::tgamma(s+mu+nu+1)/::tgamma(s+mu+1)*::tgamma(s+nu+1));
