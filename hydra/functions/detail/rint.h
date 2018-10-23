@@ -20,17 +20,14 @@
  *---------------------------------------------------------------------------*/
 
 /*
- * wigner_d_matrix.h
+ * rint.h
  *
  *  Created on: 23/10/2018
  *      Author: Antonio Augusto Alves Junior
  */
 
-#ifndef WIGNER_D_MATRIX_H_
-#define WIGNER_D_MATRIX_H_
-
-
-
+#ifndef RINT_H_
+#define RINT_H_
 
 
 #include <hydra/detail/Config.h>
@@ -44,25 +41,24 @@
 #include <assert.h>
 #include <utility>
 #include <cmath>
+#include <cfenv>
 
 namespace hydra {
 
-
 template<typename T>
 __hydra_host__ __hydra_device__
-inline T wigner_d_matrix(double j, double m, double n, const T theta){
+inline double rint(T x){
 
+#ifdef 	__CUDA_ARCH__
 
-	double mu = ::fabs(m-n);
-	double nu = ::fabs(m+n);
-	unsigned s	= j-0.5*(mu+nu);
-	int      xi = n>m ? 1: ::pow(-1,n-m);
+	return ::rint(x);
 
-	double factor = ::sqrt(::tgamma(s+1)*::tgamma(s+mu+nu+1)/::tgamma(s+mu+1)*::tgamma(s+nu+1));
-    // FIXME:
-	// all previous definitions expensive are independent of theta and can be saved if
-	// wigner_d_matrix is promoted to a functor
-	return xi*factor*::pow(::sin(theta*0.5),mu)*::pow(::cos(theta*0.5),nu)*jacobi(mu,nu,s, ::cos(theta));
+#else
+
+#pragma STDC FENV_ACCESS ON
+    std::fesetround(FE_TONEAREST);
+    std::rint(x);
+#endif
 
 }
 
@@ -70,5 +66,4 @@ inline T wigner_d_matrix(double j, double m, double n, const T theta){
 
 
 
-
-#endif /* WIGNER_D_MATRIX_H_ */
+#endif /* RINT_H_ */

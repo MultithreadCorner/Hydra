@@ -45,6 +45,8 @@
 #include <utility>
 #include <cmath>
 
+#include "hydra/functions/detail/rint.h"
+
 namespace hydra {
 
 /**

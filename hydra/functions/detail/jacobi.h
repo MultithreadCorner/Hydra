@@ -45,24 +45,22 @@
 
 namespace hydra {
 
+	namespace detail {
 
+			namespace jacobi {
 
-namespace detail {
+			__hydra_host__ __hydra_device__
+			inline double c_n(double a, double b, unsigned n){
+				return n + a + b;
+			}
 
-namespace jacobi {
+		}
 
-__hydra_host__ __hydra_device__
-inline unsigned c_n(unsigned a, unsigned b, unsigned n){
-	return n + a + b;
-}
-
-}
-
-}
+	}
 
 template<typename T>
 __hydra_host__ __hydra_device__
-inline T jacobi(unsigned a, unsigned b, unsigned n, const T x){
+inline T jacobi(double a, double b, unsigned n, const T x){
 
 	using hydra::detail::jacobi::c_n;
 
