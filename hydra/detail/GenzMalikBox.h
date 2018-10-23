@@ -91,8 +91,7 @@ public:
 	{
 		for(size_t i=0; i<N; i++) {
 
-		    //fFourDifference[i]=0;
-			fUpperLimit[i]=UpperLimit[i];
+		    fUpperLimit[i]=UpperLimit[i];
 			fLowerLimit[i]=LowerLimit[i];
 			fVolume*=(UpperLimit[i]-LowerLimit[i]);
 		}
@@ -110,7 +109,6 @@ public:
 	{
 		for(size_t i=0; i<N; i++)
 		{
-			//fFourDifference[i]=0;
 			fUpperLimit[i]=UpperLimit[i];
 			fLowerLimit[i]=LowerLimit[i];
 			fVolume *=(UpperLimit[i]-LowerLimit[i]);
@@ -132,7 +130,6 @@ public:
 	{
 		for(size_t i=0; i<N; i++)
 		{
-			//fFourDifference[i]=other.GetFourDifference(i);
 			fUpperLimit[i]=other.GetUpperLimit(i);
 			fLowerLimit[i]=other.GetLowerLimit(i);
 
@@ -154,7 +151,6 @@ public:
 
 		for(size_t i=0; i<N; i++)
 		{
-			//this->fFourDifference[i]=other.GetFourDifference(i);
 			this->fUpperLimit[i]=other.GetUpperLimit(i);
 			this->fLowerLimit[i]=other.GetLowerLimit(i);
 		}
@@ -167,21 +163,10 @@ public:
 	{
 		auto _pair = hydra::detail::split_tuple<2>(other);
 
-		/*
-		GReal_t _temp[N+2];
-		hydra::detail::tupleToArray(other, &_temp[0]);
-
-			this->fRule5 = _temp[0] ;
-			this->fRule7 = _temp[1] ;
-         */
 		this->fRule5 = hydra::get<0>(_pair.first ) ;
 		this->fRule7 = hydra::get<1>(_pair.first ) ;
 
 			this->fCutAxis = hydra::detail::max( _pair.second);
-					/*
-					 HYDRA_EXTERNAL_NS::thrust::distance( &_temp[2],
-						HYDRA_EXTERNAL_NS::thrust::max_element(&_temp[2] , &_temp[2] +N));
-					 */
 
 			GReal_t factor = this->fVolume/::pow(2.0, N);
 
@@ -213,8 +198,7 @@ public:
 		{
 			HYDRA_SPACED_MSG <<"Dimension: " << i << ", Limits: [ "
 					<< fLowerLimit[i] << ", "
-					<< fUpperLimit[i] <<  "]"
-					/*<< fFourDifference[i] */<< HYDRA_ENDL;
+					<< fUpperLimit[i] <<  "]"<< HYDRA_ENDL;
 		}
 		HYDRA_MSG << HYDRA_ENDL;
 
@@ -224,13 +208,7 @@ public:
 
 	inline hydra::pair<detail::GenzMalikBox<N>, detail::GenzMalikBox<N>> Divide(){
 
-		//size_t max_index = //HYDRA_EXTERNAL_NS::thrust::distance(fFourDifference,
-				//HYDRA_EXTERNAL_NS::thrust::max_element(fFourDifference, fFourDifference +N));
-
-
-
 		auto middle =  0.5*(fUpperLimit[fCutAxis] - fLowerLimit[fCutAxis])+fLowerLimit[fCutAxis];
-
 
         detail::GenzMalikBox<N> lower_box(*this);
 	    lower_box.SetUpperLimit(fCutAxis, middle);
@@ -253,19 +231,6 @@ public:
 
 	}
 
-/*
-
-	__hydra_host__ __hydra_device__
-	GReal_t GetFourDifference(size_t i) const {
-		return fFourDifference[i];
-	}
-
-	__hydra_host__ __hydra_device__
-	GReal_t SetFourDifference(size_t i, double value) {
-		return fFourDifference[i]=value;
-	}
-
-*/
 
 	__hydra_host__ __hydra_device__
 	GReal_t GetRule5() const {

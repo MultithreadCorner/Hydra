@@ -47,14 +47,15 @@ reduce(Iterable&& iterable){
 			std::forward<Iterable>(iterable).end() );
 }
 
-template<typename Iterable, typename Functor>
-typename std::enable_if<hydra::detail::is_iterable<Iterable>::value,
-typename HYDRA_EXTERNAL_NS::thrust::iterator_traits<decltype(std::declval<Iterable>().begin())>::value_type >::type
-reduce(Iterable&& iterable, Functor const& binary_functor){
+template<typename Iterable, typename Functor,
+ 	 	 typename T = typename HYDRA_EXTERNAL_NS::thrust::iterator_traits<
+		     decltype(std::declval<Iterable>().begin())>::value_type >
+typename std::enable_if<hydra::detail::is_iterable<Iterable>::value, T >::type
+reduce(Iterable&& iterable, T const& init, Functor const& binary_functor){
 
 
 	return HYDRA_EXTERNAL_NS::thrust::reduce(std::forward<Iterable>(iterable).begin(),
-			std::forward<Iterable>(iterable).end(),
+			std::forward<Iterable>(iterable).end(), init,
 			binary_functor);
 }
 
