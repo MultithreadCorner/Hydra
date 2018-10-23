@@ -48,8 +48,6 @@
 
 namespace hydra {
 
-
-
 template<size_t N,hydra::detail::Backend  BACKEND>
 void GenzMalikQuadrature<N, hydra::detail::BackendPolicy<BACKEND>>::SetGeometry(
 		std::array<GReal_t,N> const& LowerLimit,
@@ -270,8 +268,6 @@ std::pair<GReal_t, GReal_t> GenzMalikQuadrature<N,hydra::detail::BackendPolicy<B
 			//auto start = std::chrono::high_resolution_clock::now();
 
 			AdaptiveIntegration(functor, TempBoxList_d);
-
-			//std::cout << "Size: " << TempBoxList.size() << std::endl;
 
 			//auto stop = std::chrono::high_resolution_clock::now();
 			//std::chrono::duration<double, std::milli> elapsed = stop - start;

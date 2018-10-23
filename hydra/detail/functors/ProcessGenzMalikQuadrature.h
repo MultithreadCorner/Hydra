@@ -234,9 +234,9 @@ private:
 		int found = 0;
 		get_dim_helper(X , result, found);
 
-		std::cout<< X << " found " << found <<" result " <<result << std::endl;
+		//std::cout<< X << " found " << found <<" result " <<result << std::endl;
 
-		return found==N-1?result: found==N? N:-1 ;//< int(HYDRA_EXTERNAL_NS::thrust::tuple_size<T>::value) ? result : -1;
+		return found==int(N-1)?result: found==int(N)? int(N):-1 ;//< int(HYDRA_EXTERNAL_NS::thrust::tuple_size<T>::value) ? result : -1;
 	}
 
 	FUNCTOR fFunctor;

@@ -116,7 +116,23 @@ template<typename T>
 __hydra_host__ __hydra_device__
 inline T hermite(unsigned n, const T x);
 
+/**
+ * Recurrence relation|recurrence relation]] for the Jacobi polynomials of fixed ''α'',''β'' is:<ref name=sz/>
 
+:<math>\begin{align}
+&2n (n + \alpha + \beta) (2n + \alpha + \beta - 2) P_n^{(\alpha,\beta)}(z) \\
+&\qquad= (2n+\alpha + \beta-1) \Big\{ (2n+\alpha + \beta)(2n+\alpha+\beta-2) z +  \alpha^2 - \beta^2 \Big\} P_{n-1}^{(\alpha,\beta)}(z) - 2 (n+\alpha - 1) (n + \beta-1) (2n+\alpha + \beta) P_{n-2}^{(\alpha, \beta)}(z),
+\end{align}</math>
+
+for ''n'' = 2, 3, ....
+ */
+template<typename T>
+__hydra_host__ __hydra_device__
+inline T jacobi(unsigned a, unsigned b, unsigned n, const T x);
+
+template<typename T>
+__hydra_host__ __hydra_device__
+inline T wigner_d_matrix(unsigned j, unsigned m, unsigned n, const T theta);
 
 
 }  // namespace hydra
@@ -125,5 +141,7 @@ inline T hermite(unsigned n, const T x);
 #include "hydra/functions/detail/legendre.h"
 #include "hydra/functions/detail/laguerre.h"
 #include "hydra/functions/detail/chebychev.h"
+#include "hydra/functions/detail/jacobi.h"
+#include "hydra/functions/detail/wigner_d_matrix.h"
 
 #endif /* MATH_H_ */

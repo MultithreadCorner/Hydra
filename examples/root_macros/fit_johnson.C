@@ -87,7 +87,7 @@ void fit_johnson(size_t nentries=500000 )
 	double min   = -5.0;
 	double max   =  5.0;
 	double mean  =  0.0;
-	double sigma =  1;
+	double sigma =  1.5;
 	double width =  0.5;
 	double nu    =  0.0;
 	double tau   =  0.0;
@@ -96,10 +96,10 @@ void fit_johnson(size_t nentries=500000 )
 	hydra::Random<> Generator( std::chrono::system_clock::now().time_since_epoch().count() );
 
 	//parameters
-	hydra::Parameter  mean_p  = hydra::Parameter::Create().Name("Mean").Value(0).Error(0.0001).Limits(-1.0, 1.0);
-	hydra::Parameter  width_p = hydra::Parameter::Create().Name("Width").Value(1).Error(0.0001).Limits(0.01, 1.5);
-	hydra::Parameter  nu_p    = hydra::Parameter::Create().Name("Nu").Value(0.05).Error(0.0001).Limits(-1, 1);
-	hydra::Parameter  tau_p   = hydra::Parameter::Create().Name("Tau").Value(0.5).Error(0.0001).Limits(-1, 1);
+	hydra::Parameter  mean_p  = hydra::Parameter::Create().Name("gamma").Value(0.0).Error(0.0001).Limits(-1.0, 1.0);
+	hydra::Parameter  width_p = hydra::Parameter::Create().Name("delta").Value(1.0).Error(0.0001).Limits(0.001, 100.5);
+	hydra::Parameter  nu_p    = hydra::Parameter::Create().Name("xi").Value(0.05).Error(0.0001).Limits(-5.0, 5.0);
+	hydra::Parameter  tau_p   = hydra::Parameter::Create().Name("lambda").Value(1.0).Error(0.0001).Limits(0.001, 100.5);
 
 
 	//johnson function evaluating on argument one
@@ -160,7 +160,7 @@ void fit_johnson(size_t nentries=500000 )
 		//Minimize and profile the time
 		auto start_d = std::chrono::high_resolution_clock::now();
 
-		FunctionMinimum minimum_d =  FunctionMinimum(migrad_d(std::numeric_limits<unsigned int>::max(), 5));
+		FunctionMinimum minimum_d =  FunctionMinimum(migrad_d(5000, 1));
 
 		auto end_d = std::chrono::high_resolution_clock::now();
 

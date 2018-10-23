@@ -91,8 +91,7 @@ public:
 	{
 		for(size_t i=0; i<N; i++) {
 
-		    //fFourDifference[i]=0;
-			fUpperLimit[i]=UpperLimit[i];
+		    fUpperLimit[i]=UpperLimit[i];
 			fLowerLimit[i]=LowerLimit[i];
 			fVolume*=(UpperLimit[i]-LowerLimit[i]);
 		}
@@ -110,7 +109,6 @@ public:
 	{
 		for(size_t i=0; i<N; i++)
 		{
-			//fFourDifference[i]=0;
 			fUpperLimit[i]=UpperLimit[i];
 			fLowerLimit[i]=LowerLimit[i];
 			fVolume *=(UpperLimit[i]-LowerLimit[i]);
@@ -132,7 +130,6 @@ public:
 	{
 		for(size_t i=0; i<N; i++)
 		{
-			//fFourDifference[i]=other.GetFourDifference(i);
 			fUpperLimit[i]=other.GetUpperLimit(i);
 			fLowerLimit[i]=other.GetLowerLimit(i);
 
@@ -154,7 +151,6 @@ public:
 
 		for(size_t i=0; i<N; i++)
 		{
-			//this->fFourDifference[i]=other.GetFourDifference(i);
 			this->fUpperLimit[i]=other.GetUpperLimit(i);
 			this->fLowerLimit[i]=other.GetLowerLimit(i);
 		}
@@ -165,19 +161,12 @@ public:
 	__hydra_host__ __hydra_device__
 	GenzMalikBox<N>& operator=(result_type const& other)
 	{
+		auto _pair = hydra::detail::split_tuple<2>(other);
 
-		GReal_t _temp[N+2];
-		hydra::detail::tupleToArray(other, &_temp[0]);
+		this->fRule5 = hydra::get<0>(_pair.first ) ;
+		this->fRule7 = hydra::get<1>(_pair.first ) ;
 
-			this->fRule5 = _temp[0] ;
-			this->fRule7 = _temp[1] ;
-
-			/*
-			for(size_t i=0; i<N; i++)
-			{
-				this->fFourDifference[i]=_temp[i+2];
-			}
-            */
+			this->fCutAxis = hydra::detail::max( _pair.second);
 
 			GReal_t factor = this->fVolume/::pow(2.0, N);
 
@@ -203,12 +192,13 @@ public:
 		HYDRA_SPACED_MSG << "Volume: "  << fVolume << HYDRA_ENDL;
 		HYDRA_SPACED_MSG << "Rule7: "   << fRule7  << HYDRA_ENDL;
 		HYDRA_SPACED_MSG << "Rule5: "   << fRule5  << HYDRA_ENDL;
+		HYDRA_SPACED_MSG << "Cutting dimension: "   << fCutAxis  << HYDRA_ENDL;
+
 		for(size_t i=0; i<N; i++ )
 		{
 			HYDRA_SPACED_MSG <<"Dimension: " << i << ", Limits: [ "
 					<< fLowerLimit[i] << ", "
-					<< fUpperLimit[i] <<  "] , Four Difference: "
-					<< fFourDifference[i] << HYDRA_ENDL;
+					<< fUpperLimit[i] <<  "]"<< HYDRA_ENDL;
 		}
 		HYDRA_MSG << HYDRA_ENDL;
 
@@ -218,49 +208,29 @@ public:
 
 	inline hydra::pair<detail::GenzMalikBox<N>, detail::GenzMalikBox<N>> Divide(){
 
-		size_t max_index = HYDRA_EXTERNAL_NS::thrust::distance(fFourDifference,
-				HYDRA_EXTERNAL_NS::thrust::max_element(fFourDifference, fFourDifference +N));
-
-
-
-		auto middle =  0.5*(fUpperLimit[max_index ] - fLowerLimit[max_index ])+fLowerLimit[max_index ];
-
+		auto middle =  0.5*(fUpperLimit[fCutAxis] - fLowerLimit[fCutAxis])+fLowerLimit[fCutAxis];
 
         detail::GenzMalikBox<N> lower_box(*this);
-	    lower_box.SetUpperLimit(max_index, middle);
+	    lower_box.SetUpperLimit(fCutAxis, middle);
+	    lower_box.SetCutAxis(-1);
 	    lower_box.SetError(0.0);
 	    lower_box.SetErrorSq(0.0);
 	    lower_box.SetIntegral(0.0);
 
 
 		detail::GenzMalikBox<N> upper_box(*this);
-		upper_box.SetLowerLimit(max_index, middle);
+		upper_box.SetLowerLimit(fCutAxis, middle);
+		upper_box.SetCutAxis(-1);
 		upper_box.SetError(0.0);
 		upper_box.SetErrorSq(0.0);
 		upper_box.SetIntegral(0.0);
 		upper_box.SetIntegral(0.0);
-
-		for(size_t i=0; i<N; i++){
-			upper_box.SetFourDifference(i,0.0);
-			lower_box.SetFourDifference(i,0.0);
-		}
 
 
 		return hydra::make_pair(lower_box, upper_box);
 
 	}
 
-
-
-	__hydra_host__ __hydra_device__
-	GReal_t GetFourDifference(size_t i) const {
-		return fFourDifference[i];
-	}
-
-	__hydra_host__ __hydra_device__
-	GReal_t SetFourDifference(size_t i, double value) {
-		return fFourDifference[i]=value;
-	}
 
 	__hydra_host__ __hydra_device__
 	GReal_t GetRule5() const {
@@ -356,11 +326,11 @@ public:
 	void SetErrorSq(GReal_t errorSq) {
 		fErrorSq = errorSq;
 	}
-
+	__hydra_host__ __hydra_device__
 	GInt_t GetCutAxis() const {
 		return fCutAxis;
 	}
-
+	__hydra_host__ __hydra_device__
 	void SetCutAxis(GInt_t cutAxis) {
 		fCutAxis = cutAxis;
 	}
@@ -382,7 +352,6 @@ private:
 	GReal_t fVolume;
 	GReal_t fRule7;
 	GReal_t fRule5;
-	//GReal_t fFourDifference[N];
 	GReal_t fUpperLimit[N];
 	GReal_t fLowerLimit[N];
 	GInt_t  fCutAxis;
