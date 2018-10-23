@@ -52,7 +52,7 @@ double wigner_d_function<_half<1>,_half<1>,_half<-1>>(const double theta){
 template<>
 double wigner_d_function<_half<1>,_half<-1>,_half<1>>(const double theta){
 
-	return  -::sin(0.5*theta);
+	return  ::sin(0.5*theta);
 }
 
 
