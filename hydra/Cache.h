@@ -99,6 +99,7 @@ public:
 	typedef multivector< tuple_type, hydra::detail::BackendPolicy<BACKEND> > storage_type;
 	typedef typename storage_type::iterator iterator;
 	typedef typename storage_type::const_iterator const_iterator;
+	typedef typename storage_type::value_type value_type;
 
 	Cache()=delete;
 

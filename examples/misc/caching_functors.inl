@@ -143,11 +143,11 @@ int main(int argv, char** argc)
 
 	 //
 	 std::cout << "Before cache building:" << std::endl;
-	 std::cout << "Angular cache: "<< angular_distribution.GetCacheIndex() << std::endl;
-	 std::cout << "Breit-Wigner cache: "<< line_shape.GetCacheIndex() << std::endl;
+	 std::cout << "Angular cache index: "<< angular_distribution.GetCacheIndex() << std::endl;
+	 std::cout << "Breit-Wigner cache index: "<< line_shape.GetCacheIndex() << std::endl;
 	 auto particles        = Events_d.GetUnweightedDecays();
 
-	 hydra::make_cache(hydra::device::sys, particles.begin(), particles.end(),
+	auto cache = hydra::make_cache(hydra::device::sys, particles.begin(), particles.end(),
 			 angular_distribution, line_shape);
 
 	 //
@@ -155,7 +155,10 @@ int main(int argv, char** argc)
 	 std::cout << "Angular cache: "<< angular_distribution.GetCacheIndex() << std::endl;
 	 std::cout << "Breit-Wigner cache: "<< line_shape.GetCacheIndex() << std::endl;
 
+	 std::cout << "Dumping cache (10 first entries):" << std::endl;
+	 for(size_t i=0; i<10; i++)
 
+		 std::cout <<  cache.begin()[i] << std::endl;
 	 return 0;
 }
 

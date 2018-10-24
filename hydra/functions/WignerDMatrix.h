@@ -69,32 +69,32 @@ class WignerDMatrix: public BaseFunctor<WignerDMatrix<ArgIndex>, double, 0>
 public:
 
 	WignerDMatrix()=delete;
-	
+
 	WignerDMatrix(double j, double m, double n):
-	fJ(j),
-	fM(m),
-	fN(n),
-	fF(0),
-	fMu(0),
-	fNu(0),
-	fXi(0),
-	fS(0)
+		fJ(j),
+		fM(m),
+		fN(n),
+		fF(0),
+		fMu(0),
+		fNu(0),
+		fXi(0),
+		fS(0)
 	{
 		UpdateState();
 	}
 
 	__hydra_dual__
 	WignerDMatrix( WignerDMatrix<ArgIndex> const& other):
-		BaseFunctor<WignerDMatrix<ArgIndex>, double, 0>(other),
-		fJ(other.GetJ()),
-		fM(other.GetM()),
-		fN(other.GetN()),
-		fF(other.GetF()),
-		fMu(other.GetMu()),
-		fNu(other.GetNu()),
-		fXi(other.GetXi()),
-		fS(other.GetS())
-		{}
+	BaseFunctor<WignerDMatrix<ArgIndex>, double, 0>(other),
+	fJ(other.GetJ()),
+	fM(other.GetM()),
+	fN(other.GetN()),
+	fF(other.GetF()),
+	fMu(other.GetMu()),
+	fNu(other.GetNu()),
+	fXi(other.GetXi()),
+	fS(other.GetS())
+	{}
 
 	__hydra_dual__
 	WignerDMatrix<ArgIndex>& operator=( WignerDMatrix<ArgIndex> const& other){
