@@ -75,8 +75,6 @@ template<typename T>
 __hydra_host__ __hydra_device__
 inline T laguerre(unsigned n, const T x);
 
-
-
 /**
  * Implementation of Chebychev polynomials of first kind \f$ P_n(n) \f$ using the recursive relation
  *
@@ -90,7 +88,6 @@ template<typename T>
 __hydra_host__ __hydra_device__
 inline T chebychev_1st_kind(unsigned n, const T x);
 
-
 /**
  * Implementation of Chebychev polynomials of second kind \f$ P_n(n) \f$ using the recursive relation
  *
@@ -103,7 +100,6 @@ inline T chebychev_1st_kind(unsigned n, const T x);
 template<typename T>
 __hydra_host__ __hydra_device__
 inline T chebychev_2nd_kind(unsigned n, const T x);
-
 
 /**
  * Implementation of Hermite polynomials \f$ P_n(n) \f$ using the recursive relation
