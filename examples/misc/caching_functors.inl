@@ -121,7 +121,8 @@ int main(int argv, char** argc)
 		 hydra::Vector4R p2 = p[1];
 		 hydra::Vector4R p3 = p[2];
 
-		 double theta = (p1+p2).mass();
+		 double theta = (p2+p3).mass();
+
 
          return breit_wigner(theta);
 	 });

@@ -140,7 +140,7 @@ public:
 	operator=(Cache< hydra::detail::BackendPolicy<BACKEND>,Functors...> && other){
 
 		if(this==&other) return *this;
-		fData =other.GetData();
+		fData =other.MoveData();
 		return *this;
 	}
 
@@ -169,6 +169,15 @@ public:
 	const_iterator end() const{
 		return fData.cend();
 	}
+
+	value_type& operator[](size_t i){
+		return  fData[i];
+	}
+
+	const value_type& operator[](size_t i) const {
+			return  fData[i];
+	}
+
 
 private:
 
