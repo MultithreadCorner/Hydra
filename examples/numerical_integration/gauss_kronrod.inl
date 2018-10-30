@@ -52,6 +52,7 @@
 #include <hydra/FunctionWrapper.h>
 #include <hydra/host/System.h>
 #include <hydra/device/System.h>
+#include <hydra/functions/Gaussian.h>
 
 
 
@@ -81,6 +82,9 @@ int main(int argv, char** argc)
 	//wrap the lambda
     auto gaussian = hydra::wrap_lambda(GAUSSIAN);
 
+    auto gauss_anaint = hydra::AnalyticIntegral<hydra::Gaussian<>>(-6.0, 6.0);
+
+
     //device
     {
     	// 61- degree quadrature
@@ -94,8 +98,11 @@ int main(int argv, char** argc)
 
     	std::chrono::duration<double, std::milli> elapsed = end - start;
 
+    	auto result2 = gauss_anaint(hydra::Gaussian<>(0.0, 1.0),0.0, 10 );
+
     	std::cout << ">>>l [ Gauss-Kronrod 61 ]"<< std::endl;
-    	std::cout << "Result: " << result.first << "  +-  " << result.second <<std::endl
+    	std::cout << "Result: " << result.first << "  +-  " << result.second <<std::endl;
+    	std::cout << "Result2: " << result2.first << "  +-  " << result2.second <<std::endl
     	<< " Time (ms): "<< elapsed.count() <<std::endl;
     }
 
