@@ -105,7 +105,7 @@ int main(int argv, char** argc)
 
 	double B0_mass    = 5.27955;      // B0 mass
 	double Jpsi_mass  = 3.0969;       // J/psi mass
-	double K_mass     = 0.493677;     // K+ mass
+	double K_mass     = 0.13957061;   //0.493677;     // K+ mass
 	double pi_mass    = 0.13957061;   // pi mass
 	double mu_mass    = 0.1056583745 ;// mu mass
 

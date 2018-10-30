@@ -53,10 +53,8 @@ struct Integrator{
 	//functor.SetNormalized(1);
 	return result;
 	}
-
-
-
 };
+
 
 
 
