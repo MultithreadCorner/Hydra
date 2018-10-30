@@ -93,6 +93,34 @@ public:
 
 };
 
+template<unsigned int ArgIndex>
+class IntegrationFormula< Gaussian<ArgIndex>, 1>
+{
+
+protected:
+
+	inline std::pair<GReal_t, GReal_t>
+	EvalFormula(Gaussian<ArgIndex>const& functor, double LowerLimit, double UpperLimit )const
+	{
+		double fraction = cumulative(functor[0], functor[1], UpperLimit)
+							- cumulative(functor[0], functor[1], LowerLimit);
+
+			return std::make_pair( CHECK_VALUE(fraction,
+					" par[0] = %f par[1] = %f fLowerLimit = %f fUpperLimit = %f",
+					functor[0], functor[1], LowerLimit, UpperLimit ) ,0.0);
+
+	}
+private:
+
+	inline double cumulative(const double mean, const double sigma, const double x) const
+	{
+		static const double sqrt_pi_over_two = 1.2533141373155002512079;
+		static const double sqrt_two         = 1.4142135623730950488017;
+
+		return sigma*sqrt_pi_over_two*(1.0 + erf( (x-mean)/( sigma*sqrt_two ) ) );
+	}
+};
+
 class GaussianAnalyticalIntegral: public Integrator<GaussianAnalyticalIntegral>
 {
 

@@ -40,6 +40,78 @@
 
 namespace hydra {
 
+template<typename Functor, size_t N=1>
+class IntegrationFormula;
+
+template<typename Functor, size_t N=1>
+class AnalyticalIntegral;
+
+template<typename Functor, size_t N=1>
+class NumericalIntegral;
+
+template<typename Algorithm, size_t N=1>
+struct Integral;
+
+
+
+template<typename Algorithm, size_t N>
+struct Integral{
+
+	typedef void hydra_integrator_tag;
+
+	template<typename Functor>
+	inline std::pair<GReal_t, GReal_t> operator()( Functor  const & functor)
+	{
+
+		auto result = static_cast< Algorithm&>(*this).Integrate(functor);
+
+		return result;
+	}
+
+	template<typename Functor>
+	inline std::pair<GReal_t, GReal_t> operator()( Functor  const & functor, double (&min)[N], double (&max)[N])
+	{
+
+		auto result = static_cast< Algorithm&>(*this).Integrate(functor, min, max);
+
+		return result;
+	}
+
+
+};
+
+
+template<typename Algorithm>
+struct Integral<Algorithm,1>{
+
+	typedef void hydra_integrator_tag;
+
+	template<typename Functor>
+	inline std::pair<GReal_t, GReal_t> operator()( Functor  const & functor)
+	{
+
+		auto result = static_cast< Algorithm&>(*this).Integrate(functor);
+
+		return result;
+	}
+
+	template<typename Functor>
+	inline std::pair<GReal_t, GReal_t> operator()( Functor  const & functor, double min, double max)
+	{
+
+		auto result = static_cast< Algorithm&>(*this).Integrate(functor, min, max);
+
+		return result;
+	}
+
+
+};
+
+
+
+
+
+
 template<typename ALGORITHM>
 struct Integrator{
 
