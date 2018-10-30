@@ -35,7 +35,7 @@
 #include <hydra/Types.h>
 #include <hydra/Function.h>
 #include <hydra/Pdf.h>
-#include <hydra/detail/Integrator.h>
+#include <hydra/Integrator.h>
 #include <hydra/detail/utility/CheckValue.h>
 #include <hydra/detail/utility/SafeCompare.h>
 #include <hydra/GaussKronrodQuadrature.h>
@@ -162,8 +162,158 @@ private:
 
 };
 
+template<unsigned int ArgIndex>
+class IntegrationFormula< Ipatia<ArgIndex>, 1>
+{
 
-class IpatiaAnalyticalIntegral: public Integrator<IpatiaAnalyticalIntegral>
+protected:
+
+	inline std::pair<GReal_t, GReal_t>
+	EvalFormula( Ipatia<ArgIndex>const& functor, double LowerLimit, double UpperLimit )const
+	{
+
+		double output = integral(LowerLimit-functor[0], UpperLimit-functor[0],
+				functor[1], functor[2], functor[3], functor[4], functor[5], functor[6], functor[7]);
+
+		if(::isnan(output)){
+
+			if (WARNING >= Print::Level()  )
+			{
+				std::ostringstream stringStream;
+
+				stringStream << "Detected NaN in analytical integration\n";
+				stringStream << "Switching to numerical integration.\n";
+
+				HYDRA_LOG(WARNING, stringStream.str().c_str() )
+
+			}
+
+			return fNumIntegrator(functor);
+		}
+		else{
+
+		return std::make_pair(
+				CHECK_VALUE(output," par[0] = %f par[1] = %f par[2] = %f par[3] = %f par[4] = %f par[5] = %f par[6] = %f par[7] = %f LowerLimit = %f UpperLimit = %f",
+						functor[0], functor[1], functor[2], functor[3],
+						functor[4], functor[5], functor[6], functor[7],
+						LowerLimit, UpperLimit ) ,0.0);
+		}
+
+
+	}
+private:
+
+
+	inline double integral(const double d0, const double d1, const double sigma,
+			const double A1, const double N1, const double A2, const double N2,
+			const double l, const  double beta ) const
+	{
+
+
+		double ASigma1 = A1*sigma;
+		double ASigma2 = A2*sigma;
+		double I0 = 0;
+		double I1 = 0;
+		double I1a = 0;
+		double I1b = 0;
+
+		double delta = (l<-1.0)? sigma *sqrt(-2.0 -2.*l) : sigma;
+
+		double delta2 = delta*delta;
+
+		if ((d0 > -ASigma1) && (d1 < ASigma2)){
+			return  d_hypergeometric(d1,delta, l) - d_hypergeometric(d0,delta, l);
+		}
+
+		if (d0 > ASigma2) {
+
+			double cons1 = 1.;
+			double phi = 1. + ASigma2*ASigma2/delta2;
+			double k1 = cons1*::pow(phi,l-0.5);
+			double k2 = beta*k1+ cons1*(l-0.5)*::pow(phi,l-1.5)*2.*ASigma2/delta2;
+			double B = -ASigma2 - N2*k1/k2;
+			double A = k1*::pow(B+ASigma2,N2);
+			return A*(::pow(B+d1,1.0-N2)/(1.0-N2) -::pow(B+d0,1.0-N2)/(1.0-N2) );
+
+		}
+
+		if (d1 < -ASigma1) {
+
+			double cons1 = 1.;
+			double phi = 1. + ASigma1*ASigma1/delta2;
+			double k1 = cons1*::pow(phi,l-0.5);
+			double k2 = beta*k1- cons1*(l-0.5)*::pow(phi,l-1.5)*2.0*ASigma1/delta2;
+			double B = -ASigma1 + N1*k1/k2;
+			double A = k1*::pow(B+ASigma1,N1);
+			I0 = A*::pow(B-d0,1.0-N1)/(N1-1.0);
+			I1 = A*::pow(B-d1,1.0-N1)/(N1-1.0);
+
+			return I1 - I0;
+		}
+
+
+
+		if (d0 <-ASigma1) {
+
+			double cons1 = 1.;
+			double phi = 1. + ASigma1*ASigma1/delta2;
+			double 	k1 = cons1*::pow(phi,l-0.5);
+			double 	k2 = beta*k1- cons1*(l-0.5)*::pow(phi,l-1.5)*2.0*ASigma1/delta2;
+			double 	B = -ASigma1 + N1*k1/k2;
+			double A = k1*::pow(B+ASigma1,N1);
+			I0 = A*::pow(B-d0,1.0-N1)/(N1-1.0);
+			I1a = A*::pow(B+ASigma1,1.0-N1)/(N1-1.0) - d_hypergeometric(-ASigma1,delta, l);
+
+		}
+
+		else {
+			I0 = d_hypergeometric(d0,delta, l);
+		}
+
+		if (d1 > ASigma2) {
+
+			double cons1 = 1.;
+			double phi = 1. + ASigma2*ASigma2/delta2;
+			double k1 = cons1*::pow(phi,l-0.5);
+			double k2 = beta*k1+ cons1*(l-0.5)*::pow(phi,l-1.5)*2.*ASigma2/delta2;
+			double B  = -ASigma2 - N2*k1/k2;
+			double A  = k1*::pow(B+ASigma2,N2);
+			I1b = A*(::pow(B+d1,1.0-N2)/(1.0-N2) -::pow(B+ASigma2,1.0-N2)/(1.0-N2) ) - d_hypergeometric(d1,delta, l) +  d_hypergeometric(ASigma2,delta, l);
+
+		}
+
+		I1 = d_hypergeometric(d1,delta, l) + I1a + I1b;
+
+		return I1 - I0;
+
+
+	}
+
+	double hypergeometric_2F1(double a, double b, double c, double x) const {
+
+		if ( detail::SafeLessThan(::fabs(x), 1.0, std::numeric_limits<double>::epsilon()) ){
+
+			return gsl_sf_hyperg_2F1(a,b,c,x);}
+
+		else {
+
+			return    gsl_sf_hyperg_2F1(c-a,b,c,1.0-1.0/(1.0-x))/::pow(1.0-x,b);
+
+		}
+	}
+
+	double d_hypergeometric(double d1, double delta,double l) const {
+
+		return d1*hypergeometric_2F1(0.5,0.5-l,1.5,-d1*d1/(delta*delta));
+
+	}
+
+	hydra::GaussKronrodQuadrature<61,500, hydra::cpp::sys_t> fNumIntegrator;
+};
+
+
+/*
+class IpatiaAnalyticalIntegral: public Integral<IpatiaAnalyticalIntegral>
 {
 
 public:
@@ -265,8 +415,7 @@ private:
 		double delta2 = delta*delta;
 
 		if ((d0 > -ASigma1) && (d1 < ASigma2)){
-			return  d_hypergeometric(d1,delta, l) - d_hypergeometric(d0,delta, l);/*CHECK_VALUE(d_hypergeometric(d1,delta, l) - d_hypergeometric(d0,delta, l), "A: d0=%f d1=%f sigma=%f A1=%f N1=%f A2=%f N2=%f l=%f beta=%f ",
-					d0,	d1,	sigma, A1, N1, A2, N2, l,beta);*/
+			return  d_hypergeometric(d1,delta, l) - d_hypergeometric(d0,delta, l);
 		}
 
 		if (d0 > ASigma2) {
@@ -356,7 +505,7 @@ private:
 	double fUpperLimit;
 	hydra::GaussKronrodQuadrature<61,500, hydra::cpp::sys_t> fNumIntegrator;
 };
-
+*/
 }  // namespace hydra
 
 #include <hydra/functions/detail/Ipatia.inl>

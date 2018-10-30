@@ -36,7 +36,7 @@
 #include <hydra/Types.h>
 #include <hydra/Function.h>
 #include <hydra/Pdf.h>
-#include <hydra/detail/Integrator.h>
+#include <hydra/Integrator.h>
 #include <hydra/detail/utility/CheckValue.h>
 #include <hydra/Parameter.h>
 #include <hydra/Tuple.h>
@@ -110,7 +110,51 @@ private:
 };
 
 
-class TriangularShapeAnalyticalIntegral:public Integrator<TriangularShapeAnalyticalIntegral>
+template<unsigned int ArgIndex>
+class IntegrationFormula< TriangularShape<ArgIndex>, 1>
+{
+
+protected:
+
+	inline std::pair<GReal_t, GReal_t>
+	EvalFormula( TriangularShape<ArgIndex>const& functor, double LowerLimit, double UpperLimit )const
+	{
+		double a = functor[0];
+		double b = functor[1];
+		double c = functor[2];
+
+		double r  =  (cdf(a, b, c, UpperLimit) - cdf(a, b, c, LowerLimit)) ;
+		return std::make_pair( CHECK_VALUE(r, "par[0]=%f par[1]=%f par[2]=%f ", a, b, c ) , 0.0);
+
+	}
+
+private:
+
+	double cdf( const double a, const double b, const double c, const double x ) const {
+
+		if(x < a) return 0.0;
+		else if(x >b ) return 1.0;
+		else if((x > a)&&(x<=c)) {
+
+			double delta = ( x - a);
+
+			return delta*delta/((b-a)*(c-a));
+		}
+		else if((x > c)&&(x<=b)) {
+
+			double delta = (b-x);
+
+			return 1.0 - delta*delta/((b-a)*(b-c));
+		}
+
+		return 0.0;
+	}
+
+
+};
+
+/*
+class TriangularShapeAnalyticalIntegral:public Integral<TriangularShapeAnalyticalIntegral>
 {
 
 public:
@@ -187,6 +231,8 @@ private:
 	double fUpperLimit;
 
 };
+
+*/
 
 }
 #endif /* TRIANGULARSHAPE_H_ */

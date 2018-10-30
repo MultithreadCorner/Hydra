@@ -20,17 +20,43 @@
  *---------------------------------------------------------------------------*/
 
 /*
- * NumericalIntegral.h
+ * Integrator.h
  *
- *  Created on: 30/10/2018
+ *  Created on: 31/08/2016
  *      Author: Antonio Augusto Alves Junior
  */
 
-#ifndef NUMERICALINTEGRAL_H_
-#define NUMERICALINTEGRAL_H_
+/**
+ * \file
+ * \ingroup numerical_integration
+ */
+
+#ifndef INTEGRATOR_H_
+#define INTEGRATOR_H_
+
+#include <hydra/detail/Config.h>
+#include <hydra/Types.h>
+#include <utility>
+
+namespace hydra {
+
+template<typename Functor, size_t N=1>
+class IntegrationFormula;
+
+template<typename Functor, size_t N=1>
+class AnalyticalIntegral;
+
+template<typename Functor, size_t N=1>
+class NumericalIntegral;
+
+template<typename Algorithm, size_t N=1>
+struct Integral;
 
 
+}  // namespace hydra
 
+#include <hydra/detail/AnalyticalIntegral.inl>
+#include <hydra/detail/NumericalIntegral.inl>
+#include <hydra/detail/Integrator.inl>
 
-
-#endif /* NUMERICALINTEGRAL_H_ */
+#endif /* INTEGRATOR_H_ */

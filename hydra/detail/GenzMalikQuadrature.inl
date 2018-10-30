@@ -36,7 +36,7 @@
 #include <hydra/GenzMalikRule.h>
 #include <hydra/detail/GenzMalikBox.h>
 #include <hydra/multivector.h>
-#include <hydra/detail/Integrator.h>
+#include <hydra/Integrator.h>
 #include <hydra/detail/utility/Generic.h>
 #include <hydra/detail/functors/ProcessGenzMalikQuadrature.h>
 #include <hydra/detail/external/thrust/iterator/counting_iterator.h>

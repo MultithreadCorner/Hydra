@@ -37,7 +37,7 @@
 #include <hydra/Types.h>
 #include <hydra/Function.h>
 #include <hydra/Pdf.h>
-#include <hydra/detail/Integrator.h>
+#include <hydra/Integrator.h>
 #include <hydra/detail/utility/CheckValue.h>
 #include <hydra/Parameter.h>
 #include <hydra/Tuple.h>
@@ -110,8 +110,44 @@ private:
 	}
 };
 
+template<unsigned int ArgIndex>
+class IntegrationFormula< UniformShape<ArgIndex>, 1>
+{
 
-class UniformShapeAnalyticalIntegral:public Integrator<UniformShapeAnalyticalIntegral>
+protected:
+
+	inline std::pair<GReal_t, GReal_t>
+	EvalFormula( UniformShape<ArgIndex>const& functor, double LowerLimit, double UpperLimit )const
+	{
+		double a = functor[0];
+		double b = functor[1];
+
+		double r  =  (cdf(a, b, UpperLimit) - cdf(a, b, LowerLimit)) ;
+		return std::make_pair( CHECK_VALUE(r, "par[0]=%f par[1]=%f ", a, b ) , 0.0);
+
+	}
+
+private:
+
+
+	double cdf( const double a, const double b, const double x ) const {
+
+		if(x <= a) return 0.0;
+
+		else if(x >b ) return 1.0;
+
+		else if((x > a)&&(x<=b))
+		{
+		  return (x-a)/(b-a);
+		}
+
+		return 0.0;
+	}
+};
+
+
+/*
+class UniformShapeAnalyticalIntegral:public Integral<UniformShapeAnalyticalIntegral>
 {
 
 public:
@@ -179,6 +215,7 @@ private:
 	double fUpperLimit;
 
 };
+*/
 
 }  // namespace hydra
 

@@ -37,7 +37,7 @@
 #include <hydra/GaussKronrodRules.h>
 #include <hydra/detail/functors/ProcessGaussKronrodQuadrature.h>
 #include <hydra/multivector.h>
-#include <hydra/detail/Integrator.h>
+#include <hydra/Integrator.h>
 
 #include <hydra/detail/Print.h>
 #include <tuple>
@@ -93,7 +93,7 @@ The difference between a Gauss quadrature rule and its Kronrod extension are oft
  */
 template<size_t NRULE, size_t NBIN, hydra::detail::Backend  BACKEND>
 class GaussKronrodQuadrature<NRULE,NBIN, hydra::detail::BackendPolicy<BACKEND>>:
-public Integrator< GaussKronrodQuadrature<NRULE, NBIN, hydra::detail::BackendPolicy<BACKEND> > >
+public Integral< GaussKronrodQuadrature<NRULE, NBIN, hydra::detail::BackendPolicy<BACKEND> > >
 {
 public:
 

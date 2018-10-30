@@ -35,7 +35,7 @@
 #include <hydra/Types.h>
 #include <hydra/Function.h>
 #include <hydra/Pdf.h>
-#include <hydra/detail/Integrator.h>
+#include <hydra/Integrator.h>
 #include <hydra/Parameter.h>
 #include <hydra/Tuple.h>
 #include <hydra/functions/Math.h>
@@ -156,8 +156,70 @@ private:
 
 };
 
+template<unsigned int ArgIndex>
+class IntegrationFormula< Chebychev<ArgIndex>, 1>
+{
 
-class ChebychevAnalyticalIntegral:public Integrator<ChebychevAnalyticalIntegral>
+protected:
+
+	inline std::pair<GReal_t, GReal_t>
+	EvalFormula( Chebychev<ArgIndex>const& functor, double LowerLimit, double UpperLimit )const
+	{
+		double coefs[Order+1]{};
+			for(unsigned int i =0; i<Order+1; i++)
+				coefs[i]=functor[i];
+
+			double r=0;
+
+			if(fUpperLimit <=  functor.GetMaximum() && fLowerLimit >=  functor.GetMinimum() ){
+
+
+				r   =  polynomial_integral<Order+1>(coefs, UpperLimit, functor.GetMinimum(), functor.GetMaximum()) -
+						polynomial_integral<Order+1>(coefs,LowerLimit, functor.GetMinimum(), functor.GetMaximum()) ;
+			}
+			else {
+
+				r   =  polynomial_integral<Order+1>(coefs, (UpperLimit >  functor.GetMaximum()) ? functor.GetMaximum():UpperLimit, functor.GetMinimum(), functor.GetMaximum()) -
+					   polynomial_integral<Order+1>(coefs, (LowerLimit <  functor.GetMinimum()) ? functor.GetMinimum():LowerLimit, functor.GetMinimum(), functor.GetMaximum()) ;
+			}
+
+
+			return std::make_pair( 0.5*( UpperLimit - LowerLimit)*r,0.0);
+
+	}
+
+private:
+
+	template<unsigned int N, unsigned int I>
+	__hydra_host__ __hydra_device__ inline
+	typename std::enable_if<(I==N), void >::type
+	polynomial_integral_helper( const double, const double(&)[N], double&) const {}
+
+	template<unsigned int N, unsigned int I=2>
+	__hydra_host__ __hydra_device__ inline
+	typename std::enable_if<(I<N), void >::type
+	polynomial_integral_helper( const double x, const double(&coef)[N], double& r) const {
+
+		r += 0.5*coef[I]*(chebychev_1st_kind(I+1,x)/(I+1) - chebychev_1st_kind(I-1,x)/(I-1) );
+		polynomial_integral_helper<N, I+1>(x,coef, r);
+	}
+
+	template<unsigned int N>
+	__hydra_host__ __hydra_device__ inline double polynomial_integral(const double(&coef)[N], double x, double min, double max) const {
+
+		double y = -1.0 + 2.0*(x - min)/( max- min);
+
+		double r= coef[0]*chebychev_1st_kind(1,y)+0.25*coef[1]*chebychev_1st_kind(2,y);
+
+		polynomial_integral_helper<N,2>(y,coef, r);
+
+		return r;
+	}
+
+};
+
+/*
+class ChebychevAnalyticalIntegral:public Integral<ChebychevAnalyticalIntegral>
 {
 
 public:
@@ -257,6 +319,7 @@ private:
 	double fLowerLimit;
 	double fUpperLimit;
 };
+*/
 
 }  // namespace hydra
 

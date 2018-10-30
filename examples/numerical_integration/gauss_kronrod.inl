@@ -82,7 +82,7 @@ int main(int argv, char** argc)
 	//wrap the lambda
     auto gaussian = hydra::wrap_lambda(GAUSSIAN);
 
-    auto gauss_anaint = hydra::AnalyticIntegral<hydra::Gaussian<>>(-6.0, 6.0);
+    auto gauss_anaint = hydra::AnalyticalIntegral<hydra::Gaussian<>>(-6.0, 6.0);
 
 
     //device

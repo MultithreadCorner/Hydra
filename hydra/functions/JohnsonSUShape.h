@@ -38,7 +38,7 @@
 #include <hydra/Types.h>
 #include <hydra/Function.h>
 #include <hydra/Pdf.h>
-#include <hydra/detail/Integrator.h>
+#include <hydra/Integrator.h>
 #include <hydra/detail/utility/CheckValue.h>
 #include <hydra/Parameter.h>
 #include <hydra/Tuple.h>
@@ -147,9 +147,45 @@ public:
 	}
 };
 
+template<unsigned int ArgIndex>
+class IntegrationFormula< JohnsonSUShape<ArgIndex>, 1>
+{
+
+protected:
+
+	inline std::pair<GReal_t, GReal_t>
+	EvalFormula( JohnsonSUShape<ArgIndex>const& functor, double LowerLimit, double UpperLimit )const
+	{
+		double r = cumulative(functor[0], functor[1], functor[2], functor[3], UpperLimit)
+				 - cumulative(functor[0], functor[1], functor[2], functor[3], LowerLimit);
+
+				return std::make_pair(
+				CHECK_VALUE(r," par[0] = %f par[1] = %f par[2] = %f par[3] = %f LowerLimit = %f UpperLimit = %f",\
+						functor[0], functor[1],functor[2], functor[3], LowerLimit, UpperLimit ) ,0.0);
+
+	}
+
+private:
+
+	inline double cumulative( const double gamma,  const double delta,  const double xi,  const double lambda, const double x) const
+	{
+		//actually only 1/lambda is used
+		double inverse_lambda = 1.0/lambda;
+
+		// z =  (x-xi)/lambda
+		double z    = (x-xi)*inverse_lambda;
+
+		// C = {(\gamma + \delta * \asinh(z) )}
+		double C = gamma + delta*::asinh(z);
+
+		return 0.5*(1.0 + ::erf(C*hydra::math_constants::inverse_sqrt2));
+	}
 
 
-class JohnsonSUShapeAnalyticalIntegral: public Integrator<JohnsonSUShapeAnalyticalIntegral>
+};
+
+/*
+class JohnsonSUShapeAnalyticalIntegral: public Integral<JohnsonSUShapeAnalyticalIntegral>
 {
 
 public:
@@ -226,7 +262,7 @@ private:
 	double fUpperLimit;
 
 };
-
+*/
 
 }  // namespace hydra
 

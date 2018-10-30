@@ -35,7 +35,7 @@
 #include <hydra/Types.h>
 #include <hydra/Function.h>
 #include <hydra/Pdf.h>
-#include <hydra/detail/Integrator.h>
+#include <hydra/Integrator.h>
 #include <hydra/detail/utility/CheckValue.h>
 #include <hydra/Parameter.h>
 #include <hydra/Tuple.h>
@@ -106,7 +106,59 @@ public:
 
 };
 
-class BifurcatedGaussianAnalyticalIntegral: public Integrator<BifurcatedGaussianAnalyticalIntegral>
+
+template<unsigned int ArgIndex>
+class IntegrationFormula< BifurcatedGaussian<ArgIndex>, 1>
+{
+
+protected:
+
+	inline std::pair<GReal_t, GReal_t>
+	EvalFormula( BifurcatedGaussian<ArgIndex>const& functor, double LowerLimit, double UpperLimit )const
+	{
+		double fraction = cumulative(functor[0], functor[1], functor[2] );
+
+		return std::make_pair(	CHECK_VALUE(fraction," par[0] = %f par[1] = %f par[2] = %f LowerLimit = %f UpperLimit = %f",
+				functor[0], functor[1], functor[2], LowerLimit,UpperLimit ) ,0.0);
+
+	}
+
+private:
+
+	inline double cumulative(const double mean, const double sigma_left, const double sigma_right) const
+	{
+		static const double sqrt_pi_over_two = 1.2533141373155002512079;
+		static const double sqrt_two         = 1.4142135623730950488017;
+
+
+		double xscaleL = sqrt_two*sigma_left;
+		double xscaleR = sqrt_two*sigma_right;
+
+		double integral = 0.0;
+
+		if(UpperLimit < mean)
+		{
+			integral = sigma_left * ( ::erf((UpperLimit - mean)/xscaleL) - ::erf((LowerLimit - mean)/xscaleL) );
+		}
+		else if (LowerLimit > mean)
+		{
+			integral = sigma_right * ( ::erf((UpperLimit - mean)/xscaleR) - ::erf((LowerLimit - mean)/xscaleR) );
+		}
+		else
+		{
+			integral =sigma_right*::erf((UpperLimit - mean)/xscaleR) -  sigma_left*::erf((LowerLimit - mean)/xscaleL);
+		}
+
+		return integral*sqrt_pi_over_two;
+
+	}
+
+
+};
+
+
+/*
+class BifurcatedGaussianAnalyticalIntegral: public Integral<BifurcatedGaussianAnalyticalIntegral>
 {
 
 public:
@@ -195,7 +247,7 @@ private:
 
 };
 
-
+*/
 
 }  // namespace hydra
 

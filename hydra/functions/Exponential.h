@@ -35,7 +35,7 @@
 #include <hydra/Types.h>
 #include <hydra/Function.h>
 #include <hydra/Pdf.h>
-#include <hydra/detail/Integrator.h>
+#include <hydra/Integrator.h>
 #include <hydra/detail/utility/CheckValue.h>
 #include <hydra/Parameter.h>
 #include <hydra/Tuple.h>
@@ -88,8 +88,27 @@ public:
 
 };
 
+template<unsigned int ArgIndex>
+class IntegrationFormula< Exponential<ArgIndex>, 1>
+{
 
-class ExponentialAnalyticalIntegral:public Integrator<ExponentialAnalyticalIntegral>
+protected:
+
+	inline std::pair<GReal_t, GReal_t>
+	EvalFormula( Exponential<ArgIndex>const& functor, double LowerLimit, double UpperLimit )const
+	{
+		double tau = functor[0];
+		double r   =  (exp(UpperLimit*tau) - exp(LowerLimit*tau))/tau ;
+		return std::make_pair( CHECK_VALUE(r, "par[0]=%f ", tau ) , 0.0);
+
+	}
+
+};
+
+
+
+/*
+class ExponentialAnalyticalIntegral:public Integral<ExponentialAnalyticalIntegral>
 {
 
 public:
@@ -143,6 +162,7 @@ private:
 	double fUpperLimit;
 
 };
+*/
 
 }  // namespace hydra
 

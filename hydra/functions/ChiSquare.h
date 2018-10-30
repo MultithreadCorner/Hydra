@@ -38,7 +38,7 @@
 #include <hydra/Types.h>
 #include <hydra/Function.h>
 #include <hydra/Pdf.h>
-#include <hydra/detail/Integrator.h>
+#include <hydra/Integrator.h>
 #include <hydra/detail/utility/CheckValue.h>
 #include <hydra/Parameter.h>
 #include <hydra/Tuple.h>
@@ -105,9 +105,172 @@ class ChiSquare: public BaseFunctor< ChiSquare<ArgIndex>, double, 1>
 
 };
 
+template<unsigned int ArgIndex>
+class IntegrationFormula< ChiSquare<ArgIndex>, 1>
+{
+
+protected:
+
+	inline std::pair<GReal_t, GReal_t>
+	EvalFormula( ChiSquare<ArgIndex>const& functor, double LowerLimit, double UpperLimit )const
+	{
+
+		double r = cumulative(functor[0], UpperLimit)
+								 - cumulative(functor[0], LowerLimit);
+
+		return std::make_pair(CHECK_VALUE(r," par[0] = %f LowerLimit = %f UpperLimit = %f",
+				functor[0], LowerLimit,UpperLimit ), 0.0);
+
+	}
+
+private:
+
+	inline double cumulative( const double ndof, const double x) const
+	{
+
+		return igam(ndof/2.0, x/2.0);
+	}
+
+	// borrowed from Cephes
+	// left tail of incomplete gamma function:
+	//inf.      k
+	//  a  -x   -       x
+	//  x  e     >   ----------
+	//           -     -
+	//         k=0   | (a+k+1)
+	//
+	//
+	double igam( double a, double x ) const
+	{
+		double ans, ax, c, r;
+
+		// LM: for negative values returns 1.0 instead of zero
+		// This is correct if a is a negative integer since Gamma(-n) = +/- inf
+		if (a <= 0)  return 1.0;
+
+		if (x <= 0)  return 0.0;
+
+		if( (x > 1.0) && (x > a ) )
+			return( 1.0 - igamc(a,x) );
+
+		// Compute  x**a * exp(-x) / gamma(a)
+		ax = a * ::log(x) - x - ::lgamma(a);
+		if( ax < -kMAXLOG )
+			return( 0.0 );
+
+		ax = std::exp(ax);
+
+		// power series
+		r = a;
+		c = 1.0;
+		ans = 1.0;
+
+		do
+		{
+			r += 1.0;
+			c *= x/r;
+			ans += c;
+		}
+		while( c/ans > kMACHEP );
+
+		return( ans * ax/a );
+	}
+
+	// incomplete gamma function (complement integral)
+	//  igamc(a,x)   =   1 - igam(a,x)
+	//
+	//                            inf.
+	//                              -
+	//                     1       | |  -t  a-1
+	//               =   -----     |   e   t   dt.
+	//                    -      | |
+	//                   | (a)    -
+	//                             x
+	//
+	//
+	// In this implementation both arguments must be positive.
+	// The integral is evaluated by either a power series or
+	// continued fraction expansion, depending on the relative
+	// values of a and x.
+
+	double igamc( double a, double x ) const
+	{
+
+		double ans, ax, c, yc, r, t, y, z;
+		double pk, pkm1, pkm2, qk, qkm1, qkm2;
+
+		// LM: for negative values returns 0.0
+		// This is correct if a is a negative integer since Gamma(-n) = +/- inf
+		if (a <= 0)  return 0.0;
+
+		if (x <= 0) return 1.0;
+
+		if( (x < 1.0) || (x < a) )
+			return( 1.0 - igam(a,x) );
+
+		ax = a * ::log(x) - x - ::lgamma(a);
+		if( ax < -kMAXLOG )
+			return( 0.0 );
+
+		ax = ::exp(ax);
+
+		//continued fraction
+		y = 1.0 - a;
+		z = x + y + 1.0;
+		c = 0.0;
+		pkm2 = 1.0;
+		qkm2 = x;
+		pkm1 = x + 1.0;
+		qkm1 = z * x;
+		ans = pkm1/qkm1;
+
+		do
+		{
+			c += 1.0;
+			y += 1.0;
+			z += 2.0;
+			yc = y * c;
+			pk = pkm1 * z  -  pkm2 * yc;
+			qk = qkm1 * z  -  qkm2 * yc;
+			if(qk)
+			{
+				r = pk/qk;
+				t = ::fabs( (ans - r)/r );
+				ans = r;
+			}
+			else
+				t = 1.0;
+			pkm2 = pkm1;
+			pkm1 = pk;
+			qkm2 = qkm1;
+			qkm1 = qk;
+			if( ::fabs(pk) > kBig )
+			{
+				pkm2 *= kBiginv;
+				pkm1 *= kBiginv;
+				qkm2 *= kBiginv;
+				qkm1 *= kBiginv;
+			}
+		}
+		while( t > kMACHEP );
+
+		return( ans * ax );
+	}
+
+	// the machine roundoff error
+	static constexpr double kMACHEP = 1.11022302462515654042363166809e-16;
+
+	// largest argument for TMath::Exp()
+	static constexpr double kMAXLOG = 709.782712893383973096206318587;
+
+	static constexpr  double kBig = 4.503599627370496e15;
+	static constexpr  double kBiginv = 2.22044604925031308085e-16;
+};
 
 
-class ChiSquareAnalyticalIntegral: public Integrator<ChiSquareAnalyticalIntegral>
+
+/*
+class ChiSquareAnalyticalIntegral: public Integral<ChiSquareAnalyticalIntegral>
 {
 
 public:
@@ -172,15 +335,15 @@ private:
 	}
 
 	// borrowed from Cephes
-	/* left tail of incomplete gamma function:
-	  *
-	  *          inf.      k
-	  *   a  -x   -       x
-	  *  x  e     >   ----------
-	  *           -     -
-	  *          k=0   | (a+k+1)
-	  *
-	  */
+	// left tail of incomplete gamma function:
+
+	            inf.      k
+	  //  a  -x   -       x
+	  //  x  e     >   ----------
+	  //           -     -
+	  //         k=0   | (a+k+1)
+	  //
+	  //
 	double igam( double a, double x ) const
 	{
 		double ans, ax, c, r;
@@ -194,14 +357,14 @@ private:
 		if( (x > 1.0) && (x > a ) )
 			return( 1.0 - igamc(a,x) );
 
-		/* Compute  x**a * exp(-x) / gamma(a)  */
+		// Compute  x**a * exp(-x) / gamma(a)
 		ax = a * ::log(x) - x - ::lgamma(a);
 		if( ax < -kMAXLOG )
 			return( 0.0 );
 
 		ax = std::exp(ax);
 
-		/* power series */
+		// power series
 		r = a;
 		c = 1.0;
 		ans = 1.0;
@@ -255,7 +418,7 @@ private:
 
 	    ax = ::exp(ax);
 
-	 /* continued fraction */
+	 //continued fraction
 	    y = 1.0 - a;
 	    z = x + y + 1.0;
 	    c = 0.0;
@@ -302,17 +465,17 @@ private:
 	double fLowerLimit;
 	double fUpperLimit;
 
-	/* the machine roundoff error */
+	// the machine roundoff error
 	static constexpr double kMACHEP = 1.11022302462515654042363166809e-16;
 
-	 /* largest argument for TMath::Exp() */
+	 // largest argument for TMath::Exp()
 	static constexpr double kMAXLOG = 709.782712893383973096206318587;
 
     static constexpr  double kBig = 4.503599627370496e15;
     static constexpr  double kBiginv = 2.22044604925031308085e-16;
 };
 
-
+*/
 
 }  // namespace hydra
 

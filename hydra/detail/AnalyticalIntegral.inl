@@ -29,6 +29,8 @@
 #ifndef ANALYTICALINTEGRAL_INL_
 #define ANALYTICALINTEGRAL_INL_
 
+#include <stdexcept>
+#include <cassert>
 
 namespace hydra {
 
@@ -50,6 +52,8 @@ public:
 
 			fLowerLimit[i] = lower_limit[i];
 			fUpperLimit[i] = upper_limit[i];
+			if( fLowerLimit[i] > fUpperLimit[i])
+				throw std::invalid_argument("hydra::AnalyticalIntegral: Illegal integration domain definition  fLowerLimit > fUpperLimit.");
 		}
 	}
 
@@ -138,7 +142,10 @@ public:
 	AnalyticalIntegral(GReal_t lower_limit, GReal_t upper_limit ):
 		fLowerLimit(lower_limit),
 		fUpperLimit(upper_limit)
-	{}
+	{
+		if( fLowerLimit > fUpperLimit)
+			throw std::invalid_argument("hydra::AnalyticalIntegral: Illegal integration domain definition  fLowerLimit > fUpperLimit.");
+	}
 
 	AnalyticalIntegral( AnalyticalIntegral<Functor, 1> const& other ):
 		IntegrationFormula<Functor,1>(other),

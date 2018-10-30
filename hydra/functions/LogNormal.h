@@ -25,6 +25,10 @@
  *
  *  Created on: Aug 2, 2018
  *      Author: Marcos Romero Lamas
+ *
+ *  Updated on: Oct 30 2018
+ *      Author: Antonio Augusto Alves Junior
+ *         Log: Adding new analytical integration interface
  */
 
 #ifndef LOGNORMAL_H_
@@ -35,7 +39,7 @@
 #include <hydra/Types.h>
 #include <hydra/Function.h>
 #include <hydra/Pdf.h>
-#include <hydra/detail/Integrator.h>
+#include <hydra/Integrator.h>
 #include <hydra/detail/utility/CheckValue.h>
 #include <hydra/Parameter.h>
 #include <hydra/Tuple.h>
@@ -95,8 +99,42 @@ public:
 
 };
 
+template<unsigned int ArgIndex>
+class IntegrationFormula< LogNormal<ArgIndex>, 1>
+{
 
-class LogNormalAnalyticalIntegral: public Integrator<LogNormalAnalyticalIntegral>
+protected:
+
+	inline std::pair<GReal_t, GReal_t>
+	EvalFormula( LogNormal<ArgIndex>const& functor, double LowerLimit, double UpperLimit )const
+	{
+
+
+		double fraction = cumulative(functor[0], functor[1], UpperLimit)
+						- cumulative(functor[0], functor[1], LowerLimit);
+
+		return std::make_pair(
+				CHECK_VALUE(fraction," par[0] = %f par[1] = %f LowerLimit = %f UpperLimit = %f",
+						functor[0], functor[1], LowerLimit, UpperLimit ) , 0.0);
+
+
+	}
+private:
+
+	inline double cumulative(const double mean, const double sigma, const double x) const
+	{
+		static const double sqrt_pi_over_two = 1.2533141373155002512079;
+		static const double sqrt_two         = 1.4142135623730950488017;
+
+		return sigma*sqrt_pi_over_two*( ::erf( (::log(x)-mean)/( sigma*sqrt_two ) ) );
+	}
+
+
+};
+
+
+/*
+class LogNormalAnalyticalIntegral: public Integral<LogNormalAnalyticalIntegral>
 {
 
 public:
@@ -171,7 +209,7 @@ private:
 
 };
 
-
+*/
 
 }  // namespace hydra
 

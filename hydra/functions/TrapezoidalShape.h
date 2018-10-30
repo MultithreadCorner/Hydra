@@ -36,7 +36,7 @@
 #include <hydra/Types.h>
 #include <hydra/Function.h>
 #include <hydra/Pdf.h>
-#include <hydra/detail/Integrator.h>
+#include <hydra/Integrator.h>
 #include <hydra/detail/utility/CheckValue.h>
 #include <hydra/Parameter.h>
 #include <hydra/Tuple.h>
@@ -114,8 +114,64 @@ private:
 	}
 };
 
+template<unsigned int ArgIndex>
+class IntegrationFormula< TrapezoidalShape<ArgIndex>, 1>
+{
 
-class TrapezoidalShapeAnalyticalIntegral:public Integrator<TrapezoidalShapeAnalyticalIntegral>
+protected:
+
+	inline std::pair<GReal_t, GReal_t>
+	EvalFormula( TrapezoidalShape<ArgIndex>const& functor, double LowerLimit, double UpperLimit )const
+	{
+
+		double a = functor[0];
+		double b = functor[1];
+		double c = functor[2];
+		double d = functor[3];
+
+		double r  =  (cdf(a, b, c, d, UpperLimit)
+				    - cdf(a, b, c, d, LowerLimit) ) ;
+
+		return std::make_pair( CHECK_VALUE(r, "par[0]=%f par[1]=%f par[2]=%f par[2]=%f", a, b, c, d ) , 0.0);
+
+	}
+
+private:
+
+	double cdf( const double a, const double b, const double c,const double d, const double x ) const {
+
+		if(x < a) return 0.0;
+
+		else if(x >d ) return 1.0;
+
+		else if((x >= a)&&(x<b))
+		{
+
+			double delta = ( x - a);
+
+			return delta*delta/((b-a)*(d+c-a-b));
+		}
+		else if((x >= b)&&(x<c))
+		{
+
+			return (2.0*x -a -b)/(d+c-a-b);
+		}
+		else if((x >= c)&&(x<=d))
+		{
+
+			double delta = (d-x);
+
+			return 1.0 - delta*delta/((d+c-a-b)*(b-c));
+		}
+
+		return 0.0;
+	}
+
+};
+
+
+
+class TrapezoidalShapeAnalyticalIntegral:public Integral<TrapezoidalShapeAnalyticalIntegral>
 {
 
 public:

@@ -34,7 +34,7 @@
 #include <hydra/Types.h>
 #include <hydra/Function.h>
 #include <hydra/Pdf.h>
-#include <hydra/detail/Integrator.h>
+#include <hydra/Integrator.h>
 #include <hydra/detail/utility/CheckValue.h>
 #include <hydra/Parameter.h>
 #include <hydra/Tuple.h>
@@ -68,7 +68,7 @@ public:
 	operator=( Polynomial<ArgIndex, Order> const& other)
 	{
 		if(this == &other) return *this;
-		BaseFunctor<Polynomial<ArgIndex, Order>,double, Order+1>::operator=(other);
+		BaseFunctor<Polynomial< Order, ArgIndex>,double, Order+1>::operator=(other);
 		return *this;
 	}
 
@@ -122,8 +122,57 @@ private:
 
 };
 
+template<unsigned int Order, unsigned int ArgIndex>
+class IntegrationFormula< Polynomial<Order, ArgIndex>, 1>
+{
 
-class PolynomialAnalyticalIntegral:public Integrator<PolynomialAnalyticalIntegral>
+protected:
+
+	inline std::pair<GReal_t, GReal_t>
+	EvalFormula( Polynomial< Order, ArgIndex>const& functor, double LowerLimit, double UpperLimit )const
+	{
+		double coefs[Order+1]{};
+
+		for(unsigned int i =0; i<Order+1; i++)	coefs[i]=functor[i];
+
+		double r = polynomial_integral<Order+1>(coefs, UpperLimit)
+				      - polynomial_integral<Order+1>(coefs, LowerLimit) ;
+
+		return std::make_pair(r,0.0);
+
+	}
+
+private:
+
+	template<unsigned int N, unsigned int I>
+	__hydra_host__ __hydra_device__
+	inline typename std::enable_if<(I==N), void >::type
+	polynomial_integral_helper( const double, const double(&)[N], double&) const {}
+
+	template<unsigned int N, unsigned int I=0>
+	__hydra_host__ __hydra_device__
+	inline typename std::enable_if<(I<N), void >::type
+	polynomial_integral_helper( const double x, const double(&coef)[N], double& r) const {
+
+		r += coef[I]*hydra::pow<double,I+1>(x)/(I+1);
+		polynomial_integral_helper<N, I+1>(x,coef, r);
+	}
+
+	template<unsigned int N>
+	__hydra_host__ __hydra_device__
+	inline double polynomial_integral(const double(&coef)[N], double x) const {
+
+		double r=0.0;
+		polynomial_integral_helper<N,0>(x,coef, r);
+		return r;
+	}
+
+
+};
+
+
+/*
+class PolynomialAnalyticalIntegral:public Integral<PolynomialAnalyticalIntegral>
 {
 
 public:
@@ -205,6 +254,8 @@ private:
 	double fLowerLimit;
 	double fUpperLimit;
 };
+*/
+
 
 }  // namespace hydra
 

@@ -1,6 +1,6 @@
 /*----------------------------------------------------------------------------
  *
- *   Copyright (C) 2016 - 2018 Antonio Augusto Alves Junior
+ *   Copyright (C) 2016 - 2017 Antonio Augusto Alves Junior
  *
  *   This file is part of Hydra Data Analysis Framework.
  *
@@ -19,40 +19,18 @@
  *
  *---------------------------------------------------------------------------*/
 
+
 /*
- * Integrator.h
+ * Integrator.inl
  *
- *  Created on: 31/08/2016
+ *  Created on: Oct 30, 2018
  *      Author: Antonio Augusto Alves Junior
  */
 
-/**
- * \file
- * \ingroup numerical_integration
- */
-
-#ifndef INTEGRATOR_H_
-#define INTEGRATOR_H_
-
-#include <hydra/detail/Config.h>
-#include <hydra/Types.h>
-#include <utility>
+#ifndef INTEGRATOR_INL_
+#define INTEGRATOR_INL_
 
 namespace hydra {
-
-template<typename Functor, size_t N=1>
-class IntegrationFormula;
-
-template<typename Functor, size_t N=1>
-class AnalyticalIntegral;
-
-template<typename Functor, size_t N=1>
-class NumericalIntegral;
-
-template<typename Algorithm, size_t N=1>
-struct Integral;
-
-
 
 template<typename Algorithm, size_t N>
 struct Integral{
@@ -109,29 +87,8 @@ struct Integral<Algorithm,1>{
 
 
 
-
-
-
-template<typename ALGORITHM>
-struct Integrator{
-
-	typedef void hydra_integrator_tag;
-
-	template<typename FUNCTOR>
-	inline std::pair<GReal_t, GReal_t> operator()( FUNCTOR  const & functor)
-	{
-	//functor.SetNormalized(0);
-	auto result = static_cast<ALGORITHM*>(this)->Integrate(functor);
-	//functor.SetNormalized(1);
-	return result;
-	}
-};
-
-
-
-
 }  // namespace hydra
 
 
 
-#endif /* INTEGRATOR_H_ */
+#endif /* INTEGRATOR_INL_ */

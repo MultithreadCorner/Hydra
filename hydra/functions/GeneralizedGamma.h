@@ -34,7 +34,7 @@
 #include <hydra/Types.h>
 #include <hydra/Function.h>
 #include <hydra/Pdf.h>
-#include <hydra/detail/Integrator.h>
+#include <hydra/Integrator.h>
 #include <hydra/cpp/System.h>
 #include <hydra/detail/utility/CheckValue.h>
 #include <hydra/detail/utility/SafeCompare.h>
@@ -130,7 +130,49 @@ public:
 };
 
 
-class GeneralizedGammaAnalyticalIntegral: public Integrator<GeneralizedGammaAnalyticalIntegral>
+template<unsigned int ArgIndex>
+class IntegrationFormula< GeneralizedGamma<ArgIndex>, 1>
+{
+
+protected:
+
+	inline std::pair<GReal_t, GReal_t>
+	EvalFormula( GeneralizedGamma<ArgIndex>const& functor, double LowerLimit, double UpperLimit )const
+	{
+
+		double min = LowerLimit > functor[0] ? LowerLimit : functor[0];
+
+		double fraction =
+				cumulative(functor[0], functor[1], functor[2], functor[3], UpperLimit)	-
+				cumulative(functor[0], functor[1], functor[2], functor[3], min);
+
+		return std::make_pair(
+				CHECK_VALUE(-fraction," par[0] = %f par[1] = %f par[2] = %f par[3] = %f LowerLimit = %f UpperLimit = %f",
+						functor[0], functor[1], functor[2], functor[3], min, UpperLimit ) ,0.0);
+
+	}
+private:
+
+	inline double cumulative(const double x0, const double A, const double B, const double C, const double x ) const
+	{
+
+		const double X = x - x0;
+		const double r = detail::SafeGreaterThan(C, 0.0, ::fabs(C)*std::numeric_limits<double>::epsilon()) ?
+				inc_gamma(B, ::pow(A*X,::fabs(C))) : 1.0-inc_gamma(B, ::pow(A*X,::fabs(C)));
+
+		return r;
+	}
+
+	inline double inc_gamma( const double a, const double x) const {
+
+		return gsl_sf_gamma_inc_Q(a, x);
+	}
+
+
+};
+
+/*
+class GeneralizedGammaAnalyticalIntegral: public Integral<GeneralizedGammaAnalyticalIntegral>
 {
 
 public:
@@ -179,7 +221,7 @@ public:
 
 		double min = fLowerLimit > functor[0] ? fLowerLimit : functor[0];
 
-		double fraction = /* detail::ApproximatelyZero(functor[3], ::fabs(functor[3])*std::numeric_limits<double>::epsilon()) ? 0.0:*/
+		double fraction =
 				cumulative(functor[0], functor[1], functor[2], functor[3], fUpperLimit)	-
 				cumulative(functor[0], functor[1], functor[2], functor[3], min);
 
@@ -211,7 +253,7 @@ private:
 
 };
 
-
+*/
 
 }  // namespace hydra
 

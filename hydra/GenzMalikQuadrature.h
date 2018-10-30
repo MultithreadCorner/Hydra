@@ -40,7 +40,7 @@
 #include <hydra/detail/GenzMalikRule.h>
 #include <hydra/detail/GenzMalikBox.h>
 #include <hydra/multivector.h>
-#include <hydra/detail/Integrator.h>
+#include <hydra/Integrator.h>
 #include <hydra/detail/utility/Generic.h>
 #include <hydra/detail/external/thrust/memory.h>
 #include <hydra/detail/external/thrust/sort.h>
@@ -64,7 +64,7 @@ class  GenzMalikQuadrature;
  */
 template<  size_t N, hydra::detail::Backend  BACKEND>
 class  GenzMalikQuadrature<N, hydra::detail::BackendPolicy<BACKEND> >:
-public Integrator<typename std::enable_if< (N>1),GenzMalikQuadrature<N, hydra::detail::BackendPolicy<BACKEND>>>::type  >
+public Integral<typename std::enable_if< (N>1),GenzMalikQuadrature<N, hydra::detail::BackendPolicy<BACKEND>>>::type  >
 {
 	typedef  hydra::detail::BackendPolicy<BACKEND> system_type;
 

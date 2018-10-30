@@ -35,7 +35,7 @@
 #include <hydra/Types.h>
 #include <hydra/Function.h>
 #include <hydra/Pdf.h>
-#include <hydra/detail/Integrator.h>
+#include <hydra/Integrator.h>
 #include <hydra/detail/utility/CheckValue.h>
 #include <hydra/Parameter.h>
 #include <hydra/Tuple.h>
@@ -133,7 +133,44 @@ public:
  * @class ArgusShapeAnalyticalIntegral
  * Implementation of analytical integral for the ARGUS background shape with power = 0.5.
  */
-class ArgusShapeAnalyticalIntegral: public Integrator<ArgusShapeAnalyticalIntegral>
+
+template<unsigned int ArgIndex>
+class IntegrationFormula< ArgusShape<ArgIndex>, 1>
+{
+
+protected:
+
+	inline std::pair<GReal_t, GReal_t>
+	EvalFormula(ArgusShape<ArgIndex>const& functor, double LowerLimit, double UpperLimit ) const {
+
+		if(functor[2]<0.5 || functor[2] > 0.5 ) {
+
+			throw std::invalid_argument("ArgusShapeAnalyticalIntegral can not handle ArgusShape with power != 0.5. Return {nan, nan}");
+		}
+
+		double r = cumulative(functor[0], functor[1],UpperLimit)
+							 - cumulative(functor[0], functor[1], LowerLimit);
+
+		return std::make_pair( CHECK_VALUE(r, "par[0] = %f par[1] = %f par[2] = %f  LowerLimit = %f UpperLimit = %f",
+						functor[0], functor[1], functor[2], LowerLimit, UpperLimit)	,0.0);
+	}
+
+
+private:
+
+	inline double cumulative( const double m,  const double c,  const double x) const
+	{
+		static const double sqrt_pi = 1.7724538509055160272982;
+
+		double f = x<m ? (1.0 -pow(x/m,2)) : 0.0;
+		double r = -0.5*m*m*(exp(c*f)*sqrt(f)/c + 0.5/pow(-c,1.5)*sqrt_pi*erf(sqrt(-c*f)));
+		return r;
+	}
+
+};
+
+/*
+class ArgusShapeAnalyticalIntegral: public Integral<ArgusShapeAnalyticalIntegral>
 {
 
 public:
@@ -182,7 +219,6 @@ public:
 
 		if(functor[2]<0.5 || functor[2] > 0.5 ) {
 
-			std::cout  <<  functor[2] << std::endl;
 			throw std::invalid_argument("ArgusShapeAnalyticalIntegral can not handle ArgusShape with power != 0.5. Return {nan, nan}");
 		}
 
@@ -191,7 +227,8 @@ public:
 
 
 		return std::make_pair(
-				CHECK_VALUE(r, "par[0] = %f par[1] = %f par[2] = %f  fLowerLimit = %f fUpperLimit = %f", functor[0], functor[1], functor[2], fLowerLimit,fUpperLimit)
+				CHECK_VALUE(r, "par[0] = %f par[1] = %f par[2] = %f  fLowerLimit = %f fUpperLimit = %f",
+						functor[0], functor[1], functor[2], fLowerLimit,fUpperLimit)
 			,0.0);
 	}
 
@@ -211,7 +248,7 @@ private:
 	double fUpperLimit;
 
 };
-
+*/
 
 
 }  // namespace hydra
