@@ -188,6 +188,8 @@ protected:
 
 			}
 
+			hydra::GaussKronrodQuadrature<61,500, hydra::cpp::sys_t> fNumIntegrator(LowerLimit, UpperLimit);
+
 			return fNumIntegrator(functor);
 		}
 		else{
@@ -308,7 +310,7 @@ private:
 
 	}
 
-	hydra::GaussKronrodQuadrature<61,500, hydra::cpp::sys_t> fNumIntegrator;
+	//hydra::GaussKronrodQuadrature<61,500, hydra::cpp::sys_t> fNumIntegrator;
 };
 
 
@@ -426,8 +428,7 @@ private:
 			double k2 = beta*k1+ cons1*(l-0.5)*::pow(phi,l-1.5)*2.*ASigma2/delta2;
 			double B = -ASigma2 - N2*k1/k2;
 			double A = k1*::pow(B+ASigma2,N2);
-			return A*(::pow(B+d1,1.0-N2)/(1.0-N2) -::pow(B+d0,1.0-N2)/(1.0-N2) );/*CHECK_VALUE(A*(::pow(B+d1,1.0-N2)/(1.0-N2) -::pow(B+d0,1.0-N2)/(1.0-N2) ), "B: cons1 = %f phi = %f k1 =%f k2 =%f B =%f A =%f",
-					cons1, phi, k1, k2, B,A 	) ;*/
+			return A*(::pow(B+d1,1.0-N2)/(1.0-N2) -::pow(B+d0,1.0-N2)/(1.0-N2) );/
 
 		}
 
@@ -438,10 +439,8 @@ private:
 			double k2 = beta*k1- cons1*(l-0.5)*::pow(phi,l-1.5)*2.0*ASigma1/delta2;
 			double B = -ASigma1 + N1*k1/k2;
 			double A = k1*::pow(B+ASigma1,N1);
-			I0 = A*::pow(B-d0,1.0-N1)/(N1-1.0);/*CHECK_VALUE(A*::pow(B-d0,1.0-N1)/(N1-1.0), "C: cons1=%f phi=%f k1=%f k=%f B=%f A=%f",
-					cons1, phi, k1, k2, B,A 	);*/
-			I1 = A*::pow(B-d1,1.0-N1)/(N1-1.0);/*CHECK_VALUE(A*::pow(B-d1,1.0-N1)/(N1-1.0), "D: cons1=%f phi=%f k1=%f k2=%f B=%f A=%f",
-					cons1, phi, k1, k2, B,A 	);*/
+			I0 = A*::pow(B-d0,1.0-N1)/(N1-1.0);
+			I1 = A*::pow(B-d1,1.0-N1)/(N1-1.0);
 			return I1 - I0;
 		}
 
@@ -454,10 +453,8 @@ private:
 			double 	k2 = beta*k1- cons1*(l-0.5)*::pow(phi,l-1.5)*2.0*ASigma1/delta2;
 			double 	B = -ASigma1 + N1*k1/k2;
 			double A = k1*::pow(B+ASigma1,N1);
-			I0 = A*::pow(B-d0,1.0-N1)/(N1-1.0);/*CHECK_VALUE(A*::pow(B-d0,1.0-N1)/(N1-1.0), "E: cons1 = %f phi = %f k1 =%f k2 =%f B =%f A =%f",
-					cons1, phi, k1, k2, B,A 	);*/
-			I1a = A*::pow(B+ASigma1,1.0-N1)/(N1-1.0) - d_hypergeometric(-ASigma1,delta, l);/*CHECK_VALUE(A*::pow(B+ASigma1,1.0-N1)/(N1-1.0) - d_hypergeometric(-ASigma1,delta, l), "B: cons1 = %f phi = %f k1 =%f k2 =%f B =%f A =%f",
-					cons1, phi, k1, k2, B,A 	);*/
+			I0 = A*::pow(B-d0,1.0-N1)/(N1-1.0);
+			I1a = A*::pow(B+ASigma1,1.0-N1)/(N1-1.0) - d_hypergeometric(-ASigma1,delta, l);
 		}
 		else {  I0 = d_hypergeometric(d0,delta, l);}
 		if (d1 > ASigma2) {
@@ -467,12 +464,9 @@ private:
 			double k2 = beta*k1+ cons1*(l-0.5)*::pow(phi,l-1.5)*2.*ASigma2/delta2;
 			double B  = -ASigma2 - N2*k1/k2;
 			double A  = k1*::pow(B+ASigma2,N2);
-			   	  I1b = A*(::pow(B+d1,1.0-N2)/(1.0-N2) -::pow(B+ASigma2,1.0-N2)/(1.0-N2) ) - d_hypergeometric(d1,delta, l) +  d_hypergeometric(ASigma2,delta, l);/*CHECK_VALUE(A*(::pow(B+d1,1.0-N2)/(1.0-N2) -::pow(B+ASigma2,1.0-N2)/(1.0-N2) ) - d_hypergeometric(d1,delta, l) +  d_hypergeometric(ASigma2,delta, l) ,
-			   			  "F:d0=%f d1=%f sigma=%f A1=%f N1=%f A2=%f N2=%f l=%f beta=%f cons1=%f phi=%f k1=%f k2=%f B=%f A=%f ASigma2=%f  N2=%f",
-			   			d0,	d1,	sigma, A1, N1, A2, N2, l,beta, cons1, phi, k1, k2, B, A, ASigma2, N2);*/
+			   	  I1b = A*(::pow(B+d1,1.0-N2)/(1.0-N2) -::pow(B+ASigma2,1.0-N2)/(1.0-N2) ) - d_hypergeometric(d1,delta, l) +  d_hypergeometric(ASigma2,delta, l);
 		}
-		I1 = d_hypergeometric(d1,delta, l) + I1a + I1b;/*CHECK_VALUE(d_hypergeometric(d1,delta, l) + I1a + I1b,  "G:  d1 = %f delta =%f  l=%f I1a =%f  I1b=%f",
-				d1,delta, l,I1a, I1b );*/
+		I1 = d_hypergeometric(d1,delta, l) + I1a + I1b;
 		return I1 - I0;
 
 

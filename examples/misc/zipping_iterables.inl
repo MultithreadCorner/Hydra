@@ -45,7 +45,6 @@
 #include <hydra/Algorithm.h>
 #include <hydra/Zip.h>
 #include <hydra/Range.h>
-#include <hydra/functions/WignerDFunctions.h>
 
 //command line arguments
 #include <tclap/CmdLine.h>

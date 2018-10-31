@@ -156,14 +156,14 @@ private:
 
 };
 
-template<unsigned int ArgIndex>
-class IntegrationFormula< Chebychev<ArgIndex>, 1>
+template< unsigned int Order,unsigned int ArgIndex>
+class IntegrationFormula< Chebychev<Order, ArgIndex>, 1>
 {
 
 protected:
 
 	inline std::pair<GReal_t, GReal_t>
-	EvalFormula( Chebychev<ArgIndex>const& functor, double LowerLimit, double UpperLimit )const
+	EvalFormula( Chebychev<Order, ArgIndex>const& functor, double LowerLimit, double UpperLimit )const
 	{
 		double coefs[Order+1]{};
 			for(unsigned int i =0; i<Order+1; i++)
@@ -171,7 +171,7 @@ protected:
 
 			double r=0;
 
-			if(fUpperLimit <=  functor.GetMaximum() && fLowerLimit >=  functor.GetMinimum() ){
+			if(UpperLimit <=  functor.GetMaximum() && LowerLimit >=  functor.GetMinimum() ){
 
 
 				r   =  polynomial_integral<Order+1>(coefs, UpperLimit, functor.GetMinimum(), functor.GetMaximum()) -

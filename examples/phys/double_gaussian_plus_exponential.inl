@@ -128,9 +128,9 @@ int main(int argv, char** argc)
 	auto  sigma_tail = hydra::Parameter::Create().Name("Sigma_Tail").Value(1.5).Error(0.0001).Limits(1.0, 2.0);
 
 	//Signal PDF
-	auto Core_PDF = hydra::make_pdf( hydra::Gaussian<>(mean, sigma_core), hydra::GaussianAnalyticalIntegral(min, max));
+	auto Core_PDF = hydra::make_pdf( hydra::Gaussian<>(mean, sigma_core), hydra::AnalyticalIntegral<hydra::Gaussian<>>(min, max));
 
-	auto Tail_PDF = hydra::make_pdf( hydra::Gaussian<>(mean, sigma_tail), hydra::GaussianAnalyticalIntegral(min, max));
+	auto Tail_PDF = hydra::make_pdf( hydra::Gaussian<>(mean, sigma_tail), hydra::AnalyticalIntegral<hydra::Gaussian<>>(min, max));
 
 	auto fraction = hydra::Parameter("Core_Fraction" , 0.5, 0.001, 0.2 , 0.7) ;
 	auto Signal_PDF = hydra::add_pdfs( std::array<hydra::Parameter, 1>{fraction}, Core_PDF, Tail_PDF);
@@ -141,7 +141,7 @@ int main(int argv, char** argc)
     auto  tau  = hydra::Parameter::Create().Name("Tau").Value(-0.1).Error(0.0001).Limits(-1.0, 0.0);
 
     //Background PDF
-    auto Background_PDF = hydra::make_pdf(hydra::Exponential<>(tau) , hydra::ExponentialAnalyticalIntegral(min, max));
+    auto Background_PDF = hydra::make_pdf(hydra::Exponential<>(tau) , hydra::AnalyticalIntegral<hydra::Exponential<>>(min, max));
 
     //------------------
     //yields

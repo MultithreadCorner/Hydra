@@ -123,13 +123,13 @@ public:
 };
 
 template<unsigned int ArgIndex>
-class IntegrationFormula< CrystalBall<ArgIndex>, 1>
+class IntegrationFormula< CrystalBallShape<ArgIndex>, 1>
 {
 
 protected:
 
 	inline std::pair<GReal_t, GReal_t>
-	EvalFormula( CrystalBall<ArgIndex>const& functor, double LowerLimit, double UpperLimit )const
+	EvalFormula( CrystalBallShape<ArgIndex>const& functor, double LowerLimit, double UpperLimit )const
 	{
 		double r = integral(functor[0], functor[1], functor[2], functor[3], LowerLimit, UpperLimit  );
 
@@ -141,7 +141,8 @@ protected:
 private:
 
 
-	inline double integral( const double m0,  const double sigma,  const double alpha,  const double n) const
+	inline double integral( const double m0,  const double sigma,  const double alpha,  const double n,
+			double LowerLimit, double UpperLimit) const
 	{
 		// borrowed from roofit
 		static const double sqrtPiOver2 = 1.2533141373;

@@ -129,7 +129,7 @@ int main(int argv, char** argc)
 
 	//ipatia function evaluating on the first argument
 	auto Signal_PDF = hydra::make_pdf(hydra::Ipatia<>(mu, sigma,L1,N1,L2,N2,alfa,beta),
-			hydra::IpatiaAnalyticalIntegral(min,  max));
+			hydra::AnalyticalIntegral<hydra::Ipatia<>>(min,  max));
 
     //-------------------------------------------
 	//Argus
@@ -140,7 +140,7 @@ int main(int argv, char** argc)
 
     //argus function evaluating on the first argument
     auto Background_PDF = hydra::make_pdf( hydra::ArgusShape<>(m0, slope, power),
-    		hydra::ArgusShapeAnalyticalIntegral(min, max));
+    		hydra::AnalyticalIntegral<hydra::ArgusShape<>>(min, max));
 
     //------------------
     //yields

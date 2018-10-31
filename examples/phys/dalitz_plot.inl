@@ -77,7 +77,6 @@
 #include <hydra/SparseHistogram.h>
 
 #include <hydra/functions/BreitWignerLineShape.h>
-#include <hydra/functions/WignerDFunctions.h>
 #include <hydra/functions/CosHelicityAngle.h>
 #include <hydra/functions/ZemachFunctions.h>
 

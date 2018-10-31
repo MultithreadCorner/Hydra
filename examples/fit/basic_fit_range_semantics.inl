@@ -124,7 +124,7 @@ int main(int argv, char** argc)
 	hydra::Gaussian<> gaussian(mean_p,sigma_p);
 
 	//make model (pdf with analytical integral)
-	auto model = hydra::make_pdf(gaussian, hydra::GaussianAnalyticalIntegral(min, max) );
+	auto model = hydra::make_pdf(gaussian, hydra::AnalyticalIntegral<hydra::Gaussian<>>(min, max) );
 
 
 	//------------------------

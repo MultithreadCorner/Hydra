@@ -172,7 +172,7 @@ protected:
 			//if(	flag_unsafe_a	) HYDRA_MSG << "Diagnosis: parameter #1 is less than -1 "  << HYDRA_ENDL;
 			//if(	flag_unsafe_ratio	) HYDRA_MSG << "Diagnosis: ratio (parameter #0)/ (parameter #3) > 200 "  << HYDRA_ENDL;
 			//HYDRA_MSG << "Switching to numerical integration." << HYDRA_ENDL;
-
+			hydra::GaussKronrodQuadrature<61,500, hydra::cpp::sys_t> NumIntegrator(LowerLimit,UpperLimit);
 			return NumIntegrator(functor);
 
 		} else {
@@ -207,7 +207,6 @@ private:
 		}
 
 
-		hydra::GaussKronrodQuadrature<61,500, hydra::cpp::sys_t> NumIntegrator;
 
 
 };

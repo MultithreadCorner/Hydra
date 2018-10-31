@@ -53,8 +53,8 @@ class PhaseSpaceIntegrator;
  * \tparam GRND underlying random number generator. See the options in HYDRA_EXTERNAL_NS::thrust::random namespace.
  */
 template <size_t N, hydra::detail::Backend BACKEND,  typename GRND>
-class PhaseSpaceIntegral<N,  hydra::detail::BackendPolicy<BACKEND>, GRND>:
-public Integrator<PhaseSpaceIntegrator<N,  hydra::detail::BackendPolicy<BACKEND>, GRND>>
+class PhaseSpaceIntegrator<N,  hydra::detail::BackendPolicy<BACKEND>, GRND>:
+public Integral< PhaseSpaceIntegrator<N,  hydra::detail::BackendPolicy<BACKEND>, GRND> >
 {
 public:
 	//tag

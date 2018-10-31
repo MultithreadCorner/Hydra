@@ -124,7 +124,7 @@ int main(int argv, char** argc)
 
 	//Breit-Wigner function evaluating on the first argument
 	auto Signal_PDF = hydra::make_pdf( hydra::BreitWignerNR<>(mean, width ),
-			hydra::BreitWignerNRAnalyticalIntegral(min, max));
+			hydra::AnalyticalIntegral<hydra::BreitWignerNR<>>(min, max));
 
     //-------------------------------------------
 	//Polynomial
@@ -136,7 +136,7 @@ int main(int argv, char** argc)
 
     //Polynomial function evaluating on the first argument
     auto Background_PDF = hydra::make_pdf( hydra::Chebychev<3>(min, max, std::array<hydra::Parameter,4>{c0, c1, c2, c3}),
-    		hydra::ChebychevAnalyticalIntegral(min, max));
+    		hydra::AnalyticalIntegral< hydra::Chebychev<3>>(min, max));
 
     //------------------
     //yields

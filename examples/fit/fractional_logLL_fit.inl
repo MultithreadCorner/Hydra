@@ -133,7 +133,7 @@ int main(int argv, char** argc)
 
 	//gaussian function evaluating on the first argument
 	hydra::Gaussian<0> gaussian1(mean1_p, sigma1_p);
-	auto Gauss1_PDF = hydra::make_pdf(gaussian1, hydra::GaussianAnalyticalIntegral(min, max));
+	auto Gauss1_PDF = hydra::make_pdf(gaussian1, hydra::AnalyticalIntegral<hydra::Gaussian<0>>(min, max));
 
     //-------------------------------------------
 
@@ -143,7 +143,7 @@ int main(int argv, char** argc)
 
     //gaussian function evaluating on the first argument
     hydra::Gaussian<0> gaussian2(mean2_p, sigma2_p);
-    auto Gauss2_PDF = hydra::make_pdf(gaussian2, hydra::GaussianAnalyticalIntegral(min, max));
+    auto Gauss2_PDF = hydra::make_pdf(gaussian2, hydra::AnalyticalIntegral<hydra::Gaussian<0>>(min, max));
 
     //--------------------------------------------
 
@@ -153,7 +153,7 @@ int main(int argv, char** argc)
 
     //gaussian function evaluating on the first argument
     hydra::Exponential<0> exponential(tau_p);
-    auto Exp_PDF = hydra::make_pdf(exponential, hydra::ExponentialAnalyticalIntegral(min, max));
+    auto Exp_PDF = hydra::make_pdf(exponential, hydra::AnalyticalIntegral<hydra::Exponential<0>>(min, max));
 
     //------------------
     //yields
