@@ -128,6 +128,7 @@ template<typename T>
 __hydra_host__ __hydra_device__
 inline T jacobi(double a, double b, unsigned n, const T x);
 
+
 template<typename T>
 __hydra_host__ __hydra_device__
 inline T wigner_d_matrix(unsigned j, unsigned m, unsigned n, const T theta);

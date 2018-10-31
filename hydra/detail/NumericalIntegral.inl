@@ -29,7 +29,16 @@
 #ifndef NUMERICALINTEGRAL_INL_
 #define NUMERICALINTEGRAL_INL_
 
+template<typename Algorithm>
+class NumericalIntegral: public Integral< Algorithm >
+{
 
+public:
+
+	typedef void hydra_numerical_integral_tag;
+
+
+};
 
 
 
