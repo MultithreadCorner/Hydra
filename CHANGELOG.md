@@ -1,44 +1,77 @@
-rImplementation ##CHANGES
+##CHANGE LOG
 
 
-### Hydra 2.2.0
+### Hydra 2.2.0 (probably incomplete)
 
-# New features
+1. New functors and implementations (`hydra/functions`):
 
-1. ChiSquare functor and analytical integral
+    * ArgusShape
+    * BifurcatedGaussian
+    * BlattWeisskopfFunctions
+    * BreitWignerLineShape
+    * BreitWignerNR
+    * Chebychev
+    * ChiSquare
+    * CosHelicityAngle
+    * CrystalBallShape
+    * DeltaDMassBackground
+    * Exponential
+    * Gaussian
+    * GaussianKDE
+    * GeneralizedGamma
+    * Ipatia
+    * JohnsonSUShape
+    * LogNormal
+    * M12PhaseSpaceLineShape
+    * M12SqPhaseSpaceLineShape
+    * PlanesDeltaAngle
+    * Polynomial
+    * ThreeBodyMassThresholdBackground
+    * TrapezoidalShape
+    * TriangularShape
+    * UniformShape
+    * WignerDMatrix
+    * ZemachFunctions
+
+
 2. Orthogonal polynomials (`hydra/functions/Math.h`)
 
-  * Chebychev 1st and 2nd kinds 
-  * Laguerre
-  * Hermite
-  * Legendre
-3. 1D kernel density estimation functor: GaussianKDE
-4. Bifurcated Gaussian functor:  BifurcatedGaussian
-5. `Parameter::Create("name")` method
-6. Wrappers around thrust algorithms using range semantics: gather, scatter, sort, sort_by_key, reduce, transform. See header `hydra/Algorithms.h`
-7. Counting, random and constant ranges:
+    * Chebychev of 1st and 2nd kinds 
+    * Laguerre
+    * Hermite
+    * Legendre
+    * Jacobi
 
-  *  `hydra::random_gauss_range(...)`,
-  *  `hydra::random_exp_range(...)`,
-  *  `hydra::random_flat_range(...)`,
-  *  `hydra::range(first, last)` 
-  *  `hydra::constant_range(value)`
-  *  `hydra::phase_space_range(mother, masses, n)`
+3. New `Parameter::Create("name")` method overload.
+4. Wrappers around thrust algorithms using range semantics: 
 
-8. Collecting range: `hydra::collect` to reorder a range of values according to a indexing scheme.
-9. Introduction of `hydra::make_loglikelihood_fcn` overloads supporting range semantics. 
-10. Introduction of `hydra::make_loglikelihood_fcn` overloads for binned datasets.
-11. Implementation of `hydra::begin`, `hydra::end`, `hydra::begin`, `hydra::rend`.
-12. Added Ipatia distribution.
-13. Added DeltaDMassBackground distribution.
-14. Added LogNormal distribution
-15. Range semantics for hydra::PhaseSpace
+    * gather
+    * scatter
+    * sort
+    * sort_by_key 
+    * reduce
+    * transform. 
+    * See header `hydra/Algorithms.h`
 
+5. Predefined ranges:
 
- 
+    *  `hydra::random_gauss_range(...)`,
+    *  `hydra::random_exp_range(...)`,
+    *  `hydra::random_flat_range(...)`,
+    *  `hydra::range(...)` 
+    *  `hydra::constant_range(...)`
+    *  `hydra::phase_space_range(...)`
+
+6. Collecting range: `hydra::collect` to reorder a range of values according to a indexing scheme.
+7. Introduction of `hydra::make_loglikelihood_fcn` overloads supporting range semantics. 
+8. Introduction of `hydra::make_loglikelihood_fcn` overloads for binned datasets.
+9. Implementation of `hydra::begin`, `hydra::end`, `hydra::begin`, `hydra::rend` free functions.
+10. Range semantics for hydra::PhaseSpace.
 
 # Bug fixes
 
 1. Null pointer breaking build in CLING
 2. Fix syntax error in `multiarray::insert(...)`
 3. Fix syntax error in `multivector::insert(...)`
+4. Fix syntax error in `hydra::reduce`
+5. Fix syntax error in `hydra::make_loglikelihood_fcn` overloads supporting weighted datasets.
