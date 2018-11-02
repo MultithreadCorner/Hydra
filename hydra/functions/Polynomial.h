@@ -98,25 +98,35 @@ public:
 
 private:
 
-	template<unsigned int I>
+
+	template<int I>
 	__hydra_host__ __hydra_device__
-	inline typename std::enable_if<(I==Order+1), void >::type
+	inline typename std::enable_if<(I==-1), void >::type
 	polynomial_helper( const double(&)[Order+1],  const double, double&)  const {}
 
-	template<unsigned int I=0>
+	template<int I>
 	__hydra_host__ __hydra_device__
-	inline typename std::enable_if<(I<Order+1), void >::type
-	polynomial_helper( const double(&coef)[Order+1],  const double x, double& r)  const {
+	inline typename std::enable_if< (I < Order) &&( I>=0), void >::type
+	polynomial_helper( const double(&coef)[Order+1],  const double x, double& p)  const {
 
-		r += coef[I]*hydra::pow<double,I>(x);
-		polynomial_helper<I+1>( coef, x, r);
+		 p = p*x + coef[I];
+		 polynomial_helper<I-1>(coef, x,p);
+	}
+
+	template<int I=Order>
+	__hydra_host__ __hydra_device__
+	inline typename std::enable_if< I==(Order), void >::type
+	polynomial_helper( const double(&coef)[Order+1],  const double x, double& p)  const {
+
+		  p=coef[I];
+		  polynomial_helper<I-1>(coef, x,p);
 	}
 
 	__hydra_host__ __hydra_device__
 	inline double polynomial( const double(&coef)[Order+1],  const double x) const {
 
 		double r=0.0;
-		polynomial_helper( coef,x, r);
+		polynomial_helper<Order>( coef,x, r);
 		return r;
 	}
 
