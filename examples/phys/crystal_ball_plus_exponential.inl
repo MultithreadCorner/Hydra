@@ -132,7 +132,7 @@ int main(int argv, char** argc)
 
 	//Signal PDF
 	auto Signal_PDF = hydra::make_pdf(hydra::CrystalBallShape<>(mean, sigma, alpha, n),
-			hydra::CrystalBallShapeAnalyticalIntegral(min, max) );
+			hydra::AnalyticalIntegral<hydra::CrystalBallShape<>>(min, max) );
 
     //-------------------------------------------
 
@@ -142,7 +142,7 @@ int main(int argv, char** argc)
 
     //Background
     auto Background_PDF = hydra::make_pdf(hydra::Exponential<>(tau),
-    		hydra::ExponentialAnalyticalIntegral(min, max));
+    		hydra::AnalyticalIntegral<hydra::Exponential<>>(min, max));
 
     //------------------
     //yields

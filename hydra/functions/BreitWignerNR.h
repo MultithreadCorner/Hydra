@@ -30,10 +30,12 @@
 #ifndef BREITWIGNERNR_H_
 #define BREITWIGNERNR_H_
 
+#include <hydra/detail/Config.h>
+#include <hydra/detail/BackendPolicy.h>
 #include <hydra/Types.h>
 #include <hydra/Function.h>
 #include <hydra/Pdf.h>
-#include <hydra/detail/Integrator.h>
+#include <hydra/Integrator.h>
 #include <hydra/detail/utility/CheckValue.h>
 #include <hydra/Parameter.h>
 #include <hydra/Tuple.h>
@@ -107,77 +109,33 @@ public:
 
 };
 
-class BreitWignerNRAnalyticalIntegral: public Integrator<BreitWignerNRAnalyticalIntegral>
+template<unsigned int ArgIndex>
+class IntegrationFormula< BreitWignerNR<ArgIndex>, 1>
 {
 
-public:
+protected:
 
-	BreitWignerNRAnalyticalIntegral(double min, double max):
-		fLowerLimit(min),
-		fUpperLimit(max)
+	inline std::pair<GReal_t, GReal_t>
+	EvalFormula( BreitWignerNR<ArgIndex>const& functor, double LowerLimit, double UpperLimit )const
 	{
-		assert(fLowerLimit < fUpperLimit
-				&& "hydra::BreitWignerNRAnalyticalIntegral: MESSAGE << LowerLimit >= fUpperLimit >>");
+
+		double r = cumulative(functor[0], functor[1], UpperLimit)
+							 - cumulative(functor[0], functor[1], LowerLimit);
+
+			return std::make_pair(	CHECK_VALUE(r," par[0] = %f par[1] = %f LowerLimit = %f UpperLimit = %f",
+					functor[0], functor[1], LowerLimit,UpperLimit ), 0.0);
+
 	}
-
-	inline BreitWignerNRAnalyticalIntegral(BreitWignerNRAnalyticalIntegral const& other):
-		fLowerLimit(other.GetLowerLimit()),
-		fUpperLimit(other.GetUpperLimit())
-	{}
-
-	inline BreitWignerNRAnalyticalIntegral&
-	operator=( BreitWignerNRAnalyticalIntegral const& other)
-	{
-		if(this == &other) return *this;
-
-		this->fLowerLimit = other.GetLowerLimit();
-		this->fUpperLimit = other.GetUpperLimit();
-
-		return *this;
-	}
-
-	double GetLowerLimit() const {
-		return fLowerLimit;
-	}
-
-	void SetLowerLimit(double lowerLimit ) {
-		fLowerLimit = lowerLimit;
-	}
-
-	double GetUpperLimit() const {
-		return fUpperLimit;
-	}
-
-	void SetUpperLimit(double upperLimit) {
-		fUpperLimit = upperLimit;
-	}
-
-	template<typename FUNCTOR>	inline
-	std::pair<double, double> Integrate(FUNCTOR const& functor) const {
-
-		double r = cumulative(functor[0], functor[1], fUpperLimit)
-						 - cumulative(functor[0], functor[1], fLowerLimit);
-
-		return std::make_pair(
-				CHECK_VALUE(r," par[0] = %f par[1] = %f fLowerLimit = %f fUpperLimit = %f", functor[0], functor[1], fLowerLimit,fUpperLimit ), 0.0);
-	}
-
-
 private:
 
 	inline double cumulative( const double mean,  const double width,  const double x) const
 	{
 		double c = 2.0/width;
-		return c*( atan( c*( x - mean)));
+		return c*( ::atan( c*( x - mean)));
 	}
 
-	double fLowerLimit;
-	double fUpperLimit;
 
 };
-
-
-
 
 }  // namespace hydra
 

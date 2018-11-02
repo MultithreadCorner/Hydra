@@ -30,12 +30,12 @@
 #define BIFURCATEDGAUSSIAN_H_
 
 
-
 #include <hydra/detail/Config.h>
+#include <hydra/detail/BackendPolicy.h>
 #include <hydra/Types.h>
 #include <hydra/Function.h>
 #include <hydra/Pdf.h>
-#include <hydra/detail/Integrator.h>
+#include <hydra/Integrator.h>
 #include <hydra/detail/utility/CheckValue.h>
 #include <hydra/Parameter.h>
 #include <hydra/Tuple.h>
@@ -106,59 +106,22 @@ public:
 
 };
 
-class BifurcatedGaussianAnalyticalIntegral: public Integrator<BifurcatedGaussianAnalyticalIntegral>
+
+template<unsigned int ArgIndex>
+class IntegrationFormula< BifurcatedGaussian<ArgIndex>, 1>
 {
 
-public:
+protected:
 
-	BifurcatedGaussianAnalyticalIntegral(double min, double max):
-		fLowerLimit(min),
-		fUpperLimit(max)
+	inline std::pair<GReal_t, GReal_t>
+	EvalFormula( BifurcatedGaussian<ArgIndex>const& functor, double LowerLimit, double UpperLimit )const
 	{
-		assert( fLowerLimit < fUpperLimit && "hydra::ArgusShapeAnalyticalIntegral: MESSAGE << LowerLimit >= fUpperLimit >>");
-	 }
-
-	inline BifurcatedGaussianAnalyticalIntegral(BifurcatedGaussianAnalyticalIntegral const& other):
-		fLowerLimit(other.GetLowerLimit()),
-		fUpperLimit(other.GetUpperLimit())
-	{}
-
-	inline BifurcatedGaussianAnalyticalIntegral&
-	operator=( BifurcatedGaussianAnalyticalIntegral const& other)
-	{
-		if(this == &other) return *this;
-
-		this->fLowerLimit = other.GetLowerLimit();
-		this->fUpperLimit = other.GetUpperLimit();
-
-		return *this;
-	}
-
-	double GetLowerLimit() const {
-		return fLowerLimit;
-	}
-
-	void SetLowerLimit(double lowerLimit ) {
-		fLowerLimit = lowerLimit;
-	}
-
-	double GetUpperLimit() const {
-		return fUpperLimit;
-	}
-
-	void SetUpperLimit(double upperLimit) {
-		fUpperLimit = upperLimit;
-	}
-
-	template<typename FUNCTOR>	inline
-	std::pair<double, double> Integrate(FUNCTOR const& functor) const {
-
 		double fraction = cumulative(functor[0], functor[1], functor[2] );
 
-		return std::make_pair(
-				CHECK_VALUE(fraction," par[0] = %f par[1] = %f par[2] = %f fLowerLimit = %f fUpperLimit = %f", functor[0], functor[1], functor[2], fLowerLimit,fUpperLimit ) ,0.0);
-	}
+		return std::make_pair(	CHECK_VALUE(fraction," par[0] = %f par[1] = %f par[2] = %f LowerLimit = %f UpperLimit = %f",
+				functor[0], functor[1], functor[2], LowerLimit,UpperLimit ) ,0.0);
 
+	}
 
 private:
 
@@ -173,28 +136,25 @@ private:
 
 		double integral = 0.0;
 
-		if(fUpperLimit < mean)
+		if(UpperLimit < mean)
 		{
-			integral = sigma_left * ( ::erf((fUpperLimit - mean)/xscaleL) - ::erf((fLowerLimit - mean)/xscaleL) );
+			integral = sigma_left * ( ::erf((UpperLimit - mean)/xscaleL) - ::erf((LowerLimit - mean)/xscaleL) );
 		}
-		else if (fLowerLimit > mean)
+		else if (LowerLimit > mean)
 		{
-			integral = sigma_right * ( ::erf((fUpperLimit - mean)/xscaleR) - ::erf((fLowerLimit - mean)/xscaleR) );
+			integral = sigma_right * ( ::erf((UpperLimit - mean)/xscaleR) - ::erf((LowerLimit - mean)/xscaleR) );
 		}
 		else
 		{
-			integral =sigma_right*::erf((fUpperLimit - mean)/xscaleR) -  sigma_left*::erf((fLowerLimit - mean)/xscaleL);
+			integral =sigma_right*::erf((UpperLimit - mean)/xscaleR) -  sigma_left*::erf((LowerLimit - mean)/xscaleL);
 		}
 
 		return integral*sqrt_pi_over_two;
 
 	}
 
-	double fLowerLimit;
-	double fUpperLimit;
 
 };
-
 
 
 }  // namespace hydra

@@ -48,25 +48,50 @@ namespace hydra {
 namespace detail {
 
 template<size_t N>
-struct GenzMalikBox
+class GenzMalikBox;
+
+
+struct AddResultGenzMalikBoxes
 {
-	typedef typename hydra::detail::tuple_type<N+2, GReal_t>::type data_type;
+	__hydra_host__ __hydra_device__
+	hydra::pair<double, double> operator()( hydra::pair<double, double> const& r1,  hydra::pair<double, double> const& r2 ){
+		return hydra::make_pair(r1.first + r2.first, r1.second + r2.second);
+	}
+};
 
-	GenzMalikBox()=delete;
 
+template<size_t N>
+struct CompareGenzMalikBoxes
+{
+	__hydra_host__ __hydra_device__
+	bool operator()( detail::GenzMalikBox<N> const& box1,  detail::GenzMalikBox<N> const& box2 ){
+		return box1.GetError() < box2.GetError();
+	}
+};
 
+template<size_t N>
+class GenzMalikBox
+{
+
+	typedef typename hydra::detail::tuple_type<N+2,double>::type result_type;
+
+public:
+
+	GenzMalikBox()=default;
+
+	__hydra_host__ __hydra_device__
 	GenzMalikBox(GReal_t (&LowerLimit)[N], GReal_t (&UpperLimit)[N]):
 		fRule7(0),
 		fRule5(0),
 		fIntegral(0),
 		fError(0),
-		fErrorSq(0)
+		fErrorSq(0),
+		fVolume(1.0),
+		fCutAxis(-1)
 	{
-		fVolume =1.0;
-		for(size_t i=0; i<N; i++)
-		{
-			fFourDifference[i]=0;
-			fUpperLimit[i]=UpperLimit[i];
+		for(size_t i=0; i<N; i++) {
+
+		    fUpperLimit[i]=UpperLimit[i];
 			fLowerLimit[i]=LowerLimit[i];
 			fVolume*=(UpperLimit[i]-LowerLimit[i]);
 		}
@@ -78,12 +103,12 @@ struct GenzMalikBox
 		fRule5(0),
 		fIntegral(0),
 		fError(0),
-		fErrorSq(0)
+		fErrorSq(0),
+		fVolume(1.0),
+		fCutAxis(-1)
 	{
-		fVolume =1.0;
 		for(size_t i=0; i<N; i++)
 		{
-			fFourDifference[i]=0;
 			fUpperLimit[i]=UpperLimit[i];
 			fLowerLimit[i]=LowerLimit[i];
 			fVolume *=(UpperLimit[i]-LowerLimit[i]);
@@ -99,12 +124,12 @@ struct GenzMalikBox
 		fVolume(other.GetVolume() ),
 		fIntegral(other.GetIntegral()),
 		fError(other.GetError()),
-		fErrorSq(other.GetErrorSq())
+		fErrorSq(other.GetErrorSq()),
+		fCutAxis(other.GetCutAxis())
 
 	{
 		for(size_t i=0; i<N; i++)
 		{
-			fFourDifference[i]=other.GetFourDifference(i);
 			fUpperLimit[i]=other.GetUpperLimit(i);
 			fLowerLimit[i]=other.GetLowerLimit(i);
 
@@ -122,10 +147,10 @@ struct GenzMalikBox
 		this->fIntegral = other.GetIntegral();
 		this->fError = other.GetError();
 		this->fErrorSq = other.GetErrorSq();
+		this->fCutAxis = other.GetCutAxis();
 
 		for(size_t i=0; i<N; i++)
 		{
-			this->fFourDifference[i]=other.GetFourDifference(i);
 			this->fUpperLimit[i]=other.GetUpperLimit(i);
 			this->fLowerLimit[i]=other.GetLowerLimit(i);
 		}
@@ -134,21 +159,16 @@ struct GenzMalikBox
 	}
 
 	__hydra_host__ __hydra_device__
-	GenzMalikBox<N>& operator=(data_type & other)
+	GenzMalikBox<N>& operator=(result_type const& other)
 	{
+		auto _pair = hydra::detail::split_tuple<2>(other);
 
-		GReal_t _temp[N+2];
-		hydra::detail::tupleToArray(other, &_temp[0]);
+		this->fRule5 = hydra::get<0>(_pair.first ) ;
+		this->fRule7 = hydra::get<1>(_pair.first ) ;
 
-			this->fRule5 = _temp[0] ;
-			this->fRule7 = _temp[1] ;
+			this->fCutAxis = hydra::detail::max( _pair.second);
 
-			for(size_t i=0; i<N; i++)
-			{
-				this->fFourDifference[i]=_temp[i+2];
-			}
-
-			GReal_t factor = this->fVolume/hydra::detail::power<2, N>::value;
+			GReal_t factor = this->fVolume/::pow(2.0, N);
 
 			this->fIntegral = factor*this->fRule7;
 			this->fError    = factor*std::abs(this->fRule7-this->fRule5);
@@ -156,21 +176,29 @@ struct GenzMalikBox
 
 			return *this;
 	}
+	__hydra_host__ __hydra_device__
+	operator hydra::pair<double, double>() const {
+		return hydra::make_pair(this->fIntegral, this->fErrorSq );
+	}
+
+
 
 	void Print()
 	{
 		HYDRA_MSG << HYDRA_ENDL;
 		HYDRA_MSG << "Genz-Malik hyperbox begin: " << HYDRA_ENDL;
 		HYDRA_SPACED_MSG << "Integral: "  << fIntegral << HYDRA_ENDL;
+		HYDRA_SPACED_MSG << "Error: "     << fError << HYDRA_ENDL;
 		HYDRA_SPACED_MSG << "Volume: "  << fVolume << HYDRA_ENDL;
 		HYDRA_SPACED_MSG << "Rule7: "   << fRule7  << HYDRA_ENDL;
 		HYDRA_SPACED_MSG << "Rule5: "   << fRule5  << HYDRA_ENDL;
+		HYDRA_SPACED_MSG << "Cutting dimension: "   << fCutAxis  << HYDRA_ENDL;
+
 		for(size_t i=0; i<N; i++ )
 		{
 			HYDRA_SPACED_MSG <<"Dimension: " << i << ", Limits: [ "
 					<< fLowerLimit[i] << ", "
-					<< fUpperLimit[i] <<  "] , Four Difference: "
-					<< fFourDifference[i] << HYDRA_ENDL;
+					<< fUpperLimit[i] <<  "]"<< HYDRA_ENDL;
 		}
 		HYDRA_MSG << HYDRA_ENDL;
 
@@ -178,10 +206,31 @@ struct GenzMalikBox
 
 	}
 
-	__hydra_host__ __hydra_device__
-	GReal_t GetFourDifference(size_t i) const {
-		return fFourDifference[i];
+	inline hydra::pair<detail::GenzMalikBox<N>, detail::GenzMalikBox<N>> Divide(){
+
+		auto middle =  0.5*(fUpperLimit[fCutAxis] - fLowerLimit[fCutAxis])+fLowerLimit[fCutAxis];
+
+        detail::GenzMalikBox<N> lower_box(*this);
+	    lower_box.SetUpperLimit(fCutAxis, middle);
+	    lower_box.SetCutAxis(-1);
+	    lower_box.SetError(0.0);
+	    lower_box.SetErrorSq(0.0);
+	    lower_box.SetIntegral(0.0);
+
+
+		detail::GenzMalikBox<N> upper_box(*this);
+		upper_box.SetLowerLimit(fCutAxis, middle);
+		upper_box.SetCutAxis(-1);
+		upper_box.SetError(0.0);
+		upper_box.SetErrorSq(0.0);
+		upper_box.SetIntegral(0.0);
+		upper_box.SetIntegral(0.0);
+
+
+		return hydra::make_pair(lower_box, upper_box);
+
 	}
+
 
 	__hydra_host__ __hydra_device__
 	GReal_t GetRule5() const {
@@ -214,6 +263,19 @@ struct GenzMalikBox
 	}
 
 	__hydra_host__ __hydra_device__
+	void SetLowerLimit(size_t i, double value) {
+		fLowerLimit[i]=value;
+		this->UpdateVolume();
+	}
+
+	__hydra_host__ __hydra_device__
+	void SetUpperLimit(size_t i, double value) {
+		fUpperLimit[i]=value;
+		this->UpdateVolume();
+	}
+
+
+	__hydra_host__ __hydra_device__
 	GReal_t GetLowerLimit(size_t i) const {
 		return fLowerLimit[i];
 	}
@@ -232,9 +294,6 @@ struct GenzMalikBox
 	GReal_t* GetUpperLimit()  {
 		return fUpperLimit;
 	}
-
-
-
 
 	__hydra_host__ __hydra_device__
 	GReal_t GetError() const {
@@ -267,8 +326,25 @@ struct GenzMalikBox
 	void SetErrorSq(GReal_t errorSq) {
 		fErrorSq = errorSq;
 	}
+	__hydra_host__ __hydra_device__
+	GInt_t GetCutAxis() const {
+		return fCutAxis;
+	}
+	__hydra_host__ __hydra_device__
+	void SetCutAxis(GInt_t cutAxis) {
+		fCutAxis = cutAxis;
+	}
 
 private:
+
+	__hydra_host__ __hydra_device__
+	void UpdateVolume(){
+		fVolume =1.0;
+		for(size_t i=0; i<N; i++)
+			fVolume *=(fUpperLimit[i]-fLowerLimit[i]);
+
+	}
+
 
 	GReal_t fIntegral;
 	GReal_t fError;
@@ -276,9 +352,9 @@ private:
 	GReal_t fVolume;
 	GReal_t fRule7;
 	GReal_t fRule5;
-	GReal_t fFourDifference[N];
 	GReal_t fUpperLimit[N];
 	GReal_t fLowerLimit[N];
+	GInt_t  fCutAxis;
 
 };
 

@@ -23,16 +23,16 @@ ENDMACRO()
 #   DETECT_INSTALLED_GPUS(OUT_VARIABLE)
 FUNCTION(DETECT_INSTALLED_GPUS OUT_VARIABLE)
   IF(NOT CUDA_GPU_DETECT_OUTPUT)
-    SET(__cufile ${PROJECT_BINARY_DIR}/detect_cuda_archs.cpp)
+    SET(__cufile ${PROJECT_BINARY_DIR}/detect_cuda_archs.cu)
 
     file(WRITE ${__cufile} ""
-    "#include <cuda_runtime.h>\n"
+    "//#include <cuda_runtime.h>\n"
       "#include <cstdio>\n"
       "int main()\n"
       "{\n"
       "  int count = 0;\n"
-      "  if (cudaSuccess != cudaGetDeviceCount(&count)) return -1;\n"
-      "  if (count == 0) return -1;\n"
+      "  if (cudaSuccess !=cudaGetDeviceCount(&count)) {std::printf(\"cudaGetDeviceCount failed\") ; return -1;}\n"
+      "  if (count == 0) {std::printf(\"count is 0\") ;return -1;}\n"
       "  for (int device = 0; device < count; ++device)\n"
       "  {\n"
       "    cudaDeviceProp prop;\n"
@@ -43,15 +43,15 @@ FUNCTION(DETECT_INSTALLED_GPUS OUT_VARIABLE)
       "}\n")
 
 
-#    EXECUTE_PROCESS(COMMAND "${CUDA_NVCC_EXECUTABLE}" "--compiler-bindir=$ENV{CC}" "--run" "${__cufile}"
-#                    WORKING_DIRECTORY "${PROJECT_BINARY_DIR}/CMakeFiles/"
-#                    RESULT_VARIABLE __nvcc_res OUTPUT_VARIABLE __nvcc_out
-#                    ERROR_QUIET OUTPUT_STRIP_TRAILING_WHITESPACE)
-#                    
-      try_run(__nvcc_res compile_result ${PROJECT_BINARY_DIR} ${__cufile}
-            CMAKE_FLAGS "-DINCLUDE_DIRECTORIES=${CUDA_INCLUDE_DIRS}"
-            LINK_LIBRARIES ${CUDA_LIBRARIES}
-            RUN_OUTPUT_VARIABLE __nvcc_out)
+    EXECUTE_PROCESS(COMMAND "${CUDA_NVCC_EXECUTABLE}" "--compiler-bindir=$ENV{CC}" "--run" "${__cufile}"
+                    WORKING_DIRECTORY "${PROJECT_BINARY_DIR}/CMakeFiles/"
+                    RESULT_VARIABLE __nvcc_res OUTPUT_VARIABLE __nvcc_out
+                    ERROR_QUIET OUTPUT_STRIP_TRAILING_WHITESPACE)
+                    
+     # try_run(__nvcc_res compile_result ${PROJECT_BINARY_DIR} ${__cufile}
+      #      CMAKE_FLAGS "-DINCLUDE_DIRECTORIES=${CUDA_INCLUDE_DIRS}"
+       #     LINK_LIBRARIES ${CUDA_LIBRARIES}
+        #    RUN_OUTPUT_VARIABLE __nvcc_out)
 
     IF(__nvcc_res EQUAL 0)
       STRING(REPLACE "2.1" "2.1(2.0)" __nvcc_out "${__nvcc_out}")

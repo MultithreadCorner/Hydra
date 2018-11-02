@@ -70,7 +70,7 @@
 #include <hydra/FunctorArithmetic.h>
 #include <hydra/FunctionWrapper.h>
 #include <hydra/multiarray.h>
-#include <hydra/Copy.h>
+#include <hydra/Algorithm.h>
 #include <hydra/Tuple.h>
 #include <hydra/host/System.h>
 #include <hydra/device/System.h>
@@ -103,17 +103,6 @@ double lambda( const double x,const double y, const double z)
 	return (x - pow( sqrt(y) + sqrt(z), 2))*(x - pow( sqrt(y) - sqrt(z), 2));
 }
 
-__hydra_host__ __hydra_device__ inline
-double cos_thetaAB( const double mab_sq, const double mbc_sq, const double mac_sq, const double ma_sq, const double mb_sq, const double mc_sq)
-{
-
-	double s = mab_sq + mbc_sq + mac_sq - ma_sq - mb_sq - mc_sq;
-	double numerator   = (s - mab_sq - mc_sq)*(mab_sq + ma_sq - mb_sq) + 2*mab_sq*(mc_sq+ma_sq - mbc_sq);
-	double denominator = sqrt(lambda(s, mab_sq, mc_sq)*lambda(mab_sq, ma_sq, mb_sq));
-
-	return numerator/denominator;
-
-}
 
 
 
@@ -177,29 +166,8 @@ int main(int argv, char** argc)
 	};
 
 
-	//C++11 lambda for cosine of helicity angle Kpi
-	auto COSHELANG2 = [] __hydra_dual__ (unsigned int , hydra::Vector4R* P )
-	{
-
-		hydra::Vector4R s = P[1] + P[2] + P[0];
-
-		double mc_sq = P[0].mass2();
-		double ma_sq = P[1].mass2();
-		double mb_sq = P[2].mass2();
-
-		double mab_sq  = (P[2] + P[1])*(P[2] + P[1]);//s2
-		double mbc_sq  = (P[0] + P[1])*(P[0] + P[1]);//s1
-        double mac_sq  = (P[0] + P[2])*(P[0] + P[2]);
-
-
-		return cos_thetaAB(mab_sq, mbc_sq, mac_sq, ma_sq, mb_sq,mc_sq );
-	};
-
-
-
 	//wrap functors
 	auto cosTheta = hydra::wrap_lambda(COSHELANG);
-	auto cosTheta2 = hydra::wrap_lambda(COSHELANG2);
 	auto m12Sq    = hydra::wrap_lambda(M12Sq);
 	auto m23Sq    = hydra::wrap_lambda(M23Sq);
 
@@ -219,8 +187,8 @@ int main(int argv, char** argc)
 	// Create PhaseSpace object for B0-> K pi J/psi
 	hydra::PhaseSpace<3> phsp( masses);
 
-	typedef hydra::multiarray<double,5,   hydra::host::sys_t>  dataset_h;
-	typedef hydra::multiarray< double,5,  hydra::device::sys_t>  dataset_d;
+	typedef hydra::multiarray<double,4,   hydra::host::sys_t>  dataset_h;
+	typedef hydra::multiarray< double,4,  hydra::device::sys_t>  dataset_d;
 
 	//device
 	{
@@ -230,7 +198,7 @@ int main(int argv, char** argc)
 
 		auto start = std::chrono::high_resolution_clock::now();
 		//generate the final state particles
-		phsp.Evaluate(B0, data_d.begin(), data_d.end(), m12Sq, m23Sq, cosTheta, cosTheta2);
+		phsp.Evaluate(B0, data_d,  m12Sq, m23Sq, cosTheta);
 		auto end = std::chrono::high_resolution_clock::now();
 		std::chrono::duration<double, std::milli> elapsed = end - start;
 
@@ -250,7 +218,7 @@ int main(int argv, char** argc)
 #ifdef 	_ROOT_AVAILABLE_
 
 		//bring events to CPU memory space
-		dataset_d data_h(data_d);
+		dataset_h data_h(data_d);
 
 		for( auto event : data_h ){
 

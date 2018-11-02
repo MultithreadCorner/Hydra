@@ -20,28 +20,21 @@
  *---------------------------------------------------------------------------*/
 
 /*
- * GenericRange.h
+ * Algorithm.h
  *
- *  Created on: 29/08/2017
+ *  Created on: 17/05/2018
  *      Author: Antonio Augusto Alves Junior
  */
 
-#ifndef GENERICRANGE_H_
-#define GENERICRANGE_H_
+#ifndef ALGORITHM_H_
+#define ALGORITHM_H_
 
-#include <hydra/detail/Config.h>
-#include <hydra/detail/BackendPolicy.h>
-#include <hydra/Distance.h>
+#include <hydra/detail/Copy.inl>
+#include <hydra/detail/Sort.inl>
+#include <hydra/detail/Scatter.inl>
+#include <hydra/detail/Gather.inl>
+#include <hydra/detail/ForEach.inl>
+#include <hydra/detail/Reduce.inl>
+#include <hydra/detail/Transform.inl>
 
-namespace hydra {
-
-template<typename ...T>
-class GenericRange;
-
-}  // namespace hydra
-
-#include <hydra/detail/GenericRange1.inl>
-#include <hydra/detail/GenericRange2.inl>
-
-
-#endif /* GENERICRANGE_H_ */
+#endif /* ALGORITHM_H_ */

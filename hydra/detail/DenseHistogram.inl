@@ -45,7 +45,8 @@ namespace hydra {
 
 template< typename T, size_t N, hydra::detail::Backend BACKEND>
 template<typename Iterator1, typename Iterator2>
-void DenseHistogram<T, N, detail::BackendPolicy<BACKEND>, detail::multidimensional>::Fill(Iterator1 begin, Iterator1 end, Iterator2 wbegin )
+DenseHistogram<T, N, detail::BackendPolicy<BACKEND>, detail::multidimensional>&
+DenseHistogram<T, N, detail::BackendPolicy<BACKEND>, detail::multidimensional>::Fill(Iterator1 begin, Iterator1 end, Iterator2 wbegin )
 {
 	using HYDRA_EXTERNAL_NS::thrust::system::detail::generic::select_system;
 	typedef  typename HYDRA_EXTERNAL_NS::thrust::iterator_system<Iterator1>::type system1_t;
@@ -66,7 +67,7 @@ void DenseHistogram<T, N, detail::BackendPolicy<BACKEND>, detail::multidimension
 	//work on local copy of weights
 
 	auto weights  = HYDRA_EXTERNAL_NS::thrust::get_temporary_buffer<double>(common_system_t(), data_size);
-	hydra::copy(wbegin, wbegin+data_size, weights.first);
+	HYDRA_EXTERNAL_NS::thrust::copy(wbegin, wbegin+data_size, weights.first);
 
 	auto keys_begin = HYDRA_EXTERNAL_NS::thrust::make_transform_iterator(begin, key_functor );
 	auto keys_end   = HYDRA_EXTERNAL_NS::thrust::make_transform_iterator(end, key_functor);
@@ -99,12 +100,15 @@ void DenseHistogram<T, N, detail::BackendPolicy<BACKEND>, detail::multidimension
     HYDRA_EXTERNAL_NS::thrust::return_temporary_buffer(common_system_t(), reduced_keys.first);
     HYDRA_EXTERNAL_NS::thrust::return_temporary_buffer(common_system_t(), key_buffer.first);
     HYDRA_EXTERNAL_NS::thrust::return_temporary_buffer(common_system_t(), weights.first  );
+
+    return *this;
 }
 
 
 template<typename T, size_t N, hydra::detail::Backend BACKEND>
 template<hydra::detail::Backend BACKEND2, typename Iterator1, typename Iterator2>
-void DenseHistogram<T, N, detail::BackendPolicy<BACKEND>, detail::multidimensional>::Fill(detail::BackendPolicy<BACKEND2> const& exec_policy,
+DenseHistogram<T, N, detail::BackendPolicy<BACKEND>, detail::multidimensional>&
+DenseHistogram<T, N, detail::BackendPolicy<BACKEND>, detail::multidimensional>::Fill(detail::BackendPolicy<BACKEND2> const& exec_policy,
 		Iterator1 begin, Iterator1 end, Iterator2 wbegin )
 {
 	using HYDRA_EXTERNAL_NS::thrust::system::detail::generic::select_system;
@@ -126,7 +130,7 @@ void DenseHistogram<T, N, detail::BackendPolicy<BACKEND>, detail::multidimension
 	//work on local copy of weights
 
 	auto weights  = HYDRA_EXTERNAL_NS::thrust::get_temporary_buffer<double>(common_system_t(), data_size);
-	hydra::copy(wbegin, wbegin+data_size, weights.first);
+	HYDRA_EXTERNAL_NS::thrust::copy(wbegin, wbegin+data_size, weights.first);
 
 	auto keys_begin = HYDRA_EXTERNAL_NS::thrust::make_transform_iterator(begin, key_functor );
 	auto keys_end   = HYDRA_EXTERNAL_NS::thrust::make_transform_iterator(end, key_functor);
@@ -159,12 +163,15 @@ void DenseHistogram<T, N, detail::BackendPolicy<BACKEND>, detail::multidimension
     HYDRA_EXTERNAL_NS::thrust::return_temporary_buffer(common_system_t(), reduced_keys.first);
     HYDRA_EXTERNAL_NS::thrust::return_temporary_buffer(common_system_t(), key_buffer.first);
     HYDRA_EXTERNAL_NS::thrust::return_temporary_buffer(common_system_t(), weights.first  );
+
+    return *this;
 }
 
 
 template<typename T, size_t N, hydra::detail::Backend BACKEND>
 template<typename Iterator>
-void DenseHistogram<T, N,  hydra::detail::BackendPolicy<BACKEND>, detail::multidimensional>::Fill(Iterator begin, Iterator end )
+DenseHistogram<T, N, detail::BackendPolicy<BACKEND>, detail::multidimensional>&
+DenseHistogram<T, N,  hydra::detail::BackendPolicy<BACKEND>, detail::multidimensional>::Fill(Iterator begin, Iterator end )
 {
 	using HYDRA_EXTERNAL_NS::thrust::system::detail::generic::select_system;
 	typedef  typename HYDRA_EXTERNAL_NS::thrust::iterator_system<Iterator>::type system1_t;
@@ -216,11 +223,13 @@ void DenseHistogram<T, N,  hydra::detail::BackendPolicy<BACKEND>, detail::multid
 	    HYDRA_EXTERNAL_NS::thrust::return_temporary_buffer(common_system_t(), reduced_values.first);
 	    HYDRA_EXTERNAL_NS::thrust::return_temporary_buffer(common_system_t(), reduced_keys.first);
 
+	    return *this;
 }
 
 template<typename T, size_t N, hydra::detail::Backend BACKEND>
 template<hydra::detail::Backend BACKEND2, typename Iterator>
-void DenseHistogram<T, N,  hydra::detail::BackendPolicy<BACKEND>, detail::multidimensional>::Fill(detail::BackendPolicy<BACKEND2> const& exec_policy, Iterator begin, Iterator end )
+DenseHistogram<T, N, detail::BackendPolicy<BACKEND>, detail::multidimensional>&
+DenseHistogram<T, N,  hydra::detail::BackendPolicy<BACKEND>, detail::multidimensional>::Fill(detail::BackendPolicy<BACKEND2> const& exec_policy, Iterator begin, Iterator end )
 {
 	typedef  typename HYDRA_EXTERNAL_NS::thrust::iterator_system<Iterator>::type system1_t;
 		system1_t system1;
@@ -270,12 +279,14 @@ void DenseHistogram<T, N,  hydra::detail::BackendPolicy<BACKEND>, detail::multid
 	    HYDRA_EXTERNAL_NS::thrust::return_temporary_buffer(common_system_t(), reduced_values.first);
 	    HYDRA_EXTERNAL_NS::thrust::return_temporary_buffer(common_system_t(), reduced_keys.first);
 
+	    return *this;
 }
 
 
 template<typename T, hydra::detail::Backend BACKEND>
 template<typename Iterator>
-void DenseHistogram< T,1, detail::BackendPolicy<BACKEND>, detail::unidimensional>::Fill(Iterator begin, Iterator end )
+DenseHistogram< T,1, detail::BackendPolicy<BACKEND>, detail::unidimensional>&
+DenseHistogram< T,1, detail::BackendPolicy<BACKEND>, detail::unidimensional>::Fill(Iterator begin, Iterator end )
 {
 	using HYDRA_EXTERNAL_NS::thrust::system::detail::generic::select_system;
 	typedef  typename HYDRA_EXTERNAL_NS::thrust::iterator_system<Iterator>::type system1_t;
@@ -323,6 +334,7 @@ void DenseHistogram< T,1, detail::BackendPolicy<BACKEND>, detail::unidimensional
     HYDRA_EXTERNAL_NS::thrust::return_temporary_buffer(common_system_t(), reduced_keys.first);
     HYDRA_EXTERNAL_NS::thrust::return_temporary_buffer(common_system_t(), key_buffer.first);
 
+    return *this;
 }
 
 
@@ -330,7 +342,8 @@ void DenseHistogram< T,1, detail::BackendPolicy<BACKEND>, detail::unidimensional
 
 template<typename T, hydra::detail::Backend BACKEND>
 template<hydra::detail::Backend BACKEND2, typename Iterator>
-void DenseHistogram< T,1, detail::BackendPolicy<BACKEND>, detail::unidimensional>::Fill(detail::BackendPolicy<BACKEND2> const& exec_policy,
+DenseHistogram< T,1, detail::BackendPolicy<BACKEND>, detail::unidimensional>&
+DenseHistogram< T,1, detail::BackendPolicy<BACKEND>, detail::unidimensional>::Fill(detail::BackendPolicy<BACKEND2> const& exec_policy,
 		Iterator begin, Iterator end )
 {
 	typedef  typename HYDRA_EXTERNAL_NS::thrust::iterator_system<Iterator>::type system1_t;
@@ -378,13 +391,15 @@ void DenseHistogram< T,1, detail::BackendPolicy<BACKEND>, detail::unidimensional
     HYDRA_EXTERNAL_NS::thrust::return_temporary_buffer(common_system_t(), reduced_keys.first);
     HYDRA_EXTERNAL_NS::thrust::return_temporary_buffer(common_system_t(), key_buffer.first);
 
+    return *this;
 }
 
 
 
 template<typename T, hydra::detail::Backend BACKEND>
 template<typename Iterator1, typename Iterator2>
-void DenseHistogram<T,1, detail::BackendPolicy<BACKEND>, detail::unidimensional>::Fill(Iterator1 begin, Iterator1 end, Iterator2 wbegin )
+DenseHistogram<T,1, detail::BackendPolicy<BACKEND>, detail::unidimensional>&
+DenseHistogram<T,1, detail::BackendPolicy<BACKEND>, detail::unidimensional>::Fill(Iterator1 begin, Iterator1 end, Iterator2 wbegin )
 {
 	using HYDRA_EXTERNAL_NS::thrust::system::detail::generic::select_system;
 	typedef  typename HYDRA_EXTERNAL_NS::thrust::iterator_system<Iterator1>::type system1_t;
@@ -401,7 +416,7 @@ void DenseHistogram<T,1, detail::BackendPolicy<BACKEND>, detail::unidimensional>
 
 	//work on local copy of data
 	auto weights  = HYDRA_EXTERNAL_NS::thrust::get_temporary_buffer<double>(common_system_t(), data_size);
-	hydra::copy(wbegin, wbegin+data_size, weights.first);
+	HYDRA_EXTERNAL_NS::thrust::copy(wbegin, wbegin+data_size, weights.first);
 
 	auto keys_begin = HYDRA_EXTERNAL_NS::thrust::make_transform_iterator(begin, key_functor );
 	auto keys_end   = HYDRA_EXTERNAL_NS::thrust::make_transform_iterator(end, key_functor);
@@ -436,6 +451,7 @@ void DenseHistogram<T,1, detail::BackendPolicy<BACKEND>, detail::unidimensional>
     HYDRA_EXTERNAL_NS::thrust::return_temporary_buffer(common_system_t(), reduced_keys.first);
     HYDRA_EXTERNAL_NS::thrust::return_temporary_buffer(common_system_t(), key_buffer.first);
 
+    return *this;
 }
 
 
@@ -443,7 +459,8 @@ void DenseHistogram<T,1, detail::BackendPolicy<BACKEND>, detail::unidimensional>
 
 template<typename T, hydra::detail::Backend BACKEND>
 template<hydra::detail::Backend BACKEND2, typename Iterator1, typename Iterator2>
-void DenseHistogram<T,1, detail::BackendPolicy<BACKEND>, detail::unidimensional >::Fill(detail::BackendPolicy<BACKEND2> const& exec_policy,
+DenseHistogram<T,1, detail::BackendPolicy<BACKEND>, detail::unidimensional >&
+DenseHistogram<T,1, detail::BackendPolicy<BACKEND>, detail::unidimensional >::Fill(detail::BackendPolicy<BACKEND2> const& exec_policy,
 		Iterator1 begin, Iterator1 end, Iterator2 wbegin )
 {
 	using HYDRA_EXTERNAL_NS::thrust::system::detail::generic::select_system;
@@ -461,7 +478,7 @@ void DenseHistogram<T,1, detail::BackendPolicy<BACKEND>, detail::unidimensional 
 
 	//work on local copy of data
 	auto weights  = HYDRA_EXTERNAL_NS::thrust::get_temporary_buffer<double>(common_system_t(), data_size);
-	hydra::copy(wbegin, wbegin+data_size, weights.first);
+	HYDRA_EXTERNAL_NS::thrust::copy(wbegin, wbegin+data_size, weights.first);
 
 	auto keys_begin = HYDRA_EXTERNAL_NS::thrust::make_transform_iterator(begin, key_functor );
 	auto keys_end   = HYDRA_EXTERNAL_NS::thrust::make_transform_iterator(end, key_functor);
@@ -496,6 +513,7 @@ void DenseHistogram<T,1, detail::BackendPolicy<BACKEND>, detail::unidimensional 
     HYDRA_EXTERNAL_NS::thrust::return_temporary_buffer(common_system_t(), reduced_keys.first);
     HYDRA_EXTERNAL_NS::thrust::return_temporary_buffer(common_system_t(), key_buffer.first);
 
+    return *this;
 }
 
 template<typename Iterator, typename T, size_t N , hydra::detail::Backend BACKEND>
@@ -509,6 +527,18 @@ make_dense_histogram( detail::BackendPolicy<BACKEND>, std::array<size_t, N> grid
 
 	return _Hist;
 }
+
+template< typename T, size_t N , hydra::detail::Backend BACKEND, typename Iterable>
+inline typename std::enable_if< hydra::detail::is_iterable<Iterable>::value,
+DenseHistogram< T, N,  detail::BackendPolicy<BACKEND>, detail::multidimensional>>::type
+make_dense_histogram( detail::BackendPolicy<BACKEND> backend, std::array<size_t, N> grid,
+		std::array<T, N>lowerlimits,   std::array<T, N> upperlimits,	Iterable&& data){
+
+	return make_dense_histogram(backend,grid, lowerlimits, upperlimits,
+			std::forward<Iterable>(data).begin(), std::forward<Iterable>(data).end());
+
+}
+
 
 template<typename Iterator, typename T, hydra::detail::Backend BACKEND>
 DenseHistogram< T, 1,  detail::BackendPolicy<BACKEND>, detail::multidimensional>

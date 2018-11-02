@@ -1,6 +1,6 @@
 /*----------------------------------------------------------------------------
  *
- *   Copyright (C) 2016-2017 Antonio Augusto Alves Junior
+ *   Copyright (C) 2016 - 2018 Antonio Augusto Alves Junior
  *
  *   This file is part of Hydra Data Analysis Framework.
  *
@@ -20,40 +20,16 @@
  *---------------------------------------------------------------------------*/
 
 /*
- * ForEach.h
+ * zipping_iterables.cpp
  *
- *  Created on: 04/05/2018
+ *  Created on: 02/07/2018
  *      Author: Antonio Augusto Alves Junior
  */
 
-#ifndef FOREACH_H_
-#define FOREACH_H_
+#ifndef ZIPPING_ITERABLES_CPP_
+#define ZIPPING_ITERABLES_CPP_
+
+#include<examples/misc/zipping_iterables.inl>
 
 
-#include <hydra/detail/Config.h>
-#include <hydra/detail/BackendPolicy.h>
-#include <hydra/Types.h>
-#include <hydra/detail/external/thrust/for_each.h>
-
-namespace hydra {
-
-template<typename InputIterator, typename Functor>
-InputIterator for_each(InputIterator first, InputIterator last, Functor const functor)
-{
-	return HYDRA_EXTERNAL_NS::thrust::for_each(first, last, functor);
-}
-
-template<detail::Backend Backend, typename InputIterator, typename Functor>
-InputIterator for_each(hydra::detail::BackendPolicy<Backend> const& policy, InputIterator first,
-		InputIterator last, Functor const functor)
-{
-	return HYDRA_EXTERNAL_NS::thrust::for_each( policy, first, last, functor);
-}
-
-}  // namespace hydra
-
-
-
-
-
-#endif /* FOREACH_H_ */
+#endif /* ZIPPING_ITERABLES_CPP_ */

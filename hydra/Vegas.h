@@ -37,9 +37,8 @@
 #include <hydra/Types.h>
 #include <hydra/VegasState.h>
 #include <hydra/detail/functors/ProcessCallsVegas.h>
-#include <hydra/detail/Integrator.h>
+#include <hydra/Integrator.h>
 #include <utility>
-
 #include <hydra/detail/external/thrust/random.h>
 
 namespace hydra {
@@ -62,7 +61,7 @@ class Vegas ;
  */
 template<size_t N,  hydra::detail::Backend  BACKEND,  typename GRND>
 class Vegas<N, hydra::detail::BackendPolicy<BACKEND>, GRND >
-: public Integrator<Vegas<N,hydra::detail::BackendPolicy<BACKEND>,GRND>>
+: public Integral<Vegas<N,hydra::detail::BackendPolicy<BACKEND>,GRND>>
 {
 	typedef hydra::detail::BackendPolicy<BACKEND> system_t;
 	typedef typename system_t::template container<GReal_t>  rvector_backend;
@@ -78,7 +77,7 @@ public:
 	Vegas()=delete;
 
 	Vegas(std::array<GReal_t,N> const& xlower,	std::array<GReal_t,N> const& xupper, size_t ncalls):
-		Integrator<Vegas<N, hydra::detail::BackendPolicy<BACKEND>,GRND>>(),
+		Integral<Vegas<N, hydra::detail::BackendPolicy<BACKEND>,GRND>>(),
 		fState(xlower,xupper)
 		{
 		fState.SetCalls(ncalls);
@@ -86,14 +85,14 @@ public:
 
 
 	Vegas(VegasState<N, hydra::detail::BackendPolicy<BACKEND>> const& state):
-		Integrator<Vegas<N, hydra::detail::BackendPolicy<BACKEND>,GRND>>(),
+		Integral<Vegas<N, hydra::detail::BackendPolicy<BACKEND>,GRND>>(),
 		fState(state)
 		{}
 
 
 
 	Vegas( Vegas< N, hydra::detail::BackendPolicy<BACKEND>, GRND> const& other):
-	Integrator<Vegas<N, hydra::detail::BackendPolicy<BACKEND>,GRND>>(),
+	Integral<Vegas<N, hydra::detail::BackendPolicy<BACKEND>,GRND>>(),
 	fState(other.GetState())
 	{}
 
@@ -110,7 +109,7 @@ public:
 
 	template< hydra::detail::Backend  BACKEND2, typename GRND2>
 	Vegas( Vegas< N, hydra::detail::BackendPolicy<BACKEND2>, GRND2> const& other):
-	Integrator<Vegas<N, hydra::detail::BackendPolicy<BACKEND>,GRND>>(),
+	Integral<Vegas<N, hydra::detail::BackendPolicy<BACKEND>,GRND>>(),
 	fState(other.GetState())
 	{}
 

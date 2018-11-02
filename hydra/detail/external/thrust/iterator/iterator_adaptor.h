@@ -188,7 +188,6 @@ template<typename Derived,
     __hydra_host__ __hydra_device__
     typename iterator_adaptor::reference dereference() const
     { return *m_iterator; }
-
     __thrust_exec_check_disable__
     template<typename OtherDerived, typename OtherIterator, typename V, typename S, typename T, typename R, typename D>
     __hydra_host__ __hydra_device__

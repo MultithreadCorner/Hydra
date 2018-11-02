@@ -63,7 +63,7 @@ struct GetGlobalBin: public HYDRA_EXTERNAL_NS::thrust::unary_function<typename t
 			fDelta[i] = other.fDelta[i];
 			fLowerLimits[i] = other.fLowerLimits[i];
 		}
-
+		fNGlobalBins =other.fNGlobalBins;
 	}
 
 	__hydra_host__ __hydra_device__

@@ -69,7 +69,7 @@
 #include <hydra/Function.h>
 #include <hydra/FunctorArithmetic.h>
 #include <hydra/FunctionWrapper.h>
-#include <hydra/Copy.h>
+#include <hydra/Algorithm.h>
 #include <hydra/Tuple.h>
 #include <hydra/host/System.h>
 #include <hydra/device/System.h>
@@ -158,6 +158,13 @@ int main(int argv, char** argc)
 		return hydra::make_tuple(M2_Jpsi_pi, M2_Kpi);
 	});
 
+	auto mother_mass = hydra::wrap_lambda(
+			[] __hydra_dual__ (  hydra::tuple<double,hydra::Vector4R,hydra::Vector4R,hydra::Vector4R> x){
+
+		return  (hydra::get<1>(x) + hydra::get<2>(x) + hydra::get<3>(x) ).mass() ;
+
+	});
+
 	//device
 	{
 		//allocate memory to hold the final states particles
@@ -169,7 +176,7 @@ int main(int argv, char** argc)
 		auto start = std::chrono::high_resolution_clock::now();
 
 		//generate the final state particles
-		phsp.Generate(B0, Events_d.begin(), Events_d.end());
+		for (auto i : phsp.Generate(B0, Events_d) | mother_mass) std::cout << i << std::endl;
 
 		auto end = std::chrono::high_resolution_clock::now();
 
@@ -188,18 +195,26 @@ int main(int argv, char** argc)
 		for( size_t i=0; i<10; i++ )
 			std::cout << Events_d.GetDecay(i) << std::endl;
 
-		auto particles        = Events_d.GetUnweightedDecays();
-		auto dalitz_variables = hydra::make_range( particles.begin(), particles.end(), dalitz_calculator);
+		auto dalitz_variables = Events_d.GetUnweightedDecays() | dalitz_calculator ;
 
 		auto dalitz_weights   = Events_d.GetWeights();
 
-		hydra::DenseHistogram<double, 2, hydra::device::sys_t> Hist_Dalitz({100,100},
+		/*
+		hydra::DenseHistogram<double, 2, hydra::device::sys_t> Hist_Dalitz(	{100,100},
 				{pow(Jpsi_mass + pi_mass,2), pow(K_mass + pi_mass,2)},
-				{pow(B0_mass - K_mass,2)   , pow(B0_mass - Jpsi_mass,2)});
+				{pow(B0_mass - K_mass,2)   , pow(B0_mass - Jpsi_mass,2)});*/
+
+		auto Hist_Dalitz = hydra::make_dense_histogram<double,2>(
+				hydra::device::sys,
+				{100,100},
+				{pow(Jpsi_mass + pi_mass,2), pow(K_mass + pi_mass,2)},
+				{pow(B0_mass - K_mass,2)   , pow(B0_mass - Jpsi_mass,2)},
+				dalitz_variables);
 
 		start = std::chrono::high_resolution_clock::now();
-		Hist_Dalitz.Fill(dalitz_variables.begin(), dalitz_variables.end(),
-			dalitz_weights.begin()  );
+
+		//Hist_Dalitz.Fill(dalitz_variables, 	dalitz_weights );
+
 		end = std::chrono::high_resolution_clock::now();
 
 		elapsed = end - start;

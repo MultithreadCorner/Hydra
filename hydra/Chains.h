@@ -219,12 +219,12 @@ public:
 		return *this;
 	}
 
-	GenericRange<iterator_v >
+	Range<iterator_v >
 	GetWeights() {
 		return hydra::make_range(this->fWeights.begin(), this->fWeights.end());
 	}
 
-	GenericRange<const_iterator_v >
+	Range<const_iterator_v >
 	GetWeights() const {
 		return hydra::make_range(this->fWeights.begin(), this->fWeights.end());
 	}

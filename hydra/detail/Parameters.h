@@ -32,7 +32,7 @@
 #include <hydra/detail/Config.h>
 #include <hydra/Types.h>
 #include <hydra/detail/Print.h>
-#include <hydra/detail/Integrator.h>
+#include <hydra/Integrator.h>
 #include <hydra/Parameter.h>
 #include <hydra/detail/utility/Utility_Tuple.h>
 #include <hydra/detail/Hash.h>

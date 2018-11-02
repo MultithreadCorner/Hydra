@@ -41,10 +41,10 @@ namespace hydra{
 
 template<typename GRND>
 template<typename Iterator>
-void  Random<GRND>::Gauss(typename Iterator::value_type mean, typename Iterator::value_type sigma,
+void  Random<GRND>::Gauss(double mean, double sigma,
 		Iterator begin, Iterator end )
 {
-	typedef typename Iterator::value_type value_type;
+	typedef double value_type;
 	using HYDRA_EXTERNAL_NS::thrust::system::detail::generic::select_system;
 	typedef typename HYDRA_EXTERNAL_NS::thrust::iterator_system<Iterator>::type System;
 	System system;
@@ -60,14 +60,24 @@ void  Random<GRND>::Gauss(typename Iterator::value_type mean, typename Iterator:
 
 }
 
+template<typename GRND>
+template<typename Iterable>
+inline typename std::enable_if< hydra::detail::is_iterable<Iterable>::value,
+hydra::Range<decltype(std::declval<Iterable>().begin())>>::type
+Random<GRND>::Gauss(double mean, double sigma, Iterable&& output)
+{
+	this->Gauss(mean, sigma, std::forward<Iterable>(output).begin(),  std::forward<Iterable>(output).end());
+	return make_range( std::forward<Iterable>(output).begin(),  std::forward<Iterable>(output).end());
+}
+
 
 template<typename GRND>
 template<hydra::detail::Backend  BACKEND, typename Iterator>
 void  Random<GRND>::Gauss( hydra::detail::BackendPolicy<BACKEND> const& policy,
-		typename Iterator::value_type mean, typename Iterator::value_type sigma,
+		double mean, double sigma,
 		Iterator begin, Iterator end )
 {
-	typedef typename Iterator::value_type value_type;
+	typedef double value_type;
 
 	size_t fNEvents=HYDRA_EXTERNAL_NS::thrust::distance(begin ,end );
 
@@ -87,10 +97,10 @@ void  Random<GRND>::Gauss( hydra::detail::BackendPolicy<BACKEND> const& policy,
  */
 template<typename GRND>
 template<typename Iterator>
-void Random<GRND>::Uniform(typename Iterator::value_type min, typename Iterator::value_type max,
+void Random<GRND>::Uniform(double min, double max,
 		Iterator begin, Iterator end)
 {
-	typedef typename Iterator::value_type value_type;
+	typedef double value_type;
 	using HYDRA_EXTERNAL_NS::thrust::system::detail::generic::select_system;
 	typedef typename HYDRA_EXTERNAL_NS::thrust::iterator_system<Iterator>::type System;
 	System system;
@@ -106,16 +116,27 @@ void Random<GRND>::Uniform(typename Iterator::value_type min, typename Iterator:
 
 }
 
+template<typename GRND>
+template<typename Iterable>
+inline typename std::enable_if< hydra::detail::is_iterable<Iterable>::value,
+hydra::Range<decltype(std::declval<Iterable>().begin())>>::type
+Random<GRND>::Uniform(double min,	double max, Iterable&& output){
+
+	this->Uniform(min, max, std::forward<Iterable>(output).begin(),  std::forward<Iterable>(output).end());
+	return make_range( std::forward<Iterable>(output).begin(),  std::forward<Iterable>(output).end());
+}
+
+
 /**
  * Fill the range (begin, end) with a uniform distribution between [min, max]
  */
 template<typename GRND>
 template<hydra::detail::Backend  BACKEND, typename Iterator>
 void Random<GRND>::Uniform( hydra::detail::BackendPolicy<BACKEND> const& policy,
-		typename Iterator::value_type min, typename Iterator::value_type max,
+		double min, double max,
 		Iterator begin, Iterator end)
 {
-	typedef typename Iterator::value_type value_type;
+	typedef double value_type;
 
 	size_t fNEvents=HYDRA_EXTERNAL_NS::thrust::distance(begin ,end );
 
@@ -133,9 +154,9 @@ void Random<GRND>::Uniform( hydra::detail::BackendPolicy<BACKEND> const& policy,
  */
 template<typename GRND>
 template<typename Iterator>
-void  Random<GRND>::Exp(typename Iterator::value_type tau,  Iterator begin, Iterator end)
+void  Random<GRND>::Exp(double tau,  Iterator begin, Iterator end)
 {
-	typedef typename Iterator::value_type value_type;
+	typedef double value_type;
 	using HYDRA_EXTERNAL_NS::thrust::system::detail::generic::select_system;
 	typedef typename HYDRA_EXTERNAL_NS::thrust::iterator_system<Iterator>::type System;
 	System system;
@@ -151,15 +172,26 @@ void  Random<GRND>::Exp(typename Iterator::value_type tau,  Iterator begin, Iter
 
 }
 
+template<typename GRND>
+template<typename Iterable>
+inline typename std::enable_if< hydra::detail::is_iterable<Iterable>::value,
+hydra::Range<decltype(std::declval<Iterable>().begin())>>::type
+Random<GRND>::Exp(double tau, Iterable&& output){
+
+	this->Exp(tau, std::forward<Iterable>(output).begin(),  std::forward<Iterable>(output).end());
+	return make_range( std::forward<Iterable>(output).begin(),  std::forward<Iterable>(output).end());
+}
+
+
 /**
  * Fill the range (begin, end) with an exponential distribution
  */
 template<typename GRND>
 template<hydra::detail::Backend  BACKEND, typename Iterator>
 void  Random<GRND>::Exp( hydra::detail::BackendPolicy<BACKEND> const& policy,
-		typename Iterator::value_type tau,  Iterator begin, Iterator end)
+		double tau,  Iterator begin, Iterator end)
 {
-	typedef typename Iterator::value_type value_type;
+	typedef double value_type;
 
 	size_t fNEvents=HYDRA_EXTERNAL_NS::thrust::distance(begin ,end );
 
@@ -178,10 +210,10 @@ void  Random<GRND>::Exp( hydra::detail::BackendPolicy<BACKEND> const& policy,
  */
 template<typename GRND>
 template<typename Iterator>
-void  Random<GRND>::BreitWigner(typename Iterator::value_type mean, typename Iterator::value_type gamma,
+void  Random<GRND>::BreitWigner(double mean, double gamma,
 		Iterator begin, Iterator end)
 {
-	typedef typename Iterator::value_type value_type;
+	typedef double value_type;
 	using HYDRA_EXTERNAL_NS::thrust::system::detail::generic::select_system;
 	typedef typename HYDRA_EXTERNAL_NS::thrust::iterator_system<Iterator>::type System;
 	System system;
@@ -197,16 +229,27 @@ void  Random<GRND>::BreitWigner(typename Iterator::value_type mean, typename Ite
 
 }
 
+
+template<typename GRND>
+template<typename Iterable>
+inline typename std::enable_if< hydra::detail::is_iterable<Iterable>::value,
+hydra::Range<decltype(std::declval<Iterable>().begin())>>::type
+Random<GRND>::BreitWigner(double mean, double sigma, Iterable&& output)
+{
+	this->BreitWigner(mean, sigma, std::forward<Iterable>(output).begin(),  std::forward<Iterable>(output).end());
+	return make_range( std::forward<Iterable>(output).begin(),  std::forward<Iterable>(output).end());
+}
+
 /**
  * Fill the range (begin, end) with an exponential distribution
  */
 template<typename GRND>
 template<hydra::detail::Backend  BACKEND, typename Iterator>
 void  Random<GRND>::BreitWigner(hydra::detail::BackendPolicy<BACKEND> const& policy,
-		typename Iterator::value_type mean, typename Iterator::value_type gamma,
+		double mean, double gamma,
 		Iterator begin, Iterator end)
 {
-	typedef typename Iterator::value_type value_type;
+	typedef double value_type;
 
 	size_t fNEvents=HYDRA_EXTERNAL_NS::thrust::distance(begin ,end );
 
@@ -221,11 +264,11 @@ void  Random<GRND>::BreitWigner(hydra::detail::BackendPolicy<BACKEND> const& pol
 
 
 template<typename GRND>
-template<typename T, typename Iterator, typename FUNCTOR>
-GenericRange<Iterator>  Random<GRND>::Sample(Iterator begin, Iterator end ,
-		T min, T max,FUNCTOR const& functor)
+template<typename Iterator, typename FUNCTOR>
+Range<Iterator>  Random<GRND>::Sample(Iterator begin, Iterator end ,
+		double min, double max,FUNCTOR const& functor)
 {
-	typedef T value_type;
+	typedef double value_type;
 	using HYDRA_EXTERNAL_NS::thrust::system::detail::generic::select_system;
 	typedef  typename HYDRA_EXTERNAL_NS::thrust::iterator_system<Iterator>::type system_t;
 
@@ -257,11 +300,21 @@ GenericRange<Iterator>  Random<GRND>::Sample(Iterator begin, Iterator end ,
 }
 
 template<typename GRND>
-template<hydra::detail::Backend  BACKEND, typename T, typename Iterator, typename FUNCTOR>
-GenericRange<Iterator> Random<GRND>::Sample( hydra::detail::BackendPolicy<BACKEND> const& policy,
-		Iterator begin, Iterator end ,	T min, T max, FUNCTOR const& functor)
+template< typename Iterable, typename FUNCTOR>
+inline typename std::enable_if< hydra::detail::is_iterable<Iterable>::value,
+hydra::Range<decltype(std::declval<Iterable>().begin())>>::type
+Random<GRND>::Sample(Iterable&& output, double min, double max, FUNCTOR const& functor)
 {
-	typedef T value_type;
+ return this->Sample(std::forward<Iterable>(output).begin(),  std::forward<Iterable>(output).end(),
+		  min,  max, functor);
+}
+
+template<typename GRND>
+template<hydra::detail::Backend  BACKEND, typename Iterator, typename FUNCTOR>
+Range<Iterator> Random<GRND>::Sample( hydra::detail::BackendPolicy<BACKEND> const& policy,
+		Iterator begin, Iterator end , double min, double max, FUNCTOR const& functor)
+{
+	typedef double value_type;
 
     size_t ntrials = HYDRA_EXTERNAL_NS::thrust::distance( begin, end);
 
@@ -290,13 +343,13 @@ GenericRange<Iterator> Random<GRND>::Sample( hydra::detail::BackendPolicy<BACKEN
 
 
 template<typename GRND>
-template<typename T, typename Iterator, typename FUNCTOR, size_t N >
-GenericRange<Iterator>  Random<GRND>::Sample(Iterator begin, Iterator end ,
-		std::array<T,N> const& min,
-		std::array<T,N> const& max,
+template< typename Iterator, typename FUNCTOR, size_t N >
+Range<Iterator>  Random<GRND>::Sample(Iterator begin, Iterator end ,
+		std::array<double,N> const& min,
+		std::array<double,N> const& max,
 		FUNCTOR const& functor)
 {
-	typedef T value_type;
+	typedef double value_type;
 
 	using HYDRA_EXTERNAL_NS::thrust::system::detail::generic::select_system;
 	typedef  typename HYDRA_EXTERNAL_NS::thrust::iterator_system<Iterator>::type system_t;
@@ -326,16 +379,27 @@ GenericRange<Iterator>  Random<GRND>::Sample(Iterator begin, Iterator end ,
 	return make_range(begin , r);
 }
 
+template<typename GRND>
+template< typename Iterable, typename FUNCTOR, size_t N >
+inline typename std::enable_if< hydra::detail::is_iterable<Iterable>::value,
+hydra::Range<decltype(std::declval<Iterable>().begin())>>::type
+Random<GRND>::Sample(Iterable&& output,
+		std::array<double,N>const& min, std::array<double,N>const& max, FUNCTOR const& functor)
+{
+ return this->Sample(std::forward<Iterable>(output).begin(),  std::forward<Iterable>(output).end(),
+		  min,  max, functor);
+}
+
 
 template<typename GRND>
-template<hydra::detail::Backend  BACKEND, typename T, typename Iterator, typename FUNCTOR, size_t N >
-GenericRange<Iterator> Random<GRND>::Sample( hydra::detail::BackendPolicy<BACKEND> const& policy,
+template<hydra::detail::Backend  BACKEND,  typename Iterator, typename FUNCTOR, size_t N >
+Range<Iterator> Random<GRND>::Sample( hydra::detail::BackendPolicy<BACKEND> const& policy,
 		Iterator begin, Iterator end ,
-		std::array<T,N> const& min,
-		std::array<T,N> const& max,
+		std::array<double,N> const& min,
+		std::array<double,N> const& max,
 		FUNCTOR const& functor)
 {
-	typedef T value_type;
+	typedef double value_type;
 
     size_t ntrials = HYDRA_EXTERNAL_NS::thrust::distance( begin, end);
 
@@ -365,7 +429,7 @@ GenericRange<Iterator> Random<GRND>::Sample( hydra::detail::BackendPolicy<BACKEN
 
 
 template<hydra::detail::Backend  BACKEND, typename Iterator1, typename Iterator2>
-GenericRange<Iterator2> unweight( hydra::detail::BackendPolicy<BACKEND> const& policy, Iterator1 wbegin, Iterator1 wend , Iterator2 begin){
+Range<Iterator2> unweight( hydra::detail::BackendPolicy<BACKEND> const& policy, Iterator1 wbegin, Iterator1 wend , Iterator2 begin){
 
 	typedef typename Iterator1::value_type value_type;
 
@@ -385,7 +449,7 @@ GenericRange<Iterator2> unweight( hydra::detail::BackendPolicy<BACKEND> const& p
 }
 
 template<hydra::detail::Backend  BACKEND, typename Functor, typename Iterator>
-typename std::enable_if< hydra::detail::is_hydra_functor<Functor>::value, GenericRange<Iterator>>::type
+typename std::enable_if< hydra::detail::is_hydra_functor<Functor>::value, Range<Iterator>>::type
 unweight( hydra::detail::BackendPolicy<BACKEND> const& policy, Iterator begin, Iterator end, Functor const& functor){
 
 	typedef typename Functor::return_type value_type;

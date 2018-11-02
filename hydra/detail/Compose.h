@@ -61,13 +61,13 @@ public:
 			detail::CompositeBase<F0, F1, Fs...>( f0, f1,fs...)
 		{ }
 
-		__hydra_host__ __hydra_device__ inline
-		Compose(Compose<F0,F1,Fs...> const& other):
+		__hydra_host__ __hydra_device__
+		inline Compose(Compose<F0,F1,Fs...> const& other):
 		detail::CompositeBase<F0, F1, Fs...>( other)
 		{ }
 
-		__hydra_host__ __hydra_device__ inline
-		Compose<F0,F1,Fs...>& operator=(Compose<F0,F1,Fs...> const& other)
+		__hydra_host__ __hydra_device__
+		inline Compose<F0,F1,Fs...>& operator=(Compose<F0,F1,Fs...> const& other)
 		{
 			if(this==&other) return *this;
 			detail::CompositeBase<F0, F1, Fs...>::operator=( other);
@@ -76,8 +76,8 @@ public:
 		}
 
 	  	template<typename T1>
-	  	__hydra_host__ __hydra_device__ inline
-	  	return_type operator()(T1& x ) const
+	  	__hydra_host__ __hydra_device__
+	  	inline return_type operator()(T1& x ) const
 	  	{
 
 	  		//evaluating f(g_1(x), g_2(x), ..., g_n(x))
@@ -93,8 +93,8 @@ public:
 
 
 	  	template<typename T1, typename T2>
-	  	__hydra_host__ __hydra_device__  inline
-	  	return_type operator()( T1& x, T2& cache) const
+	  	__hydra_host__ __hydra_device__
+	  	inline 	return_type operator()( T1& x, T2& cache) const
 	  	{
 	  		//evaluating f(g_1(x), g_2(x), ..., g_n(x))
 
@@ -109,19 +109,18 @@ public:
 	  				f(detail::invoke< G_tuple, T1, T2>(std::forward<T1&>(x), std::forward<T2&>(cache), g));
 	  	}
 
-
-
 };
-
 
 
 // Conveniency function
 template < typename T0, typename T1, typename ...Ts,
-typename=typename std::enable_if<T0::is_functor::value && T1::is_functor::value && detail::all_true<Ts::is_functor::value...>::value >::type >
-__hydra_host__ inline
-Compose<T0,T1,Ts...>
-compose(T0 const& F0, T1 const& F1, Ts const&...Fs)
-{
+typename=typename std::enable_if<T0::is_functor::value &&
+								 T1::is_functor::value &&
+								 detail::all_true<Ts::is_functor::value...>::value >::type >
+
+inline Compose<T0,T1,Ts...>
+compose(T0 const& F0, T1 const& F1, Ts const&...Fs){
+
 	return  Compose<T0,T1,Ts...>(F0, F1, Fs...);
 }
 

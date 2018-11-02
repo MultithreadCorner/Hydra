@@ -29,6 +29,9 @@
 #ifndef UTILS_H_
 #define UTILS_H_
 
+
+#include <hydra/detail/Config.h>
+#include <hydra/detail/BackendPolicy.h>
 #include <hydra/Types.h>
 #include <utility>
 #include <ratio>
@@ -85,7 +88,7 @@ namespace detail {
  */
 	template<typename T, unsigned int N>
 	inline __hydra_host__ __hydra_device__
-	T pow(const T x){
+	T pow(T x){
 		T r = 1;
 		detail::pow_helper<T,N,0>(x,r);
 		return r ;

@@ -37,11 +37,13 @@
 #include <hydra/detail/Config.h>
 #include <hydra/detail/BackendPolicy.h>
 #include <hydra/Types.h>
-#include <hydra/GenzMalikRule.h>
+#include <hydra/detail/GenzMalikRule.h>
 #include <hydra/detail/GenzMalikBox.h>
 #include <hydra/multivector.h>
-#include <hydra/detail/Integrator.h>
+#include <hydra/Integrator.h>
 #include <hydra/detail/utility/Generic.h>
+#include <hydra/detail/external/thrust/memory.h>
+#include <hydra/detail/external/thrust/sort.h>
 
 #include <algorithm>
 #include <cmath>
@@ -62,16 +64,24 @@ class  GenzMalikQuadrature;
  */
 template<  size_t N, hydra::detail::Backend  BACKEND>
 class  GenzMalikQuadrature<N, hydra::detail::BackendPolicy<BACKEND> >:
-public Integrator<typename std::enable_if< (N>1),GenzMalikQuadrature<N, hydra::detail::BackendPolicy<BACKEND>>>::type  >
+public Integral<typename std::enable_if< (N>1),GenzMalikQuadrature<N, hydra::detail::BackendPolicy<BACKEND>>>::type  >
 {
+	typedef  hydra::detail::BackendPolicy<BACKEND> system_type;
+
+	typedef typename system_type::template container<detail::GenzMalikBox<N>> device_box_list_type;
 
 	typedef std::vector<detail::GenzMalikBox<N>> box_list_type;
-	typedef typename box_list_type::iterator box_iterator;
-	typedef typename box_list_type::const_iterator const_box_iterator;
+	typedef HYDRA_EXTERNAL_NS::thrust::pair<
+			HYDRA_EXTERNAL_NS::thrust::pointer<detail::GenzMalikBox<N>, system_type>,
+			  std::ptrdiff_t> buffer_type;
 
 
-	typedef typename GenzMalikRule<N, hydra::detail::BackendPolicy<BACKEND>>::abscissa_iterator rule_iterator;
-	typedef typename GenzMalikRule<N, hydra::detail::BackendPolicy<BACKEND>>::const_abscissa_iterator const_rule_iterator;
+	typedef typename box_list_type::iterator             boxes_iterator;
+	typedef typename box_list_type::const_iterator const_boxes_iterator;
+
+
+	typedef typename GenzMalikRule<N, hydra::detail::BackendPolicy<BACKEND>>::iterator rule_iterator;
+	typedef typename GenzMalikRule<N, hydra::detail::BackendPolicy<BACKEND>>::const_iterator const_rule_iterator;
 
 public:
 
@@ -82,10 +92,19 @@ public:
 	 * @param LowerLimit : std::array with the lower limits of integration
 	 * @param UpperLimit : std::array with the upper limits of integration
 	 * @param grid       : std::array with the number of divisions per dimension
+	 * @param fraction : fraction of boxes to adapt.
+	 * @param fRelativeError: maximum relative error required
 	 */
 	GenzMalikQuadrature(std::array<GReal_t,N> const& LowerLimit,
 			std::array<GReal_t,N> const& UpperLimit,
-			std::array<size_t, N> const& grid);
+			std::array<size_t, N> const& grid,
+			GReal_t fraction=0.25,
+			GReal_t relative_error=0.001):
+				fRelativeError(relative_error),
+				fFraction(fraction)
+	{
+		SetGeometry(LowerLimit, UpperLimit, grid);
+	}
 
 
 	/**
@@ -93,10 +112,53 @@ public:
 	 * @param LowerLimit : std::array with the lower limits of integration
 	 * @param UpperLimit : std::array with the upper limits of integration
 	 * @param nboxes     : max number of multidimensional boxes
+	 * @param fraction : fraction of boxes to adapt.
+	 * @param fRelativeError: maximum relative error required
 	 */
 	GenzMalikQuadrature(std::array<GReal_t,N> const& LowerLimit,
 			std::array<GReal_t,N> const& UpperLimit,
-			size_t nboxes=10);
+			size_t nboxes=10,
+			GReal_t fraction=0.25,
+			GReal_t relative_error=0.001):
+				fRelativeError(relative_error),
+				fFraction(fraction)
+	{ SetGeometry(LowerLimit, UpperLimit, nboxes); }
+
+	/**
+	 * Genz-Malik multidimensional quadrature constructor.
+	 * @param LowerLimit : c-like array with the lower limits of integration
+	 * @param UpperLimit : c-like array with the upper limits of integration
+	 * @param grid       : c-like array with the number of divisions per dimension
+	 * @param fraction : fraction of boxes to adapt.
+	 * @param fRelativeError: maximum relative error required
+	 */
+	GenzMalikQuadrature(const GReal_t (&LowerLimit)[N],
+			const GReal_t (&UpperLimit)[N],
+			const size_t (&grid)[N],
+			GReal_t fraction=0.25,
+			GReal_t relative_error=0.001):
+				fRelativeError(relative_error),
+				fFraction(fraction)
+	{ SetGeometry(LowerLimit, UpperLimit, grid); }
+
+
+	/**
+	 * Genz-Malik multidimensional quadrature constructor.
+	 * @param LowerLimit :  c-like  with the lower limits of integration
+	 * @param UpperLimit :  c-like  with the upper limits of integration
+	 * @param nboxes     : max number of multidimensional boxes
+	 * @param fraction : fraction of boxes to adapt.
+	 * @param fRelativeError: maximum relative error required
+	 */
+	GenzMalikQuadrature(const GReal_t (&LowerLimit)[N],
+			const GReal_t (&UpperLimit)[N],
+			size_t nboxes=10,
+			GReal_t fraction=0.25,
+			GReal_t relative_error=0.001):
+				fRelativeError(relative_error),
+				fFraction(fraction)
+	{ SetGeometry(LowerLimit, UpperLimit, nboxes); }
+
 
 	/**
 	 * Copy constructor.
@@ -164,7 +226,30 @@ public:
 	}
 
 
+
+
 private:
+
+	template<typename FUNCTOR, typename Vector>
+	void AdaptiveIntegration(FUNCTOR const& functor, Vector& BoxList);
+
+	template<typename Vector>
+	std::pair<GReal_t, GReal_t> CalculateIntegral( Vector const& BoxList);
+
+	void SetGeometry(std::array<GReal_t,N> const& LowerLimit,
+			         std::array<GReal_t,N> const& UpperLimit, std::array<size_t, N> const& grid);
+
+	void SetGeometry(std::array<GReal_t,N> const& LowerLimit,
+			         std::array<GReal_t,N> const& UpperLimit, size_t nboxes=10);
+
+	void SetGeometry(const GReal_t (&LowerLimit)[N],
+					 const GReal_t (&UpperLimit)[N], const size_t (&grid)[N]);
+
+	void SetGeometry(const GReal_t (&LowerLimit)[N],
+			         const GReal_t (&UpperLimit)[N], size_t nboxes=10);
+
+	template<typename Vector>
+	void SplitBoxes( Vector& boxes, size_t n );
 
 	void GetGrid( size_t nboxes , std::array<size_t, N>& grid )
 	{
@@ -175,6 +260,8 @@ private:
 	}
 
 
+	GReal_t fRelativeError;
+	GReal_t fFraction;
 	GenzMalikRule<  N,  hydra::detail::BackendPolicy<BACKEND>> fGenzMalikRule;
 	box_list_type fBoxList;
 

@@ -31,6 +31,8 @@
 
 #include <hydra/FCN.h>
 #include <hydra/Pdf.h>
+#include <hydra/detail/utility/Generic.h>
+#include <hydra/Range.h>
 #include <hydra/detail/functors/LogLikelihood1.h>
 #include <hydra/detail/external/thrust/transform_reduce.h>
 #include <hydra/detail/external/thrust/inner_product.h>
@@ -159,11 +161,53 @@ public:
  * @return
  */
 template< typename Functor, typename Integrator,  typename Iterator, typename ...Iterators>
-auto make_loglikehood_fcn(Pdf<Functor,Integrator> const& pdf, Iterator first, Iterator last,  Iterators... weights )
+inline auto make_loglikehood_fcn(Pdf<Functor,Integrator> const& pdf, Iterator first, Iterator last,  Iterators... weights )
 -> LogLikelihoodFCN< Pdf<Functor,Integrator>, Iterator , Iterators... >
 {
+
 	return LogLikelihoodFCN< Pdf<Functor,Integrator>, Iterator , Iterators... >(pdf, first, last, weights...);
 }
+
+template< typename Functor, typename Integrator, typename Iterable, typename ...Iterables, typename U >
+inline typename std::enable_if< (!hydra::detail::is_hydra_dense_histogram<Iterable>::value) &&
+								(!hydra::detail::is_hydra_sparse_histogram<Iterable>::value) &&
+								hydra::detail::is_iterable<Iterable>::value &&
+								U::value,
+LogLikelihoodFCN< Pdf<Functor,Integrator>, decltype(std::declval< const Iterable&>().begin()),
+                  decltype(std::declval< const Iterables&>().begin())... >>::type
+make_loglikehood_fcn(Pdf<Functor,Integrator> const& pdf, Iterable const& points, Iterables const&... weights )
+{
+	return make_loglikehood_fcn(pdf, points.begin(), points.end(), weights.begin()...);
+}
+
+template< typename Functor, typename Integrator, typename T, size_t N, hydra::detail::Backend BACKEND,typename D>
+inline LogLikelihoodFCN< Pdf<Functor,Integrator>,
+				  decltype(std::declval<DenseHistogram<T,N,detail::BackendPolicy<BACKEND>,D>>().GetBinsCenters().begin()),
+                  decltype(std::declval<DenseHistogram<T,N,detail::BackendPolicy<BACKEND>,D>>().GetBinsContents().begin())>
+make_loglikehood_fcn(Pdf<Functor,Integrator> const& pdf,
+		DenseHistogram<T,N,detail::BackendPolicy<BACKEND>,D>& points)
+{
+
+	return make_loglikehood_fcn(pdf, points.GetBinsCenters().begin(),
+			points.GetBinsCenters().end(),
+			points.GetBinsContents().begin());
+}
+
+template< typename Functor, typename Integrator, typename T, size_t N, hydra::detail::Backend BACKEND,typename D>
+inline LogLikelihoodFCN< Pdf<Functor,Integrator>,
+				  decltype(std::declval<SparseHistogram<T,N,detail::BackendPolicy<BACKEND>,D>>().GetBinsCenters().begin()),
+                  decltype(std::declval<SparseHistogram<T,N,detail::BackendPolicy<BACKEND>,D>>().GetBinsContents().begin())>
+make_loglikehood_fcn(Pdf<Functor,Integrator> const& pdf,
+		SparseHistogram<T,N,detail::BackendPolicy<BACKEND>,D>& points)
+{
+	return make_loglikehood_fcn(pdf, points.GetBinsCenters().begin(),
+			points.GetBinsCenters().end(),
+			points.GetBinsContents().begin());
+}
+
+
+
+
 
 }  // namespace hydra
 

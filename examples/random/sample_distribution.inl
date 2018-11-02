@@ -50,7 +50,7 @@
 #include <hydra/FunctionWrapper.h>
 #include <hydra/FunctorArithmetic.h>
 #include <hydra/Random.h>
-#include <hydra/Copy.h>
+#include <hydra/Algorithm.h>
 #include <hydra/Tuple.h>
 #include <hydra/Distance.h>
 #include <hydra/multiarray.h>
@@ -194,7 +194,7 @@ int main(int argv, char** argc)
 
 
 			data_h.resize( range.size() );
-			hydra::copy( range.begin(), range.end(), data_h.begin());
+			hydra::copy( range, data_h);
 
 		}
 

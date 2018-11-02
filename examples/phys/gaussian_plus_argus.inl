@@ -129,7 +129,7 @@ int main(int argv, char** argc)
 	//gaussian function evaluating on the first argument
 	hydra::Gaussian<> signal(mean, sigma);
 	auto Signal_PDF = hydra::make_pdf( hydra::Gaussian<>(mean, sigma),
-			hydra::GaussianAnalyticalIntegral(min, max));
+			hydra::AnalyticalIntegral<hydra::Gaussian<>>(min, max));
 
     //-------------------------------------------
 	//Argus
@@ -140,7 +140,7 @@ int main(int argv, char** argc)
 
     //gaussian function evaluating on the first argument
     auto Background_PDF = hydra::make_pdf( hydra::ArgusShape<>(m0, slope, power),
-    		hydra::ArgusShapeAnalyticalIntegral(min, max));
+    		hydra::AnalyticalIntegral<hydra::ArgusShape<>>(min, max));
 
     //------------------
     //yields

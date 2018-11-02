@@ -20,25 +20,27 @@
  *---------------------------------------------------------------------------*/
 
 /*
- * GenericRange.h
+ * Range.h
  *
  *  Created on: 29/08/2017
  *      Author: Antonio Augusto Alves Junior
  */
 
-#ifndef GENERICRANGE1_INL_
-#define GENERICRANGE1_INL_
+#ifndef RANGE1_INL_
+#define RANGE1_INL_
 
 #include <hydra/detail/Config.h>
 #include <hydra/detail/BackendPolicy.h>
 #include <hydra/Distance.h>
+#include <hydra/detail/Iterable_traits.h>
 #include <hydra/detail/external/thrust/iterator/iterator_traits.h>
 
+#include <utility>
 
 namespace hydra {
 
 template<typename Iterator>
-class GenericRange<Iterator>{
+class Range<Iterator>{
 
 public:
 	//stl-like typedefs
@@ -48,25 +50,25 @@ public:
 	typedef typename HYDRA_EXTERNAL_NS::thrust::iterator_traits<Iterator>::reference          reference;
 	typedef typename HYDRA_EXTERNAL_NS::thrust::iterator_traits<Iterator>::iterator_category  iterator_category;
 
-	GenericRange()=delete;
+	Range()=delete;
 
-	GenericRange(Iterator begin, Iterator end):
+	Range(Iterator begin, Iterator end):
 		fBegin( begin),
 		fEnd( end )
 		{}
 
-	GenericRange(Iterator begin,  size_t last):
+	Range(Iterator begin,  size_t last):
 			fBegin( begin),
 			fEnd( begin + last )
 			{}
 
-	GenericRange(GenericRange<Iterator> const& other):
+	Range(Range<Iterator> const& other):
 			fBegin( other.GetBegin()),
 			fEnd( other.GetEnd() )
 			{}
 
-	GenericRange<Iterator>&
-	operator=(GenericRange<Iterator> const& other){
+	Range<Iterator>&
+	operator=(Range<Iterator> const& other){
 
 		if(this==&other) return this;
 
@@ -75,10 +77,27 @@ public:
 		return this;
 	}
 
+	Range<Iterator>&
+	operator=(Range<Iterator>&& other){
+
+		if(this==&other) return this;
+
+		fBegin = other.GetBegin();
+		fEnd = other.GetEnd();
+
+		return this;
+	}
+
 
 	Iterator begin(){ return fBegin;};
 
 	Iterator   end(){ return fEnd;};
+
+	Iterator begin() const { return fBegin;};
+
+	Iterator   end() const { return fEnd;};
+
+
 
 	size_t size() { return hydra::distance(fBegin, fEnd);}
 
@@ -116,13 +135,61 @@ private:
 };
 
 template<typename Iterator>
-GenericRange<Iterator>
+Range<Iterator>
 make_range(Iterator begin, Iterator end ){
-	return GenericRange<Iterator>( begin, end);
+	return Range<Iterator>( begin, end);
 }
+
+template<typename Iterator>
+Range<HYDRA_EXTERNAL_NS::thrust::reverse_iterator<Iterator>>
+make_reverse_range(Iterator begin, Iterator end ){
+
+	typedef HYDRA_EXTERNAL_NS::thrust::reverse_iterator<Iterator> reverse_iterator_type;
+	return Range<reverse_iterator_type>(  reverse_iterator_type(end), reverse_iterator_type(begin));
+}
+
+template<typename Iterable>
+typename std::enable_if<hydra::detail::is_iterable<Iterable>::value,
+Range<decltype(std::declval<Iterable>().begin())>>::type
+make_range(Iterable const& container){
+
+	typedef decltype(hydra::begin(container)) iterator_type;
+	return Range<iterator_type>( hydra::begin(container), hydra::end(container));
+}
+
+template<typename Iterable>
+typename std::enable_if<hydra::detail::is_iterable<Iterable>::value,
+Range<decltype(std::declval<Iterable>().begin())>>::type
+make_range(Iterable&& container){
+
+	typedef decltype(hydra::begin(std::forward<Iterable>(container))) iterator_type;
+	return Range<iterator_type>( hydra::begin(std::forward<Iterable>(container)),
+			hydra::end(std::forward<Iterable>(container)));
+}
+
+template<typename Iterable>
+typename std::enable_if<hydra::detail::is_reverse_iterable<Iterable>::value,
+Range<decltype(std::declval<Iterable>().rbegin())>>::type
+make_reverse_range(Iterable const& container){
+
+	typedef decltype(hydra::rbegin(container)) iterator_type;
+	return Range<iterator_type>( hydra::rbegin(container), hydra::rend(container));
+}
+
+template<typename Iterable>
+typename std::enable_if<hydra::detail::is_reverse_iterable<Iterable>::value,
+Range<decltype(std::declval<Iterable>().rbegin())>>::type
+make_reverse_range(Iterable&& container){
+
+	typedef decltype(hydra::rbegin(std::forward<Iterable>(container))) iterator_type;
+	return Range<iterator_type>( hydra::rbegin(std::forward<Iterable>(container)),
+			hydra::rend(std::forward<Iterable>(container)));
+}
+
+
 
 }  // namespace hydra
 
 
 
-#endif /* GENERICRANGE_H_ */
+#endif /* Range_H_ */
