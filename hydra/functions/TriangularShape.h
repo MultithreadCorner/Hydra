@@ -36,7 +36,7 @@
 #include <hydra/Types.h>
 #include <hydra/Function.h>
 #include <hydra/Pdf.h>
-#include <hydra/detail/Integrator.h>
+#include <hydra/Integrator.h>
 #include <hydra/detail/utility/CheckValue.h>
 #include <hydra/Parameter.h>
 #include <hydra/Tuple.h>
@@ -110,55 +110,22 @@ private:
 };
 
 
-class TriangularShapeAnalyticalIntegral:public Integrator<TriangularShapeAnalyticalIntegral>
+template<unsigned int ArgIndex>
+class IntegrationFormula< TriangularShape<ArgIndex>, 1>
 {
 
-public:
+protected:
 
-	TriangularShapeAnalyticalIntegral(double min, double max):
-	fLowerLimit(min),
-	fUpperLimit(max)
-	{}
-
-	inline TriangularShapeAnalyticalIntegral(TriangularShapeAnalyticalIntegral const& other):
-	fLowerLimit(other.GetLowerLimit()),
-	fUpperLimit(other.GetUpperLimit())
-	{}
-
-	inline TriangularShapeAnalyticalIntegral&
-	operator=( TriangularShapeAnalyticalIntegral const& other)
+	inline std::pair<GReal_t, GReal_t>
+	EvalFormula( TriangularShape<ArgIndex>const& functor, double LowerLimit, double UpperLimit )const
 	{
-		if(this == &other) return *this;
-		this->fLowerLimit = other.GetLowerLimit();
-		this->fUpperLimit = other.GetUpperLimit();
-		return *this;
-	}
-
-	double GetLowerLimit() const {
-		return fLowerLimit;
-	}
-
-	void SetLowerLimit(double lowerLimit) {
-		fLowerLimit = lowerLimit;
-	}
-
-	double GetUpperLimit() const {
-		return fUpperLimit;
-	}
-
-	void SetUpperLimit(double upperLimit) {
-		fUpperLimit = upperLimit;
-	}
-
-	template<typename FUNCTOR>
-	inline std::pair<double, double> Integrate(FUNCTOR const& functor) const {
-
 		double a = functor[0];
 		double b = functor[1];
 		double c = functor[2];
 
-		double r  =  (cdf(a, b, c,fUpperLimit) - cdf(a, b, c,fLowerLimit)) ;
+		double r  =  (cdf(a, b, c, UpperLimit) - cdf(a, b, c, LowerLimit)) ;
 		return std::make_pair( CHECK_VALUE(r, "par[0]=%f par[1]=%f par[2]=%f ", a, b, c ) , 0.0);
+
 	}
 
 private:
@@ -183,10 +150,9 @@ private:
 		return 0.0;
 	}
 
-	double fLowerLimit;
-	double fUpperLimit;
 
 };
+
 
 }
 #endif /* TRIANGULARSHAPE_H_ */

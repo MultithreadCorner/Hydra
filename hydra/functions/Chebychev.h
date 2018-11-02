@@ -35,7 +35,7 @@
 #include <hydra/Types.h>
 #include <hydra/Function.h>
 #include <hydra/Pdf.h>
-#include <hydra/detail/Integrator.h>
+#include <hydra/Integrator.h>
 #include <hydra/Parameter.h>
 #include <hydra/Tuple.h>
 #include <hydra/functions/Math.h>
@@ -156,74 +156,36 @@ private:
 
 };
 
-
-class ChebychevAnalyticalIntegral:public Integrator<ChebychevAnalyticalIntegral>
+template< unsigned int Order,unsigned int ArgIndex>
+class IntegrationFormula< Chebychev<Order, ArgIndex>, 1>
 {
 
-public:
+protected:
 
-	ChebychevAnalyticalIntegral(double min, double max):
-	fLowerLimit(min),
-	fUpperLimit(max)
-	{
-		assert(fLowerLimit < fUpperLimit
-				&& "hydra::ChebychevAnalyticalIntegral: MESSAGE << LowerLimit >= fUpperLimit >>");
-
-	}
-
-	inline ChebychevAnalyticalIntegral(ChebychevAnalyticalIntegral const& other):
-	fLowerLimit(other.GetLowerLimit()),
-	fUpperLimit(other.GetUpperLimit())
-	{}
-
-	inline ChebychevAnalyticalIntegral&
-	operator=( ChebychevAnalyticalIntegral const& other)
-	{
-		if(this == &other) return *this;
-		this->fLowerLimit = other.GetLowerLimit();
-		this->fUpperLimit = other.GetUpperLimit();
-		return *this;
-	}
-
-	double GetLowerLimit() const {
-		return fLowerLimit;
-	}
-
-	void SetLowerLimit(double lowerLimit) {
-		fLowerLimit = lowerLimit;
-	}
-
-	double GetUpperLimit() const {
-		return fUpperLimit;
-	}
-
-	void SetUpperLimit(double upperLimit) {
-		fUpperLimit = upperLimit;
-	}
-
-	template<unsigned int Order, unsigned int ArgIndex >
-	inline std::pair<double, double> Integrate(Chebychev<Order, ArgIndex> const& functor) const
+	inline std::pair<GReal_t, GReal_t>
+	EvalFormula( Chebychev<Order, ArgIndex>const& functor, double LowerLimit, double UpperLimit )const
 	{
 		double coefs[Order+1]{};
-		for(unsigned int i =0; i<Order+1; i++)
-			coefs[i]=functor[i];
+			for(unsigned int i =0; i<Order+1; i++)
+				coefs[i]=functor[i];
 
-		double r=0;
+			double r=0;
 
-		if(fUpperLimit <=  functor.GetMaximum() && fLowerLimit >=  functor.GetMinimum() ){
-
-
-			r   =  polynomial_integral<Order+1>(coefs, fUpperLimit, functor.GetMinimum(), functor.GetMaximum()) -
-					polynomial_integral<Order+1>(coefs,fLowerLimit, functor.GetMinimum(), functor.GetMaximum()) ;
-		}
-		else {
-
-			r   =  polynomial_integral<Order+1>(coefs, (fUpperLimit >  functor.GetMaximum()) ? functor.GetMaximum():fUpperLimit, functor.GetMinimum(), functor.GetMaximum()) -
-				   polynomial_integral<Order+1>(coefs, (fLowerLimit <  functor.GetMinimum()) ? functor.GetMinimum():fLowerLimit, functor.GetMinimum(), functor.GetMaximum()) ;
-		}
+			if(UpperLimit <=  functor.GetMaximum() && LowerLimit >=  functor.GetMinimum() ){
 
 
-		return std::make_pair( 0.5*(fUpperLimit-fLowerLimit)*r,0.0);
+				r   =  polynomial_integral<Order+1>(coefs, UpperLimit, functor.GetMinimum(), functor.GetMaximum()) -
+						polynomial_integral<Order+1>(coefs,LowerLimit, functor.GetMinimum(), functor.GetMaximum()) ;
+			}
+			else {
+
+				r   =  polynomial_integral<Order+1>(coefs, (UpperLimit >  functor.GetMaximum()) ? functor.GetMaximum():UpperLimit, functor.GetMinimum(), functor.GetMaximum()) -
+					   polynomial_integral<Order+1>(coefs, (LowerLimit <  functor.GetMinimum()) ? functor.GetMinimum():LowerLimit, functor.GetMinimum(), functor.GetMaximum()) ;
+			}
+
+
+			return std::make_pair( 0.5*( UpperLimit - LowerLimit)*r,0.0);
+
 	}
 
 private:
@@ -254,9 +216,8 @@ private:
 		return r;
 	}
 
-	double fLowerLimit;
-	double fUpperLimit;
 };
+
 
 }  // namespace hydra
 

@@ -131,7 +131,7 @@ int main(int argv, char** argc)
 
 	//ipatia function evaluating on the first argument
 	auto Signal_PDF = hydra::make_pdf(hydra::Ipatia<>(mu, sigma,L1,N1,L2,N2,alfa,beta),
-		hydra::IpatiaAnalyticalIntegral(min,  max));
+		hydra::AnalyticalIntegral<hydra::Ipatia<>>(min,  max));
 
     //-------------------------------------------
 	//Background
@@ -145,7 +145,7 @@ int main(int argv, char** argc)
     auto  C1 = hydra::Parameter::Create("C1").Value( 15.50).Error(0.0001).Limits( 10.0, 20.0);
 
     auto Combinatorial_Background_PDF = hydra::make_pdf( hydra::DeltaDMassBackground<>(M0, A1, B1, C1),
-    		hydra::DeltaDMassBackgroundAnalyticalIntegral(min,  max));
+    		hydra::AnalyticalIntegral<hydra::DeltaDMassBackground<>>(min,  max));
 
     //partial reconstructed -1.5, -10. , 15.
     auto  A2 = hydra::Parameter::Create("A2").Value(0.4).Error(0.0001).Limits( 0.3, 0.5);
@@ -153,7 +153,7 @@ int main(int argv, char** argc)
     auto  C2 = hydra::Parameter::Create("C2").Value(0.85).Error(0.0001).Limits(0.5 , 1.0);
 
     auto PartialRec_Background_PDF = hydra::make_pdf( hydra::GeneralizedGamma<>(M0, A2, B2, C2),
-    		hydra::GeneralizedGammaAnalyticalIntegral(min,  max));
+    		hydra::AnalyticalIntegral<hydra::GeneralizedGamma<>>(min,  max));
 
     //------------------
     //yields

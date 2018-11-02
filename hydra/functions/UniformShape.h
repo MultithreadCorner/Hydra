@@ -37,7 +37,7 @@
 #include <hydra/Types.h>
 #include <hydra/Function.h>
 #include <hydra/Pdf.h>
-#include <hydra/detail/Integrator.h>
+#include <hydra/Integrator.h>
 #include <hydra/detail/utility/CheckValue.h>
 #include <hydra/Parameter.h>
 #include <hydra/Tuple.h>
@@ -110,75 +110,41 @@ private:
 	}
 };
 
-
-class UniformShapeAnalyticalIntegral:public Integrator<UniformShapeAnalyticalIntegral>
+template<unsigned int ArgIndex>
+class IntegrationFormula< UniformShape<ArgIndex>, 1>
 {
 
-public:
+protected:
 
-	UniformShapeAnalyticalIntegral(double min, double max):
-	fLowerLimit(min),
-	fUpperLimit(max)
-	{}
-
-	inline UniformShapeAnalyticalIntegral(UniformShapeAnalyticalIntegral const& other):
-	fLowerLimit(other.GetLowerLimit()),
-	fUpperLimit(other.GetUpperLimit())
-	{}
-
-	inline UniformShapeAnalyticalIntegral&
-	operator=( UniformShapeAnalyticalIntegral const& other)
+	inline std::pair<GReal_t, GReal_t>
+	EvalFormula( UniformShape<ArgIndex>const& functor, double LowerLimit, double UpperLimit )const
 	{
-		if(this == &other) return *this;
-		this->fLowerLimit = other.GetLowerLimit();
-		this->fUpperLimit = other.GetUpperLimit();
-		return *this;
-	}
-
-	double GetLowerLimit() const {
-		return fLowerLimit;
-	}
-
-	void SetLowerLimit(double lowerLimit) {
-		fLowerLimit = lowerLimit;
-	}
-
-	double GetUpperLimit() const {
-		return fUpperLimit;
-	}
-
-	void SetUpperLimit(double upperLimit) {
-		fUpperLimit = upperLimit;
-	}
-
-	template<typename FUNCTOR>
-	inline std::pair<double, double> Integrate(FUNCTOR const& functor) const {
-
 		double a = functor[0];
 		double b = functor[1];
 
-		double r  =  (cdf(a, b, fUpperLimit) - cdf(a, b, fLowerLimit)) ;
+		double r  =  (cdf(a, b, UpperLimit) - cdf(a, b, LowerLimit)) ;
 		return std::make_pair( CHECK_VALUE(r, "par[0]=%f par[1]=%f ", a, b ) , 0.0);
+
 	}
 
 private:
 
+
 	double cdf( const double a, const double b, const double x ) const {
 
 		if(x <= a) return 0.0;
-		else if(x >b ) return 1.0;
-		else if((x > a)&&(x<=b)) {
 
-			return (x-a)/(b-a);
+		else if(x >b ) return 1.0;
+
+		else if((x > a)&&(x<=b))
+		{
+		  return (x-a)/(b-a);
 		}
 
 		return 0.0;
 	}
-
-	double fLowerLimit;
-	double fUpperLimit;
-
 };
+
 
 }  // namespace hydra
 

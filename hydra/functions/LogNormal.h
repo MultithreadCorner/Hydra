@@ -25,6 +25,10 @@
  *
  *  Created on: Aug 2, 2018
  *      Author: Marcos Romero Lamas
+ *
+ *  Updated on: Oct 30 2018
+ *      Author: Antonio Augusto Alves Junior
+ *         Log: Adding new analytical integration interface
  */
 
 #ifndef LOGNORMAL_H_
@@ -35,7 +39,7 @@
 #include <hydra/Types.h>
 #include <hydra/Function.h>
 #include <hydra/Pdf.h>
-#include <hydra/detail/Integrator.h>
+#include <hydra/Integrator.h>
 #include <hydra/detail/utility/CheckValue.h>
 #include <hydra/Parameter.h>
 #include <hydra/Tuple.h>
@@ -95,67 +99,26 @@ public:
 
 };
 
-
-class LogNormalAnalyticalIntegral: public Integrator<LogNormalAnalyticalIntegral>
+template<unsigned int ArgIndex>
+class IntegrationFormula< LogNormal<ArgIndex>, 1>
 {
 
-public:
+protected:
 
-	LogNormalAnalyticalIntegral(double min, double max):
-		fLowerLimit(min),
-		fUpperLimit(max)
-	{
-		assert( fLowerLimit < fUpperLimit && "hydra::LogNormalAnalyticalIntegral: MESSAGE << LowerLimit >= fUpperLimit >>");
-	 }
-
-	inline LogNormalAnalyticalIntegral(LogNormalAnalyticalIntegral const& other):
-		fLowerLimit(other.GetLowerLimit()),
-		fUpperLimit(other.GetUpperLimit())
-	{}
-
-	inline LogNormalAnalyticalIntegral&
-	operator=( LogNormalAnalyticalIntegral const& other)
-	{
-		if(this == &other) return *this;
-
-		this->fLowerLimit = other.GetLowerLimit();
-		this->fUpperLimit = other.GetUpperLimit();
-
-		return *this;
-	}
-
-	double GetLowerLimit() const
-	{
-		return fLowerLimit;
-	}
-
-	void SetLowerLimit(double lowerLimit )
-	{
-		fLowerLimit = lowerLimit;
-	}
-
-	double GetUpperLimit() const
-	{
-		return fUpperLimit;
-	}
-
-	void SetUpperLimit(double upperLimit)
-	{
-		fUpperLimit = upperLimit;
-	}
-
-	template<typename FUNCTOR>	inline
-	std::pair<double, double> Integrate(FUNCTOR const& functor) const
+	inline std::pair<GReal_t, GReal_t>
+	EvalFormula( LogNormal<ArgIndex>const& functor, double LowerLimit, double UpperLimit )const
 	{
 
-		double fraction = cumulative(functor[0], functor[1], fUpperLimit)
-						- cumulative(functor[0], functor[1], fLowerLimit);
+
+		double fraction = cumulative(functor[0], functor[1], UpperLimit)
+						- cumulative(functor[0], functor[1], LowerLimit);
 
 		return std::make_pair(
-				CHECK_VALUE(fraction," par[0] = %f par[1] = %f fLowerLimit = %f fUpperLimit = %f", functor[0], functor[1], fLowerLimit,fUpperLimit ) ,0.0);
+				CHECK_VALUE(fraction," par[0] = %f par[1] = %f LowerLimit = %f UpperLimit = %f",
+						functor[0], functor[1], LowerLimit, UpperLimit ) , 0.0);
+
+
 	}
-
-
 private:
 
 	inline double cumulative(const double mean, const double sigma, const double x) const
@@ -166,11 +129,8 @@ private:
 		return sigma*sqrt_pi_over_two*( ::erf( (::log(x)-mean)/( sigma*sqrt_two ) ) );
 	}
 
-	double fLowerLimit;
-	double fUpperLimit;
 
 };
-
 
 
 }  // namespace hydra

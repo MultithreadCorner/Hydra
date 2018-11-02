@@ -35,7 +35,7 @@
 #include <hydra/Types.h>
 #include <hydra/Function.h>
 #include <hydra/Pdf.h>
-#include <hydra/detail/Integrator.h>
+#include <hydra/Integrator.h>
 #include <hydra/detail/utility/CheckValue.h>
 #include <hydra/Parameter.h>
 #include <hydra/Tuple.h>
@@ -93,61 +93,23 @@ public:
 
 };
 
-class GaussianAnalyticalIntegral: public Integrator<GaussianAnalyticalIntegral>
+template<unsigned int ArgIndex>
+class IntegrationFormula< Gaussian<ArgIndex>, 1>
 {
 
-public:
+protected:
 
-	GaussianAnalyticalIntegral(double min, double max):
-		fLowerLimit(min),
-		fUpperLimit(max)
+	inline std::pair<GReal_t, GReal_t>
+	EvalFormula(Gaussian<ArgIndex>const& functor, double LowerLimit, double UpperLimit )const
 	{
-		assert( fLowerLimit < fUpperLimit && "hydra::ArgusShapeAnalyticalIntegral: MESSAGE << LowerLimit >= fUpperLimit >>");
-	 }
+		double fraction = cumulative(functor[0], functor[1], UpperLimit)
+							- cumulative(functor[0], functor[1], LowerLimit);
 
-	inline GaussianAnalyticalIntegral(GaussianAnalyticalIntegral const& other):
-		fLowerLimit(other.GetLowerLimit()),
-		fUpperLimit(other.GetUpperLimit())
-	{}
+			return std::make_pair( CHECK_VALUE(fraction,
+					" par[0] = %f par[1] = %f fLowerLimit = %f fUpperLimit = %f",
+					functor[0], functor[1], LowerLimit, UpperLimit ) ,0.0);
 
-	inline GaussianAnalyticalIntegral&
-	operator=( GaussianAnalyticalIntegral const& other)
-	{
-		if(this == &other) return *this;
-
-		this->fLowerLimit = other.GetLowerLimit();
-		this->fUpperLimit = other.GetUpperLimit();
-
-		return *this;
 	}
-
-	double GetLowerLimit() const {
-		return fLowerLimit;
-	}
-
-	void SetLowerLimit(double lowerLimit ) {
-		fLowerLimit = lowerLimit;
-	}
-
-	double GetUpperLimit() const {
-		return fUpperLimit;
-	}
-
-	void SetUpperLimit(double upperLimit) {
-		fUpperLimit = upperLimit;
-	}
-
-	template<typename FUNCTOR>	inline
-	std::pair<double, double> Integrate(FUNCTOR const& functor) const {
-
-		double fraction = cumulative(functor[0], functor[1], fUpperLimit)
-						- cumulative(functor[0], functor[1], fLowerLimit);
-
-		return std::make_pair(
-				CHECK_VALUE(fraction," par[0] = %f par[1] = %f fLowerLimit = %f fUpperLimit = %f", functor[0], functor[1], fLowerLimit,fUpperLimit ) ,0.0);
-	}
-
-
 private:
 
 	inline double cumulative(const double mean, const double sigma, const double x) const
@@ -157,12 +119,7 @@ private:
 
 		return sigma*sqrt_pi_over_two*(1.0 + erf( (x-mean)/( sigma*sqrt_two ) ) );
 	}
-
-	double fLowerLimit;
-	double fUpperLimit;
-
 };
-
 
 
 }  // namespace hydra

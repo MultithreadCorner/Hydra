@@ -1,6 +1,6 @@
 /*----------------------------------------------------------------------------
  *
- *   Copyright (C) 2016 - 2017 Antonio Augusto Alves Junior
+ *   Copyright (C) 2016 - 2018 Antonio Augusto Alves Junior
  *
  *   This file is part of Hydra Data Analysis Framework.
  *
@@ -19,52 +19,44 @@
  *
  *---------------------------------------------------------------------------*/
 
-
 /*
- * wigner_J_half_1.inl
+ * Integrator.h
  *
- *  Created on: Jul 5, 2018
+ *  Created on: 31/08/2016
  *      Author: Antonio Augusto Alves Junior
  */
 
-#ifndef WIGNER_J_HALF_1_INL_
-#define WIGNER_J_HALF_1_INL_
+/**
+ * \file
+ * \ingroup numerical_integration
+ */
 
+#ifndef INTEGRATOR_H_
+#define INTEGRATOR_H_
 
-//#include<hydra/functions/detail/wigner_d_funcion.h>
+#include <hydra/detail/Config.h>
+#include <hydra/Types.h>
+#include <utility>
 
 namespace hydra {
 
-//J=1/2, M=1/2, N=1/2
+template<typename Functor, size_t N=1>
+class IntegrationFormula;
 
-template<>
-double wigner_d_function<_half<1>,_half<1>,_half<1>>(const double theta){
+template<typename Functor, size_t N=1>
+class AnalyticalIntegral;
 
-	return  ::cos(0.5*theta) ;
-}
-//J=1/2, M=1/2, N=-1/2
-template<>
-double wigner_d_function<_half<1>,_half<1>,_half<-1>>(const double theta){
+template<typename Functor, size_t N=1>
+class NumericalIntegral;
 
-	return -::sin(0.5*theta);
-}
-//J=1/2, M=-1/2, N=1/2
-template<>
-double wigner_d_function<_half<1>,_half<-1>,_half<1>>(const double theta){
-
-	return  -::sin(0.5*theta);
-}
-
-
-//J=1/2, M=-1/2, N=-1/2
-template<>
-double wigner_d_function<_half<1>,_half<-1>,_half<-1>>(const double theta){
-
-	return ::cos(0.5*theta) ;
-}
+template<typename Algorithm, size_t N=1>
+struct Integral;
 
 
 }  // namespace hydra
 
+#include <hydra/detail/AnalyticalIntegral.inl>
+#include <hydra/detail/NumericalIntegral.inl>
+#include <hydra/detail/Integrator.inl>
 
-#endif /* WIGNER_J_HALF_1_INL_ */
+#endif /* INTEGRATOR_H_ */

@@ -36,10 +36,11 @@
 #include <hydra/Types.h>
 #include <hydra/Function.h>
 #include <hydra/Pdf.h>
-#include <hydra/detail/Integrator.h>
+#include <hydra/Integrator.h>
 #include <hydra/detail/utility/CheckValue.h>
 #include <hydra/Tuple.h>
 #include <hydra/functions/Utils.h>
+#include <hydra/functions/Math.h>
 #include <tuple>
 #include <limits>
 #include <stdexcept>
@@ -56,39 +57,118 @@ namespace hydra {
  *  Calculates the beta-term
  *                   \f[ d^j_{mn}(beta) \f]
  *  in the matrix element of the finite rotation operator
- *  (Wigner's D-function), according to formula 4.3.1(3) in
+ *  (Wigner's D-function), according to formula 4.3.4(eq. 13) in
  *  D.A. Varshalovich, A.N. Moskalev, and V.K. Khersonskii,
- *  Quantum Theory of Angular Momentum, World Scientific,
- *  Singapore 1988. CERNLIB DDJMNB function.
+ *  Quantum Theory of Angular Momentum, World Scientific, Singapore 1988.
  */
 
-template<unsigned int J, int M, int N, unsigned int Denominator=1,  unsigned int ArgIndex=0>
-class WignerD: public BaseFunctor<WignerD<J, M,Denominator,ArgIndex>, double, 0>
+template<unsigned int ArgIndex=0>
+class WignerDMatrix: public BaseFunctor<WignerDMatrix<ArgIndex>, double, 0>
 {
-	constexpr static int JPM  = detail::nearest_int<J+M,Denominator>::value;
-	constexpr static int JPN  = detail::nearest_int<J+N,Denominator>::value;
-	constexpr static int JMM  = detail::nearest_int<J-M,Denominator>::value;
-	constexpr static int JMN  = detail::nearest_int<J-N,Denominator>::value;
-	constexpr static int MPN  = detail::nearest_int<M+N,Denominator>::value;
 
-	static_assert((JPM <0 || JPN < 0 || JMM < 0 || JMN < 0 || J < 0 || J > 25 ) ,
-	                  "[Hydra::WignerD] : Wrong parameters combination");
 public:
 
-	WignerD()=default;
+	WignerDMatrix()=delete;
+
+	WignerDMatrix(double j, double m, double n):
+		fJ(j),
+		fM(m),
+		fN(n),
+		fF(0),
+		fMu(0),
+		fNu(0),
+		fXi(0),
+		fS(0)
+	{
+		UpdateState();
+	}
 
 	__hydra_dual__
-	WignerD( WignerD<J, M,Denominator, ArgIndex> const& other):
-		BaseFunctor<WignerD<J, M,Denominator,ArgIndex>, double, 0>(other)
-		{}
+	WignerDMatrix( WignerDMatrix<ArgIndex> const& other):
+	BaseFunctor<WignerDMatrix<ArgIndex>, double, 0>(other),
+	fJ(other.GetJ()),
+	fM(other.GetM()),
+	fN(other.GetN()),
+	fF(other.GetF()),
+	fMu(other.GetMu()),
+	fNu(other.GetNu()),
+	fXi(other.GetXi()),
+	fS(other.GetS())
+	{}
 
 	__hydra_dual__
-	WignerD<J, M,Denominator,ArgIndex>& operator=( WignerD<J, M,Denominator,ArgIndex> const& other){
+	WignerDMatrix<ArgIndex>& operator=( WignerDMatrix<ArgIndex> const& other){
 
 		if(this == &other) return *this;
-		BaseFunctor<WignerD<J, M,Denominator,ArgIndex>, double, 0>::operator=(other);
-
+		BaseFunctor<WignerDMatrix<ArgIndex>, double, 0>::operator=(other);
+		fJ = other.GetJ();
+		fM = other.GetM();
+		fN = other.GetN();
+		fF = other.GetF();
+		fMu = other.GetMu();
+		fNu = other.GetNu();
+		fXi = other.GetXi();
+		fS  = other.GetS();
 		return *this;
+	}
+
+	inline void SetJ(double j) {
+		fJ = j;
+		UpdateState();
+	}
+
+	inline void SetM(double m) {
+		fM = m;
+		UpdateState();
+	}
+
+	inline void SetN(double n) {
+		fN = n;
+		UpdateState();
+	}
+
+	__hydra_dual__
+	inline double GetJ() const {
+		return fJ;
+	}
+
+	__hydra_dual__
+	inline double GetM() const {
+		return fM;
+	}
+
+	__hydra_dual__
+	inline double GetN() const {
+		return fN;
+	}
+
+	__hydra_dual__
+	inline double GetF() const {
+		return fF;
+	}
+
+
+	__hydra_dual__
+	inline double GetMu() const {
+		return fMu;
+	}
+
+
+	__hydra_dual__
+	inline double GetNu() const {
+		return fNu;
+	}
+
+
+	__hydra_dual__
+	inline unsigned GetS() const {
+		return fS;
+	}
+
+
+	__hydra_dual__
+	inline int GetXi() const {
+		return fXi;
 	}
 
 	template<typename T>
@@ -98,7 +178,7 @@ public:
 		double beta = x[ArgIndex] ;
 		double r = wignerd(beta);
 
-		return  CHECK_VALUE(r, "r=%f", r);
+		return  CHECK_VALUE(r, "beta=%f r=%f", beta, r);
 
 	}
 
@@ -109,84 +189,54 @@ public:
 		double beta =  get<ArgIndex>(x);
 		double r = wignerd(beta);
 
-		return  CHECK_VALUE(r, "r=%f", r);
+		return  CHECK_VALUE(r, "beta=%f r=%f", beta, r);
 
 	}
 
 private:
 
-	__hydra_dual__ inline
-	double wignerd( double beta ) const {
 
-		double r = (beta < 0 || beta > 2.0*PI) ? printf("HYDRA WARNING: WignerD: Illegal argument  beta=%g\n", beta):
-		    (beta == 0)  ? (JPM == JPN ) :
-		    (beta == PI) ? (JPM == JMN ) - 2*(::abs(JPM)%2 == 1):
-	    	(beta == 2.0*PI) ? (JPM == JPN) - 2*(::abs(MPN)%2 == 1) : wdf(beta);
+	inline void UpdateState()
+	{
 
-		return r;
+		if( fJ< 0.0 || (::fabs(fM) > fJ || ::fabs(fN) > fJ) ) {
+			std::ostringstream stringStream;
+
+			stringStream << "Ilegal parameter set j="<< fJ <<" m=" << fM << " n="<< fN;
+
+			HYDRA_LOG(ERROR, stringStream.str().c_str()  )
+
+			exit(-1);
+		}
+
+		fMu = ::fabs(rint(fM-fN));
+		fNu = ::fabs(rint(fM+fN));
+		fS	= rint(fJ-0.5*(fMu+fNu));
+		fXi = fN>=fM ? 1: ::pow(-1,fN-fM);
+
+		fF = fXi*::sqrt(::tgamma(fS+1)*::tgamma(fS+fMu+fNu+1)/(::tgamma(fS+fMu+1)*::tgamma(fS+fNu+1)));
 
 	}
 
 	__hydra_dual__
-	inline double wdf( double  b) const {
+	inline double wignerd(double theta) const {
 
-		using HYDRA_EXTERNAL_NS::thrust::max;
-		using HYDRA_EXTERNAL_NS::thrust::min;
+		return fF*::pow(::sin(theta*0.5),fMu)*::pow(::cos(theta*0.5),fNu)*jacobi(fMu, fNu, fS, ::cos(theta));
 
-		double r = 0;
-		double s  = ::log(::sin(b/2.0));
-		double c  = ::log(::fabs(::cos(b/2.0)));
-		double rt = 0.5*(fcl[JPM]+fcl[JMM]+fcl[JPN]+fcl[JMN]);
-		int k0    = max(0,MPN);
-		int kq    = (b > PI) ? k0 + JPM + MPN: k0 + JPM;
-
-		double q  = 1 - 2*(kq%2 == 1);
-		kq = k0+k0;
-		double cx = kq-MPN;
-		double sx = JPM+JPN-kq;
-
-		for( int k=k0; k<= min(JPM,JPN); k++)
-		{
-			r  += q*::exp(rt-fcl[k]-fcl[JPM-k]-fcl[JPM-k]-fcl[k-MPN]+ cx*c+sx*s);
-			cx += 2;
-			sx -= 2;
-			q   = -q;
-		}
-
-		return CHECK_VALUE(r, "r=%f", r);
 	}
 
-	static constexpr double fcl[51] = { 0.0 ,0.0,
-            6.93147180559945309e-1 ,1.79175946922805500e00,
-            3.17805383034794562e00 ,4.78749174278204599e00,
-            6.57925121201010100e00 ,8.52516136106541430e00,
-            1.06046029027452502e01 ,1.28018274800814696e01,
-            1.51044125730755153e01 ,1.75023078458738858e01,
-            1.99872144956618861e01 ,2.25521638531234229e01,
-            2.51912211827386815e01 ,2.78992713838408916e01,
-            3.06718601060806728e01 ,3.35050734501368889e01,
-            3.63954452080330536e01 ,3.93398841871994940e01,
-            4.23356164607534850e01 ,4.53801388984769080e01,
-            4.84711813518352239e01 ,5.16066755677643736e01,
-            5.47847293981123192e01 ,5.80036052229805199e01,
-            6.12617017610020020e01 ,6.45575386270063311e01,
-            6.78897431371815350e01 ,7.12570389671680090e01,
-            7.46582363488301644e01 ,7.80922235533153106e01,
-            8.15579594561150372e01 ,8.50544670175815174e01,
-            8.85808275421976788e01 ,9.21361756036870925e01,
-            9.57196945421432025e01 ,9.93306124547874269e01,
-            1.02968198614513813e02 ,1.06631760260643459e02,
-            1.10320639714757395e02 ,1.14034211781461703e02,
-            1.17771881399745072e02 ,1.21533081515438634e02,
-            1.25317271149356895e02 ,1.29123933639127215e02,
-            1.32952575035616310e02 ,1.36802722637326368e02,
-            1.40673923648234259e02 ,1.44565743946344886e02,
-            1.48477766951773032e02 };
-
+	double fJ;
+	double fM;
+	double fN;
+	double fF;
+	double fMu;
+	double fNu;
+	int      fXi;
+	unsigned fS;
 
 };
 
-
+}  // namespace hydra
 
 
 #endif /* WIGNERDMATRIX_H_ */

@@ -34,7 +34,7 @@
 #include <hydra/Types.h>
 #include <hydra/Function.h>
 #include <hydra/Pdf.h>
-#include <hydra/detail/Integrator.h>
+#include <hydra/Integrator.h>
 #include <hydra/cpp/System.h>
 #include <hydra/detail/utility/CheckValue.h>
 #include <hydra/detail/utility/SafeCompare.h>
@@ -130,65 +130,27 @@ public:
 };
 
 
-class GeneralizedGammaAnalyticalIntegral: public Integrator<GeneralizedGammaAnalyticalIntegral>
+template<unsigned int ArgIndex>
+class IntegrationFormula< GeneralizedGamma<ArgIndex>, 1>
 {
 
-public:
+protected:
 
-	GeneralizedGammaAnalyticalIntegral(double min, double max):
-		fLowerLimit(min),
-		fUpperLimit(max)
+	inline std::pair<GReal_t, GReal_t>
+	EvalFormula( GeneralizedGamma<ArgIndex>const& functor, double LowerLimit, double UpperLimit )const
 	{
-		assert( fLowerLimit < fUpperLimit && "hydra::ArgusShapeAnalyticalIntegral: MESSAGE << LowerLimit >= fUpperLimit >>");
-	 }
 
-	inline GeneralizedGammaAnalyticalIntegral(GeneralizedGammaAnalyticalIntegral const& other):
-		fLowerLimit(other.GetLowerLimit()),
-		fUpperLimit(other.GetUpperLimit())
-	{}
+		double min = LowerLimit > functor[0] ? LowerLimit : functor[0];
 
-	inline GeneralizedGammaAnalyticalIntegral&
-	operator=( GeneralizedGammaAnalyticalIntegral const& other)
-	{
-		if(this == &other) return *this;
-
-		this->fLowerLimit = other.GetLowerLimit();
-		this->fUpperLimit = other.GetUpperLimit();
-
-		return *this;
-	}
-
-	double GetLowerLimit() const {
-		return fLowerLimit;
-	}
-
-	void SetLowerLimit(double lowerLimit ) {
-		fLowerLimit = lowerLimit;
-	}
-
-	double GetUpperLimit() const {
-		return fUpperLimit;
-	}
-
-	void SetUpperLimit(double upperLimit) {
-		fUpperLimit = upperLimit;
-	}
-
-	template<typename FUNCTOR>	inline
-	std::pair<double, double> Integrate(FUNCTOR const& functor) const {
-
-		double min = fLowerLimit > functor[0] ? fLowerLimit : functor[0];
-
-		double fraction = /* detail::ApproximatelyZero(functor[3], ::fabs(functor[3])*std::numeric_limits<double>::epsilon()) ? 0.0:*/
-				cumulative(functor[0], functor[1], functor[2], functor[3], fUpperLimit)	-
+		double fraction =
+				cumulative(functor[0], functor[1], functor[2], functor[3], UpperLimit)	-
 				cumulative(functor[0], functor[1], functor[2], functor[3], min);
 
 		return std::make_pair(
-				CHECK_VALUE(-fraction," par[0] = %f par[1] = %f par[2] = %f par[3] = %f fLowerLimit = %f fUpperLimit = %f",
-						functor[0], functor[1], functor[2], functor[3], min, fUpperLimit ) ,0.0);
+				CHECK_VALUE(-fraction," par[0] = %f par[1] = %f par[2] = %f par[3] = %f LowerLimit = %f UpperLimit = %f",
+						functor[0], functor[1], functor[2], functor[3], min, UpperLimit ) ,0.0);
+
 	}
-
-
 private:
 
 	inline double cumulative(const double x0, const double A, const double B, const double C, const double x ) const
@@ -206,8 +168,6 @@ private:
 		return gsl_sf_gamma_inc_Q(a, x);
 	}
 
-	double fLowerLimit;
-	double fUpperLimit;
 
 };
 

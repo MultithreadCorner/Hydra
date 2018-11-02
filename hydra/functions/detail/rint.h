@@ -55,9 +55,9 @@ inline double rint(T x){
 
 #else
 
-#pragma STDC FENV_ACCESS ON
     std::fesetround(FE_TONEAREST);
     return std::rint(x);
+
 #endif
 
 }

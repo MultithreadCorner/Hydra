@@ -99,6 +99,7 @@ public:
 	typedef multivector< tuple_type, hydra::detail::BackendPolicy<BACKEND> > storage_type;
 	typedef typename storage_type::iterator iterator;
 	typedef typename storage_type::const_iterator const_iterator;
+	typedef typename storage_type::value_type value_type;
 
 	Cache()=delete;
 
@@ -139,7 +140,7 @@ public:
 	operator=(Cache< hydra::detail::BackendPolicy<BACKEND>,Functors...> && other){
 
 		if(this==&other) return *this;
-		fData =other.GetData();
+		fData =other.MoveData();
 		return *this;
 	}
 
@@ -168,6 +169,15 @@ public:
 	const_iterator end() const{
 		return fData.cend();
 	}
+
+	value_type& operator[](size_t i){
+		return  fData[i];
+	}
+
+	const value_type& operator[](size_t i) const {
+			return  fData[i];
+	}
+
 
 private:
 

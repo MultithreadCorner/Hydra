@@ -20,48 +20,29 @@
  *---------------------------------------------------------------------------*/
 
 /*
- * Integrator.h
+ * NumericalIntegral.h
  *
- *  Created on: 31/08/2016
+ *  Created on: 30/10/2018
  *      Author: Antonio Augusto Alves Junior
  */
 
-/**
- * \file
- * \ingroup numerical_integration
- */
-
-#ifndef INTEGRATOR_H_
-#define INTEGRATOR_H_
-
-#include <hydra/detail/Config.h>
-#include <hydra/Types.h>
-#include <utility>
+#ifndef NUMERICALINTEGRAL_INL_
+#define NUMERICALINTEGRAL_INL_
 
 namespace hydra {
 
-template<typename ALGORITHM>
-struct Integrator{
+template<typename Algorithm, size_t N>
+class NumericalIntegral: public Integral< Algorithm ,  N>
+{
 
-	typedef void hydra_integrator_tag;
+public:
 
-	template<typename FUNCTOR>
-	inline std::pair<GReal_t, GReal_t> operator()( FUNCTOR  const & functor)
-	{
-	//functor.SetNormalized(0);
-	auto result = static_cast<ALGORITHM*>(this)->Integrate(functor);
-	//functor.SetNormalized(1);
-	return result;
-	}
-
+	typedef void hydra_numerical_integral_tag;
 
 
 };
 
+}
 
 
-}  // namespace hydra
-
-
-
-#endif /* INTEGRATOR_H_ */
+#endif /* NUMERICALINTEGRAL_H_ */

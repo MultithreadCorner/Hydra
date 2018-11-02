@@ -38,7 +38,7 @@
 #include <hydra/Types.h>
 #include <hydra/Function.h>
 #include <hydra/Pdf.h>
-#include <hydra/detail/Integrator.h>
+#include <hydra/Integrator.h>
 #include <hydra/detail/utility/CheckValue.h>
 #include <hydra/Parameter.h>
 #include <hydra/Tuple.h>
@@ -147,64 +147,23 @@ public:
 	}
 };
 
-
-
-class JohnsonSUShapeAnalyticalIntegral: public Integrator<JohnsonSUShapeAnalyticalIntegral>
+template<unsigned int ArgIndex>
+class IntegrationFormula< JohnsonSUShape<ArgIndex>, 1>
 {
 
-public:
+protected:
 
-	JohnsonSUShapeAnalyticalIntegral(double min, double max):
-		fLowerLimit(min),
-		fUpperLimit(max)
+	inline std::pair<GReal_t, GReal_t>
+	EvalFormula( JohnsonSUShape<ArgIndex>const& functor, double LowerLimit, double UpperLimit )const
 	{
-		assert(fLowerLimit < fUpperLimit
-				&& "hydra::JohnsonSUShapeAnalyticalIntegral: MESSAGE << LowerLimit >= fUpperLimit >>");
-	 }
+		double r = cumulative(functor[0], functor[1], functor[2], functor[3], UpperLimit)
+				 - cumulative(functor[0], functor[1], functor[2], functor[3], LowerLimit);
 
-	inline JohnsonSUShapeAnalyticalIntegral(JohnsonSUShapeAnalyticalIntegral const& other):
-		fLowerLimit(other.GetLowerLimit()),
-		fUpperLimit(other.GetUpperLimit())
-	{}
+				return std::make_pair(
+				CHECK_VALUE(r," par[0] = %f par[1] = %f par[2] = %f par[3] = %f LowerLimit = %f UpperLimit = %f",\
+						functor[0], functor[1],functor[2], functor[3], LowerLimit, UpperLimit ) ,0.0);
 
-	inline JohnsonSUShapeAnalyticalIntegral&
-	operator=( JohnsonSUShapeAnalyticalIntegral const& other)
-	{
-		if(this == &other) return *this;
-
-		this->fLowerLimit = other.GetLowerLimit();
-		this->fUpperLimit = other.GetUpperLimit();
-
-		return *this;
 	}
-
-	double GetLowerLimit() const {
-		return fLowerLimit;
-	}
-
-	void SetLowerLimit(double lowerLimit ) {
-		fLowerLimit = lowerLimit;
-	}
-
-	double GetUpperLimit() const {
-		return fUpperLimit;
-	}
-
-	void SetUpperLimit(double upperLimit) {
-		fUpperLimit = upperLimit;
-	}
-
-	template<typename FUNCTOR>	inline
-	std::pair<double, double> Integrate(FUNCTOR const& functor) const {
-
-		double r = cumulative(functor[0], functor[1], functor[2], functor[3],  fUpperLimit)
-		- cumulative(functor[0], functor[1], functor[2], functor[3], fLowerLimit);
-
-		return std::make_pair(
-		CHECK_VALUE(r," par[0] = %f par[1] = %f par[2] = %f par[3] = %f fLowerLimit = %f fUpperLimit = %f",\
-				functor[0], functor[1],functor[2], functor[3], fLowerLimit,fUpperLimit ) ,0.0);
-	}
-
 
 private:
 
@@ -222,8 +181,6 @@ private:
 		return 0.5*(1.0 + ::erf(C*hydra::math_constants::inverse_sqrt2));
 	}
 
-	double fLowerLimit;
-	double fUpperLimit;
 
 };
 

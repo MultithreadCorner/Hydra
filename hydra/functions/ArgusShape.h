@@ -35,7 +35,7 @@
 #include <hydra/Types.h>
 #include <hydra/Function.h>
 #include <hydra/Pdf.h>
-#include <hydra/detail/Integrator.h>
+#include <hydra/Integrator.h>
 #include <hydra/detail/utility/CheckValue.h>
 #include <hydra/Parameter.h>
 #include <hydra/Tuple.h>
@@ -133,66 +133,26 @@ public:
  * @class ArgusShapeAnalyticalIntegral
  * Implementation of analytical integral for the ARGUS background shape with power = 0.5.
  */
-class ArgusShapeAnalyticalIntegral: public Integrator<ArgusShapeAnalyticalIntegral>
+
+template<unsigned int ArgIndex>
+class IntegrationFormula< ArgusShape<ArgIndex>, 1>
 {
 
-public:
+protected:
 
-	ArgusShapeAnalyticalIntegral(double min, double max):
-		fLowerLimit(min),
-		fUpperLimit(max)
-	{
-		assert(fLowerLimit < fUpperLimit && "hydra::ArgusShapeAnalyticalIntegral: MESSAGE << LowerLimit >= fUpperLimit >>");
-	}
-
-	inline ArgusShapeAnalyticalIntegral(ArgusShapeAnalyticalIntegral const& other):
-		fLowerLimit(other.GetLowerLimit()),
-		fUpperLimit(other.GetUpperLimit())
-	{}
-
-	inline ArgusShapeAnalyticalIntegral&
-	operator=( ArgusShapeAnalyticalIntegral const& other)
-	{
-		if(this == &other) return *this;
-
-		this->fLowerLimit = other.GetLowerLimit();
-		this->fUpperLimit = other.GetUpperLimit();
-
-		return *this;
-	}
-
-	double GetLowerLimit() const {
-		return fLowerLimit;
-	}
-
-	void SetLowerLimit(double lowerLimit ) {
-		fLowerLimit = lowerLimit;
-	}
-
-	double GetUpperLimit() const {
-		return fUpperLimit;
-	}
-
-	void SetUpperLimit(double upperLimit) {
-		fUpperLimit = upperLimit;
-	}
-
-	template<typename FUNCTOR>	inline
-	std::pair<double, double> Integrate(FUNCTOR const& functor) const {
+	inline std::pair<GReal_t, GReal_t>
+	EvalFormula(ArgusShape<ArgIndex>const& functor, double LowerLimit, double UpperLimit ) const {
 
 		if(functor[2]<0.5 || functor[2] > 0.5 ) {
 
-			std::cout  <<  functor[2] << std::endl;
 			throw std::invalid_argument("ArgusShapeAnalyticalIntegral can not handle ArgusShape with power != 0.5. Return {nan, nan}");
 		}
 
-		double r = cumulative(functor[0], functor[1],fUpperLimit)
-						 - cumulative(functor[0], functor[1], fLowerLimit);
+		double r = cumulative(functor[0], functor[1],UpperLimit)
+							 - cumulative(functor[0], functor[1], LowerLimit);
 
-
-		return std::make_pair(
-				CHECK_VALUE(r, "par[0] = %f par[1] = %f par[2] = %f  fLowerLimit = %f fUpperLimit = %f", functor[0], functor[1], functor[2], fLowerLimit,fUpperLimit)
-			,0.0);
+		return std::make_pair( CHECK_VALUE(r, "par[0] = %f par[1] = %f par[2] = %f  LowerLimit = %f UpperLimit = %f",
+						functor[0], functor[1], functor[2], LowerLimit, UpperLimit)	,0.0);
 	}
 
 
@@ -207,11 +167,7 @@ private:
 		return r;
 	}
 
-	double fLowerLimit;
-	double fUpperLimit;
-
 };
-
 
 
 }  // namespace hydra
