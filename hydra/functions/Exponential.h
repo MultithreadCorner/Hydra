@@ -107,63 +107,6 @@ protected:
 
 
 
-/*
-class ExponentialAnalyticalIntegral:public Integral<ExponentialAnalyticalIntegral>
-{
-
-public:
-
-	ExponentialAnalyticalIntegral(double min, double max):
-	fLowerLimit(min),
-	fUpperLimit(max)
-	{}
-
-	inline ExponentialAnalyticalIntegral(ExponentialAnalyticalIntegral const& other):
-	fLowerLimit(other.GetLowerLimit()),
-	fUpperLimit(other.GetUpperLimit())
-	{}
-
-	inline ExponentialAnalyticalIntegral&
-	operator=( ExponentialAnalyticalIntegral const& other)
-	{
-		if(this == &other) return *this;
-		this->fLowerLimit = other.GetLowerLimit();
-		this->fUpperLimit = other.GetUpperLimit();
-		return *this;
-	}
-
-	double GetLowerLimit() const {
-		return fLowerLimit;
-	}
-
-	void SetLowerLimit(double lowerLimit) {
-		fLowerLimit = lowerLimit;
-	}
-
-	double GetUpperLimit() const {
-		return fUpperLimit;
-	}
-
-	void SetUpperLimit(double upperLimit) {
-		fUpperLimit = upperLimit;
-	}
-
-	template<typename FUNCTOR>
-	inline std::pair<double, double> Integrate(FUNCTOR const& functor) const {
-
-		double tau = functor[0];
-		double r   =  (exp(fUpperLimit*tau) - exp(fLowerLimit*tau))/tau ;
-		return std::make_pair( CHECK_VALUE(r, "par[0]=%f ", tau ) , 0.0);
-	}
-
-private:
-
-	double fLowerLimit;
-	double fUpperLimit;
-
-};
-*/
-
 }  // namespace hydra
 
 #endif /* EXPONENTIAL_H_ */
