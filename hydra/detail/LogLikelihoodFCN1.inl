@@ -164,7 +164,8 @@ template< typename Functor, typename Integrator,  typename Iterator, typename ..
 inline auto make_loglikehood_fcn(Pdf<Functor,Integrator> const& pdf, Iterator first, Iterator last,  Iterators... weights )
 -> LogLikelihoodFCN< Pdf<Functor,Integrator>, Iterator , Iterators... >
 {
-	return LogLikelihoodFCN< Pdf<Functor,Integrator>, Iterator , Iterators...>(pdf, first, last, weights...);
+
+	return LogLikelihoodFCN< Pdf<Functor,Integrator>, Iterator , Iterators... >(pdf, first, last, weights...);
 }
 
 template< typename Functor, typename Integrator, typename Iterable, typename ...Iterables, typename U >
