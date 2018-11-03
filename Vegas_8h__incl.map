@@ -1,23 +1,26 @@
 <map id="Vegas.h" name="Vegas.h">
-<area shape="rect" id="node3" href="$Config_8h.html" title="hydra/detail/Config.h" alt="" coords="962,795,1105,821"/>
-<area shape="rect" id="node6" href="$BackendPolicy_8h.html" title="hydra/detail/BackendPolicy.h" alt="" coords="1715,430,1906,457"/>
-<area shape="rect" id="node8" href="$Types_8h.html" title="Common and useful typedefs. " alt="" coords="2999,795,3105,821"/>
-<area shape="rect" id="node9" href="$VegasState_8h.html" title="hydra/VegasState.h" alt="" coords="771,341,909,367"/>
-<area shape="rect" id="node30" href="$ProcessCallsVegas_8h.html" title="hydra/detail/functors\l/ProcessCallsVegas.h" alt="" coords="1685,155,1837,196"/>
-<area shape="rect" id="node45" href="$Integrator_8h.html" title="hydra/detail/Integrator.h" alt="" coords="1886,80,2045,107"/>
-<area shape="rect" id="node47" href="$Vegas_8inl.html" title="hydra/detail/Vegas.inl" alt="" coords="1335,80,1481,107"/>
-<area shape="rect" id="node10" href="$Containers_8h.html" title="Typedefs for useful container classes used in MCBooster. " alt="" coords="835,527,967,553"/>
-<area shape="rect" id="node29" href="$VegasState_8inl.html" title="hydra/detail/VegasState.inl" alt="" coords="629,430,808,457"/>
-<area shape="rect" id="node13" href="$Vector3R_8h.html" title="hydra/Vector3R.h" alt="" coords="1299,705,1423,732"/>
-<area shape="rect" id="node20" href="$Vector4R_8h.html" title="hydra/Vector4R.h" alt="" coords="1499,616,1623,643"/>
-<area shape="rect" id="node23" href="$Containers_8inl.html" title="hydra/detail/Containers.inl" alt="" coords="512,616,685,643"/>
-<area shape="rect" id="node16" href="$Collection_8h.html" title="hydra/Collection.h" alt="" coords="1646,795,1773,821"/>
-<area shape="rect" id="node19" href="$Vector3R_8inl.html" title="hydra/detail/Vector3R.inl" alt="" coords="1296,795,1461,821"/>
-<area shape="rect" id="node21" href="$Vector4R_8inl.html" title="hydra/detail/Vector4R.inl" alt="" coords="1448,705,1613,732"/>
-<area shape="rect" id="node31" href="$Utility__Tuple_8h.html" title="hydra/detail/utility\l/Utility_Tuple.h" alt="" coords="2577,244,2701,285"/>
-<area shape="rect" id="node32" href="$Generic_8h.html" title="hydra/detail/utility\l/Generic.h" alt="" coords="2702,423,2826,464"/>
-<area shape="rect" id="node34" href="$TypeTraits_8h.html" title="hydra/detail/TypeTraits.h" alt="" coords="2113,430,2279,457"/>
-<area shape="rect" id="node39" href="$FunctorTraits_8h.html" title="hydra/detail/FunctorTraits.h" alt="" coords="2952,430,3133,457"/>
-<area shape="rect" id="node40" href="$Parameter_8h.html" title="hydra/Parameter.h" alt="" coords="2158,341,2287,367"/>
-<area shape="rect" id="node48" href="$StreamSTL_8h.html" title="hydra/detail/utility\l/StreamSTL.h" alt="" coords="1494,333,1618,375"/>
+<area shape="rect" id="node3" href="$Config_8h.html" title="hydra/detail/Config.h" alt="" coords="2228,795,2369,821"/>
+<area shape="rect" id="node6" href="$BackendPolicy_8h.html" title="hydra/detail/BackendPolicy.h" alt="" coords="362,430,553,457"/>
+<area shape="rect" id="node8" href="$Types_8h.html" title="Common and useful typedefs. " alt="" coords="477,795,582,821"/>
+<area shape="rect" id="node9" href="$VegasState_8h.html" title="hydra/VegasState.h" alt="" coords="1959,341,2097,367"/>
+<area shape="rect" id="node30" href="$ProcessCallsVegas_8h.html" title="hydra/detail/functors\l/ProcessCallsVegas.h" alt="" coords="1023,155,1174,196"/>
+<area shape="rect" id="node45" href="$Integrator_8h.html" title="hydra/Integrator.h" alt="" coords="2951,80,3075,107"/>
+<area shape="rect" id="node52" href="$Vegas_8inl.html" title="hydra/detail/Vegas.inl" alt="" coords="2296,80,2443,107"/>
+<area shape="rect" id="node10" href="$Containers_8h.html" title="Typedefs for useful container classes used in MCBooster. " alt="" coords="1805,527,1936,553"/>
+<area shape="rect" id="node29" href="$VegasState_8inl.html" title="hydra/detail/VegasState.inl" alt="" coords="1703,430,1881,457"/>
+<area shape="rect" id="node13" href="$Vector3R_8h.html" title="hydra/Vector3R.h" alt="" coords="1569,705,1692,732"/>
+<area shape="rect" id="node20" href="$Vector4R_8h.html" title="hydra/Vector4R.h" alt="" coords="1803,616,1925,643"/>
+<area shape="rect" id="node23" href="$Containers_8inl.html" title="hydra/detail/Containers.inl" alt="" coords="1535,616,1707,643"/>
+<area shape="rect" id="node16" href="$Collection_8h.html" title="hydra/Collection.h" alt="" coords="1337,795,1463,821"/>
+<area shape="rect" id="node19" href="$Vector3R_8inl.html" title="hydra/detail/Vector3R.inl" alt="" coords="1487,795,1651,821"/>
+<area shape="rect" id="node21" href="$Vector4R_8inl.html" title="hydra/detail/Vector4R.inl" alt="" coords="1818,705,1982,732"/>
+<area shape="rect" id="node31" href="$Utility__Tuple_8h.html" title="hydra/detail/utility\l/Utility_Tuple.h" alt="" coords="1037,244,1161,285"/>
+<area shape="rect" id="node32" href="$Generic_8h.html" title="hydra/detail/utility\l/Generic.h" alt="" coords="1199,423,1323,464"/>
+<area shape="rect" id="node34" href="$TypeTraits_8h.html" title="hydra/detail/TypeTraits.h" alt="" coords="783,430,950,457"/>
+<area shape="rect" id="node39" href="$FunctorTraits_8h.html" title="hydra/detail/FunctorTraits.h" alt="" coords="577,430,759,457"/>
+<area shape="rect" id="node40" href="$Parameter_8h.html" title="hydra/Parameter.h" alt="" coords="971,341,1101,367"/>
+<area shape="rect" id="node47" href="$AnalyticalIntegral_8inl.html" title="hydra/detail/AnalyticalIntegral.inl" alt="" coords="3000,341,3211,367"/>
+<area shape="rect" id="node50" href="$NumericalIntegral_8inl.html" title="hydra/detail/NumericalIntegral.inl" alt="" coords="3291,162,3501,189"/>
+<area shape="rect" id="node51" href="$Integrator_8inl.html" title="hydra/detail/Integrator.inl" alt="" coords="3101,162,3267,189"/>
+<area shape="rect" id="node53" href="$StreamSTL_8h.html" title="hydra/detail/utility\l/StreamSTL.h" alt="" coords="2521,333,2645,375"/>
 </map>

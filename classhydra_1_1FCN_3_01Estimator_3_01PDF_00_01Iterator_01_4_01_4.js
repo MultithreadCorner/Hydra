@@ -10,6 +10,7 @@ var classhydra_1_1FCN_3_01Estimator_3_01PDF_00_01Iterator_01_4_01_4 =
     [ "GetDataSize", "classhydra_1_1FCN_3_01Estimator_3_01PDF_00_01Iterator_01_4_01_4.html#af165b9d414929098fbbbc13d034a3a3d", null ],
     [ "GetEnd", "classhydra_1_1FCN_3_01Estimator_3_01PDF_00_01Iterator_01_4_01_4.html#ae17335e377920a4d7e5315ca0003ade6", null ],
     [ "GetErrorDef", "classhydra_1_1FCN_3_01Estimator_3_01PDF_00_01Iterator_01_4_01_4.html#a7b83a3fabcfb2b61be0b663427d32526", null ],
+    [ "GetFcnMaxValue", "classhydra_1_1FCN_3_01Estimator_3_01PDF_00_01Iterator_01_4_01_4.html#a30a5fc2bb5c459c87bf8b433e38c8d09", null ],
     [ "GetParameters", "classhydra_1_1FCN_3_01Estimator_3_01PDF_00_01Iterator_01_4_01_4.html#a9c73b8edf0ad9cc624129bb0b0fe0b55", null ],
     [ "GetParameters", "classhydra_1_1FCN_3_01Estimator_3_01PDF_00_01Iterator_01_4_01_4.html#ab17a263bc374e5c309e25579d8822e06", null ],
     [ "GetPDF", "classhydra_1_1FCN_3_01Estimator_3_01PDF_00_01Iterator_01_4_01_4.html#a64a11b479dcd81bf6e2078ecc076a044", null ],
@@ -19,6 +20,7 @@ var classhydra_1_1FCN_3_01Estimator_3_01PDF_00_01Iterator_01_4_01_4 =
     [ "SetBegin", "classhydra_1_1FCN_3_01Estimator_3_01PDF_00_01Iterator_01_4_01_4.html#a951aa1bcd8da97051191bde2cb3dfbfb", null ],
     [ "SetEnd", "classhydra_1_1FCN_3_01Estimator_3_01PDF_00_01Iterator_01_4_01_4.html#a4013051137f5d89859092dcc77570b0c", null ],
     [ "SetErrorDef", "classhydra_1_1FCN_3_01Estimator_3_01PDF_00_01Iterator_01_4_01_4.html#a61e5351a33a76fed06d87cbafbad7aa2", null ],
+    [ "SetFcnMaxValue", "classhydra_1_1FCN_3_01Estimator_3_01PDF_00_01Iterator_01_4_01_4.html#a6d2d6f37fc11b38df29c25ec4875dc89", null ],
     [ "SetParameters", "classhydra_1_1FCN_3_01Estimator_3_01PDF_00_01Iterator_01_4_01_4.html#acc3cf2a9b7ef81a1805912f0f9a79954", null ],
     [ "Up", "classhydra_1_1FCN_3_01Estimator_3_01PDF_00_01Iterator_01_4_01_4.html#ac4beea586a92ae3fd518180e8bf70219", null ]
 ];

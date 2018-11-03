@@ -1,7 +1,0 @@
-<map id="GenzMalikQuadrature.inl" name="GenzMalikQuadrature.inl">
-<area shape="rect" id="node2" href="$a00320.html" title="GenzMalikQuadrature.h" alt="" coords="147,80,305,107"/>
-<area shape="rect" id="node3" href="$a00146.html" title="ProcessGenzMalikQuadrature.h" alt="" coords="5,155,212,181"/>
-<area shape="rect" id="node4" href="$a00452.html" title="multidimensional_fit.inl" alt="" coords="237,155,391,181"/>
-<area shape="rect" id="node5" href="$a00446.html" title="multidimensional_fit.cpp" alt="" coords="141,229,303,256"/>
-<area shape="rect" id="node6" href="$a00449.html" title="multidimensional_fit.cu" alt="" coords="327,229,482,256"/>
-</map>

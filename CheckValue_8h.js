@@ -8,5 +8,6 @@ var CheckValue_8h =
     [ "ANSI_COLOR_RESET", "CheckValue_8h.html#a92a364c2b863dde1a024a77eac2a5b3b", null ],
     [ "ANSI_COLOR_YELLOW", "CheckValue_8h.html#a5a123b382640b3aa65dd5db386002fbc", null ],
     [ "CHECK_VALUE", "CheckValue_8h.html#a919f75260d8f4f7adc474755f433b77e", null ],
-    [ "CheckValue", "CheckValue_8h.html#aeccac2b5a421cca43286e9717d251c69", null ]
+    [ "CheckValue", "CheckValue_8h.html#aeccac2b5a421cca43286e9717d251c69", null ],
+    [ "kill", "CheckValue_8h.html#ad0a8ff71493e18493d9df6b9cfa1a745", null ]
 ];

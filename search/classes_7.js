@@ -1,7 +1,7 @@
 var searchData=
 [
-  ['gaussian',['Gaussian',['../classhydra_1_1Gaussian.html',1,'hydra']]],
-  ['gaussiananalyticalintegral',['GaussianAnalyticalIntegral',['../classhydra_1_1GaussianAnalyticalIntegral.html',1,'hydra']]],
+  ['gaussian',['Gaussian',['../group__common__functions.html#classhydra_1_1Gaussian',1,'hydra']]],
+  ['gaussiankde',['GaussianKDE',['../group__common__functions.html#classhydra_1_1GaussianKDE',1,'hydra']]],
   ['gausskronrodadaptivequadrature',['GaussKronrodAdaptiveQuadrature',['../namespacehydra.html#classhydra_1_1GaussKronrodAdaptiveQuadrature',1,'hydra']]],
   ['gausskronrodadaptivequadrature_3c_20nrule_2c_20nbin_2c_20hydra_3a_3adetail_3a_3abackendpolicy_3c_20backend_20_3e_20_3e',['GaussKronrodAdaptiveQuadrature&lt; NRULE, NBIN, hydra::detail::BackendPolicy&lt; BACKEND &gt; &gt;',['../classhydra_1_1GaussKronrodAdaptiveQuadrature_3_01NRULE_00_01NBIN_00_01hydra_1_1detail_1_1BackendPolicy_3_01BACKEND_01_4_01_4.html',1,'hydra']]],
   ['gausskronrodbinary',['GaussKronrodBinary',['../structhydra_1_1GaussKronrodBinary.html',1,'hydra']]],
@@ -24,10 +24,8 @@ var searchData=
   ['gausskronrodruleselector_3c_2051_20_3e',['GaussKronrodRuleSelector&lt; 51 &gt;',['../group__numerical__integration.html#structhydra_1_1GaussKronrodRuleSelector_3_0151_01_4',1,'hydra']]],
   ['gausskronrodruleselector_3c_2061_20_3e',['GaussKronrodRuleSelector&lt; 61 &gt;',['../group__numerical__integration.html#structhydra_1_1GaussKronrodRuleSelector_3_0161_01_4',1,'hydra']]],
   ['gausskronrodunary',['GaussKronrodUnary',['../structhydra_1_1GaussKronrodUnary.html',1,'hydra']]],
-  ['genericrange',['GenericRange',['../namespacehydra.html#classhydra_1_1GenericRange',1,'hydra']]],
-  ['genericrange_3c_20iterator_20_3e',['GenericRange&lt; Iterator &gt;',['../classhydra_1_1GenericRange_3_01Iterator_01_4.html',1,'hydra']]],
-  ['genericrange_3c_20iterator_2c_20functor_20_3e',['GenericRange&lt; Iterator, Functor &gt;',['../classhydra_1_1GenericRange_3_01Iterator_00_01Functor_01_4.html',1,'hydra']]],
-  ['genzmalikbox',['GenzMalikBox',['../structhydra_1_1detail_1_1GenzMalikBox.html',1,'hydra::detail']]],
+  ['generatedecay',['GenerateDecay',['../structhydra_1_1detail_1_1GenerateDecay.html',1,'hydra::detail']]],
+  ['genzmalikbox',['GenzMalikBox',['../classhydra_1_1detail_1_1GenzMalikBox.html',1,'hydra::detail']]],
   ['genzmalikquadrature',['GenzMalikQuadrature',['../namespacehydra.html#classhydra_1_1GenzMalikQuadrature',1,'hydra']]],
   ['genzmalikquadrature_3c_20n_2c_20hydra_3a_3adetail_3a_3abackendpolicy_3c_20backend_20_3e_20_3e',['GenzMalikQuadrature&lt; N, hydra::detail::BackendPolicy&lt; BACKEND &gt; &gt;',['../group__numerical__integration.html#classhydra_1_1GenzMalikQuadrature_3_01N_00_01hydra_1_1detail_1_1BackendPolicy_3_01BACKEND_01_4_01_4',1,'hydra']]],
   ['genzmalikrule',['GenzMalikRule',['../namespacehydra.html#classhydra_1_1GenzMalikRule',1,'hydra']]],

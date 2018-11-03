@@ -36,7 +36,7 @@
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">Hydra
-   &#160;<span id="projectnumber">2.1.0</span>
+   &#160;<span id="projectnumber">2.2.1</span>
    </div>
    <div id="projectbrief">A header-only templated C++ framework to perform data analysis on massively parallel platforms.</div>
   </td>
@@ -115,7 +115,7 @@ $(document).ready(function(){initNavTree('phsp__evaluating__functor_8inl.html','
 <code>#include &lt;<a class="el" href="">hydra/FunctorArithmetic.h</a>&gt;</code><br />
 <code>#include &lt;<a class="el" href="">hydra/FunctionWrapper.h</a>&gt;</code><br />
 <code>#include &lt;<a class="el" href="">hydra/multiarray.h</a>&gt;</code><br />
-<code>#include &lt;<a class="el" href="">hydra/Copy.h</a>&gt;</code><br />
+<code>#include &lt;<a class="el" href="">hydra/Algorithm.h</a>&gt;</code><br />
 <code>#include &lt;<a class="el" href="">hydra/Tuple.h</a>&gt;</code><br />
 <code>#include &lt;<a class="el" href="">hydra/host/System.h</a>&gt;</code><br />
 <code>#include &lt;<a class="el" href="">hydra/device/System.h</a>&gt;</code><br />
@@ -140,8 +140,6 @@ Macros</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:aca186c8227e2e6658d3fdd5323a14c9b"><td class="memItemLeft" align="right" valign="top">__hydra_host__ __hydra_device__ <a class="el" href="namespace_3globalScope_4.html#classdouble">double</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="phsp__evaluating__functor_8inl.html#aca186c8227e2e6658d3fdd5323a14c9b">cos_thetaAB</a> (const <a class="el" href="namespace_3globalScope_4.html#classdouble">double</a> mab_sq, const <a class="el" href="namespace_3globalScope_4.html#classdouble">double</a> mbc_sq, const <a class="el" href="namespace_3globalScope_4.html#classdouble">double</a> mac_sq, const <a class="el" href="namespace_3globalScope_4.html#classdouble">double</a> ma_sq, const <a class="el" href="namespace_3globalScope_4.html#classdouble">double</a> mb_sq, const <a class="el" href="namespace_3globalScope_4.html#classdouble">double</a> mc_sq)</td></tr>
-<tr class="separator:aca186c8227e2e6658d3fdd5323a14c9b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a81b92a607807b240e867aa19e3dedeac"><td class="memItemLeft" align="right" valign="top">__hydra_host__ __hydra_device__ <a class="el" href="namespace_3globalScope_4.html#classdouble">double</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="phsp__evaluating__functor_8inl.html#a81b92a607807b240e867aa19e3dedeac">lambda</a> (const <a class="el" href="namespace_3globalScope_4.html#classdouble">double</a> x, const <a class="el" href="namespace_3globalScope_4.html#classdouble">double</a> y, const <a class="el" href="namespace_3globalScope_4.html#classdouble">double</a> z)</td></tr>
 <tr class="memdesc:a81b92a607807b240e867aa19e3dedeac"><td class="mdescLeft">&#160;</td><td class="mdescRight"><a class="el" href="phsp__evaluating__functor_8inl.html">phsp_evaluating_functor.inl</a>  <a href="#a81b92a607807b240e867aa19e3dedeac">More...</a><br /></td></tr>
 <tr class="separator:a81b92a607807b240e867aa19e3dedeac"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -164,66 +162,6 @@ Functions</h2></td></tr>
 </div>
 </div>
 <h2 class="groupheader">Function Documentation</h2>
-<a id="aca186c8227e2e6658d3fdd5323a14c9b"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aca186c8227e2e6658d3fdd5323a14c9b">&#9670;&nbsp;</a></span>cos_thetaAB()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">__hydra_host__ __hydra_device__ <a class="el" href="namespace_3globalScope_4.html#classdouble">double</a> cos_thetaAB </td>
-          <td>(</td>
-          <td class="paramtype">const <a class="el" href="namespace_3globalScope_4.html#classdouble">double</a>&#160;</td>
-          <td class="paramname"><em>mab_sq</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">const <a class="el" href="namespace_3globalScope_4.html#classdouble">double</a>&#160;</td>
-          <td class="paramname"><em>mbc_sq</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">const <a class="el" href="namespace_3globalScope_4.html#classdouble">double</a>&#160;</td>
-          <td class="paramname"><em>mac_sq</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">const <a class="el" href="namespace_3globalScope_4.html#classdouble">double</a>&#160;</td>
-          <td class="paramname"><em>ma_sq</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">const <a class="el" href="namespace_3globalScope_4.html#classdouble">double</a>&#160;</td>
-          <td class="paramname"><em>mb_sq</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">const <a class="el" href="namespace_3globalScope_4.html#classdouble">double</a>&#160;</td>
-          <td class="paramname"><em>mc_sq</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-</div>
-</div>
 <a id="a81b92a607807b240e867aa19e3dedeac"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a81b92a607807b240e867aa19e3dedeac">&#9670;&nbsp;</a></span>lambda()</h2>
 
@@ -303,7 +241,7 @@ Functions</h2></td></tr>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="dir_92a1ff494355b06c14c0e1fe7b982d29.html">Hydra</a></li><li class="navelem"><a class="el" href="dir_b3c69fde212a60de3f50954f66fa65c1.html">examples</a></li><li class="navelem"><a class="el" href="dir_4b3c3c870991bb8ad671d5780b5e0415.html">phase_space</a></li><li class="navelem"><a class="el" href="phsp__evaluating__functor_8inl.html">phsp_evaluating_functor.inl</a></li>
-    <li class="footer">Generated on Fri Mar 23 2018 14:51:40 for Hydra by
+    <li class="footer">Generated on Sat Nov 3 2018 02:26:24 for Hydra by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.14 </li>
   </ul>

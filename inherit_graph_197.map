@@ -1,3 +1,4 @@
 <map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
-<area shape="rect" id="node1" href="$classhydra_1_1Print.html" title="hydra::Print" alt="" coords="5,5,95,32"/>
+<area shape="rect" id="node1" href="$structhydra_1_1Integral.html" title="hydra::Integral\&lt; Trapezoidal\lShapeAnalyticalIntegral \&gt;" alt="" coords="5,5,189,47"/>
+<area shape="rect" id="node2" href="$classhydra_1_1TrapezoidalShapeAnalyticalIntegral.html" title="hydra::TrapezoidalShapeAnalytical\lIntegral" alt="" coords="237,5,460,47"/>
 </map>

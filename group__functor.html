@@ -36,7 +36,7 @@
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">Hydra
-   &#160;<span id="projectnumber">2.1.0</span>
+   &#160;<span id="projectnumber">2.2.1</span>
    </div>
    <div id="projectbrief">A header-only templated C++ framework to perform data analysis on massively parallel platforms.</div>
   </td>
@@ -138,14 +138,14 @@ Data Structures</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:ga039a5582fbb2830db577f02056555a6d"><td class="memTemplParams" colspan="2">template&lt;typename L , typename ... T&gt; </td></tr>
-<tr class="memitem:ga039a5582fbb2830db577f02056555a6d"><td class="memTemplItemLeft" align="right" valign="top">auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__functor.html#ga039a5582fbb2830db577f02056555a6d">hydra::wrap_lambda</a> (L const &amp;f, T ...pars) -&gt; decltype(<a class="el" href="namespacehydra_1_1detail.html#a34f5637c265f0432130b335c2590345b">detail::wrap_lambda_helper</a>(f, typename <a class="el" href="namespacehydra_1_1detail.html#structhydra_1_1detail_1_1function__traits">detail::function_traits</a>&lt; L &gt;::return_type(), typename <a class="el" href="namespacehydra_1_1detail.html#structhydra_1_1detail_1_1function__traits">detail::function_traits</a>&lt; L &gt;::args_type(), std::array&lt; <a class="el" href="group__fit.html#structhydra_1_1Parameter">Parameter</a>, sizeof...(T)&gt;()))</td></tr>
-<tr class="memdesc:ga039a5582fbb2830db577f02056555a6d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Function template for wrap a C++11 lambda into a hydra lambda with a certain number of parameters.  <a href="group__functor.html#ga039a5582fbb2830db577f02056555a6d">More...</a><br /></td></tr>
-<tr class="separator:ga039a5582fbb2830db577f02056555a6d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga53506830108537bc49811415296ba738"><td class="memTemplParams" colspan="2">template&lt;typename L &gt; </td></tr>
-<tr class="memitem:ga53506830108537bc49811415296ba738"><td class="memTemplItemLeft" align="right" valign="top">auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__functor.html#ga53506830108537bc49811415296ba738">hydra::wrap_lambda</a> (L const &amp;f) -&gt; decltype(<a class="el" href="namespacehydra_1_1detail.html#a34f5637c265f0432130b335c2590345b">detail::wrap_lambda_helper</a>(f, typename <a class="el" href="namespacehydra_1_1detail.html#structhydra_1_1detail_1_1function__traits">detail::function_traits</a>&lt; L &gt;::return_type(), typename <a class="el" href="namespacehydra_1_1detail.html#structhydra_1_1detail_1_1function__traits">detail::function_traits</a>&lt; L &gt;::args_type()))</td></tr>
-<tr class="memdesc:ga53506830108537bc49811415296ba738"><td class="mdescLeft">&#160;</td><td class="mdescRight">Function template for wrap a C++11 lambda into a hydra lambda.  <a href="group__functor.html#ga53506830108537bc49811415296ba738">More...</a><br /></td></tr>
-<tr class="separator:ga53506830108537bc49811415296ba738"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga1ed4b0fb2957a3933162b9fc3f386203"><td class="memTemplParams" colspan="2">template&lt;typename L , typename ... T&gt; </td></tr>
+<tr class="memitem:ga1ed4b0fb2957a3933162b9fc3f386203"><td class="memTemplItemLeft" align="right" valign="top">auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__functor.html#ga1ed4b0fb2957a3933162b9fc3f386203">hydra::wrap_lambda</a> (L const &amp;f, T const &amp;...pars) -&gt; decltype(<a class="el" href="namespacehydra_1_1detail.html#a34f5637c265f0432130b335c2590345b">detail::wrap_lambda_helper</a>(std::declval&lt; L &gt;(), std::declval&lt; typename <a class="el" href="namespacehydra_1_1detail.html#structhydra_1_1detail_1_1function__traits">detail::function_traits</a>&lt; L &gt;::return_type &gt;(), std::declval&lt; typename <a class="el" href="namespacehydra_1_1detail.html#structhydra_1_1detail_1_1function__traits">detail::function_traits</a>&lt; L &gt;::args_type &gt;(), std::declval&lt; std::array&lt; <a class="el" href="group__fit.html#structhydra_1_1Parameter">Parameter</a>, sizeof...(T)&gt;&gt;()))</td></tr>
+<tr class="memdesc:ga1ed4b0fb2957a3933162b9fc3f386203"><td class="mdescLeft">&#160;</td><td class="mdescRight">Function template for wrap a C++11 lambda into a hydra lambda with a certain number of parameters.  <a href="group__functor.html#ga1ed4b0fb2957a3933162b9fc3f386203">More...</a><br /></td></tr>
+<tr class="separator:ga1ed4b0fb2957a3933162b9fc3f386203"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gaaa81f25675f16b161be78aa2b0cfb307"><td class="memTemplParams" colspan="2">template&lt;typename L &gt; </td></tr>
+<tr class="memitem:gaaa81f25675f16b161be78aa2b0cfb307"><td class="memTemplItemLeft" align="right" valign="top">auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__functor.html#gaaa81f25675f16b161be78aa2b0cfb307">hydra::wrap_lambda</a> (L const &amp;f) -&gt; decltype(<a class="el" href="namespacehydra_1_1detail.html#a34f5637c265f0432130b335c2590345b">detail::wrap_lambda_helper</a>(std::declval&lt; L &gt;(), std::declval&lt; typename <a class="el" href="namespacehydra_1_1detail.html#structhydra_1_1detail_1_1function__traits">detail::function_traits</a>&lt; L &gt;::return_type &gt;(), std::declval&lt; typename <a class="el" href="namespacehydra_1_1detail.html#structhydra_1_1detail_1_1function__traits">detail::function_traits</a>&lt; L &gt;::args_type &gt;()))</td></tr>
+<tr class="memdesc:gaaa81f25675f16b161be78aa2b0cfb307"><td class="mdescLeft">&#160;</td><td class="mdescRight">Function template for wrap a C++11 lambda into a hydra lambda.  <a href="group__functor.html#gaaa81f25675f16b161be78aa2b0cfb307">More...</a><br /></td></tr>
+<tr class="separator:gaaa81f25675f16b161be78aa2b0cfb307"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <p>Functor base types and arithmetic operations. </p>
@@ -173,7 +173,7 @@ class hydra::BaseFunctor&lt; Functor, ReturnType, NPARAM &gt;</h3>
   </table>
   </dd>
 </dl>
-<dl><dt><b>Examples: </b></dt><dd><a class="el" href="dalitz_plot_8inl-example.html#_a1">dalitz_plot.inl</a>.</dd>
+<dl><dt><b>Examples: </b></dt><dd><a class="el" href="dalitz_plot_8C-example.html#_a1">dalitz_plot.C</a>, and <a class="el" href="dalitz_plot_8inl-example.html#_a1">dalitz_plot.inl</a>.</dd>
 </dl></div><div class="dynheader">
 Inheritance diagram for hydra::BaseFunctor&lt; Functor, ReturnType, NPARAM &gt;:</div>
 <div class="dyncontent">
@@ -211,15 +211,6 @@ Collaboration diagram for hydra::BaseFunctor&lt; Functor, ReturnType, NPARAM &gt
 <tr class="separator:a3ab4082ff43fc2ff2dc575d3684c8791"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:acdccdd48f4471564c7bb207133f550a4"><td class="memItemLeft" align="right" valign="top">__hydra_host__ __hydra_device__ <a class="el" href="namespacehydra.html#a971e94bcb8c43741d11f9d8eb98f5fab">GReal_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__functor.html#acdccdd48f4471564c7bb207133f550a4">GetNorm</a> () const</td></tr>
 <tr class="separator:acdccdd48f4471564c7bb207133f550a4"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a7772e829ca5ec5acceb96b81b323d80a"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
-<tr class="memitem:a7772e829ca5ec5acceb96b81b323d80a"><td class="memTemplItemLeft" align="right" valign="top">__hydra_host__ __hydra_device__ HYDRA_EXTERNAL_NS::thrust::detail::enable_if&lt; !(<a class="el" href="structhydra_1_1detail_1_1is__instantiation__of.html">detail::is_instantiation_of</a>&lt; HYDRA_EXTERNAL_NS::thrust::tuple, typename HYDRA_EXTERNAL_NS::thrust::detail::remove_const&lt; typename HYDRA_EXTERNAL_NS::thrust::detail::remove_reference&lt; T &gt;::type &gt;::type &gt;::value||<a class="el" href="structhydra_1_1detail_1_1is__instantiation__of.html">detail::is_instantiation_of</a>&lt; HYDRA_EXTERNAL_NS::thrust::detail::tuple_of_iterator_references, typename HYDRA_EXTERNAL_NS::thrust::detail::remove_const&lt; typename HYDRA_EXTERNAL_NS::thrust::detail::remove_reference&lt; T &gt;::type &gt;::type &gt;::value), <a class="el" href="group__functor.html#a6f086a61951fecd03bb12a7588efc5e9">return_type</a> &gt;::type&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__functor.html#a7772e829ca5ec5acceb96b81b323d80a">interface</a> (T &amp;&amp;x) const</td></tr>
-<tr class="separator:a7772e829ca5ec5acceb96b81b323d80a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac8b7c5c959241f4b0cb2ff8d136eec28"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
-<tr class="memitem:ac8b7c5c959241f4b0cb2ff8d136eec28"><td class="memTemplItemLeft" align="right" valign="top">__hydra_host__ __hydra_device__ HYDRA_EXTERNAL_NS::thrust::detail::enable_if&lt;(<a class="el" href="structhydra_1_1detail_1_1is__instantiation__of.html">detail::is_instantiation_of</a>&lt; HYDRA_EXTERNAL_NS::thrust::tuple, typename HYDRA_EXTERNAL_NS::thrust::detail::remove_const&lt; typename HYDRA_EXTERNAL_NS::thrust::detail::remove_reference&lt; T &gt;::type &gt;::type &gt;::value||<a class="el" href="structhydra_1_1detail_1_1is__instantiation__of.html">detail::is_instantiation_of</a>&lt; HYDRA_EXTERNAL_NS::thrust::detail::tuple_of_iterator_references, typename HYDRA_EXTERNAL_NS::thrust::detail::remove_const&lt; typename HYDRA_EXTERNAL_NS::thrust::detail::remove_reference&lt; T &gt;::type &gt;::type &gt;::value) &amp;&amp;<a class="el" href="structhydra_1_1detail_1_1is__homogeneous.html">detail::is_homogeneous</a>&lt; typename HYDRA_EXTERNAL_NS::thrust::tuple_element&lt; 0, typename HYDRA_EXTERNAL_NS::thrust::detail::remove_const&lt; typename HYDRA_EXTERNAL_NS::thrust::detail::remove_reference&lt; T &gt;::type &gt;::type &gt;::type, typename HYDRA_EXTERNAL_NS::thrust::detail::remove_const&lt; typename HYDRA_EXTERNAL_NS::thrust::detail::remove_reference&lt; T &gt;::type &gt;::type &gt;::value, <a class="el" href="group__functor.html#a6f086a61951fecd03bb12a7588efc5e9">return_type</a> &gt;::type&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__functor.html#ac8b7c5c959241f4b0cb2ff8d136eec28">interface</a> (T &amp;&amp;x) const</td></tr>
-<tr class="separator:ac8b7c5c959241f4b0cb2ff8d136eec28"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a4cc228c833fe299064ebd0bffabde096"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
-<tr class="memitem:a4cc228c833fe299064ebd0bffabde096"><td class="memTemplItemLeft" align="right" valign="top">__hydra_host__ __hydra_device__ HYDRA_EXTERNAL_NS::thrust::detail::enable_if&lt; <a class="el" href="structhydra_1_1detail_1_1is__instantiation__of.html">detail::is_instantiation_of</a>&lt; HYDRA_EXTERNAL_NS::thrust::tuple, typename std::remove_reference&lt; T &gt;::type &gt;::value &amp;&amp;!(<a class="el" href="structhydra_1_1detail_1_1is__homogeneous.html">detail::is_homogeneous</a>&lt; typename HYDRA_EXTERNAL_NS::thrust::tuple_element&lt; 0, typename HYDRA_EXTERNAL_NS::thrust::detail::remove_const&lt; typename HYDRA_EXTERNAL_NS::thrust::detail::remove_reference&lt; T &gt;::type &gt;::type &gt;::type, typename HYDRA_EXTERNAL_NS::thrust::detail::remove_const&lt; typename HYDRA_EXTERNAL_NS::thrust::detail::remove_reference&lt; T &gt;::type &gt;::type &gt;::value), <a class="el" href="group__functor.html#a6f086a61951fecd03bb12a7588efc5e9">return_type</a> &gt;::type&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__functor.html#a4cc228c833fe299064ebd0bffabde096">interface</a> (T &amp;&amp;x) const</td></tr>
-<tr class="separator:a4cc228c833fe299064ebd0bffabde096"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a23a24709b6bd23c23408297257652e87"><td class="memItemLeft" align="right" valign="top">__hydra_host__ __hydra_device__ <a class="el" href="namespace_3globalScope_4.html#classbool">bool</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__functor.html#a23a24709b6bd23c23408297257652e87">IsCached</a> () const</td></tr>
 <tr class="separator:a23a24709b6bd23c23408297257652e87"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a45b039126e994cc3d16c5691f6a0c9aa"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
@@ -549,96 +540,6 @@ template&lt;typename Functor, typename ReturnType, size_t NPARAM&gt; </div>
           <td class="memname">__hydra_host__ __hydra_device__ <a class="el" href="namespacehydra.html#a971e94bcb8c43741d11f9d8eb98f5fab">GReal_t</a> <a class="el" href="group__functor.html#classhydra_1_1BaseFunctor">hydra::BaseFunctor</a>&lt; Functor, ReturnType, NPARAM &gt;::GetNorm </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
-          <td> const</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="a7772e829ca5ec5acceb96b81b323d80a"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a7772e829ca5ec5acceb96b81b323d80a">&#9670;&nbsp;</a></span>interface() <span class="overload">[1/3]</span></h2>
-
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;typename Functor, typename ReturnType, size_t NPARAM&gt; </div>
-<div class="memtemplate">
-template&lt;typename T &gt; </div>
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">__hydra_host__ __hydra_device__ HYDRA_EXTERNAL_NS::thrust::detail::enable_if&lt; ! ( <a class="el" href="structhydra_1_1detail_1_1is__instantiation__of.html">detail::is_instantiation_of</a>&lt;HYDRA_EXTERNAL_NS::thrust::tuple, typename HYDRA_EXTERNAL_NS::thrust::detail::remove_const&lt; typename HYDRA_EXTERNAL_NS::thrust::detail::remove_reference&lt; T&gt;::type &gt;::type &gt;::value || <a class="el" href="structhydra_1_1detail_1_1is__instantiation__of.html">detail::is_instantiation_of</a>&lt; HYDRA_EXTERNAL_NS::thrust::detail::tuple_of_iterator_references, typename HYDRA_EXTERNAL_NS::thrust::detail::remove_const&lt; typename HYDRA_EXTERNAL_NS::thrust::detail::remove_reference&lt;T&gt;::type &gt;::type &gt;::value ) , <a class="el" href="group__functor.html#a6f086a61951fecd03bb12a7588efc5e9">return_type</a>&gt;::type <a class="el" href="group__functor.html#classhydra_1_1BaseFunctor">hydra::BaseFunctor</a>&lt; Functor, ReturnType, NPARAM &gt;::interface </td>
-          <td>(</td>
-          <td class="paramtype">T &amp;&amp;&#160;</td>
-          <td class="paramname"><em>x</em></td><td>)</td>
-          <td> const</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="ac8b7c5c959241f4b0cb2ff8d136eec28"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ac8b7c5c959241f4b0cb2ff8d136eec28">&#9670;&nbsp;</a></span>interface() <span class="overload">[2/3]</span></h2>
-
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;typename Functor, typename ReturnType, size_t NPARAM&gt; </div>
-<div class="memtemplate">
-template&lt;typename T &gt; </div>
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">__hydra_host__ __hydra_device__ HYDRA_EXTERNAL_NS::thrust::detail::enable_if&lt;( <a class="el" href="structhydra_1_1detail_1_1is__instantiation__of.html">detail::is_instantiation_of</a>&lt;HYDRA_EXTERNAL_NS::thrust::tuple, typename HYDRA_EXTERNAL_NS::thrust::detail::remove_const&lt; typename HYDRA_EXTERNAL_NS::thrust::detail::remove_reference&lt;T&gt;::type &gt;::type &gt;::value || <a class="el" href="structhydra_1_1detail_1_1is__instantiation__of.html">detail::is_instantiation_of</a>&lt;HYDRA_EXTERNAL_NS::thrust::detail::tuple_of_iterator_references, typename HYDRA_EXTERNAL_NS::thrust::detail::remove_const&lt; typename HYDRA_EXTERNAL_NS::thrust::detail::remove_reference&lt;T&gt;::type &gt;::type &gt;::value ) &amp;&amp; <a class="el" href="structhydra_1_1detail_1_1is__homogeneous.html">detail::is_homogeneous</a>&lt; typename HYDRA_EXTERNAL_NS::thrust::tuple_element&lt;0, typename HYDRA_EXTERNAL_NS::thrust::detail::remove_const&lt; typename HYDRA_EXTERNAL_NS::thrust::detail::remove_reference&lt;T&gt;::type &gt;::type &gt;::type, typename HYDRA_EXTERNAL_NS::thrust::detail::remove_const&lt; typename HYDRA_EXTERNAL_NS::thrust::detail::remove_reference&lt;T&gt;::type &gt;::type &gt;::value, <a class="el" href="group__functor.html#a6f086a61951fecd03bb12a7588efc5e9">return_type</a>&gt;::type <a class="el" href="group__functor.html#classhydra_1_1BaseFunctor">hydra::BaseFunctor</a>&lt; Functor, ReturnType, NPARAM &gt;::interface </td>
-          <td>(</td>
-          <td class="paramtype">T &amp;&amp;&#160;</td>
-          <td class="paramname"><em>x</em></td><td>)</td>
-          <td> const</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="a4cc228c833fe299064ebd0bffabde096"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a4cc228c833fe299064ebd0bffabde096">&#9670;&nbsp;</a></span>interface() <span class="overload">[3/3]</span></h2>
-
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;typename Functor, typename ReturnType, size_t NPARAM&gt; </div>
-<div class="memtemplate">
-template&lt;typename T &gt; </div>
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">__hydra_host__ __hydra_device__ HYDRA_EXTERNAL_NS::thrust::detail::enable_if&lt; <a class="el" href="structhydra_1_1detail_1_1is__instantiation__of.html">detail::is_instantiation_of</a>&lt;HYDRA_EXTERNAL_NS::thrust::tuple, typename std::remove_reference&lt;T&gt;::type &gt;::value &amp;&amp; !(<a class="el" href="structhydra_1_1detail_1_1is__homogeneous.html">detail::is_homogeneous</a>&lt; typename HYDRA_EXTERNAL_NS::thrust::tuple_element&lt; 0, typename HYDRA_EXTERNAL_NS::thrust::detail::remove_const&lt; typename HYDRA_EXTERNAL_NS::thrust::detail::remove_reference&lt;T&gt;::type &gt;::type &gt;::type, typename HYDRA_EXTERNAL_NS::thrust::detail::remove_const&lt; typename HYDRA_EXTERNAL_NS::thrust::detail::remove_reference&lt;T&gt;::type &gt;::type&gt;::value), <a class="el" href="group__functor.html#a6f086a61951fecd03bb12a7588efc5e9">return_type</a>&gt;::type <a class="el" href="group__functor.html#classhydra_1_1BaseFunctor">hydra::BaseFunctor</a>&lt; Functor, ReturnType, NPARAM &gt;::interface </td>
-          <td>(</td>
-          <td class="paramtype">T &amp;&amp;&#160;</td>
-          <td class="paramname"><em>x</em></td><td>)</td>
           <td> const</td>
         </tr>
       </table>
@@ -1034,12 +935,6 @@ Collaboration diagram for hydra::LambdaWrapper&lt; ReturnType(ArgType...), L, N 
 <tr class="separator:a3ab4082ff43fc2ff2dc575d3684c8791 inherit pub_methods_group__functor"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:acdccdd48f4471564c7bb207133f550a4 inherit pub_methods_group__functor"><td class="memItemLeft" align="right" valign="top">__hydra_host__ __hydra_device__ <a class="el" href="namespacehydra.html#a971e94bcb8c43741d11f9d8eb98f5fab">GReal_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__functor.html#acdccdd48f4471564c7bb207133f550a4">GetNorm</a> () const</td></tr>
 <tr class="separator:acdccdd48f4471564c7bb207133f550a4 inherit pub_methods_group__functor"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a7772e829ca5ec5acceb96b81b323d80a inherit pub_methods_group__functor"><td class="memItemLeft" align="right" valign="top">__hydra_host__ __hydra_device__ HYDRA_EXTERNAL_NS::thrust::detail::enable_if&lt; !(<a class="el" href="structhydra_1_1detail_1_1is__instantiation__of.html">detail::is_instantiation_of</a>&lt; HYDRA_EXTERNAL_NS::thrust::tuple, typename HYDRA_EXTERNAL_NS::thrust::detail::remove_const&lt; typename HYDRA_EXTERNAL_NS::thrust::detail::remove_reference&lt; T &gt;::type &gt;::type &gt;::value||<a class="el" href="structhydra_1_1detail_1_1is__instantiation__of.html">detail::is_instantiation_of</a>&lt; HYDRA_EXTERNAL_NS::thrust::detail::tuple_of_iterator_references, typename HYDRA_EXTERNAL_NS::thrust::detail::remove_const&lt; typename HYDRA_EXTERNAL_NS::thrust::detail::remove_reference&lt; T &gt;::type &gt;::type &gt;::value), <a class="el" href="group__functor.html#a6f086a61951fecd03bb12a7588efc5e9">return_type</a> &gt;::type&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__functor.html#a7772e829ca5ec5acceb96b81b323d80a">interface</a> (T &amp;&amp;x) const</td></tr>
-<tr class="separator:a7772e829ca5ec5acceb96b81b323d80a inherit pub_methods_group__functor"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac8b7c5c959241f4b0cb2ff8d136eec28 inherit pub_methods_group__functor"><td class="memItemLeft" align="right" valign="top">__hydra_host__ __hydra_device__ HYDRA_EXTERNAL_NS::thrust::detail::enable_if&lt;(<a class="el" href="structhydra_1_1detail_1_1is__instantiation__of.html">detail::is_instantiation_of</a>&lt; HYDRA_EXTERNAL_NS::thrust::tuple, typename HYDRA_EXTERNAL_NS::thrust::detail::remove_const&lt; typename HYDRA_EXTERNAL_NS::thrust::detail::remove_reference&lt; T &gt;::type &gt;::type &gt;::value||<a class="el" href="structhydra_1_1detail_1_1is__instantiation__of.html">detail::is_instantiation_of</a>&lt; HYDRA_EXTERNAL_NS::thrust::detail::tuple_of_iterator_references, typename HYDRA_EXTERNAL_NS::thrust::detail::remove_const&lt; typename HYDRA_EXTERNAL_NS::thrust::detail::remove_reference&lt; T &gt;::type &gt;::type &gt;::value) &amp;&amp;<a class="el" href="structhydra_1_1detail_1_1is__homogeneous.html">detail::is_homogeneous</a>&lt; typename HYDRA_EXTERNAL_NS::thrust::tuple_element&lt; 0, typename HYDRA_EXTERNAL_NS::thrust::detail::remove_const&lt; typename HYDRA_EXTERNAL_NS::thrust::detail::remove_reference&lt; T &gt;::type &gt;::type &gt;::type, typename HYDRA_EXTERNAL_NS::thrust::detail::remove_const&lt; typename HYDRA_EXTERNAL_NS::thrust::detail::remove_reference&lt; T &gt;::type &gt;::type &gt;::value, <a class="el" href="group__functor.html#a6f086a61951fecd03bb12a7588efc5e9">return_type</a> &gt;::type&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__functor.html#ac8b7c5c959241f4b0cb2ff8d136eec28">interface</a> (T &amp;&amp;x) const</td></tr>
-<tr class="separator:ac8b7c5c959241f4b0cb2ff8d136eec28 inherit pub_methods_group__functor"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a4cc228c833fe299064ebd0bffabde096 inherit pub_methods_group__functor"><td class="memItemLeft" align="right" valign="top">__hydra_host__ __hydra_device__ HYDRA_EXTERNAL_NS::thrust::detail::enable_if&lt; <a class="el" href="structhydra_1_1detail_1_1is__instantiation__of.html">detail::is_instantiation_of</a>&lt; HYDRA_EXTERNAL_NS::thrust::tuple, typename std::remove_reference&lt; T &gt;::type &gt;::value &amp;&amp;!(<a class="el" href="structhydra_1_1detail_1_1is__homogeneous.html">detail::is_homogeneous</a>&lt; typename HYDRA_EXTERNAL_NS::thrust::tuple_element&lt; 0, typename HYDRA_EXTERNAL_NS::thrust::detail::remove_const&lt; typename HYDRA_EXTERNAL_NS::thrust::detail::remove_reference&lt; T &gt;::type &gt;::type &gt;::type, typename HYDRA_EXTERNAL_NS::thrust::detail::remove_const&lt; typename HYDRA_EXTERNAL_NS::thrust::detail::remove_reference&lt; T &gt;::type &gt;::type &gt;::value), <a class="el" href="group__functor.html#a6f086a61951fecd03bb12a7588efc5e9">return_type</a> &gt;::type&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__functor.html#a4cc228c833fe299064ebd0bffabde096">interface</a> (T &amp;&amp;x) const</td></tr>
-<tr class="separator:a4cc228c833fe299064ebd0bffabde096 inherit pub_methods_group__functor"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a23a24709b6bd23c23408297257652e87 inherit pub_methods_group__functor"><td class="memItemLeft" align="right" valign="top">__hydra_host__ __hydra_device__ <a class="el" href="namespace_3globalScope_4.html#classbool">bool</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__functor.html#a23a24709b6bd23c23408297257652e87">IsCached</a> () const</td></tr>
 <tr class="separator:a23a24709b6bd23c23408297257652e87 inherit pub_methods_group__functor"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a45b039126e994cc3d16c5691f6a0c9aa inherit pub_methods_group__functor"><td class="memItemLeft" align="right" valign="top">__hydra_host__ __hydra_device__ <a class="el" href="group__functor.html#a6f086a61951fecd03bb12a7588efc5e9">return_type</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__functor.html#a45b039126e994cc3d16c5691f6a0c9aa">operator()</a> (unsigned <a class="el" href="namespace_3globalScope_4.html#classint">int</a> n, T *x) const</td></tr>
@@ -1447,8 +1342,8 @@ template&lt;typename ReturnType , typename ... ArgType, typename L , size_t N&gt
 </div>
 </div>
 <h2 class="groupheader">Function Documentation</h2>
-<a id="ga039a5582fbb2830db577f02056555a6d"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ga039a5582fbb2830db577f02056555a6d">&#9670;&nbsp;</a></span>wrap_lambda() <span class="overload">[1/2]</span></h2>
+<a id="ga1ed4b0fb2957a3933162b9fc3f386203"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga1ed4b0fb2957a3933162b9fc3f386203">&#9670;&nbsp;</a></span>wrap_lambda() <span class="overload">[1/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1464,14 +1359,16 @@ template&lt;typename L , typename ... T&gt; </div>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">T ...&#160;</td>
+          <td class="paramtype">T const &amp;...&#160;</td>
           <td class="paramname"><em>pars</em>&#160;</td>
         </tr>
         <tr>
           <td></td>
           <td>)</td>
-          <td></td><td> -&gt; decltype(<a class="el" href="namespacehydra_1_1detail.html#a34f5637c265f0432130b335c2590345b">detail::wrap_lambda_helper</a>(f, typename <a class="el" href="namespacehydra_1_1detail.html#structhydra_1_1detail_1_1function__traits">detail::function_traits</a>&lt;L&gt;::return_type() ,
-		typename <a class="el" href="namespacehydra_1_1detail.html#structhydra_1_1detail_1_1function__traits">detail::function_traits</a>&lt;L&gt;::args_type(),  std::array&lt;<a class="el" href="group__fit.html#structhydra_1_1Parameter">Parameter</a>, sizeof...(T)&gt;()))
+          <td></td><td> -&gt; decltype(<a class="el" href="namespacehydra_1_1detail.html#a34f5637c265f0432130b335c2590345b">detail::wrap_lambda_helper</a>( std::declval&lt;L&gt;(),
+		std::declval&lt;typename <a class="el" href="namespacehydra_1_1detail.html#structhydra_1_1detail_1_1function__traits">detail::function_traits</a>&lt;L&gt;::return_type&gt;() ,
+		std::declval&lt;typename <a class="el" href="namespacehydra_1_1detail.html#structhydra_1_1detail_1_1function__traits">detail::function_traits</a>&lt;L&gt;::args_type&gt;() ,
+		std::declval&lt;std::array&lt;<a class="el" href="group__fit.html#structhydra_1_1Parameter">Parameter</a>, sizeof...(T)&gt;&gt;()))
 </td>
         </tr>
       </table>
@@ -1488,12 +1385,12 @@ template&lt;typename L , typename ... T&gt; </div>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd><a class="el" href="namespacehydra.html#classhydra_1_1LambdaWrapper">LambdaWrapper</a> object. </dd></dl>
-<dl><dt><b>Examples: </b></dt><dd><a class="el" href="adaptive_gauss_kronrod_8inl-example.html#a4">adaptive_gauss_kronrod.inl</a>, <a class="el" href="basic_fit_8inl-example.html#a12">basic_fit.inl</a>, <a class="el" href="dalitz_plot_8inl-example.html#a25">dalitz_plot.inl</a>, <a class="el" href="dense_histogram_8inl-example.html#a4">dense_histogram.inl</a>, <a class="el" href="extended_logLL_fit_8inl-example.html#a18">extended_logLL_fit.inl</a>, <a class="el" href="fit_gaussian_8C-example.html#a12">fit_gaussian.C</a>, <a class="el" href="fractional_logLL_fit_8inl-example.html#a17">fractional_logLL_fit.inl</a>, <a class="el" href="gauss_kronrod_8inl-example.html#a4">gauss_kronrod.inl</a>, <a class="el" href="multidimensional_fit_8inl-example.html#a8">multidimensional_fit.inl</a>, <a class="el" href="phsp_averaging_functor_8inl-example.html#a4">phsp_averaging_functor.inl</a>, <a class="el" href="phsp_basic_8inl-example.html#a4">phsp_basic.inl</a>, <a class="el" href="phsp_reweighting_8inl-example.html#a4">phsp_reweighting.inl</a>, <a class="el" href="phsp_unweighting_functor_8inl-example.html#a4">phsp_unweighting_functor.inl</a>, <a class="el" href="plain_mc_8inl-example.html#a4">plain_mc.inl</a>, <a class="el" href="sample_distribution_8inl-example.html#a4">sample_distribution.inl</a>, <a class="el" href="sparse_histogram_8inl-example.html#a4">sparse_histogram.inl</a>, <a class="el" href="splot_8inl-example.html#a19">splot.inl</a>, and <a class="el" href="vegas_8inl-example.html#a4">vegas.inl</a>.</dd>
+<dl><dt><b>Examples: </b></dt><dd><a class="el" href="adaptive_gauss_kronrod_8inl-example.html#a5">adaptive_gauss_kronrod.inl</a>, <a class="el" href="basic_fit_8inl-example.html#a13">basic_fit.inl</a>, <a class="el" href="basic_fit_range_semantics_8inl-example.html#a13">basic_fit_range_semantics.inl</a>, <a class="el" href="dalitz_plot_8C-example.html#a25">dalitz_plot.C</a>, <a class="el" href="dalitz_plot_8inl-example.html#a25">dalitz_plot.inl</a>, <a class="el" href="dense_histogram_8inl-example.html#a4">dense_histogram.inl</a>, <a class="el" href="extended_logLL_fit_8inl-example.html#a18">extended_logLL_fit.inl</a>, <a class="el" href="fit_gaussian_8C-example.html#a12">fit_gaussian.C</a>, <a class="el" href="fit_johnson_8C-example.html#a12">fit_johnson.C</a>, <a class="el" href="fractional_logLL_fit_8inl-example.html#a17">fractional_logLL_fit.inl</a>, <a class="el" href="gauss_kronrod_8inl-example.html#a5">gauss_kronrod.inl</a>, <a class="el" href="multidimensional_fit_8inl-example.html#a9">multidimensional_fit.inl</a>, <a class="el" href="phsp_averaging_functor_8inl-example.html#a4">phsp_averaging_functor.inl</a>, <a class="el" href="phsp_basic_8inl-example.html#a4">phsp_basic.inl</a>, <a class="el" href="phsp_reweighting_8inl-example.html#a4">phsp_reweighting.inl</a>, <a class="el" href="phsp_unweighting_functor_8inl-example.html#a4">phsp_unweighting_functor.inl</a>, <a class="el" href="plain_mc_8inl-example.html#a5">plain_mc.inl</a>, <a class="el" href="range_semantics_8inl-example.html#a1">range_semantics.inl</a>, <a class="el" href="sample_distribution_8inl-example.html#a4">sample_distribution.inl</a>, <a class="el" href="sparse_histogram_8inl-example.html#a4">sparse_histogram.inl</a>, <a class="el" href="splot_8inl-example.html#a20">splot.inl</a>, and <a class="el" href="vegas_8inl-example.html#a5">vegas.inl</a>.</dd>
 </dl>
 </div>
 </div>
-<a id="ga53506830108537bc49811415296ba738"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ga53506830108537bc49811415296ba738">&#9670;&nbsp;</a></span>wrap_lambda() <span class="overload">[2/2]</span></h2>
+<a id="gaaa81f25675f16b161be78aa2b0cfb307"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#gaaa81f25675f16b161be78aa2b0cfb307">&#9670;&nbsp;</a></span>wrap_lambda() <span class="overload">[2/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1505,8 +1402,9 @@ template&lt;typename L &gt; </div>
           <td>(</td>
           <td class="paramtype">L const &amp;&#160;</td>
           <td class="paramname"><em>f</em></td><td>)</td>
-          <td> -&gt; decltype(<a class="el" href="namespacehydra_1_1detail.html#a34f5637c265f0432130b335c2590345b">detail::wrap_lambda_helper</a>(f, typename <a class="el" href="namespacehydra_1_1detail.html#structhydra_1_1detail_1_1function__traits">detail::function_traits</a>&lt;L&gt;::return_type() ,
-		typename <a class="el" href="namespacehydra_1_1detail.html#structhydra_1_1detail_1_1function__traits">detail::function_traits</a>&lt;L&gt;::args_type()))
+          <td> -&gt; decltype(<a class="el" href="namespacehydra_1_1detail.html#a34f5637c265f0432130b335c2590345b">detail::wrap_lambda_helper</a>(std::declval&lt;L&gt;(),
+		std::declval&lt;typename <a class="el" href="namespacehydra_1_1detail.html#structhydra_1_1detail_1_1function__traits">detail::function_traits</a>&lt;L&gt;::return_type&gt;() ,
+		std::declval&lt;typename <a class="el" href="namespacehydra_1_1detail.html#structhydra_1_1detail_1_1function__traits">detail::function_traits</a>&lt;L&gt;::args_type&gt;()))
 </td>
         </tr>
       </table>
@@ -1530,7 +1428,7 @@ template&lt;typename L &gt; </div>
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="footer">Generated on Fri Mar 23 2018 14:51:40 for Hydra by
+    <li class="footer">Generated on Sat Nov 3 2018 02:26:24 for Hydra by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.14 </li>
   </ul>

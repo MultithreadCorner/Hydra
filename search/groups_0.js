@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['data_20fitting',['Data fitting',['../group__fit.html',1,'']]]
+  ['common_20functors',['Common functors',['../group__common__functions.html',1,'']]]
 ];

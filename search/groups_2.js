@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['generic',['Generic',['../group__generic.html',1,'']]]
+  ['functor_20arithmetic',['Functor Arithmetic',['../group__functor.html',1,'']]]
 ];

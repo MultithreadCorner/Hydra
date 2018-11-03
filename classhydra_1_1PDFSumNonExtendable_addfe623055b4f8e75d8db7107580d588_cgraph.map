@@ -1,7 +1,0 @@
-<map id="hydra::PDFSumNonExtendable::operator=" name="hydra::PDFSumNonExtendable::operator=">
-<area shape="rect" id="node2" href="$classhydra_1_1PDFSumNonExtendable.html#ac6ae9ea04b3976dc486cfd65fb149ff1" title="hydra::PDFSumNonExtendable\l::GetCoeficient" alt="" coords="259,5,464,47"/>
-<area shape="rect" id="node3" href="$classhydra_1_1PDFSumNonExtendable.html#ad3e08ddc89e9a4729b12edd1485639a7" title="hydra::PDFSumNonExtendable\l::GetCoefPartialSum" alt="" coords="259,71,464,112"/>
-<area shape="rect" id="node4" href="$classhydra_1_1PDFSumNonExtendable.html#ad5d20257ddc737e74eacfaf0f11c9e00" title="hydra::PDFSumNonExtendable\l::GetCoefSum" alt="" coords="259,136,464,177"/>
-<area shape="rect" id="node5" href="$classhydra_1_1PDFSumNonExtendable.html#a5d0f73e71f2f603889630e4eb572ebf9" title="hydra::PDFSumNonExtendable\l::GetFunctors" alt="" coords="259,201,464,243"/>
-<area shape="rect" id="node6" href="$classhydra_1_1PDFSumNonExtendable.html#aafcddb58efe517fc913cb7c651709536" title="hydra::PDFSumNonExtendable\l::GetPDFs" alt="" coords="259,267,464,308"/>
-</map>

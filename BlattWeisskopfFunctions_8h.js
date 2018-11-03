@@ -1,6 +1,6 @@
 var BlattWeisskopfFunctions_8h =
 [
-    [ "BarrierFactor", "BlattWeisskopfFunctions_8h.html#acd995d684b15024c891571fe47518404", null ],
+    [ "BarrierFactor", "BlattWeisskopfFunctions_8h.html#gacd995d684b15024c891571fe47518404", null ],
     [ "BarrierFactor< hydra::DWave >", "BlattWeisskopfFunctions_8h.html#a03f4e98f986e55037e1a01fe4d9b8fc8", null ],
     [ "BarrierFactor< hydra::FWave >", "BlattWeisskopfFunctions_8h.html#ac5a1e302e48427c947ab2084811df1df", null ],
     [ "BarrierFactor< hydra::GWave >", "BlattWeisskopfFunctions_8h.html#ac0e0a9c294368d8d5b74fb919e261bef", null ],

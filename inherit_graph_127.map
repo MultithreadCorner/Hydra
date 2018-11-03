@@ -1,3 +1,70 @@
 <map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
-<area shape="rect" id="node1" href="$namespacehydra_1_1detail.html#structhydra_1_1detail_1_1tuple__cat__type" title="hydra::detail::tuple\l_cat_type\&lt; Tuple1, Tuple2 \&gt;" alt="" coords="5,5,195,47"/>
+<area shape="rect" id="node1" href="$classhydra_1_1detail_1_1Parameters.html" title="hydra::detail::Parameters\l\&lt; NPARAM \&gt;" alt="" coords="5,1394,173,1435"/>
+<area shape="rect" id="node2" href="$group__functor.html" title="hydra::BaseFunctor\l\&lt; ArgusShape\&lt; ArgIndex\l \&gt;, double, 3 \&gt;" alt="" coords="264,5,433,61"/>
+<area shape="rect" id="node4" href="$group__functor.html" title="hydra::BaseFunctor\l\&lt; BifurcatedGaussian\l\&lt; ArgIndex \&gt;, double, 3 \&gt;" alt="" coords="263,85,434,141"/>
+<area shape="rect" id="node6" href="$group__functor.html" title="hydra::BaseFunctor\l\&lt; BreitWignerLineShape\l\&lt; ResonanceWave, MotherWave,\l ArgIndex \&gt;, hydra::complex\l\&lt; double \&gt;, 2 \&gt;" alt="" coords="240,165,457,251"/>
+<area shape="rect" id="node8" href="$group__functor.html" title="hydra::BaseFunctor\l\&lt; BreitWignerLineShape\l\&lt; ResonanceWave, SWave,\l 0 \&gt;, hydra::complex\&lt; double \&gt;, 2 \&gt;" alt="" coords="233,275,464,346"/>
+<area shape="rect" id="node10" href="$group__functor.html" title="hydra::BaseFunctor\l\&lt; BreitWignerNR\&lt; ArgIndex\l \&gt;, double, 2 \&gt;" alt="" coords="257,371,440,427"/>
+<area shape="rect" id="node12" href="$group__functor.html" title="hydra::BaseFunctor\l\&lt; Chebychev\&lt; Order,\l ArgIndex \&gt;, double,\l Order+1 \&gt;" alt="" coords="275,451,422,522"/>
+<area shape="rect" id="node14" href="$group__functor.html" title="hydra::BaseFunctor\l\&lt; ChiSquare\&lt; ArgIndex\l \&gt;, double, 1 \&gt;" alt="" coords="269,547,428,603"/>
+<area shape="rect" id="node16" href="$group__functor.html" title="hydra::BaseFunctor\l\&lt; CosHelicityAngle,\l double, 0 \&gt;" alt="" coords="280,627,417,683"/>
+<area shape="rect" id="node18" href="$group__functor.html" title="hydra::BaseFunctor\l\&lt; CrystalBallShape\&lt;\l ArgIndex \&gt;, double, 4 \&gt;" alt="" coords="267,707,430,763"/>
+<area shape="rect" id="node20" href="$group__functor.html" title="hydra::BaseFunctor\l\&lt; CubicSpiline\&lt; N, 0\l \&gt;, GReal_t, 0 \&gt;" alt="" coords="277,787,420,843"/>
+<area shape="rect" id="node22" href="$group__functor.html" title="hydra::BaseFunctor\l\&lt; CubicSpiline\&lt; N, ArgIndex\l \&gt;, GReal_t, 0 \&gt;" alt="" coords="255,867,442,923"/>
+<area shape="rect" id="node24" href="$group__functor.html" title="hydra::BaseFunctor\l\&lt; DeltaDMassBackground\l\&lt; ArgIndex \&gt;, double, 4 \&gt;" alt="" coords="261,947,436,1003"/>
+<area shape="rect" id="node26" href="$group__functor.html" title="hydra::BaseFunctor\l\&lt; Exponential\&lt; ArgIndex\l \&gt;, double, 1 \&gt;" alt="" coords="265,1027,432,1083"/>
+<area shape="rect" id="node28" href="$group__functor.html" title="hydra::BaseFunctor\l\&lt; Gaussian\&lt; ArgIndex\l \&gt;, double, 2 \&gt;" alt="" coords="272,1107,425,1163"/>
+<area shape="rect" id="node30" href="$group__functor.html" title="hydra::BaseFunctor\l\&lt; GaussianKDE\&lt; NBins,\l ArgIndex \&gt;, double, 0 \&gt;" alt="" coords="265,1187,432,1243"/>
+<area shape="rect" id="node32" href="$group__functor.html" title="hydra::BaseFunctor\l\&lt; Ipatia\&lt; ArgIndex \&gt;\l, double, 8 \&gt;" alt="" coords="277,1267,420,1323"/>
+<area shape="rect" id="node34" href="$group__functor.html" title="hydra::BaseFunctor\l\&lt; JohnsonSUShape\&lt; ArgIndex\l \&gt;, double, 4 \&gt;" alt="" coords="247,1347,450,1403"/>
+<area shape="rect" id="node36" href="$group__functor.html" title="hydra::BaseFunctor\l\&lt; LambdaWrapper\&lt; ReturnType\l(ArgType...), L, N \&gt;, ReturnType, N \&gt;" alt="" coords="229,1427,468,1483"/>
+<area shape="rect" id="node38" href="$group__functor.html" title="hydra::BaseFunctor\l\&lt; LogNormal\&lt; ArgIndex\l \&gt;, double, 2 \&gt;" alt="" coords="269,1507,429,1563"/>
+<area shape="rect" id="node40" href="$group__functor.html" title="hydra::BaseFunctor\l\&lt; M12PhaseSpaceLineShape\l\&lt; ArgIndex \&gt;, double, 0 \&gt;" alt="" coords="251,1587,446,1643"/>
+<area shape="rect" id="node42" href="$group__functor.html" title="hydra::BaseFunctor\l\&lt; M12SqPhaseSpaceLineShape\l\&lt; ArgIndex \&gt;, double, 0 \&gt;" alt="" coords="243,1667,454,1723"/>
+<area shape="rect" id="node44" href="$group__functor.html" title="hydra::BaseFunctor\l\&lt; NonResonant, hydra\l::complex\&lt; double \&gt;, 2 \&gt;" alt="" coords="265,1747,433,1803"/>
+<area shape="rect" id="node46" href="$group__functor.html" title="hydra::BaseFunctor\l\&lt; PlanesDeltaAngle,\l double, 0 \&gt;" alt="" coords="278,1827,419,1883"/>
+<area shape="rect" id="node48" href="$group__functor.html" title="hydra::BaseFunctor\l\&lt; Polynomial\&lt; Order,\l ArgIndex \&gt;, double,\l Order+1 \&gt;" alt="" coords="275,1907,422,1978"/>
+<area shape="rect" id="node50" href="$group__functor.html" title="hydra::BaseFunctor\l\&lt; Resonance\&lt; CHANNEL,\l L \&gt;, hydra::complex\l\&lt; double \&gt;, 4 \&gt;" alt="" coords="261,2002,437,2073"/>
+<area shape="rect" id="node52" href="$group__functor.html" title="hydra::BaseFunctor\l\&lt; ThreeBodyMassThresholdBackground\l\&lt; ArgIndex \&gt;, double, 4 \&gt;" alt="" coords="221,2097,476,2153"/>
+<area shape="rect" id="node54" href="$group__functor.html" title="hydra::BaseFunctor\l\&lt; TrapezoidalShape\&lt;\l ArgIndex \&gt;, double, 4 \&gt;" alt="" coords="267,2177,430,2233"/>
+<area shape="rect" id="node56" href="$group__functor.html" title="hydra::BaseFunctor\l\&lt; TriangularShape\&lt; ArgIndex\l \&gt;, double, 3 \&gt;" alt="" coords="253,2257,445,2313"/>
+<area shape="rect" id="node58" href="$group__functor.html" title="hydra::BaseFunctor\l\&lt; UniformShape\&lt; ArgIndex\l \&gt;, double, 2 \&gt;" alt="" coords="259,2337,439,2393"/>
+<area shape="rect" id="node60" href="$group__functor.html" title="hydra::BaseFunctor\l\&lt; WignerD\&lt; T\&lt; J \&gt;, T\l\&lt; M \&gt;, T\&lt; N \&gt; \&gt;, double, 0 \&gt;" alt="" coords="253,2417,444,2473"/>
+<area shape="rect" id="node62" href="$group__functor.html" title="hydra::BaseFunctor\l\&lt; WignerDMatrix\&lt; ArgIndex\l \&gt;, double, 0 \&gt;" alt="" coords="257,2497,440,2553"/>
+<area shape="rect" id="node64" href="$group__functor.html" title="hydra::BaseFunctor\l\&lt; ZemachFunction\&lt; L,\l 0 \&gt;, double, 0 \&gt;" alt="" coords="271,2577,426,2633"/>
+<area shape="rect" id="node66" href="$group__functor.html" title="hydra::BaseFunctor\l\&lt; ZemachFunction\&lt; L,\l ArgIndex \&gt;, double, 0 \&gt;" alt="" coords="267,2657,430,2713"/>
+<area shape="rect" id="node68" href="$group__functor.html#classhydra_1_1BaseFunctor" title="Base class for all functors in hydra. " alt="" coords="270,2737,427,2793"/>
+<area shape="rect" id="node3" href="$group__common__functions.html#classhydra_1_1ArgusShape" title="Implementation describing the ARGUS background shape. " alt="" coords="564,13,705,54"/>
+<area shape="rect" id="node5" href="$group__common__functions.html#classhydra_1_1BifurcatedGaussian" title="hydra::BifurcatedGaussian\l\&lt; ArgIndex \&gt;" alt="" coords="547,93,723,134"/>
+<area shape="rect" id="node7" href="$group__common__functions.html#classhydra_1_1BreitWignerLineShape" title="Breit&#45;Wigner line shape for 3 body resonant decays &#160;, where A is a &quot;long&#45;lived&quot; particle and &#160;and &#160;ar..." alt="" coords="526,180,743,236"/>
+<area shape="rect" id="node9" href="$group__common__functions.html" title="hydra::BreitWignerLineShape\&lt; L \&gt;" alt="" coords="524,297,745,324"/>
+<area shape="rect" id="node11" href="$classhydra_1_1BreitWignerNR.html" title="hydra::BreitWignerNR\l\&lt; ArgIndex \&gt;" alt="" coords="561,378,708,419"/>
+<area shape="rect" id="node13" href="$group__common__functions.html#classhydra_1_1Chebychev" title="The Chebyshev polynomials &#160;(first kind) are polynomials with the largest possible leading coefficient..." alt="" coords="547,466,722,507"/>
+<area shape="rect" id="node15" href="$group__common__functions.html#classhydra_1_1ChiSquare" title="The chi&#45;squared distribution (also chi&#45;square or &#160;&#45;distribution) with &#160;degrees of freedom is the dist..." alt="" coords="535,561,734,588"/>
+<area shape="rect" id="node17" href="$classhydra_1_1CosHelicityAngle.html" title="hydra::CosHelicityAngle" alt="" coords="554,641,715,668"/>
+<area shape="rect" id="node19" href="$classhydra_1_1CrystalBallShape.html" title="Implementation the Crystal Ball line shape. " alt="" coords="553,714,716,755"/>
+<area shape="rect" id="node21" href="$classhydra_1_1CubicSpiline.html" title="hydra::CubicSpiline\l\&lt; NBins \&gt;" alt="" coords="567,794,702,835"/>
+<area shape="rect" id="node23" href="$classhydra_1_1CubicSpiline.html" title=" &#160;&#160;A simple method for a one—dimensional interpolation on a given set of data points (xi..." alt="" coords="567,874,702,915"/>
+<area shape="rect" id="node25" href="$group__common__functions.html#classhydra_1_1DeltaDMassBackground" title="hydra::DeltaDMassBackground\l\&lt; ArgIndex \&gt;" alt="" coords="533,954,736,995"/>
+<area shape="rect" id="node27" href="$group__common__functions.html#classhydra_1_1Exponential" title="https://en.wikipedia.org/wiki/Exponential_function " alt="" coords="569,1034,700,1075"/>
+<area shape="rect" id="node29" href="$group__common__functions.html#classhydra_1_1Gaussian" title=" &#160;&#160;Gaussian functions are often used to represent the probability density function of a normally dist..." alt="" coords="538,1121,731,1148"/>
+<area shape="rect" id="node31" href="$group__common__functions.html#classhydra_1_1GaussianKDE" title="hydra::GaussianKDE\l\&lt; NBins, ArgIndex \&gt;" alt="" coords="563,1194,707,1235"/>
+<area shape="rect" id="node33" href="$group__common__functions.html#classhydra_1_1Ipatia" title="version of the Ipatia distribution as described in the reference https://doi.org/10.1016/j.nima.2014.06.081. " alt="" coords="549,1281,720,1308"/>
+<area shape="rect" id="node35" href="$group__common__functions.html#classhydra_1_1JohnsonSUShape" title="Implementation the JohnsonSU line shape. " alt="" coords="551,1354,718,1395"/>
+<area shape="rect" id="node37" href="$group__functor.html#classhydra_1_1LambdaWrapper_3_01ReturnType_07ArgType_8_8_8_08_00_01L_00_01N_01_4" title="Wrapper for lambda functions. " alt="" coords="549,1427,720,1483"/>
+<area shape="rect" id="node39" href="$group__common__functions.html#classhydra_1_1LogNormal" title="In probability theory, a log&#45;normal (or lognormal) distribution is a continuous probability distribut..." alt="" coords="535,1521,735,1548"/>
+<area shape="rect" id="node41" href="$group__common__functions.html#classhydra_1_1M12PhaseSpaceLineShape" title="Two&#45;body phase&#45;space distribution for : . " alt="" coords="542,1594,727,1635"/>
+<area shape="rect" id="node43" href="$group__common__functions.html#classhydra_1_1M12SqPhaseSpaceLineShape" title="Two&#45;body phase&#45;space distribution for : . " alt="" coords="534,1674,735,1715"/>
+<area shape="rect" id="node45" href="$classNonResonant.html" title="NonResonant" alt="" coords="585,1761,685,1788"/>
+<area shape="rect" id="node47" href="$group__common__functions.html#classhydra_1_1PlanesDeltaAngle" title="This functor calculates the delta angle between decay plane of the particle with four&#45;vector d2 and d..." alt="" coords="552,1841,717,1868"/>
+<area shape="rect" id="node49" href="$group__common__functions.html#classhydra_1_1Polynomial" title=" &#160;&#160;From : https://en.wikipedia.org/wiki/Polynomial " alt="" coords="567,1922,702,1963"/>
+<area shape="rect" id="node51" href="$classResonance.html" title="Resonance\&lt; CHANNEL, L \&gt;" alt="" coords="541,2024,728,2051"/>
+<area shape="rect" id="node53" href="$group__common__functions.html#classhydra_1_1ThreeBodyMassThresholdBackground" title="hydra::ThreeBodyMassThreshold\lBackground\&lt; ArgIndex \&gt;" alt="" coords="527,2105,742,2146"/>
+<area shape="rect" id="node55" href="$group__common__functions.html#classhydra_1_1TrapezoidalShape" title="In probability theory and statistics, the trapezoidal distribution is a continuous probability distri..." alt="" coords="551,2185,718,2226"/>
+<area shape="rect" id="node57" href="$group__common__functions.html#classhydra_1_1TriangularShape" title="From: https://en.wikipedia.org/wiki/Triangular_distribution. " alt="" coords="557,2265,713,2306"/>
+<area shape="rect" id="node59" href="$group__common__functions.html#classhydra_1_1UniformShape" title="From: https://en.wikipedia.org/wiki/Uniform_distribution_(continuous) " alt="" coords="563,2345,707,2386"/>
+<area shape="rect" id="node61" href="$classhydra_1_1WignerD_3_01T_3_01J_01_4_00_01T_3_01M_01_4_00_01T_3_01N_01_4_00_01ArgIndex_01_4.html" title="hydra::WignerD\&lt; T\&lt;\l J \&gt;, T\&lt; M \&gt;, T\&lt; N \&gt;\l, ArgIndex \&gt;" alt="" coords="562,2417,707,2473"/>
+<area shape="rect" id="node63" href="$group__common__functions.html#classhydra_1_1WignerDMatrix" title="Calculates the beta&#45;term &#160;in the matrix element of the finite rotation operator (Wigner&#39;s D&#45;function)..." alt="" coords="561,2505,708,2546"/>
+<area shape="rect" id="node65" href="$group__common__functions.html" title="hydra::ZemachFunction\&lt; L \&gt;" alt="" coords="539,2592,730,2619"/>
+<area shape="rect" id="node67" href="$group__common__functions.html#classhydra_1_1ZemachFunction" title="Zemach&#39;s angular probability distribution for 3&#45;body decays of spinless particle into spinless final ..." alt="" coords="555,2665,714,2706"/>
 </map>

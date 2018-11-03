@@ -36,7 +36,7 @@
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">Hydra
-   &#160;<span id="projectnumber">2.1.0</span>
+   &#160;<span id="projectnumber">2.2.1</span>
    </div>
    <div id="projectbrief">A header-only templated C++ framework to perform data analysis on massively parallel platforms.</div>
   </td>
@@ -102,12 +102,15 @@ $(document).ready(function(){initNavTree('Utils_8h.html','');});
 <div class="title">Utils.h File Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><code>#include &lt;<a class="el" href="">hydra/Types.h</a>&gt;</code><br />
+<div class="textblock"><code>#include &lt;<a class="el" href="">hydra/detail/Config.h</a>&gt;</code><br />
+<code>#include &lt;<a class="el" href="">hydra/detail/BackendPolicy.h</a>&gt;</code><br />
+<code>#include &lt;<a class="el" href="">hydra/Types.h</a>&gt;</code><br />
 <code>#include &lt;utility&gt;</code><br />
+<code>#include &lt;ratio&gt;</code><br />
 </div><div class="textblock"><div class="dynheader">
 Include dependency graph for Utils.h:</div>
 <div class="dyncontent">
-<div class="center"><iframe scrolling="no" frameborder="0" src="Utils_8h__incl.svg" width="195" height="112"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="Utils_8h__incl.svg" width="100%" height="462"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
 </div>
 </div><div class="textblock"><div class="dynheader">
 This graph shows which files directly or indirectly include this file:</div>
@@ -133,18 +136,18 @@ Namespaces</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="enum-members"></a>
 Enumerations</h2></td></tr>
-<tr class="memitem:a0dc858c0fb14ade1e8abc19cdd0959e2"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacehydra.html#a0dc858c0fb14ade1e8abc19cdd0959e2">hydra::Wave</a> { <br />
-&#160;&#160;<a class="el" href="namespacehydra.html#a0dc858c0fb14ade1e8abc19cdd0959e2a4f4fc5545002d4eada7e2a14c27c5dfd">hydra::SWave</a> =0, 
-<a class="el" href="namespacehydra.html#a0dc858c0fb14ade1e8abc19cdd0959e2ae382eaafad7afe6dee68693249ff8a45">hydra::PWave</a>, 
-<a class="el" href="namespacehydra.html#a0dc858c0fb14ade1e8abc19cdd0959e2a74097dfe50b93307e587c23f9180b6b3">hydra::DWave</a>, 
-<a class="el" href="namespacehydra.html#a0dc858c0fb14ade1e8abc19cdd0959e2a82415de987820fb86ab995f1dee87db1">hydra::FWave</a>, 
+<tr class="memitem:ga0dc858c0fb14ade1e8abc19cdd0959e2"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__common__functions.html#ga0dc858c0fb14ade1e8abc19cdd0959e2">hydra::Wave</a> { <br />
+&#160;&#160;<a class="el" href="group__common__functions.html#gga0dc858c0fb14ade1e8abc19cdd0959e2a4f4fc5545002d4eada7e2a14c27c5dfd">hydra::SWave</a> =0, 
+<a class="el" href="group__common__functions.html#gga0dc858c0fb14ade1e8abc19cdd0959e2ae382eaafad7afe6dee68693249ff8a45">hydra::PWave</a>, 
+<a class="el" href="group__common__functions.html#gga0dc858c0fb14ade1e8abc19cdd0959e2a74097dfe50b93307e587c23f9180b6b3">hydra::DWave</a>, 
+<a class="el" href="group__common__functions.html#gga0dc858c0fb14ade1e8abc19cdd0959e2a82415de987820fb86ab995f1dee87db1">hydra::FWave</a>, 
 <br />
-&#160;&#160;<a class="el" href="namespacehydra.html#a0dc858c0fb14ade1e8abc19cdd0959e2a113622b6b528bfd4a76d68e9a99ac032">hydra::GWave</a>, 
-<a class="el" href="namespacehydra.html#a0dc858c0fb14ade1e8abc19cdd0959e2af168d5a7a174aa70e881f13fdeaf4426">hydra::HWave</a>
+&#160;&#160;<a class="el" href="group__common__functions.html#gga0dc858c0fb14ade1e8abc19cdd0959e2a113622b6b528bfd4a76d68e9a99ac032">hydra::GWave</a>, 
+<a class="el" href="group__common__functions.html#gga0dc858c0fb14ade1e8abc19cdd0959e2af168d5a7a174aa70e881f13fdeaf4426">hydra::HWave</a>
 <br />
  }</td></tr>
-<tr class="memdesc:a0dc858c0fb14ade1e8abc19cdd0959e2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Orbital angular momentum tags.  <a href="namespacehydra.html#a0dc858c0fb14ade1e8abc19cdd0959e2">More...</a><br /></td></tr>
-<tr class="separator:a0dc858c0fb14ade1e8abc19cdd0959e2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memdesc:ga0dc858c0fb14ade1e8abc19cdd0959e2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Orbital angular momentum tags.  <a href="group__common__functions.html#ga0dc858c0fb14ade1e8abc19cdd0959e2">More...</a><br /></td></tr>
+<tr class="separator:ga0dc858c0fb14ade1e8abc19cdd0959e2"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
@@ -155,10 +158,10 @@ Functions</h2></td></tr>
 <tr class="memitem:ae85d86e6980bcf24de91a003711b3224"><td class="memItemLeft" align="right" valign="top">__hydra_host__ __hydra_device__ <a class="el" href="namespace_3globalScope_4.html#classdouble">double</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacehydra.html#ae85d86e6980bcf24de91a003711b3224">hydra::pmf</a> (const <a class="el" href="namespace_3globalScope_4.html#classdouble">double</a> mother_mass, const <a class="el" href="namespace_3globalScope_4.html#classdouble">double</a> daughter1_mass, const <a class="el" href="namespace_3globalScope_4.html#classdouble">double</a> daughter2_mass)</td></tr>
 <tr class="memdesc:ae85d86e6980bcf24de91a003711b3224"><td class="mdescLeft">&#160;</td><td class="mdescRight">Momentum in mother frame of daughter particle in two-body-decay.  <a href="namespacehydra.html#ae85d86e6980bcf24de91a003711b3224">More...</a><br /></td></tr>
 <tr class="separator:ae85d86e6980bcf24de91a003711b3224"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a93feeb5a117184a56c3151d3b7685c1d"><td class="memTemplParams" colspan="2">template&lt;typename T , unsigned int N&gt; </td></tr>
-<tr class="memitem:a93feeb5a117184a56c3151d3b7685c1d"><td class="memTemplItemLeft" align="right" valign="top">__hydra_host__ __hydra_device__ T&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacehydra.html#a93feeb5a117184a56c3151d3b7685c1d">hydra::pow</a> (const T x)</td></tr>
-<tr class="memdesc:a93feeb5a117184a56c3151d3b7685c1d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Power with integer exponent.  <a href="namespacehydra.html#a93feeb5a117184a56c3151d3b7685c1d">More...</a><br /></td></tr>
-<tr class="separator:a93feeb5a117184a56c3151d3b7685c1d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a95aad7e7e244a3cb3c71a4d57e695511"><td class="memTemplParams" colspan="2">template&lt;typename T , unsigned int N&gt; </td></tr>
+<tr class="memitem:a95aad7e7e244a3cb3c71a4d57e695511"><td class="memTemplItemLeft" align="right" valign="top">__hydra_host__ __hydra_device__ T&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacehydra.html#a95aad7e7e244a3cb3c71a4d57e695511">hydra::pow</a> (T x)</td></tr>
+<tr class="memdesc:a95aad7e7e244a3cb3c71a4d57e695511"><td class="mdescLeft">&#160;</td><td class="mdescRight">Power with integer exponent.  <a href="namespacehydra.html#a95aad7e7e244a3cb3c71a4d57e695511">More...</a><br /></td></tr>
+<tr class="separator:a95aad7e7e244a3cb3c71a4d57e695511"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a1c794172447148190ddb210dd1db8a83"><td class="memTemplParams" colspan="2">template&lt;typename T , unsigned int N, unsigned int I&gt; </td></tr>
 <tr class="memitem:a1c794172447148190ddb210dd1db8a83"><td class="memTemplItemLeft" align="right" valign="top">__hydra_host__ __hydra_device__ std::enable_if&lt; I==N, void &gt;::type&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacehydra_1_1detail.html#a1c794172447148190ddb210dd1db8a83">hydra::detail::pow_helper</a> (T const, T &amp;)</td></tr>
 <tr class="separator:a1c794172447148190ddb210dd1db8a83"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -172,7 +175,7 @@ Functions</h2></td></tr>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="dir_92a1ff494355b06c14c0e1fe7b982d29.html">Hydra</a></li><li class="navelem"><a class="el" href="dir_108162cc96056bf8ace3602d16680a1c.html">hydra</a></li><li class="navelem"><a class="el" href="dir_e43a426260a0a50393d21bf054cb693c.html">functions</a></li><li class="navelem"><a class="el" href="Utils_8h.html">Utils.h</a></li>
-    <li class="footer">Generated on Fri Mar 23 2018 14:51:40 for Hydra by
+    <li class="footer">Generated on Sat Nov 3 2018 02:26:24 for Hydra by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.14 </li>
   </ul>

@@ -36,7 +36,7 @@
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">Hydra
-   &#160;<span id="projectnumber">2.1.0</span>
+   &#160;<span id="projectnumber">2.2.1</span>
    </div>
    <div id="projectbrief">A header-only templated C++ framework to perform data analysis on massively parallel platforms.</div>
   </td>
@@ -109,6 +109,7 @@ $(document).ready(function(){initNavTree('SparseHistogram_8inl.html','');});
 <code>#include &lt;hydra/detail/external/thrust/iterator/constant_iterator.h&gt;</code><br />
 <code>#include &lt;hydra/detail/external/thrust/iterator/iterator_traits.h&gt;</code><br />
 <code>#include &lt;hydra/detail/external/thrust/system/detail/generic/select_system.h&gt;</code><br />
+<code>#include &lt;utility&gt;</code><br />
 </div><div class="textblock"><div class="dynheader">
 Include dependency graph for SparseHistogram.inl:</div>
 <div class="dyncontent">
@@ -117,7 +118,7 @@ Include dependency graph for SparseHistogram.inl:</div>
 </div><div class="textblock"><div class="dynheader">
 This graph shows which files directly or indirectly include this file:</div>
 <div class="dyncontent">
-<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="SparseHistogram_8inl__dep__incl.svg" width="100%" height="518"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
+<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="SparseHistogram_8inl__dep__incl.svg" width="100%" height="600"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
 </div>
 </div>
 <p><a href="">Go to the source code of this file.</a></p>
@@ -139,10 +140,16 @@ Functions</h2></td></tr>
 <tr class="memitem:ga2cea405a4f933f25af1f2afe7e67c381"><td class="memTemplItemLeft" align="right" valign="top">SparseHistogram&lt; T, N, detail::BackendPolicy&lt; BACKEND &gt;, detail::multidimensional &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__histogram.html#ga2cea405a4f933f25af1f2afe7e67c381">hydra::make_sparse_histogram</a> (detail::BackendPolicy&lt; BACKEND &gt; backend, std::array&lt; size_t, N &gt; grid, std::array&lt; T, N &gt; const  &amp;lowerlimits, std::array&lt; T, N &gt; const  &amp;upperlimits, Iterator first, Iterator end)</td></tr>
 <tr class="memdesc:ga2cea405a4f933f25af1f2afe7e67c381"><td class="mdescLeft">&#160;</td><td class="mdescRight">Function to make a N-dimensional sparse histogram.  <a href="group__histogram.html#ga2cea405a4f933f25af1f2afe7e67c381">More...</a><br /></td></tr>
 <tr class="separator:ga2cea405a4f933f25af1f2afe7e67c381"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af2f3da2c2a9505237640a47c3e088fae"><td class="memTemplParams" colspan="2">template&lt;typename Iterable , typename T , size_t N, hydra::detail::Backend BACKEND&gt; </td></tr>
+<tr class="memitem:af2f3da2c2a9505237640a47c3e088fae"><td class="memTemplItemLeft" align="right" valign="top">std::enable_if&lt; <a class="el" href="structhydra_1_1detail_1_1is__iterable.html">hydra::detail::is_iterable</a>&lt; Iterable &gt;::value, SparseHistogram&lt; T, N, detail::BackendPolicy&lt; BACKEND &gt;, detail::multidimensional &gt; &gt;::type&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacehydra.html#af2f3da2c2a9505237640a47c3e088fae">hydra::make_sparse_histogram</a> (detail::BackendPolicy&lt; BACKEND &gt;, std::array&lt; size_t, N &gt; grid, std::array&lt; T, N &gt; const &amp;lowerlimits, std::array&lt; T, N &gt; const &amp;upperlimits, Iterable &amp;&amp;iterable)</td></tr>
+<tr class="separator:af2f3da2c2a9505237640a47c3e088fae"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga9a1d65c69312c606d2379539278aa702"><td class="memTemplParams" colspan="2">template&lt;typename Iterator , typename T , hydra::detail::Backend BACKEND&gt; </td></tr>
 <tr class="memitem:ga9a1d65c69312c606d2379539278aa702"><td class="memTemplItemLeft" align="right" valign="top">SparseHistogram&lt; T, 1, detail::BackendPolicy&lt; BACKEND &gt;, detail::multidimensional &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__histogram.html#ga9a1d65c69312c606d2379539278aa702">hydra::make_sparse_histogram</a> (detail::BackendPolicy&lt; BACKEND &gt; backend, size_t grid, T lowerlimits, T upperlimits, Iterator first, Iterator end)</td></tr>
 <tr class="memdesc:ga9a1d65c69312c606d2379539278aa702"><td class="mdescLeft">&#160;</td><td class="mdescRight">Function to make a N-dimensional sparse histogram.  <a href="group__histogram.html#ga9a1d65c69312c606d2379539278aa702">More...</a><br /></td></tr>
 <tr class="separator:ga9a1d65c69312c606d2379539278aa702"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a34c92f763d48eb14a538692a07da5e38"><td class="memTemplParams" colspan="2">template&lt;typename Iterable , typename T , hydra::detail::Backend BACKEND&gt; </td></tr>
+<tr class="memitem:a34c92f763d48eb14a538692a07da5e38"><td class="memTemplItemLeft" align="right" valign="top">std::enable_if&lt; <a class="el" href="structhydra_1_1detail_1_1is__iterable.html">hydra::detail::is_iterable</a>&lt; Iterable &gt;::value, SparseHistogram&lt; T, 1, detail::BackendPolicy&lt; BACKEND &gt;, detail::multidimensional &gt; &gt;::type&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacehydra.html#a34c92f763d48eb14a538692a07da5e38">hydra::make_sparse_histogram</a> (detail::BackendPolicy&lt; BACKEND &gt;, size_t grid, T lowerlimits, T upperlimits, Iterable &amp;&amp;iterable)</td></tr>
+<tr class="separator:a34c92f763d48eb14a538692a07da5e38"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Macro Definition Documentation</h2>
 <a id="a3b894ab76a64d40f1be88938b92aeda9"></a>
@@ -165,7 +172,7 @@ Functions</h2></td></tr>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="dir_92a1ff494355b06c14c0e1fe7b982d29.html">Hydra</a></li><li class="navelem"><a class="el" href="dir_108162cc96056bf8ace3602d16680a1c.html">hydra</a></li><li class="navelem"><a class="el" href="dir_3834ae61da54c887219d23c23fa56bea.html">detail</a></li><li class="navelem"><a class="el" href="SparseHistogram_8inl.html">SparseHistogram.inl</a></li>
-    <li class="footer">Generated on Fri Mar 23 2018 14:51:40 for Hydra by
+    <li class="footer">Generated on Sat Nov 3 2018 02:26:24 for Hydra by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.14 </li>
   </ul>

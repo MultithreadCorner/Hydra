@@ -36,7 +36,7 @@
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">Hydra
-   &#160;<span id="projectnumber">2.1.0</span>
+   &#160;<span id="projectnumber">2.2.1</span>
    </div>
    <div id="projectbrief">A header-only templated C++ framework to perform data analysis on massively parallel platforms.</div>
   </td>
@@ -106,10 +106,6 @@ $(document).ready(function(){initNavTree('functions_d.html','');});
 , <a class="el" href="group__histogram.html#a0cd5604543df83f26cd449927ec4b3b7">hydra::SparseHistogram&lt; T, 1, detail::BackendPolicy&lt; BACKEND &gt;, detail::unidimensional &gt;</a>
 , <a class="el" href="group__histogram.html#ab9463c454cf5d8e48b42f0738e3c3ef5">hydra::SparseHistogram&lt; T, N, detail::BackendPolicy&lt; BACKEND &gt;, detail::multidimensional &gt;</a>
 </li>
-<li>data_type
-: <a class="el" href="structhydra_1_1detail_1_1GenzMalikBox.html#a430c69bfa0660ef1543190f89c96a310">hydra::detail::GenzMalikBox&lt; N &gt;</a>
-, <a class="el" href="structhydra_1_1detail_1_1ProcessGenzMalikUnaryCall.html#a7ba182921d74fb9e7387cafe942a1b74">hydra::detail::ProcessGenzMalikUnaryCall&lt; N, FUNCTOR, RuleIterator &gt;</a>
-</li>
 <li>decay_t
 : <a class="el" href="group__phsp.html#a461e30f3746828d98b47c5d4c0139901">hydra::Decays&lt; N, hydra::detail::BackendPolicy&lt; BACKEND &gt; &gt;</a>
 </li>
@@ -120,7 +116,7 @@ $(document).ready(function(){initNavTree('functions_d.html','');});
 : <a class="el" href="structhydra_1_1detail_1_1DecayMothers.html#a84b1424cd282a05a6249eaf69c79cc97">hydra::detail::DecayMothers&lt; N, GRND &gt;</a>
 </li>
 <li>Decays()
-: <a class="el" href="group__phsp.html#a8211c185010c3ceefd8c3a27c69c79e2">hydra::Decays&lt; N, hydra::detail::BackendPolicy&lt; BACKEND &gt; &gt;</a>
+: <a class="el" href="group__phsp.html#afb3d54b6b3412c24ada67e9598910a3b">hydra::Decays&lt; N, hydra::detail::BackendPolicy&lt; BACKEND &gt; &gt;</a>
 </li>
 <li>decays_const_iterator
 : <a class="el" href="group__phsp.html#ae27a4b31120ee8c6c90b6fda36d45880">hydra::Decays&lt; N, hydra::detail::BackendPolicy&lt; BACKEND &gt; &gt;</a>
@@ -137,17 +133,33 @@ $(document).ready(function(){initNavTree('functions_d.html','');});
 <li>decays_type
 : <a class="el" href="group__phsp.html#aed0069d1f78d7108efca59c6fe00a779">hydra::Chains&lt; Decays&lt; N, hydra::detail::BackendPolicy&lt; BACKEND &gt; &gt;... &gt;</a>
 </li>
+<li>delta_x()
+: <a class="el" href="structEvolve.html#a519489c8d9a0334cb07d99d009d4f17f">Evolve</a>
+</li>
+<li>delta_y()
+: <a class="el" href="structEvolve.html#af7a49145ec53b6b9f850407070adbc52">Evolve</a>
+</li>
+<li>delta_z()
+: <a class="el" href="structEvolve.html#a68f9d3d02c8c1c52fb0516e00cbb354d">Evolve</a>
+</li>
+<li>DeltaDMassBackground()
+: <a class="el" href="group__common__functions.html#ac57229c308a3c6ab42b18464648c6820">hydra::DeltaDMassBackground&lt; ArgIndex &gt;</a>
+</li>
 <li>DenseHistogram()
 : <a class="el" href="group__histogram.html#a002807449ae303c9b1984caa145ddad0">hydra::DenseHistogram&lt; T, 1, hydra::detail::BackendPolicy&lt; BACKEND &gt;, detail::unidimensional &gt;</a>
-, <a class="el" href="group__histogram.html#a50074e7b71b6a5d16577547079738a61">hydra::DenseHistogram&lt; T, N, detail::BackendPolicy&lt; BACKEND &gt;, detail::multidimensional &gt;</a>
+, <a class="el" href="group__histogram.html#aa3448f9877a31ee5cee2ba8736f1206a">hydra::DenseHistogram&lt; T, N, detail::BackendPolicy&lt; BACKEND &gt;, detail::multidimensional &gt;</a>
 </li>
 <li>difference_type
 : <a class="el" href="group__phsp.html#ab940f6273175a4b2330ceed129316714">hydra::Decays&lt; N, hydra::detail::BackendPolicy&lt; BACKEND &gt; &gt;</a>
-, <a class="el" href="classhydra_1_1GenericRange_3_01Iterator_01_4.html#a3aecb2a46828cc263ef25cf1810381c1">hydra::GenericRange&lt; Iterator &gt;</a>
 , <a class="el" href="classhydra_1_1multiarray_3_01T_00_01N_00_01hydra_1_1detail_1_1BackendPolicy_3_01BACKEND_01_4_01_4.html#a8c76779eef050899bc85f82207542eba">hydra::multiarray&lt; T, N, hydra::detail::BackendPolicy&lt; BACKEND &gt; &gt;</a>
+, <a class="el" href="classhydra_1_1Range_3_01Iterator_01_4.html#a5a98a91e00b87bdc5a5b1fc4ae098c64">hydra::Range&lt; Iterator &gt;</a>
+</li>
+<li>displacement()
+: <a class="el" href="structEvolve.html#ab076c5307e23feecc33e022edb7abc3e">Evolve</a>
 </li>
 <li>Divide()
-: <a class="el" href="classhydra_1_1Divide.html#aa147deba9293bbd56a1a6f3b5ad77315">hydra::Divide&lt; F1, F2 &gt;</a>
+: <a class="el" href="classhydra_1_1detail_1_1GenzMalikBox.html#ad9f058d5cfe628c6a35bf6ad9e60607e">hydra::detail::GenzMalikBox&lt; N &gt;</a>
+, <a class="el" href="classhydra_1_1Divide.html#aa147deba9293bbd56a1a6f3b5ad77315">hydra::Divide&lt; F1, F2 &gt;</a>
 </li>
 <li>dot()
 : <a class="el" href="group__phsp.html#a958785dfe40db85bf2c9a98d646e88ab">hydra::Vector3R</a>
@@ -162,7 +174,7 @@ $(document).ready(function(){initNavTree('functions_d.html','');});
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="footer">Generated on Fri Mar 23 2018 14:51:41 for Hydra by
+    <li class="footer">Generated on Sat Nov 3 2018 02:26:25 for Hydra by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.14 </li>
   </ul>

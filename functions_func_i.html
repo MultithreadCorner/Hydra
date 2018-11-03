@@ -36,7 +36,7 @@
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">Hydra
-   &#160;<span id="projectnumber">2.1.0</span>
+   &#160;<span id="projectnumber">2.2.1</span>
    </div>
    <div id="projectbrief">A header-only templated C++ framework to perform data analysis on massively parallel platforms.</div>
   </td>
@@ -102,28 +102,26 @@ $(document).ready(function(){initNavTree('functions_func_i.html','');});
 , <a class="el" href="classhydra_1_1multivector_3_01HYDRA__EXTERNAL__NS_1_1thrust_1_1tuple_3_01T_8_8_8_01_4_00_01hydra3da03b988538add1b3f476b1ea399ad2.html#acf65d8b3a9ef9631d62b0e98b5621d51">hydra::multivector&lt; HYDRA_EXTERNAL_NS::thrust::tuple&lt; T... &gt;, hydra::detail::BackendPolicy&lt; BACKEND &gt; &gt;</a>
 </li>
 <li>Integrate()
-: <a class="el" href="classhydra_1_1ArgusShapeAnalyticalIntegral.html#a304cc9e40e8d081a3dff7d46bcb275c6">hydra::ArgusShapeAnalyticalIntegral</a>
-, <a class="el" href="classhydra_1_1BreitWignerNRAnalyticalIntegral.html#a5221338354c6d7c6fbd10e3d2815339f">hydra::BreitWignerNRAnalyticalIntegral</a>
-, <a class="el" href="classhydra_1_1CrystalBallShapeAnalyticalIntegral.html#ae3172b967f6191dcfefcb784419980a9">hydra::CrystalBallShapeAnalyticalIntegral</a>
-, <a class="el" href="classhydra_1_1ExponentialAnalyticalIntegral.html#a22b0bc6cda39cb5670b30c54472dd366">hydra::ExponentialAnalyticalIntegral</a>
-, <a class="el" href="classhydra_1_1GaussianAnalyticalIntegral.html#a0b34b98cf8c73cd70cd39ab68a719e09">hydra::GaussianAnalyticalIntegral</a>
+: <a class="el" href="classhydra_1_1AnalyticalIntegral.html#a3232980568be335029edb02151bc7765">hydra::AnalyticalIntegral&lt; Functor, N &gt;</a>
+, <a class="el" href="classhydra_1_1AnalyticalIntegral_3_01Functor_00_011_01_4.html#a2188717eac26aaad4518b3c6519405ba">hydra::AnalyticalIntegral&lt; Functor, 1 &gt;</a>
 , <a class="el" href="classhydra_1_1GaussKronrodAdaptiveQuadrature_3_01NRULE_00_01NBIN_00_01hydra_1_1detail_1_1BackendPolicy_3_01BACKEND_01_4_01_4.html#aed25374e79e6c19eef3426450361a588">hydra::GaussKronrodAdaptiveQuadrature&lt; NRULE, NBIN, hydra::detail::BackendPolicy&lt; BACKEND &gt; &gt;</a>
 , <a class="el" href="classhydra_1_1GaussKronrodQuadrature_3_01NRULE_00_01NBIN_00_01hydra_1_1detail_1_1BackendPolicy_3_01BACKEND_01_4_01_4.html#aa071ac924557cd983690bc8bc8193730">hydra::GaussKronrodQuadrature&lt; NRULE, NBIN, hydra::detail::BackendPolicy&lt; BACKEND &gt; &gt;</a>
 , <a class="el" href="group__numerical__integration.html#a958419997ae1487079a17074d5c9ac45">hydra::GenzMalikQuadrature&lt; N, hydra::detail::BackendPolicy&lt; BACKEND &gt; &gt;</a>
 , <a class="el" href="group__phsp.html#a4984bf740a35bdc84d8cf2a64adb9e25">hydra::PhaseSpaceIntegrator&lt; N, hydra::detail::BackendPolicy&lt; BACKEND &gt;, GRND &gt;</a>
 , <a class="el" href="group__numerical__integration.html#a1c6aec85266359854a8649a499f60dd1">hydra::Plain&lt; N, hydra::detail::BackendPolicy&lt; BACKEND &gt;, GRND &gt;</a>
-, <a class="el" href="classhydra_1_1PolynomialAnalyticalIntegral.html#acf79376a7e4e397c10b7cc2284162c79">hydra::PolynomialAnalyticalIntegral</a>
+, <a class="el" href="classhydra_1_1TrapezoidalShapeAnalyticalIntegral.html#ae69e81d6c32840b984c49f9baf4d4299">hydra::TrapezoidalShapeAnalyticalIntegral</a>
 , <a class="el" href="group__numerical__integration.html#ae55b27103694f91b453891aec8f56b63">hydra::Vegas&lt; N, hydra::detail::BackendPolicy&lt; BACKEND &gt;, GRND &gt;</a>
-</li>
-<li>interface()
-: <a class="el" href="group__functor.html#a7772e829ca5ec5acceb96b81b323d80a">hydra::BaseFunctor&lt; Functor, ReturnType, NPARAM &gt;</a>
 </li>
 <li>invalid()
 : <a class="el" href="structhydra_1_1detail_1_1TypeTraits.html#a29d8cd20fc7a2b883e0962503dcfd9e1">hydra::detail::TypeTraits&lt; T &gt;</a>
 , <a class="el" href="structhydra_1_1detail_1_1TypeTraits_3_01HYDRA__EXTERNAL__NS_1_1thrust_1_1complex_3_01T_01_4_01_4.html#aa67ee542fe9235a88d18422c124a2d20">hydra::detail::TypeTraits&lt; HYDRA_EXTERNAL_NS::thrust::complex&lt; T &gt; &gt;</a>
 </li>
+<li>Ipatia()
+: <a class="el" href="group__common__functions.html#a62330690d8d1df2e0e6cee960993d1fe">hydra::Ipatia&lt; ArgIndex &gt;</a>
+</li>
 <li>IsCached()
-: <a class="el" href="group__functor.html#a23a24709b6bd23c23408297257652e87">hydra::BaseFunctor&lt; Functor, ReturnType, NPARAM &gt;</a>
+: <a class="el" href="classhydra_1_1BaseCompositeFunctor.html#ac8765937afa267e3757e2c7c8bfc6b73">hydra::BaseCompositeFunctor&lt; Composite, ReturnType, F1, F2, Fs &gt;</a>
+, <a class="el" href="group__functor.html#a23a24709b6bd23c23408297257652e87">hydra::BaseFunctor&lt; Functor, ReturnType, NPARAM &gt;</a>
 , <a class="el" href="classhydra_1_1detail_1_1CompositeBase.html#afd0d84449dfc7866232ddd2d34e10fb7">hydra::detail::CompositeBase&lt; F0, F1, Fs &gt;</a>
 </li>
 <li>IsExtended()
@@ -147,7 +145,7 @@ $(document).ready(function(){initNavTree('functions_func_i.html','');});
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="footer">Generated on Fri Mar 23 2018 14:51:41 for Hydra by
+    <li class="footer">Generated on Sat Nov 3 2018 02:26:25 for Hydra by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.14 </li>
   </ul>

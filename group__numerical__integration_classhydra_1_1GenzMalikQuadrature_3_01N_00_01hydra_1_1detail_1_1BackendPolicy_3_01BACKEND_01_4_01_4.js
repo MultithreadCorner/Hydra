@@ -1,8 +1,10 @@
 var group__numerical__integration_classhydra_1_1GenzMalikQuadrature_3_01N_00_01hydra_1_1detail_1_1BackendPolicy_3_01BACKEND_01_4_01_4 =
 [
     [ "GenzMalikQuadrature", "group__numerical__integration.html#a8eb4f562c52646d5b7c0dafeb18547fc", null ],
-    [ "GenzMalikQuadrature", "group__numerical__integration.html#a7cef1f654b0518e2a85fa1369651e94b", null ],
-    [ "GenzMalikQuadrature", "group__numerical__integration.html#ac0f78ff5d2c6a33aaa03fdc7a0ab3767", null ],
+    [ "GenzMalikQuadrature", "group__numerical__integration.html#a1987542a7ba02f456c811892fc526f8d", null ],
+    [ "GenzMalikQuadrature", "group__numerical__integration.html#a23c359df84ae6bc09499bc66adc2530c", null ],
+    [ "GenzMalikQuadrature", "group__numerical__integration.html#afd80c103b0110b6413367421a23e2488", null ],
+    [ "GenzMalikQuadrature", "group__numerical__integration.html#a19db58c4ab775898d7ddf6360db087af", null ],
     [ "GenzMalikQuadrature", "group__numerical__integration.html#aeb57b6ce88f1424880dc72c94e5416da", null ],
     [ "GenzMalikQuadrature", "group__numerical__integration.html#a7e5a5c6f3ed69e04237a6f43bc3ffa2d", null ],
     [ "GetBoxList", "group__numerical__integration.html#a393d226dedba460e8b64ca1f515d9712", null ],

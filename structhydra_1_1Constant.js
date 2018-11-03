@@ -4,7 +4,7 @@ var structhydra_1_1Constant =
     [ "is_functor", "structhydra_1_1Constant.html#a8006485bf66996866cc92d76ccb39dd1", null ],
     [ "return_type", "structhydra_1_1Constant.html#affe82ff79869c66f8111e530e36980ee", null ],
     [ "Constant", "structhydra_1_1Constant.html#af491d601a1f88e6785e12d3435b8149d", null ],
-    [ "Constant", "structhydra_1_1Constant.html#aa937bbe7d3c49b307986d0abe1154fe0", null ],
+    [ "Constant", "structhydra_1_1Constant.html#ac6d95ca78736d4be642dc991e398dc4a", null ],
     [ "Constant", "structhydra_1_1Constant.html#ab3b029f4deb74939131effcd4a8cb1ae", null ],
     [ "AddUserParameters", "structhydra_1_1Constant.html#a3cae64740bfda02c9debe5e4c24e9fb3", null ],
     [ "GetNumberOfParameters", "structhydra_1_1Constant.html#acf4eb6d223923d32de282748781349f4", null ],

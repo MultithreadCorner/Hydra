@@ -1,4 +1,4 @@
 <map id="hydra::Vegas&lt; N, hydra::detail::BackendPolicy&lt; BACKEND &gt;, GRND &gt;" name="hydra::Vegas&lt; N, hydra::detail::BackendPolicy&lt; BACKEND &gt;, GRND &gt;">
-<area shape="rect" id="node2" href="$structhydra_1_1Integrator.html" title="{hydra::Integrator\&lt;\l Vegas\&lt; N, hydra::detail\l::BackendPolicy\&lt; BACKEND\l \&gt;, GRND \&gt; \&gt;\n||+ operator()()\l}" alt="" coords="5,189,200,311"/>
-<area shape="rect" id="node3" href="$structhydra_1_1Integrator.html" title="{hydra::Integrator\&lt;\l ALGORITHM \&gt;\n||+ operator()()\l}" alt="" coords="40,5,165,97"/>
+<area shape="rect" id="node2" href="$structhydra_1_1Integral.html" title="{hydra::Integral\&lt; Vegas\l\&lt; N, hydra::detail::BackendPolicy\l\&lt; BACKEND \&gt;, GRND \&gt; \&gt;\n||+ operator()()\l+ operator()()\l}" alt="" coords="5,189,223,311"/>
+<area shape="rect" id="node3" href="$structhydra_1_1Integral.html" title="{hydra::Integral\&lt; Algorithm, N \&gt;\n||+ operator()()\l+ operator()()\l}" alt="" coords="13,5,215,97"/>
 </map>

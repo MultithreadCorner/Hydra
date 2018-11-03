@@ -12,6 +12,7 @@ var group__generic =
       [ "Parameter", "group__fit.html#a108bc3e8c389c9a4344a3bd7e978a894", null ],
       [ "Parameter", "group__fit.html#af1c29993bcf4e1beefd0289a817dee8c", null ],
       [ "Create", "group__fit.html#ab71317b03a67ac0de6daec09c16df4c6", null ],
+      [ "Create", "group__fit.html#a74413d9f51148d5b394654c97c4d5506", null ],
       [ "Error", "group__fit.html#a49f5d6946e744c41d88678858386c0b1", null ],
       [ "Fixed", "group__fit.html#a9e217727a2c65f70ccf173398e69ee35", null ],
       [ "GetError", "group__fit.html#a4e9fb333b3b1fa250c2ce9a7269a7375", null ],

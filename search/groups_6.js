@@ -1,4 +1,5 @@
 var searchData=
 [
-  ['random_20number_20generation',['Random number generation',['../group__random.html',1,'']]]
+  ['phase_2dspace_20monte_20carlo',['Phase-Space Monte Carlo',['../group__phsp.html',1,'']]],
+  ['policy',['Policy',['../group__policy.html',1,'']]]
 ];

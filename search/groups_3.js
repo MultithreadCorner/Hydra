@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['histogram',['Histogram',['../group__histogram.html',1,'']]]
+  ['generic',['Generic',['../group__generic.html',1,'']]]
 ];

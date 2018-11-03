@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['users_20guide',['Users guide',['../group__manual.html',1,'']]]
+  ['random_20number_20generation',['Random number generation',['../group__random.html',1,'']]]
 ];

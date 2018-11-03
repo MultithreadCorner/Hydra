@@ -1,7 +1,0 @@
-<map id="hydra::Vector4R::get" name="hydra::Vector4R::get">
-<area shape="rect" id="node2" href="$group__phsp.html#ac30a0beccf6db256aa597c079ee4e2f2" title="hydra::Vector4R::applyBoostTo" alt="" coords="196,31,401,57"/>
-<area shape="rect" id="node5" href="$group__phsp.html#a3f93530cd20bc166ff76c186c3df803f" title="hydra::Vector4R::operator=" alt="" coords="209,81,389,108"/>
-<area shape="rect" id="node6" href="$group__phsp.html#a3fddb244df8e2bd1cff7027bc5f2d891" title="hydra::Vector4R::Vector4R" alt="" coords="209,132,389,159"/>
-<area shape="rect" id="node3" href="$namespacehydra.html#a52d2bb64b855258800238a7263f26699" title="hydra::boostTo" alt="" coords="494,5,603,32"/>
-<area shape="rect" id="node4" href="$group__phsp.html#ae004f6353cf452e6b58fbab67bd99113" title="hydra::Vector4R::scalartripler3" alt="" coords="449,56,648,83"/>
-</map>

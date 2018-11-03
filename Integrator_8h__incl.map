@@ -1,4 +1,7 @@
 <map id="Integrator.h" name="Integrator.h">
 <area shape="rect" id="node2" href="$Config_8h.html" title="hydra/detail/Config.h" alt="" coords="89,80,231,107"/>
 <area shape="rect" id="node5" href="$Types_8h.html" title="Common and useful typedefs. " alt="" coords="255,80,361,107"/>
+<area shape="rect" id="node7" href="$AnalyticalIntegral_8inl.html" title="hydra/detail/AnalyticalIntegral.inl" alt="" coords="463,80,673,107"/>
+<area shape="rect" id="node10" href="$NumericalIntegral_8inl.html" title="hydra/detail/NumericalIntegral.inl" alt="" coords="697,80,908,107"/>
+<area shape="rect" id="node11" href="$Integrator_8inl.html" title="hydra/detail/Integrator.inl" alt="" coords="932,80,1097,107"/>
 </map>

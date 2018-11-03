@@ -36,7 +36,7 @@
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">Hydra
-   &#160;<span id="projectnumber">2.1.0</span>
+   &#160;<span id="projectnumber">2.2.1</span>
    </div>
    <div id="projectbrief">A header-only templated C++ framework to perform data analysis on massively parallel platforms.</div>
   </td>
@@ -118,7 +118,7 @@ Include dependency graph for DenseHistogram.inl:</div>
 </div><div class="textblock"><div class="dynheader">
 This graph shows which files directly or indirectly include this file:</div>
 <div class="dyncontent">
-<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="DenseHistogram_8inl__dep__incl.svg" width="100%" height="518"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
+<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="DenseHistogram_8inl__dep__incl.svg" width="100%" height="600"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
 </div>
 </div>
 <p><a href="">Go to the source code of this file.</a></p>
@@ -135,6 +135,10 @@ Functions</h2></td></tr>
 <tr class="memitem:ga71ecdc6e5a05bddea819b4affc65a8fa"><td class="memTemplItemLeft" align="right" valign="top">DenseHistogram&lt; T, N, detail::BackendPolicy&lt; BACKEND &gt;, detail::multidimensional &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__histogram.html#ga71ecdc6e5a05bddea819b4affc65a8fa">hydra::make_dense_histogram</a> (detail::BackendPolicy&lt; BACKEND &gt; backend, std::array&lt; size_t, N &gt; grid, std::array&lt; T, N &gt; const &amp;lowerlimits, std::array&lt; T, N &gt; const &amp;upperlimits, Iterator first, Iterator end)</td></tr>
 <tr class="memdesc:ga71ecdc6e5a05bddea819b4affc65a8fa"><td class="mdescLeft">&#160;</td><td class="mdescRight">Function to make a N-dimensional dense histogram.  <a href="group__histogram.html#ga71ecdc6e5a05bddea819b4affc65a8fa">More...</a><br /></td></tr>
 <tr class="separator:ga71ecdc6e5a05bddea819b4affc65a8fa"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga4ccbcab5a2abc07308abe45e22589c2d"><td class="memTemplParams" colspan="2">template&lt;typename T , size_t N, hydra::detail::Backend BACKEND, typename Iterable &gt; </td></tr>
+<tr class="memitem:ga4ccbcab5a2abc07308abe45e22589c2d"><td class="memTemplItemLeft" align="right" valign="top">std::enable_if&lt; <a class="el" href="structhydra_1_1detail_1_1is__iterable.html">hydra::detail::is_iterable</a>&lt; Iterable &gt;::value, DenseHistogram&lt; T, N, detail::BackendPolicy&lt; BACKEND &gt;, detail::multidimensional &gt; &gt;::type&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__histogram.html#ga4ccbcab5a2abc07308abe45e22589c2d">hydra::make_dense_histogram</a> (detail::BackendPolicy&lt; BACKEND &gt; backend, std::array&lt; size_t, N &gt; grid, std::array&lt; T, N &gt; lowerlimits, std::array&lt; T, N &gt; upperlimits, Iterable &amp;&amp;data)</td></tr>
+<tr class="memdesc:ga4ccbcab5a2abc07308abe45e22589c2d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Function to make a N-dimensional dense histogram.  <a href="group__histogram.html#ga4ccbcab5a2abc07308abe45e22589c2d">More...</a><br /></td></tr>
+<tr class="separator:ga4ccbcab5a2abc07308abe45e22589c2d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:gac9110cb1abf49fb7f3fcaa31f24d3e84"><td class="memTemplParams" colspan="2">template&lt;typename Iterator , typename T , hydra::detail::Backend BACKEND&gt; </td></tr>
 <tr class="memitem:gac9110cb1abf49fb7f3fcaa31f24d3e84"><td class="memTemplItemLeft" align="right" valign="top">DenseHistogram&lt; T, 1, detail::BackendPolicy&lt; BACKEND &gt;, detail::multidimensional &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__histogram.html#gac9110cb1abf49fb7f3fcaa31f24d3e84">hydra::make_dense_histogram</a> (detail::BackendPolicy&lt; BACKEND &gt; backend, size_t grid, T lowerlimits, T upperlimits, Iterator first, Iterator end)</td></tr>
 <tr class="memdesc:gac9110cb1abf49fb7f3fcaa31f24d3e84"><td class="mdescLeft">&#160;</td><td class="mdescRight">Function to make a N-dimensional dense histogram.  <a href="group__histogram.html#gac9110cb1abf49fb7f3fcaa31f24d3e84">More...</a><br /></td></tr>
@@ -146,7 +150,7 @@ Functions</h2></td></tr>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="dir_92a1ff494355b06c14c0e1fe7b982d29.html">Hydra</a></li><li class="navelem"><a class="el" href="dir_108162cc96056bf8ace3602d16680a1c.html">hydra</a></li><li class="navelem"><a class="el" href="dir_3834ae61da54c887219d23c23fa56bea.html">detail</a></li><li class="navelem"><a class="el" href="DenseHistogram_8inl.html">DenseHistogram.inl</a></li>
-    <li class="footer">Generated on Fri Mar 23 2018 14:51:40 for Hydra by
+    <li class="footer">Generated on Sat Nov 3 2018 02:26:24 for Hydra by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.14 </li>
   </ul>

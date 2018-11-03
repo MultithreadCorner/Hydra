@@ -1,8 +1,11 @@
 <map id="BreitWignerNR.h" name="BreitWignerNR.h">
-<area shape="rect" id="node2" href="$phsp__unweighting__functor__and__fit_8inl.html" title="phsp_unweighting_functor\l_and_fit.inl" alt="" coords="203,80,376,121"/>
-<area shape="rect" id="node5" href="$breit__wigner__plus__polynomial_8inl.html" title="breit_wigner_plus_polynomial.inl" alt="" coords="405,87,614,114"/>
-<area shape="rect" id="node3" href="$phsp__unweighting__functor__and__fit_8cpp.html" title="phsp_unweighting_functor\l_and_fit.cpp" alt="" coords="5,169,179,211"/>
-<area shape="rect" id="node4" href="$phsp__unweighting__functor__and__fit_8cu.html" title="phsp_unweighting_functor\l_and_fit.cu" alt="" coords="203,169,376,211"/>
-<area shape="rect" id="node6" href="$breit__wigner__plus__polynomial_8cpp.html" title="breit_wigner_plus_polynomial.cpp" alt="" coords="401,177,618,203"/>
-<area shape="rect" id="node7" href="$breit__wigner__plus__polynomial_8cu.html" title="breit_wigner_plus_polynomial.cu" alt="" coords="643,177,853,203"/>
+<area shape="rect" id="node2" href="$phsp__unweighting__functor__and__fit_8inl.html" title="phsp_unweighting_functor\l_and_fit.inl" alt="" coords="201,80,373,121"/>
+<area shape="rect" id="node5" href="$breit__wigner__plus__chebychev_8inl.html" title="breit_wigner_plus_chebychev.inl" alt="" coords="520,87,729,114"/>
+<area shape="rect" id="node8" href="$breit__wigner__plus__polynomial_8inl.html" title="breit_wigner_plus_polynomial.inl" alt="" coords="878,87,1086,114"/>
+<area shape="rect" id="node3" href="$phsp__unweighting__functor__and__fit_8cpp.html" title="phsp_unweighting_functor\l_and_fit.cpp" alt="" coords="5,169,177,211"/>
+<area shape="rect" id="node4" href="$phsp__unweighting__functor__and__fit_8cu.html" title="phsp_unweighting_functor\l_and_fit.cu" alt="" coords="201,169,373,211"/>
+<area shape="rect" id="node6" href="$breit__wigner__plus__chebychev_8cpp.html" title="breit_wigner_plus_chebychev.cpp" alt="" coords="397,177,615,203"/>
+<area shape="rect" id="node7" href="$breit__wigner__plus__chebychev_8cu.html" title="breit_wigner_plus_chebychev.cu" alt="" coords="639,177,850,203"/>
+<area shape="rect" id="node9" href="$breit__wigner__plus__polynomial_8cpp.html" title="breit_wigner_plus_polynomial.cpp" alt="" coords="874,177,1090,203"/>
+<area shape="rect" id="node10" href="$breit__wigner__plus__polynomial_8cu.html" title="breit_wigner_plus_polynomial.cu" alt="" coords="1115,177,1324,203"/>
 </map>

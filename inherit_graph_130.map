@@ -1,3 +1,5 @@
 <map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
-<area shape="rect" id="node1" href="$structhydra_1_1detail_1_1TypeTraits_3_01HYDRA__EXTERNAL__NS_1_1thrust_1_1complex_3_01T_01_4_01_4.html" title="hydra::detail::TypeTraits\l\&lt; HYDRA_EXTERNAL_NS::thrust\l::complex\&lt; T \&gt; \&gt;" alt="" coords="5,5,232,61"/>
+<area shape="rect" id="node1" href="$classhydra_1_1detail_1_1ParametersCompositeFunctor.html" title="hydra::detail::Parameters\lCompositeFunctor\&lt; Functor,\l Kernel, Fs... \&gt;" alt="" coords="5,13,193,69"/>
+<area shape="rect" id="node2" href="$classhydra_1_1BaseCompositeFunctor.html" title="hydra::BaseCompositeFunctor\l\&lt; Convolution\&lt; Functor,\l Kernel, ArgIndex \&gt;, double,\l Functor, Kernel \&gt;" alt="" coords="241,5,440,76"/>
+<area shape="rect" id="node3" href="$classhydra_1_1Convolution.html" title="hydra::Convolution\l\&lt; Functor, Kernel, ArgIndex \&gt;" alt="" coords="488,20,683,61"/>
 </map>

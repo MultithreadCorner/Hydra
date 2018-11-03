@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['functor_20arithmetic',['Functor Arithmetic',['../group__functor.html',1,'']]]
+  ['data_20fitting',['Data fitting',['../group__fit.html',1,'']]]
 ];

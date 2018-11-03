@@ -1,5 +1,6 @@
 var modules =
 [
+    [ "Common functors", "group__common__functions.html", "group__common__functions" ],
     [ "Data fitting", "group__fit.html", "group__fit" ],
     [ "Functor Arithmetic", "group__functor.html", "group__functor" ],
     [ "Generic", "group__generic.html", "group__generic" ],

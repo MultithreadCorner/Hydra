@@ -1,6 +1,0 @@
-<map id="hydra::Compose::operator=" name="hydra::Compose::operator=">
-<area shape="rect" id="node2" href="$structhydra_1_1Compose.html#abf501a57be97d1c1dee258ec22a3b3b4" title="hydra::Compose::GetF0" alt="" coords="253,5,415,32"/>
-<area shape="rect" id="node3" href="$structhydra_1_1Compose.html#aae0013c90701b323713e02daddd0ada9" title="hydra::Compose::GetFunctors" alt="" coords="235,56,433,83"/>
-<area shape="rect" id="node4" href="$structhydra_1_1Compose.html#ac13f2a931bcb4105a7727e9067607bc1" title="hydra::Compose::GetIndex" alt="" coords="245,107,423,133"/>
-<area shape="rect" id="node5" href="$structhydra_1_1Compose.html#ac44ef79c116d04266028665da96916b2" title="hydra::Compose::IsCached" alt="" coords="243,157,425,184"/>
-</map>

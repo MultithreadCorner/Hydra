@@ -36,7 +36,7 @@
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">Hydra
-   &#160;<span id="projectnumber">2.1.0</span>
+   &#160;<span id="projectnumber">2.2.1</span>
    </div>
    <div id="projectbrief">A header-only templated C++ framework to perform data analysis on massively parallel platforms.</div>
   </td>
@@ -122,35 +122,26 @@ $(document).ready(function(){initNavTree('functions_vars.html','');});
 
 
 <h3><a id="index_f"></a>- f -</h3><ul>
-<li>fA
-: <a class="el" href="structhydra_1_1detail_1_1ProcessGenzMalikUnaryCall.html#a97b2798bdc6609aea747e6c58fa7066b">hydra::detail::ProcessGenzMalikUnaryCall&lt; N, FUNCTOR, RuleIterator &gt;</a>
-</li>
-<li>fB
-: <a class="el" href="structhydra_1_1detail_1_1ProcessGenzMalikUnaryCall.html#a0b7391acf2e6e236f1466ca099cc2920">hydra::detail::ProcessGenzMalikUnaryCall&lt; N, FUNCTOR, RuleIterator &gt;</a>
-</li>
 <li>fBeta0
 : <a class="el" href="structhydra_1_1detail_1_1AverageMother.html#a67d2939882546fa27e52b67eb34be9a1">hydra::detail::AverageMother&lt; N, GRND, FUNCTOR &gt;</a>
 , <a class="el" href="structhydra_1_1detail_1_1DecayMother.html#a12c0316885ea38ece3d728ce4f5d183a">hydra::detail::DecayMother&lt; N, GRND &gt;</a>
 , <a class="el" href="structhydra_1_1detail_1_1EvalMother.html#afc8920dd61c48dddc9181a2f222b8c0d">hydra::detail::EvalMother&lt; N, GRND, FUNCTOR, FUNCTORS &gt;</a>
 , <a class="el" href="structhydra_1_1detail_1_1EvalOnDaughters.html#a4de335e3f885103453933eac7a150a82">hydra::detail::EvalOnDaughters&lt; N, BACKEND, FUNCTOR, GRND &gt;</a>
+, <a class="el" href="structhydra_1_1detail_1_1GenerateDecay.html#a2c381b96a911900b76eb5a3463ec2673">hydra::detail::GenerateDecay&lt; N, GRND &gt;</a>
 </li>
 <li>fBeta1
 : <a class="el" href="structhydra_1_1detail_1_1AverageMother.html#a2d517886b2116a716521635cc9a9129f">hydra::detail::AverageMother&lt; N, GRND, FUNCTOR &gt;</a>
 , <a class="el" href="structhydra_1_1detail_1_1DecayMother.html#aebf3bf16d309f60d0a1bad689bd06134">hydra::detail::DecayMother&lt; N, GRND &gt;</a>
 , <a class="el" href="structhydra_1_1detail_1_1EvalMother.html#a6f4a103df97872520209e718bf30169f">hydra::detail::EvalMother&lt; N, GRND, FUNCTOR, FUNCTORS &gt;</a>
 , <a class="el" href="structhydra_1_1detail_1_1EvalOnDaughters.html#a732ebbc2f9146f8ad38717c8966f735f">hydra::detail::EvalOnDaughters&lt; N, BACKEND, FUNCTOR, GRND &gt;</a>
+, <a class="el" href="structhydra_1_1detail_1_1GenerateDecay.html#a7adf946c1bb17940220f1507f14f934a">hydra::detail::GenerateDecay&lt; N, GRND &gt;</a>
 </li>
 <li>fBeta2
 : <a class="el" href="structhydra_1_1detail_1_1AverageMother.html#a650d7c466babf74e35fd72e20b820570">hydra::detail::AverageMother&lt; N, GRND, FUNCTOR &gt;</a>
 , <a class="el" href="structhydra_1_1detail_1_1DecayMother.html#a41a7da65df4f26a4221d001eca6b2fdb">hydra::detail::DecayMother&lt; N, GRND &gt;</a>
 , <a class="el" href="structhydra_1_1detail_1_1EvalMother.html#ae6e4078f80b2fc075d7ae601c142fc9b">hydra::detail::EvalMother&lt; N, GRND, FUNCTOR, FUNCTORS &gt;</a>
 , <a class="el" href="structhydra_1_1detail_1_1EvalOnDaughters.html#a5152e56be80948e16a2eb2e1ce7c3a97">hydra::detail::EvalOnDaughters&lt; N, BACKEND, FUNCTOR, GRND &gt;</a>
-</li>
-<li>fBoxBegin
-: <a class="el" href="structhydra_1_1detail_1_1ProcessGenzMalikBox.html#aa7c0f24492521c8ef53595cdcfd9bc42">hydra::detail::ProcessGenzMalikBox&lt; N, FUNCTOR, RuleIterator, BoxIterator &gt;</a>
-</li>
-<li>fBoxEnd
-: <a class="el" href="structhydra_1_1detail_1_1ProcessGenzMalikBox.html#ad3f2c17f6e44971a01b4690c3210a546">hydra::detail::ProcessGenzMalikBox&lt; N, FUNCTOR, RuleIterator, BoxIterator &gt;</a>
+, <a class="el" href="structhydra_1_1detail_1_1GenerateDecay.html#a8d644c45accc9df1575a3db0f5e7d392">hydra::detail::GenerateDecay&lt; N, GRND &gt;</a>
 </li>
 <li>fCoeficients
 : <a class="el" href="structhydra_1_1detail_1_1CovMatrixUnary.html#abed02915839e45b1b898fb7253bad15c">hydra::detail::CovMatrixUnary&lt; F1, F2, Fs &gt;</a>
@@ -176,8 +167,7 @@ $(document).ready(function(){initNavTree('functions_vars.html','');});
 , <a class="el" href="structhydra_1_1detail_1_1LogLikelihood1.html#a2c63c63ab91164da3fa350f3e4fad90f">hydra::detail::LogLikelihood1&lt; FUNCTOR &gt;</a>
 , <a class="el" href="structhydra_1_1detail_1_1LogLikelihood2.html#adf4f7b6b4724bc22b06dc5ec87ea7b60">hydra::detail::LogLikelihood2&lt; FUNCTOR &gt;</a>
 , <a class="el" href="structhydra_1_1detail_1_1ProcessCallsPlainUnary.html#a0bc4ee86d9eed6dc390b1f79bf1aa6cf">hydra::detail::ProcessCallsPlainUnary&lt; FUNCTOR, N, GRND &gt;</a>
-, <a class="el" href="structhydra_1_1detail_1_1ProcessGenzMalikBox.html#a7762bb768fd64b1a0124ea177e851662">hydra::detail::ProcessGenzMalikBox&lt; N, FUNCTOR, RuleIterator, BoxIterator &gt;</a>
-, <a class="el" href="structhydra_1_1detail_1_1ProcessGenzMalikUnaryCall.html#aa9b6fe47e6b8c6e8a4462fe4ceadbd29">hydra::detail::ProcessGenzMalikUnaryCall&lt; N, FUNCTOR, RuleIterator &gt;</a>
+, <a class="el" href="structhydra_1_1detail_1_1ProcessGenzMalikBox.html#a9c61a2c424d01ad4db51db8fe4c8dd25">hydra::detail::ProcessGenzMalikBox&lt; N, Functor, RuleIterator &gt;</a>
 , <a class="el" href="structhydra_1_1detail_1_1RndCDF.html#a49046f16c2423290ed8d6268bca33d62">hydra::detail::RndCDF&lt; GRND, FUNCTOR &gt;</a>
 , <a class="el" href="structhydra_1_1detail_1_1RndTrial.html#ac3cbfe46a801e9f36354e15cd041e1d9">hydra::detail::RndTrial&lt; T, GRND, FUNCTOR, N &gt;</a>
 , <a class="el" href="structhydra_1_1detail_1_1RndTrial_3_01T_00_01GRND_00_01FUNCTOR_00_011_01_4.html#aae4bc0aa33092f6aa28d1218e248a354">hydra::detail::RndTrial&lt; T, GRND, FUNCTOR, 1 &gt;</a>
@@ -206,12 +196,18 @@ $(document).ready(function(){initNavTree('functions_vars.html','');});
 , <a class="el" href="structhydra_1_1detail_1_1GetGlobalBin.html#ae8bded45870a00328367d4c6d6ac7a38">hydra::detail::GetGlobalBin&lt; N, T &gt;</a>
 , <a class="el" href="structhydra_1_1detail_1_1GetGlobalBin_3_011_00_01T_01_4.html#a2084d45771186ed740a77791bd4f2da5">hydra::detail::GetGlobalBin&lt; 1, T &gt;</a>
 </li>
+<li>fH
+: <a class="el" href="structhydra_1_1GaussianKDE_1_1Kernel.html#a9c9a28c23061f661ac64731ce3d746d1">hydra::GaussianKDE&lt; NBins, ArgIndex &gt;::Kernel</a>
+</li>
 <li>fICovMatrix
 : <a class="el" href="structhydra_1_1detail_1_1SWeights.html#aded68ff1f53cd9412c38fc0ca2b338e0">hydra::detail::SWeights&lt; F1, F2, Fs &gt;</a>
 </li>
 <li>fIncrement
 : <a class="el" href="structhydra_1_1detail_1_1GetBinCenter.html#a9cadaf05426095a722da1fc2906ecb21">hydra::detail::GetBinCenter&lt; T, N &gt;</a>
 , <a class="el" href="structhydra_1_1detail_1_1GetBinCenter_3_01T_00_011_01_4.html#a3948aa223c42e799e702ee0b701ca719">hydra::detail::GetBinCenter&lt; T, 1 &gt;</a>
+</li>
+<li>fInitialSpeed
+: <a class="el" href="structEvolve.html#a5eb2ba67e05da08c78b5f32b574dd852">Evolve</a>
 </li>
 <li>fLowerLimits
 : <a class="el" href="structhydra_1_1detail_1_1GetBinCenter.html#a8f001650ff19d07e22b4844d6f39a2c3">hydra::detail::GetBinCenter&lt; T, N &gt;</a>
@@ -234,6 +230,7 @@ $(document).ready(function(){initNavTree('functions_vars.html','');});
 , <a class="el" href="structhydra_1_1detail_1_1EvalMother.html#a8d1676b1b3223d08b5627f7795ca6007">hydra::detail::EvalMother&lt; N, GRND, FUNCTOR, FUNCTORS &gt;</a>
 , <a class="el" href="structhydra_1_1detail_1_1EvalMothers.html#adc5760166394a4c0e799a2315eefb169">hydra::detail::EvalMothers&lt; N, GRND, FUNCTOR, FUNCTORS &gt;</a>
 , <a class="el" href="structhydra_1_1detail_1_1EvalOnDaughters.html#aba491dcce994dcaf6c426923aa26725a">hydra::detail::EvalOnDaughters&lt; N, BACKEND, FUNCTOR, GRND &gt;</a>
+, <a class="el" href="structhydra_1_1detail_1_1GenerateDecay.html#aa29489893354e66a643234b3116b7f69">hydra::detail::GenerateDecay&lt; N, GRND &gt;</a>
 </li>
 <li>fMax
 : <a class="el" href="structhydra_1_1detail_1_1FlagDaugthers.html#a0fd01e41782e6ccc304028b6e9d0796f">hydra::detail::FlagDaugthers&lt; N &gt;</a>
@@ -279,10 +276,10 @@ $(document).ready(function(){initNavTree('functions_vars.html','');});
 , <a class="el" href="group__numerical__integration.html#ad4e8ac29293dd02959ff524e06188115">hydra::GaussKronrodRuleSelector&lt; 61 &gt;</a>
 </li>
 <li>fRuleBegin
-: <a class="el" href="structhydra_1_1detail_1_1ProcessGenzMalikBox.html#a1f43b3cf5fcc3f2683e226fcfae2b060">hydra::detail::ProcessGenzMalikBox&lt; N, FUNCTOR, RuleIterator, BoxIterator &gt;</a>
+: <a class="el" href="structhydra_1_1detail_1_1ProcessGenzMalikBox.html#a35b5ccd683025c6ddcdc34fa55e1de9a">hydra::detail::ProcessGenzMalikBox&lt; N, Functor, RuleIterator &gt;</a>
 </li>
 <li>fRuleEnd
-: <a class="el" href="structhydra_1_1detail_1_1ProcessGenzMalikBox.html#a89f9be3c996d142f931d904991e7d011">hydra::detail::ProcessGenzMalikBox&lt; N, FUNCTOR, RuleIterator, BoxIterator &gt;</a>
+: <a class="el" href="structhydra_1_1detail_1_1ProcessGenzMalikBox.html#a70f9dd081aff75967d02aba6b59bc1c1">hydra::detail::ProcessGenzMalikBox&lt; N, Functor, RuleIterator &gt;</a>
 </li>
 <li>fSeed
 : <a class="el" href="structhydra_1_1detail_1_1AverageMother.html#a13bd22c8130144981a2ca9aa1a3c4f98">hydra::detail::AverageMother&lt; N, GRND, FUNCTOR &gt;</a>
@@ -293,6 +290,7 @@ $(document).ready(function(){initNavTree('functions_vars.html','');});
 , <a class="el" href="structhydra_1_1detail_1_1EvalMothers.html#afbb9b630d438aeac439426231dce017d">hydra::detail::EvalMothers&lt; N, GRND, FUNCTOR, FUNCTORS &gt;</a>
 , <a class="el" href="structhydra_1_1detail_1_1EvalOnDaughters.html#abf13427de1887b9295df7e15ea61905c">hydra::detail::EvalOnDaughters&lt; N, BACKEND, FUNCTOR, GRND &gt;</a>
 , <a class="el" href="structhydra_1_1detail_1_1FlagAcceptReject.html#abe201ba45f5840752c61b09871c48e07">hydra::detail::FlagAcceptReject</a>
+, <a class="el" href="structhydra_1_1detail_1_1GenerateDecay.html#abc5d4783bfda2ddccb7df9dcacbc7cc1">hydra::detail::GenerateDecay&lt; N, GRND &gt;</a>
 , <a class="el" href="structhydra_1_1detail_1_1ProcessCallsPlainUnary.html#ae7e4e5a86460a33fdf16f7c30d874825">hydra::detail::ProcessCallsPlainUnary&lt; FUNCTOR, N, GRND &gt;</a>
 , <a class="el" href="structhydra_1_1detail_1_1RndBreitWigner.html#a27867718ecea2ee0bb8d38add3c035e6">hydra::detail::RndBreitWigner&lt; T, GRND &gt;</a>
 , <a class="el" href="structhydra_1_1detail_1_1RndCDF.html#a550a2bac2cfdda36b00601f2d6a0bda2">hydra::detail::RndCDF&lt; GRND, FUNCTOR &gt;</a>
@@ -306,6 +304,9 @@ $(document).ready(function(){initNavTree('functions_vars.html','');});
 <li>fSigma
 : <a class="el" href="structhydra_1_1detail_1_1RndGauss.html#acc6615d7c60969ff46eb75f4eea74ebb">hydra::detail::RndGauss&lt; T, GRND &gt;</a>
 </li>
+<li>fSlope
+: <a class="el" href="structEvolve.html#a7ac2963efef2f359e20b9418c6616696">Evolve</a>
+</li>
 <li>fTau
 : <a class="el" href="structhydra_1_1detail_1_1RndExp.html#aa28c988b9b01c790ece9c786b90bc8a2">hydra::detail::RndExp&lt; T, GRND &gt;</a>
 </li>
@@ -314,6 +315,10 @@ $(document).ready(function(){initNavTree('functions_vars.html','');});
 , <a class="el" href="structhydra_1_1detail_1_1DecayMother.html#a4071516c3d87a71c6c65dabb412f3265">hydra::detail::DecayMother&lt; N, GRND &gt;</a>
 , <a class="el" href="structhydra_1_1detail_1_1EvalMother.html#a88ab7ce0c458cd9bfb9688a51004d6c9">hydra::detail::EvalMother&lt; N, GRND, FUNCTOR, FUNCTORS &gt;</a>
 , <a class="el" href="structhydra_1_1detail_1_1EvalOnDaughters.html#a9833530c0b05f3ded4a18dc0150732e7">hydra::detail::EvalOnDaughters&lt; N, BACKEND, FUNCTOR, GRND &gt;</a>
+, <a class="el" href="structhydra_1_1detail_1_1GenerateDecay.html#a6cd7d2ca44a08a16708288509dc1c2e3">hydra::detail::GenerateDecay&lt; N, GRND &gt;</a>
+</li>
+<li>fTime
+: <a class="el" href="structEvolve.html#ac71d69883f2284717ed13ac66c7de7dc">Evolve</a>
 </li>
 <li>fValMax
 : <a class="el" href="structhydra_1_1detail_1_1RndFlag.html#ae550767953fbed875b43ad6f377e46fe">hydra::detail::RndFlag&lt; T, Iterator, GRND &gt;</a>
@@ -334,6 +339,10 @@ $(document).ready(function(){initNavTree('functions_vars.html','');});
 , <a class="el" href="structhydra_1_1detail_1_1DecayMother.html#a00a563792a2bda7207a80b2cfa3e4414">hydra::detail::DecayMother&lt; N, GRND &gt;</a>
 , <a class="el" href="structhydra_1_1detail_1_1EvalMother.html#aa41eec0a683771aa6e4f06a22b707e6d">hydra::detail::EvalMother&lt; N, GRND, FUNCTOR, FUNCTORS &gt;</a>
 , <a class="el" href="structhydra_1_1detail_1_1EvalOnDaughters.html#a00eb88c2109fc0168489af905b561af8">hydra::detail::EvalOnDaughters&lt; N, BACKEND, FUNCTOR, GRND &gt;</a>
+, <a class="el" href="structhydra_1_1detail_1_1GenerateDecay.html#a90fb81fa49f86ef9be6f3ed866f5961e">hydra::detail::GenerateDecay&lt; N, GRND &gt;</a>
+</li>
+<li>fX
+: <a class="el" href="structhydra_1_1GaussianKDE_1_1Kernel.html#a316f9d91448cb2abac6ac7ebc8575f73">hydra::GaussianKDE&lt; NBins, ArgIndex &gt;::Kernel</a>
 </li>
 <li>fXLow
 : <a class="el" href="structhydra_1_1detail_1_1ProcessCallsPlainUnary.html#a70a2f46dd65e1d98b38c7cdbb8b00e8b">hydra::detail::ProcessCallsPlainUnary&lt; FUNCTOR, N, GRND &gt;</a>
@@ -421,7 +430,7 @@ $(document).ready(function(){initNavTree('functions_vars.html','');});
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="footer">Generated on Fri Mar 23 2018 14:51:41 for Hydra by
+    <li class="footer">Generated on Sat Nov 3 2018 02:26:25 for Hydra by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.14 </li>
   </ul>

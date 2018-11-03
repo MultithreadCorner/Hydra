@@ -1,6 +1,0 @@
-<map id="hydra::Vector4R::scalartripler3" name="hydra::Vector4R::scalartripler3">
-<area shape="rect" id="node2" href="$group__phsp.html#ac30a0beccf6db256aa597c079ee4e2f2" title="hydra::Vector4R::applyBoostTo" alt="" coords="252,5,457,32"/>
-<area shape="rect" id="node4" href="$group__phsp.html#a412a95f7103f1cc73e696f6274feaf90" title="hydra::Vector4R::cross" alt="" coords="276,56,433,83"/>
-<area shape="rect" id="node5" href="$group__phsp.html#ae16195f47a40893f80379d8d21357ada" title="hydra::Vector4R::dot" alt="" coords="283,107,426,133"/>
-<area shape="rect" id="node3" href="$group__phsp.html#a0c1568aeb4f36f12c7c6d58716921aa3" title="hydra::Vector4R::get" alt="" coords="505,5,648,32"/>
-</map>

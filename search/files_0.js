@@ -6,6 +6,8 @@ var searchData=
   ['addpdf_2eh',['AddPdf.h',['../AddPdf_8h.html',1,'']]],
   ['addpdfbase_2eh',['AddPdfBase.h',['../AddPdfBase_8h.html',1,'']]],
   ['addpdffunctor_2eh',['AddPdfFunctor.h',['../AddPdfFunctor_8h.html',1,'']]],
+  ['algorithm_2eh',['Algorithm.h',['../Algorithm_8h.html',1,'']]],
+  ['analyticalintegral_2einl',['AnalyticalIntegral.inl',['../AnalyticalIntegral_8inl.html',1,'']]],
   ['argument_2eh',['Argument.h',['../Argument_8h.html',1,'']]],
   ['argusshape_2eh',['ArgusShape.h',['../ArgusShape_8h.html',1,'']]],
   ['arithmetic_5ftuple_2eh',['Arithmetic_Tuple.h',['../Arithmetic__Tuple_8h.html',1,'']]],

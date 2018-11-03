@@ -1,2 +1,2 @@
-<map id="hydra::detail::ProcessGenzMalikBox&lt; N, FUNCTOR, RuleIterator, BoxIterator &gt;" name="hydra::detail::ProcessGenzMalikBox&lt; N, FUNCTOR, RuleIterator, BoxIterator &gt;">
+<map id="hydra::detail::ProcessGenzMalikBox&lt; N, Functor, RuleIterator &gt;" name="hydra::detail::ProcessGenzMalikBox&lt; N, Functor, RuleIterator &gt;">
 </map>

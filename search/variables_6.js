@@ -1,7 +1,6 @@
 var searchData=
 [
-  ['kfalse',['kFalse',['../namespacehydra.html#ab14adaa26f703b8c130df530167ebd23',1,'hydra']]],
-  ['kronrodn',['KronrodN',['../group__numerical__integration.html#aa7fbf83a1aa68ac5b87bae9dce9e5395',1,'hydra::GaussKronrodRule']]],
-  ['kronrodweight',['KronrodWeight',['../group__numerical__integration.html#a1c3579a3eeb4b0e676b5b8029b400dd5',1,'hydra::GaussKronrodRule']]],
-  ['ktrue',['kTrue',['../namespacehydra.html#a1556536d7a73fa95e5a9c9610f76a3c1',1,'hydra']]]
+  ['inverse_5fsqrt2',['inverse_sqrt2',['../namespacehydra_1_1math__constants.html#a2ddd7c1e2030ec37fdd597983b2df479',1,'hydra::math_constants']]],
+  ['inverse_5fsqrt2pi',['inverse_sqrt2Pi',['../namespacehydra_1_1math__constants.html#ad9321ecdbe4311bea321731feb43036e',1,'hydra::math_constants']]],
+  ['is_5fhost_5fiterator',['is_host_iterator',['../structhydra_1_1detail_1_1IteratorTraits.html#a4840172eed9a423f072e713c099edb35',1,'hydra::detail::IteratorTraits']]]
 ];

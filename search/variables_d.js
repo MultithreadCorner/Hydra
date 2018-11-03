@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['y',['y',['../structhydra_1_1detail_1_1CovMatrixUnary_1_1index.html#aafc6edbf7523a7b3a6dabb5bbcdc5cf3',1,'hydra::detail::CovMatrixUnary::index::y()'],['../structhydra_1_1SPlot_1_1index.html#a77e7b946eb940729dd866f2017c0e673',1,'hydra::SPlot::index::y()']]]
+  ['value',['value',['../structhydra_1_1detail_1_1has__analytical__integral_3_01C_00_01Ret_07Args_8_8_8_08_4.html#ab88527bd471ab28e1184da9143642ff4',1,'hydra::detail::has_analytical_integral&lt; C, Ret(Args...)&gt;::value()'],['../structhydra_1_1detail_1_1nearest__int.html#ac190f185af492aec1dfe7ee46468857f',1,'hydra::detail::nearest_int::value()']]]
 ];

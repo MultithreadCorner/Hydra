@@ -1,7 +1,0 @@
-<map id="main" name="main">
-<area shape="rect" id="node2" href="$group__phsp.html#a4f42c46cb917bf641d7a44ba037ba5b9" title="Calculate the mean and the &#160;of a functor over the phase&#45;space with n&#45;samples. " alt="" coords="114,5,258,47"/>
-<area shape="rect" id="node3" href="$namespacehydra.html#ae7f8d7b0cfc77696dd1ba9aaf31d23a7" title="hydra::end" alt="" coords="145,71,227,98"/>
-<area shape="rect" id="node4" href="$group__phsp.html#a0a21c5ac94adbf7f76deaf3e1e0e86d9" title="hydra::Vector4R::mass2" alt="" coords="104,122,268,149"/>
-<area shape="rect" id="node5" href="$namespacehydra.html#ac9c54fb833c00a61ad29f0203620ec27" title="hydra::sqrt" alt="" coords="144,173,228,199"/>
-<area shape="rect" id="node6" href="$group__functor.html#ga06bab1ad739e661a92fbf918012c9736" title="Function template for wrap a C++11 lambda into a hydra lambda with a certain number of parameters..." alt="" coords="117,223,255,250"/>
-</map>

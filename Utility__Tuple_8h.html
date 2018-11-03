@@ -36,7 +36,7 @@
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">Hydra
-   &#160;<span id="projectnumber">2.1.0</span>
+   &#160;<span id="projectnumber">2.2.1</span>
    </div>
    <div id="projectbrief">A header-only templated C++ framework to perform data analysis on massively parallel platforms.</div>
   </td>
@@ -287,6 +287,14 @@ Functions</h2></td></tr>
 <tr class="memitem:a6155319b5f6821c59294fd4904f8881a"><td class="memTemplParams" colspan="2">template&lt;typename ... T, size_t... I&gt; </td></tr>
 <tr class="memitem:a6155319b5f6821c59294fd4904f8881a"><td class="memTemplItemLeft" align="right" valign="top">auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacehydra_1_1detail.html#a6155319b5f6821c59294fd4904f8881a">hydra::detail::make_rtuple_helper</a> (HYDRA_EXTERNAL_NS::thrust::tuple&lt; T... &gt; &amp;t, index_sequence&lt; I... &gt;) -&gt; HYDRA_EXTERNAL_NS::thrust::tuple&lt; T &amp;... &gt;</td></tr>
 <tr class="separator:a6155319b5f6821c59294fd4904f8881a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1152192bafa3c9d955919ee2fa88f8ef"><td class="memTemplParams" colspan="2">template&lt;typename ... T&gt; </td></tr>
+<tr class="memitem:a1152192bafa3c9d955919ee2fa88f8ef"><td class="memTemplItemLeft" align="right" valign="top">__hydra_host__ __hydra_device__ size_t&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacehydra_1_1detail.html#a1152192bafa3c9d955919ee2fa88f8ef">hydra::detail::max</a> (HYDRA_EXTERNAL_NS::thrust::tuple&lt; T... &gt; const &amp;tuple)</td></tr>
+<tr class="separator:a1152192bafa3c9d955919ee2fa88f8ef"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa4140580867ee73e401e1bb1e213548c"><td class="memTemplParams" colspan="2">template&lt;typename T , typename C , size_t N, size_t I&gt; </td></tr>
+<tr class="memitem:aa4140580867ee73e401e1bb1e213548c"><td class="memTemplItemLeft" align="right" valign="top">__hydra_host__ __hydra_device__ std::enable_if&lt; I==N, void &gt;::type&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacehydra_1_1detail.html#aa4140580867ee73e401e1bb1e213548c">hydra::detail::max_helper</a> (T const &amp;, C &amp;, size_t &amp;)</td></tr>
+<tr class="separator:aa4140580867ee73e401e1bb1e213548c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad23b453b58064598dbd7596ffca55422"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacehydra_1_1detail.html#ad23b453b58064598dbd7596ffca55422">hydra::detail::max_helper&lt; T, C, N, I+1 &gt;</a> (tuple, max_value, max_index)</td></tr>
+<tr class="separator:ad23b453b58064598dbd7596ffca55422"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a2ccf298d7fa30a13efd0d4d848248222"><td class="memTemplParams" colspan="2">template&lt;typename ... T&gt; </td></tr>
 <tr class="memitem:a2ccf298d7fa30a13efd0d4d848248222"><td class="memTemplItemLeft" align="right" valign="top">__hydra_host__ __hydra_device__ auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacehydra_1_1detail.html#a2ccf298d7fa30a13efd0d4d848248222">hydra::detail::multiply_array_tuple</a> (GReal_t(&amp;fCoeficients)[sizeof...(T)], HYDRA_EXTERNAL_NS::thrust::tuple&lt; T... &gt; const &amp;tpl) -&gt; decltype(multiply_array_tuple_helper(fCoeficients, tpl, make_index_sequence&lt; sizeof...(T)&gt;</td></tr>
 <tr class="separator:a2ccf298d7fa30a13efd0d4d848248222"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -442,6 +450,9 @@ Functions</h2></td></tr>
 Variables</h2></td></tr>
 <tr class="memitem:a6e5ce23b23364c64166f4c390f0f5f03"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacehydra_1_1detail.html#a6e5ce23b23364c64166f4c390f0f5f03">hydra::detail::make_index_sequence&lt; sizeof...(T) -N &gt;</a></td></tr>
 <tr class="separator:a6e5ce23b23364c64166f4c390f0f5f03"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad84db3f1361834150a648dd26e7ef276"><td class="memTemplParams" colspan="2">template&lt;typename T , typename C , size_t N, size_t I = 1&gt; </td></tr>
+<tr class="memitem:ad84db3f1361834150a648dd26e7ef276"><td class="memTemplItemLeft" align="right" valign="top">__hydra_host__ __hydra_device__ std::enable_if&lt; I&lt; N, void &gt;::type max_helper(T const  &amp;tuple, C &amp;max_value, size_t &amp;max_index){ max_index=max_value &gt; HYDRA_EXTERNAL_NS::thrust::get&lt; I &gt;(tuple) ? max_index&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacehydra_1_1detail.html#ad84db3f1361834150a648dd26e7ef276">hydra::detail::max_value</a> = max_value &gt; HYDRA_EXTERNAL_NS::thrust::get&lt;I&gt;(tuple) ? max_value : HYDRA_EXTERNAL_NS::thrust::get&lt;I&gt;(tuple)</td></tr>
+<tr class="separator:ad84db3f1361834150a648dd26e7ef276"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <hr/><h2 class="groupheader">Data Structure Documentation</h2>
 <a name="structhydra_1_1detail_1_1references__tuple__type" id="structhydra_1_1detail_1_1references__tuple__type"></a>
@@ -569,7 +580,7 @@ type</td>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="dir_92a1ff494355b06c14c0e1fe7b982d29.html">Hydra</a></li><li class="navelem"><a class="el" href="dir_108162cc96056bf8ace3602d16680a1c.html">hydra</a></li><li class="navelem"><a class="el" href="dir_3834ae61da54c887219d23c23fa56bea.html">detail</a></li><li class="navelem"><a class="el" href="dir_50b81e2dbdc2d397ec548125a86506fb.html">utility</a></li><li class="navelem"><a class="el" href="Utility__Tuple_8h.html">Utility_Tuple.h</a></li>
-    <li class="footer">Generated on Fri Mar 23 2018 14:51:40 for Hydra by
+    <li class="footer">Generated on Sat Nov 3 2018 02:26:24 for Hydra by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.14 </li>
   </ul>

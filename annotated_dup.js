@@ -6,8 +6,10 @@ var annotated_dup =
       [ "common_type< HYDRA_EXTERNAL_NS::thrust::complex< U >, T >", "structstd_1_1common__type_3_01HYDRA__EXTERNAL__NS_1_1thrust_1_1complex_3_01U_01_4_00_01T_01_4.html", "structstd_1_1common__type_3_01HYDRA__EXTERNAL__NS_1_1thrust_1_1complex_3_01U_01_4_00_01T_01_4" ],
       [ "common_type< T, HYDRA_EXTERNAL_NS::thrust::complex< U > >", "structstd_1_1common__type_3_01T_00_01HYDRA__EXTERNAL__NS_1_1thrust_1_1complex_3_01U_01_4_01_4.html", "structstd_1_1common__type_3_01T_00_01HYDRA__EXTERNAL__NS_1_1thrust_1_1complex_3_01U_01_4_01_4" ]
     ] ],
-    [ "all_true", "classall__true.html", null ],
-    [ "CosTheta", "namespace_3globalScope_4.html#classCosTheta", null ],
+    [ "ArgusShapeAnalyticalIntegral", "namespace_3globalScope_4.html#classArgusShapeAnalyticalIntegral", null ],
+    [ "BreitWignerNR", "group__common__functions.html#classBreitWignerNR", null ],
+    [ "CosTheta", "group__common__functions.html#classCosTheta", null ],
+    [ "Evolve", "structEvolve.html", "structEvolve" ],
     [ "LogLikelihoodFCN< PDFSumExtendable< Pdfs::::::>", "group__fit.html#classLogLikelihoodFCN_3_01PDFSumExtendable_3_01Pdfs_1_1_1_1_1_1_4", null ],
     [ "NonResonant", "classNonResonant.html", "classNonResonant" ],
     [ "printer_t", "structprinter__t.html", "structprinter__t" ],

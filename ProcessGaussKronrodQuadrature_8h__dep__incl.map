@@ -1,9 +1,17 @@
 <map id="ProcessGaussKronrodQuadrature.h" name="ProcessGaussKronrodQuadrature.h">
-<area shape="rect" id="node2" href="$GaussKronrodQuadrature_8h.html" title="GaussKronrodQuadrature.h" alt="" coords="110,80,290,107"/>
-<area shape="rect" id="node3" href="$splot_8inl.html" title="splot.inl" alt="" coords="105,155,172,181"/>
-<area shape="rect" id="node6" href="$gauss__kronrod_8inl.html" title="gauss_kronrod.inl" alt="" coords="201,155,325,181"/>
-<area shape="rect" id="node4" href="$splot_8cpp.html" title="splot.cpp" alt="" coords="5,229,80,256"/>
-<area shape="rect" id="node5" href="$splot_8cu.html" title="splot.cu" alt="" coords="105,229,173,256"/>
-<area shape="rect" id="node7" href="$gauss__kronrod_8cpp.html" title="gauss_kronrod.cpp" alt="" coords="197,229,329,256"/>
-<area shape="rect" id="node8" href="$gauss__kronrod_8cu.html" title="gauss_kronrod.cu" alt="" coords="353,229,479,256"/>
+<area shape="rect" id="node2" href="$GaussKronrodQuadrature_8h.html" title="GaussKronrodQuadrature.h" alt="" coords="306,80,486,107"/>
+<area shape="rect" id="node3" href="$DeltaDMassBackground_8h.html" title="DeltaDMassBackground.h" alt="" coords="115,155,288,181"/>
+<area shape="rect" id="node4" href="$particle__mass_8inl.html" title="particle_mass.inl" alt="" coords="159,229,279,256"/>
+<area shape="rect" id="node7" href="$Ipatia_8h.html" title="Ipatia.h" alt="" coords="363,155,429,181"/>
+<area shape="rect" id="node11" href="$splot_8inl.html" title="splot.inl" alt="" coords="476,155,543,181"/>
+<area shape="rect" id="node14" href="$gauss__kronrod_8inl.html" title="gauss_kronrod.inl" alt="" coords="667,155,791,181"/>
+<area shape="rect" id="node5" href="$particle__mass_8cpp.html" title="particle_mass.cpp" alt="" coords="5,304,133,331"/>
+<area shape="rect" id="node6" href="$particle__mass_8cu.html" title="particle_mass.cu" alt="" coords="158,304,279,331"/>
+<area shape="rect" id="node8" href="$Ipatia__plus__argus_8inl.html" title="Ipatia_plus_argus.inl" alt="" coords="307,229,448,256"/>
+<area shape="rect" id="node9" href="$ipatia__plus__argus_8cpp.html" title="ipatia_plus_argus.cpp" alt="" coords="303,304,451,331"/>
+<area shape="rect" id="node10" href="$ipatia__plus__argus_8cu.html" title="ipatia_plus_argus.cu" alt="" coords="476,304,617,331"/>
+<area shape="rect" id="node12" href="$splot_8cpp.html" title="splot.cpp" alt="" coords="472,229,547,256"/>
+<area shape="rect" id="node13" href="$splot_8cu.html" title="splot.cu" alt="" coords="571,229,639,256"/>
+<area shape="rect" id="node15" href="$gauss__kronrod_8cpp.html" title="gauss_kronrod.cpp" alt="" coords="663,229,795,256"/>
+<area shape="rect" id="node16" href="$gauss__kronrod_8cu.html" title="gauss_kronrod.cu" alt="" coords="820,229,945,256"/>
 </map>

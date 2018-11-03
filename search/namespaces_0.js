@@ -7,6 +7,7 @@ var searchData=
   ['experimental',['experimental',['../namespacehydra_1_1experimental.html',1,'hydra']]],
   ['host',['host',['../namespacehydra_1_1detail_1_1host.html',1,'hydra::detail::host'],['../namespacehydra_1_1host.html',1,'hydra::host']]],
   ['hydra',['hydra',['../namespacehydra.html',1,'']]],
+  ['jacobi',['jacobi',['../namespacehydra_1_1detail_1_1jacobi.html',1,'hydra::detail']]],
   ['math_5fconstants',['math_constants',['../namespacehydra_1_1math__constants.html',1,'hydra']]],
   ['omp',['omp',['../namespacehydra_1_1detail_1_1omp.html',1,'hydra::detail::omp'],['../namespacehydra_1_1omp.html',1,'hydra::omp']]],
   ['placeholders',['placeholders',['../namespacehydra_1_1placeholders.html',1,'hydra']]],

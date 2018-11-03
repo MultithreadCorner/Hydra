@@ -6,6 +6,6 @@ var Random_8h =
     [ "ranlux24", "Random_8h.html#a943a0571fdadbbb4bc9b17ba7ae4b59b", null ],
     [ "ranlux48", "Random_8h.html#a6950c5abef4e2015f833501684940b5d", null ],
     [ "taus88", "Random_8h.html#a2633cfe1492c02cfb2aef6a79804f191", null ],
-    [ "unweight", "Random_8h.html#gaeb028ec526f8e42bf272cd1908fae5fb", null ],
-    [ "unweight", "Random_8h.html#gae6666975955b48dc2551ceb413ffa611", null ]
+    [ "unweight", "Random_8h.html#gab81f5dd96aa2b2ad0373dafa102eaada", null ],
+    [ "unweight", "Random_8h.html#ga2d220371c79722ad3f1a551a4d1c48f7", null ]
 ];

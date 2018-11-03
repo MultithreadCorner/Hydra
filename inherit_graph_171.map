@@ -1,4 +1,3 @@
 <map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
-<area shape="rect" id="node1" href="$structhydra_1_1Integrator.html" title="hydra::Integrator\&lt;\l GaussKronrodQuadrature\l\&lt; NRULE, NBIN, hydra::detail\l::BackendPolicy\&lt; BACKEND \&gt; \&gt; \&gt;" alt="" coords="5,5,236,76"/>
-<area shape="rect" id="node2" href="$classhydra_1_1GaussKronrodQuadrature_3_01NRULE_00_01NBIN_00_01hydra_1_1detail_1_1BackendPolicy_3_01BACKEND_01_4_01_4.html" title="hydra::GaussKronrodQuadrature\l\&lt; NRULE, NBIN, hydra::detail\l::BackendPolicy\&lt; BACKEND \&gt; \&gt;" alt="" coords="284,13,503,69"/>
+<area shape="rect" id="node1" href="$group__numerical__integration.html" title="hydra::GaussKronrodRule\l\&lt; 21 \&gt;" alt="" coords="5,5,176,47"/>
 </map>

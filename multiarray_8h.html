@@ -36,7 +36,7 @@
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">Hydra
-   &#160;<span id="projectnumber">2.1.0</span>
+   &#160;<span id="projectnumber">2.2.1</span>
    </div>
    <div id="projectbrief">A header-only templated C++ framework to perform data analysis on massively parallel platforms.</div>
   </td>
@@ -101,12 +101,15 @@ $(document).ready(function(){initNavTree('multiarray_8h.html','');});
 <div class="title">multiarray.h File Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><code>#include &lt;<a class="el" href="">hydra/detail/Config.h</a>&gt;</code><br />
+<div class="textblock"><code>#include &lt;array&gt;</code><br />
+<code>#include &lt;<a class="el" href="">hydra/detail/Config.h</a>&gt;</code><br />
 <code>#include &lt;<a class="el" href="">hydra/detail/BackendPolicy.h</a>&gt;</code><br />
 <code>#include &lt;<a class="el" href="">hydra/detail/utility/Utility_Tuple.h</a>&gt;</code><br />
 <code>#include &lt;<a class="el" href="">hydra/detail/functors/Caster.h</a>&gt;</code><br />
 <code>#include &lt;<a class="el" href="">hydra/Tuple.h</a>&gt;</code><br />
 <code>#include &lt;<a class="el" href="">hydra/Placeholders.h</a>&gt;</code><br />
+<code>#include &lt;<a class="el" href="">hydra/Iterator.h</a>&gt;</code><br />
+<code>#include &lt;<a class="el" href="">hydra/Range.h</a>&gt;</code><br />
 <code>#include &lt;hydra/detail/external/thrust/iterator/zip_iterator.h&gt;</code><br />
 <code>#include &lt;hydra/detail/external/thrust/iterator/iterator_traits.h&gt;</code><br />
 <code>#include &lt;hydra/detail/external/thrust/tuple.h&gt;</code><br />
@@ -114,7 +117,6 @@ $(document).ready(function(){initNavTree('multiarray_8h.html','');});
 <code>#include &lt;hydra/detail/external/thrust/functional.h&gt;</code><br />
 <code>#include &lt;hydra/detail/external/thrust/detail/type_traits.h&gt;</code><br />
 <code>#include &lt;hydra/detail/external/thrust/iterator/transform_iterator.h&gt;</code><br />
-<code>#include &lt;array&gt;</code><br />
 </div><div class="textblock"><div class="dynheader">
 Include dependency graph for multiarray.h:</div>
 <div class="dyncontent">
@@ -123,7 +125,7 @@ Include dependency graph for multiarray.h:</div>
 </div><div class="textblock"><div class="dynheader">
 This graph shows which files directly or indirectly include this file:</div>
 <div class="dyncontent">
-<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="multiarray_8h__dep__incl.svg" width="100%" height="574"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
+<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="multiarray_8h__dep__incl.svg" width="100%" height="600"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
 </div>
 </div>
 <p><a href="">Go to the source code of this file.</a></p>
@@ -143,39 +145,52 @@ Namespaces</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:a3fabb476eec3a6c72fc8405f350946e1"><td class="memTemplParams" colspan="2">template&lt;unsigned int I, hydra::detail::Backend BACKEND, typename T , size_t N&gt; </td></tr>
-<tr class="memitem:a3fabb476eec3a6c72fc8405f350946e1"><td class="memTemplItemLeft" align="right" valign="top">auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacehydra.html#a3fabb476eec3a6c72fc8405f350946e1">hydra::begin</a> (multiarray&lt; T, N, detail::BackendPolicy&lt; BACKEND &gt;&gt; const &amp;other) -&gt; decltype(other.begin(placeholders::placeholder&lt; I &gt;</td></tr>
-<tr class="separator:a3fabb476eec3a6c72fc8405f350946e1"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a8889ff1ca402595e22a39a1353161fcb"><td class="memTemplParams" colspan="2">template&lt;unsigned int I, hydra::detail::Backend BACKEND, typename T , size_t N&gt; </td></tr>
-<tr class="memitem:a8889ff1ca402595e22a39a1353161fcb"><td class="memTemplItemLeft" align="right" valign="top">auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacehydra.html#a8889ff1ca402595e22a39a1353161fcb">hydra::begin</a> (multiarray&lt; T, N, detail::BackendPolicy&lt; BACKEND &gt;&gt; &amp;other) -&gt; decltype(other.begin(placeholders::placeholder&lt; I &gt;</td></tr>
-<tr class="separator:a8889ff1ca402595e22a39a1353161fcb"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:abbb0cd4e50b5ece72164e5a2bb6921ac"><td class="memTemplParams" colspan="2">template&lt;unsigned int I, hydra::detail::Backend BACKEND, typename T , size_t N&gt; </td></tr>
-<tr class="memitem:abbb0cd4e50b5ece72164e5a2bb6921ac"><td class="memTemplItemLeft" align="right" valign="top">auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacehydra.html#abbb0cd4e50b5ece72164e5a2bb6921ac">hydra::end</a> (multiarray&lt; T, N, detail::BackendPolicy&lt; BACKEND &gt;&gt; const &amp;other) -&gt; decltype(other.end(placeholders::placeholder&lt; I &gt;</td></tr>
-<tr class="separator:abbb0cd4e50b5ece72164e5a2bb6921ac"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a6394ef91cb6d9eb87c9a8f1a34fd3186"><td class="memTemplParams" colspan="2">template&lt;unsigned int I, hydra::detail::Backend BACKEND, typename T , size_t N&gt; </td></tr>
-<tr class="memitem:a6394ef91cb6d9eb87c9a8f1a34fd3186"><td class="memTemplItemLeft" align="right" valign="top">auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacehydra.html#a6394ef91cb6d9eb87c9a8f1a34fd3186">hydra::end</a> (multiarray&lt; T, N, detail::BackendPolicy&lt; BACKEND &gt;&gt; &amp;other) -&gt; decltype(other.end(placeholders::placeholder&lt; I &gt;</td></tr>
-<tr class="separator:a6394ef91cb6d9eb87c9a8f1a34fd3186"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a24a594d0fa4c37b4550bb26317d33a42"><td class="memTemplParams" colspan="2">template&lt;unsigned int I, hydra::detail::Backend BACKEND, typename T , size_t N&gt; </td></tr>
-<tr class="memitem:a24a594d0fa4c37b4550bb26317d33a42"><td class="memTemplItemLeft" align="right" valign="top">auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacehydra.html#a24a594d0fa4c37b4550bb26317d33a42">hydra::get</a> (multiarray&lt; T, N, detail::BackendPolicy&lt; BACKEND &gt;&gt; const &amp;other) -&gt; decltype(other.column(placeholders::placeholder&lt; I &gt;</td></tr>
-<tr class="separator:a24a594d0fa4c37b4550bb26317d33a42"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afd4f46840c85ee014f1d237601913ae1"><td class="memTemplParams" colspan="2">template&lt;unsigned int I, hydra::detail::Backend BACKEND, typename T , size_t N&gt; </td></tr>
+<tr class="memitem:afd4f46840c85ee014f1d237601913ae1"><td class="memTemplItemLeft" align="right" valign="top">auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacehydra.html#afd4f46840c85ee014f1d237601913ae1">hydra::begin</a> (placeholders::placeholder&lt; I &gt;, multiarray&lt; T, N, detail::BackendPolicy&lt; BACKEND &gt;&gt; const &amp;other) -&gt; decltype(other.begin(placeholders::placeholder&lt; I &gt;</td></tr>
+<tr class="separator:afd4f46840c85ee014f1d237601913ae1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6483cec578e17112f07ba012a4dc50ed"><td class="memTemplParams" colspan="2">template&lt;unsigned int I, hydra::detail::Backend BACKEND, typename T , size_t N&gt; </td></tr>
+<tr class="memitem:a6483cec578e17112f07ba012a4dc50ed"><td class="memTemplItemLeft" align="right" valign="top">auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacehydra.html#a6483cec578e17112f07ba012a4dc50ed">hydra::begin</a> (placeholders::placeholder&lt; I &gt;, multiarray&lt; T, N, detail::BackendPolicy&lt; BACKEND &gt;&gt; &amp;other) -&gt; decltype(other.begin(placeholders::placeholder&lt; I &gt;</td></tr>
+<tr class="separator:a6483cec578e17112f07ba012a4dc50ed"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aec19ef09aa95bbdb2230bd31d879b94d"><td class="memTemplParams" colspan="2">template&lt;hydra::detail::Backend BACKEND, typename T , size_t N, unsigned int... I&gt; </td></tr>
+<tr class="memitem:aec19ef09aa95bbdb2230bd31d879b94d"><td class="memTemplItemLeft" align="right" valign="top">auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacehydra.html#aec19ef09aa95bbdb2230bd31d879b94d">hydra::columns</a> (multiarray&lt; T, N, detail::BackendPolicy&lt; BACKEND &gt;&gt;const &amp;other, placeholders::placeholder&lt; I &gt;...cls) -&gt; Range&lt; decltype(std::declval&lt; multiarray&lt; T, N, detail::BackendPolicy&lt; BACKEND &gt;&gt;const &amp;&gt;().begin(placeholders::placeholder&lt; I &gt;</td></tr>
+<tr class="separator:aec19ef09aa95bbdb2230bd31d879b94d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac897e7fcbfbb068d5d29122253491201"><td class="memTemplParams" colspan="2">template&lt;hydra::detail::Backend BACKEND, typename T , size_t N, unsigned int... I&gt; </td></tr>
+<tr class="memitem:ac897e7fcbfbb068d5d29122253491201"><td class="memTemplItemLeft" align="right" valign="top">auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacehydra.html#ac897e7fcbfbb068d5d29122253491201">hydra::columns</a> (multiarray&lt; T, N, detail::BackendPolicy&lt; BACKEND &gt;&gt; &amp;other, placeholders::placeholder&lt; I &gt;...cls) -&gt; Range&lt; decltype(std::declval&lt; multiarray&lt; T, N, detail::BackendPolicy&lt; BACKEND &gt;&gt; &amp;&amp;&gt;().begin(placeholders::placeholder&lt; I &gt;</td></tr>
+<tr class="separator:ac897e7fcbfbb068d5d29122253491201"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a03f64a7db637f2f1865093311d69f0bc"><td class="memTemplParams" colspan="2">template&lt;unsigned int I, hydra::detail::Backend BACKEND, typename T , size_t N&gt; </td></tr>
+<tr class="memitem:a03f64a7db637f2f1865093311d69f0bc"><td class="memTemplItemLeft" align="right" valign="top">auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacehydra.html#a03f64a7db637f2f1865093311d69f0bc">hydra::end</a> (placeholders::placeholder&lt; I &gt;, multiarray&lt; T, N, detail::BackendPolicy&lt; BACKEND &gt;&gt; const &amp;other) -&gt; decltype(other.end(placeholders::placeholder&lt; I &gt;</td></tr>
+<tr class="separator:a03f64a7db637f2f1865093311d69f0bc"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab07ef1a981144fec2ec0227a346bedf8"><td class="memTemplParams" colspan="2">template&lt;unsigned int I, hydra::detail::Backend BACKEND, typename T , size_t N&gt; </td></tr>
+<tr class="memitem:ab07ef1a981144fec2ec0227a346bedf8"><td class="memTemplItemLeft" align="right" valign="top">auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacehydra.html#ab07ef1a981144fec2ec0227a346bedf8">hydra::end</a> (placeholders::placeholder&lt; I &gt;, multiarray&lt; T, N, detail::BackendPolicy&lt; BACKEND &gt;&gt; &amp;other) -&gt; decltype(other.end(placeholders::placeholder&lt; I &gt;</td></tr>
+<tr class="separator:ab07ef1a981144fec2ec0227a346bedf8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2658beb74af1f617373f6f640e2949e4"><td class="memTemplParams" colspan="2">template&lt;unsigned int I, hydra::detail::Backend BACKEND, typename T , size_t N&gt; </td></tr>
+<tr class="memitem:a2658beb74af1f617373f6f640e2949e4"><td class="memTemplItemLeft" align="right" valign="top">auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacehydra.html#a2658beb74af1f617373f6f640e2949e4">hydra::get</a> (placeholders::placeholder&lt; I &gt;, multiarray&lt; T, N, detail::BackendPolicy&lt; BACKEND &gt;&gt; const &amp;other) -&gt; decltype(other.column(placeholders::placeholder&lt; I &gt;</td></tr>
+<tr class="memdesc:a2658beb74af1f617373f6f640e2949e4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return the column <code>_I</code> of the <a class="el" href="namespacehydra.html#classhydra_1_1multiarray">hydra::multiarray</a>.  <a href="namespacehydra.html#a2658beb74af1f617373f6f640e2949e4">More...</a><br /></td></tr>
+<tr class="separator:a2658beb74af1f617373f6f640e2949e4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af63079c411073c082f1099994bd539af"><td class="memTemplParams" colspan="2">template&lt;unsigned int I, hydra::detail::Backend BACKEND, typename T , size_t N&gt; </td></tr>
+<tr class="memitem:af63079c411073c082f1099994bd539af"><td class="memTemplItemLeft" align="right" valign="top">auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacehydra.html#af63079c411073c082f1099994bd539af">hydra::get</a> (placeholders::placeholder&lt; I &gt;, multiarray&lt; T, N, detail::BackendPolicy&lt; BACKEND &gt;&gt; &amp;other) -&gt; decltype(other.column(placeholders::placeholder&lt; I &gt;</td></tr>
+<tr class="memdesc:af63079c411073c082f1099994bd539af"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return the column <code>_I</code> of the <a class="el" href="namespacehydra.html#classhydra_1_1multiarray">hydra::multiarray</a>.  <a href="namespacehydra.html#af63079c411073c082f1099994bd539af">More...</a><br /></td></tr>
+<tr class="separator:af63079c411073c082f1099994bd539af"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa51499fa04d39681eb6244313d32a16c"><td class="memTemplParams" colspan="2">template&lt;typename T , size_t N, hydra::detail::Backend BACKEND1, hydra::detail::Backend BACKEND2&gt; </td></tr>
 <tr class="memitem:aa51499fa04d39681eb6244313d32a16c"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="namespace_3globalScope_4.html#classbool">bool</a>&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacehydra.html#aa51499fa04d39681eb6244313d32a16c">hydra::operator!=</a> (const multiarray&lt; T, N, <a class="el" href="namespacehydra_1_1detail.html#structhydra_1_1detail_1_1BackendPolicy">hydra::detail::BackendPolicy</a>&lt; BACKEND1 &gt;&gt; &amp;lhs, const multiarray&lt; T, N, <a class="el" href="namespacehydra_1_1detail.html#structhydra_1_1detail_1_1BackendPolicy">hydra::detail::BackendPolicy</a>&lt; BACKEND2 &gt;&gt; &amp;rhs)</td></tr>
 <tr class="separator:aa51499fa04d39681eb6244313d32a16c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ab3bafbf7fa6e97bc40b02d74d7d596ea"><td class="memTemplParams" colspan="2">template&lt;typename T , size_t N, hydra::detail::Backend BACKEND1, hydra::detail::Backend BACKEND2&gt; </td></tr>
 <tr class="memitem:ab3bafbf7fa6e97bc40b02d74d7d596ea"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="namespace_3globalScope_4.html#classbool">bool</a>&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacehydra.html#ab3bafbf7fa6e97bc40b02d74d7d596ea">hydra::operator==</a> (const multiarray&lt; T, N, <a class="el" href="namespacehydra_1_1detail.html#structhydra_1_1detail_1_1BackendPolicy">hydra::detail::BackendPolicy</a>&lt; BACKEND1 &gt;&gt; &amp;lhs, const multiarray&lt; T, N, <a class="el" href="namespacehydra_1_1detail.html#structhydra_1_1detail_1_1BackendPolicy">hydra::detail::BackendPolicy</a>&lt; BACKEND2 &gt;&gt; &amp;rhs)</td></tr>
 <tr class="separator:ab3bafbf7fa6e97bc40b02d74d7d596ea"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a88492da245c1e30c636a6862b3db2854"><td class="memTemplParams" colspan="2">template&lt;unsigned int I, hydra::detail::Backend BACKEND, typename T , size_t N&gt; </td></tr>
-<tr class="memitem:a88492da245c1e30c636a6862b3db2854"><td class="memTemplItemLeft" align="right" valign="top">auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacehydra.html#a88492da245c1e30c636a6862b3db2854">hydra::rbegin</a> (multiarray&lt; T, N, detail::BackendPolicy&lt; BACKEND &gt;&gt; const &amp;other) -&gt; decltype(other.rbegin(placeholders::placeholder&lt; I &gt;</td></tr>
-<tr class="separator:a88492da245c1e30c636a6862b3db2854"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:afa6e43a3fe1002f340251042beefbddd"><td class="memTemplParams" colspan="2">template&lt;unsigned int I, hydra::detail::Backend BACKEND, typename T , size_t N&gt; </td></tr>
-<tr class="memitem:afa6e43a3fe1002f340251042beefbddd"><td class="memTemplItemLeft" align="right" valign="top">auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacehydra.html#afa6e43a3fe1002f340251042beefbddd">hydra::rbegin</a> (multiarray&lt; T, N, detail::BackendPolicy&lt; BACKEND &gt;&gt; &amp;other) -&gt; decltype(other.rbegin(placeholders::placeholder&lt; I &gt;</td></tr>
-<tr class="separator:afa6e43a3fe1002f340251042beefbddd"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:adeb4e3f7995b809a28ab9efd97909874"><td class="memTemplParams" colspan="2">template&lt;unsigned int I, hydra::detail::Backend BACKEND, typename T , size_t N&gt; </td></tr>
-<tr class="memitem:adeb4e3f7995b809a28ab9efd97909874"><td class="memTemplItemLeft" align="right" valign="top">auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacehydra.html#adeb4e3f7995b809a28ab9efd97909874">hydra::rend</a> (multiarray&lt; T, N, detail::BackendPolicy&lt; BACKEND &gt;&gt; const &amp;other) -&gt; decltype(other.rend(placeholders::placeholder&lt; I &gt;</td></tr>
-<tr class="separator:adeb4e3f7995b809a28ab9efd97909874"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a61c8453a5cf5c68eb4f1a074db0135f6"><td class="memTemplParams" colspan="2">template&lt;unsigned int I, hydra::detail::Backend BACKEND, typename T , size_t N&gt; </td></tr>
-<tr class="memitem:a61c8453a5cf5c68eb4f1a074db0135f6"><td class="memTemplItemLeft" align="right" valign="top">auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacehydra.html#a61c8453a5cf5c68eb4f1a074db0135f6">hydra::rend</a> (multiarray&lt; T, N, detail::BackendPolicy&lt; BACKEND &gt;&gt; &amp;other) -&gt; decltype(other.rend(placeholders::placeholder&lt; I &gt;</td></tr>
-<tr class="separator:a61c8453a5cf5c68eb4f1a074db0135f6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a589e3fc7f3e94613126a8198bf90dd59"><td class="memItemLeft" align="right" valign="top">return&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacehydra.html#a589e3fc7f3e94613126a8198bf90dd59">hydra::Range&lt; iterator_type &gt;</a> (other.begin(cls...), other.end(cls...))</td></tr>
+<tr class="separator:a589e3fc7f3e94613126a8198bf90dd59"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a69daea4927958e8a666ee6ed3a795cbd"><td class="memTemplParams" colspan="2">template&lt;unsigned int I, hydra::detail::Backend BACKEND, typename T , size_t N&gt; </td></tr>
+<tr class="memitem:a69daea4927958e8a666ee6ed3a795cbd"><td class="memTemplItemLeft" align="right" valign="top">auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacehydra.html#a69daea4927958e8a666ee6ed3a795cbd">hydra::rbegin</a> (placeholders::placeholder&lt; I &gt;, multiarray&lt; T, N, detail::BackendPolicy&lt; BACKEND &gt;&gt; const &amp;other) -&gt; decltype(other.rbegin(placeholders::placeholder&lt; I &gt;</td></tr>
+<tr class="separator:a69daea4927958e8a666ee6ed3a795cbd"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a932ef4185794129e04c9a4220db464eb"><td class="memTemplParams" colspan="2">template&lt;unsigned int I, hydra::detail::Backend BACKEND, typename T , size_t N&gt; </td></tr>
+<tr class="memitem:a932ef4185794129e04c9a4220db464eb"><td class="memTemplItemLeft" align="right" valign="top">auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacehydra.html#a932ef4185794129e04c9a4220db464eb">hydra::rbegin</a> (placeholders::placeholder&lt; I &gt;, multiarray&lt; T, N, detail::BackendPolicy&lt; BACKEND &gt;&gt; &amp;other) -&gt; decltype(other.rbegin(placeholders::placeholder&lt; I &gt;</td></tr>
+<tr class="separator:a932ef4185794129e04c9a4220db464eb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad79366fdc5ac96950ef240f03e0321b5"><td class="memTemplParams" colspan="2">template&lt;unsigned int I, hydra::detail::Backend BACKEND, typename T , size_t N&gt; </td></tr>
+<tr class="memitem:ad79366fdc5ac96950ef240f03e0321b5"><td class="memTemplItemLeft" align="right" valign="top">auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacehydra.html#ad79366fdc5ac96950ef240f03e0321b5">hydra::rend</a> (placeholders::placeholder&lt; I &gt;, multiarray&lt; T, N, detail::BackendPolicy&lt; BACKEND &gt;&gt; const &amp;other) -&gt; decltype(other.rend(placeholders::placeholder&lt; I &gt;</td></tr>
+<tr class="separator:ad79366fdc5ac96950ef240f03e0321b5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a175fc3749a8859251e455ea11b8739f8"><td class="memTemplParams" colspan="2">template&lt;unsigned int I, hydra::detail::Backend BACKEND, typename T , size_t N&gt; </td></tr>
+<tr class="memitem:a175fc3749a8859251e455ea11b8739f8"><td class="memTemplItemLeft" align="right" valign="top">auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacehydra.html#a175fc3749a8859251e455ea11b8739f8">hydra::rend</a> (placeholders::placeholder&lt; I &gt;, multiarray&lt; T, N, detail::BackendPolicy&lt; BACKEND &gt;&gt; &amp;other) -&gt; decltype(other.rend(placeholders::placeholder&lt; I &gt;</td></tr>
+<tr class="separator:a175fc3749a8859251e455ea11b8739f8"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <hr/><h2 class="groupheader">Data Structure Documentation</h2>
 <a name="classhydra_1_1multiarray" id="classhydra_1_1multiarray"></a>
@@ -192,17 +207,17 @@ Functions</h2></td></tr>
 <div class="textblock"><h3>template&lt;typename T, size_t N, typename BACKEND&gt;<br />
 class hydra::multiarray&lt; T, N, BACKEND &gt;</h3>
 
-<dl><dt><b>Examples: </b></dt><dd><a class="el" href="dense_histogram_8inl-example.html#_a6">dense_histogram.inl</a>, <a class="el" href="multiarray_container_8inl-example.html#_a3">multiarray_container.inl</a>, <a class="el" href="multidimensional_fit_8inl-example.html#_a15">multidimensional_fit.inl</a>, <a class="el" href="sample_distribution_8inl-example.html#_a6">sample_distribution.inl</a>, <a class="el" href="sparse_histogram_8inl-example.html#_a6">sparse_histogram.inl</a>, and <a class="el" href="splot_8inl-example.html#_a14">splot.inl</a>.</dd>
+<dl><dt><b>Examples: </b></dt><dd><a class="el" href="dense_histogram_8inl-example.html#_a7">dense_histogram.inl</a>, <a class="el" href="multiarray_container_8inl-example.html#_a3">multiarray_container.inl</a>, <a class="el" href="multidimensional_fit_8inl-example.html#_a16">multidimensional_fit.inl</a>, <a class="el" href="range_semantics_8inl-example.html#_a3">range_semantics.inl</a>, <a class="el" href="sample_distribution_8inl-example.html#_a7">sample_distribution.inl</a>, <a class="el" href="sparse_histogram_8inl-example.html#_a7">sparse_histogram.inl</a>, and <a class="el" href="splot_8inl-example.html#_a15">splot.inl</a>.</dd>
 </dl></div><div class="dynheader">
 Inheritance diagram for hydra::multiarray&lt; T, N, BACKEND &gt;:</div>
 <div class="dyncontent">
-<div class="center"><iframe scrolling="no" frameborder="0" src="classhydra_1_1multiarray__inherit__graph.svg" width="318" height="316"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe>
+<div class="center"><iframe scrolling="no" frameborder="0" src="classhydra_1_1multiarray__inherit__graph.svg" width="246" height="287"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe>
 </div>
 </div>
 <div class="dynheader">
 Collaboration diagram for hydra::multiarray&lt; T, N, BACKEND &gt;:</div>
 <div class="dyncontent">
-<div class="center"><iframe scrolling="no" frameborder="0" src="classhydra_1_1multiarray__coll__graph.svg" width="150" height="103"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe>
+<div class="center"><iframe scrolling="no" frameborder="0" src="classhydra_1_1multiarray__coll__graph.svg" width="146" height="103"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe>
 </div>
 </div>
 
@@ -214,7 +229,7 @@ Collaboration diagram for hydra::multiarray&lt; T, N, BACKEND &gt;:</div>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="dir_92a1ff494355b06c14c0e1fe7b982d29.html">Hydra</a></li><li class="navelem"><a class="el" href="dir_108162cc96056bf8ace3602d16680a1c.html">hydra</a></li><li class="navelem"><a class="el" href="multiarray_8h.html">multiarray.h</a></li>
-    <li class="footer">Generated on Fri Mar 23 2018 14:51:40 for Hydra by
+    <li class="footer">Generated on Sat Nov 3 2018 02:26:24 for Hydra by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.14 </li>
   </ul>

@@ -1,4 +1,4 @@
 <map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
-<area shape="rect" id="node2" href="$structhydra_1_1placeholders_1_1is__placeholder.html" title="hydra::placeholders\l::is_placeholder\&lt; T \&gt;" alt="" coords="197,5,343,47"/>
-<area shape="rect" id="node3" href="$structhydra_1_1placeholders_1_1is__placeholder_3_01placeholder_3_01I_01_4_01_4.html" title="hydra::placeholders\l::is_placeholder\&lt; placeholder\l\&lt; I \&gt; \&gt;" alt="" coords="175,71,365,127"/>
+<area shape="rect" id="node1" href="$structhydra_1_1Integral.html" title="hydra::Integral\&lt; GaussKronrod\lAdaptiveQuadrature\&lt; NRULE,\l NBIN, hydra::detail::BackendPolicy\l\&lt; BACKEND \&gt; \&gt; \&gt;" alt="" coords="5,5,236,76"/>
+<area shape="rect" id="node2" href="$classhydra_1_1GaussKronrodAdaptiveQuadrature_3_01NRULE_00_01NBIN_00_01hydra_1_1detail_1_1BackendPolicy_3_01BACKEND_01_4_01_4.html" title="hydra::GaussKronrodAdaptive\lQuadrature\&lt; NRULE, NBIN,\l hydra::detail::BackendPolicy\l\&lt; BACKEND \&gt; \&gt;" alt="" coords="284,5,480,76"/>
 </map>

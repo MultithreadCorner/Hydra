@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.14"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>Hydra: hydra::detail::ProcessGenzMalikUnaryCall&lt; N, FUNCTOR, RuleIterator &gt; Struct Template Reference</title>
+<title>Hydra: hydra::detail::ProcessGenzMalikUnaryCall&lt; FUNCTOR, N &gt; Struct Template Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -36,7 +36,7 @@
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">Hydra
-   &#160;<span id="projectnumber">2.1.0</span>
+   &#160;<span id="projectnumber">2.2.1</span>
    </div>
    <div id="projectbrief">A header-only templated C++ framework to perform data analysis on massively parallel platforms.</div>
   </td>
@@ -95,115 +95,77 @@ $(document).ready(function(){initNavTree('structhydra_1_1detail_1_1ProcessGenzMa
 <div class="header">
   <div class="summary">
 <a href="#pub-types">Public Types</a> &#124;
-<a href="#pub-methods">Public Member Functions</a> &#124;
-<a href="#pub-attribs">Data Fields</a>  </div>
+<a href="#pub-methods">Public Member Functions</a>  </div>
   <div class="headertitle">
-<div class="title">hydra::detail::ProcessGenzMalikUnaryCall&lt; N, FUNCTOR, RuleIterator &gt; Struct Template Reference</div>  </div>
+<div class="title">hydra::detail::ProcessGenzMalikUnaryCall&lt; FUNCTOR, N &gt; Struct Template Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
 
 <p><code>#include &lt;<a class="el" href="">ProcessGenzMalikQuadrature.h</a>&gt;</code></p>
 <div class="dynheader">
-Collaboration diagram for hydra::detail::ProcessGenzMalikUnaryCall&lt; N, FUNCTOR, RuleIterator &gt;:</div>
+Collaboration diagram for hydra::detail::ProcessGenzMalikUnaryCall&lt; FUNCTOR, N &gt;:</div>
 <div class="dyncontent">
-<div class="center"><iframe scrolling="no" frameborder="0" src="structhydra_1_1detail_1_1ProcessGenzMalikUnaryCall__coll__graph.svg" width="222" height="478"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+<div class="center"><iframe scrolling="no" frameborder="0" src="structhydra_1_1detail_1_1ProcessGenzMalikUnaryCall__coll__graph.svg" width="223" height="206"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 </div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-types"></a>
 Public Types</h2></td></tr>
-<tr class="memitem:a074f62677c8bd9a74539f1be450b8c50"><td class="memItemLeft" align="right" valign="top">typedef <a class="el" href="namespacehydra_1_1detail.html#structhydra_1_1detail_1_1tuple__type">hydra::detail::tuple_type</a>&lt; N, <a class="el" href="namespacehydra.html#a971e94bcb8c43741d11f9d8eb98f5fab">GReal_t</a> &gt;::type&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structhydra_1_1detail_1_1ProcessGenzMalikUnaryCall.html#a074f62677c8bd9a74539f1be450b8c50">abscissa_t</a></td></tr>
-<tr class="separator:a074f62677c8bd9a74539f1be450b8c50"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a7ba182921d74fb9e7387cafe942a1b74"><td class="memItemLeft" align="right" valign="top">typedef <a class="el" href="namespacehydra_1_1detail.html#structhydra_1_1detail_1_1tuple__type">hydra::detail::tuple_type</a>&lt; N+2, <a class="el" href="namespacehydra.html#a971e94bcb8c43741d11f9d8eb98f5fab">GReal_t</a> &gt;::type&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structhydra_1_1detail_1_1ProcessGenzMalikUnaryCall.html#a7ba182921d74fb9e7387cafe942a1b74">data_type</a></td></tr>
-<tr class="separator:a7ba182921d74fb9e7387cafe942a1b74"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa2cedde392e8abf9268f673bb9871b11"><td class="memItemLeft" align="right" valign="top">typedef RuleIterator::value_type&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structhydra_1_1detail_1_1ProcessGenzMalikUnaryCall.html#aa2cedde392e8abf9268f673bb9871b11">rule_abscissa_t</a></td></tr>
-<tr class="separator:aa2cedde392e8abf9268f673bb9871b11"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af1f29d2812b49c9fb0a05b8bfde4c0d3"><td class="memItemLeft" align="right" valign="top">typedef <a class="el" href="namespacehydra_1_1detail.html#structhydra_1_1detail_1_1tuple__type">hydra::detail::tuple_type</a>&lt; N,<a class="el" href="namespace_3globalScope_4.html#classdouble">double</a> &gt;::type&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structhydra_1_1detail_1_1ProcessGenzMalikUnaryCall.html#af1f29d2812b49c9fb0a05b8bfde4c0d3">abscissa_type</a></td></tr>
+<tr class="separator:af1f29d2812b49c9fb0a05b8bfde4c0d3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3d0336b3dd1e8aedf17dbdc90d3d010f"><td class="memItemLeft" align="right" valign="top">typedef <a class="el" href="namespacehydra_1_1detail.html#structhydra_1_1detail_1_1tuple__type">hydra::detail::tuple_type</a>&lt; N+2, <a class="el" href="namespace_3globalScope_4.html#classdouble">double</a> &gt;::type&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structhydra_1_1detail_1_1ProcessGenzMalikUnaryCall.html#a3d0336b3dd1e8aedf17dbdc90d3d010f">result_type</a></td></tr>
+<tr class="separator:a3d0336b3dd1e8aedf17dbdc90d3d010f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a488e23516392d69026fbae1ed3279b48"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structhydra_1_1detail_1_1ProcessGenzMalikUnaryCall.html#a488e23516392d69026fbae1ed3279b48">ProcessGenzMalikUnaryCall</a> ()=delete</td></tr>
-<tr class="separator:a488e23516392d69026fbae1ed3279b48"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a3f427404ffea490903618a1a0b9680f1"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structhydra_1_1detail_1_1ProcessGenzMalikUnaryCall.html#a3f427404ffea490903618a1a0b9680f1">ProcessGenzMalikUnaryCall</a> (<a class="el" href="namespacehydra.html#a971e94bcb8c43741d11f9d8eb98f5fab">GReal_t</a> *__restrict__ lowerLimit, <a class="el" href="namespacehydra.html#a971e94bcb8c43741d11f9d8eb98f5fab">GReal_t</a> *__restrict__ upperLimit, FUNCTOR const &amp;functor)</td></tr>
-<tr class="separator:a3f427404ffea490903618a1a0b9680f1"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad3f58fdb109df2d825f1d75491e08fce"><td class="memItemLeft" align="right" valign="top">__hydra_host__ __hydra_device__&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structhydra_1_1detail_1_1ProcessGenzMalikUnaryCall.html#ad3f58fdb109df2d825f1d75491e08fce">ProcessGenzMalikUnaryCall</a> (<a class="el" href="structhydra_1_1detail_1_1ProcessGenzMalikUnaryCall.html">ProcessGenzMalikUnaryCall</a>&lt; N, FUNCTOR, RuleIterator &gt; const &amp;other)</td></tr>
-<tr class="separator:ad3f58fdb109df2d825f1d75491e08fce"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae9326e5377e24a9f03c65d46d83e5f6c"><td class="memTemplParams" colspan="2">template&lt;size_t I&gt; </td></tr>
-<tr class="memitem:ae9326e5377e24a9f03c65d46d83e5f6c"><td class="memTemplItemLeft" align="right" valign="top">std::enable_if&lt;(I==N), void &gt;::type __hydra_host__ __hydra_device__&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="structhydra_1_1detail_1_1ProcessGenzMalikUnaryCall.html#ae9326e5377e24a9f03c65d46d83e5f6c">get_transformed_abscissa</a> (<a class="el" href="structhydra_1_1detail_1_1ProcessGenzMalikUnaryCall.html#aa2cedde392e8abf9268f673bb9871b11">rule_abscissa_t</a> const &amp;, <a class="el" href="structhydra_1_1detail_1_1ProcessGenzMalikUnaryCall.html#a074f62677c8bd9a74539f1be450b8c50">abscissa_t</a> &amp;)</td></tr>
-<tr class="separator:ae9326e5377e24a9f03c65d46d83e5f6c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a3d3cbcb284926e98c7a1546e5333f8e6"><td class="memTemplParams" colspan="2">template&lt;size_t I = 0&gt; </td></tr>
-<tr class="memitem:a3d3cbcb284926e98c7a1546e5333f8e6"><td class="memTemplItemLeft" align="right" valign="top">std::enable_if&lt;(I&lt; N), void &gt;::type __hydra_host__ __hydra_device__&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="structhydra_1_1detail_1_1ProcessGenzMalikUnaryCall.html#a3d3cbcb284926e98c7a1546e5333f8e6">get_transformed_abscissa</a> (<a class="el" href="structhydra_1_1detail_1_1ProcessGenzMalikUnaryCall.html#aa2cedde392e8abf9268f673bb9871b11">rule_abscissa_t</a> const &amp;original_abscissa, <a class="el" href="structhydra_1_1detail_1_1ProcessGenzMalikUnaryCall.html#a074f62677c8bd9a74539f1be450b8c50">abscissa_t</a> &amp;transformed_abscissa)</td></tr>
-<tr class="separator:a3d3cbcb284926e98c7a1546e5333f8e6"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad01bfd0479b3ea7d38e3b56ef69ad3ef"><td class="memItemLeft" align="right" valign="top">__hydra_host__ __hydra_device__ FUNCTOR&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structhydra_1_1detail_1_1ProcessGenzMalikUnaryCall.html#ad01bfd0479b3ea7d38e3b56ef69ad3ef">GetFunctor</a> () const</td></tr>
-<tr class="separator:ad01bfd0479b3ea7d38e3b56ef69ad3ef"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a7b19e5b9090e1a2ca69263ddcbcad42a"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
-<tr class="memitem:a7b19e5b9090e1a2ca69263ddcbcad42a"><td class="memTemplItemLeft" align="right" valign="top">__hydra_host__ __hydra_device__ <a class="el" href="structhydra_1_1detail_1_1ProcessGenzMalikUnaryCall.html#a7ba182921d74fb9e7387cafe942a1b74">data_type</a>&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="structhydra_1_1detail_1_1ProcessGenzMalikUnaryCall.html#a7b19e5b9090e1a2ca69263ddcbcad42a">operator()</a> (T &amp;&amp;rule_abscissa)</td></tr>
-<tr class="separator:a7b19e5b9090e1a2ca69263ddcbcad42a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a3ae19d278becd44bd810f6f70d6c535a"><td class="memItemLeft" align="right" valign="top">__hydra_host__ __hydra_device__ <a class="el" href="structhydra_1_1detail_1_1ProcessGenzMalikUnaryCall.html">ProcessGenzMalikUnaryCall</a>&lt; N, FUNCTOR, RuleIterator &gt; &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structhydra_1_1detail_1_1ProcessGenzMalikUnaryCall.html#a3ae19d278becd44bd810f6f70d6c535a">operator=</a> (<a class="el" href="structhydra_1_1detail_1_1ProcessGenzMalikUnaryCall.html">ProcessGenzMalikUnaryCall</a>&lt; N, FUNCTOR, RuleIterator &gt; const &amp;other)</td></tr>
-<tr class="separator:a3ae19d278becd44bd810f6f70d6c535a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a69f084a5747c09531a9666b25ca67375"><td class="memItemLeft" align="right" valign="top">__hydra_host__ __hydra_device__ <a class="el" href="namespacehydra.html#aa8c251ed5017d0638da929130062bcad">GBool_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structhydra_1_1detail_1_1ProcessGenzMalikUnaryCall.html#a69f084a5747c09531a9666b25ca67375">set_four_difference_central</a> (<a class="el" href="namespacehydra.html#a971e94bcb8c43741d11f9d8eb98f5fab">GReal_t</a> value, <a class="el" href="namespacehydra.html#a971e94bcb8c43741d11f9d8eb98f5fab">GReal_t</a> *const __restrict__ fdarray)</td></tr>
-<tr class="separator:a69f084a5747c09531a9666b25ca67375"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a118e27ec918849d96b61152a88aed43b"><td class="memItemLeft" align="right" valign="top">__hydra_host__ __hydra_device__ <a class="el" href="namespacehydra.html#aa8c251ed5017d0638da929130062bcad">GBool_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structhydra_1_1detail_1_1ProcessGenzMalikUnaryCall.html#a118e27ec918849d96b61152a88aed43b">set_four_difference_multilateral</a> (<a class="el" href="namespacehydra.html#a971e94bcb8c43741d11f9d8eb98f5fab">GReal_t</a> *const __restrict__ fdarray)</td></tr>
-<tr class="separator:a118e27ec918849d96b61152a88aed43b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a5cd792d7548544c9fcf0b81004f1e2c8"><td class="memItemLeft" align="right" valign="top">__hydra_host__ __hydra_device__ <a class="el" href="namespacehydra.html#aa8c251ed5017d0638da929130062bcad">GBool_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structhydra_1_1detail_1_1ProcessGenzMalikUnaryCall.html#a5cd792d7548544c9fcf0b81004f1e2c8">set_four_difference_unilateral</a> (<a class="el" href="namespacehydra.html#a7ab04a199389c4989174dc115507fa89">GChar_t</a> index, <a class="el" href="namespacehydra.html#a971e94bcb8c43741d11f9d8eb98f5fab">GReal_t</a> value, <a class="el" href="namespacehydra.html#a971e94bcb8c43741d11f9d8eb98f5fab">GReal_t</a> *const __restrict__ fdarray)</td></tr>
-<tr class="separator:a5cd792d7548544c9fcf0b81004f1e2c8"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa4dd2f95ef156ed82c2b66171e2c201d"><td class="memItemLeft" align="right" valign="top">__hydra_host__ __hydra_device__ void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structhydra_1_1detail_1_1ProcessGenzMalikUnaryCall.html#aa4dd2f95ef156ed82c2b66171e2c201d">SetFunctor</a> (FUNCTOR functor)</td></tr>
-<tr class="separator:aa4dd2f95ef156ed82c2b66171e2c201d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-attribs"></a>
-Data Fields</h2></td></tr>
-<tr class="memitem:a97b2798bdc6609aea747e6c58fa7066b"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespacehydra.html#a971e94bcb8c43741d11f9d8eb98f5fab">GReal_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structhydra_1_1detail_1_1ProcessGenzMalikUnaryCall.html#a97b2798bdc6609aea747e6c58fa7066b">fA</a> [N]</td></tr>
-<tr class="separator:a97b2798bdc6609aea747e6c58fa7066b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a0b7391acf2e6e236f1466ca099cc2920"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespacehydra.html#a971e94bcb8c43741d11f9d8eb98f5fab">GReal_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structhydra_1_1detail_1_1ProcessGenzMalikUnaryCall.html#a0b7391acf2e6e236f1466ca099cc2920">fB</a> [N]</td></tr>
-<tr class="separator:a0b7391acf2e6e236f1466ca099cc2920"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa9b6fe47e6b8c6e8a4462fe4ceadbd29"><td class="memItemLeft" align="right" valign="top">FUNCTOR&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structhydra_1_1detail_1_1ProcessGenzMalikUnaryCall.html#aa9b6fe47e6b8c6e8a4462fe4ceadbd29">fFunctor</a></td></tr>
-<tr class="separator:aa9b6fe47e6b8c6e8a4462fe4ceadbd29"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aafa84b808cdfcf8e1ef9ae4ded960513"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structhydra_1_1detail_1_1ProcessGenzMalikUnaryCall.html#aafa84b808cdfcf8e1ef9ae4ded960513">ProcessGenzMalikUnaryCall</a> ()=delete</td></tr>
+<tr class="separator:aafa84b808cdfcf8e1ef9ae4ded960513"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a883973f70f89543eba2fe58a210067e1"><td class="memItemLeft" align="right" valign="top">__hydra_host__ __hydra_device__&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structhydra_1_1detail_1_1ProcessGenzMalikUnaryCall.html#a883973f70f89543eba2fe58a210067e1">ProcessGenzMalikUnaryCall</a> (const <a class="el" href="namespace_3globalScope_4.html#classdouble">double</a> *lowerLimit, const <a class="el" href="namespace_3globalScope_4.html#classdouble">double</a> *upperLimit, FUNCTOR const &amp;functor)</td></tr>
+<tr class="separator:a883973f70f89543eba2fe58a210067e1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a18c39347d225e26e3d534858e7d9b735"><td class="memItemLeft" align="right" valign="top">__hydra_host__ __hydra_device__&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structhydra_1_1detail_1_1ProcessGenzMalikUnaryCall.html#a18c39347d225e26e3d534858e7d9b735">ProcessGenzMalikUnaryCall</a> (const <a class="el" href="namespace_3globalScope_4.html#classdouble">double</a>(&amp;lowerLimit)[N], const <a class="el" href="namespace_3globalScope_4.html#classdouble">double</a>(&amp;upperLimit)[N], FUNCTOR const &amp;functor)</td></tr>
+<tr class="separator:a18c39347d225e26e3d534858e7d9b735"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad525fe5a07e59e87509bf34aa8d16db1"><td class="memItemLeft" align="right" valign="top">__hydra_host__ __hydra_device__&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structhydra_1_1detail_1_1ProcessGenzMalikUnaryCall.html#ad525fe5a07e59e87509bf34aa8d16db1">ProcessGenzMalikUnaryCall</a> (<a class="el" href="structhydra_1_1detail_1_1ProcessGenzMalikUnaryCall.html">ProcessGenzMalikUnaryCall</a>&lt; FUNCTOR, N &gt; const &amp;other)</td></tr>
+<tr class="separator:ad525fe5a07e59e87509bf34aa8d16db1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a10f05e4331aeac5f497bedddc42df1d2"><td class="memItemLeft" align="right" valign="top">__hydra_host__ __hydra_device__ FUNCTOR&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structhydra_1_1detail_1_1ProcessGenzMalikUnaryCall.html#a10f05e4331aeac5f497bedddc42df1d2">GetFunctor</a> () const</td></tr>
+<tr class="separator:a10f05e4331aeac5f497bedddc42df1d2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab6429217be6b491d27d91eff41694e52"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
+<tr class="memitem:ab6429217be6b491d27d91eff41694e52"><td class="memTemplItemLeft" align="right" valign="top">__hydra_host__ __hydra_device__ <a class="el" href="structhydra_1_1detail_1_1ProcessGenzMalikUnaryCall.html#a3d0336b3dd1e8aedf17dbdc90d3d010f">result_type</a>&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="structhydra_1_1detail_1_1ProcessGenzMalikUnaryCall.html#ab6429217be6b491d27d91eff41694e52">operator()</a> (T &amp;&amp;rule_abscissa)</td></tr>
+<tr class="separator:ab6429217be6b491d27d91eff41694e52"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3b467f1f7bf654cfdf9882252dd6b098"><td class="memItemLeft" align="right" valign="top">__hydra_host__ __hydra_device__ <a class="el" href="structhydra_1_1detail_1_1ProcessGenzMalikUnaryCall.html">ProcessGenzMalikUnaryCall</a>&lt; FUNCTOR, N &gt; &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structhydra_1_1detail_1_1ProcessGenzMalikUnaryCall.html#a3b467f1f7bf654cfdf9882252dd6b098">operator=</a> (<a class="el" href="structhydra_1_1detail_1_1ProcessGenzMalikUnaryCall.html">ProcessGenzMalikUnaryCall</a>&lt; FUNCTOR, N &gt; const &amp;other)</td></tr>
+<tr class="separator:a3b467f1f7bf654cfdf9882252dd6b098"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a33bed122d9d9b49b17d95e31ad9ff498"><td class="memItemLeft" align="right" valign="top">__hydra_host__ __hydra_device__ void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structhydra_1_1detail_1_1ProcessGenzMalikUnaryCall.html#a33bed122d9d9b49b17d95e31ad9ff498">SetFunctor</a> (FUNCTOR functor)</td></tr>
+<tr class="separator:a33bed122d9d9b49b17d95e31ad9ff498"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><h3>template&lt;size_t N, typename FUNCTOR, typename RuleIterator&gt;<br />
-struct hydra::detail::ProcessGenzMalikUnaryCall&lt; N, FUNCTOR, RuleIterator &gt;</h3>
+<div class="textblock"><h3>template&lt;typename FUNCTOR, size_t N&gt;<br />
+struct hydra::detail::ProcessGenzMalikUnaryCall&lt; FUNCTOR, N &gt;</h3>
 
 </div><h2 class="groupheader">Member Typedef Documentation</h2>
-<a id="a074f62677c8bd9a74539f1be450b8c50"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a074f62677c8bd9a74539f1be450b8c50">&#9670;&nbsp;</a></span>abscissa_t</h2>
+<a id="af1f29d2812b49c9fb0a05b8bfde4c0d3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af1f29d2812b49c9fb0a05b8bfde4c0d3">&#9670;&nbsp;</a></span>abscissa_type</h2>
 
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;size_t N, typename FUNCTOR , typename RuleIterator &gt; </div>
+template&lt;typename FUNCTOR , size_t N&gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname">typedef <a class="el" href="namespacehydra_1_1detail.html#structhydra_1_1detail_1_1tuple__type">hydra::detail::tuple_type</a>&lt;N,<a class="el" href="namespacehydra.html#a971e94bcb8c43741d11f9d8eb98f5fab">GReal_t</a> &gt;::type <a class="el" href="structhydra_1_1detail_1_1ProcessGenzMalikUnaryCall.html">hydra::detail::ProcessGenzMalikUnaryCall</a>&lt; N, FUNCTOR, RuleIterator &gt;::<a class="el" href="structhydra_1_1detail_1_1ProcessGenzMalikUnaryCall.html#a074f62677c8bd9a74539f1be450b8c50">abscissa_t</a></td>
+          <td class="memname">typedef <a class="el" href="namespacehydra_1_1detail.html#structhydra_1_1detail_1_1tuple__type">hydra::detail::tuple_type</a>&lt;N ,<a class="el" href="namespace_3globalScope_4.html#classdouble">double</a>&gt;::type <a class="el" href="structhydra_1_1detail_1_1ProcessGenzMalikUnaryCall.html">hydra::detail::ProcessGenzMalikUnaryCall</a>&lt; FUNCTOR, N &gt;::<a class="el" href="structhydra_1_1detail_1_1ProcessGenzMalikUnaryCall.html#af1f29d2812b49c9fb0a05b8bfde4c0d3">abscissa_type</a></td>
         </tr>
       </table>
 </div><div class="memdoc">
 
 </div>
 </div>
-<a id="a7ba182921d74fb9e7387cafe942a1b74"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a7ba182921d74fb9e7387cafe942a1b74">&#9670;&nbsp;</a></span>data_type</h2>
+<a id="a3d0336b3dd1e8aedf17dbdc90d3d010f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3d0336b3dd1e8aedf17dbdc90d3d010f">&#9670;&nbsp;</a></span>result_type</h2>
 
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;size_t N, typename FUNCTOR , typename RuleIterator &gt; </div>
+template&lt;typename FUNCTOR , size_t N&gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname">typedef <a class="el" href="namespacehydra_1_1detail.html#structhydra_1_1detail_1_1tuple__type">hydra::detail::tuple_type</a>&lt;N+2, <a class="el" href="namespacehydra.html#a971e94bcb8c43741d11f9d8eb98f5fab">GReal_t</a>&gt;::type <a class="el" href="structhydra_1_1detail_1_1ProcessGenzMalikUnaryCall.html">hydra::detail::ProcessGenzMalikUnaryCall</a>&lt; N, FUNCTOR, RuleIterator &gt;::<a class="el" href="structhydra_1_1detail_1_1ProcessGenzMalikUnaryCall.html#a7ba182921d74fb9e7387cafe942a1b74">data_type</a></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="aa2cedde392e8abf9268f673bb9871b11"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aa2cedde392e8abf9268f673bb9871b11">&#9670;&nbsp;</a></span>rule_abscissa_t</h2>
-
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;size_t N, typename FUNCTOR , typename RuleIterator &gt; </div>
-      <table class="memname">
-        <tr>
-          <td class="memname">typedef RuleIterator::value_type <a class="el" href="structhydra_1_1detail_1_1ProcessGenzMalikUnaryCall.html">hydra::detail::ProcessGenzMalikUnaryCall</a>&lt; N, FUNCTOR, RuleIterator &gt;::<a class="el" href="structhydra_1_1detail_1_1ProcessGenzMalikUnaryCall.html#aa2cedde392e8abf9268f673bb9871b11">rule_abscissa_t</a></td>
+          <td class="memname">typedef <a class="el" href="namespacehydra_1_1detail.html#structhydra_1_1detail_1_1tuple__type">hydra::detail::tuple_type</a>&lt;N+2,<a class="el" href="namespace_3globalScope_4.html#classdouble">double</a>&gt;::type <a class="el" href="structhydra_1_1detail_1_1ProcessGenzMalikUnaryCall.html">hydra::detail::ProcessGenzMalikUnaryCall</a>&lt; FUNCTOR, N &gt;::<a class="el" href="structhydra_1_1detail_1_1ProcessGenzMalikUnaryCall.html#a3d0336b3dd1e8aedf17dbdc90d3d010f">result_type</a></td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -211,19 +173,19 @@ template&lt;size_t N, typename FUNCTOR , typename RuleIterator &gt; </div>
 </div>
 </div>
 <h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
-<a id="a488e23516392d69026fbae1ed3279b48"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a488e23516392d69026fbae1ed3279b48">&#9670;&nbsp;</a></span>ProcessGenzMalikUnaryCall() <span class="overload">[1/3]</span></h2>
+<a id="aafa84b808cdfcf8e1ef9ae4ded960513"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aafa84b808cdfcf8e1ef9ae4ded960513">&#9670;&nbsp;</a></span>ProcessGenzMalikUnaryCall() <span class="overload">[1/4]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;size_t N, typename FUNCTOR , typename RuleIterator &gt; </div>
+template&lt;typename FUNCTOR , size_t N&gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="structhydra_1_1detail_1_1ProcessGenzMalikUnaryCall.html">hydra::detail::ProcessGenzMalikUnaryCall</a>&lt; N, FUNCTOR, RuleIterator &gt;::<a class="el" href="structhydra_1_1detail_1_1ProcessGenzMalikUnaryCall.html">ProcessGenzMalikUnaryCall</a> </td>
+          <td class="memname"><a class="el" href="structhydra_1_1detail_1_1ProcessGenzMalikUnaryCall.html">hydra::detail::ProcessGenzMalikUnaryCall</a>&lt; FUNCTOR, N &gt;::<a class="el" href="structhydra_1_1detail_1_1ProcessGenzMalikUnaryCall.html">ProcessGenzMalikUnaryCall</a> </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td></td>
@@ -238,27 +200,27 @@ template&lt;size_t N, typename FUNCTOR , typename RuleIterator &gt; </div>
 
 </div>
 </div>
-<a id="a3f427404ffea490903618a1a0b9680f1"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a3f427404ffea490903618a1a0b9680f1">&#9670;&nbsp;</a></span>ProcessGenzMalikUnaryCall() <span class="overload">[2/3]</span></h2>
+<a id="a883973f70f89543eba2fe58a210067e1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a883973f70f89543eba2fe58a210067e1">&#9670;&nbsp;</a></span>ProcessGenzMalikUnaryCall() <span class="overload">[2/4]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;size_t N, typename FUNCTOR , typename RuleIterator &gt; </div>
+template&lt;typename FUNCTOR , size_t N&gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="structhydra_1_1detail_1_1ProcessGenzMalikUnaryCall.html">hydra::detail::ProcessGenzMalikUnaryCall</a>&lt; N, FUNCTOR, RuleIterator &gt;::<a class="el" href="structhydra_1_1detail_1_1ProcessGenzMalikUnaryCall.html">ProcessGenzMalikUnaryCall</a> </td>
+          <td class="memname">__hydra_host__ __hydra_device__ <a class="el" href="structhydra_1_1detail_1_1ProcessGenzMalikUnaryCall.html">hydra::detail::ProcessGenzMalikUnaryCall</a>&lt; FUNCTOR, N &gt;::<a class="el" href="structhydra_1_1detail_1_1ProcessGenzMalikUnaryCall.html">ProcessGenzMalikUnaryCall</a> </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="namespacehydra.html#a971e94bcb8c43741d11f9d8eb98f5fab">GReal_t</a> *__restrict__&#160;</td>
+          <td class="paramtype">const <a class="el" href="namespace_3globalScope_4.html#classdouble">double</a> *&#160;</td>
           <td class="paramname"><em>lowerLimit</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype"><a class="el" href="namespacehydra.html#a971e94bcb8c43741d11f9d8eb98f5fab">GReal_t</a> *__restrict__&#160;</td>
+          <td class="paramtype">const <a class="el" href="namespace_3globalScope_4.html#classdouble">double</a> *&#160;</td>
           <td class="paramname"><em>upperLimit</em>, </td>
         </tr>
         <tr>
@@ -282,21 +244,65 @@ template&lt;size_t N, typename FUNCTOR , typename RuleIterator &gt; </div>
 
 </div>
 </div>
-<a id="ad3f58fdb109df2d825f1d75491e08fce"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ad3f58fdb109df2d825f1d75491e08fce">&#9670;&nbsp;</a></span>ProcessGenzMalikUnaryCall() <span class="overload">[3/3]</span></h2>
+<a id="a18c39347d225e26e3d534858e7d9b735"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a18c39347d225e26e3d534858e7d9b735">&#9670;&nbsp;</a></span>ProcessGenzMalikUnaryCall() <span class="overload">[3/4]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;size_t N, typename FUNCTOR , typename RuleIterator &gt; </div>
+template&lt;typename FUNCTOR , size_t N&gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">__hydra_host__ __hydra_device__ <a class="el" href="structhydra_1_1detail_1_1ProcessGenzMalikUnaryCall.html">hydra::detail::ProcessGenzMalikUnaryCall</a>&lt; N, FUNCTOR, RuleIterator &gt;::<a class="el" href="structhydra_1_1detail_1_1ProcessGenzMalikUnaryCall.html">ProcessGenzMalikUnaryCall</a> </td>
+          <td class="memname">__hydra_host__ __hydra_device__ <a class="el" href="structhydra_1_1detail_1_1ProcessGenzMalikUnaryCall.html">hydra::detail::ProcessGenzMalikUnaryCall</a>&lt; FUNCTOR, N &gt;::<a class="el" href="structhydra_1_1detail_1_1ProcessGenzMalikUnaryCall.html">ProcessGenzMalikUnaryCall</a> </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="structhydra_1_1detail_1_1ProcessGenzMalikUnaryCall.html">ProcessGenzMalikUnaryCall</a>&lt; N, FUNCTOR, RuleIterator &gt; const &amp;&#160;</td>
+          <td class="paramtype">const <a class="el" href="namespace_3globalScope_4.html#classdouble">double</a>(&amp;)&#160;</td>
+          <td class="paramname"><em>lowerLimit</em>[N], </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="namespace_3globalScope_4.html#classdouble">double</a>(&amp;)&#160;</td>
+          <td class="paramname"><em>upperLimit</em>[N], </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">FUNCTOR const &amp;&#160;</td>
+          <td class="paramname"><em>functor</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ad525fe5a07e59e87509bf34aa8d16db1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad525fe5a07e59e87509bf34aa8d16db1">&#9670;&nbsp;</a></span>ProcessGenzMalikUnaryCall() <span class="overload">[4/4]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename FUNCTOR , size_t N&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">__hydra_host__ __hydra_device__ <a class="el" href="structhydra_1_1detail_1_1ProcessGenzMalikUnaryCall.html">hydra::detail::ProcessGenzMalikUnaryCall</a>&lt; FUNCTOR, N &gt;::<a class="el" href="structhydra_1_1detail_1_1ProcessGenzMalikUnaryCall.html">ProcessGenzMalikUnaryCall</a> </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="structhydra_1_1detail_1_1ProcessGenzMalikUnaryCall.html">ProcessGenzMalikUnaryCall</a>&lt; FUNCTOR, N &gt; const &amp;&#160;</td>
           <td class="paramname"><em>other</em></td><td>)</td>
           <td></td>
         </tr>
@@ -311,99 +317,19 @@ template&lt;size_t N, typename FUNCTOR , typename RuleIterator &gt; </div>
 </div>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
-<a id="ae9326e5377e24a9f03c65d46d83e5f6c"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ae9326e5377e24a9f03c65d46d83e5f6c">&#9670;&nbsp;</a></span>get_transformed_abscissa() <span class="overload">[1/2]</span></h2>
+<a id="a10f05e4331aeac5f497bedddc42df1d2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a10f05e4331aeac5f497bedddc42df1d2">&#9670;&nbsp;</a></span>GetFunctor()</h2>
 
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;size_t N, typename FUNCTOR , typename RuleIterator &gt; </div>
-<div class="memtemplate">
-template&lt;size_t I&gt; </div>
+template&lt;typename FUNCTOR , size_t N&gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">std::enable_if&lt; (I==N), void &gt;::type __hydra_host__ __hydra_device__ <a class="el" href="structhydra_1_1detail_1_1ProcessGenzMalikUnaryCall.html">hydra::detail::ProcessGenzMalikUnaryCall</a>&lt; N, FUNCTOR, RuleIterator &gt;::get_transformed_abscissa </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="structhydra_1_1detail_1_1ProcessGenzMalikUnaryCall.html#aa2cedde392e8abf9268f673bb9871b11">rule_abscissa_t</a> const &amp;&#160;</td>
-          <td class="paramname">, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"><a class="el" href="structhydra_1_1detail_1_1ProcessGenzMalikUnaryCall.html#a074f62677c8bd9a74539f1be450b8c50">abscissa_t</a> &amp;&#160;</td>
-          <td class="paramname">&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="a3d3cbcb284926e98c7a1546e5333f8e6"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a3d3cbcb284926e98c7a1546e5333f8e6">&#9670;&nbsp;</a></span>get_transformed_abscissa() <span class="overload">[2/2]</span></h2>
-
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;size_t N, typename FUNCTOR , typename RuleIterator &gt; </div>
-<div class="memtemplate">
-template&lt;size_t I = 0&gt; </div>
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">std::enable_if&lt; (I&lt;N), void &gt;::type __hydra_host__ __hydra_device__ <a class="el" href="structhydra_1_1detail_1_1ProcessGenzMalikUnaryCall.html">hydra::detail::ProcessGenzMalikUnaryCall</a>&lt; N, FUNCTOR, RuleIterator &gt;::get_transformed_abscissa </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="structhydra_1_1detail_1_1ProcessGenzMalikUnaryCall.html#aa2cedde392e8abf9268f673bb9871b11">rule_abscissa_t</a> const &amp;&#160;</td>
-          <td class="paramname"><em>original_abscissa</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"><a class="el" href="structhydra_1_1detail_1_1ProcessGenzMalikUnaryCall.html#a074f62677c8bd9a74539f1be450b8c50">abscissa_t</a> &amp;&#160;</td>
-          <td class="paramname"><em>transformed_abscissa</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="ad01bfd0479b3ea7d38e3b56ef69ad3ef"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ad01bfd0479b3ea7d38e3b56ef69ad3ef">&#9670;&nbsp;</a></span>GetFunctor()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;size_t N, typename FUNCTOR , typename RuleIterator &gt; </div>
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">__hydra_host__ __hydra_device__ FUNCTOR <a class="el" href="structhydra_1_1detail_1_1ProcessGenzMalikUnaryCall.html">hydra::detail::ProcessGenzMalikUnaryCall</a>&lt; N, FUNCTOR, RuleIterator &gt;::GetFunctor </td>
+          <td class="memname">__hydra_host__ __hydra_device__ FUNCTOR <a class="el" href="structhydra_1_1detail_1_1ProcessGenzMalikUnaryCall.html">hydra::detail::ProcessGenzMalikUnaryCall</a>&lt; FUNCTOR, N &gt;::GetFunctor </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td> const</td>
@@ -418,13 +344,13 @@ template&lt;size_t N, typename FUNCTOR , typename RuleIterator &gt; </div>
 
 </div>
 </div>
-<a id="a7b19e5b9090e1a2ca69263ddcbcad42a"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a7b19e5b9090e1a2ca69263ddcbcad42a">&#9670;&nbsp;</a></span>operator()()</h2>
+<a id="ab6429217be6b491d27d91eff41694e52"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab6429217be6b491d27d91eff41694e52">&#9670;&nbsp;</a></span>operator()()</h2>
 
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;size_t N, typename FUNCTOR , typename RuleIterator &gt; </div>
+template&lt;typename FUNCTOR , size_t N&gt; </div>
 <div class="memtemplate">
 template&lt;typename T &gt; </div>
 <table class="mlabels">
@@ -432,7 +358,7 @@ template&lt;typename T &gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">__hydra_host__ __hydra_device__ <a class="el" href="structhydra_1_1detail_1_1ProcessGenzMalikUnaryCall.html#a7ba182921d74fb9e7387cafe942a1b74">data_type</a> <a class="el" href="structhydra_1_1detail_1_1ProcessGenzMalikUnaryCall.html">hydra::detail::ProcessGenzMalikUnaryCall</a>&lt; N, FUNCTOR, RuleIterator &gt;::operator() </td>
+          <td class="memname">__hydra_host__ __hydra_device__ <a class="el" href="structhydra_1_1detail_1_1ProcessGenzMalikUnaryCall.html#a3d0336b3dd1e8aedf17dbdc90d3d010f">result_type</a> <a class="el" href="structhydra_1_1detail_1_1ProcessGenzMalikUnaryCall.html">hydra::detail::ProcessGenzMalikUnaryCall</a>&lt; FUNCTOR, N &gt;::operator() </td>
           <td>(</td>
           <td class="paramtype">T &amp;&amp;&#160;</td>
           <td class="paramname"><em>rule_abscissa</em></td><td>)</td>
@@ -448,21 +374,21 @@ template&lt;typename T &gt; </div>
 
 </div>
 </div>
-<a id="a3ae19d278becd44bd810f6f70d6c535a"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a3ae19d278becd44bd810f6f70d6c535a">&#9670;&nbsp;</a></span>operator=()</h2>
+<a id="a3b467f1f7bf654cfdf9882252dd6b098"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3b467f1f7bf654cfdf9882252dd6b098">&#9670;&nbsp;</a></span>operator=()</h2>
 
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;size_t N, typename FUNCTOR , typename RuleIterator &gt; </div>
+template&lt;typename FUNCTOR , size_t N&gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">__hydra_host__ __hydra_device__ <a class="el" href="structhydra_1_1detail_1_1ProcessGenzMalikUnaryCall.html">ProcessGenzMalikUnaryCall</a>&lt; N, FUNCTOR, RuleIterator&gt;&amp; <a class="el" href="structhydra_1_1detail_1_1ProcessGenzMalikUnaryCall.html">hydra::detail::ProcessGenzMalikUnaryCall</a>&lt; N, FUNCTOR, RuleIterator &gt;::operator= </td>
+          <td class="memname">__hydra_host__ __hydra_device__ <a class="el" href="structhydra_1_1detail_1_1ProcessGenzMalikUnaryCall.html">ProcessGenzMalikUnaryCall</a>&lt; FUNCTOR, N&gt;&amp; <a class="el" href="structhydra_1_1detail_1_1ProcessGenzMalikUnaryCall.html">hydra::detail::ProcessGenzMalikUnaryCall</a>&lt; FUNCTOR, N &gt;::operator= </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="structhydra_1_1detail_1_1ProcessGenzMalikUnaryCall.html">ProcessGenzMalikUnaryCall</a>&lt; N, FUNCTOR, RuleIterator &gt; const &amp;&#160;</td>
+          <td class="paramtype"><a class="el" href="structhydra_1_1detail_1_1ProcessGenzMalikUnaryCall.html">ProcessGenzMalikUnaryCall</a>&lt; FUNCTOR, N &gt; const &amp;&#160;</td>
           <td class="paramname"><em>other</em></td><td>)</td>
           <td></td>
         </tr>
@@ -476,129 +402,19 @@ template&lt;size_t N, typename FUNCTOR , typename RuleIterator &gt; </div>
 
 </div>
 </div>
-<a id="a69f084a5747c09531a9666b25ca67375"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a69f084a5747c09531a9666b25ca67375">&#9670;&nbsp;</a></span>set_four_difference_central()</h2>
+<a id="a33bed122d9d9b49b17d95e31ad9ff498"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a33bed122d9d9b49b17d95e31ad9ff498">&#9670;&nbsp;</a></span>SetFunctor()</h2>
 
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;size_t N, typename FUNCTOR , typename RuleIterator &gt; </div>
+template&lt;typename FUNCTOR , size_t N&gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">__hydra_host__ __hydra_device__ <a class="el" href="namespacehydra.html#aa8c251ed5017d0638da929130062bcad">GBool_t</a> <a class="el" href="structhydra_1_1detail_1_1ProcessGenzMalikUnaryCall.html">hydra::detail::ProcessGenzMalikUnaryCall</a>&lt; N, FUNCTOR, RuleIterator &gt;::set_four_difference_central </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="namespacehydra.html#a971e94bcb8c43741d11f9d8eb98f5fab">GReal_t</a>&#160;</td>
-          <td class="paramname"><em>value</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"><a class="el" href="namespacehydra.html#a971e94bcb8c43741d11f9d8eb98f5fab">GReal_t</a> *const __restrict__&#160;</td>
-          <td class="paramname"><em>fdarray</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="a118e27ec918849d96b61152a88aed43b"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a118e27ec918849d96b61152a88aed43b">&#9670;&nbsp;</a></span>set_four_difference_multilateral()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;size_t N, typename FUNCTOR , typename RuleIterator &gt; </div>
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">__hydra_host__ __hydra_device__ <a class="el" href="namespacehydra.html#aa8c251ed5017d0638da929130062bcad">GBool_t</a> <a class="el" href="structhydra_1_1detail_1_1ProcessGenzMalikUnaryCall.html">hydra::detail::ProcessGenzMalikUnaryCall</a>&lt; N, FUNCTOR, RuleIterator &gt;::set_four_difference_multilateral </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="namespacehydra.html#a971e94bcb8c43741d11f9d8eb98f5fab">GReal_t</a> *const __restrict__&#160;</td>
-          <td class="paramname"><em>fdarray</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="a5cd792d7548544c9fcf0b81004f1e2c8"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a5cd792d7548544c9fcf0b81004f1e2c8">&#9670;&nbsp;</a></span>set_four_difference_unilateral()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;size_t N, typename FUNCTOR , typename RuleIterator &gt; </div>
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">__hydra_host__ __hydra_device__ <a class="el" href="namespacehydra.html#aa8c251ed5017d0638da929130062bcad">GBool_t</a> <a class="el" href="structhydra_1_1detail_1_1ProcessGenzMalikUnaryCall.html">hydra::detail::ProcessGenzMalikUnaryCall</a>&lt; N, FUNCTOR, RuleIterator &gt;::set_four_difference_unilateral </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="namespacehydra.html#a7ab04a199389c4989174dc115507fa89">GChar_t</a>&#160;</td>
-          <td class="paramname"><em>index</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"><a class="el" href="namespacehydra.html#a971e94bcb8c43741d11f9d8eb98f5fab">GReal_t</a>&#160;</td>
-          <td class="paramname"><em>value</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"><a class="el" href="namespacehydra.html#a971e94bcb8c43741d11f9d8eb98f5fab">GReal_t</a> *const __restrict__&#160;</td>
-          <td class="paramname"><em>fdarray</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="aa4dd2f95ef156ed82c2b66171e2c201d"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aa4dd2f95ef156ed82c2b66171e2c201d">&#9670;&nbsp;</a></span>SetFunctor()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;size_t N, typename FUNCTOR , typename RuleIterator &gt; </div>
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">__hydra_host__ __hydra_device__ void <a class="el" href="structhydra_1_1detail_1_1ProcessGenzMalikUnaryCall.html">hydra::detail::ProcessGenzMalikUnaryCall</a>&lt; N, FUNCTOR, RuleIterator &gt;::SetFunctor </td>
+          <td class="memname">__hydra_host__ __hydra_device__ void <a class="el" href="structhydra_1_1detail_1_1ProcessGenzMalikUnaryCall.html">hydra::detail::ProcessGenzMalikUnaryCall</a>&lt; FUNCTOR, N &gt;::SetFunctor </td>
           <td>(</td>
           <td class="paramtype">FUNCTOR&#160;</td>
           <td class="paramname"><em>functor</em></td><td>)</td>
@@ -614,55 +430,6 @@ template&lt;size_t N, typename FUNCTOR , typename RuleIterator &gt; </div>
 
 </div>
 </div>
-<h2 class="groupheader">Field Documentation</h2>
-<a id="a97b2798bdc6609aea747e6c58fa7066b"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a97b2798bdc6609aea747e6c58fa7066b">&#9670;&nbsp;</a></span>fA</h2>
-
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;size_t N, typename FUNCTOR , typename RuleIterator &gt; </div>
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="namespacehydra.html#a971e94bcb8c43741d11f9d8eb98f5fab">GReal_t</a> <a class="el" href="structhydra_1_1detail_1_1ProcessGenzMalikUnaryCall.html">hydra::detail::ProcessGenzMalikUnaryCall</a>&lt; N, FUNCTOR, RuleIterator &gt;::fA[N]</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="a0b7391acf2e6e236f1466ca099cc2920"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a0b7391acf2e6e236f1466ca099cc2920">&#9670;&nbsp;</a></span>fB</h2>
-
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;size_t N, typename FUNCTOR , typename RuleIterator &gt; </div>
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="namespacehydra.html#a971e94bcb8c43741d11f9d8eb98f5fab">GReal_t</a> <a class="el" href="structhydra_1_1detail_1_1ProcessGenzMalikUnaryCall.html">hydra::detail::ProcessGenzMalikUnaryCall</a>&lt; N, FUNCTOR, RuleIterator &gt;::fB[N]</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="aa9b6fe47e6b8c6e8a4462fe4ceadbd29"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aa9b6fe47e6b8c6e8a4462fe4ceadbd29">&#9670;&nbsp;</a></span>fFunctor</h2>
-
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;size_t N, typename FUNCTOR , typename RuleIterator &gt; </div>
-      <table class="memname">
-        <tr>
-          <td class="memname">FUNCTOR <a class="el" href="structhydra_1_1detail_1_1ProcessGenzMalikUnaryCall.html">hydra::detail::ProcessGenzMalikUnaryCall</a>&lt; N, FUNCTOR, RuleIterator &gt;::fFunctor</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
 <hr/>The documentation for this struct was generated from the following file:<ul>
 <li><a class="el" href="">ProcessGenzMalikQuadrature.h</a></li>
 </ul>
@@ -672,7 +439,7 @@ template&lt;size_t N, typename FUNCTOR , typename RuleIterator &gt; </div>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="namespacehydra.html">hydra</a></li><li class="navelem"><a class="el" href="namespacehydra_1_1detail.html">detail</a></li><li class="navelem"><a class="el" href="structhydra_1_1detail_1_1ProcessGenzMalikUnaryCall.html">ProcessGenzMalikUnaryCall</a></li>
-    <li class="footer">Generated on Fri Mar 23 2018 14:51:41 for Hydra by
+    <li class="footer">Generated on Sat Nov 3 2018 02:26:25 for Hydra by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.14 </li>
   </ul>

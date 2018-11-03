@@ -59,6 +59,9 @@ var Utility__Tuple_8h =
     [ "invoke_normalized_helper", "Utility__Tuple_8h.html#a80d93d2ab06e98530b6e09554baff41a", null ],
     [ "make_rtuple", "Utility__Tuple_8h.html#a9c762e6869221cc4c1f83e0e0eecf76e", null ],
     [ "make_rtuple_helper", "Utility__Tuple_8h.html#a6155319b5f6821c59294fd4904f8881a", null ],
+    [ "max", "Utility__Tuple_8h.html#a1152192bafa3c9d955919ee2fa88f8ef", null ],
+    [ "max_helper", "Utility__Tuple_8h.html#aa4140580867ee73e401e1bb1e213548c", null ],
+    [ "max_helper< T, C, N, I+1 >", "Utility__Tuple_8h.html#ad23b453b58064598dbd7596ffca55422", null ],
     [ "multiply_array_tuple", "Utility__Tuple_8h.html#a2ccf298d7fa30a13efd0d4d848248222", null ],
     [ "multiply_array_tuple_helper", "Utility__Tuple_8h.html#a643a9cfc48d39212a6856ce4a6458280", null ],
     [ "multiply_tuple", "Utility__Tuple_8h.html#a2c6d6569d3430295c91bb45ca5a1a0ab", null ],
@@ -109,5 +112,6 @@ var Utility__Tuple_8h =
     [ "tupleToArray", "Utility__Tuple_8h.html#af3336cd369617ffa6dc20218a0ba53a4", null ],
     [ "tupleToArray", "Utility__Tuple_8h.html#a9fc89e34e642e54d06e05eecd35e6586", null ],
     [ "tupleToArray", "Utility__Tuple_8h.html#a99132bf945fc5a95c270e53644d7ca60", null ],
-    [ "make_index_sequence< sizeof...(T) -N >", "Utility__Tuple_8h.html#a6e5ce23b23364c64166f4c390f0f5f03", null ]
+    [ "make_index_sequence< sizeof...(T) -N >", "Utility__Tuple_8h.html#a6e5ce23b23364c64166f4c390f0f5f03", null ],
+    [ "max_value", "Utility__Tuple_8h.html#ad84db3f1361834150a648dd26e7ef276", null ]
 ];

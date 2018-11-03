@@ -1,7 +1,0 @@
-<map id="hydra::Integrator&lt; ALGORITHM &gt;" name="hydra::Integrator&lt; ALGORITHM &gt;">
-<area shape="rect" id="node2" title="Non&#45;adaptive Genz&#45;Malik multidimensional quadrature. " alt="" coords="5,211,224,318"/>
-<area shape="rect" id="node4" title=" &#160;Self&#45;adaptive Gauss&#45;Kronrod Quadrature. " alt="" coords="266,375,462,496"/>
-<area shape="rect" id="node7" title=" &#160;Gauss&#45;Kronrod Quadrature. " alt="" coords="695,382,913,489"/>
-<area shape="rect" id="node9" title="Class to perform numerical integration using Vegas algorithm. " alt="" coords="955,382,1127,489"/>
-<area shape="rect" id="node13" title="This class implements the Plain MC numerical integration algorithm in Hydra. " alt="" coords="1417,382,1589,489"/>
-</map>

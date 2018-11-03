@@ -1,5 +1,8 @@
 <map id="Plain.h" name="Plain.h">
-<area shape="rect" id="node2" href="$plain__mc_8inl.html" title="plain_mc.inl" alt="" coords="69,80,160,107"/>
-<area shape="rect" id="node3" href="$plain__mc_8cpp.html" title="plain_mc.cpp" alt="" coords="5,155,104,181"/>
-<area shape="rect" id="node4" href="$plain__mc_8cu.html" title="plain_mc.cu" alt="" coords="129,155,221,181"/>
+<area shape="rect" id="node2" href="$genz__malik_8inl.html" title="genz_malik.inl" alt="" coords="144,80,249,107"/>
+<area shape="rect" id="node5" href="$plain__mc_8inl.html" title="plain_mc.inl" alt="" coords="278,80,369,107"/>
+<area shape="rect" id="node3" href="$genz__malik_8cpp.html" title="genz_malik.cpp" alt="" coords="5,155,119,181"/>
+<area shape="rect" id="node4" href="$genz__malik_8cu.html" title="genz_malik.cu" alt="" coords="143,155,250,181"/>
+<area shape="rect" id="node6" href="$plain__mc_8cpp.html" title="plain_mc.cpp" alt="" coords="274,155,373,181"/>
+<area shape="rect" id="node7" href="$plain__mc_8cu.html" title="plain_mc.cu" alt="" coords="397,155,489,181"/>
 </map>

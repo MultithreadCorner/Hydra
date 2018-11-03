@@ -36,7 +36,7 @@
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">Hydra
-   &#160;<span id="projectnumber">2.1.0</span>
+   &#160;<span id="projectnumber">2.2.1</span>
    </div>
    <div id="projectbrief">A header-only templated C++ framework to perform data analysis on massively parallel platforms.</div>
   </td>
@@ -123,6 +123,10 @@ Data Structures</h2></td></tr>
 <tr class="separator:structhydra_1_1detail_1_1__merge__and__renumber"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structhydra_1_1detail_1_1__merge__and__renumber_3_01index__sequence_3_01I1_8_8_8_01_4_00_01index73e1de0a5394a3c55b32c0d1818a4cc9.html">hydra::detail::_merge_and_renumber&lt; index_sequence&lt; I1... &gt;, index_sequence&lt; I2... &gt; &gt;</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structhydra_1_1detail_1_1all__true.html">hydra::detail::all_true&lt; bs &gt;</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structhydra_1_1detail_1_1all__true_3_4.html">hydra::detail::all_true&lt;&gt;</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:structhydra_1_1detail_1_1append__to__type__seq"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacehydra_1_1detail.html#structhydra_1_1detail_1_1append__to__type__seq">hydra::detail::append_to_type_seq&lt; typename, typename &gt;</a></td></tr>
 <tr class="separator:structhydra_1_1detail_1_1append__to__type__seq"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:structhydra_1_1detail_1_1append__to__type__seq_3_01T_00_01TT_3_01Ts_8_8_8_01_4_01_4"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacehydra_1_1detail.html#structhydra_1_1detail_1_1append__to__type__seq_3_01T_00_01TT_3_01Ts_8_8_8_01_4_01_4">hydra::detail::append_to_type_seq&lt; T, TT&lt; Ts... &gt; &gt;</a></td></tr>
@@ -178,11 +182,8 @@ Namespaces</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="typedef-members"></a>
 Typedefs</h2></td></tr>
-<tr class="memitem:adc0fec931f3d357c7dd804db2508cd40"><td class="memTemplParams" colspan="2">template&lt;bool... bs&gt; </td></tr>
-<tr class="memitem:adc0fec931f3d357c7dd804db2508cd40"><td class="memTemplItemLeft" align="right" valign="top">using&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacehydra_1_1detail.html#adc0fec931f3d357c7dd804db2508cd40">hydra::detail::all_true</a> = std::is_same&lt; bool_pack&lt; bs..., true &gt;, bool_pack&lt; true, bs... &gt; &gt;</td></tr>
-<tr class="separator:adc0fec931f3d357c7dd804db2508cd40"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a3c72e1aed3a4538dac06a7e816543c23"><td class="memTemplParams" colspan="2">template&lt;class R , class... Ts&gt; </td></tr>
-<tr class="memitem:a3c72e1aed3a4538dac06a7e816543c23"><td class="memTemplItemLeft" align="right" valign="top">using&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacehydra_1_1detail.html#a3c72e1aed3a4538dac06a7e816543c23">hydra::detail::are_all_same</a> = <a class="el" href="classall__true.html">all_true</a>&lt; std::is_same&lt; Ts, R &gt;::value... &gt;</td></tr>
+<tr class="memitem:a3c72e1aed3a4538dac06a7e816543c23"><td class="memTemplItemLeft" align="right" valign="top">using&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacehydra_1_1detail.html#a3c72e1aed3a4538dac06a7e816543c23">hydra::detail::are_all_same</a> = all_true&lt; std::is_same&lt; Ts, R &gt;::value... &gt;</td></tr>
 <tr class="separator:a3c72e1aed3a4538dac06a7e816543c23"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
@@ -193,24 +194,24 @@ Functions</h2></td></tr>
 <tr class="memitem:a7ba59a3eeef51673f8abf850370c9d55"><td class="memTemplParams" colspan="2">template&lt;typename T , size_t DIM, size_t I = 0&gt; </td></tr>
 <tr class="memitem:a7ba59a3eeef51673f8abf850370c9d55"><td class="memTemplItemLeft" align="right" valign="top">std::enable_if&lt;(I&lt; DIM) &amp;&amp;(std::is_integral&lt; T &gt;::value), void &gt;::type&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacehydra_1_1detail.html#a7ba59a3eeef51673f8abf850370c9d55">hydra::detail::get_indexes</a> (size_t index, std::array&lt; T, DIM &gt; const &amp;depths, std::array&lt; T, DIM &gt; &amp;indexes)</td></tr>
 <tr class="separator:a7ba59a3eeef51673f8abf850370c9d55"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af0a88db26c2e7e55cbbc893050bde47a"><td class="memTemplParams" colspan="2">template&lt;typename T , size_t DIM, size_t I&gt; </td></tr>
-<tr class="memitem:af0a88db26c2e7e55cbbc893050bde47a"><td class="memTemplItemLeft" align="right" valign="top">std::enable_if&lt;(I==DIM) &amp;&amp;(std::is_integral&lt; T &gt;::value), void &gt;::type&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacehydra_1_1detail.html#af0a88db26c2e7e55cbbc893050bde47a">hydra::detail::get_indexes</a> (size_t, T(&amp;)[DIM], T(&amp;)[DIM])</td></tr>
-<tr class="separator:af0a88db26c2e7e55cbbc893050bde47a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a52dfa1b8168cdbfcb21263eaa4a0cd2c"><td class="memTemplParams" colspan="2">template&lt;typename T , size_t DIM, size_t I = 0&gt; </td></tr>
-<tr class="memitem:a52dfa1b8168cdbfcb21263eaa4a0cd2c"><td class="memTemplItemLeft" align="right" valign="top">std::enable_if&lt;(I&lt; DIM) &amp;&amp;(std::is_integral&lt; T &gt;::value), void &gt;::type&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacehydra_1_1detail.html#a52dfa1b8168cdbfcb21263eaa4a0cd2c">hydra::detail::get_indexes</a> (size_t index, T(&amp;depths)[DIM], T(&amp;indexes)[DIM])</td></tr>
-<tr class="separator:a52dfa1b8168cdbfcb21263eaa4a0cd2c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a25ee93686d2834f2c81bbc9ca75340b3"><td class="memTemplParams" colspan="2">template&lt;typename T , size_t DIM, size_t I&gt; </td></tr>
+<tr class="memitem:a25ee93686d2834f2c81bbc9ca75340b3"><td class="memTemplItemLeft" align="right" valign="top">std::enable_if&lt;(I==DIM) &amp;&amp;(std::is_integral&lt; T &gt;::value), void &gt;::type&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacehydra_1_1detail.html#a25ee93686d2834f2c81bbc9ca75340b3">hydra::detail::get_indexes</a> (size_t, const T(&amp;)[DIM], T(&amp;)[DIM])</td></tr>
+<tr class="separator:a25ee93686d2834f2c81bbc9ca75340b3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab08843425e05190a4baeb424c9da09a9"><td class="memTemplParams" colspan="2">template&lt;typename T , size_t DIM, size_t I = 0&gt; </td></tr>
+<tr class="memitem:ab08843425e05190a4baeb424c9da09a9"><td class="memTemplItemLeft" align="right" valign="top">std::enable_if&lt;(I&lt; DIM) &amp;&amp;(std::is_integral&lt; T &gt;::value), void &gt;::type&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacehydra_1_1detail.html#ab08843425e05190a4baeb424c9da09a9">hydra::detail::get_indexes</a> (size_t index, const T(&amp;depths)[DIM], T(&amp;indexes)[DIM])</td></tr>
+<tr class="separator:ab08843425e05190a4baeb424c9da09a9"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad2b12c58b82f3d39caa4dffc5ce0faf9"><td class="memTemplParams" colspan="2">template&lt;typename T , size_t N, size_t I&gt; </td></tr>
 <tr class="memitem:ad2b12c58b82f3d39caa4dffc5ce0faf9"><td class="memTemplItemLeft" align="right" valign="top">std::enable_if&lt;(I==N), void &gt;::type&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacehydra_1_1detail.html#ad2b12c58b82f3d39caa4dffc5ce0faf9">hydra::detail::multiply</a> (std::array&lt; T, N &gt; const &amp;, T &amp;)</td></tr>
 <tr class="separator:ad2b12c58b82f3d39caa4dffc5ce0faf9"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a52459ef87933d78d5ce88feb998bd8bd"><td class="memTemplParams" colspan="2">template&lt;typename T , size_t N, size_t I = 0&gt; </td></tr>
 <tr class="memitem:a52459ef87933d78d5ce88feb998bd8bd"><td class="memTemplItemLeft" align="right" valign="top">std::enable_if&lt;(I&lt; N), void &gt;::type&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacehydra_1_1detail.html#a52459ef87933d78d5ce88feb998bd8bd">hydra::detail::multiply</a> (std::array&lt; T, N &gt; const &amp;obj, T &amp;result)</td></tr>
 <tr class="separator:a52459ef87933d78d5ce88feb998bd8bd"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a81ac5728d4eb1752434585cba91569a8"><td class="memTemplParams" colspan="2">template&lt;typename T , size_t N, size_t I&gt; </td></tr>
-<tr class="memitem:a81ac5728d4eb1752434585cba91569a8"><td class="memTemplItemLeft" align="right" valign="top">std::enable_if&lt;(I==N), void &gt;::type&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacehydra_1_1detail.html#a81ac5728d4eb1752434585cba91569a8">hydra::detail::multiply</a> (T(&amp;)[N], T &amp;)</td></tr>
-<tr class="separator:a81ac5728d4eb1752434585cba91569a8"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a589472c4a34883f1d511f4dea99e9522"><td class="memTemplParams" colspan="2">template&lt;typename T , size_t N, size_t I = 0&gt; </td></tr>
-<tr class="memitem:a589472c4a34883f1d511f4dea99e9522"><td class="memTemplItemLeft" align="right" valign="top">std::enable_if&lt;(I&lt; N), void &gt;::type&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacehydra_1_1detail.html#a589472c4a34883f1d511f4dea99e9522">hydra::detail::multiply</a> (T(&amp;obj)[N], T &amp;result)</td></tr>
-<tr class="separator:a589472c4a34883f1d511f4dea99e9522"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af73aa95bb4dce5810569f682bb39de27"><td class="memTemplParams" colspan="2">template&lt;typename T , size_t N, size_t I&gt; </td></tr>
+<tr class="memitem:af73aa95bb4dce5810569f682bb39de27"><td class="memTemplItemLeft" align="right" valign="top">std::enable_if&lt;(I==N), void &gt;::type&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacehydra_1_1detail.html#af73aa95bb4dce5810569f682bb39de27">hydra::detail::multiply</a> (const T(&amp;)[N], T &amp;)</td></tr>
+<tr class="separator:af73aa95bb4dce5810569f682bb39de27"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4f767f0131f9a4910ece6f10d1b5a0f2"><td class="memTemplParams" colspan="2">template&lt;typename T , size_t N, size_t I = 0&gt; </td></tr>
+<tr class="memitem:a4f767f0131f9a4910ece6f10d1b5a0f2"><td class="memTemplItemLeft" align="right" valign="top">std::enable_if&lt;(I&lt; N), void &gt;::type&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacehydra_1_1detail.html#a4f767f0131f9a4910ece6f10d1b5a0f2">hydra::detail::multiply</a> (const T(&amp;obj)[N], T &amp;result)</td></tr>
+<tr class="separator:a4f767f0131f9a4910ece6f10d1b5a0f2"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <hr/><h2 class="groupheader">Data Structure Documentation</h2>
 <a name="structhydra_1_1detail_1_1__merge__and__renumber" id="structhydra_1_1detail_1_1__merge__and__renumber"></a>
@@ -333,7 +334,7 @@ struct hydra::detail::CanConvert&lt; A &gt;</h3>
 </div><div class="dynheader">
 Collaboration diagram for hydra::detail::CanConvert&lt; A &gt;:</div>
 <div class="dyncontent">
-<div class="center"><iframe scrolling="no" frameborder="0" src="structhydra_1_1detail_1_1CanConvert__coll__graph.svg" width="215" height="88"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe>
+<div class="center"><iframe scrolling="no" frameborder="0" src="structhydra_1_1detail_1_1CanConvert__coll__graph.svg" width="214" height="88"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe>
 </div>
 </div>
 
@@ -464,7 +465,7 @@ type</td>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="dir_92a1ff494355b06c14c0e1fe7b982d29.html">Hydra</a></li><li class="navelem"><a class="el" href="dir_108162cc96056bf8ace3602d16680a1c.html">hydra</a></li><li class="navelem"><a class="el" href="dir_3834ae61da54c887219d23c23fa56bea.html">detail</a></li><li class="navelem"><a class="el" href="dir_50b81e2dbdc2d397ec548125a86506fb.html">utility</a></li><li class="navelem"><a class="el" href="Generic_8h.html">Generic.h</a></li>
-    <li class="footer">Generated on Fri Mar 23 2018 14:51:40 for Hydra by
+    <li class="footer">Generated on Sat Nov 3 2018 02:26:24 for Hydra by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.14 </li>
   </ul>

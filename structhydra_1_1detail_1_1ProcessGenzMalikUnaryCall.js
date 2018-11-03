@@ -1,21 +1,13 @@
 var structhydra_1_1detail_1_1ProcessGenzMalikUnaryCall =
 [
-    [ "abscissa_t", "structhydra_1_1detail_1_1ProcessGenzMalikUnaryCall.html#a074f62677c8bd9a74539f1be450b8c50", null ],
-    [ "data_type", "structhydra_1_1detail_1_1ProcessGenzMalikUnaryCall.html#a7ba182921d74fb9e7387cafe942a1b74", null ],
-    [ "rule_abscissa_t", "structhydra_1_1detail_1_1ProcessGenzMalikUnaryCall.html#aa2cedde392e8abf9268f673bb9871b11", null ],
-    [ "ProcessGenzMalikUnaryCall", "structhydra_1_1detail_1_1ProcessGenzMalikUnaryCall.html#a488e23516392d69026fbae1ed3279b48", null ],
-    [ "ProcessGenzMalikUnaryCall", "structhydra_1_1detail_1_1ProcessGenzMalikUnaryCall.html#a3f427404ffea490903618a1a0b9680f1", null ],
-    [ "ProcessGenzMalikUnaryCall", "structhydra_1_1detail_1_1ProcessGenzMalikUnaryCall.html#ad3f58fdb109df2d825f1d75491e08fce", null ],
-    [ "get_transformed_abscissa", "structhydra_1_1detail_1_1ProcessGenzMalikUnaryCall.html#ae9326e5377e24a9f03c65d46d83e5f6c", null ],
-    [ "get_transformed_abscissa", "structhydra_1_1detail_1_1ProcessGenzMalikUnaryCall.html#a3d3cbcb284926e98c7a1546e5333f8e6", null ],
-    [ "GetFunctor", "structhydra_1_1detail_1_1ProcessGenzMalikUnaryCall.html#ad01bfd0479b3ea7d38e3b56ef69ad3ef", null ],
-    [ "operator()", "structhydra_1_1detail_1_1ProcessGenzMalikUnaryCall.html#a7b19e5b9090e1a2ca69263ddcbcad42a", null ],
-    [ "operator=", "structhydra_1_1detail_1_1ProcessGenzMalikUnaryCall.html#a3ae19d278becd44bd810f6f70d6c535a", null ],
-    [ "set_four_difference_central", "structhydra_1_1detail_1_1ProcessGenzMalikUnaryCall.html#a69f084a5747c09531a9666b25ca67375", null ],
-    [ "set_four_difference_multilateral", "structhydra_1_1detail_1_1ProcessGenzMalikUnaryCall.html#a118e27ec918849d96b61152a88aed43b", null ],
-    [ "set_four_difference_unilateral", "structhydra_1_1detail_1_1ProcessGenzMalikUnaryCall.html#a5cd792d7548544c9fcf0b81004f1e2c8", null ],
-    [ "SetFunctor", "structhydra_1_1detail_1_1ProcessGenzMalikUnaryCall.html#aa4dd2f95ef156ed82c2b66171e2c201d", null ],
-    [ "fA", "structhydra_1_1detail_1_1ProcessGenzMalikUnaryCall.html#a97b2798bdc6609aea747e6c58fa7066b", null ],
-    [ "fB", "structhydra_1_1detail_1_1ProcessGenzMalikUnaryCall.html#a0b7391acf2e6e236f1466ca099cc2920", null ],
-    [ "fFunctor", "structhydra_1_1detail_1_1ProcessGenzMalikUnaryCall.html#aa9b6fe47e6b8c6e8a4462fe4ceadbd29", null ]
+    [ "abscissa_type", "structhydra_1_1detail_1_1ProcessGenzMalikUnaryCall.html#af1f29d2812b49c9fb0a05b8bfde4c0d3", null ],
+    [ "result_type", "structhydra_1_1detail_1_1ProcessGenzMalikUnaryCall.html#a3d0336b3dd1e8aedf17dbdc90d3d010f", null ],
+    [ "ProcessGenzMalikUnaryCall", "structhydra_1_1detail_1_1ProcessGenzMalikUnaryCall.html#aafa84b808cdfcf8e1ef9ae4ded960513", null ],
+    [ "ProcessGenzMalikUnaryCall", "structhydra_1_1detail_1_1ProcessGenzMalikUnaryCall.html#a883973f70f89543eba2fe58a210067e1", null ],
+    [ "ProcessGenzMalikUnaryCall", "structhydra_1_1detail_1_1ProcessGenzMalikUnaryCall.html#a18c39347d225e26e3d534858e7d9b735", null ],
+    [ "ProcessGenzMalikUnaryCall", "structhydra_1_1detail_1_1ProcessGenzMalikUnaryCall.html#ad525fe5a07e59e87509bf34aa8d16db1", null ],
+    [ "GetFunctor", "structhydra_1_1detail_1_1ProcessGenzMalikUnaryCall.html#a10f05e4331aeac5f497bedddc42df1d2", null ],
+    [ "operator()", "structhydra_1_1detail_1_1ProcessGenzMalikUnaryCall.html#ab6429217be6b491d27d91eff41694e52", null ],
+    [ "operator=", "structhydra_1_1detail_1_1ProcessGenzMalikUnaryCall.html#a3b467f1f7bf654cfdf9882252dd6b098", null ],
+    [ "SetFunctor", "structhydra_1_1detail_1_1ProcessGenzMalikUnaryCall.html#a33bed122d9d9b49b17d95e31ad9ff498", null ]
 ];

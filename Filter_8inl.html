@@ -36,7 +36,7 @@
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">Hydra
-   &#160;<span id="projectnumber">2.1.0</span>
+   &#160;<span id="projectnumber">2.2.1</span>
    </div>
    <div id="projectbrief">A header-only templated C++ framework to perform data analysis on massively parallel platforms.</div>
   </td>
@@ -122,10 +122,10 @@ Macros</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:a4f175cc8f2c59f6cf2c416354fdb951f"><td class="memTemplParams" colspan="2">template&lt;typename Container , typename Functor &gt; </td></tr>
-<tr class="memitem:a4f175cc8f2c59f6cf2c416354fdb951f"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="namespacehydra.html#classhydra_1_1GenericRange">hydra::GenericRange</a>&lt; typename Container::iterator &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacehydra.html#a4f175cc8f2c59f6cf2c416354fdb951f">hydra::apply_filter</a> (Container &amp;container, Functor const  &amp;filter)</td></tr>
-<tr class="memdesc:a4f175cc8f2c59f6cf2c416354fdb951f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Apply a filter to the range [first, last] and return a pair of iterators for the filtered events.  <a href="namespacehydra.html#a4f175cc8f2c59f6cf2c416354fdb951f">More...</a><br /></td></tr>
-<tr class="separator:a4f175cc8f2c59f6cf2c416354fdb951f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a74342b65e8d5baef11d2518da6fae223"><td class="memTemplParams" colspan="2">template&lt;typename Iterable , typename Functor &gt; </td></tr>
+<tr class="memitem:a74342b65e8d5baef11d2518da6fae223"><td class="memTemplItemLeft" align="right" valign="top">std::enable_if&lt; <a class="el" href="structhydra_1_1detail_1_1is__iterable.html">hydra::detail::is_iterable</a>&lt; Iterable &gt;::value, <a class="el" href="namespacehydra.html#classhydra_1_1Range">hydra::Range</a>&lt; decltype(std::declval&lt; Iterable &gt;).begin())&gt; &gt;::type&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacehydra.html#a74342b65e8d5baef11d2518da6fae223">hydra::apply_filter</a> (Iterable &amp;&amp;container, Functor const  &amp;filter)</td></tr>
+<tr class="memdesc:a74342b65e8d5baef11d2518da6fae223"><td class="mdescLeft">&#160;</td><td class="mdescRight">Apply a filter to the range [first, last] and return a pair of iterators for the filtered events.  <a href="namespacehydra.html#a74342b65e8d5baef11d2518da6fae223">More...</a><br /></td></tr>
+<tr class="separator:a74342b65e8d5baef11d2518da6fae223"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Macro Definition Documentation</h2>
 <a id="afd94c2fa4d229c38e1cf2d662fab1883"></a>
@@ -148,7 +148,7 @@ Functions</h2></td></tr>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="dir_92a1ff494355b06c14c0e1fe7b982d29.html">Hydra</a></li><li class="navelem"><a class="el" href="dir_108162cc96056bf8ace3602d16680a1c.html">hydra</a></li><li class="navelem"><a class="el" href="dir_3834ae61da54c887219d23c23fa56bea.html">detail</a></li><li class="navelem"><a class="el" href="Filter_8inl.html">Filter.inl</a></li>
-    <li class="footer">Generated on Fri Mar 23 2018 14:51:40 for Hydra by
+    <li class="footer">Generated on Sat Nov 3 2018 02:26:24 for Hydra by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.14 </li>
   </ul>

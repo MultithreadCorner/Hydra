@@ -9,12 +9,13 @@ var files_dup =
       [ "AddPdfChecker", "classhydra_1_1detail_1_1AddPdfChecker.html", null ]
     ] ],
     [ "AddPdfFunctor.h", "AddPdfFunctor_8h.html", "AddPdfFunctor_8h" ],
+    [ "Algorithm.h", "Algorithm_8h.html", null ],
+    [ "AnalyticalIntegral.inl", "AnalyticalIntegral_8inl.html", "AnalyticalIntegral_8inl" ],
     [ "Argument.h", "Argument_8h.html", [
       [ "Argument", "structhydra_1_1Argument.html", "structhydra_1_1Argument" ]
     ] ],
     [ "ArgusShape.h", "ArgusShape_8h.html", [
-      [ "ArgusShape", "classhydra_1_1ArgusShape.html", "classhydra_1_1ArgusShape" ],
-      [ "ArgusShapeAnalyticalIntegral", "classhydra_1_1ArgusShapeAnalyticalIntegral.html", "classhydra_1_1ArgusShapeAnalyticalIntegral" ]
+      [ "IntegrationFormula< ArgusShape< ArgIndex >, 1 >", "classhydra_1_1IntegrationFormula_3_01ArgusShape_3_01ArgIndex_01_4_00_011_01_4.html", "classhydra_1_1IntegrationFormula_3_01ArgusShape_3_01ArgIndex_01_4_00_011_01_4" ]
     ] ],
     [ "Arithmetic_Tuple.h", "Arithmetic__Tuple_8h.html", "Arithmetic__Tuple_8h" ],
     [ "async_mc.cu", "async__mc_8cu.html", null ],
@@ -40,42 +41,58 @@ var files_dup =
         [ "type", "namespacehydra_1_1detail.html#a574a0cf3739a23e067ea7e3b1acc7592", null ]
       ] ]
     ] ],
+    [ "BaseCompositeFunctor.h", "BaseCompositeFunctor_8h.html", [
+      [ "BaseCompositeFunctor", "classhydra_1_1BaseCompositeFunctor.html", "classhydra_1_1BaseCompositeFunctor" ]
+    ] ],
     [ "basic_distributions.cpp", "basic__distributions_8cpp.html", null ],
     [ "basic_distributions.cu", "basic__distributions_8cu.html", null ],
     [ "basic_distributions.inl", "basic__distributions_8inl.html", "basic__distributions_8inl" ],
     [ "basic_fit.cpp", "basic__fit_8cpp.html", null ],
     [ "basic_fit.cu", "basic__fit_8cu.html", null ],
     [ "basic_fit.inl", "basic__fit_8inl.html", "basic__fit_8inl" ],
+    [ "basic_fit_range_semantics.cpp", "basic__fit__range__semantics_8cpp.html", "basic__fit__range__semantics_8cpp" ],
+    [ "basic_fit_range_semantics.cu", "basic__fit__range__semantics_8cu.html", "basic__fit__range__semantics_8cu" ],
+    [ "basic_fit_range_semantics.inl", "basic__fit__range__semantics_8inl.html", "basic__fit__range__semantics_8inl" ],
+    [ "BifurcatedGaussian.h", "BifurcatedGaussian_8h.html", [
+      [ "IntegrationFormula< BifurcatedGaussian< ArgIndex >, 1 >", "classhydra_1_1IntegrationFormula_3_01BifurcatedGaussian_3_01ArgIndex_01_4_00_011_01_4.html", "classhydra_1_1IntegrationFormula_3_01BifurcatedGaussian_3_01ArgIndex_01_4_00_011_01_4" ]
+    ] ],
     [ "binned_extended_logLL_fit.cpp", "binned__extended__logLL__fit_8cpp.html", null ],
     [ "binned_extended_logLL_fit.cu", "binned__extended__logLL__fit_8cu.html", null ],
     [ "binned_extended_logLL_fit.inl", "binned__extended__logLL__fit_8inl.html", "binned__extended__logLL__fit_8inl" ],
     [ "BlattWeisskopfFunctions.h", "BlattWeisskopfFunctions_8h.html", "BlattWeisskopfFunctions_8h" ],
+    [ "breit_wigner_plus_chebychev.cpp", "breit__wigner__plus__chebychev_8cpp.html", "breit__wigner__plus__chebychev_8cpp" ],
+    [ "breit_wigner_plus_chebychev.cu", "breit__wigner__plus__chebychev_8cu.html", "breit__wigner__plus__chebychev_8cu" ],
+    [ "breit_wigner_plus_chebychev.inl", "breit__wigner__plus__chebychev_8inl.html", "breit__wigner__plus__chebychev_8inl" ],
     [ "breit_wigner_plus_polynomial.cpp", "breit__wigner__plus__polynomial_8cpp.html", "breit__wigner__plus__polynomial_8cpp" ],
     [ "breit_wigner_plus_polynomial.cu", "breit__wigner__plus__polynomial_8cu.html", "breit__wigner__plus__polynomial_8cu" ],
     [ "breit_wigner_plus_polynomial.inl", "breit__wigner__plus__polynomial_8inl.html", "breit__wigner__plus__polynomial_8inl" ],
-    [ "BreitWignerLineShape.h", "BreitWignerLineShape_8h.html", [
-      [ "BreitWignerLineShape", "classhydra_1_1BreitWignerLineShape.html", "classhydra_1_1BreitWignerLineShape" ]
-    ] ],
+    [ "BreitWignerLineShape.h", "BreitWignerLineShape_8h.html", null ],
     [ "BreitWignerNR.h", "BreitWignerNR_8h.html", [
       [ "BreitWignerNR", "classhydra_1_1BreitWignerNR.html", "classhydra_1_1BreitWignerNR" ],
-      [ "BreitWignerNRAnalyticalIntegral", "classhydra_1_1BreitWignerNRAnalyticalIntegral.html", "classhydra_1_1BreitWignerNRAnalyticalIntegral" ]
+      [ "IntegrationFormula< BreitWignerNR< ArgIndex >, 1 >", "classhydra_1_1IntegrationFormula_3_01BreitWignerNR_3_01ArgIndex_01_4_00_011_01_4.html", "classhydra_1_1IntegrationFormula_3_01BreitWignerNR_3_01ArgIndex_01_4_00_011_01_4" ]
     ] ],
-    [ "Cache.h", "Cache_8h.html", [
-      [ "Cache", "namespacehydra.html#classhydra_1_1Cache", null ],
-      [ "Cache< hydra::detail::BackendPolicy< BACKEND >, Functors... >", "classhydra_1_1Cache_3_01hydra_1_1detail_1_1BackendPolicy_3_01BACKEND_01_4_00_01Functors_8_8_8_01_4.html", "classhydra_1_1Cache_3_01hydra_1_1detail_1_1BackendPolicy_3_01BACKEND_01_4_00_01Functors_8_8_8_01_4" ],
-      [ "CacheEvaluator", "structhydra_1_1detail_1_1CacheEvaluator.html", "structhydra_1_1detail_1_1CacheEvaluator" ]
-    ] ],
+    [ "Cache.h", "Cache_8h.html", "Cache_8h" ],
+    [ "caching_functors.cpp", "caching__functors_8cpp.html", null ],
+    [ "caching_functors.cu", "caching__functors_8cu.html", null ],
+    [ "caching_functors.inl", "caching__functors_8inl.html", "caching__functors_8inl" ],
     [ "Caster.h", "Caster_8h.html", [
       [ "Caster", "structhydra_1_1detail_1_1Caster.html", "structhydra_1_1detail_1_1Caster" ]
     ] ],
     [ "Chain.inl", "Chain_8inl.html", "Chain_8inl" ],
     [ "Chains.h", "Chains_8h.html", "Chains_8h" ],
     [ "Chains.inl", "Chains_8inl.html", "Chains_8inl" ],
+    [ "chebychev.h", "chebychev_8h.html", "chebychev_8h" ],
+    [ "Chebychev.h", "Chebychev_8h.html", [
+      [ "IntegrationFormula< Chebychev< Order, ArgIndex >, 1 >", "classhydra_1_1IntegrationFormula_3_01Chebychev_3_01Order_00_01ArgIndex_01_4_00_011_01_4.html", "classhydra_1_1IntegrationFormula_3_01Chebychev_3_01Order_00_01ArgIndex_01_4_00_011_01_4" ]
+    ] ],
+    [ "Chebyshev_polynomials.h", "Chebyshev__polynomials_8h.html", "Chebyshev__polynomials_8h" ],
     [ "CheckEnergy.h", "CheckEnergy_8h.html", [
       [ "CheckEnergy", "structhydra_1_1detail_1_1CheckEnergy.html", "structhydra_1_1detail_1_1CheckEnergy" ]
     ] ],
     [ "CheckValue.h", "CheckValue_8h.html", "CheckValue_8h" ],
+    [ "ChiSquare.h", "ChiSquare_8h.html", null ],
     [ "Collection.h", "Collection_8h.html", "Collection_8h" ],
+    [ "CollectRange.h", "CollectRange_8h.html", "CollectRange_8h" ],
     [ "Complex.h", "Complex_8h.html", "Complex_8h" ],
     [ "Compose.h", "Compose_8h.html", "Compose_8h" ],
     [ "CompositeBase.h", "CompositeBase_8h.html", [
@@ -85,27 +102,32 @@ var files_dup =
     [ "Constant.h", "Constant_8h.html", [
       [ "Constant", "structhydra_1_1Constant.html", "structhydra_1_1Constant" ]
     ] ],
+    [ "ConstantRange.inl", "ConstantRange_8inl.html", "ConstantRange_8inl" ],
     [ "Containers.h", "Containers_8h.html", "Containers_8h" ],
     [ "Containers.inl", "Containers_8inl.html", "Containers_8inl" ],
-    [ "Copy.h", "Copy_8h.html", "Copy_8h" ],
+    [ "Convolution.h", "Convolution_8h.html", "Convolution_8h" ],
+    [ "Copy.inl", "Copy_8inl.html", "Copy_8inl" ],
     [ "CosHelicityAngle.h", "CosHelicityAngle_8h.html", [
       [ "CosHelicityAngle", "classhydra_1_1CosHelicityAngle.html", "classhydra_1_1CosHelicityAngle" ]
     ] ],
+    [ "CountingRange.inl", "CountingRange_8inl.html", "CountingRange_8inl" ],
     [ "CPP.h", "CPP_8h.html", "CPP_8h" ],
     [ "crystal_ball_plus_exponential.cpp", "crystal__ball__plus__exponential_8cpp.html", "crystal__ball__plus__exponential_8cpp" ],
     [ "crystal_ball_plus_exponential.cu", "crystal__ball__plus__exponential_8cu.html", "crystal__ball__plus__exponential_8cu" ],
     [ "crystal_ball_plus_exponential.inl", "crystal__ball__plus__exponential_8inl.html", "crystal__ball__plus__exponential_8inl" ],
     [ "CrystalBallShape.h", "CrystalBallShape_8h.html", [
       [ "CrystalBallShape", "classhydra_1_1CrystalBallShape.html", "classhydra_1_1CrystalBallShape" ],
-      [ "CrystalBallShapeAnalyticalIntegral", "classhydra_1_1CrystalBallShapeAnalyticalIntegral.html", "classhydra_1_1CrystalBallShapeAnalyticalIntegral" ]
+      [ "IntegrationFormula< CrystalBallShape< ArgIndex >, 1 >", "classhydra_1_1IntegrationFormula_3_01CrystalBallShape_3_01ArgIndex_01_4_00_011_01_4.html", "classhydra_1_1IntegrationFormula_3_01CrystalBallShape_3_01ArgIndex_01_4_00_011_01_4" ]
     ] ],
     [ "CubicSpiline.h", "CubicSpiline_8h.html", [
       [ "CubicSpiline", "classhydra_1_1CubicSpiline.html", "classhydra_1_1CubicSpiline" ]
     ] ],
     [ "CUDA.h", "CUDA_8h.html", "CUDA_8h" ],
+    [ "dalitz_plot.C", "dalitz__plot_8C.html", "dalitz__plot_8C" ],
     [ "dalitz_plot.cpp", "dalitz__plot_8cpp.html", "dalitz__plot_8cpp" ],
     [ "dalitz_plot.cu", "dalitz__plot_8cu.html", "dalitz__plot_8cu" ],
     [ "dalitz_plot.inl", "dalitz__plot_8inl.html", "dalitz__plot_8inl" ],
+    [ "dalitz_plot_C.d", "dalitz__plot__C_8d.html", null ],
     [ "DecayMother.h", "DecayMother_8h.html", [
       [ "DecayMother", "structhydra_1_1detail_1_1DecayMother.html", "structhydra_1_1detail_1_1DecayMother" ]
     ] ],
@@ -114,6 +136,9 @@ var files_dup =
     ] ],
     [ "Decays.h", "Decays_8h.html", "Decays_8h" ],
     [ "Decays.inl", "Decays_8inl.html", "Decays_8inl" ],
+    [ "DeltaDMassBackground.h", "DeltaDMassBackground_8h.html", [
+      [ "IntegrationFormula< DeltaDMassBackground< ArgIndex >, 1 >", "classhydra_1_1IntegrationFormula_3_01DeltaDMassBackground_3_01ArgIndex_01_4_00_011_01_4.html", "classhydra_1_1IntegrationFormula_3_01DeltaDMassBackground_3_01ArgIndex_01_4_00_011_01_4" ]
+    ] ],
     [ "dense_histogram.cpp", "dense__histogram_8cpp.html", null ],
     [ "dense_histogram.cu", "dense__histogram_8cu.html", null ],
     [ "dense_histogram.inl", "dense__histogram_8inl.html", "dense__histogram_8inl" ],
@@ -149,8 +174,7 @@ var files_dup =
     [ "Evaluate.inc", "Evaluate_8inc.html", null ],
     [ "Evaluate.inl", "Evaluate_8inl.html", "Evaluate_8inl" ],
     [ "Exponential.h", "Exponential_8h.html", [
-      [ "Exponential", "classhydra_1_1Exponential.html", "classhydra_1_1Exponential" ],
-      [ "ExponentialAnalyticalIntegral", "classhydra_1_1ExponentialAnalyticalIntegral.html", "classhydra_1_1ExponentialAnalyticalIntegral" ]
+      [ "IntegrationFormula< Exponential< ArgIndex >, 1 >", "classhydra_1_1IntegrationFormula_3_01Exponential_3_01ArgIndex_01_4_00_011_01_4.html", "classhydra_1_1IntegrationFormula_3_01Exponential_3_01ArgIndex_01_4_00_011_01_4" ]
     ] ],
     [ "extended_logLL_fit.cpp", "extended__logLL__fit_8cpp.html", null ],
     [ "extended_logLL_fit.cu", "extended__logLL__fit_8cu.html", null ],
@@ -163,9 +187,11 @@ var files_dup =
     [ "Filter.inl", "Filter_8inl.html", "Filter_8inl" ],
     [ "fit_3d_gaussian.C", "fit__3d__gaussian_8C.html", "fit__3d__gaussian_8C" ],
     [ "fit_gaussian.C", "fit__gaussian_8C.html", "fit__gaussian_8C" ],
+    [ "fit_johnson.C", "fit__johnson_8C.html", "fit__johnson_8C" ],
     [ "FlagAcceptReject.h", "FlagAcceptReject_8h.html", [
       [ "FlagAcceptReject", "structhydra_1_1detail_1_1FlagAcceptReject.html", "structhydra_1_1detail_1_1FlagAcceptReject" ]
     ] ],
+    [ "ForEach.inl", "ForEach_8inl.html", "ForEach_8inl" ],
     [ "fractional_logLL_fit.cpp", "fractional__logLL__fit_8cpp.html", null ],
     [ "fractional_logLL_fit.cu", "fractional__logLL__fit_8cu.html", null ],
     [ "fractional_logLL_fit.inl", "fractional__logLL__fit_8inl.html", "fractional__logLL__fit_8inl" ],
@@ -173,16 +199,20 @@ var files_dup =
     [ "FunctionWrapper.h", "FunctionWrapper_8h.html", "FunctionWrapper_8h" ],
     [ "FunctorArithmetic.h", "FunctorArithmetic_8h.html", null ],
     [ "FunctorTraits.h", "FunctorTraits_8h.html", "FunctorTraits_8h" ],
+    [ "Gather.inl", "Gather_8inl.html", "Gather_8inl" ],
     [ "gauss_kronrod.cpp", "gauss__kronrod_8cpp.html", null ],
     [ "gauss_kronrod.cu", "gauss__kronrod_8cu.html", null ],
     [ "gauss_kronrod.inl", "gauss__kronrod_8inl.html", "gauss__kronrod_8inl" ],
     [ "Gaussian.h", "Gaussian_8h.html", [
-      [ "Gaussian", "classhydra_1_1Gaussian.html", "classhydra_1_1Gaussian" ],
-      [ "GaussianAnalyticalIntegral", "classhydra_1_1GaussianAnalyticalIntegral.html", "classhydra_1_1GaussianAnalyticalIntegral" ]
+      [ "IntegrationFormula< Gaussian< ArgIndex >, 1 >", "classhydra_1_1IntegrationFormula_3_01Gaussian_3_01ArgIndex_01_4_00_011_01_4.html", "classhydra_1_1IntegrationFormula_3_01Gaussian_3_01ArgIndex_01_4_00_011_01_4" ]
     ] ],
     [ "gaussian_plus_argus.cpp", "gaussian__plus__argus_8cpp.html", "gaussian__plus__argus_8cpp" ],
     [ "gaussian_plus_argus.cu", "gaussian__plus__argus_8cu.html", "gaussian__plus__argus_8cu" ],
     [ "gaussian_plus_argus.inl", "gaussian__plus__argus_8inl.html", "gaussian__plus__argus_8inl" ],
+    [ "GaussianKDE.h", "GaussianKDE_8h.html", [
+      [ "Kernel", "structhydra_1_1GaussianKDE_1_1Kernel.html", "structhydra_1_1GaussianKDE_1_1Kernel" ]
+    ] ],
+    [ "GaussianKDE.inl", "GaussianKDE_8inl.html", "GaussianKDE_8inl" ],
     [ "GaussKronrodAdaptiveQuadrature.h", "GaussKronrodAdaptiveQuadrature_8h.html", [
       [ "GaussKronrodAdaptiveQuadrature", "namespacehydra.html#classhydra_1_1GaussKronrodAdaptiveQuadrature", null ],
       [ "GaussKronrodAdaptiveQuadrature< NRULE, NBIN, hydra::detail::BackendPolicy< BACKEND > >", "classhydra_1_1GaussKronrodAdaptiveQuadrature_3_01NRULE_00_01NBIN_00_01hydra_1_1detail_1_1BackendPolicy_3_01BACKEND_01_4_01_4.html", "classhydra_1_1GaussKronrodAdaptiveQuadrature_3_01NRULE_00_01NBIN_00_01hydra_1_1detail_1_1BackendPolicy_3_01BACKEND_01_4_01_4" ]
@@ -197,19 +227,30 @@ var files_dup =
     [ "GaussKronrodRules.h", "GaussKronrodRules_8h.html", [
       [ "GaussKronrodRuleSelector", "namespacehydra.html#structhydra_1_1GaussKronrodRuleSelector", null ]
     ] ],
-    [ "Generic.h", "Generic_8h.html", "Generic_8h" ],
-    [ "GenericRange.h", "GenericRange_8h.html", [
-      [ "GenericRange", "namespacehydra.html#classhydra_1_1GenericRange", null ]
+    [ "GeneralizedGamma.h", "GeneralizedGamma_8h.html", null ],
+    [ "generate_4body_decay_chain.C", "generate__4body__decay__chain_8C.html", "generate__4body__decay__chain_8C" ],
+    [ "generate_decay_chain.C", "generate__decay__chain_8C.html", "generate__decay__chain_8C" ],
+    [ "GenerateDecay.h", "GenerateDecay_8h.html", [
+      [ "GenerateDecay", "structhydra_1_1detail_1_1GenerateDecay.html", "structhydra_1_1detail_1_1GenerateDecay" ]
     ] ],
-    [ "GenericRange1.inl", "GenericRange1_8inl.html", "GenericRange1_8inl" ],
-    [ "GenericRange2.inl", "GenericRange2_8inl.html", "GenericRange2_8inl" ],
+    [ "Generic.h", "Generic_8h.html", "Generic_8h" ],
+    [ "genz_malik.cpp", "genz__malik_8cpp.html", "genz__malik_8cpp" ],
+    [ "genz_malik.cu", "genz__malik_8cu.html", "genz__malik_8cu" ],
+    [ "genz_malik.inl", "genz__malik_8inl.html", "genz__malik_8inl" ],
     [ "GenzMalikBox.h", "GenzMalikBox_8h.html", [
-      [ "GenzMalikBox", "structhydra_1_1detail_1_1GenzMalikBox.html", "structhydra_1_1detail_1_1GenzMalikBox" ]
+      [ "AddResultGenzMalikBoxes", "structhydra_1_1detail_1_1AddResultGenzMalikBoxes.html", "structhydra_1_1detail_1_1AddResultGenzMalikBoxes" ],
+      [ "CompareGenzMalikBoxes", "structhydra_1_1detail_1_1CompareGenzMalikBoxes.html", "structhydra_1_1detail_1_1CompareGenzMalikBoxes" ],
+      [ "GenzMalikBox", "classhydra_1_1detail_1_1GenzMalikBox.html", "classhydra_1_1detail_1_1GenzMalikBox" ],
+      [ "GenzMalikBox", "classhydra_1_1detail_1_1GenzMalikBox.html", "classhydra_1_1detail_1_1GenzMalikBox" ]
     ] ],
     [ "GenzMalikQuadrature.h", "GenzMalikQuadrature_8h.html", [
       [ "GenzMalikQuadrature", "namespacehydra.html#classhydra_1_1GenzMalikQuadrature", null ]
     ] ],
     [ "GenzMalikQuadrature.inl", "GenzMalikQuadrature_8inl.html", "GenzMalikQuadrature_8inl" ],
+    [ "detail/GenzMalikRule.h", "detail_2GenzMalikRule_8h.html", [
+      [ "GenzMalikRule", "namespacehydra.html#classhydra_1_1GenzMalikRule", null ],
+      [ "GenzMalikRuleBase", "classhydra_1_1GenzMalikRuleBase.html", null ]
+    ] ],
     [ "GenzMalikRule.h", "GenzMalikRule_8h.html", [
       [ "GenzMalikRule", "namespacehydra.html#classhydra_1_1GenzMalikRule", null ],
       [ "GenzMalikRuleBase", "classhydra_1_1GenzMalikRuleBase.html", null ]
@@ -226,18 +267,54 @@ var files_dup =
     [ "hydra/Groups.h", "hydra_2Groups_8h.html", null ],
     [ "doxydefs/Groups.h", "doxydefs_2Groups_8h.html", null ],
     [ "Hash.h", "Hash_8h.html", "Hash_8h" ],
+    [ "hermite.h", "hermite_8h.html", "hermite_8h" ],
+    [ "HistogramTraits.h", "HistogramTraits_8h.html", [
+      [ "histogram_type", "namespacehydra_1_1detail.html#structhydra_1_1detail_1_1histogram__type", [
+        [ "type", "namespacehydra_1_1detail.html#a7fd2cd229fb26f5eec8658e06dc901d9", null ]
+      ] ],
+      [ "is_hydra_dense_histogram", "structhydra_1_1detail_1_1is__hydra__dense__histogram.html", null ],
+      [ "is_hydra_dense_histogram< T, typename tag_type< typename T::hydra_dense_histogram_tag >::type >", "structhydra_1_1detail_1_1is__hydra__dense__histogram_3_01T_00_01typename_01tag__type_3_01typenam9203dd81b1b062754e6c1a7cce499e1d.html", null ],
+      [ "is_hydra_sparse_histogram", "structhydra_1_1detail_1_1is__hydra__sparse__histogram.html", null ],
+      [ "is_hydra_sparse_histogram< T, typename tag_type< typename T::hydra_sparse_histogram_tag >::type >", "structhydra_1_1detail_1_1is__hydra__sparse__histogram_3_01T_00_01typename_01tag__type_3_01typena4f2b029bee40b92d4fe623abc1e7a292.html", null ]
+    ] ],
     [ "HOST.h", "HOST_8h.html", "HOST_8h" ],
     [ "Hydra.h", "Hydra_8h.html", "Hydra_8h" ],
     [ "Integrator.h", "Integrator_8h.html", [
-      [ "Integrator", "structhydra_1_1Integrator.html", "structhydra_1_1Integrator" ]
+      [ "AnalyticalIntegral", "classhydra_1_1AnalyticalIntegral.html", "classhydra_1_1AnalyticalIntegral" ],
+      [ "Integral", "structhydra_1_1Integral.html", "structhydra_1_1Integral" ],
+      [ "IntegrationFormula", "classhydra_1_1IntegrationFormula.html", null ],
+      [ "NumericalIntegral", "classhydra_1_1NumericalIntegral.html", "classhydra_1_1NumericalIntegral" ]
     ] ],
+    [ "Integrator.inl", "Integrator_8inl.html", "Integrator_8inl" ],
+    [ "Ipatia.h", "Ipatia_8h.html", [
+      [ "IntegrationFormula< Ipatia< ArgIndex >, 1 >", "classhydra_1_1IntegrationFormula_3_01Ipatia_3_01ArgIndex_01_4_00_011_01_4.html", "classhydra_1_1IntegrationFormula_3_01Ipatia_3_01ArgIndex_01_4_00_011_01_4" ]
+    ] ],
+    [ "Ipatia.inl", "Ipatia_8inl.html", "Ipatia_8inl" ],
+    [ "ipatia_plus_argus.cpp", "ipatia__plus__argus_8cpp.html", "ipatia__plus__argus_8cpp" ],
+    [ "ipatia_plus_argus.cu", "ipatia__plus__argus_8cu.html", "ipatia__plus__argus_8cu" ],
+    [ "Ipatia_plus_argus.inl", "Ipatia__plus__argus_8inl.html", "Ipatia__plus__argus_8inl" ],
     [ "IsAccepted.h", "IsAccepted_8h.html", [
       [ "isAccepted", "structhydra_1_1detail_1_1isAccepted.html", "structhydra_1_1detail_1_1isAccepted" ]
     ] ],
+    [ "Iterable_traits.h", "Iterable__traits_8h.html", [
+      [ "is_iterable", "structhydra_1_1detail_1_1is__iterable.html", null ],
+      [ "is_iterable< T, decltype(hydra::begin(std::declval< T & >()) !=hydra::end(std::declval< T & >()), void(),++std::declval< decltype(hydra::begin(std::declval< T & >()))& >(), void(*hydra::begin(std::declval< T & >())), 0)>", "structhydra_1_1detail_1_1is__iterable_3_01T_00_01decltype_07hydra_1_1begin_07std_1_1declval_3_011e17981e9f31a21116f74358e84e6d18.html", null ],
+      [ "is_reverse_iterable", "structhydra_1_1detail_1_1is__reverse__iterable.html", null ],
+      [ "is_reverse_iterable< T, decltype(hydra::rbegin(std::declval< T & >()) !=hydra::rend(std::declval< T & >()), void(),++std::declval< decltype(hydra::rbegin(std::declval< T & >()))& >(), void(*hydra::rbegin(std::declval< T & >())), 0)>", "structhydra_1_1detail_1_1is__reverse__iterable_3_01T_00_01decltype_07hydra_1_1rbegin_07std_1_1de8f7c767d8693fa1c651430a7bda68c11.html", null ]
+    ] ],
+    [ "Iterator.h", "Iterator_8h.html", "Iterator_8h" ],
+    [ "Iterator.inl", "Iterator_8inl.html", "Iterator_8inl" ],
     [ "IteratorTraits.h", "IteratorTraits_8h.html", [
       [ "IteratorTraits", "structhydra_1_1detail_1_1IteratorTraits.html", "structhydra_1_1detail_1_1IteratorTraits" ]
     ] ],
+    [ "jacobi.h", "jacobi_8h.html", "jacobi_8h" ],
+    [ "JohnsonSUShape.h", "JohnsonSUShape_8h.html", [
+      [ "IntegrationFormula< JohnsonSUShape< ArgIndex >, 1 >", "classhydra_1_1IntegrationFormula_3_01JohnsonSUShape_3_01ArgIndex_01_4_00_011_01_4.html", "classhydra_1_1IntegrationFormula_3_01JohnsonSUShape_3_01ArgIndex_01_4_00_011_01_4" ]
+    ] ],
+    [ "laguerre.h", "laguerre_8h.html", "laguerre_8h" ],
     [ "launch_decayers.inl", "launch__decayers_8inl.html", "launch__decayers_8inl" ],
+    [ "legendre.h", "legendre_8h.html", "legendre_8h" ],
+    [ "Legendre.h", "Legendre_8h.html", "Legendre_8h" ],
     [ "LogLikelihood.h", "LogLikelihood_8h.html", null ],
     [ "LogLikelihood1.h", "LogLikelihood1_8h.html", [
       [ "LogLikelihood1", "structhydra_1_1detail_1_1LogLikelihood1.html", "structhydra_1_1detail_1_1LogLikelihood1" ],
@@ -247,12 +324,13 @@ var files_dup =
     [ "LogLikelihoodFCN1.inl", "LogLikelihoodFCN1_8inl.html", "LogLikelihoodFCN1_8inl" ],
     [ "LogLikelihoodFCN2.inl", "LogLikelihoodFCN2_8inl.html", "LogLikelihoodFCN2_8inl" ],
     [ "LogLikelihoodFCN3.inl", "LogLikelihoodFCN3_8inl.html", "LogLikelihoodFCN3_8inl" ],
-    [ "M12PhaseSpaceLineShape.h", "M12PhaseSpaceLineShape_8h.html", [
-      [ "M12PhaseSpaceLineShape", "classhydra_1_1M12PhaseSpaceLineShape.html", "classhydra_1_1M12PhaseSpaceLineShape" ]
+    [ "LogNormal.h", "LogNormal_8h.html", [
+      [ "IntegrationFormula< LogNormal< ArgIndex >, 1 >", "classhydra_1_1IntegrationFormula_3_01LogNormal_3_01ArgIndex_01_4_00_011_01_4.html", "classhydra_1_1IntegrationFormula_3_01LogNormal_3_01ArgIndex_01_4_00_011_01_4" ]
     ] ],
-    [ "M12SqPhaseSpaceLineShape.h", "M12SqPhaseSpaceLineShape_8h.html", [
-      [ "M12SqPhaseSpaceLineShape", "classhydra_1_1M12SqPhaseSpaceLineShape.html", "classhydra_1_1M12SqPhaseSpaceLineShape" ]
-    ] ],
+    [ "M12PhaseSpaceLineShape.h", "M12PhaseSpaceLineShape_8h.html", null ],
+    [ "M12SqPhaseSpaceLineShape.h", "M12SqPhaseSpaceLineShape_8h.html", null ],
+    [ "MachineEpsilon.h", "MachineEpsilon_8h.html", "MachineEpsilon_8h" ],
+    [ "Math.h", "Math_8h.html", "Math_8h" ],
     [ "Minus.h", "Minus_8h.html", "Minus_8h" ],
     [ "multiarray.h", "multiarray_8h.html", "multiarray_8h" ],
     [ "multiarray_container.cpp", "multiarray__container_8cpp.html", null ],
@@ -266,12 +344,20 @@ var files_dup =
     [ "multivector_container.cpp", "multivector__container_8cpp.html", null ],
     [ "multivector_container.cu", "multivector__container_8cu.html", null ],
     [ "multivector_container.inl", "multivector__container_8inl.html", "multivector__container_8inl" ],
+    [ "NumericalIntegral.inl", "NumericalIntegral_8inl.html", "NumericalIntegral_8inl" ],
     [ "OMP.h", "OMP_8h.html", "OMP_8h" ],
     [ "Parameter.h", "Parameter_8h.html", "Parameter_8h" ],
     [ "Parameters.h", "Parameters_8h.html", [
       [ "Parameters", "classhydra_1_1detail_1_1Parameters.html", "classhydra_1_1detail_1_1Parameters" ],
       [ "Parameters< 0 >", "classhydra_1_1detail_1_1Parameters_3_010_01_4.html", "classhydra_1_1detail_1_1Parameters_3_010_01_4" ]
     ] ],
+    [ "ParametersCompositeFunctor.h", "ParametersCompositeFunctor_8h.html", [
+      [ "ParametersCompositeFunctor", "classhydra_1_1detail_1_1ParametersCompositeFunctor.html", "classhydra_1_1detail_1_1ParametersCompositeFunctor" ]
+    ] ],
+    [ "particle_dispersion.C", "particle__dispersion_8C.html", "particle__dispersion_8C" ],
+    [ "particle_mass.cpp", "particle__mass_8cpp.html", null ],
+    [ "particle_mass.cu", "particle__mass_8cu.html", null ],
+    [ "particle_mass.inl", "particle__mass_8inl.html", "particle__mass_8inl" ],
     [ "Pdf.h", "Pdf_8h.html", "Pdf_8h" ],
     [ "PDFSumExtendable.h", "PDFSumExtendable_8h.html", "PDFSumExtendable_8h" ],
     [ "PDFSumNonExtendable.h", "PDFSumNonExtendable_8h.html", "PDFSumNonExtendable_8h" ],
@@ -281,6 +367,7 @@ var files_dup =
     [ "PhaseSpace.inl", "PhaseSpace_8inl.html", "PhaseSpace_8inl" ],
     [ "PhaseSpaceIntegrator.h", "PhaseSpaceIntegrator_8h.html", null ],
     [ "PhaseSpaceIntegrator.inl", "PhaseSpaceIntegrator_8inl.html", "PhaseSpaceIntegrator_8inl" ],
+    [ "PhaseSpaceRange.inl", "PhaseSpaceRange_8inl.html", "PhaseSpaceRange_8inl" ],
     [ "phsp_averaging_functor.cpp", "phsp__averaging__functor_8cpp.html", null ],
     [ "phsp_averaging_functor.cu", "phsp__averaging__functor_8cu.html", null ],
     [ "phsp_averaging_functor.inl", "phsp__averaging__functor_8inl.html", "phsp__averaging__functor_8inl" ],
@@ -319,9 +406,9 @@ var files_dup =
     [ "plain_mc.cu", "plain__mc_8cu.html", null ],
     [ "plain_mc.inl", "plain__mc_8inl.html", "plain__mc_8inl" ],
     [ "PlainState.h", "PlainState_8h.html", null ],
+    [ "PlanesDeltaAngle.h", "PlanesDeltaAngle_8h.html", null ],
     [ "Polynomial.h", "Polynomial_8h.html", [
-      [ "Polynomial", "classhydra_1_1Polynomial.html", "classhydra_1_1Polynomial" ],
-      [ "PolynomialAnalyticalIntegral", "classhydra_1_1PolynomialAnalyticalIntegral.html", "classhydra_1_1PolynomialAnalyticalIntegral" ]
+      [ "IntegrationFormula< Polynomial< Order, ArgIndex >, 1 >", "classhydra_1_1IntegrationFormula_3_01Polynomial_3_01Order_00_01ArgIndex_01_4_00_011_01_4.html", "classhydra_1_1IntegrationFormula_3_01Polynomial_3_01Order_00_01ArgIndex_01_4_00_011_01_4" ]
     ] ],
     [ "PredicatesVegas.h", "PredicatesVegas_8h.html", [
       [ "ProcessCallsVegas", "structhydra_1_1detail_1_1ProcessCallsVegas.html", "structhydra_1_1detail_1_1ProcessCallsVegas" ]
@@ -362,6 +449,7 @@ var files_dup =
     ] ],
     [ "Random.h", "Random_8h.html", "Random_8h" ],
     [ "Random.inl", "Random_8inl.html", "Random_8inl" ],
+    [ "RandomRange.inl", "RandomRange_8inl.html", "RandomRange_8inl" ],
     [ "RandomUtils.h", "RandomUtils_8h.html", [
       [ "RndBreitWigner", "structhydra_1_1detail_1_1RndBreitWigner.html", "structhydra_1_1detail_1_1RndBreitWigner" ],
       [ "RndCDF", "structhydra_1_1detail_1_1RndCDF.html", "structhydra_1_1detail_1_1RndCDF" ],
@@ -372,9 +460,22 @@ var files_dup =
       [ "RndTrial< T, GRND, FUNCTOR, 1 >", "structhydra_1_1detail_1_1RndTrial_3_01T_00_01GRND_00_01FUNCTOR_00_011_01_4.html", "structhydra_1_1detail_1_1RndTrial_3_01T_00_01GRND_00_01FUNCTOR_00_011_01_4" ],
       [ "RndUniform", "structhydra_1_1detail_1_1RndUniform.html", "structhydra_1_1detail_1_1RndUniform" ]
     ] ],
+    [ "Range.h", "Range_8h.html", [
+      [ "Range", "namespacehydra.html#classhydra_1_1Range", null ]
+    ] ],
+    [ "Range1.inl", "Range1_8inl.html", "Range1_8inl" ],
+    [ "Range2.inl", "Range2_8inl.html", "Range2_8inl" ],
+    [ "range_semantics.cpp", "range__semantics_8cpp.html", null ],
+    [ "range_semantics.cu", "range__semantics_8cu.html", null ],
+    [ "range_semantics.inl", "range__semantics_8inl.html", "range__semantics_8inl" ],
+    [ "Reduce.inl", "Reduce_8inl.html", "Reduce_8inl" ],
+    [ "rint.h", "rint_8h.html", "rint_8h" ],
+    [ "SafeCompare.h", "SafeCompare_8h.html", "SafeCompare_8h" ],
     [ "sample_distribution.cpp", "sample__distribution_8cpp.html", null ],
     [ "sample_distribution.cu", "sample__distribution_8cu.html", null ],
     [ "sample_distribution.inl", "sample__distribution_8inl.html", "sample__distribution_8inl" ],
+    [ "Scatter.inl", "Scatter_8inl.html", "Scatter_8inl" ],
+    [ "Sort.inl", "Sort_8inl.html", "Sort_8inl" ],
     [ "sparse_histogram.cpp", "sparse__histogram_8cpp.html", null ],
     [ "sparse_histogram.cu", "sparse__histogram_8cu.html", null ],
     [ "sparse_histogram.inl", "sparse__histogram_8inl.html", "sparse__histogram_8inl" ],
@@ -398,9 +499,23 @@ var files_dup =
     [ "omp/System.h", "omp_2System_8h.html", null ],
     [ "tbb/System.h", "tbb_2System_8h.html", null ],
     [ "TBB.h", "TBB_8h.html", "TBB_8h" ],
+    [ "three_body_phsp.C", "three__body__phsp_8C.html", "three__body__phsp_8C" ],
+    [ "three_body_phsp_C.d", "three__body__phsp__C_8d.html", null ],
+    [ "ThreeBodyMassThresholdBackground.h", "ThreeBodyMassThresholdBackground_8h.html", null ],
+    [ "Transform.inl", "Transform_8inl.html", "Transform_8inl" ],
+    [ "TrapezoidalShape.h", "TrapezoidalShape_8h.html", [
+      [ "IntegrationFormula< TrapezoidalShape< ArgIndex >, 1 >", "classhydra_1_1IntegrationFormula_3_01TrapezoidalShape_3_01ArgIndex_01_4_00_011_01_4.html", "classhydra_1_1IntegrationFormula_3_01TrapezoidalShape_3_01ArgIndex_01_4_00_011_01_4" ],
+      [ "TrapezoidalShapeAnalyticalIntegral", "classhydra_1_1TrapezoidalShapeAnalyticalIntegral.html", "classhydra_1_1TrapezoidalShapeAnalyticalIntegral" ]
+    ] ],
+    [ "TriangularShape.h", "TriangularShape_8h.html", [
+      [ "IntegrationFormula< TriangularShape< ArgIndex >, 1 >", "classhydra_1_1IntegrationFormula_3_01TriangularShape_3_01ArgIndex_01_4_00_011_01_4.html", "classhydra_1_1IntegrationFormula_3_01TriangularShape_3_01ArgIndex_01_4_00_011_01_4" ]
+    ] ],
     [ "Tuple.h", "Tuple_8h.html", "Tuple_8h" ],
     [ "Types.h", "Types_8h.html", "Types_8h" ],
     [ "TypeTraits.h", "TypeTraits_8h.html", "TypeTraits_8h" ],
+    [ "UniformShape.h", "UniformShape_8h.html", [
+      [ "IntegrationFormula< UniformShape< ArgIndex >, 1 >", "classhydra_1_1IntegrationFormula_3_01UniformShape_3_01ArgIndex_01_4_00_011_01_4.html", "classhydra_1_1IntegrationFormula_3_01UniformShape_3_01ArgIndex_01_4_00_011_01_4" ]
+    ] ],
     [ "UserParameters.h", "UserParameters_8h.html", "UserParameters_8h" ],
     [ "Utility_Tuple.h", "Utility__Tuple_8h.html", "Utility__Tuple_8h" ],
     [ "Utils.h", "Utils_8h.html", "Utils_8h" ],
@@ -425,8 +540,25 @@ var files_dup =
       [ "Weights", "namespacehydra.html#classhydra_1_1Weights", null ],
       [ "Weights< hydra::detail::BackendPolicy< BACKEND > >", "classhydra_1_1Weights_3_01hydra_1_1detail_1_1BackendPolicy_3_01BACKEND_01_4_01_4.html", "classhydra_1_1Weights_3_01hydra_1_1detail_1_1BackendPolicy_3_01BACKEND_01_4_01_4" ]
     ] ],
-    [ "WignerDFunctions.h", "WignerDFunctions_8h.html", [
-      [ "WignerD", "classhydra_1_1WignerD.html", "classhydra_1_1WignerD" ]
-    ] ],
-    [ "ZemachFunctions.h", "ZemachFunctions_8h.html", "ZemachFunctions_8h" ]
+    [ "wigner_d_funcion.h", "wigner__d__funcion_8h.html", "wigner__d__funcion_8h" ],
+    [ "wigner_d_function_macro.inl", "wigner__d__function__macro_8inl.html", "wigner__d__function__macro_8inl" ],
+    [ "wigner_d_matrix.h", "wigner__d__matrix_8h.html", "wigner__d__matrix_8h" ],
+    [ "wigner_J_half_1.inl", "wigner__J__half__1_8inl.html", "wigner__J__half__1_8inl" ],
+    [ "wigner_J_half_3.inl", "wigner__J__half__3_8inl.html", "wigner__J__half__3_8inl" ],
+    [ "wigner_J_half_5.inl", "wigner__J__half__5_8inl.html", "wigner__J__half__5_8inl" ],
+    [ "wigner_J_half_7.inl", "wigner__J__half__7_8inl.html", "wigner__J__half__7_8inl" ],
+    [ "wigner_J_half_9.inl", "wigner__J__half__9_8inl.html", "wigner__J__half__9_8inl" ],
+    [ "wigner_J_unit_1.inl", "wigner__J__unit__1_8inl.html", "wigner__J__unit__1_8inl" ],
+    [ "wigner_J_unit_2.inl", "wigner__J__unit__2_8inl.html", "wigner__J__unit__2_8inl" ],
+    [ "wigner_J_unit_3.inl", "wigner__J__unit__3_8inl.html", "wigner__J__unit__3_8inl" ],
+    [ "wigner_J_unit_4.inl", "wigner__J__unit__4_8inl.html", "wigner__J__unit__4_8inl" ],
+    [ "wigner_J_unit_5.inl", "wigner__J__unit__5_8inl.html", "wigner__J__unit__5_8inl" ],
+    [ "WignerD.h", "WignerD_8h.html", "WignerD_8h" ],
+    [ "WignerDMatrix.h", "WignerDMatrix_8h.html", null ],
+    [ "ZemachFunctions.h", "ZemachFunctions_8h.html", null ],
+    [ "Zip.h", "Zip_8h.html", "Zip_8h" ],
+    [ "Zip.inl", "Zip_8inl.html", "Zip_8inl" ],
+    [ "zipping_iterables.cpp", "zipping__iterables_8cpp.html", "zipping__iterables_8cpp" ],
+    [ "zipping_iterables.cu", "zipping__iterables_8cu.html", "zipping__iterables_8cu" ],
+    [ "zipping_iterables.inl", "zipping__iterables_8inl.html", "zipping__iterables_8inl" ]
 ];

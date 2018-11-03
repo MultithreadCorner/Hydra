@@ -36,7 +36,7 @@
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">Hydra
-   &#160;<span id="projectnumber">2.1.0</span>
+   &#160;<span id="projectnumber">2.2.1</span>
    </div>
    <div id="projectbrief">A header-only templated C++ framework to perform data analysis on massively parallel platforms.</div>
   </td>
@@ -142,20 +142,20 @@ Namespaces</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:ga039a5582fbb2830db577f02056555a6d"><td class="memTemplParams" colspan="2">template&lt;typename L , typename ... T&gt; </td></tr>
-<tr class="memitem:ga039a5582fbb2830db577f02056555a6d"><td class="memTemplItemLeft" align="right" valign="top">auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__functor.html#ga039a5582fbb2830db577f02056555a6d">hydra::wrap_lambda</a> (L const &amp;f, T ...pars) -&gt; decltype(detail::wrap_lambda_helper(f, typename detail::function_traits&lt; L &gt;::return_type(), typename detail::function_traits&lt; L &gt;::args_type(), std::array&lt; Parameter, sizeof...(T)&gt;()))</td></tr>
-<tr class="memdesc:ga039a5582fbb2830db577f02056555a6d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Function template for wrap a C++11 lambda into a hydra lambda with a certain number of parameters.  <a href="group__functor.html#ga039a5582fbb2830db577f02056555a6d">More...</a><br /></td></tr>
-<tr class="separator:ga039a5582fbb2830db577f02056555a6d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga53506830108537bc49811415296ba738"><td class="memTemplParams" colspan="2">template&lt;typename L &gt; </td></tr>
-<tr class="memitem:ga53506830108537bc49811415296ba738"><td class="memTemplItemLeft" align="right" valign="top">auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__functor.html#ga53506830108537bc49811415296ba738">hydra::wrap_lambda</a> (L const &amp;f) -&gt; decltype(detail::wrap_lambda_helper(f, typename detail::function_traits&lt; L &gt;::return_type(), typename detail::function_traits&lt; L &gt;::args_type()))</td></tr>
-<tr class="memdesc:ga53506830108537bc49811415296ba738"><td class="mdescLeft">&#160;</td><td class="mdescRight">Function template for wrap a C++11 lambda into a hydra lambda.  <a href="group__functor.html#ga53506830108537bc49811415296ba738">More...</a><br /></td></tr>
-<tr class="separator:ga53506830108537bc49811415296ba738"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga1ed4b0fb2957a3933162b9fc3f386203"><td class="memTemplParams" colspan="2">template&lt;typename L , typename ... T&gt; </td></tr>
+<tr class="memitem:ga1ed4b0fb2957a3933162b9fc3f386203"><td class="memTemplItemLeft" align="right" valign="top">auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__functor.html#ga1ed4b0fb2957a3933162b9fc3f386203">hydra::wrap_lambda</a> (L const &amp;f, T const &amp;...pars) -&gt; decltype(detail::wrap_lambda_helper(std::declval&lt; L &gt;(), std::declval&lt; typename detail::function_traits&lt; L &gt;::return_type &gt;(), std::declval&lt; typename detail::function_traits&lt; L &gt;::args_type &gt;(), std::declval&lt; std::array&lt; Parameter, sizeof...(T)&gt;&gt;()))</td></tr>
+<tr class="memdesc:ga1ed4b0fb2957a3933162b9fc3f386203"><td class="mdescLeft">&#160;</td><td class="mdescRight">Function template for wrap a C++11 lambda into a hydra lambda with a certain number of parameters.  <a href="group__functor.html#ga1ed4b0fb2957a3933162b9fc3f386203">More...</a><br /></td></tr>
+<tr class="separator:ga1ed4b0fb2957a3933162b9fc3f386203"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gaaa81f25675f16b161be78aa2b0cfb307"><td class="memTemplParams" colspan="2">template&lt;typename L &gt; </td></tr>
+<tr class="memitem:gaaa81f25675f16b161be78aa2b0cfb307"><td class="memTemplItemLeft" align="right" valign="top">auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__functor.html#gaaa81f25675f16b161be78aa2b0cfb307">hydra::wrap_lambda</a> (L const &amp;f) -&gt; decltype(detail::wrap_lambda_helper(std::declval&lt; L &gt;(), std::declval&lt; typename detail::function_traits&lt; L &gt;::return_type &gt;(), std::declval&lt; typename detail::function_traits&lt; L &gt;::args_type &gt;()))</td></tr>
+<tr class="memdesc:gaaa81f25675f16b161be78aa2b0cfb307"><td class="mdescLeft">&#160;</td><td class="mdescRight">Function template for wrap a C++11 lambda into a hydra lambda.  <a href="group__functor.html#gaaa81f25675f16b161be78aa2b0cfb307">More...</a><br /></td></tr>
+<tr class="separator:gaaa81f25675f16b161be78aa2b0cfb307"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a34f5637c265f0432130b335c2590345b"><td class="memTemplParams" colspan="2">template&lt;typename L , typename ReturnType , typename ... Args, size_t N&gt; </td></tr>
 <tr class="memitem:a34f5637c265f0432130b335c2590345b"><td class="memTemplItemLeft" align="right" valign="top">auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacehydra_1_1detail.html#a34f5637c265f0432130b335c2590345b">hydra::detail::wrap_lambda_helper</a> (L const &amp;f, ReturnType, HYDRA_EXTERNAL_NS::thrust::tuple&lt; Args... &gt;const &amp;, std::array&lt; Parameter, N &gt; const &amp;parameters) -&gt; LambdaWrapper&lt; ReturnType(Args...), L, N &gt;</td></tr>
 <tr class="separator:a34f5637c265f0432130b335c2590345b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af4bb853bde138e3ea6bed9b14b07db69"><td class="memTemplParams" colspan="2">template&lt;typename L , typename ReturnType , typename ... Args&gt; </td></tr>
-<tr class="memitem:af4bb853bde138e3ea6bed9b14b07db69"><td class="memTemplItemLeft" align="right" valign="top">auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacehydra_1_1detail.html#af4bb853bde138e3ea6bed9b14b07db69">hydra::detail::wrap_lambda_helper</a> (L const &amp;f, ReturnType, HYDRA_EXTERNAL_NS::thrust::tuple&lt; Args... &gt;const &amp;) -&gt; LambdaWrapper&lt; ReturnType(Args...), L, 0 &gt;</td></tr>
-<tr class="separator:af4bb853bde138e3ea6bed9b14b07db69"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6c70257f955b4709f8b02739e5e831b5"><td class="memTemplParams" colspan="2">template&lt;typename L , typename ReturnType , typename ... Args&gt; </td></tr>
+<tr class="memitem:a6c70257f955b4709f8b02739e5e831b5"><td class="memTemplItemLeft" align="right" valign="top">auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacehydra_1_1detail.html#a6c70257f955b4709f8b02739e5e831b5">hydra::detail::wrap_lambda_helper</a> (L const &amp;f, ReturnType &amp;&amp;, HYDRA_EXTERNAL_NS::thrust::tuple&lt; Args... &gt; &amp;&amp;) -&gt; LambdaWrapper&lt; ReturnType(Args...), L, 0 &gt;</td></tr>
+<tr class="separator:a6c70257f955b4709f8b02739e5e831b5"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <hr/><h2 class="groupheader">Data Structure Documentation</h2>
 <a name="classhydra_1_1LambdaWrapper" id="classhydra_1_1LambdaWrapper"></a>
@@ -187,7 +187,7 @@ Collaboration diagram for hydra::LambdaWrapper&lt; Sig, L, N, typename &gt;:</di
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="dir_92a1ff494355b06c14c0e1fe7b982d29.html">Hydra</a></li><li class="navelem"><a class="el" href="dir_108162cc96056bf8ace3602d16680a1c.html">hydra</a></li><li class="navelem"><a class="el" href="FunctionWrapper_8h.html">FunctionWrapper.h</a></li>
-    <li class="footer">Generated on Fri Mar 23 2018 14:51:40 for Hydra by
+    <li class="footer">Generated on Sat Nov 3 2018 02:26:24 for Hydra by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.14 </li>
   </ul>

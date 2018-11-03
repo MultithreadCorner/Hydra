@@ -36,7 +36,7 @@
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">Hydra
-   &#160;<span id="projectnumber">2.1.0</span>
+   &#160;<span id="projectnumber">2.2.1</span>
    </div>
    <div id="projectbrief">A header-only templated C++ framework to perform data analysis on massively parallel platforms.</div>
   </td>
@@ -101,10 +101,11 @@ $(document).ready(function(){initNavTree('Gaussian_8h.html','');});
 </div><!--header-->
 <div class="contents">
 <div class="textblock"><code>#include &lt;<a class="el" href="">hydra/detail/Config.h</a>&gt;</code><br />
+<code>#include &lt;<a class="el" href="">hydra/detail/BackendPolicy.h</a>&gt;</code><br />
 <code>#include &lt;<a class="el" href="">hydra/Types.h</a>&gt;</code><br />
 <code>#include &lt;<a class="el" href="">hydra/Function.h</a>&gt;</code><br />
 <code>#include &lt;<a class="el" href="">hydra/Pdf.h</a>&gt;</code><br />
-<code>#include &lt;<a class="el" href="">hydra/detail/Integrator.h</a>&gt;</code><br />
+<code>#include &lt;<a class="el" href="">hydra/Integrator.h</a>&gt;</code><br />
 <code>#include &lt;<a class="el" href="">hydra/detail/utility/CheckValue.h</a>&gt;</code><br />
 <code>#include &lt;<a class="el" href="">hydra/Parameter.h</a>&gt;</code><br />
 <code>#include &lt;<a class="el" href="">hydra/Tuple.h</a>&gt;</code><br />
@@ -128,9 +129,12 @@ This graph shows which files directly or indirectly include this file:</div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="nested-classes"></a>
 Data Structures</h2></td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhydra_1_1Gaussian.html">hydra::Gaussian&lt; ArgIndex &gt;</a></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhydra_1_1GaussianAnalyticalIntegral.html">hydra::GaussianAnalyticalIntegral</a></td></tr>
+<tr class="memitem:classhydra_1_1Gaussian"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__common__functions.html#classhydra_1_1Gaussian">hydra::Gaussian&lt; ArgIndex &gt;</a></td></tr>
+<tr class="memdesc:classhydra_1_1Gaussian"><td class="mdescLeft">&#160;</td><td class="mdescRight"><br />
+<br />
+ <a class="el" href="group__common__functions.html#classhydra_1_1Gaussian" title="   Gaussian functions are often used to represent the probability density function of a normally dist...">Gaussian</a> functions are often used to represent the probability density function of a normally distributed random variable with expected value \( \mu \) and variance \( \sigma \).  <a href="group__common__functions.html#classhydra_1_1Gaussian">More...</a><br /></td></tr>
+<tr class="separator:classhydra_1_1Gaussian"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhydra_1_1IntegrationFormula_3_01Gaussian_3_01ArgIndex_01_4_00_011_01_4.html">hydra::IntegrationFormula&lt; Gaussian&lt; ArgIndex &gt;, 1 &gt;</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="namespaces"></a>
@@ -145,7 +149,7 @@ Namespaces</h2></td></tr>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="dir_92a1ff494355b06c14c0e1fe7b982d29.html">Hydra</a></li><li class="navelem"><a class="el" href="dir_108162cc96056bf8ace3602d16680a1c.html">hydra</a></li><li class="navelem"><a class="el" href="dir_e43a426260a0a50393d21bf054cb693c.html">functions</a></li><li class="navelem"><a class="el" href="Gaussian_8h.html">Gaussian.h</a></li>
-    <li class="footer">Generated on Fri Mar 23 2018 14:51:40 for Hydra by
+    <li class="footer">Generated on Sat Nov 3 2018 02:26:24 for Hydra by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.14 </li>
   </ul>

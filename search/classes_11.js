@@ -1,11 +1,21 @@
 var searchData=
 [
-  ['tag_5ftype',['tag_type',['../namespacehydra_1_1detail.html#structhydra_1_1detail_1_1tag__type',1,'hydra::detail']]],
-  ['to',['To',['../namespacehydra_1_1detail.html#structhydra_1_1detail_1_1CanConvert_1_1To',1,'hydra::detail::CanConvert']]],
-  ['tuple_5fcat_5ftype',['tuple_cat_type',['../namespacehydra_1_1detail.html#structhydra_1_1detail_1_1tuple__cat__type',1,'hydra::detail']]],
-  ['tuple_5fcat_5ftype_3c_20tuple_3c_20t1_2e_2e_2e_20_3e_2c_20tuple_3c_20t2_2e_2e_2e_20_3e_20_3e',['tuple_cat_type&lt; Tuple&lt; T1... &gt;, Tuple&lt; T2... &gt; &gt;',['../namespacehydra_1_1detail.html#structhydra_1_1detail_1_1tuple__cat__type_3_01Tuple_3_01T1_8_8_8_01_4_00_01Tuple_3_01T2_8_8_8_01_4_01_4',1,'hydra::detail']]],
-  ['tuple_5ftype',['tuple_type',['../namespacehydra_1_1detail.html#structhydra_1_1detail_1_1tuple__type',1,'hydra::detail']]],
-  ['type_20_3e',['type &gt;',['../namespacehydra.html#classhydra_1_1GenzMalikRuleBase',1,'hydra::type &gt;'],['../structhydra_1_1Integrator.html',1,'hydra::type &gt;']]],
-  ['typetraits',['TypeTraits',['../structhydra_1_1detail_1_1TypeTraits.html',1,'hydra::detail']]],
-  ['typetraits_3c_20hydra_5fexternal_5fns_3a_3athrust_3a_3acomplex_3c_20t_20_3e_20_3e',['TypeTraits&lt; HYDRA_EXTERNAL_NS::thrust::complex&lt; T &gt; &gt;',['../structhydra_1_1detail_1_1TypeTraits_3_01HYDRA__EXTERNAL__NS_1_1thrust_1_1complex_3_01T_01_4_01_4.html',1,'hydra::detail']]]
+  ['random',['Random',['../group__random.html#classhydra_1_1Random',1,'hydra']]],
+  ['range',['Range',['../namespacehydra.html#classhydra_1_1Range',1,'hydra']]],
+  ['range_3c_20iterator_20_3e',['Range&lt; Iterator &gt;',['../classhydra_1_1Range_3_01Iterator_01_4.html',1,'hydra']]],
+  ['range_3c_20iterator_2c_20functor_20_3e',['Range&lt; Iterator, Functor &gt;',['../classhydra_1_1Range_3_01Iterator_00_01Functor_01_4.html',1,'hydra']]],
+  ['references_5ftuple_5ftype',['references_tuple_type',['../namespacehydra_1_1detail.html#structhydra_1_1detail_1_1references__tuple__type',1,'hydra::detail']]],
+  ['repeat',['repeat',['../namespacehydra_1_1detail.html#structhydra_1_1detail_1_1repeat',1,'hydra::detail']]],
+  ['repeat_3c_20t_2c_200_2c_20tt_20_3e',['repeat&lt; T, 0, TT &gt;',['../namespacehydra_1_1detail.html#structhydra_1_1detail_1_1repeat_3_01T_00_010_00_01TT_01_4',1,'hydra::detail']]],
+  ['resonance',['Resonance',['../classResonance.html',1,'']]],
+  ['resultphsp',['ResultPHSP',['../namespacehydra_1_1detail.html#structhydra_1_1detail_1_1ResultPHSP',1,'hydra::detail']]],
+  ['resultvegas',['ResultVegas',['../namespacehydra_1_1detail.html#structhydra_1_1detail_1_1ResultVegas',1,'hydra::detail']]],
+  ['rndbreitwigner',['RndBreitWigner',['../structhydra_1_1detail_1_1RndBreitWigner.html',1,'hydra::detail']]],
+  ['rndcdf',['RndCDF',['../structhydra_1_1detail_1_1RndCDF.html',1,'hydra::detail']]],
+  ['rndexp',['RndExp',['../structhydra_1_1detail_1_1RndExp.html',1,'hydra::detail']]],
+  ['rndflag',['RndFlag',['../structhydra_1_1detail_1_1RndFlag.html',1,'hydra::detail']]],
+  ['rndgauss',['RndGauss',['../structhydra_1_1detail_1_1RndGauss.html',1,'hydra::detail']]],
+  ['rndtrial',['RndTrial',['../structhydra_1_1detail_1_1RndTrial.html',1,'hydra::detail']]],
+  ['rndtrial_3c_20t_2c_20grnd_2c_20functor_2c_201_20_3e',['RndTrial&lt; T, GRND, FUNCTOR, 1 &gt;',['../structhydra_1_1detail_1_1RndTrial_3_01T_00_01GRND_00_01FUNCTOR_00_011_01_4.html',1,'hydra::detail']]],
+  ['rnduniform',['RndUniform',['../structhydra_1_1detail_1_1RndUniform.html',1,'hydra::detail']]]
 ];

@@ -36,7 +36,7 @@
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">Hydra
-   &#160;<span id="projectnumber">2.1.0</span>
+   &#160;<span id="projectnumber">2.2.1</span>
    </div>
    <div id="projectbrief">A header-only templated C++ framework to perform data analysis on massively parallel platforms.</div>
   </td>
@@ -134,8 +134,14 @@ $(document).ready(function(){initNavTree('functions_c.html','');});
 <li>Chains()
 : <a class="el" href="group__phsp.html#a22fafad4f988d76b92738f6c4dc662ed">hydra::Chains&lt; Decays&lt; N, hydra::detail::BackendPolicy&lt; BACKEND &gt; &gt;... &gt;</a>
 </li>
+<li>Chebychev()
+: <a class="el" href="group__common__functions.html#a4858145406bd138f803614603097993b">hydra::Chebychev&lt; Order, ArgIndex &gt;</a>
+</li>
 <li>CheckEnergy()
 : <a class="el" href="structhydra_1_1detail_1_1CheckEnergy.html#a2bb658eb6e3caf5f164e5dfb5aedd45e">hydra::detail::CheckEnergy&lt; N &gt;</a>
+</li>
+<li>ChiSquare()
+: <a class="el" href="group__common__functions.html#aea2abd64299a9bc2d4950a2b9b467a81">hydra::ChiSquare&lt; ArgIndex &gt;</a>
 </li>
 <li>clear()
 : <a class="el" href="group__phsp.html#a76a5edc6832bdb4d9681610d2402bca8">hydra::Decays&lt; N, hydra::detail::BackendPolicy&lt; BACKEND &gt; &gt;</a>
@@ -172,7 +178,7 @@ $(document).ready(function(){initNavTree('functions_c.html','');});
 : <a class="el" href="structsetter__t.html#a55c6ab578f6fd14a78652e08aeb2ca55">setter_t</a>
 </li>
 <li>Compose()
-: <a class="el" href="classhydra_1_1Compose.html#a4848a8736f90e1e3dec1bc6ffdef3bad">hydra::Compose&lt; F0, F1, Fs &gt;</a>
+: <a class="el" href="classhydra_1_1Compose.html#a3d2586c63da843b9f30b8dc6b899bde0">hydra::Compose&lt; F0, F1, Fs &gt;</a>
 </li>
 <li>CompositeBase()
 : <a class="el" href="classhydra_1_1detail_1_1CompositeBase.html#a23b7ea755763c4484a966983fca823b0">hydra::detail::CompositeBase&lt; F0, F1, Fs &gt;</a>
@@ -184,6 +190,7 @@ $(document).ready(function(){initNavTree('functions_c.html','');});
 : <a class="el" href="classhydra_1_1Cache_3_01hydra_1_1detail_1_1BackendPolicy_3_01BACKEND_01_4_00_01Functors_8_8_8_01_4.html#af501d1fc02d8ca40d8dc67be418b684c">hydra::Cache&lt; hydra::detail::BackendPolicy&lt; BACKEND &gt;, Functors... &gt;</a>
 , <a class="el" href="group__phsp.html#aff4fae1d6e58b6e0629d074d43246760">hydra::Chains&lt; Decays&lt; N, hydra::detail::BackendPolicy&lt; BACKEND &gt; &gt;... &gt;</a>
 , <a class="el" href="group__phsp.html#ad5a9cf49075d68c5d9e77224236853ae">hydra::Decays&lt; N, hydra::detail::BackendPolicy&lt; BACKEND &gt; &gt;</a>
+, <a class="el" href="group__numerical__integration.html#a408d32d57903bde459086ecc657c083e">hydra::GenzMalikRule&lt; DIM, hydra::detail::BackendPolicy&lt; BACKEND &gt; &gt;</a>
 , <a class="el" href="classhydra_1_1multiarray_3_01T_00_01N_00_01hydra_1_1detail_1_1BackendPolicy_3_01BACKEND_01_4_01_4.html#a628b7aa0fb287a7e14352ce52ad9cf30">hydra::multiarray&lt; T, N, hydra::detail::BackendPolicy&lt; BACKEND &gt; &gt;</a>
 , <a class="el" href="classhydra_1_1multivector_3_01HYDRA__EXTERNAL__NS_1_1thrust_1_1tuple_3_01T_8_8_8_01_4_00_01hydra3da03b988538add1b3f476b1ea399ad2.html#a32b3bcb2c99ed09f8a232792ce7565c7">hydra::multivector&lt; HYDRA_EXTERNAL_NS::thrust::tuple&lt; T... &gt;, hydra::detail::BackendPolicy&lt; BACKEND &gt; &gt;</a>
 </li>
@@ -239,7 +246,7 @@ $(document).ready(function(){initNavTree('functions_c.html','');});
 , <a class="el" href="classhydra_1_1multiarray_3_01T_00_01N_00_01hydra_1_1detail_1_1BackendPolicy_3_01BACKEND_01_4_01_4.html#ac8cd65aff89921c7a97c21683141259d">hydra::multiarray&lt; T, N, hydra::detail::BackendPolicy&lt; BACKEND &gt; &gt;</a>
 </li>
 <li>Constant()
-: <a class="el" href="structhydra_1_1Constant.html#aa937bbe7d3c49b307986d0abe1154fe0">hydra::Constant&lt; ReturnType &gt;</a>
+: <a class="el" href="structhydra_1_1Constant.html#ab3b029f4deb74939131effcd4a8cb1ae">hydra::Constant&lt; ReturnType &gt;</a>
 </li>
 <li>cont()
 : <a class="el" href="group__phsp.html#a8125c63886c6a6ee7169f83c0eebe574">hydra::Vector4R</a>
@@ -252,6 +259,9 @@ $(document).ready(function(){initNavTree('functions_c.html','');});
 , <a class="el" href="structhydra_1_1detail_1_1BackendPolicy_3_01Backend_1_1Omp_01_4.html#ab35ee1205e3a804a64cf78849eaf99c5">hydra::detail::BackendPolicy&lt; Backend::Omp &gt;</a>
 , <a class="el" href="structhydra_1_1detail_1_1BackendPolicy_3_01Backend_1_1Tbb_01_4.html#a5bf6018934da49d2f15c46463fc28476">hydra::detail::BackendPolicy&lt; Backend::Tbb &gt;</a>
 </li>
+<li>Convolution()
+: <a class="el" href="classhydra_1_1Convolution.html#a206ebdc1d223d1eb84e30cbf6611932a">hydra::Convolution&lt; Functor, Kernel, ArgIndex &gt;</a>
+</li>
 <li>CopyStateToDevice()
 : <a class="el" href="group__numerical__integration.html#aa14d1f92887c592d7530b006d7e7faf8">hydra::VegasState&lt; N, hydra::detail::BackendPolicy&lt; BACKEND &gt; &gt;</a>
 </li>
@@ -262,7 +272,7 @@ $(document).ready(function(){initNavTree('functions_c.html','');});
 : <a class="el" href="classhydra_1_1CosHelicityAngle.html#ab11633cb27e2f39906c5224d3172e324">hydra::CosHelicityAngle</a>
 </li>
 <li>CovMatrixUnary()
-: <a class="el" href="structhydra_1_1detail_1_1CovMatrixUnary.html#a278e6817d84914b8368e8c012ad4884f">hydra::detail::CovMatrixUnary&lt; F1, F2, Fs &gt;</a>
+: <a class="el" href="structhydra_1_1detail_1_1CovMatrixUnary.html#aec2d162abf0553b7af3c7738184496e3">hydra::detail::CovMatrixUnary&lt; F1, F2, Fs &gt;</a>
 </li>
 <li>crbegin()
 : <a class="el" href="group__phsp.html#a2b83a5629712474574c2cf7af6e4bee1">hydra::Chains&lt; Decays&lt; N, hydra::detail::BackendPolicy&lt; BACKEND &gt; &gt;... &gt;</a>
@@ -271,26 +281,23 @@ $(document).ready(function(){initNavTree('functions_c.html','');});
 , <a class="el" href="classhydra_1_1multivector_3_01HYDRA__EXTERNAL__NS_1_1thrust_1_1tuple_3_01T_8_8_8_01_4_00_01hydra3da03b988538add1b3f476b1ea399ad2.html#af9e565bba54a50f5df4cb805676453f3">hydra::multivector&lt; HYDRA_EXTERNAL_NS::thrust::tuple&lt; T... &gt;, hydra::detail::BackendPolicy&lt; BACKEND &gt; &gt;</a>
 </li>
 <li>Create()
-: <a class="el" href="group__fit.html#ab71317b03a67ac0de6daec09c16df4c6">hydra::Parameter</a>
+: <a class="el" href="group__fit.html#a74413d9f51148d5b394654c97c4d5506">hydra::Parameter</a>
 </li>
 <li>crend()
 : <a class="el" href="group__phsp.html#aedcbb9f7e14d4723fca00090543e2b84">hydra::Chains&lt; Decays&lt; N, hydra::detail::BackendPolicy&lt; BACKEND &gt; &gt;... &gt;</a>
 , <a class="el" href="group__phsp.html#a58bc52a54a1dccb321154a8da84f6870">hydra::Decays&lt; N, hydra::detail::BackendPolicy&lt; BACKEND &gt; &gt;</a>
-, <a class="el" href="classhydra_1_1multiarray_3_01T_00_01N_00_01hydra_1_1detail_1_1BackendPolicy_3_01BACKEND_01_4_01_4.html#a58f4ae057ed487fca69de660775955e0">hydra::multiarray&lt; T, N, hydra::detail::BackendPolicy&lt; BACKEND &gt; &gt;</a>
-, <a class="el" href="classhydra_1_1multivector_3_01HYDRA__EXTERNAL__NS_1_1thrust_1_1tuple_3_01T_8_8_8_01_4_00_01hydra3da03b988538add1b3f476b1ea399ad2.html#a0aabf46d8a467bbf5b8e8f1c633cb4db">hydra::multivector&lt; HYDRA_EXTERNAL_NS::thrust::tuple&lt; T... &gt;, hydra::detail::BackendPolicy&lt; BACKEND &gt; &gt;</a>
+, <a class="el" href="classhydra_1_1multiarray_3_01T_00_01N_00_01hydra_1_1detail_1_1BackendPolicy_3_01BACKEND_01_4_01_4.html#a1fa207d68f7e357c53edf452bc160eaf">hydra::multiarray&lt; T, N, hydra::detail::BackendPolicy&lt; BACKEND &gt; &gt;</a>
+, <a class="el" href="classhydra_1_1multivector_3_01HYDRA__EXTERNAL__NS_1_1thrust_1_1tuple_3_01T_8_8_8_01_4_00_01hydra3da03b988538add1b3f476b1ea399ad2.html#ae7ba2b5a44a46464ae54952fbdf4957b">hydra::multivector&lt; HYDRA_EXTERNAL_NS::thrust::tuple&lt; T... &gt;, hydra::detail::BackendPolicy&lt; BACKEND &gt; &gt;</a>
 </li>
-<li>cross
-: <a class="el" href="group__phsp.html#a98d6f1e269a743ae224f4f7144c1072e">hydra::Vector3R</a>
+<li>cross()
+: <a class="el" href="group__phsp.html#ad70dea75165abef6f5c35373e56d68f1">hydra::Vector3R</a>
 , <a class="el" href="group__phsp.html#aa7452187aead9f17977551fdecdcd28d">hydra::Vector4R</a>
 </li>
 <li>CrystalBallShape()
-: <a class="el" href="classhydra_1_1CrystalBallShape.html#a6e03fb3f9d9be66d4b3f5652267adefd">hydra::CrystalBallShape&lt; ArgIndex &gt;</a>
-</li>
-<li>CrystalBallShapeAnalyticalIntegral()
-: <a class="el" href="classhydra_1_1CrystalBallShapeAnalyticalIntegral.html#ad57c904a2afa8455f3e3f761ef027a67">hydra::CrystalBallShapeAnalyticalIntegral</a>
+: <a class="el" href="classhydra_1_1CrystalBallShape.html#a639b96dec6c5066b809714017a9d3b73">hydra::CrystalBallShape&lt; ArgIndex &gt;</a>
 </li>
 <li>CubicSpiline()
-: <a class="el" href="classhydra_1_1CubicSpiline.html#a9b5aab80dd426221c0b4bab3ac707625">hydra::CubicSpiline&lt; N, ArgIndex &gt;</a>
+: <a class="el" href="classhydra_1_1CubicSpiline.html#a7abe0ea90024a2e8583720791d4dfb26">hydra::CubicSpiline&lt; N, ArgIndex &gt;</a>
 </li>
 </ul>
 </div><!-- contents -->
@@ -298,7 +305,7 @@ $(document).ready(function(){initNavTree('functions_c.html','');});
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="footer">Generated on Fri Mar 23 2018 14:51:41 for Hydra by
+    <li class="footer">Generated on Sat Nov 3 2018 02:26:25 for Hydra by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.14 </li>
   </ul>

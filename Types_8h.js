@@ -21,7 +21,13 @@ var Types_8h =
     [ "GULong_t", "Types_8h.html#abf9a0d54fd4ed46052939549edd086c5", null ],
     [ "GUShort_t", "Types_8h.html#a911a3042526fac189d0c87a089f52955", null ],
     [ "inverse_sqrt2", "Types_8h.html#a2ddd7c1e2030ec37fdd597983b2df479", null ],
+    [ "inverse_sqrt2Pi", "Types_8h.html#ad9321ecdbe4311bea321731feb43036e", null ],
     [ "kFalse", "Types_8h.html#ab14adaa26f703b8c130df530167ebd23", null ],
     [ "kTrue", "Types_8h.html#a1556536d7a73fa95e5a9c9610f76a3c1", null ],
-    [ "sqrt2", "Types_8h.html#aa0894cc3f4cfa1e26c0f8045a4bd1487", null ]
+    [ "sqrt10", "Types_8h.html#acd54d43a477baa03dd325fe96442748b", null ],
+    [ "sqrt2", "Types_8h.html#aa0894cc3f4cfa1e26c0f8045a4bd1487", null ],
+    [ "sqrt3", "Types_8h.html#afbdc6927da17562a166ec6a7b3f10777", null ],
+    [ "sqrt3_2", "Types_8h.html#a5a975c2f036e732ec258d5ae948aa758", null ],
+    [ "sqrt5", "Types_8h.html#a2c374eb8b288bd33d0c88f6921748a22", null ],
+    [ "sqrt6", "Types_8h.html#ad5101cb855402ab10d63cfe82af63eb8", null ]
 ];

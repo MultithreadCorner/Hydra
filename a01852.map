@@ -1,4 +1,0 @@
-<map id="hydra::LambdaWrapper&lt; ReturnType(ArgType...), L, N &gt;" name="hydra::LambdaWrapper&lt; ReturnType(ArgType...), L, N &gt;">
-<area shape="rect" id="node2" href="$a00643.html" title="{hydra::BaseFunctor\l\&lt; LambdaWrapper\&lt; ReturnType\l(ArgType...), L, N \&gt;, ReturnType, N \&gt;\n|# _par\l|+ BaseFunctor()\l+ BaseFunctor()\l+ BaseFunctor()\l+ BaseFunctor()\l+ GetCacheIndex()\l+ GetFunctor()\l+ GetNArgs()\l+ GetNorm()\l+ GetNormalized()\l+ interface()\land 12 more...\l}" alt="" coords="9,617,252,871"/>
-<area shape="rect" id="node5" href="$a00643.html#a01845" title="Base class for all functors in hydra. " alt="" coords="129,287,287,540"/>
-</map>

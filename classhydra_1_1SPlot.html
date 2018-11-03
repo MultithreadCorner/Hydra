@@ -36,7 +36,7 @@
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">Hydra
-   &#160;<span id="projectnumber">2.1.0</span>
+   &#160;<span id="projectnumber">2.2.1</span>
    </div>
    <div id="projectbrief">A header-only templated C++ framework to perform data analysis on massively parallel platforms.</div>
   </td>
@@ -135,9 +135,12 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:a06018ef8638dcf05b426c044ae6e8a0d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a9424fb06959184b845277f824a6db7b7"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhydra_1_1SPlot.html#a9424fb06959184b845277f824a6db7b7">SPlot</a> (<a class="el" href="classhydra_1_1SPlot.html">SPlot</a>&lt; PDF1, PDF2, PDFs... &gt; const &amp;other)</td></tr>
 <tr class="separator:a9424fb06959184b845277f824a6db7b7"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a460a1bba9775d6a66ccfadcaf6d95358"><td class="memTemplParams" colspan="2">template&lt;typename InputIterator , typename OutputIterator &gt; </td></tr>
-<tr class="memitem:a460a1bba9775d6a66ccfadcaf6d95358"><td class="memTemplItemLeft" align="right" valign="top">HYDRA_EXTERNAL_NS::Eigen::Matrix&lt; <a class="el" href="namespace_3globalScope_4.html#classdouble">double</a>, sizeof...(PDFs)+2, sizeof...(PDFs)+2 &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classhydra_1_1SPlot.html#a460a1bba9775d6a66ccfadcaf6d95358">Generate</a> (InputIterator in_begin, InputIterator in_end, OutputIterator out_begin)</td></tr>
-<tr class="separator:a460a1bba9775d6a66ccfadcaf6d95358"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac83549fd53202980675d672dbd36e176"><td class="memTemplParams" colspan="2">template&lt;typename InputIterator , typename OutputIterator &gt; </td></tr>
+<tr class="memitem:ac83549fd53202980675d672dbd36e176"><td class="memTemplItemLeft" align="right" valign="top">HYDRA_EXTERNAL_NS::Eigen::Matrix&lt; <a class="el" href="namespace_3globalScope_4.html#classdouble">double</a>, sizeof...(PDFs)+2, sizeof...(PDFs)+2 &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classhydra_1_1SPlot.html#ac83549fd53202980675d672dbd36e176">Generate</a> (InputIterator input_begin, InputIterator input_end, OutputIterator output_begin)</td></tr>
+<tr class="separator:ac83549fd53202980675d672dbd36e176"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6f83b95d0edebcfcc02a486d30fcf04a"><td class="memTemplParams" colspan="2">template&lt;typename InputIterable , typename OutputIterable &gt; </td></tr>
+<tr class="memitem:a6f83b95d0edebcfcc02a486d30fcf04a"><td class="memTemplItemLeft" align="right" valign="top">std::enable_if&lt; <a class="el" href="structhydra_1_1detail_1_1is__iterable.html">hydra::detail::is_iterable</a>&lt; InputIterable &gt;::value &amp;&amp;<a class="el" href="structhydra_1_1detail_1_1is__iterable.html">hydra::detail::is_iterable</a>&lt; OutputIterable &gt;::value, HYDRA_EXTERNAL_NS::Eigen::Matrix&lt; <a class="el" href="namespace_3globalScope_4.html#classdouble">double</a>, sizeof...(PDFs)+2, sizeof...(PDFs)+2 &gt; &gt;::type&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classhydra_1_1SPlot.html#a6f83b95d0edebcfcc02a486d30fcf04a">Generate</a> (InputIterable &amp;&amp;input, OutputIterable &amp;&amp;output)</td></tr>
+<tr class="separator:a6f83b95d0edebcfcc02a486d30fcf04a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:adb9d9c269a3787fe37ae7a66496f6279"><td class="memItemLeft" align="right" valign="top">const <a class="el" href="group__fit.html#structhydra_1_1Parameter">Parameter</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhydra_1_1SPlot.html#adb9d9c269a3787fe37ae7a66496f6279">GetCoeficient</a> (size_t i) const</td></tr>
 <tr class="separator:adb9d9c269a3787fe37ae7a66496f6279"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a9d9bdd4ae0309bb659080e9d530620c8"><td class="memItemLeft" align="right" valign="top">const <a class="el" href="classhydra_1_1SPlot.html#a7d4c5eef6ee20aba7fb24ef102e4beb3">functors_tuple_type</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhydra_1_1SPlot.html#a9d9bdd4ae0309bb659080e9d530620c8">GetFunctors</a> () const</td></tr>
@@ -261,8 +264,8 @@ template&lt;typename PDF1 , typename PDF2 , typename ... PDFs&gt; </div>
 </div>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
-<a id="a460a1bba9775d6a66ccfadcaf6d95358"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a460a1bba9775d6a66ccfadcaf6d95358">&#9670;&nbsp;</a></span>Generate()</h2>
+<a id="ac83549fd53202980675d672dbd36e176"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac83549fd53202980675d672dbd36e176">&#9670;&nbsp;</a></span>Generate() <span class="overload">[1/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -278,19 +281,59 @@ template&lt;typename InputIterator , typename OutputIterator &gt; </div>
           <td class="memname">HYDRA_EXTERNAL_NS::Eigen::Matrix&lt; <a class="el" href="namespace_3globalScope_4.html#classdouble">double</a>, sizeof...(PDFs)+2, sizeof...(PDFs)+2 &gt; <a class="el" href="classhydra_1_1SPlot.html">hydra::SPlot</a>&lt; PDF1, PDF2, PDFs &gt;::Generate </td>
           <td>(</td>
           <td class="paramtype">InputIterator&#160;</td>
-          <td class="paramname"><em>in_begin</em>, </td>
+          <td class="paramname"><em>input_begin</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">InputIterator&#160;</td>
-          <td class="paramname"><em>in_end</em>, </td>
+          <td class="paramname"><em>input_end</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">OutputIterator&#160;</td>
-          <td class="paramname"><em>out_begin</em>&#160;</td>
+          <td class="paramname"><em>output_begin</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a6f83b95d0edebcfcc02a486d30fcf04a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6f83b95d0edebcfcc02a486d30fcf04a">&#9670;&nbsp;</a></span>Generate() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename PDF1 , typename PDF2 , typename ... PDFs&gt; </div>
+<div class="memtemplate">
+template&lt;typename InputIterable , typename OutputIterable &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::enable_if&lt; <a class="el" href="structhydra_1_1detail_1_1is__iterable.html">hydra::detail::is_iterable</a>&lt; InputIterable &gt;::value &amp;&amp;<a class="el" href="structhydra_1_1detail_1_1is__iterable.html">hydra::detail::is_iterable</a>&lt; OutputIterable &gt;::value, HYDRA_EXTERNAL_NS::Eigen::Matrix&lt; <a class="el" href="namespace_3globalScope_4.html#classdouble">double</a>, sizeof...(PDFs)+2, sizeof...(PDFs)+2 &gt; &gt;::type <a class="el" href="classhydra_1_1SPlot.html">hydra::SPlot</a>&lt; PDF1, PDF2, PDFs &gt;::Generate </td>
+          <td>(</td>
+          <td class="paramtype">InputIterable &amp;&amp;&#160;</td>
+          <td class="paramname"><em>input</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">OutputIterable &amp;&amp;&#160;</td>
+          <td class="paramname"><em>output</em>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -424,7 +467,7 @@ template&lt;typename PDF1 , typename PDF2 , typename ... PDFs&gt; </div>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="namespacehydra.html">hydra</a></li><li class="navelem"><a class="el" href="classhydra_1_1SPlot.html">SPlot</a></li>
-    <li class="footer">Generated on Fri Mar 23 2018 14:51:41 for Hydra by
+    <li class="footer">Generated on Sat Nov 3 2018 02:26:25 for Hydra by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.14 </li>
   </ul>

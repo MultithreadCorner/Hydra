@@ -1,8 +1,7 @@
 var searchData=
 [
-  ['kfalse',['kFalse',['../namespacehydra.html#ab14adaa26f703b8c130df530167ebd23',1,'hydra']]],
-  ['kinvalidnumber',['kInvalidNumber',['../namespacehydra_1_1detail.html#a8b5125381f09b1ea222ebbbb53ba0887aea9c72bdee6f384d88af4eab49530ea8',1,'hydra::detail']]],
-  ['kronrodn',['KronrodN',['../group__numerical__integration.html#aa7fbf83a1aa68ac5b87bae9dce9e5395',1,'hydra::GaussKronrodRule']]],
-  ['kronrodweight',['KronrodWeight',['../group__numerical__integration.html#a1c3579a3eeb4b0e676b5b8029b400dd5',1,'hydra::GaussKronrodRule']]],
-  ['ktrue',['kTrue',['../namespacehydra.html#a1556536d7a73fa95e5a9c9610f76a3c1',1,'hydra']]]
+  ['jacobi',['jacobi',['../namespacehydra.html#ae56f5771a38cd48141f2e02712ac025f',1,'hydra']]],
+  ['jacobi_2eh',['jacobi.h',['../jacobi_8h.html',1,'']]],
+  ['johnsonsushape',['JohnsonSUShape',['../group__common__functions.html#classhydra_1_1JohnsonSUShape',1,'hydra::JohnsonSUShape&lt; ArgIndex &gt;'],['../group__common__functions.html#a30ab0385a1287cb6065198c9ef0bb986',1,'hydra::JohnsonSUShape::JohnsonSUShape()=delete'],['../group__common__functions.html#a08e266078f63b2d12aa9bc6ad9dc4174',1,'hydra::JohnsonSUShape::JohnsonSUShape(Parameter const &amp;gamma, Parameter const &amp;delta, Parameter const &amp;xi, Parameter const &amp;lambda)'],['../group__common__functions.html#a8879cea9fe38f194d8451cfc259e4921',1,'hydra::JohnsonSUShape::JohnsonSUShape(JohnsonSUShape&lt; ArgIndex &gt; const &amp;other)']]],
+  ['johnsonsushape_2eh',['JohnsonSUShape.h',['../JohnsonSUShape_8h.html',1,'']]]
 ];

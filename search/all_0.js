@@ -114,6 +114,7 @@ var searchData=
   ['_5fdeclarestorable',['_DeclareStorable',['../group__generic.html#ga6b12256271b9685f4a97446347a9ddea',1,'Collection.h']]],
   ['_5fdevice_5f',['_device_',['../namespacehydra_1_1detail_1_1device.html#afc75f2ae0a8cec9549e33a9085fdbace',1,'hydra::detail::device']]],
   ['_5fget_5felement',['_get_element',['../namespacehydra_1_1detail.html#a9ea1b8b8cc199f447e160aea1396f9e9',1,'hydra::detail::_get_element(const size_t, T &amp;, R *&amp;)'],['../namespacehydra_1_1detail.html#a4514d4ab6052308b21ba01f378e0bdc5',1,'hydra::detail::_get_element(const size_t index, T &amp;t, R *&amp;ptr)']]],
+  ['_5fhalf',['_half',['../namespacehydra.html#structhydra_1_1__half',1,'hydra']]],
   ['_5fhost_5f',['_host_',['../namespacehydra_1_1detail_1_1host.html#a2c962795538f6d7281e151ec3552c0d0',1,'hydra::detail::host']]],
   ['_5fmerge_5fand_5frenumber',['_merge_and_renumber',['../namespacehydra_1_1detail.html#structhydra_1_1detail_1_1__merge__and__renumber',1,'hydra::detail']]],
   ['_5fmerge_5fand_5frenumber_3c_20index_5fsequence_3c_20i1_2e_2e_2e_20_3e_2c_20index_5fsequence_3c_20i2_2e_2e_2e_20_3e_20_3e',['_merge_and_renumber&lt; index_sequence&lt; I1... &gt;, index_sequence&lt; I2... &gt; &gt;',['../structhydra_1_1detail_1_1__merge__and__renumber_3_01index__sequence_3_01I1_8_8_8_01_4_00_01index73e1de0a5394a3c55b32c0d1818a4cc9.html',1,'hydra::detail']]],
@@ -122,6 +123,7 @@ var searchData=
   ['_5fpar',['_par',['../group__functor.html#ad31115b1f80ed672ee94ef61ed918455',1,'hydra::BaseFunctor']]],
   ['_5fphasespace_5finl_5f',['_PHASESPACE_INL_',['../PhaseSpace_8inl.html#af78640303e43d44d74eb207db412beae',1,'PhaseSpace.inl']]],
   ['_5ftbb_5f',['_tbb_',['../namespacehydra_1_1detail_1_1tbb.html#a83f2767bf742a7aa26ab4afa37ead51e',1,'hydra::detail::tbb']]],
+  ['_5funit',['_unit',['../namespacehydra.html#structhydra_1_1__unit',1,'hydra']]],
   ['_5fvector3r_5finl_5f',['_VECTOR3R_INL_',['../Vector3R_8inl.html#ae76bf1188e0e8bc7de9993b20afe856c',1,'Vector3R.inl']]],
   ['_5fvector4r_5finl_5f',['_VECTOR4R_INL_',['../Vector4R_8inl.html#a1fae0bcdfb7129b1f5d6128dfa9e12ad',1,'Vector4R.inl']]]
 ];

@@ -20,9 +20,6 @@ var group__functor =
       [ "GetCacheIndex", "group__functor.html#a525031bdc69d3177b52e0654f3ca453f", null ],
       [ "GetFunctor", "group__functor.html#a3ab4082ff43fc2ff2dc575d3684c8791", null ],
       [ "GetNorm", "group__functor.html#acdccdd48f4471564c7bb207133f550a4", null ],
-      [ "interface", "group__functor.html#a7772e829ca5ec5acceb96b81b323d80a", null ],
-      [ "interface", "group__functor.html#ac8b7c5c959241f4b0cb2ff8d136eec28", null ],
-      [ "interface", "group__functor.html#a4cc228c833fe299064ebd0bffabde096", null ],
       [ "IsCached", "group__functor.html#a23a24709b6bd23c23408297257652e87", null ],
       [ "operator()", "group__functor.html#a45b039126e994cc3d16c5691f6a0c9aa", null ],
       [ "operator()", "group__functor.html#af6cdfdb599fc07d557a2641069655e07", null ],
@@ -46,6 +43,6 @@ var group__functor =
       [ "GetLambda", "group__functor.html#a3db9e8c9e7ef8e58334e1dd3e06be7c1", null ],
       [ "operator=", "group__functor.html#ab2a893e69edf39d315509c987898cf95", null ]
     ] ],
-    [ "wrap_lambda", "group__functor.html#ga039a5582fbb2830db577f02056555a6d", null ],
-    [ "wrap_lambda", "group__functor.html#ga53506830108537bc49811415296ba738", null ]
+    [ "wrap_lambda", "group__functor.html#ga1ed4b0fb2957a3933162b9fc3f386203", null ],
+    [ "wrap_lambda", "group__functor.html#gaaa81f25675f16b161be78aa2b0cfb307", null ]
 ];

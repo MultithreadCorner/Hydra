@@ -56,8 +56,9 @@ var NAVTREE =
     [ "Files", "files.html", [
       [ "File List", "files.html", "files_dup" ],
       [ "Globals", "globals.html", [
-        [ "All", "globals.html", null ],
+        [ "All", "globals.html", "globals_dup" ],
         [ "Functions", "globals_func.html", null ],
+        [ "Typedefs", "globals_type.html", null ],
         [ "Macros", "globals_defs.html", null ]
       ] ]
     ] ],
@@ -69,19 +70,22 @@ var NAVTREEINDEX =
 [
 ".html",
 ".html",
-"GetBinCenter_8h.html",
-"Sum_8h.html#a81ab71f63c56b41e970fee5c7fa48915",
-"classNonResonant.html#ae671b91ac60f1d73c64bd4f291c8099a",
-"classhydra_1_1GenericRange_3_01Iterator_01_4.html#a5942109278833e4e526db6a4cddadac5",
-"classhydra_1_1multiarray_3_01T_00_01N_00_01hydra_1_1detail_1_1BackendPolicy_3_01BACKEND_01_4_01_4.html#a639c1599ac0e713fe4227a6516400309",
-"functions_func_l.html",
-"group__fit.html#ad2e2fe6f587647d6b1f9233e094209ed",
-"group__histogram.html#classhydra_1_1SparseHistogram_3_01T_00_011_00_01detail_1_1BackendPolicy_3_01BACKEND_01_4_00_01detail_1_1unidimensional_01_4",
-"group__numerical__integration.html#afe84e3501befc136aea9f9e126ee35b6",
-"group__phsp.html#af2667ab4b3f0081ba50ca5f9e4058051",
-"namespaces.html",
-"structhydra_1_1detail_1_1EvalMother.html#a2a4bb08c570b1cb51d3364220c9010e6",
-"structhydra_1_1detail_1_1RndFlag.html#a82c54b85e742bb678d4bfd9a65d5f528"
+"ConstantRange_8inl.html#ab52f376acf56fca42cc13e010498c668",
+"OMP_8h.html#a0c17145a6e58e371e583927e28cb150f",
+"Sum_8h.html",
+"basic__fit__range__semantics_8cpp.html",
+"classhydra_1_1IntegrationFormula_3_01BreitWignerNR_3_01ArgIndex_01_4_00_011_01_4.html",
+"classhydra_1_1detail_1_1ParametersCompositeFunctor.html#aa78d6af3da59ebcc39d7f81cd68b1478",
+"dalitz__plot_8C.html#a7557de3188af6904d9807280b50220ea",
+"group__common__functions.html#a569b9b8a140b2a48b9ae2997bbb92a4e",
+"group__fit.html#a61e26aaedc57b14a65937ce8d02f5811",
+"group__histogram.html#a40332322516414ecbabb22be648bbc78",
+"group__numerical__integration.html#a7120ec991f822b6cdc85f953d0325922",
+"group__phsp.html#a49acf4770e83bcf241f9e75f29916cd8",
+"launch__decayers_8inl.html#a272aed700c4b40bbd2639a84507da00d",
+"phsp__unweighting_8cu.html",
+"structhydra_1_1detail_1_1DecayMothers.html#ac2dae93a1acfe05cfcd4e03a0aedd4d4",
+"structhydra_1_1detail_1_1RndTrial.html#ac3cbfe46a801e9f36354e15cd041e1d9"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronisation';

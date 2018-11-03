@@ -36,7 +36,7 @@
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">Hydra
-   &#160;<span id="projectnumber">2.1.0</span>
+   &#160;<span id="projectnumber">2.2.1</span>
    </div>
    <div id="projectbrief">A header-only templated C++ framework to perform data analysis on massively parallel platforms.</div>
   </td>
@@ -96,8 +96,15 @@ $(document).ready(function(){initNavTree('functions_type_h.html','');});
 &#160;
 
 <h3><a id="index_h"></a>- h -</h3><ul>
+<li>hydra_analytical_integral_tag
+: <a class="el" href="classhydra_1_1AnalyticalIntegral.html#ae4eb39ed16a57c05edaa59b27e7d221e">hydra::AnalyticalIntegral&lt; Functor, N &gt;</a>
+</li>
+<li>hydra_dense_histogram_tag
+: <a class="el" href="group__histogram.html#a008966844a2b24e543a8615f14a92383">hydra::DenseHistogram&lt; T, N, detail::BackendPolicy&lt; BACKEND &gt;, detail::multidimensional &gt;</a>
+</li>
 <li>hydra_functor_tag
 : <a class="el" href="structhydra_1_1Argument.html#a6b5181815568cf022d3e5b28ba8986c0">hydra::Argument&lt; ReturnType &gt;</a>
+, <a class="el" href="classhydra_1_1BaseCompositeFunctor.html#a053c2be2b350fa8cce7d5ced0165988e">hydra::BaseCompositeFunctor&lt; Composite, ReturnType, F1, F2, Fs &gt;</a>
 , <a class="el" href="group__functor.html#a9eb43b40102a67bf3d838f3cd13b5b29">hydra::BaseFunctor&lt; Functor, ReturnType, NPARAM &gt;</a>
 , <a class="el" href="classhydra_1_1Compose.html#a4fa7b4bffd3c0b7905304769937ec5e9">hydra::Compose&lt; F0, F1, Fs &gt;</a>
 , <a class="el" href="structhydra_1_1Constant.html#ab0e0c64c040b59e598de23f861e576db">hydra::Constant&lt; ReturnType &gt;</a>
@@ -107,13 +114,20 @@ $(document).ready(function(){initNavTree('functions_type_h.html','');});
 , <a class="el" href="classhydra_1_1Sum.html#ae9726834ed17257e37f2b768176aaaf5">hydra::Sum&lt; F1, F2, Fs &gt;</a>
 </li>
 <li>hydra_integrator_tag
-: <a class="el" href="structhydra_1_1Integrator.html#a5686b84cd109797402bb6cc06efa1680">hydra::Integrator&lt; ALGORITHM &gt;</a>
+: <a class="el" href="structhydra_1_1Integral.html#adba29f1fc1646aec53cbe25cff42cde9">hydra::Integral&lt; Algorithm, N &gt;</a>
+, <a class="el" href="structhydra_1_1Integral_3_01Algorithm_00_011_01_4.html#ad883926304415f6c5a980b6bfd762535">hydra::Integral&lt; Algorithm, 1 &gt;</a>
 , <a class="el" href="group__phsp.html#a31f1fe439c048488c9bbc3e7128c3dc2">hydra::PhaseSpaceIntegrator&lt; N, hydra::detail::BackendPolicy&lt; BACKEND &gt;, GRND &gt;</a>
+</li>
+<li>hydra_numerical_integral_tag
+: <a class="el" href="classhydra_1_1NumericalIntegral.html#a8c6b8acf2986289db05e2b00652c603c">hydra::NumericalIntegral&lt; Algorithm, N &gt;</a>
 </li>
 <li>hydra_pdf_tag
 : <a class="el" href="group__fit.html#a60ed223092d91987dbffd0d8b46ae9d8">hydra::Pdf&lt; FUNCTOR, INTEGRATOR &gt;</a>
 , <a class="el" href="group__fit.html#aa28b32b6e25cd098e162ab7226cb21f2">hydra::PDFSumExtendable&lt; PDF1, PDF2, PDFs &gt;</a>
 , <a class="el" href="group__fit.html#a8a310502b9fdaf5d447aefeda0ddf5fb">hydra::PDFSumNonExtendable&lt; PDF1, PDF2, PDFs &gt;</a>
+</li>
+<li>hydra_sparse_histogram_tag
+: <a class="el" href="group__histogram.html#a9fe32bf01451462794195c9b64f697b5">hydra::SparseHistogram&lt; T, N, detail::BackendPolicy&lt; BACKEND &gt;, detail::multidimensional &gt;</a>
 </li>
 <li>hydra_sum_pdf_tag
 : <a class="el" href="group__fit.html#ac397c9fdf1d8c543b0c0b48a37a1556e">hydra::PDFSumExtendable&lt; PDF1, PDF2, PDFs &gt;</a>
@@ -125,7 +139,7 @@ $(document).ready(function(){initNavTree('functions_type_h.html','');});
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="footer">Generated on Fri Mar 23 2018 14:51:41 for Hydra by
+    <li class="footer">Generated on Sat Nov 3 2018 02:26:25 for Hydra by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.14 </li>
   </ul>

@@ -1,6 +1,0 @@
-<map id="PhaseSpaceIntegrator.inl" name="PhaseSpaceIntegrator.inl">
-<area shape="rect" id="node2" href="$a00356.html" title="PhaseSpaceIntegrator.h" alt="" coords="109,80,272,107"/>
-<area shape="rect" id="node3" href="$a00461.html" title="phsp_unweighting_functor\l_and_fit.inl" alt="" coords="104,155,277,196"/>
-<area shape="rect" id="node4" href="$a00455.html" title="phsp_unweighting_functor\l_and_fit.cpp" alt="" coords="5,244,179,285"/>
-<area shape="rect" id="node5" href="$a00458.html" title="phsp_unweighting_functor\l_and_fit.cu" alt="" coords="203,244,376,285"/>
-</map>
