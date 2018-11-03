@@ -31,9 +31,9 @@ Table of Contents
 What is it?
 -----------
 
-Hydra is a C++11 compliant and header only framework designed to perform commom data analysis tasks on massively parallel platforms. Hydra provides a collection of containers and algorithms commonly used in HEP data analysis, which can deploy  transparently OpenMP, CUDA and TBB enabled devices, allowing the user to re-use the same code across a large range of available multi-core CPU and accelerators. The framework design is focused on performance and precision. 
+Hydra is a C++11 compliant and header only framework designed to perform common data analysis tasks on massively parallel platforms. Hydra provides a collection of containers and algorithms commonly used in HEP data analysis, which can deploy  transparently OpenMP, CUDA and TBB enabled devices, allowing the user to re-use the same code across a large range of available multi-core CPU and accelerators. The framework design is focused on performance and precision.
 
-The core algorithms follow as close as possible the implementations widely used in framworks like ROOT and libraries 
+The core algorithms follow as close as possible the implementations widely used in frameworks like ROOT and libraries
 like GSL.
 
 Main features
@@ -45,14 +45,14 @@ Currently Hydra supports:
 * Sampling of multidimensional pdfs.
 * Multidimensional maximum likelihood fits using binned and unbinned data sets.
 * Calculation of S-Plots, a popular technique for statistical unfolding of populations contributing to a sample.   
-* Evaluation of multidimensional functions over heterogeneos data sets. 
+* Evaluation of multidimensional functions over heterogeneous data sets.
 * Numerical integration of multidimensional functions using self-adaptive Monte Carlo and quadrature methods.
 * Multidimensional sparse and dense histogramming of large samples. 
 
-Hydra also provides a bunch of custom types, optimized containers and a number of algorithms and constructs to maximaze performance, avoiding unecessary usage of memory and without losing the flexibility and portability to compile and run the same code across different platforms and deployment scenarios.  
+Hydra also provides a bunch of custom types, optimized containers and a number of algorithms and constructs to maximize performance, avoiding unnecessary usage of memory and without losing the flexibility and portability to compile and run the same code across different platforms and deployment scenarios.
 
 
-For example, just changing .cu to .cpp in any source code writen only using the Hydra and standard C++11 is enough
+For example, just changing .cu to .cpp in any source code written only using the Hydra and standard C++11 is enough
 to compile your application for OpenMP or TBB compatible devices using GCC or other compiler in a machine without a NVIDIA GPU installed.
 
 In summary, by using Hydra the user can transparently typical bottle-neck calculations to a suitable parallel device and get speed-up factors ranging from dozens to hundreds.  
@@ -62,14 +62,14 @@ In summary, by using Hydra the user can transparently typical bottle-neck calcul
 Hydra and Thrust
 ----------------
 
-Hydra is implemented on top of the [Thrust library](https://thrust.github.io/) and relies strongly on Thrust's containers, algorithms and backend managment systems.
+Hydra is implemented on top of the [Thrust library](https://thrust.github.io/) and relies strongly on Thrust's containers, algorithms and backend management systems.
 The official version of Thrust supports tuples with maximum ten elements. In order to overcome this limitation, Hydra uses the 
 [unofficial version, forked from the original, by Andrew Currigan and collaborators](https://github.com/andrewcorrigan/thrust-multi-permutation-iterator). 
 This version implements variadic tuples and related classes, as well as provides some additional functionalities, which are missing in the official Thrust.
 
-The version of Thrust distributed with Hydra is maintained by [MultithreadCorner](https://github.com/MultithreadCorner). It is basically a fork of Currigan's repository, which was merged with the latest official release available in github (Thrust 1.8.3). 
+The version of Thrust distributed with Hydra is maintained by [MultithreadCorner](https://github.com/MultithreadCorner). It is basically a fork of Currigan's repository, which was merged with the latest official release available in GitHub (Thrust 1.8.3).
 
-***Hydra does not depend or conflits with the official Thrust library distributed with the CUDA-SDK.***
+***Hydra does not depend or conflict with the official Thrust library distributed with the CUDA-SDK.***
 
 
 Supported Parallel Backends
@@ -93,7 +93,7 @@ nvcc  -I/path/to/Hydra -Xcompiler -fopenmp -DHYDRA_HOST_SYSTEM=OMP -DHYDRA_DEVIC
 The available "host" and "device" backends can be freely combined. 
 Two important features related to Hydra's design and the backend configuration:
 
-* If CUDA backend is not used, [NVCC and the CUDA runtime](https://developer.nvidia.com/cuda-toolkit) are not necessary. The programs can be compiled with GCC, CLang or other host compiler compatible with C++11 directly.
+* If CUDA backend is not used, [NVCC and the CUDA runtime](https://developer.nvidia.com/cuda-toolkit) are not necessary. The programs can be compiled with GCC, Clang or other host compiler compatible with C++11 directly.
 * Programs written using only Hydra, Thrust, STL and standard c++ constructs, it means programs without any raw CUDA code or calls to the CUDA runtime API, can be compiled with NVCC, to run on CUDA backends, or a suitable host compiler to run on OpenMP , TBB and CPP backends. **Just change the source file extension from .cu to .cpp, or something else the host compiler understands.**        
 
 
@@ -148,7 +148,7 @@ The examples are built using [CMAKE](https://cmake.org/) with the following inst
 6. `make`
 
 
-The compiled examples will be placed in the build/examples folder. The sub-directories are named according to the functionalities they ilustrates.
+The compiled examples will be placed in the build/examples folder. The sub-directories are named according to the functionalities they illustrate.
 
 The examples are listed below:
 
@@ -177,7 +177,7 @@ Recent publications and presentations at conferences and workshops
 How to cite Hydra
 -----------------
 
-[1]Alves Junior, A.A. - MultithreadCorner/Hydra, (2018). doi:10.5281/zenodo.1206262
+[1]Alves Junior, A.A. - MultithreadCorner/Hydra, (2018). doi:10.5281/zenodo.1206261
 
 bibtex:
 ```
@@ -210,7 +210,7 @@ Here’s what you should do if you need help or would like to contribute:
 Author
 --------
 
-Hydra was created and is mantained by [Antonio Augusto Alves Jr](@AAAlvesJr).
+Hydra was created and is maintained by [Antonio Augusto Alves Jr](@AAAlvesJr).
 
 Acknowledgement
 ---------------
