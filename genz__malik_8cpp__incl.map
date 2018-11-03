@@ -1,0 +1,57 @@
+<map id="genz_malik.cpp" name="genz_malik.cpp">
+<area shape="rect" id="node2" href="$genz__malik_8inl.html" title="examples/numerical\l_integration/genz_malik.inl" alt="" coords="4293,80,4469,121"/>
+<area shape="rect" id="node12" href="$Types_8h.html" title="Common and useful typedefs. " alt="" coords="2940,1137,3045,1164"/>
+<area shape="rect" id="node13" href="$Containers_8h.html" title="Typedefs for useful container classes used in MCBooster. " alt="" coords="9321,877,9451,903"/>
+<area shape="rect" id="node31" href="$Function_8h.html" title="hydra/Function.h" alt="" coords="3248,437,3367,464"/>
+<area shape="rect" id="node56" href="$FunctorArithmetic_8h.html" title="This file should be included in order to enable functor aritmethic in hydra. " alt="" coords="1545,169,1717,196"/>
+<area shape="rect" id="node68" href="$Plain_8h.html" title="hydra/Plain.h" alt="" coords="4897,437,4995,464"/>
+<area shape="rect" id="node77" href="$GenzMalikQuadrature_8h.html" title="hydra/GenzMalikQuadrature.h" alt="" coords="7034,169,7229,196"/>
+<area shape="rect" id="node95" href="$FunctionWrapper_8h.html" title="hydra/FunctionWrapper.h" alt="" coords="3891,348,4057,375"/>
+<area shape="rect" id="node97" href="$host_2System_8h.html" title="hydra/host/System.h" alt="" coords="9475,169,9617,196"/>
+<area shape="rect" id="node99" href="$device_2System_8h.html" title="hydra/device/System.h" alt="" coords="9595,348,9751,375"/>
+<area shape="rect" id="node14" href="$Config_8h.html" title="hydra/detail/Config.h" alt="" coords="4719,1137,4861,1164"/>
+<area shape="rect" id="node17" href="$Vector3R_8h.html" title="hydra/Vector3R.h" alt="" coords="9042,1048,9165,1075"/>
+<area shape="rect" id="node24" href="$Vector4R_8h.html" title="hydra/Vector4R.h" alt="" coords="8858,959,8981,985"/>
+<area shape="rect" id="node27" href="$Containers_8inl.html" title="hydra/detail/Containers.inl" alt="" coords="9236,959,9408,985"/>
+<area shape="rect" id="node20" href="$Collection_8h.html" title="hydra/Collection.h" alt="" coords="9089,1137,9216,1164"/>
+<area shape="rect" id="node23" href="$Vector3R_8inl.html" title="hydra/detail/Vector3R.inl" alt="" coords="8901,1137,9065,1164"/>
+<area shape="rect" id="node25" href="$Vector4R_8inl.html" title="hydra/detail/Vector4R.inl" alt="" coords="8752,1048,8916,1075"/>
+<area shape="rect" id="node32" href="$Print_8h.html" title="hydra/detail/Print.h" alt="" coords="3141,616,3271,643"/>
+<area shape="rect" id="node38" href="$Integrator_8h.html" title="hydra/Integrator.h" alt="" coords="3736,616,3860,643"/>
+<area shape="rect" id="node43" href="$Parameter_8h.html" title="hydra/Parameter.h" alt="" coords="1785,713,1915,739"/>
+<area shape="rect" id="node48" href="$Utility__Tuple_8h.html" title="hydra/detail/utility\l/Utility_Tuple.h" alt="" coords="2761,609,2885,650"/>
+<area shape="rect" id="node50" href="$FunctorTraits_8h.html" title="hydra/detail/FunctorTraits.h" alt="" coords="2649,795,2830,821"/>
+<area shape="rect" id="node51" href="$Parameters_8h.html" title="hydra/detail/Parameters.h" alt="" coords="2973,519,3143,546"/>
+<area shape="rect" id="node33" href="$StreamSTL_8h.html" title="hydra/detail/utility\l/StreamSTL.h" alt="" coords="3004,705,3128,747"/>
+<area shape="rect" id="node40" href="$AnalyticalIntegral_8inl.html" title="hydra/detail/AnalyticalIntegral.inl" alt="" coords="3457,713,3667,739"/>
+<area shape="rect" id="node41" href="$NumericalIntegral_8inl.html" title="hydra/detail/NumericalIntegral.inl" alt="" coords="3691,713,3902,739"/>
+<area shape="rect" id="node42" href="$Integrator_8inl.html" title="hydra/detail/Integrator.inl" alt="" coords="3926,713,4091,739"/>
+<area shape="rect" id="node44" href="$TypeTraits_8h.html" title="hydra/detail/TypeTraits.h" alt="" coords="1525,795,1692,821"/>
+<area shape="rect" id="node49" href="$Generic_8h.html" title="hydra/detail/utility\l/Generic.h" alt="" coords="5473,705,5597,747"/>
+<area shape="rect" id="node52" href="$Hash_8h.html" title="hydra/detail/Hash.h" alt="" coords="3937,616,4072,643"/>
+<area shape="rect" id="node57" href="$Sum_8h.html" title="hydra/detail/Sum.h" alt="" coords="658,251,789,278"/>
+<area shape="rect" id="node63" href="$Minus_8h.html" title="hydra/detail/Minus.h" alt="" coords="2207,251,2346,278"/>
+<area shape="rect" id="node64" href="$Multiply_8h.html" title="hydra/detail/Multiply.h" alt="" coords="1379,251,1529,278"/>
+<area shape="rect" id="node66" href="$Divide_8h.html" title="hydra/detail/Divide.h" alt="" coords="911,251,1051,278"/>
+<area shape="rect" id="node67" href="$Compose_8h.html" title="hydra/detail/Compose.h" alt="" coords="1781,251,1940,278"/>
+<area shape="rect" id="node58" href="$base__functor_8h.html" title="hydra/detail/base_functor.h" alt="" coords="1351,519,1530,546"/>
+<area shape="rect" id="node59" href="$Constant_8h.html" title="hydra/detail/Constant.h" alt="" coords="968,437,1124,464"/>
+<area shape="rect" id="node60" href="$CompositeBase_8h.html" title="hydra/detail/CompositeBase.h" alt="" coords="1424,348,1620,375"/>
+<area shape="rect" id="node62" href="$Tuple_8h.html" title="hydra/Tuple.h" alt="" coords="2027,616,2129,643"/>
+<area shape="rect" id="node61" href="$Placeholders_8h.html" title="hydra/Placeholders.h" alt="" coords="6063,616,6207,643"/>
+<area shape="rect" id="node65" href="$Argument_8h.html" title="hydra/detail/Argument.h" alt="" coords="4181,437,4341,464"/>
+<area shape="rect" id="node69" href="$BackendPolicy_8h.html" title="hydra/detail/BackendPolicy.h" alt="" coords="8397,616,8588,643"/>
+<area shape="rect" id="node71" href="$PlainState_8h.html" title="hydra/PlainState.h" alt="" coords="4845,616,4975,643"/>
+<area shape="rect" id="node74" href="$ProcessCallsPlain_8h.html" title="hydra/detail/functors\l/ProcessCallsPlain.h" alt="" coords="5035,512,5177,553"/>
+<area shape="rect" id="node76" href="$Plain_8inl.html" title="hydra/detail/Plain.inl" alt="" coords="4669,519,4807,546"/>
+<area shape="rect" id="node78" href="$detail_2GenzMalikRule_8h.html" title="hydra/detail/GenzMalikRule.h" alt="" coords="5778,437,5970,464"/>
+<area shape="rect" id="node85" href="$GenzMalikBox_8h.html" title="hydra/detail/GenzMalikBox.h" alt="" coords="8765,437,8954,464"/>
+<area shape="rect" id="node87" href="$multivector_8h.html" title="hydra/multivector.h" alt="" coords="7530,519,7663,546"/>
+<area shape="rect" id="node90" href="$GenzMalikQuadrature_8inl.html" title="hydra/detail/GenzMalikQuadrature.inl" alt="" coords="7257,251,7493,278"/>
+<area shape="rect" id="node79" href="$multiarray_8h.html" title="hydra/multiarray.h" alt="" coords="6217,519,6344,546"/>
+<area shape="rect" id="node80" href="$Caster_8h.html" title="hydra/detail/functors\l/Caster.h" alt="" coords="6395,609,6535,650"/>
+<area shape="rect" id="node91" href="$GenzMalikRule_8h.html" title="hydra/GenzMalikRule.h" alt="" coords="7850,437,8007,464"/>
+<area shape="rect" id="node92" href="$ProcessGenzMalikQuadrature_8h.html" title="hydra/detail/functors\l/ProcessGenzMalikQuadrature.h" alt="" coords="8549,341,8759,382"/>
+<area shape="rect" id="node98" href="$HOST_8h.html" title="hydra/detail/policies\l/backends/HOST.h" alt="" coords="9475,512,9612,553"/>
+<area shape="rect" id="node100" href="$DEVICE_8h.html" title="hydra/detail/policies\l/backends/DEVICE.h" alt="" coords="9637,512,9783,553"/>
+</map>

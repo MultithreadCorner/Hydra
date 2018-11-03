@@ -1,0 +1,57 @@
+<map id="particle_mass.inl" name="particle_mass.inl">
+<area shape="rect" id="node9" href="$device_2System_8h.html" title="hydra/device/System.h" alt="" coords="10433,80,10589,107"/>
+<area shape="rect" id="node17" href="$Function_8h.html" title="hydra/Function.h" alt="" coords="6080,251,6199,278"/>
+<area shape="rect" id="node21" href="$Parameter_8h.html" title="hydra/Parameter.h" alt="" coords="5211,556,5340,583"/>
+<area shape="rect" id="node37" href="$FunctionWrapper_8h.html" title="hydra/FunctionWrapper.h" alt="" coords="377,162,544,189"/>
+<area shape="rect" id="node40" href="$FunctorArithmetic_8h.html" title="This file should be included in order to enable functor aritmethic in hydra. " alt="" coords="4735,80,4907,107"/>
+<area shape="rect" id="node47" href="$Random_8h.html" title="hydra/Random.h" alt="" coords="1735,251,1853,278"/>
+<area shape="rect" id="node60" href="$LogLikelihoodFCN_8h.html" title="hydra/LogLikelihoodFCN.h" alt="" coords="6212,80,6387,107"/>
+<area shape="rect" id="node62" href="$UserParameters_8h.html" title="hydra/UserParameters.h" alt="" coords="7531,348,7694,375"/>
+<area shape="rect" id="node70" href="$Pdf_8h.html" title="hydra/Pdf.h" alt="" coords="6299,348,6388,375"/>
+<area shape="rect" id="node72" href="$Placeholders_8h.html" title="hydra/Placeholders.h" alt="" coords="1587,348,1731,375"/>
+<area shape="rect" id="node76" href="$DenseHistogram_8h.html" title="hydra/DenseHistogram.h" alt="" coords="3002,251,3167,278"/>
+<area shape="rect" id="node86" href="$AddPdf_8h.html" title="Include this file to get the classes and functions necessary to build&#45;up composed PDF models..." alt="" coords="5541,162,5653,189"/>
+<area shape="rect" id="node87" href="$Filter_8h.html" title="hydra/Filter.h" alt="" coords="7481,251,7579,278"/>
+<area shape="rect" id="node89" href="$Ipatia_8h.html" title="hydra/functions/Ipatia.h" alt="" coords="8837,162,8996,189"/>
+<area shape="rect" id="node93" href="$GaussKronrodQuadrature_8h.html" title="hydra/GaussKronrodQuadrature.h" alt="" coords="9823,251,10039,278"/>
+<area shape="rect" id="node96" href="$DeltaDMassBackground_8h.html" title="hydra/functions/DeltaDMass\lBackground.h" alt="" coords="9693,155,9879,196"/>
+<area shape="rect" id="node98" href="$GeneralizedGamma_8h.html" title="hydra/functions/Generalized\lGamma.h" alt="" coords="9205,155,9389,196"/>
+<area shape="rect" id="node10" href="$DEVICE_8h.html" title="hydra/detail/policies\l/backends/DEVICE.h" alt="" coords="10567,341,10714,382"/>
+<area shape="rect" id="node11" href="$Config_8h.html" title="hydra/detail/Config.h" alt="" coords="8934,809,9075,836"/>
+<area shape="rect" id="node12" href="$BackendPolicy_8h.html" title="hydra/detail/BackendPolicy.h" alt="" coords="9845,452,10036,479"/>
+<area shape="rect" id="node13" href="$Containers_8h.html" title="Typedefs for useful container classes used in MCBooster. " alt="" coords="4266,727,4397,754"/>
+<area shape="rect" id="node16" href="$Types_8h.html" title="Common and useful typedefs. " alt="" coords="4075,809,4180,836"/>
+<area shape="rect" id="node18" href="$Print_8h.html" title="hydra/detail/Print.h" alt="" coords="9194,452,9325,479"/>
+<area shape="rect" id="node19" href="$Integrator_8h.html" title="hydra/Integrator.h" alt="" coords="9493,452,9617,479"/>
+<area shape="rect" id="node28" href="$Utility__Tuple_8h.html" title="hydra/detail/utility\l/Utility_Tuple.h" alt="" coords="3673,445,3797,486"/>
+<area shape="rect" id="node30" href="$FunctorTraits_8h.html" title="hydra/detail/FunctorTraits.h" alt="" coords="3342,556,3523,583"/>
+<area shape="rect" id="node33" href="$Parameters_8h.html" title="hydra/detail/Parameters.h" alt="" coords="8522,348,8693,375"/>
+<area shape="rect" id="node22" href="$TypeTraits_8h.html" title="hydra/detail/TypeTraits.h" alt="" coords="4257,645,4424,672"/>
+<area shape="rect" id="node29" href="$Generic_8h.html" title="hydra/detail/utility\l/Generic.h" alt="" coords="2839,549,2963,590"/>
+<area shape="rect" id="node41" href="$Sum_8h.html" title="hydra/detail/Sum.h" alt="" coords="5062,162,5193,189"/>
+<area shape="rect" id="node43" href="$Minus_8h.html" title="hydra/detail/Minus.h" alt="" coords="4697,348,4835,375"/>
+<area shape="rect" id="node44" href="$Multiply_8h.html" title="hydra/detail/Multiply.h" alt="" coords="4175,348,4325,375"/>
+<area shape="rect" id="node45" href="$Divide_8h.html" title="hydra/detail/Divide.h" alt="" coords="4349,348,4489,375"/>
+<area shape="rect" id="node46" href="$Compose_8h.html" title="hydra/detail/Compose.h" alt="" coords="4513,348,4672,375"/>
+<area shape="rect" id="node42" href="$Tuple_8h.html" title="hydra/Tuple.h" alt="" coords="5089,452,5190,479"/>
+<area shape="rect" id="node48" href="$RandomUtils_8h.html" title="hydra/detail/functors\l/RandomUtils.h" alt="" coords="823,341,963,382"/>
+<area shape="rect" id="node53" href="$Range_8h.html" title="hydra/Range.h" alt="" coords="7771,348,7878,375"/>
+<area shape="rect" id="node59" href="$Random_8inl.html" title="hydra/detail/Random.inl" alt="" coords="1151,348,1309,375"/>
+<area shape="rect" id="node54" href="$Iterable__traits_8h.html" title="hydra/detail/Iterable\l_traits.h" alt="" coords="7783,445,7919,486"/>
+<area shape="rect" id="node61" href="$FCN_8h.html" title="hydra/FCN.h" alt="" coords="6659,251,6753,278"/>
+<area shape="rect" id="node71" href="$PDFSumExtendable_8h.html" title="hydra/PDFSumExtendable.h" alt="" coords="5281,251,5467,278"/>
+<area shape="rect" id="node74" href="$PDFSumNonExtendable_8h.html" title="hydra/PDFSumNonExtendable.h" alt="" coords="5491,251,5702,278"/>
+<area shape="rect" id="node75" href="$HistogramTraits_8h.html" title="hydra/detail/HistogramTraits.h" alt="" coords="4409,162,4605,189"/>
+<area shape="rect" id="node83" href="$LogLikelihoodFCN1_8inl.html" title="hydra/detail/LogLikelihood\lFCN1.inl" alt="" coords="6276,155,6448,196"/>
+<area shape="rect" id="node84" href="$LogLikelihoodFCN2_8inl.html" title="hydra/detail/LogLikelihood\lFCN2.inl" alt="" coords="6028,155,6200,196"/>
+<area shape="rect" id="node85" href="$LogLikelihoodFCN3_8inl.html" title="hydra/detail/LogLikelihood\lFCN3.inl" alt="" coords="6601,155,6773,196"/>
+<area shape="rect" id="node77" href="$cpp_2System_8h.html" title="hydra/cpp/System.h" alt="" coords="10098,348,10237,375"/>
+<area shape="rect" id="node78" href="$Dimensionality_8h.html" title="hydra/detail/Dimensionality.h" alt="" coords="2405,348,2594,375"/>
+<area shape="rect" id="node79" href="$GetBinCenter_8h.html" title="hydra/detail/functors\l/GetBinCenter.h" alt="" coords="2060,341,2200,382"/>
+<area shape="rect" id="node80" href="$Algorithm_8h.html" title="hydra/Algorithm.h" alt="" coords="2619,348,2743,375"/>
+<area shape="rect" id="node82" href="$DenseHistogram_8inl.html" title="hydra/detail/DenseHistogram.inl" alt="" coords="2981,348,3188,375"/>
+<area shape="rect" id="node88" href="$Filter_8inl.html" title="hydra/detail/Filter.inl" alt="" coords="7198,348,7337,375"/>
+<area shape="rect" id="node90" href="$CheckValue_8h.html" title="hydra/detail/utility\l/CheckValue.h" alt="" coords="9411,244,9535,285"/>
+<area shape="rect" id="node91" href="$SafeCompare_8h.html" title="hydra/detail/utility\l/SafeCompare.h" alt="" coords="10317,244,10441,285"/>
+<area shape="rect" id="node95" href="$Ipatia_8inl.html" title="hydra/functions/detail\l/Ipatia.inl" alt="" coords="8682,244,8829,285"/>
+</map>

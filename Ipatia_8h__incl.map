@@ -1,0 +1,43 @@
+<map id="Ipatia.h" name="Ipatia.h">
+<area shape="rect" id="node2" href="$Config_8h.html" title="hydra/detail/Config.h" alt="" coords="1637,839,1779,865"/>
+<area shape="rect" id="node5" href="$BackendPolicy_8h.html" title="hydra/detail/BackendPolicy.h" alt="" coords="579,452,770,479"/>
+<area shape="rect" id="node7" href="$Types_8h.html" title="Common and useful typedefs. " alt="" coords="4513,839,4618,865"/>
+<area shape="rect" id="node8" href="$Function_8h.html" title="hydra/Function.h" alt="" coords="3977,87,4095,114"/>
+<area shape="rect" id="node19" href="$Integrator_8h.html" title="hydra/Integrator.h" alt="" coords="3489,259,3613,285"/>
+<area shape="rect" id="node25" href="$Parameter_8h.html" title="hydra/Parameter.h" alt="" coords="4145,355,4274,382"/>
+<area shape="rect" id="node57" href="$Pdf_8h.html" title="hydra/Pdf.h" alt="" coords="4553,169,4642,196"/>
+<area shape="rect" id="node59" href="$CheckValue_8h.html" title="hydra/detail/utility\l/CheckValue.h" alt="" coords="75,348,199,389"/>
+<area shape="rect" id="node62" href="$SafeCompare_8h.html" title="hydra/detail/utility\l/SafeCompare.h" alt="" coords="278,348,402,389"/>
+<area shape="rect" id="node64" href="$GaussKronrodQuadrature_8h.html" title="hydra/GaussKronrodQuadrature.h" alt="" coords="2091,87,2307,114"/>
+<area shape="rect" id="node74" href="$Tuple_8h.html" title="hydra/Tuple.h" alt="" coords="2475,355,2576,382"/>
+<area shape="rect" id="node85" href="$Ipatia_8inl.html" title="hydra/functions/detail\l/Ipatia.inl" alt="" coords="5728,80,5875,121"/>
+<area shape="rect" id="node9" href="$Print_8h.html" title="hydra/detail/Print.h" alt="" coords="2925,355,3056,382"/>
+<area shape="rect" id="node48" href="$Utility__Tuple_8h.html" title="hydra/detail/utility\l/Utility_Tuple.h" alt="" coords="4502,251,4626,293"/>
+<area shape="rect" id="node50" href="$FunctorTraits_8h.html" title="hydra/detail/FunctorTraits.h" alt="" coords="4957,355,5139,382"/>
+<area shape="rect" id="node51" href="$Parameters_8h.html" title="hydra/detail/Parameters.h" alt="" coords="3739,169,3909,196"/>
+<area shape="rect" id="node10" href="$StreamSTL_8h.html" title="hydra/detail/utility\l/StreamSTL.h" alt="" coords="3322,445,3446,486"/>
+<area shape="rect" id="node21" href="$AnalyticalIntegral_8inl.html" title="hydra/detail/AnalyticalIntegral.inl" alt="" coords="3131,355,3341,382"/>
+<area shape="rect" id="node23" href="$NumericalIntegral_8inl.html" title="hydra/detail/NumericalIntegral.inl" alt="" coords="3619,355,3829,382"/>
+<area shape="rect" id="node24" href="$Integrator_8inl.html" title="hydra/detail/Integrator.inl" alt="" coords="3853,355,4019,382"/>
+<area shape="rect" id="node26" href="$TypeTraits_8h.html" title="hydra/detail/TypeTraits.h" alt="" coords="3131,452,3298,479"/>
+<area shape="rect" id="node27" href="$Containers_8h.html" title="Typedefs for useful container classes used in MCBooster. " alt="" coords="2773,556,2904,583"/>
+<area shape="rect" id="node29" href="$Vector3R_8h.html" title="hydra/Vector3R.h" alt="" coords="3240,749,3363,776"/>
+<area shape="rect" id="node36" href="$Vector4R_8h.html" title="hydra/Vector4R.h" alt="" coords="3425,653,3548,679"/>
+<area shape="rect" id="node39" href="$Containers_8inl.html" title="hydra/detail/Containers.inl" alt="" coords="2582,653,2754,679"/>
+<area shape="rect" id="node32" href="$Collection_8h.html" title="hydra/Collection.h" alt="" coords="3701,839,3827,865"/>
+<area shape="rect" id="node35" href="$Vector3R_8inl.html" title="hydra/detail/Vector3R.inl" alt="" coords="3246,839,3410,865"/>
+<area shape="rect" id="node37" href="$Vector4R_8inl.html" title="hydra/detail/Vector4R.inl" alt="" coords="3387,749,3551,776"/>
+<area shape="rect" id="node49" href="$Generic_8h.html" title="hydra/detail/utility\l/Generic.h" alt="" coords="4353,445,4477,486"/>
+<area shape="rect" id="node52" href="$Hash_8h.html" title="hydra/detail/Hash.h" alt="" coords="2923,259,3058,285"/>
+<area shape="rect" id="node63" href="$MachineEpsilon_8h.html" title="hydra/detail/utility\l/MachineEpsilon.h" alt="" coords="326,645,455,687"/>
+<area shape="rect" id="node65" href="$host_2System_8h.html" title="hydra/host/System.h" alt="" coords="574,169,717,196"/>
+<area shape="rect" id="node67" href="$GaussKronrodRules_8h.html" title="hydra/GaussKronrodRules.h" alt="" coords="2245,169,2430,196"/>
+<area shape="rect" id="node71" href="$ProcessGaussKronrodQuadrature_8h.html" title="hydra/detail/functors\l/ProcessGaussKronrodQuadrature.h" alt="" coords="3829,742,4061,783"/>
+<area shape="rect" id="node72" href="$multivector_8h.html" title="hydra/multivector.h" alt="" coords="1992,169,2125,196"/>
+<area shape="rect" id="node82" href="$GaussKronrodQuadrature_8inl.html" title="hydra/detail/GaussKronrod\lQuadrature.inl" alt="" coords="997,348,1173,389"/>
+<area shape="rect" id="node66" href="$HOST_8h.html" title="hydra/detail/policies\l/backends/HOST.h" alt="" coords="478,348,615,389"/>
+<area shape="rect" id="node68" href="$GaussKronrodRule_8h.html" title="hydra/GaussKronrodRule.h" alt="" coords="2248,259,2427,285"/>
+<area shape="rect" id="node73" href="$Caster_8h.html" title="hydra/detail/functors\l/Caster.h" alt="" coords="1881,251,2021,293"/>
+<area shape="rect" id="node76" href="$Placeholders_8h.html" title="hydra/Placeholders.h" alt="" coords="2552,259,2696,285"/>
+<area shape="rect" id="node77" href="$Placeholders_8inl.html" title="hydra/detail/Placeholders.inl" alt="" coords="2163,355,2349,382"/>
+</map>
