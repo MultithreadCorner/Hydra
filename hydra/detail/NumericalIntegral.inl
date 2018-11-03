@@ -28,8 +28,9 @@
 
 #ifndef NUMERICALINTEGRAL_INL_
 #define NUMERICALINTEGRAL_INL_
+namespace hydra {
 
-template<typename Algorithm>
+template<typename Algorithm, size_t N>
 class NumericalIntegral: public Integral< Algorithm >
 {
 
@@ -39,6 +40,9 @@ public:
 
 
 };
+
+
+}  // namespace hydra
 
 
 
