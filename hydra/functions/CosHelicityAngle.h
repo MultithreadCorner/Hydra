@@ -46,6 +46,7 @@
 namespace hydra {
 
 /**
+ * \ingroup common_functions
  * \class CosTheta
  *
  *  This functor calculates the cosine of the helicity angle of the particle with four-vector D,

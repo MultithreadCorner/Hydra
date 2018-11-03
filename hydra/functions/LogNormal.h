@@ -51,6 +51,13 @@
 
 namespace hydra {
 
+/**
+ * \ingroup common_functions
+ * \class LogNormal
+ *
+ * In probability theory, a log-normal (or lognormal) distribution is a continuous probability distribution of a random
+ * variable whose logarithm is normally distributed. Thus, if the random variable X is log-normally distributed, then Y = ln(X) has a normal distribution.
+ */
 template<unsigned int ArgIndex=0>
 class LogNormal: public BaseFunctor<LogNormal<ArgIndex>, double, 2>
 {

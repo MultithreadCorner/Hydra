@@ -48,6 +48,7 @@
 
 namespace hydra {
 /**
+ * \ingroup common_functions
  * \class TriangularShape
  * From: https://en.wikipedia.org/wiki/Triangular_distribution
  *

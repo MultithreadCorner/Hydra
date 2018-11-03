@@ -47,6 +47,7 @@
 namespace hydra {
 
 /**
+ * \ingroup common_functions
  * \class PlanesDeltaAngle
  *
  *  This functor calculates the delta angle between decay plane of the particle with four-vector d2 and d3 (same plane)

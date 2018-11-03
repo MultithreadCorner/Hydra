@@ -46,7 +46,12 @@
 #include <utility>
 
 namespace hydra {
-
+/**
+ * \ingroup common_functions
+ * \class Exponential
+ * https://en.wikipedia.org/wiki/Exponential_function
+ *
+ */
 template<unsigned int ArgIndex=0>
 class Exponential:public BaseFunctor<Exponential<ArgIndex>, double, 1>
 {

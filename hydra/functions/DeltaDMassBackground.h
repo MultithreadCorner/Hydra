@@ -52,7 +52,10 @@
 
 namespace hydra {
 
-
+/**
+ * \ingroup common_functions
+ * \class DeltaDMassBackground
+ */
 template<unsigned int ArgIndex=0>
 class DeltaDMassBackground: public BaseFunctor<DeltaDMassBackground<ArgIndex>, double, 4>
 {

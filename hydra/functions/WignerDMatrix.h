@@ -52,7 +52,8 @@
 namespace hydra {
 
 /**
- * \class WignerD
+ *  \ingroup common_functions
+ * \class WignerDMatrix
  *
  *  Calculates the beta-term
  *                   \f[ d^j_{mn}(beta) \f]

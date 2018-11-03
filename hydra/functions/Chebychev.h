@@ -51,6 +51,14 @@
 
 namespace hydra {
 
+/**
+ * \ingroup common_functions
+ * \class Chebychev
+ *
+ * The Chebyshev polynomials \f$ T_n \f$ (first kind)
+ *  are polynomials with the largest possible leading coefficient,
+ *   but subject to the condition that their absolute value on the interval [−1,1] is bounded by 1
+ */
 template< unsigned int Order, unsigned int ArgIndex=0>
 class  Chebychev:public BaseFunctor<Chebychev<Order, ArgIndex>, double, Order+1>
 {
