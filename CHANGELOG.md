@@ -1,7 +1,7 @@
 ## CHANGE LOG
 
 
-### Hydra 2.2.0 (probably incomplete)
+### Hydra 2.2.1 (probably incomplete)
 
 1. New functors and implementations (`hydra/functions`):
 
