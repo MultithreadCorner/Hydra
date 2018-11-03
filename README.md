@@ -1,6 +1,6 @@
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.1206261.svg)](https://doi.org/10.5281/zenodo.1206261)
 [![Documentation Status](https://readthedocs.org/projects/hydra-documentation/badge/?version=latest)](http://hydra-documentation.readthedocs.io/en/latest/?badge=latest)
-[![latest version](https://badge.fury.io/gh/MultithreadCorner%2FHydra.svg)](https://badge.fury.io/gh/MultithreadCorner%2FHydra)
+[![latest version](https://badge.fury.io/gh/MultithreadCorner%2FHydra.svg)](https://github.com/MultithreadCorner/Hydra/releases/latest)
 
 -----------------------------
 
