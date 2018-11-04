@@ -33,7 +33,7 @@
 #include <hydra/detail/BackendPolicy.h>
 #include <hydra/Distance.h>
 #include <hydra/detail/external/thrust/iterator/transform_iterator.h>
-
+#include <hydra/detail/FunctorTraits.h>
 #include <utility>
 
 namespace hydra {

@@ -5,4 +5,4 @@ project(examples)
 #+++++++++++++++++++++++++++++++++
 ADD_HYDRA_EXAMPLE(basic_distributions)
 ADD_HYDRA_EXAMPLE(sample_distribution)
- 
+ADD_HYDRA_EXAMPLE(booststrapping)
