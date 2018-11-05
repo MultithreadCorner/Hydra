@@ -20,30 +20,10 @@
  *---------------------------------------------------------------------------*/
 
 /*
- * NumericalIntegral.h
+ * booststrapping.cu
  *
- *  Created on: 30/10/2018
+ *  Created on: 04/11/2018
  *      Author: Antonio Augusto Alves Junior
  */
 
-#ifndef NUMERICALINTEGRAL_INL_
-#define NUMERICALINTEGRAL_INL_
-
-namespace hydra {
-
-template<typename Algorithm, size_t N>
-class NumericalIntegral: public Integral< Algorithm ,  N>
-{
-
-public:
-
-	typedef void hydra_numerical_integral_tag;
-
-
-};
-
-}  // namespace hydra
-
-
-
-#endif /* NUMERICALINTEGRAL_H_ */
+#include <examples/random/booststrapping.inl>

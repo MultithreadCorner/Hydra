@@ -60,7 +60,7 @@ random_gauss_range(const Value_Type&  mean, const Value_Type&  width, size_t see
 template<typename Value_Type>
 Range<HYDRA_EXTERNAL_NS::thrust::transform_iterator<
 detail::RndUniform<Value_Type, HYDRA_EXTERNAL_NS::thrust::random::default_random_engine> ,
-HYDRA_EXTERNAL_NS::thrust::counting_iterator<size_t>, double>>
+HYDRA_EXTERNAL_NS::thrust::counting_iterator<size_t>, Value_Type>>
 random_uniform_range(const Value_Type& min, const Value_Type& max, size_t seed ){
 
 	// create iterators
@@ -68,11 +68,11 @@ random_uniform_range(const Value_Type& min, const Value_Type& max, size_t seed )
 	typedef detail::RndUniform<Value_Type, HYDRA_EXTERNAL_NS::thrust::random::default_random_engine> uniform_t;
 
 	index_t first(0);
-	index_t last(std::numeric_limits<ssize_t>::max());
+	index_t last(std::numeric_limits<size_t>::max());
 
 	return make_range(
-			HYDRA_EXTERNAL_NS::thrust::transform_iterator<uniform_t, index_t, double>(first, uniform_t(seed, min, max )),
-	        HYDRA_EXTERNAL_NS::thrust::transform_iterator<uniform_t, index_t, double>( last, uniform_t(seed, min, max )));
+			HYDRA_EXTERNAL_NS::thrust::transform_iterator<uniform_t, index_t, Value_Type>(first, uniform_t(seed, min, max )),
+	        HYDRA_EXTERNAL_NS::thrust::transform_iterator<uniform_t, index_t, Value_Type>( last, uniform_t(seed, min, max )));
 
 }
 

@@ -48,5 +48,6 @@ class Range;
 #include <hydra/detail/ConstantRange.inl>
 #include <hydra/detail/RandomRange.inl>
 #include <hydra/detail/PhaseSpaceRange.inl>
+#include <hydra/detail/BooststrappedRange.inl>
 
 #endif /* RANGE_H_ */
