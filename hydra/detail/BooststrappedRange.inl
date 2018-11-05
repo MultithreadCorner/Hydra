@@ -43,12 +43,12 @@ typename std::enable_if<hydra::detail::is_iterable<Iterable>::value,
  ,HYDRA_EXTERNAL_NS::thrust::counting_iterator<size_t>,size_t > > >>::type
 boost_strapped_range(Iterable&& iterable, size_t seed){
 
+	using HYDRA_EXTERNAL_NS::thrust::make_permutation_iterator;
+
 	auto permutations = random_uniform_range(size_t(0), std::forward<Iterable>(iterable).size(), seed );
 
-	auto first = HYDRA_EXTERNAL_NS::thrust::make_permutation_iterator( std::forward<Iterable>(iterable).begin(), permutations.begin());
-	auto last  = HYDRA_EXTERNAL_NS::thrust::make_permutation_iterator( std::forward<Iterable>(iterable).end(), permutations.end());
-
-	return make_range(first, last);
+	return make_range(make_permutation_iterator( std::forward<Iterable>(iterable).begin(), permutations.begin()),
+			make_permutation_iterator( std::forward<Iterable>(iterable).end(), permutations.end()));
 }
 
 
