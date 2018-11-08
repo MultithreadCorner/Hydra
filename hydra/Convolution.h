@@ -46,7 +46,7 @@ class Convolution:  public BaseCompositeFunctor<Convolution<Functor, Kernel, Arg
 public:
 	Convolution() = delete;
 
-	Convolution( Functor const& functor, Kernel const& kernel, double kmin, double kmax, size_t nsamples =100):
+	Convolution( Functor const& functor, Kernel const& kernel, double kmin, double kmax, unsigned nsamples =100):
 		BaseCompositeFunctor< Convolution<Functor, Kernel, ArgIndex>, double, Functor, Kernel>(functor,kernel),
 		fKernelMin(kmin),
 		fKernelMax(kmax),
@@ -136,18 +136,21 @@ public:
 	inline double Evaluate(unsigned int n, T*x) const	{
 
 		GReal_t result = 0;
+		GReal_t norm   = 0;
 		GReal_t X  = x[ArgIndex];
 
-		for(int i=0 ; i<fN; i++){
+		for(unsigned int i=0 ; i<fN; i++){
 
 			GReal_t	    x_i = i*fDelta + fKernelMin;
 			GReal_t	delta_i = X - x_i;
 			GReal_t  kernel = HYDRA_EXTERNAL_NS::thrust::get<1>(this->GetFunctors())(delta_i);
+			norm           += kernel;
 			result         += HYDRA_EXTERNAL_NS::thrust::get<0>(this->GetFunctors())(x_i)*kernel;
 
 		}
+		//std::cout<< "result "<< result << " Normalization "<< fNormalization << std::endl;
 
-		return result/fNormalization;
+		return result/norm;
 	}
 
 
@@ -158,7 +161,7 @@ public:
 		GReal_t result = 0;
 		GReal_t X  = get<ArgIndex>(x);
 
-		for(int i=0 ; i<fN; i++){
+		for(unsigned int i=0 ; i<fN; i++){
 
 			GReal_t	    x_i = i*fDelta + fKernelMin;
 			GReal_t	delta_i = X - x_i;
@@ -176,10 +179,11 @@ private:
 
      void NormalizeKernel(){
 
-    	 for(int i=0 ; i<fN; i++){
-    		 GReal_t	    x_i = i*fDelta + fKernelMin;
+    	 fNormalization= 0.0;
+    	/* for(unsigned int i=0 ; i<fN; i++){
+    		 GReal_t	    x_i = i*fDelta;
     		 fNormalization += HYDRA_EXTERNAL_NS::thrust::get<1>(this->GetFunctors())(x_i);
-    	 }
+    	 }*/
 
      }
 
@@ -187,13 +191,13 @@ private:
 	GReal_t fKernelMin;
 	GReal_t fDelta;
 	GReal_t fNormalization;
-	GReal_t fN;
+	unsigned fN;
 
 
 };
 
 template<unsigned int ArgIndex, typename Functor, typename Kernel>
-auto convolute( Functor const& functor, Kernel const& kernel, double kmin, double kmax, size_t nsamples =100 )
+auto convolute( Functor const& functor, Kernel const& kernel, double kmin, double kmax, unsigned nsamples =100 )
 -> Convolution<Functor, Kernel, ArgIndex>
 {
 
