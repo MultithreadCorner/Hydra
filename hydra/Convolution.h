@@ -137,16 +137,25 @@ private:
 
      void reconvolute(){
 
+    	 for(unsigned int i=0 ; i<N; i++){
 
-		for(unsigned int i=0 ; i<N; i++){
+    		 GReal_t X_i = i*fDelta + fMin;
+    		 GReal_t norm_i=0, result_i=0;
 
-			GReal_t	    x_i = i*fDelta + fMin;
-			GReal_t	delta_i = X - x_i;
-			GReal_t  kernel = HYDRA_EXTERNAL_NS::thrust::get<1>(this->GetFunctors())(delta_i);
-			norm           += kernel;
-			result         += HYDRA_EXTERNAL_NS::thrust::get<0>(this->GetFunctors())(x_i)*kernel;
-			fSpiline;
-		}
+    		 for(unsigned int j=0 ; j<N; j++){
+
+    			 GReal_t	    x_j = j*fDelta + fMin;
+    			 GReal_t	delta_ij = X_i - x_j;
+    			 GReal_t  kernel = HYDRA_EXTERNAL_NS::thrust::get<1>(this->GetFunctors())(delta_ij);
+    			 norm_i           += kernel;
+    			 result_i         += HYDRA_EXTERNAL_NS::thrust::get<0>(this->GetFunctors())(x_j)*kernel;
+
+    		 }
+
+    		 fSpiline.SetX(i, X_i);
+    		 fSpiline.SetX(i, result_i/norm_i);
+
+    	 }
      }
 
     CubicSpiline<N> fSpiline;
