@@ -34,7 +34,7 @@
 #include <hydra/detail/BackendPolicy.h>
 #include <hydra/Types.h>
 #include <hydra/Function.h>
-
+#include <hydra/detail/utility/CheckValue.h>
 #include <hydra/detail/external/thrust/copy.h>
 #include <hydra/detail/external/thrust/iterator/zip_iterator.h>
 #include <hydra/detail/external/thrust/execution_policy.h>
