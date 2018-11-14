@@ -67,7 +67,7 @@ int main(int argv, char** argc)
 														<< std::endl;
 	}
 
-	hydra::device::vector<float> x( nentries);
+	hydra::device::vector<double> x( nentries);
 
 
 	//generate random
@@ -75,14 +75,16 @@ int main(int argv, char** argc)
 	Generator.Uniform(-1.0, 1.0, x);
 
 
-   auto fft_r2c = hydra::RealToComplexFFT<float>( nentries );
+   auto fft_r2c = hydra::RealToComplexFFT<double>( nentries );
    fft_r2c.LoadInputData(x);
    fft_r2c.Execute();
 
    auto output_r2c = hydra::make_range(fft_r2c.GetTransformedData().first,
 		   fft_r2c.GetTransformedData().first + fft_r2c.GetTransformedData().second );
 
-   auto fft_c2r = hydra::ComplexToRealFFT<float>( nentries );
+
+
+   auto fft_c2r = hydra::ComplexToRealFFT<double>( fft_r2c.GetTransformedData().second );
 
    fft_c2r.LoadInputData(fft_r2c.GetTransformedData().second,
 		   fft_r2c.GetTransformedData().first );
@@ -94,7 +96,7 @@ int main(int argv, char** argc)
 
    auto data = hydra::zip( x, output_r2c, output_c2r );
    hydra::for_each( data ,
-		   [nentries] __hydra_dual__ ( hydra::tuple<double,double*, double> a){
+		   [nentries] __hydra_dual__ ( hydra::tuple<double, double*, double> a){
 
 	   printf("%f | %f:re + %f:im | %f \n", hydra::get<0>(a),  hydra::get<1>(a)[0], hydra::get<1>(a)[1], hydra::get<2>(a)/nentries );
    });

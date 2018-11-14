@@ -54,14 +54,29 @@ namespace hydra {
 		namespace fftw {
 
 			template<typename T>
-			struct DeleterFFT {
-				inline void operator()(T* ptr){ fftw_free(ptr);}
+			struct _Free;
+
+			template<> struct _Free<double> {
+
+				template<typename PointerType>
+				inline void operator()(PointerType* ptr){ fftw_free(ptr);}
 			};
 
-			template<typename T>
-			struct RealToComplexFFTPlanner;
+			template<> struct _Free<float> {
 
-			template<> struct RealToComplexFFTPlanner<double>
+				template<typename PointerType>
+				inline void operator()(PointerType* ptr){ fftwf_free(ptr);}
+			};
+
+
+
+			/* wrapping plan creator functions
+			 * parameterized by float precision
+			 */
+			template<typename T>
+			struct _PlanRealToComplex;
+
+			template<> struct _PlanRealToComplex<double>
 			{
 				inline fftw_plan operator()(int n, double *in, fftw_complex *out, unsigned flags ){
 
@@ -69,7 +84,7 @@ namespace hydra {
 				}
 			};
 
-			template<> struct RealToComplexFFTPlanner<float>
+			template<> struct _PlanRealToComplex<float>
 			{
 				inline fftwf_plan operator()(int n, float *in, fftwf_complex *out, unsigned flags ){
 
@@ -78,9 +93,9 @@ namespace hydra {
 			};
 
 			template<typename T>
-			struct ComplexToRealFFTPlanner;
+			struct _PlanComplexToReal;
 
-			template<> struct ComplexToRealFFTPlanner<double>
+			template<> struct _PlanComplexToReal<double>
 			{
 				inline fftw_plan operator()(int n, fftw_complex *in, double *out,  unsigned flags ){
 
@@ -88,13 +103,58 @@ namespace hydra {
 				}
 			};
 
-			template<> struct ComplexToRealFFTPlanner<float>
+			template<> struct _PlanComplexToReal<float>
 			{
 				inline fftwf_plan operator()(int n, fftwf_complex *in,float *out,  unsigned flags ){
 
 					return fftwf_plan_dft_c2r_1d(n, in, out, flags);
 				}
 			};
+
+			/* wrapping plan destroy functions
+			 * parameterized by float precision
+			 */
+			template<typename T>
+			struct _PlanDestroy;
+
+			template<>	struct _PlanDestroy<double> {
+				inline void operator()(fftw_plan plan ){
+
+					fftw_destroy_plan(plan);
+				}
+			};
+
+			template<>	struct _PlanDestroy<float> {
+				inline void operator()(fftwf_plan plan ){
+
+					fftwf_destroy_plan(plan);
+				}
+			};
+
+
+			/* wrapping plan execution functions
+			 * parameterized by float precision
+			 */
+			template<typename T>
+			struct _Execute;
+
+			template<>	struct _Execute<double> {
+				inline void operator()(fftw_plan plan ){
+
+					fftw_execute(plan);
+				}
+			};
+
+			template<>	struct _Execute<float> {
+				inline void operator()(fftwf_plan plan ){
+
+					fftwf_execute(plan);
+				}
+			};
+
+
+
+
 
 
 
@@ -124,7 +184,7 @@ public:
 		fComplexPtr(reinterpret_cast<complex_type*>(fftw_malloc(sizeof(complex_type)*(fNsamples/2 +1  )))),
 		fRealPtr(reinterpret_cast<real_type*>(fftw_malloc(sizeof(real_type)*fNsamples)))
 	{
-		detail::fftw::RealToComplexFFTPlanner<T> planner;
+		detail::fftw::_PlanRealToComplex<T> planner;
 
 		fPlan =  planner( fNsamples,  fRealPtr.get(), fComplexPtr.get(), FFTW_ESTIMATE);
 
@@ -139,9 +199,9 @@ public:
 		fComplexPtr(std::move(fComplexPtr)),
 		fRealPtr(std::move(fRealPtr))
 	{
-		fftw_destroy_plan(fPlan);
-		fPlan =  fftw_plan_dft_r2c_1d( fNsamples,
-				fRealPtr.get(), fComplexPtr.get(), FFTW_ESTIMATE);
+		detail::fftw::_PlanDestroy<real_type>(fPlan);
+		detail::fftw::_PlanRealToComplex<T> planner;
+		fPlan(planner( fNsamples,fRealPtr.get(), fComplexPtr.get(), FFTW_ESTIMATE));
 	}
 
 	RealToComplexFFT<T>& operator=(RealToComplexFFT<T>&& other)
@@ -152,9 +212,7 @@ public:
 		fComplexPtr = std::move(fComplexPtr);
 		fRealPtr    = std::move(fRealPtr);
 
-		fftw_destroy_plan(fPlan);
-
-		detail::fftw::RealToComplexFFTPlanner<T> planner;
+		detail::fftw::_PlanRealToComplex<T> planner;
 
 		fPlan =  planner( fNsamples, fRealPtr.get(), fComplexPtr.get(), FFTW_ESTIMATE);
 
@@ -175,7 +233,7 @@ public:
 		LoadInput(n,data);
 	}
 
-	inline void Execute(){	fftw_execute(fPlan); }
+	inline void Execute(){	detail::fftw::_Execute<real_type>()(fPlan); }
 
 	inline hydra::pair<complex_type*, size_t>
 	GetTransformedData(){
@@ -185,14 +243,14 @@ public:
 
 	inline size_t GetNsamples() const { return fNsamples; }
 
-	~RealToComplexFFT(){ fftw_destroy_plan(fPlan); }
+	~RealToComplexFFT(){ detail::fftw::_PlanDestroy<real_type>()(fPlan); }
 
 private:
 
-	inline std::unique_ptr<complex_type, detail::fftw::DeleterFFT<complex_type> >
+	inline std::unique_ptr<complex_type, detail::fftw::_Free<real_type> >
 	GetComplexPtr() { return std::move(fComplexPtr); }
 
-	inline std::unique_ptr<real_type, detail::fftw::DeleterFFT<real_type> >
+	inline std::unique_ptr<real_type, detail::fftw::_Free<real_type> >
 	GetRealPtr() { return std::move(fRealPtr); }
 
 
@@ -205,8 +263,8 @@ private:
 
 	size_t fNsamples;
 	plan_type fPlan;
-	std::unique_ptr<complex_type, detail::fftw::DeleterFFT<complex_type>> fComplexPtr;
-	std::unique_ptr<real_type   , detail::fftw::DeleterFFT<real_type>>       fRealPtr;
+	std::unique_ptr<complex_type, detail::fftw::_Free<real_type>> fComplexPtr;
+	std::unique_ptr<real_type   , detail::fftw::_Free<real_type>> fRealPtr;
 };
 
 
@@ -226,10 +284,10 @@ public:
 
 	ComplexToRealFFT(size_t nsamples):
 		fNsamples(nsamples),
-		fComplexPtr(reinterpret_cast<complex_type*>(fftw_malloc((fNsamples)))),
-		fRealPtr(reinterpret_cast<real_type*>(fftw_alloc_real(fNsamples*2 - 1)))
+		fComplexPtr(reinterpret_cast<complex_type*>(fftw_malloc(sizeof(complex_type)*(fNsamples)))),
+		fRealPtr(reinterpret_cast<real_type*>(fftw_malloc( sizeof(real_type)*(2*(fNsamples-1)))))
 	{
-		detail::fftw::ComplexToRealFFTPlanner<T> planner;
+		detail::fftw::_PlanComplexToReal<T> planner;
 
 		fPlan= planner( nsamples, fComplexPtr.get(), fRealPtr.get(), FFTW_ESTIMATE);
 
@@ -244,9 +302,9 @@ public:
 		fComplexPtr(std::move(fComplexPtr)),
 		fRealPtr(std::move(fRealPtr))
 	{
-		fftw_destroy_plan(fPlan);
-		fPlan =  fftw_plan_dft_c2r_1d( fNsamples,
-				    fComplexPtr.get(), fRealPtr.get(), FFTW_ESTIMATE);
+		detail::fftw::_PlanDestroy<real_type>(fPlan);
+		detail::fftw::_PlanComplexToReal<T> planner;
+		fPlan( planner( fNsamples, fComplexPtr.get(), fRealPtr.get(), FFTW_ESTIMATE));
 	}
 
 	ComplexToRealFFT<T>& operator=(ComplexToRealFFT<T>&& other)
@@ -257,22 +315,21 @@ public:
 		fComplexPtr = std::move(fComplexPtr);
 		fRealPtr    = std::move(fRealPtr);
 
-		fftw_destroy_plan(fPlan);
+		detail::fftw::_PlanDestroy<real_type>(fPlan);
 
-		detail::fftw::ComplexToRealFFTPlanner<T> planner;
-		fPlan =  planner( fNsamples,
-				 fComplexPtr.get(),fRealPtr.get(), FFTW_ESTIMATE);
+		detail::fftw::_PlanComplexToReal<real_type> planner;
+		fPlan =  planner( fNsamples, fComplexPtr.get(),fRealPtr.get(), FFTW_ESTIMATE);
 
 		 return *this;
 	}
 
 	template<typename Iterable, typename Type =	typename decltype(*std::declval<Iterable&>().begin())::value_type>
-	inline typename std::enable_if<std::is_convertible<fftw_complex*, Type*>::value
+	inline typename std::enable_if<std::is_convertible<complex_type*, Type*>::value
 		    && detail::is_iterable<Iterable>::value, void>::type
 	LoadInputData( Iterable&& container){
 
 		LoadInput(std::forward<Iterable>(container).size(),
-				reinterpret_cast<fftw_complex*>(std::forward<Iterable>(container).data()));
+				reinterpret_cast<complex_type*>(std::forward<Iterable>(container).data()));
 	}
 
 	inline void	LoadInputData(size_t n, const complex_type* data){
@@ -281,23 +338,23 @@ public:
 	}
 
 
-	inline void Execute(){ fftw_execute(fPlan); }
+	inline void Execute(){ detail::fftw::_Execute<real_type>(fPlan); }
 
 	inline hydra::pair<real_type*, size_t>
 	GetTransformedData(){
-		return hydra::make_pair(&fRealPtr.get()[0], (fNsamples*2 - 1) );
+		return hydra::make_pair(&fRealPtr.get()[0], 2*(fNsamples-1) );
 	}
 
 	inline size_t GetNsamples() const { return fNsamples; }
 
-	~ComplexToRealFFT(){ fftw_destroy_plan(fPlan); }
+	~ComplexToRealFFT(){ detail::fftw::_PlanDestroy<real_type>(fPlan); }
 
 private:
 
-	inline std::unique_ptr<complex_type, detail::fftw::DeleterFFT<complex_type> >
+	inline std::unique_ptr<complex_type,  detail::fftw::_Free<real_type> >
 	GetComplexPtr() { return std::move(fComplexPtr); }
 
-	inline std::unique_ptr<real_type, detail::fftw::DeleterFFT<real_type> >
+	inline std::unique_ptr<real_type,  detail::fftw::_Free<real_type> >
 	GetRealPtr() { return std::move(fRealPtr); }
 
 	void LoadInput(size_t n, const complex_type* data ){
@@ -309,8 +366,8 @@ private:
 
 	size_t fNsamples;
 	plan_type fPlan;
-	std::unique_ptr<complex_type, detail::fftw::DeleterFFT<complex_type>> fComplexPtr;
-	std::unique_ptr<real_type   , detail::fftw::DeleterFFT<real_type>>       fRealPtr;
+	std::unique_ptr<complex_type, detail::fftw::_Free<real_type>> fComplexPtr;
+	std::unique_ptr<real_type   , detail::fftw::_Free<real_type>> fRealPtr;
 
 };
 
