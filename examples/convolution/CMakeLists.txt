@@ -1,0 +1,6 @@
+project(examples)
+
+#+++++++++++++++++++++++++++++++++
+# Hydra convolution              |
+#+++++++++++++++++++++++++++++++++
+ADD_HYDRA_EXAMPLE(fft)

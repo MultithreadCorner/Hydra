@@ -19,38 +19,18 @@
  *
  *---------------------------------------------------------------------------*/
 
-
 /*
- * FFT.h
+ * fft.cpp
  *
- *  Created on: Nov 12, 2018
+ *  Created on: 14/11/2018
  *      Author: Antonio Augusto Alves Junior
  */
 
-#ifndef FFT_H_
-#define FFT_H_
+#ifndef FFT_CPP_
+#define FFT_CPP_
 
-namespace hydra {
-
-template<typename FFT_Backend>
-class FFT
-{
-	typedef FFT_Backend::complex_type complex_t;
-	typedef FFT_Backend::real_type       real_t;
-	typedef FFT_Backend::plan_type       plan_t;
-
-
-public:
-
-	FFT()=default;
-
-
-};
+#include <examples/convolution/fft.inl>
 
 
 
-}  // namespace hydra
-
-
-
-#endif /* FFT_H_ */
+#endif /* FFT_CPP_ */

@@ -11,7 +11,7 @@ function(ADD_HYDRA_EXAMPLE target_name)
                    "${target_name}.cu"    
                     OPTIONS -Xcompiler -DHYDRA_DEVICE_SYSTEM=CUDA -DHYDRA_HOST_SYSTEM=CPP)
                     
-                  target_link_libraries("${target_name}_cuda" ${ROOT_LIBRARIES} ${GSL_LIBRARIES})
+                  target_link_libraries("${target_name}_cuda" ${ROOT_LIBRARIES} ${TBB_LIBRARIES}  ${GSL_LIBRARIES} ${FFTW_LIBRARIES})
                  
                   add_dependencies(examples      "${target_name}_cuda")
                 
@@ -29,7 +29,7 @@ function(ADD_HYDRA_EXAMPLE target_name)
                  set_target_properties( "${target_name}_tbb" 
                   PROPERTIES COMPILE_FLAGS "-DHYDRA_HOST_SYSTEM=CPP -DHYDRA_DEVICE_SYSTEM=TBB")
                     
-                 target_link_libraries( "${target_name}_tbb" ${ROOT_LIBRARIES} ${TBB_LIBRARIES}  ${GSL_LIBRARIES})
+                 target_link_libraries( "${target_name}_tbb" ${ROOT_LIBRARIES} ${TBB_LIBRARIES}  ${GSL_LIBRARIES} ${FFTW_LIBRARIES})
                    
                  add_dependencies(examples "${target_name}_tbb")
                        
@@ -47,7 +47,7 @@ function(ADD_HYDRA_EXAMPLE target_name)
                  set_target_properties( "${target_name}_cpp" 
                   PROPERTIES COMPILE_FLAGS "-DHYDRA_HOST_SYSTEM=CPP -DHYDRA_DEVICE_SYSTEM=CPP")
                     
-                 target_link_libraries( "${target_name}_cpp" ${ROOT_LIBRARIES} ${TBB_LIBRARIES} ${GSL_LIBRARIES})
+                 target_link_libraries( "${target_name}_cpp" ${ROOT_LIBRARIES} ${TBB_LIBRARIES} ${GSL_LIBRARIES} ${FFTW_LIBRARIES})
                    
                  add_dependencies(examples "${target_name}_cpp")
                        
@@ -66,7 +66,7 @@ function(ADD_HYDRA_EXAMPLE target_name)
                  set_target_properties( "${target_name}_omp" 
                   PROPERTIES COMPILE_FLAGS "-DHYDRA_HOST_SYSTEM=CPP -DHYDRA_DEVICE_SYSTEM=OMP ${OpenMP_CXX_FLAGS}")
                     
-                 target_link_libraries( "${target_name}_omp" ${ROOT_LIBRARIES} ${OpenMP_CXX_LIBRARIES} ${GSL_LIBRARIES})
+                 target_link_libraries( "${target_name}_omp" ${ROOT_LIBRARIES} ${OpenMP_CXX_LIBRARIES} ${GSL_LIBRARIES} ${FFTW_LIBRARIES})
                    
                  add_dependencies(examples "${target_name}_omp")
                        

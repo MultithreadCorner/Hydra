@@ -72,8 +72,14 @@ endif(ROOT_FOUND)
 find_package(GSL)
 if(GSL_FOUND)
 include_directories(${GSL_INCLUDE_DIRS})
-link_directories(${GSL_LIBRARIES})
 endif(GSL_FOUND)
+
+#-----------------------
+# get FFTW
+find_package(FFTW)
+if(FFTW_FOUND)
+include_directories(${FFTW_INCLUDE_DIRS})
+endif(FFTW_FOUND)
 
 #-----------------------
 #get CUDA
@@ -191,6 +197,7 @@ add_subdirectory(examples/random)
 add_subdirectory(examples/histograming)
 add_subdirectory(examples/async)
 add_subdirectory(examples/misc)
+add_subdirectory(examples/convolution)
 if(Minuit2_FOUND)
 add_subdirectory(examples/phys)
 add_subdirectory(examples/fit)
