@@ -52,6 +52,17 @@ inline __hydra_host__ complex<T>
   imag(T(z.imag()));
 }  
 
+template <typename T>
+template <typename X>
+inline __hydra_host__ complex<T>
+::complex(const X (&z)[2])
+{
+  // The explicit T() is there no prevent Visual Studio from complaining
+  // about potential loss of precision
+  real(T(z[0]));
+  imag(T(z[1]));
+}
+
 
 
 /* --- Compound Assignment Operators --- */

@@ -97,6 +97,17 @@ public:
     inline __hydra_host__
   complex(const std::complex<X> & z);
 
+  /*! This copy constructor copies from a <tt>T[2] with a type that
+     *  is convertible to this \p complex \c value_type.
+     *
+     *  \param z The \p complex to copy from.
+     *
+     *  \tparam X is convertible to \c value_type.
+     */
+    template <typename X>
+      inline __hydra_host__
+    complex(const X (&z)[2]);
+
 
 
   /* --- Compound Assignment Operators --- */
@@ -194,6 +205,7 @@ public:
   /*! Casts this \p complex to a <tt>std::complex</tt> of the same type.
    */
   inline operator std::complex<T>() const { return std::complex<T>(real(),imag()); }
+
 
 private:
   T m_data[2];

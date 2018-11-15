@@ -139,14 +139,14 @@ namespace hydra {
 			struct _Execute;
 
 			template<>	struct _Execute<double> {
-				inline void operator()(fftw_plan plan ){
+				inline void operator()(fftw_plan& plan ){
 
 					fftw_execute(plan);
 				}
 			};
 
 			template<>	struct _Execute<float> {
-				inline void operator()(fftwf_plan plan ){
+				inline void operator()(fftwf_plan& plan ){
 
 					fftwf_execute(plan);
 				}
@@ -174,19 +174,19 @@ class RealToComplexFFT
 	typedef T real_type;
 	typedef PType plan_type;
 
-
 public:
 
 	RealToComplexFFT()=delete;
 
-	RealToComplexFFT(size_t nsamples):
-		fNsamples(nsamples),
-		fComplexPtr(reinterpret_cast<complex_type*>(fftw_malloc(sizeof(complex_type)*(fNsamples/2 +1  )))),
-		fRealPtr(reinterpret_cast<real_type*>(fftw_malloc(sizeof(real_type)*fNsamples)))
+	RealToComplexFFT(int  logical_size):
+		fNReal( logical_size ),
+		fNComplex( logical_size/2+1 ),
+		fComplexPtr(reinterpret_cast<complex_type*>(fftw_malloc(sizeof(complex_type)*(logical_size/2 +1 )))),
+		fRealPtr(reinterpret_cast<real_type*>(fftw_malloc(sizeof(real_type)*logical_size)))
 	{
 		detail::fftw::_PlanRealToComplex<T> planner;
 
-		fPlan =  planner( fNsamples,  fRealPtr.get(), fComplexPtr.get(), FFTW_ESTIMATE);
+		fPlan =  planner( logical_size,  fRealPtr.get(), fComplexPtr.get(), FFTW_ESTIMATE);
 
 		if(fPlan==NULL){
 
@@ -195,26 +195,28 @@ public:
 	}
 
 	RealToComplexFFT(RealToComplexFFT<T>&& other):
-		fNsamples(other.GetNsamples()),
+		fNReal(other.GetNReal()),
+		fNComplex(other.GetNComplex()),
 		fComplexPtr(std::move(fComplexPtr)),
 		fRealPtr(std::move(fRealPtr))
 	{
 		detail::fftw::_PlanDestroy<real_type>(fPlan);
 		detail::fftw::_PlanRealToComplex<T> planner;
-		fPlan(planner( fNsamples,fRealPtr.get(), fComplexPtr.get(), FFTW_ESTIMATE));
+		fPlan(planner( other.GetSize() ,fRealPtr.get(), fComplexPtr.get(), FFTW_ESTIMATE));
 	}
 
 	RealToComplexFFT<T>& operator=(RealToComplexFFT<T>&& other)
 	{
 		if(this ==&other) return *this;
 
-		fNsamples   = other.GetNsamples();
+		fNReal      = other.GetNReal();
+		fNComplex   = other.GetNComplex();
 		fComplexPtr = std::move(fComplexPtr);
 		fRealPtr    = std::move(fRealPtr);
 
 		detail::fftw::_PlanRealToComplex<T> planner;
 
-		fPlan =  planner( fNsamples, fRealPtr.get(), fComplexPtr.get(), FFTW_ESTIMATE);
+		fPlan =  planner( other.GetSize(), fRealPtr.get(), fComplexPtr.get(), FFTW_ESTIMATE);
 
 		 return *this;
 	}
@@ -224,24 +226,27 @@ public:
 	    && detail::is_iterable<Iterable>::value, void>::type
 	LoadInputData( Iterable&& container){
 
-		LoadInput(std::forward<Iterable>(container).size(),
-				HYDRA_EXTERNAL_NS::thrust::raw_pointer_cast(std::forward<Iterable>(container).data()));
+		LoadInput(HYDRA_EXTERNAL_NS::thrust::raw_pointer_cast(std::forward<Iterable>(container).data()));
 	}
 
-	inline void	LoadInputData(size_t n, const real_type* data){
+	inline void	LoadInputData( const real_type* data){
 
-		LoadInput(n,data);
+		LoadInput(data);
 	}
 
 	inline void Execute(){	detail::fftw::_Execute<real_type>()(fPlan); }
 
-	inline hydra::pair<complex_type*, size_t>
+	inline hydra::pair<complex_type*, int>
 	GetTransformedData(){
-		return hydra::make_pair(&fComplexPtr.get()[0], (fNsamples/2 +1) );
+		return hydra::make_pair(&fComplexPtr.get()[0], fNComplex );
 	}
 
+	inline int GetSize() const { return fNReal; }
 
-	inline size_t GetNsamples() const { return fNsamples; }
+	inline int GetNComplex() const {	return fNComplex; }
+
+	inline int GetNReal() const	{ return fNReal; }
+
 
 	~RealToComplexFFT(){ detail::fftw::_PlanDestroy<real_type>()(fPlan); }
 
@@ -254,14 +259,13 @@ private:
 	GetRealPtr() { return std::move(fRealPtr); }
 
 
-	void LoadInput(size_t n, const real_type* data ){
+	void LoadInput(const real_type* data ){
 
-		assert(n <= fNsamples);
-		memcpy(fRealPtr.get(), data, sizeof(real_type)*n);
-		memset(&fRealPtr.get()[n], 0, sizeof(real_type)*(fNsamples - n));
+		memcpy(&fRealPtr.get()[0], data, sizeof(real_type)*fNReal);
 	}
 
-	size_t fNsamples;
+	int fNReal;
+	int fNComplex;
 	plan_type fPlan;
 	std::unique_ptr<complex_type, detail::fftw::_Free<real_type>> fComplexPtr;
 	std::unique_ptr<real_type   , detail::fftw::_Free<real_type>> fRealPtr;
@@ -282,43 +286,47 @@ public:
 
 	ComplexToRealFFT()=delete;
 
-	ComplexToRealFFT(size_t nsamples):
-		fNsamples(nsamples),
-		fComplexPtr(reinterpret_cast<complex_type*>(fftw_malloc(sizeof(complex_type)*(fNsamples)))),
-		fRealPtr(reinterpret_cast<real_type*>(fftw_malloc( sizeof(real_type)*(2*(fNsamples-1)))))
+	ComplexToRealFFT(int logical_size):
+		fNReal( logical_size ),
+		fNComplex( logical_size/2 +1 ),
+		fComplexPtr(reinterpret_cast<complex_type*>(fftw_malloc(sizeof(complex_type)*(logical_size/2+1)))),
+		fRealPtr(reinterpret_cast<real_type*>(fftw_malloc( sizeof(real_type)*(logical_size))))
 	{
+
 		detail::fftw::_PlanComplexToReal<T> planner;
 
-		fPlan= planner( nsamples, fComplexPtr.get(), fRealPtr.get(), FFTW_ESTIMATE);
+		fPlan= planner(logical_size , fComplexPtr.get(), fRealPtr.get(), FFTW_ESTIMATE);
 
 		if(fPlan==NULL){
 
-			throw std::runtime_error("hydra::RealToComplexFFT : can not allocate fftw_plan");
+			throw std::runtime_error("hydra::ComplexToRealFFT : can not allocate fftw_plan");
 		}
 	}
 
 	ComplexToRealFFT(ComplexToRealFFT<T>&& other):
-		fNsamples(other.GetNsamples()),
+		fNReal(other.GetNReal()),
+		fNComplex(other.GetNComplex()),
 		fComplexPtr(std::move(fComplexPtr)),
 		fRealPtr(std::move(fRealPtr))
 	{
 		detail::fftw::_PlanDestroy<real_type>(fPlan);
 		detail::fftw::_PlanComplexToReal<T> planner;
-		fPlan( planner( fNsamples, fComplexPtr.get(), fRealPtr.get(), FFTW_ESTIMATE));
+		fPlan( planner(other.GetSize() , fComplexPtr.get(), fRealPtr.get(), FFTW_ESTIMATE));
 	}
 
 	ComplexToRealFFT<T>& operator=(ComplexToRealFFT<T>&& other)
 	{
 		if(this ==&other) return *this;
 
-		fNsamples   = other.GetNsamples();
+		fNReal      = other.GetNReal();
+		fNComplex   = other.GetNComplex();
 		fComplexPtr = std::move(fComplexPtr);
 		fRealPtr    = std::move(fRealPtr);
 
-		detail::fftw::_PlanDestroy<real_type>(fPlan);
+		detail::fftw::_PlanDestroy<T>(fPlan);
 
-		detail::fftw::_PlanComplexToReal<real_type> planner;
-		fPlan =  planner( fNsamples, fComplexPtr.get(),fRealPtr.get(), FFTW_ESTIMATE);
+		detail::fftw::_PlanComplexToReal<T> planner;
+		fPlan =  planner( other.GetSize() , fComplexPtr.get(), fRealPtr.get(), FFTW_ESTIMATE);
 
 		 return *this;
 	}
@@ -328,26 +336,36 @@ public:
 		    && detail::is_iterable<Iterable>::value, void>::type
 	LoadInputData( Iterable&& container){
 
-		LoadInput(std::forward<Iterable>(container).size(),
-				reinterpret_cast<complex_type*>(std::forward<Iterable>(container).data()));
+		LoadInput(reinterpret_cast<complex_type*>(HYDRA_EXTERNAL_NS::thrust::raw_pointer_cast(std::forward<Iterable>(container).data())));
 	}
 
-	inline void	LoadInputData(size_t n, const complex_type* data){
+	inline void	LoadInputData(const complex_type* data) {
 
-		LoadInput(n,data);
+		LoadInput(data);
 	}
 
 
-	inline void Execute(){ detail::fftw::_Execute<real_type>(fPlan); }
+	inline void Execute(){
+		detail::fftw::_Execute<T>(fPlan);
 
-	inline hydra::pair<real_type*, size_t>
+		//for(int i=0; i<fNReal;i++)
+    	  // std::cout << fRealPtr.get()[i] << std::endl;
+	}
+
+	inline hydra::pair<real_type*, int>
 	GetTransformedData(){
-		return hydra::make_pair(&fRealPtr.get()[0], 2*(fNsamples-1) );
+		return hydra::make_pair(fRealPtr.get(),fNReal  );
 	}
 
-	inline size_t GetNsamples() const { return fNsamples; }
+	inline int GetSize() const { return fNReal; }
+
+	inline int GetNComplex() const {	return fNComplex; }
+
+	inline int GetNReal() const	{ return fNReal; }
 
 	~ComplexToRealFFT(){ detail::fftw::_PlanDestroy<real_type>(fPlan); }
+
+
 
 private:
 
@@ -357,14 +375,16 @@ private:
 	inline std::unique_ptr<real_type,  detail::fftw::_Free<real_type> >
 	GetRealPtr() { return std::move(fRealPtr); }
 
-	void LoadInput(size_t n, const complex_type* data ){
+	void LoadInput(const complex_type* data ){
 
-		assert(n <= fNsamples);
-		memcpy(fComplexPtr.get(), data, sizeof(complex_type)*n);
-		memset(&fComplexPtr.get()[n], 0, sizeof(complex_type)*(fNsamples - n));
+		memcpy( fComplexPtr.get(),data,  sizeof(complex_type)*fNComplex);
+		for(int i=0; i<fNComplex;i++)
+		    	  std::cout << fComplexPtr.get()[i][0]<< " "<<fComplexPtr.get()[i][1] << std::endl;
 	}
 
-	size_t fNsamples;
+
+	int fNReal;
+	int fNComplex;
 	plan_type fPlan;
 	std::unique_ptr<complex_type, detail::fftw::_Free<real_type>> fComplexPtr;
 	std::unique_ptr<real_type   , detail::fftw::_Free<real_type>> fRealPtr;

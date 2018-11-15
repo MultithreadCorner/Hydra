@@ -33,6 +33,7 @@
 #include <assert.h>
 #include <time.h>
 #include <chrono>
+#include <vector>
 
 //hydra
 #include <hydra/FFTCPU.h>
@@ -40,6 +41,7 @@
 #include <hydra/Algorithm.h>
 #include <hydra/Random.h>
 #include <hydra/Zip.h>
+#include <hydra/Complex.h>
 //command line
 #include <tclap/CmdLine.h>
 
@@ -82,24 +84,23 @@ int main(int argv, char** argc)
    auto output_r2c = hydra::make_range(fft_r2c.GetTransformedData().first,
 		   fft_r2c.GetTransformedData().first + fft_r2c.GetTransformedData().second );
 
+   auto fft_c2r = hydra::ComplexToRealFFT<double>( nentries );
 
-
-   auto fft_c2r = hydra::ComplexToRealFFT<double>( fft_r2c.GetTransformedData().second );
-
-   fft_c2r.LoadInputData(fft_r2c.GetTransformedData().second,
-		   fft_r2c.GetTransformedData().first );
+   fft_c2r.LoadInputData( fft_r2c.GetTransformedData().first );
 
    fft_c2r.Execute();
 
    auto output_c2r = hydra::make_range(fft_c2r.GetTransformedData().first,
-		   fft_c2r.GetTransformedData().first + fft_c2r.GetTransformedData().second );
+		   fft_c2r.GetTransformedData().first + nentries  );
 
    auto data = hydra::zip( x, output_r2c, output_c2r );
-   hydra::for_each( data ,
-		   [nentries] __hydra_dual__ ( hydra::tuple<double, double*, double> a){
 
+
+   hydra::for_each( data ,
+		   [nentries] __hydra_dual__ ( hydra::tuple<double, double*, double>  a){
 	   printf("%f | %f:re + %f:im | %f \n", hydra::get<0>(a),  hydra::get<1>(a)[0], hydra::get<1>(a)[1], hydra::get<2>(a)/nentries );
-   });
+
+	  });
 
 
 
