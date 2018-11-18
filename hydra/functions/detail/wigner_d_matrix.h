@@ -55,10 +55,10 @@ inline T wigner_d_matrix(double j, double m, double n, const T theta){
 
 	double mu = ::fabs(rint(m-n));
 	double nu = ::fabs(rint(m+n));
-	unsigned s	= rint(j-0.5*(mu+nu));
+	unsigned s	= ::rint(j-0.5*(mu+nu));
 	int      xi = n>=m ? 1: ::pow(-1,n-m);
 
-	double factor = ::sqrt(::tgamma(s+1)*::tgamma(s+mu+nu+1)/(::tgamma(s+mu+1)*::tgamma(s+nu+1)));
+	double factor = ::sqrt(::tgamma(s+1.0)*::tgamma(s+mu+nu+1.0)/(::tgamma(s+mu+1.0)*::tgamma(s+nu+1.0)));
     // FIXME:
 	// all previous definitions expensive are independent of theta and can be saved if
 	// wigner_d_matrix is promoted to a functor
