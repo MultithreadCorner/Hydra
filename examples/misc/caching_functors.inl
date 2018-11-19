@@ -151,7 +151,8 @@ int main(int argv, char** argc)
 	auto cache = hydra::make_cache(hydra::device::sys, particles.begin(), particles.end(),
 			 angular_distribution, line_shape);
 
-	 //
+
+		 //
 	 std::cout << "After cache building:" << std::endl;
 	 std::cout << "Angular cache: "<< angular_distribution.GetCacheIndex() << std::endl;
 	 std::cout << "Breit-Wigner cache: "<< line_shape.GetCacheIndex() << std::endl;
