@@ -153,11 +153,6 @@ namespace hydra {
 			};
 
 
-
-
-
-
-
 		}  // namespace fftw
 
 	}  // namespace detail
@@ -309,9 +304,9 @@ public:
 		fComplexPtr(std::move(fComplexPtr)),
 		fRealPtr(std::move(fRealPtr))
 	{
-		detail::fftw::_PlanDestroy<real_type>(fPlan);
-		detail::fftw::_PlanComplexToReal<T> planner;
-		fPlan( planner(other.GetSize() , fComplexPtr.get(), fRealPtr.get(), FFTW_ESTIMATE));
+
+		detail::fftw::_PlanComplexToReal<T> planner{};
+		fPlan=  planner(other.GetSize() , fComplexPtr.get(), fRealPtr.get(), FFTW_ESTIMATE);
 	}
 
 	ComplexToRealFFT<T>& operator=(ComplexToRealFFT<T>&& other)
@@ -323,8 +318,7 @@ public:
 		fComplexPtr = std::move(fComplexPtr);
 		fRealPtr    = std::move(fRealPtr);
 
-		detail::fftw::_PlanDestroy<T>(fPlan);
-
+		detail::fftw::_PlanDestroy<real_type>(fPlan);
 		detail::fftw::_PlanComplexToReal<T> planner;
 		fPlan =  planner( other.GetSize() , fComplexPtr.get(), fRealPtr.get(), FFTW_ESTIMATE);
 
@@ -350,6 +344,9 @@ public:
 
 		//for(int i=0; i<fNReal;i++)
     	  // std::cout << fRealPtr.get()[i] << std::endl;
+
+		for(int i=0; i<fNComplex;i++)
+				    	  std::cout << fComplexPtr.get()[i][0]<< " "<<fComplexPtr.get()[i][1] << std::endl;
 	}
 
 	inline hydra::pair<real_type*, int>
@@ -388,6 +385,8 @@ private:
 	plan_type fPlan;
 	std::unique_ptr<complex_type, detail::fftw::_Free<real_type>> fComplexPtr;
 	std::unique_ptr<real_type   , detail::fftw::_Free<real_type>> fRealPtr;
+
+
 
 };
 
