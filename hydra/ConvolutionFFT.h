@@ -29,6 +29,16 @@
 #ifndef CONVOLUTIONFFT_H_
 #define CONVOLUTIONFFT_H_
 
+#include <hydra/detail/Config.h>
+#include <hydra/Types.h>
+#include <hydra/detail/BaseCompositeFunctor.h>
+#include <hydra/detail/utility/Utility_Tuple.h>
+#include <hydra/Parameter.h>
+#include <hydra/Tuple.h>
+#include <hydra/Range.h>
+#include <hydra/FFTW.h>
+#include <hydra/Algorithm.h>
+
 namespace hydra {
 
 namespace detail {
@@ -42,36 +52,164 @@ struct KernelSampler
 
 	KernelSampler(Kernel const& kernel, int nsamples , double delta):
 		fDelta(delta),
-		fNSamples(nsamples),
-		fKernel()
+		fNZero(nsamples),
+		fNMin(0.5*nsamples),
+	    fNMax(1.5*nsamples),
+		fKernel(kernel)
 	{}
 
 	KernelSampler( KernelSampler<Kernel> const& other):
 		fDelta(other.GetDelta()),
-		fNSamples(other.GetNSamples())
+		fNZero(other.GetNZero()),
+		fNMin(other.GetNMin()),
+		fNMax(other.GetNMax()),
+		fKernel(other.GetKernel())
 	{}
 
-	double GetDelta() const {
-		return fDelta;
+	KernelSampler<Kernel>&
+	operator=( KernelSampler<Kernel> const& other)
+	{
+		if(this == &other) return *this;
+
+			fDelta    = other.GetDelta();
+			fNZero    = other.GetNZero();
+			fNMin     = other.GetNMin();
+			fNMax     = other.GetNMax();
+			fKernel   = other.GetKernel();
+
+		 return *this;
 	}
 
-	void SetDelta(double delta) {
-		fDelta = delta;
+
+	double operator()( int index) const	{
+
+        double value=0.0;
+
+		if( 0 <= index && index <=  fNMin ){
+
+			double t =  index*fDelta ;
+
+		    value = fKernel(t);
+		}
+
+		if (  index >=  fNMax ){
+
+			double t =  (index-2*nsamples)*fDelta;
+
+			std::cout << index << " "<< t << std::endl;
+
+			value = fKernel(t);
+
+		}
+
+       return value;
+
 	}
 
-	int GetNSamples() const {
-		return fNSamples;
-	}
+	double GetDelta() const {	return fDelta; }
 
-	void SetNSamples(int nSamples) {
-		fNSamples = nSamples;
-	}
+	void SetDelta(double delta) { fDelta = delta; }
+
+	int GetNZero() const { return fNZero; }
+
+	void SetNZero(int n) { fNZero = n; }
+
+	int GetNMax() const { return fNMax; }
+
+	void SetNMax(int nMax) { fNMax = nMax; }
+
+	int GetNMin() const { return fNMin; }
+
+	void SetNMin(int nMin) { fNMin = nMin; }
+
+	Kernel GetKernel() const { return fKernel;}
+
+	void SetKernel(Kernel kernel) { fKernel = kernel;}
+
 
 private:
+
 	double fDelta;
-	int    fNSamples;
+	int    fNZero;
+	int    fNMin;
+	int    fNMax;
+
 	Kernel fKernel;
 };
+
+
+
+template<typename Functor>
+struct FunctorSampler
+{
+	FunctorSampler()=delete;
+
+	FunctorSampler(Functor const& functor, int nsamples, double min, double delta):
+		fDelta(delta),
+		fMin(min),
+		fNSamples(nsamples),
+		fFunctor(functor)
+	{}
+
+	FunctorSampler( FunctorSampler<Functor> const& other):
+		fDelta(other.GetDelta()),
+		fMin(other.GetMin()),
+		fNSamples(other.GetNSamples()),
+		fFunctor(other.GetKernel())
+	{}
+
+	FunctorSampler<Functor>&
+	operator=( FunctorSampler<Functor> const& other)
+	{
+		if(this == &other) return *this;
+
+			fDelta    = other.GetDelta();
+			fMin      = other.GetNMin();
+			fNSamples = other.GetNSamples();
+			fFunctor  = other.GetKernel();
+
+		 return *this;
+	}
+
+
+	double operator()( int index) const	{
+
+        double value=0.0;
+
+		if( index <  fNSamples ){
+
+			double t =  index*fDelta + fMin;
+
+		    value = fFunctor(t);
+		}
+
+       return value;
+	}
+
+	double GetDelta() const {	return fDelta; }
+
+	void SetDelta(double delta) { fDelta = delta; }
+
+	int GetMin() const { return fMin; }
+
+	void SetMin(int Min) { fMin = Min; }
+
+	Kernel GetFunctor() const { return fFunctor;}
+
+	void SetFunctor(Kernel kernel) { fFunctor = kernel;}
+
+	int GetNSamples() const { return fNSamples; }
+
+	void SetNSamples(int nSamples) { fNSamples = nSamples;}
+
+private:
+
+	double fDelta;
+	double fMin;
+	int    fNSamples;
+	Functor fFunctor;
+};
+
 
 }  // namespace convolution
 
@@ -83,12 +221,13 @@ class ConvolutionFFT
 {
 	ConvolutionFFT()=delete;
 
-	ConvolutionFFT(Functor const& functor,   Kernel const& kernel,
-			double min, double max, unsigned int nsamples ):
+	ConvolutionFFT(Functor const& functor,   Kernel const& kernel, unsigned int nsamples,
+			double min, double max, double buffer_fraction=0.15 ):
 				fFunctor(fucntor),
 				fKernel(kernel),
 				fMax(max),
 				fMin(min),
+				fFraction( buffer_fraction ),
 				fNSamples(nsamples),
 				fKernelSamples(int(2*nsamples),0.0),
 				fFunctorSamples(int(2*nsamples),0.0)
@@ -100,11 +239,23 @@ private:
 
 	void SampleKernel(){
 
+		using detail::convolution::KernelSampler;
+		auto sampler = KernelSampler(fKernel, fNSamples, (fMax -fMin)/(2*fNSamples));
 
-
-
+		hydra::transform( range(0, 2*fNSamples), fKernelSamples, sampler);
 
 	}
+
+	void SampleFunctor(){
+
+		using detail::convolution::FunctorSampler;
+		auto sampler = FunctorSampler(fKernel, fNSamples, (fMax -fMin)/(2*fNSamples));
+
+		hydra::transform( range(0, (2+fFraction)*fNSamples), fFunctorSamples, sampler);
+
+	}
+
+
 
 	std::vector<double> fKernelSamples;
 	std::vector<double> fFunctorSamples;
@@ -112,7 +263,9 @@ private:
 	Kernel  fKernel;
 	double fMax;
 	double fMin;
+	double fFraction;
 	unsigned int fNSamples;
+
 
 };
 
