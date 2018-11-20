@@ -35,8 +35,45 @@ namespace detail {
 
 namespace convolution {
 
+template<typename Kernel>
+struct KernelSampler
+{
+	KernelSampler()=delete;
 
+	KernelSampler(int    nsamples , double delta):
+		fDelta(delta),
+		fNSamples(nsamples)
+	{}
 
+	KernelSampler( KernelSampler<Kernel> const& other):
+		fDelta(delta),
+		fNSamples(nsamples)
+	{}
+
+	double GetDelta() const {
+		return fDelta;
+	}
+
+	void SetDelta(double delta) {
+		fDelta = delta;
+	}
+
+	int GetNSamples() const {
+		return fNSamples;
+	}
+
+	void SetNSamples(int nSamples) {
+		fNSamples = nSamples;
+	}
+
+private:
+	double fDelta;
+	int    fNSamples;
+};
+
+}  // namespace convolution
+
+}  // namespace detail
 
 
 template<typename Functor, typename Kernel>
@@ -61,29 +98,6 @@ private:
 
 	void SampleKernel(){
 
-		unsigned int N_zero = nsamples;
-		unsigned int N_min = N_zero - nsamples/2;
-		unsigned int N_max = N_zero + nsamples/2;
-
-		double delta = (fMax-fMin)/nsamples;
-
-		auto sampler = [ ]__hydra_dual__ (size_t index ){
-
-			if( 0 < index < N_min)
-			{
-				double t =  index*delta ;
-				return fKernel(t);
-			}
-			if else (  index > N_max  ){
-
-				double t =  (index-2*N)*delta;
-				return fKernel(t);
-
-			}
-			else
-				return 0.0;
-
-		};
 
 
 
@@ -100,9 +114,6 @@ private:
 
 };
 
-}  // namespace convolution
-
-}  // namespace detail
 
 }  // namespace hydra
 
