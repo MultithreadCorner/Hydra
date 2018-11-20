@@ -40,14 +40,15 @@ struct KernelSampler
 {
 	KernelSampler()=delete;
 
-	KernelSampler(int    nsamples , double delta):
+	KernelSampler(Kernel const& kernel, int nsamples , double delta):
 		fDelta(delta),
-		fNSamples(nsamples)
+		fNSamples(nsamples),
+		fKernel()
 	{}
 
 	KernelSampler( KernelSampler<Kernel> const& other):
-		fDelta(delta),
-		fNSamples(nsamples)
+		fDelta(other.GetDelta()),
+		fNSamples(other.GetNSamples())
 	{}
 
 	double GetDelta() const {
@@ -69,6 +70,7 @@ struct KernelSampler
 private:
 	double fDelta;
 	int    fNSamples;
+	Kernel fKernel;
 };
 
 }  // namespace convolution
