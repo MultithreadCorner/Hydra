@@ -38,6 +38,11 @@
 #include <hydra/Range.h>
 #include <hydra/FFTW.h>
 #include <hydra/Algorithm.h>
+#include <hydra/Zip.h>
+
+#include <complex>
+#include <utility>
+#include <type_traits>
 
 namespace hydra {
 
@@ -124,7 +129,7 @@ struct KernelSampler
 
 	Kernel GetKernel() const { return fKernel;}
 
-	void SetKernel(Kernel kernel) { fKernel = kernel;}
+	void SetKernel(Kernel const& kernel) { fKernel = kernel;}
 
 
 private:
@@ -136,8 +141,6 @@ private:
 
 	Kernel fKernel;
 };
-
-
 
 template<typename Functor>
 struct FunctorSampler
@@ -194,9 +197,9 @@ struct FunctorSampler
 
 	void SetMin(int Min) { fMin = Min; }
 
-	Kernel GetFunctor() const { return fFunctor;}
+	Functor GetFunctor() const { return fFunctor;}
 
-	void SetFunctor(Kernel kernel) { fFunctor = kernel;}
+	void SetFunctor(Functor const& functor) { fFunctor = functor;}
 
 	int GetNSamples() const { return fNSamples; }
 
@@ -210,60 +213,111 @@ private:
 	Functor fFunctor;
 };
 
+struct MultiplyFFT
+{
+	typedef hydra::complex<double> complex_type;
+
+	__hydra_host__ __hydra_device__
+	inline complex_type
+	operator()(hydra::tuple<complex_type, complex_type> const& points){
+
+		return hydra::get<0>(points)*hydra::get<1>(points);
+	}
+};
 
 }  // namespace convolution
 
 }  // namespace detail
 
 
-template<typename Functor, typename Kernel>
+template<typename Functor, typename Kernel, typename T=double,
+		typename Float=typename std::enable_if<std::is_floating_point<T>>::type>
 class ConvolutionFFT
 {
+	typedef std::complex<T> complex_type;
+
+public:
+
 	ConvolutionFFT()=delete;
 
 	ConvolutionFFT(Functor const& functor,   Kernel const& kernel, unsigned int nsamples,
-			double min, double max, double buffer_fraction=0.15 ):
+			T min, T max):
 				fFunctor(fucntor),
 				fKernel(kernel),
 				fMax(max),
 				fMin(min),
-				fFraction( buffer_fraction ),
-				fNSamples(nsamples),
-				fKernelSamples(int(2*nsamples),0.0),
-				fFunctorSamples(int(2*nsamples),0.0)
+				fNSamples(nsamples)
 	{}
 
 
 
 private:
 
-	void SampleKernel(){
+	void EvalConvFFT(){
 
-		using detail::convolution::KernelSampler;
-		auto sampler = KernelSampler(fKernel, fNSamples, (fMax -fMin)/(2*fNSamples));
+		using hydra::detail::convolution::KernelSampler;
+		using hydra::detail::convolution::FunctorSampler;
 
-		hydra::transform( range(0, 2*fNSamples), fKernelSamples, sampler);
+		std::vector< complex_type > fComplexBuffer(nsamples+1, complex_type(0,0));
+		std::vector<T>  fKernelSamples(2*nsamples,0.0);
+		std::vector<T>  fFunctorSamples(2*nsamples,0.0);
+
+		//sample kernel
+
+		auto kernel_sampler = KernelSampler(fKernel,
+				fNSamples, (fMax -fMin)/(2*fNSamples));
+
+		hydra::transform( range(0, 2*fNSamples), fKernelSamples, kernel_sampler);
+
+		//sample function
+
+		auto functor_sampler = FunctorSampler(fKernel,
+				fNSamples, (fMax -fMin)/(2*fNSamples));
+
+		hydra::transform( range(0, 2*fNSamples), fFunctorSamples, functor_sampler);
+
+		//transform kernel
+
+		auto fft_kernel = hydra::RealToComplexFFT<T>( fKernelSamples.size() );
+		fft_kernel.LoadInputData(fKernelSamples);
+		fft_kernel.Execute();
+
+		auto fft_kernal_output =  fft_kernel.GetOutputData();
+
+		auto fft_kernel_range = make( fft_kernel_output.first,
+				fft_kernel_output.first + fft_kernel_output.second);
+
+		//transform functor
+		auto fft_functor = hydra::RealToComplexFFT<T>( fFunctorSamples.size() );
+		fft_functor.LoadInputData(fFunctorSamples);
+		fft_functor.Execute();
+
+		auto fft_functor_output =  fft_functor.GetOutputData();
+
+		auto fft_functor_range = make( fft_functor_output.first,
+				fft_functor_output.first + fft_functor_output.second);
+
+		//element wise product
+        auto ffts = hydra::zip(fft_functor_range,  fft_kernel_range );
+
+    	hydra::transform( ffts, fComplexBuffer, detail::convolution::MultiplyFFT());
+
+    	//transform product back to real
+    	auto fft_product = hydra::ComplexToRealFFT<T>( fFunctorSamples.size() );
+    	fft_product.LoadInputData(fComplexBuffer);
+    	fft_product.Execute();
+
+    	auto fft_product_output =  fft_product.GetOutputData();
+
+    	auto fft_product_range = make( fft_product_output.first,
+    			fft_product_output.first + fft_product_output.second);
 
 	}
 
-	void SampleFunctor(){
-
-		using detail::convolution::FunctorSampler;
-		auto sampler = FunctorSampler(fKernel, fNSamples, (fMax -fMin)/(2*fNSamples));
-
-		hydra::transform( range(0, (2+fFraction)*fNSamples), fFunctorSamples, sampler);
-
-	}
-
-
-
-	std::vector<double> fKernelSamples;
-	std::vector<double> fFunctorSamples;
 	Functor	fFunctor;
 	Kernel  fKernel;
-	double fMax;
-	double fMin;
-	double fFraction;
+	T fMax;
+	T fMin;
 	unsigned int fNSamples;
 
 
