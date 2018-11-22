@@ -22,7 +22,7 @@
 /*
  * Convolution.h
  *
- *  Created on: 29/08/2018
+ *  Created on: 22/11/2018
  *      Author: Antonio Augusto Alves Junior
  */
 
@@ -36,255 +36,89 @@
 #include <hydra/Parameter.h>
 #include <hydra/Tuple.h>
 #include <hydra/Range.h>
-#include <hydra/CubicSpiline.h>
-#include <hydra/detail/external/thrust/transform_reduce.h>
+#include <hydra/FFTW.h>
+#include <hydra/Algorithm.h>
+#include <hydra/Zip.h>
+#include <hydra/detail/Convolution.inl>
+#include <hydra/Range.h>
+
+#include <complex>
+#include <utility>
+#include <type_traits>
 
 namespace hydra {
 
-namespace detail {
-
-template<typename Functor, typename Kernel>
-struct ConvolutionUnary
-{
-
-	ConvolutionUnary()=delete;
-
-	ConvolutionUnary(Functor functor, Kernel  kernel, double x, double delta,	double min ):
-	fFunctor(functor),
-	fKernel(kernel),
-	fX(x),
-	fDelta(delta),
-	fMin(min)
-	{}
-
-	__hydra_host__ __hydra_device__
-	ConvolutionUnary(ConvolutionUnary<Functor,Kernel> const& other ):
-		fFunctor(other.GetFunctor()),
-		fKernel(other.GetKernel()),
-		fX(other.GetX()),
-		fDelta(other.GetDelta()),
-		fMin(other.GetMin())
-	{}
-
-	__hydra_host__ __hydra_device__
-	ConvolutionUnary<Functor,Kernel>&
-	operator=(ConvolutionUnary<Functor,Kernel> const& other ){
-
-		if(this == &other) return *this;
-
-		fFunctor=other.GetFunctor();
-		fKernel=other.GetKernel();
-		fX=other.GetX();
-		fDelta=other.GetDelta();
-		fMin=other.GetMin();
-
-		return *this;
-
-	}
-
-	__hydra_host__ __hydra_device__
-	double GetDelta() const {
-		return fDelta;
-	}
-
-	__hydra_host__ __hydra_device__
-	Functor GetFunctor() const {
-		return fFunctor;
-	}
-
-	__hydra_host__ __hydra_device__
-	Kernel GetKernel() const {
-		return fKernel;
-	}
-
-	__hydra_host__ __hydra_device__
-	double GetMin() const {
-		return fMin;
-	}
-
-	__hydra_host__ __hydra_device__
-	double GetX() const {
-		return fX;
-	}
-
-	__hydra_host__ __hydra_device__
-	hydra::pair<double, double> operator()(size_t i)
-	{
-
-		double	    x  = i*fDelta + fMin;
-		double	sigma    = fX - x;
-		double  kernel   = fKernel(sigma);
-
-		//printf("i=%d fX=%f x =%f sigma=%f \n", i, fX, x, sigma);
-		 return hydra::make_pair( fFunctor(x)*kernel, kernel );
-	}
-
-
-private:
+template<typename Functor, typename Kernel, typename Iterable,
+     typename T = typename HYDRA_EXTERNAL_NS::thrust::iterator_traits<
+	          decltype(std::declval<Iterable>().begin())>::value_type>
+inline typename std::enable_if< std::is_floating_point<T>::value &&
+            hydra::detail::is_iterable<Iterable>::value, void>::type
+convolute(Functor const& functor, Kernel const& kernel,  T min,  T max, Iterable&& output  ){
 
-	Functor fFunctor;
-	Kernel  fKernel;
-	double fX;
-	double fDelta;
-	double fMin;
+	typedef hydra::complex<double> complex_type;
 
-};
+	int nsamples = std::forward<Iterable>(output).size();
+	     T delta = (max -min)/(2*nsamples);
 
-struct ConvolutionBinary
-{
-	__hydra_host__ __hydra_device__
-    hydra::pair<double, double>
-	operator()(hydra::pair<double, double> const& left, hydra::pair<double, double> const& right){
+	std::vector< complex_type > complex_buffer(nsamples+1, complex_type(0,0));
+	std::vector<T>   kernel_samples(2*nsamples, 0.0);
+	std::vector<T>  functor_samples(2*nsamples, 0.0);
 
-		return hydra::make_pair(left.first + right.first , left.second + right.second );
-	}
-};
 
-}  // namespace detail
+	//sample kernel
 
-template<typename Functor, typename Kernel,typename  System, unsigned int N, unsigned int ArgIndex=0>
-class Convolution;
+	auto kernel_sampler = hydra::detail::convolution::KernelSampler(kernel, nsamples, delta);
 
-template<typename Functor, typename Kernel, hydra::detail::Backend  BACKEND, unsigned int N, unsigned int ArgIndex>
-class Convolution<Functor, Kernel, hydra::detail::BackendPolicy<BACKEND>, N, ArgIndex>:  public BaseCompositeFunctor<Convolution<Functor, Kernel, hydra::detail::BackendPolicy<BACKEND>, N, ArgIndex>, double, Functor, Kernel>
-{
-	typedef hydra::detail::BackendPolicy<BACKEND> system_t;
+	hydra::transform( range(0, 2*fNSamples), fKernelSamples, kernel_sampler);
 
-public:
-	Convolution() = delete;
+	//sample function
 
-	Convolution( Functor const& functor, Kernel const& kernel, double kmin, double kmax):
-		BaseCompositeFunctor< Convolution<Functor, Kernel, hydra::detail::BackendPolicy<BACKEND>,N, ArgIndex>, double, Functor, Kernel>(functor,kernel),
-		fMin(kmin),
-		fMax(kmax),
-		fSpiline()
-		{
-			reconvolute();
-		}
+	auto functor_sampler = hydra::detail::convolution::FunctorSampler(functor,
+			fNSamples, (fMax -fMin)/(2*fNSamples));
 
-	__hydra_host__ __hydra_device__
-	Convolution( Convolution<Functor, Kernel,hydra::detail::BackendPolicy<BACKEND>,N,  ArgIndex> const& other):
-	BaseCompositeFunctor< Convolution<Functor, Kernel, hydra::detail::BackendPolicy<BACKEND>,N,  ArgIndex>, double,Functor, Kernel>(other),
-	fMax(other.GetMax()),
-	fMin(other.GetMin()),
-	fSpiline(other.GetSpiline())
-	{}
+	hydra::transform( range(0, 2*fNSamples), fFunctorSamples, functor_sampler);
 
-	__hydra_host__ __hydra_device__
-	Convolution<Functor,Kernel, hydra::detail::BackendPolicy<BACKEND>,N,  ArgIndex>&
-	operator=(Convolution<Functor,Kernel, hydra::detail::BackendPolicy<BACKEND>,N,  ArgIndex> const& other){
+	//transform kernel
 
-		if(this == &other) return *this;
+	auto fft_kernel = hydra::RealToComplexFFT<T>( fKernelSamples.size() );
+	fft_kernel.LoadInputData(fKernelSamples);
+	fft_kernel.Execute();
 
-		BaseCompositeFunctor<Convolution<Functor,Kernel, hydra::detail::BackendPolicy<BACKEND>,N,  ArgIndex>, double, Functor, Kernel>::operator=(other);
+	auto fft_kernal_output =  fft_kernel.GetOutputData();
 
-		fMax 	 = other.GetMax();
-		fMin 	 = other.GetMin();
-		fSpiline = other.GetSpiline();
+	auto fft_kernel_range = make( fft_kernel_output.first,
+			fft_kernel_output.first + fft_kernel_output.second);
 
-		return *this;
-	}
+	//transform functor
+	auto fft_functor = hydra::RealToComplexFFT<T>( fFunctorSamples.size() );
+	fft_functor.LoadInputData(fFunctorSamples);
+	fft_functor.Execute();
 
-	__hydra_host__ __hydra_device__
-	double GetMax() const {
-		return fMax;
-	}
+	auto fft_functor_output =  fft_functor.GetOutputData();
 
-	__hydra_host__ __hydra_device__
-	void SetMax(double kMax) {
-		fMax = kMax;
-	}
+	auto fft_functor_range = make( fft_functor_output.first,
+			fft_functor_output.first + fft_functor_output.second);
 
-	__hydra_host__ __hydra_device__
-	double GetMin() const {
-		return fMin;
-	}
+	//element wise product
+	auto ffts = hydra::zip(fft_functor_range,  fft_kernel_range );
 
-	__hydra_host__ __hydra_device__
-	void SetMin(double kMin) {
-		fMin = kMin;
-	}
+	hydra::transform( ffts, fComplexBuffer, detail::convolution::MultiplyFFT());
 
-	const CubicSpiline<2*N+1>& GetSpiline() const {
-		return fSpiline;
-	}
+	//transform product back to real
+	auto fft_product = hydra::ComplexToRealFFT<T>( fFunctorSamples.size() );
+	fft_product.LoadInputData(fComplexBuffer);
+	fft_product.Execute();
 
-	virtual void Update() override {
+	auto fft_product_output =  fft_product.GetOutputData();
 
-	 reconvolute();
-
-	}
-
-	template<typename T>
-     __hydra_host__ __hydra_device__
-	inline double Evaluate(unsigned int n, T*x) const	{
-
-
-		GReal_t X  = x[ArgIndex];
-
-		return fSpiline(X);
-	}
-
-
-	template<typename T>
-     __hydra_host__ __hydra_device__
-	inline double Evaluate(T& x) const {
-
-		GReal_t X  = get<ArgIndex>(x);
-
-		return fSpiline(X);
-	}
-
-	virtual ~Convolution()=default;
-
-
-
-private:
-
-     void reconvolute(){
-
-    	 GReal_t delta = (fMax - fMin);
-         GReal_t _min =  fMin - 0.5*delta;
-         GReal_t _max =  fMax + 0.5*delta;
-         GReal_t _epsilon =  (-_min + _max)/(N*2+1);
-
-    	 for(unsigned int i=0 ; i<N*2+1; i++){
-
-    		 GReal_t X_i   = i*_epsilon + _min;
-
-    		 hydra::pair<double, double> init(0.0, 0.0);
-
-    		 auto index = hydra::range(0,N*2+1);
-
-    		 hydra::pair<double, double> result = HYDRA_EXTERNAL_NS::thrust::transform_reduce(system_t(), index.begin() ,index.end(),
-    				 detail::ConvolutionUnary<Functor, Kernel>(HYDRA_EXTERNAL_NS::thrust::get<0>(this->GetFunctors()),
-    						    		HYDRA_EXTERNAL_NS::thrust::get<1>(this->GetFunctors()),
-    						    		     X_i, _epsilon, _min ) ,init, detail::ConvolutionBinary() );
-
-    		 fSpiline.SetX(i, X_i);
-    		 fSpiline.SetD(i, result.first);
-
-    	 }
-     }
-
-    CubicSpiline<N*2+1> fSpiline;
-
-	GReal_t fMax;
-	GReal_t fMin;
-
-};
-
-template< unsigned int N, unsigned int ArgIndex, typename Functor, typename Kernel, detail::Backend  BACKEND>
-auto convolute( detail::BackendPolicy<BACKEND> backend, Functor const& functor, Kernel const& kernel, double kmin, double kmax)
--> Convolution<Functor, Kernel,hydra::detail::BackendPolicy<BACKEND> , N, ArgIndex>
-{
-
-	return Convolution<Functor, Kernel, detail::BackendPolicy<BACKEND> , N, ArgIndex>( functor, kernel,kmin,kmax);
+	auto fft_product_range = make( fft_product_output.first,
+			fft_product_output.first + fft_product_output.second);
 
 }
 
 
 }  // namespace hydra
+
 
 
 #endif /* CONVOLUTION_H_ */
