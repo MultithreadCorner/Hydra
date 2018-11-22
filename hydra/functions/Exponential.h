@@ -76,14 +76,14 @@ public:
 	__hydra_host__ __hydra_device__
 	inline double Evaluate(unsigned int, T* x)  const	{
 
-		return  CHECK_VALUE(exp(x[ ArgIndex]*_par[0] ),"par[0]=%f ", _par[0] ) ;
+		return  CHECK_VALUE(::exp(x[ ArgIndex]*_par[0] ),"par[0]=%f ", _par[0] ) ;
 	}
 
 	template<typename T>
 	__hydra_host__ __hydra_device__ inline
 	double Evaluate(T x)  const	{
 
-		return CHECK_VALUE(exp(get<ArgIndex>(x)*_par[0] ),"par[0]=%f ", _par[0] );
+		return CHECK_VALUE(::exp(get<ArgIndex>(x)*_par[0] ),"par[0]=%f ", _par[0] );
 	}
 
 };
@@ -98,7 +98,7 @@ protected:
 	EvalFormula( Exponential<ArgIndex>const& functor, double LowerLimit, double UpperLimit )const
 	{
 		double tau = functor[0];
-		double r   =  (exp(UpperLimit*tau) - exp(LowerLimit*tau))/tau ;
+		double r   =  (::exp(UpperLimit*tau) - ::exp(LowerLimit*tau))/tau ;
 		return std::make_pair( CHECK_VALUE(r, "par[0]=%f ", tau ) , 0.0);
 
 	}

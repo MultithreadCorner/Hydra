@@ -68,18 +68,18 @@ namespace hydra {
 
 		namespace tuple {
 
-		template< typename T, unsigned int N, unsigned int I=0>
-		inline typename std::enable_if< (I == N), void  >::type
-		hash_tuple_helper(std::size_t&, T const&){ }
+			template< typename T, unsigned int N, unsigned int I>
+			inline typename std::enable_if< (I == N), void  >::type
+			hash_tuple_helper(std::size_t&, T const&){ }
 
-		template< typename T, unsigned int N, unsigned int I=0>
-		inline typename std::enable_if< (I < N), void  >::type
-		hash_tuple_helper(std::size_t& seed, T const& _tuple){
+			template< typename T, unsigned int N, unsigned int I=0>
+			inline typename std::enable_if< (I < N), void  >::type
+			hash_tuple_helper(std::size_t& seed, T const& _tuple){
 
-			hydra::detail::hash_combine(seed, hydra::get<I>(_tuple));
+				hydra::detail::hash_combine(seed, hydra::get<I>(_tuple));
 
-			tuple::hash_tuple_helper<T,N, I+1>(seed, _tuple  );
-		}
+				tuple::hash_tuple_helper<T,N, I+1>(seed, _tuple  );
+			}
 
 
 		}  // namespace tuple

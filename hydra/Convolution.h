@@ -30,89 +30,84 @@
 #define CONVOLUTION_H_
 
 #include <hydra/detail/Config.h>
+#include <hydra/cpp/System.h>
 #include <hydra/Types.h>
-#include <hydra/detail/BaseCompositeFunctor.h>
-#include <hydra/detail/utility/Utility_Tuple.h>
-#include <hydra/Parameter.h>
 #include <hydra/Tuple.h>
 #include <hydra/Range.h>
 #include <hydra/FFTW.h>
 #include <hydra/Algorithm.h>
 #include <hydra/Zip.h>
 #include <hydra/detail/Convolution.inl>
-#include <hydra/Range.h>
 
-#include <complex>
+#include <hydra/Complex.h>
+
 #include <utility>
 #include <type_traits>
 
 namespace hydra {
 
 template<typename Functor, typename Kernel, typename Iterable,
-     typename T = typename HYDRA_EXTERNAL_NS::thrust::iterator_traits<
-	          decltype(std::declval<Iterable>().begin())>::value_type>
-inline typename std::enable_if< std::is_floating_point<T>::value &&
-            hydra::detail::is_iterable<Iterable>::value, void>::type
+     typename T = typename HYDRA_EXTERNAL_NS::thrust::iterator_traits<decltype(std::declval<Iterable>().begin())>::value_type>
+inline typename std::enable_if< std::is_floating_point<T>::value && hydra::detail::is_iterable<Iterable>::value, void>::type
 convolute(Functor const& functor, Kernel const& kernel,  T min,  T max, Iterable&& output  ){
 
 	typedef hydra::complex<double> complex_type;
 
 	int nsamples = std::forward<Iterable>(output).size();
-	     T delta = (max -min)/(2*nsamples);
+	     T delta = (max - min)/(2*nsamples);
 
-	std::vector< complex_type > complex_buffer(nsamples+1, complex_type(0,0));
-	std::vector<T>   kernel_samples(2*nsamples, 0.0);
-	std::vector<T>  functor_samples(2*nsamples, 0.0);
+	hydra::cpp::vector< complex_type > complex_buffer(nsamples+1, complex_type(0,0));
+	hydra::cpp::vector<T>   kernel_samples(2*nsamples, 0.0);
+	hydra::cpp::vector<T>  functor_samples(2*nsamples, 0.0);
 
 
-	//sample kernel
+	// sample kernel
+	auto kernel_sampler = hydra::detail::convolution::KernelSampler<Kernel>(kernel, nsamples, delta);
 
-	auto kernel_sampler = hydra::detail::convolution::KernelSampler(kernel, nsamples, delta);
+	hydra::transform( range(0, 2*nsamples), kernel_samples, kernel_sampler);
 
-	hydra::transform( range(0, 2*fNSamples), fKernelSamples, kernel_sampler);
+	// sample function
+	auto functor_sampler = hydra::detail::convolution::FunctorSampler<Functor>(functor, nsamples,  min, delta);
 
-	//sample function
-
-	auto functor_sampler = hydra::detail::convolution::FunctorSampler(functor,
-			fNSamples, (fMax -fMin)/(2*fNSamples));
-
-	hydra::transform( range(0, 2*fNSamples), fFunctorSamples, functor_sampler);
+	hydra::transform( range(0, 2*nsamples), functor_samples, functor_sampler);
 
 	//transform kernel
+	auto fft_kernel = hydra::RealToComplexFFT<T>( kernel_samples.size());
 
-	auto fft_kernel = hydra::RealToComplexFFT<T>( fKernelSamples.size() );
-	fft_kernel.LoadInputData(fKernelSamples);
+	fft_kernel.LoadInputData(kernel_samples);
 	fft_kernel.Execute();
 
-	auto fft_kernal_output =  fft_kernel.GetOutputData();
-
-	auto fft_kernel_range = make( fft_kernel_output.first,
+	auto fft_kernel_output =  fft_kernel.GetOutputData();
+	auto fft_kernel_range  = make_range( fft_kernel_output.first,
 			fft_kernel_output.first + fft_kernel_output.second);
 
 	//transform functor
-	auto fft_functor = hydra::RealToComplexFFT<T>( fFunctorSamples.size() );
-	fft_functor.LoadInputData(fFunctorSamples);
+	auto fft_functor = hydra::RealToComplexFFT<T>( functor_samples.size() );
+
+	fft_functor.LoadInputData(functor_samples);
 	fft_functor.Execute();
 
 	auto fft_functor_output =  fft_functor.GetOutputData();
-
-	auto fft_functor_range = make( fft_functor_output.first,
+	auto fft_functor_range  = make_range( fft_functor_output.first,
 			fft_functor_output.first + fft_functor_output.second);
 
 	//element wise product
 	auto ffts = hydra::zip(fft_functor_range,  fft_kernel_range );
 
-	hydra::transform( ffts, fComplexBuffer, detail::convolution::MultiplyFFT());
+	hydra::transform( ffts, complex_buffer, detail::convolution::MultiplyFFT());
 
 	//transform product back to real
-	auto fft_product = hydra::ComplexToRealFFT<T>( fFunctorSamples.size() );
-	fft_product.LoadInputData(fComplexBuffer);
+	auto fft_product = hydra::ComplexToRealFFT<T>( complex_buffer.size() );
+
+	fft_product.LoadInputData(complex_buffer);
 	fft_product.Execute();
 
 	auto fft_product_output =  fft_product.GetOutputData();
 
-	auto fft_product_range = make( fft_product_output.first,
-			fft_product_output.first + fft_product_output.second);
+	auto fft_product_range = make_range( fft_product_output.first,
+			fft_product_output.first + nsamples);
+
+	hydra::copy(fft_product_range,  std::forward<Iterable>(output));
 
 }
 

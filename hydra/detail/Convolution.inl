@@ -31,7 +31,6 @@
 
 #include <hydra/detail/Config.h>
 #include <hydra/Types.h>
-#include <hydra/detail/BaseCompositeFunctor.h>
 #include <hydra/detail/utility/Utility_Tuple.h>
 #include <hydra/Parameter.h>
 #include <hydra/Tuple.h>
@@ -39,8 +38,8 @@
 #include <hydra/FFTW.h>
 #include <hydra/Algorithm.h>
 #include <hydra/Zip.h>
+#include <hydra/Complex.h>
 
-#include <complex>
 #include <utility>
 #include <type_traits>
 
@@ -90,7 +89,7 @@ struct KernelSampler
 
         double value=0.0;
 
-		if( 0 <= index && index <=  fNMin ){
+		if( (0 <= index) && (index <=  fNMin) ){
 
 			double t =  index*fDelta ;
 
@@ -99,9 +98,7 @@ struct KernelSampler
 
 		if (  index >=  fNMax ){
 
-			double t =  (index-2*nsamples)*fDelta;
-
-			std::cout << index << " "<< t << std::endl;
+			double t =  (index-2*fNZero)*fDelta;
 
 			value = fKernel(t);
 
@@ -158,7 +155,7 @@ struct FunctorSampler
 		fDelta(other.GetDelta()),
 		fMin(other.GetMin()),
 		fNSamples(other.GetNSamples()),
-		fFunctor(other.GetKernel())
+		fFunctor(other.GetFunctor())
 	{}
 
 	FunctorSampler<Functor>&
@@ -167,9 +164,9 @@ struct FunctorSampler
 		if(this == &other) return *this;
 
 			fDelta    = other.GetDelta();
-			fMin      = other.GetNMin();
+			fMin      = other.GetMin();
 			fNSamples = other.GetNSamples();
-			fFunctor  = other.GetKernel();
+			fFunctor  = other.GetFunctor();
 
 		 return *this;
 	}
