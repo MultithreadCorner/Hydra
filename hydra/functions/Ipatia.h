@@ -221,7 +221,7 @@ private:
 		double I1a = 0;
 		double I1b = 0;
 
-		double delta = (l<-1.0)? sigma *sqrt(-2.0 -2.*l) : sigma;
+		double delta = (l<-1.0)? sigma*::sqrt(-2.0 -2.*l) : sigma;
 
 		double delta2 = delta*delta;
 

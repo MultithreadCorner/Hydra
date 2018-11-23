@@ -41,7 +41,7 @@
 //hydra
 #include <hydra/Convolution.h>
 #include <hydra/functions/Gaussian.h>
-#include <hydra/functions/UniformShape.h>
+#include <hydra/functions/Ipatia.h>
 
 //command line
 #include <tclap/CmdLine.h>
@@ -87,8 +87,8 @@ int main(int argv, char** argc)
 	//-----------------
 	// some definitions
 
-	double min=100;
-	double max=200;
+	double min=423.677;;
+	double max=580.677;
 
 	auto nsamples = nentries;
 	//===========================
@@ -97,7 +97,7 @@ int main(int argv, char** argc)
 
 	// gaussian
 	auto mean   = hydra::Parameter::Create( "mean").Value(0.0).Error(0.0001);
-	auto sigma  = hydra::Parameter::Create("sigma").Value(1.25).Error(0.0001);
+	auto sigma  = hydra::Parameter::Create("sigma").Value(0.03).Error(0.0001);
 
 	hydra::Gaussian<> gaussian_kernel(mean,  sigma);
 
@@ -105,10 +105,24 @@ int main(int argv, char** argc)
 	// signals
 	//---------------------------
 
-	auto A  = hydra::Parameter::Create("A").Value(130.0).Error(0.0001);
-	auto B  = hydra::Parameter::Create("B").Value(175.0).Error(0.0001);
 
-	hydra::UniformShape<> uniform_signal(A,B);
+	//Ipatia
+	//core
+	auto mu    = hydra::Parameter::Create("mu").Value(493.677).Error(0.0001);
+	auto gamma = hydra::Parameter::Create("sigma").Value(17.5).Error(0.0001);
+	//left tail
+	auto L1    = hydra::Parameter::Create("L1").Value(0.199).Error(0.0001); // decay speed
+	auto N1    = hydra::Parameter::Create("N1").Value(14.0).Error(0.0001); // tail deepness
+	//right tail
+	auto L2    = hydra::Parameter::Create("L2").Value(0.62).Error(0.0001);// decay speed
+	auto N2    = hydra::Parameter::Create("N2").Value(0.5).Error(0.0001);// tail deepness
+	//peakness
+	auto alfa  = hydra::Parameter::Create("alfa").Value(-1.01).Error(0.0001);
+	auto beta  = hydra::Parameter::Create("beta").Value(-0.03).Error(0.0001);
+
+
+	//ipatia function evaluating on the first argument
+	auto signal = hydra::Ipatia<>(mu, gamma,L1,N1,L2,N2,alfa,beta);
 
 
 	//===========================
@@ -117,17 +131,38 @@ int main(int argv, char** argc)
 	std::vector<double> conv_result(nsamples, 0.0);
 
 	//uniform (x) gaussian kernel
-	hydra::convolute(uniform_signal, gaussian_kernel, min, max,  conv_result );
+
+	auto start_d = std::chrono::high_resolution_clock::now();
+
+	hydra::convolute(signal, gaussian_kernel, min, max,  conv_result );
+
+	auto end_d = std::chrono::high_resolution_clock::now();
+
+	std::chrono::duration<double, std::milli> elapsed_d = end_d - start_d;
+	//time
+	std::cout << "-----------------------------------------"<<std::endl;
+	std::cout << "| Time (ms) ="<< elapsed_d.count()    <<std::endl;
+	std::cout << "-----------------------------------------"<<std::endl;
+
+
 
 	//------------------------
 	//------------------------
 #ifdef _ROOT_AVAILABLE_
 	//fill histograms
-	TH1D *hist     = new TH1D("signal", "signal", nsamples+1, min, max);
+	TH1D *hist_convol   = new TH1D("convol","convolution", nsamples+1, min, max);
+	TH1D *hist_signal   = new TH1D("signal", "signal", nsamples+1, min, max);
+	TH1D *hist_kernel   = new TH1D("kernel", "kernel", nsamples+1, min, max);
+
 
 	for(size_t i=1;  i<nsamples+1; i++){
+		double x =hist_convol->GetBinCenter(i);
 
-		hist->SetBinContent(i, conv_result[i] );
+		hist_convol->SetBinContent(i, conv_result[i-1] );
+		hist_signal->SetBinContent(i, signal(x) );
+		hist_kernel->SetBinContent(i, gaussian_kernel((max-min)/2-i*(hist_convol->GetBinWidth(0))) );
+
+
 	}
 #endif //_ROOT_AVAILABLE_
 
@@ -141,12 +176,32 @@ int main(int argv, char** argc)
 
 	//----------------------------
 	//draw histograms
-	TCanvas* canvas = new TCanvas("canvas" ,"canvas", 500, 500);
+	TCanvas* canvas = new TCanvas("canvas" ,"canvas", 1000, 1000);
+	canvas->Divide(2,2);
 
-	hist->SetStats(0);
-	hist->SetLineColor(3);
-	hist->SetLineWidth(2);
-	hist->DrawNormalized("histl");
+	canvas->cd(1);
+	hist_convol->SetStats(0);
+	hist_convol->SetLineColor(3);
+	hist_convol->SetLineWidth(1);
+	hist_convol->Draw("histl");
+
+	canvas->cd(2);
+	hist_signal->SetStats(0);
+	hist_signal->SetLineColor(2);
+	hist_signal->SetLineWidth(1);
+	hist_signal->Draw("histl");
+
+	canvas->cd(3);
+	hist_kernel->SetStats(0);
+	hist_kernel->SetLineColor(5);
+	hist_kernel->SetLineWidth(2);
+	hist_kernel->Draw("histl");
+
+	canvas->cd(4);
+	hist_convol->DrawNormalized("histl");
+	hist_signal->DrawNormalized("histlsame");
+
+
 
 	myapp->Run();
 

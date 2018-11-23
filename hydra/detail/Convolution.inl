@@ -39,7 +39,7 @@
 #include <hydra/Algorithm.h>
 #include <hydra/Zip.h>
 #include <hydra/Complex.h>
-
+#include <functional>
 #include <utility>
 #include <type_traits>
 
@@ -224,7 +224,7 @@ struct MultiplyFFT
 };
 
 template<typename T>
-struct NormalizeFFT
+struct NormalizeFFT: public  std::unary_function<T,T>
 {
 	NormalizeFFT()=delete;
 
@@ -248,7 +248,7 @@ struct NormalizeFFT
 	__hydra_host__ __hydra_device__
 	inline T operator()(T& value){
 
-		return 0.0;//value*fNorm;
+		return value/fNorm;
 	}
 
 	int GetNorm() const {

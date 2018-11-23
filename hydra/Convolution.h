@@ -105,11 +105,12 @@ convolute(Functor const& functor, Kernel const& kernel,  T min,  T max, Iterable
 	fft_product.Execute();
 
 	auto fft_product_output =  fft_product.GetOutputData();
-	auto normalize_fft =  detail::convolution::NormalizeFFT<T>( 2*nsamples);
+	auto normalize_fft =  detail::convolution::NormalizeFFT<T>(2*nsamples*2*nsamples);
 
-	auto fft_product_range = make_range(
-			HYDRA_EXTERNAL_NS::thrust::make_transform_iterator( fft_product_output.first,normalize_fft),
-			HYDRA_EXTERNAL_NS::thrust::make_transform_iterator(	fft_product_output.first + nsamples,normalize_fft));
+    auto first = HYDRA_EXTERNAL_NS::thrust::make_transform_iterator( fft_product_output.first,normalize_fft);
+    auto last  = HYDRA_EXTERNAL_NS::thrust::make_transform_iterator(fft_product_output.first + nsamples,normalize_fft);
+
+	auto fft_product_range = make_range(first, last);
 
 	hydra::copy(fft_product_range,  std::forward<Iterable>(output));
 
