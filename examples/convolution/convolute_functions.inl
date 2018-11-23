@@ -97,7 +97,7 @@ int main(int argv, char** argc)
 
 	// gaussian
 	auto mean   = hydra::Parameter::Create( "mean").Value(0.0).Error(0.0001);
-	auto sigma  = hydra::Parameter::Create("sigma").Value(0.25).Error(0.0001);
+	auto sigma  = hydra::Parameter::Create("sigma").Value(1.25).Error(0.0001);
 
 	hydra::Gaussian<> gaussian_kernel(mean,  sigma);
 
@@ -125,7 +125,7 @@ int main(int argv, char** argc)
 	//fill histograms
 	TH1D *hist     = new TH1D("signal", "signal", nsamples+1, min, max);
 
-	for(size_t i=1;  i<101; i++){
+	for(size_t i=1;  i<nsamples+1; i++){
 
 		hist->SetBinContent(i, conv_result[i] );
 	}

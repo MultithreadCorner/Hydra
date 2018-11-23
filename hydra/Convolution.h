@@ -38,8 +38,9 @@
 #include <hydra/Algorithm.h>
 #include <hydra/Zip.h>
 #include <hydra/detail/Convolution.inl>
-
 #include <hydra/Complex.h>
+
+#include <thrust/iterator/transform_iterator.h>
 
 #include <utility>
 #include <type_traits>
@@ -54,7 +55,7 @@ convolute(Functor const& functor, Kernel const& kernel,  T min,  T max, Iterable
 	typedef hydra::complex<double> complex_type;
 
 	int nsamples = std::forward<Iterable>(output).size();
-	     T delta = (max - min)/(2*nsamples);
+	     T delta = (max - min)/(nsamples);
 
 	hydra::cpp::vector< complex_type > complex_buffer(nsamples+1, complex_type(0,0));
 	hydra::cpp::vector<T>   kernel_samples(2*nsamples, 0.0);
@@ -94,18 +95,21 @@ convolute(Functor const& functor, Kernel const& kernel,  T min,  T max, Iterable
 	//element wise product
 	auto ffts = hydra::zip(fft_functor_range,  fft_kernel_range );
 
-	hydra::transform( ffts, complex_buffer, detail::convolution::MultiplyFFT());
+	hydra::transform( ffts, complex_buffer, detail::convolution::MultiplyFFT<T>());
 
 	//transform product back to real
-	auto fft_product = hydra::ComplexToRealFFT<T>( complex_buffer.size() );
+
+	auto fft_product = hydra::ComplexToRealFFT<T>( 2*nsamples );
 
 	fft_product.LoadInputData(complex_buffer);
 	fft_product.Execute();
 
 	auto fft_product_output =  fft_product.GetOutputData();
+	auto normalize_fft =  detail::convolution::NormalizeFFT<T>( 2*nsamples);
 
-	auto fft_product_range = make_range( fft_product_output.first,
-			fft_product_output.first + nsamples);
+	auto fft_product_range = make_range(
+			HYDRA_EXTERNAL_NS::thrust::make_transform_iterator( fft_product_output.first,normalize_fft),
+			HYDRA_EXTERNAL_NS::thrust::make_transform_iterator(	fft_product_output.first + nsamples,normalize_fft));
 
 	hydra::copy(fft_product_range,  std::forward<Iterable>(output));
 

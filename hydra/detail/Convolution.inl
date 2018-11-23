@@ -210,9 +210,10 @@ private:
 	Functor fFunctor;
 };
 
+template<typename T>
 struct MultiplyFFT
 {
-	typedef hydra::complex<double> complex_type;
+	typedef hydra::complex<T> complex_type;
 
 	__hydra_host__ __hydra_device__
 	inline complex_type
@@ -221,6 +222,49 @@ struct MultiplyFFT
 		return hydra::get<0>(points)*hydra::get<1>(points);
 	}
 };
+
+template<typename T>
+struct NormalizeFFT
+{
+	NormalizeFFT()=delete;
+
+	NormalizeFFT(int norm):
+		fNorm(norm){}
+
+	NormalizeFFT( NormalizeFFT<T> const& other):
+	fNorm(other.GetNorm())
+	{}
+
+	inline NormalizeFFT<T>&
+	operator=( NormalizeFFT<T> const& other){
+
+		if(this == &other) return *this;
+
+		fNorm =other.GetNorm();
+
+		return *this;
+	}
+
+	__hydra_host__ __hydra_device__
+	inline T operator()(T& value){
+
+		return 0.0;//value*fNorm;
+	}
+
+	int GetNorm() const {
+		return fNorm;
+	}
+
+	void SetNorm(int norm) {
+		fNorm = norm;
+	}
+
+private:
+
+	int fNorm;
+};
+
+
 
 }  // namespace convolution
 

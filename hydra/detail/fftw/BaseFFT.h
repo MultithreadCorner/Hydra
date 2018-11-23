@@ -240,7 +240,7 @@ private:
 	{
 		assert(size <= fNInput);
 		memcpy(&fInput.get()[0], data, sizeof(InputType)*size);
-		memset(&fInput.get()[size], 0, sizeof(InputType)*(fNInput - size));
+		memset(&fInput.get()[size], 0, sizeof(InputType)*( fNInput-size  ));
 	}
 
 	unsigned fFlags;
