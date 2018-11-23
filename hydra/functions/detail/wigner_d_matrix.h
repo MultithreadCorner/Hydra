@@ -29,7 +29,9 @@
 #ifndef WIGNER_D_MATRIX_H_
 #define WIGNER_D_MATRIX_H_
 
-
+#define RST_ANSI  "\x1B[0m"
+#define RED_ANSI  "\x1B[31m"
+#define FRED_ANSI(x) RED_ANSI x RST_ANSI
 
 
 
@@ -52,6 +54,11 @@ template<typename T>
 __hydra_host__ __hydra_device__
 inline T wigner_d_matrix(double j, double m, double n, const T theta){
 
+	if(!(m+j>=0 && n+j>=0 && m-j<=0 && n-j<=0 && j>0)) 	
+	{
+	    std::cout << FRED_ANSI("Run-time ERROR: ") << "[hydra::wigner_d_matrix] : Wrong parameters combination" << std::endl; 
+	    assert(false);
+	}
 
 	double mu = ::fabs(rint(m-n));
 	double nu = ::fabs(rint(m+n));
