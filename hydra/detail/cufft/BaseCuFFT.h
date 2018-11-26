@@ -19,16 +19,16 @@
  *
  *---------------------------------------------------------------------------*/
 
+
 /*
- * BaseFFT.h
+ * BaseCuFFT.h
  *
- *  Created on: 17/11/2018
+ *  Created on: Nov 26, 2018
  *      Author: Antonio Augusto Alves Junior
  */
 
-#ifndef BASEFFTW_H_
-#define BASEFFTW_H_
-
+#ifndef BASECUFFT_H_
+#define BASECUFFT_H_
 
 #include <hydra/detail/Config.h>
 #include <hydra/detail/BackendPolicy.h>
@@ -42,9 +42,8 @@
 #include <utility>
 #include <stdexcept>
 #include <type_traits>
-//#include <complex.h>
 
-//FFTW3
+//FFTW
 #include <fftw3.h>
 
 //Hydra wrappers
@@ -53,7 +52,7 @@
 namespace hydra {
 
 template<typename InputType, typename OutputType, typename PlannerType >
-class BaseFFTW
+class BaseCuFFT
 {
 
 protected:
@@ -63,9 +62,9 @@ protected:
 
 public:
 
-	BaseFFTW()=delete;
+	BaseCuFFT()=delete;
 
-	BaseFFTW(int input_size, int output_size, unsigned flags=FFTW_ESTIMATE, int sign=0):
+	BaseCuFFT(int input_size, int output_size, unsigned flags=FFTW_ESTIMATE, int sign=0):
 		fFlags(flags),
 		fSign(sign),
 		fNInput(input_size ),
@@ -84,7 +83,7 @@ public:
 		}
 	}
 
-	BaseFFTW( BaseFFTW<InputType,OutputType,PlannerType>&& other):
+	BaseCuFFT( BaseCuFFT<InputType,OutputType,PlannerType>&& other):
 		fFlags(other.GetFlags()),
 		fSign(other.GetSign()),
 		fNInput(other.GetNInput()),
@@ -97,8 +96,8 @@ public:
 		fPlan = fPlanner( other.GetSize() , fInput.get(), fOutput.get(), fFlags, fSign);
 	}
 
-	BaseFFTW<InputType,OutputType,PlannerType>&
-	operator=(BaseFFTW<InputType,OutputType,PlannerType>&& other)
+	BaseCuFFT<InputType,OutputType,PlannerType>&
+	operator=(BaseCuFFT<InputType,OutputType,PlannerType>&& other)
 	{
 		if(this ==&other) return *this;
 
@@ -218,7 +217,7 @@ public:
 
 
 
-	~BaseFFTW(){
+	~BaseCuFFT(){
 		fDestroyer(fPlan);
 	}
 
@@ -260,4 +259,6 @@ private:
 
 
 
-#endif /* BASEFFTW_H_ */
+
+
+#endif /* BASECUFFT_H_ */

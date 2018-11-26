@@ -57,7 +57,7 @@ template<typename T,
 		typename InputType  = typename std::conditional< std::is_same<double,T>::value, fftw_complex, fftwf_complex>::type,
 		typename OutputType = typename std::conditional< std::is_same<double,T>::value, fftw_complex, fftwf_complex>::type,
 		typename PlanType   = detail::fftw::_Planner<T>>
-class ComplexToComplexFFT: public BaseFFT<InputType, OutputType, PlanType >
+class ComplexToComplexFFT: public BaseFFTW<InputType, OutputType, PlanType >
 {
 
 public:
@@ -65,12 +65,12 @@ public:
 	ComplexToComplexFFT()=delete;
 
 	ComplexToComplexFFT(int logical_size, int sign=+1, unsigned flags=FFTW_ESTIMATE):
-		BaseFFT<InputType, OutputType, PlanType >(logical_size, logical_size, flags, sign)
+		BaseFFTW<InputType, OutputType, PlanType >(logical_size, logical_size, flags, sign)
 	{}
 
 	ComplexToComplexFFT(ComplexToComplexFFT<T,InputType, OutputType, PlanType >&& other):
-		BaseFFT<InputType, OutputType, PlanType >(
-				std::forward<BaseFFT<InputType, OutputType, PlanType >&&>(other))
+		BaseFFTW<InputType, OutputType, PlanType >(
+				std::forward<BaseFFTW<InputType, OutputType, PlanType >&&>(other))
 	{}
 
 	ComplexToComplexFFT<T,InputType, OutputType, PlanType >&
@@ -78,7 +78,7 @@ public:
 	{
 		if(this ==&other) return *this;
 
-		BaseFFT<InputType, OutputType, PlanType >::operator=(other);
+		BaseFFTW<InputType, OutputType, PlanType >::operator=(other);
 
 		return *this;
 	}

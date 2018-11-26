@@ -98,7 +98,7 @@ int main(int argv, char** argc)
 
 	// gaussian
 	auto mean   = hydra::Parameter::Create( "mean").Value(0.0).Error(0.0001);
-	auto sigma  = hydra::Parameter::Create("sigma").Value(0.3).Error(0.0001);
+	auto sigma  = hydra::Parameter::Create("sigma").Value(0.03).Error(0.0001);
 
 	hydra::Gaussian<> gaussian_kernel(mean,  sigma);
 
@@ -150,19 +150,19 @@ int main(int argv, char** argc)
 	//------------------------
 	//------------------------
 #ifdef _ROOT_AVAILABLE_
+
+
 	//fill histograms
 	TH1D *hist_convol   = new TH1D("convol","convolution", conv_result.size(), min, max);
 	TH1D *hist_signal   = new TH1D("signal", "signal", conv_result.size(), min, max);
-	TH1D *hist_kernel   = new TH1D("kernel", "kernel", conv_result.size(), min, max);
+	TH1D *hist_kernel   = new TH1D("kernel", "kernel", conv_result.size(), -0.5*(max-min),0.5*(max-min) );
 
 
 	for(int i=1;  i<hist_convol->GetNbinsX()+1; i++){
 
-		double x =hist_convol->GetBinCenter(i);
-
 		hist_convol->SetBinContent(i, conv_result[i-1] );
-		hist_signal->SetBinContent(i, signal(x) );
-		hist_kernel->SetBinContent(i, gaussian_kernel((max-min)/2-i*(hist_convol->GetBinWidth(0))) );
+		hist_signal->SetBinContent(i, signal(hist_signal->GetBinCenter(i) ) );
+		hist_kernel->SetBinContent(i, gaussian_kernel( hist_kernel->GetBinCenter(i)));
 
 
 	}
@@ -198,7 +198,7 @@ int main(int argv, char** argc)
 	hist_kernel->SetStats(0);
 	hist_kernel->SetLineColor(6);
 	hist_kernel->SetLineWidth(2);
-	hist_kernel->Draw("histl");
+	hist_kernel->Draw("hist");
 
 	canvas->cd(4);
 	hist_convol->DrawNormalized("histl");
