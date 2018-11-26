@@ -42,6 +42,7 @@
 #include <hydra/Convolution.h>
 #include <hydra/functions/Gaussian.h>
 #include <hydra/functions/Ipatia.h>
+#include <hydra/device/System.h>
 
 //command line
 #include <tclap/CmdLine.h>
@@ -87,8 +88,8 @@ int main(int argv, char** argc)
 	//-----------------
 	// some definitions
 
-	double min=423.677;;
-	double max=580.677;
+	double min=493.677-25.0;
+	double max=493.677+25.0;
 
 	auto nsamples = nentries;
 	//===========================
@@ -97,7 +98,7 @@ int main(int argv, char** argc)
 
 	// gaussian
 	auto mean   = hydra::Parameter::Create( "mean").Value(0.0).Error(0.0001);
-	auto sigma  = hydra::Parameter::Create("sigma").Value(0.03).Error(0.0001);
+	auto sigma  = hydra::Parameter::Create("sigma").Value(0.3).Error(0.0001);
 
 	hydra::Gaussian<> gaussian_kernel(mean,  sigma);
 
@@ -124,7 +125,7 @@ int main(int argv, char** argc)
 	//ipatia function evaluating on the first argument
 	auto signal = hydra::Ipatia<>(mu, gamma,L1,N1,L2,N2,alfa,beta);
 
-
+	//hydra::Gaussian<>  signal(mu, gamma);
 	//===========================
 	// samples
 	//---------------------------
@@ -134,7 +135,7 @@ int main(int argv, char** argc)
 
 	auto start_d = std::chrono::high_resolution_clock::now();
 
-	hydra::convolute(signal, gaussian_kernel, min, max,  conv_result );
+	hydra::convolute(hydra::device::sys , signal, gaussian_kernel, min, max,  conv_result, 1);
 
 	auto end_d = std::chrono::high_resolution_clock::now();
 
@@ -150,12 +151,13 @@ int main(int argv, char** argc)
 	//------------------------
 #ifdef _ROOT_AVAILABLE_
 	//fill histograms
-	TH1D *hist_convol   = new TH1D("convol","convolution", nsamples+1, min, max);
-	TH1D *hist_signal   = new TH1D("signal", "signal", nsamples+1, min, max);
-	TH1D *hist_kernel   = new TH1D("kernel", "kernel", nsamples+1, min, max);
+	TH1D *hist_convol   = new TH1D("convol","convolution", conv_result.size(), min, max);
+	TH1D *hist_signal   = new TH1D("signal", "signal", conv_result.size(), min, max);
+	TH1D *hist_kernel   = new TH1D("kernel", "kernel", conv_result.size(), min, max);
 
 
-	for(size_t i=1;  i<nsamples+1; i++){
+	for(int i=1;  i<hist_convol->GetNbinsX()+1; i++){
+
 		double x =hist_convol->GetBinCenter(i);
 
 		hist_convol->SetBinContent(i, conv_result[i-1] );
@@ -181,19 +183,20 @@ int main(int argv, char** argc)
 
 	canvas->cd(1);
 	hist_convol->SetStats(0);
-	hist_convol->SetLineColor(3);
-	hist_convol->SetLineWidth(1);
+	hist_convol->SetLineColor(4);
+	hist_convol->SetLineWidth(2);
 	hist_convol->Draw("histl");
 
 	canvas->cd(2);
 	hist_signal->SetStats(0);
 	hist_signal->SetLineColor(2);
-	hist_signal->SetLineWidth(1);
+	hist_signal->SetLineWidth(2);
+	hist_signal->SetLineStyle(2);
 	hist_signal->Draw("histl");
 
 	canvas->cd(3);
 	hist_kernel->SetStats(0);
-	hist_kernel->SetLineColor(5);
+	hist_kernel->SetLineColor(6);
 	hist_kernel->SetLineWidth(2);
 	hist_kernel->Draw("histl");
 

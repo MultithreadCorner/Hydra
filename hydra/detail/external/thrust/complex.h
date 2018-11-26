@@ -65,6 +65,7 @@ public:
    */
   typedef T value_type;
 
+
   /* --- Constructors --- */
 
   /*! Construct a complex number from its real and imaginary parts.

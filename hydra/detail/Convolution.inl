@@ -42,12 +42,26 @@
 #include <functional>
 #include <utility>
 #include <type_traits>
-
+#include <iomanip>
 namespace hydra {
 
 namespace detail {
 
 namespace convolution {
+
+size_t upper_power_of_two(size_t v)
+{
+    v--;
+    v |= v >> 1;
+    v |= v >> 2;
+    v |= v >> 4;
+    v |= v >> 8;
+    v |= v >> 16;
+    v |= v >> 32;
+    v++;
+    return v;
+
+}
 
 template<typename Kernel>
 struct KernelSampler
@@ -56,11 +70,13 @@ struct KernelSampler
 
 	KernelSampler(Kernel const& kernel, int nsamples , double delta):
 		fDelta(delta),
-		fNZero(nsamples),
-		fNMin(0.5*nsamples),
-	    fNMax(1.5*nsamples),
+
 		fKernel(kernel)
-	{}
+	{
+		fNZero = nsamples;
+		fNMin  = nsamples- nsamples/16;
+	    fNMax  = nsamples+ nsamples/16;
+	}
 
 	KernelSampler( KernelSampler<Kernel> const& other):
 		fDelta(other.GetDelta()),
@@ -70,7 +86,7 @@ struct KernelSampler
 		fKernel(other.GetKernel())
 	{}
 
-	KernelSampler<Kernel>&
+	inline KernelSampler<Kernel>&
 	operator=( KernelSampler<Kernel> const& other)
 	{
 		if(this == &other) return *this;
@@ -85,48 +101,55 @@ struct KernelSampler
 	}
 
 
-	double operator()( int index) const	{
+	inline double operator()( int index) const	{
 
         double value=0.0;
 
-		if( (0 <= index) && (index <=  fNMin) ){
+        if( (0 == index) || (index+1 == 2.0*fNZero ) ){
+
+        		    value = 0.5*fKernel(0.0);
+        		  //  std::cout << "branch 0 :" << value << std::endl;
+        	}
+
+		if( (0 < index) && (index <=  fNMin) ){
 
 			double t =  index*fDelta ;
 
 		    value = fKernel(t);
+		    //std::cout << "branch 1 :" << value << std::endl;
 		}
 
-		if (  index >=  fNMax ){
+		if (  index >=  fNMax && (index+1 < 2.0*fNZero)){
 
-			double t =  (index-2*fNZero)*fDelta;
+			double t =  (index+1-2.0*fNZero)*fDelta;
 
 			value = fKernel(t);
-
+			//std::cout << "branch 2 :" << value << std::endl;
 		}
-
+		//std::cout <<"result " << value << std::endl;
        return value;
 
 	}
 
-	double GetDelta() const {	return fDelta; }
+	inline double GetDelta() const {	return fDelta; }
 
-	void SetDelta(double delta) { fDelta = delta; }
+	inline void SetDelta(double delta) { fDelta = delta; }
 
-	int GetNZero() const { return fNZero; }
+	inline int GetNZero() const { return fNZero; }
 
-	void SetNZero(int n) { fNZero = n; }
+	inline void SetNZero(int n) { fNZero = n; }
 
-	int GetNMax() const { return fNMax; }
+	inline int GetNMax() const { return fNMax; }
 
-	void SetNMax(int nMax) { fNMax = nMax; }
+	inline void SetNMax(int nMax) { fNMax = nMax; }
 
-	int GetNMin() const { return fNMin; }
+	inline int GetNMin() const { return fNMin; }
 
-	void SetNMin(int nMin) { fNMin = nMin; }
+	inline void SetNMin(int nMin) { fNMin = nMin; }
 
-	Kernel GetKernel() const { return fKernel;}
+	inline Kernel GetKernel() const { return fKernel;}
 
-	void SetKernel(Kernel const& kernel) { fKernel = kernel;}
+	inline void SetKernel(Kernel const& kernel) { fKernel = kernel;}
 
 
 private:
@@ -158,7 +181,7 @@ struct FunctorSampler
 		fFunctor(other.GetFunctor())
 	{}
 
-	FunctorSampler<Functor>&
+	inline FunctorSampler<Functor>&
 	operator=( FunctorSampler<Functor> const& other)
 	{
 		if(this == &other) return *this;
@@ -172,13 +195,13 @@ struct FunctorSampler
 	}
 
 
-	double operator()( int index) const	{
+	inline double operator()( int index) const	{
 
         double value=0.0;
 
-		if( index <  fNSamples ){
+        double t =  index*fDelta + fMin;
 
-			double t =  index*fDelta + fMin;
+        if(  (t >= fMin) && ( t <=  (fNSamples)*fDelta + fMin)){
 
 		    value = fFunctor(t);
 		}
@@ -186,21 +209,21 @@ struct FunctorSampler
        return value;
 	}
 
-	double GetDelta() const {	return fDelta; }
+	inline double GetDelta() const {	return fDelta; }
 
-	void SetDelta(double delta) { fDelta = delta; }
+	inline void SetDelta(double delta) { fDelta = delta; }
 
-	int GetMin() const { return fMin; }
+	inline double GetMin() const { return fMin; }
 
-	void SetMin(int Min) { fMin = Min; }
+	inline void SetMin(int Min) { fMin = Min; }
 
-	Functor GetFunctor() const { return fFunctor;}
+	inline Functor GetFunctor() const { return fFunctor;}
 
-	void SetFunctor(Functor const& functor) { fFunctor = functor;}
+	inline void SetFunctor(Functor const& functor) { fFunctor = functor;}
 
-	int GetNSamples() const { return fNSamples; }
+	inline int GetNSamples() const { return fNSamples; }
 
-	void SetNSamples(int nSamples) { fNSamples = nSamples;}
+	inline void SetNSamples(int nSamples) { fNSamples = nSamples;}
 
 private:
 
@@ -228,8 +251,9 @@ struct NormalizeFFT: public  std::unary_function<T,T>
 {
 	NormalizeFFT()=delete;
 
-	NormalizeFFT(int norm):
-		fNorm(norm){}
+	NormalizeFFT(T norm):
+		fNorm(1.0/norm)
+	{}
 
 	NormalizeFFT( NormalizeFFT<T> const& other):
 	fNorm(other.GetNorm())
@@ -248,20 +272,20 @@ struct NormalizeFFT: public  std::unary_function<T,T>
 	__hydra_host__ __hydra_device__
 	inline T operator()(T& value){
 
-		return value/fNorm;
+		return value*fNorm;
 	}
 
-	int GetNorm() const {
+	inline T GetNorm() const {
 		return fNorm;
 	}
 
-	void SetNorm(int norm) {
-		fNorm = norm;
+	inline void SetNorm(size_t norm) {
+		fNorm = 1.0/norm;
 	}
 
 private:
 
-	int fNorm;
+	T fNorm;
 };
 
 

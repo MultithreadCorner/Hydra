@@ -30,6 +30,7 @@
 #define CONVOLUTION_H_
 
 #include <hydra/detail/Config.h>
+#include <hydra/detail/BackendPolicy.h>
 #include <hydra/cpp/System.h>
 #include <hydra/Types.h>
 #include <hydra/Tuple.h>
@@ -39,43 +40,54 @@
 #include <hydra/Zip.h>
 #include <hydra/detail/Convolution.inl>
 #include <hydra/Complex.h>
-
-#include <thrust/iterator/transform_iterator.h>
+#include <hydra/detail/external/thrust/transform.h>
+#include <hydra/detail/external/thrust/iterator/transform_iterator.h>
+#include <hydra/detail/external/thrust/memory.h>
 
 #include <utility>
 #include <type_traits>
 
 namespace hydra {
 
-template<typename Functor, typename Kernel, typename Iterable,
+template<hydra::detail::Backend BACKEND, typename Functor, typename Kernel, typename Iterable,
      typename T = typename HYDRA_EXTERNAL_NS::thrust::iterator_traits<decltype(std::declval<Iterable>().begin())>::value_type>
-inline typename std::enable_if< std::is_floating_point<T>::value && hydra::detail::is_iterable<Iterable>::value, void>::type
-convolute(Functor const& functor, Kernel const& kernel,  T min,  T max, Iterable&& output  ){
+inline typename std::enable_if<std::is_floating_point<T>::value && hydra::detail::is_iterable<Iterable>::value, void>::type
+convolute(detail::BackendPolicy<BACKEND> policy, Functor const& functor, Kernel const& kernel,
+		     T min,  T max, Iterable&& output , bool power_up=true ){
 
 	typedef hydra::complex<double> complex_type;
 
+	if(power_up) std::forward<Iterable>(output).resize(	hydra::detail::convolution::upper_power_of_two(
+			std::forward<Iterable>(output).size()));
+
 	int nsamples = std::forward<Iterable>(output).size();
-	     T delta = (max - min)/(nsamples);
-
-	hydra::cpp::vector< complex_type > complex_buffer(nsamples+1, complex_type(0,0));
-	hydra::cpp::vector<T>   kernel_samples(2*nsamples, 0.0);
-	hydra::cpp::vector<T>  functor_samples(2*nsamples, 0.0);
 
 
+	T delta = (max - min)/(nsamples);
+
+	auto complex_buffer  = HYDRA_EXTERNAL_NS::thrust::get_temporary_buffer<complex_type>(policy, nsamples+1);
+	auto kernel_samples  = HYDRA_EXTERNAL_NS::thrust::get_temporary_buffer<T>(policy, 2*nsamples);
+	auto functor_samples = HYDRA_EXTERNAL_NS::thrust::get_temporary_buffer<T>(policy, 2*nsamples);
+
+	//
+	auto counting_samples = range(0, 2*nsamples);
 	// sample kernel
 	auto kernel_sampler = hydra::detail::convolution::KernelSampler<Kernel>(kernel, nsamples, delta);
 
-	hydra::transform( range(0, 2*nsamples), kernel_samples, kernel_sampler);
+	HYDRA_EXTERNAL_NS::thrust::transform(policy, counting_samples.begin(), counting_samples.end(),
+			kernel_samples.first , kernel_sampler);
 
 	// sample function
 	auto functor_sampler = hydra::detail::convolution::FunctorSampler<Functor>(functor, nsamples,  min, delta);
 
-	hydra::transform( range(0, 2*nsamples), functor_samples, functor_sampler);
+	HYDRA_EXTERNAL_NS::thrust::transform( policy, counting_samples.begin(), counting_samples.end(),
+			functor_samples.first, functor_sampler);
 
 	//transform kernel
-	auto fft_kernel = hydra::RealToComplexFFT<T>( kernel_samples.size());
+	auto fft_kernel = hydra::RealToComplexFFT<T>( kernel_samples.second );
 
-	fft_kernel.LoadInputData(kernel_samples);
+	fft_kernel.LoadInputData( kernel_samples.second,
+			HYDRA_EXTERNAL_NS::thrust::raw_pointer_cast(kernel_samples.first));
 	fft_kernel.Execute();
 
 	auto fft_kernel_output =  fft_kernel.GetOutputData();
@@ -83,9 +95,10 @@ convolute(Functor const& functor, Kernel const& kernel,  T min,  T max, Iterable
 			fft_kernel_output.first + fft_kernel_output.second);
 
 	//transform functor
-	auto fft_functor = hydra::RealToComplexFFT<T>( functor_samples.size() );
+	auto fft_functor = hydra::RealToComplexFFT<T>( functor_samples.second );
 
-	fft_functor.LoadInputData(functor_samples);
+	fft_functor.LoadInputData(functor_samples.second,
+			HYDRA_EXTERNAL_NS::thrust::raw_pointer_cast(functor_samples.first));
 	fft_functor.Execute();
 
 	auto fft_functor_output =  fft_functor.GetOutputData();
@@ -95,17 +108,23 @@ convolute(Functor const& functor, Kernel const& kernel,  T min,  T max, Iterable
 	//element wise product
 	auto ffts = hydra::zip(fft_functor_range,  fft_kernel_range );
 
-	hydra::transform( ffts, complex_buffer, detail::convolution::MultiplyFFT<T>());
+
+	HYDRA_EXTERNAL_NS::thrust::transform( policy, ffts.begin(),  ffts.end(),
+			complex_buffer.first, detail::convolution::MultiplyFFT<T>());
 
 	//transform product back to real
 
 	auto fft_product = hydra::ComplexToRealFFT<T>( 2*nsamples );
 
-	fft_product.LoadInputData(complex_buffer);
+	fft_product.LoadInputData(complex_buffer.second,
+			reinterpret_cast<double (*)[2]>(HYDRA_EXTERNAL_NS::thrust::raw_pointer_cast(complex_buffer.first)));
 	fft_product.Execute();
 
 	auto fft_product_output =  fft_product.GetOutputData();
-	auto normalize_fft =  detail::convolution::NormalizeFFT<T>(2*nsamples*2*nsamples);
+
+	T n = ::pow(10.0, (long unsigned)::log10((double)nsamples*nsamples ));
+
+	auto normalize_fft =  detail::convolution::NormalizeFFT<T>(n);
 
     auto first = HYDRA_EXTERNAL_NS::thrust::make_transform_iterator( fft_product_output.first,normalize_fft);
     auto last  = HYDRA_EXTERNAL_NS::thrust::make_transform_iterator(fft_product_output.first + nsamples,normalize_fft);
@@ -114,6 +133,9 @@ convolute(Functor const& functor, Kernel const& kernel,  T min,  T max, Iterable
 
 	hydra::copy(fft_product_range,  std::forward<Iterable>(output));
 
+	HYDRA_EXTERNAL_NS::thrust::return_temporary_buffer( policy,  complex_buffer.first  );
+	HYDRA_EXTERNAL_NS::thrust::return_temporary_buffer( policy,  kernel_samples.first  );
+	HYDRA_EXTERNAL_NS::thrust::return_temporary_buffer( policy, functor_samples.first  );
 }
 
 
