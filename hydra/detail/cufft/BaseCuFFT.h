@@ -48,6 +48,7 @@
 #include <cufft.h>
 
 //Hydra wrappers
+#include<hydra/cuda/CudaWrappers.h>
 #include<hydra/detail/cufft/Wrappers.h>
 
 namespace hydra {
@@ -69,13 +70,12 @@ public:
 		fFlags(flags),
 		fSign(sign),
 		fNInput(input_size ),
-		fNOutput(output_size)
+		fNOutput(output_size),
+		fInput(reinterpret_cast<InputType*>(hydra::cuda::malloc(sizeof(InputType)*input_size))),
+		fOutput(reinterpret_cast<OutputType*>(hydra::cuda::malloc(sizeof(OutputType)*output_size)))
 	{
 
-			fInput(reinterpret_cast<InputType*>(HYDRA_EXTERNAL_NS::thrust::raw_pointer_cast(
-				HYDRA_EXTERNAL_NS::thrust::malloc<InputType>(thrust::cuda::par, input_size )))),
-		fOutput(reinterpret_cast<OutputType*>(HYDRA_EXTERNAL_NS::thrust::raw_pointer_cast(
-				HYDRA_EXTERNAL_NS::thrust::malloc<InputType>(thrust::cuda::par, output_size))))
+
 
 		//------------------
 		int logical_size = input_size > output_size ? input_size : output_size;
@@ -244,8 +244,8 @@ private:
 	{
 		assert(size <= fNInput);
 
-		memcpy(&fInput.get()[0], data, sizeof(InputType)*size);
-		memset(&fInput.get()[size], 0, sizeof(InputType)*( fNInput-size  ));
+		hydra::cuda::memcpy(&fInput.get()[0], data, sizeof(InputType)*size);
+		hydra::cuda::memset(&fInput.get()[size], 0, sizeof(InputType)*( fNInput-size  ));
 	}
 
 	unsigned fFlags;
