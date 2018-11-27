@@ -36,6 +36,7 @@
 #include <hydra/detail/Iterable_traits.h>
 #include <hydra/Range.h>
 #include <hydra/Tuple.h>
+#include <hydra/detail/external/thrust/memory.h>
 
 #include <cassert>
 #include <memory>
@@ -44,10 +45,10 @@
 #include <type_traits>
 
 //FFTW
-#include <fftw3.h>
+#include <cufft.h>
 
 //Hydra wrappers
-#include<hydra/detail/fftw/Wrappers.h>
+#include<hydra/detail/cufft/Wrappers.h>
 
 namespace hydra {
 
@@ -57,8 +58,8 @@ class BaseCuFFT
 
 protected:
 	typedef typename PlannerType::plan_type plan_type;
-	typedef std::unique_ptr<InputType,  detail::fftw::_Deleter> input_ptr_type;
-	typedef std::unique_ptr<OutputType, detail::fftw::_Deleter> output_ptr_type;
+	typedef std::unique_ptr<InputType,  detail::cufft::_Deleter> input_ptr_type;
+	typedef std::unique_ptr<OutputType, detail::cufft::_Deleter> output_ptr_type;
 
 public:
 
@@ -68,11 +69,15 @@ public:
 		fFlags(flags),
 		fSign(sign),
 		fNInput(input_size ),
-		fNOutput(output_size),
-		fInput(reinterpret_cast<InputType*>(fftw_malloc(sizeof(InputType)*input_size))),
-		fOutput(reinterpret_cast<OutputType*>(fftw_malloc(sizeof(OutputType)*output_size)))
+		fNOutput(output_size)
 	{
 
+			fInput(reinterpret_cast<InputType*>(HYDRA_EXTERNAL_NS::thrust::raw_pointer_cast(
+				HYDRA_EXTERNAL_NS::thrust::malloc<InputType>(thrust::cuda::par, input_size )))),
+		fOutput(reinterpret_cast<OutputType*>(HYDRA_EXTERNAL_NS::thrust::raw_pointer_cast(
+				HYDRA_EXTERNAL_NS::thrust::malloc<InputType>(thrust::cuda::par, output_size))))
+
+		//------------------
 		int logical_size = input_size > output_size ? input_size : output_size;
 
 		fPlan =  fPlanner( logical_size, fInput.get(), fOutput.get(), flags, sign);
@@ -156,12 +161,12 @@ public:
 		return  fNInput > fNOutput ? fNInput : fNOutput;
 	}
 
-	detail::fftw::_PlanDestroyer GetDestroyer() const
+	detail::cufft::_PlanDestroyer GetDestroyer() const
 	{
 		return fDestroyer;
 	}
 
-	const detail::fftw::_PlanExecutor GetExecutor() const
+	const detail::cufft::_PlanExecutor GetExecutor() const
 	{
 		return fExecutor;
 	}
@@ -238,6 +243,7 @@ private:
 	void LoadInput(int size, const InputType* data )
 	{
 		assert(size <= fNInput);
+
 		memcpy(&fInput.get()[0], data, sizeof(InputType)*size);
 		memset(&fInput.get()[size], 0, sizeof(InputType)*( fNInput-size  ));
 	}
@@ -248,8 +254,8 @@ private:
 	int fNOutput;
 	PlannerType  fPlanner;
 	plan_type    fPlan ;
-	detail::fftw::_PlanExecutor fExecutor;
-	detail::fftw::_PlanDestroyer fDestroyer;
+	detail::cufft::_PlanExecutor fExecutor;
+	detail::cufft::_PlanDestroyer fDestroyer;
 	input_ptr_type fInput;
 	output_ptr_type	fOutput;
 };
