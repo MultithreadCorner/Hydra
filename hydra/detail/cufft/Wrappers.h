@@ -67,63 +67,31 @@ namespace hydra {
 
 			//===========================================================================
 			// Generic planner
-			template<typename T>
-			struct _Planner;
-
-			template<> struct _Planner<double>
+			template<typename T, cufftType Type>
+			struct _Planner
 			{
-				//cufftPlan2d(cufftHandle *plan, int nx, int ny, cufftType type);
 				typedef cufftHandle plan_type;
 
-				// Complex -> Complex
-				inline plan_type operator()(plan_type* pan, int n, cufftType type) {
+				inline plan_type operator()(int nx, int batch) {
 
-					return fftw_plan_dft_1d(n, in, out, sign, flags);
+					plan_type plan;
+
+					cufftPlan1d(&plan, n, Type{}, batch);
+					return plan;
 				}
 
 
 			};
 
-
-			template<> struct _Planner<float>
-			{
-				typedef fftwf_plan plan_type;
-
-				// Complex -> Complex
-				inline fftwf_plan operator()(int n, fftwf_complex *in, fftwf_complex *out,
-						unsigned flags, int sign=0) {
-
-					return fftwf_plan_dft_1d(n, in, out, sign, flags);
-				}
-
-				// Real -> Complex
-				inline fftwf_plan operator()(int n, float *in, fftwf_complex *out,
-						unsigned flags, int sign=0 ){
-
-					return fftwf_plan_dft_r2c_1d(n, in, out, flags);
-				}
-
-				// Complex -> Real
-				inline fftwf_plan operator()(int n, fftwf_complex *in, float *out,
-						unsigned flags, int sign=0 ){
-
-					return fftwf_plan_dft_c2r_1d(n, in, out, flags);
-				}
-
-			};
 
 			//===========================================================================
 
 			struct _PlanDestroyer
 			{
-				inline void operator()(fftw_plan& plan ){
+				inline void operator()( cufftHandle& plan ){
 
-					fftw_destroy_plan(plan);
-				}
+					cufftDestroy(plan);
 
-				inline void operator()(fftwf_plan& plan ){
-
-					fftwf_destroy_plan(plan);
 				}
 
 			};
@@ -132,19 +100,29 @@ namespace hydra {
 
 			struct _PlanExecutor
 			{
-				inline void operator()(fftw_plan& plan ){
+				inline void operator()(cufftHandle& plan, cufftReal* input, cufftComplex* output){
 
-					fftw_execute(plan);
+					cufftExecR2C(plan, input, output);
+					cudaDeviceSynchronize();
 				}
 
-				inline void operator()(fftwf_plan& plan ){
+				inline void operator()(cufftHandle& plan, cufftComplex* input, cufftReal* output){
 
-					fftwf_execute(plan);
+					cufftExecC2R(plan, input, output);
+					cudaDeviceSynchronize();
 				}
+
+				inline void operator()(cufftHandle& plan, cufftComplex* input, cufftComplex* output,
+						int direction ){
+
+					cufftExecC2C(plan, input, output, direction);
+					cudaDeviceSynchronize();
+				}
+
 			};
 
 
-		}  // namespace fftw
+		}  // namespace cufft
 
 	}  // namespace detail
 
