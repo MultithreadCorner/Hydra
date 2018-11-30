@@ -84,7 +84,7 @@ public:
 
 		if(fPlan==NULL){
 
-			throw std::runtime_error("hydra::BaseFFT : can not allocate fftw_plan");
+			throw std::runtime_error("hydra::BaseCuFFT : can not allocate fftw_plan");
 		}
 	}
 

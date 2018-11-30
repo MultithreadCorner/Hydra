@@ -67,32 +67,29 @@ namespace hydra {
 
 			//===========================================================================
 			// Generic planner
-			template<typename T, cufftType Type>
+			template<cufftType Type>
 			struct _Planner
 			{
 				typedef cufftHandle plan_type;
 
-				inline plan_type operator()(int n) {
+
+				inline plan_type operator()(int nx, int batch) {
+
 					plan_type plan;
 
-					return cufftPlan1d( plan,  n, Type{}, 1);
+					cufftPlan1d(&plan, n, Type{}, batch);
+					return plan;
 				}
 
 
 			};
 
-			//===========================================================================
-
 			struct _PlanDestroyer
 			{
-				inline void operator()(fftw_plan& plan ){
+				inline void operator()( cufftHandle& plan ){
 
-					fftw_destroy_plan(plan);
-				}
+					cufftDestroy(plan);
 
-				inline void operator()(fftwf_plan& plan ){
-
-					fftwf_destroy_plan(plan);
 				}
 
 			};
@@ -101,19 +98,53 @@ namespace hydra {
 
 			struct _PlanExecutor
 			{
-				inline void operator()(fftw_plan& plan ){
+				inline void operator()(cufftHandle& plan, cufftReal* input, cufftComplex* output){
 
-					fftw_execute(plan);
+					cufftExecR2C(plan, input, output);
+					cudaDeviceSynchronize();
 				}
 
-				inline void operator()(fftwf_plan& plan ){
+				inline void operator()(cufftHandle& plan, cufftDoubleReal* input, cufftDoubleComplex* output){
 
-					fftwf_execute(plan);
+					cufftExecD2Z(plan, input, output);
+					cudaDeviceSynchronize();
+				}
+
+				//------
+
+				inline void operator()(cufftHandle& plan, cufftComplex* input, cufftReal* output){
+
+					cufftExecC2R(plan, input, output);
+					cudaDeviceSynchronize();
+				}
+
+
+				inline void operator()(cufftHandle& plan, cufftDoubleComplex* input, cufftDoubleReal* output){
+
+					cufftExecZ2D(plan, input, output);
+					cudaDeviceSynchronize();
+				}
+
+				//------
+
+				inline void operator()(cufftHandle& plan, cufftComplex* input, cufftComplex* output,
+						int direction ){
+
+					cufftExecC2C(plan, input, output, direction);
+					cudaDeviceSynchronize();
+				}
+
+
+				inline void operator()(cufftHandle& plan, cufftDoubleComplex* input, cufftDoubleComplex* output,
+						int direction ){
+
+					cufftExecZ2Z(plan, input, output, direction);
+					cudaDeviceSynchronize();
 				}
 			};
 
 
-		}  // namespace fftw
+		}  // namespace cufft
 
 	}  // namespace detail
 
