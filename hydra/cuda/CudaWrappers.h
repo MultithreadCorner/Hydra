@@ -48,12 +48,12 @@ namespace cuda {
 void* malloc( size_t size )
 {
 	    void *ptr;
-	    if (cudaMalloc(&ptr, len) == cudaSuccess) return ptr;
+	    if (cudaMalloc(&ptr, size) == cudaSuccess) return ptr;
 	    return 0;
 }
 
 void free( void* ptr ){
-	 cudaFree( devPtr);
+	 cudaFree( ptr);
 }
 
 
@@ -64,7 +64,7 @@ void* memset( void* dest, int ch, size_t count  )
 }
 
 void* memcpy( void* dest, const void* src, size_t count ){
-	 if( cudaMemcpy( dst, src, count, cudaMemcpyDeviceToDevice) == cudaSuccess) return dest;
+	 if( cudaMemcpy( dest, src, count, cudaMemcpyDeviceToDevice) == cudaSuccess) return dest;
 	 return 0;
 }
 

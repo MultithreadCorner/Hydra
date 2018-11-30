@@ -3,5 +3,6 @@ project(examples)
 #+++++++++++++++++++++++++++++++++
 # Hydra convolution              |
 #+++++++++++++++++++++++++++++++++
-ADD_HYDRA_EXAMPLE(fft)
-ADD_HYDRA_EXAMPLE(convolute_functions)
+ADD_HYDRA_EXAMPLE(fft OFF BUILD_TBB_TARGETS BUILD_OMP_TARGETS BUILD_CPP_TARGETS)
+ADD_HYDRA_EXAMPLE(cufft BUILD_CUDA_TARGETS OFF OFF OFF OFF)
+ADD_HYDRA_EXAMPLE(convolute_functions BUILD_CUDA_TARGETS BUILD_TBB_TARGETS BUILD_OMP_TARGETS BUILD_CPP_TARGETS )

@@ -37,19 +37,20 @@
 #include <hydra/Range.h>
 #include <hydra/Tuple.h>
 #include <hydra/detail/external/thrust/memory.h>
-
+#include <hydra/Complex.h>
 #include <cassert>
 #include <memory>
 #include <utility>
 #include <stdexcept>
 #include <type_traits>
 
+
 //FFTW
 #include <cufft.h>
 
 //Hydra wrappers
 #include<hydra/cuda/CudaWrappers.h>
-#include<hydra/detail/cufft/Wrappers.h>
+#include<hydra/detail/cufft/WrappersCuFFT.h>
 
 namespace hydra {
 
@@ -66,8 +67,7 @@ public:
 
 	BaseCuFFT()=delete;
 
-	BaseCuFFT(int input_size, int output_size, unsigned flags=FFTW_ESTIMATE, int sign=0):
-		fFlags(flags),
+	BaseCuFFT(int input_size, int output_size, int sign=0):
 		fSign(sign),
 		fNInput(input_size ),
 		fNOutput(output_size),
@@ -80,7 +80,7 @@ public:
 		//------------------
 		int logical_size = input_size > output_size ? input_size : output_size;
 
-		fPlan =  fPlanner( logical_size, fInput.get(), fOutput.get(), flags, sign);
+		fPlan =  fPlanner( logical_size, 1);
 
 		if(fPlan==NULL){
 
@@ -89,7 +89,6 @@ public:
 	}
 
 	BaseCuFFT( BaseCuFFT<InputType,OutputType,PlannerType>&& other):
-		fFlags(other.GetFlags()),
 		fSign(other.GetSign()),
 		fNInput(other.GetNInput()),
 		fNOutput(other.GetNOutput()),
@@ -98,7 +97,7 @@ public:
 	{
 		fDestroyer(fPlan);
 
-		fPlan = fPlanner( other.GetSize() , fInput.get(), fOutput.get(), fFlags, fSign);
+		fPlan = fPlanner( other.GetSize() , 1);
 	}
 
 	BaseCuFFT<InputType,OutputType,PlannerType>&
@@ -106,7 +105,6 @@ public:
 	{
 		if(this ==&other) return *this;
 
-		fFlags  = other.GetFlags();
 		fSign   = other.GetSign();
 		fNInput = other.GetNInput();
 		fNOutput= other.GetNOutput();
@@ -115,7 +113,7 @@ public:
 
 		fDestroyer(fPlan);
 
-		fPlan =  fPlanner( other.GetSize(), fInput.get(), fOutput.get(), fFlags, fSign);
+		fPlan =  fPlanner( other.GetSize(), 1);
 
 		return *this;
 	}
@@ -141,7 +139,7 @@ public:
 
 	inline void Execute()
 	{
-		fExecutor(fPlan);
+		fExecutor(fPlan, fInput.get(), fOutput.get(), fSign);
 	}
 
 	inline hydra::pair<InputType*, int>
@@ -201,15 +199,7 @@ public:
 		fSign = sign;
 	}
 
-	unsigned GetFlags() const
-	{
-		return fFlags;
-	}
 
-	void SetFlags(unsigned  flags)
-	{
-		fFlags = flags;
-	}
 	PlannerType GetPlanner() const
 	{
 		return fPlanner;
@@ -248,7 +238,6 @@ private:
 		hydra::cuda::memset(&fInput.get()[size], 0, sizeof(InputType)*( fNInput-size  ));
 	}
 
-	unsigned fFlags;
 	int fSign;
 	int fNInput;
 	int fNOutput;

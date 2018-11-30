@@ -32,10 +32,10 @@
 /**
  *
  */
-#include<hydra/detail/fftw/Wrappers.h>
-#include<hydra/detail/fftw/BaseFFT.h>
-#include<hydra/detail/fftw/ComplexToRealFFT.h>
-#include<hydra/detail/fftw/RealToComplexFFT.h>
-#include<hydra/detail/fftw/ComplexToComplexFFT.h>
+#include<hydra/detail/fftw/WrappersFFTW.h>
+#include<hydra/detail/fftw/BaseFFTW.h>
+#include<hydra/detail/fftw/ComplexToRealFFTW.h>
+#include<hydra/detail/fftw/RealToComplexFFTW.h>
+#include<hydra/detail/fftw/ComplexToComplexFFTW.h>
 
 #endif /* FFTW_H_ */

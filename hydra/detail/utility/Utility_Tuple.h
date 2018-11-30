@@ -312,24 +312,26 @@ namespace hydra {
 
 
 	//----------------------------------------
-	//make a homogeneous tuple with same value in all elements
-	template <typename T,  size_t... Is >
-	auto make_tuple_helper(std::array<T, sizeof ...(Is)>& Array, index_sequence<Is...>)
-	-> decltype(HYDRA_EXTERNAL_NS::thrust::make_tuple(Array[Is]...))
-	{
-		return HYDRA_EXTERNAL_NS::thrust::make_tuple(Array[Is]...);
+	template<typename T, size_t I>
+	T passthrough(T&& value){
+		return std::move( std::forward<T>(value));
 	}
 
 
-	template <typename T,  size_t N>
-	auto make_tuple(T value)
-	-> decltype(make_tuple_helper(std::array<T,N>(),  make_index_sequence<N>{}))
+	//make a homogeneous tuple with same value in all elements
+	template <typename T,  size_t... Is >
+	auto make_tuple_helper(T&& value, index_sequence<Is...>)
+	-> decltype(HYDRA_EXTERNAL_NS::thrust::make_tuple(passthrough<T,Is>(std::forward<T>(value))...))
 	{
-		std::array<T,N> Array;
+		return HYDRA_EXTERNAL_NS::thrust::make_tuple(passthrough<T,Is>(std::forward<T>(value))...);
+	}
 
-		for(auto v:Array) v=value;
 
-		return make_tuple_helper( Array, make_index_sequence<N>{});
+	template <  size_t N, typename T,typename TupleType=typename tuple_type<N,T>::type >
+	TupleType make_tuple(T&& value)
+	{
+
+		return make_tuple_helper( std::forward<T>(value), make_index_sequence<N>{});
 	}
 
 

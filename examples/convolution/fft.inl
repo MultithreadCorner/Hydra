@@ -42,8 +42,12 @@
 #include <hydra/Random.h>
 #include <hydra/Zip.h>
 #include <hydra/Complex.h>
+#include <hydra/detail/utility/Utility_Tuple.h>
+
 //command line
 #include <tclap/CmdLine.h>
+
+
 
 typedef double FloatType;
 
@@ -70,6 +74,7 @@ int main(int argv, char** argc)
 														<< std::endl;
 	}
 
+
 	/*
 	 * Real -> Complex -> Real
 	 */
@@ -80,7 +85,7 @@ int main(int argv, char** argc)
 	Generator.Uniform(-1.0, 1.0, x);
 
 
-   auto fft_r2c = hydra::RealToComplexFFT<FloatType>( nentries );
+   auto fft_r2c = hydra::RealToComplexFFTW<FloatType>( nentries );
    fft_r2c.LoadInputData(x);
    fft_r2c.Execute();
 
@@ -89,7 +94,7 @@ int main(int argv, char** argc)
    auto output_r2c = hydra::make_range(r2c_out.first,
 		   r2c_out.first + r2c_out.second );
 
-   auto fft_c2r = hydra::ComplexToRealFFT<FloatType>( nentries );
+   auto fft_c2r = hydra::ComplexToRealFFTW<FloatType>( nentries );
 
    fft_c2r.LoadInputData( r2c_out.second, r2c_out.first );
 
@@ -117,7 +122,7 @@ int main(int argv, char** argc)
    hydra::device::vector<hydra::complex<FloatType>> c(nentries,
 		     hydra::complex<FloatType>(1.0,2.0) );
 
-   auto fft_c2c_f = hydra::ComplexToComplexFFT<FloatType>( nentries , +1);
+   auto fft_c2c_f = hydra::ComplexToComplexFFTW<FloatType>( nentries , +1);
 
    fft_c2c_f.LoadInputData( c );
 
@@ -128,7 +133,7 @@ int main(int argv, char** argc)
    auto output_c2c_f = hydra::make_range( c2c_out_f.first,
 		   c2c_out_f.first + c2c_out_f.second);
 
-   auto fft_c2c_b = hydra::ComplexToComplexFFT<FloatType>( nentries , -1);
+   auto fft_c2c_b = hydra::ComplexToComplexFFTW<FloatType>( nentries , -1);
 
     fft_c2c_b.LoadInputData( c2c_out_f.second,  c2c_out_f.first);
 

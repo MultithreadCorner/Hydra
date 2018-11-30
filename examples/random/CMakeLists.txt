@@ -3,6 +3,6 @@ project(examples)
 #+++++++++++++++++++++++++++++++++
 # Hydra random number generation |
 #+++++++++++++++++++++++++++++++++
-ADD_HYDRA_EXAMPLE(basic_distributions)
-ADD_HYDRA_EXAMPLE(sample_distribution)
-ADD_HYDRA_EXAMPLE(booststrapping)
+ADD_HYDRA_EXAMPLE(basic_distributions BUILD_CUDA_TARGETS BUILD_TBB_TARGETS BUILD_OMP_TARGETS BUILD_CPP_TARGETS)
+ADD_HYDRA_EXAMPLE(sample_distribution BUILD_CUDA_TARGETS BUILD_TBB_TARGETS BUILD_OMP_TARGETS BUILD_CPP_TARGETS)
+ADD_HYDRA_EXAMPLE(booststrapping BUILD_CUDA_TARGETS BUILD_TBB_TARGETS BUILD_OMP_TARGETS BUILD_CPP_TARGETS)
