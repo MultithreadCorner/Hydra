@@ -67,48 +67,17 @@ namespace hydra {
 
 			//===========================================================================
 			// Generic planner
-			template<typename T>
-			struct _Planner;
-
-			template<> struct _Planner<double>
+			template<typename T, cufftType Type>
+			struct _Planner
 			{
-				//cufftPlan2d(cufftHandle *plan, int nx, int ny, cufftType type);
 				typedef cufftHandle plan_type;
 
-				// Complex -> Complex
-				inline plan_type operator()(plan_type* pan, int n, cufftType type) {
+				inline plan_type operator()(int n) {
+					plan_type plan;
 
-					return fftw_plan_dft_1d(n, in, out, sign, flags);
+					return cufftPlan1d( plan,  n, Type{}, 1);
 				}
 
-
-			};
-
-
-			template<> struct _Planner<float>
-			{
-				typedef fftwf_plan plan_type;
-
-				// Complex -> Complex
-				inline fftwf_plan operator()(int n, fftwf_complex *in, fftwf_complex *out,
-						unsigned flags, int sign=0) {
-
-					return fftwf_plan_dft_1d(n, in, out, sign, flags);
-				}
-
-				// Real -> Complex
-				inline fftwf_plan operator()(int n, float *in, fftwf_complex *out,
-						unsigned flags, int sign=0 ){
-
-					return fftwf_plan_dft_r2c_1d(n, in, out, flags);
-				}
-
-				// Complex -> Real
-				inline fftwf_plan operator()(int n, fftwf_complex *in, float *out,
-						unsigned flags, int sign=0 ){
-
-					return fftwf_plan_dft_c2r_1d(n, in, out, flags);
-				}
 
 			};
 
