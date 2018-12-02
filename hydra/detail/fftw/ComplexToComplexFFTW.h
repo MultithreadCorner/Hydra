@@ -36,6 +36,7 @@
 #include <hydra/detail/Iterable_traits.h>
 #include <hydra/Range.h>
 #include <hydra/Tuple.h>
+#include <hydra/Complex.h>
 
 #include <cassert>
 #include <memory>
@@ -54,9 +55,9 @@
 namespace hydra {
 
 template<typename T,
-		typename InputType  = typename std::conditional< std::is_same<double,T>::value, fftw_complex, fftwf_complex>::type,
-		typename OutputType = typename std::conditional< std::is_same<double,T>::value, fftw_complex, fftwf_complex>::type,
-		typename PlanType   = detail::fftw::_Planner<T>>
+		typename InputType  = typename std::conditional< std::is_same<double,T>::value, hydra::complex<double>, hydra::complex<float>>::type,
+		typename OutputType = typename std::conditional< std::is_same<double,T>::value, hydra::complex<double>, hydra::complex<float>>::type,
+		typename PlanType   = detail::fftw::_Planner>
 class ComplexToComplexFFTW: public BaseFFTW<InputType, OutputType, PlanType >
 {
 

@@ -109,6 +109,9 @@ public:
       inline __hydra_host__
     complex(const X (&z)[2]);
 
+    template <typename X>
+         inline __hydra_host__
+       complex( X (&z)[2]);
 
 
   /* --- Compound Assignment Operators --- */

@@ -36,6 +36,7 @@
 #include <hydra/detail/Iterable_traits.h>
 #include <hydra/Range.h>
 #include <hydra/Tuple.h>
+#include <hydra/Complex.h>
 
 #include <cassert>
 #include <memory>
@@ -60,6 +61,8 @@ protected:
 	typedef typename PlannerType::plan_type plan_type;
 	typedef std::unique_ptr<InputType,  detail::fftw::_Deleter> input_ptr_type;
 	typedef std::unique_ptr<OutputType, detail::fftw::_Deleter> output_ptr_type;
+	typedef HYDRA_EXTERNAL_NS::thrust::pointer<InputType, HYDRA_EXTERNAL_NS::thrust::host_system_tag> input_tagged_ptr_type;
+	typedef HYDRA_EXTERNAL_NS::thrust::pointer<OutputType, HYDRA_EXTERNAL_NS::thrust::host_system_tag> output_tagged_ptr_type;
 
 public:
 
@@ -130,6 +133,11 @@ public:
 						raw_pointer_cast(std::forward<Iterable>(container).data())));
 	}
 
+	inline void	LoadInputData(int size,	input_tagged_ptr_type data)
+		{
+			LoadInput(size, std::forward<input_tagged_ptr_type>(data).get());
+		}
+
 	inline void	LoadInputData(int size, const InputType* data)
 	{
 		LoadInput(size, data);
@@ -140,16 +148,16 @@ public:
 		fExecutor(fPlan);
 	}
 
-	inline hydra::pair<InputType*, int>
+	inline hydra::pair<input_tagged_ptr_type, int>
 	GetInputData()
 	{
-		return hydra::make_pair(&fInput.get()[0], fNInput );
+		return hydra::make_pair(input_tagged_ptr_type(fInput.get()), fNInput );
 	}
 
-	inline hydra::pair<OutputType*, int>
+	inline hydra::pair<output_tagged_ptr_type, int>
 	GetOutputData()
 	{
-		return hydra::make_pair(&fOutput.get()[0], fNOutput );
+		return hydra::make_pair(output_tagged_ptr_type(fOutput.get()), fNOutput );
 	}
 
 	inline int GetSize() const

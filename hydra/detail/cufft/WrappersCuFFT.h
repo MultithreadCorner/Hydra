@@ -37,6 +37,7 @@
 #include <hydra/detail/Iterable_traits.h>
 #include <hydra/Range.h>
 #include <hydra/Tuple.h>
+#include <hydra/Complex.h>
 
 #include <cassert>
 #include <memory>
@@ -45,7 +46,7 @@
 #include <type_traits>
 
 
-//FFTW3
+//CuFFT
 #include <cufft.h>
 
 #include<hydra/cuda/CudaWrappers.h>
@@ -99,51 +100,58 @@ namespace hydra {
 
 			struct _PlanExecutor
 			{
-				inline void operator()(cufftHandle& plan, cufftReal* input, cufftComplex* output,
+				typedef hydra::complex<double> complex_double;
+				typedef hydra::complex<float>  complex_float;
+				typedef double  real_double;
+				typedef float   real_float;
+
+
+				inline void operator()(cufftHandle& plan, real_float* input, complex_float* output,
 						int direction=1){
 
-					cufftExecR2C(plan, input, output);
+					cufftExecR2C(plan, reinterpret_cast<cufftReal*>(input), reinterpret_cast<cufftComplex*>(output));
 					cudaDeviceSynchronize();
 				}
 
-				inline void operator()(cufftHandle& plan, cufftDoubleReal* input, cufftDoubleComplex* output,
+				inline void operator()(cufftHandle& plan, real_double* input, complex_double* output,
 						int direction=1){
 
-					cufftExecD2Z(plan, input, output);
-					cudaDeviceSynchronize();
-				}
-
-				//------
-
-				inline void operator()(cufftHandle& plan, cufftComplex* input, cufftReal* output,
-						int direction=1){
-
-					cufftExecC2R(plan, input, output);
-					cudaDeviceSynchronize();
-				}
-
-
-				inline void operator()(cufftHandle& plan, cufftDoubleComplex* input, cufftDoubleReal* output,
-						int direction=1){
-
-					cufftExecZ2D(plan, input, output);
+					cufftExecD2Z(plan, reinterpret_cast<cufftDoubleReal*>(input), reinterpret_cast<cufftDoubleComplex*>(output));
 					cudaDeviceSynchronize();
 				}
 
 				//------
 
-				inline void operator()(cufftHandle& plan, cufftComplex* input, cufftComplex* output,
+				inline void operator()(cufftHandle& plan, complex_float* input, real_float* output,
 						int direction=1){
 
-					cufftExecC2C(plan, input, output, direction);
+					cufftExecC2R(plan, reinterpret_cast<cufftComplex*>(input), reinterpret_cast<cufftReal*>(output));
 					cudaDeviceSynchronize();
 				}
 
 
-				inline void operator()(cufftHandle& plan, cufftDoubleComplex* input, cufftDoubleComplex* output,
+				inline void operator()(cufftHandle& plan, complex_double* input, real_double* output,
 						int direction=1){
 
-					cufftExecZ2Z(plan, input, output, direction);
+					cufftExecZ2D(plan, reinterpret_cast<cufftDoubleComplex*>(input), reinterpret_cast<cufftDoubleReal*>(output));
+					cudaDeviceSynchronize();
+				}
+
+				//------
+
+				inline void operator()(cufftHandle& plan, complex_float* input, complex_float* output,
+						int direction=1){
+
+					cufftExecC2C(plan,  reinterpret_cast<cufftComplex*>(input),reinterpret_cast<cufftComplex*>(output), direction);
+					cudaDeviceSynchronize();
+				}
+
+
+				inline void operator()(cufftHandle& plan, complex_double* input, complex_double* output,
+						int direction=1){
+
+					cufftExecZ2Z(plan, reinterpret_cast<cufftDoubleComplex*>(input), reinterpret_cast<cufftDoubleComplex*>(output)
+							, direction);
 					cudaDeviceSynchronize();
 				}
 			};

@@ -59,9 +59,12 @@ class BaseCuFFT
 {
 
 protected:
+
 	typedef typename PlannerType::plan_type plan_type;
 	typedef std::unique_ptr<InputType,  detail::cufft::_Deleter> input_ptr_type;
 	typedef std::unique_ptr<OutputType, detail::cufft::_Deleter> output_ptr_type;
+	typedef HYDRA_EXTERNAL_NS::thrust::pointer<InputType, HYDRA_EXTERNAL_NS::thrust::cuda::tag> input_tagged_ptr_type;
+	typedef HYDRA_EXTERNAL_NS::thrust::pointer<OutputType, HYDRA_EXTERNAL_NS::thrust::cuda::tag> output_tagged_ptr_type;
 
 public:
 
@@ -82,10 +85,8 @@ public:
 
 		fPlan =  fPlanner( logical_size, 1);
 
-		if(fPlan==NULL){
+		//	throw std::runtime_error("hydra::BaseCuFFT : can not allocate fftw_plan");
 
-			throw std::runtime_error("hydra::BaseCuFFT : can not allocate fftw_plan");
-		}
 	}
 
 	BaseCuFFT( BaseCuFFT<InputType,OutputType,PlannerType>&& other):
@@ -137,21 +138,28 @@ public:
 		LoadInput(size, data);
 	}
 
+
+	inline void	LoadInputData(int size,	input_tagged_ptr_type data)
+	{
+		LoadInput(size, data.get());
+	}
+
 	inline void Execute()
 	{
 		fExecutor(fPlan, fInput.get(), fOutput.get(), fSign);
 	}
 
-	inline hydra::pair<InputType*, int>
+	inline hydra::pair<input_tagged_ptr_type, int>
 	GetInputData()
 	{
-		return hydra::make_pair(&fInput.get()[0], fNInput );
+		return hydra::make_pair( input_tagged_ptr_type(fInput.get()), fNInput );
 	}
 
-	inline hydra::pair<OutputType*, int>
+	inline hydra::pair<output_tagged_ptr_type, int>
 	GetOutputData()
 	{
-		return hydra::make_pair(&fOutput.get()[0], fNOutput );
+		return hydra::make_pair( output_tagged_ptr_type(fOutput.get()),
+				fNOutput );
 	}
 
 	inline int GetSize() const

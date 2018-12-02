@@ -94,7 +94,7 @@ int main(int argv, char** argc)
    auto r2c_out =  fft_r2c.GetOutputData();
 
    auto output_r2c = hydra::make_range(r2c_out.first,
-		   r2c_out.first + r2c_out.second );
+		   r2c_out.first + r2c_out.second  );
 
    auto fft_c2r = hydra::ComplexToRealCuFFT<FloatType>( nentries );
 
@@ -104,21 +104,21 @@ int main(int argv, char** argc)
 
    auto c2r_out =  fft_c2r.GetOutputData();
 
-   auto output_c2r = hydra::make_range( c2r_out.first,
-		   c2r_out.first + c2r_out.second);
+   auto output_c2r = hydra::make_range(c2r_out.first,
+		  c2r_out.first + c2r_out.second);
 
 
-   auto data = hydra::zip( x, output_r2c, output_c2r );
+   auto data = hydra::zip(x , output_r2c, output_c2r );
+
 
    printf(" ---- real ---- | ---------- complex ---------- | ----- real -----\n");
 
-   hydra::for_each( data ,
-		   [nentries] __hydra_dual__ ( hydra::tuple<FloatType, FloatType*, FloatType>  a){
+      hydra::for_each( data ,
+   		   [nentries] __hydra_dual__ ( hydra::tuple<FloatType, hydra::complex<FloatType>, FloatType>  a){
 
-	   printf("%f \t| %f:re + %f:im \t| %f \n", hydra::get<0>(a),
-			   hydra::get<1>(a)[0], hydra::get<1>(a)[1], hydra::get<2>(a)/nentries );
-	  });
-
+   	   printf("%f \t| %f:re + %f:im \t| %f \n", hydra::get<0>(a),
+   			   hydra::get<1>(a).real(), hydra::get<1>(a).imag(), hydra::get<2>(a)/nentries );
+   	  });
    //---------------------------------------------------------------------
 
    hydra::device::vector<hydra::complex<FloatType>> c(nentries,
@@ -151,13 +151,13 @@ int main(int argv, char** argc)
    auto datac = hydra::zip( c, output_c2c_f , output_c2c_b);
 
    printf(" ----------- complex ---------- | ---------- complex ---------- | ---------- complex ----------\n");
-   hydra::for_each(datac , [nentries] __hydra_dual__ ( hydra::tuple< hydra::complex<FloatType>, FloatType*, FloatType*>  a)
+   hydra::for_each(datac , [nentries] __hydra_dual__ ( hydra::tuple< hydra::complex<FloatType>, hydra::complex<FloatType>, hydra::complex<FloatType>>  a)
    {
 
 	   printf(" %f:re + %f:im \t| %f:re + %f:im \t| %f:re + %f:im \n",
 			   hydra::get<0>(a).real(), hydra::get<0>(a).imag(),
-			   hydra::get<1>(a)[0]/nentries, hydra::get<1>(a)[1]/nentries,
-			   hydra::get<2>(a)[0]/nentries, hydra::get<2>(a)[1]/nentries );
+			   hydra::get<1>(a).real()/nentries, hydra::get<1>(a).imag()/nentries,
+			   hydra::get<2>(a).real()/nentries, hydra::get<2>(a).imag()/nentries );
 	  });
 
 	return 0;

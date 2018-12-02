@@ -36,7 +36,7 @@
 #include <hydra/detail/Iterable_traits.h>
 #include <hydra/Range.h>
 #include <hydra/Tuple.h>
-
+#include <hydra/Complex.h>
 #include <cassert>
 #include <memory>
 #include <utility>
@@ -80,7 +80,7 @@ public:
 	{
 		if(this ==&other) return *this;
 
-		BaseFFTW<InputType, OutputType, PlanType >::operator=(other);
+		BaseCuFFT<InputType, OutputType, PlanType >::operator=(other);
 
 		return *this;
 	}

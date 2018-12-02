@@ -35,6 +35,7 @@
 #include <hydra/detail/Iterable_traits.h>
 #include <hydra/Range.h>
 #include <hydra/Tuple.h>
+#include <hydra/Complex.h>
 
 #include <cassert>
 #include <memory>
@@ -53,8 +54,8 @@
 namespace hydra {
 
 template<typename T,
-        typename InputType  = typename std::conditional< std::is_same<double,T>::value,cufftDoubleReal, cufftReal>::type,
-		typename OutputType = typename std::conditional< std::is_same<double,T>::value, cufftDoubleComplex, cufftComplex>::type,
+        typename InputType  = T,
+		typename OutputType = typename std::conditional< std::is_same<double,T>::value, hydra::complex<double>, hydra::complex<float>>::type,
 		typename PlanType   = typename std::conditional< std::is_same<double,T>::value,
 		               detail::cufft::_Planner<CUFFT_D2Z>, detail::cufft::_Planner<CUFFT_R2C> >::type>
 class RealToComplexCuFFT: public BaseCuFFT<InputType, OutputType, PlanType >

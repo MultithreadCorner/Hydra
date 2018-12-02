@@ -37,6 +37,7 @@
 #include <hydra/detail/Iterable_traits.h>
 #include <hydra/Range.h>
 #include <hydra/Tuple.h>
+#include <hydra/Complex.h>
 
 #include <cassert>
 #include <memory>
@@ -66,71 +67,69 @@ namespace hydra {
 					fftw_free(ptr);
 				}
 
-				inline void operator()(fftw_complex* ptr){
-									fftw_free(ptr);
+				inline void operator()(hydra::complex<double>* ptr ){
+									fftw_free(reinterpret_cast<fftw_complex*>(ptr) );
 				}
 
-				inline void operator()(fftwf_complex* ptr){
-									fftwf_free(ptr);
+				inline void operator()(hydra::complex<float>* ptr){
+									fftwf_free(reinterpret_cast<fftwf_complex*>(ptr) );
 				}
 			};
 
 			//===========================================================================
 			// Generic planner
-			template<typename T>
-			struct _Planner;
-
-			template<> struct _Planner<double>
+			struct _Planner
 			{
-				typedef fftw_plan plan_type;
+				typedef hydra::complex<double> complex_double;
+				typedef hydra::complex<float>  complex_float;
+				typedef double  real_double;
+				typedef float   real_float;
+
+				typedef fftw_plan  plan_type;
+				typedef fftwf_plan planf_type;
 
 				// Complex -> Complex
-				inline plan_type operator()(int n, fftw_complex *in, fftw_complex *out,
+				inline plan_type operator()(int n, complex_double *in, complex_double *out,
 						unsigned flags, int sign=0 ) {
 
-					return fftw_plan_dft_1d(n, in, out, sign, flags);
+					return fftw_plan_dft_1d(n, reinterpret_cast<fftw_complex*>(in),
+							reinterpret_cast<fftw_complex*>(out), sign, flags);
 				}
 
 				// Real -> Complex
-				inline plan_type operator()(int n, double *in, fftw_complex *out,
+				inline plan_type operator()(int n, double *in, complex_double *out,
 						unsigned flags, int sign=0 ){
 
-					return fftw_plan_dft_r2c_1d(n, in, out, flags);
+					return fftw_plan_dft_r2c_1d(n, in, reinterpret_cast<fftw_complex*>(out), flags);
 				}
 
 				// Complex -> Real
-				inline plan_type operator()(int n, fftw_complex *in, double *out,
+				inline plan_type operator()(int n, complex_double *in, double *out,
 						unsigned flags, int sign=0 ){
 
-					return fftw_plan_dft_c2r_1d(n, in, out, flags);
+					return fftw_plan_dft_c2r_1d(n, reinterpret_cast<fftw_complex*>(in), out, flags);
 				}
-
-			};
-
-
-			template<> struct _Planner<float>
-			{
-				typedef fftwf_plan plan_type;
 
 				// Complex -> Complex
-				inline fftwf_plan operator()(int n, fftwf_complex *in, fftwf_complex *out,
+				inline fftwf_plan operator()(int n, complex_float *in, complex_float *out,
 						unsigned flags, int sign=0) {
 
-					return fftwf_plan_dft_1d(n, in, out, sign, flags);
+					return fftwf_plan_dft_1d(n, reinterpret_cast<fftwf_complex*>(in),
+							reinterpret_cast<fftwf_complex*>(out), sign, flags);
 				}
 
 				// Real -> Complex
-				inline fftwf_plan operator()(int n, float *in, fftwf_complex *out,
+				inline fftwf_plan operator()(int n, float *in, complex_float *out,
 						unsigned flags, int sign=0 ){
 
-					return fftwf_plan_dft_r2c_1d(n, in, out, flags);
+					return fftwf_plan_dft_r2c_1d(n, in, reinterpret_cast<fftwf_complex*>(out), flags);
 				}
 
 				// Complex -> Real
-				inline fftwf_plan operator()(int n, fftwf_complex *in, float *out,
+				inline fftwf_plan operator()(int n, complex_float *in, float *out,
 						unsigned flags, int sign=0 ){
 
-					return fftwf_plan_dft_c2r_1d(n, in, out, flags);
+					return fftwf_plan_dft_c2r_1d(n, reinterpret_cast<fftwf_complex*>(in), out, flags);
 				}
 
 			};
