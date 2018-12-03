@@ -35,7 +35,7 @@
 #include <hydra/Types.h>
 #include <hydra/Tuple.h>
 #include <hydra/Range.h>
-#include <hydra/FFTW.h>
+#include <hydra/detail/FFTPolicy.h>
 #include <hydra/Algorithm.h>
 #include <hydra/Zip.h>
 #include <hydra/detail/Convolution.inl>
@@ -49,13 +49,20 @@
 
 namespace hydra {
 
-template<hydra::detail::Backend BACKEND, typename Functor, typename Kernel, typename Iterable,
-     typename T = typename HYDRA_EXTERNAL_NS::thrust::iterator_traits<decltype(std::declval<Iterable>().begin())>::value_type>
-inline typename std::enable_if<std::is_floating_point<T>::value && hydra::detail::is_iterable<Iterable>::value, void>::type
-convolute(detail::BackendPolicy<BACKEND> policy, Functor const& functor, Kernel const& kernel,
-		     T min,  T max, Iterable&& output , bool power_up=true ){
+template<hydra::detail::Backend BACKEND, detail::FFTCalculator FFTBackend,  typename Functor, typename Kernel, typename Iterable,
+     typename T    = typename HYDRA_EXTERNAL_NS::thrust::iterator_traits<decltype(std::declval<Iterable>().begin())>::value_type
+     bool CUDA_FFT = typename
+     >
+inline typename std::enable_if<std::is_floating_point<T>::value
+                            && hydra::detail::is_iterable<Iterable>::value , void>::type
+convolute(detail::BackendPolicy<BACKEND> policy, detail::FFTPolicy<T, FFTBackend> fft_policy,
+		  Functor const& functor, Kernel const& kernel,
+		  T min,  T max, Iterable&& output, bool power_up=true ){
 
 	typedef hydra::complex<double> complex_type;
+	typedef typename detail::FFTPolicy<T, FFTBackend>::R2C _RealToComplexFFT;
+	typedef typename detail::FFTPolicy<T, FFTBackend>::C2R _ComplexToRealFFT;
+
 
 	if(power_up) std::forward<Iterable>(output).resize(	hydra::detail::convolution::upper_power_of_two(
 			std::forward<Iterable>(output).size()));
@@ -84,7 +91,7 @@ convolute(detail::BackendPolicy<BACKEND> policy, Functor const& functor, Kernel 
 			functor_samples.first, functor_sampler);
 
 	//transform kernel
-	auto fft_kernel = hydra::RealToComplexFFT<T>( kernel_samples.second );
+	auto fft_kernel = _RealToComplexFFT( kernel_samples.second );
 
 	fft_kernel.LoadInputData( kernel_samples.second,
 			HYDRA_EXTERNAL_NS::thrust::raw_pointer_cast(kernel_samples.first));
@@ -95,7 +102,7 @@ convolute(detail::BackendPolicy<BACKEND> policy, Functor const& functor, Kernel 
 			fft_kernel_output.first + fft_kernel_output.second);
 
 	//transform functor
-	auto fft_functor = hydra::RealToComplexFFT<T>( functor_samples.second );
+	auto fft_functor = _RealToComplexFFT( functor_samples.second );
 
 	fft_functor.LoadInputData(functor_samples.second,
 			HYDRA_EXTERNAL_NS::thrust::raw_pointer_cast(functor_samples.first));
@@ -114,7 +121,7 @@ convolute(detail::BackendPolicy<BACKEND> policy, Functor const& functor, Kernel 
 
 	//transform product back to real
 
-	auto fft_product = hydra::ComplexToRealFFT<T>( 2*nsamples );
+	auto fft_product = _ComplexToRealFFT( 2*nsamples );
 
 	fft_product.LoadInputData(complex_buffer.second,
 			reinterpret_cast<double (*)[2]>(HYDRA_EXTERNAL_NS::thrust::raw_pointer_cast(complex_buffer.first)));

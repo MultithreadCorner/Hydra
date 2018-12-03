@@ -30,6 +30,8 @@
 #ifndef CUFFT_H_
 #define CUFFT_H_
 
+
+#include <hydra/detail/FFTPolicy.h>
 #include<hydra/detail/cufft/WrappersCuFFT.h>
 #include<hydra/detail/cufft/BaseCuFFT.h>
 #include<hydra/detail/cufft/ComplexToRealCuFFT.h>
@@ -39,12 +41,24 @@
 namespace hydra {
 
 template<typename T>
-struct CuFFT
+struct detail::FFTPolicy<T, detail::CuFFT>
 {
 	typedef ComplexToComplexCuFFT<T> C2C;
 	typedef    RealToComplexCuFFT<T> R2C;
 	typedef    ComplexToRealCuFFT<T> C2R;
 };
+
+namespace fft {
+
+		typedef detail::FFTPolicy<double, detail::CuFFT> cufft_f64_t;
+		typedef detail::FFTPolicy< float, detail::CuFFT> cufft_f32_t;
+
+		static const cufft_f32_t  cufft_f32= cufft_f32_t();
+
+		static const cufft_f64_t  cufft_f64= cufft_f64_t();
+
+
+	}  // namespace fft
 
 }  // namespace hydra
 

@@ -32,6 +32,7 @@
 /**
  *
  */
+#include <hydra/detail/FFTPolicy.h>
 #include<hydra/detail/fftw/WrappersFFTW.h>
 #include<hydra/detail/fftw/BaseFFTW.h>
 #include<hydra/detail/fftw/ComplexToRealFFTW.h>
@@ -41,12 +42,24 @@
 namespace hydra {
 
 template<typename T>
-struct FFTW
+struct detail::FFTPolicy<T, detail::FFTW>
 {
 	typedef ComplexToComplexFFTW<T> C2C;
 	typedef    RealToComplexFFTW<T> R2C;
 	typedef    ComplexToRealFFTW<T> C2R;
 };
+
+	namespace fft {
+
+		typedef detail::FFTPolicy<double, detail::FFTW> fftw_f64_t;
+		typedef detail::FFTPolicy< float, detail::FFTW> fftw_f32_t;
+
+		static const fftw_f32_t fftw_f32=fftw_f32_t();
+
+		static const fftw_f64_t fftw_f64=fftw_f64_t();
+
+
+	}  // namespace fft
 
 }  // namespace hydra
 

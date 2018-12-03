@@ -33,7 +33,15 @@
 
 namespace hydra {
 
- enum FFT{CuFFT, FFTW};
+	namespace detail {
+
+		enum FFTCalculator{CuFFT, FFTW};
+
+		 template<typename Precision, FFTCalculator FFTBackend>
+		 struct FFTPolicy;
+
+
+	}  // namespace detail
 
 }  // namespace hydra
 
