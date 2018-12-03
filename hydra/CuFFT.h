@@ -36,4 +36,17 @@
 #include<hydra/detail/cufft/RealToComplexCuFFT.h>
 #include<hydra/detail/cufft/ComplexToComplexCuFFT.h>
 
+namespace hydra {
+
+template<typename T>
+struct CuFFT
+{
+	typedef ComplexToComplexFFTW<T> C2C;
+	typedef    RealToComplexFFTW<T> R2C;
+	typedef    ComplexToRealFFTW<T> C2R;
+};
+
+}  // namespace hydra
+
+
 #endif /* CUFFT_H_ */

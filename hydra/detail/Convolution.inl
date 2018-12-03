@@ -78,6 +78,7 @@ struct KernelSampler
 	    fNMax  = nsamples+ nsamples/16;
 	}
 
+	__hydra_host__ __hydra_device__
 	KernelSampler( KernelSampler<Kernel> const& other):
 		fDelta(other.GetDelta()),
 		fNZero(other.GetNZero()),
@@ -86,8 +87,8 @@ struct KernelSampler
 		fKernel(other.GetKernel())
 	{}
 
-	inline KernelSampler<Kernel>&
-	operator=( KernelSampler<Kernel> const& other)
+	__hydra_host__ __hydra_device__
+	inline KernelSampler<Kernel>& operator=( KernelSampler<Kernel> const& other)
 	{
 		if(this == &other) return *this;
 
@@ -101,6 +102,7 @@ struct KernelSampler
 	}
 
 
+	__hydra_host__ __hydra_device__
 	inline double operator()( int index) const	{
 
         double value=0.0;
@@ -131,24 +133,35 @@ struct KernelSampler
 
 	}
 
+	__hydra_host__ __hydra_device__
 	inline double GetDelta() const {	return fDelta; }
 
+	__hydra_host__ __hydra_device__
 	inline void SetDelta(double delta) { fDelta = delta; }
 
+	__hydra_host__ __hydra_device__
 	inline int GetNZero() const { return fNZero; }
 
+	__hydra_host__ __hydra_device__
 	inline void SetNZero(int n) { fNZero = n; }
 
+	__hydra_host__ __hydra_device__
 	inline int GetNMax() const { return fNMax; }
 
+	__hydra_host__ __hydra_device__
 	inline void SetNMax(int nMax) { fNMax = nMax; }
 
+	__hydra_host__ __hydra_device__
 	inline int GetNMin() const { return fNMin; }
 
+	__hydra_host__ __hydra_device__
 	inline void SetNMin(int nMin) { fNMin = nMin; }
 
+	__hydra_host__ __hydra_device__
 	inline Kernel GetKernel() const { return fKernel;}
 
+
+	__hydra_host__ __hydra_device__
 	inline void SetKernel(Kernel const& kernel) { fKernel = kernel;}
 
 
@@ -174,6 +187,7 @@ struct FunctorSampler
 		fFunctor(functor)
 	{}
 
+	__hydra_host__ __hydra_device__
 	FunctorSampler( FunctorSampler<Functor> const& other):
 		fDelta(other.GetDelta()),
 		fMin(other.GetMin()),
@@ -181,8 +195,8 @@ struct FunctorSampler
 		fFunctor(other.GetFunctor())
 	{}
 
-	inline FunctorSampler<Functor>&
-	operator=( FunctorSampler<Functor> const& other)
+	__hydra_host__ __hydra_device__
+	inline FunctorSampler<Functor>&	operator=( FunctorSampler<Functor> const& other)
 	{
 		if(this == &other) return *this;
 
@@ -194,7 +208,7 @@ struct FunctorSampler
 		 return *this;
 	}
 
-
+	__hydra_host__ __hydra_device__
 	inline double operator()( int index) const	{
 
         double value=0.0;
@@ -208,21 +222,28 @@ struct FunctorSampler
 
        return value;
 	}
-
+	__hydra_host__ __hydra_device__
 	inline double GetDelta() const {	return fDelta; }
 
+	__hydra_host__ __hydra_device__
 	inline void SetDelta(double delta) { fDelta = delta; }
 
+	__hydra_host__ __hydra_device__
 	inline double GetMin() const { return fMin; }
 
+	__hydra_host__ __hydra_device__
 	inline void SetMin(int Min) { fMin = Min; }
 
+	__hydra_host__ __hydra_device__
 	inline Functor GetFunctor() const { return fFunctor;}
 
+	__hydra_host__ __hydra_device__
 	inline void SetFunctor(Functor const& functor) { fFunctor = functor;}
 
+	__hydra_host__ __hydra_device__
 	inline int GetNSamples() const { return fNSamples; }
 
+	__hydra_host__ __hydra_device__
 	inline void SetNSamples(int nSamples) { fNSamples = nSamples;}
 
 private:
@@ -255,12 +276,13 @@ struct NormalizeFFT: public  std::unary_function<T,T>
 		fNorm(1.0/norm)
 	{}
 
+	__hydra_host__ __hydra_device__
 	NormalizeFFT( NormalizeFFT<T> const& other):
 	fNorm(other.GetNorm())
 	{}
 
-	inline NormalizeFFT<T>&
-	operator=( NormalizeFFT<T> const& other){
+	__hydra_host__ __hydra_device__
+	inline NormalizeFFT<T>& operator=( NormalizeFFT<T> const& other){
 
 		if(this == &other) return *this;
 
@@ -275,10 +297,12 @@ struct NormalizeFFT: public  std::unary_function<T,T>
 		return value*fNorm;
 	}
 
+	__hydra_host__ __hydra_device__
 	inline T GetNorm() const {
 		return fNorm;
 	}
 
+	__hydra_host__ __hydra_device__
 	inline void SetNorm(size_t norm) {
 		fNorm = 1.0/norm;
 	}

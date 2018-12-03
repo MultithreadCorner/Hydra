@@ -84,6 +84,9 @@ public:
 		return *this;
 	}
 
+	void SetSize(int logical_size){
+		this->Reset(logical_size, logical_size );
+	}
 
 
 	~ComplexToComplexFFTW(){  }

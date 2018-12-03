@@ -180,19 +180,24 @@ public:
 		return fNInput;
 	}
 
-	void SetNInput(int nInput)
-	{
-		fNInput = nInput;
-	}
-
 	int GetNOutput() const
 	{
 		return fNOutput;
 	}
 
-	void SetNOutput(int nOutput)
+	void Reset(int ninput, int noutput)
 	{
-		fNOutput = nOutput;
+		fNInput = ninput;
+		fInput.reset(reinterpret_cast<InputType*>(fftw_malloc(sizeof(InputType)*ninput)));
+
+		fNOutput = noutput;
+		fOutput.reset(reinterpret_cast<OutputType*>(fftw_malloc(sizeof(OutputType)*ninput)));
+
+		fDestroyer(fPlan);
+
+		int logical_size = ninput > noutput ? ninput : noutput;
+
+		fPlan =  fPlanner( logical_size, fInput.get(), fOutput.get(), fFlags, fSign);
 	}
 
 	int GetSign() const
@@ -224,7 +229,7 @@ public:
 		fPlanner = planner;
 	}
 
-
+	virtual void SetSize(int logical_size)=0;
 
 	~BaseFFTW(){
 		fDestroyer(fPlan);

@@ -56,6 +56,21 @@ namespace hydra {
 
 		namespace fftw {
 
+		/**
+		 * this function will delete the ptr if the reallocation is successfull,
+		 *  othewise will return null
+		 * @param ptr
+		 * @param new_size
+		 */
+		void* reallocate(void* ptr, size_t new_size){
+			void* new_ptr =fftw_malloc(new_size );
+
+			if(new_ptr!=NULL){
+				fftwf_free(ptr);
+			}
+			return new_ptr;
+		}
+
 			struct _Deleter
 			{
 

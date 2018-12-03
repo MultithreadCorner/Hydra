@@ -38,4 +38,16 @@
 #include<hydra/detail/fftw/RealToComplexFFTW.h>
 #include<hydra/detail/fftw/ComplexToComplexFFTW.h>
 
+namespace hydra {
+
+template<typename T>
+struct FFTW
+{
+	typedef ComplexToComplexFFTW<T> C2C;
+	typedef    RealToComplexFFTW<T> R2C;
+	typedef    ComplexToRealFFTW<T> C2R;
+};
+
+}  // namespace hydra
+
 #endif /* FFTW_H_ */

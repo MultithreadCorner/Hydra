@@ -49,20 +49,51 @@
 //CuFFT
 #include <cufft.h>
 
-#include<hydra/cuda/CudaWrappers.h>
-
 namespace hydra {
 
 	namespace detail {
 
 		namespace cufft {
 
+			void* malloc( size_t size )
+			{
+					void *ptr;
+					if (cudaMalloc(&ptr, size) == cudaSuccess) return ptr;
+					return 0;
+			}
+
+			void free( void* ptr ){
+				 cudaFree( ptr);
+			}
+
+			void* reallocate(void* ptr, size_t new_size){
+						void* new_ptr ;
+						if (cudaMalloc(&new_ptr, new_size) == cudaSuccess){
+
+							cudaFree( ptr);
+						}
+
+						return new_ptr;
+					}
+
+
+			void* memset( void* dest, int ch, size_t count  )
+			{
+					if (cudaMemset(dest, ch, count) == cudaSuccess) return dest;
+					return 0;
+			}
+
+			void* memcpy( void* dest, const void* src, size_t count ){
+				 if( cudaMemcpy( dest, src, count, cudaMemcpyDeviceToDevice) == cudaSuccess) return dest;
+				 return 0;
+			}
+
 			struct _Deleter
 			{
 
 				template<typename T>
 				inline void operator()(T* ptr){
-					hydra::cuda::free(ptr);
+					hydra::detail::cufft::free(ptr);
 				}
 
 			};

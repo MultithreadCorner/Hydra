@@ -49,7 +49,6 @@
 #include <cufft.h>
 
 //Hydra wrappers
-#include<hydra/cuda/CudaWrappers.h>
 #include<hydra/detail/cufft/WrappersCuFFT.h>
 
 namespace hydra {
@@ -74,8 +73,8 @@ public:
 		fSign(sign),
 		fNInput(input_size ),
 		fNOutput(output_size),
-		fInput(reinterpret_cast<InputType*>(hydra::cuda::malloc(sizeof(InputType)*input_size))),
-		fOutput(reinterpret_cast<OutputType*>(hydra::cuda::malloc(sizeof(OutputType)*output_size)))
+		fInput(reinterpret_cast<InputType*>(detail::cufft::malloc(sizeof(InputType)*input_size))),
+		fOutput(reinterpret_cast<OutputType*>(detail::cufft::malloc(sizeof(OutputType)*output_size)))
 	{
 
 
@@ -182,19 +181,24 @@ public:
 		return fNInput;
 	}
 
-	void SetNInput(int nInput)
-	{
-		fNInput = nInput;
-	}
-
 	int GetNOutput() const
 	{
 		return fNOutput;
 	}
 
-	void SetNOutput(int nOutput)
+	void Reset(int ninput, int noutput)
 	{
-		fNOutput = nOutput;
+		fNInput = ninput;
+		fInput.reset(reinterpret_cast<InputType*>(detail::cufft::malloc(sizeof(InputType)*ninput)));
+
+		fNOutput = noutput;
+		fOutput.reset(reinterpret_cast<OutputType*>(detail::cufft::malloc(sizeof(OutputType)*ninput)));
+
+		fDestroyer(fPlan);
+
+		int logical_size = ninput > noutput ? ninput : noutput;
+
+		fPlan =  fPlanner( logical_size, 1);
 	}
 
 	int GetSign() const
@@ -218,7 +222,7 @@ public:
 		fPlanner = planner;
 	}
 
-
+	virtual void SetSize(int logical_size)=0;
 
 	~BaseCuFFT(){
 		fDestroyer(fPlan);
@@ -242,8 +246,8 @@ private:
 	{
 		assert(size <= fNInput);
 
-		hydra::cuda::memcpy(&fInput.get()[0], data, sizeof(InputType)*size);
-		hydra::cuda::memset(&fInput.get()[size], 0, sizeof(InputType)*( fNInput-size  ));
+		detail::cufft::memcpy(&fInput.get()[0], data, sizeof(InputType)*size);
+		detail::cufft::memset(&fInput.get()[size], 0, sizeof(InputType)*( fNInput-size  ));
 	}
 
 	int fSign;
