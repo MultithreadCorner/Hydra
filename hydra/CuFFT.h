@@ -41,9 +41,9 @@ namespace hydra {
 template<typename T>
 struct CuFFT
 {
-	typedef ComplexToComplexFFTW<T> C2C;
-	typedef    RealToComplexFFTW<T> R2C;
-	typedef    ComplexToRealFFTW<T> C2R;
+	typedef ComplexToComplexCuFFT<T> C2C;
+	typedef    RealToComplexCuFFT<T> R2C;
+	typedef    ComplexToRealCuFFT<T> C2R;
 };
 
 }  // namespace hydra
