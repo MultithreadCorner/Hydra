@@ -40,13 +40,18 @@
 
 namespace hydra {
 
-template<typename T>
-struct detail::FFTPolicy<T, detail::CuFFT>
-{
-	typedef ComplexToComplexCuFFT<T> C2C;
-	typedef    RealToComplexCuFFT<T> R2C;
-	typedef    ComplexToRealCuFFT<T> C2R;
-};
+	namespace detail {
+
+		template<typename T>
+		struct FFTPolicy<T, detail::CuFFT>
+		{
+			typedef ComplexToComplexCuFFT<T> C2C;
+			typedef    RealToComplexCuFFT<T> R2C;
+			typedef    ComplexToRealCuFFT<T> C2R;
+		};
+
+
+	}  // namespace detail
 
 namespace fft {
 
