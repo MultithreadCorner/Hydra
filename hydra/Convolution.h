@@ -64,14 +64,16 @@ convolute(detail::BackendPolicy<BACKEND> policy, detail::FFTPolicy<T, FFTBackend
 		  Functor const& functor, Kernel const& kernel,
 		  T min,  T max, Iterable&& output, bool power_up=true ){
 
-	std::cout<< USING_CUDA_BACKEND::value << USING_CUFFT::value << GPU_DATA::value<<std::endl;
+
 	typedef hydra::complex<double> complex_type;
 	typedef typename detail::FFTPolicy<T, FFTBackend>::R2C _RealToComplexFFT;
 	typedef typename detail::FFTPolicy<T, FFTBackend>::C2R _ComplexToRealFFT;
 
 
-	if(power_up) std::forward<Iterable>(output).resize(	hydra::detail::convolution::upper_power_of_two(
-			std::forward<Iterable>(output).size()));
+	if(power_up) {
+		std::forward<Iterable>(output).resize(
+				hydra::detail::convolution::upper_power_of_two(std::forward<Iterable>(output).size()));
+	}
 
 	int nsamples = std::forward<Iterable>(output).size();
 
@@ -99,8 +101,7 @@ convolute(detail::BackendPolicy<BACKEND> policy, detail::FFTPolicy<T, FFTBackend
 	//transform kernel
 	auto fft_kernel = _RealToComplexFFT( kernel_samples.second );
 
-	fft_kernel.LoadInputData( kernel_samples.second,
-			HYDRA_EXTERNAL_NS::thrust::raw_pointer_cast(kernel_samples.first));
+	fft_kernel.LoadInputData( kernel_samples.second, kernel_samples.first);
 	fft_kernel.Execute();
 
 	auto fft_kernel_output =  fft_kernel.GetOutputData();
@@ -110,8 +111,7 @@ convolute(detail::BackendPolicy<BACKEND> policy, detail::FFTPolicy<T, FFTBackend
 	//transform functor
 	auto fft_functor = _RealToComplexFFT( functor_samples.second );
 
-	fft_functor.LoadInputData(functor_samples.second,
-			HYDRA_EXTERNAL_NS::thrust::raw_pointer_cast(functor_samples.first));
+	fft_functor.LoadInputData(functor_samples.second,functor_samples.first);
 	fft_functor.Execute();
 
 	auto fft_functor_output =  fft_functor.GetOutputData();

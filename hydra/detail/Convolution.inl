@@ -188,7 +188,7 @@ struct FunctorSampler
 	{}
 
 	__hydra_host__ __hydra_device__
-	FunctorSampler( FunctorSampler<Functor> const& other):
+	inline FunctorSampler( FunctorSampler<Functor> const& other):
 		fDelta(other.GetDelta()),
 		fMin(other.GetMin()),
 		fNSamples(other.GetNSamples()),
@@ -277,7 +277,7 @@ struct NormalizeFFT: public  std::unary_function<T,T>
 	{}
 
 	__hydra_host__ __hydra_device__
-	NormalizeFFT( NormalizeFFT<T> const& other):
+	inline NormalizeFFT( NormalizeFFT<T> const& other):
 	fNorm(other.GetNorm())
 	{}
 

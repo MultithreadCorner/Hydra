@@ -38,17 +38,22 @@
 #include <chrono>
 #include <vector>
 
-//hydra
-//#if HYDRA_DEVICE_SYSTEM==CUDA
-//#include <hydra/CuFFT.h>
-//#else
-#include <hydra/FFTW.h>
-//#endif
 
 #include <hydra/Convolution.h>
 #include <hydra/functions/Gaussian.h>
 #include <hydra/functions/Ipatia.h>
 #include <hydra/device/System.h>
+
+
+//hydra
+#if HYDRA_DEVICE_SYSTEM == CUDA
+#include <hydra/CuFFT.h>
+#endif
+
+#if HYDRA_DEVICE_SYSTEM != CUDA
+#include <hydra/FFTW.h>
+#endif
+
 
 //command line
 #include <tclap/CmdLine.h>
@@ -104,7 +109,7 @@ int main(int argv, char** argc)
 
 	// gaussian
 	auto mean   = hydra::Parameter::Create( "mean").Value(0.0).Error(0.0001);
-	auto sigma  = hydra::Parameter::Create("sigma").Value(0.03).Error(0.0001);
+	auto sigma  = hydra::Parameter::Create("sigma").Value(3.5).Error(0.0001);
 
 	hydra::Gaussian<> gaussian_kernel(mean,  sigma);
 
@@ -121,11 +126,11 @@ int main(int argv, char** argc)
 	auto L1    = hydra::Parameter::Create("L1").Value(0.199).Error(0.0001); // decay speed
 	auto N1    = hydra::Parameter::Create("N1").Value(14.0).Error(0.0001); // tail deepness
 	//right tail
-	auto L2    = hydra::Parameter::Create("L2").Value(0.62).Error(0.0001);// decay speed
-	auto N2    = hydra::Parameter::Create("N2").Value(0.5).Error(0.0001);// tail deepness
+	auto L2    = hydra::Parameter::Create("L2").Value(1.62).Error(0.0001);// decay speed
+	auto N2    = hydra::Parameter::Create("N2").Value(10.5).Error(0.0001);// tail deepness
 	//peakness
 	auto alfa  = hydra::Parameter::Create("alfa").Value(-1.01).Error(0.0001);
-	auto beta  = hydra::Parameter::Create("beta").Value(-0.03).Error(0.0001);
+	auto beta  = hydra::Parameter::Create("beta").Value(-0.3).Error(0.0001);
 
 
 	//ipatia function evaluating on the first argument
@@ -141,11 +146,13 @@ int main(int argv, char** argc)
 
 	auto start_d = std::chrono::high_resolution_clock::now();
 
-//#if HYDRA_DEVICE_SYSTEM==CUDA
-//hydra::convolute(hydra::device::sys, hydra::fft::cufft_f64 , signal, gaussian_kernel, min, max,  conv_result, true);
-//#else
-hydra::convolute(hydra::device::sys, hydra::fft::fftw_f64 , signal, gaussian_kernel, min, max,  conv_result, 1);
-//#endif
+#if HYDRA_DEVICE_SYSTEM==CUDA
+hydra::convolute(hydra::device::sys, hydra::fft::cufft_f64 , signal, gaussian_kernel, min, max,  conv_result, true);
+#endif
+
+#if HYDRA_DEVICE_SYSTEM!=CUDA
+hydra::convolute(hydra::device::sys, hydra::fft::fftw_f64 , signal, gaussian_kernel, min, max,  conv_result, true);
+#endif
 
 
 	auto end_d = std::chrono::high_resolution_clock::now();
@@ -212,9 +219,9 @@ hydra::convolute(hydra::device::sys, hydra::fft::fftw_f64 , signal, gaussian_ker
 	hist_kernel->Draw("hist");
 
 	canvas->cd(4);
-	hist_convol->DrawNormalized("histl");
-	hist_signal->DrawNormalized("histlsame");
 
+	hist_signal->DrawNormalized("histl");
+    hist_convol->DrawNormalized("histlsame");
 
 
 	myapp->Run();
