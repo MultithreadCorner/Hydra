@@ -39,6 +39,12 @@
 #include <vector>
 
 //hydra
+//#if HYDRA_DEVICE_SYSTEM==CUDA
+//#include <hydra/CuFFT.h>
+//#else
+#include <hydra/FFTW.h>
+//#endif
+
 #include <hydra/Convolution.h>
 #include <hydra/functions/Gaussian.h>
 #include <hydra/functions/Ipatia.h>
@@ -129,13 +135,18 @@ int main(int argv, char** argc)
 	//===========================
 	// samples
 	//---------------------------
-	std::vector<double> conv_result(nsamples, 0.0);
+	hydra::device::vector<double> conv_result(nsamples, 0.0);
 
 	//uniform (x) gaussian kernel
 
 	auto start_d = std::chrono::high_resolution_clock::now();
 
-	hydra::convolute(hydra::device::sys , signal, gaussian_kernel, min, max,  conv_result, 1);
+//#if HYDRA_DEVICE_SYSTEM==CUDA
+//hydra::convolute(hydra::device::sys, hydra::fft::cufft_f64 , signal, gaussian_kernel, min, max,  conv_result, true);
+//#else
+hydra::convolute(hydra::device::sys, hydra::fft::fftw_f64 , signal, gaussian_kernel, min, max,  conv_result, 1);
+//#endif
+
 
 	auto end_d = std::chrono::high_resolution_clock::now();
 

@@ -44,7 +44,7 @@
 //#include <complex.h>
 
 //CuFFT
-#include <cufftw.h>
+#include <cufft.h>
 
 //Hydra wrappers
 #include<hydra/detail/cufft/WrappersCuFFT.h>

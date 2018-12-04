@@ -26,8 +26,8 @@
  *      Author: Antonio Augusto Alves Junior
  */
 
-#ifndef FFTW_H_
-#define FFTW_H_
+#ifndef HYDRA_FFTW_H_
+#define HYDRA_FFTW_H_
 
 /**
  *

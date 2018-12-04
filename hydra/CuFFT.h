@@ -27,8 +27,8 @@
  *      Author: Antonio Augusto Alves Junior
  */
 
-#ifndef CUFFT_H_
-#define CUFFT_H_
+#ifndef HYDRA_CUFFT_H_
+#define HYDRA_CUFFT_H_
 
 
 #include <hydra/detail/FFTPolicy.h>

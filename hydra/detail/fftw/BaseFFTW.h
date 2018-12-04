@@ -43,7 +43,6 @@
 #include <utility>
 #include <stdexcept>
 #include <type_traits>
-//#include <complex.h>
 
 //FFTW3
 #include <fftw3.h>
@@ -231,7 +230,7 @@ public:
 
 	virtual void SetSize(int logical_size)=0;
 
-	~BaseFFTW(){
+	virtual ~BaseFFTW(){
 		fDestroyer(fPlan);
 	}
 

@@ -224,7 +224,7 @@ public:
 
 	virtual void SetSize(int logical_size)=0;
 
-	~BaseCuFFT(){
+	virtual ~BaseCuFFT(){
 		fDestroyer(fPlan);
 	}
 

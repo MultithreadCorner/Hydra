@@ -31,34 +31,40 @@
 
 #include <hydra/detail/Config.h>
 #include <hydra/detail/BackendPolicy.h>
-#include <hydra/cpp/System.h>
 #include <hydra/Types.h>
 #include <hydra/Tuple.h>
 #include <hydra/Range.h>
 #include <hydra/detail/FFTPolicy.h>
 #include <hydra/Algorithm.h>
 #include <hydra/Zip.h>
-#include <hydra/detail/Convolution.inl>
 #include <hydra/Complex.h>
+#include <hydra/detail/Convolution.inl>
+
 #include <hydra/detail/external/thrust/transform.h>
 #include <hydra/detail/external/thrust/iterator/transform_iterator.h>
 #include <hydra/detail/external/thrust/memory.h>
+#include <hydra/detail/external/thrust/system/cuda/detail/execution_policy.h>
 
 #include <utility>
 #include <type_traits>
 
 namespace hydra {
 
-template<hydra::detail::Backend BACKEND, detail::FFTCalculator FFTBackend,  typename Functor, typename Kernel, typename Iterable,
-     typename T    = typename HYDRA_EXTERNAL_NS::thrust::iterator_traits<decltype(std::declval<Iterable>().begin())>::value_type
-     bool CUDA_FFT = typename
-     >
-inline typename std::enable_if<std::is_floating_point<T>::value
-                            && hydra::detail::is_iterable<Iterable>::value , void>::type
+template<detail::Backend BACKEND, detail::FFTCalculator FFTBackend,  typename Functor, typename Kernel, typename Iterable,
+     typename T    = typename HYDRA_EXTERNAL_NS::thrust::iterator_traits<decltype(std::declval<Iterable>().begin())>::value_type,
+     typename USING_CUDA_BACKEND = typename std::conditional< std::is_convertible<detail::BackendPolicy<BACKEND>,HYDRA_EXTERNAL_NS::thrust::system::cuda::tag >::value, std::integral_constant<int, 1>,std::integral_constant<int, 0>>::type,
+     typename USING_CUFFT = typename std::conditional< FFTBackend==detail::CuFFT, std::integral_constant<int, 1>,std::integral_constant<int, 0>>::type,
+     typename GPU_DATA = typename std::conditional< std::is_convertible<typename HYDRA_EXTERNAL_NS::thrust::iterator_system< decltype(std::declval<Iterable>().begin())>::type,
+                        HYDRA_EXTERNAL_NS::thrust::system::cuda::tag>::value
+         , std::integral_constant<int, 1>, std::integral_constant<int, 0> >::type>
+inline typename std::enable_if<std::is_floating_point<T>::value  && hydra::detail::is_iterable<Iterable>::value
+                    && (USING_CUDA_BACKEND::value == USING_CUFFT::value)
+                     && (USING_CUDA_BACKEND::value == GPU_DATA::value), void>::type
 convolute(detail::BackendPolicy<BACKEND> policy, detail::FFTPolicy<T, FFTBackend> fft_policy,
 		  Functor const& functor, Kernel const& kernel,
 		  T min,  T max, Iterable&& output, bool power_up=true ){
 
+	std::cout<< USING_CUDA_BACKEND::value << USING_CUFFT::value << GPU_DATA::value<<std::endl;
 	typedef hydra::complex<double> complex_type;
 	typedef typename detail::FFTPolicy<T, FFTBackend>::R2C _RealToComplexFFT;
 	typedef typename detail::FFTPolicy<T, FFTBackend>::C2R _ComplexToRealFFT;
@@ -123,8 +129,7 @@ convolute(detail::BackendPolicy<BACKEND> policy, detail::FFTPolicy<T, FFTBackend
 
 	auto fft_product = _ComplexToRealFFT( 2*nsamples );
 
-	fft_product.LoadInputData(complex_buffer.second,
-			reinterpret_cast<double (*)[2]>(HYDRA_EXTERNAL_NS::thrust::raw_pointer_cast(complex_buffer.first)));
+	fft_product.LoadInputData(complex_buffer.second, complex_buffer.first);
 	fft_product.Execute();
 
 	auto fft_product_output =  fft_product.GetOutputData();

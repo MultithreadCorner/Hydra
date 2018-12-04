@@ -35,14 +35,14 @@
 #include <hydra/Parameter.h>
 #include <hydra/Tuple.h>
 #include <hydra/Range.h>
-#include <hydra/FFTW.h>
 #include <hydra/Algorithm.h>
 #include <hydra/Zip.h>
 #include <hydra/Complex.h>
 #include <functional>
 #include <utility>
 #include <type_traits>
-#include <iomanip>
+
+
 namespace hydra {
 
 namespace detail {

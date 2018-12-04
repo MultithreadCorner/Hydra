@@ -11,7 +11,7 @@ function(ADD_HYDRA_EXAMPLE target_name build_cuda build_tbb build_omp build_cpp 
                    "${target_name}.cu"    
                     OPTIONS -Xcompiler -DHYDRA_DEVICE_SYSTEM=CUDA -DHYDRA_HOST_SYSTEM=CPP)
                     
-                  target_link_libraries("${target_name}_cuda" ${ROOT_LIBRARIES} ${TBB_LIBRARIES}  ${GSL_LIBRARIES} ${FFTW_LIBRARIES} ${CUDA_CUFFT_LIBRARIES} -lm)
+                  target_link_libraries("${target_name}_cuda" ${ROOT_LIBRARIES} ${TBB_LIBRARIES}  ${GSL_LIBRARIES}  ${CUDA_CUFFT_LIBRARIES} -lm)
                  
                   add_dependencies(examples      "${target_name}_cuda")
                 

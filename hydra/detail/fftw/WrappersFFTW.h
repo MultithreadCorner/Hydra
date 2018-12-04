@@ -44,7 +44,6 @@
 #include <utility>
 #include <stdexcept>
 #include <type_traits>
-//#include <complex.h>
 
 //FFTW3
 #include <fftw3.h>
