@@ -147,11 +147,13 @@ int main(int argv, char** argc)
 	auto start_d = std::chrono::high_resolution_clock::now();
 
 #if HYDRA_DEVICE_SYSTEM==CUDA
-hydra::convolute(hydra::device::sys, hydra::fft::cufft_f64 , signal, gaussian_kernel, min, max,  conv_result, true);
+	hydra::convolute(hydra::device::sys, hydra::fft::cufft_f64,
+			signal, gaussian_kernel, min, max,  conv_result, true);
 #endif
 
 #if HYDRA_DEVICE_SYSTEM!=CUDA
-hydra::convolute(hydra::device::sys, hydra::fft::fftw_f64 , signal, gaussian_kernel, min, max,  conv_result, true);
+	hydra::convolute(hydra::device::sys, hydra::fft::fftw_f64,
+			signal, gaussian_kernel, min, max,  conv_result, true);
 #endif
 
 
@@ -169,20 +171,15 @@ hydra::convolute(hydra::device::sys, hydra::fft::fftw_f64 , signal, gaussian_ker
 	//------------------------
 #ifdef _ROOT_AVAILABLE_
 
-
 	//fill histograms
 	TH1D *hist_convol   = new TH1D("convol","convolution", conv_result.size(), min, max);
 	TH1D *hist_signal   = new TH1D("signal", "signal", conv_result.size(), min, max);
 	TH1D *hist_kernel   = new TH1D("kernel", "kernel", conv_result.size(), -0.5*(max-min),0.5*(max-min) );
 
-
 	for(int i=1;  i<hist_convol->GetNbinsX()+1; i++){
-
 		hist_convol->SetBinContent(i, conv_result[i-1] );
 		hist_signal->SetBinContent(i, signal(hist_signal->GetBinCenter(i) ) );
 		hist_kernel->SetBinContent(i, gaussian_kernel( hist_kernel->GetBinCenter(i)));
-
-
 	}
 #endif //_ROOT_AVAILABLE_
 
@@ -192,6 +189,7 @@ hydra::convolute(hydra::device::sys, hydra::fft::fftw_f64 , signal, gaussian_ker
 
 
 #ifdef _ROOT_AVAILABLE_
+
 	TApplication *myapp=new TApplication("myapp",0,0);
 
 	//----------------------------
@@ -222,7 +220,6 @@ hydra::convolute(hydra::device::sys, hydra::fft::fftw_f64 , signal, gaussian_ker
 
 	hist_signal->DrawNormalized("histl");
     hist_convol->DrawNormalized("histlsame");
-
 
 	myapp->Run();
 
