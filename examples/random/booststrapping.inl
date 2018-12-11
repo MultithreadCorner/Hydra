@@ -99,10 +99,10 @@ int main(int argv, char** argc)
 		std::cout << "|            <--- DEVICE --->            |"<<std::endl;
 		std::cout << "=========================================="<<std::endl;
 
-		auto    gaussian_points = hydra::range(0.0, 10);
-		auto bs_gaussian_points = hydra::boost_strapped_range( gaussian_points, 15753 );
+		auto             points = hydra::range(0, 10);
+		auto bs_points = hydra::boost_strapped_range( points, 15753 );
 
-		            auto zipped = hydra::zip(gaussian_points, bs_gaussian_points);
+		            auto zipped = hydra::zip( points, bs_points);
 
 		hydra::for_each( zipped, [] __hydra_dual__ ( hydra::tuple<double, double> a){
 

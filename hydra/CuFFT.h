@@ -19,56 +19,48 @@
  *
  *---------------------------------------------------------------------------*/
 
+
 /*
- * wigner_d_matrix.h
+ * CuFFT.h
  *
- *  Created on: 23/10/2018
+ *  Created on: Nov 30, 2018
  *      Author: Antonio Augusto Alves Junior
  */
 
-#ifndef WIGNER_D_MATRIX_H_
-#define WIGNER_D_MATRIX_H_
+#ifndef HYDRA_CUFFT_H_
+#define HYDRA_CUFFT_H_
 
 
-
-
-
-#include <hydra/detail/Config.h>
-#include <hydra/Types.h>
-#include <hydra/Function.h>
-#include <hydra/detail/utility/CheckValue.h>
-#include <hydra/Tuple.h>
-#include <tuple>
-#include <limits>
-#include <stdexcept>
-#include <assert.h>
-#include <utility>
-#include <cmath>
+#include <hydra/detail/FFTPolicy.h>
+#include<hydra/detail/cufft/WrappersCuFFT.h>
+#include<hydra/detail/cufft/BaseCuFFT.h>
+#include<hydra/detail/cufft/ComplexToRealCuFFT.h>
+#include<hydra/detail/cufft/RealToComplexCuFFT.h>
+#include<hydra/detail/cufft/ComplexToComplexCuFFT.h>
 
 namespace hydra {
 
-
 template<typename T>
-__hydra_host__ __hydra_device__
-inline T wigner_d_matrix(double j, double m, double n, const T theta){
+struct detail::FFTPolicy<T, detail::CuFFT>
+{
+	typedef ComplexToComplexCuFFT<T> C2C;
+	typedef    RealToComplexCuFFT<T> R2C;
+	typedef    ComplexToRealCuFFT<T> C2R;
+};
+
+namespace fft {
+
+		typedef detail::FFTPolicy<double, detail::CuFFT> cufft_f64_t;
+		typedef detail::FFTPolicy< float, detail::CuFFT> cufft_f32_t;
+
+		static const cufft_f32_t  cufft_f32= cufft_f32_t();
+
+		static const cufft_f64_t  cufft_f64= cufft_f64_t();
 
 
-	double mu = ::fabs(rint(m-n));
-	double nu = ::fabs(rint(m+n));
-	unsigned s	= ::rint(j-0.5*(mu+nu));
-	int      xi = n>=m ? 1: ::pow(-1,n-m);
-
-	double factor = ::sqrt(::tgamma(s+1.0)*::tgamma(s+mu+nu+1.0)/(::tgamma(s+mu+1.0)*::tgamma(s+nu+1.0)));
-    // FIXME:
-	// all previous definitions expensive are independent of theta and can be saved if
-	// wigner_d_matrix is promoted to a functor
-	return xi*factor*::pow(::sin(theta*0.5),mu)*::pow(::cos(theta*0.5),nu)*jacobi(mu,nu,s, ::cos(theta));
-
-}
+	}  // namespace fft
 
 }  // namespace hydra
 
 
-
-
-#endif /* WIGNER_D_MATRIX_H_ */
+#endif /* CUFFT_H_ */

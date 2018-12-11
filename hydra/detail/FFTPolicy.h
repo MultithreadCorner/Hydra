@@ -19,56 +19,31 @@
  *
  *---------------------------------------------------------------------------*/
 
+
 /*
- * wigner_d_matrix.h
+ * FFTBackend.h
  *
- *  Created on: 23/10/2018
+ *  Created on: Dec 3, 2018
  *      Author: Antonio Augusto Alves Junior
  */
 
-#ifndef WIGNER_D_MATRIX_H_
-#define WIGNER_D_MATRIX_H_
+#ifndef FFTBACKEND_H_
+#define FFTBACKEND_H_
 
-
-
-
-
-#include <hydra/detail/Config.h>
-#include <hydra/Types.h>
-#include <hydra/Function.h>
-#include <hydra/detail/utility/CheckValue.h>
-#include <hydra/Tuple.h>
-#include <tuple>
-#include <limits>
-#include <stdexcept>
-#include <assert.h>
-#include <utility>
-#include <cmath>
 
 namespace hydra {
 
+	namespace detail {
 
-template<typename T>
-__hydra_host__ __hydra_device__
-inline T wigner_d_matrix(double j, double m, double n, const T theta){
+		enum FFTCalculator{CuFFT, FFTW};
+
+		 template<typename Precision, FFTCalculator FFTBackend>
+		 struct FFTPolicy;
 
 
-	double mu = ::fabs(rint(m-n));
-	double nu = ::fabs(rint(m+n));
-	unsigned s	= ::rint(j-0.5*(mu+nu));
-	int      xi = n>=m ? 1: ::pow(-1,n-m);
-
-	double factor = ::sqrt(::tgamma(s+1.0)*::tgamma(s+mu+nu+1.0)/(::tgamma(s+mu+1.0)*::tgamma(s+nu+1.0)));
-    // FIXME:
-	// all previous definitions expensive are independent of theta and can be saved if
-	// wigner_d_matrix is promoted to a functor
-	return xi*factor*::pow(::sin(theta*0.5),mu)*::pow(::cos(theta*0.5),nu)*jacobi(mu,nu,s, ::cos(theta));
-
-}
+	}  // namespace detail
 
 }  // namespace hydra
 
 
-
-
-#endif /* WIGNER_D_MATRIX_H_ */
+#endif /* FFTBACKEND_H_ */

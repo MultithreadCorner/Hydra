@@ -34,6 +34,8 @@
 #ifndef HASH_H_
 #define HASH_H_
 
+#include <hydra/Tuple.h>
+#include <utility>
 #include <functional>
 
 namespace hydra {
@@ -63,6 +65,42 @@ namespace hydra {
 				hash_combine(seed, *first);
 			}
 		}
+
+		namespace tuple {
+
+			template< typename T, unsigned int N, unsigned int I>
+			inline typename std::enable_if< (I == N), void  >::type
+			hash_tuple_helper(std::size_t&, T const&){ }
+
+			template< typename T, unsigned int N, unsigned int I=0>
+			inline typename std::enable_if< (I < N), void  >::type
+			hash_tuple_helper(std::size_t& seed, T const& _tuple){
+
+				hydra::detail::hash_combine(seed, hydra::get<I>(_tuple));
+
+				tuple::hash_tuple_helper<T,N, I+1>(seed, _tuple  );
+			}
+
+
+		}  // namespace tuple
+
+		template< typename ...T>
+		inline void hash_tuple(std::size_t& seed, hydra::tuple<T...> const& _tuple){
+
+			tuple::hash_tuple_helper<hydra::tuple<T...>, sizeof...(T) >(seed, _tuple );
+		}
+
+		template< typename ...T>
+		inline std::size_t hash_tuple( hydra::tuple<T...> const& _tuple){
+
+			std::size_t seed = 0;
+
+			hash_tuple(seed, _tuple);
+
+			return seed;
+
+		}
+
 
 
 
