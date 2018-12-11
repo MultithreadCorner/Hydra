@@ -76,6 +76,7 @@ public:
 	inline Vector4R() =default;
 	__hydra_host__ __hydra_device__ inline Vector4R(GReal_t e, GReal_t px, GReal_t py,
 			GReal_t pz);
+	__hydra_host__ __hydra_device__ inline Vector4R(GReal_t e, const Vector3R& p);
 	__hydra_host__ __hydra_device__ inline Vector4R(const Vector4R& other);
 	__hydra_host__ __hydra_device__ inline Vector4R(Vector4R&& other);
 
