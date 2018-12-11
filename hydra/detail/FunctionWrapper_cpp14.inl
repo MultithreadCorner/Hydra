@@ -44,30 +44,12 @@
 namespace hydra {
 
 
-template<typename Sig,typename L, size_t N,
-typename=typename std::enable_if<std::is_constructible<std::function<Sig>, L>::value>::type>
-class LambdaWrapper;
-
-/**
- * @ingroup functor
- * @brief Wrapper for lambda functions
- */
-template<typename ReturnType, typename ...ArgType, typename L, size_t  N>
-class LambdaWrapper<ReturnType(ArgType...), L, N>:
-public BaseFunctor<LambdaWrapper<ReturnType(ArgType...),L, N>, ReturnType,N >
+template<typename Lambda, typename ReturnType, size_t N>
+class LambdaWrapper:public BaseFunctor<LambdaWrapper<Lambda, ReturnType, N>, ReturnType,N >
 {
 
 public:
 	LambdaWrapper()=delete;
-
-	/**
-	 * Constructor for non-parametrized lambdas
-	 * @param lambda
-	 */
-	LambdaWrapper(L const& lambda):
-			BaseFunctor<LambdaWrapper<ReturnType(ArgType...),L, 0>, ReturnType,0 >(),
-			fLambda(lambda)
-		{}
 
 	/**
 	 * Constructor for parametrized lambdas
@@ -76,7 +58,7 @@ public:
 	 */
 	LambdaWrapper(L const& lambda,
 			std::array<Parameter, N> const& parameters):
-		BaseFunctor<LambdaWrapper<ReturnType(ArgType...),L, N>, ReturnType,N >(parameters),
+				BaseFunctor<LambdaWrapper<Lambda, ReturnType, N>, ReturnType,N >(parameters),
 		fLambda(lambda)
 	{}
 
@@ -85,7 +67,7 @@ public:
 	 */
 	__hydra_host__ __hydra_device__
 	inline	LambdaWrapper(LambdaWrapper<ReturnType(ArgType...), L, N> const& other ):
-	BaseFunctor<LambdaWrapper<ReturnType(ArgType...),L, N>, ReturnType,N>(other),
+	BaseFunctor<LambdaWrapper<Lambda, ReturnType, N>, ReturnType,N>(other),
 	fLambda( other.GetLambda())
 	{	}
 
@@ -93,11 +75,11 @@ public:
 	 * Assignment operator
 	 */
 	__hydra_host__ __hydra_device__
-	inline LambdaWrapper<ReturnType(ArgType...), L, N>
-	operator=(LambdaWrapper<ReturnType(ArgType...), L, N> const& other )
+	inline LambdaWrapper<Lambda, ReturnType, N>
+	operator=(LambdaWrapper<Lambda, ReturnType, N> const& other )
 	{
 		if(this==&other) return *this;
-		BaseFunctor<LambdaWrapper<ReturnType(ArgType...),L, N>, ReturnType,N>::operator=(other);
+		BaseFunctor<LambdaWrapper<Lambda, ReturnType, N>, ReturnType,N>::operator=(other);
 
 		return *this;
 	}
@@ -107,7 +89,7 @@ public:
 	 * Get the underlying lambda
 	 */
 	__hydra_host__ __hydra_device__
-	inline const L& GetLambda() const {return fLambda; }
+	inline const Lambda& GetLambda() const {return fLambda; }
 
 
 	template<size_t M=N, typename ...T>
