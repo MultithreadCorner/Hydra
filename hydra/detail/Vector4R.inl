@@ -129,6 +129,16 @@ inline Vector4R::Vector4R(GReal_t e, GReal_t p1, GReal_t p2, GReal_t p3)
 }
 
 __hydra_host__ __hydra_device__
+inline Vector4R::Vector4R(GReal_t e, const Vector3R& p)
+{
+
+	v[0] = e;
+	v[1] = p.get(0);
+	v[2] = p.get(1);
+	v[3] = p.get(2);
+}
+
+__hydra_host__ __hydra_device__
 inline Vector4R::Vector4R(const Vector4R& other)
 {
 	v[0] = other.get(0);
