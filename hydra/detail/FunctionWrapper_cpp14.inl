@@ -56,8 +56,7 @@ public:
 	 * @param lambda
 	 * @param parameters
 	 */
-	LambdaWrapper(L const& lambda,
-			std::array<Parameter, N> const& parameters):
+	LambdaWrapper(L const& lambda,	std::array<Parameter, N> const& parameters):
 				BaseFunctor<LambdaWrapper<Lambda, ReturnType, N>, ReturnType,N >(parameters),
 		fLambda(lambda)
 	{}
@@ -79,7 +78,9 @@ public:
 	operator=(LambdaWrapper<Lambda, ReturnType, N> const& other )
 	{
 		if(this==&other) return *this;
+
 		BaseFunctor<LambdaWrapper<Lambda, ReturnType, N>, ReturnType,N>::operator=(other);
+		fLambda=other.GetLambda();
 
 		return *this;
 	}
@@ -92,46 +93,23 @@ public:
 	inline const Lambda& GetLambda() const {return fLambda; }
 
 
-	template<size_t M=N, typename ...T>
+	template< typename ...T, size_t M=N >
 	__hydra_host__ __hydra_device__
-	inline typename std::enable_if< (M>0) &&( (sizeof...(ArgType) ==(sizeof ...(T)+2))) , ReturnType >::type
+	inline typename std::enable_if< (M>0), ReturnType >::type
 	Evaluate(T... a)   const {
 
-		static_assert(
-				std::is_convertible<HYDRA_EXTERNAL_NS::thrust::tuple<unsigned int,  const hydra::Parameter*, T...> , HYDRA_EXTERNAL_NS::thrust::tuple<ArgType...>>::value ,
-										"\n\n<<< HYDRA_COMPILE_ERROR: Lambda function can not be called with this arguments .>>>\n\n");
 
 		return fLambda(this->GetNumberOfParameters(), this->GetParameters(),a...);
 	}
 
-	template<size_t M=N, typename T>
-	__hydra_host__ __hydra_device__
-	inline typename std::enable_if< (M>0)&& sizeof...(ArgType)==3, ReturnType >::type
-	Evaluate(T a)    const {
 
-		static_assert( std::is_convertible<HYDRA_EXTERNAL_NS::thrust::tuple<unsigned int,  const hydra::Parameter*, T> , HYDRA_EXTERNAL_NS::thrust::tuple<ArgType...>>::value ,
-										"\n\n<<< HYDRA_COMPILE_ERROR: Lambda function can not be called with this arguments .>>>\n\n");
-		return fLambda(this->GetNumberOfParameters(), this->GetParameters(), a);
-	}
 
-	template< typename ...T, size_t M=N>
+	template< typename ...T, size_t M=N >
 	__hydra_host__ __hydra_device__
-	inline typename std::enable_if< (M==0) &&( (sizeof...(ArgType))>1), ReturnType >::type
+	inline typename std::enable_if< (M==0), ReturnType >::type
 	Evaluate(T...a)   const {
 
-		static_assert( std::is_convertible<HYDRA_EXTERNAL_NS::thrust::tuple<T...> , HYDRA_EXTERNAL_NS::thrust::tuple<ArgType...>>::value ,
-								"\n\n<<< HYDRA_COMPILE_ERROR: Lambda function can not be called with this arguments .>>>\n\n");
-		return fLambda( a...);
-	}
-
-	template<typename ...T, size_t M=N>
-	__hydra_host__ __hydra_device__
-	inline typename std::enable_if< (M==0)&& sizeof...(ArgType)==1, ReturnType >::type
-	Evaluate(T...a)   const {
-
-		static_assert( std::is_convertible<HYDRA_EXTERNAL_NS::thrust::tuple<T...> , HYDRA_EXTERNAL_NS::thrust::tuple<ArgType...>>::value ,
-						"\n\n<<< HYDRA_COMPILE_ERROR: Lambda function can not be called with this arguments .>>>\n\n");
-		return fLambda( a...);
+		return fLambda(a...);
 	}
 
 
