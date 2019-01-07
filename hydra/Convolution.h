@@ -58,8 +58,9 @@ template<detail::Backend BACKEND, detail::FFTCalculator FFTBackend,  typename Fu
                         HYDRA_EXTERNAL_NS::thrust::system::cuda::tag>::value
          , std::integral_constant<int, 1>, std::integral_constant<int, 0> >::type>
 inline typename std::enable_if<std::is_floating_point<T>::value  && hydra::detail::is_iterable<Iterable>::value
-                    && (USING_CUDA_BACKEND::value == USING_CUFFT::value)
-                     && (USING_CUDA_BACKEND::value == GPU_DATA::value), void>::type
+                   // && (USING_CUDA_BACKEND::value == USING_CUFFT::value)
+                   //  && (USING_CUDA_BACKEND::value == GPU_DATA::value),
+,void>::type
 convolute(detail::BackendPolicy<BACKEND> policy, detail::FFTPolicy<T, FFTBackend> fft_policy,
 		  Functor const& functor, Kernel const& kernel,
 		  T min,  T max, Iterable&& output, bool power_up=true ){

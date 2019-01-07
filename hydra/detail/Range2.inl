@@ -66,7 +66,7 @@ public:
 			{}
 
 
-	Range<Iterator,Functor>&
+	inline Range<Iterator,Functor>&
 	operator=(Range<Iterator,Functor> const& other){
 
 		if(this==&other) return this;
@@ -79,40 +79,40 @@ public:
 	}
 
 
-	iterator begin(){ return iterator(fBegin, fFunctor); };
+	inline iterator begin(){ return iterator(fBegin, fFunctor); };
 
-	iterator   end(){ return iterator(fEnd, fFunctor); };
+	inline iterator   end(){ return iterator(fEnd, fFunctor); };
 
-	iterator begin()const{ return iterator(fBegin, fFunctor); };
+	inline iterator begin()const{ return iterator(fBegin, fFunctor); };
 
-	iterator   end()const{ return iterator(fEnd, fFunctor); };
+	inline iterator   end()const{ return iterator(fEnd, fFunctor); };
+
+	inline void resize(size_t size){	}
+
+	inline 	size_t size() { return hydra::distance(fBegin, fEnd);}
+
+	inline Functor const& GetFunctor() const { return fFunctor;};
+
+	inline Functor& GetFunctor(){ return fFunctor;};
 
 
-
-	size_t size() { return hydra::distance(fBegin, fEnd);}
-
-	Functor const& GetFunctor() const { return fFunctor;};
-
-	Functor& GetFunctor(){ return fFunctor;};
-
-
-	Iterator GetBegin() const {
+	inline Iterator GetBegin() const {
 		return fBegin;
 	}
 
-	void SetBegin(Iterator begin) {
+	inline void SetBegin(Iterator begin) {
 		fBegin = begin;
 	}
 
-	Iterator GetEnd() const {
+	inline Iterator GetEnd() const {
 		return fEnd;
 	}
 
-	void SetEnd(Iterator end) {
+	inline void SetEnd(Iterator end) {
 		fEnd = end;
 	}
 
-	typename  iterator::reference operator[](size_t i)
+	inline typename  iterator::reference operator[](size_t i)
 	{
 	 return begin()[i];
 	}

@@ -62,12 +62,12 @@ public:
 			fEnd( begin + last )
 			{}
 
-	Range(Range<Iterator> const& other):
+	inline 	Range(Range<Iterator> const& other):
 			fBegin( other.GetBegin()),
 			fEnd( other.GetEnd() )
 			{}
 
-	Range<Iterator>&
+	inline Range<Iterator>&
 	operator=(Range<Iterator> const& other){
 
 		if(this==&other) return this;
@@ -77,7 +77,7 @@ public:
 		return this;
 	}
 
-	Range<Iterator>&
+	inline Range<Iterator>&
 	operator=(Range<Iterator>&& other){
 
 		if(this==&other) return this;
@@ -89,40 +89,40 @@ public:
 	}
 
 
-	Iterator begin(){ return fBegin;};
+	inline Iterator begin(){ return fBegin;}
 
-	Iterator   end(){ return fEnd;};
+	inline Iterator   end(){ return fEnd;}
 
-	Iterator begin() const { return fBegin;};
+	inline Iterator begin() const { return fBegin;}
 
-	Iterator   end() const { return fEnd;};
+	inline Iterator   end() const { return fEnd;}
 
+	inline void resize(size_t size){	}
 
+	inline size_t size() { return HYDRA_EXTERNAL_NS::thrust::distance(fBegin, fEnd);}
 
-	size_t size() { return hydra::distance(fBegin, fEnd);}
-
-	Iterator GetBegin() const {
+	inline Iterator GetBegin() const {
 		return fBegin;
 	}
 
-	void SetBegin(Iterator begin) {
+	inline 	void SetBegin(Iterator begin) {
 		fBegin = begin;
 	}
 
-	Iterator GetEnd() const {
+	inline Iterator GetEnd() const {
 		return fEnd;
 	}
 
-	void SetEnd(Iterator end) {
+	inline void SetEnd(Iterator end) {
 		fEnd = end;
 	}
 
-	reference  operator[](size_t i)
+	inline 	reference  operator[](size_t i)
 	{
 		return fBegin[i];
 	}
 
-	const reference  operator[](size_t i) const
+	inline const reference  operator[](size_t i) const
 	{
 		return fBegin[i];
 	}

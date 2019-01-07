@@ -73,7 +73,7 @@ struct GaussKronrodUnary
 {
 	GaussKronrodUnary()=delete;
 
-	GaussKronrodUnary(FUNCTOR functor):
+	GaussKronrodUnary(FUNCTOR const& functor):
 	fFunctor(functor)
 	{}
 

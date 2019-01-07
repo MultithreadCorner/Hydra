@@ -38,6 +38,8 @@
 #include<hydra/detail/fftw/ComplexToRealFFTW.h>
 #include<hydra/detail/fftw/RealToComplexFFTW.h>
 #include<hydra/detail/fftw/ComplexToComplexFFTW.h>
+#include<hydra/host/System.h>
+#include<hydra/device/System.h>
 
 namespace hydra {
 
@@ -49,6 +51,12 @@ namespace hydra {
 			typedef ComplexToComplexFFTW<T> C2C;
 			typedef    RealToComplexFFTW<T> R2C;
 			typedef    ComplexToRealFFTW<T> C2R;
+			typedef    hydra::host::sys_t host_backend_type;
+#if HYDRA_DEVICE_SYSTEM!=CUDA
+			typedef       hydra::device::sys_t device_backend_type;
+#else
+			typedef       hydra::host::sys_t device_backend_type;
+#endif
 		};
 
 	}  // namespace detail

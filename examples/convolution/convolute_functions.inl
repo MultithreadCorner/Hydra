@@ -43,7 +43,7 @@
 #include <hydra/functions/Gaussian.h>
 #include <hydra/functions/Ipatia.h>
 #include <hydra/device/System.h>
-
+#include <hydra/functions/ConvolutionFunctor.h>
 
 //hydra
 #if HYDRA_DEVICE_SYSTEM == CUDA
@@ -144,18 +144,22 @@ int main(int argv, char** argc)
 
 	//uniform (x) gaussian kernel
 
-	auto start_d = std::chrono::high_resolution_clock::now();
-
 #if HYDRA_DEVICE_SYSTEM==CUDA
-	hydra::convolute(hydra::device::sys, hydra::fft::cufft_f64,
-			signal, gaussian_kernel, min, max,  conv_result, true);
+	auto fft_backend = hydra::fft::cufft_f64;
 #endif
 
 #if HYDRA_DEVICE_SYSTEM!=CUDA
-	hydra::convolute(hydra::device::sys, hydra::fft::fftw_f64,
-			signal, gaussian_kernel, min, max,  conv_result, true);
+	auto fft_backend = hydra::fft::fftw_f64;
 #endif
 
+	/*
+	 * using the hydra::convolute
+	 */
+
+	auto start_d = std::chrono::high_resolution_clock::now();
+
+	hydra::convolute(hydra::device::sys, fft_backend,
+			signal, gaussian_kernel, min, max,  conv_result, true);
 
 	auto end_d = std::chrono::high_resolution_clock::now();
 
@@ -166,6 +170,11 @@ int main(int argv, char** argc)
 	std::cout << "-----------------------------------------"<<std::endl;
 
 
+	/*
+	 * using the hydra::ConvolutionFunctor
+	 */
+
+    auto convoluton = hydra::make_convolution<0>( fft_backend, signal, gaussian_kernel, min, max,conv_result.size()  );
 
 	//------------------------
 	//------------------------
@@ -173,10 +182,13 @@ int main(int argv, char** argc)
 
 	//fill histograms
 	TH1D *hist_convol   = new TH1D("convol","convolution", conv_result.size(), min, max);
+	TH1D *hist_convol_functor   = new TH1D("convol_functor","convolution", conv_result.size(), min, max);
 	TH1D *hist_signal   = new TH1D("signal", "signal", conv_result.size(), min, max);
 	TH1D *hist_kernel   = new TH1D("kernel", "kernel", conv_result.size(), -0.5*(max-min),0.5*(max-min) );
 
 	for(int i=1;  i<hist_convol->GetNbinsX()+1; i++){
+
+		hist_convol_functor->SetBinContent(i, convoluton(hist_convol_functor->GetBinCenter(i)) );
 		hist_convol->SetBinContent(i, conv_result[i-1] );
 		hist_signal->SetBinContent(i, signal(hist_signal->GetBinCenter(i) ) );
 		hist_kernel->SetBinContent(i, gaussian_kernel( hist_kernel->GetBinCenter(i)));
@@ -194,8 +206,8 @@ int main(int argv, char** argc)
 
 	//----------------------------
 	//draw histograms
-	TCanvas* canvas = new TCanvas("canvas" ,"canvas", 1000, 1000);
-	canvas->Divide(2,2);
+	TCanvas* canvas = new TCanvas("canvas" ,"canvas", 1500, 1000);
+	canvas->Divide(3,2);
 
 	canvas->cd(1);
 	hist_convol->SetStats(0);
@@ -204,19 +216,25 @@ int main(int argv, char** argc)
 	hist_convol->Draw("histl");
 
 	canvas->cd(2);
+	hist_convol_functor->SetStats(0);
+	hist_convol_functor->SetLineColor(4);
+	hist_convol_functor->SetLineWidth(2);
+	hist_convol_functor->Draw("histl");
+
+	canvas->cd(3);
 	hist_signal->SetStats(0);
 	hist_signal->SetLineColor(2);
 	hist_signal->SetLineWidth(2);
 	hist_signal->SetLineStyle(2);
 	hist_signal->Draw("histl");
 
-	canvas->cd(3);
+	canvas->cd(4);
 	hist_kernel->SetStats(0);
 	hist_kernel->SetLineColor(6);
 	hist_kernel->SetLineWidth(2);
 	hist_kernel->Draw("hist");
 
-	canvas->cd(4);
+	canvas->cd(5);
 
 	hist_signal->DrawNormalized("histl");
     hist_convol->DrawNormalized("histlsame");
@@ -225,6 +243,7 @@ int main(int argv, char** argc)
 
 #endif //_ROOT_AVAILABLE_
 
+	convoluton.Dispose();
 	return 0;
 
 }

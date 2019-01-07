@@ -69,7 +69,7 @@ public:
 	 */
 	BaseCompositeFunctor()=delete;
 
-	__hydra_host__  __hydra_device__
+	//__hydra_host__  __hydra_device__
 	explicit BaseCompositeFunctor(F1 const& f1, F2 const& f2, Fs const& ...fs):
 		detail::ParametersCompositeFunctor<F1, F2, Fs...>(f1, f2, fs...),
 		fCacheIndex(-1),
