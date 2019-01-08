@@ -210,7 +210,7 @@ Here’s what you should do if you need help or would like to contribute:
 Author
 --------
 
-Hydra was created and is maintained by [Antonio Augusto Alves Jr](@AAAlvesJr).
+Hydra was created and is maintained by [Antonio Augusto Alves Jr](https://github.com/AAAlvesJr).
 
 Acknowledgement
 ---------------
