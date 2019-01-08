@@ -254,6 +254,7 @@ public:
  	template<typename T1>
  	inline  GReal_t operator()(T1&& t ) const
   	{
+
   		return fFunctor.GetNorm()*fFunctor(t);
 
   	}

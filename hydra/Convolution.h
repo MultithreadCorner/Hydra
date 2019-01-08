@@ -22,7 +22,7 @@
 /*
  * Convolution.h
  *
- *  Created on: 29/08/2018
+ *  Created on: 22/11/2018
  *      Author: Antonio Augusto Alves Junior
  */
 
@@ -30,179 +30,130 @@
 #define CONVOLUTION_H_
 
 #include <hydra/detail/Config.h>
+#include <hydra/detail/BackendPolicy.h>
 #include <hydra/Types.h>
-#include <hydra/detail/BaseCompositeFunctor.h>
-#include <hydra/detail/utility/Utility_Tuple.h>
-#include <hydra/Parameter.h>
 #include <hydra/Tuple.h>
+#include <hydra/Range.h>
+#include <hydra/detail/FFTPolicy.h>
+#include <hydra/Algorithm.h>
+#include <hydra/Zip.h>
+#include <hydra/Complex.h>
+#include <hydra/detail/Convolution.inl>
+
+#include <hydra/detail/external/thrust/transform.h>
+#include <hydra/detail/external/thrust/iterator/transform_iterator.h>
+#include <hydra/detail/external/thrust/memory.h>
+#include <hydra/detail/external/thrust/system/cuda/detail/execution_policy.h>
+
+#include <utility>
+#include <type_traits>
 
 namespace hydra {
 
+template<detail::Backend BACKEND, detail::FFTCalculator FFTBackend,  typename Functor, typename Kernel, typename Iterable,
+     typename T    = typename HYDRA_EXTERNAL_NS::thrust::iterator_traits<decltype(std::declval<Iterable>().begin())>::value_type,
+     typename USING_CUDA_BACKEND = typename std::conditional< std::is_convertible<detail::BackendPolicy<BACKEND>,HYDRA_EXTERNAL_NS::thrust::system::cuda::tag >::value, std::integral_constant<int, 1>,std::integral_constant<int, 0>>::type,
+     typename USING_CUFFT = typename std::conditional< FFTBackend==detail::CuFFT, std::integral_constant<int, 1>,std::integral_constant<int, 0>>::type,
+     typename GPU_DATA = typename std::conditional< std::is_convertible<typename HYDRA_EXTERNAL_NS::thrust::iterator_system< decltype(std::declval<Iterable>().begin())>::type,
+                        HYDRA_EXTERNAL_NS::thrust::system::cuda::tag>::value
+         , std::integral_constant<int, 1>, std::integral_constant<int, 0> >::type>
+inline typename std::enable_if<std::is_floating_point<T>::value  && hydra::detail::is_iterable<Iterable>::value
+                   // && (USING_CUDA_BACKEND::value == USING_CUFFT::value)
+                   //  && (USING_CUDA_BACKEND::value == GPU_DATA::value),
+,void>::type
+convolute(detail::BackendPolicy<BACKEND> policy, detail::FFTPolicy<T, FFTBackend> fft_policy,
+		  Functor const& functor, Kernel const& kernel,
+		  T min,  T max, Iterable&& output, bool power_up=true ){
 
-template<typename Functor, typename Kernel,  unsigned int ArgIndex=0>
-class Convolution:  public BaseCompositeFunctor<Convolution<Functor, Kernel, ArgIndex>, double, Functor, Kernel>
-{
 
-public:
-	Convolution() = delete;
+	typedef hydra::complex<double> complex_type;
+	typedef typename detail::FFTPolicy<T, FFTBackend>::R2C _RealToComplexFFT;
+	typedef typename detail::FFTPolicy<T, FFTBackend>::C2R _ComplexToRealFFT;
 
-	Convolution( Functor const& functor, Kernel const& kernel, double kmin, double kmax, size_t nsamples =100):
-		BaseCompositeFunctor< Convolution<Functor, Kernel, ArgIndex>, double, Functor, Kernel>(functor,kernel),
-		fKernelMin(kmin),
-		fKernelMax(kmax),
-		fDelta((kmax-kmin)/nsamples),
-		fN(nsamples),
-		fNormalization(0)
-		{
-		  NormalizeKernel();
-		}
 
-	__hydra_host__ __hydra_device__
-	Convolution( Convolution<Functor, Kernel, ArgIndex> const& other):
-	BaseCompositeFunctor< Convolution<Functor, Kernel, ArgIndex>, double,Functor, Kernel>(other),
-	fKernelMax(other.GetKernelMax()),
-	fKernelMin(other.GetKernelMin()),
-	fDelta(other.GetDelta()),
-	fN(other.GetN()),
-	fNormalization(other.GetNormalization())
-	{}
-
-	__hydra_host__ __hydra_device__
-	Convolution<Functor,Kernel, ArgIndex>&
-	operator=(Convolution<Functor,Kernel, ArgIndex> const& other){
-
-		if(this == &other) return *this;
-
-		BaseCompositeFunctor<Convolution<Functor,Kernel, ArgIndex>, double, Functor, Kernel>::operator=(other);
-		fKernelMax 	 = other.GetKernelMax();
-		fKernelMin 	 = other.GetKernelMin();
-		fDelta   = other.GetDelta();
-		fN       = other.GetN();
-		fNormalization = other.GetNormalization();
-		return *this;
+	if(power_up) {
+		std::forward<Iterable>(output).resize(
+				hydra::detail::convolution::upper_power_of_two(std::forward<Iterable>(output).size()));
 	}
 
-	__hydra_host__ __hydra_device__
-	double GetKernelMax() const {
-		return fKernelMax;
-	}
-
-	__hydra_host__ __hydra_device__
-	void SetKernelMax(double kMax) {
-		fKernelMax = kMax;
-	}
-
-	__hydra_host__ __hydra_device__
-	double GetKernelMin() const {
-		return fKernelMin;
-	}
-
-	__hydra_host__ __hydra_device__
-	void SetKernelMin(double kMin) {
-		fKernelMin = kMin;
-	}
-	__hydra_host__ __hydra_device__
-	double GetDelta() const {
-		return fDelta;
-	}
-
-	__hydra_host__ __hydra_device__
-	GReal_t GetNormalization() const {
-		return fNormalization;
-	}
-	__hydra_host__ __hydra_device__
-	void SetNormalization(GReal_t normalization) {
-		fNormalization = normalization;
-	}
-
-	__hydra_host__ __hydra_device__
-	GReal_t GetN() const {
-		return fN;
-	}
-
-	__hydra_host__ __hydra_device__
-	void SetN(GReal_t n) {
-		fN = n;
-		fDelta = (fKernelMax-fKernelMin)/fN;
-	}
-
-	virtual void Update() override {
-
-		NormalizeKernel();
-	}
-
-	template<typename T>
-     __hydra_host__ __hydra_device__
-	inline double Evaluate(unsigned int n, T*x) const	{
-
-		GReal_t result = 0;
-		GReal_t X  = x[ArgIndex];
-
-		for(int i=0 ; i<fN; i++){
-
-			GReal_t	    x_i = i*fDelta + fKernelMin;
-			GReal_t	delta_i = X - x_i;
-			GReal_t  kernel = HYDRA_EXTERNAL_NS::thrust::get<1>(this->GetFunctors())(delta_i);
-			result         += HYDRA_EXTERNAL_NS::thrust::get<0>(this->GetFunctors())(x_i)*kernel;
-
-		}
-
-		return result/fNormalization;
-	}
+	int nsamples = std::forward<Iterable>(output).size();
 
 
-	template<typename T>
-     __hydra_host__ __hydra_device__
-	inline double Evaluate(T& x) const {
+	T delta = (max - min)/(nsamples);
 
-		GReal_t result = 0;
-		GReal_t X  = get<ArgIndex>(x);
+	auto complex_buffer  = HYDRA_EXTERNAL_NS::thrust::get_temporary_buffer<complex_type>(policy, nsamples+1);
+	auto kernel_samples  = HYDRA_EXTERNAL_NS::thrust::get_temporary_buffer<T>(policy, 2*nsamples);
+	auto functor_samples = HYDRA_EXTERNAL_NS::thrust::get_temporary_buffer<T>(policy, 2*nsamples);
 
-		for(int i=0 ; i<fN; i++){
+	//
+	auto counting_samples = range(0, 2*nsamples);
+	// sample kernel
+	auto kernel_sampler = hydra::detail::convolution::KernelSampler<Kernel>(kernel, nsamples, delta);
 
-			GReal_t	    x_i = i*fDelta + fKernelMin;
-			GReal_t	delta_i = X - x_i;
-			GReal_t  kernel = HYDRA_EXTERNAL_NS::thrust::get<1>(this->GetFunctors())(delta_i);
-			result         += HYDRA_EXTERNAL_NS::thrust::get<0>(this->GetFunctors())(x_i)*kernel;
+	HYDRA_EXTERNAL_NS::thrust::transform(policy, counting_samples.begin(), counting_samples.end(),
+			kernel_samples.first , kernel_sampler);
 
-		}
+	// sample function
+	auto functor_sampler = hydra::detail::convolution::FunctorSampler<Functor>(functor, nsamples,  min, delta);
 
-		return result/fNormalization;
-	}
+	HYDRA_EXTERNAL_NS::thrust::transform( policy, counting_samples.begin(), counting_samples.end(),
+			functor_samples.first, functor_sampler);
 
-	virtual ~Convolution()=default;
+	//transform kernel
+	auto fft_kernel = _RealToComplexFFT( kernel_samples.second );
 
-private:
+	fft_kernel.LoadInputData( kernel_samples.second, kernel_samples.first);
+	fft_kernel.Execute();
 
-     void NormalizeKernel(){
+	auto fft_kernel_output =  fft_kernel.GetOutputData();
+	auto fft_kernel_range  = make_range( fft_kernel_output.first,
+			fft_kernel_output.first + fft_kernel_output.second);
 
-    	 for(int i=0 ; i<fN; i++){
-    		 GReal_t	    x_i = i*fDelta + fKernelMin;
-    		 fNormalization += HYDRA_EXTERNAL_NS::thrust::get<1>(this->GetFunctors())(x_i);
-    	 }
+	//transform functor
+	auto fft_functor = _RealToComplexFFT( functor_samples.second );
 
-     }
+	fft_functor.LoadInputData(functor_samples.second,functor_samples.first);
+	fft_functor.Execute();
 
-	GReal_t fKernelMax;
-	GReal_t fKernelMin;
-	GReal_t fDelta;
-	GReal_t fNormalization;
-	GReal_t fN;
+	auto fft_functor_output =  fft_functor.GetOutputData();
+	auto fft_functor_range  = make_range( fft_functor_output.first,
+			fft_functor_output.first + fft_functor_output.second);
+
+	//element wise product
+	auto ffts = hydra::zip(fft_functor_range,  fft_kernel_range );
 
 
-};
+	HYDRA_EXTERNAL_NS::thrust::transform( policy, ffts.begin(),  ffts.end(),
+			complex_buffer.first, detail::convolution::MultiplyFFT<T>());
 
-template<unsigned int ArgIndex, typename Functor, typename Kernel>
-auto convolute( Functor const& functor, Kernel const& kernel, double kmin, double kmax, size_t nsamples =100 )
--> Convolution<Functor, Kernel, ArgIndex>
-{
+	//transform product back to real
 
-	return Convolution<Functor, Kernel, ArgIndex>( functor, kernel,kmin,kmax,nsamples);
+	auto fft_product = _ComplexToRealFFT( 2*nsamples );
 
+	fft_product.LoadInputData(complex_buffer.second, complex_buffer.first);
+	fft_product.Execute();
+
+	auto fft_product_output =  fft_product.GetOutputData();
+
+	T n = ::pow(10.0, (long unsigned)::log10((double)nsamples*nsamples ));
+
+	auto normalize_fft =  detail::convolution::NormalizeFFT<T>(n);
+
+    auto first = HYDRA_EXTERNAL_NS::thrust::make_transform_iterator( fft_product_output.first,normalize_fft);
+    auto last  = HYDRA_EXTERNAL_NS::thrust::make_transform_iterator(fft_product_output.first + nsamples,normalize_fft);
+
+	auto fft_product_range = make_range(first, last);
+
+	hydra::copy(fft_product_range,  std::forward<Iterable>(output));
+
+	HYDRA_EXTERNAL_NS::thrust::return_temporary_buffer( policy,  complex_buffer.first  );
+	HYDRA_EXTERNAL_NS::thrust::return_temporary_buffer( policy,  kernel_samples.first  );
+	HYDRA_EXTERNAL_NS::thrust::return_temporary_buffer( policy, functor_samples.first  );
 }
 
 
 }  // namespace hydra
+
 
 
 #endif /* CONVOLUTION_H_ */

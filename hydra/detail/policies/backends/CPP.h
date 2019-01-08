@@ -48,6 +48,8 @@ static const cpp_t    _cpp_;
 template<>
 struct BackendPolicy<Backend::Cpp>: HYDRA_EXTERNAL_NS::thrust::execution_policy<cpp::cpp_t>
 {
+	//typedef HYDRA_EXTERNAL_NS::thrust::execution_policy<cpp::cpp_t> super_type;
+
 	const cpp::cpp_t backend= cpp::_cpp_;
 
 	template<typename T>

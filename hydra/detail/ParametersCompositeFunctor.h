@@ -227,6 +227,7 @@ public:
 
 	virtual void Update(){};
 
+
 	virtual ~ParametersCompositeFunctor()=default;
 
 private:

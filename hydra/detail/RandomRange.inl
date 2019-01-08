@@ -50,7 +50,7 @@ random_gauss_range(const Value_Type&  mean, const Value_Type&  width, size_t see
 	typedef detail::RndGauss<Value_Type, HYDRA_EXTERNAL_NS::thrust::random::default_random_engine> gauss_t;
 
 	index_t first(0);
-	index_t last(std::numeric_limits<ssize_t>::max());
+	index_t last(std::numeric_limits<size_t>::max());
 
 	return make_range(
 			HYDRA_EXTERNAL_NS::thrust::transform_iterator<gauss_t, index_t, double>(first, gauss_t(seed, mean, width )),
@@ -88,7 +88,7 @@ random_exp_range(const Value_Type& tau,  size_t seed ){
 	typedef detail::RndExp<Value_Type, HYDRA_EXTERNAL_NS::thrust::random::default_random_engine> exp_t;
 
 	index_t first(0);
-	index_t last(std::numeric_limits<ssize_t>::max());
+	index_t last(std::numeric_limits<size_t>::max());
 
 	return make_range(
 			HYDRA_EXTERNAL_NS::thrust::transform_iterator<exp_t, index_t, double>(first, exp_t(seed, tau )),

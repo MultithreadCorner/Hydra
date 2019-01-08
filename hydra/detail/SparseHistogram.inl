@@ -39,6 +39,7 @@
 #include <hydra/detail/external/thrust/iterator/iterator_traits.h>
 #include <hydra/detail/external/thrust/system/detail/generic/select_system.h>
 #include <hydra/detail/external/thrust/iterator/iterator_traits.h>
+#include <hydra/detail/external/thrust/memory.h>
 
 #include<utility>
 

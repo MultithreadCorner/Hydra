@@ -49,6 +49,7 @@ static const host_t   _host_;
 template<>
 struct BackendPolicy<Backend::Host>: HYDRA_EXTERNAL_NS::thrust::host_execution_policy<host::host_t>
 {
+	//typedef HYDRA_EXTERNAL_NS::thrust::host_execution_policy<host::host_t> super_type;
 	const host::host_t backend= host::_host_;
 
 	template<typename T>

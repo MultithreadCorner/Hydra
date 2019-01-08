@@ -72,8 +72,14 @@ endif(ROOT_FOUND)
 find_package(GSL)
 if(GSL_FOUND)
 include_directories(${GSL_INCLUDE_DIRS})
-link_directories(${GSL_LIBRARIES})
 endif(GSL_FOUND)
+
+#-----------------------
+# get FFTW
+find_package(FFTW)
+if(FFTW_FOUND)
+include_directories(${FFTW_INCLUDE_DIRS})
+endif(FFTW_FOUND)
 
 #-----------------------
 #get CUDA
@@ -161,7 +167,8 @@ MESSAGE(STATUS "ROOT libraries: ${ROOT_LIBRARIES}")
 MESSAGE(STATUS "ROOT::Minuit2: ${ROOT_Minuit2_LIBRARY}")
 MESSAGE(STATUS "Build CUDA/NVCC-based targets: ${BUILD_CUDA_TARGETS}")
 MESSAGE(STATUS "CUDA include: ${CUDA_INCLUDE_DIRS}" )
-MESSAGE(STATUS "CUDA libraries: ${CUDA_LIBRARIES}"  )
+MESSAGE(STATUS "CUDA RT libraries: ${CUDA_LIBRARIES}"  )
+MESSAGE(STATUS "CUDA CUFFT libraries: ${CUDA_CUFFT_LIBRARIES}")
 MESSAGE(STATUS "NVCC flags: ${CUDA_NVCC_FLAGS}" )
 MESSAGE(STATUS "Build TBB targets: ${BUILD_TBB_TARGETS}")
 MESSAGE(STATUS "TBB include: ${TBB_INCLUDE_DIRS}" )
@@ -191,6 +198,7 @@ add_subdirectory(examples/random)
 add_subdirectory(examples/histograming)
 add_subdirectory(examples/async)
 add_subdirectory(examples/misc)
+add_subdirectory(examples/convolution)
 if(Minuit2_FOUND)
 add_subdirectory(examples/phys)
 add_subdirectory(examples/fit)
