@@ -88,20 +88,21 @@ namespace detail {
 template<typename Functor, typename Kernel, typename Backend, typename FFT, unsigned int ArgIndex=0>
 class ConvolutionFunctor;
 
-template<typename Functor, typename Kernel, detail::Backend BACKEND, detail::FFTCalculator  FFT,unsigned int ArgIndex,
-                  typename T=typename std::common_type<typename Functor::return_type, typename Kernel::return_type>::type >
-class ConvolutionFunctor<Functor, Kernel, detail::BackendPolicy<BACKEND>, ArgIndex>:
-   public BaseCompositeFunctor< ConvolutionFunctor<Functor, Kernel, detail::BackendPolicy<BACKEND>, detail::FFTPolicy<T, FFT>, ArgIndex>,
-       T, Functor, Kernel>
+template<typename Functor, typename Kernel, detail::Backend BACKEND, detail::FFTCalculator  FFT, unsigned int ArgIndex >
+class ConvolutionFunctor<Functor, Kernel, detail::BackendPolicy<BACKEND>,
+                 detail::FFTPolicy<typename std::common_type<typename Functor::return_type, typename Kernel::return_type>::type, FFT>, ArgIndex>:
+   public BaseCompositeFunctor< ConvolutionFunctor<Functor, Kernel, detail::BackendPolicy<BACKEND>,
+                 detail::FFTPolicy<typename std::common_type<typename Functor::return_type, typename Kernel::return_type>::type, FFT>, ArgIndex>,
+       typename  std::common_type<typename Functor::return_type, typename Kernel::return_type>::type, Functor, Kernel>
 {
 	//typedef
-	typedef T value_type ;
-	typedef T return_type;
-
+	typedef typename std::common_type<typename Functor::return_type, typename Kernel::return_type>::type value_type ;
+	typedef typename std::common_type<typename Functor::return_type, typename Kernel::return_type>::type return_type;
+	typedef ConvolutionFunctor<Functor, Kernel, detail::BackendPolicy<BACKEND>, detail::FFTPolicy<value_type,FFT>, ArgIndex>  this_type;
 	typedef BaseCompositeFunctor< ConvolutionFunctor<Functor, Kernel, detail::BackendPolicy<BACKEND>,
 	           detail::FFTPolicy<value_type, FFT>, ArgIndex>, value_type, Functor, Kernel> super_type;
 
-	typedef hydra::detail::FFTPolicy<T, FFT>    fft_type;
+	typedef hydra::detail::FFTPolicy<value_type, FFT>    fft_type;
 
 	//hydra backend
 	typedef typename detail::BackendPolicy<BACKEND> device_system_type;
@@ -109,9 +110,9 @@ class ConvolutionFunctor<Functor, Kernel, detail::BackendPolicy<BACKEND>, ArgInd
 	typedef typename fft_type::device_backend_type     fft_system_type;
 
 	//raw thrust backend
-	typedef typename std::remove_const<decltype(std::declval<fft_system_type>().backend)>::type	   raw_fft_system_type;
-	typedef typename std::remove_const<decltype(std::declval<device_system_type>().backend)>::type raw_device_system_type;
-	typedef typename std::remove_const<decltype(std::declval< host_system_type>().backend)>::type  raw_host_system_type;
+	typedef typename std::remove_const<decltype(   std::declval<fft_system_type>().backend)>::type	raw_fft_system_type;
+	typedef typename std::remove_const<decltype(std::declval<device_system_type>().backend)>::type  raw_device_system_type;
+	typedef typename std::remove_const<decltype( std::declval< host_system_type>().backend)>::type  raw_host_system_type;
 
 	//pointers
 	typedef HYDRA_EXTERNAL_NS::thrust::pointer<value_type, raw_host_system_type>      host_pointer_type;
@@ -129,7 +130,7 @@ public:
 
 	ConvolutionFunctor( Functor const& functor, Kernel const& kernel,
 			value_type kmin, value_type kmax, unsigned nsamples=1024,
-			bool interpolate=1, bool power_up=true):
+			bool interpolate=true, bool power_up=true):
 		super_type(functor,kernel),
 		fNSamples(power_up ? hydra::detail::convolution::upper_power_of_two(nsamples): nsamples),
 		fMin(kmin),
@@ -141,10 +142,10 @@ public:
 		using HYDRA_EXTERNAL_NS::thrust::get_temporary_buffer;
 
 		fXMin = abiscissae_type(HYDRA_EXTERNAL_NS::thrust::counting_iterator<unsigned>(0),
-				detail::convolution::_delta<value_type>(kmin, (kmax-kmin)/NSamples) );
-		fXMax = fXMin+NSamples;
+				        detail::convolution::_delta<value_type>(kmin, (kmax-kmin)/fNSamples) );
+		fXMax = fXMin + fNSamples;
 
-		fFFTData   = get_temporary_buffer<value_type>(raw_host_system_type(), fNSamples).first;
+		fFFTData   = get_temporary_buffer<value_type>(raw_fft_system_type(), fNSamples).first;
 		fHostData  = get_temporary_buffer<value_type>(raw_host_system_type(), fNSamples).first;
 		fDeviceData= get_temporary_buffer<value_type>(raw_device_system_type(), fNSamples).first;
 
@@ -152,33 +153,35 @@ public:
 	}
 
 	__hydra_host__ __hydra_device__
-	ConvolutionFunctor( ConvolutionFunctor<Functor, Kernel, fft_type, NSamples, ArgIndex> const& other):
+	ConvolutionFunctor( this_type const& other):
 	super_type(other),
+	fNSamples(other.GetNSamples()),
 	fMax(other.GetMax()),
 	fMin(other.GetMin()),
 	fXMax(other.GetXMax()),
 	fXMin(other.GetXMin()),
-	fInterpolate(other.IsInterpolated())
-	{
-		for(size_t i=0; i<NSamples; i++)
-			fConvRep[i]=other.GetConvRep()[i];
-	}
+	fInterpolate(other.IsInterpolated()),
+	fDeviceData(other.GetDeviceData()),
+	fHostData(other.GetHostData()),
+	fFFTData(other.GetFFTData())
+	{	}
 
 	__hydra_host__ __hydra_device__
-	ConvolutionFunctor<Functor,Kernel, fft_type, NSamples, ArgIndex>&
-	operator=(ConvolutionFunctor<Functor,Kernel, fft_type, NSamples, ArgIndex> const& other){
+	this_type& operator=(this_type const& other){
 
 		if(this == &other) return *this;
 
 		super_type::operator=(other);
 
+		fNSamples  = other.GetNSamples();
 		fMax 	  = other.GetMax();
 		fMin 	  = other.GetMin();
 		fXMax     = other.GetXMax();
 		fXMin     = other.GetXMin();
 		fInterpolate = other.IsInterpolated();
-		for(size_t i=0; i<NSamples; i++)
-					fConvRep[i]=other.GetConvRep()[i];
+		fDeviceData  = other.GetDeviceData();
+		fHostData    = other.GetHostData();
+		fFFTData     = other.GetFFTData();
 
 		return *this;
 	}
@@ -209,25 +212,20 @@ public:
 
 	virtual void Update() override
 	{
-		auto scratch = HYDRA_EXTERNAL_NS::thrust::get_temporary_buffer<value_type>(device_system_type(), NSamples).first;
 
-		auto data = make_range(scratch, scratch + NSamples );
+		auto data = make_range(fFFTData, fFFTData + fNSamples );
 
-		hydra::convolute(device_system_type(), fft_type(),
+		hydra::convolute(fft_system_type(), fft_type(),
 				HYDRA_EXTERNAL_NS::thrust::get<0>(this->GetFunctors()),
 				HYDRA_EXTERNAL_NS::thrust::get<1>(this->GetFunctors()),
 				fMin, fMax, data, false);
 
-		HYDRA_EXTERNAL_NS::thrust::copy(device_system_type(), scratch, scratch + NSamples, fConvRep );
+		HYDRA_EXTERNAL_NS::thrust::copy(fft_system_type(), fFFTData, fFFTData + fNSamples, fDeviceData );
+		HYDRA_EXTERNAL_NS::thrust::copy(fft_system_type(), fFFTData, fFFTData + fNSamples, fHostData );
 
-		HYDRA_EXTERNAL_NS::thrust::return_temporary_buffer(device_system_type(), scratch);
+
 	}
 
-	__hydra_host__ __hydra_device__
-	const value_type* GetConvRep() const
-	{
-		return fConvRep;
-	}
 
 	__hydra_host__ __hydra_device__
 	inline bool IsInterpolated() const{
@@ -239,38 +237,63 @@ public:
 		fInterpolate = interpolate;
 	}
 
+	void Dispose(){
+		using HYDRA_EXTERNAL_NS::thrust::return_temporary_buffer;
 
-	template<typename T>
+		return_temporary_buffer(  device_system_type(), fDeviceData );
+		return_temporary_buffer(  host_system_type(),   fHostData );
+		return_temporary_buffer(  fft_system_type()  , fFFTData );
+
+	}
+
+	template<typename Type>
      __hydra_host__ __hydra_device__
-	inline return_type Evaluate(unsigned int n, T*x) const	{
+	inline return_type Evaluate(unsigned int n, Type*x) const	{
 
-		T X = x[ArgIndex];
+		Type X = x[ArgIndex];
 
-		if( fInterpolate ) return spiline( fXMin, fXMax, fConvRep , X);
+#ifdef __CUDA_ARCH__
+		if( fInterpolate ) return spiline( fXMin, fXMax, fDeviceData, X);
 		else{
 
-
-			unsigned i = NSamples*(X-fMin)/(fMax-fMin);
-			return fConvRep[i];
+			unsigned i = fNSamples*(X-fMin)/(fMax-fMin);
+			return fDeviceData[i];
 		}
+#else
+		if( fInterpolate ) return spiline( fXMin, fXMax, fHostData, X);
+			else{
 
+				unsigned i = fNSamples*(X-fMin)/(fMax-fMin);
+				return fDeviceData[i];
+			}
+#endif
 
 	}
 
 
-	template<typename T>
+	template<typename Type>
      __hydra_host__ __hydra_device__
-     inline double Evaluate(T& x) const {
+     inline double Evaluate(Type& x) const {
 
-		auto X  = get<ArgIndex>(x);
+		Type X  = get<ArgIndex>(x);
 
-		if( fInterpolate ) return spiline( fXMin, fXMax, fConvRep , X);
+
+#ifdef __CUDA_ARCH__
+		if( fInterpolate ) return spiline( fXMin, fXMax, fDeviceData, X);
 		else{
 
-
-			unsigned i = NSamples*(X-fMin)/(fMax-fMin);
-			return fConvRep[i];
+			unsigned i = fNSamples*(X-fMin)/(fMax-fMin);
+			return fDeviceData[i];
 		}
+#else
+		if( fInterpolate ) return spiline( fXMin, fXMax, fHostData, X);
+			else{
+
+				unsigned i = fNSamples*(X-fMin)/(fMax-fMin);
+				return fDeviceData[i];
+			}
+#endif
+
 
 	}
 
@@ -278,27 +301,52 @@ public:
 
 	virtual ~ConvolutionFunctor()=default;
 
+	__hydra_host__ __hydra_device__
+	size_t GetNSamples() const
+	{
+		return fNSamples;
+	}
 
+	__hydra_host__ __hydra_device__
+	const device_pointer_type& GetDeviceData() const {
+		return fDeviceData;
+	}
 
+	__hydra_host__ __hydra_device__
+	const fft_pointer_type& GetFFTData() const {
+		return fFFTData;
+	}
+
+	__hydra_host__ __hydra_device__
+	const host_pointer_type& GetHostData() const {
+		return fHostData;
+	}
 private:
 
+
+
+	size_t          fNSamples;
 	abiscissae_type fXMin;
 	abiscissae_type fXMax;
-	value_type fConvRep[NSamples]; // non raii
-    value_type fMax;
-    value_type fMin;
-    bool       fInterpolate;
+    value_type      fMax;
+    value_type      fMin;
+    bool            fInterpolate;
+    device_pointer_type fDeviceData;
+    host_pointer_type   fHostData;
+    fft_pointer_type    fFFTData ;
+
 
 };
 
-template<unsigned int NSamples, unsigned int ArgIndex,  typename Functor, typename Kernel,  detail::FFTCalculator FFTBackend,
-typename T=typename std::common_type<typename Functor::return_type, typename Kernel::return_type>::type>
-inline typename std::enable_if< std::is_floating_point<T>::value, 
-     ConvolutionFunctor<Functor, Kernel, detail::FFTPolicy<T, FFTBackend>, NSamples,ArgIndex>>::type
-make_convolution( detail::FFTPolicy<T, FFTBackend> policy, Functor const& functor, Kernel const& kernel, T kmin, T kmax)
+template<unsigned int ArgIndex,  typename Functor, typename Kernel,
+               detail::Backend BACKEND, detail::FFTCalculator FFT,
+               typename T=typename std::common_type<typename Functor::return_type, typename Kernel::return_type>::type>
+inline typename std::enable_if< std::is_floating_point<T>::value, ConvolutionFunctor<Functor, Kernel,
+                 detail::BackendPolicy<BACKEND>, detail::FFTPolicy<T, FFT>, ArgIndex>>::type
+make_convolution( detail::BackendPolicy<BACKEND> const&, detail::FFTPolicy<T, FFT> const&, Functor const& functor, Kernel const& kernel, T kmin, T kmax, unsigned nsamples)
 {
-
-	return ConvolutionFunctor<Functor, Kernel, detail::FFTPolicy<T, FFTBackend>, NSamples, ArgIndex>( functor, kernel,kmin,kmax);
+	return ConvolutionFunctor<Functor, Kernel,
+			detail::BackendPolicy<BACKEND>, detail::FFTPolicy<T, FFT>, ArgIndex>(functor, kernel, kmin,  kmax, nsamples);
 
 }
 

@@ -143,7 +143,7 @@ int main(int argv, char** argc)
 	auto fft_backend = hydra::fft::fftw_f64;
 #endif
 
-	auto convolution_signal = hydra::make_convolution<2048,0>( fft_backend, bw_signal, gaussian_kernel, min, max);
+	auto convolution_signal = hydra::make_convolution<0>( hydra::device::sys, fft_backend, bw_signal, gaussian_kernel, min, max,2048);
 
 	auto Signal_PDF = hydra::make_pdf( convolution_signal, hydra::GaussKronrodQuadrature<61, 50, hydra::device::sys_t>(min,  max));
 
@@ -201,7 +201,7 @@ int main(int argv, char** argc)
 		Hist_Data.Fill( range.begin(), range.end() );
 
 		//make model and fcn
-		auto fcn   = hydra::make_loglikehood_fcn( model,range );
+		auto fcn   = hydra::make_loglikehood_fcn( model, Hist_Data);
 
 		//-------------------------------------------------------
 
@@ -232,7 +232,7 @@ int main(int argv, char** argc)
 		std::cout << "-----------------------------------------"<<std::endl;
 
 #ifdef _ROOT_AVAILABLE_
-
+		hist_data.Sumw2();
 		for(size_t i=0;  i<100; i++)
 			hist_data.SetBinContent(i+1, Hist_Data.GetBinContent(i));
 
@@ -268,17 +268,21 @@ int main(int argv, char** argc)
 
 	//draw histograms
 	TCanvas canvas_d("canvas_d" ,"Distributions - Device", 500, 500);
-	hist_data.Draw("histE0");
+	hist_data.Draw("E1");
+	hist_data.SetLineWidth(2);
 
 	//total
 	hist_total.Draw("histsameC");
 	hist_total.SetLineColor(4);
+	hist_total.SetLineWidth(2);
 	//total
 	hist_signal.Draw("histsameC");
 	hist_signal.SetLineColor(8);
+	hist_signal.SetLineWidth(2);
 	//total
 	hist_background.Draw("histsameC");
 	hist_background.SetLineColor(2);
+	hist_background.SetLineWidth(2);
 
 	myapp->Run();
 
