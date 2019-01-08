@@ -81,44 +81,44 @@ namespace detail {
 
 }  // namespace detail
 
-template<typename Functor, typename Kernel, typename Backend, unsigned int ArgIndex=0>
+/**
+ * The convolution functor needs to combine four elements in order calculate and evaluate
+ *
+ */
+template<typename Functor, typename Kernel, typename Backend, typename FFT, unsigned int ArgIndex=0>
 class ConvolutionFunctor;
 
-template<typename Functor, typename Kernel, detail::Backend BACKEND, unsigned int ArgIndex>
+template<typename Functor, typename Kernel, detail::Backend BACKEND, detail::FFTCalculator  FFT,unsigned int ArgIndex,
+                  typename T=typename std::common_type<typename Functor::return_type, typename Kernel::return_type>::type >
 class ConvolutionFunctor<Functor, Kernel, detail::BackendPolicy<BACKEND>, ArgIndex>:
-   public BaseCompositeFunctor< ConvolutionFunctor<Functor, Kernel, detail::BackendPolicy<BACKEND>,
-        detail::FFTPolicy<typename std::common_type<typename Functor::return_type, typename Kernel::return_type>::type, FFT>, NSamples, ArgIndex>,
-        typename std::common_type<typename Functor::return_type, typename Kernel::return_type>::type, Functor, Kernel>
+   public BaseCompositeFunctor< ConvolutionFunctor<Functor, Kernel, detail::BackendPolicy<BACKEND>, detail::FFTPolicy<T, FFT>, ArgIndex>,
+       T, Functor, Kernel>
 {
 	//typedef
-	typedef BaseCompositeFunctor< ConvolutionFunctor<Functor, Kernel, detail::BackendPolicy<BACKEND>,
-	           detail::FFTPolicy<typename std::common_type<typename Functor::return_type, typename Kernel::return_type>::type, FFT>, NSamples, ArgIndex>,
-	           typename std::common_type<typename Functor::return_type, typename Kernel::return_type>::type, Functor, Kernel> super_type;
+	typedef T value_type ;
+	typedef T return_type;
 
-	typedef hydra::detail::FFTPolicy<typename std::common_type<
-			typename Functor::return_type, typename Kernel::return_type>::type, FFT>    fft_type;
+	typedef BaseCompositeFunctor< ConvolutionFunctor<Functor, Kernel, detail::BackendPolicy<BACKEND>,
+	           detail::FFTPolicy<value_type, FFT>, ArgIndex>, value_type, Functor, Kernel> super_type;
+
+	typedef hydra::detail::FFTPolicy<T, FFT>    fft_type;
 
 	//hydra backend
 	typedef typename detail::BackendPolicy<BACKEND> device_system_type;
 	typedef typename fft_type::host_backend_type      host_system_type;
+	typedef typename fft_type::device_backend_type     fft_system_type;
 
-	//thrust backend
-	typedef typename std::remove_const<decltype(std::declval<device_system_type>().backend)>::type
-			super_device_system_type;
-
-	typedef typename std::remove_const<decltype(std::declval<  host_system_type>().backend)>::type
-			super_host_system_type;
-
-	//aliases
-	using value_type  = typename std::common_type<typename Functor::return_type,
-			typename Kernel::return_type>::type;
-
-	using return_type = typename super_type::return_type;
+	//raw thrust backend
+	typedef typename std::remove_const<decltype(std::declval<fft_system_type>().backend)>::type	   raw_fft_system_type;
+	typedef typename std::remove_const<decltype(std::declval<device_system_type>().backend)>::type raw_device_system_type;
+	typedef typename std::remove_const<decltype(std::declval< host_system_type>().backend)>::type  raw_host_system_type;
 
 	//pointers
-	typedef HYDRA_EXTERNAL_NS::thrust::pointer<value_type, super_host_system_type>    host_pointer_type;
-	typedef HYDRA_EXTERNAL_NS::thrust::pointer<value_type, super_device_system_type>  device_pointer_type;
+	typedef HYDRA_EXTERNAL_NS::thrust::pointer<value_type, raw_host_system_type>      host_pointer_type;
+	typedef HYDRA_EXTERNAL_NS::thrust::pointer<value_type, raw_device_system_type>  device_pointer_type;
+	typedef HYDRA_EXTERNAL_NS::thrust::pointer<value_type, raw_fft_system_type>        fft_pointer_type;
 
+	//iterator
 	typedef HYDRA_EXTERNAL_NS::thrust::transform_iterator< detail::convolution::_delta<value_type>,
 	          HYDRA_EXTERNAL_NS::thrust::counting_iterator<unsigned> > abiscissae_type;
 
@@ -131,26 +131,22 @@ public:
 			value_type kmin, value_type kmax, unsigned nsamples=1024,
 			bool interpolate=1, bool power_up=true):
 		super_type(functor,kernel),
-		fNSamples(0),
+		fNSamples(power_up ? hydra::detail::convolution::upper_power_of_two(nsamples): nsamples),
 		fMin(kmin),
 		fMax(kmax),
 	    fXMin(abiscissae_type{}),
 		fXMax(abiscissae_type{}),
 		fInterpolate(interpolate)
 	{
-		fNSamples = power_up ? hydra::detail::convolution::upper_power_of_two(nsamples): nsamples ;
-
+		using HYDRA_EXTERNAL_NS::thrust::get_temporary_buffer;
 
 		fXMin = abiscissae_type(HYDRA_EXTERNAL_NS::thrust::counting_iterator<unsigned>(0),
 				detail::convolution::_delta<value_type>(kmin, (kmax-kmin)/NSamples) );
 		fXMax = fXMin+NSamples;
 
-		fHostStorage=HYDRA_EXTERNAL_NS::thrust::get_temporary_buffer<value_type>(
-				super_host_system_type(), fNSamples).first;
-
-		fDeviceStorage=HYDRA_EXTERNAL_NS::thrust::get_temporary_buffer<value_type>(
-				super_device_system_type(), fNSamples).first;
-
+		fFFTData   = get_temporary_buffer<value_type>(raw_host_system_type(), fNSamples).first;
+		fHostData  = get_temporary_buffer<value_type>(raw_host_system_type(), fNSamples).first;
+		fDeviceData= get_temporary_buffer<value_type>(raw_device_system_type(), fNSamples).first;
 
 		Update();
 	}
