@@ -173,8 +173,7 @@ int main(int argv, char** argc)
 	/*
 	 * using the hydra::ConvolutionFunctor
 	 */
-
-    auto convoluton = hydra::make_convolution<0>( fft_backend, signal, gaussian_kernel, min, max,conv_result.size()  );
+    auto convoluton = hydra::make_convolution<0>(  hydra::device::sys, fft_backend, signal, gaussian_kernel, min, max,  conv_result.size() );
 
 	//------------------------
 	//------------------------

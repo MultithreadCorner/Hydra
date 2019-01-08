@@ -43,7 +43,7 @@
 #include <hydra/Function.h>
 #include <hydra/FunctionWrapper.h>
 #include <hydra/functions/Gaussian.h>
-#include <hydra/SpilineFunctor.h>
+#include <hydra/functions/SpilineFunctor.h>
 #include <hydra/Range.h>
 #include <hydra/Algorithm.h>
 /*-------------------------------------

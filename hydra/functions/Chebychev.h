@@ -105,18 +105,21 @@ public:
 		return  CHECK_VALUE(r, "result =%f", r) ;
 	}
 
+	__hydra_host__ __hydra_device__
 	double GetMaximum() const {
 		return fMaximum;
 	}
 
+	__hydra_host__ __hydra_device__
 	void SetMaximum(double maximum) {
 		fMaximum = maximum;
 	}
 
+	__hydra_host__ __hydra_device__
 	double GetMinimum() const {
 		return fMinimum;
 	}
-
+	__hydra_host__ __hydra_device__
 	void SetMinimum(double minimum) {
 		fMinimum = minimum;
 	}
