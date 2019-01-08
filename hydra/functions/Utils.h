@@ -39,6 +39,7 @@
 namespace hydra {
 
 /**
+ *  \ingroup common_functions
  * Orbital angular momentum tags.
  */
 enum Wave{ SWave=0, PWave, DWave, FWave, GWave, HWave };

@@ -48,6 +48,10 @@
 
 namespace hydra {
 
+/**
+ *  \ingroup common_functions
+ *  \class GaussianKDE
+ */
 template< size_t NBins, size_t ArgIndex=0>
 class GaussianKDE: public BaseFunctor<GaussianKDE<NBins, ArgIndex>, double, 0>
 {

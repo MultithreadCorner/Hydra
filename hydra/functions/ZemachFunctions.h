@@ -47,6 +47,8 @@ namespace hydra {
 
 
 /**
+ * \ingroup common_functions
+ *
  * @class ZemachFunction
  *
  * Zemach's angular probability distribution for 3-body decays of spinless particle into spinless final

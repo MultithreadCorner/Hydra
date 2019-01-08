@@ -53,6 +53,9 @@ namespace hydra {
 
 
 /**
+ * \ingroup common_functions
+ * \class GeneralizedGamma
+ *
  * The Gamma distribution is often used to describe variables bounded on one side. An even
 more flexible version of this distribution is obtained by adding a third parameter giving
 the so called generalized Gamma distribution :

@@ -53,7 +53,9 @@ namespace hydra {
 
 
 /**
- * @class JohnsonSUShape
+ * \ingroup common_functions
+ * \class JohnsonSUShape
+ *
  * Implementation the JohnsonSU line shape.
  * https://en.wikipedia.org/wiki/Johnson%27s_SU-distribution
  *

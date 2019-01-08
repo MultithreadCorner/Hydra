@@ -49,6 +49,7 @@
 
 namespace hydra {
 /**
+ * \ingroup common_functions
  * \class UniformShape
  * From: https://en.wikipedia.org/wiki/Uniform_distribution_(continuous)
  *

@@ -47,6 +47,12 @@
 
 namespace hydra {
 
+/**
+ * \ingroup common_functions
+ * \class BifurcatedGaussian
+ *
+ *
+ */
 template<unsigned int ArgIndex=0>
 class BifurcatedGaussian: public BaseFunctor<BifurcatedGaussian<ArgIndex>, double, 3>
 {

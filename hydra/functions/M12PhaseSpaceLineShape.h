@@ -49,6 +49,7 @@
 namespace hydra {
 
 /**
+ * \ingroup common_functions
  * @class M12PhaseSpaceLineShape
  *
  * Two-body phase-space distribution for \f$ m_{12}\f$:

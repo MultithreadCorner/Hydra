@@ -48,6 +48,7 @@
 
 namespace hydra {
 /**
+ * \ingroup common_functions
  * \class TrapezoidalShape
  *
  * In probability theory and statistics, the trapezoidal distribution is a continuous probability distribution the graph
