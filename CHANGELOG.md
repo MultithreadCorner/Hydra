@@ -6,6 +6,7 @@
 2. FFT based convolution on CPU and GPU for arbitrary pair of functors: `hydra::convolute` and `hydra::ConvolutionFunctor`
 3. Cubic spiline reimplementation for deal with abitrary large datasets: `hydra::spiline` and `hydra::SpilineFunctor`
 4. new examples showing how to deploy convolution in fits, spilines and FFT.
+5. Many bug fixes across the tree...
 
 
 ### Hydra 2.2.1 (probably incomplete)
