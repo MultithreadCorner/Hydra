@@ -125,13 +125,13 @@ int main(int argv, char** argc)
 
 	//gaussian convolution kernel
 	hydra::Parameter  mean  = hydra::Parameter::Create().Name("Mean_Kernel").Value( 0.0).Fixed();
-	hydra::Parameter  sigma = hydra::Parameter::Create().Name("Sigma_Kernel").Value(1.0).Fixed();
+	hydra::Parameter  sigma = hydra::Parameter::Create().Name("Sigma_Kernel").Value(0.5).Fixed();
 
 	hydra::Gaussian<0> gaussian_kernel(mean, sigma);
 
 	//Breit-Wigner
 	hydra::Parameter  mass  = hydra::Parameter::Create().Name("Mass" ).Value(5.0).Error(0.0001).Limits(4.0,6.0);
-	hydra::Parameter  width = hydra::Parameter::Create().Name("Width").Value(0.1).Error(0.0001).Limits(0.05,0.5);
+	hydra::Parameter  width = hydra::Parameter::Create().Name("Width").Value(0.05).Error(0.0001).Limits(0.01,0.1);
 
 	hydra::BreitWignerNR<0> bw_signal(mass, width );
 
@@ -144,9 +144,9 @@ int main(int argv, char** argc)
 	auto fft_backend = hydra::fft::fftw_f64;
 #endif
 
-	auto convolution_signal = hydra::make_convolution<0>( hydra::device::sys, fft_backend, bw_signal, gaussian_kernel, min, max,10000);
+	auto convolution_signal = hydra::make_convolution<0>( hydra::device::sys, fft_backend, bw_signal, gaussian_kernel, min, max,10112);
 
-	auto Signal_PDF = hydra::make_pdf( convolution_signal, hydra::GaussKronrodQuadrature<61, 50, hydra::device::sys_t>(min,  max));
+	auto Signal_PDF = hydra::make_pdf( convolution_signal, hydra::GaussKronrodQuadrature<61, 100, hydra::device::sys_t>(min,  max));
 
     //--------------------------------------------
 
@@ -172,6 +172,7 @@ int main(int argv, char** argc)
 
 #ifdef _ROOT_AVAILABLE_
 	TH1D     hist_data(  "data"      , "", nbins, min, max);
+	TH1D     hist_raw_signal("raw_signal"    , "", nbins, 4.0, 6.0);
 	TH1D     hist_signal("signal"    , "", nbins, min, max);
 	TH1D hist_background("background", "", nbins, min, max);
 	TH1D      hist_total("total"     , "", nbins, min, max);
@@ -240,14 +241,17 @@ int main(int argv, char** argc)
 		//draw fitted function
 		for (size_t i=0 ; i<=nbins ; i++) {
 			//
-			    hist_total.SetBinContent( i,
-			 	fcn.GetPDF()(hist_total.GetBinCenter(i) ) );
+			hist_total.SetBinContent( i,
+					fcn.GetPDF()(hist_total.GetBinCenter(i) ) );
 
-			  hist_signal.SetBinContent( i,
-			 	        fcn.GetPDF().PDF(_0)(hist_signal.GetBinCenter(i) ) );
+			hist_raw_signal.SetBinContent( i,
+								fcn.GetPDF().PDF(_0).GetFunctor().GetFunctor(_0)(hist_raw_signal.GetBinCenter(i) ) );
 
-			   hist_background.SetBinContent( i,
-			 	       	fcn.GetPDF().PDF(_1)(hist_background.GetBinCenter(i) ) );
+			hist_signal.SetBinContent( i,
+					fcn.GetPDF().PDF(_0)(hist_signal.GetBinCenter(i) ) );
+
+			hist_background.SetBinContent( i,
+					fcn.GetPDF().PDF(_1)(hist_background.GetBinCenter(i) ) );
 
 		}
 
@@ -268,16 +272,18 @@ int main(int argv, char** argc)
 	TApplication *myapp=new TApplication("myapp",0,0);
 
 	//draw histograms
-	TCanvas canvas_d("canvas_d" ,"Distributions - Device", 500, 500);
+	TCanvas canvas("canvas_d" ,"Distributions - Device", 1000, 500);
+	canvas.Divide(2,1);
+	canvas.cd(1);
 	hist_data.SetMinimum(0);
 	hist_data.Draw("E1");
 	hist_data.SetLineWidth(2);
-
 
 	//total
 	hist_total.Draw("histsameC");
 	hist_total.SetLineColor(4);
 	hist_total.SetLineWidth(2);
+
 	//total
 	hist_signal.Draw("histsameC");
 	hist_signal.SetLineColor(8);
@@ -286,6 +292,14 @@ int main(int argv, char** argc)
 	hist_background.Draw("histsameC");
 	hist_background.SetLineColor(2);
 	hist_background.SetLineWidth(2);
+
+	canvas.cd(2);
+
+
+    //raw_signal
+	auto h=hist_raw_signal.DrawNormalized("histC");
+	h->SetLineColor(6);
+	h->SetLineWidth(2);
 
 	myapp->Run();
 
