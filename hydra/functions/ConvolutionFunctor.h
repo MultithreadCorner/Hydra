@@ -343,7 +343,8 @@ template<unsigned int ArgIndex,  typename Functor, typename Kernel,
                typename T=typename std::common_type<typename Functor::return_type, typename Kernel::return_type>::type>
 inline typename std::enable_if< std::is_floating_point<T>::value, ConvolutionFunctor<Functor, Kernel,
                  detail::BackendPolicy<BACKEND>, detail::FFTPolicy<T, FFT>, ArgIndex>>::type
-make_convolution( detail::BackendPolicy<BACKEND> const&, detail::FFTPolicy<T, FFT> const&, Functor const& functor, Kernel const& kernel, T kmin, T kmax, unsigned nsamples)
+make_convolution( detail::BackendPolicy<BACKEND> const&, detail::FFTPolicy<T, FFT> const&, Functor const& functor, Kernel const& kernel,
+		T kmin, T kmax, unsigned nsamples=1024,	bool interpolate=true, bool power_up=true)
 {
 	return ConvolutionFunctor<Functor, Kernel,
 			detail::BackendPolicy<BACKEND>, detail::FFTPolicy<T, FFT>, ArgIndex>(functor, kernel, kmin,  kmax, nsamples);
