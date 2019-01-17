@@ -1,6 +1,6 @@
 /*----------------------------------------------------------------------------
  *
- *   Copyright (C) 2016 - 2018 Antonio Augusto Alves Junior
+ *   Copyright (C) 2016 - 2019 Antonio Augusto Alves Junior
  *
  *   This file is part of Hydra Data Analysis Framework.
  *
@@ -173,8 +173,7 @@ int main(int argv, char** argc)
 	/*
 	 * using the hydra::ConvolutionFunctor
 	 */
-
-    auto convoluton = hydra::make_convolution<0>( fft_backend, signal, gaussian_kernel, min, max,conv_result.size()  );
+    auto convoluton = hydra::make_convolution<0>(  hydra::device::sys, fft_backend, signal, gaussian_kernel, min, max,  conv_result.size() );
 
 	//------------------------
 	//------------------------

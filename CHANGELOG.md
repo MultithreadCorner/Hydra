@@ -1,7 +1,15 @@
 ## CHANGE LOG
 
+### Hydra 2.3.1 
 
-### Hydra 2.2.0 (probably incomplete)
+1. Interfaces to FFTW and CuFFT for performing 1D real-real complex-real and real-complex FFT on CPU and GPU 
+2. FFT based convolution on CPU and GPU for arbitrary pair of functors: `hydra::convolute` and `hydra::ConvolutionFunctor`
+3. Cubic spiline reimplementation for deal with abitrary large datasets: `hydra::spiline` and `hydra::SpilineFunctor`
+4. new examples showing how to deploy convolution in fits, spilines and FFT.
+5. Many bug fixes across the tree...
+
+
+### Hydra 2.2.1 (probably incomplete)
 
 1. New functors and implementations (`hydra/functions`):
 

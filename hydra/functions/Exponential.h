@@ -1,6 +1,6 @@
 /*----------------------------------------------------------------------------
  *
- *   Copyright (C) 2016 - 2018 Antonio Augusto Alves Junior
+ *   Copyright (C) 2016 - 2019 Antonio Augusto Alves Junior
  *
  *   This file is part of Hydra Data Analysis Framework.
  *
@@ -46,7 +46,12 @@
 #include <utility>
 
 namespace hydra {
-
+/**
+ * \ingroup common_functions
+ * \class Exponential
+ * https://en.wikipedia.org/wiki/Exponential_function
+ *
+ */
 template<unsigned int ArgIndex=0>
 class Exponential:public BaseFunctor<Exponential<ArgIndex>, double, 1>
 {

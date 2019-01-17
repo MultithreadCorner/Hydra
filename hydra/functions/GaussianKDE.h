@@ -1,6 +1,6 @@
 /*----------------------------------------------------------------------------
  *
- *   Copyright (C) 2016 - 2018 Antonio Augusto Alves Junior
+ *   Copyright (C) 2016 - 2019 Antonio Augusto Alves Junior
  *
  *   This file is part of Hydra Data Analysis Framework.
  *
@@ -48,6 +48,10 @@
 
 namespace hydra {
 
+/**
+ *  \ingroup common_functions
+ *  \class GaussianKDE
+ */
 template< size_t NBins, size_t ArgIndex=0>
 class GaussianKDE: public BaseFunctor<GaussianKDE<NBins, ArgIndex>, double, 0>
 {

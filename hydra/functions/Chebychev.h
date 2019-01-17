@@ -1,6 +1,6 @@
 /*----------------------------------------------------------------------------
  *
- *   Copyright (C) 2016 - 2017 Antonio Augusto Alves Junior
+ *   Copyright (C) 2016 - 2019 Antonio Augusto Alves Junior
  *
  *   This file is part of Hydra Data Analysis Framework.
  *
@@ -51,6 +51,14 @@
 
 namespace hydra {
 
+/**
+ * \ingroup common_functions
+ * \class Chebychev
+ *
+ * The Chebyshev polynomials \f$ T_n \f$ (first kind)
+ *  are polynomials with the largest possible leading coefficient,
+ *   but subject to the condition that their absolute value on the interval [−1,1] is bounded by 1
+ */
 template< unsigned int Order, unsigned int ArgIndex=0>
 class  Chebychev:public BaseFunctor<Chebychev<Order, ArgIndex>, double, Order+1>
 {
@@ -97,18 +105,21 @@ public:
 		return  CHECK_VALUE(r, "result =%f", r) ;
 	}
 
+	__hydra_host__ __hydra_device__
 	double GetMaximum() const {
 		return fMaximum;
 	}
 
+	__hydra_host__ __hydra_device__
 	void SetMaximum(double maximum) {
 		fMaximum = maximum;
 	}
 
+	__hydra_host__ __hydra_device__
 	double GetMinimum() const {
 		return fMinimum;
 	}
-
+	__hydra_host__ __hydra_device__
 	void SetMinimum(double minimum) {
 		fMinimum = minimum;
 	}

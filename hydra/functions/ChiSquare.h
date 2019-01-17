@@ -1,6 +1,6 @@
 /*----------------------------------------------------------------------------
  *
- *   Copyright (C) 2016 - 2018 Antonio Augusto Alves Junior
+ *   Copyright (C) 2016 - 2019 Antonio Augusto Alves Junior
  *
  *   This file is part of Hydra Data Analysis Framework.
  *
@@ -50,7 +50,16 @@
 
 namespace hydra {
 
-
+/**
+ * \ingroup common_functions
+ * \class ChiSquare
+ *
+ * The chi-squared distribution (also chi-square or \f$ \chi^2 \f$ -distribution) with  \f$ k \f$ degrees of freedom is
+ *  the distribution of a sum of the squares of k independent standard normal random variables.
+ *  The chi-square distribution is a special case of the gamma distribution and
+ *  is one of the most widely used probability distributions in inferential statistics,
+ *   notably in hypothesis testing or in construction of confidence intervals.
+ */
 template< unsigned int ArgIndex=0 >
 class ChiSquare: public BaseFunctor< ChiSquare<ArgIndex>, double, 1>
 {

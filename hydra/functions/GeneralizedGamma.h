@@ -1,6 +1,6 @@
 /*----------------------------------------------------------------------------
  *
- *   Copyright (C) 2016 - 2018 Antonio Augusto Alves Junior
+ *   Copyright (C) 2016 - 2019 Antonio Augusto Alves Junior
  *
  *   This file is part of Hydra Data Analysis Framework.
  *
@@ -53,6 +53,9 @@ namespace hydra {
 
 
 /**
+ * \ingroup common_functions
+ * \class GeneralizedGamma
+ *
  * The Gamma distribution is often used to describe variables bounded on one side. An even
 more flexible version of this distribution is obtained by adding a third parameter giving
 the so called generalized Gamma distribution :

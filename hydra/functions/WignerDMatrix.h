@@ -1,6 +1,6 @@
 /*----------------------------------------------------------------------------
  *
- *   Copyright (C) 2016 - 2018 Antonio Augusto Alves Junior
+ *   Copyright (C) 2016 - 2019 Antonio Augusto Alves Junior
  *
  *   This file is part of Hydra Data Analysis Framework.
  *
@@ -52,7 +52,8 @@
 namespace hydra {
 
 /**
- * \class WignerD
+ *  \ingroup common_functions
+ * \class WignerDMatrix
  *
  *  Calculates the beta-term
  *                   \f[ d^j_{mn}(beta) \f]

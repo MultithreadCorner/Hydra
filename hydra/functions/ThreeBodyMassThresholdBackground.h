@@ -45,8 +45,11 @@
 #include <utility>
 
 namespace hydra {
-
-
+/**
+ * \ingroup common_functions
+ * \class ThreeBodyMassThresholdBackground
+ *
+ */
 template<unsigned int ArgIndex=0>
 class ThreeBodyMassThresholdBackground: public BaseFunctor<ThreeBodyMassThresholdBackground<ArgIndex>, double, 4>
 {

@@ -1,7 +1,7 @@
 
 /*----------------------------------------------------------------------------
  *
- *   Copyright (C) 2016 - 2018 Antonio Augusto Alves Junior
+ *   Copyright (C) 2016 - 2019 Antonio Augusto Alves Junior
  *
  *   This file is part of Hydra Data Analysis Framework.
  *
@@ -47,6 +47,16 @@
 
 namespace hydra {
 
+/**
+ * \ingroup common_functions
+ * \class Gaussian
+ *
+ * Gaussian functions are often used to represent the probability density function of a normally distributed random variable with
+ * expected value \f$ \mu \f$ and variance \f$ \sigma \f$. In this case, the Gaussian is of the form:
+
+\f[ g(x) = \frac{1}{\sigma\sqrt{2\pi}} e^{ -\frac{1}{2}\left(\frac{x-\mu}{\sigma}\right)^2 }. \f]
+ *
+ */
 template<unsigned int ArgIndex=0>
 class Gaussian: public BaseFunctor<Gaussian<ArgIndex>, double, 2>
 {

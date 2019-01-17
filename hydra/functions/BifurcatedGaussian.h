@@ -1,6 +1,6 @@
 /*----------------------------------------------------------------------------
  *
- *   Copyright (C) 2016 - 2017 Antonio Augusto Alves Junior
+ *   Copyright (C) 2016 - 2019 Antonio Augusto Alves Junior
  *
  *   This file is part of Hydra Data Analysis Framework.
  *
@@ -47,6 +47,12 @@
 
 namespace hydra {
 
+/**
+ * \ingroup common_functions
+ * \class BifurcatedGaussian
+ *
+ *
+ */
 template<unsigned int ArgIndex=0>
 class BifurcatedGaussian: public BaseFunctor<BifurcatedGaussian<ArgIndex>, double, 3>
 {

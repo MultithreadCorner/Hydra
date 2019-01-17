@@ -1,6 +1,6 @@
 /*----------------------------------------------------------------------------
  *
- *   Copyright (C) 2016 - 2018 Antonio Augusto Alves Junior
+ *   Copyright (C) 2016 - 2019 Antonio Augusto Alves Junior
  *
  *   This file is part of Hydra Data Analysis Framework.
  *
@@ -39,6 +39,7 @@
 namespace hydra {
 
 /**
+ *  \ingroup common_functions
  * Orbital angular momentum tags.
  */
 enum Wave{ SWave=0, PWave, DWave, FWave, GWave, HWave };

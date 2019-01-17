@@ -1,6 +1,6 @@
 /*----------------------------------------------------------------------------
  *
- *   Copyright (C) 2016 - 2018 Antonio Augusto Alves Junior
+ *   Copyright (C) 2016 - 2019 Antonio Augusto Alves Junior
  *
  *   This file is part of Hydra Data Analysis Framework.
  *
@@ -48,6 +48,30 @@
 
 namespace hydra {
 
+/**
+ * \ingroup common_functions
+ * \class  Polynomial
+ *
+ * From :  https://en.wikipedia.org/wiki/Polynomial
+ *
+ * A polynomial is an expression
+ * that can be built from constants and
+ *  symbols called indeterminates or variables by means of addition, multiplication and
+ *  exponentiation to a non-negative integer power.
+ *  Two such expressions that may be transformed, one to the other,
+ *  by applying the usual properties of commutativity,
+ *  associativity and distributivity of
+ *   addition and multiplication are considered as defining the same polynomial.
+ *   A polynomial in a single indeterminate \f$ x \f$ can always be written (or rewritten) in the form
+\f[ a_n x^n + a_{n-1}x^{n-1} + \dotsb + a_2 x^2 + a_1 x + a_0, \f]
+where \f$ a_0, \ldots, a_n \f$ are constants and \f$ x \f$ is the indeterminate. The word "indeterminate" means that
+\f$ x \f$ represents no particular value, although any value may be substituted for it.
+The mapping that associates the result of this substitution to the substituted value is a function, called a ''polynomial function''.
+
+This can be expressed more concisely by using summation notation:
+\f$ \sum_{k=0}^n a_k x^k \f$.
+ *
+ */
 template< unsigned int Order, unsigned int ArgIndex=0>
 class  Polynomial:public BaseFunctor<Polynomial<Order, ArgIndex>, double, Order+1>
 {
