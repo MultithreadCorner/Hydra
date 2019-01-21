@@ -108,7 +108,7 @@ public:
 				NLL, init, HYDRA_EXTERNAL_NS::thrust::plus<GReal_t>());
 
 		GReal_t  r = (GReal_t)this->GetDataSize() + this->GetPDF().IsExtended()*
-				( this->GetPDF().GetCoefSum() -	this->GetDataSize()*log(this->GetPDF().GetCoefSum() ) ) - final;
+				( this->GetPDF().GetCoefSum() -	this->GetDataSize()*::log(this->GetPDF().GetCoefSum() ) ) - final;
 
 
 
@@ -149,7 +149,7 @@ public:
 				 init,HYDRA_EXTERNAL_NS::thrust::plus<GReal_t>(),NLL );
 
 		GReal_t  r = (GReal_t)this->GetDataSize() + this->GetPDF().IsExtended()*
-				( this->GetPDF().GetCoefSum() -	this->GetDataSize()*log(this->GetPDF().GetCoefSum() ) ) - final;
+				( this->GetPDF().GetCoefSum() -	this->GetDataSize()*::log(this->GetPDF().GetCoefSum() ) ) - final;
 
 
 
