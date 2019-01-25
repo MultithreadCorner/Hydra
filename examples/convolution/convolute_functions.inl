@@ -208,35 +208,41 @@ int main(int argv, char** argc)
 	TCanvas* canvas = new TCanvas("canvas" ,"canvas", 1500, 1000);
 	canvas->Divide(3,2);
 
-	canvas->cd(1);
+	auto c1 = canvas->cd(1);
+
 	hist_convol->SetStats(0);
 	hist_convol->SetLineColor(4);
 	hist_convol->SetLineWidth(2);
 	hist_convol->Draw("histl");
+	c1->SaveAs("hist_convol.pdf");
 
-	canvas->cd(2);
+	auto c2 = canvas->cd(2);
 	hist_convol_functor->SetStats(0);
 	hist_convol_functor->SetLineColor(4);
 	hist_convol_functor->SetLineWidth(2);
 	hist_convol_functor->Draw("histl");
 
-	canvas->cd(3);
+
+	auto c3 = canvas->cd(3);
 	hist_signal->SetStats(0);
 	hist_signal->SetLineColor(2);
 	hist_signal->SetLineWidth(2);
 	hist_signal->SetLineStyle(2);
 	hist_signal->Draw("histl");
+    c3->SaveAs("hist_signal.pdf");
 
-	canvas->cd(4);
+    auto c4 =  canvas->cd(4);
 	hist_kernel->SetStats(0);
 	hist_kernel->SetLineColor(6);
 	hist_kernel->SetLineWidth(2);
 	hist_kernel->Draw("hist");
+	c4->SaveAs("hist_kernel.pdf");
 
-	canvas->cd(5);
+	auto c5 =  canvas->cd(5);
 
 	hist_signal->DrawNormalized("histl");
     hist_convol->DrawNormalized("histlsame");
+    c5->SaveAs("hist_convol2.pdf");
 
 	myapp->Run();
 
