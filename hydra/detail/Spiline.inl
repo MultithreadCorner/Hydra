@@ -133,7 +133,7 @@ spiline(Iterator1 first, Iterator1 last,  Iterator2 measurements, Type value) {
 									*min(min(::fabs(s_ip), ::fabs(s_i)), 0.5*::fabs(p_ip) );
 
 		//calculates b
-		const double b_i =  (-2*c_i - c_ip - 3*s_i)/h_i;
+		const double b_i =  (-2*c_i - c_ip + 3*s_i)/h_i;
 
 		//calculates a
 		const double a_i = (c_i + c_ip - 2*s_i)/(h_i*h_i);
