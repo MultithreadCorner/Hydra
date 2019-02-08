@@ -1,5 +1,5 @@
 #PROJECT_NAME          = "Hydra_examples_and_documentation"
-PROJECT_NUMBER         =  2.2.1
+PROJECT_NUMBER         =  2.3.2
 
 STRIP_FROM_PATH        = /home/augalves/Development/Release/Hydra
  

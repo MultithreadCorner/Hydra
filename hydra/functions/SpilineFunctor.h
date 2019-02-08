@@ -134,7 +134,7 @@ public:
 
 		Iterator1 fXN = fX + fSize;
 
-		GReal_t r = spiline(fX,  fX + fSize, fY,  X);
+		GReal_t r = spiline(fX,  fXN, fY,  X);
 
 		return  CHECK_VALUE( r, "r=%f",r) ;
 	}
