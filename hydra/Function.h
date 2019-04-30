@@ -278,8 +278,11 @@ private:
 	template<typename T >
 	__hydra_host__ __hydra_device__
 	inline typename HYDRA_EXTERNAL_NS::thrust::detail::enable_if<
-	detail::is_instantiation_of<HYDRA_EXTERNAL_NS::thrust::tuple,
-		typename std::remove_reference<T>::type >::value &&
+	(detail::is_instantiation_of<HYDRA_EXTERNAL_NS::thrust::tuple,
+		typename std::remove_reference<T>::type >::value ||
+	 detail::is_instantiation_of<HYDRA_EXTERNAL_NS::thrust::detail::tuple_of_iterator_references,
+	    typename HYDRA_EXTERNAL_NS::thrust::detail::remove_const<
+		 	  typename HYDRA_EXTERNAL_NS::thrust::detail::remove_reference<T>::type>::type >::value	) &&
 	!(detail::is_homogeneous<
 	    typename HYDRA_EXTERNAL_NS::thrust::tuple_element< 0,
 	    	typename HYDRA_EXTERNAL_NS::thrust::detail::remove_const<
@@ -292,7 +295,7 @@ private:
 	interface(T&& x)  const
 	{
 		//fNArgs=0;
-		return static_cast<const Functor*>(this)->Evaluate(x);
+		return static_cast<const Functor*>(this)->Evaluate(std::forward<T>(x));
 	}
 
 
