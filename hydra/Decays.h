@@ -82,6 +82,17 @@ class Decays<N, hydra::detail::BackendPolicy<BACKEND> > {
 	typedef typename system_t::template container<GReal_t>              weights_type;
 	typedef HYDRA_EXTERNAL_NS::thrust::constant_iterator<GReal_t>       unitary_iterator;
 
+	//--------------------------------
+	// iterators
+	//--------------------------------
+	//typedef decltype( std::declval<weights_type>().begin()  )   weights_iterator;
+	//typedef decltype( std::declval<particles_type>().begin()) particles_iterator;
+
+	//--------------------------------
+	// const iterators
+	//--------------------------------
+	//typedef decltype( std::declval<weights_type>().cbegin() )     weights_const_iterator;
+	//typedef decltype( std::declval<particles_type>().cbegin() ) particles_const_iterator;
 
 
 	//---------------------------------
@@ -90,8 +101,8 @@ class Decays<N, hydra::detail::BackendPolicy<BACKEND> > {
     //non const
 	typedef typename  detail::tuple_cat_type<
 				HYDRA_EXTERNAL_NS::thrust::tuple<typename weights_type::iterator>,
-				typename  detail::tuple_type<N,typename particles_type::iterator>::type
-			>::type iterator_tuple;
+				   typename  detail::tuple_type<N,typename particles_type::iterator>::type>::type iterator_tuple;
+
     //const
 	typedef typename  detail::tuple_cat_type<
 					HYDRA_EXTERNAL_NS::thrust::tuple<typename weights_type::const_iterator>,
@@ -103,6 +114,7 @@ class Decays<N, hydra::detail::BackendPolicy<BACKEND> > {
 			HYDRA_EXTERNAL_NS::thrust::tuple< unitary_iterator>,
 			typename  detail::tuple_type<N,typename particles_type::iterator>::type
 			>::type accpeted_iterator_tuple;
+
 
 
 	//---------------------------------
@@ -177,6 +189,9 @@ public:
 	typedef HYDRA_EXTERNAL_NS::thrust::zip_iterator<accpeted_iterator_tuple>      accpeted_iterator;
 	//direct
 	typedef HYDRA_EXTERNAL_NS::thrust::zip_iterator<iterator_tuple>               iterator;
+
+	//typedef typename iterator::dummy a;
+
 	typedef HYDRA_EXTERNAL_NS::thrust::zip_iterator<const_iterator_tuple>         const_iterator;
 	//reverse
 	typedef HYDRA_EXTERNAL_NS::thrust::zip_iterator<reverse_iterator_tuple>       reverse_iterator;

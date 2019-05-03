@@ -39,7 +39,7 @@ apply_filter(Iterable&& container, Functor const& filter)
 {
 	auto new_end = HYDRA_EXTERNAL_NS::thrust::partition(std::forward<Iterable>(container).begin(),
 			std::forward<Iterable>(container).end(), filter);
-     return hydra::make_range(container.begin(), new_end);
+     return hydra::make_range(std::forward<Iterable>(container).begin(), new_end);
 }
 
 }  // namespace hydra
