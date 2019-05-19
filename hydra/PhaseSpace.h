@@ -1,6 +1,6 @@
 /*----------------------------------------------------------------------------
  *
- *   Copyright (C) 2016 - 2018 Antonio Augusto Alves Junior
+ *   Copyright (C) 2016 - 2019 Antonio Augusto Alves Junior
  *
  *   This file is part of Hydra Data Analysis Framework.
  *
@@ -30,10 +30,6 @@
 
 #ifndef _PHASESPACE_H_
 #define _PHASESPACE_H_
-
-#include <array>
-#include <vector>
-#include <initializer_list>
 
 #include <hydra/detail/Config.h>
 #include <hydra/detail/BackendPolicy.h>
@@ -67,6 +63,11 @@
 #include <hydra/detail/external/thrust/random.h>
 #include <hydra/detail/external/thrust/distance.h>
 #include <hydra/detail/external/thrust/equal.h>
+
+#include <array>
+#include <vector>
+#include <utility>
+#include <initializer_list>
 
 namespace hydra {
 
@@ -164,6 +165,7 @@ public:
 	template<typename FUNCTOR,  typename Iterator>
 	std::pair<GReal_t, GReal_t> AverageOn(Iterator begin, Iterator end, FUNCTOR const& functor);
 
+
 	/**
 	 * @brief Evaluate a list of functors  over the phase-space
 	 * @param policy  Back-end;
@@ -172,7 +174,7 @@ public:
 	 * @param mother Mother particle four-vector;
 	 * @param functors Functors;
 	 */
-	template<typename ...FUNCTOR, typename Iterator>
+	template<typename Iterator, typename ...FUNCTOR >
 	void Evaluate(Vector4R const& mother, Iterator begin, Iterator end, FUNCTOR const& ...functors);
 
 	/**
@@ -186,6 +188,35 @@ public:
 	template<typename ...FUNCTOR, typename IteratorMother, typename Iterator>
 	void Evaluate(IteratorMother mbegin, IteratorMother mend,
 			Iterator begin, FUNCTOR const& ...functors);
+
+	//Evaluate range semantics interface ----------------------------
+
+	/**
+	 * @brief Evaluate a list of functors  over the phase-space
+	 * @param mother mother particle
+	 * @param result container for store the results
+	 * @param functors
+	 * @return A Range object pointing to the @param result container
+	 */
+	template<typename ...FUNCTOR, typename Iterable>
+	inline typename std::enable_if< hydra::detail::is_iterable<Iterable>::value,
+			 hydra::Range<decltype(std::declval<Iterable>().begin())>>::type
+	Evaluate(Vector4R const& mother, Iterable&& iterable, FUNCTOR const& ...functors);
+
+	/**
+	 * @brief Evaluate a list of functors  over the phase-space given a list vectors.
+	 * @param mothers list of mother particles;
+	 * @param result container for store the results
+	 * @param functors
+	 * @return A Range object pointing to the @param result container
+	 */
+	template<typename ...FUNCTOR, typename IterableMother, typename Iterable>
+	inline typename std::enable_if< hydra::detail::is_iterable<Iterable>::value &&
+	hydra::detail::is_iterable<IterableMother>::value,
+				 hydra::Range<decltype(std::declval<Iterable>().begin())>>::type
+	Evaluate(IterableMother&& mothers, Iterable&& result, FUNCTOR const& ...functors);
+
+	//--------------------------------------------------------------------
 
     /**
      * @brief Generate a phase-space  given a mother particle and a output range.
@@ -223,7 +254,31 @@ public:
 	template<typename Iterator1, typename Iterator2, hydra::detail::Backend BACKEND>
 	void Generate(hydra::detail::BackendPolicy<BACKEND> const& exec_policy , Iterator1 begin, Iterator1 end, Iterator2 daughters_begin);
 
+	// Generate range semantics ------------------------------------------------
+	/**
+	 * @brief Generate a phase-space  given a mother particle and a output range.
+	 * @param mother Mother particle.
+	 * @param begin Iterator pointing to the begin output range.
+	 * @param end Iterator pointing to the end output range.
+	 */
+	template<typename Iterable>
+	inline typename std::enable_if< hydra::detail::is_iterable<Iterable>::value,
+				 hydra::Range<decltype(std::declval<Iterable>().begin())>>::type
+	Generate(Vector4R const& mother, Iterable&& events);
 
+	/**
+	 * @brief Generate a phase-space  given a range of mother particles and a output range.
+	 * @param begin Iterator pointing to the begin of range of mother particles.
+	 * @param end Iterator pointing to the end  of range of mother particles.
+	 * @param daughters_begin Iterator pointing to the begin of range of daughter particles.
+	 */
+	template<typename IterableMothers, typename Iterable>
+	inline typename std::enable_if< hydra::detail::is_iterable<Iterable>::value &&
+		hydra::detail::is_iterable<IterableMothers>::value,
+					 hydra::Range<decltype(std::declval<Iterable>().begin())>>::type
+	Generate( IterableMothers&& mothers, Iterable&& daughters);
+
+	//--------------------------------------------------------------------------
 
 
 	/**

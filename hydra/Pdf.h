@@ -1,6 +1,6 @@
 /*----------------------------------------------------------------------------
  *
- *   Copyright (C) 2016 - 2018 Antonio Augusto Alves Junior
+ *   Copyright (C) 2016 - 2019 Antonio Augusto Alves Junior
  *
  *   This file is part of Hydra Data Analysis Framework.
  *
@@ -254,6 +254,7 @@ public:
  	template<typename T1>
  	inline  GReal_t operator()(T1&& t ) const
   	{
+
   		return fFunctor.GetNorm()*fFunctor(t);
 
   	}

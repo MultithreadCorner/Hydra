@@ -1,6 +1,6 @@
 /*----------------------------------------------------------------------------
  *
- *   Copyright (C) 2016 - 2018 Antonio Augusto Alves Junior
+ *   Copyright (C) 2016 - 2019 Antonio Augusto Alves Junior
  *
  *   This file is part of Hydra Data Analysis Framework.
  *
@@ -31,6 +31,7 @@
 
 #include <hydra/detail/external/thrust/tuple.h>
 #include <hydra/detail/external/thrust/iterator/detail/tuple_of_iterator_references.h>
+
 namespace hydra {
 
 /**
@@ -57,6 +58,9 @@ return *this; } \
 template<typename ...T> \
 __hydra_host__ __hydra_device__ \
 operator HYDRA_EXTERNAL_NS::thrust::tuple<T...> () { return HYDRA_EXTERNAL_NS::thrust::make_tuple(__VA_ARGS__); } \
+template<typename ...T> \
+__hydra_host__ __hydra_device__ \
+ operator HYDRA_EXTERNAL_NS::thrust::tuple<T...> () const { return HYDRA_EXTERNAL_NS::thrust::make_tuple(__VA_ARGS__); } \
 
 
 }  // namespace hydra

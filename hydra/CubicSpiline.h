@@ -1,6 +1,6 @@
 /*----------------------------------------------------------------------------
  *
- *   Copyright (C) 2016 - 2018 Antonio Augusto Alves Junior
+ *   Copyright (C) 2016 - 2019 Antonio Augusto Alves Junior
  *
  *   This file is part of Hydra Data Analysis Framework.
  *
@@ -34,7 +34,7 @@
 #include <hydra/detail/BackendPolicy.h>
 #include <hydra/Types.h>
 #include <hydra/Function.h>
-
+#include <hydra/detail/utility/CheckValue.h>
 #include <hydra/detail/external/thrust/copy.h>
 #include <hydra/detail/external/thrust/iterator/zip_iterator.h>
 #include <hydra/detail/external/thrust/execution_policy.h>
@@ -119,9 +119,19 @@ public:
 	}
 
 	__hydra_host__ __hydra_device__
+	inline void SetD(unsigned int i, GReal_t value)  {
+		fD[i]=value;
+	}
+
+	__hydra_host__ __hydra_device__
 	inline const GReal_t* GetX() const {
 		return fX;
 	}
+
+	__hydra_host__ __hydra_device__
+		inline void SetX(unsigned int i, GReal_t value)  {
+			fX[i]=value;
+		}
 
 	template<typename T>
 	__hydra_host__ __hydra_device__
@@ -197,7 +207,7 @@ private:
 		//--------------------
 		const double X = (x-fX[i]);
 
-		return a_i*X*X*X + b_i*X*X + c_i*X + y_i;
+		return X*( X*(a_i*X + b_i) + c_i) + y_i;
 	}
 
 	GReal_t fX[N];

@@ -1,6 +1,6 @@
 /*----------------------------------------------------------------------------
  *
- *   Copyright (C) 2016 - 2018 Antonio Augusto Alves Junior
+ *   Copyright (C) 2016 - 2019 Antonio Augusto Alves Junior
  *
  *   This file is part of Hydra Data Analysis Framework.
  *
@@ -67,7 +67,7 @@
 #include <hydra/Function.h>
 #include <hydra/FunctorArithmetic.h>
 #include <hydra/FunctionWrapper.h>
-#include <hydra/Copy.h>
+#include <hydra/Algorithm.h>
 #include <hydra/Tuple.h>
 #include <hydra/Vector3R.h>
 #include <hydra/Vector4R.h>
@@ -105,7 +105,7 @@ int main(int argv, char** argc)
 
 	double B0_mass    = 5.27955;      // B0 mass
 	double Jpsi_mass  = 3.0969;       // J/psi mass
-	double K_mass     = 0.493677;     // K+ mass
+	double K_mass     = 0.13957061;   //0.493677;     // K+ mass
 	double pi_mass    = 0.13957061;   // pi mass
 	double mu_mass    = 0.1056583745 ;// mu mass
 
@@ -218,12 +218,12 @@ int main(int argv, char** argc)
 		auto start = std::chrono::high_resolution_clock::now();
 
 		//generate the final state particles for B0 -> K pi J/psi
-		phsp1.Generate(B0, Chain_d.GetDecay(_0).begin(), Chain_d.GetDecay(_0).end());
+		phsp1.Generate(B0, Chain_d.GetDecays(_0).begin(), Chain_d.GetDecays(_0).end());
 
 		//pass the list of J/psi to generate the final
 		//state particles for J/psi -> mu+ mu-
-		phsp2.Generate(Chain_d.GetDecay(_0).GetDaughters(0).begin(), Chain_d.GetDecay(_0).GetDaughters(0).end(),
-				Chain_d.GetDecay(_1).begin());
+		phsp2.Generate(Chain_d.GetDecays(_0).GetDaughters(0).begin(), Chain_d.GetDecays(_0).GetDaughters(0).end(),
+				Chain_d.GetDecays(_1).begin());
 
 		auto end = std::chrono::high_resolution_clock::now();
 

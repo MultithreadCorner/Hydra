@@ -1,6 +1,6 @@
 /*----------------------------------------------------------------------------
  *
- *   Copyright (C) 2016 - 2018 Antonio Augusto Alves Junior
+ *   Copyright (C) 2016 - 2019 Antonio Augusto Alves Junior
  *
  *   This file is part of Hydra Data Analysis Framework.
  *
@@ -40,6 +40,10 @@
 
 namespace hydra {
 
+
+/**
+ * FIXME : add filler methods...
+ */
 template<typename Backend>
 class Weights;
 
@@ -196,7 +200,7 @@ private:
 
 	GReal_t  fSumW;
 	GReal_t  fSumW2;
-	vector_t fData;
+	storage_type fData;
 
 
 };

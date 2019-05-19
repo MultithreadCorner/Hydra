@@ -1,6 +1,6 @@
 /*----------------------------------------------------------------------------
  *
- *   Copyright (C) 2016 - 2018 Antonio Augusto Alves Junior
+ *   Copyright (C) 2016 - 2019 Antonio Augusto Alves Junior
  *
  *   This file is part of Hydra Data Analysis Framework.
  *
@@ -226,8 +226,8 @@ inline GReal_t Vector3R::dot(const Vector3R& p2)
 	GReal_t temp;
 
 	temp = v[0] * p2.v[0];
-	temp += v[0] * p2.v[0];
-	temp += v[0] * p2.v[0];
+	temp += v[1] * p2.v[1];
+	temp += v[2] * p2.v[2];
 
 	return temp;
 } //dot

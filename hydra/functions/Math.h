@@ -1,6 +1,6 @@
 /*----------------------------------------------------------------------------
  *
- *   Copyright (C) 2016 - 2017 Antonio Augusto Alves Junior
+ *   Copyright (C) 2016 - 2019 Antonio Augusto Alves Junior
  *
  *   This file is part of Hydra Data Analysis Framework.
  *
@@ -32,7 +32,20 @@
 
 
 
+#include <hydra/detail/Config.h>
+#include <hydra/detail/BackendPolicy.h>
+#include <hydra/Types.h>
+#include <hydra/Function.h>
+#include <hydra/detail/utility/CheckValue.h>
+#include <hydra/Tuple.h>
+#include <tuple>
+#include <limits>
+#include <stdexcept>
+#include <assert.h>
+#include <utility>
+#include <cmath>
 
+#include "hydra/functions/detail/rint.h"
 
 namespace hydra {
 
@@ -62,8 +75,6 @@ template<typename T>
 __hydra_host__ __hydra_device__
 inline T laguerre(unsigned n, const T x);
 
-
-
 /**
  * Implementation of Chebychev polynomials of first kind \f$ P_n(n) \f$ using the recursive relation
  *
@@ -76,7 +87,6 @@ inline T laguerre(unsigned n, const T x);
 template<typename T>
 __hydra_host__ __hydra_device__
 inline T chebychev_1st_kind(unsigned n, const T x);
-
 
 /**
  * Implementation of Chebychev polynomials of second kind \f$ P_n(n) \f$ using the recursive relation
@@ -91,7 +101,6 @@ template<typename T>
 __hydra_host__ __hydra_device__
 inline T chebychev_2nd_kind(unsigned n, const T x);
 
-
 /**
  * Implementation of Hermite polynomials \f$ P_n(n) \f$ using the recursive relation
  *
@@ -105,7 +114,24 @@ template<typename T>
 __hydra_host__ __hydra_device__
 inline T hermite(unsigned n, const T x);
 
+/**
+ * Recurrence relation|recurrence relation]] for the Jacobi polynomials of fixed ''α'',''β'' is:<ref name=sz/>
 
+:<math>\begin{align}
+&2n (n + \alpha + \beta) (2n + \alpha + \beta - 2) P_n^{(\alpha,\beta)}(z) \\
+&\qquad= (2n+\alpha + \beta-1) \Big\{ (2n+\alpha + \beta)(2n+\alpha+\beta-2) z +  \alpha^2 - \beta^2 \Big\} P_{n-1}^{(\alpha,\beta)}(z) - 2 (n+\alpha - 1) (n + \beta-1) (2n+\alpha + \beta) P_{n-2}^{(\alpha, \beta)}(z),
+\end{align}</math>
+
+for ''n'' = 2, 3, ....
+ */
+template<typename T>
+__hydra_host__ __hydra_device__
+inline T jacobi(double a, double b, unsigned n, const T x);
+
+
+template<typename T>
+__hydra_host__ __hydra_device__
+inline T wigner_d_matrix(unsigned j, unsigned m, unsigned n, const T theta);
 
 
 }  // namespace hydra
@@ -114,5 +140,7 @@ inline T hermite(unsigned n, const T x);
 #include "hydra/functions/detail/legendre.h"
 #include "hydra/functions/detail/laguerre.h"
 #include "hydra/functions/detail/chebychev.h"
+#include "hydra/functions/detail/jacobi.h"
+#include "hydra/functions/detail/wigner_d_matrix.h"
 
 #endif /* MATH_H_ */

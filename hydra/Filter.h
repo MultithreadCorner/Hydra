@@ -1,6 +1,6 @@
 /*----------------------------------------------------------------------------
  *
- *   Copyright (C) 2016 - 2018 Antonio Augusto Alves Junior
+ *   Copyright (C) 2016 - 2019 Antonio Augusto Alves Junior
  *
  *   This file is part of Hydra Data Analysis Framework.
  *
@@ -34,7 +34,8 @@
 #include <hydra/detail/BackendPolicy.h>
 #include <hydra/Types.h>
 #include <hydra/Tuple.h>
-#include <hydra/GenericRange.h>
+#include <hydra/Range.h>
+#include <utility>
 
 //thrust
 #include <hydra/detail/external/thrust/partition.h>
@@ -53,9 +54,12 @@ namespace hydra {
  * @param filter Functor returning bool.
  * @return
  */
-template<typename Container, typename Functor>
-hydra::GenericRange<typename Container::iterator>
-apply_filter(Container& container, Functor const& filter);
+template<typename Iterable, typename Functor>
+inline typename std::enable_if< hydra::detail::is_iterable<Iterable>::value,
+		 hydra::Range<decltype(std::declval<Iterable>().begin())>>::type
+apply_filter(Iterable&& container, Functor const& filter);
+
+
 
 }  // namespace hydra
 

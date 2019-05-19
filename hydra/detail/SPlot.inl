@@ -1,6 +1,6 @@
 /*----------------------------------------------------------------------------
  *
- *   Copyright (C) 2016 - 2018 Antonio Augusto Alves Junior
+ *   Copyright (C) 2016 - 2019 Antonio Augusto Alves Junior
  *
  *   This file is part of Hydra Data Analysis Framework.
  *
@@ -70,6 +70,22 @@ SPlot<PDF1,PDF2,PDFs...>::Generate(InputIterator in_begin, InputIterator in_end,
     return  fCovMatrix;
 
 }
+
+template <typename PDF1, typename PDF2, typename ...PDFs>
+template<typename InputIterable, typename OutputIterable>
+inline typename std::enable_if<	hydra::detail::is_iterable<InputIterable>::value &&
+		hydra::detail::is_iterable<OutputIterable>::value,
+	     HYDRA_EXTERNAL_NS::Eigen::Matrix<double, sizeof...(PDFs)+2, sizeof...(PDFs)+2>>::type
+SPlot<PDF1,PDF2,PDFs...>::Generate(InputIterable&& input, OutputIterable&& output)	{
+
+	return this->Generate(std::forward<InputIterable>(input).begin(),
+					std::forward<InputIterable>(input).end(),
+	           std::forward<OutputIterable>(output).begin() );
+}
+
+
+
+
 
 
 } // namespace hydra

@@ -1,7 +1,7 @@
 
 /*----------------------------------------------------------------------------
  *
- *   Copyright (C) 2016 - 2018 Antonio Augusto Alves Junior
+ *   Copyright (C) 2016 - 2019 Antonio Augusto Alves Junior
  *
  *   This file is part of Hydra Data Analysis Framework.
  *
@@ -31,10 +31,11 @@
 #define GAUSSIAN_H_
 
 #include <hydra/detail/Config.h>
+#include <hydra/detail/BackendPolicy.h>
 #include <hydra/Types.h>
 #include <hydra/Function.h>
 #include <hydra/Pdf.h>
-#include <hydra/detail/Integrator.h>
+#include <hydra/Integrator.h>
 #include <hydra/detail/utility/CheckValue.h>
 #include <hydra/Parameter.h>
 #include <hydra/Tuple.h>
@@ -46,6 +47,16 @@
 
 namespace hydra {
 
+/**
+ * \ingroup common_functions
+ * \class Gaussian
+ *
+ * Gaussian functions are often used to represent the probability density function of a normally distributed random variable with
+ * expected value \f$ \mu \f$ and variance \f$ \sigma \f$. In this case, the Gaussian is of the form:
+
+\f[ g(x) = \frac{1}{\sigma\sqrt{2\pi}} e^{ -\frac{1}{2}\left(\frac{x-\mu}{\sigma}\right)^2 }. \f]
+ *
+ */
 template<unsigned int ArgIndex=0>
 class Gaussian: public BaseFunctor<Gaussian<ArgIndex>, double, 2>
 {
@@ -73,80 +84,42 @@ public:
 	}
 
 	template<typename T>
-	__hydra_host__ __hydra_device__ inline
-	double Evaluate(unsigned int, T*x)  const	{
+	__hydra_host__ __hydra_device__
+	inline double Evaluate(unsigned int, T*x)  const	{
 		double m2 = (x[ArgIndex] - _par[0])*(x[ArgIndex] - _par[0] );
 		double s2 = _par[1]*_par[1];
-		return  CHECK_VALUE(exp(-m2/(2.0 * s2 )), "par[0]=%f, par[1]=%f", _par[0], _par[1]);
+		return  CHECK_VALUE(::exp(-m2/(2.0 * s2 )), "par[0]=%f, par[1]=%f", _par[0], _par[1]);
 
 	}
 
 	template<typename T>
-	__hydra_host__ __hydra_device__ inline
-	double Evaluate(T x)  const {
+	__hydra_host__ __hydra_device__
+	inline double Evaluate(T const& x)  const {
 		double m2 = ( get<ArgIndex>(x) - _par[0])*(get<ArgIndex>(x) - _par[0] );
 		double s2 = _par[1]*_par[1];
-		return CHECK_VALUE( exp(-m2/(2.0 * s2 )), "par[0]=%f, par[1]=%f", _par[0], _par[1]);
+		return CHECK_VALUE( ::exp(-m2/(2.0 * s2 )), "par[0]=%f, par[1]=%f", _par[0], _par[1]);
 
 	}
 
 };
 
-class GaussianAnalyticalIntegral: public Integrator<GaussianAnalyticalIntegral>
+template<unsigned int ArgIndex>
+class IntegrationFormula< Gaussian<ArgIndex>, 1>
 {
 
-public:
+protected:
 
-	GaussianAnalyticalIntegral(double min, double max):
-		fLowerLimit(min),
-		fUpperLimit(max)
+	inline std::pair<GReal_t, GReal_t>
+	EvalFormula(Gaussian<ArgIndex>const& functor, double LowerLimit, double UpperLimit )const
 	{
-		assert( fLowerLimit < fUpperLimit && "hydra::ArgusShapeAnalyticalIntegral: MESSAGE << LowerLimit >= fUpperLimit >>");
-	 }
+		double fraction = cumulative(functor[0], functor[1], UpperLimit)
+							- cumulative(functor[0], functor[1], LowerLimit);
 
-	inline GaussianAnalyticalIntegral(GaussianAnalyticalIntegral const& other):
-		fLowerLimit(other.GetLowerLimit()),
-		fUpperLimit(other.GetUpperLimit())
-	{}
+			return std::make_pair( CHECK_VALUE(fraction,
+					" par[0] = %f par[1] = %f fLowerLimit = %f fUpperLimit = %f",
+					functor[0], functor[1], LowerLimit, UpperLimit ) ,0.0);
 
-	inline GaussianAnalyticalIntegral&
-	operator=( GaussianAnalyticalIntegral const& other)
-	{
-		if(this == &other) return *this;
-
-		this->fLowerLimit = other.GetLowerLimit();
-		this->fUpperLimit = other.GetUpperLimit();
-
-		return *this;
 	}
-
-	double GetLowerLimit() const {
-		return fLowerLimit;
-	}
-
-	void SetLowerLimit(double lowerLimit ) {
-		fLowerLimit = lowerLimit;
-	}
-
-	double GetUpperLimit() const {
-		return fUpperLimit;
-	}
-
-	void SetUpperLimit(double upperLimit) {
-		fUpperLimit = upperLimit;
-	}
-
-	template<typename FUNCTOR>	inline
-	std::pair<double, double> Integrate(FUNCTOR const& functor) const {
-
-		double fraction = cumulative(functor[0], functor[1], fUpperLimit)
-						- cumulative(functor[0], functor[1], fLowerLimit);
-
-		return std::make_pair(
-				CHECK_VALUE(fraction," par[0] = %f par[1] = %f fLowerLimit = %f fUpperLimit = %f", functor[0], functor[1], fLowerLimit,fUpperLimit ) ,0.0);
-	}
-
-
 private:
 
 	inline double cumulative(const double mean, const double sigma, const double x) const
@@ -156,12 +129,7 @@ private:
 
 		return sigma*sqrt_pi_over_two*(1.0 + erf( (x-mean)/( sigma*sqrt_two ) ) );
 	}
-
-	double fLowerLimit;
-	double fUpperLimit;
-
 };
-
 
 
 }  // namespace hydra

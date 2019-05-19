@@ -1,6 +1,6 @@
 /*----------------------------------------------------------------------------
  *
- *   Copyright (C) 2016 - 2018 Antonio Augusto Alves Junior
+ *   Copyright (C) 2016 - 2019 Antonio Augusto Alves Junior
  *
  *   This file is part of Hydra Data Analysis Framework.
  *
@@ -72,7 +72,7 @@
 #include <hydra/FunctorArithmetic.h>
 #include <hydra/FunctionWrapper.h>
 #include <hydra/Tuple.h>
-#include <hydra/GenericRange.h>
+#include <hydra/Range.h>
 
 #include <hydra/LogLikelihoodFCN.h>
 #include <hydra/Parameter.h>

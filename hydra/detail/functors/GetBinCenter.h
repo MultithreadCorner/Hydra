@@ -1,6 +1,6 @@
 /*----------------------------------------------------------------------------
  *
- *   Copyright (C) 2016 - 2018 Antonio Augusto Alves Junior
+ *   Copyright (C) 2016 - 2019 Antonio Augusto Alves Junior
  *
  *   This file is part of Hydra Data Analysis Framework.
  *
@@ -67,7 +67,7 @@ struct GetBinCenter: public HYDRA_EXTERNAL_NS::thrust::unary_function<size_t, ty
 			fLowerLimits[i] = other.fLowerLimits[i];
 			fIncrement[i]=other.fIncrement[i];
 		}
-
+		fNGlobalBins =other.fNGlobalBins;
 	}
 
 	__hydra_host__ __hydra_device__

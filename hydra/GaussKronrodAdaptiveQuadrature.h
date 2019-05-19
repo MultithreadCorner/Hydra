@@ -1,6 +1,6 @@
 /*----------------------------------------------------------------------------
  *
- *   Copyright (C) 2016 - 2018 Antonio Augusto Alves Junior
+ *   Copyright (C) 2016 - 2019 Antonio Augusto Alves Junior
  *
  *   This file is part of Hydra Data Analysis Framework.
  *
@@ -38,7 +38,7 @@
 #include <hydra/GaussKronrodRules.h>
 #include <hydra/detail/functors/ProcessGaussKronrodAdaptiveQuadrature.h>
 #include <hydra/multivector.h>
-#include <hydra/detail/Integrator.h>
+#include <hydra/Integrator.h>
 #include <hydra/Placeholders.h>
 
 #include <hydra/detail/Print.h>
@@ -101,7 +101,7 @@ The difference between a Gauss quadrature rule and its Kronrod extension are oft
  */
 template<size_t NRULE, size_t NBIN, hydra::detail::Backend BACKEND>
 class GaussKronrodAdaptiveQuadrature<NRULE,NBIN, hydra::detail::BackendPolicy<BACKEND>>:
-public Integrator< GaussKronrodAdaptiveQuadrature<NRULE, NBIN, hydra::detail::BackendPolicy<BACKEND> > >
+public Integral< GaussKronrodAdaptiveQuadrature<NRULE, NBIN, hydra::detail::BackendPolicy<BACKEND> > >
 {
 
 	typedef hydra::detail::BackendPolicy<BACKEND> system_t;

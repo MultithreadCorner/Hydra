@@ -1,6 +1,6 @@
 /*----------------------------------------------------------------------------
  *
- *   Copyright (C) 2016 - 2018 Antonio Augusto Alves Junior
+ *   Copyright (C) 2016 - 2019 Antonio Augusto Alves Junior
  *
  *   This file is part of Hydra Data Analysis Framework.
  *
@@ -109,8 +109,16 @@ public:
 
 	template<typename InputIterator, typename OutputIterator>
 	inline HYDRA_EXTERNAL_NS::Eigen::Matrix<double, sizeof...(PDFs)+2, sizeof...(PDFs)+2>
-	Generate(InputIterator in_begin, InputIterator in_end,
-			OutputIterator out_begin);
+	Generate(InputIterator input_begin, InputIterator input_end,	OutputIterator output_begin);
+
+	template<typename InputIterable, typename OutputIterable>
+	inline typename std::enable_if<	hydra::detail::is_iterable<InputIterable>::value &&
+		hydra::detail::is_iterable<OutputIterable>::value,
+	     HYDRA_EXTERNAL_NS::Eigen::Matrix<double, sizeof...(PDFs)+2, sizeof...(PDFs)+2>>::type
+	Generate(InputIterable&& input, OutputIterable&& output);
+
+
+
 
 
 private:

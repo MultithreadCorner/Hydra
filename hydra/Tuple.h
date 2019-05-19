@@ -1,6 +1,6 @@
 /*----------------------------------------------------------------------------
  *
- *   Copyright (C) 2016 - 2018 Antonio Augusto Alves Junior
+ *   Copyright (C) 2016 - 2019 Antonio Augusto Alves Junior
  *
  *   This file is part of Hydra Data Analysis Framework.
  *
@@ -157,9 +157,17 @@ get( HYDRA_EXTERNAL_NS::thrust::tuple<T...> const& t)
 template<int N, typename ...T>
 __hydra_host__ __hydra_device__ inline
 typename HYDRA_EXTERNAL_NS::thrust::tuple_element<N,HYDRA_EXTERNAL_NS::thrust::tuple<T...>>::type
-get( HYDRA_EXTERNAL_NS::thrust::tuple<T...> & t)
+get( HYDRA_EXTERNAL_NS::thrust::tuple<T...>& t)
 {
 	return HYDRA_EXTERNAL_NS::thrust::get<N>(t);
+}
+
+template<int N, typename ...T>
+__hydra_host__ __hydra_device__ inline
+typename HYDRA_EXTERNAL_NS::thrust::tuple_element<N,HYDRA_EXTERNAL_NS::thrust::tuple<T...>>::type
+get( HYDRA_EXTERNAL_NS::thrust::tuple<T...>&& t)
+{
+	return HYDRA_EXTERNAL_NS::thrust::get<N>(std::forward<HYDRA_EXTERNAL_NS::thrust::tuple<T...>>(t));
 }
 
 template<int N, typename T1,  typename T2>

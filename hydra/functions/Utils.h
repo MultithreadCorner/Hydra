@@ -1,6 +1,6 @@
 /*----------------------------------------------------------------------------
  *
- *   Copyright (C) 2016 - 2018 Antonio Augusto Alves Junior
+ *   Copyright (C) 2016 - 2019 Antonio Augusto Alves Junior
  *
  *   This file is part of Hydra Data Analysis Framework.
  *
@@ -29,6 +29,9 @@
 #ifndef UTILS_H_
 #define UTILS_H_
 
+
+#include <hydra/detail/Config.h>
+#include <hydra/detail/BackendPolicy.h>
 #include <hydra/Types.h>
 #include <utility>
 #include <ratio>
@@ -36,6 +39,7 @@
 namespace hydra {
 
 /**
+ *  \ingroup common_functions
  * Orbital angular momentum tags.
  */
 enum Wave{ SWave=0, PWave, DWave, FWave, GWave, HWave };
@@ -85,7 +89,7 @@ namespace detail {
  */
 	template<typename T, unsigned int N>
 	inline __hydra_host__ __hydra_device__
-	T pow(const T x){
+	T pow(T x){
 		T r = 1;
 		detail::pow_helper<T,N,0>(x,r);
 		return r ;

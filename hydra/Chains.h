@@ -1,6 +1,6 @@
 /*----------------------------------------------------------------------------
  *
- *   Copyright (C) 2016 - 2018 Antonio Augusto Alves Junior
+ *   Copyright (C) 2016 - 2019 Antonio Augusto Alves Junior
  *
  *   This file is part of Hydra Data Analysis Framework.
  *
@@ -219,25 +219,25 @@ public:
 		return *this;
 	}
 
-	GenericRange<iterator_v >
+	Range<iterator_v >
 	GetWeights() {
 		return hydra::make_range(this->fWeights.begin(), this->fWeights.end());
 	}
 
-	GenericRange<const_iterator_v >
+	Range<const_iterator_v >
 	GetWeights() const {
 		return hydra::make_range(this->fWeights.begin(), this->fWeights.end());
 	}
 
 	template<unsigned int I>
     typename HYDRA_EXTERNAL_NS::thrust::tuple_element<I, decays_type >::type&
-	GetDecay(placeholders::placeholder<I> ) {
+	GetDecays(placeholders::placeholder<I> ) {
 		return HYDRA_EXTERNAL_NS::thrust::get<I>(this->fDecays);
 	}
 
 	template<unsigned int I>
 	typename HYDRA_EXTERNAL_NS::thrust::tuple_element<I, decays_type >::type const&
-	GetDecay(placeholders::placeholder<I> ) const {
+	GetDecays(placeholders::placeholder<I> ) const {
 		return HYDRA_EXTERNAL_NS::thrust::get<I>(this->fDecays);
 	}
 

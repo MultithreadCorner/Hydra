@@ -1,6 +1,6 @@
 /*----------------------------------------------------------------------------
  *
- *   Copyright (C) 2016 - 2018 Antonio Augusto Alves Junior
+ *   Copyright (C) 2016 - 2019 Antonio Augusto Alves Junior
  *
  *   This file is part of Hydra Data Analysis Framework.
  *
@@ -123,7 +123,7 @@ int main(int argv, char** argc)
 	hydra::Gaussian<> gaussian(mean_p,sigma_p);
 
 	//make model (pdf with analytical integral)
-	auto model = hydra::make_pdf(gaussian, hydra::GaussianAnalyticalIntegral(min, max) );
+	auto model = hydra::make_pdf(gaussian, hydra::AnalyticalIntegral<hydra::Gaussian<>>(min, max) );
 
 
 	//------------------------
@@ -142,7 +142,7 @@ int main(int argv, char** argc)
 
 		//-------------------------------------------------------
 		//gaussian
-		Generator.Gauss(mean, sigma, data_d.begin(), data_d.end());
+		Generator.Gauss(mean, sigma, data_d);
 
 		std::cout<< std::endl<< "Generated data:"<< std::endl;
 		for(size_t i=0; i<10; i++)
@@ -158,9 +158,9 @@ int main(int argv, char** argc)
 
 		std::cout<< std::endl<< "Filtered data:"<< std::endl;
 		for(size_t i=0; i<10; i++)
-			std::cout << "[" << i << "] :" << range.begin()[i] << std::endl;
+			std::cout << "[" << i << "] :" << range[i] << std::endl;
 
-		auto fcn   = hydra::make_loglikehood_fcn(model, range.begin(), range.end());
+		auto fcn   = hydra::make_loglikehood_fcn(model, range);
 
 		//-------------------------------------------------------
 		//fit

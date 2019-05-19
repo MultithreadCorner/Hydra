@@ -1,6 +1,6 @@
 /*----------------------------------------------------------------------------
  *
- *   Copyright (C) 2016 - 2018 Antonio Augusto Alves Junior
+ *   Copyright (C) 2016 - 2019 Antonio Augusto Alves Junior
  *
  *   This file is part of Hydra Data Analysis Framework.
  *
@@ -30,6 +30,8 @@
 #define COSHELICITYANGLE_H_
 
 #include <hydra/detail/Config.h>
+#include <hydra/detail/BackendPolicy.h>
+#include <hydra/detail/Config.h>
 #include <hydra/Types.h>
 #include <hydra/Function.h>
 #include <hydra/detail/utility/CheckValue.h>
@@ -44,6 +46,7 @@
 namespace hydra {
 
 /**
+ * \ingroup common_functions
  * \class CosTheta
  *
  *  This functor calculates the cosine of the helicity angle of the particle with four-vector D,
@@ -56,6 +59,11 @@ public:
 
 	__hydra_host__  __hydra_device__
 	CosHelicityAngle(){};
+
+	__hydra_host__  __hydra_device__
+	CosHelicityAngle( CosHelicityAngle const& other):
+	BaseFunctor<CosHelicityAngle,double, 0>(other)
+	{ }
 
 	__hydra_host__  __hydra_device__ inline
 	CosHelicityAngle&		operator=( CosHelicityAngle const& other){

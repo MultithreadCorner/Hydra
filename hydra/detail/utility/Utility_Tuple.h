@@ -1,6 +1,6 @@
 /*----------------------------------------------------------------------------
  *
- *   Copyright (C) 2016 - 2018 Antonio Augusto Alves Junior
+ *   Copyright (C) 2016 - 2019 Antonio Augusto Alves Junior
  *
  *   This file is part of Hydra Data Analysis Framework.
  *
@@ -100,6 +100,37 @@ namespace hydra {
 		typedef typename repeat<T, N, HYDRA_EXTERNAL_NS::thrust::detail::tuple_of_iterator_references>::type type;
 	};
 
+	//--------------------------------------
+	template<typename T, typename C, size_t N, size_t I>
+	__hydra_host__  __hydra_device__ inline
+	typename std::enable_if< I==N,void>::type
+	max_helper( T const&, C&, size_t&){}
+
+	template<typename T, typename C, size_t N, size_t I=1>
+	__hydra_host__  __hydra_device__ inline
+	typename std::enable_if< I < N, void>::type
+	max_helper( T const& tuple, C& max_value, size_t& max_index){
+
+	 max_index = max_value > HYDRA_EXTERNAL_NS::thrust::get<I>(tuple) ? max_index : I;
+	 max_value = max_value > HYDRA_EXTERNAL_NS::thrust::get<I>(tuple) ? max_value : HYDRA_EXTERNAL_NS::thrust::get<I>(tuple);
+
+	 max_helper<T, C, N, I+1>(tuple, max_value, max_index);
+	}
+
+	template<typename ...T>
+	__hydra_host__  __hydra_device__ inline
+	size_t max(HYDRA_EXTERNAL_NS::thrust::tuple<T...> const& tuple){
+
+	typedef typename std::common_type<T...>::type C;
+
+	 size_t i=0;
+	 C max_value = HYDRA_EXTERNAL_NS::thrust::get<0>(tuple);
+
+	 max_helper<HYDRA_EXTERNAL_NS::thrust::tuple<T...>,C,sizeof...(T)>(tuple, max_value, i);
+
+	 return i;
+
+	}
 
 	//--------------------------------------
 	//get zip iterator
@@ -226,6 +257,25 @@ namespace hydra {
 	    return split_tuple_helper( t, make_index_sequence<N>{}, make_index_sequence<sizeof...(T)-N>{} );
 	}
 
+	template<typename ...T, size_t... I1, size_t... I2 >
+	__hydra_host__  __hydra_device__ inline
+	auto split_tuple_helper(HYDRA_EXTERNAL_NS::thrust::tuple<T...>  const& t, index_sequence<I1...>, index_sequence<I2...>)
+	-> decltype( HYDRA_EXTERNAL_NS::thrust::make_pair(HYDRA_EXTERNAL_NS::thrust::tie( HYDRA_EXTERNAL_NS::thrust::get<I1>(t)... ), HYDRA_EXTERNAL_NS::thrust::tie( HYDRA_EXTERNAL_NS::thrust::get<I2+ + sizeof...(I1)>(t)... ) ) )
+	{
+		auto t1 = HYDRA_EXTERNAL_NS::thrust::tie( HYDRA_EXTERNAL_NS::thrust::get<I1>(t)... );
+		auto t2 = HYDRA_EXTERNAL_NS::thrust::tie( HYDRA_EXTERNAL_NS::thrust::get<I2+ sizeof...(I1)>(t)... );
+
+		return HYDRA_EXTERNAL_NS::thrust::make_pair(t1, t2);
+	}
+
+	template< size_t N, typename ...T>
+	__hydra_host__  __hydra_device__ inline
+	auto split_tuple(HYDRA_EXTERNAL_NS::thrust::tuple<T...> const& t)
+	-> decltype( split_tuple_helper( t, make_index_sequence<N>{}, make_index_sequence<sizeof...(T)-N>{} ) )
+	{
+		return split_tuple_helper( t, make_index_sequence<N>{}, make_index_sequence<sizeof...(T)-N>{} );
+	}
+
 
 
 	//----------------------------------------
@@ -262,24 +312,26 @@ namespace hydra {
 
 
 	//----------------------------------------
-	//make a homogeneous tuple with same value in all elements
-	template <typename T,  size_t... Is >
-	auto make_tuple_helper(std::array<T, sizeof ...(Is)>& Array, index_sequence<Is...>)
-	-> decltype(HYDRA_EXTERNAL_NS::thrust::make_tuple(Array[Is]...))
-	{
-		return HYDRA_EXTERNAL_NS::thrust::make_tuple(Array[Is]...);
+	template<typename T, size_t I>
+	T passthrough(T&& value){
+		return std::move( std::forward<T>(value));
 	}
 
 
-	template <typename T,  size_t N>
-	auto make_tuple(T value)
-	-> decltype(make_tuple_helper(std::array<T,N>(),  make_index_sequence<N>{}))
+	//make a homogeneous tuple with same value in all elements
+	template <typename T,  size_t... Is >
+	auto make_tuple_helper(T&& value, index_sequence<Is...>)
+	-> decltype(HYDRA_EXTERNAL_NS::thrust::make_tuple(passthrough<T,Is>(std::forward<T>(value))...))
 	{
-		std::array<T,N> Array;
+		return HYDRA_EXTERNAL_NS::thrust::make_tuple(passthrough<T,Is>(std::forward<T>(value))...);
+	}
 
-		for(auto v:Array) v=value;
 
-		return make_tuple_helper( Array, make_index_sequence<N>{});
+	template <  size_t N, typename T,typename TupleType=typename tuple_type<N,T>::type >
+	TupleType make_tuple(T&& value)
+	{
+
+		return make_tuple_helper( std::forward<T>(value), make_index_sequence<N>{});
 	}
 
 

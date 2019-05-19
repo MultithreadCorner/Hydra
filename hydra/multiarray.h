@@ -1,6 +1,6 @@
 /*----------------------------------------------------------------------------
  *
- *   Copyright (C) 2016 - 2018 Antonio Augusto Alves Junior
+ *   Copyright (C) 2016 - 2019 Antonio Augusto Alves Junior
  *
  *   This file is part of Hydra Data Analysis Framework.
  *
@@ -36,6 +36,8 @@
 #include <hydra/detail/functors/Caster.h>
 #include <hydra/Tuple.h>
 #include <hydra/Placeholders.h>
+#include <hydra/Iterator.h>
+#include <hydra/Range.h>
 #include <hydra/detail/external/thrust/iterator/zip_iterator.h>
 #include <hydra/detail/external/thrust/iterator/iterator_traits.h>
 #include <hydra/detail/external/thrust/tuple.h>
@@ -58,6 +60,8 @@ class multiarray<T, N, hydra::detail::BackendPolicy<BACKEND>>
 	typedef std::array<typename system_t::template container<T>, N> storage_t;
 
 public:
+
+
 	//------------------
 	//column typedefs
     //------------------
@@ -478,13 +482,13 @@ public:
 	template<unsigned int I>
 	 inline iterator_v begin(placeholders::placeholder<I>)
 	{
-		return std::get<I>(fData).begin();
+		return fData[I].begin();
 	}
 
 	template<unsigned int I>
 	 inline iterator_v end(placeholders::placeholder<I>)
 	{
-		return std::get<I>(fData).end();
+		return fData[I].end();
 	}
 
 	template<unsigned int I1, unsigned int I2,unsigned int ...IN >
@@ -621,7 +625,7 @@ public:
 	}
 
 	template<unsigned int I>
-	inline const column_type column(placeholders::placeholder<I>  ) const
+	inline const column_type& column(placeholders::placeholder<I>  ) const
 	{
 		return std::get<I>(fData);
 	}
@@ -1203,7 +1207,7 @@ private:
 
 
 
-	 storage_t  __move()
+	storage_t&&  __move()
 	{
 		return std::move(fData);
 	}
@@ -1214,17 +1218,37 @@ private:
 };
 
 
+
+/**
+ * Return the column ```_I``` of the hydra::multiarray.
+ * @param other
+ * @return
+ */
 template<unsigned int I,  hydra::detail::Backend BACKEND, typename T, size_t N>
 inline auto
-get(multiarray<T,N, detail::BackendPolicy<BACKEND>> const& other  )
+get(placeholders::placeholder<I>, multiarray<T,N, detail::BackendPolicy<BACKEND>> const& other  )
 -> decltype(other.column(placeholders::placeholder<I>{}))
 {
 	return other.column(placeholders::placeholder<I>{});
 }
 
+/**
+ * Return the column ```_I``` of the hydra::multiarray.
+ * @param other
+ * @return
+ */
 template<unsigned int I,  hydra::detail::Backend BACKEND, typename T, size_t N>
 inline auto
-begin(multiarray<T,N, detail::BackendPolicy<BACKEND>> const& other  )
+get(placeholders::placeholder<I>, multiarray<T,N, detail::BackendPolicy<BACKEND>>& other  )
+-> decltype(other.column(placeholders::placeholder<I>{}))
+{
+	return other.column(placeholders::placeholder<I>{});
+}
+
+
+template<unsigned int I,  hydra::detail::Backend BACKEND, typename T, size_t N>
+inline auto
+begin(placeholders::placeholder<I>, multiarray<T,N, detail::BackendPolicy<BACKEND>> const& other  )
 -> decltype(other.begin(placeholders::placeholder<I>{}))
 {
 	return other.begin(placeholders::placeholder<I>{});
@@ -1232,7 +1256,7 @@ begin(multiarray<T,N, detail::BackendPolicy<BACKEND>> const& other  )
 
 template<unsigned int I,  hydra::detail::Backend BACKEND, typename T, size_t N>
 inline auto
-end(multiarray<T,N, detail::BackendPolicy<BACKEND>> const& other  )
+end(placeholders::placeholder<I>, multiarray<T,N, detail::BackendPolicy<BACKEND>> const& other  )
 -> decltype(other.end(placeholders::placeholder<I>{}))
 {
 	return other.end(placeholders::placeholder<I>{});
@@ -1241,7 +1265,7 @@ end(multiarray<T,N, detail::BackendPolicy<BACKEND>> const& other  )
 
 template<unsigned int I,  hydra::detail::Backend BACKEND, typename T, size_t N>
 inline auto
-begin(multiarray<T,N, detail::BackendPolicy<BACKEND>>& other  )
+begin(placeholders::placeholder<I>, multiarray<T,N, detail::BackendPolicy<BACKEND>>& other  )
 -> decltype(other.begin(placeholders::placeholder<I>{}))
 {
 	return other.begin(placeholders::placeholder<I>{});
@@ -1249,7 +1273,7 @@ begin(multiarray<T,N, detail::BackendPolicy<BACKEND>>& other  )
 
 template<unsigned int I,  hydra::detail::Backend BACKEND, typename T, size_t N>
 inline auto
-end(multiarray<T,N, detail::BackendPolicy<BACKEND>>& other  )
+end(placeholders::placeholder<I>, multiarray<T,N, detail::BackendPolicy<BACKEND>>& other  )
 -> decltype(other.end(placeholders::placeholder<I>{}))
 {
 	return other.end(placeholders::placeholder<I>{});
@@ -1259,7 +1283,7 @@ end(multiarray<T,N, detail::BackendPolicy<BACKEND>>& other  )
 
 template<unsigned int I,  hydra::detail::Backend BACKEND, typename T, size_t N>
 inline auto
-rbegin(multiarray<T,N, detail::BackendPolicy<BACKEND>> const& other  )
+rbegin(placeholders::placeholder<I>, multiarray<T,N, detail::BackendPolicy<BACKEND>> const& other  )
 -> decltype(other.rbegin(placeholders::placeholder<I>{}))
 {
 	return other.rbegin(placeholders::placeholder<I>{});
@@ -1267,7 +1291,7 @@ rbegin(multiarray<T,N, detail::BackendPolicy<BACKEND>> const& other  )
 
 template<unsigned int I,  hydra::detail::Backend BACKEND, typename T, size_t N>
 inline auto
-rend(multiarray<T,N, detail::BackendPolicy<BACKEND>> const& other  )
+rend(placeholders::placeholder<I>, multiarray<T,N, detail::BackendPolicy<BACKEND>> const& other  )
 -> decltype(other.rend(placeholders::placeholder<I>{}))
 {
 	return other.rend(placeholders::placeholder<I>{});
@@ -1276,7 +1300,7 @@ rend(multiarray<T,N, detail::BackendPolicy<BACKEND>> const& other  )
 
 template<unsigned int I,  hydra::detail::Backend BACKEND, typename T, size_t N>
 inline auto
-rbegin(multiarray<T,N, detail::BackendPolicy<BACKEND>>& other  )
+rbegin(placeholders::placeholder<I>, multiarray<T,N, detail::BackendPolicy<BACKEND>>& other  )
 -> decltype(other.rbegin(placeholders::placeholder<I>{}))
 {
 	return other.rbegin(placeholders::placeholder<I>{});
@@ -1284,7 +1308,7 @@ rbegin(multiarray<T,N, detail::BackendPolicy<BACKEND>>& other  )
 
 template<unsigned int I,  hydra::detail::Backend BACKEND, typename T, size_t N>
 inline auto
-rend(multiarray<T,N, detail::BackendPolicy<BACKEND>>& other  )
+rend(placeholders::placeholder<I>, multiarray<T,N, detail::BackendPolicy<BACKEND>>& other  )
 -> decltype(other.rend(placeholders::placeholder<I>{}))
 {
 	return other.rend(placeholders::placeholder<I>{});
@@ -1317,8 +1341,7 @@ bool operator!=(const multiarray<T,N,  hydra::detail::BackendPolicy<BACKEND1>>& 
 	auto comparison = []__hydra_host__ __hydra_device__(
 			HYDRA_EXTERNAL_NS::thrust::tuple<
 			typename detail::tuple_type<N, T>::type,
-			typename detail::tuple_type<N, T>::type
-	> const& values){
+			typename detail::tuple_type<N, T>::type> const& values){
 		return HYDRA_EXTERNAL_NS::thrust::get<0>(values)== HYDRA_EXTERNAL_NS::thrust::get<1>(values);
 
 	};
@@ -1327,6 +1350,25 @@ bool operator!=(const multiarray<T,N,  hydra::detail::BackendPolicy<BACKEND1>>& 
 			HYDRA_EXTERNAL_NS::thrust::make_zip_iterator(lhs.begin(), rhs.begin()),
 			HYDRA_EXTERNAL_NS::thrust::make_zip_iterator(lhs.end(), rhs.end())
 	, comparison));
+}
+
+template<hydra::detail::Backend BACKEND, typename T, size_t N, unsigned int...I>
+auto columns( multiarray<T,N, detail::BackendPolicy<BACKEND>>const& other, placeholders::placeholder<I>...cls)
+-> Range<decltype(std::declval<	multiarray<T,N, detail::BackendPolicy<BACKEND>>const&>().begin(placeholders::placeholder<I>{}...))
+>
+{
+
+	typedef decltype( other.begin(cls...)) iterator_type;
+	return Range<iterator_type>( other.begin(cls...), other.end(cls...));
+}
+
+template<  hydra::detail::Backend BACKEND, typename T, size_t N, unsigned int...I>
+auto columns( multiarray<T,N, detail::BackendPolicy<BACKEND>>& other, placeholders::placeholder<I>...cls)
+-> Range<decltype(std::declval<multiarray<T,N, detail::BackendPolicy<BACKEND>>&&>().begin(placeholders::placeholder<I>{}...))>
+{
+
+	typedef decltype( other.begin(cls...)) iterator_type;
+	return Range<iterator_type>( other.begin(cls...), other.end(cls...));
 }
 
 

@@ -1,6 +1,6 @@
 /*----------------------------------------------------------------------------
  *
- *   Copyright (C) 2016 - 2018 Antonio Augusto Alves Junior
+ *   Copyright (C) 2016 - 2019 Antonio Augusto Alves Junior
  *
  *   This file is part of Hydra Data Analysis Framework.
  *
@@ -30,10 +30,12 @@
 #ifndef EXPONENTIAL_H_
 #define EXPONENTIAL_H_
 
+#include <hydra/detail/Config.h>
+#include <hydra/detail/BackendPolicy.h>
 #include <hydra/Types.h>
 #include <hydra/Function.h>
 #include <hydra/Pdf.h>
-#include <hydra/detail/Integrator.h>
+#include <hydra/Integrator.h>
 #include <hydra/detail/utility/CheckValue.h>
 #include <hydra/Parameter.h>
 #include <hydra/Tuple.h>
@@ -44,7 +46,12 @@
 #include <utility>
 
 namespace hydra {
-
+/**
+ * \ingroup common_functions
+ * \class Exponential
+ * https://en.wikipedia.org/wiki/Exponential_function
+ *
+ */
 template<unsigned int ArgIndex=0>
 class Exponential:public BaseFunctor<Exponential<ArgIndex>, double, 1>
 {
@@ -66,7 +73,7 @@ public:
 	operator=( Exponential<ArgIndex> const& other)
 	{
 		if(this == &other) return *this;
-		BaseFunctor<Exponential,double,1>::operator=(other);
+		BaseFunctor<Exponential<ArgIndex>,double,1>::operator=(other);
 		return *this;
 	}
 
@@ -74,73 +81,36 @@ public:
 	__hydra_host__ __hydra_device__
 	inline double Evaluate(unsigned int, T* x)  const	{
 
-		return  CHECK_VALUE(exp(x[ ArgIndex]*_par[0] ),"par[0]=%f ", _par[0] ) ;
+		return  CHECK_VALUE(::exp(x[ ArgIndex]*_par[0] ),"par[0]=%f ", _par[0] ) ;
 	}
 
 	template<typename T>
 	__hydra_host__ __hydra_device__ inline
 	double Evaluate(T x)  const	{
 
-		return CHECK_VALUE(exp(get<ArgIndex>(x)*_par[0] ),"par[0]=%f ", _par[0] );
+		return CHECK_VALUE(::exp(get<ArgIndex>(x)*_par[0] ),"par[0]=%f ", _par[0] );
 	}
 
 };
 
-
-class ExponentialAnalyticalIntegral:public Integrator<ExponentialAnalyticalIntegral>
+template<unsigned int ArgIndex>
+class IntegrationFormula< Exponential<ArgIndex>, 1>
 {
 
-public:
+protected:
 
-	ExponentialAnalyticalIntegral(double min, double max):
-	fLowerLimit(min),
-	fUpperLimit(max)
-	{}
-
-	inline ExponentialAnalyticalIntegral(ExponentialAnalyticalIntegral const& other):
-	fLowerLimit(other.GetLowerLimit()),
-	fUpperLimit(other.GetUpperLimit())
-	{}
-
-	inline ExponentialAnalyticalIntegral&
-	operator=( ExponentialAnalyticalIntegral const& other)
+	inline std::pair<GReal_t, GReal_t>
+	EvalFormula( Exponential<ArgIndex>const& functor, double LowerLimit, double UpperLimit )const
 	{
-		if(this == &other) return *this;
-		this->fLowerLimit = other.GetLowerLimit();
-		this->fUpperLimit = other.GetUpperLimit();
-		return *this;
-	}
-
-	double GetLowerLimit() const {
-		return fLowerLimit;
-	}
-
-	void SetLowerLimit(double lowerLimit) {
-		fLowerLimit = lowerLimit;
-	}
-
-	double GetUpperLimit() const {
-		return fUpperLimit;
-	}
-
-	void SetUpperLimit(double upperLimit) {
-		fUpperLimit = upperLimit;
-	}
-
-	template<typename FUNCTOR>
-	inline std::pair<double, double> Integrate(FUNCTOR const& functor) const {
-
 		double tau = functor[0];
-		double r   =  (exp(fUpperLimit*tau) - exp(fLowerLimit*tau))/tau ;
+		double r   =  (::exp(UpperLimit*tau) - ::exp(LowerLimit*tau))/tau ;
 		return std::make_pair( CHECK_VALUE(r, "par[0]=%f ", tau ) , 0.0);
+
 	}
-
-private:
-
-	double fLowerLimit;
-	double fUpperLimit;
 
 };
+
+
 
 }  // namespace hydra
 

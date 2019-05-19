@@ -1,6 +1,6 @@
 /*----------------------------------------------------------------------------
  *
- *   Copyright (C) 2016 - 2018 Antonio Augusto Alves Junior
+ *   Copyright (C) 2016 - 2019 Antonio Augusto Alves Junior
  *
  *   This file is part of Hydra Data Analysis Framework.
  *
@@ -49,12 +49,12 @@
 #include <hydra/FunctionWrapper.h>
 #include <hydra/FunctorArithmetic.h>
 #include <hydra/Random.h>
-#include <hydra/Copy.h>
+#include <hydra/Algorithm.h>
 #include <hydra/Tuple.h>
 #include <hydra/Distance.h>
 #include <hydra/multiarray.h>
 #include <hydra/DenseHistogram.h>
-#include <hydra/GenericRange.h>
+#include <hydra/Range.h>
 #include <hydra/functions/Gaussian.h>
 
 /*-------------------------------------
@@ -208,11 +208,6 @@ int main(int argv, char** argc)
 
 		end_d = std::chrono::high_resolution_clock::now();
 		elapsed_d = end_d - start_d;
-
-		auto centers = Hist_Data.GetBinsCenters();
-
-	for(auto center:centers)
-		std::cout << center << std::endl;
 
 
 		//time

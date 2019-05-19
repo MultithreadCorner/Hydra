@@ -1,6 +1,6 @@
 /*----------------------------------------------------------------------------
  *
- *   Copyright (C) 2016 - 2018 Antonio Augusto Alves Junior
+ *   Copyright (C) 2016 - 2019 Antonio Augusto Alves Junior
  *
  *   This file is part of Hydra Data Analysis Framework.
  *
@@ -189,7 +189,8 @@ struct EvalMother
 	GReal_t process(const GInt_t evt, Vector4R (&daugters)[N])
 	{
 
-		GRND randEng( hash(evt,fSeed) );
+		GRND randEng( fSeed );//hash(evt,fSeed) );
+		randEng.discard(evt+3*N);
 		HYDRA_EXTERNAL_NS::thrust::uniform_real_distribution<GReal_t> uniDist(0.0, 1.0);
 
 		GReal_t rno[N];
@@ -301,8 +302,8 @@ struct EvalMother
 	}
 
 
-	__hydra_host__   __hydra_device__ inline result_tuple_type
-	operator()( size_t evt )
+	__hydra_host__   __hydra_device__
+	inline result_tuple_type operator()( size_t evt )
 	{
 		typedef typename hydra::detail::tuple_type<N,
 				Vector4R>::type Tuple_t;

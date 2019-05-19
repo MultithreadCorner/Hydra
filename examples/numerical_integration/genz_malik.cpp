@@ -1,6 +1,6 @@
 /*----------------------------------------------------------------------------
  *
- *   Copyright (C) 2016 - 2018 Antonio Augusto Alves Junior
+ *   Copyright (C) 2016 - 2019 Antonio Augusto Alves Junior
  *
  *   This file is part of Hydra Data Analysis Framework.
  *
@@ -20,28 +20,15 @@
  *---------------------------------------------------------------------------*/
 
 /*
- * GenericRange.h
+ * genz_malik.cpp
  *
- *  Created on: 29/08/2017
+ *  Created on: 10/08/2018
  *      Author: Antonio Augusto Alves Junior
  */
 
-#ifndef GENERICRANGE_H_
-#define GENERICRANGE_H_
+#ifndef GENZ_MALIK_CPP_
+#define GENZ_MALIK_CPP_
 
-#include <hydra/detail/Config.h>
-#include <hydra/detail/BackendPolicy.h>
-#include <hydra/Distance.h>
+#include<examples/numerical_integration/genz_malik.inl>
 
-namespace hydra {
-
-template<typename ...T>
-class GenericRange;
-
-}  // namespace hydra
-
-#include <hydra/detail/GenericRange1.inl>
-#include <hydra/detail/GenericRange2.inl>
-
-
-#endif /* GENERICRANGE_H_ */
+#endif /* GENZ_MALIK_CPP_ */

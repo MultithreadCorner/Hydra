@@ -1,6 +1,6 @@
 /*----------------------------------------------------------------------------
  *
- *   Copyright (C) 2016 - 2018 Antonio Augusto Alves Junior
+ *   Copyright (C) 2016 - 2019 Antonio Augusto Alves Junior
  *
  *   This file is part of Hydra Data Analysis Framework.
  *
@@ -49,6 +49,7 @@ static const tbb_t    _tbb_;
 template<>
 struct BackendPolicy<Backend::Tbb>: HYDRA_EXTERNAL_NS::thrust::execution_policy<tbb::tbb_t>
 {
+	//typedef  HYDRA_EXTERNAL_NS::thrust::execution_policy<tbb::tbb_t> super_type;
 	const tbb::tbb_t backend= tbb::_tbb_;
 
 	template<typename T>

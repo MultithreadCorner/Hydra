@@ -1,6 +1,6 @@
 /*----------------------------------------------------------------------------
  *
- *   Copyright (C) 2016 - 2018 Antonio Augusto Alves Junior
+ *   Copyright (C) 2016 - 2019 Antonio Augusto Alves Junior
  *
  *   This file is part of Hydra Data Analysis Framework.
  *
@@ -30,6 +30,7 @@
 #define ZEMACHFUNCTIONS_H_
 
 #include <hydra/detail/Config.h>
+#include <hydra/detail/BackendPolicy.h>
 #include <hydra/Types.h>
 #include <hydra/Function.h>
 #include <hydra/detail/utility/CheckValue.h>
@@ -46,6 +47,8 @@ namespace hydra {
 
 
 /**
+ * \ingroup common_functions
+ *
  * @class ZemachFunction
  *
  * Zemach's angular probability distribution for 3-body decays of spinless particle into spinless final

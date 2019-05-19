@@ -1,6 +1,6 @@
 /*----------------------------------------------------------------------------
  *
- *   Copyright (C) 2016 - 2018 Antonio Augusto Alves Junior
+ *   Copyright (C) 2016 - 2019 Antonio Augusto Alves Junior
  *
  *   This file is part of Hydra Data Analysis Framework.
  *
@@ -126,6 +126,16 @@ inline Vector4R::Vector4R(GReal_t e, GReal_t p1, GReal_t p2, GReal_t p3)
 	v[1] = p1;
 	v[2] = p2;
 	v[3] = p3;
+}
+
+__hydra_host__ __hydra_device__
+inline Vector4R::Vector4R(GReal_t e, const Vector3R& p)
+{
+
+	v[0] = e;
+	v[1] = p.get(0);
+	v[2] = p.get(1);
+	v[3] = p.get(2);
 }
 
 __hydra_host__ __hydra_device__
@@ -385,7 +395,32 @@ inline Vector3R Vector4R::vector3()
 
 	return temp;
 }
+__hydra_host__ __hydra_device__
+inline GReal_t Vector4R::p() const
 
+// returns the 3 momentum mag.
+{
+	GReal_t temp;
+
+	temp = v[1] * v[1] + v[2] * v[2] + v[3] * v[3];
+
+	temp = sqrt(temp);
+
+	return temp;
+} //
+
+__hydra_host__ __hydra_device__
+inline GReal_t Vector4R::p2() const
+
+// returns the 3 momentum mag.
+{
+	GReal_t temp;
+
+	temp = v[1] * v[1] + v[2] * v[2] + v[3] * v[3];
+
+
+	return temp;
+} //
 
 __hydra_host__ __hydra_device__
 inline GReal_t Vector4R::d3mag() const
@@ -400,6 +435,8 @@ inline GReal_t Vector4R::d3mag() const
 
 	return temp;
 } // r3mag
+
+
 __hydra_host__ __hydra_device__
 inline GReal_t Vector4R::dot(const Vector4R& p2) const
 {

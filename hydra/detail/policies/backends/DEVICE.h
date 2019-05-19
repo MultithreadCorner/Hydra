@@ -1,6 +1,6 @@
 /*----------------------------------------------------------------------------
  *
- *   Copyright (C) 2016 - 2018 Antonio Augusto Alves Junior
+ *   Copyright (C) 2016 - 2019 Antonio Augusto Alves Junior
  *
  *   This file is part of Hydra Data Analysis Framework.
  *
@@ -49,6 +49,7 @@ static const device_t   _device_;
 template<>
 struct BackendPolicy<Backend::Device>: HYDRA_EXTERNAL_NS::thrust::device_execution_policy<device::device_t>
 {
+	//typedef HYDRA_EXTERNAL_NS::thrust::device_execution_policy<device::device_t> super_type;
 	const device::device_t backend= device::_device_;
 
 	template<typename T>

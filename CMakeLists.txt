@@ -42,14 +42,19 @@ elseif ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Intel")
  #MESSAGE(STATUS "===> Compiling with MSVC")
 endif()
 
+#-----------------------
 # get Hydra
 find_package(Hydra REQUIRED)
 include_directories(${Hydra_INCLUDE_DIR})
 
+#-----------------------
 # get TCLAP
 find_package(TCLAP REQUIRED)
+if(TCLAP_FOUND)
 include_directories(${TCLAP_INCLUDE_DIR})
+endif(TCLAP_FOUND)
 
+#-----------------------
 # get ROOT
 find_package(ROOT COMPONENTS Minuit2)
 if(ROOT_FOUND)
@@ -62,6 +67,21 @@ else(Minuit2_FOUND OFF)
 endif()
 endif(ROOT_FOUND)
 
+#-----------------------
+# get GSL
+find_package(GSL)
+if(GSL_FOUND)
+include_directories(${GSL_INCLUDE_DIRS})
+endif(GSL_FOUND)
+
+#-----------------------
+# get FFTW
+find_package(FFTW)
+if(FFTW_FOUND)
+include_directories(${FFTW_INCLUDE_DIRS})
+endif(FFTW_FOUND)
+
+#-----------------------
 #get CUDA
 find_package(CUDA 8.0) 
 if(CUDA_FOUND)
@@ -92,6 +112,7 @@ LIST(APPEND CUDA_NVCC_FLAGS ${NVCC_FLAGS_EXTRA})
         
 endif(CUDA_FOUND)
 
+#-----------------------
 #get TBB
 find_package(TBB )
 if(TBB_FOUND)
@@ -99,6 +120,7 @@ include_directories(${TBB_INCLUDE_DIRS})
 link_directories(${TBB_LIBRARY})
 endif(TBB_FOUND)
 
+#-----------------------
 #get OpenMP
 find_package(OpenMP)
 if(OPENMP_CXX_FOUND OR OPENMP_FOUND)
@@ -145,7 +167,8 @@ MESSAGE(STATUS "ROOT libraries: ${ROOT_LIBRARIES}")
 MESSAGE(STATUS "ROOT::Minuit2: ${ROOT_Minuit2_LIBRARY}")
 MESSAGE(STATUS "Build CUDA/NVCC-based targets: ${BUILD_CUDA_TARGETS}")
 MESSAGE(STATUS "CUDA include: ${CUDA_INCLUDE_DIRS}" )
-MESSAGE(STATUS "CUDA libraries: ${CUDA_LIBRARIES}"  )
+MESSAGE(STATUS "CUDA RT libraries: ${CUDA_LIBRARIES}"  )
+MESSAGE(STATUS "CUDA CUFFT libraries: ${CUDA_CUFFT_LIBRARIES}")
 MESSAGE(STATUS "NVCC flags: ${CUDA_NVCC_FLAGS}" )
 MESSAGE(STATUS "Build TBB targets: ${BUILD_TBB_TARGETS}")
 MESSAGE(STATUS "TBB include: ${TBB_INCLUDE_DIRS}" )
@@ -175,6 +198,7 @@ add_subdirectory(examples/random)
 add_subdirectory(examples/histograming)
 add_subdirectory(examples/async)
 add_subdirectory(examples/misc)
+add_subdirectory(examples/convolution)
 if(Minuit2_FOUND)
 add_subdirectory(examples/phys)
 add_subdirectory(examples/fit)

@@ -1,6 +1,6 @@
 /*----------------------------------------------------------------------------
  *
- *   Copyright (C) 2016 - 2018 Antonio Augusto Alves Junior
+ *   Copyright (C) 2016 - 2019 Antonio Augusto Alves Junior
  *
  *   This file is part of Hydra Data Analysis Framework.
  *
@@ -71,7 +71,7 @@ struct Plain;
  */
 template<size_t N, hydra::detail::Backend BACKEND, typename GRND>
 class Plain<N, hydra::detail::BackendPolicy<BACKEND>, GRND>:
-public Integrator<Plain<N,hydra::detail::BackendPolicy<BACKEND>,GRND>>
+public Integral<Plain<N,hydra::detail::BackendPolicy<BACKEND>,GRND>>
 {
 	typedef hydra::detail::BackendPolicy<BACKEND> system_t;
 	typedef typename system_t::template container<GReal_t> vector_t;

@@ -1,6 +1,6 @@
 /*----------------------------------------------------------------------------
  *
- *   Copyright (C) 2016 - 2018 Antonio Augusto Alves Junior
+ *   Copyright (C) 2016 - 2019 Antonio Augusto Alves Junior
  *
  *   This file is part of Hydra Data Analysis Framework.
  *
@@ -125,6 +125,8 @@ struct RndGauss{
 
 template<typename T,typename GRND>
 struct RndUniform{
+	typedef typename std::conditional<std::is_integral<T>::value, HYDRA_EXTERNAL_NS::thrust::uniform_int_distribution<T>,
+			HYDRA_EXTERNAL_NS::thrust::uniform_real_distribution<T>>::type distribution_t;
 
 	RndUniform(size_t seed, T min, T max):
 		fSeed(seed),
@@ -144,7 +146,7 @@ struct RndUniform{
 	{
 		GRND randEng(fSeed);
 		randEng.discard(index);
-		HYDRA_EXTERNAL_NS::thrust::uniform_real_distribution<T>  dist(fMin, fMax);
+		distribution_t  dist(fMin, fMax);
 		return dist(randEng);
 	}
 

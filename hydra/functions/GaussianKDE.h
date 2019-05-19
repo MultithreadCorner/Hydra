@@ -1,6 +1,6 @@
 /*----------------------------------------------------------------------------
  *
- *   Copyright (C) 2016 - 2018 Antonio Augusto Alves Junior
+ *   Copyright (C) 2016 - 2019 Antonio Augusto Alves Junior
  *
  *   This file is part of Hydra Data Analysis Framework.
  *
@@ -30,10 +30,12 @@
 #ifndef GAUSSIANKDE_H_
 #define GAUSSIANKDE_H_
 
+#include <hydra/detail/Config.h>
+#include <hydra/detail/BackendPolicy.h>
 #include <hydra/Types.h>
 #include <hydra/Function.h>
 #include <hydra/Pdf.h>
-#include <hydra/detail/Integrator.h>
+#include <hydra/Integrator.h>
 #include <hydra/detail/utility/CheckValue.h>
 #include <hydra/Parameter.h>
 #include <hydra/CubicSpiline.h>
@@ -46,6 +48,10 @@
 
 namespace hydra {
 
+/**
+ *  \ingroup common_functions
+ *  \class GaussianKDE
+ */
 template< size_t NBins, size_t ArgIndex=0>
 class GaussianKDE: public BaseFunctor<GaussianKDE<NBins, ArgIndex>, double, 0>
 {

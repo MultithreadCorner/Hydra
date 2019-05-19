@@ -1,6 +1,6 @@
 /*----------------------------------------------------------------------------
  *
- *   Copyright (C) 2016 - 2018 Antonio Augusto Alves Junior
+ *   Copyright (C) 2016 - 2019 Antonio Augusto Alves Junior
  *
  *   This file is part of Hydra Data Analysis Framework.
  *
@@ -20,37 +20,21 @@
  *---------------------------------------------------------------------------*/
 
 /*
- * Copy.h
+ * Zip.inl
  *
- *  Created on: 25/09/2016
+ *  Created on: 29/06/2018
  *      Author: Antonio Augusto Alves Junior
  */
 
+#ifndef ZIP_INL_
+#define ZIP_INL_
 
-#ifndef COPY_H_
-#define COPY_H_
-
-#include <hydra/detail/Config.h>
-#include <hydra/detail/BackendPolicy.h>
-#include <hydra/Types.h>
-#include <hydra/detail/external/thrust/copy.h>
 
 namespace hydra {
 
-template<typename InputIterator, typename OutputIterator>
-OutputIterator copy(InputIterator first, InputIterator last, OutputIterator result)
-{
-	return HYDRA_EXTERNAL_NS::thrust::copy(first, last, result);
-}
 
-template<detail::Backend Backend, typename InputIterator, typename OutputIterator>
-OutputIterator copy(hydra::detail::BackendPolicy<Backend> const& policy, InputIterator first,
-		InputIterator last, OutputIterator result)
-{
-	return HYDRA_EXTERNAL_NS::thrust::copy( policy, first, last, result);
-}
 
 }  // namespace hydra
 
 
-#endif /* COPY_H_ */
+#endif /* ZIP_INL_ */

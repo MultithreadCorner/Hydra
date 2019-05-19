@@ -1,6 +1,6 @@
 /*----------------------------------------------------------------------------
  *
- *   Copyright (C) 2016 - 2018 Antonio Augusto Alves Junior
+ *   Copyright (C) 2016 - 2019 Antonio Augusto Alves Junior
  *
  *   This file is part of Hydra Data Analysis Framework.
  *
@@ -48,6 +48,7 @@ static const cuda_t    _cuda_;
 template<>
 struct BackendPolicy<Backend::Cuda>: HYDRA_EXTERNAL_NS::thrust::execution_policy<cuda::cuda_t>
 {
+	//typedef HYDRA_EXTERNAL_NS::thrust::execution_policy<cuda::cuda_t> super_type;
 	const cuda::cuda_t backend= cuda::_cuda_;
 
 	template<typename T>

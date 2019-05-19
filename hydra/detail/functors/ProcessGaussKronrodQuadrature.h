@@ -1,6 +1,6 @@
 /*----------------------------------------------------------------------------
  *
- *   Copyright (C) 2016 - 2018 Antonio Augusto Alves Junior
+ *   Copyright (C) 2016 - 2019 Antonio Augusto Alves Junior
  *
  *   This file is part of Hydra Data Analysis Framework.
  *
@@ -73,7 +73,7 @@ struct GaussKronrodUnary
 {
 	GaussKronrodUnary()=delete;
 
-	GaussKronrodUnary(FUNCTOR functor):
+	GaussKronrodUnary(FUNCTOR const& functor):
 	fFunctor(functor)
 	{}
 
@@ -103,8 +103,7 @@ struct GaussKronrodUnary
 
 		GaussKronrodCall result;
 
-		GReal_t function_call    = abscissa_Weight*(fFunctor(abscissa_X_M)
-				+ fFunctor(abscissa_X_M) ) ;
+		GReal_t function_call    = abscissa_Weight*(fFunctor(abscissa_X_M) + fFunctor(abscissa_X_P) ) ;
 
 		result.fGaussCall        = function_call*rule_Gauss_Weight;
 		result.fGaussKronrodCall = function_call*rule_GaussKronrod_Weight;

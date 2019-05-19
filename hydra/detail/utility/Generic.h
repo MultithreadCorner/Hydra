@@ -1,7 +1,7 @@
 
 /*----------------------------------------------------------------------------
  *
- *   Copyright (C) 2016 - 2018 Antonio Augusto Alves Junior
+ *   Copyright (C) 2016 - 2019 Antonio Augusto Alves Junior
  *
  *   This file is part of Hydra Data Analysis Framework.
  *
@@ -64,9 +64,18 @@ namespace hydra {
 	//bool pack trick:
 	//example:
 	//
-	template<bool...> struct bool_pack;
+	template<bool...> struct bool_pack{};
+
+	//template<bool... bs>
+	//using all_true = std::is_same<bool_pack<bs..., true>, bool_pack<true, bs...> >;
+
 	template<bool... bs>
-	using all_true = std::is_same<bool_pack<bs..., true>, bool_pack<true, bs...> >;
+	struct all_true:std::is_same<bool_pack<bs..., true>, bool_pack<true, bs...> >{} ;
+
+	template<>
+	struct all_true<>:std::true_type{} ;
+
+
 
 template<class R, class...Ts>
 	using are_all_same = all_true<std::is_same<Ts, R>::value...>;
@@ -197,12 +206,12 @@ template<class ...A> struct CanConvert{
 	//----------------------------------------
 	template<typename T, size_t N, size_t I>
 	typename std::enable_if< (I==N), void  >::type
-	multiply( T (&)[N] , T& )
+	multiply(const T (&)[N] , T& )
 	{ }
 
 	template<typename T, size_t N, size_t I=0>
 	typename std::enable_if< (I<N), void  >::type
-	multiply( T (&obj)[N], T& result )
+	multiply(const  T (&obj)[N], T& result )
 	{
 		result = I==0? 1.0: result;
 		result *= obj[I];
@@ -243,13 +252,13 @@ template<class ...A> struct CanConvert{
 	//end of recursion
 	template<typename T, size_t DIM, size_t I>
 	typename std::enable_if< (I==DIM) && (std::is_integral<T>::value), void  >::type
-	get_indexes(size_t , T ( &)[DIM], T (&)[DIM])
+	get_indexes(size_t , const T ( &)[DIM], T (&)[DIM])
 	{}
 
 	//begin of the recursion
 	template<typename T, size_t DIM, size_t I=0>
 	typename std::enable_if< (I<DIM) && (std::is_integral<T>::value), void  >::type
-	get_indexes(size_t index, T ( &depths)[DIM], T (&indexes)[DIM] )
+	get_indexes(size_t index,const  T ( &depths)[DIM], T (&indexes)[DIM] )
 	{
 
 		size_t factor    =  1;

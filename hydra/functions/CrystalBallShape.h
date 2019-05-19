@@ -1,6 +1,6 @@
 /*----------------------------------------------------------------------------
  *
- *   Copyright (C) 2016 - 2018 Antonio Augusto Alves Junior
+ *   Copyright (C) 2016 - 2019 Antonio Augusto Alves Junior
  *
  *   This file is part of Hydra Data Analysis Framework.
  *
@@ -28,10 +28,14 @@
 
 #ifndef CRYSTALBALLSHAPE_H_
 #define CRYSTALBALLSHAPE_H_
+
+
+#include <hydra/detail/Config.h>
+#include <hydra/detail/BackendPolicy.h>
 #include <hydra/Types.h>
 #include <hydra/Function.h>
 #include <hydra/Pdf.h>
-#include <hydra/detail/Integrator.h>
+#include <hydra/Integrator.h>
 #include <hydra/detail/utility/CheckValue.h>
 #include <hydra/Parameter.h>
 #include <hydra/Tuple.h>
@@ -78,8 +82,8 @@ public:
 	}
 
 	template<typename T>
-	__hydra_host__ __hydra_device__ inline
-	double Evaluate(unsigned int , T*x)  const
+	__hydra_host__ __hydra_device__
+	inline double Evaluate(unsigned int , T*x)  const
 	{
 		double m     = x[ArgIndex]; //mass
 		double mean  = _par[0];
@@ -98,8 +102,8 @@ public:
 	}
 
 	template<typename T>
-	__hydra_host__ __hydra_device__ inline
-	double Evaluate(T x)  const
+	__hydra_host__ __hydra_device__
+	inline	double Evaluate(T x)  const
 	{
 		double m     = hydra::get<ArgIndex>(x); //mass
 		double mean  = _par[0];
@@ -118,66 +122,27 @@ public:
 
 };
 
-
-class CrystalBallShapeAnalyticalIntegral: public Integrator<CrystalBallShapeAnalyticalIntegral>
+template<unsigned int ArgIndex>
+class IntegrationFormula< CrystalBallShape<ArgIndex>, 1>
 {
 
-public:
+protected:
 
-	CrystalBallShapeAnalyticalIntegral(double min, double max):
-		fLowerLimit(min),
-		fUpperLimit(max)
+	inline std::pair<GReal_t, GReal_t>
+	EvalFormula( CrystalBallShape<ArgIndex>const& functor, double LowerLimit, double UpperLimit )const
 	{
-		assert(fLowerLimit < fUpperLimit
-				&& "hydra::CrystalBallShapeAnalyticalIntegral: MESSAGE << LowerLimit >= fUpperLimit >>");
-	 }
+		double r = integral(functor[0], functor[1], functor[2], functor[3], LowerLimit, UpperLimit  );
 
-	inline CrystalBallShapeAnalyticalIntegral(CrystalBallShapeAnalyticalIntegral const& other):
-		fLowerLimit(other.GetLowerLimit()),
-		fUpperLimit(other.GetUpperLimit())
-	{}
+				return std::make_pair(
+				CHECK_VALUE(r," par[0] = %f par[1] = %f par[2] = %f par[3] = %f LowerLimit = %f UpperLimit = %f",\
+						functor[0], functor[1],functor[2], functor[3], LowerLimit, UpperLimit ) ,0.0);
 
-	inline CrystalBallShapeAnalyticalIntegral&
-	operator=( CrystalBallShapeAnalyticalIntegral const& other)
-	{
-		if(this == &other) return *this;
-
-		this->fLowerLimit = other.GetLowerLimit();
-		this->fUpperLimit = other.GetUpperLimit();
-
-		return *this;
 	}
-
-	double GetLowerLimit() const {
-		return fLowerLimit;
-	}
-
-	void SetLowerLimit(double lowerLimit ) {
-		fLowerLimit = lowerLimit;
-	}
-
-	double GetUpperLimit() const {
-		return fUpperLimit;
-	}
-
-	void SetUpperLimit(double upperLimit) {
-		fUpperLimit = upperLimit;
-	}
-
-	template<typename FUNCTOR>	inline
-	std::pair<double, double> Integrate(FUNCTOR const& functor) const {
-
-		double r = integral(functor[0], functor[1], functor[2], functor[3] );
-
-		return std::make_pair(
-		CHECK_VALUE(r," par[0] = %f par[1] = %f par[2] = %f par[3] = %f fLowerLimit = %f fUpperLimit = %f",\
-				functor[0], functor[1],functor[2], functor[3], fLowerLimit,fUpperLimit ) ,0.0);
-	}
-
-
 private:
 
-	inline double integral( const double m0,  const double sigma,  const double alpha,  const double n) const
+
+	inline double integral( const double m0,  const double sigma,  const double alpha,  const double n,
+			double LowerLimit, double UpperLimit) const
 	{
 		// borrowed from roofit
 		static const double sqrtPiOver2 = 1.2533141373;
@@ -191,8 +156,8 @@ private:
 
 		double sig = fabs(sigma);
 
-		double tmin = (fLowerLimit-m0)/sig;
-		double tmax = (fUpperLimit-m0)/sig;
+		double tmin = (LowerLimit-m0)/sig;
+		double tmax = (UpperLimit-m0)/sig;
 
 		if(alpha < 0) {
 			double tmp = tmin;
@@ -238,10 +203,9 @@ private:
 		return result;
 	}
 
-	double fLowerLimit;
-	double fUpperLimit;
-
 };
+
+
 }  // namespace hydra
 
 

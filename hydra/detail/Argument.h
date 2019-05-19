@@ -1,6 +1,6 @@
 /*----------------------------------------------------------------------------
  *
- *   Copyright (C) 2016 - 2018 Antonio Augusto Alves Junior
+ *   Copyright (C) 2016 - 2019 Antonio Augusto Alves Junior
  *
  *   This file is part of Hydra Data Analysis Framework.
  *
@@ -55,11 +55,11 @@ public:
 	typedef ReturnType return_type;
 
 	typedef   std::true_type is_functor;
-	__hydra_host__  Argument( ){};
 
+	Argument()=default;
 
-	__hydra_host__ __hydra_device__ inline
-	return_type operator()( return_type arg){ return arg;}
+	__hydra_host__ __hydra_device__
+	inline return_type operator()( return_type arg){ return arg;}
 
 };
 

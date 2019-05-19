@@ -1,7 +1,7 @@
 
 /*----------------------------------------------------------------------------
  *
- *   Copyright (C) 2016 - 2018 Antonio Augusto Alves Junior
+ *   Copyright (C) 2016 - 2019 Antonio Augusto Alves Junior
  *
  *   This file is part of Hydra Data Analysis Framework.
  *
@@ -76,6 +76,7 @@ public:
 	inline Vector4R() =default;
 	__hydra_host__ __hydra_device__ inline Vector4R(GReal_t e, GReal_t px, GReal_t py,
 			GReal_t pz);
+	__hydra_host__ __hydra_device__ inline Vector4R(GReal_t e, const Vector3R& p);
 	__hydra_host__ __hydra_device__ inline Vector4R(const Vector4R& other);
 	__hydra_host__ __hydra_device__ inline Vector4R(Vector4R&& other);
 
@@ -97,6 +98,10 @@ public:
 			const Vector4R& v);
 	__hydra_host__      __hydra_device__       inline GReal_t mass2() const;
 	__hydra_host__      __hydra_device__       inline GReal_t mass() const;
+	__hydra_host__      __hydra_device__       inline GReal_t p2() const;
+	__hydra_host__      __hydra_device__       inline GReal_t p() const;
+
+
 	__hydra_host__ __hydra_device__ inline void applyRotateEuler(GReal_t alpha,
 			GReal_t beta, GReal_t gamma);
 	__hydra_host__ __hydra_device__ inline void applyBoostTo(const Vector4R& p4,

@@ -1,6 +1,6 @@
 /*----------------------------------------------------------------------------
  *
- *   Copyright (C) 2016 - 2018 Antonio Augusto Alves Junior
+ *   Copyright (C) 2016 - 2019 Antonio Augusto Alves Junior
  *
  *   This file is part of Hydra Data Analysis Framework.
  *
@@ -83,8 +83,8 @@ public:
 	/**
 	 * Copy constructor
 	 */
-	__hydra_host__ __hydra_device__	 inline
-	LambdaWrapper(LambdaWrapper<ReturnType(ArgType...), L, N> const& other ):
+	__hydra_host__ __hydra_device__
+	inline	LambdaWrapper(LambdaWrapper<ReturnType(ArgType...), L, N> const& other ):
 	BaseFunctor<LambdaWrapper<ReturnType(ArgType...),L, N>, ReturnType,N>(other),
 	fLambda( other.GetLambda())
 	{	}
@@ -92,8 +92,8 @@ public:
 	/**
 	 * Assignment operator
 	 */
-	__hydra_host__ __hydra_device__	 inline
-	LambdaWrapper<ReturnType(ArgType...), L, N>
+	__hydra_host__ __hydra_device__
+	inline LambdaWrapper<ReturnType(ArgType...), L, N>
 	operator=(LambdaWrapper<ReturnType(ArgType...), L, N> const& other )
 	{
 		if(this==&other) return *this;
@@ -106,49 +106,57 @@ public:
 	/**
 	 * Get the underlying lambda
 	 */
-	__hydra_host__ __hydra_device__	 inline
-	const L& GetLambda() const {return fLambda; }
+	__hydra_host__ __hydra_device__
+	inline const L& GetLambda() const {return fLambda; }
 
 
 	template<size_t M=N, typename ...T>
-	__hydra_host__ __hydra_device__ inline
-	typename std::enable_if< (M>0) &&( (sizeof...(ArgType) ==(sizeof ...(T)+2))) , ReturnType >::type
+	__hydra_host__ __hydra_device__
+	inline typename std::enable_if< (M>0) &&( (sizeof...(ArgType) ==(sizeof ...(T)+2))) , ReturnType >::type
 	Evaluate(T... a)   const {
 
 		static_assert(
-				std::is_convertible<HYDRA_EXTERNAL_NS::thrust::tuple<unsigned int,  const hydra::Parameter*, T...> , HYDRA_EXTERNAL_NS::thrust::tuple<ArgType...>>::value ,
+				std::is_convertible<HYDRA_EXTERNAL_NS::thrust::tuple<unsigned int,  const hydra::Parameter*, T...>,
+				HYDRA_EXTERNAL_NS::thrust::tuple<ArgType...>>::value ,
 										"\n\n<<< HYDRA_COMPILE_ERROR: Lambda function can not be called with this arguments .>>>\n\n");
 
 		return fLambda(this->GetNumberOfParameters(), this->GetParameters(),a...);
 	}
 
 	template<size_t M=N, typename T>
-	__hydra_host__ __hydra_device__ inline
-	typename std::enable_if< (M>0)&& sizeof...(ArgType)==3, ReturnType >::type
+	__hydra_host__ __hydra_device__
+	inline typename std::enable_if< (M>0)&& sizeof...(ArgType)==3, ReturnType >::type
 	Evaluate(T a)    const {
 
-		static_assert( std::is_convertible<HYDRA_EXTERNAL_NS::thrust::tuple<unsigned int,  const hydra::Parameter*, T> , HYDRA_EXTERNAL_NS::thrust::tuple<ArgType...>>::value ,
+		static_assert( std::is_convertible<HYDRA_EXTERNAL_NS::thrust::tuple<unsigned int,  const hydra::Parameter*, T>,
+				HYDRA_EXTERNAL_NS::thrust::tuple<ArgType...>>::value ,
 										"\n\n<<< HYDRA_COMPILE_ERROR: Lambda function can not be called with this arguments .>>>\n\n");
 		return fLambda(this->GetNumberOfParameters(), this->GetParameters(), a);
 	}
 
 	template< typename ...T, size_t M=N>
-	__hydra_host__ __hydra_device__ inline
-	typename std::enable_if< (M==0) &&( (sizeof...(ArgType))>1), ReturnType >::type
+	__hydra_host__ __hydra_device__
+	inline typename std::enable_if< (M==0) &&( (sizeof...(ArgType))>1), ReturnType >::type
 	Evaluate(T...a)   const {
 
-		static_assert( std::is_convertible<HYDRA_EXTERNAL_NS::thrust::tuple<T...> , HYDRA_EXTERNAL_NS::thrust::tuple<ArgType...>>::value ,
+		static_assert( std::is_convertible<HYDRA_EXTERNAL_NS::thrust::tuple<T...>,
+				HYDRA_EXTERNAL_NS::thrust::tuple<ArgType...>>::value||
+			       std::is_convertible<HYDRA_EXTERNAL_NS::thrust::detail::tuple_of_iterator_references<T...>,
+			    HYDRA_EXTERNAL_NS::thrust::detail::tuple_of_iterator_references<ArgType...>>::value ,
 								"\n\n<<< HYDRA_COMPILE_ERROR: Lambda function can not be called with this arguments .>>>\n\n");
 		return fLambda( a...);
 	}
 
 	template<typename ...T, size_t M=N>
-	__hydra_host__ __hydra_device__ inline
-	typename std::enable_if< (M==0)&& sizeof...(ArgType)==1, ReturnType >::type
+	__hydra_host__ __hydra_device__
+	inline typename std::enable_if< (M==0)&& sizeof...(ArgType)==1, ReturnType >::type
 	Evaluate(T...a)   const {
 
-		static_assert( std::is_convertible<HYDRA_EXTERNAL_NS::thrust::tuple<T...> , HYDRA_EXTERNAL_NS::thrust::tuple<ArgType...>>::value ,
-						"\n\n<<< HYDRA_COMPILE_ERROR: Lambda function can not be called with this arguments .>>>\n\n");
+		static_assert( std::is_convertible<HYDRA_EXTERNAL_NS::thrust::tuple<T...>,
+				HYDRA_EXTERNAL_NS::thrust::tuple<ArgType...>>::value ||
+				       std::is_convertible<HYDRA_EXTERNAL_NS::thrust::detail::tuple_of_iterator_references<T...>,
+				HYDRA_EXTERNAL_NS::thrust::detail::tuple_of_iterator_references<ArgType...>>::value,
+			"\n\n<<< HYDRA_COMPILE_ERROR: Lambda function can not be called with this arguments .>>>\n\n");
 		return fLambda( a...);
 	}
 
@@ -170,7 +178,7 @@ auto wrap_lambda_helper(L const& f, ReturnType, HYDRA_EXTERNAL_NS::thrust::tuple
 }
 
 template<typename L, typename ReturnType, typename ...Args>
-auto wrap_lambda_helper(L const& f, ReturnType , HYDRA_EXTERNAL_NS::thrust::tuple<Args...>const& )
+auto wrap_lambda_helper(L const& f, ReturnType&& , HYDRA_EXTERNAL_NS::thrust::tuple<Args...>&& )
 -> LambdaWrapper<ReturnType(Args...), L, 0>
 {
 	return LambdaWrapper<ReturnType(Args...), L, 0>(f);
@@ -186,9 +194,11 @@ auto wrap_lambda_helper(L const& f, ReturnType , HYDRA_EXTERNAL_NS::thrust::tupl
  * @return LambdaWrapper object.
  */
 template<typename L, typename ...T>
-auto wrap_lambda(L const& f,  T ...pars)
--> decltype(detail::wrap_lambda_helper(f, typename detail::function_traits<L>::return_type() ,
-		typename detail::function_traits<L>::args_type(),  std::array<Parameter, sizeof...(T)>()))
+auto wrap_lambda(L const& f,  T const& ...pars)
+-> decltype(detail::wrap_lambda_helper( std::declval<L>(),
+		std::declval<typename detail::function_traits<L>::return_type>() ,
+		std::declval<typename detail::function_traits<L>::args_type>() ,
+		std::declval<std::array<Parameter, sizeof...(T)>>()))
 {
 	typedef detail::function_traits<L> traits;
 	typename traits::return_type r = typename traits::return_type();
@@ -206,14 +216,14 @@ auto wrap_lambda(L const& f,  T ...pars)
  */
 template<typename L>
 auto wrap_lambda(L const& f)
--> decltype(detail::wrap_lambda_helper(f, typename detail::function_traits<L>::return_type() ,
-		typename detail::function_traits<L>::args_type()))
+-> decltype(detail::wrap_lambda_helper(std::declval<L>(),
+		std::declval<typename detail::function_traits<L>::return_type>() ,
+		std::declval<typename detail::function_traits<L>::args_type>()))
 {
-	typedef detail::function_traits<L> traits;
-	typename traits::return_type r = typename traits::return_type();
-	typename traits::args_type t;
 
-	return detail::wrap_lambda_helper(f, r, t);
+	return detail::wrap_lambda_helper(f,
+			typename detail::function_traits<L>::return_type{} ,
+			typename detail::function_traits<L>::args_type{});
 }
 
 

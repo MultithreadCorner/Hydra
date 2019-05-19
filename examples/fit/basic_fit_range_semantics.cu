@@ -1,6 +1,6 @@
 /*----------------------------------------------------------------------------
  *
- *   Copyright (C) 2016 - 2018 Antonio Augusto Alves Junior
+ *   Copyright (C) 2016 - 2019 Antonio Augusto Alves Junior
  *
  *   This file is part of Hydra Data Analysis Framework.
  *
@@ -20,48 +20,17 @@
  *---------------------------------------------------------------------------*/
 
 /*
- * Integrator.h
+ * basic_fit_range_semantics.cu
  *
- *  Created on: 31/08/2016
+ *  Created on: 01/07/2018
  *      Author: Antonio Augusto Alves Junior
  */
 
-/**
- * \file
- * \ingroup numerical_integration
- */
-
-#ifndef INTEGRATOR_H_
-#define INTEGRATOR_H_
-
-#include <hydra/detail/Config.h>
-#include <hydra/Types.h>
-#include <utility>
-
-namespace hydra {
-
-template<typename ALGORITHM>
-struct Integrator{
-
-	typedef void hydra_integrator_tag;
-
-	template<typename FUNCTOR>
-	inline std::pair<GReal_t, GReal_t> operator()( FUNCTOR  const & functor)
-	{
-	//functor.SetNormalized(0);
-	auto result = static_cast<ALGORITHM*>(this)->Integrate(functor);
-	//functor.SetNormalized(1);
-	return result;
-	}
+#ifndef BASIC_FIT_RANGE_SEMANTICS_CU_
+#define BASIC_FIT_RANGE_SEMANTICS_CU_
 
 
-
-};
-
+#include <examples/fit/basic_fit_range_semantics.inl>
 
 
-}  // namespace hydra
-
-
-
-#endif /* INTEGRATOR_H_ */
+#endif /* BASIC_FIT_RANGE_SEMANTICS_CU_ */

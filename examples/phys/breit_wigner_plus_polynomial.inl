@@ -1,6 +1,6 @@
 /*----------------------------------------------------------------------------
  *
- *   Copyright (C) 2016 - 2018 Antonio Augusto Alves Junior
+ *   Copyright (C) 2016 - 2019 Antonio Augusto Alves Junior
  *
  *   This file is part of Hydra Data Analysis Framework.
  *
@@ -129,7 +129,7 @@ int main(int argv, char** argc)
 
 	//Breit-Wigner function evaluating on the first argument
 	auto Signal_PDF = hydra::make_pdf( hydra::BreitWignerNR<>(mean, width ),
-			hydra::BreitWignerNRAnalyticalIntegral(min, max));
+			hydra::AnalyticalIntegral< hydra::BreitWignerNR<> >(min, max));
 
     //-------------------------------------------
 	//Polynomial
@@ -140,7 +140,7 @@ int main(int argv, char** argc)
 
     //Polynomial function evaluating on the first argument
     auto Background_PDF = hydra::make_pdf( hydra::Polynomial<2>(std::array<hydra::Parameter,3>{c0, c1, c2}),
-    		hydra::PolynomialAnalyticalIntegral(min, max));
+    		hydra::AnalyticalIntegral<hydra::Polynomial<2>>(min, max));
 
     //------------------
     //yields
@@ -152,6 +152,7 @@ int main(int argv, char** argc)
 	model.SetExtended(1);
 
 	//===========================
+
 
 #ifdef _ROOT_AVAILABLE_
 

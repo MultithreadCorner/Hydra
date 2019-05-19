@@ -1,6 +1,6 @@
 /*----------------------------------------------------------------------------
  *
- *   Copyright (C) 2016 - 2018 Antonio Augusto Alves Junior
+ *   Copyright (C) 2016 - 2019 Antonio Augusto Alves Junior
  *
  *   This file is part of Hydra Data Analysis Framework.
  *
@@ -34,15 +34,13 @@
 #include <hydra/Types.h>
 #include <hydra/detail/Dimensionality.h>
 #include <hydra/detail/functors/GetBinCenter.h>
-#include <hydra/GenericRange.h>
-#include <hydra/Copy.h>
+#include <hydra/Range.h>
+#include <hydra/Algorithm.h>
 
 #include <type_traits>
 #include <utility>
 #include <array>
-#include <vector>
-#include <tuple>
-#include <algorithm>
+
 
 #include <hydra/detail/external/thrust/iterator/iterator_traits.h>
 #include <hydra/detail/external/thrust/iterator/zip_iterator.h>
@@ -91,6 +89,9 @@ class SparseHistogram<T, N,  detail::BackendPolicy<BACKEND>, detail::multidimens
 	typedef std::pair<size_t*, double*> pointer_pair;
 
 public:
+
+	//tag
+	typedef   void hydra_sparse_histogram_tag;
 
 	SparseHistogram()=delete;
 
@@ -346,12 +347,12 @@ public:
 				fContents.begin()[index] : 0.0;
 	}
 
-	inline GenericRange<data_iterator> GetBinsContents() const {
+	inline Range<data_iterator> GetBinsContents() const {
 
 		return make_range( fContents.begin(), fContents.begin() + fNBins);
 	}
 
-	inline GenericRange< HYDRA_EXTERNAL_NS::thrust::transform_iterator<detail::GetBinCenter<T,N>, keys_iterator> >
+	inline Range< HYDRA_EXTERNAL_NS::thrust::transform_iterator<detail::GetBinCenter<T,N>, keys_iterator> >
 	GetBinsCenters() {
 
 		HYDRA_EXTERNAL_NS::thrust::transform_iterator<detail::GetBinCenter<T,N>, keys_iterator> first( fBins.begin(),
@@ -401,16 +402,39 @@ public:
 	}
 
 	template<typename Iterator>
-	void Fill(Iterator begin, Iterator end);
+	SparseHistogram<T, N, detail::BackendPolicy<BACKEND>, detail::multidimensional>&
+	Fill(Iterator begin, Iterator end);
 
 	template<typename Iterator1, typename Iterator2>
-	void Fill(Iterator1 begin, Iterator1 end, Iterator2 wbegin);
+	SparseHistogram<T, N, detail::BackendPolicy<BACKEND>, detail::multidimensional>&
+	Fill(Iterator1 begin, Iterator1 end, Iterator2 wbegin);
+
+
+	template<typename Iterable>
+	inline typename std::enable_if< hydra::detail::is_iterable<Iterable>::value,
+	SparseHistogram<T, N, detail::BackendPolicy<BACKEND>, detail::multidimensional>& >::type
+	Fill(Iterable&& container){
+		return this->Fill( std::forward<Iterable>(container).begin(),
+				std::forward<Iterable>(container).end());
+	}
+
+	template<typename Iterable1, typename Iterable2>
+	inline typename std::enable_if< hydra::detail::is_iterable<Iterable1>::value
+	&&  hydra::detail::is_iterable<Iterable2>::value,
+	SparseHistogram<T, N, detail::BackendPolicy<BACKEND>, detail::multidimensional>& >::type
+	Fill(Iterable1&& container, Iterable2&& wbegin){
+		return this->Fill( std::forward<Iterable1>(container).begin(),
+				std::forward<Iterable1>(container).end(), std::forward<Iterable2>(wbegin).begin());
+	}
+
 
 	template<hydra::detail::Backend BACKEND2,typename Iterator>
-	void Fill(detail::BackendPolicy<BACKEND2> const& exec_policy, Iterator begin, Iterator end);
+	inline SparseHistogram<T, N, detail::BackendPolicy<BACKEND>, detail::multidimensional>&
+	Fill(detail::BackendPolicy<BACKEND2> const& exec_policy, Iterator begin, Iterator end);
 
 	template<hydra::detail::Backend BACKEND2,typename Iterator1, typename Iterator2>
-	void Fill(detail::BackendPolicy<BACKEND2> const& exec_policy, Iterator1 begin, Iterator1 end, Iterator2 wbegin);
+	inline SparseHistogram<T, N, detail::BackendPolicy<BACKEND>, detail::multidimensional>&
+	Fill(detail::BackendPolicy<BACKEND2> const& exec_policy, Iterator1 begin, Iterator1 end, Iterator2 wbegin);
 
 
 
@@ -680,7 +704,7 @@ public:
 				fContents.begin()[bin] : 0.0;
 	}
 
-	inline GenericRange<HYDRA_EXTERNAL_NS::thrust::transform_iterator<detail::GetBinCenter<T,1>, keys_iterator> >
+	inline Range<HYDRA_EXTERNAL_NS::thrust::transform_iterator<detail::GetBinCenter<T,1>, keys_iterator> >
 	GetBinsCenters() {
 
 		HYDRA_EXTERNAL_NS::thrust::transform_iterator<detail::GetBinCenter<T,1>, keys_iterator >
@@ -689,7 +713,7 @@ public:
 		return make_range( first , first+fNBins);
 	}
 
-	inline GenericRange<iterator> GetBinsContents()  {
+	inline Range<iterator> GetBinsContents()  {
 
 	  	return make_range(begin(),begin()+fNBins );
 	}
@@ -734,16 +758,39 @@ public:
 	}
 
 	template<typename Iterator>
-	void Fill(Iterator begin, Iterator end);
+	SparseHistogram<T,1, detail::BackendPolicy<BACKEND>,detail::unidimensional >&
+	Fill(Iterator begin, Iterator end);
 
 	template<typename Iterator1, typename Iterator2>
-	void Fill(Iterator1 begin, Iterator1 end, Iterator2 wbegin);
+	SparseHistogram<T,1, detail::BackendPolicy<BACKEND>,detail::unidimensional >&
+	Fill(Iterator1 begin, Iterator1 end, Iterator2 wbegin);
+
+
+	template<typename Iterable>
+	inline typename std::enable_if< hydra::detail::is_iterable<Iterable>::value,
+	SparseHistogram<T,1, detail::BackendPolicy<BACKEND>,detail::unidimensional >& >::type
+	Fill(Iterable&& container){
+		return this->Fill( std::forward<Iterable>(container).begin(),
+				std::forward<Iterable>(container).end());
+	}
+
+	template<typename Iterable1, typename Iterable2>
+	inline typename std::enable_if< hydra::detail::is_iterable<Iterable1>::value
+	&&  hydra::detail::is_iterable<Iterable2>::value,
+	SparseHistogram<T,1, detail::BackendPolicy<BACKEND>,detail::unidimensional >& >::type
+	Fill(Iterable1&& container, Iterable2&& wbegin){
+		return this->Fill( std::forward<Iterable1>(container).begin(),
+				std::forward<Iterable1>(container).end(), std::forward<Iterable2>(wbegin).begin());
+	}
+
 
 	template<hydra::detail::Backend BACKEND2,typename Iterator>
-	void Fill(detail::BackendPolicy<BACKEND2> const& exec_policy, Iterator begin, Iterator end);
+	SparseHistogram<T,1, detail::BackendPolicy<BACKEND>,detail::unidimensional >&
+	Fill(detail::BackendPolicy<BACKEND2> const& exec_policy, Iterator begin, Iterator end);
 
 	template<hydra::detail::Backend BACKEND2,typename Iterator1, typename Iterator2>
-	void Fill(detail::BackendPolicy<BACKEND2> const& exec_policy, Iterator1 begin, Iterator1 end, Iterator2 wbegin);
+	SparseHistogram<T,1, detail::BackendPolicy<BACKEND>,detail::unidimensional >&
+	Fill(detail::BackendPolicy<BACKEND2> const& exec_policy, Iterator1 begin, Iterator1 end, Iterator2 wbegin);
 
 
 

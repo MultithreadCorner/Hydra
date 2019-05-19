@@ -1,6 +1,6 @@
 /*----------------------------------------------------------------------------
  *
- *   Copyright (C) 2016 - 2018 Antonio Augusto Alves Junior
+ *   Copyright (C) 2016 - 2019 Antonio Augusto Alves Junior
  *
  *   This file is part of Hydra Data Analysis Framework.
  *
@@ -59,7 +59,7 @@
 #include <hydra/Placeholders.h>
 #include <hydra/Complex.h>
 #include <hydra/Tuple.h>
-#include <hydra/GenericRange.h>
+#include <hydra/Range.h>
 #include <hydra/Distance.h>
 
 #include <hydra/LogLikelihoodFCN.h>
@@ -77,7 +77,6 @@
 #include <hydra/SparseHistogram.h>
 
 #include <hydra/functions/BreitWignerLineShape.h>
-#include <hydra/functions/WignerDFunctions.h>
 #include <hydra/functions/CosHelicityAngle.h>
 #include <hydra/functions/ZemachFunctions.h>
 

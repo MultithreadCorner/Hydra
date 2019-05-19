@@ -1,6 +1,6 @@
 /*----------------------------------------------------------------------------
  *
- *   Copyright (C) 2016 - 2018 Antonio Augusto Alves Junior
+ *   Copyright (C) 2016 - 2019 Antonio Augusto Alves Junior
  *
  *   This file is part of Hydra Data Analysis Framework.
  *
@@ -32,8 +32,8 @@
 #include <hydra/detail/Config.h>
 #include <hydra/detail/BackendPolicy.h>
 #include <hydra/Types.h>
-#include <hydra/detail/Integrator.h>
-
+#include <hydra/Integrator.h>
+#include <hydra/PhaseSpace.h>
 #include <hydra/detail/Print.h>
 #include <tuple>
 
@@ -54,7 +54,7 @@ class PhaseSpaceIntegrator;
  */
 template <size_t N, hydra::detail::Backend BACKEND,  typename GRND>
 class PhaseSpaceIntegrator<N,  hydra::detail::BackendPolicy<BACKEND>, GRND>:
-public Integrator<PhaseSpaceIntegrator<N,  hydra::detail::BackendPolicy<BACKEND>, GRND>>
+public Integral< PhaseSpaceIntegrator<N,  hydra::detail::BackendPolicy<BACKEND>, GRND> >
 {
 public:
 	//tag

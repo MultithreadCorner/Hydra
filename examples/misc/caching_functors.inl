@@ -1,6 +1,6 @@
 /*----------------------------------------------------------------------------
  *
- *   Copyright (C) 2016 - 2018 Antonio Augusto Alves Junior
+ *   Copyright (C) 2016 - 2019 Antonio Augusto Alves Junior
  *
  *   This file is part of Hydra Data Analysis Framework.
  *
@@ -121,7 +121,8 @@ int main(int argv, char** argc)
 		 hydra::Vector4R p2 = p[1];
 		 hydra::Vector4R p3 = p[2];
 
-		 double theta = (p1+p2).mass();
+		 double theta = (p2+p3).mass();
+
 
          return breit_wigner(theta);
 	 });
@@ -143,19 +144,23 @@ int main(int argv, char** argc)
 
 	 //
 	 std::cout << "Before cache building:" << std::endl;
-	 std::cout << "Angular cache: "<< angular_distribution.GetCacheIndex() << std::endl;
-	 std::cout << "Breit-Wigner cache: "<< line_shape.GetCacheIndex() << std::endl;
+	 std::cout << "Angular cache index: "<< angular_distribution.GetCacheIndex() << std::endl;
+	 std::cout << "Breit-Wigner cache index: "<< line_shape.GetCacheIndex() << std::endl;
 	 auto particles        = Events_d.GetUnweightedDecays();
 
-	 hydra::make_cache(hydra::device::sys, particles.begin(), particles.end(),
+	auto cache = hydra::make_cache(hydra::device::sys, particles.begin(), particles.end(),
 			 angular_distribution, line_shape);
 
-	 //
+
+		 //
 	 std::cout << "After cache building:" << std::endl;
 	 std::cout << "Angular cache: "<< angular_distribution.GetCacheIndex() << std::endl;
 	 std::cout << "Breit-Wigner cache: "<< line_shape.GetCacheIndex() << std::endl;
 
+	 std::cout << "Dumping cache (10 first entries):" << std::endl;
+	 for(size_t i=0; i<10; i++)
 
+		 std::cout <<  cache.begin()[i] << std::endl;
 	 return 0;
 }
 

@@ -1,6 +1,6 @@
 /*----------------------------------------------------------------------------
  *
- *   Copyright (C) 2016 - 2018 Antonio Augusto Alves Junior
+ *   Copyright (C) 2016 - 2019 Antonio Augusto Alves Junior
  *
  *   This file is part of Hydra Data Analysis Framework.
  *
@@ -107,11 +107,9 @@
 #endif
 
 #ifdef __NVCC__
- #include <cuda.h>
- #include <cuda_runtime.h>
- #include <cuda_runtime_api.h>
- #include <math_functions.h>
- #include <vector_functions.h>
+#include <cuda_runtime.h>
+#include <cuda.h>
+#include <cuda_runtime_api.h>
 #endif
 
 
@@ -120,10 +118,6 @@
 #else
 #define HYDRA_OS HYDRA_CERROR_LOG
 #endif
-
-
-
-
 
 
 #endif /* CUDA_H_ */
