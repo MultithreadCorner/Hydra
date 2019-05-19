@@ -85,10 +85,10 @@ public:
 	typedef typename storage_type::value_type abscissa_type;
 
 	GenzMalikRule():
-		fLambda2( sqrt(9.0/70.0) ),
-		fLambda3( sqrt(9.0/10.0) ),
-		fLambda4( sqrt(9.0/10.0) ),
-		fLambda5( sqrt(9.0/19.0) ),
+		fLambda2( ::sqrt(9.0/70.0) ),
+		fLambda3( ::sqrt(9.0/10.0) ),
+		fLambda4( ::sqrt(9.0/10.0) ),
+		fLambda5( ::sqrt(9.0/19.0) ),
 		fRule7Weight1(::pow(2.0,DIM)*(12824.0 - 9120.0*DIM + 400.0*DIM*DIM)/19683.0),
 		fRule7Weight2(::pow(2.0,DIM)*(980.0/6561.0)),
 		fRule7Weight3(::pow(2.0,DIM)*(1820.0 - 400.0*DIM)/19683.0),
