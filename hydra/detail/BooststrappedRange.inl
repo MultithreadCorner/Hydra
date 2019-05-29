@@ -45,7 +45,7 @@ boost_strapped_range(Iterable&& iterable, size_t seed){
 
 	using HYDRA_EXTERNAL_NS::thrust::make_permutation_iterator;
 
-	auto permutations = random_uniform_range(size_t(0), std::forward<Iterable>(iterable).size(), seed );
+	auto permutations = random_uniform_range(size_t(0), std::forward<Iterable>(iterable).size()-1, seed );
 
 	return make_range(make_permutation_iterator( std::forward<Iterable>(iterable).begin(), permutations.begin()),
 			make_permutation_iterator( std::forward<Iterable>(iterable).end(), permutations.end()));
