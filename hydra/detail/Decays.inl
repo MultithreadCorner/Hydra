@@ -67,16 +67,20 @@ struct FlagDaugthers: public HYDRA_EXTERNAL_NS::thrust::unary_function<size_t,
 		bool> {
 
 	FlagDaugthers(GReal_t max, GReal_t* iterator) :
-			fVals(iterator), fMax(max) {
+			fVals(iterator), fMax(max), fSeed(159753654) {
+	}
+	
+	FlagDaugthers(GReal_t max, GReal_t* iterator, size_t seed) :
+			fVals(iterator), fMax(max), fSeed(seed) {
 	}
 
 	__hydra_host__  __hydra_device__
 	FlagDaugthers(FlagDaugthers<N> const&other) :
-			fVals(other.fVals), fMax(other.fMax) {
+			fVals(other.fVals), fMax(other.fMax), fSeed(other.fSeed) {
 	}
 	__hydra_host__  __hydra_device__
 	bool operator()(size_t idx) {
-		HYDRA_EXTERNAL_NS::thrust::default_random_engine randEng(159753654);
+		HYDRA_EXTERNAL_NS::thrust::default_random_engine randEng(fSeed);
 		randEng.discard(idx);
 		HYDRA_EXTERNAL_NS::thrust::uniform_real_distribution<GReal_t> uniDist(
 				0.0, 1.0);
@@ -87,6 +91,7 @@ struct FlagDaugthers: public HYDRA_EXTERNAL_NS::thrust::unary_function<size_t,
 
 	GReal_t* fVals;
 	GReal_t fMax;
+	size_t fSeed;
 };
 
 }  // namespace detail
@@ -95,7 +100,7 @@ struct FlagDaugthers: public HYDRA_EXTERNAL_NS::thrust::unary_function<size_t,
 
 
 template<size_t N, detail::Backend BACKEND>
-size_t Decays<N, detail::BackendPolicy<BACKEND> >::Unweight(GUInt_t scale) {
+size_t Decays<N, detail::BackendPolicy<BACKEND> >::Unweight(GUInt_t scale, size_t seed) {
 	using HYDRA_EXTERNAL_NS::thrust::system::detail::generic::select_system;
 	typedef typename HYDRA_EXTERNAL_NS::thrust::iterator_system<
 			typename Decays<N, detail::BackendPolicy<BACKEND> >::const_iterator>::type system_t;
@@ -114,7 +119,7 @@ size_t Decays<N, detail::BackendPolicy<BACKEND> >::Unweight(GUInt_t scale) {
 	GReal_t* weights_ptr = HYDRA_EXTERNAL_NS::thrust::raw_pointer_cast(fWeights.data());
 
 	//says if an event passed or not
-	detail::FlagDaugthers<N> predicate(scale * max_value, weights_ptr);
+	detail::FlagDaugthers<N> predicate(scale * max_value, weights_ptr, seed);
 
 	//re-sort the container to build up un-weighted sample
 	auto middle = HYDRA_EXTERNAL_NS::thrust::stable_partition(this->begin(),
@@ -128,7 +133,7 @@ size_t Decays<N, detail::BackendPolicy<BACKEND> >::Unweight(GUInt_t scale) {
 template<size_t N, detail::Backend BACKEND>
 template<typename FUNCTOR>
 size_t Decays<N, detail::BackendPolicy<BACKEND> >::Unweight(
-		FUNCTOR const& functor, GUInt_t scale) {
+		FUNCTOR const& functor, GUInt_t scale, size_t seed) {
 
 	using HYDRA_EXTERNAL_NS::thrust::system::detail::generic::select_system;
 	typedef typename HYDRA_EXTERNAL_NS::thrust::iterator_system<
@@ -155,7 +160,7 @@ size_t Decays<N, detail::BackendPolicy<BACKEND> >::Unweight(
 			values.first + values.second));
 
 	//says if an event passed or not
-	detail::FlagDaugthers<N> predicate2(scale * max_value, values.first.get());
+	detail::FlagDaugthers<N> predicate2(scale * max_value, values.first.get(), seed);
 
 	//weight 1.0 all events
 	HYDRA_EXTERNAL_NS::thrust::constant_iterator<GReal_t> iter_weight(1.0);
