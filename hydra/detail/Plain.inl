@@ -51,7 +51,7 @@ Plain<N,hydra::detail::BackendPolicy<BACKEND>,GRND>::Integrate(FUNCTOR const& fF
 			PlainState(), detail::ProcessCallsPlainBinary() );
 
 	fResult   = fVolume*result.fMean;
-	fAbsError = fVolume*sqrt( result.fM2/((fNCalls-1)*(fNCalls-1)) );
+	fAbsError = fVolume*::sqrt( result.fM2/((fNCalls-1)*(fNCalls-1)) );
 
 
 	return std::make_pair(fResult, fAbsError);

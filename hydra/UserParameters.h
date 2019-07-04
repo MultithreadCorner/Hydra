@@ -154,7 +154,7 @@ public:
 			return;
 		}
 		(*parameter)->SetLowerLim(minos_error.Lower() );
-		(*parameter)->SetUpperLim(minos_error.Lower() );
+		(*parameter)->SetUpperLim(minos_error.Upper() );
 
 		return;
 	}
