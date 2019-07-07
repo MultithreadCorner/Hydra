@@ -529,7 +529,7 @@ public:
 	 *
 	 * @return index of last unweighted event.
 	 */
-	size_t Unweight(GUInt_t scale=1.0);
+	size_t Unweight(GUInt_t scale=1.0, size_t seed=159753654);
 
 	/**
 	 * Get a range pointing to a set of unweighted events.
@@ -590,7 +590,7 @@ public:
 	 * particles.
 	 */
 	template<typename FUNCTOR>
-	size_t Unweight( FUNCTOR  const& functor, GUInt_t scale);
+	size_t Unweight( FUNCTOR  const& functor, GUInt_t scale, size_t seed=159753654);
 
 	/**
 	 * Recalculates the events weights according with @functor;
