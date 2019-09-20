@@ -674,10 +674,10 @@ template<typename InputIterator1, typename InputIterator2, typename InputIterato
 /*! \} // merging
  */
 
-} // end thrust
-
+} // end HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
 
 HYDRA_EXTERNAL_NAMESPACE_END
+
 
 #include <hydra/detail/external/thrust/detail/merge.inl>
 

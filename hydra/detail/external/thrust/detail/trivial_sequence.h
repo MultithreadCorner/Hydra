@@ -27,6 +27,7 @@
 #include <hydra/detail/external/thrust/detail/type_traits.h>
 #include <hydra/detail/external/thrust/detail/execution_policy.h>
 #include <hydra/detail/external/thrust/detail/temporary_array.h>
+#include <hydra/detail/external/thrust/type_traits/is_contiguous_iterator.h>
 
 HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
 {
@@ -47,7 +48,6 @@ struct _trivial_sequence<Iterator, DerivedPolicy, thrust::detail::true_type>
     __hydra_host__ __hydra_device__
     _trivial_sequence(thrust::execution_policy<DerivedPolicy> &, Iterator _first, Iterator _last) : first(_first), last(_last)
     {
-//        std::cout << "trivial case" << std::endl;
     }
 
     __hydra_host__ __hydra_device__
@@ -70,7 +70,6 @@ struct _trivial_sequence<Iterator, DerivedPolicy, thrust::detail::false_type>
     _trivial_sequence(thrust::execution_policy<DerivedPolicy> &exec, Iterator first, Iterator last)
       : buffer(exec, first, last)
     {
-//        std::cout << "non-trivial case" << std::endl;
     }
 
     __hydra_host__ __hydra_device__
@@ -82,9 +81,9 @@ struct _trivial_sequence<Iterator, DerivedPolicy, thrust::detail::false_type>
 
 template <typename Iterator, typename DerivedPolicy>
 struct trivial_sequence
-  : detail::_trivial_sequence<Iterator, DerivedPolicy, typename thrust::detail::is_trivial_iterator<Iterator>::type>
+  : detail::_trivial_sequence<Iterator, DerivedPolicy, typename thrust::is_contiguous_iterator<Iterator>::type>
 {
-    typedef _trivial_sequence<Iterator, DerivedPolicy, typename thrust::detail::is_trivial_iterator<Iterator>::type> super_t;
+    typedef _trivial_sequence<Iterator, DerivedPolicy, typename thrust::is_contiguous_iterator<Iterator>::type> super_t;
 
     __hydra_host__ __hydra_device__
     trivial_sequence(thrust::execution_policy<DerivedPolicy> &exec, Iterator first, Iterator last) : super_t(exec, first, last) { }
@@ -93,5 +92,6 @@ struct trivial_sequence
 } // end namespace detail
 
 } // end HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
+
 
 HYDRA_EXTERNAL_NAMESPACE_END

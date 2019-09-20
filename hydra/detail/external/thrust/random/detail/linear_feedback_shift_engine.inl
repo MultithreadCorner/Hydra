@@ -161,6 +161,8 @@ operator>>(std::basic_istream<CharT,Traits> &is,
 
 } // end random
 
-} // end thrust
+} // end HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
+
 
 HYDRA_EXTERNAL_NAMESPACE_END
+

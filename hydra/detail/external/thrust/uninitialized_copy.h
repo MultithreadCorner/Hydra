@@ -297,7 +297,7 @@ template<typename InputIterator, typename Size, typename ForwardIterator>
  */
 
 
-} // end thrust
+} // end HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
 
 HYDRA_EXTERNAL_NAMESPACE_END
 

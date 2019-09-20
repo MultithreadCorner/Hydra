@@ -14,7 +14,7 @@
  *  limitations under the License.
  */
 
-/*! \file hydra/detail/external/thrust/system/tbb/vector.h
+/*! \file thrust/system/tbb/vector.h
  *  \brief A dynamically-sizable array of elements which reside in memory available to
  *         Thrust's TBB system.
  */
@@ -159,9 +159,8 @@ using thrust::system::tbb::vector;
 
 } // end tbb
 
-} // end thrust
+} // end HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
 
 HYDRA_EXTERNAL_NAMESPACE_END
-
 #include <hydra/detail/external/thrust/system/tbb/detail/vector.inl>
 

@@ -72,7 +72,7 @@ HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
  */
 template<typename T, typename BinaryPredicate>
 __hydra_host__ __hydra_device__
-  T min HYDRA_THRUST_PREVENT_MACRO_SUBSTITUTION (const T &lhs, const T &rhs, BinaryPredicate comp);
+  T min THRUST_PREVENT_MACRO_SUBSTITUTION (const T &lhs, const T &rhs, BinaryPredicate comp);
 
 
 /*! This version of \p min returns the smaller of two values.
@@ -101,7 +101,7 @@ __hydra_host__ __hydra_device__
  */
 template<typename T>
 __hydra_host__ __hydra_device__
-  T min HYDRA_THRUST_PREVENT_MACRO_SUBSTITUTION (const T &lhs, const T &rhs);
+  T min THRUST_PREVENT_MACRO_SUBSTITUTION (const T &lhs, const T &rhs);
 
 
 /*! This version of \p max returns the larger of two values, given a comparison operation.
@@ -148,7 +148,7 @@ __hydra_host__ __hydra_device__
  */
 template<typename T, typename BinaryPredicate>
 __hydra_host__ __hydra_device__
-  T max HYDRA_THRUST_PREVENT_MACRO_SUBSTITUTION (const T &lhs, const T &rhs, BinaryPredicate comp);
+  T max THRUST_PREVENT_MACRO_SUBSTITUTION (const T &lhs, const T &rhs, BinaryPredicate comp);
 
 
 /*! This version of \p max returns the larger of two values.
@@ -177,7 +177,7 @@ __hydra_host__ __hydra_device__
  */
 template<typename T>
 __hydra_host__ __hydra_device__
-  T max HYDRA_THRUST_PREVENT_MACRO_SUBSTITUTION (const T &lhs, const T &rhs);
+  T max THRUST_PREVENT_MACRO_SUBSTITUTION (const T &lhs, const T &rhs);
 
 
 /*! \addtogroup reductions
@@ -797,9 +797,10 @@ thrust::pair<ForwardIterator,ForwardIterator> minmax_element(ForwardIterator fir
  *  \} // end reductions
  */
 
-} // end thrust
+} // end HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
 
 HYDRA_EXTERNAL_NAMESPACE_END
+
 
 #include <hydra/detail/external/thrust/detail/extrema.inl>
 #include <hydra/detail/external/thrust/detail/minmax.h>

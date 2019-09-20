@@ -1,132 +1,101 @@
-/*
- *  Copyright 2008-2013 NVIDIA Corporation
+/******************************************************************************
+ * Copyright (c) 2018, NVIDIA CORPORATION.  All rights reserved.
  *
- *  Licensed under the Apache License, Version 2.0 (the "License");
- *  you may not use this file except in compliance with the License.
- *  You may obtain a copy of the License at
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions are met:
+ *     * Redistributions of source code must retain the above copyright
+ *       notice, this list of conditions and the following disclaimer.
+ *     * Redistributions in binary form must reproduce the above copyright
+ *       notice, this list of conditions and the following disclaimer in the
+ *       documentation and/or other materials provided with the distribution.
+ *     * Neither the name of the NVIDIA CORPORATION nor the
+ *       names of its contributors may be used to endorse or promote products
+ *       derived from this software without specific prior written permission.
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+ * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+ * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+ * ARE DISCLAIMED. IN NO EVENT SHALL NVIDIA CORPORATION BE LIABLE FOR ANY
+ * DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
+ * (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
+ * LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND
+ * ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+ * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+ * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  *
- *  Unless required by applicable law or agreed to in writing, software
- *  distributed under the License is distributed on an "AS IS" BASIS,
- *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- *  See the License for the specific language governing permissions and
- *  limitations under the License.
- */
+ ******************************************************************************/
 
 #pragma once
 
-#include <hydra/detail/external/thrust/detail/config.h>
+#include <hydra/detail/external/thrust/version.h>
 #include <hydra/detail/external/thrust/detail/execution_policy.h>
-#include <hydra/detail/external/thrust/system/cpp/detail/execution_policy.h>
 #include <hydra/detail/external/thrust/iterator/detail/any_system_tag.h>
+#include <hydra/detail/external/thrust/system/cuda/config.h>
 
-HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
-{
-namespace system
-{
-namespace cuda
-{
-// put the canonical tag in the same ns as the backend's entry points
-namespace detail
+#include <hydra/detail/external/thrust/detail/allocator_aware_execution_policy.h>
+
+#if THRUST_CPP_DIALECT >= 2011
+  #include <hydra/detail/external/thrust/detail/dependencies_aware_execution_policy.h>
+#endif
+
+HYDRA_EXTERNAL_NAMESPACE_BEGIN
+
+THRUST_BEGIN_NS
+
+namespace cuda_cub
 {
 
-// this awkward sequence of definitions arise
-// from the desire both for tag to derive
-// from execution_policy and for execution_policy
-// to convert to tag (when execution_policy is not
-// an ancestor of tag)
-
-// forward declaration of tag
 struct tag;
 
-// forward declaration of execution_policy
-template<typename> struct execution_policy;
+template <class>
+struct execution_policy;
 
-// specialize execution_policy for tag
-template<>
-  struct execution_policy<tag>
-    : thrust::execution_policy<tag>
+template <>
+struct execution_policy<tag> : thrust::execution_policy<tag>
+{
+  typedef tag tag_type;
+};
+
+struct tag : execution_policy<tag>
+, thrust::detail::allocator_aware_execution_policy<cuda_cub::execution_policy>
+#if THRUST_CPP_DIALECT >= 2011
+, thrust::detail::dependencies_aware_execution_policy<cuda_cub::execution_policy>
+#endif
 {};
 
-// tag's definition comes before the
-// generic definition of execution_policy
-struct tag : execution_policy<tag> {};
-
-// allow conversion to tag when it is not a successor
-template<typename Derived>
-  struct execution_policy
-    : thrust::execution_policy<Derived>
+template <class Derived>
+struct execution_policy : thrust::execution_policy<Derived>
 {
-  // allow conversion to tag
-  inline operator tag () const
-  {
-    return tag();
-  }
+  typedef tag tag_type; 
+  operator tag() const { return tag(); }
 };
 
+} // namespace cuda_cub
 
-template<typename System1, typename System2>
-  struct cross_system
-    : thrust::execution_policy<cross_system<System1,System2> >
+namespace system { namespace cuda { namespace detail
 {
-  inline __hydra_host__ __hydra_device__
-  cross_system(thrust::execution_policy<System1> &system1,
-               thrust::execution_policy<System2> &system2)
-    : system1(system1), system2(system2)
-  {}
 
-  thrust::execution_policy<System1> &system1;
-  thrust::execution_policy<System2> &system2;
+using thrust::cuda_cub::tag;
+using thrust::cuda_cub::execution_policy;
 
-  inline __hydra_host__ __hydra_device__
-  cross_system<System2,System1> rotate() const
-  {
-    return cross_system<System2,System1>(system2,system1);
-  }
-};
+}}} // namespace system::cuda::detail
 
-
-// overloads of select_system
-
-// cpp interop
-template<typename System1, typename System2>
-inline __hydra_host__ __hydra_device__
-cross_system<System1,System2> select_system(const execution_policy<System1> &system1, const thrust::cpp::execution_policy<System2> &system2)
+namespace system { namespace cuda
 {
-  thrust::execution_policy<System1> &non_const_system1 = const_cast<execution_policy<System1>&>(system1);
-  thrust::cpp::execution_policy<System2> &non_const_system2 = const_cast<thrust::cpp::execution_policy<System2>&>(system2);
-  return cross_system<System1,System2>(non_const_system1,non_const_system2);
-}
 
+using thrust::cuda_cub::tag;
+using thrust::cuda_cub::execution_policy;
 
-template<typename System1, typename System2>
-inline __hydra_host__ __hydra_device__
-cross_system<System1,System2> select_system(const thrust::cpp::execution_policy<System1> &system1, execution_policy<System2> &system2)
-{
-  thrust::cpp::execution_policy<System1> &non_const_system1 = const_cast<thrust::cpp::execution_policy<System1>&>(system1);
-  thrust::execution_policy<System2> &non_const_system2 = const_cast<execution_policy<System2>&>(system2);
-  return cross_system<System1,System2>(non_const_system1,non_const_system2);
-}
+}} // namespace system::cuda
 
-
-} // end detail
-
-// alias execution_policy and tag here
-using thrust::system::cuda::detail::execution_policy;
-using thrust::system::cuda::detail::tag;
-
-} // end cuda
-} // end system
-
-// alias items at top-level
 namespace cuda
 {
 
-using thrust::system::cuda::execution_policy;
-using thrust::system::cuda::tag;
+using thrust::cuda_cub::tag;
+using thrust::cuda_cub::execution_policy;
 
-} // end cuda
-} // end thrust
+} // namespace cuda
+
+THRUST_END_NS
 
 HYDRA_EXTERNAL_NAMESPACE_END

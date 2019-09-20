@@ -1,6 +1,6 @@
 /******************************************************************************
  * Copyright (c) 2011, Duane Merrill.  All rights reserved.
- * Copyright (c) 2011-2017, NVIDIA CORPORATION.  All rights reserved.
+ * Copyright (c) 2011-2018, NVIDIA CORPORATION.  All rights reserved.
  * 
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
@@ -42,7 +42,7 @@
 #include "../util_namespace.cuh"
 
 /// Optional outer namespace(s)
-CUB_NS_PREFIX
+HYDRA_EXTERNAL_NAMESPACE_BEGIN  THRUST_CUB_NS_PREFIX
 
 /// CUB namespace
 namespace cub {
@@ -253,7 +253,7 @@ private:
      ******************************************************************************/
 
     /// Internal storage allocator
-    __hydra_device__ __forceinline__ _TempStorage& PrivateStorage()
+    __device__ __forceinline__ _TempStorage& PrivateStorage()
     {
         __shared__ _TempStorage private_storage;
         return private_storage;
@@ -285,7 +285,7 @@ public:
     /**
      * \brief Collective constructor using a private static allocation of shared memory as temporary storage.
      */
-    __hydra_device__ __forceinline__ BlockReduce()
+    __device__ __forceinline__ BlockReduce()
     :
         temp_storage(PrivateStorage()),
         linear_tid(RowMajorTid(BLOCK_DIM_X, BLOCK_DIM_Y, BLOCK_DIM_Z))
@@ -295,7 +295,7 @@ public:
     /**
      * \brief Collective constructor using the specified memory allocation as temporary storage.
      */
-    __hydra_device__ __forceinline__ BlockReduce(
+    __device__ __forceinline__ BlockReduce(
         TempStorage &temp_storage)             ///< [in] Reference to memory allocation having layout type TempStorage
     :
         temp_storage(temp_storage.Alias()),
@@ -345,7 +345,7 @@ public:
      * \tparam ReductionOp          <b>[inferred]</b> Binary reduction functor  type having member <tt>T operator()(const T &a, const T &b)</tt>
      */
     template <typename ReductionOp>
-    __hydra_device__ __forceinline__ T Reduce(
+    __device__ __forceinline__ T Reduce(
         T               input,                      ///< [in] Calling thread's input
         ReductionOp     reduction_op)               ///< [in] Binary reduction functor 
     {
@@ -392,7 +392,7 @@ public:
     template <
         int ITEMS_PER_THREAD,
         typename ReductionOp>
-    __hydra_device__ __forceinline__ T Reduce(
+    __device__ __forceinline__ T Reduce(
         T               (&inputs)[ITEMS_PER_THREAD],    ///< [in] Calling thread's input segment
         ReductionOp     reduction_op)                   ///< [in] Binary reduction functor 
     {
@@ -437,7 +437,7 @@ public:
      * \tparam ReductionOp          <b>[inferred]</b> Binary reduction functor  type having member <tt>T operator()(const T &a, const T &b)</tt>
      */
     template <typename ReductionOp>
-    __hydra_device__ __forceinline__ T Reduce(
+    __device__ __forceinline__ T Reduce(
         T                   input,                  ///< [in] Calling thread's input
         ReductionOp         reduction_op,           ///< [in] Binary reduction functor 
         int                 num_valid)              ///< [in] Number of threads containing valid elements (may be less than BLOCK_THREADS)
@@ -494,7 +494,7 @@ public:
      * \endcode
      *
      */
-    __hydra_device__ __forceinline__ T Sum(
+    __device__ __forceinline__ T Sum(
         T   input)                      ///< [in] Calling thread's input
     {
         return InternalBlockReduce(temp_storage).template Sum<true>(input, BLOCK_THREADS);
@@ -536,7 +536,7 @@ public:
      * \tparam ITEMS_PER_THREAD     <b>[inferred]</b> The number of consecutive items partitioned onto each thread.
      */
     template <int ITEMS_PER_THREAD>
-    __hydra_device__ __forceinline__ T Sum(
+    __device__ __forceinline__ T Sum(
         T   (&inputs)[ITEMS_PER_THREAD])    ///< [in] Calling thread's input segment
     {
         // Reduce partials
@@ -579,7 +579,7 @@ public:
      * \endcode
      *
      */
-    __hydra_device__ __forceinline__ T Sum(
+    __device__ __forceinline__ T Sum(
         T   input,                  ///< [in] Calling thread's input
         int num_valid)              ///< [in] Number of threads containing valid elements (may be less than BLOCK_THREADS)
     {
@@ -603,5 +603,5 @@ public:
  */
 
 }               // CUB namespace
-CUB_NS_POSTFIX  // Optional outer namespace(s)
+THRUST_CUB_NS_POSTFIX HYDRA_EXTERNAL_NAMESPACE_END  // Optional outer namespace(s)
 

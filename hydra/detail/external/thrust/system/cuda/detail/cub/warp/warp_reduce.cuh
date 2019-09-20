@@ -1,6 +1,6 @@
 /******************************************************************************
  * Copyright (c) 2011, Duane Merrill.  All rights reserved.
- * Copyright (c) 2011-2017, NVIDIA CORPORATION.  All rights reserved.
+ * Copyright (c) 2011-2018, NVIDIA CORPORATION.  All rights reserved.
  * 
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
@@ -41,7 +41,7 @@
 #include "../util_namespace.cuh"
 
 /// Optional outer namespace(s)
-CUB_NS_PREFIX
+HYDRA_EXTERNAL_NAMESPACE_BEGIN  THRUST_CUB_NS_PREFIX
 
 /// CUB namespace
 namespace cub {
@@ -200,7 +200,7 @@ public:
     /**
      * \brief Collective constructor using the specified memory allocation as temporary storage.  Logical warp and lane identifiers are constructed from <tt>threadIdx.x</tt>.
      */
-    __hydra_device__ __forceinline__ WarpReduce(
+    __device__ __forceinline__ WarpReduce(
         TempStorage &temp_storage)             ///< [in] Reference to memory allocation having layout type TempStorage
     :
         temp_storage(temp_storage.Alias())
@@ -248,7 +248,7 @@ public:
      * \p 2544, and \p 3568, respectively (and is undefined in other threads).
      *
      */
-    __hydra_device__ __forceinline__ T Sum(
+    __device__ __forceinline__ T Sum(
         T                   input)              ///< [in] Calling thread's input
     {
         return InternalWarpReduce(temp_storage).template Reduce<true, 1>(input, LOGICAL_WARP_THREADS, cub::Sum());
@@ -292,7 +292,7 @@ public:
      * undefined in other threads).
      *
      */
-    __hydra_device__ __forceinline__ T Sum(
+    __device__ __forceinline__ T Sum(
         T                   input,              ///< [in] Calling thread's input
         int                 valid_items)        ///< [in] Total number of valid items in the calling thread's logical warp (may be less than \p LOGICAL_WARP_THREADS)
     {
@@ -341,7 +341,7 @@ public:
      */
     template <
         typename            FlagT>
-    __hydra_device__ __forceinline__ T HeadSegmentedSum(
+    __device__ __forceinline__ T HeadSegmentedSum(
         T                   input,              ///< [in] Calling thread's input
         FlagT                head_flag)          ///< [in] Head flag denoting whether or not \p input is the start of a new segment
     {
@@ -388,7 +388,7 @@ public:
      */
     template <
         typename            FlagT>
-    __hydra_device__ __forceinline__ T TailSegmentedSum(
+    __device__ __forceinline__ T TailSegmentedSum(
         T                   input,              ///< [in] Calling thread's input
         FlagT                tail_flag)          ///< [in] Head flag denoting whether or not \p input is the start of a new segment
     {
@@ -442,7 +442,7 @@ public:
      * \tparam ReductionOp     <b>[inferred]</b> Binary reduction operator type having member <tt>T operator()(const T &a, const T &b)</tt>
      */
     template <typename ReductionOp>
-    __hydra_device__ __forceinline__ T Reduce(
+    __device__ __forceinline__ T Reduce(
         T                   input,              ///< [in] Calling thread's input
         ReductionOp         reduction_op)       ///< [in] Binary reduction operator
     {
@@ -491,7 +491,7 @@ public:
      * \tparam ReductionOp     <b>[inferred]</b> Binary reduction operator type having member <tt>T operator()(const T &a, const T &b)</tt>
      */
     template <typename ReductionOp>
-    __hydra_device__ __forceinline__ T Reduce(
+    __device__ __forceinline__ T Reduce(
         T                   input,              ///< [in] Calling thread's input
         ReductionOp         reduction_op,       ///< [in] Binary reduction operator
         int                 valid_items)        ///< [in] Total number of valid items in the calling thread's logical warp (may be less than \p LOGICAL_WARP_THREADS)
@@ -542,7 +542,7 @@ public:
     template <
         typename            ReductionOp,
         typename            FlagT>
-    __hydra_device__ __forceinline__ T HeadSegmentedReduce(
+    __device__ __forceinline__ T HeadSegmentedReduce(
         T                   input,              ///< [in] Calling thread's input
         FlagT                head_flag,          ///< [in] Head flag denoting whether or not \p input is the start of a new segment
         ReductionOp         reduction_op)       ///< [in] Reduction operator
@@ -593,7 +593,7 @@ public:
     template <
         typename            ReductionOp,
         typename            FlagT>
-    __hydra_device__ __forceinline__ T TailSegmentedReduce(
+    __device__ __forceinline__ T TailSegmentedReduce(
         T                   input,              ///< [in] Calling thread's input
         FlagT                tail_flag,          ///< [in] Tail flag denoting whether or not \p input is the end of the current segment
         ReductionOp         reduction_op)       ///< [in] Reduction operator
@@ -609,4 +609,4 @@ public:
 /** @} */       // end group WarpModule
 
 }               // CUB namespace
-CUB_NS_POSTFIX  // Optional outer namespace(s)
+THRUST_CUB_NS_POSTFIX HYDRA_EXTERNAL_NAMESPACE_END  // Optional outer namespace(s)

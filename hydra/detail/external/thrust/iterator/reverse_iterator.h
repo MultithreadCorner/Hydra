@@ -15,7 +15,7 @@
  */
 
 
-/*! \file hydra/detail/external/thrust/iterator/reverse_iterator.h
+/*! \file thrust/iterator/reverse_iterator.h
  *  \brief An iterator adaptor which adapts another iterator to traverse backwards
  */
 
@@ -160,7 +160,7 @@ template<typename BidirectionalIterator>
     /*! Default constructor does nothing.
      */
     __hydra_host__ __hydra_device__
-    reverse_iterator(void) {}
+    reverse_iterator() {}
 
     /*! \p Constructor accepts a \c BidirectionalIterator pointing to a range
      *  for this \p reverse_iterator to reverse.
@@ -195,13 +195,13 @@ template<typename BidirectionalIterator>
   private:
     __thrust_exec_check_disable__
     __hydra_host__ __hydra_device__
-    typename super_t::reference dereference(void) const;
+    typename super_t::reference dereference() const;
 
     __hydra_host__ __hydra_device__
-    void increment(void);
+    void increment();
 
     __hydra_host__ __hydra_device__
-    void decrement(void);
+    void decrement();
 
     __hydra_host__ __hydra_device__
     void advance(typename super_t::difference_type n);
@@ -232,9 +232,10 @@ reverse_iterator<BidirectionalIterator> make_reverse_iterator(BidirectionalItera
 /*! \} // end iterators
  */
 
-} // end thrust
+} // end HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
 
 HYDRA_EXTERNAL_NAMESPACE_END
+
 
 #include <hydra/detail/external/thrust/iterator/detail/reverse_iterator.inl>
 

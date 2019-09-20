@@ -33,7 +33,7 @@ template <typename> struct is_iterator_system;
 template <typename> struct is_iterator_traversal;
 
 // make type_traits easy to access
-using   namespace thrust::detail;
+using HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust::detail;
 
 template <typename Category>
   struct host_system_category_to_traversal
@@ -130,6 +130,8 @@ template <typename CategoryOrTraversal>
 
 } // end detail
 
-} // end thrust
+} // end HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
+
 
 HYDRA_EXTERNAL_NAMESPACE_END
+

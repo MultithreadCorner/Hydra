@@ -62,9 +62,10 @@ inline void device_free(thrust::device_ptr<void> ptr);
 /*! \}
  */
 
-} // end thrust
+} // end HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
 
 HYDRA_EXTERNAL_NAMESPACE_END
+
 
 #include <hydra/detail/external/thrust/detail/device_free.inl>
 

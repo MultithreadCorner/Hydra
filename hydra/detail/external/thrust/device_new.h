@@ -82,8 +82,10 @@ template <typename T>
 /*! \}
  */
 
-} // end thrust
+} // end HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
 
 HYDRA_EXTERNAL_NAMESPACE_END
+
+
 #include <hydra/detail/external/thrust/detail/device_new.inl>
 

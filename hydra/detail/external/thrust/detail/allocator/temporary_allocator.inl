@@ -59,13 +59,13 @@ __hydra_host__ __hydra_device__
 template<typename T, typename System>
 __hydra_host__ __hydra_device__
   void temporary_allocator<T,System>
-    ::deallocate(typename temporary_allocator<T,System>::pointer p, typename temporary_allocator<T,System>::size_type /*n*/)
+    ::deallocate(typename temporary_allocator<T,System>::pointer p, typename temporary_allocator<T,System>::size_type)
 {
   return thrust::return_temporary_buffer(system(), p);
 } // end temporary_allocator
 
 
 } // end detail
-} // end thrust
+} // end HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
 
 HYDRA_EXTERNAL_NAMESPACE_END

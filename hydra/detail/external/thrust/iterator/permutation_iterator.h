@@ -14,7 +14,7 @@
  *  limitations under the License.
  */
 
-/*! \file hydra/detail/external/thrust/iterator/permutation_iterator.h
+/*! \file thrust/iterator/permutation_iterator.h
  *  \brief An iterator which performs a gather or scatter operation when dereferenced
  */
 
@@ -167,12 +167,19 @@ template <typename ElementIterator,
   /*! \cond
    */
   private:
+    // MSVC 2013 and 2015 incorrectly warning about returning a reference to
+    // a local/temporary here.
+    // See goo.gl/LELTNp
+    THRUST_DISABLE_MSVC_WARNING_BEGIN(4172)
+
     __thrust_exec_check_disable__
     __hydra_host__ __hydra_device__
     typename super_t::reference dereference() const
     {
       return *(m_element_iterator + *this->base());
     }
+
+    THRUST_DISABLE_MSVC_WARNING_END(4172)
 
     // make friends for the copy constructor
     template<typename,typename> friend class permutation_iterator;
@@ -206,6 +213,8 @@ permutation_iterator<ElementIterator,IndexIterator> make_permutation_iterator(El
 /*! \} // end iterators
  */
 
-} // end thrust
+} // end HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
+
 
 HYDRA_EXTERNAL_NAMESPACE_END
+

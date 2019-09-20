@@ -14,7 +14,7 @@
  */
 
 
-/*! \file for_each.h
+/*! \file thrust/for_each.h
  *  \brief Applies a function to each element in a range
  */
 
@@ -70,7 +70,7 @@ HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
  *    __hydra_host__ __hydra_device__
  *    void operator()(int x)
  *    {
- *      // note that using printf in a __hydra_device__ function requires
+ *      // note that using printf in a __device__ function requires
  *      // code compiled for a GPU with compute capability 2.0 or
  *      // higher (nvcc --arch=sm_20)
  *      printf("%d\n", x);
@@ -133,7 +133,7 @@ InputIterator for_each(const thrust::detail::execution_policy_base<DerivedPolicy
  *    __hydra_host__ __hydra_device__
  *    void operator()(int x)
  *    {
- *      // note that using printf in a __hydra_device__ function requires
+ *      // note that using printf in a __device__ function requires
  *      // code compiled for a GPU with compute capability 2.0 or
  *      // higher (nvcc --arch=sm_20)
  *      printf("%d\n", x);
@@ -191,7 +191,7 @@ InputIterator for_each_n(const thrust::detail::execution_policy_base<DerivedPoli
  *    __hydra_host__ __hydra_device__
  *    void operator()(int x)
  *    {
- *      // note that using printf in a __hydra_device__ function requires
+ *      // note that using printf in a __device__ function requires
  *      // code compiled for a GPU with compute capability 2.0 or
  *      // higher (nvcc --arch=sm_20)
  *      printf("%d\n", x);
@@ -246,7 +246,7 @@ InputIterator for_each(InputIterator first,
  *    __hydra_host__ __hydra_device__
  *    void operator()(int x)
  *    {
- *      // note that using printf in a __hydra_device__ function requires
+ *      // note that using printf in a __device__ function requires
  *      // code compiled for a GPU with compute capability 2.0 or
  *      // higher (nvcc --arch=sm_20)
  *      printf("%d\n", x);
@@ -277,6 +277,7 @@ InputIterator for_each_n(InputIterator first,
 } // end HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
 
 HYDRA_EXTERNAL_NAMESPACE_END
+
 
 #include <hydra/detail/external/thrust/detail/for_each.inl>
 

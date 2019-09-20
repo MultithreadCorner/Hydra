@@ -136,7 +136,7 @@ template<typename RealType>
 template<typename RealType>
   struct normal_distribution_base
 {
-#if HYDRA_THRUST_DEVICE_COMPILER == HYDRA_THRUST_DEVICE_COMPILER_NVCC
+#if THRUST_DEVICE_COMPILER == THRUST_DEVICE_COMPILER_NVCC
   typedef normal_distribution_nvcc<RealType> type;
 #else
   typedef normal_distribution_portable<RealType> type;
@@ -145,6 +145,8 @@ template<typename RealType>
 
 } // end detail
 } // end random
-} // end thrust
+} // end HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
+
 
 HYDRA_EXTERNAL_NAMESPACE_END
+

@@ -132,5 +132,8 @@ void  extract_words(int32_t & ix0,int32_t & ix1, double d){
 
 } // HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
 
+
 HYDRA_EXTERNAL_NAMESPACE_END
+
+
 #include <hydra/detail/external/thrust/detail/complex/c99math.h>

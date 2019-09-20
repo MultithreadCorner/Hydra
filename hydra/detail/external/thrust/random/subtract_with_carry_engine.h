@@ -250,9 +250,10 @@ using random::subtract_with_carry_engine;
 using random::ranlux24_base;
 using random::ranlux48_base;
 
-} // end thrust
+} // end HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
 
 HYDRA_EXTERNAL_NAMESPACE_END
+
 
 #include <hydra/detail/external/thrust/random/detail/subtract_with_carry_engine.inl>
 

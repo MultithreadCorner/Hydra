@@ -28,7 +28,6 @@
 #include <hydra/detail/external/thrust/detail/type_traits.h>
 #include <hydra/detail/external/thrust/detail/pointer.h>
 #include <hydra/detail/external/thrust/pair.h>
-#include <hydra/detail/external/thrust/system/detail/generic/type_traits.h>
 
 HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
 {
@@ -59,16 +58,14 @@ template<typename DerivedPolicy, typename Pointer>
 __hydra_host__ __hydra_device__
 void get_value(thrust::execution_policy<DerivedPolicy> &, Pointer);
 
-template<typename Pointer1, typename Pointer2>
+template<typename DerivedPolicy, typename Pointer1, typename Pointer2>
 __hydra_host__ __hydra_device__
-void iter_swap(tag, Pointer1, Pointer2);
+void iter_swap(thrust::execution_policy<DerivedPolicy>&, Pointer1, Pointer2);
 
 } // end generic
 } // end detail
 } // end system
-} // end thrust
-
+} // end HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
 HYDRA_EXTERNAL_NAMESPACE_END
-
 #include <hydra/detail/external/thrust/system/detail/generic/memory.inl>
 

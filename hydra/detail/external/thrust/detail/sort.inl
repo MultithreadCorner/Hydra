@@ -218,6 +218,7 @@ template<typename RandomAccessIterator>
 
 template<typename RandomAccessIterator,
          typename StrictWeakOrdering>
+  __hydra_host__ __hydra_device__
   void sort(RandomAccessIterator first,
             RandomAccessIterator last,
             StrictWeakOrdering comp)
@@ -404,5 +405,6 @@ template<typename ForwardIterator,
 
 
 } // end HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
+
 
 HYDRA_EXTERNAL_NAMESPACE_END

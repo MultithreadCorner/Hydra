@@ -82,4 +82,5 @@ count_if(InputIterator first, InputIterator last, Predicate pred)
 
 } // end HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
 
+
 HYDRA_EXTERNAL_NAMESPACE_END

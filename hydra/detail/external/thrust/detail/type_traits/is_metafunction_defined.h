@@ -25,7 +25,7 @@ HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
 namespace detail
 {
 
-__HYDRA_THRUST_DEFINE_HAS_NESTED_TYPE(is_metafunction_defined, type)
+__THRUST_DEFINE_HAS_NESTED_TYPE(is_metafunction_defined, type)
 
 template<typename Metafunction>
   struct enable_if_defined
@@ -37,6 +37,7 @@ template<typename Metafunction>
 
 } // end detail
 
-} // end thrust
+} // end HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
+
 
 HYDRA_EXTERNAL_NAMESPACE_END

@@ -53,6 +53,6 @@ template <typename DerivedPolicy,
 } // end detail
 } // end omp
 } // end system
-} // end thrust
+} // end HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
 
 HYDRA_EXTERNAL_NAMESPACE_END

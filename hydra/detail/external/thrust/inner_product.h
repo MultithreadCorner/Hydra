@@ -261,5 +261,7 @@ OutputType inner_product(InputIterator1 first1, InputIterator1 last1,
 } // end HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
 
 HYDRA_EXTERNAL_NAMESPACE_END
+
+
 #include <hydra/detail/external/thrust/detail/inner_product.inl>
 

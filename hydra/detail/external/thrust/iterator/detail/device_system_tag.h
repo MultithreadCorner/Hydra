@@ -19,24 +19,28 @@
 #include <hydra/detail/external/thrust/detail/config.h>
 
 // #include the device system's execution_policy header
-#define __HYDRA_THRUST_DEVICE_SYSTEM_TAG_HEADER <__HYDRA_THRUST_DEVICE_SYSTEM_ROOT/detail/execution_policy.h>
-#include __HYDRA_THRUST_DEVICE_SYSTEM_TAG_HEADER
-#undef __HYDRA_THRUST_DEVICE_SYSTEM_TAG_HEADER
+#define __THRUST_DEVICE_SYSTEM_TAG_HEADER <__THRUST_DEVICE_SYSTEM_ROOT/detail/execution_policy.h>
+#include __THRUST_DEVICE_SYSTEM_TAG_HEADER
+#undef __THRUST_DEVICE_SYSTEM_TAG_HEADER
 
 HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
 {
 
-typedef thrust::system::__HYDRA_THRUST_DEVICE_SYSTEM_NAMESPACE::tag device_system_tag;
+typedef thrust::system::__THRUST_DEVICE_SYSTEM_NAMESPACE::tag device_system_tag;
 
-} // end thrust
+} // end HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
+
 HYDRA_EXTERNAL_NAMESPACE_END
+
 
 // TODO remove this in 1.8.0
 HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
 {
 
-typedef HYDRA_THRUST_DEPRECATED device_system_tag device_space_tag;
+typedef THRUST_DEPRECATED device_system_tag device_space_tag;
 
-} // end thrust
+} // end HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
+
 
 HYDRA_EXTERNAL_NAMESPACE_END
+

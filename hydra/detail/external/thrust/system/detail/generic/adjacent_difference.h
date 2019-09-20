@@ -53,8 +53,6 @@ OutputIterator adjacent_difference(thrust::execution_policy<DerivedPolicy> &exec
 } // end namespace detail
 } // end namespace system
 } // end HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
-
 HYDRA_EXTERNAL_NAMESPACE_END
-
 #include <hydra/detail/external/thrust/system/detail/generic/adjacent_difference.inl>
 

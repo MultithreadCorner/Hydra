@@ -121,6 +121,6 @@ template<typename DerivedPolicy, typename RandomAccessIterator1, typename Size, 
 } // end detail
 } // end tbb
 } // end system
-} // end thrust
+} // end HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
 
 HYDRA_EXTERNAL_NAMESPACE_END

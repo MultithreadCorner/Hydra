@@ -31,8 +31,10 @@ struct any_system_tag
 };
 
 // TODO remove this in 1.7.0
-typedef HYDRA_THRUST_DEPRECATED any_system_tag any_space_tag;
+typedef THRUST_DEPRECATED any_system_tag any_space_tag;
 
-} // end thrust
+} // end HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
+
 
 HYDRA_EXTERNAL_NAMESPACE_END
+

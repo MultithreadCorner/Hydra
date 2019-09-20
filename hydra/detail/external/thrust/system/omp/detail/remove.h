@@ -78,6 +78,5 @@ template<typename DerivedPolicy,
 } // end HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
 
 HYDRA_EXTERNAL_NAMESPACE_END
-
 #include <hydra/detail/external/thrust/system/omp/detail/remove.inl>
 

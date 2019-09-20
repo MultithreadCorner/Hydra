@@ -46,10 +46,14 @@ void reduce_intervals(execution_policy<DerivedPolicy> &,
   // X Note to the user: If you've found this line due to a compiler error, X
   // X you need to enable OpenMP support in your compiler.                  X
   // ========================================================================
-  HYDRA_THRUST_STATIC_ASSERT( (thrust::detail::depend_on_instantiation<InputIterator,
-                        (HYDRA_THRUST_DEVICE_COMPILER_IS_OMP_CAPABLE == HYDRA_THRUST_TRUE)>::value) );
+  THRUST_STATIC_ASSERT_MSG(
+    (thrust::detail::depend_on_instantiation<
+      InputIterator, (THRUST_DEVICE_COMPILER_IS_OMP_CAPABLE == THRUST_TRUE)
+    >::value)
+  , "OpenMP compiler support is not enabled"
+  );
 
-#if (HYDRA_THRUST_DEVICE_COMPILER_IS_OMP_CAPABLE == HYDRA_THRUST_TRUE)
+#if (THRUST_DEVICE_COMPILER_IS_OMP_CAPABLE == THRUST_TRUE)
   typedef typename thrust::iterator_value<OutputIterator>::type OutputType;
 
   // wrap binary_op
@@ -59,9 +63,9 @@ void reduce_intervals(execution_policy<DerivedPolicy> &,
 
   index_type n = static_cast<index_type>(decomp.size());
 
-#if (HYDRA_THRUST_DEVICE_COMPILER_IS_OMP_CAPABLE == HYDRA_THRUST_TRUE)
+#if (THRUST_DEVICE_COMPILER_IS_OMP_CAPABLE == THRUST_TRUE)
 # pragma omp parallel for
-#endif // HYDRA_THRUST_DEVICE_COMPILER_IS_OMP_CAPABLE
+#endif // THRUST_DEVICE_COMPILER_IS_OMP_CAPABLE
   for(index_type i = 0; i < n; i++)
   {
     InputIterator begin = input + decomp[i].begin();
@@ -83,7 +87,7 @@ void reduce_intervals(execution_policy<DerivedPolicy> &,
       *tmp = sum;
     }
   }
-#endif // HYDRA_THRUST_DEVICE_COMPILER_IS_OMP_CAPABLE
+#endif // THRUST_DEVICE_COMPILER_IS_OMP_CAPABLE
 }
 
 } // end namespace detail

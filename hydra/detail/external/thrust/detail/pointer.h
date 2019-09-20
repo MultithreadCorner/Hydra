@@ -1,5 +1,5 @@
 /*
- *  Copyright 2008-2013 NVIDIA Corporation
+ *  Copyright 2008-2018 NVIDIA Corporation
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -31,7 +31,8 @@ HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
 // declare pointer with default values of template parameters
 template<typename Element, typename Tag, typename Reference = use_default, typename Derived = use_default> class pointer;
 
-} // end thrust
+} // end HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
+
 
 HYDRA_EXTERNAL_NAMESPACE_END
 
@@ -57,7 +58,7 @@ template<typename Element, typename Tag, typename Reference, typename Derived>
     typedef typename ptr::reference         reference;
 }; // end iterator_traits
 
-} // end thrust
+} // end HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
 
 HYDRA_EXTERNAL_NAMESPACE_END
 
@@ -118,7 +119,8 @@ template<typename Element, typename Tag, typename Reference, typename Derived>
 // 1. no-argument constructor
 // 2. constructor from OtherElement *
 // 3. constructor from OtherPointer related by convertibility
-// 4. assignment from OtherPointer related by convertibility
+// 4. constructor from OtherPointer to void
+// 5. assignment from OtherPointer related by convertibility
 // These should just call the corresponding members of pointer.
 template<typename Element, typename Tag, typename Reference, typename Derived>
   class pointer
@@ -143,9 +145,16 @@ template<typename Element, typename Tag, typename Reference, typename Derived>
     typedef typename super_t::base_type raw_pointer;
 
     // constructors
-    
+
     __hydra_host__ __hydra_device__
     pointer();
+
+    #if THRUST_CPP_DIALECT >= 2011
+    // NOTE: This is needed so that Thrust smart pointers can be used in
+    // `std::unique_ptr`.
+    __hydra_host__ __hydra_device__
+    pointer(decltype(nullptr));
+    #endif
 
     // OtherValue shall be convertible to Value
     // XXX consider making the pointer implementation a template parameter which defaults to Element *
@@ -163,8 +172,26 @@ template<typename Element, typename Tag, typename Reference, typename Derived>
               pointer<Element,Tag,Reference,Derived>
             >::type * = 0);
 
+    // OtherPointer's element_type shall be void
+    // OtherPointer's system shall be convertible to Tag
+    template<typename OtherPointer>
+    __hydra_host__ __hydra_device__
+    explicit
+    pointer(const OtherPointer &other,
+            typename thrust::detail::enable_if_void_pointer_is_system_convertible<
+              OtherPointer,
+              pointer<Element,Tag,Reference,Derived>
+            >::type * = 0);
+
     // assignment
-    
+
+    #if THRUST_CPP_DIALECT >= 2011
+    // NOTE: This is needed so that Thrust smart pointers can be used in
+    // `std::unique_ptr`.
+    __hydra_host__ __hydra_device__
+    derived_type& operator=(decltype(nullptr));
+    #endif
+
     // OtherPointer's element_type shall be convertible to Element
     // OtherPointer's system shall be convertible to Tag
     template<typename OtherPointer>
@@ -180,17 +207,46 @@ template<typename Element, typename Tag, typename Reference, typename Derived>
 
     __hydra_host__ __hydra_device__
     Element *get() const;
+
+    #if THRUST_CPP_DIALECT >= 2011
+    // NOTE: This is needed so that Thrust smart pointers can be used in
+    // `std::unique_ptr`.
+    __hydra_host__ __hydra_device__
+    explicit operator bool() const;
+    #endif
 }; // end pointer
 
 // Output stream operator
 template<typename Element, typename Tag, typename Reference, typename Derived,
          typename charT, typename traits>
+__hydra_host__
 std::basic_ostream<charT, traits> &
 operator<<(std::basic_ostream<charT, traits> &os,
            const pointer<Element, Tag, Reference, Derived> &p);
 
-} // end thrust
+#if THRUST_CPP_DIALECT >= 2011
+// NOTE: This is needed so that Thrust smart pointers can be used in
+// `std::unique_ptr`.
+template <typename Element, typename Tag, typename Reference, typename Derived>
+__hydra_host__ __hydra_device__
+bool operator==(decltype(nullptr), pointer<Element, Tag, Reference, Derived> p);
+
+template <typename Element, typename Tag, typename Reference, typename Derived>
+__hydra_host__ __hydra_device__
+bool operator==(pointer<Element, Tag, Reference, Derived> p, decltype(nullptr));
+
+template <typename Element, typename Tag, typename Reference, typename Derived>
+__hydra_host__ __hydra_device__
+bool operator!=(decltype(nullptr), pointer<Element, Tag, Reference, Derived> p);
+
+template <typename Element, typename Tag, typename Reference, typename Derived>
+__hydra_host__ __hydra_device__
+bool operator!=(pointer<Element, Tag, Reference, Derived> p, decltype(nullptr));
+#endif
+
+} // end HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
 
 HYDRA_EXTERNAL_NAMESPACE_END
+
 #include <hydra/detail/external/thrust/detail/pointer.inl>
 

@@ -958,7 +958,7 @@ template<typename T>
  */
 template<typename T>
 __hydra_host__ __hydra_device__
-void swap(device_reference<T> &x, device_reference<T> &y);
+void swap(device_reference<T> x, device_reference<T> y);
 
 // declare these methods for the purpose of Doxygenating them
 // they actually are defined for a derived-from class
@@ -977,9 +977,10 @@ operator<<(std::basic_ostream<charT, traits> &os, const device_reference<T> &y);
 /*! \}
  */
 
-} // end thrust
+} // end HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
 
 HYDRA_EXTERNAL_NAMESPACE_END
+
 
 #include <hydra/detail/external/thrust/detail/device_reference.inl>
 

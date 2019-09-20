@@ -28,12 +28,14 @@ HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
 {
 
 template<typename T>
+  __hydra_host__ __hydra_device__
   device_ptr<T> device_pointer_cast(T *ptr)
 {
   return device_ptr<T>(ptr);
 } // end device_pointer_cast()
 
 template<typename T>
+  __hydra_host__ __hydra_device__
   device_ptr<T> device_pointer_cast(const device_ptr<T> &ptr)
 {
   return ptr;
@@ -49,7 +51,7 @@ template<typename T>
 {
 }; // end is_device_ptr
 
-#if (HYDRA_THRUST_HOST_COMPILER == HYDRA_THRUST_HOST_COMPILER_MSVC) && (_MSC_VER <= 1400)
+#if (THRUST_HOST_COMPILER == THRUST_HOST_COMPILER_MSVC) && (_MSC_VER <= 1400)
 // XXX WAR MSVC 2005 problem with correctly implementing
 //     pointer_raw_pointer for device_ptr by specializing it here
 template<typename T>
@@ -62,5 +64,6 @@ template<typename T>
 
 } // end namespace detail
 } // end HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
+
 
 HYDRA_EXTERNAL_NAMESPACE_END

@@ -56,11 +56,8 @@ template<typename Derived>
   struct execution_policy
     : thrust::system::detail::sequential::execution_policy<Derived>
 {
-  // allow conversion to tag
-  inline operator tag () const
-  {
-    return tag();
-  }
+  typedef tag tag_type; 
+  operator tag() const { return tag(); }
 };
 
 } // end detail
@@ -80,6 +77,7 @@ using thrust::system::cpp::execution_policy;
 using thrust::system::cpp::tag;
 
 } // end cpp
-} // end thrust
+} // end HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
 
 HYDRA_EXTERNAL_NAMESPACE_END
+

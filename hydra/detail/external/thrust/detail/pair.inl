@@ -225,6 +225,7 @@ template<unsigned int N, typename T1, typename T2>
 } // end get()
 
 
-} // end thrust
+} // end HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
+
 
 HYDRA_EXTERNAL_NAMESPACE_END

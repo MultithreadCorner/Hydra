@@ -20,17 +20,18 @@
 
 #pragma once
 
-// XXX the order of these #includes matters
+// NOTE: The order of these #includes matters.
 
 #include <hydra/detail/external/thrust/detail/config/simple_defines.h>
 #include <hydra/detail/external/thrust/detail/config/compiler.h>
+#include <hydra/detail/external/thrust/detail/config/cpp_dialect.h>
+#include <hydra/detail/external/thrust/detail/config/cpp_compatibility.h>
 // host_system.h & device_system.h must be #included as early as possible
 // because other config headers depend on it
 #include <hydra/detail/external/thrust/detail/config/host_system.h>
 #include <hydra/detail/external/thrust/detail/config/device_system.h>
 #include <hydra/detail/external/thrust/detail/config/host_device.h>
 #include <hydra/detail/external/thrust/detail/config/debug.h>
-#include <hydra/detail/external/thrust/detail/config/compiler_fence.h>
 #include <hydra/detail/external/thrust/detail/config/forceinline.h>
 #include <hydra/detail/external/thrust/detail/config/exec_check_disable.h>
 #include <hydra/detail/external/thrust/detail/config/global_workarounds.h>

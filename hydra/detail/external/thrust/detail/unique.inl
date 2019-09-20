@@ -334,4 +334,6 @@ template<typename InputIterator1,
 
 } // end HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
 
+
 HYDRA_EXTERNAL_NAMESPACE_END
+

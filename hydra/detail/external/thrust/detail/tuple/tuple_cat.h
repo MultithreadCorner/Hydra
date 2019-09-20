@@ -20,7 +20,7 @@
 #include <hydra/detail/external/thrust/tuple.h>
 #include <hydra/detail/external/thrust/detail/type_traits.h>
 
-#ifdef HYDRA_THRUST_VARIADIC_TUPLE
+#ifdef THRUST_VARIADIC_TUPLE
 
 HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
 {
@@ -257,13 +257,11 @@ tuple_cat_result<Tuples...> tuple_cat(Tuples&&... tuples)
 {
   return tuple_cat_apply(tuple_maker<tuple_cat_result<Tuples...>>{}, std::forward<Tuples>(tuples)...);
 }
-
 }
 
 HYDRA_EXTERNAL_NAMESPACE_END
 
-#else // HYDRA_THRUST_VARIADIC_TUPLE
-
+#else // THRUST_VARIADIC_TUPLE
 #include <hydra/detail/external/thrust/detail/tuple/tuple_helpers.h>
 
 HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
@@ -421,8 +419,8 @@ typename detail::tuple_cat_enable_if<Tuple1, Tuples...>::type
     return thrust::tuple_cat(t1, thrust::tuple_cat(ts...));
 }
 
-} // end thrust
+} // end HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
 
 HYDRA_EXTERNAL_NAMESPACE_END
 
-#endif // HYDRA_THRUST_VARIADIC_TUPLE
+#endif // THRUST_VARIADIC_TUPLE

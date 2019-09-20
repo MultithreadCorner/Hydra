@@ -67,7 +67,7 @@ template<typename Derived>
 
 
 #ifdef __CUDA_ARCH__
-static const __hydra_device__ tag seq;
+static const __device__ tag seq;
 #else
 static const tag seq;
 #endif
@@ -76,6 +76,5 @@ static const tag seq;
 } // end sequential
 } // end detail
 } // end system
-} // end thrust
+} // end HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
 
-HYDRA_EXTERNAL_NAMESPACE_END

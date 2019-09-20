@@ -23,8 +23,8 @@
 #pragma once
 
 #include <hydra/detail/external/thrust/iterator/iterator_adaptor.h>
-#include <hydra/detail/external/thrust/iterator/detail/is_trivial_iterator.h>
 #include <hydra/detail/external/thrust/detail/type_traits.h>
+#include <hydra/detail/external/thrust/type_traits/is_contiguous_iterator.h>
 
 HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
 {
@@ -67,11 +67,15 @@ template<typename Pointer>
   return normal_iterator<Pointer>(ptr);
 }
 
-
-template<typename T> struct is_trivial_iterator< normal_iterator<T> > : public true_type {};
-
-
 } // end detail
-} // end thrust
+
+template <typename T>
+struct proclaim_contiguous_iterator<
+  thrust::detail::normal_iterator<T>
+> : true_type {};
+
+} // end HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
+
 
 HYDRA_EXTERNAL_NAMESPACE_END
+

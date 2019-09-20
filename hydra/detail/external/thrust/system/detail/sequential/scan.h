@@ -63,7 +63,7 @@ __hydra_host__ __hydra_device__
   // XXX upon c++0x, TemporaryType needs to be:
   // result_of_adaptable_function<BinaryFunction>::type
   
-  using   namespace thrust::detail;
+  using HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust::detail;
 
   typedef typename eval_if<
     has_result_type<BinaryFunction>::value,
@@ -85,7 +85,7 @@ __hydra_host__ __hydra_device__
   {
     ValueType sum = *first;
 
-    *result = sum;
+    *result = *first;
 
     for(++first, ++result; first != last; ++first, ++result)
       *result = sum = wrapped_binary_op(sum,*first);
@@ -121,7 +121,7 @@ __hydra_host__ __hydra_device__
   // XXX upon c++0x, TemporaryType needs to be:
   // result_of_adaptable_function<BinaryFunction>::type
 
-  using   namespace thrust::detail;
+  using HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust::detail;
 
   typedef typename eval_if<
     has_result_type<BinaryFunction>::value,
@@ -158,4 +158,3 @@ __hydra_host__ __hydra_device__
 } // end namespace system
 } // end HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
 
-HYDRA_EXTERNAL_NAMESPACE_END

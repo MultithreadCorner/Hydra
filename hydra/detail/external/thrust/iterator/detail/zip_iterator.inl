@@ -82,7 +82,7 @@ template<typename IteratorTuple>
     bool zip_iterator<IteratorTuple>
       ::equal(const zip_iterator<OtherIteratorTuple> &other) const
 {
-  return thrust::get<0>(get_iterator_tuple()) == thrust::get<0>(other.get_iterator_tuple());
+  return get<0>(get_iterator_tuple()) == get<0>(other.get_iterator_tuple());
 } // end zip_iterator::equal()
 
 
@@ -125,11 +125,10 @@ template<typename IteratorTuple>
       zip_iterator<IteratorTuple>
         ::distance_to(const zip_iterator<OtherIteratorTuple> &other) const
 {
-  return HYDRA_EXTERNAL_NS::thrust::get<0>(other.get_iterator_tuple())
-		  - HYDRA_EXTERNAL_NS::thrust::get<0>(get_iterator_tuple());
+  return get<0>(other.get_iterator_tuple()) - get<0>(get_iterator_tuple());
 } // end zip_iterator::distance_to()
 
-#ifdef HYDRA_THRUST_VARIADIC_TUPLE
+#ifdef THRUST_VARIADIC_TUPLE
 template<typename... Iterators>
 __hydra_host__ __hydra_device__
   zip_iterator<thrust::tuple<Iterators...>> make_zip_iterator(thrust::tuple<Iterators...> t)
@@ -153,6 +152,8 @@ __hydra_host__ __hydra_device__
 } // end make_zip_iterator()
 #endif
 
-} // end thrust
+} // end HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
+
 
 HYDRA_EXTERNAL_NAMESPACE_END
+

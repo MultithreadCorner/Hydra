@@ -95,9 +95,7 @@ __hydra_host__ __hydra_device__
 bool operator!=(const tagged_allocator<T1,Pointer1,Tag> &, const tagged_allocator<T2,Pointer2,Tag> &);
 
 } // end detail
-} // end thrust
-
+} // end HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
 HYDRA_EXTERNAL_NAMESPACE_END
-
 #include <hydra/detail/external/thrust/detail/allocator/tagged_allocator.inl>
 

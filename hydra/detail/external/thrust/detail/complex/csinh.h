@@ -205,3 +205,4 @@ inline complex<double> sinh(const complex<double>& z){
 } // HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
 
 HYDRA_EXTERNAL_NAMESPACE_END
+

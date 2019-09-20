@@ -20,6 +20,21 @@
 
 #pragma once
 
+HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
+{
+namespace detail
+{
+
+// Forward declare temporary_array, as it's used by the CUDA copy backend, which
+// is included in contiguous_storage's definition.
+template<typename T, typename System>
+  class temporary_array;
+
+} // end detail
+} // end HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
+
+HYDRA_EXTERNAL_NAMESPACE_END
+
 #include <hydra/detail/external/thrust/detail/config.h>
 #include <hydra/detail/external/thrust/iterator/iterator_traits.h>
 #include <hydra/detail/external/thrust/iterator/detail/tagged_iterator.h>
@@ -162,8 +177,9 @@ template<typename Iterator, typename FromSystem, typename ToSystem>
 
 
 } // end detail
-} // end thrust
+} // end HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
 
 HYDRA_EXTERNAL_NAMESPACE_END
+
 #include <hydra/detail/external/thrust/detail/temporary_array.inl>
 

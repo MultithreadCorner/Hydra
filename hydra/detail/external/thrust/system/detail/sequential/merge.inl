@@ -151,4 +151,3 @@ thrust::pair<OutputIterator1,OutputIterator2>
 } // end namespace system
 } // end HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
 
-HYDRA_EXTERNAL_NAMESPACE_END

@@ -206,7 +206,7 @@ template<typename InputIterator,
   // XXX upon c++0x, TemporaryType needs to be:
   // result_of_adaptable_function<BinaryFunction>::type
   
-  using   namespace thrust::detail;
+  using HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust::detail;
 
   typedef typename eval_if<
     has_result_type<BinaryFunction>::value,
@@ -258,7 +258,7 @@ template<typename InputIterator,
   // XXX upon c++0x, TemporaryType needs to be:
   // result_of_adaptable_function<BinaryFunction>::type
 
-  using   namespace thrust::detail;
+  using HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust::detail;
 
   typedef typename eval_if<
     has_result_type<BinaryFunction>::value,

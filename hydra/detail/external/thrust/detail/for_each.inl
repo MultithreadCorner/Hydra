@@ -90,4 +90,5 @@ InputIterator for_each_n(InputIterator first,
 
 } // end HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
 
+
 HYDRA_EXTERNAL_NAMESPACE_END

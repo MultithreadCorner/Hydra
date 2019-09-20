@@ -14,7 +14,7 @@
  *  limitations under the License.
  */
 
-/*! \file hydra/detail/external/thrust/system/omp/vector.h
+/*! \file thrust/system/omp/vector.h
  *  \brief A dynamically-sizable array of elements which reside in memory available to
  *         Thrust's OpenMP system.
  */
@@ -164,9 +164,8 @@ using thrust::system::omp::vector;
 
 } // end omp
 
-} // end thrust
+} // end HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
 
 HYDRA_EXTERNAL_NAMESPACE_END
-
 #include <hydra/detail/external/thrust/system/omp/detail/vector.inl>
 

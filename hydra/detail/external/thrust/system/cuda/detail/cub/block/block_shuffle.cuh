@@ -1,6 +1,6 @@
 /******************************************************************************
  * Copyright (c) 2011, Duane Merrill.  All rights reserved.
- * Copyright (c) 2011-2017, NVIDIA CORPORATION.  All rights reserved.
+ * Copyright (c) 2011-2018, NVIDIA CORPORATION.  All rights reserved.
  * 
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
@@ -40,7 +40,7 @@
 #include "../util_namespace.cuh"
 
 /// Optional outer namespace(s)
-CUB_NS_PREFIX
+HYDRA_EXTERNAL_NAMESPACE_BEGIN  THRUST_CUB_NS_PREFIX
 
 /// CUB namespace
 namespace cub {
@@ -120,7 +120,7 @@ private:
      ******************************************************************************/
 
     /// Internal storage allocator
-    __hydra_device__ __forceinline__ _TempStorage& PrivateStorage()
+    __device__ __forceinline__ _TempStorage& PrivateStorage()
     {
         __shared__ _TempStorage private_storage;
         return private_storage;
@@ -137,7 +137,7 @@ public:
     /**
      * \brief Collective constructor using a private static allocation of shared memory as temporary storage.
      */
-    __hydra_device__ __forceinline__ BlockShuffle()
+    __device__ __forceinline__ BlockShuffle()
     :
         temp_storage(PrivateStorage()),
         linear_tid(RowMajorTid(BLOCK_DIM_X, BLOCK_DIM_Y, BLOCK_DIM_Z))
@@ -147,7 +147,7 @@ public:
     /**
      * \brief Collective constructor using the specified memory allocation as temporary storage.
      */
-    __hydra_device__ __forceinline__ BlockShuffle(
+    __device__ __forceinline__ BlockShuffle(
         TempStorage &temp_storage)             ///< [in] Reference to memory allocation having layout type TempStorage
     :
         temp_storage(temp_storage.Alias()),
@@ -168,7 +168,7 @@ public:
      * \par
      * - \smemreuse
      */
-    __hydra_device__ __forceinline__ void Offset(
+    __device__ __forceinline__ void Offset(
         T   input,                  ///< [in] The input item from the calling thread (<em>thread<sub>i</sub></em>)
         T&  output,                 ///< [out] The \p input item from the successor (or predecessor) thread <em>thread</em><sub><em>i</em>+<tt>distance</tt></sub> (may be aliased to \p input).  This value is only updated for for <em>thread<sub>i</sub></em> when 0 <= (<em>i</em> + \p distance) < <tt>BLOCK_THREADS-1</tt>
         int distance = 1)           ///< [in] Offset distance (may be negative)
@@ -188,7 +188,7 @@ public:
      * \par
      * - \smemreuse
      */
-    __hydra_device__ __forceinline__ void Rotate(
+    __device__ __forceinline__ void Rotate(
         T   input,                  ///< [in] The calling thread's input item
         T&  output,                 ///< [out] The \p input item from thread <em>thread</em><sub>(<em>i</em>+<tt>distance></tt>)%<tt><BLOCK_THREADS></tt></sub> (may be aliased to \p input).  This value is not updated for <em>thread</em><sub>BLOCK_THREADS-1</sub>
         unsigned int distance = 1)  ///< [in] Offset distance (0 < \p distance < <tt>BLOCK_THREADS</tt>)
@@ -214,7 +214,7 @@ public:
      * - \smemreuse
      */
     template <int ITEMS_PER_THREAD>
-    __hydra_device__ __forceinline__ void Up(
+    __device__ __forceinline__ void Up(
         T (&input)[ITEMS_PER_THREAD],   ///< [in] The calling thread's input items
         T (&prev)[ITEMS_PER_THREAD])    ///< [out] The corresponding predecessor items (may be aliased to \p input).  The item \p prev[0] is not updated for <em>thread</em><sub>0</sub>.
     {
@@ -241,7 +241,7 @@ public:
      * - \smemreuse
      */
     template <int ITEMS_PER_THREAD>
-    __hydra_device__ __forceinline__ void Up(
+    __device__ __forceinline__ void Up(
         T (&input)[ITEMS_PER_THREAD],   ///< [in] The calling thread's input items
         T (&prev)[ITEMS_PER_THREAD],    ///< [out] The corresponding predecessor items (may be aliased to \p input).  The item \p prev[0] is not updated for <em>thread</em><sub>0</sub>.
         T &block_suffix)                ///< [out] The item \p input[ITEMS_PER_THREAD-1] from <em>thread</em><sub><tt>BLOCK_THREADS-1</tt></sub>, provided to all threads
@@ -260,7 +260,7 @@ public:
      * - \smemreuse
      */
     template <int ITEMS_PER_THREAD>
-    __hydra_device__ __forceinline__ void Down(
+    __device__ __forceinline__ void Down(
         T (&input)[ITEMS_PER_THREAD],   ///< [in] The calling thread's input items
         T (&prev)[ITEMS_PER_THREAD])    ///< [out] The corresponding predecessor items (may be aliased to \p input).  The value \p prev[0] is not updated for <em>thread</em><sub>BLOCK_THREADS-1</sub>.
     {
@@ -286,7 +286,7 @@ public:
      * - \smemreuse
      */
     template <int ITEMS_PER_THREAD>
-    __hydra_device__ __forceinline__ void Down(
+    __device__ __forceinline__ void Down(
         T (&input)[ITEMS_PER_THREAD],   ///< [in] The calling thread's input items
         T (&prev)[ITEMS_PER_THREAD],    ///< [out] The corresponding predecessor items (may be aliased to \p input).  The value \p prev[0] is not updated for <em>thread</em><sub>BLOCK_THREADS-1</sub>.
         T &block_prefix)                ///< [out] The item \p input[0] from <em>thread</em><sub><tt>0</tt></sub>, provided to all threads
@@ -301,5 +301,5 @@ public:
 };
 
 }               // CUB namespace
-CUB_NS_POSTFIX  // Optional outer namespace(s)
+THRUST_CUB_NS_POSTFIX HYDRA_EXTERNAL_NAMESPACE_END  // Optional outer namespace(s)
 

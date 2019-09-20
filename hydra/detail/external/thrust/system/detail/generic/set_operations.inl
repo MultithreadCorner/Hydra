@@ -388,16 +388,18 @@ template<typename DerivedPolicy,
          typename OutputIterator,
          typename StrictWeakOrdering>
 __hydra_host__ __hydra_device__
-OutputIterator set_difference(thrust::execution_policy<DerivedPolicy> &exec,
-                              InputIterator1                           first1,
-                              InputIterator1                           last1,
-                              InputIterator2                           first2,
-                              InputIterator2                           last2,
-                              OutputIterator                           result,
-                              StrictWeakOrdering                       comp)
+OutputIterator set_difference(thrust::execution_policy<DerivedPolicy> &,
+                              InputIterator1,
+                              InputIterator1,
+                              InputIterator2,
+                              InputIterator2,
+                              OutputIterator  result,
+                              StrictWeakOrdering)
 {
-  // unimplemented primitive
-  HYDRA_THRUST_STATIC_ASSERT( (thrust::detail::depend_on_instantiation<InputIterator1, false>::value) );
+  THRUST_STATIC_ASSERT_MSG(
+    (thrust::detail::depend_on_instantiation<InputIterator1, false>::value)
+  , "unimplemented for this system"
+  );
   return result;
 } // end set_difference()
 
@@ -408,16 +410,18 @@ template<typename DerivedPolicy,
          typename OutputIterator,
          typename StrictWeakOrdering>
 __hydra_host__ __hydra_device__
-OutputIterator set_intersection(thrust::execution_policy<DerivedPolicy> &exec,
-                                InputIterator1                           first1,
-                                InputIterator1                           last1,
-                                InputIterator2                           first2,
-                                InputIterator2                           last2,
-                                OutputIterator                           result,
-                                StrictWeakOrdering                       comp)
+OutputIterator set_intersection(thrust::execution_policy<DerivedPolicy> &,
+                                InputIterator1,
+                                InputIterator1,
+                                InputIterator2,
+                                InputIterator2,
+                                OutputIterator result,
+                                StrictWeakOrdering)
 {
-  // unimplemented primitive
-  HYDRA_THRUST_STATIC_ASSERT( (thrust::detail::depend_on_instantiation<InputIterator1, false>::value) );
+  THRUST_STATIC_ASSERT_MSG(
+    (thrust::detail::depend_on_instantiation<InputIterator1, false>::value)
+  , "unimplemented for this system"
+  );
   return result;
 } // end set_intersection()
 
@@ -428,16 +432,18 @@ template<typename DerivedPolicy,
          typename OutputIterator,
          typename StrictWeakOrdering>
 __hydra_host__ __hydra_device__
-OutputIterator set_symmetric_difference(thrust::execution_policy<DerivedPolicy> &exec,
-                                        InputIterator1                           first1,
-                                        InputIterator1                           last1,
-                                        InputIterator2                           first2,
-                                        InputIterator2                           last2,
-                                        OutputIterator                           result,
-                                        StrictWeakOrdering                       comp)
+OutputIterator set_symmetric_difference(thrust::execution_policy<DerivedPolicy> &,
+                                        InputIterator1,
+                                        InputIterator1,
+                                        InputIterator2,
+                                        InputIterator2,
+                                        OutputIterator result,
+                                        StrictWeakOrdering)
 {
-  // unimplemented primitive
-  HYDRA_THRUST_STATIC_ASSERT( (thrust::detail::depend_on_instantiation<InputIterator1, false>::value) );
+  THRUST_STATIC_ASSERT_MSG(
+    (thrust::detail::depend_on_instantiation<InputIterator1, false>::value)
+  , "unimplemented for this system"
+  );
   return result;
 } // end set_symmetric_difference()
 
@@ -448,16 +454,18 @@ template<typename DerivedPolicy,
          typename OutputIterator,
          typename StrictWeakOrdering>
 __hydra_host__ __hydra_device__
-OutputIterator set_union(thrust::execution_policy<DerivedPolicy> &exec,
-                         InputIterator1                           first1,
-                         InputIterator1                           last1,
-                         InputIterator2                           first2,
-                         InputIterator2                           last2,
-                         OutputIterator                           result,
-                         StrictWeakOrdering                       comp)
+OutputIterator set_union(thrust::execution_policy<DerivedPolicy> &,
+                         InputIterator1,
+                         InputIterator1,
+                         InputIterator2,
+                         InputIterator2,
+                         OutputIterator result,
+                         StrictWeakOrdering)
 {
-  // unimplemented primitive
-  HYDRA_THRUST_STATIC_ASSERT( (thrust::detail::depend_on_instantiation<InputIterator1, false>::value) );
+  THRUST_STATIC_ASSERT_MSG(
+    (thrust::detail::depend_on_instantiation<InputIterator1, false>::value)
+  , "unimplemented for this system"
+  );
   return result;
 } // end set_union()
 

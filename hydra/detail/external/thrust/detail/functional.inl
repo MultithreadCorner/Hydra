@@ -107,17 +107,20 @@ template<typename Result, typename Argument1, typename Argument2>
 }; // end binary_traits
 
 template<typename Predicate>
+  __hydra_host__ __hydra_device__
   unary_negate<Predicate> not1(const Predicate &pred)
 {
   return unary_negate<Predicate>(pred);
 } // end not1()
 
 template<typename BinaryPredicate>
+  __hydra_host__ __hydra_device__
   binary_negate<BinaryPredicate> not2(const BinaryPredicate &pred)
 {
   return binary_negate<BinaryPredicate>(pred);
 } // end not2()
 
-} // end thrust
+} // end HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
+
 
 HYDRA_EXTERNAL_NAMESPACE_END

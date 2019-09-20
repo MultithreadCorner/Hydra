@@ -53,7 +53,7 @@ pointer<T,DerivedPolicy> malloc(const thrust::detail::execution_policy_base<Deri
 
 
 // XXX WAR nvbug 992955
-#if HYDRA_THRUST_DEVICE_COMPILER == HYDRA_THRUST_DEVICE_COMPILER_NVCC
+#if THRUST_DEVICE_COMPILER == THRUST_DEVICE_COMPILER_NVCC
 #if CUDA_VERSION < 5000
 
 // cudafe generates unqualified calls to free(int *volatile)
@@ -66,7 +66,7 @@ void free(int *volatile ptr)
 }
 
 #endif // CUDA_VERSION
-#endif // HYDRA_THRUST_DEVICE_COMPILER
+#endif // THRUST_DEVICE_COMPILER
 
 __thrust_exec_check_disable__
 template<typename DerivedPolicy, typename Pointer>

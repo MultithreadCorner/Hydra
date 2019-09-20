@@ -45,9 +45,8 @@ template<typename DerivedPolicy,
 } // end detail
 } // end omp
 } // end system
-} // end thrust
+} // end HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
 
 HYDRA_EXTERNAL_NAMESPACE_END
-
 #include <hydra/detail/external/thrust/system/omp/detail/copy_if.inl>
 

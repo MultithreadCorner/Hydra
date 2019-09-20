@@ -1,6 +1,6 @@
 /******************************************************************************
  * Copyright (c) 2011, Duane Merrill.  All rights reserved.
- * Copyright (c) 2011-2017, NVIDIA CORPORATION.  All rights reserved.
+ * Copyright (c) 2011-2018, NVIDIA CORPORATION.  All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
@@ -47,7 +47,7 @@
 #include "../util_namespace.cuh"
 
 /// Optional outer namespace(s)
-CUB_NS_PREFIX
+HYDRA_EXTERNAL_NAMESPACE_BEGIN  THRUST_CUB_NS_PREFIX
 
 /// CUB namespace
 namespace cub {
@@ -149,7 +149,7 @@ struct AgentRle
         OffsetT         num_remaining;
         EqualityOpT      equality_op;
 
-        __hydra_device__ __forceinline__ OobInequalityOp(
+        __device__ __forceinline__ OobInequalityOp(
             OffsetT     num_remaining,
             EqualityOpT  equality_op)
         :
@@ -266,7 +266,7 @@ struct AgentRle
     //---------------------------------------------------------------------
 
     // Constructor
-    __hydra_device__ __forceinline__
+    __device__ __forceinline__
     AgentRle(
         TempStorage                 &temp_storage,      ///< [in] Reference to temp_storage
         InputIteratorT              d_in,               ///< [in] Pointer to input sequence of data items
@@ -290,7 +290,7 @@ struct AgentRle
     //---------------------------------------------------------------------
 
     template <bool FIRST_TILE, bool LAST_TILE>
-    __hydra_device__ __forceinline__ void InitializeSelections(
+    __device__ __forceinline__ void InitializeSelections(
         OffsetT             tile_offset,
         OffsetT             num_remaining,
         T                   (&items)[ITEMS_PER_THREAD],
@@ -364,7 +364,7 @@ struct AgentRle
     /**
      * Scan of allocations
      */
-    __hydra_device__ __forceinline__ void WarpScanAllocations(
+    __device__ __forceinline__ void WarpScanAllocations(
         LengthOffsetPair    &tile_aggregate,
         LengthOffsetPair    &warp_aggregate,
         LengthOffsetPair    &warp_exclusive_in_tile,
@@ -418,7 +418,7 @@ struct AgentRle
      * Two-phase scatter, specialized for warp time-slicing
      */
     template <bool FIRST_TILE>
-    __hydra_device__ __forceinline__ void ScatterTwoPhase(
+    __device__ __forceinline__ void ScatterTwoPhase(
         OffsetT             tile_num_runs_exclusive_in_global,
         OffsetT             warp_num_runs_aggregate,
         OffsetT             warp_num_runs_exclusive_in_tile,
@@ -477,7 +477,7 @@ struct AgentRle
      * Two-phase scatter
      */
     template <bool FIRST_TILE>
-    __hydra_device__ __forceinline__ void ScatterTwoPhase(
+    __device__ __forceinline__ void ScatterTwoPhase(
         OffsetT             tile_num_runs_exclusive_in_global,
         OffsetT             warp_num_runs_aggregate,
         OffsetT             warp_num_runs_exclusive_in_tile,
@@ -535,7 +535,7 @@ struct AgentRle
      * Direct scatter
      */
     template <bool FIRST_TILE>
-    __hydra_device__ __forceinline__ void ScatterDirect(
+    __device__ __forceinline__ void ScatterDirect(
         OffsetT             tile_num_runs_exclusive_in_global,
         OffsetT             warp_num_runs_aggregate,
         OffsetT             warp_num_runs_exclusive_in_tile,
@@ -569,7 +569,7 @@ struct AgentRle
      * Scatter
      */
     template <bool FIRST_TILE>
-    __hydra_device__ __forceinline__ void Scatter(
+    __device__ __forceinline__ void Scatter(
         OffsetT             tile_num_runs_aggregate,
         OffsetT             tile_num_runs_exclusive_in_global,
         OffsetT             warp_num_runs_aggregate,
@@ -614,12 +614,12 @@ struct AgentRle
      */
     template <
         bool                LAST_TILE>
-    __hydra_device__ __forceinline__ LengthOffsetPair ConsumeTile(
+    __device__ __forceinline__ LengthOffsetPair ConsumeTile(
         OffsetT             num_items,          ///< Total number of global input items
         OffsetT             num_remaining,      ///< Number of global input items remaining (including this tile)
         int                 tile_idx,           ///< Tile index
-        OffsetT             tile_offset,       ///< Tile offset
-        ScanTileStateT       &tile_status)       ///< Global list of tile status
+        OffsetT             tile_offset,        ///< Tile offset
+        ScanTileStateT      &tile_status)       ///< Global list of tile status
     {
         if (tile_idx == 0)
         {
@@ -798,7 +798,7 @@ struct AgentRle
      * Scan tiles of items as part of a dynamic chained scan
      */
     template <typename NumRunsIteratorT>            ///< Output iterator type for recording number of items selected
-    __hydra_device__ __forceinline__ void ConsumeRange(
+    __device__ __forceinline__ void ConsumeRange(
         int                 num_tiles,              ///< Total number of input tiles
         ScanTileStateT&     tile_status,            ///< Global list of tile status
         NumRunsIteratorT    d_num_runs_out)         ///< Output pointer for total number of runs identified
@@ -833,5 +833,5 @@ struct AgentRle
 
 
 }               // CUB namespace
-CUB_NS_POSTFIX  // Optional outer namespace(s)
+THRUST_CUB_NS_POSTFIX HYDRA_EXTERNAL_NAMESPACE_END  // Optional outer namespace(s)
 

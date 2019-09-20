@@ -69,4 +69,6 @@ inline thrust::complex<float> proj(const thrust::complex<float>& z){
 
 }
 
+
 HYDRA_EXTERNAL_NAMESPACE_END
+

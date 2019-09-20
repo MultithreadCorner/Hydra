@@ -15,7 +15,7 @@
  */
 
 
-/*! \file hydra/detail/external/thrust/iterator/transform_iterator.h
+/*! \file thrust/iterator/transform_iterator.h
  *  \brief An iterator which adapts another iterator by applying a function to the result of its dereference 
  */
 
@@ -77,7 +77,7 @@ HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
  *    }
  *  };
  *  
- *  int main(void)
+ *  int main()
  *  {
  *    thrust::device_vector<float> v(4);
  *    v[0] = 1.0f;
@@ -120,7 +120,7 @@ HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
  *    }
  *  };
  *  
- *  int main(void)
+ *  int main()
  *  {
  *    // initialize a device array
  *    thrust::device_vector<float> v(4);
@@ -161,7 +161,7 @@ HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
  *    }
  *  };
  *  
- *  int main(void)
+ *  int main()
  *  {
  *    thrust::device_vector<float> v(4);
  *    v[0] = 1.0f;
@@ -257,11 +257,11 @@ template <class AdaptableUnaryFunction, class Iterator, class Reference = use_de
     {
       return do_assign(other,
       // XXX gcc 4.2.1 crashes on is_copy_assignable; just assume the functor is assignable as a WAR
-#if (HYDRA_THRUST_HOST_COMPILER == HYDRA_THRUST_HOST_COMPILER_GCC) && (HYDRA_THRUST_GCC_VERSION <= 40201)
+#if (THRUST_HOST_COMPILER == THRUST_HOST_COMPILER_GCC) && (THRUST_GCC_VERSION <= 40201)
           thrust::detail::true_type()
 #else
           typename thrust::detail::is_copy_assignable<AdaptableUnaryFunction>::type()
-#endif // HYDRA_THRUST_HOST_COMPILER
+#endif // THRUST_HOST_COMPILER
       );
     }
 
@@ -296,15 +296,23 @@ template <class AdaptableUnaryFunction, class Iterator, class Reference = use_de
       return *this;
     }
 
+    // MSVC 2013 and 2015 incorrectly warning about returning a reference to
+    // a local/temporary here.
+    // See goo.gl/LELTNp
+    THRUST_DISABLE_MSVC_WARNING_BEGIN(4172)
+
     __thrust_exec_check_disable__
     __hydra_host__ __hydra_device__
     typename super_t::reference dereference() const
-    { 
-      // create a temporary to allow iterators with wrapped references to convert to their value type before calling m_f
-      // note that this disallows non-constant operations through m_f
+    {  
+      // Create a temporary to allow iterators with wrapped references to
+      // convert to their value type before calling m_f. Note that this
+      // disallows non-constant operations through m_f. 
       typename thrust::iterator_value<Iterator>::type x = *this->base();
       return m_f(x);
     }
+
+    THRUST_DISABLE_MSVC_WARNING_END(4172)
 
     // tag this as mutable per Dave Abrahams in this thread:
     // http://lists.boost.org/Archives/boost/2004/05/65332.php
@@ -340,6 +348,8 @@ make_transform_iterator(Iterator it, AdaptableUnaryFunction fun)
 /*! \} // end iterators
  */
 
-} // end thrust
+} // end HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
 
 HYDRA_EXTERNAL_NAMESPACE_END
+
+

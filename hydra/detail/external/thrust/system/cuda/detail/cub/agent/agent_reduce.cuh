@@ -1,6 +1,6 @@
 /******************************************************************************
  * Copyright (c) 2011, Duane Merrill.  All rights reserved.
- * Copyright (c) 2011-2017, NVIDIA CORPORATION.  All rights reserved.
+ * Copyright (c) 2011-2018, NVIDIA CORPORATION.  All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
@@ -45,7 +45,7 @@
 
 
 /// Optional outer namespace(s)
-CUB_NS_PREFIX
+HYDRA_EXTERNAL_NAMESPACE_BEGIN  THRUST_CUB_NS_PREFIX
 
 /// CUB namespace
 namespace cub {
@@ -168,7 +168,7 @@ struct AgentReduce
 
     // Whether or not the input is aligned with the vector type (specialized for types we can vectorize)
     template <typename Iterator>
-    static __hydra_device__ __forceinline__ bool IsAligned(
+    static __device__ __forceinline__ bool IsAligned(
         Iterator        d_in,
         Int2Type<true>  /*can_vectorize*/)
     {
@@ -177,7 +177,7 @@ struct AgentReduce
 
     // Whether or not the input is aligned with the vector type (specialized for types we cannot vectorize)
     template <typename Iterator>
-    static __hydra_device__ __forceinline__ bool IsAligned(
+    static __device__ __forceinline__ bool IsAligned(
         Iterator        /*d_in*/,
         Int2Type<false> /*can_vectorize*/)
     {
@@ -192,7 +192,7 @@ struct AgentReduce
     /**
      * Constructor
      */
-    __hydra_device__ __forceinline__ AgentReduce(
+    __device__ __forceinline__ AgentReduce(
         TempStorage&            temp_storage,       ///< Reference to temp_storage
         InputIteratorT          d_in,               ///< Input data to reduce
         ReductionOp             reduction_op)       ///< Binary reduction operator
@@ -212,7 +212,7 @@ struct AgentReduce
      * Consume a full tile of input (non-vectorized)
      */
     template <int IS_FIRST_TILE>
-    __hydra_device__ __forceinline__ void ConsumeTile(
+    __device__ __forceinline__ void ConsumeTile(
         OutputT                 &thread_aggregate,
         OffsetT                 block_offset,       ///< The offset the tile to consume
         int                     /*valid_items*/,    ///< The number of valid items in the tile
@@ -235,7 +235,7 @@ struct AgentReduce
      * Consume a full tile of input (vectorized)
      */
     template <int IS_FIRST_TILE>
-    __hydra_device__ __forceinline__ void ConsumeTile(
+    __device__ __forceinline__ void ConsumeTile(
         OutputT                 &thread_aggregate,
         OffsetT                 block_offset,       ///< The offset the tile to consume
         int                     /*valid_items*/,    ///< The number of valid items in the tile
@@ -274,7 +274,7 @@ struct AgentReduce
      * Consume a partial tile of input
      */
     template <int IS_FIRST_TILE, int CAN_VECTORIZE>
-    __hydra_device__ __forceinline__ void ConsumeTile(
+    __device__ __forceinline__ void ConsumeTile(
         OutputT                 &thread_aggregate,
         OffsetT                 block_offset,       ///< The offset the tile to consume
         int                     valid_items,        ///< The number of valid items in the tile
@@ -294,7 +294,7 @@ struct AgentReduce
         // Continue reading items (block-striped)
         while (thread_offset < valid_items)
         {
-            OutputT item        = d_wrapped_in[block_offset + thread_offset];
+            OutputT item        (d_wrapped_in[block_offset + thread_offset]);
             thread_aggregate    = reduction_op(thread_aggregate, item);
             thread_offset       += BLOCK_THREADS;
         }
@@ -309,7 +309,7 @@ struct AgentReduce
      * \brief Reduce a contiguous segment of input tiles
      */
     template <int CAN_VECTORIZE>
-    __hydra_device__ __forceinline__ OutputT ConsumeRange(
+    __device__ __forceinline__ OutputT ConsumeRange(
         GridEvenShare<OffsetT> &even_share,          ///< GridEvenShare descriptor
         Int2Type<CAN_VECTORIZE> can_vectorize)      ///< Whether or not we can vectorize loads
     {
@@ -349,7 +349,7 @@ struct AgentReduce
     /**
      * \brief Reduce a contiguous segment of input tiles
      */
-    __hydra_device__ __forceinline__ OutputT ConsumeRange(
+    __device__ __forceinline__ OutputT ConsumeRange(
         OffsetT block_offset,                       ///< [in] Threadblock begin offset (inclusive)
         OffsetT block_end)                          ///< [in] Threadblock end offset (exclusive)
     {
@@ -365,7 +365,7 @@ struct AgentReduce
     /**
      * Reduce a contiguous segment of input tiles
      */
-    __hydra_device__ __forceinline__ OutputT ConsumeTiles(
+    __device__ __forceinline__ OutputT ConsumeTiles(
         GridEvenShare<OffsetT> &even_share)        ///< [in] GridEvenShare descriptor
     {
         // Initialize GRID_MAPPING_STRIP_MINE even-share descriptor for this thread block
@@ -381,5 +381,5 @@ struct AgentReduce
 
 
 }               // CUB namespace
-CUB_NS_POSTFIX  // Optional outer namespace(s)
+THRUST_CUB_NS_POSTFIX HYDRA_EXTERNAL_NAMESPACE_END  // Optional outer namespace(s)
 

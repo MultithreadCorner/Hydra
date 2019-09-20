@@ -15,7 +15,7 @@
  */
 
 
-/*! \file hydra/detail/external/thrust/iterator/discard_iterator.h
+/*! \file thrust/iterator/discard_iterator.h
  *  \brief An iterator which "discards" (ignores) values assigned to it upon dereference
  */
 
@@ -25,7 +25,7 @@
 #include <hydra/detail/external/thrust/iterator/detail/discard_iterator_base.h>
 #include <hydra/detail/external/thrust/iterator/iterator_facade.h>
 
-__HYDRA_THRUST_DISABLE_MSVC_POSSIBLE_LOSS_OF_DATA_WARNING_BEGIN
+THRUST_DISABLE_MSVC_POSSIBLE_LOSS_OF_DATA_WARNING_BEGIN
 
 HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
 {
@@ -53,7 +53,7 @@ HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
  *  #include <hydra/detail/external/thrust/reduce.h>
  *  #include <hydra/detail/external/thrust/device_vector.h>
  *
- *  int main(void)
+ *  int main()
  *  {
  *    thrust::device_vector<int> keys(7), values(7);
  *
@@ -132,7 +132,7 @@ template<typename System = use_default>
   
   private: // Core iterator interface
     __hydra_host__ __hydra_device__
-    reference dereference(void) const
+    reference dereference() const
     {
       return m_element;
     }
@@ -166,8 +166,9 @@ discard_iterator<> make_discard_iterator(discard_iterator<>::difference_type i =
  */
 
 } // end HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
-  
+
 HYDRA_EXTERNAL_NAMESPACE_END
 
-__HYDRA_THRUST_DISABLE_MSVC_POSSIBLE_LOSS_OF_DATA_WARNING_END
+
+THRUST_DISABLE_MSVC_POSSIBLE_LOSS_OF_DATA_WARNING_END
 

@@ -1,6 +1,6 @@
 /******************************************************************************
  * Copyright (c) 2011, Duane Merrill.  All rights reserved.
- * Copyright (c) 2011-2017, NVIDIA CORPORATION.  All rights reserved.
+ * Copyright (c) 2011-2018, NVIDIA CORPORATION.  All rights reserved.
  * 
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
@@ -42,7 +42,7 @@
 #include "../util_namespace.cuh"
 
 /// Optional outer namespace(s)
-CUB_NS_PREFIX
+HYDRA_EXTERNAL_NAMESPACE_BEGIN  THRUST_CUB_NS_PREFIX
 
 /// CUB namespace
 namespace cub {
@@ -71,7 +71,7 @@ template <
     typename            T,
     int                 ITEMS_PER_THREAD,
     typename            OutputIteratorT>
-__hydra_device__ __forceinline__ void StoreDirectBlocked(
+__device__ __forceinline__ void StoreDirectBlocked(
     int                 linear_tid,                 ///< [in] A suitable 1D thread-identifier for the calling thread (e.g., <tt>(threadIdx.y * blockDim.x) + linear_tid</tt> for 2D thread blocks)
     OutputIteratorT     block_itr,                  ///< [in] The thread block's base output iterator for storing to
     T                   (&items)[ITEMS_PER_THREAD]) ///< [in] Data to store
@@ -100,7 +100,7 @@ template <
     typename            T,
     int                 ITEMS_PER_THREAD,
     typename            OutputIteratorT>
-__hydra_device__ __forceinline__ void StoreDirectBlocked(
+__device__ __forceinline__ void StoreDirectBlocked(
     int                 linear_tid,                 ///< [in] A suitable 1D thread-identifier for the calling thread (e.g., <tt>(threadIdx.y * blockDim.x) + linear_tid</tt> for 2D thread blocks)
     OutputIteratorT     block_itr,                  ///< [in] The thread block's base output iterator for storing to
     T                   (&items)[ITEMS_PER_THREAD], ///< [in] Data to store
@@ -140,7 +140,7 @@ __hydra_device__ __forceinline__ void StoreDirectBlocked(
 template <
     typename            T,
     int                 ITEMS_PER_THREAD>
-__hydra_device__ __forceinline__ void StoreDirectBlockedVectorized(
+__device__ __forceinline__ void StoreDirectBlockedVectorized(
     int                 linear_tid,                 ///< [in] A suitable 1D thread-identifier for the calling thread (e.g., <tt>(threadIdx.y * blockDim.x) + linear_tid</tt> for 2D thread blocks)
     T                   *block_ptr,                 ///< [in] Input pointer for storing from
     T                   (&items)[ITEMS_PER_THREAD]) ///< [in] Data to store
@@ -203,7 +203,7 @@ template <
     typename            T,
     int                 ITEMS_PER_THREAD,
     typename            OutputIteratorT>
-__hydra_device__ __forceinline__ void StoreDirectStriped(
+__device__ __forceinline__ void StoreDirectStriped(
     int                 linear_tid,                 ///< [in] A suitable 1D thread-identifier for the calling thread (e.g., <tt>(threadIdx.y * blockDim.x) + linear_tid</tt> for 2D thread blocks)
     OutputIteratorT     block_itr,                  ///< [in] The thread block's base output iterator for storing to
     T                   (&items)[ITEMS_PER_THREAD]) ///< [in] Data to store
@@ -234,7 +234,7 @@ template <
     typename            T,
     int                 ITEMS_PER_THREAD,
     typename            OutputIteratorT>
-__hydra_device__ __forceinline__ void StoreDirectStriped(
+__device__ __forceinline__ void StoreDirectStriped(
     int                 linear_tid,                 ///< [in] A suitable 1D thread-identifier for the calling thread (e.g., <tt>(threadIdx.y * blockDim.x) + linear_tid</tt> for 2D thread blocks)
     OutputIteratorT     block_itr,                  ///< [in] The thread block's base output iterator for storing to
     T                   (&items)[ITEMS_PER_THREAD], ///< [in] Data to store
@@ -278,7 +278,7 @@ template <
     typename            T,
     int                 ITEMS_PER_THREAD,
     typename            OutputIteratorT>
-__hydra_device__ __forceinline__ void StoreDirectWarpStriped(
+__device__ __forceinline__ void StoreDirectWarpStriped(
     int                 linear_tid,                 ///< [in] A suitable 1D thread-identifier for the calling thread (e.g., <tt>(threadIdx.y * blockDim.x) + linear_tid</tt> for 2D thread blocks)
     OutputIteratorT     block_itr,                  ///< [in] The thread block's base output iterator for storing to
     T                   (&items)[ITEMS_PER_THREAD]) ///< [out] Data to load
@@ -314,7 +314,7 @@ template <
     typename            T,
     int                 ITEMS_PER_THREAD,
     typename            OutputIteratorT>
-__hydra_device__ __forceinline__ void StoreDirectWarpStriped(
+__device__ __forceinline__ void StoreDirectWarpStriped(
     int                 linear_tid,                 ///< [in] A suitable 1D thread-identifier for the calling thread (e.g., <tt>(threadIdx.y * blockDim.x) + linear_tid</tt> for 2D thread blocks)
     OutputIteratorT     block_itr,                  ///< [in] The thread block's base output iterator for storing to
     T                   (&items)[ITEMS_PER_THREAD], ///< [in] Data to store
@@ -549,7 +549,7 @@ private:
         int linear_tid;
 
         /// Constructor
-        __hydra_device__ __forceinline__ StoreInternal(
+        __device__ __forceinline__ StoreInternal(
             TempStorage &/*temp_storage*/,
             int linear_tid)
         :
@@ -558,7 +558,7 @@ private:
 
         /// Store items into a linear segment of memory
         template <typename OutputIteratorT>
-        __hydra_device__ __forceinline__ void Store(
+        __device__ __forceinline__ void Store(
             OutputIteratorT     block_itr,                  ///< [in] The thread block's base output iterator for storing to
             T                   (&items)[ITEMS_PER_THREAD]) ///< [in] Data to store
         {
@@ -567,7 +567,7 @@ private:
 
         /// Store items into a linear segment of memory, guarded by range
         template <typename OutputIteratorT>
-        __hydra_device__ __forceinline__ void Store(
+        __device__ __forceinline__ void Store(
             OutputIteratorT     block_itr,                  ///< [in] The thread block's base output iterator for storing to
             T                   (&items)[ITEMS_PER_THREAD], ///< [in] Data to store
             int                 valid_items)                ///< [in] Number of valid items to write
@@ -590,7 +590,7 @@ private:
         int linear_tid;
 
         /// Constructor
-        __hydra_device__ __forceinline__ StoreInternal(
+        __device__ __forceinline__ StoreInternal(
             TempStorage &/*temp_storage*/,
             int linear_tid)
         :
@@ -598,7 +598,7 @@ private:
         {}
 
         /// Store items into a linear segment of memory, specialized for native pointer types (attempts vectorization)
-        __hydra_device__ __forceinline__ void Store(
+        __device__ __forceinline__ void Store(
             T                   *block_ptr,                 ///< [in] The thread block's base output iterator for storing to
             T                   (&items)[ITEMS_PER_THREAD]) ///< [in] Data to store
         {
@@ -607,7 +607,7 @@ private:
 
         /// Store items into a linear segment of memory, specialized for opaque input iterators (skips vectorization)
         template <typename OutputIteratorT>
-        __hydra_device__ __forceinline__ void Store(
+        __device__ __forceinline__ void Store(
             OutputIteratorT    block_itr,                  ///< [in] The thread block's base output iterator for storing to
             T                   (&items)[ITEMS_PER_THREAD]) ///< [in] Data to store
         {
@@ -616,7 +616,7 @@ private:
 
         /// Store items into a linear segment of memory, guarded by range
         template <typename OutputIteratorT>
-        __hydra_device__ __forceinline__ void Store(
+        __device__ __forceinline__ void Store(
             OutputIteratorT     block_itr,                  ///< [in] The thread block's base output iterator for storing to
             T                   (&items)[ITEMS_PER_THREAD], ///< [in] Data to store
             int                 valid_items)                ///< [in] Number of valid items to write
@@ -652,7 +652,7 @@ private:
         int linear_tid;
 
         /// Constructor
-        __hydra_device__ __forceinline__ StoreInternal(
+        __device__ __forceinline__ StoreInternal(
             TempStorage &temp_storage,
             int linear_tid)
         :
@@ -662,7 +662,7 @@ private:
 
         /// Store items into a linear segment of memory
         template <typename OutputIteratorT>
-        __hydra_device__ __forceinline__ void Store(
+        __device__ __forceinline__ void Store(
             OutputIteratorT     block_itr,                  ///< [in] The thread block's base output iterator for storing to
             T                   (&items)[ITEMS_PER_THREAD]) ///< [in] Data to store
         {
@@ -672,7 +672,7 @@ private:
 
         /// Store items into a linear segment of memory, guarded by range
         template <typename OutputIteratorT>
-        __hydra_device__ __forceinline__ void Store(
+        __device__ __forceinline__ void Store(
             OutputIteratorT   block_itr,                  ///< [in] The thread block's base output iterator for storing to
             T                   (&items)[ITEMS_PER_THREAD], ///< [in] Data to store
             int                 valid_items)                ///< [in] Number of valid items to write
@@ -720,7 +720,7 @@ private:
         int linear_tid;
 
         /// Constructor
-        __hydra_device__ __forceinline__ StoreInternal(
+        __device__ __forceinline__ StoreInternal(
             TempStorage &temp_storage,
             int linear_tid)
         :
@@ -730,7 +730,7 @@ private:
 
         /// Store items into a linear segment of memory
         template <typename OutputIteratorT>
-        __hydra_device__ __forceinline__ void Store(
+        __device__ __forceinline__ void Store(
             OutputIteratorT   block_itr,                    ///< [in] The thread block's base output iterator for storing to
             T                 (&items)[ITEMS_PER_THREAD])   ///< [in] Data to store
         {
@@ -740,7 +740,7 @@ private:
 
         /// Store items into a linear segment of memory, guarded by range
         template <typename OutputIteratorT>
-        __hydra_device__ __forceinline__ void Store(
+        __device__ __forceinline__ void Store(
             OutputIteratorT   block_itr,                    ///< [in] The thread block's base output iterator for storing to
             T                 (&items)[ITEMS_PER_THREAD],   ///< [in] Data to store
             int               valid_items)                  ///< [in] Number of valid items to write
@@ -788,7 +788,7 @@ private:
         int linear_tid;
 
         /// Constructor
-        __hydra_device__ __forceinline__ StoreInternal(
+        __device__ __forceinline__ StoreInternal(
             TempStorage &temp_storage,
             int linear_tid)
         :
@@ -798,7 +798,7 @@ private:
 
         /// Store items into a linear segment of memory
         template <typename OutputIteratorT>
-        __hydra_device__ __forceinline__ void Store(
+        __device__ __forceinline__ void Store(
             OutputIteratorT     block_itr,                  ///< [in] The thread block's base output iterator for storing to
             T                   (&items)[ITEMS_PER_THREAD]) ///< [in] Data to store
         {
@@ -808,7 +808,7 @@ private:
 
         /// Store items into a linear segment of memory, guarded by range
         template <typename OutputIteratorT>
-        __hydra_device__ __forceinline__ void Store(
+        __device__ __forceinline__ void Store(
             OutputIteratorT   block_itr,                  ///< [in] The thread block's base output iterator for storing to
             T                   (&items)[ITEMS_PER_THREAD], ///< [in] Data to store
             int                 valid_items)                ///< [in] Number of valid items to write
@@ -838,7 +838,7 @@ private:
      ******************************************************************************/
 
     /// Internal storage allocator
-    __hydra_device__ __forceinline__ _TempStorage& PrivateStorage()
+    __device__ __forceinline__ _TempStorage& PrivateStorage()
     {
         __shared__ _TempStorage private_storage;
         return private_storage;
@@ -870,7 +870,7 @@ public:
     /**
      * \brief Collective constructor using a private static allocation of shared memory as temporary storage.
      */
-    __hydra_device__ __forceinline__ BlockStore()
+    __device__ __forceinline__ BlockStore()
     :
         temp_storage(PrivateStorage()),
         linear_tid(RowMajorTid(BLOCK_DIM_X, BLOCK_DIM_Y, BLOCK_DIM_Z))
@@ -880,7 +880,7 @@ public:
     /**
      * \brief Collective constructor using the specified memory allocation as temporary storage.
      */
-    __hydra_device__ __forceinline__ BlockStore(
+    __device__ __forceinline__ BlockStore(
         TempStorage &temp_storage)             ///< [in] Reference to memory allocation having layout type TempStorage
     :
         temp_storage(temp_storage.Alias()),
@@ -936,7 +936,7 @@ public:
      *
      */
     template <typename OutputIteratorT>
-    __hydra_device__ __forceinline__ void Store(
+    __device__ __forceinline__ void Store(
         OutputIteratorT     block_itr,                  ///< [in] The thread block's base output iterator for storing to
         T                   (&items)[ITEMS_PER_THREAD]) ///< [in] Data to store
     {
@@ -985,7 +985,7 @@ public:
      *
      */
     template <typename OutputIteratorT>
-    __hydra_device__ __forceinline__ void Store(
+    __device__ __forceinline__ void Store(
         OutputIteratorT     block_itr,                  ///< [in] The thread block's base output iterator for storing to
         T                   (&items)[ITEMS_PER_THREAD], ///< [in] Data to store
         int                 valid_items)                ///< [in] Number of valid items to write
@@ -996,5 +996,5 @@ public:
 
 
 }               // CUB namespace
-CUB_NS_POSTFIX  // Optional outer namespace(s)
+THRUST_CUB_NS_POSTFIX HYDRA_EXTERNAL_NAMESPACE_END  // Optional outer namespace(s)
 

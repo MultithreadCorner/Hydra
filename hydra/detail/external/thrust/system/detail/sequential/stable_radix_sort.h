@@ -52,7 +52,5 @@ void stable_radix_sort_by_key(sequential::execution_policy<DerivedPolicy> &exec,
 } // end namespace system
 } // end HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
 
-HYDRA_EXTERNAL_NAMESPACE_END
-
 #include <hydra/detail/external/thrust/system/detail/sequential/stable_radix_sort.inl>
 

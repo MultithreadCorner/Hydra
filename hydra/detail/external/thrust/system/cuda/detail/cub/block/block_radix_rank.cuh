@@ -1,6 +1,6 @@
 /******************************************************************************
  * Copyright (c) 2011, Duane Merrill.  All rights reserved.
- * Copyright (c) 2011-2017, NVIDIA CORPORATION.  All rights reserved.
+ * Copyright (c) 2011-2018, NVIDIA CORPORATION.  All rights reserved.
  * 
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
@@ -45,7 +45,7 @@
 
 
 /// Optional outer namespace(s)
-CUB_NS_PREFIX
+HYDRA_EXTERNAL_NAMESPACE_BEGIN  THRUST_CUB_NS_PREFIX
 
 /// CUB namespace
 namespace cub {
@@ -140,7 +140,7 @@ public:
     enum
     {
         /// Number of bin-starting offsets tracked per thread
-        BINS_TRACKED_PER_THREAD = CUB_MAX(1, RADIX_DIGITS / BLOCK_THREADS),
+        BINS_TRACKED_PER_THREAD = CUB_MAX(1, (RADIX_DIGITS + BLOCK_THREADS - 1) / BLOCK_THREADS),
     };
 
 private:
@@ -193,7 +193,7 @@ private:
     /**
      * Internal storage allocator
      */
-    __hydra_device__ __forceinline__ _TempStorage& PrivateStorage()
+    __device__ __forceinline__ _TempStorage& PrivateStorage()
     {
         __shared__ _TempStorage private_storage;
         return private_storage;
@@ -203,7 +203,7 @@ private:
     /**
      * Performs upsweep raking reduction, returning the aggregate
      */
-    __hydra_device__ __forceinline__ PackedCounter Upsweep()
+    __device__ __forceinline__ PackedCounter Upsweep()
     {
         PackedCounter *smem_raking_ptr = temp_storage.aliasable.raking_grid[linear_tid];
         PackedCounter *raking_ptr;
@@ -228,7 +228,7 @@ private:
 
 
     /// Performs exclusive downsweep raking scan
-    __hydra_device__ __forceinline__ void ExclusiveDownsweep(
+    __device__ __forceinline__ void ExclusiveDownsweep(
         PackedCounter raking_partial)
     {
         PackedCounter *smem_raking_ptr = temp_storage.aliasable.raking_grid[linear_tid];
@@ -255,7 +255,7 @@ private:
     /**
      * Reset shared memory digit counters
      */
-    __hydra_device__ __forceinline__ void ResetCounters()
+    __device__ __forceinline__ void ResetCounters()
     {
         // Reset shared memory digit counters
         #pragma unroll
@@ -271,7 +271,7 @@ private:
      */
     struct PrefixCallBack
     {
-        __hydra_device__ __forceinline__ PackedCounter operator()(PackedCounter block_aggregate)
+        __device__ __forceinline__ PackedCounter operator()(PackedCounter block_aggregate)
         {
             PackedCounter block_prefix = 0;
 
@@ -290,7 +290,7 @@ private:
     /**
      * Scan shared memory digit counters.
      */
-    __hydra_device__ __forceinline__ void ScanCounters()
+    __device__ __forceinline__ void ScanCounters()
     {
         // Upsweep scan
         PackedCounter raking_partial = Upsweep();
@@ -318,7 +318,7 @@ public:
     /**
      * \brief Collective constructor using a private static allocation of shared memory as temporary storage.
      */
-    __hydra_device__ __forceinline__ BlockRadixRank()
+    __device__ __forceinline__ BlockRadixRank()
     :
         temp_storage(PrivateStorage()),
         linear_tid(RowMajorTid(BLOCK_DIM_X, BLOCK_DIM_Y, BLOCK_DIM_Z))
@@ -328,7 +328,7 @@ public:
     /**
      * \brief Collective constructor using the specified memory allocation as temporary storage.
      */
-    __hydra_device__ __forceinline__ BlockRadixRank(
+    __device__ __forceinline__ BlockRadixRank(
         TempStorage &temp_storage)             ///< [in] Reference to memory allocation having layout type TempStorage
     :
         temp_storage(temp_storage.Alias()),
@@ -348,7 +348,7 @@ public:
     template <
         typename        UnsignedBits,
         int             KEYS_PER_THREAD>
-    __hydra_device__ __forceinline__ void RankKeys(
+    __device__ __forceinline__ void RankKeys(
         UnsignedBits    (&keys)[KEYS_PER_THREAD],           ///< [in] Keys for this tile
         int             (&ranks)[KEYS_PER_THREAD],          ///< [out] For each key, the local rank within the tile
         int             current_bit,                        ///< [in] The least-significant bit position of the current digit to extract
@@ -410,7 +410,7 @@ public:
     template <
         typename        UnsignedBits,
         int             KEYS_PER_THREAD>
-    __hydra_device__ __forceinline__ void RankKeys(
+    __device__ __forceinline__ void RankKeys(
         UnsignedBits    (&keys)[KEYS_PER_THREAD],           ///< [in] Keys for this tile
         int             (&ranks)[KEYS_PER_THREAD],          ///< [out] For each key, the local rank within the tile (out parameter)
         int             current_bit,                        ///< [in] The least-significant bit position of the current digit to extract
@@ -495,7 +495,7 @@ public:
     enum
     {
         /// Number of bin-starting offsets tracked per thread
-        BINS_TRACKED_PER_THREAD = CUB_MAX(1, RADIX_DIGITS / BLOCK_THREADS),
+        BINS_TRACKED_PER_THREAD = CUB_MAX(1, (RADIX_DIGITS + BLOCK_THREADS - 1) / BLOCK_THREADS),
     };
 
 private:
@@ -552,7 +552,7 @@ public:
     /**
      * \brief Collective constructor using the specified memory allocation as temporary storage.
      */
-    __hydra_device__ __forceinline__ BlockRadixRankMatch(
+    __device__ __forceinline__ BlockRadixRankMatch(
         TempStorage &temp_storage)             ///< [in] Reference to memory allocation having layout type TempStorage
     :
         temp_storage(temp_storage.Alias()),
@@ -572,7 +572,7 @@ public:
     template <
         typename        UnsignedBits,
         int             KEYS_PER_THREAD>
-    __hydra_device__ __forceinline__ void RankKeys(
+    __device__ __forceinline__ void RankKeys(
         UnsignedBits    (&keys)[KEYS_PER_THREAD],           ///< [in] Keys for this tile
         int             (&ranks)[KEYS_PER_THREAD],          ///< [out] For each key, the local rank within the tile
         int             current_bit,                        ///< [in] The least-significant bit position of the current digit to extract
@@ -589,7 +589,6 @@ public:
         // Each warp will strip-mine its section of input, one strip at a time
 
         volatile DigitCounterT  *digit_counters[KEYS_PER_THREAD];
-        uint32_t                lane_id         = LaneId();
         uint32_t                warp_id         = linear_tid >> LOG_WARP_THREADS;
         uint32_t                lane_mask_lt    = LaneMaskLt();
 
@@ -664,7 +663,7 @@ public:
     template <
         typename        UnsignedBits,
         int             KEYS_PER_THREAD>
-    __hydra_device__ __forceinline__ void RankKeys(
+    __device__ __forceinline__ void RankKeys(
         UnsignedBits    (&keys)[KEYS_PER_THREAD],           ///< [in] Keys for this tile
         int             (&ranks)[KEYS_PER_THREAD],          ///< [out] For each key, the local rank within the tile (out parameter)
         int             current_bit,                        ///< [in] The least-significant bit position of the current digit to extract
@@ -692,6 +691,6 @@ public:
 
 
 }               // CUB namespace
-CUB_NS_POSTFIX  // Optional outer namespace(s)
+THRUST_CUB_NS_POSTFIX HYDRA_EXTERNAL_NAMESPACE_END  // Optional outer namespace(s)
 
 

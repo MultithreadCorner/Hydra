@@ -1,5 +1,5 @@
 /*
- *  Copyright 2008-2013 NVIDIA Corporation
+ *  Copyright 2008-2018 NVIDIA Corporation
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -14,11 +14,6 @@
  *  limitations under the License.
  */
 
-#pragma once
-
-#include <hydra/detail/external/thrust/detail/config.h>
-#include <hydra/detail/external/thrust/detail/type_traits.h>
-
 /*
  * (C) Copyright John Maddock 2000.
  * 
@@ -28,60 +23,69 @@
  * For more information, see http://www.boost.org
  */
 
-//
-// Helper macro HYDRA_THRUST_JOIN (based on BOOST_JOIN):
-// The following piece of macro magic joins the two
-// arguments together, even when one of the arguments is
-// itself a macro (see 16.3.1 in C++ standard).  The key
-// is that macro expansion of macro arguments does not
-// occur in HYDRA_THRUST_DO_JOIN2 but does in HYDRA_THRUST_DO_JOIN.
-//
-#define HYDRA_THRUST_JOIN( X, Y ) HYDRA_THRUST_DO_JOIN( X, Y )
-#define HYDRA_THRUST_DO_JOIN( X, Y ) HYDRA_THRUST_DO_JOIN2(X,Y)
-#define HYDRA_THRUST_DO_JOIN2( X, Y ) X##Y
+#pragma once
 
-HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
-{
+#include <hydra/detail/external/thrust/detail/config.h>
+#include <hydra/detail/external/thrust/detail/type_traits.h>
+#include <hydra/detail/external/thrust/detail/preprocessor.h>
+
+THRUST_BEGIN_NS
 
 namespace detail
 {
 
-// HP aCC cannot deal with missing names for template value parameters
-template <bool x> struct STATIC_ASSERTION_FAILURE;
-
-template <> struct STATIC_ASSERTION_FAILURE<true> { enum { value = 1 }; };
-
-// HP aCC cannot deal with missing names for template value parameters
-template<int x> struct static_assert_test{};
-
-template<typename, bool x>
-  struct depend_on_instantiation
+template <typename, bool x>
+struct depend_on_instantiation
 {
-  static const bool value = x;
+  THRUST_INLINE_INTEGRAL_MEMBER_CONSTANT bool value = x;
 };
 
-} // end detail
+#if THRUST_CPP_DIALECT >= 2011
 
-} // end thrust
+#  if THRUST_CPP_DIALECT >= 2017
+#    define THRUST_STATIC_ASSERT(B)        static_assert(B)
+#  else
+#    define THRUST_STATIC_ASSERT(B)        static_assert(B, "static assertion failed")
+#  endif
+#  define THRUST_STATIC_ASSERT_MSG(B, msg) static_assert(B, msg)
 
-HYDRA_EXTERNAL_NAMESPACE_END
+#else // Older than C++11.
 
-#if (HYDRA_THRUST_HOST_COMPILER == HYDRA_THRUST_HOST_COMPILER_GCC) && (HYDRA_THRUST_GCC_VERSION >= 40800)
-  // gcc 4.8+ will complain about this typedef being unused unless we annotate it as such
-#  define HYDRA_THRUST_STATIC_ASSERT( B ) \
-   typedef HYDRA_EXTERNAL_NS::thrust::detail::static_assert_test<\
-      sizeof(HYDRA_EXTERNAL_NS::thrust::detail::STATIC_ASSERTION_FAILURE< (bool)( B ) >)>\
-         HYDRA_THRUST_JOIN(thrust_static_assert_typedef_, __LINE__) __attribute__((unused))
-#elif (HYDRA_THRUST_HOST_COMPILER == HYDRA_THRUST_HOST_COMPILER_CLANG)
-  // clang will complain about this typedef being unused unless we annotate it as such
-#  define HYDRA_THRUST_STATIC_ASSERT( B ) \
-   typedef HYDRA_EXTERNAL_NS::thrust::detail::static_assert_test<\
-      sizeof(HYDRA_EXTERNAL_NS::thrust::detail::STATIC_ASSERTION_FAILURE< (bool)( B ) >)>\
-         HYDRA_THRUST_JOIN(thrust_static_assert_typedef_, __LINE__) __attribute__((unused))
+// HP aCC cannot deal with missing names for template value parameters.
+template <bool x> struct STATIC_ASSERTION_FAILURE;
+
+template <> struct STATIC_ASSERTION_FAILURE<true> {};
+
+// HP aCC cannot deal with missing names for template value parameters.
+template <int x> struct static_assert_test {};
+
+#if    (  (THRUST_HOST_COMPILER == THRUST_HOST_COMPILER_GCC)                  \
+       && (THRUST_GCC_VERSION >= 40800))                                      \
+    || (THRUST_HOST_COMPILER == THRUST_HOST_COMPILER_CLANG)
+  // Clang and GCC 4.8+ will complain about this typedef being unused unless we
+  // annotate it as such.
+#  define THRUST_STATIC_ASSERT(B)                                             \
+    typedef ::thrust::detail::static_assert_test<                             \
+      sizeof(::thrust::detail::STATIC_ASSERTION_FAILURE<(bool)(B)>)           \
+    >                                                                         \
+      THRUST_PP_CAT2(thrust_static_assert_typedef_, __LINE__)                 \
+      __attribute__((unused))                                                 \
+    /**/      
 #else
-#  define HYDRA_THRUST_STATIC_ASSERT( B ) \
-   typedef HYDRA_EXTERNAL_NS::thrust::detail::static_assert_test<\
-      sizeof(HYDRA_EXTERNAL_NS::thrust::detail::STATIC_ASSERTION_FAILURE< (bool)( B ) >)>\
-         HYDRA_THRUST_JOIN(thrust_static_assert_typedef_, __LINE__)
-#endif // gcc 4.8+
+#  define THRUST_STATIC_ASSERT(B)                                             \
+    typedef ::thrust::detail::static_assert_test<                             \
+      sizeof(::thrust::detail::STATIC_ASSERTION_FAILURE<(bool)(B)>)           \
+    >                                                                         \
+      THRUST_PP_CAT2(thrust_static_assert_typedef_, __LINE__)                 \
+    /**/      
+#endif
+
+#define THRUST_STATIC_ASSERT_MSG(B, msg) THRUST_STATIC_ASSERT(B)
+
+#endif // THRUST_CPP_DIALECT >= 2011
+
+} // namespace detail
+
+THRUST_END_NS
+
 

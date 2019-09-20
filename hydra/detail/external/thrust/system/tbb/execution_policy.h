@@ -16,7 +16,7 @@
 
 #pragma once
 
-/*! \file hydra/detail/external/thrust/system/tbb/execution_policy.h
+/*! \file thrust/system/tbb/execution_policy.h
  *  \brief Execution policies for Thrust's TBB system.
  */
 
@@ -150,7 +150,7 @@ static const unspecified par;
 
 } // end tbb
 } // end system
-} // end thrust
+} // end HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
 
 HYDRA_EXTERNAL_NAMESPACE_END
 #endif

@@ -476,7 +476,7 @@ template<typename InputIterator,
  *  corresponding input operand in the partial sum.  More precisely,
  *  \p init is assigned to <tt>\*result</tt> and the value
  *  <tt>binary_op(init, \*first)</tt> is assigned to <tt>\*(result + 1)</tt>,
- *  and so on. This version of the function requires both and associative 
+ *  and so on. This version of the function requires both an associative 
  *  operator and an initial value \p init.  When the input and output
  *  sequences are the same, the scan is performed in-place.
  *
@@ -544,7 +544,7 @@ __hydra_host__ __hydra_device__
  *  corresponding input operand in the partial sum.  More precisely,
  *  \p init is assigned to <tt>\*result</tt> and the value
  *  <tt>binary_op(init, \*first)</tt> is assigned to <tt>\*(result + 1)</tt>,
- *  and so on. This version of the function requires both and associative 
+ *  and so on. This version of the function requires both an associative 
  *  operator and an initial value \p init.  When the input and output
  *  sequences are the same, the scan is performed in-place.
  *    
@@ -651,7 +651,7 @@ template<typename InputIterator,
  *  int data[10] = {1, 1, 1, 1, 1, 1, 1, 1, 1, 1};
  *  int keys[10] = {0, 0, 0, 1, 1, 2, 3, 3, 3, 3};
  *
- *  thrust::inclusive_scan_by_key(thrust::host, keys, keys + 10, vals, vals); // in-place scan
+ *  thrust::inclusive_scan_by_key(thrust::host, keys, keys + 10, data, data); // in-place scan
  *
  *  // data is now {1, 2, 3, 1, 2, 1, 1, 2, 3, 4};
  *  \endcode
@@ -713,7 +713,7 @@ __hydra_host__ __hydra_device__
  *  int data[10] = {1, 1, 1, 1, 1, 1, 1, 1, 1, 1};
  *  int keys[10] = {0, 0, 0, 1, 1, 2, 3, 3, 3, 3};
  *
- *  thrust::inclusive_scan_by_key(keys, keys + 10, vals, vals); // in-place scan
+ *  thrust::inclusive_scan_by_key(keys, keys + 10, data, data); // in-place scan
  *
  *  // data is now {1, 2, 3, 1, 2, 1, 1, 2, 3, 4};
  *  \endcode
@@ -784,7 +784,7 @@ template<typename InputIterator1,
  *
  *  thrust::equal_to<int> binary_pred;
  *
- *  thrust::inclusive_scan_by_key(thrust::host, keys, keys + 10, vals, vals, binary_pred); // in-place scan
+ *  thrust::inclusive_scan_by_key(thrust::host, keys, keys + 10, data, data, binary_pred); // in-place scan
  *
  *  // data is now {1, 2, 3, 1, 2, 1, 1, 2, 3, 4};
  *  \endcode
@@ -853,7 +853,7 @@ __hydra_host__ __hydra_device__
  *
  *  thrust::equal_to<int> binary_pred;
  *
- *  thrust::inclusive_scan_by_key(keys, keys + 10, vals, vals, binary_pred); // in-place scan
+ *  thrust::inclusive_scan_by_key(keys, keys + 10, data, data, binary_pred); // in-place scan
  *
  *  // data is now {1, 2, 3, 1, 2, 1, 1, 2, 3, 4};
  *  \endcode
@@ -931,7 +931,7 @@ template<typename InputIterator1,
  *  thrust::equal_to<int> binary_pred;
  *  thrust::plus<int>     binary_op;
  *
- *  thrust::inclusive_scan_by_key(thrust::host, keys, keys + 10, vals, vals, binary_pred, binary_op); // in-place scan
+ *  thrust::inclusive_scan_by_key(thrust::host, keys, keys + 10, data, data, binary_pred, binary_op); // in-place scan
  *
  *  // data is now {1, 2, 3, 1, 2, 1, 1, 2, 3, 4};
  *  \endcode
@@ -1007,7 +1007,7 @@ __hydra_host__ __hydra_device__
  *  thrust::equal_to<int> binary_pred;
  *  thrust::plus<int>     binary_op;
  *
- *  thrust::inclusive_scan_by_key(keys, keys + 10, vals, vals, binary_pred, binary_op); // in-place scan
+ *  thrust::inclusive_scan_by_key(keys, keys + 10, data, data, binary_pred, binary_op); // in-place scan
  *
  *  // data is now {1, 2, 3, 1, 2, 1, 1, 2, 3, 4};
  *  \endcode
@@ -1561,6 +1561,7 @@ template<typename InputIterator1,
 } // end HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
 
 HYDRA_EXTERNAL_NAMESPACE_END
+
 
 #include <hydra/detail/external/thrust/detail/scan.inl>
 

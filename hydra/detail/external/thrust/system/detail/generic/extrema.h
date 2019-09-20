@@ -84,8 +84,6 @@ thrust::pair<ForwardIterator,ForwardIterator> minmax_element(thrust::execution_p
 } // end namespace detail
 } // end namespace system
 } // end HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
-
 HYDRA_EXTERNAL_NAMESPACE_END
-
 #include <hydra/detail/external/thrust/system/detail/generic/extrema.inl>
 

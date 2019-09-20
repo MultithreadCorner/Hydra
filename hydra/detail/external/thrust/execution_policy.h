@@ -14,7 +14,7 @@
  *  limitations under the License.
  */
 
-/*! \file hydra/detail/external/thrust/execution_policy.h
+/*! \file thrust/execution_policy.h
  *  \brief Thrust execution policies.
  */
 
@@ -25,15 +25,19 @@
 #include <hydra/detail/external/thrust/detail/execute_with_allocator.h>
 #include <hydra/detail/external/thrust/detail/seq.h>
 
+//! \cond
+
 // #include the host system's execution_policy header
-#define __HYDRA_THRUST_HOST_SYSTEM_EXECUTION_POLICY_HEADER <__HYDRA_THRUST_HOST_SYSTEM_ROOT/execution_policy.h>
-#include __HYDRA_THRUST_HOST_SYSTEM_EXECUTION_POLICY_HEADER
-#undef __HYDRA_THRUST_HOST_SYSTEM_EXECUTION_POLICY_HEADER
+#define __THRUST_HOST_SYSTEM_EXECUTION_POLICY_HEADER <__THRUST_HOST_SYSTEM_ROOT/execution_policy.h>
+#include __THRUST_HOST_SYSTEM_EXECUTION_POLICY_HEADER
+#undef __THRUST_HOST_SYSTEM_EXECUTION_POLICY_HEADER
 
 // #include the device system's execution_policy.h header
-#define __HYDRA_THRUST_DEVICE_SYSTEM_EXECUTION_POLICY_HEADER <__HYDRA_THRUST_DEVICE_SYSTEM_ROOT/execution_policy.h>
-#include __HYDRA_THRUST_DEVICE_SYSTEM_EXECUTION_POLICY_HEADER
-#undef __HYDRA_THRUST_DEVICE_SYSTEM_EXECUTION_POLICY_HEADER
+#define __THRUST_DEVICE_SYSTEM_EXECUTION_POLICY_HEADER <__THRUST_DEVICE_SYSTEM_ROOT/execution_policy.h>
+#include __THRUST_DEVICE_SYSTEM_EXECUTION_POLICY_HEADER
+#undef __THRUST_DEVICE_SYSTEM_EXECUTION_POLICY_HEADER
+
+//! \endcond
 
 HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
 {
@@ -47,10 +51,10 @@ namespace detail
 {
 
 
-typedef thrust::system::__HYDRA_THRUST_HOST_SYSTEM_NAMESPACE::detail::par_t host_t;
+typedef thrust::system::__THRUST_HOST_SYSTEM_NAMESPACE::detail::par_t host_t;
 
 
-typedef thrust::system::__HYDRA_THRUST_DEVICE_SYSTEM_NAMESPACE::detail::par_t device_t;
+typedef thrust::system::__THRUST_DEVICE_SYSTEM_NAMESPACE::detail::par_t device_t;
 
 
 } // end detail
@@ -128,7 +132,7 @@ struct execution_policy : thrust::detail::execution_policy_base<DerivedPolicy>
 
 
 /*! \p host_execution_policy is the base class for all Thrust parallel execution policies
- *  which are derived from Thrust's default host backend system configured with the \p HYDRA_THRUST_HOST_SYSTEM
+ *  which are derived from Thrust's default host backend system configured with the \p THRUST_HOST_SYSTEM
  *  macro.
  *
  *  Custom user-defined backends which wish to inherit the functionality of Thrust's host backend system
@@ -184,12 +188,12 @@ struct execution_policy : thrust::detail::execution_policy_base<DerivedPolicy>
  */
 template<typename DerivedPolicy>
   struct host_execution_policy
-    : thrust::system::__HYDRA_THRUST_HOST_SYSTEM_NAMESPACE::execution_policy<DerivedPolicy>
+    : thrust::system::__THRUST_HOST_SYSTEM_NAMESPACE::execution_policy<DerivedPolicy>
 {};
 
 
 /*! \p device_execution_policy is the base class for all Thrust parallel execution policies
- *  which are derived from Thrust's default device backend system configured with the \p HYDRA_THRUST_DEVICE_SYSTEM
+ *  which are derived from Thrust's default device backend system configured with the \p THRUST_DEVICE_SYSTEM
  *  macro.
  *
  *  Custom user-defined backends which wish to inherit the functionality of Thrust's device backend system
@@ -245,12 +249,12 @@ template<typename DerivedPolicy>
  */
 template<typename DerivedPolicy>
   struct device_execution_policy
-    : thrust::system::__HYDRA_THRUST_DEVICE_SYSTEM_NAMESPACE::execution_policy<DerivedPolicy>
+    : thrust::system::__THRUST_DEVICE_SYSTEM_NAMESPACE::execution_policy<DerivedPolicy>
 {};
 
 
 /*! \p thrust::host is the default parallel execution policy associated with Thrust's host backend system
- *  configured by the \p HYDRA_THRUST_HOST_SYSTEM macro.
+ *  configured by the \p THRUST_HOST_SYSTEM macro.
  *
  *  Instead of relying on implicit algorithm dispatch through iterator system tags, users may directly target
  *  algorithm dispatch at Thrust's host system by providing \p thrust::host as an algorithm parameter.
@@ -295,7 +299,7 @@ static const detail::host_t host;
 
 
 /*! \p thrust::device is the default parallel execution policy associated with Thrust's device backend system
- *  configured by the \p HYDRA_THRUST_DEVICE_SYSTEM macro.
+ *  configured by the \p THRUST_DEVICE_SYSTEM macro.
  *
  *  Instead of relying on implicit algorithm dispatch through iterator system tags, users may directly target
  *  algorithm dispatch at Thrust's device system by providing \p thrust::device as an algorithm parameter.
@@ -341,7 +345,7 @@ static const detail::host_t host;
  *  \see thrust::device
  */
 #ifdef __CUDA_ARCH__
-static const __hydra_device__ detail::device_t device;
+static const __device__ detail::device_t device;
 #else
 static const detail::device_t device;
 #endif
@@ -392,6 +396,8 @@ static const detail::seq_t seq;
  */
 
 
-} // end thrust
+} // end HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
+
 
 HYDRA_EXTERNAL_NAMESPACE_END
+

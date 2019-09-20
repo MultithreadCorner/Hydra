@@ -207,5 +207,6 @@ __hydra_host__ __hydra_device__
 
 HYDRA_EXTERNAL_NAMESPACE_END
 
+
 #include <hydra/detail/external/thrust/detail/fill.inl>
 

@@ -1,6 +1,6 @@
 /******************************************************************************
  * Copyright (c) 2011, Duane Merrill.  All rights reserved.
- * Copyright (c) 2011-2017, NVIDIA CORPORATION.  All rights reserved.
+ * Copyright (c) 2011-2018, NVIDIA CORPORATION.  All rights reserved.
  * 
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
@@ -41,15 +41,15 @@
 #include "../util_device.cuh"
 #include "../util_namespace.cuh"
 
-#if (HYDRA_THRUST_VERSION >= 100700)
+#if (THRUST_VERSION >= 100700)
     // This iterator is compatible with Thrust API 1.7 and newer
     #include <hydra/detail/external/thrust/iterator/iterator_facade.h>
     #include <hydra/detail/external/thrust/iterator/iterator_traits.h>
-#endif // HYDRA_THRUST_VERSION
+#endif // THRUST_VERSION
 
 
 /// Optional outer namespace(s)
-CUB_NS_PREFIX
+HYDRA_EXTERNAL_NAMESPACE_BEGIN  THRUST_CUB_NS_PREFIX
 
 /// CUB namespace
 namespace cub {
@@ -119,7 +119,7 @@ private:
         __hydra_host__ __hydra_device__ __forceinline__ Reference(ValueType* ptr) : ptr(ptr) {}
 
         /// Assignment
-        __hydra_device__ __forceinline__ ValueType operator =(ValueType val)
+        __device__ __forceinline__ ValueType operator =(ValueType val)
         {
             ThreadStore<MODIFIER>(ptr, val);
             return val;
@@ -135,7 +135,7 @@ public:
     typedef void                                pointer;                ///< The type of a pointer to an element the iterator can point to
     typedef Reference                           reference;              ///< The type of a reference to an element the iterator can point to
 
-#if (HYDRA_THRUST_VERSION >= 100700)
+#if (THRUST_VERSION >= 100700)
     // Use Thrust's iterator categories so we can use these iterators in Thrust 1.7 (or newer) methods
     typedef typename thrust::detail::iterator_facade_category<
         thrust::device_system_tag,
@@ -145,7 +145,7 @@ public:
       >::type iterator_category;                                        ///< The iterator category
 #else
     typedef std::random_access_iterator_tag     iterator_category;      ///< The iterator category
-#endif  // HYDRA_THRUST_VERSION
+#endif  // THRUST_VERSION
 
 private:
 
@@ -251,4 +251,4 @@ public:
 /** @} */       // end group UtilIterator
 
 }               // CUB namespace
-CUB_NS_POSTFIX  // Optional outer namespace(s)
+THRUST_CUB_NS_POSTFIX HYDRA_EXTERNAL_NAMESPACE_END  // Optional outer namespace(s)

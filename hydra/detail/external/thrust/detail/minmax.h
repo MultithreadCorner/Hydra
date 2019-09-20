@@ -24,33 +24,34 @@ HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
 
 template<typename T, typename BinaryPredicate>
 __hydra_host__ __hydra_device__
-  T min HYDRA_THRUST_PREVENT_MACRO_SUBSTITUTION (const T &lhs, const T &rhs, BinaryPredicate comp)
+  T min THRUST_PREVENT_MACRO_SUBSTITUTION (const T &lhs, const T &rhs, BinaryPredicate comp)
 {
   return comp(rhs, lhs) ? rhs : lhs;
 } // end min()
 
 template<typename T>
 __hydra_host__ __hydra_device__
-  T min HYDRA_THRUST_PREVENT_MACRO_SUBSTITUTION (const T &lhs, const T &rhs)
+  T min THRUST_PREVENT_MACRO_SUBSTITUTION (const T &lhs, const T &rhs)
 {
   return rhs < lhs ? rhs : lhs;
 } // end min()
 
 template<typename T, typename BinaryPredicate>
 __hydra_host__ __hydra_device__
-  T max HYDRA_THRUST_PREVENT_MACRO_SUBSTITUTION (const T &lhs, const T &rhs, BinaryPredicate comp)
+  T max THRUST_PREVENT_MACRO_SUBSTITUTION (const T &lhs, const T &rhs, BinaryPredicate comp)
 {
   return comp(lhs,rhs) ? rhs : lhs;
 } // end max()
 
 template<typename T>
 __hydra_host__ __hydra_device__
-  T max HYDRA_THRUST_PREVENT_MACRO_SUBSTITUTION (const T &lhs, const T &rhs)
+  T max THRUST_PREVENT_MACRO_SUBSTITUTION (const T &lhs, const T &rhs)
 {
   return lhs < rhs ? rhs : lhs;
 } // end max()
 
 
-} // end thrust
+} // end HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
+
 
 HYDRA_EXTERNAL_NAMESPACE_END

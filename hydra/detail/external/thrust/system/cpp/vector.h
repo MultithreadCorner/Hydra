@@ -14,7 +14,7 @@
  *  limitations under the License.
  */
 
-/*! \file hydra/detail/external/thrust/system/cpp/vector.h
+/*! \file thrust/system/cpp/vector.h
  *  \brief A dynamically-sizable array of elements which reside in memory available to
  *         Thrust's standard C++ system.
  */
@@ -164,7 +164,7 @@ using thrust::system::cpp::vector;
 
 } // end cpp
 
-} // end thrust
+} // end HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
 
 HYDRA_EXTERNAL_NAMESPACE_END
 

@@ -1,5 +1,5 @@
 /*
- *  Copyright 2008-2013 NVIDIA Corporation
+ *  Copyright 2008-2018 NVIDIA Corporation
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -22,8 +22,9 @@
 #pragma once
 
 #include <hydra/detail/external/thrust/detail/config.h>
-#include <hydra/detail/external/thrust/device_malloc_allocator.h>
 #include <hydra/detail/external/thrust/detail/vector_base.h>
+#include <hydra/detail/external/thrust/device_allocator.h>
+
 #include <vector>
 #include <utility>
 
@@ -47,9 +48,10 @@ template<typename T, typename Alloc> class host_vector;
  *  space of a parallel device.
  *
  *  \see http://www.sgi.com/tech/stl/Vector.html
+ *  \see device_allocator
  *  \see host_vector
  */
-template<typename T, typename Alloc = thrust::device_malloc_allocator<T> >
+template<typename T, typename Alloc = thrust::device_allocator<T> >
   class device_vector
     : public detail::vector_base<T,Alloc>
 {
@@ -70,6 +72,13 @@ template<typename T, typename Alloc = thrust::device_malloc_allocator<T> >
     device_vector(void)
       :Parent() {}
 
+    /*! This constructor creates an empty \p device_vector.
+     *  \param alloc The allocator to use by this device_vector.
+     */
+    __hydra_host__
+    device_vector(const Alloc &alloc)
+      :Parent(alloc) {}
+
     /*! The destructor erases the elements.
      */
     //  Define an empty destructor to explicitly specify
@@ -85,6 +94,15 @@ template<typename T, typename Alloc = thrust::device_malloc_allocator<T> >
     explicit device_vector(size_type n)
       :Parent(n) {}
 
+    /*! This constructor creates a \p device_vector with the given
+     *  size.
+     *  \param n The number of elements to initially create.
+     *  \param alloc The allocator to use by this device_vector.
+     */
+    __hydra_host__
+    explicit device_vector(size_type n, const Alloc &alloc)
+      :Parent(n,alloc) {}
+
     /*! This constructor creates a \p device_vector with copies
      *  of an exemplar element.
      *  \param n The number of elements to initially create.
@@ -94,6 +112,16 @@ template<typename T, typename Alloc = thrust::device_malloc_allocator<T> >
     explicit device_vector(size_type n, const value_type &value)
       :Parent(n,value) {}
 
+    /*! This constructor creates a \p device_vector with copies
+     *  of an exemplar element.
+     *  \param n The number of elements to initially create.
+     *  \param value An element to copy.
+     *  \param alloc The allocator to use by this device_vector.
+     */
+    __hydra_host__
+    explicit device_vector(size_type n, const value_type &value, const Alloc &alloc)
+      :Parent(n,value,alloc) {}
+
     /*! Copy constructor copies from an exemplar \p device_vector.
      *  \param v The \p device_vector to copy.
      */
@@ -101,36 +129,53 @@ template<typename T, typename Alloc = thrust::device_malloc_allocator<T> >
     device_vector(const device_vector &v)
       :Parent(v) {}
 
-  #if __cplusplus >= 201103L
+    /*! Copy constructor copies from an exemplar \p device_vector.
+     *  \param v The \p device_vector to copy.
+     *  \param alloc The allocator to use by this device_vector.
+     */
+    __hydra_host__
+    device_vector(const device_vector &v, const Alloc &alloc)
+      :Parent(v,alloc) {}
+
+  #if THRUST_CPP_DIALECT >= 2011
     /*! Move constructor moves from another \p device_vector.
      *  \param v The device_vector to move.
      */
-     __hydra_host__
+    __hydra_host__
     device_vector(device_vector &&v)
       :Parent(std::move(v)) {}
-  #endif
 
-  /*! Copy assign operator copies another \p device_vector with the same type.
-   *  \param v The \p device_vector to copy.
-   */
-  __hydra_host__
-  device_vector &operator=(const device_vector &v)
-  { Parent::operator=(v); return *this; }
+    /*! Move constructor moves from another \p device_vector.
+     *  \param v The device_vector to move.
+     *  \param alloc The allocator to use by this device_vector.
+     */
+    __hydra_host__
+    device_vector(device_vector &&v, const Alloc &alloc)
+      :Parent(std::move(v), alloc) {}
+  #endif // THRUST_CPP_DIALECT >= 2011
 
-  #if __cplusplus >= 201103L
+    /*! Copy assign operator copies another \p device_vector with the same type.
+     *  \param v The \p device_vector to copy.
+     */
+    __hydra_host__
+    device_vector &operator=(const device_vector &v)
+    { Parent::operator=(v); return *this; }
+
+  #if THRUST_CPP_DIALECT >= 2011
     /*! Move assign operator moves from another \p device_vector.
      *  \param v The device_vector to move.
      */
      __hydra_host__
      device_vector &operator=(device_vector &&v)
      { Parent::operator=(std::move(v)); return *this; }
-  #endif
+  #endif // THRUST_CPP_DIALECT >= 2011
 
     /*! Copy constructor copies from an exemplar \p device_vector with different type.
      *  \param v The \p device_vector to copy.
      */
     template<typename OtherT, typename OtherAlloc>
-    __hydra_device__
+    __hydra_host__ explicit
+    __device__
     device_vector(const device_vector<OtherT,OtherAlloc> &v)
       :Parent(v) {}
 
@@ -138,7 +183,7 @@ template<typename T, typename Alloc = thrust::device_malloc_allocator<T> >
      *  \param v The \p device_vector to copy.
      */
     template<typename OtherT, typename OtherAlloc>
-    __hydra_device__
+    __hydra_host__
     device_vector &operator=(const device_vector<OtherT,OtherAlloc> &v)
     { Parent::operator=(v); return *this; }
 
@@ -181,6 +226,16 @@ template<typename T, typename Alloc = thrust::device_malloc_allocator<T> >
     __hydra_host__
     device_vector(InputIterator first, InputIterator last)
       :Parent(first,last) {}
+
+    /*! This constructor builds a \p device_vector from a range.
+     *  \param first The beginning of the range.
+     *  \param last The end of the range.
+     *  \param alloc The allocator to use by this device_vector.
+     */
+    template<typename InputIterator>
+    __hydra_host__
+    device_vector(InputIterator first, InputIterator last, const Alloc &alloc)
+      :Parent(first,last,alloc) {}
 
 // declare these members for the purpose of Doxygenating them
 // they actually exist in a derived-from class
@@ -372,7 +427,7 @@ template<typename T, typename Alloc = thrust::device_malloc_allocator<T> >
      */
     void pop_back(void);
 
-    /*! This method swaps the contents of this vector_base with another vector.
+    /*! This method swaps the contents of this device_vector with another vector.
      *  \param v The vector with which to swap.
      */
     void swap(device_vector &v);
@@ -443,12 +498,23 @@ template<typename T, typename Alloc = thrust::device_malloc_allocator<T> >
 #endif // end doxygen-only members
 }; // end device_vector
 
+/*! Exchanges the values of two vectors.
+ *  \p x The first \p device_vector of interest.
+ *  \p y The second \p device_vector of interest.
+ */
+template<typename T, typename Alloc>
+  void swap(device_vector<T,Alloc> &a, device_vector<T,Alloc> &b)
+{
+  a.swap(b);
+} // end swap()
+
 /*! \}
  */
 
-} // end thrust
+} // end HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
 
 HYDRA_EXTERNAL_NAMESPACE_END
+
 
 #include <hydra/detail/external/thrust/detail/device_vector.inl>
 

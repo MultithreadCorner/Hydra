@@ -69,6 +69,7 @@ bool binary_search(execution_policy<DerivedPolicy> &exec,
 } // end detail
 } // end omp
 } // end system
-} // end thrust
+} // end HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
+
 
 HYDRA_EXTERNAL_NAMESPACE_END

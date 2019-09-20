@@ -106,7 +106,7 @@ __hydra_host__ __hydra_device__
   for(; first != last; ++first, ++result)
   {
     // gcc 4.2 crashes while instantiating iter_assign
-#if (HYDRA_THRUST_HOST_COMPILER == HYDRA_THRUST_HOST_COMPILER_GCC) && (HYDRA_THRUST_GCC_VERSION < 40300)
+#if (THRUST_HOST_COMPILER == THRUST_HOST_COMPILER_GCC) && (THRUST_GCC_VERSION < 40300)
     *result = *first;
 #else
     general_copy_detail::iter_assign(result, first);
@@ -129,7 +129,7 @@ __hydra_host__ __hydra_device__
   for(; n > Size(0); ++first, ++result, --n)
   {
     // gcc 4.2 crashes while instantiating iter_assign
-#if (HYDRA_THRUST_HOST_COMPILER == HYDRA_THRUST_HOST_COMPILER_GCC) && (HYDRA_THRUST_GCC_VERSION < 40300)
+#if (THRUST_HOST_COMPILER == THRUST_HOST_COMPILER_GCC) && (THRUST_GCC_VERSION < 40300)
     *result = *first;
 #else
     general_copy_detail::iter_assign(result, first);
@@ -145,4 +145,3 @@ __hydra_host__ __hydra_device__
 } // end namespace system
 } // end HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
 
-HYDRA_EXTERNAL_NAMESPACE_END

@@ -79,6 +79,6 @@ tuple_host_device_transform(const Tuple &t, UnaryFunction f)
 
 } // end detail
 
-} // end thrust
+} // end HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
 
 HYDRA_EXTERNAL_NAMESPACE_END

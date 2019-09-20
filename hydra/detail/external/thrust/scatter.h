@@ -421,5 +421,6 @@ template<typename InputIterator1,
 
 HYDRA_EXTERNAL_NAMESPACE_END
 
+
 #include <hydra/detail/external/thrust/detail/scatter.inl>
 

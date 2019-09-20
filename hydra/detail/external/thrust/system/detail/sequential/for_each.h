@@ -93,4 +93,3 @@ InputIterator for_each_n(sequential::execution_policy<DerivedPolicy> &,
 } // end namespace system
 } // end HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
 
-HYDRA_EXTERNAL_NAMESPACE_END

@@ -16,7 +16,7 @@
 
 #pragma once
 
-/*! \file hydra/detail/external/thrust/system/omp/execution_policy.h
+/*! \file thrust/system/omp/execution_policy.h
  *  \brief Execution policies for Thrust's OpenMP system.
  */
 
@@ -150,10 +150,7 @@ static const unspecified par;
 
 } // end cpp
 } // end system
-} // end thrust
-
-HYDRA_EXTERNAL_NAMESPACE_END
-
+} // end HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
 #endif
 
 

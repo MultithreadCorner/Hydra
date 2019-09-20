@@ -26,8 +26,6 @@
 
 #pragma once
 
-
-#include <hydra/detail/external/thrust/detail/config.h>
 #include <stddef.h> // XXX instead of <cstddef> to WAR clang issue
 #include <type_traits>
 #include <utility>
@@ -45,9 +43,9 @@ struct std__is_constructible : std::is_constructible<T, Args...> { };
 // by default, it attempts to be constexpr
 #ifndef __TUPLE_ANNOTATION
 #  if __cplusplus <= 201103L
-#    define __TUPLE_ANNOTATION __hydra_device__ __hydra_host__
+#    define __TUPLE_ANNOTATION __device__ __hydra_host__
 #  else
-#    define __TUPLE_ANNOTATION constexpr __hydra_device__ __hydra_host__
+#    define __TUPLE_ANNOTATION /*constexpr*/ __device__ __hydra_host__
 #  endif
 #  define __TUPLE_ANNOTATION_NEEDS_UNDEF
 #endif
@@ -59,7 +57,6 @@ struct std__is_constructible : std::is_constructible<T, Args...> { };
 #endif
 
 HYDRA_EXTERNAL_NAMESPACE_BEGIN
-
 namespace __TUPLE_NAMESPACE
 {
 
@@ -181,13 +178,13 @@ class __tuple_leaf_base
 #if defined(__CUDACC__)
 #pragma nv_exec_check_disable
 #endif
-   // __TUPLE_ANNOTATION
+    __TUPLE_ANNOTATION
     ~__tuple_leaf_base() = default;
 
 #if defined(__CUDACC__)
 #pragma nv_exec_check_disable
 #endif
-   // __TUPLE_ANNOTATION
+    __TUPLE_ANNOTATION
     __tuple_leaf_base() = default;
 
 #if defined(__CUDACC__)
@@ -217,7 +214,7 @@ template<class T>
 class __tuple_leaf_base<T,true> : public T
 {
   public:
-   // __TUPLE_ANNOTATION
+    __TUPLE_ANNOTATION
     __tuple_leaf_base() = default;
 
     template<class U>
@@ -244,7 +241,7 @@ class __tuple_leaf : public __tuple_leaf_base<T>
     using super_t = __tuple_leaf_base<T>;
 
   public:
-    //__TUPLE_ANNOTATION
+    __TUPLE_ANNOTATION
     __tuple_leaf() = default;
 
     template<class U,
@@ -344,7 +341,7 @@ class __tuple_base<__tuple_index_sequence<I...>, Types...>
   public:
     using leaf_types = __type_list<__tuple_leaf<I,Types>...>;
 
-    //__TUPLE_ANNOTATION
+    __TUPLE_ANNOTATION
     __tuple_base() = default;
 
     __TUPLE_ANNOTATION
@@ -560,8 +557,6 @@ class tuple
     }
 
   public:
-
-#pragma hd_warning_disable
     __TUPLE_ANNOTATION
     tuple() : base_{} {};
 
@@ -785,7 +780,7 @@ class tuple<>
 
 template<class... Types>
 __TUPLE_ANNOTATION
-void swap(tuple<Types...>&& a, tuple<Types...>&& b)
+void swap(tuple<Types...>& a, tuple<Types...>& b)
 {
   a.swap(b);
 }
@@ -976,7 +971,7 @@ __TUPLE_ANNOTATION
 
 template<class... TTypes, class... UTypes>
 __TUPLE_ANNOTATION
-  bool __tuple_lt(const tuple<TTypes...>& , const tuple<UTypes...>& , __tuple_index_sequence<>)
+  bool __tuple_lt(const tuple<TTypes...>& t, const tuple<UTypes...>& u, __tuple_index_sequence<>)
 {
   return false;
 }

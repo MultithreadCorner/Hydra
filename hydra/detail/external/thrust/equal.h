@@ -236,5 +236,6 @@ bool equal(InputIterator1 first1, InputIterator1 last1,
 
 HYDRA_EXTERNAL_NAMESPACE_END
 
+
 #include <hydra/detail/external/thrust/detail/equal.inl>
 

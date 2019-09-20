@@ -20,68 +20,61 @@
  *         <hydra/detail/external/thrust/version.h> is the only Thrust header that is guaranteed to
  *         change with every thrust release.
  *
- *         It is also the only header that does not cause HYDRA_THRUST_HOST_SYSTEM
- *         and HYDRA_THRUST_DEVICE_SYSTEM to be defined. This way, a user may include
- *         this header and inspect HYDRA_THRUST_VERSION before programatically defining
+ *         It is also the only header that does not cause THRUST_HOST_SYSTEM
+ *         and THRUST_DEVICE_SYSTEM to be defined. This way, a user may include
+ *         this header and inspect THRUST_VERSION before programatically defining
  *         either of these macros herself.
  */
 
 #pragma once
 
-//  This is the only Thrust header that is guaranteed to 
+//  This is the only Thrust header that is guaranteed to
 //  change with every Thrust release.
 //
-//  HYDRA_THRUST_VERSION % 100 is the sub-minor version
-//  HYDRA_THRUST_VERSION / 100 % 1000 is the minor version
-//  HYDRA_THRUST_VERSION / 100000 is the major version
+//  THRUST_VERSION % 100 is the sub-minor version
+//  THRUST_VERSION / 100 % 1000 is the minor version
+//  THRUST_VERSION / 100000 is the major version
 //
 //  Because this header does not #include <hydra/detail/external/thrust/detail/config.h>,
 //  it is the only Thrust header that does not cause
-//  HYDRA_THRUST_HOST_SYSTEM and HYDRA_THRUST_DEVICE_SYSTEM to be defined.
+//  THRUST_HOST_SYSTEM and THRUST_DEVICE_SYSTEM to be defined.
 
-/*! \def HYDRA_THRUST_VERSION
- *  \brief The preprocessor macro \p HYDRA_THRUST_VERSION encodes the version
+/*! \def THRUST_VERSION
+ *  \brief The preprocessor macro \p THRUST_VERSION encodes the version
  *         number of the Thrust library.
  *
- *         <tt>HYDRA_THRUST_VERSION % 100</tt> is the sub-minor version.
- *         <tt>HYDRA_THRUST_VERSION / 100 % 1000</tt> is the minor version.
- *         <tt>HYDRA_THRUST_VERSION / 100000</tt> is the major version.
+ *         <tt>THRUST_VERSION % 100</tt> is the sub-minor version.
+ *         <tt>THRUST_VERSION / 100 % 1000</tt> is the minor version.
+ *         <tt>THRUST_VERSION / 100000</tt> is the major version.
  */
-#define HYDRA_THRUST_VERSION 100803
+#define THRUST_VERSION 100906
 
-/*! \def HYDRA_THRUST_MAJOR_VERSION
- *  \brief The preprocessor macro \p HYDRA_THRUST_MAJOR_VERSION encodes the
+/*! \def THRUST_MAJOR_VERSION
+ *  \brief The preprocessor macro \p THRUST_MAJOR_VERSION encodes the
  *         major version number of the Thrust library.
  */
-#define HYDRA_THRUST_MAJOR_VERSION     (HYDRA_THRUST_VERSION / 100000)
+#define THRUST_MAJOR_VERSION     (THRUST_VERSION / 100000)
 
-/*! \def HYDRA_THRUST_MINOR_VERSION
- *  \brief The preprocessor macro \p HYDRA_THRUST_MINOR_VERSION encodes the
+/*! \def THRUST_MINOR_VERSION
+ *  \brief The preprocessor macro \p THRUST_MINOR_VERSION encodes the
  *         minor version number of the Thrust library.
  */
-#define HYDRA_THRUST_MINOR_VERSION     (HYDRA_THRUST_VERSION / 100 % 1000)
+#define THRUST_MINOR_VERSION     (THRUST_VERSION / 100 % 1000)
 
-/*! \def HYDRA_THRUST_SUBMINOR_VERSION
- *  \brief The preprocessor macro \p HYDRA_THRUST_SUBMINOR_VERSION encodes the
+/*! \def THRUST_SUBMINOR_VERSION
+ *  \brief The preprocessor macro \p THRUST_SUBMINOR_VERSION encodes the
  *         sub-minor version number of the Thrust library.
  */
-#define HYDRA_THRUST_SUBMINOR_VERSION  (HYDRA_THRUST_VERSION % 100)
+#define THRUST_SUBMINOR_VERSION  (THRUST_VERSION % 100)
 
-/*! \def HYDRA_THRUST_PATCH_NUMBER
- *  \brief The preprocessor macro \p HYDRA_THRUST_PATCH_NUMBER encodes the
+/*! \def THRUST_PATCH_NUMBER
+ *  \brief The preprocessor macro \p THRUST_PATCH_NUMBER encodes the
  *         patch number of the Thrust library.
  */
-#define HYDRA_THRUST_PATCH_NUMBER 2
+#define THRUST_PATCH_NUMBER 0
 
 
 // Declare these namespaces here for the purpose of Doxygenating them
 
-/*! \HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
- *  \brief \p thrust is the top-level namespace which contains all Thrust
- *         functions and types.
- */
-HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
-{
 
-}
-HYDRA_EXTERNAL_NAMESPACE_END
+

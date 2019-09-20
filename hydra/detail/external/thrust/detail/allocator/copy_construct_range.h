@@ -41,10 +41,7 @@ __hydra_host__ __hydra_device__
                                  Pointer result);
 
 } // end detail
-} // end thrust
-
+} // end HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
 HYDRA_EXTERNAL_NAMESPACE_END
-
-
 #include <hydra/detail/external/thrust/detail/allocator/copy_construct_range.inl>
 

@@ -224,9 +224,10 @@ operator>>(std::basic_istream<CharT,Traits> &is,
 // import names into thrust::
 using random::linear_feedback_shift_engine;
 
-} // end thrust
+} // end HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
 
 HYDRA_EXTERNAL_NAMESPACE_END
+
 
 #include <hydra/detail/external/thrust/random/detail/linear_feedback_shift_engine.inl>
 

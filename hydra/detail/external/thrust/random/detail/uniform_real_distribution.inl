@@ -115,7 +115,7 @@ template<typename RealType>
   __hydra_host__ __hydra_device__
   typename uniform_real_distribution<RealType>::result_type
     uniform_real_distribution<RealType>
-      ::min HYDRA_THRUST_PREVENT_MACRO_SUBSTITUTION (void) const
+      ::min THRUST_PREVENT_MACRO_SUBSTITUTION (void) const
 {
   return a();
 } // end uniform_real_distribution::min()
@@ -124,7 +124,7 @@ template<typename RealType>
   __hydra_host__ __hydra_device__
   typename uniform_real_distribution<RealType>::result_type
     uniform_real_distribution<RealType>
-      ::max HYDRA_THRUST_PREVENT_MACRO_SUBSTITUTION (void) const
+      ::max THRUST_PREVENT_MACRO_SUBSTITUTION (void) const
 {
   return b();
 } // end uniform_real_distribution::max()
@@ -227,6 +227,8 @@ operator>>(std::basic_istream<CharT,Traits> &is,
 
 } // end random
 
-} // end thrust
+} // end HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
+
 
 HYDRA_EXTERNAL_NAMESPACE_END
+

@@ -320,6 +320,8 @@ template<typename Engine1, size_t s1, typename Engine2, size_t s2, typename resu
 
 } // end random
 
-} // end thrust
+} // end HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
+
 
 HYDRA_EXTERNAL_NAMESPACE_END
+

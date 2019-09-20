@@ -54,6 +54,8 @@ template<typename T> struct is_error_condition_enum : public thrust::detail::fal
 namespace errc
 {
 
+/*! An enum containing common error codes.
+ */
 enum errc_t
 {
   address_family_not_supported       = detail::eafnosupport,
@@ -250,9 +252,9 @@ class error_code
     template <typename ErrorCodeEnum>
       error_code(ErrorCodeEnum e
 // XXX WAR msvc's problem with enable_if
-#if HYDRA_THRUST_HOST_COMPILER != HYDRA_THRUST_HOST_COMPILER_MSVC
+#if THRUST_HOST_COMPILER != THRUST_HOST_COMPILER_MSVC
         , typename thrust::detail::enable_if<is_error_code_enum<ErrorCodeEnum>::value>::type * = 0
-#endif // HYDRA_THRUST_HOST_COMPILER_MSVC
+#endif // THRUST_HOST_COMPILER_MSVC
         );
 
     // [19.5.2.3] modifiers:
@@ -265,11 +267,11 @@ class error_code
      */
     template <typename ErrorCodeEnum>
 // XXX WAR msvc's problem with enable_if
-#if HYDRA_THRUST_HOST_COMPILER != HYDRA_THRUST_HOST_COMPILER_MSVC
+#if THRUST_HOST_COMPILER != THRUST_HOST_COMPILER_MSVC
       typename thrust::detail::enable_if<is_error_code_enum<ErrorCodeEnum>::value, error_code>::type &
 #else
       error_code &
-#endif // HYDRA_THRUST_HOST_COMPILER_MSVC
+#endif // THRUST_HOST_COMPILER_MSVC
         operator=(ErrorCodeEnum e);
 
     /*! \post <tt>value() == 0</tt> and <tt>category() == system_category()</tt>.
@@ -366,9 +368,9 @@ class error_condition
     template<typename ErrorConditionEnum>
       error_condition(ErrorConditionEnum e
 // XXX WAR msvc's problem with enable_if
-#if HYDRA_THRUST_HOST_COMPILER != HYDRA_THRUST_HOST_COMPILER_MSVC
+#if THRUST_HOST_COMPILER != THRUST_HOST_COMPILER_MSVC
         , typename thrust::detail::enable_if<is_error_condition_enum<ErrorConditionEnum>::value>::type * = 0
-#endif // HYDRA_THRUST_HOST_COMPILER != HYDRA_THRUST_HOST_COMPILER_MSVC
+#endif // THRUST_HOST_COMPILER != THRUST_HOST_COMPILER_MSVC
                      );
 
     // [19.5.3.3] modifiers
@@ -389,11 +391,11 @@ class error_condition
      */
     template<typename ErrorConditionEnum>
 // XXX WAR msvc's problem with enable_if
-#if HYDRA_THRUST_HOST_COMPILER != HYDRA_THRUST_HOST_COMPILER_MSVC
+#if THRUST_HOST_COMPILER != THRUST_HOST_COMPILER_MSVC
       typename thrust::detail::enable_if<is_error_condition_enum<ErrorConditionEnum>::value, error_condition>::type &
 #else
       error_condition &
-#endif // HYDRA_THRUST_HOST_COMPILER != HYDRA_THRUST_HOST_COMPILER_MSVC
+#endif // THRUST_HOST_COMPILER != THRUST_HOST_COMPILER_MSVC
         operator=(ErrorConditionEnum e);
 
     /*! Clears this \p error_code object.
@@ -513,7 +515,7 @@ namespace errc = system::errc;
 using system::generic_category;
 using system::system_category;
 
-} // end thrust
+} // end HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
 
 HYDRA_EXTERNAL_NAMESPACE_END
 

@@ -116,6 +116,8 @@ using random::ranlux48;
 using random::taus88;
 using random::default_random_engine;
 
-} // end thrust
+} // end HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
+
 
 HYDRA_EXTERNAL_NAMESPACE_END
+

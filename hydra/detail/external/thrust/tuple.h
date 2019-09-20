@@ -35,9 +35,9 @@
 #include <hydra/detail/external/thrust/detail/tuple/index_sequence.h>
 #include <hydra/detail/external/thrust/pair.h>
 
-#ifdef HYDRA_THRUST_VARIADIC_TUPLE
+#ifdef THRUST_VARIADIC_TUPLE
 #  include <hydra/detail/external/thrust/detail/tuple/variadic_tuple.h>
-#else // HYDRA_THRUST_VARIADIC_TUPLE
+#else // THRUST_VARIADIC_TUPLE
 
 HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
 {
@@ -584,7 +584,7 @@ bool operator>(const null_type&, const null_type&);
 /*! \} // utility
  */
     
-} // end thrust
+} // end HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
 
 HYDRA_EXTERNAL_NAMESPACE_END
 
@@ -611,7 +611,7 @@ HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
  *  \param ts The other objects to concatenate.
  *  \return A \p tuple object which is a concatenation of \p t0 and \p ts... .
  */
-#ifdef HYDRA_THRUST_VARIADIC_TUPLE
+#ifdef THRUST_VARIADIC_TUPLE
 template<typename... Tuples>
 inline __hydra_host__ __hydra_device__
 tuple_cat_result<Tuples...>
@@ -697,6 +697,6 @@ inline std::basic_istream<CharType, CharTrait>&
 
 /*! \} // utility
  */
-} // end thrust
+} // end HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
 
 HYDRA_EXTERNAL_NAMESPACE_END

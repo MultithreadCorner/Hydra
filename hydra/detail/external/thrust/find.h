@@ -383,5 +383,6 @@ InputIterator find_if_not(InputIterator first,
 
 HYDRA_EXTERNAL_NAMESPACE_END
 
+
 #include <hydra/detail/external/thrust/detail/find.inl>
 

@@ -56,6 +56,6 @@ using __make_index_sequence = typename __make_index_sequence_impl<0, __index_seq
 template<class... T>
 using __index_sequence_for = __make_index_sequence<sizeof...(T)>;
 
-} // end thrust
+} // end HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
 
 HYDRA_EXTERNAL_NAMESPACE_END

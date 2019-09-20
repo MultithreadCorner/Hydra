@@ -76,6 +76,6 @@ count_if(thrust::execution_policy<DerivedPolicy> &exec, InputIterator first, Inp
 } // end generic
 } // end detail
 } // end system
-} // end thrust
+} // end HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
 
 HYDRA_EXTERNAL_NAMESPACE_END

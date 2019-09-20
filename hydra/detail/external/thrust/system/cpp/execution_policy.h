@@ -16,7 +16,7 @@
 
 #pragma once
 
-/*! \file hydra/detail/external/thrust/system/cpp/execution_policy.h
+/*! \file thrust/system/cpp/execution_policy.h
  *  \brief Execution policies for Thrust's standard C++ system.
  */
 
@@ -151,9 +151,10 @@ static const unspecified par;
 
 } // end cpp
 } // end system
-} // end thrust
+} // end HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
 
 HYDRA_EXTERNAL_NAMESPACE_END
+
 
 #endif
 

@@ -40,13 +40,15 @@ template<typename DerivedPolicy,
          typename InputIterator,
          typename UnaryFunction>
 __hydra_host__ __hydra_device__
-InputIterator for_each(HYDRA_EXTERNAL_NS::thrust::execution_policy<DerivedPolicy>&,
+InputIterator for_each(thrust::execution_policy<DerivedPolicy> &,
                        InputIterator first,
                        InputIterator ,
                        UnaryFunction )
 {
-  // unimplemented
-  HYDRA_THRUST_STATIC_ASSERT( (HYDRA_EXTERNAL_NS::thrust::detail::depend_on_instantiation<InputIterator, false>::value) );
+  THRUST_STATIC_ASSERT_MSG(
+    (thrust::detail::depend_on_instantiation<InputIterator, false>::value)
+  , "unimplemented for this system"
+  );
   return first;
 } // end for_each()
 
@@ -56,13 +58,15 @@ template<typename DerivedPolicy,
          typename Size,
          typename UnaryFunction>
 __hydra_host__ __hydra_device__
-InputIterator for_each_n(HYDRA_EXTERNAL_NS::thrust::execution_policy<DerivedPolicy>&,
+InputIterator for_each_n(thrust::execution_policy<DerivedPolicy> &,
                          InputIterator first,
                          Size ,
                          UnaryFunction )
 {
-  // unimplemented
-  HYDRA_THRUST_STATIC_ASSERT( (HYDRA_EXTERNAL_NS::thrust::detail::depend_on_instantiation<InputIterator, false>::value) );
+  THRUST_STATIC_ASSERT_MSG(
+    (thrust::detail::depend_on_instantiation<InputIterator, false>::value)
+  , "unimplemented for this system"
+  );
   return first;
 } // end for_each_n()
 

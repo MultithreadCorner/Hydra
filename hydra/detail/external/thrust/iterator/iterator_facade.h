@@ -14,7 +14,7 @@
  *  limitations under the License.
  */
 
-/*! \file hydra/detail/external/thrust/iterator/iterator_facade.h
+/*! \file thrust/iterator/iterator_facade.h
  *  \brief A class which exposes a public interface for iterators
  */
 
@@ -539,6 +539,8 @@ Derived operator+ (typename Derived::difference_type n,
 /*! \} // end iterators
  */
 
-} // end thrust
+} // end HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
+
 
 HYDRA_EXTERNAL_NAMESPACE_END
+

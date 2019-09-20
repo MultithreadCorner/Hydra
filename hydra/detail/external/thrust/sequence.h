@@ -294,5 +294,6 @@ template<typename ForwardIterator, typename T>
 
 HYDRA_EXTERNAL_NAMESPACE_END
 
+
 #include <hydra/detail/external/thrust/detail/sequence.inl>
 

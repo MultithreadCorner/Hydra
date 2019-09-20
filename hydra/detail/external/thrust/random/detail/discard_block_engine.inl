@@ -208,6 +208,8 @@ bool operator!=(const discard_block_engine<Engine,p,r> &lhs,
 
 } // end random
 
-} // end thrust
+} // end HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
+
 
 HYDRA_EXTERNAL_NAMESPACE_END
+

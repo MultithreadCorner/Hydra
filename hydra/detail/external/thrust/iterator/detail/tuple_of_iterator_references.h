@@ -107,7 +107,7 @@ template<
 
 } // end detail
 
-#ifdef HYDRA_THRUST_VARIADIC_TUPLE
+#ifdef THRUST_VARIADIC_TUPLE
 // define tuple_size, tuple_element, etc.
 template<class... Types>
 struct tuple_size<detail::tuple_of_iterator_references<Types...>>
@@ -132,6 +132,8 @@ struct tuple_element<i, detail::tuple_of_iterator_references<Type1,Types...>>
 };
 #endif
 
-} // end thrust
+} // end HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
 
 HYDRA_EXTERNAL_NAMESPACE_END
+
+

@@ -30,10 +30,8 @@ inline void default_construct_range(Allocator &a, Pointer p, Size n);
 
 
 } // end detail
-} // end thrust
-
+} // end HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
 HYDRA_EXTERNAL_NAMESPACE_END
-
 #include <hydra/detail/external/thrust/detail/allocator/default_construct_range.inl>
 
 

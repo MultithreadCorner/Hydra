@@ -14,7 +14,7 @@
  *  limitations under the License.
  */
 
-/*! \file hydra/detail/external/thrust/system/cuda/experimental/pinned_allocator.h
+/*! \file thrust/system/cuda/experimental/pinned_allocator.h
  *  \brief An allocator which creates new elements in "pinned" memory with \p cudaMallocHost
  */
 
@@ -40,8 +40,7 @@ namespace cuda
 namespace experimental
 {
 
-/*! \addtogroup memory_management Memory Management
- *  \addtogroup memory_management_classes
+/*! \addtogroup memory_management_classes
  *  \ingroup memory_management
  *  \{
  */
@@ -76,6 +75,7 @@ template<typename T>
   class pinned_allocator
 {
   public:
+    //! \{
     typedef T              value_type;
     typedef T*             pointer;
     typedef const T*       const_pointer;
@@ -83,6 +83,7 @@ template<typename T>
     typedef const T&       const_reference;
     typedef std::size_t    size_type;
     typedef std::ptrdiff_t difference_type;
+    //! \}
 
     // convert a pinned_allocator<T> to pinned_allocator<U>
     template<typename U>
@@ -173,7 +174,7 @@ template<typename T>
      *        the objects stored at \p p.
      */
     __hydra_host__
-    inline void deallocate(pointer p, size_type cnt)
+    inline void deallocate(pointer p, size_type /*cnt*/)
     {
       cudaError_t error = cudaFreeHost(p);
       
@@ -201,7 +202,7 @@ template<typename T>
      *  \return This method always returns \c true.
      */
     __hydra_host__ __hydra_device__
-    inline bool operator==(pinned_allocator const& x) { return true; }
+    inline bool operator==(pinned_allocator const& x) const { return true; }
 
     /*! This method tests this \p pinned_allocator for inequality
      *  to another.
@@ -210,7 +211,7 @@ template<typename T>
      *  \return This method always returns \c false.
      */
     __hydra_host__ __hydra_device__
-    inline bool operator!=(pinned_allocator const &x) { return !operator==(x); }
+    inline bool operator!=(pinned_allocator const &x) const { return !operator==(x); }
 }; // end pinned_allocator
 
 /*! \}
@@ -235,7 +236,8 @@ using thrust::system::cuda::experimental::pinned_allocator;
 
 } // end cuda
 
-} // end thrust
+} // end HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
+
 
 HYDRA_EXTERNAL_NAMESPACE_END
 

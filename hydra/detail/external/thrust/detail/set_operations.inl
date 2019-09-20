@@ -864,6 +864,7 @@ template<typename InputIterator1,
 } // end set_union_by_key()
 
 
-} // end thrust
+} // end HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
+
 
 HYDRA_EXTERNAL_NAMESPACE_END

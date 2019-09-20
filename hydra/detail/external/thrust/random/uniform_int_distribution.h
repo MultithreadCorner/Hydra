@@ -187,14 +187,14 @@ template<typename IntType = int>
      *  \return The lower bound of this \p uniform_int_distribution's range.
      */
     __hydra_host__ __hydra_device__
-    result_type min HYDRA_THRUST_PREVENT_MACRO_SUBSTITUTION (void) const;
+    result_type min THRUST_PREVENT_MACRO_SUBSTITUTION (void) const;
 
     /*! This method returns the largest integer this \p uniform_int_distribution can potentially produce.
      *
      *  \return The upper bound of this \p uniform_int_distribution's range.
      */
     __hydra_host__ __hydra_device__
-    result_type max HYDRA_THRUST_PREVENT_MACRO_SUBSTITUTION (void) const;
+    result_type max THRUST_PREVENT_MACRO_SUBSTITUTION (void) const;
 
     /*! \cond
      */
@@ -270,9 +270,10 @@ operator>>(std::basic_istream<CharT,Traits> &is,
 
 using random::uniform_int_distribution;
 
-} // end thrust
+} // end HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
 
 HYDRA_EXTERNAL_NAMESPACE_END
+
 
 #include <hydra/detail/external/thrust/random/detail/uniform_int_distribution.inl>
 

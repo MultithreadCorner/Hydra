@@ -19,7 +19,7 @@
 #include <hydra/detail/external/thrust/detail/config.h>
 
 // the purpose of this header is to #include <driver_types.h> without causing
-// warnings from redefinitions of __hydra_host__ and __hydra_device__.
+// warnings from redefinitions of __hydra_host__ and __device__.
 // carefully save their definitions and restore them
 // can't tell exactly when push_macro & pop_macro were introduced to gcc; assume 4.5.0
 
@@ -28,20 +28,20 @@
 #  ifdef __hydra_host__
 #    pragma push_macro("__hydra_host__")
 #    undef __hydra_host__
-#    define HYDRA_THRUST_HOST_NEEDS_RESTORATION
+#    define THRUST_HOST_NEEDS_RESTORATION
 #  endif
-#  ifdef __hydra_device__
-#    pragma push_macro("__hydra_device__")
-#    undef __hydra_device__
-#    define HYDRA_THRUST_DEVICE_NEEDS_RESTORATION
+#  ifdef __device__
+#    pragma push_macro("__device__")
+#    undef __device__
+#    define THRUST_DEVICE_NEEDS_RESTORATION
 #  endif
 #else // GNUC pre 4.5.0
 #  if !defined(__DRIVER_TYPES_H__)
 #    ifdef __hydra_host__
 #      undef __hydra_host__
 #    endif
-#    ifdef __hydra_device__
-#      undef __hydra_device__
+#    ifdef __device__
+#      undef __device__
 #    endif
 #  endif // __DRIVER_TYPES_H__
 #endif // __GNUC__
@@ -51,13 +51,13 @@
 
 
 #if !defined(__GNUC__) || ((10000 * __GNUC__ + 100 * __GNUC_MINOR__ + __GNUC_PATCHLEVEL__) >= 40500)
-#  ifdef HYDRA_THRUST_HOST_NEEDS_RESTORATION
+#  ifdef THRUST_HOST_NEEDS_RESTORATION
 #    pragma pop_macro("__hydra_host__")
-#    undef HYDRA_THRUST_HOST_NEEDS_RESTORATION
+#    undef THRUST_HOST_NEEDS_RESTORATION
 #  endif
-#  ifdef HYDRA_THRUST_DEVICE_NEEDS_RESTORATION
-#    pragma pop_macro("__hydra_device__")
-#    undef HYDRA_THRUST_DEVICE_NEEDS_RESTORATION
+#  ifdef THRUST_DEVICE_NEEDS_RESTORATION
+#    pragma pop_macro("__device__")
+#    undef THRUST_DEVICE_NEEDS_RESTORATION
 #  endif
 #endif // __GNUC__
 

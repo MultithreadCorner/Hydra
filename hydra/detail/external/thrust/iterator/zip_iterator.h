@@ -15,7 +15,7 @@
  */
 
 
-/*! \file hydra/detail/external/thrust/iterator/zip_iterator.h
+/*! \file thrust/iterator/zip_iterator.h
  *  \brief An iterator which returns a tuple of the result of dereferencing
  *         a tuple of iterators when dereferenced
  */
@@ -229,7 +229,7 @@ template <typename IteratorTuple>
  *
  *  \see zip_iterator
  */
-#ifdef HYDRA_THRUST_VARIADIC_TUPLE
+#ifdef THRUST_VARIADIC_TUPLE
 template<typename... Iterators>
 inline __hydra_host__ __hydra_device__
 zip_iterator<thrust::tuple<Iterators...>> make_zip_iterator(thrust::tuple<Iterators...> t);
@@ -259,8 +259,9 @@ zip_iterator<IteratorTuple> make_zip_iterator(IteratorTuple t);
 /*! \} // end iterators
  */
 
-} // end thrust
+} // end HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
 
 HYDRA_EXTERNAL_NAMESPACE_END
+
 #include <hydra/detail/external/thrust/iterator/detail/zip_iterator.inl>
 

@@ -15,7 +15,7 @@
  */
 
 
-/*! \file hydra/detail/external/thrust/system/cuda/error.h
+/*! \file thrust/system/cuda/error.h
  *  \brief CUDA-specific error reporting
  */
 
@@ -35,15 +35,13 @@ namespace system
 namespace cuda
 {
 
-/*! \addtogroup system
- *  \{
- */
-
 // To construct an error_code after a CUDA Runtime error:
 //
 //   error_code(::cudaGetLastError(), cuda_category())
 
 // XXX N3000 prefers enum class errc { ... }
+/*! Namespace for CUDA Runtime errors.
+ */
 namespace errc
 {
 
@@ -131,7 +129,7 @@ enum errc_t
 
 } // end namespace errc
 
-} // end namespace cuda
+} // end namespace cuda_cub
 
 /*! \return A reference to an object of a type derived from class \p thrust::error_category.
  *  \note The object's \p equivalent virtual functions shall behave as specified
@@ -164,18 +162,17 @@ inline error_code make_error_code(cuda::errc::errc_t e);
  */
 inline error_condition make_error_condition(cuda::errc::errc_t e);
 
-/*! \} // end system
- */
-
-
 } // end system
+
+namespace cuda_cub
+{
+namespace errc = system::cuda::errc;
+} // end cuda_cub
 
 namespace cuda
 {
-
 // XXX replace with using system::cuda_errc upon c++0x
 namespace errc = system::cuda::errc;
-
 } // end cuda
 
 using system::cuda_category;
@@ -183,6 +180,7 @@ using system::cuda_category;
 } // end HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
 
 HYDRA_EXTERNAL_NAMESPACE_END
+
 
 #include <hydra/detail/external/thrust/system/cuda/detail/error.inl>
 

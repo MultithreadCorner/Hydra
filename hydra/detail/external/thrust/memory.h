@@ -14,7 +14,7 @@
  *  limitations under the License.
  */
 
-/*! \file hydra/detail/external/thrust/memory.h
+/*! \file thrust/memory.h
  *  \brief Abstractions for Thrust's memory model.
  */
 
@@ -31,18 +31,25 @@
 HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
 {
 
+/*! \defgroup memory_management Memory Management
+ *
+ *  All Thrust functionalities related to memory allocation and deallocation.
+ *
+ */
 
-/*! \addtogroup memory_management Memory Management
- *  \addtogroup memory_management_classes Memory Management Classes
+/** \addtogroup memory_management_classes Memory Management Classes
  *  \ingroup memory_management
  *  \{
  */
 
+// define pointer for the purpose of Doxygenating it
+// it is actually defined elsewhere
+#if 0
 /*! \p pointer stores a pointer to an object allocated in memory. Like \p device_ptr, this
  *  type ensures type safety when dispatching standard algorithms on ranges resident in memory.
  *
  *  \p pointer generalizes \p device_ptr by relaxing the backend system associated with the \p pointer.
- *  Instead of the backend system specified by \p HYDRA_THRUST_DEFAULT_DEVICE_BACKEND, \p pointer's
+ *  Instead of the backend system specified by \p THRUST_DEFAULT_DEVICE_BACKEND, \p pointer's
  *  system is given by its second template parameter, \p Tag. For the purpose of Thrust dispatch,
  *  <tt>device_ptr<Element></tt> and <tt>pointer<Element,device_system_tag></tt> are considered equivalent.
  *
@@ -68,9 +75,6 @@ HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
  *  \see reference
  *  \see raw_pointer_cast
  */
-// define pointer for the purpose of Doxygenating it
-// it is actually defined elsewhere
-#if 0
 template<typename Element, typename Tag, typename Reference = thrust::use_default, typename Derived = thrust::use_default>
   class pointer
 {
@@ -133,6 +137,9 @@ template<typename Element, typename Tag, typename Reference = thrust::use_defaul
 };
 #endif
 
+// define pointer for the purpose of Doxygenating it
+// it is actually defined elsewhere
+#if 0
 /*! \p reference is a wrapped reference to an object stored in memory. \p reference generalizes
  *  \p device_reference by relaxing the type of pointer associated with the object. \p reference
  *  is the type of the result of dereferencing a tagged pointer-like object such as \p pointer, and
@@ -144,9 +151,6 @@ template<typename Element, typename Tag, typename Reference = thrust::use_defaul
  *          a base class. This is useful to ensure that assignment to objects of the derived type return
  *          values of the derived type as a result. By default, this type is <tt>reference<Element,Pointer></tt>.
  */
-// define pointer for the purpose of Doxygenating it
-// it is actually defined elsewhere
-#if 0
 template<typename Element, typename Pointer, typename Derived = thrust::use_default>
   class reference
 {
@@ -498,8 +502,8 @@ void return_temporary_buffer(const thrust::detail::execution_policy_base<Derived
  */
 template<typename Pointer>
 __hydra_host__ __hydra_device__
-inline typename thrust::detail::pointer_traits<Pointer>::raw_pointer
-  raw_pointer_cast(const Pointer &ptr);
+typename thrust::detail::pointer_traits<Pointer>::raw_pointer
+  raw_pointer_cast(Pointer ptr);
 
 
 /*! \p raw_reference_cast creates a "raw" reference from a wrapped reference type,
@@ -515,7 +519,7 @@ inline typename thrust::detail::pointer_traits<Pointer>::raw_pointer
  */
 template<typename T>
 __hydra_host__ __hydra_device__
-inline typename detail::raw_reference<T>::type
+typename detail::raw_reference<T>::type
   raw_reference_cast(T &ref);
 
 
@@ -532,13 +536,15 @@ inline typename detail::raw_reference<T>::type
  */
 template<typename T>
 __hydra_host__ __hydra_device__
-inline typename detail::raw_reference<const T>::type
+typename detail::raw_reference<const T>::type
   raw_reference_cast(const T &ref);
 
 
 /*! \}
  */
 
-} // end thrust
+} // end HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
+
 
 HYDRA_EXTERNAL_NAMESPACE_END
+

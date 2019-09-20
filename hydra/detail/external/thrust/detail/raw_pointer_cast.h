@@ -23,12 +23,32 @@ HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
 {
 
 template<typename Pointer>
-  inline __hydra_host__ __hydra_device__ typename thrust::detail::pointer_traits<Pointer>::raw_pointer
-    raw_pointer_cast(const Pointer &ptr)
+__hydra_host__ __hydra_device__
+typename thrust::detail::pointer_traits<Pointer>::raw_pointer
+raw_pointer_cast(Pointer ptr)
 {
   return thrust::detail::pointer_traits<Pointer>::get(ptr);
-} // end raw_pointer_cast()
+}
 
-} // end thrust
+template <typename ToPointer, typename FromPointer>
+__hydra_host__ __hydra_device__
+ToPointer
+reinterpret_pointer_cast(FromPointer ptr)
+{
+  typedef typename thrust::detail::pointer_element<ToPointer>::type to_element;
+  return ToPointer(reinterpret_cast<to_element*>(thrust::raw_pointer_cast(ptr)));
+}
+
+template <typename ToPointer, typename FromPointer>
+__hydra_host__ __hydra_device__
+ToPointer
+static_pointer_cast(FromPointer ptr)
+{
+  typedef typename thrust::detail::pointer_element<ToPointer>::type to_element;
+  return ToPointer(static_cast<to_element*>(thrust::raw_pointer_cast(ptr)));
+}
+
+} // end HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
+
 
 HYDRA_EXTERNAL_NAMESPACE_END

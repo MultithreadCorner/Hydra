@@ -58,7 +58,6 @@ template<typename Element, typename Pointer, typename Derived>
     typedef Pointer                                              pointer;
     typedef typename thrust::detail::remove_const<Element>::type value_type;
 
-
     __hydra_host__ __hydra_device__
     explicit reference(const pointer &ptr);
 
@@ -169,7 +168,7 @@ std::basic_ostream<charT, traits> &
 operator<<(std::basic_ostream<charT, traits> &os,
            const reference<Element, Pointer, Derived> &y);
 
-} // end thrust
+} // end HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
 
 HYDRA_EXTERNAL_NAMESPACE_END
 

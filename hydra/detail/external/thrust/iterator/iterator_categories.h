@@ -15,7 +15,7 @@
  */
 
 
-/*! \file hydra/detail/external/thrust/iterator/iterator_categories.h
+/*! \file thrust/iterator/iterator_categories.h
  *  \brief Types for reasoning about the categories of iterators
  */
 
@@ -221,6 +221,7 @@ typedef std::random_access_iterator_tag random_access_host_iterator_tag;
 } // end HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
 
 HYDRA_EXTERNAL_NAMESPACE_END
+
 
 #include <hydra/detail/external/thrust/iterator/detail/universal_categories.h>
 

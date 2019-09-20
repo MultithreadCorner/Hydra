@@ -75,8 +75,8 @@ template<typename IntType>
 
   typedef typename thrust::detail::largest_available_float::type float_type;
 
-  const float_type real_min(parm.first);
-  const float_type real_max(parm.second);
+  const float_type real_min(static_cast<float_type>(parm.first));
+  const float_type real_max(static_cast<float_type>(parm.second));
 
   // add one to the right end of the interval because it is half-open
   // XXX adding 1.0 to a potentially large floating point number seems like a bad idea
@@ -129,7 +129,7 @@ template<typename IntType>
   __hydra_host__ __hydra_device__
   typename uniform_int_distribution<IntType>::result_type
     uniform_int_distribution<IntType>
-      ::min HYDRA_THRUST_PREVENT_MACRO_SUBSTITUTION (void) const
+      ::min THRUST_PREVENT_MACRO_SUBSTITUTION (void) const
 {
   return a();
 } // end uniform_int_distribution::min()
@@ -139,7 +139,7 @@ template<typename IntType>
   __hydra_host__ __hydra_device__
   typename uniform_int_distribution<IntType>::result_type
     uniform_int_distribution<IntType>
-      ::max HYDRA_THRUST_PREVENT_MACRO_SUBSTITUTION (void) const
+      ::max THRUST_PREVENT_MACRO_SUBSTITUTION (void) const
 {
   return b();
 } // end uniform_int_distribution::max()
@@ -242,6 +242,8 @@ operator>>(std::basic_istream<CharT,Traits> &is,
 
 } // end random
 
-} // end thrust
+} // end HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
+
 
 HYDRA_EXTERNAL_NAMESPACE_END
+

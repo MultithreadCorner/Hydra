@@ -21,7 +21,7 @@
 #include <hydra/detail/external/thrust/detail/integer_traits.h>
 
 // for floating point infinity
-#if HYDRA_THRUST_DEVICE_COMPILER == HYDRA_THRUST_DEVICE_COMPILER_NVCC
+#if THRUST_DEVICE_COMPILER == THRUST_DEVICE_COMPILER_NVCC
 #include <math_constants.h>
 #else
 #include <limits>
@@ -107,9 +107,9 @@ template<typename RealType>
   __hydra_host__ __hydra_device__
   typename normal_distribution<RealType>::result_type
     normal_distribution<RealType>
-      ::min HYDRA_THRUST_PREVENT_MACRO_SUBSTITUTION (void) const
+      ::min THRUST_PREVENT_MACRO_SUBSTITUTION (void) const
 {
-  return -this->max();
+  return -this->max THRUST_PREVENT_MACRO_SUBSTITUTION ();
 } // end normal_distribution::min()
 
 
@@ -117,7 +117,7 @@ template<typename RealType>
   __hydra_host__ __hydra_device__
   typename normal_distribution<RealType>::result_type
     normal_distribution<RealType>
-      ::max HYDRA_THRUST_PREVENT_MACRO_SUBSTITUTION (void) const
+      ::max THRUST_PREVENT_MACRO_SUBSTITUTION (void) const
 {
   // XXX this solution is pretty terrible
   // we can't use numeric_traits<RealType>::max because nvcc will
@@ -251,6 +251,8 @@ operator>>(std::basic_istream<CharT,Traits> &is,
 
 } // end random
 
-} // end thrust
+} // end HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
+
 
 HYDRA_EXTERNAL_NAMESPACE_END
+

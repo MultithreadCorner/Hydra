@@ -258,5 +258,6 @@ thrust::pair<InputIterator1, InputIterator2> mismatch(InputIterator1 first1,
 
 HYDRA_EXTERNAL_NAMESPACE_END
 
+
 #include <hydra/detail/external/thrust/detail/mismatch.inl>
 

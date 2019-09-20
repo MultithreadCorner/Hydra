@@ -157,11 +157,14 @@ namespace tuple_detail {
 // set_open, set_close and set_delimiter
 
 template<class CharType, class CharTrait>
-void print_helper(CharType , std::basic_ostream<CharType, CharTrait>& ) {}
+void
+print_helper(CharType d, std::basic_ostream<CharType, CharTrait>& o)
+{
+}
 
 template<class CharType, class CharTrait, class T>
 void
-print_helper(CharType /*d*/, std::basic_ostream<CharType, CharTrait>& o, const T& t)
+print_helper(CharType d, std::basic_ostream<CharType, CharTrait>& o, const T& t)
 {
   o << t;
 }
@@ -260,7 +263,10 @@ extract_and_check_delimiter(
 }
 
 template<class CharType, class CharTrait, class T>
-void read_helper(std::basic_istream<CharType, CharTrait> &){}
+void
+read_helper(std::basic_istream<CharType, CharTrait> &is)
+{
+}
 
 template<class CharType, class CharTrait, class T>
 void

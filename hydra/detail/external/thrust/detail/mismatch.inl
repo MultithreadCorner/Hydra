@@ -95,4 +95,5 @@ thrust::pair<InputIterator1, InputIterator2> mismatch(InputIterator1 first1,
 
 } // end HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
 
+
 HYDRA_EXTERNAL_NAMESPACE_END

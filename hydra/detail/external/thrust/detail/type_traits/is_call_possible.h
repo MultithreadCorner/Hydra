@@ -51,12 +51,12 @@ struct clone_constness<const src_type, dest_type>
 
 } // end is_call_possible_detail
 } // end detail
-} // end thrust
+} // end HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
 
 HYDRA_EXTERNAL_NAMESPACE_END
 
-#define __HYDRA_THRUST_DEFINE_IS_CALL_POSSIBLE(trait_name, member_function_name)                                                                \
-__HYDRA_THRUST_DEFINE_HAS_MEMBER_FUNCTION(trait_name##_has_member, member_function_name)                                                        \
+#define __THRUST_DEFINE_IS_CALL_POSSIBLE(trait_name, member_function_name)                                                                \
+__THRUST_DEFINE_HAS_MEMBER_FUNCTION(trait_name##_has_member, member_function_name)                                                        \
                                                                                                                                           \
 template <typename T, typename Signature>                                                                                                 \
 struct trait_name                                                                                                                         \

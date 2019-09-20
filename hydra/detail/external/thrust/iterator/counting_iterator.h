@@ -15,7 +15,7 @@
  */
 
 
-/*! \file hydra/detail/external/thrust/iterator/counting_iterator.h
+/*! \file thrust/iterator/counting_iterator.h
  *  \brief An iterator which returns an increasing incrementable value
  *         when dereferenced
  */
@@ -90,7 +90,7 @@ HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
  *  #include <hydra/detail/external/thrust/functional.h>
  *  #include <hydra/detail/external/thrust/device_vector.h>
  *   
- *  int main(void)
+ *  int main()
  *  {
  *   // this example computes indices for all the nonzero values in a sequence
  *   
@@ -149,7 +149,7 @@ template<typename Incrementable,
      *  counter using its null constructor.
      */
     __hydra_host__ __hydra_device__
-    counting_iterator(void){};
+    counting_iterator() {}
 
     /*! Copy constructor copies the value of another \p counting_iterator into a
      *  new \p counting_iterator.
@@ -186,7 +186,7 @@ template<typename Incrementable,
      */
   private:
     __hydra_host__ __hydra_device__
-    reference dereference(void) const
+    reference dereference() const
     {
       return this->base_reference();
     }
@@ -239,6 +239,8 @@ counting_iterator<Incrementable> make_counting_iterator(Incrementable x)
 /*! \} // end iterators
  */
 
-} // end thrust
+} // end HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
+
 
 HYDRA_EXTERNAL_NAMESPACE_END
+

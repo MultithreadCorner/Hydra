@@ -100,7 +100,7 @@ __hydra_host__ __hydra_device__
 {
   thrust::detail::head_flags<InputIterator, BinaryPredicate> stencil(first, last, binary_pred);
   
-  using   namespace thrust::placeholders;
+  using HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust::placeholders;
   
   return thrust::copy_if(exec, first, last, stencil.begin(), output, _1);
 } // end unique_copy()

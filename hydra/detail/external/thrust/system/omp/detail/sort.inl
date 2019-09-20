@@ -18,11 +18,12 @@
 #include <hydra/detail/external/thrust/detail/config.h>
 
 // don't attempt to #include this file without omp support
-#if (HYDRA_THRUST_DEVICE_COMPILER_IS_OMP_CAPABLE == HYDRA_THRUST_TRUE)
+#if (THRUST_DEVICE_COMPILER_IS_OMP_CAPABLE == THRUST_TRUE)
 #include <omp.h>
 #endif // omp support
 
 #include <hydra/detail/external/thrust/iterator/iterator_traits.h>
+#include <hydra/detail/external/thrust/system/omp/detail/default_decomposition.h>
 #include <hydra/detail/external/thrust/system/detail/generic/select_system.h>
 #include <hydra/detail/external/thrust/sort.h>
 #include <hydra/detail/external/thrust/merge.h>
@@ -106,10 +107,14 @@ void stable_sort(execution_policy<DerivedPolicy> &exec,
   // X Note to the user: If you've found this line due to a compiler error, X
   // X you need to enable OpenMP support in your compiler.                  X
   // ========================================================================
-  HYDRA_THRUST_STATIC_ASSERT( (thrust::detail::depend_on_instantiation<RandomAccessIterator,
-                        (HYDRA_THRUST_DEVICE_COMPILER_IS_OMP_CAPABLE == HYDRA_THRUST_TRUE)>::value) );
+  THRUST_STATIC_ASSERT_MSG(
+    (thrust::detail::depend_on_instantiation<
+      RandomAccessIterator, (THRUST_DEVICE_COMPILER_IS_OMP_CAPABLE == THRUST_TRUE)
+    >::value)
+  , "OpenMP compiler support is not enabled"
+  );
 
-#if (HYDRA_THRUST_DEVICE_COMPILER_IS_OMP_CAPABLE == HYDRA_THRUST_TRUE)
+#if (THRUST_DEVICE_COMPILER_IS_OMP_CAPABLE == THRUST_TRUE)
   typedef typename thrust::iterator_difference<RandomAccessIterator>::type IndexType;
   
   if(first == last)
@@ -165,7 +170,7 @@ void stable_sort(execution_policy<DerivedPolicy> &exec,
       #pragma omp barrier
     }
   }
-#endif // HYDRA_THRUST_DEVICE_COMPILER_IS_OMP_CAPABLE
+#endif // THRUST_DEVICE_COMPILER_IS_OMP_CAPABLE
 }
 
 
@@ -184,10 +189,14 @@ void stable_sort_by_key(execution_policy<DerivedPolicy> &exec,
   // X Note to the user: If you've found this line due to a compiler error, X
   // X you need to enable OpenMP support in your compiler.                  X
   // ========================================================================
-  HYDRA_THRUST_STATIC_ASSERT( (thrust::detail::depend_on_instantiation<RandomAccessIterator1,
-                        (HYDRA_THRUST_DEVICE_COMPILER_IS_OMP_CAPABLE == HYDRA_THRUST_TRUE)>::value) );
+  THRUST_STATIC_ASSERT_MSG(
+    (thrust::detail::depend_on_instantiation<
+      RandomAccessIterator1, (THRUST_DEVICE_COMPILER_IS_OMP_CAPABLE == THRUST_TRUE)
+    >::value)
+  , "OpenMP compiler support is not enabled"
+  );
 
-#if (HYDRA_THRUST_DEVICE_COMPILER_IS_OMP_CAPABLE == HYDRA_THRUST_TRUE)
+#if (THRUST_DEVICE_COMPILER_IS_OMP_CAPABLE == THRUST_TRUE)
   typedef typename thrust::iterator_difference<RandomAccessIterator1>::type IndexType;
   
   if(keys_first == keys_last)
@@ -245,7 +254,7 @@ void stable_sort_by_key(execution_policy<DerivedPolicy> &exec,
       #pragma omp barrier
     }
   }
-#endif // HYDRA_THRUST_DEVICE_COMPILER_IS_OMP_CAPABLE
+#endif // THRUST_DEVICE_COMPILER_IS_OMP_CAPABLE
 }
 
 

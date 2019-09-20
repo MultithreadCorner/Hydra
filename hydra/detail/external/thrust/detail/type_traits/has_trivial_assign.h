@@ -35,21 +35,22 @@ template<typename T> struct has_trivial_assign
   : public integral_constant<
       bool,
       (is_pod<T>::value && !is_const<T>::value)
-#if HYDRA_THRUST_HOST_COMPILER == HYDRA_THRUST_HOST_COMPILER_MSVC
+#if THRUST_HOST_COMPILER == THRUST_HOST_COMPILER_MSVC
       || __has_trivial_assign(T)
-#elif HYDRA_THRUST_HOST_COMPILER == HYDRA_THRUST_HOST_COMPILER_GCC
+#elif THRUST_HOST_COMPILER == THRUST_HOST_COMPILER_GCC
 // only use the intrinsic for >= 4.3
 #if (__GNUC__ >= 4) && (__GNUC_MINOR__ >= 3)
       || __has_trivial_assign(T)
 #endif // GCC VERSION
-#elif HYDRA_THRUST_HOST_COMPILER == HYDRA_THRUST_HOST_COMPILER_CLANG
+#elif THRUST_HOST_COMPILER == THRUST_HOST_COMPILER_CLANG
       || __has_trivial_assign(T)
-#endif // HYDRA_THRUST_HOST_COMPILER
+#endif // THRUST_HOST_COMPILER
     >
 {};
 
 } // end detail
 
-} // end thrust
+} // end HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
+
 
 HYDRA_EXTERNAL_NAMESPACE_END

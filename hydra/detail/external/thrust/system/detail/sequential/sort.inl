@@ -54,7 +54,7 @@ __hydra_host__ __hydra_device__
 void stable_sort(sequential::execution_policy<DerivedPolicy> &exec,
                  RandomAccessIterator first,
                  RandomAccessIterator last,
-                 StrictWeakOrdering /*comp*/,
+                 StrictWeakOrdering,
                  thrust::detail::true_type)
 {
   thrust::system::detail::sequential::stable_primitive_sort(exec, first, last);
@@ -78,7 +78,7 @@ void stable_sort_by_key(sequential::execution_policy<DerivedPolicy> &exec,
                         RandomAccessIterator1 first1,
                         RandomAccessIterator1 last1,
                         RandomAccessIterator2 first2,
-                        StrictWeakOrdering /*comp*/,
+                        StrictWeakOrdering,
                         thrust::detail::true_type)
 {
   // if comp is greater<T> then reverse the keys and values
@@ -202,4 +202,3 @@ void stable_sort_by_key(sequential::execution_policy<DerivedPolicy> &exec,
 } // end namespace system
 } // end HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
 
-HYDRA_EXTERNAL_NAMESPACE_END

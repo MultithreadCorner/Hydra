@@ -1,6 +1,6 @@
 /******************************************************************************
  * Copyright (c) 2011, Duane Merrill.  All rights reserved.
- * Copyright (c) 2011-2017, NVIDIA CORPORATION.  All rights reserved.
+ * Copyright (c) 2011-2018, NVIDIA CORPORATION.  All rights reserved.
  * 
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
@@ -39,7 +39,7 @@
 #include "../../util_namespace.cuh"
 
 /// Optional outer namespace(s)
-CUB_NS_PREFIX
+HYDRA_EXTERNAL_NAMESPACE_BEGIN  THRUST_CUB_NS_PREFIX
 
 /// CUB namespace
 namespace cub {
@@ -100,7 +100,7 @@ struct BlockReduceWarpReductions
 
 
     /// Constructor
-    __hydra_device__ __forceinline__ BlockReduceWarpReductions(
+    __device__ __forceinline__ BlockReduceWarpReductions(
         TempStorage &temp_storage)
     :
         temp_storage(temp_storage.Alias()),
@@ -111,7 +111,7 @@ struct BlockReduceWarpReductions
 
 
     template <bool FULL_TILE, typename ReductionOp, int SUCCESSOR_WARP>
-    __hydra_device__ __forceinline__ T ApplyWarpAggregates(
+    __device__ __forceinline__ T ApplyWarpAggregates(
         ReductionOp                 reduction_op,       ///< [in] Binary scan operator
         T                           warp_aggregate,     ///< [in] <b>[<em>lane</em><sub>0</sub> only]</b> Warp-wide aggregate reduction of input items
         int                         num_valid,          ///< [in] Number of valid elements (may be less than BLOCK_THREADS)
@@ -126,7 +126,7 @@ struct BlockReduceWarpReductions
     }
 
     template <bool FULL_TILE, typename ReductionOp>
-    __hydra_device__ __forceinline__ T ApplyWarpAggregates(
+    __device__ __forceinline__ T ApplyWarpAggregates(
         ReductionOp         /*reduction_op*/,   ///< [in] Binary scan operator
         T                   warp_aggregate,     ///< [in] <b>[<em>lane</em><sub>0</sub> only]</b> Warp-wide aggregate reduction of input items
         int                 /*num_valid*/,      ///< [in] Number of valid elements (may be less than BLOCK_THREADS)
@@ -140,7 +140,7 @@ struct BlockReduceWarpReductions
     template <
         bool                FULL_TILE,
         typename            ReductionOp>
-    __hydra_device__ __forceinline__ T ApplyWarpAggregates(
+    __device__ __forceinline__ T ApplyWarpAggregates(
         ReductionOp         reduction_op,       ///< [in] Binary scan operator
         T                   warp_aggregate,     ///< [in] <b>[<em>lane</em><sub>0</sub> only]</b> Warp-wide aggregate reduction of input items
         int                 num_valid)          ///< [in] Number of valid elements (may be less than BLOCK_THREADS)
@@ -165,7 +165,7 @@ struct BlockReduceWarpReductions
 
     /// Computes a thread block-wide reduction using addition (+) as the reduction operator. The first num_valid threads each contribute one reduction partial.  The return value is only valid for thread<sub>0</sub>.
     template <bool FULL_TILE>
-    __hydra_device__ __forceinline__ T Sum(
+    __device__ __forceinline__ T Sum(
         T                   input,          ///< [in] Calling thread's input partial reductions
         int                 num_valid)      ///< [in] Number of valid elements (may be less than BLOCK_THREADS)
     {
@@ -192,7 +192,7 @@ struct BlockReduceWarpReductions
     template <
         bool                FULL_TILE,
         typename            ReductionOp>
-    __hydra_device__ __forceinline__ T Reduce(
+    __device__ __forceinline__ T Reduce(
         T                   input,              ///< [in] Calling thread's input partial reductions
         int                 num_valid,          ///< [in] Number of valid elements (may be less than BLOCK_THREADS)
         ReductionOp         reduction_op)       ///< [in] Binary reduction operator
@@ -218,5 +218,5 @@ struct BlockReduceWarpReductions
 
 
 }               // CUB namespace
-CUB_NS_POSTFIX  // Optional outer namespace(s)
+THRUST_CUB_NS_POSTFIX HYDRA_EXTERNAL_NAMESPACE_END  // Optional outer namespace(s)
 

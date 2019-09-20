@@ -147,3 +147,4 @@ inline complex<float> sqrt(const complex<float>& z){
 } // HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
 
 HYDRA_EXTERNAL_NAMESPACE_END
+

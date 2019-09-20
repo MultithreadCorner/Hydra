@@ -186,8 +186,10 @@ template<typename Eval, typename Arg1, typename Arg2>
 }; // end result_of
 
 } // end detail
-} // end thrust
+} // end HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
 
 HYDRA_EXTERNAL_NAMESPACE_END
+
+
 #include <hydra/detail/external/thrust/detail/functional/actor.inl>
 

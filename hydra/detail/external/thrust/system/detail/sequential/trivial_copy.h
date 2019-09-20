@@ -41,8 +41,7 @@ __hydra_host__ __hydra_device__
                     T *result)
 {
 #ifndef __CUDA_ARCH__
-  if(first)
-	  std::memmove(result, first, n * sizeof(T));
+  std::memmove(result, first, n * sizeof(T));
   return result + n;
 #else
   return thrust::system::detail::sequential::general_copy_n(first, n, result);
@@ -55,4 +54,3 @@ __hydra_host__ __hydra_device__
 } // end namespace system
 } // end HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
 
-HYDRA_EXTERNAL_NAMESPACE_END

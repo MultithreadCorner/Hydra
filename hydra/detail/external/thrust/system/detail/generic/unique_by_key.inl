@@ -118,7 +118,7 @@ unique_by_key_copy(thrust::execution_policy<ExecutionPolicy> &exec,
 
   thrust::detail::head_flags<InputIterator1, BinaryPredicate> stencil(keys_first, keys_last, binary_pred);
 
-  using   namespace thrust::placeholders;
+  using HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust::placeholders;
   thrust::zip_iterator< thrust::tuple<OutputIterator1, OutputIterator2> > result =
     thrust::copy_if(exec,
                     thrust::make_zip_iterator(thrust::make_tuple(keys_first, values_first)),

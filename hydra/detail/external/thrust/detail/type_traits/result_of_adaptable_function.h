@@ -61,6 +61,6 @@ template<typename Functor, typename Arg1, typename Arg2>
 
 
 } // end detail
-} // end thrust
+} // end HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
 
 HYDRA_EXTERNAL_NAMESPACE_END

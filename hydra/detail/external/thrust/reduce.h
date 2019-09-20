@@ -15,7 +15,7 @@
  */
 
 
-/*! \file reduce.h
+/*! \file thrust/reduce.h
  *  \brief Functions for reducing a range to a single value
  */
 
@@ -782,6 +782,7 @@ template<typename InputIterator1,
 } // end HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
 
 HYDRA_EXTERNAL_NAMESPACE_END
+
 
 #include <hydra/detail/external/thrust/detail/reduce.inl>
 

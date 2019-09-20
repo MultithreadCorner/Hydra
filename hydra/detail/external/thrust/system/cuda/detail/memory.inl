@@ -1,5 +1,5 @@
 /*
- *  Copyright 2008-2013 NVIDIA Corporation
+ *  Copyright 2008-2018 NVIDIA Corporation
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -14,6 +14,8 @@
  *  limitations under the License.
  */
 
+#pragma once
+
 #include <hydra/detail/external/thrust/detail/config.h>
 #include <hydra/detail/external/thrust/system/cuda/memory.h>
 #include <hydra/detail/external/thrust/system/cuda/detail/malloc_and_free.h>
@@ -21,60 +23,21 @@
 
 HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
 {
-
-// XXX WAR an issue with MSVC 2005 (cl v14.00) incorrectly implementing
-//     pointer_raw_pointer for pointer by specializing it here
-//     note that we specialize it here, before the use of raw_pointer_cast
-//     below, which causes pointer_raw_pointer's instantiation
-#if (HYDRA_THRUST_HOST_COMPILER == HYDRA_THRUST_HOST_COMPILER_MSVC) && (_MSC_VER <= 1400)
-namespace detail
+namespace cuda_cub
 {
-
-template<typename T>
-  struct pointer_raw_pointer< thrust::cuda::pointer<T> >
-{
-  typedef typename thrust::cuda::pointer<T>::raw_pointer type;
-}; // end pointer_raw_pointer
-
-} // end detail
-#endif
-
-namespace system
-{
-namespace cuda
-{
-
-template <typename T>
-template <typename OtherT>
-__hydra_host__ __hydra_device__ reference<T> &reference<T>::operator=(
-    const reference<OtherT> &other) {
-  return super_t::operator=(other);
-} // end reference::operator=()
-
-template <typename T>
-__hydra_host__ __hydra_device__ reference<T> &reference<T>::operator=(const value_type &x) {
-  return super_t::operator=(x);
-} // end reference::operator=()
-
-template<typename T>
-__hydra_host__ __hydra_device__
-void swap(reference<T> a, reference<T> b)
-{
-  a.swap(b);
-} // end swap()
 
 __hydra_host__ __hydra_device__
 pointer<void> malloc(std::size_t n)
 {
   tag cuda_tag;
-  return pointer<void>(thrust::system::cuda::detail::malloc(cuda_tag, n));
+  return pointer<void>(thrust::cuda_cub::malloc(cuda_tag, n));
 } // end malloc()
 
 template<typename T>
 __hydra_host__ __hydra_device__
 pointer<T> malloc(std::size_t n)
 {
-  pointer<void> raw_ptr = thrust::system::cuda::malloc(sizeof(T) * n);
+  pointer<void> raw_ptr = thrust::cuda_cub::malloc(sizeof(T) * n);
   return pointer<T>(reinterpret_cast<T*>(raw_ptr.get()));
 } // end malloc()
 
@@ -82,11 +45,10 @@ __hydra_host__ __hydra_device__
 void free(pointer<void> ptr)
 {
   tag cuda_tag;
-  return thrust::system::cuda::detail::free(cuda_tag, ptr.get());
+  return thrust::cuda_cub::free(cuda_tag, ptr.get());
 } // end free()
 
-} // end cuda
-} // end system
-} // end thrust
+} // end cuda_cub
+} // end HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
 
 HYDRA_EXTERNAL_NAMESPACE_END

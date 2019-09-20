@@ -54,7 +54,7 @@ __hydra_host__ __hydra_device__
 void iter_swap(ForwardIterator1 iter1, ForwardIterator2 iter2)
 {
   // XXX this isn't correct because it doesn't use thrust::swap
-  using   namespace thrust::detail;
+  using HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust::detail;
 
   typedef typename thrust::iterator_value<ForwardIterator1>::type T;
 
@@ -337,4 +337,3 @@ __hydra_host__ __hydra_device__
 } // end namespace system
 } // end HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
 
-HYDRA_EXTERNAL_NAMESPACE_END

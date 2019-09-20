@@ -1,6 +1,6 @@
 /******************************************************************************
  * Copyright (c) 2011, Duane Merrill.  All rights reserved.
- * Copyright (c) 2011-2017, NVIDIA CORPORATION.  All rights reserved.
+ * Copyright (c) 2011-2018, NVIDIA CORPORATION.  All rights reserved.
  * 
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
@@ -37,7 +37,7 @@
 #include "../util_debug.cuh"
 
 /// Optional outer namespace(s)
-CUB_NS_PREFIX
+HYDRA_EXTERNAL_NAMESPACE_BEGIN  THRUST_CUB_NS_PREFIX
 
 /// CUB namespace
 namespace cub {
@@ -179,14 +179,14 @@ public:
 
 
     /// Drain \p num_items from the queue.  Returns offset from which to read items.  To be called from CUDA kernel.
-    __hydra_device__ __forceinline__ OffsetT Drain(OffsetT num_items)
+    __device__ __forceinline__ OffsetT Drain(OffsetT num_items)
     {
         return atomicAdd(d_counters + DRAIN, num_items);
     }
 
 
     /// Fill \p num_items into the queue.  Returns offset from which to write items.    To be called from CUDA kernel.
-    __hydra_device__ __forceinline__ OffsetT Fill(OffsetT num_items)
+    __device__ __forceinline__ OffsetT Fill(OffsetT num_items)
     {
         return atomicAdd(d_counters + FILL, num_items);
     }
@@ -215,6 +215,6 @@ __global__ void FillAndResetDrainKernel(
 /** @} */       // end group GridModule
 
 }               // CUB namespace
-CUB_NS_POSTFIX  // Optional outer namespace(s)
+THRUST_CUB_NS_POSTFIX HYDRA_EXTERNAL_NAMESPACE_END  // Optional outer namespace(s)
 
 

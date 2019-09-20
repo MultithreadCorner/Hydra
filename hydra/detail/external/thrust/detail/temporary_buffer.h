@@ -21,6 +21,7 @@
 #include <hydra/detail/external/thrust/pair.h>
 #include <hydra/detail/external/thrust/detail/pointer.h>
 #include <hydra/detail/external/thrust/detail/raw_pointer_cast.h>
+#include <hydra/detail/external/thrust/detail/execute_with_allocator.h>
 #include <hydra/detail/external/thrust/system/detail/generic/temporary_buffer.h>
 #include <hydra/detail/external/thrust/system/detail/adl/temporary_buffer.h>
 
@@ -55,6 +56,7 @@ __hydra_host__ __hydra_device__
   thrust::pair<thrust::pointer<T,DerivedPolicy>, typename thrust::pointer<T,DerivedPolicy>::difference_type>
     get_temporary_buffer(const thrust::detail::execution_policy_base<DerivedPolicy> &exec, typename thrust::pointer<T,DerivedPolicy>::difference_type n)
 {
+  using thrust::detail::get_temporary_buffer; // execute_with_allocator
   using thrust::system::detail::generic::get_temporary_buffer;
 
   return thrust::detail::get_temporary_buffer_detail::down_cast_pair<T,DerivedPolicy>(get_temporary_buffer<T>(thrust::detail::derived_cast(thrust::detail::strip_const(exec)), n));
@@ -66,12 +68,14 @@ template<typename DerivedPolicy, typename Pointer>
 __hydra_host__ __hydra_device__
   void return_temporary_buffer(const thrust::detail::execution_policy_base<DerivedPolicy> &exec, Pointer p)
 {
+  using thrust::detail::return_temporary_buffer; // execute_with_allocator
   using thrust::system::detail::generic::return_temporary_buffer;
 
   return return_temporary_buffer(thrust::detail::derived_cast(thrust::detail::strip_const(exec)), p);
 } // end return_temporary_buffer()
 
 
-} // end thrust
+} // end HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
+
 
 HYDRA_EXTERNAL_NAMESPACE_END

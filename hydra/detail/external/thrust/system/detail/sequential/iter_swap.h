@@ -31,9 +31,9 @@ namespace sequential
 {
 
 
-template<typename Pointer1, typename Pointer2>
+template<typename DerivedPolicy, typename Pointer1, typename Pointer2>
 __hydra_host__ __hydra_device__
-  void iter_swap(tag, Pointer1 a, Pointer2 b)
+  void iter_swap(sequential::execution_policy<DerivedPolicy> &, Pointer1 a, Pointer2 b)
 {
   using thrust::swap;
   swap(*thrust::raw_pointer_cast(a), *thrust::raw_pointer_cast(b));
@@ -43,6 +43,5 @@ __hydra_host__ __hydra_device__
 } // end sequential
 } // end detail
 } // end system
-} // end thrust
+} // end HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
 
-HYDRA_EXTERNAL_NAMESPACE_END

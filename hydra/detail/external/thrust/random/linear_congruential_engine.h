@@ -289,9 +289,10 @@ using random::linear_congruential_engine;
 using random::minstd_rand;
 using random::minstd_rand0;
 
-} // end thrust
+} // end HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
 
 HYDRA_EXTERNAL_NAMESPACE_END
+
 
 #include <hydra/detail/external/thrust/random/detail/linear_congruential_engine.inl>
 

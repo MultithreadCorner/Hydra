@@ -1,6 +1,6 @@
 /******************************************************************************
  * Copyright (c) 2011, Duane Merrill.  All rights reserved.
- * Copyright (c) 2011-2017, NVIDIA CORPORATION.  All rights reserved.
+ * Copyright (c) 2011-2018, NVIDIA CORPORATION.  All rights reserved.
  * 
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
@@ -40,7 +40,7 @@
 #include "../../util_namespace.cuh"
 
 /// Optional outer namespace(s)
-CUB_NS_PREFIX
+HYDRA_EXTERNAL_NAMESPACE_BEGIN  THRUST_CUB_NS_PREFIX
 
 /// CUB namespace
 namespace cub {
@@ -109,7 +109,7 @@ struct WarpReduceSmem
      ******************************************************************************/
 
     /// Constructor
-    __hydra_device__ __forceinline__ WarpReduceSmem(
+    __device__ __forceinline__ WarpReduceSmem(
         TempStorage     &temp_storage)
     :
         temp_storage(temp_storage.Alias()),
@@ -139,7 +139,7 @@ struct WarpReduceSmem
         int                 FOLDED_ITEMS_PER_LANE,  ///< Number of items folded into each lane
         typename            ReductionOp,
         int                 STEP>
-    __hydra_device__ __forceinline__ T ReduceStep(
+    __device__ __forceinline__ T ReduceStep(
         T                   input,                  ///< [in] Calling thread's input
         int                 folded_items_per_warp,  ///< [in] Total number of valid items folded into each logical warp
         ReductionOp         reduction_op,           ///< [in] Reduction operator
@@ -172,7 +172,7 @@ struct WarpReduceSmem
         bool                ALL_LANES_VALID,            ///< Whether all lanes in each warp are contributing a valid fold of items
         int                 FOLDED_ITEMS_PER_LANE,      ///< Number of items folded into each lane
         typename            ReductionOp>
-    __hydra_device__ __forceinline__ T ReduceStep(
+    __device__ __forceinline__ T ReduceStep(
         T                   input,                      ///< [in] Calling thread's input
         int                 /*folded_items_per_warp*/,  ///< [in] Total number of valid items folded into each logical warp
         ReductionOp         /*reduction_op*/,           ///< [in] Reduction operator
@@ -194,7 +194,7 @@ struct WarpReduceSmem
         bool            HEAD_SEGMENTED,     ///< Whether flags indicate a segment-head or a segment-tail
         typename        FlagT,
         typename        ReductionOp>
-    __hydra_device__ __forceinline__ T SegmentedReduce(
+    __device__ __forceinline__ T SegmentedReduce(
         T               input,                  ///< [in] Calling thread's input
         FlagT           flag,                   ///< [in] Whether or not the current lane is a segment head/tail
         ReductionOp     reduction_op,           ///< [in] Reduction operator
@@ -253,7 +253,7 @@ struct WarpReduceSmem
         bool            HEAD_SEGMENTED,     ///< Whether flags indicate a segment-head or a segment-tail
         typename        FlagT,
         typename        ReductionOp>
-    __hydra_device__ __forceinline__ T SegmentedReduce(
+    __device__ __forceinline__ T SegmentedReduce(
         T               input,                  ///< [in] Calling thread's input
         FlagT           flag,                   ///< [in] Whether or not the current lane is a segment head/tail
         ReductionOp     reduction_op,           ///< [in] Reduction operator
@@ -343,7 +343,7 @@ struct WarpReduceSmem
         bool                ALL_LANES_VALID,        ///< Whether all lanes in each warp are contributing a valid fold of items
         int                 FOLDED_ITEMS_PER_LANE,  ///< Number of items folded into each lane
         typename            ReductionOp>
-    __hydra_device__ __forceinline__ T Reduce(
+    __device__ __forceinline__ T Reduce(
         T                   input,                  ///< [in] Calling thread's input
         int                 folded_items_per_warp,  ///< [in] Total number of valid items folded into each logical warp
         ReductionOp         reduction_op)           ///< [in] Reduction operator
@@ -359,7 +359,7 @@ struct WarpReduceSmem
         bool            HEAD_SEGMENTED,     ///< Whether flags indicate a segment-head or a segment-tail
         typename        FlagT,
         typename        ReductionOp>
-    __hydra_device__ __forceinline__ T SegmentedReduce(
+    __device__ __forceinline__ T SegmentedReduce(
         T               input,              ///< [in] Calling thread's input
         FlagT            flag,               ///< [in] Whether or not the current lane is a segment head/tail
         ReductionOp     reduction_op)       ///< [in] Reduction operator
@@ -372,4 +372,4 @@ struct WarpReduceSmem
 
 
 }               // CUB namespace
-CUB_NS_POSTFIX  // Optional outer namespace(s)
+THRUST_CUB_NS_POSTFIX HYDRA_EXTERNAL_NAMESPACE_END  // Optional outer namespace(s)

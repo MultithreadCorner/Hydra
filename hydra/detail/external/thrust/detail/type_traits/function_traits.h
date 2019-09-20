@@ -39,13 +39,13 @@ namespace detail
 
 // some metafunctions which check for the nested types of the adaptable functions
 
-__HYDRA_THRUST_DEFINE_HAS_NESTED_TYPE(has_result_type, result_type)
+__THRUST_DEFINE_HAS_NESTED_TYPE(has_result_type, result_type)
 
-__HYDRA_THRUST_DEFINE_HAS_NESTED_TYPE(has_argument_type, argument_type)
+__THRUST_DEFINE_HAS_NESTED_TYPE(has_argument_type, argument_type)
 
-__HYDRA_THRUST_DEFINE_HAS_NESTED_TYPE(has_first_argument_type, first_argument_type)
+__THRUST_DEFINE_HAS_NESTED_TYPE(has_first_argument_type, first_argument_type)
 
-__HYDRA_THRUST_DEFINE_HAS_NESTED_TYPE(has_second_argument_type, second_argument_type)
+__THRUST_DEFINE_HAS_NESTED_TYPE(has_second_argument_type, second_argument_type)
 
 
 template<typename AdaptableBinaryFunction>
@@ -93,5 +93,6 @@ template<typename T> struct is_commutative< typename thrust::bit_xor<T>     > : 
 
 } // end namespace detail
 } // end HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
+
 
 HYDRA_EXTERNAL_NAMESPACE_END

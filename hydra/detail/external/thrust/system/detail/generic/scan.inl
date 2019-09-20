@@ -111,14 +111,16 @@ template<typename ExecutionPolicy,
          typename OutputIterator,
          typename BinaryFunction>
 __hydra_host__ __hydra_device__
-  OutputIterator inclusive_scan(thrust::execution_policy<ExecutionPolicy> &/*exec*/,
-                                InputIterator /*first*/,
-                                InputIterator /*last*/,
+  OutputIterator inclusive_scan(thrust::execution_policy<ExecutionPolicy> &,
+                                InputIterator,
+                                InputIterator,
                                 OutputIterator result,
-                                BinaryFunction /*binary_op*/)
+                                BinaryFunction)
 {
-  // unimplemented primitive
-  HYDRA_THRUST_STATIC_ASSERT( (thrust::detail::depend_on_instantiation<InputIterator, false>::value) );
+  THRUST_STATIC_ASSERT_MSG(
+    (thrust::detail::depend_on_instantiation<InputIterator, false>::value)
+  , "unimplemented for this system"
+  );
   return result;
 } // end inclusive_scan
 
@@ -129,15 +131,17 @@ template<typename ExecutionPolicy,
          typename T,
          typename BinaryFunction>
 __hydra_host__ __hydra_device__
-  OutputIterator exclusive_scan(thrust::execution_policy<ExecutionPolicy> &/*exec*/,
-                                InputIterator /*first*/,
-                                InputIterator /*last*/,
+  OutputIterator exclusive_scan(thrust::execution_policy<ExecutionPolicy> &,
+                                InputIterator,
+                                InputIterator,
                                 OutputIterator result,
-                                T /*init*/,
-                                BinaryFunction /*binary_op*/)
+                                T,
+                                BinaryFunction)
 {
-  // unimplemented primitive
-  HYDRA_THRUST_STATIC_ASSERT( (thrust::detail::depend_on_instantiation<InputIterator, false>::value) );
+  THRUST_STATIC_ASSERT_MSG(
+    (thrust::detail::depend_on_instantiation<InputIterator, false>::value)
+  , "unimplemented for this system"
+  );
   return result;
 } // end exclusive_scan()
 

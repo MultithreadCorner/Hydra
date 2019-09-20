@@ -220,4 +220,5 @@ template<typename ForwardIterator, typename T>
 
 } // end HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
 
+
 HYDRA_EXTERNAL_NAMESPACE_END

@@ -18,7 +18,7 @@
 
 #include <hydra/detail/external/thrust/detail/type_traits.h>
 
-#define __HYDRA_THRUST_DEFINE_HAS_NESTED_TYPE(trait_name, nested_type_name) \
+#define __THRUST_DEFINE_HAS_NESTED_TYPE(trait_name, nested_type_name) \
 template<typename T> \
   struct trait_name  \
 {                    \

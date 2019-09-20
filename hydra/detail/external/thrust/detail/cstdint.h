@@ -16,7 +16,7 @@
 
 #pragma once
 
-#if (HYDRA_THRUST_HOST_COMPILER == HYDRA_THRUST_HOST_COMPILER_GCC) || (HYDRA_THRUST_HOST_COMPILER == HYDRA_THRUST_HOST_COMPILER_CLANG)
+#if (THRUST_HOST_COMPILER == THRUST_HOST_COMPILER_GCC) || (THRUST_HOST_COMPILER == THRUST_HOST_COMPILER_CLANG)
 #include <stdint.h>
 #endif
 
@@ -25,7 +25,7 @@ HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
 namespace detail
 {
 
-#if (HYDRA_THRUST_HOST_COMPILER == HYDRA_THRUST_HOST_COMPILER_MSVC)
+#if (THRUST_HOST_COMPILER == THRUST_HOST_COMPILER_MSVC)
 
 #if (_MSC_VER < 1300)
    typedef signed   char     int8_t;
@@ -75,6 +75,7 @@ typedef divine_intptr_t<>::type   intptr_t;
 typedef divine_uintptr_t<>::type  uintptr_t;
 
 } // end detail
-} // end thrust
+} // end HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
+
 
 HYDRA_EXTERNAL_NAMESPACE_END

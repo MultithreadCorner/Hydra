@@ -45,7 +45,7 @@ template<typename Value,
   // the incrementable type is int unless otherwise specified
   typedef typename thrust::detail::ia_dflt_help<
     Incrementable,
-    thrust::detail::identity_<int>
+    thrust::detail::identity_<thrust::detail::intmax_t>
   >::type incrementable;
 
   typedef typename thrust::counting_iterator<
@@ -66,6 +66,8 @@ template<typename Value,
 
 } // end detail
   
-} // end thrust
+} // end HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
+
 
 HYDRA_EXTERNAL_NAMESPACE_END
+

@@ -16,20 +16,17 @@
 
 #pragma once
 
+#if THRUST_DEVICE_COMPILER == THRUST_DEVICE_COMPILER_NVCC
 #include <hydra/detail/external/thrust/detail/config.h>
-#include <hydra/detail/external/thrust/system/cuda/detail/execution_policy.h>
-#include <hydra/detail/external/thrust/system/cuda/detail/assign_value.h>
+#include <hydra/detail/external/thrust/system/cuda/config.h>
+#include <hydra/detail/external/thrust/system/cuda/detail/cross_system.h>
 #include <hydra/detail/external/thrust/detail/raw_pointer_cast.h>
 #include <hydra/detail/external/thrust/iterator/iterator_traits.h>
 
-HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
-{
-namespace system
-{
-namespace cuda
-{
-namespace detail
-{
+HYDRA_EXTERNAL_NAMESPACE_BEGIN
+
+THRUST_BEGIN_NS
+namespace cuda_cub {
 
 
 namespace
@@ -46,8 +43,7 @@ inline __hydra_host__ __hydra_device__
   // XXX war nvbugs/881631
   struct war_nvbugs_881631
   {
-
-    __hydra_host__  inline static result_type host_path(execution_policy<DerivedPolicy> &exec, Pointer ptr)
+    __hydra_host__ inline static result_type host_path(execution_policy<DerivedPolicy> &exec, Pointer ptr)
     {
       // when called from host code, implement with assign_value
       // note that this requires a type with default constructor
@@ -60,7 +56,7 @@ inline __hydra_host__ __hydra_device__
       return result;
     }
 
-    __hydra_device__ inline static result_type device_path(execution_policy<DerivedPolicy> &, Pointer ptr)
+    __device__ inline static result_type device_path(execution_policy<DerivedPolicy> &, Pointer ptr)
     {
       // when called from device code, just do simple deref
       return *thrust::raw_pointer_cast(ptr);
@@ -87,9 +83,9 @@ inline __hydra_host__ __hydra_device__
 } // end get_value()
 
 
-} // end detail
-} // end cuda
-} // end system
-} // end thrust
+} // end cuda_cub
+THRUST_END_NS
 
 HYDRA_EXTERNAL_NAMESPACE_END
+
+#endif

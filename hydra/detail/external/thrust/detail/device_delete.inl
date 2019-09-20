@@ -43,6 +43,7 @@ template<typename T>
   thrust::device_free(ptr);
 } // end device_delete()
 
-} // end thrust
+} // end HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
+
 
 HYDRA_EXTERNAL_NAMESPACE_END

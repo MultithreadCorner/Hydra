@@ -70,7 +70,7 @@ template<typename T>
 
   template<typename U>
   __hydra_host__ __hydra_device__
-  T operator()(U &/*x*/)
+  T operator()(U &)
   {
     return c;
   } // end operator()()

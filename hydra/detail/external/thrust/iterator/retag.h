@@ -14,7 +14,7 @@
  *  limitations under the License.
  */
 
-/*! \file hydra/detail/external/thrust/iterator/retag.h
+/*! \file thrust/iterator/retag.h
  *  \brief Functionality for altering an iterator's associated system.
  */
 
@@ -66,6 +66,8 @@ unspecified_iterator_type retag(Iterator iter);
  */
 
 
-} // end thrust
+} // end HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
+
 
 HYDRA_EXTERNAL_NAMESPACE_END
+

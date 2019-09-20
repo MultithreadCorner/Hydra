@@ -170,4 +170,5 @@ minmax_element(ForwardIterator first, ForwardIterator last, BinaryPredicate comp
 
 } // end HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
 
+
 HYDRA_EXTERNAL_NAMESPACE_END

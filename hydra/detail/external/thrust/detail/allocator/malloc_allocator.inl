@@ -50,7 +50,7 @@ template<typename T, typename System, typename Pointer>
 
 template<typename T, typename System, typename Pointer>
   void malloc_allocator<T,System,Pointer>
-    ::deallocate(typename malloc_allocator<T,System,Pointer>::pointer p, typename malloc_allocator<T,System,Pointer>::size_type /*n*/)
+    ::deallocate(typename malloc_allocator<T,System,Pointer>::pointer p, typename malloc_allocator<T,System,Pointer>::size_type)
 {
   using thrust::system::detail::generic::select_system;
 
@@ -60,6 +60,6 @@ template<typename T, typename System, typename Pointer>
 
 
 } // end detail
-} // end thrust
+} // end HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
 
 HYDRA_EXTERNAL_NAMESPACE_END

@@ -58,14 +58,16 @@ template<typename ExecutionPolicy,
          typename OutputType,
          typename BinaryFunction>
 __hydra_host__ __hydra_device__
-  OutputType reduce(thrust::execution_policy<ExecutionPolicy> &/*exec*/,
-                    RandomAccessIterator /*first*/,
-                    RandomAccessIterator /*last*/,
-                    OutputType /*init*/,
-                    BinaryFunction /*binary_op*/)
+  OutputType reduce(thrust::execution_policy<ExecutionPolicy> &,
+                    RandomAccessIterator,
+                    RandomAccessIterator,
+                    OutputType,
+                    BinaryFunction)
 {
-  // unimplemented
-  HYDRA_THRUST_STATIC_ASSERT( (thrust::detail::depend_on_instantiation<RandomAccessIterator, false>::value) );
+  THRUST_STATIC_ASSERT_MSG(
+    (thrust::detail::depend_on_instantiation<RandomAccessIterator, false>::value)
+  , "unimplemented for this system"
+  );
   return OutputType();
 } // end reduce()
 

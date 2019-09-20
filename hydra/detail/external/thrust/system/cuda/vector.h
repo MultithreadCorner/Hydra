@@ -14,7 +14,7 @@
  *  limitations under the License.
  */
 
-/*! \file hydra/detail/external/thrust/system/cuda/vector.h
+/*! \file thrust/system/cuda/vector.h
  *  \brief A dynamically-sizable array of elements which reside in memory available to
  *         Thrust's CUDA system.
  */
@@ -32,27 +32,25 @@ HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
 // forward declaration of host_vector
 template<typename T, typename Allocator> class host_vector;
 
-namespace system
-{
-namespace cuda
+namespace cuda_cub
 {
 
 // XXX upon c++11
 // template<typename T, typename Allocator = allocator<T> > using vector = thrust::detail::vector_base<T,Allocator>;
 
-/*! \p cuda::vector is a container that supports random access to elements,
+/*! \p cuda_bulk::vector is a container that supports random access to elements,
  *  constant time removal of elements at the end, and linear time insertion
  *  and removal of elements at the beginning or in the middle. The number of
- *  elements in a \p cuda::vector may vary dynamically; memory management is
- *  automatic. The elements contained in a \p cuda::vector reside in memory
- *  available to the \p cuda system.
+ *  elements in a \p cuda_bulk::vector may vary dynamically; memory management is
+ *  automatic. The elements contained in a \p cuda_bulk::vector reside in memory
+ *  available to the \p cuda_bulk system.
  *
- *  \tparam T The element type of the \p cuda::vector.
- *  \tparam Allocator The allocator type of the \p cuda::vector. Defaults to \p cuda::allocator.
+ *  \tparam T The element type of the \p cuda_bulk::vector.
+ *  \tparam Allocator The allocator type of the \p cuda_bulk::vector. Defaults to \p cuda_bulk::allocator.
  *
  *  \see http://www.sgi.com/tech/stl/Vector.html
  *  \see host_vector For the documentation of the complete interface which is
- *                   shared by \p cuda::vector
+ *                   shared by \p cuda_bulk::vector
  *  \see device_vector
  */
 template<typename T, typename Allocator = allocator<T> >
@@ -75,32 +73,25 @@ template<typename T, typename Allocator = allocator<T> >
   /*! \endcond
    */
 
-    /*! This constructor creates an empty \p cuda::vector.
+    /*! This constructor creates an empty \p cuda_bulk::vector.
      */
     vector();
 
-    /*! This constructor creates a \p cuda::vector with \p n default-constructed elements.
-     *  \param n The size of the \p cuda::vector to create.
+    /*! This constructor creates a \p cuda_bulk::vector with \p n default-constructed elements.
+     *  \param n The size of the \p cuda_bulk::vector to create.
      */
     explicit vector(size_type n);
 
-    /*! This constructor creates a \p cuda::vector with \p n copies of \p value.
-     *  \param n The size of the \p cuda::vector to create.
+    /*! This constructor creates a \p cuda_bulk::vector with \p n copies of \p value.
+     *  \param n The size of the \p cuda_bulk::vector to create.
      *  \param value An element to copy.
      */
     explicit vector(size_type n, const value_type &value);
 
-    /*! Copy constructor copies from another \p cuda::vector.
-     *  \param x The other \p cuda::vector to copy.
+    /*! Copy constructor copies from another \p cuda_bulk::vector.
+     *  \param x The other \p cuda_bulk::vector to copy.
      */
     vector(const vector &x);
-
-  #if __cplusplus >= 201103L
-    /*! Move constructor moves another \p cuda::vector.
-     *  \param x The other \p cuda::vector to move from.
-     */
-    vector(vector &&x);
-  #endif
 
     /*! This constructor copies from another Thrust vector-like object.
      *  \param x The other object to copy from.
@@ -114,7 +105,7 @@ template<typename T, typename Allocator = allocator<T> >
     template<typename OtherT, typename OtherAllocator>
     vector(const std::vector<OtherT,OtherAllocator> &x);
 
-    /*! This constructor creates a \p cuda::vector by copying from a range.
+    /*! This constructor creates a \p cuda_bulk::vector by copying from a range.
      *  \param first The beginning of the range.
      *  \param last The end of the range.
      */
@@ -122,21 +113,7 @@ template<typename T, typename Allocator = allocator<T> >
     vector(InputIterator first, InputIterator last);
 
     // XXX vector_base should take a Derived type so we don't have to define these superfluous assigns
-
-    /*! Copy assignment operator assigns from another \p cuda::vector.
-     *  \param x The other object to assign from.
-     *  \return <tt>*this</tt>
-     */
-    vector &operator=(const vector &x);
-
-  #if __cplusplus >= 201103L
-    /*! Move assignment operator moves another \p cuda::vector.
-     *  \param x The other \p cuda::vector to move from.
-     *  \return <tt>*this</tt>
-     */
-     vector &operator=(vector &&x);
-  #endif
-
+    //
     /*! Assignment operator assigns from a \c std::vector.
      *  \param x The \c std::vector to assign from.
      *  \return <tt>*this</tt>
@@ -152,20 +129,26 @@ template<typename T, typename Allocator = allocator<T> >
     vector &operator=(const thrust::detail::vector_base<OtherT,OtherAllocator> &x);
 }; // end vector
 
-} // end cuda
-} // end system
+} // end cuda_cub
 
-// alias system::cuda names at top-level
+// alias system::cuda_bulk names at top-level
 namespace cuda
 {
 
-using thrust::system::cuda::vector;
+using thrust::cuda_cub::vector;
 
-} // end cuda
+} // end cuda_bulk
 
-} // end thrust
+namespace system {
+namespace cuda {
+using thrust::cuda_cub::vector;
+}
+}
+
+} // end HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
 
 HYDRA_EXTERNAL_NAMESPACE_END
+
 
 #include <hydra/detail/external/thrust/system/cuda/detail/vector.inl>
 

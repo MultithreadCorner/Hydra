@@ -42,7 +42,7 @@ template<typename DerivedPolicy,
          typename OutputIterator,
          typename BinaryPredicate>
 __hydra_host__ __hydra_device__
-  OutputIterator unique_copy(sequential::execution_policy<DerivedPolicy> &/*exec*/,
+  OutputIterator unique_copy(sequential::execution_policy<DerivedPolicy> &,
                              InputIterator first,
                              InputIterator last,
                              OutputIterator output,
@@ -95,4 +95,3 @@ __hydra_host__ __hydra_device__
 } // end namespace system
 } // end HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
 
-HYDRA_EXTERNAL_NAMESPACE_END

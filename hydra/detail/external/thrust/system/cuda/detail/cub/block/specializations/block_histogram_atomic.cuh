@@ -1,6 +1,6 @@
 /******************************************************************************
  * Copyright (c) 2011, Duane Merrill.  All rights reserved.
- * Copyright (c) 2011-2017, NVIDIA CORPORATION.  All rights reserved.
+ * Copyright (c) 2011-2018, NVIDIA CORPORATION.  All rights reserved.
  * 
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
@@ -36,7 +36,7 @@
 #include "../../util_namespace.cuh"
 
 /// Optional outer namespace(s)
-CUB_NS_PREFIX
+HYDRA_EXTERNAL_NAMESPACE_BEGIN  THRUST_CUB_NS_PREFIX
 
 /// CUB namespace
 namespace cub {
@@ -53,7 +53,7 @@ struct BlockHistogramAtomic
 
 
     /// Constructor
-    __hydra_device__ __forceinline__ BlockHistogramAtomic(
+    __device__ __forceinline__ BlockHistogramAtomic(
         TempStorage &temp_storage)
     {}
 
@@ -63,7 +63,7 @@ struct BlockHistogramAtomic
         typename            T,
         typename            CounterT,     
         int                 ITEMS_PER_THREAD>
-    __hydra_device__ __forceinline__ void Composite(
+    __device__ __forceinline__ void Composite(
         T                   (&items)[ITEMS_PER_THREAD],     ///< [in] Calling thread's input values to histogram
         CounterT             histogram[BINS])                 ///< [out] Reference to shared/device-accessible memory histogram
     {
@@ -78,5 +78,5 @@ struct BlockHistogramAtomic
 };
 
 }               // CUB namespace
-CUB_NS_POSTFIX  // Optional outer namespace(s)
+THRUST_CUB_NS_POSTFIX HYDRA_EXTERNAL_NAMESPACE_END  // Optional outer namespace(s)
 

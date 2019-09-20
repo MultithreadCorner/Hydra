@@ -38,4 +38,5 @@ struct is_discard_iterator< thrust::discard_iterator<System> >
 } // end namespace detail
 } // end HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
 
+
 HYDRA_EXTERNAL_NAMESPACE_END

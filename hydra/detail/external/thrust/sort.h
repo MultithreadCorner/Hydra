@@ -15,7 +15,7 @@
  */
 
 
-/*! \file sort.h
+/*! \file thrust/sort.h
  *  \brief Functions for reorganizing ranges into sorted order
  */
 
@@ -1359,6 +1359,7 @@ template<typename ForwardIterator, typename Compare>
 } // end HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
 
 HYDRA_EXTERNAL_NAMESPACE_END
+
 
 #include <hydra/detail/external/thrust/detail/sort.inl>
 

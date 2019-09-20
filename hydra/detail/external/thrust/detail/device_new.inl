@@ -58,4 +58,5 @@ template<typename T>
 
 } // thrust
 
+
 HYDRA_EXTERNAL_NAMESPACE_END

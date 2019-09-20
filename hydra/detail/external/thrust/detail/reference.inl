@@ -103,7 +103,6 @@ template<typename Element, typename Pointer, typename Derived>
 {
   using thrust::system::detail::generic::select_system;
   return strip_const_get_value(select_system(*system));
-
 } // end convert_to_value_type()
 
 
@@ -114,23 +113,13 @@ template<typename Element, typename Pointer, typename Derived>
 {
   typedef typename thrust::iterator_system<pointer>::type System;
 
-
-#if !(defined(HYDRA_THRUST_DEVICE_INTERPRETER)||defined(HYDRA_THRUST_HOST_INTERPRETER))
   // XXX avoid default-constructing a system
   // XXX use null a reference for dispatching
   // XXX this assumes that the eventual invocation of
   // XXX get_value will not access system state
-
   System *system = 0;
+
   return convert_to_value_type(system);
-
-#else
-
-  System system{};
-  return convert_to_value_type(&system);
-
-#endif
-
 } // end reference::operator value_type ()
 
 
@@ -170,8 +159,6 @@ template<typename Element, typename Pointer, typename Derived>
   typedef typename thrust::iterator_system<pointer>::type      System1;
   typedef typename thrust::iterator_system<OtherPointer>::type System2;
 
-
-#if !(defined(HYDRA_THRUST_DEVICE_INTERPRETER)||defined(HYDRA_THRUST_HOST_INTERPRETER))
   // XXX avoid default-constructing a system
   // XXX use null references for dispatching
   // XXX this assumes that the eventual invocation of
@@ -180,13 +167,6 @@ template<typename Element, typename Pointer, typename Derived>
   System2 *system2 = 0;
 
   assign_from(system1, system2, src);
-#else
-    System1 system1{};
-    System2 system2{};
-
-    assign_from(&system1, &system2, src);
-#endif
-
 } // end assign_from()
 
 
@@ -206,6 +186,7 @@ template<typename Element, typename Pointer, typename Derived>
 
 template<typename Element, typename Pointer, typename Derived>
   template<typename System>
+    __hydra_host__ __hydra_device__
     void reference<Element,Pointer,Derived>
       ::swap(System *system, derived_type &other)
 {
@@ -223,17 +204,13 @@ template<typename Element, typename Pointer, typename Derived>
 {
   typedef typename thrust::iterator_system<pointer>::type System;
 
-#if !(defined(HYDRA_THRUST_DEVICE_INTERPRETER)||defined(HYDRA_THRUST_HOST_INTERPRETER))
   // XXX avoid default-constructing a system
   // XXX use null references for dispatching
   // XXX this assumes that the eventual invocation
   // XXX of iter_swap will not access system state
   System *system = 0;
+
   swap(system, other);
-#else
-  System system{};
-  swap(&system, other);
-#endif
 } // end reference::swap()
 
 
@@ -402,6 +379,6 @@ operator<<(std::basic_ostream<charT, traits> &os,
   return os << static_cast<value_type>(y);
 } // end operator<<()
 
-} // end thrust
+} // end HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
 
 HYDRA_EXTERNAL_NAMESPACE_END

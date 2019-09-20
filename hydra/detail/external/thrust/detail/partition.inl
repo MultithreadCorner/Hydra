@@ -414,6 +414,6 @@ template<typename InputIterator, typename Predicate>
 } // end is_partitioned()
 
 
-} // end thrust
+} // end HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
 
 HYDRA_EXTERNAL_NAMESPACE_END

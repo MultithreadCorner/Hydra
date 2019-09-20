@@ -57,4 +57,5 @@ bool is_aligned(T * ptr, detail::uintptr_t bytes = sizeof(T))
 } // end namespace detail
 } // end HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
 
+
 HYDRA_EXTERNAL_NAMESPACE_END
