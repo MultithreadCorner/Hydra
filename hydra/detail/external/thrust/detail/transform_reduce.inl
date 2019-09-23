@@ -36,15 +36,15 @@ template<typename DerivedPolicy,
          typename OutputType,
          typename BinaryFunction>
 __hydra_host__ __hydra_device__
-  OutputType transform_reduce(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
+  OutputType transform_reduce(const HYDRA_EXTERNAL_NS::thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                               InputIterator first,
                               InputIterator last,
                               UnaryFunction unary_op,
                               OutputType init,
                               BinaryFunction binary_op)
 {
-  using thrust::system::detail::generic::transform_reduce;
-  return transform_reduce(thrust::detail::derived_cast(thrust::detail::strip_const(exec)), first, last, unary_op, init, binary_op);
+  using HYDRA_EXTERNAL_NS::thrust::system::detail::generic::transform_reduce;
+  return transform_reduce(HYDRA_EXTERNAL_NS::thrust::detail::derived_cast(HYDRA_EXTERNAL_NS::thrust::detail::strip_const(exec)), first, last, unary_op, init, binary_op);
 } // end transform_reduce()
 
 
@@ -58,13 +58,13 @@ template<typename InputIterator,
                               OutputType init,
                               BinaryFunction binary_op)
 {
-  using thrust::system::detail::generic::select_system;
+  using HYDRA_EXTERNAL_NS::thrust::system::detail::generic::select_system;
 
-  typedef typename thrust::iterator_system<InputIterator>::type System;
+  typedef typename HYDRA_EXTERNAL_NS::thrust::iterator_system<InputIterator>::type System;
 
   System system;
 
-  return thrust::transform_reduce(select_system(system), first, last, unary_op, init, binary_op);
+  return HYDRA_EXTERNAL_NS::thrust::transform_reduce(select_system(system), first, last, unary_op, init, binary_op);
 } // end transform_reduce()
 
 

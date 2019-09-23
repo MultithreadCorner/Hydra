@@ -21,7 +21,7 @@
 #include <hydra/detail/external/thrust/detail/integer_traits.h>
 
 // for floating point infinity
-#if THRUST_DEVICE_COMPILER == THRUST_DEVICE_COMPILER_NVCC
+#if HYDRA_THRUST_DEVICE_COMPILER == HYDRA_THRUST_DEVICE_COMPILER_NVCC
 #include <math_constants.h>
 #else
 #include <limits>
@@ -107,9 +107,9 @@ template<typename RealType>
   __hydra_host__ __hydra_device__
   typename normal_distribution<RealType>::result_type
     normal_distribution<RealType>
-      ::min THRUST_PREVENT_MACRO_SUBSTITUTION (void) const
+      ::min HYDRA_THRUST_PREVENT_MACRO_SUBSTITUTION (void) const
 {
-  return -this->max THRUST_PREVENT_MACRO_SUBSTITUTION ();
+  return -this->max HYDRA_THRUST_PREVENT_MACRO_SUBSTITUTION ();
 } // end normal_distribution::min()
 
 
@@ -117,14 +117,14 @@ template<typename RealType>
   __hydra_host__ __hydra_device__
   typename normal_distribution<RealType>::result_type
     normal_distribution<RealType>
-      ::max THRUST_PREVENT_MACRO_SUBSTITUTION (void) const
+      ::max HYDRA_THRUST_PREVENT_MACRO_SUBSTITUTION (void) const
 {
   // XXX this solution is pretty terrible
   // we can't use numeric_traits<RealType>::max because nvcc will
   // complain that it is a __hydra_host__ function
   union
   {
-    thrust::detail::uint32_t inf_as_int;
+    HYDRA_EXTERNAL_NS::thrust::detail::uint32_t inf_as_int;
     float result;
   } hack;
 
@@ -216,7 +216,7 @@ __hydra_host__ __hydra_device__
 bool operator==(const normal_distribution<RealType> &lhs,
                 const normal_distribution<RealType> &rhs)
 {
-  return thrust::random::detail::random_core_access::equal(lhs,rhs);
+  return HYDRA_EXTERNAL_NS::thrust::random::detail::random_core_access::equal(lhs,rhs);
 }
 
 
@@ -235,7 +235,7 @@ std::basic_ostream<CharT,Traits>&
 operator<<(std::basic_ostream<CharT,Traits> &os,
            const normal_distribution<RealType> &d)
 {
-  return thrust::random::detail::random_core_access::stream_out(os,d);
+  return HYDRA_EXTERNAL_NS::thrust::random::detail::random_core_access::stream_out(os,d);
 }
 
 
@@ -245,7 +245,7 @@ std::basic_istream<CharT,Traits>&
 operator>>(std::basic_istream<CharT,Traits> &is,
            normal_distribution<RealType> &d)
 {
-  return thrust::random::detail::random_core_access::stream_in(is,d);
+  return HYDRA_EXTERNAL_NS::thrust::random::detail::random_core_access::stream_in(is,d);
 }
 
 

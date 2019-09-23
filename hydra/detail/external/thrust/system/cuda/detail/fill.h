@@ -26,14 +26,14 @@
  ******************************************************************************/
 #pragma once
 
-#if THRUST_DEVICE_COMPILER == THRUST_DEVICE_COMPILER_NVCC
+#if HYDRA_THRUST_DEVICE_COMPILER == HYDRA_THRUST_DEVICE_COMPILER_NVCC
 #include <hydra/detail/external/thrust/system/cuda/detail/util.h>
 #include <hydra/detail/external/thrust/system/cuda/detail/parallel_for.h>
 #include <hydra/detail/external/thrust/distance.h>
 
 HYDRA_EXTERNAL_NAMESPACE_BEGIN
 
-THRUST_BEGIN_NS
+HYDRA_THRUST_BEGIN_NS
 
 namespace cuda_cub {
 
@@ -46,12 +46,12 @@ namespace __fill {
     Iterator it;
     T value;
 
-    THRUST_FUNCTION
+    HYDRA_THRUST_FUNCTION
     functor(Iterator it, T value)
         : it(it), value(value) {}
 
     template<class Size>
-    THRUST_DEVICE_FUNCTION void operator()(Size idx)
+    HYDRA_THRUST_DEVICE_FUNCTION void operator()(Size idx)
     {
       it[idx] = value;
     }
@@ -87,12 +87,12 @@ fill(execution_policy<Derived>& policy,
      ForwardIterator            last,
      const T&                   value)
 {
-  cuda_cub::fill_n(policy, first, thrust::distance(first,last), value);
+  cuda_cub::fill_n(policy, first, HYDRA_EXTERNAL_NS::thrust::distance(first,last), value);
 } // func filll
 
 
 } // namespace cuda_cub
-THRUST_END_NS
+HYDRA_THRUST_END_NS
 
 HYDRA_EXTERNAL_NAMESPACE_END
 

@@ -40,7 +40,7 @@ template<typename ExecutionPolicy,
          typename InputIterator,
          typename OutputIterator>
 __hydra_host__ __hydra_device__
-  OutputIterator inclusive_scan(thrust::execution_policy<ExecutionPolicy> &exec,
+  OutputIterator inclusive_scan(HYDRA_EXTERNAL_NS::thrust::execution_policy<ExecutionPolicy> &exec,
                                 InputIterator first,
                                 InputIterator last,
                                 OutputIterator result)
@@ -52,14 +52,14 @@ __hydra_host__ __hydra_device__
   // else
   //   TemporaryType = OutputIterator::value_type
 
-  typedef typename thrust::detail::eval_if<
-      thrust::detail::is_output_iterator<OutputIterator>::value,
-      thrust::iterator_value<InputIterator>,
-      thrust::iterator_value<OutputIterator>
+  typedef typename HYDRA_EXTERNAL_NS::thrust::detail::eval_if<
+      HYDRA_EXTERNAL_NS::thrust::detail::is_output_iterator<OutputIterator>::value,
+      HYDRA_EXTERNAL_NS::thrust::iterator_value<InputIterator>,
+      HYDRA_EXTERNAL_NS::thrust::iterator_value<OutputIterator>
   >::type ValueType;
 
   // assume plus as the associative operator
-  return thrust::inclusive_scan(exec, first, last, result, thrust::plus<ValueType>());
+  return HYDRA_EXTERNAL_NS::thrust::inclusive_scan(exec, first, last, result, HYDRA_EXTERNAL_NS::thrust::plus<ValueType>());
 } // end inclusive_scan()
 
 
@@ -67,7 +67,7 @@ template<typename ExecutionPolicy,
          typename InputIterator,
          typename OutputIterator>
 __hydra_host__ __hydra_device__
-  OutputIterator exclusive_scan(thrust::execution_policy<ExecutionPolicy> &exec,
+  OutputIterator exclusive_scan(HYDRA_EXTERNAL_NS::thrust::execution_policy<ExecutionPolicy> &exec,
                                 InputIterator first,
                                 InputIterator last,
                                 OutputIterator result)
@@ -79,14 +79,14 @@ __hydra_host__ __hydra_device__
   // else
   //   TemporaryType = OutputIterator::value_type
 
-  typedef typename thrust::detail::eval_if<
-      thrust::detail::is_output_iterator<OutputIterator>::value,
-      thrust::iterator_value<InputIterator>,
-      thrust::iterator_value<OutputIterator>
+  typedef typename HYDRA_EXTERNAL_NS::thrust::detail::eval_if<
+      HYDRA_EXTERNAL_NS::thrust::detail::is_output_iterator<OutputIterator>::value,
+      HYDRA_EXTERNAL_NS::thrust::iterator_value<InputIterator>,
+      HYDRA_EXTERNAL_NS::thrust::iterator_value<OutputIterator>
   >::type ValueType;
 
   // assume 0 as the initialization value
-  return thrust::exclusive_scan(exec, first, last, result, ValueType(0));
+  return HYDRA_EXTERNAL_NS::thrust::exclusive_scan(exec, first, last, result, ValueType(0));
 } // end exclusive_scan()
 
 
@@ -95,14 +95,14 @@ template<typename ExecutionPolicy,
          typename OutputIterator,
          typename T>
 __hydra_host__ __hydra_device__
-  OutputIterator exclusive_scan(thrust::execution_policy<ExecutionPolicy> &exec,
+  OutputIterator exclusive_scan(HYDRA_EXTERNAL_NS::thrust::execution_policy<ExecutionPolicy> &exec,
                                 InputIterator first,
                                 InputIterator last,
                                 OutputIterator result,
                                 T init)
 {
   // assume plus as the associative operator
-  return thrust::exclusive_scan(exec, first, last, result, init, thrust::plus<T>());
+  return HYDRA_EXTERNAL_NS::thrust::exclusive_scan(exec, first, last, result, init, HYDRA_EXTERNAL_NS::thrust::plus<T>());
 } // end exclusive_scan()
 
 
@@ -111,14 +111,14 @@ template<typename ExecutionPolicy,
          typename OutputIterator,
          typename BinaryFunction>
 __hydra_host__ __hydra_device__
-  OutputIterator inclusive_scan(thrust::execution_policy<ExecutionPolicy> &,
+  OutputIterator inclusive_scan(HYDRA_EXTERNAL_NS::thrust::execution_policy<ExecutionPolicy> &,
                                 InputIterator,
                                 InputIterator,
                                 OutputIterator result,
                                 BinaryFunction)
 {
-  THRUST_STATIC_ASSERT_MSG(
-    (thrust::detail::depend_on_instantiation<InputIterator, false>::value)
+  HYDRA_THRUST_STATIC_ASSERT_MSG(
+    (HYDRA_EXTERNAL_NS::thrust::detail::depend_on_instantiation<InputIterator, false>::value)
   , "unimplemented for this system"
   );
   return result;
@@ -131,15 +131,15 @@ template<typename ExecutionPolicy,
          typename T,
          typename BinaryFunction>
 __hydra_host__ __hydra_device__
-  OutputIterator exclusive_scan(thrust::execution_policy<ExecutionPolicy> &,
+  OutputIterator exclusive_scan(HYDRA_EXTERNAL_NS::thrust::execution_policy<ExecutionPolicy> &,
                                 InputIterator,
                                 InputIterator,
                                 OutputIterator result,
                                 T,
                                 BinaryFunction)
 {
-  THRUST_STATIC_ASSERT_MSG(
-    (thrust::detail::depend_on_instantiation<InputIterator, false>::value)
+  HYDRA_THRUST_STATIC_ASSERT_MSG(
+    (HYDRA_EXTERNAL_NS::thrust::detail::depend_on_instantiation<InputIterator, false>::value)
   , "unimplemented for this system"
   );
   return result;

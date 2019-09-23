@@ -41,15 +41,15 @@ template<typename DerivedPolicy,
          typename ForwardIterator,
          typename T>
 __hydra_host__ __hydra_device__
-  ForwardIterator remove(thrust::execution_policy<DerivedPolicy> &exec,
+  ForwardIterator remove(HYDRA_EXTERNAL_NS::thrust::execution_policy<DerivedPolicy> &exec,
                          ForwardIterator first,
                          ForwardIterator last,
                          const T &value)
 {
-  thrust::detail::equal_to_value<T> pred(value);
+  HYDRA_EXTERNAL_NS::thrust::detail::equal_to_value<T> pred(value);
 
   // XXX consider using a placeholder here
-  return thrust::remove_if(exec, first, last, pred);
+  return HYDRA_EXTERNAL_NS::thrust::remove_if(exec, first, last, pred);
 } // end remove()
 
 
@@ -58,16 +58,16 @@ template<typename DerivedPolicy,
          typename OutputIterator,
          typename T>
 __hydra_host__ __hydra_device__
-  OutputIterator remove_copy(thrust::execution_policy<DerivedPolicy> &exec,
+  OutputIterator remove_copy(HYDRA_EXTERNAL_NS::thrust::execution_policy<DerivedPolicy> &exec,
                              InputIterator first,
                              InputIterator last,
                              OutputIterator result,
                              const T &value)
 {
-  thrust::detail::equal_to_value<T> pred(value);
+  HYDRA_EXTERNAL_NS::thrust::detail::equal_to_value<T> pred(value);
 
   // XXX consider using a placeholder here
-  return thrust::remove_copy_if(exec, first, last, result, pred);
+  return HYDRA_EXTERNAL_NS::thrust::remove_copy_if(exec, first, last, result, pred);
 } // end remove_copy()
 
 
@@ -75,18 +75,18 @@ template<typename DerivedPolicy,
          typename ForwardIterator,
          typename Predicate>
 __hydra_host__ __hydra_device__
-  ForwardIterator remove_if(thrust::execution_policy<DerivedPolicy> &exec,
+  ForwardIterator remove_if(HYDRA_EXTERNAL_NS::thrust::execution_policy<DerivedPolicy> &exec,
                             ForwardIterator first,
                             ForwardIterator last,
                             Predicate pred)
 {
-  typedef typename thrust::iterator_traits<ForwardIterator>::value_type InputType;
+  typedef typename HYDRA_EXTERNAL_NS::thrust::iterator_traits<ForwardIterator>::value_type InputType;
 
   // create temporary storage for an intermediate result
-  thrust::detail::temporary_array<InputType,DerivedPolicy> temp(exec, first, last);
+  HYDRA_EXTERNAL_NS::thrust::detail::temporary_array<InputType,DerivedPolicy> temp(exec, first, last);
 
   // remove into temp
-  return thrust::remove_copy_if(exec, temp.begin(), temp.end(), temp.begin(), first, pred);
+  return HYDRA_EXTERNAL_NS::thrust::remove_copy_if(exec, temp.begin(), temp.end(), temp.begin(), first, pred);
 } // end remove_if()
 
 
@@ -95,19 +95,19 @@ template<typename DerivedPolicy,
          typename InputIterator,
          typename Predicate>
 __hydra_host__ __hydra_device__
-  ForwardIterator remove_if(thrust::execution_policy<DerivedPolicy> &exec,
+  ForwardIterator remove_if(HYDRA_EXTERNAL_NS::thrust::execution_policy<DerivedPolicy> &exec,
                             ForwardIterator first,
                             ForwardIterator last,
                             InputIterator stencil,
                             Predicate pred)
 {
-  typedef typename thrust::iterator_traits<ForwardIterator>::value_type InputType;
+  typedef typename HYDRA_EXTERNAL_NS::thrust::iterator_traits<ForwardIterator>::value_type InputType;
 
   // create temporary storage for an intermediate result
-  thrust::detail::temporary_array<InputType,DerivedPolicy> temp(exec, first, last);
+  HYDRA_EXTERNAL_NS::thrust::detail::temporary_array<InputType,DerivedPolicy> temp(exec, first, last);
 
   // remove into temp
-  return thrust::remove_copy_if(exec, temp.begin(), temp.end(), stencil, first, pred);
+  return HYDRA_EXTERNAL_NS::thrust::remove_copy_if(exec, temp.begin(), temp.end(), stencil, first, pred);
 } // end remove_if() 
 
 
@@ -116,13 +116,13 @@ template<typename DerivedPolicy,
          typename OutputIterator,
          typename Predicate>
 __hydra_host__ __hydra_device__
-  OutputIterator remove_copy_if(thrust::execution_policy<DerivedPolicy> &exec,
+  OutputIterator remove_copy_if(HYDRA_EXTERNAL_NS::thrust::execution_policy<DerivedPolicy> &exec,
                                 InputIterator first,
                                 InputIterator last,
                                 OutputIterator result,
                                 Predicate pred)
 {
-  return thrust::remove_copy_if(exec, first, last, first, result, pred);
+  return HYDRA_EXTERNAL_NS::thrust::remove_copy_if(exec, first, last, first, result, pred);
 } // end remove_copy_if()
 
 
@@ -132,14 +132,14 @@ template<typename DerivedPolicy,
          typename OutputIterator,
          typename Predicate>
 __hydra_host__ __hydra_device__
-  OutputIterator remove_copy_if(thrust::execution_policy<DerivedPolicy> &exec,
+  OutputIterator remove_copy_if(HYDRA_EXTERNAL_NS::thrust::execution_policy<DerivedPolicy> &exec,
                                 InputIterator1 first,
                                 InputIterator1 last,
                                 InputIterator2 stencil,
                                 OutputIterator result,
                                 Predicate pred)
 {
-  return thrust::copy_if(exec, first, last, stencil, result, thrust::detail::not1(pred));
+  return HYDRA_EXTERNAL_NS::thrust::copy_if(exec, first, last, stencil, result, HYDRA_EXTERNAL_NS::thrust::detail::not1(pred));
 } // end remove_copy_if()
 
 

@@ -29,12 +29,12 @@ namespace temporary_array_detail
 {
 
 
-template<typename T> struct avoid_initialization : thrust::detail::has_trivial_copy_constructor<T> {};
+template<typename T> struct avoid_initialization : HYDRA_EXTERNAL_NS::thrust::detail::has_trivial_copy_constructor<T> {};
 
 
 template<typename T, typename TemporaryArray, typename Size>
 __hydra_host__ __hydra_device__
-typename thrust::detail::enable_if<
+typename HYDRA_EXTERNAL_NS::thrust::detail::enable_if<
   avoid_initialization<T>::value
 >::type
   construct_values(TemporaryArray &,
@@ -46,7 +46,7 @@ typename thrust::detail::enable_if<
 
 template<typename T, typename TemporaryArray, typename Size>
 __hydra_host__ __hydra_device__
-typename thrust::detail::disable_if<
+typename HYDRA_EXTERNAL_NS::thrust::detail::disable_if<
   avoid_initialization<T>::value
 >::type
   construct_values(TemporaryArray &a,
@@ -62,7 +62,7 @@ typename thrust::detail::disable_if<
 template<typename T, typename System>
 __hydra_host__ __hydra_device__
   temporary_array<T,System>
-    ::temporary_array(thrust::execution_policy<System> &system)
+    ::temporary_array(HYDRA_EXTERNAL_NS::thrust::execution_policy<System> &system)
       :super_t(alloc_type(temporary_allocator<T,System>(system)))
 {
 } // end temporary_array::temporary_array()
@@ -71,7 +71,7 @@ __hydra_host__ __hydra_device__
 template<typename T, typename System>
 __hydra_host__ __hydra_device__
   temporary_array<T,System>
-    ::temporary_array(thrust::execution_policy<System> &system, size_type n)
+    ::temporary_array(HYDRA_EXTERNAL_NS::thrust::execution_policy<System> &system, size_type n)
       :super_t(n, alloc_type(temporary_allocator<T,System>(system)))
 {
   temporary_array_detail::construct_values<T>(*this, n);
@@ -81,7 +81,7 @@ __hydra_host__ __hydra_device__
 template<typename T, typename System>
 __hydra_host__ __hydra_device__
   temporary_array<T,System>
-    ::temporary_array(int, thrust::execution_policy<System> &system, size_type n)
+    ::temporary_array(int, HYDRA_EXTERNAL_NS::thrust::execution_policy<System> &system, size_type n)
       :super_t(n, alloc_type(temporary_allocator<T,System>(system)))
 {
   // avoid initialization
@@ -93,7 +93,7 @@ template<typename T, typename System>
   template<typename InputIterator>
   __hydra_host__ __hydra_device__
     temporary_array<T,System>
-      ::temporary_array(thrust::execution_policy<System> &system,
+      ::temporary_array(HYDRA_EXTERNAL_NS::thrust::execution_policy<System> &system,
                         InputIterator first,
                         size_type n)
         : super_t(alloc_type(temporary_allocator<T,System>(system)))
@@ -108,8 +108,8 @@ template<typename T, typename System>
   template<typename InputIterator, typename InputSystem>
   __hydra_host__ __hydra_device__
     temporary_array<T,System>
-      ::temporary_array(thrust::execution_policy<System> &system,
-                        thrust::execution_policy<InputSystem> &input_system,
+      ::temporary_array(HYDRA_EXTERNAL_NS::thrust::execution_policy<System> &system,
+                        HYDRA_EXTERNAL_NS::thrust::execution_policy<InputSystem> &input_system,
                         InputIterator first,
                         size_type n)
         : super_t(alloc_type(temporary_allocator<T,System>(system)))
@@ -124,12 +124,12 @@ template<typename T, typename System>
   template<typename InputIterator>
   __hydra_host__ __hydra_device__
     temporary_array<T,System>
-      ::temporary_array(thrust::execution_policy<System> &system,
+      ::temporary_array(HYDRA_EXTERNAL_NS::thrust::execution_policy<System> &system,
                         InputIterator first,
                         InputIterator last)
         : super_t(alloc_type(temporary_allocator<T,System>(system)))
 {
-  super_t::allocate(thrust::distance(first,last));
+  super_t::allocate(HYDRA_EXTERNAL_NS::thrust::distance(first,last));
 
   super_t::uninitialized_copy(system, first, last, super_t::begin());
 } // end temporary_array::temporary_array()
@@ -139,13 +139,13 @@ template<typename T, typename System>
   template<typename InputSystem, typename InputIterator>
   __hydra_host__ __hydra_device__
     temporary_array<T,System>
-      ::temporary_array(thrust::execution_policy<System> &system,
-                        thrust::execution_policy<InputSystem> &input_system,
+      ::temporary_array(HYDRA_EXTERNAL_NS::thrust::execution_policy<System> &system,
+                        HYDRA_EXTERNAL_NS::thrust::execution_policy<InputSystem> &input_system,
                         InputIterator first,
                         InputIterator last)
         : super_t(alloc_type(temporary_allocator<T,System>(system)))
 {
-  super_t::allocate(thrust::distance(first,last));
+  super_t::allocate(HYDRA_EXTERNAL_NS::thrust::distance(first,last));
 
   super_t::uninitialized_copy(input_system, first, last, super_t::begin());
 } // end temporary_array::temporary_array()

@@ -37,13 +37,13 @@ template<typename DerivedPolicy,
          typename InputIterator,
          typename OutputIterator>
 __hydra_host__ __hydra_device__
-  OutputIterator inclusive_scan(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
+  OutputIterator inclusive_scan(const HYDRA_EXTERNAL_NS::thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                                 InputIterator first,
                                 InputIterator last,
                                 OutputIterator result)
 {
-  using thrust::system::detail::generic::inclusive_scan;
-  return inclusive_scan(thrust::detail::derived_cast(thrust::detail::strip_const(exec)), first, last, result);
+  using HYDRA_EXTERNAL_NS::thrust::system::detail::generic::inclusive_scan;
+  return inclusive_scan(HYDRA_EXTERNAL_NS::thrust::detail::derived_cast(HYDRA_EXTERNAL_NS::thrust::detail::strip_const(exec)), first, last, result);
 } // end inclusive_scan() 
 
 
@@ -53,14 +53,14 @@ template<typename DerivedPolicy,
          typename OutputIterator,
          typename AssociativeOperator>
 __hydra_host__ __hydra_device__
-  OutputIterator inclusive_scan(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
+  OutputIterator inclusive_scan(const HYDRA_EXTERNAL_NS::thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                                 InputIterator first,
                                 InputIterator last,
                                 OutputIterator result,
                                 AssociativeOperator binary_op)
 {
-  using thrust::system::detail::generic::inclusive_scan;
-  return inclusive_scan(thrust::detail::derived_cast(thrust::detail::strip_const(exec)), first, last, result, binary_op);
+  using HYDRA_EXTERNAL_NS::thrust::system::detail::generic::inclusive_scan;
+  return inclusive_scan(HYDRA_EXTERNAL_NS::thrust::detail::derived_cast(HYDRA_EXTERNAL_NS::thrust::detail::strip_const(exec)), first, last, result, binary_op);
 } // end inclusive_scan()
 
 
@@ -69,13 +69,13 @@ template<typename DerivedPolicy,
          typename InputIterator,
          typename OutputIterator>
 __hydra_host__ __hydra_device__
-  OutputIterator exclusive_scan(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
+  OutputIterator exclusive_scan(const HYDRA_EXTERNAL_NS::thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                                 InputIterator first,
                                 InputIterator last,
                                 OutputIterator result)
 {
-  using thrust::system::detail::generic::exclusive_scan;
-  return exclusive_scan(thrust::detail::derived_cast(thrust::detail::strip_const(exec)), first, last, result);
+  using HYDRA_EXTERNAL_NS::thrust::system::detail::generic::exclusive_scan;
+  return exclusive_scan(HYDRA_EXTERNAL_NS::thrust::detail::derived_cast(HYDRA_EXTERNAL_NS::thrust::detail::strip_const(exec)), first, last, result);
 } // end exclusive_scan()
 
 
@@ -85,14 +85,14 @@ template<typename DerivedPolicy,
          typename OutputIterator,
          typename T>
 __hydra_host__ __hydra_device__
-  OutputIterator exclusive_scan(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
+  OutputIterator exclusive_scan(const HYDRA_EXTERNAL_NS::thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                                 InputIterator first,
                                 InputIterator last,
                                 OutputIterator result,
                                 T init)
 {
-  using thrust::system::detail::generic::exclusive_scan;
-  return exclusive_scan(thrust::detail::derived_cast(thrust::detail::strip_const(exec)), first, last, result, init);
+  using HYDRA_EXTERNAL_NS::thrust::system::detail::generic::exclusive_scan;
+  return exclusive_scan(HYDRA_EXTERNAL_NS::thrust::detail::derived_cast(HYDRA_EXTERNAL_NS::thrust::detail::strip_const(exec)), first, last, result, init);
 } // end exclusive_scan()
 
 
@@ -103,15 +103,15 @@ template<typename DerivedPolicy,
          typename T,
          typename AssociativeOperator>
 __hydra_host__ __hydra_device__
-  OutputIterator exclusive_scan(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
+  OutputIterator exclusive_scan(const HYDRA_EXTERNAL_NS::thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                                 InputIterator first,
                                 InputIterator last,
                                 OutputIterator result,
                                 T init,
                                 AssociativeOperator binary_op)
 {
-  using thrust::system::detail::generic::exclusive_scan;
-  return exclusive_scan(thrust::detail::derived_cast(thrust::detail::strip_const(exec)), first, last, result, init, binary_op);
+  using HYDRA_EXTERNAL_NS::thrust::system::detail::generic::exclusive_scan;
+  return exclusive_scan(HYDRA_EXTERNAL_NS::thrust::detail::derived_cast(HYDRA_EXTERNAL_NS::thrust::detail::strip_const(exec)), first, last, result, init, binary_op);
 } // end exclusive_scan()
 
 
@@ -121,14 +121,14 @@ template<typename DerivedPolicy,
          typename InputIterator2,
          typename OutputIterator>
 __hydra_host__ __hydra_device__
-  OutputIterator inclusive_scan_by_key(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
+  OutputIterator inclusive_scan_by_key(const HYDRA_EXTERNAL_NS::thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                                        InputIterator1 first1,
                                        InputIterator1 last1,
                                        InputIterator2 first2,
                                        OutputIterator result)
 {
-  using thrust::system::detail::generic::inclusive_scan_by_key;
-  return inclusive_scan_by_key(thrust::detail::derived_cast(thrust::detail::strip_const(exec)), first1, last1, first2, result);
+  using HYDRA_EXTERNAL_NS::thrust::system::detail::generic::inclusive_scan_by_key;
+  return inclusive_scan_by_key(HYDRA_EXTERNAL_NS::thrust::detail::derived_cast(HYDRA_EXTERNAL_NS::thrust::detail::strip_const(exec)), first1, last1, first2, result);
 } // end inclusive_scan_by_key()
 
 
@@ -139,15 +139,15 @@ template<typename DerivedPolicy,
          typename OutputIterator,
          typename BinaryPredicate>
 __hydra_host__ __hydra_device__
-  OutputIterator inclusive_scan_by_key(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
+  OutputIterator inclusive_scan_by_key(const HYDRA_EXTERNAL_NS::thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                                        InputIterator1 first1,
                                        InputIterator1 last1,
                                        InputIterator2 first2,
                                        OutputIterator result,
                                        BinaryPredicate binary_pred)
 {
-  using thrust::system::detail::generic::inclusive_scan_by_key;
-  return inclusive_scan_by_key(thrust::detail::derived_cast(thrust::detail::strip_const(exec)), first1, last1, first2, result, binary_pred);
+  using HYDRA_EXTERNAL_NS::thrust::system::detail::generic::inclusive_scan_by_key;
+  return inclusive_scan_by_key(HYDRA_EXTERNAL_NS::thrust::detail::derived_cast(HYDRA_EXTERNAL_NS::thrust::detail::strip_const(exec)), first1, last1, first2, result, binary_pred);
 } // end inclusive_scan_by_key()
 
 
@@ -159,7 +159,7 @@ template<typename DerivedPolicy,
          typename BinaryPredicate,
          typename AssociativeOperator>
 __hydra_host__ __hydra_device__
-  OutputIterator inclusive_scan_by_key(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
+  OutputIterator inclusive_scan_by_key(const HYDRA_EXTERNAL_NS::thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                                        InputIterator1 first1,
                                        InputIterator1 last1,
                                        InputIterator2 first2,
@@ -167,8 +167,8 @@ __hydra_host__ __hydra_device__
                                        BinaryPredicate binary_pred,
                                        AssociativeOperator binary_op)
 {
-  using thrust::system::detail::generic::inclusive_scan_by_key;
-  return inclusive_scan_by_key(thrust::detail::derived_cast(thrust::detail::strip_const(exec)), first1, last1, first2, result, binary_pred, binary_op);
+  using HYDRA_EXTERNAL_NS::thrust::system::detail::generic::inclusive_scan_by_key;
+  return inclusive_scan_by_key(HYDRA_EXTERNAL_NS::thrust::detail::derived_cast(HYDRA_EXTERNAL_NS::thrust::detail::strip_const(exec)), first1, last1, first2, result, binary_pred, binary_op);
 } // end inclusive_scan_by_key()
 
 
@@ -178,14 +178,14 @@ template<typename DerivedPolicy,
          typename InputIterator2,
          typename OutputIterator>
 __hydra_host__ __hydra_device__
-  OutputIterator exclusive_scan_by_key(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
+  OutputIterator exclusive_scan_by_key(const HYDRA_EXTERNAL_NS::thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                                        InputIterator1 first1,
                                        InputIterator1 last1,
                                        InputIterator2 first2,
                                        OutputIterator result)
 {
-  using thrust::system::detail::generic::exclusive_scan_by_key;
-  return exclusive_scan_by_key(thrust::detail::derived_cast(thrust::detail::strip_const(exec)), first1, last1, first2, result);
+  using HYDRA_EXTERNAL_NS::thrust::system::detail::generic::exclusive_scan_by_key;
+  return exclusive_scan_by_key(HYDRA_EXTERNAL_NS::thrust::detail::derived_cast(HYDRA_EXTERNAL_NS::thrust::detail::strip_const(exec)), first1, last1, first2, result);
 } // end exclusive_scan_by_key()
 
 
@@ -196,15 +196,15 @@ template<typename DerivedPolicy,
          typename OutputIterator,
          typename T>
 __hydra_host__ __hydra_device__
-  OutputIterator exclusive_scan_by_key(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
+  OutputIterator exclusive_scan_by_key(const HYDRA_EXTERNAL_NS::thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                                        InputIterator1 first1,
                                        InputIterator1 last1,
                                        InputIterator2 first2,
                                        OutputIterator result,
                                        T init)
 {
-  using thrust::system::detail::generic::exclusive_scan_by_key;
-  return exclusive_scan_by_key(thrust::detail::derived_cast(thrust::detail::strip_const(exec)), first1, last1, first2, result, init);
+  using HYDRA_EXTERNAL_NS::thrust::system::detail::generic::exclusive_scan_by_key;
+  return exclusive_scan_by_key(HYDRA_EXTERNAL_NS::thrust::detail::derived_cast(HYDRA_EXTERNAL_NS::thrust::detail::strip_const(exec)), first1, last1, first2, result, init);
 } // end exclusive_scan_by_key()
 
 
@@ -216,7 +216,7 @@ template<typename DerivedPolicy,
          typename T,
          typename BinaryPredicate>
 __hydra_host__ __hydra_device__
-  OutputIterator exclusive_scan_by_key(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
+  OutputIterator exclusive_scan_by_key(const HYDRA_EXTERNAL_NS::thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                                        InputIterator1 first1,
                                        InputIterator1 last1,
                                        InputIterator2 first2,
@@ -224,8 +224,8 @@ __hydra_host__ __hydra_device__
                                        T init,
                                        BinaryPredicate binary_pred)
 {
-  using thrust::system::detail::generic::exclusive_scan_by_key;
-  return exclusive_scan_by_key(thrust::detail::derived_cast(thrust::detail::strip_const(exec)), first1, last1, first2, result, init, binary_pred);
+  using HYDRA_EXTERNAL_NS::thrust::system::detail::generic::exclusive_scan_by_key;
+  return exclusive_scan_by_key(HYDRA_EXTERNAL_NS::thrust::detail::derived_cast(HYDRA_EXTERNAL_NS::thrust::detail::strip_const(exec)), first1, last1, first2, result, init, binary_pred);
 } // end exclusive_scan_by_key()
 
 
@@ -238,7 +238,7 @@ template<typename DerivedPolicy,
          typename BinaryPredicate,
          typename AssociativeOperator>
 __hydra_host__ __hydra_device__
-  OutputIterator exclusive_scan_by_key(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
+  OutputIterator exclusive_scan_by_key(const HYDRA_EXTERNAL_NS::thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                                        InputIterator1 first1,
                                        InputIterator1 last1,
                                        InputIterator2 first2,
@@ -247,8 +247,8 @@ __hydra_host__ __hydra_device__
                                        BinaryPredicate binary_pred,
                                        AssociativeOperator binary_op)
 {
-  using thrust::system::detail::generic::exclusive_scan_by_key;
-  return exclusive_scan_by_key(thrust::detail::derived_cast(thrust::detail::strip_const(exec)), first1, last1, first2, result, init, binary_pred, binary_op);
+  using HYDRA_EXTERNAL_NS::thrust::system::detail::generic::exclusive_scan_by_key;
+  return exclusive_scan_by_key(HYDRA_EXTERNAL_NS::thrust::detail::derived_cast(HYDRA_EXTERNAL_NS::thrust::detail::strip_const(exec)), first1, last1, first2, result, init, binary_pred, binary_op);
 } // end exclusive_scan_by_key()
 
 
@@ -258,15 +258,15 @@ template<typename InputIterator,
                                 InputIterator last,
                                 OutputIterator result)
 {
-  using thrust::system::detail::generic::select_system;
+  using HYDRA_EXTERNAL_NS::thrust::system::detail::generic::select_system;
 
-  typedef typename thrust::iterator_system<InputIterator>::type  System1;
-  typedef typename thrust::iterator_system<OutputIterator>::type System2;
+  typedef typename HYDRA_EXTERNAL_NS::thrust::iterator_system<InputIterator>::type  System1;
+  typedef typename HYDRA_EXTERNAL_NS::thrust::iterator_system<OutputIterator>::type System2;
 
   System1 system1;
   System2 system2;
 
-  return thrust::inclusive_scan(select_system(system1,system2), first, last, result);
+  return HYDRA_EXTERNAL_NS::thrust::inclusive_scan(select_system(system1,system2), first, last, result);
 } // end inclusive_scan()
 
 
@@ -278,15 +278,15 @@ template<typename InputIterator,
                                 OutputIterator result,
                                 BinaryFunction binary_op)
 {
-  using thrust::system::detail::generic::select_system;
+  using HYDRA_EXTERNAL_NS::thrust::system::detail::generic::select_system;
 
-  typedef typename thrust::iterator_system<InputIterator>::type  System1;
-  typedef typename thrust::iterator_system<OutputIterator>::type System2;
+  typedef typename HYDRA_EXTERNAL_NS::thrust::iterator_system<InputIterator>::type  System1;
+  typedef typename HYDRA_EXTERNAL_NS::thrust::iterator_system<OutputIterator>::type System2;
 
   System1 system1;
   System2 system2;
 
-  return thrust::inclusive_scan(select_system(system1,system2), first, last, result, binary_op);
+  return HYDRA_EXTERNAL_NS::thrust::inclusive_scan(select_system(system1,system2), first, last, result, binary_op);
 } // end inclusive_scan()
 
 
@@ -296,15 +296,15 @@ template<typename InputIterator,
                                 InputIterator last,
                                 OutputIterator result)
 {
-  using thrust::system::detail::generic::select_system;
+  using HYDRA_EXTERNAL_NS::thrust::system::detail::generic::select_system;
 
-  typedef typename thrust::iterator_system<InputIterator>::type  System1;
-  typedef typename thrust::iterator_system<OutputIterator>::type System2;
+  typedef typename HYDRA_EXTERNAL_NS::thrust::iterator_system<InputIterator>::type  System1;
+  typedef typename HYDRA_EXTERNAL_NS::thrust::iterator_system<OutputIterator>::type System2;
 
   System1 system1;
   System2 system2;
 
-  return thrust::exclusive_scan(select_system(system1,system2), first, last, result);
+  return HYDRA_EXTERNAL_NS::thrust::exclusive_scan(select_system(system1,system2), first, last, result);
 } // end exclusive_scan()
 
 
@@ -316,15 +316,15 @@ template<typename InputIterator,
                                 OutputIterator result,
                                 T init)
 {
-  using thrust::system::detail::generic::select_system;
+  using HYDRA_EXTERNAL_NS::thrust::system::detail::generic::select_system;
 
-  typedef typename thrust::iterator_system<InputIterator>::type  System1;
-  typedef typename thrust::iterator_system<OutputIterator>::type System2;
+  typedef typename HYDRA_EXTERNAL_NS::thrust::iterator_system<InputIterator>::type  System1;
+  typedef typename HYDRA_EXTERNAL_NS::thrust::iterator_system<OutputIterator>::type System2;
 
   System1 system1;
   System2 system2;
 
-  return thrust::exclusive_scan(select_system(system1,system2), first, last, result, init);
+  return HYDRA_EXTERNAL_NS::thrust::exclusive_scan(select_system(system1,system2), first, last, result, init);
 } // end exclusive_scan()
 
 
@@ -338,15 +338,15 @@ template<typename InputIterator,
                                 T init,
                                 BinaryFunction binary_op)
 {
-  using thrust::system::detail::generic::select_system;
+  using HYDRA_EXTERNAL_NS::thrust::system::detail::generic::select_system;
 
-  typedef typename thrust::iterator_system<InputIterator>::type  System1;
-  typedef typename thrust::iterator_system<OutputIterator>::type System2;
+  typedef typename HYDRA_EXTERNAL_NS::thrust::iterator_system<InputIterator>::type  System1;
+  typedef typename HYDRA_EXTERNAL_NS::thrust::iterator_system<OutputIterator>::type System2;
 
   System1 system1;
   System2 system2;
 
-  return thrust::exclusive_scan(select_system(system1,system2), first, last, result, init, binary_op);
+  return HYDRA_EXTERNAL_NS::thrust::exclusive_scan(select_system(system1,system2), first, last, result, init, binary_op);
 } // end exclusive_scan()
 
 
@@ -358,17 +358,17 @@ template<typename InputIterator1,
                                        InputIterator2 first2,
                                        OutputIterator result)
 {
-  using thrust::system::detail::generic::select_system;
+  using HYDRA_EXTERNAL_NS::thrust::system::detail::generic::select_system;
 
-  typedef typename thrust::iterator_system<InputIterator1>::type System1;
-  typedef typename thrust::iterator_system<InputIterator2>::type System2;
-  typedef typename thrust::iterator_system<OutputIterator>::type System3;
+  typedef typename HYDRA_EXTERNAL_NS::thrust::iterator_system<InputIterator1>::type System1;
+  typedef typename HYDRA_EXTERNAL_NS::thrust::iterator_system<InputIterator2>::type System2;
+  typedef typename HYDRA_EXTERNAL_NS::thrust::iterator_system<OutputIterator>::type System3;
 
   System1 system1;
   System2 system2;
   System3 system3;
 
-  return thrust::inclusive_scan_by_key(select_system(system1,system2,system3), first1, last1, first2, result);
+  return HYDRA_EXTERNAL_NS::thrust::inclusive_scan_by_key(select_system(system1,system2,system3), first1, last1, first2, result);
 }
 
 
@@ -382,17 +382,17 @@ template<typename InputIterator1,
                                        OutputIterator result,
                                        BinaryPredicate binary_pred)
 {
-  using thrust::system::detail::generic::select_system;
+  using HYDRA_EXTERNAL_NS::thrust::system::detail::generic::select_system;
 
-  typedef typename thrust::iterator_system<InputIterator1>::type System1;
-  typedef typename thrust::iterator_system<InputIterator2>::type System2;
-  typedef typename thrust::iterator_system<OutputIterator>::type System3;
+  typedef typename HYDRA_EXTERNAL_NS::thrust::iterator_system<InputIterator1>::type System1;
+  typedef typename HYDRA_EXTERNAL_NS::thrust::iterator_system<InputIterator2>::type System2;
+  typedef typename HYDRA_EXTERNAL_NS::thrust::iterator_system<OutputIterator>::type System3;
 
   System1 system1;
   System2 system2;
   System3 system3;
 
-  return thrust::inclusive_scan_by_key(select_system(system1,system2,system3), first1, last1, first2, result, binary_pred);
+  return HYDRA_EXTERNAL_NS::thrust::inclusive_scan_by_key(select_system(system1,system2,system3), first1, last1, first2, result, binary_pred);
 }
 
 
@@ -408,17 +408,17 @@ template<typename InputIterator1,
                                        BinaryPredicate binary_pred,
                                        AssociativeOperator binary_op)
 {
-  using thrust::system::detail::generic::select_system;
+  using HYDRA_EXTERNAL_NS::thrust::system::detail::generic::select_system;
 
-  typedef typename thrust::iterator_system<InputIterator1>::type System1;
-  typedef typename thrust::iterator_system<InputIterator2>::type System2;
-  typedef typename thrust::iterator_system<OutputIterator>::type System3;
+  typedef typename HYDRA_EXTERNAL_NS::thrust::iterator_system<InputIterator1>::type System1;
+  typedef typename HYDRA_EXTERNAL_NS::thrust::iterator_system<InputIterator2>::type System2;
+  typedef typename HYDRA_EXTERNAL_NS::thrust::iterator_system<OutputIterator>::type System3;
 
   System1 system1;
   System2 system2;
   System3 system3;
 
-  return thrust::inclusive_scan_by_key(select_system(system1,system2,system3), first1, last1, first2, result, binary_pred, binary_op);
+  return HYDRA_EXTERNAL_NS::thrust::inclusive_scan_by_key(select_system(system1,system2,system3), first1, last1, first2, result, binary_pred, binary_op);
 }
 
 
@@ -430,17 +430,17 @@ template<typename InputIterator1,
                                        InputIterator2 first2,
                                        OutputIterator result)
 {
-  using thrust::system::detail::generic::select_system;
+  using HYDRA_EXTERNAL_NS::thrust::system::detail::generic::select_system;
 
-  typedef typename thrust::iterator_system<InputIterator1>::type System1;
-  typedef typename thrust::iterator_system<InputIterator2>::type System2;
-  typedef typename thrust::iterator_system<OutputIterator>::type System3;
+  typedef typename HYDRA_EXTERNAL_NS::thrust::iterator_system<InputIterator1>::type System1;
+  typedef typename HYDRA_EXTERNAL_NS::thrust::iterator_system<InputIterator2>::type System2;
+  typedef typename HYDRA_EXTERNAL_NS::thrust::iterator_system<OutputIterator>::type System3;
 
   System1 system1;
   System2 system2;
   System3 system3;
 
-  return thrust::exclusive_scan_by_key(select_system(system1,system2,system3), first1, last1, first2, result);
+  return HYDRA_EXTERNAL_NS::thrust::exclusive_scan_by_key(select_system(system1,system2,system3), first1, last1, first2, result);
 }
 
 
@@ -454,17 +454,17 @@ template<typename InputIterator1,
                                        OutputIterator result,
                                        T init)
 {
-  using thrust::system::detail::generic::select_system;
+  using HYDRA_EXTERNAL_NS::thrust::system::detail::generic::select_system;
 
-  typedef typename thrust::iterator_system<InputIterator1>::type System1;
-  typedef typename thrust::iterator_system<InputIterator2>::type System2;
-  typedef typename thrust::iterator_system<OutputIterator>::type System3;
+  typedef typename HYDRA_EXTERNAL_NS::thrust::iterator_system<InputIterator1>::type System1;
+  typedef typename HYDRA_EXTERNAL_NS::thrust::iterator_system<InputIterator2>::type System2;
+  typedef typename HYDRA_EXTERNAL_NS::thrust::iterator_system<OutputIterator>::type System3;
 
   System1 system1;
   System2 system2;
   System3 system3;
 
-  return thrust::exclusive_scan_by_key(select_system(system1,system2,system3), first1, last1, first2, result, init);
+  return HYDRA_EXTERNAL_NS::thrust::exclusive_scan_by_key(select_system(system1,system2,system3), first1, last1, first2, result, init);
 }
 
 
@@ -480,17 +480,17 @@ template<typename InputIterator1,
                                        T init,
                                        BinaryPredicate binary_pred)
 {
-  using thrust::system::detail::generic::select_system;
+  using HYDRA_EXTERNAL_NS::thrust::system::detail::generic::select_system;
 
-  typedef typename thrust::iterator_system<InputIterator1>::type System1;
-  typedef typename thrust::iterator_system<InputIterator2>::type System2;
-  typedef typename thrust::iterator_system<OutputIterator>::type System3;
+  typedef typename HYDRA_EXTERNAL_NS::thrust::iterator_system<InputIterator1>::type System1;
+  typedef typename HYDRA_EXTERNAL_NS::thrust::iterator_system<InputIterator2>::type System2;
+  typedef typename HYDRA_EXTERNAL_NS::thrust::iterator_system<OutputIterator>::type System3;
 
   System1 system1;
   System2 system2;
   System3 system3;
 
-  return thrust::exclusive_scan_by_key(select_system(system1,system2,system3), first1, last1, first2, result, init, binary_pred);
+  return HYDRA_EXTERNAL_NS::thrust::exclusive_scan_by_key(select_system(system1,system2,system3), first1, last1, first2, result, init, binary_pred);
 }
 
 
@@ -508,17 +508,17 @@ template<typename InputIterator1,
                                        BinaryPredicate binary_pred,
                                        AssociativeOperator binary_op)
 {
-  using thrust::system::detail::generic::select_system;
+  using HYDRA_EXTERNAL_NS::thrust::system::detail::generic::select_system;
 
-  typedef typename thrust::iterator_system<InputIterator1>::type System1;
-  typedef typename thrust::iterator_system<InputIterator2>::type System2;
-  typedef typename thrust::iterator_system<OutputIterator>::type System3;
+  typedef typename HYDRA_EXTERNAL_NS::thrust::iterator_system<InputIterator1>::type System1;
+  typedef typename HYDRA_EXTERNAL_NS::thrust::iterator_system<InputIterator2>::type System2;
+  typedef typename HYDRA_EXTERNAL_NS::thrust::iterator_system<OutputIterator>::type System3;
 
   System1 system1;
   System2 system2;
   System3 system3;
 
-  return thrust::exclusive_scan_by_key(select_system(system1,system2,system3), first1, last1, first2, result, init, binary_pred, binary_op);
+  return HYDRA_EXTERNAL_NS::thrust::exclusive_scan_by_key(select_system(system1,system2,system3), first1, last1, first2, result, init, binary_pred, binary_op);
 }
 
 

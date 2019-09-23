@@ -55,8 +55,8 @@ struct clone_constness<const src_type, dest_type>
 
 HYDRA_EXTERNAL_NAMESPACE_END
 
-#define __THRUST_DEFINE_IS_CALL_POSSIBLE(trait_name, member_function_name)                                                                \
-__THRUST_DEFINE_HAS_MEMBER_FUNCTION(trait_name##_has_member, member_function_name)                                                        \
+#define __HYDRA_THRUST_DEFINE_IS_CALL_POSSIBLE(trait_name, member_function_name)                                                                \
+__HYDRA_THRUST_DEFINE_HAS_MEMBER_FUNCTION(trait_name##_has_member, member_function_name)                                                        \
                                                                                                                                           \
 template <typename T, typename Signature>                                                                                                 \
 struct trait_name                                                                                                                         \
@@ -70,7 +70,7 @@ struct trait_name                                                               
       no member_function_name(...) const;                                                                                                 \
     };                                                                                                                                    \
                                                                                                                                           \
-    typedef typename thrust::detail::is_call_possible_detail::clone_constness<T, derived>::type derived_type;                             \
+    typedef typename HYDRA_EXTERNAL_NS::thrust::detail::is_call_possible_detail::clone_constness<T, derived>::type derived_type;                             \
                                                                                                                                           \
     template<typename U, typename Result>                                                                                                 \
     struct return_value_check                                                                                                             \
@@ -78,7 +78,7 @@ struct trait_name                                                               
       static yes deduce(Result);                                                                                                          \
       static no deduce(...);                                                                                                              \
       static no deduce(no);                                                                                                               \
-      static no deduce(thrust::detail::is_call_possible_detail::void_exp_result<T>);                                                      \
+      static no deduce(HYDRA_EXTERNAL_NS::thrust::detail::is_call_possible_detail::void_exp_result<T>);                                                      \
     };                                                                                                                                    \
                                                                                                                                           \
     template<typename U>                                                                                                                  \
@@ -103,7 +103,7 @@ struct trait_name                                                               
       static const bool value =                                                                                                           \
         sizeof(                                                                                                                           \
                 return_value_check<T, Result>::deduce(                                                                                    \
-                  (test_me.member_function_name(arg), thrust::detail::is_call_possible_detail::void_exp_result<T>())                      \
+                  (test_me.member_function_name(arg), HYDRA_EXTERNAL_NS::thrust::detail::is_call_possible_detail::void_exp_result<T>())                      \
                 )                                                                                                                         \
               ) == sizeof(yes);                                                                                                           \
     };                                                                                                                                    \
@@ -118,7 +118,7 @@ struct trait_name                                                               
       static const bool value =                                                                                                           \
         sizeof(                                                                                                                           \
                 return_value_check<T, Result>::deduce(                                                                                    \
-                  (test_me.member_function_name(arg1,arg2), thrust::detail::is_call_possible_detail::void_exp_result<T>())                \
+                  (test_me.member_function_name(arg1,arg2), HYDRA_EXTERNAL_NS::thrust::detail::is_call_possible_detail::void_exp_result<T>())                \
                 )                                                                                                                         \
               ) == sizeof(yes);                                                                                                           \
     };                                                                                                                                    \
@@ -134,7 +134,7 @@ struct trait_name                                                               
       static const bool value =                                                                                                           \
         sizeof(                                                                                                                           \
                 return_value_check<T, Result>::deduce(                                                                                    \
-                  (test_me.member_function_name(arg1,arg2,arg3), thrust::detail::is_call_possible_detail::void_exp_result<T>())           \
+                  (test_me.member_function_name(arg1,arg2,arg3), HYDRA_EXTERNAL_NS::thrust::detail::is_call_possible_detail::void_exp_result<T>())           \
                 )                                                                                                                         \
               ) == sizeof(yes);                                                                                                           \
     };                                                                                                                                    \
@@ -151,13 +151,13 @@ struct trait_name                                                               
       static const bool value =                                                                                                           \
         sizeof(                                                                                                                           \
                 return_value_check<T, Result>::deduce(                                                                                    \
-                  (test_me.member_function_name(arg1,arg2,arg3,arg4), thrust::detail::is_call_possible_detail::void_exp_result<T>())      \
+                  (test_me.member_function_name(arg1,arg2,arg3,arg4), HYDRA_EXTERNAL_NS::thrust::detail::is_call_possible_detail::void_exp_result<T>())      \
                 )                                                                                                                         \
               ) == sizeof(yes);                                                                                                           \
     };                                                                                                                                    \
                                                                                                                                           \
   public:                                                                                                                                 \
     static const bool value = impl<trait_name##_has_member<T,Signature>::value, Signature>::value;                                        \
-    typedef thrust::detail::integral_constant<bool,value> type;                                                                           \
+    typedef HYDRA_EXTERNAL_NS::thrust::detail::integral_constant<bool,value> type;                                                                           \
 }; 
 

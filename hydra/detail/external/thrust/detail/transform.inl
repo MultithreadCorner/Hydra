@@ -35,13 +35,13 @@ template<typename DerivedPolicy,
          typename OutputIterator,
          typename UnaryFunction>
 __hydra_host__ __hydra_device__
-  OutputIterator transform(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
+  OutputIterator transform(const HYDRA_EXTERNAL_NS::thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                            InputIterator first, InputIterator last,
                            OutputIterator result,
                            UnaryFunction op)
 {
-  using thrust::system::detail::generic::transform;
-  return transform(thrust::detail::derived_cast(thrust::detail::strip_const(exec)), first, last, result, op);
+  using HYDRA_EXTERNAL_NS::thrust::system::detail::generic::transform;
+  return transform(HYDRA_EXTERNAL_NS::thrust::detail::derived_cast(HYDRA_EXTERNAL_NS::thrust::detail::strip_const(exec)), first, last, result, op);
 } // end transform()
 
 
@@ -52,14 +52,14 @@ template<typename DerivedPolicy,
          typename OutputIterator,
          typename BinaryFunction>
 __hydra_host__ __hydra_device__
-  OutputIterator transform(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
+  OutputIterator transform(const HYDRA_EXTERNAL_NS::thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                            InputIterator1 first1, InputIterator1 last1,
                            InputIterator2 first2,
                            OutputIterator result,
                            BinaryFunction op)
 {
-  using thrust::system::detail::generic::transform;
-  return transform(thrust::detail::derived_cast(thrust::detail::strip_const(exec)), first1, last1, first2, result, op);
+  using HYDRA_EXTERNAL_NS::thrust::system::detail::generic::transform;
+  return transform(HYDRA_EXTERNAL_NS::thrust::detail::derived_cast(HYDRA_EXTERNAL_NS::thrust::detail::strip_const(exec)), first1, last1, first2, result, op);
 } // end transform()
 
 
@@ -70,14 +70,14 @@ template<typename DerivedPolicy,
          typename UnaryFunction,
          typename Predicate>
 __hydra_host__ __hydra_device__
-  ForwardIterator transform_if(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
+  ForwardIterator transform_if(const HYDRA_EXTERNAL_NS::thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                                InputIterator first, InputIterator last,
                                ForwardIterator result,
                                UnaryFunction op,
                                Predicate pred)
 {
-  using thrust::system::detail::generic::transform_if;
-  return transform_if(thrust::detail::derived_cast(thrust::detail::strip_const(exec)), first, last, result, op, pred);
+  using HYDRA_EXTERNAL_NS::thrust::system::detail::generic::transform_if;
+  return transform_if(HYDRA_EXTERNAL_NS::thrust::detail::derived_cast(HYDRA_EXTERNAL_NS::thrust::detail::strip_const(exec)), first, last, result, op, pred);
 } // end transform_if()
 
 
@@ -89,15 +89,15 @@ template<typename DerivedPolicy,
          typename UnaryFunction,
          typename Predicate>
 __hydra_host__ __hydra_device__
-  ForwardIterator transform_if(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
+  ForwardIterator transform_if(const HYDRA_EXTERNAL_NS::thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                                InputIterator1 first, InputIterator1 last,
                                InputIterator2 stencil,
                                ForwardIterator result,
                                UnaryFunction op,
                                Predicate pred)
 {
-  using thrust::system::detail::generic::transform_if;
-  return transform_if(thrust::detail::derived_cast(thrust::detail::strip_const(exec)), first, last, stencil, result, op, pred);
+  using HYDRA_EXTERNAL_NS::thrust::system::detail::generic::transform_if;
+  return transform_if(HYDRA_EXTERNAL_NS::thrust::detail::derived_cast(HYDRA_EXTERNAL_NS::thrust::detail::strip_const(exec)), first, last, stencil, result, op, pred);
 } // end transform_if()
 
 
@@ -110,7 +110,7 @@ template<typename DerivedPolicy,
          typename BinaryFunction,
          typename Predicate>
 __hydra_host__ __hydra_device__
-  ForwardIterator transform_if(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
+  ForwardIterator transform_if(const HYDRA_EXTERNAL_NS::thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                                InputIterator1 first1, InputIterator1 last1,
                                InputIterator2 first2,
                                InputIterator3 stencil,
@@ -118,8 +118,8 @@ __hydra_host__ __hydra_device__
                                BinaryFunction binary_op,
                                Predicate pred)
 {
-  using thrust::system::detail::generic::transform_if;
-  return transform_if(thrust::detail::derived_cast(thrust::detail::strip_const(exec)), first1, last1, first2, stencil, result, binary_op, pred);
+  using HYDRA_EXTERNAL_NS::thrust::system::detail::generic::transform_if;
+  return transform_if(HYDRA_EXTERNAL_NS::thrust::detail::derived_cast(HYDRA_EXTERNAL_NS::thrust::detail::strip_const(exec)), first1, last1, first2, stencil, result, binary_op, pred);
 } // end transform_if()
 
 
@@ -131,15 +131,15 @@ template<typename InputIterator,
                            OutputIterator result,
                            UnaryFunction op)
 {
-  using thrust::system::detail::generic::select_system;
+  using HYDRA_EXTERNAL_NS::thrust::system::detail::generic::select_system;
 
-  typedef typename thrust::iterator_system<InputIterator>::type  System1;
-  typedef typename thrust::iterator_system<OutputIterator>::type System2;
+  typedef typename HYDRA_EXTERNAL_NS::thrust::iterator_system<InputIterator>::type  System1;
+  typedef typename HYDRA_EXTERNAL_NS::thrust::iterator_system<OutputIterator>::type System2;
 
   System1 system1;
   System2 system2;
 
-  return thrust::transform(select_system(system1,system2), first, last, result, op);
+  return HYDRA_EXTERNAL_NS::thrust::transform(select_system(system1,system2), first, last, result, op);
 } // end transform()
 
 
@@ -153,17 +153,17 @@ template<typename InputIterator1,
                            OutputIterator result,
                            BinaryFunction op)
 {
-  using thrust::system::detail::generic::select_system;
+  using HYDRA_EXTERNAL_NS::thrust::system::detail::generic::select_system;
 
-  typedef typename thrust::iterator_system<InputIterator1>::type System1;
-  typedef typename thrust::iterator_system<InputIterator2>::type System2;
-  typedef typename thrust::iterator_system<OutputIterator>::type System3;
+  typedef typename HYDRA_EXTERNAL_NS::thrust::iterator_system<InputIterator1>::type System1;
+  typedef typename HYDRA_EXTERNAL_NS::thrust::iterator_system<InputIterator2>::type System2;
+  typedef typename HYDRA_EXTERNAL_NS::thrust::iterator_system<OutputIterator>::type System3;
 
   System1 system1;
   System2 system2;
   System3 system3;
 
-  return thrust::transform(select_system(system1,system2,system3), first1, last1, first2, result, op);
+  return HYDRA_EXTERNAL_NS::thrust::transform(select_system(system1,system2,system3), first1, last1, first2, result, op);
 } // end transform()
 
 
@@ -177,15 +177,15 @@ template<typename InputIterator,
                                UnaryFunction unary_op,
                                Predicate pred)
 {
-  using thrust::system::detail::generic::select_system;
+  using HYDRA_EXTERNAL_NS::thrust::system::detail::generic::select_system;
 
-  typedef typename thrust::iterator_system<InputIterator>::type   System1;
-  typedef typename thrust::iterator_system<ForwardIterator>::type System2;
+  typedef typename HYDRA_EXTERNAL_NS::thrust::iterator_system<InputIterator>::type   System1;
+  typedef typename HYDRA_EXTERNAL_NS::thrust::iterator_system<ForwardIterator>::type System2;
 
   System1 system1;
   System2 system2;
 
-  return thrust::transform_if(select_system(system1,system2), first, last, result, unary_op, pred);
+  return HYDRA_EXTERNAL_NS::thrust::transform_if(select_system(system1,system2), first, last, result, unary_op, pred);
 } // end transform_if()
 
 
@@ -201,17 +201,17 @@ template<typename InputIterator1,
                                UnaryFunction unary_op,
                                Predicate pred)
 {
-  using thrust::system::detail::generic::select_system;
+  using HYDRA_EXTERNAL_NS::thrust::system::detail::generic::select_system;
 
-  typedef typename thrust::iterator_system<InputIterator1>::type  System1;
-  typedef typename thrust::iterator_system<InputIterator2>::type  System2;
-  typedef typename thrust::iterator_system<ForwardIterator>::type System3;
+  typedef typename HYDRA_EXTERNAL_NS::thrust::iterator_system<InputIterator1>::type  System1;
+  typedef typename HYDRA_EXTERNAL_NS::thrust::iterator_system<InputIterator2>::type  System2;
+  typedef typename HYDRA_EXTERNAL_NS::thrust::iterator_system<ForwardIterator>::type System3;
 
   System1 system1;
   System2 system2;
   System3 system3;
 
-  return thrust::transform_if(select_system(system1,system2,system3), first, last, stencil, result, unary_op, pred);
+  return HYDRA_EXTERNAL_NS::thrust::transform_if(select_system(system1,system2,system3), first, last, stencil, result, unary_op, pred);
 } // end transform_if()
 
 
@@ -229,19 +229,19 @@ template<typename InputIterator1,
                                BinaryFunction binary_op,
                                Predicate pred)
 {
-  using thrust::system::detail::generic::select_system;
+  using HYDRA_EXTERNAL_NS::thrust::system::detail::generic::select_system;
 
-  typedef typename thrust::iterator_system<InputIterator1>::type  System1;
-  typedef typename thrust::iterator_system<InputIterator2>::type  System2;
-  typedef typename thrust::iterator_system<InputIterator3>::type  System3;
-  typedef typename thrust::iterator_system<ForwardIterator>::type System4;
+  typedef typename HYDRA_EXTERNAL_NS::thrust::iterator_system<InputIterator1>::type  System1;
+  typedef typename HYDRA_EXTERNAL_NS::thrust::iterator_system<InputIterator2>::type  System2;
+  typedef typename HYDRA_EXTERNAL_NS::thrust::iterator_system<InputIterator3>::type  System3;
+  typedef typename HYDRA_EXTERNAL_NS::thrust::iterator_system<ForwardIterator>::type System4;
 
   System1 system1;
   System2 system2;
   System3 system3;
   System4 system4;
 
-  return thrust::transform_if(select_system(system1,system2,system3,system4), first1, last1, first2, stencil, result, binary_op, pred);
+  return HYDRA_EXTERNAL_NS::thrust::transform_if(select_system(system1,system2,system3,system4), first1, last1, first2, stencil, result, binary_op, pred);
 } // end transform_if()
 
 

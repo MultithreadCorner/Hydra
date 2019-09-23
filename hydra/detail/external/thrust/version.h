@@ -20,9 +20,9 @@
  *         <hydra/detail/external/thrust/version.h> is the only Thrust header that is guaranteed to
  *         change with every thrust release.
  *
- *         It is also the only header that does not cause THRUST_HOST_SYSTEM
- *         and THRUST_DEVICE_SYSTEM to be defined. This way, a user may include
- *         this header and inspect THRUST_VERSION before programatically defining
+ *         It is also the only header that does not cause HYDRA_THRUST_HOST_SYSTEM
+ *         and HYDRA_THRUST_DEVICE_SYSTEM to be defined. This way, a user may include
+ *         this header and inspect HYDRA_THRUST_VERSION before programatically defining
  *         either of these macros herself.
  */
 
@@ -31,47 +31,47 @@
 //  This is the only Thrust header that is guaranteed to
 //  change with every Thrust release.
 //
-//  THRUST_VERSION % 100 is the sub-minor version
-//  THRUST_VERSION / 100 % 1000 is the minor version
-//  THRUST_VERSION / 100000 is the major version
+//  HYDRA_THRUST_VERSION % 100 is the sub-minor version
+//  HYDRA_THRUST_VERSION / 100 % 1000 is the minor version
+//  HYDRA_THRUST_VERSION / 100000 is the major version
 //
 //  Because this header does not #include <hydra/detail/external/thrust/detail/config.h>,
 //  it is the only Thrust header that does not cause
-//  THRUST_HOST_SYSTEM and THRUST_DEVICE_SYSTEM to be defined.
+//  HYDRA_THRUST_HOST_SYSTEM and HYDRA_THRUST_DEVICE_SYSTEM to be defined.
 
-/*! \def THRUST_VERSION
- *  \brief The preprocessor macro \p THRUST_VERSION encodes the version
+/*! \def HYDRA_THRUST_VERSION
+ *  \brief The preprocessor macro \p HYDRA_THRUST_VERSION encodes the version
  *         number of the Thrust library.
  *
- *         <tt>THRUST_VERSION % 100</tt> is the sub-minor version.
- *         <tt>THRUST_VERSION / 100 % 1000</tt> is the minor version.
- *         <tt>THRUST_VERSION / 100000</tt> is the major version.
+ *         <tt>HYDRA_THRUST_VERSION % 100</tt> is the sub-minor version.
+ *         <tt>HYDRA_THRUST_VERSION / 100 % 1000</tt> is the minor version.
+ *         <tt>HYDRA_THRUST_VERSION / 100000</tt> is the major version.
  */
-#define THRUST_VERSION 100906
+#define HYDRA_THRUST_VERSION 100906
 
-/*! \def THRUST_MAJOR_VERSION
- *  \brief The preprocessor macro \p THRUST_MAJOR_VERSION encodes the
+/*! \def HYDRA_THRUST_MAJOR_VERSION
+ *  \brief The preprocessor macro \p HYDRA_THRUST_MAJOR_VERSION encodes the
  *         major version number of the Thrust library.
  */
-#define THRUST_MAJOR_VERSION     (THRUST_VERSION / 100000)
+#define HYDRA_THRUST_MAJOR_VERSION     (HYDRA_THRUST_VERSION / 100000)
 
-/*! \def THRUST_MINOR_VERSION
- *  \brief The preprocessor macro \p THRUST_MINOR_VERSION encodes the
+/*! \def HYDRA_THRUST_MINOR_VERSION
+ *  \brief The preprocessor macro \p HYDRA_THRUST_MINOR_VERSION encodes the
  *         minor version number of the Thrust library.
  */
-#define THRUST_MINOR_VERSION     (THRUST_VERSION / 100 % 1000)
+#define HYDRA_THRUST_MINOR_VERSION     (HYDRA_THRUST_VERSION / 100 % 1000)
 
-/*! \def THRUST_SUBMINOR_VERSION
- *  \brief The preprocessor macro \p THRUST_SUBMINOR_VERSION encodes the
+/*! \def HYDRA_THRUST_SUBMINOR_VERSION
+ *  \brief The preprocessor macro \p HYDRA_THRUST_SUBMINOR_VERSION encodes the
  *         sub-minor version number of the Thrust library.
  */
-#define THRUST_SUBMINOR_VERSION  (THRUST_VERSION % 100)
+#define HYDRA_THRUST_SUBMINOR_VERSION  (HYDRA_THRUST_VERSION % 100)
 
-/*! \def THRUST_PATCH_NUMBER
- *  \brief The preprocessor macro \p THRUST_PATCH_NUMBER encodes the
+/*! \def HYDRA_THRUST_PATCH_NUMBER
+ *  \brief The preprocessor macro \p HYDRA_THRUST_PATCH_NUMBER encodes the
  *         patch number of the Thrust library.
  */
-#define THRUST_PATCH_NUMBER 0
+#define HYDRA_THRUST_PATCH_NUMBER 0
 
 
 // Declare these namespaces here for the purpose of Doxygenating them

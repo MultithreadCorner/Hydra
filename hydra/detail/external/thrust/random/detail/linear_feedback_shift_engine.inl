@@ -126,7 +126,7 @@ __hydra_host__ __hydra_device__
 bool operator==(const linear_feedback_shift_engine<UIntType,w,k,q,s> &lhs,
                 const linear_feedback_shift_engine<UIntType,w,k,q,s> &rhs)
 {
-  return thrust::random::detail::random_core_access::equal(lhs,rhs);
+  return HYDRA_EXTERNAL_NS::thrust::random::detail::random_core_access::equal(lhs,rhs);
 }
 
 
@@ -145,7 +145,7 @@ std::basic_ostream<CharT,Traits>&
 operator<<(std::basic_ostream<CharT,Traits> &os,
            const linear_feedback_shift_engine<UIntType_,w_,k_,q_,s_> &e)
 {
-  return thrust::random::detail::random_core_access::stream_out(os,e);
+  return HYDRA_EXTERNAL_NS::thrust::random::detail::random_core_access::stream_out(os,e);
 }
 
 
@@ -155,7 +155,7 @@ std::basic_istream<CharT,Traits>&
 operator>>(std::basic_istream<CharT,Traits> &is,
            linear_feedback_shift_engine<UIntType_,w_,k_,q_,s_> &e)
 {
-  return thrust::random::detail::random_core_access::stream_in(is,e);
+  return HYDRA_EXTERNAL_NS::thrust::random::detail::random_core_access::stream_in(is,e);
 }
 
 

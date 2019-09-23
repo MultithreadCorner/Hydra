@@ -43,7 +43,7 @@ struct result_of_adaptable_function;
 template<typename Functor, typename Arg1>
   struct result_of_adaptable_function<
     Functor(Arg1),
-    typename thrust::detail::enable_if<thrust::detail::has_result_type<Functor>::value>::type
+    typename HYDRA_EXTERNAL_NS::thrust::detail::enable_if<HYDRA_EXTERNAL_NS::thrust::detail::has_result_type<Functor>::value>::type
   >
 {
   typedef typename Functor::result_type type;
@@ -53,7 +53,7 @@ template<typename Functor, typename Arg1>
 template<typename Functor, typename Arg1, typename Arg2>
   struct result_of_adaptable_function<
     Functor(Arg1,Arg2),
-    typename thrust::detail::enable_if<thrust::detail::has_result_type<Functor>::value>::type
+    typename HYDRA_EXTERNAL_NS::thrust::detail::enable_if<HYDRA_EXTERNAL_NS::thrust::detail::has_result_type<Functor>::value>::type
   >
 {
   typedef typename Functor::result_type type;

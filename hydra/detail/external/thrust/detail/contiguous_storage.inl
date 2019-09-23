@@ -230,8 +230,8 @@ __hydra_host__ __hydra_device__
   void contiguous_storage<T,Alloc>
     ::swap(contiguous_storage &x)
 {
-  thrust::swap(m_begin, x.m_begin);
-  thrust::swap(m_size, x.m_size);
+  HYDRA_EXTERNAL_NS::thrust::swap(m_begin, x.m_begin);
+  HYDRA_EXTERNAL_NS::thrust::swap(m_size, x.m_size);
 
   swap_allocators(
     integral_constant<
@@ -240,7 +240,7 @@ __hydra_host__ __hydra_device__
     >(),
     x.m_allocator);
 
-  thrust::swap(m_allocator, x.m_allocator);
+  HYDRA_EXTERNAL_NS::thrust::swap(m_allocator, x.m_allocator);
 } // end contiguous_storage::swap()
 
 template<typename T, typename Alloc>
@@ -264,7 +264,7 @@ template<typename T, typename Alloc>
   __hydra_host__ __hydra_device__
     typename contiguous_storage<T,Alloc>::iterator
       contiguous_storage<T,Alloc>
-        ::uninitialized_copy(thrust::execution_policy<System> &from_system, InputIterator first, InputIterator last, iterator result)
+        ::uninitialized_copy(HYDRA_EXTERNAL_NS::thrust::execution_policy<System> &from_system, InputIterator first, InputIterator last, iterator result)
 {
   return iterator(copy_construct_range(from_system, m_allocator, first, last, result.base()));
 } // end contiguous_storage::uninitialized_copy()
@@ -277,7 +277,7 @@ template<typename T, typename Alloc>
         ::uninitialized_copy(InputIterator first, InputIterator last, iterator result)
 {
   // XXX assumes InputIterator's associated System is default-constructible
-  typename thrust::iterator_system<InputIterator>::type from_system;
+  typename HYDRA_EXTERNAL_NS::thrust::iterator_system<InputIterator>::type from_system;
 
   return iterator(copy_construct_range(from_system, m_allocator, first, last, result.base()));
 } // end contiguous_storage::uninitialized_copy()
@@ -287,7 +287,7 @@ template<typename T, typename Alloc>
   __hydra_host__ __hydra_device__
     typename contiguous_storage<T,Alloc>::iterator
       contiguous_storage<T,Alloc>
-        ::uninitialized_copy_n(thrust::execution_policy<System> &from_system, InputIterator first, Size n, iterator result)
+        ::uninitialized_copy_n(HYDRA_EXTERNAL_NS::thrust::execution_policy<System> &from_system, InputIterator first, Size n, iterator result)
 {
   return iterator(copy_construct_range_n(from_system, m_allocator, first, n, result.base()));
 } // end contiguous_storage::uninitialized_copy_n()
@@ -300,7 +300,7 @@ template<typename T, typename Alloc>
         ::uninitialized_copy_n(InputIterator first, Size n, iterator result)
 {
   // XXX assumes InputIterator's associated System is default-constructible
-  typename thrust::iterator_system<InputIterator>::type from_system;
+  typename HYDRA_EXTERNAL_NS::thrust::iterator_system<InputIterator>::type from_system;
 
   return iterator(copy_construct_range_n(from_system, m_allocator, first, n, result.base()));
 } // end contiguous_storage::uninitialized_copy_n()
@@ -437,7 +437,7 @@ __hydra_host__ __hydra_device__
     throw allocator_mismatch_on_swap();
   }
 #endif
-  thrust::swap(m_allocator, other);
+  HYDRA_EXTERNAL_NS::thrust::swap(m_allocator, other);
 } // end contiguous_storage::swap_allocators()
 
 template<typename T, typename Alloc>

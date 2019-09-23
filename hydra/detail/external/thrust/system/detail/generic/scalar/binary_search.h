@@ -81,5 +81,7 @@ bool binary_search(RandomAccessIterator first, RandomAccessIterator last, const 
 
 } // end HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
 
+HYDRA_EXTERNAL_NAMESPACE_END
+
 #include <hydra/detail/external/thrust/system/detail/generic/scalar/binary_search.inl>
 

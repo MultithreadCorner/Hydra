@@ -36,7 +36,7 @@ template<typename Element, typename Tag, typename Reference = use_default, typen
 
 HYDRA_EXTERNAL_NAMESPACE_END
 
-// specialize thrust::iterator_traits to avoid problems with the name of
+// specialize HYDRA_EXTERNAL_NS::thrust::iterator_traits to avoid problems with the name of
 // pointer's constructor shadowing its nested pointer type
 // do this before pointer is defined so the specialization is correctly
 // used inside the definition
@@ -44,10 +44,10 @@ HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
 {
 
 template<typename Element, typename Tag, typename Reference, typename Derived>
-  struct iterator_traits<thrust::pointer<Element,Tag,Reference,Derived> >
+  struct iterator_traits<HYDRA_EXTERNAL_NS::thrust::pointer<Element,Tag,Reference,Derived> >
 {
   private:
-    typedef thrust::pointer<Element,Tag,Reference,Derived> ptr;
+    typedef HYDRA_EXTERNAL_NS::thrust::pointer<Element,Tag,Reference,Derived> ptr;
 
   public:
     typedef typename ptr::iterator_category iterator_category;
@@ -68,43 +68,43 @@ HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
 namespace detail
 {
 
-// this metafunction computes the type of iterator_adaptor thrust::pointer should inherit from
+// this metafunction computes the type of iterator_adaptor HYDRA_EXTERNAL_NS::thrust::pointer should inherit from
 template<typename Element, typename Tag, typename Reference, typename Derived>
   struct pointer_base
 {
   // void pointers should have no element type
   // note that we remove_cv from the Element type to get the value_type
-  typedef typename thrust::detail::eval_if<
-    thrust::detail::is_void<typename thrust::detail::remove_const<Element>::type>::value,
-    thrust::detail::identity_<void>,
-    thrust::detail::remove_cv<Element>
+  typedef typename HYDRA_EXTERNAL_NS::thrust::detail::eval_if<
+    HYDRA_EXTERNAL_NS::thrust::detail::is_void<typename HYDRA_EXTERNAL_NS::thrust::detail::remove_const<Element>::type>::value,
+    HYDRA_EXTERNAL_NS::thrust::detail::identity_<void>,
+    HYDRA_EXTERNAL_NS::thrust::detail::remove_cv<Element>
   >::type value_type;
 
   // if no Derived type is given, just use pointer
-  typedef typename thrust::detail::eval_if<
-    thrust::detail::is_same<Derived,use_default>::value,
-    thrust::detail::identity_<pointer<Element,Tag,Reference,Derived> >,
-    thrust::detail::identity_<Derived>
+  typedef typename HYDRA_EXTERNAL_NS::thrust::detail::eval_if<
+    HYDRA_EXTERNAL_NS::thrust::detail::is_same<Derived,use_default>::value,
+    HYDRA_EXTERNAL_NS::thrust::detail::identity_<pointer<Element,Tag,Reference,Derived> >,
+    HYDRA_EXTERNAL_NS::thrust::detail::identity_<Derived>
   >::type derived_type;
 
   // void pointers should have no reference type
   // if no Reference type is given, just use reference
-  typedef typename thrust::detail::eval_if<
-    thrust::detail::is_void<typename thrust::detail::remove_const<Element>::type>::value,
-    thrust::detail::identity_<void>,
-    thrust::detail::eval_if<
-      thrust::detail::is_same<Reference,use_default>::value,
-      thrust::detail::identity_<reference<Element,derived_type> >,
-      thrust::detail::identity_<Reference>
+  typedef typename HYDRA_EXTERNAL_NS::thrust::detail::eval_if<
+    HYDRA_EXTERNAL_NS::thrust::detail::is_void<typename HYDRA_EXTERNAL_NS::thrust::detail::remove_const<Element>::type>::value,
+    HYDRA_EXTERNAL_NS::thrust::detail::identity_<void>,
+    HYDRA_EXTERNAL_NS::thrust::detail::eval_if<
+      HYDRA_EXTERNAL_NS::thrust::detail::is_same<Reference,use_default>::value,
+      HYDRA_EXTERNAL_NS::thrust::detail::identity_<reference<Element,derived_type> >,
+      HYDRA_EXTERNAL_NS::thrust::detail::identity_<Reference>
     >
   >::type reference_arg;
 
-  typedef thrust::iterator_adaptor<
+  typedef HYDRA_EXTERNAL_NS::thrust::iterator_adaptor<
     derived_type,                        // pass along the type of our Derived class to iterator_adaptor
     Element *,                           // we adapt a raw pointer
     value_type,                          // the value type
     Tag,                                 // system tag
-    thrust::random_access_traversal_tag, // pointers have random access traversal
+    HYDRA_EXTERNAL_NS::thrust::random_access_traversal_tag, // pointers have random access traversal
     reference_arg,                       // pass along our Reference type
     std::ptrdiff_t
   > type;
@@ -124,15 +124,15 @@ template<typename Element, typename Tag, typename Reference, typename Derived>
 // These should just call the corresponding members of pointer.
 template<typename Element, typename Tag, typename Reference, typename Derived>
   class pointer
-    : public thrust::detail::pointer_base<Element,Tag,Reference,Derived>::type
+    : public HYDRA_EXTERNAL_NS::thrust::detail::pointer_base<Element,Tag,Reference,Derived>::type
 {
   private:
-    typedef typename thrust::detail::pointer_base<Element,Tag,Reference,Derived>::type         super_t;
+    typedef typename HYDRA_EXTERNAL_NS::thrust::detail::pointer_base<Element,Tag,Reference,Derived>::type         super_t;
 
-    typedef typename thrust::detail::pointer_base<Element,Tag,Reference,Derived>::derived_type derived_type;
+    typedef typename HYDRA_EXTERNAL_NS::thrust::detail::pointer_base<Element,Tag,Reference,Derived>::derived_type derived_type;
 
     // friend iterator_core_access to give it access to dereference
-    friend class thrust::iterator_core_access;
+    friend class HYDRA_EXTERNAL_NS::thrust::iterator_core_access;
 
     __hydra_host__ __hydra_device__
     typename super_t::reference dereference() const;
@@ -149,7 +149,7 @@ template<typename Element, typename Tag, typename Reference, typename Derived>
     __hydra_host__ __hydra_device__
     pointer();
 
-    #if THRUST_CPP_DIALECT >= 2011
+    #if HYDRA_THRUST_CPP_DIALECT >= 2011
     // NOTE: This is needed so that Thrust smart pointers can be used in
     // `std::unique_ptr`.
     __hydra_host__ __hydra_device__
@@ -167,7 +167,7 @@ template<typename Element, typename Tag, typename Reference, typename Derived>
     template<typename OtherPointer>
     __hydra_host__ __hydra_device__
     pointer(const OtherPointer &other,
-            typename thrust::detail::enable_if_pointer_is_convertible<
+            typename HYDRA_EXTERNAL_NS::thrust::detail::enable_if_pointer_is_convertible<
               OtherPointer,
               pointer<Element,Tag,Reference,Derived>
             >::type * = 0);
@@ -178,14 +178,14 @@ template<typename Element, typename Tag, typename Reference, typename Derived>
     __hydra_host__ __hydra_device__
     explicit
     pointer(const OtherPointer &other,
-            typename thrust::detail::enable_if_void_pointer_is_system_convertible<
+            typename HYDRA_EXTERNAL_NS::thrust::detail::enable_if_void_pointer_is_system_convertible<
               OtherPointer,
               pointer<Element,Tag,Reference,Derived>
             >::type * = 0);
 
     // assignment
 
-    #if THRUST_CPP_DIALECT >= 2011
+    #if HYDRA_THRUST_CPP_DIALECT >= 2011
     // NOTE: This is needed so that Thrust smart pointers can be used in
     // `std::unique_ptr`.
     __hydra_host__ __hydra_device__
@@ -196,7 +196,7 @@ template<typename Element, typename Tag, typename Reference, typename Derived>
     // OtherPointer's system shall be convertible to Tag
     template<typename OtherPointer>
     __hydra_host__ __hydra_device__
-    typename thrust::detail::enable_if_pointer_is_convertible<
+    typename HYDRA_EXTERNAL_NS::thrust::detail::enable_if_pointer_is_convertible<
       OtherPointer,
       pointer,
       derived_type &
@@ -208,7 +208,7 @@ template<typename Element, typename Tag, typename Reference, typename Derived>
     __hydra_host__ __hydra_device__
     Element *get() const;
 
-    #if THRUST_CPP_DIALECT >= 2011
+    #if HYDRA_THRUST_CPP_DIALECT >= 2011
     // NOTE: This is needed so that Thrust smart pointers can be used in
     // `std::unique_ptr`.
     __hydra_host__ __hydra_device__
@@ -224,7 +224,7 @@ std::basic_ostream<charT, traits> &
 operator<<(std::basic_ostream<charT, traits> &os,
            const pointer<Element, Tag, Reference, Derived> &p);
 
-#if THRUST_CPP_DIALECT >= 2011
+#if HYDRA_THRUST_CPP_DIALECT >= 2011
 // NOTE: This is needed so that Thrust smart pointers can be used in
 // `std::unique_ptr`.
 template <typename Element, typename Tag, typename Reference, typename Derived>

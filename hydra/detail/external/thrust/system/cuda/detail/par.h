@@ -32,13 +32,14 @@
 
 #include <hydra/detail/external/thrust/detail/allocator_aware_execution_policy.h>
 
-#if THRUST_CPP_DIALECT >= 2011
+#if HYDRA_THRUST_CPP_DIALECT >= 2011
 #  include <hydra/detail/external/thrust/detail/dependencies_aware_execution_policy.h>
 #endif
 
 HYDRA_EXTERNAL_NAMESPACE_BEGIN
 
-THRUST_BEGIN_NS
+HYDRA_THRUST_BEGIN_NS
+
 namespace cuda_cub {
 
 inline __hydra_host__ __hydra_device__
@@ -62,7 +63,7 @@ __hydra_host__ __hydra_device__
 cudaError_t
 synchronize_stream(execution_policy<Derived> &)
 {
-  #if __THRUST_HAS_CUDART__
+  #if __HYDRA_THRUST_HAS_CUDART__
     cudaDeviceSynchronize();
     return cudaGetLastError();
   #else
@@ -82,7 +83,7 @@ public:
   execute_on_stream_base(cudaStream_t stream_ = default_stream())
       : stream(stream_) {}
 
-  THRUST_RUNTIME_FUNCTION
+  HYDRA_THRUST_RUNTIME_FUNCTION
   Derived
   on(cudaStream_t const &s) const
   {
@@ -106,12 +107,12 @@ private:
     #if   !__CUDA_ARCH__
       cudaStreamSynchronize(exec.stream);
       return cudaGetLastError();
-    #elif __THRUST_HAS_CUDART__
-      THRUST_UNUSED_VAR(exec);
+    #elif __HYDRA_THRUST_HAS_CUDART__
+      HYDRA_THRUST_UNUSED_VAR(exec);
       cudaDeviceSynchronize();
       return cudaGetLastError();
     #else
-      THRUST_UNUSED_VAR(exec);
+      HYDRA_THRUST_UNUSED_VAR(exec);
       return cudaSuccess;
     #endif
   }
@@ -129,10 +130,10 @@ struct execute_on_stream : execute_on_stream_base<execute_on_stream>
 
 
 struct par_t : execution_policy<par_t>,
-  thrust::detail::allocator_aware_execution_policy<
+  HYDRA_EXTERNAL_NS::thrust::detail::allocator_aware_execution_policy<
     execute_on_stream_base>
-#if THRUST_CPP_DIALECT >= 2011
-, thrust::detail::dependencies_aware_execution_policy<
+#if HYDRA_THRUST_CPP_DIALECT >= 2011
+, HYDRA_EXTERNAL_NS::thrust::detail::dependencies_aware_execution_policy<
     execute_on_stream_base>
 #endif
 {
@@ -143,7 +144,7 @@ struct par_t : execution_policy<par_t>,
 
   typedef execute_on_stream stream_attachment_type;
 
-  THRUST_RUNTIME_FUNCTION
+  HYDRA_THRUST_RUNTIME_FUNCTION
   stream_attachment_type
   on(cudaStream_t const &stream) const
   {
@@ -160,17 +161,17 @@ static const par_t par;
 
 namespace system {
 namespace cuda {
-  using thrust::cuda_cub::par;
+  using HYDRA_EXTERNAL_NS::thrust::cuda_cub::par;
   namespace detail {
-    using thrust::cuda_cub::par_t;
+    using HYDRA_EXTERNAL_NS::thrust::cuda_cub::par_t;
   }
 } // namesapce cuda
 } // namespace system
 
 namespace cuda {
-using thrust::cuda_cub::par;
+using HYDRA_EXTERNAL_NS::thrust::cuda_cub::par;
 } // namespace cuda
 
-THRUST_END_NS
+HYDRA_THRUST_END_NS
 
 HYDRA_EXTERNAL_NAMESPACE_END

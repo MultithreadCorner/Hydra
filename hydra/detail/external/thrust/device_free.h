@@ -45,19 +45,19 @@ HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
  *  ...
  *  // allocate some integers with device_malloc
  *  const int N = 100;
- *  thrust::device_ptr<int> int_array = thrust::device_malloc<int>(N);
+ *  HYDRA_EXTERNAL_NS::thrust::device_ptr<int> int_array = HYDRA_EXTERNAL_NS::thrust::device_malloc<int>(N);
  *
  *  // manipulate integers
  *  ...
  *
  *  // deallocate with device_free
- *  thrust::device_free(int_array);
+ *  HYDRA_EXTERNAL_NS::thrust::device_free(int_array);
  *  \endcode
  *
  *  \see device_ptr
  *  \see device_malloc
  */
-inline void device_free(thrust::device_ptr<void> ptr);
+inline void device_free(HYDRA_EXTERNAL_NS::thrust::device_ptr<void> ptr);
 
 /*! \}
  */

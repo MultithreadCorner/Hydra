@@ -59,19 +59,19 @@ template<typename T> class device_reference;
  */
 template<typename T>
   class device_ptr
-    : public thrust::pointer<
+    : public HYDRA_EXTERNAL_NS::thrust::pointer<
                T,
-               thrust::device_system_tag,
-               thrust::device_reference<T>,
-               thrust::device_ptr<T>
+               HYDRA_EXTERNAL_NS::thrust::device_system_tag,
+               HYDRA_EXTERNAL_NS::thrust::device_reference<T>,
+               HYDRA_EXTERNAL_NS::thrust::device_ptr<T>
              >
 {
   private:
-    typedef thrust::pointer<
+    typedef HYDRA_EXTERNAL_NS::thrust::pointer<
       T,
-      thrust::device_system_tag,
-      thrust::device_reference<T>,
-      thrust::device_ptr<T>
+      HYDRA_EXTERNAL_NS::thrust::device_system_tag,
+      HYDRA_EXTERNAL_NS::thrust::device_reference<T>,
+      HYDRA_EXTERNAL_NS::thrust::device_ptr<T>
     > super_t;
 
   public:
@@ -80,7 +80,7 @@ template<typename T>
     __hydra_host__ __hydra_device__
     device_ptr() : super_t() {}
 
-    #if THRUST_CPP_DIALECT >= 2011
+    #if HYDRA_THRUST_CPP_DIALECT >= 2011
     // NOTE: This is needed so that Thrust smart pointers can be used in
     // `std::unique_ptr`.
     __hydra_host__ __hydra_device__
@@ -116,7 +116,7 @@ template<typename T>
       return *this;
     }
 
-    #if THRUST_CPP_DIALECT >= 2011
+    #if HYDRA_THRUST_CPP_DIALECT >= 2011
     // NOTE: This is needed so that Thrust smart pointers can be used in
     // `std::unique_ptr`.
     __hydra_host__ __hydra_device__

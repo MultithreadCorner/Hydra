@@ -51,9 +51,9 @@ template<typename Allocator>
 // we need to construct T via the allocator if...
 template<typename Allocator, typename T>
   struct needs_default_construct_via_allocator
-    : thrust::detail::or_<
+    : HYDRA_EXTERNAL_NS::thrust::detail::or_<
         has_member_construct1<Allocator,T>,               // if the Allocator does something interesting
-        thrust::detail::not_<has_trivial_constructor<T> > // or if T's default constructor does something interesting
+        HYDRA_EXTERNAL_NS::thrust::detail::not_<has_trivial_constructor<T> > // or if T's default constructor does something interesting
       >
 {};
 
@@ -63,7 +63,7 @@ template<typename Allocator, typename T>
 // unless T's constructor does something interesting
 template<typename U, typename T>
   struct needs_default_construct_via_allocator<std::allocator<U>, T>
-    : thrust::detail::not_<has_trivial_constructor<T> >
+    : HYDRA_EXTERNAL_NS::thrust::detail::not_<has_trivial_constructor<T> >
 {};
 
 
@@ -77,7 +77,7 @@ __hydra_host__ __hydra_device__
   >::type
     default_construct_range(Allocator &a, Pointer p, Size n)
 {
-  thrust::for_each_n(allocator_system<Allocator>::get(a), p, n, construct1_via_allocator<Allocator>(a));
+  HYDRA_EXTERNAL_NS::thrust::for_each_n(allocator_system<Allocator>::get(a), p, n, construct1_via_allocator<Allocator>(a));
 }
 
 
@@ -91,7 +91,7 @@ __hydra_host__ __hydra_device__
   >::type
     default_construct_range(Allocator &a, Pointer p, Size n)
 {
-  thrust::uninitialized_fill_n(allocator_system<Allocator>::get(a), p, n, typename pointer_element<Pointer>::type());
+  HYDRA_EXTERNAL_NS::thrust::uninitialized_fill_n(allocator_system<Allocator>::get(a), p, n, typename pointer_element<Pointer>::type());
 }
 
 

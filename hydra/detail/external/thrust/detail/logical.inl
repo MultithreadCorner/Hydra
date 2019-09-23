@@ -32,69 +32,69 @@ HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
 __thrust_exec_check_disable__
 template<typename DerivedPolicy, typename InputIterator, typename Predicate>
 __hydra_host__ __hydra_device__
-bool all_of(const thrust::detail::execution_policy_base<DerivedPolicy> &exec, InputIterator first, InputIterator last, Predicate pred)
+bool all_of(const HYDRA_EXTERNAL_NS::thrust::detail::execution_policy_base<DerivedPolicy> &exec, InputIterator first, InputIterator last, Predicate pred)
 {
-  using thrust::system::detail::generic::all_of;
-  return all_of(thrust::detail::derived_cast(thrust::detail::strip_const(exec)), first, last, pred);
+  using HYDRA_EXTERNAL_NS::thrust::system::detail::generic::all_of;
+  return all_of(HYDRA_EXTERNAL_NS::thrust::detail::derived_cast(HYDRA_EXTERNAL_NS::thrust::detail::strip_const(exec)), first, last, pred);
 } // end all_of()
 
 
 __thrust_exec_check_disable__
 template<typename DerivedPolicy, typename InputIterator, typename Predicate>
 __hydra_host__ __hydra_device__
-bool any_of(const thrust::detail::execution_policy_base<DerivedPolicy> &exec, InputIterator first, InputIterator last, Predicate pred)
+bool any_of(const HYDRA_EXTERNAL_NS::thrust::detail::execution_policy_base<DerivedPolicy> &exec, InputIterator first, InputIterator last, Predicate pred)
 {
-  using thrust::system::detail::generic::any_of;
-  return any_of(thrust::detail::derived_cast(thrust::detail::strip_const(exec)), first, last, pred);
+  using HYDRA_EXTERNAL_NS::thrust::system::detail::generic::any_of;
+  return any_of(HYDRA_EXTERNAL_NS::thrust::detail::derived_cast(HYDRA_EXTERNAL_NS::thrust::detail::strip_const(exec)), first, last, pred);
 } // end any_of()
 
 
 __thrust_exec_check_disable__
 template<typename DerivedPolicy, typename InputIterator, typename Predicate>
 __hydra_host__ __hydra_device__
-bool none_of(const thrust::detail::execution_policy_base<DerivedPolicy> &exec, InputIterator first, InputIterator last, Predicate pred)
+bool none_of(const HYDRA_EXTERNAL_NS::thrust::detail::execution_policy_base<DerivedPolicy> &exec, InputIterator first, InputIterator last, Predicate pred)
 {
-  using thrust::system::detail::generic::none_of;
-  return none_of(thrust::detail::derived_cast(thrust::detail::strip_const(exec)), first, last, pred);
+  using HYDRA_EXTERNAL_NS::thrust::system::detail::generic::none_of;
+  return none_of(HYDRA_EXTERNAL_NS::thrust::detail::derived_cast(HYDRA_EXTERNAL_NS::thrust::detail::strip_const(exec)), first, last, pred);
 } // end none_of()
 
 
 template<typename InputIterator, typename Predicate>
 bool all_of(InputIterator first, InputIterator last, Predicate pred)
 {
-  using thrust::system::detail::generic::select_system;
+  using HYDRA_EXTERNAL_NS::thrust::system::detail::generic::select_system;
 
-  typedef typename thrust::iterator_system<InputIterator>::type System;
+  typedef typename HYDRA_EXTERNAL_NS::thrust::iterator_system<InputIterator>::type System;
 
   System system;
 
-  return thrust::all_of(select_system(system), first, last, pred);
+  return HYDRA_EXTERNAL_NS::thrust::all_of(select_system(system), first, last, pred);
 }
 
 
 template<typename InputIterator, typename Predicate>
 bool any_of(InputIterator first, InputIterator last, Predicate pred)
 {
-  using thrust::system::detail::generic::select_system;
+  using HYDRA_EXTERNAL_NS::thrust::system::detail::generic::select_system;
 
-  typedef typename thrust::iterator_system<InputIterator>::type System;
+  typedef typename HYDRA_EXTERNAL_NS::thrust::iterator_system<InputIterator>::type System;
 
   System system;
 
-  return thrust::any_of(select_system(system), first, last, pred);
+  return HYDRA_EXTERNAL_NS::thrust::any_of(select_system(system), first, last, pred);
 }
 
 
 template<typename InputIterator, typename Predicate>
 bool none_of(InputIterator first, InputIterator last, Predicate pred)
 {
-  using thrust::system::detail::generic::select_system;
+  using HYDRA_EXTERNAL_NS::thrust::system::detail::generic::select_system;
 
-  typedef typename thrust::iterator_system<InputIterator>::type System;
+  typedef typename HYDRA_EXTERNAL_NS::thrust::iterator_system<InputIterator>::type System;
 
   System system;
 
-  return thrust::none_of(select_system(system), first, last, pred);
+  return HYDRA_EXTERNAL_NS::thrust::none_of(select_system(system), first, last, pred);
 }
 
 

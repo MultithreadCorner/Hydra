@@ -52,11 +52,11 @@ HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
  *  #include <hydra/detail/external/thrust/distance.h>
  *  #include <hydra/detail/external/thrust/device_vector.h>
  *  ...
- *  thrust::device_vector<int> vec(13);
- *  thrust::device_vector<int>::iterator iter1 = vec.begin();
- *  thrust::device_vector<int>::iterator iter2 = iter1 + 7;
+ *  HYDRA_EXTERNAL_NS::thrust::device_vector<int> vec(13);
+ *  HYDRA_EXTERNAL_NS::thrust::device_vector<int>::iterator iter1 = vec.begin();
+ *  HYDRA_EXTERNAL_NS::thrust::device_vector<int>::iterator iter2 = iter1 + 7;
  *
- *  int d = thrust::distance(iter1, iter2);
+ *  int d = HYDRA_EXTERNAL_NS::thrust::distance(iter1, iter2);
  *
  *  // d is 7
  *  \endcode
@@ -65,7 +65,7 @@ HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
  */
 template<typename InputIterator>
 inline __hydra_host__ __hydra_device__
-  typename thrust::iterator_traits<InputIterator>::difference_type
+  typename HYDRA_EXTERNAL_NS::thrust::iterator_traits<InputIterator>::difference_type
     distance(InputIterator first, InputIterator last);
 
 /*! \} // end iterators

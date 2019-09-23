@@ -33,9 +33,9 @@
 #include <hydra/detail/external/thrust/detail/cpp11_required.h>
 #include <hydra/detail/external/thrust/detail/modern_gcc_required.h>
 
-#if THRUST_CPP_DIALECT >= 2011 && !defined(THRUST_LEGACY_GCC)
+#if HYDRA_THRUST_CPP_DIALECT >= 2011 && !defined(HYDRA_THRUST_LEGACY_GCC)
 
-#if THRUST_DEVICE_COMPILER == THRUST_DEVICE_COMPILER_NVCC
+#if HYDRA_THRUST_DEVICE_COMPILER == HYDRA_THRUST_DEVICE_COMPILER_NVCC
 
 #include <hydra/detail/external/thrust/system/cuda/config.h>
 
@@ -48,7 +48,7 @@
 
 #include <type_traits>
 HYDRA_EXTERNAL_NAMESPACE_BEGIN
-THRUST_BEGIN_NS
+HYDRA_THRUST_BEGIN_NS
 
 namespace system { namespace cuda { namespace detail
 {
@@ -69,7 +69,7 @@ struct async_transform_fn
   __hydra_host__ __hydra_device__
   void operator()(Index idx)
   {
-    output_[idx] = op_(thrust::raw_reference_cast(first_[idx]));
+    output_[idx] = op_(HYDRA_EXTERNAL_NS::thrust::raw_reference_cast(first_[idx]));
   }
 };
 
@@ -77,7 +77,7 @@ template <
   typename DerivedPolicy
 , typename ForwardIt, typename Size, typename OutputIt, typename UnaryOperation
 >
-THRUST_RUNTIME_FUNCTION
+HYDRA_THRUST_RUNTIME_FUNCTION
 auto async_transform_n(
   execution_policy<DerivedPolicy>& policy,
   ForwardIt                        first,
@@ -90,9 +90,9 @@ auto async_transform_n(
 
   // Set up stream with dependencies.
 
-  cudaStream_t const user_raw_stream = thrust::cuda_cub::stream(policy);
+  cudaStream_t const user_raw_stream = HYDRA_EXTERNAL_NS::thrust::cuda_cub::stream(policy);
 
-  if (thrust::cuda_cub::default_stream() != user_raw_stream)
+  if (HYDRA_EXTERNAL_NS::thrust::cuda_cub::default_stream() != user_raw_stream)
   {
     e = make_dependent_event(
       std::tuple_cat(
@@ -100,7 +100,7 @@ auto async_transform_n(
           unique_stream(nonowning, user_raw_stream)
         )
       , extract_dependencies(
-          std::move(thrust::detail::derived_cast(policy))
+          std::move(HYDRA_EXTERNAL_NS::thrust::detail::derived_cast(policy))
         )
       )
     );
@@ -109,7 +109,7 @@ auto async_transform_n(
   {
     e = make_dependent_event(
       extract_dependencies(
-        std::move(thrust::detail::derived_cast(policy))
+        std::move(HYDRA_EXTERNAL_NS::thrust::detail::derived_cast(policy))
       )
     );
   }
@@ -120,8 +120,8 @@ auto async_transform_n(
     std::move(first), std::move(output), std::move(op)
   );
 
-  thrust::cuda_cub::throw_on_error(
-    thrust::cuda_cub::__parallel_for::parallel_for(
+  HYDRA_EXTERNAL_NS::thrust::cuda_cub::throw_on_error(
+    HYDRA_EXTERNAL_NS::thrust::cuda_cub::__parallel_for::parallel_for(
       n, std::move(wrapped), e.stream().native_handle()
     )
   , "after transform launch"
@@ -141,7 +141,7 @@ template <
 , typename ForwardIt, typename Sentinel, typename OutputIt
 , typename UnaryOperation
 >
-THRUST_RUNTIME_FUNCTION
+HYDRA_THRUST_RUNTIME_FUNCTION
 auto async_transform(
   execution_policy<DerivedPolicy>& policy,
   ForwardIt                        first,
@@ -149,17 +149,17 @@ auto async_transform(
   OutputIt                         output,
   UnaryOperation&&                 op
 )
-THRUST_DECLTYPE_RETURNS(
-  thrust::system::cuda::detail::async_transform_n(
-    policy, first, distance(first, last), output, THRUST_FWD(op)
+HYDRA_THRUST_DECLTYPE_RETURNS(
+  HYDRA_EXTERNAL_NS::thrust::system::cuda::detail::async_transform_n(
+    policy, first, distance(first, last), output, HYDRA_THRUST_FWD(op)
   )
 );
 
 } // cuda_cub
 
-THRUST_END_NS
+HYDRA_THRUST_END_NS
 HYDRA_EXTERNAL_NAMESPACE_END
-#endif // THRUST_DEVICE_COMPILER == THRUST_DEVICE_COMPILER_NVCC
+#endif // HYDRA_THRUST_DEVICE_COMPILER == HYDRA_THRUST_DEVICE_COMPILER_NVCC
 
 #endif
 

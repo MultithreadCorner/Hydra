@@ -41,18 +41,18 @@ template<typename System>
   typedef any_assign&        reference;
   typedef std::ptrdiff_t     incrementable;
 
-  typedef typename thrust::counting_iterator<
+  typedef typename HYDRA_EXTERNAL_NS::thrust::counting_iterator<
     incrementable,
     System,
-    thrust::random_access_traversal_tag
+    HYDRA_EXTERNAL_NS::thrust::random_access_traversal_tag
   > base_iterator;
 
-  typedef typename thrust::iterator_adaptor<
+  typedef typename HYDRA_EXTERNAL_NS::thrust::iterator_adaptor<
     discard_iterator<System>,
     base_iterator,
     value_type,
-    typename thrust::iterator_system<base_iterator>::type,
-    typename thrust::iterator_traversal<base_iterator>::type,
+    typename HYDRA_EXTERNAL_NS::thrust::iterator_system<base_iterator>::type,
+    typename HYDRA_EXTERNAL_NS::thrust::iterator_traversal<base_iterator>::type,
     reference
   > type;
 }; // end discard_iterator_base

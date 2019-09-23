@@ -30,19 +30,19 @@
 #include <hydra/detail/external/thrust/system/cuda/detail/par.h>
 
 HYDRA_EXTERNAL_NAMESPACE_BEGIN
-THRUST_BEGIN_NS
+HYDRA_THRUST_BEGIN_NS
 namespace cuda_cub {
 
 template <int PAR>
-struct has_par : thrust::detail::true_type {};
+struct has_par : HYDRA_EXTERNAL_NS::thrust::detail::true_type {};
 
 template <>
-struct has_par<0> : thrust::detail::false_type {};
+struct has_par<0> : HYDRA_EXTERNAL_NS::thrust::detail::false_type {};
 
 template<class Policy>
 struct cvt_to_seq_impl
 {
-  typedef thrust::detail::seq_t seq_t;
+  typedef HYDRA_EXTERNAL_NS::thrust::detail::seq_t seq_t;
 
   static seq_t __hydra_host__ __hydra_device__
   doit(Policy&)
@@ -54,15 +54,15 @@ struct cvt_to_seq_impl
 #if 0
 template <class Allocator>
 struct cvt_to_seq_impl<
-    thrust::detail::execute_with_allocator<Allocator,
+    HYDRA_EXTERNAL_NS::thrust::detail::execute_with_allocator<Allocator,
                                            execute_on_stream_base> >
 {
-  typedef thrust::detail::execute_with_allocator<Allocator,
+  typedef HYDRA_EXTERNAL_NS::thrust::detail::execute_with_allocator<Allocator,
                                                  execute_on_stream_base>
       Policy;
-  typedef thrust::detail::execute_with_allocator<
+  typedef HYDRA_EXTERNAL_NS::thrust::detail::execute_with_allocator<
       Allocator,
-      thrust::system::detail::sequential::execution_policy>
+      HYDRA_EXTERNAL_NS::thrust::system::detail::sequential::execution_policy>
       seq_t;
 
 
@@ -81,12 +81,12 @@ cvt_to_seq(Policy& policy)
   return cvt_to_seq_impl<Policy>::doit(policy);
 }
 
-#if __THRUST_HAS_CUDART__
-#define THRUST_CUDART_DISPATCH par
+#if __HYDRA_THRUST_HAS_CUDART__
+#define HYDRA_THRUST_CUDART_DISPATCH par
 #else
-#define THRUST_CUDART_DISPATCH seq
+#define HYDRA_THRUST_CUDART_DISPATCH seq
 #endif
 
 } // namespace cuda_
-THRUST_END_NS
+HYDRA_THRUST_END_NS
 HYDRA_EXTERNAL_NAMESPACE_END

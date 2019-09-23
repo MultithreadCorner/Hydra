@@ -47,7 +47,7 @@ struct inclusive_body
 {
   InputIterator input;
   OutputIterator output;
-  thrust::detail::wrapped_function<BinaryFunction,ValueType> binary_op;
+  HYDRA_EXTERNAL_NS::thrust::detail::wrapped_function<BinaryFunction,ValueType> binary_op;
   ValueType sum;
   bool first_call;
 
@@ -122,7 +122,7 @@ struct exclusive_body
 {
   InputIterator input;
   OutputIterator output;
-  thrust::detail::wrapped_function<BinaryFunction,ValueType> binary_op;
+  HYDRA_EXTERNAL_NS::thrust::detail::wrapped_function<BinaryFunction,ValueType> binary_op;
   ValueType sum;
   bool first_call;
 
@@ -206,21 +206,21 @@ template<typename InputIterator,
   // XXX upon c++0x, TemporaryType needs to be:
   // result_of_adaptable_function<BinaryFunction>::type
   
-  using HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust::detail;
+  using namespace HYDRA_EXTERNAL_NS::thrust::detail;
 
   typedef typename eval_if<
     has_result_type<BinaryFunction>::value,
     result_type<BinaryFunction>,
     eval_if<
       is_output_iterator<OutputIterator>::value,
-      thrust::iterator_value<InputIterator>,
-      thrust::iterator_value<OutputIterator>
+      HYDRA_EXTERNAL_NS::thrust::iterator_value<InputIterator>,
+      HYDRA_EXTERNAL_NS::thrust::iterator_value<OutputIterator>
     >
   >::type ValueType;
   
-  typedef typename thrust::iterator_difference<InputIterator>::type Size; 
+  typedef typename HYDRA_EXTERNAL_NS::thrust::iterator_difference<InputIterator>::type Size; 
   
-  Size n = thrust::distance(first, last);
+  Size n = HYDRA_EXTERNAL_NS::thrust::distance(first, last);
 
   if (n != 0)
   {
@@ -229,7 +229,7 @@ template<typename InputIterator,
     ::tbb::parallel_scan(::tbb::blocked_range<Size>(0,n), scan_body);
   }
  
-  thrust::advance(result, n);
+  HYDRA_EXTERNAL_NS::thrust::advance(result, n);
 
   return result;
 }
@@ -258,21 +258,21 @@ template<typename InputIterator,
   // XXX upon c++0x, TemporaryType needs to be:
   // result_of_adaptable_function<BinaryFunction>::type
 
-  using HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust::detail;
+  using namespace HYDRA_EXTERNAL_NS::thrust::detail;
 
   typedef typename eval_if<
     has_result_type<BinaryFunction>::value,
     result_type<BinaryFunction>,
     eval_if<
       is_output_iterator<OutputIterator>::value,
-      thrust::iterator_value<InputIterator>,
-      thrust::iterator_value<OutputIterator>
+      HYDRA_EXTERNAL_NS::thrust::iterator_value<InputIterator>,
+      HYDRA_EXTERNAL_NS::thrust::iterator_value<OutputIterator>
     >
   >::type ValueType;
 
-  typedef typename thrust::iterator_difference<InputIterator>::type Size; 
+  typedef typename HYDRA_EXTERNAL_NS::thrust::iterator_difference<InputIterator>::type Size; 
   
-  Size n = thrust::distance(first, last);
+  Size n = HYDRA_EXTERNAL_NS::thrust::distance(first, last);
 
   if (n != 0)
   {
@@ -281,7 +281,7 @@ template<typename InputIterator,
     ::tbb::parallel_scan(::tbb::blocked_range<Size>(0,n), scan_body);
   }
  
-  thrust::advance(result, n);
+  HYDRA_EXTERNAL_NS::thrust::advance(result, n);
 
   return result;
 } 

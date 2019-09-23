@@ -121,7 +121,7 @@ struct DecayMothers
 		    return   (((2 * a) >=  (2 * b) ? (2 * a) * (2 * a) + (2 * a) + (2 * b) : (2 * a) + (2 * b) * (2 * b)) / 2);
 		}
 
-	__hydra_host__      __hydra_device__ GReal_t process(const GInt_t evt,
+	__hydra_host__      __hydra_device__ GReal_t process(size_t evt,
 			Vector4R (&particles)[N+1])
 	{
 
@@ -255,8 +255,8 @@ struct DecayMothers
 
 
 	}
-	template<typename Tuple>
-		__hydra_host__      __hydra_device__ GReal_t operator()(const GInt_t evt, Tuple &particles)
+	template< typename I,typename Tuple>
+		__hydra_host__      __hydra_device__ GReal_t operator()(I evt, Tuple particles)
 			{
 
 		constexpr size_t SIZE = HYDRA_EXTERNAL_NS::thrust::tuple_size<Tuple>::value;

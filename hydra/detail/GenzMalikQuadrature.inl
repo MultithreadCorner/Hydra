@@ -256,7 +256,7 @@ std::pair<GReal_t, GReal_t> GenzMalikQuadrature<N,hydra::detail::BackendPolicy<B
 			TempBoxList_d.end(), process_box);
 
 
-	auto result = CalculateIntegral(TempBoxList_d);
+	std::pair<GReal_t, GReal_t> result = CalculateIntegral(TempBoxList_d);
 
 	if( result.second/result.first < fRelativeError)
 

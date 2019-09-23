@@ -27,12 +27,12 @@
 #pragma once
 
 
-#if THRUST_DEVICE_COMPILER == THRUST_DEVICE_COMPILER_NVCC
+#if HYDRA_THRUST_DEVICE_COMPILER == HYDRA_THRUST_DEVICE_COMPILER_NVCC
 #include <hydra/detail/external/thrust/system/cuda/detail/execution_policy.h>
 
 HYDRA_EXTERNAL_NAMESPACE_BEGIN
 
-THRUST_BEGIN_NS
+HYDRA_THRUST_BEGIN_NS
 namespace cuda_cub {
 
 template <class Derived, class ItemsIt, class ResultIt>
@@ -49,7 +49,7 @@ reverse(execution_policy<Derived> &policy,
         ItemsIt                    last);
 
 }    // namespace cuda_cub
-THRUST_END_NS
+HYDRA_THRUST_END_NS
 
 HYDRA_EXTERNAL_NAMESPACE_END
 
@@ -60,7 +60,7 @@ HYDRA_EXTERNAL_NAMESPACE_END
 #include <hydra/detail/external/thrust/iterator/reverse_iterator.h>
 
 HYDRA_EXTERNAL_NAMESPACE_BEGIN
-THRUST_BEGIN_NS
+HYDRA_THRUST_BEGIN_NS
 namespace cuda_cub {
 
 template <class Derived,
@@ -85,10 +85,10 @@ reverse(execution_policy<Derived> &policy,
         ItemsIt                    first,
         ItemsIt                    last)
 {
-  typedef typename thrust::iterator_difference<ItemsIt>::type difference_type;
+  typedef typename HYDRA_EXTERNAL_NS::thrust::iterator_difference<ItemsIt>::type difference_type;
 
   // find the midpoint of [first,last)
-  difference_type N = thrust::distance(first, last);
+  difference_type N = HYDRA_EXTERNAL_NS::thrust::distance(first, last);
   ItemsIt mid(first);
   advance(mid, N / 2);
 
@@ -97,6 +97,6 @@ reverse(execution_policy<Derived> &policy,
 
 
 }    // namespace cuda_cub
-THRUST_END_NS
+HYDRA_THRUST_END_NS
 HYDRA_EXTERNAL_NAMESPACE_END
 #endif

@@ -27,7 +27,7 @@
 #pragma once
 
 
-#if THRUST_DEVICE_COMPILER == THRUST_DEVICE_COMPILER_NVCC
+#if HYDRA_THRUST_DEVICE_COMPILER == HYDRA_THRUST_DEVICE_COMPILER_NVCC
 #include <hydra/detail/external/thrust/system/cuda/config.h>
 
 #include <hydra/detail/external/thrust/system/cuda/detail/execution_policy.h>
@@ -36,7 +36,7 @@
 
 HYDRA_EXTERNAL_NAMESPACE_BEGIN
 
-THRUST_BEGIN_NS
+HYDRA_THRUST_BEGIN_NS
 namespace cuda_cub {
 
 // XXX forward declare to circumvent circular depedency
@@ -68,7 +68,7 @@ find(execution_policy<Derived> &policy,
      T const& value);
 
 }; // namespace cuda_cub
-THRUST_END_NS
+HYDRA_THRUST_END_NS
 
 HYDRA_EXTERNAL_NAMESPACE_END
 
@@ -77,7 +77,7 @@ HYDRA_EXTERNAL_NAMESPACE_END
 
 HYDRA_EXTERNAL_NAMESPACE_BEGIN
 
-THRUST_BEGIN_NS
+HYDRA_THRUST_BEGIN_NS
 namespace cuda_cub {
 
 namespace __find_if {
@@ -85,15 +85,15 @@ namespace __find_if {
   template <typename TupleType>
   struct functor
   {
-    THRUST_DEVICE_FUNCTION TupleType
+    HYDRA_THRUST_DEVICE_FUNCTION TupleType
     operator()(const TupleType& lhs, const TupleType& rhs) const
     {
       // select the smallest index among true results
-      if (thrust::get<0>(lhs) && thrust::get<0>(rhs))
+      if (HYDRA_EXTERNAL_NS::thrust::get<0>(lhs) && HYDRA_EXTERNAL_NS::thrust::get<0>(rhs))
       {
-        return TupleType(true, (thrust::min)(thrust::get<1>(lhs), thrust::get<1>(rhs)));
+        return TupleType(true, (HYDRA_EXTERNAL_NS::thrust::min)(HYDRA_EXTERNAL_NS::thrust::get<1>(lhs), HYDRA_EXTERNAL_NS::thrust::get<1>(rhs)));
       }
-      else if (thrust::get<0>(lhs))
+      else if (HYDRA_EXTERNAL_NS::thrust::get<0>(lhs))
       {
         return lhs;
       }
@@ -115,7 +115,7 @@ find_if_n(execution_policy<Derived>& policy,
           Size                       num_items,
           Predicate                  predicate)
 {
-  typedef typename thrust::tuple<bool,Size> result_type;
+  typedef typename HYDRA_EXTERNAL_NS::thrust::tuple<bool,Size> result_type;
   
   // empty sequence
   if(num_items == 0) return first;
@@ -129,23 +129,23 @@ find_if_n(execution_policy<Derived>& policy,
 
   // TODO incorporate sizeof(InputType) into interval_threshold and round to multiple of 32
   const Size interval_threshold = 1 << 20;
-  const Size interval_size = (thrust::min)(interval_threshold, num_items);
+  const Size interval_size = (HYDRA_EXTERNAL_NS::thrust::min)(interval_threshold, num_items);
   
   // force transform_iterator output to bool
   typedef transform_input_iterator_t<bool,
                                      InputIt,
                                      Predicate>
       XfrmIterator;
-  typedef thrust::tuple<XfrmIterator,
+  typedef HYDRA_EXTERNAL_NS::thrust::tuple<XfrmIterator,
                         counting_iterator_t<Size> >
       IteratorTuple;
-  typedef thrust::zip_iterator<IteratorTuple> ZipIterator;
+  typedef HYDRA_EXTERNAL_NS::thrust::zip_iterator<IteratorTuple> ZipIterator;
 
   IteratorTuple iter_tuple =
-      thrust::make_tuple(XfrmIterator(first, predicate),
+      HYDRA_EXTERNAL_NS::thrust::make_tuple(XfrmIterator(first, predicate),
                          counting_iterator_t<Size>(0));
 
-  ZipIterator begin = thrust::make_zip_iterator(iter_tuple);
+  ZipIterator begin = HYDRA_EXTERNAL_NS::thrust::make_zip_iterator(iter_tuple);
   ZipIterator end   = begin + num_items;
 
   for (ZipIterator interval_begin = begin;
@@ -165,9 +165,9 @@ find_if_n(execution_policy<Derived>& policy,
                                 __find_if::functor<result_type>());
 
     // see if we found something
-    if(thrust::get<0>(result))
+    if(HYDRA_EXTERNAL_NS::thrust::get<0>(result))
     {
-      return first + thrust::get<1>(result);
+      return first + HYDRA_EXTERNAL_NS::thrust::get<1>(result);
     }
   }
   
@@ -184,7 +184,7 @@ find_if(execution_policy<Derived>& policy,
         InputIt                    last,
         Predicate                  predicate)
 {
-  return cuda_cub::find_if_n(policy, first, thrust::distance(first,last), predicate);
+  return cuda_cub::find_if_n(policy, first, HYDRA_EXTERNAL_NS::thrust::distance(first,last), predicate);
 }
 
 template <class Derived,
@@ -196,7 +196,7 @@ find_if_not(execution_policy<Derived>& policy,
             InputIt                    last,
             Predicate                  predicate)
 {
-  return cuda_cub::find_if(policy, first, last, thrust::detail::not1(predicate));
+  return cuda_cub::find_if(policy, first, last, HYDRA_EXTERNAL_NS::thrust::detail::not1(predicate));
 }
 
 
@@ -212,12 +212,12 @@ find(execution_policy<Derived> &policy,
   return cuda_cub::find_if(policy,
                         first,
                         last,
-                        thrust::detail::equal_to_value<T>(value));
+                        HYDRA_EXTERNAL_NS::thrust::detail::equal_to_value<T>(value));
 }
 
 
 } // namespace cuda_cub
-THRUST_END_NS
+HYDRA_THRUST_END_NS
 
 HYDRA_EXTERNAL_NAMESPACE_END
 #endif

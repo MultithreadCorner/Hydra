@@ -50,20 +50,20 @@ inline complex<double> cproj(const complex<double>& z){
 
 template <typename T>
 __hydra_host__ __hydra_device__
-inline thrust::complex<T> proj(const thrust::complex<T>& z){
+inline HYDRA_EXTERNAL_NS::thrust::complex<T> proj(const HYDRA_EXTERNAL_NS::thrust::complex<T>& z){
   return detail::complex::cproj(z);
 }
   
 
 template <>
 __hydra_host__ __hydra_device__
-inline thrust::complex<double> proj(const thrust::complex<double>& z){
+inline HYDRA_EXTERNAL_NS::thrust::complex<double> proj(const HYDRA_EXTERNAL_NS::thrust::complex<double>& z){
   return detail::complex::cproj(z);
 }
   
 template <>
 __hydra_host__ __hydra_device__
-inline thrust::complex<float> proj(const thrust::complex<float>& z){
+inline HYDRA_EXTERNAL_NS::thrust::complex<float> proj(const HYDRA_EXTERNAL_NS::thrust::complex<float>& z){
   return detail::complex::cprojf(z);
 }
 

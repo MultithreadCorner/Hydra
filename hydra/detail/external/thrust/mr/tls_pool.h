@@ -22,7 +22,7 @@
 
 #include <hydra/detail/external/thrust/detail/cpp11_required.h>
 
-#if THRUST_CPP_DIALECT >= 2011
+#if HYDRA_THRUST_CPP_DIALECT >= 2011
 
 #include <hydra/detail/external/thrust/mr/pool.h>
 
@@ -44,11 +44,11 @@ namespace mr
  */
 template<typename Upstream, typename Bookkeeper>
 __hydra_host__ __hydra_device__
-thrust::mr::unsynchronized_pool_resource<Upstream> & tls_pool(Upstream * upstream = NULL)
+HYDRA_EXTERNAL_NS::thrust::mr::unsynchronized_pool_resource<Upstream> & tls_pool(Upstream * upstream = NULL)
 {
     static thread_local auto adaptor = [&]{
         assert(upstream);
-        return thrust::mr::unsynchronized_pool_resource<Upstream>(upstream);
+        return HYDRA_EXTERNAL_NS::thrust::mr::unsynchronized_pool_resource<Upstream>(upstream);
     }();
 
     return adaptor;
@@ -63,5 +63,5 @@ thrust::mr::unsynchronized_pool_resource<Upstream> & tls_pool(Upstream * upstrea
 HYDRA_EXTERNAL_NAMESPACE_END
 
 
-#endif // THRUST_CPP_DIALECT >= 2011
+#endif // HYDRA_THRUST_CPP_DIALECT >= 2011
 

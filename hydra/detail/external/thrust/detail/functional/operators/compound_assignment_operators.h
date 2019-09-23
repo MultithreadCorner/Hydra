@@ -30,7 +30,7 @@ namespace functional
 
 template<typename T>
   struct plus_equal
-    : public thrust::binary_function<T&,T,T&>
+    : public HYDRA_EXTERNAL_NS::thrust::binary_function<T&,T,T&>
 {
   __hydra_host__ __hydra_device__ T& operator()(T &lhs, const T &rhs) const { return lhs += rhs; }
 }; // end plus_equal
@@ -69,7 +69,7 @@ operator+=(const actor<T1> &_1, const actor<T2> &_2)
 
 template<typename T>
   struct minus_equal
-    : public thrust::binary_function<T&,T,T&>
+    : public HYDRA_EXTERNAL_NS::thrust::binary_function<T&,T,T&>
 {
   __hydra_host__ __hydra_device__ T& operator()(T &lhs, const T &rhs) const { return lhs -= rhs; }
 }; // end minus_equal
@@ -108,7 +108,7 @@ operator-=(const actor<T1> &_1, const actor<T2> &_2)
 
 template<typename T>
   struct multiplies_equal
-    : public thrust::binary_function<T&,T,T&>
+    : public HYDRA_EXTERNAL_NS::thrust::binary_function<T&,T,T&>
 {
   __hydra_host__ __hydra_device__ T& operator()(T &lhs, const T&rhs) const { return lhs *= rhs; }
 }; // end multiplies_equal
@@ -147,7 +147,7 @@ operator*=(const actor<T1> &_1, const actor<T2> &_2)
 
 template<typename T>
   struct divides_equal
-    : public thrust::binary_function<T&,T,T&>
+    : public HYDRA_EXTERNAL_NS::thrust::binary_function<T&,T,T&>
 {
   __hydra_host__ __hydra_device__ T& operator()(T &lhs, const T&rhs) const { return lhs /= rhs; }
 }; // end divides_equal
@@ -186,7 +186,7 @@ operator/=(const actor<T1> &_1, const actor<T2> &_2)
 
 template<typename T>
   struct modulus_equal
-    : public thrust::binary_function<T&,T,T&>
+    : public HYDRA_EXTERNAL_NS::thrust::binary_function<T&,T,T&>
 {
   __hydra_host__ __hydra_device__ T& operator()(T &lhs, const T&rhs) const { return lhs %= rhs; }
 }; // end modulus_equal
@@ -225,7 +225,7 @@ operator%=(const actor<T1> &_1, const actor<T2> &_2)
 
 template<typename T>
   struct bit_and_equal
-    : public thrust::binary_function<T&,T,T&>
+    : public HYDRA_EXTERNAL_NS::thrust::binary_function<T&,T,T&>
 {
   __hydra_host__ __hydra_device__ T& operator()(T &lhs, const T&rhs) const { return lhs &= rhs; }
 }; // end bit_and_equal
@@ -264,7 +264,7 @@ operator&=(const actor<T1> &_1, const actor<T2> &_2)
 
 template<typename T>
   struct bit_or_equal
-    : public thrust::binary_function<T&,T,T&>
+    : public HYDRA_EXTERNAL_NS::thrust::binary_function<T&,T,T&>
 {
   __hydra_host__ __hydra_device__ T& operator()(T &lhs, const T&rhs) const { return lhs |= rhs; }
 }; // end bit_or_equal
@@ -303,7 +303,7 @@ operator|=(const actor<T1> &_1, const actor<T2> &_2)
 
 template<typename T>
   struct bit_xor_equal
-    : public thrust::binary_function<T&,T,T&>
+    : public HYDRA_EXTERNAL_NS::thrust::binary_function<T&,T,T&>
 {
   __hydra_host__ __hydra_device__ T& operator()(T &lhs, const T&rhs) const { return lhs ^= rhs; }
 }; // end bit_xor_equal
@@ -342,7 +342,7 @@ operator^=(const actor<T1> &_1, const actor<T2> &_2)
 
 template<typename T>
   struct bit_lshift_equal
-    : public thrust::binary_function<T&,T,T&>
+    : public HYDRA_EXTERNAL_NS::thrust::binary_function<T&,T,T&>
 {
   __hydra_host__ __hydra_device__ T& operator()(T &lhs, const T&rhs) const { return lhs <<= rhs; }
 }; // end bit_lshift_equal
@@ -381,7 +381,7 @@ operator<<=(const actor<T1> &_1, const actor<T2> &_2)
 
 template<typename T>
   struct bit_rshift_equal
-    : public thrust::binary_function<T&,T,T&>
+    : public HYDRA_EXTERNAL_NS::thrust::binary_function<T&,T,T&>
 {
   __hydra_host__ __hydra_device__ T& operator()(T &lhs, const T&rhs) const { return lhs >>= rhs; }
 }; // end bit_rshift_equal

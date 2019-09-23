@@ -21,29 +21,29 @@
 #include <hydra/detail/external/thrust/detail/type_traits.h>
 #include <hydra/detail/external/thrust/detail/execution_policy.h>
 HYDRA_EXTERNAL_NAMESPACE_BEGIN
-THRUST_BEGIN_NS
+HYDRA_THRUST_BEGIN_NS
 
 /// Unary metafunction that is \c true if \c T is an \a ExecutionPolicy and
 /// \c false otherwise.
 template <typename T>
-#if THRUST_CPP_DIALECT >= 2011
+#if HYDRA_THRUST_CPP_DIALECT >= 2011
 using is_execution_policy =
 #else
 struct is_execution_policy :
 #endif
   detail::is_base_of<detail::execution_policy_marker, T>
-#if THRUST_CPP_DIALECT < 2011
+#if HYDRA_THRUST_CPP_DIALECT < 2011
 {}
 #endif
 ;
 
 /// <CODE>constexpr bool</CODE> that is \c true if \c T is an \a ExecutionPolicy
 /// and \c false otherwise.
-#if THRUST_CPP_DIALECT >= 2014
+#if HYDRA_THRUST_CPP_DIALECT >= 2014
 template <typename T>
 constexpr bool is_execution_policy_v = is_execution_policy<T>::value;
 #endif
 
-THRUST_END_NS
+HYDRA_THRUST_END_NS
 HYDRA_EXTERNAL_NAMESPACE_END
 

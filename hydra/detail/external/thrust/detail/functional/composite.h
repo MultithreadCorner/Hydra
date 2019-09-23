@@ -37,30 +37,30 @@ namespace functional
 
 // XXX we should just take a single EvalTuple
 template<typename Eval0,
-         typename Eval1  = thrust::null_type,
-         typename Eval2  = thrust::null_type,
-         typename Eval3  = thrust::null_type,
-         typename Eval4  = thrust::null_type,
-         typename Eval5  = thrust::null_type,
-         typename Eval6  = thrust::null_type,
-         typename Eval7  = thrust::null_type,
-         typename Eval8  = thrust::null_type,
-         typename Eval9  = thrust::null_type,
-         typename Eval10 = thrust::null_type>
+         typename Eval1  = HYDRA_EXTERNAL_NS::thrust::null_type,
+         typename Eval2  = HYDRA_EXTERNAL_NS::thrust::null_type,
+         typename Eval3  = HYDRA_EXTERNAL_NS::thrust::null_type,
+         typename Eval4  = HYDRA_EXTERNAL_NS::thrust::null_type,
+         typename Eval5  = HYDRA_EXTERNAL_NS::thrust::null_type,
+         typename Eval6  = HYDRA_EXTERNAL_NS::thrust::null_type,
+         typename Eval7  = HYDRA_EXTERNAL_NS::thrust::null_type,
+         typename Eval8  = HYDRA_EXTERNAL_NS::thrust::null_type,
+         typename Eval9  = HYDRA_EXTERNAL_NS::thrust::null_type,
+         typename Eval10 = HYDRA_EXTERNAL_NS::thrust::null_type>
   class composite;
 
 template<typename Eval0, typename Eval1>
   class composite<
     Eval0,
     Eval1,
-    thrust::null_type,
-    thrust::null_type,
-    thrust::null_type,
-    thrust::null_type,
-    thrust::null_type,
-    thrust::null_type,
-    thrust::null_type,
-    thrust::null_type
+    HYDRA_EXTERNAL_NS::thrust::null_type,
+    HYDRA_EXTERNAL_NS::thrust::null_type,
+    HYDRA_EXTERNAL_NS::thrust::null_type,
+    HYDRA_EXTERNAL_NS::thrust::null_type,
+    HYDRA_EXTERNAL_NS::thrust::null_type,
+    HYDRA_EXTERNAL_NS::thrust::null_type,
+    HYDRA_EXTERNAL_NS::thrust::null_type,
+    HYDRA_EXTERNAL_NS::thrust::null_type
   >
 {
   public:
@@ -68,7 +68,7 @@ template<typename Eval0, typename Eval1>
       struct result
     {
       typedef typename Eval0::template result<
-        thrust::tuple<
+        HYDRA_EXTERNAL_NS::thrust::tuple<
           typename Eval1::template result<Env>::type
         >
       >::type type;
@@ -86,7 +86,7 @@ template<typename Eval0, typename Eval1>
     eval(const Env &x) const
     {
       typename Eval1::template result<Env>::type result1 = m_eval1.eval(x);
-      return m_eval0.eval(thrust::tie(result1));
+      return m_eval0.eval(HYDRA_EXTERNAL_NS::thrust::tie(result1));
     }
 
   private:
@@ -99,13 +99,13 @@ template<typename Eval0, typename Eval1, typename Eval2>
     Eval0,
     Eval1,
     Eval2,
-    thrust::null_type,
-    thrust::null_type,
-    thrust::null_type,
-    thrust::null_type,
-    thrust::null_type,
-    thrust::null_type,
-    thrust::null_type
+    HYDRA_EXTERNAL_NS::thrust::null_type,
+    HYDRA_EXTERNAL_NS::thrust::null_type,
+    HYDRA_EXTERNAL_NS::thrust::null_type,
+    HYDRA_EXTERNAL_NS::thrust::null_type,
+    HYDRA_EXTERNAL_NS::thrust::null_type,
+    HYDRA_EXTERNAL_NS::thrust::null_type,
+    HYDRA_EXTERNAL_NS::thrust::null_type
   >
 {
   public:
@@ -113,7 +113,7 @@ template<typename Eval0, typename Eval1, typename Eval2>
       struct result
     {
       typedef typename Eval0::template result<
-        thrust::tuple<
+        HYDRA_EXTERNAL_NS::thrust::tuple<
           typename Eval1::template result<Env>::type,
           typename Eval2::template result<Env>::type
         >
@@ -134,7 +134,7 @@ template<typename Eval0, typename Eval1, typename Eval2>
     {
       typename Eval1::template result<Env>::type result1 = m_eval1.eval(x);
       typename Eval2::template result<Env>::type result2 = m_eval2.eval(x);
-      return m_eval0.eval(thrust::tie(result1,result2));
+      return m_eval0.eval(HYDRA_EXTERNAL_NS::thrust::tie(result1,result2));
     }
 
   private:

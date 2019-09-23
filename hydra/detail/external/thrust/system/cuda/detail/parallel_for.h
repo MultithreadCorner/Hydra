@@ -27,7 +27,7 @@
 #pragma once
 
 
-#if THRUST_DEVICE_COMPILER == THRUST_DEVICE_COMPILER_NVCC
+#if HYDRA_THRUST_DEVICE_COMPILER == HYDRA_THRUST_DEVICE_COMPILER_NVCC
 #include <hydra/detail/external/thrust/system/cuda/config.h>
 
 #include <hydra/detail/external/thrust/system/cuda/detail/util.h>
@@ -38,7 +38,7 @@
 
 HYDRA_EXTERNAL_NAMESPACE_BEGIN
 
-THRUST_BEGIN_NS
+HYDRA_THRUST_BEGIN_NS
 
 namespace cuda_cub {
 
@@ -87,7 +87,7 @@ namespace __parallel_for {
     };
 
     template <bool IS_FULL_TILE>
-    static void    THRUST_DEVICE_FUNCTION
+    static void    HYDRA_THRUST_DEVICE_FUNCTION
     consume_tile(F    f,
                  Size tile_base,
                  int  items_in_tile)
@@ -101,7 +101,7 @@ namespace __parallel_for {
       }
     }
 
-    THRUST_AGENT_ENTRY(F     f,
+    HYDRA_THRUST_AGENT_ENTRY(F     f,
                        Size  num_items,
                        char * /*shmem*/ )
     {
@@ -125,7 +125,7 @@ namespace __parallel_for {
 
   template <class F,
             class Size>
-  THRUST_RUNTIME_FUNCTION cudaError_t
+  HYDRA_THRUST_RUNTIME_FUNCTION cudaError_t
   parallel_for(Size         num_items,
                F            f,
                cudaStream_t stream)
@@ -135,7 +135,7 @@ namespace __parallel_for {
     using core::AgentLauncher;
     using core::AgentPlan;
 
-    bool debug_sync = THRUST_DEBUG_SYNC_FLAG;
+    bool debug_sync = HYDRA_THRUST_DEBUG_SYNC_FLAG;
 
     typedef AgentLauncher<ParallelForAgent<F, Size> > parallel_for_agent;
     AgentPlan parallel_for_plan = parallel_for_agent::get_plan(stream);
@@ -160,7 +160,7 @@ parallel_for(execution_policy<Derived> &policy,
   if (count == 0)
     return;
 
-  if (__THRUST_HAS_CUDART__)
+  if (__HYDRA_THRUST_HAS_CUDART__)
   {
     cudaStream_t stream = cuda_cub::stream(policy);
     cudaError_t  status = __parallel_for::parallel_for(count, f, stream);
@@ -168,7 +168,7 @@ parallel_for(execution_policy<Derived> &policy,
   }
   else
   {
-#if !__THRUST_HAS_CUDART__
+#if !__HYDRA_THRUST_HAS_CUDART__
     for (Size idx = 0; idx != count; ++idx)
       f(idx);
 #endif
@@ -177,6 +177,6 @@ parallel_for(execution_policy<Derived> &policy,
 
 }    // namespace cuda_cub
 
-THRUST_END_NS
+HYDRA_THRUST_END_NS
 HYDRA_EXTERNAL_NAMESPACE_END
 #endif

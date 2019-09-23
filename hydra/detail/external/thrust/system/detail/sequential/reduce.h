@@ -48,7 +48,7 @@ __hydra_host__ __hydra_device__
                     BinaryFunction binary_op)
 {
   // wrap binary_op
-  thrust::detail::wrapped_function<
+  HYDRA_EXTERNAL_NS::thrust::detail::wrapped_function<
     BinaryFunction,
     OutputType
   > wrapped_binary_op(binary_op);
@@ -71,3 +71,4 @@ __hydra_host__ __hydra_device__
 } // end namespace system
 } // end HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
 
+HYDRA_EXTERNAL_NAMESPACE_END

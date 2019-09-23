@@ -68,7 +68,7 @@ HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
  *  #include <hydra/detail/external/thrust/device_vector.h>
  *  
  *  // note: functor inherits from unary_function
- *  struct square_root : public thrust::unary_function<float,float>
+ *  struct square_root : public HYDRA_EXTERNAL_NS::thrust::unary_function<float,float>
  *  {
  *    __hydra_host__ __hydra_device__
  *    float operator()(float x) const
@@ -79,15 +79,15 @@ HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
  *  
  *  int main()
  *  {
- *    thrust::device_vector<float> v(4);
+ *    HYDRA_EXTERNAL_NS::thrust::device_vector<float> v(4);
  *    v[0] = 1.0f;
  *    v[1] = 4.0f;
  *    v[2] = 9.0f;
  *    v[3] = 16.0f;
  *                                                                                           
- *    typedef thrust::device_vector<float>::iterator FloatIterator;
+ *    typedef HYDRA_EXTERNAL_NS::thrust::device_vector<float>::iterator FloatIterator;
  *                                                                                           
- *    thrust::transform_iterator<square_root, FloatIterator> iter(v.begin(), square_root());
+ *    HYDRA_EXTERNAL_NS::thrust::transform_iterator<square_root, FloatIterator> iter(v.begin(), square_root());
  *                                                                                           
  *    *iter;   // returns 1.0f
  *    iter[0]; // returns 1.0f;
@@ -100,7 +100,7 @@ HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
  *  \endcode
  *
  *  This next example demonstrates how to use a \p transform_iterator with the
- *  \p thrust::reduce function to compute the sum of squares of a sequence.
+ *  \p HYDRA_EXTERNAL_NS::thrust::reduce function to compute the sum of squares of a sequence.
  *  We will create temporary \p transform_iterators with the
  *  \p make_transform_iterator function in order to avoid explicitly specifying their type:
  *
@@ -111,7 +111,7 @@ HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
  *  #include <iostream>
  *  
  *  // note: functor inherits from unary_function
- *  struct square : public thrust::unary_function<float,float>
+ *  struct square : public HYDRA_EXTERNAL_NS::thrust::unary_function<float,float>
  *  {
  *    __hydra_host__ __hydra_device__
  *    float operator()(float x) const
@@ -123,15 +123,15 @@ HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
  *  int main()
  *  {
  *    // initialize a device array
- *    thrust::device_vector<float> v(4);
+ *    HYDRA_EXTERNAL_NS::thrust::device_vector<float> v(4);
  *    v[0] = 1.0f;
  *    v[1] = 2.0f;
  *    v[2] = 3.0f;
  *    v[3] = 4.0f;
  *  
  *    float sum_of_squares =
- *     thrust::reduce(thrust::make_transform_iterator(v.begin(), square()),
- *                    thrust::make_transform_iterator(v.end(),   square()));
+ *     HYDRA_EXTERNAL_NS::thrust::reduce(HYDRA_EXTERNAL_NS::thrust::make_transform_iterator(v.begin(), square()),
+ *                    HYDRA_EXTERNAL_NS::thrust::make_transform_iterator(v.end(),   square()));
  *  
  *    std::cout << "sum of squares: " << sum_of_squares << std::endl;
  *    return 0;
@@ -139,11 +139,11 @@ HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
  *  \endcode
  *
  *  Note that in the previous two examples the transform functor (namely \c square_root 
- *  and \c square) inherits from \c thrust::unary_function.  Inheriting from 
- *  \c thrust::unary_function ensures that a functor is a valid \c AdaptableUnaryFunction
+ *  and \c square) inherits from \c HYDRA_EXTERNAL_NS::thrust::unary_function.  Inheriting from 
+ *  \c HYDRA_EXTERNAL_NS::thrust::unary_function ensures that a functor is a valid \c AdaptableUnaryFunction
  *  and provides all the necessary \c typedef declarations.  The \p transform_iterator
  *  can also be applied to a \c UnaryFunction that does not inherit from 
- *  \c thrust::unary_function using an optional template argument.  The following example
+ *  \c HYDRA_EXTERNAL_NS::thrust::unary_function using an optional template argument.  The following example
  *  illustrates how to use the third template argument to specify the \c result_type of
  *  the function.   
  *
@@ -163,16 +163,16 @@ HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
  *  
  *  int main()
  *  {
- *    thrust::device_vector<float> v(4);
+ *    HYDRA_EXTERNAL_NS::thrust::device_vector<float> v(4);
  *    v[0] = 1.0f;
  *    v[1] = 4.0f;
  *    v[2] = 9.0f;
  *    v[3] = 16.0f;
  *                                                                                           
- *    typedef thrust::device_vector<float>::iterator FloatIterator;
+ *    typedef HYDRA_EXTERNAL_NS::thrust::device_vector<float>::iterator FloatIterator;
  *    
  *    // note: float result_type is specified explicitly
- *    thrust::transform_iterator<square_root, FloatIterator, float> iter(v.begin(), square_root());
+ *    HYDRA_EXTERNAL_NS::thrust::transform_iterator<square_root, FloatIterator, float> iter(v.begin(), square_root());
  *                                                                                           
  *    *iter;   // returns 1.0f
  *    iter[0]; // returns 1.0f;
@@ -197,7 +197,7 @@ template <class AdaptableUnaryFunction, class Iterator, class Reference = use_de
     detail::transform_iterator_base<AdaptableUnaryFunction, Iterator, Reference, Value>::type
     super_t;
 
-    friend class thrust::iterator_core_access;
+    friend class HYDRA_EXTERNAL_NS::thrust::iterator_core_access;
   /*! \endcond
    */
 
@@ -238,8 +238,8 @@ template <class AdaptableUnaryFunction, class Iterator, class Reference = use_de
              typename OtherValue>
     __hydra_host__ __hydra_device__
     transform_iterator(const transform_iterator<OtherAdaptableUnaryFunction, OtherIterator, OtherReference, OtherValue> &other,
-                       typename thrust::detail::enable_if_convertible<OtherIterator, Iterator>::type* = 0,
-                       typename thrust::detail::enable_if_convertible<OtherAdaptableUnaryFunction, AdaptableUnaryFunction>::type* = 0)
+                       typename HYDRA_EXTERNAL_NS::thrust::detail::enable_if_convertible<OtherIterator, Iterator>::type* = 0,
+                       typename HYDRA_EXTERNAL_NS::thrust::detail::enable_if_convertible<OtherAdaptableUnaryFunction, AdaptableUnaryFunction>::type* = 0)
       : super_t(other.base()), m_f(other.functor()) {}
 
     /*! Copy assignment operator copies from another \p transform_iterator.
@@ -257,11 +257,11 @@ template <class AdaptableUnaryFunction, class Iterator, class Reference = use_de
     {
       return do_assign(other,
       // XXX gcc 4.2.1 crashes on is_copy_assignable; just assume the functor is assignable as a WAR
-#if (THRUST_HOST_COMPILER == THRUST_HOST_COMPILER_GCC) && (THRUST_GCC_VERSION <= 40201)
-          thrust::detail::true_type()
+#if (HYDRA_THRUST_HOST_COMPILER == HYDRA_THRUST_HOST_COMPILER_GCC) && (HYDRA_THRUST_GCC_VERSION <= 40201)
+          HYDRA_EXTERNAL_NS::thrust::detail::true_type()
 #else
-          typename thrust::detail::is_copy_assignable<AdaptableUnaryFunction>::type()
-#endif // THRUST_HOST_COMPILER
+          typename HYDRA_EXTERNAL_NS::thrust::detail::is_copy_assignable<AdaptableUnaryFunction>::type()
+#endif // HYDRA_THRUST_HOST_COMPILER
       );
     }
 
@@ -276,7 +276,7 @@ template <class AdaptableUnaryFunction, class Iterator, class Reference = use_de
      */
   private:
     __hydra_host__ __hydra_device__
-    transform_iterator &do_assign(const transform_iterator &other, thrust::detail::true_type)
+    transform_iterator &do_assign(const transform_iterator &other, HYDRA_EXTERNAL_NS::thrust::detail::true_type)
     {
       super_t::operator=(other);
 
@@ -287,7 +287,7 @@ template <class AdaptableUnaryFunction, class Iterator, class Reference = use_de
     }
 
     __hydra_host__ __hydra_device__
-    transform_iterator &do_assign(const transform_iterator &other, thrust::detail::false_type)
+    transform_iterator &do_assign(const transform_iterator &other, HYDRA_EXTERNAL_NS::thrust::detail::false_type)
     {
       super_t::operator=(other);
 
@@ -299,7 +299,7 @@ template <class AdaptableUnaryFunction, class Iterator, class Reference = use_de
     // MSVC 2013 and 2015 incorrectly warning about returning a reference to
     // a local/temporary here.
     // See goo.gl/LELTNp
-    THRUST_DISABLE_MSVC_WARNING_BEGIN(4172)
+    HYDRA_THRUST_DISABLE_MSVC_WARNING_BEGIN(4172)
 
     __thrust_exec_check_disable__
     __hydra_host__ __hydra_device__
@@ -308,11 +308,11 @@ template <class AdaptableUnaryFunction, class Iterator, class Reference = use_de
       // Create a temporary to allow iterators with wrapped references to
       // convert to their value type before calling m_f. Note that this
       // disallows non-constant operations through m_f. 
-      typename thrust::iterator_value<Iterator>::type x = *this->base();
+      typename HYDRA_EXTERNAL_NS::thrust::iterator_value<Iterator>::type x = *this->base();
       return m_f(x);
     }
 
-    THRUST_DISABLE_MSVC_WARNING_END(4172)
+    HYDRA_THRUST_DISABLE_MSVC_WARNING_END(4172)
 
     // tag this as mutable per Dave Abrahams in this thread:
     // http://lists.boost.org/Archives/boost/2004/05/65332.php

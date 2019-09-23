@@ -190,13 +190,13 @@ namespace detail {
 namespace complex {	
 
 __hydra_host__ __hydra_device__
-inline float abs(const thrust::complex<float>& z)
+inline float abs(const HYDRA_EXTERNAL_NS::thrust::complex<float>& z)
 {
   return hypotf(z.real(),z.imag());
 }
 
 __hydra_host__ __hydra_device__
-inline double abs(const thrust::complex<double>& z)
+inline double abs(const HYDRA_EXTERNAL_NS::thrust::complex<double>& z)
 {
   return hypot(z.real(),z.imag());
 }

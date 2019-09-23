@@ -19,14 +19,14 @@
 #include <hydra/detail/external/thrust/detail/config.h>
 
 // #include the host system's memory_resource header
-#define __THRUST_HOST_SYSTEM_MEMORY_HEADER <__THRUST_HOST_SYSTEM_ROOT/memory_resource.h>
-#include __THRUST_HOST_SYSTEM_MEMORY_HEADER
-#undef __THRUST_HOST_SYSTEM_MEMORY_HEADER
+#define __HYDRA_THRUST_HOST_SYSTEM_MEMORY_HEADER <__HYDRA_THRUST_HOST_SYSTEM_ROOT/memory_resource.h>
+#include __HYDRA_THRUST_HOST_SYSTEM_MEMORY_HEADER
+#undef __HYDRA_THRUST_HOST_SYSTEM_MEMORY_HEADER
 
 HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
 {
 
-typedef thrust::system::__THRUST_HOST_SYSTEM_NAMESPACE::memory_resource
+typedef HYDRA_EXTERNAL_NS::thrust::system::__HYDRA_THRUST_HOST_SYSTEM_NAMESPACE::memory_resource
     host_memory_resource;
 
 } // end HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust

@@ -45,7 +45,7 @@ template<typename T> device_ptr<T> device_malloc(const std::size_t n);
 /*! \p device_malloc_allocator is a device memory allocator that employs the
  *  \p device_malloc function for allocation.
  *
- *  \p device_malloc_allocator is deprecated in favor of <tt>thrust::mr</tt>
+ *  \p device_malloc_allocator is deprecated in favor of <tt>HYDRA_EXTERNAL_NS::thrust::mr</tt>
  *      memory resource-based allocators.
  *
  *  \see device_malloc

@@ -20,7 +20,7 @@
 #include <hydra/detail/external/thrust/detail/execute_with_allocator_fwd.h>
 #include <hydra/detail/external/thrust/detail/alignment.h>
 
-#if THRUST_CPP_DIALECT >= 2011
+#if HYDRA_THRUST_CPP_DIALECT >= 2011
   #include <type_traits>
 #endif
 
@@ -44,9 +44,9 @@ struct allocator_aware_execution_policy
   template<typename MemoryResource>
   struct execute_with_memory_resource_type
   {
-    typedef thrust::detail::execute_with_allocator<
-      thrust::mr::allocator<
-        thrust::detail::max_align_t,
+    typedef HYDRA_EXTERNAL_NS::thrust::detail::execute_with_allocator<
+      HYDRA_EXTERNAL_NS::thrust::mr::allocator<
+        HYDRA_EXTERNAL_NS::thrust::detail::max_align_t,
         MemoryResource
       >,
       ExecutionPolicyCRTPBase
@@ -56,7 +56,7 @@ struct allocator_aware_execution_policy
   template<typename Allocator>
   struct execute_with_allocator_type
   {
-      typedef thrust::detail::execute_with_allocator<
+      typedef HYDRA_EXTERNAL_NS::thrust::detail::execute_with_allocator<
         Allocator,
         ExecutionPolicyCRTPBase
       > type;

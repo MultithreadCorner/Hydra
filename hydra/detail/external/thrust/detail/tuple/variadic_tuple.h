@@ -304,7 +304,7 @@ class __tuple_leaf : public __tuple_leaf_base<T>
     __TUPLE_ANNOTATION
     int swap(__tuple_leaf& other)
     {
-      using thrust::swap;
+      using HYDRA_EXTERNAL_NS::thrust::swap;
       swap(this->mutable_get(), other.mutable_get());
       return 0;
     }
@@ -396,8 +396,8 @@ class __tuple_base<__tuple_index_sequence<I...>, Types...>
     //            >::value
     //         >::type>
     //__TUPLE_ANNOTATION
-    //__tuple_base(const thrust::tuple<UTypes...>& other)
-    //  : __tuple_base{thrust::get<I>(other)...}
+    //__tuple_base(const HYDRA_EXTERNAL_NS::thrust::tuple<UTypes...>& other)
+    //  : __tuple_base{HYDRA_EXTERNAL_NS::thrust::get<I>(other)...}
     //{}
 
 
@@ -452,7 +452,7 @@ class __tuple_base<__tuple_index_sequence<I...>, Types...>
                >::value
              >::type>
     __TUPLE_ANNOTATION
-    __tuple_base& operator=(const thrust::pair<UType1,UType2>& p)
+    __tuple_base& operator=(const HYDRA_EXTERNAL_NS::thrust::pair<UType1,UType2>& p)
     {
       mutable_get<0>() = p.first;
       mutable_get<1>() = p.second;
@@ -468,7 +468,7 @@ class __tuple_base<__tuple_index_sequence<I...>, Types...>
                >::value
              >::type>
     __TUPLE_ANNOTATION
-    __tuple_base& operator=(thrust::pair<UType1,UType2>&& p)
+    __tuple_base& operator=(HYDRA_EXTERNAL_NS::thrust::pair<UType1,UType2>&& p)
     {
       mutable_get<0>() = std::move(p.first);
       mutable_get<1>() = std::move(p.second);
@@ -525,9 +525,9 @@ class __tuple_base<__tuple_index_sequence<I...>, Types...>
     //            >::value
     //         >::type>
     //__TUPLE_ANNOTATION
-    //operator thrust::tuple<UTypes...> () const
+    //operator HYDRA_EXTERNAL_NS::thrust::tuple<UTypes...> () const
     //{
-    //  return thrust::tuple<UTypes...>(const_get<I>()...);
+    //  return HYDRA_EXTERNAL_NS::thrust::tuple<UTypes...>(const_get<I>()...);
     //}
 
   private:
@@ -610,7 +610,7 @@ class tuple
                >::value
              >::type>
     __TUPLE_ANNOTATION
-    tuple(const thrust::pair<UType1,UType2>& p)
+    tuple(const HYDRA_EXTERNAL_NS::thrust::pair<UType1,UType2>& p)
       : base_{p.first, p.second}
     {}
 
@@ -623,7 +623,7 @@ class tuple
                >::value
              >::type>
     __TUPLE_ANNOTATION
-    tuple(thrust::pair<UType1,UType2>&& p)
+    tuple(HYDRA_EXTERNAL_NS::thrust::pair<UType1,UType2>&& p)
       : base_{std::move(p.first), std::move(p.second)}
     {}
 
@@ -645,7 +645,7 @@ class tuple
     //             >::value
     //         >::type>
     //__TUPLE_ANNOTATION
-    //tuple(const thrust::tuple<UTypes...>& other)
+    //tuple(const HYDRA_EXTERNAL_NS::thrust::tuple<UTypes...>& other)
     //  : base_{other}
     //{}
 
@@ -690,7 +690,7 @@ class tuple
                >::value
              >::type>
     __TUPLE_ANNOTATION
-    tuple& operator=(const thrust::pair<UType1,UType2>& p)
+    tuple& operator=(const HYDRA_EXTERNAL_NS::thrust::pair<UType1,UType2>& p)
     {
       base().operator=(p);
       return *this;
@@ -705,7 +705,7 @@ class tuple
                >::value
              >::type>
     __TUPLE_ANNOTATION
-    tuple& operator=(thrust::pair<UType1,UType2>&& p)
+    tuple& operator=(HYDRA_EXTERNAL_NS::thrust::pair<UType1,UType2>&& p)
     {
       base().operator=(std::move(p));
       return *this;
@@ -726,9 +726,9 @@ class tuple
     //            >::value
     //         >::type>
     //__TUPLE_ANNOTATION
-    //operator thrust::tuple<UTypes...> () const
+    //operator HYDRA_EXTERNAL_NS::thrust::tuple<UTypes...> () const
     //{
-    //  return static_cast<thrust::tuple<UTypes...>>(base());
+    //  return static_cast<HYDRA_EXTERNAL_NS::thrust::tuple<UTypes...>>(base());
     //}
 
   private:
@@ -737,14 +737,14 @@ class tuple
 
     template<size_t i>
     __TUPLE_ANNOTATION
-    const typename thrust::tuple_element<i,tuple>::type& const_get() const
+    const typename HYDRA_EXTERNAL_NS::thrust::tuple_element<i,tuple>::type& const_get() const
     {
       return base().template const_get<i>();
     }
 
     template<size_t i>
     __TUPLE_ANNOTATION
-    typename thrust::tuple_element<i,tuple>::type& mutable_get()
+    typename HYDRA_EXTERNAL_NS::thrust::tuple_element<i,tuple>::type& mutable_get()
     {
       return base().template mutable_get<i>();
     }
@@ -752,20 +752,20 @@ class tuple
   public:
     template<size_t i, class... UTypes>
     friend __TUPLE_ANNOTATION
-    typename thrust::tuple_element<i, __TUPLE_NAMESPACE::tuple<UTypes...>>::type &
-    thrust::get(__TUPLE_NAMESPACE::tuple<UTypes...>& t);
+    typename HYDRA_EXTERNAL_NS::thrust::tuple_element<i, __TUPLE_NAMESPACE::tuple<UTypes...>>::type &
+    HYDRA_EXTERNAL_NS::thrust::get(__TUPLE_NAMESPACE::tuple<UTypes...>& t);
 
 
     template<size_t i, class... UTypes>
     friend __TUPLE_ANNOTATION
-    const typename thrust::tuple_element<i, __TUPLE_NAMESPACE::tuple<UTypes...>>::type &
-    thrust::get(const __TUPLE_NAMESPACE::tuple<UTypes...>& t);
+    const typename HYDRA_EXTERNAL_NS::thrust::tuple_element<i, __TUPLE_NAMESPACE::tuple<UTypes...>>::type &
+    HYDRA_EXTERNAL_NS::thrust::get(const __TUPLE_NAMESPACE::tuple<UTypes...>& t);
 
 
     template<size_t i, class... UTypes>
     friend __TUPLE_ANNOTATION
-    typename thrust::tuple_element<i, __TUPLE_NAMESPACE::tuple<UTypes...>>::type &&
-    thrust::get(__TUPLE_NAMESPACE::tuple<UTypes...>&& t);
+    typename HYDRA_EXTERNAL_NS::thrust::tuple_element<i, __TUPLE_NAMESPACE::tuple<UTypes...>>::type &&
+    HYDRA_EXTERNAL_NS::thrust::get(__TUPLE_NAMESPACE::tuple<UTypes...>&& t);
 };
 
 
@@ -853,14 +853,14 @@ struct __find_exactly_one : __find_exactly_one_impl<0,T,Types...>
 //} // end namespace
 
 
-// implement thrust::get()
+// implement HYDRA_EXTERNAL_NS::thrust::get()
 //namespace std
 //{
 
 
 template<size_t i, class... UTypes>
 __TUPLE_ANNOTATION
-typename thrust::tuple_element<i, __TUPLE_NAMESPACE::tuple<UTypes...>>::type &
+typename HYDRA_EXTERNAL_NS::thrust::tuple_element<i, __TUPLE_NAMESPACE::tuple<UTypes...>>::type &
   get(__TUPLE_NAMESPACE::tuple<UTypes...>& t)
 {
   return t.template mutable_get<i>();
@@ -869,7 +869,7 @@ typename thrust::tuple_element<i, __TUPLE_NAMESPACE::tuple<UTypes...>>::type &
 
 template<size_t i, class... UTypes>
 __TUPLE_ANNOTATION
-const typename thrust::tuple_element<i, __TUPLE_NAMESPACE::tuple<UTypes...>>::type &
+const typename HYDRA_EXTERNAL_NS::thrust::tuple_element<i, __TUPLE_NAMESPACE::tuple<UTypes...>>::type &
   get(const __TUPLE_NAMESPACE::tuple<UTypes...>& t)
 {
   return t.template const_get<i>();
@@ -878,10 +878,10 @@ const typename thrust::tuple_element<i, __TUPLE_NAMESPACE::tuple<UTypes...>>::ty
 
 template<size_t i, class... UTypes>
 __TUPLE_ANNOTATION
-typename thrust::tuple_element<i, __TUPLE_NAMESPACE::tuple<UTypes...>>::type &&
+typename HYDRA_EXTERNAL_NS::thrust::tuple_element<i, __TUPLE_NAMESPACE::tuple<UTypes...>>::type &&
   get(__TUPLE_NAMESPACE::tuple<UTypes...>&& t)
 {
-  using type = typename thrust::tuple_element<i, __TUPLE_NAMESPACE::tuple<UTypes...>>::type;
+  using type = typename HYDRA_EXTERNAL_NS::thrust::tuple_element<i, __TUPLE_NAMESPACE::tuple<UTypes...>>::type;
 
   auto&& leaf = static_cast<__TUPLE_NAMESPACE::__tuple_leaf<i,type>&&>(t.base());
 
@@ -893,7 +893,7 @@ template<class T, class... Types>
 __TUPLE_ANNOTATION
 T& get(__TUPLE_NAMESPACE::tuple<Types...>& t)
 {
-  return thrust::get<__TUPLE_NAMESPACE::__find_exactly_one<T,Types...>::value>(t);
+  return HYDRA_EXTERNAL_NS::thrust::get<__TUPLE_NAMESPACE::__find_exactly_one<T,Types...>::value>(t);
 }
 
 
@@ -901,7 +901,7 @@ template<class T, class... Types>
 __TUPLE_ANNOTATION
 const T& get(const __TUPLE_NAMESPACE::tuple<Types...>& t)
 {
-  return thrust::get<__TUPLE_NAMESPACE::__find_exactly_one<T,Types...>::value>(t);
+  return HYDRA_EXTERNAL_NS::thrust::get<__TUPLE_NAMESPACE::__find_exactly_one<T,Types...>::value>(t);
 }
 
 
@@ -909,7 +909,7 @@ template<class T, class... Types>
 __TUPLE_ANNOTATION
 T&& get(__TUPLE_NAMESPACE::tuple<Types...>&& t)
 {
-  return thrust::get<__TUPLE_NAMESPACE::__find_exactly_one<T,Types...>::value>(std::move(t));
+  return HYDRA_EXTERNAL_NS::thrust::get<__TUPLE_NAMESPACE::__find_exactly_one<T,Types...>::value>(std::move(t));
 }
 
 
@@ -952,7 +952,7 @@ template<class... TTypes, class... UTypes, size_t... I>
 __TUPLE_ANNOTATION
   bool __tuple_eq(const tuple<TTypes...>& t, const tuple<UTypes...>& u, __tuple_index_sequence<I...>)
 {
-  return __tuple_all((thrust::get<I>(t) == thrust::get<I>(u))...);
+  return __tuple_all((HYDRA_EXTERNAL_NS::thrust::get<I>(t) == HYDRA_EXTERNAL_NS::thrust::get<I>(u))...);
 }
 
 
@@ -981,8 +981,8 @@ template<size_t I, class... TTypes, class... UTypes, size_t... Is>
 __TUPLE_ANNOTATION
   bool __tuple_lt(const tuple<TTypes...>& t, const tuple<UTypes...>& u, __tuple_index_sequence<I, Is...>)
 {
-  return (   thrust::get<I>(t) < thrust::get<I>(u)
-          || (!(thrust::get<I>(u) < thrust::get<I>(t))
+  return (   HYDRA_EXTERNAL_NS::thrust::get<I>(t) < HYDRA_EXTERNAL_NS::thrust::get<I>(u)
+          || (!(HYDRA_EXTERNAL_NS::thrust::get<I>(u) < HYDRA_EXTERNAL_NS::thrust::get<I>(t))
               && __tuple_lt(t, u, typename __tuple_make_index_sequence_impl<I+1, __tuple_index_sequence<>, sizeof...(TTypes)>::type{})));
 }
 

@@ -39,7 +39,7 @@ template<typename T, typename Alloc>
   class vector_base
 {
   private:
-    typedef thrust::detail::contiguous_storage<T,Alloc> storage_type;
+    typedef HYDRA_EXTERNAL_NS::thrust::detail::contiguous_storage<T,Alloc> storage_type;
 
   public:
     // typedefs
@@ -55,8 +55,8 @@ template<typename T, typename Alloc>
     typedef typename storage_type::iterator        iterator;
     typedef typename storage_type::const_iterator  const_iterator;
 
-    typedef thrust::reverse_iterator<iterator>       reverse_iterator;
-    typedef thrust::reverse_iterator<const_iterator> const_reverse_iterator;
+    typedef HYDRA_EXTERNAL_NS::thrust::reverse_iterator<iterator>       reverse_iterator;
+    typedef HYDRA_EXTERNAL_NS::thrust::reverse_iterator<const_iterator> const_reverse_iterator;
 
     /*! This constructor creates an empty vector_base.
      */
@@ -467,10 +467,10 @@ template<typename T, typename Alloc>
       void range_init(InputIterator first, InputIterator last);
 
     template<typename InputIterator>
-      void range_init(InputIterator first, InputIterator last, thrust::incrementable_traversal_tag);
+      void range_init(InputIterator first, InputIterator last, HYDRA_EXTERNAL_NS::thrust::incrementable_traversal_tag);
 
     template<typename ForwardIterator>
-      void range_init(ForwardIterator first, ForwardIterator last, thrust::random_access_traversal_tag);
+      void range_init(ForwardIterator first, ForwardIterator last, HYDRA_EXTERNAL_NS::thrust::random_access_traversal_tag);
 
     void default_init(size_type n);
 
@@ -508,11 +508,11 @@ template<typename T, typename Alloc>
 
     // this method performs assignment from a range of RandomAccessIterators
     template<typename RandomAccessIterator>
-      void range_assign(RandomAccessIterator first, RandomAccessIterator last, thrust::random_access_traversal_tag);
+      void range_assign(RandomAccessIterator first, RandomAccessIterator last, HYDRA_EXTERNAL_NS::thrust::random_access_traversal_tag);
 
     // this method performs assignment from a range of InputIterators
     template<typename InputIterator>
-      void range_assign(InputIterator first, InputIterator last, thrust::incrementable_traversal_tag);
+      void range_assign(InputIterator first, InputIterator last, HYDRA_EXTERNAL_NS::thrust::incrementable_traversal_tag);
 
     // this method performs assignment from a fill value
     void fill_assign(size_type n, const T &x);

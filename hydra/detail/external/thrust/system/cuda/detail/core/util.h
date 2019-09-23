@@ -38,21 +38,21 @@
 
 HYDRA_EXTERNAL_NAMESPACE_BEGIN
 
-THRUST_BEGIN_NS
+HYDRA_THRUST_BEGIN_NS
 
 namespace cuda_cub {
 namespace core {
 
 #if (__CUDA_ARCH__ >= 600)
-#  define THRUST_TUNING_ARCH sm60
+#  define HYDRA_THRUST_TUNING_ARCH sm60
 #elif (__CUDA_ARCH__ >= 520)
-#  define THRUST_TUNING_ARCH sm52
+#  define HYDRA_THRUST_TUNING_ARCH sm52
 #elif (__CUDA_ARCH__ >= 350)
-#  define THRUST_TUNING_ARCH sm35
+#  define HYDRA_THRUST_TUNING_ARCH sm35
 #elif (__CUDA_ARCH__ >= 300)
-#  define THRUST_TUNING_ARCH sm30
+#  define HYDRA_THRUST_TUNING_ARCH sm30
 #elif !defined (__CUDA_ARCH__)
-#  define THRUST_TUNING_ARCH sm30
+#  define HYDRA_THRUST_TUNING_ARCH sm30
 #endif
 
   // Typelist - a container of types, supports up to 10 types
@@ -96,8 +96,8 @@ namespace core {
   // metafunction to match next viable PtxPlan specialization
   // --------------------------------------------------------------------------
  
-  __THRUST_DEFINE_HAS_NESTED_TYPE(has_tuning_t, tuning)
-  __THRUST_DEFINE_HAS_NESTED_TYPE(has_type_t, type)
+  __HYDRA_THRUST_DEFINE_HAS_NESTED_TYPE(has_tuning_t, tuning)
+  __HYDRA_THRUST_DEFINE_HAS_NESTED_TYPE(has_type_t, type)
 
   template <template <class> class, class, class>
   struct specialize_plan_impl_loop;
@@ -138,24 +138,24 @@ namespace core {
   //   otherwise move on to the next sm in the sm_list
   template <template <class> class P, class SM, class _1, class _2, class _3, class _4, class _5, class _6, class _7, class _8, class _9>
   struct specialize_plan_impl_match<P, typelist<SM, _1, _2, _3, _4, _5, _6, _7, _8, _9> >
-      : thrust::detail::conditional<
+      : HYDRA_EXTERNAL_NS::thrust::detail::conditional<
             has_sm_tuning<P, SM>::value,
             P<SM>,
             specialize_plan_impl_match<P, typelist<_1, _2, _3, _4, _5, _6, _7, _8, _9> > >::type {};
 
-    template <template <class> class Plan, class SM = THRUST_TUNING_ARCH>
+    template <template <class> class Plan, class SM = HYDRA_THRUST_TUNING_ARCH>
     struct specialize_plan_msvc10_war
     {
       // if Plan has tuning type, this means it has SM-specific tuning
       // so loop through sm_list to find match, 
       // otherwise just specialize on provided SM
-      typedef thrust::detail::conditional<has_tuning_t<Plan<lowest_supported_sm_arch> >::value,
+      typedef HYDRA_EXTERNAL_NS::thrust::detail::conditional<has_tuning_t<Plan<lowest_supported_sm_arch> >::value,
                                   specialize_plan_impl_loop<Plan, SM, sm_list>,
                                   Plan<SM> >
           type;
     };
     
-    template <template <class> class Plan, class SM = THRUST_TUNING_ARCH>
+    template <template <class> class Plan, class SM = HYDRA_THRUST_TUNING_ARCH>
     struct specialize_plan : specialize_plan_msvc10_war<Plan,SM>::type::type {};
 
 
@@ -168,13 +168,13 @@ namespace core {
     // metafunction introspects Agent, and if it finds TempStorage type
     // it will return its size
 
-    __THRUST_DEFINE_HAS_NESTED_TYPE(has_temp_storage, TempStorage)
+    __HYDRA_THRUST_DEFINE_HAS_NESTED_TYPE(has_temp_storage, TempStorage)
 
     template <class Agent, class U>
     struct temp_storage_size_impl;
 
     template <class Agent>
-    struct temp_storage_size_impl<Agent, thrust::detail::false_type>
+    struct temp_storage_size_impl<Agent, HYDRA_EXTERNAL_NS::thrust::detail::false_type>
     {
       enum
       {
@@ -183,7 +183,7 @@ namespace core {
     };
 
     template <class Agent>
-    struct temp_storage_size_impl<Agent, thrust::detail::true_type>
+    struct temp_storage_size_impl<Agent, HYDRA_EXTERNAL_NS::thrust::detail::true_type>
     {
       enum
       {
@@ -224,9 +224,9 @@ namespace core {
       {
         value = V
       };
-      typedef typename thrust::detail::conditional<value,
-                                           thrust::detail::true_type,
-                                           thrust::detail::false_type>::type type;
+      typedef typename HYDRA_EXTERNAL_NS::thrust::detail::conditional<value,
+                                           HYDRA_EXTERNAL_NS::thrust::detail::true_type,
+                                           HYDRA_EXTERNAL_NS::thrust::detail::false_type>::type type;
     };
 
     template <class Agent, size_t MAX_SHMEM>
@@ -249,10 +249,10 @@ namespace core {
       int shared_memory_size;
       int grid_size;
 
-      THRUST_RUNTIME_FUNCTION
+      HYDRA_THRUST_RUNTIME_FUNCTION
       AgentPlan() {}
 
-      THRUST_RUNTIME_FUNCTION
+      HYDRA_THRUST_RUNTIME_FUNCTION
       AgentPlan(int block_threads_,
                 int items_per_thread_,
                 int shared_memory_size_,
@@ -265,7 +265,7 @@ namespace core {
       {
       }
 
-      THRUST_RUNTIME_FUNCTION
+      HYDRA_THRUST_RUNTIME_FUNCTION
       AgentPlan(AgentPlan const& plan)
           : block_threads(plan.block_threads),
             items_per_thread(plan.items_per_thread),
@@ -274,9 +274,9 @@ namespace core {
             grid_size(plan.grid_size) {}
 
       template <class PtxPlan>
-      THRUST_RUNTIME_FUNCTION
+      HYDRA_THRUST_RUNTIME_FUNCTION
       AgentPlan(PtxPlan,
-                typename thrust::detail::disable_if_convertible<
+                typename HYDRA_EXTERNAL_NS::thrust::detail::disable_if_convertible<
                     PtxPlan,
                     AgentPlan>::type* = NULL)
           : block_threads(PtxPlan::BLOCK_THREADS),
@@ -289,7 +289,7 @@ namespace core {
     };    // struct AgentPlan
 
 
-    __THRUST_DEFINE_HAS_NESTED_TYPE(has_Plan, Plan)
+    __HYDRA_THRUST_DEFINE_HAS_NESTED_TYPE(has_Plan, Plan)
 
     template <class Agent>
     struct return_Plan
@@ -298,10 +298,10 @@ namespace core {
     };
 
     template <class Agent>
-    struct get_plan : thrust::detail::conditional<
+    struct get_plan : HYDRA_EXTERNAL_NS::thrust::detail::conditional<
                           has_Plan<Agent>::value,
                           return_Plan<Agent>,
-                          thrust::detail::identity_<AgentPlan> >::type
+                          HYDRA_EXTERNAL_NS::thrust::detail::identity_<AgentPlan> >::type
     {
     };
 
@@ -315,7 +315,7 @@ namespace core {
     struct get_agent_plan_impl<Agent,typelist<SM,_1,_2,_3,_4,_5,_6,_7,_8,_9> >
     {
       typedef typename get_plan<Agent>::type Plan;
-      Plan THRUST_RUNTIME_FUNCTION
+      Plan HYDRA_THRUST_RUNTIME_FUNCTION
       static get(int ptx_version)
       {
         if (ptx_version >= SM::ver)
@@ -331,7 +331,7 @@ namespace core {
     struct get_agent_plan_impl<Agent,typelist<lowest_supported_sm_arch> >
     {
       typedef typename get_plan<Agent>::type Plan;
-      Plan THRUST_RUNTIME_FUNCTION
+      Plan HYDRA_THRUST_RUNTIME_FUNCTION
       static get(int /* ptx_version */)
       {
         typedef typename get_plan<Agent>::type Plan;
@@ -340,12 +340,12 @@ namespace core {
     };
 
     template <class Agent>
-    typename get_plan<Agent>::type THRUST_RUNTIME_FUNCTION
+    typename get_plan<Agent>::type HYDRA_THRUST_RUNTIME_FUNCTION
     get_agent_plan(int ptx_version)
     {
-#if (CUB_PTX_ARCH > 0) && defined(__THRUST_HAS_CUDART__)
+#if (CUB_PTX_ARCH > 0) && defined(__HYDRA_THRUST_HAS_CUDART__)
       typedef typename get_plan<Agent>::type Plan;
-      THRUST_UNUSED_VAR(ptx_version);
+      HYDRA_THRUST_UNUSED_VAR(ptx_version);
       // We're on device, use default policy
       return Plan(typename Agent::ptx_plan());
 #else
@@ -415,7 +415,7 @@ namespace core {
   }
 
   template <class Agent>
-  AgentPlan THRUST_RUNTIME_FUNCTION
+  AgentPlan HYDRA_THRUST_RUNTIME_FUNCTION
   get_agent_plan(cudaStream_t s = 0, void *ptr = 0)
   {
     return xget_agent_plan_impl<Agent>(get_agent_plan_kernel<Agent>,
@@ -603,7 +603,7 @@ namespace core {
     typedef typename iterator_traits<It>::value_type      value_type;
     typedef typename iterator_traits<It>::difference_type size_type;
 
-    typedef typename thrust::detail::conditional<
+    typedef typename HYDRA_EXTERNAL_NS::thrust::detail::conditional<
         is_contiguous_iterator<It>::value,
         cub::CacheModifiedInputIterator<PtxPlan::LOAD_MODIFIER,
                                         value_type,
@@ -613,14 +613,14 @@ namespace core {
 
   template <class PtxPlan, class It>
   typename LoadIterator<PtxPlan, It>::type __device__ __forceinline__
-  make_load_iterator_impl(It it, thrust::detail::true_type /* is_trivial */)
+  make_load_iterator_impl(It it, HYDRA_EXTERNAL_NS::thrust::detail::true_type /* is_trivial */)
   {
     return raw_pointer_cast(&*it);
   }
   
   template <class PtxPlan, class It>
   typename LoadIterator<PtxPlan, It>::type __device__ __forceinline__
-  make_load_iterator_impl(It it, thrust::detail::false_type /* is_trivial */)
+  make_load_iterator_impl(It it, HYDRA_EXTERNAL_NS::thrust::detail::false_type /* is_trivial */)
   {
     return it;
   }
@@ -725,7 +725,7 @@ namespace core {
   }
 
 #define CUDA_CUB_RET_IF_FAIL(e) \
-  if (thrust::cuda_cub::cub::Debug((e), __FILE__, __LINE__)) return e;
+  if (HYDRA_EXTERNAL_NS::thrust::cuda_cub::cub::Debug((e), __FILE__, __LINE__)) return e;
 
   // uninitialized
   // -------
@@ -820,7 +820,7 @@ namespace core {
   }
 
   template <int           ALLOCATIONS>
-  THRUST_RUNTIME_FUNCTION cudaError_t
+  HYDRA_THRUST_RUNTIME_FUNCTION cudaError_t
   alias_storage(void*   storage_ptr,
                 size_t& storage_size,
                 void* (&allocations)[ALLOCATIONS],
@@ -840,6 +840,6 @@ using core::sm35;
 using core::sm30;
 } // namespace cuda_ 
 
-THRUST_END_NS
+HYDRA_THRUST_END_NS
 
 HYDRA_EXTERNAL_NAMESPACE_END

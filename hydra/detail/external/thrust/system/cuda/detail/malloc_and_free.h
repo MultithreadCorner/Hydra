@@ -22,17 +22,17 @@
 #include <hydra/detail/external/thrust/detail/seq.h>
 #include <hydra/detail/external/thrust/memory.h>
 #include <hydra/detail/external/thrust/system/cuda/config.h>
-#ifdef THRUST_CACHING_DEVICE_MALLOC
+#ifdef HYDRA_THRUST_CACHING_DEVICE_MALLOC
 #include <hydra/detail/external/thrust/system/cuda/detail/cub/util_allocator.cuh>
 #endif
 #include <hydra/detail/external/thrust/system/cuda/detail/util.h>
 #include <hydra/detail/external/thrust/system/detail/bad_alloc.h>
 
 HYDRA_EXTERNAL_NAMESPACE_BEGIN
-THRUST_BEGIN_NS
+HYDRA_THRUST_BEGIN_NS
 namespace cuda_cub {
 
-#ifdef THRUST_CACHING_DEVICE_MALLOC
+#ifdef HYDRA_THRUST_CACHING_DEVICE_MALLOC
 #define __CUB_CACHING_MALLOC
 #ifndef __CUDA_ARCH__
 inline cub::CachingDeviceAllocator &get_allocator()
@@ -63,10 +63,10 @@ void *malloc(execution_policy<DerivedPolicy> &, std::size_t n)
   if(status != cudaSuccess)
   {
   //  cuda_cub::throw_on_error(status, "device malloc failed");
-    thrust::system::detail::bad_alloc(thrust::cuda_category().message(status).c_str());
+    HYDRA_EXTERNAL_NS::thrust::system::detail::bad_alloc(HYDRA_EXTERNAL_NS::thrust::cuda_category().message(status).c_str());
   } 
 #else
-  result = thrust::raw_pointer_cast(thrust::malloc(thrust::seq, n));
+  result = HYDRA_EXTERNAL_NS::thrust::raw_pointer_cast(HYDRA_EXTERNAL_NS::thrust::malloc(HYDRA_EXTERNAL_NS::thrust::seq, n));
 #endif
 
   return result;
@@ -80,16 +80,16 @@ void free(execution_policy<DerivedPolicy> &, Pointer ptr)
 #ifndef __CUDA_ARCH__
 #ifdef __CUB_CACHING_MALLOC
   cub::CachingDeviceAllocator &alloc = get_allocator();
-  cudaError_t status = alloc.DeviceFree(thrust::raw_pointer_cast(ptr));
+  cudaError_t status = alloc.DeviceFree(HYDRA_EXTERNAL_NS::thrust::raw_pointer_cast(ptr));
 #else
-  cudaError_t status = cudaFree(thrust::raw_pointer_cast(ptr));
+  cudaError_t status = cudaFree(HYDRA_EXTERNAL_NS::thrust::raw_pointer_cast(ptr));
 #endif
   cuda_cub::throw_on_error(status, "device free failed");
 #else
-  thrust::free(thrust::seq, ptr);
+  HYDRA_EXTERNAL_NS::thrust::free(HYDRA_EXTERNAL_NS::thrust::seq, ptr);
 #endif
 } // end free()
 
 }    // namespace cuda_cub
-THRUST_END_NS
+HYDRA_THRUST_END_NS
 HYDRA_EXTERNAL_NAMESPACE_END

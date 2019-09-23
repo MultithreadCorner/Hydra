@@ -27,7 +27,7 @@
 #pragma once
 
 
-#if THRUST_DEVICE_COMPILER == THRUST_DEVICE_COMPILER_NVCC
+#if HYDRA_THRUST_DEVICE_COMPILER == HYDRA_THRUST_DEVICE_COMPILER_NVCC
 #include <hydra/detail/external/thrust/system/cuda/config.h>
 
 #include <hydra/detail/external/thrust/detail/cstdint.h>
@@ -46,7 +46,7 @@
 
 HYDRA_EXTERNAL_NAMESPACE_BEGIN
 
-THRUST_BEGIN_NS
+HYDRA_THRUST_BEGIN_NS
 
 // forward declare generic reduce
 // to circumvent circular dependency 
@@ -55,7 +55,7 @@ template <typename DerivedPolicy,
           typename T,
           typename BinaryFunction>
 T __hydra_host__ __hydra_device__
-reduce(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
+reduce(const HYDRA_EXTERNAL_NS::thrust::detail::execution_policy_base<DerivedPolicy> &exec,
        InputIterator                                               first,
        InputIterator                                               last,
        T                                                           init,
@@ -69,9 +69,9 @@ namespace __reduce {
   typedef int GridSizeType;
 
   template<bool>
-  struct is_true : thrust::detail::false_type {};
+  struct is_true : HYDRA_EXTERNAL_NS::thrust::detail::false_type {};
   template<>
-  struct is_true<true> : thrust::detail::true_type {};
+  struct is_true<true> : HYDRA_EXTERNAL_NS::thrust::detail::true_type {};
 
   template <int                       _BLOCK_THREADS,
             int                       _ITEMS_PER_THREAD   = 1,
@@ -140,7 +140,7 @@ namespace __reduce {
                       cub::GRID_MAPPING_DYNAMIC>           
         ReducePolicy4B;
 
-    typedef typename thrust::detail::conditional<(sizeof(T) < 4),
+    typedef typename HYDRA_EXTERNAL_NS::thrust::detail::conditional<(sizeof(T) < 4),
                                                  ReducePolicy1B,
                                                  ReducePolicy4B>::type type;
   };    // Tuning sm35
@@ -197,7 +197,7 @@ namespace __reduce {
       cub::GridMappingStrategy grid_mapping;
 
       template <class P>
-      THRUST_RUNTIME_FUNCTION
+      HYDRA_THRUST_RUNTIME_FUNCTION
           Plan(P) : core::AgentPlan(P()),
                     grid_mapping(P::GRID_MAPPING)
       {
@@ -225,9 +225,9 @@ namespace __reduce {
 
       ATTEMPT_VECTORIZATION = (VECTOR_LOAD_LENGTH > 1) &&
                               (ITEMS_PER_THREAD % VECTOR_LOAD_LENGTH == 0) &&
-                              thrust::detail::is_pointer<InputIt>::value &&
-                              thrust::detail::is_arithmetic<
-                                  typename thrust::detail::remove_cv<T> >::value
+                              HYDRA_EXTERNAL_NS::thrust::detail::is_pointer<InputIt>::value &&
+                              HYDRA_EXTERNAL_NS::thrust::detail::is_arithmetic<
+                                  typename HYDRA_EXTERNAL_NS::thrust::detail::remove_cv<T> >::value
     };
 
     struct impl
@@ -245,7 +245,7 @@ namespace __reduce {
       // Constructor
       //---------------------------------------------------------------------
 
-      THRUST_DEVICE_FUNCTION impl(TempStorage &storage_,
+      HYDRA_THRUST_DEVICE_FUNCTION impl(TempStorage &storage_,
                                   InputIt      input_it_,
                                   ReductionOp  reduction_op_)
           : storage(storage_),
@@ -262,9 +262,9 @@ namespace __reduce {
       // (specialized for types we can vectorize)
       //
       template <class Iterator>
-      static THRUST_DEVICE_FUNCTION bool
+      static HYDRA_THRUST_DEVICE_FUNCTION bool
       is_aligned(Iterator d_in,
-                 thrust::detail::true_type /* can_vectorize */)
+                 HYDRA_EXTERNAL_NS::thrust::detail::true_type /* can_vectorize */)
       {
         return (size_t(d_in) & (sizeof(Vector) - 1)) == 0;
       }
@@ -273,9 +273,9 @@ namespace __reduce {
       // (specialized for types we cannot vectorize)
       //
       template <class Iterator>
-      static THRUST_DEVICE_FUNCTION bool
+      static HYDRA_THRUST_DEVICE_FUNCTION bool
       is_aligned(Iterator,
-                 thrust::detail::false_type /* can_vectorize */)
+                 HYDRA_EXTERNAL_NS::thrust::detail::false_type /* can_vectorize */)
       {
         return false;
       }
@@ -287,12 +287,12 @@ namespace __reduce {
       // Consume a full tile of input (non-vectorized)
       //
       template <int IS_FIRST_TILE>
-      THRUST_DEVICE_FUNCTION void
+      HYDRA_THRUST_DEVICE_FUNCTION void
       consume_tile(T &  thread_aggregate,
                    Size block_offset,
                    int  /*valid_items*/,
-                   thrust::detail::true_type /* is_full_tile */,
-                   thrust::detail::false_type /* can_vectorize */)
+                   HYDRA_EXTERNAL_NS::thrust::detail::true_type /* is_full_tile */,
+                   HYDRA_EXTERNAL_NS::thrust::detail::false_type /* can_vectorize */)
       {
         T items[ITEMS_PER_THREAD];
 
@@ -311,12 +311,12 @@ namespace __reduce {
       // Consume a full tile of input (vectorized)
       //
       template <int IS_FIRST_TILE>
-      THRUST_DEVICE_FUNCTION void
+      HYDRA_THRUST_DEVICE_FUNCTION void
       consume_tile(T &  thread_aggregate,
                    Size block_offset,
                    int  /*valid_items*/,
-                   thrust::detail::true_type /* is_full_tile */,
-                   thrust::detail::true_type /* can_vectorize */)
+                   HYDRA_EXTERNAL_NS::thrust::detail::true_type /* is_full_tile */,
+                   HYDRA_EXTERNAL_NS::thrust::detail::true_type /* can_vectorize */)
       {
         // Alias items as an array of VectorT and load it in striped fashion
         enum
@@ -352,11 +352,11 @@ namespace __reduce {
       // Consume a partial tile of input
       //
       template <int IS_FIRST_TILE, class CAN_VECTORIZE>
-      THRUST_DEVICE_FUNCTION void
+      HYDRA_THRUST_DEVICE_FUNCTION void
       consume_tile(T &  thread_aggregate,
                    Size block_offset,
                    int  valid_items,
-                   thrust::detail::false_type /* is_full_tile */,
+                   HYDRA_EXTERNAL_NS::thrust::detail::false_type /* is_full_tile */,
                    CAN_VECTORIZE)
       {
         // Partial tile
@@ -374,7 +374,7 @@ namespace __reduce {
         {
           thread_aggregate = reduction_op(
               thread_aggregate,
-              thrust::raw_reference_cast(load_it[block_offset + thread_offset]));
+              HYDRA_EXTERNAL_NS::thrust::raw_reference_cast(load_it[block_offset + thread_offset]));
           thread_offset += BLOCK_THREADS;
         }
       }
@@ -387,7 +387,7 @@ namespace __reduce {
       // Reduce a contiguous segment of input tiles
       //
       template <class CAN_VECTORIZE>
-      THRUST_DEVICE_FUNCTION T
+      HYDRA_THRUST_DEVICE_FUNCTION T
       consume_range_impl(Size          block_offset,
                          Size          block_end,
                          CAN_VECTORIZE can_vectorize)
@@ -401,7 +401,7 @@ namespace __reduce {
           consume_tile<true>(thread_aggregate,
                              block_offset,
                              valid_items,
-                             thrust::detail::false_type(),
+                             HYDRA_EXTERNAL_NS::thrust::detail::false_type(),
                              can_vectorize);
           return BlockReduce(storage.reduce)
               .Reduce(thread_aggregate, reduction_op, valid_items);
@@ -411,7 +411,7 @@ namespace __reduce {
         consume_tile<true>(thread_aggregate,
                            block_offset,
                            ITEMS_PER_TILE,
-                           thrust::detail::true_type(),
+                           HYDRA_EXTERNAL_NS::thrust::detail::true_type(),
                            can_vectorize);
         block_offset += ITEMS_PER_TILE;
 
@@ -421,7 +421,7 @@ namespace __reduce {
           consume_tile<false>(thread_aggregate,
                               block_offset,
                               ITEMS_PER_TILE,
-                              thrust::detail::true_type(),
+                              HYDRA_EXTERNAL_NS::thrust::detail::true_type(),
                               can_vectorize);
           block_offset += ITEMS_PER_TILE;
         }
@@ -433,7 +433,7 @@ namespace __reduce {
           consume_tile<false>(thread_aggregate,
                               block_offset,
                               valid_items,
-                              thrust::detail::false_type(),
+                              HYDRA_EXTERNAL_NS::thrust::detail::false_type(),
                               can_vectorize);
         }
 
@@ -444,7 +444,7 @@ namespace __reduce {
 
       // Reduce a contiguous segment of input tiles
       //
-      THRUST_DEVICE_FUNCTION T consume_range(Size block_offset,
+      HYDRA_THRUST_DEVICE_FUNCTION T consume_range(Size block_offset,
                                              Size block_end)
       {
         typedef is_true<ATTEMPT_VECTORIZATION>          attempt_vec;
@@ -458,11 +458,11 @@ namespace __reduce {
 
       // Reduce a contiguous segment of input tiles
       //
-      THRUST_DEVICE_FUNCTION T
+      HYDRA_THRUST_DEVICE_FUNCTION T
       consume_tiles(Size /*num_items*/,
                     cub::GridEvenShare<GridSizeType> &even_share,
                     cub::GridQueue<GridSizeType> & /*queue*/,
-                    thrust::detail::integral_constant<cub::GridMappingStrategy, cub::GRID_MAPPING_RAKE> /*is_rake*/)
+                    HYDRA_EXTERNAL_NS::thrust::detail::integral_constant<cub::GridMappingStrategy, cub::GRID_MAPPING_RAKE> /*is_rake*/)
       {
         typedef is_true<ATTEMPT_VECTORIZATION>          attempt_vec;
         typedef is_true<true && ATTEMPT_VECTORIZATION>  path_a;
@@ -489,7 +489,7 @@ namespace __reduce {
       // Dequeue and reduce tiles of items as part of a inter-block reduction
       //
       template <class CAN_VECTORIZE>
-      THRUST_DEVICE_FUNCTION T
+      HYDRA_THRUST_DEVICE_FUNCTION T
       consume_tiles_impl(Size                         num_items,
                          cub::GridQueue<GridSizeType> queue,
                          CAN_VECTORIZE                can_vectorize)
@@ -508,7 +508,7 @@ namespace __reduce {
           consume_tile<true>(thread_aggregate,
                              block_offset,
                              valid_items,
-                             thrust::detail::false_type(),
+                             HYDRA_EXTERNAL_NS::thrust::detail::false_type(),
                              can_vectorize);
           return BlockReduce(storage.reduce)
               .Reduce(thread_aggregate, reduction_op, valid_items);
@@ -518,7 +518,7 @@ namespace __reduce {
         consume_tile<true>(thread_aggregate,
                            block_offset,
                            ITEMS_PER_TILE,
-                           thrust::detail::true_type(),
+                           HYDRA_EXTERNAL_NS::thrust::detail::true_type(),
                            can_vectorize);
 
         if (num_items > even_share_base)
@@ -539,7 +539,7 @@ namespace __reduce {
             consume_tile<false>(thread_aggregate,
                                 block_offset,
                                 ITEMS_PER_TILE,
-                                thrust::detail::true_type(),
+                                HYDRA_EXTERNAL_NS::thrust::detail::true_type(),
                                 can_vectorize);
 
             sync_threadblock();
@@ -562,7 +562,7 @@ namespace __reduce {
             consume_tile<false>(thread_aggregate,
                                 block_offset,
                                 valid_items,
-                                thrust::detail::false_type(),
+                                HYDRA_EXTERNAL_NS::thrust::detail::false_type(),
                                 can_vectorize);
           }
         }
@@ -575,12 +575,12 @@ namespace __reduce {
 
       // Dequeue and reduce tiles of items as part of a inter-block reduction
       //
-      THRUST_DEVICE_FUNCTION T
+      HYDRA_THRUST_DEVICE_FUNCTION T
       consume_tiles(
           Size                              num_items,
           cub::GridEvenShare<GridSizeType> &/*even_share*/,
           cub::GridQueue<GridSizeType> &    queue,
-          thrust::detail::integral_constant<cub::GridMappingStrategy, cub::GRID_MAPPING_DYNAMIC>)
+          HYDRA_EXTERNAL_NS::thrust::detail::integral_constant<cub::GridMappingStrategy, cub::GRID_MAPPING_DYNAMIC>)
       {
         typedef is_true<ATTEMPT_VECTORIZATION>         attempt_vec;
         typedef is_true<true && ATTEMPT_VECTORIZATION> path_a;
@@ -598,7 +598,7 @@ namespace __reduce {
 
     // single tile reduce entry point
     //
-    THRUST_AGENT_ENTRY(InputIt     input_it,
+    HYDRA_THRUST_AGENT_ENTRY(InputIt     input_it,
                        OutputIt    output_it,
                        Size        num_items,
                        ReductionOp reduction_op,
@@ -620,7 +620,7 @@ namespace __reduce {
 
     // single tile reduce entry point
     //
-    THRUST_AGENT_ENTRY(InputIt     input_it,
+    HYDRA_THRUST_AGENT_ENTRY(InputIt     input_it,
                        OutputIt    output_it,
                        Size        num_items,
                        ReductionOp reduction_op,
@@ -643,7 +643,7 @@ namespace __reduce {
         *output_it = reduction_op(init, block_aggregate);
     }
 
-    THRUST_AGENT_ENTRY(InputIt                          input_it,
+    HYDRA_THRUST_AGENT_ENTRY(InputIt                          input_it,
                        OutputIt                         output_it,
                        Size                             num_items,
                        cub::GridEvenShare<GridSizeType> even_share,
@@ -653,7 +653,7 @@ namespace __reduce {
     {
       TempStorage& storage = *reinterpret_cast<TempStorage*>(shmem);
 
-      typedef thrust::detail::integral_constant<cub::GridMappingStrategy, ptx_plan::GRID_MAPPING> grid_mapping;
+      typedef HYDRA_EXTERNAL_NS::thrust::detail::integral_constant<cub::GridMappingStrategy, ptx_plan::GRID_MAPPING> grid_mapping;
 
       T block_aggregate =
           impl(storage, input_it, reduction_op)
@@ -675,7 +675,7 @@ namespace __reduce {
     // Agent entry point
     //---------------------------------------------------------------------
 
-    THRUST_AGENT_ENTRY(cub::GridQueue<GridSizeType> grid_queue,
+    HYDRA_THRUST_AGENT_ENTRY(cub::GridQueue<GridSizeType> grid_queue,
                        Size                         num_items,
                        char * /*shmem*/)
     {
@@ -689,7 +689,7 @@ namespace __reduce {
             class Size,
             class ReductionOp,
             class T>
-  cudaError_t THRUST_RUNTIME_FUNCTION
+  cudaError_t HYDRA_THRUST_RUNTIME_FUNCTION
   doit_step(void *       d_temp_storage,
             size_t &     temp_storage_bytes,
             InputIt      input_it,
@@ -850,7 +850,7 @@ namespace __reduce {
             typename Size,
             typename T,
             typename BinaryOp>
-  THRUST_RUNTIME_FUNCTION
+  HYDRA_THRUST_RUNTIME_FUNCTION
   T reduce(execution_policy<Derived>& policy,
            InputIt                    first,
            Size                       num_items,
@@ -862,7 +862,7 @@ namespace __reduce {
 
     size_t       temp_storage_bytes = 0;
     cudaStream_t stream             = cuda_cub::stream(policy);
-    bool         debug_sync         = THRUST_DEBUG_SYNC_FLAG;
+    bool         debug_sync         = HYDRA_THRUST_DEBUG_SYNC_FLAG;
 
     cudaError_t status;
     status = doit_step(NULL,
@@ -887,7 +887,7 @@ namespace __reduce {
     cuda_cub::throw_on_error(status, "reduce failed on 1st alias_storage");
 
     // Allocate temporary storage.
-    thrust::detail::temporary_array<thrust::detail::uint8_t, Derived>
+    HYDRA_EXTERNAL_NS::thrust::detail::temporary_array<HYDRA_EXTERNAL_NS::thrust::detail::uint8_t, Derived>
       tmp(policy, storage_size);
     void *ptr = static_cast<void*>(tmp.data().get());
 
@@ -897,7 +897,7 @@ namespace __reduce {
                                  allocation_sizes);
     cuda_cub::throw_on_error(status, "reduce failed on 2nd alias_storage");
 
-    T* d_result = thrust::detail::aligned_reinterpret_cast<T*>(allocations[0]);
+    T* d_result = HYDRA_EXTERNAL_NS::thrust::detail::aligned_reinterpret_cast<T*>(allocations[0]);
 
     status = doit_step(allocations[1],
                        temp_storage_bytes,
@@ -926,7 +926,7 @@ template <typename Derived,
           typename Size,
           typename T,
           typename BinaryOp>
-THRUST_RUNTIME_FUNCTION
+HYDRA_THRUST_RUNTIME_FUNCTION
 T reduce_n_impl(execution_policy<Derived>& policy,
                 InputIt                    first,
                 Size                       num_items,
@@ -947,12 +947,12 @@ T reduce_n_impl(execution_policy<Derived>& policy,
                               binary_op,
                               init,
                               stream,
-                              THRUST_DEBUG_SYNC_FLAG),
+                              HYDRA_THRUST_DEBUG_SYNC_FLAG),
     "after reduction step 1");
 
   // Allocate temporary storage.
 
-  thrust::detail::temporary_array<thrust::detail::uint8_t, Derived>
+  HYDRA_EXTERNAL_NS::thrust::detail::temporary_array<HYDRA_EXTERNAL_NS::thrust::detail::uint8_t, Derived>
     tmp(policy, sizeof(T) + tmp_size);
 
   // Run reduction.
@@ -965,7 +965,7 @@ T reduce_n_impl(execution_policy<Derived>& policy,
   // The array was dynamically allocated, so we assume that it's suitably
   // aligned for any type of data. `malloc`/`cudaMalloc`/`new`/`std::allocator`
   // make this guarantee.
-  T* ret_ptr = thrust::detail::aligned_reinterpret_cast<T*>(tmp.data().get());
+  T* ret_ptr = HYDRA_EXTERNAL_NS::thrust::detail::aligned_reinterpret_cast<T*>(tmp.data().get());
   void* tmp_ptr = static_cast<void*>((tmp.data() + sizeof(T)).get());
   cuda_cub::throw_on_error(
     cub::DeviceReduce::Reduce(tmp_ptr,
@@ -976,7 +976,7 @@ T reduce_n_impl(execution_policy<Derived>& policy,
                               binary_op,
                               init,
                               stream,
-                              THRUST_DEBUG_SYNC_FLAG),
+                              HYDRA_THRUST_DEBUG_SYNC_FLAG),
     "after reduction step 2");
 
   // Synchronize the stream and get the value.
@@ -992,8 +992,8 @@ T reduce_n_impl(execution_policy<Derived>& policy,
   // The array was dynamically allocated, so we assume that it's suitably
   // aligned for any type of data. `malloc`/`cudaMalloc`/`new`/`std::allocator`
   // make this guarantee.
-  return thrust::cuda_cub::get_value(policy,
-    thrust::detail::aligned_reinterpret_cast<T*>(tmp.data().get()));
+  return HYDRA_EXTERNAL_NS::thrust::cuda_cub::get_value(policy,
+    HYDRA_EXTERNAL_NS::thrust::detail::aligned_reinterpret_cast<T*>(tmp.data().get()));
 }
 
 } // namespace detail
@@ -1015,12 +1015,12 @@ T reduce_n(execution_policy<Derived>& policy,
            T                          init,
            BinaryOp                   binary_op)
 {
-  if (__THRUST_HAS_CUDART__)
-    return thrust::cuda_cub::detail::reduce_n_impl(
+  if (__HYDRA_THRUST_HAS_CUDART__)
+    return HYDRA_EXTERNAL_NS::thrust::cuda_cub::detail::reduce_n_impl(
       policy, first, num_items, init, binary_op);
 
-  #if !__THRUST_HAS_CUDART__
-    return thrust::reduce(
+  #if !__HYDRA_THRUST_HAS_CUDART__
+    return HYDRA_EXTERNAL_NS::thrust::reduce(
       cvt_to_seq(derived_cast(policy)), first, first + num_items, init, binary_op);
   #endif
 }
@@ -1035,7 +1035,7 @@ T reduce(execution_policy<Derived> &policy,
 {
   typedef typename iterator_traits<InputIt>::difference_type size_type;
   // FIXME: Check for RA iterator.
-  size_type num_items = static_cast<size_type>(thrust::distance(first, last));
+  size_type num_items = static_cast<size_type>(HYDRA_EXTERNAL_NS::thrust::distance(first, last));
   return cuda_cub::reduce_n(policy, first, num_items, init, binary_op);
 }
 
@@ -1066,7 +1066,7 @@ reduce(execution_policy<Derived> &policy,
 
 } // namespace cuda_cub
 
-THRUST_END_NS
+HYDRA_THRUST_END_NS
 
 HYDRA_EXTERNAL_NAMESPACE_END
 #include <hydra/detail/external/thrust/memory.h>

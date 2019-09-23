@@ -27,7 +27,7 @@
 #include <hydra/detail/external/thrust/mr/allocator.h>
 #include <ostream>
 HYDRA_EXTERNAL_NAMESPACE_BEGIN
-THRUST_BEGIN_NS
+HYDRA_THRUST_BEGIN_NS
 namespace cuda_cub {
 
 /*! Allocates an area of memory available to Thrust's <tt>cuda</tt> system.
@@ -65,7 +65,7 @@ inline __hydra_host__ __hydra_device__ void free(pointer<void> ptr);
 
 // XXX upon c++11
 // template<typename T>
-// using allocator = thrust::mr::stateless_resource_allocator<T, memory_resource>;
+// using allocator = HYDRA_EXTERNAL_NS::thrust::mr::stateless_resource_allocator<T, memory_resource>;
 
 /*! \p cuda::allocator is the default allocator used by the \p cuda system's containers such as
  *  <tt>cuda::vector</tt> if no user-specified allocator is provided. \p cuda::allocator allocates
@@ -73,13 +73,13 @@ inline __hydra_host__ __hydra_device__ void free(pointer<void> ptr);
  */
 template <typename T>
 struct allocator
-    : thrust::mr::stateless_resource_allocator<
+    : HYDRA_EXTERNAL_NS::thrust::mr::stateless_resource_allocator<
         T,
         system::cuda::memory_resource
     >
 {
 private:
-    typedef thrust::mr::stateless_resource_allocator<
+    typedef HYDRA_EXTERNAL_NS::thrust::mr::stateless_resource_allocator<
         T,
         system::cuda::memory_resource
     > base;
@@ -124,19 +124,19 @@ public:
 
 namespace system {
 namespace cuda {
-using thrust::cuda_cub::malloc;
-using thrust::cuda_cub::free;
-using thrust::cuda_cub::allocator;
+using HYDRA_EXTERNAL_NS::thrust::cuda_cub::malloc;
+using HYDRA_EXTERNAL_NS::thrust::cuda_cub::free;
+using HYDRA_EXTERNAL_NS::thrust::cuda_cub::allocator;
 } // namespace cuda
 } // namespace system
 
 namespace cuda {
-using thrust::cuda_cub::malloc;
-using thrust::cuda_cub::free;
-using thrust::cuda_cub::allocator;
+using HYDRA_EXTERNAL_NS::thrust::cuda_cub::malloc;
+using HYDRA_EXTERNAL_NS::thrust::cuda_cub::free;
+using HYDRA_EXTERNAL_NS::thrust::cuda_cub::allocator;
 }    // end cuda
 
-THRUST_END_NS
+HYDRA_THRUST_END_NS
 HYDRA_EXTERNAL_NAMESPACE_END
 #include <hydra/detail/external/thrust/system/cuda/detail/memory.inl>
 

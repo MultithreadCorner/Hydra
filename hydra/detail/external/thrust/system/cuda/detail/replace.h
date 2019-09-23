@@ -27,13 +27,13 @@
 #pragma once
 
 
-#if THRUST_DEVICE_COMPILER == THRUST_DEVICE_COMPILER_NVCC
+#if HYDRA_THRUST_DEVICE_COMPILER == HYDRA_THRUST_DEVICE_COMPILER_NVCC
 #include <hydra/detail/external/thrust/system/cuda/detail/transform.h>
 #include <hydra/detail/external/thrust/detail/internal_functional.h>
 
 HYDRA_EXTERNAL_NAMESPACE_BEGIN
 
-THRUST_BEGIN_NS
+HYDRA_THRUST_BEGIN_NS
 namespace cuda_cub {
 
   namespace __replace
@@ -43,11 +43,11 @@ namespace cuda_cub {
     {
       T value;
 
-      THRUST_FUNCTION
+      HYDRA_THRUST_FUNCTION
       constant_f(T const &x) : value(x) {}
 
       template<class U>
-      THRUST_DEVICE_FUNCTION
+      HYDRA_THRUST_DEVICE_FUNCTION
       T operator()(U const &)  const
       {
         return value;
@@ -60,19 +60,19 @@ namespace cuda_cub {
       Predicate pred;
       NewType new_value;
 
-      THRUST_FUNCTION
+      HYDRA_THRUST_FUNCTION
       new_value_if_f(Predicate pred_, NewType new_value_)
           : pred(pred_), new_value(new_value_) {}
 
       template<class T>
-      OutputType THRUST_DEVICE_FUNCTION
+      OutputType HYDRA_THRUST_DEVICE_FUNCTION
       operator()(T const &x) const
       {
         return pred(x) ? new_value : x;
       }
 
       template<class T, class P>
-      OutputType THRUST_DEVICE_FUNCTION
+      OutputType HYDRA_THRUST_DEVICE_FUNCTION
       operator()(T const &x, P const& y) const
       {
         return pred(y) ? new_value : x;
@@ -96,7 +96,7 @@ replace(execution_policy<Derived> &policy,
                       last,
                       first,
                       __replace::constant_f<T>(new_value),
-                      thrust::detail::equal_to_value<T>(old_value));
+                      HYDRA_EXTERNAL_NS::thrust::detail::equal_to_value<T>(old_value));
 }
 
 template <class Derived,
@@ -203,12 +203,12 @@ replace_copy(execution_policy<Derived> &policy,
                                    first,
                                    last,
                                    result,
-                                   thrust::detail::equal_to_value<T>(old_value),
+                                   HYDRA_EXTERNAL_NS::thrust::detail::equal_to_value<T>(old_value),
                                    new_value);
 }
 
 }    // namespace cuda_cub
-THRUST_END_NS
+HYDRA_THRUST_END_NS
 
 HYDRA_EXTERNAL_NAMESPACE_END
 #endif

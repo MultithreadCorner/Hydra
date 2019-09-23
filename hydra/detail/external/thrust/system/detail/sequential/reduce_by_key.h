@@ -41,7 +41,7 @@ template<typename DerivedPolicy,
          typename BinaryPredicate,
          typename BinaryFunction>
 __hydra_host__ __hydra_device__
-  thrust::pair<OutputIterator1,OutputIterator2>
+  HYDRA_EXTERNAL_NS::thrust::pair<OutputIterator1,OutputIterator2>
     reduce_by_key(sequential::execution_policy<DerivedPolicy> &,
                   InputIterator1 keys_first, 
                   InputIterator1 keys_last,
@@ -51,10 +51,10 @@ __hydra_host__ __hydra_device__
                   BinaryPredicate binary_pred,
                   BinaryFunction binary_op)
 {
-  typedef typename thrust::iterator_traits<InputIterator1>::value_type  InputKeyType;
-  typedef typename thrust::iterator_traits<InputIterator2>::value_type  InputValueType;
+  typedef typename HYDRA_EXTERNAL_NS::thrust::iterator_traits<InputIterator1>::value_type  InputKeyType;
+  typedef typename HYDRA_EXTERNAL_NS::thrust::iterator_traits<InputIterator2>::value_type  InputValueType;
 
-  typedef typename thrust::detail::intermediate_type_from_function_and_iterators<
+  typedef typename HYDRA_EXTERNAL_NS::thrust::detail::intermediate_type_from_function_and_iterators<
     InputIterator2,
     OutputIterator2,
     BinaryFunction
@@ -96,7 +96,7 @@ __hydra_host__ __hydra_device__
     ++values_output;
   }
 
-  return thrust::make_pair(keys_output, values_output);
+  return HYDRA_EXTERNAL_NS::thrust::make_pair(keys_output, values_output);
 }
 
 
@@ -105,3 +105,4 @@ __hydra_host__ __hydra_device__
 } // end namespace system
 } // end HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
 
+HYDRA_EXTERNAL_NAMESPACE_END

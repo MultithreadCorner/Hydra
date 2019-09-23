@@ -40,13 +40,13 @@ template<typename Iterator, typename DerivedPolicy, typename is_trivial> struct 
 
 // trivial case
 template<typename Iterator, typename DerivedPolicy>
-struct _trivial_sequence<Iterator, DerivedPolicy, thrust::detail::true_type>
+struct _trivial_sequence<Iterator, DerivedPolicy, HYDRA_EXTERNAL_NS::thrust::detail::true_type>
 {
     typedef Iterator iterator_type;
     Iterator first, last;
 
     __hydra_host__ __hydra_device__
-    _trivial_sequence(thrust::execution_policy<DerivedPolicy> &, Iterator _first, Iterator _last) : first(_first), last(_last)
+    _trivial_sequence(HYDRA_EXTERNAL_NS::thrust::execution_policy<DerivedPolicy> &, Iterator _first, Iterator _last) : first(_first), last(_last)
     {
     }
 
@@ -59,15 +59,15 @@ struct _trivial_sequence<Iterator, DerivedPolicy, thrust::detail::true_type>
 
 // non-trivial case
 template<typename Iterator, typename DerivedPolicy>
-struct _trivial_sequence<Iterator, DerivedPolicy, thrust::detail::false_type>
+struct _trivial_sequence<Iterator, DerivedPolicy, HYDRA_EXTERNAL_NS::thrust::detail::false_type>
 {
-    typedef typename thrust::iterator_value<Iterator>::type iterator_value;
-    typedef typename thrust::detail::temporary_array<iterator_value, DerivedPolicy>::iterator iterator_type;
+    typedef typename HYDRA_EXTERNAL_NS::thrust::iterator_value<Iterator>::type iterator_value;
+    typedef typename HYDRA_EXTERNAL_NS::thrust::detail::temporary_array<iterator_value, DerivedPolicy>::iterator iterator_type;
     
-    thrust::detail::temporary_array<iterator_value, DerivedPolicy> buffer;
+    HYDRA_EXTERNAL_NS::thrust::detail::temporary_array<iterator_value, DerivedPolicy> buffer;
 
     __hydra_host__ __hydra_device__
-    _trivial_sequence(thrust::execution_policy<DerivedPolicy> &exec, Iterator first, Iterator last)
+    _trivial_sequence(HYDRA_EXTERNAL_NS::thrust::execution_policy<DerivedPolicy> &exec, Iterator first, Iterator last)
       : buffer(exec, first, last)
     {
     }
@@ -81,12 +81,12 @@ struct _trivial_sequence<Iterator, DerivedPolicy, thrust::detail::false_type>
 
 template <typename Iterator, typename DerivedPolicy>
 struct trivial_sequence
-  : detail::_trivial_sequence<Iterator, DerivedPolicy, typename thrust::is_contiguous_iterator<Iterator>::type>
+  : detail::_trivial_sequence<Iterator, DerivedPolicy, typename HYDRA_EXTERNAL_NS::thrust::is_contiguous_iterator<Iterator>::type>
 {
-    typedef _trivial_sequence<Iterator, DerivedPolicy, typename thrust::is_contiguous_iterator<Iterator>::type> super_t;
+    typedef _trivial_sequence<Iterator, DerivedPolicy, typename HYDRA_EXTERNAL_NS::thrust::is_contiguous_iterator<Iterator>::type> super_t;
 
     __hydra_host__ __hydra_device__
-    trivial_sequence(thrust::execution_policy<DerivedPolicy> &exec, Iterator first, Iterator last) : super_t(exec, first, last) { }
+    trivial_sequence(HYDRA_EXTERNAL_NS::thrust::execution_policy<DerivedPolicy> &exec, Iterator first, Iterator last) : super_t(exec, first, last) { }
 };
 
 } // end namespace detail

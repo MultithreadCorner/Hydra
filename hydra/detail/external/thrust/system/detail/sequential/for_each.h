@@ -46,7 +46,7 @@ InputIterator for_each(sequential::execution_policy<DerivedPolicy> &,
                        UnaryFunction f)
 {
   // wrap f
-  thrust::detail::wrapped_function<
+  HYDRA_EXTERNAL_NS::thrust::detail::wrapped_function<
     UnaryFunction,
     void
   > wrapped_f(f);
@@ -71,7 +71,7 @@ InputIterator for_each_n(sequential::execution_policy<DerivedPolicy> &,
                          UnaryFunction f)
 {
   // wrap f
-  thrust::detail::wrapped_function<
+  HYDRA_EXTERNAL_NS::thrust::detail::wrapped_function<
     UnaryFunction,
     void
   > wrapped_f(f);
@@ -93,3 +93,4 @@ InputIterator for_each_n(sequential::execution_policy<DerivedPolicy> &,
 } // end namespace system
 } // end HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
 
+HYDRA_EXTERNAL_NAMESPACE_END

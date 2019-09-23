@@ -18,7 +18,7 @@
 #include <hydra/detail/external/thrust/detail/config.h>
 
 // don't attempt to #include this file without omp support
-#if (THRUST_DEVICE_COMPILER_IS_OMP_CAPABLE == THRUST_TRUE)
+#if (HYDRA_THRUST_DEVICE_COMPILER_IS_OMP_CAPABLE == HYDRA_THRUST_TRUE)
 #include <omp.h>
 #endif // omp support
 
@@ -51,12 +51,12 @@ void inplace_merge(execution_policy<DerivedPolicy> &exec,
                    RandomAccessIterator last,
                    StrictWeakOrdering comp)
 {
-  typedef typename thrust::iterator_value<RandomAccessIterator>::type value_type;
+  typedef typename HYDRA_EXTERNAL_NS::thrust::iterator_value<RandomAccessIterator>::type value_type;
 
-  thrust::detail::temporary_array<value_type,DerivedPolicy> a(exec, first, middle);
-  thrust::detail::temporary_array<value_type,DerivedPolicy> b(exec, middle, last);
+  HYDRA_EXTERNAL_NS::thrust::detail::temporary_array<value_type,DerivedPolicy> a(exec, first, middle);
+  HYDRA_EXTERNAL_NS::thrust::detail::temporary_array<value_type,DerivedPolicy> b(exec, middle, last);
 
-  thrust::merge(thrust::seq, a.begin(), a.end(), b.begin(), b.end(), first, comp);
+  HYDRA_EXTERNAL_NS::thrust::merge(HYDRA_EXTERNAL_NS::thrust::seq, a.begin(), a.end(), b.begin(), b.end(), first, comp);
 }
 
 
@@ -71,18 +71,18 @@ void inplace_merge_by_key(execution_policy<DerivedPolicy> &exec,
                           RandomAccessIterator2 first2,
                           StrictWeakOrdering comp)
 {
-  typedef typename thrust::iterator_value<RandomAccessIterator1>::type value_type1;
-  typedef typename thrust::iterator_value<RandomAccessIterator2>::type value_type2;
+  typedef typename HYDRA_EXTERNAL_NS::thrust::iterator_value<RandomAccessIterator1>::type value_type1;
+  typedef typename HYDRA_EXTERNAL_NS::thrust::iterator_value<RandomAccessIterator2>::type value_type2;
 
   RandomAccessIterator2 middle2 = first2 + (middle1 - first1);
   RandomAccessIterator2 last2   = first2 + (last1   - first1);
 
-  thrust::detail::temporary_array<value_type1,DerivedPolicy> lhs1(exec, first1, middle1);
-  thrust::detail::temporary_array<value_type1,DerivedPolicy> rhs1(exec, middle1, last1);
-  thrust::detail::temporary_array<value_type2,DerivedPolicy> lhs2(exec, first2, middle2);
-  thrust::detail::temporary_array<value_type2,DerivedPolicy> rhs2(exec, middle2, last2);
+  HYDRA_EXTERNAL_NS::thrust::detail::temporary_array<value_type1,DerivedPolicy> lhs1(exec, first1, middle1);
+  HYDRA_EXTERNAL_NS::thrust::detail::temporary_array<value_type1,DerivedPolicy> rhs1(exec, middle1, last1);
+  HYDRA_EXTERNAL_NS::thrust::detail::temporary_array<value_type2,DerivedPolicy> lhs2(exec, first2, middle2);
+  HYDRA_EXTERNAL_NS::thrust::detail::temporary_array<value_type2,DerivedPolicy> rhs2(exec, middle2, last2);
 
-  thrust::merge_by_key(thrust::seq,
+  HYDRA_EXTERNAL_NS::thrust::merge_by_key(HYDRA_EXTERNAL_NS::thrust::seq,
                        lhs1.begin(), lhs1.end(),
                        rhs1.begin(), rhs1.end(),
                        lhs2.begin(), rhs2.begin(),
@@ -107,22 +107,22 @@ void stable_sort(execution_policy<DerivedPolicy> &exec,
   // X Note to the user: If you've found this line due to a compiler error, X
   // X you need to enable OpenMP support in your compiler.                  X
   // ========================================================================
-  THRUST_STATIC_ASSERT_MSG(
-    (thrust::detail::depend_on_instantiation<
-      RandomAccessIterator, (THRUST_DEVICE_COMPILER_IS_OMP_CAPABLE == THRUST_TRUE)
+  HYDRA_THRUST_STATIC_ASSERT_MSG(
+    (HYDRA_EXTERNAL_NS::thrust::detail::depend_on_instantiation<
+      RandomAccessIterator, (HYDRA_THRUST_DEVICE_COMPILER_IS_OMP_CAPABLE == HYDRA_THRUST_TRUE)
     >::value)
   , "OpenMP compiler support is not enabled"
   );
 
-#if (THRUST_DEVICE_COMPILER_IS_OMP_CAPABLE == THRUST_TRUE)
-  typedef typename thrust::iterator_difference<RandomAccessIterator>::type IndexType;
+#if (HYDRA_THRUST_DEVICE_COMPILER_IS_OMP_CAPABLE == HYDRA_THRUST_TRUE)
+  typedef typename HYDRA_EXTERNAL_NS::thrust::iterator_difference<RandomAccessIterator>::type IndexType;
   
   if(first == last)
     return;
 
   #pragma omp parallel
   {
-    thrust::system::detail::internal::uniform_decomposition<IndexType> decomp(last - first, 1, omp_get_num_threads());
+    HYDRA_EXTERNAL_NS::thrust::system::detail::internal::uniform_decomposition<IndexType> decomp(last - first, 1, omp_get_num_threads());
 
     // process id
     IndexType p_i = omp_get_thread_num();
@@ -130,7 +130,7 @@ void stable_sort(execution_policy<DerivedPolicy> &exec,
     // every thread sorts its own tile
     if(p_i < decomp.size())
     {
-      thrust::stable_sort(thrust::seq,
+      HYDRA_EXTERNAL_NS::thrust::stable_sort(HYDRA_EXTERNAL_NS::thrust::seq,
                           first + decomp[p_i].begin(),
                           first + decomp[p_i].end(),
                           comp);
@@ -170,7 +170,7 @@ void stable_sort(execution_policy<DerivedPolicy> &exec,
       #pragma omp barrier
     }
   }
-#endif // THRUST_DEVICE_COMPILER_IS_OMP_CAPABLE
+#endif // HYDRA_THRUST_DEVICE_COMPILER_IS_OMP_CAPABLE
 }
 
 
@@ -189,22 +189,22 @@ void stable_sort_by_key(execution_policy<DerivedPolicy> &exec,
   // X Note to the user: If you've found this line due to a compiler error, X
   // X you need to enable OpenMP support in your compiler.                  X
   // ========================================================================
-  THRUST_STATIC_ASSERT_MSG(
-    (thrust::detail::depend_on_instantiation<
-      RandomAccessIterator1, (THRUST_DEVICE_COMPILER_IS_OMP_CAPABLE == THRUST_TRUE)
+  HYDRA_THRUST_STATIC_ASSERT_MSG(
+    (HYDRA_EXTERNAL_NS::thrust::detail::depend_on_instantiation<
+      RandomAccessIterator1, (HYDRA_THRUST_DEVICE_COMPILER_IS_OMP_CAPABLE == HYDRA_THRUST_TRUE)
     >::value)
   , "OpenMP compiler support is not enabled"
   );
 
-#if (THRUST_DEVICE_COMPILER_IS_OMP_CAPABLE == THRUST_TRUE)
-  typedef typename thrust::iterator_difference<RandomAccessIterator1>::type IndexType;
+#if (HYDRA_THRUST_DEVICE_COMPILER_IS_OMP_CAPABLE == HYDRA_THRUST_TRUE)
+  typedef typename HYDRA_EXTERNAL_NS::thrust::iterator_difference<RandomAccessIterator1>::type IndexType;
   
   if(keys_first == keys_last)
     return;
 
   #pragma omp parallel
   {
-    thrust::system::detail::internal::uniform_decomposition<IndexType> decomp(keys_last - keys_first, 1, omp_get_num_threads());
+    HYDRA_EXTERNAL_NS::thrust::system::detail::internal::uniform_decomposition<IndexType> decomp(keys_last - keys_first, 1, omp_get_num_threads());
 
     // process id
     IndexType p_i = omp_get_thread_num();
@@ -212,7 +212,7 @@ void stable_sort_by_key(execution_policy<DerivedPolicy> &exec,
     // every thread sorts its own tile
     if(p_i < decomp.size())
     {
-      thrust::stable_sort_by_key(thrust::seq,
+      HYDRA_EXTERNAL_NS::thrust::stable_sort_by_key(HYDRA_EXTERNAL_NS::thrust::seq,
                                  keys_first + decomp[p_i].begin(),
                                  keys_first + decomp[p_i].end(),
                                  values_first + decomp[p_i].begin(),
@@ -254,7 +254,7 @@ void stable_sort_by_key(execution_policy<DerivedPolicy> &exec,
       #pragma omp barrier
     }
   }
-#endif // THRUST_DEVICE_COMPILER_IS_OMP_CAPABLE
+#endif // HYDRA_THRUST_DEVICE_COMPILER_IS_OMP_CAPABLE
 }
 
 

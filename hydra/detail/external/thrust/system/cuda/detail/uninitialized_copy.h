@@ -27,7 +27,7 @@
 #pragma once
 
 
-#if THRUST_DEVICE_COMPILER == THRUST_DEVICE_COMPILER_NVCC
+#if HYDRA_THRUST_DEVICE_COMPILER == HYDRA_THRUST_DEVICE_COMPILER_NVCC
 #include <iterator>
 #include <hydra/detail/external/thrust/distance.h>
 #include <hydra/detail/external/thrust/system/cuda/detail/execution_policy.h>
@@ -36,7 +36,7 @@
 
 HYDRA_EXTERNAL_NAMESPACE_BEGIN
 
-THRUST_BEGIN_NS
+HYDRA_THRUST_BEGIN_NS
 
 namespace cuda_cub {
 
@@ -51,12 +51,12 @@ namespace __uninitialized_copy {
     typedef typename iterator_traits<InputIt>::value_type  InputType;
     typedef typename iterator_traits<OutputIt>::value_type OutputType;
 
-    THRUST_FUNCTION
+    HYDRA_THRUST_FUNCTION
     functor(InputIt input_, OutputIt output_)
         : input(input_), output(output_) {}
 
     template<class Size>
-    void THRUST_DEVICE_FUNCTION operator()(Size idx)
+    void HYDRA_THRUST_DEVICE_FUNCTION operator()(Size idx)
     {
       InputType const &in  = raw_reference_cast(input[idx]);
       OutputType &     out = raw_reference_cast(output[idx]);
@@ -107,13 +107,13 @@ uninitialized_copy(execution_policy<Derived>& policy,
 {
   return cuda_cub::uninitialized_copy_n(policy,
                                         first,
-                                        thrust::distance(first, last),
+                                        HYDRA_EXTERNAL_NS::thrust::distance(first, last),
                                         result);
 }
 
 }    // namespace cuda_
 
-THRUST_END_NS
+HYDRA_THRUST_END_NS
 
 HYDRA_EXTERNAL_NAMESPACE_END
 #endif

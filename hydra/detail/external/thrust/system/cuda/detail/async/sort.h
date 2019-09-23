@@ -33,9 +33,9 @@
 #include <hydra/detail/external/thrust/detail/cpp11_required.h>
 #include <hydra/detail/external/thrust/detail/modern_gcc_required.h>
 
-#if THRUST_CPP_DIALECT >= 2011 && !defined(THRUST_LEGACY_GCC)
+#if HYDRA_THRUST_CPP_DIALECT >= 2011 && !defined(HYDRA_THRUST_LEGACY_GCC)
 
-#if THRUST_DEVICE_COMPILER == THRUST_DEVICE_COMPILER_NVCC
+#if HYDRA_THRUST_DEVICE_COMPILER == HYDRA_THRUST_DEVICE_COMPILER_NVCC
 
 #include <hydra/detail/external/thrust/system/cuda/config.h>
 
@@ -56,7 +56,7 @@
 
 HYDRA_EXTERNAL_NAMESPACE_BEGIN
 
-THRUST_BEGIN_NS
+HYDRA_THRUST_BEGIN_NS
 
 namespace system { namespace cuda { namespace detail
 {
@@ -66,7 +66,7 @@ template <
   typename DerivedPolicy
 , typename ForwardIt, typename Size, typename StrictWeakOrdering
 >
-THRUST_RUNTIME_FUNCTION
+HYDRA_THRUST_RUNTIME_FUNCTION
 auto async_stable_sort_n(
   execution_policy<DerivedPolicy>& policy,
   ForwardIt                        first,
@@ -95,11 +95,11 @@ auto async_stable_sort_n(
 
   // Copy from the input into the buffer.
 
-  auto new_policy0 = thrust::detail::derived_cast(policy).rebind_after(
+  auto new_policy0 = HYDRA_EXTERNAL_NS::thrust::detail::derived_cast(policy).rebind_after(
     std::move(device_buffer)
   );
 
-  THRUST_STATIC_ASSERT((
+  HYDRA_THRUST_STATIC_ASSERT((
     std::tuple_size<decltype(
       extract_dependencies(policy)
     )>::value + 1
@@ -119,11 +119,11 @@ auto async_stable_sort_n(
 
   // Sort the buffer.
 
-  auto new_policy1 = thrust::detail::derived_cast(policy).rebind_after(
+  auto new_policy1 = HYDRA_EXTERNAL_NS::thrust::detail::derived_cast(policy).rebind_after(
     std::move(f0)
   );
 
-  THRUST_STATIC_ASSERT((
+  HYDRA_THRUST_STATIC_ASSERT((
     std::tuple_size<decltype(
       extract_dependencies(policy)
     )>::value + 1
@@ -145,11 +145,11 @@ auto async_stable_sort_n(
   // FIXME: Combine this with the potential memcpy at the end of the main sort
   // routine.
 
-  auto new_policy2 = thrust::detail::derived_cast(policy).rebind_after(
+  auto new_policy2 = HYDRA_EXTERNAL_NS::thrust::detail::derived_cast(policy).rebind_after(
     std::move(f1)
   );
 
-  THRUST_STATIC_ASSERT((
+  HYDRA_THRUST_STATIC_ASSERT((
     std::tuple_size<decltype(
       extract_dependencies(policy)
     )>::value + 1
@@ -174,7 +174,7 @@ template <
   typename DerivedPolicy
 , typename ForwardIt, typename Size, typename StrictWeakOrdering
 >
-THRUST_RUNTIME_FUNCTION
+HYDRA_THRUST_RUNTIME_FUNCTION
 auto async_stable_sort_n(
   execution_policy<DerivedPolicy>& policy,
   ForwardIt                        first,
@@ -205,25 +205,25 @@ auto async_stable_sort_n(
   // Determine temporary device storage requirements.
 
   size_t tmp_size = 0;
-  thrust::cuda_cub::throw_on_error(
-    thrust::cuda_cub::__merge_sort::doit_step<
+  HYDRA_EXTERNAL_NS::thrust::cuda_cub::throw_on_error(
+    HYDRA_EXTERNAL_NS::thrust::cuda_cub::__merge_sort::doit_step<
       /* Sort items? */ std::false_type, /* Stable? */ std::true_type
     >(
       nullptr
     , tmp_size
     , first
-    , static_cast<thrust::detail::uint8_t*>(nullptr) // Items.
+    , static_cast<HYDRA_EXTERNAL_NS::thrust::detail::uint8_t*>(nullptr) // Items.
     , n
     , comp
     , nullptr // Null stream, just for sizing.
-    , THRUST_DEBUG_SYNC_FLAG
+    , HYDRA_THRUST_DEBUG_SYNC_FLAG
     )
   , "after merge sort sizing"
   );
 
   // Allocate temporary storage.
 
-  auto content = uninitialized_allocate_unique_n<thrust::detail::uint8_t>(
+  auto content = uninitialized_allocate_unique_n<HYDRA_EXTERNAL_NS::thrust::detail::uint8_t>(
     device_alloc, tmp_size
   );
 
@@ -238,9 +238,9 @@ auto async_stable_sort_n(
 
   // Set up stream with dependencies.
 
-  cudaStream_t const user_raw_stream = thrust::cuda_cub::stream(policy);
+  cudaStream_t const user_raw_stream = HYDRA_EXTERNAL_NS::thrust::cuda_cub::stream(policy);
 
-  if (thrust::cuda_cub::default_stream() != user_raw_stream)
+  if (HYDRA_EXTERNAL_NS::thrust::cuda_cub::default_stream() != user_raw_stream)
   {
     e = make_dependent_event(
       std::tuple_cat(
@@ -249,7 +249,7 @@ auto async_stable_sort_n(
         , unique_stream(nonowning, user_raw_stream)
         )
       , extract_dependencies(
-          std::move(thrust::detail::derived_cast(policy))
+          std::move(HYDRA_EXTERNAL_NS::thrust::detail::derived_cast(policy))
         )
       )
     );
@@ -262,7 +262,7 @@ auto async_stable_sort_n(
           std::move(content)
         )
       , extract_dependencies(
-          std::move(thrust::detail::derived_cast(policy))
+          std::move(HYDRA_EXTERNAL_NS::thrust::detail::derived_cast(policy))
         )
       )
     );
@@ -270,18 +270,18 @@ auto async_stable_sort_n(
 
   // Run merge sort.
 
-  thrust::cuda_cub::throw_on_error(
-    thrust::cuda_cub::__merge_sort::doit_step<
+  HYDRA_EXTERNAL_NS::thrust::cuda_cub::throw_on_error(
+    HYDRA_EXTERNAL_NS::thrust::cuda_cub::__merge_sort::doit_step<
       /* Sort items? */ std::false_type, /* Stable? */ std::true_type
     >(
       tmp_ptr
     , tmp_size
     , first
-    , static_cast<thrust::detail::uint8_t*>(nullptr) // Items.
+    , static_cast<HYDRA_EXTERNAL_NS::thrust::detail::uint8_t*>(nullptr) // Items.
     , n
     , comp
     , e.stream().native_handle()
-    , THRUST_DEBUG_SYNC_FLAG
+    , HYDRA_THRUST_DEBUG_SYNC_FLAG
     )
   , "after merge sort sizing"
   );
@@ -290,7 +290,7 @@ auto async_stable_sort_n(
 }
 
 template <typename T, typename Size, typename StrictWeakOrdering>
-THRUST_RUNTIME_FUNCTION
+HYDRA_THRUST_RUNTIME_FUNCTION
 typename std::enable_if<
   is_operator_less_function_object<StrictWeakOrdering>::value
 , cudaError_t
@@ -299,12 +299,12 @@ invoke_radix_sort(
   cudaStream_t                            stream
 , void*                                   tmp_ptr
 , std::size_t&                            tmp_size
-, thrust::cuda_cub::cub::DoubleBuffer<T>& keys
+, HYDRA_EXTERNAL_NS::thrust::cuda_cub::cub::DoubleBuffer<T>& keys
 , Size&                                   n
 , StrictWeakOrdering
 )
 {
-  return thrust::cuda_cub::cub::DeviceRadixSort::SortKeys(
+  return HYDRA_EXTERNAL_NS::thrust::cuda_cub::cub::DeviceRadixSort::SortKeys(
     tmp_ptr
   , tmp_size
   , keys
@@ -312,12 +312,12 @@ invoke_radix_sort(
   , 0
   , sizeof(T) * 8
   , stream
-  , THRUST_DEBUG_SYNC_FLAG
+  , HYDRA_THRUST_DEBUG_SYNC_FLAG
   );
 }
 
 template <typename T, typename Size, typename StrictWeakOrdering>
-THRUST_RUNTIME_FUNCTION
+HYDRA_THRUST_RUNTIME_FUNCTION
 typename std::enable_if<
   is_operator_greater_function_object<StrictWeakOrdering>::value
 , cudaError_t
@@ -326,12 +326,12 @@ invoke_radix_sort(
   cudaStream_t                            stream
 , void*                                   tmp_ptr
 , std::size_t&                            tmp_size
-, thrust::cuda_cub::cub::DoubleBuffer<T>& keys
+, HYDRA_EXTERNAL_NS::thrust::cuda_cub::cub::DoubleBuffer<T>& keys
 , Size&                                   n
 , StrictWeakOrdering
 )
 {
-  return thrust::cuda_cub::cub::DeviceRadixSort::SortKeysDescending(
+  return HYDRA_EXTERNAL_NS::thrust::cuda_cub::cub::DeviceRadixSort::SortKeysDescending(
     tmp_ptr
   , tmp_size
   , keys
@@ -339,7 +339,7 @@ invoke_radix_sort(
   , 0
   , sizeof(T) * 8
   , stream
-  , THRUST_DEBUG_SYNC_FLAG
+  , HYDRA_THRUST_DEBUG_SYNC_FLAG
   );
 }
 
@@ -350,7 +350,7 @@ template <
   typename DerivedPolicy
 , typename ForwardIt, typename Size, typename StrictWeakOrdering
 >
-THRUST_RUNTIME_FUNCTION
+HYDRA_THRUST_RUNTIME_FUNCTION
 auto async_stable_sort_n(
   execution_policy<DerivedPolicy>& policy
 , ForwardIt                        first
@@ -374,14 +374,14 @@ auto async_stable_sort_n(
 
   unique_eager_event e;
 
-  thrust::cuda_cub::cub::DoubleBuffer<T> keys(
+  HYDRA_EXTERNAL_NS::thrust::cuda_cub::cub::DoubleBuffer<T> keys(
     raw_pointer_cast(&*first), nullptr
   );
 
   // Determine temporary device storage requirements.
 
   size_t tmp_size = 0;
-  thrust::cuda_cub::throw_on_error(
+  HYDRA_EXTERNAL_NS::thrust::cuda_cub::throw_on_error(
     invoke_radix_sort(
       nullptr // Null stream, just for sizing.
     , nullptr
@@ -395,11 +395,11 @@ auto async_stable_sort_n(
 
   // Allocate temporary storage.
 
-  size_t keys_temp_storage = thrust::detail::aligned_storage_size(
+  size_t keys_temp_storage = HYDRA_EXTERNAL_NS::thrust::detail::aligned_storage_size(
     sizeof(T) * n, 128
   );
 
-  auto content = uninitialized_allocate_unique_n<thrust::detail::uint8_t>(
+  auto content = uninitialized_allocate_unique_n<HYDRA_EXTERNAL_NS::thrust::detail::uint8_t>(
     device_alloc, keys_temp_storage + tmp_size
   );
 
@@ -408,7 +408,7 @@ auto async_stable_sort_n(
   // make this guarantee.
   auto const content_ptr = content.get();
 
-  keys.d_buffers[1] = thrust::detail::aligned_reinterpret_cast<T*>(
+  keys.d_buffers[1] = HYDRA_EXTERNAL_NS::thrust::detail::aligned_reinterpret_cast<T*>(
     raw_pointer_cast(content_ptr)
   );
 
@@ -418,9 +418,9 @@ auto async_stable_sort_n(
 
   // Set up stream with dependencies.
 
-  cudaStream_t const user_raw_stream = thrust::cuda_cub::stream(policy);
+  cudaStream_t const user_raw_stream = HYDRA_EXTERNAL_NS::thrust::cuda_cub::stream(policy);
 
-  if (thrust::cuda_cub::default_stream() != user_raw_stream)
+  if (HYDRA_EXTERNAL_NS::thrust::cuda_cub::default_stream() != user_raw_stream)
   {
     e = make_dependent_event(
       std::tuple_cat(
@@ -429,7 +429,7 @@ auto async_stable_sort_n(
         , unique_stream(nonowning, user_raw_stream)
         )
       , extract_dependencies(
-          std::move(thrust::detail::derived_cast(policy))
+          std::move(HYDRA_EXTERNAL_NS::thrust::detail::derived_cast(policy))
         )
       )
     );
@@ -442,7 +442,7 @@ auto async_stable_sort_n(
           std::move(content)
         )
       , extract_dependencies(
-          std::move(thrust::detail::derived_cast(policy))
+          std::move(HYDRA_EXTERNAL_NS::thrust::detail::derived_cast(policy))
         )
       )
     );
@@ -450,7 +450,7 @@ auto async_stable_sort_n(
 
   // Run radix sort.
 
-  thrust::cuda_cub::throw_on_error(
+  HYDRA_EXTERNAL_NS::thrust::cuda_cub::throw_on_error(
     invoke_radix_sort(
       e.stream().native_handle()
     , tmp_ptr
@@ -464,11 +464,11 @@ auto async_stable_sort_n(
 
   if (0 != keys.selector)
   {
-    auto new_policy0 = thrust::detail::derived_cast(policy).rebind_after(
+    auto new_policy0 = HYDRA_EXTERNAL_NS::thrust::detail::derived_cast(policy).rebind_after(
       std::move(e)
     );
 
-    THRUST_STATIC_ASSERT((
+    HYDRA_THRUST_STATIC_ASSERT((
       std::tuple_size<decltype(
         extract_dependencies(policy)
       )>::value + 1
@@ -505,26 +505,26 @@ template <
   typename DerivedPolicy
 , typename ForwardIt, typename Sentinel, typename StrictWeakOrdering
 >
-THRUST_RUNTIME_FUNCTION
+HYDRA_THRUST_RUNTIME_FUNCTION
 auto async_stable_sort(
   execution_policy<DerivedPolicy>& policy,
   ForwardIt                        first,
   Sentinel                         last,
   StrictWeakOrdering               comp
 )
-THRUST_DECLTYPE_RETURNS(
-  thrust::system::cuda::detail::async_stable_sort_n(
+HYDRA_THRUST_DECLTYPE_RETURNS(
+  HYDRA_EXTERNAL_NS::thrust::system::cuda::detail::async_stable_sort_n(
     policy, first, distance(first, last), comp
   )
 )
 
 } // cuda_cub
 
-THRUST_END_NS
+HYDRA_THRUST_END_NS
 
 HYDRA_EXTERNAL_NAMESPACE_END
 
-#endif // THRUST_DEVICE_COMPILER == THRUST_DEVICE_COMPILER_NVCC
+#endif // HYDRA_THRUST_DEVICE_COMPILER == HYDRA_THRUST_DEVICE_COMPILER_NVCC
 
 #endif
 

@@ -28,20 +28,20 @@
 #include <sstream>
 #include <hydra/detail/external/thrust/detail/type_traits.h>
 
-#if THRUST_CPP_DIALECT >= 2011
-#  define THRUST_STD_COMPLEX_REAL(z) \
+#if HYDRA_THRUST_CPP_DIALECT >= 2011
+#  define HYDRA_THRUST_STD_COMPLEX_REAL(z) \
     reinterpret_cast< \
-      const typename thrust::detail::remove_reference<decltype(z)>::type::value_type (&)[2] \
+      const typename HYDRA_EXTERNAL_NS::thrust::detail::remove_reference<decltype(z)>::type::value_type (&)[2] \
     >(z)[0]
-#  define THRUST_STD_COMPLEX_IMAG(z) \
+#  define HYDRA_THRUST_STD_COMPLEX_IMAG(z) \
     reinterpret_cast< \
-      const typename thrust::detail::remove_reference<decltype(z)>::type::value_type (&)[2] \
+      const typename HYDRA_EXTERNAL_NS::thrust::detail::remove_reference<decltype(z)>::type::value_type (&)[2] \
     >(z)[1]
-#  define THRUST_STD_COMPLEX_DEVICE __device__
+#  define HYDRA_THRUST_STD_COMPLEX_DEVICE __device__
 #else
-#  define THRUST_STD_COMPLEX_REAL(z) (z).real()
-#  define THRUST_STD_COMPLEX_IMAG(z) (z).imag()
-#  define THRUST_STD_COMPLEX_DEVICE
+#  define HYDRA_THRUST_STD_COMPLEX_REAL(z) (z).real()
+#  define HYDRA_THRUST_STD_COMPLEX_IMAG(z) (z).imag()
+#  define HYDRA_THRUST_STD_COMPLEX_DEVICE
 #endif
 
 HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
@@ -70,26 +70,26 @@ template <typename T, std::size_t Align>
 struct complex_storage;
 
 #if __cplusplus >= 201103L                                                    \
-  && (THRUST_HOST_COMPILER == THRUST_HOST_COMPILER_GCC)                       \
-  && (THRUST_GCC_VERSION >= 40800)
+  && (HYDRA_THRUST_HOST_COMPILER == HYDRA_THRUST_HOST_COMPILER_GCC)                       \
+  && (HYDRA_THRUST_GCC_VERSION >= 40800)
   // C++11 implementation, excluding GCC 4.7, which doesn't have `alignas`.
   template <typename T, std::size_t Align>
   struct complex_storage
   {
     struct alignas(Align) type { T x; T y; };
   };
-#elif  (THRUST_HOST_COMPILER == THRUST_HOST_COMPILER_MSVC)                    \
-    || (   (THRUST_HOST_COMPILER == THRUST_HOST_COMPILER_GCC)                 \
-        && (THRUST_GCC_VERSION < 40600))
+#elif  (HYDRA_THRUST_HOST_COMPILER == HYDRA_THRUST_HOST_COMPILER_MSVC)                    \
+    || (   (HYDRA_THRUST_HOST_COMPILER == HYDRA_THRUST_HOST_COMPILER_GCC)                 \
+        && (HYDRA_THRUST_GCC_VERSION < 40600))
   // C++03 implementation for MSVC and GCC <= 4.5.
   // 
   // We have to implement `aligned_type` with specializations for MSVC
   // and GCC 4.2 and older because they require literals as arguments to 
   // their alignment attribute.
 
-  #if (THRUST_HOST_COMPILER == THRUST_HOST_COMPILER_MSVC)
+  #if (HYDRA_THRUST_HOST_COMPILER == HYDRA_THRUST_HOST_COMPILER_MSVC)
     // MSVC implementation.
-    #define THRUST_DEFINE_COMPLEX_STORAGE_SPECIALIZATION(X)                   \
+    #define HYDRA_THRUST_DEFINE_COMPLEX_STORAGE_SPECIALIZATION(X)                   \
       template <typename T>                                                   \
       struct complex_storage<T, X>                                            \
       {                                                                       \
@@ -98,7 +98,7 @@ struct complex_storage;
       /**/
   #else
     // GCC <= 4.2 implementation.
-    #define THRUST_DEFINE_COMPLEX_STORAGE_SPECIALIZATION(X)                   \
+    #define HYDRA_THRUST_DEFINE_COMPLEX_STORAGE_SPECIALIZATION(X)                   \
       template <typename T>                                                   \
       struct complex_storage<T, X>                                            \
       {                                                                       \
@@ -116,16 +116,16 @@ struct complex_storage;
     T x; T y;
   };
   
-  THRUST_DEFINE_COMPLEX_STORAGE_SPECIALIZATION(1);
-  THRUST_DEFINE_COMPLEX_STORAGE_SPECIALIZATION(2);
-  THRUST_DEFINE_COMPLEX_STORAGE_SPECIALIZATION(4);
-  THRUST_DEFINE_COMPLEX_STORAGE_SPECIALIZATION(8);
-  THRUST_DEFINE_COMPLEX_STORAGE_SPECIALIZATION(16);
-  THRUST_DEFINE_COMPLEX_STORAGE_SPECIALIZATION(32);
-  THRUST_DEFINE_COMPLEX_STORAGE_SPECIALIZATION(64);
-  THRUST_DEFINE_COMPLEX_STORAGE_SPECIALIZATION(128);
+  HYDRA_THRUST_DEFINE_COMPLEX_STORAGE_SPECIALIZATION(1);
+  HYDRA_THRUST_DEFINE_COMPLEX_STORAGE_SPECIALIZATION(2);
+  HYDRA_THRUST_DEFINE_COMPLEX_STORAGE_SPECIALIZATION(4);
+  HYDRA_THRUST_DEFINE_COMPLEX_STORAGE_SPECIALIZATION(8);
+  HYDRA_THRUST_DEFINE_COMPLEX_STORAGE_SPECIALIZATION(16);
+  HYDRA_THRUST_DEFINE_COMPLEX_STORAGE_SPECIALIZATION(32);
+  HYDRA_THRUST_DEFINE_COMPLEX_STORAGE_SPECIALIZATION(64);
+  HYDRA_THRUST_DEFINE_COMPLEX_STORAGE_SPECIALIZATION(128);
 
-  #undef THRUST_DEFINE_COMPLEX_STORAGE_SPECIALIZATION
+  #undef HYDRA_THRUST_DEFINE_COMPLEX_STORAGE_SPECIALIZATION
 #else
   // C++03 implementation for GCC > 4.5, Clang, PGI, ICPC, and xlC.
   template <typename T, std::size_t Align>
@@ -173,7 +173,7 @@ public:
   __hydra_host__ __hydra_device__
   complex(const T& re, const T& im);
 
-#if THRUST_CPP_DIALECT >= 2011
+#if HYDRA_THRUST_CPP_DIALECT >= 2011
   /*! Default construct a complex number.
    */
   complex() = default;
@@ -215,7 +215,7 @@ public:
    *
    *  \param z The \p complex to copy from.
    */
-  __hydra_host__ THRUST_STD_COMPLEX_DEVICE
+  __hydra_host__ HYDRA_THRUST_STD_COMPLEX_DEVICE
   complex(const std::complex<T>& z);
 
   /*! This converting copy constructor copies from a <tt>std::complex</tt> with
@@ -226,7 +226,7 @@ public:
    *  \tparam U is convertible to \c value_type.
    */
   template <typename U>
-  __hydra_host__ THRUST_STD_COMPLEX_DEVICE
+  __hydra_host__ HYDRA_THRUST_STD_COMPLEX_DEVICE
   complex(const std::complex<U>& z);
 
 
@@ -241,7 +241,7 @@ public:
   __hydra_host__ __hydra_device__
   complex& operator=(const T& re);
 
-#if THRUST_CPP_DIALECT >= 2011
+#if HYDRA_THRUST_CPP_DIALECT >= 2011
   /*! Assign `z.real()` and `z.imag()` to the real and imaginary parts of this
    *  \p complex respectively.
    *
@@ -274,7 +274,7 @@ public:
    *
    *  \param z The \p complex to copy from.
    */
-  __hydra_host__ THRUST_STD_COMPLEX_DEVICE
+  __hydra_host__ HYDRA_THRUST_STD_COMPLEX_DEVICE
   complex& operator=(const std::complex<T>& z);
 
   /*! Assign `z.real()` and `z.imag()` to the real and imaginary parts of this
@@ -285,7 +285,7 @@ public:
    *  \tparam U is convertible to \c value_type.
    */
   template <typename U>
-  __hydra_host__ THRUST_STD_COMPLEX_DEVICE
+  __hydra_host__ HYDRA_THRUST_STD_COMPLEX_DEVICE
   complex& operator=(const std::complex<U>& z);
 
 
@@ -947,7 +947,7 @@ bool operator==(const complex<T0>& x, const complex<T1>& y);
  *  \param y The second \p complex.
  */
 template <typename T0, typename T1>
-__hydra_host__ THRUST_STD_COMPLEX_DEVICE
+__hydra_host__ HYDRA_THRUST_STD_COMPLEX_DEVICE
 bool operator==(const complex<T0>& x, const std::complex<T1>& y);
 
 /*! Returns true if two \p complex numbers are equal and false otherwise.
@@ -956,7 +956,7 @@ bool operator==(const complex<T0>& x, const std::complex<T1>& y);
  *  \param y The second \p complex.
  */
 template <typename T0, typename T1>
-__hydra_host__ THRUST_STD_COMPLEX_DEVICE
+__hydra_host__ HYDRA_THRUST_STD_COMPLEX_DEVICE
 bool operator==(const std::complex<T0>& x, const complex<T1>& y);
 
 /*! Returns true if the imaginary part of the \p complex number is zero and
@@ -994,7 +994,7 @@ bool operator!=(const complex<T0>& x, const complex<T1>& y);
  *  \param y The second \p complex.
  */
 template <typename T0, typename T1>
-__hydra_host__ THRUST_STD_COMPLEX_DEVICE
+__hydra_host__ HYDRA_THRUST_STD_COMPLEX_DEVICE
 bool operator!=(const complex<T0>& x, const std::complex<T1>& y);
 
 /*! Returns true if two \p complex numbers are different and false otherwise.
@@ -1003,7 +1003,7 @@ bool operator!=(const complex<T0>& x, const std::complex<T1>& y);
  *  \param y The second \p complex.
  */
 template <typename T0, typename T1>
-__hydra_host__ THRUST_STD_COMPLEX_DEVICE
+__hydra_host__ HYDRA_THRUST_STD_COMPLEX_DEVICE
 bool operator!=(const std::complex<T0>& x, const complex<T1>& y);
 
 /*! Returns true if the imaginary part of the \p complex number is not zero or
@@ -1032,9 +1032,9 @@ HYDRA_EXTERNAL_NAMESPACE_END
 
 #include <hydra/detail/external/thrust/detail/complex/complex.inl>
 
-#undef THRUST_STD_COMPLEX_REAL
-#undef THRUST_STD_COMPLEX_IMAG
-#undef THRUST_STD_COMPLEX_DEVICE
+#undef HYDRA_THRUST_STD_COMPLEX_REAL
+#undef HYDRA_THRUST_STD_COMPLEX_IMAG
+#undef HYDRA_THRUST_STD_COMPLEX_DEVICE
 
 /*! \} // complex_numbers
  */

@@ -45,10 +45,10 @@ namespace detail
 // XXX rename to dflt_help
 template <class T, class DefaultNullaryFn>
 struct ia_dflt_help
-  : thrust::detail::eval_if<
-        thrust::detail::is_same<T, thrust::use_default>::value
+  : HYDRA_EXTERNAL_NS::thrust::detail::eval_if<
+        HYDRA_EXTERNAL_NS::thrust::detail::is_same<T, HYDRA_EXTERNAL_NS::thrust::use_default>::value
       , DefaultNullaryFn
-      , thrust::detail::identity_<T>
+      , HYDRA_EXTERNAL_NS::thrust::detail::identity_<T>
     >
 {
 }; // end ia_dflt_help
@@ -73,20 +73,20 @@ template<typename Derived,
 
   typedef typename ia_dflt_help<
     System,
-    thrust::iterator_system<Base>
+    HYDRA_EXTERNAL_NS::thrust::iterator_system<Base>
   >::type system;
 
   typedef typename ia_dflt_help<
     Traversal,
-    thrust::iterator_traversal<Base>
+    HYDRA_EXTERNAL_NS::thrust::iterator_traversal<Base>
   >::type traversal;
 
   typedef typename ia_dflt_help<
     Reference,
-    thrust::detail::eval_if<
-      thrust::detail::is_same<Value,use_default>::value,
-      thrust::iterator_reference<Base>,
-      thrust::detail::add_reference<Value>
+    HYDRA_EXTERNAL_NS::thrust::detail::eval_if<
+      HYDRA_EXTERNAL_NS::thrust::detail::is_same<Value,use_default>::value,
+      HYDRA_EXTERNAL_NS::thrust::iterator_reference<Base>,
+      HYDRA_EXTERNAL_NS::thrust::detail::add_reference<Value>
     >
   >::type reference;
 
@@ -95,7 +95,7 @@ template<typename Derived,
     iterator_difference<Base>
   >::type difference;
 
-  typedef thrust::iterator_facade<
+  typedef HYDRA_EXTERNAL_NS::thrust::iterator_facade<
     Derived,
     value,
     system,

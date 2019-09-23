@@ -153,7 +153,7 @@ template<typename UIntType, size_t w, size_t k, size_t q, size_t s>
   private:
     result_type m_value;
 
-    friend struct thrust::random::detail::random_core_access;
+    friend struct HYDRA_EXTERNAL_NS::thrust::random::detail::random_core_access;
 
     __hydra_host__ __hydra_device__
     bool equal(const linear_feedback_shift_engine &rhs) const;
@@ -221,7 +221,7 @@ operator>>(std::basic_istream<CharT,Traits> &is,
 
 } // end random
 
-// import names into thrust::
+// import names into HYDRA_EXTERNAL_NS::thrust::
 using random::linear_feedback_shift_engine;
 
 } // end HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust

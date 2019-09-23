@@ -35,17 +35,17 @@ template<typename DerivedPolicy,
          typename OutputType,
          typename BinaryFunction>
 __hydra_host__ __hydra_device__
-  OutputType transform_reduce(thrust::execution_policy<DerivedPolicy> &exec,
+  OutputType transform_reduce(HYDRA_EXTERNAL_NS::thrust::execution_policy<DerivedPolicy> &exec,
                               InputIterator first,
                               InputIterator last,
                               UnaryFunction unary_op,
                               OutputType init,
                               BinaryFunction binary_op)
 {
-  thrust::transform_iterator<UnaryFunction, InputIterator, OutputType> xfrm_first(first, unary_op);
-  thrust::transform_iterator<UnaryFunction, InputIterator, OutputType> xfrm_last(last, unary_op);
+  HYDRA_EXTERNAL_NS::thrust::transform_iterator<UnaryFunction, InputIterator, OutputType> xfrm_first(first, unary_op);
+  HYDRA_EXTERNAL_NS::thrust::transform_iterator<UnaryFunction, InputIterator, OutputType> xfrm_last(last, unary_op);
 
-  return thrust::reduce(exec, xfrm_first, xfrm_last, init, binary_op);
+  return HYDRA_EXTERNAL_NS::thrust::reduce(exec, xfrm_first, xfrm_last, init, binary_op);
 } // end transform_reduce()
 
 

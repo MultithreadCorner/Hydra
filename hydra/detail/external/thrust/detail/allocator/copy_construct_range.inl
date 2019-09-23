@@ -48,8 +48,8 @@ template<typename Allocator, typename InputType, typename OutputType>
   inline __hydra_host__ __hydra_device__
   void operator()(Tuple t)
   {
-    const InputType &in = thrust::get<0>(t);
-    OutputType &out = thrust::get<1>(t);
+    const InputType &in = HYDRA_EXTERNAL_NS::thrust::get<0>(t);
+     OutputType &out = HYDRA_EXTERNAL_NS::thrust::get<1>(t);
 
     allocator_traits<Allocator>::construct(a, &out, in);
   }
@@ -92,22 +92,22 @@ __hydra_host__ __hydra_device__
     Pointer
   >::type
     uninitialized_copy_with_allocator(Allocator &a,
-                                      const thrust::execution_policy<FromSystem> &,
-                                      const thrust::execution_policy<ToSystem> &to_system,
+                                      const HYDRA_EXTERNAL_NS::thrust::execution_policy<FromSystem> &,
+                                      const HYDRA_EXTERNAL_NS::thrust::execution_policy<ToSystem> &to_system,
                                       InputIterator first,
                                       InputIterator last,
                                       Pointer result)
 {
   // zip up the iterators
-  typedef thrust::tuple<InputIterator,Pointer> IteratorTuple;
-  typedef thrust::zip_iterator<IteratorTuple>  ZipIterator;
+  typedef HYDRA_EXTERNAL_NS::thrust::tuple<InputIterator,Pointer> IteratorTuple;
+  typedef HYDRA_EXTERNAL_NS::thrust::zip_iterator<IteratorTuple>  ZipIterator;
 
-  ZipIterator begin = thrust::make_zip_iterator(thrust::make_tuple(first,result));
+  ZipIterator begin = HYDRA_EXTERNAL_NS::thrust::make_zip_iterator(HYDRA_EXTERNAL_NS::thrust::make_tuple(first,result));
   ZipIterator end = begin;
 
   // get a zip_iterator pointing to the end
-  const typename thrust::iterator_difference<InputIterator>::type n = thrust::distance(first,last);
-  thrust::advance(end,n);
+  const typename HYDRA_EXTERNAL_NS::thrust::iterator_difference<InputIterator>::type n = HYDRA_EXTERNAL_NS::thrust::distance(first,last);
+  HYDRA_EXTERNAL_NS::thrust::advance(end,n);
 
   // create a functor
   typedef typename iterator_traits<InputIterator>::value_type InputType;
@@ -115,10 +115,10 @@ __hydra_host__ __hydra_device__
 
   // do the for_each
   // note we use to_system to dispatch the for_each
-  thrust::for_each(to_system, begin, end, copy_construct_with_allocator<Allocator,InputType,OutputType>(a));
+  HYDRA_EXTERNAL_NS::thrust::for_each(to_system, begin, end, copy_construct_with_allocator<Allocator,InputType,OutputType>(a));
 
   // return the end of the output range
-  return thrust::get<1>(end.get_iterator_tuple());
+  return HYDRA_EXTERNAL_NS::thrust::get<1>(end.get_iterator_tuple());
 }
 
 
@@ -134,17 +134,17 @@ __hydra_host__ __hydra_device__
     Pointer
   >::type
     uninitialized_copy_with_allocator_n(Allocator &a,
-                                        const thrust::execution_policy<FromSystem> &,
-                                        const thrust::execution_policy<ToSystem> &to_system,
+                                        const HYDRA_EXTERNAL_NS::thrust::execution_policy<FromSystem> &,
+                                        const HYDRA_EXTERNAL_NS::thrust::execution_policy<ToSystem> &to_system,
                                         InputIterator first,
                                         Size n,
                                         Pointer result)
 {
   // zip up the iterators
-  typedef thrust::tuple<InputIterator,Pointer> IteratorTuple;
-  typedef thrust::zip_iterator<IteratorTuple>  ZipIterator;
+  typedef HYDRA_EXTERNAL_NS::thrust::tuple<InputIterator,Pointer> IteratorTuple;
+  typedef HYDRA_EXTERNAL_NS::thrust::zip_iterator<IteratorTuple>  ZipIterator;
 
-  ZipIterator begin = thrust::make_zip_iterator(thrust::make_tuple(first,result));
+  ZipIterator begin = HYDRA_EXTERNAL_NS::thrust::make_zip_iterator(HYDRA_EXTERNAL_NS::thrust::make_tuple(first,result));
 
   // create a functor
   typedef typename iterator_traits<InputIterator>::value_type InputType;
@@ -152,10 +152,10 @@ __hydra_host__ __hydra_device__
 
   // do the for_each_n
   // note we use to_system to dispatch the for_each_n
-  ZipIterator end = thrust::for_each_n(to_system, begin, n, copy_construct_with_allocator<Allocator,InputType,OutputType>(a));
+  ZipIterator end = HYDRA_EXTERNAL_NS::thrust::for_each_n(to_system, begin, n, copy_construct_with_allocator<Allocator,InputType,OutputType>(a));
 
   // return the end of the output range
-  return thrust::get<1>(end.get_iterator_tuple());
+  return HYDRA_EXTERNAL_NS::thrust::get<1>(end.get_iterator_tuple());
 }
 
 
@@ -167,15 +167,15 @@ __hydra_host__ __hydra_device__
     Pointer
   >::type
     uninitialized_copy_with_allocator(Allocator &,
-                                      const thrust::execution_policy<FromSystem> &from_system,
-                                      const thrust::execution_policy<ToSystem> &to_system,
+                                      const HYDRA_EXTERNAL_NS::thrust::execution_policy<FromSystem> &from_system,
+                                      const HYDRA_EXTERNAL_NS::thrust::execution_policy<ToSystem> &to_system,
                                       InputIterator first,
                                       InputIterator last,
                                       Pointer result)
 {
   // the systems aren't trivially interoperable
   // just call two_system_copy and hope for the best
-  return thrust::detail::two_system_copy(from_system, to_system, first, last, result);
+  return HYDRA_EXTERNAL_NS::thrust::detail::two_system_copy(from_system, to_system, first, last, result);
 } // end uninitialized_copy_with_allocator()
 
 
@@ -187,15 +187,15 @@ __hydra_host__ __hydra_device__
     Pointer
   >::type
     uninitialized_copy_with_allocator_n(Allocator &,
-                                        const thrust::execution_policy<FromSystem> &from_system,
-                                        const thrust::execution_policy<ToSystem> &to_system,
+                                        const HYDRA_EXTERNAL_NS::thrust::execution_policy<FromSystem> &from_system,
+                                        const HYDRA_EXTERNAL_NS::thrust::execution_policy<ToSystem> &to_system,
                                         InputIterator first,
                                         Size n,
                                         Pointer result)
 {
   // the systems aren't trivially interoperable
   // just call two_system_copy_n and hope for the best
-  return thrust::detail::two_system_copy_n(from_system, to_system, first, n, result);
+  return HYDRA_EXTERNAL_NS::thrust::detail::two_system_copy_n(from_system, to_system, first, n, result);
 } // end uninitialized_copy_with_allocator_n()
 
 
@@ -208,14 +208,14 @@ __hydra_host__ __hydra_device__
     >::value,
     Pointer
   >::type
-    copy_construct_range(thrust::execution_policy<FromSystem> &from_system,
+    copy_construct_range(HYDRA_EXTERNAL_NS::thrust::execution_policy<FromSystem> &from_system,
                          Allocator &a,
                          InputIterator first,
                          InputIterator last,
                          Pointer result)
 {
   // just call two_system_copy
-  return thrust::detail::two_system_copy(from_system, allocator_system<Allocator>::get(a), first, last, result);
+  return HYDRA_EXTERNAL_NS::thrust::detail::two_system_copy(from_system, allocator_system<Allocator>::get(a), first, last, result);
 }
 
 
@@ -228,14 +228,14 @@ __hydra_host__ __hydra_device__
     >::value,
     Pointer
   >::type
-    copy_construct_range_n(thrust::execution_policy<FromSystem> &from_system,
+    copy_construct_range_n(HYDRA_EXTERNAL_NS::thrust::execution_policy<FromSystem> &from_system,
                            Allocator &a,
                            InputIterator first,
                            Size n,
                            Pointer result)
 {
   // just call two_system_copy_n
-  return thrust::detail::two_system_copy_n(from_system, allocator_system<Allocator>::get(a), first, n, result);
+  return HYDRA_EXTERNAL_NS::thrust::detail::two_system_copy_n(from_system, allocator_system<Allocator>::get(a), first, n, result);
 }
 
 
@@ -248,7 +248,7 @@ __hydra_host__ __hydra_device__
     >::value,
     Pointer
   >::type
-    copy_construct_range(thrust::execution_policy<FromSystem> &from_system,
+    copy_construct_range(HYDRA_EXTERNAL_NS::thrust::execution_policy<FromSystem> &from_system,
                          Allocator &a,
                          InputIterator first,
                          InputIterator last,
@@ -267,7 +267,7 @@ __hydra_host__ __hydra_device__
     >::value,
     Pointer
   >::type
-    copy_construct_range_n(thrust::execution_policy<FromSystem> &from_system,
+    copy_construct_range_n(HYDRA_EXTERNAL_NS::thrust::execution_policy<FromSystem> &from_system,
                            Allocator &a,
                            InputIterator first,
                            Size n,
@@ -282,7 +282,7 @@ __hydra_host__ __hydra_device__
 
 template<typename System, typename Allocator, typename InputIterator, typename Pointer>
 __hydra_host__ __hydra_device__
-  Pointer copy_construct_range(thrust::execution_policy<System> &from_system,
+  Pointer copy_construct_range(HYDRA_EXTERNAL_NS::thrust::execution_policy<System> &from_system,
                                Allocator &a,
                                InputIterator first,
                                InputIterator last,
@@ -294,7 +294,7 @@ __hydra_host__ __hydra_device__
 
 template<typename System, typename Allocator, typename InputIterator, typename Size, typename Pointer>
 __hydra_host__ __hydra_device__
-  Pointer copy_construct_range_n(thrust::execution_policy<System> &from_system,
+  Pointer copy_construct_range_n(HYDRA_EXTERNAL_NS::thrust::execution_policy<System> &from_system,
                                  Allocator &a,
                                  InputIterator first,
                                  Size n,

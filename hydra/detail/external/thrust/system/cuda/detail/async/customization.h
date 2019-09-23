@@ -33,9 +33,9 @@
 #include <hydra/detail/external/thrust/detail/cpp11_required.h>
 #include <hydra/detail/external/thrust/detail/modern_gcc_required.h>
 
-#if THRUST_CPP_DIALECT >= 2011 && !defined(THRUST_LEGACY_GCC)
+#if HYDRA_THRUST_CPP_DIALECT >= 2011 && !defined(HYDRA_THRUST_LEGACY_GCC)
 
-#if THRUST_DEVICE_COMPILER == THRUST_DEVICE_COMPILER_NVCC
+#if HYDRA_THRUST_DEVICE_COMPILER == HYDRA_THRUST_DEVICE_COMPILER_NVCC
 
 #include <hydra/detail/external/thrust/system/cuda/config.h>
 
@@ -51,81 +51,81 @@
 
 HYDRA_EXTERNAL_NAMESPACE_BEGIN
 
-THRUST_BEGIN_NS
+HYDRA_THRUST_BEGIN_NS
 
 namespace system { namespace cuda { namespace detail
 {
 
 using default_async_host_resource =
-  thrust::mr::synchronized_pool_resource<
-    thrust::host_memory_resource
+  HYDRA_EXTERNAL_NS::thrust::mr::synchronized_pool_resource<
+    HYDRA_EXTERNAL_NS::thrust::host_memory_resource
   >;
 
 template <typename DerivedPolicy>
 auto get_async_host_allocator(
-  thrust::detail::execution_policy_base<DerivedPolicy>&
+  HYDRA_EXTERNAL_NS::thrust::detail::execution_policy_base<DerivedPolicy>&
 )
-THRUST_DECLTYPE_RETURNS(
-  thrust::mr::stateless_resource_allocator<
-    thrust::detail::uint8_t, default_async_host_resource
+HYDRA_THRUST_DECLTYPE_RETURNS(
+  HYDRA_EXTERNAL_NS::thrust::mr::stateless_resource_allocator<
+    HYDRA_EXTERNAL_NS::thrust::detail::uint8_t, default_async_host_resource
   >{}
 )
 
 ///////////////////////////////////////////////////////////////////////////////
 
 using default_async_device_resource =
-  thrust::mr::disjoint_synchronized_pool_resource<
-    thrust::system::cuda::memory_resource
-  , thrust::mr::new_delete_resource
+  HYDRA_EXTERNAL_NS::thrust::mr::disjoint_synchronized_pool_resource<
+    HYDRA_EXTERNAL_NS::thrust::system::cuda::memory_resource
+  , HYDRA_EXTERNAL_NS::thrust::mr::new_delete_resource
   >;
 
 template <typename DerivedPolicy>
 auto get_async_device_allocator(
-  thrust::detail::execution_policy_base<DerivedPolicy>&
+  HYDRA_EXTERNAL_NS::thrust::detail::execution_policy_base<DerivedPolicy>&
 )
-THRUST_DECLTYPE_RETURNS(
-  thrust::per_device_allocator<
-    thrust::detail::uint8_t, default_async_device_resource, par_t
+HYDRA_THRUST_DECLTYPE_RETURNS(
+  HYDRA_EXTERNAL_NS::thrust::per_device_allocator<
+    HYDRA_EXTERNAL_NS::thrust::detail::uint8_t, default_async_device_resource, par_t
   >{}
 )
 
 template <typename Allocator, template <typename> class BaseSystem>
 auto get_async_device_allocator(
-  thrust::detail::execute_with_allocator<Allocator, BaseSystem>& exec
+  HYDRA_EXTERNAL_NS::thrust::detail::execute_with_allocator<Allocator, BaseSystem>& exec
 )
-THRUST_DECLTYPE_RETURNS(exec.get_allocator())
+HYDRA_THRUST_DECLTYPE_RETURNS(exec.get_allocator())
 
 template <typename Allocator, template <typename> class BaseSystem>
 auto get_async_device_allocator(
-  thrust::detail::execute_with_allocator_and_dependencies<
+  HYDRA_EXTERNAL_NS::thrust::detail::execute_with_allocator_and_dependencies<
     Allocator, BaseSystem
   >& exec
 )
-THRUST_DECLTYPE_RETURNS(exec.get_allocator())
+HYDRA_THRUST_DECLTYPE_RETURNS(exec.get_allocator())
 
 ///////////////////////////////////////////////////////////////////////////////
 
 using default_async_universal_host_pinned_resource =
-  thrust::mr::synchronized_pool_resource<
-    thrust::system::cuda::universal_host_pinned_memory_resource
+  HYDRA_EXTERNAL_NS::thrust::mr::synchronized_pool_resource<
+    HYDRA_EXTERNAL_NS::thrust::system::cuda::universal_host_pinned_memory_resource
   >;
 
 template <typename DerivedPolicy>
 auto get_async_universal_host_pinned_allocator(
-  thrust::detail::execution_policy_base<DerivedPolicy>&
+  HYDRA_EXTERNAL_NS::thrust::detail::execution_policy_base<DerivedPolicy>&
 )
-THRUST_DECLTYPE_RETURNS(
-  thrust::mr::stateless_resource_allocator<
-    thrust::detail::uint8_t, default_async_universal_host_pinned_resource
+HYDRA_THRUST_DECLTYPE_RETURNS(
+  HYDRA_EXTERNAL_NS::thrust::mr::stateless_resource_allocator<
+    HYDRA_EXTERNAL_NS::thrust::detail::uint8_t, default_async_universal_host_pinned_resource
   >{}
 )
 
 }}} // namespace system::cuda::detail
 
-THRUST_END_NS
+HYDRA_THRUST_END_NS
 
 HYDRA_EXTERNAL_NAMESPACE_END
-#endif // THRUST_DEVICE_COMPILER == THRUST_DEVICE_COMPILER_NVCC
+#endif // HYDRA_THRUST_DEVICE_COMPILER == HYDRA_THRUST_DEVICE_COMPILER_NVCC
 
 #endif
 

@@ -46,7 +46,7 @@ InputIterator find_if(execution_policy<DerivedPolicy> &,
                       Predicate pred)
 {
   // wrap pred
-  thrust::detail::wrapped_function<
+  HYDRA_EXTERNAL_NS::thrust::detail::wrapped_function<
     Predicate,
     bool
   > wrapped_pred(pred);
@@ -69,3 +69,4 @@ InputIterator find_if(execution_policy<DerivedPolicy> &,
 } // end namespace system
 } // end HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
 
+HYDRA_EXTERNAL_NAMESPACE_END

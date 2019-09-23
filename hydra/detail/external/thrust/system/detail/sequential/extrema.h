@@ -47,7 +47,7 @@ ForwardIterator min_element(sequential::execution_policy<DerivedPolicy> &,
                             BinaryPredicate comp)
 {
   // wrap comp
-  thrust::detail::wrapped_function<
+  HYDRA_EXTERNAL_NS::thrust::detail::wrapped_function<
     BinaryPredicate,
     bool
   > wrapped_comp(comp);
@@ -77,7 +77,7 @@ ForwardIterator max_element(sequential::execution_policy<DerivedPolicy> &,
                             BinaryPredicate comp)
 {
   // wrap comp
-  thrust::detail::wrapped_function<
+  HYDRA_EXTERNAL_NS::thrust::detail::wrapped_function<
     BinaryPredicate,
     bool
   > wrapped_comp(comp);
@@ -101,13 +101,13 @@ template<typename DerivedPolicy,
          typename ForwardIterator,
          typename BinaryPredicate>
 __hydra_host__ __hydra_device__
-thrust::pair<ForwardIterator,ForwardIterator> minmax_element(sequential::execution_policy<DerivedPolicy> &,
+HYDRA_EXTERNAL_NS::thrust::pair<ForwardIterator,ForwardIterator> minmax_element(sequential::execution_policy<DerivedPolicy> &,
                                                              ForwardIterator first, 
                                                              ForwardIterator last,
                                                              BinaryPredicate comp)
 {
   // wrap comp
-  thrust::detail::wrapped_function<
+  HYDRA_EXTERNAL_NS::thrust::detail::wrapped_function<
     BinaryPredicate,
     bool
   > wrapped_comp(comp);
@@ -128,7 +128,7 @@ thrust::pair<ForwardIterator,ForwardIterator> minmax_element(sequential::executi
     }
   }
 
-  return thrust::make_pair(imin, imax);
+  return HYDRA_EXTERNAL_NS::thrust::make_pair(imin, imax);
 }
 
 
@@ -137,3 +137,4 @@ thrust::pair<ForwardIterator,ForwardIterator> minmax_element(sequential::executi
 } // end namespace system
 } // end HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
 
+HYDRA_EXTERNAL_NAMESPACE_END

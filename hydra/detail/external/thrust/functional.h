@@ -51,7 +51,7 @@ template<typename Operation> struct binary_traits;
  *  Adaptable Unary Function using \p unary_function.
  *
  *  \code
- *  struct sine : public thrust::unary_function<float,float>
+ *  struct sine : public HYDRA_EXTERNAL_NS::thrust::unary_function<float,float>
  *  {
  *    __hydra_host__ __hydra_device__
  *    float operator()(float x) { return sinf(x); }
@@ -91,7 +91,7 @@ struct unary_function
  *  Adaptable Binary Function using \p binary_function.
  *
  *  \code
- *  struct exponentiate : public thrust::binary_function<float,float,float>
+ *  struct exponentiate : public HYDRA_EXTERNAL_NS::thrust::binary_function<float,float,float>
  *  {
  *    __hydra_host__ __hydra_device__
  *    float operator()(float x, float y) { return powf(x,y); }
@@ -157,15 +157,15 @@ struct binary_function
  *  #include <hydra/detail/external/thrust/transform.h>
  *  ...
  *  const int N = 1000;
- *  thrust::device_vector<float> V1(N);
- *  thrust::device_vector<float> V2(N);
- *  thrust::device_vector<float> V3(N);
+ *  HYDRA_EXTERNAL_NS::thrust::device_vector<float> V1(N);
+ *  HYDRA_EXTERNAL_NS::thrust::device_vector<float> V2(N);
+ *  HYDRA_EXTERNAL_NS::thrust::device_vector<float> V3(N);
  *
- *  thrust::sequence(V1.begin(), V1.end(), 1);
- *  thrust::fill(V2.begin(), V2.end(), 75);
+ *  HYDRA_EXTERNAL_NS::thrust::sequence(V1.begin(), V1.end(), 1);
+ *  HYDRA_EXTERNAL_NS::thrust::fill(V2.begin(), V2.end(), 75);
  *
- *  thrust::transform(V1.begin(), V1.end(), V2.begin(), V3.begin(),
- *                    thrust::plus<float>());
+ *  HYDRA_EXTERNAL_NS::thrust::transform(V1.begin(), V1.end(), V2.begin(), V3.begin(),
+ *                    HYDRA_EXTERNAL_NS::thrust::plus<float>());
  *  // V3 is now {76, 77, 78, ..., 1075}
  *  \endcode
  *
@@ -214,15 +214,15 @@ struct plus
  *  #include <hydra/detail/external/thrust/transform.h>
  *  ...
  *  const int N = 1000;
- *  thrust::device_vector<float> V1(N);
- *  thrust::device_vector<float> V2(N);
- *  thrust::device_vector<float> V3(N);
+ *  HYDRA_EXTERNAL_NS::thrust::device_vector<float> V1(N);
+ *  HYDRA_EXTERNAL_NS::thrust::device_vector<float> V2(N);
+ *  HYDRA_EXTERNAL_NS::thrust::device_vector<float> V3(N);
  *
- *  thrust::sequence(V1.begin(), V1.end(), 1);
- *  thrust::fill(V2.begin(), V2.end(), 75);
+ *  HYDRA_EXTERNAL_NS::thrust::sequence(V1.begin(), V1.end(), 1);
+ *  HYDRA_EXTERNAL_NS::thrust::fill(V2.begin(), V2.end(), 75);
  *
- *  thrust::transform(V1.begin(), V1.end(), V2.begin(), V3.begin(),
- *                    thrust::minus<float>());
+ *  HYDRA_EXTERNAL_NS::thrust::transform(V1.begin(), V1.end(), V2.begin(), V3.begin(),
+ *                    HYDRA_EXTERNAL_NS::thrust::minus<float>());
  *  // V3 is now {-74, -73, -72, ..., 925}
  *  \endcode
  *
@@ -271,15 +271,15 @@ struct minus
  *  #include <hydra/detail/external/thrust/transform.h>
  *  ...
  *  const int N = 1000;
- *  thrust::device_vector<float> V1(N);
- *  thrust::device_vector<float> V2(N);
- *  thrust::device_vector<float> V3(N);
+ *  HYDRA_EXTERNAL_NS::thrust::device_vector<float> V1(N);
+ *  HYDRA_EXTERNAL_NS::thrust::device_vector<float> V2(N);
+ *  HYDRA_EXTERNAL_NS::thrust::device_vector<float> V3(N);
  *
- *  thrust::sequence(V1.begin(), V1.end(), 1);
- *  thrust::fill(V2.begin(), V2.end(), 75);
+ *  HYDRA_EXTERNAL_NS::thrust::sequence(V1.begin(), V1.end(), 1);
+ *  HYDRA_EXTERNAL_NS::thrust::fill(V2.begin(), V2.end(), 75);
  *
- *  thrust::transform(V1.begin(), V1.end(), V2.begin(), V3.begin(),
- *                    thrust::multiplies<float>());
+ *  HYDRA_EXTERNAL_NS::thrust::transform(V1.begin(), V1.end(), V2.begin(), V3.begin(),
+ *                    HYDRA_EXTERNAL_NS::thrust::multiplies<float>());
  *  // V3 is now {75, 150, 225, ..., 75000}
  *  \endcode
  *
@@ -328,15 +328,15 @@ struct multiplies
  *  #include <hydra/detail/external/thrust/transform.h>
  *  ...
  *  const int N = 1000;
- *  thrust::device_vector<float> V1(N);
- *  thrust::device_vector<float> V2(N);
- *  thrust::device_vector<float> V3(N);
+ *  HYDRA_EXTERNAL_NS::thrust::device_vector<float> V1(N);
+ *  HYDRA_EXTERNAL_NS::thrust::device_vector<float> V2(N);
+ *  HYDRA_EXTERNAL_NS::thrust::device_vector<float> V3(N);
  *
- *  thrust::sequence(V1.begin(), V1.end(), 1);
- *  thrust::fill(V2.begin(), V2.end(), 75);
+ *  HYDRA_EXTERNAL_NS::thrust::sequence(V1.begin(), V1.end(), 1);
+ *  HYDRA_EXTERNAL_NS::thrust::fill(V2.begin(), V2.end(), 75);
  *
- *  thrust::transform(V1.begin(), V1.end(), V2.begin(), V3.begin(),
- *                    thrust::divides<float>());
+ *  HYDRA_EXTERNAL_NS::thrust::transform(V1.begin(), V1.end(), V2.begin(), V3.begin(),
+ *                    HYDRA_EXTERNAL_NS::thrust::divides<float>());
  *  // V3 is now {1/75, 2/75, 3/75, ..., 1000/75}
  *  \endcode
  *
@@ -385,15 +385,15 @@ struct divides
  *  #include <hydra/detail/external/thrust/transform.h>
  *  ...
  *  const int N = 1000;
- *  thrust::device_vector<float> V1(N);
- *  thrust::device_vector<float> V2(N);
- *  thrust::device_vector<float> V3(N);
+ *  HYDRA_EXTERNAL_NS::thrust::device_vector<float> V1(N);
+ *  HYDRA_EXTERNAL_NS::thrust::device_vector<float> V2(N);
+ *  HYDRA_EXTERNAL_NS::thrust::device_vector<float> V3(N);
  *
- *  thrust::sequence(V1.begin(), V1.end(), 1);
- *  thrust::fill(V2.begin(), V2.end(), 75);
+ *  HYDRA_EXTERNAL_NS::thrust::sequence(V1.begin(), V1.end(), 1);
+ *  HYDRA_EXTERNAL_NS::thrust::fill(V2.begin(), V2.end(), 75);
  *
- *  thrust::transform(V1.begin(), V1.end(), V2.begin(), V3.begin(),
- *                    thrust::modulus<int>());
+ *  HYDRA_EXTERNAL_NS::thrust::transform(V1.begin(), V1.end(), V2.begin(), V3.begin(),
+ *                    HYDRA_EXTERNAL_NS::thrust::modulus<int>());
  *  // V3 is now {1%75, 2%75, 3%75, ..., 1000%75}
  *  \endcode
  *
@@ -441,13 +441,13 @@ struct modulus
  *  #include <hydra/detail/external/thrust/transform.h>
  *  ...
  *  const int N = 1000;
- *  thrust::device_vector<float> V1(N);
- *  thrust::device_vector<float> V2(N);
+ *  HYDRA_EXTERNAL_NS::thrust::device_vector<float> V1(N);
+ *  HYDRA_EXTERNAL_NS::thrust::device_vector<float> V2(N);
  *
- *  thrust::sequence(V1.begin(), V1.end(), 1);
+ *  HYDRA_EXTERNAL_NS::thrust::sequence(V1.begin(), V1.end(), 1);
  *
- *  thrust::transform(V1.begin(), V1.end(), V2.begin(),
- *                    thrust::negate<float>());
+ *  HYDRA_EXTERNAL_NS::thrust::transform(V1.begin(), V1.end(), V2.begin(),
+ *                    HYDRA_EXTERNAL_NS::thrust::negate<float>());
  *  // V2 is now {-1, -2, -3, ..., -1000}
  *  \endcode
  *
@@ -490,13 +490,13 @@ struct negate
  *  #include <hydra/detail/external/thrust/transform.h>
  *  ...
  *  const int N = 1000;
- *  thrust::device_vector<float> V1(N);
- *  thrust::device_vector<float> V2(N);
+ *  HYDRA_EXTERNAL_NS::thrust::device_vector<float> V1(N);
+ *  HYDRA_EXTERNAL_NS::thrust::device_vector<float> V2(N);
  *
- *  thrust::sequence(V1.begin(), V1.end(), 1);
+ *  HYDRA_EXTERNAL_NS::thrust::sequence(V1.begin(), V1.end(), 1);
  *
- *  thrust::transform(V1.begin(), V1.end(), V2.begin(),
- *                    thrust::square<float>());
+ *  HYDRA_EXTERNAL_NS::thrust::transform(V1.begin(), V1.end(), V2.begin(),
+ *                    HYDRA_EXTERNAL_NS::thrust::square<float>());
  *  // V2 is now {1, 4, 9, ..., 1000000}
  *  \endcode
  *
@@ -834,9 +834,9 @@ struct logical_or
  *  #include <hydra/detail/external/thrust/transform.h>
  *  #include <hydra/detail/external/thrust/functional.h>
  *  ...
- *  thrust::device_vector<bool> V;
+ *  HYDRA_EXTERNAL_NS::thrust::device_vector<bool> V;
  *  ...
- *  thrust::transform(V.begin(), V.end(), V.begin(), thrust::logical_not<bool>());
+ *  HYDRA_EXTERNAL_NS::thrust::transform(V.begin(), V.end(), V.begin(), HYDRA_EXTERNAL_NS::thrust::logical_not<bool>());
  *  // The elements of V are now the logical complement of what they were prior
  *  \endcode
  *
@@ -893,15 +893,15 @@ struct logical_not
  *  #include <hydra/detail/external/thrust/transform.h>
  *  ...
  *  const int N = 1000;
- *  thrust::device_vector<int> V1(N);
- *  thrust::device_vector<int> V2(N);
- *  thrust::device_vector<int> V3(N);
+ *  HYDRA_EXTERNAL_NS::thrust::device_vector<int> V1(N);
+ *  HYDRA_EXTERNAL_NS::thrust::device_vector<int> V2(N);
+ *  HYDRA_EXTERNAL_NS::thrust::device_vector<int> V3(N);
  *
- *  thrust::sequence(V1.begin(), V1.end(), 1);
- *  thrust::fill(V2.begin(), V2.end(), 13);
+ *  HYDRA_EXTERNAL_NS::thrust::sequence(V1.begin(), V1.end(), 1);
+ *  HYDRA_EXTERNAL_NS::thrust::fill(V2.begin(), V2.end(), 13);
  *
- *  thrust::transform(V1.begin(), V1.end(), V2.begin(), V3.begin(),
- *                    thrust::bit_and<int>());
+ *  HYDRA_EXTERNAL_NS::thrust::transform(V1.begin(), V1.end(), V2.begin(), V3.begin(),
+ *                    HYDRA_EXTERNAL_NS::thrust::bit_and<int>());
  *  // V3 is now {1&13, 2&13, 3&13, ..., 1000%13}
  *  \endcode
  *
@@ -949,15 +949,15 @@ struct bit_and
  *  #include <hydra/detail/external/thrust/transform.h>
  *  ...
  *  const int N = 1000;
- *  thrust::device_vector<int> V1(N);
- *  thrust::device_vector<int> V2(N);
- *  thrust::device_vector<int> V3(N);
+ *  HYDRA_EXTERNAL_NS::thrust::device_vector<int> V1(N);
+ *  HYDRA_EXTERNAL_NS::thrust::device_vector<int> V2(N);
+ *  HYDRA_EXTERNAL_NS::thrust::device_vector<int> V3(N);
  *
- *  thrust::sequence(V1.begin(), V1.end(), 1);
- *  thrust::fill(V2.begin(), V2.end(), 13);
+ *  HYDRA_EXTERNAL_NS::thrust::sequence(V1.begin(), V1.end(), 1);
+ *  HYDRA_EXTERNAL_NS::thrust::fill(V2.begin(), V2.end(), 13);
  *
- *  thrust::transform(V1.begin(), V1.end(), V2.begin(), V3.begin(),
- *                    thrust::bit_or<int>());
+ *  HYDRA_EXTERNAL_NS::thrust::transform(V1.begin(), V1.end(), V2.begin(), V3.begin(),
+ *                    HYDRA_EXTERNAL_NS::thrust::bit_or<int>());
  *  // V3 is now {1|13, 2|13, 3|13, ..., 1000|13}
  *  \endcode
  *
@@ -1005,15 +1005,15 @@ struct bit_or
  *  #include <hydra/detail/external/thrust/transform.h>
  *  ...
  *  const int N = 1000;
- *  thrust::device_vector<int> V1(N);
- *  thrust::device_vector<int> V2(N);
- *  thrust::device_vector<int> V3(N);
+ *  HYDRA_EXTERNAL_NS::thrust::device_vector<int> V1(N);
+ *  HYDRA_EXTERNAL_NS::thrust::device_vector<int> V2(N);
+ *  HYDRA_EXTERNAL_NS::thrust::device_vector<int> V3(N);
  *
- *  thrust::sequence(V1.begin(), V1.end(), 1);
- *  thrust::fill(V2.begin(), V2.end(), 13);
+ *  HYDRA_EXTERNAL_NS::thrust::sequence(V1.begin(), V1.end(), 1);
+ *  HYDRA_EXTERNAL_NS::thrust::fill(V2.begin(), V2.end(), 13);
  *
- *  thrust::transform(V1.begin(), V1.end(), V2.begin(), V3.begin(),
- *                    thrust::bit_xor<int>());
+ *  HYDRA_EXTERNAL_NS::thrust::transform(V1.begin(), V1.end(), V2.begin(), V3.begin(),
+ *                    HYDRA_EXTERNAL_NS::thrust::bit_xor<int>());
  *  // V3 is now {1^13, 2^13, 3^13, ..., 1000^13}
  *  \endcode
  *
@@ -1064,7 +1064,7 @@ struct bit_xor
  *  #include <assert.h>
  *  ...
  *  int x = 137;
- *  thrust::identity<int> id;
+ *  HYDRA_EXTERNAL_NS::thrust::identity<int> id;
  *  assert(x == id(x));
  *  \endcode
  *
@@ -1106,7 +1106,7 @@ struct identity
  *  ...
  *  int x =  137;
  *  int y = -137;
- *  thrust::maximum<int> mx;
+ *  HYDRA_EXTERNAL_NS::thrust::maximum<int> mx;
  *  assert(x == mx(x,y));
  *  \endcode
  *
@@ -1154,7 +1154,7 @@ struct maximum
  *  ...
  *  int x =  137;
  *  int y = -137;
- *  thrust::minimum<int> mn;
+ *  HYDRA_EXTERNAL_NS::thrust::minimum<int> mn;
  *  assert(y == mn(x,y));
  *  \endcode
  *
@@ -1196,7 +1196,7 @@ struct minimum
  *  ...
  *  int x =  137;
  *  int y = -137;
- *  thrust::project1st<int> pj1;
+ *  HYDRA_EXTERNAL_NS::thrust::project1st<int> pj1;
  *  assert(x == pj1(x,y));
  *  \endcode
  *
@@ -1237,7 +1237,7 @@ struct project1st
  *  ...
  *  int x =  137;
  *  int y = -137;
- *  thrust::project2nd<int> pj2;
+ *  HYDRA_EXTERNAL_NS::thrust::project2nd<int> pj2;
  *  assert(y == pj2(x,y));
  *  \endcode
  *
@@ -1291,7 +1291,7 @@ struct project2nd
  */
 template<typename Predicate>
 struct unary_negate 
-    : public thrust::unary_function<typename Predicate::argument_type, bool>
+    : public HYDRA_EXTERNAL_NS::thrust::unary_function<typename Predicate::argument_type, bool>
 {
   /*! Constructor takes a \p Predicate object to negate.
    *  \param p The \p Predicate object to negate.
@@ -1344,7 +1344,7 @@ template<typename Predicate>
  */
 template<typename Predicate>
 struct binary_negate
-    : public thrust::binary_function<typename Predicate::first_argument_type,
+    : public HYDRA_EXTERNAL_NS::thrust::binary_function<typename Predicate::first_argument_type,
                                      typename Predicate::second_argument_type,
                                      bool>
 {
@@ -1400,16 +1400,16 @@ template<typename BinaryPredicate>
  */
 
 
-/*! \HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust::placeholders
+/*! \HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace HYDRA_EXTERNAL_NS::thrust::placeholders
  *  \brief Facilities for constructing simple functions inline.
  *
- *  Objects in the \p thrust::placeholders namespace may be used to create simple arithmetic functions inline
+ *  Objects in the \p HYDRA_EXTERNAL_NS::thrust::placeholders namespace may be used to create simple arithmetic functions inline
  *  in an algorithm invocation. Combining placeholders such as \p _1 and \p _2 with arithmetic operations such as \c +
  *  creates an unnamed function object which applies the operation to their arguments.
  *
  *  The type of placeholder objects is implementation-defined.
  *
- *  The following code snippet demonstrates how to use the placeholders \p _1 and \p _2 with \p thrust::transform
+ *  The following code snippet demonstrates how to use the placeholders \p _1 and \p _2 with \p HYDRA_EXTERNAL_NS::thrust::transform
  *  to implement the SAXPY computation:
  *
  *  \code
@@ -1419,7 +1419,7 @@ template<typename BinaryPredicate>
  *
  *  int main()
  *  {
- *    thrust::device_vector<float> x(4), y(4);
+ *    HYDRA_EXTERNAL_NS::thrust::device_vector<float> x(4), y(4);
  *    x[0] = 1;
  *    x[1] = 2;
  *    x[2] = 3;
@@ -1432,9 +1432,9 @@ template<typename BinaryPredicate>
  *
  *    float a = 2.0f;
  *
- *    using HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust::placeholders;
+ *    using namespace HYDRA_EXTERNAL_NS::thrust::placeholders;
  *
- *    thrust::transform(x.begin(), x.end(), y.begin(), y.begin(),
+ *    HYDRA_EXTERNAL_NS::thrust::transform(x.begin(), x.end(), y.begin(), y.begin(),
  *      a * _1 + _2
  *    );
  *
@@ -1446,93 +1446,93 @@ namespace placeholders
 {
 
 
-/*! \p thrust::placeholders::_1 is the placeholder for the first function parameter.
+/*! \p HYDRA_EXTERNAL_NS::thrust::placeholders::_1 is the placeholder for the first function parameter.
  */
 #ifdef __CUDA_ARCH__
-static const __device__ thrust::detail::functional::placeholder<0>::type _1;
+static const __device__ HYDRA_EXTERNAL_NS::thrust::detail::functional::placeholder<0>::type _1;
 #else
-static const thrust::detail::functional::placeholder<0>::type _1;
+static const HYDRA_EXTERNAL_NS::thrust::detail::functional::placeholder<0>::type _1;
 #endif
 
 
-/*! \p thrust::placeholders::_2 is the placeholder for the second function parameter.
+/*! \p HYDRA_EXTERNAL_NS::thrust::placeholders::_2 is the placeholder for the second function parameter.
  */
 #ifdef __CUDA_ARCH__
-static const __device__ thrust::detail::functional::placeholder<1>::type _2;
+static const __device__ HYDRA_EXTERNAL_NS::thrust::detail::functional::placeholder<1>::type _2;
 #else
-static const thrust::detail::functional::placeholder<1>::type _2;
+static const HYDRA_EXTERNAL_NS::thrust::detail::functional::placeholder<1>::type _2;
 #endif
 
 
-/*! \p thrust::placeholders::_3 is the placeholder for the third function parameter.
+/*! \p HYDRA_EXTERNAL_NS::thrust::placeholders::_3 is the placeholder for the third function parameter.
  */
 #ifdef __CUDA_ARCH__
-static const __device__ thrust::detail::functional::placeholder<2>::type _3;
+static const __device__ HYDRA_EXTERNAL_NS::thrust::detail::functional::placeholder<2>::type _3;
 #else
-static const thrust::detail::functional::placeholder<2>::type _3;
+static const HYDRA_EXTERNAL_NS::thrust::detail::functional::placeholder<2>::type _3;
 #endif
 
 
-/*! \p thrust::placeholders::_4 is the placeholder for the fourth function parameter.
+/*! \p HYDRA_EXTERNAL_NS::thrust::placeholders::_4 is the placeholder for the fourth function parameter.
  */
 #ifdef __CUDA_ARCH__
-static const __device__ thrust::detail::functional::placeholder<3>::type _4;
+static const __device__ HYDRA_EXTERNAL_NS::thrust::detail::functional::placeholder<3>::type _4;
 #else
-static const thrust::detail::functional::placeholder<3>::type _4;
+static const HYDRA_EXTERNAL_NS::thrust::detail::functional::placeholder<3>::type _4;
 #endif
 
 
-/*! \p thrust::placeholders::_5 is the placeholder for the fifth function parameter.
+/*! \p HYDRA_EXTERNAL_NS::thrust::placeholders::_5 is the placeholder for the fifth function parameter.
  */
 #ifdef __CUDA_ARCH__
-static const __device__ thrust::detail::functional::placeholder<4>::type _5;
+static const __device__ HYDRA_EXTERNAL_NS::thrust::detail::functional::placeholder<4>::type _5;
 #else
-static const thrust::detail::functional::placeholder<4>::type _5;
+static const HYDRA_EXTERNAL_NS::thrust::detail::functional::placeholder<4>::type _5;
 #endif
 
 
-/*! \p thrust::placeholders::_6 is the placeholder for the sixth function parameter.
+/*! \p HYDRA_EXTERNAL_NS::thrust::placeholders::_6 is the placeholder for the sixth function parameter.
  */
 #ifdef __CUDA_ARCH__
-static const __device__ thrust::detail::functional::placeholder<5>::type _6;
+static const __device__ HYDRA_EXTERNAL_NS::thrust::detail::functional::placeholder<5>::type _6;
 #else
-static const thrust::detail::functional::placeholder<5>::type _6;
+static const HYDRA_EXTERNAL_NS::thrust::detail::functional::placeholder<5>::type _6;
 #endif
 
 
-/*! \p thrust::placeholders::_7 is the placeholder for the seventh function parameter.
+/*! \p HYDRA_EXTERNAL_NS::thrust::placeholders::_7 is the placeholder for the seventh function parameter.
  */
 #ifdef __CUDA_ARCH__
-static const __device__ thrust::detail::functional::placeholder<6>::type _7;
+static const __device__ HYDRA_EXTERNAL_NS::thrust::detail::functional::placeholder<6>::type _7;
 #else
-static const thrust::detail::functional::placeholder<6>::type _7;
+static const HYDRA_EXTERNAL_NS::thrust::detail::functional::placeholder<6>::type _7;
 #endif
 
 
-/*! \p thrust::placeholders::_8 is the placeholder for the eighth function parameter.
+/*! \p HYDRA_EXTERNAL_NS::thrust::placeholders::_8 is the placeholder for the eighth function parameter.
  */
 #ifdef __CUDA_ARCH__
-static const __device__ thrust::detail::functional::placeholder<7>::type _8;
+static const __device__ HYDRA_EXTERNAL_NS::thrust::detail::functional::placeholder<7>::type _8;
 #else
-static const thrust::detail::functional::placeholder<7>::type _8;
+static const HYDRA_EXTERNAL_NS::thrust::detail::functional::placeholder<7>::type _8;
 #endif
 
 
-/*! \p thrust::placeholders::_9 is the placeholder for the ninth function parameter.
+/*! \p HYDRA_EXTERNAL_NS::thrust::placeholders::_9 is the placeholder for the ninth function parameter.
  */
 #ifdef __CUDA_ARCH__
-static const __device__ thrust::detail::functional::placeholder<8>::type _9;
+static const __device__ HYDRA_EXTERNAL_NS::thrust::detail::functional::placeholder<8>::type _9;
 #else
-static const thrust::detail::functional::placeholder<8>::type _9;
+static const HYDRA_EXTERNAL_NS::thrust::detail::functional::placeholder<8>::type _9;
 #endif
 
 
-/*! \p thrust::placeholders::_10 is the placeholder for the tenth function parameter.
+/*! \p HYDRA_EXTERNAL_NS::thrust::placeholders::_10 is the placeholder for the tenth function parameter.
  */
 #ifdef __CUDA_ARCH__
-static const __device__ thrust::detail::functional::placeholder<9>::type _10;
+static const __device__ HYDRA_EXTERNAL_NS::thrust::detail::functional::placeholder<9>::type _10;
 #else
-static const thrust::detail::functional::placeholder<9>::type _10;
+static const HYDRA_EXTERNAL_NS::thrust::detail::functional::placeholder<9>::type _10;
 #endif
 
 

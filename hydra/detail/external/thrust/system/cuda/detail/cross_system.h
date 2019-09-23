@@ -32,14 +32,14 @@
 
 HYDRA_EXTERNAL_NAMESPACE_BEGIN
 
-THRUST_BEGIN_NS
+HYDRA_THRUST_BEGIN_NS
 namespace cuda_cub {
 
   template <class Sys1, class Sys2>
   struct cross_system : execution_policy<cross_system<Sys1, Sys2> >
   {
-    typedef thrust::execution_policy<Sys1> policy1;
-    typedef thrust::execution_policy<Sys2> policy2;
+    typedef HYDRA_EXTERNAL_NS::thrust::execution_policy<Sys1> policy1;
+    typedef HYDRA_EXTERNAL_NS::thrust::execution_policy<Sys2> policy2;
 
     policy1 &sys1;
     policy2 &sys2;
@@ -54,62 +54,62 @@ namespace cuda_cub {
     }
   };
 
-#if THRUST_CPP_DIALECT >= 2011
+#if HYDRA_THRUST_CPP_DIALECT >= 2011
   // Device to host.
   template <class Sys1, class Sys2>
-  THRUST_CONSTEXPR __hydra_host__ __hydra_device__ 
+  HYDRA_THRUST_CONSTEXPR __hydra_host__ __hydra_device__ 
   auto direction_of_copy(
-    thrust::system::cuda::execution_policy<Sys1> const&
-  , thrust::cpp::execution_policy<Sys2> const&
+    HYDRA_EXTERNAL_NS::thrust::system::cuda::execution_policy<Sys1> const&
+  , HYDRA_EXTERNAL_NS::thrust::cpp::execution_policy<Sys2> const&
   )
-  THRUST_DECLTYPE_RETURNS(
-    thrust::detail::integral_constant<
+  HYDRA_THRUST_DECLTYPE_RETURNS(
+    HYDRA_EXTERNAL_NS::thrust::detail::integral_constant<
       cudaMemcpyKind, cudaMemcpyDeviceToHost
     >{}
   )
 
   // Host to device.
   template <class Sys1, class Sys2>
-  THRUST_CONSTEXPR __hydra_host__ __hydra_device__
+  HYDRA_THRUST_CONSTEXPR __hydra_host__ __hydra_device__
   auto direction_of_copy(
-    thrust::cpp::execution_policy<Sys1> const&
-  , thrust::system::cuda::execution_policy<Sys2> const&
+    HYDRA_EXTERNAL_NS::thrust::cpp::execution_policy<Sys1> const&
+  , HYDRA_EXTERNAL_NS::thrust::system::cuda::execution_policy<Sys2> const&
   )
-  THRUST_DECLTYPE_RETURNS(
-    thrust::detail::integral_constant<
+  HYDRA_THRUST_DECLTYPE_RETURNS(
+    HYDRA_EXTERNAL_NS::thrust::detail::integral_constant<
       cudaMemcpyKind, cudaMemcpyHostToDevice
     >{}
   )
 
   // Device to device.
   template <class Sys1, class Sys2>
-  THRUST_CONSTEXPR __hydra_host__ __hydra_device__
+  HYDRA_THRUST_CONSTEXPR __hydra_host__ __hydra_device__
   auto direction_of_copy(
-    thrust::system::cuda::execution_policy<Sys1> const&
-  , thrust::system::cuda::execution_policy<Sys2> const&
+    HYDRA_EXTERNAL_NS::thrust::system::cuda::execution_policy<Sys1> const&
+  , HYDRA_EXTERNAL_NS::thrust::system::cuda::execution_policy<Sys2> const&
   )
-  THRUST_DECLTYPE_RETURNS(
-    thrust::detail::integral_constant<
+  HYDRA_THRUST_DECLTYPE_RETURNS(
+    HYDRA_EXTERNAL_NS::thrust::detail::integral_constant<
       cudaMemcpyKind, cudaMemcpyDeviceToDevice
     >{}
   )
 
   // Device to device.
   template <class DerivedPolicy>
-  THRUST_CONSTEXPR __hydra_host__ __hydra_device__ 
+  HYDRA_THRUST_CONSTEXPR __hydra_host__ __hydra_device__ 
   auto direction_of_copy(execution_policy<DerivedPolicy> const &)
-  THRUST_DECLTYPE_RETURNS(
-    thrust::detail::integral_constant<
+  HYDRA_THRUST_DECLTYPE_RETURNS(
+    HYDRA_EXTERNAL_NS::thrust::detail::integral_constant<
       cudaMemcpyKind, cudaMemcpyDeviceToDevice
     >{}
   )
 
   template <class Sys1, class Sys2>
-  THRUST_CONSTEXPR __hydra_host__ __hydra_device__
+  HYDRA_THRUST_CONSTEXPR __hydra_host__ __hydra_device__
   auto direction_of_copy(
     execution_policy<cross_system<Sys1, Sys2>> const &systems
   )
-  THRUST_DECLTYPE_RETURNS(
+  HYDRA_THRUST_DECLTYPE_RETURNS(
     direction_of_copy(
       derived_cast(derived_cast(systems).sys1)
     , derived_cast(derived_cast(systems).sys2)
@@ -117,13 +117,13 @@ namespace cuda_cub {
   )
 
   template <typename ExecutionPolicy0, typename ExecutionPolicy1>
-  THRUST_CONSTEXPR __hydra_host__ __hydra_device__
+  HYDRA_THRUST_CONSTEXPR __hydra_host__ __hydra_device__
   auto is_device_to_host_copy(
     ExecutionPolicy0 const& exec0
   , ExecutionPolicy1 const& exec1
   )
     noexcept -> 
-      thrust::detail::integral_constant<
+      HYDRA_EXTERNAL_NS::thrust::detail::integral_constant<
         bool
       ,    cudaMemcpyDeviceToHost
         == decltype(direction_of_copy(exec0, exec1))::value
@@ -133,10 +133,10 @@ namespace cuda_cub {
   }
 
   template <typename ExecutionPolicy>
-  THRUST_CONSTEXPR __hydra_host__ __hydra_device__
+  HYDRA_THRUST_CONSTEXPR __hydra_host__ __hydra_device__
   auto is_device_to_host_copy(ExecutionPolicy const& exec)
     noexcept -> 
-      thrust::detail::integral_constant<
+      HYDRA_EXTERNAL_NS::thrust::detail::integral_constant<
         bool
       ,    cudaMemcpyDeviceToHost
         == decltype(direction_of_copy(exec))::value
@@ -146,13 +146,13 @@ namespace cuda_cub {
   }
 
   template <typename ExecutionPolicy0, typename ExecutionPolicy1>
-  THRUST_CONSTEXPR __hydra_host__ __hydra_device__
+  HYDRA_THRUST_CONSTEXPR __hydra_host__ __hydra_device__
   auto is_host_to_device_copy(
     ExecutionPolicy0 const& exec0
   , ExecutionPolicy1 const& exec1
   )
     noexcept -> 
-      thrust::detail::integral_constant<
+      HYDRA_EXTERNAL_NS::thrust::detail::integral_constant<
         bool
       ,    cudaMemcpyHostToDevice
         == decltype(direction_of_copy(exec0, exec1))::value
@@ -162,10 +162,10 @@ namespace cuda_cub {
   }
 
   template <typename ExecutionPolicy>
-  THRUST_CONSTEXPR __hydra_host__ __hydra_device__
+  HYDRA_THRUST_CONSTEXPR __hydra_host__ __hydra_device__
   auto is_host_to_device_copy(ExecutionPolicy const& exec)
     noexcept -> 
-      thrust::detail::integral_constant<
+      HYDRA_EXTERNAL_NS::thrust::detail::integral_constant<
         bool
       ,    cudaMemcpyHostToDevice
         == decltype(direction_of_copy(exec))::value
@@ -175,13 +175,13 @@ namespace cuda_cub {
   }
 
   template <typename ExecutionPolicy0, typename ExecutionPolicy1>
-  THRUST_CONSTEXPR __hydra_host__ __hydra_device__
+  HYDRA_THRUST_CONSTEXPR __hydra_host__ __hydra_device__
   auto is_device_to_device_copy(
     ExecutionPolicy0 const& exec0
   , ExecutionPolicy1 const& exec1
   )
     noexcept -> 
-      thrust::detail::integral_constant<
+      HYDRA_EXTERNAL_NS::thrust::detail::integral_constant<
         bool
       ,    cudaMemcpyDeviceToDevice
         == decltype(direction_of_copy(exec0, exec1))::value
@@ -191,10 +191,10 @@ namespace cuda_cub {
   }
 
   template <typename ExecutionPolicy>
-  THRUST_CONSTEXPR __hydra_host__ __hydra_device__
+  HYDRA_THRUST_CONSTEXPR __hydra_host__ __hydra_device__
   auto is_device_to_device_copy(ExecutionPolicy const& exec)
     noexcept -> 
-      thrust::detail::integral_constant<
+      HYDRA_EXTERNAL_NS::thrust::detail::integral_constant<
         bool
       ,    cudaMemcpyDeviceToDevice
         == decltype(direction_of_copy(exec))::value
@@ -209,49 +209,49 @@ namespace cuda_cub {
   template <class Sys1, class Sys2>
   __hydra_host__ __hydra_device__
   auto
-  select_device_system(thrust::cuda::execution_policy<Sys1> &sys1,
-                       thrust::execution_policy<Sys2> &)
-  THRUST_DECLTYPE_RETURNS(sys1)
+  select_device_system(HYDRA_EXTERNAL_NS::thrust::cuda::execution_policy<Sys1> &sys1,
+                       HYDRA_EXTERNAL_NS::thrust::execution_policy<Sys2> &)
+  HYDRA_THRUST_DECLTYPE_RETURNS(sys1)
 
   // Device to host.
   template <class Sys1, class Sys2>
   __hydra_host__ __hydra_device__
   auto
-  select_device_system(thrust::cuda::execution_policy<Sys1> const &sys1,
-                       thrust::execution_policy<Sys2> const &)
-  THRUST_DECLTYPE_RETURNS(sys1)
+  select_device_system(HYDRA_EXTERNAL_NS::thrust::cuda::execution_policy<Sys1> const &sys1,
+                       HYDRA_EXTERNAL_NS::thrust::execution_policy<Sys2> const &)
+  HYDRA_THRUST_DECLTYPE_RETURNS(sys1)
 
   // Host to device.
   template <class Sys1, class Sys2>
   __hydra_host__ __hydra_device__
   auto
-  select_device_system(thrust::execution_policy<Sys1> &,
-                       thrust::cuda::execution_policy<Sys2> &sys2)
-  THRUST_DECLTYPE_RETURNS(sys2)
+  select_device_system(HYDRA_EXTERNAL_NS::thrust::execution_policy<Sys1> &,
+                       HYDRA_EXTERNAL_NS::thrust::cuda::execution_policy<Sys2> &sys2)
+  HYDRA_THRUST_DECLTYPE_RETURNS(sys2)
 
   // Host to device.
   template <class Sys1, class Sys2>
   __hydra_host__ __hydra_device__
   auto
-  select_device_system(thrust::execution_policy<Sys1> const &,
-                       thrust::cuda::execution_policy<Sys2> const &sys2)
-  THRUST_DECLTYPE_RETURNS(sys2)
+  select_device_system(HYDRA_EXTERNAL_NS::thrust::execution_policy<Sys1> const &,
+                       HYDRA_EXTERNAL_NS::thrust::cuda::execution_policy<Sys2> const &sys2)
+  HYDRA_THRUST_DECLTYPE_RETURNS(sys2)
 
   // Device to device.
   template <class Sys1, class Sys2>
   __hydra_host__ __hydra_device__
   auto
-  select_device_system(thrust::cuda::execution_policy<Sys1> &sys1,
-                       thrust::cuda::execution_policy<Sys2> &)
-  THRUST_DECLTYPE_RETURNS(sys1)
+  select_device_system(HYDRA_EXTERNAL_NS::thrust::cuda::execution_policy<Sys1> &sys1,
+                       HYDRA_EXTERNAL_NS::thrust::cuda::execution_policy<Sys2> &)
+  HYDRA_THRUST_DECLTYPE_RETURNS(sys1)
 
   // Device to device.
   template <class Sys1, class Sys2>
   __hydra_host__ __hydra_device__
   auto
-  select_device_system(thrust::cuda::execution_policy<Sys1> const &sys1,
-                       thrust::cuda::execution_policy<Sys2> const &)
-  THRUST_DECLTYPE_RETURNS(sys1)
+  select_device_system(HYDRA_EXTERNAL_NS::thrust::cuda::execution_policy<Sys1> const &sys1,
+                       HYDRA_EXTERNAL_NS::thrust::cuda::execution_policy<Sys2> const &)
+  HYDRA_THRUST_DECLTYPE_RETURNS(sys1)
 
   /////////////////////////////////////////////////////////////////////////////
 
@@ -259,49 +259,49 @@ namespace cuda_cub {
   template <class Sys1, class Sys2>
   __hydra_host__ __hydra_device__
   auto
-  select_host_system(thrust::cuda::execution_policy<Sys1> &,
-                     thrust::execution_policy<Sys2> &sys2)
-  THRUST_DECLTYPE_RETURNS(sys2)
+  select_host_system(HYDRA_EXTERNAL_NS::thrust::cuda::execution_policy<Sys1> &,
+                     HYDRA_EXTERNAL_NS::thrust::execution_policy<Sys2> &sys2)
+  HYDRA_THRUST_DECLTYPE_RETURNS(sys2)
 
   // Device to host.
   template <class Sys1, class Sys2>
   __hydra_host__ __hydra_device__
   auto
-  select_host_system(thrust::cuda::execution_policy<Sys1> const &,
-                     thrust::execution_policy<Sys2> const &sys2)
-  THRUST_DECLTYPE_RETURNS(sys2)
+  select_host_system(HYDRA_EXTERNAL_NS::thrust::cuda::execution_policy<Sys1> const &,
+                     HYDRA_EXTERNAL_NS::thrust::execution_policy<Sys2> const &sys2)
+  HYDRA_THRUST_DECLTYPE_RETURNS(sys2)
 
   // Host to device.
   template <class Sys1, class Sys2>
   __hydra_host__ __hydra_device__
   auto
-  select_host_system(thrust::execution_policy<Sys1> &sys1,
-                     thrust::cuda::execution_policy<Sys2> &)
-  THRUST_DECLTYPE_RETURNS(sys1)
+  select_host_system(HYDRA_EXTERNAL_NS::thrust::execution_policy<Sys1> &sys1,
+                     HYDRA_EXTERNAL_NS::thrust::cuda::execution_policy<Sys2> &)
+  HYDRA_THRUST_DECLTYPE_RETURNS(sys1)
 
   // Host to device.
   template <class Sys1, class Sys2>
   __hydra_host__ __hydra_device__
   auto
-  select_host_system(thrust::execution_policy<Sys1> const &sys1,
-                     thrust::cuda::execution_policy<Sys2> const &)
-  THRUST_DECLTYPE_RETURNS(sys1)
+  select_host_system(HYDRA_EXTERNAL_NS::thrust::execution_policy<Sys1> const &sys1,
+                     HYDRA_EXTERNAL_NS::thrust::cuda::execution_policy<Sys2> const &)
+  HYDRA_THRUST_DECLTYPE_RETURNS(sys1)
 
   // Device to device.
   template <class Sys1, class Sys2>
   __hydra_host__ __hydra_device__
   auto
-  select_host_system(thrust::execution_policy<Sys1> &sys1,
-                     thrust::execution_policy<Sys2> &)
-  THRUST_DECLTYPE_RETURNS(sys1)
+  select_host_system(HYDRA_EXTERNAL_NS::thrust::execution_policy<Sys1> &sys1,
+                     HYDRA_EXTERNAL_NS::thrust::execution_policy<Sys2> &)
+  HYDRA_THRUST_DECLTYPE_RETURNS(sys1)
 
   // Device to device.
   template <class Sys1, class Sys2>
   __hydra_host__ __hydra_device__
   auto
-  select_host_system(thrust::execution_policy<Sys1> const &sys1,
-                     thrust::execution_policy<Sys2> const &)
-  THRUST_DECLTYPE_RETURNS(sys1)
+  select_host_system(HYDRA_EXTERNAL_NS::thrust::execution_policy<Sys1> const &sys1,
+                     HYDRA_EXTERNAL_NS::thrust::execution_policy<Sys2> const &)
+  HYDRA_THRUST_DECLTYPE_RETURNS(sys1)
 #endif
 
   // Device to host.
@@ -309,10 +309,10 @@ namespace cuda_cub {
   __hydra_host__ __hydra_device__
   cross_system<Sys1, Sys2>
   select_system(execution_policy<Sys1> const &             sys1,
-                thrust::cpp::execution_policy<Sys2> const &sys2)
+                HYDRA_EXTERNAL_NS::thrust::cpp::execution_policy<Sys2> const &sys2)
   {
-    thrust::execution_policy<Sys1> &     non_const_sys1 = const_cast<execution_policy<Sys1> &>(sys1);
-    thrust::cpp::execution_policy<Sys2> &non_const_sys2 = const_cast<thrust::cpp::execution_policy<Sys2> &>(sys2);
+    HYDRA_EXTERNAL_NS::thrust::execution_policy<Sys1> &     non_const_sys1 = const_cast<execution_policy<Sys1> &>(sys1);
+    HYDRA_EXTERNAL_NS::thrust::cpp::execution_policy<Sys2> &non_const_sys2 = const_cast<HYDRA_EXTERNAL_NS::thrust::cpp::execution_policy<Sys2> &>(sys2);
     return cross_system<Sys1, Sys2>(non_const_sys1, non_const_sys2);
   }
 
@@ -320,15 +320,15 @@ namespace cuda_cub {
   template <class Sys1, class Sys2>
   __hydra_host__ __hydra_device__
   cross_system<Sys1, Sys2>
-  select_system(thrust::cpp::execution_policy<Sys1> const &sys1,
+  select_system(HYDRA_EXTERNAL_NS::thrust::cpp::execution_policy<Sys1> const &sys1,
                 execution_policy<Sys2> const &             sys2)
   {
-    thrust::cpp::execution_policy<Sys1> &non_const_sys1 = const_cast<thrust::cpp::execution_policy<Sys1> &>(sys1);
-    thrust::execution_policy<Sys2> &     non_const_sys2 = const_cast<execution_policy<Sys2> &>(sys2);
+    HYDRA_EXTERNAL_NS::thrust::cpp::execution_policy<Sys1> &non_const_sys1 = const_cast<HYDRA_EXTERNAL_NS::thrust::cpp::execution_policy<Sys1> &>(sys1);
+    HYDRA_EXTERNAL_NS::thrust::execution_policy<Sys2> &     non_const_sys2 = const_cast<execution_policy<Sys2> &>(sys2);
     return cross_system<Sys1, Sys2>(non_const_sys1, non_const_sys2);
   }
 
 } // namespace cuda_cub
-THRUST_END_NS
+HYDRA_THRUST_END_NS
 
 HYDRA_EXTERNAL_NAMESPACE_END

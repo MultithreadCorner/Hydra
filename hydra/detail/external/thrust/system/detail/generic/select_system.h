@@ -53,69 +53,69 @@ template<typename Tag1, typename Tag2, typename Tag3, typename Tag4, typename Ta
 
 template<typename System>
 __hydra_host__ __hydra_device__
-  typename thrust::detail::disable_if<
+  typename HYDRA_EXTERNAL_NS::thrust::detail::disable_if<
     select_system1_exists<System>::value,
     System &
   >::type
-    select_system(thrust::execution_policy<System> &system);
+    select_system(HYDRA_EXTERNAL_NS::thrust::execution_policy<System> &system);
 
 template<typename System1, typename System2>
 __hydra_host__ __hydra_device__
-  typename thrust::detail::enable_if_defined<
-    thrust::detail::minimum_system<System1,System2>
+  typename HYDRA_EXTERNAL_NS::thrust::detail::enable_if_defined<
+    HYDRA_EXTERNAL_NS::thrust::detail::minimum_system<System1,System2>
   >::type
-    &select_system(thrust::execution_policy<System1> &system1,
-                   thrust::execution_policy<System2> &system2);
+    &select_system(HYDRA_EXTERNAL_NS::thrust::execution_policy<System1> &system1,
+                   HYDRA_EXTERNAL_NS::thrust::execution_policy<System2> &system2);
 
 template<typename System1, typename System2, typename System3>
 __hydra_host__ __hydra_device__
-  typename thrust::detail::lazy_disable_if<
+  typename HYDRA_EXTERNAL_NS::thrust::detail::lazy_disable_if<
     select_system3_exists<System1,System2,System3>::value,
-    thrust::detail::minimum_system<System1,System2,System3>
+    HYDRA_EXTERNAL_NS::thrust::detail::minimum_system<System1,System2,System3>
   >::type
-    &select_system(thrust::execution_policy<System1> &system1,
-                   thrust::execution_policy<System2> &system2,
-                   thrust::execution_policy<System3> &system3);
+    &select_system(HYDRA_EXTERNAL_NS::thrust::execution_policy<System1> &system1,
+                   HYDRA_EXTERNAL_NS::thrust::execution_policy<System2> &system2,
+                   HYDRA_EXTERNAL_NS::thrust::execution_policy<System3> &system3);
 
 template<typename System1, typename System2, typename System3, typename System4>
 __hydra_host__ __hydra_device__
-  typename thrust::detail::lazy_disable_if<
+  typename HYDRA_EXTERNAL_NS::thrust::detail::lazy_disable_if<
     select_system4_exists<System1,System2,System3,System4>::value,
-    thrust::detail::minimum_system<System1,System2,System3,System4>
+    HYDRA_EXTERNAL_NS::thrust::detail::minimum_system<System1,System2,System3,System4>
   >::type
-    &select_system(thrust::execution_policy<System1> &system1,
-                   thrust::execution_policy<System2> &system2,
-                   thrust::execution_policy<System3> &system3,
-                   thrust::execution_policy<System4> &system4);
+    &select_system(HYDRA_EXTERNAL_NS::thrust::execution_policy<System1> &system1,
+                   HYDRA_EXTERNAL_NS::thrust::execution_policy<System2> &system2,
+                   HYDRA_EXTERNAL_NS::thrust::execution_policy<System3> &system3,
+                   HYDRA_EXTERNAL_NS::thrust::execution_policy<System4> &system4);
 
 template<typename System1, typename System2, typename System3, typename System4, typename System5>
 __hydra_host__ __hydra_device__
-  typename thrust::detail::lazy_disable_if<
+  typename HYDRA_EXTERNAL_NS::thrust::detail::lazy_disable_if<
     select_system5_exists<System1,System2,System3,System4,System5>::value,
-    thrust::detail::minimum_system<System1,System2,System3,System4,System5>
+    HYDRA_EXTERNAL_NS::thrust::detail::minimum_system<System1,System2,System3,System4,System5>
   >::type
-    &select_system(thrust::execution_policy<System1> &system1,
-                   thrust::execution_policy<System2> &system2,
-                   thrust::execution_policy<System3> &system3,
-                   thrust::execution_policy<System4> &system4,
-                   thrust::execution_policy<System5> &system5);
+    &select_system(HYDRA_EXTERNAL_NS::thrust::execution_policy<System1> &system1,
+                   HYDRA_EXTERNAL_NS::thrust::execution_policy<System2> &system2,
+                   HYDRA_EXTERNAL_NS::thrust::execution_policy<System3> &system3,
+                   HYDRA_EXTERNAL_NS::thrust::execution_policy<System4> &system4,
+                   HYDRA_EXTERNAL_NS::thrust::execution_policy<System5> &system5);
 
 template<typename System1, typename System2, typename System3, typename System4, typename System5, typename System6>
 __hydra_host__ __hydra_device__
-  typename thrust::detail::lazy_disable_if<
+  typename HYDRA_EXTERNAL_NS::thrust::detail::lazy_disable_if<
     select_system6_exists<System1,System2,System3,System4,System5,System6>::value,
-    thrust::detail::minimum_system<System1,System2,System3,System4,System5,System6>
+    HYDRA_EXTERNAL_NS::thrust::detail::minimum_system<System1,System2,System3,System4,System5,System6>
   >::type
-    &select_system(thrust::execution_policy<System1> &system1,
-                   thrust::execution_policy<System2> &system2,
-                   thrust::execution_policy<System3> &system3,
-                   thrust::execution_policy<System4> &system4,
-                   thrust::execution_policy<System5> &system5,
-                   thrust::execution_policy<System6> &system6);
+    &select_system(HYDRA_EXTERNAL_NS::thrust::execution_policy<System1> &system1,
+                   HYDRA_EXTERNAL_NS::thrust::execution_policy<System2> &system2,
+                   HYDRA_EXTERNAL_NS::thrust::execution_policy<System3> &system3,
+                   HYDRA_EXTERNAL_NS::thrust::execution_policy<System4> &system4,
+                   HYDRA_EXTERNAL_NS::thrust::execution_policy<System5> &system5,
+                   HYDRA_EXTERNAL_NS::thrust::execution_policy<System6> &system6);
 
 // Map a single any_system_tag to device_system_tag.
 inline __hydra_host__ __hydra_device__
-thrust::device_system_tag select_system(thrust::any_system_tag);
+HYDRA_EXTERNAL_NS::thrust::device_system_tag select_system(HYDRA_EXTERNAL_NS::thrust::any_system_tag);
 
 } // end generic
 } // end detail

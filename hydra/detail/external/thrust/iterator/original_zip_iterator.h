@@ -63,37 +63,37 @@ HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
  *  #include <hydra/detail/external/thrust/tuple.h>
  *  #include <hydra/detail/external/thrust/device_vector.h>
  *  ...
- *  thrust::device_vector<int> int_v(3);
+ *  HYDRA_EXTERNAL_NS::thrust::device_vector<int> int_v(3);
  *  int_v[0] = 0; int_v[1] = 1; int_v[2] = 2;
  *
- *  thrust::device_vector<float> float_v(3);
+ *  HYDRA_EXTERNAL_NS::thrust::device_vector<float> float_v(3);
  *  float_v[0] = 0.0f; float_v[1] = 1.0f; float_v[2] = 2.0f;
  *
- *  thrust::device_vector<char> char_v(3);
+ *  HYDRA_EXTERNAL_NS::thrust::device_vector<char> char_v(3);
  *  char_v[0] = 'a'; char_v[1] = 'b'; char_v[2] = 'c';
  *
  *  // typedef these iterators for shorthand
- *  typedef thrust::device_vector<int>::iterator   IntIterator;
- *  typedef thrust::device_vector<float>::iterator FloatIterator;
- *  typedef thrust::device_vector<char>::iterator  CharIterator;
+ *  typedef HYDRA_EXTERNAL_NS::thrust::device_vector<int>::iterator   IntIterator;
+ *  typedef HYDRA_EXTERNAL_NS::thrust::device_vector<float>::iterator FloatIterator;
+ *  typedef HYDRA_EXTERNAL_NS::thrust::device_vector<char>::iterator  CharIterator;
  *
  *  // typedef a tuple of these iterators
- *  typedef thrust::tuple<IntIterator, FloatIterator, CharIterator> IteratorTuple;
+ *  typedef HYDRA_EXTERNAL_NS::thrust::tuple<IntIterator, FloatIterator, CharIterator> IteratorTuple;
  *
  *  // typedef the zip_iterator of this tuple
- *  typedef thrust::zip_iterator<IteratorTuple> ZipIterator;
+ *  typedef HYDRA_EXTERNAL_NS::thrust::zip_iterator<IteratorTuple> ZipIterator;
  *
  *  // finally, create the zip_iterator
- *  ZipIterator iter(thrust::make_tuple(int_v.begin(), float_v.begin(), char_v.begin()));
+ *  ZipIterator iter(HYDRA_EXTERNAL_NS::thrust::make_tuple(int_v.begin(), float_v.begin(), char_v.begin()));
  *
  *  *iter;   // returns (0, 0.0f, 'a')
  *  iter[0]; // returns (0, 0.0f, 'a')
  *  iter[1]; // returns (1, 1.0f, 'b')
  *  iter[2]; // returns (2, 2.0f, 'c')
  *
- *  thrust::get<0>(iter[2]); // returns 2
- *  thrust::get<1>(iter[0]); // returns 0.0f
- *  thrust::get<2>(iter[1]); // returns 'b'
+ *  HYDRA_EXTERNAL_NS::thrust::get<0>(iter[2]); // returns 2
+ *  HYDRA_EXTERNAL_NS::thrust::get<1>(iter[0]); // returns 0.0f
+ *  HYDRA_EXTERNAL_NS::thrust::get<2>(iter[1]); // returns 'b'
  *
  *  // iter[3] is an out-of-bounds error
  *  \endcode
@@ -101,7 +101,7 @@ HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
  *  Defining the type of a \p zip_iterator can be complex. The next code example demonstrates
  *  how to use the \p make_zip_iterator function with the \p make_tuple function to avoid
  *  explicitly specifying the type of the \p zip_iterator. This example shows how to use
- *  \p zip_iterator to copy multiple ranges with a single call to \p thrust::copy.
+ *  \p zip_iterator to copy multiple ranges with a single call to \p HYDRA_EXTERNAL_NS::thrust::copy.
  *
  *  \code
  *  #include <hydra/detail/external/thrust/zip_iterator.h>
@@ -110,19 +110,19 @@ HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
  *
  *  int main()
  *  {
- *    thrust::device_vector<int> int_in(3), int_out(3);
+ *    HYDRA_EXTERNAL_NS::thrust::device_vector<int> int_in(3), int_out(3);
  *    int_in[0] = 0;
  *    int_in[1] = 1;
  *    int_in[2] = 2;
  *
- *    thrust::device_vector<float> float_in(3), float_out(3);
+ *    HYDRA_EXTERNAL_NS::thrust::device_vector<float> float_in(3), float_out(3);
  *    float_in[0] =  0.0f;
  *    float_in[1] = 10.0f;
  *    float_in[2] = 20.0f;
  *
- *    thrust::copy(thrust::make_zip_iterator(thrust::make_tuple(int_in.begin(), float_in.begin())),
- *                 thrust::make_zip_iterator(thrust::make_tuple(int_in.end(),   float_in.end())),
- *                 thrust::make_zip_iterator(thrust::make_tuple(int_out.begin(),float_out.begin())));
+ *    HYDRA_EXTERNAL_NS::thrust::copy(HYDRA_EXTERNAL_NS::thrust::make_zip_iterator(HYDRA_EXTERNAL_NS::thrust::make_tuple(int_in.begin(), float_in.begin())),
+ *                 HYDRA_EXTERNAL_NS::thrust::make_zip_iterator(HYDRA_EXTERNAL_NS::thrust::make_tuple(int_in.end(),   float_in.end())),
+ *                 HYDRA_EXTERNAL_NS::thrust::make_zip_iterator(HYDRA_EXTERNAL_NS::thrust::make_tuple(int_out.begin(),float_out.begin())));
  *
  *    // int_out is now [0, 1, 2]
  *    // float_out is now [0.0f, 10.0f, 20.0f]
@@ -162,7 +162,7 @@ template <typename IteratorTuple>
     template<typename OtherIteratorTuple>
     inline __hydra_host__ __hydra_device__
     zip_iterator(const zip_iterator<OtherIteratorTuple> &other,
-                 typename thrust::detail::enable_if_convertible<
+                 typename HYDRA_EXTERNAL_NS::thrust::detail::enable_if_convertible<
                    OtherIteratorTuple,
                    IteratorTuple
                  >::type * = 0);
@@ -182,7 +182,7 @@ template <typename IteratorTuple>
     typedef typename
     detail::zip_iterator_base<IteratorTuple>::type super_t;
 
-    friend class thrust::iterator_core_access;
+    friend class HYDRA_EXTERNAL_NS::thrust::iterator_core_access;
 
     // Dereferencing returns a tuple built from the dereferenced
     // iterators in the iterator tuple.

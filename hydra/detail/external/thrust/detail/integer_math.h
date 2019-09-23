@@ -19,7 +19,7 @@
 #include <hydra/detail/external/thrust/detail/config.h>
 #include <limits>
 
-#if THRUST_CPP_DIALECT >= 2011
+#if HYDRA_THRUST_CPP_DIALECT >= 2011
   #include <hydra/detail/external/thrust/detail/type_deduction.h>
 #endif
 
@@ -92,10 +92,10 @@ Integer log2_ri(Integer x)
 // Used to determine # of blocks/warps etc.
 template <typename Integer0, typename Integer1>
 __hydra_host__ __hydra_device__ __thrust_forceinline__
-#if THRUST_CPP_DIALECT >= 2011
+#if HYDRA_THRUST_CPP_DIALECT >= 2011
 // FIXME: Should use common_type.
 auto divide_ri(Integer0 const x, Integer1 const y)
-THRUST_DECLTYPE_RETURNS((x + (y - 1)) / y)
+HYDRA_THRUST_DECLTYPE_RETURNS((x + (y - 1)) / y)
 #else
 // FIXME: Should use common_type.
 Integer0 divide_ri(Integer0 const x, Integer1 const y)
@@ -108,9 +108,9 @@ Integer0 divide_ri(Integer0 const x, Integer1 const y)
 // Used to determine # of blocks/warps etc.
 template <typename Integer0, typename Integer1>
 __hydra_host__ __hydra_device__ __thrust_forceinline__
-#if THRUST_CPP_DIALECT >= 2011
+#if HYDRA_THRUST_CPP_DIALECT >= 2011
 auto divide_rz(Integer0 const x, Integer1 const y)
-THRUST_DECLTYPE_RETURNS(x / y)
+HYDRA_THRUST_DECLTYPE_RETURNS(x / y)
 #else
 // FIXME: Should use common_type.
 Integer0 divide_rz(Integer0 const x, Integer1 const y)
@@ -122,9 +122,9 @@ Integer0 divide_rz(Integer0 const x, Integer1 const y)
 // Round x towards infinity to the next multiple of y.
 template <typename Integer0, typename Integer1>
 __hydra_host__ __hydra_device__ __thrust_forceinline__
-#if THRUST_CPP_DIALECT >= 2011
+#if HYDRA_THRUST_CPP_DIALECT >= 2011
 auto round_i(Integer0 const x, Integer1 const y)
-THRUST_DECLTYPE_RETURNS(y * divide_ri(x, y))
+HYDRA_THRUST_DECLTYPE_RETURNS(y * divide_ri(x, y))
 #else
 Integer0 round_i(Integer0 const x, Integer1 const y)
 {
@@ -135,9 +135,9 @@ Integer0 round_i(Integer0 const x, Integer1 const y)
 // Round x towards 0 to the next multiple of y.
 template <typename Integer0, typename Integer1>
 __hydra_host__ __hydra_device__ __thrust_forceinline__
-#if THRUST_CPP_DIALECT >= 2011
+#if HYDRA_THRUST_CPP_DIALECT >= 2011
 auto round_z(Integer0 const x, Integer1 const y)
-THRUST_DECLTYPE_RETURNS(y * divide_rz(x, y))
+HYDRA_THRUST_DECLTYPE_RETURNS(y * divide_rz(x, y))
 #else
 Integer0 round_z(Integer0 const x, Integer1 const y)
 {

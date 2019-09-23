@@ -37,7 +37,7 @@ template<typename DerivedPolicy,
          typename OutputIterator,
          typename StrictWeakOrdering>
 __hydra_host__ __hydra_device__
-  OutputIterator merge(thrust::execution_policy<DerivedPolicy> &exec,
+  OutputIterator merge(HYDRA_EXTERNAL_NS::thrust::execution_policy<DerivedPolicy> &exec,
                        InputIterator1 first1,
                        InputIterator1 last1,
                        InputIterator2 first2,
@@ -51,7 +51,7 @@ template<typename DerivedPolicy,
          typename InputIterator2,
          typename OutputIterator>
 __hydra_host__ __hydra_device__
-  OutputIterator merge(thrust::execution_policy<DerivedPolicy> &exec,
+  OutputIterator merge(HYDRA_EXTERNAL_NS::thrust::execution_policy<DerivedPolicy> &exec,
                        InputIterator1 first1,
                        InputIterator1 last1,
                        InputIterator2 first2,
@@ -61,8 +61,8 @@ __hydra_host__ __hydra_device__
 
 template<typename DerivedPolicy, typename InputIterator1, typename InputIterator2, typename InputIterator3, typename InputIterator4, typename OutputIterator1, typename OutputIterator2, typename Compare>
 __hydra_host__ __hydra_device__
-  thrust::pair<OutputIterator1,OutputIterator2>
-    merge_by_key(thrust::execution_policy<DerivedPolicy> &exec,
+  HYDRA_EXTERNAL_NS::thrust::pair<OutputIterator1,OutputIterator2>
+    merge_by_key(HYDRA_EXTERNAL_NS::thrust::execution_policy<DerivedPolicy> &exec,
                  InputIterator1 keys_first1, InputIterator1 keys_last1,
                  InputIterator2 keys_first2, InputIterator2 keys_last2,
                  InputIterator3 values_first1, InputIterator4 values_first2,
@@ -73,8 +73,8 @@ __hydra_host__ __hydra_device__
 
 template<typename DerivedPolicy, typename InputIterator1, typename InputIterator2, typename InputIterator3, typename InputIterator4, typename OutputIterator1, typename OutputIterator2>
 __hydra_host__ __hydra_device__
-  thrust::pair<OutputIterator1,OutputIterator2>
-    merge_by_key(thrust::execution_policy<DerivedPolicy> &exec,
+  HYDRA_EXTERNAL_NS::thrust::pair<OutputIterator1,OutputIterator2>
+    merge_by_key(HYDRA_EXTERNAL_NS::thrust::execution_policy<DerivedPolicy> &exec,
                  InputIterator1 keys_first1, InputIterator1 keys_last1,
                  InputIterator2 keys_first2, InputIterator2 keys_last2,
                  InputIterator3 values_first1, InputIterator4 values_first2,

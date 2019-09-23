@@ -30,9 +30,9 @@
 #include <hydra/detail/external/thrust/detail/config.h>
 #include <hydra/detail/external/thrust/detail/cpp11_required.h>
 
-#if THRUST_CPP_DIALECT >= 2011
+#if HYDRA_THRUST_CPP_DIALECT >= 2011
 
-#if THRUST_DEVICE_COMPILER == THRUST_DEVICE_COMPILER_NVCC
+#if HYDRA_THRUST_DEVICE_COMPILER == HYDRA_THRUST_DEVICE_COMPILER_NVCC
 
 #include <hydra/detail/external/thrust/system/cuda/config.h>
 
@@ -43,7 +43,7 @@
 #include <mutex>
 #include <unordered_map>
 HYDRA_EXTERNAL_NAMESPACE_BEGIN
-THRUST_BEGIN_NS
+HYDRA_THRUST_BEGIN_NS
 
 namespace cuda_cub
 {
@@ -56,7 +56,7 @@ MR * get_per_device_resource(execution_policy<DerivedPolicy>&)
     static std::unordered_map<int, MR> device_id_to_resource;
 
     int device_id;
-    thrust::cuda_cub::throw_on_error(cudaGetDevice(&device_id));
+    HYDRA_EXTERNAL_NS::thrust::cuda_cub::throw_on_error(cudaGetDevice(&device_id));
 
     std::lock_guard<std::mutex> lock{map_lock};
     return &device_id_to_resource[device_id];
@@ -64,7 +64,7 @@ MR * get_per_device_resource(execution_policy<DerivedPolicy>&)
 
 }
 
-THRUST_END_NS
+HYDRA_THRUST_END_NS
 HYDRA_EXTERNAL_NAMESPACE_END
 #endif
 

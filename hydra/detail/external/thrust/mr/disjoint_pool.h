@@ -68,7 +68,7 @@ namespace mr
  *  \tparam Bookkeeper the type of memory resources that will be used for allocating bookkeeping memory
  */
 template<typename Upstream, typename Bookkeeper>
-class disjoint_unsynchronized_pool_resource THRUST_FINAL
+class disjoint_unsynchronized_pool_resource HYDRA_THRUST_FINAL
     : public memory_resource<typename Upstream::pointer>,
         private validator2<Upstream, Bookkeeper>
 {
@@ -86,10 +86,10 @@ public:
         ret.max_blocks_per_chunk = static_cast<std::size_t>(1) << 20;
         ret.max_bytes_per_chunk = static_cast<std::size_t>(1) << 30;
 
-        ret.smallest_block_size = THRUST_MR_DEFAULT_ALIGNMENT;
+        ret.smallest_block_size = HYDRA_THRUST_MR_DEFAULT_ALIGNMENT;
         ret.largest_block_size = static_cast<std::size_t>(1) << 20;
 
-        ret.alignment = THRUST_MR_DEFAULT_ALIGNMENT;
+        ret.alignment = HYDRA_THRUST_MR_DEFAULT_ALIGNMENT;
 
         ret.cache_oversized = true;
 
@@ -155,7 +155,7 @@ public:
 
 private:
     typedef typename Upstream::pointer void_ptr;
-    typedef typename thrust::detail::pointer_traits<void_ptr>::template rebind<char>::other char_ptr;
+    typedef typename HYDRA_EXTERNAL_NS::thrust::detail::pointer_traits<void_ptr>::template rebind<char>::other char_ptr;
 
     struct chunk_descriptor
     {
@@ -163,7 +163,7 @@ private:
         void_ptr pointer;
     };
 
-    typedef thrust::host_vector<
+    typedef HYDRA_EXTERNAL_NS::thrust::host_vector<
         chunk_descriptor,
         allocator<chunk_descriptor, Bookkeeper>
     > chunk_vector;
@@ -223,12 +223,12 @@ private:
         std::size_t requested;
     };
 
-    typedef thrust::host_vector<
+    typedef HYDRA_EXTERNAL_NS::thrust::host_vector<
         oversized_block_descriptor,
         allocator<oversized_block_descriptor, Bookkeeper>
     > oversized_block_vector;
 
-    typedef thrust::host_vector<
+    typedef HYDRA_EXTERNAL_NS::thrust::host_vector<
         void_ptr,
         allocator<void_ptr, Bookkeeper>
     > pointer_vector;
@@ -256,7 +256,7 @@ private:
         std::size_t previous_allocated_count;
     };
 
-    typedef thrust::host_vector<
+    typedef HYDRA_EXTERNAL_NS::thrust::host_vector<
         pool,
         allocator<pool, Bookkeeper>
     > pool_vector;
@@ -311,7 +311,7 @@ public:
         m_cached_oversized.clear();
     }
 
-    THRUST_NODISCARD virtual void_ptr do_allocate(std::size_t bytes, std::size_t alignment = THRUST_MR_DEFAULT_ALIGNMENT) THRUST_OVERRIDE
+    HYDRA_THRUST_NODISCARD virtual void_ptr do_allocate(std::size_t bytes, std::size_t alignment = HYDRA_THRUST_MR_DEFAULT_ALIGNMENT) HYDRA_THRUST_OVERRIDE
     {
         bytes = (std::max)(bytes, m_options.smallest_block_size);
         assert(detail::is_power_of_2(alignment));
@@ -325,8 +325,8 @@ public:
 
             if (m_options.cache_oversized && !m_cached_oversized.empty())
             {
-                typename oversized_block_vector::iterator it = thrust::lower_bound(
-                    thrust::seq,
+                typename oversized_block_vector::iterator it = HYDRA_EXTERNAL_NS::thrust::lower_bound(
+                    HYDRA_EXTERNAL_NS::thrust::seq,
                     m_cached_oversized.begin(),
                     m_cached_oversized.end(),
                     oversized);
@@ -377,7 +377,7 @@ public:
 
         // the request is NOT for oversized and/or overaligned memory
         // allocate a block from an appropriate bucket
-        std::size_t bytes_log2 = thrust::detail::log2_ri(bytes);
+        std::size_t bytes_log2 = HYDRA_EXTERNAL_NS::thrust::detail::log2_ri(bytes);
         std::size_t bucket_idx = bytes_log2 - m_smallest_block_log2;
         pool & bucket = m_pools[bucket_idx];
 
@@ -438,7 +438,7 @@ public:
         return ret;
     }
 
-    virtual void do_deallocate(void_ptr p, std::size_t n, std::size_t alignment = THRUST_MR_DEFAULT_ALIGNMENT) THRUST_OVERRIDE
+    virtual void do_deallocate(void_ptr p, std::size_t n, std::size_t alignment = HYDRA_THRUST_MR_DEFAULT_ALIGNMENT) HYDRA_THRUST_OVERRIDE
     {
         n = (std::max)(n, m_options.smallest_block_size);
         assert(detail::is_power_of_2(alignment));
@@ -469,7 +469,7 @@ public:
         }
 
         // push the block to the front of the appropriate bucket's free list
-        std::size_t n_log2 = thrust::detail::log2_ri(n);
+        std::size_t n_log2 = HYDRA_EXTERNAL_NS::thrust::detail::log2_ri(n);
         std::size_t bucket_idx = n_log2 - m_smallest_block_log2;
         pool & bucket = m_pools[bucket_idx];
 

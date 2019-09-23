@@ -15,7 +15,7 @@
  */
 
 /*! \file thrust/event.h
- *  \brief `thrust::event`, an asynchronous handle type.
+ *  \brief `HYDRA_EXTERNAL_NS::thrust::event`, an asynchronous handle type.
  */
 
 #pragma once

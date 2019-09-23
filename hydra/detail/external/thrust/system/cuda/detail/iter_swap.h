@@ -16,7 +16,7 @@
 
 #pragma once
 
-#if THRUST_DEVICE_COMPILER == THRUST_DEVICE_COMPILER_NVCC
+#if HYDRA_THRUST_DEVICE_COMPILER == HYDRA_THRUST_DEVICE_COMPILER_NVCC
 #include <hydra/detail/external/thrust/detail/config.h>
 #include <hydra/detail/external/thrust/system/cuda/config.h>
 
@@ -26,27 +26,27 @@
 
 HYDRA_EXTERNAL_NAMESPACE_BEGIN
 
-THRUST_BEGIN_NS
+HYDRA_THRUST_BEGIN_NS
 namespace cuda_cub {
 
 
 template<typename DerivedPolicy, typename Pointer1, typename Pointer2>
 inline __hydra_host__ __hydra_device__
-void iter_swap(thrust::cuda::execution_policy<DerivedPolicy> &, Pointer1 a, Pointer2 b)
+void iter_swap(HYDRA_EXTERNAL_NS::thrust::cuda::execution_policy<DerivedPolicy> &, Pointer1 a, Pointer2 b)
 {
   // XXX war nvbugs/881631
   struct war_nvbugs_881631
   {
     __hydra_host__ inline static void host_path(Pointer1 a, Pointer2 b)
     {
-      thrust::swap_ranges(a, a + 1, b);
+      HYDRA_EXTERNAL_NS::thrust::swap_ranges(a, a + 1, b);
     }
 
     __device__ inline static void device_path(Pointer1 a, Pointer2 b)
     {
-      using thrust::swap;
-      swap(*thrust::raw_pointer_cast(a),
-           *thrust::raw_pointer_cast(b));
+      using HYDRA_EXTERNAL_NS::thrust::swap;
+      swap(*HYDRA_EXTERNAL_NS::thrust::raw_pointer_cast(a),
+           *HYDRA_EXTERNAL_NS::thrust::raw_pointer_cast(b));
     }
   };
 
@@ -59,7 +59,7 @@ void iter_swap(thrust::cuda::execution_policy<DerivedPolicy> &, Pointer1 a, Poin
 
 
 } // end cuda_cub
-THRUST_END_NS
+HYDRA_THRUST_END_NS
 
 HYDRA_EXTERNAL_NAMESPACE_END
 #endif

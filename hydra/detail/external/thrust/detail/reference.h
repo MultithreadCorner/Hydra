@@ -43,20 +43,20 @@ template<typename Element, typename Pointer, typename Derived>
   class reference
 {
   private:
-    typedef typename thrust::detail::eval_if<
-      thrust::detail::is_same<Derived,use_default>::value,
-      thrust::detail::identity_<reference>,
-      thrust::detail::identity_<Derived>
+    typedef typename HYDRA_EXTERNAL_NS::thrust::detail::eval_if<
+      HYDRA_EXTERNAL_NS::thrust::detail::is_same<Derived,use_default>::value,
+      HYDRA_EXTERNAL_NS::thrust::detail::identity_<reference>,
+      HYDRA_EXTERNAL_NS::thrust::detail::identity_<Derived>
     >::type derived_type;
 
     // hint for is_wrapped_reference lets it know that this type (or a derived type)
     // is a wrapped reference
     struct wrapped_reference_hint {};
-    template<typename> friend struct thrust::detail::is_wrapped_reference;
+    template<typename> friend struct HYDRA_EXTERNAL_NS::thrust::detail::is_wrapped_reference;
 
   public:
     typedef Pointer                                              pointer;
-    typedef typename thrust::detail::remove_const<Element>::type value_type;
+    typedef typename HYDRA_EXTERNAL_NS::thrust::detail::remove_const<Element>::type value_type;
 
     __hydra_host__ __hydra_device__
     explicit reference(const pointer &ptr);
@@ -64,7 +64,7 @@ template<typename Element, typename Pointer, typename Derived>
     template<typename OtherElement, typename OtherPointer, typename OtherDerived>
     __hydra_host__ __hydra_device__
     reference(const reference<OtherElement,OtherPointer,OtherDerived> &other,
-              typename thrust::detail::enable_if_convertible<
+              typename HYDRA_EXTERNAL_NS::thrust::detail::enable_if_convertible<
                 typename reference<OtherElement,OtherPointer,OtherDerived>::pointer,
                 pointer
               >::type * = 0);

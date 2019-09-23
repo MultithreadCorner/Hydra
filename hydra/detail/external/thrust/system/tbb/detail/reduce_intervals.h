@@ -65,7 +65,7 @@ template<typename RandomAccessIterator1, typename RandomAccessIterator2, typenam
     Size interval_idx = r.begin();
 
     Size offset_to_first = interval_size * interval_idx;
-    Size offset_to_last = thrust::min(n, offset_to_first + interval_size);
+    Size offset_to_last = HYDRA_EXTERNAL_NS::thrust::min(n, offset_to_first + interval_size);
 
     RandomAccessIterator1 my_first = first + offset_to_first;
     RandomAccessIterator1 my_last  = first + offset_to_last;
@@ -73,7 +73,7 @@ template<typename RandomAccessIterator1, typename RandomAccessIterator2, typenam
     // carefully pass the init value for the interval with raw_reference_cast
     typedef typename BinaryFunction::result_type sum_type;
     result[interval_idx] =
-      thrust::reduce(thrust::seq, my_first + 1, my_last, sum_type(thrust::raw_reference_cast(*my_first)), binary_op);
+      HYDRA_EXTERNAL_NS::thrust::reduce(HYDRA_EXTERNAL_NS::thrust::seq, my_first + 1, my_last, sum_type(HYDRA_EXTERNAL_NS::thrust::raw_reference_cast(*my_first)), binary_op);
   }
 };
 
@@ -90,14 +90,14 @@ template<typename RandomAccessIterator1, typename RandomAccessIterator2, typenam
 
 
 template<typename DerivedPolicy, typename RandomAccessIterator1, typename Size, typename RandomAccessIterator2, typename BinaryFunction>
-  void reduce_intervals(thrust::tbb::execution_policy<DerivedPolicy> &,
+  void reduce_intervals(HYDRA_EXTERNAL_NS::thrust::tbb::execution_policy<DerivedPolicy> &,
                         RandomAccessIterator1 first,
                         RandomAccessIterator1 last,
                         Size interval_size,
                         RandomAccessIterator2 result,
                         BinaryFunction binary_op)
 {
-  typename thrust::iterator_difference<RandomAccessIterator1>::type n = last - first;
+  typename HYDRA_EXTERNAL_NS::thrust::iterator_difference<RandomAccessIterator1>::type n = last - first;
 
   Size num_intervals = reduce_intervals_detail::divide_ri(n, interval_size);
 
@@ -106,15 +106,15 @@ template<typename DerivedPolicy, typename RandomAccessIterator1, typename Size, 
 
 
 template<typename DerivedPolicy, typename RandomAccessIterator1, typename Size, typename RandomAccessIterator2>
-  void reduce_intervals(thrust::tbb::execution_policy<DerivedPolicy> &exec,
+  void reduce_intervals(HYDRA_EXTERNAL_NS::thrust::tbb::execution_policy<DerivedPolicy> &exec,
                         RandomAccessIterator1 first,
                         RandomAccessIterator1 last,
                         Size interval_size,
                         RandomAccessIterator2 result)
 {
-  typedef typename thrust::iterator_value<RandomAccessIterator1>::type value_type;
+  typedef typename HYDRA_EXTERNAL_NS::thrust::iterator_value<RandomAccessIterator1>::type value_type;
 
-  return thrust::system::tbb::detail::reduce_intervals(exec, first, last, interval_size, result, thrust::plus<value_type>());
+  return HYDRA_EXTERNAL_NS::thrust::system::tbb::detail::reduce_intervals(exec, first, last, interval_size, result, HYDRA_EXTERNAL_NS::thrust::plus<value_type>());
 }
 
 

@@ -28,13 +28,13 @@ HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
 __thrust_exec_check_disable__
 template<typename DerivedPolicy, typename ForwardIterator, typename UnaryOperation>
 __hydra_host__ __hydra_device__
-  void tabulate(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
+  void tabulate(const HYDRA_EXTERNAL_NS::thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                 ForwardIterator first,
                 ForwardIterator last,
                 UnaryOperation unary_op)
 {
-  using thrust::system::detail::generic::tabulate;
-  return tabulate(thrust::detail::derived_cast(thrust::detail::strip_const(exec)), first, last, unary_op);
+  using HYDRA_EXTERNAL_NS::thrust::system::detail::generic::tabulate;
+  return tabulate(HYDRA_EXTERNAL_NS::thrust::detail::derived_cast(HYDRA_EXTERNAL_NS::thrust::detail::strip_const(exec)), first, last, unary_op);
 } // end tabulate()
 
 
@@ -43,13 +43,13 @@ template<typename ForwardIterator, typename UnaryOperation>
                 ForwardIterator last,
                 UnaryOperation unary_op)
 {
-  using thrust::system::detail::generic::select_system;
+  using HYDRA_EXTERNAL_NS::thrust::system::detail::generic::select_system;
 
-  typedef typename thrust::iterator_system<ForwardIterator>::type System;
+  typedef typename HYDRA_EXTERNAL_NS::thrust::iterator_system<ForwardIterator>::type System;
 
   System system;
 
-  return thrust::tabulate(select_system(system), first, last, unary_op);
+  return HYDRA_EXTERNAL_NS::thrust::tabulate(select_system(system), first, last, unary_op);
 } // end tabulate()
 
 

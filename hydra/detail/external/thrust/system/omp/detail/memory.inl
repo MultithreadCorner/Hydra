@@ -56,7 +56,7 @@ inline pointer<void> malloc(std::size_t n)
   // XXX this is how we'd like to implement this function,
   //     if not for circular #inclusion problems:
   //
-  // return pointer<void>(thrust::system::cpp::malloc(n))
+  // return pointer<void>(HYDRA_EXTERNAL_NS::thrust::system::cpp::malloc(n))
   //
   return detail::malloc_workaround(cpp::tag(), n);
 } // end malloc()
@@ -64,7 +64,7 @@ inline pointer<void> malloc(std::size_t n)
 template<typename T>
 pointer<T> malloc(std::size_t n)
 {
-  pointer<void> raw_ptr = thrust::system::omp::malloc(sizeof(T) * n);
+  pointer<void> raw_ptr = HYDRA_EXTERNAL_NS::thrust::system::omp::malloc(sizeof(T) * n);
   return pointer<T>(reinterpret_cast<T*>(raw_ptr.get()));
 } // end malloc()
 
@@ -73,7 +73,7 @@ inline void free(pointer<void> ptr)
   // XXX this is how we'd like to implement this function,
   //     if not for circular #inclusion problems:
   //
-  // thrust::system::cpp::free(ptr)
+  // HYDRA_EXTERNAL_NS::thrust::system::cpp::free(ptr)
   //
   detail::free_workaround(cpp::tag(), ptr);
 } // end free()

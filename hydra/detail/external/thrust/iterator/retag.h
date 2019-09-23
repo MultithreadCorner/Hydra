@@ -47,8 +47,8 @@ __hydra_host__ __hydra_device__
 unspecified_iterator_type reinterpret_tag(Iterator iter);
 
 /*! \p retag returns a copy of an iterator and changes the type of the result's system tag.
- *  \tparam Tag \p Tag shall be convertible to <tt>thrust::iterator_system<Iterator>::type</tt>,
- *              or <tt>thrust::iterator_system<Iterator>::type</tt> is a base type of \p Tag.
+ *  \tparam Tag \p Tag shall be convertible to <tt>HYDRA_EXTERNAL_NS::thrust::iterator_system<Iterator>::type</tt>,
+ *              or <tt>HYDRA_EXTERNAL_NS::thrust::iterator_system<Iterator>::type</tt> is a base type of \p Tag.
  *  \tparam Iterator Any iterator type.
  *  \param iter The iterator of interest.
  *  \return An iterator of unspecified type whose system tag is \p Tag and whose behavior is

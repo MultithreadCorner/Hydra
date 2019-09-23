@@ -29,22 +29,22 @@ struct execution_policy_marker {};
 // inifinite recursion in thrust entry points:
 //
 // template<typename DerivedPolicy>
-// void foo(const thrust::detail::execution_policy_base<DerivedPolicy> &s)
+// void foo(const HYDRA_EXTERNAL_NS::thrust::detail::execution_policy_base<DerivedPolicy> &s)
 // {
-//   using thrust::system::detail::generic::foo;
+//   using HYDRA_EXTERNAL_NS::thrust::system::detail::generic::foo;
 //
-//   foo(thrust::detail::derived_cast(thrust::detail::strip_const(s));
+//   foo(HYDRA_EXTERNAL_NS::thrust::detail::derived_cast(HYDRA_EXTERNAL_NS::thrust::detail::strip_const(s));
 // }
 //
 // foo is not recursive when
-// 1. DerivedPolicy is derived from thrust::execution_policy below
-// 2. generic::foo takes thrust::execution_policy as a parameter
+// 1. DerivedPolicy is derived from HYDRA_EXTERNAL_NS::thrust::execution_policy below
+// 2. generic::foo takes HYDRA_EXTERNAL_NS::thrust::execution_policy as a parameter
 template<typename DerivedPolicy>
 struct execution_policy_base : execution_policy_marker {};
 
 
 template<typename DerivedPolicy>
-THRUST_CONSTEXPR __hydra_host__ __hydra_device__
+HYDRA_THRUST_CONSTEXPR __hydra_host__ __hydra_device__
 execution_policy_base<DerivedPolicy> &strip_const(const execution_policy_base<DerivedPolicy> &x)
 {
   return const_cast<execution_policy_base<DerivedPolicy>&>(x);
@@ -52,7 +52,7 @@ execution_policy_base<DerivedPolicy> &strip_const(const execution_policy_base<De
 
 
 template<typename DerivedPolicy>
-THRUST_CONSTEXPR __hydra_host__ __hydra_device__
+HYDRA_THRUST_CONSTEXPR __hydra_host__ __hydra_device__
 DerivedPolicy &derived_cast(execution_policy_base<DerivedPolicy> &x)
 {
   return static_cast<DerivedPolicy&>(x);
@@ -60,7 +60,7 @@ DerivedPolicy &derived_cast(execution_policy_base<DerivedPolicy> &x)
 
 
 template<typename DerivedPolicy>
-THRUST_CONSTEXPR __hydra_host__ __hydra_device__
+HYDRA_THRUST_CONSTEXPR __hydra_host__ __hydra_device__
 const DerivedPolicy &derived_cast(const execution_policy_base<DerivedPolicy> &x)
 {
   return static_cast<const DerivedPolicy&>(x);
@@ -70,7 +70,7 @@ const DerivedPolicy &derived_cast(const execution_policy_base<DerivedPolicy> &x)
 
 template<typename DerivedPolicy>
   struct execution_policy
-    : thrust::detail::execution_policy_base<DerivedPolicy>
+    : HYDRA_EXTERNAL_NS::thrust::detail::execution_policy_base<DerivedPolicy>
 {};
 
 } // end HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust

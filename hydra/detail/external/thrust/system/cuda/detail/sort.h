@@ -26,7 +26,7 @@
  ******************************************************************************/
 #pragma once
 
-#if THRUST_DEVICE_COMPILER == THRUST_DEVICE_COMPILER_NVCC
+#if HYDRA_THRUST_DEVICE_COMPILER == HYDRA_THRUST_DEVICE_COMPILER_NVCC
 #include <hydra/detail/external/thrust/detail/cstdint.h>
 #include <hydra/detail/external/thrust/detail/temporary_array.h>
 #include <hydra/detail/external/thrust/system/cuda/detail/util.h>
@@ -48,7 +48,7 @@
 
 HYDRA_EXTERNAL_NAMESPACE_BEGIN
 
-THRUST_BEGIN_NS
+HYDRA_THRUST_BEGIN_NS
 
 namespace cuda_cub {
 
@@ -58,7 +58,7 @@ namespace __merge_sort {
             class KeysIt2,
             class Size,
             class BinaryPred>
-  THRUST_DEVICE_FUNCTION Size 
+  HYDRA_THRUST_DEVICE_FUNCTION Size 
   merge_path(KeysIt1    keys1,
              KeysIt2    keys2,
              Size       keys1_count,
@@ -69,8 +69,8 @@ namespace __merge_sort {
     typedef typename iterator_traits<KeysIt1>::value_type key1_type;
     typedef typename iterator_traits<KeysIt2>::value_type key2_type;
 
-    Size keys1_begin = thrust::max<Size>(0, diag - keys2_count);
-    Size keys1_end   = thrust::min<Size>(diag, keys1_count);
+    Size keys1_begin = HYDRA_EXTERNAL_NS::thrust::max<Size>(0, diag - keys2_count);
+    Size keys1_end   = HYDRA_EXTERNAL_NS::thrust::min<Size>(diag, keys1_count);
 
     while (keys1_begin < keys1_end)
     {
@@ -91,7 +91,7 @@ namespace __merge_sort {
   }
 
   template <class It, class T2, class CompareOp, int ITEMS_PER_THREAD>
-  THRUST_DEVICE_FUNCTION void 
+  HYDRA_THRUST_DEVICE_FUNCTION void 
   serial_merge(It  keys_shared,
                int keys1_beg,
                int keys2_beg,
@@ -311,7 +311,7 @@ namespace __merge_sort {
       // Serial stable sort network 
       //---------------------------------------------------------------------
 
-      THRUST_DEVICE_FUNCTION
+      HYDRA_THRUST_DEVICE_FUNCTION
       void stable_odd_even_sort(key_type (&keys)[ITEMS_PER_THREAD],
                                 item_type (&items)[ITEMS_PER_THREAD])
       {
@@ -323,7 +323,7 @@ namespace __merge_sort {
           {
             if (compare_op(keys[J + 1], keys[J]))
             {
-              using thrust::swap;
+              using HYDRA_EXTERNAL_NS::thrust::swap;
               swap(keys[J], keys[J + 1]);
               if (SORT_ITEMS::value)
               {
@@ -338,7 +338,7 @@ namespace __merge_sort {
       // Parallel thread block merge sort
       //---------------------------------------------------------------------
 
-      THRUST_DEVICE_FUNCTION void
+      HYDRA_THRUST_DEVICE_FUNCTION void
       block_mergesort(int tid,
                       int count,
                       key_type (&keys_loc)[ITEMS_PER_THREAD],
@@ -441,7 +441,7 @@ namespace __merge_sort {
       //---------------------------------------------------------------------
 
       template <bool IS_LAST_TILE>
-      THRUST_DEVICE_FUNCTION void
+      HYDRA_THRUST_DEVICE_FUNCTION void
       consume_tile(int  tid,
                    Size /*tile_idx*/,
                    Size tile_base,
@@ -566,7 +566,7 @@ namespace __merge_sort {
       // Constructor 
       //---------------------------------------------------------------------
 
-      THRUST_DEVICE_FUNCTION
+      HYDRA_THRUST_DEVICE_FUNCTION
       impl(bool         ping_,
            TempStorage& storage_,
            KeysLoadIt   keys_in_,
@@ -608,7 +608,7 @@ namespace __merge_sort {
     // Agent entry point
     //---------------------------------------------------------------------
 
-    THRUST_AGENT_ENTRY(bool       ping,
+    HYDRA_THRUST_AGENT_ENTRY(bool       ping,
                        KeysIt     keys_inout,
                        ItemsIt    items_inout,
                        Size       keys_count,
@@ -647,7 +647,7 @@ namespace __merge_sort {
     // Agent entry point
     //---------------------------------------------------------------------
 
-    THRUST_AGENT_ENTRY(bool      ping,
+    HYDRA_THRUST_AGENT_ENTRY(bool      ping,
                        KeysIt    keys_ping,
                        key_type* keys_pong,
                        Size      keys_count,
@@ -803,7 +803,7 @@ namespace __merge_sort {
       //---------------------------------------------------------------------
       
       template <bool IS_FULL_TILE, class T, class It1, class It2>
-      THRUST_DEVICE_FUNCTION void
+      HYDRA_THRUST_DEVICE_FUNCTION void
       gmem_to_reg(T (&output)[ITEMS_PER_THREAD],
                   It1 input1,
                   It2 input2,
@@ -834,7 +834,7 @@ namespace __merge_sort {
       }
 
       template <class T, class It>
-      THRUST_DEVICE_FUNCTION void
+      HYDRA_THRUST_DEVICE_FUNCTION void
       reg_to_shared(It output,
                     T (&input)[ITEMS_PER_THREAD])
       {
@@ -851,7 +851,7 @@ namespace __merge_sort {
       //---------------------------------------------------------------------
 
       template <bool IS_FULL_TILE>
-      THRUST_DEVICE_FUNCTION void
+      HYDRA_THRUST_DEVICE_FUNCTION void
       consume_tile(int  tid,
                    Size tile_idx,
                    Size tile_base,
@@ -1049,7 +1049,7 @@ namespace __merge_sort {
       // Constructor 
       //---------------------------------------------------------------------
 
-      THRUST_DEVICE_FUNCTION
+      HYDRA_THRUST_DEVICE_FUNCTION
       impl(bool              ping_,
            TempStorage&      storage_,
            KeysLoadPingIt    keys_in_ping_,
@@ -1107,7 +1107,7 @@ namespace __merge_sort {
     // Agent entry point
     //---------------------------------------------------------------------
 
-    THRUST_AGENT_ENTRY(bool       ping,
+    HYDRA_THRUST_AGENT_ENTRY(bool       ping,
                        KeysIt     keys_ping,
                        ItemsIt    items_ping,
                        Size       keys_count,
@@ -1145,7 +1145,7 @@ namespace __merge_sort {
             class ItemsIt,
             class Size,
             class CompareOp>
-  THRUST_RUNTIME_FUNCTION cudaError_t
+  HYDRA_THRUST_RUNTIME_FUNCTION cudaError_t
   doit_step(void*        d_temp_storage,
             size_t&      temp_storage_bytes,
             KeysIt       keys,
@@ -1218,7 +1218,7 @@ namespace __merge_sort {
       return status;
     };
 
-    int num_passes = thrust::detail::log2_ri(num_tiles);
+    int num_passes = HYDRA_EXTERNAL_NS::thrust::detail::log2_ri(num_tiles);
     bool ping = !(1 & num_passes);
 
     Size*      merge_partitions = (Size*)allocations[0];
@@ -1274,7 +1274,7 @@ namespace __merge_sort {
             typename KeysIt,
             typename ItemsIt,
             typename CompareOp>
-  THRUST_RUNTIME_FUNCTION 
+  HYDRA_THRUST_RUNTIME_FUNCTION 
   void merge_sort(execution_policy<Derived>& policy,
                   KeysIt                     keys_first,
                   KeysIt                     keys_last,
@@ -1284,11 +1284,11 @@ namespace __merge_sort {
   {
     typedef typename iterator_traits<KeysIt>::difference_type size_type;
 
-    size_type count = static_cast<size_type>(thrust::distance(keys_first, keys_last));
+    size_type count = static_cast<size_type>(HYDRA_EXTERNAL_NS::thrust::distance(keys_first, keys_last));
 
     size_t       storage_size = 0;
     cudaStream_t stream       = cuda_cub::stream(policy);
-    bool         debug_sync   = THRUST_DEBUG_SYNC_FLAG;
+    bool         debug_sync   = HYDRA_THRUST_DEBUG_SYNC_FLAG;
 
     cudaError_t status;
     status = doit_step<SORT_ITEMS, STABLE>(NULL,
@@ -1302,7 +1302,7 @@ namespace __merge_sort {
     cuda_cub::throw_on_error(status, "merge_sort: failed on 1st step");
 
     // Allocate temporary storage.
-    thrust::detail::temporary_array<thrust::detail::uint8_t, Derived>
+    HYDRA_EXTERNAL_NS::thrust::detail::temporary_array<HYDRA_EXTERNAL_NS::thrust::detail::uint8_t, Derived>
       tmp(policy, storage_size);
     void *ptr = static_cast<void*>(tmp.data().get());
 
@@ -1328,10 +1328,10 @@ namespace __radix_sort {
 
   // sort keys in ascending order
   template <class K>
-  struct dispatch<thrust::detail::false_type, thrust::less<K> >
+  struct dispatch<HYDRA_EXTERNAL_NS::thrust::detail::false_type, HYDRA_EXTERNAL_NS::thrust::less<K> >
   {
     template <class Key, class Item, class Size>
-    THRUST_RUNTIME_FUNCTION static cudaError_t
+    HYDRA_THRUST_RUNTIME_FUNCTION static cudaError_t
     doit(void*                    d_temp_storage,
          size_t&                  temp_storage_bytes,
          cub::DoubleBuffer<Key>&  keys_buffer,
@@ -1353,10 +1353,10 @@ namespace __radix_sort {
   
   // sort keys in descending order
   template <class K>
-  struct dispatch<thrust::detail::false_type, thrust::greater<K> >
+  struct dispatch<HYDRA_EXTERNAL_NS::thrust::detail::false_type, HYDRA_EXTERNAL_NS::thrust::greater<K> >
   {
     template <class Key, class Item, class Size>
-    THRUST_RUNTIME_FUNCTION static cudaError_t
+    HYDRA_THRUST_RUNTIME_FUNCTION static cudaError_t
     doit(void*                    d_temp_storage,
          size_t&                  temp_storage_bytes,
          cub::DoubleBuffer<Key>&  keys_buffer,
@@ -1378,10 +1378,10 @@ namespace __radix_sort {
   
   // sort pairs in ascending order
   template <class K>
-  struct dispatch<thrust::detail::true_type, thrust::less<K> >
+  struct dispatch<HYDRA_EXTERNAL_NS::thrust::detail::true_type, HYDRA_EXTERNAL_NS::thrust::less<K> >
   {
     template <class Key, class Item, class Size>
-    THRUST_RUNTIME_FUNCTION static cudaError_t
+    HYDRA_THRUST_RUNTIME_FUNCTION static cudaError_t
     doit(void*                    d_temp_storage,
          size_t&                  temp_storage_bytes,
          cub::DoubleBuffer<Key>&  keys_buffer,
@@ -1404,10 +1404,10 @@ namespace __radix_sort {
   
   // sort pairs in descending order
   template <class K>
-  struct dispatch<thrust::detail::true_type, thrust::greater<K> >
+  struct dispatch<HYDRA_EXTERNAL_NS::thrust::detail::true_type, HYDRA_EXTERNAL_NS::thrust::greater<K> >
   {
     template <class Key, class Item, class Size>
-    THRUST_RUNTIME_FUNCTION static cudaError_t
+    HYDRA_THRUST_RUNTIME_FUNCTION static cudaError_t
     doit(void*                    d_temp_storage,
          size_t&                  temp_storage_bytes,
          cub::DoubleBuffer<Key>&  keys_buffer,
@@ -1434,7 +1434,7 @@ namespace __radix_sort {
             typename Item,
             typename Size,
             typename CompareOp>
-  THRUST_RUNTIME_FUNCTION
+  HYDRA_THRUST_RUNTIME_FUNCTION
   void radix_sort(execution_policy<Derived>& policy,
                   Key*                       keys,
                   Item*                      items,
@@ -1443,7 +1443,7 @@ namespace __radix_sort {
   {
     size_t       temp_storage_bytes = 0;
     cudaStream_t stream             = cuda_cub::stream(policy);
-    bool         debug_sync         = THRUST_DEBUG_SYNC_FLAG;
+    bool         debug_sync         = HYDRA_THRUST_DEBUG_SYNC_FLAG;
 
     cub::DoubleBuffer<Key>  keys_buffer(keys, NULL);
     cub::DoubleBuffer<Item> items_buffer(items, NULL);
@@ -1470,13 +1470,13 @@ namespace __radix_sort {
                         + temp_storage_bytes;
 
     // Allocate temporary storage.
-    thrust::detail::temporary_array<thrust::detail::uint8_t, Derived>
+    HYDRA_EXTERNAL_NS::thrust::detail::temporary_array<HYDRA_EXTERNAL_NS::thrust::detail::uint8_t, Derived>
       tmp(policy, storage_size);
 
-    keys_buffer.d_buffers[1]  = thrust::detail::aligned_reinterpret_cast<Key*>(
+    keys_buffer.d_buffers[1]  = HYDRA_EXTERNAL_NS::thrust::detail::aligned_reinterpret_cast<Key*>(
       tmp.data().get()  
     );
-    items_buffer.d_buffers[1] = thrust::detail::aligned_reinterpret_cast<Item*>(
+    items_buffer.d_buffers[1] = HYDRA_EXTERNAL_NS::thrust::detail::aligned_reinterpret_cast<Item*>(
       tmp.data().get() + keys_temp_storage
     );
     void *ptr = static_cast<void*>(
@@ -1513,21 +1513,21 @@ namespace __smart_sort {
 
   template <class Key, class CompareOp>
   struct can_use_primitive_sort
-      : thrust::detail::and_<
-            thrust::detail::is_arithmetic<Key>,
-            thrust::detail::or_<
-                thrust::detail::is_same<CompareOp, thrust::less<Key> >,
-                thrust::detail::is_same<CompareOp, thrust::greater<Key> > > > {};
+      : HYDRA_EXTERNAL_NS::thrust::detail::and_<
+            HYDRA_EXTERNAL_NS::thrust::detail::is_arithmetic<Key>,
+            HYDRA_EXTERNAL_NS::thrust::detail::or_<
+                HYDRA_EXTERNAL_NS::thrust::detail::is_same<CompareOp, HYDRA_EXTERNAL_NS::thrust::less<Key> >,
+                HYDRA_EXTERNAL_NS::thrust::detail::is_same<CompareOp, HYDRA_EXTERNAL_NS::thrust::greater<Key> > > > {};
 
   template <class Iterator, class CompareOp>
   struct enable_if_primitive_sort
-      : thrust::detail::enable_if<
+      : HYDRA_EXTERNAL_NS::thrust::detail::enable_if<
             can_use_primitive_sort<typename iterator_value<Iterator>::type,
                                    CompareOp>::value> {};
 
   template <class Iterator, class CompareOp>
   struct enable_if_comparison_sort
-      : thrust::detail::disable_if<
+      : HYDRA_EXTERNAL_NS::thrust::detail::disable_if<
             can_use_primitive_sort<typename iterator_value<Iterator>::type,
                                    CompareOp>::value> {};
 
@@ -1538,7 +1538,7 @@ namespace __smart_sort {
             class KeysIt,
             class ItemsIt,
             class CompareOp>
-  THRUST_RUNTIME_FUNCTION typename enable_if_comparison_sort<KeysIt, CompareOp>::type
+  HYDRA_THRUST_RUNTIME_FUNCTION typename enable_if_comparison_sort<KeysIt, CompareOp>::type
   smart_sort(Policy&   policy,
              KeysIt    keys_first,
              KeysIt    keys_last,
@@ -1559,7 +1559,7 @@ namespace __smart_sort {
             class KeysIt,
             class ItemsIt,
             class CompareOp>
-  THRUST_RUNTIME_FUNCTION typename enable_if_primitive_sort<KeysIt, CompareOp>::type
+  HYDRA_THRUST_RUNTIME_FUNCTION typename enable_if_primitive_sort<KeysIt, CompareOp>::type
   smart_sort(execution_policy<Policy>& policy,
              KeysIt                    keys_first,
              KeysIt                    keys_last,
@@ -1567,18 +1567,18 @@ namespace __smart_sort {
              CompareOp                 compare_op)
   {
     // ensure sequences have trivial iterators
-    thrust::detail::trivial_sequence<KeysIt, Policy>
+    HYDRA_EXTERNAL_NS::thrust::detail::trivial_sequence<KeysIt, Policy>
         keys(policy, keys_first, keys_last);
 
     if (SORT_ITEMS::value)
     {
-      thrust::detail::trivial_sequence<ItemsIt, Policy>
+      HYDRA_EXTERNAL_NS::thrust::detail::trivial_sequence<ItemsIt, Policy>
           values(policy, items_first, items_first + (keys_last - keys_first));
 
       __radix_sort::radix_sort<SORT_ITEMS>(
           policy,
-          thrust::raw_pointer_cast(&*keys.begin()),
-          thrust::raw_pointer_cast(&*values.begin()),
+          HYDRA_EXTERNAL_NS::thrust::raw_pointer_cast(&*keys.begin()),
+          HYDRA_EXTERNAL_NS::thrust::raw_pointer_cast(&*values.begin()),
           keys_last - keys_first,
           compare_op);
 
@@ -1591,8 +1591,8 @@ namespace __smart_sort {
     {
       __radix_sort::radix_sort<SORT_ITEMS>(
           policy,
-          thrust::raw_pointer_cast(&*keys.begin()),
-          thrust::raw_pointer_cast(&*keys.begin()),
+          HYDRA_EXTERNAL_NS::thrust::raw_pointer_cast(&*keys.begin()),
+          HYDRA_EXTERNAL_NS::thrust::raw_pointer_cast(&*keys.begin()),
           keys_last - keys_first,
           compare_op);
     }
@@ -1619,16 +1619,16 @@ sort(execution_policy<Derived>& policy,
      ItemsIt                    last,
      CompareOp                  compare_op)
 {
-  if (__THRUST_HAS_CUDART__)
+  if (__HYDRA_THRUST_HAS_CUDART__)
   {
-    typedef typename thrust::iterator_value<ItemsIt>::type item_type;
-    __smart_sort::smart_sort<thrust::detail::false_type, thrust::detail::false_type>(
+    typedef typename HYDRA_EXTERNAL_NS::thrust::iterator_value<ItemsIt>::type item_type;
+    __smart_sort::smart_sort<HYDRA_EXTERNAL_NS::thrust::detail::false_type, HYDRA_EXTERNAL_NS::thrust::detail::false_type>(
         policy, first, last, (item_type*)NULL, compare_op);
   }
   else
   {
-#if !__THRUST_HAS_CUDART__
-    thrust::sort(cvt_to_seq(derived_cast(policy)), first, last, compare_op);
+#if !__HYDRA_THRUST_HAS_CUDART__
+    HYDRA_EXTERNAL_NS::thrust::sort(cvt_to_seq(derived_cast(policy)), first, last, compare_op);
 #endif
   }
 }
@@ -1641,16 +1641,16 @@ stable_sort(execution_policy<Derived>& policy,
             ItemsIt                    last,
             CompareOp                  compare_op)
 {
-  if (__THRUST_HAS_CUDART__)
+  if (__HYDRA_THRUST_HAS_CUDART__)
   {
-    typedef typename thrust::iterator_value<ItemsIt>::type item_type;
-    __smart_sort::smart_sort<thrust::detail::false_type, thrust::detail::true_type>(
+    typedef typename HYDRA_EXTERNAL_NS::thrust::iterator_value<ItemsIt>::type item_type;
+    __smart_sort::smart_sort<HYDRA_EXTERNAL_NS::thrust::detail::false_type, HYDRA_EXTERNAL_NS::thrust::detail::true_type>(
         policy, first, last, (item_type*)NULL, compare_op);
   }
   else
   {
-#if !__THRUST_HAS_CUDART__
-    thrust::stable_sort(cvt_to_seq(derived_cast(policy)), first, last, compare_op);
+#if !__HYDRA_THRUST_HAS_CUDART__
+    HYDRA_EXTERNAL_NS::thrust::stable_sort(cvt_to_seq(derived_cast(policy)), first, last, compare_op);
 #endif
   }
 }
@@ -1664,15 +1664,15 @@ sort_by_key(execution_policy<Derived>& policy,
             ValuesIt                   values,
             CompareOp                  compare_op)
 {
-  if (__THRUST_HAS_CUDART__)
+  if (__HYDRA_THRUST_HAS_CUDART__)
   {
-    __smart_sort::smart_sort<thrust::detail::true_type, thrust::detail::false_type>(
+    __smart_sort::smart_sort<HYDRA_EXTERNAL_NS::thrust::detail::true_type, HYDRA_EXTERNAL_NS::thrust::detail::false_type>(
         policy, keys_first, keys_last, values, compare_op);
   }
   else
   {
-#if !__THRUST_HAS_CUDART__
-    thrust::sort_by_key(
+#if !__HYDRA_THRUST_HAS_CUDART__
+    HYDRA_EXTERNAL_NS::thrust::sort_by_key(
         cvt_to_seq(derived_cast(policy)), keys_first, keys_last, values, compare_op);
 #endif
   }
@@ -1690,15 +1690,15 @@ stable_sort_by_key(execution_policy<Derived> &policy,
             ValuesIt                   values,
             CompareOp                  compare_op)
 {
-  if (__THRUST_HAS_CUDART__)
+  if (__HYDRA_THRUST_HAS_CUDART__)
   {
-    __smart_sort::smart_sort<thrust::detail::true_type, thrust::detail::true_type>(
+    __smart_sort::smart_sort<HYDRA_EXTERNAL_NS::thrust::detail::true_type, HYDRA_EXTERNAL_NS::thrust::detail::true_type>(
         policy, keys_first, keys_last, values, compare_op);
   }
   else
   {
-#if !__THRUST_HAS_CUDART__
-    thrust::stable_sort_by_key(
+#if !__HYDRA_THRUST_HAS_CUDART__
+    HYDRA_EXTERNAL_NS::thrust::stable_sort_by_key(
         cvt_to_seq(derived_cast(policy)), keys_first, keys_last, values, compare_op);
 #endif
   }
@@ -1712,7 +1712,7 @@ sort(execution_policy<Derived>& policy,
      ItemsIt                    first,
      ItemsIt                    last)
 {
-  typedef typename thrust::iterator_value<ItemsIt>::type item_type;
+  typedef typename HYDRA_EXTERNAL_NS::thrust::iterator_value<ItemsIt>::type item_type;
   cuda_cub::sort(policy, first, last, less<item_type>());
 }
 
@@ -1722,7 +1722,7 @@ stable_sort(execution_policy<Derived>& policy,
             ItemsIt                    first,
             ItemsIt                    last)
 {
-  typedef typename thrust::iterator_value<ItemsIt>::type item_type;
+  typedef typename HYDRA_EXTERNAL_NS::thrust::iterator_value<ItemsIt>::type item_type;
   cuda_cub::stable_sort(policy, first, last, less<item_type>());
 }
 
@@ -1733,7 +1733,7 @@ sort_by_key(execution_policy<Derived>& policy,
             KeysIt                     keys_last,
             ValuesIt                   values)
 {
-  typedef typename thrust::iterator_value<KeysIt>::type key_type;
+  typedef typename HYDRA_EXTERNAL_NS::thrust::iterator_value<KeysIt>::type key_type;
   cuda_cub::sort_by_key(policy, keys_first, keys_last, values, less<key_type>());
 }
 
@@ -1742,14 +1742,14 @@ void __hydra_host__ __hydra_device__
 stable_sort_by_key(
     execution_policy<Derived>& policy, KeysIt keys_first, KeysIt keys_last, ValuesIt values)
 {
-  typedef typename thrust::iterator_value<KeysIt>::type key_type;
+  typedef typename HYDRA_EXTERNAL_NS::thrust::iterator_value<KeysIt>::type key_type;
   cuda_cub::stable_sort_by_key(policy, keys_first, keys_last, values, less<key_type>());
 }
 
 
 }    // namespace cuda_cub
 
-THRUST_END_NS
+HYDRA_THRUST_END_NS
 HYDRA_EXTERNAL_NAMESPACE_END
 
 #endif

@@ -58,57 +58,57 @@ template<typename Eval>
   actor(const Eval &base);
 
   __hydra_host__ __hydra_device__
-  typename apply_actor<eval_type, thrust::null_type >::type
+  typename apply_actor<eval_type, HYDRA_EXTERNAL_NS::thrust::null_type >::type
   operator()(void) const;
 
   template<typename T0>
   __hydra_host__ __hydra_device__
-  typename apply_actor<eval_type, thrust::tuple<T0&> >::type
+  typename apply_actor<eval_type, HYDRA_EXTERNAL_NS::thrust::tuple<T0&> >::type
   operator()(T0 &_0) const;
 
   template<typename T0, typename T1>
   __hydra_host__ __hydra_device__
-  typename apply_actor<eval_type, thrust::tuple<T0&,T1&> >::type
+  typename apply_actor<eval_type, HYDRA_EXTERNAL_NS::thrust::tuple<T0&,T1&> >::type
   operator()(T0 &_0, T1 &_1) const;
 
   template<typename T0, typename T1, typename T2>
   __hydra_host__ __hydra_device__
-  typename apply_actor<eval_type, thrust::tuple<T0&,T1&,T2&> >::type
+  typename apply_actor<eval_type, HYDRA_EXTERNAL_NS::thrust::tuple<T0&,T1&,T2&> >::type
   operator()(T0 &_0, T1 &_1, T2 &_2) const;
 
   template<typename T0, typename T1, typename T2, typename T3>
   __hydra_host__ __hydra_device__
-  typename apply_actor<eval_type, thrust::tuple<T0&,T1&,T2&,T3&> >::type
+  typename apply_actor<eval_type, HYDRA_EXTERNAL_NS::thrust::tuple<T0&,T1&,T2&,T3&> >::type
   operator()(T0 &_0, T1 &_1, T2 &_2, T3 &_3) const;
 
   template<typename T0, typename T1, typename T2, typename T3, typename T4>
   __hydra_host__ __hydra_device__
-  typename apply_actor<eval_type, thrust::tuple<T0&,T1&,T2&,T3&,T4&> >::type
+  typename apply_actor<eval_type, HYDRA_EXTERNAL_NS::thrust::tuple<T0&,T1&,T2&,T3&,T4&> >::type
   operator()(T0 &_0, T1 &_1, T2 &_2, T3 &_3, T4 &_4) const;
 
   template<typename T0, typename T1, typename T2, typename T3, typename T4, typename T5>
   __hydra_host__ __hydra_device__
-  typename apply_actor<eval_type, thrust::tuple<T0&,T1&,T2&,T3&,T4&,T5&> >::type
+  typename apply_actor<eval_type, HYDRA_EXTERNAL_NS::thrust::tuple<T0&,T1&,T2&,T3&,T4&,T5&> >::type
   operator()(T0 &_0, T1 &_1, T2 &_2, T3 &_3, T4 &_4, T5 &_5) const;
 
   template<typename T0, typename T1, typename T2, typename T3, typename T4, typename T5, typename T6>
   __hydra_host__ __hydra_device__
-  typename apply_actor<eval_type, thrust::tuple<T0&,T1&,T2&,T3&,T4&,T5&,T6&> >::type
+  typename apply_actor<eval_type, HYDRA_EXTERNAL_NS::thrust::tuple<T0&,T1&,T2&,T3&,T4&,T5&,T6&> >::type
   operator()(T0 &_0, T1 &_1, T2 &_2, T3 &_3, T4 &_4, T5 &_5, T6 &_6) const;
 
   template<typename T0, typename T1, typename T2, typename T3, typename T4, typename T5, typename T6, typename T7>
   __hydra_host__ __hydra_device__
-  typename apply_actor<eval_type, thrust::tuple<T0&,T1&,T2&,T3&,T4&,T5&,T6&,T7&> >::type
+  typename apply_actor<eval_type, HYDRA_EXTERNAL_NS::thrust::tuple<T0&,T1&,T2&,T3&,T4&,T5&,T6&,T7&> >::type
   operator()(T0 &_0, T1 &_1, T2 &_2, T3 &_3, T4 &_4, T5 &_5, T6 &_6, T7 &_7) const;
 
   template<typename T0, typename T1, typename T2, typename T3, typename T4, typename T5, typename T6, typename T7, typename T8>
   __hydra_host__ __hydra_device__
-  typename apply_actor<eval_type, thrust::tuple<T0&,T1&,T2&,T3&,T4&,T5&,T6&,T7&,T8&> >::type
+  typename apply_actor<eval_type, HYDRA_EXTERNAL_NS::thrust::tuple<T0&,T1&,T2&,T3&,T4&,T5&,T6&,T7&,T8&> >::type
   operator()(T0 &_0, T1 &_1, T2 &_2, T3 &_3, T4 &_4, T5 &_5, T6 &_6, T7 &_7, T8 &_8) const;
 
   template<typename T0, typename T1, typename T2, typename T3, typename T4, typename T5, typename T6, typename T7, typename T8, typename T9>
   __hydra_host__ __hydra_device__
-  typename apply_actor<eval_type, thrust::tuple<T0&,T1&,T2&,T3&,T4&,T5&,T6&,T7&,T8&,T9&> >::type
+  typename apply_actor<eval_type, HYDRA_EXTERNAL_NS::thrust::tuple<T0&,T1&,T2&,T3&,T4&,T5&,T6&,T7&,T8&,T9&> >::type
   operator()(T0 &_0, T1 &_1, T2 &_2, T3 &_3, T4 &_4, T5 &_5, T6 &_6, T7 &_7, T8 &_8, T9 &_9) const;
 
   template<typename T>
@@ -154,34 +154,34 @@ template<typename T>
 // provide specializations for result_of for nullary, unary, and binary invocations of actor
 template<typename Eval>
   struct result_of_adaptable_function<
-    thrust::detail::functional::actor<Eval>()
+    HYDRA_EXTERNAL_NS::thrust::detail::functional::actor<Eval>()
   >
 {
-  typedef typename thrust::detail::functional::apply_actor<
-    thrust::detail::functional::actor<Eval>,
-    thrust::null_type
+  typedef typename HYDRA_EXTERNAL_NS::thrust::detail::functional::apply_actor<
+    HYDRA_EXTERNAL_NS::thrust::detail::functional::actor<Eval>,
+    HYDRA_EXTERNAL_NS::thrust::null_type
   >::type type;
 }; // end result_of
 
 template<typename Eval, typename Arg1>
   struct result_of_adaptable_function<
-    thrust::detail::functional::actor<Eval>(Arg1)
+    HYDRA_EXTERNAL_NS::thrust::detail::functional::actor<Eval>(Arg1)
   >
 {
-  typedef typename thrust::detail::functional::apply_actor<
-    thrust::detail::functional::actor<Eval>,
-    thrust::tuple<Arg1>
+  typedef typename HYDRA_EXTERNAL_NS::thrust::detail::functional::apply_actor<
+    HYDRA_EXTERNAL_NS::thrust::detail::functional::actor<Eval>,
+    HYDRA_EXTERNAL_NS::thrust::tuple<Arg1>
   >::type type;
 }; // end result_of
 
 template<typename Eval, typename Arg1, typename Arg2>
   struct result_of_adaptable_function<
-    thrust::detail::functional::actor<Eval>(Arg1,Arg2)
+    HYDRA_EXTERNAL_NS::thrust::detail::functional::actor<Eval>(Arg1,Arg2)
   >
 {
-  typedef typename thrust::detail::functional::apply_actor<
-    thrust::detail::functional::actor<Eval>,
-    thrust::tuple<Arg1,Arg2>
+  typedef typename HYDRA_EXTERNAL_NS::thrust::detail::functional::apply_actor<
+    HYDRA_EXTERNAL_NS::thrust::detail::functional::actor<Eval>,
+    HYDRA_EXTERNAL_NS::thrust::tuple<Arg1,Arg2>
   >::type type;
 }; // end result_of
 

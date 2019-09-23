@@ -27,7 +27,7 @@
 #pragma once
 
 
-#if THRUST_DEVICE_COMPILER == THRUST_DEVICE_COMPILER_NVCC
+#if HYDRA_THRUST_DEVICE_COMPILER == HYDRA_THRUST_DEVICE_COMPILER_NVCC
 #include <iterator>
 #include <hydra/detail/external/thrust/system/cuda/config.h>
 
@@ -36,7 +36,7 @@
 
 HYDRA_EXTERNAL_NAMESPACE_BEGIN
 
-THRUST_BEGIN_NS
+HYDRA_THRUST_BEGIN_NS
 namespace cuda_cub {
 
 // for_each functor
@@ -45,11 +45,11 @@ struct generate_f
 {
   Generator generator;
 
-  THRUST_FUNCTION
+  HYDRA_THRUST_FUNCTION
   generate_f(Generator generator_) : generator(generator_) {}
 
   template<class T>
-  THRUST_DEVICE_FUNCTION void operator()(T const& value)
+  HYDRA_THRUST_DEVICE_FUNCTION void operator()(T const& value)
   {
     T & lvalue = const_cast<T&>(value);
     lvalue = generator();
@@ -83,11 +83,11 @@ generate(execution_policy<Derived> &policy,
          OutputIt                   last,
          Generator                  generator)
 {
-  cuda_cub::generate_n(policy, first, thrust::distance(first, last), generator);
+  cuda_cub::generate_n(policy, first, HYDRA_EXTERNAL_NS::thrust::distance(first, last), generator);
 }
 
 }    // namespace cuda_cub
-THRUST_END_NS
+HYDRA_THRUST_END_NS
 
 HYDRA_EXTERNAL_NAMESPACE_END
 

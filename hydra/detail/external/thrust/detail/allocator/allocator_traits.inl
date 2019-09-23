@@ -19,7 +19,7 @@
 #include <hydra/detail/external/thrust/detail/type_traits/is_call_possible.h>
 #include <hydra/detail/external/thrust/detail/integer_traits.h>
 
-#if THRUST_CPP_DIALECT >= 2011
+#if HYDRA_THRUST_CPP_DIALECT >= 2011
   #include <hydra/detail/external/thrust/detail/type_deduction.h>
 #endif
 
@@ -32,7 +32,7 @@ namespace detail
 namespace allocator_traits_detail
 {
 
-__THRUST_DEFINE_IS_CALL_POSSIBLE(has_member_allocate_with_hint_impl, allocate)
+__HYDRA_THRUST_DEFINE_IS_CALL_POSSIBLE(has_member_allocate_with_hint_impl, allocate)
 
 template<typename Alloc>
   class has_member_allocate_with_hint
@@ -69,7 +69,7 @@ __hydra_host__ __hydra_device__
 }
 
 
-__THRUST_DEFINE_IS_CALL_POSSIBLE(has_member_construct1_impl, construct)
+__HYDRA_THRUST_DEFINE_IS_CALL_POSSIBLE(has_member_construct1_impl, construct)
 
 template<typename Alloc, typename T>
   struct has_member_construct1
@@ -98,7 +98,7 @@ template<typename Alloc, typename T>
 }
 
 
-__THRUST_DEFINE_IS_CALL_POSSIBLE(has_member_construct2_impl, construct)
+__HYDRA_THRUST_DEFINE_IS_CALL_POSSIBLE(has_member_construct2_impl, construct)
 
 template<typename Alloc, typename T, typename Arg1>
   struct has_member_construct2
@@ -127,9 +127,9 @@ template<typename Alloc, typename T, typename Arg1>
   ::new(static_cast<void*>(p)) T(arg1);
 }
 
-#if THRUST_CPP_DIALECT >= 2011
+#if HYDRA_THRUST_CPP_DIALECT >= 2011
 
-__THRUST_DEFINE_IS_CALL_POSSIBLE(has_member_constructN_impl, construct)
+__HYDRA_THRUST_DEFINE_IS_CALL_POSSIBLE(has_member_constructN_impl, construct)
 
 template<typename Alloc, typename T, typename... Args>
   struct has_member_constructN
@@ -144,7 +144,7 @@ template<typename Alloc, typename T, typename... Args>
     >::type
       construct(Alloc &a, T* p, Args&&... args)
 {
-  a.construct(p, THRUST_FWD(args)...);
+  a.construct(p, HYDRA_THRUST_FWD(args)...);
 }
 
 __thrust_exec_check_disable__
@@ -155,12 +155,12 @@ template<typename Alloc, typename T, typename... Args>
     >::type
       construct(Alloc &, T* p, Args&&... args)
 {
-  ::new(static_cast<void*>(p)) T(THRUST_FWD(args)...);
+  ::new(static_cast<void*>(p)) T(HYDRA_THRUST_FWD(args)...);
 }
 
 #endif
 
-__THRUST_DEFINE_IS_CALL_POSSIBLE(has_member_destroy_impl, destroy)
+__HYDRA_THRUST_DEFINE_IS_CALL_POSSIBLE(has_member_destroy_impl, destroy)
 
 template<typename Alloc, typename T>
   struct has_member_destroy
@@ -190,7 +190,7 @@ template<typename Alloc, typename T>
 }
 
 
-__THRUST_DEFINE_IS_CALL_POSSIBLE(has_member_max_size_impl, max_size)
+__HYDRA_THRUST_DEFINE_IS_CALL_POSSIBLE(has_member_max_size_impl, max_size)
 
 template<typename Alloc>
   class has_member_max_size
@@ -222,7 +222,7 @@ __hydra_host__ __hydra_device__
     max_size(const Alloc &)
 {
   typedef typename allocator_traits<Alloc>::size_type size_type;
-  return thrust::detail::integer_traits<size_type>::const_max;
+  return HYDRA_EXTERNAL_NS::thrust::detail::integer_traits<size_type>::const_max;
 }
 
 template<typename Alloc>
@@ -319,7 +319,7 @@ template<typename Alloc>
   return allocator_traits_detail::construct(a,p,arg1);
 }
 
-#if THRUST_CPP_DIALECT >= 2011
+#if HYDRA_THRUST_CPP_DIALECT >= 2011
 
 template<typename Alloc>
   template<typename T, typename... Args>
@@ -327,7 +327,7 @@ template<typename Alloc>
     void allocator_traits<Alloc>
       ::construct(allocator_type &a, T *p, Args&&... args)
 {
-  return allocator_traits_detail::construct(a, p, THRUST_FWD(args)...);
+  return allocator_traits_detail::construct(a, p, HYDRA_THRUST_FWD(args)...);
 }
 
 #endif

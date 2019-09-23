@@ -34,7 +34,7 @@ namespace generic
 
 template<typename MR, typename DerivedPolicy>
 __hydra_host__
-MR * get_per_device_resource(thrust::detail::execution_policy_base<DerivedPolicy>&)
+MR * get_per_device_resource(HYDRA_EXTERNAL_NS::thrust::detail::execution_policy_base<DerivedPolicy>&)
 {
     return mr::get_global_resource<MR>();
 }

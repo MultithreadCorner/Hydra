@@ -35,34 +35,34 @@ namespace detail
 template <typename Incrementable, typename System, typename Traversal, typename Difference>
   struct counting_iterator_base
 {
-  typedef typename thrust::detail::eval_if<
+  typedef typename HYDRA_EXTERNAL_NS::thrust::detail::eval_if<
     // use any_system_tag if we are given use_default
-    thrust::detail::is_same<System,use_default>::value,
-    thrust::detail::identity_<thrust::any_system_tag>,
-    thrust::detail::identity_<System>
+    HYDRA_EXTERNAL_NS::thrust::detail::is_same<System,use_default>::value,
+    HYDRA_EXTERNAL_NS::thrust::detail::identity_<HYDRA_EXTERNAL_NS::thrust::any_system_tag>,
+    HYDRA_EXTERNAL_NS::thrust::detail::identity_<System>
   >::type system;
 
-  typedef typename thrust::detail::ia_dflt_help<
+  typedef typename HYDRA_EXTERNAL_NS::thrust::detail::ia_dflt_help<
       Traversal,
-      thrust::detail::eval_if<
-          thrust::detail::is_numeric<Incrementable>::value,
-          thrust::detail::identity_<random_access_traversal_tag>,
-          thrust::iterator_traversal<Incrementable>
+      HYDRA_EXTERNAL_NS::thrust::detail::eval_if<
+          HYDRA_EXTERNAL_NS::thrust::detail::is_numeric<Incrementable>::value,
+          HYDRA_EXTERNAL_NS::thrust::detail::identity_<random_access_traversal_tag>,
+          HYDRA_EXTERNAL_NS::thrust::iterator_traversal<Incrementable>
       >
   >::type traversal;
 
   // unlike Boost, we explicitly use std::ptrdiff_t as the difference type
   // for floating point counting_iterators
-  typedef typename thrust::detail::ia_dflt_help<
+  typedef typename HYDRA_EXTERNAL_NS::thrust::detail::ia_dflt_help<
     Difference,
-    thrust::detail::eval_if<
-      thrust::detail::is_numeric<Incrementable>::value,
-        thrust::detail::eval_if<
-          thrust::detail::is_integral<Incrementable>::value,
-          thrust::detail::numeric_difference<Incrementable>,
-          thrust::detail::identity_<std::ptrdiff_t>
+    HYDRA_EXTERNAL_NS::thrust::detail::eval_if<
+      HYDRA_EXTERNAL_NS::thrust::detail::is_numeric<Incrementable>::value,
+        HYDRA_EXTERNAL_NS::thrust::detail::eval_if<
+          HYDRA_EXTERNAL_NS::thrust::detail::is_integral<Incrementable>::value,
+          HYDRA_EXTERNAL_NS::thrust::detail::numeric_difference<Incrementable>,
+          HYDRA_EXTERNAL_NS::thrust::detail::identity_<std::ptrdiff_t>
         >,
-      thrust::iterator_difference<Incrementable>
+      HYDRA_EXTERNAL_NS::thrust::iterator_difference<Incrementable>
     >
   >::type difference;
 
@@ -70,7 +70,7 @@ template <typename Incrementable, typename System, typename Traversal, typename 
   // returns a copy of its counter, rather than a reference to it. returning a reference
   // to the internal state of an iterator causes subtle bugs (consider the temporary
   // iterator created in the expression *(iter + i)) and has no compelling use case
-  typedef thrust::iterator_adaptor<
+  typedef HYDRA_EXTERNAL_NS::thrust::iterator_adaptor<
     counting_iterator<Incrementable, System, Traversal, Difference>, // self
     Incrementable,                                                  // Base
     Incrementable,                                                  // XXX we may need to pass const here as Boost does
@@ -121,9 +121,9 @@ template<typename Difference, typename Incrementable1, typename Incrementable2>
     Difference,
     Incrementable1,
     Incrementable2,
-    typename thrust::detail::enable_if<
-      thrust::detail::is_floating_point<Incrementable1>::value ||
-      thrust::detail::is_floating_point<Incrementable2>::value
+    typename HYDRA_EXTERNAL_NS::thrust::detail::enable_if<
+      HYDRA_EXTERNAL_NS::thrust::detail::is_floating_point<Incrementable1>::value ||
+      HYDRA_EXTERNAL_NS::thrust::detail::is_floating_point<Incrementable2>::value
     >::type
   >
 {

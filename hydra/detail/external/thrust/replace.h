@@ -57,7 +57,7 @@ HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
  *          and \p T is convertible to \p ForwardIterator's \c value_type.
  *
  *  The following code snippet demonstrates how to use \p replace to replace
- *  a value of interest in a \c device_vector with another using the \p thrust::device
+ *  a value of interest in a \c device_vector with another using the \p HYDRA_EXTERNAL_NS::thrust::device
  *  execution policy for parallelization:
  *
  *  \code
@@ -67,13 +67,13 @@ HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
  *
  *  ...
  *  
- *  thrust::device_vector<int> A(4);
+ *  HYDRA_EXTERNAL_NS::thrust::device_vector<int> A(4);
  *  A[0] = 1;
  *  A[1] = 2;
  *  A[2] = 3;
  *  A[3] = 1;
  *
- *  thrust::replace(thrust::device, A.begin(), A.end(), 1, 99);
+ *  HYDRA_EXTERNAL_NS::thrust::replace(HYDRA_EXTERNAL_NS::thrust::device, A.begin(), A.end(), 1, 99);
  *
  *  // A contains [99, 2, 3, 99]
  *  \endcode
@@ -85,7 +85,7 @@ HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
  */
 template<typename DerivedPolicy, typename ForwardIterator, typename T>
 __hydra_host__ __hydra_device__
-  void replace(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
+  void replace(const HYDRA_EXTERNAL_NS::thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                ForwardIterator first, ForwardIterator last,
                const T &old_value,
                const T &new_value);
@@ -117,13 +117,13 @@ __hydra_host__ __hydra_device__
  *
  *  ...
  *  
- *  thrust::device_vector<int> A(4);
+ *  HYDRA_EXTERNAL_NS::thrust::device_vector<int> A(4);
  *  A[0] = 1;
  *  A[1] = 2;
  *  A[2] = 3;
  *  A[3] = 1;
  *
- *  thrust::replace(A.begin(), A.end(), 1, 99);
+ *  HYDRA_EXTERNAL_NS::thrust::replace(A.begin(), A.end(), 1, 99);
  *
  *  // A contains [99, 2, 3, 99]
  *  \endcode
@@ -160,7 +160,7 @@ template<typename ForwardIterator, typename T>
  *          and \p T is convertible to \p ForwardIterator's \c value_type.
  *
  *  The following code snippet demonstrates how to use \p replace_if to replace
- *  a \c device_vector's negative elements with \c 0 using the \p thrust::device execution policy
+ *  a \c device_vector's negative elements with \c 0 using the \p HYDRA_EXTERNAL_NS::thrust::device execution policy
  *  for parallelization:
  *
  *  \code
@@ -179,7 +179,7 @@ template<typename ForwardIterator, typename T>
  *
  *  ...
  *  
- *  thrust::device_vector<int> A(4);
+ *  HYDRA_EXTERNAL_NS::thrust::device_vector<int> A(4);
  *  A[0] =  1;
  *  A[1] = -3;
  *  A[2] =  2;
@@ -187,7 +187,7 @@ template<typename ForwardIterator, typename T>
  *
  *  is_less_than_zero pred;
  *
- *  thrust::replace_if(thrust::device, A.begin(), A.end(), pred, 0);
+ *  HYDRA_EXTERNAL_NS::thrust::replace_if(HYDRA_EXTERNAL_NS::thrust::device, A.begin(), A.end(), pred, 0);
  *
  *  // A contains [1, 0, 2, 0]
  *  \endcode
@@ -199,7 +199,7 @@ template<typename ForwardIterator, typename T>
  */
 template<typename DerivedPolicy, typename ForwardIterator, typename Predicate, typename T>
 __hydra_host__ __hydra_device__
-  void replace_if(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
+  void replace_if(const HYDRA_EXTERNAL_NS::thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                   ForwardIterator first, ForwardIterator last,
                   Predicate pred,
                   const T &new_value);
@@ -240,7 +240,7 @@ __hydra_host__ __hydra_device__
  *
  *  ...
  *  
- *  thrust::device_vector<int> A(4);
+ *  HYDRA_EXTERNAL_NS::thrust::device_vector<int> A(4);
  *  A[0] =  1;
  *  A[1] = -3;
  *  A[2] =  2;
@@ -248,7 +248,7 @@ __hydra_host__ __hydra_device__
  *
  *  is_less_than_zero pred;
  *
- *  thrust::replace_if(A.begin(), A.end(), pred, 0);
+ *  HYDRA_EXTERNAL_NS::thrust::replace_if(A.begin(), A.end(), pred, 0);
  *
  *  // A contains [1, 0, 2, 0]
  *  \endcode
@@ -290,7 +290,7 @@ template<typename ForwardIterator, typename Predicate, typename T>
  *
  *  The following code snippet demonstrates how to use \p replace_if to replace
  *  a \c device_vector's element with \c 0 when its corresponding stencil element is less than zero
- *  using the \p thrust::device execution policy for parallelization:
+ *  using the \p HYDRA_EXTERNAL_NS::thrust::device execution policy for parallelization:
  *
  *  \code
  *  #include <hydra/detail/external/thrust/replace.h>
@@ -308,20 +308,20 @@ template<typename ForwardIterator, typename Predicate, typename T>
  *  
  *  ...
  *  
- *  thrust::device_vector<int> A(4);
+ *  HYDRA_EXTERNAL_NS::thrust::device_vector<int> A(4);
  *  A[0] =  10;
  *  A[1] =  20;
  *  A[2] =  30;
  *  A[3] =  40;
  *
- *  thrust::device_vector<int> S(4);
+ *  HYDRA_EXTERNAL_NS::thrust::device_vector<int> S(4);
  *  S[0] = -1;
  *  S[1] =  0;
  *  S[2] = -1;
  *  S[3] =  0;
  *
  *  is_less_than_zero pred;
- *  thrust::replace_if(thrust::device, A.begin(), A.end(), S.begin(), pred, 0);
+ *  HYDRA_EXTERNAL_NS::thrust::replace_if(HYDRA_EXTERNAL_NS::thrust::device, A.begin(), A.end(), S.begin(), pred, 0);
  *
  *  // A contains [0, 20, 0, 40]
  *  \endcode
@@ -333,7 +333,7 @@ template<typename ForwardIterator, typename Predicate, typename T>
  */
 template<typename DerivedPolicy, typename ForwardIterator, typename InputIterator, typename Predicate, typename T>
 __hydra_host__ __hydra_device__
-  void replace_if(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
+  void replace_if(const HYDRA_EXTERNAL_NS::thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                   ForwardIterator first, ForwardIterator last,
                   InputIterator stencil,
                   Predicate pred,
@@ -378,20 +378,20 @@ __hydra_host__ __hydra_device__
  *  
  *  ...
  *  
- *  thrust::device_vector<int> A(4);
+ *  HYDRA_EXTERNAL_NS::thrust::device_vector<int> A(4);
  *  A[0] =  10;
  *  A[1] =  20;
  *  A[2] =  30;
  *  A[3] =  40;
  *
- *  thrust::device_vector<int> S(4);
+ *  HYDRA_EXTERNAL_NS::thrust::device_vector<int> S(4);
  *  S[0] = -1;
  *  S[1] =  0;
  *  S[2] = -1;
  *  S[3] =  0;
  *
  *  is_less_than_zero pred;
- *  thrust::replace_if(A.begin(), A.end(), S.begin(), pred, 0);
+ *  HYDRA_EXTERNAL_NS::thrust::replace_if(A.begin(), A.end(), S.begin(), pred, 0);
  *
  *  // A contains [0, 20, 0, 40]
  *  \endcode
@@ -441,15 +441,15 @@ template<typename ForwardIterator, typename InputIterator, typename Predicate, t
  *  #include <hydra/detail/external/thrust/device_vector.h>
  *  #include <hydra/detail/external/thrust/execution_policy.h>
  *  ...
- *  thrust::device_vector<int> A(4);
+ *  HYDRA_EXTERNAL_NS::thrust::device_vector<int> A(4);
  *  A[0] = 1;
  *  A[1] = 2;
  *  A[2] = 3;
  *  A[3] = 1;
  *
- *  thrust::device_vector<int> B(4);
+ *  HYDRA_EXTERNAL_NS::thrust::device_vector<int> B(4);
  *
- *  thrust::replace_copy(thrust::device, A.begin(), A.end(), B.begin(), 1, 99);
+ *  HYDRA_EXTERNAL_NS::thrust::replace_copy(HYDRA_EXTERNAL_NS::thrust::device, A.begin(), A.end(), B.begin(), 1, 99);
  *
  *  // B contains [99, 2, 3, 99]
  *  \endcode
@@ -462,7 +462,7 @@ template<typename ForwardIterator, typename InputIterator, typename Predicate, t
  */
 template<typename DerivedPolicy, typename InputIterator, typename OutputIterator, typename T>
 __hydra_host__ __hydra_device__
-  OutputIterator replace_copy(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
+  OutputIterator replace_copy(const HYDRA_EXTERNAL_NS::thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                               InputIterator first, InputIterator last,
                               OutputIterator result,
                               const T &old_value,
@@ -497,15 +497,15 @@ __hydra_host__ __hydra_device__
  *  #include <hydra/detail/external/thrust/replace.h>
  *  #include <hydra/detail/external/thrust/device_vector.h>
  *  ...
- *  thrust::device_vector<int> A(4);
+ *  HYDRA_EXTERNAL_NS::thrust::device_vector<int> A(4);
  *  A[0] = 1;
  *  A[1] = 2;
  *  A[2] = 3;
  *  A[3] = 1;
  *
- *  thrust::device_vector<int> B(4);
+ *  HYDRA_EXTERNAL_NS::thrust::device_vector<int> B(4);
  *
- *  thrust::replace_copy(A.begin(), A.end(), B.begin(), 1, 99);
+ *  HYDRA_EXTERNAL_NS::thrust::replace_copy(A.begin(), A.end(), B.begin(), 1, 99);
  *
  *  // B contains [99, 2, 3, 99]
  *  \endcode
@@ -566,16 +566,16 @@ template<typename InputIterator, typename OutputIterator, typename T>
  *
  *  ...
  *  
- *  thrust::device_vector<int> A(4);
+ *  HYDRA_EXTERNAL_NS::thrust::device_vector<int> A(4);
  *  A[0] =  1;
  *  A[1] = -3;
  *  A[2] =  2;
  *  A[3] = -1;
  
- *  thrust::device_vector<int> B(4);
+ *  HYDRA_EXTERNAL_NS::thrust::device_vector<int> B(4);
  *  is_less_than_zero pred;
  *
- *  thrust::replace_copy_if(thrust::device, A.begin(), A.end(), B.begin(), pred, 0);
+ *  HYDRA_EXTERNAL_NS::thrust::replace_copy_if(HYDRA_EXTERNAL_NS::thrust::device, A.begin(), A.end(), B.begin(), pred, 0);
  *
  *  // B contains [1, 0, 2, 0]
  *  \endcode
@@ -587,7 +587,7 @@ template<typename InputIterator, typename OutputIterator, typename T>
  */
 template<typename DerivedPolicy, typename InputIterator, typename OutputIterator, typename Predicate, typename T>
 __hydra_host__ __hydra_device__
-  OutputIterator replace_copy_if(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
+  OutputIterator replace_copy_if(const HYDRA_EXTERNAL_NS::thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                                  InputIterator first, InputIterator last,
                                  OutputIterator result,
                                  Predicate pred,
@@ -633,16 +633,16 @@ __hydra_host__ __hydra_device__
  *
  *  ...
  *  
- *  thrust::device_vector<int> A(4);
+ *  HYDRA_EXTERNAL_NS::thrust::device_vector<int> A(4);
  *  A[0] =  1;
  *  A[1] = -3;
  *  A[2] =  2;
  *  A[3] = -1;
  
- *  thrust::device_vector<int> B(4);
+ *  HYDRA_EXTERNAL_NS::thrust::device_vector<int> B(4);
  *  is_less_than_zero pred;
  *
- *  thrust::replace_copy_if(A.begin(), A.end(), B.begin(), pred, 0);
+ *  HYDRA_EXTERNAL_NS::thrust::replace_copy_if(A.begin(), A.end(), B.begin(), pred, 0);
  *
  *  // B contains [1, 0, 2, 0]
  *  \endcode
@@ -706,22 +706,22 @@ template<typename InputIterator, typename OutputIterator, typename Predicate, ty
  *  
  *  ...
  *  
- *  thrust::device_vector<int> A(4);
+ *  HYDRA_EXTERNAL_NS::thrust::device_vector<int> A(4);
  *  A[0] =  10;
  *  A[1] =  20;
  *  A[2] =  30;
  *  A[3] =  40;
  *
- *  thrust::device_vector<int> S(4);
+ *  HYDRA_EXTERNAL_NS::thrust::device_vector<int> S(4);
  *  S[0] = -1;
  *  S[1] =  0;
  *  S[2] = -1;
  *  S[3] =  0;
  *
- *  thrust::device_vector<int> B(4);
+ *  HYDRA_EXTERNAL_NS::thrust::device_vector<int> B(4);
  *  is_less_than_zero pred;
  *
- *  thrust::replace_if(thrust::device, A.begin(), A.end(), S.begin(), B.begin(), pred, 0);
+ *  HYDRA_EXTERNAL_NS::thrust::replace_if(HYDRA_EXTERNAL_NS::thrust::device, A.begin(), A.end(), S.begin(), B.begin(), pred, 0);
  *
  *  // B contains [0, 20, 0, 40]
  *  \endcode
@@ -731,7 +731,7 @@ template<typename InputIterator, typename OutputIterator, typename Predicate, ty
  */
 template<typename DerivedPolicy, typename InputIterator1, typename InputIterator2, typename OutputIterator, typename Predicate, typename T>
 __hydra_host__ __hydra_device__
-  OutputIterator replace_copy_if(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
+  OutputIterator replace_copy_if(const HYDRA_EXTERNAL_NS::thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                                  InputIterator1 first, InputIterator1 last,
                                  InputIterator2 stencil,
                                  OutputIterator result,
@@ -781,22 +781,22 @@ __hydra_host__ __hydra_device__
  *  
  *  ...
  *  
- *  thrust::device_vector<int> A(4);
+ *  HYDRA_EXTERNAL_NS::thrust::device_vector<int> A(4);
  *  A[0] =  10;
  *  A[1] =  20;
  *  A[2] =  30;
  *  A[3] =  40;
  *
- *  thrust::device_vector<int> S(4);
+ *  HYDRA_EXTERNAL_NS::thrust::device_vector<int> S(4);
  *  S[0] = -1;
  *  S[1] =  0;
  *  S[2] = -1;
  *  S[3] =  0;
  *
- *  thrust::device_vector<int> B(4);
+ *  HYDRA_EXTERNAL_NS::thrust::device_vector<int> B(4);
  *  is_less_than_zero pred;
  *
- *  thrust::replace_if(A.begin(), A.end(), S.begin(), B.begin(), pred, 0);
+ *  HYDRA_EXTERNAL_NS::thrust::replace_if(A.begin(), A.end(), S.begin(), B.begin(), pred, 0);
  *
  *  // B contains [0, 20, 0, 40]
  *  \endcode

@@ -40,12 +40,12 @@ void insertion_sort(RandomAccessIterator first,
                     RandomAccessIterator last,
                     StrictWeakOrdering comp)
 {
-  typedef typename thrust::iterator_value<RandomAccessIterator>::type value_type;
+  typedef typename HYDRA_EXTERNAL_NS::thrust::iterator_value<RandomAccessIterator>::type value_type;
 
   if(first == last) return;
 
   // wrap comp
-  thrust::detail::wrapped_function<
+  HYDRA_EXTERNAL_NS::thrust::detail::wrapped_function<
     StrictWeakOrdering,
     bool
   > wrapped_comp(comp);
@@ -90,13 +90,13 @@ void insertion_sort_by_key(RandomAccessIterator1 first1,
                            RandomAccessIterator2 first2,
                            StrictWeakOrdering comp)
 {
-  typedef typename thrust::iterator_value<RandomAccessIterator1>::type value_type1;
-  typedef typename thrust::iterator_value<RandomAccessIterator2>::type value_type2;
+  typedef typename HYDRA_EXTERNAL_NS::thrust::iterator_value<RandomAccessIterator1>::type value_type1;
+  typedef typename HYDRA_EXTERNAL_NS::thrust::iterator_value<RandomAccessIterator2>::type value_type2;
 
   if(first1 == last1) return;
 
   // wrap comp
-  thrust::detail::wrapped_function<
+  HYDRA_EXTERNAL_NS::thrust::detail::wrapped_function<
     StrictWeakOrdering,
     bool
   > wrapped_comp(comp);
@@ -151,3 +151,4 @@ void insertion_sort_by_key(RandomAccessIterator1 first1,
 } // end namespace system
 } // end HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
 
+HYDRA_EXTERNAL_NAMESPACE_END

@@ -19,19 +19,19 @@
 #include <hydra/detail/external/thrust/detail/config.h>
 
 // #include the device system's memory_resource header
-#define __THRUST_DEVICE_SYSTEM_MEMORY_HEADER <__THRUST_DEVICE_SYSTEM_ROOT/memory_resource.h>
-#include __THRUST_DEVICE_SYSTEM_MEMORY_HEADER
-#undef __THRUST_DEVICE_SYSTEM_MEMORY_HEADER
+#define __HYDRA_THRUST_DEVICE_SYSTEM_MEMORY_HEADER <__HYDRA_THRUST_DEVICE_SYSTEM_ROOT/memory_resource.h>
+#include __HYDRA_THRUST_DEVICE_SYSTEM_MEMORY_HEADER
+#undef __HYDRA_THRUST_DEVICE_SYSTEM_MEMORY_HEADER
 
 HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
 {
 
 
-typedef thrust::system::__THRUST_DEVICE_SYSTEM_NAMESPACE::memory_resource
+typedef HYDRA_EXTERNAL_NS::thrust::system::__HYDRA_THRUST_DEVICE_SYSTEM_NAMESPACE::memory_resource
     device_memory_resource;
-typedef thrust::system::__THRUST_DEVICE_SYSTEM_NAMESPACE::universal_memory_resource
+typedef HYDRA_EXTERNAL_NS::thrust::system::__HYDRA_THRUST_DEVICE_SYSTEM_NAMESPACE::universal_memory_resource
     universal_memory_resource;
-typedef thrust::system::__THRUST_DEVICE_SYSTEM_NAMESPACE::universal_host_pinned_memory_resource
+typedef HYDRA_EXTERNAL_NS::thrust::system::__HYDRA_THRUST_DEVICE_SYSTEM_NAMESPACE::universal_host_pinned_memory_resource
     universal_host_pinned_memory_resource;
 
 

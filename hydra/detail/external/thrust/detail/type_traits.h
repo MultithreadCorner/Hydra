@@ -24,12 +24,12 @@
 
 #include <hydra/detail/external/thrust/detail/config.h>
 
-#if THRUST_CPP_DIALECT >= 2011
-#  include <type_traits>
+#if HYDRA_THRUST_CPP_DIALECT >= 2011
+#include <type_traits>
 #endif
 
-HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
-{
+HYDRA_EXTERNAL_NAMESPACE_BEGIN
+     namespace thrust {
 
 // forward declaration of device_reference
 template<typename T> class device_reference;
@@ -40,7 +40,7 @@ namespace detail
  template<typename T, T v>
    struct integral_constant
    {
-     THRUST_INLINE_INTEGRAL_MEMBER_CONSTANT T value = v;
+     HYDRA_THRUST_INLINE_INTEGRAL_MEMBER_CONSTANT T value = v;
 
      typedef T                       value_type;
      typedef integral_constant<T, v> type;
@@ -48,12 +48,12 @@ namespace detail
      // We don't want to switch to std::integral_constant, because we want access
      // to the C++14 operator(), but we'd like standard traits to interoperate
      // with our version when tag dispatching.
-     #if THRUST_CPP_DIALECT >= 2011
+     #if HYDRA_THRUST_CPP_DIALECT >= 2011
      constexpr integral_constant() = default;
 
      constexpr integral_constant(integral_constant const&) = default;
 
-     #if THRUST_CPP_DIALECT >= 2014
+     #if HYDRA_THRUST_CPP_DIALECT >= 2014
      constexpr // In C++11, constexpr makes member functions const.
      #endif
      integral_constant& operator=(integral_constant const&) = default;
@@ -62,8 +62,8 @@ namespace detail
      integral_constant(std::integral_constant<T, v>) {}
      #endif
 
-     THRUST_CONSTEXPR __hydra_host__ __hydra_device__ operator value_type() const THRUST_NOEXCEPT { return value; }
-     THRUST_CONSTEXPR __hydra_host__ __hydra_device__ value_type operator()() const THRUST_NOEXCEPT { return value; }
+     HYDRA_THRUST_CONSTEXPR __hydra_host__ __hydra_device__ operator value_type() const HYDRA_THRUST_NOEXCEPT { return value; }
+     HYDRA_THRUST_CONSTEXPR __hydra_host__ __hydra_device__ value_type operator()() const HYDRA_THRUST_NOEXCEPT { return value; }
    };
  
  /// typedef for true_type
@@ -128,16 +128,16 @@ template<typename T> struct is_pod
    : public integral_constant<
        bool,
        is_void<T>::value || is_pointer<T>::value || is_arithmetic<T>::value
-#if THRUST_HOST_COMPILER == THRUST_HOST_COMPILER_MSVC || \
-    THRUST_HOST_COMPILER == THRUST_HOST_COMPILER_CLANG
+#if HYDRA_THRUST_HOST_COMPILER == HYDRA_THRUST_HOST_COMPILER_MSVC || \
+    HYDRA_THRUST_HOST_COMPILER == HYDRA_THRUST_HOST_COMPILER_CLANG
 // use intrinsic type traits
        || __is_pod(T)
-#elif THRUST_HOST_COMPILER == THRUST_HOST_COMPILER_GCC
+#elif HYDRA_THRUST_HOST_COMPILER == HYDRA_THRUST_HOST_COMPILER_GCC
 // only use the intrinsic for >= 4.3
 #if (__GNUC__ >= 4) && (__GNUC_MINOR__ >= 3)
        || __is_pod(T)
 #endif // GCC VERSION
-#endif // THRUST_HOST_COMPILER
+#endif // HYDRA_THRUST_HOST_COMPILER
      >
  {};
 
@@ -146,15 +146,15 @@ template<typename T> struct has_trivial_constructor
   : public integral_constant<
       bool,
       is_pod<T>::value
-#if THRUST_HOST_COMPILER == THRUST_HOST_COMPILER_MSVC || \
-    THRUST_HOST_COMPILER == THRUST_HOST_COMPILER_CLANG
+#if HYDRA_THRUST_HOST_COMPILER == HYDRA_THRUST_HOST_COMPILER_MSVC || \
+    HYDRA_THRUST_HOST_COMPILER == HYDRA_THRUST_HOST_COMPILER_CLANG
       || __has_trivial_constructor(T)
-#elif THRUST_HOST_COMPILER == THRUST_HOST_COMPILER_GCC
+#elif HYDRA_THRUST_HOST_COMPILER == HYDRA_THRUST_HOST_COMPILER_GCC
 // only use the intrinsic for >= 4.3
 #if (__GNUC__ >= 4) && (__GNUC_MINOR__ >= 3)
       || __has_trivial_constructor(T)
 #endif // GCC VERSION
-#endif // THRUST_HOST_COMPILER
+#endif // HYDRA_THRUST_HOST_COMPILER
       >
 {};
 
@@ -162,15 +162,15 @@ template<typename T> struct has_trivial_copy_constructor
   : public integral_constant<
       bool,
       is_pod<T>::value
-#if THRUST_HOST_COMPILER == THRUST_HOST_COMPILER_MSVC || \
-    THRUST_HOST_COMPILER == THRUST_HOST_COMPILER_CLANG
+#if HYDRA_THRUST_HOST_COMPILER == HYDRA_THRUST_HOST_COMPILER_MSVC || \
+    HYDRA_THRUST_HOST_COMPILER == HYDRA_THRUST_HOST_COMPILER_CLANG
       || __has_trivial_copy(T)
-#elif THRUST_HOST_COMPILER == THRUST_HOST_COMPILER_GCC
+#elif HYDRA_THRUST_HOST_COMPILER == HYDRA_THRUST_HOST_COMPILER_GCC
 // only use the intrinsic for >= 4.3
 #if (__GNUC__ >= 4) && (__GNUC_MINOR__ >= 3)
       || __has_trivial_copy(T)
 #endif // GCC VERSION
-#endif // THRUST_HOST_COMPILER
+#endif // HYDRA_THRUST_HOST_COMPILER
     >
 {};
 
@@ -237,7 +237,7 @@ template<typename T> struct is_reference<T&> : public true_type {};
 template<typename T> struct is_proxy_reference  : public false_type {};
 
 template<typename T> struct is_device_reference                                : public false_type {};
-template<typename T> struct is_device_reference< thrust::device_reference<T> > : public true_type {};
+template<typename T> struct is_device_reference< HYDRA_EXTERNAL_NS::thrust::device_reference<T> > : public true_type {};
 
 
 // NB: Careful with reference to void.
@@ -301,7 +301,7 @@ template<typename T1, typename T2>
 {
 }; // end lazy_is_different
 
-#if THRUST_CPP_DIALECT >= 2011
+#if HYDRA_THRUST_CPP_DIALECT >= 2011
 
 using std::is_convertible;
 
@@ -321,8 +321,8 @@ template<typename T>
 }; // end is_int_or_cref
 
 
-THRUST_DISABLE_MSVC_POSSIBLE_LOSS_OF_DATA_WARNING_BEGIN
-THRUST_DISABLE_MSVC_FORCING_VALUE_TO_BOOL_WARNING_BEGIN
+HYDRA_THRUST_DISABLE_MSVC_POSSIBLE_LOSS_OF_DATA_WARNING_BEGIN
+HYDRA_THRUST_DISABLE_MSVC_FORCING_VALUE_TO_BOOL_WARNING_BEGIN
 
 template<typename From, typename To>
   struct is_convertible_sfinae
@@ -340,8 +340,8 @@ template<typename From, typename To>
 }; // end is_convertible_sfinae
 
 
-THRUST_DISABLE_MSVC_FORCING_VALUE_TO_BOOL_WARNING_END
-THRUST_DISABLE_MSVC_POSSIBLE_LOSS_OF_DATA_WARNING_END
+HYDRA_THRUST_DISABLE_MSVC_FORCING_VALUE_TO_BOOL_WARNING_END
+HYDRA_THRUST_DISABLE_MSVC_POSSIBLE_LOSS_OF_DATA_WARNING_END
 
 
 template<typename From, typename To>
@@ -386,10 +386,7 @@ template<typename From, typename To>
 
 template<typename T1, typename T2>
   struct is_one_convertible_to_the_other
-    : public integral_constant<
-        bool,
-        is_convertible<T1,T2>::value || is_convertible<T2,T1>::value
-      >
+    : public integral_constant< bool, is_convertible<T1,T2>::value || is_convertible<T2,T1>::value>
 {};
 
 
@@ -444,7 +441,7 @@ template<typename Then, typename Else>
 
 template<typename T>
 //  struct identity
-//  XXX WAR nvcc's confusion with thrust::identity
+//  XXX WAR nvcc's confusion with HYDRA_EXTERNAL_NS::thrust::identity
   struct identity_
 {
   typedef T type;
@@ -564,14 +561,14 @@ struct largest_available_float
 // T1 wins if they are both the same size
 template<typename T1, typename T2>
   struct larger_type
-    : thrust::detail::eval_if<
+    : HYDRA_EXTERNAL_NS::thrust::detail::eval_if<
         (sizeof(T2) > sizeof(T1)),
-        thrust::detail::identity_<T2>,
-        thrust::detail::identity_<T1>
+        HYDRA_EXTERNAL_NS::thrust::detail::identity_<T2>,
+        HYDRA_EXTERNAL_NS::thrust::detail::identity_<T1>
       >
 {};
 
-#if THRUST_CPP_DIALECT >= 2011
+#if HYDRA_THRUST_CPP_DIALECT >= 2011
 
 using std::is_base_of;
 

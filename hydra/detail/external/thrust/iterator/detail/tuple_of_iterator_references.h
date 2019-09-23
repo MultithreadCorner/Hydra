@@ -31,10 +31,10 @@ template<
   typename... Types
 >
   class tuple_of_iterator_references
-    : public thrust::tuple<Types...>
+    : public HYDRA_EXTERNAL_NS::thrust::tuple<Types...>
 {
   private:
-    typedef thrust::tuple<Types...> super_t;
+    typedef HYDRA_EXTERNAL_NS::thrust::tuple<Types...> super_t;
 
   public:
     // allow implicit construction from tuple<refs>
@@ -47,7 +47,7 @@ template<
     // XXX might be worthwhile to guard this with an enable_if is_assignable
     template<typename... OtherTypes>
     inline __hydra_host__ __hydra_device__
-    tuple_of_iterator_references &operator=(const thrust::tuple<OtherTypes...> &other)
+    tuple_of_iterator_references &operator=(const HYDRA_EXTERNAL_NS::thrust::tuple<OtherTypes...> &other)
     {
       super_t::operator=(other);
       return *this;
@@ -57,7 +57,7 @@ template<
     // XXX might be worthwhile to guard this with an enable_if is_assignable
     template<typename U1, typename U2>
     inline __hydra_host__ __hydra_device__
-    tuple_of_iterator_references &operator=(const thrust::pair<U1,U2> &other)
+    tuple_of_iterator_references &operator=(const HYDRA_EXTERNAL_NS::thrust::pair<U1,U2> &other)
     {
       super_t::operator=(other);
       return *this;
@@ -70,17 +70,17 @@ template<
              typename... OtherTypes>
     inline __hydra_host__ __hydra_device__
 // XXX gcc-4.2 crashes on is_assignable
-//    typename thrust::detail::enable_if<
-//      thrust::detail::is_assignable<
+//    typename HYDRA_EXTERNAL_NS::thrust::detail::enable_if<
+//      HYDRA_EXTERNAL_NS::thrust::detail::is_assignable<
 //        super_t,
-//        const thrust::tuple<OtherTypes...>
+//        const HYDRA_EXTERNAL_NS::thrust::tuple<OtherTypes...>
 //      >::value,
 //      tuple_of_iterator_references &
 //    >::type
     tuple_of_iterator_references &
-    operator=(const thrust::reference<thrust::tuple<OtherTypes...>, Pointer, Derived> &other)
+    operator=(const HYDRA_EXTERNAL_NS::thrust::reference<HYDRA_EXTERNAL_NS::thrust::tuple<OtherTypes...>, Pointer, Derived> &other)
     {
-      typedef thrust::tuple<OtherTypes...> tuple_type;
+      typedef HYDRA_EXTERNAL_NS::thrust::tuple<OtherTypes...> tuple_type;
 
       // XXX perhaps this could be accelerated
       tuple_type other_tuple = other;
@@ -89,7 +89,7 @@ template<
     }
 
 
-    // duplicate thrust::tuple's constructors
+    // duplicate HYDRA_EXTERNAL_NS::thrust::tuple's constructors
 #if 0   // C++11 constructor inheritance    -- not supported on gcc 4.7, try disabling if it causes problems
     using super_t::super_t;
 #else
@@ -107,7 +107,7 @@ template<
 
 } // end detail
 
-#ifdef THRUST_VARIADIC_TUPLE
+#ifdef HYDRA_THRUST_VARIADIC_TUPLE
 // define tuple_size, tuple_element, etc.
 template<class... Types>
 struct tuple_size<detail::tuple_of_iterator_references<Types...>>

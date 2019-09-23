@@ -39,7 +39,7 @@ template<typename> struct as_actor;
 // there's no standard assign functional, so roll an ad hoc one here
 template<typename T>
   struct assign
-    : thrust::binary_function<T&,T,T&>
+    : HYDRA_EXTERNAL_NS::thrust::binary_function<T&,T,T&>
 {
   __hydra_host__ __hydra_device__ T& operator()(T &lhs, const T &rhs) const { return lhs = rhs; }
 }; // end assign

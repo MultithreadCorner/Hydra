@@ -61,7 +61,7 @@ HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
  *          and is convertible to \p OutputType.
  *
  *  The following code demonstrates how to use \p inner_product to
- *  compute the dot product of two vectors using the \p thrust::host execution policy for parallelization.
+ *  compute the dot product of two vectors using the \p HYDRA_EXTERNAL_NS::thrust::host execution policy for parallelization.
  *
  *  \code
  *  #include <hydra/detail/external/thrust/inner_product.h>
@@ -70,7 +70,7 @@ HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
  *  float vec1[3] = {1.0f, 2.0f, 5.0f};
  *  float vec2[3] = {4.0f, 1.0f, 5.0f};
  *
- *  float result = thrust::inner_product(thrust::host, vec1, vec1 + 3, vec2, 0.0f);
+ *  float result = HYDRA_EXTERNAL_NS::thrust::inner_product(HYDRA_EXTERNAL_NS::thrust::host, vec1, vec1 + 3, vec2, 0.0f);
  *
  *  // result == 31.0f
  *  \endcode
@@ -82,7 +82,7 @@ template<typename DerivedPolicy,
          typename InputIterator2,
          typename OutputType>
 __hydra_host__ __hydra_device__
-OutputType inner_product(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
+OutputType inner_product(const HYDRA_EXTERNAL_NS::thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                          InputIterator1 first1,
                          InputIterator1 last1,
                          InputIterator2 first2,
@@ -121,7 +121,7 @@ OutputType inner_product(const thrust::detail::execution_policy_base<DerivedPoli
  *  float vec1[3] = {1.0f, 2.0f, 5.0f};
  *  float vec2[3] = {4.0f, 1.0f, 5.0f};
  *
- *  float result = thrust::inner_product(vec1, vec1 + 3, vec2, 0.0f);
+ *  float result = HYDRA_EXTERNAL_NS::thrust::inner_product(vec1, vec1 + 3, vec2, 0.0f);
  *
  *  // result == 31.0f
  *  \endcode
@@ -173,10 +173,10 @@ OutputType inner_product(InputIterator1 first1, InputIterator1 last1,
  *  float vec2[3] = {4.0f, 1.0f, 5.0f};
  *
  *  float init = 0.0f;
- *  thrust::plus<float>       binary_op1;
- *  thrust::multiplies<float> binary_op2;
+ *  HYDRA_EXTERNAL_NS::thrust::plus<float>       binary_op1;
+ *  HYDRA_EXTERNAL_NS::thrust::multiplies<float> binary_op2;
  *
- *  float result = thrust::inner_product(thrust::host, vec1, vec1 + 3, vec2, init, binary_op1, binary_op2);
+ *  float result = HYDRA_EXTERNAL_NS::thrust::inner_product(HYDRA_EXTERNAL_NS::thrust::host, vec1, vec1 + 3, vec2, init, binary_op1, binary_op2);
  *
  *  // result == 31.0f
  *  \endcode
@@ -190,7 +190,7 @@ template<typename DerivedPolicy,
          typename BinaryFunction1,
          typename BinaryFunction2>
 __hydra_host__ __hydra_device__
-OutputType inner_product(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
+OutputType inner_product(const HYDRA_EXTERNAL_NS::thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                          InputIterator1 first1,
                          InputIterator1 last1,
                          InputIterator2 first2,
@@ -237,10 +237,10 @@ OutputType inner_product(const thrust::detail::execution_policy_base<DerivedPoli
  *  float vec2[3] = {4.0f, 1.0f, 5.0f};
  *
  *  float init = 0.0f;
- *  thrust::plus<float>       binary_op1;
- *  thrust::multiplies<float> binary_op2;
+ *  HYDRA_EXTERNAL_NS::thrust::plus<float>       binary_op1;
+ *  HYDRA_EXTERNAL_NS::thrust::multiplies<float> binary_op2;
  *
- *  float result = thrust::inner_product(vec1, vec1 + 3, vec2, init, binary_op1, binary_op2);
+ *  float result = HYDRA_EXTERNAL_NS::thrust::inner_product(vec1, vec1 + 3, vec2, init, binary_op1, binary_op2);
  *
  *  // result == 31.0f
  *  \endcode

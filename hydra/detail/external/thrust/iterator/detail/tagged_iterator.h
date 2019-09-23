@@ -32,14 +32,14 @@ template <typename,typename> class tagged_iterator;
 template<typename Iterator, typename Tag>
   struct tagged_iterator_base
 {
-  typedef thrust::iterator_adaptor<
+  typedef HYDRA_EXTERNAL_NS::thrust::iterator_adaptor<
     tagged_iterator<Iterator,Tag>,
     Iterator,
-    typename thrust::iterator_value<Iterator>::type,
+    typename HYDRA_EXTERNAL_NS::thrust::iterator_value<Iterator>::type,
     Tag,
-    typename thrust::iterator_traversal<Iterator>::type,
-    typename thrust::iterator_reference<Iterator>::type,
-    typename thrust::iterator_difference<Iterator>::type
+    typename HYDRA_EXTERNAL_NS::thrust::iterator_traversal<Iterator>::type,
+    typename HYDRA_EXTERNAL_NS::thrust::iterator_reference<Iterator>::type,
+    typename HYDRA_EXTERNAL_NS::thrust::iterator_difference<Iterator>::type
   > type;
 }; // end tagged_iterator_base
 

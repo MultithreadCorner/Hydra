@@ -27,7 +27,7 @@
 #pragma once
 
 
-#if THRUST_DEVICE_COMPILER == THRUST_DEVICE_COMPILER_NVCC
+#if HYDRA_THRUST_DEVICE_COMPILER == HYDRA_THRUST_DEVICE_COMPILER_NVCC
 #include <hydra/detail/external/thrust/system/cuda/config.h>
 
 #include <hydra/detail/external/thrust/detail/cstdint.h>
@@ -43,13 +43,13 @@
 
 HYDRA_EXTERNAL_NAMESPACE_BEGIN
 
-THRUST_BEGIN_NS
+HYDRA_THRUST_BEGIN_NS
 // XXX declare generic copy_if interface
 // to avoid circulular dependency from thrust/copy.h
 template <typename DerivedPolicy, typename InputIterator, typename OutputIterator, typename Predicate>
 __hydra_host__ __hydra_device__
     OutputIterator
-    copy_if(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
+    copy_if(const HYDRA_EXTERNAL_NS::thrust::detail::execution_policy_base<DerivedPolicy> &exec,
             InputIterator                                               first,
             InputIterator                                               last,
             OutputIterator                                              result,
@@ -58,7 +58,7 @@ __hydra_host__ __hydra_device__
 template <typename DerivedPolicy, typename InputIterator1, typename InputIterator2, typename OutputIterator, typename Predicate>
 __hydra_host__ __hydra_device__
     OutputIterator
-    copy_if(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
+    copy_if(const HYDRA_EXTERNAL_NS::thrust::detail::execution_policy_base<DerivedPolicy> &exec,
             InputIterator1                                              first,
             InputIterator1                                              last,
             InputIterator2                                              stencil,
@@ -221,7 +221,7 @@ namespace __copy_if {
 
     enum
     {
-      USE_STENCIL      = !thrust::detail::is_same<StencilIt, no_stencil_tag>::value,
+      USE_STENCIL      = !HYDRA_EXTERNAL_NS::thrust::detail::is_same<StencilIt, no_stencil_tag>::value,
       BLOCK_THREADS    = ptx_plan::BLOCK_THREADS,
       ITEMS_PER_THREAD = ptx_plan::ITEMS_PER_THREAD,
       ITEMS_PER_TILE   = ptx_plan::ITEMS_PER_TILE
@@ -245,7 +245,7 @@ namespace __copy_if {
       // scatter results to memory
       //------------------------------------------
 
-      THRUST_DEVICE_FUNCTION void
+      HYDRA_THRUST_DEVICE_FUNCTION void
       scatter(item_type (&items)[ITEMS_PER_THREAD],
               Size (&selection_flags)[ITEMS_PER_THREAD],
               Size (&selection_indices)[ITEMS_PER_THREAD],
@@ -292,21 +292,21 @@ namespace __copy_if {
       struct wrap_value
       {
         T const &              x;
-        THRUST_DEVICE_FUNCTION wrap_value(T const &x) : x(x) {}
+        HYDRA_THRUST_DEVICE_FUNCTION wrap_value(T const &x) : x(x) {}
 
-        THRUST_DEVICE_FUNCTION T const &operator()() const { return x; };
+        HYDRA_THRUST_DEVICE_FUNCTION T const &operator()() const { return x; };
       };    // struct wrap_type
 
       //------- item
 
-      THRUST_DEVICE_FUNCTION bool
+      HYDRA_THRUST_DEVICE_FUNCTION bool
       predicate_wrapper(wrap_value<ITEM, item_type> const &x,
                         __tag<false /* USE_STENCIL */>)
       {
         return predicate(x());
       }
 
-      THRUST_DEVICE_FUNCTION bool
+      HYDRA_THRUST_DEVICE_FUNCTION bool
       predicate_wrapper(wrap_value<ITEM, item_type> const &,
                         __tag<true>)
       {
@@ -316,14 +316,14 @@ namespace __copy_if {
       //-------- stencil
 
       template <class T>
-      THRUST_DEVICE_FUNCTION bool
+      HYDRA_THRUST_DEVICE_FUNCTION bool
       predicate_wrapper(wrap_value<STENCIL, T> const &x,
                         __tag<true>)
       {
         return predicate(x());
       }
 
-      THRUST_DEVICE_FUNCTION bool
+      HYDRA_THRUST_DEVICE_FUNCTION bool
       predicate_wrapper(wrap_value<STENCIL, no_stencil_tag_> const &,
                         __tag<true>)
       {
@@ -331,7 +331,7 @@ namespace __copy_if {
       }
 
 
-      THRUST_DEVICE_FUNCTION bool
+      HYDRA_THRUST_DEVICE_FUNCTION bool
       predicate_wrapper(wrap_value<STENCIL, stencil_type> const &,
                         __tag<false>)
       {
@@ -339,7 +339,7 @@ namespace __copy_if {
       }
 
       template <bool IS_LAST_TILE, ItemStencil TYPE, class T>
-      THRUST_DEVICE_FUNCTION void
+      HYDRA_THRUST_DEVICE_FUNCTION void
       compute_selection_flags(int num_tile_items,
                               T (&values)[ITEMS_PER_THREAD],
                               Size (&selection_flags)[ITEMS_PER_THREAD])
@@ -365,7 +365,7 @@ namespace __copy_if {
       //------------------------------------------
       
       template <bool IS_LAST_TILE, bool IS_FIRST_TILE>
-      Size THRUST_DEVICE_FUNCTION
+      Size HYDRA_THRUST_DEVICE_FUNCTION
       consume_tile_impl(int  num_tile_items,
                         int  tile_idx,
                         Size tile_base)
@@ -481,7 +481,7 @@ namespace __copy_if {
       }    // func consume_tile_impl
 
       template <bool         IS_LAST_TILE>
-      THRUST_DEVICE_FUNCTION Size
+      HYDRA_THRUST_DEVICE_FUNCTION Size
       consume_tile(int  num_tile_items,
                    int  tile_idx,
                    Size tile_base)
@@ -504,7 +504,7 @@ namespace __copy_if {
       // Constructor
       //---------------------------------------------------------------------
       
-      THRUST_DEVICE_FUNCTION impl(TempStorage &       storage_,
+      HYDRA_THRUST_DEVICE_FUNCTION impl(TempStorage &       storage_,
                                   ScanTileState &     tile_state_,
                                   ItemsIt             items_it,
                                   StencilIt           stencil_it,
@@ -548,7 +548,7 @@ namespace __copy_if {
     // Agent entry point
     //---------------------------------------------------------------------
 
-    THRUST_AGENT_ENTRY(ItemsIt             items_it,
+    HYDRA_THRUST_AGENT_ENTRY(ItemsIt             items_it,
                        StencilIt           stencil_it,
                        OutputIt            output_it,
                        Predicate           predicate,
@@ -585,7 +585,7 @@ namespace __copy_if {
     // Agent entry point
     //---------------------------------------------------------------------
 
-    THRUST_AGENT_ENTRY(ScanTileState tile_state,
+    HYDRA_THRUST_AGENT_ENTRY(ScanTileState tile_state,
                        Size          num_tiles,
                        NumSelectedIt num_selected_out,
                        char *        /*shmem*/)
@@ -602,7 +602,7 @@ namespace __copy_if {
             class Predicate,
             class Size,
             class NumSelectedOutIt>
-  static cudaError_t THRUST_RUNTIME_FUNCTION
+  static cudaError_t HYDRA_THRUST_RUNTIME_FUNCTION
   doit_step(void *           d_temp_storage,
             size_t &         temp_storage_bytes,
             ItemsIt          items,
@@ -699,7 +699,7 @@ namespace __copy_if {
             typename StencilIt,
             typename OutputIt,
             typename Predicate>
-  THRUST_RUNTIME_FUNCTION
+  HYDRA_THRUST_RUNTIME_FUNCTION
   OutputIt copy_if(execution_policy<Derived>& policy,
                    InputIt                    first,
                    InputIt                    last,
@@ -709,10 +709,10 @@ namespace __copy_if {
   {
     typedef int size_type;
 
-    size_type    num_items          = static_cast<size_type>(thrust::distance(first, last));
+    size_type    num_items          = static_cast<size_type>(HYDRA_EXTERNAL_NS::thrust::distance(first, last));
     size_t       temp_storage_bytes = 0;
     cudaStream_t stream             = cuda_cub::stream(policy);
-    bool         debug_sync         = THRUST_DEBUG_SYNC_FLAG;
+    bool         debug_sync         = HYDRA_THRUST_DEBUG_SYNC_FLAG;
 
     if (num_items == 0)
       return output;
@@ -742,7 +742,7 @@ namespace __copy_if {
     cuda_cub::throw_on_error(status, "copy_if failed on 1st alias_storage");
 
     // Allocate temporary storage.
-    thrust::detail::temporary_array<thrust::detail::uint8_t, Derived>
+    HYDRA_EXTERNAL_NS::thrust::detail::temporary_array<HYDRA_EXTERNAL_NS::thrust::detail::uint8_t, Derived>
       tmp(policy, storage_size);
     void *ptr = static_cast<void*>(tmp.data().get());
 
@@ -753,7 +753,7 @@ namespace __copy_if {
     cuda_cub::throw_on_error(status, "copy_if failed on 2nd alias_storage");
 
     size_type* d_num_selected_out
-      = thrust::detail::aligned_reinterpret_cast<size_type*>(allocations[0]);
+      = HYDRA_EXTERNAL_NS::thrust::detail::aligned_reinterpret_cast<size_type*>(allocations[0]);
 
     status = doit_step(allocations[1],
                        temp_storage_bytes,
@@ -795,7 +795,7 @@ copy_if(execution_policy<Derived> &policy,
 {
   OutputIterator ret = result;
 
-  if (__THRUST_HAS_CUDART__)
+  if (__HYDRA_THRUST_HAS_CUDART__)
   {
     ret = __copy_if::copy_if(policy,
                              first,
@@ -806,8 +806,8 @@ copy_if(execution_policy<Derived> &policy,
   }
   else
   {
-#if !__THRUST_HAS_CUDART__
-    ret = thrust::copy_if(cvt_to_seq(derived_cast(policy)),
+#if !__HYDRA_THRUST_HAS_CUDART__
+    ret = HYDRA_EXTERNAL_NS::thrust::copy_if(cvt_to_seq(derived_cast(policy)),
                           first,
                           last,
                           result,
@@ -833,7 +833,7 @@ copy_if(execution_policy<Derived> &policy,
 {
   OutputIterator ret = result;
 
-  if (__THRUST_HAS_CUDART__)
+  if (__HYDRA_THRUST_HAS_CUDART__)
   {
     ret = __copy_if::copy_if(policy,
                              first,
@@ -844,8 +844,8 @@ copy_if(execution_policy<Derived> &policy,
   }
   else
   {
-#if !__THRUST_HAS_CUDART__
-    ret = thrust::copy_if(cvt_to_seq(derived_cast(policy)),
+#if !__HYDRA_THRUST_HAS_CUDART__
+    ret = HYDRA_EXTERNAL_NS::thrust::copy_if(cvt_to_seq(derived_cast(policy)),
                           first,
                           last,
                           stencil,
@@ -857,7 +857,7 @@ copy_if(execution_policy<Derived> &policy,
 }    // func copy_if
 
 }    // namespace cuda_cub
-THRUST_END_NS
+HYDRA_THRUST_END_NS
 
 HYDRA_EXTERNAL_NAMESPACE_END
 

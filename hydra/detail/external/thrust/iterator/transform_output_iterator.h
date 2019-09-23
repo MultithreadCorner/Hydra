@@ -54,7 +54,7 @@ HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
  *
  * // note: functor inherits form unary function
  *  // note: functor inherits from unary_function
- *  struct square_root : public thrust::unary_function<float,float>
+ *  struct square_root : public HYDRA_EXTERNAL_NS::thrust::unary_function<float,float>
  *  {
  *    __hydra_host__ __hydra_device__
  *    float operator()(float x) const
@@ -65,10 +65,10 @@ HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
  *  
  *  int main()
  *  {
- *    thrust::device_vector<float> v(4);
+ *    HYDRA_EXTERNAL_NS::thrust::device_vector<float> v(4);
  *
- *    typedef thrust::device_vector<float>::iterator FloatIterator;
- *    thrust::transform_output_iterator<square_root, FloatIterator> iter(v.begin(), square_root());
+ *    typedef HYDRA_EXTERNAL_NS::thrust::device_vector<float>::iterator FloatIterator;
+ *    HYDRA_EXTERNAL_NS::thrust::transform_output_iterator<square_root, FloatIterator> iter(v.begin(), square_root());
  *
  *    iter[0] =  1.0f;    // stores sqrtf( 1.0f) 
  *    iter[1] =  4.0f;    // stores sqrtf( 4.0f)
@@ -101,7 +101,7 @@ template <typename UnaryFunction, typename OutputIterator>
     detail::transform_output_iterator_base<UnaryFunction, OutputIterator>::type
     super_t;
 
-    friend class thrust::iterator_core_access;
+    friend class HYDRA_EXTERNAL_NS::thrust::iterator_core_access;
   /*! \endcond
    */
 

@@ -27,7 +27,7 @@
 #pragma once
 
 
-#if THRUST_DEVICE_COMPILER == THRUST_DEVICE_COMPILER_NVCC
+#if HYDRA_THRUST_DEVICE_COMPILER == HYDRA_THRUST_DEVICE_COMPILER_NVCC
 #include <hydra/detail/external/thrust/system/cuda/config.h>
 #include <hydra/detail/external/thrust/system/cuda/detail/execution_policy.h>
 #include <hydra/detail/external/thrust/pair.h>
@@ -35,7 +35,7 @@
 
 HYDRA_EXTERNAL_NAMESPACE_BEGIN
 
-THRUST_BEGIN_NS
+HYDRA_THRUST_BEGIN_NS
 namespace cuda_cub {
 
 template <class Derived,
@@ -58,13 +58,13 @@ mismatch(execution_policy<Derived>& policy,
          InputIt1                   last1,
          InputIt2                   first2);
 } // namespace cuda_
-THRUST_END_NS
+HYDRA_THRUST_END_NS
 
 HYDRA_EXTERNAL_NAMESPACE_END
 #include <hydra/detail/external/thrust/system/cuda/detail/find.h>
 
 HYDRA_EXTERNAL_NAMESPACE_BEGIN
-THRUST_BEGIN_NS
+HYDRA_THRUST_BEGIN_NS
 namespace cuda_cub {
 
 template <class Derived,
@@ -88,11 +88,11 @@ mismatch(execution_policy<Derived>& policy,
 
   transform_t result = cuda_cub::find_if_not(policy,
                                           transform_first,
-                                          transform_first + thrust::distance(first1, last1),
+                                          transform_first + HYDRA_EXTERNAL_NS::thrust::distance(first1, last1),
                                           identity());
 
-  return make_pair(first1 + thrust::distance(transform_first,result),
-                   first2 + thrust::distance(transform_first,result));
+  return make_pair(first1 + HYDRA_EXTERNAL_NS::thrust::distance(transform_first,result),
+                   first2 + HYDRA_EXTERNAL_NS::thrust::distance(transform_first,result));
 }
 
 template <class Derived,
@@ -104,7 +104,7 @@ mismatch(execution_policy<Derived>& policy,
          InputIt1                   last1,
          InputIt2                   first2)
 {
-  typedef typename thrust::iterator_value<InputIt1>::type InputType1;
+  typedef typename HYDRA_EXTERNAL_NS::thrust::iterator_value<InputIt1>::type InputType1;
   return cuda_cub::mismatch(policy,
                          first1,
                          last1,
@@ -115,6 +115,6 @@ mismatch(execution_policy<Derived>& policy,
 
 
 } // namespace cuda_cub
-THRUST_END_NS
+HYDRA_THRUST_END_NS
 HYDRA_EXTERNAL_NAMESPACE_END
 #endif

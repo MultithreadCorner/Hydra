@@ -26,7 +26,7 @@ namespace detail
 
 template<typename Tuple,
          template<typename> class UnaryMetaFunction,
-         unsigned int sz = thrust::tuple_size<Tuple>::value>
+         unsigned int sz = HYDRA_EXTERNAL_NS::thrust::tuple_size<Tuple>::value>
   struct tuple_meta_transform;
 
 template<typename Tuple,
@@ -40,8 +40,8 @@ template<typename Tuple,
          template<typename> class UnaryMetaFunction>
   struct tuple_meta_transform<Tuple,UnaryMetaFunction,1>
 {
-  typedef thrust::tuple<
-    typename UnaryMetaFunction<typename thrust::tuple_element<0,Tuple>::type>::type
+  typedef HYDRA_EXTERNAL_NS::thrust::tuple<
+    typename UnaryMetaFunction<typename HYDRA_EXTERNAL_NS::thrust::tuple_element<0,Tuple>::type>::type
   > type;
 };
 
@@ -49,9 +49,9 @@ template<typename Tuple,
          template<typename> class UnaryMetaFunction>
   struct tuple_meta_transform<Tuple,UnaryMetaFunction,2>
 {
-  typedef thrust::tuple<
-    typename UnaryMetaFunction<typename thrust::tuple_element<0,Tuple>::type>::type,
-    typename UnaryMetaFunction<typename thrust::tuple_element<1,Tuple>::type>::type
+  typedef HYDRA_EXTERNAL_NS::thrust::tuple<
+    typename UnaryMetaFunction<typename HYDRA_EXTERNAL_NS::thrust::tuple_element<0,Tuple>::type>::type,
+    typename UnaryMetaFunction<typename HYDRA_EXTERNAL_NS::thrust::tuple_element<1,Tuple>::type>::type
   > type;
 };
 
@@ -59,10 +59,10 @@ template<typename Tuple,
          template<typename> class UnaryMetaFunction>
   struct tuple_meta_transform<Tuple,UnaryMetaFunction,3>
 {
-  typedef thrust::tuple<
-    typename UnaryMetaFunction<typename thrust::tuple_element<0,Tuple>::type>::type,
-    typename UnaryMetaFunction<typename thrust::tuple_element<1,Tuple>::type>::type,
-    typename UnaryMetaFunction<typename thrust::tuple_element<2,Tuple>::type>::type
+  typedef HYDRA_EXTERNAL_NS::thrust::tuple<
+    typename UnaryMetaFunction<typename HYDRA_EXTERNAL_NS::thrust::tuple_element<0,Tuple>::type>::type,
+    typename UnaryMetaFunction<typename HYDRA_EXTERNAL_NS::thrust::tuple_element<1,Tuple>::type>::type,
+    typename UnaryMetaFunction<typename HYDRA_EXTERNAL_NS::thrust::tuple_element<2,Tuple>::type>::type
   > type;
 };
 
@@ -70,11 +70,11 @@ template<typename Tuple,
          template<typename> class UnaryMetaFunction>
   struct tuple_meta_transform<Tuple,UnaryMetaFunction,4>
 {
-  typedef thrust::tuple<
-    typename UnaryMetaFunction<typename thrust::tuple_element<0,Tuple>::type>::type,
-    typename UnaryMetaFunction<typename thrust::tuple_element<1,Tuple>::type>::type,
-    typename UnaryMetaFunction<typename thrust::tuple_element<2,Tuple>::type>::type,
-    typename UnaryMetaFunction<typename thrust::tuple_element<3,Tuple>::type>::type
+  typedef HYDRA_EXTERNAL_NS::thrust::tuple<
+    typename UnaryMetaFunction<typename HYDRA_EXTERNAL_NS::thrust::tuple_element<0,Tuple>::type>::type,
+    typename UnaryMetaFunction<typename HYDRA_EXTERNAL_NS::thrust::tuple_element<1,Tuple>::type>::type,
+    typename UnaryMetaFunction<typename HYDRA_EXTERNAL_NS::thrust::tuple_element<2,Tuple>::type>::type,
+    typename UnaryMetaFunction<typename HYDRA_EXTERNAL_NS::thrust::tuple_element<3,Tuple>::type>::type
   > type;
 };
 
@@ -82,12 +82,12 @@ template<typename Tuple,
          template<typename> class UnaryMetaFunction>
   struct tuple_meta_transform<Tuple,UnaryMetaFunction,5>
 {
-  typedef thrust::tuple<
-    typename UnaryMetaFunction<typename thrust::tuple_element<0,Tuple>::type>::type,
-    typename UnaryMetaFunction<typename thrust::tuple_element<1,Tuple>::type>::type,
-    typename UnaryMetaFunction<typename thrust::tuple_element<2,Tuple>::type>::type,
-    typename UnaryMetaFunction<typename thrust::tuple_element<3,Tuple>::type>::type,
-    typename UnaryMetaFunction<typename thrust::tuple_element<4,Tuple>::type>::type
+  typedef HYDRA_EXTERNAL_NS::thrust::tuple<
+    typename UnaryMetaFunction<typename HYDRA_EXTERNAL_NS::thrust::tuple_element<0,Tuple>::type>::type,
+    typename UnaryMetaFunction<typename HYDRA_EXTERNAL_NS::thrust::tuple_element<1,Tuple>::type>::type,
+    typename UnaryMetaFunction<typename HYDRA_EXTERNAL_NS::thrust::tuple_element<2,Tuple>::type>::type,
+    typename UnaryMetaFunction<typename HYDRA_EXTERNAL_NS::thrust::tuple_element<3,Tuple>::type>::type,
+    typename UnaryMetaFunction<typename HYDRA_EXTERNAL_NS::thrust::tuple_element<4,Tuple>::type>::type
   > type;
 };
 
@@ -95,13 +95,13 @@ template<typename Tuple,
          template<typename> class UnaryMetaFunction>
   struct tuple_meta_transform<Tuple,UnaryMetaFunction,6>
 {
-  typedef thrust::tuple<
-    typename UnaryMetaFunction<typename thrust::tuple_element<0,Tuple>::type>::type,
-    typename UnaryMetaFunction<typename thrust::tuple_element<1,Tuple>::type>::type,
-    typename UnaryMetaFunction<typename thrust::tuple_element<2,Tuple>::type>::type,
-    typename UnaryMetaFunction<typename thrust::tuple_element<3,Tuple>::type>::type,
-    typename UnaryMetaFunction<typename thrust::tuple_element<4,Tuple>::type>::type,
-    typename UnaryMetaFunction<typename thrust::tuple_element<5,Tuple>::type>::type
+  typedef HYDRA_EXTERNAL_NS::thrust::tuple<
+    typename UnaryMetaFunction<typename HYDRA_EXTERNAL_NS::thrust::tuple_element<0,Tuple>::type>::type,
+    typename UnaryMetaFunction<typename HYDRA_EXTERNAL_NS::thrust::tuple_element<1,Tuple>::type>::type,
+    typename UnaryMetaFunction<typename HYDRA_EXTERNAL_NS::thrust::tuple_element<2,Tuple>::type>::type,
+    typename UnaryMetaFunction<typename HYDRA_EXTERNAL_NS::thrust::tuple_element<3,Tuple>::type>::type,
+    typename UnaryMetaFunction<typename HYDRA_EXTERNAL_NS::thrust::tuple_element<4,Tuple>::type>::type,
+    typename UnaryMetaFunction<typename HYDRA_EXTERNAL_NS::thrust::tuple_element<5,Tuple>::type>::type
   > type;
 };
 
@@ -109,14 +109,14 @@ template<typename Tuple,
          template<typename> class UnaryMetaFunction>
   struct tuple_meta_transform<Tuple,UnaryMetaFunction,7>
 {
-  typedef thrust::tuple<
-    typename UnaryMetaFunction<typename thrust::tuple_element<0,Tuple>::type>::type,
-    typename UnaryMetaFunction<typename thrust::tuple_element<1,Tuple>::type>::type,
-    typename UnaryMetaFunction<typename thrust::tuple_element<2,Tuple>::type>::type,
-    typename UnaryMetaFunction<typename thrust::tuple_element<3,Tuple>::type>::type,
-    typename UnaryMetaFunction<typename thrust::tuple_element<4,Tuple>::type>::type,
-    typename UnaryMetaFunction<typename thrust::tuple_element<5,Tuple>::type>::type,
-    typename UnaryMetaFunction<typename thrust::tuple_element<6,Tuple>::type>::type
+  typedef HYDRA_EXTERNAL_NS::thrust::tuple<
+    typename UnaryMetaFunction<typename HYDRA_EXTERNAL_NS::thrust::tuple_element<0,Tuple>::type>::type,
+    typename UnaryMetaFunction<typename HYDRA_EXTERNAL_NS::thrust::tuple_element<1,Tuple>::type>::type,
+    typename UnaryMetaFunction<typename HYDRA_EXTERNAL_NS::thrust::tuple_element<2,Tuple>::type>::type,
+    typename UnaryMetaFunction<typename HYDRA_EXTERNAL_NS::thrust::tuple_element<3,Tuple>::type>::type,
+    typename UnaryMetaFunction<typename HYDRA_EXTERNAL_NS::thrust::tuple_element<4,Tuple>::type>::type,
+    typename UnaryMetaFunction<typename HYDRA_EXTERNAL_NS::thrust::tuple_element<5,Tuple>::type>::type,
+    typename UnaryMetaFunction<typename HYDRA_EXTERNAL_NS::thrust::tuple_element<6,Tuple>::type>::type
   > type;
 };
 
@@ -124,15 +124,15 @@ template<typename Tuple,
          template<typename> class UnaryMetaFunction>
   struct tuple_meta_transform<Tuple,UnaryMetaFunction,8>
 {
-  typedef thrust::tuple<
-    typename UnaryMetaFunction<typename thrust::tuple_element<0,Tuple>::type>::type,
-    typename UnaryMetaFunction<typename thrust::tuple_element<1,Tuple>::type>::type,
-    typename UnaryMetaFunction<typename thrust::tuple_element<2,Tuple>::type>::type,
-    typename UnaryMetaFunction<typename thrust::tuple_element<3,Tuple>::type>::type,
-    typename UnaryMetaFunction<typename thrust::tuple_element<4,Tuple>::type>::type,
-    typename UnaryMetaFunction<typename thrust::tuple_element<5,Tuple>::type>::type,
-    typename UnaryMetaFunction<typename thrust::tuple_element<6,Tuple>::type>::type,
-    typename UnaryMetaFunction<typename thrust::tuple_element<7,Tuple>::type>::type
+  typedef HYDRA_EXTERNAL_NS::thrust::tuple<
+    typename UnaryMetaFunction<typename HYDRA_EXTERNAL_NS::thrust::tuple_element<0,Tuple>::type>::type,
+    typename UnaryMetaFunction<typename HYDRA_EXTERNAL_NS::thrust::tuple_element<1,Tuple>::type>::type,
+    typename UnaryMetaFunction<typename HYDRA_EXTERNAL_NS::thrust::tuple_element<2,Tuple>::type>::type,
+    typename UnaryMetaFunction<typename HYDRA_EXTERNAL_NS::thrust::tuple_element<3,Tuple>::type>::type,
+    typename UnaryMetaFunction<typename HYDRA_EXTERNAL_NS::thrust::tuple_element<4,Tuple>::type>::type,
+    typename UnaryMetaFunction<typename HYDRA_EXTERNAL_NS::thrust::tuple_element<5,Tuple>::type>::type,
+    typename UnaryMetaFunction<typename HYDRA_EXTERNAL_NS::thrust::tuple_element<6,Tuple>::type>::type,
+    typename UnaryMetaFunction<typename HYDRA_EXTERNAL_NS::thrust::tuple_element<7,Tuple>::type>::type
   > type;
 };
 
@@ -140,16 +140,16 @@ template<typename Tuple,
          template<typename> class UnaryMetaFunction>
   struct tuple_meta_transform<Tuple,UnaryMetaFunction,9>
 {
-  typedef thrust::tuple<
-    typename UnaryMetaFunction<typename thrust::tuple_element<0,Tuple>::type>::type,
-    typename UnaryMetaFunction<typename thrust::tuple_element<1,Tuple>::type>::type,
-    typename UnaryMetaFunction<typename thrust::tuple_element<2,Tuple>::type>::type,
-    typename UnaryMetaFunction<typename thrust::tuple_element<3,Tuple>::type>::type,
-    typename UnaryMetaFunction<typename thrust::tuple_element<4,Tuple>::type>::type,
-    typename UnaryMetaFunction<typename thrust::tuple_element<5,Tuple>::type>::type,
-    typename UnaryMetaFunction<typename thrust::tuple_element<6,Tuple>::type>::type,
-    typename UnaryMetaFunction<typename thrust::tuple_element<7,Tuple>::type>::type,
-    typename UnaryMetaFunction<typename thrust::tuple_element<8,Tuple>::type>::type
+  typedef HYDRA_EXTERNAL_NS::thrust::tuple<
+    typename UnaryMetaFunction<typename HYDRA_EXTERNAL_NS::thrust::tuple_element<0,Tuple>::type>::type,
+    typename UnaryMetaFunction<typename HYDRA_EXTERNAL_NS::thrust::tuple_element<1,Tuple>::type>::type,
+    typename UnaryMetaFunction<typename HYDRA_EXTERNAL_NS::thrust::tuple_element<2,Tuple>::type>::type,
+    typename UnaryMetaFunction<typename HYDRA_EXTERNAL_NS::thrust::tuple_element<3,Tuple>::type>::type,
+    typename UnaryMetaFunction<typename HYDRA_EXTERNAL_NS::thrust::tuple_element<4,Tuple>::type>::type,
+    typename UnaryMetaFunction<typename HYDRA_EXTERNAL_NS::thrust::tuple_element<5,Tuple>::type>::type,
+    typename UnaryMetaFunction<typename HYDRA_EXTERNAL_NS::thrust::tuple_element<6,Tuple>::type>::type,
+    typename UnaryMetaFunction<typename HYDRA_EXTERNAL_NS::thrust::tuple_element<7,Tuple>::type>::type,
+    typename UnaryMetaFunction<typename HYDRA_EXTERNAL_NS::thrust::tuple_element<8,Tuple>::type>::type
   > type;
 };
 
@@ -157,17 +157,17 @@ template<typename Tuple,
          template<typename> class UnaryMetaFunction>
   struct tuple_meta_transform<Tuple,UnaryMetaFunction,10>
 {
-  typedef thrust::tuple<
-    typename UnaryMetaFunction<typename thrust::tuple_element<0,Tuple>::type>::type,
-    typename UnaryMetaFunction<typename thrust::tuple_element<1,Tuple>::type>::type,
-    typename UnaryMetaFunction<typename thrust::tuple_element<2,Tuple>::type>::type,
-    typename UnaryMetaFunction<typename thrust::tuple_element<3,Tuple>::type>::type,
-    typename UnaryMetaFunction<typename thrust::tuple_element<4,Tuple>::type>::type,
-    typename UnaryMetaFunction<typename thrust::tuple_element<5,Tuple>::type>::type,
-    typename UnaryMetaFunction<typename thrust::tuple_element<6,Tuple>::type>::type,
-    typename UnaryMetaFunction<typename thrust::tuple_element<7,Tuple>::type>::type,
-    typename UnaryMetaFunction<typename thrust::tuple_element<8,Tuple>::type>::type,
-    typename UnaryMetaFunction<typename thrust::tuple_element<9,Tuple>::type>::type
+  typedef HYDRA_EXTERNAL_NS::thrust::tuple<
+    typename UnaryMetaFunction<typename HYDRA_EXTERNAL_NS::thrust::tuple_element<0,Tuple>::type>::type,
+    typename UnaryMetaFunction<typename HYDRA_EXTERNAL_NS::thrust::tuple_element<1,Tuple>::type>::type,
+    typename UnaryMetaFunction<typename HYDRA_EXTERNAL_NS::thrust::tuple_element<2,Tuple>::type>::type,
+    typename UnaryMetaFunction<typename HYDRA_EXTERNAL_NS::thrust::tuple_element<3,Tuple>::type>::type,
+    typename UnaryMetaFunction<typename HYDRA_EXTERNAL_NS::thrust::tuple_element<4,Tuple>::type>::type,
+    typename UnaryMetaFunction<typename HYDRA_EXTERNAL_NS::thrust::tuple_element<5,Tuple>::type>::type,
+    typename UnaryMetaFunction<typename HYDRA_EXTERNAL_NS::thrust::tuple_element<6,Tuple>::type>::type,
+    typename UnaryMetaFunction<typename HYDRA_EXTERNAL_NS::thrust::tuple_element<7,Tuple>::type>::type,
+    typename UnaryMetaFunction<typename HYDRA_EXTERNAL_NS::thrust::tuple_element<8,Tuple>::type>::type,
+    typename UnaryMetaFunction<typename HYDRA_EXTERNAL_NS::thrust::tuple_element<9,Tuple>::type>::type
   > type;
 };
 

@@ -39,15 +39,15 @@
 #include "../util_namespace.cuh"
 #include "../util_macro.cuh"
 
-#if (THRUST_VERSION >= 100700)
+#if (HYDRA_THRUST_VERSION >= 100700)
     // This iterator is compatible with Thrust API 1.7 and newer
     #include <hydra/detail/external/thrust/iterator/iterator_facade.h>
     #include <hydra/detail/external/thrust/iterator/iterator_traits.h>
-#endif // THRUST_VERSION
+#endif // HYDRA_THRUST_VERSION
 
 
 /// Optional outer namespace(s)
-HYDRA_EXTERNAL_NAMESPACE_BEGIN  THRUST_CUB_NS_PREFIX
+HYDRA_EXTERNAL_NAMESPACE_BEGIN  HYDRA_THRUST_CUB_NS_PREFIX
 
 /// CUB namespace
 namespace cub {
@@ -74,17 +74,17 @@ public:
     typedef void                    pointer;                ///< The type of a pointer to an element the iterator can point to
     typedef void                    reference;              ///< The type of a reference to an element the iterator can point to
 
-#if (THRUST_VERSION >= 100700)
+#if (HYDRA_THRUST_VERSION >= 100700)
     // Use Thrust's iterator categories so we can use these iterators in Thrust 1.7 (or newer) methods
-    typedef typename thrust::detail::iterator_facade_category<
-        thrust::any_system_tag,
-        thrust::random_access_traversal_tag,
+    typedef typename HYDRA_EXTERNAL_NS::thrust::detail::iterator_facade_category<
+        HYDRA_EXTERNAL_NS::thrust::any_system_tag,
+        HYDRA_EXTERNAL_NS::thrust::random_access_traversal_tag,
         value_type,
         reference
       >::type iterator_category;                                        ///< The iterator category
 #else
     typedef std::random_access_iterator_tag     iterator_category;      ///< The iterator category
-#endif  // THRUST_VERSION
+#endif  // HYDRA_THRUST_VERSION
 
 private:
 
@@ -217,4 +217,4 @@ public:
 /** @} */       // end group UtilIterator
 
 }               // CUB namespace
-THRUST_CUB_NS_POSTFIX HYDRA_EXTERNAL_NAMESPACE_END  // Optional outer namespace(s)
+HYDRA_THRUST_CUB_NS_POSTFIX HYDRA_EXTERNAL_NAMESPACE_END  // Optional outer namespace(s)

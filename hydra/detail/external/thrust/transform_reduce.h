@@ -72,7 +72,7 @@ HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
  *
  *  The following code snippet demonstrates how to use \p transform_reduce
  *  to compute the maximum value of the absolute value of the elements
- *  of a range using the \p thrust::host execution policy for parallelization:
+ *  of a range using the \p HYDRA_EXTERNAL_NS::thrust::host execution policy for parallelization:
  *
  *  \code
  *  #include <hydra/detail/external/thrust/transform_reduce.h>
@@ -91,11 +91,11 @@ HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
  *  ...
  *
  *  int data[6] = {-1, 0, -2, -2, 1, -3};
- *  int result = thrust::transform_reduce(thrust::host,
+ *  int result = HYDRA_EXTERNAL_NS::thrust::transform_reduce(HYDRA_EXTERNAL_NS::thrust::host,
  *                                        data, data + 6,
  *                                        absolute_value<int>(),
  *                                        0,
- *                                        thrust::maximum<int>());
+ *                                        HYDRA_EXTERNAL_NS::thrust::maximum<int>());
  *  // result == 3
  *  \endcode
  *
@@ -108,7 +108,7 @@ template<typename DerivedPolicy,
          typename OutputType,
          typename BinaryFunction>
 __hydra_host__ __hydra_device__
-  OutputType transform_reduce(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
+  OutputType transform_reduce(const HYDRA_EXTERNAL_NS::thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                               InputIterator first,
                               InputIterator last,
                               UnaryFunction unary_op,
@@ -166,10 +166,10 @@ __hydra_host__ __hydra_device__
  *  ...
  *
  *  int data[6] = {-1, 0, -2, -2, 1, -3};
- *  int result = thrust::transform_reduce(data, data + 6,
+ *  int result = HYDRA_EXTERNAL_NS::thrust::transform_reduce(data, data + 6,
  *                                        absolute_value<int>(),
  *                                        0,
- *                                        thrust::maximum<int>());
+ *                                        HYDRA_EXTERNAL_NS::thrust::maximum<int>());
  *  // result == 3
  *  \endcode
  *

@@ -52,7 +52,7 @@ HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust{
 namespace detail{
 namespace complex{
 
-using thrust::complex;
+using HYDRA_EXTERNAL_NS::thrust::complex;
 
 /* round down to 8 = 24/3 bits */
 __hydra_host__ __hydra_device__ inline

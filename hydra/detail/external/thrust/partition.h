@@ -67,7 +67,7 @@ HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
  *  \tparam Predicate is a model of <a href="http://www.sgi.com/tech/stl/Predicate.html">Predicate</a>.
  *
  *  The following code snippet demonstrates how to use \p partition to reorder a
- *  sequence so that even numbers precede odd numbers using the \p thrust::host execution policy for parallelization:
+ *  sequence so that even numbers precede odd numbers using the \p HYDRA_EXTERNAL_NS::thrust::host execution policy for parallelization:
  *
  *  \code
  *  #include <hydra/detail/external/thrust/partition.h>
@@ -84,7 +84,7 @@ HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
  *  ...
  *  int A[] = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
  *  const int N = sizeof(A)/sizeof(int);
- *  thrust::partition(thrust::host,
+ *  HYDRA_EXTERNAL_NS::thrust::partition(HYDRA_EXTERNAL_NS::thrust::host,
  *                    A, A + N,
  *                    is_even());
  *  // A is now {2, 4, 6, 8, 10, 1, 3, 5, 7, 9}
@@ -98,7 +98,7 @@ template<typename DerivedPolicy,
          typename ForwardIterator,
          typename Predicate>
 __hydra_host__ __hydra_device__
-  ForwardIterator partition(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
+  ForwardIterator partition(const HYDRA_EXTERNAL_NS::thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                             ForwardIterator first,
                             ForwardIterator last,
                             Predicate pred);
@@ -145,7 +145,7 @@ __hydra_host__ __hydra_device__
  *  ...
  *  int A[] = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
  *  const int N = sizeof(A)/sizeof(int);
- *  thrust::partition(A, A + N,
+ *  HYDRA_EXTERNAL_NS::thrust::partition(A, A + N,
  *                     is_even());
  *  // A is now {2, 4, 6, 8, 10, 1, 3, 5, 7, 9}
  *  \endcode
@@ -195,7 +195,7 @@ template<typename ForwardIterator,
  *  \pre The ranges <tt>[first,last)</tt> and <tt>[stencil, stencil + (last - first))</tt> shall not overlap.
  *
  *  The following code snippet demonstrates how to use \p partition to reorder a
- *  sequence so that even numbers precede odd numbers using the \p thrust::host execution policy for parallelization:
+ *  sequence so that even numbers precede odd numbers using the \p HYDRA_EXTERNAL_NS::thrust::host execution policy for parallelization:
  *
  *  \code
  *  #include <hydra/detail/external/thrust/partition.h>
@@ -213,7 +213,7 @@ template<typename ForwardIterator,
  *  int A[] = {0, 1, 0, 1, 0, 1, 0, 1, 0,  1};
  *  int S[] = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
  *  const int N = sizeof(A)/sizeof(int);
- *  thrust::partition(thrust::host, A, A + N, S, is_even());
+ *  HYDRA_EXTERNAL_NS::thrust::partition(HYDRA_EXTERNAL_NS::thrust::host, A, A + N, S, is_even());
  *  // A is now {1, 1, 1, 1, 1, 0, 0, 0, 0, 0}
  *  // S is unmodified
  *  \endcode
@@ -227,7 +227,7 @@ template<typename DerivedPolicy,
          typename InputIterator,
          typename Predicate>
 __hydra_host__ __hydra_device__
-  ForwardIterator partition(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
+  ForwardIterator partition(const HYDRA_EXTERNAL_NS::thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                             ForwardIterator first,
                             ForwardIterator last,
                             InputIterator stencil,
@@ -281,7 +281,7 @@ __hydra_host__ __hydra_device__
  *  int A[] = {0, 1, 0, 1, 0, 1, 0, 1, 0,  1};
  *  int S[] = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
  *  const int N = sizeof(A)/sizeof(int);
- *  thrust::partition(A, A + N, S, is_even());
+ *  HYDRA_EXTERNAL_NS::thrust::partition(A, A + N, S, is_even());
  *  // A is now {1, 1, 1, 1, 1, 0, 0, 0, 0, 0}
  *  // S is unmodified
  *  \endcode
@@ -331,7 +331,7 @@ template<typename ForwardIterator,
  *  \pre The input range shall not overlap with either output range.
  *
  *  The following code snippet demonstrates how to use \p partition_copy to separate a
- *  sequence into two output sequences of even and odd numbers using the \p thrust::host execution policy for parallelization:
+ *  sequence into two output sequences of even and odd numbers using the \p HYDRA_EXTERNAL_NS::thrust::host execution policy for parallelization:
  *
  *  \code
  *  #include <hydra/detail/external/thrust/partition.h>
@@ -351,7 +351,7 @@ template<typename ForwardIterator,
  *  const int N = sizeof(A)/sizeof(int);
  *  int *evens = result;
  *  int *odds  = result + 5;
- *  thrust::partition_copy(thrust::host, A, A + N, evens, odds, is_even());
+ *  HYDRA_EXTERNAL_NS::thrust::partition_copy(HYDRA_EXTERNAL_NS::thrust::host, A, A + N, evens, odds, is_even());
  *  // A remains {1, 2, 3, 4, 5, 6, 7, 8, 9, 10}
  *  // result is now {2, 4, 6, 8, 10, 1, 3, 5, 7, 9}
  *  // evens points to {2, 4, 6, 8, 10}
@@ -372,8 +372,8 @@ template<typename DerivedPolicy,
          typename OutputIterator2,
          typename Predicate>
 __hydra_host__ __hydra_device__
-  thrust::pair<OutputIterator1,OutputIterator2>
-    partition_copy(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
+  HYDRA_EXTERNAL_NS::thrust::pair<OutputIterator1,OutputIterator2>
+    partition_copy(const HYDRA_EXTERNAL_NS::thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                    InputIterator first,
                    InputIterator last,
                    OutputIterator1 out_true,
@@ -428,7 +428,7 @@ __hydra_host__ __hydra_device__
  *  const int N = sizeof(A)/sizeof(int);
  *  int *evens = result;
  *  int *odds  = result + 5;
- *  thrust::partition_copy(A, A + N, evens, odds, is_even());
+ *  HYDRA_EXTERNAL_NS::thrust::partition_copy(A, A + N, evens, odds, is_even());
  *  // A remains {1, 2, 3, 4, 5, 6, 7, 8, 9, 10}
  *  // result is now {2, 4, 6, 8, 10, 1, 3, 5, 7, 9}
  *  // evens points to {2, 4, 6, 8, 10}
@@ -447,7 +447,7 @@ template<typename InputIterator,
          typename OutputIterator1,
          typename OutputIterator2,
          typename Predicate>
-  thrust::pair<OutputIterator1,OutputIterator2>
+  HYDRA_EXTERNAL_NS::thrust::pair<OutputIterator1,OutputIterator2>
     partition_copy(InputIterator first,
                    InputIterator last,
                    OutputIterator1 out_true,
@@ -490,7 +490,7 @@ template<typename InputIterator,
  *  \pre The input ranges shall not overlap with either output range.
  *
  *  The following code snippet demonstrates how to use \p partition_copy to separate a
- *  sequence into two output sequences of even and odd numbers using the \p thrust::host execution
+ *  sequence into two output sequences of even and odd numbers using the \p HYDRA_EXTERNAL_NS::thrust::host execution
  *  policy for parallelization.
  *
  *  \code
@@ -504,7 +504,7 @@ template<typename InputIterator,
  *  const int N = sizeof(A)/sizeof(int);
  *  int *evens = result;
  *  int *odds  = result + 5;
- *  thrust::stable_partition_copy(thrust::host, A, A + N, S, evens, odds, thrust::identity<int>());
+ *  HYDRA_EXTERNAL_NS::thrust::stable_partition_copy(HYDRA_EXTERNAL_NS::thrust::host, A, A + N, S, evens, odds, HYDRA_EXTERNAL_NS::thrust::identity<int>());
  *  // A remains {1, 2, 3, 4, 5, 6, 7, 8, 9, 10}
  *  // S remains {0, 1, 0, 1, 0, 1, 0, 1, 0,  1}
  *  // result is now {2, 4, 6, 8, 10, 1, 3, 5, 7, 9}
@@ -527,8 +527,8 @@ template<typename DerivedPolicy,
          typename OutputIterator2,
          typename Predicate>
 __hydra_host__ __hydra_device__
-  thrust::pair<OutputIterator1,OutputIterator2>
-    partition_copy(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
+  HYDRA_EXTERNAL_NS::thrust::pair<OutputIterator1,OutputIterator2>
+    partition_copy(const HYDRA_EXTERNAL_NS::thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                    InputIterator1 first,
                    InputIterator1 last,
                    InputIterator2 stencil,
@@ -580,7 +580,7 @@ __hydra_host__ __hydra_device__
  *  const int N = sizeof(A)/sizeof(int);
  *  int *evens = result;
  *  int *odds  = result + 5;
- *  thrust::stable_partition_copy(A, A + N, S, evens, odds, thrust::identity<int>());
+ *  HYDRA_EXTERNAL_NS::thrust::stable_partition_copy(A, A + N, S, evens, odds, HYDRA_EXTERNAL_NS::thrust::identity<int>());
  *  // A remains {1, 2, 3, 4, 5, 6, 7, 8, 9, 10}
  *  // S remains {0, 1, 0, 1, 0, 1, 0, 1, 0,  1}
  *  // result is now {2, 4, 6, 8, 10, 1, 3, 5, 7, 9}
@@ -601,7 +601,7 @@ template<typename InputIterator1,
          typename OutputIterator1,
          typename OutputIterator2,
          typename Predicate>
-  thrust::pair<OutputIterator1,OutputIterator2>
+  HYDRA_EXTERNAL_NS::thrust::pair<OutputIterator1,OutputIterator2>
     partition_copy(InputIterator1 first,
                    InputIterator1 last,
                    InputIterator2 stencil,
@@ -642,7 +642,7 @@ template<typename InputIterator1,
  *  \tparam Predicate is a model of <a href="http://www.sgi.com/tech/stl/Predicate.html">Predicate</a>.
  *
  *  The following code snippet demonstrates how to use \p stable_partition to reorder a
- *  sequence so that even numbers precede odd numbers using the \p thrust::host execution policy for parallelization:
+ *  sequence so that even numbers precede odd numbers using the \p HYDRA_EXTERNAL_NS::thrust::host execution policy for parallelization:
  *
  *  \code
  *  #include <hydra/detail/external/thrust/partition.h>
@@ -659,7 +659,7 @@ template<typename InputIterator1,
  *  ...
  *  int A[] = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
  *  const int N = sizeof(A)/sizeof(int);
- *  thrust::stable_partition(thrust::host,
+ *  HYDRA_EXTERNAL_NS::thrust::stable_partition(HYDRA_EXTERNAL_NS::thrust::host,
  *                           A, A + N,
  *                           is_even());
  *  // A is now {2, 4, 6, 8, 10, 1, 3, 5, 7, 9}
@@ -673,7 +673,7 @@ template<typename DerivedPolicy,
          typename ForwardIterator,
          typename Predicate>
 __hydra_host__ __hydra_device__
-  ForwardIterator stable_partition(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
+  ForwardIterator stable_partition(const HYDRA_EXTERNAL_NS::thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                                    ForwardIterator first,
                                    ForwardIterator last,
                                    Predicate pred);
@@ -723,7 +723,7 @@ __hydra_host__ __hydra_device__
  *  ...
  *  int A[] = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
  *  const int N = sizeof(A)/sizeof(int);
- *  thrust::stable_partition(A, A + N,
+ *  HYDRA_EXTERNAL_NS::thrust::stable_partition(A, A + N,
  *                            is_even());
  *  // A is now {2, 4, 6, 8, 10, 1, 3, 5, 7, 9}
  *  \endcode
@@ -775,7 +775,7 @@ template<typename ForwardIterator,
  *  \pre The range <tt>[first, last)</tt> shall not overlap with the range <tt>[stencil, stencil + (last - first))</tt>.
  *
  *  The following code snippet demonstrates how to use \p stable_partition to reorder a
- *  sequence so that even numbers precede odd numbers using the \p thrust::host execution policy for parallelization:
+ *  sequence so that even numbers precede odd numbers using the \p HYDRA_EXTERNAL_NS::thrust::host execution policy for parallelization:
  *
  *  \code
  *  #include <hydra/detail/external/thrust/partition.h>
@@ -793,7 +793,7 @@ template<typename ForwardIterator,
  *  int A[] = {0, 1, 0, 1, 0, 1, 0, 1, 0,  1};
  *  int S[] = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
  *  const int N = sizeof(A)/sizeof(int);
- *  thrust::stable_partition(thrust::host, A, A + N, S, is_even());
+ *  HYDRA_EXTERNAL_NS::thrust::stable_partition(HYDRA_EXTERNAL_NS::thrust::host, A, A + N, S, is_even());
  *  // A is now {1, 1, 1, 1, 1, 0, 0, 0, 0, 0}
  *  // S is unmodified
  *  \endcode
@@ -807,7 +807,7 @@ template<typename DerivedPolicy,
          typename InputIterator,
          typename Predicate>
 __hydra_host__ __hydra_device__
-  ForwardIterator stable_partition(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
+  ForwardIterator stable_partition(const HYDRA_EXTERNAL_NS::thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                                    ForwardIterator first,
                                    ForwardIterator last,
                                    InputIterator stencil,
@@ -863,7 +863,7 @@ __hydra_host__ __hydra_device__
  *  int A[] = {0, 1, 0, 1, 0, 1, 0, 1, 0,  1};
  *  int S[] = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
  *  const int N = sizeof(A)/sizeof(int);
- *  thrust::stable_partition(A, A + N, S, is_even());
+ *  HYDRA_EXTERNAL_NS::thrust::stable_partition(A, A + N, S, is_even());
  *  // A is now {1, 1, 1, 1, 1, 0, 0, 0, 0, 0}
  *  // S is unmodified
  *  \endcode
@@ -919,7 +919,7 @@ template<typename ForwardIterator,
  *  \pre The input ranges shall not overlap with either output range.
  *
  *  The following code snippet demonstrates how to use \p stable_partition_copy to
- *  reorder a sequence so that even numbers precede odd numbers using the \p thrust::host execution policy for parallelization:
+ *  reorder a sequence so that even numbers precede odd numbers using the \p HYDRA_EXTERNAL_NS::thrust::host execution policy for parallelization:
  *
  *  \code
  *  #include <hydra/detail/external/thrust/partition.h>
@@ -939,7 +939,7 @@ template<typename ForwardIterator,
  *  const int N = sizeof(A)/sizeof(int);
  *  int *evens = result;
  *  int *odds  = result + 5;
- *  thrust::stable_partition_copy(thrust::host, A, A + N, evens, odds, is_even());
+ *  HYDRA_EXTERNAL_NS::thrust::stable_partition_copy(HYDRA_EXTERNAL_NS::thrust::host, A, A + N, evens, odds, is_even());
  *  // A remains {1, 2, 3, 4, 5, 6, 7, 8, 9, 10}
  *  // result is now {2, 4, 6, 8, 10, 1, 3, 5, 7, 9}
  *  // evens points to {2, 4, 6, 8, 10}
@@ -956,8 +956,8 @@ template<typename DerivedPolicy,
          typename OutputIterator2,
          typename Predicate>
 __hydra_host__ __hydra_device__
-  thrust::pair<OutputIterator1,OutputIterator2>
-    stable_partition_copy(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
+  HYDRA_EXTERNAL_NS::thrust::pair<OutputIterator1,OutputIterator2>
+    stable_partition_copy(const HYDRA_EXTERNAL_NS::thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                           InputIterator first,
                           InputIterator last,
                           OutputIterator1 out_true,
@@ -1018,7 +1018,7 @@ __hydra_host__ __hydra_device__
  *  const int N = sizeof(A)/sizeof(int);
  *  int *evens = result;
  *  int *odds  = result + 5;
- *  thrust::stable_partition_copy(A, A + N, evens, odds, is_even());
+ *  HYDRA_EXTERNAL_NS::thrust::stable_partition_copy(A, A + N, evens, odds, is_even());
  *  // A remains {1, 2, 3, 4, 5, 6, 7, 8, 9, 10}
  *  // result is now {2, 4, 6, 8, 10, 1, 3, 5, 7, 9}
  *  // evens points to {2, 4, 6, 8, 10}
@@ -1033,7 +1033,7 @@ template<typename InputIterator,
          typename OutputIterator1,
          typename OutputIterator2,
          typename Predicate>
-  thrust::pair<OutputIterator1,OutputIterator2>
+  HYDRA_EXTERNAL_NS::thrust::pair<OutputIterator1,OutputIterator2>
     stable_partition_copy(InputIterator first,
                           InputIterator last,
                           OutputIterator1 out_true,
@@ -1082,7 +1082,7 @@ template<typename InputIterator,
  *  \pre The input ranges shall not overlap with either output range.
  *
  *  The following code snippet demonstrates how to use \p stable_partition_copy to
- *  reorder a sequence so that even numbers precede odd numbers using the \p thrust::host execution policy for parallelization:
+ *  reorder a sequence so that even numbers precede odd numbers using the \p HYDRA_EXTERNAL_NS::thrust::host execution policy for parallelization:
  *
  *  \code
  *  #include <hydra/detail/external/thrust/partition.h>
@@ -1095,7 +1095,7 @@ template<typename InputIterator,
  *  const int N = sizeof(A)/sizeof(int);
  *  int *evens = result;
  *  int *odds  = result + 5;
- *  thrust::stable_partition_copy(thrust::host, A, A + N, S, evens, odds, thrust::identity<int>());
+ *  HYDRA_EXTERNAL_NS::thrust::stable_partition_copy(HYDRA_EXTERNAL_NS::thrust::host, A, A + N, S, evens, odds, HYDRA_EXTERNAL_NS::thrust::identity<int>());
  *  // A remains {1, 2, 3, 4, 5, 6, 7, 8, 9, 10}
  *  // S remains {0, 1, 0, 1, 0, 1, 0, 1, 0,  1}
  *  // result is now {2, 4, 6, 8, 10, 1, 3, 5, 7, 9}
@@ -1114,8 +1114,8 @@ template<typename DerivedPolicy,
          typename OutputIterator2,
          typename Predicate>
 __hydra_host__ __hydra_device__
-  thrust::pair<OutputIterator1,OutputIterator2>
-    stable_partition_copy(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
+  HYDRA_EXTERNAL_NS::thrust::pair<OutputIterator1,OutputIterator2>
+    stable_partition_copy(const HYDRA_EXTERNAL_NS::thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                           InputIterator1 first,
                           InputIterator1 last,
                           InputIterator2 stencil,
@@ -1173,7 +1173,7 @@ __hydra_host__ __hydra_device__
  *  const int N = sizeof(A)/sizeof(int);
  *  int *evens = result;
  *  int *odds  = result + 5;
- *  thrust::stable_partition_copy(A, A + N, S, evens, odds, thrust::identity<int>());
+ *  HYDRA_EXTERNAL_NS::thrust::stable_partition_copy(A, A + N, S, evens, odds, HYDRA_EXTERNAL_NS::thrust::identity<int>());
  *  // A remains {1, 2, 3, 4, 5, 6, 7, 8, 9, 10}
  *  // S remains {0, 1, 0, 1, 0, 1, 0, 1, 0,  1}
  *  // result is now {2, 4, 6, 8, 10, 1, 3, 5, 7, 9}
@@ -1190,7 +1190,7 @@ template<typename InputIterator1,
          typename OutputIterator1,
          typename OutputIterator2,
          typename Predicate>
-  thrust::pair<OutputIterator1,OutputIterator2>
+  HYDRA_EXTERNAL_NS::thrust::pair<OutputIterator1,OutputIterator2>
     stable_partition_copy(InputIterator1 first,
                           InputIterator1 last,
                           InputIterator2 stencil,
@@ -1252,7 +1252,7 @@ template<typename InputIterator1,
  *  ...
  *
  *  int A[] = {2, 4, 6, 8, 10, 1, 3, 5, 7, 9};
- *  int * B = thrust::partition_point(thrust::host, A, A + 10, is_even());
+ *  int * B = HYDRA_EXTERNAL_NS::thrust::partition_point(HYDRA_EXTERNAL_NS::thrust::host, A, A + 10, is_even());
  *  // B - A is 5
  *  // [A, B) contains only even values
  *  \endcode
@@ -1262,7 +1262,7 @@ template<typename InputIterator1,
  */
 template<typename DerivedPolicy, typename ForwardIterator, typename Predicate>
 __hydra_host__ __hydra_device__
-  ForwardIterator partition_point(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
+  ForwardIterator partition_point(const HYDRA_EXTERNAL_NS::thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                                   ForwardIterator first,
                                   ForwardIterator last,
                                   Predicate pred);
@@ -1304,7 +1304,7 @@ __hydra_host__ __hydra_device__
  *  ...
  *
  *  int A[] = {2, 4, 6, 8, 10, 1, 3, 5, 7, 9};
- *  int * B = thrust::partition_point(A, A + 10, is_even());
+ *  int * B = HYDRA_EXTERNAL_NS::thrust::partition_point(A, A + 10, is_even());
  *  // B - A is 5
  *  // [A, B) contains only even values
  *  \endcode
@@ -1367,15 +1367,15 @@ template<typename ForwardIterator, typename Predicate>
  *  int A[] = {2, 4, 6, 8, 10, 1, 3, 5, 7, 9};
  *  int B[] = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
  *
- *  thrust::is_partitioned(thrust::host, A, A + 10, is_even()); // returns true
- *  thrust::is_partitioned(thrust::host, B, B + 10, is_even()); // returns false
+ *  HYDRA_EXTERNAL_NS::thrust::is_partitioned(HYDRA_EXTERNAL_NS::thrust::host, A, A + 10, is_even()); // returns true
+ *  HYDRA_EXTERNAL_NS::thrust::is_partitioned(HYDRA_EXTERNAL_NS::thrust::host, B, B + 10, is_even()); // returns false
  *  \endcode
  *
  *  \see \p partition
  */
 template<typename DerivedPolicy, typename InputIterator, typename Predicate>
 __hydra_host__ __hydra_device__
-  bool is_partitioned(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
+  bool is_partitioned(const HYDRA_EXTERNAL_NS::thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                       InputIterator first,
                       InputIterator last,
                       Predicate pred);
@@ -1416,8 +1416,8 @@ __hydra_host__ __hydra_device__
  *  int A[] = {2, 4, 6, 8, 10, 1, 3, 5, 7, 9};
  *  int B[] = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
  *
- *  thrust::is_partitioned(A, A + 10, is_even()); // returns true
- *  thrust::is_partitioned(B, B + 10, is_even()); // returns false
+ *  HYDRA_EXTERNAL_NS::thrust::is_partitioned(A, A + 10, is_even()); // returns true
+ *  HYDRA_EXTERNAL_NS::thrust::is_partitioned(B, B + 10, is_even()); // returns false
  *  \endcode
  *
  *  \see \p partition

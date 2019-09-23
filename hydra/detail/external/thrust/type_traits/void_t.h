@@ -22,17 +22,17 @@
 
 #include <hydra/detail/external/thrust/detail/config.h>
 
-#if THRUST_CPP_DIALECT >= 2017
+#if HYDRA_THRUST_CPP_DIALECT >= 2017
 #  include <type_traits>
 #endif
 HYDRA_EXTERNAL_NAMESPACE_BEGIN
-THRUST_BEGIN_NS
+HYDRA_THRUST_BEGIN_NS
 
-#if THRUST_CPP_DIALECT >= 2011
+#if HYDRA_THRUST_CPP_DIALECT >= 2011
 
 template <typename...> struct voider { using type = void; };
 
-#if THRUST_CPP_DIALECT >= 2017
+#if HYDRA_THRUST_CPP_DIALECT >= 2017
 using std::void_t;
 #else
 template <typename... Ts> using void_t = typename voider<Ts...>::type;
@@ -59,5 +59,5 @@ struct voider
 
 #endif
 
-THRUST_END_NS
+HYDRA_THRUST_END_NS
 HYDRA_EXTERNAL_NAMESPACE_END

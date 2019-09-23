@@ -34,15 +34,15 @@ template<typename DerivedPolicy,
          typename InputIterator2,
          typename OutputIterator>
 __hydra_host__ __hydra_device__
-OutputIterator set_difference(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
+OutputIterator set_difference(const HYDRA_EXTERNAL_NS::thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                               InputIterator1                                              first1,
                               InputIterator1                                              last1,
                               InputIterator2                                              first2,
                               InputIterator2                                              last2,
                               OutputIterator                                              result)
 {
-  using thrust::system::detail::generic::set_difference;
-  return set_difference(thrust::detail::derived_cast(thrust::detail::strip_const(exec)), first1, last1, first2, last2, result);
+  using HYDRA_EXTERNAL_NS::thrust::system::detail::generic::set_difference;
+  return set_difference(HYDRA_EXTERNAL_NS::thrust::detail::derived_cast(HYDRA_EXTERNAL_NS::thrust::detail::strip_const(exec)), first1, last1, first2, last2, result);
 } // end set_difference()
 
 
@@ -53,7 +53,7 @@ template<typename DerivedPolicy,
          typename OutputIterator,
          typename StrictWeakCompare>
 __hydra_host__ __hydra_device__
-OutputIterator set_difference(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
+OutputIterator set_difference(const HYDRA_EXTERNAL_NS::thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                               InputIterator1                                              first1,
                               InputIterator1                                              last1,
                               InputIterator2                                              first2,
@@ -61,8 +61,8 @@ OutputIterator set_difference(const thrust::detail::execution_policy_base<Derive
                               OutputIterator                                              result,
                               StrictWeakCompare                                           comp)
 {
-  using thrust::system::detail::generic::set_difference;
-  return set_difference(thrust::detail::derived_cast(thrust::detail::strip_const(exec)), first1, last1, first2, last2, result, comp);
+  using HYDRA_EXTERNAL_NS::thrust::system::detail::generic::set_difference;
+  return set_difference(HYDRA_EXTERNAL_NS::thrust::detail::derived_cast(HYDRA_EXTERNAL_NS::thrust::detail::strip_const(exec)), first1, last1, first2, last2, result, comp);
 } // end set_difference()
 
 
@@ -75,8 +75,8 @@ template<typename DerivedPolicy,
          typename OutputIterator1,
          typename OutputIterator2>
 __hydra_host__ __hydra_device__
-thrust::pair<OutputIterator1,OutputIterator2>
-  set_difference_by_key(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
+HYDRA_EXTERNAL_NS::thrust::pair<OutputIterator1,OutputIterator2>
+  set_difference_by_key(const HYDRA_EXTERNAL_NS::thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                         InputIterator1                                              keys_first1,
                         InputIterator1                                              keys_last1,
                         InputIterator2                                              keys_first2,
@@ -86,8 +86,8 @@ thrust::pair<OutputIterator1,OutputIterator2>
                         OutputIterator1                                             keys_result,
                         OutputIterator2                                             values_result)
 {
-  using thrust::system::detail::generic::set_difference_by_key;
-  return set_difference_by_key(thrust::detail::derived_cast(thrust::detail::strip_const(exec)), keys_first1, keys_last1, keys_first2, keys_last2, values_first1, values_first2, keys_result, values_result);
+  using HYDRA_EXTERNAL_NS::thrust::system::detail::generic::set_difference_by_key;
+  return set_difference_by_key(HYDRA_EXTERNAL_NS::thrust::detail::derived_cast(HYDRA_EXTERNAL_NS::thrust::detail::strip_const(exec)), keys_first1, keys_last1, keys_first2, keys_last2, values_first1, values_first2, keys_result, values_result);
 } // end set_difference_by_key()
 
 
@@ -101,8 +101,8 @@ template<typename DerivedPolicy,
          typename OutputIterator2,
          typename StrictWeakCompare>
 __hydra_host__ __hydra_device__
-thrust::pair<OutputIterator1,OutputIterator2>
-  set_difference_by_key(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
+HYDRA_EXTERNAL_NS::thrust::pair<OutputIterator1,OutputIterator2>
+  set_difference_by_key(const HYDRA_EXTERNAL_NS::thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                         InputIterator1                                              keys_first1,
                         InputIterator1                                              keys_last1,
                         InputIterator2                                              keys_first2,
@@ -113,8 +113,8 @@ thrust::pair<OutputIterator1,OutputIterator2>
                         OutputIterator2                                             values_result,
                         StrictWeakCompare                                           comp)
 {
-  using thrust::system::detail::generic::set_difference_by_key;
-  return set_difference_by_key(thrust::detail::derived_cast(thrust::detail::strip_const(exec)), keys_first1, keys_last1, keys_first2, keys_last2, values_first1, values_first2, keys_result, values_result, comp);
+  using HYDRA_EXTERNAL_NS::thrust::system::detail::generic::set_difference_by_key;
+  return set_difference_by_key(HYDRA_EXTERNAL_NS::thrust::detail::derived_cast(HYDRA_EXTERNAL_NS::thrust::detail::strip_const(exec)), keys_first1, keys_last1, keys_first2, keys_last2, values_first1, values_first2, keys_result, values_result, comp);
 } // end set_difference_by_key()
 
 
@@ -124,15 +124,15 @@ template<typename DerivedPolicy,
          typename InputIterator2,
          typename OutputIterator>
 __hydra_host__ __hydra_device__
-OutputIterator set_intersection(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
+OutputIterator set_intersection(const HYDRA_EXTERNAL_NS::thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                                 InputIterator1                                              first1,
                                 InputIterator1                                              last1,
                                 InputIterator2                                              first2,
                                 InputIterator2                                              last2,
                                 OutputIterator                                              result)
 {
-  using thrust::system::detail::generic::set_intersection;
-  return set_intersection(thrust::detail::derived_cast(thrust::detail::strip_const(exec)), first1, last1, first2, last2, result);
+  using HYDRA_EXTERNAL_NS::thrust::system::detail::generic::set_intersection;
+  return set_intersection(HYDRA_EXTERNAL_NS::thrust::detail::derived_cast(HYDRA_EXTERNAL_NS::thrust::detail::strip_const(exec)), first1, last1, first2, last2, result);
 } // end set_intersection()
 
 
@@ -143,7 +143,7 @@ template<typename DerivedPolicy,
          typename OutputIterator,
          typename StrictWeakCompare>
 __hydra_host__ __hydra_device__
-OutputIterator set_intersection(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
+OutputIterator set_intersection(const HYDRA_EXTERNAL_NS::thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                                 InputIterator1                                              first1,
                                 InputIterator1                                              last1,
                                 InputIterator2                                              first2,
@@ -151,8 +151,8 @@ OutputIterator set_intersection(const thrust::detail::execution_policy_base<Deri
                                 OutputIterator                                              result,
                                 StrictWeakCompare                                           comp)
 {
-  using thrust::system::detail::generic::set_intersection;
-  return set_intersection(thrust::detail::derived_cast(thrust::detail::strip_const(exec)), first1, last1, first2, last2, result, comp);
+  using HYDRA_EXTERNAL_NS::thrust::system::detail::generic::set_intersection;
+  return set_intersection(HYDRA_EXTERNAL_NS::thrust::detail::derived_cast(HYDRA_EXTERNAL_NS::thrust::detail::strip_const(exec)), first1, last1, first2, last2, result, comp);
 } // end set_intersection()
 
 
@@ -164,8 +164,8 @@ template<typename DerivedPolicy,
          typename OutputIterator1,
          typename OutputIterator2>
 __hydra_host__ __hydra_device__
-thrust::pair<OutputIterator1,OutputIterator2>
-  set_intersection_by_key(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
+HYDRA_EXTERNAL_NS::thrust::pair<OutputIterator1,OutputIterator2>
+  set_intersection_by_key(const HYDRA_EXTERNAL_NS::thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                           InputIterator1                                              keys_first1,
                           InputIterator1                                              keys_last1,
                           InputIterator2                                              keys_first2,
@@ -174,8 +174,8 @@ thrust::pair<OutputIterator1,OutputIterator2>
                           OutputIterator1                                             keys_result,
                           OutputIterator2                                             values_result)
 {
-  using thrust::system::detail::generic::set_intersection_by_key;
-  return set_intersection_by_key(thrust::detail::derived_cast(thrust::detail::strip_const(exec)), keys_first1, keys_last1, keys_first2, keys_last2, values_first1, keys_result, values_result);
+  using HYDRA_EXTERNAL_NS::thrust::system::detail::generic::set_intersection_by_key;
+  return set_intersection_by_key(HYDRA_EXTERNAL_NS::thrust::detail::derived_cast(HYDRA_EXTERNAL_NS::thrust::detail::strip_const(exec)), keys_first1, keys_last1, keys_first2, keys_last2, values_first1, keys_result, values_result);
 } // end set_intersection_by_key()
 
 
@@ -188,8 +188,8 @@ template<typename DerivedPolicy,
          typename OutputIterator2,
          typename StrictWeakCompare>
 __hydra_host__ __hydra_device__
-thrust::pair<OutputIterator1,OutputIterator2>
-  set_intersection_by_key(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
+HYDRA_EXTERNAL_NS::thrust::pair<OutputIterator1,OutputIterator2>
+  set_intersection_by_key(const HYDRA_EXTERNAL_NS::thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                           InputIterator1                                              keys_first1,
                           InputIterator1                                              keys_last1,
                           InputIterator2                                              keys_first2,
@@ -199,8 +199,8 @@ thrust::pair<OutputIterator1,OutputIterator2>
                           OutputIterator2                                             values_result,
                           StrictWeakCompare                                           comp)
 {
-  using thrust::system::detail::generic::set_intersection_by_key;
-  return set_intersection_by_key(thrust::detail::derived_cast(thrust::detail::strip_const(exec)), keys_first1, keys_last1, keys_first2, keys_last2, values_first1, keys_result, values_result, comp);
+  using HYDRA_EXTERNAL_NS::thrust::system::detail::generic::set_intersection_by_key;
+  return set_intersection_by_key(HYDRA_EXTERNAL_NS::thrust::detail::derived_cast(HYDRA_EXTERNAL_NS::thrust::detail::strip_const(exec)), keys_first1, keys_last1, keys_first2, keys_last2, values_first1, keys_result, values_result, comp);
 } // end set_intersection_by_key()
 
 
@@ -210,15 +210,15 @@ template<typename DerivedPolicy,
          typename InputIterator2,
          typename OutputIterator>
 __hydra_host__ __hydra_device__
-OutputIterator set_symmetric_difference(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
+OutputIterator set_symmetric_difference(const HYDRA_EXTERNAL_NS::thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                                         InputIterator1                                              first1,
                                         InputIterator1                                              last1,
                                         InputIterator2                                              first2,
                                         InputIterator2                                              last2,
                                         OutputIterator                                              result)
 {
-  using thrust::system::detail::generic::set_symmetric_difference;
-  return set_symmetric_difference(thrust::detail::derived_cast(thrust::detail::strip_const(exec)), first1, last1, first2, last2, result);
+  using HYDRA_EXTERNAL_NS::thrust::system::detail::generic::set_symmetric_difference;
+  return set_symmetric_difference(HYDRA_EXTERNAL_NS::thrust::detail::derived_cast(HYDRA_EXTERNAL_NS::thrust::detail::strip_const(exec)), first1, last1, first2, last2, result);
 } // end set_symmetric_difference()
 
 
@@ -229,7 +229,7 @@ template<typename DerivedPolicy,
          typename OutputIterator,
          typename StrictWeakCompare>
 __hydra_host__ __hydra_device__
-OutputIterator set_symmetric_difference(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
+OutputIterator set_symmetric_difference(const HYDRA_EXTERNAL_NS::thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                                         InputIterator1                                              first1,
                                         InputIterator1                                              last1,
                                         InputIterator2                                              first2,
@@ -237,8 +237,8 @@ OutputIterator set_symmetric_difference(const thrust::detail::execution_policy_b
                                         OutputIterator                                              result,
                                         StrictWeakCompare                                           comp)
 {
-  using thrust::system::detail::generic::set_symmetric_difference;
-  return set_symmetric_difference(thrust::detail::derived_cast(thrust::detail::strip_const(exec)), first1, last1, first2, last2, result, comp);
+  using HYDRA_EXTERNAL_NS::thrust::system::detail::generic::set_symmetric_difference;
+  return set_symmetric_difference(HYDRA_EXTERNAL_NS::thrust::detail::derived_cast(HYDRA_EXTERNAL_NS::thrust::detail::strip_const(exec)), first1, last1, first2, last2, result, comp);
 } // end set_symmetric_difference()
 
 
@@ -251,8 +251,8 @@ template<typename DerivedPolicy,
          typename OutputIterator1,
          typename OutputIterator2>
 __hydra_host__ __hydra_device__
-thrust::pair<OutputIterator1,OutputIterator2>
-  set_symmetric_difference_by_key(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
+HYDRA_EXTERNAL_NS::thrust::pair<OutputIterator1,OutputIterator2>
+  set_symmetric_difference_by_key(const HYDRA_EXTERNAL_NS::thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                                   InputIterator1                                              keys_first1,
                                   InputIterator1                                              keys_last1,
                                   InputIterator2                                              keys_first2,
@@ -262,8 +262,8 @@ thrust::pair<OutputIterator1,OutputIterator2>
                                   OutputIterator1                                             keys_result,
                                   OutputIterator2                                             values_result)
 {
-  using thrust::system::detail::generic::set_symmetric_difference_by_key;
-  return set_symmetric_difference_by_key(thrust::detail::derived_cast(thrust::detail::strip_const(exec)), keys_first1, keys_last1, keys_first2, keys_last2, values_first1, values_first2, keys_result, values_result);
+  using HYDRA_EXTERNAL_NS::thrust::system::detail::generic::set_symmetric_difference_by_key;
+  return set_symmetric_difference_by_key(HYDRA_EXTERNAL_NS::thrust::detail::derived_cast(HYDRA_EXTERNAL_NS::thrust::detail::strip_const(exec)), keys_first1, keys_last1, keys_first2, keys_last2, values_first1, values_first2, keys_result, values_result);
 } // end set_symmetric_difference_by_key()
 
 
@@ -277,8 +277,8 @@ template<typename DerivedPolicy,
          typename OutputIterator2,
          typename StrictWeakCompare>
 __hydra_host__ __hydra_device__
-thrust::pair<OutputIterator1,OutputIterator2>
-  set_symmetric_difference_by_key(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
+HYDRA_EXTERNAL_NS::thrust::pair<OutputIterator1,OutputIterator2>
+  set_symmetric_difference_by_key(const HYDRA_EXTERNAL_NS::thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                                   InputIterator1                                              keys_first1,
                                   InputIterator1                                              keys_last1,
                                   InputIterator2                                              keys_first2,
@@ -289,8 +289,8 @@ thrust::pair<OutputIterator1,OutputIterator2>
                                   OutputIterator2                                             values_result,
                                   StrictWeakCompare                                           comp)
 {
-  using thrust::system::detail::generic::set_symmetric_difference_by_key;
-  return set_symmetric_difference_by_key(thrust::detail::derived_cast(thrust::detail::strip_const(exec)), keys_first1, keys_last1, keys_first2, keys_last2, values_first1, values_first2, keys_result, values_result, comp);
+  using HYDRA_EXTERNAL_NS::thrust::system::detail::generic::set_symmetric_difference_by_key;
+  return set_symmetric_difference_by_key(HYDRA_EXTERNAL_NS::thrust::detail::derived_cast(HYDRA_EXTERNAL_NS::thrust::detail::strip_const(exec)), keys_first1, keys_last1, keys_first2, keys_last2, values_first1, values_first2, keys_result, values_result, comp);
 } // end set_symmetric_difference_by_key()
 
 
@@ -300,15 +300,15 @@ template<typename DerivedPolicy,
          typename InputIterator2,
          typename OutputIterator>
 __hydra_host__ __hydra_device__
-OutputIterator set_union(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
+OutputIterator set_union(const HYDRA_EXTERNAL_NS::thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                          InputIterator1                                              first1,
                          InputIterator1                                              last1,
                          InputIterator2                                              first2,
                          InputIterator2                                              last2,
                          OutputIterator                                              result)
 {
-  using thrust::system::detail::generic::set_union;
-  return set_union(thrust::detail::derived_cast(thrust::detail::strip_const(exec)), first1, last1, first2, last2, result);
+  using HYDRA_EXTERNAL_NS::thrust::system::detail::generic::set_union;
+  return set_union(HYDRA_EXTERNAL_NS::thrust::detail::derived_cast(HYDRA_EXTERNAL_NS::thrust::detail::strip_const(exec)), first1, last1, first2, last2, result);
 } // end set_union()
 
 
@@ -319,7 +319,7 @@ template<typename DerivedPolicy,
          typename OutputIterator,
          typename StrictWeakCompare>
 __hydra_host__ __hydra_device__
-OutputIterator set_union(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
+OutputIterator set_union(const HYDRA_EXTERNAL_NS::thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                          InputIterator1                                              first1,
                          InputIterator1                                              last1,
                          InputIterator2                                              first2,
@@ -327,8 +327,8 @@ OutputIterator set_union(const thrust::detail::execution_policy_base<DerivedPoli
                          OutputIterator                                              result,
                          StrictWeakCompare                                           comp)
 {
-  using thrust::system::detail::generic::set_union;
-  return set_union(thrust::detail::derived_cast(thrust::detail::strip_const(exec)), first1, last1, first2, last2, result, comp);
+  using HYDRA_EXTERNAL_NS::thrust::system::detail::generic::set_union;
+  return set_union(HYDRA_EXTERNAL_NS::thrust::detail::derived_cast(HYDRA_EXTERNAL_NS::thrust::detail::strip_const(exec)), first1, last1, first2, last2, result, comp);
 } // end set_union()
 
 
@@ -341,8 +341,8 @@ template<typename DerivedPolicy,
          typename OutputIterator1,
          typename OutputIterator2>
 __hydra_host__ __hydra_device__
-thrust::pair<OutputIterator1,OutputIterator2>
-  set_union_by_key(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
+HYDRA_EXTERNAL_NS::thrust::pair<OutputIterator1,OutputIterator2>
+  set_union_by_key(const HYDRA_EXTERNAL_NS::thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                    InputIterator1                                              keys_first1,
                    InputIterator1                                              keys_last1,
                    InputIterator2                                              keys_first2,
@@ -352,8 +352,8 @@ thrust::pair<OutputIterator1,OutputIterator2>
                    OutputIterator1                                             keys_result,
                    OutputIterator2                                             values_result)
 {
-  using thrust::system::detail::generic::set_union_by_key;
-  return set_union_by_key(thrust::detail::derived_cast(thrust::detail::strip_const(exec)), keys_first1, keys_last1, keys_first2, keys_last2, values_first1, values_first2, keys_result, values_result);
+  using HYDRA_EXTERNAL_NS::thrust::system::detail::generic::set_union_by_key;
+  return set_union_by_key(HYDRA_EXTERNAL_NS::thrust::detail::derived_cast(HYDRA_EXTERNAL_NS::thrust::detail::strip_const(exec)), keys_first1, keys_last1, keys_first2, keys_last2, values_first1, values_first2, keys_result, values_result);
 } // end set_union_by_key()
 
 
@@ -367,8 +367,8 @@ template<typename DerivedPolicy,
          typename OutputIterator2,
          typename StrictWeakCompare>
 __hydra_host__ __hydra_device__
-thrust::pair<OutputIterator1,OutputIterator2>
-  set_union_by_key(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
+HYDRA_EXTERNAL_NS::thrust::pair<OutputIterator1,OutputIterator2>
+  set_union_by_key(const HYDRA_EXTERNAL_NS::thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                    InputIterator1                                              keys_first1,
                    InputIterator1                                              keys_last1,
                    InputIterator2                                              keys_first2,
@@ -379,8 +379,8 @@ thrust::pair<OutputIterator1,OutputIterator2>
                    OutputIterator2                                             values_result,
                    StrictWeakCompare                                           comp)
 {
-  using thrust::system::detail::generic::set_union_by_key;
-  return set_union_by_key(thrust::detail::derived_cast(thrust::detail::strip_const(exec)), keys_first1, keys_last1, keys_first2, keys_last2, values_first1, values_first2, keys_result, values_result, comp);
+  using HYDRA_EXTERNAL_NS::thrust::system::detail::generic::set_union_by_key;
+  return set_union_by_key(HYDRA_EXTERNAL_NS::thrust::detail::derived_cast(HYDRA_EXTERNAL_NS::thrust::detail::strip_const(exec)), keys_first1, keys_last1, keys_first2, keys_last2, values_first1, values_first2, keys_result, values_result, comp);
 } // end set_union_by_key()
 
 
@@ -395,17 +395,17 @@ template<typename InputIterator1,
                                 OutputIterator result,
                                 StrictWeakOrdering comp)
 {
-  using thrust::system::detail::generic::select_system;
+  using HYDRA_EXTERNAL_NS::thrust::system::detail::generic::select_system;
 
-  typedef typename thrust::iterator_system<InputIterator1>::type System1;
-  typedef typename thrust::iterator_system<InputIterator2>::type System2;
-  typedef typename thrust::iterator_system<OutputIterator>::type System3;
+  typedef typename HYDRA_EXTERNAL_NS::thrust::iterator_system<InputIterator1>::type System1;
+  typedef typename HYDRA_EXTERNAL_NS::thrust::iterator_system<InputIterator2>::type System2;
+  typedef typename HYDRA_EXTERNAL_NS::thrust::iterator_system<OutputIterator>::type System3;
 
   System1 system1;
   System2 system2;
   System3 system3;
 
-  return thrust::set_difference(select_system(system1,system2,system3), first1, last1, first2, last2, result, comp);
+  return HYDRA_EXTERNAL_NS::thrust::set_difference(select_system(system1,system2,system3), first1, last1, first2, last2, result, comp);
 } // end set_difference()
 
 
@@ -418,17 +418,17 @@ template<typename InputIterator1,
                                 InputIterator2 last2,
                                 OutputIterator result)
 {
-  using thrust::system::detail::generic::select_system;
+  using HYDRA_EXTERNAL_NS::thrust::system::detail::generic::select_system;
 
-  typedef typename thrust::iterator_system<InputIterator1>::type System1;
-  typedef typename thrust::iterator_system<InputIterator2>::type System2;
-  typedef typename thrust::iterator_system<OutputIterator>::type System3;
+  typedef typename HYDRA_EXTERNAL_NS::thrust::iterator_system<InputIterator1>::type System1;
+  typedef typename HYDRA_EXTERNAL_NS::thrust::iterator_system<InputIterator2>::type System2;
+  typedef typename HYDRA_EXTERNAL_NS::thrust::iterator_system<OutputIterator>::type System3;
 
   System1 system1;
   System2 system2;
   System3 system3;
 
-  return thrust::set_difference(select_system(system1,system2,system3), first1, last1, first2, last2, result);
+  return HYDRA_EXTERNAL_NS::thrust::set_difference(select_system(system1,system2,system3), first1, last1, first2, last2, result);
 } // end set_difference()
 
 
@@ -439,7 +439,7 @@ template<typename InputIterator1,
          typename OutputIterator1,
          typename OutputIterator2,
          typename StrictWeakOrdering>
-  thrust::pair<OutputIterator1,OutputIterator2>
+  HYDRA_EXTERNAL_NS::thrust::pair<OutputIterator1,OutputIterator2>
     set_difference_by_key(InputIterator1 keys_first1,
                           InputIterator1 keys_last1,
                           InputIterator2 keys_first2,
@@ -450,14 +450,14 @@ template<typename InputIterator1,
                           OutputIterator2 values_result,
                           StrictWeakOrdering comp)
 {
-  using thrust::system::detail::generic::select_system;
+  using HYDRA_EXTERNAL_NS::thrust::system::detail::generic::select_system;
 
-  typedef typename thrust::iterator_system<InputIterator1>::type  System1;
-  typedef typename thrust::iterator_system<InputIterator2>::type  System2;
-  typedef typename thrust::iterator_system<InputIterator3>::type  System3;
-  typedef typename thrust::iterator_system<InputIterator4>::type  System4;
-  typedef typename thrust::iterator_system<OutputIterator1>::type System5;
-  typedef typename thrust::iterator_system<OutputIterator2>::type System6;
+  typedef typename HYDRA_EXTERNAL_NS::thrust::iterator_system<InputIterator1>::type  System1;
+  typedef typename HYDRA_EXTERNAL_NS::thrust::iterator_system<InputIterator2>::type  System2;
+  typedef typename HYDRA_EXTERNAL_NS::thrust::iterator_system<InputIterator3>::type  System3;
+  typedef typename HYDRA_EXTERNAL_NS::thrust::iterator_system<InputIterator4>::type  System4;
+  typedef typename HYDRA_EXTERNAL_NS::thrust::iterator_system<OutputIterator1>::type System5;
+  typedef typename HYDRA_EXTERNAL_NS::thrust::iterator_system<OutputIterator2>::type System6;
 
   System1 system1;
   System2 system2;
@@ -466,7 +466,7 @@ template<typename InputIterator1,
   System5 system5;
   System6 system6;
 
-  return thrust::set_difference_by_key(select_system(system1,system2,system3,system4,system5,system6), keys_first1, keys_last1, keys_first2, keys_last2, values_first1, values_first2, keys_result, values_result, comp);
+  return HYDRA_EXTERNAL_NS::thrust::set_difference_by_key(select_system(system1,system2,system3,system4,system5,system6), keys_first1, keys_last1, keys_first2, keys_last2, values_first1, values_first2, keys_result, values_result, comp);
 } // end set_difference_by_key()
 
 
@@ -476,7 +476,7 @@ template<typename InputIterator1,
          typename InputIterator4,
          typename OutputIterator1,
          typename OutputIterator2>
-  thrust::pair<OutputIterator1,OutputIterator2>
+  HYDRA_EXTERNAL_NS::thrust::pair<OutputIterator1,OutputIterator2>
     set_difference_by_key(InputIterator1 keys_first1,
                           InputIterator1 keys_last1,
                           InputIterator2 keys_first2,
@@ -486,14 +486,14 @@ template<typename InputIterator1,
                           OutputIterator1 keys_result,
                           OutputIterator2 values_result)
 {
-  using thrust::system::detail::generic::select_system;
+  using HYDRA_EXTERNAL_NS::thrust::system::detail::generic::select_system;
 
-  typedef typename thrust::iterator_system<InputIterator1>::type  System1;
-  typedef typename thrust::iterator_system<InputIterator2>::type  System2;
-  typedef typename thrust::iterator_system<InputIterator3>::type  System3;
-  typedef typename thrust::iterator_system<InputIterator4>::type  System4;
-  typedef typename thrust::iterator_system<OutputIterator1>::type System5;
-  typedef typename thrust::iterator_system<OutputIterator2>::type System6;
+  typedef typename HYDRA_EXTERNAL_NS::thrust::iterator_system<InputIterator1>::type  System1;
+  typedef typename HYDRA_EXTERNAL_NS::thrust::iterator_system<InputIterator2>::type  System2;
+  typedef typename HYDRA_EXTERNAL_NS::thrust::iterator_system<InputIterator3>::type  System3;
+  typedef typename HYDRA_EXTERNAL_NS::thrust::iterator_system<InputIterator4>::type  System4;
+  typedef typename HYDRA_EXTERNAL_NS::thrust::iterator_system<OutputIterator1>::type System5;
+  typedef typename HYDRA_EXTERNAL_NS::thrust::iterator_system<OutputIterator2>::type System6;
 
   System1 system1;
   System2 system2;
@@ -502,7 +502,7 @@ template<typename InputIterator1,
   System5 system5;
   System6 system6;
 
-  return thrust::set_difference_by_key(select_system(system1,system2,system3,system4,system5,system6), keys_first1, keys_last1, keys_first2, keys_last2, values_first1, values_first2, keys_result, values_result);
+  return HYDRA_EXTERNAL_NS::thrust::set_difference_by_key(select_system(system1,system2,system3,system4,system5,system6), keys_first1, keys_last1, keys_first2, keys_last2, values_first1, values_first2, keys_result, values_result);
 } // end set_difference_by_key()
 
 
@@ -517,17 +517,17 @@ template<typename InputIterator1,
                                   OutputIterator result,
                                   StrictWeakOrdering comp)
 {
-  using thrust::system::detail::generic::select_system;
+  using HYDRA_EXTERNAL_NS::thrust::system::detail::generic::select_system;
 
-  typedef typename thrust::iterator_system<InputIterator1>::type System1;
-  typedef typename thrust::iterator_system<InputIterator2>::type System2;
-  typedef typename thrust::iterator_system<OutputIterator>::type System3;
+  typedef typename HYDRA_EXTERNAL_NS::thrust::iterator_system<InputIterator1>::type System1;
+  typedef typename HYDRA_EXTERNAL_NS::thrust::iterator_system<InputIterator2>::type System2;
+  typedef typename HYDRA_EXTERNAL_NS::thrust::iterator_system<OutputIterator>::type System3;
 
   System1 system1;
   System2 system2;
   System3 system3;
 
-  return thrust::set_intersection(select_system(system1,system2,system3), first1, last1, first2, last2, result, comp);
+  return HYDRA_EXTERNAL_NS::thrust::set_intersection(select_system(system1,system2,system3), first1, last1, first2, last2, result, comp);
 } // end set_intersection()
 
 
@@ -540,17 +540,17 @@ template<typename InputIterator1,
                                   InputIterator2 last2,
                                   OutputIterator result)
 {
-  using thrust::system::detail::generic::select_system;
+  using HYDRA_EXTERNAL_NS::thrust::system::detail::generic::select_system;
 
-  typedef typename thrust::iterator_system<InputIterator1>::type System1;
-  typedef typename thrust::iterator_system<InputIterator2>::type System2;
-  typedef typename thrust::iterator_system<OutputIterator>::type System3;
+  typedef typename HYDRA_EXTERNAL_NS::thrust::iterator_system<InputIterator1>::type System1;
+  typedef typename HYDRA_EXTERNAL_NS::thrust::iterator_system<InputIterator2>::type System2;
+  typedef typename HYDRA_EXTERNAL_NS::thrust::iterator_system<OutputIterator>::type System3;
 
   System1 system1;
   System2 system2;
   System3 system3;
 
-  return thrust::set_intersection(select_system(system1,system2,system3), first1, last1, first2, last2, result);
+  return HYDRA_EXTERNAL_NS::thrust::set_intersection(select_system(system1,system2,system3), first1, last1, first2, last2, result);
 } // end set_intersection()
 
 
@@ -560,7 +560,7 @@ template<typename InputIterator1,
          typename OutputIterator1,
          typename OutputIterator2,
          typename StrictWeakOrdering>
-  thrust::pair<OutputIterator1,OutputIterator2>
+  HYDRA_EXTERNAL_NS::thrust::pair<OutputIterator1,OutputIterator2>
     set_intersection_by_key(InputIterator1 keys_first1,
                             InputIterator1 keys_last1,
                             InputIterator2 keys_first2,
@@ -570,13 +570,13 @@ template<typename InputIterator1,
                             OutputIterator2 values_result,
                             StrictWeakOrdering comp)
 {
-  using thrust::system::detail::generic::select_system;
+  using HYDRA_EXTERNAL_NS::thrust::system::detail::generic::select_system;
 
-  typedef typename thrust::iterator_system<InputIterator1>::type  System1;
-  typedef typename thrust::iterator_system<InputIterator2>::type  System2;
-  typedef typename thrust::iterator_system<InputIterator3>::type  System3;
-  typedef typename thrust::iterator_system<OutputIterator1>::type System4;
-  typedef typename thrust::iterator_system<OutputIterator2>::type System5;
+  typedef typename HYDRA_EXTERNAL_NS::thrust::iterator_system<InputIterator1>::type  System1;
+  typedef typename HYDRA_EXTERNAL_NS::thrust::iterator_system<InputIterator2>::type  System2;
+  typedef typename HYDRA_EXTERNAL_NS::thrust::iterator_system<InputIterator3>::type  System3;
+  typedef typename HYDRA_EXTERNAL_NS::thrust::iterator_system<OutputIterator1>::type System4;
+  typedef typename HYDRA_EXTERNAL_NS::thrust::iterator_system<OutputIterator2>::type System5;
 
   System1 system1;
   System2 system2;
@@ -584,7 +584,7 @@ template<typename InputIterator1,
   System4 system4;
   System5 system5;
 
-  return thrust::set_intersection_by_key(select_system(system1,system2,system3,system4,system5), keys_first1, keys_last1, keys_first2, keys_last2, values_first1, keys_result, values_result, comp);
+  return HYDRA_EXTERNAL_NS::thrust::set_intersection_by_key(select_system(system1,system2,system3,system4,system5), keys_first1, keys_last1, keys_first2, keys_last2, values_first1, keys_result, values_result, comp);
 } // end set_intersection_by_key()
 
 
@@ -593,7 +593,7 @@ template<typename InputIterator1,
          typename InputIterator3,
          typename OutputIterator1,
          typename OutputIterator2>
-  thrust::pair<OutputIterator1,OutputIterator2>
+  HYDRA_EXTERNAL_NS::thrust::pair<OutputIterator1,OutputIterator2>
     set_intersection_by_key(InputIterator1 keys_first1,
                             InputIterator1 keys_last1,
                             InputIterator2 keys_first2,
@@ -602,13 +602,13 @@ template<typename InputIterator1,
                             OutputIterator1 keys_result,
                             OutputIterator2 values_result)
 {
-  using thrust::system::detail::generic::select_system;
+  using HYDRA_EXTERNAL_NS::thrust::system::detail::generic::select_system;
 
-  typedef typename thrust::iterator_system<InputIterator1>::type  System1;
-  typedef typename thrust::iterator_system<InputIterator2>::type  System2;
-  typedef typename thrust::iterator_system<InputIterator3>::type  System3;
-  typedef typename thrust::iterator_system<OutputIterator1>::type System4;
-  typedef typename thrust::iterator_system<OutputIterator2>::type System5;
+  typedef typename HYDRA_EXTERNAL_NS::thrust::iterator_system<InputIterator1>::type  System1;
+  typedef typename HYDRA_EXTERNAL_NS::thrust::iterator_system<InputIterator2>::type  System2;
+  typedef typename HYDRA_EXTERNAL_NS::thrust::iterator_system<InputIterator3>::type  System3;
+  typedef typename HYDRA_EXTERNAL_NS::thrust::iterator_system<OutputIterator1>::type System4;
+  typedef typename HYDRA_EXTERNAL_NS::thrust::iterator_system<OutputIterator2>::type System5;
 
   System1 system1;
   System2 system2;
@@ -616,7 +616,7 @@ template<typename InputIterator1,
   System4 system4;
   System5 system5;
 
-  return thrust::set_intersection_by_key(select_system(system1,system2,system3,system4,system5), keys_first1, keys_last1, keys_first2, keys_last2, values_first1, keys_result, values_result);
+  return HYDRA_EXTERNAL_NS::thrust::set_intersection_by_key(select_system(system1,system2,system3,system4,system5), keys_first1, keys_last1, keys_first2, keys_last2, values_first1, keys_result, values_result);
 } // end set_intersection_by_key()
 
 
@@ -631,17 +631,17 @@ template<typename InputIterator1,
                                           OutputIterator result,
                                           StrictWeakOrdering comp)
 {
-  using thrust::system::detail::generic::select_system;
+  using HYDRA_EXTERNAL_NS::thrust::system::detail::generic::select_system;
 
-  typedef typename thrust::iterator_system<InputIterator1>::type System1;
-  typedef typename thrust::iterator_system<InputIterator2>::type System2;
-  typedef typename thrust::iterator_system<OutputIterator>::type System3;
+  typedef typename HYDRA_EXTERNAL_NS::thrust::iterator_system<InputIterator1>::type System1;
+  typedef typename HYDRA_EXTERNAL_NS::thrust::iterator_system<InputIterator2>::type System2;
+  typedef typename HYDRA_EXTERNAL_NS::thrust::iterator_system<OutputIterator>::type System3;
 
   System1 system1;
   System2 system2;
   System3 system3;
 
-  return thrust::set_symmetric_difference(select_system(system1,system2,system3), first1, last1, first2, last2, result, comp);
+  return HYDRA_EXTERNAL_NS::thrust::set_symmetric_difference(select_system(system1,system2,system3), first1, last1, first2, last2, result, comp);
 } // end set_symmetric_difference()
 
 
@@ -654,17 +654,17 @@ template<typename InputIterator1,
                                           InputIterator2 last2,
                                           OutputIterator result)
 {
-  using thrust::system::detail::generic::select_system;
+  using HYDRA_EXTERNAL_NS::thrust::system::detail::generic::select_system;
 
-  typedef typename thrust::iterator_system<InputIterator1>::type System1;
-  typedef typename thrust::iterator_system<InputIterator2>::type System2;
-  typedef typename thrust::iterator_system<OutputIterator>::type System3;
+  typedef typename HYDRA_EXTERNAL_NS::thrust::iterator_system<InputIterator1>::type System1;
+  typedef typename HYDRA_EXTERNAL_NS::thrust::iterator_system<InputIterator2>::type System2;
+  typedef typename HYDRA_EXTERNAL_NS::thrust::iterator_system<OutputIterator>::type System3;
 
   System1 system1;
   System2 system2;
   System3 system3;
 
-  return thrust::set_symmetric_difference(select_system(system1,system2,system3), first1, last1, first2, last2, result);
+  return HYDRA_EXTERNAL_NS::thrust::set_symmetric_difference(select_system(system1,system2,system3), first1, last1, first2, last2, result);
 } // end set_symmetric_difference()
 
 
@@ -675,7 +675,7 @@ template<typename InputIterator1,
          typename OutputIterator1,
          typename OutputIterator2,
          typename StrictWeakOrdering>
-  thrust::pair<OutputIterator1,OutputIterator2>
+  HYDRA_EXTERNAL_NS::thrust::pair<OutputIterator1,OutputIterator2>
     set_symmetric_difference_by_key(InputIterator1 keys_first1,
                                     InputIterator1 keys_last1,
                                     InputIterator2 keys_first2,
@@ -686,14 +686,14 @@ template<typename InputIterator1,
                                     OutputIterator2 values_result,
                                     StrictWeakOrdering comp)
 {
-  using thrust::system::detail::generic::select_system;
+  using HYDRA_EXTERNAL_NS::thrust::system::detail::generic::select_system;
 
-  typedef typename thrust::iterator_system<InputIterator1>::type  System1;
-  typedef typename thrust::iterator_system<InputIterator2>::type  System2;
-  typedef typename thrust::iterator_system<InputIterator3>::type  System3;
-  typedef typename thrust::iterator_system<InputIterator4>::type  System4;
-  typedef typename thrust::iterator_system<OutputIterator1>::type System5;
-  typedef typename thrust::iterator_system<OutputIterator2>::type System6;
+  typedef typename HYDRA_EXTERNAL_NS::thrust::iterator_system<InputIterator1>::type  System1;
+  typedef typename HYDRA_EXTERNAL_NS::thrust::iterator_system<InputIterator2>::type  System2;
+  typedef typename HYDRA_EXTERNAL_NS::thrust::iterator_system<InputIterator3>::type  System3;
+  typedef typename HYDRA_EXTERNAL_NS::thrust::iterator_system<InputIterator4>::type  System4;
+  typedef typename HYDRA_EXTERNAL_NS::thrust::iterator_system<OutputIterator1>::type System5;
+  typedef typename HYDRA_EXTERNAL_NS::thrust::iterator_system<OutputIterator2>::type System6;
 
   System1 system1;
   System2 system2;
@@ -702,7 +702,7 @@ template<typename InputIterator1,
   System5 system5;
   System6 system6;
 
-  return thrust::set_symmetric_difference_by_key(select_system(system1,system2,system3,system4,system5,system6), keys_first1, keys_last1, keys_first2, keys_last2, values_first1, values_first2, keys_result, values_result, comp);
+  return HYDRA_EXTERNAL_NS::thrust::set_symmetric_difference_by_key(select_system(system1,system2,system3,system4,system5,system6), keys_first1, keys_last1, keys_first2, keys_last2, values_first1, values_first2, keys_result, values_result, comp);
 } // end set_symmetric_difference_by_key()
 
 
@@ -712,7 +712,7 @@ template<typename InputIterator1,
          typename InputIterator4,
          typename OutputIterator1,
          typename OutputIterator2>
-  thrust::pair<OutputIterator1,OutputIterator2>
+  HYDRA_EXTERNAL_NS::thrust::pair<OutputIterator1,OutputIterator2>
     set_symmetric_difference_by_key(InputIterator1 keys_first1,
                                     InputIterator1 keys_last1,
                                     InputIterator2 keys_first2,
@@ -722,14 +722,14 @@ template<typename InputIterator1,
                                     OutputIterator1 keys_result,
                                     OutputIterator2 values_result)
 {
-  using thrust::system::detail::generic::select_system;
+  using HYDRA_EXTERNAL_NS::thrust::system::detail::generic::select_system;
 
-  typedef typename thrust::iterator_system<InputIterator1>::type  System1;
-  typedef typename thrust::iterator_system<InputIterator2>::type  System2;
-  typedef typename thrust::iterator_system<InputIterator3>::type  System3;
-  typedef typename thrust::iterator_system<InputIterator4>::type  System4;
-  typedef typename thrust::iterator_system<OutputIterator1>::type System5;
-  typedef typename thrust::iterator_system<OutputIterator2>::type System6;
+  typedef typename HYDRA_EXTERNAL_NS::thrust::iterator_system<InputIterator1>::type  System1;
+  typedef typename HYDRA_EXTERNAL_NS::thrust::iterator_system<InputIterator2>::type  System2;
+  typedef typename HYDRA_EXTERNAL_NS::thrust::iterator_system<InputIterator3>::type  System3;
+  typedef typename HYDRA_EXTERNAL_NS::thrust::iterator_system<InputIterator4>::type  System4;
+  typedef typename HYDRA_EXTERNAL_NS::thrust::iterator_system<OutputIterator1>::type System5;
+  typedef typename HYDRA_EXTERNAL_NS::thrust::iterator_system<OutputIterator2>::type System6;
 
   System1 system1;
   System2 system2;
@@ -738,7 +738,7 @@ template<typename InputIterator1,
   System5 system5;
   System6 system6;
 
-  return thrust::set_symmetric_difference_by_key(select_system(system1,system2,system3,system4,system5,system6), keys_first1, keys_last1, keys_first2, keys_last2, values_first1, values_first2, keys_result, values_result);
+  return HYDRA_EXTERNAL_NS::thrust::set_symmetric_difference_by_key(select_system(system1,system2,system3,system4,system5,system6), keys_first1, keys_last1, keys_first2, keys_last2, values_first1, values_first2, keys_result, values_result);
 } // end set_symmetric_difference_by_key()
 
 
@@ -753,17 +753,17 @@ template<typename InputIterator1,
                            OutputIterator result,
                            StrictWeakOrdering comp)
 {
-  using thrust::system::detail::generic::select_system;
+  using HYDRA_EXTERNAL_NS::thrust::system::detail::generic::select_system;
 
-  typedef typename thrust::iterator_system<InputIterator1>::type System1;
-  typedef typename thrust::iterator_system<InputIterator2>::type System2;
-  typedef typename thrust::iterator_system<OutputIterator>::type System3;
+  typedef typename HYDRA_EXTERNAL_NS::thrust::iterator_system<InputIterator1>::type System1;
+  typedef typename HYDRA_EXTERNAL_NS::thrust::iterator_system<InputIterator2>::type System2;
+  typedef typename HYDRA_EXTERNAL_NS::thrust::iterator_system<OutputIterator>::type System3;
 
   System1 system1;
   System2 system2;
   System3 system3;
 
-  return thrust::set_union(select_system(system1,system2,system3), first1, last1, first2, last2, result, comp);
+  return HYDRA_EXTERNAL_NS::thrust::set_union(select_system(system1,system2,system3), first1, last1, first2, last2, result, comp);
 } // end set_union()
 
 
@@ -776,17 +776,17 @@ template<typename InputIterator1,
                            InputIterator2 last2,
                            OutputIterator result)
 {
-  using thrust::system::detail::generic::select_system;
+  using HYDRA_EXTERNAL_NS::thrust::system::detail::generic::select_system;
 
-  typedef typename thrust::iterator_system<InputIterator1>::type System1;
-  typedef typename thrust::iterator_system<InputIterator2>::type System2;
-  typedef typename thrust::iterator_system<OutputIterator>::type System3;
+  typedef typename HYDRA_EXTERNAL_NS::thrust::iterator_system<InputIterator1>::type System1;
+  typedef typename HYDRA_EXTERNAL_NS::thrust::iterator_system<InputIterator2>::type System2;
+  typedef typename HYDRA_EXTERNAL_NS::thrust::iterator_system<OutputIterator>::type System3;
 
   System1 system1;
   System2 system2;
   System3 system3;
 
-  return thrust::set_union(select_system(system1,system2,system3), first1, last1, first2, last2, result);
+  return HYDRA_EXTERNAL_NS::thrust::set_union(select_system(system1,system2,system3), first1, last1, first2, last2, result);
 } // end set_union()
 
 
@@ -797,7 +797,7 @@ template<typename InputIterator1,
          typename OutputIterator1,
          typename OutputIterator2,
          typename StrictWeakOrdering>
-  thrust::pair<OutputIterator1,OutputIterator2>
+  HYDRA_EXTERNAL_NS::thrust::pair<OutputIterator1,OutputIterator2>
     set_union_by_key(InputIterator1 keys_first1,
                      InputIterator1 keys_last1,
                      InputIterator2 keys_first2,
@@ -808,14 +808,14 @@ template<typename InputIterator1,
                      OutputIterator2 values_result,
                      StrictWeakOrdering comp)
 {
-  using thrust::system::detail::generic::select_system;
+  using HYDRA_EXTERNAL_NS::thrust::system::detail::generic::select_system;
 
-  typedef typename thrust::iterator_system<InputIterator1>::type  System1;
-  typedef typename thrust::iterator_system<InputIterator2>::type  System2;
-  typedef typename thrust::iterator_system<InputIterator3>::type  System3;
-  typedef typename thrust::iterator_system<InputIterator4>::type  System4;
-  typedef typename thrust::iterator_system<OutputIterator1>::type System5;
-  typedef typename thrust::iterator_system<OutputIterator2>::type System6;
+  typedef typename HYDRA_EXTERNAL_NS::thrust::iterator_system<InputIterator1>::type  System1;
+  typedef typename HYDRA_EXTERNAL_NS::thrust::iterator_system<InputIterator2>::type  System2;
+  typedef typename HYDRA_EXTERNAL_NS::thrust::iterator_system<InputIterator3>::type  System3;
+  typedef typename HYDRA_EXTERNAL_NS::thrust::iterator_system<InputIterator4>::type  System4;
+  typedef typename HYDRA_EXTERNAL_NS::thrust::iterator_system<OutputIterator1>::type System5;
+  typedef typename HYDRA_EXTERNAL_NS::thrust::iterator_system<OutputIterator2>::type System6;
 
   System1 system1;
   System2 system2;
@@ -824,7 +824,7 @@ template<typename InputIterator1,
   System5 system5;
   System6 system6;
 
-  return thrust::set_union_by_key(select_system(system1,system2,system3,system4,system5,system6), keys_first1, keys_last1, keys_first2, keys_last2, values_first1, values_first2, keys_result, values_result, comp);
+  return HYDRA_EXTERNAL_NS::thrust::set_union_by_key(select_system(system1,system2,system3,system4,system5,system6), keys_first1, keys_last1, keys_first2, keys_last2, values_first1, values_first2, keys_result, values_result, comp);
 } // end set_union_by_key()
 
 
@@ -834,7 +834,7 @@ template<typename InputIterator1,
          typename InputIterator4,
          typename OutputIterator1,
          typename OutputIterator2>
-  thrust::pair<OutputIterator1,OutputIterator2>
+  HYDRA_EXTERNAL_NS::thrust::pair<OutputIterator1,OutputIterator2>
     set_union_by_key(InputIterator1 keys_first1,
                      InputIterator1 keys_last1,
                      InputIterator2 keys_first2,
@@ -844,14 +844,14 @@ template<typename InputIterator1,
                      OutputIterator1 keys_result,
                      OutputIterator2 values_result)
 {
-  using thrust::system::detail::generic::select_system;
+  using HYDRA_EXTERNAL_NS::thrust::system::detail::generic::select_system;
 
-  typedef typename thrust::iterator_system<InputIterator1>::type  System1;
-  typedef typename thrust::iterator_system<InputIterator2>::type  System2;
-  typedef typename thrust::iterator_system<InputIterator3>::type  System3;
-  typedef typename thrust::iterator_system<InputIterator4>::type  System4;
-  typedef typename thrust::iterator_system<OutputIterator1>::type System5;
-  typedef typename thrust::iterator_system<OutputIterator2>::type System6;
+  typedef typename HYDRA_EXTERNAL_NS::thrust::iterator_system<InputIterator1>::type  System1;
+  typedef typename HYDRA_EXTERNAL_NS::thrust::iterator_system<InputIterator2>::type  System2;
+  typedef typename HYDRA_EXTERNAL_NS::thrust::iterator_system<InputIterator3>::type  System3;
+  typedef typename HYDRA_EXTERNAL_NS::thrust::iterator_system<InputIterator4>::type  System4;
+  typedef typename HYDRA_EXTERNAL_NS::thrust::iterator_system<OutputIterator1>::type System5;
+  typedef typename HYDRA_EXTERNAL_NS::thrust::iterator_system<OutputIterator2>::type System6;
 
   System1 system1;
   System2 system2;
@@ -860,7 +860,7 @@ template<typename InputIterator1,
   System5 system5;
   System6 system6;
 
-  return thrust::set_union_by_key(select_system(system1,system2,system3,system4,system5,system6), keys_first1, keys_last1, keys_first2, keys_last2, values_first1, values_first2, keys_result, values_result);
+  return HYDRA_EXTERNAL_NS::thrust::set_union_by_key(select_system(system1,system2,system3,system4,system5,system6), keys_first1, keys_last1, keys_first2, keys_last2, values_first1, values_first2, keys_result, values_result);
 } // end set_union_by_key()
 
 

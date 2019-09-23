@@ -39,7 +39,7 @@ HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust{
 namespace detail{
 namespace complex{
 
-using thrust::complex;
+using HYDRA_EXTERNAL_NS::thrust::complex;
 
 typedef union
 {

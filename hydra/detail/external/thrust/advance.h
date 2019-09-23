@@ -50,10 +50,10 @@ HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
  *  #include <hydra/detail/external/thrust/advance.h>
  *  #include <hydra/detail/external/thrust/device_vector.h>
  *  ...
- *  thrust::device_vector<int> vec(13);
- *  thrust::device_vector<int>::iterator iter = vec.begin();
+ *  HYDRA_EXTERNAL_NS::thrust::device_vector<int> vec(13);
+ *  HYDRA_EXTERNAL_NS::thrust::device_vector<int>::iterator iter = vec.begin();
  *
- *  thrust::advance(iter, 7);
+ *  HYDRA_EXTERNAL_NS::thrust::advance(iter, 7);
  *
  *  // iter - vec.begin() == 7
  *  \endcode
@@ -79,10 +79,10 @@ void advance(InputIterator& i, Distance n);
  *  #include <hydra/detail/external/thrust/advance.h>
  *  #include <hydra/detail/external/thrust/device_vector.h>
  *  ...
- *  thrust::device_vector<int> vec(13);
- *  thrust::device_vector<int>::iterator i0 = vec.begin();
+ *  HYDRA_EXTERNAL_NS::thrust::device_vector<int> vec(13);
+ *  HYDRA_EXTERNAL_NS::thrust::device_vector<int>::iterator i0 = vec.begin();
  *
- *  auto i1 = thrust::next(i0);
+ *  auto i1 = HYDRA_EXTERNAL_NS::thrust::next(i0);
  *
  *  // i0 - vec.begin() == 0
  *  // i1 - vec.begin() == 1
@@ -112,10 +112,10 @@ InputIterator next(
  *  #include <hydra/detail/external/thrust/advance.h>
  *  #include <hydra/detail/external/thrust/device_vector.h>
  *  ...
- *  thrust::device_vector<int> vec(13);
- *  thrust::device_vector<int>::iterator i0 = vec.end();
+ *  HYDRA_EXTERNAL_NS::thrust::device_vector<int> vec(13);
+ *  HYDRA_EXTERNAL_NS::thrust::device_vector<int>::iterator i0 = vec.end();
  *
- *  auto i1 = thrust::prev(i0);
+ *  auto i1 = HYDRA_EXTERNAL_NS::thrust::prev(i0);
  *
  *  // vec.end() - i0 == 0
  *  // vec.end() - i1 == 1

@@ -36,14 +36,14 @@ namespace generic
 
 template <typename DerivedPolicy, typename ForwardIterator, typename T>
 __hydra_host__ __hydra_device__
-ForwardIterator lower_bound(thrust::execution_policy<DerivedPolicy> &exec, 
+ForwardIterator lower_bound(HYDRA_EXTERNAL_NS::thrust::execution_policy<DerivedPolicy> &exec, 
                             ForwardIterator begin,
                             ForwardIterator end,
                             const T& value);
 
 template <typename DerivedPolicy, typename ForwardIterator, typename T, typename StrictWeakOrdering>
 __hydra_host__ __hydra_device__
-ForwardIterator lower_bound(thrust::execution_policy<DerivedPolicy> &exec,
+ForwardIterator lower_bound(HYDRA_EXTERNAL_NS::thrust::execution_policy<DerivedPolicy> &exec,
                             ForwardIterator begin,
                             ForwardIterator end,
                             const T& value, 
@@ -52,14 +52,14 @@ ForwardIterator lower_bound(thrust::execution_policy<DerivedPolicy> &exec,
 
 template <typename DerivedPolicy, typename ForwardIterator, typename T>
 __hydra_host__ __hydra_device__
-ForwardIterator upper_bound(thrust::execution_policy<DerivedPolicy> &exec,
+ForwardIterator upper_bound(HYDRA_EXTERNAL_NS::thrust::execution_policy<DerivedPolicy> &exec,
                             ForwardIterator begin,
                             ForwardIterator end,
                             const T& value);
 
 template <typename DerivedPolicy, typename ForwardIterator, typename T, typename StrictWeakOrdering>
 __hydra_host__ __hydra_device__
-ForwardIterator upper_bound(thrust::execution_policy<DerivedPolicy> &exec, 
+ForwardIterator upper_bound(HYDRA_EXTERNAL_NS::thrust::execution_policy<DerivedPolicy> &exec, 
                             ForwardIterator begin,
                             ForwardIterator end,
                             const T& value, 
@@ -68,14 +68,14 @@ ForwardIterator upper_bound(thrust::execution_policy<DerivedPolicy> &exec,
 
 template <typename DerivedPolicy, typename ForwardIterator, typename T>
 __hydra_host__ __hydra_device__
-bool binary_search(thrust::execution_policy<DerivedPolicy> &exec,
+bool binary_search(HYDRA_EXTERNAL_NS::thrust::execution_policy<DerivedPolicy> &exec,
                    ForwardIterator begin,
                    ForwardIterator end,
                    const T& value);
 
 template <typename DerivedPolicy, typename ForwardIterator, typename T, typename StrictWeakOrdering>
 __hydra_host__ __hydra_device__
-bool binary_search(thrust::execution_policy<DerivedPolicy> &exec,
+bool binary_search(HYDRA_EXTERNAL_NS::thrust::execution_policy<DerivedPolicy> &exec,
                    ForwardIterator begin,
                    ForwardIterator end,
                    const T& value, 
@@ -84,7 +84,7 @@ bool binary_search(thrust::execution_policy<DerivedPolicy> &exec,
 
 template <typename DerivedPolicy, typename ForwardIterator, typename InputIterator, typename OutputIterator>
 __hydra_host__ __hydra_device__
-OutputIterator lower_bound(thrust::execution_policy<DerivedPolicy> &exec,
+OutputIterator lower_bound(HYDRA_EXTERNAL_NS::thrust::execution_policy<DerivedPolicy> &exec,
                            ForwardIterator begin, 
                            ForwardIterator end,
                            InputIterator values_begin, 
@@ -94,7 +94,7 @@ OutputIterator lower_bound(thrust::execution_policy<DerivedPolicy> &exec,
 
 template <typename DerivedPolicy, typename ForwardIterator, typename InputIterator, typename OutputIterator, typename StrictWeakOrdering>
 __hydra_host__ __hydra_device__
-OutputIterator lower_bound(thrust::execution_policy<DerivedPolicy> &exec,
+OutputIterator lower_bound(HYDRA_EXTERNAL_NS::thrust::execution_policy<DerivedPolicy> &exec,
                            ForwardIterator begin, 
                            ForwardIterator end,
                            InputIterator values_begin, 
@@ -105,7 +105,7 @@ OutputIterator lower_bound(thrust::execution_policy<DerivedPolicy> &exec,
 
 template <typename DerivedPolicy, typename ForwardIterator, typename InputIterator, typename OutputIterator>
 __hydra_host__ __hydra_device__
-OutputIterator upper_bound(thrust::execution_policy<DerivedPolicy> &exec,
+OutputIterator upper_bound(HYDRA_EXTERNAL_NS::thrust::execution_policy<DerivedPolicy> &exec,
                            ForwardIterator begin, 
                            ForwardIterator end,
                            InputIterator values_begin, 
@@ -115,7 +115,7 @@ OutputIterator upper_bound(thrust::execution_policy<DerivedPolicy> &exec,
 
 template <typename DerivedPolicy, typename ForwardIterator, typename InputIterator, typename OutputIterator, typename StrictWeakOrdering>
 __hydra_host__ __hydra_device__
-OutputIterator upper_bound(thrust::execution_policy<DerivedPolicy> &exec,
+OutputIterator upper_bound(HYDRA_EXTERNAL_NS::thrust::execution_policy<DerivedPolicy> &exec,
                            ForwardIterator begin, 
                            ForwardIterator end,
                            InputIterator values_begin, 
@@ -126,7 +126,7 @@ OutputIterator upper_bound(thrust::execution_policy<DerivedPolicy> &exec,
 
 template <typename DerivedPolicy, typename ForwardIterator, typename InputIterator, typename OutputIterator>
 __hydra_host__ __hydra_device__
-OutputIterator binary_search(thrust::execution_policy<DerivedPolicy> &exec,
+OutputIterator binary_search(HYDRA_EXTERNAL_NS::thrust::execution_policy<DerivedPolicy> &exec,
                              ForwardIterator begin, 
                              ForwardIterator end,
                              InputIterator values_begin, 
@@ -136,7 +136,7 @@ OutputIterator binary_search(thrust::execution_policy<DerivedPolicy> &exec,
 
 template <typename DerivedPolicy, typename ForwardIterator, typename InputIterator, typename OutputIterator, typename StrictWeakOrdering>
 __hydra_host__ __hydra_device__
-OutputIterator binary_search(thrust::execution_policy<DerivedPolicy> &exec,
+OutputIterator binary_search(HYDRA_EXTERNAL_NS::thrust::execution_policy<DerivedPolicy> &exec,
                              ForwardIterator begin, 
                              ForwardIterator end,
                              InputIterator values_begin, 
@@ -147,8 +147,8 @@ OutputIterator binary_search(thrust::execution_policy<DerivedPolicy> &exec,
 
 template <typename DerivedPolicy, typename ForwardIterator, typename LessThanComparable>
 __hydra_host__ __hydra_device__
-thrust::pair<ForwardIterator,ForwardIterator>
-equal_range(thrust::execution_policy<DerivedPolicy> &exec,
+HYDRA_EXTERNAL_NS::thrust::pair<ForwardIterator,ForwardIterator>
+equal_range(HYDRA_EXTERNAL_NS::thrust::execution_policy<DerivedPolicy> &exec,
             ForwardIterator first,
             ForwardIterator last,
             const LessThanComparable &value);
@@ -156,8 +156,8 @@ equal_range(thrust::execution_policy<DerivedPolicy> &exec,
 
 template <typename DerivedPolicy, typename ForwardIterator, typename LessThanComparable, typename StrictWeakOrdering>
 __hydra_host__ __hydra_device__
-thrust::pair<ForwardIterator,ForwardIterator>
-equal_range(thrust::execution_policy<DerivedPolicy> &exec,
+HYDRA_EXTERNAL_NS::thrust::pair<ForwardIterator,ForwardIterator>
+equal_range(HYDRA_EXTERNAL_NS::thrust::execution_policy<DerivedPolicy> &exec,
             ForwardIterator first,
             ForwardIterator last,
             const LessThanComparable &value,

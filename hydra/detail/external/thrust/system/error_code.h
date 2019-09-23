@@ -43,11 +43,11 @@ class error_code;
 
 /*! A metafunction returning whether or not the parameter is an \p error_code enum.
  */
-template<typename T> struct is_error_code_enum : public thrust::detail::false_type {};
+template<typename T> struct is_error_code_enum : public HYDRA_EXTERNAL_NS::thrust::detail::false_type {};
 
 /*! A metafunction returning whether or not the parameter is an \p error_condition enum.
  */
-template<typename T> struct is_error_condition_enum : public thrust::detail::false_type {};
+template<typename T> struct is_error_condition_enum : public HYDRA_EXTERNAL_NS::thrust::detail::false_type {};
 
 
 // XXX N3092 prefers enum class errc { ... }
@@ -143,7 +143,7 @@ enum errc_t
 
 /*! Specialization of \p is_error_condition_enum for \p errc::errc_t
  */
-template<> struct is_error_condition_enum<errc::errc_t> : public thrust::detail::true_type {};
+template<> struct is_error_condition_enum<errc::errc_t> : public HYDRA_EXTERNAL_NS::thrust::detail::true_type {};
 
 
 // [19.5.1.1] class error_category
@@ -252,9 +252,9 @@ class error_code
     template <typename ErrorCodeEnum>
       error_code(ErrorCodeEnum e
 // XXX WAR msvc's problem with enable_if
-#if THRUST_HOST_COMPILER != THRUST_HOST_COMPILER_MSVC
-        , typename thrust::detail::enable_if<is_error_code_enum<ErrorCodeEnum>::value>::type * = 0
-#endif // THRUST_HOST_COMPILER_MSVC
+#if HYDRA_THRUST_HOST_COMPILER != HYDRA_THRUST_HOST_COMPILER_MSVC
+        , typename HYDRA_EXTERNAL_NS::thrust::detail::enable_if<is_error_code_enum<ErrorCodeEnum>::value>::type * = 0
+#endif // HYDRA_THRUST_HOST_COMPILER_MSVC
         );
 
     // [19.5.2.3] modifiers:
@@ -267,11 +267,11 @@ class error_code
      */
     template <typename ErrorCodeEnum>
 // XXX WAR msvc's problem with enable_if
-#if THRUST_HOST_COMPILER != THRUST_HOST_COMPILER_MSVC
-      typename thrust::detail::enable_if<is_error_code_enum<ErrorCodeEnum>::value, error_code>::type &
+#if HYDRA_THRUST_HOST_COMPILER != HYDRA_THRUST_HOST_COMPILER_MSVC
+      typename HYDRA_EXTERNAL_NS::thrust::detail::enable_if<is_error_code_enum<ErrorCodeEnum>::value, error_code>::type &
 #else
       error_code &
-#endif // THRUST_HOST_COMPILER_MSVC
+#endif // HYDRA_THRUST_HOST_COMPILER_MSVC
         operator=(ErrorCodeEnum e);
 
     /*! \post <tt>value() == 0</tt> and <tt>category() == system_category()</tt>.
@@ -368,9 +368,9 @@ class error_condition
     template<typename ErrorConditionEnum>
       error_condition(ErrorConditionEnum e
 // XXX WAR msvc's problem with enable_if
-#if THRUST_HOST_COMPILER != THRUST_HOST_COMPILER_MSVC
-        , typename thrust::detail::enable_if<is_error_condition_enum<ErrorConditionEnum>::value>::type * = 0
-#endif // THRUST_HOST_COMPILER != THRUST_HOST_COMPILER_MSVC
+#if HYDRA_THRUST_HOST_COMPILER != HYDRA_THRUST_HOST_COMPILER_MSVC
+        , typename HYDRA_EXTERNAL_NS::thrust::detail::enable_if<is_error_condition_enum<ErrorConditionEnum>::value>::type * = 0
+#endif // HYDRA_THRUST_HOST_COMPILER != HYDRA_THRUST_HOST_COMPILER_MSVC
                      );
 
     // [19.5.3.3] modifiers
@@ -391,11 +391,11 @@ class error_condition
      */
     template<typename ErrorConditionEnum>
 // XXX WAR msvc's problem with enable_if
-#if THRUST_HOST_COMPILER != THRUST_HOST_COMPILER_MSVC
-      typename thrust::detail::enable_if<is_error_condition_enum<ErrorConditionEnum>::value, error_condition>::type &
+#if HYDRA_THRUST_HOST_COMPILER != HYDRA_THRUST_HOST_COMPILER_MSVC
+      typename HYDRA_EXTERNAL_NS::thrust::detail::enable_if<is_error_condition_enum<ErrorConditionEnum>::value, error_condition>::type &
 #else
       error_condition &
-#endif // THRUST_HOST_COMPILER != THRUST_HOST_COMPILER_MSVC
+#endif // HYDRA_THRUST_HOST_COMPILER != HYDRA_THRUST_HOST_COMPILER_MSVC
         operator=(ErrorConditionEnum e);
 
     /*! Clears this \p error_code object.
@@ -500,7 +500,7 @@ inline bool operator!=(const error_condition &lhs, const error_condition &rhs);
 } // end system
 
 
-// import names into thrust::
+// import names into HYDRA_EXTERNAL_NS::thrust::
 using system::error_category;
 using system::error_code;
 using system::error_condition;

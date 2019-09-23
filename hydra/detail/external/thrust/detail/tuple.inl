@@ -68,13 +68,13 @@ template<int N, class T>
     typedef typename tuple_element<N-1, Next>::type unqualified_type;
 
   public:
-    typedef typename thrust::detail::add_const<unqualified_type>::type type;
+    typedef typename HYDRA_EXTERNAL_NS::thrust::detail::add_const<unqualified_type>::type type;
 }; // end tuple_element<N, const T>
 
 template<class T>
   struct tuple_element<0,const T>
 {
-  typedef typename thrust::detail::add_const<typename T::head_type>::type type;
+  typedef typename HYDRA_EXTERNAL_NS::thrust::detail::add_const<typename T::head_type>::type type;
 }; // end tuple_element<0,const T>
 
 
@@ -112,7 +112,7 @@ template <class T> struct access_traits
   typedef const T& const_type;
   typedef T& non_const_type;
 
-  typedef const typename thrust::detail::remove_cv<T>::type& parameter_type;
+  typedef const typename HYDRA_EXTERNAL_NS::thrust::detail::remove_cv<T>::type& parameter_type;
 
 // used as the tuple constructors parameter types
 // Rationale: non-reference tuple element types can be cv-qualified.
@@ -232,7 +232,7 @@ template <class T> struct wrap_non_storeable_type
 {
   // XXX is_function looks complicated; punt for now -jph
   //typedef typename IF<
-  //  ::thrust::detail::is_function<T>::value, non_storeable_type<T>, T
+  //  ::HYDRA_EXTERNAL_NS::thrust::detail::is_function<T>::value, non_storeable_type<T>, T
   //>::RET type;
 
   typedef T type;
@@ -339,7 +339,7 @@ template <class HT, class TT>
              typename tuple_element<N, cons<HT, TT> >::type
            >::non_const_type
   get() {
-    return thrust::get<N>(*this); // delegate to non-member get
+    return HYDRA_EXTERNAL_NS::thrust::get<N>(*this); // delegate to non-member get
   }
 
   template <int N>
@@ -348,13 +348,13 @@ template <class HT, class TT>
              typename tuple_element<N, cons<HT, TT> >::type
            >::const_type
   get() const {
-    return thrust::get<N>(*this); // delegate to non-member get
+    return HYDRA_EXTERNAL_NS::thrust::get<N>(*this); // delegate to non-member get
   }
 
   inline __hydra_host__ __hydra_device__
   void swap(cons &c)
   {
-    using thrust::swap;
+    using HYDRA_EXTERNAL_NS::thrust::swap;
 
     swap(head, c.head);
     tail.swap(c.tail);
@@ -435,7 +435,7 @@ template <class HT>
   //get(BOOST_EXPLICIT_TEMPLATE_NON_TYPE(int, N))
   get(void)
   {
-    return thrust::get<N>(*this);
+    return HYDRA_EXTERNAL_NS::thrust::get<N>(*this);
   }
 
   template <int N>
@@ -447,13 +447,13 @@ template <class HT>
   //get(BOOST_EXPLICIT_TEMPLATE_NON_TYPE(int, N)) const
   get(void) const
   {
-    return thrust::get<N>(*this);
+    return HYDRA_EXTERNAL_NS::thrust::get<N>(*this);
   }
 
   inline __hydra_host__ __hydra_device__
   void swap(cons &c)
   {
-    using thrust::swap;
+    using HYDRA_EXTERNAL_NS::thrust::swap;
 
     swap(head, c.head);
   }
@@ -795,8 +795,8 @@ template<
   typename U0, typename U1, typename U2, typename U3, typename U4, typename U5, typename U6, typename U7, typename U8, typename U9
 >
 __hydra_host__ __hydra_device__ inline
-void swap(thrust::tuple<T0,T1,T2,T3,T4,T5,T6,T7,T8,T9> &x,
-          thrust::tuple<U0,U1,U2,U3,U4,U5,U6,U7,U8,U9> &y)
+void swap(HYDRA_EXTERNAL_NS::thrust::tuple<T0,T1,T2,T3,T4,T5,T6,T7,T8,T9> &x,
+          HYDRA_EXTERNAL_NS::thrust::tuple<U0,U1,U2,U3,U4,U5,U6,U7,U8,U9> &y)
 {
   return x.swap(y);
 }

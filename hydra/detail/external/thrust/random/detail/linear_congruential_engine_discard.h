@@ -45,13 +45,13 @@ template<typename UIntType, UIntType a, unsigned long long c, UIntType m>
 
 // specialize for small integers and c == 0
 // XXX figure out a robust implemenation of this for any unsigned integer type later
-template<thrust::detail::uint32_t a, thrust::detail::uint32_t m>
-  struct linear_congruential_engine_discard_implementation<thrust::detail::uint32_t,a,0,m>
+template<HYDRA_EXTERNAL_NS::thrust::detail::uint32_t a, HYDRA_EXTERNAL_NS::thrust::detail::uint32_t m>
+  struct linear_congruential_engine_discard_implementation<HYDRA_EXTERNAL_NS::thrust::detail::uint32_t,a,0,m>
 {
   __hydra_host__ __hydra_device__
-  static void discard(thrust::detail::uint32_t &state, unsigned long long z)
+  static void discard(HYDRA_EXTERNAL_NS::thrust::detail::uint32_t &state, unsigned long long z)
   {
-    const thrust::detail::uint32_t modulus = m;
+    const HYDRA_EXTERNAL_NS::thrust::detail::uint32_t modulus = m;
 
     // XXX we need to use unsigned long long here or we will encounter overflow in the
     //     multiplies below
@@ -73,7 +73,7 @@ template<thrust::detail::uint32_t a, thrust::detail::uint32_t m>
       multiplier = (multiplier * multiplier) % modulus;
     }
 
-    state = static_cast<thrust::detail::uint32_t>((multiplier_to_z * state) % modulus);
+    state = static_cast<HYDRA_EXTERNAL_NS::thrust::detail::uint32_t>((multiplier_to_z * state) % modulus);
   }
 }; // end linear_congruential_engine_discard
 

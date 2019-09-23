@@ -54,10 +54,10 @@ namespace random
  *  int main(void)
  *  {
  *    // create a minstd_rand object to act as our source of randomness
- *    thrust::minstd_rand rng;
+ *    HYDRA_EXTERNAL_NS::thrust::minstd_rand rng;
  *
  *    // create a uniform_int_distribution to produce ints from [-7,13]
- *    thrust::uniform_int_distribution<int> dist(-7,13);
+ *    HYDRA_EXTERNAL_NS::thrust::uniform_int_distribution<int> dist(-7,13);
  *
  *    // write a random number from the range [-7,13] to standard output
  *    std::cout << dist(rng) << std::endl;
@@ -98,7 +98,7 @@ template<typename IntType = int>
     /*! \typedef param_type
      *  \brief The type of the object encapsulating this \p uniform_int_distribution's parameters.
      */
-    typedef thrust::pair<IntType,IntType> param_type;
+    typedef HYDRA_EXTERNAL_NS::thrust::pair<IntType,IntType> param_type;
 
     // constructors and reset functions
 
@@ -110,7 +110,7 @@ template<typename IntType = int>
      *           the platform.
      */
     __hydra_host__ __hydra_device__
-    explicit uniform_int_distribution(IntType a = 0, IntType b = thrust::detail::integer_traits<IntType>::const_max);
+    explicit uniform_int_distribution(IntType a = 0, IntType b = HYDRA_EXTERNAL_NS::thrust::detail::integer_traits<IntType>::const_max);
 
     /*! This constructor creates a new \p uniform_int_distribution from a \p param_type object
      *  encapsulating the range of the distribution.
@@ -187,21 +187,21 @@ template<typename IntType = int>
      *  \return The lower bound of this \p uniform_int_distribution's range.
      */
     __hydra_host__ __hydra_device__
-    result_type min THRUST_PREVENT_MACRO_SUBSTITUTION (void) const;
+    result_type min HYDRA_THRUST_PREVENT_MACRO_SUBSTITUTION (void) const;
 
     /*! This method returns the largest integer this \p uniform_int_distribution can potentially produce.
      *
      *  \return The upper bound of this \p uniform_int_distribution's range.
      */
     __hydra_host__ __hydra_device__
-    result_type max THRUST_PREVENT_MACRO_SUBSTITUTION (void) const;
+    result_type max HYDRA_THRUST_PREVENT_MACRO_SUBSTITUTION (void) const;
 
     /*! \cond
      */
   private:
     param_type m_param;
 
-    friend struct thrust::random::detail::random_core_access;
+    friend struct HYDRA_EXTERNAL_NS::thrust::random::detail::random_core_access;
 
     __hydra_host__ __hydra_device__
     bool equal(const uniform_int_distribution &rhs) const;

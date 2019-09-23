@@ -54,10 +54,10 @@ HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
  *
  *  \pre The range <tt>[map_first, map_last)</tt> shall not overlap the range <tt>[result, result + (map_last - map_first))</tt>.
  *
- *  \remark \p gather is the inverse of thrust::scatter.
+ *  \remark \p gather is the inverse of HYDRA_EXTERNAL_NS::thrust::scatter.
  *
  *  The following code snippet demonstrates how to use \p gather to reorder
- *  a range using the \p thrust::device execution policy for parallelization:
+ *  a range using the \p HYDRA_EXTERNAL_NS::thrust::device execution policy for parallelization:
  *
  *  \code
  *  #include <hydra/detail/external/thrust/gather.h>
@@ -66,15 +66,15 @@ HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
  *  ...
  *  // mark even indices with a 1; odd indices with a 0
  *  int values[10] = {1, 0, 1, 0, 1, 0, 1, 0, 1, 0};
- *  thrust::device_vector<int> d_values(values, values + 10);
+ *  HYDRA_EXTERNAL_NS::thrust::device_vector<int> d_values(values, values + 10);
  *
  *  // gather all even indices into the first half of the range
  *  // and odd indices to the last half of the range
  *  int map[10]   = {0, 2, 4, 6, 8, 1, 3, 5, 7, 9};
- *  thrust::device_vector<int> d_map(map, map + 10);
+ *  HYDRA_EXTERNAL_NS::thrust::device_vector<int> d_map(map, map + 10);
  *
- *  thrust::device_vector<int> d_output(10);
- *  thrust::gather(thrust::device,
+ *  HYDRA_EXTERNAL_NS::thrust::device_vector<int> d_output(10);
+ *  HYDRA_EXTERNAL_NS::thrust::gather(HYDRA_EXTERNAL_NS::thrust::device,
  *                 d_map.begin(), d_map.end(),
  *                 d_values.begin(),
  *                 d_output.begin());
@@ -86,7 +86,7 @@ template<typename DerivedPolicy,
          typename RandomAccessIterator,
          typename OutputIterator>
 __hydra_host__ __hydra_device__
-  OutputIterator gather(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
+  OutputIterator gather(const HYDRA_EXTERNAL_NS::thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                         InputIterator                                               map_first,
                         InputIterator                                               map_last,
                         RandomAccessIterator                                        input_first,
@@ -109,7 +109,7 @@ __hydra_host__ __hydra_device__
  *
  *  \pre The range <tt>[map_first, map_last)</tt> shall not overlap the range <tt>[result, result + (map_last - map_first))</tt>.
  *
- *  \remark \p gather is the inverse of thrust::scatter.
+ *  \remark \p gather is the inverse of HYDRA_EXTERNAL_NS::thrust::scatter.
  *
  *  The following code snippet demonstrates how to use \p gather to reorder
  *  a range.
@@ -120,15 +120,15 @@ __hydra_host__ __hydra_device__
  *  ...
  *  // mark even indices with a 1; odd indices with a 0
  *  int values[10] = {1, 0, 1, 0, 1, 0, 1, 0, 1, 0};
- *  thrust::device_vector<int> d_values(values, values + 10);
+ *  HYDRA_EXTERNAL_NS::thrust::device_vector<int> d_values(values, values + 10);
  *
  *  // gather all even indices into the first half of the range
  *  // and odd indices to the last half of the range
  *  int map[10]   = {0, 2, 4, 6, 8, 1, 3, 5, 7, 9};
- *  thrust::device_vector<int> d_map(map, map + 10);
+ *  HYDRA_EXTERNAL_NS::thrust::device_vector<int> d_map(map, map + 10);
  *
- *  thrust::device_vector<int> d_output(10);
- *  thrust::gather(d_map.begin(), d_map.end(),
+ *  HYDRA_EXTERNAL_NS::thrust::device_vector<int> d_output(10);
+ *  HYDRA_EXTERNAL_NS::thrust::gather(d_map.begin(), d_map.end(),
  *                 d_values.begin(),
  *                 d_output.begin());
  *  // d_output is now {1, 1, 1, 1, 1, 0, 0, 0, 0, 0}
@@ -170,7 +170,7 @@ template<typename InputIterator,
  *  \remark \p gather_if is the inverse of \p scatter_if.
  *
  *  The following code snippet demonstrates how to use \p gather_if to gather selected values from
- *  an input range using the \p thrust::device execution policy:
+ *  an input range using the \p HYDRA_EXTERNAL_NS::thrust::device execution policy:
  *
  *  \code
  *  #include <hydra/detail/external/thrust/gather.h>
@@ -179,19 +179,19 @@ template<typename InputIterator,
  *  ...
  *
  *  int values[10] = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9};
- *  thrust::device_vector<int> d_values(values, values + 10);
+ *  HYDRA_EXTERNAL_NS::thrust::device_vector<int> d_values(values, values + 10);
  *
  *  // select elements at even-indexed locations
  *  int stencil[10] = {1, 0, 1, 0, 1, 0, 1, 0, 1, 0};
- *  thrust::device_vector<int> d_stencil(stencil, stencil + 10);
+ *  HYDRA_EXTERNAL_NS::thrust::device_vector<int> d_stencil(stencil, stencil + 10);
  *
  *  // map all even indices into the first half of the range
  *  // and odd indices to the last half of the range
  *  int map[10]   = {0, 2, 4, 6, 8, 1, 3, 5, 7, 9};
- *  thrust::device_vector<int> d_map(map, map + 10);
+ *  HYDRA_EXTERNAL_NS::thrust::device_vector<int> d_map(map, map + 10);
  *
- *  thrust::device_vector<int> d_output(10, 7);
- *  thrust::gather_if(thrust::device,
+ *  HYDRA_EXTERNAL_NS::thrust::device_vector<int> d_output(10, 7);
+ *  HYDRA_EXTERNAL_NS::thrust::gather_if(HYDRA_EXTERNAL_NS::thrust::device,
  *                    d_map.begin(), d_map.end(),
  *                    d_stencil.begin(),
  *                    d_values.begin(),
@@ -205,7 +205,7 @@ template<typename DerivedPolicy,
          typename RandomAccessIterator,
          typename OutputIterator>
 __hydra_host__ __hydra_device__
-  OutputIterator gather_if(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
+  OutputIterator gather_if(const HYDRA_EXTERNAL_NS::thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                            InputIterator1                                              map_first,
                            InputIterator1                                              map_last,
                            InputIterator2                                              stencil,
@@ -244,19 +244,19 @@ __hydra_host__ __hydra_device__
  *  ...
  *
  *  int values[10] = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9};
- *  thrust::device_vector<int> d_values(values, values + 10);
+ *  HYDRA_EXTERNAL_NS::thrust::device_vector<int> d_values(values, values + 10);
  *
  *  // select elements at even-indexed locations
  *  int stencil[10] = {1, 0, 1, 0, 1, 0, 1, 0, 1, 0};
- *  thrust::device_vector<int> d_stencil(stencil, stencil + 10);
+ *  HYDRA_EXTERNAL_NS::thrust::device_vector<int> d_stencil(stencil, stencil + 10);
  *
  *  // map all even indices into the first half of the range
  *  // and odd indices to the last half of the range
  *  int map[10]   = {0, 2, 4, 6, 8, 1, 3, 5, 7, 9};
- *  thrust::device_vector<int> d_map(map, map + 10);
+ *  HYDRA_EXTERNAL_NS::thrust::device_vector<int> d_map(map, map + 10);
  *
- *  thrust::device_vector<int> d_output(10, 7);
- *  thrust::gather_if(d_map.begin(), d_map.end(),
+ *  HYDRA_EXTERNAL_NS::thrust::device_vector<int> d_output(10, 7);
+ *  HYDRA_EXTERNAL_NS::thrust::gather_if(d_map.begin(), d_map.end(),
  *                    d_stencil.begin(),
  *                    d_values.begin(),
  *                    d_output.begin());
@@ -303,7 +303,7 @@ template<typename InputIterator1,
  *  \remark \p gather_if is the inverse of \p scatter_if.
  *
  *  The following code snippet demonstrates how to use \p gather_if to gather selected values from
- *  an input range based on an arbitrary selection function using the \p thrust::device execution policy for parallelization:
+ *  an input range based on an arbitrary selection function using the \p HYDRA_EXTERNAL_NS::thrust::device execution policy for parallelization:
  *
  *  \code
  *  #include <hydra/detail/external/thrust/gather.h>
@@ -321,19 +321,19 @@ template<typename InputIterator1,
  *  ...
  *
  *  int values[10] = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9};
- *  thrust::device_vector<int> d_values(values, values + 10);
+ *  HYDRA_EXTERNAL_NS::thrust::device_vector<int> d_values(values, values + 10);
  *
  *  // we will select an element when our stencil is even
  *  int stencil[10] = {0, 3, 4, 1, 4, 1, 2, 7, 8, 9};
- *  thrust::device_vector<int> d_stencil(stencil, stencil + 10);
+ *  HYDRA_EXTERNAL_NS::thrust::device_vector<int> d_stencil(stencil, stencil + 10);
  *
  *  // map all even indices into the first half of the range
  *  // and odd indices to the last half of the range
  *  int map[10]   = {0, 2, 4, 6, 8, 1, 3, 5, 7, 9};
- *  thrust::device_vector<int> d_map(map, map + 10);
+ *  HYDRA_EXTERNAL_NS::thrust::device_vector<int> d_map(map, map + 10);
  *
- *  thrust::device_vector<int> d_output(10, 7);
- *  thrust::gather_if(thrust::device,
+ *  HYDRA_EXTERNAL_NS::thrust::device_vector<int> d_output(10, 7);
+ *  HYDRA_EXTERNAL_NS::thrust::gather_if(HYDRA_EXTERNAL_NS::thrust::device,
  *                    d_map.begin(), d_map.end(),
  *                    d_stencil.begin(),
  *                    d_values.begin(),
@@ -349,7 +349,7 @@ template<typename DerivedPolicy,
          typename OutputIterator,
          typename Predicate>
 __hydra_host__ __hydra_device__
-  OutputIterator gather_if(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
+  OutputIterator gather_if(const HYDRA_EXTERNAL_NS::thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                            InputIterator1                                              map_first,
                            InputIterator1                                              map_last,
                            InputIterator2                                              stencil,
@@ -400,19 +400,19 @@ __hydra_host__ __hydra_device__
  *  ...
  *
  *  int values[10] = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9};
- *  thrust::device_vector<int> d_values(values, values + 10);
+ *  HYDRA_EXTERNAL_NS::thrust::device_vector<int> d_values(values, values + 10);
  *
  *  // we will select an element when our stencil is even
  *  int stencil[10] = {0, 3, 4, 1, 4, 1, 2, 7, 8, 9};
- *  thrust::device_vector<int> d_stencil(stencil, stencil + 10);
+ *  HYDRA_EXTERNAL_NS::thrust::device_vector<int> d_stencil(stencil, stencil + 10);
  *
  *  // map all even indices into the first half of the range
  *  // and odd indices to the last half of the range
  *  int map[10]   = {0, 2, 4, 6, 8, 1, 3, 5, 7, 9};
- *  thrust::device_vector<int> d_map(map, map + 10);
+ *  HYDRA_EXTERNAL_NS::thrust::device_vector<int> d_map(map, map + 10);
  *
- *  thrust::device_vector<int> d_output(10, 7);
- *  thrust::gather_if(d_map.begin(), d_map.end(),
+ *  HYDRA_EXTERNAL_NS::thrust::device_vector<int> d_output(10, 7);
+ *  HYDRA_EXTERNAL_NS::thrust::gather_if(d_map.begin(), d_map.end(),
  *                    d_stencil.begin(),
  *                    d_values.begin(),
  *                    d_output.begin(),

@@ -20,58 +20,58 @@
 
 #include <cstddef>
 
-#if THRUST_CPP_DIALECT >= 2011
+#if HYDRA_THRUST_CPP_DIALECT >= 2011
 #  ifndef __has_cpp_attribute
 #    define __has_cpp_attribute(X) 0
 #  endif
 
 #  if __has_cpp_attribute(nodiscard)
-#    define THRUST_NODISCARD [[nodiscard]]
+#    define HYDRA_THRUST_NODISCARD [[nodiscard]]
 #  endif
 
-#  define THRUST_CONSTEXPR constexpr
-#  define THRUST_OVERRIDE override
-#  define THRUST_DEFAULT = default;
-#  define THRUST_NOEXCEPT noexcept
-#  define THRUST_FINAL final
+#  define HYDRA_THRUST_CONSTEXPR constexpr
+#  define HYDRA_THRUST_OVERRIDE override
+#  define HYDRA_THRUST_DEFAULT = default;
+#  define HYDRA_THRUST_NOEXCEPT noexcept
+#  define HYDRA_THRUST_FINAL final
 #else
-#  define THRUST_CONSTEXPR
-#  define THRUST_OVERRIDE
-#  define THRUST_DEFAULT {}
-#  define THRUST_NOEXCEPT throw()
-#  define THRUST_FINAL
+#  define HYDRA_THRUST_CONSTEXPR
+#  define HYDRA_THRUST_OVERRIDE
+#  define HYDRA_THRUST_DEFAULT {}
+#  define HYDRA_THRUST_NOEXCEPT throw()
+#  define HYDRA_THRUST_FINAL
 #endif
 
-#ifndef THRUST_NODISCARD
-#  define THRUST_NODISCARD
+#ifndef HYDRA_THRUST_NODISCARD
+#  define HYDRA_THRUST_NODISCARD
 #endif
 
-// FIXME: Combine THRUST_INLINE_CONSTANT and
-// THRUST_INLINE_INTEGRAL_MEMBER_CONSTANT into one macro when NVCC properly
+// FIXME: Combine HYDRA_THRUST_INLINE_CONSTANT and
+// HYDRA_THRUST_INLINE_INTEGRAL_MEMBER_CONSTANT into one macro when NVCC properly
 // supports `constexpr` globals in host and device code.
 #ifdef __CUDA_ARCH__
 // FIXME: Add this when NVCC supports inline variables.
-//#  if   THRUST_CPP_DIALECT >= 2017
-//#    define THRUST_INLINE_CONSTANT                 inline constexpr
-//#    define THRUST_INLINE_INTEGRAL_MEMBER_CONSTANT inline constexpr
-#  if THRUST_CPP_DIALECT >= 2011
-#    define THRUST_INLINE_CONSTANT                 static constexpr
-#    define THRUST_INLINE_INTEGRAL_MEMBER_CONSTANT static constexpr
+//#  if   HYDRA_THRUST_CPP_DIALECT >= 2017
+//#    define HYDRA_THRUST_INLINE_CONSTANT                 inline constexpr
+//#    define HYDRA_THRUST_INLINE_INTEGRAL_MEMBER_CONSTANT inline constexpr
+#  if HYDRA_THRUST_CPP_DIALECT >= 2011
+#    define HYDRA_THRUST_INLINE_CONSTANT                 static constexpr
+#    define HYDRA_THRUST_INLINE_INTEGRAL_MEMBER_CONSTANT static constexpr
 #  else
-#    define THRUST_INLINE_CONSTANT                 static const __device__
-#    define THRUST_INLINE_INTEGRAL_MEMBER_CONSTANT static const
+#    define HYDRA_THRUST_INLINE_CONSTANT                 static const __device__
+#    define HYDRA_THRUST_INLINE_INTEGRAL_MEMBER_CONSTANT static const
 #  endif
 #else
 // FIXME: Add this when NVCC supports inline variables.
-//#  if   THRUST_CPP_DIALECT >= 2017
-//#    define THRUST_INLINE_CONSTANT                 inline constexpr
-//#    define THRUST_INLINE_INTEGRAL_MEMBER_CONSTANT inline constexpr
-#  if THRUST_CPP_DIALECT >= 2011
-#    define THRUST_INLINE_CONSTANT                 static constexpr
-#    define THRUST_INLINE_INTEGRAL_MEMBER_CONSTANT static constexpr
+//#  if   HYDRA_THRUST_CPP_DIALECT >= 2017
+//#    define HYDRA_THRUST_INLINE_CONSTANT                 inline constexpr
+//#    define HYDRA_THRUST_INLINE_INTEGRAL_MEMBER_CONSTANT inline constexpr
+#  if HYDRA_THRUST_CPP_DIALECT >= 2011
+#    define HYDRA_THRUST_INLINE_CONSTANT                 static constexpr
+#    define HYDRA_THRUST_INLINE_INTEGRAL_MEMBER_CONSTANT static constexpr
 #  else
-#    define THRUST_INLINE_CONSTANT                 static const
-#    define THRUST_INLINE_INTEGRAL_MEMBER_CONSTANT static const
+#    define HYDRA_THRUST_INLINE_CONSTANT                 static const
+#    define HYDRA_THRUST_INLINE_INTEGRAL_MEMBER_CONSTANT static const
 #  endif
 #endif
 

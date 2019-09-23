@@ -26,14 +26,14 @@
 // and only nvcc knows what to do with __hydra_host__ and __device__,
 // define them to be the empty string for other compilers
 
-#if THRUST_DEVICE_COMPILER != THRUST_DEVICE_COMPILER_NVCC
+#if HYDRA_THRUST_DEVICE_COMPILER != HYDRA_THRUST_DEVICE_COMPILER_NVCC
 
 // since __hydra_host__ & __device__ might have already be defined, only
 // #define them if not defined already
 // XXX this will break if the client does #include <host_defines.h> later
 
-#ifndef __hydra_host__
-#define __hydra_host__
+#ifndef __host__
+#define __host__
 #endif // __hydra_host__
 
 #ifndef __device__

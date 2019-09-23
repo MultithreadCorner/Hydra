@@ -27,12 +27,12 @@ namespace detail
 
 template<typename T, typename System, typename Pointer>
   class malloc_allocator
-    : public thrust::detail::tagged_allocator<
+    : public HYDRA_EXTERNAL_NS::thrust::detail::tagged_allocator<
                T, System, Pointer
              >
 {
   private:
-    typedef thrust::detail::tagged_allocator<
+    typedef HYDRA_EXTERNAL_NS::thrust::detail::tagged_allocator<
       T, System, Pointer
     > super_t;
 

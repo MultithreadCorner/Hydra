@@ -30,14 +30,14 @@ HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
 template<typename Iterator>
   struct iterator_value
 {
-  typedef typename thrust::iterator_traits<Iterator>::value_type type;
+  typedef typename HYDRA_EXTERNAL_NS::thrust::iterator_traits<Iterator>::value_type type;
 }; // end iterator_value
 
 
 template<typename Iterator>
   struct iterator_pointer
 {
-  typedef typename thrust::iterator_traits<Iterator>::pointer type;
+  typedef typename HYDRA_EXTERNAL_NS::thrust::iterator_traits<Iterator>::pointer type;
 }; // end iterator_pointer
 
 
@@ -51,7 +51,7 @@ template<typename Iterator>
 template<typename Iterator>
   struct iterator_difference
 {
-  typedef typename thrust::iterator_traits<Iterator>::difference_type type;
+  typedef typename HYDRA_EXTERNAL_NS::thrust::iterator_traits<Iterator>::difference_type type;
 }; // end iterator_difference
 
 namespace detail
@@ -81,20 +81,20 @@ struct iterator_system : detail::iterator_system_impl<Iterator> {};
 template<>
   struct iterator_system<void *>
 {
-  typedef thrust::iterator_system<int*>::type type;
+  typedef HYDRA_EXTERNAL_NS::thrust::iterator_system<int*>::type type;
 }; // end iterator_system<void*>
 
 template<>
   struct iterator_system<const void *>
 {
-  typedef thrust::iterator_system<const int*>::type type;
+  typedef HYDRA_EXTERNAL_NS::thrust::iterator_system<const int*>::type type;
 }; // end iterator_system<void*>
 
 
 template <typename Iterator>
   struct iterator_traversal
     : detail::iterator_category_to_traversal<
-        typename thrust::iterator_traits<Iterator>::iterator_category
+        typename HYDRA_EXTERNAL_NS::thrust::iterator_traits<Iterator>::iterator_category
       >
 {
 }; // end iterator_traversal
@@ -104,7 +104,7 @@ namespace detail
 
 template <typename T>
   struct is_iterator_traversal
-    : thrust::detail::is_convertible<T, incrementable_traversal_tag>
+    : HYDRA_EXTERNAL_NS::thrust::detail::is_convertible<T, incrementable_traversal_tag>
 {
 }; // end is_iterator_traversal
 

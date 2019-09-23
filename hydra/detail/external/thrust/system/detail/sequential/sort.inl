@@ -40,9 +40,9 @@ namespace sort_detail
 
 template<typename KeyType, typename Compare>
 struct needs_reverse
-  : thrust::detail::integral_constant<
+  : HYDRA_EXTERNAL_NS::thrust::detail::integral_constant<
       bool,
-      thrust::detail::is_same<Compare, typename thrust::greater<KeyType> >::value
+      HYDRA_EXTERNAL_NS::thrust::detail::is_same<Compare, typename HYDRA_EXTERNAL_NS::thrust::greater<KeyType> >::value
     >
 {};
 
@@ -55,16 +55,16 @@ void stable_sort(sequential::execution_policy<DerivedPolicy> &exec,
                  RandomAccessIterator first,
                  RandomAccessIterator last,
                  StrictWeakOrdering,
-                 thrust::detail::true_type)
+                 HYDRA_EXTERNAL_NS::thrust::detail::true_type)
 {
-  thrust::system::detail::sequential::stable_primitive_sort(exec, first, last);
+  HYDRA_EXTERNAL_NS::thrust::system::detail::sequential::stable_primitive_sort(exec, first, last);
         
   // if comp is greater<T> then reverse the keys
-  typedef typename thrust::iterator_traits<RandomAccessIterator>::value_type KeyType;
+  typedef typename HYDRA_EXTERNAL_NS::thrust::iterator_traits<RandomAccessIterator>::value_type KeyType;
 
   if(needs_reverse<KeyType,StrictWeakOrdering>::value)
   {
-    thrust::reverse(exec, first, last);
+    HYDRA_EXTERNAL_NS::thrust::reverse(exec, first, last);
   }
 }
 
@@ -79,24 +79,24 @@ void stable_sort_by_key(sequential::execution_policy<DerivedPolicy> &exec,
                         RandomAccessIterator1 last1,
                         RandomAccessIterator2 first2,
                         StrictWeakOrdering,
-                        thrust::detail::true_type)
+                        HYDRA_EXTERNAL_NS::thrust::detail::true_type)
 {
   // if comp is greater<T> then reverse the keys and values
-  typedef typename thrust::iterator_traits<RandomAccessIterator1>::value_type KeyType;
+  typedef typename HYDRA_EXTERNAL_NS::thrust::iterator_traits<RandomAccessIterator1>::value_type KeyType;
 
   // note, we also have to reverse the (unordered) input to preserve stability
   if(needs_reverse<KeyType,StrictWeakOrdering>::value)
   {
-    thrust::reverse(exec, first1,  last1);
-    thrust::reverse(exec, first2, first2 + (last1 - first1));
+    HYDRA_EXTERNAL_NS::thrust::reverse(exec, first1,  last1);
+    HYDRA_EXTERNAL_NS::thrust::reverse(exec, first2, first2 + (last1 - first1));
   }
 
-  thrust::system::detail::sequential::stable_primitive_sort_by_key(exec, first1, last1, first2);
+  HYDRA_EXTERNAL_NS::thrust::system::detail::sequential::stable_primitive_sort_by_key(exec, first1, last1, first2);
 
   if(needs_reverse<KeyType,StrictWeakOrdering>::value)
   {
-    thrust::reverse(exec, first1,  last1);
-    thrust::reverse(exec, first2, first2 + (last1 - first1));
+    HYDRA_EXTERNAL_NS::thrust::reverse(exec, first1,  last1);
+    HYDRA_EXTERNAL_NS::thrust::reverse(exec, first2, first2 + (last1 - first1));
   }
 }
 
@@ -114,9 +114,9 @@ void stable_sort(sequential::execution_policy<DerivedPolicy> &exec,
                  RandomAccessIterator first,
                  RandomAccessIterator last,
                  StrictWeakOrdering comp,
-                 thrust::detail::false_type)
+                 HYDRA_EXTERNAL_NS::thrust::detail::false_type)
 {
-  thrust::system::detail::sequential::stable_merge_sort(exec, first, last, comp);
+  HYDRA_EXTERNAL_NS::thrust::system::detail::sequential::stable_merge_sort(exec, first, last, comp);
 }
 
 
@@ -130,19 +130,19 @@ void stable_sort_by_key(sequential::execution_policy<DerivedPolicy> &exec,
                         RandomAccessIterator1 last1,
                         RandomAccessIterator2 first2,
                         StrictWeakOrdering comp,
-                        thrust::detail::false_type)
+                        HYDRA_EXTERNAL_NS::thrust::detail::false_type)
 {
-  thrust::system::detail::sequential::stable_merge_sort_by_key(exec, first1, last1, first2, comp);
+  HYDRA_EXTERNAL_NS::thrust::system::detail::sequential::stable_merge_sort_by_key(exec, first1, last1, first2, comp);
 }
 
 
 template<typename KeyType, typename Compare>
 struct use_primitive_sort
-  : thrust::detail::and_<
-      thrust::detail::is_arithmetic<KeyType>,
-      thrust::detail::or_<
-        thrust::detail::is_same<Compare, thrust::less<KeyType> >,
-        thrust::detail::is_same<Compare, thrust::greater<KeyType> >
+  : HYDRA_EXTERNAL_NS::thrust::detail::and_<
+      HYDRA_EXTERNAL_NS::thrust::detail::is_arithmetic<KeyType>,
+      HYDRA_EXTERNAL_NS::thrust::detail::or_<
+        HYDRA_EXTERNAL_NS::thrust::detail::is_same<Compare, HYDRA_EXTERNAL_NS::thrust::less<KeyType> >,
+        HYDRA_EXTERNAL_NS::thrust::detail::is_same<Compare, HYDRA_EXTERNAL_NS::thrust::greater<KeyType> >
       >
     >
 {};
@@ -163,10 +163,10 @@ void stable_sort(sequential::execution_policy<DerivedPolicy> &exec,
 
   // the compilation time of stable_primitive_sort is too expensive to use within a single CUDA thread
 #ifndef __CUDA_ARCH__
-  typedef typename thrust::iterator_traits<RandomAccessIterator>::value_type KeyType;
+  typedef typename HYDRA_EXTERNAL_NS::thrust::iterator_traits<RandomAccessIterator>::value_type KeyType;
   sort_detail::use_primitive_sort<KeyType,StrictWeakOrdering> use_primitive_sort;
 #else
-  thrust::detail::false_type use_primitive_sort;
+  HYDRA_EXTERNAL_NS::thrust::detail::false_type use_primitive_sort;
 #endif
 
   sort_detail::stable_sort(exec, first, last, comp, use_primitive_sort);
@@ -187,10 +187,10 @@ void stable_sort_by_key(sequential::execution_policy<DerivedPolicy> &exec,
 
   // the compilation time of stable_primitive_sort_by_key is too expensive to use within a single CUDA thread
 #ifndef __CUDA_ARCH__
-  typedef typename thrust::iterator_traits<RandomAccessIterator1>::value_type KeyType;
+  typedef typename HYDRA_EXTERNAL_NS::thrust::iterator_traits<RandomAccessIterator1>::value_type KeyType;
   sort_detail::use_primitive_sort<KeyType,StrictWeakOrdering> use_primitive_sort;
 #else
-  thrust::detail::false_type use_primitive_sort;
+  HYDRA_EXTERNAL_NS::thrust::detail::false_type use_primitive_sort;
 #endif
 
   sort_detail::stable_sort_by_key(exec, first1, last1, first2, comp, use_primitive_sort);
@@ -201,4 +201,4 @@ void stable_sort_by_key(sequential::execution_policy<DerivedPolicy> &exec,
 } // end namespace detail
 } // end namespace system
 } // end HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
-
+HYDRA_EXTERNAL_NAMESPACE_END

@@ -23,7 +23,7 @@ HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
 {
 
 struct any_system_tag
-  : thrust::execution_policy<any_system_tag>
+  : HYDRA_EXTERNAL_NS::thrust::execution_policy<any_system_tag>
 {
   // allow any_system_tag to convert to any type at all
   // XXX make this safer using enable_if<is_tag<T>> upon c++11
@@ -31,7 +31,7 @@ struct any_system_tag
 };
 
 // TODO remove this in 1.7.0
-typedef THRUST_DEPRECATED any_system_tag any_space_tag;
+typedef HYDRA_THRUST_DEPRECATED any_system_tag any_space_tag;
 
 } // end HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
 

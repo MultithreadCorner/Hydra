@@ -19,7 +19,7 @@
 #include <hydra/detail/external/thrust/detail/config.h>
 #include <hydra/detail/external/thrust/detail/cpp11_required.h>
 
-#if THRUST_CPP_DIALECT >= 2011
+#if HYDRA_THRUST_CPP_DIALECT >= 2011
 
 #include <hydra/detail/external/thrust/detail/type_deduction.h>
 #include <hydra/detail/external/thrust/type_traits/remove_cvref.h>
@@ -36,18 +36,18 @@ struct capture_as_dependency_fn
 {
   template<typename Dependency>
   auto operator()(Dependency&& dependency) const
-  THRUST_DECLTYPE_RETURNS(capture_as_dependency(THRUST_FWD(dependency)))
+  HYDRA_THRUST_DECLTYPE_RETURNS(capture_as_dependency(HYDRA_THRUST_FWD(dependency)))
 };
 
 // Default implementation: universal forwarding.
 template<typename Dependency>
 auto capture_as_dependency(Dependency&& dependency)
-THRUST_DECLTYPE_RETURNS(THRUST_FWD(dependency))
+HYDRA_THRUST_DECLTYPE_RETURNS(HYDRA_THRUST_FWD(dependency))
 
 template<typename... Dependencies>
 auto capture_as_dependency(std::tuple<Dependencies...>& dependencies)
-THRUST_DECLTYPE_RETURNS(
-  tuple_for_each(THRUST_FWD(dependencies), capture_as_dependency_fn{})
+HYDRA_THRUST_DECLTYPE_RETURNS(
+  tuple_for_each(HYDRA_THRUST_FWD(dependencies), capture_as_dependency_fn{})
 )
 
 template<template<typename> class BaseSystem, typename... Dependencies>
@@ -69,14 +69,14 @@ public:
     template <typename... UDependencies>
     __hydra_host__
     execute_with_dependencies(super_t const &super, UDependencies && ...deps)
-        : super_t(super), dependencies(THRUST_FWD(deps)...)
+        : super_t(super), dependencies(HYDRA_THRUST_FWD(deps)...)
     {
     }
 
     template <typename... UDependencies>
     __hydra_host__
     execute_with_dependencies(UDependencies && ...deps)
-        : dependencies(THRUST_FWD(deps)...)
+        : dependencies(HYDRA_THRUST_FWD(deps)...)
     {
     }
 
@@ -107,7 +107,7 @@ public:
     execute_with_dependencies<BaseSystem, UDependencies...>
     rebind_after(UDependencies&& ...udependencies) const
     {
-        return { capture_as_dependency(THRUST_FWD(udependencies))... };
+        return { capture_as_dependency(HYDRA_THRUST_FWD(udependencies))... };
     }
 
     // Rebinding.
@@ -157,14 +157,14 @@ public:
     template <typename... UDependencies>
     __hydra_host__
     execute_with_allocator_and_dependencies(super_t const &super, Allocator a, UDependencies && ...deps)
-        : super_t(super), dependencies(THRUST_FWD(deps)...), alloc(a)
+        : super_t(super), dependencies(HYDRA_THRUST_FWD(deps)...), alloc(a)
     {
     }
 
     template <typename... UDependencies>
     __hydra_host__
     execute_with_allocator_and_dependencies(Allocator a, UDependencies && ...deps)
-        : dependencies(THRUST_FWD(deps)...), alloc(a)
+        : dependencies(HYDRA_THRUST_FWD(deps)...), alloc(a)
     {
     }
 
@@ -202,7 +202,7 @@ public:
     execute_with_allocator_and_dependencies<Allocator, BaseSystem, UDependencies...>
     rebind_after(UDependencies&& ...udependencies) const
     {
-        return { alloc, capture_as_dependency(THRUST_FWD(udependencies))... };
+        return { alloc, capture_as_dependency(HYDRA_THRUST_FWD(udependencies))... };
     }
 
     // Rebinding.
@@ -225,14 +225,14 @@ public:
 template<template<typename> class BaseSystem, typename ...Dependencies>
 __hydra_host__
 std::tuple<remove_cvref_t<Dependencies>...>
-extract_dependencies(thrust::detail::execute_with_dependencies<BaseSystem, Dependencies...>&& system)
+extract_dependencies(HYDRA_EXTERNAL_NS::thrust::detail::execute_with_dependencies<BaseSystem, Dependencies...>&& system)
 {
     return std::move(system).extract_dependencies();
 }
 template<template<typename> class BaseSystem, typename ...Dependencies>
 __hydra_host__
 std::tuple<remove_cvref_t<Dependencies>...>
-extract_dependencies(thrust::detail::execute_with_dependencies<BaseSystem, Dependencies...>& system)
+extract_dependencies(HYDRA_EXTERNAL_NS::thrust::detail::execute_with_dependencies<BaseSystem, Dependencies...>& system)
 {
     return std::move(system).extract_dependencies();
 }
@@ -240,14 +240,14 @@ extract_dependencies(thrust::detail::execute_with_dependencies<BaseSystem, Depen
 template<typename Allocator, template<typename> class BaseSystem, typename ...Dependencies>
 __hydra_host__
 std::tuple<remove_cvref_t<Dependencies>...>
-extract_dependencies(thrust::detail::execute_with_allocator_and_dependencies<Allocator, BaseSystem, Dependencies...>&& system)
+extract_dependencies(HYDRA_EXTERNAL_NS::thrust::detail::execute_with_allocator_and_dependencies<Allocator, BaseSystem, Dependencies...>&& system)
 {
     return std::move(system).extract_dependencies();
 }
 template<typename Allocator, template<typename> class BaseSystem, typename ...Dependencies>
 __hydra_host__
 std::tuple<remove_cvref_t<Dependencies>...>
-extract_dependencies(thrust::detail::execute_with_allocator_and_dependencies<Allocator, BaseSystem, Dependencies...>& system)
+extract_dependencies(HYDRA_EXTERNAL_NS::thrust::detail::execute_with_allocator_and_dependencies<Allocator, BaseSystem, Dependencies...>& system)
 {
     return std::move(system).extract_dependencies();
 }
@@ -264,5 +264,5 @@ extract_dependencies(System &&)
 } // end HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
 
 HYDRA_EXTERNAL_NAMESPACE_END
-#endif // THRUST_CPP_DIALECT >= 2011
+#endif // HYDRA_THRUST_CPP_DIALECT >= 2011
 

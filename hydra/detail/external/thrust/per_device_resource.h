@@ -19,7 +19,7 @@
 #include <hydra/detail/external/thrust/detail/config.h>
 #include <hydra/detail/external/thrust/detail/cpp11_required.h>
 
-#if THRUST_CPP_DIALECT >= 2011
+#if HYDRA_THRUST_CPP_DIALECT >= 2011
 
 #include <hydra/detail/external/thrust/system/detail/generic/per_device_resource.h>
 #include <hydra/detail/external/thrust/system/detail/adl/per_device_resource.h>
@@ -28,7 +28,7 @@
 #include <hydra/detail/external/thrust/detail/execution_policy.h>
 #include <hydra/detail/external/thrust/mr/allocator.h>
 
-THRUST_BEGIN_NS
+HYDRA_THRUST_BEGIN_NS
 
 /*! Returns a global instance of \p MR for the current device of the provided system.
  *
@@ -38,13 +38,13 @@ THRUST_BEGIN_NS
  */
 template<typename MR, typename DerivedPolicy>
 __hydra_host__
-MR * get_per_device_resource(const thrust::detail::execution_policy_base<DerivedPolicy> & system)
+MR * get_per_device_resource(const HYDRA_EXTERNAL_NS::thrust::detail::execution_policy_base<DerivedPolicy> & system)
 {
-    using thrust::system::detail::generic::get_per_device_resource;
+    using HYDRA_EXTERNAL_NS::thrust::system::detail::generic::get_per_device_resource;
 
     return get_per_device_resource<MR>(
-        thrust::detail::derived_cast(
-            thrust::detail::strip_const(system)));
+        HYDRA_EXTERNAL_NS::thrust::detail::derived_cast(
+            HYDRA_EXTERNAL_NS::thrust::detail::strip_const(system)));
 }
 
 /*! A helper allocator class that uses global per device instances of a given upstream memory resource. Requires the memory
@@ -52,13 +52,13 @@ MR * get_per_device_resource(const thrust::detail::execution_policy_base<Derived
  *
  *  \tparam T the type that will be allocated by this allocator.
  *  \tparam MR the upstream memory resource to use for memory allocation. Must derive from
- *      \p thrust::mr::memory_resource and must be \p final.
+ *      \p HYDRA_EXTERNAL_NS::thrust::mr::memory_resource and must be \p final.
  *  \tparam ExecutionPolicy the execution policy of the system to be used to retrieve the resource for the current device.
  */
 template<typename T, typename Upstream, typename ExecutionPolicy>
-class per_device_allocator : public thrust::mr::allocator<T, Upstream>
+class per_device_allocator : public HYDRA_EXTERNAL_NS::thrust::mr::allocator<T, Upstream>
 {
-    typedef thrust::mr::allocator<T, Upstream> base;
+    typedef HYDRA_EXTERNAL_NS::thrust::mr::allocator<T, Upstream> base;
 
 public:
     /*! The \p rebind metafunction provides the type of an \p per_device_allocator instantiated with another type.
@@ -98,6 +98,6 @@ public:
 };
 
 
-THRUST_END_NS
+HYDRA_THRUST_END_NS
 
-#endif // THRUST_CPP_DIALECT >= 2011
+#endif // HYDRA_THRUST_CPP_DIALECT >= 2011

@@ -33,7 +33,7 @@ template<typename ExecutionPolicy,
          typename ForwardIterator,
          typename Generator>
 __hydra_host__ __hydra_device__
-  void generate(thrust::execution_policy<ExecutionPolicy> &exec,
+  void generate(HYDRA_EXTERNAL_NS::thrust::execution_policy<ExecutionPolicy> &exec,
                 ForwardIterator first,
                 ForwardIterator last,
                 Generator gen);
@@ -43,7 +43,7 @@ template<typename ExecutionPolicy,
          typename Size,
          typename Generator>
 __hydra_host__ __hydra_device__
-  OutputIterator generate_n(thrust::execution_policy<ExecutionPolicy> &exec,
+  OutputIterator generate_n(HYDRA_EXTERNAL_NS::thrust::execution_policy<ExecutionPolicy> &exec,
                             OutputIterator first,
                             Size n,
                             Generator gen);

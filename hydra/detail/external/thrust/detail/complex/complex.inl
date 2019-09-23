@@ -24,7 +24,7 @@ HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
 
 /* --- Constructors --- */
 
-#if THRUST_CPP_DIALECT < 2011
+#if HYDRA_THRUST_CPP_DIALECT < 2011
 template <typename T>
 __hydra_host__ __hydra_device__
 complex<T>::complex()
@@ -37,7 +37,7 @@ complex<T>::complex()
 template <typename T>
 __hydra_host__ __hydra_device__
 complex<T>::complex(const T& re)
-#if THRUST_CPP_DIALECT >= 2011
+#if HYDRA_THRUST_CPP_DIALECT >= 2011
   // Initialize the storage in the member initializer list using C++ unicorn
   // initialization. This allows `complex<T const>` to work.
   : data{re, T()}
@@ -53,7 +53,7 @@ complex<T>::complex(const T& re)
 template <typename T>
 __hydra_host__ __hydra_device__
 complex<T>::complex(const T& re, const T& im)
-#if THRUST_CPP_DIALECT >= 2011
+#if HYDRA_THRUST_CPP_DIALECT >= 2011
   // Initialize the storage in the member initializer list using C++ unicorn
   // initialization. This allows `complex<T const>` to work.
   : data{re, im}
@@ -65,7 +65,7 @@ complex<T>::complex(const T& re, const T& im)
 }
 #endif
 
-#if THRUST_CPP_DIALECT < 2011
+#if HYDRA_THRUST_CPP_DIALECT < 2011
 template <typename T>
 __hydra_host__ __hydra_device__
 complex<T>::complex(const complex<T>& z)
@@ -79,7 +79,7 @@ template <typename T>
 template <typename U>
 __hydra_host__ __hydra_device__
 complex<T>::complex(const complex<U>& z)
-#if THRUST_CPP_DIALECT >= 2011
+#if HYDRA_THRUST_CPP_DIALECT >= 2011
   // Initialize the storage in the member initializer list using C++ unicorn
   // initialization. This allows `complex<T const>` to work.
   // We do a functional-style cast here to suppress conversion warnings.
@@ -93,34 +93,34 @@ complex<T>::complex(const complex<U>& z)
 #endif
 
 template <typename T>
-__hydra_host__ THRUST_STD_COMPLEX_DEVICE
+__hydra_host__ HYDRA_THRUST_STD_COMPLEX_DEVICE
 complex<T>::complex(const std::complex<T>& z)
-#if THRUST_CPP_DIALECT >= 2011
+#if HYDRA_THRUST_CPP_DIALECT >= 2011
   // Initialize the storage in the member initializer list using C++ unicorn
   // initialization. This allows `complex<T const>` to work.
-  : data{THRUST_STD_COMPLEX_REAL(z), THRUST_STD_COMPLEX_IMAG(z)}
+  : data{HYDRA_THRUST_STD_COMPLEX_REAL(z), HYDRA_THRUST_STD_COMPLEX_IMAG(z)}
 {}
 #else
 {
-  real(THRUST_STD_COMPLEX_REAL(z));
-  imag(THRUST_STD_COMPLEX_IMAG(z));
+  real(HYDRA_THRUST_STD_COMPLEX_REAL(z));
+  imag(HYDRA_THRUST_STD_COMPLEX_IMAG(z));
 }
 #endif
 
 template <typename T>
 template <typename U>
-__hydra_host__ THRUST_STD_COMPLEX_DEVICE
+__hydra_host__ HYDRA_THRUST_STD_COMPLEX_DEVICE
 complex<T>::complex(const std::complex<U>& z)
-#if THRUST_CPP_DIALECT >= 2011
+#if HYDRA_THRUST_CPP_DIALECT >= 2011
   // Initialize the storage in the member initializer list using C++ unicorn
   // initialization. This allows `complex<T const>` to work.
   // We do a functional-style cast here to suppress conversion warnings.
-  : data{T(THRUST_STD_COMPLEX_REAL(z)), T(THRUST_STD_COMPLEX_IMAG(z))}
+  : data{T(HYDRA_THRUST_STD_COMPLEX_REAL(z)), T(HYDRA_THRUST_STD_COMPLEX_IMAG(z))}
 {}
 #else
 {
-  real(T(THRUST_STD_COMPLEX_REAL(z)));
-  imag(T(THRUST_STD_COMPLEX_IMAG(z)));
+  real(T(HYDRA_THRUST_STD_COMPLEX_REAL(z)));
+  imag(T(HYDRA_THRUST_STD_COMPLEX_IMAG(z)));
 }
 #endif
 
@@ -137,7 +137,7 @@ complex<T>& complex<T>::operator=(const T& re)
   return *this;
 }
 
-#if THRUST_CPP_DIALECT < 2011
+#if HYDRA_THRUST_CPP_DIALECT < 2011
 template <typename T>
 __hydra_host__ __hydra_device__
 complex<T>& complex<T>::operator=(const complex<T>& z)
@@ -159,21 +159,21 @@ complex<T>& complex<T>::operator=(const complex<U>& z)
 }
 
 template <typename T>
-__hydra_host__ THRUST_STD_COMPLEX_DEVICE
+__hydra_host__ HYDRA_THRUST_STD_COMPLEX_DEVICE
 complex<T>& complex<T>::operator=(const std::complex<T>& z)
 {
-  real(THRUST_STD_COMPLEX_REAL(z));
-  imag(THRUST_STD_COMPLEX_IMAG(z));
+  real(HYDRA_THRUST_STD_COMPLEX_REAL(z));
+  imag(HYDRA_THRUST_STD_COMPLEX_IMAG(z));
   return *this;
 }
 
 template <typename T>
 template <typename U>
-__hydra_host__ THRUST_STD_COMPLEX_DEVICE
+__hydra_host__ HYDRA_THRUST_STD_COMPLEX_DEVICE
 complex<T>& complex<T>::operator=(const std::complex<U>& z)
 {
-  real(T(THRUST_STD_COMPLEX_REAL(z)));
-  imag(T(THRUST_STD_COMPLEX_IMAG(z)));
+  real(T(HYDRA_THRUST_STD_COMPLEX_REAL(z)));
+  imag(T(HYDRA_THRUST_STD_COMPLEX_IMAG(z)));
   return *this;
 }
 
@@ -265,17 +265,17 @@ bool operator==(const complex<T0>& x, const complex<T1>& y)
 }
 
 template <typename T0, typename T1>
-__hydra_host__ THRUST_STD_COMPLEX_DEVICE
+__hydra_host__ HYDRA_THRUST_STD_COMPLEX_DEVICE
 bool operator==(const complex<T0>& x, const std::complex<T1>& y)
 {
-  return x.real() == THRUST_STD_COMPLEX_REAL(y) && x.imag() == THRUST_STD_COMPLEX_IMAG(y);
+  return x.real() == HYDRA_THRUST_STD_COMPLEX_REAL(y) && x.imag() == HYDRA_THRUST_STD_COMPLEX_IMAG(y);
 }
 
 template <typename T0, typename T1>
-__hydra_host__ THRUST_STD_COMPLEX_DEVICE
+__hydra_host__ HYDRA_THRUST_STD_COMPLEX_DEVICE
 bool operator==(const std::complex<T0>& x, const complex<T1>& y)
 {
-  return THRUST_STD_COMPLEX_REAL(x) == y.real() && THRUST_STD_COMPLEX_IMAG(x) == y.imag();
+  return HYDRA_THRUST_STD_COMPLEX_REAL(x) == y.real() && HYDRA_THRUST_STD_COMPLEX_IMAG(x) == y.imag();
 }
 
 template <typename T0, typename T1>
@@ -300,14 +300,14 @@ bool operator!=(const complex<T0>& x, const complex<T1>& y)
 }
 
 template <typename T0, typename T1>
-__hydra_host__ THRUST_STD_COMPLEX_DEVICE
+__hydra_host__ HYDRA_THRUST_STD_COMPLEX_DEVICE
 bool operator!=(const complex<T0>& x, const std::complex<T1>& y)
 {
   return !(x == y);
 }
 
 template <typename T0, typename T1>
-__hydra_host__ THRUST_STD_COMPLEX_DEVICE
+__hydra_host__ HYDRA_THRUST_STD_COMPLEX_DEVICE
 bool operator!=(const std::complex<T0>& x, const complex<T1>& y)
 {
   return !(x == y);
@@ -328,7 +328,7 @@ bool operator!=(const complex<T0>& x, const T1& y)
 }
 
 template <typename T>
-struct proclaim_trivially_relocatable<complex<T> > : thrust::true_type {};
+struct proclaim_trivially_relocatable<complex<T> > : HYDRA_EXTERNAL_NS::thrust::true_type {};
 
 } // end HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
 

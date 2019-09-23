@@ -50,7 +50,7 @@ typename lazy_enable_if<
 >::type
 get_or(const Tuple &t, const T &val)
 {
-  return thrust::get<i>(t);
+  return HYDRA_EXTERNAL_NS::thrust::get<i>(t);
 }
 
 
@@ -95,7 +95,7 @@ struct tuple_tail_result
 {
   static const int limit = tuple_size<Tuple>::value;
 
-  typedef thrust::tuple<
+  typedef HYDRA_EXTERNAL_NS::thrust::tuple<
     typename tuple_element_or_null<1,limit,Tuple>::type,
     typename tuple_element_or_null<2,limit,Tuple>::type,
     typename tuple_element_or_null<3,limit,Tuple>::type,
@@ -142,7 +142,7 @@ typename enable_if<
   typedef typename tuple_tail_result<Tuple>::type result_type;
 
   // XXX we require this extra overload of tuple_tail()
-  //     because there is no thrust::tuple constructor
+  //     because there is no HYDRA_EXTERNAL_NS::thrust::tuple constructor
   //     which takes a null_type in the first parameter slot
 
   return result_type();
@@ -188,7 +188,7 @@ if_else(const True &t, const False &f)
 template<typename T, typename Tuple>
 struct tuple_append_result
 {
-  static const int append_slot = thrust::tuple_size<Tuple>::value;
+  static const int append_slot = HYDRA_EXTERNAL_NS::thrust::tuple_size<Tuple>::value;
 
   template<int i>
   struct null_unless_append_slot
@@ -205,7 +205,7 @@ struct tuple_append_result
   // in that case, use x when i == x_slot,
   // otherwise use null_type
 
-  typedef thrust::tuple<
+  typedef HYDRA_EXTERNAL_NS::thrust::tuple<
     typename get_or_result<0,Tuple, typename null_unless_append_slot<0>::type>::type,
     typename get_or_result<1,Tuple, typename null_unless_append_slot<1>::type>::type,
     typename get_or_result<2,Tuple, typename null_unless_append_slot<2>::type>::type,
@@ -230,7 +230,7 @@ typename enable_if<
 tuple_append(const Tuple &t, const T &x)
 {
   // the slot into which x will go
-  const int x_slot = thrust::tuple_size<Tuple>::value;
+  const int x_slot = HYDRA_EXTERNAL_NS::thrust::tuple_size<Tuple>::value;
 
   typedef typename tuple_append_result<T,Tuple>::type result_type;
 
@@ -262,7 +262,7 @@ typename enable_if<
 tuple_append(const Tuple &t, T &x)
 {
   // the slot into which x will go
-  static const int x_slot = thrust::tuple_size<Tuple>::value;
+  static const int x_slot = HYDRA_EXTERNAL_NS::thrust::tuple_size<Tuple>::value;
 
   typedef typename tuple_append_result<T,Tuple>::type result_type;
 

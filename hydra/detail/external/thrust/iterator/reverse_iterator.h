@@ -67,16 +67,16 @@ HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
  *  #include <hydra/detail/external/thrust/iterator/reverse_iterator.h>
  *  #include <hydra/detail/external/thrust/device_vector.h>
  *  ...
- *  thrust::device_vector<float> v(4);
+ *  HYDRA_EXTERNAL_NS::thrust::device_vector<float> v(4);
  *  v[0] = 0.0f;
  *  v[1] = 1.0f;
  *  v[2] = 2.0f;
  *  v[3] = 3.0f;
  *
- *  typedef thrust::device_vector<float>::iterator Iterator;
+ *  typedef HYDRA_EXTERNAL_NS::thrust::device_vector<float>::iterator Iterator;
  *
  *  // note that we point the iterator to the *end* of the device_vector
- *  thrust::reverse_iterator<Iterator> iter(values.end());
+ *  HYDRA_EXTERNAL_NS::thrust::reverse_iterator<Iterator> iter(values.end());
  *
  *  *iter;   // returns 3.0f;
  *  iter[0]; // returns 3.0f;
@@ -94,7 +94,7 @@ HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
  *  \code
  *  #include <hydra/detail/external/thrust/device_vector.h>
  *  ...
- *  thrust::device_vector<float> v(4);
+ *  HYDRA_EXTERNAL_NS::thrust::device_vector<float> v(4);
  *  v[0] = 0.0f;
  *  v[1] = 1.0f;
  *  v[2] = 2.0f;
@@ -103,7 +103,7 @@ HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
  *  // we use the nested type reverse_iterator to refer to a reversed view of
  *  // a device_vector and the method rbegin() to create a reverse_iterator pointing
  *  // to the beginning of the reversed device_vector
- *  thrust::device_iterator<float>::reverse_iterator iter = values.rbegin();
+ *  HYDRA_EXTERNAL_NS::thrust::device_iterator<float>::reverse_iterator iter = values.rbegin();
  *
  *  *iter;   // returns 3.0f;
  *  iter[0]; // returns 3.0f;
@@ -124,17 +124,17 @@ HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
  *  #include <hydra/detail/external/thrust/device_vector.h>
  *  #include <hydra/detail/external/thrust/scan.h>
  *  ...
- *  thrust::device_vector<int> v(5);
+ *  HYDRA_EXTERNAL_NS::thrust::device_vector<int> v(5);
  *  v[0] = 0;
  *  v[1] = 1;
  *  v[2] = 2;
  *  v[3] = 3;
  *  v[4] = 4;
  *
- *  thrust::device_vector<int> result(5);
+ *  HYDRA_EXTERNAL_NS::thrust::device_vector<int> result(5);
  *
  *  // exclusive scan v into result in reverse
- *  thrust::exclusive_scan(v.rbegin(), v.rend(), result.begin());
+ *  HYDRA_EXTERNAL_NS::thrust::exclusive_scan(v.rbegin(), v.rend(), result.begin());
  *
  *  // result is now {0, 4, 7, 9, 10}
  *  \endcode
@@ -148,11 +148,11 @@ template<typename BidirectionalIterator>
   /*! \cond
    */
   private:
-    typedef typename thrust::detail::reverse_iterator_base<
+    typedef typename HYDRA_EXTERNAL_NS::thrust::detail::reverse_iterator_base<
       BidirectionalIterator
     >::type super_t;
 
-    friend class thrust::iterator_core_access;
+    friend class HYDRA_EXTERNAL_NS::thrust::iterator_core_access;
   /*! \endcond
    */
 
@@ -181,8 +181,8 @@ template<typename BidirectionalIterator>
 // XXX msvc screws this up
 // XXX remove these guards when we have static_assert
 #ifndef _MSC_VER
-                     , typename thrust::detail::enable_if<
-                         thrust::detail::is_convertible<
+                     , typename HYDRA_EXTERNAL_NS::thrust::detail::enable_if<
+                         HYDRA_EXTERNAL_NS::thrust::detail::is_convertible<
                            OtherBidirectionalIterator,
                            BidirectionalIterator
                          >::value

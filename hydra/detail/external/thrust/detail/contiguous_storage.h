@@ -33,7 +33,7 @@ template<typename T, typename Alloc>
   class contiguous_storage
 {
   private:
-    typedef thrust::detail::allocator_traits<Alloc> alloc_traits;
+    typedef HYDRA_EXTERNAL_NS::thrust::detail::allocator_traits<Alloc> alloc_traits;
 
   public:
     typedef Alloc                                      allocator_type;
@@ -51,8 +51,8 @@ template<typename T, typename Alloc>
     typedef typename Alloc::reference                  reference;
     typedef typename Alloc::const_reference            const_reference;
 
-    typedef thrust::detail::normal_iterator<pointer>       iterator;
-    typedef thrust::detail::normal_iterator<const_pointer> const_iterator;
+    typedef HYDRA_EXTERNAL_NS::thrust::detail::normal_iterator<pointer>       iterator;
+    typedef HYDRA_EXTERNAL_NS::thrust::detail::normal_iterator<const_pointer> const_iterator;
 
     __thrust_exec_check_disable__
     __hydra_host__ __hydra_device__
@@ -129,7 +129,7 @@ template<typename T, typename Alloc>
 
     template<typename System, typename InputIterator>
     __hydra_host__ __hydra_device__
-    iterator uninitialized_copy(thrust::execution_policy<System> &from_system,
+    iterator uninitialized_copy(HYDRA_EXTERNAL_NS::thrust::execution_policy<System> &from_system,
                                 InputIterator first,
                                 InputIterator last,
                                 iterator result);
@@ -140,7 +140,7 @@ template<typename T, typename Alloc>
 
     template<typename System, typename InputIterator, typename Size>
     __hydra_host__ __hydra_device__
-    iterator uninitialized_copy_n(thrust::execution_policy<System> &from_system,
+    iterator uninitialized_copy_n(HYDRA_EXTERNAL_NS::thrust::execution_policy<System> &from_system,
                                   InputIterator first,
                                   Size n,
                                   iterator result);

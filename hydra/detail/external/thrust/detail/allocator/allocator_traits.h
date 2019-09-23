@@ -39,21 +39,21 @@ template<typename Alloc> struct allocator_system;
 namespace allocator_traits_detail
 {
 
-__THRUST_DEFINE_HAS_NESTED_TYPE(has_value_type, value_type)
-__THRUST_DEFINE_HAS_NESTED_TYPE(has_pointer, pointer)
-__THRUST_DEFINE_HAS_NESTED_TYPE(has_const_pointer, const_pointer)
-__THRUST_DEFINE_HAS_NESTED_TYPE(has_reference, reference)
-__THRUST_DEFINE_HAS_NESTED_TYPE(has_const_reference, const_reference)
-__THRUST_DEFINE_HAS_NESTED_TYPE(has_void_pointer, void_pointer)
-__THRUST_DEFINE_HAS_NESTED_TYPE(has_const_void_pointer, const_void_pointer)
-__THRUST_DEFINE_HAS_NESTED_TYPE(has_difference_type, difference_type)
-__THRUST_DEFINE_HAS_NESTED_TYPE(has_size_type, size_type)
-__THRUST_DEFINE_HAS_NESTED_TYPE(has_propagate_on_container_copy_assignment, propagate_on_container_copy_assignment)
-__THRUST_DEFINE_HAS_NESTED_TYPE(has_propagate_on_container_move_assignment, propagate_on_container_move_assignment)
-__THRUST_DEFINE_HAS_NESTED_TYPE(has_propagate_on_container_swap, propagate_on_container_swap)
-__THRUST_DEFINE_HAS_NESTED_TYPE(has_system_type, system_type)
-__THRUST_DEFINE_HAS_NESTED_TYPE(has_is_always_equal, is_always_equal)
-__THRUST_DEFINE_HAS_MEMBER_FUNCTION(has_member_system_impl, system)
+__HYDRA_THRUST_DEFINE_HAS_NESTED_TYPE(has_value_type, value_type)
+__HYDRA_THRUST_DEFINE_HAS_NESTED_TYPE(has_pointer, pointer)
+__HYDRA_THRUST_DEFINE_HAS_NESTED_TYPE(has_const_pointer, const_pointer)
+__HYDRA_THRUST_DEFINE_HAS_NESTED_TYPE(has_reference, reference)
+__HYDRA_THRUST_DEFINE_HAS_NESTED_TYPE(has_const_reference, const_reference)
+__HYDRA_THRUST_DEFINE_HAS_NESTED_TYPE(has_void_pointer, void_pointer)
+__HYDRA_THRUST_DEFINE_HAS_NESTED_TYPE(has_const_void_pointer, const_void_pointer)
+__HYDRA_THRUST_DEFINE_HAS_NESTED_TYPE(has_difference_type, difference_type)
+__HYDRA_THRUST_DEFINE_HAS_NESTED_TYPE(has_size_type, size_type)
+__HYDRA_THRUST_DEFINE_HAS_NESTED_TYPE(has_propagate_on_container_copy_assignment, propagate_on_container_copy_assignment)
+__HYDRA_THRUST_DEFINE_HAS_NESTED_TYPE(has_propagate_on_container_move_assignment, propagate_on_container_move_assignment)
+__HYDRA_THRUST_DEFINE_HAS_NESTED_TYPE(has_propagate_on_container_swap, propagate_on_container_swap)
+__HYDRA_THRUST_DEFINE_HAS_NESTED_TYPE(has_system_type, system_type)
+__HYDRA_THRUST_DEFINE_HAS_NESTED_TYPE(has_is_always_equal, is_always_equal)
+__HYDRA_THRUST_DEFINE_HAS_MEMBER_FUNCTION(has_member_system_impl, system)
 
 template<typename Alloc, typename U>
   struct has_rebind
@@ -68,7 +68,7 @@ template<typename Alloc, typename U>
 
   static bool const value = sizeof(test<U>(0)) == sizeof(yes_type);
 
-  typedef thrust::detail::integral_constant<bool, value> type;
+  typedef HYDRA_EXTERNAL_NS::thrust::detail::integral_constant<bool, value> type;
 };
 
 template<typename T>
@@ -316,13 +316,13 @@ template<typename Alloc>
   typedef typename eval_if<
     allocator_traits_detail::has_system_type<allocator_type>::value,
     allocator_traits_detail::nested_system_type<allocator_type>,
-    thrust::iterator_system<pointer>
+    HYDRA_EXTERNAL_NS::thrust::iterator_system<pointer>
   >::type system_type;
 
   // XXX rebind and rebind_traits are alias templates
   //     and so are omitted while c++11 is unavailable
 
-#if THRUST_CPP_DIALECT >= 2011
+#if HYDRA_THRUST_CPP_DIALECT >= 2011
   template <typename U>
   using rebind_alloc =
     typename allocator_traits_detail::rebind_alloc<allocator_type, U>::type;
@@ -364,7 +364,7 @@ template<typename Alloc>
   template<typename T, typename Arg1>
   inline __hydra_host__ __hydra_device__ static void construct(allocator_type &a, T *p, const Arg1 &arg1);
 
-#if THRUST_CPP_DIALECT >= 2011
+#if HYDRA_THRUST_CPP_DIALECT >= 2011
   template<typename T, typename... Args>
   inline __hydra_host__ __hydra_device__ static void construct(allocator_type &a, T *p, Args&&... args);
 #endif
@@ -394,7 +394,7 @@ template<typename Alloc>
   typedef typename eval_if<
     allocator_traits_detail::has_system_type<Alloc>::value,
     allocator_traits_detail::nested_system_type<Alloc>,
-    thrust::iterator_system<
+    HYDRA_EXTERNAL_NS::thrust::iterator_system<
       typename allocator_traits<Alloc>::pointer
     >
   >::type type;

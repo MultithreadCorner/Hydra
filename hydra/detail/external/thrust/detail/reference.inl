@@ -34,7 +34,7 @@ template<typename Element, typename Pointer, typename Derived>
     __hydra_host__ __hydra_device__
     reference<Element,Pointer,Derived>
       ::reference(const reference<OtherElement,OtherPointer,OtherDerived> &other,
-                  typename thrust::detail::enable_if_convertible<
+                  typename HYDRA_EXTERNAL_NS::thrust::detail::enable_if_convertible<
                     typename reference<OtherElement,OtherPointer,OtherDerived>::pointer,
                     pointer
                   >::type *)
@@ -101,7 +101,7 @@ template<typename Element, typename Pointer, typename Derived>
       reference<Element,Pointer,Derived>
         ::convert_to_value_type(System *system) const
 {
-  using thrust::system::detail::generic::select_system;
+  using HYDRA_EXTERNAL_NS::thrust::system::detail::generic::select_system;
   return strip_const_get_value(select_system(*system));
 } // end convert_to_value_type()
 
@@ -111,7 +111,7 @@ template<typename Element, typename Pointer, typename Derived>
   reference<Element,Pointer,Derived>
     ::operator typename reference<Element,Pointer,Derived>::value_type () const
 {
-  typedef typename thrust::iterator_system<pointer>::type System;
+  typedef typename HYDRA_EXTERNAL_NS::thrust::iterator_system<pointer>::type System;
 
   // XXX avoid default-constructing a system
   // XXX use null a reference for dispatching
@@ -132,9 +132,9 @@ template<typename Element, typename Pointer, typename Derived>
 {
   System &non_const_system = const_cast<System&>(system);
 
-  using thrust::system::detail::generic::get_value;
+  using HYDRA_EXTERNAL_NS::thrust::system::detail::generic::get_value;
 
-  return get_value(thrust::detail::derived_cast(non_const_system), m_ptr);
+  return get_value(HYDRA_EXTERNAL_NS::thrust::detail::derived_cast(non_const_system), m_ptr);
 } // end reference::strip_const_get_value()
 
 
@@ -144,7 +144,7 @@ template<typename Element, typename Pointer, typename Derived>
     void reference<Element,Pointer,Derived>
       ::assign_from(System1 *system1, System2 *system2, OtherPointer src)
 {
-  using thrust::system::detail::generic::select_system;
+  using HYDRA_EXTERNAL_NS::thrust::system::detail::generic::select_system;
 
   strip_const_assign_value(select_system(*system1, *system2), src);
 } // end assign_from()
@@ -156,8 +156,8 @@ template<typename Element, typename Pointer, typename Derived>
     void reference<Element,Pointer,Derived>
       ::assign_from(OtherPointer src)
 {
-  typedef typename thrust::iterator_system<pointer>::type      System1;
-  typedef typename thrust::iterator_system<OtherPointer>::type System2;
+  typedef typename HYDRA_EXTERNAL_NS::thrust::iterator_system<pointer>::type      System1;
+  typedef typename HYDRA_EXTERNAL_NS::thrust::iterator_system<OtherPointer>::type System2;
 
   // XXX avoid default-constructing a system
   // XXX use null references for dispatching
@@ -178,9 +178,9 @@ template<typename Element, typename Pointer, typename Derived>
 {
   System &non_const_system = const_cast<System&>(system);
 
-  using thrust::system::detail::generic::assign_value;
+  using HYDRA_EXTERNAL_NS::thrust::system::detail::generic::assign_value;
 
-  assign_value(thrust::detail::derived_cast(non_const_system), m_ptr, src);
+  assign_value(HYDRA_EXTERNAL_NS::thrust::detail::derived_cast(non_const_system), m_ptr, src);
 } // end strip_const_assign_value()
 
 
@@ -190,8 +190,8 @@ template<typename Element, typename Pointer, typename Derived>
     void reference<Element,Pointer,Derived>
       ::swap(System *system, derived_type &other)
 {
-  using thrust::system::detail::generic::select_system;
-  using thrust::system::detail::generic::iter_swap;
+  using HYDRA_EXTERNAL_NS::thrust::system::detail::generic::select_system;
+  using HYDRA_EXTERNAL_NS::thrust::system::detail::generic::iter_swap;
 
   iter_swap(select_system(*system, *system), m_ptr, other.m_ptr);
 } // end reference::swap()
@@ -202,7 +202,7 @@ template<typename Element, typename Pointer, typename Derived>
   void reference<Element,Pointer,Derived>
     ::swap(derived_type &other)
 {
-  typedef typename thrust::iterator_system<pointer>::type System;
+  typedef typename HYDRA_EXTERNAL_NS::thrust::iterator_system<pointer>::type System;
 
   // XXX avoid default-constructing a system
   // XXX use null references for dispatching

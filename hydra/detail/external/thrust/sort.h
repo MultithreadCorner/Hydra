@@ -58,7 +58,7 @@ HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
  *          <a href="http://www.sgi.com/tech/stl/LessThanComparable.html">LessThan Comparable</a> requirements.
  *
  *  The following code snippet demonstrates how to use \p sort to sort
- *  a sequence of integers using the \p thrust::host execution policy for parallelization:
+ *  a sequence of integers using the \p HYDRA_EXTERNAL_NS::thrust::host execution policy for parallelization:
  *
  *  \code
  *  #include <hydra/detail/external/thrust/sort.h>
@@ -66,7 +66,7 @@ HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
  *  ...
  *  const int N = 6;
  *  int A[N] = {1, 4, 2, 8, 5, 7};
- *  thrust::sort(thrust::host, A, A + N);
+ *  HYDRA_EXTERNAL_NS::thrust::sort(HYDRA_EXTERNAL_NS::thrust::host, A, A + N);
  *  // A is now {1, 2, 4, 5, 7, 8}
  *  \endcode
  *
@@ -76,7 +76,7 @@ HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
  */
 template<typename DerivedPolicy, typename RandomAccessIterator>
 __hydra_host__ __hydra_device__
-  void sort(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
+  void sort(const HYDRA_EXTERNAL_NS::thrust::detail::execution_policy_base<DerivedPolicy> &exec,
             RandomAccessIterator first,
             RandomAccessIterator last);
 
@@ -108,7 +108,7 @@ __hydra_host__ __hydra_device__
  *  ...
  *  const int N = 6;
  *  int A[N] = {1, 4, 2, 8, 5, 7};
- *  thrust::sort(A, A + N);
+ *  HYDRA_EXTERNAL_NS::thrust::sort(A, A + N);
  *  // A is now {1, 2, 4, 5, 7, 8}
  *  \endcode
  *
@@ -147,7 +147,7 @@ template<typename RandomAccessIterator>
  *  \tparam StrictWeakOrdering is a model of <a href="http://www.sgi.com/tech/stl/StrictWeakOrdering.html">Strict Weak Ordering</a>.
  *
  *  The following code demonstrates how to sort integers in descending order
- *  using the greater<int> comparison operator using the \p thrust::host execution policy for parallelization:
+ *  using the greater<int> comparison operator using the \p HYDRA_EXTERNAL_NS::thrust::host execution policy for parallelization:
  *
  *  \code
  *  #include <hydra/detail/external/thrust/sort.h>
@@ -156,7 +156,7 @@ template<typename RandomAccessIterator>
  *  ...
  *  const int N = 6;
  *  int A[N] = {1, 4, 2, 8, 5, 7};
- *  thrust::sort(thrust::host, A, A + N, thrust::greater<int>());
+ *  HYDRA_EXTERNAL_NS::thrust::sort(HYDRA_EXTERNAL_NS::thrust::host, A, A + N, HYDRA_EXTERNAL_NS::thrust::greater<int>());
  *  // A is now {8, 7, 5, 4, 2, 1};
  *  \endcode
  *
@@ -168,7 +168,7 @@ template<typename DerivedPolicy,
          typename RandomAccessIterator,
          typename StrictWeakOrdering>
 __hydra_host__ __hydra_device__
-  void sort(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
+  void sort(const HYDRA_EXTERNAL_NS::thrust::detail::execution_policy_base<DerivedPolicy> &exec,
             RandomAccessIterator first,
             RandomAccessIterator last,
             StrictWeakOrdering comp);
@@ -204,7 +204,7 @@ __hydra_host__ __hydra_device__
  *  ...
  *  const int N = 6;
  *  int A[N] = {1, 4, 2, 8, 5, 7};
- *  thrust::sort(A, A + N, thrust::greater<int>());
+ *  HYDRA_EXTERNAL_NS::thrust::sort(A, A + N, HYDRA_EXTERNAL_NS::thrust::greater<int>());
  *  // A is now {8, 7, 5, 4, 2, 1};
  *  \endcode
  *
@@ -248,7 +248,7 @@ __hydra_host__ __hydra_device__
  *          <a href="http://www.sgi.com/tech/stl/LessThanComparable.html">LessThan Comparable</a> requirements.
  *
  *  The following code snippet demonstrates how to use \p sort to sort
- *  a sequence of integers using the \p thrust::host execution policy for parallelization:
+ *  a sequence of integers using the \p HYDRA_EXTERNAL_NS::thrust::host execution policy for parallelization:
  *
  *  \code
  *  #include <hydra/detail/external/thrust/sort.h>
@@ -256,7 +256,7 @@ __hydra_host__ __hydra_device__
  *  ...
  *  const int N = 6;
  *  int A[N] = {1, 4, 2, 8, 5, 7};
- *  thrust::stable_sort(thrust::host, A, A + N);
+ *  HYDRA_EXTERNAL_NS::thrust::stable_sort(HYDRA_EXTERNAL_NS::thrust::host, A, A + N);
  *  // A is now {1, 2, 4, 5, 7, 8}
  *  \endcode
  *
@@ -266,7 +266,7 @@ __hydra_host__ __hydra_device__
  */
 template<typename DerivedPolicy, typename RandomAccessIterator>
 __hydra_host__ __hydra_device__
-  void stable_sort(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
+  void stable_sort(const HYDRA_EXTERNAL_NS::thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                    RandomAccessIterator first,
                    RandomAccessIterator last);
 
@@ -302,7 +302,7 @@ __hydra_host__ __hydra_device__
  *  ...
  *  const int N = 6;
  *  int A[N] = {1, 4, 2, 8, 5, 7};
- *  thrust::stable_sort(A, A + N);
+ *  HYDRA_EXTERNAL_NS::thrust::stable_sort(A, A + N);
  *  // A is now {1, 2, 4, 5, 7, 8}
  *  \endcode
  *
@@ -345,7 +345,7 @@ template<typename RandomAccessIterator>
  *  \tparam StrictWeakOrdering is a model of <a href="http://www.sgi.com/tech/stl/StrictWeakOrdering.html">Strict Weak Ordering</a>.
  *
  *  The following code demonstrates how to sort integers in descending order
- *  using the greater<int> comparison operator using the \p thrust::host execution policy for parallelization:
+ *  using the greater<int> comparison operator using the \p HYDRA_EXTERNAL_NS::thrust::host execution policy for parallelization:
  *
  *  \code
  *  #include <hydra/detail/external/thrust/sort.h>
@@ -354,7 +354,7 @@ template<typename RandomAccessIterator>
  *  ...
  *  const int N = 6;
  *  int A[N] = {1, 4, 2, 8, 5, 7};
- *  thrust::sort(A, A + N, thrust::greater<int>());
+ *  HYDRA_EXTERNAL_NS::thrust::sort(A, A + N, HYDRA_EXTERNAL_NS::thrust::greater<int>());
  *  // A is now {8, 7, 5, 4, 2, 1};
  *  \endcode
  *
@@ -366,7 +366,7 @@ template<typename DerivedPolicy,
          typename RandomAccessIterator,
          typename StrictWeakOrdering>
 __hydra_host__ __hydra_device__
-  void stable_sort(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
+  void stable_sort(const HYDRA_EXTERNAL_NS::thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                    RandomAccessIterator first,
                    RandomAccessIterator last,
                    StrictWeakOrdering comp);
@@ -406,7 +406,7 @@ __hydra_host__ __hydra_device__
  *  ...
  *  const int N = 6;
  *  int A[N] = {1, 4, 2, 8, 5, 7};
- *  thrust::sort(A, A + N, thrust::greater<int>());
+ *  HYDRA_EXTERNAL_NS::thrust::sort(A, A + N, HYDRA_EXTERNAL_NS::thrust::greater<int>());
  *  // A is now {8, 7, 5, 4, 2, 1};
  *  \endcode
  *
@@ -461,7 +461,7 @@ template<typename RandomAccessIterator,
  *  \pre The range <tt>[keys_first, keys_last))</tt> shall not overlap the range <tt>[values_first, values_first + (keys_last - keys_first))</tt>.
  *
  *  The following code snippet demonstrates how to use \p sort_by_key to sort
- *  an array of character values using integers as sorting keys using the \p thrust::host execution policy
+ *  an array of character values using integers as sorting keys using the \p HYDRA_EXTERNAL_NS::thrust::host execution policy
  *  for parallelization:
  *
  *  \code
@@ -471,7 +471,7 @@ template<typename RandomAccessIterator,
  *  const int N = 6;
  *  int    keys[N] = {  1,   4,   2,   8,   5,   7};
  *  char values[N] = {'a', 'b', 'c', 'd', 'e', 'f'};
- *  thrust::sort_by_key(thrust::host, keys, keys + N, values);
+ *  HYDRA_EXTERNAL_NS::thrust::sort_by_key(HYDRA_EXTERNAL_NS::thrust::host, keys, keys + N, values);
  *  // keys is now   {  1,   2,   4,   5,   7,   8}
  *  // values is now {'a', 'c', 'b', 'e', 'f', 'd'}
  *  \endcode
@@ -484,7 +484,7 @@ template<typename DerivedPolicy,
          typename RandomAccessIterator1,
          typename RandomAccessIterator2>
 __hydra_host__ __hydra_device__
-  void sort_by_key(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
+  void sort_by_key(const HYDRA_EXTERNAL_NS::thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                    RandomAccessIterator1 keys_first,
                    RandomAccessIterator1 keys_last,
                    RandomAccessIterator2 values_first);
@@ -529,7 +529,7 @@ __hydra_host__ __hydra_device__
  *  const int N = 6;
  *  int    keys[N] = {  1,   4,   2,   8,   5,   7};
  *  char values[N] = {'a', 'b', 'c', 'd', 'e', 'f'};
- *  thrust::sort_by_key(keys, keys + N, values);
+ *  HYDRA_EXTERNAL_NS::thrust::sort_by_key(keys, keys + N, values);
  *  // keys is now   {  1,   2,   4,   5,   7,   8}
  *  // values is now {'a', 'c', 'b', 'e', 'f', 'd'}
  *  \endcode
@@ -582,7 +582,7 @@ template<typename RandomAccessIterator1,
  *  \pre The range <tt>[keys_first, keys_last))</tt> shall not overlap the range <tt>[values_first, values_first + (keys_last - keys_first))</tt>.
  *
  *  The following code snippet demonstrates how to use \p sort_by_key to sort
- *  an array of character values using integers as sorting keys using the \p thrust::host execution policy
+ *  an array of character values using integers as sorting keys using the \p HYDRA_EXTERNAL_NS::thrust::host execution policy
  *  for parallelization.The keys are sorted in descending order using the <tt>greater<int></tt> comparison operator.
  *
  *  \code
@@ -592,7 +592,7 @@ template<typename RandomAccessIterator1,
  *  const int N = 6;
  *  int    keys[N] = {  1,   4,   2,   8,   5,   7};
  *  char values[N] = {'a', 'b', 'c', 'd', 'e', 'f'};
- *  thrust::sort_by_key(thrust::host, keys, keys + N, values, thrust::greater<int>());
+ *  HYDRA_EXTERNAL_NS::thrust::sort_by_key(HYDRA_EXTERNAL_NS::thrust::host, keys, keys + N, values, HYDRA_EXTERNAL_NS::thrust::greater<int>());
  *  // keys is now   {  8,   7,   5,   4,   2,   1}
  *  // values is now {'d', 'f', 'e', 'b', 'c', 'a'}
  *  \endcode
@@ -606,7 +606,7 @@ template<typename DerivedPolicy,
          typename RandomAccessIterator2,
          typename StrictWeakOrdering>
 __hydra_host__ __hydra_device__
-  void sort_by_key(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
+  void sort_by_key(const HYDRA_EXTERNAL_NS::thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                    RandomAccessIterator1 keys_first,
                    RandomAccessIterator1 keys_last,
                    RandomAccessIterator2 values_first,
@@ -655,7 +655,7 @@ __hydra_host__ __hydra_device__
  *  const int N = 6;
  *  int    keys[N] = {  1,   4,   2,   8,   5,   7};
  *  char values[N] = {'a', 'b', 'c', 'd', 'e', 'f'};
- *  thrust::sort_by_key(keys, keys + N, values, thrust::greater<int>());
+ *  HYDRA_EXTERNAL_NS::thrust::sort_by_key(keys, keys + N, values, HYDRA_EXTERNAL_NS::thrust::greater<int>());
  *  // keys is now   {  8,   7,   5,   4,   2,   1}
  *  // values is now {'d', 'f', 'e', 'b', 'c', 'a'}
  *  \endcode
@@ -710,7 +710,7 @@ template<typename RandomAccessIterator1,
  *  \pre The range <tt>[keys_first, keys_last))</tt> shall not overlap the range <tt>[values_first, values_first + (keys_last - keys_first))</tt>.
  *
  *  The following code snippet demonstrates how to use \p stable_sort_by_key to sort
- *  an array of characters using integers as sorting keys using the \p thrust::host execution policy for
+ *  an array of characters using integers as sorting keys using the \p HYDRA_EXTERNAL_NS::thrust::host execution policy for
  *  parallelization:
  *
  *  \code
@@ -720,7 +720,7 @@ template<typename RandomAccessIterator1,
  *  const int N = 6;
  *  int    keys[N] = {  1,   4,   2,   8,   5,   7};
  *  char values[N] = {'a', 'b', 'c', 'd', 'e', 'f'};
- *  thrust::stable_sort_by_key(thrust::host, keys, keys + N, values);
+ *  HYDRA_EXTERNAL_NS::thrust::stable_sort_by_key(HYDRA_EXTERNAL_NS::thrust::host, keys, keys + N, values);
  *  // keys is now   {  1,   2,   4,   5,   7,   8}
  *  // values is now {'a', 'c', 'b', 'e', 'f', 'd'}
  *  \endcode
@@ -733,7 +733,7 @@ template<typename DerivedPolicy,
          typename RandomAccessIterator1,
          typename RandomAccessIterator2>
 __hydra_host__ __hydra_device__
-  void stable_sort_by_key(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
+  void stable_sort_by_key(const HYDRA_EXTERNAL_NS::thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                           RandomAccessIterator1 keys_first,
                           RandomAccessIterator1 keys_last,
                           RandomAccessIterator2 values_first);
@@ -780,7 +780,7 @@ __hydra_host__ __hydra_device__
  *  const int N = 6;
  *  int    keys[N] = {  1,   4,   2,   8,   5,   7};
  *  char values[N] = {'a', 'b', 'c', 'd', 'e', 'f'};
- *  thrust::stable_sort_by_key(keys, keys + N, values);
+ *  HYDRA_EXTERNAL_NS::thrust::stable_sort_by_key(keys, keys + N, values);
  *  // keys is now   {  1,   2,   4,   5,   7,   8}
  *  // values is now {'a', 'c', 'b', 'e', 'f', 'd'}
  *  \endcode
@@ -835,7 +835,7 @@ template<typename RandomAccessIterator1,
  *  \pre The range <tt>[keys_first, keys_last))</tt> shall not overlap the range <tt>[values_first, values_first + (keys_last - keys_first))</tt>.
  *
  *  The following code snippet demonstrates how to use \p sort_by_key to sort
- *  an array of character values using integers as sorting keys using the \p thrust::host execution policy for
+ *  an array of character values using integers as sorting keys using the \p HYDRA_EXTERNAL_NS::thrust::host execution policy for
  *  parallelization. The keys are sorted in descending order using the <tt>greater<int></tt> comparison operator.
  *
  *  \code
@@ -845,7 +845,7 @@ template<typename RandomAccessIterator1,
  *  const int N = 6;
  *  int    keys[N] = {  1,   4,   2,   8,   5,   7};
  *  char values[N] = {'a', 'b', 'c', 'd', 'e', 'f'};
- *  thrust::stable_sort_by_key(thrust::host, keys, keys + N, values, thrust::greater<int>());
+ *  HYDRA_EXTERNAL_NS::thrust::stable_sort_by_key(HYDRA_EXTERNAL_NS::thrust::host, keys, keys + N, values, HYDRA_EXTERNAL_NS::thrust::greater<int>());
  *  // keys is now   {  8,   7,   5,   4,   2,   1}
  *  // values is now {'d', 'f', 'e', 'b', 'c', 'a'}
  *  \endcode
@@ -860,7 +860,7 @@ template<typename DerivedPolicy,
          typename RandomAccessIterator2,
          typename StrictWeakOrdering>
 __hydra_host__ __hydra_device__
-  void stable_sort_by_key(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
+  void stable_sort_by_key(const HYDRA_EXTERNAL_NS::thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                           RandomAccessIterator1 keys_first,
                           RandomAccessIterator1 keys_last,
                           RandomAccessIterator2 values_first,
@@ -911,7 +911,7 @@ __hydra_host__ __hydra_device__
  *  const int N = 6;
  *  int    keys[N] = {  1,   4,   2,   8,   5,   7};
  *  char values[N] = {'a', 'b', 'c', 'd', 'e', 'f'};
- *  thrust::stable_sort_by_key(keys, keys + N, values, thrust::greater<int>());
+ *  HYDRA_EXTERNAL_NS::thrust::stable_sort_by_key(keys, keys + N, values, HYDRA_EXTERNAL_NS::thrust::greater<int>());
  *  // keys is now   {  8,   7,   5,   4,   2,   1}
  *  // values is now {'d', 'f', 'e', 'b', 'c', 'a'}
  *  \endcode
@@ -963,7 +963,7 @@ template<typename RandomAccessIterator1,
  *
  *
  *  The following code demonstrates how to use \p is_sorted to test whether the
- *  contents of a \c device_vector are stored in ascending order using the \p thrust::device execution policy
+ *  contents of a \c device_vector are stored in ascending order using the \p HYDRA_EXTERNAL_NS::thrust::device execution policy
  *  for parallelization:
  *
  *  \code
@@ -972,7 +972,7 @@ template<typename RandomAccessIterator1,
  *  #include <hydra/detail/external/thrust/sort.h>
  *  #include <hydra/detail/external/thrust/execution_policy.h>
  *  ...
- *  thrust::device_vector<int> v(6);
+ *  HYDRA_EXTERNAL_NS::thrust::device_vector<int> v(6);
  *  v[0] = 1;
  *  v[1] = 4;
  *  v[2] = 2;
@@ -980,12 +980,12 @@ template<typename RandomAccessIterator1,
  *  v[4] = 5;
  *  v[5] = 7;
  *
- *  bool result = thrust::is_sorted(thrust::device, v.begin(), v.end());
+ *  bool result = HYDRA_EXTERNAL_NS::thrust::is_sorted(HYDRA_EXTERNAL_NS::thrust::device, v.begin(), v.end());
  *
  *  // result == false
  *
- *  thrust::sort(v.begin(), v.end());
- *  result = thrust::is_sorted(thrust::device, v.begin(), v.end());
+ *  HYDRA_EXTERNAL_NS::thrust::sort(v.begin(), v.end());
+ *  result = HYDRA_EXTERNAL_NS::thrust::is_sorted(HYDRA_EXTERNAL_NS::thrust::device, v.begin(), v.end());
  *
  *  // result == true
  *  \endcode
@@ -998,7 +998,7 @@ template<typename RandomAccessIterator1,
  */
 template<typename DerivedPolicy, typename ForwardIterator>
 __hydra_host__ __hydra_device__
-  bool is_sorted(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
+  bool is_sorted(const HYDRA_EXTERNAL_NS::thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                  ForwardIterator first,
                  ForwardIterator last);
 
@@ -1028,7 +1028,7 @@ __hydra_host__ __hydra_device__
  *  #include <hydra/detail/external/thrust/device_vector.h>
  *  #include <hydra/detail/external/thrust/sort.h>
  *  ...
- *  thrust::device_vector<int> v(6);
+ *  HYDRA_EXTERNAL_NS::thrust::device_vector<int> v(6);
  *  v[0] = 1;
  *  v[1] = 4;
  *  v[2] = 2;
@@ -1036,12 +1036,12 @@ __hydra_host__ __hydra_device__
  *  v[4] = 5;
  *  v[5] = 7;
  *
- *  bool result = thrust::is_sorted(v.begin(), v.end());
+ *  bool result = HYDRA_EXTERNAL_NS::thrust::is_sorted(v.begin(), v.end());
  *
  *  // result == false
  *
- *  thrust::sort(v.begin(), v.end());
- *  result = thrust::is_sorted(v.begin(), v.end());
+ *  HYDRA_EXTERNAL_NS::thrust::sort(v.begin(), v.end());
+ *  result = HYDRA_EXTERNAL_NS::thrust::is_sorted(v.begin(), v.end());
  *
  *  // result == true
  *  \endcode
@@ -1078,7 +1078,7 @@ template<typename ForwardIterator>
  *  \tparam Compare is a model of <a href="http://www.sgi.com/tech/stl/StrictWeakOrdering.html">Strict Weak Ordering</a>.
  *
  *  The following code snippet demonstrates how to use \p is_sorted to test whether the
- *  contents of a \c device_vector are stored in descending order using the \p thrust::device execution
+ *  contents of a \c device_vector are stored in descending order using the \p HYDRA_EXTERNAL_NS::thrust::device execution
  *  policy for parallelization:
  *
  *  \code
@@ -1087,7 +1087,7 @@ template<typename ForwardIterator>
  *  #include <hydra/detail/external/thrust/device_vector.h>
  *  #include <hydra/detail/external/thrust/execution_policy.h>
  *  ...
- *  thrust::device_vector<int> v(6);
+ *  HYDRA_EXTERNAL_NS::thrust::device_vector<int> v(6);
  *  v[0] = 1;
  *  v[1] = 4;
  *  v[2] = 2;
@@ -1095,13 +1095,13 @@ template<typename ForwardIterator>
  *  v[4] = 5;
  *  v[5] = 7;
  *
- *  thrust::greater<int> comp;
- *  bool result = thrust::is_sorted(thrust::device, v.begin(), v.end(), comp);
+ *  HYDRA_EXTERNAL_NS::thrust::greater<int> comp;
+ *  bool result = HYDRA_EXTERNAL_NS::thrust::is_sorted(HYDRA_EXTERNAL_NS::thrust::device, v.begin(), v.end(), comp);
  *
  *  // result == false
  *
- *  thrust::sort(v.begin(), v.end(), comp);
- *  result = thrust::is_sorted(thrust::device, v.begin(), v.end(), comp);
+ *  HYDRA_EXTERNAL_NS::thrust::sort(v.begin(), v.end(), comp);
+ *  result = HYDRA_EXTERNAL_NS::thrust::is_sorted(HYDRA_EXTERNAL_NS::thrust::device, v.begin(), v.end(), comp);
  *
  *  // result == true
  *  \endcode
@@ -1113,7 +1113,7 @@ template<typename ForwardIterator>
  */
 template<typename DerivedPolicy, typename ForwardIterator, typename Compare>
 __hydra_host__ __hydra_device__
-  bool is_sorted(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
+  bool is_sorted(const HYDRA_EXTERNAL_NS::thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                  ForwardIterator first,
                  ForwardIterator last,
                  Compare comp);
@@ -1143,7 +1143,7 @@ __hydra_host__ __hydra_device__
  *  #include <hydra/detail/external/thrust/functional.h>
  *  #include <hydra/detail/external/thrust/device_vector.h>
  *  ...
- *  thrust::device_vector<int> v(6);
+ *  HYDRA_EXTERNAL_NS::thrust::device_vector<int> v(6);
  *  v[0] = 1;
  *  v[1] = 4;
  *  v[2] = 2;
@@ -1151,13 +1151,13 @@ __hydra_host__ __hydra_device__
  *  v[4] = 5;
  *  v[5] = 7;
  *
- *  thrust::greater<int> comp;
- *  bool result = thrust::is_sorted(v.begin(), v.end(), comp);
+ *  HYDRA_EXTERNAL_NS::thrust::greater<int> comp;
+ *  bool result = HYDRA_EXTERNAL_NS::thrust::is_sorted(v.begin(), v.end(), comp);
  *
  *  // result == false
  *
- *  thrust::sort(v.begin(), v.end(), comp);
- *  result = thrust::is_sorted(v.begin(), v.end(), comp);
+ *  HYDRA_EXTERNAL_NS::thrust::sort(v.begin(), v.end(), comp);
+ *  result = HYDRA_EXTERNAL_NS::thrust::is_sorted(v.begin(), v.end(), comp);
  *
  *  // result == true
  *  \endcode
@@ -1189,7 +1189,7 @@ template<typename ForwardIterator, typename Compare>
  *          \p ForwardIterator's \c value_type is a model of <a href="http://www.sgi.com/tech/stl/LessThanComparable.html">LessThan Comparable</a>.
  *
  *  The following code snippet demonstrates how to use \p is_sorted_until to find the first position
- *  in an array where the data becomes unsorted using the \p thrust::host execution policy for
+ *  in an array where the data becomes unsorted using the \p HYDRA_EXTERNAL_NS::thrust::host execution policy for
  *  parallelization:
  *  
  *  \code
@@ -1200,7 +1200,7 @@ template<typename ForwardIterator, typename Compare>
  *   
  *  int A[8] = {0, 1, 2, 3, 0, 1, 2, 3};
  *  
- *  int * B = thrust::is_sorted_until(thrust::host, A, A + 8);
+ *  int * B = HYDRA_EXTERNAL_NS::thrust::is_sorted_until(HYDRA_EXTERNAL_NS::thrust::host, A, A + 8);
  *  
  *  // B - A is 4
  *  // [A, B) is sorted
@@ -1214,7 +1214,7 @@ template<typename ForwardIterator, typename Compare>
  */
 template<typename DerivedPolicy, typename ForwardIterator>
 __hydra_host__ __hydra_device__
-  ForwardIterator is_sorted_until(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
+  ForwardIterator is_sorted_until(const HYDRA_EXTERNAL_NS::thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                                   ForwardIterator first,
                                   ForwardIterator last);
 
@@ -1240,7 +1240,7 @@ __hydra_host__ __hydra_device__
  *   
  *  int A[8] = {0, 1, 2, 3, 0, 1, 2, 3};
  *  
- *  int * B = thrust::is_sorted_until(A, A + 8);
+ *  int * B = HYDRA_EXTERNAL_NS::thrust::is_sorted_until(A, A + 8);
  *  
  *  // B - A is 4
  *  // [A, B) is sorted
@@ -1275,7 +1275,7 @@ template<typename ForwardIterator>
  *  \tparam Compare is a model of <a href="http://www.sgi.com/tech/stl/StrictWeakOrdering.html">Strict Weak Ordering</a>.
  *
  *  The following code snippet demonstrates how to use \p is_sorted_until to find the first position
- *  in an array where the data becomes unsorted in descending order using the \p thrust::host execution
+ *  in an array where the data becomes unsorted in descending order using the \p HYDRA_EXTERNAL_NS::thrust::host execution
  *  policy for parallelization:
  *
  *  \code
@@ -1287,8 +1287,8 @@ template<typename ForwardIterator>
  *   
  *  int A[8] = {3, 2, 1, 0, 3, 2, 1, 0};
  *  
- *  thrust::greater<int> comp;
- *  int * B = thrust::is_sorted_until(thrust::host, A, A + 8, comp);
+ *  HYDRA_EXTERNAL_NS::thrust::greater<int> comp;
+ *  int * B = HYDRA_EXTERNAL_NS::thrust::is_sorted_until(HYDRA_EXTERNAL_NS::thrust::host, A, A + 8, comp);
  *  
  *  // B - A is 4
  *  // [A, B) is sorted in descending order
@@ -1302,7 +1302,7 @@ template<typename ForwardIterator>
  */
 template<typename DerivedPolicy, typename ForwardIterator, typename Compare>
 __hydra_host__ __hydra_device__
-  ForwardIterator is_sorted_until(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
+  ForwardIterator is_sorted_until(const HYDRA_EXTERNAL_NS::thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                                   ForwardIterator first,
                                   ForwardIterator last,
                                   Compare comp);
@@ -1332,8 +1332,8 @@ __hydra_host__ __hydra_device__
  *   
  *  int A[8] = {3, 2, 1, 0, 3, 2, 1, 0};
  *  
- *  thrust::greater<int> comp;
- *  int * B = thrust::is_sorted_until(A, A + 8, comp);
+ *  HYDRA_EXTERNAL_NS::thrust::greater<int> comp;
+ *  int * B = HYDRA_EXTERNAL_NS::thrust::is_sorted_until(A, A + 8, comp);
  *  
  *  // B - A is 4
  *  // [A, B) is sorted in descending order

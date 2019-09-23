@@ -55,7 +55,7 @@ HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
  *                         and \c UnaryFunction's \c result_type is convertible to \c OutputIterator's \c value_type.
  *
  *  The following code snippet demonstrates how to use \p tabulate to generate the first \c n non-positive integers
- *  using the \p thrust::host execution policy for parallelization:
+ *  using the \p HYDRA_EXTERNAL_NS::thrust::host execution policy for parallelization:
  *
  *  \code
  *  #include <hydra/detail/external/thrust/tabulate.h>
@@ -64,17 +64,17 @@ HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
  *  ...
  *  const int N = 10;
  *  int A[N];
- *  thrust::tabulate(thrust::host, A, A + 10, thrust::negate<int>());
+ *  HYDRA_EXTERNAL_NS::thrust::tabulate(HYDRA_EXTERNAL_NS::thrust::host, A, A + 10, HYDRA_EXTERNAL_NS::thrust::negate<int>());
  *  // A is now {0, -1, -2, -3, -4, -5, -6, -7, -8, -9}
  *  \endcode
  *
- *  \see thrust::fill
- *  \see thrust::generate
- *  \see thrust::sequence
+ *  \see HYDRA_EXTERNAL_NS::thrust::fill
+ *  \see HYDRA_EXTERNAL_NS::thrust::generate
+ *  \see HYDRA_EXTERNAL_NS::thrust::sequence
  */
 template<typename DerivedPolicy, typename ForwardIterator, typename UnaryOperation>
 __hydra_host__ __hydra_device__
-  void tabulate(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
+  void tabulate(const HYDRA_EXTERNAL_NS::thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                 ForwardIterator first,
                 ForwardIterator last,
                 UnaryOperation unary_op);
@@ -105,13 +105,13 @@ __hydra_host__ __hydra_device__
  *  ...
  *  const int N = 10;
  *  int A[N];
- *  thrust::tabulate(A, A + 10, thrust::negate<int>());
+ *  HYDRA_EXTERNAL_NS::thrust::tabulate(A, A + 10, HYDRA_EXTERNAL_NS::thrust::negate<int>());
  *  // A is now {0, -1, -2, -3, -4, -5, -6, -7, -8, -9}
  *  \endcode
  *
- *  \see thrust::fill
- *  \see thrust::generate
- *  \see thrust::sequence
+ *  \see HYDRA_EXTERNAL_NS::thrust::fill
+ *  \see HYDRA_EXTERNAL_NS::thrust::generate
+ *  \see HYDRA_EXTERNAL_NS::thrust::sequence
  */
 template<typename ForwardIterator, typename UnaryOperation>
   void tabulate(ForwardIterator first,

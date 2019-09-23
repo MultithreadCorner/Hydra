@@ -64,7 +64,7 @@ namespace random
  *  {
  *    // create a discard_block_engine from minstd_rand, with a cycle length of 13
  *    // keep every first 10 values, and discard the next 3
- *    thrust::discard_block_engine<thrust::minstd_rand, 13, 10> rng;
+ *    HYDRA_EXTERNAL_NS::thrust::discard_block_engine<HYDRA_EXTERNAL_NS::thrust::minstd_rand, 13, 10> rng;
  *
  *    // print a random number to standard output
  *    std::cout << rng() << std::endl;
@@ -178,7 +178,7 @@ template<typename Engine, size_t p, size_t r>
     base_type m_e;
     unsigned int m_n;
 
-    friend struct thrust::random::detail::random_core_access;
+    friend struct HYDRA_EXTERNAL_NS::thrust::random::detail::random_core_access;
 
     __hydra_host__ __hydra_device__
     bool equal(const discard_block_engine &rhs) const;
@@ -243,7 +243,7 @@ operator>>(std::basic_istream<CharT,Traits> &is,
 
 } // end random
 
-// import names into thrust::
+// import names into HYDRA_EXTERNAL_NS::thrust::
 using random::discard_block_engine;
 
 } // end HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust

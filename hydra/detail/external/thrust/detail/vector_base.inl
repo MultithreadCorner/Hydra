@@ -251,7 +251,7 @@ template<typename T, typename Alloc>
                    InputIterator last)
 {
   range_init(first, last,
-    typename thrust::iterator_traversal<InputIterator>::type());
+    typename HYDRA_EXTERNAL_NS::thrust::iterator_traversal<InputIterator>::type());
 } // end vector_base::range_init()
 
 template<typename T, typename Alloc>
@@ -259,7 +259,7 @@ template<typename T, typename Alloc>
     void vector_base<T,Alloc>
       ::range_init(InputIterator first,
                    InputIterator last,
-                   thrust::incrementable_traversal_tag)
+                   HYDRA_EXTERNAL_NS::thrust::incrementable_traversal_tag)
 {
   for(; first != last; ++first)
     push_back(*first);
@@ -270,9 +270,9 @@ template<typename T, typename Alloc>
     void vector_base<T,Alloc>
       ::range_init(ForwardIterator first,
                    ForwardIterator last,
-                   thrust::random_access_traversal_tag)
+                   HYDRA_EXTERNAL_NS::thrust::random_access_traversal_tag)
 {
-  size_type new_size = thrust::distance(first, last);
+  size_type new_size = HYDRA_EXTERNAL_NS::thrust::distance(first, last);
 
   allocate_and_copy(new_size, first, last, m_storage);
   m_size    = new_size;
@@ -288,7 +288,7 @@ template<typename T, typename Alloc>
 {
   // check the type of InputIterator: if it's an integral type,
   // we need to interpret this call as (size_type, value_type)
-  typedef thrust::detail::is_integral<InputIterator> Integer;
+  typedef HYDRA_EXTERNAL_NS::thrust::detail::is_integral<InputIterator> Integer;
 
   init_dispatch(first, last, Integer());
 } // end vector_base::vector_base()
@@ -304,7 +304,7 @@ template<typename T, typename Alloc>
 {
   // check the type of InputIterator: if it's an integral type,
   // we need to interpret this call as (size_type, value_type)
-  typedef thrust::detail::is_integral<InputIterator> Integer;
+  typedef HYDRA_EXTERNAL_NS::thrust::detail::is_integral<InputIterator> Integer;
 
   init_dispatch(first, last, Integer());
 } // end vector_base::vector_base()
@@ -316,7 +316,7 @@ template<typename T, typename Alloc>
   if(new_size < size())
   {
     iterator new_end = begin();
-    thrust::advance(new_end, new_size);
+    HYDRA_EXTERNAL_NS::thrust::advance(new_end, new_size);
     erase(new_end, end());
   } // end if
   else
@@ -332,7 +332,7 @@ template<typename T, typename Alloc>
   if(new_size < size())
   {
     iterator new_end = begin();
-    thrust::advance(new_end, new_size);
+    HYDRA_EXTERNAL_NS::thrust::advance(new_end, new_size);
     erase(new_end, end());
   } // end if
   else
@@ -453,7 +453,7 @@ template<typename T, typename Alloc>
       ::end(void)
 {
   iterator result = begin();
-  thrust::advance(result, size());
+  HYDRA_EXTERNAL_NS::thrust::advance(result, size());
   return result;
 } // end vector_base::end()
 
@@ -463,7 +463,7 @@ template<typename T, typename Alloc>
       ::end(void) const
 {
   const_iterator result = begin();
-  thrust::advance(result, size());
+  HYDRA_EXTERNAL_NS::thrust::advance(result, size());
   return result;
 } // end vector_base::end()
 
@@ -606,7 +606,7 @@ template<typename T, typename Alloc>
 {
   // overlap copy the range [last,end()) to first
   // XXX this copy only potentially overlaps
-  iterator i = thrust::detail::overlapped_copy(last, end(), first);
+  iterator i = HYDRA_EXTERNAL_NS::thrust::detail::overlapped_copy(last, end(), first);
 
   // destroy everything after i
   m_storage.destroy(i, end());
@@ -623,8 +623,8 @@ template<typename T, typename Alloc>
   void vector_base<T,Alloc>
     ::swap(vector_base &v)
 {
-  thrust::swap(m_storage,  v.m_storage);
-  thrust::swap(m_size,     v.m_size);
+  HYDRA_EXTERNAL_NS::thrust::swap(m_storage,  v.m_storage);
+  HYDRA_EXTERNAL_NS::thrust::swap(m_size,     v.m_size);
 } // end vector_base::swap()
 
 template<typename T, typename Alloc>
@@ -641,7 +641,7 @@ template<typename T, typename Alloc>
 {
   // we could have received assign(n, x), so disambiguate on the
   // type of InputIterator
-  typedef typename thrust::detail::is_integral<InputIterator> integral;
+  typedef typename HYDRA_EXTERNAL_NS::thrust::detail::is_integral<InputIterator> integral;
 
   assign_dispatch(first, last, integral());
 } // end vector_base::assign()
@@ -660,14 +660,14 @@ template<typename T, typename Alloc>
       ::insert(iterator position, const T &x)
 {
   // find the index of the insertion
-  size_type index = thrust::distance(begin(), position);
+  size_type index = HYDRA_EXTERNAL_NS::thrust::distance(begin(), position);
 
   // make the insertion
   insert(position, 1, x);
 
   // return an iterator pointing back to position
   iterator result = begin();
-  thrust::advance(result, index);
+  HYDRA_EXTERNAL_NS::thrust::advance(result, index);
   return result;
 } // end vector_base::insert()
 
@@ -685,7 +685,7 @@ template<typename T, typename Alloc>
 {
   // we could have received insert(position, n, x), so disambiguate on the
   // type of InputIterator
-  typedef typename thrust::detail::is_integral<InputIterator> integral;
+  typedef typename HYDRA_EXTERNAL_NS::thrust::detail::is_integral<InputIterator> integral;
 
   insert_dispatch(position, first, last, integral());
 } // end vector_base::insert()
@@ -732,7 +732,7 @@ template<typename T, typename Alloc>
   if(first != last)
   {
     // how many new elements will we create?
-    const size_type num_new_elements = thrust::distance(first, last);
+    const size_type num_new_elements = HYDRA_EXTERNAL_NS::thrust::distance(first, last);
     if(capacity() - size() >= num_new_elements)
     {
       // we've got room for all of them
@@ -752,15 +752,15 @@ template<typename T, typename Alloc>
         // copy num_displaced_elements - num_new_elements elements to existing elements
         // this copy overlaps
         const size_type copy_length = (old_end - num_new_elements) - position;
-        thrust::detail::overlapped_copy(position, old_end - num_new_elements, old_end - copy_length);
+        HYDRA_EXTERNAL_NS::thrust::detail::overlapped_copy(position, old_end - num_new_elements, old_end - copy_length);
 
         // finally, copy the range to the insertion point
-        thrust::copy(first, last, position);
+        HYDRA_EXTERNAL_NS::thrust::copy(first, last, position);
       } // end if
       else
       {
         ForwardIterator mid = first;
-        thrust::advance(mid, num_displaced_elements);
+        HYDRA_EXTERNAL_NS::thrust::advance(mid, num_displaced_elements);
 
         // construct copy new elements at the end of the vector
         m_storage.uninitialized_copy(mid, last, end());
@@ -775,7 +775,7 @@ template<typename T, typename Alloc>
         m_size += num_displaced_elements;
 
         // copy to elements which already existed
-        thrust::copy(first, mid, position);
+        HYDRA_EXTERNAL_NS::thrust::copy(first, mid, position);
       } // end else
     } // end if
     else
@@ -783,13 +783,13 @@ template<typename T, typename Alloc>
       const size_type old_size = size();
 
       // compute the new capacity after the allocation
-      size_type new_capacity = old_size + thrust::max THRUST_PREVENT_MACRO_SUBSTITUTION (old_size, num_new_elements);
+      size_type new_capacity = old_size + HYDRA_EXTERNAL_NS::thrust::max HYDRA_THRUST_PREVENT_MACRO_SUBSTITUTION (old_size, num_new_elements);
 
       // allocate exponentially larger new storage
-      new_capacity = thrust::max THRUST_PREVENT_MACRO_SUBSTITUTION <size_type>(new_capacity, 2 * capacity());
+      new_capacity = HYDRA_EXTERNAL_NS::thrust::max HYDRA_THRUST_PREVENT_MACRO_SUBSTITUTION <size_type>(new_capacity, 2 * capacity());
 
       // do not exceed maximum storage
-      new_capacity = thrust::min THRUST_PREVENT_MACRO_SUBSTITUTION <size_type>(new_capacity, max_size());
+      new_capacity = HYDRA_EXTERNAL_NS::thrust::min HYDRA_THRUST_PREVENT_MACRO_SUBSTITUTION <size_type>(new_capacity, max_size());
 
       if(new_capacity > max_size())
       {
@@ -855,13 +855,13 @@ template<typename T, typename Alloc>
       const size_type old_size = size();
 
       // compute the new capacity after the allocation
-      size_type new_capacity = old_size + thrust::max THRUST_PREVENT_MACRO_SUBSTITUTION (old_size, n);
+      size_type new_capacity = old_size + HYDRA_EXTERNAL_NS::thrust::max HYDRA_THRUST_PREVENT_MACRO_SUBSTITUTION (old_size, n);
 
       // allocate exponentially larger new storage
-      new_capacity = thrust::max THRUST_PREVENT_MACRO_SUBSTITUTION <size_type>(new_capacity, 2 * capacity());
+      new_capacity = HYDRA_EXTERNAL_NS::thrust::max HYDRA_THRUST_PREVENT_MACRO_SUBSTITUTION <size_type>(new_capacity, 2 * capacity());
 
       // do not exceed maximum storage
-      new_capacity = thrust::min THRUST_PREVENT_MACRO_SUBSTITUTION <size_type>(new_capacity, max_size());
+      new_capacity = HYDRA_EXTERNAL_NS::thrust::min HYDRA_THRUST_PREVENT_MACRO_SUBSTITUTION <size_type>(new_capacity, max_size());
 
       // create new storage
       storage_type new_storage(copy_allocator_t(), m_storage, new_capacity);
@@ -923,10 +923,10 @@ template<typename T, typename Alloc>
         // copy num_displaced_elements - n elements to existing elements
         // this copy overlaps
         const size_type copy_length = (old_end - n) - position;
-        thrust::detail::overlapped_copy(position, old_end - n, old_end - copy_length);
+        HYDRA_EXTERNAL_NS::thrust::detail::overlapped_copy(position, old_end - n, old_end - copy_length);
 
         // finally, fill the range to the insertion point
-        thrust::fill_n(position, n, x);
+        HYDRA_EXTERNAL_NS::thrust::fill_n(position, n, x);
       } // end if
       else
       {
@@ -943,7 +943,7 @@ template<typename T, typename Alloc>
         m_size += num_displaced_elements;
 
         // fill to elements which already existed
-        thrust::fill(position, old_end, x);
+        HYDRA_EXTERNAL_NS::thrust::fill(position, old_end, x);
       } // end else
     } // end if
     else
@@ -951,13 +951,13 @@ template<typename T, typename Alloc>
       const size_type old_size = size();
 
       // compute the new capacity after the allocation
-      size_type new_capacity = old_size + thrust::max THRUST_PREVENT_MACRO_SUBSTITUTION (old_size, n);
+      size_type new_capacity = old_size + HYDRA_EXTERNAL_NS::thrust::max HYDRA_THRUST_PREVENT_MACRO_SUBSTITUTION (old_size, n);
 
       // allocate exponentially larger new storage
-      new_capacity = thrust::max THRUST_PREVENT_MACRO_SUBSTITUTION <size_type>(new_capacity, 2 * capacity());
+      new_capacity = HYDRA_EXTERNAL_NS::thrust::max HYDRA_THRUST_PREVENT_MACRO_SUBSTITUTION <size_type>(new_capacity, 2 * capacity());
 
       // do not exceed maximum storage
-      new_capacity = thrust::min THRUST_PREVENT_MACRO_SUBSTITUTION <size_type>(new_capacity, max_size());
+      new_capacity = HYDRA_EXTERNAL_NS::thrust::min HYDRA_THRUST_PREVENT_MACRO_SUBSTITUTION <size_type>(new_capacity, max_size());
 
       if(new_capacity > max_size())
       {
@@ -1011,7 +1011,7 @@ template<typename T, typename Alloc>
 {
   // dispatch on traversal
   range_assign(first, last,
-    typename thrust::iterator_traversal<InputIterator>::type());
+    typename HYDRA_EXTERNAL_NS::thrust::iterator_traversal<InputIterator>::type());
 } // end range_assign()
 
 template<typename T, typename Alloc>
@@ -1019,7 +1019,7 @@ template<typename T, typename Alloc>
     void vector_base<T,Alloc>
       ::range_assign(InputIterator first,
                      InputIterator last,
-                     thrust::incrementable_traversal_tag)
+                     HYDRA_EXTERNAL_NS::thrust::incrementable_traversal_tag)
 {
   iterator current(begin());
 
@@ -1048,9 +1048,9 @@ template<typename T, typename Alloc>
     void vector_base<T,Alloc>
       ::range_assign(RandomAccessIterator first,
                      RandomAccessIterator last,
-                     thrust::random_access_traversal_tag)
+                     HYDRA_EXTERNAL_NS::thrust::random_access_traversal_tag)
 {
-  const size_type n = thrust::distance(first, last);
+  const size_type n = HYDRA_EXTERNAL_NS::thrust::distance(first, last);
 
   if(n > capacity())
   {
@@ -1067,7 +1067,7 @@ template<typename T, typename Alloc>
   else if(size() >= n)
   {
     // we can already accomodate the new range
-    iterator new_end = thrust::copy(first, last, begin());
+    iterator new_end = HYDRA_EXTERNAL_NS::thrust::copy(first, last, begin());
 
     // destroy the elements we don't need
     m_storage.destroy(new_end, end());
@@ -1085,8 +1085,8 @@ template<typename T, typename Alloc>
 
     // copy to elements which already exist
     RandomAccessIterator mid = first;
-    thrust::advance(mid, size());
-    thrust::copy(first, mid, begin());
+    HYDRA_EXTERNAL_NS::thrust::advance(mid, size());
+    HYDRA_EXTERNAL_NS::thrust::copy(first, mid, begin());
 
     // uninitialize_copy to elements which must be constructed
     m_storage.uninitialized_copy(mid, last, end());
@@ -1110,7 +1110,7 @@ template<typename T, typename Alloc>
   else if(n > size())
   {
     // fill to existing elements
-    thrust::fill(begin(), end(), x);
+    HYDRA_EXTERNAL_NS::thrust::fill(begin(), end(), x);
 
     // construct uninitialized elements
     m_storage.uninitialized_fill_n(end(), n - size(), x);
@@ -1121,7 +1121,7 @@ template<typename T, typename Alloc>
   else
   {
     // fill to existing elements
-    iterator new_end = thrust::fill_n(begin(), n, x);
+    iterator new_end = HYDRA_EXTERNAL_NS::thrust::fill_n(begin(), n, x);
 
     // erase the elements after the fill
     erase(new_end, end());
@@ -1142,10 +1142,10 @@ template<typename T, typename Alloc>
   } // end if
 
   // allocate exponentially larger new storage
-  size_type allocated_size = thrust::max<size_type>(requested_size, 2 * capacity());
+  size_type allocated_size = HYDRA_EXTERNAL_NS::thrust::max<size_type>(requested_size, 2 * capacity());
 
   // do not exceed maximum storage
-  allocated_size = thrust::min<size_type>(allocated_size, max_size());
+  allocated_size = HYDRA_EXTERNAL_NS::thrust::min<size_type>(allocated_size, max_size());
 
   if(requested_size > allocated_size)
   {
@@ -1164,7 +1164,7 @@ template<typename T, typename Alloc>
     // something went wrong, so destroy & deallocate the new storage 
     // XXX seems like this destroys too many elements -- should just be last - first instead of requested_size
     iterator new_storage_end = new_storage.begin();
-    thrust::advance(new_storage_end, requested_size);
+    HYDRA_EXTERNAL_NS::thrust::advance(new_storage_end, requested_size);
     m_storage.destroy(new_storage.begin(), new_storage_end);
     new_storage.deallocate();
 
@@ -1192,43 +1192,43 @@ namespace detail
 template <typename InputIterator1, typename InputIterator2>
 bool vector_equal(InputIterator1 first1, InputIterator1 last1,
                   InputIterator2 first2,
-                  thrust::detail::true_type)
+                  HYDRA_EXTERNAL_NS::thrust::detail::true_type)
 {
-  return thrust::equal(first1, last1, first2);
+  return HYDRA_EXTERNAL_NS::thrust::equal(first1, last1, first2);
 }
 
 // iterator tags differ
 template <typename InputIterator1, typename InputIterator2>
 bool vector_equal(InputIterator1 first1, InputIterator1 last1,
                   InputIterator2 first2,
-                  thrust::detail::false_type)
+                  HYDRA_EXTERNAL_NS::thrust::detail::false_type)
 {
-  typename thrust::iterator_difference<InputIterator1>::type n = thrust::distance(first1,last1);
+  typename HYDRA_EXTERNAL_NS::thrust::iterator_difference<InputIterator1>::type n = HYDRA_EXTERNAL_NS::thrust::distance(first1,last1);
 
-  typedef typename thrust::iterator_system<InputIterator1>::type FromSystem1;
-  typedef typename thrust::iterator_system<InputIterator2>::type FromSystem2;
+  typedef typename HYDRA_EXTERNAL_NS::thrust::iterator_system<InputIterator1>::type FromSystem1;
+  typedef typename HYDRA_EXTERNAL_NS::thrust::iterator_system<InputIterator2>::type FromSystem2;
 
   // bring both ranges to the host system
   // note that these copies are no-ops if the range is already convertible to the host system
   FromSystem1 from_system1;
   FromSystem2 from_system2;
-  thrust::host_system_tag to_system;
-  thrust::detail::move_to_system<InputIterator1, FromSystem1, thrust::host_system_tag> rng1(from_system1, to_system, first1, last1);
-  thrust::detail::move_to_system<InputIterator2, FromSystem2, thrust::host_system_tag> rng2(from_system2, to_system, first2, first2 + n);
+  HYDRA_EXTERNAL_NS::thrust::host_system_tag to_system;
+  HYDRA_EXTERNAL_NS::thrust::detail::move_to_system<InputIterator1, FromSystem1, HYDRA_EXTERNAL_NS::thrust::host_system_tag> rng1(from_system1, to_system, first1, last1);
+  HYDRA_EXTERNAL_NS::thrust::detail::move_to_system<InputIterator2, FromSystem2, HYDRA_EXTERNAL_NS::thrust::host_system_tag> rng2(from_system2, to_system, first2, first2 + n);
 
-  return thrust::equal(rng1.begin(), rng1.end(), rng2.begin());
+  return HYDRA_EXTERNAL_NS::thrust::equal(rng1.begin(), rng1.end(), rng2.begin());
 }
 
 template <typename InputIterator1, typename InputIterator2>
 bool vector_equal(InputIterator1 first1, InputIterator1 last1,
                   InputIterator2 first2)
 {
-  typedef typename thrust::iterator_system<InputIterator1>::type system1;
-  typedef typename thrust::iterator_system<InputIterator2>::type system2;
+  typedef typename HYDRA_EXTERNAL_NS::thrust::iterator_system<InputIterator1>::type system1;
+  typedef typename HYDRA_EXTERNAL_NS::thrust::iterator_system<InputIterator2>::type system2;
 
   // dispatch on the sameness of the two systems
   return vector_equal(first1, last1, first2,
-    thrust::detail::is_same<system1,system2>());
+    HYDRA_EXTERNAL_NS::thrust::detail::is_same<system1,system2>());
 }
 
 } // end namespace detail

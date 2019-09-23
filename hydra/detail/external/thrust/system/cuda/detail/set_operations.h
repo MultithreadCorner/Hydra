@@ -26,7 +26,7 @@
  ******************************************************************************/
 #pragma once
 
-#if THRUST_DEVICE_COMPILER == THRUST_DEVICE_COMPILER_NVCC
+#if HYDRA_THRUST_DEVICE_COMPILER == HYDRA_THRUST_DEVICE_COMPILER_NVCC
 #include <hydra/detail/external/thrust/system/cuda/detail/util.h>
 
 #include <hydra/detail/external/thrust/detail/cstdint.h>
@@ -44,7 +44,7 @@
 
 HYDRA_EXTERNAL_NAMESPACE_BEGIN
 
-THRUST_BEGIN_NS
+HYDRA_THRUST_BEGIN_NS
 
 namespace cuda_cub {
 
@@ -55,7 +55,7 @@ namespace __set_operations {
             class It,
             class T,
             class Comp>
-  THRUST_DEVICE_FUNCTION void
+  HYDRA_THRUST_DEVICE_FUNCTION void
   binary_search_iteration(It   data,
                           int &begin,
                           int &end,
@@ -76,7 +76,7 @@ namespace __set_operations {
   }
 
   template <bool UpperBound, class T, class It, class Comp>
-  THRUST_DEVICE_FUNCTION int
+  HYDRA_THRUST_DEVICE_FUNCTION int
   binary_search(It data, int count, T key, Comp comp)
   {
     int begin = 0;
@@ -92,7 +92,7 @@ namespace __set_operations {
   }
 
   template <bool UpperBound, class IntT, class T, class It, class Comp>
-  THRUST_DEVICE_FUNCTION int
+  HYDRA_THRUST_DEVICE_FUNCTION int
   biased_binary_search(It data, int count, T key, IntT levels, Comp comp)
   {
     int begin = 0;
@@ -113,13 +113,13 @@ namespace __set_operations {
   }
 
   template <bool UpperBound, class It1, class It2, class Comp>
-  THRUST_DEVICE_FUNCTION int
+  HYDRA_THRUST_DEVICE_FUNCTION int
   merge_path(It1 a, int aCount, It2 b, int bCount, int diag, Comp comp)
   {
-    typedef typename thrust::iterator_traits<It1>::value_type T;
+    typedef typename HYDRA_EXTERNAL_NS::thrust::iterator_traits<It1>::value_type T;
 
-    int begin = thrust::max(0, diag - bCount);
-    int end   = thrust::min(diag, aCount);
+    int begin = HYDRA_EXTERNAL_NS::thrust::max(0, diag - bCount);
+    int end   = HYDRA_EXTERNAL_NS::thrust::min(diag, aCount);
 
     while (begin < end)
     {
@@ -136,7 +136,7 @@ namespace __set_operations {
   }
   
   template <class It1, class It2, class Size, class Size2, class CompareOp>
-  pair<Size, Size> THRUST_DEVICE_FUNCTION
+  pair<Size, Size> HYDRA_THRUST_DEVICE_FUNCTION
   balanced_path(It1       keys1,
                 It2       keys2,
                 Size      num_keys1,
@@ -197,7 +197,7 @@ namespace __set_operations {
 
       index1 = start1 + advance1;
     }
-    return thrust::make_pair(index1, (diag - index1) + star);
+    return HYDRA_EXTERNAL_NS::thrust::make_pair(index1, (diag - index1) + star);
   }    // func balanced_path
 
   template <int                      _BLOCK_THREADS,
@@ -224,7 +224,7 @@ namespace __set_operations {
   template<class Arch, class T, class U>
   struct Tuning;
   
-  namespace mpl = thrust::detail::mpl::math;
+  namespace mpl = HYDRA_EXTERNAL_NS::thrust::detail::mpl::math;
   
   template<class T, class U>
   struct Tuning<sm30,T,U>
@@ -445,7 +445,7 @@ namespace __set_operations {
       //---------------------------------------------------------------------
 
       template <bool IS_FULL_TILE, class T, class It1, class It2>
-      THRUST_DEVICE_FUNCTION void
+      HYDRA_THRUST_DEVICE_FUNCTION void
       gmem_to_reg(T (&output)[ITEMS_PER_THREAD],
                   It1 input1,
                   It2 input2,
@@ -489,7 +489,7 @@ namespace __set_operations {
       }
 
       template <class T, class It>
-      THRUST_DEVICE_FUNCTION void
+      HYDRA_THRUST_DEVICE_FUNCTION void
       reg_to_shared(It output,
                     T (&input)[ITEMS_PER_THREAD])
       {
@@ -502,7 +502,7 @@ namespace __set_operations {
       }
       
       template <class OutputIt, class T, class SharedIt>
-      void THRUST_DEVICE_FUNCTION
+      void HYDRA_THRUST_DEVICE_FUNCTION
       scatter(OutputIt output,
               T (&input)[ITEMS_PER_THREAD],
               SharedIt shared,
@@ -534,7 +534,7 @@ namespace __set_operations {
         }
       }
 
-      int THRUST_DEVICE_FUNCTION
+      int HYDRA_THRUST_DEVICE_FUNCTION
       serial_set_op(key_type *keys,
                     int       keys1_beg,
                     int       keys2_beg,
@@ -562,7 +562,7 @@ namespace __set_operations {
       //---------------------------------------------------------------------
 
       template <bool IS_LAST_TILE>
-      void THRUST_DEVICE_FUNCTION
+      void HYDRA_THRUST_DEVICE_FUNCTION
       consume_tile(Size tile_idx)
       {
         using core::sync_threadblock;
@@ -621,7 +621,7 @@ namespace __set_operations {
 
         core::sync_threadblock();
 
-        pair<int,int> partition1_loc = thrust::make_pair(
+        pair<int,int> partition1_loc = HYDRA_EXTERNAL_NS::thrust::make_pair(
           storage.offset[threadIdx.x] >> 16,
           storage.offset[threadIdx.x] & 0xFFFF);
 
@@ -746,7 +746,7 @@ namespace __set_operations {
       // Constructor
       //---------------------------------------------------------------------
 
-      THRUST_DEVICE_FUNCTION
+      HYDRA_THRUST_DEVICE_FUNCTION
       impl(TempStorage &  storage_,
            ScanTileState &tile_state_,
            KeysIt1        keys1_,
@@ -794,7 +794,7 @@ namespace __set_operations {
     // Agent entry point
     //---------------------------------------------------------------------
 
-    THRUST_AGENT_ENTRY(KeysIt1        keys1,
+    HYDRA_THRUST_AGENT_ENTRY(KeysIt1        keys1,
                        KeysIt2        keys2,
                        ValuesIt1      values1,
                        ValuesIt2      values2,
@@ -843,7 +843,7 @@ namespace __set_operations {
     // Agent entry point
     //---------------------------------------------------------------------
 
-    THRUST_AGENT_ENTRY(KeysIt1 keys1,
+    HYDRA_THRUST_AGENT_ENTRY(KeysIt1 keys1,
                        KeysIt2 keys2,
                        Size    keys1_count,
                        Size    keys2_count,
@@ -883,7 +883,7 @@ namespace __set_operations {
     // Agent entry point
     //---------------------------------------------------------------------
 
-    THRUST_AGENT_ENTRY(ScanTileState tile_state,
+    HYDRA_THRUST_AGENT_ENTRY(ScanTileState tile_state,
                        Size          num_tiles,
                        char * /*shmem*/)
     {
@@ -902,7 +902,7 @@ namespace __set_operations {
   {
     // max_input_size <= 32
     template <class T, class CompareOp, int ITEMS_PER_THREAD>
-    int THRUST_DEVICE_FUNCTION
+    int HYDRA_THRUST_DEVICE_FUNCTION
     operator()(T * keys,
                int keys1_beg,
                int keys2_beg,
@@ -949,7 +949,7 @@ namespace __set_operations {
   {
     // max_input_size <= 32
     template <class T, class CompareOp, int ITEMS_PER_THREAD>
-    int THRUST_DEVICE_FUNCTION
+    int HYDRA_THRUST_DEVICE_FUNCTION
     operator()(T * keys,
                int keys1_beg,
                int keys2_beg,
@@ -1005,7 +1005,7 @@ namespace __set_operations {
   {
     // max_input_size <= 32
     template <class T, class CompareOp, int ITEMS_PER_THREAD>
-    int THRUST_DEVICE_FUNCTION
+    int HYDRA_THRUST_DEVICE_FUNCTION
     operator()(T * keys,
                int keys1_beg,
                int keys2_beg,
@@ -1059,7 +1059,7 @@ namespace __set_operations {
   {
     // max_input_size <= 32
     template <class T, class CompareOp, int ITEMS_PER_THREAD>
-    int THRUST_DEVICE_FUNCTION
+    int HYDRA_THRUST_DEVICE_FUNCTION
     operator()(T * keys,
                int keys1_beg,
                int keys2_beg,
@@ -1117,7 +1117,7 @@ namespace __set_operations {
             class ValuesOutputIt,
             class CompareOp,
             class SetOp>
-  cudaError_t THRUST_RUNTIME_FUNCTION
+  cudaError_t HYDRA_THRUST_RUNTIME_FUNCTION
   doit_step(void *         d_temp_storage,
             size_t &       temp_storage_size,
             KeysIt1        keys1,
@@ -1245,7 +1245,7 @@ namespace __set_operations {
            typename ValuesOutputIt,
            typename CompareOp,
            typename SetOp>
-  THRUST_RUNTIME_FUNCTION
+  HYDRA_THRUST_RUNTIME_FUNCTION
   pair<KeysOutputIt, ValuesOutputIt>
   set_operations(execution_policy<Derived>& policy,
                  KeysIt1                    keys1_first,
@@ -1261,15 +1261,15 @@ namespace __set_operations {
   {
     typedef typename iterator_traits<KeysIt1>::difference_type size_type;
 
-    size_type num_keys1 = static_cast<size_type>(thrust::distance(keys1_first, keys1_last));
-    size_type num_keys2 = static_cast<size_type>(thrust::distance(keys2_first, keys2_last));
+    size_type num_keys1 = static_cast<size_type>(HYDRA_EXTERNAL_NS::thrust::distance(keys1_first, keys1_last));
+    size_type num_keys2 = static_cast<size_type>(HYDRA_EXTERNAL_NS::thrust::distance(keys2_first, keys2_last));
 
     if (num_keys1 + num_keys2 == 0)
-      return thrust::make_pair(keys_output, values_output);
+      return HYDRA_EXTERNAL_NS::thrust::make_pair(keys_output, values_output);
      
     size_t       temp_storage_bytes = 0;
     cudaStream_t stream             = cuda_cub::stream(policy);
-    bool         debug_sync         = THRUST_DEBUG_SYNC_FLAG;
+    bool         debug_sync         = HYDRA_THRUST_DEBUG_SYNC_FLAG;
 
     cudaError_t status;
     status = doit_step<HAS_VALUES>(NULL,
@@ -1301,7 +1301,7 @@ namespace __set_operations {
     cuda_cub::throw_on_error(status, "set_operations failed on 1st alias_storage");
 
     // Allocate temporary storage.
-    thrust::detail::temporary_array<thrust::detail::uint8_t, Derived>
+    HYDRA_EXTERNAL_NS::thrust::detail::temporary_array<HYDRA_EXTERNAL_NS::thrust::detail::uint8_t, Derived>
       tmp(policy, storage_size);
     void *ptr = static_cast<void*>(tmp.data().get());
 
@@ -1312,7 +1312,7 @@ namespace __set_operations {
     cuda_cub::throw_on_error(status, "set_operations failed on 2nd alias_storage");
 
     size_type* d_output_count
-      = thrust::detail::aligned_reinterpret_cast<size_type*>(allocations[0]);
+      = HYDRA_EXTERNAL_NS::thrust::detail::aligned_reinterpret_cast<size_type*>(allocations[0]);
 
     status = doit_step<HAS_VALUES>(allocations[1],
                                    temp_storage_bytes,
@@ -1336,7 +1336,7 @@ namespace __set_operations {
 
     size_type output_count = cuda_cub::get_value(policy, d_output_count);
 
-    return thrust::make_pair(keys_output + output_count, values_output + output_count);
+    return HYDRA_EXTERNAL_NS::thrust::make_pair(keys_output + output_count, values_output + output_count);
   }
 }    // namespace __set_operations
 
@@ -1360,11 +1360,11 @@ set_difference(execution_policy<Derived> &policy,
                CompareOp                  compare)
 {
   OutputIt ret = result;
-  if (__THRUST_HAS_CUDART__)
+  if (__HYDRA_THRUST_HAS_CUDART__)
   {
-    typename thrust::iterator_value<ItemsIt1>::type *null_ = NULL;
+    typename HYDRA_EXTERNAL_NS::thrust::iterator_value<ItemsIt1>::type *null_ = NULL;
     //
-    ret = __set_operations::set_operations<thrust::detail::false_type>(
+    ret = __set_operations::set_operations<HYDRA_EXTERNAL_NS::thrust::detail::false_type>(
               policy,
               items1_first,
               items1_last,
@@ -1380,8 +1380,8 @@ set_difference(execution_policy<Derived> &policy,
   }
   else
   {
-#if !__THRUST_HAS_CUDART__
-    ret = thrust::set_difference(cvt_to_seq(derived_cast(policy)),
+#if !__HYDRA_THRUST_HAS_CUDART__
+    ret = HYDRA_EXTERNAL_NS::thrust::set_difference(cvt_to_seq(derived_cast(policy)),
                                  items1_first,
                                  items1_last,
                                  items2_first,
@@ -1405,7 +1405,7 @@ set_difference(execution_policy<Derived> &policy,
                ItemsIt2                   items2_last,
                OutputIt                   result)
 {
-  typedef typename thrust::iterator_value<ItemsIt1>::type value_type;
+  typedef typename HYDRA_EXTERNAL_NS::thrust::iterator_value<ItemsIt1>::type value_type;
   return cuda_cub::set_difference(policy,
                                   items1_first,
                                   items1_last,
@@ -1434,11 +1434,11 @@ set_intersection(execution_policy<Derived> &policy,
                  CompareOp                  compare)
 {
   OutputIt ret = result;
-  if (__THRUST_HAS_CUDART__)
+  if (__HYDRA_THRUST_HAS_CUDART__)
   {
-    typename thrust::iterator_value<ItemsIt1>::type *null_ = NULL;
+    typename HYDRA_EXTERNAL_NS::thrust::iterator_value<ItemsIt1>::type *null_ = NULL;
     //
-    ret = __set_operations::set_operations<thrust::detail::false_type>(
+    ret = __set_operations::set_operations<HYDRA_EXTERNAL_NS::thrust::detail::false_type>(
               policy,
               items1_first,
               items1_last,
@@ -1454,8 +1454,8 @@ set_intersection(execution_policy<Derived> &policy,
   }
   else
   {
-#if !__THRUST_HAS_CUDART__
-    ret = thrust::set_intersection(cvt_to_seq(derived_cast(policy)),
+#if !__HYDRA_THRUST_HAS_CUDART__
+    ret = HYDRA_EXTERNAL_NS::thrust::set_intersection(cvt_to_seq(derived_cast(policy)),
                                    items1_first,
                                    items1_last,
                                    items2_first,
@@ -1479,7 +1479,7 @@ set_intersection(execution_policy<Derived> &policy,
                  ItemsIt2                   items2_last,
                  OutputIt                   result)
 {
-  typedef typename thrust::iterator_value<ItemsIt1>::type value_type;
+  typedef typename HYDRA_EXTERNAL_NS::thrust::iterator_value<ItemsIt1>::type value_type;
   return cuda_cub::set_intersection(policy,
                                     items1_first,
                                     items1_last,
@@ -1508,11 +1508,11 @@ set_symmetric_difference(execution_policy<Derived> &policy,
                          CompareOp                  compare)
 {
   OutputIt ret = result;
-  if (__THRUST_HAS_CUDART__)
+  if (__HYDRA_THRUST_HAS_CUDART__)
   {
-    typename thrust::iterator_value<ItemsIt1>::type *null_ = NULL;
+    typename HYDRA_EXTERNAL_NS::thrust::iterator_value<ItemsIt1>::type *null_ = NULL;
     //
-    ret = __set_operations::set_operations<thrust::detail::false_type>(
+    ret = __set_operations::set_operations<HYDRA_EXTERNAL_NS::thrust::detail::false_type>(
               policy,
               items1_first,
               items1_last,
@@ -1528,8 +1528,8 @@ set_symmetric_difference(execution_policy<Derived> &policy,
   }
   else
   {
-#if !__THRUST_HAS_CUDART__
-    ret = thrust::set_symmetric_difference(cvt_to_seq(derived_cast(policy)),
+#if !__HYDRA_THRUST_HAS_CUDART__
+    ret = HYDRA_EXTERNAL_NS::thrust::set_symmetric_difference(cvt_to_seq(derived_cast(policy)),
                                            items1_first,
                                            items1_last,
                                            items2_first,
@@ -1554,7 +1554,7 @@ set_symmetric_difference(execution_policy<Derived> &policy,
                          ItemsIt2                   items2_last,
                          OutputIt                   result)
 {
-  typedef typename thrust::iterator_value<ItemsIt1>::type value_type;
+  typedef typename HYDRA_EXTERNAL_NS::thrust::iterator_value<ItemsIt1>::type value_type;
   return cuda_cub::set_symmetric_difference(policy,
                                             items1_first,
                                             items1_last,
@@ -1582,11 +1582,11 @@ set_union(execution_policy<Derived> &policy,
           CompareOp                  compare)
 {
   OutputIt ret = result;
-  if (__THRUST_HAS_CUDART__)
+  if (__HYDRA_THRUST_HAS_CUDART__)
   {
-    typename thrust::iterator_value<ItemsIt1>::type *null_ = NULL;
+    typename HYDRA_EXTERNAL_NS::thrust::iterator_value<ItemsIt1>::type *null_ = NULL;
     //
-    ret = __set_operations::set_operations<thrust::detail::false_type>(
+    ret = __set_operations::set_operations<HYDRA_EXTERNAL_NS::thrust::detail::false_type>(
               policy,
               items1_first,
               items1_last,
@@ -1602,8 +1602,8 @@ set_union(execution_policy<Derived> &policy,
   }
   else
   {
-#if !__THRUST_HAS_CUDART__
-    ret = thrust::set_union(cvt_to_seq(derived_cast(policy)),
+#if !__HYDRA_THRUST_HAS_CUDART__
+    ret = HYDRA_EXTERNAL_NS::thrust::set_union(cvt_to_seq(derived_cast(policy)),
                             items1_first,
                             items1_last,
                             items2_first,
@@ -1628,7 +1628,7 @@ set_union(execution_policy<Derived> &policy,
           ItemsIt2                   items2_last,
           OutputIt                   result)
 {
-  typedef typename thrust::iterator_value<ItemsIt1>::type value_type;
+  typedef typename HYDRA_EXTERNAL_NS::thrust::iterator_value<ItemsIt1>::type value_type;
   return cuda_cub::set_union(policy,
                              items1_first,
                              items1_last,
@@ -1668,10 +1668,10 @@ set_difference_by_key(execution_policy<Derived> &policy,
                       ItemsOutputIt              items_result,
                       CompareOp                  compare_op)
 {
-  pair<KeysOutputIt, ItemsOutputIt> ret = thrust::make_pair(keys_result, items_result);
-  if (__THRUST_HAS_CUDART__)
+  pair<KeysOutputIt, ItemsOutputIt> ret = HYDRA_EXTERNAL_NS::thrust::make_pair(keys_result, items_result);
+  if (__HYDRA_THRUST_HAS_CUDART__)
   {
-    ret = __set_operations::set_operations<thrust::detail::true_type>(
+    ret = __set_operations::set_operations<HYDRA_EXTERNAL_NS::thrust::detail::true_type>(
         policy,
         keys1_first,
         keys1_last,
@@ -1686,8 +1686,8 @@ set_difference_by_key(execution_policy<Derived> &policy,
   }
   else
   {
-#if !__THRUST_HAS_CUDART__
-    ret = thrust::set_difference_by_key(cvt_to_seq(derived_cast(policy)),
+#if !__HYDRA_THRUST_HAS_CUDART__
+    ret = HYDRA_EXTERNAL_NS::thrust::set_difference_by_key(cvt_to_seq(derived_cast(policy)),
                                         keys1_first,
                                         keys1_last,
                                         keys2_first,
@@ -1720,7 +1720,7 @@ set_difference_by_key(execution_policy<Derived> &policy,
                       KeysOutputIt               keys_result,
                       ItemsOutputIt              items_result)
 {
-  typedef typename thrust::iterator_value<KeysIt1>::type value_type;
+  typedef typename HYDRA_EXTERNAL_NS::thrust::iterator_value<KeysIt1>::type value_type;
   return cuda_cub::set_difference_by_key(policy,
                                          keys1_first,
                                          keys1_last,
@@ -1755,10 +1755,10 @@ set_intersection_by_key(execution_policy<Derived> &policy,
                         ItemsOutputIt              items_result,
                         CompareOp                  compare_op)
 {
-  pair<KeysOutputIt, ItemsOutputIt> ret = thrust::make_pair(keys_result, items_result);
-  if (__THRUST_HAS_CUDART__)
+  pair<KeysOutputIt, ItemsOutputIt> ret = HYDRA_EXTERNAL_NS::thrust::make_pair(keys_result, items_result);
+  if (__HYDRA_THRUST_HAS_CUDART__)
   {
-    ret = __set_operations::set_operations<thrust::detail::true_type>(
+    ret = __set_operations::set_operations<HYDRA_EXTERNAL_NS::thrust::detail::true_type>(
         policy,
         keys1_first,
         keys1_last,
@@ -1773,8 +1773,8 @@ set_intersection_by_key(execution_policy<Derived> &policy,
   }
   else
   {
-#if !__THRUST_HAS_CUDART__
-    ret = thrust::set_intersection_by_key(cvt_to_seq(derived_cast(policy)),
+#if !__HYDRA_THRUST_HAS_CUDART__
+    ret = HYDRA_EXTERNAL_NS::thrust::set_intersection_by_key(cvt_to_seq(derived_cast(policy)),
                                           keys1_first,
                                           keys1_last,
                                           keys2_first,
@@ -1805,7 +1805,7 @@ set_intersection_by_key(execution_policy<Derived> &policy,
                         KeysOutputIt               keys_result,
                         ItemsOutputIt              items_result)
 {
-  typedef typename thrust::iterator_value<KeysIt1>::type value_type;
+  typedef typename HYDRA_EXTERNAL_NS::thrust::iterator_value<KeysIt1>::type value_type;
   return cuda_cub::set_intersection_by_key(policy,
                                            keys1_first,
                                            keys1_last,
@@ -1840,10 +1840,10 @@ set_symmetric_difference_by_key(execution_policy<Derived> &policy,
                                 ItemsOutputIt              items_result,
                                 CompareOp                  compare_op)
 {
-  pair<KeysOutputIt, ItemsOutputIt> ret = thrust::make_pair(keys_result, items_result);
-  if (__THRUST_HAS_CUDART__)
+  pair<KeysOutputIt, ItemsOutputIt> ret = HYDRA_EXTERNAL_NS::thrust::make_pair(keys_result, items_result);
+  if (__HYDRA_THRUST_HAS_CUDART__)
   {
-    ret = __set_operations::set_operations<thrust::detail::true_type>(
+    ret = __set_operations::set_operations<HYDRA_EXTERNAL_NS::thrust::detail::true_type>(
         policy,
         keys1_first,
         keys1_last,
@@ -1858,8 +1858,8 @@ set_symmetric_difference_by_key(execution_policy<Derived> &policy,
   }
   else
   {
-#if !__THRUST_HAS_CUDART__
-    ret = thrust::set_symmetric_difference_by_key(cvt_to_seq(derived_cast(policy)),
+#if !__HYDRA_THRUST_HAS_CUDART__
+    ret = HYDRA_EXTERNAL_NS::thrust::set_symmetric_difference_by_key(cvt_to_seq(derived_cast(policy)),
                                                   keys1_first,
                                                   keys1_last,
                                                   keys2_first,
@@ -1892,7 +1892,7 @@ set_symmetric_difference_by_key(execution_policy<Derived> &policy,
                                 KeysOutputIt               keys_result,
                                 ItemsOutputIt              items_result)
 {
-  typedef typename thrust::iterator_value<KeysIt1>::type value_type;
+  typedef typename HYDRA_EXTERNAL_NS::thrust::iterator_value<KeysIt1>::type value_type;
   return cuda_cub::set_symmetric_difference_by_key(policy,
                                                    keys1_first,
                                                    keys1_last,
@@ -1928,10 +1928,10 @@ set_union_by_key(execution_policy<Derived> &policy,
                  ItemsOutputIt              items_result,
                  CompareOp                  compare_op)
 {
-  pair<KeysOutputIt, ItemsOutputIt> ret = thrust::make_pair(keys_result, items_result);
-  if (__THRUST_HAS_CUDART__)
+  pair<KeysOutputIt, ItemsOutputIt> ret = HYDRA_EXTERNAL_NS::thrust::make_pair(keys_result, items_result);
+  if (__HYDRA_THRUST_HAS_CUDART__)
   {
-    ret = __set_operations::set_operations<thrust::detail::true_type>(
+    ret = __set_operations::set_operations<HYDRA_EXTERNAL_NS::thrust::detail::true_type>(
         policy,
         keys1_first,
         keys1_last,
@@ -1946,8 +1946,8 @@ set_union_by_key(execution_policy<Derived> &policy,
   }
   else
   {
-#if !__THRUST_HAS_CUDART__
-    ret = thrust::set_union_by_key(cvt_to_seq(derived_cast(policy)),
+#if !__HYDRA_THRUST_HAS_CUDART__
+    ret = HYDRA_EXTERNAL_NS::thrust::set_union_by_key(cvt_to_seq(derived_cast(policy)),
                                    keys1_first,
                                    keys1_last,
                                    keys2_first,
@@ -1980,7 +1980,7 @@ set_union_by_key(execution_policy<Derived> &policy,
                  KeysOutputIt               keys_result,
                  ItemsOutputIt              items_result)
 {
-  typedef typename thrust::iterator_value<KeysIt1>::type value_type;
+  typedef typename HYDRA_EXTERNAL_NS::thrust::iterator_value<KeysIt1>::type value_type;
   return cuda_cub::set_union_by_key(policy,
                                     keys1_first,
                                     keys1_last,
@@ -1994,6 +1994,6 @@ set_union_by_key(execution_policy<Derived> &policy,
 }
 
 }    // namespace cuda_cub
-THRUST_END_NS
+HYDRA_THRUST_END_NS
 HYDRA_EXTERNAL_NAMESPACE_END
 #endif

@@ -30,14 +30,14 @@ __hydra_host__ __hydra_device__
 pointer<void> malloc(std::size_t n)
 {
   tag cuda_tag;
-  return pointer<void>(thrust::cuda_cub::malloc(cuda_tag, n));
+  return pointer<void>(HYDRA_EXTERNAL_NS::thrust::cuda_cub::malloc(cuda_tag, n));
 } // end malloc()
 
 template<typename T>
 __hydra_host__ __hydra_device__
 pointer<T> malloc(std::size_t n)
 {
-  pointer<void> raw_ptr = thrust::cuda_cub::malloc(sizeof(T) * n);
+  pointer<void> raw_ptr = HYDRA_EXTERNAL_NS::thrust::cuda_cub::malloc(sizeof(T) * n);
   return pointer<T>(reinterpret_cast<T*>(raw_ptr.get()));
 } // end malloc()
 
@@ -45,7 +45,7 @@ __hydra_host__ __hydra_device__
 void free(pointer<void> ptr)
 {
   tag cuda_tag;
-  return thrust::cuda_cub::free(cuda_tag, ptr.get());
+  return HYDRA_EXTERNAL_NS::thrust::cuda_cub::free(cuda_tag, ptr.get());
 } // end free()
 
 } // end cuda_cub

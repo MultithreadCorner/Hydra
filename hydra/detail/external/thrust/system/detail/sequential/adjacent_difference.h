@@ -47,7 +47,7 @@ OutputIterator adjacent_difference(sequential::execution_policy<DerivedPolicy> &
                                    OutputIterator result,
                                    BinaryFunction binary_op)
 {
-  typedef typename thrust::iterator_traits<InputIterator>::value_type InputType;
+  typedef typename HYDRA_EXTERNAL_NS::thrust::iterator_traits<InputIterator>::value_type InputType;
 
   if(first == last)
     return result;
@@ -72,3 +72,4 @@ OutputIterator adjacent_difference(sequential::execution_policy<DerivedPolicy> &
 } // end namespace system
 } // end HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
 
+HYDRA_EXTERNAL_NAMESPACE_END

@@ -19,18 +19,18 @@
 #include <hydra/detail/external/thrust/detail/config.h>
 #include <hydra/detail/external/thrust/detail/cpp11_required.h>
 
-#if THRUST_CPP_DIALECT >= 2011
+#if HYDRA_THRUST_CPP_DIALECT >= 2011
 
 #include <hydra/detail/external/thrust/detail/type_deduction.h>
 #include <hydra/detail/external/thrust/type_traits/integer_sequence.h>
 
 #include <tuple>
 
-THRUST_BEGIN_NS
+HYDRA_THRUST_BEGIN_NS
 
 template <typename Tuple, std::size_t... Is>
 auto tuple_subset(Tuple&& t, index_sequence<Is...>)
-THRUST_DECLTYPE_RETURNS(std::make_tuple(std::get<Is>(THRUST_FWD(t))...));
+HYDRA_THRUST_DECLTYPE_RETURNS(std::make_tuple(std::get<Is>(HYDRA_THRUST_FWD(t))...));
 
 namespace detail
 {
@@ -39,72 +39,72 @@ template <typename Tuple, typename F, std::size_t... Is>
 void tuple_for_each_impl(Tuple&& t, F&& f, index_sequence<Is...>)
 {
   auto l = { (f(std::get<Is>(t)), 0)... };
-  THRUST_UNUSED(l);
+  HYDRA_THRUST_UNUSED(l);
 }
 
 template <typename Tuple, typename F, std::size_t... Is>
 auto tuple_transform_impl(Tuple&& t, F&& f, index_sequence<Is...>)
-THRUST_DECLTYPE_RETURNS(std::make_tuple(f(std::get<Is>(t))...));
+HYDRA_THRUST_DECLTYPE_RETURNS(std::make_tuple(f(std::get<Is>(t))...));
 
 } // namespace detail
 
 template <typename... Ts, typename F>
 auto tuple_for_each(std::tuple<Ts...>& t, F&& f)
-THRUST_DECLTYPE_RETURNS(
+HYDRA_THRUST_DECLTYPE_RETURNS(
   detail::tuple_for_each_impl(
     t
-  , THRUST_FWD(f)
+  , HYDRA_THRUST_FWD(f)
   , make_index_sequence<sizeof...(Ts)>{}
   )
 );
 template <typename... Ts, typename F>
 auto tuple_for_each(std::tuple<Ts...> const& t, F&& f)
-THRUST_DECLTYPE_RETURNS(
+HYDRA_THRUST_DECLTYPE_RETURNS(
   detail::tuple_for_each_impl(
     t
-  , THRUST_FWD(f)
+  , HYDRA_THRUST_FWD(f)
   , make_index_sequence<sizeof...(Ts)>{}
   )
 );
 template <typename... Ts, typename F>
 auto tuple_for_each(std::tuple<Ts...>&& t, F&& f)
-THRUST_DECLTYPE_RETURNS(
+HYDRA_THRUST_DECLTYPE_RETURNS(
   detail::tuple_for_each_impl(
     std::move(t)
-  , THRUST_FWD(f)
+  , HYDRA_THRUST_FWD(f)
   , make_index_sequence<sizeof...(Ts)>{}
   )
 );
 
 template <typename... Ts, typename F>
 auto tuple_transform(std::tuple<Ts...>& t, F&& f)
-THRUST_DECLTYPE_RETURNS(
+HYDRA_THRUST_DECLTYPE_RETURNS(
   detail::tuple_transform_impl(
     t
-  , THRUST_FWD(f)
+  , HYDRA_THRUST_FWD(f)
   , make_index_sequence<sizeof...(Ts)>{}
   )
 );
 template <typename... Ts, typename F>
 auto tuple_transform(std::tuple<Ts...> const& t, F&& f)
-THRUST_DECLTYPE_RETURNS(
+HYDRA_THRUST_DECLTYPE_RETURNS(
   detail::tuple_transform_impl(
     t
-  , THRUST_FWD(f)
+  , HYDRA_THRUST_FWD(f)
   , make_index_sequence<sizeof...(Ts)>{}
   )
 );
 template <typename... Ts, typename F>
 auto tuple_transform(std::tuple<Ts...>&& t, F&& f)
-THRUST_DECLTYPE_RETURNS(
+HYDRA_THRUST_DECLTYPE_RETURNS(
   detail::tuple_transform_impl(
     std::move(t)
-  , THRUST_FWD(f)
+  , HYDRA_THRUST_FWD(f)
   , make_index_sequence<sizeof...(Ts)>{}
   )
 );
 
-THRUST_END_NS
+HYDRA_THRUST_END_NS
 
-#endif // THRUST_CPP_DIALECT >= 2011
+#endif // HYDRA_THRUST_CPP_DIALECT >= 2011
 

@@ -35,13 +35,13 @@ template<typename DerivedPolicy,
          typename ForwardIterator,
          typename Generator>
 __hydra_host__ __hydra_device__
-  void generate(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
+  void generate(const HYDRA_EXTERNAL_NS::thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                 ForwardIterator first,
                 ForwardIterator last,
                 Generator gen)
 {
-  using thrust::system::detail::generic::generate;
-  return generate(thrust::detail::derived_cast(thrust::detail::strip_const(exec)), first, last, gen);
+  using HYDRA_EXTERNAL_NS::thrust::system::detail::generic::generate;
+  return generate(HYDRA_EXTERNAL_NS::thrust::detail::derived_cast(HYDRA_EXTERNAL_NS::thrust::detail::strip_const(exec)), first, last, gen);
 } // end generate()
 
 
@@ -51,13 +51,13 @@ template<typename DerivedPolicy,
          typename Size,
          typename Generator>
 __hydra_host__ __hydra_device__
-  OutputIterator generate_n(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
+  OutputIterator generate_n(const HYDRA_EXTERNAL_NS::thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                             OutputIterator first,
                             Size n,
                             Generator gen)
 {
-  using thrust::system::detail::generic::generate_n;
-  return generate_n(thrust::detail::derived_cast(thrust::detail::strip_const(exec)), first, n, gen);
+  using HYDRA_EXTERNAL_NS::thrust::system::detail::generic::generate_n;
+  return generate_n(HYDRA_EXTERNAL_NS::thrust::detail::derived_cast(HYDRA_EXTERNAL_NS::thrust::detail::strip_const(exec)), first, n, gen);
 } // end generate_n()
 
 
@@ -67,13 +67,13 @@ template<typename ForwardIterator,
                 ForwardIterator last,
                 Generator gen)
 {
-  using thrust::system::detail::generic::select_system;
+  using HYDRA_EXTERNAL_NS::thrust::system::detail::generic::select_system;
 
-  typedef typename thrust::iterator_system<ForwardIterator>::type System;
+  typedef typename HYDRA_EXTERNAL_NS::thrust::iterator_system<ForwardIterator>::type System;
 
   System system;
 
-  return thrust::generate(select_system(system), first, last, gen);
+  return HYDRA_EXTERNAL_NS::thrust::generate(select_system(system), first, last, gen);
 } // end generate()
 
 
@@ -84,13 +84,13 @@ template<typename OutputIterator,
                             Size n,
                             Generator gen)
 {
-  using thrust::system::detail::generic::select_system;
+  using HYDRA_EXTERNAL_NS::thrust::system::detail::generic::select_system;
 
-  typedef typename thrust::iterator_system<OutputIterator>::type System;
+  typedef typename HYDRA_EXTERNAL_NS::thrust::iterator_system<OutputIterator>::type System;
 
   System system;
 
-  return thrust::generate_n(select_system(system), first, n, gen);
+  return HYDRA_EXTERNAL_NS::thrust::generate_n(select_system(system), first, n, gen);
 } // end generate_n()
 
 

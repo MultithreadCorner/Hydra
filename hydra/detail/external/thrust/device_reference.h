@@ -48,9 +48,9 @@ HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
  *
  *  int main(void)
  *  {
- *    thrust::device_vector<int> vec(1, 13);
+ *    HYDRA_EXTERNAL_NS::thrust::device_vector<int> vec(1, 13);
  *
- *    thrust::device_reference<int> ref_to_thirteen = vec[0];
+ *    HYDRA_EXTERNAL_NS::thrust::device_reference<int> ref_to_thirteen = vec[0];
  *
  *    int x = ref_to_thirteen + 1;
  *
@@ -69,9 +69,9 @@ HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
  *
  *  int main(void)
  *  {
- *    thrust::device_vector<int> vec(1, 13);
+ *    HYDRA_EXTERNAL_NS::thrust::device_vector<int> vec(1, 13);
  *
- *    thrust::device_reference<int> ref_to_thirteen = vec[0];
+ *    HYDRA_EXTERNAL_NS::thrust::device_reference<int> ref_to_thirteen = vec[0];
  *
  *    std::cout << ref_to_thirteen << std::endl;
  *
@@ -91,7 +91,7 @@ HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
  *
  *  int main(void)
  *  {
- *    thrust::device_vector<int> vec(1, 13);
+ *    HYDRA_EXTERNAL_NS::thrust::device_vector<int> vec(1, 13);
  *
  *    std::cout << vec[0] << std::endl;
  *
@@ -121,9 +121,9 @@ HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
  *
  *  int main(void)
  *  {
- *    thrust::device_vector<foo> foo_vec(1);
+ *    HYDRA_EXTERNAL_NS::thrust::device_vector<foo> foo_vec(1);
  *
- *    thrust::device_reference<foo> foo_ref = foo_vec[0];
+ *    HYDRA_EXTERNAL_NS::thrust::device_reference<foo> foo_ref = foo_vec[0];
  *
  *    foo_ref.x = 13; // ERROR: x cannot be accessed through foo_ref
  *
@@ -143,13 +143,13 @@ HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
  *
  *  int main(void)
  *  {
- *    thrust::device_vector<foo> foo_vec(1);
+ *    HYDRA_EXTERNAL_NS::thrust::device_vector<foo> foo_vec(1);
  *
  *    // create a local host-side foo object
  *    foo host_foo;
  *    host_foo.x = 13;
  *
- *    thrust::device_reference<foo> foo_ref = foo_vec[0];
+ *    HYDRA_EXTERNAL_NS::thrust::device_reference<foo> foo_ref = foo_vec[0];
  *
  *    foo_ref = host_foo;
  *
@@ -170,7 +170,7 @@ HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
  *
  *  int main(void)
  *  {
- *    thrust::device_vector<int> vec(1,13);
+ *    HYDRA_EXTERNAL_NS::thrust::device_vector<int> vec(1,13);
  *
  *    // vec[0] must be cast to int when passing to printf
  *    printf("%d\n", (int) vec[0]);
@@ -184,17 +184,17 @@ HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
  */
 template<typename T>
   class device_reference
-    : public thrust::reference<
+    : public HYDRA_EXTERNAL_NS::thrust::reference<
                T,
-               thrust::device_ptr<T>,
-               thrust::device_reference<T>
+               HYDRA_EXTERNAL_NS::thrust::device_ptr<T>,
+               HYDRA_EXTERNAL_NS::thrust::device_reference<T>
              >
 {
   private:
-    typedef thrust::reference<
+    typedef HYDRA_EXTERNAL_NS::thrust::reference<
       T,
-      thrust::device_ptr<T>,
-      thrust::device_reference<T>
+      HYDRA_EXTERNAL_NS::thrust::device_ptr<T>,
+      HYDRA_EXTERNAL_NS::thrust::device_reference<T>
     > super_t;
 
   public:
@@ -219,8 +219,8 @@ template<typename T>
      *  #include <hydra/detail/external/thrust/device_vector.h>
      *  #include <assert.h>
      *  ...
-     *  thrust::device_vector<int> v(1,0);
-     *  thrust::device_reference<int> ref = v[0];
+     *  HYDRA_EXTERNAL_NS::thrust::device_vector<int> v(1,0);
+     *  HYDRA_EXTERNAL_NS::thrust::device_reference<int> ref = v[0];
      *
      *  // ref equals the object at v[0]
      *  assert(ref == v[0]);
@@ -239,7 +239,7 @@ template<typename T>
     template<typename OtherT>
     __hydra_host__ __hydra_device__
     device_reference(const device_reference<OtherT> &other,
-                     typename thrust::detail::enable_if_convertible<
+                     typename HYDRA_EXTERNAL_NS::thrust::detail::enable_if_convertible<
                        typename device_reference<OtherT>::pointer,
                        pointer
                      >::type * = 0)
@@ -260,9 +260,9 @@ template<typename T>
      *  #include <hydra/detail/external/thrust/device_vector.h>
      *  #include <assert.h>
      *  ...
-     *  thrust::device_vector<int> v(1,0);
-     *  thrust::device_ptr<int> ptr = &v[0];
-     *  thrust::device_reference<int> ref(ptr);
+     *  HYDRA_EXTERNAL_NS::thrust::device_vector<int> v(1,0);
+     *  HYDRA_EXTERNAL_NS::thrust::device_ptr<int> ptr = &v[0];
+     *  HYDRA_EXTERNAL_NS::thrust::device_reference<int> ref(ptr);
      *
      *  // ref equals the object pointed to by ptr
      *  assert(ref == *ptr);
@@ -340,9 +340,9 @@ template<typename T>
      *  #include <hydra/detail/external/thrust/device_vector.h>
      *  #include <assert.h>
      *  ...
-     *  thrust::device_vector<int> v(1,0);
-     *  thrust::device_ptr<int> ptr = &v[0];
-     *  thrust::device_reference<int> ref(ptr);
+     *  HYDRA_EXTERNAL_NS::thrust::device_vector<int> v(1,0);
+     *  HYDRA_EXTERNAL_NS::thrust::device_ptr<int> ptr = &v[0];
+     *  HYDRA_EXTERNAL_NS::thrust::device_reference<int> ref(ptr);
      *
      *  // ref equals 0
      *  assert(ref == 0);
@@ -385,9 +385,9 @@ template<typename T>
      *  #include <hydra/detail/external/thrust/device_vector.h>
      *  #include <assert.h>
      *  ...
-     *  thrust::device_vector<int> v(1,0);
-     *  thrust::device_ptr<int> ptr = &v[0];
-     *  thrust::device_reference<int> ref(ptr);
+     *  HYDRA_EXTERNAL_NS::thrust::device_vector<int> v(1,0);
+     *  HYDRA_EXTERNAL_NS::thrust::device_ptr<int> ptr = &v[0];
+     *  HYDRA_EXTERNAL_NS::thrust::device_reference<int> ref(ptr);
      *
      *  // ref equals 0
      *  assert(ref == 0);
@@ -432,9 +432,9 @@ template<typename T>
      *  #include <hydra/detail/external/thrust/device_vector.h>
      *  #include <assert.h>
      *  ...
-     *  thrust::device_vector<int> v(1,0);
-     *  thrust::device_ptr<int> ptr = &v[0];
-     *  thrust::device_reference<int> ref(ptr);
+     *  HYDRA_EXTERNAL_NS::thrust::device_vector<int> v(1,0);
+     *  HYDRA_EXTERNAL_NS::thrust::device_ptr<int> ptr = &v[0];
+     *  HYDRA_EXTERNAL_NS::thrust::device_reference<int> ref(ptr);
      *
      *  // ref equals 0
      *  assert(ref == 0);
@@ -475,9 +475,9 @@ template<typename T>
      *  #include <hydra/detail/external/thrust/device_vector.h>
      *  #include <assert.h>
      *  ...
-     *  thrust::device_vector<int> v(1,0);
-     *  thrust::device_ptr<int> ptr = &v[0];
-     *  thrust::device_reference<int> ref(ptr);
+     *  HYDRA_EXTERNAL_NS::thrust::device_vector<int> v(1,0);
+     *  HYDRA_EXTERNAL_NS::thrust::device_ptr<int> ptr = &v[0];
+     *  HYDRA_EXTERNAL_NS::thrust::device_reference<int> ref(ptr);
      *
      *  // ref equals 0
      *  assert(ref == 0);
@@ -520,9 +520,9 @@ template<typename T>
      *  #include <hydra/detail/external/thrust/device_vector.h>
      *  #include <assert.h>
      *  ...
-     *  thrust::device_vector<int> v(1,0);
-     *  thrust::device_ptr<int> ptr = &v[0];
-     *  thrust::device_reference<int> ref(ptr);
+     *  HYDRA_EXTERNAL_NS::thrust::device_vector<int> v(1,0);
+     *  HYDRA_EXTERNAL_NS::thrust::device_ptr<int> ptr = &v[0];
+     *  HYDRA_EXTERNAL_NS::thrust::device_reference<int> ref(ptr);
      *
      *  // ref equals 0
      *  assert(ref == 0);
@@ -567,9 +567,9 @@ template<typename T>
      *  #include <hydra/detail/external/thrust/device_vector.h>
      *  #include <assert.h>
      *  ...
-     *  thrust::device_vector<int> v(1,0);
-     *  thrust::device_ptr<int> ptr = &v[0];
-     *  thrust::device_reference<int> ref(ptr);
+     *  HYDRA_EXTERNAL_NS::thrust::device_vector<int> v(1,0);
+     *  HYDRA_EXTERNAL_NS::thrust::device_ptr<int> ptr = &v[0];
+     *  HYDRA_EXTERNAL_NS::thrust::device_reference<int> ref(ptr);
      *
      *  // ref equals 0
      *  assert(ref == 0);
@@ -611,9 +611,9 @@ template<typename T>
      *  #include <hydra/detail/external/thrust/device_vector.h>
      *  #include <assert.h>
      *  ...
-     *  thrust::device_vector<int> v(1,1);
-     *  thrust::device_ptr<int> ptr = &v[0];
-     *  thrust::device_reference<int> ref(ptr);
+     *  HYDRA_EXTERNAL_NS::thrust::device_vector<int> v(1,1);
+     *  HYDRA_EXTERNAL_NS::thrust::device_ptr<int> ptr = &v[0];
+     *  HYDRA_EXTERNAL_NS::thrust::device_reference<int> ref(ptr);
      *
      *  // ref equals 1
      *  assert(ref == 1);
@@ -655,9 +655,9 @@ template<typename T>
      *  #include <hydra/detail/external/thrust/device_vector.h>
      *  #include <assert.h>
      *  ...
-     *  thrust::device_vector<int> v(1,5);
-     *  thrust::device_ptr<int> ptr = &v[0];
-     *  thrust::device_reference<int> ref(ptr);
+     *  HYDRA_EXTERNAL_NS::thrust::device_vector<int> v(1,5);
+     *  HYDRA_EXTERNAL_NS::thrust::device_ptr<int> ptr = &v[0];
+     *  HYDRA_EXTERNAL_NS::thrust::device_reference<int> ref(ptr);
      *
      *  // ref equals 5
      *  assert(ref == 5);
@@ -699,9 +699,9 @@ template<typename T>
      *  #include <hydra/detail/external/thrust/device_vector.h>
      *  #include <assert.h>
      *  ...
-     *  thrust::device_vector<int> v(1,5);
-     *  thrust::device_ptr<int> ptr = &v[0];
-     *  thrust::device_reference<int> ref(ptr);
+     *  HYDRA_EXTERNAL_NS::thrust::device_vector<int> v(1,5);
+     *  HYDRA_EXTERNAL_NS::thrust::device_ptr<int> ptr = &v[0];
+     *  HYDRA_EXTERNAL_NS::thrust::device_reference<int> ref(ptr);
      *
      *  // ref equals 5
      *  assert(ref == 5);
@@ -743,9 +743,9 @@ template<typename T>
      *  #include <hydra/detail/external/thrust/device_vector.h>
      *  #include <assert.h>
      *  ...
-     *  thrust::device_vector<int> v(1,1);
-     *  thrust::device_ptr<int> ptr = &v[0];
-     *  thrust::device_reference<int> ref(ptr);
+     *  HYDRA_EXTERNAL_NS::thrust::device_vector<int> v(1,1);
+     *  HYDRA_EXTERNAL_NS::thrust::device_ptr<int> ptr = &v[0];
+     *  HYDRA_EXTERNAL_NS::thrust::device_reference<int> ref(ptr);
      *
      *  // ref equals 1
      *  assert(ref == 1);
@@ -787,9 +787,9 @@ template<typename T>
      *  #include <hydra/detail/external/thrust/device_vector.h>
      *  #include <assert.h>
      *  ...
-     *  thrust::device_vector<int> v(1,2);
-     *  thrust::device_ptr<int> ptr = &v[0];
-     *  thrust::device_reference<int> ref(ptr);
+     *  HYDRA_EXTERNAL_NS::thrust::device_vector<int> v(1,2);
+     *  HYDRA_EXTERNAL_NS::thrust::device_ptr<int> ptr = &v[0];
+     *  HYDRA_EXTERNAL_NS::thrust::device_reference<int> ref(ptr);
      *
      *  // ref equals 2
      *  assert(ref == 2);
@@ -831,9 +831,9 @@ template<typename T>
      *  #include <hydra/detail/external/thrust/device_vector.h>
      *  #include <assert.h>
      *  ...
-     *  thrust::device_vector<int> v(1,1);
-     *  thrust::device_ptr<int> ptr = &v[0];
-     *  thrust::device_reference<int> ref(ptr);
+     *  HYDRA_EXTERNAL_NS::thrust::device_vector<int> v(1,1);
+     *  HYDRA_EXTERNAL_NS::thrust::device_ptr<int> ptr = &v[0];
+     *  HYDRA_EXTERNAL_NS::thrust::device_reference<int> ref(ptr);
      *
      *  // ref equals 1
      *  assert(ref == 1);
@@ -875,9 +875,9 @@ template<typename T>
      *  #include <hydra/detail/external/thrust/device_vector.h>
      *  #include <assert.h>
      *  ...
-     *  thrust::device_vector<int> v(1,0);
-     *  thrust::device_ptr<int> ptr = &v[0];
-     *  thrust::device_reference<int> ref(ptr);
+     *  HYDRA_EXTERNAL_NS::thrust::device_vector<int> v(1,0);
+     *  HYDRA_EXTERNAL_NS::thrust::device_ptr<int> ptr = &v[0];
+     *  HYDRA_EXTERNAL_NS::thrust::device_reference<int> ref(ptr);
      *
      *  // ref equals 0
      *  assert(ref == 0);
@@ -919,9 +919,9 @@ template<typename T>
      *  #include <hydra/detail/external/thrust/device_vector.h>
      *  #include <assert.h>
      *  ...
-     *  thrust::device_vector<int> v(1,1);
-     *  thrust::device_ptr<int> ptr = &v[0];
-     *  thrust::device_reference<int> ref(ptr);
+     *  HYDRA_EXTERNAL_NS::thrust::device_vector<int> v(1,1);
+     *  HYDRA_EXTERNAL_NS::thrust::device_ptr<int> ptr = &v[0];
+     *  HYDRA_EXTERNAL_NS::thrust::device_reference<int> ref(ptr);
      *
      *  // ref equals 1
      *  assert(ref == 1);

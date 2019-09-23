@@ -12,7 +12,7 @@
 #include <hydra/detail/external/thrust/detail/cpp11_required.h>
 #include <hydra/detail/external/thrust/detail/modern_gcc_required.h>
 
-#if THRUST_CPP_DIALECT >= 2011 && !defined(THRUST_LEGACY_GCC)
+#if HYDRA_THRUST_CPP_DIALECT >= 2011 && !defined(HYDRA_THRUST_LEGACY_GCC)
 
 #include <hydra/detail/external/thrust/optional.h>
 #include <hydra/detail/external/thrust/detail/type_deduction.h>
@@ -34,7 +34,7 @@
 
 HYDRA_EXTERNAL_NAMESPACE_BEGIN
 
-THRUST_BEGIN_NS
+HYDRA_THRUST_BEGIN_NS
 
 // Forward declaration.
 struct new_stream_t;
@@ -46,7 +46,7 @@ namespace system { namespace cuda { namespace detail
 
 struct nonowning_t final {};
 
-THRUST_INLINE_CONSTANT nonowning_t nonowning{};
+HYDRA_THRUST_INLINE_CONSTANT nonowning_t nonowning{};
 
 ///////////////////////////////////////////////////////////////////////////////
 
@@ -56,7 +56,7 @@ struct marker_deleter final
   void operator()(CUevent_st* e) const
   {
     if (nullptr != e)
-      thrust::cuda_cub::throw_on_error(cudaEventDestroy(e));
+      HYDRA_EXTERNAL_NS::thrust::cuda_cub::throw_on_error(cudaEventDestroy(e));
   }
 };
 
@@ -77,7 +77,7 @@ public:
     : handle_(nullptr, marker_deleter())
   {
     native_handle_type e;
-    thrust::cuda_cub::throw_on_error(
+    HYDRA_EXTERNAL_NS::thrust::cuda_cub::throw_on_error(
       cudaEventCreateWithFlags(&e, cudaEventDisableTiming)
     );
     handle_.reset(e);
@@ -97,10 +97,10 @@ public:
 
   __hydra_host__
   auto get() const
-  THRUST_DECLTYPE_RETURNS(native_handle_type(handle_.get()));
+  HYDRA_THRUST_DECLTYPE_RETURNS(native_handle_type(handle_.get()));
   __hydra_host__
   auto native_handle() const
-  THRUST_DECLTYPE_RETURNS(native_handle_type(handle_.get()));
+  HYDRA_THRUST_DECLTYPE_RETURNS(native_handle_type(handle_.get()));
 
   __hydra_host__
   bool valid() const noexcept { return bool(handle_); }
@@ -114,7 +114,7 @@ public:
       return false;
 
     // Throw on any other error.
-    thrust::cuda_cub::throw_on_error(err);
+    HYDRA_EXTERNAL_NS::thrust::cuda_cub::throw_on_error(err);
 
     return true;
   }
@@ -122,7 +122,7 @@ public:
   __hydra_host__
   void wait() const
   {
-    thrust::cuda_cub::throw_on_error(cudaEventSynchronize(handle_.get()));
+    HYDRA_EXTERNAL_NS::thrust::cuda_cub::throw_on_error(cudaEventSynchronize(handle_.get()));
   }
 
   __hydra_host__
@@ -146,7 +146,7 @@ struct stream_deleter final
   void operator()(CUstream_st* s) const
   {
     if (nullptr != s)
-      thrust::cuda_cub::throw_on_error(cudaStreamDestroy(s));
+      HYDRA_EXTERNAL_NS::thrust::cuda_cub::throw_on_error(cudaStreamDestroy(s));
   }
 };
 
@@ -169,7 +169,7 @@ public:
   {
     if (cond_ && nullptr != s)
     {
-      thrust::cuda_cub::throw_on_error(cudaStreamDestroy(s));
+      HYDRA_EXTERNAL_NS::thrust::cuda_cub::throw_on_error(cudaStreamDestroy(s));
     }
   }
 };
@@ -191,7 +191,7 @@ public:
     : handle_(nullptr, stream_conditional_deleter())
   {
     native_handle_type s;
-    thrust::cuda_cub::throw_on_error(
+    HYDRA_EXTERNAL_NS::thrust::cuda_cub::throw_on_error(
       cudaStreamCreateWithFlags(&s, cudaStreamNonBlocking)
     );
     handle_.reset(s);
@@ -218,10 +218,10 @@ public:
 
   __hydra_host__
   auto get() const
-  THRUST_DECLTYPE_RETURNS(native_handle_type(handle_.get()));
+  HYDRA_THRUST_DECLTYPE_RETURNS(native_handle_type(handle_.get()));
   __hydra_host__
   auto native_handle() const
-  THRUST_DECLTYPE_RETURNS(native_handle_type(handle_.get()));
+  HYDRA_THRUST_DECLTYPE_RETURNS(native_handle_type(handle_.get()));
 
   __hydra_host__
   bool valid() const noexcept { return bool(handle_); }
@@ -235,7 +235,7 @@ public:
       return false;
 
     // Throw on any other error.
-    thrust::cuda_cub::throw_on_error(err);
+    HYDRA_EXTERNAL_NS::thrust::cuda_cub::throw_on_error(err);
 
     return true;
   }
@@ -243,7 +243,7 @@ public:
   __hydra_host__
   void wait() const
   {
-    thrust::cuda_cub::throw_on_error(
+    HYDRA_EXTERNAL_NS::thrust::cuda_cub::throw_on_error(
       cudaStreamSynchronize(handle_.get())
     );
   }
@@ -251,7 +251,7 @@ public:
   __hydra_host__
   void depend_on(unique_marker& e)
   {
-    thrust::cuda_cub::throw_on_error(
+    HYDRA_EXTERNAL_NS::thrust::cuda_cub::throw_on_error(
       cudaStreamWaitEvent(handle_.get(), e.get(), 0)
     );
   }
@@ -270,7 +270,7 @@ public:
   __hydra_host__
   void record(unique_marker& e)
   {
-    thrust::cuda_cub::throw_on_error(cudaEventRecord(e.get(), handle_.get()));
+    HYDRA_EXTERNAL_NS::thrust::cuda_cub::throw_on_error(cudaEventRecord(e.get(), handle_.get()));
   }
 
   __hydra_host__
@@ -441,17 +441,17 @@ struct async_value : virtual async_signal
   __hydra_host__
   virtual value_type get()
   {
-    throw thrust::event_error(event_errc::no_state);
+    throw HYDRA_EXTERNAL_NS::thrust::event_error(event_errc::no_state);
   }
 
   __hydra_host__
   virtual value_type extract()
   {
-    throw thrust::event_error(event_errc::no_state);
+    throw HYDRA_EXTERNAL_NS::thrust::event_error(event_errc::no_state);
   }
 
   // For testing only.
-  #if defined(THRUST_ENABLE_FUTURE_RAW_DATA_MEMBER)
+  #if defined(HYDRA_THRUST_ENABLE_FUTURE_RAW_DATA_MEMBER)
   __hydra_host__
   virtual raw_const_pointer raw_data() const
   {
@@ -473,10 +473,10 @@ struct async_addressable_value_with_keep_alives<
     = typename async_keep_alives<std::tuple<KeepAlives...>>::keep_alives_type;
 
   using pointer
-    = typename thrust::detail::pointer_traits<Pointer>::template
+    = typename HYDRA_EXTERNAL_NS::thrust::detail::pointer_traits<Pointer>::template
       rebind<value_type>::other;
   using const_pointer
-    = typename thrust::detail::pointer_traits<Pointer>::template
+    = typename HYDRA_EXTERNAL_NS::thrust::detail::pointer_traits<Pointer>::template
       rebind<value_type const>::other;
 
 private:
@@ -492,7 +492,7 @@ public:
   // address after its been moved into the new signal we're constructing.
   // NOTE: NVCC has a bug that causes it to reorder our base class initializers
   // in generated host code, which leads to -Wreorder warnings.
-  THRUST_DISABLE_CLANG_AND_GCC_INITIALIZER_REORDERING_WARNING_BEGIN
+  HYDRA_THRUST_DISABLE_CLANG_AND_GCC_INITIALIZER_REORDERING_WARNING_BEGIN
   template <typename ComputeContent>
   __hydra_host__
   explicit async_addressable_value_with_keep_alives(
@@ -506,9 +506,9 @@ public:
         std::move(stream), std::move(keep_alives)
       )
   {
-    content_ = THRUST_FWD(compute_content)(std::get<0>(this->keep_alives_));
+    content_ = HYDRA_THRUST_FWD(compute_content)(std::get<0>(this->keep_alives_));
   }
-  THRUST_DISABLE_CLANG_AND_GCC_INITIALIZER_REORDERING_WARNING_END
+  HYDRA_THRUST_DISABLE_CLANG_AND_GCC_INITIALIZER_REORDERING_WARNING_END
 
   __hydra_host__
   bool valid_content() const noexcept final override
@@ -521,7 +521,7 @@ public:
   pointer data() 
   {
     if (!valid_content())
-      throw thrust::event_error(event_errc::no_content);
+      throw HYDRA_EXTERNAL_NS::thrust::event_error(event_errc::no_content);
 
     return content_;
   }
@@ -531,7 +531,7 @@ public:
   const_pointer data() const 
   {
     if (!valid_content())
-      throw thrust::event_error(event_errc::no_content);
+      throw HYDRA_EXTERNAL_NS::thrust::event_error(event_errc::no_content);
 
     return content_;
   }
@@ -555,7 +555,7 @@ public:
   }
 
   // For testing only.
-  #if defined(THRUST_ENABLE_FUTURE_RAW_DATA_MEMBER)
+  #if defined(HYDRA_THRUST_ENABLE_FUTURE_RAW_DATA_MEMBER)
   __hydra_host__
   raw_const_pointer raw_data() const final override
   {
@@ -572,10 +572,10 @@ struct weak_promise final
   using value_type = typename async_value<T>::value_type;
 
   using pointer
-    = typename thrust::detail::pointer_traits<Pointer>::template
+    = typename HYDRA_EXTERNAL_NS::thrust::detail::pointer_traits<Pointer>::template
       rebind<T>::other;
   using const_pointer
-    = typename thrust::detail::pointer_traits<Pointer>::template
+    = typename HYDRA_EXTERNAL_NS::thrust::detail::pointer_traits<Pointer>::template
       rebind<T const>::other;
 
 private:
@@ -603,7 +603,7 @@ public:
   __hydra_host__ __hydra_device__
   void set_value(U&& value) &&
   {
-    *content_ = THRUST_FWD(value);
+    *content_ = HYDRA_THRUST_FWD(value);
   }
 
   template <
@@ -612,7 +612,7 @@ public:
   >
   friend __hydra_host__
   unique_eager_future_promise_pair<X, XPointer>
-  thrust::system::cuda::detail::make_dependent_future(
+  HYDRA_EXTERNAL_NS::thrust::system::cuda::detail::make_dependent_future(
     ComputeContent&& cc, std::tuple<Dependencies...>&& deps
   );
 };
@@ -656,7 +656,7 @@ public:
 
   template <typename U>
   __hydra_host__ __hydra_device__
-  explicit ready_future(U&& u) : value_(THRUST_FWD(u)) {}
+  explicit ready_future(U&& u) : value_(HYDRA_THRUST_FWD(u)) {}
 
   __hydra_host__ __hydra_device__
   static constexpr bool valid_content() noexcept { return true; }
@@ -670,13 +670,13 @@ public:
     return value_;
   }
 
-  THRUST_NODISCARD __hydra_host__ __hydra_device__
+  HYDRA_THRUST_NODISCARD __hydra_host__ __hydra_device__
   value_type extract() 
   {
     return std::move(value_);
   }
 
-  #if defined(THRUST_ENABLE_FUTURE_RAW_DATA_MEMBER)
+  #if defined(HYDRA_THRUST_ENABLE_FUTURE_RAW_DATA_MEMBER)
   // For testing only.
   __hydra_host__ __hydra_device__
   raw_const_pointer data() const
@@ -725,7 +725,7 @@ public:
     : device_(0)
     , async_signal_(new detail::async_signal(detail::unique_stream{}))
   {
-    thrust::cuda_cub::throw_on_error(cudaGetDevice(&device_));
+    HYDRA_EXTERNAL_NS::thrust::cuda_cub::throw_on_error(cudaGetDevice(&device_));
   }
 
   __hydra_host__
@@ -756,14 +756,14 @@ public:
   detail::unique_stream& stream()
   {
     if (!valid_stream())
-      throw thrust::event_error(event_errc::no_state);
+      throw HYDRA_EXTERNAL_NS::thrust::event_error(event_errc::no_state);
 
     return async_signal_->stream();
   }
   detail::unique_stream const& stream() const
   {
     if (!valid_stream())
-      throw thrust::event_error(event_errc::no_state);
+      throw HYDRA_EXTERNAL_NS::thrust::event_error(event_errc::no_state);
 
     return async_signal_->stream();
   }
@@ -780,14 +780,14 @@ public:
 
   friend __hydra_host__
   optional<detail::unique_stream>
-  thrust::system::cuda::detail::try_acquire_stream(
+  HYDRA_EXTERNAL_NS::thrust::system::cuda::detail::try_acquire_stream(
     int device, unique_eager_event& parent
     ) noexcept;
 
   template <typename... Dependencies>
   friend __hydra_host__
   unique_eager_event
-  thrust::system::cuda::detail::make_dependent_event(
+  HYDRA_EXTERNAL_NS::thrust::system::cuda::detail::make_dependent_event(
     std::tuple<Dependencies...>&& deps
   );
 };
@@ -795,9 +795,9 @@ public:
 template <typename T>
 struct unique_eager_future final
 {
-  THRUST_STATIC_ASSERT_MSG(
+  HYDRA_THRUST_STATIC_ASSERT_MSG(
     (!std::is_same<T, remove_cvref_t<void>>::value)
-  , "`thrust::event` should be used to express valueless futures"
+  , "`HYDRA_EXTERNAL_NS::thrust::event` should be used to express valueless futures"
   );
 
   using value_type        = typename detail::async_value<T>::value_type;
@@ -831,7 +831,7 @@ public:
     : device_(0)
     , async_signal_(new detail::async_value<value_type>(detail::unique_stream{}))
   {
-    thrust::cuda_cub::throw_on_error(cudaGetDevice(&device_));
+    HYDRA_EXTERNAL_NS::thrust::cuda_cub::throw_on_error(cudaGetDevice(&device_));
   }
 
   __hydra_host__
@@ -874,7 +874,7 @@ public:
   detail::unique_stream& stream()
   {
     if (!valid_stream())
-      throw thrust::event_error(event_errc::no_state);
+      throw HYDRA_EXTERNAL_NS::thrust::event_error(event_errc::no_state);
 
     return async_signal_->stream();
   }
@@ -882,7 +882,7 @@ public:
   detail::unique_stream const& stream() const
   {
     if (!valid_stream())
-      throw thrust::event_error(event_errc::no_state);
+      throw HYDRA_EXTERNAL_NS::thrust::event_error(event_errc::no_state);
 
     return async_signal_->stream();
   }
@@ -904,18 +904,18 @@ public:
   value_type get()
   {
     if (!valid_content())
-      throw thrust::event_error(event_errc::no_content);
+      throw HYDRA_EXTERNAL_NS::thrust::event_error(event_errc::no_content);
 
     return async_signal_->get();
   }
 
   // Blocks.
   // Precondition: `true == valid_content()`.
-  THRUST_NODISCARD __hydra_host__
+  HYDRA_THRUST_NODISCARD __hydra_host__
   value_type extract()
   {
     if (!valid_content())
-      throw thrust::event_error(event_errc::no_content);
+      throw HYDRA_EXTERNAL_NS::thrust::event_error(event_errc::no_content);
 
     value_type tmp(async_signal_->extract());
     async_signal_.reset();
@@ -923,13 +923,13 @@ public:
   }
 
   // For testing only.
-  #if defined(THRUST_ENABLE_FUTURE_RAW_DATA_MEMBER)
+  #if defined(HYDRA_THRUST_ENABLE_FUTURE_RAW_DATA_MEMBER)
   // Precondition: `true == valid_stream()`.
   __hydra_host__
   raw_const_pointer raw_data() const
   {
     if (!valid_stream())
-      throw thrust::event_error(event_errc::no_state);
+      throw HYDRA_EXTERNAL_NS::thrust::event_error(event_errc::no_state);
 
     return async_signal_->raw_data();
   }
@@ -938,7 +938,7 @@ public:
   template <typename X>
   friend __hydra_host__
   optional<detail::unique_stream>
-  thrust::system::cuda::detail::try_acquire_stream(
+  HYDRA_EXTERNAL_NS::thrust::system::cuda::detail::try_acquire_stream(
     int device, unique_eager_future<X>& parent
     ) noexcept;
 
@@ -948,7 +948,7 @@ public:
   >
   friend __hydra_host__
   detail::unique_eager_future_promise_pair<X, XPointer>
-  thrust::system::cuda::detail::make_dependent_future(
+  HYDRA_EXTERNAL_NS::thrust::system::cuda::detail::make_dependent_future(
     ComputeContent&& cc, std::tuple<Dependencies...>&& deps
   );
 
@@ -1269,7 +1269,7 @@ __hydra_host__
 unique_eager_event make_dependent_event(std::tuple<Dependencies...>&& deps)
 {
   int device = 0;
-  thrust::cuda_cub::throw_on_error(cudaGetDevice(&device));
+  HYDRA_EXTERNAL_NS::thrust::cuda_cub::throw_on_error(cudaGetDevice(&device));
 
   // First, either steal a stream from one of our children or make a new one.
   auto as = acquire_stream(device, deps);
@@ -1306,7 +1306,7 @@ unique_eager_future_promise_pair<X, XPointer>
 make_dependent_future(ComputeContent&& cc, std::tuple<Dependencies...>&& deps)
 {
   int device = 0;
-  thrust::cuda_cub::throw_on_error(cudaGetDevice(&device));
+  HYDRA_EXTERNAL_NS::thrust::cuda_cub::throw_on_error(cudaGetDevice(&device));
 
   // First, either steal a stream from one of our children or make a new one.
   auto as = acquire_stream(device, deps);
@@ -1354,17 +1354,17 @@ unique_eager_event when_all(Events&&... evs)
 // ADL hook for transparent `.after` move support.
 inline __hydra_host__
 auto capture_as_dependency(unique_eager_event& dependency)
-THRUST_DECLTYPE_RETURNS(std::move(dependency))
+HYDRA_THRUST_DECLTYPE_RETURNS(std::move(dependency))
 
 // ADL hook for transparent `.after` move support.
 template <typename X>
 __hydra_host__
 auto capture_as_dependency(unique_eager_future<X>& dependency)
-THRUST_DECLTYPE_RETURNS(std::move(dependency))
+HYDRA_THRUST_DECLTYPE_RETURNS(std::move(dependency))
 
 }} // namespace system::cuda
 
-THRUST_END_NS
+HYDRA_THRUST_END_NS
 
 HYDRA_EXTERNAL_NAMESPACE_END
 

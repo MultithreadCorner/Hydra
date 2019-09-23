@@ -16,7 +16,7 @@
 #include <hydra/detail/external/thrust/detail/config.h>
 #include <hydra/detail/external/thrust/detail/cpp11_required.h>
 
-#if THRUST_CPP_DIALECT >= 2011
+#if HYDRA_THRUST_CPP_DIALECT >= 2011
 
 #include <type_traits>
 #include <utility>
@@ -25,9 +25,9 @@
 
 HYDRA_EXTERNAL_NAMESPACE_BEGIN
 
-THRUST_BEGIN_NS
+HYDRA_THRUST_BEGIN_NS
 
-#if THRUST_CPP_DIALECT >= 2014
+#if HYDRA_THRUST_CPP_DIALECT >= 2014
 
 // A compile-time sequence of integral constants of type T.
 template <typename T, T... Is>
@@ -145,7 +145,7 @@ struct make_integer_sequence_impl<T, 1>
 
 } // namespace detail
 
-#endif // THRUST_CPP_DIALECT >= 2014
+#endif // HYDRA_THRUST_CPP_DIALECT >= 2014
 
 ///////////////////////////////////////////////////////////////////////////////
 
@@ -257,9 +257,9 @@ struct integer_sequence_push_back_impl<T, I0, integer_sequence<T, Is...> >
 
 } // namespace detail
 
-THRUST_END_NS
+HYDRA_THRUST_END_NS
 
 HYDRA_EXTERNAL_NAMESPACE_END
 
-#endif // THRUST_CPP_DIALECT >= 2011
+#endif // HYDRA_THRUST_CPP_DIALECT >= 2011
 

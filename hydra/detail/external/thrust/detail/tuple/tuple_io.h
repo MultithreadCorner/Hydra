@@ -16,7 +16,7 @@
 
 
 /*! \file tuple_io.h
- *  \brief Provides streaming capabilities for thrust::tuple
+ *  \brief Provides streaming capabilities for HYDRA_EXTERNAL_NS::thrust::tuple
  */
 
 /*
@@ -181,11 +181,11 @@ print_helper(CharType d, std::basic_ostream<CharType, CharTrait>& o, const T& t,
 
 template<class CharType, class CharTrait, class... Types, size_t... I>
 inline std::basic_ostream<CharType, CharTrait>&
-print(std::basic_ostream<CharType, CharTrait>& o, const thrust::tuple<Types...>& t, thrust::__index_sequence<I...>)
+print(std::basic_ostream<CharType, CharTrait>& o, const HYDRA_EXTERNAL_NS::thrust::tuple<Types...>& t, HYDRA_EXTERNAL_NS::thrust::__index_sequence<I...>)
 {
   const CharType d = detail::tuple_detail::format_info::get_manipulator(o, detail::tuple_detail::format_info::delimiter);
 
-  print_helper(d, o, thrust::get<I>(t)...);
+  print_helper(d, o, HYDRA_EXTERNAL_NS::thrust::get<I>(t)...);
 
   return o;
 }
@@ -216,7 +216,7 @@ inline bool handle_width(std::basic_ostream<CharT, Traits>& o, const T& t) {
 template<class CharType, class CharTrait, class... Types>
 inline std::basic_ostream<CharType, CharTrait>& 
 operator<<(std::basic_ostream<CharType, CharTrait>& o, 
-           const thrust::tuple<Types...>& t) {
+           const HYDRA_EXTERNAL_NS::thrust::tuple<Types...>& t) {
   if (!o.good() ) return o;
   if (detail::tuple_detail::handle_width(o, t)) return o;
 
@@ -227,7 +227,7 @@ operator<<(std::basic_ostream<CharType, CharTrait>& o,
 
   o << l;
 
-  detail::tuple_detail::print(o, t, thrust::__make_index_sequence<thrust::tuple_size<thrust::tuple<Types...>>::value>{});   // XXX thrust::__index_sequence_for<Types...>{} upon variadic tuple
+  detail::tuple_detail::print(o, t, HYDRA_EXTERNAL_NS::thrust::__make_index_sequence<HYDRA_EXTERNAL_NS::thrust::tuple_size<HYDRA_EXTERNAL_NS::thrust::tuple<Types...>>::value>{});   // XXX HYDRA_EXTERNAL_NS::thrust::__index_sequence_for<Types...>{} upon variadic tuple
 
   o << r;
 
@@ -286,10 +286,10 @@ read_helper(std::basic_istream<CharType, CharTrait> &is, T& t, Types&... ts)
 
 template<class CharType, class CharTrait, class... Types, size_t... I>
 inline std::basic_istream<CharType, CharTrait>& 
-read(std::basic_istream<CharType, CharTrait> &is, thrust::tuple<Types...>& t, thrust::__index_sequence<I...>)
+read(std::basic_istream<CharType, CharTrait> &is, HYDRA_EXTERNAL_NS::thrust::tuple<Types...>& t, HYDRA_EXTERNAL_NS::thrust::__index_sequence<I...>)
 {
   if (!is.good()) return is;
-  read_helper(is, thrust::get<I>(t)...);
+  read_helper(is, HYDRA_EXTERNAL_NS::thrust::get<I>(t)...);
   return is;
 }
 
@@ -300,13 +300,13 @@ read(std::basic_istream<CharType, CharTrait> &is, thrust::tuple<Types...>& t, th
 
 template<class CharType, class CharTrait, class... Types>
 inline std::basic_istream<CharType, CharTrait>& 
-operator>>(std::basic_istream<CharType, CharTrait>& is, thrust::tuple<Types...>& t) {
+operator>>(std::basic_istream<CharType, CharTrait>& is, HYDRA_EXTERNAL_NS::thrust::tuple<Types...>& t) {
 
   if (!is.good() ) return is;
 
   detail::tuple_detail::extract_and_check_delimiter(is, detail::tuple_detail::format_info::open);
   
-  detail::tuple_detail::read(is, t, thrust::__make_index_sequence<thrust::tuple_size<thrust::tuple<Types...>>::value>{});   // XXX thrust::__index_sequence_for<Types...>{} upon variadic tuple
+  detail::tuple_detail::read(is, t, HYDRA_EXTERNAL_NS::thrust::__make_index_sequence<HYDRA_EXTERNAL_NS::thrust::tuple_size<HYDRA_EXTERNAL_NS::thrust::tuple<Types...>>::value>{});   // XXX HYDRA_EXTERNAL_NS::thrust::__index_sequence_for<Types...>{} upon variadic tuple
 
   detail::tuple_detail::extract_and_check_delimiter(is, detail::tuple_detail::format_info::close);
 

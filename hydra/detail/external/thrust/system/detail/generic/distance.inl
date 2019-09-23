@@ -33,10 +33,10 @@ namespace detail
 __thrust_exec_check_disable__
 template<typename InputIterator>
 inline __hydra_host__ __hydra_device__
-  typename thrust::iterator_traits<InputIterator>::difference_type
-    distance(InputIterator first, InputIterator last, thrust::incrementable_traversal_tag)
+  typename HYDRA_EXTERNAL_NS::thrust::iterator_traits<InputIterator>::difference_type
+    distance(InputIterator first, InputIterator last, HYDRA_EXTERNAL_NS::thrust::incrementable_traversal_tag)
 {
-  typename thrust::iterator_traits<InputIterator>::difference_type result(0);
+  typename HYDRA_EXTERNAL_NS::thrust::iterator_traits<InputIterator>::difference_type result(0);
 
   while(first != last)
   {
@@ -51,8 +51,8 @@ inline __hydra_host__ __hydra_device__
 __thrust_exec_check_disable__
 template<typename InputIterator>
 inline __hydra_host__ __hydra_device__
-  typename thrust::iterator_traits<InputIterator>::difference_type
-    distance(InputIterator first, InputIterator last, thrust::random_access_traversal_tag)
+  typename HYDRA_EXTERNAL_NS::thrust::iterator_traits<InputIterator>::difference_type
+    distance(InputIterator first, InputIterator last, HYDRA_EXTERNAL_NS::thrust::random_access_traversal_tag)
 {
   return last - first;
 } // end distance()
@@ -63,12 +63,12 @@ inline __hydra_host__ __hydra_device__
 
 template<typename InputIterator>
 inline __hydra_host__ __hydra_device__
-  typename thrust::iterator_traits<InputIterator>::difference_type
+  typename HYDRA_EXTERNAL_NS::thrust::iterator_traits<InputIterator>::difference_type
     distance(InputIterator first, InputIterator last)
 {
   // dispatch on iterator traversal
-  return thrust::system::detail::generic::detail::distance(first, last,
-    typename thrust::iterator_traversal<InputIterator>::type());
+  return HYDRA_EXTERNAL_NS::thrust::system::detail::generic::detail::distance(first, last,
+    typename HYDRA_EXTERNAL_NS::thrust::iterator_traversal<InputIterator>::type());
 } // end advance()
 
 

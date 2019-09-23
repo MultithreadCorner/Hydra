@@ -32,10 +32,10 @@ template<typename Tag, typename Pointer>
 {
   public:
     typedef void                                                                                 value_type;
-    typedef typename thrust::detail::pointer_traits<Pointer>::template rebind<void>::other       pointer;
-    typedef typename thrust::detail::pointer_traits<Pointer>::template rebind<const void>::other const_pointer;
+    typedef typename HYDRA_EXTERNAL_NS::thrust::detail::pointer_traits<Pointer>::template rebind<void>::other       pointer;
+    typedef typename HYDRA_EXTERNAL_NS::thrust::detail::pointer_traits<Pointer>::template rebind<const void>::other const_pointer;
     typedef std::size_t                                                                          size_type;
-    typedef typename thrust::detail::pointer_traits<Pointer>::difference_type                    difference_type;
+    typedef typename HYDRA_EXTERNAL_NS::thrust::detail::pointer_traits<Pointer>::difference_type                    difference_type;
     typedef Tag                                                                                  system_type;
 
     template<typename U>
@@ -50,12 +50,12 @@ template<typename T, typename Tag, typename Pointer>
 {
   public:
     typedef T                                                                                 value_type;
-    typedef typename thrust::detail::pointer_traits<Pointer>::template rebind<T>::other       pointer;
-    typedef typename thrust::detail::pointer_traits<Pointer>::template rebind<const T>::other const_pointer;
-    typedef typename thrust::iterator_reference<pointer>::type                                reference;
-    typedef typename thrust::iterator_reference<const_pointer>::type                          const_reference;
+    typedef typename HYDRA_EXTERNAL_NS::thrust::detail::pointer_traits<Pointer>::template rebind<T>::other       pointer;
+    typedef typename HYDRA_EXTERNAL_NS::thrust::detail::pointer_traits<Pointer>::template rebind<const T>::other const_pointer;
+    typedef typename HYDRA_EXTERNAL_NS::thrust::iterator_reference<pointer>::type                                reference;
+    typedef typename HYDRA_EXTERNAL_NS::thrust::iterator_reference<const_pointer>::type                          const_reference;
     typedef std::size_t                                                                       size_type;
-    typedef typename thrust::detail::pointer_traits<pointer>::difference_type                 difference_type;
+    typedef typename HYDRA_EXTERNAL_NS::thrust::detail::pointer_traits<pointer>::difference_type                 difference_type;
     typedef Tag                                                                               system_type;
 
     template<typename U>

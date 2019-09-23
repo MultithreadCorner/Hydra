@@ -32,7 +32,7 @@ namespace generic
 
 template<typename DerivedPolicy, typename InputIterator, typename T>
 __hydra_host__ __hydra_device__
-InputIterator find(thrust::execution_policy<DerivedPolicy> &exec,
+InputIterator find(HYDRA_EXTERNAL_NS::thrust::execution_policy<DerivedPolicy> &exec,
                    InputIterator first,
                    InputIterator last,
                    const T& value);
@@ -40,7 +40,7 @@ InputIterator find(thrust::execution_policy<DerivedPolicy> &exec,
 
 template<typename DerivedPolicy, typename InputIterator, typename Predicate>
 __hydra_host__ __hydra_device__
-InputIterator find_if(thrust::execution_policy<DerivedPolicy> &exec,
+InputIterator find_if(HYDRA_EXTERNAL_NS::thrust::execution_policy<DerivedPolicy> &exec,
                       InputIterator first,
                       InputIterator last,
                       Predicate pred);
@@ -48,7 +48,7 @@ InputIterator find_if(thrust::execution_policy<DerivedPolicy> &exec,
 
 template<typename DerivedPolicy, typename InputIterator, typename Predicate>
 __hydra_host__ __hydra_device__
-InputIterator find_if_not(thrust::execution_policy<DerivedPolicy> &exec,
+InputIterator find_if_not(HYDRA_EXTERNAL_NS::thrust::execution_policy<DerivedPolicy> &exec,
                           InputIterator first,
                           InputIterator last,
                           Predicate pred);

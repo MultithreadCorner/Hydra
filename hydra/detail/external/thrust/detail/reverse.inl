@@ -33,25 +33,25 @@ HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
 __thrust_exec_check_disable__
 template<typename DerivedPolicy, typename BidirectionalIterator>
 __hydra_host__ __hydra_device__
-  void reverse(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
+  void reverse(const HYDRA_EXTERNAL_NS::thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                BidirectionalIterator first,
                BidirectionalIterator last)
 {
-  using thrust::system::detail::generic::reverse;
-  return reverse(thrust::detail::derived_cast(thrust::detail::strip_const(exec)), first, last);
+  using HYDRA_EXTERNAL_NS::thrust::system::detail::generic::reverse;
+  return reverse(HYDRA_EXTERNAL_NS::thrust::detail::derived_cast(HYDRA_EXTERNAL_NS::thrust::detail::strip_const(exec)), first, last);
 } // end reverse()
 
 
 __thrust_exec_check_disable__
 template<typename DerivedPolicy, typename BidirectionalIterator, typename OutputIterator>
 __hydra_host__ __hydra_device__
-  OutputIterator reverse_copy(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
+  OutputIterator reverse_copy(const HYDRA_EXTERNAL_NS::thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                               BidirectionalIterator first,
                               BidirectionalIterator last,
                               OutputIterator result)
 {
-  using thrust::system::detail::generic::reverse_copy;
-  return reverse_copy(thrust::detail::derived_cast(thrust::detail::strip_const(exec)), first, last, result);
+  using HYDRA_EXTERNAL_NS::thrust::system::detail::generic::reverse_copy;
+  return reverse_copy(HYDRA_EXTERNAL_NS::thrust::detail::derived_cast(HYDRA_EXTERNAL_NS::thrust::detail::strip_const(exec)), first, last, result);
 } // end reverse_copy()
 
 
@@ -59,13 +59,13 @@ template<typename BidirectionalIterator>
   void reverse(BidirectionalIterator first,
                BidirectionalIterator last)
 {
-  using thrust::system::detail::generic::select_system;
+  using HYDRA_EXTERNAL_NS::thrust::system::detail::generic::select_system;
 
-  typedef typename thrust::iterator_system<BidirectionalIterator>::type System;
+  typedef typename HYDRA_EXTERNAL_NS::thrust::iterator_system<BidirectionalIterator>::type System;
 
   System system;
 
-  return thrust::reverse(select_system(system), first, last);
+  return HYDRA_EXTERNAL_NS::thrust::reverse(select_system(system), first, last);
 } // end reverse()
 
 
@@ -75,15 +75,15 @@ template<typename BidirectionalIterator,
                               BidirectionalIterator last,
                               OutputIterator result)
 {
-  using thrust::system::detail::generic::select_system;
+  using HYDRA_EXTERNAL_NS::thrust::system::detail::generic::select_system;
 
-  typedef typename thrust::iterator_system<BidirectionalIterator>::type System1;
-  typedef typename thrust::iterator_system<OutputIterator>::type        System2;
+  typedef typename HYDRA_EXTERNAL_NS::thrust::iterator_system<BidirectionalIterator>::type System1;
+  typedef typename HYDRA_EXTERNAL_NS::thrust::iterator_system<OutputIterator>::type        System2;
 
   System1 system1;
   System2 system2;
 
-  return thrust::reverse_copy(select_system(system1,system2), first, last, result);
+  return HYDRA_EXTERNAL_NS::thrust::reverse_copy(select_system(system1,system2), first, last, result);
 } // end reverse_copy()
 
 

@@ -42,8 +42,8 @@ HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
  *      a \p device_ptr.
  */
 template<typename Upstream>
-class device_ptr_memory_resource THRUST_FINAL
-    : public thrust::mr::memory_resource<
+class device_ptr_memory_resource HYDRA_THRUST_FINAL
+    : public HYDRA_EXTERNAL_NS::thrust::mr::memory_resource<
         device_ptr<void>
     >
 {
@@ -67,14 +67,14 @@ public:
     {
     }
 
-    THRUST_NODISCARD __hydra_host__
-    virtual pointer do_allocate(std::size_t bytes, std::size_t alignment = THRUST_MR_DEFAULT_ALIGNMENT) THRUST_OVERRIDE
+    HYDRA_THRUST_NODISCARD __hydra_host__
+    virtual pointer do_allocate(std::size_t bytes, std::size_t alignment = HYDRA_THRUST_MR_DEFAULT_ALIGNMENT) HYDRA_THRUST_OVERRIDE
     {
         return pointer(m_upstream->do_allocate(bytes, alignment).get());
     }
 
     __hydra_host__
-    virtual void do_deallocate(pointer p, std::size_t bytes, std::size_t alignment) THRUST_OVERRIDE
+    virtual void do_deallocate(pointer p, std::size_t bytes, std::size_t alignment) HYDRA_THRUST_OVERRIDE
     {
         m_upstream->do_deallocate(upstream_ptr(p.get()), bytes, alignment);
     }
@@ -93,12 +93,12 @@ private:
  */
 template<typename T>
 class device_allocator
-    : public thrust::mr::stateless_resource_allocator<
+    : public HYDRA_EXTERNAL_NS::thrust::mr::stateless_resource_allocator<
         T,
         device_ptr_memory_resource<device_memory_resource>
     >
 {
-    typedef thrust::mr::stateless_resource_allocator<
+    typedef HYDRA_EXTERNAL_NS::thrust::mr::stateless_resource_allocator<
         T,
         device_ptr_memory_resource<device_memory_resource>
     > base;

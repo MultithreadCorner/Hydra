@@ -68,7 +68,7 @@ inline void free(pointer<void> ptr);
 
 // XXX upon c++11
 // template<typename T>
-// using allocator = thrust::mr::stateless_resource_allocator<T, memory_resource>;
+// using allocator = HYDRA_EXTERNAL_NS::thrust::mr::stateless_resource_allocator<T, memory_resource>;
 
 /*! \p cpp::allocator is the default allocator used by the \p cpp system's containers such as
  *  <tt>cpp::vector</tt> if no user-specified allocator is provided. \p cpp::allocator allocates
@@ -76,13 +76,13 @@ inline void free(pointer<void> ptr);
  */
 template<typename T>
   struct allocator
-    : thrust::mr::stateless_resource_allocator<
+    : HYDRA_EXTERNAL_NS::thrust::mr::stateless_resource_allocator<
         T,
         memory_resource
     >
 {
 private:
-    typedef thrust::mr::stateless_resource_allocator<
+    typedef HYDRA_EXTERNAL_NS::thrust::mr::stateless_resource_allocator<
         T,
         memory_resource
     > base;
@@ -130,15 +130,15 @@ public:
 
 } // end system
 
-/*! \HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust::cpp
- *  \brief \p thrust::cpp is a top-level alias for thrust::system::cpp.
+/*! \HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace HYDRA_EXTERNAL_NS::thrust::cpp
+ *  \brief \p HYDRA_EXTERNAL_NS::thrust::cpp is a top-level alias for HYDRA_EXTERNAL_NS::thrust::system::cpp.
  */
 namespace cpp
 {
 
-using thrust::system::cpp::malloc;
-using thrust::system::cpp::free;
-using thrust::system::cpp::allocator;
+using HYDRA_EXTERNAL_NS::thrust::system::cpp::malloc;
+using HYDRA_EXTERNAL_NS::thrust::system::cpp::free;
+using HYDRA_EXTERNAL_NS::thrust::system::cpp::allocator;
 
 } // end cpp
 

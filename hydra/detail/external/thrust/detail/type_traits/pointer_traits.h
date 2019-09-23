@@ -111,7 +111,7 @@ template<template<typename, typename, typename, typename> class Ptr, typename Ar
 };
 
 // XXX this should probably be renamed native_type or similar
-__THRUST_DEFINE_HAS_NESTED_TYPE(has_raw_pointer, raw_pointer)
+__HYDRA_THRUST_DEFINE_HAS_NESTED_TYPE(has_raw_pointer, raw_pointer)
 
 namespace pointer_traits_detail
 {
@@ -161,10 +161,10 @@ template<typename Void>
 // metafunction to compute the type of pointer_to's parameter below
 template<typename T>
   struct pointer_to_param
-    : thrust::detail::eval_if<
-        thrust::detail::is_void<T>::value,
-        thrust::detail::identity_<capture_address<T> >,
-        thrust::detail::add_reference<T>
+    : HYDRA_EXTERNAL_NS::thrust::detail::eval_if<
+        HYDRA_EXTERNAL_NS::thrust::detail::is_void<T>::value,
+        HYDRA_EXTERNAL_NS::thrust::detail::identity_<capture_address<T> >,
+        HYDRA_EXTERNAL_NS::thrust::detail::add_reference<T>
       >
 {};
 
@@ -295,7 +295,7 @@ template<>
 
 template<typename FromPtr, typename ToPtr>
   struct is_pointer_system_convertible
-    : thrust::detail::is_convertible<
+    : HYDRA_EXTERNAL_NS::thrust::detail::is_convertible<
         typename iterator_system<FromPtr>::type,
         typename iterator_system<ToPtr>::type
       >
@@ -303,8 +303,8 @@ template<typename FromPtr, typename ToPtr>
 
 template<typename FromPtr, typename ToPtr>
   struct is_pointer_convertible
-    : thrust::detail::and_<
-        thrust::detail::is_convertible<
+    : HYDRA_EXTERNAL_NS::thrust::detail::and_<
+        HYDRA_EXTERNAL_NS::thrust::detail::is_convertible<
           typename pointer_element<FromPtr>::type *,
           typename pointer_element<ToPtr>::type *
         >,
@@ -314,8 +314,8 @@ template<typename FromPtr, typename ToPtr>
 
 template<typename FromPtr, typename ToPtr>
   struct is_void_pointer_system_convertible
-    : thrust::detail::and_<
-        thrust::detail::is_same<
+    : HYDRA_EXTERNAL_NS::thrust::detail::and_<
+        HYDRA_EXTERNAL_NS::thrust::detail::is_same<
           typename pointer_element<FromPtr>::type,
           void
         >,
@@ -333,25 +333,25 @@ template<typename T>
 // avoid inspecting traits of the arguments if they aren't known to be pointers
 template<typename FromPtr, typename ToPtr>
   struct lazy_is_pointer_convertible
-    : thrust::detail::eval_if<
+    : HYDRA_EXTERNAL_NS::thrust::detail::eval_if<
         is_thrust_pointer<FromPtr>::value && is_thrust_pointer<ToPtr>::value,
         is_pointer_convertible<FromPtr,ToPtr>,
-        thrust::detail::identity_<thrust::detail::false_type>
+        HYDRA_EXTERNAL_NS::thrust::detail::identity_<HYDRA_EXTERNAL_NS::thrust::detail::false_type>
       >
 {};
 
 template<typename FromPtr, typename ToPtr>
   struct lazy_is_void_pointer_system_convertible
-    : thrust::detail::eval_if<
+    : HYDRA_EXTERNAL_NS::thrust::detail::eval_if<
         is_thrust_pointer<FromPtr>::value && is_thrust_pointer<ToPtr>::value,
         is_void_pointer_system_convertible<FromPtr,ToPtr>,
-        thrust::detail::identity_<thrust::detail::false_type>
+        HYDRA_EXTERNAL_NS::thrust::detail::identity_<HYDRA_EXTERNAL_NS::thrust::detail::false_type>
       >
 {};
 
 template<typename FromPtr, typename ToPtr, typename T = void>
   struct enable_if_pointer_is_convertible
-    : thrust::detail::enable_if<
+    : HYDRA_EXTERNAL_NS::thrust::detail::enable_if<
         lazy_is_pointer_convertible<FromPtr,ToPtr>::type::value,
         T
       >
@@ -359,7 +359,7 @@ template<typename FromPtr, typename ToPtr, typename T = void>
 
 template<typename FromPtr, typename ToPtr, typename T = void>
   struct enable_if_void_pointer_is_system_convertible
-    : thrust::detail::enable_if<
+    : HYDRA_EXTERNAL_NS::thrust::detail::enable_if<
         lazy_is_void_pointer_system_convertible<FromPtr,ToPtr>::type::value,
         T
       >

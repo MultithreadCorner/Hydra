@@ -24,7 +24,7 @@
 #include <hydra/detail/external/thrust/detail/config.h>
 #include <hydra/detail/external/thrust/detail/cpp11_required.h>
 
-#if THRUST_CPP_DIALECT >= 2011
+#if HYDRA_THRUST_CPP_DIALECT >= 2011
 
 #include <hydra/detail/external/thrust/allocate_unique.h>
 #include <hydra/detail/external/thrust/device_new.h>
@@ -32,7 +32,7 @@
 #include <hydra/detail/external/thrust/device_allocator.h>
 #include <hydra/detail/external/thrust/detail/type_deduction.h>
 
-THRUST_BEGIN_NS
+HYDRA_THRUST_BEGIN_NS
 
 ///////////////////////////////////////////////////////////////////////////////
 
@@ -47,12 +47,12 @@ auto device_make_unique(Args&&... args)
   // `device_new`. We need a proper dispatched `construct` algorithm to
   // do this properly.
   auto p = uninitialized_allocate_unique<T>(device_allocator<T>{});
-  device_new<T>(p.get(), T(THRUST_FWD(args)...));
+  device_new<T>(p.get(), T(HYDRA_THRUST_FWD(args)...));
   return p;
 }
 
 ///////////////////////////////////////////////////////////////////////////////
 
-THRUST_END_NS
+HYDRA_THRUST_END_NS
 
-#endif // THRUST_CPP_DIALECT >= 2011
+#endif // HYDRA_THRUST_CPP_DIALECT >= 2011

@@ -44,7 +44,7 @@ namespace detail
 inline __device__
 void terminate()
 {
-  thrust::cuda_cub::terminate();
+  HYDRA_EXTERNAL_NS::thrust::cuda_cub::terminate();
 }
 
 
@@ -52,7 +52,7 @@ inline __hydra_host__ __hydra_device__
 void terminate_with_message(const char* message)
 {
   printf("%s\n", message);
-  thrust::cuda_cub::terminate();
+  HYDRA_EXTERNAL_NS::thrust::cuda_cub::terminate();
 }
 
 

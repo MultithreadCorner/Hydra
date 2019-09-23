@@ -52,7 +52,7 @@ template<typename Pointer>
     template<typename OtherPointer>
     __hydra_host__ __hydra_device__
     normal_iterator(const normal_iterator<OtherPointer> &other,
-                    typename thrust::detail::enable_if_convertible<
+                    typename HYDRA_EXTERNAL_NS::thrust::detail::enable_if_convertible<
                       OtherPointer,
                       Pointer
                     >::type * = 0)
@@ -71,7 +71,7 @@ template<typename Pointer>
 
 template <typename T>
 struct proclaim_contiguous_iterator<
-  thrust::detail::normal_iterator<T>
+  HYDRA_EXTERNAL_NS::thrust::detail::normal_iterator<T>
 > : true_type {};
 
 } // end HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust

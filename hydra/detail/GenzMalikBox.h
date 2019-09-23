@@ -57,6 +57,13 @@ struct AddResultGenzMalikBoxes
 	hydra::pair<double, double> operator()( hydra::pair<double, double> const& r1,  hydra::pair<double, double> const& r2 ){
 		return hydra::make_pair(r1.first + r2.first, r1.second + r2.second);
 	}
+
+	template<size_t N>
+	__hydra_host__ __hydra_device__
+	hydra::pair<double, double>  operator()( detail::GenzMalikBox<N> const& box1,  detail::GenzMalikBox<N> const& box2 ){
+		return hydra::pair<double, double>{} ;
+	}
+
 };
 
 

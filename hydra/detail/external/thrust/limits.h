@@ -9,10 +9,10 @@
 
 #include <hydra/detail/external/thrust/detail/type_traits.h>
 
-THRUST_BEGIN_NS
+HYDRA_THRUST_BEGIN_NS
 
 template <typename T>
 struct numeric_limits : std::numeric_limits<T> {};
 
-THRUST_END_NS
+HYDRA_THRUST_END_NS
 

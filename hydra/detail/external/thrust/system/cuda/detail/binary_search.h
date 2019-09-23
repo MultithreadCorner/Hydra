@@ -28,7 +28,7 @@
 
 #if 0
 
-#if THRUST_DEVICE_COMPILER == THRUST_DEVICE_COMPILER_NVCC
+#if HYDRA_THRUST_DEVICE_COMPILER == HYDRA_THRUST_DEVICE_COMPILER_NVCC
 #include <hydra/detail/external/thrust/detail/cstdint.h>
 #include <hydra/detail/external/thrust/detail/temporary_array.h>
 #include <hydra/detail/external/thrust/system/cuda/detail/util.h>
@@ -46,7 +46,7 @@
 
 HYDRA_EXTERNAL_NAMESPACE_BEGIN
 
-THRUST_BEGIN_NS
+HYDRA_THRUST_BEGIN_NS
 namespace cuda_cub {
 
 namespace __binary_search {
@@ -58,7 +58,7 @@ namespace __binary_search {
     typedef typename iterator_traits<NeedlesIt>::value_type T;
 
     template <class It, class CompareOp>
-    THRUST_DEVICE_FUNCTION result_type
+    HYDRA_THRUST_DEVICE_FUNCTION result_type
     operator()(It begin, It end, T const& value, CompareOp comp)
     {
       return system::detail::generic::scalar::lower_bound(begin,
@@ -76,7 +76,7 @@ namespace __binary_search {
     typedef typename iterator_traits<NeedlesIt>::value_type T;
 
     template <class It, class CompareOp>
-    THRUST_DEVICE_FUNCTION result_type
+    HYDRA_THRUST_DEVICE_FUNCTION result_type
     operator()(It begin, It end, T const& value, CompareOp comp)
     {
       return system::detail::generic::scalar::upper_bound(begin,
@@ -94,7 +94,7 @@ namespace __binary_search {
     typedef typename iterator_traits<NeedlesIt>::value_type T;
 
     template <class It, class CompareOp>
-    THRUST_DEVICE_FUNCTION bool 
+    HYDRA_THRUST_DEVICE_FUNCTION bool 
     operator()(It begin, It end, T const& value, CompareOp comp)
     {
       HaystackIt iter = system::detail::generic::scalar::lower_bound(begin,
@@ -112,7 +112,7 @@ namespace __binary_search {
             class KeysIt2,
             class Size,
             class BinaryPred>
-  THRUST_DEVICE_FUNCTION Size 
+  HYDRA_THRUST_DEVICE_FUNCTION Size 
   merge_path(KeysIt1    keys1,
              KeysIt2    keys2,
              Size       keys1_count,
@@ -123,8 +123,8 @@ namespace __binary_search {
     typedef typename iterator_traits<KeysIt1>::value_type key1_type;
     typedef typename iterator_traits<KeysIt2>::value_type key2_type;
 
-    Size keys1_begin = thrust::max<Size>(0, diag - keys2_count);
-    Size keys1_end   = thrust::min<Size>(diag, keys1_count);
+    Size keys1_begin = HYDRA_EXTERNAL_NS::thrust::max<Size>(0, diag - keys2_count);
+    Size keys1_end   = HYDRA_EXTERNAL_NS::thrust::min<Size>(diag, keys1_count);
 
     while (keys1_begin < keys1_end)
     {
@@ -145,7 +145,7 @@ namespace __binary_search {
   }
 
   template <class It, class T2, class CompareOp, int ITEMS_PER_THREAD>
-  THRUST_DEVICE_FUNCTION void 
+  HYDRA_THRUST_DEVICE_FUNCTION void 
   serial_merge(It  keys_shared,
                int keys1_beg,
                int keys2_beg,
@@ -310,7 +310,7 @@ namespace __binary_search {
       CompareOp      compare_op;
       SearchOp       search_op;
 
-      THRUST_DEVICE_FUNCTION
+      HYDRA_THRUST_DEVICE_FUNCTION
       void stable_odd_even_sort(needle_type (&needles)[ITEMS_PER_THREAD],
                                 int (&indices)[ITEMS_PER_THREAD])
       {
@@ -322,7 +322,7 @@ namespace __binary_search {
           {
             if (compare_op(needles[J + 1], needles[J]))
             {
-              using thrust::swap;
+              using HYDRA_EXTERNAL_NS::thrust::swap;
               swap(needles[J], needles[J + 1]);
               swap(indices[J], indices[J + 1]);
             }
@@ -330,7 +330,7 @@ namespace __binary_search {
         }      // outer loop
       }
 
-      THRUST_DEVICE_FUNCTION void
+      HYDRA_THRUST_DEVICE_FUNCTION void
       block_mergesort(int tid,
                       int count,
                       needle_type (&needles_loc)[ITEMS_PER_THREAD],
@@ -420,7 +420,7 @@ namespace __binary_search {
       }    // func block_merge_sort
 
       template <bool IS_LAST_TILE>
-      THRUST_DEVICE_FUNCTION void
+      HYDRA_THRUST_DEVICE_FUNCTION void
       consume_tile(int  tid,
                    Size tile_idx,
                    Size tile_base,
@@ -519,7 +519,7 @@ namespace __binary_search {
             .Store(result + tile_base, results_loc, num_remaining);
       }
 
-      THRUST_DEVICE_FUNCTION
+      HYDRA_THRUST_DEVICE_FUNCTION
       impl(TempStorage& storage_,
            NeedlesIt    needles_it_,
            HaystackIt   haystack_it_,
@@ -554,7 +554,7 @@ namespace __binary_search {
     };    // struct impl
 
 
-    THRUST_AGENT_ENTRY(NeedlesIt  needles_it,
+    HYDRA_THRUST_AGENT_ENTRY(NeedlesIt  needles_it,
                        HaystackIt haystack_it,
                        Size       needles_count,
                        Size       haystack_size,
@@ -582,7 +582,7 @@ namespace __binary_search {
             class OutputIt,
             class CompareOp,
             class SearchOp>
-  cudaError_t THRUST_RUNTIME_FUNCTION
+  cudaError_t HYDRA_THRUST_RUNTIME_FUNCTION
   doit_pass(void*        d_temp_storage,
             size_t&      temp_storage_size,
             NeedlesIt    needles_it,
@@ -641,7 +641,7 @@ namespace __binary_search {
             typename OutputIt,
             typename CompareOp,
             typename SearchOp>
-  OutputIt THRUST_RUNTIME_FUNCTION
+  OutputIt HYDRA_THRUST_RUNTIME_FUNCTION
   doit(execution_policy<Derived>& policy,
        HaystackIt                 haystack_begin,
        HaystackIt                 haystack_end,
@@ -653,15 +653,15 @@ namespace __binary_search {
   {
     typedef typename iterator_traits<NeedlesIt>::difference_type size_type;
 
-    size_type needles_count = thrust::distance(needles_begin, needles_end);
-    size_type haystack_size = thrust::distance(haystack_begin, haystack_end);
+    size_type needles_count = HYDRA_EXTERNAL_NS::thrust::distance(needles_begin, needles_end);
+    size_type haystack_size = HYDRA_EXTERNAL_NS::thrust::distance(haystack_begin, haystack_end);
 
     if (needles_count == 0)
       return result;
 
     size_t       storage_size = 0;
     cudaStream_t stream       = cuda_cub::stream(policy);
-    bool         debug_sync   = THRUST_DEBUG_SYNC_FLAG;
+    bool         debug_sync   = HYDRA_THRUST_DEBUG_SYNC_FLAG;
 
     cudaError status;
     status = doit_pass(NULL,
@@ -678,7 +678,7 @@ namespace __binary_search {
     cuda_cub::throw_on_error(status, "binary_search: failed on 1st call");
 
     // Allocate temporary storage.
-    thrust::detail::temporary_array<thrust::detail::uint8_t, Derived>
+    HYDRA_EXTERNAL_NS::thrust::detail::temporary_array<HYDRA_EXTERNAL_NS::thrust::detail::uint8_t, Derived>
       tmp(policy, storage_size);
     void *ptr = static_cast<void*>(tmp.data().get());
 
@@ -704,7 +704,7 @@ namespace __binary_search {
   struct less
   {
     template <typename T1, typename T2>
-    THRUST_DEVICE_FUNCTION bool
+    HYDRA_THRUST_DEVICE_FUNCTION bool
     operator()(const T1& lhs, const T2& rhs) const
     {
       return lhs < rhs;
@@ -732,7 +732,7 @@ lower_bound(execution_policy<Derived>& policy,
             CompareOp                  compare_op)
 {
   OutputIt ret = result;
-  if (__THRUST_HAS_CUDART__)
+  if (__HYDRA_THRUST_HAS_CUDART__)
   {
     ret = __binary_search::doit(policy,
                                 first,
@@ -745,8 +745,8 @@ lower_bound(execution_policy<Derived>& policy,
   }
   else
   {
-#if !__THRUST_HAS_CUDART__
-    ret = thrust::lower_bound(cvt_to_seq(derived_cast(policy)),
+#if !__HYDRA_THRUST_HAS_CUDART__
+    ret = HYDRA_EXTERNAL_NS::thrust::lower_bound(cvt_to_seq(derived_cast(policy)),
                               first,
                               last,
                               values_first,
@@ -780,7 +780,7 @@ lower_bound(execution_policy<Derived>& policy,
 }
 
 }    // namespace cuda_cub
-THRUST_END_NS
+HYDRA_THRUST_END_NS
 
 HYDRA_EXTERNAL_NAMESPACE_END
 #endif

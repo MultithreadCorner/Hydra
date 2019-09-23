@@ -33,10 +33,10 @@ namespace generic
 
 template<typename DerivedPolicy, typename Size>
 __hydra_host__ __hydra_device__
-  void malloc(thrust::execution_policy<DerivedPolicy> &, Size)
+  void malloc(HYDRA_EXTERNAL_NS::thrust::execution_policy<DerivedPolicy> &, Size)
 {
-  THRUST_STATIC_ASSERT_MSG(
-    (thrust::detail::depend_on_instantiation<Size, false>::value)
+  HYDRA_THRUST_STATIC_ASSERT_MSG(
+    (HYDRA_EXTERNAL_NS::thrust::detail::depend_on_instantiation<Size, false>::value)
   , "unimplemented for this system"
   );
 }
@@ -44,10 +44,10 @@ __hydra_host__ __hydra_device__
 
 template<typename T, typename DerivedPolicy>
 __hydra_host__ __hydra_device__
-  thrust::pointer<T,DerivedPolicy>
-    malloc(thrust::execution_policy<DerivedPolicy> &exec, std::size_t n)
+  HYDRA_EXTERNAL_NS::thrust::pointer<T,DerivedPolicy>
+    malloc(HYDRA_EXTERNAL_NS::thrust::execution_policy<DerivedPolicy> &exec, std::size_t n)
 {
-  thrust::pointer<void,DerivedPolicy> void_ptr = thrust::malloc(exec, sizeof(T) * n);
+  HYDRA_EXTERNAL_NS::thrust::pointer<void,DerivedPolicy> void_ptr = HYDRA_EXTERNAL_NS::thrust::malloc(exec, sizeof(T) * n);
 
   return pointer<T,DerivedPolicy>(static_cast<T*>(void_ptr.get()));
 } // end malloc()
@@ -55,10 +55,10 @@ __hydra_host__ __hydra_device__
 
 template<typename DerivedPolicy, typename Pointer>
 __hydra_host__ __hydra_device__
-  void free(thrust::execution_policy<DerivedPolicy> &, Pointer)
+  void free(HYDRA_EXTERNAL_NS::thrust::execution_policy<DerivedPolicy> &, Pointer)
 {
-  THRUST_STATIC_ASSERT_MSG(
-    (thrust::detail::depend_on_instantiation<Pointer, false>::value)
+  HYDRA_THRUST_STATIC_ASSERT_MSG(
+    (HYDRA_EXTERNAL_NS::thrust::detail::depend_on_instantiation<Pointer, false>::value)
   , "unimplemented for this system"
   );
 }
@@ -66,10 +66,10 @@ __hydra_host__ __hydra_device__
 
 template<typename DerivedPolicy, typename Pointer1, typename Pointer2>
 __hydra_host__ __hydra_device__
-void assign_value(thrust::execution_policy<DerivedPolicy> &, Pointer1, Pointer2)
+void assign_value(HYDRA_EXTERNAL_NS::thrust::execution_policy<DerivedPolicy> &, Pointer1, Pointer2)
 {
-  THRUST_STATIC_ASSERT_MSG(
-    (thrust::detail::depend_on_instantiation<Pointer1, false>::value)
+  HYDRA_THRUST_STATIC_ASSERT_MSG(
+    (HYDRA_EXTERNAL_NS::thrust::detail::depend_on_instantiation<Pointer1, false>::value)
   , "unimplemented for this system"
   );
 }
@@ -77,10 +77,10 @@ void assign_value(thrust::execution_policy<DerivedPolicy> &, Pointer1, Pointer2)
 
 template<typename DerivedPolicy, typename Pointer>
 __hydra_host__ __hydra_device__
-void get_value(thrust::execution_policy<DerivedPolicy> &, Pointer)
+void get_value(HYDRA_EXTERNAL_NS::thrust::execution_policy<DerivedPolicy> &, Pointer)
 {
-  THRUST_STATIC_ASSERT_MSG(
-    (thrust::detail::depend_on_instantiation<Pointer, false>::value)
+  HYDRA_THRUST_STATIC_ASSERT_MSG(
+    (HYDRA_EXTERNAL_NS::thrust::detail::depend_on_instantiation<Pointer, false>::value)
   , "unimplemented for this system"
   );
 }
@@ -88,10 +88,10 @@ void get_value(thrust::execution_policy<DerivedPolicy> &, Pointer)
 
 template<typename DerivedPolicy, typename Pointer1, typename Pointer2>
 __hydra_host__ __hydra_device__
-void iter_swap(thrust::execution_policy<DerivedPolicy> &, Pointer1, Pointer2)
+void iter_swap(HYDRA_EXTERNAL_NS::thrust::execution_policy<DerivedPolicy> &, Pointer1, Pointer2)
 {
-  THRUST_STATIC_ASSERT_MSG(
-    (thrust::detail::depend_on_instantiation<Pointer1, false>::value)
+  HYDRA_THRUST_STATIC_ASSERT_MSG(
+    (HYDRA_EXTERNAL_NS::thrust::detail::depend_on_instantiation<Pointer1, false>::value)
   , "unimplemented for this system"
   );
 }

@@ -29,8 +29,8 @@
 #undef __hydra_host__
 #endif // __hydra_host__
 
-#ifdef __device__
-#undef __device__
+#ifdef __hydra_device__
+#undef __hydra_device__
 #endif // __device__
 
 #endif // __HOST_DEFINES_H__

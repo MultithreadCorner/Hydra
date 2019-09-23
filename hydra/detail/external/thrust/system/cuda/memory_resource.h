@@ -29,7 +29,7 @@
 
 #include <hydra/detail/external/thrust/memory/detail/host_system_resource.h>
 HYDRA_EXTERNAL_NAMESPACE_BEGIN
-THRUST_BEGIN_NS
+HYDRA_THRUST_BEGIN_NS
 
 namespace system
 {
@@ -44,10 +44,10 @@ namespace detail
     typedef cudaError_t (*deallocation_fn)(void *);
 
     template<allocation_fn Alloc, deallocation_fn Dealloc, typename Pointer>
-    class cuda_memory_resource THRUST_FINAL : public mr::memory_resource<Pointer>
+    class cuda_memory_resource HYDRA_THRUST_FINAL : public mr::memory_resource<Pointer>
     {
     public:
-        Pointer do_allocate(std::size_t bytes, std::size_t alignment = THRUST_MR_DEFAULT_ALIGNMENT) THRUST_OVERRIDE
+        Pointer do_allocate(std::size_t bytes, std::size_t alignment = HYDRA_THRUST_MR_DEFAULT_ALIGNMENT) HYDRA_THRUST_OVERRIDE
         {
             (void)alignment;
 
@@ -56,22 +56,22 @@ namespace detail
 
             if (status != cudaSuccess)
             {
-                throw thrust::system::detail::bad_alloc(thrust::cuda_category().message(status).c_str());
+                throw HYDRA_EXTERNAL_NS::thrust::system::detail::bad_alloc(HYDRA_EXTERNAL_NS::thrust::cuda_category().message(status).c_str());
             }
 
             return Pointer(ret);
         }
 
-        void do_deallocate(Pointer p, std::size_t bytes, std::size_t alignment) THRUST_OVERRIDE
+        void do_deallocate(Pointer p, std::size_t bytes, std::size_t alignment) HYDRA_THRUST_OVERRIDE
         {
             (void)bytes;
             (void)alignment;
 
-            cudaError_t status = Dealloc(thrust::detail::pointer_traits<Pointer>::get(p));
+            cudaError_t status = Dealloc(HYDRA_EXTERNAL_NS::thrust::detail::pointer_traits<Pointer>::get(p));
 
             if (status != cudaSuccess)
             {
-                thrust::cuda_cub::throw_on_error(status, "CUDA free failed");
+                HYDRA_EXTERNAL_NS::thrust::cuda_cub::throw_on_error(status, "CUDA free failed");
             }
         }
     };
@@ -82,13 +82,13 @@ namespace detail
     }
 
     typedef detail::cuda_memory_resource<cudaMalloc, cudaFree,
-        thrust::cuda::pointer<void> >
+        HYDRA_EXTERNAL_NS::thrust::cuda::pointer<void> >
         device_memory_resource;
     typedef detail::cuda_memory_resource<detail::cudaMallocManaged, cudaFree,
-        thrust::cuda::pointer<void> >
+        HYDRA_EXTERNAL_NS::thrust::cuda::pointer<void> >
         managed_memory_resource;
     typedef detail::cuda_memory_resource<cudaMallocHost, cudaFreeHost,
-        thrust::host_memory_resource::pointer>
+        HYDRA_EXTERNAL_NS::thrust::host_memory_resource::pointer>
         pinned_memory_resource;
 
 } // end detail
@@ -104,5 +104,5 @@ typedef detail::pinned_memory_resource universal_host_pinned_memory_resource;
 } // end cuda
 } // end system
 
-THRUST_END_NS
+HYDRA_THRUST_END_NS
 HYDRA_EXTERNAL_NAMESPACE_END

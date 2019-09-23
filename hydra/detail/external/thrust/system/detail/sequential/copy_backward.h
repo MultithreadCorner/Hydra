@@ -52,3 +52,4 @@ BidirectionalIterator2 copy_backward(BidirectionalIterator1 first,
 } // end namespace system
 } // end HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
 
+HYDRA_EXTERNAL_NAMESPACE_END

@@ -215,7 +215,7 @@ struct EvalOnDaughters
 	}
 
 	__hydra_host__   __hydra_device__ inline
-	GReal_t process(const GInt_t evt, Vector4R (&daugters)[N])
+	GReal_t process(size_t evt, Vector4R (&daugters)[N])
 	{
 
 		GRND randEng( fSeed );//hash(evt,fSeed) );
@@ -330,9 +330,9 @@ struct EvalOnDaughters
 
 	}
 
-
+	template< typename I>
 	__hydra_host__  __hydra_device__ inline
-	ResultPHSP operator()(const GUInt_t evt)
+	ResultPHSP operator()(I evt)
 	{
 		typedef typename hydra::detail::tuple_type<N,
 				Vector4R>::type Tuple_t;
@@ -348,7 +348,7 @@ struct EvalOnDaughters
 
 		ResultPHSP result;
 
-		result.fMean = fFunctor( (GUInt_t) SIZE, Particles);
+		result.fMean = fFunctor(  SIZE, Particles);
 		result.fW    = weight;
 		result.fM2   = 0.0;
 

@@ -19,7 +19,7 @@
 #include <hydra/detail/external/thrust/detail/config.h>
 #include <hydra/detail/external/thrust/detail/cpp11_required.h>
 
-#if THRUST_CPP_DIALECT >= 2011
+#if HYDRA_THRUST_CPP_DIALECT >= 2011
 
 #include <tuple>
 
@@ -34,7 +34,7 @@ template<template<typename> class ExecutionPolicyCRTPBase>
 struct dependencies_aware_execution_policy
 {
     template<typename ...Dependencies>
-    using execute_with_dependencies_type = thrust::detail::execute_with_dependencies<
+    using execute_with_dependencies_type = HYDRA_EXTERNAL_NS::thrust::detail::execute_with_dependencies<
         ExecutionPolicyCRTPBase,
         Dependencies...
     >;
@@ -44,7 +44,7 @@ struct dependencies_aware_execution_policy
     execute_with_dependencies_type<Dependencies...>
     after(Dependencies&& ...dependencies) const
     {
-        return { capture_as_dependency(THRUST_FWD(dependencies))... };
+        return { capture_as_dependency(HYDRA_THRUST_FWD(dependencies))... };
     }
 
     template<typename ...Dependencies>
@@ -67,7 +67,7 @@ struct dependencies_aware_execution_policy
     execute_with_dependencies_type<Dependencies...>
     rebind_after(Dependencies&& ...dependencies) const
     {
-        return { capture_as_dependency(THRUST_FWD(dependencies))... };
+        return { capture_as_dependency(HYDRA_THRUST_FWD(dependencies))... };
     }
 
     template<typename ...Dependencies>
@@ -91,5 +91,5 @@ struct dependencies_aware_execution_policy
 
 HYDRA_EXTERNAL_NAMESPACE_END
 
-#endif // THRUST_CPP_DIALECT >= 2011
+#endif // HYDRA_THRUST_CPP_DIALECT >= 2011
 

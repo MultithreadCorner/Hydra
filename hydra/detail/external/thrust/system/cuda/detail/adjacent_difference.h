@@ -27,7 +27,7 @@
 #pragma once
 
 
-#if THRUST_DEVICE_COMPILER == THRUST_DEVICE_COMPILER_NVCC
+#if HYDRA_THRUST_DEVICE_COMPILER == HYDRA_THRUST_DEVICE_COMPILER_NVCC
 #include <hydra/detail/external/thrust/system/cuda/config.h>
 
 #include <hydra/detail/external/thrust/detail/cstdint.h>
@@ -44,12 +44,12 @@
 
 HYDRA_EXTERNAL_NAMESPACE_BEGIN
 
-THRUST_BEGIN_NS
+HYDRA_THRUST_BEGIN_NS
 
 template <typename DerivedPolicy, typename InputIterator, typename OutputIterator, typename BinaryFunction>
 __hydra_host__ __hydra_device__ OutputIterator
 adjacent_difference(
-    const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
+    const HYDRA_EXTERNAL_NS::thrust::detail::execution_policy_base<DerivedPolicy> &exec,
     InputIterator                                               first,
     InputIterator                                               last,
     OutputIterator                                              result,
@@ -59,7 +59,7 @@ namespace cuda_cub {
 
 namespace __adjacent_difference {
 
-  namespace mpl = thrust::detail::mpl::math;
+  namespace mpl = HYDRA_EXTERNAL_NS::thrust::detail::mpl::math;
 
   template <int                      _BLOCK_THREADS,
             int                      _ITEMS_PER_THREAD = 1,
@@ -204,7 +204,7 @@ namespace __adjacent_difference {
       BinaryOp     binary_op;
 
       template <bool IS_LAST_TILE, bool IS_FIRST_TILE>
-      void THRUST_DEVICE_FUNCTION
+      void HYDRA_THRUST_DEVICE_FUNCTION
       consume_tile_impl(int  num_remaining,
                         int  tile_idx,
                         Size tile_base)
@@ -260,7 +260,7 @@ namespace __adjacent_difference {
 
 
       template <bool IS_LAST_TILE>
-      void THRUST_DEVICE_FUNCTION
+      void HYDRA_THRUST_DEVICE_FUNCTION
       consume_tile(Size num_remaining,
                    Size  tile_idx,
                    Size tile_base)
@@ -279,7 +279,7 @@ namespace __adjacent_difference {
         }
       }
 
-      void THRUST_DEVICE_FUNCTION
+      void HYDRA_THRUST_DEVICE_FUNCTION
       consume_range(Size num_items)
       {
         int  tile_idx      = blockIdx.x;
@@ -300,7 +300,7 @@ namespace __adjacent_difference {
       // Constructor
       //---------------------------------------------------------------------
 
-      THRUST_DEVICE_FUNCTION
+      HYDRA_THRUST_DEVICE_FUNCTION
       impl(TempStorage &temp_storage_,
            InputIt      input_it_,
            input_type * first_tile_previous_,
@@ -321,7 +321,7 @@ namespace __adjacent_difference {
     // Agent entry point
     //---------------------------------------------------------------------
 
-    THRUST_AGENT_ENTRY(InputIt     first,
+    HYDRA_THRUST_AGENT_ENTRY(InputIt     first,
                        input_type *first_element,
                        OutputIt    result,
                        BinaryOp    binary_op,
@@ -346,7 +346,7 @@ namespace __adjacent_difference {
     // Agent entry point
     //---------------------------------------------------------------------
 
-    THRUST_AGENT_ENTRY(InputIt  first,
+    HYDRA_THRUST_AGENT_ENTRY(InputIt  first,
                        OutputIt result,
                        Size     num_tiles,
                        int      items_per_tile,
@@ -363,7 +363,7 @@ namespace __adjacent_difference {
             class OutputIt,
             class BinaryOp,
             class Size>
-  cudaError_t THRUST_RUNTIME_FUNCTION
+  cudaError_t HYDRA_THRUST_RUNTIME_FUNCTION
   doit_step(void *       d_temp_storage,
             size_t &     temp_storage_bytes,
             InputIt      first,
@@ -437,7 +437,7 @@ namespace __adjacent_difference {
             typename InputIt,
             typename OutputIt,
             typename BinaryOp>
-  OutputIt THRUST_RUNTIME_FUNCTION
+  OutputIt HYDRA_THRUST_RUNTIME_FUNCTION
   adjacent_difference(execution_policy<Derived>& policy,
                       InputIt                    first,
                       InputIt                    last,
@@ -446,10 +446,10 @@ namespace __adjacent_difference {
   {
     typedef typename iterator_traits<InputIt>::difference_type size_type;
 
-    size_type    num_items    = thrust::distance(first, last);
+    size_type    num_items    = HYDRA_EXTERNAL_NS::thrust::distance(first, last);
     size_t       storage_size = 0;
     cudaStream_t stream       = cuda_cub::stream(policy);
-    bool         debug_sync   = THRUST_DEBUG_SYNC_FLAG;
+    bool         debug_sync   = HYDRA_THRUST_DEBUG_SYNC_FLAG;
 
     cudaError_t status;
     status = doit_step(NULL,
@@ -463,7 +463,7 @@ namespace __adjacent_difference {
     cuda_cub::throw_on_error(status, "adjacent_difference failed on 1st step");
 
     // Allocate temporary storage.
-    thrust::detail::temporary_array<thrust::detail::uint8_t, Derived>
+    HYDRA_EXTERNAL_NS::thrust::detail::temporary_array<HYDRA_EXTERNAL_NS::thrust::detail::uint8_t, Derived>
       tmp(policy, storage_size);
     void *ptr = static_cast<void*>(tmp.data().get());
 
@@ -502,7 +502,7 @@ adjacent_difference(execution_policy<Derived> &policy,
                     BinaryOp                   binary_op)
 {
   OutputIt ret = result;
-  if (__THRUST_HAS_CUDART__)
+  if (__HYDRA_THRUST_HAS_CUDART__)
   {
     ret = __adjacent_difference::adjacent_difference(policy,
         first,
@@ -512,8 +512,8 @@ adjacent_difference(execution_policy<Derived> &policy,
   }
   else
   {
-#if !__THRUST_HAS_CUDART__
-    ret = thrust::adjacent_difference(cvt_to_seq(derived_cast(policy)),
+#if !__HYDRA_THRUST_HAS_CUDART__
+    ret = HYDRA_EXTERNAL_NS::thrust::adjacent_difference(cvt_to_seq(derived_cast(policy)),
                                       first,
                                       last,
                                       result,
@@ -543,7 +543,7 @@ adjacent_difference(execution_policy<Derived> &policy,
 
 
 } // namespace cuda_cub
-THRUST_END_NS
+HYDRA_THRUST_END_NS
 HYDRA_EXTERNAL_NAMESPACE_END
 //
 #include <hydra/detail/external/thrust/memory.h>

@@ -35,14 +35,14 @@ template<typename DerivedPolicy,
          typename RandomAccessIterator,
          typename OutputIterator>
 __hydra_host__ __hydra_device__
-  OutputIterator gather(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
+  OutputIterator gather(const HYDRA_EXTERNAL_NS::thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                         InputIterator                                               map_first,
                         InputIterator                                               map_last,
                         RandomAccessIterator                                        input_first,
                         OutputIterator                                              result)
 {
-  using thrust::system::detail::generic::gather;
-  return gather(thrust::detail::derived_cast(thrust::detail::strip_const(exec)), map_first, map_last, input_first, result);
+  using HYDRA_EXTERNAL_NS::thrust::system::detail::generic::gather;
+  return gather(HYDRA_EXTERNAL_NS::thrust::detail::derived_cast(HYDRA_EXTERNAL_NS::thrust::detail::strip_const(exec)), map_first, map_last, input_first, result);
 } // end gather()
 
 
@@ -53,15 +53,15 @@ template<typename DerivedPolicy,
          typename RandomAccessIterator,
          typename OutputIterator>
 __hydra_host__ __hydra_device__
-  OutputIterator gather_if(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
+  OutputIterator gather_if(const HYDRA_EXTERNAL_NS::thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                            InputIterator1                                              map_first,
                            InputIterator1                                              map_last,
                            InputIterator2                                              stencil,
                            RandomAccessIterator                                        input_first,
                            OutputIterator                                              result)
 {
-  using thrust::system::detail::generic::gather_if;
-  return gather_if(thrust::detail::derived_cast(thrust::detail::strip_const(exec)), map_first, map_last, stencil, input_first, result);
+  using HYDRA_EXTERNAL_NS::thrust::system::detail::generic::gather_if;
+  return gather_if(HYDRA_EXTERNAL_NS::thrust::detail::derived_cast(HYDRA_EXTERNAL_NS::thrust::detail::strip_const(exec)), map_first, map_last, stencil, input_first, result);
 } // end gather_if()
 
 
@@ -73,7 +73,7 @@ template<typename DerivedPolicy,
          typename OutputIterator,
          typename Predicate>
 __hydra_host__ __hydra_device__
-  OutputIterator gather_if(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
+  OutputIterator gather_if(const HYDRA_EXTERNAL_NS::thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                            InputIterator1                                              map_first,
                            InputIterator1                                              map_last,
                            InputIterator2                                              stencil,
@@ -81,8 +81,8 @@ __hydra_host__ __hydra_device__
                            OutputIterator                                              result,
                            Predicate                                                   pred)
 {
-  using thrust::system::detail::generic::gather_if;
-  return gather_if(thrust::detail::derived_cast(thrust::detail::strip_const(exec)), map_first, map_last, stencil, input_first, result, pred);
+  using HYDRA_EXTERNAL_NS::thrust::system::detail::generic::gather_if;
+  return gather_if(HYDRA_EXTERNAL_NS::thrust::detail::derived_cast(HYDRA_EXTERNAL_NS::thrust::detail::strip_const(exec)), map_first, map_last, stencil, input_first, result, pred);
 } // end gather_if()
 
 
@@ -94,17 +94,17 @@ template<typename InputIterator,
                         RandomAccessIterator input_first,
                         OutputIterator       result)
 {
-  using thrust::system::detail::generic::select_system;
+  using HYDRA_EXTERNAL_NS::thrust::system::detail::generic::select_system;
 
-  typedef typename thrust::iterator_system<InputIterator>::type        System1; 
-  typedef typename thrust::iterator_system<RandomAccessIterator>::type System2; 
-  typedef typename thrust::iterator_system<OutputIterator>::type       System3; 
+  typedef typename HYDRA_EXTERNAL_NS::thrust::iterator_system<InputIterator>::type        System1; 
+  typedef typename HYDRA_EXTERNAL_NS::thrust::iterator_system<RandomAccessIterator>::type System2; 
+  typedef typename HYDRA_EXTERNAL_NS::thrust::iterator_system<OutputIterator>::type       System3; 
 
   System1 system1;
   System2 system2;
   System3 system3;
 
-  return thrust::gather(select_system(system1,system2,system3), map_first, map_last, input_first, result);
+  return HYDRA_EXTERNAL_NS::thrust::gather(select_system(system1,system2,system3), map_first, map_last, input_first, result);
 } // end gather()
 
 
@@ -118,19 +118,19 @@ template<typename InputIterator1,
                            RandomAccessIterator input_first,
                            OutputIterator       result)
 {
-  using thrust::system::detail::generic::select_system;
+  using HYDRA_EXTERNAL_NS::thrust::system::detail::generic::select_system;
 
-  typedef typename thrust::iterator_system<InputIterator1>::type       System1; 
-  typedef typename thrust::iterator_system<InputIterator2>::type       System2; 
-  typedef typename thrust::iterator_system<RandomAccessIterator>::type System3; 
-  typedef typename thrust::iterator_system<OutputIterator>::type       System4; 
+  typedef typename HYDRA_EXTERNAL_NS::thrust::iterator_system<InputIterator1>::type       System1; 
+  typedef typename HYDRA_EXTERNAL_NS::thrust::iterator_system<InputIterator2>::type       System2; 
+  typedef typename HYDRA_EXTERNAL_NS::thrust::iterator_system<RandomAccessIterator>::type System3; 
+  typedef typename HYDRA_EXTERNAL_NS::thrust::iterator_system<OutputIterator>::type       System4; 
 
   System1 system1;
   System2 system2;
   System3 system3;
   System4 system4;
 
-  return thrust::gather_if(select_system(system1,system2,system3,system4), map_first, map_last, stencil, input_first, result);
+  return HYDRA_EXTERNAL_NS::thrust::gather_if(select_system(system1,system2,system3,system4), map_first, map_last, stencil, input_first, result);
 } // end gather_if()
 
 
@@ -146,19 +146,19 @@ template<typename InputIterator1,
                            OutputIterator       result,
                            Predicate            pred)
 {
-  using thrust::system::detail::generic::select_system;
+  using HYDRA_EXTERNAL_NS::thrust::system::detail::generic::select_system;
 
-  typedef typename thrust::iterator_system<InputIterator1>::type       System1; 
-  typedef typename thrust::iterator_system<InputIterator2>::type       System2; 
-  typedef typename thrust::iterator_system<RandomAccessIterator>::type System3; 
-  typedef typename thrust::iterator_system<OutputIterator>::type       System4; 
+  typedef typename HYDRA_EXTERNAL_NS::thrust::iterator_system<InputIterator1>::type       System1; 
+  typedef typename HYDRA_EXTERNAL_NS::thrust::iterator_system<InputIterator2>::type       System2; 
+  typedef typename HYDRA_EXTERNAL_NS::thrust::iterator_system<RandomAccessIterator>::type System3; 
+  typedef typename HYDRA_EXTERNAL_NS::thrust::iterator_system<OutputIterator>::type       System4; 
 
   System1 system1;
   System2 system2;
   System3 system3;
   System4 system4;
 
-  return thrust::gather_if(select_system(system1,system2,system3,system4), map_first, map_last, stencil, input_first, result, pred);
+  return HYDRA_EXTERNAL_NS::thrust::gather_if(select_system(system1,system2,system3,system4), map_first, map_last, stencil, input_first, result, pred);
 } // end gather_if()
 
 

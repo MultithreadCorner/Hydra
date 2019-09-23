@@ -36,14 +36,14 @@ template <
   , template <typename> class BaseSystem
 >
 __hydra_host__
-thrust::pair<T*, std::ptrdiff_t>
+HYDRA_EXTERNAL_NS::thrust::pair<T*, std::ptrdiff_t>
 get_temporary_buffer(
-    thrust::detail::execute_with_allocator<Allocator, BaseSystem>& system
+    HYDRA_EXTERNAL_NS::thrust::detail::execute_with_allocator<Allocator, BaseSystem>& system
   , std::ptrdiff_t n
     )
 {
-  typedef typename thrust::detail::remove_reference<Allocator>::type naked_allocator;
-  typedef typename thrust::detail::allocator_traits<naked_allocator> alloc_traits;
+  typedef typename HYDRA_EXTERNAL_NS::thrust::detail::remove_reference<Allocator>::type naked_allocator;
+  typedef typename HYDRA_EXTERNAL_NS::thrust::detail::allocator_traits<naked_allocator> alloc_traits;
   typedef typename alloc_traits::void_pointer                        void_pointer;
   typedef typename alloc_traits::size_type                           size_type;
   typedef typename alloc_traits::value_type                          value_type;
@@ -55,7 +55,7 @@ get_temporary_buffer(
   void_pointer ptr = alloc_traits::allocate(system.get_allocator(), num_elements);
 
   // Return the pointer and the number of elements of type T allocated.
-  return thrust::make_pair(thrust::reinterpret_pointer_cast<T*>(ptr),n);
+  return HYDRA_EXTERNAL_NS::thrust::make_pair(HYDRA_EXTERNAL_NS::thrust::reinterpret_pointer_cast<T*>(ptr),n);
 }
 
 template <
@@ -66,15 +66,15 @@ template <
 __hydra_host__
 void
 return_temporary_buffer(
-    thrust::detail::execute_with_allocator<Allocator, BaseSystem>& system
+    HYDRA_EXTERNAL_NS::thrust::detail::execute_with_allocator<Allocator, BaseSystem>& system
   , Pointer p
     )
 {
-  typedef typename thrust::detail::remove_reference<Allocator>::type naked_allocator;
-  typedef typename thrust::detail::allocator_traits<naked_allocator> alloc_traits;
+  typedef typename HYDRA_EXTERNAL_NS::thrust::detail::remove_reference<Allocator>::type naked_allocator;
+  typedef typename HYDRA_EXTERNAL_NS::thrust::detail::allocator_traits<naked_allocator> alloc_traits;
   typedef typename alloc_traits::pointer                             pointer;
 
-  pointer to_ptr = thrust::reinterpret_pointer_cast<pointer>(p);
+  pointer to_ptr = HYDRA_EXTERNAL_NS::thrust::reinterpret_pointer_cast<pointer>(p);
   alloc_traits::deallocate(system.get_allocator(), to_ptr, 0);
 }
 
@@ -87,14 +87,14 @@ template <
     typename ...Dependencies
 >
 __hydra_host__
-thrust::pair<T*, std::ptrdiff_t>
+HYDRA_EXTERNAL_NS::thrust::pair<T*, std::ptrdiff_t>
 get_temporary_buffer(
-    thrust::detail::execute_with_allocator_and_dependencies<Allocator, BaseSystem, Dependencies...>& system,
+    HYDRA_EXTERNAL_NS::thrust::detail::execute_with_allocator_and_dependencies<Allocator, BaseSystem, Dependencies...>& system,
     std::ptrdiff_t n
     )
 {
-  typedef typename thrust::detail::remove_reference<Allocator>::type naked_allocator;
-  typedef typename thrust::detail::allocator_traits<naked_allocator> alloc_traits;
+  typedef typename HYDRA_EXTERNAL_NS::thrust::detail::remove_reference<Allocator>::type naked_allocator;
+  typedef typename HYDRA_EXTERNAL_NS::thrust::detail::allocator_traits<naked_allocator> alloc_traits;
   typedef typename alloc_traits::void_pointer                        void_pointer;
   typedef typename alloc_traits::size_type                           size_type;
   typedef typename alloc_traits::value_type                          value_type;
@@ -106,7 +106,7 @@ get_temporary_buffer(
   void_pointer ptr = alloc_traits::allocate(system.get_allocator(), num_elements);
 
   // Return the pointer and the number of elements of type T allocated.
-  return thrust::make_pair(thrust::reinterpret_pointer_cast<T*>(ptr),n);
+  return HYDRA_EXTERNAL_NS::thrust::make_pair(HYDRA_EXTERNAL_NS::thrust::reinterpret_pointer_cast<T*>(ptr),n);
 }
 
 template <
@@ -118,21 +118,21 @@ template <
 __hydra_host__
 void
 return_temporary_buffer(
-    thrust::detail::execute_with_allocator_and_dependencies<Allocator, BaseSystem, Dependencies...>& system,
+    HYDRA_EXTERNAL_NS::thrust::detail::execute_with_allocator_and_dependencies<Allocator, BaseSystem, Dependencies...>& system,
     Pointer p
     )
 {
-  typedef typename thrust::detail::remove_reference<Allocator>::type naked_allocator;
-  typedef typename thrust::detail::allocator_traits<naked_allocator> alloc_traits;
+  typedef typename HYDRA_EXTERNAL_NS::thrust::detail::remove_reference<Allocator>::type naked_allocator;
+  typedef typename HYDRA_EXTERNAL_NS::thrust::detail::allocator_traits<naked_allocator> alloc_traits;
   typedef typename alloc_traits::pointer                             pointer;
 
-  pointer to_ptr = thrust::reinterpret_pointer_cast<pointer>(p);
+  pointer to_ptr = HYDRA_EXTERNAL_NS::thrust::reinterpret_pointer_cast<pointer>(p);
   alloc_traits::deallocate(system.get_allocator(), to_ptr, 0);
 }
 
 #endif
 
-}} // HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust::detail
+}} // HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace HYDRA_EXTERNAL_NS::thrust::detail
 
 
 HYDRA_EXTERNAL_NAMESPACE_END

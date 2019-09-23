@@ -19,7 +19,7 @@
 #include <hydra/detail/external/thrust/detail/config.h>
 #include <hydra/detail/external/thrust/system/detail/sequential/execution_policy.h>
 
-HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
+HYDRA_EXTERNAL_NAMESPACE_BEGIN namespace thrust
 {
 namespace system
 {
@@ -54,7 +54,7 @@ struct tag : execution_policy<tag> {};
 // allow conversion to tag when it is not a successor
 template<typename Derived>
   struct execution_policy
-    : thrust::system::detail::sequential::execution_policy<Derived>
+    : HYDRA_EXTERNAL_NS::thrust::system::detail::sequential::execution_policy<Derived>
 {
   typedef tag tag_type; 
   operator tag() const { return tag(); }
@@ -63,8 +63,8 @@ template<typename Derived>
 } // end detail
 
 // alias execution_policy and tag here
-using thrust::system::cpp::detail::execution_policy;
-using thrust::system::cpp::detail::tag;
+using HYDRA_EXTERNAL_NS::thrust::system::cpp::detail::execution_policy;
+using HYDRA_EXTERNAL_NS::thrust::system::cpp::detail::tag;
 
 } // end cpp
 } // end system
@@ -73,8 +73,8 @@ using thrust::system::cpp::detail::tag;
 namespace cpp
 {
 
-using thrust::system::cpp::execution_policy;
-using thrust::system::cpp::tag;
+using HYDRA_EXTERNAL_NS::thrust::system::cpp::execution_policy;
+using HYDRA_EXTERNAL_NS::thrust::system::cpp::tag;
 
 } // end cpp
 } // end HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust

@@ -33,7 +33,7 @@ template<typename DerivedPolicy,
          typename OutputIterator,
          typename UnaryFunction>
 __hydra_host__ __hydra_device__
-  OutputIterator transform(thrust::execution_policy<DerivedPolicy> &exec,
+  OutputIterator transform(HYDRA_EXTERNAL_NS::thrust::execution_policy<DerivedPolicy> &exec,
                            InputIterator first,
                            InputIterator last,
                            OutputIterator result,
@@ -45,7 +45,7 @@ template<typename DerivedPolicy,
          typename OutputIterator,
          typename BinaryFunction>
 __hydra_host__ __hydra_device__
-  OutputIterator transform(thrust::execution_policy<DerivedPolicy> &exec,
+  OutputIterator transform(HYDRA_EXTERNAL_NS::thrust::execution_policy<DerivedPolicy> &exec,
                            InputIterator1 first1,
                            InputIterator1 last1,
                            InputIterator2 first2,
@@ -58,7 +58,7 @@ template<typename DerivedPolicy,
          typename UnaryFunction,
          typename Predicate>
 __hydra_host__ __hydra_device__
-  ForwardIterator transform_if(thrust::execution_policy<DerivedPolicy> &exec,
+  ForwardIterator transform_if(HYDRA_EXTERNAL_NS::thrust::execution_policy<DerivedPolicy> &exec,
                                InputIterator first,
                                InputIterator last,
                                ForwardIterator result,
@@ -72,7 +72,7 @@ template<typename DerivedPolicy,
          typename UnaryFunction,
          typename Predicate>
 __hydra_host__ __hydra_device__
-  ForwardIterator transform_if(thrust::execution_policy<DerivedPolicy> &exec,
+  ForwardIterator transform_if(HYDRA_EXTERNAL_NS::thrust::execution_policy<DerivedPolicy> &exec,
                                InputIterator1 first,
                                InputIterator1 last,
                                InputIterator2 stencil,
@@ -88,7 +88,7 @@ template<typename DerivedPolicy,
          typename BinaryFunction,
          typename Predicate>
 __hydra_host__ __hydra_device__
-  ForwardIterator transform_if(thrust::execution_policy<DerivedPolicy> &exec,
+  ForwardIterator transform_if(HYDRA_EXTERNAL_NS::thrust::execution_policy<DerivedPolicy> &exec,
                                InputIterator1 first1,
                                InputIterator1 last1,
                                InputIterator2 first2,

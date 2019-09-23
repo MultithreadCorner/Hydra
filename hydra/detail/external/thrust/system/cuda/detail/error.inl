@@ -87,7 +87,7 @@ class cuda_error_category
 
 const error_category &cuda_category(void)
 {
-  static const thrust::system::cuda_cub::detail::cuda_error_category result;
+  static const HYDRA_EXTERNAL_NS::thrust::system::cuda_cub::detail::cuda_error_category result;
   return result;
 }
 

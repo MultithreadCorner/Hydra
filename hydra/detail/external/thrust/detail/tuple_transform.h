@@ -28,7 +28,7 @@ namespace detail
 template<typename Tuple,
          template<typename> class UnaryMetaFunction,
          typename UnaryFunction,
-         unsigned int sz = thrust::tuple_size<Tuple>::value>
+         unsigned int sz = HYDRA_EXTERNAL_NS::thrust::tuple_size<Tuple>::value>
   struct tuple_transform_functor;
 
 
@@ -41,14 +41,14 @@ template<typename Tuple,
   typename tuple_meta_transform<Tuple,UnaryMetaFunction>::type
   do_it_on_the_host(const Tuple &, UnaryFunction)
   {
-    return thrust::null_type();
+    return HYDRA_EXTERNAL_NS::thrust::null_type();
   }
 
   static __hydra_host__ __hydra_device__
   typename tuple_meta_transform<Tuple,UnaryMetaFunction>::type
   do_it_on_the_host_or_device(const Tuple &, UnaryFunction)
   {
-    return thrust::null_type();
+    return HYDRA_EXTERNAL_NS::thrust::null_type();
   }
 };
 
@@ -64,7 +64,7 @@ template<typename Tuple,
   {
     typedef typename tuple_meta_transform<Tuple,UnaryMetaFunction>::type XfrmTuple;
 
-    return XfrmTuple(f(thrust::get<0>(t)));
+    return XfrmTuple(f(HYDRA_EXTERNAL_NS::thrust::get<0>(t)));
   }
 
   static __hydra_host__ __hydra_device__
@@ -73,7 +73,7 @@ template<typename Tuple,
   {
     typedef typename tuple_meta_transform<Tuple,UnaryMetaFunction>::type XfrmTuple;
 
-    return XfrmTuple(f(thrust::get<0>(t)));
+    return XfrmTuple(f(HYDRA_EXTERNAL_NS::thrust::get<0>(t)));
   }
 };
 
@@ -89,8 +89,8 @@ template<typename Tuple,
   {
     typedef typename tuple_meta_transform<Tuple,UnaryMetaFunction>::type XfrmTuple;
 
-    return XfrmTuple(f(thrust::get<0>(t)),
-                     f(thrust::get<1>(t)));
+    return XfrmTuple(f(HYDRA_EXTERNAL_NS::thrust::get<0>(t)),
+                     f(HYDRA_EXTERNAL_NS::thrust::get<1>(t)));
   }
 
   static __hydra_host__ __hydra_device__
@@ -99,8 +99,8 @@ template<typename Tuple,
   {
     typedef typename tuple_meta_transform<Tuple,UnaryMetaFunction>::type XfrmTuple;
 
-    return XfrmTuple(f(thrust::get<0>(t)),
-                     f(thrust::get<1>(t)));
+    return XfrmTuple(f(HYDRA_EXTERNAL_NS::thrust::get<0>(t)),
+                     f(HYDRA_EXTERNAL_NS::thrust::get<1>(t)));
   }
 };
 
@@ -116,9 +116,9 @@ template<typename Tuple,
   {
     typedef typename tuple_meta_transform<Tuple,UnaryMetaFunction>::type XfrmTuple;
 
-    return XfrmTuple(f(thrust::get<0>(t)),
-                     f(thrust::get<1>(t)),
-                     f(thrust::get<2>(t)));
+    return XfrmTuple(f(HYDRA_EXTERNAL_NS::thrust::get<0>(t)),
+                     f(HYDRA_EXTERNAL_NS::thrust::get<1>(t)),
+                     f(HYDRA_EXTERNAL_NS::thrust::get<2>(t)));
   }
 
   static __hydra_host__ __hydra_device__
@@ -127,9 +127,9 @@ template<typename Tuple,
   {
     typedef typename tuple_meta_transform<Tuple,UnaryMetaFunction>::type XfrmTuple;
 
-    return XfrmTuple(f(thrust::get<0>(t)),
-                     f(thrust::get<1>(t)),
-                     f(thrust::get<2>(t)));
+    return XfrmTuple(f(HYDRA_EXTERNAL_NS::thrust::get<0>(t)),
+                     f(HYDRA_EXTERNAL_NS::thrust::get<1>(t)),
+                     f(HYDRA_EXTERNAL_NS::thrust::get<2>(t)));
   }
 };
 
@@ -145,10 +145,10 @@ template<typename Tuple,
   {
     typedef typename tuple_meta_transform<Tuple,UnaryMetaFunction>::type XfrmTuple;
 
-    return XfrmTuple(f(thrust::get<0>(t)),
-                     f(thrust::get<1>(t)),
-                     f(thrust::get<2>(t)),
-                     f(thrust::get<3>(t)));
+    return XfrmTuple(f(HYDRA_EXTERNAL_NS::thrust::get<0>(t)),
+                     f(HYDRA_EXTERNAL_NS::thrust::get<1>(t)),
+                     f(HYDRA_EXTERNAL_NS::thrust::get<2>(t)),
+                     f(HYDRA_EXTERNAL_NS::thrust::get<3>(t)));
   }
 
   static __hydra_host__ __hydra_device__
@@ -157,10 +157,10 @@ template<typename Tuple,
   {
     typedef typename tuple_meta_transform<Tuple,UnaryMetaFunction>::type XfrmTuple;
 
-    return XfrmTuple(f(thrust::get<0>(t)),
-                     f(thrust::get<1>(t)),
-                     f(thrust::get<2>(t)),
-                     f(thrust::get<3>(t)));
+    return XfrmTuple(f(HYDRA_EXTERNAL_NS::thrust::get<0>(t)),
+                     f(HYDRA_EXTERNAL_NS::thrust::get<1>(t)),
+                     f(HYDRA_EXTERNAL_NS::thrust::get<2>(t)),
+                     f(HYDRA_EXTERNAL_NS::thrust::get<3>(t)));
   }
 };
 
@@ -176,11 +176,11 @@ template<typename Tuple,
   {
     typedef typename tuple_meta_transform<Tuple,UnaryMetaFunction>::type XfrmTuple;
 
-    return XfrmTuple(f(thrust::get<0>(t)),
-                     f(thrust::get<1>(t)),
-                     f(thrust::get<2>(t)),
-                     f(thrust::get<3>(t)),
-                     f(thrust::get<4>(t)));
+    return XfrmTuple(f(HYDRA_EXTERNAL_NS::thrust::get<0>(t)),
+                     f(HYDRA_EXTERNAL_NS::thrust::get<1>(t)),
+                     f(HYDRA_EXTERNAL_NS::thrust::get<2>(t)),
+                     f(HYDRA_EXTERNAL_NS::thrust::get<3>(t)),
+                     f(HYDRA_EXTERNAL_NS::thrust::get<4>(t)));
   }
 
   static __hydra_host__ __hydra_device__
@@ -189,11 +189,11 @@ template<typename Tuple,
   {
     typedef typename tuple_meta_transform<Tuple,UnaryMetaFunction>::type XfrmTuple;
 
-    return XfrmTuple(f(thrust::get<0>(t)),
-                     f(thrust::get<1>(t)),
-                     f(thrust::get<2>(t)),
-                     f(thrust::get<3>(t)),
-                     f(thrust::get<4>(t)));
+    return XfrmTuple(f(HYDRA_EXTERNAL_NS::thrust::get<0>(t)),
+                     f(HYDRA_EXTERNAL_NS::thrust::get<1>(t)),
+                     f(HYDRA_EXTERNAL_NS::thrust::get<2>(t)),
+                     f(HYDRA_EXTERNAL_NS::thrust::get<3>(t)),
+                     f(HYDRA_EXTERNAL_NS::thrust::get<4>(t)));
   }
 };
 
@@ -209,12 +209,12 @@ template<typename Tuple,
   {
     typedef typename tuple_meta_transform<Tuple,UnaryMetaFunction>::type XfrmTuple;
 
-    return XfrmTuple(f(thrust::get<0>(t)),
-                     f(thrust::get<1>(t)),
-                     f(thrust::get<2>(t)),
-                     f(thrust::get<3>(t)),
-                     f(thrust::get<4>(t)),
-                     f(thrust::get<5>(t)));
+    return XfrmTuple(f(HYDRA_EXTERNAL_NS::thrust::get<0>(t)),
+                     f(HYDRA_EXTERNAL_NS::thrust::get<1>(t)),
+                     f(HYDRA_EXTERNAL_NS::thrust::get<2>(t)),
+                     f(HYDRA_EXTERNAL_NS::thrust::get<3>(t)),
+                     f(HYDRA_EXTERNAL_NS::thrust::get<4>(t)),
+                     f(HYDRA_EXTERNAL_NS::thrust::get<5>(t)));
   }
 
   static __hydra_host__ __hydra_device__
@@ -223,12 +223,12 @@ template<typename Tuple,
   {
     typedef typename tuple_meta_transform<Tuple,UnaryMetaFunction>::type XfrmTuple;
 
-    return XfrmTuple(f(thrust::get<0>(t)),
-                     f(thrust::get<1>(t)),
-                     f(thrust::get<2>(t)),
-                     f(thrust::get<3>(t)),
-                     f(thrust::get<4>(t)),
-                     f(thrust::get<5>(t)));
+    return XfrmTuple(f(HYDRA_EXTERNAL_NS::thrust::get<0>(t)),
+                     f(HYDRA_EXTERNAL_NS::thrust::get<1>(t)),
+                     f(HYDRA_EXTERNAL_NS::thrust::get<2>(t)),
+                     f(HYDRA_EXTERNAL_NS::thrust::get<3>(t)),
+                     f(HYDRA_EXTERNAL_NS::thrust::get<4>(t)),
+                     f(HYDRA_EXTERNAL_NS::thrust::get<5>(t)));
   }
 };
 
@@ -244,13 +244,13 @@ template<typename Tuple,
   {
     typedef typename tuple_meta_transform<Tuple,UnaryMetaFunction>::type XfrmTuple;
 
-    return XfrmTuple(f(thrust::get<0>(t)),
-                     f(thrust::get<1>(t)),
-                     f(thrust::get<2>(t)),
-                     f(thrust::get<3>(t)),
-                     f(thrust::get<4>(t)),
-                     f(thrust::get<5>(t)),
-                     f(thrust::get<6>(t)));
+    return XfrmTuple(f(HYDRA_EXTERNAL_NS::thrust::get<0>(t)),
+                     f(HYDRA_EXTERNAL_NS::thrust::get<1>(t)),
+                     f(HYDRA_EXTERNAL_NS::thrust::get<2>(t)),
+                     f(HYDRA_EXTERNAL_NS::thrust::get<3>(t)),
+                     f(HYDRA_EXTERNAL_NS::thrust::get<4>(t)),
+                     f(HYDRA_EXTERNAL_NS::thrust::get<5>(t)),
+                     f(HYDRA_EXTERNAL_NS::thrust::get<6>(t)));
   }
 
   static __hydra_host__ __hydra_device__
@@ -259,13 +259,13 @@ template<typename Tuple,
   {
     typedef typename tuple_meta_transform<Tuple,UnaryMetaFunction>::type XfrmTuple;
 
-    return XfrmTuple(f(thrust::get<0>(t)),
-                     f(thrust::get<1>(t)),
-                     f(thrust::get<2>(t)),
-                     f(thrust::get<3>(t)),
-                     f(thrust::get<4>(t)),
-                     f(thrust::get<5>(t)),
-                     f(thrust::get<6>(t)));
+    return XfrmTuple(f(HYDRA_EXTERNAL_NS::thrust::get<0>(t)),
+                     f(HYDRA_EXTERNAL_NS::thrust::get<1>(t)),
+                     f(HYDRA_EXTERNAL_NS::thrust::get<2>(t)),
+                     f(HYDRA_EXTERNAL_NS::thrust::get<3>(t)),
+                     f(HYDRA_EXTERNAL_NS::thrust::get<4>(t)),
+                     f(HYDRA_EXTERNAL_NS::thrust::get<5>(t)),
+                     f(HYDRA_EXTERNAL_NS::thrust::get<6>(t)));
   }
 };
 
@@ -281,14 +281,14 @@ template<typename Tuple,
   {
     typedef typename tuple_meta_transform<Tuple,UnaryMetaFunction>::type XfrmTuple;
 
-    return XfrmTuple(f(thrust::get<0>(t)),
-                     f(thrust::get<1>(t)),
-                     f(thrust::get<2>(t)),
-                     f(thrust::get<3>(t)),
-                     f(thrust::get<4>(t)),
-                     f(thrust::get<5>(t)),
-                     f(thrust::get<6>(t)),
-                     f(thrust::get<7>(t)));
+    return XfrmTuple(f(HYDRA_EXTERNAL_NS::thrust::get<0>(t)),
+                     f(HYDRA_EXTERNAL_NS::thrust::get<1>(t)),
+                     f(HYDRA_EXTERNAL_NS::thrust::get<2>(t)),
+                     f(HYDRA_EXTERNAL_NS::thrust::get<3>(t)),
+                     f(HYDRA_EXTERNAL_NS::thrust::get<4>(t)),
+                     f(HYDRA_EXTERNAL_NS::thrust::get<5>(t)),
+                     f(HYDRA_EXTERNAL_NS::thrust::get<6>(t)),
+                     f(HYDRA_EXTERNAL_NS::thrust::get<7>(t)));
   }
 
   static __hydra_host__ __hydra_device__
@@ -297,14 +297,14 @@ template<typename Tuple,
   {
     typedef typename tuple_meta_transform<Tuple,UnaryMetaFunction>::type XfrmTuple;
 
-    return XfrmTuple(f(thrust::get<0>(t)),
-                     f(thrust::get<1>(t)),
-                     f(thrust::get<2>(t)),
-                     f(thrust::get<3>(t)),
-                     f(thrust::get<4>(t)),
-                     f(thrust::get<5>(t)),
-                     f(thrust::get<6>(t)),
-                     f(thrust::get<7>(t)));
+    return XfrmTuple(f(HYDRA_EXTERNAL_NS::thrust::get<0>(t)),
+                     f(HYDRA_EXTERNAL_NS::thrust::get<1>(t)),
+                     f(HYDRA_EXTERNAL_NS::thrust::get<2>(t)),
+                     f(HYDRA_EXTERNAL_NS::thrust::get<3>(t)),
+                     f(HYDRA_EXTERNAL_NS::thrust::get<4>(t)),
+                     f(HYDRA_EXTERNAL_NS::thrust::get<5>(t)),
+                     f(HYDRA_EXTERNAL_NS::thrust::get<6>(t)),
+                     f(HYDRA_EXTERNAL_NS::thrust::get<7>(t)));
   }
 };
 
@@ -320,15 +320,15 @@ template<typename Tuple,
   {
     typedef typename tuple_meta_transform<Tuple,UnaryMetaFunction>::type XfrmTuple;
 
-    return XfrmTuple(f(thrust::get<0>(t)),
-                     f(thrust::get<1>(t)),
-                     f(thrust::get<2>(t)),
-                     f(thrust::get<3>(t)),
-                     f(thrust::get<4>(t)),
-                     f(thrust::get<5>(t)),
-                     f(thrust::get<6>(t)),
-                     f(thrust::get<7>(t)),
-                     f(thrust::get<8>(t)));
+    return XfrmTuple(f(HYDRA_EXTERNAL_NS::thrust::get<0>(t)),
+                     f(HYDRA_EXTERNAL_NS::thrust::get<1>(t)),
+                     f(HYDRA_EXTERNAL_NS::thrust::get<2>(t)),
+                     f(HYDRA_EXTERNAL_NS::thrust::get<3>(t)),
+                     f(HYDRA_EXTERNAL_NS::thrust::get<4>(t)),
+                     f(HYDRA_EXTERNAL_NS::thrust::get<5>(t)),
+                     f(HYDRA_EXTERNAL_NS::thrust::get<6>(t)),
+                     f(HYDRA_EXTERNAL_NS::thrust::get<7>(t)),
+                     f(HYDRA_EXTERNAL_NS::thrust::get<8>(t)));
   }
 
   static __hydra_host__ __hydra_device__
@@ -337,15 +337,15 @@ template<typename Tuple,
   {
     typedef typename tuple_meta_transform<Tuple,UnaryMetaFunction>::type XfrmTuple;
 
-    return XfrmTuple(f(thrust::get<0>(t)),
-                     f(thrust::get<1>(t)),
-                     f(thrust::get<2>(t)),
-                     f(thrust::get<3>(t)),
-                     f(thrust::get<4>(t)),
-                     f(thrust::get<5>(t)),
-                     f(thrust::get<6>(t)),
-                     f(thrust::get<7>(t)),
-                     f(thrust::get<8>(t)));
+    return XfrmTuple(f(HYDRA_EXTERNAL_NS::thrust::get<0>(t)),
+                     f(HYDRA_EXTERNAL_NS::thrust::get<1>(t)),
+                     f(HYDRA_EXTERNAL_NS::thrust::get<2>(t)),
+                     f(HYDRA_EXTERNAL_NS::thrust::get<3>(t)),
+                     f(HYDRA_EXTERNAL_NS::thrust::get<4>(t)),
+                     f(HYDRA_EXTERNAL_NS::thrust::get<5>(t)),
+                     f(HYDRA_EXTERNAL_NS::thrust::get<6>(t)),
+                     f(HYDRA_EXTERNAL_NS::thrust::get<7>(t)),
+                     f(HYDRA_EXTERNAL_NS::thrust::get<8>(t)));
   }
 };
 
@@ -361,16 +361,16 @@ template<typename Tuple,
   {
     typedef typename tuple_meta_transform<Tuple,UnaryMetaFunction>::type XfrmTuple;
 
-    return XfrmTuple(f(thrust::get<0>(t)),
-                     f(thrust::get<1>(t)),
-                     f(thrust::get<2>(t)),
-                     f(thrust::get<3>(t)),
-                     f(thrust::get<4>(t)),
-                     f(thrust::get<5>(t)),
-                     f(thrust::get<6>(t)),
-                     f(thrust::get<7>(t)),
-                     f(thrust::get<8>(t)),
-                     f(thrust::get<9>(t)));
+    return XfrmTuple(f(HYDRA_EXTERNAL_NS::thrust::get<0>(t)),
+                     f(HYDRA_EXTERNAL_NS::thrust::get<1>(t)),
+                     f(HYDRA_EXTERNAL_NS::thrust::get<2>(t)),
+                     f(HYDRA_EXTERNAL_NS::thrust::get<3>(t)),
+                     f(HYDRA_EXTERNAL_NS::thrust::get<4>(t)),
+                     f(HYDRA_EXTERNAL_NS::thrust::get<5>(t)),
+                     f(HYDRA_EXTERNAL_NS::thrust::get<6>(t)),
+                     f(HYDRA_EXTERNAL_NS::thrust::get<7>(t)),
+                     f(HYDRA_EXTERNAL_NS::thrust::get<8>(t)),
+                     f(HYDRA_EXTERNAL_NS::thrust::get<9>(t)));
   }
 
   static __hydra_host__ __hydra_device__
@@ -379,16 +379,16 @@ template<typename Tuple,
   {
     typedef typename tuple_meta_transform<Tuple,UnaryMetaFunction>::type XfrmTuple;
 
-    return XfrmTuple(f(thrust::get<0>(t)),
-                     f(thrust::get<1>(t)),
-                     f(thrust::get<2>(t)),
-                     f(thrust::get<3>(t)),
-                     f(thrust::get<4>(t)),
-                     f(thrust::get<5>(t)),
-                     f(thrust::get<6>(t)),
-                     f(thrust::get<7>(t)),
-                     f(thrust::get<8>(t)),
-                     f(thrust::get<9>(t)));
+    return XfrmTuple(f(HYDRA_EXTERNAL_NS::thrust::get<0>(t)),
+                     f(HYDRA_EXTERNAL_NS::thrust::get<1>(t)),
+                     f(HYDRA_EXTERNAL_NS::thrust::get<2>(t)),
+                     f(HYDRA_EXTERNAL_NS::thrust::get<3>(t)),
+                     f(HYDRA_EXTERNAL_NS::thrust::get<4>(t)),
+                     f(HYDRA_EXTERNAL_NS::thrust::get<5>(t)),
+                     f(HYDRA_EXTERNAL_NS::thrust::get<6>(t)),
+                     f(HYDRA_EXTERNAL_NS::thrust::get<7>(t)),
+                     f(HYDRA_EXTERNAL_NS::thrust::get<8>(t)),
+                     f(HYDRA_EXTERNAL_NS::thrust::get<9>(t)));
   }
 };
 

@@ -33,132 +33,132 @@ HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
 __thrust_exec_check_disable__ 
 template <typename DerivedPolicy, typename ForwardIterator, typename LessThanComparable>
 __hydra_host__ __hydra_device__
-ForwardIterator lower_bound(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
+ForwardIterator lower_bound(const HYDRA_EXTERNAL_NS::thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                             ForwardIterator first,
                             ForwardIterator last,
                             const LessThanComparable &value)
 {
-    using thrust::system::detail::generic::lower_bound;
-    return lower_bound(thrust::detail::derived_cast(thrust::detail::strip_const(exec)), first, last, value);
+    using HYDRA_EXTERNAL_NS::thrust::system::detail::generic::lower_bound;
+    return lower_bound(HYDRA_EXTERNAL_NS::thrust::detail::derived_cast(HYDRA_EXTERNAL_NS::thrust::detail::strip_const(exec)), first, last, value);
 }
 
 
 __thrust_exec_check_disable__ 
 template<typename DerivedPolicy, typename ForwardIterator, typename T, typename StrictWeakOrdering>
 __hydra_host__ __hydra_device__
-ForwardIterator lower_bound(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
+ForwardIterator lower_bound(const HYDRA_EXTERNAL_NS::thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                             ForwardIterator first,
                             ForwardIterator last,
                             const T &value,
                             StrictWeakOrdering comp)
 {
-    using thrust::system::detail::generic::lower_bound;
-    return lower_bound(thrust::detail::derived_cast(thrust::detail::strip_const(exec)), first, last, value, comp);
+    using HYDRA_EXTERNAL_NS::thrust::system::detail::generic::lower_bound;
+    return lower_bound(HYDRA_EXTERNAL_NS::thrust::detail::derived_cast(HYDRA_EXTERNAL_NS::thrust::detail::strip_const(exec)), first, last, value, comp);
 }
 
 
 __thrust_exec_check_disable__ 
 template<typename DerivedPolicy, typename ForwardIterator, typename LessThanComparable>
 __hydra_host__ __hydra_device__
-ForwardIterator upper_bound(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
+ForwardIterator upper_bound(const HYDRA_EXTERNAL_NS::thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                             ForwardIterator first,
                             ForwardIterator last,
                             const LessThanComparable &value)
 {
-    using thrust::system::detail::generic::upper_bound;
-    return upper_bound(thrust::detail::derived_cast(thrust::detail::strip_const(exec)), first, last, value);
+    using HYDRA_EXTERNAL_NS::thrust::system::detail::generic::upper_bound;
+    return upper_bound(HYDRA_EXTERNAL_NS::thrust::detail::derived_cast(HYDRA_EXTERNAL_NS::thrust::detail::strip_const(exec)), first, last, value);
 }
 
 
 __thrust_exec_check_disable__ 
 template<typename DerivedPolicy, typename ForwardIterator, typename T, typename StrictWeakOrdering>
 __hydra_host__ __hydra_device__
-ForwardIterator upper_bound(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
+ForwardIterator upper_bound(const HYDRA_EXTERNAL_NS::thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                             ForwardIterator first,
                             ForwardIterator last,
                             const T &value,
                             StrictWeakOrdering comp)
 {
-    using thrust::system::detail::generic::upper_bound;
-    return upper_bound(thrust::detail::derived_cast(thrust::detail::strip_const(exec)), first, last, value, comp);
+    using HYDRA_EXTERNAL_NS::thrust::system::detail::generic::upper_bound;
+    return upper_bound(HYDRA_EXTERNAL_NS::thrust::detail::derived_cast(HYDRA_EXTERNAL_NS::thrust::detail::strip_const(exec)), first, last, value, comp);
 }
 
 
 __thrust_exec_check_disable__ 
 template <typename DerivedPolicy, typename ForwardIterator, typename LessThanComparable>
 __hydra_host__ __hydra_device__
-bool binary_search(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
+bool binary_search(const HYDRA_EXTERNAL_NS::thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                    ForwardIterator first, 
                    ForwardIterator last,
                    const LessThanComparable& value)
 {
-    using thrust::system::detail::generic::binary_search;
-    return binary_search(thrust::detail::derived_cast(thrust::detail::strip_const(exec)), first, last, value);
+    using HYDRA_EXTERNAL_NS::thrust::system::detail::generic::binary_search;
+    return binary_search(HYDRA_EXTERNAL_NS::thrust::detail::derived_cast(HYDRA_EXTERNAL_NS::thrust::detail::strip_const(exec)), first, last, value);
 }
 
 
 __thrust_exec_check_disable__ 
 template <typename DerivedPolicy, typename ForwardIterator, typename T, typename StrictWeakOrdering>
 __hydra_host__ __hydra_device__
-bool binary_search(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
+bool binary_search(const HYDRA_EXTERNAL_NS::thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                    ForwardIterator first,
                    ForwardIterator last,
                    const T& value, 
                    StrictWeakOrdering comp)
 {
-    using thrust::system::detail::generic::binary_search;
-    return binary_search(thrust::detail::derived_cast(thrust::detail::strip_const(exec)), first, last, value, comp);
+    using HYDRA_EXTERNAL_NS::thrust::system::detail::generic::binary_search;
+    return binary_search(HYDRA_EXTERNAL_NS::thrust::detail::derived_cast(HYDRA_EXTERNAL_NS::thrust::detail::strip_const(exec)), first, last, value, comp);
 }
 
 
 __thrust_exec_check_disable__ 
 template <typename DerivedPolicy, typename ForwardIterator, typename T, typename StrictWeakOrdering>
 __hydra_host__ __hydra_device__
-thrust::pair<ForwardIterator, ForwardIterator>
-equal_range(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
+HYDRA_EXTERNAL_NS::thrust::pair<ForwardIterator, ForwardIterator>
+equal_range(const HYDRA_EXTERNAL_NS::thrust::detail::execution_policy_base<DerivedPolicy> &exec,
             ForwardIterator first,
             ForwardIterator last,
             const T& value,
             StrictWeakOrdering comp)
 {
-    using thrust::system::detail::generic::equal_range;
-    return equal_range(thrust::detail::derived_cast(thrust::detail::strip_const(exec)), first, last, value, comp);
+    using HYDRA_EXTERNAL_NS::thrust::system::detail::generic::equal_range;
+    return equal_range(HYDRA_EXTERNAL_NS::thrust::detail::derived_cast(HYDRA_EXTERNAL_NS::thrust::detail::strip_const(exec)), first, last, value, comp);
 }
 
 
 __thrust_exec_check_disable__ 
 template <typename DerivedPolicy, typename ForwardIterator, typename LessThanComparable>
 __hydra_host__ __hydra_device__
-thrust::pair<ForwardIterator, ForwardIterator>
-equal_range(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
+HYDRA_EXTERNAL_NS::thrust::pair<ForwardIterator, ForwardIterator>
+equal_range(const HYDRA_EXTERNAL_NS::thrust::detail::execution_policy_base<DerivedPolicy> &exec,
             ForwardIterator first,
             ForwardIterator last,
             const LessThanComparable& value)
 {
-    using thrust::system::detail::generic::equal_range;
-    return equal_range(thrust::detail::derived_cast(thrust::detail::strip_const(exec)), first, last, value);
+    using HYDRA_EXTERNAL_NS::thrust::system::detail::generic::equal_range;
+    return equal_range(HYDRA_EXTERNAL_NS::thrust::detail::derived_cast(HYDRA_EXTERNAL_NS::thrust::detail::strip_const(exec)), first, last, value);
 }
 
 
 __thrust_exec_check_disable__ 
 template <typename DerivedPolicy, typename ForwardIterator, typename InputIterator, typename OutputIterator>
 __hydra_host__ __hydra_device__
-OutputIterator lower_bound(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
+OutputIterator lower_bound(const HYDRA_EXTERNAL_NS::thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                            ForwardIterator first, 
                            ForwardIterator last,
                            InputIterator values_first, 
                            InputIterator values_last,
                            OutputIterator output)
 {
-    using thrust::system::detail::generic::lower_bound;
-    return lower_bound(thrust::detail::derived_cast(thrust::detail::strip_const(exec)), first, last, values_first, values_last, output);
+    using HYDRA_EXTERNAL_NS::thrust::system::detail::generic::lower_bound;
+    return lower_bound(HYDRA_EXTERNAL_NS::thrust::detail::derived_cast(HYDRA_EXTERNAL_NS::thrust::detail::strip_const(exec)), first, last, values_first, values_last, output);
 }
 
 
 __thrust_exec_check_disable__ 
 template <typename DerivedPolicy, typename ForwardIterator, typename InputIterator, typename OutputIterator, typename StrictWeakOrdering>
 __hydra_host__ __hydra_device__
-OutputIterator lower_bound(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
+OutputIterator lower_bound(const HYDRA_EXTERNAL_NS::thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                            ForwardIterator first, 
                            ForwardIterator last,
                            InputIterator values_first, 
@@ -166,30 +166,30 @@ OutputIterator lower_bound(const thrust::detail::execution_policy_base<DerivedPo
                            OutputIterator output,
                            StrictWeakOrdering comp)
 {
-    using thrust::system::detail::generic::lower_bound;
-    return lower_bound(thrust::detail::derived_cast(thrust::detail::strip_const(exec)), first, last, values_first, values_last, output, comp);
+    using HYDRA_EXTERNAL_NS::thrust::system::detail::generic::lower_bound;
+    return lower_bound(HYDRA_EXTERNAL_NS::thrust::detail::derived_cast(HYDRA_EXTERNAL_NS::thrust::detail::strip_const(exec)), first, last, values_first, values_last, output, comp);
 }
 
 
 __thrust_exec_check_disable__ 
 template <typename DerivedPolicy, typename ForwardIterator, typename InputIterator, typename OutputIterator>
 __hydra_host__ __hydra_device__
-OutputIterator upper_bound(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
+OutputIterator upper_bound(const HYDRA_EXTERNAL_NS::thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                            ForwardIterator first, 
                            ForwardIterator last,
                            InputIterator values_first, 
                            InputIterator values_last,
                            OutputIterator output)
 {
-    using thrust::system::detail::generic::upper_bound;
-    return upper_bound(thrust::detail::derived_cast(thrust::detail::strip_const(exec)), first, last, values_first, values_last, output);
+    using HYDRA_EXTERNAL_NS::thrust::system::detail::generic::upper_bound;
+    return upper_bound(HYDRA_EXTERNAL_NS::thrust::detail::derived_cast(HYDRA_EXTERNAL_NS::thrust::detail::strip_const(exec)), first, last, values_first, values_last, output);
 }
 
 
 __thrust_exec_check_disable__ 
 template <typename DerivedPolicy, typename ForwardIterator, typename InputIterator, typename OutputIterator, typename StrictWeakOrdering>
 __hydra_host__ __hydra_device__
-OutputIterator upper_bound(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
+OutputIterator upper_bound(const HYDRA_EXTERNAL_NS::thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                            ForwardIterator first, 
                            ForwardIterator last,
                            InputIterator values_first, 
@@ -197,30 +197,30 @@ OutputIterator upper_bound(const thrust::detail::execution_policy_base<DerivedPo
                            OutputIterator output,
                            StrictWeakOrdering comp)
 {
-    using thrust::system::detail::generic::upper_bound;
-    return upper_bound(thrust::detail::derived_cast(thrust::detail::strip_const(exec)), first, last, values_first, values_last, output, comp);
+    using HYDRA_EXTERNAL_NS::thrust::system::detail::generic::upper_bound;
+    return upper_bound(HYDRA_EXTERNAL_NS::thrust::detail::derived_cast(HYDRA_EXTERNAL_NS::thrust::detail::strip_const(exec)), first, last, values_first, values_last, output, comp);
 }
 
 
 __thrust_exec_check_disable__ 
 template <typename DerivedPolicy, typename ForwardIterator, typename InputIterator, typename OutputIterator>
 __hydra_host__ __hydra_device__
-OutputIterator binary_search(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
+OutputIterator binary_search(const HYDRA_EXTERNAL_NS::thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                              ForwardIterator first, 
                              ForwardIterator last,
                              InputIterator values_first, 
                              InputIterator values_last,
                              OutputIterator output)
 {
-    using thrust::system::detail::generic::binary_search;
-    return binary_search(thrust::detail::derived_cast(thrust::detail::strip_const(exec)), first, last, values_first, values_last, output);
+    using HYDRA_EXTERNAL_NS::thrust::system::detail::generic::binary_search;
+    return binary_search(HYDRA_EXTERNAL_NS::thrust::detail::derived_cast(HYDRA_EXTERNAL_NS::thrust::detail::strip_const(exec)), first, last, values_first, values_last, output);
 }
 
 
 __thrust_exec_check_disable__ 
 template <typename DerivedPolicy, typename ForwardIterator, typename InputIterator, typename OutputIterator, typename StrictWeakOrdering>
 __hydra_host__ __hydra_device__
-OutputIterator binary_search(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
+OutputIterator binary_search(const HYDRA_EXTERNAL_NS::thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                              ForwardIterator first, 
                              ForwardIterator last,
                              InputIterator values_first, 
@@ -228,8 +228,8 @@ OutputIterator binary_search(const thrust::detail::execution_policy_base<Derived
                              OutputIterator output,
                              StrictWeakOrdering comp)
 {
-    using thrust::system::detail::generic::binary_search;
-    return binary_search(thrust::detail::derived_cast(thrust::detail::strip_const(exec)), first, last, values_first, values_last, output, comp);
+    using HYDRA_EXTERNAL_NS::thrust::system::detail::generic::binary_search;
+    return binary_search(HYDRA_EXTERNAL_NS::thrust::detail::derived_cast(HYDRA_EXTERNAL_NS::thrust::detail::strip_const(exec)), first, last, values_first, values_last, output, comp);
 }
 
 
@@ -242,13 +242,13 @@ ForwardIterator lower_bound(ForwardIterator first,
                             ForwardIterator last,
                             const LessThanComparable& value)
 {
-    using thrust::system::detail::generic::select_system;
+    using HYDRA_EXTERNAL_NS::thrust::system::detail::generic::select_system;
 
-    typedef typename thrust::iterator_system<ForwardIterator>::type System; 
+    typedef typename HYDRA_EXTERNAL_NS::thrust::iterator_system<ForwardIterator>::type System; 
 
     System system;
 
-    return thrust::lower_bound(select_system(system), first, last, value);
+    return HYDRA_EXTERNAL_NS::thrust::lower_bound(select_system(system), first, last, value);
 }
 
 template <typename ForwardIterator, typename T, typename StrictWeakOrdering>
@@ -257,13 +257,13 @@ ForwardIterator lower_bound(ForwardIterator first,
                             const T& value, 
                             StrictWeakOrdering comp)
 {
-    using thrust::system::detail::generic::select_system;
+    using HYDRA_EXTERNAL_NS::thrust::system::detail::generic::select_system;
 
-    typedef typename thrust::iterator_system<ForwardIterator>::type System; 
+    typedef typename HYDRA_EXTERNAL_NS::thrust::iterator_system<ForwardIterator>::type System; 
 
     System system;
 
-    return thrust::lower_bound(select_system(system), first, last, value, comp);
+    return HYDRA_EXTERNAL_NS::thrust::lower_bound(select_system(system), first, last, value, comp);
 }
 
 template <typename ForwardIterator, typename LessThanComparable>
@@ -271,13 +271,13 @@ ForwardIterator upper_bound(ForwardIterator first,
                             ForwardIterator last,
                             const LessThanComparable& value)
 {
-    using thrust::system::detail::generic::select_system;
+    using HYDRA_EXTERNAL_NS::thrust::system::detail::generic::select_system;
 
-    typedef typename thrust::iterator_system<ForwardIterator>::type System;
+    typedef typename HYDRA_EXTERNAL_NS::thrust::iterator_system<ForwardIterator>::type System;
 
     System system;
 
-    return thrust::upper_bound(select_system(system), first, last, value);
+    return HYDRA_EXTERNAL_NS::thrust::upper_bound(select_system(system), first, last, value);
 }
 
 template <typename ForwardIterator, typename T, typename StrictWeakOrdering>
@@ -286,13 +286,13 @@ ForwardIterator upper_bound(ForwardIterator first,
                             const T& value, 
                             StrictWeakOrdering comp)
 {
-    using thrust::system::detail::generic::select_system;
+    using HYDRA_EXTERNAL_NS::thrust::system::detail::generic::select_system;
 
-    typedef typename thrust::iterator_system<ForwardIterator>::type System;
+    typedef typename HYDRA_EXTERNAL_NS::thrust::iterator_system<ForwardIterator>::type System;
 
     System system;
 
-    return thrust::upper_bound(select_system(system), first, last, value, comp);
+    return HYDRA_EXTERNAL_NS::thrust::upper_bound(select_system(system), first, last, value, comp);
 }
 
 template <typename ForwardIterator, typename LessThanComparable>
@@ -300,13 +300,13 @@ bool binary_search(ForwardIterator first,
                    ForwardIterator last,
                    const LessThanComparable& value)
 {
-    using thrust::system::detail::generic::select_system;
+    using HYDRA_EXTERNAL_NS::thrust::system::detail::generic::select_system;
 
-    typedef typename thrust::iterator_system<ForwardIterator>::type System;
+    typedef typename HYDRA_EXTERNAL_NS::thrust::iterator_system<ForwardIterator>::type System;
 
     System system;
 
-    return thrust::binary_search(select_system(system), first, last, value);
+    return HYDRA_EXTERNAL_NS::thrust::binary_search(select_system(system), first, last, value);
 }
 
 template <typename ForwardIterator, typename T, typename StrictWeakOrdering>
@@ -315,44 +315,44 @@ bool binary_search(ForwardIterator first,
                    const T& value, 
                    StrictWeakOrdering comp)
 {
-    using thrust::system::detail::generic::select_system;
+    using HYDRA_EXTERNAL_NS::thrust::system::detail::generic::select_system;
 
-    typedef typename thrust::iterator_system<ForwardIterator>::type System;
+    typedef typename HYDRA_EXTERNAL_NS::thrust::iterator_system<ForwardIterator>::type System;
 
     System system;
 
-    return thrust::binary_search(select_system(system), first, last, value, comp);
+    return HYDRA_EXTERNAL_NS::thrust::binary_search(select_system(system), first, last, value, comp);
 }
 
 template <typename ForwardIterator, typename LessThanComparable>
-thrust::pair<ForwardIterator, ForwardIterator>
+HYDRA_EXTERNAL_NS::thrust::pair<ForwardIterator, ForwardIterator>
 equal_range(ForwardIterator first,
             ForwardIterator last,
             const LessThanComparable& value)
 {
-    using thrust::system::detail::generic::select_system;
+    using HYDRA_EXTERNAL_NS::thrust::system::detail::generic::select_system;
 
-    typedef typename thrust::iterator_system<ForwardIterator>::type System;
+    typedef typename HYDRA_EXTERNAL_NS::thrust::iterator_system<ForwardIterator>::type System;
 
     System system;
 
-    return thrust::equal_range(select_system(system), first, last, value);
+    return HYDRA_EXTERNAL_NS::thrust::equal_range(select_system(system), first, last, value);
 }
 
 template <typename ForwardIterator, typename T, typename StrictWeakOrdering>
-thrust::pair<ForwardIterator, ForwardIterator>
+HYDRA_EXTERNAL_NS::thrust::pair<ForwardIterator, ForwardIterator>
 equal_range(ForwardIterator first,
             ForwardIterator last,
             const T& value,
             StrictWeakOrdering comp)
 {
-    using thrust::system::detail::generic::select_system;
+    using HYDRA_EXTERNAL_NS::thrust::system::detail::generic::select_system;
 
-    typedef typename thrust::iterator_system<ForwardIterator>::type System;
+    typedef typename HYDRA_EXTERNAL_NS::thrust::iterator_system<ForwardIterator>::type System;
 
     System system;
 
-    return thrust::equal_range(select_system(system), first, last, value, comp);
+    return HYDRA_EXTERNAL_NS::thrust::equal_range(select_system(system), first, last, value, comp);
 }
 
 //////////////////////
@@ -366,17 +366,17 @@ OutputIterator lower_bound(ForwardIterator first,
                            InputIterator values_last,
                            OutputIterator output)
 {
-    using thrust::system::detail::generic::select_system;
+    using HYDRA_EXTERNAL_NS::thrust::system::detail::generic::select_system;
 
-    typedef typename thrust::iterator_system<ForwardIterator>::type System1;
-    typedef typename thrust::iterator_system<InputIterator>::type   System2;
-    typedef typename thrust::iterator_system<OutputIterator>::type  System3;
+    typedef typename HYDRA_EXTERNAL_NS::thrust::iterator_system<ForwardIterator>::type System1;
+    typedef typename HYDRA_EXTERNAL_NS::thrust::iterator_system<InputIterator>::type   System2;
+    typedef typename HYDRA_EXTERNAL_NS::thrust::iterator_system<OutputIterator>::type  System3;
 
     System1 system1;
     System2 system2;
     System3 system3;
 
-    return thrust::lower_bound(select_system(system1,system2,system3), first, last, values_first, values_last, output);
+    return HYDRA_EXTERNAL_NS::thrust::lower_bound(select_system(system1,system2,system3), first, last, values_first, values_last, output);
 }
 
 template <typename ForwardIterator, typename InputIterator, typename OutputIterator, typename StrictWeakOrdering>
@@ -387,17 +387,17 @@ OutputIterator lower_bound(ForwardIterator first,
                            OutputIterator output,
                            StrictWeakOrdering comp)
 {
-    using thrust::system::detail::generic::select_system;
+    using HYDRA_EXTERNAL_NS::thrust::system::detail::generic::select_system;
 
-    typedef typename thrust::iterator_system<ForwardIterator>::type System1;
-    typedef typename thrust::iterator_system<InputIterator>::type   System2;
-    typedef typename thrust::iterator_system<OutputIterator>::type  System3;
+    typedef typename HYDRA_EXTERNAL_NS::thrust::iterator_system<ForwardIterator>::type System1;
+    typedef typename HYDRA_EXTERNAL_NS::thrust::iterator_system<InputIterator>::type   System2;
+    typedef typename HYDRA_EXTERNAL_NS::thrust::iterator_system<OutputIterator>::type  System3;
 
     System1 system1;
     System2 system2;
     System3 system3;
 
-    return thrust::lower_bound(select_system(system1,system2,system3), first, last, values_first, values_last, output, comp);
+    return HYDRA_EXTERNAL_NS::thrust::lower_bound(select_system(system1,system2,system3), first, last, values_first, values_last, output, comp);
 }
     
 template <typename ForwardIterator, typename InputIterator, typename OutputIterator>
@@ -407,17 +407,17 @@ OutputIterator upper_bound(ForwardIterator first,
                            InputIterator values_last,
                            OutputIterator output)
 {
-    using thrust::system::detail::generic::select_system;
+    using HYDRA_EXTERNAL_NS::thrust::system::detail::generic::select_system;
 
-    typedef typename thrust::iterator_system<ForwardIterator>::type System1;
-    typedef typename thrust::iterator_system<InputIterator>::type   System2;
-    typedef typename thrust::iterator_system<OutputIterator>::type  System3;
+    typedef typename HYDRA_EXTERNAL_NS::thrust::iterator_system<ForwardIterator>::type System1;
+    typedef typename HYDRA_EXTERNAL_NS::thrust::iterator_system<InputIterator>::type   System2;
+    typedef typename HYDRA_EXTERNAL_NS::thrust::iterator_system<OutputIterator>::type  System3;
 
     System1 system1;
     System2 system2;
     System3 system3;
 
-    return thrust::upper_bound(select_system(system1,system2,system3), first, last, values_first, values_last, output);
+    return HYDRA_EXTERNAL_NS::thrust::upper_bound(select_system(system1,system2,system3), first, last, values_first, values_last, output);
 }
 
 template <typename ForwardIterator, typename InputIterator, typename OutputIterator, typename StrictWeakOrdering>
@@ -428,17 +428,17 @@ OutputIterator upper_bound(ForwardIterator first,
                            OutputIterator output,
                            StrictWeakOrdering comp)
 {
-    using thrust::system::detail::generic::select_system;
+    using HYDRA_EXTERNAL_NS::thrust::system::detail::generic::select_system;
 
-    typedef typename thrust::iterator_system<ForwardIterator>::type System1;
-    typedef typename thrust::iterator_system<InputIterator>::type   System2;
-    typedef typename thrust::iterator_system<OutputIterator>::type  System3;
+    typedef typename HYDRA_EXTERNAL_NS::thrust::iterator_system<ForwardIterator>::type System1;
+    typedef typename HYDRA_EXTERNAL_NS::thrust::iterator_system<InputIterator>::type   System2;
+    typedef typename HYDRA_EXTERNAL_NS::thrust::iterator_system<OutputIterator>::type  System3;
 
     System1 system1;
     System2 system2;
     System3 system3;
 
-    return thrust::upper_bound(select_system(system1,system2,system3), first, last, values_first, values_last, output, comp);
+    return HYDRA_EXTERNAL_NS::thrust::upper_bound(select_system(system1,system2,system3), first, last, values_first, values_last, output, comp);
 }
 
 template <typename ForwardIterator, typename InputIterator, typename OutputIterator>
@@ -448,17 +448,17 @@ OutputIterator binary_search(ForwardIterator first,
                              InputIterator values_last,
                              OutputIterator output)
 {
-    using thrust::system::detail::generic::select_system;
+    using HYDRA_EXTERNAL_NS::thrust::system::detail::generic::select_system;
 
-    typedef typename thrust::iterator_system<ForwardIterator>::type System1;
-    typedef typename thrust::iterator_system<InputIterator>::type   System2;
-    typedef typename thrust::iterator_system<OutputIterator>::type  System3;
+    typedef typename HYDRA_EXTERNAL_NS::thrust::iterator_system<ForwardIterator>::type System1;
+    typedef typename HYDRA_EXTERNAL_NS::thrust::iterator_system<InputIterator>::type   System2;
+    typedef typename HYDRA_EXTERNAL_NS::thrust::iterator_system<OutputIterator>::type  System3;
 
     System1 system1;
     System2 system2;
     System3 system3;
 
-    return thrust::binary_search(select_system(system1,system2,system3), first, last, values_first, values_last, output);
+    return HYDRA_EXTERNAL_NS::thrust::binary_search(select_system(system1,system2,system3), first, last, values_first, values_last, output);
 }
 
 template <typename ForwardIterator, typename InputIterator, typename OutputIterator, typename StrictWeakOrdering>
@@ -469,17 +469,17 @@ OutputIterator binary_search(ForwardIterator first,
                              OutputIterator output,
                              StrictWeakOrdering comp)
 {
-    using thrust::system::detail::generic::select_system;
+    using HYDRA_EXTERNAL_NS::thrust::system::detail::generic::select_system;
 
-    typedef typename thrust::iterator_system<ForwardIterator>::type System1;
-    typedef typename thrust::iterator_system<InputIterator>::type   System2;
-    typedef typename thrust::iterator_system<OutputIterator>::type  System3;
+    typedef typename HYDRA_EXTERNAL_NS::thrust::iterator_system<ForwardIterator>::type System1;
+    typedef typename HYDRA_EXTERNAL_NS::thrust::iterator_system<InputIterator>::type   System2;
+    typedef typename HYDRA_EXTERNAL_NS::thrust::iterator_system<OutputIterator>::type  System3;
 
     System1 system1;
     System2 system2;
     System3 system3;
 
-    return thrust::binary_search(select_system(system1,system2,system3), first, last, values_first, values_last, output, comp);
+    return HYDRA_EXTERNAL_NS::thrust::binary_search(select_system(system1,system2,system3), first, last, values_first, values_last, output, comp);
 }
 
 } // end HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust

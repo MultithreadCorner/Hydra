@@ -46,7 +46,7 @@ template<typename> struct execution_policy;
 // specialize execution_policy for tag
 template<>
   struct execution_policy<tag>
-    : thrust::system::cpp::detail::execution_policy<tag>
+    : HYDRA_EXTERNAL_NS::thrust::system::cpp::detail::execution_policy<tag>
 {};
 
 // tag's definition comes before the
@@ -56,7 +56,7 @@ struct tag : execution_policy<tag> {};
 // allow conversion to tag when it is not a successor
 template<typename Derived>
   struct execution_policy
-    : thrust::system::cpp::detail::execution_policy<Derived>
+    : HYDRA_EXTERNAL_NS::thrust::system::cpp::detail::execution_policy<Derived>
 {
   typedef tag tag_type; 
   operator tag() const { return tag(); }
@@ -65,8 +65,8 @@ template<typename Derived>
 } // end detail
 
 // alias execution_policy and tag here
-using thrust::system::tbb::detail::execution_policy;
-using thrust::system::tbb::detail::tag;
+using HYDRA_EXTERNAL_NS::thrust::system::tbb::detail::execution_policy;
+using HYDRA_EXTERNAL_NS::thrust::system::tbb::detail::tag;
 
 } // end tbb
 } // end system
@@ -75,8 +75,8 @@ using thrust::system::tbb::detail::tag;
 namespace tbb
 {
 
-using thrust::system::tbb::execution_policy;
-using thrust::system::tbb::tag;
+using HYDRA_EXTERNAL_NS::thrust::system::tbb::execution_policy;
+using HYDRA_EXTERNAL_NS::thrust::system::tbb::tag;
 
 } // end tbb
 } // end HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust

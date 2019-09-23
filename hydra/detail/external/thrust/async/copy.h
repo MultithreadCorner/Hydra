@@ -24,7 +24,7 @@
 #include <hydra/detail/external/thrust/detail/cpp11_required.h>
 #include <hydra/detail/external/thrust/detail/modern_gcc_required.h>
 
-#if THRUST_CPP_DIALECT >= 2011 && !defined(THRUST_LEGACY_GCC)
+#if HYDRA_THRUST_CPP_DIALECT >= 2011 && !defined(HYDRA_THRUST_LEGACY_GCC)
 
 #include <hydra/detail/external/thrust/detail/static_assert.h>
 #include <hydra/detail/external/thrust/detail/select_system.h>
@@ -35,7 +35,7 @@
 
 HYDRA_EXTERNAL_NAMESPACE_BEGIN
 
-THRUST_BEGIN_NS
+HYDRA_THRUST_BEGIN_NS
 
 namespace async
 {
@@ -50,13 +50,13 @@ template <
 __hydra_host__
 event<FromPolicy>
 async_copy(
-  thrust::execution_policy<FromPolicy>& from_exec
-, thrust::execution_policy<ToPolicy>&   to_exec
+  HYDRA_EXTERNAL_NS::thrust::execution_policy<FromPolicy>& from_exec
+, HYDRA_EXTERNAL_NS::thrust::execution_policy<ToPolicy>&   to_exec
 , ForwardIt first, Sentinel last, OutputIt output
 )
 {
-  THRUST_STATIC_ASSERT_MSG(
-    (thrust::detail::depend_on_instantiation<ForwardIt, false>::value)
+  HYDRA_THRUST_STATIC_ASSERT_MSG(
+    (HYDRA_EXTERNAL_NS::thrust::detail::depend_on_instantiation<ForwardIt, false>::value)
   , "this algorithm is not implemented for the specified system"
   );
   return {};
@@ -67,7 +67,7 @@ async_copy(
 namespace copy_detail
 {
 
-using thrust::async::unimplemented::async_copy;
+using HYDRA_EXTERNAL_NS::thrust::async::unimplemented::async_copy;
 
 struct copy_fn final
 {
@@ -77,18 +77,18 @@ struct copy_fn final
   >
   __hydra_host__
   static auto call(
-    thrust::detail::execution_policy_base<FromPolicy> const& from_exec
-  , thrust::detail::execution_policy_base<ToPolicy> const&   to_exec
+    HYDRA_EXTERNAL_NS::thrust::detail::execution_policy_base<FromPolicy> const& from_exec
+  , HYDRA_EXTERNAL_NS::thrust::detail::execution_policy_base<ToPolicy> const&   to_exec
   , ForwardIt&& first, Sentinel&& last
   , OutputIt&& output 
   )
   // ADL dispatch.
-  THRUST_DECLTYPE_RETURNS(
+  HYDRA_THRUST_DECLTYPE_RETURNS(
     async_copy(
-      thrust::detail::derived_cast(thrust::detail::strip_const(from_exec))
-    , thrust::detail::derived_cast(thrust::detail::strip_const(to_exec))
-    , THRUST_FWD(first), THRUST_FWD(last)
-    , THRUST_FWD(output)
+      HYDRA_EXTERNAL_NS::thrust::detail::derived_cast(HYDRA_EXTERNAL_NS::thrust::detail::strip_const(from_exec))
+    , HYDRA_EXTERNAL_NS::thrust::detail::derived_cast(HYDRA_EXTERNAL_NS::thrust::detail::strip_const(to_exec))
+    , HYDRA_THRUST_FWD(first), HYDRA_THRUST_FWD(last)
+    , HYDRA_THRUST_FWD(output)
     )
   )
 
@@ -98,51 +98,51 @@ struct copy_fn final
   >
   __hydra_host__
   static auto call(
-    thrust::detail::execution_policy_base<DerivedPolicy> const& exec
+    HYDRA_EXTERNAL_NS::thrust::detail::execution_policy_base<DerivedPolicy> const& exec
   , ForwardIt&& first, Sentinel&& last
   , OutputIt&& output 
   ) 
   // ADL dispatch.
-  THRUST_DECLTYPE_RETURNS(
+  HYDRA_THRUST_DECLTYPE_RETURNS(
     async_copy(
-      thrust::detail::derived_cast(thrust::detail::strip_const(exec))
-    , thrust::detail::derived_cast(thrust::detail::strip_const(exec))
-    , THRUST_FWD(first), THRUST_FWD(last)
-    , THRUST_FWD(output)
+      HYDRA_EXTERNAL_NS::thrust::detail::derived_cast(HYDRA_EXTERNAL_NS::thrust::detail::strip_const(exec))
+    , HYDRA_EXTERNAL_NS::thrust::detail::derived_cast(HYDRA_EXTERNAL_NS::thrust::detail::strip_const(exec))
+    , HYDRA_THRUST_FWD(first), HYDRA_THRUST_FWD(last)
+    , HYDRA_THRUST_FWD(output)
     )
   )
 
   template <typename ForwardIt, typename Sentinel, typename OutputIt>
   __hydra_host__
   static auto call(ForwardIt&& first, Sentinel&& last, OutputIt&& output) 
-  THRUST_DECLTYPE_RETURNS(
+  HYDRA_THRUST_DECLTYPE_RETURNS(
     copy_fn::call(
-      thrust::detail::select_system(
-        typename thrust::iterator_system<remove_cvref_t<ForwardIt>>::type{}
+      HYDRA_EXTERNAL_NS::thrust::detail::select_system(
+        typename HYDRA_EXTERNAL_NS::thrust::iterator_system<remove_cvref_t<ForwardIt>>::type{}
       )
-    , thrust::detail::select_system(
-        typename thrust::iterator_system<remove_cvref_t<OutputIt>>::type{}
+    , HYDRA_EXTERNAL_NS::thrust::detail::select_system(
+        typename HYDRA_EXTERNAL_NS::thrust::iterator_system<remove_cvref_t<OutputIt>>::type{}
       )
-    , THRUST_FWD(first), THRUST_FWD(last)
-    , THRUST_FWD(output)
+    , HYDRA_THRUST_FWD(first), HYDRA_THRUST_FWD(last)
+    , HYDRA_THRUST_FWD(output)
     )
   )
 
   template <typename... Args>
-  THRUST_NODISCARD __hydra_host__
+  HYDRA_THRUST_NODISCARD __hydra_host__
   auto operator()(Args&&... args) const
-  THRUST_DECLTYPE_RETURNS(
-    call(THRUST_FWD(args)...)
+  HYDRA_THRUST_DECLTYPE_RETURNS(
+    call(HYDRA_THRUST_FWD(args)...)
   )
 };
 
 } // namespace copy_detail
 
-THRUST_INLINE_CONSTANT copy_detail::copy_fn copy{};
+HYDRA_THRUST_INLINE_CONSTANT copy_detail::copy_fn copy{};
 
 } // namespace async
 
-THRUST_END_NS
+HYDRA_THRUST_END_NS
 
 HYDRA_EXTERNAL_NAMESPACE_END
 

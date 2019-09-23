@@ -8,7 +8,7 @@
 #include <hydra/detail/external/thrust/detail/config.h>
 #include <hydra/detail/external/thrust/detail/cpp11_required.h>
 
-#if THRUST_CPP_DIALECT >= 2011
+#if HYDRA_THRUST_CPP_DIALECT >= 2011
 
 #include <hydra/detail/external/thrust/detail/raw_pointer_cast.h>
 #include <hydra/detail/external/thrust/detail/type_deduction.h>
@@ -18,7 +18,7 @@
 #include <utility>
 #include <memory>
 
-THRUST_BEGIN_NS
+HYDRA_THRUST_BEGIN_NS
 
 // wg21.link/p0316r0
 
@@ -42,7 +42,7 @@ void allocator_delete_impl(
 
   if (nullptr != pointer_traits<Pointer>::get(p))
   {
-    traits::destroy(alloc_T, thrust::raw_pointer_cast(p));
+    traits::destroy(alloc_T, HYDRA_EXTERNAL_NS::thrust::raw_pointer_cast(p));
     traits::deallocate(alloc_T, p, 1);
   }
 }
@@ -79,7 +79,7 @@ struct allocator_delete final
 
   template <typename UAllocator>
   allocator_delete(UAllocator&& other) noexcept
-    : alloc_(THRUST_FWD(other))
+    : alloc_(HYDRA_THRUST_FWD(other))
   {}
 
   template <typename U, typename UAllocator>
@@ -189,7 +189,7 @@ struct array_allocator_delete final
 
   template <typename UAllocator>
   array_allocator_delete(UAllocator&& other, std::size_t n) noexcept
-    : alloc_(THRUST_FWD(other)), count_(n)
+    : alloc_(HYDRA_THRUST_FWD(other)), count_(n)
   {}
 
   template <typename U, typename UAllocator>
@@ -256,7 +256,7 @@ template <typename Pointer, typename Lambda>
 struct tagged_deleter : Lambda
 {
   __hydra_host__ __hydra_device__
-  tagged_deleter(Lambda&& l) : Lambda(THRUST_FWD(l)) {}
+  tagged_deleter(Lambda&& l) : Lambda(HYDRA_THRUST_FWD(l)) {}
 
   using pointer = Pointer;
 };
@@ -266,7 +266,7 @@ __hydra_host__ __hydra_device__
 tagged_deleter<Pointer, Lambda>
 make_tagged_deleter(Lambda&& l)
 {
-  return tagged_deleter<Pointer, Lambda>(THRUST_FWD(l));
+  return tagged_deleter<Pointer, Lambda>(HYDRA_THRUST_FWD(l));
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -305,7 +305,7 @@ allocate_unique(
   auto hold = hold_t(traits::allocate(alloc_T, 1), hold_deleter);
 
   traits::construct(
-    alloc_T, thrust::raw_pointer_cast(hold.get()), THRUST_FWD(args)...
+    alloc_T, HYDRA_EXTERNAL_NS::thrust::raw_pointer_cast(hold.get()), HYDRA_THRUST_FWD(args)...
   );
   auto deleter = allocator_delete<T, typename traits::allocator_type>(alloc);
   return std::unique_ptr<T, decltype(deleter)>
@@ -386,7 +386,7 @@ allocate_unique_n(
   auto hold = hold_t(traits::allocate(alloc_T, n), hold_deleter);
 
   uninitialized_construct_n_with_allocator(
-    alloc_T, hold.get(), n, THRUST_FWD(args)...
+    alloc_T, hold.get(), n, HYDRA_THRUST_FWD(args)...
   );
   auto deleter = array_allocator_delete<
     T, typename traits::allocator_type
@@ -437,7 +437,7 @@ uninitialized_allocate_unique_n(
 
 ///////////////////////////////////////////////////////////////////////////////
 
-THRUST_END_NS
+HYDRA_THRUST_END_NS
 
-#endif // THRUST_CPP_DIALECT >= 2011
+#endif // HYDRA_THRUST_CPP_DIALECT >= 2011
 

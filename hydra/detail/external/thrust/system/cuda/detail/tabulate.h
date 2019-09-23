@@ -27,7 +27,7 @@
 #pragma once
 
 
-#if THRUST_DEVICE_COMPILER == THRUST_DEVICE_COMPILER_NVCC
+#if HYDRA_THRUST_DEVICE_COMPILER == HYDRA_THRUST_DEVICE_COMPILER_NVCC
 #include <hydra/detail/external/thrust/distance.h>
 #include <hydra/detail/external/thrust/system/cuda/config.h>
 #include <hydra/detail/external/thrust/system/cuda/execution_policy.h>
@@ -36,7 +36,7 @@
 
 HYDRA_EXTERNAL_NAMESPACE_BEGIN
 
-THRUST_BEGIN_NS
+HYDRA_THRUST_BEGIN_NS
 
 namespace cuda_cub {
 
@@ -71,7 +71,7 @@ tabulate(execution_policy<Derived>& policy,
 {
   typedef typename iterator_traits<Iterator>::difference_type size_type;
 
-  size_type count = thrust::distance(first, last);
+  size_type count = HYDRA_EXTERNAL_NS::thrust::distance(first, last);
 
   typedef __tabulate::functor<Iterator, TabulateOp, size_type> functor_t;
 
@@ -87,7 +87,7 @@ tabulate(execution_policy<Derived>& policy,
 
 }    // namespace cuda_cub
 
-THRUST_END_NS
+HYDRA_THRUST_END_NS
 
 HYDRA_EXTERNAL_NAMESPACE_END
 

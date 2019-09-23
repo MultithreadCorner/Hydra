@@ -33,12 +33,12 @@
   #include <string>
   #include <array>
 
-  #if THRUST_CPP_DIALECT >= 2017
+  #if HYDRA_THRUST_CPP_DIALECT >= 2017
     #include <string_view>
   #endif
 #endif
 HYDRA_EXTERNAL_NAMESPACE_BEGIN
-THRUST_BEGIN_NS
+HYDRA_THRUST_BEGIN_NS
 
 namespace detail
 {
@@ -53,18 +53,18 @@ struct is_contiguous_iterator_impl;
 /// e.g. it points to elements that are contiguous in memory, and \c false_type
 /// otherwise.
 template <typename Iterator>
-#if THRUST_CPP_DIALECT >= 2011
+#if HYDRA_THRUST_CPP_DIALECT >= 2011
 using is_contiguous_iterator =
 #else
 struct is_contiguous_iterator :
 #endif
   detail::is_contiguous_iterator_impl<Iterator>
-#if THRUST_CPP_DIALECT < 2011
+#if HYDRA_THRUST_CPP_DIALECT < 2011
 {}
 #endif
 ;
 
-#if THRUST_CPP_DIALECT >= 2014
+#if HYDRA_THRUST_CPP_DIALECT >= 2014
 /// <code>constexpr bool</code> that is \c true if \c Iterator satisfies
 /// <a href="https://en.cppreference.com/w/cpp/named_req/ContiguousIterator">ContiguousIterator</a>,
 /// e.g. it points to elements that are contiguous in memory, and \c false
@@ -82,12 +82,12 @@ struct proclaim_contiguous_iterator : false_type {};
 
 /// Declares that the iterator \c Iterator is
 /// <a href="https://en.cppreference.com/w/cpp/named_req/ContiguousIterator">ContiguousIterator</a>
-/// by specializing `thrust::proclaim_contiguous_iterator`.
-#define THRUST_PROCLAIM_CONTIGUOUS_ITERATOR(Iterator)                         \
-  THRUST_BEGIN_NS                                                             \
+/// by specializing `HYDRA_EXTERNAL_NS::thrust::proclaim_contiguous_iterator`.
+#define HYDRA_THRUST_PROCLAIM_CONTIGUOUS_ITERATOR(Iterator)                         \
+  HYDRA_THRUST_BEGIN_NS                                                             \
   template <>                                                                 \
-  struct proclaim_contiguous_iterator<Iterator> : ::thrust::true_type {};     \
-  THRUST_END_NS                                                               \
+  struct proclaim_contiguous_iterator<Iterator> : ::HYDRA_EXTERNAL_NS::thrust::true_type {};     \
+  HYDRA_THRUST_END_NS                                                               \
   /**/
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -153,7 +153,7 @@ struct is_msvc_contiguous_iterator<
   ::std::_Array_iterator<T, N>
 > : true_type {};
 
-#if THRUST_CPP_DIALECT >= 2017
+#if HYDRA_THRUST_CPP_DIALECT >= 2017
 template <typename Traits>
 struct is_msvc_contiguous_iterator<
   ::std::_String_view_iterator<Traits>
@@ -180,5 +180,5 @@ struct is_contiguous_iterator_impl
 
 } // namespace detail
 
-THRUST_END_NS
+HYDRA_THRUST_END_NS
 HYDRA_EXTERNAL_NAMESPACE_END

@@ -46,13 +46,13 @@ namespace generic
 template<typename DerivedPolicy,
          typename ForwardIterator>
 __hydra_host__ __hydra_device__
-  ForwardIterator unique(thrust::execution_policy<DerivedPolicy> &exec,
+  ForwardIterator unique(HYDRA_EXTERNAL_NS::thrust::execution_policy<DerivedPolicy> &exec,
                          ForwardIterator first,
                          ForwardIterator last)
 {
-  typedef typename thrust::iterator_traits<ForwardIterator>::value_type InputType;
+  typedef typename HYDRA_EXTERNAL_NS::thrust::iterator_traits<ForwardIterator>::value_type InputType;
 
-  return thrust::unique(exec, first, last, thrust::equal_to<InputType>());
+  return HYDRA_EXTERNAL_NS::thrust::unique(exec, first, last, HYDRA_EXTERNAL_NS::thrust::equal_to<InputType>());
 } // end unique()
 
 
@@ -60,16 +60,16 @@ template<typename DerivedPolicy,
          typename ForwardIterator,
          typename BinaryPredicate>
 __hydra_host__ __hydra_device__
-  ForwardIterator unique(thrust::execution_policy<DerivedPolicy> &exec,
+  ForwardIterator unique(HYDRA_EXTERNAL_NS::thrust::execution_policy<DerivedPolicy> &exec,
                          ForwardIterator first,
                          ForwardIterator last,
                          BinaryPredicate binary_pred)
 {
-  typedef typename thrust::iterator_traits<ForwardIterator>::value_type InputType;
+  typedef typename HYDRA_EXTERNAL_NS::thrust::iterator_traits<ForwardIterator>::value_type InputType;
   
-  thrust::detail::temporary_array<InputType,DerivedPolicy> input(exec, first, last);
+  HYDRA_EXTERNAL_NS::thrust::detail::temporary_array<InputType,DerivedPolicy> input(exec, first, last);
   
-  return thrust::unique_copy(exec, input.begin(), input.end(), first, binary_pred);
+  return HYDRA_EXTERNAL_NS::thrust::unique_copy(exec, input.begin(), input.end(), first, binary_pred);
 } // end unique()
 
 
@@ -77,13 +77,13 @@ template<typename DerivedPolicy,
          typename InputIterator,
          typename OutputIterator>
 __hydra_host__ __hydra_device__
-  OutputIterator unique_copy(thrust::execution_policy<DerivedPolicy> &exec,
+  OutputIterator unique_copy(HYDRA_EXTERNAL_NS::thrust::execution_policy<DerivedPolicy> &exec,
                              InputIterator first,
                              InputIterator last,
                              OutputIterator output)
 {
-  typedef typename thrust::iterator_value<InputIterator>::type value_type;
-  return thrust::unique_copy(exec, first,last,output,thrust::equal_to<value_type>());
+  typedef typename HYDRA_EXTERNAL_NS::thrust::iterator_value<InputIterator>::type value_type;
+  return HYDRA_EXTERNAL_NS::thrust::unique_copy(exec, first,last,output,HYDRA_EXTERNAL_NS::thrust::equal_to<value_type>());
 } // end unique_copy()
 
 
@@ -92,17 +92,17 @@ template<typename DerivedPolicy,
          typename OutputIterator,
          typename BinaryPredicate>
 __hydra_host__ __hydra_device__
-  OutputIterator unique_copy(thrust::execution_policy<DerivedPolicy> &exec,
+  OutputIterator unique_copy(HYDRA_EXTERNAL_NS::thrust::execution_policy<DerivedPolicy> &exec,
                              InputIterator first,
                              InputIterator last,
                              OutputIterator output,
                              BinaryPredicate binary_pred)
 {
-  thrust::detail::head_flags<InputIterator, BinaryPredicate> stencil(first, last, binary_pred);
+  HYDRA_EXTERNAL_NS::thrust::detail::head_flags<InputIterator, BinaryPredicate> stencil(first, last, binary_pred);
   
-  using HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust::placeholders;
+  using  namespace HYDRA_EXTERNAL_NS::thrust::placeholders;
   
-  return thrust::copy_if(exec, first, last, stencil.begin(), output, _1);
+  return HYDRA_EXTERNAL_NS::thrust::copy_if(exec, first, last, stencil.begin(), output, _1);
 } // end unique_copy()
 
 

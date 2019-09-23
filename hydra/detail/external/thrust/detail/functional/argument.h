@@ -38,13 +38,13 @@ namespace functional
 template<unsigned int i, typename Env>
   struct argument_helper
 {
-  typedef typename thrust::tuple_element<i,Env>::type type;
+  typedef typename HYDRA_EXTERNAL_NS::thrust::tuple_element<i,Env>::type type;
 };
 
 template<unsigned int i>
-  struct argument_helper<i,thrust::null_type>
+  struct argument_helper<i,HYDRA_EXTERNAL_NS::thrust::null_type>
 {
-  typedef thrust::null_type type;
+  typedef HYDRA_EXTERNAL_NS::thrust::null_type type;
 };
 
 
@@ -65,7 +65,7 @@ template<unsigned int i>
     __hydra_host__ __hydra_device__
     typename result<Env>::type eval(const Env &e) const
     {
-      return thrust::get<i>(e);
+      return HYDRA_EXTERNAL_NS::thrust::get<i>(e);
     } // end eval()
 }; // end argument
 

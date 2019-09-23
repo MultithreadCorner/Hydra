@@ -32,7 +32,7 @@
 #include <cassert>
 
 HYDRA_EXTERNAL_NAMESPACE_BEGIN
-THRUST_BEGIN_NS
+HYDRA_THRUST_BEGIN_NS
 
 namespace cuda_cub {
 namespace launcher {
@@ -428,7 +428,7 @@ namespace launcher {
     doit_device(K k, Args const&... args) const
     {
       cudaError_t status = cudaErrorNotSupported;
-#if __THRUST_HAS_CUDART__
+#if __HYDRA_THRUST_HAS_CUDART__
       const size_t size = argument_pack_size(0,args...);
       void *param_buffer = cudaGetParameterBuffer(64,size);
       fill_arguments((char*)param_buffer, 0, args...);
@@ -442,14 +442,14 @@ namespace launcher {
     doit_device(K k, _0 x0) const
     {
       cudaError_t status = cudaErrorNotSupported;
-#if __THRUST_HAS_CUDART__
+#if __HYDRA_THRUST_HAS_CUDART__
       const size_t size = argument_pack_size(0,x0);
       void *param_buffer = cudaGetParameterBuffer(64,size);
       fill_arguments((char*)param_buffer, 0, x0);
       status = launch_device(k, param_buffer);
 #else
-      THRUST_UNUSED_VAR(k);
-      THRUST_UNUSED_VAR(x0);
+      HYDRA_THRUST_UNUSED_VAR(k);
+      HYDRA_THRUST_UNUSED_VAR(x0);
 #endif
       return status;
     }
@@ -458,15 +458,15 @@ namespace launcher {
     doit_device(K k, _0 x0, _1 x1) const
     {
       cudaError_t status = cudaErrorNotSupported;
-#if __THRUST_HAS_CUDART__
+#if __HYDRA_THRUST_HAS_CUDART__
       const size_t size = argument_pack_size(0,x0,x1);
       void *param_buffer = cudaGetParameterBuffer(64,size);
       fill_arguments((char*)param_buffer, 0, x0,x1);
       status = launch_device(k, param_buffer);
 #else
-      THRUST_UNUSED_VAR(k);
-      THRUST_UNUSED_VAR(x0);
-      THRUST_UNUSED_VAR(x1);
+      HYDRA_THRUST_UNUSED_VAR(k);
+      HYDRA_THRUST_UNUSED_VAR(x0);
+      HYDRA_THRUST_UNUSED_VAR(x1);
 #endif
       return status;
     }
@@ -475,16 +475,16 @@ namespace launcher {
     doit_device(K k, _0 x0, _1 x1, _2 x2) const
     {
       cudaError_t status = cudaErrorNotSupported;
-#if __THRUST_HAS_CUDART__
+#if __HYDRA_THRUST_HAS_CUDART__
       const size_t size = argument_pack_size(0,x0,x1,x2);
       void *param_buffer = cudaGetParameterBuffer(64,size);
       fill_arguments((char*)param_buffer, 0, x0,x1,x2);
       status = launch_device(k, param_buffer);
 #else
-      THRUST_UNUSED_VAR(k);
-      THRUST_UNUSED_VAR(x0);
-      THRUST_UNUSED_VAR(x1);
-      THRUST_UNUSED_VAR(x2);
+      HYDRA_THRUST_UNUSED_VAR(k);
+      HYDRA_THRUST_UNUSED_VAR(x0);
+      HYDRA_THRUST_UNUSED_VAR(x1);
+      HYDRA_THRUST_UNUSED_VAR(x2);
 #endif
       return status;
     }
@@ -493,17 +493,17 @@ namespace launcher {
     doit_device(K k, _0 x0, _1 x1, _2 x2, _3 x3) const
     {
       cudaError_t status = cudaErrorNotSupported;
-#if __THRUST_HAS_CUDART__
+#if __HYDRA_THRUST_HAS_CUDART__
       const size_t size = argument_pack_size(0,x0,x1,x2,x3);
       void *param_buffer = cudaGetParameterBuffer(64,size);
       fill_arguments((char*)param_buffer, 0, x0,x1,x2,x3);
       status = launch_device(k, param_buffer);
 #else
-      THRUST_UNUSED_VAR(k);
-      THRUST_UNUSED_VAR(x0);
-      THRUST_UNUSED_VAR(x1);
-      THRUST_UNUSED_VAR(x2);
-      THRUST_UNUSED_VAR(x3);
+      HYDRA_THRUST_UNUSED_VAR(k);
+      HYDRA_THRUST_UNUSED_VAR(x0);
+      HYDRA_THRUST_UNUSED_VAR(x1);
+      HYDRA_THRUST_UNUSED_VAR(x2);
+      HYDRA_THRUST_UNUSED_VAR(x3);
 #endif
       return status;
     }
@@ -512,18 +512,18 @@ namespace launcher {
     doit_device(K k, _0 x0, _1 x1, _2 x2, _3 x3, _4 x4) const
     {
       cudaError_t status = cudaErrorNotSupported;
-#if __THRUST_HAS_CUDART__
+#if __HYDRA_THRUST_HAS_CUDART__
       const size_t size = argument_pack_size(0,x0,x1,x2,x3,x4);
       void *param_buffer = cudaGetParameterBuffer(64,size);
       fill_arguments((char*)param_buffer, 0, x0,x1,x2,x3,x4);
       status = launch_device(k, param_buffer);
 #else
-      THRUST_UNUSED_VAR(k);
-      THRUST_UNUSED_VAR(x0);
-      THRUST_UNUSED_VAR(x1);
-      THRUST_UNUSED_VAR(x2);
-      THRUST_UNUSED_VAR(x3);
-      THRUST_UNUSED_VAR(x4);
+      HYDRA_THRUST_UNUSED_VAR(k);
+      HYDRA_THRUST_UNUSED_VAR(x0);
+      HYDRA_THRUST_UNUSED_VAR(x1);
+      HYDRA_THRUST_UNUSED_VAR(x2);
+      HYDRA_THRUST_UNUSED_VAR(x3);
+      HYDRA_THRUST_UNUSED_VAR(x4);
 #endif
       return status;
     }
@@ -532,19 +532,19 @@ namespace launcher {
     doit_device(K k, _0 x0, _1 x1, _2 x2, _3 x3, _4 x4, _5 x5) const
     {
       cudaError_t status = cudaErrorNotSupported;
-#if __THRUST_HAS_CUDART__
+#if __HYDRA_THRUST_HAS_CUDART__
       const size_t size = argument_pack_size(0,x0,x1,x2,x3,x4,x5);
       void *param_buffer = cudaGetParameterBuffer(64,size);
       fill_arguments((char*)param_buffer, 0, x0,x1,x2,x3,x4,x5);
       status = launch_device(k, param_buffer);
 #else
-      THRUST_UNUSED_VAR(k);
-      THRUST_UNUSED_VAR(x0);
-      THRUST_UNUSED_VAR(x1);
-      THRUST_UNUSED_VAR(x2);
-      THRUST_UNUSED_VAR(x3);
-      THRUST_UNUSED_VAR(x4);
-      THRUST_UNUSED_VAR(x5);
+      HYDRA_THRUST_UNUSED_VAR(k);
+      HYDRA_THRUST_UNUSED_VAR(x0);
+      HYDRA_THRUST_UNUSED_VAR(x1);
+      HYDRA_THRUST_UNUSED_VAR(x2);
+      HYDRA_THRUST_UNUSED_VAR(x3);
+      HYDRA_THRUST_UNUSED_VAR(x4);
+      HYDRA_THRUST_UNUSED_VAR(x5);
 #endif
       return status;
     }
@@ -553,20 +553,20 @@ namespace launcher {
     doit_device(K k, _0 x0, _1 x1, _2 x2, _3 x3, _4 x4, _5 x5, _6 x6) const
     {
       cudaError_t status = cudaErrorNotSupported;
-#if __THRUST_HAS_CUDART__
+#if __HYDRA_THRUST_HAS_CUDART__
       const size_t size = argument_pack_size(0,x0,x1,x2,x3,x4,x5,x6);
       void *param_buffer = cudaGetParameterBuffer(64,size);
       fill_arguments((char*)param_buffer, 0, x0,x1,x2,x3,x4,x5,x6);
       status = launch_device(k, param_buffer);
 #else
-      THRUST_UNUSED_VAR(k);
-      THRUST_UNUSED_VAR(x0);
-      THRUST_UNUSED_VAR(x1);
-      THRUST_UNUSED_VAR(x2);
-      THRUST_UNUSED_VAR(x3);
-      THRUST_UNUSED_VAR(x4);
-      THRUST_UNUSED_VAR(x5);
-      THRUST_UNUSED_VAR(x6);
+      HYDRA_THRUST_UNUSED_VAR(k);
+      HYDRA_THRUST_UNUSED_VAR(x0);
+      HYDRA_THRUST_UNUSED_VAR(x1);
+      HYDRA_THRUST_UNUSED_VAR(x2);
+      HYDRA_THRUST_UNUSED_VAR(x3);
+      HYDRA_THRUST_UNUSED_VAR(x4);
+      HYDRA_THRUST_UNUSED_VAR(x5);
+      HYDRA_THRUST_UNUSED_VAR(x6);
 #endif
       return status;
     }
@@ -575,21 +575,21 @@ namespace launcher {
     doit_device(K k, _0 x0, _1 x1, _2 x2, _3 x3, _4 x4, _5 x5, _6 x6, _7 x7) const
     {
       cudaError_t status = cudaErrorNotSupported;
-#if __THRUST_HAS_CUDART__
+#if __HYDRA_THRUST_HAS_CUDART__
       const size_t size = argument_pack_size(0,x0,x1,x2,x3,x4,x5,x6,x7);
       void *param_buffer = cudaGetParameterBuffer(64,size);
       fill_arguments((char*)param_buffer, 0, x0,x1,x2,x3,x4,x5,x6,x7);
       status = launch_device(k, param_buffer);
 #else
-      THRUST_UNUSED_VAR(k);
-      THRUST_UNUSED_VAR(x0);
-      THRUST_UNUSED_VAR(x1);
-      THRUST_UNUSED_VAR(x2);
-      THRUST_UNUSED_VAR(x3);
-      THRUST_UNUSED_VAR(x4);
-      THRUST_UNUSED_VAR(x5);
-      THRUST_UNUSED_VAR(x6);
-      THRUST_UNUSED_VAR(x7);
+      HYDRA_THRUST_UNUSED_VAR(k);
+      HYDRA_THRUST_UNUSED_VAR(x0);
+      HYDRA_THRUST_UNUSED_VAR(x1);
+      HYDRA_THRUST_UNUSED_VAR(x2);
+      HYDRA_THRUST_UNUSED_VAR(x3);
+      HYDRA_THRUST_UNUSED_VAR(x4);
+      HYDRA_THRUST_UNUSED_VAR(x5);
+      HYDRA_THRUST_UNUSED_VAR(x6);
+      HYDRA_THRUST_UNUSED_VAR(x7);
 #endif
       return status;
     }
@@ -598,22 +598,22 @@ namespace launcher {
     doit_device(K k, _0 x0, _1 x1, _2 x2, _3 x3, _4 x4, _5 x5, _6 x6, _7 x7, _8 x8) const
     {
       cudaError_t status = cudaErrorNotSupported;
-#if __THRUST_HAS_CUDART__
+#if __HYDRA_THRUST_HAS_CUDART__
       const size_t size = argument_pack_size(0,x0,x1,x2,x3,x4,x5,x6,x7,x8);
       void *param_buffer = cudaGetParameterBuffer(64,size);
       fill_arguments((char*)param_buffer, 0, x0,x1,x2,x3,x4,x5,x6,x7,x8);
       status = launch_device(k, param_buffer);
 #else
-      THRUST_UNUSED_VAR(k);
-      THRUST_UNUSED_VAR(x0);
-      THRUST_UNUSED_VAR(x1);
-      THRUST_UNUSED_VAR(x2);
-      THRUST_UNUSED_VAR(x3);
-      THRUST_UNUSED_VAR(x4);
-      THRUST_UNUSED_VAR(x5);
-      THRUST_UNUSED_VAR(x6);
-      THRUST_UNUSED_VAR(x7);
-      THRUST_UNUSED_VAR(x8);
+      HYDRA_THRUST_UNUSED_VAR(k);
+      HYDRA_THRUST_UNUSED_VAR(x0);
+      HYDRA_THRUST_UNUSED_VAR(x1);
+      HYDRA_THRUST_UNUSED_VAR(x2);
+      HYDRA_THRUST_UNUSED_VAR(x3);
+      HYDRA_THRUST_UNUSED_VAR(x4);
+      HYDRA_THRUST_UNUSED_VAR(x5);
+      HYDRA_THRUST_UNUSED_VAR(x6);
+      HYDRA_THRUST_UNUSED_VAR(x7);
+      HYDRA_THRUST_UNUSED_VAR(x8);
 #endif
       return status;
     }
@@ -622,23 +622,23 @@ namespace launcher {
     doit_device(K k, _0 x0, _1 x1, _2 x2, _3 x3, _4 x4, _5 x5, _6 x6, _7 x7, _8 x8, _9 x9) const
     {
       cudaError_t status = cudaErrorNotSupported;
-#if __THRUST_HAS_CUDART__
+#if __HYDRA_THRUST_HAS_CUDART__
       const size_t size = argument_pack_size(0,x0,x1,x2,x3,x4,x5,x6,x7,x8,x9);
       void *param_buffer = cudaGetParameterBuffer(64,size);
       fill_arguments((char*)param_buffer, 0, x0,x1,x2,x3,x4,x5,x6,x7,x8,x9);
       status = launch_device(k, param_buffer);
 #else
-      THRUST_UNUSED_VAR(k);
-      THRUST_UNUSED_VAR(x0);
-      THRUST_UNUSED_VAR(x1);
-      THRUST_UNUSED_VAR(x2);
-      THRUST_UNUSED_VAR(x3);
-      THRUST_UNUSED_VAR(x4);
-      THRUST_UNUSED_VAR(x5);
-      THRUST_UNUSED_VAR(x6);
-      THRUST_UNUSED_VAR(x7);
-      THRUST_UNUSED_VAR(x8);
-      THRUST_UNUSED_VAR(x9);
+      HYDRA_THRUST_UNUSED_VAR(k);
+      HYDRA_THRUST_UNUSED_VAR(x0);
+      HYDRA_THRUST_UNUSED_VAR(x1);
+      HYDRA_THRUST_UNUSED_VAR(x2);
+      HYDRA_THRUST_UNUSED_VAR(x3);
+      HYDRA_THRUST_UNUSED_VAR(x4);
+      HYDRA_THRUST_UNUSED_VAR(x5);
+      HYDRA_THRUST_UNUSED_VAR(x6);
+      HYDRA_THRUST_UNUSED_VAR(x7);
+      HYDRA_THRUST_UNUSED_VAR(x8);
+      HYDRA_THRUST_UNUSED_VAR(x9);
 #endif
       return status;
     }
@@ -647,24 +647,24 @@ namespace launcher {
     doit_device(K k, _0 x0, _1 x1, _2 x2, _3 x3, _4 x4, _5 x5, _6 x6, _7 x7, _8 x8, _9 x9, _xA xA) const
     {
       cudaError_t status = cudaErrorNotSupported;
-#if __THRUST_HAS_CUDART__
+#if __HYDRA_THRUST_HAS_CUDART__
       const size_t size = argument_pack_size(0,x0,x1,x2,x3,x4,x5,x6,x7,x8,x9,xA);
       void *param_buffer = cudaGetParameterBuffer(64,size);
       fill_arguments((char*)param_buffer, 0, x0,x1,x2,x3,x4,x5,x6,x7,x8,x9,xA);
       status = launch_device(k, param_buffer);
 #else
-      THRUST_UNUSED_VAR(k);
-      THRUST_UNUSED_VAR(x0);
-      THRUST_UNUSED_VAR(x1);
-      THRUST_UNUSED_VAR(x2);
-      THRUST_UNUSED_VAR(x3);
-      THRUST_UNUSED_VAR(x4);
-      THRUST_UNUSED_VAR(x5);
-      THRUST_UNUSED_VAR(x6);
-      THRUST_UNUSED_VAR(x7);
-      THRUST_UNUSED_VAR(x8);
-      THRUST_UNUSED_VAR(x9);
-      THRUST_UNUSED_VAR(xA);
+      HYDRA_THRUST_UNUSED_VAR(k);
+      HYDRA_THRUST_UNUSED_VAR(x0);
+      HYDRA_THRUST_UNUSED_VAR(x1);
+      HYDRA_THRUST_UNUSED_VAR(x2);
+      HYDRA_THRUST_UNUSED_VAR(x3);
+      HYDRA_THRUST_UNUSED_VAR(x4);
+      HYDRA_THRUST_UNUSED_VAR(x5);
+      HYDRA_THRUST_UNUSED_VAR(x6);
+      HYDRA_THRUST_UNUSED_VAR(x7);
+      HYDRA_THRUST_UNUSED_VAR(x8);
+      HYDRA_THRUST_UNUSED_VAR(x9);
+      HYDRA_THRUST_UNUSED_VAR(xA);
 #endif
       return status;
     }
@@ -673,25 +673,25 @@ namespace launcher {
     doit_device(K k, _0 x0, _1 x1, _2 x2, _3 x3, _4 x4, _5 x5, _6 x6, _7 x7, _8 x8, _9 x9, _xA xA, _xB xB) const
     {
       cudaError_t status = cudaErrorNotSupported;
-#if __THRUST_HAS_CUDART__
+#if __HYDRA_THRUST_HAS_CUDART__
       const size_t size = argument_pack_size(0,x0,x1,x2,x3,x4,x5,x6,x7,x8,x9,xA,xB);
       void *param_buffer = cudaGetParameterBuffer(64,size);
       fill_arguments((char*)param_buffer, 0, x0,x1,x2,x3,x4,x5,x6,x7,x8,x9,xA,xB);
       status = launch_device(k, param_buffer);
 #else
-      THRUST_UNUSED_VAR(k);
-      THRUST_UNUSED_VAR(x0);
-      THRUST_UNUSED_VAR(x1);
-      THRUST_UNUSED_VAR(x2);
-      THRUST_UNUSED_VAR(x3);
-      THRUST_UNUSED_VAR(x4);
-      THRUST_UNUSED_VAR(x5);
-      THRUST_UNUSED_VAR(x6);
-      THRUST_UNUSED_VAR(x7);
-      THRUST_UNUSED_VAR(x8);
-      THRUST_UNUSED_VAR(x9);
-      THRUST_UNUSED_VAR(xA);
-      THRUST_UNUSED_VAR(xB);
+      HYDRA_THRUST_UNUSED_VAR(k);
+      HYDRA_THRUST_UNUSED_VAR(x0);
+      HYDRA_THRUST_UNUSED_VAR(x1);
+      HYDRA_THRUST_UNUSED_VAR(x2);
+      HYDRA_THRUST_UNUSED_VAR(x3);
+      HYDRA_THRUST_UNUSED_VAR(x4);
+      HYDRA_THRUST_UNUSED_VAR(x5);
+      HYDRA_THRUST_UNUSED_VAR(x6);
+      HYDRA_THRUST_UNUSED_VAR(x7);
+      HYDRA_THRUST_UNUSED_VAR(x8);
+      HYDRA_THRUST_UNUSED_VAR(x9);
+      HYDRA_THRUST_UNUSED_VAR(xA);
+      HYDRA_THRUST_UNUSED_VAR(xB);
 #endif
       return status;
     }
@@ -700,26 +700,26 @@ namespace launcher {
     doit_device(K k, _0 x0, _1 x1, _2 x2, _3 x3, _4 x4, _5 x5, _6 x6, _7 x7, _8 x8, _9 x9, _xA xA, _xB xB, _xC xC) const
     {
       cudaError_t status = cudaErrorNotSupported;
-#if __THRUST_HAS_CUDART__
+#if __HYDRA_THRUST_HAS_CUDART__
       const size_t size = argument_pack_size(0,x0,x1,x2,x3,x4,x5,x6,x7,x8,x9,xA,xB,xC);
       void *param_buffer = cudaGetParameterBuffer(64,size);
       fill_arguments((char*)param_buffer, 0, x0,x1,x2,x3,x4,x5,x6,x7,x8,x9,xA,xB,xC);
       status = launch_device(k, param_buffer);
 #else
-      THRUST_UNUSED_VAR(k);
-      THRUST_UNUSED_VAR(x0);
-      THRUST_UNUSED_VAR(x1);
-      THRUST_UNUSED_VAR(x2);
-      THRUST_UNUSED_VAR(x3);
-      THRUST_UNUSED_VAR(x4);
-      THRUST_UNUSED_VAR(x5);
-      THRUST_UNUSED_VAR(x6);
-      THRUST_UNUSED_VAR(x7);
-      THRUST_UNUSED_VAR(x8);
-      THRUST_UNUSED_VAR(x9);
-      THRUST_UNUSED_VAR(xA);
-      THRUST_UNUSED_VAR(xB);
-      THRUST_UNUSED_VAR(xC);
+      HYDRA_THRUST_UNUSED_VAR(k);
+      HYDRA_THRUST_UNUSED_VAR(x0);
+      HYDRA_THRUST_UNUSED_VAR(x1);
+      HYDRA_THRUST_UNUSED_VAR(x2);
+      HYDRA_THRUST_UNUSED_VAR(x3);
+      HYDRA_THRUST_UNUSED_VAR(x4);
+      HYDRA_THRUST_UNUSED_VAR(x5);
+      HYDRA_THRUST_UNUSED_VAR(x6);
+      HYDRA_THRUST_UNUSED_VAR(x7);
+      HYDRA_THRUST_UNUSED_VAR(x8);
+      HYDRA_THRUST_UNUSED_VAR(x9);
+      HYDRA_THRUST_UNUSED_VAR(xA);
+      HYDRA_THRUST_UNUSED_VAR(xB);
+      HYDRA_THRUST_UNUSED_VAR(xC);
 #endif
       return status;
     }
@@ -728,27 +728,27 @@ namespace launcher {
     doit_device(K k, _0 x0, _1 x1, _2 x2, _3 x3, _4 x4, _5 x5, _6 x6, _7 x7, _8 x8, _9 x9, _xA xA, _xB xB, _xC xC,_xD xD) const
     {
       cudaError_t status = cudaErrorNotSupported;
-#if __THRUST_HAS_CUDART__
+#if __HYDRA_THRUST_HAS_CUDART__
       const size_t size = argument_pack_size(0,x0,x1,x2,x3,x4,x5,x6,x7,x8,x9,xA,xB,xC,xD);
       void *param_buffer = cudaGetParameterBuffer(64,size);
       fill_arguments((char*)param_buffer, 0, x0,x1,x2,x3,x4,x5,x6,x7,x8,x9,xA,xB,xC,xD);
       status = launch_device(k, param_buffer);
 #else
-      THRUST_UNUSED_VAR(k);
-      THRUST_UNUSED_VAR(x0);
-      THRUST_UNUSED_VAR(x1);
-      THRUST_UNUSED_VAR(x2);
-      THRUST_UNUSED_VAR(x3);
-      THRUST_UNUSED_VAR(x4);
-      THRUST_UNUSED_VAR(x5);
-      THRUST_UNUSED_VAR(x6);
-      THRUST_UNUSED_VAR(x7);
-      THRUST_UNUSED_VAR(x8);
-      THRUST_UNUSED_VAR(x9);
-      THRUST_UNUSED_VAR(xA);
-      THRUST_UNUSED_VAR(xB);
-      THRUST_UNUSED_VAR(xC);
-      THRUST_UNUSED_VAR(xD);
+      HYDRA_THRUST_UNUSED_VAR(k);
+      HYDRA_THRUST_UNUSED_VAR(x0);
+      HYDRA_THRUST_UNUSED_VAR(x1);
+      HYDRA_THRUST_UNUSED_VAR(x2);
+      HYDRA_THRUST_UNUSED_VAR(x3);
+      HYDRA_THRUST_UNUSED_VAR(x4);
+      HYDRA_THRUST_UNUSED_VAR(x5);
+      HYDRA_THRUST_UNUSED_VAR(x6);
+      HYDRA_THRUST_UNUSED_VAR(x7);
+      HYDRA_THRUST_UNUSED_VAR(x8);
+      HYDRA_THRUST_UNUSED_VAR(x9);
+      HYDRA_THRUST_UNUSED_VAR(xA);
+      HYDRA_THRUST_UNUSED_VAR(xB);
+      HYDRA_THRUST_UNUSED_VAR(xC);
+      HYDRA_THRUST_UNUSED_VAR(xD);
 #endif
       return status;
     }
@@ -757,28 +757,28 @@ namespace launcher {
     doit_device(K k, _0 x0, _1 x1, _2 x2, _3 x3, _4 x4, _5 x5, _6 x6, _7 x7, _8 x8, _9 x9, _xA xA, _xB xB, _xC xC,_xD xD, _xE xE) const
     {
       cudaError_t status = cudaErrorNotSupported;
-#if __THRUST_HAS_CUDART__
+#if __HYDRA_THRUST_HAS_CUDART__
       const size_t size = argument_pack_size(0,x0,x1,x2,x3,x4,x5,x6,x7,x8,x9,xA,xB,xC,xD,xE);
       void *param_buffer = cudaGetParameterBuffer(64,size);
       fill_arguments((char*)param_buffer, 0, x0,x1,x2,x3,x4,x5,x6,x7,x8,x9,xA,xB,xC,xD,xE);
       status = launch_device(k, param_buffer);
 #else
-      THRUST_UNUSED_VAR(k);
-      THRUST_UNUSED_VAR(x0);
-      THRUST_UNUSED_VAR(x1);
-      THRUST_UNUSED_VAR(x2);
-      THRUST_UNUSED_VAR(x3);
-      THRUST_UNUSED_VAR(x4);
-      THRUST_UNUSED_VAR(x5);
-      THRUST_UNUSED_VAR(x6);
-      THRUST_UNUSED_VAR(x7);
-      THRUST_UNUSED_VAR(x8);
-      THRUST_UNUSED_VAR(x9);
-      THRUST_UNUSED_VAR(xA);
-      THRUST_UNUSED_VAR(xB);
-      THRUST_UNUSED_VAR(xC);
-      THRUST_UNUSED_VAR(xD);
-      THRUST_UNUSED_VAR(xE);
+      HYDRA_THRUST_UNUSED_VAR(k);
+      HYDRA_THRUST_UNUSED_VAR(x0);
+      HYDRA_THRUST_UNUSED_VAR(x1);
+      HYDRA_THRUST_UNUSED_VAR(x2);
+      HYDRA_THRUST_UNUSED_VAR(x3);
+      HYDRA_THRUST_UNUSED_VAR(x4);
+      HYDRA_THRUST_UNUSED_VAR(x5);
+      HYDRA_THRUST_UNUSED_VAR(x6);
+      HYDRA_THRUST_UNUSED_VAR(x7);
+      HYDRA_THRUST_UNUSED_VAR(x8);
+      HYDRA_THRUST_UNUSED_VAR(x9);
+      HYDRA_THRUST_UNUSED_VAR(xA);
+      HYDRA_THRUST_UNUSED_VAR(xB);
+      HYDRA_THRUST_UNUSED_VAR(xC);
+      HYDRA_THRUST_UNUSED_VAR(xD);
+      HYDRA_THRUST_UNUSED_VAR(xE);
 #endif
       return status;
     }
@@ -787,29 +787,29 @@ namespace launcher {
     doit_device(K k, _0 x0, _1 x1, _2 x2, _3 x3, _4 x4, _5 x5, _6 x6, _7 x7, _8 x8, _9 x9, _xA xA, _xB xB, _xC xC,_xD xD, _xE xE, _xF xF) const
     {
       cudaError_t status = cudaErrorNotSupported;
-#if __THRUST_HAS_CUDART__
+#if __HYDRA_THRUST_HAS_CUDART__
       const size_t size = argument_pack_size(0,x0,x1,x2,x3,x4,x5,x6,x7,x8,x9,xA,xB,xC,xD,xE,xF);
       void *param_buffer = cudaGetParameterBuffer(64,size);
       fill_arguments((char*)param_buffer, 0, x0,x1,x2,x3,x4,x5,x6,x7,x8,x9,xA,xB,xC,xD,xE,xF);
       status = launch_device(k, param_buffer);
 #else
-      THRUST_UNUSED_VAR(k);
-      THRUST_UNUSED_VAR(x0);
-      THRUST_UNUSED_VAR(x1);
-      THRUST_UNUSED_VAR(x2);
-      THRUST_UNUSED_VAR(x3);
-      THRUST_UNUSED_VAR(x4);
-      THRUST_UNUSED_VAR(x5);
-      THRUST_UNUSED_VAR(x6);
-      THRUST_UNUSED_VAR(x7);
-      THRUST_UNUSED_VAR(x8);
-      THRUST_UNUSED_VAR(x9);
-      THRUST_UNUSED_VAR(xA);
-      THRUST_UNUSED_VAR(xB);
-      THRUST_UNUSED_VAR(xC);
-      THRUST_UNUSED_VAR(xD);
-      THRUST_UNUSED_VAR(xE);
-      THRUST_UNUSED_VAR(xF);
+      HYDRA_THRUST_UNUSED_VAR(k);
+      HYDRA_THRUST_UNUSED_VAR(x0);
+      HYDRA_THRUST_UNUSED_VAR(x1);
+      HYDRA_THRUST_UNUSED_VAR(x2);
+      HYDRA_THRUST_UNUSED_VAR(x3);
+      HYDRA_THRUST_UNUSED_VAR(x4);
+      HYDRA_THRUST_UNUSED_VAR(x5);
+      HYDRA_THRUST_UNUSED_VAR(x6);
+      HYDRA_THRUST_UNUSED_VAR(x7);
+      HYDRA_THRUST_UNUSED_VAR(x8);
+      HYDRA_THRUST_UNUSED_VAR(x9);
+      HYDRA_THRUST_UNUSED_VAR(xA);
+      HYDRA_THRUST_UNUSED_VAR(xB);
+      HYDRA_THRUST_UNUSED_VAR(xC);
+      HYDRA_THRUST_UNUSED_VAR(xD);
+      HYDRA_THRUST_UNUSED_VAR(xE);
+      HYDRA_THRUST_UNUSED_VAR(xF);
 #endif
       return status;
     }
@@ -819,7 +819,7 @@ namespace launcher {
     cudaError_t __device__
     launch_device(K k, void* buffer) const
     {
-#if __THRUST_HAS_CUDART__
+#if __HYDRA_THRUST_HAS_CUDART__
       return cudaLaunchDevice((void*)k,
                               buffer,
                               dim3(grid),
@@ -827,146 +827,146 @@ namespace launcher {
                               shared_mem,
                               stream);
 #else
-      THRUST_UNUSED_VAR(k);
-      THRUST_UNUSED_VAR(buffer);
+      HYDRA_THRUST_UNUSED_VAR(k);
+      HYDRA_THRUST_UNUSED_VAR(buffer);
       return cudaErrorNotSupported;
 #endif
     }
 
 
 #ifdef __CUDA_ARCH__
-#define THRUST_TRIPLE_LAUNCHER_HOSTDEVICE doit_device
+#define HYDRA_THRUST_TRIPLE_LAUNCHER_HOSTDEVICE doit_device
 #else
-#define THRUST_TRIPLE_LAUNCHER_HOSTDEVICE doit_host
+#define HYDRA_THRUST_TRIPLE_LAUNCHER_HOSTDEVICE doit_host
 #endif
 
 #if 0
     __thrust_exec_check_disable__
     template <class K, class... Args>
-    cudaError_t THRUST_FUNCTION
+    cudaError_t HYDRA_THRUST_FUNCTION
     doit(K k, Args const&... args) const
     {
-      return THRUST_TRIPLE_LAUNCHER_HOSTDEVICE(k, args...);
+      return HYDRA_THRUST_TRIPLE_LAUNCHER_HOSTDEVICE(k, args...);
     }
 #else
     __thrust_exec_check_disable__
     template <class K, class _0>
-    cudaError_t THRUST_FUNCTION
+    cudaError_t HYDRA_THRUST_FUNCTION
     doit(K k, _0 x0) const
     {
-      return THRUST_TRIPLE_LAUNCHER_HOSTDEVICE(k, x0);
+      return HYDRA_THRUST_TRIPLE_LAUNCHER_HOSTDEVICE(k, x0);
     }
     __thrust_exec_check_disable__
     template <class K, class _0, class _1>
-    cudaError_t THRUST_FUNCTION
+    cudaError_t HYDRA_THRUST_FUNCTION
     doit(K k, _0 x0, _1 x1) const
     {
-      return THRUST_TRIPLE_LAUNCHER_HOSTDEVICE(k, x0, x1);
+      return HYDRA_THRUST_TRIPLE_LAUNCHER_HOSTDEVICE(k, x0, x1);
     }
     __thrust_exec_check_disable__
     template <class K, class _0, class _1, class _2>
-    cudaError_t THRUST_FUNCTION
+    cudaError_t HYDRA_THRUST_FUNCTION
     doit(K k, _0 x0, _1 x1, _2 x2) const
     {
-      return THRUST_TRIPLE_LAUNCHER_HOSTDEVICE(k, x0, x1, x2);
+      return HYDRA_THRUST_TRIPLE_LAUNCHER_HOSTDEVICE(k, x0, x1, x2);
     }
     __thrust_exec_check_disable__
     template <class K, class _0, class _1, class _2, class _3>
-    cudaError_t THRUST_FUNCTION
+    cudaError_t HYDRA_THRUST_FUNCTION
     doit(K k, _0 x0, _1 x1, _2 x2, _3 x3) const
     {
-      return THRUST_TRIPLE_LAUNCHER_HOSTDEVICE(k, x0, x1, x2, x3);
+      return HYDRA_THRUST_TRIPLE_LAUNCHER_HOSTDEVICE(k, x0, x1, x2, x3);
     }
     __thrust_exec_check_disable__
     template <class K, class _0, class _1, class _2, class _3, class _4>
-    cudaError_t THRUST_FUNCTION
+    cudaError_t HYDRA_THRUST_FUNCTION
     doit(K k, _0 x0, _1 x1, _2 x2, _3 x3, _4 x4) const
     {
-      return THRUST_TRIPLE_LAUNCHER_HOSTDEVICE(k, x0, x1, x2, x3, x4);
+      return HYDRA_THRUST_TRIPLE_LAUNCHER_HOSTDEVICE(k, x0, x1, x2, x3, x4);
     }
     __thrust_exec_check_disable__
     template <class K, class _0, class _1, class _2, class _3, class _4, class _5>
-    cudaError_t THRUST_FUNCTION
+    cudaError_t HYDRA_THRUST_FUNCTION
     doit(K k, _0 x0, _1 x1, _2 x2, _3 x3, _4 x4, _5 x5) const
     {
-      return THRUST_TRIPLE_LAUNCHER_HOSTDEVICE(k, x0, x1, x2, x3, x4, x5);
+      return HYDRA_THRUST_TRIPLE_LAUNCHER_HOSTDEVICE(k, x0, x1, x2, x3, x4, x5);
     }
     __thrust_exec_check_disable__
     template <class K, class _0, class _1, class _2, class _3, class _4, class _5, class _6>
-    cudaError_t THRUST_FUNCTION
+    cudaError_t HYDRA_THRUST_FUNCTION
     doit(K k, _0 x0, _1 x1, _2 x2, _3 x3, _4 x4, _5 x5, _6 x6) const
     {
-      return THRUST_TRIPLE_LAUNCHER_HOSTDEVICE(k, x0, x1, x2, x3, x4, x5, x6);
+      return HYDRA_THRUST_TRIPLE_LAUNCHER_HOSTDEVICE(k, x0, x1, x2, x3, x4, x5, x6);
     }
     __thrust_exec_check_disable__
     template <class K, class _0, class _1, class _2, class _3, class _4, class _5, class _6, class _7>
-    cudaError_t THRUST_FUNCTION
+    cudaError_t HYDRA_THRUST_FUNCTION
     doit(K k, _0 x0, _1 x1, _2 x2, _3 x3, _4 x4, _5 x5, _6 x6, _7 x7) const
     {
-      return THRUST_TRIPLE_LAUNCHER_HOSTDEVICE(k, x0, x1, x2, x3, x4, x5, x6, x7);
+      return HYDRA_THRUST_TRIPLE_LAUNCHER_HOSTDEVICE(k, x0, x1, x2, x3, x4, x5, x6, x7);
     }
     __thrust_exec_check_disable__
     template <class K, class _0, class _1, class _2, class _3, class _4, class _5, class _6, class _7, class _8>
-    cudaError_t THRUST_FUNCTION
+    cudaError_t HYDRA_THRUST_FUNCTION
     doit(K k, _0 x0, _1 x1, _2 x2, _3 x3, _4 x4, _5 x5, _6 x6, _7 x7, _8 x8) const
     {
-      return THRUST_TRIPLE_LAUNCHER_HOSTDEVICE(k, x0, x1, x2, x3, x4, x5, x6, x7, x8);
+      return HYDRA_THRUST_TRIPLE_LAUNCHER_HOSTDEVICE(k, x0, x1, x2, x3, x4, x5, x6, x7, x8);
     }
     __thrust_exec_check_disable__
     template <class K, class _0, class _1, class _2, class _3, class _4, class _5, class _6, class _7, class _8, class _9>
-    cudaError_t THRUST_FUNCTION
+    cudaError_t HYDRA_THRUST_FUNCTION
     doit(K k, _0 x0, _1 x1, _2 x2, _3 x3, _4 x4, _5 x5, _6 x6, _7 x7, _8 x8, _9 x9) const
     {
-      return THRUST_TRIPLE_LAUNCHER_HOSTDEVICE(k, x0, x1, x2, x3, x4, x5, x6, x7, x8, x9);
+      return HYDRA_THRUST_TRIPLE_LAUNCHER_HOSTDEVICE(k, x0, x1, x2, x3, x4, x5, x6, x7, x8, x9);
     }
     __thrust_exec_check_disable__
     template <class K, class _0, class _1, class _2, class _3, class _4, class _5, class _6, class _7, class _8, class _9, class _xA>
-    cudaError_t THRUST_FUNCTION
+    cudaError_t HYDRA_THRUST_FUNCTION
     doit(K k, _0 x0, _1 x1, _2 x2, _3 x3, _4 x4, _5 x5, _6 x6, _7 x7, _8 x8, _9 x9, _xA xA) const
     {
-      return THRUST_TRIPLE_LAUNCHER_HOSTDEVICE(k, x0, x1, x2, x3, x4, x5, x6, x7, x8, x9, xA);
+      return HYDRA_THRUST_TRIPLE_LAUNCHER_HOSTDEVICE(k, x0, x1, x2, x3, x4, x5, x6, x7, x8, x9, xA);
     }
     __thrust_exec_check_disable__
     template <class K, class _0, class _1, class _2, class _3, class _4, class _5, class _6, class _7, class _8, class _9, class _xA, class _xB>
-    cudaError_t THRUST_FUNCTION
+    cudaError_t HYDRA_THRUST_FUNCTION
     doit(K k, _0 x0, _1 x1, _2 x2, _3 x3, _4 x4, _5 x5, _6 x6, _7 x7, _8 x8, _9 x9, _xA xA, _xB xB) const
     {
-      return THRUST_TRIPLE_LAUNCHER_HOSTDEVICE(k, x0, x1, x2, x3, x4, x5, x6, x7, x8, x9, xA, xB);
+      return HYDRA_THRUST_TRIPLE_LAUNCHER_HOSTDEVICE(k, x0, x1, x2, x3, x4, x5, x6, x7, x8, x9, xA, xB);
     }
     __thrust_exec_check_disable__
     template <class K, class _0, class _1, class _2, class _3, class _4, class _5, class _6, class _7, class _8, class _9, class _xA, class _xB, class _xC>
-    cudaError_t THRUST_FUNCTION
+    cudaError_t HYDRA_THRUST_FUNCTION
     doit(K k, _0 x0, _1 x1, _2 x2, _3 x3, _4 x4, _5 x5, _6 x6, _7 x7, _8 x8, _9 x9, _xA xA, _xB xB, _xC xC) const
     {
-      return THRUST_TRIPLE_LAUNCHER_HOSTDEVICE(k, x0, x1, x2, x3, x4, x5, x6, x7, x8, x9, xA, xB, xC);
+      return HYDRA_THRUST_TRIPLE_LAUNCHER_HOSTDEVICE(k, x0, x1, x2, x3, x4, x5, x6, x7, x8, x9, xA, xB, xC);
     }
     __thrust_exec_check_disable__
     template <class K, class _0, class _1, class _2, class _3, class _4, class _5, class _6, class _7, class _8, class _9, class _xA, class _xB, class _xC, class _xD>
-    cudaError_t THRUST_FUNCTION
+    cudaError_t HYDRA_THRUST_FUNCTION
     doit(K k, _0 x0, _1 x1, _2 x2, _3 x3, _4 x4, _5 x5, _6 x6, _7 x7, _8 x8, _9 x9, _xA xA, _xB xB, _xC xC, _xD xD) const
     {
-      return THRUST_TRIPLE_LAUNCHER_HOSTDEVICE(k, x0, x1, x2, x3, x4, x5, x6, x7, x8, x9, xA, xB, xC, xD);
+      return HYDRA_THRUST_TRIPLE_LAUNCHER_HOSTDEVICE(k, x0, x1, x2, x3, x4, x5, x6, x7, x8, x9, xA, xB, xC, xD);
     }
     __thrust_exec_check_disable__
     template <class K, class _0, class _1, class _2, class _3, class _4, class _5, class _6, class _7, class _8, class _9, class _xA, class _xB, class _xC, class _xD, class _xE>
-    cudaError_t THRUST_FUNCTION
+    cudaError_t HYDRA_THRUST_FUNCTION
     doit(K k, _0 x0, _1 x1, _2 x2, _3 x3, _4 x4, _5 x5, _6 x6, _7 x7, _8 x8, _9 x9, _xA xA, _xB xB, _xC xC, _xD xD, _xE xE) const
     {
-      return THRUST_TRIPLE_LAUNCHER_HOSTDEVICE(k, x0, x1, x2, x3, x4, x5, x6, x7, x8, x9, xA, xB, xC, xD, xE);
+      return HYDRA_THRUST_TRIPLE_LAUNCHER_HOSTDEVICE(k, x0, x1, x2, x3, x4, x5, x6, x7, x8, x9, xA, xB, xC, xD, xE);
     }
     __thrust_exec_check_disable__
     template <class K, class _0, class _1, class _2, class _3, class _4, class _5, class _6, class _7, class _8, class _9, class _xA, class _xB, class _xC, class _xD, class _xE, class _xF>
-    cudaError_t THRUST_FUNCTION
+    cudaError_t HYDRA_THRUST_FUNCTION
     doit(K k, _0 x0, _1 x1, _2 x2, _3 x3, _4 x4, _5 x5, _6 x6, _7 x7, _8 x8, _9 x9, _xA xA, _xB xB, _xC xC, _xD xD, _xE xE, _xF xF) const
     {
-      return THRUST_TRIPLE_LAUNCHER_HOSTDEVICE(k, x0, x1, x2, x3, x4, x5, x6, x7, x8, x9, xA, xB, xC, xD, xE, xF);
+      return HYDRA_THRUST_TRIPLE_LAUNCHER_HOSTDEVICE(k, x0, x1, x2, x3, x4, x5, x6, x7, x8, x9, xA, xB, xC, xD, xE, xF);
     }
 #endif
-#undef THRUST_TRIPLE_LAUNCHER_HOSTDEVICE
+#undef HYDRA_THRUST_TRIPLE_LAUNCHER_HOSTDEVICE
   }; // struct triple_chevron
 
 }    // namespace launcher
 }    // namespace cuda_
 
-THRUST_END_NS
+HYDRA_THRUST_END_NS
 HYDRA_EXTERNAL_NAMESPACE_END

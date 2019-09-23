@@ -56,7 +56,7 @@ HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
  *          and \p UnaryFunction does not apply any non-constant operation through its argument.
  *
  *  The following code snippet demonstrates how to use \p for_each to print the elements
- *  of a \p std::device_vector using the \p thrust::device parallelization policy:
+ *  of a \p std::device_vector using the \p HYDRA_EXTERNAL_NS::thrust::device parallelization policy:
  *
  *  \code
  *  #include <hydra/detail/external/thrust/for_each.h>
@@ -77,10 +77,10 @@ HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
  *    }
  *  };
  *  ...
- *  thrust::device_vector<int> d_vec(3);
+ *  HYDRA_EXTERNAL_NS::thrust::device_vector<int> d_vec(3);
  *  d_vec[0] = 0; d_vec[1] = 1; d_vec[2] = 2;
  *
- *  thrust::for_each(thrust::device, d_vec.begin(), d_vec.end(), printf_functor());
+ *  HYDRA_EXTERNAL_NS::thrust::for_each(HYDRA_EXTERNAL_NS::thrust::device, d_vec.begin(), d_vec.end(), printf_functor());
  *
  *  // 0 1 2 is printed to standard output in some unspecified order
  *  \endcode
@@ -92,7 +92,7 @@ template<typename DerivedPolicy,
          typename InputIterator,
          typename UnaryFunction>
 __hydra_host__ __hydra_device__
-InputIterator for_each(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
+InputIterator for_each(const HYDRA_EXTERNAL_NS::thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                        InputIterator first,
                        InputIterator last,
                        UnaryFunction f);
@@ -120,7 +120,7 @@ InputIterator for_each(const thrust::detail::execution_policy_base<DerivedPolicy
  *          and \p UnaryFunction does not apply any non-constant operation through its argument.
  *
  *  The following code snippet demonstrates how to use \p for_each_n to print the elements
- *  of a \p device_vector using the \p thrust::device parallelization policy.
+ *  of a \p device_vector using the \p HYDRA_EXTERNAL_NS::thrust::device parallelization policy.
  *
  *  \code
  *  #include <hydra/detail/external/thrust/for_each.h>
@@ -140,10 +140,10 @@ InputIterator for_each(const thrust::detail::execution_policy_base<DerivedPolicy
  *    }
  *  };
  *  ...
- *  thrust::device_vector<int> d_vec(3);
+ *  HYDRA_EXTERNAL_NS::thrust::device_vector<int> d_vec(3);
  *  d_vec[0] = 0; d_vec[1] = 1; d_vec[2] = 2;
  *
- *  thrust::for_each_n(thrust::device, d_vec.begin(), d_vec.size(), printf_functor());
+ *  HYDRA_EXTERNAL_NS::thrust::for_each_n(HYDRA_EXTERNAL_NS::thrust::device, d_vec.begin(), d_vec.size(), printf_functor());
  *
  *  // 0 1 2 is printed to standard output in some unspecified order
  *  \endcode
@@ -156,7 +156,7 @@ template<typename DerivedPolicy,
          typename Size,
          typename UnaryFunction>
 __hydra_host__ __hydra_device__
-InputIterator for_each_n(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
+InputIterator for_each_n(const HYDRA_EXTERNAL_NS::thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                          InputIterator first,
                          Size n,
                          UnaryFunction f);
@@ -198,10 +198,10 @@ InputIterator for_each_n(const thrust::detail::execution_policy_base<DerivedPoli
  *    }
  *  };
  *  ...
- *  thrust::device_vector<int> d_vec(3);
+ *  HYDRA_EXTERNAL_NS::thrust::device_vector<int> d_vec(3);
  *  d_vec[0] = 0; d_vec[1] = 1; d_vec[2] = 2;
  *
- *  thrust::for_each(d_vec.begin(), d_vec.end(), printf_functor());
+ *  HYDRA_EXTERNAL_NS::thrust::for_each(d_vec.begin(), d_vec.end(), printf_functor());
  *
  *  // 0 1 2 is printed to standard output in some unspecified order
  *  \endcode
@@ -253,10 +253,10 @@ InputIterator for_each(InputIterator first,
  *    }
  *  };
  *  ...
- *  thrust::device_vector<int> d_vec(3);
+ *  HYDRA_EXTERNAL_NS::thrust::device_vector<int> d_vec(3);
  *  d_vec[0] = 0; d_vec[1] = 1; d_vec[2] = 2;
  *
- *  thrust::for_each_n(d_vec.begin(), d_vec.size(), printf_functor());
+ *  HYDRA_EXTERNAL_NS::thrust::for_each_n(d_vec.begin(), d_vec.size(), printf_functor());
  *
  *  // 0 1 2 is printed to standard output in some unspecified order
  *  \endcode

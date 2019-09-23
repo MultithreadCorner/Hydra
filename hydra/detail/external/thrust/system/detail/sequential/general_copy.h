@@ -38,7 +38,7 @@ namespace general_copy_detail
 
 template<typename T1, typename T2>
 struct lazy_is_assignable
-  : thrust::detail::is_assignable<
+  : HYDRA_EXTERNAL_NS::thrust::detail::is_assignable<
       typename T1::type,
       typename T2::type
     >
@@ -49,14 +49,14 @@ struct lazy_is_assignable
 // in that case, just assume that we're able to assign to it OK
 template<typename InputIterator, typename OutputIterator>
 struct reference_is_assignable
-  : thrust::detail::eval_if<
-      thrust::detail::is_same<
-        typename thrust::iterator_reference<OutputIterator>::type, void
+  : HYDRA_EXTERNAL_NS::thrust::detail::eval_if<
+      HYDRA_EXTERNAL_NS::thrust::detail::is_same<
+        typename HYDRA_EXTERNAL_NS::thrust::iterator_reference<OutputIterator>::type, void
       >::value,
-      thrust::detail::true_type,
+      HYDRA_EXTERNAL_NS::thrust::detail::true_type,
       lazy_is_assignable<
-        thrust::iterator_reference<OutputIterator>,
-        thrust::iterator_reference<InputIterator>
+        HYDRA_EXTERNAL_NS::thrust::iterator_reference<OutputIterator>,
+        HYDRA_EXTERNAL_NS::thrust::iterator_reference<InputIterator>
       >
     >::type
 {};
@@ -68,7 +68,7 @@ struct reference_is_assignable
 __thrust_exec_check_disable__
 template<typename OutputIterator, typename InputIterator>
 inline __hydra_host__ __hydra_device__
-typename thrust::detail::enable_if<
+typename HYDRA_EXTERNAL_NS::thrust::detail::enable_if<
   reference_is_assignable<InputIterator,OutputIterator>::value
 >::type
 iter_assign(OutputIterator dst, InputIterator src)
@@ -80,12 +80,12 @@ iter_assign(OutputIterator dst, InputIterator src)
 __thrust_exec_check_disable__
 template<typename OutputIterator, typename InputIterator>
 inline __hydra_host__ __hydra_device__
-typename thrust::detail::disable_if<
+typename HYDRA_EXTERNAL_NS::thrust::detail::disable_if<
   reference_is_assignable<InputIterator,OutputIterator>::value
 >::type
 iter_assign(OutputIterator dst, InputIterator src)
 {
-  typedef typename thrust::iterator_value<InputIterator>::type value_type;
+  typedef typename HYDRA_EXTERNAL_NS::thrust::iterator_value<InputIterator>::type value_type;
 
   // insert a temporary and hope for the best
   *dst = static_cast<value_type>(*src);
@@ -106,7 +106,7 @@ __hydra_host__ __hydra_device__
   for(; first != last; ++first, ++result)
   {
     // gcc 4.2 crashes while instantiating iter_assign
-#if (THRUST_HOST_COMPILER == THRUST_HOST_COMPILER_GCC) && (THRUST_GCC_VERSION < 40300)
+#if (HYDRA_THRUST_HOST_COMPILER == HYDRA_THRUST_HOST_COMPILER_GCC) && (HYDRA_THRUST_GCC_VERSION < 40300)
     *result = *first;
 #else
     general_copy_detail::iter_assign(result, first);
@@ -129,7 +129,7 @@ __hydra_host__ __hydra_device__
   for(; n > Size(0); ++first, ++result, --n)
   {
     // gcc 4.2 crashes while instantiating iter_assign
-#if (THRUST_HOST_COMPILER == THRUST_HOST_COMPILER_GCC) && (THRUST_GCC_VERSION < 40300)
+#if (HYDRA_THRUST_HOST_COMPILER == HYDRA_THRUST_HOST_COMPILER_GCC) && (HYDRA_THRUST_GCC_VERSION < 40300)
     *result = *first;
 #else
     general_copy_detail::iter_assign(result, first);
@@ -144,4 +144,4 @@ __hydra_host__ __hydra_device__
 } // end namespace detail
 } // end namespace system
 } // end HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
-
+HYDRA_EXTERNAL_NAMESPACE_END

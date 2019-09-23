@@ -44,7 +44,7 @@
 #include "../util_namespace.cuh"
 
 /// Optional outer namespace(s)
-HYDRA_EXTERNAL_NAMESPACE_BEGIN  THRUST_CUB_NS_PREFIX
+HYDRA_EXTERNAL_NAMESPACE_BEGIN  HYDRA_THRUST_CUB_NS_PREFIX
 
 /// CUB namespace
 namespace cub {
@@ -467,5 +467,5 @@ struct AgentScan
 
 
 }               // CUB namespace
-THRUST_CUB_NS_POSTFIX HYDRA_EXTERNAL_NAMESPACE_END  // Optional outer namespace(s)
+HYDRA_THRUST_CUB_NS_POSTFIX HYDRA_EXTERNAL_NAMESPACE_END  // Optional outer namespace(s)
 

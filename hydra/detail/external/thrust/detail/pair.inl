@@ -65,9 +65,9 @@ template <typename T1, typename T2>
 template<typename T1, typename T2>
   inline __hydra_host__ __hydra_device__
     void pair<T1,T2>
-      ::swap(thrust::pair<T1,T2> &p)
+      ::swap(HYDRA_EXTERNAL_NS::thrust::pair<T1,T2> &p)
 {
-  using thrust::swap;
+  using HYDRA_EXTERNAL_NS::thrust::swap;
 
   swap(first, p.first);
   swap(second, p.second);

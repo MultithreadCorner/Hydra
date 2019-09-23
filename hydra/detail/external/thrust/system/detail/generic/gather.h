@@ -35,7 +35,7 @@ template<typename DerivedPolicy,
          typename RandomAccessIterator,
          typename OutputIterator>
 __hydra_host__ __hydra_device__
-  OutputIterator gather(thrust::execution_policy<DerivedPolicy> &exec,
+  OutputIterator gather(HYDRA_EXTERNAL_NS::thrust::execution_policy<DerivedPolicy> &exec,
                         InputIterator                            map_first,
                         InputIterator                            map_last,
                         RandomAccessIterator                     input_first,
@@ -48,7 +48,7 @@ template<typename DerivedPolicy,
          typename RandomAccessIterator,
          typename OutputIterator>
 __hydra_host__ __hydra_device__
-  OutputIterator gather_if(thrust::execution_policy<DerivedPolicy> &exec,
+  OutputIterator gather_if(HYDRA_EXTERNAL_NS::thrust::execution_policy<DerivedPolicy> &exec,
                            InputIterator1                           map_first,
                            InputIterator1                           map_last,
                            InputIterator2                           stencil,
@@ -63,7 +63,7 @@ template<typename DerivedPolicy,
          typename OutputIterator,
          typename Predicate>
 __hydra_host__ __hydra_device__
-  OutputIterator gather_if(thrust::execution_policy<DerivedPolicy> &exec,
+  OutputIterator gather_if(HYDRA_EXTERNAL_NS::thrust::execution_policy<DerivedPolicy> &exec,
                            InputIterator1                           map_first,
                            InputIterator1                           map_last,
                            InputIterator2                           stencil,

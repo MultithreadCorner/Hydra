@@ -15,13 +15,13 @@
 #include <hydra/detail/external/thrust/detail/config.h>
 #include <hydra/detail/external/thrust/detail/cpp11_required.h>
 
-#if THRUST_CPP_DIALECT >= 2011
+#if HYDRA_THRUST_CPP_DIALECT >= 2011
 
 #include <type_traits>
 HYDRA_EXTERNAL_NAMESPACE_BEGIN
-THRUST_BEGIN_NS
+HYDRA_THRUST_BEGIN_NS
 
-#if THRUST_CPP_DIALECT >= 2017
+#if HYDRA_THRUST_CPP_DIALECT >= 2017
 
 /// An \c integral_constant whose value is <code>(... && Ts::value)</code>. 
 template <typename... Ts>
@@ -55,7 +55,7 @@ constexpr bool negation_v = negation<T>::value;
 template <typename... Ts>
 struct conjunction;
 
-#if THRUST_CPP_DIALECT >= 2014
+#if HYDRA_THRUST_CPP_DIALECT >= 2014
 /// A <code>constexpr bool</code> whose value is <code>(... && Ts::value)</code>.
 template <typename... Ts>
 constexpr bool conjunction_v = conjunction<Ts...>::value;
@@ -80,7 +80,7 @@ struct conjunction<T0, T1, T2, TN...>
 template <typename... Ts>
 struct disjunction;
 
-#if THRUST_CPP_DIALECT >= 2014
+#if HYDRA_THRUST_CPP_DIALECT >= 2014
 /// A <code>constexpr bool</code> whose value is <code>(... || Ts::value)</code>.
 template <typename... Ts>
 constexpr bool disjunction_v = disjunction<Ts...>::value;
@@ -102,7 +102,7 @@ struct disjunction<T0, TN...>
 template <typename T>
 struct negation;
 
-#if THRUST_CPP_DIALECT >= 2014
+#if HYDRA_THRUST_CPP_DIALECT >= 2014
 /// A <code>constexpr bool</code> whose value is <code>!T::value</code>.
 template <typename T>
 constexpr bool negation_v = negation<T>::value;
@@ -111,7 +111,7 @@ constexpr bool negation_v = negation<T>::value;
 template <typename T>
 struct negation : std::integral_constant<bool, !T::value> {};
 
-#endif // THRUST_CPP_DIALECT >= 2017
+#endif // HYDRA_THRUST_CPP_DIALECT >= 2017
 
 ///////////////////////////////////////////////////////////////////////////////
 
@@ -119,7 +119,7 @@ struct negation : std::integral_constant<bool, !T::value> {};
 template <bool... Bs>
 struct conjunction_value;
 
-#if THRUST_CPP_DIALECT >= 2014
+#if HYDRA_THRUST_CPP_DIALECT >= 2014
 /// A <code>constexpr bool</code> whose value is <code>(... && Bs)</code>.
 template <bool... Bs>
 constexpr bool conjunction_value_v = conjunction_value<Bs...>::value;
@@ -141,7 +141,7 @@ struct conjunction_value<B0, BN...>
 template <bool... Bs>
 struct disjunction_value;
 
-#if THRUST_CPP_DIALECT >= 2014
+#if HYDRA_THRUST_CPP_DIALECT >= 2014
 /// A <code>constexpr bool</code> whose value is <code>(... || Bs)</code>.
 template <bool... Bs>
 constexpr bool disjunction_value_v = disjunction_value<Bs...>::value;
@@ -163,7 +163,7 @@ struct disjunction_value<B0, BN...>
 template <bool B>
 struct negation_value;
 
-#if THRUST_CPP_DIALECT >= 2014
+#if HYDRA_THRUST_CPP_DIALECT >= 2014
 /// A <code>constexpr bool</code> whose value is <code>!B</code>.
 template <bool B>
 constexpr bool negation_value_v = negation_value<B>::value;
@@ -172,7 +172,7 @@ constexpr bool negation_value_v = negation_value<B>::value;
 template <bool B>
 struct negation_value : std::integral_constant<bool, !B> {};
 
-THRUST_END_NS
+HYDRA_THRUST_END_NS
 HYDRA_EXTERNAL_NAMESPACE_END
-#endif // THRUST_CPP_DIALECT >= 2011
+#endif // HYDRA_THRUST_CPP_DIALECT >= 2011
 

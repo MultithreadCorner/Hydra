@@ -33,9 +33,9 @@
 #include <hydra/detail/external/thrust/detail/cpp11_required.h>
 #include <hydra/detail/external/thrust/detail/modern_gcc_required.h>
 
-#if THRUST_CPP_DIALECT >= 2011 && !defined(THRUST_LEGACY_GCC)
+#if HYDRA_THRUST_CPP_DIALECT >= 2011 && !defined(HYDRA_THRUST_LEGACY_GCC)
 
-#if THRUST_DEVICE_COMPILER == THRUST_DEVICE_COMPILER_NVCC
+#if HYDRA_THRUST_DEVICE_COMPILER == HYDRA_THRUST_DEVICE_COMPILER_NVCC
 
 #include <hydra/detail/external/thrust/system/cuda/config.h>
 
@@ -54,7 +54,7 @@
 
 #include <type_traits>
 HYDRA_EXTERNAL_NAMESPACE_BEGIN
-THRUST_BEGIN_NS
+HYDRA_THRUST_BEGIN_NS
 
 namespace system { namespace cuda { namespace detail
 {
@@ -66,7 +66,7 @@ template <
   typename FromPolicy, typename ToPolicy
 , typename ForwardIt, typename OutputIt, typename Size
 >
-THRUST_RUNTIME_FUNCTION
+HYDRA_THRUST_RUNTIME_FUNCTION
 auto async_copy_n(
   FromPolicy& from_exec
 , ToPolicy&   to_exec
@@ -86,18 +86,18 @@ auto async_copy_n(
   );
 
   using pointer
-    = typename thrust::detail::allocator_traits<decltype(device_alloc)>::
+    = typename HYDRA_EXTERNAL_NS::thrust::detail::allocator_traits<decltype(device_alloc)>::
       template rebind_traits<void>::pointer;
 
   unique_eager_event e;
 
   // Set up stream with dependencies.
 
-  cudaStream_t const user_raw_stream = thrust::cuda_cub::stream(
+  cudaStream_t const user_raw_stream = HYDRA_EXTERNAL_NS::thrust::cuda_cub::stream(
     select_device_system(from_exec, to_exec)
   );
 
-  if (thrust::cuda_cub::default_stream() != user_raw_stream)
+  if (HYDRA_EXTERNAL_NS::thrust::cuda_cub::default_stream() != user_raw_stream)
   {
     e = make_dependent_event(
       std::tuple_cat(
@@ -105,10 +105,10 @@ auto async_copy_n(
           unique_stream(nonowning, user_raw_stream)
         )
       , extract_dependencies(
-          std::move(thrust::detail::derived_cast(from_exec))
+          std::move(HYDRA_EXTERNAL_NS::thrust::detail::derived_cast(from_exec))
         )
       , extract_dependencies(
-          std::move(thrust::detail::derived_cast(to_exec))
+          std::move(HYDRA_EXTERNAL_NS::thrust::detail::derived_cast(to_exec))
         )
       )
     );
@@ -118,10 +118,10 @@ auto async_copy_n(
     e = make_dependent_event(
       std::tuple_cat(
         extract_dependencies(
-          std::move(thrust::detail::derived_cast(from_exec))
+          std::move(HYDRA_EXTERNAL_NS::thrust::detail::derived_cast(from_exec))
         )
       , extract_dependencies(
-          std::move(thrust::detail::derived_cast(to_exec))
+          std::move(HYDRA_EXTERNAL_NS::thrust::detail::derived_cast(to_exec))
         )
       )
     );
@@ -129,10 +129,10 @@ auto async_copy_n(
 
   // Run copy.
 
-  thrust::cuda_cub::throw_on_error(
+  HYDRA_EXTERNAL_NS::thrust::cuda_cub::throw_on_error(
     cudaMemcpyAsync(
-      thrust::raw_pointer_cast(&*output)
-    , thrust::raw_pointer_cast(&*first)
+      HYDRA_EXTERNAL_NS::thrust::raw_pointer_cast(&*output)
+    , HYDRA_EXTERNAL_NS::thrust::raw_pointer_cast(&*first)
     , sizeof(T) * n
     , direction_of_copy(from_exec, to_exec)
     , e.stream().native_handle()
@@ -149,10 +149,10 @@ template <
   typename FromPolicy, typename ToPolicy
 , typename ForwardIt, typename OutputIt, typename Size
 >
-THRUST_RUNTIME_FUNCTION
+HYDRA_THRUST_RUNTIME_FUNCTION
 auto async_copy_n(
-  thrust::cuda::execution_policy<FromPolicy>& from_exec
-, thrust::cuda::execution_policy<ToPolicy>&   to_exec
+  HYDRA_EXTERNAL_NS::thrust::cuda::execution_policy<FromPolicy>& from_exec
+, HYDRA_EXTERNAL_NS::thrust::cuda::execution_policy<ToPolicy>&   to_exec
 , ForwardIt                                   first
 , Size                                        n
 , OutputIt                                    output
@@ -171,17 +171,17 @@ auto async_copy_n(
 
   return async_transform_n(
     select_device_system(from_exec, to_exec)
-  , first, n, output, thrust::identity<T>()
+  , first, n, output, HYDRA_EXTERNAL_NS::thrust::identity<T>()
   );
 }
 
 template <typename OutputIt>
 void async_copy_n_compile_failure_no_cuda_to_non_contiguous_output()
 {
-  THRUST_STATIC_ASSERT_MSG(
+  HYDRA_THRUST_STATIC_ASSERT_MSG(
     (negation<is_contiguous_iterator<OutputIt>>::value)
   , "copying to non-ContiguousIterators in another system from the CUDA system "
-    "is not supported; use `THRUST_PROCLAIM_CONTIGUOUS_ITERATOR(Iterator)` to "
+    "is not supported; use `HYDRA_THRUST_PROCLAIM_CONTIGUOUS_ITERATOR(Iterator)` to "
     "indicate that an iterator points to elements that are contiguous in memory."
   );
 }
@@ -193,7 +193,7 @@ template <
   typename FromPolicy, typename ToPolicy
 , typename ForwardIt, typename OutputIt, typename Size
 >
-THRUST_RUNTIME_FUNCTION
+HYDRA_THRUST_RUNTIME_FUNCTION
 auto async_copy_n(
   FromPolicy& from_exec
 , ToPolicy&   to_exec
@@ -230,7 +230,7 @@ template <
 , typename ForwardIt, typename OutputIt
 >
 struct is_buffered_trivially_relocatable_host_to_device_copy
-  : thrust::integral_constant<
+  : HYDRA_EXTERNAL_NS::thrust::integral_constant<
       bool
     ,    !is_contiguous_iterator<ForwardIt>::value
       && is_contiguous_iterator<OutputIt>::value
@@ -254,10 +254,10 @@ template <
   typename FromPolicy, typename ToPolicy
 , typename ForwardIt, typename OutputIt, typename Size
 >
-THRUST_RUNTIME_FUNCTION
+HYDRA_THRUST_RUNTIME_FUNCTION
 auto async_copy_n(
   FromPolicy&                               from_exec
-, thrust::cuda::execution_policy<ToPolicy>& to_exec
+, HYDRA_EXTERNAL_NS::thrust::cuda::execution_policy<ToPolicy>& to_exec
 , ForwardIt                                 first
 , Size                                      n
 , OutputIt                                  output
@@ -265,7 +265,7 @@ auto async_copy_n(
   typename std::enable_if<
     is_buffered_trivially_relocatable_host_to_device_copy<
       FromPolicy
-    , thrust::cuda::execution_policy<ToPolicy>
+    , HYDRA_EXTERNAL_NS::thrust::cuda::execution_policy<ToPolicy>
     , ForwardIt, OutputIt
     >::value
   , unique_eager_event
@@ -291,21 +291,21 @@ auto async_copy_n(
 
   // Run device-side copy.
 
-  auto new_to_exec = thrust::detail::derived_cast(to_exec).rebind_after(
+  auto new_to_exec = HYDRA_EXTERNAL_NS::thrust::detail::derived_cast(to_exec).rebind_after(
     std::tuple_cat(
       std::make_tuple(
         std::move(buffer)
       )
     , extract_dependencies(
-        std::move(thrust::detail::derived_cast(from_exec))
+        std::move(HYDRA_EXTERNAL_NS::thrust::detail::derived_cast(from_exec))
       )
     , extract_dependencies(
-        std::move(thrust::detail::derived_cast(to_exec))
+        std::move(HYDRA_EXTERNAL_NS::thrust::detail::derived_cast(to_exec))
       )
     )
   );
 
-  THRUST_STATIC_ASSERT((
+  HYDRA_THRUST_STATIC_ASSERT((
     std::tuple_size<decltype(
       extract_dependencies(to_exec)
     )>::value + 1
@@ -335,7 +335,7 @@ template <
 , typename ForwardIt, typename OutputIt
 >
 struct is_buffered_trivially_relocatable_device_to_host_copy
-  : thrust::integral_constant<
+  : HYDRA_EXTERNAL_NS::thrust::integral_constant<
       bool
     ,    !is_contiguous_iterator<ForwardIt>::value
       && is_contiguous_iterator<OutputIt>::value
@@ -359,9 +359,9 @@ template <
   typename FromPolicy, typename ToPolicy
 , typename ForwardIt, typename OutputIt, typename Size
 >
-THRUST_RUNTIME_FUNCTION
+HYDRA_THRUST_RUNTIME_FUNCTION
 auto async_copy_n(
-  thrust::cuda::execution_policy<FromPolicy>& from_exec
+  HYDRA_EXTERNAL_NS::thrust::cuda::execution_policy<FromPolicy>& from_exec
 , ToPolicy&                                   to_exec
 , ForwardIt                                   first
 , Size                                        n
@@ -369,7 +369,7 @@ auto async_copy_n(
 ) ->
   typename std::enable_if<
     is_buffered_trivially_relocatable_device_to_host_copy<
-      thrust::cuda::execution_policy<FromPolicy>
+      HYDRA_EXTERNAL_NS::thrust::cuda::execution_policy<FromPolicy>
     , ToPolicy
     , ForwardIt, OutputIt
     >::value
@@ -400,12 +400,12 @@ auto async_copy_n(
 
   // Run copy back to host.
 
-  auto new_from_exec = thrust::detail::derived_cast(from_exec).rebind_after(
+  auto new_from_exec = HYDRA_EXTERNAL_NS::thrust::detail::derived_cast(from_exec).rebind_after(
     std::move(buffer)
   , std::move(f0)
   );
 
-  THRUST_STATIC_ASSERT((
+  HYDRA_THRUST_STATIC_ASSERT((
     std::tuple_size<decltype(
       extract_dependencies(from_exec)
     )>::value + 1
@@ -427,10 +427,10 @@ auto async_copy_n(
 template <typename InputType, typename OutputType>
 void async_copy_n_compile_failure_non_trivially_relocatable_elements()
 {
-  THRUST_STATIC_ASSERT_MSG(
+  HYDRA_THRUST_STATIC_ASSERT_MSG(
     (is_trivially_relocatable_to<OutputType, InputType>::value)
   , "only sequences of TriviallyRelocatable elements can be copied to and from "
-    "the CUDA system; use `THRUST_PROCLAIM_TRIVIALLY_RELOCATABLE(T)` to "
+    "the CUDA system; use `HYDRA_THRUST_PROCLAIM_TRIVIALLY_RELOCATABLE(T)` to "
     "indicate that a type can be copied by bitwise (e.g. by `memcpy`)"
   );
 }
@@ -441,7 +441,7 @@ template <
   typename FromPolicy, typename ToPolicy
 , typename ForwardIt, typename OutputIt, typename Size
 >
-THRUST_RUNTIME_FUNCTION
+HYDRA_THRUST_RUNTIME_FUNCTION
 auto async_copy_n(
   FromPolicy& from_exec
 , ToPolicy&   to_exec
@@ -468,9 +468,9 @@ auto async_copy_n(
   // TODO: We could do more here with cudaHostRegister.
 
   async_copy_n_compile_failure_non_trivially_relocatable_elements<
-    typename thrust::iterator_traits<ForwardIt>::value_type
+    typename HYDRA_EXTERNAL_NS::thrust::iterator_traits<ForwardIt>::value_type
   , typename std::add_lvalue_reference<
-      typename thrust::iterator_traits<OutputIt>::value_type
+      typename HYDRA_EXTERNAL_NS::thrust::iterator_traits<OutputIt>::value_type
     >::type
   >();
 
@@ -487,16 +487,16 @@ template <
   typename FromPolicy, typename ToPolicy
 , typename ForwardIt, typename Sentinel, typename OutputIt
 >
-THRUST_RUNTIME_FUNCTION
+HYDRA_THRUST_RUNTIME_FUNCTION
 auto async_copy(
-  thrust::cuda::execution_policy<FromPolicy>&         from_exec
-, thrust::cpp::execution_policy<ToPolicy>&            to_exec
+  HYDRA_EXTERNAL_NS::thrust::cuda::execution_policy<FromPolicy>&         from_exec
+, HYDRA_EXTERNAL_NS::thrust::cpp::execution_policy<ToPolicy>&            to_exec
 , ForwardIt                                           first
 , Sentinel                                            last
 , OutputIt                                            output
 )
-THRUST_DECLTYPE_RETURNS(
-  thrust::system::cuda::detail::async_copy_n(
+HYDRA_THRUST_DECLTYPE_RETURNS(
+  HYDRA_EXTERNAL_NS::thrust::system::cuda::detail::async_copy_n(
     from_exec, to_exec, first, distance(first, last), output
   )
 )
@@ -506,16 +506,16 @@ template <
   typename FromPolicy, typename ToPolicy
 , typename ForwardIt, typename Sentinel, typename OutputIt
 >
-THRUST_RUNTIME_FUNCTION
+HYDRA_THRUST_RUNTIME_FUNCTION
 auto async_copy(
-  thrust::cpp::execution_policy<FromPolicy>& from_exec
-, thrust::cuda::execution_policy<ToPolicy>&  to_exec
+  HYDRA_EXTERNAL_NS::thrust::cpp::execution_policy<FromPolicy>& from_exec
+, HYDRA_EXTERNAL_NS::thrust::cuda::execution_policy<ToPolicy>&  to_exec
 , ForwardIt                                  first
 , Sentinel                                   last
 , OutputIt                                   output
 )
-THRUST_DECLTYPE_RETURNS(
-  thrust::system::cuda::detail::async_copy_n(
+HYDRA_THRUST_DECLTYPE_RETURNS(
+  HYDRA_EXTERNAL_NS::thrust::system::cuda::detail::async_copy_n(
     from_exec, to_exec, first, distance(first, last), output
   )
 )
@@ -525,25 +525,25 @@ template <
   typename FromPolicy, typename ToPolicy
 , typename ForwardIt, typename Sentinel, typename OutputIt
 >
-THRUST_RUNTIME_FUNCTION
+HYDRA_THRUST_RUNTIME_FUNCTION
 auto async_copy(
-  thrust::cuda::execution_policy<FromPolicy>& from_exec
-, thrust::cuda::execution_policy<ToPolicy>&   to_exec
+  HYDRA_EXTERNAL_NS::thrust::cuda::execution_policy<FromPolicy>& from_exec
+, HYDRA_EXTERNAL_NS::thrust::cuda::execution_policy<ToPolicy>&   to_exec
 , ForwardIt                                   first
 , Sentinel                                    last
 , OutputIt                                    output
 )
-THRUST_DECLTYPE_RETURNS(
-  thrust::system::cuda::detail::async_copy_n(
+HYDRA_THRUST_DECLTYPE_RETURNS(
+  HYDRA_EXTERNAL_NS::thrust::system::cuda::detail::async_copy_n(
     from_exec, to_exec, first, distance(first, last), output
   )
 )
 
 } // cuda_cub
 
-THRUST_END_NS
+HYDRA_THRUST_END_NS
 HYDRA_EXTERNAL_NAMESPACE_END
-#endif // THRUST_DEVICE_COMPILER == THRUST_DEVICE_COMPILER_NVCC
+#endif // HYDRA_THRUST_DEVICE_COMPILER == HYDRA_THRUST_DEVICE_COMPILER_NVCC
 
 #endif
 

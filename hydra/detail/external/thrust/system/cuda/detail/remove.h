@@ -27,11 +27,11 @@
 #pragma once
 
 
-#if THRUST_DEVICE_COMPILER == THRUST_DEVICE_COMPILER_NVCC
+#if HYDRA_THRUST_DEVICE_COMPILER == HYDRA_THRUST_DEVICE_COMPILER_NVCC
 #include <hydra/detail/external/thrust/system/cuda/detail/copy_if.h>
 
 HYDRA_EXTERNAL_NAMESPACE_BEGIN
-THRUST_BEGIN_NS
+HYDRA_THRUST_BEGIN_NS
 namespace cuda_cub {
 
 // in-place
@@ -48,7 +48,7 @@ remove_if(execution_policy<Derived> &policy,
           Predicate                  predicate)
 {
   return cuda_cub::copy_if(policy, first, last, stencil, first,
-    thrust::detail::not1(predicate));
+    HYDRA_EXTERNAL_NS::thrust::detail::not1(predicate));
 }
 
 template <class Derived,
@@ -61,7 +61,7 @@ remove_if(execution_policy<Derived> &policy,
           Predicate                  predicate)
 {
   return cuda_cub::copy_if(policy, first, last, first,
-    thrust::detail::not1(predicate));
+    HYDRA_EXTERNAL_NS::thrust::detail::not1(predicate));
 }
 
 
@@ -74,7 +74,7 @@ remove(execution_policy<Derived> &policy,
        InputIt                    last,
        const T &                  value)
 {
-  thrust::detail::equal_to_value<T> pred(value);
+  HYDRA_EXTERNAL_NS::thrust::detail::equal_to_value<T> pred(value);
   return cuda_cub::remove_if(policy, first, last, pred);
 }
 
@@ -94,7 +94,7 @@ remove_copy_if(execution_policy<Derived> &policy,
                Predicate                  predicate)
 {
   return cuda_cub::copy_if(policy, first, last, stencil, result,
-    thrust::detail::not1(predicate));
+    HYDRA_EXTERNAL_NS::thrust::detail::not1(predicate));
 }
 
 template <class Derived,
@@ -109,7 +109,7 @@ remove_copy_if(execution_policy<Derived> &policy,
                Predicate                  predicate)
 {
   return cuda_cub::copy_if(policy, first, last, result,
-    thrust::detail::not1(predicate));
+    HYDRA_EXTERNAL_NS::thrust::detail::not1(predicate));
 }
 
 
@@ -124,11 +124,11 @@ remove_copy(execution_policy<Derived> &policy,
             OutputIt                   result,
             const T &                  value)
 {
-  thrust::detail::equal_to_value<T> pred(value);
+  HYDRA_EXTERNAL_NS::thrust::detail::equal_to_value<T> pred(value);
   return cuda_cub::remove_copy_if(policy, first, last, result, pred);
 }
 
 }    // namespace cuda_cub
-THRUST_END_NS
+HYDRA_THRUST_END_NS
 HYDRA_EXTERNAL_NAMESPACE_END
 #endif

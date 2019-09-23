@@ -63,7 +63,7 @@ HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
  *  // derive repeat_iterator from iterator_adaptor
  *  template<typename Iterator>
  *    class repeat_iterator
- *      : public thrust::iterator_adaptor<
+ *      : public HYDRA_EXTERNAL_NS::thrust::iterator_adaptor<
  *          repeat_iterator<Iterator>, // the first template parameter is the name of the iterator we're creating
  *          Iterator                   // the second template parameter is the name of the iterator we're adapting
  *                                     // we can use the default for the additional template parameters
@@ -71,7 +71,7 @@ HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
  *  {
  *    public:
  *      // shorthand for the name of the iterator_adaptor we're deriving from
- *      typedef thrust::iterator_adaptor<
+ *      typedef HYDRA_EXTERNAL_NS::thrust::iterator_adaptor<
  *        repeat_iterator<Iterator>,
  *        Iterator
  *      > super_t;
@@ -79,8 +79,8 @@ HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
  *      __hydra_host__ __hydra_device__
  *      repeat_iterator(const Iterator &x, int n) : super_t(x), begin(x), n(n) {}
  *
- *      // befriend thrust::iterator_core_access to allow it access to the private interface below
- *      friend class thrust::iterator_core_access;
+ *      // befriend HYDRA_EXTERNAL_NS::thrust::iterator_core_access to allow it access to the private interface below
+ *      friend class HYDRA_EXTERNAL_NS::thrust::iterator_core_access;
  *
  *    private:
  *      // repeat each element of the adapted range n times
@@ -89,7 +89,7 @@ HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
  *      // used to keep track of where we began
  *      const Iterator begin;
  *
- *      // it is private because only thrust::iterator_core_access needs access to it
+ *      // it is private because only HYDRA_EXTERNAL_NS::thrust::iterator_core_access needs access to it
  *      __hydra_host__ __hydra_device__
  *      typename super_t::reference dereference() const
  *      {
@@ -99,7 +99,7 @@ HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
  *  \endcode
  *
  *  Except for the first two, \p iterator_adaptor's template parameters are optional. When omitted, or when the
- *  user specifies \p thrust::use_default in its place, \p iterator_adaptor will use a default type inferred from \p Base.
+ *  user specifies \p HYDRA_EXTERNAL_NS::thrust::use_default in its place, \p iterator_adaptor will use a default type inferred from \p Base.
  *
  *  \p iterator_adaptor's functionality is derived from and generally equivalent to \p boost::iterator_adaptor.
  *  The exception is Thrust's addition of the template parameter \p System, which is necessary to allow Thrust
@@ -126,7 +126,7 @@ template<typename Derived,
   /*! \cond
    */
 
-    friend class thrust::iterator_core_access;
+    friend class HYDRA_EXTERNAL_NS::thrust::iterator_core_access;
 
   protected:
     typedef typename detail::iterator_adaptor_base<

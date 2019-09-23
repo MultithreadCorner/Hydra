@@ -31,12 +31,12 @@ namespace detail
 
 
 template<typename RandomAccessIterator,
-         typename BinaryPredicate = thrust::equal_to<typename thrust::iterator_value<RandomAccessIterator>::type>,
+         typename BinaryPredicate = HYDRA_EXTERNAL_NS::thrust::equal_to<typename HYDRA_EXTERNAL_NS::thrust::iterator_value<RandomAccessIterator>::type>,
          typename ValueType = bool,
-         typename IndexType = typename thrust::iterator_difference<RandomAccessIterator>::type>
+         typename IndexType = typename HYDRA_EXTERNAL_NS::thrust::iterator_difference<RandomAccessIterator>::type>
   class head_flags_with_init
 {
-  typedef typename thrust::iterator_value<RandomAccessIterator>::type init_type;
+  typedef typename HYDRA_EXTERNAL_NS::thrust::iterator_value<RandomAccessIterator>::type init_type;
 
   // XXX WAR cudafe issue
   //private:
@@ -63,29 +63,29 @@ template<typename RandomAccessIterator,
       __hydra_host__ __hydra_device__ __thrust_forceinline__
       result_type operator()(const Tuple &t)
       {
-        const IndexType i = thrust::get<0>(t);
+        const IndexType i = HYDRA_EXTERNAL_NS::thrust::get<0>(t);
 
         if(i == 0)
         {
-          return !binary_pred(init, thrust::get<1>(t));
+          return !binary_pred(init, HYDRA_EXTERNAL_NS::thrust::get<1>(t));
         }
 
-        return !binary_pred(thrust::get<1>(t), thrust::get<2>(t));
+        return !binary_pred(HYDRA_EXTERNAL_NS::thrust::get<1>(t), HYDRA_EXTERNAL_NS::thrust::get<2>(t));
       }
     };
 
-    typedef thrust::counting_iterator<IndexType> counting_iterator;
+    typedef HYDRA_EXTERNAL_NS::thrust::counting_iterator<IndexType> counting_iterator;
 
   public:
-    typedef thrust::transform_iterator<
+    typedef HYDRA_EXTERNAL_NS::thrust::transform_iterator<
       head_flag_functor,
-      thrust::zip_iterator<thrust::tuple<counting_iterator,RandomAccessIterator,RandomAccessIterator> >
+      HYDRA_EXTERNAL_NS::thrust::zip_iterator<HYDRA_EXTERNAL_NS::thrust::tuple<counting_iterator,RandomAccessIterator,RandomAccessIterator> >
     > iterator;
 
     __thrust_exec_check_disable__
     __hydra_host__ __hydra_device__
     head_flags_with_init(RandomAccessIterator first, RandomAccessIterator last, init_type init)
-      : m_begin(thrust::make_transform_iterator(thrust::make_zip_iterator(thrust::make_tuple(thrust::counting_iterator<IndexType>(0), first, first - 1)),
+      : m_begin(HYDRA_EXTERNAL_NS::thrust::make_transform_iterator(HYDRA_EXTERNAL_NS::thrust::make_zip_iterator(HYDRA_EXTERNAL_NS::thrust::make_tuple(HYDRA_EXTERNAL_NS::thrust::counting_iterator<IndexType>(0), first, first - 1)),
                                                 head_flag_functor(init, last - first))),
         m_end(m_begin + (last - first))
     {}
@@ -93,7 +93,7 @@ template<typename RandomAccessIterator,
     __thrust_exec_check_disable__
     __hydra_host__ __hydra_device__
     head_flags_with_init(RandomAccessIterator first, RandomAccessIterator last, init_type init, BinaryPredicate binary_pred)
-      : m_begin(thrust::make_transform_iterator(thrust::make_zip_iterator(thrust::make_tuple(thrust::counting_iterator<IndexType>(0), first, first - 1)),
+      : m_begin(HYDRA_EXTERNAL_NS::thrust::make_transform_iterator(HYDRA_EXTERNAL_NS::thrust::make_zip_iterator(HYDRA_EXTERNAL_NS::thrust::make_tuple(HYDRA_EXTERNAL_NS::thrust::counting_iterator<IndexType>(0), first, first - 1)),
                                                 head_flag_functor(init, last - first, binary_pred))),
         m_end(m_begin + (last - first))
     {}
@@ -124,9 +124,9 @@ template<typename RandomAccessIterator,
 
 
 template<typename RandomAccessIterator,
-         typename BinaryPredicate = thrust::equal_to<typename thrust::iterator_value<RandomAccessIterator>::type>,
+         typename BinaryPredicate = HYDRA_EXTERNAL_NS::thrust::equal_to<typename HYDRA_EXTERNAL_NS::thrust::iterator_value<RandomAccessIterator>::type>,
          typename ValueType = bool,
-         typename IndexType = typename thrust::iterator_difference<RandomAccessIterator>::type>
+         typename IndexType = typename HYDRA_EXTERNAL_NS::thrust::iterator_difference<RandomAccessIterator>::type>
   class head_flags
 {
   // XXX WAR cudafe issue
@@ -153,32 +153,32 @@ template<typename RandomAccessIterator,
       __hydra_host__ __hydra_device__ __thrust_forceinline__
       result_type operator()(const Tuple &t)
       {
-        const IndexType i = thrust::get<0>(t);
+        const IndexType i = HYDRA_EXTERNAL_NS::thrust::get<0>(t);
 
         // note that we do not dereference the tuple's 2nd element when i <= 0
         // and therefore do not dereference a bad location at the boundary
-        return (i == 0 || !binary_pred(thrust::get<1>(t), thrust::get<2>(t)));
+        return (i == 0 || !binary_pred(HYDRA_EXTERNAL_NS::thrust::get<1>(t), HYDRA_EXTERNAL_NS::thrust::get<2>(t)));
       }
     };
 
-    typedef thrust::counting_iterator<IndexType> counting_iterator;
+    typedef HYDRA_EXTERNAL_NS::thrust::counting_iterator<IndexType> counting_iterator;
 
   public:
-    typedef thrust::transform_iterator<
+    typedef HYDRA_EXTERNAL_NS::thrust::transform_iterator<
       head_flag_functor,
-      thrust::zip_iterator<thrust::tuple<counting_iterator,RandomAccessIterator,RandomAccessIterator> >
+      HYDRA_EXTERNAL_NS::thrust::zip_iterator<HYDRA_EXTERNAL_NS::thrust::tuple<counting_iterator,RandomAccessIterator,RandomAccessIterator> >
     > iterator;
 
     __hydra_host__ __hydra_device__
     head_flags(RandomAccessIterator first, RandomAccessIterator last)
-      : m_begin(thrust::make_transform_iterator(thrust::make_zip_iterator(thrust::make_tuple(thrust::counting_iterator<IndexType>(0), first, first - 1)),
+      : m_begin(HYDRA_EXTERNAL_NS::thrust::make_transform_iterator(HYDRA_EXTERNAL_NS::thrust::make_zip_iterator(HYDRA_EXTERNAL_NS::thrust::make_tuple(HYDRA_EXTERNAL_NS::thrust::counting_iterator<IndexType>(0), first, first - 1)),
                                                 head_flag_functor(last - first))),
         m_end(m_begin + (last - first))
     {}
 
     __hydra_host__ __hydra_device__
     head_flags(RandomAccessIterator first, RandomAccessIterator last, BinaryPredicate binary_pred)
-      : m_begin(thrust::make_transform_iterator(thrust::make_zip_iterator(thrust::make_tuple(thrust::counting_iterator<IndexType>(0), first, first - 1)),
+      : m_begin(HYDRA_EXTERNAL_NS::thrust::make_transform_iterator(HYDRA_EXTERNAL_NS::thrust::make_zip_iterator(HYDRA_EXTERNAL_NS::thrust::make_tuple(HYDRA_EXTERNAL_NS::thrust::counting_iterator<IndexType>(0), first, first - 1)),
                                                 head_flag_functor(last - first, binary_pred))),
         m_end(m_begin + (last - first))
     {}

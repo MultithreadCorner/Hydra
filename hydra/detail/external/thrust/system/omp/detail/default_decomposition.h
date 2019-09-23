@@ -34,7 +34,7 @@ namespace detail
 {
 
 template <typename IndexType>
-thrust::system::detail::internal::uniform_decomposition<IndexType> default_decomposition(IndexType n);
+HYDRA_EXTERNAL_NS::thrust::system::detail::internal::uniform_decomposition<IndexType> default_decomposition(IndexType n);
 
 } // end namespace detail
 } // end namespace omp

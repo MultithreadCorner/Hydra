@@ -94,21 +94,21 @@ template<typename System, typename Traversal, typename ValueParam, typename Refe
 // this is the function for standard system iterators
 template<typename Traversal, typename ValueParam, typename Reference>
   struct iterator_facade_default_category_std :
-    thrust::detail::eval_if<
-      thrust::detail::is_convertible<Traversal, thrust::forward_traversal_tag>::value,
-      thrust::detail::eval_if<
-        thrust::detail::is_convertible<Traversal, thrust::random_access_traversal_tag>::value,
-        thrust::detail::identity_<std::random_access_iterator_tag>,
-        thrust::detail::eval_if<
-          thrust::detail::is_convertible<Traversal, thrust::bidirectional_traversal_tag>::value,
-          thrust::detail::identity_<std::bidirectional_iterator_tag>,
-          thrust::detail::identity_<std::forward_iterator_tag>
+    HYDRA_EXTERNAL_NS::thrust::detail::eval_if<
+      HYDRA_EXTERNAL_NS::thrust::detail::is_convertible<Traversal, HYDRA_EXTERNAL_NS::thrust::forward_traversal_tag>::value,
+      HYDRA_EXTERNAL_NS::thrust::detail::eval_if<
+        HYDRA_EXTERNAL_NS::thrust::detail::is_convertible<Traversal, HYDRA_EXTERNAL_NS::thrust::random_access_traversal_tag>::value,
+        HYDRA_EXTERNAL_NS::thrust::detail::identity_<std::random_access_iterator_tag>,
+        HYDRA_EXTERNAL_NS::thrust::detail::eval_if<
+          HYDRA_EXTERNAL_NS::thrust::detail::is_convertible<Traversal, HYDRA_EXTERNAL_NS::thrust::bidirectional_traversal_tag>::value,
+          HYDRA_EXTERNAL_NS::thrust::detail::identity_<std::bidirectional_iterator_tag>,
+          HYDRA_EXTERNAL_NS::thrust::detail::identity_<std::forward_iterator_tag>
         >
       >,
-      thrust::detail::eval_if< // XXX note we differ from Boost here
-        thrust::detail::is_convertible<Traversal, thrust::single_pass_traversal_tag>::value,
-        thrust::detail::identity_<std::input_iterator_tag>,
-        thrust::detail::identity_<Traversal>
+      HYDRA_EXTERNAL_NS::thrust::detail::eval_if< // XXX note we differ from Boost here
+        HYDRA_EXTERNAL_NS::thrust::detail::is_convertible<Traversal, HYDRA_EXTERNAL_NS::thrust::single_pass_traversal_tag>::value,
+        HYDRA_EXTERNAL_NS::thrust::detail::identity_<std::input_iterator_tag>,
+        HYDRA_EXTERNAL_NS::thrust::detail::identity_<Traversal>
       >
     >
 {
@@ -118,21 +118,21 @@ template<typename Traversal, typename ValueParam, typename Reference>
 // this is the function for host system iterators
 template<typename Traversal, typename ValueParam, typename Reference>
   struct iterator_facade_default_category_host :
-    thrust::detail::eval_if<
-      thrust::detail::is_convertible<Traversal, thrust::forward_traversal_tag>::value,
-      thrust::detail::eval_if<
-        thrust::detail::is_convertible<Traversal, thrust::random_access_traversal_tag>::value,
-        thrust::detail::identity_<thrust::random_access_host_iterator_tag>,
-        thrust::detail::eval_if<
-          thrust::detail::is_convertible<Traversal, thrust::bidirectional_traversal_tag>::value,
-          thrust::detail::identity_<thrust::bidirectional_host_iterator_tag>,
-          thrust::detail::identity_<thrust::forward_host_iterator_tag>
+    HYDRA_EXTERNAL_NS::thrust::detail::eval_if<
+      HYDRA_EXTERNAL_NS::thrust::detail::is_convertible<Traversal, HYDRA_EXTERNAL_NS::thrust::forward_traversal_tag>::value,
+      HYDRA_EXTERNAL_NS::thrust::detail::eval_if<
+        HYDRA_EXTERNAL_NS::thrust::detail::is_convertible<Traversal, HYDRA_EXTERNAL_NS::thrust::random_access_traversal_tag>::value,
+        HYDRA_EXTERNAL_NS::thrust::detail::identity_<HYDRA_EXTERNAL_NS::thrust::random_access_host_iterator_tag>,
+        HYDRA_EXTERNAL_NS::thrust::detail::eval_if<
+          HYDRA_EXTERNAL_NS::thrust::detail::is_convertible<Traversal, HYDRA_EXTERNAL_NS::thrust::bidirectional_traversal_tag>::value,
+          HYDRA_EXTERNAL_NS::thrust::detail::identity_<HYDRA_EXTERNAL_NS::thrust::bidirectional_host_iterator_tag>,
+          HYDRA_EXTERNAL_NS::thrust::detail::identity_<HYDRA_EXTERNAL_NS::thrust::forward_host_iterator_tag>
         >
       >,
-      thrust::detail::eval_if< // XXX note we differ from Boost here
-        thrust::detail::is_convertible<Traversal, thrust::single_pass_traversal_tag>::value,
-        thrust::detail::identity_<thrust::input_host_iterator_tag>,
-        thrust::detail::identity_<Traversal>
+      HYDRA_EXTERNAL_NS::thrust::detail::eval_if< // XXX note we differ from Boost here
+        HYDRA_EXTERNAL_NS::thrust::detail::is_convertible<Traversal, HYDRA_EXTERNAL_NS::thrust::single_pass_traversal_tag>::value,
+        HYDRA_EXTERNAL_NS::thrust::detail::identity_<HYDRA_EXTERNAL_NS::thrust::input_host_iterator_tag>,
+        HYDRA_EXTERNAL_NS::thrust::detail::identity_<Traversal>
       >
     >
 {
@@ -142,21 +142,21 @@ template<typename Traversal, typename ValueParam, typename Reference>
 // this is the function for device system iterators
 template<typename Traversal, typename ValueParam, typename Reference>
   struct iterator_facade_default_category_device :
-    thrust::detail::eval_if<
-      thrust::detail::is_convertible<Traversal, thrust::forward_traversal_tag>::value,
-      thrust::detail::eval_if<
-        thrust::detail::is_convertible<Traversal, thrust::random_access_traversal_tag>::value,
-        thrust::detail::identity_<thrust::random_access_device_iterator_tag>,
-        thrust::detail::eval_if<
-          thrust::detail::is_convertible<Traversal, thrust::bidirectional_traversal_tag>::value,
-          thrust::detail::identity_<thrust::bidirectional_device_iterator_tag>,
-          thrust::detail::identity_<thrust::forward_device_iterator_tag>
+    HYDRA_EXTERNAL_NS::thrust::detail::eval_if<
+      HYDRA_EXTERNAL_NS::thrust::detail::is_convertible<Traversal, HYDRA_EXTERNAL_NS::thrust::forward_traversal_tag>::value,
+      HYDRA_EXTERNAL_NS::thrust::detail::eval_if<
+        HYDRA_EXTERNAL_NS::thrust::detail::is_convertible<Traversal, HYDRA_EXTERNAL_NS::thrust::random_access_traversal_tag>::value,
+        HYDRA_EXTERNAL_NS::thrust::detail::identity_<HYDRA_EXTERNAL_NS::thrust::random_access_device_iterator_tag>,
+        HYDRA_EXTERNAL_NS::thrust::detail::eval_if<
+          HYDRA_EXTERNAL_NS::thrust::detail::is_convertible<Traversal, HYDRA_EXTERNAL_NS::thrust::bidirectional_traversal_tag>::value,
+          HYDRA_EXTERNAL_NS::thrust::detail::identity_<HYDRA_EXTERNAL_NS::thrust::bidirectional_device_iterator_tag>,
+          HYDRA_EXTERNAL_NS::thrust::detail::identity_<HYDRA_EXTERNAL_NS::thrust::forward_device_iterator_tag>
         >
       >,
-      thrust::detail::eval_if<
-        thrust::detail::is_convertible<Traversal, thrust::single_pass_traversal_tag>::value, // XXX note we differ from Boost here
-        thrust::detail::identity_<thrust::input_device_iterator_tag>,
-        thrust::detail::identity_<Traversal>
+      HYDRA_EXTERNAL_NS::thrust::detail::eval_if<
+        HYDRA_EXTERNAL_NS::thrust::detail::is_convertible<Traversal, HYDRA_EXTERNAL_NS::thrust::single_pass_traversal_tag>::value, // XXX note we differ from Boost here
+        HYDRA_EXTERNAL_NS::thrust::detail::identity_<HYDRA_EXTERNAL_NS::thrust::input_device_iterator_tag>,
+        HYDRA_EXTERNAL_NS::thrust::detail::identity_<Traversal>
       >
     >
 {
@@ -167,9 +167,9 @@ template<typename Traversal, typename ValueParam, typename Reference>
 template<typename Traversal, typename ValueParam, typename Reference>
   struct iterator_facade_default_category_any
 {
-  typedef thrust::detail::iterator_category_with_system_and_traversal<
+  typedef HYDRA_EXTERNAL_NS::thrust::detail::iterator_category_with_system_and_traversal<
     typename iterator_facade_default_category_std<Traversal, ValueParam, Reference>::type,
-    thrust::any_system_tag,
+    HYDRA_EXTERNAL_NS::thrust::any_system_tag,
     Traversal
   > type;
 }; // end iterator_facade_default_category_any
@@ -178,24 +178,24 @@ template<typename Traversal, typename ValueParam, typename Reference>
 template<typename System, typename Traversal, typename ValueParam, typename Reference>
   struct iterator_facade_default_category
       // check for any system
-    : thrust::detail::eval_if<
-        thrust::detail::is_convertible<System, thrust::any_system_tag>::value,
+    : HYDRA_EXTERNAL_NS::thrust::detail::eval_if<
+        HYDRA_EXTERNAL_NS::thrust::detail::is_convertible<System, HYDRA_EXTERNAL_NS::thrust::any_system_tag>::value,
         iterator_facade_default_category_any<Traversal, ValueParam, Reference>,
 
         // check for host system
-        thrust::detail::eval_if<
-          thrust::detail::is_convertible<System, thrust::host_system_tag>::value,
+        HYDRA_EXTERNAL_NS::thrust::detail::eval_if<
+          HYDRA_EXTERNAL_NS::thrust::detail::is_convertible<System, HYDRA_EXTERNAL_NS::thrust::host_system_tag>::value,
           iterator_facade_default_category_host<Traversal, ValueParam, Reference>,
 
           // check for device system
-          thrust::detail::eval_if<
-            thrust::detail::is_convertible<System, thrust::device_system_tag>::value,
+          HYDRA_EXTERNAL_NS::thrust::detail::eval_if<
+            HYDRA_EXTERNAL_NS::thrust::detail::is_convertible<System, HYDRA_EXTERNAL_NS::thrust::device_system_tag>::value,
             iterator_facade_default_category_device<Traversal, ValueParam, Reference>,
 
             // if we don't recognize the system, get a standard iterator category
             // and combine it with System & Traversal
-            thrust::detail::identity_<
-              thrust::detail::iterator_category_with_system_and_traversal<
+            HYDRA_EXTERNAL_NS::thrust::detail::identity_<
+              HYDRA_EXTERNAL_NS::thrust::detail::iterator_category_with_system_and_traversal<
                 typename iterator_facade_default_category_std<Traversal, ValueParam, Reference>::type,
                 System,
                 Traversal
@@ -216,19 +216,19 @@ template<typename System, typename Traversal, typename ValueParam, typename Refe
 
   // we must be able to deduce both Traversal & System from category
   // otherwise, munge them all together
-  typedef typename thrust::detail::eval_if<
-    thrust::detail::and_<
-      thrust::detail::is_same<
+  typedef typename HYDRA_EXTERNAL_NS::thrust::detail::eval_if<
+    HYDRA_EXTERNAL_NS::thrust::detail::and_<
+      HYDRA_EXTERNAL_NS::thrust::detail::is_same<
         Traversal,
-        typename thrust::detail::iterator_category_to_traversal<category>::type
+        typename HYDRA_EXTERNAL_NS::thrust::detail::iterator_category_to_traversal<category>::type
       >,
-      thrust::detail::is_same<
+      HYDRA_EXTERNAL_NS::thrust::detail::is_same<
         System,
-        typename thrust::detail::iterator_category_to_system<category>::type
+        typename HYDRA_EXTERNAL_NS::thrust::detail::iterator_category_to_system<category>::type
       >
     >::value,
-    thrust::detail::identity_<category>,
-    thrust::detail::identity_<thrust::detail::iterator_category_with_system_and_traversal<category,System,Traversal> >
+    HYDRA_EXTERNAL_NS::thrust::detail::identity_<category>,
+    HYDRA_EXTERNAL_NS::thrust::detail::identity_<HYDRA_EXTERNAL_NS::thrust::detail::iterator_category_with_system_and_traversal<category,System,Traversal> >
   >::type type;
 }; // end iterator_facade_category_impl
 
@@ -240,9 +240,9 @@ template<typename CategoryOrSystem,
   struct iterator_facade_category
 {
   typedef typename
-  thrust::detail::eval_if<
-    thrust::detail::is_iterator_category<CategoryOrTraversal>::value,
-    thrust::detail::identity_<CategoryOrTraversal>, // categories are fine as-is
+  HYDRA_EXTERNAL_NS::thrust::detail::eval_if<
+    HYDRA_EXTERNAL_NS::thrust::detail::is_iterator_category<CategoryOrTraversal>::value,
+    HYDRA_EXTERNAL_NS::thrust::detail::identity_<CategoryOrTraversal>, // categories are fine as-is
     iterator_facade_category_impl<CategoryOrSystem, CategoryOrTraversal, ValueParam, Reference>
   >::type type;
 }; // end iterator_facade_category

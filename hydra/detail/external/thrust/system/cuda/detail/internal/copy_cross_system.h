@@ -40,7 +40,7 @@
 #include <hydra/detail/external/thrust/detail/temporary_array.h>
 #include <hydra/detail/external/thrust/type_traits/is_trivially_relocatable.h>
 HYDRA_EXTERNAL_NAMESPACE_BEGIN
-THRUST_BEGIN_NS
+HYDRA_THRUST_BEGIN_NS
 namespace cuda_cub {
 
 namespace __copy {
@@ -50,9 +50,9 @@ namespace __copy {
             class D,
             class T,
             class Size>
-  THRUST_HOST_FUNCTION void
-  trivial_device_copy(thrust::cpp::execution_policy<H>&      ,
-                      thrust::cuda_cub::execution_policy<D>& device_s,
+  HYDRA_THRUST_HOST_FUNCTION void
+  trivial_device_copy(HYDRA_EXTERNAL_NS::thrust::cpp::execution_policy<H>&      ,
+                      HYDRA_EXTERNAL_NS::thrust::cuda_cub::execution_policy<D>& device_s,
                       T*                                     dst,
                       T const*                               src,
                       Size                                   count)
@@ -69,9 +69,9 @@ namespace __copy {
             class H,
             class T,
             class Size>
-  THRUST_HOST_FUNCTION void
-  trivial_device_copy(thrust::cuda_cub::execution_policy<D>& device_s,
-                      thrust::cpp::execution_policy<H>&      ,
+  HYDRA_THRUST_HOST_FUNCTION void
+  trivial_device_copy(HYDRA_EXTERNAL_NS::thrust::cuda_cub::execution_policy<D>& device_s,
+                      HYDRA_EXTERNAL_NS::thrust::cpp::execution_policy<H>&      ,
                       T*                                     dst,
                       T const*                               src,
                       Size                                   count)
@@ -90,20 +90,20 @@ namespace __copy {
             class Size,
             class OutputIt>
   OutputIt __hydra_host__
-  cross_system_copy_n(thrust::execution_policy<System1>& sys1,
-                      thrust::execution_policy<System2>& sys2,
+  cross_system_copy_n(HYDRA_EXTERNAL_NS::thrust::execution_policy<System1>& sys1,
+                      HYDRA_EXTERNAL_NS::thrust::execution_policy<System2>& sys2,
                       InputIt                            begin,
                       Size                               n,
                       OutputIt                           result,
-                      thrust::detail::true_type)    // trivial copy
+                      HYDRA_EXTERNAL_NS::thrust::detail::true_type)    // trivial copy
 
   {
     typedef typename iterator_traits<InputIt>::value_type InputTy;
 
     trivial_device_copy(derived_cast(sys1),
                         derived_cast(sys2),
-                        reinterpret_cast<InputTy*>(thrust::raw_pointer_cast(&*result)),
-                        reinterpret_cast<InputTy const*>(thrust::raw_pointer_cast(&*begin)),
+                        reinterpret_cast<InputTy*>(HYDRA_EXTERNAL_NS::thrust::raw_pointer_cast(&*result)),
+                        reinterpret_cast<InputTy const*>(HYDRA_EXTERNAL_NS::thrust::raw_pointer_cast(&*begin)),
                         n);
 
     return result + n;
@@ -116,20 +116,20 @@ namespace __copy {
             class Size,
             class OutputIt>
   OutputIt __hydra_host__
-  cross_system_copy_n(thrust::cpp::execution_policy<H>&      host_s,
-                      thrust::cuda_cub::execution_policy<D>& device_s,
+  cross_system_copy_n(HYDRA_EXTERNAL_NS::thrust::cpp::execution_policy<H>&      host_s,
+                      HYDRA_EXTERNAL_NS::thrust::cuda_cub::execution_policy<D>& device_s,
                       InputIt                                first,
                       Size                                   num_items,
                       OutputIt                               result,
-                      thrust::detail::false_type)    // non-trivial copy
+                      HYDRA_EXTERNAL_NS::thrust::detail::false_type)    // non-trivial copy
   {
     // get type of the input data
-    typedef typename thrust::iterator_value<InputIt>::type InputTy;
+    typedef typename HYDRA_EXTERNAL_NS::thrust::iterator_value<InputIt>::type InputTy;
 
     // copy input data into host temp storage
     InputIt last = first;
-    thrust::advance(last, num_items);
-    thrust::detail::temporary_array<InputTy, H> temp(host_s, num_items);
+    HYDRA_EXTERNAL_NS::thrust::advance(last, num_items);
+    HYDRA_EXTERNAL_NS::thrust::detail::temporary_array<InputTy, H> temp(host_s, num_items);
 
     for (Size idx = 0; idx != num_items; idx++)
     {
@@ -138,7 +138,7 @@ namespace __copy {
     }
 
     // allocate device temporary storage
-    thrust::detail::temporary_array<InputTy, D> d_in_ptr(device_s, num_items);
+    HYDRA_EXTERNAL_NS::thrust::detail::temporary_array<InputTy, D> d_in_ptr(device_s, num_items);
 
     // trivial copy data from host to device
     cudaError status = cuda_cub::trivial_copy_to_device(d_in_ptr.data().get(),
@@ -154,7 +154,7 @@ namespace __copy {
     return ret;
   }
 
-#if THRUST_DEVICE_COMPILER == THRUST_DEVICE_COMPILER_NVCC
+#if HYDRA_THRUST_DEVICE_COMPILER == HYDRA_THRUST_DEVICE_COMPILER_NVCC
   // non-trivial copy D->H, only supported with NVCC compiler
   // because copy ctor must have  __device__ annotations, which is nvcc-only
   // feature
@@ -164,25 +164,25 @@ namespace __copy {
             class Size,
             class OutputIt>
   OutputIt __hydra_host__
-  cross_system_copy_n(thrust::cuda_cub::execution_policy<D>& device_s,
-                      thrust::cpp::execution_policy<H>&   host_s,
+  cross_system_copy_n(HYDRA_EXTERNAL_NS::thrust::cuda_cub::execution_policy<D>& device_s,
+                      HYDRA_EXTERNAL_NS::thrust::cpp::execution_policy<H>&   host_s,
                       InputIt                             first,
                       Size                                num_items,
                       OutputIt                            result,
-                      thrust::detail::false_type)    // non-trivial copy
+                      HYDRA_EXTERNAL_NS::thrust::detail::false_type)    // non-trivial copy
 
   {
     // get type of the input data
-    typedef typename thrust::iterator_value<InputIt>::type InputTy;
+    typedef typename HYDRA_EXTERNAL_NS::thrust::iterator_value<InputIt>::type InputTy;
 
     // allocate device temp storage 
-    thrust::detail::temporary_array<InputTy, D> d_in_ptr(device_s, num_items);
+    HYDRA_EXTERNAL_NS::thrust::detail::temporary_array<InputTy, D> d_in_ptr(device_s, num_items);
 
     // uninitialize copy into temp device storage
     cuda_cub::uninitialized_copy_n(device_s, first, num_items, d_in_ptr.data());
 
     // allocate host temp storage
-    thrust::detail::temporary_array<InputTy, H> temp(host_s, num_items);
+    HYDRA_EXTERNAL_NS::thrust::detail::temporary_array<InputTy, H> temp(host_s, num_items);
 
     // trivial copy from device to host
     cudaError status;
@@ -193,7 +193,7 @@ namespace __copy {
     cuda_cub::throw_on_error(status, "__copy:: D->H: failed");
 
     // host->host copy
-    OutputIt ret = thrust::copy_n(host_s, temp.data(), num_items, result);
+    OutputIt ret = HYDRA_EXTERNAL_NS::thrust::copy_n(host_s, temp.data(), num_items, result);
 
     return ret;
   }
@@ -231,12 +231,12 @@ namespace __copy {
   {
     return cross_system_copy_n(systems,
                                begin,
-                               thrust::distance(begin, end),
+                               HYDRA_EXTERNAL_NS::thrust::distance(begin, end),
                                result);
   }
 
 }    // namespace __copy
 
 } // namespace cuda_cub
-THRUST_END_NS
+HYDRA_THRUST_END_NS
 HYDRA_EXTERNAL_NAMESPACE_END

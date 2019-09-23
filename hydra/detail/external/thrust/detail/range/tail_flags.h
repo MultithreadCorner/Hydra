@@ -30,9 +30,9 @@ namespace detail
 
 
 template<typename RandomAccessIterator,
-         typename BinaryPredicate = thrust::equal_to<typename thrust::iterator_value<RandomAccessIterator>::type>,
+         typename BinaryPredicate = HYDRA_EXTERNAL_NS::thrust::equal_to<typename HYDRA_EXTERNAL_NS::thrust::iterator_value<RandomAccessIterator>::type>,
          typename ValueType = bool,
-         typename IndexType = typename thrust::iterator_difference<RandomAccessIterator>::type>
+         typename IndexType = typename HYDRA_EXTERNAL_NS::thrust::iterator_difference<RandomAccessIterator>::type>
   class tail_flags
 {
   // XXX WAR cudafe bug
@@ -63,10 +63,10 @@ template<typename RandomAccessIterator,
       }
     };
 
-    typedef thrust::counting_iterator<IndexType> counting_iterator;
+    typedef HYDRA_EXTERNAL_NS::thrust::counting_iterator<IndexType> counting_iterator;
 
   public:
-    typedef thrust::transform_iterator<
+    typedef HYDRA_EXTERNAL_NS::thrust::transform_iterator<
       tail_flag_functor,
       counting_iterator
     > iterator;
@@ -74,7 +74,7 @@ template<typename RandomAccessIterator,
     __thrust_exec_check_disable__
     __hydra_host__ __hydra_device__
     tail_flags(RandomAccessIterator first, RandomAccessIterator last)
-      : m_begin(thrust::make_transform_iterator(thrust::counting_iterator<IndexType>(0),
+      : m_begin(HYDRA_EXTERNAL_NS::thrust::make_transform_iterator(HYDRA_EXTERNAL_NS::thrust::counting_iterator<IndexType>(0),
                                                 tail_flag_functor(first, last))),
         m_end(m_begin + (last - first))
     {}
@@ -82,7 +82,7 @@ template<typename RandomAccessIterator,
     __thrust_exec_check_disable__
     __hydra_host__ __hydra_device__
     tail_flags(RandomAccessIterator first, RandomAccessIterator last, BinaryPredicate binary_pred)
-      : m_begin(thrust::make_transform_iterator(thrust::counting_iterator<IndexType>(0),
+      : m_begin(HYDRA_EXTERNAL_NS::thrust::make_transform_iterator(HYDRA_EXTERNAL_NS::thrust::counting_iterator<IndexType>(0),
                                                 tail_flag_functor(first, last, binary_pred))),
         m_end(m_begin + (last - first))
     {}

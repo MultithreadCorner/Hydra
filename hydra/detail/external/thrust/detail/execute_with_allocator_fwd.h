@@ -20,7 +20,7 @@
 
 #include <hydra/detail/external/thrust/detail/type_traits.h>
 
-#if THRUST_CPP_DIALECT >= 2011
+#if HYDRA_THRUST_CPP_DIALECT >= 2011
   #include <hydra/detail/external/thrust/detail/execute_with_dependencies.h>
 #endif
 
@@ -52,13 +52,13 @@ public:
 
   typename remove_reference<Allocator>::type& get_allocator() { return alloc; }
 
-#if THRUST_CPP_DIALECT >= 2011
+#if HYDRA_THRUST_CPP_DIALECT >= 2011
   template<typename ...Dependencies>
   __hydra_host__
   execute_with_allocator_and_dependencies<Allocator, BaseSystem, Dependencies...>
   after(Dependencies&& ...dependencies) const
   {
-    return { alloc, capture_as_dependency(THRUST_FWD(dependencies))... };
+    return { alloc, capture_as_dependency(HYDRA_THRUST_FWD(dependencies))... };
   }
 
   template<typename ...Dependencies>
@@ -81,7 +81,7 @@ public:
   execute_with_allocator_and_dependencies<Allocator, BaseSystem, Dependencies...>
   rebind_after(Dependencies&& ...dependencies) const
   {
-    return { alloc, capture_as_dependency(THRUST_FWD(dependencies))... };
+    return { alloc, capture_as_dependency(HYDRA_THRUST_FWD(dependencies))... };
   }
 
   template<typename ...Dependencies>
@@ -101,7 +101,7 @@ public:
 #endif
 };
 
-}} // HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust::detail
+}} // HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace HYDRA_EXTERNAL_NS::thrust::detail
 
 
 HYDRA_EXTERNAL_NAMESPACE_END

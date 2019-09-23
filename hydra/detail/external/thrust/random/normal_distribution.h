@@ -55,11 +55,11 @@ namespace random
  *  int main(void)
  *  {
  *    // create a minstd_rand object to act as our source of randomness
- *    thrust::minstd_rand rng;
+ *    HYDRA_EXTERNAL_NS::thrust::minstd_rand rng;
  *
  *    // create a normal_distribution to produce floats from the Normal distribution
  *    // with mean 2.0 and standard deviation 3.5
- *    thrust::random::normal_distribution<float> dist(2.0f, 3.5f);
+ *    HYDRA_EXTERNAL_NS::thrust::random::normal_distribution<float> dist(2.0f, 3.5f);
  *
  *    // write a random number to standard output
  *    std::cout << dist(rng) << std::endl;
@@ -96,7 +96,7 @@ template<typename RealType = double>
     /*! \typedef param_type
      *  \brief The type of the object encapsulating this \p normal_distribution's parameters.
      */
-    typedef thrust::pair<RealType,RealType> param_type;
+    typedef HYDRA_EXTERNAL_NS::thrust::pair<RealType,RealType> param_type;
 
     // constructors and reset functions
     
@@ -186,21 +186,21 @@ template<typename RealType = double>
      *  \return The lower bound of this \p normal_distribution's half-open interval.
      */
     __hydra_host__ __hydra_device__
-    result_type min THRUST_PREVENT_MACRO_SUBSTITUTION (void) const;
+    result_type min HYDRA_THRUST_PREVENT_MACRO_SUBSTITUTION (void) const;
 
     /*! This method returns the smallest number larger than largest floating point number this \p uniform_real_distribution can potentially produce.
      *
      *  \return The upper bound of this \p normal_distribution's half-open interval.
      */
     __hydra_host__ __hydra_device__
-    result_type max THRUST_PREVENT_MACRO_SUBSTITUTION (void) const;
+    result_type max HYDRA_THRUST_PREVENT_MACRO_SUBSTITUTION (void) const;
 
     /*! \cond
      */
   private:
     param_type m_param;
 
-    friend struct thrust::random::detail::random_core_access;
+    friend struct HYDRA_EXTERNAL_NS::thrust::random::detail::random_core_access;
 
     __hydra_host__ __hydra_device__
     bool equal(const normal_distribution &rhs) const;

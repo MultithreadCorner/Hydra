@@ -34,7 +34,7 @@ namespace tbb
 {
 
 // XXX upon c++11
-// template<typename T, typename Allocator = allocator<T> > using vector = thrust::detail::vector_base<T,Allocator>;
+// template<typename T, typename Allocator = allocator<T> > using vector = HYDRA_EXTERNAL_NS::thrust::detail::vector_base<T,Allocator>;
 
 /*! \p tbb::vector is a container that supports random access to elements,
  *  constant time removal of elements at the end, and linear time insertion
@@ -53,12 +53,12 @@ namespace tbb
  */
 template<typename T, typename Allocator = allocator<T> >
   class vector
-    : public thrust::detail::vector_base<T,Allocator>
+    : public HYDRA_EXTERNAL_NS::thrust::detail::vector_base<T,Allocator>
 {
   /*! \cond
    */
   private:
-    typedef thrust::detail::vector_base<T,Allocator> super_t;
+    typedef HYDRA_EXTERNAL_NS::thrust::detail::vector_base<T,Allocator> super_t;
   /*! \endcond
    */
 
@@ -102,7 +102,7 @@ template<typename T, typename Allocator = allocator<T> >
      *  \param x The other object to copy from.
      */
     template<typename OtherT, typename OtherAllocator>
-    vector(const thrust::detail::vector_base<OtherT,OtherAllocator> &x);
+    vector(const HYDRA_EXTERNAL_NS::thrust::detail::vector_base<OtherT,OtherAllocator> &x);
 
     /*! This constructor copies from a \c std::vector.
      *  \param x The \c std::vector to copy from.
@@ -145,7 +145,7 @@ template<typename T, typename Allocator = allocator<T> >
      *  \return <tt>*this</tt>
      */
     template<typename OtherT, typename OtherAllocator>
-    vector &operator=(const thrust::detail::vector_base<OtherT,OtherAllocator> &x);
+    vector &operator=(const HYDRA_EXTERNAL_NS::thrust::detail::vector_base<OtherT,OtherAllocator> &x);
 }; // end vector
 
 } // end tbb
@@ -155,7 +155,7 @@ template<typename T, typename Allocator = allocator<T> >
 namespace tbb
 {
 
-using thrust::system::tbb::vector;
+using HYDRA_EXTERNAL_NS::thrust::system::tbb::vector;
 
 } // end tbb
 

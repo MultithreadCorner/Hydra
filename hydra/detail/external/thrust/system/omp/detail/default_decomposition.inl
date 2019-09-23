@@ -18,7 +18,7 @@
 #include <hydra/detail/external/thrust/system/omp/detail/default_decomposition.h>
 
 // don't attempt to #include this file without omp support
-#if (THRUST_DEVICE_COMPILER_IS_OMP_CAPABLE == THRUST_TRUE)
+#if (HYDRA_THRUST_DEVICE_COMPILER_IS_OMP_CAPABLE == HYDRA_THRUST_TRUE)
 #include <omp.h>
 #endif // omp support
 
@@ -32,24 +32,24 @@ namespace detail
 {
 
 template <typename IndexType>
-thrust::system::detail::internal::uniform_decomposition<IndexType> default_decomposition(IndexType n)
+HYDRA_EXTERNAL_NS::thrust::system::detail::internal::uniform_decomposition<IndexType> default_decomposition(IndexType n)
 {
   // we're attempting to launch an omp kernel, assert we're compiling with omp support
   // ========================================================================
   // X Note to the user: If you've found this line due to a compiler error, X
   // X you need to OpenMP support in your compiler.                         X
   // ========================================================================
-  THRUST_STATIC_ASSERT_MSG(
-    (thrust::detail::depend_on_instantiation<
-      IndexType, (THRUST_DEVICE_COMPILER_IS_OMP_CAPABLE == THRUST_TRUE)
+  HYDRA_THRUST_STATIC_ASSERT_MSG(
+    (HYDRA_EXTERNAL_NS::thrust::detail::depend_on_instantiation<
+      IndexType, (HYDRA_THRUST_DEVICE_COMPILER_IS_OMP_CAPABLE == HYDRA_THRUST_TRUE)
     >::value)
   , "OpenMP compiler support is not enabled"
   );
 
-#if (THRUST_DEVICE_COMPILER_IS_OMP_CAPABLE == THRUST_TRUE)
-  return thrust::system::detail::internal::uniform_decomposition<IndexType>(n, 1, omp_get_num_procs());
+#if (HYDRA_THRUST_DEVICE_COMPILER_IS_OMP_CAPABLE == HYDRA_THRUST_TRUE)
+  return HYDRA_EXTERNAL_NS::thrust::system::detail::internal::uniform_decomposition<IndexType>(n, 1, omp_get_num_procs());
 #else
-  return thrust::system::detail::internal::uniform_decomposition<IndexType>(n, 1, 1);
+  return HYDRA_EXTERNAL_NS::thrust::system::detail::internal::uniform_decomposition<IndexType>(n, 1, 1);
 #endif
 }
 

@@ -40,7 +40,7 @@ template<typename UIntType, size_t w, size_t s, size_t r>
   void subtract_with_carry_engine<UIntType,w,s,r>
     ::seed(result_type value)
 {
-  thrust::random::linear_congruential_engine<result_type,
+  HYDRA_EXTERNAL_NS::thrust::random::linear_congruential_engine<result_type,
     40014u, 0u, 2147483563u> e(value == 0u ? default_seed : value);
 
   // initialize state
@@ -172,7 +172,7 @@ template<typename UIntType, size_t w, size_t s, size_t r,
     operator<<(std::basic_ostream<CharT,Traits> &os,
                const subtract_with_carry_engine<UIntType,w,s,r> &e)
 {
-  return thrust::random::detail::random_core_access::stream_out(os,e);
+  return HYDRA_EXTERNAL_NS::thrust::random::detail::random_core_access::stream_out(os,e);
 }
 
 
@@ -182,7 +182,7 @@ template<typename UIntType, size_t w, size_t s, size_t r,
     operator>>(std::basic_istream<CharType,Traits> &is,
                subtract_with_carry_engine<UIntType,w,s,r> &e)
 {
-  return thrust::random::detail::random_core_access::stream_in(is,e);
+  return HYDRA_EXTERNAL_NS::thrust::random::detail::random_core_access::stream_in(is,e);
 }
 
 
@@ -191,7 +191,7 @@ template<typename UIntType, size_t w, size_t s, size_t r>
   bool operator==(const subtract_with_carry_engine<UIntType,w,s,r> &lhs,
                   const subtract_with_carry_engine<UIntType,w,s,r> &rhs)
 {
-  return thrust::random::detail::random_core_access::equal(lhs,rhs);
+  return HYDRA_EXTERNAL_NS::thrust::random::detail::random_core_access::equal(lhs,rhs);
 }
 
 

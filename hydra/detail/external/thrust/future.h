@@ -15,7 +15,7 @@
  */
 
 /*! \file thrust/future.h
- *  \brief `thrust::future`, an asynchronous value type.
+ *  \brief `HYDRA_EXTERNAL_NS::thrust::future`, an asynchronous value type.
  */
 
 #pragma once
@@ -24,7 +24,7 @@
 #include <hydra/detail/external/thrust/detail/cpp11_required.h>
 #include <hydra/detail/external/thrust/detail/modern_gcc_required.h>
 
-#if THRUST_CPP_DIALECT >= 2011 && !defined(THRUST_LEGACY_GCC)
+#if HYDRA_THRUST_CPP_DIALECT >= 2011 && !defined(HYDRA_THRUST_LEGACY_GCC)
 
 #include <hydra/detail/external/thrust/execution_policy.h>
 #include <hydra/detail/external/thrust/detail/static_assert.h>
@@ -33,29 +33,29 @@
 
 /*
 // #include the host system's pointer.h header.
-#define __THRUST_HOST_SYSTEM_POINTER_HEADER <__THRUST_HOST_SYSTEM_ROOT/pointer.h>
-  #include __THRUST_HOST_SYSTEM_POINTER_HEADER
-#undef __THRUST_HOST_SYSTEM_POINTER_HEADER
+#define __HYDRA_THRUST_HOST_SYSTEM_POINTER_HEADER <__HYDRA_THRUST_HOST_SYSTEM_ROOT/pointer.h>
+  #include __HYDRA_THRUST_HOST_SYSTEM_POINTER_HEADER
+#undef __HYDRA_THRUST_HOST_SYSTEM_POINTER_HEADER
 */
 
 // #include the device system's pointer.h header.
-#define __THRUST_DEVICE_SYSTEM_POINTER_HEADER <__THRUST_DEVICE_SYSTEM_ROOT/pointer.h>
-  #include __THRUST_DEVICE_SYSTEM_POINTER_HEADER
-#undef __THRUST_DEVICE_SYSTEM_POINTER_HEADER
+#define __HYDRA_THRUST_DEVICE_SYSTEM_POINTER_HEADER <__HYDRA_THRUST_DEVICE_SYSTEM_ROOT/pointer.h>
+  #include __HYDRA_THRUST_DEVICE_SYSTEM_POINTER_HEADER
+#undef __HYDRA_THRUST_DEVICE_SYSTEM_POINTER_HEADER
 
 /*
 // #include the host system's future.h header.
-#define __THRUST_HOST_SYSTEM_FUTURE_HEADER <__THRUST_HOST_SYSTEM_ROOT/future.h>
-  #include __THRUST_HOST_SYSTEM_FUTURE_HEADER
-#undef __THRUST_HOST_SYSTEM_FUTURE_HEADER
+#define __HYDRA_THRUST_HOST_SYSTEM_FUTURE_HEADER <__HYDRA_THRUST_HOST_SYSTEM_ROOT/future.h>
+  #include __HYDRA_THRUST_HOST_SYSTEM_FUTURE_HEADER
+#undef __HYDRA_THRUST_HOST_SYSTEM_FUTURE_HEADER
 */
 
 // #include the device system's future.h header.
-#define __THRUST_DEVICE_SYSTEM_FUTURE_HEADER <__THRUST_DEVICE_SYSTEM_ROOT/future.h>
-  #include __THRUST_DEVICE_SYSTEM_FUTURE_HEADER
-#undef __THRUST_DEVICE_SYSTEM_FUTURE_HEADER
+#define __HYDRA_THRUST_DEVICE_SYSTEM_FUTURE_HEADER <__HYDRA_THRUST_DEVICE_SYSTEM_ROOT/future.h>
+  #include __HYDRA_THRUST_DEVICE_SYSTEM_FUTURE_HEADER
+#undef __HYDRA_THRUST_DEVICE_SYSTEM_FUTURE_HEADER
 
-THRUST_BEGIN_NS
+HYDRA_THRUST_BEGIN_NS
 
 ///////////////////////////////////////////////////////////////////////////////
 
@@ -128,7 +128,7 @@ using future = unique_eager_future<System, T>;
 ///////////////////////////////////////////////////////////////////////////////
 
 using host_unique_eager_event = unique_eager_event_type_detail::select<
-  thrust::system::__THRUST_HOST_SYSTEM_NAMESPACE::tag
+  HYDRA_EXTERNAL_NS::thrust::system::__HYDRA_THRUST_HOST_SYSTEM_NAMESPACE::tag
 >;
 using host_event = host_unique_eager_event;
 
@@ -136,7 +136,7 @@ using host_event = host_unique_eager_event;
 
 template <typename T>
 using host_unique_eager_future = unique_eager_future_type_detail::select<
-  thrust::system::__THRUST_HOST_SYSTEM_NAMESPACE::tag, T
+  HYDRA_EXTERNAL_NS::thrust::system::__HYDRA_THRUST_HOST_SYSTEM_NAMESPACE::tag, T
 >;
 template <typename T>
 using host_future = host_unique_eager_future<T>;
@@ -145,7 +145,7 @@ using host_future = host_unique_eager_future<T>;
 ///////////////////////////////////////////////////////////////////////////////
 
 using device_unique_eager_event = unique_eager_event_type_detail::select<
-  thrust::system::__THRUST_DEVICE_SYSTEM_NAMESPACE::tag
+  HYDRA_EXTERNAL_NS::thrust::system::__HYDRA_THRUST_DEVICE_SYSTEM_NAMESPACE::tag
 >;
 
 using device_event = device_unique_eager_event;
@@ -154,7 +154,7 @@ using device_event = device_unique_eager_event;
 
 template <typename T>
 using device_unique_eager_future = unique_eager_future_type_detail::select<
-  thrust::system::__THRUST_DEVICE_SYSTEM_NAMESPACE::tag, T
+  HYDRA_EXTERNAL_NS::thrust::system::__HYDRA_THRUST_DEVICE_SYSTEM_NAMESPACE::tag, T
 >;
 
 template <typename T>
@@ -164,15 +164,15 @@ using device_future = device_unique_eager_future<T>;
 
 struct new_stream_t final {};
 
-THRUST_INLINE_CONSTANT new_stream_t new_stream{};
+HYDRA_THRUST_INLINE_CONSTANT new_stream_t new_stream{};
 
 ///////////////////////////////////////////////////////////////////////////////
 
-using thrust::system::__THRUST_DEVICE_SYSTEM_NAMESPACE::when_all;
+using HYDRA_EXTERNAL_NS::thrust::system::__HYDRA_THRUST_DEVICE_SYSTEM_NAMESPACE::when_all;
 
 ///////////////////////////////////////////////////////////////////////////////
 
-THRUST_END_NS
+HYDRA_THRUST_END_NS
 
 #endif
 

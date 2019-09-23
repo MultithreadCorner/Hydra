@@ -19,19 +19,19 @@
 #include <hydra/detail/external/thrust/detail/config.h>
 #include <hydra/detail/external/thrust/detail/cpp11_required.h>
 
-#if THRUST_CPP_DIALECT >= 2011
+#if HYDRA_THRUST_CPP_DIALECT >= 2011
 
 #include <hydra/detail/external/thrust/detail/type_deduction.h>
 #include <hydra/detail/external/thrust/type_traits/remove_cvref.h>
 #include <hydra/detail/external/thrust/system/detail/generic/select_system.h>
 
-THRUST_BEGIN_NS
+HYDRA_THRUST_BEGIN_NS
 
 namespace detail
 {
 
 // We need a way to compute the return type of `select_system`, which is found
-// by using `thrust::system::detail::generic::select_system` and then making an
+// by using `HYDRA_EXTERNAL_NS::thrust::system::detail::generic::select_system` and then making an
 // ADL call. We have no trait that defines the return type. With the
 // limitations of C++11 return type deduction, we need to be able to stick all
 // of that into `decltype`. So, we put the using statement into a detail
@@ -41,7 +41,7 @@ namespace detail
 namespace select_system_detail
 {
 
-using thrust::system::detail::generic::select_system;
+using HYDRA_EXTERNAL_NS::thrust::system::detail::generic::select_system;
 
 struct select_system_fn final
 {
@@ -49,11 +49,11 @@ struct select_system_fn final
   template <typename DerivedPolicy0>
   __hydra_host__ __hydra_device__
   auto operator()(
-    thrust::detail::execution_policy_base<DerivedPolicy0> const& exec0
+    HYDRA_EXTERNAL_NS::thrust::detail::execution_policy_base<DerivedPolicy0> const& exec0
   ) const
-  THRUST_DECLTYPE_RETURNS(
+  HYDRA_THRUST_DECLTYPE_RETURNS(
     select_system(
-      thrust::detail::derived_cast(thrust::detail::strip_const(exec0))
+      HYDRA_EXTERNAL_NS::thrust::detail::derived_cast(HYDRA_EXTERNAL_NS::thrust::detail::strip_const(exec0))
     )
   )
 
@@ -61,24 +61,24 @@ struct select_system_fn final
   template <typename DerivedPolicy0, typename DerivedPolicy1>
   __hydra_host__ __hydra_device__
   auto operator()(
-    thrust::detail::execution_policy_base<DerivedPolicy0> const& exec0
-  , thrust::detail::execution_policy_base<DerivedPolicy1> const& exec1
+    HYDRA_EXTERNAL_NS::thrust::detail::execution_policy_base<DerivedPolicy0> const& exec0
+  , HYDRA_EXTERNAL_NS::thrust::detail::execution_policy_base<DerivedPolicy1> const& exec1
   ) const
-  THRUST_DECLTYPE_RETURNS(
+  HYDRA_THRUST_DECLTYPE_RETURNS(
     select_system(
-      thrust::detail::derived_cast(thrust::detail::strip_const(exec0))
-    , thrust::detail::derived_cast(thrust::detail::strip_const(exec1))
+      HYDRA_EXTERNAL_NS::thrust::detail::derived_cast(HYDRA_EXTERNAL_NS::thrust::detail::strip_const(exec0))
+    , HYDRA_EXTERNAL_NS::thrust::detail::derived_cast(HYDRA_EXTERNAL_NS::thrust::detail::strip_const(exec1))
     )
   )
 };
 
 } // namespace select_system_detail
 
-THRUST_INLINE_CONSTANT select_system_detail::select_system_fn select_system{};
+HYDRA_THRUST_INLINE_CONSTANT select_system_detail::select_system_fn select_system{};
 
 } // detail
 
-THRUST_END_NS
+HYDRA_THRUST_END_NS
 
-#endif // THRUST_CPP_DIALECT >= 2011
+#endif // HYDRA_THRUST_CPP_DIALECT >= 2011
 

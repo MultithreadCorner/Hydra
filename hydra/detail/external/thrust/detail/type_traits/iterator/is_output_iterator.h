@@ -31,9 +31,9 @@ namespace detail
 
 template<typename T>
   struct is_void_like
-    : thrust::detail::or_<
-        thrust::detail::is_void<T>,
-        thrust::detail::is_same<T,thrust::detail::any_assign>
+    : HYDRA_EXTERNAL_NS::thrust::detail::or_<
+        HYDRA_EXTERNAL_NS::thrust::detail::is_void<T>,
+        HYDRA_EXTERNAL_NS::thrust::detail::is_same<T,HYDRA_EXTERNAL_NS::thrust::detail::any_assign>
       >
 {}; // end is_void_like
 
@@ -46,16 +46,16 @@ template<typename T>
 
 // XXX this meta function should first check that T is actually an iterator
 //
-//     if thrust::iterator_value<T> is defined and thrust::iterator_value<T>::type == void
+//     if HYDRA_EXTERNAL_NS::thrust::iterator_value<T> is defined and HYDRA_EXTERNAL_NS::thrust::iterator_value<T>::type == void
 //       return false
 //     else
 //       return true
 template<typename T>
   struct is_output_iterator
     : eval_if<
-        is_metafunction_defined<thrust::iterator_value<T> >::value,
-        lazy_is_void_like<thrust::iterator_value<T> >,
-        thrust::detail::true_type
+        is_metafunction_defined<HYDRA_EXTERNAL_NS::thrust::iterator_value<T> >::value,
+        lazy_is_void_like<HYDRA_EXTERNAL_NS::thrust::iterator_value<T> >,
+        HYDRA_EXTERNAL_NS::thrust::detail::true_type
       >::type
 {
 }; // end is_output_iterator

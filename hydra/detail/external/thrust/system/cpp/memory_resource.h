@@ -36,9 +36,9 @@ namespace cpp
 //! \cond
 namespace detail
 {
-    typedef thrust::mr::fancy_pointer_resource<
-        thrust::mr::new_delete_resource,
-        thrust::cpp::pointer<void>
+    typedef HYDRA_EXTERNAL_NS::thrust::mr::fancy_pointer_resource<
+        HYDRA_EXTERNAL_NS::thrust::mr::new_delete_resource,
+        HYDRA_EXTERNAL_NS::thrust::cpp::pointer<void>
     > native_resource;
 }
 //! \endcond

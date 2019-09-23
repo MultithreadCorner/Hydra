@@ -33,7 +33,7 @@ template<typename ExecutionPolicy,
          typename ForwardIterator,
          typename Generator>
 __hydra_host__ __hydra_device__
-  void generate(thrust::execution_policy<ExecutionPolicy> &exec,
+  void generate(HYDRA_EXTERNAL_NS::thrust::execution_policy<ExecutionPolicy> &exec,
                 ForwardIterator first,
                 ForwardIterator last,
                 Generator gen)
@@ -49,15 +49,15 @@ __hydra_host__ __hydra_device__
   // operator() of the function object, but until we support pre-11, this is a
   // nice solution that validates the const_cast and doesn't take away any
   // functionality.
-  THRUST_STATIC_ASSERT_MSG(
-    !thrust::detail::is_const<
-      typename thrust::detail::remove_reference<
-        typename thrust::iterator_traits<ForwardIterator>::reference
+  HYDRA_THRUST_STATIC_ASSERT_MSG(
+    !HYDRA_EXTERNAL_NS::thrust::detail::is_const<
+      typename HYDRA_EXTERNAL_NS::thrust::detail::remove_reference<
+        typename HYDRA_EXTERNAL_NS::thrust::iterator_traits<ForwardIterator>::reference
       >::type
     >::value
   , "generating to `const` iterators is not allowed"
   );
-  thrust::for_each(exec, first, last, typename thrust::detail::generate_functor<ExecutionPolicy,Generator>::type(gen));
+  HYDRA_EXTERNAL_NS::thrust::for_each(exec, first, last, typename HYDRA_EXTERNAL_NS::thrust::detail::generate_functor<ExecutionPolicy,Generator>::type(gen));
 } // end generate()
 
 template<typename ExecutionPolicy,
@@ -65,7 +65,7 @@ template<typename ExecutionPolicy,
          typename Size,
          typename Generator>
 __hydra_host__ __hydra_device__
-  OutputIterator generate_n(thrust::execution_policy<ExecutionPolicy> &exec,
+  OutputIterator generate_n(HYDRA_EXTERNAL_NS::thrust::execution_policy<ExecutionPolicy> &exec,
                             OutputIterator first,
                             Size n,
                             Generator gen)
@@ -81,15 +81,15 @@ __hydra_host__ __hydra_device__
   // operator() of the function object, but until we support pre-11, this is a
   // nice solution that validates the const_cast and doesn't take away any
   // functionality.
-  THRUST_STATIC_ASSERT_MSG(
-    !thrust::detail::is_const<
-      typename thrust::detail::remove_reference<
-        typename thrust::iterator_traits<OutputIterator>::reference
+  HYDRA_THRUST_STATIC_ASSERT_MSG(
+    !HYDRA_EXTERNAL_NS::thrust::detail::is_const<
+      typename HYDRA_EXTERNAL_NS::thrust::detail::remove_reference<
+        typename HYDRA_EXTERNAL_NS::thrust::iterator_traits<OutputIterator>::reference
       >::type
     >::value
   , "generating to `const` iterators is not allowed"
   );
-  return thrust::for_each_n(exec, first, n, typename thrust::detail::generate_functor<ExecutionPolicy,Generator>::type(gen));
+  return HYDRA_EXTERNAL_NS::thrust::for_each_n(exec, first, n, typename HYDRA_EXTERNAL_NS::thrust::detail::generate_functor<ExecutionPolicy,Generator>::type(gen));
 } // end generate()
 
 } // end namespace generic

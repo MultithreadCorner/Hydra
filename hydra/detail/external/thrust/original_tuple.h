@@ -107,9 +107,9 @@ template<class T>
  *  #include <hydra/detail/external/thrust/tuple.h>
  *  #include <iostream>
  *  ...
- *  thrust::tuple<int, const char *> t(13, "thrust");
+ *  HYDRA_EXTERNAL_NS::thrust::tuple<int, const char *> t(13, "thrust");
  *
- *  std::cout << "The 1st value of t is " << thrust::get<0>(t) << std::endl;
+ *  std::cout << "The 1st value of t is " << HYDRA_EXTERNAL_NS::thrust::get<0>(t) << std::endl;
  *  \endcode
  *
  *  \see pair
@@ -138,9 +138,9 @@ get(detail::cons<HT, TT>& t);
  *  #include <hydra/detail/external/thrust/tuple.h>
  *  #include <iostream>
  *  ...
- *  thrust::tuple<int, const char *> t(13, "thrust");
+ *  HYDRA_EXTERNAL_NS::thrust::tuple<int, const char *> t(13, "thrust");
  *
- *  std::cout << "The 1st value of t is " << thrust::get<0>(t) << std::endl;
+ *  std::cout << "The 1st value of t is " << HYDRA_EXTERNAL_NS::thrust::get<0>(t) << std::endl;
  *  \endcode
  *
  *  \see pair
@@ -173,16 +173,16 @@ get(const detail::cons<HT, TT>& t);
  *  #include <iostream>
  *  ...
  *  // create a tuple containing an int, a float, and a string
- *  thrust::tuple<int, float, const char*> t(13, 0.1f, "thrust");
+ *  HYDRA_EXTERNAL_NS::thrust::tuple<int, float, const char*> t(13, 0.1f, "thrust");
  *
  *  // individual members are accessed with the free function get
- *  std::cout << "The first element's value is " << thrust::get<0>(t) << std::endl; 
+ *  std::cout << "The first element's value is " << HYDRA_EXTERNAL_NS::thrust::get<0>(t) << std::endl; 
  *
  *  // or the member function get
  *  std::cout << "The second element's value is " << t.get<1>() << std::endl;
  *
  *  // we can also modify elements with the same function
- *  thrust::get<0>(t) += 10;
+ *  HYDRA_EXTERNAL_NS::thrust::get<0>(t) += 10;
  *  \endcode
  *
  *  \see pair
@@ -378,7 +378,7 @@ template <class T0, class T1, class T2, class T3, class T4,
   __thrust_exec_check_disable__
   template <class U1, class U2>
   __hydra_host__ __hydra_device__ inline
-  tuple& operator=(const thrust::pair<U1, U2>& k) {
+  tuple& operator=(const HYDRA_EXTERNAL_NS::thrust::pair<U1, U2>& k) {
     //BOOST_STATIC_ASSERT(length<tuple>::value == 2);// check_length = 2
     this->head = k.first;
     this->tail.head = k.second;

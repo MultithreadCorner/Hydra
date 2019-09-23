@@ -16,7 +16,7 @@
 
 #pragma once
 
-#if THRUST_DEVICE_COMPILER == THRUST_DEVICE_COMPILER_NVCC
+#if HYDRA_THRUST_DEVICE_COMPILER == HYDRA_THRUST_DEVICE_COMPILER_NVCC
 #include <hydra/detail/external/thrust/detail/config.h>
 #include <hydra/detail/external/thrust/system/cuda/config.h>
 #include <hydra/detail/external/thrust/system/cuda/detail/cross_system.h>
@@ -25,7 +25,7 @@
 
 HYDRA_EXTERNAL_NAMESPACE_BEGIN
 
-THRUST_BEGIN_NS
+HYDRA_THRUST_BEGIN_NS
 namespace cuda_cub {
 
 
@@ -35,10 +35,10 @@ namespace
 
 template<typename DerivedPolicy, typename Pointer>
 inline __hydra_host__ __hydra_device__
-  typename thrust::iterator_value<Pointer>::type
+  typename HYDRA_EXTERNAL_NS::thrust::iterator_value<Pointer>::type
     get_value_msvc2005_war(execution_policy<DerivedPolicy> &exec, Pointer ptr)
 {
-  typedef typename thrust::iterator_value<Pointer>::type result_type;
+  typedef typename HYDRA_EXTERNAL_NS::thrust::iterator_value<Pointer>::type result_type;
 
   // XXX war nvbugs/881631
   struct war_nvbugs_881631
@@ -49,8 +49,8 @@ inline __hydra_host__ __hydra_device__
       // note that this requires a type with default constructor
       result_type result;
 
-      thrust::host_system_tag host_tag;
-      cross_system<thrust::host_system_tag, DerivedPolicy> systems(host_tag, exec);
+      HYDRA_EXTERNAL_NS::thrust::host_system_tag host_tag;
+      cross_system<HYDRA_EXTERNAL_NS::thrust::host_system_tag, DerivedPolicy> systems(host_tag, exec);
       assign_value(systems, &result, ptr);
 
       return result;
@@ -59,7 +59,7 @@ inline __hydra_host__ __hydra_device__
     __device__ inline static result_type device_path(execution_policy<DerivedPolicy> &, Pointer ptr)
     {
       // when called from device code, just do simple deref
-      return *thrust::raw_pointer_cast(ptr);
+      return *HYDRA_EXTERNAL_NS::thrust::raw_pointer_cast(ptr);
     }
   };
 
@@ -76,7 +76,7 @@ inline __hydra_host__ __hydra_device__
 
 template<typename DerivedPolicy, typename Pointer>
 inline __hydra_host__ __hydra_device__
-  typename thrust::iterator_value<Pointer>::type
+  typename HYDRA_EXTERNAL_NS::thrust::iterator_value<Pointer>::type
     get_value(execution_policy<DerivedPolicy> &exec, Pointer ptr)
 {
   return get_value_msvc2005_war(exec,ptr);
@@ -84,7 +84,7 @@ inline __hydra_host__ __hydra_device__
 
 
 } // end cuda_cub
-THRUST_END_NS
+HYDRA_THRUST_END_NS
 
 HYDRA_EXTERNAL_NAMESPACE_END
 

@@ -45,7 +45,7 @@ template<typename IteratorTuple>
   __hydra_host__ __hydra_device__
     zip_iterator<IteratorTuple>
       ::zip_iterator(const zip_iterator<OtherIteratorTuple> &other,
-                     typename thrust::detail::enable_if_convertible<
+                     typename HYDRA_EXTERNAL_NS::thrust::detail::enable_if_convertible<
                        OtherIteratorTuple,
                        IteratorTuple
                      >::type *)
@@ -71,7 +71,7 @@ template<typename IteratorTuple>
 {
   using namespace detail::tuple_impl_specific;
 
-  return thrust::detail::tuple_host_device_transform<
+  return HYDRA_EXTERNAL_NS::thrust::detail::tuple_host_device_transform<
     detail::dereference_iterator::template apply
   >(get_iterator_tuple(), detail::dereference_iterator());
 } // end zip_iterator::dereference()

@@ -55,8 +55,8 @@ HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
 template<typename Derived, typename Value, typename System, typename Traversal, typename Reference, typename Difference> class iterator_facade;
 
 
-/*! \p iterator_core_access is the class which user iterator types derived from \p thrust::iterator_adaptor
- *  or \p thrust::iterator_facade must befriend to allow it to access their private interface.
+/*! \p iterator_core_access is the class which user iterator types derived from \p HYDRA_EXTERNAL_NS::thrust::iterator_adaptor
+ *  or \p HYDRA_EXTERNAL_NS::thrust::iterator_facade must befriend to allow it to access their private interface.
  */
 class iterator_core_access
 {
@@ -114,7 +114,7 @@ class iterator_core_access
               typename Derived2, typename Value2, typename System2, typename Traversal2, typename Reference2, typename Difference2>
     inline __hydra_host__ __hydra_device__
     friend
-      typename thrust::detail::distance_from_result<
+      typename HYDRA_EXTERNAL_NS::thrust::detail::distance_from_result<
         iterator_facade<Derived1,Value1,System1,Traversal1,Reference1,Difference1>,
         iterator_facade<Derived2,Value2,System2,Traversal2,Reference2,Difference2>
       >::type
@@ -176,7 +176,7 @@ class iterator_core_access
     template <class Facade1, class Facade2>
     __hydra_host__ __hydra_device__
     static typename Facade1::difference_type
-      distance_from(Facade1 const& f1, Facade2 const& f2, thrust::detail::true_type)
+      distance_from(Facade1 const& f1, Facade2 const& f2, HYDRA_EXTERNAL_NS::thrust::detail::true_type)
     {
       return -f1.distance_to(f2);
     }
@@ -186,20 +186,20 @@ class iterator_core_access
     template <class Facade1, class Facade2>
     __hydra_host__ __hydra_device__
     static typename Facade2::difference_type
-      distance_from(Facade1 const& f1, Facade2 const& f2, thrust::detail::false_type)
+      distance_from(Facade1 const& f1, Facade2 const& f2, HYDRA_EXTERNAL_NS::thrust::detail::false_type)
     {
       return f2.distance_to(f1);
     }
     
     template <class Facade1, class Facade2>
     __hydra_host__ __hydra_device__
-    static typename thrust::detail::distance_from_result<Facade1,Facade2>::type
+    static typename HYDRA_EXTERNAL_NS::thrust::detail::distance_from_result<Facade1,Facade2>::type
       distance_from(Facade1 const& f1, Facade2 const& f2)
     {
       // dispatch the implementation of this method upon whether or not
       // Facade2 is convertible to Facade1
       return distance_from(f1, f2,
-        typename thrust::detail::is_convertible<Facade2,Facade1>::type());
+        typename HYDRA_EXTERNAL_NS::thrust::detail::is_convertible<Facade2,Facade1>::type());
     }
 
     //
@@ -275,7 +275,7 @@ template<typename Derived,
   public:
     /*! The type of element pointed to by \p iterator_facade.
      */
-    typedef typename thrust::detail::remove_const<Value>::type value_type;
+    typedef typename HYDRA_EXTERNAL_NS::thrust::detail::remove_const<Value>::type value_type;
 
     /*! The return type of \p iterator_facade::operator*().
      */
@@ -297,7 +297,7 @@ template<typename Derived,
 
     /*! The type of iterator category of \p iterator_facade.
      */
-    typedef typename thrust::detail::iterator_facade_category<
+    typedef typename HYDRA_EXTERNAL_NS::thrust::detail::iterator_facade_category<
       System, Traversal, Value, Reference
     >::type                                                    iterator_category;
 
@@ -498,7 +498,7 @@ template <typename Derived1, typename Value1, typename System1, typename Travers
 inline __hydra_host__ __hydra_device__
 
 // divine the type this operator returns
-typename thrust::detail::distance_from_result<
+typename HYDRA_EXTERNAL_NS::thrust::detail::distance_from_result<
   iterator_facade<Derived1,Value1,System1,Traversal1,Reference1,Difference1>,
   iterator_facade<Derived2,Value2,System2,Traversal2,Reference2,Difference2>
 >::type

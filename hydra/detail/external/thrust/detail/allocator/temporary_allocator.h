@@ -34,13 +34,13 @@ namespace detail
 //     without decltype, compromise on pointer<T,System>
 template<typename T, typename System>
   class temporary_allocator
-    : public thrust::detail::tagged_allocator<
-               T, System, thrust::pointer<T,System>
+    : public HYDRA_EXTERNAL_NS::thrust::detail::tagged_allocator<
+               T, System, HYDRA_EXTERNAL_NS::thrust::pointer<T,System>
              >
 {
   private:
-    typedef thrust::detail::tagged_allocator<
-      T, System, thrust::pointer<T,System>
+    typedef HYDRA_EXTERNAL_NS::thrust::detail::tagged_allocator<
+      T, System, HYDRA_EXTERNAL_NS::thrust::pointer<T,System>
     > super_t;
 
     System &m_system;
@@ -56,9 +56,9 @@ template<typename T, typename System>
     {}
 
     inline __hydra_host__ __hydra_device__
-    explicit temporary_allocator(thrust::execution_policy<System> &system) :
+    explicit temporary_allocator(HYDRA_EXTERNAL_NS::thrust::execution_policy<System> &system) :
       super_t(),
-      m_system(thrust::detail::derived_cast(system))
+      m_system(HYDRA_EXTERNAL_NS::thrust::detail::derived_cast(system))
     {}
 
     __hydra_host__ __hydra_device__
@@ -74,7 +74,7 @@ template<typename T, typename System>
     } // end system()
 
   private:
-    typedef thrust::pair<pointer, size_type> pointer_and_size;
+    typedef HYDRA_EXTERNAL_NS::thrust::pair<pointer, size_type> pointer_and_size;
 }; // end temporary_allocator
 
 

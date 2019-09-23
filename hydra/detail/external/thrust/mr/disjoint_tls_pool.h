@@ -22,7 +22,7 @@
 
 #include <hydra/detail/external/thrust/detail/cpp11_required.h>
 
-#if THRUST_CPP_DIALECT >= 2011
+#if HYDRA_THRUST_CPP_DIALECT >= 2011
 
 #include <hydra/detail/external/thrust/mr/disjoint_pool.h>
 
@@ -47,13 +47,13 @@ namespace mr
  */
 template<typename Upstream, typename Bookkeeper>
 __hydra_host__ __hydra_device__
-thrust::mr::disjoint_unsynchronized_pool_resource<Upstream, Bookkeeper> & tls_disjoint_pool(
+HYDRA_EXTERNAL_NS::thrust::mr::disjoint_unsynchronized_pool_resource<Upstream, Bookkeeper> & tls_disjoint_pool(
     Upstream * upstream = NULL,
     Bookkeeper * bookkeeper = NULL)
 {
     static thread_local auto adaptor = [&]{
         assert(upstream && bookkeeper);
-        return thrust::mr::disjoint_unsynchronized_pool_resource<Upstream, Bookkeeper>(upstream, bookkeeper);
+        return HYDRA_EXTERNAL_NS::thrust::mr::disjoint_unsynchronized_pool_resource<Upstream, Bookkeeper>(upstream, bookkeeper);
     }();
 
     return adaptor;
@@ -68,5 +68,5 @@ thrust::mr::disjoint_unsynchronized_pool_resource<Upstream, Bookkeeper> & tls_di
 HYDRA_EXTERNAL_NAMESPACE_END
 
 
-#endif // THRUST_CPP_DIALECT >= 2011
+#endif // HYDRA_THRUST_CPP_DIALECT >= 2011
 

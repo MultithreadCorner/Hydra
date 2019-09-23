@@ -28,7 +28,7 @@ namespace detail
 template<typename Tuple,
          template<typename> class UnaryMetaFunction,
          typename UnaryFunction,
-         typename IndexSequence = thrust::__make_index_sequence<thrust::tuple_size<Tuple>::value>>
+         typename IndexSequence = HYDRA_EXTERNAL_NS::thrust::__make_index_sequence<HYDRA_EXTERNAL_NS::thrust::tuple_size<Tuple>::value>>
   struct tuple_transform_functor;
 
 
@@ -36,7 +36,7 @@ template<typename Tuple,
          template<typename> class UnaryMetaFunction,
          typename UnaryFunction,
          size_t... I>
-  struct tuple_transform_functor<Tuple,UnaryMetaFunction,UnaryFunction,thrust::__index_sequence<I...>>
+  struct tuple_transform_functor<Tuple,UnaryMetaFunction,UnaryFunction,HYDRA_EXTERNAL_NS::thrust::__index_sequence<I...>>
 {
   static __hydra_host__
   typename tuple_meta_transform<Tuple,UnaryMetaFunction>::type
@@ -44,7 +44,7 @@ template<typename Tuple,
   {
     typedef typename tuple_meta_transform<Tuple,UnaryMetaFunction>::type XfrmTuple;
 
-    return XfrmTuple(f(thrust::get<I>(t))...);
+    return XfrmTuple(f(HYDRA_EXTERNAL_NS::thrust::get<I>(t))...);
   }
 
   static __hydra_host__ __hydra_device__
@@ -53,7 +53,7 @@ template<typename Tuple,
   {
     typedef typename tuple_meta_transform<Tuple,UnaryMetaFunction>::type XfrmTuple;
 
-    return XfrmTuple(f(thrust::get<I>(t))...);
+    return XfrmTuple(f(HYDRA_EXTERNAL_NS::thrust::get<I>(t))...);
   }
 };
 

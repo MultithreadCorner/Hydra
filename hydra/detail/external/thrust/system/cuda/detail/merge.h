@@ -26,7 +26,7 @@ j * Copyright (c) 2016, NVIDIA CORPORATION.  All rights reserved.
  ******************************************************************************/
 #pragma once
 
-#if THRUST_DEVICE_COMPILER == THRUST_DEVICE_COMPILER_NVCC
+#if HYDRA_THRUST_DEVICE_COMPILER == HYDRA_THRUST_DEVICE_COMPILER_NVCC
 #include <hydra/detail/external/thrust/detail/cstdint.h>
 #include <hydra/detail/external/thrust/detail/temporary_array.h>
 #include <hydra/detail/external/thrust/system/cuda/detail/util.h>
@@ -43,7 +43,7 @@ j * Copyright (c) 2016, NVIDIA CORPORATION.  All rights reserved.
 #include <hydra/detail/external/thrust/distance.h>
 
 HYDRA_EXTERNAL_NAMESPACE_BEGIN
-THRUST_BEGIN_NS
+HYDRA_THRUST_BEGIN_NS
 namespace cuda_cub {
 
 namespace __merge {
@@ -52,7 +52,7 @@ namespace __merge {
             class KeysIt2,
             class Size,
             class BinaryPred>
-  Size THRUST_DEVICE_FUNCTION
+  Size HYDRA_THRUST_DEVICE_FUNCTION
   merge_path(KeysIt1    keys1,
              KeysIt2    keys2,
              Size       keys1_count,
@@ -63,8 +63,8 @@ namespace __merge {
     typedef typename iterator_traits<KeysIt1>::value_type key1_type;
     typedef typename iterator_traits<KeysIt2>::value_type key2_type;
 
-    Size keys1_begin = thrust::max<Size>(0, diag - keys2_count);
-    Size keys1_end   = thrust::min<Size>(diag, keys1_count);
+    Size keys1_begin = HYDRA_EXTERNAL_NS::thrust::max<Size>(0, diag - keys2_count);
+    Size keys1_end   = HYDRA_EXTERNAL_NS::thrust::min<Size>(diag, keys1_count);
 
     while (keys1_begin < keys1_end)
     {
@@ -85,7 +85,7 @@ namespace __merge {
   }
 
   template <class It, class T2, class CompareOp, int ITEMS_PER_THREAD>
-  THRUST_DEVICE_FUNCTION void 
+  HYDRA_THRUST_DEVICE_FUNCTION void 
   serial_merge(It  keys_shared,
                int keys1_beg,
                int keys2_beg,
@@ -157,7 +157,7 @@ namespace __merge {
 
     typedef core::specialize_plan<PtxPlan> ptx_plan;
 
-    THRUST_AGENT_ENTRY(KeysIt1   keys1,
+    HYDRA_THRUST_AGENT_ENTRY(KeysIt1   keys1,
                        KeysIt2   keys2,
                        Size      keys1_count,
                        Size      keys2_count,
@@ -170,7 +170,7 @@ namespace __merge {
       Size partition_idx = blockDim.x * blockIdx.x + threadIdx.x;
       if (partition_idx < num_partitions)
       {
-        Size partition_at = thrust::min(partition_idx * items_per_tile,
+        Size partition_at = HYDRA_EXTERNAL_NS::thrust::min(partition_idx * items_per_tile,
                                         keys1_count + keys2_count);
         Size partition_diag = merge_path(keys1,
                                          keys2,
@@ -187,7 +187,7 @@ namespace __merge {
   template <class Arch, class TSize>
   struct Tuning;
   
-  namespace mpl = thrust::detail::mpl::math;
+  namespace mpl = HYDRA_EXTERNAL_NS::thrust::detail::mpl::math;
 
   template<size_t NOMINAL_4B_ITEMS_PER_THREAD, size_t INPUT_SIZE>
   struct items_per_thread
@@ -288,7 +288,7 @@ namespace __merge {
 
  
   template<size_t VALUE>
-  struct integer_constant : thrust::detail::integral_constant<size_t, VALUE> {};
+  struct integer_constant : HYDRA_EXTERNAL_NS::thrust::detail::integral_constant<size_t, VALUE> {};
 
   template <class KeysIt1,
             class KeysIt2,
@@ -309,7 +309,7 @@ namespace __merge {
     typedef key1_type  key_type;
     typedef item1_type item_type;
 
-    typedef typename thrust::detail::conditional<
+    typedef typename HYDRA_EXTERNAL_NS::thrust::detail::conditional<
         MERGE_ITEMS::value,
         integer_constant<sizeof(key_type) + sizeof(item_type)>,
         integer_constant<sizeof(key_type)> >::type tuning_type;
@@ -397,7 +397,7 @@ namespace __merge {
       //---------------------------------------------------------------------
 
       template <bool IS_FULL_TILE, class T, class It1, class It2>
-      THRUST_DEVICE_FUNCTION void
+      HYDRA_THRUST_DEVICE_FUNCTION void
       gmem_to_reg(T (&output)[ITEMS_PER_THREAD],
                   It1 input1,
                   It2 input2,
@@ -434,7 +434,7 @@ namespace __merge {
       }
 
       template <class T, class It>
-      THRUST_DEVICE_FUNCTION void
+      HYDRA_THRUST_DEVICE_FUNCTION void
       reg_to_shared(It output,
                     T (&input)[ITEMS_PER_THREAD])
       {
@@ -451,7 +451,7 @@ namespace __merge {
       //---------------------------------------------------------------------
 
       template <bool IS_FULL_TILE>
-      void THRUST_DEVICE_FUNCTION
+      void HYDRA_THRUST_DEVICE_FUNCTION
       consume_tile(Size tile_idx,
                    Size tile_base,
                    int  num_remaining)
@@ -463,7 +463,7 @@ namespace __merge {
         Size partition_end = merge_partitions[tile_idx + 1];
 
         Size diag0 = ITEMS_PER_TILE * tile_idx;
-        Size diag1 = thrust::min(keys1_count + keys2_count, diag0 + ITEMS_PER_TILE);
+        Size diag1 = HYDRA_EXTERNAL_NS::thrust::min(keys1_count + keys2_count, diag0 + ITEMS_PER_TILE);
 
         // compute bounding box for keys1 & keys2
         //
@@ -581,7 +581,7 @@ namespace __merge {
       // Constructor 
       //---------------------------------------------------------------------
 
-      THRUST_DEVICE_FUNCTION
+      HYDRA_THRUST_DEVICE_FUNCTION
       impl(TempStorage&  storage_,
            KeysLoadIt1   keys1_in_,
            KeysLoadIt2   keys2_in_,
@@ -632,7 +632,7 @@ namespace __merge {
     // Agent entry point
     //---------------------------------------------------------------------
 
-    THRUST_AGENT_ENTRY(KeysIt1       keys1_in,
+    HYDRA_THRUST_AGENT_ENTRY(KeysIt1       keys1_in,
                        KeysIt2       keys2_in,
                        ItemsIt1      items1_in,
                        ItemsIt2      items2_in,
@@ -782,7 +782,7 @@ namespace __merge {
             typename KeysOutputIt,
             typename ItemsOutputIt,
             typename CompareOp>
-  THRUST_RUNTIME_FUNCTION
+  HYDRA_THRUST_RUNTIME_FUNCTION
   pair<KeysOutputIt, ItemsOutputIt>
   merge(execution_policy<Derived>& policy,
         KeysIt1                    keys1_first,
@@ -798,18 +798,18 @@ namespace __merge {
     typedef typename iterator_traits<KeysIt1>::difference_type size_type;
 
     size_type num_keys1
-      = static_cast<size_type>(thrust::distance(keys1_first, keys1_last));
+      = static_cast<size_type>(HYDRA_EXTERNAL_NS::thrust::distance(keys1_first, keys1_last));
     size_type num_keys2
-      = static_cast<size_type>(thrust::distance(keys2_first, keys2_last));
+      = static_cast<size_type>(HYDRA_EXTERNAL_NS::thrust::distance(keys2_first, keys2_last));
 
     size_type const count = num_keys1 + num_keys2;
 
     if (count == 0)
-      return thrust::make_pair(keys_result, items_result);
+      return HYDRA_EXTERNAL_NS::thrust::make_pair(keys_result, items_result);
 
     size_t       storage_size = 0;
     cudaStream_t stream       = cuda_cub::stream(policy);
-    bool         debug_sync   = THRUST_DEBUG_SYNC_FLAG;
+    bool         debug_sync   = HYDRA_THRUST_DEBUG_SYNC_FLAG;
     
     cudaError_t status;
     status = doit_step<MERGE_ITEMS>(NULL,
@@ -828,7 +828,7 @@ namespace __merge {
     cuda_cub::throw_on_error(status, "merge: failed on 1st step");
 
     // Allocate temporary storage.
-    thrust::detail::temporary_array<thrust::detail::uint8_t, Derived>
+    HYDRA_EXTERNAL_NS::thrust::detail::temporary_array<HYDRA_EXTERNAL_NS::thrust::detail::uint8_t, Derived>
       tmp(policy, storage_size);
     void *ptr = static_cast<void*>(tmp.data().get());
 
@@ -850,7 +850,7 @@ namespace __merge {
     status = cuda_cub::synchronize(policy);
     cuda_cub::throw_on_error(status, "merge: failed to synchronize");
 
-    return thrust::make_pair(keys_result + count, items_result + count);
+    return HYDRA_EXTERNAL_NS::thrust::make_pair(keys_result + count, items_result + count);
   }
 }    // namespace __merge
 
@@ -877,13 +877,13 @@ merge(execution_policy<Derived>& policy,
 
 {
   ResultIt ret = result;
-  if (__THRUST_HAS_CUDART__)
+  if (__HYDRA_THRUST_HAS_CUDART__)
   {
-    typedef typename thrust::iterator_value<KeysIt1>::type keys_type;
+    typedef typename HYDRA_EXTERNAL_NS::thrust::iterator_value<KeysIt1>::type keys_type;
     //
     keys_type* null_ = NULL;
     //
-    ret = __merge::merge<thrust::detail::false_type>(policy,
+    ret = __merge::merge<HYDRA_EXTERNAL_NS::thrust::detail::false_type>(policy,
                                                      keys1_first,
                                                      keys1_last,
                                                      keys2_first,
@@ -897,8 +897,8 @@ merge(execution_policy<Derived>& policy,
   }
   else
   {
-#if !__THRUST_HAS_CUDART__
-    ret = thrust::merge(cvt_to_seq(derived_cast(policy)),
+#if !__HYDRA_THRUST_HAS_CUDART__
+    ret = HYDRA_EXTERNAL_NS::thrust::merge(cvt_to_seq(derived_cast(policy)),
                         keys1_first,
                         keys1_last,
                         keys2_first,
@@ -919,7 +919,7 @@ merge(execution_policy<Derived>& policy,
       KeysIt2                    keys2_last,
       ResultIt                   result)
 {
-  typedef typename thrust::iterator_value<KeysIt1>::type keys_type;
+  typedef typename HYDRA_EXTERNAL_NS::thrust::iterator_value<KeysIt1>::type keys_type;
   return cuda_cub::merge(policy,
                          keys1_first,
                          keys1_last,
@@ -950,10 +950,10 @@ merge_by_key(execution_policy<Derived> &policy,
              ItemsOutputIt              items_result,
              CompareOp                  compare_op)
 {
-  pair<KeysOutputIt, ItemsOutputIt> ret = thrust::make_pair(keys_result, items_result);
-  if (__THRUST_HAS_CUDART__)
+  pair<KeysOutputIt, ItemsOutputIt> ret = HYDRA_EXTERNAL_NS::thrust::make_pair(keys_result, items_result);
+  if (__HYDRA_THRUST_HAS_CUDART__)
   {
-    return __merge::merge<thrust::detail::true_type>(policy,
+    return __merge::merge<HYDRA_EXTERNAL_NS::thrust::detail::true_type>(policy,
                                                      keys1_first,
                                                      keys1_last,
                                                      keys2_first,
@@ -966,8 +966,8 @@ merge_by_key(execution_policy<Derived> &policy,
   }
   else
   {
-#if !__THRUST_HAS_CUDART__
-    ret = thrust::merge_by_key(cvt_to_seq(derived_cast(policy)),
+#if !__HYDRA_THRUST_HAS_CUDART__
+    ret = HYDRA_EXTERNAL_NS::thrust::merge_by_key(cvt_to_seq(derived_cast(policy)),
                                keys1_first,
                                keys1_last,
                                keys2_first,
@@ -1000,7 +1000,7 @@ merge_by_key(execution_policy<Derived> &policy,
              KeysOutputIt               keys_result,
              ItemsOutputIt              items_result)
 {
-  typedef typename thrust::iterator_value<KeysIt1>::type keys_type;
+  typedef typename HYDRA_EXTERNAL_NS::thrust::iterator_value<KeysIt1>::type keys_type;
   return cuda_cub::merge_by_key(policy,
                                 keys1_first,
                                 keys1_last,
@@ -1010,11 +1010,11 @@ merge_by_key(execution_policy<Derived> &policy,
                                 items2_first,
                                 keys_result,
                                 items_result,
-                                thrust::less<keys_type>());
+                                HYDRA_EXTERNAL_NS::thrust::less<keys_type>());
 }
 
 
 }    // namespace cuda_cub
-THRUST_END_NS
+HYDRA_THRUST_END_NS
 HYDRA_EXTERNAL_NAMESPACE_END
 #endif

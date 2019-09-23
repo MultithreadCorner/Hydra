@@ -16,7 +16,7 @@
 
 #pragma once
 
-#if THRUST_DEVICE_COMPILER == THRUST_DEVICE_COMPILER_NVCC
+#if HYDRA_THRUST_DEVICE_COMPILER == HYDRA_THRUST_DEVICE_COMPILER_NVCC
 #include <hydra/detail/external/thrust/detail/config.h>
 #include <hydra/detail/external/thrust/system/cuda/config.h>
 #include <hydra/detail/external/thrust/system/cuda/detail/execution_policy.h>
@@ -25,25 +25,25 @@
 
 HYDRA_EXTERNAL_NAMESPACE_BEGIN
 
-THRUST_BEGIN_NS
+HYDRA_THRUST_BEGIN_NS
 namespace cuda_cub {
 
 
 template<typename DerivedPolicy, typename Pointer1, typename Pointer2>
 inline __hydra_host__ __hydra_device__
-  void assign_value(thrust::cuda::execution_policy<DerivedPolicy> &exec, Pointer1 dst, Pointer2 src)
+  void assign_value(HYDRA_EXTERNAL_NS::thrust::cuda::execution_policy<DerivedPolicy> &exec, Pointer1 dst, Pointer2 src)
 {
   // XXX war nvbugs/881631
   struct war_nvbugs_881631
   {
-    __hydra_host__ inline static void host_path(thrust::cuda::execution_policy<DerivedPolicy> &exec, Pointer1 dst, Pointer2 src)
+    __hydra_host__ inline static void host_path(HYDRA_EXTERNAL_NS::thrust::cuda::execution_policy<DerivedPolicy> &exec, Pointer1 dst, Pointer2 src)
     {
       cuda_cub::copy(exec, src, src + 1, dst);
     }
 
-    __device__ inline static void device_path(thrust::cuda::execution_policy<DerivedPolicy> &, Pointer1 dst, Pointer2 src)
+    __device__ inline static void device_path(HYDRA_EXTERNAL_NS::thrust::cuda::execution_policy<DerivedPolicy> &, Pointer1 dst, Pointer2 src)
     {
-      *thrust::raw_pointer_cast(dst) = *thrust::raw_pointer_cast(src);
+      *HYDRA_EXTERNAL_NS::thrust::raw_pointer_cast(dst) = *HYDRA_EXTERNAL_NS::thrust::raw_pointer_cast(src);
     }
   };
 
@@ -65,7 +65,7 @@ inline __hydra_host__ __hydra_device__
     __hydra_host__ inline static void host_path(cross_system<System1,System2> &systems, Pointer1 dst, Pointer2 src)
     {
       // rotate the systems so that they are ordered the same as (src, dst)
-      // for the call to thrust::copy
+      // for the call to HYDRA_EXTERNAL_NS::thrust::copy
       cross_system<System2,System1> rotated_systems = systems.rotate();
       cuda_cub::copy(rotated_systems, src, src + 1, dst);
     }
@@ -74,8 +74,8 @@ inline __hydra_host__ __hydra_device__
     {
       // XXX forward the true cuda::execution_policy inside systems here
       //     instead of materializing a tag
-      thrust::cuda::tag cuda_tag;
-      thrust::cuda_cub::assign_value(cuda_tag, dst, src);
+      HYDRA_EXTERNAL_NS::thrust::cuda::tag cuda_tag;
+      HYDRA_EXTERNAL_NS::thrust::cuda_cub::assign_value(cuda_tag, dst, src);
     }
   };
 
@@ -90,7 +90,7 @@ inline __hydra_host__ __hydra_device__
 
   
 } // end cuda_cub
-THRUST_END_NS
+HYDRA_THRUST_END_NS
 
 HYDRA_EXTERNAL_NAMESPACE_END
 

@@ -33,7 +33,7 @@ template<typename DerivedPolicy,
          typename InputIterator,
          typename OutputIterator>
 __hydra_host__ __hydra_device__
-  OutputIterator copy(thrust::execution_policy<DerivedPolicy> &exec,
+  OutputIterator copy(HYDRA_EXTERNAL_NS::thrust::execution_policy<DerivedPolicy> &exec,
                       InputIterator  first,
                       InputIterator  last,
                       OutputIterator result);
@@ -44,7 +44,7 @@ template<typename DerivedPolicy,
          typename Size,
          typename OutputIterator>
 __hydra_host__ __hydra_device__
-  OutputIterator copy_n(thrust::execution_policy<DerivedPolicy> &exec,
+  OutputIterator copy_n(HYDRA_EXTERNAL_NS::thrust::execution_policy<DerivedPolicy> &exec,
                         InputIterator  first,
                         Size           n,
                         OutputIterator result);

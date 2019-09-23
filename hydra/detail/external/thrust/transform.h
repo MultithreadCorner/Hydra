@@ -65,7 +65,7 @@ HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
  *  \pre \p first may equal \p result, but the range <tt>[first, last)</tt> shall not overlap the range <tt>[result, result + (last - first))</tt> otherwise.
  *
  *  The following code snippet demonstrates how to use \p transform to negate a range in-place
- *  using the \p thrust::host execution policy for parallelization:
+ *  using the \p HYDRA_EXTERNAL_NS::thrust::host execution policy for parallelization:
  *
  *  \code
  *  #include <hydra/detail/external/thrust/transform.h>
@@ -75,9 +75,9 @@ HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
  *  
  *  int data[10] = {-5, 0, 2, -3, 2, 4, 0, -1, 2, 8};
  * 
- *  thrust::negate<int> op;
+ *  HYDRA_EXTERNAL_NS::thrust::negate<int> op;
  *
- *  thrust::transform(thrust::host, data, data + 10, data, op); // in-place transformation
+ *  HYDRA_EXTERNAL_NS::thrust::transform(HYDRA_EXTERNAL_NS::thrust::host, data, data + 10, data, op); // in-place transformation
  *
  *  // data is now {5, 0, -2, 3, -2, -4, 0, 1, -2, -8};
  *  \endcode
@@ -89,7 +89,7 @@ template<typename DerivedPolicy,
          typename OutputIterator,
          typename UnaryFunction>
 __hydra_host__ __hydra_device__
-  OutputIterator transform(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
+  OutputIterator transform(const HYDRA_EXTERNAL_NS::thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                            InputIterator first, InputIterator last,
                            OutputIterator result,
                            UnaryFunction op);
@@ -126,9 +126,9 @@ __hydra_host__ __hydra_device__
  *  
  *  int data[10] = {-5, 0, 2, -3, 2, 4, 0, -1, 2, 8};
  * 
- *  thrust::negate<int> op;
+ *  HYDRA_EXTERNAL_NS::thrust::negate<int> op;
  *
- *  thrust::transform(data, data + 10, data, op); // in-place transformation
+ *  HYDRA_EXTERNAL_NS::thrust::transform(data, data + 10, data, op); // in-place transformation
  *
  *  // data is now {5, 0, -2, 3, -2, -4, 0, 1, -2, -8};
  *  \endcode
@@ -177,7 +177,7 @@ template<typename InputIterator,
  *  \pre \p first2 may equal \p result, but the range <tt>[first2, first2 + (last1 - first1))</tt> shall not overlap the range <tt>[result, result + (last1 - first1))</tt> otherwise.
  *
  *  The following code snippet demonstrates how to use \p transform to compute the sum of two
- *  ranges using the \p thrust::host execution policy for parallelization:
+ *  ranges using the \p HYDRA_EXTERNAL_NS::thrust::host execution policy for parallelization:
  *
  *  \code
  *  #include <hydra/detail/external/thrust/transform.h>
@@ -189,9 +189,9 @@ template<typename InputIterator,
  *  int input2[6] = { 3,  6, -2,  1,  2,  3};
  *  int output[6];
  * 
- *  thrust::plus<int> op;
+ *  HYDRA_EXTERNAL_NS::thrust::plus<int> op;
  *
- *  thrust::transform(thrust::host, input1, input1 + 6, input2, output, op);
+ *  HYDRA_EXTERNAL_NS::thrust::transform(HYDRA_EXTERNAL_NS::thrust::host, input1, input1 + 6, input2, output, op);
  *
  *  // output is now {-2,  6,  0,  4,  4,  7};
  *  \endcode
@@ -204,7 +204,7 @@ template<typename DerivedPolicy,
          typename OutputIterator,
          typename BinaryFunction>
 __hydra_host__ __hydra_device__
-  OutputIterator transform(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
+  OutputIterator transform(const HYDRA_EXTERNAL_NS::thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                            InputIterator1 first1, InputIterator1 last1,
                            InputIterator2 first2,
                            OutputIterator result,
@@ -250,9 +250,9 @@ __hydra_host__ __hydra_device__
  *  int input2[6] = { 3,  6, -2,  1,  2,  3};
  *  int output[6];
  * 
- *  thrust::plus<int> op;
+ *  HYDRA_EXTERNAL_NS::thrust::plus<int> op;
  *
- *  thrust::transform(input1, input1 + 6, input2, output, op);
+ *  HYDRA_EXTERNAL_NS::thrust::transform(input1, input1 + 6, input2, output, op);
  *
  *  // output is now {-2,  6,  0,  4,  4,  7};
  *  \endcode
@@ -305,7 +305,7 @@ template<typename InputIterator1,
  *  \pre \p first may equal \p result, but the range <tt>[first, last)</tt> shall not overlap the range <tt>[result, result + (last - first))</tt> otherwise.
  *
  *  The following code snippet demonstrates how to use \p transform_if to negate the odd-valued
- *  elements of a range using the \p thrust::host execution policy for parallelization:
+ *  elements of a range using the \p HYDRA_EXTERNAL_NS::thrust::host execution policy for parallelization:
  *
  *  \code
  *  #include <hydra/detail/external/thrust/transform.h>
@@ -324,16 +324,16 @@ template<typename InputIterator1,
  *    }
  *  };
  * 
- *  thrust::negate<int> op;
- *  thrust::identity<int> identity;
+ *  HYDRA_EXTERNAL_NS::thrust::negate<int> op;
+ *  HYDRA_EXTERNAL_NS::thrust::identity<int> identity;
  *
  *  // negate odd elements
- *  thrust::transform_if(thrust::host, data, data + 10, data, op, is_odd()); // in-place transformation
+ *  HYDRA_EXTERNAL_NS::thrust::transform_if(HYDRA_EXTERNAL_NS::thrust::host, data, data + 10, data, op, is_odd()); // in-place transformation
  *
  *  // data is now {5, 0, 2, 3, 2, 4, 0, 1, 2, 8};
  *  \endcode
  *
- *  \see thrust::transform
+ *  \see HYDRA_EXTERNAL_NS::thrust::transform
  */
 template<typename DerivedPolicy,
          typename InputIterator,
@@ -341,7 +341,7 @@ template<typename DerivedPolicy,
          typename UnaryFunction,
          typename Predicate>
 __hydra_host__ __hydra_device__
-  ForwardIterator transform_if(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
+  ForwardIterator transform_if(const HYDRA_EXTERNAL_NS::thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                                InputIterator first, InputIterator last,
                                ForwardIterator result,
                                UnaryFunction op,
@@ -396,16 +396,16 @@ __hydra_host__ __hydra_device__
  *    }
  *  };
  * 
- *  thrust::negate<int> op;
- *  thrust::identity<int> identity;
+ *  HYDRA_EXTERNAL_NS::thrust::negate<int> op;
+ *  HYDRA_EXTERNAL_NS::thrust::identity<int> identity;
  *
  *  // negate odd elements
- *  thrust::transform_if(data, data + 10, data, op, is_odd()); // in-place transformation
+ *  HYDRA_EXTERNAL_NS::thrust::transform_if(data, data + 10, data, op, is_odd()); // in-place transformation
  *
  *  // data is now {5, 0, 2, 3, 2, 4, 0, 1, 2, 8};
  *  \endcode
  *
- *  \see thrust::transform
+ *  \see HYDRA_EXTERNAL_NS::thrust::transform
  */
 template<typename InputIterator,
          typename ForwardIterator,
@@ -456,7 +456,7 @@ template<typename InputIterator,
  *  \pre \p first may equal \p result, but the range <tt>[first, last)</tt> shall not overlap the range <tt>[result, result + (last - first))</tt> otherwise.
  *  \pre \p stencil may equal \p result, but the range <tt>[stencil, stencil + (last - first))</tt> shall not overlap the range <tt>[result, result + (last - first))</tt> otherwise.
  *
- *  The following code snippet demonstrates how to use \p transform_if using the \p thrust::host
+ *  The following code snippet demonstrates how to use \p transform_if using the \p HYDRA_EXTERNAL_NS::thrust::host
  *  execution policy for parallelization:
  *
  *  \code
@@ -468,15 +468,15 @@ template<typename InputIterator,
  *  int data[10]    = {-5, 0, 2, -3, 2, 4, 0, -1, 2, 8};
  *  int stencil[10] = { 1, 0, 1,  0, 1, 0, 1,  0, 1, 0};
  * 
- *  thrust::negate<int> op;
- *  thrust::identity<int> identity;
+ *  HYDRA_EXTERNAL_NS::thrust::negate<int> op;
+ *  HYDRA_EXTERNAL_NS::thrust::identity<int> identity;
  *
- *  thrust::transform_if(thrust::host, data, data + 10, stencil, data, op, identity); // in-place transformation
+ *  HYDRA_EXTERNAL_NS::thrust::transform_if(HYDRA_EXTERNAL_NS::thrust::host, data, data + 10, stencil, data, op, identity); // in-place transformation
  *
  *  // data is now {5, 0, -2, -3, -2,  4, 0, -1, -2,  8};
  *  \endcode
  *
- *  \see thrust::transform
+ *  \see HYDRA_EXTERNAL_NS::thrust::transform
  */
 template<typename DerivedPolicy,
          typename InputIterator1,
@@ -485,7 +485,7 @@ template<typename DerivedPolicy,
          typename UnaryFunction,
          typename Predicate>
 __hydra_host__ __hydra_device__
-  ForwardIterator transform_if(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
+  ForwardIterator transform_if(const HYDRA_EXTERNAL_NS::thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                                InputIterator1 first, InputIterator1 last,
                                InputIterator2 stencil,
                                ForwardIterator result,
@@ -537,15 +537,15 @@ __hydra_host__ __hydra_device__
  *  int data[10]    = {-5, 0, 2, -3, 2, 4, 0, -1, 2, 8};
  *  int stencil[10] = { 1, 0, 1,  0, 1, 0, 1,  0, 1, 0};
  * 
- *  thrust::negate<int> op;
- *  thrust::identity<int> identity;
+ *  HYDRA_EXTERNAL_NS::thrust::negate<int> op;
+ *  HYDRA_EXTERNAL_NS::thrust::identity<int> identity;
  *
- *  thrust::transform_if(data, data + 10, stencil, data, op, identity); // in-place transformation
+ *  HYDRA_EXTERNAL_NS::thrust::transform_if(data, data + 10, stencil, data, op, identity); // in-place transformation
  *
  *  // data is now {5, 0, -2, -3, -2,  4, 0, -1, -2,  8};
  *  \endcode
  *
- *  \see thrust::transform
+ *  \see HYDRA_EXTERNAL_NS::thrust::transform
  */
 template<typename InputIterator1,
          typename InputIterator2,
@@ -601,7 +601,7 @@ template<typename InputIterator1,
  *  \pre \p first2 may equal \p result, but the range <tt>[first2, first2 + (last1 - first1))</tt> shall not overlap the range <tt>[result, result + (last1 - first1))</tt> otherwise.
  *  \pre \p stencil may equal \p result, but the range <tt>[stencil, stencil + (last1 - first1))</tt> shall not overlap the range <tt>[result, result + (last1 - first1))</tt> otherwise.
  *
- *  The following code snippet demonstrates how to use \p transform_if using the \p thrust::host
+ *  The following code snippet demonstrates how to use \p transform_if using the \p HYDRA_EXTERNAL_NS::thrust::host
  *  execution policy for parallelization:
  *
  *  \code
@@ -615,15 +615,15 @@ template<typename InputIterator1,
  *  int stencil[8] = { 1,  0,  1,  0,  1,  0};
  *  int output[6];
  * 
- *  thrust::plus<int> op;
- *  thrust::identity<int> identity;
+ *  HYDRA_EXTERNAL_NS::thrust::plus<int> op;
+ *  HYDRA_EXTERNAL_NS::thrust::identity<int> identity;
  *
- *  thrust::transform_if(thrust::host, input1, input1 + 6, input2, stencil, output, op, identity);
+ *  HYDRA_EXTERNAL_NS::thrust::transform_if(HYDRA_EXTERNAL_NS::thrust::host, input1, input1 + 6, input2, stencil, output, op, identity);
  *
  *  // output is now {-2,  0,  0,  3,  4,  4};
  *  \endcode
  *
- *  \see thrust::transform
+ *  \see HYDRA_EXTERNAL_NS::thrust::transform
  */
 template<typename DerivedPolicy,
          typename InputIterator1,
@@ -633,7 +633,7 @@ template<typename DerivedPolicy,
          typename BinaryFunction,
          typename Predicate>
 __hydra_host__ __hydra_device__
-  ForwardIterator transform_if(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
+  ForwardIterator transform_if(const HYDRA_EXTERNAL_NS::thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                                InputIterator1 first1, InputIterator1 last1,
                                InputIterator2 first2,
                                InputIterator3 stencil,
@@ -691,15 +691,15 @@ __hydra_host__ __hydra_device__
  *  int stencil[8] = { 1,  0,  1,  0,  1,  0};
  *  int output[6];
  * 
- *  thrust::plus<int> op;
- *  thrust::identity<int> identity;
+ *  HYDRA_EXTERNAL_NS::thrust::plus<int> op;
+ *  HYDRA_EXTERNAL_NS::thrust::identity<int> identity;
  *
- *  thrust::transform_if(input1, input1 + 6, input2, stencil, output, op, identity);
+ *  HYDRA_EXTERNAL_NS::thrust::transform_if(input1, input1 + 6, input2, stencil, output, op, identity);
  *
  *  // output is now {-2,  0,  0,  3,  4,  4};
  *  \endcode
  *
- *  \see thrust::transform
+ *  \see HYDRA_EXTERNAL_NS::thrust::transform
  */
 template<typename InputIterator1,
          typename InputIterator2,

@@ -46,7 +46,7 @@ OutputIterator merge(sequential::execution_policy<DerivedPolicy> &exec,
                      StrictWeakOrdering comp)
 {
   // wrap comp
-  thrust::detail::wrapped_function<
+  HYDRA_EXTERNAL_NS::thrust::detail::wrapped_function<
     StrictWeakOrdering,
     bool
   > wrapped_comp(comp);
@@ -67,7 +67,7 @@ OutputIterator merge(sequential::execution_policy<DerivedPolicy> &exec,
     ++result;
   } // end while
 
-  return thrust::copy(exec, first2, last2, thrust::copy(exec, first1, last1, result));
+  return HYDRA_EXTERNAL_NS::thrust::copy(exec, first2, last2, HYDRA_EXTERNAL_NS::thrust::copy(exec, first1, last1, result));
 } // end merge()
 
 
@@ -81,7 +81,7 @@ template<typename DerivedPolicy,
          typename OutputIterator2,
          typename StrictWeakOrdering>
 __hydra_host__ __hydra_device__
-thrust::pair<OutputIterator1,OutputIterator2>
+HYDRA_EXTERNAL_NS::thrust::pair<OutputIterator1,OutputIterator2>
   merge_by_key(sequential::execution_policy<DerivedPolicy> &,
                InputIterator1 keys_first1,
                InputIterator1 keys_last1,
@@ -94,7 +94,7 @@ thrust::pair<OutputIterator1,OutputIterator2>
                StrictWeakOrdering comp)
 {
   // wrap comp
-  thrust::detail::wrapped_function<
+  HYDRA_EXTERNAL_NS::thrust::detail::wrapped_function<
     StrictWeakOrdering,
     bool
   > wrapped_comp(comp);
@@ -142,7 +142,7 @@ thrust::pair<OutputIterator1,OutputIterator2>
     ++values_result;
   }
 
-  return thrust::make_pair(keys_result, values_result);
+  return HYDRA_EXTERNAL_NS::thrust::make_pair(keys_result, values_result);
 }
 
 
@@ -150,4 +150,4 @@ thrust::pair<OutputIterator1,OutputIterator2>
 } // end namespace detail
 } // end namespace system
 } // end HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
-
+HYDRA_EXTERNAL_NAMESPACE_END

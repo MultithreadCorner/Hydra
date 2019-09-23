@@ -60,7 +60,7 @@ HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust{
 namespace detail{
 namespace complex{		      	
 
-using thrust::complex;
+using HYDRA_EXTERNAL_NS::thrust::complex;
 
 __hydra_host__ __hydra_device__ inline
 complex<float> ctanhf(const complex<float>& z){

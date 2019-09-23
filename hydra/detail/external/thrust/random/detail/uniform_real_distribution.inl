@@ -115,7 +115,7 @@ template<typename RealType>
   __hydra_host__ __hydra_device__
   typename uniform_real_distribution<RealType>::result_type
     uniform_real_distribution<RealType>
-      ::min THRUST_PREVENT_MACRO_SUBSTITUTION (void) const
+      ::min HYDRA_THRUST_PREVENT_MACRO_SUBSTITUTION (void) const
 {
   return a();
 } // end uniform_real_distribution::min()
@@ -124,7 +124,7 @@ template<typename RealType>
   __hydra_host__ __hydra_device__
   typename uniform_real_distribution<RealType>::result_type
     uniform_real_distribution<RealType>
-      ::max THRUST_PREVENT_MACRO_SUBSTITUTION (void) const
+      ::max HYDRA_THRUST_PREVENT_MACRO_SUBSTITUTION (void) const
 {
   return b();
 } // end uniform_real_distribution::max()
@@ -192,7 +192,7 @@ __hydra_host__ __hydra_device__
 bool operator==(const uniform_real_distribution<RealType> &lhs,
                 const uniform_real_distribution<RealType> &rhs)
 {
-  return thrust::random::detail::random_core_access::equal(lhs,rhs);
+  return HYDRA_EXTERNAL_NS::thrust::random::detail::random_core_access::equal(lhs,rhs);
 }
 
 
@@ -211,7 +211,7 @@ std::basic_ostream<CharT,Traits>&
 operator<<(std::basic_ostream<CharT,Traits> &os,
            const uniform_real_distribution<RealType> &d)
 {
-  return thrust::random::detail::random_core_access::stream_out(os,d);
+  return HYDRA_EXTERNAL_NS::thrust::random::detail::random_core_access::stream_out(os,d);
 }
 
 
@@ -221,7 +221,7 @@ std::basic_istream<CharT,Traits>&
 operator>>(std::basic_istream<CharT,Traits> &is,
            uniform_real_distribution<RealType> &d)
 {
-  return thrust::random::detail::random_core_access::stream_in(is,d);
+  return HYDRA_EXTERNAL_NS::thrust::random::detail::random_core_access::stream_in(is,d);
 }
 
 

@@ -53,10 +53,10 @@ namespace random
  *  int main(void)
  *  {
  *    // create a minstd_rand object to act as our source of randomness
- *    thrust::minstd_rand rng;
+ *    HYDRA_EXTERNAL_NS::thrust::minstd_rand rng;
  *
  *    // create a uniform_real_distribution to produce floats from [-7,13)
- *    thrust::uniform_real_distribution<float> dist(-7,13);
+ *    HYDRA_EXTERNAL_NS::thrust::uniform_real_distribution<float> dist(-7,13);
  *
  *    // write a random number from the range [-7,13) to standard output
  *    std::cout << dist(rng) << std::endl;
@@ -97,7 +97,7 @@ template<typename RealType = double>
     /*! \typedef param_type
      *  \brief The type of the object encapsulating this \p uniform_real_distribution's parameters.
      */
-    typedef thrust::pair<RealType,RealType> param_type;
+    typedef HYDRA_EXTERNAL_NS::thrust::pair<RealType,RealType> param_type;
 
     // constructors and reset functions
     
@@ -185,21 +185,21 @@ template<typename RealType = double>
      *  \return The lower bound of this \p uniform_real_distribution's half-open interval.
      */
     __hydra_host__ __hydra_device__
-    result_type min THRUST_PREVENT_MACRO_SUBSTITUTION (void) const;
+    result_type min HYDRA_THRUST_PREVENT_MACRO_SUBSTITUTION (void) const;
 
     /*! This method returns the smallest number larger than largest floating point number this \p uniform_real_distribution can potentially produce.
      *
      *  \return The upper bound of this \p uniform_real_distribution's half-open interval.
      */
     __hydra_host__ __hydra_device__
-    result_type max THRUST_PREVENT_MACRO_SUBSTITUTION (void) const;
+    result_type max HYDRA_THRUST_PREVENT_MACRO_SUBSTITUTION (void) const;
 
     /*! \cond
      */
   private:
     param_type m_param;
 
-    friend struct thrust::random::detail::random_core_access;
+    friend struct HYDRA_EXTERNAL_NS::thrust::random::detail::random_core_access;
 
     __hydra_host__ __hydra_device__
     bool equal(const uniform_real_distribution &rhs) const;

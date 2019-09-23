@@ -34,7 +34,7 @@ template<typename DerivedPolicy,
          typename ForwardIterator1,
          typename ForwardIterator2,
          typename BinaryPredicate>
-  thrust::pair<ForwardIterator1,ForwardIterator2>
+  HYDRA_EXTERNAL_NS::thrust::pair<ForwardIterator1,ForwardIterator2>
     unique_by_key(execution_policy<DerivedPolicy> &exec,
                   ForwardIterator1 keys_first, 
                   ForwardIterator1 keys_last,
@@ -48,7 +48,7 @@ template<typename DerivedPolicy,
          typename OutputIterator1,
          typename OutputIterator2,
          typename BinaryPredicate>
-  thrust::pair<OutputIterator1,OutputIterator2>
+  HYDRA_EXTERNAL_NS::thrust::pair<OutputIterator1,OutputIterator2>
     unique_by_key_copy(execution_policy<DerivedPolicy> &exec,
                        InputIterator1 keys_first, 
                        InputIterator1 keys_last,

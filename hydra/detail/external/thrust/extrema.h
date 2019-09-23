@@ -62,7 +62,7 @@ HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
  *  key_value a = {13, 0};
  *  key_value b = { 7, 1);
  *
- *  key_value smaller = thrust::min(a, b, compare_key_value());
+ *  key_value smaller = HYDRA_EXTERNAL_NS::thrust::min(a, b, compare_key_value());
  *
  *  // smaller is {7, 1}
  *  \endcode
@@ -72,7 +72,7 @@ HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
  */
 template<typename T, typename BinaryPredicate>
 __hydra_host__ __hydra_device__
-  T min THRUST_PREVENT_MACRO_SUBSTITUTION (const T &lhs, const T &rhs, BinaryPredicate comp);
+  T min HYDRA_THRUST_PREVENT_MACRO_SUBSTITUTION (const T &lhs, const T &rhs, BinaryPredicate comp);
 
 
 /*! This version of \p min returns the smaller of two values.
@@ -91,7 +91,7 @@ __hydra_host__ __hydra_device__
  *  int a = 13;
  *  int b = 7;
  *
- *  int smaller = thrust::min(a, b);
+ *  int smaller = HYDRA_EXTERNAL_NS::thrust::min(a, b);
  *
  *  // smaller is 7
  *  \endcode
@@ -101,7 +101,7 @@ __hydra_host__ __hydra_device__
  */
 template<typename T>
 __hydra_host__ __hydra_device__
-  T min THRUST_PREVENT_MACRO_SUBSTITUTION (const T &lhs, const T &rhs);
+  T min HYDRA_THRUST_PREVENT_MACRO_SUBSTITUTION (const T &lhs, const T &rhs);
 
 
 /*! This version of \p max returns the larger of two values, given a comparison operation.
@@ -138,7 +138,7 @@ __hydra_host__ __hydra_device__
  *  key_value a = {13, 0};
  *  key_value b = { 7, 1);
  *
- *  key_value larger = thrust::max(a, b, compare_key_value());
+ *  key_value larger = HYDRA_EXTERNAL_NS::thrust::max(a, b, compare_key_value());
  *
  *  // larger is {13, 0}
  *  \endcode
@@ -148,7 +148,7 @@ __hydra_host__ __hydra_device__
  */
 template<typename T, typename BinaryPredicate>
 __hydra_host__ __hydra_device__
-  T max THRUST_PREVENT_MACRO_SUBSTITUTION (const T &lhs, const T &rhs, BinaryPredicate comp);
+  T max HYDRA_THRUST_PREVENT_MACRO_SUBSTITUTION (const T &lhs, const T &rhs, BinaryPredicate comp);
 
 
 /*! This version of \p max returns the larger of two values.
@@ -167,7 +167,7 @@ __hydra_host__ __hydra_device__
  *  int a = 13;
  *  int b = 7;
  *
- *  int larger = thrust::min(a, b);
+ *  int larger = HYDRA_EXTERNAL_NS::thrust::min(a, b);
  *
  *  // larger is 13
  *  \endcode
@@ -177,7 +177,7 @@ __hydra_host__ __hydra_device__
  */
 template<typename T>
 __hydra_host__ __hydra_device__
-  T max THRUST_PREVENT_MACRO_SUBSTITUTION (const T &lhs, const T &rhs);
+  T max HYDRA_THRUST_PREVENT_MACRO_SUBSTITUTION (const T &lhs, const T &rhs);
 
 
 /*! \addtogroup reductions
@@ -216,7 +216,7 @@ __hydra_host__ __hydra_device__
  *  #include <hydra/detail/external/thrust/execution_policy.h>
  *  ...
  *  int data[6] = {1, 0, 2, 2, 1, 3};
- *  int *result = thrust::min_element(thrust::host, data, data + 6);
+ *  int *result = HYDRA_EXTERNAL_NS::thrust::min_element(HYDRA_EXTERNAL_NS::thrust::host, data, data + 6);
  *
  *  // result is data + 1
  *  // *result is 0
@@ -226,7 +226,7 @@ __hydra_host__ __hydra_device__
  */
 template<typename DerivedPolicy, typename ForwardIterator>
 __hydra_host__ __hydra_device__
-ForwardIterator min_element(const thrust::detail::execution_policy_base<DerivedPolicy> &exec, ForwardIterator first, ForwardIterator last);
+ForwardIterator min_element(const HYDRA_EXTERNAL_NS::thrust::detail::execution_policy_base<DerivedPolicy> &exec, ForwardIterator first, ForwardIterator last);
 
 
 /*! \p min_element finds the smallest element in the range <tt>[first, last)</tt>.
@@ -254,7 +254,7 @@ ForwardIterator min_element(const thrust::detail::execution_policy_base<DerivedP
  *  #include <hydra/detail/external/thrust/extrema.h>
  *  ...
  *  int data[6] = {1, 0, 2, 2, 1, 3};
- *  int *result = thrust::min_element(data, data + 6);
+ *  int *result = HYDRA_EXTERNAL_NS::thrust::min_element(data, data + 6);
  *
  *  // result is data + 1
  *  // *result is 0
@@ -294,7 +294,7 @@ ForwardIterator min_element(ForwardIterator first, ForwardIterator last);
  *  \tparam BinaryPredicate is a model of <a href="http://www.sgi.com/tech/stl/BinaryPredicate">Binary Predicate</a>.
  *
  *  The following code snippet demonstrates how to use \p min_element to find the smallest element
- *  of a collection of key-value pairs using the \p thrust::host execution policy for parallelization:
+ *  of a collection of key-value pairs using the \p HYDRA_EXTERNAL_NS::thrust::host execution policy for parallelization:
  *
  *  \code
  *  #include <hydra/detail/external/thrust/extrema.h>
@@ -319,7 +319,7 @@ ForwardIterator min_element(ForwardIterator first, ForwardIterator last);
  *  ...
  *  key_value data[4] = { {4,5}, {0,7}, {2,3}, {6,1} };
  *
- *  key_value *smallest = thrust::min_element(thrust::host, data, data + 4, compare_key_value());
+ *  key_value *smallest = HYDRA_EXTERNAL_NS::thrust::min_element(HYDRA_EXTERNAL_NS::thrust::host, data, data + 4, compare_key_value());
  *
  *  // smallest == data + 1
  *  // *smallest == {0,7}
@@ -329,7 +329,7 @@ ForwardIterator min_element(ForwardIterator first, ForwardIterator last);
  */
 template<typename DerivedPolicy, typename ForwardIterator, typename BinaryPredicate>
 __hydra_host__ __hydra_device__
-ForwardIterator min_element(const thrust::detail::execution_policy_base<DerivedPolicy> &exec, ForwardIterator first, ForwardIterator last, BinaryPredicate comp);
+ForwardIterator min_element(const HYDRA_EXTERNAL_NS::thrust::detail::execution_policy_base<DerivedPolicy> &exec, ForwardIterator first, ForwardIterator last, BinaryPredicate comp);
 
 
 /*! \p min_element finds the smallest element in the range <tt>[first, last)</tt>.
@@ -379,7 +379,7 @@ ForwardIterator min_element(const thrust::detail::execution_policy_base<DerivedP
  *  ...
  *  key_value data[4] = { {4,5}, {0,7}, {2,3}, {6,1} };
  *
- *  key_value *smallest = thrust::min_element(data, data + 4, compare_key_value());
+ *  key_value *smallest = HYDRA_EXTERNAL_NS::thrust::min_element(data, data + 4, compare_key_value());
  *
  *  // smallest == data + 1
  *  // *smallest == {0,7}
@@ -422,7 +422,7 @@ ForwardIterator min_element(ForwardIterator first, ForwardIterator last,
  *  #include <hydra/detail/external/thrust/execution_policy.h>
  *  ...
  *  int data[6] = {1, 0, 2, 2, 1, 3};
- *  int *result = thrust::max_element(thrust::host, data, data + 6);
+ *  int *result = HYDRA_EXTERNAL_NS::thrust::max_element(HYDRA_EXTERNAL_NS::thrust::host, data, data + 6);
  *
  *  // *result == 3
  *  \endcode
@@ -431,7 +431,7 @@ ForwardIterator min_element(ForwardIterator first, ForwardIterator last,
  */
 template<typename DerivedPolicy, typename ForwardIterator>
 __hydra_host__ __hydra_device__
-ForwardIterator max_element(const thrust::detail::execution_policy_base<DerivedPolicy> &exec, ForwardIterator first, ForwardIterator last);
+ForwardIterator max_element(const HYDRA_EXTERNAL_NS::thrust::detail::execution_policy_base<DerivedPolicy> &exec, ForwardIterator first, ForwardIterator last);
 
 
 /*! \p max_element finds the largest element in the range <tt>[first, last)</tt>.
@@ -459,7 +459,7 @@ ForwardIterator max_element(const thrust::detail::execution_policy_base<DerivedP
  *  #include <hydra/detail/external/thrust/extrema.h>
  *  ...
  *  int data[6] = {1, 0, 2, 2, 1, 3};
- *  int *result = thrust::max_element(data, data + 6);
+ *  int *result = HYDRA_EXTERNAL_NS::thrust::max_element(data, data + 6);
  *
  *  // *result == 3
  *  \endcode
@@ -498,7 +498,7 @@ ForwardIterator max_element(ForwardIterator first, ForwardIterator last);
  *  \tparam BinaryPredicate is a model of <a href="http://www.sgi.com/tech/stl/BinaryPredicate.html">Binary Predicate</a>.
  *
  *  The following code snippet demonstrates how to use \p max_element to find the largest element
- *  of a collection of key-value pairs using the \p thrust::host execution policy for parallelization.
+ *  of a collection of key-value pairs using the \p HYDRA_EXTERNAL_NS::thrust::host execution policy for parallelization.
  *
  *  \code
  *  #include <hydra/detail/external/thrust/extrema.h>
@@ -523,7 +523,7 @@ ForwardIterator max_element(ForwardIterator first, ForwardIterator last);
  *  ...
  *  key_value data[4] = { {4,5}, {0,7}, {2,3}, {6,1} };
  *
- *  key_value *largest = thrust::max_element(thrust::host, data, data + 4, compare_key_value());
+ *  key_value *largest = HYDRA_EXTERNAL_NS::thrust::max_element(HYDRA_EXTERNAL_NS::thrust::host, data, data + 4, compare_key_value());
  *
  *  // largest == data + 3
  *  // *largest == {6,1}
@@ -533,7 +533,7 @@ ForwardIterator max_element(ForwardIterator first, ForwardIterator last);
  */
 template<typename DerivedPolicy, typename ForwardIterator, typename BinaryPredicate>
 __hydra_host__ __hydra_device__
-ForwardIterator max_element(const thrust::detail::execution_policy_base<DerivedPolicy> &exec, ForwardIterator first, ForwardIterator last, BinaryPredicate comp);
+ForwardIterator max_element(const HYDRA_EXTERNAL_NS::thrust::detail::execution_policy_base<DerivedPolicy> &exec, ForwardIterator first, ForwardIterator last, BinaryPredicate comp);
 
 
 /*! \p max_element finds the largest element in the range <tt>[first, last)</tt>.
@@ -583,7 +583,7 @@ ForwardIterator max_element(const thrust::detail::execution_policy_base<DerivedP
  *  ...
  *  key_value data[4] = { {4,5}, {0,7}, {2,3}, {6,1} };
  *
- *  key_value *largest = thrust::max_element(data, data + 4, compare_key_value());
+ *  key_value *largest = HYDRA_EXTERNAL_NS::thrust::max_element(data, data + 4, compare_key_value());
  *
  *  // largest == data + 3
  *  // *largest == {6,1}
@@ -619,7 +619,7 @@ ForwardIterator max_element(ForwardIterator first, ForwardIterator last,
  *  #include <hydra/detail/external/thrust/execution_policy.h>
  *  ...
  *  int data[6] = {1, 0, 2, 2, 1, 3};
- *  thrust::pair<int *, int *> result = thrust::minmax_element(thrust::host, data, data + 6);
+ *  HYDRA_EXTERNAL_NS::thrust::pair<int *, int *> result = HYDRA_EXTERNAL_NS::thrust::minmax_element(HYDRA_EXTERNAL_NS::thrust::host, data, data + 6);
  *
  *  // result.first is data + 1
  *  // result.second is data + 5
@@ -633,7 +633,7 @@ ForwardIterator max_element(ForwardIterator first, ForwardIterator last,
  */
 template<typename DerivedPolicy, typename ForwardIterator>
 __hydra_host__ __hydra_device__
-thrust::pair<ForwardIterator,ForwardIterator> minmax_element(const thrust::detail::execution_policy_base<DerivedPolicy> &exec, ForwardIterator first, ForwardIterator last);
+HYDRA_EXTERNAL_NS::thrust::pair<ForwardIterator,ForwardIterator> minmax_element(const HYDRA_EXTERNAL_NS::thrust::detail::execution_policy_base<DerivedPolicy> &exec, ForwardIterator first, ForwardIterator last);
 
 
 /*! \p minmax_element finds the smallest and largest elements in the range <tt>[first, last)</tt>.
@@ -654,7 +654,7 @@ thrust::pair<ForwardIterator,ForwardIterator> minmax_element(const thrust::detai
  *  #include <hydra/detail/external/thrust/extrema.h>
  *  ...
  *  int data[6] = {1, 0, 2, 2, 1, 3};
- *  thrust::pair<int *, int *> result = thrust::minmax_element(data, data + 6);
+ *  HYDRA_EXTERNAL_NS::thrust::pair<int *, int *> result = HYDRA_EXTERNAL_NS::thrust::minmax_element(data, data + 6);
  *
  *  // result.first is data + 1
  *  // result.second is data + 5
@@ -667,7 +667,7 @@ thrust::pair<ForwardIterator,ForwardIterator> minmax_element(const thrust::detai
  *  \see http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2005/n1840.pdf
  */
 template <typename ForwardIterator>
-thrust::pair<ForwardIterator,ForwardIterator> minmax_element(ForwardIterator first, 
+HYDRA_EXTERNAL_NS::thrust::pair<ForwardIterator,ForwardIterator> minmax_element(ForwardIterator first, 
                                                              ForwardIterator last);
 
 
@@ -692,7 +692,7 @@ thrust::pair<ForwardIterator,ForwardIterator> minmax_element(ForwardIterator fir
  *  \tparam BinaryPredicate is a model of <a href="http://www.sgi.com/tech/stl/BinaryPredicate">Binary Predicate</a>.
  *
  *  The following code snippet demonstrates how to use \p minmax_element to find the smallest and largest elements
- *  of a collection of key-value pairs using the \p thrust::host execution policy for parallelization:
+ *  of a collection of key-value pairs using the \p HYDRA_EXTERNAL_NS::thrust::host execution policy for parallelization:
  *
  *  \code
  *  #include <hydra/detail/external/thrust/extrema.h>
@@ -718,7 +718,7 @@ thrust::pair<ForwardIterator,ForwardIterator> minmax_element(ForwardIterator fir
  *  ...
  *  key_value data[4] = { {4,5}, {0,7}, {2,3}, {6,1} };
  *
- *  thrust::pair<key_value*,key_value*> extrema = thrust::minmax_element(thrust::host, data, data + 4, compare_key_value());
+ *  HYDRA_EXTERNAL_NS::thrust::pair<key_value*,key_value*> extrema = HYDRA_EXTERNAL_NS::thrust::minmax_element(HYDRA_EXTERNAL_NS::thrust::host, data, data + 4, compare_key_value());
  *
  *  // extrema.first   == data + 1
  *  // *extrema.first  == {0,7}
@@ -732,7 +732,7 @@ thrust::pair<ForwardIterator,ForwardIterator> minmax_element(ForwardIterator fir
  */
 template<typename DerivedPolicy, typename ForwardIterator, typename BinaryPredicate>
 __hydra_host__ __hydra_device__
-thrust::pair<ForwardIterator,ForwardIterator> minmax_element(const thrust::detail::execution_policy_base<DerivedPolicy> &exec, ForwardIterator first, ForwardIterator last, BinaryPredicate comp);
+HYDRA_EXTERNAL_NS::thrust::pair<ForwardIterator,ForwardIterator> minmax_element(const HYDRA_EXTERNAL_NS::thrust::detail::execution_policy_base<DerivedPolicy> &exec, ForwardIterator first, ForwardIterator last, BinaryPredicate comp);
 
 
 /*! \p minmax_element finds the smallest and largest elements in the range <tt>[first, last)</tt>.
@@ -776,7 +776,7 @@ thrust::pair<ForwardIterator,ForwardIterator> minmax_element(const thrust::detai
  *  ...
  *  key_value data[4] = { {4,5}, {0,7}, {2,3}, {6,1} };
  *
- *  thrust::pair<key_value*,key_value*> extrema = thrust::minmax_element(data, data + 4, compare_key_value());
+ *  HYDRA_EXTERNAL_NS::thrust::pair<key_value*,key_value*> extrema = HYDRA_EXTERNAL_NS::thrust::minmax_element(data, data + 4, compare_key_value());
  *
  *  // extrema.first   == data + 1
  *  // *extrema.first  == {0,7}
@@ -789,7 +789,7 @@ thrust::pair<ForwardIterator,ForwardIterator> minmax_element(const thrust::detai
  *  \see http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2005/n1840.pdf
  */
 template <typename ForwardIterator, typename BinaryPredicate>
-thrust::pair<ForwardIterator,ForwardIterator> minmax_element(ForwardIterator first, 
+HYDRA_EXTERNAL_NS::thrust::pair<ForwardIterator,ForwardIterator> minmax_element(ForwardIterator first, 
                                                              ForwardIterator last,
                                                              BinaryPredicate comp);
 

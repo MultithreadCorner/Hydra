@@ -38,10 +38,10 @@ namespace stable_primitive_sort_detail
 
 template<typename Iterator>
   struct enable_if_bool_sort
-    : thrust::detail::enable_if<
-        thrust::detail::is_same<
+    : HYDRA_EXTERNAL_NS::thrust::detail::enable_if<
+        HYDRA_EXTERNAL_NS::thrust::detail::is_same<
           bool,
-          typename thrust::iterator_value<Iterator>::type
+          typename HYDRA_EXTERNAL_NS::thrust::iterator_value<Iterator>::type
         >::value
       >
 {};
@@ -49,10 +49,10 @@ template<typename Iterator>
 
 template<typename Iterator>
   struct disable_if_bool_sort
-    : thrust::detail::disable_if<
-        thrust::detail::is_same<
+    : HYDRA_EXTERNAL_NS::thrust::detail::disable_if<
+        HYDRA_EXTERNAL_NS::thrust::detail::is_same<
           bool,
-          typename thrust::iterator_value<Iterator>::type
+          typename HYDRA_EXTERNAL_NS::thrust::iterator_value<Iterator>::type
         >::value
       >
 {};
@@ -68,7 +68,7 @@ __hydra_host__ __hydra_device__
 {
   // use stable_partition if we're sorting bool
   // stable_partition puts true values first, so we need to logical_not
-  sequential::stable_partition(exec, first, last, thrust::logical_not<bool>());
+  sequential::stable_partition(exec, first, last, HYDRA_EXTERNAL_NS::thrust::logical_not<bool>());
 }
 
 
@@ -90,7 +90,7 @@ struct logical_not_first
   __hydra_host__ __hydra_device__
   bool operator()(Tuple t)
   {
-    return !thrust::get<0>(t);
+    return !HYDRA_EXTERNAL_NS::thrust::get<0>(t);
   }
 };
 
@@ -107,8 +107,8 @@ __hydra_host__ __hydra_device__
   // use stable_partition if we're sorting bool
   // stable_partition puts true values first, so we need to logical_not
   sequential::stable_partition(exec,
-                               thrust::make_zip_iterator(thrust::make_tuple(keys_first, values_first)),
-                               thrust::make_zip_iterator(thrust::make_tuple(keys_last, values_first)),
+                               HYDRA_EXTERNAL_NS::thrust::make_zip_iterator(HYDRA_EXTERNAL_NS::thrust::make_tuple(keys_first, values_first)),
+                               HYDRA_EXTERNAL_NS::thrust::make_zip_iterator(HYDRA_EXTERNAL_NS::thrust::make_tuple(keys_last, values_first)),
                                logical_not_first());
 }
 
@@ -158,4 +158,4 @@ void stable_primitive_sort_by_key(sequential::execution_policy<DerivedPolicy> &e
 } // end namespace detail
 } // end namespace system
 } // end HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
-
+HYDRA_EXTERNAL_NAMESPACE_END

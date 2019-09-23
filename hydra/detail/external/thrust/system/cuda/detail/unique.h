@@ -27,7 +27,7 @@
 #pragma once
 
 
-#if THRUST_DEVICE_COMPILER == THRUST_DEVICE_COMPILER_NVCC
+#if HYDRA_THRUST_DEVICE_COMPILER == HYDRA_THRUST_DEVICE_COMPILER_NVCC
 #include <hydra/detail/external/thrust/system/cuda/config.h>
 
 #include <hydra/detail/external/thrust/system/cuda/detail/cub/device/device_select.cuh>
@@ -44,14 +44,14 @@
 
 HYDRA_EXTERNAL_NAMESPACE_BEGIN
 
-THRUST_BEGIN_NS
+HYDRA_THRUST_BEGIN_NS
 
 template <typename DerivedPolicy,
           typename ForwardIterator,
           typename BinaryPredicate>
 __hydra_host__ __hydra_device__ ForwardIterator
 unique(
-    const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
+    const HYDRA_EXTERNAL_NS::thrust::detail::execution_policy_base<DerivedPolicy> &exec,
     ForwardIterator                                             first,
     ForwardIterator                                             last,
     BinaryPredicate                                             binary_pred);
@@ -62,7 +62,7 @@ template <typename DerivedPolicy,
           typename BinaryPredicate>
 __hydra_host__ __hydra_device__ OutputIterator
 unique_copy(
-    const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
+    const HYDRA_EXTERNAL_NS::thrust::detail::execution_policy_base<DerivedPolicy> &exec,
     InputIterator                                               first,
     InputIterator                                               last,
     OutputIterator                                              result,
@@ -98,7 +98,7 @@ namespace __unique {
   template<class,class>
   struct Tuning;
   
-  namespace mpl = thrust::detail::mpl::math;
+  namespace mpl = HYDRA_EXTERNAL_NS::thrust::detail::mpl::math;
 
   template<class T, size_t NOMINAL_4B_ITEMS_PER_THREAD>
   struct items_per_thread
@@ -268,13 +268,13 @@ namespace __unique {
       // Utility functions
       //---------------------------------------------------------------------
       
-      THRUST_DEVICE_FUNCTION
+      HYDRA_THRUST_DEVICE_FUNCTION
       shared_items_t &get_shared()
       {
         return temp_storage.shared_items;
       }
 
-      void THRUST_DEVICE_FUNCTION
+      void HYDRA_THRUST_DEVICE_FUNCTION
       scatter(item_type (&items)[ITEMS_PER_THREAD],
               Size (&selection_flags)[ITEMS_PER_THREAD],
               Size (&selection_indices)[ITEMS_PER_THREAD],
@@ -313,7 +313,7 @@ namespace __unique {
       //---------------------------------------------------------------------
 
       template <bool IS_LAST_TILE, bool IS_FIRST_TILE>
-      Size THRUST_DEVICE_FUNCTION
+      Size HYDRA_THRUST_DEVICE_FUNCTION
       consume_tile_impl(int  num_tile_items,
                         int  tile_idx,
                         Size tile_base)
@@ -428,7 +428,7 @@ namespace __unique {
 
 
       template <bool IS_LAST_TILE>
-      Size THRUST_DEVICE_FUNCTION
+      Size HYDRA_THRUST_DEVICE_FUNCTION
       consume_tile(int  num_tile_items,
                    int  tile_idx,
                    Size tile_base)
@@ -451,7 +451,7 @@ namespace __unique {
       // Constructor
       //---------------------------------------------------------------------
 
-      THRUST_DEVICE_FUNCTION
+      HYDRA_THRUST_DEVICE_FUNCTION
       impl(TempStorage &    temp_storage_,
            ScanTileState &  tile_state_,
            ItemsLoadIt      items_in_,
@@ -494,7 +494,7 @@ namespace __unique {
     // Agent entry point
     //---------------------------------------------------------------------
 
-    THRUST_AGENT_ENTRY(ItemsIt          items_in,
+    HYDRA_THRUST_AGENT_ENTRY(ItemsIt          items_in,
                        ItemsOutputIt    items_out,
                        BinaryPred       binary_pred,
                        NumSelectedOutIt num_selected_out,
@@ -529,7 +529,7 @@ namespace __unique {
     // Agent entry point
     //---------------------------------------------------------------------
 
-    THRUST_AGENT_ENTRY(ScanTileState tile_state,
+    HYDRA_THRUST_AGENT_ENTRY(ScanTileState tile_state,
                        Size          num_tiles,
                        NumSelectedIt num_selected_out,
                        char * /*shmem*/)
@@ -546,7 +546,7 @@ namespace __unique {
             class BinaryPred,
             class Size,
             class NumSelectedOutIt>
-  static cudaError_t THRUST_RUNTIME_FUNCTION
+  static cudaError_t HYDRA_THRUST_RUNTIME_FUNCTION
   doit_step(void *           d_temp_storage,
             size_t &         temp_storage_bytes,
             ItemsInputIt     items_in,
@@ -633,7 +633,7 @@ namespace __unique {
             typename ItemsInputIt,
             typename ItemsOutputIt,
             typename BinaryPred>
-  THRUST_RUNTIME_FUNCTION
+  HYDRA_THRUST_RUNTIME_FUNCTION
   ItemsOutputIt unique(execution_policy<Derived>& policy,
                        ItemsInputIt               items_first,
                        ItemsInputIt               items_last,
@@ -643,10 +643,10 @@ namespace __unique {
     //  typedef typename iterator_traits<ItemsInputIt>::difference_type size_type;
     typedef int size_type;
 
-    size_type    num_items          = static_cast<size_type>(thrust::distance(items_first, items_last));
+    size_type    num_items          = static_cast<size_type>(HYDRA_EXTERNAL_NS::thrust::distance(items_first, items_last));
     size_t       temp_storage_bytes = 0;
     cudaStream_t stream             = cuda_cub::stream(policy);
-    bool         debug_sync         = THRUST_DEBUG_SYNC_FLAG;
+    bool         debug_sync         = HYDRA_THRUST_DEBUG_SYNC_FLAG;
 
     cudaError_t status;
     status = doit_step(NULL,
@@ -671,7 +671,7 @@ namespace __unique {
     cuda_cub::throw_on_error(status, "unique: failed on 1st step");
 
     // Allocate temporary storage.
-    thrust::detail::temporary_array<thrust::detail::uint8_t, Derived>
+    HYDRA_EXTERNAL_NS::thrust::detail::temporary_array<HYDRA_EXTERNAL_NS::thrust::detail::uint8_t, Derived>
       tmp(policy, storage_size);
     void *ptr = static_cast<void*>(tmp.data().get());
 
@@ -682,7 +682,7 @@ namespace __unique {
     cuda_cub::throw_on_error(status, "unique: failed on 2nd step");
 
     size_type* d_num_selected_out
-      = thrust::detail::aligned_reinterpret_cast<size_type*>(allocations[0]);
+      = HYDRA_EXTERNAL_NS::thrust::detail::aligned_reinterpret_cast<size_type*>(allocations[0]);
 
     status = doit_step(allocations[1],
                        temp_storage_bytes,
@@ -721,7 +721,7 @@ unique_copy(execution_policy<Derived> &policy,
             BinaryPred                 binary_pred)
 {
   OutputIt ret = result;
-  if (__THRUST_HAS_CUDART__)
+  if (__HYDRA_THRUST_HAS_CUDART__)
   {
     ret = __unique::unique(policy,
                            first,
@@ -731,8 +731,8 @@ unique_copy(execution_policy<Derived> &policy,
   }
   else
   {
-#if !__THRUST_HAS_CUDART__
-    ret = thrust::unique_copy(cvt_to_seq(derived_cast(policy)),
+#if !__HYDRA_THRUST_HAS_CUDART__
+    ret = HYDRA_EXTERNAL_NS::thrust::unique_copy(cvt_to_seq(derived_cast(policy)),
                               first,
                               last,
                               result,
@@ -768,14 +768,14 @@ unique(execution_policy<Derived> &policy,
        BinaryPred                 binary_pred)
 {
   InputIt ret = first;
-  if (__THRUST_HAS_CUDART__)
+  if (__HYDRA_THRUST_HAS_CUDART__)
   {
     ret = cuda_cub::unique_copy(policy, first, last, first, binary_pred);
   }
   else
   {
-#if !__THRUST_HAS_CUDART__
-    ret = thrust::unique(cvt_to_seq(derived_cast(policy)),
+#if !__HYDRA_THRUST_HAS_CUDART__
+    ret = HYDRA_EXTERNAL_NS::thrust::unique(cvt_to_seq(derived_cast(policy)),
                          first,
                          last,
                          binary_pred);
@@ -796,7 +796,7 @@ unique(execution_policy<Derived> &policy,
 }
 
 }    // namespace cuda_cub
-THRUST_END_NS
+HYDRA_THRUST_END_NS
 
 HYDRA_EXTERNAL_NAMESPACE_END
 

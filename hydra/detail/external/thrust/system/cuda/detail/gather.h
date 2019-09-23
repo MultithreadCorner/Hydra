@@ -27,13 +27,13 @@
 #pragma once
 
 
-#if THRUST_DEVICE_COMPILER == THRUST_DEVICE_COMPILER_NVCC
+#if HYDRA_THRUST_DEVICE_COMPILER == HYDRA_THRUST_DEVICE_COMPILER_NVCC
 #include <hydra/detail/external/thrust/system/cuda/detail/transform.h>
 #include <hydra/detail/external/thrust/iterator/permutation_iterator.h>
 
 HYDRA_EXTERNAL_NAMESPACE_BEGIN
 
-THRUST_BEGIN_NS
+HYDRA_THRUST_BEGIN_NS
 namespace cuda_cub {
 
 template <class Derived,
@@ -48,8 +48,8 @@ gather(execution_policy<Derived>& policy,
     ResultIt result)
 {
   return cuda_cub::transform(policy,
-                          thrust::make_permutation_iterator(items, map_first),
-                          thrust::make_permutation_iterator(items, map_last),
+                          HYDRA_EXTERNAL_NS::thrust::make_permutation_iterator(items, map_first),
+                          HYDRA_EXTERNAL_NS::thrust::make_permutation_iterator(items, map_last),
                           result,
                           identity());
 }
@@ -71,8 +71,8 @@ gather_if(execution_policy<Derived>& policy,
           Predicate                  predicate)
 {
   return cuda_cub::transform_if(policy,
-                              thrust::make_permutation_iterator(items, map_first),
-                              thrust::make_permutation_iterator(items, map_last),
+                              HYDRA_EXTERNAL_NS::thrust::make_permutation_iterator(items, map_first),
+                              HYDRA_EXTERNAL_NS::thrust::make_permutation_iterator(items, map_last),
                               stencil,
                               result,
                               identity(),
@@ -103,7 +103,7 @@ gather_if(execution_policy<Derived>& policy,
 
 
 } // namespace cuda_cub
-THRUST_END_NS
+HYDRA_THRUST_END_NS
 
 HYDRA_EXTERNAL_NAMESPACE_END
 #endif

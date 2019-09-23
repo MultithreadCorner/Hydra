@@ -67,8 +67,8 @@ namespace detail {
 			detail::EvalMother<N, GRND,FUNCTOR, FUNCTORS...> const& evaluator) {
 
 		size_t nevents = HYDRA_EXTERNAL_NS::thrust::distance(begin, end);
-				HYDRA_EXTERNAL_NS::thrust::counting_iterator<GLong_t> first(0);
-				HYDRA_EXTERNAL_NS::thrust::counting_iterator<GLong_t> last = first + nevents;
+				HYDRA_EXTERNAL_NS::thrust::counting_iterator<size_t> first(0);
+				HYDRA_EXTERNAL_NS::thrust::counting_iterator<size_t> last = first + nevents;
 
 		HYDRA_EXTERNAL_NS::thrust::transform( first, last, begin, evaluator);
 
@@ -81,8 +81,8 @@ namespace detail {
 			 detail::EvalMothers<N, GRND,FUNCTOR, FUNCTORS...> const& evaluator) {
 
 		size_t nevents = HYDRA_EXTERNAL_NS::thrust::distance(mbegin, mend);
-		HYDRA_EXTERNAL_NS::thrust::counting_iterator<GLong_t> first(0);
-		HYDRA_EXTERNAL_NS::thrust::counting_iterator<GLong_t> last = first + nevents;
+		HYDRA_EXTERNAL_NS::thrust::counting_iterator<size_t> first(0);
+		HYDRA_EXTERNAL_NS::thrust::counting_iterator<size_t> last = first + nevents;
 
 		HYDRA_EXTERNAL_NS::thrust::transform( HYDRA_EXTERNAL_NS::thrust::make_zip_iterator(first, mbegin),
 				HYDRA_EXTERNAL_NS::thrust::make_zip_iterator(last, mend), begin, evaluator );
@@ -116,8 +116,8 @@ namespace detail {
 		System system;
 
 		size_t nevents = HYDRA_EXTERNAL_NS::thrust::distance(begin, end);
-		HYDRA_EXTERNAL_NS::thrust::counting_iterator<GLong_t> first(0);
-		HYDRA_EXTERNAL_NS::thrust::counting_iterator<GLong_t> last = first + nevents;
+		HYDRA_EXTERNAL_NS::thrust::counting_iterator<size_t> first(0);
+		HYDRA_EXTERNAL_NS::thrust::counting_iterator<size_t> last = first + nevents;
 
 		StatsPHSP init = StatsPHSP();
 
@@ -136,8 +136,8 @@ namespace detail {
 	{
 
 		size_t nevents = HYDRA_EXTERNAL_NS::thrust::distance(begin, end);
-		HYDRA_EXTERNAL_NS::thrust::counting_iterator<GLong_t> first(0);
-		HYDRA_EXTERNAL_NS::thrust::counting_iterator<GLong_t> last = first + nevents;
+		HYDRA_EXTERNAL_NS::thrust::counting_iterator<size_t> first(0);
+		HYDRA_EXTERNAL_NS::thrust::counting_iterator<size_t> last = first + nevents;
 
 		auto begin_weights = HYDRA_EXTERNAL_NS::thrust::get<0>(begin.get_iterator_tuple());
 
@@ -155,8 +155,8 @@ namespace detail {
 	{
 
 		size_t nevents = HYDRA_EXTERNAL_NS::thrust::distance(begin, end);
-		HYDRA_EXTERNAL_NS::thrust::counting_iterator<GLong_t> first(0);
-		HYDRA_EXTERNAL_NS::thrust::counting_iterator<GLong_t> last = first + nevents;
+		HYDRA_EXTERNAL_NS::thrust::counting_iterator<size_t> first(0);
+		HYDRA_EXTERNAL_NS::thrust::counting_iterator<size_t> last = first + nevents;
 
 		auto begin_weights = HYDRA_EXTERNAL_NS::thrust::get<0>(begin.get_iterator_tuple());
 
@@ -177,8 +177,8 @@ namespace detail {
 	{
 
 		size_t nevents = HYDRA_EXTERNAL_NS::thrust::distance(begin, end);
-		HYDRA_EXTERNAL_NS::thrust::counting_iterator<GLong_t> first(0);
-		HYDRA_EXTERNAL_NS::thrust::counting_iterator<GLong_t> last = first + nevents;
+		HYDRA_EXTERNAL_NS::thrust::counting_iterator<size_t> first(0);
+		HYDRA_EXTERNAL_NS::thrust::counting_iterator<size_t> last = first + nevents;
 
 		auto begin_weights = HYDRA_EXTERNAL_NS::thrust::get<0>(begin_daugters.get_iterator_tuple());
 
@@ -198,8 +198,8 @@ namespace detail {
 	{
 
 		size_t nevents = HYDRA_EXTERNAL_NS::thrust::distance(begin, end);
-		HYDRA_EXTERNAL_NS::thrust::counting_iterator<GLong_t> first(0);
-		HYDRA_EXTERNAL_NS::thrust::counting_iterator<GLong_t> last = first + nevents;
+		HYDRA_EXTERNAL_NS::thrust::counting_iterator<size_t> first(0);
+		HYDRA_EXTERNAL_NS::thrust::counting_iterator<size_t> last = first + nevents;
 
 		auto begin_weights = HYDRA_EXTERNAL_NS::thrust::get<0>(begin_daugters.get_iterator_tuple());
 

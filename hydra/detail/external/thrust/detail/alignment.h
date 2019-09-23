@@ -34,19 +34,19 @@ HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
 namespace detail
 {
 
-/// \p THRUST_ALIGNOF is a macro that takes a single type-id as a parameter,
+/// \p HYDRA_THRUST_ALIGNOF is a macro that takes a single type-id as a parameter,
 /// and returns the alignment requirement of the type in bytes.
 /// 
 /// It is an approximation of C++11's `alignof` operator.
 ///
 /// Note: MSVC does not allow the builtin used to implement this to be placed
 /// inside of a `__declspec(align(#))` attribute. As a workaround, you can
-/// assign the result of \p THRUST_ALIGNOF to a variable and pass the variable
+/// assign the result of \p HYDRA_THRUST_ALIGNOF to a variable and pass the variable
 /// as the argument to `__declspec(align(#))`.
 #if __cplusplus >= 201103L
-    #define THRUST_ALIGNOF(x) alignof(x) 
+    #define HYDRA_THRUST_ALIGNOF(x) alignof(x) 
 #else
-    #define THRUST_ALIGNOF(x) __alignof(x)
+    #define HYDRA_THRUST_ALIGNOF(x) __alignof(x)
 #endif
 
 /// \p alignment_of provides the member constant `value` which is equal to the
@@ -98,26 +98,26 @@ template <std::size_t Align>
 struct aligned_type;
 
 #if __cplusplus >= 201103L                                                     \
-  && (THRUST_HOST_COMPILER == THRUST_HOST_COMPILER_GCC)                        \
-  && (THRUST_GCC_VERSION >= 40800)
+  && (HYDRA_THRUST_HOST_COMPILER == HYDRA_THRUST_HOST_COMPILER_GCC)                        \
+  && (HYDRA_THRUST_GCC_VERSION >= 40800)
     // C++11 implementation, excluding GCC 4.7, which doesn't have `alignas`.
     template <std::size_t Align>
     struct aligned_type
     {
         struct alignas(Align) type {};
     };
-#elif  (THRUST_HOST_COMPILER == THRUST_HOST_COMPILER_MSVC)                    \
-    || (   (THRUST_HOST_COMPILER == THRUST_HOST_COMPILER_GCC)                 \
-        && (THRUST_GCC_VERSION < 40600))
+#elif  (HYDRA_THRUST_HOST_COMPILER == HYDRA_THRUST_HOST_COMPILER_MSVC)                    \
+    || (   (HYDRA_THRUST_HOST_COMPILER == HYDRA_THRUST_HOST_COMPILER_GCC)                 \
+        && (HYDRA_THRUST_GCC_VERSION < 40600))
     // C++03 implementation for MSVC and GCC <= 4.5.
     // 
     // We have to implement `aligned_type` with specializations for MSVC
     // and GCC 4.2.x and older because they require literals as arguments to 
     // their alignment attribute.
 
-    #if (THRUST_HOST_COMPILER == THRUST_HOST_COMPILER_MSVC)
+    #if (HYDRA_THRUST_HOST_COMPILER == HYDRA_THRUST_HOST_COMPILER_MSVC)
         // MSVC implementation.
-        #define THRUST_DEFINE_ALIGNED_TYPE_SPECIALIZATION(X)                  \
+        #define HYDRA_THRUST_DEFINE_ALIGNED_TYPE_SPECIALIZATION(X)                  \
             template <>                                                       \
             struct aligned_type<X>                                            \
             {                                                                 \
@@ -126,7 +126,7 @@ struct aligned_type;
             /**/
     #else
         // GCC <= 4.2 implementation.
-        #define THRUST_DEFINE_ALIGNED_TYPE_SPECIALIZATION(X)                  \
+        #define HYDRA_THRUST_DEFINE_ALIGNED_TYPE_SPECIALIZATION(X)                  \
             template <>                                                       \
             struct aligned_type<X>                                            \
             {                                                                 \
@@ -135,16 +135,16 @@ struct aligned_type;
             /**/
     #endif
     
-    THRUST_DEFINE_ALIGNED_TYPE_SPECIALIZATION(1);
-    THRUST_DEFINE_ALIGNED_TYPE_SPECIALIZATION(2);
-    THRUST_DEFINE_ALIGNED_TYPE_SPECIALIZATION(4);
-    THRUST_DEFINE_ALIGNED_TYPE_SPECIALIZATION(8);
-    THRUST_DEFINE_ALIGNED_TYPE_SPECIALIZATION(16);
-    THRUST_DEFINE_ALIGNED_TYPE_SPECIALIZATION(32);
-    THRUST_DEFINE_ALIGNED_TYPE_SPECIALIZATION(64);
-    THRUST_DEFINE_ALIGNED_TYPE_SPECIALIZATION(128);
+    HYDRA_THRUST_DEFINE_ALIGNED_TYPE_SPECIALIZATION(1);
+    HYDRA_THRUST_DEFINE_ALIGNED_TYPE_SPECIALIZATION(2);
+    HYDRA_THRUST_DEFINE_ALIGNED_TYPE_SPECIALIZATION(4);
+    HYDRA_THRUST_DEFINE_ALIGNED_TYPE_SPECIALIZATION(8);
+    HYDRA_THRUST_DEFINE_ALIGNED_TYPE_SPECIALIZATION(16);
+    HYDRA_THRUST_DEFINE_ALIGNED_TYPE_SPECIALIZATION(32);
+    HYDRA_THRUST_DEFINE_ALIGNED_TYPE_SPECIALIZATION(64);
+    HYDRA_THRUST_DEFINE_ALIGNED_TYPE_SPECIALIZATION(128);
 
-    #undef THRUST_DEFINE_ALIGNED_TYPE_SPECIALIZATION
+    #undef HYDRA_THRUST_DEFINE_ALIGNED_TYPE_SPECIALIZATION
 #else
     // C++03 implementation for GCC > 4.5, Clang, PGI, ICPC, and xlC.
     template <std::size_t Align>
@@ -185,8 +185,8 @@ struct aligned_type;
 ///
 /// It is an implementation of C++11's \p std::max_align_t.
 #if __cplusplus >= 201103L                                                     \
-  && (THRUST_HOST_COMPILER == THRUST_HOST_COMPILER_GCC)                        \
-  && (THRUST_GCC_VERSION >= 40900)
+  && (HYDRA_THRUST_HOST_COMPILER == HYDRA_THRUST_HOST_COMPILER_GCC)                        \
+  && (HYDRA_THRUST_GCC_VERSION >= 40900)
     // GCC 4.7 and 4.8 don't have `std::max_align_t`.
     using max_align_t = std::max_align_t;
 #else

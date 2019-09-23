@@ -34,10 +34,10 @@ template<
   typename T9
 >
   class tuple_of_iterator_references
-    : public thrust::tuple<T0,T1,T2,T3,T4,T5,T6,T7,T8,T9>
+    : public HYDRA_EXTERNAL_NS::thrust::tuple<T0,T1,T2,T3,T4,T5,T6,T7,T8,T9>
 {
   private:
-    typedef thrust::tuple<T0,T1,T2,T3,T4,T5,T6,T7,T8,T9> super_t;
+    typedef HYDRA_EXTERNAL_NS::thrust::tuple<T0,T1,T2,T3,T4,T5,T6,T7,T8,T9> super_t;
 
   public:
     // allow implicit construction from tuple<refs>
@@ -62,7 +62,7 @@ template<
     __thrust_exec_check_disable__
     template<typename U1, typename U2>
     inline __hydra_host__ __hydra_device__
-    tuple_of_iterator_references &operator=(const thrust::pair<U1,U2> &other)
+    tuple_of_iterator_references &operator=(const HYDRA_EXTERNAL_NS::thrust::pair<U1,U2> &other)
     {
       super_t::operator=(other);
       return *this;
@@ -79,17 +79,17 @@ template<
              typename Pointer, typename Derived>
     inline __hydra_host__ __hydra_device__
 // XXX gcc-4.2 crashes on is_assignable
-//    typename thrust::detail::enable_if<
-//      thrust::detail::is_assignable<
+//    typename HYDRA_EXTERNAL_NS::thrust::detail::enable_if<
+//      HYDRA_EXTERNAL_NS::thrust::detail::is_assignable<
 //        super_t,
-//        const thrust::tuple<U0,U1,U2,U3,U4,U5,U6,U7,U8,U9>
+//        const HYDRA_EXTERNAL_NS::thrust::tuple<U0,U1,U2,U3,U4,U5,U6,U7,U8,U9>
 //      >::value,
 //      tuple_of_iterator_references &
 //    >::type
     tuple_of_iterator_references &
-    operator=(const thrust::reference<thrust::tuple<U0,U1,U2,U3,U4,U5,U6,U7,U8,U9>, Pointer, Derived> &other)
+    operator=(const HYDRA_EXTERNAL_NS::thrust::reference<HYDRA_EXTERNAL_NS::thrust::tuple<U0,U1,U2,U3,U4,U5,U6,U7,U8,U9>, Pointer, Derived> &other)
     {
-      typedef thrust::tuple<U0,U1,U2,U3,U4,U5,U6,U7,U8,U9> tuple_type;
+      typedef HYDRA_EXTERNAL_NS::thrust::tuple<U0,U1,U2,U3,U4,U5,U6,U7,U8,U9> tuple_type;
 
       // XXX perhaps this could be accelerated
       tuple_type other_tuple = other;
@@ -98,7 +98,7 @@ template<
     }
 
 
-    // duplicate thrust::tuple's constructors
+    // duplicate HYDRA_EXTERNAL_NS::thrust::tuple's constructors
     inline __hydra_host__ __hydra_device__
     tuple_of_iterator_references() {}
 

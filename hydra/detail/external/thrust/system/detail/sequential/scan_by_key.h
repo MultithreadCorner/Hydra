@@ -52,11 +52,11 @@ __hydra_host__ __hydra_device__
                                        BinaryPredicate binary_pred,
                                        BinaryFunction binary_op)
 {
-  typedef typename thrust::iterator_traits<InputIterator1>::value_type KeyType;
-  typedef typename thrust::iterator_traits<OutputIterator>::value_type ValueType;
+  typedef typename HYDRA_EXTERNAL_NS::thrust::iterator_traits<InputIterator1>::value_type KeyType;
+  typedef typename HYDRA_EXTERNAL_NS::thrust::iterator_traits<OutputIterator>::value_type ValueType;
 
   // wrap binary_op
-  thrust::detail::wrapped_function<
+  HYDRA_EXTERNAL_NS::thrust::detail::wrapped_function<
     BinaryFunction,
     ValueType
   > wrapped_binary_op(binary_op);
@@ -105,8 +105,8 @@ __hydra_host__ __hydra_device__
                                        BinaryPredicate binary_pred,
                                        BinaryFunction binary_op)
 {
-  typedef typename thrust::iterator_traits<InputIterator1>::value_type KeyType;
-  typedef typename thrust::iterator_traits<OutputIterator>::value_type ValueType;
+  typedef typename HYDRA_EXTERNAL_NS::thrust::iterator_traits<InputIterator1>::value_type KeyType;
+  typedef typename HYDRA_EXTERNAL_NS::thrust::iterator_traits<OutputIterator>::value_type ValueType;
 
   if(first1 != last1)
   {
@@ -148,3 +148,4 @@ __hydra_host__ __hydra_device__
 } // end namespace system
 } // end HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
 
+HYDRA_EXTERNAL_NAMESPACE_END

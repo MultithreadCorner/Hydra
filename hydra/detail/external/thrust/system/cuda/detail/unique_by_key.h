@@ -27,7 +27,7 @@
 #pragma once
 
 
-#if THRUST_DEVICE_COMPILER == THRUST_DEVICE_COMPILER_NVCC
+#if HYDRA_THRUST_DEVICE_COMPILER == HYDRA_THRUST_DEVICE_COMPILER_NVCC
 #include <hydra/detail/external/thrust/system/cuda/config.h>
 
 #include <hydra/detail/external/thrust/detail/cstdint.h>
@@ -46,14 +46,14 @@
 
 HYDRA_EXTERNAL_NAMESPACE_BEGIN
 
-THRUST_BEGIN_NS
+HYDRA_THRUST_BEGIN_NS
 
 template <typename DerivedPolicy,
           typename ForwardIterator1,
           typename ForwardIterator2>
-__hydra_host__ __hydra_device__ thrust::pair<ForwardIterator1, ForwardIterator2>
+__hydra_host__ __hydra_device__ HYDRA_EXTERNAL_NS::thrust::pair<ForwardIterator1, ForwardIterator2>
 unique_by_key(
-    const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
+    const HYDRA_EXTERNAL_NS::thrust::detail::execution_policy_base<DerivedPolicy> &exec,
     ForwardIterator1                                            keys_first,
     ForwardIterator1                                            keys_last,
     ForwardIterator2                                            values_first);
@@ -62,9 +62,9 @@ template <typename DerivedPolicy,
           typename InputIterator2,
           typename OutputIterator1,
           typename OutputIterator2>
-__hydra_host__ __hydra_device__ thrust::pair<OutputIterator1, OutputIterator2>
+__hydra_host__ __hydra_device__ HYDRA_EXTERNAL_NS::thrust::pair<OutputIterator1, OutputIterator2>
 unique_by_key_copy(
-    const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
+    const HYDRA_EXTERNAL_NS::thrust::detail::execution_policy_base<DerivedPolicy> &exec,
     InputIterator1                                              keys_first,
     InputIterator1                                              keys_last,
     InputIterator2                                              values_first,
@@ -102,7 +102,7 @@ namespace __unique_by_key {
   template<class,class>
   struct Tuning;
   
-  namespace mpl = thrust::detail::mpl::math;
+  namespace mpl = HYDRA_EXTERNAL_NS::thrust::detail::mpl::math;
 
   template<class T, size_t NOMINAL_4B_ITEMS_PER_THREAD>
   struct items_per_thread
@@ -289,12 +289,12 @@ namespace __unique_by_key {
       struct key_tag {};
       struct value_tag {};
 
-      THRUST_DEVICE_FUNCTION
+      HYDRA_THRUST_DEVICE_FUNCTION
       shared_keys_t &get_shared(key_tag)
       {
         return temp_storage.shared_keys;
       }
-      THRUST_DEVICE_FUNCTION
+      HYDRA_THRUST_DEVICE_FUNCTION
       shared_values_t &get_shared(value_tag)
       {
         return temp_storage.shared_values;
@@ -304,7 +304,7 @@ namespace __unique_by_key {
       template <class Tag,
                 class OutputIt,
                 class T>
-      void THRUST_DEVICE_FUNCTION
+      void HYDRA_THRUST_DEVICE_FUNCTION
       scatter(Tag      tag,
               OutputIt items_out,
               T (&items)[ITEMS_PER_THREAD],
@@ -345,7 +345,7 @@ namespace __unique_by_key {
       //---------------------------------------------------------------------
 
       template <bool IS_LAST_TILE, bool IS_FIRST_TILE>
-      Size THRUST_DEVICE_FUNCTION
+      Size HYDRA_THRUST_DEVICE_FUNCTION
       consume_tile_impl(int  num_tile_items,
                         int  tile_idx,
                         Size tile_base)
@@ -492,7 +492,7 @@ namespace __unique_by_key {
 
 
       template <bool IS_LAST_TILE>
-      Size THRUST_DEVICE_FUNCTION
+      Size HYDRA_THRUST_DEVICE_FUNCTION
       consume_tile(int  num_tile_items,
                    int  tile_idx,
                    Size tile_base)
@@ -515,7 +515,7 @@ namespace __unique_by_key {
       // Constructor
       //---------------------------------------------------------------------
 
-      THRUST_DEVICE_FUNCTION
+      HYDRA_THRUST_DEVICE_FUNCTION
       impl(TempStorage &    temp_storage_,
            ScanTileState &  tile_state_,
            KeyLoadIt        keys_in_,
@@ -563,7 +563,7 @@ namespace __unique_by_key {
     // Agent entry point
     //---------------------------------------------------------------------
 
-    THRUST_AGENT_ENTRY(KeyInputIt       keys_in,
+    HYDRA_THRUST_AGENT_ENTRY(KeyInputIt       keys_in,
                        ValInputIt       values_in,
                        KeyOutputIt      keys_out,
                        ValOutputIt      values_out,
@@ -604,7 +604,7 @@ namespace __unique_by_key {
     // Agent entry point
     //---------------------------------------------------------------------
 
-    THRUST_AGENT_ENTRY(ScanTileState tile_state,
+    HYDRA_THRUST_AGENT_ENTRY(ScanTileState tile_state,
                        Size          num_tiles,
                        NumSelectedIt num_selected_out,
                        char * /*shmem*/)
@@ -624,7 +624,7 @@ namespace __unique_by_key {
             class BinaryPred,
             class Size,
             class NumSelectedOutIt>
-  static cudaError_t THRUST_RUNTIME_FUNCTION
+  static cudaError_t HYDRA_THRUST_RUNTIME_FUNCTION
   doit_step(void *           d_temp_storage,
             size_t &         temp_storage_bytes,
             KeyInputIt       keys_in,
@@ -719,7 +719,7 @@ namespace __unique_by_key {
             typename KeyOutputIt,
             typename ValOutputIt,
             typename BinaryPred>
-  THRUST_RUNTIME_FUNCTION
+  HYDRA_THRUST_RUNTIME_FUNCTION
   pair<KeyOutputIt, ValOutputIt>
   unique_by_key(execution_policy<Derived>& policy,
                 KeyInputIt                 keys_first,
@@ -733,11 +733,11 @@ namespace __unique_by_key {
     typedef int size_type;
 
     size_type num_items 
-      = static_cast<size_type>(thrust::distance(keys_first, keys_last));
+      = static_cast<size_type>(HYDRA_EXTERNAL_NS::thrust::distance(keys_first, keys_last));
 
     size_t       temp_storage_bytes = 0;
     cudaStream_t stream             = cuda_cub::stream(policy);
-    bool         debug_sync         = THRUST_DEBUG_SYNC_FLAG;
+    bool         debug_sync         = HYDRA_THRUST_DEBUG_SYNC_FLAG;
 
     cudaError_t status;
     status = __unique_by_key::doit_step(NULL,
@@ -764,7 +764,7 @@ namespace __unique_by_key {
     cuda_cub::throw_on_error(status, "unique_by_key failed on 1st alias_storage");
 
     // Allocate temporary storage.
-    thrust::detail::temporary_array<thrust::detail::uint8_t, Derived>
+    HYDRA_EXTERNAL_NS::thrust::detail::temporary_array<HYDRA_EXTERNAL_NS::thrust::detail::uint8_t, Derived>
       tmp(policy, storage_size);
     void *ptr = static_cast<void*>(tmp.data().get());
 
@@ -775,7 +775,7 @@ namespace __unique_by_key {
     cuda_cub::throw_on_error(status, "unique_by_key failed on 2nd alias_storage");
 
     size_type* d_num_selected_out
-      = thrust::detail::aligned_reinterpret_cast<size_type*>(allocations[0]);
+      = HYDRA_EXTERNAL_NS::thrust::detail::aligned_reinterpret_cast<size_type*>(allocations[0]);
 
     status = __unique_by_key::doit_step(allocations[1],
                                         temp_storage_bytes,
@@ -795,7 +795,7 @@ namespace __unique_by_key {
 
     size_type num_selected = get_value(policy, d_num_selected_out);
 
-    return thrust::make_pair(
+    return HYDRA_EXTERNAL_NS::thrust::make_pair(
       keys_result + num_selected,
       values_result + num_selected
     );
@@ -825,8 +825,8 @@ unique_by_key_copy(execution_policy<Derived> &policy,
                    ValOutputIt                values_result,
                    BinaryPred                 binary_pred)
 {
-  pair<KeyOutputIt, ValOutputIt> ret = thrust::make_pair(keys_result, values_result);
-  if (__THRUST_HAS_CUDART__)
+  pair<KeyOutputIt, ValOutputIt> ret = HYDRA_EXTERNAL_NS::thrust::make_pair(keys_result, values_result);
+  if (__HYDRA_THRUST_HAS_CUDART__)
   {
     ret = __unique_by_key::unique_by_key(policy,
                                 keys_first,
@@ -838,8 +838,8 @@ unique_by_key_copy(execution_policy<Derived> &policy,
   }
   else
   {
-#if !__THRUST_HAS_CUDART__
-    ret = thrust::unique_by_key_copy(cvt_to_seq(derived_cast(policy)),
+#if !__HYDRA_THRUST_HAS_CUDART__
+    ret = HYDRA_EXTERNAL_NS::thrust::unique_by_key_copy(cvt_to_seq(derived_cast(policy)),
                                      keys_first,
                                      keys_last,
                                      values_first,
@@ -885,8 +885,8 @@ unique_by_key(execution_policy<Derived> &policy,
               ValInputIt                 values_first,
               BinaryPred                 binary_pred)
 {
-  pair<KeyInputIt, ValInputIt> ret = thrust::make_pair(keys_first, values_first);
-  if (__THRUST_HAS_CUDART__)
+  pair<KeyInputIt, ValInputIt> ret = HYDRA_EXTERNAL_NS::thrust::make_pair(keys_first, values_first);
+  if (__HYDRA_THRUST_HAS_CUDART__)
   {
     ret = cuda_cub::unique_by_key_copy(policy,
                                        keys_first,
@@ -898,8 +898,8 @@ unique_by_key(execution_policy<Derived> &policy,
   }
   else
   {
-#if !__THRUST_HAS_CUDART__
-    ret = thrust::unique_by_key(cvt_to_seq(derived_cast(policy)),
+#if !__HYDRA_THRUST_HAS_CUDART__
+    ret = HYDRA_EXTERNAL_NS::thrust::unique_by_key(cvt_to_seq(derived_cast(policy)),
                                 keys_first,
                                 keys_last,
                                 values_first,
@@ -930,7 +930,7 @@ unique_by_key(execution_policy<Derived> &policy,
 
 }    // namespace cuda_cub
 
-THRUST_END_NS
+HYDRA_THRUST_END_NS
 HYDRA_EXTERNAL_NAMESPACE_END
 
 #include <hydra/detail/external/thrust/memory.h>

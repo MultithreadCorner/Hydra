@@ -26,18 +26,18 @@ namespace detail
 {
 
 
-struct seq_t : thrust::system::detail::sequential::execution_policy<seq_t>,
-  thrust::detail::allocator_aware_execution_policy<
-    thrust::system::detail::sequential::execution_policy>
+struct seq_t : HYDRA_EXTERNAL_NS::thrust::system::detail::sequential::execution_policy<seq_t>,
+  HYDRA_EXTERNAL_NS::thrust::detail::allocator_aware_execution_policy<
+    HYDRA_EXTERNAL_NS::thrust::system::detail::sequential::execution_policy>
 {
   __hydra_host__ __hydra_device__
-  seq_t() : thrust::system::detail::sequential::execution_policy<seq_t>() {}
+  seq_t() : HYDRA_EXTERNAL_NS::thrust::system::detail::sequential::execution_policy<seq_t>() {}
 
   // allow any execution_policy to convert to seq_t
   template<typename DerivedPolicy>
   __hydra_host__ __hydra_device__
-  seq_t(const thrust::execution_policy<DerivedPolicy> &)
-    : thrust::system::detail::sequential::execution_policy<seq_t>()
+  seq_t(const HYDRA_EXTERNAL_NS::thrust::execution_policy<DerivedPolicy> &)
+    : HYDRA_EXTERNAL_NS::thrust::system::detail::sequential::execution_policy<seq_t>()
   {}
 };
 

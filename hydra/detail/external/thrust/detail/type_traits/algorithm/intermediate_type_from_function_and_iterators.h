@@ -48,8 +48,8 @@ template<typename InputIterator, typename OutputIterator, typename Function>
         result_type<Function>,
         eval_if<
           is_output_iterator<OutputIterator>::value,
-          thrust::iterator_value<InputIterator>,
-          thrust::iterator_value<OutputIterator>
+          HYDRA_EXTERNAL_NS::thrust::iterator_value<InputIterator>,
+          HYDRA_EXTERNAL_NS::thrust::iterator_value<OutputIterator>
         >
       >
 {

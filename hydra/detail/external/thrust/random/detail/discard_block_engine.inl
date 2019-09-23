@@ -174,7 +174,7 @@ std::basic_ostream<CharT,Traits>&
 operator<<(std::basic_ostream<CharT,Traits> &os,
            const discard_block_engine<Engine,p,r> &e)
 {
-  return thrust::random::detail::random_core_access::stream_out(os,e);
+  return HYDRA_EXTERNAL_NS::thrust::random::detail::random_core_access::stream_out(os,e);
 }
 
 
@@ -184,7 +184,7 @@ std::basic_istream<CharT,Traits>&
 operator>>(std::basic_istream<CharT,Traits> &is,
            discard_block_engine<Engine,p,r> &e)
 {
-  return thrust::random::detail::random_core_access::stream_in(is,e);
+  return HYDRA_EXTERNAL_NS::thrust::random::detail::random_core_access::stream_in(is,e);
 }
 
 
@@ -193,7 +193,7 @@ __hydra_host__ __hydra_device__
 bool operator==(const discard_block_engine<Engine,p,r> &lhs,
                 const discard_block_engine<Engine,p,r> &rhs)
 {
-  return thrust::random::detail::random_core_access::equal(lhs,rhs);
+  return HYDRA_EXTERNAL_NS::thrust::random::detail::random_core_access::equal(lhs,rhs);
 }
 
 

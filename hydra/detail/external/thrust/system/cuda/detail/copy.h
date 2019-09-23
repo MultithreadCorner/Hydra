@@ -33,18 +33,18 @@
 
 HYDRA_EXTERNAL_NAMESPACE_BEGIN
 
-THRUST_BEGIN_NS
+HYDRA_THRUST_BEGIN_NS
 
 template <typename DerivedPolicy, typename InputIt, typename OutputIt>
 __hydra_host__ __hydra_device__ OutputIt
-copy(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
+copy(const HYDRA_EXTERNAL_NS::thrust::detail::execution_policy_base<DerivedPolicy> &exec,
      InputIt                                                     first,
      InputIt                                                     last,
      OutputIt                                                    result);
 
 template <class DerivedPolicy, class InputIt, class Size, class OutputIt>
 __hydra_host__ __hydra_device__ OutputIt
-copy_n(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
+copy_n(const HYDRA_EXTERNAL_NS::thrust::detail::execution_policy_base<DerivedPolicy> &exec,
        InputIt                                                     first,
        Size                                                        n,
        OutputIt                                                    result);
@@ -93,7 +93,7 @@ copy_n(cross_system<System1, System2> systems,
        OutputIterator result);
 
 }    // namespace cuda_
-THRUST_END_NS
+HYDRA_THRUST_END_NS
 
 HYDRA_EXTERNAL_NAMESPACE_END
 
@@ -103,11 +103,11 @@ HYDRA_EXTERNAL_NAMESPACE_END
 
 HYDRA_EXTERNAL_NAMESPACE_BEGIN
 
-THRUST_BEGIN_NS
+HYDRA_THRUST_BEGIN_NS
 namespace cuda_cub {
 
 
-#if THRUST_DEVICE_COMPILER == THRUST_DEVICE_COMPILER_NVCC
+#if HYDRA_THRUST_DEVICE_COMPILER == HYDRA_THRUST_DEVICE_COMPILER_NVCC
 // D->D copy requires NVCC compiler
 
 __thrust_exec_check_disable__
@@ -121,14 +121,14 @@ copy(execution_policy<System> &system,
      OutputIterator            result)
 {
   OutputIterator ret = result;
-  if (__THRUST_HAS_CUDART__)
+  if (__HYDRA_THRUST_HAS_CUDART__)
   {
     ret = __copy::device_to_device(system, first, last, result);
   }
   else
   {
-#if !__THRUST_HAS_CUDART__
-    ret = thrust::copy(cvt_to_seq(derived_cast(system)),
+#if !__HYDRA_THRUST_HAS_CUDART__
+    ret = HYDRA_EXTERNAL_NS::thrust::copy(cvt_to_seq(derived_cast(system)),
                        first,
                        last,
                        result);
@@ -150,14 +150,14 @@ copy_n(execution_policy<System> &system,
        OutputIterator            result)
 {
   OutputIterator ret = result;
-  if (__THRUST_HAS_CUDART__)
+  if (__HYDRA_THRUST_HAS_CUDART__)
   {
     ret = __copy::device_to_device(system, first, first + n, result);
   }
   else
   {
-#if !__THRUST_HAS_CUDART__
-    ret = thrust::copy_n(cvt_to_seq(derived_cast(system)), first, n, result);
+#if !__HYDRA_THRUST_HAS_CUDART__
+    ret = HYDRA_EXTERNAL_NS::thrust::copy_n(cvt_to_seq(derived_cast(system)), first, n, result);
 #endif
   }
 
@@ -194,7 +194,7 @@ copy_n(cross_system<System1, System2> systems,
 
 
 }    // namespace cuda_cub
-THRUST_END_NS
+HYDRA_THRUST_END_NS
 
 HYDRA_EXTERNAL_NAMESPACE_END
 

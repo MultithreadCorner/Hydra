@@ -27,7 +27,7 @@
 #pragma once
 
 
-#if THRUST_DEVICE_COMPILER == THRUST_DEVICE_COMPILER_NVCC
+#if HYDRA_THRUST_DEVICE_COMPILER == HYDRA_THRUST_DEVICE_COMPILER_NVCC
 #include <hydra/detail/external/thrust/system/cuda/config.h>
 #include <hydra/detail/external/thrust/system/cuda/detail/reduce.h>
 
@@ -39,7 +39,7 @@
 
 HYDRA_EXTERNAL_NAMESPACE_BEGIN
 
-THRUST_BEGIN_NS
+HYDRA_THRUST_BEGIN_NS
 namespace cuda_cub {
 
 namespace __extrema {
@@ -138,7 +138,7 @@ namespace __extrema {
       __device__ two_pairs_type
       operator()(pair_type const &t)
       {
-        return thrust::make_tuple(t, t);
+        return HYDRA_EXTERNAL_NS::thrust::make_tuple(t, t);
       }
     };
   }; // struct arg_minmax_f
@@ -148,7 +148,7 @@ namespace __extrema {
             class OutputIt,
             class Size,
             class ReductionOp>
-  cudaError_t THRUST_RUNTIME_FUNCTION
+  cudaError_t HYDRA_THRUST_RUNTIME_FUNCTION
   doit_step(void *       d_temp_storage,
             size_t &     temp_storage_bytes,
             InputIt      input_it,
@@ -311,7 +311,7 @@ namespace __extrema {
             typename Size,
             typename BinaryOp,
             typename T>
-  THRUST_RUNTIME_FUNCTION
+  HYDRA_THRUST_RUNTIME_FUNCTION
   T extrema(execution_policy<Derived>& policy,
             InputIt                    first,
             Size                       num_items,
@@ -320,7 +320,7 @@ namespace __extrema {
   {
     size_t       temp_storage_bytes = 0;
     cudaStream_t stream             = cuda_cub::stream(policy);
-    bool         debug_sync         = THRUST_DEBUG_SYNC_FLAG;
+    bool         debug_sync         = HYDRA_THRUST_DEBUG_SYNC_FLAG;
 
     cudaError_t status;
     status = doit_step<T>(NULL,
@@ -344,7 +344,7 @@ namespace __extrema {
     cuda_cub::throw_on_error(status, "extrema failed on 1st alias storage");
 
     // Allocate temporary storage.
-    thrust::detail::temporary_array<thrust::detail::uint8_t, Derived>
+    HYDRA_EXTERNAL_NS::thrust::detail::temporary_array<HYDRA_EXTERNAL_NS::thrust::detail::uint8_t, Derived>
       tmp(policy, storage_size);
     void *ptr = static_cast<void*>(tmp.data().get());
     
@@ -354,7 +354,7 @@ namespace __extrema {
                                  allocation_sizes);
     cuda_cub::throw_on_error(status, "extrema failed on 2nd alias storage");
 
-    T* d_result = thrust::detail::aligned_reinterpret_cast<T*>(allocations[0]);
+    T* d_result = HYDRA_EXTERNAL_NS::thrust::detail::aligned_reinterpret_cast<T*>(allocations[0]);
 
     status = doit_step<T>(allocations[1],
                           temp_storage_bytes,
@@ -390,7 +390,7 @@ namespace __extrema {
     typedef typename iterator_traits<ItemsIt>::value_type      InputType;
     typedef typename iterator_traits<ItemsIt>::difference_type IndexType;
 
-    IndexType num_items = static_cast<IndexType>(thrust::distance(first, last));
+    IndexType num_items = static_cast<IndexType>(HYDRA_EXTERNAL_NS::thrust::distance(first, last));
 
     typedef tuple<ItemsIt, counting_iterator_t<IndexType> > iterator_tuple;
     typedef zip_iterator<iterator_tuple> zip_iterator;
@@ -408,7 +408,7 @@ namespace __extrema {
                        num_items,
                        arg_min_t(binary_pred),
                        (T *)(NULL));
-    return first + thrust::get<1>(result);
+    return first + HYDRA_EXTERNAL_NS::thrust::get<1>(result);
   }
 
 
@@ -427,7 +427,7 @@ min_element(execution_policy<Derived> &policy,
             BinaryPred                 binary_pred)
 {
   ItemsIt ret = first;
-  if (__THRUST_HAS_CUDART__)
+  if (__HYDRA_THRUST_HAS_CUDART__)
   {
     ret = __extrema::element<__extrema::arg_min_f>(policy,
                                                    first,
@@ -436,8 +436,8 @@ min_element(execution_policy<Derived> &policy,
   }
   else
   {
-#if !__THRUST_HAS_CUDART__
-    ret = thrust::min_element(cvt_to_seq(derived_cast(policy)),
+#if !__HYDRA_THRUST_HAS_CUDART__
+    ret = HYDRA_EXTERNAL_NS::thrust::min_element(cvt_to_seq(derived_cast(policy)),
                               first,
                               last,
                               binary_pred);
@@ -470,7 +470,7 @@ max_element(execution_policy<Derived> &policy,
             BinaryPred                 binary_pred)
 {
   ItemsIt ret = first;
-  if (__THRUST_HAS_CUDART__)
+  if (__HYDRA_THRUST_HAS_CUDART__)
   {
     ret = __extrema::element<__extrema::arg_max_f>(policy,
                                                    first,
@@ -479,8 +479,8 @@ max_element(execution_policy<Derived> &policy,
   }
   else
   {
-#if !__THRUST_HAS_CUDART__
-    ret = thrust::max_element(cvt_to_seq(derived_cast(policy)),
+#if !__HYDRA_THRUST_HAS_CUDART__
+    ret = HYDRA_EXTERNAL_NS::thrust::max_element(cvt_to_seq(derived_cast(policy)),
                               first,
                               last,
                               binary_pred);
@@ -512,17 +512,17 @@ minmax_element(execution_policy<Derived> &policy,
                ItemsIt                    last,
                BinaryPred                 binary_pred)
 {
-  pair<ItemsIt, ItemsIt> ret = thrust::make_pair(first, first);
+  pair<ItemsIt, ItemsIt> ret = HYDRA_EXTERNAL_NS::thrust::make_pair(first, first);
 
-  if (__THRUST_HAS_CUDART__)
+  if (__HYDRA_THRUST_HAS_CUDART__)
   {
     if (first == last)
-      return thrust::make_pair(last, last);
+      return HYDRA_EXTERNAL_NS::thrust::make_pair(last, last);
 
     typedef typename iterator_traits<ItemsIt>::value_type      InputType;
     typedef typename iterator_traits<ItemsIt>::difference_type IndexType;
 
-    IndexType num_items = static_cast<IndexType>(thrust::distance(first, last));
+    IndexType num_items = static_cast<IndexType>(HYDRA_EXTERNAL_NS::thrust::distance(first, last));
 
 
     typedef tuple<ItemsIt, counting_iterator_t<IndexType> > iterator_tuple;
@@ -545,13 +545,13 @@ minmax_element(execution_policy<Derived> &policy,
                                                num_items,
                                                arg_minmax_t(binary_pred),
                                                (two_pairs_type *)(NULL));
-    ret = thrust::make_pair(first + get<1>(get<0>(result)),
+    ret = HYDRA_EXTERNAL_NS::thrust::make_pair(first + get<1>(get<0>(result)),
                     first + get<1>(get<1>(result)));
   }
   else
   {
-#if !__THRUST_HAS_CUDART__
-    ret = thrust::minmax_element(cvt_to_seq(derived_cast(policy)),
+#if !__HYDRA_THRUST_HAS_CUDART__
+    ret = HYDRA_EXTERNAL_NS::thrust::minmax_element(cvt_to_seq(derived_cast(policy)),
                                  first,
                                  last,
                                  binary_pred);
@@ -573,7 +573,7 @@ minmax_element(execution_policy<Derived> &policy,
 
 
 } // namespace cuda_cub
-THRUST_END_NS
+HYDRA_THRUST_END_NS
 
 HYDRA_EXTERNAL_NAMESPACE_END
 #endif

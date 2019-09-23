@@ -27,7 +27,7 @@
 #pragma once
 
 
-#if THRUST_DEVICE_COMPILER == THRUST_DEVICE_COMPILER_NVCC
+#if HYDRA_THRUST_DEVICE_COMPILER == HYDRA_THRUST_DEVICE_COMPILER_NVCC
 #include <hydra/detail/external/thrust/system/cuda/config.h>
 
 #include <hydra/detail/external/thrust/detail/cstdint.h>
@@ -44,7 +44,7 @@
 #include <hydra/detail/external/thrust/distance.h>
 
 HYDRA_EXTERNAL_NAMESPACE_BEGIN
-THRUST_BEGIN_NS
+HYDRA_THRUST_BEGIN_NS
 namespace cuda_cub {
 
 namespace __partition {
@@ -120,7 +120,7 @@ namespace __partition {
   struct single_output_tag_ 
   {
     template<class T>
-    THRUST_DEVICE_FUNCTION T const& operator=(T const& t) const { return t; }
+    HYDRA_THRUST_DEVICE_FUNCTION T const& operator=(T const& t) const { return t; }
   };
 
   typedef no_stencil_tag_* no_stencil_tag;
@@ -192,8 +192,8 @@ namespace __partition {
 
     enum
     {
-      SINGLE_OUTPUT    = thrust::detail::is_same<RejectedOutIt, single_output_tag>::value,
-      USE_STENCIL      = !thrust::detail::is_same<StencilIt, no_stencil_tag>::value,
+      SINGLE_OUTPUT    = HYDRA_EXTERNAL_NS::thrust::detail::is_same<RejectedOutIt, single_output_tag>::value,
+      USE_STENCIL      = !HYDRA_EXTERNAL_NS::thrust::detail::is_same<StencilIt, no_stencil_tag>::value,
       BLOCK_THREADS    = ptx_plan::BLOCK_THREADS,
       ITEMS_PER_THREAD = ptx_plan::ITEMS_PER_THREAD,
       ITEMS_PER_TILE   = ptx_plan::ITEMS_PER_TILE
@@ -220,7 +220,7 @@ namespace __partition {
       //---------------------------------------------------------------------
 
       template <bool IS_LAST_TILE>
-      THRUST_DEVICE_FUNCTION void
+      HYDRA_THRUST_DEVICE_FUNCTION void
       scatter(item_type (&items)[ITEMS_PER_THREAD],
               Size (&selection_flags)[ITEMS_PER_THREAD],
               Size (&selection_indices)[ITEMS_PER_THREAD],
@@ -290,21 +290,21 @@ namespace __partition {
       struct wrap_value
       {
         T const &              x;
-        THRUST_DEVICE_FUNCTION wrap_value(T const &x) : x(x) {}
+        HYDRA_THRUST_DEVICE_FUNCTION wrap_value(T const &x) : x(x) {}
 
-        THRUST_DEVICE_FUNCTION T const &operator()() const { return x; };
+        HYDRA_THRUST_DEVICE_FUNCTION T const &operator()() const { return x; };
       };    // struct wrap_type
 
       //------- item
 
-      THRUST_DEVICE_FUNCTION bool
+      HYDRA_THRUST_DEVICE_FUNCTION bool
       predicate_wrapper(wrap_value<ITEM, item_type> const &x,
                         __tag<false /* USE_STENCIL */>)
       {
         return predicate(x());
       }
 
-      THRUST_DEVICE_FUNCTION bool
+      HYDRA_THRUST_DEVICE_FUNCTION bool
       predicate_wrapper(wrap_value<ITEM, item_type> const &,
                         __tag<true>)
       {
@@ -314,14 +314,14 @@ namespace __partition {
       //-------- stencil
 
       template <class T>
-      THRUST_DEVICE_FUNCTION bool
+      HYDRA_THRUST_DEVICE_FUNCTION bool
       predicate_wrapper(wrap_value<STENCIL, T> const &x,
                         __tag<true>)
       {
         return predicate(x());
       }
 
-      THRUST_DEVICE_FUNCTION bool
+      HYDRA_THRUST_DEVICE_FUNCTION bool
       predicate_wrapper(wrap_value<STENCIL, no_stencil_tag_> const &,
                         __tag<true>)
       {
@@ -329,7 +329,7 @@ namespace __partition {
       }
 
 
-      THRUST_DEVICE_FUNCTION bool
+      HYDRA_THRUST_DEVICE_FUNCTION bool
       predicate_wrapper(wrap_value<STENCIL, stencil_type> const &,
                         __tag<false>)
       {
@@ -337,7 +337,7 @@ namespace __partition {
       }
 
       template <bool IS_LAST_TILE, ItemStencil TYPE, class T>
-      THRUST_DEVICE_FUNCTION void
+      HYDRA_THRUST_DEVICE_FUNCTION void
       compute_selection_flags(int num_tile_items,
                               T (&values)[ITEMS_PER_THREAD],
                               Size (&selection_flags)[ITEMS_PER_THREAD])
@@ -363,7 +363,7 @@ namespace __partition {
       //---------------------------------------------------------------------
 
       template <bool IS_LAST_TILE, bool IS_FIRST_TILE>
-      Size THRUST_DEVICE_FUNCTION
+      Size HYDRA_THRUST_DEVICE_FUNCTION
       consume_tile_impl(int  num_tile_items,
                         int  tile_idx,
                         Size tile_base)
@@ -480,7 +480,7 @@ namespace __partition {
 
 
       template <bool         IS_LAST_TILE>
-      THRUST_DEVICE_FUNCTION Size
+      HYDRA_THRUST_DEVICE_FUNCTION Size
       consume_tile(int  num_tile_items,
                    int  tile_idx,
                    Size tile_base)
@@ -503,7 +503,7 @@ namespace __partition {
       // Constructor
       //---------------------------------------------------------------------
 
-      THRUST_DEVICE_FUNCTION
+      HYDRA_THRUST_DEVICE_FUNCTION
       impl(TempStorage &    temp_storage_,
            ScanTileState &  tile_state_,
            ItemsLoadIt      items_glob_,
@@ -550,7 +550,7 @@ namespace __partition {
     // Agent entry point
     //---------------------------------------------------------------------
 
-    THRUST_AGENT_ENTRY(ItemsIt          items,
+    HYDRA_THRUST_AGENT_ENTRY(ItemsIt          items,
                        StencilIt        stencil,
                        SelectedOutIt    selected_out,
                        RejectedOutIt    rejected_out,
@@ -591,7 +591,7 @@ namespace __partition {
     // Agent entry point
     //---------------------------------------------------------------------
 
-    THRUST_AGENT_ENTRY(ScanTileState tile_state,
+    HYDRA_THRUST_AGENT_ENTRY(ScanTileState tile_state,
                        Size          num_tiles,
                        NumSelectedIt num_selected_out,
                        char *        /*shmem*/)
@@ -610,7 +610,7 @@ namespace __partition {
             class Predicate,
             class Size,
             class NumSelectedOutIt>
-  static cudaError_t THRUST_RUNTIME_FUNCTION
+  static cudaError_t HYDRA_THRUST_RUNTIME_FUNCTION
   doit_step(void *           d_temp_storage,
             size_t &         temp_storage_bytes,
             ItemsIt          items,
@@ -708,7 +708,7 @@ namespace __partition {
             typename SelectedOutIt,
             typename RejectedOutIt,
             typename Predicate>
-  THRUST_RUNTIME_FUNCTION
+  HYDRA_THRUST_RUNTIME_FUNCTION
   pair<SelectedOutIt, RejectedOutIt>
   partition(execution_policy<Derived>& policy,
             InputIt                    first,
@@ -720,10 +720,10 @@ namespace __partition {
   {
     typedef typename iterator_traits<InputIt>::difference_type size_type;
 
-    size_type    num_items          = static_cast<size_type>(thrust::distance(first, last));
+    size_type    num_items          = static_cast<size_type>(HYDRA_EXTERNAL_NS::thrust::distance(first, last));
     size_t       temp_storage_bytes = 0;
     cudaStream_t stream             = cuda_cub::stream(policy);
-    bool         debug_sync         = THRUST_DEBUG_SYNC_FLAG;
+    bool         debug_sync         = HYDRA_THRUST_DEBUG_SYNC_FLAG;
 
     cudaError_t status;
     status = doit_step(NULL,
@@ -751,7 +751,7 @@ namespace __partition {
     cuda_cub::throw_on_error(status, "partition failed on 1st alias_storage");
 
     // Allocate temporary storage.
-    thrust::detail::temporary_array<thrust::detail::uint8_t, Derived>
+    HYDRA_EXTERNAL_NS::thrust::detail::temporary_array<HYDRA_EXTERNAL_NS::thrust::detail::uint8_t, Derived>
       tmp(policy, storage_size);
     void *ptr = static_cast<void*>(tmp.data().get());
 
@@ -762,7 +762,7 @@ namespace __partition {
     cuda_cub::throw_on_error(status, "partition failed on 2nd alias_storage");
 
     size_type* d_num_selected_out
-      = thrust::detail::aligned_reinterpret_cast<size_type*>(allocations[0]);
+      = HYDRA_EXTERNAL_NS::thrust::detail::aligned_reinterpret_cast<size_type*>(allocations[0]);
 
     status = doit_step(allocations[1],
                        temp_storage_bytes,
@@ -786,7 +786,7 @@ namespace __partition {
       num_selected = get_value(policy, d_num_selected_out);
     }
 
-    return thrust::make_pair(selected_result + num_selected,
+    return HYDRA_EXTERNAL_NS::thrust::make_pair(selected_result + num_selected,
                              rejected_result + num_items - num_selected);
   }
 
@@ -794,7 +794,7 @@ namespace __partition {
             typename Iterator,
             typename StencilIt,
             typename Predicate>
-  THRUST_RUNTIME_FUNCTION
+  HYDRA_THRUST_RUNTIME_FUNCTION
   Iterator partition_inplace(execution_policy<Derived>& policy,
                              Iterator                   first,
                              Iterator                   last,
@@ -804,10 +804,10 @@ namespace __partition {
     typedef typename iterator_traits<Iterator>::difference_type size_type;
     typedef typename iterator_traits<Iterator>::value_type      value_type;
 
-    size_type num_items = thrust::distance(first, last);
+    size_type num_items = HYDRA_EXTERNAL_NS::thrust::distance(first, last);
 
     // Allocate temporary storage.
-    thrust::detail::temporary_array<value_type, Derived> tmp(policy, num_items);
+    HYDRA_EXTERNAL_NS::thrust::detail::temporary_array<value_type, Derived> tmp(policy, num_items);
 
     cuda_cub::uninitialized_copy(policy, first, last, tmp.begin());
 
@@ -848,8 +848,8 @@ partition_copy(execution_policy<Derived> &policy,
                RejectedOutIt              rejected_result,
                Predicate                  predicate)
 {
-  pair<SelectedOutIt, RejectedOutIt> ret = thrust::make_pair(selected_result, rejected_result);
-  if (__THRUST_HAS_CUDART__)
+  pair<SelectedOutIt, RejectedOutIt> ret = HYDRA_EXTERNAL_NS::thrust::make_pair(selected_result, rejected_result);
+  if (__HYDRA_THRUST_HAS_CUDART__)
   {
     ret = __partition::partition(policy,
                             first,
@@ -861,8 +861,8 @@ partition_copy(execution_policy<Derived> &policy,
   }
   else
   {
-#if !__THRUST_HAS_CUDART__
-    ret = thrust::partition_copy(cvt_to_seq(derived_cast(policy)),
+#if !__HYDRA_THRUST_HAS_CUDART__
+    ret = HYDRA_EXTERNAL_NS::thrust::partition_copy(cvt_to_seq(derived_cast(policy)),
                                  first,
                                  last,
                                  stencil,
@@ -888,8 +888,8 @@ partition_copy(execution_policy<Derived> &policy,
                RejectedOutIt              rejected_result,
                Predicate                  predicate)
 {
-  pair<SelectedOutIt, RejectedOutIt> ret = thrust::make_pair(selected_result, rejected_result);
-  if (__THRUST_HAS_CUDART__)
+  pair<SelectedOutIt, RejectedOutIt> ret = HYDRA_EXTERNAL_NS::thrust::make_pair(selected_result, rejected_result);
+  if (__HYDRA_THRUST_HAS_CUDART__)
   {
     ret = __partition::partition(policy,
                                  first,
@@ -901,8 +901,8 @@ partition_copy(execution_policy<Derived> &policy,
   }
   else
   {
-#if !__THRUST_HAS_CUDART__
-    ret = thrust::partition_copy(cvt_to_seq(derived_cast(policy)),
+#if !__HYDRA_THRUST_HAS_CUDART__
+    ret = HYDRA_EXTERNAL_NS::thrust::partition_copy(cvt_to_seq(derived_cast(policy)),
                                  first,
                                  last,
                                  selected_result,
@@ -927,8 +927,8 @@ stable_partition_copy(execution_policy<Derived> &policy,
                       RejectedOutIt              rejected_result,
                       Predicate                  predicate)
 {
-  pair<SelectedOutIt, RejectedOutIt> ret = thrust::make_pair(selected_result, rejected_result);
-  if (__THRUST_HAS_CUDART__)
+  pair<SelectedOutIt, RejectedOutIt> ret = HYDRA_EXTERNAL_NS::thrust::make_pair(selected_result, rejected_result);
+  if (__HYDRA_THRUST_HAS_CUDART__)
   {
     ret = __partition::partition(policy,
                                  first,
@@ -940,8 +940,8 @@ stable_partition_copy(execution_policy<Derived> &policy,
   }
   else
   {
-#if !__THRUST_HAS_CUDART__
-    ret = thrust::stable_partition_copy(cvt_to_seq(derived_cast(policy)),
+#if !__HYDRA_THRUST_HAS_CUDART__
+    ret = HYDRA_EXTERNAL_NS::thrust::stable_partition_copy(cvt_to_seq(derived_cast(policy)),
                                         first,
                                         last,
                                         selected_result,
@@ -968,8 +968,8 @@ stable_partition_copy(execution_policy<Derived> &policy,
                       RejectedOutIt              rejected_result,
                       Predicate                  predicate)
 {
-  pair<SelectedOutIt, RejectedOutIt> ret = thrust::make_pair(selected_result, rejected_result);
-  if (__THRUST_HAS_CUDART__)
+  pair<SelectedOutIt, RejectedOutIt> ret = HYDRA_EXTERNAL_NS::thrust::make_pair(selected_result, rejected_result);
+  if (__HYDRA_THRUST_HAS_CUDART__)
   {
     ret = __partition::partition(policy,
                                  first,
@@ -981,8 +981,8 @@ stable_partition_copy(execution_policy<Derived> &policy,
   }
   else
   {
-#if !__THRUST_HAS_CUDART__
-    ret = thrust::stable_partition_copy(cvt_to_seq(derived_cast(policy)),
+#if !__HYDRA_THRUST_HAS_CUDART__
+    ret = HYDRA_EXTERNAL_NS::thrust::stable_partition_copy(cvt_to_seq(derived_cast(policy)),
                                         first,
                                         last,
                                         stencil,
@@ -1009,14 +1009,14 @@ partition(execution_policy<Derived> &policy,
           Predicate                  predicate)
 {
   Iterator ret = first;
-  if (__THRUST_HAS_CUDART__)
+  if (__HYDRA_THRUST_HAS_CUDART__)
   {
     ret = __partition::partition_inplace(policy, first, last, stencil, predicate);
   }
   else
   {
-#if !__THRUST_HAS_CUDART__
-    ret = thrust::partition(cvt_to_seq(derived_cast(policy)),
+#if !__HYDRA_THRUST_HAS_CUDART__
+    ret = HYDRA_EXTERNAL_NS::thrust::partition(cvt_to_seq(derived_cast(policy)),
                             first,
                             last,
                             stencil,
@@ -1037,7 +1037,7 @@ partition(execution_policy<Derived> &policy,
           Predicate                  predicate)
 {
   Iterator ret = first;
-  if (__THRUST_HAS_CUDART__)
+  if (__HYDRA_THRUST_HAS_CUDART__)
   {
     ret = __partition::partition_inplace(policy,
                                          first,
@@ -1047,8 +1047,8 @@ partition(execution_policy<Derived> &policy,
   }
   else
   {
-#if !__THRUST_HAS_CUDART__
-    ret = thrust::partition(cvt_to_seq(derived_cast(policy)),
+#if !__HYDRA_THRUST_HAS_CUDART__
+    ret = HYDRA_EXTERNAL_NS::thrust::partition(cvt_to_seq(derived_cast(policy)),
                             first,
                             last,
                             predicate);
@@ -1070,7 +1070,7 @@ stable_partition(execution_policy<Derived> &policy,
                  Predicate                  predicate)
 {
   Iterator result = first;
-  if (__THRUST_HAS_CUDART__)
+  if (__HYDRA_THRUST_HAS_CUDART__)
   {
     result = __partition::partition_inplace(policy,
                                     first,
@@ -1084,8 +1084,8 @@ stable_partition(execution_policy<Derived> &policy,
   }
   else
   {
-#if !__THRUST_HAS_CUDART__
-    result = thrust::stable_partition(cvt_to_seq(derived_cast(policy)),
+#if !__HYDRA_THRUST_HAS_CUDART__
+    result = HYDRA_EXTERNAL_NS::thrust::stable_partition(cvt_to_seq(derived_cast(policy)),
                                       first,
                                       last,
                                       stencil,
@@ -1106,7 +1106,7 @@ stable_partition(execution_policy<Derived> &policy,
                  Predicate                  predicate)
 {
   Iterator result = first;
-  if (__THRUST_HAS_CUDART__)
+  if (__HYDRA_THRUST_HAS_CUDART__)
   {
     result = __partition::partition_inplace(policy,
                                        first,
@@ -1120,8 +1120,8 @@ stable_partition(execution_policy<Derived> &policy,
   }
   else
   {
-#if !__THRUST_HAS_CUDART__
-    result = thrust::stable_partition(cvt_to_seq(derived_cast(policy)),
+#if !__HYDRA_THRUST_HAS_CUDART__
+    result = HYDRA_EXTERNAL_NS::thrust::stable_partition(cvt_to_seq(derived_cast(policy)),
                                       first,
                                       last,
                                       predicate);
@@ -1146,6 +1146,6 @@ is_partitioned(execution_policy<Derived> &policy,
 
 
 }    // namespace cuda_cub
-THRUST_END_NS
+HYDRA_THRUST_END_NS
 HYDRA_EXTERNAL_NAMESPACE_END
 #endif

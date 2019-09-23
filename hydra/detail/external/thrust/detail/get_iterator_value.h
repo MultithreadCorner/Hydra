@@ -29,8 +29,8 @@ namespace detail {
 // it is okay to dereference iterator in the usual way
 template<typename DerivedPolicy, typename Iterator>
 __hydra_host__ __hydra_device__
-typename thrust::iterator_traits<Iterator>::value_type
-get_iterator_value(thrust::execution_policy<DerivedPolicy> &, Iterator it)
+typename HYDRA_EXTERNAL_NS::thrust::iterator_traits<Iterator>::value_type
+get_iterator_value(HYDRA_EXTERNAL_NS::thrust::execution_policy<DerivedPolicy> &, Iterator it)
 {
   return *it;
 } // get_iterator_value(exec,Iterator);
@@ -43,8 +43,8 @@ get_iterator_value(thrust::execution_policy<DerivedPolicy> &, Iterator it)
 // to perform a dereferencing consistent with the execution policy
 template<typename DerivedPolicy, typename Pointer>
 __hydra_host__ __hydra_device__
-typename thrust::detail::pointer_traits<Pointer*>::element_type 
-get_iterator_value(thrust::execution_policy<DerivedPolicy> &exec, Pointer* ptr)
+typename HYDRA_EXTERNAL_NS::thrust::detail::pointer_traits<Pointer*>::element_type 
+get_iterator_value(HYDRA_EXTERNAL_NS::thrust::execution_policy<DerivedPolicy> &exec, Pointer* ptr)
 {
   return get_value(derived_cast(exec),ptr);
 } // get_iterator_value(exec,Pointer*)

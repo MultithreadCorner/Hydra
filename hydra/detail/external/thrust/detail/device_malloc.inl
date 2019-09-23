@@ -29,30 +29,30 @@ HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
 {
 
 
-thrust::device_ptr<void> device_malloc(const std::size_t n)
+HYDRA_EXTERNAL_NS::thrust::device_ptr<void> device_malloc(const std::size_t n)
 {
-  using thrust::system::detail::generic::select_system;
+  using HYDRA_EXTERNAL_NS::thrust::system::detail::generic::select_system;
 
-  typedef thrust::iterator_system< thrust::device_ptr<void> >::type system;
+  typedef HYDRA_EXTERNAL_NS::thrust::iterator_system< HYDRA_EXTERNAL_NS::thrust::device_ptr<void> >::type system;
 
   // XXX lower to select_system(system) here
   system s;
 
-  return thrust::device_ptr<void>(thrust::malloc(s, n).get());
+  return HYDRA_EXTERNAL_NS::thrust::device_ptr<void>(HYDRA_EXTERNAL_NS::thrust::malloc(s, n).get());
 } // end device_malloc()
 
 
 template<typename T>
-  thrust::device_ptr<T> device_malloc(const std::size_t n)
+  HYDRA_EXTERNAL_NS::thrust::device_ptr<T> device_malloc(const std::size_t n)
 {
-  using thrust::system::detail::generic::select_system;
+  using HYDRA_EXTERNAL_NS::thrust::system::detail::generic::select_system;
 
-  typedef thrust::iterator_system< thrust::device_ptr<void> >::type system;
+  typedef HYDRA_EXTERNAL_NS::thrust::iterator_system< HYDRA_EXTERNAL_NS::thrust::device_ptr<void> >::type system;
 
   // XXX lower to select_system(system) here
   system s;
 
-  return thrust::device_ptr<T>(thrust::malloc<T>(s,n).get());
+  return HYDRA_EXTERNAL_NS::thrust::device_ptr<T>(HYDRA_EXTERNAL_NS::thrust::malloc<T>(s,n).get());
 } // end device_malloc()
 
 

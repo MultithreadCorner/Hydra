@@ -29,20 +29,20 @@ namespace cpp
 pointer<void> malloc(std::size_t n)
 {
   tag t;
-  return pointer<void>(thrust::system::detail::sequential::malloc(t, n));
+  return pointer<void>(HYDRA_EXTERNAL_NS::thrust::system::detail::sequential::malloc(t, n));
 } // end malloc()
 
 template<typename T>
 pointer<T> malloc(std::size_t n)
 {
-  pointer<void> raw_ptr = thrust::system::cpp::malloc(sizeof(T) * n);
+  pointer<void> raw_ptr = HYDRA_EXTERNAL_NS::thrust::system::cpp::malloc(sizeof(T) * n);
   return pointer<T>(reinterpret_cast<T*>(raw_ptr.get()));
 } // end malloc()
 
 void free(pointer<void> ptr)
 {
   tag t;
-  return thrust::system::detail::sequential::free(t, ptr);
+  return HYDRA_EXTERNAL_NS::thrust::system::detail::sequential::free(t, ptr);
 } // end free()
 
 } // end cpp

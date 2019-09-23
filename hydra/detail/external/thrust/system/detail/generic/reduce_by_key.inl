@@ -52,7 +52,7 @@ struct reduce_by_key_functor
 {
   AssociativeOperator binary_op;
   
-  typedef typename thrust::tuple<ValueType, TailFlagType> result_type;
+  typedef typename HYDRA_EXTERNAL_NS::thrust::tuple<ValueType, TailFlagType> result_type;
   
   __hydra_host__ __hydra_device__
   reduce_by_key_functor(AssociativeOperator _binary_op) : binary_op(_binary_op) {}
@@ -60,8 +60,8 @@ struct reduce_by_key_functor
   __hydra_host__ __hydra_device__
   result_type operator()(result_type a, result_type b)
   {
-    return result_type(thrust::get<1>(b) ? thrust::get<0>(b) : binary_op(thrust::get<0>(a), thrust::get<0>(b)),
-                       thrust::get<1>(a) | thrust::get<1>(b));
+    return result_type(HYDRA_EXTERNAL_NS::thrust::get<1>(b) ? HYDRA_EXTERNAL_NS::thrust::get<0>(b) : binary_op(HYDRA_EXTERNAL_NS::thrust::get<0>(a), HYDRA_EXTERNAL_NS::thrust::get<0>(b)),
+                       HYDRA_EXTERNAL_NS::thrust::get<1>(a) | HYDRA_EXTERNAL_NS::thrust::get<1>(b));
   }
 };
 
@@ -77,8 +77,8 @@ template<typename ExecutionPolicy,
          typename BinaryPredicate,
          typename BinaryFunction>
 __hydra_host__ __hydra_device__
-  thrust::pair<OutputIterator1,OutputIterator2>
-    reduce_by_key(thrust::execution_policy<ExecutionPolicy> &exec,
+  HYDRA_EXTERNAL_NS::thrust::pair<OutputIterator1,OutputIterator2>
+    reduce_by_key(HYDRA_EXTERNAL_NS::thrust::execution_policy<ExecutionPolicy> &exec,
                   InputIterator1 keys_first, 
                   InputIterator1 keys_last,
                   InputIterator2 values_first,
@@ -87,7 +87,7 @@ __hydra_host__ __hydra_device__
                   BinaryPredicate binary_pred,
                   BinaryFunction binary_op)
 {
-    typedef typename thrust::iterator_traits<InputIterator1>::difference_type difference_type;
+    typedef typename HYDRA_EXTERNAL_NS::thrust::iterator_traits<InputIterator1>::difference_type difference_type;
 
     typedef unsigned int FlagType;  // TODO use difference_type
 
@@ -103,18 +103,18 @@ __hydra_host__ __hydra_device__
     // XXX upon c++0x, TemporaryType needs to be:
     // result_of_adaptable_function<BinaryFunction>::type
 
-    typedef typename thrust::detail::eval_if<
-      thrust::detail::has_result_type<BinaryFunction>::value,
-      thrust::detail::result_type<BinaryFunction>,
-      thrust::detail::eval_if<
-        thrust::detail::is_output_iterator<OutputIterator2>::value,
-        thrust::iterator_value<InputIterator2>,
-        thrust::iterator_value<OutputIterator2>
+    typedef typename HYDRA_EXTERNAL_NS::thrust::detail::eval_if<
+      HYDRA_EXTERNAL_NS::thrust::detail::has_result_type<BinaryFunction>::value,
+      HYDRA_EXTERNAL_NS::thrust::detail::result_type<BinaryFunction>,
+      HYDRA_EXTERNAL_NS::thrust::detail::eval_if<
+        HYDRA_EXTERNAL_NS::thrust::detail::is_output_iterator<OutputIterator2>::value,
+        HYDRA_EXTERNAL_NS::thrust::iterator_value<InputIterator2>,
+        HYDRA_EXTERNAL_NS::thrust::iterator_value<OutputIterator2>
       >
     >::type ValueType;
 
     if (keys_first == keys_last)
-        return thrust::make_pair(keys_output, values_output);
+        return HYDRA_EXTERNAL_NS::thrust::make_pair(keys_output, values_output);
 
     // input size
     difference_type n = keys_last - keys_first;
@@ -122,36 +122,36 @@ __hydra_host__ __hydra_device__
     InputIterator2 values_last = values_first + n;
     
     // compute head flags
-    thrust::detail::temporary_array<FlagType,ExecutionPolicy> head_flags(exec, n);
-    thrust::transform(exec, keys_first, keys_last - 1, keys_first + 1, head_flags.begin() + 1, thrust::detail::not2(binary_pred));
+    HYDRA_EXTERNAL_NS::thrust::detail::temporary_array<FlagType,ExecutionPolicy> head_flags(exec, n);
+    HYDRA_EXTERNAL_NS::thrust::transform(exec, keys_first, keys_last - 1, keys_first + 1, head_flags.begin() + 1, HYDRA_EXTERNAL_NS::thrust::detail::not2(binary_pred));
     head_flags[0] = 1;
 
     // compute tail flags
-    thrust::detail::temporary_array<FlagType,ExecutionPolicy> tail_flags(exec, n); //COPY INSTEAD OF TRANSFORM
-    thrust::transform(exec, keys_first, keys_last - 1, keys_first + 1, tail_flags.begin(), thrust::detail::not2(binary_pred));
+    HYDRA_EXTERNAL_NS::thrust::detail::temporary_array<FlagType,ExecutionPolicy> tail_flags(exec, n); //COPY INSTEAD OF TRANSFORM
+    HYDRA_EXTERNAL_NS::thrust::transform(exec, keys_first, keys_last - 1, keys_first + 1, tail_flags.begin(), HYDRA_EXTERNAL_NS::thrust::detail::not2(binary_pred));
     tail_flags[n-1] = 1;
 
     // scan the values by flag
-    thrust::detail::temporary_array<ValueType,ExecutionPolicy> scanned_values(exec, n);
-    thrust::detail::temporary_array<FlagType,ExecutionPolicy>  scanned_tail_flags(exec, n);
+    HYDRA_EXTERNAL_NS::thrust::detail::temporary_array<ValueType,ExecutionPolicy> scanned_values(exec, n);
+    HYDRA_EXTERNAL_NS::thrust::detail::temporary_array<FlagType,ExecutionPolicy>  scanned_tail_flags(exec, n);
     
-    thrust::inclusive_scan
+    HYDRA_EXTERNAL_NS::thrust::inclusive_scan
         (exec,
-         thrust::make_zip_iterator(thrust::make_tuple(values_first,           head_flags.begin())),
-         thrust::make_zip_iterator(thrust::make_tuple(values_last,            head_flags.end())),
-         thrust::make_zip_iterator(thrust::make_tuple(scanned_values.begin(), scanned_tail_flags.begin())),
+         HYDRA_EXTERNAL_NS::thrust::make_zip_iterator(HYDRA_EXTERNAL_NS::thrust::make_tuple(values_first,           head_flags.begin())),
+         HYDRA_EXTERNAL_NS::thrust::make_zip_iterator(HYDRA_EXTERNAL_NS::thrust::make_tuple(values_last,            head_flags.end())),
+         HYDRA_EXTERNAL_NS::thrust::make_zip_iterator(HYDRA_EXTERNAL_NS::thrust::make_tuple(scanned_values.begin(), scanned_tail_flags.begin())),
          detail::reduce_by_key_functor<ValueType, FlagType, BinaryFunction>(binary_op));
 
-    thrust::exclusive_scan(exec, tail_flags.begin(), tail_flags.end(), scanned_tail_flags.begin(), FlagType(0), thrust::plus<FlagType>());
+    HYDRA_EXTERNAL_NS::thrust::exclusive_scan(exec, tail_flags.begin(), tail_flags.end(), scanned_tail_flags.begin(), FlagType(0), HYDRA_EXTERNAL_NS::thrust::plus<FlagType>());
 
     // number of unique keys
     FlagType N = scanned_tail_flags[n - 1] + 1;
     
     // scatter the keys and accumulated values    
-    thrust::scatter_if(exec, keys_first,            keys_last,             scanned_tail_flags.begin(), head_flags.begin(), keys_output);
-    thrust::scatter_if(exec, scanned_values.begin(), scanned_values.end(), scanned_tail_flags.begin(), tail_flags.begin(), values_output);
+    HYDRA_EXTERNAL_NS::thrust::scatter_if(exec, keys_first,            keys_last,             scanned_tail_flags.begin(), head_flags.begin(), keys_output);
+    HYDRA_EXTERNAL_NS::thrust::scatter_if(exec, scanned_values.begin(), scanned_values.end(), scanned_tail_flags.begin(), tail_flags.begin(), values_output);
 
-    return thrust::make_pair(keys_output + N, values_output + N); 
+    return HYDRA_EXTERNAL_NS::thrust::make_pair(keys_output + N, values_output + N); 
 } // end reduce_by_key()
 
 
@@ -161,18 +161,18 @@ template<typename ExecutionPolicy,
          typename OutputIterator1,
          typename OutputIterator2>
 __hydra_host__ __hydra_device__
-  thrust::pair<OutputIterator1,OutputIterator2>
-    reduce_by_key(thrust::execution_policy<ExecutionPolicy> &exec,
+  HYDRA_EXTERNAL_NS::thrust::pair<OutputIterator1,OutputIterator2>
+    reduce_by_key(HYDRA_EXTERNAL_NS::thrust::execution_policy<ExecutionPolicy> &exec,
                   InputIterator1 keys_first, 
                   InputIterator1 keys_last,
                   InputIterator2 values_first,
                   OutputIterator1 keys_output,
                   OutputIterator2 values_output)
 {
-  typedef typename thrust::iterator_value<InputIterator1>::type KeyType;
+  typedef typename HYDRA_EXTERNAL_NS::thrust::iterator_value<InputIterator1>::type KeyType;
 
   // use equal_to<KeyType> as default BinaryPredicate
-  return thrust::reduce_by_key(exec, keys_first, keys_last, values_first, keys_output, values_output, thrust::equal_to<KeyType>());
+  return HYDRA_EXTERNAL_NS::thrust::reduce_by_key(exec, keys_first, keys_last, values_first, keys_output, values_output, HYDRA_EXTERNAL_NS::thrust::equal_to<KeyType>());
 } // end reduce_by_key()
 
 
@@ -183,8 +183,8 @@ template<typename ExecutionPolicy,
          typename OutputIterator2,
          typename BinaryPredicate>
 __hydra_host__ __hydra_device__
-  thrust::pair<OutputIterator1,OutputIterator2>
-    reduce_by_key(thrust::execution_policy<ExecutionPolicy> &exec,
+  HYDRA_EXTERNAL_NS::thrust::pair<OutputIterator1,OutputIterator2>
+    reduce_by_key(HYDRA_EXTERNAL_NS::thrust::execution_policy<ExecutionPolicy> &exec,
                   InputIterator1 keys_first, 
                   InputIterator1 keys_last,
                   InputIterator2 values_first,
@@ -192,20 +192,20 @@ __hydra_host__ __hydra_device__
                   OutputIterator2 values_output,
                   BinaryPredicate binary_pred)
 {
-  typedef typename thrust::detail::eval_if<
-    thrust::detail::is_output_iterator<OutputIterator2>::value,
-    thrust::iterator_value<InputIterator2>,
-    thrust::iterator_value<OutputIterator2>
+  typedef typename HYDRA_EXTERNAL_NS::thrust::detail::eval_if<
+    HYDRA_EXTERNAL_NS::thrust::detail::is_output_iterator<OutputIterator2>::value,
+    HYDRA_EXTERNAL_NS::thrust::iterator_value<InputIterator2>,
+    HYDRA_EXTERNAL_NS::thrust::iterator_value<OutputIterator2>
   >::type T;
 
   // use plus<T> as default BinaryFunction
-  return thrust::reduce_by_key(exec,
+  return HYDRA_EXTERNAL_NS::thrust::reduce_by_key(exec,
                                keys_first, keys_last, 
                                values_first,
                                keys_output,
                                values_output,
                                binary_pred,
-                               thrust::plus<T>());
+                               HYDRA_EXTERNAL_NS::thrust::plus<T>());
 } // end reduce_by_key()
 
 

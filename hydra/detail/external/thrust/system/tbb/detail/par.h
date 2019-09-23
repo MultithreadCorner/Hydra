@@ -30,12 +30,12 @@ namespace detail
 {
 
 
-struct par_t : thrust::system::tbb::detail::execution_policy<par_t>,
-  thrust::detail::allocator_aware_execution_policy<
-    thrust::system::tbb::detail::execution_policy>
+struct par_t : HYDRA_EXTERNAL_NS::thrust::system::tbb::detail::execution_policy<par_t>,
+  HYDRA_EXTERNAL_NS::thrust::detail::allocator_aware_execution_policy<
+    HYDRA_EXTERNAL_NS::thrust::system::tbb::detail::execution_policy>
 {
   __hydra_host__ __hydra_device__
-  par_t() : thrust::system::tbb::detail::execution_policy<par_t>() {}
+  par_t() : HYDRA_EXTERNAL_NS::thrust::system::tbb::detail::execution_policy<par_t>() {}
 };
 
 
@@ -54,7 +54,7 @@ namespace tbb
 {
 
 
-using thrust::system::tbb::par;
+using HYDRA_EXTERNAL_NS::thrust::system::tbb::par;
 
 
 } // end tbb

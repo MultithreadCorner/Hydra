@@ -18,11 +18,11 @@
 #include <hydra/detail/external/thrust/detail/type_traits.h>
 #include <hydra/detail/external/thrust/type_traits/is_contiguous_iterator.h>
 
-#if THRUST_CPP_DIALECT >= 2011
+#if HYDRA_THRUST_CPP_DIALECT >= 2011
   #include <type_traits>
 #endif
 HYDRA_EXTERNAL_NAMESPACE_BEGIN
-THRUST_BEGIN_NS
+HYDRA_THRUST_BEGIN_NS
 
 namespace detail
 {
@@ -36,18 +36,18 @@ struct is_trivially_relocatable_impl;
 /// e.g. can be bitwise copied (with a facility like \c memcpy), and
 /// \c false_type otherwise.
 template <typename T>
-#if THRUST_CPP_DIALECT >= 2011
+#if HYDRA_THRUST_CPP_DIALECT >= 2011
 using is_trivially_relocatable =
 #else
 struct is_trivially_relocatable :
 #endif
   detail::is_trivially_relocatable_impl<T>
-#if THRUST_CPP_DIALECT < 2011
+#if HYDRA_THRUST_CPP_DIALECT < 2011
 {}
 #endif
 ;
 
-#if THRUST_CPP_DIALECT >= 2014
+#if HYDRA_THRUST_CPP_DIALECT >= 2014
 /// <code>constexpr bool</code> that is \c true if \c T is
 /// \a TriviallyRelocatable e.g. can be copied bitwise (with a facility like
 /// \c memcpy), and \c false otherwise.
@@ -59,7 +59,7 @@ constexpr bool is_trivially_relocatable_v = is_trivially_relocatable<T>::value;
 /// to \c To, e.g. can be bitwise copied (with a facility like \c memcpy), and
 /// \c false_type otherwise.
 template <typename From, typename To>
-#if THRUST_CPP_DIALECT >= 2011
+#if HYDRA_THRUST_CPP_DIALECT >= 2011
 using is_trivially_relocatable_to =
 #else
 struct is_trivially_relocatable_to :
@@ -68,12 +68,12 @@ struct is_trivially_relocatable_to :
     bool
   , detail::is_same<From, To>::value && is_trivially_relocatable<To>::value
   >
-#if THRUST_CPP_DIALECT < 2011
+#if HYDRA_THRUST_CPP_DIALECT < 2011
 {}
 #endif
 ;
 
-#if THRUST_CPP_DIALECT >= 2014
+#if HYDRA_THRUST_CPP_DIALECT >= 2014
 /// <code>constexpr bool</code> that is \c true if \c From is 
 /// \a TriviallyRelocatable to \c To, e.g. can be copied bitwise (with a
 /// facility like \c memcpy), and \c false otherwise.
@@ -86,7 +86,7 @@ constexpr bool is_trivially_relocatable_to_v
 /// \c FromIterator is \a TriviallyRelocatable to the element type of
 /// \c ToIterator, and \c false_type otherwise.
 template <typename FromIterator, typename ToIterator>
-#if THRUST_CPP_DIALECT >= 2011
+#if HYDRA_THRUST_CPP_DIALECT >= 2011
 using is_indirectly_trivially_relocatable_to =
 #else
 struct is_indirectly_trivially_relocatable_to :
@@ -96,16 +96,16 @@ struct is_indirectly_trivially_relocatable_to :
   ,    is_contiguous_iterator<FromIterator>::value
     && is_contiguous_iterator<ToIterator>::value
     && is_trivially_relocatable_to<
-         typename thrust::iterator_traits<FromIterator>::value_type,
-         typename thrust::iterator_traits<ToIterator>::value_type
+         typename HYDRA_EXTERNAL_NS::thrust::iterator_traits<FromIterator>::value_type,
+         typename HYDRA_EXTERNAL_NS::thrust::iterator_traits<ToIterator>::value_type
        >::value
   >
-#if THRUST_CPP_DIALECT < 2011
+#if HYDRA_THRUST_CPP_DIALECT < 2011
 {}
 #endif
 ;
 
-#if THRUST_CPP_DIALECT >= 2014
+#if HYDRA_THRUST_CPP_DIALECT >= 2014
 /// <code>constexpr bool</code> that is \c true if the element type of
 /// \c FromIterator is \a TriviallyRelocatable to the element type of
 /// \c ToIterator, and \c false otherwise.
@@ -121,13 +121,13 @@ template <typename T>
 struct proclaim_trivially_relocatable : false_type {};
 
 /// Declares that the type \c T is \a TriviallyRelocatable by specializing
-/// `thrust::proclaim_trivially_relocatable`.
-#define THRUST_PROCLAIM_TRIVIALLY_RELOCATABLE(T)                              \
+/// `HYDRA_EXTERNAL_NS::thrust::proclaim_trivially_relocatable`.
+#define HYDRA_THRUST_PROCLAIM_TRIVIALLY_RELOCATABLE(T)                              \
   HYDRA_EXTERNAL_NAMESPACE_BEGIN                                              \
-  THRUST_BEGIN_NS                                                             \
+  HYDRA_THRUST_BEGIN_NS                                                             \
   template <>                                                                 \
-  struct proclaim_trivially_relocatable<T> : ::thrust::true_type {};          \
-  THRUST_END_NS                                                               \
+  struct proclaim_trivially_relocatable<T> : ::HYDRA_EXTERNAL_NS::thrust::true_type {};          \
+  HYDRA_THRUST_END_NS                                                               \
   HYDRA_EXTERNAL_NAMESPACE_END                                                \
   /**/
 
@@ -157,10 +157,10 @@ template <typename T>
 struct is_trivially_copyable_impl
     : integral_constant<
         bool,
-        #if THRUST_CPP_DIALECT >= 2011
+        #if HYDRA_THRUST_CPP_DIALECT >= 2011
             #if defined(__GLIBCXX__) && __has_feature(is_trivially_copyable)
                 __is_trivially_copyable(T)
-            #elif THRUST_HOST_COMPILER == THRUST_HOST_COMPILER_GCC && THRUST_GCC_VERSION >= 50000
+            #elif HYDRA_THRUST_HOST_COMPILER == HYDRA_THRUST_HOST_COMPILER_GCC && HYDRA_THRUST_GCC_VERSION >= 50000
                 std::is_trivially_copyable<T>::value
             #else
                 has_trivial_assign<T>::value
@@ -187,67 +187,67 @@ struct is_trivially_relocatable_impl<T[N]> : is_trivially_relocatable_impl<T> {}
 
 } // namespace detail
 
-THRUST_END_NS
+HYDRA_THRUST_END_NS
 HYDRA_EXTERNAL_NAMESPACE_END
 
-#if THRUST_DEVICE_SYSTEM == THRUST_DEVICE_SYSTEM_CUDA
+#if HYDRA_THRUST_DEVICE_SYSTEM == HYDRA_THRUST_DEVICE_SYSTEM_CUDA
 
 #include <hydra/detail/external/thrust/system/cuda/detail/guarded_cuda_runtime_api.h>
 
-THRUST_PROCLAIM_TRIVIALLY_RELOCATABLE(char1)
-THRUST_PROCLAIM_TRIVIALLY_RELOCATABLE(char2)
-THRUST_PROCLAIM_TRIVIALLY_RELOCATABLE(char3)
-THRUST_PROCLAIM_TRIVIALLY_RELOCATABLE(char4)
-THRUST_PROCLAIM_TRIVIALLY_RELOCATABLE(uchar1)
-THRUST_PROCLAIM_TRIVIALLY_RELOCATABLE(uchar2)
-THRUST_PROCLAIM_TRIVIALLY_RELOCATABLE(uchar3)
-THRUST_PROCLAIM_TRIVIALLY_RELOCATABLE(uchar4)
-THRUST_PROCLAIM_TRIVIALLY_RELOCATABLE(short1)
-THRUST_PROCLAIM_TRIVIALLY_RELOCATABLE(short2)
-THRUST_PROCLAIM_TRIVIALLY_RELOCATABLE(short3)
-THRUST_PROCLAIM_TRIVIALLY_RELOCATABLE(short4)
-THRUST_PROCLAIM_TRIVIALLY_RELOCATABLE(ushort1)
-THRUST_PROCLAIM_TRIVIALLY_RELOCATABLE(ushort2)
-THRUST_PROCLAIM_TRIVIALLY_RELOCATABLE(ushort3)
-THRUST_PROCLAIM_TRIVIALLY_RELOCATABLE(ushort4)
-THRUST_PROCLAIM_TRIVIALLY_RELOCATABLE(int1)
-THRUST_PROCLAIM_TRIVIALLY_RELOCATABLE(int2)
-THRUST_PROCLAIM_TRIVIALLY_RELOCATABLE(int3)
-THRUST_PROCLAIM_TRIVIALLY_RELOCATABLE(int4)
-THRUST_PROCLAIM_TRIVIALLY_RELOCATABLE(uint1)
-THRUST_PROCLAIM_TRIVIALLY_RELOCATABLE(uint2)
-THRUST_PROCLAIM_TRIVIALLY_RELOCATABLE(uint3)
-THRUST_PROCLAIM_TRIVIALLY_RELOCATABLE(uint4)
-THRUST_PROCLAIM_TRIVIALLY_RELOCATABLE(long1)
-THRUST_PROCLAIM_TRIVIALLY_RELOCATABLE(long2)
-THRUST_PROCLAIM_TRIVIALLY_RELOCATABLE(long3)
-THRUST_PROCLAIM_TRIVIALLY_RELOCATABLE(long4)
-THRUST_PROCLAIM_TRIVIALLY_RELOCATABLE(ulong1)
-THRUST_PROCLAIM_TRIVIALLY_RELOCATABLE(ulong2)
-THRUST_PROCLAIM_TRIVIALLY_RELOCATABLE(ulong3)
-THRUST_PROCLAIM_TRIVIALLY_RELOCATABLE(ulong4)
-THRUST_PROCLAIM_TRIVIALLY_RELOCATABLE(longlong1)
-THRUST_PROCLAIM_TRIVIALLY_RELOCATABLE(longlong2)
-THRUST_PROCLAIM_TRIVIALLY_RELOCATABLE(longlong3)
-THRUST_PROCLAIM_TRIVIALLY_RELOCATABLE(longlong4)
-THRUST_PROCLAIM_TRIVIALLY_RELOCATABLE(ulonglong1)
-THRUST_PROCLAIM_TRIVIALLY_RELOCATABLE(ulonglong2)
-THRUST_PROCLAIM_TRIVIALLY_RELOCATABLE(ulonglong3)
-THRUST_PROCLAIM_TRIVIALLY_RELOCATABLE(ulonglong4)
+HYDRA_THRUST_PROCLAIM_TRIVIALLY_RELOCATABLE(char1)
+HYDRA_THRUST_PROCLAIM_TRIVIALLY_RELOCATABLE(char2)
+HYDRA_THRUST_PROCLAIM_TRIVIALLY_RELOCATABLE(char3)
+HYDRA_THRUST_PROCLAIM_TRIVIALLY_RELOCATABLE(char4)
+HYDRA_THRUST_PROCLAIM_TRIVIALLY_RELOCATABLE(uchar1)
+HYDRA_THRUST_PROCLAIM_TRIVIALLY_RELOCATABLE(uchar2)
+HYDRA_THRUST_PROCLAIM_TRIVIALLY_RELOCATABLE(uchar3)
+HYDRA_THRUST_PROCLAIM_TRIVIALLY_RELOCATABLE(uchar4)
+HYDRA_THRUST_PROCLAIM_TRIVIALLY_RELOCATABLE(short1)
+HYDRA_THRUST_PROCLAIM_TRIVIALLY_RELOCATABLE(short2)
+HYDRA_THRUST_PROCLAIM_TRIVIALLY_RELOCATABLE(short3)
+HYDRA_THRUST_PROCLAIM_TRIVIALLY_RELOCATABLE(short4)
+HYDRA_THRUST_PROCLAIM_TRIVIALLY_RELOCATABLE(ushort1)
+HYDRA_THRUST_PROCLAIM_TRIVIALLY_RELOCATABLE(ushort2)
+HYDRA_THRUST_PROCLAIM_TRIVIALLY_RELOCATABLE(ushort3)
+HYDRA_THRUST_PROCLAIM_TRIVIALLY_RELOCATABLE(ushort4)
+HYDRA_THRUST_PROCLAIM_TRIVIALLY_RELOCATABLE(int1)
+HYDRA_THRUST_PROCLAIM_TRIVIALLY_RELOCATABLE(int2)
+HYDRA_THRUST_PROCLAIM_TRIVIALLY_RELOCATABLE(int3)
+HYDRA_THRUST_PROCLAIM_TRIVIALLY_RELOCATABLE(int4)
+HYDRA_THRUST_PROCLAIM_TRIVIALLY_RELOCATABLE(uint1)
+HYDRA_THRUST_PROCLAIM_TRIVIALLY_RELOCATABLE(uint2)
+HYDRA_THRUST_PROCLAIM_TRIVIALLY_RELOCATABLE(uint3)
+HYDRA_THRUST_PROCLAIM_TRIVIALLY_RELOCATABLE(uint4)
+HYDRA_THRUST_PROCLAIM_TRIVIALLY_RELOCATABLE(long1)
+HYDRA_THRUST_PROCLAIM_TRIVIALLY_RELOCATABLE(long2)
+HYDRA_THRUST_PROCLAIM_TRIVIALLY_RELOCATABLE(long3)
+HYDRA_THRUST_PROCLAIM_TRIVIALLY_RELOCATABLE(long4)
+HYDRA_THRUST_PROCLAIM_TRIVIALLY_RELOCATABLE(ulong1)
+HYDRA_THRUST_PROCLAIM_TRIVIALLY_RELOCATABLE(ulong2)
+HYDRA_THRUST_PROCLAIM_TRIVIALLY_RELOCATABLE(ulong3)
+HYDRA_THRUST_PROCLAIM_TRIVIALLY_RELOCATABLE(ulong4)
+HYDRA_THRUST_PROCLAIM_TRIVIALLY_RELOCATABLE(longlong1)
+HYDRA_THRUST_PROCLAIM_TRIVIALLY_RELOCATABLE(longlong2)
+HYDRA_THRUST_PROCLAIM_TRIVIALLY_RELOCATABLE(longlong3)
+HYDRA_THRUST_PROCLAIM_TRIVIALLY_RELOCATABLE(longlong4)
+HYDRA_THRUST_PROCLAIM_TRIVIALLY_RELOCATABLE(ulonglong1)
+HYDRA_THRUST_PROCLAIM_TRIVIALLY_RELOCATABLE(ulonglong2)
+HYDRA_THRUST_PROCLAIM_TRIVIALLY_RELOCATABLE(ulonglong3)
+HYDRA_THRUST_PROCLAIM_TRIVIALLY_RELOCATABLE(ulonglong4)
 
 struct __half;
 struct __half2;
 
-THRUST_PROCLAIM_TRIVIALLY_RELOCATABLE(__half)
-THRUST_PROCLAIM_TRIVIALLY_RELOCATABLE(__half2)
+HYDRA_THRUST_PROCLAIM_TRIVIALLY_RELOCATABLE(__half)
+HYDRA_THRUST_PROCLAIM_TRIVIALLY_RELOCATABLE(__half2)
 
-THRUST_PROCLAIM_TRIVIALLY_RELOCATABLE(float1)
-THRUST_PROCLAIM_TRIVIALLY_RELOCATABLE(float2)
-THRUST_PROCLAIM_TRIVIALLY_RELOCATABLE(float3)
-THRUST_PROCLAIM_TRIVIALLY_RELOCATABLE(float4)
-THRUST_PROCLAIM_TRIVIALLY_RELOCATABLE(double1)
-THRUST_PROCLAIM_TRIVIALLY_RELOCATABLE(double2)
-THRUST_PROCLAIM_TRIVIALLY_RELOCATABLE(double3)
-THRUST_PROCLAIM_TRIVIALLY_RELOCATABLE(double4)
+HYDRA_THRUST_PROCLAIM_TRIVIALLY_RELOCATABLE(float1)
+HYDRA_THRUST_PROCLAIM_TRIVIALLY_RELOCATABLE(float2)
+HYDRA_THRUST_PROCLAIM_TRIVIALLY_RELOCATABLE(float3)
+HYDRA_THRUST_PROCLAIM_TRIVIALLY_RELOCATABLE(float4)
+HYDRA_THRUST_PROCLAIM_TRIVIALLY_RELOCATABLE(double1)
+HYDRA_THRUST_PROCLAIM_TRIVIALLY_RELOCATABLE(double2)
+HYDRA_THRUST_PROCLAIM_TRIVIALLY_RELOCATABLE(double3)
+HYDRA_THRUST_PROCLAIM_TRIVIALLY_RELOCATABLE(double4)
 #endif
 

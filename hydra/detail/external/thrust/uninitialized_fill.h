@@ -34,7 +34,7 @@ HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
  */
 
 
-/*! In \c thrust, the function \c thrust::device_new allocates memory for
+/*! In \c thrust, the function \c HYDRA_EXTERNAL_NS::thrust::device_new allocates memory for
  *  an object and then creates an object at that location by calling a
  *  constructor. Occasionally, however, it is useful to separate those two
  *  operations. If each iterator in the range <tt>[first, last)</tt> points
@@ -56,7 +56,7 @@ HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
  *          takes a single argument of type \p T.
  *
  *  The following code snippet demonstrates how to use \p uninitialized_fill to initialize a range of
- *  uninitialized memory using the \p thrust::device execution policy for parallelization:
+ *  uninitialized memory using the \p HYDRA_EXTERNAL_NS::thrust::device execution policy for parallelization:
  *
  *  \code
  *  #include <hydra/detail/external/thrust/uninitialized_fill.h>
@@ -73,8 +73,8 @@ HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
  *  const int N = 137;
  *
  *  Int val(46);
- *  thrust::device_ptr<Int> array = thrust::device_malloc<Int>(N);
- *  thrust::uninitialized_fill(thrust::device, array, array + N, val);
+ *  HYDRA_EXTERNAL_NS::thrust::device_ptr<Int> array = HYDRA_EXTERNAL_NS::thrust::device_malloc<Int>(N);
+ *  HYDRA_EXTERNAL_NS::thrust::uninitialized_fill(HYDRA_EXTERNAL_NS::thrust::device, array, array + N, val);
  *
  *  // Int x = array[i];
  *  // x.val == 46 for all 0 <= i < N
@@ -89,13 +89,13 @@ HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
  */
 template<typename DerivedPolicy, typename ForwardIterator, typename T>
 __hydra_host__ __hydra_device__
-  void uninitialized_fill(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
+  void uninitialized_fill(const HYDRA_EXTERNAL_NS::thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                           ForwardIterator first,
                           ForwardIterator last,
                           const T &x);
 
 
-/*! In \c thrust, the function \c thrust::device_new allocates memory for
+/*! In \c thrust, the function \c HYDRA_EXTERNAL_NS::thrust::device_new allocates memory for
  *  an object and then creates an object at that location by calling a
  *  constructor. Occasionally, however, it is useful to separate those two
  *  operations. If each iterator in the range <tt>[first, last)</tt> points
@@ -129,8 +129,8 @@ __hydra_host__ __hydra_device__
  *  const int N = 137;
  *
  *  Int val(46);
- *  thrust::device_ptr<Int> array = thrust::device_malloc<Int>(N);
- *  thrust::uninitialized_fill(array, array + N, val);
+ *  HYDRA_EXTERNAL_NS::thrust::device_ptr<Int> array = HYDRA_EXTERNAL_NS::thrust::device_malloc<Int>(N);
+ *  HYDRA_EXTERNAL_NS::thrust::uninitialized_fill(array, array + N, val);
  *
  *  // Int x = array[i];
  *  // x.val == 46 for all 0 <= i < N
@@ -149,7 +149,7 @@ template<typename ForwardIterator, typename T>
                           const T &x);
 
 
-/*! In \c thrust, the function \c thrust::device_new allocates memory for
+/*! In \c thrust, the function \c HYDRA_EXTERNAL_NS::thrust::device_new allocates memory for
  *  an object and then creates an object at that location by calling a
  *  constructor. Occasionally, however, it is useful to separate those two
  *  operations. If each iterator in the range <tt>[first, first+n)</tt> points
@@ -172,7 +172,7 @@ template<typename ForwardIterator, typename T>
  *          takes a single argument of type \p T.
  *
  *  The following code snippet demonstrates how to use \p uninitialized_fill to initialize a range of
- *  uninitialized memory using the \p thrust::device execution policy for parallelization:
+ *  uninitialized memory using the \p HYDRA_EXTERNAL_NS::thrust::device execution policy for parallelization:
  *
  *  \code
  *  #include <hydra/detail/external/thrust/uninitialized_fill.h>
@@ -189,8 +189,8 @@ template<typename ForwardIterator, typename T>
  *  const int N = 137;
  *
  *  Int val(46);
- *  thrust::device_ptr<Int> array = thrust::device_malloc<Int>(N);
- *  thrust::uninitialized_fill_n(thrust::device, array, N, val);
+ *  HYDRA_EXTERNAL_NS::thrust::device_ptr<Int> array = HYDRA_EXTERNAL_NS::thrust::device_malloc<Int>(N);
+ *  HYDRA_EXTERNAL_NS::thrust::uninitialized_fill_n(HYDRA_EXTERNAL_NS::thrust::device, array, N, val);
  *
  *  // Int x = array[i];
  *  // x.val == 46 for all 0 <= i < N
@@ -205,13 +205,13 @@ template<typename ForwardIterator, typename T>
  */
 template<typename DerivedPolicy, typename ForwardIterator, typename Size, typename T>
 __hydra_host__ __hydra_device__
-  ForwardIterator uninitialized_fill_n(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
+  ForwardIterator uninitialized_fill_n(const HYDRA_EXTERNAL_NS::thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                                        ForwardIterator first,
                                        Size n,
                                        const T &x);
 
 
-/*! In \c thrust, the function \c thrust::device_new allocates memory for
+/*! In \c thrust, the function \c HYDRA_EXTERNAL_NS::thrust::device_new allocates memory for
  *  an object and then creates an object at that location by calling a
  *  constructor. Occasionally, however, it is useful to separate those two
  *  operations. If each iterator in the range <tt>[first, first+n)</tt> points
@@ -246,8 +246,8 @@ __hydra_host__ __hydra_device__
  *  const int N = 137;
  *
  *  Int val(46);
- *  thrust::device_ptr<Int> array = thrust::device_malloc<Int>(N);
- *  thrust::uninitialized_fill_n(array, N, val);
+ *  HYDRA_EXTERNAL_NS::thrust::device_ptr<Int> array = HYDRA_EXTERNAL_NS::thrust::device_malloc<Int>(N);
+ *  HYDRA_EXTERNAL_NS::thrust::uninitialized_fill_n(array, N, val);
  *
  *  // Int x = array[i];
  *  // x.val == 46 for all 0 <= i < N

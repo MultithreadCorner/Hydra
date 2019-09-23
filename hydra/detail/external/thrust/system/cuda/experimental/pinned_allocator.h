@@ -180,7 +180,7 @@ template<typename T>
       
       if(error)
       {
-        throw thrust::system_error(error, thrust::cuda_category());
+        throw HYDRA_EXTERNAL_NS::thrust::system_error(error, HYDRA_EXTERNAL_NS::thrust::cuda_category());
       } // end if
     } // end deallocate()
 
@@ -230,7 +230,7 @@ namespace cuda
 namespace experimental
 {
 
-using thrust::system::cuda::experimental::pinned_allocator;
+using HYDRA_EXTERNAL_NS::thrust::system::cuda::experimental::pinned_allocator;
 
 } // end experimental
 

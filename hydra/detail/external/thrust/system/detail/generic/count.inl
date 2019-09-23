@@ -51,25 +51,25 @@ struct count_if_transform
 
 template <typename DerivedPolicy, typename InputIterator, typename EqualityComparable>
 __hydra_host__ __hydra_device__
-typename thrust::iterator_traits<InputIterator>::difference_type
-count(thrust::execution_policy<DerivedPolicy> &exec, InputIterator first, InputIterator last, const EqualityComparable& value)
+typename HYDRA_EXTERNAL_NS::thrust::iterator_traits<InputIterator>::difference_type
+count(HYDRA_EXTERNAL_NS::thrust::execution_policy<DerivedPolicy> &exec, InputIterator first, InputIterator last, const EqualityComparable& value)
 {
   // XXX use placeholder expression here
-  return thrust::count_if(exec, first, last, thrust::detail::equal_to_value<EqualityComparable>(value));
+  return HYDRA_EXTERNAL_NS::thrust::count_if(exec, first, last, HYDRA_EXTERNAL_NS::thrust::detail::equal_to_value<EqualityComparable>(value));
 } // end count()
 
 
 template <typename DerivedPolicy, typename InputIterator, typename Predicate>
 __hydra_host__ __hydra_device__
-typename thrust::iterator_traits<InputIterator>::difference_type
-count_if(thrust::execution_policy<DerivedPolicy> &exec, InputIterator first, InputIterator last, Predicate pred)
+typename HYDRA_EXTERNAL_NS::thrust::iterator_traits<InputIterator>::difference_type
+count_if(HYDRA_EXTERNAL_NS::thrust::execution_policy<DerivedPolicy> &exec, InputIterator first, InputIterator last, Predicate pred)
 {
-  typedef typename thrust::iterator_traits<InputIterator>::value_type InputType;
-  typedef typename thrust::iterator_traits<InputIterator>::difference_type CountType;
+  typedef typename HYDRA_EXTERNAL_NS::thrust::iterator_traits<InputIterator>::value_type InputType;
+  typedef typename HYDRA_EXTERNAL_NS::thrust::iterator_traits<InputIterator>::difference_type CountType;
   
-  thrust::system::detail::generic::count_if_transform<InputType, Predicate, CountType> unary_op(pred);
-  thrust::plus<CountType> binary_op;
-  return thrust::transform_reduce(exec, first, last, unary_op, CountType(0), binary_op);
+  HYDRA_EXTERNAL_NS::thrust::system::detail::generic::count_if_transform<InputType, Predicate, CountType> unary_op(pred);
+  HYDRA_EXTERNAL_NS::thrust::plus<CountType> binary_op;
+  return HYDRA_EXTERNAL_NS::thrust::transform_reduce(exec, first, last, unary_op, CountType(0), binary_op);
 } // end count_if()
 
 

@@ -131,9 +131,9 @@ enum errc_t
 
 } // end namespace cuda_cub
 
-/*! \return A reference to an object of a type derived from class \p thrust::error_category.
+/*! \return A reference to an object of a type derived from class \p HYDRA_EXTERNAL_NS::thrust::error_category.
  *  \note The object's \p equivalent virtual functions shall behave as specified
- *        for the class \p thrust::error_category. The object's \p name virtual function shall
+ *        for the class \p HYDRA_EXTERNAL_NS::thrust::error_category. The object's \p name virtual function shall
  *        return a pointer to the string <tt>"cuda"</tt>. The object's
  *        \p default_error_condition virtual function shall behave as follows:
  *
@@ -148,7 +148,7 @@ inline const error_category &cuda_category(void);
 
 /*! Specialization of \p is_error_code_enum for \p cuda::errc::errc_t
  */
-template<> struct is_error_code_enum<cuda::errc::errc_t> : thrust::detail::true_type {};
+template<> struct is_error_code_enum<cuda::errc::errc_t> : HYDRA_EXTERNAL_NS::thrust::detail::true_type {};
 
 
 // XXX replace cuda::errc::errc_t with cuda::errc upon c++0x

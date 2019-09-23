@@ -15,7 +15,7 @@
  */
 
 /// \file thrust/detail/event_error.h
-/// \brief \c thrust::future and thrust::future error handling types and codes.
+/// \brief \c HYDRA_EXTERNAL_NS::thrust::future and HYDRA_EXTERNAL_NS::thrust::future error handling types and codes.
 
 #pragma once
 
@@ -23,14 +23,14 @@
 #include <hydra/detail/external/thrust/detail/cpp11_required.h>
 #include <hydra/detail/external/thrust/detail/modern_gcc_required.h>
 
-#if THRUST_CPP_DIALECT >= 2011 && !defined(THRUST_LEGACY_GCC)
+#if HYDRA_THRUST_CPP_DIALECT >= 2011 && !defined(HYDRA_THRUST_LEGACY_GCC)
 
 #include <hydra/detail/external/thrust/detail/type_traits.h>
 #include <hydra/detail/external/thrust/system/error_code.h>
 
 #include <stdexcept>
 
-THRUST_BEGIN_NS
+HYDRA_THRUST_BEGIN_NS
 
 enum class event_errc
 {
@@ -71,7 +71,7 @@ struct event_error_category : error_category
       {
         return "no_content: an operation that requires a future to have content "
                "has been performed on future without any, e.g. a moved-from, "
-               "default constructed, or `thrust::new_stream` constructed future "
+               "default constructed, or `HYDRA_EXTERNAL_NS::thrust::new_stream` constructed future "
                "(a future may have been consumed more than once)";
       }
       default:
@@ -156,7 +156,7 @@ inline bool operator<(event_error const& lhs, event_error const& rhs) noexcept
   return lhs.code() < rhs.code();
 }
 
-THRUST_END_NS
+HYDRA_THRUST_END_NS
 
 #endif
 

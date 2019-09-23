@@ -53,16 +53,16 @@ HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
  *  \tparam T is a model of <a href="http://www.sgi.com/tech/stl/Assignable.html">Assignable</a>,
  *          and \p T's \c value_type is convertible to \p ForwardIterator's \c value_type.
  *
- *  The following code snippet demonstrates how to use \p fill to set a thrust::device_vector's
- *  elements to a given value using the \p thrust::device execution policy for parallelization:
+ *  The following code snippet demonstrates how to use \p fill to set a HYDRA_EXTERNAL_NS::thrust::device_vector's
+ *  elements to a given value using the \p HYDRA_EXTERNAL_NS::thrust::device execution policy for parallelization:
  *
  *  \code
  *  #include <hydra/detail/external/thrust/fill.h>
  *  #include <hydra/detail/external/thrust/device_vector.h>
  *  #include <hydra/detail/external/thrust/execution_policy.h>
  *  ...
- *  thrust::device_vector<int> v(4);
- *  thrust::fill(thrust::device, v.begin(), v.end(), 137);
+ *  HYDRA_EXTERNAL_NS::thrust::device_vector<int> v(4);
+ *  HYDRA_EXTERNAL_NS::thrust::fill(HYDRA_EXTERNAL_NS::thrust::device, v.begin(), v.end(), 137);
  *
  *  // v[0] == 137, v[1] == 137, v[2] == 137, v[3] == 137
  *  \endcode
@@ -73,7 +73,7 @@ HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
  */
 template<typename DerivedPolicy, typename ForwardIterator, typename T>
 __hydra_host__ __hydra_device__
-  void fill(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
+  void fill(const HYDRA_EXTERNAL_NS::thrust::detail::execution_policy_base<DerivedPolicy> &exec,
             ForwardIterator first,
             ForwardIterator last,
             const T &value);
@@ -93,15 +93,15 @@ __hydra_host__ __hydra_device__
  *  \tparam T is a model of <a href="http://www.sgi.com/tech/stl/Assignable.html">Assignable</a>,
  *          and \p T's \c value_type is convertible to \p ForwardIterator's \c value_type.
  *
- *  The following code snippet demonstrates how to use \p fill to set a thrust::device_vector's
+ *  The following code snippet demonstrates how to use \p fill to set a HYDRA_EXTERNAL_NS::thrust::device_vector's
  *  elements to a given value.
  *
  *  \code
  *  #include <hydra/detail/external/thrust/fill.h>
  *  #include <hydra/detail/external/thrust/device_vector.h>
  *  ...
- *  thrust::device_vector<int> v(4);
- *  thrust::fill(v.begin(), v.end(), 137);
+ *  HYDRA_EXTERNAL_NS::thrust::device_vector<int> v(4);
+ *  HYDRA_EXTERNAL_NS::thrust::fill(v.begin(), v.end(), 137);
  *
  *  // v[0] == 137, v[1] == 137, v[2] == 137, v[3] == 137
  *  \endcode
@@ -135,16 +135,16 @@ __hydra_host__ __hydra_device__
  *  \tparam T is a model of <a href="http://www.sgi.com/tech/stl/Assignable.html">Assignable</a>,
  *          and \p T's \c value_type is convertible to a type in \p OutputIterator's set of \c value_type.
  *
- *  The following code snippet demonstrates how to use \p fill to set a thrust::device_vector's
- *  elements to a given value using the \p thrust::device execution policy for parallelization:
+ *  The following code snippet demonstrates how to use \p fill to set a HYDRA_EXTERNAL_NS::thrust::device_vector's
+ *  elements to a given value using the \p HYDRA_EXTERNAL_NS::thrust::device execution policy for parallelization:
  *
  *  \code
  *  #include <hydra/detail/external/thrust/fill.h>
  *  #include <hydra/detail/external/thrust/device_vector.h>
  *  #include <hydra/detail/external/thrust/execution_policy.h>
  *  ...
- *  thrust::device_vector<int> v(4);
- *  thrust::fill_n(thrust::device, v.begin(), v.size(), 137);
+ *  HYDRA_EXTERNAL_NS::thrust::device_vector<int> v(4);
+ *  HYDRA_EXTERNAL_NS::thrust::fill_n(HYDRA_EXTERNAL_NS::thrust::device, v.begin(), v.size(), 137);
  *
  *  // v[0] == 137, v[1] == 137, v[2] == 137, v[3] == 137
  *  \endcode
@@ -155,7 +155,7 @@ __hydra_host__ __hydra_device__
  */
 template<typename DerivedPolicy, typename OutputIterator, typename Size, typename T>
 __hydra_host__ __hydra_device__
-  OutputIterator fill_n(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
+  OutputIterator fill_n(const HYDRA_EXTERNAL_NS::thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                         OutputIterator first,
                         Size n,
                         const T &value);
@@ -175,15 +175,15 @@ __hydra_host__ __hydra_device__
  *  \tparam T is a model of <a href="http://www.sgi.com/tech/stl/Assignable.html">Assignable</a>,
  *          and \p T's \c value_type is convertible to a type in \p OutputIterator's set of \c value_type.
  *
- *  The following code snippet demonstrates how to use \p fill to set a thrust::device_vector's
+ *  The following code snippet demonstrates how to use \p fill to set a HYDRA_EXTERNAL_NS::thrust::device_vector's
  *  elements to a given value.
  *
  *  \code
  *  #include <hydra/detail/external/thrust/fill.h>
  *  #include <hydra/detail/external/thrust/device_vector.h>
  *  ...
- *  thrust::device_vector<int> v(4);
- *  thrust::fill_n(v.begin(), v.size(), 137);
+ *  HYDRA_EXTERNAL_NS::thrust::device_vector<int> v(4);
+ *  HYDRA_EXTERNAL_NS::thrust::fill_n(v.begin(), v.size(), 137);
  *
  *  // v[0] == 137, v[1] == 137, v[2] == 137, v[3] == 137
  *  \endcode

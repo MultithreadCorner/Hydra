@@ -32,17 +32,14 @@
 #define HYDRA_EXTERNAL_NS hydra::detail::external
 #endif //HYDRA_EXTERNAL_NS
 
-HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
-{
 
-}
 
-#ifndef THRUST_BEGIN_NS
-#define THRUST_BEGIN_NS namespace thrust {
+#ifndef HYDRA_THRUST_BEGIN_NS
+#define HYDRA_THRUST_BEGIN_NS namespace thrust {
 #endif
 
-#ifndef THRUST_END_NS
-#define THRUST_END_NS }
+#ifndef HYDRA_THRUST_END_NS
+#define HYDRA_THRUST_END_NS }
 #endif
 
 #include <hydra/detail/external/thrust/detail/config/config.h>

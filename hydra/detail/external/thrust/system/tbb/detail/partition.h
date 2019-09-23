@@ -53,7 +53,7 @@ template<typename DerivedPolicy,
          typename OutputIterator1,
          typename OutputIterator2,
          typename Predicate>
-  thrust::pair<OutputIterator1,OutputIterator2>
+  HYDRA_EXTERNAL_NS::thrust::pair<OutputIterator1,OutputIterator2>
     stable_partition_copy(execution_policy<DerivedPolicy> &exec,
                           InputIterator first,
                           InputIterator last,
@@ -68,7 +68,7 @@ template<typename DerivedPolicy,
          typename OutputIterator1,
          typename OutputIterator2,
          typename Predicate>
-  thrust::pair<OutputIterator1,OutputIterator2>
+  HYDRA_EXTERNAL_NS::thrust::pair<OutputIterator1,OutputIterator2>
     stable_partition_copy(execution_policy<DerivedPolicy> &exec,
                           InputIterator1 first,
                           InputIterator1 last,

@@ -33,7 +33,7 @@ template<typename DerivedPolicy,
          typename ForwardIterator1,
          typename ForwardIterator2>
 __hydra_host__ __hydra_device__
-  ForwardIterator2 swap_ranges(thrust::execution_policy<DerivedPolicy> &exec,
+  ForwardIterator2 swap_ranges(HYDRA_EXTERNAL_NS::thrust::execution_policy<DerivedPolicy> &exec,
                                ForwardIterator1 first1,
                                ForwardIterator1 last1,
                                ForwardIterator2 first2);

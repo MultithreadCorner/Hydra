@@ -69,7 +69,7 @@ inline void free(pointer<void> ptr);
 
 // XXX upon c++11
 // template<typename T>
-// using allocator = thrust::mr::stateless_resource_allocator<T, memory_resource>;
+// using allocator = HYDRA_EXTERNAL_NS::thrust::mr::stateless_resource_allocator<T, memory_resource>;
 
 /*! \p omp::allocator is the default allocator used by the \p omp system's containers such as
  *  <tt>omp::vector</tt> if no user-specified allocator is provided. \p omp::allocator allocates
@@ -77,13 +77,13 @@ inline void free(pointer<void> ptr);
  */
 template<typename T>
   struct allocator
-    : thrust::mr::stateless_resource_allocator<
+    : HYDRA_EXTERNAL_NS::thrust::mr::stateless_resource_allocator<
         T,
         memory_resource
     >
 {
 private:
-    typedef thrust::mr::stateless_resource_allocator<
+    typedef HYDRA_EXTERNAL_NS::thrust::mr::stateless_resource_allocator<
         T,
         memory_resource
     > base;
@@ -131,15 +131,15 @@ public:
 
 } // end system
 
-/*! \HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust::omp
- *  \brief \p thrust::omp is a top-level alias for thrust::system::omp.
+/*! \HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace HYDRA_EXTERNAL_NS::thrust::omp
+ *  \brief \p HYDRA_EXTERNAL_NS::thrust::omp is a top-level alias for HYDRA_EXTERNAL_NS::thrust::system::omp.
  */
 namespace omp
 {
 
-using thrust::system::omp::malloc;
-using thrust::system::omp::free;
-using thrust::system::omp::allocator;
+using HYDRA_EXTERNAL_NS::thrust::system::omp::malloc;
+using HYDRA_EXTERNAL_NS::thrust::system::omp::free;
+using HYDRA_EXTERNAL_NS::thrust::system::omp::allocator;
 
 } // end omp
 

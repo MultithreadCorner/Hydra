@@ -33,39 +33,39 @@ HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
 __thrust_exec_check_disable__
 template<typename DerivedPolicy, typename ForwardIterator>
 __hydra_host__ __hydra_device__
-  void sequence(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
+  void sequence(const HYDRA_EXTERNAL_NS::thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                 ForwardIterator first,
                 ForwardIterator last)
 {
-  using thrust::system::detail::generic::sequence;
-  return sequence(thrust::detail::derived_cast(thrust::detail::strip_const(exec)), first, last);
+  using HYDRA_EXTERNAL_NS::thrust::system::detail::generic::sequence;
+  return sequence(HYDRA_EXTERNAL_NS::thrust::detail::derived_cast(HYDRA_EXTERNAL_NS::thrust::detail::strip_const(exec)), first, last);
 } // end sequence()
 
 
 __thrust_exec_check_disable__
 template<typename DerivedPolicy, typename ForwardIterator, typename T>
 __hydra_host__ __hydra_device__
-  void sequence(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
+  void sequence(const HYDRA_EXTERNAL_NS::thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                 ForwardIterator first,
                 ForwardIterator last,
                 T init)
 {
-  using thrust::system::detail::generic::sequence;
-  return sequence(thrust::detail::derived_cast(thrust::detail::strip_const(exec)), first, last, init);
+  using HYDRA_EXTERNAL_NS::thrust::system::detail::generic::sequence;
+  return sequence(HYDRA_EXTERNAL_NS::thrust::detail::derived_cast(HYDRA_EXTERNAL_NS::thrust::detail::strip_const(exec)), first, last, init);
 } // end sequence()
 
 
 __thrust_exec_check_disable__
 template<typename DerivedPolicy, typename ForwardIterator, typename T>
 __hydra_host__ __hydra_device__
-  void sequence(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
+  void sequence(const HYDRA_EXTERNAL_NS::thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                 ForwardIterator first,
                 ForwardIterator last,
                 T init,
                 T step)
 {
-  using thrust::system::detail::generic::sequence;
-  return sequence(thrust::detail::derived_cast(thrust::detail::strip_const(exec)), first, last, init, step);
+  using HYDRA_EXTERNAL_NS::thrust::system::detail::generic::sequence;
+  return sequence(HYDRA_EXTERNAL_NS::thrust::detail::derived_cast(HYDRA_EXTERNAL_NS::thrust::detail::strip_const(exec)), first, last, init, step);
 } // end sequence()
 
 
@@ -73,13 +73,13 @@ template<typename ForwardIterator>
   void sequence(ForwardIterator first,
                 ForwardIterator last)
 {
-  using thrust::system::detail::generic::select_system;
+  using HYDRA_EXTERNAL_NS::thrust::system::detail::generic::select_system;
 
-  typedef typename thrust::iterator_system<ForwardIterator>::type System;
+  typedef typename HYDRA_EXTERNAL_NS::thrust::iterator_system<ForwardIterator>::type System;
 
   System system;
 
-  return thrust::sequence(select_system(system), first, last);
+  return HYDRA_EXTERNAL_NS::thrust::sequence(select_system(system), first, last);
 } // end sequence()
 
 
@@ -88,13 +88,13 @@ template<typename ForwardIterator, typename T>
                 ForwardIterator last,
                 T init)
 {
-  using thrust::system::detail::generic::select_system;
+  using HYDRA_EXTERNAL_NS::thrust::system::detail::generic::select_system;
 
-  typedef typename thrust::iterator_system<ForwardIterator>::type System;
+  typedef typename HYDRA_EXTERNAL_NS::thrust::iterator_system<ForwardIterator>::type System;
 
   System system;
 
-  return thrust::sequence(select_system(system), first, last, init);
+  return HYDRA_EXTERNAL_NS::thrust::sequence(select_system(system), first, last, init);
 } // end sequence()
 
 
@@ -104,13 +104,13 @@ template<typename ForwardIterator, typename T>
                 T init,
                 T step)
 {
-  using thrust::system::detail::generic::select_system;
+  using HYDRA_EXTERNAL_NS::thrust::system::detail::generic::select_system;
 
-  typedef typename thrust::iterator_system<ForwardIterator>::type System;
+  typedef typename HYDRA_EXTERNAL_NS::thrust::iterator_system<ForwardIterator>::type System;
 
   System system;
 
-  return thrust::sequence(select_system(system), first, last, init, step);
+  return HYDRA_EXTERNAL_NS::thrust::sequence(select_system(system), first, last, init, step);
 } // end sequence()
 
 

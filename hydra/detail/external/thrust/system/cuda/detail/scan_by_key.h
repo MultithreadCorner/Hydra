@@ -26,7 +26,7 @@
  ******************************************************************************/
 #pragma once
 
-#if THRUST_DEVICE_COMPILER == THRUST_DEVICE_COMPILER_NVCC
+#if HYDRA_THRUST_DEVICE_COMPILER == HYDRA_THRUST_DEVICE_COMPILER_NVCC
 #include <hydra/detail/external/thrust/detail/cstdint.h>
 #include <hydra/detail/external/thrust/detail/temporary_array.h>
 #include <hydra/detail/external/thrust/system/cuda/detail/util.h>
@@ -40,11 +40,11 @@
 
 HYDRA_EXTERNAL_NAMESPACE_BEGIN
 
-THRUST_BEGIN_NS
+HYDRA_THRUST_BEGIN_NS
 namespace cuda_cub {
 
 namespace __scan_by_key {
-  namespace mpl = thrust::detail::mpl::math;
+  namespace mpl = HYDRA_EXTERNAL_NS::thrust::detail::mpl::math;
 
   template <int                      _BLOCK_THREADS,
             int                      _ITEMS_PER_THREAD = 1,
@@ -278,10 +278,10 @@ namespace __scan_by_key {
 
       // Exclusive scan specialization
       //
-      THRUST_DEVICE_FUNCTION void
+      HYDRA_THRUST_DEVICE_FUNCTION void
       scan_tile(size_value_pair_t (&scan_items)[ITEMS_PER_THREAD],
                 size_value_pair_t &tile_aggregate,
-                thrust::detail::false_type /* is_inclusive */)
+                HYDRA_EXTERNAL_NS::thrust::detail::false_type /* is_inclusive */)
       {
         BlockScan(storage.scan)
             .ExclusiveScan(scan_items, scan_items, scan_op, tile_aggregate);
@@ -289,10 +289,10 @@ namespace __scan_by_key {
       
       // Inclusive scan specialization
       //
-      THRUST_DEVICE_FUNCTION void
+      HYDRA_THRUST_DEVICE_FUNCTION void
       scan_tile(size_value_pair_t (&scan_items)[ITEMS_PER_THREAD],
                 size_value_pair_t &tile_aggregate,
-                thrust::detail::true_type /* is_inclusive */)
+                HYDRA_EXTERNAL_NS::thrust::detail::true_type /* is_inclusive */)
       {
         BlockScan(storage.scan)
             .InclusiveScan(scan_items, scan_items, scan_op, tile_aggregate);
@@ -304,11 +304,11 @@ namespace __scan_by_key {
       
       // Exclusive scan specialization (with prefix from predecessors)
       //
-      THRUST_DEVICE_FUNCTION void
+      HYDRA_THRUST_DEVICE_FUNCTION void
       scan_tile(size_value_pair_t (&scan_items)[ITEMS_PER_THREAD],
                 size_value_pair_t & tile_aggregate,
                 TilePrefixCallback &prefix_op,
-                thrust::detail::false_type /* is_incclusive */)
+                HYDRA_EXTERNAL_NS::thrust::detail::false_type /* is_incclusive */)
       {
         BlockScan(storage.scan)
             .ExclusiveScan(scan_items, scan_items, scan_op, prefix_op);
@@ -317,11 +317,11 @@ namespace __scan_by_key {
       
       // Inclusive scan specialization (with prefix from predecessors)
       //
-      THRUST_DEVICE_FUNCTION void
+      HYDRA_THRUST_DEVICE_FUNCTION void
       scan_tile(size_value_pair_t (&scan_items)[ITEMS_PER_THREAD],
                 size_value_pair_t & tile_aggregate,
                 TilePrefixCallback &prefix_op,
-                thrust::detail::true_type /* is_inclusive */)
+                HYDRA_EXTERNAL_NS::thrust::detail::true_type /* is_inclusive */)
       {
         BlockScan(storage.scan)
             .InclusiveScan(scan_items, scan_items, scan_op, prefix_op);
@@ -333,7 +333,7 @@ namespace __scan_by_key {
       //---------------------------------------------------------------------
 
       template <bool IS_LAST_TILE>
-      THRUST_DEVICE_FUNCTION void
+      HYDRA_THRUST_DEVICE_FUNCTION void
       zip_values_and_flags(size_type num_remaining,
                            value_type (&values)[ITEMS_PER_THREAD],
                            size_type (&segment_flags)[ITEMS_PER_THREAD],
@@ -353,7 +353,7 @@ namespace __scan_by_key {
         }
       }
 
-      THRUST_DEVICE_FUNCTION void unzip_values(
+      HYDRA_THRUST_DEVICE_FUNCTION void unzip_values(
           value_type (&values)[ITEMS_PER_THREAD],
           size_value_pair_t (&scan_items)[ITEMS_PER_THREAD])
       {
@@ -372,7 +372,7 @@ namespace __scan_by_key {
       // Process a tile of input (dynamic chained scan)
       //
       template <bool IS_LAST_TILE, class AddInitToScan>
-      THRUST_DEVICE_FUNCTION void
+      HYDRA_THRUST_DEVICE_FUNCTION void
       consume_tile(Size          /*num_items*/,
                    Size          num_remaining,
                    int           tile_idx,
@@ -495,7 +495,7 @@ namespace __scan_by_key {
       // Dequeue and scan tiles of items as part of a dynamic chained scan
       // with Init functor
       template <class AddInitToScan>
-      THRUST_DEVICE_FUNCTION
+      HYDRA_THRUST_DEVICE_FUNCTION
       impl(TempStorage &  storage_,
            ScanTileState &tile_state_,
            KeysInputIt    keys_input_it,
@@ -543,7 +543,7 @@ namespace __scan_by_key {
     //---------------------------------------------------------------------
 
     template <class AddInitToScan>
-    THRUST_AGENT_ENTRY(KeysInputIt    keys_input_it,
+    HYDRA_THRUST_AGENT_ENTRY(KeysInputIt    keys_input_it,
                        ValuesInputIt  values_input_it,
                        ValuesOutputIt values_output_it,
                        EqualityOp     equaility_op,
@@ -580,7 +580,7 @@ namespace __scan_by_key {
     // Agent entry point
     //---------------------------------------------------------------------
 
-    THRUST_AGENT_ENTRY(ScanTileState tile_state,
+    HYDRA_THRUST_AGENT_ENTRY(ScanTileState tile_state,
                        Size          num_tiles,
                        char * /*shmem*/)
     {
@@ -593,7 +593,7 @@ namespace __scan_by_key {
   {
     typedef T     type;
     template <int ITEMS_PER_THREAD, class Size>
-    THRUST_DEVICE_FUNCTION void
+    HYDRA_THRUST_DEVICE_FUNCTION void
     operator()(T (&/*items*/)[ITEMS_PER_THREAD],
                Size (&/*flags*/)[ITEMS_PER_THREAD])
     {
@@ -607,12 +607,12 @@ namespace __scan_by_key {
     T         init;
     ScanOp    scan_op;
 
-    THRUST_RUNTIME_FUNCTION
+    HYDRA_THRUST_RUNTIME_FUNCTION
     AddInitToScan(T init_, ScanOp scan_op_)
         : init(init_), scan_op(scan_op_) {}
 
     template <int ITEMS_PER_THREAD, class Size>
-    THRUST_DEVICE_FUNCTION void
+    HYDRA_THRUST_DEVICE_FUNCTION void
     operator()(T (&items)[ITEMS_PER_THREAD],
                Size (&flags)[ITEMS_PER_THREAD])
     {
@@ -632,7 +632,7 @@ namespace __scan_by_key {
             class ScanOp,
             class Size,
             class AddInitToScan>
-  THRUST_RUNTIME_FUNCTION cudaError_t
+  HYDRA_THRUST_RUNTIME_FUNCTION cudaError_t
   doit_step(void *         d_temp_storage,
             size_t &       temp_storage_bytes,
             KeysInputIt    keys_input_it,
@@ -725,7 +725,7 @@ namespace __scan_by_key {
             typename EqualityOp,
             typename ScanOp,
             typename AddInitToScan>
-  THRUST_RUNTIME_FUNCTION
+  HYDRA_THRUST_RUNTIME_FUNCTION
   ValuesOutputIt scan_by_key(execution_policy<Derived>& policy,
                              KeysInputIt                keys_first,
                              KeysInputIt                keys_last,
@@ -735,10 +735,10 @@ namespace __scan_by_key {
                              ScanOp                     scan_op,
                              AddInitToScan              add_init_to_scan)
   {
-    int          num_items    = static_cast<int>(thrust::distance(keys_first, keys_last));
+    int          num_items    = static_cast<int>(HYDRA_EXTERNAL_NS::thrust::distance(keys_first, keys_last));
     size_t       storage_size = 0;
     cudaStream_t stream       = cuda_cub::stream(policy);
-    bool         debug_sync   = THRUST_DEBUG_SYNC_FLAG;
+    bool         debug_sync   = HYDRA_THRUST_DEBUG_SYNC_FLAG;
 
     if (num_items == 0)
       return values_result;
@@ -758,7 +758,7 @@ namespace __scan_by_key {
     cuda_cub::throw_on_error(status, "scan_by_key: failed on 1st step");
     
     // Allocate temporary storage.
-    thrust::detail::temporary_array<thrust::detail::uint8_t, Derived>
+    HYDRA_EXTERNAL_NS::thrust::detail::temporary_array<HYDRA_EXTERNAL_NS::thrust::detail::uint8_t, Derived>
       tmp(policy, storage_size);
     void *ptr = static_cast<void*>(tmp.data().get());
 
@@ -807,10 +807,10 @@ inclusive_scan_by_key(execution_policy<Derived> &policy,
                       ScanOp                     scan_op)
 {
   ValOutputIt ret = value_result;
-  if (__THRUST_HAS_CUDART__)
+  if (__HYDRA_THRUST_HAS_CUDART__)
   {
     typedef typename iterator_traits<ValInputIt>::value_type T;
-    ret = __scan_by_key::scan_by_key<thrust::detail::true_type>(policy,
+    ret = __scan_by_key::scan_by_key<HYDRA_EXTERNAL_NS::thrust::detail::true_type>(policy,
                                                         key_first,
                                                         key_last,
                                                         value_first,
@@ -821,8 +821,8 @@ inclusive_scan_by_key(execution_policy<Derived> &policy,
   }
   else
   {
-#if !__THRUST_HAS_CUDART__
-    ret = thrust::inclusive_scan_by_key(cvt_to_seq(derived_cast(policy)),
+#if !__HYDRA_THRUST_HAS_CUDART__
+    ret = HYDRA_EXTERNAL_NS::thrust::inclusive_scan_by_key(cvt_to_seq(derived_cast(policy)),
                                         key_first,
                                         key_last,
                                         value_first,
@@ -847,7 +847,7 @@ inclusive_scan_by_key(execution_policy<Derived> &policy,
                       ValOutputIt                value_result,
                       BinaryPred                 binary_pred)
 {
-  typedef typename thrust::iterator_traits<ValOutputIt>::value_type value_type;
+  typedef typename HYDRA_EXTERNAL_NS::thrust::iterator_traits<ValOutputIt>::value_type value_type;
   return cuda_cub::inclusive_scan_by_key(policy,
                                          key_first,
                                          key_last,
@@ -868,7 +868,7 @@ inclusive_scan_by_key(execution_policy<Derived> &policy,
                       ValInputIt                 value_first,
                       ValOutputIt                value_result)
 {
-  typedef typename thrust::iterator_traits<KeyInputIt>::value_type key_type;
+  typedef typename HYDRA_EXTERNAL_NS::thrust::iterator_traits<KeyInputIt>::value_type key_type;
   return cuda_cub::inclusive_scan_by_key(policy,
                                          key_first,
                                          key_last,
@@ -901,9 +901,9 @@ exclusive_scan_by_key(execution_policy<Derived> &policy,
                       ScanOp                     scan_op)
 {
   ValOutputIt ret = value_result;
-  if (__THRUST_HAS_CUDART__)
+  if (__HYDRA_THRUST_HAS_CUDART__)
   {
-    ret = __scan_by_key::scan_by_key<thrust::detail::false_type>(
+    ret = __scan_by_key::scan_by_key<HYDRA_EXTERNAL_NS::thrust::detail::false_type>(
         policy,
         key_first,
         key_last,
@@ -915,8 +915,8 @@ exclusive_scan_by_key(execution_policy<Derived> &policy,
   }
   else
   {
-#if !__THRUST_HAS_CUDART__
-    ret = thrust::exclusive_scan_by_key(cvt_to_seq(derived_cast(policy)),
+#if !__HYDRA_THRUST_HAS_CUDART__
+    ret = HYDRA_EXTERNAL_NS::thrust::exclusive_scan_by_key(cvt_to_seq(derived_cast(policy)),
                                         key_first,
                                         key_last,
                                         value_first,
@@ -1001,7 +1001,7 @@ exclusive_scan_by_key(execution_policy<Derived> &policy,
 
 }    // namespace cuda_cub
 
-THRUST_END_NS
+HYDRA_THRUST_END_NS
 HYDRA_EXTERNAL_NAMESPACE_END
 
 #include <hydra/detail/external/thrust/scan.h>

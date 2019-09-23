@@ -16,13 +16,13 @@
 #include <hydra/detail/external/thrust/detail/config.h>
 #include <hydra/detail/external/thrust/detail/cpp11_required.h>
 
-#if THRUST_CPP_DIALECT >= 2011
+#if HYDRA_THRUST_CPP_DIALECT >= 2011
 
 #include <hydra/detail/external/thrust/addressof.h>
 #include <hydra/detail/external/thrust/swap.h>
 
-#define THRUST_OPTIONAL_VERSION_MAJOR 0
-#define THRUST_OPTIONAL_VERSION_MINOR 2
+#define HYDRA_THRUST_OPTIONAL_VERSION_MAJOR 0
+#define HYDRA_THRUST_OPTIONAL_VERSION_MINOR 2
 
 #include <exception>
 #include <functional>
@@ -31,44 +31,44 @@
 #include <utility>
 
 #if (defined(_MSC_VER) && _MSC_VER == 1900)
-#define THRUST_OPTIONAL_MSVC2015
+#define HYDRA_THRUST_OPTIONAL_MSVC2015
 #endif
 
 #if (defined(__GNUC__) && __GNUC__ == 4 && __GNUC_MINOR__ <= 9 &&              \
      !defined(__clang__))
-#define THRUST_OPTIONAL_GCC49
+#define HYDRA_THRUST_OPTIONAL_GCC49
 #endif
 
 #if (defined(__GNUC__) && __GNUC__ == 5 && __GNUC_MINOR__ <= 4 &&              \
      !defined(__clang__))
-#define THRUST_OPTIONAL_GCC54
+#define HYDRA_THRUST_OPTIONAL_GCC54
 #endif
 
 #if (defined(__GNUC__) && __GNUC__ == 5 && __GNUC_MINOR__ <= 5 &&              \
      !defined(__clang__))
-#define THRUST_OPTIONAL_GCC55
+#define HYDRA_THRUST_OPTIONAL_GCC55
 #endif
 
 #if (defined(__GNUC__) && __GNUC__ == 4 && __GNUC_MINOR__ <= 9 &&              \
      !defined(__clang__))
 // GCC < 5 doesn't support overloading on const&& for member functions
-#define THRUST_OPTIONAL_NO_CONSTRR
+#define HYDRA_THRUST_OPTIONAL_NO_CONSTRR
 
 // GCC < 5 doesn't support some standard C++11 type traits
-#define THRUST_OPTIONAL_IS_TRIVIALLY_COPY_CONSTRUCTIBLE(T)                                     \
+#define HYDRA_THRUST_OPTIONAL_IS_TRIVIALLY_COPY_CONSTRUCTIBLE(T)                                     \
   std::has_trivial_copy_constructor<T>::value
-#define THRUST_OPTIONAL_IS_TRIVIALLY_COPY_ASSIGNABLE(T) std::has_trivial_copy_assign<T>::value
+#define HYDRA_THRUST_OPTIONAL_IS_TRIVIALLY_COPY_ASSIGNABLE(T) std::has_trivial_copy_assign<T>::value
 
 // This one will be different for GCC 5.7 if it's ever supported
-#define THRUST_OPTIONAL_IS_TRIVIALLY_DESTRUCTIBLE(T) std::is_trivially_destructible<T>::value
+#define HYDRA_THRUST_OPTIONAL_IS_TRIVIALLY_DESTRUCTIBLE(T) std::is_trivially_destructible<T>::value
 
 // GCC 5 < v < 8 has a bug in is_trivially_copy_constructible which breaks std::vector
 // for non-copyable types
 #elif (defined(__GNUC__) && __GNUC__ < 8 &&                                                \
      !defined(__clang__))
-#ifndef THRUST_GCC_LESS_8_TRIVIALLY_COPY_CONSTRUCTIBLE_MUTEX
-#define THRUST_GCC_LESS_8_TRIVIALLY_COPY_CONSTRUCTIBLE_MUTEX
-THRUST_BEGIN_NS
+#ifndef HYDRA_THRUST_GCC_LESS_8_TRIVIALLY_COPY_CONSTRUCTIBLE_MUTEX
+#define HYDRA_THRUST_GCC_LESS_8_TRIVIALLY_COPY_CONSTRUCTIBLE_MUTEX
+HYDRA_THRUST_BEGIN_NS
   namespace detail {
       template<class T>
       struct is_trivially_copy_constructible : std::is_trivially_copy_constructible<T>{};
@@ -78,39 +78,39 @@ THRUST_BEGIN_NS
           : std::is_trivially_copy_constructible<T>{};
 #endif      
   }
-THRUST_END_NS
+HYDRA_THRUST_END_NS
 #endif
 
-#define THRUST_OPTIONAL_IS_TRIVIALLY_COPY_CONSTRUCTIBLE(T)                                     \
-    thrust::detail::is_trivially_copy_constructible<T>::value
-#define THRUST_OPTIONAL_IS_TRIVIALLY_COPY_ASSIGNABLE(T)                                        \
+#define HYDRA_THRUST_OPTIONAL_IS_TRIVIALLY_COPY_CONSTRUCTIBLE(T)                                     \
+    HYDRA_EXTERNAL_NS::thrust::detail::is_trivially_copy_constructible<T>::value
+#define HYDRA_THRUST_OPTIONAL_IS_TRIVIALLY_COPY_ASSIGNABLE(T)                                        \
   std::is_trivially_copy_assignable<T>::value
-#define THRUST_OPTIONAL_IS_TRIVIALLY_DESTRUCTIBLE(T) std::is_trivially_destructible<T>::value
+#define HYDRA_THRUST_OPTIONAL_IS_TRIVIALLY_DESTRUCTIBLE(T) std::is_trivially_destructible<T>::value
 #else
-#define THRUST_OPTIONAL_IS_TRIVIALLY_COPY_CONSTRUCTIBLE(T)                                     \
+#define HYDRA_THRUST_OPTIONAL_IS_TRIVIALLY_COPY_CONSTRUCTIBLE(T)                                     \
   std::is_trivially_copy_constructible<T>::value
-#define THRUST_OPTIONAL_IS_TRIVIALLY_COPY_ASSIGNABLE(T)                                        \
+#define HYDRA_THRUST_OPTIONAL_IS_TRIVIALLY_COPY_ASSIGNABLE(T)                                        \
   std::is_trivially_copy_assignable<T>::value
-#define THRUST_OPTIONAL_IS_TRIVIALLY_DESTRUCTIBLE(T) std::is_trivially_destructible<T>::value
+#define HYDRA_THRUST_OPTIONAL_IS_TRIVIALLY_DESTRUCTIBLE(T) std::is_trivially_destructible<T>::value
 #endif
 
 #if __cplusplus > 201103L
-#define THRUST_OPTIONAL_CPP14
+#define HYDRA_THRUST_OPTIONAL_CPP14
 #endif
 
 // constexpr implies const in C++11, not C++14
-#if (__cplusplus == 201103L || defined(THRUST_OPTIONAL_MSVC2015) ||                \
-     defined(THRUST_OPTIONAL_GCC49))
+#if (__cplusplus == 201103L || defined(HYDRA_THRUST_OPTIONAL_MSVC2015) ||                \
+     defined(HYDRA_THRUST_OPTIONAL_GCC49))
 /// \exclude
-#define THRUST_OPTIONAL_CPP11_CONSTEXPR
+#define HYDRA_THRUST_OPTIONAL_CPP11_CONSTEXPR
 #else
 /// \exclude
-#define THRUST_OPTIONAL_CPP11_CONSTEXPR constexpr
+#define HYDRA_THRUST_OPTIONAL_CPP11_CONSTEXPR constexpr
 #endif
 
-THRUST_BEGIN_NS
-#ifndef THRUST_MONOSTATE_INPLACE_MUTEX
-#define THRUST_MONOSTATE_INPLACE_MUTEX
+HYDRA_THRUST_BEGIN_NS
+#ifndef HYDRA_THRUST_MONOSTATE_INPLACE_MUTEX
+#define HYDRA_THRUST_MONOSTATE_INPLACE_MUTEX
 /// \brief Used to represent an optional with no data; essentially a bool
 class monostate {};
 
@@ -126,8 +126,8 @@ template <class T> class optional;
 
 /// \exclude
 namespace detail {
-#ifndef THRUST_TRAITS_MUTEX
-#define THRUST_TRAITS_MUTEX
+#ifndef HYDRA_THRUST_TRAITS_MUTEX
+#define HYDRA_THRUST_TRAITS_MUTEX
 // C++14-style aliases for brevity
 template <class T> using remove_const_t = typename std::remove_const<T>::type;
 template <class T>
@@ -146,13 +146,13 @@ struct conjunction<B, Bs...>
     : std::conditional<bool(B::value), conjunction<Bs...>, B>::type {};
 
 #if defined(_LIBCPP_VERSION) && __cplusplus == 201103L
-#define THRUST_OPTIONAL_LIBCXX_MEM_FN_WORKAROUND
+#define HYDRA_THRUST_OPTIONAL_LIBCXX_MEM_FN_WORKAROUND
 #endif
 
 // In C++11 mode, there's an issue in libc++'s std::mem_fn
 // which results in a hard-error when using it in a noexcept expression
 // in some cases. This is a check to workaround the common failing case.
-#ifdef THRUST_OPTIONAL_LIBCXX_MEM_FN_WORKAROUND
+#ifdef HYDRA_THRUST_OPTIONAL_LIBCXX_MEM_FN_WORKAROUND
 template <class T> struct is_pointer_to_non_const_member_func : std::false_type{};
 template <class T, class Ret, class... Args>
 struct is_pointer_to_non_const_member_func<Ret (T::*) (Args...)> : std::true_type{};
@@ -176,7 +176,7 @@ template <class T> struct is_const_or_const_ref<T const> : std::true_type{};
 // https://stackoverflow.com/questions/38288042/c11-14-invoke-workaround
 __thrust_exec_check_disable__
 template <typename Fn, typename... Args,
-#ifdef THRUST_OPTIONAL_LIBCXX_MEM_FN_WORKAROUND
+#ifdef HYDRA_THRUST_OPTIONAL_LIBCXX_MEM_FN_WORKAROUND
           typename = enable_if_t<!(is_pointer_to_non_const_member_func<Fn>::value 
                                  && is_const_or_const_ref<Args...>::value)>, 
 #endif
@@ -220,12 +220,12 @@ using invoke_result_t = typename invoke_result<F, Us...>::type;
 template <class...> struct voider { using type = void; };
 template <class... Ts> using void_t = typename voider<Ts...>::type;
 
-// Trait for checking if a type is a thrust::optional
+// Trait for checking if a type is a HYDRA_EXTERNAL_NS::thrust::optional
 template <class T> struct is_optional_impl : std::false_type {};
 template <class T> struct is_optional_impl<optional<T>> : std::true_type {};
 template <class T> using is_optional = is_optional_impl<decay_t<T>>;
 
-// Change void to thrust::monostate
+// Change void to HYDRA_EXTERNAL_NS::thrust::monostate
 template <class U>
 using fixup_void = conditional_t<std::is_void<U>::value, monostate, U>;
 
@@ -368,13 +368,13 @@ template <class T, bool = ::std::is_trivially_destructible<T>::value>
 struct optional_storage_base {
   __thrust_exec_check_disable__
   __hydra_host__ __hydra_device__
-  THRUST_OPTIONAL_CPP11_CONSTEXPR optional_storage_base() noexcept
+  HYDRA_THRUST_OPTIONAL_CPP11_CONSTEXPR optional_storage_base() noexcept
       : m_dummy(), m_has_value(false) {}
 
   __thrust_exec_check_disable__
   template <class... U>
   __hydra_host__ __hydra_device__
-  THRUST_OPTIONAL_CPP11_CONSTEXPR optional_storage_base(in_place_t, U &&... u)
+  HYDRA_THRUST_OPTIONAL_CPP11_CONSTEXPR optional_storage_base(in_place_t, U &&... u)
       : m_value(std::forward<U>(u)...), m_has_value(true) {}
 
   __thrust_exec_check_disable__
@@ -399,13 +399,13 @@ struct optional_storage_base {
 template <class T> struct optional_storage_base<T, true> {
   __thrust_exec_check_disable__
   __hydra_host__ __hydra_device__
-  THRUST_OPTIONAL_CPP11_CONSTEXPR optional_storage_base() noexcept
+  HYDRA_THRUST_OPTIONAL_CPP11_CONSTEXPR optional_storage_base() noexcept
       : m_dummy(), m_has_value(false) {}
 
   __thrust_exec_check_disable__
   template <class... U>
   __hydra_host__ __hydra_device__
-  THRUST_OPTIONAL_CPP11_CONSTEXPR optional_storage_base(in_place_t, U &&... u)
+  HYDRA_THRUST_OPTIONAL_CPP11_CONSTEXPR optional_storage_base(in_place_t, U &&... u)
       : m_value(std::forward<U>(u)...), m_has_value(true) {}
 
   // No destructor, so this class is trivially destructible
@@ -463,14 +463,14 @@ template <class T> struct optional_operations_base : optional_storage_base<T> {
 
   __thrust_exec_check_disable__
   __hydra_host__ __hydra_device__
-  THRUST_OPTIONAL_CPP11_CONSTEXPR T &get() & { return this->m_value; }
+  HYDRA_THRUST_OPTIONAL_CPP11_CONSTEXPR T &get() & { return this->m_value; }
   __thrust_exec_check_disable__
   __hydra_host__ __hydra_device__
-  THRUST_OPTIONAL_CPP11_CONSTEXPR const T &get() const & { return this->m_value; }
+  HYDRA_THRUST_OPTIONAL_CPP11_CONSTEXPR const T &get() const & { return this->m_value; }
   __thrust_exec_check_disable__
   __hydra_host__ __hydra_device__
-  THRUST_OPTIONAL_CPP11_CONSTEXPR T &&get() && { return std::move(this->m_value); }
-#ifndef THRUST_OPTIONAL_NO_CONSTRR
+  HYDRA_THRUST_OPTIONAL_CPP11_CONSTEXPR T &&get() && { return std::move(this->m_value); }
+#ifndef HYDRA_THRUST_OPTIONAL_NO_CONSTRR
   __thrust_exec_check_disable__
   __hydra_host__ __hydra_device__
   constexpr const T &&get() const && { return std::move(this->m_value); }
@@ -479,7 +479,7 @@ template <class T> struct optional_operations_base : optional_storage_base<T> {
 
 // This class manages conditionally having a trivial copy constructor
 // This specialization is for when T is trivially copy constructible
-template <class T, bool = THRUST_OPTIONAL_IS_TRIVIALLY_COPY_CONSTRUCTIBLE(T)>
+template <class T, bool = HYDRA_THRUST_OPTIONAL_IS_TRIVIALLY_COPY_CONSTRUCTIBLE(T)>
 struct optional_copy_base : optional_operations_base<T> {
   using optional_operations_base<T>::optional_operations_base;
 };
@@ -514,7 +514,7 @@ struct optional_copy_base<T, false> : optional_operations_base<T> {
 // doesn't implement an analogue to std::is_trivially_move_constructible. We
 // have to make do with a non-trivial move constructor even if T is trivially
 // move constructible
-#ifndef THRUST_OPTIONAL_GCC49
+#ifndef HYDRA_THRUST_OPTIONAL_GCC49
 template <class T, bool = std::is_trivially_move_constructible<T>::value>
 struct optional_move_base : optional_copy_base<T> {
   using optional_copy_base<T>::optional_copy_base;
@@ -547,9 +547,9 @@ template <class T> struct optional_move_base<T, false> : optional_copy_base<T> {
 };
 
 // This class manages conditionally having a trivial copy assignment operator
-template <class T, bool = THRUST_OPTIONAL_IS_TRIVIALLY_COPY_ASSIGNABLE(T) &&
-                          THRUST_OPTIONAL_IS_TRIVIALLY_COPY_CONSTRUCTIBLE(T) &&
-                          THRUST_OPTIONAL_IS_TRIVIALLY_DESTRUCTIBLE(T)>
+template <class T, bool = HYDRA_THRUST_OPTIONAL_IS_TRIVIALLY_COPY_ASSIGNABLE(T) &&
+                          HYDRA_THRUST_OPTIONAL_IS_TRIVIALLY_COPY_CONSTRUCTIBLE(T) &&
+                          HYDRA_THRUST_OPTIONAL_IS_TRIVIALLY_DESTRUCTIBLE(T)>
 struct optional_copy_assign_base : optional_move_base<T> {
   using optional_move_base<T>::optional_move_base;
 };
@@ -581,7 +581,7 @@ struct optional_copy_assign_base<T, false> : optional_move_base<T> {
 // doesn't implement an analogue to std::is_trivially_move_assignable. We have
 // to make do with a non-trivial move assignment operator even if T is trivially
 // move assignable
-#ifndef THRUST_OPTIONAL_GCC49
+#ifndef HYDRA_THRUST_OPTIONAL_GCC49
 template <class T, bool = std::is_trivially_destructible<T>::value
                        &&std::is_trivially_move_constructible<T>::value
                            &&std::is_trivially_move_assignable<T>::value>
@@ -767,9 +767,9 @@ struct nullopt_t {
 ///
 /// *Examples*:
 /// ```
-/// thrust::optional<int> a = thrust::nullopt;
-/// void foo (thrust::optional<int>);
-/// foo(thrust::nullopt); //pass an empty optional
+/// HYDRA_EXTERNAL_NS::thrust::optional<int> a = HYDRA_EXTERNAL_NS::thrust::nullopt;
+/// void foo (HYDRA_EXTERNAL_NS::thrust::optional<int>);
+/// foo(HYDRA_EXTERNAL_NS::thrust::nullopt); //pass an empty optional
 /// ```
 static constexpr nullopt_t nullopt{nullopt_t::do_not_use{},
                                    nullopt_t::do_not_use{}};
@@ -803,8 +803,8 @@ public:
 // types are not SFINAE-safe. This provides better support for things like
 // generic lambdas. C.f.
 // http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2017/p0826r0.html
-#if defined(THRUST_OPTIONAL_CPP14) && !defined(THRUST_OPTIONAL_GCC49) &&               \
-    !defined(THRUST_OPTIONAL_GCC54) && !defined(THRUST_OPTIONAL_GCC55)
+#if defined(HYDRA_THRUST_OPTIONAL_CPP14) && !defined(HYDRA_THRUST_OPTIONAL_GCC49) &&               \
+    !defined(HYDRA_THRUST_OPTIONAL_GCC54) && !defined(HYDRA_THRUST_OPTIONAL_GCC55)
   /// \group and_then
   /// Carries out some operation which returns an optional on the stored
   /// object if there is one. \requires `std::invoke(std::forward<F>(f),
@@ -818,7 +818,7 @@ public:
   __thrust_exec_check_disable__
   template <class F>
   __hydra_host__ __hydra_device__
-  THRUST_OPTIONAL_CPP11_CONSTEXPR auto and_then(F &&f) & {
+  HYDRA_THRUST_OPTIONAL_CPP11_CONSTEXPR auto and_then(F &&f) & {
     using result = detail::invoke_result_t<F, T &>;
     static_assert(detail::is_optional<result>::value,
                   "F must return an optional");
@@ -832,7 +832,7 @@ public:
   __thrust_exec_check_disable__
   template <class F>
   __hydra_host__ __hydra_device__
-  THRUST_OPTIONAL_CPP11_CONSTEXPR auto and_then(F &&f) && {
+  HYDRA_THRUST_OPTIONAL_CPP11_CONSTEXPR auto and_then(F &&f) && {
     using result = detail::invoke_result_t<F, T &&>;
     static_assert(detail::is_optional<result>::value,
                   "F must return an optional");
@@ -855,7 +855,7 @@ public:
                        : result(nullopt);
   }
 
-#ifndef THRUST_OPTIONAL_NO_CONSTRR
+#ifndef HYDRA_THRUST_OPTIONAL_NO_CONSTRR
   /// \group and_then
   /// \synopsis template <class F>\nconstexpr auto and_then(F &&f) const &&;
   __thrust_exec_check_disable__
@@ -884,7 +884,7 @@ public:
   __thrust_exec_check_disable__
   template <class F>
   __hydra_host__ __hydra_device__
-  THRUST_OPTIONAL_CPP11_CONSTEXPR detail::invoke_result_t<F, T &> and_then(F &&f) & {
+  HYDRA_THRUST_OPTIONAL_CPP11_CONSTEXPR detail::invoke_result_t<F, T &> and_then(F &&f) & {
     using result = detail::invoke_result_t<F, T &>;
     static_assert(detail::is_optional<result>::value,
                   "F must return an optional");
@@ -898,7 +898,7 @@ public:
   __thrust_exec_check_disable__
   template <class F>
   __hydra_host__ __hydra_device__
-  THRUST_OPTIONAL_CPP11_CONSTEXPR detail::invoke_result_t<F, T &&> and_then(F &&f) && {
+  HYDRA_THRUST_OPTIONAL_CPP11_CONSTEXPR detail::invoke_result_t<F, T &&> and_then(F &&f) && {
     using result = detail::invoke_result_t<F, T &&>;
     static_assert(detail::is_optional<result>::value,
                   "F must return an optional");
@@ -921,7 +921,7 @@ public:
                        : result(nullopt);
   }
 
-#ifndef THRUST_OPTIONAL_NO_CONSTRR
+#ifndef HYDRA_THRUST_OPTIONAL_NO_CONSTRR
   /// \group and_then
   /// \synopsis template <class F>\nconstexpr auto and_then(F &&f) const &&;
   __thrust_exec_check_disable__
@@ -938,8 +938,8 @@ public:
 #endif
 #endif
 
-#if defined(THRUST_OPTIONAL_CPP14) && !defined(THRUST_OPTIONAL_GCC49) &&               \
-    !defined(THRUST_OPTIONAL_GCC54) && !defined(THRUST_OPTIONAL_GCC55)
+#if defined(HYDRA_THRUST_OPTIONAL_CPP14) && !defined(HYDRA_THRUST_OPTIONAL_GCC49) &&               \
+    !defined(HYDRA_THRUST_OPTIONAL_GCC54) && !defined(HYDRA_THRUST_OPTIONAL_GCC55)
   /// \brief Carries out some operation on the stored object if there is one.
   /// \returns Let `U` be the result of `std::invoke(std::forward<F>(f),
   /// value())`. Returns a `std::optional<U>`. The return value is empty if
@@ -952,7 +952,7 @@ public:
   __thrust_exec_check_disable__
   template <class F>
   __hydra_host__ __hydra_device__
-  THRUST_OPTIONAL_CPP11_CONSTEXPR auto map(F &&f) & {
+  HYDRA_THRUST_OPTIONAL_CPP11_CONSTEXPR auto map(F &&f) & {
     return optional_map_impl(*this, std::forward<F>(f));
   }
 
@@ -961,7 +961,7 @@ public:
   __thrust_exec_check_disable__
   template <class F>
   __hydra_host__ __hydra_device__
-  THRUST_OPTIONAL_CPP11_CONSTEXPR auto map(F &&f) && {
+  HYDRA_THRUST_OPTIONAL_CPP11_CONSTEXPR auto map(F &&f) && {
     return optional_map_impl(std::move(*this), std::forward<F>(f));
   }
 
@@ -995,7 +995,7 @@ public:
   __thrust_exec_check_disable__
   template <class F>
   __hydra_host__ __hydra_device__
-  THRUST_OPTIONAL_CPP11_CONSTEXPR decltype(optional_map_impl(std::declval<optional &>(),
+  HYDRA_THRUST_OPTIONAL_CPP11_CONSTEXPR decltype(optional_map_impl(std::declval<optional &>(),
                                              std::declval<F &&>()))
   map(F &&f) & {
     return optional_map_impl(*this, std::forward<F>(f));
@@ -1006,7 +1006,7 @@ public:
   __thrust_exec_check_disable__
   template <class F>
   __hydra_host__ __hydra_device__
-  THRUST_OPTIONAL_CPP11_CONSTEXPR decltype(optional_map_impl(std::declval<optional &&>(),
+  HYDRA_THRUST_OPTIONAL_CPP11_CONSTEXPR decltype(optional_map_impl(std::declval<optional &&>(),
                                              std::declval<F &&>()))
   map(F &&f) && {
     return optional_map_impl(std::move(*this), std::forward<F>(f));
@@ -1023,7 +1023,7 @@ public:
     return optional_map_impl(*this, std::forward<F>(f));
   }
 
-#ifndef THRUST_OPTIONAL_NO_CONSTRR
+#ifndef HYDRA_THRUST_OPTIONAL_NO_CONSTRR
   /// \group map
   /// \synopsis template <class F> auto map(F &&f) const&&;
   __thrust_exec_check_disable__
@@ -1049,7 +1049,7 @@ public:
   __thrust_exec_check_disable__
   template <class F, detail::enable_if_ret_void<F> * = nullptr>
   __hydra_host__ __hydra_device__
-  optional<T> THRUST_OPTIONAL_CPP11_CONSTEXPR or_else(F &&f) & {
+  optional<T> HYDRA_THRUST_OPTIONAL_CPP11_CONSTEXPR or_else(F &&f) & {
     if (has_value())
       return *this;
 
@@ -1061,7 +1061,7 @@ public:
   __thrust_exec_check_disable__
   template <class F, detail::disable_if_ret_void<F> * = nullptr>
   __hydra_host__ __hydra_device__
-  optional<T> THRUST_OPTIONAL_CPP11_CONSTEXPR or_else(F &&f) & {
+  optional<T> HYDRA_THRUST_OPTIONAL_CPP11_CONSTEXPR or_else(F &&f) & {
     return has_value() ? *this : std::forward<F>(f)();
   }
 
@@ -1082,7 +1082,7 @@ public:
   __thrust_exec_check_disable__
   template <class F, detail::disable_if_ret_void<F> * = nullptr>
   __hydra_host__ __hydra_device__
-  optional<T> THRUST_OPTIONAL_CPP11_CONSTEXPR or_else(F &&f) && {
+  optional<T> HYDRA_THRUST_OPTIONAL_CPP11_CONSTEXPR or_else(F &&f) && {
     return has_value() ? std::move(*this) : std::forward<F>(f)();
   }
 
@@ -1103,11 +1103,11 @@ public:
   __thrust_exec_check_disable__
   template <class F, detail::disable_if_ret_void<F> * = nullptr>
   __hydra_host__ __hydra_device__
-  optional<T> THRUST_OPTIONAL_CPP11_CONSTEXPR or_else(F &&f) const & {
+  optional<T> HYDRA_THRUST_OPTIONAL_CPP11_CONSTEXPR or_else(F &&f) const & {
     return has_value() ? *this : std::forward<F>(f)();
   }
 
-#ifndef THRUST_OPTIONAL_NO_CONSTRR
+#ifndef HYDRA_THRUST_OPTIONAL_NO_CONSTRR
   /// \exclude
   __thrust_exec_check_disable__
   template <class F, detail::enable_if_ret_void<F> * = nullptr>
@@ -1162,7 +1162,7 @@ public:
                        : std::forward<U>(u);
   }
 
-#ifndef THRUST_OPTIONAL_NO_CONSTRR
+#ifndef HYDRA_THRUST_OPTIONAL_NO_CONSTRR
   /// \group map_or
   __thrust_exec_check_disable__
   template <class F, class U>
@@ -1212,7 +1212,7 @@ public:
                        : std::forward<U>(u)();
   }
 
-#ifndef THRUST_OPTIONAL_NO_CONSTRR
+#ifndef HYDRA_THRUST_OPTIONAL_NO_CONSTRR
   /// \group map_or_else
   /// \synopsis template <class F, class U>\nauto map_or_else(F &&f, U &&u)
   /// const &&;
@@ -1238,7 +1238,7 @@ public:
   /// \group disjunction
   __thrust_exec_check_disable__
   __hydra_host__ __hydra_device__
-  THRUST_OPTIONAL_CPP11_CONSTEXPR optional disjunction(const optional &rhs) & {
+  HYDRA_THRUST_OPTIONAL_CPP11_CONSTEXPR optional disjunction(const optional &rhs) & {
     return has_value() ? *this : rhs;
   }
 
@@ -1252,11 +1252,11 @@ public:
   /// \group disjunction
   __thrust_exec_check_disable__
   __hydra_host__ __hydra_device__
-  THRUST_OPTIONAL_CPP11_CONSTEXPR optional disjunction(const optional &rhs) && {
+  HYDRA_THRUST_OPTIONAL_CPP11_CONSTEXPR optional disjunction(const optional &rhs) && {
     return has_value() ? std::move(*this) : rhs;
   }
 
-#ifndef THRUST_OPTIONAL_NO_CONSTRR
+#ifndef HYDRA_THRUST_OPTIONAL_NO_CONSTRR
   /// \group disjunction
   __thrust_exec_check_disable__
   __hydra_host__ __hydra_device__
@@ -1268,7 +1268,7 @@ public:
   /// \group disjunction
   __thrust_exec_check_disable__
   __hydra_host__ __hydra_device__
-  THRUST_OPTIONAL_CPP11_CONSTEXPR optional disjunction(optional &&rhs) & {
+  HYDRA_THRUST_OPTIONAL_CPP11_CONSTEXPR optional disjunction(optional &&rhs) & {
     return has_value() ? *this : std::move(rhs);
   }
 
@@ -1282,11 +1282,11 @@ public:
   /// \group disjunction
   __thrust_exec_check_disable__
   __hydra_host__ __hydra_device__
-  THRUST_OPTIONAL_CPP11_CONSTEXPR optional disjunction(optional &&rhs) && {
+  HYDRA_THRUST_OPTIONAL_CPP11_CONSTEXPR optional disjunction(optional &&rhs) && {
     return has_value() ? std::move(*this) : std::move(rhs);
   }
 
-#ifndef THRUST_OPTIONAL_NO_CONSTRR
+#ifndef HYDRA_THRUST_OPTIONAL_NO_CONSTRR
   /// \group disjunction
   __thrust_exec_check_disable__
   __hydra_host__ __hydra_device__
@@ -1323,7 +1323,7 @@ public:
     return ret;
   }
 
-#ifndef THRUST_OPTIONAL_NO_CONSTRR
+#ifndef HYDRA_THRUST_OPTIONAL_NO_CONSTRR
   /// \group take
   __thrust_exec_check_disable__
   __hydra_host__ __hydra_device__
@@ -1351,14 +1351,14 @@ public:
   /// If `rhs` contains a value, the stored value is direct-initialized with
   /// it. Otherwise, the constructed optional is empty.
   __thrust_exec_check_disable__
-  THRUST_OPTIONAL_CPP11_CONSTEXPR optional(const optional &rhs) = default;
+  HYDRA_THRUST_OPTIONAL_CPP11_CONSTEXPR optional(const optional &rhs) = default;
 
   /// Move constructor
   ///
   /// If `rhs` contains a value, the stored value is direct-initialized with
   /// it. Otherwise, the constructed optional is empty.
   __thrust_exec_check_disable__
-  THRUST_OPTIONAL_CPP11_CONSTEXPR optional(optional &&rhs) = default;
+  HYDRA_THRUST_OPTIONAL_CPP11_CONSTEXPR optional(optional &&rhs) = default;
 
   /// Constructs the stored value in-place using the given arguments.
   /// \group in_place
@@ -1376,7 +1376,7 @@ public:
   __thrust_exec_check_disable__
   template <class U, class... Args>
   __hydra_host__ __hydra_device__
-  THRUST_OPTIONAL_CPP11_CONSTEXPR explicit optional(
+  HYDRA_THRUST_OPTIONAL_CPP11_CONSTEXPR explicit optional(
       detail::enable_if_t<std::is_constructible<T, std::initializer_list<U> &,
                                                 Args &&...>::value,
                           in_place_t>,
@@ -1585,7 +1585,7 @@ public:
                                    &&detail::is_nothrow_swappable<T>::value) {
     if (has_value()) {
       if (rhs.has_value()) {
-        using thrust::swap;
+        using HYDRA_EXTERNAL_NS::thrust::swap;
         swap(**this, *rhs);
       } else {
         new (addressof(rhs.m_value)) T(std::move(this->m_value));
@@ -1611,7 +1611,7 @@ public:
   /// \synopsis constexpr T *operator->();
   __thrust_exec_check_disable__
   __hydra_host__ __hydra_device__
-  THRUST_OPTIONAL_CPP11_CONSTEXPR T *operator->() {
+  HYDRA_THRUST_OPTIONAL_CPP11_CONSTEXPR T *operator->() {
     return addressof(this->m_value);
   }
 
@@ -1621,7 +1621,7 @@ public:
   /// \synopsis constexpr T &operator*();
   __thrust_exec_check_disable__
   __hydra_host__ __hydra_device__
-  THRUST_OPTIONAL_CPP11_CONSTEXPR T &operator*() & { return this->m_value; }
+  HYDRA_THRUST_OPTIONAL_CPP11_CONSTEXPR T &operator*() & { return this->m_value; }
 
   /// \group deref
   /// \synopsis constexpr const T &operator*() const;
@@ -1632,11 +1632,11 @@ public:
   /// \exclude
   __thrust_exec_check_disable__
   __hydra_host__ __hydra_device__
-  THRUST_OPTIONAL_CPP11_CONSTEXPR T &&operator*() && {
+  HYDRA_THRUST_OPTIONAL_CPP11_CONSTEXPR T &&operator*() && {
     return std::move(this->m_value);
   }
 
-#ifndef THRUST_OPTIONAL_NO_CONSTRR
+#ifndef HYDRA_THRUST_OPTIONAL_NO_CONSTRR
   /// \exclude
   __thrust_exec_check_disable__
   __hydra_host__ __hydra_device__
@@ -1661,7 +1661,7 @@ public:
   /// \group value
   /// \synopsis constexpr T &value();
   __hydra_host__
-  THRUST_OPTIONAL_CPP11_CONSTEXPR T &value() & {
+  HYDRA_THRUST_OPTIONAL_CPP11_CONSTEXPR T &value() & {
     if (has_value())
       return this->m_value;
     throw bad_optional_access();
@@ -1669,23 +1669,23 @@ public:
   /// \group value
   /// \synopsis constexpr const T &value() const;
   __hydra_host__
-  THRUST_OPTIONAL_CPP11_CONSTEXPR const T &value() const & {
+  HYDRA_THRUST_OPTIONAL_CPP11_CONSTEXPR const T &value() const & {
     if (has_value())
       return this->m_value;
     throw bad_optional_access();
   }
   /// \exclude
   __hydra_host__
-  THRUST_OPTIONAL_CPP11_CONSTEXPR T &&value() && {
+  HYDRA_THRUST_OPTIONAL_CPP11_CONSTEXPR T &&value() && {
     if (has_value())
       return std::move(this->m_value);
     throw bad_optional_access();
   }
 
-#ifndef THRUST_OPTIONAL_NO_CONSTRR
+#ifndef HYDRA_THRUST_OPTIONAL_NO_CONSTRR
   /// \exclude
   __hydra_host__
-  THRUST_OPTIONAL_CPP11_CONSTEXPR const T &&value() const && {
+  HYDRA_THRUST_OPTIONAL_CPP11_CONSTEXPR const T &&value() const && {
     if (has_value())
       return std::move(this->m_value);
     throw bad_optional_access();
@@ -1708,7 +1708,7 @@ public:
   __thrust_exec_check_disable__
   template <class U>
   __hydra_host__ __hydra_device__
-  THRUST_OPTIONAL_CPP11_CONSTEXPR T value_or(U &&u) && {
+  HYDRA_THRUST_OPTIONAL_CPP11_CONSTEXPR T value_or(U &&u) && {
     static_assert(std::is_move_constructible<T>::value &&
                       std::is_convertible<U &&, T>::value,
                   "T must be move constructible and convertible from U");
@@ -2003,7 +2003,7 @@ template <class T> optional(T)->optional<T>;
 
 /// \exclude
 namespace detail {
-#ifdef THRUST_OPTIONAL_CPP14
+#ifdef HYDRA_THRUST_OPTIONAL_CPP14
 __thrust_exec_check_disable__
 template <class Opt, class F,
           class Ret = decltype(detail::invoke(std::declval<F>(),
@@ -2067,7 +2067,7 @@ auto optional_map_impl(Opt &&opt, F &&f) -> optional<monostate> {
 ///
 /// ```
 /// int i = 42;
-/// thrust::optional<int&> o = i;
+/// HYDRA_EXTERNAL_NS::thrust::optional<int&> o = i;
 /// *o == 42; //true
 /// i = 12;
 /// *o = 12; //true
@@ -2088,8 +2088,8 @@ public:
 // types are not SFINAE-safe. This provides better support for things like
 // generic lambdas. C.f.
 // http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2017/p0826r0.html
-#if defined(THRUST_OPTIONAL_CPP14) && !defined(THRUST_OPTIONAL_GCC49) &&               \
-    !defined(THRUST_OPTIONAL_GCC54) && !defined(THRUST_OPTIONAL_GCC55)
+#if defined(HYDRA_THRUST_OPTIONAL_CPP14) && !defined(HYDRA_THRUST_OPTIONAL_GCC49) &&               \
+    !defined(HYDRA_THRUST_OPTIONAL_GCC54) && !defined(HYDRA_THRUST_OPTIONAL_GCC55)
   /// \group and_then
   /// Carries out some operation which returns an optional on the stored
   /// object if there is one. \requires `std::invoke(std::forward<F>(f),
@@ -2103,7 +2103,7 @@ public:
   __thrust_exec_check_disable__
   template <class F>
   __hydra_host__ __hydra_device__
-  THRUST_OPTIONAL_CPP11_CONSTEXPR auto and_then(F &&f) & {
+  HYDRA_THRUST_OPTIONAL_CPP11_CONSTEXPR auto and_then(F &&f) & {
     using result = detail::invoke_result_t<F, T &>;
     static_assert(detail::is_optional<result>::value,
                   "F must return an optional");
@@ -2117,7 +2117,7 @@ public:
   __thrust_exec_check_disable__
   template <class F>
   __hydra_host__ __hydra_device__
-  THRUST_OPTIONAL_CPP11_CONSTEXPR auto and_then(F &&f) && {
+  HYDRA_THRUST_OPTIONAL_CPP11_CONSTEXPR auto and_then(F &&f) && {
     using result = detail::invoke_result_t<F, T &>;
     static_assert(detail::is_optional<result>::value,
                   "F must return an optional");
@@ -2140,7 +2140,7 @@ public:
                        : result(nullopt);
   }
 
-#ifndef THRUST_OPTIONAL_NO_CONSTRR
+#ifndef HYDRA_THRUST_OPTIONAL_NO_CONSTRR
   /// \group and_then
   /// \synopsis template <class F>\nconstexpr auto and_then(F &&f) const &&;
   __thrust_exec_check_disable__
@@ -2169,7 +2169,7 @@ public:
   __thrust_exec_check_disable__
   template <class F>
   __hydra_host__ __hydra_device__
-  THRUST_OPTIONAL_CPP11_CONSTEXPR detail::invoke_result_t<F, T &> and_then(F &&f) & {
+  HYDRA_THRUST_OPTIONAL_CPP11_CONSTEXPR detail::invoke_result_t<F, T &> and_then(F &&f) & {
     using result = detail::invoke_result_t<F, T &>;
     static_assert(detail::is_optional<result>::value,
                   "F must return an optional");
@@ -2183,7 +2183,7 @@ public:
   __thrust_exec_check_disable__
   template <class F>
   __hydra_host__ __hydra_device__
-  THRUST_OPTIONAL_CPP11_CONSTEXPR detail::invoke_result_t<F, T &> and_then(F &&f) && {
+  HYDRA_THRUST_OPTIONAL_CPP11_CONSTEXPR detail::invoke_result_t<F, T &> and_then(F &&f) && {
     using result = detail::invoke_result_t<F, T &>;
     static_assert(detail::is_optional<result>::value,
                   "F must return an optional");
@@ -2206,7 +2206,7 @@ public:
                        : result(nullopt);
   }
 
-#ifndef THRUST_OPTIONAL_NO_CONSTRR
+#ifndef HYDRA_THRUST_OPTIONAL_NO_CONSTRR
   /// \group and_then
   /// \synopsis template <class F>\nconstexpr auto and_then(F &&f) const &&;
   __thrust_exec_check_disable__
@@ -2223,8 +2223,8 @@ public:
 #endif
 #endif
 
-#if defined(THRUST_OPTIONAL_CPP14) && !defined(THRUST_OPTIONAL_GCC49) &&               \
-    !defined(THRUST_OPTIONAL_GCC54) && !defined(THRUST_OPTIONAL_GCC55)
+#if defined(HYDRA_THRUST_OPTIONAL_CPP14) && !defined(HYDRA_THRUST_OPTIONAL_GCC49) &&               \
+    !defined(HYDRA_THRUST_OPTIONAL_GCC54) && !defined(HYDRA_THRUST_OPTIONAL_GCC55)
   /// \brief Carries out some operation on the stored object if there is one.
   /// \returns Let `U` be the result of `std::invoke(std::forward<F>(f),
   /// value())`. Returns a `std::optional<U>`. The return value is empty if
@@ -2237,7 +2237,7 @@ public:
   __thrust_exec_check_disable__
   template <class F>
   __hydra_host__ __hydra_device__
-  THRUST_OPTIONAL_CPP11_CONSTEXPR auto map(F &&f) & {
+  HYDRA_THRUST_OPTIONAL_CPP11_CONSTEXPR auto map(F &&f) & {
     return detail::optional_map_impl(*this, std::forward<F>(f));
   }
 
@@ -2246,7 +2246,7 @@ public:
   __thrust_exec_check_disable__
   template <class F>
   __hydra_host__ __hydra_device__
-  THRUST_OPTIONAL_CPP11_CONSTEXPR auto map(F &&f) && {
+  HYDRA_THRUST_OPTIONAL_CPP11_CONSTEXPR auto map(F &&f) && {
     return detail::optional_map_impl(std::move(*this), std::forward<F>(f));
   }
 
@@ -2280,7 +2280,7 @@ public:
   __thrust_exec_check_disable__
   template <class F>
   __hydra_host__ __hydra_device__
-  THRUST_OPTIONAL_CPP11_CONSTEXPR decltype(detail::optional_map_impl(std::declval<optional &>(),
+  HYDRA_THRUST_OPTIONAL_CPP11_CONSTEXPR decltype(detail::optional_map_impl(std::declval<optional &>(),
                                                      std::declval<F &&>()))
   map(F &&f) & {
     return detail::optional_map_impl(*this, std::forward<F>(f));
@@ -2291,7 +2291,7 @@ public:
   __thrust_exec_check_disable__
   template <class F>
   __hydra_host__ __hydra_device__
-  THRUST_OPTIONAL_CPP11_CONSTEXPR decltype(detail::optional_map_impl(std::declval<optional &&>(),
+  HYDRA_THRUST_OPTIONAL_CPP11_CONSTEXPR decltype(detail::optional_map_impl(std::declval<optional &&>(),
                                                      std::declval<F &&>()))
   map(F &&f) && {
     return detail::optional_map_impl(std::move(*this), std::forward<F>(f));
@@ -2308,7 +2308,7 @@ public:
     return detail::optional_map_impl(*this, std::forward<F>(f));
   }
 
-#ifndef THRUST_OPTIONAL_NO_CONSTRR
+#ifndef HYDRA_THRUST_OPTIONAL_NO_CONSTRR
   /// \group map
   /// \synopsis template <class F> auto map(F &&f) const&&;
   __thrust_exec_check_disable__
@@ -2334,7 +2334,7 @@ public:
   template <class F, detail::enable_if_ret_void<F> * = nullptr>
   __hydra_host__ __hydra_device__
   optional<T>
-  THRUST_OPTIONAL_CPP11_CONSTEXPR or_else(F &&f) & {
+  HYDRA_THRUST_OPTIONAL_CPP11_CONSTEXPR or_else(F &&f) & {
     if (has_value())
       return *this;
 
@@ -2347,7 +2347,7 @@ public:
   template <class F, detail::disable_if_ret_void<F> * = nullptr>
   __hydra_host__ __hydra_device__
   optional<T>
-  THRUST_OPTIONAL_CPP11_CONSTEXPR or_else(F &&f) & {
+  HYDRA_THRUST_OPTIONAL_CPP11_CONSTEXPR or_else(F &&f) & {
     return has_value() ? *this : std::forward<F>(f)();
   }
 
@@ -2368,7 +2368,7 @@ public:
   __thrust_exec_check_disable__
   template <class F, detail::disable_if_ret_void<F> * = nullptr>
   __hydra_host__ __hydra_device__
-  optional<T> THRUST_OPTIONAL_CPP11_CONSTEXPR or_else(F &&f) && {
+  optional<T> HYDRA_THRUST_OPTIONAL_CPP11_CONSTEXPR or_else(F &&f) && {
     return has_value() ? std::move(*this) : std::forward<F>(f)();
   }
 
@@ -2389,11 +2389,11 @@ public:
   __thrust_exec_check_disable__
   template <class F, detail::disable_if_ret_void<F> * = nullptr>
   __hydra_host__ __hydra_device__
-  optional<T> THRUST_OPTIONAL_CPP11_CONSTEXPR or_else(F &&f) const & {
+  optional<T> HYDRA_THRUST_OPTIONAL_CPP11_CONSTEXPR or_else(F &&f) const & {
     return has_value() ? *this : std::forward<F>(f)();
   }
 
-#ifndef THRUST_OPTIONAL_NO_CONSTRR
+#ifndef HYDRA_THRUST_OPTIONAL_NO_CONSTRR
   /// \exclude
   __thrust_exec_check_disable__
   template <class F, detail::enable_if_ret_void<F> * = nullptr>
@@ -2448,7 +2448,7 @@ public:
                        : std::forward<U>(u);
   }
 
-#ifndef THRUST_OPTIONAL_NO_CONSTRR
+#ifndef HYDRA_THRUST_OPTIONAL_NO_CONSTRR
   /// \group map_or
   __thrust_exec_check_disable__
   template <class F, class U>
@@ -2498,7 +2498,7 @@ public:
                        : std::forward<U>(u)();
   }
 
-#ifndef THRUST_OPTIONAL_NO_CONSTRR
+#ifndef HYDRA_THRUST_OPTIONAL_NO_CONSTRR
   /// \group map_or_else
   /// \synopsis template <class F, class U>\nauto map_or_else(F &&f, U &&u)
   /// const &&;
@@ -2524,7 +2524,7 @@ public:
   /// \group disjunction
   __thrust_exec_check_disable__
   __hydra_host__ __hydra_device__
-  THRUST_OPTIONAL_CPP11_CONSTEXPR optional disjunction(const optional &rhs) & {
+  HYDRA_THRUST_OPTIONAL_CPP11_CONSTEXPR optional disjunction(const optional &rhs) & {
     return has_value() ? *this : rhs;
   }
 
@@ -2538,11 +2538,11 @@ public:
   /// \group disjunction
   __thrust_exec_check_disable__
   __hydra_host__ __hydra_device__
-  THRUST_OPTIONAL_CPP11_CONSTEXPR optional disjunction(const optional &rhs) && {
+  HYDRA_THRUST_OPTIONAL_CPP11_CONSTEXPR optional disjunction(const optional &rhs) && {
     return has_value() ? std::move(*this) : rhs;
   }
 
-#ifndef THRUST_OPTIONAL_NO_CONSTRR
+#ifndef HYDRA_THRUST_OPTIONAL_NO_CONSTRR
   /// \group disjunction
   __thrust_exec_check_disable__
   __hydra_host__ __hydra_device__
@@ -2554,7 +2554,7 @@ public:
   /// \group disjunction
   __thrust_exec_check_disable__
   __hydra_host__ __hydra_device__
-  THRUST_OPTIONAL_CPP11_CONSTEXPR optional disjunction(optional &&rhs) & {
+  HYDRA_THRUST_OPTIONAL_CPP11_CONSTEXPR optional disjunction(optional &&rhs) & {
     return has_value() ? *this : std::move(rhs);
   }
 
@@ -2568,11 +2568,11 @@ public:
   /// \group disjunction
   __thrust_exec_check_disable__
   __hydra_host__ __hydra_device__
-  THRUST_OPTIONAL_CPP11_CONSTEXPR optional disjunction(optional &&rhs) && {
+  HYDRA_THRUST_OPTIONAL_CPP11_CONSTEXPR optional disjunction(optional &&rhs) && {
     return has_value() ? std::move(*this) : std::move(rhs);
   }
 
-#ifndef THRUST_OPTIONAL_NO_CONSTRR
+#ifndef HYDRA_THRUST_OPTIONAL_NO_CONSTRR
   /// \group disjunction
   __thrust_exec_check_disable__
   __hydra_host__ __hydra_device__
@@ -2609,7 +2609,7 @@ public:
     return ret;
   }
 
-#ifndef THRUST_OPTIONAL_NO_CONSTRR
+#ifndef HYDRA_THRUST_OPTIONAL_NO_CONSTRR
   /// \group take
   __thrust_exec_check_disable__
   __hydra_host__ __hydra_device__
@@ -2638,14 +2638,14 @@ public:
   /// If `rhs` contains a value, the stored value is direct-initialized with
   /// it. Otherwise, the constructed optional is empty.
   __thrust_exec_check_disable__
-  THRUST_OPTIONAL_CPP11_CONSTEXPR optional(const optional &rhs) noexcept = default;
+  HYDRA_THRUST_OPTIONAL_CPP11_CONSTEXPR optional(const optional &rhs) noexcept = default;
 
   /// Move constructor
   ///
   /// If `rhs` contains a value, the stored value is direct-initialized with
   /// it. Otherwise, the constructed optional is empty.
   __thrust_exec_check_disable__
-  THRUST_OPTIONAL_CPP11_CONSTEXPR optional(optional &&rhs) = default;
+  HYDRA_THRUST_OPTIONAL_CPP11_CONSTEXPR optional(optional &&rhs) = default;
 
   /// Constructs the stored value with `u`.
   /// \synopsis template <class U=T> constexpr optional(U &&u);
@@ -2749,14 +2749,14 @@ public:
   /// \synopsis constexpr T *operator->();
   __thrust_exec_check_disable__
   __hydra_host__ __hydra_device__
-  THRUST_OPTIONAL_CPP11_CONSTEXPR T *operator->() { return m_value; }
+  HYDRA_THRUST_OPTIONAL_CPP11_CONSTEXPR T *operator->() { return m_value; }
 
   /// \returns the stored value
   /// \requires a value is stored
   /// \group deref
   /// \synopsis constexpr T &operator*();
   __thrust_exec_check_disable__
-  THRUST_OPTIONAL_CPP11_CONSTEXPR T &operator*() { return *m_value; }
+  HYDRA_THRUST_OPTIONAL_CPP11_CONSTEXPR T &operator*() { return *m_value; }
 
   /// \group deref
   /// \synopsis constexpr const T &operator*() const;
@@ -2782,7 +2782,7 @@ public:
   /// \group value
   /// synopsis constexpr T &value();
   __hydra_host__
-  THRUST_OPTIONAL_CPP11_CONSTEXPR T &value() {
+  HYDRA_THRUST_OPTIONAL_CPP11_CONSTEXPR T &value() {
     if (has_value())
       return *m_value;
     throw bad_optional_access();
@@ -2790,7 +2790,7 @@ public:
   /// \group value
   /// \synopsis constexpr const T &value() const;
   __hydra_host__
-  THRUST_OPTIONAL_CPP11_CONSTEXPR const T &value() const {
+  HYDRA_THRUST_OPTIONAL_CPP11_CONSTEXPR const T &value() const {
     if (has_value())
       return *m_value;
     throw bad_optional_access();
@@ -2812,7 +2812,7 @@ public:
   __thrust_exec_check_disable__
   template <class U>
   __hydra_host__ __hydra_device__
-  THRUST_OPTIONAL_CPP11_CONSTEXPR T value_or(U &&u) && {
+  HYDRA_THRUST_OPTIONAL_CPP11_CONSTEXPR T value_or(U &&u) && {
     static_assert(std::is_move_constructible<T>::value &&
                       std::is_convertible<U &&, T>::value,
                   "T must be move constructible and convertible from U");
@@ -2827,21 +2827,21 @@ private:
   T *m_value;
 };
 
-THRUST_END_NS
+HYDRA_THRUST_END_NS
 
 namespace std {
 // TODO SFINAE
-template <class T> struct hash<thrust::optional<T>> {
+template <class T> struct hash<HYDRA_EXTERNAL_NS::thrust::optional<T>> {
   __thrust_exec_check_disable__
   __hydra_host__ __hydra_device__
-  ::std::size_t operator()(const thrust::optional<T> &o) const {
+  ::std::size_t operator()(const HYDRA_EXTERNAL_NS::thrust::optional<T> &o) const {
     if (!o.has_value())
       return 0;
 
-    return std::hash<thrust::detail::remove_const_t<T>>()(*o);
+    return std::hash<HYDRA_EXTERNAL_NS::thrust::detail::remove_const_t<T>>()(*o);
   }
 };
 } // namespace std
 
-#endif // THRUST_CPP_DIALECT >= 2011
+#endif // HYDRA_THRUST_CPP_DIALECT >= 2011
 

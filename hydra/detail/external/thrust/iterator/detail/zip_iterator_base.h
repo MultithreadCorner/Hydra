@@ -130,9 +130,9 @@ template<
     class BinaryMetaFun
   , typename StartType
 >
-  struct tuple_meta_accumulate<thrust::tuple<>,BinaryMetaFun,StartType>
+  struct tuple_meta_accumulate<HYDRA_EXTERNAL_NS::thrust::tuple<>,BinaryMetaFun,StartType>
 {
-   typedef typename thrust::detail::identity_<StartType>::type type;
+   typedef typename HYDRA_EXTERNAL_NS::thrust::detail::identity_<StartType>::type type;
 };
 
 
@@ -142,13 +142,13 @@ template<
   , typename    T
   , typename... Types
 >
-  struct tuple_meta_accumulate<thrust::tuple<T,Types...>,BinaryMetaFun,StartType>
+  struct tuple_meta_accumulate<HYDRA_EXTERNAL_NS::thrust::tuple<T,Types...>,BinaryMetaFun,StartType>
 {
    typedef typename apply2<
        BinaryMetaFun
      , T
      , typename tuple_meta_accumulate<
-           thrust::tuple<Types...>
+           HYDRA_EXTERNAL_NS::thrust::tuple<Types...>
          , BinaryMetaFun
          , StartType 
        >::type
@@ -173,17 +173,17 @@ Fun tuple_for_each_helper(Fun f, T& t, Types&... ts)
 
 template<typename Fun, typename... Types, size_t... I>
 inline __hydra_host__ __hydra_device__
-Fun tuple_for_each(thrust::tuple<Types...>& t, Fun f, thrust::__index_sequence<I...>)
+Fun tuple_for_each(HYDRA_EXTERNAL_NS::thrust::tuple<Types...>& t, Fun f, HYDRA_EXTERNAL_NS::thrust::__index_sequence<I...>)
 {
-  return tuple_for_each_helper(f, thrust::get<I>(t)...);
+  return tuple_for_each_helper(f, HYDRA_EXTERNAL_NS::thrust::get<I>(t)...);
 };
 
 // for_each algorithm for tuples.
 template<typename Fun, typename... Types>
 inline __hydra_host__ __hydra_device__
-Fun tuple_for_each(thrust::tuple<Types...>& t, Fun f)
+Fun tuple_for_each(HYDRA_EXTERNAL_NS::thrust::tuple<Types...>& t, Fun f)
 { 
-  return tuple_for_each(t, f, thrust::__make_index_sequence<thrust::tuple_size<thrust::tuple<Types...>>::value>{});    // XXX __index_sequence_for<Types...>{} upon variadic tuple
+  return tuple_for_each(t, f, HYDRA_EXTERNAL_NS::thrust::__make_index_sequence<HYDRA_EXTERNAL_NS::thrust::tuple_size<HYDRA_EXTERNAL_NS::thrust::tuple<Types...>>::value>{});    // XXX __index_sequence_for<Types...>{} upon variadic tuple
 }
 
 
@@ -220,13 +220,13 @@ struct minimum_traversal_category_in_iterator_tuple
 {
   typedef typename tuple_meta_transform<
       IteratorTuple
-    , thrust::iterator_traversal
+    , HYDRA_EXTERNAL_NS::thrust::iterator_traversal
   >::type tuple_of_traversal_tags;
       
   typedef typename tuple_impl_specific::tuple_meta_accumulate<
       tuple_of_traversal_tags
     , minimum_category_lambda
-    , thrust::random_access_traversal_tag
+    , HYDRA_EXTERNAL_NS::thrust::random_access_traversal_tag
   >::type type;
 };
 
@@ -245,15 +245,15 @@ struct minimum_system_lambda
 template<typename IteratorTuple>
 struct minimum_system_in_iterator_tuple
 {
-  typedef typename thrust::detail::tuple_meta_transform<
+  typedef typename HYDRA_EXTERNAL_NS::thrust::detail::tuple_meta_transform<
     IteratorTuple,
-    thrust::iterator_system
+    HYDRA_EXTERNAL_NS::thrust::iterator_system
   >::type tuple_of_system_tags;
 
   typedef typename tuple_impl_specific::tuple_meta_accumulate<
     tuple_of_system_tags,
     minimum_system_lambda,
-    thrust::any_system_tag
+    HYDRA_EXTERNAL_NS::thrust::any_system_tag
   >::type type;
 };
 
@@ -261,15 +261,15 @@ namespace zip_iterator_base_ns
 {
 
 
-#ifdef THRUST_VARIADIC_TUPLE
+#ifdef HYDRA_THRUST_VARIADIC_TUPLE
 template<typename Tuple, typename IndexSequence>
   struct tuple_of_iterator_references_helper;
 
 template<typename Tuple, size_t... I>
-  struct tuple_of_iterator_references_helper<Tuple, thrust::__index_sequence<I...>>
+  struct tuple_of_iterator_references_helper<Tuple, HYDRA_EXTERNAL_NS::thrust::__index_sequence<I...>>
 {
-  typedef thrust::detail::tuple_of_iterator_references<
-    typename thrust::tuple_element<I,Tuple>::type...
+  typedef HYDRA_EXTERNAL_NS::thrust::detail::tuple_of_iterator_references<
+    typename HYDRA_EXTERNAL_NS::thrust::tuple_element<I,Tuple>::type...
   > type;
 };
 #else
@@ -278,7 +278,7 @@ template<int i, typename Tuple>
     : eval_if<
         (i < tuple_size<Tuple>::value),
         tuple_element<i,Tuple>,
-        identity_<thrust::null_type>
+        identity_<HYDRA_EXTERNAL_NS::thrust::null_type>
       >
 {};
 
@@ -303,24 +303,24 @@ template<typename Tuple>
 template<typename IteratorTuple>
   struct tuple_of_iterator_references
 {
-  // get a thrust::tuple of the iterators' references
+  // get a HYDRA_EXTERNAL_NS::thrust::tuple of the iterators' references
   typedef typename tuple_meta_transform<
     IteratorTuple,
     iterator_reference
   >::type tuple_of_references;
 
-#ifdef THRUST_VARIADIC_TUPLE
-  // map thrust::tuple<T...> to tuple_of_iterator_references<T...>
+#ifdef HYDRA_THRUST_VARIADIC_TUPLE
+  // map HYDRA_EXTERNAL_NS::thrust::tuple<T...> to tuple_of_iterator_references<T...>
   typedef typename tuple_of_iterator_references_helper<
     tuple_of_references,
-    thrust::__make_index_sequence<thrust::tuple_size<tuple_of_references>::value>
+    HYDRA_EXTERNAL_NS::thrust::__make_index_sequence<HYDRA_EXTERNAL_NS::thrust::tuple_size<tuple_of_references>::value>
   >::type type;
 #else
   // get at the individual tuple element types by name
   typedef tuple_elements<tuple_of_references> elements;
 
-  // map thrust::tuple<T...> to tuple_of_iterator_references<T...>
-  typedef thrust::detail::tuple_of_iterator_references<
+  // map HYDRA_EXTERNAL_NS::thrust::tuple<T...> to tuple_of_iterator_references<T...>
+  typedef HYDRA_EXTERNAL_NS::thrust::detail::tuple_of_iterator_references<
     typename elements::T0,
     typename elements::T1,
     typename elements::T2,
@@ -358,8 +358,8 @@ template<typename IteratorTuple>
     typedef typename tuple_of_value_types<IteratorTuple>::type value_type;
 
     // Difference type is the first iterator's difference type
-    typedef typename thrust::iterator_traits<
-      typename thrust::tuple_element<0, IteratorTuple>::type
+    typedef typename HYDRA_EXTERNAL_NS::thrust::iterator_traits<
+      typename HYDRA_EXTERNAL_NS::thrust::tuple_element<0, IteratorTuple>::type
     >::difference_type difference_type;
 
     // Iterator system is the minimum system tag in the
@@ -376,7 +376,7 @@ template<typename IteratorTuple>
   
     // The iterator facade type from which the zip iterator will
     // be derived.
-    typedef thrust::iterator_facade<
+    typedef HYDRA_EXTERNAL_NS::thrust::iterator_facade<
         zip_iterator<IteratorTuple>,
         value_type,  
         system,

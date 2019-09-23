@@ -27,7 +27,7 @@
 #pragma once
 
 
-#if THRUST_DEVICE_COMPILER == THRUST_DEVICE_COMPILER_NVCC
+#if HYDRA_THRUST_DEVICE_COMPILER == HYDRA_THRUST_DEVICE_COMPILER_NVCC
 #include <hydra/detail/external/thrust/system/cuda/config.h>
 #include <hydra/detail/external/thrust/detail/type_traits.h>
 
@@ -49,7 +49,7 @@
 
 HYDRA_EXTERNAL_NAMESPACE_BEGIN
 
-THRUST_BEGIN_NS
+HYDRA_THRUST_BEGIN_NS
 
 template <typename DerivedPolicy,
           typename InputIterator1,
@@ -57,9 +57,9 @@ template <typename DerivedPolicy,
           typename OutputIterator1,
           typename OutputIterator2,
           typename BinaryPredicate>
-__hydra_host__ __hydra_device__ thrust::pair<OutputIterator1, OutputIterator2>
+__hydra_host__ __hydra_device__ HYDRA_EXTERNAL_NS::thrust::pair<OutputIterator1, OutputIterator2>
 reduce_by_key(
-    const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
+    const HYDRA_EXTERNAL_NS::thrust::detail::execution_policy_base<DerivedPolicy> &exec,
     InputIterator1                                              keys_first,
     InputIterator1                                              keys_last,
     InputIterator2                                              values_first,
@@ -71,10 +71,10 @@ namespace cuda_cub {
 
 namespace __reduce_by_key {
   
-  template<bool> struct is_true : thrust::detail::false_type {};
-  template<> struct is_true<true> : thrust::detail::true_type {};
+  template<bool> struct is_true : HYDRA_EXTERNAL_NS::thrust::detail::false_type {};
+  template<> struct is_true<true> : HYDRA_EXTERNAL_NS::thrust::detail::true_type {};
 
-  namespace mpl = thrust::detail::mpl::math;
+  namespace mpl = HYDRA_EXTERNAL_NS::thrust::detail::mpl::math;
 
   template <int                     _BLOCK_THREADS,
             int                     _ITEMS_PER_THREAD = 1,
@@ -275,9 +275,9 @@ namespace __reduce_by_key {
 
       // Whether or not the scan operation has a zero-valued identity value
       // (true if we're performing addition on a primitive type)
-      HAS_IDENTITY_ZERO = thrust::detail::is_same<ReductionOp,
+      HAS_IDENTITY_ZERO = HYDRA_EXTERNAL_NS::thrust::detail::is_same<ReductionOp,
                                                   plus<value_type> >::value &&
-                          thrust::detail::is_arithmetic<value_type>::value
+                          HYDRA_EXTERNAL_NS::thrust::detail::is_arithmetic<value_type>::value
     };
 
     struct impl
@@ -301,10 +301,10 @@ namespace __reduce_by_key {
 
       // Scan with identity (first tile)
       //
-      THRUST_DEVICE_FUNCTION void
+      HYDRA_THRUST_DEVICE_FUNCTION void
       scan_tile(size_value_pair_t (&scan_items)[ITEMS_PER_THREAD],
                 size_value_pair_t &tile_aggregate,
-                thrust::detail::true_type /* has_identity */)
+                HYDRA_EXTERNAL_NS::thrust::detail::true_type /* has_identity */)
       {
         size_value_pair_t identity;
         identity.value = 0;
@@ -316,10 +316,10 @@ namespace __reduce_by_key {
       // Scan without identity (first tile).
       // Without an identity, the first output item is undefined.
       //
-      THRUST_DEVICE_FUNCTION void
+      HYDRA_THRUST_DEVICE_FUNCTION void
       scan_tile(size_value_pair_t (&scan_items)[ITEMS_PER_THREAD],
                 size_value_pair_t &tile_aggregate,
-                thrust::detail::false_type /* has_identity */)
+                HYDRA_EXTERNAL_NS::thrust::detail::false_type /* has_identity */)
       {
         BlockScan(storage.scan)
             .ExclusiveScan(scan_items, scan_items, scan_op, tile_aggregate);
@@ -327,11 +327,11 @@ namespace __reduce_by_key {
 
       // Scan with identity (subsequent tile)
       //
-      THRUST_DEVICE_FUNCTION void
+      HYDRA_THRUST_DEVICE_FUNCTION void
       scan_tile(size_value_pair_t (&scan_items)[ITEMS_PER_THREAD],
                 size_value_pair_t & tile_aggregate,
                 TilePrefixCallback &prefix_op,
-                thrust::detail::true_type /*  has_identity */)
+                HYDRA_EXTERNAL_NS::thrust::detail::true_type /*  has_identity */)
       {
         BlockScan(storage.scan)
             .ExclusiveScan(scan_items,
@@ -343,11 +343,11 @@ namespace __reduce_by_key {
 
       // Scan without identity (subsequent tile).
       // Without an identity, the first output item is undefined.
-      THRUST_DEVICE_FUNCTION void
+      HYDRA_THRUST_DEVICE_FUNCTION void
       scan_tile(size_value_pair_t (&scan_items)[ITEMS_PER_THREAD],
                 size_value_pair_t & tile_aggregate,
                 TilePrefixCallback &prefix_op,
-                thrust::detail::false_type /* has_identity */)
+                HYDRA_EXTERNAL_NS::thrust::detail::false_type /* has_identity */)
       {
         BlockScan(storage.scan)
             .ExclusiveScan(scan_items,
@@ -363,7 +363,7 @@ namespace __reduce_by_key {
 
 
       template <bool IS_LAST_TILE>
-      THRUST_DEVICE_FUNCTION void
+      HYDRA_THRUST_DEVICE_FUNCTION void
       zip_values_and_flags(size_type num_remaining,
                            value_type (&values)[ITEMS_PER_THREAD],
                            size_type (&segment_flags)[ITEMS_PER_THREAD],
@@ -383,7 +383,7 @@ namespace __reduce_by_key {
         }
       }
 
-      THRUST_DEVICE_FUNCTION void zip_keys_and_values(
+      HYDRA_THRUST_DEVICE_FUNCTION void zip_keys_and_values(
           key_type (&keys)[ITEMS_PER_THREAD],
           size_type (&segment_indices)[ITEMS_PER_THREAD],
           size_value_pair_t (&scan_items)[ITEMS_PER_THREAD],
@@ -405,7 +405,7 @@ namespace __reduce_by_key {
     
       // Directly scatter flagged items to output offsets
       // (specialized for IS_SEGMENTED_REDUCTION_FIXUP == false)
-      THRUST_DEVICE_FUNCTION void scatter_direct(
+      HYDRA_THRUST_DEVICE_FUNCTION void scatter_direct(
           key_value_pair_t (&scatter_items)[ITEMS_PER_THREAD],
           size_type (&segment_flags)[ITEMS_PER_THREAD],
           size_type (&segment_indices)[ITEMS_PER_THREAD])
@@ -429,7 +429,7 @@ namespace __reduce_by_key {
       // the previous value aggregate: 
       //   * the scatter offsets must be decremented for value aggregates
       //
-      THRUST_DEVICE_FUNCTION void scatter_two_phase(
+      HYDRA_THRUST_DEVICE_FUNCTION void scatter_two_phase(
           key_value_pair_t (&scatter_items)[ITEMS_PER_THREAD],
           size_type (&segment_flags)[ITEMS_PER_THREAD],
           size_type (&segment_indices)[ITEMS_PER_THREAD],
@@ -465,7 +465,7 @@ namespace __reduce_by_key {
 
       // Scatter flagged items
       //
-      THRUST_DEVICE_FUNCTION void scatter(
+      HYDRA_THRUST_DEVICE_FUNCTION void scatter(
           key_value_pair_t (&scatter_items)[ITEMS_PER_THREAD],
           size_type (&segment_flags)[ITEMS_PER_THREAD],
           size_type (&segment_indices)[ITEMS_PER_THREAD],
@@ -496,7 +496,7 @@ namespace __reduce_by_key {
 
       // Finalize the carry-out from the last tile
       // (specialized for IS_SEGMENTED_REDUCTION_FIXUP == false)
-      THRUST_DEVICE_FUNCTION void
+      HYDRA_THRUST_DEVICE_FUNCTION void
       finalize_last_tile(size_type num_segments,
                          size_type num_remaining,
                          key_type    last_key,
@@ -529,7 +529,7 @@ namespace __reduce_by_key {
       // and aggregated values (including this tile)
       //
       template <bool IS_LAST_TILE>
-      THRUST_DEVICE_FUNCTION void
+      HYDRA_THRUST_DEVICE_FUNCTION void
       consume_first_tile(Size           num_remaining,
                          Size           tile_offset,
                          ScanTileState &tile_state)
@@ -641,7 +641,7 @@ namespace __reduce_by_key {
       // and aggregated values (including this tile)
 
       template <bool IS_LAST_TILE>
-      THRUST_DEVICE_FUNCTION void
+      HYDRA_THRUST_DEVICE_FUNCTION void
       consume_subsequent_tile(Size           num_remaining,
                               int            tile_idx,
                               Size           tile_offset,
@@ -738,7 +738,7 @@ namespace __reduce_by_key {
         }
       }
       template <bool IS_LAST_TILE>
-      THRUST_DEVICE_FUNCTION void
+      HYDRA_THRUST_DEVICE_FUNCTION void
       consume_tile(size_type      num_remaining,
                    int            tile_idx,
                    size_type      tile_offset,
@@ -763,7 +763,7 @@ namespace __reduce_by_key {
       // Constructor : consume_range
       //---------------------------------------------------------------------
 
-      THRUST_DEVICE_FUNCTION impl(TempStorage &   storage_,
+      HYDRA_THRUST_DEVICE_FUNCTION impl(TempStorage &   storage_,
                                   KeysInputIt     keys_input_it_,
                                   ValuesInputIt   values_input_it_,
                                   KeysOutputIt    keys_output_it_,
@@ -807,7 +807,7 @@ namespace __reduce_by_key {
     // Agent entry point
     //---------------------------------------------------------------------
 
-    THRUST_AGENT_ENTRY(KeysInputIt     keys_input_it,
+    HYDRA_THRUST_AGENT_ENTRY(KeysInputIt     keys_input_it,
                        ValuesInputIt   values_input_it,
                        KeysOutputIt    keys_output_it,
                        ValuesOutputIt  values_output_it,
@@ -849,7 +849,7 @@ namespace __reduce_by_key {
     // Agent entry point
     //---------------------------------------------------------------------
 
-    THRUST_AGENT_ENTRY(ScanTileState tile_state,
+    HYDRA_THRUST_AGENT_ENTRY(ScanTileState tile_state,
                        Size          num_tiles,
                        NumSelectedIt num_selected_out,
                        char *        /*shmem*/)
@@ -868,7 +868,7 @@ namespace __reduce_by_key {
             class EqualityOp,
             class ReductionOp,
             class Size>
-  THRUST_RUNTIME_FUNCTION cudaError_t
+  HYDRA_THRUST_RUNTIME_FUNCTION cudaError_t
   doit_step(void *          d_temp_storage,
             size_t &        temp_storage_bytes,
             KeysInputIt     keys_input_it,
@@ -970,7 +970,7 @@ namespace __reduce_by_key {
             typename ValuesOutputIt,
             typename EqualityOp,
             typename ReductionOp>
-  THRUST_RUNTIME_FUNCTION
+  HYDRA_THRUST_RUNTIME_FUNCTION
   pair<KeysOutputIt, ValuesOutputIt>
   reduce_by_key(execution_policy<Derived>& policy,
                 KeysInputIt                keys_first,
@@ -983,13 +983,13 @@ namespace __reduce_by_key {
   {
     typedef int size_type;
 
-    size_type    num_items          = static_cast<size_type>(thrust::distance(keys_first, keys_last));
+    size_type    num_items          = static_cast<size_type>(HYDRA_EXTERNAL_NS::thrust::distance(keys_first, keys_last));
     size_t       temp_storage_bytes = 0;
     cudaStream_t stream             = cuda_cub::stream(policy);
-    bool         debug_sync         = THRUST_DEBUG_SYNC_FLAG;
+    bool         debug_sync         = HYDRA_THRUST_DEBUG_SYNC_FLAG;
     
     if (num_items == 0)
-      return thrust::make_pair(keys_output, values_output);
+      return HYDRA_EXTERNAL_NS::thrust::make_pair(keys_output, values_output);
 
     cudaError_t status;
     status = doit_step(NULL,
@@ -1017,7 +1017,7 @@ namespace __reduce_by_key {
     cuda_cub::throw_on_error(status, "reduce failed on 1st alias_storage");
 
     // Allocate temporary storage.
-    thrust::detail::temporary_array<thrust::detail::uint8_t, Derived>
+    HYDRA_EXTERNAL_NS::thrust::detail::temporary_array<HYDRA_EXTERNAL_NS::thrust::detail::uint8_t, Derived>
       tmp(policy, storage_size);
     void *ptr = static_cast<void*>(tmp.data().get());
 
@@ -1028,7 +1028,7 @@ namespace __reduce_by_key {
     cuda_cub::throw_on_error(status, "reduce failed on 2nd alias_storage");
 
     size_type* d_num_runs_out
-      = thrust::detail::aligned_reinterpret_cast<size_type*>(allocations[0]);
+      = HYDRA_EXTERNAL_NS::thrust::detail::aligned_reinterpret_cast<size_type*>(allocations[0]);
 
     status = doit_step(allocations[1],
                        temp_storage_bytes,
@@ -1049,7 +1049,7 @@ namespace __reduce_by_key {
 
     int num_runs_out = cuda_cub::get_value(policy, d_num_runs_out);
 
-    return thrust::make_pair(
+    return HYDRA_EXTERNAL_NS::thrust::make_pair(
       keys_output + num_runs_out,
       values_output + num_runs_out
     );
@@ -1079,8 +1079,8 @@ reduce_by_key(execution_policy<Derived> &policy,
               BinaryPred                 binary_pred,
               BinaryOp                   binary_op)
 {
-  pair<KeyOutputIt, ValOutputIt> ret = thrust::make_pair(keys_output, values_output);
-  if (__THRUST_HAS_CUDART__)
+  pair<KeyOutputIt, ValOutputIt> ret = HYDRA_EXTERNAL_NS::thrust::make_pair(keys_output, values_output);
+  if (__HYDRA_THRUST_HAS_CUDART__)
   {
     ret = __reduce_by_key::reduce_by_key(policy,
                                          keys_first,
@@ -1093,8 +1093,8 @@ reduce_by_key(execution_policy<Derived> &policy,
   }
   else
   {
-#if !__THRUST_HAS_CUDART__
-    ret = thrust::reduce_by_key(cvt_to_seq(derived_cast(policy)),
+#if !__HYDRA_THRUST_HAS_CUDART__
+    ret = HYDRA_EXTERNAL_NS::thrust::reduce_by_key(cvt_to_seq(derived_cast(policy)),
                                 keys_first,
                                 keys_last,
                                 values_first,
@@ -1123,10 +1123,10 @@ reduce_by_key(execution_policy<Derived> &policy,
               ValOutputIt                values_output,
               BinaryPred                 binary_pred)
 {
-  typedef typename thrust::detail::eval_if<
-    thrust::detail::is_output_iterator<ValOutputIt>::value,
-    thrust::iterator_value<ValInputIt>,
-    thrust::iterator_value<ValOutputIt>
+  typedef typename HYDRA_EXTERNAL_NS::thrust::detail::eval_if<
+    HYDRA_EXTERNAL_NS::thrust::detail::is_output_iterator<ValOutputIt>::value,
+    HYDRA_EXTERNAL_NS::thrust::iterator_value<ValInputIt>,
+    HYDRA_EXTERNAL_NS::thrust::iterator_value<ValOutputIt>
   >::type value_type;
   return cuda_cub::reduce_by_key(policy,
                               keys_first,
@@ -1151,7 +1151,7 @@ reduce_by_key(execution_policy<Derived> &policy,
               KeyOutputIt                keys_output,
               ValOutputIt                values_output)
 {
-  typedef typename thrust::iterator_value<KeyInputIt>::type KeyT;
+  typedef typename HYDRA_EXTERNAL_NS::thrust::iterator_value<KeyInputIt>::type KeyT;
   return cuda_cub::reduce_by_key(policy,
                               keys_first,
                               keys_last,
@@ -1163,7 +1163,7 @@ reduce_by_key(execution_policy<Derived> &policy,
 
 } // namespace cuda_
 
-THRUST_END_NS
+HYDRA_THRUST_END_NS
 
 HYDRA_EXTERNAL_NAMESPACE_END
 

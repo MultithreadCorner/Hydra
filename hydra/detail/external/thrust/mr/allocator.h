@@ -46,7 +46,7 @@ namespace mr
  *
  *  \tparam T the type that will be allocated by this allocator.
  *  \tparam MR the upstream memory resource to use for memory allocation. Must derive from
- *      \p thrust::mr::memory_resource and must be \p final (in C++11 and beyond).
+ *      \p HYDRA_EXTERNAL_NS::thrust::mr::memory_resource and must be \p final (in C++11 and beyond).
  */
 template<typename T, class MR>
 class allocator : private validator<MR>
@@ -58,17 +58,17 @@ public:
     /*! The value type allocated by this allocator. Equivalent to \p T. */
     typedef T value_type;
     /*! The pointer type allocated by this allocator. Equivaled to the pointer type of \p MR rebound to \p T. */
-    typedef typename thrust::detail::pointer_traits<void_pointer>::template rebind<T>::other pointer;
+    typedef typename HYDRA_EXTERNAL_NS::thrust::detail::pointer_traits<void_pointer>::template rebind<T>::other pointer;
     /*! The pointer to const type. Equivalent to a pointer type of \p MR reboud to <tt>const T</tt>. */
-    typedef typename thrust::detail::pointer_traits<void_pointer>::template rebind<const T>::other const_pointer;
+    typedef typename HYDRA_EXTERNAL_NS::thrust::detail::pointer_traits<void_pointer>::template rebind<const T>::other const_pointer;
     /*! The reference to the type allocated by this allocator. Supports smart references. */
-    typedef typename thrust::detail::pointer_traits<pointer>::reference reference;
+    typedef typename HYDRA_EXTERNAL_NS::thrust::detail::pointer_traits<pointer>::reference reference;
     /*! The const reference to the type allocated by this allocator. Supports smart references. */
-    typedef typename thrust::detail::pointer_traits<const_pointer>::reference const_reference;
+    typedef typename HYDRA_EXTERNAL_NS::thrust::detail::pointer_traits<const_pointer>::reference const_reference;
     /*! The size type of this allocator. Always \p std::size_t. */
     typedef std::size_t size_type;
     /*! The difference type between pointers allocated by this allocator. */
-    typedef typename thrust::detail::pointer_traits<pointer>::difference_type difference_type;
+    typedef typename HYDRA_EXTERNAL_NS::thrust::detail::pointer_traits<pointer>::difference_type difference_type;
 
     /*! Specifies that the allocator shall be propagated on container copy assignment. */
     typedef detail::true_type propagate_on_container_copy_assignment;
@@ -120,11 +120,11 @@ public:
      *  \param n number of elements to allocate
      *  \returns a pointer to the newly allocated storage.
      */
-    THRUST_NODISCARD
+    HYDRA_THRUST_NODISCARD
     __hydra_host__
     pointer allocate(size_type n)
     {
-        return static_cast<pointer>(mem_res->do_allocate(n * sizeof(T), THRUST_ALIGNOF(T)));
+        return static_cast<pointer>(mem_res->do_allocate(n * sizeof(T), HYDRA_THRUST_ALIGNOF(T)));
     }
 
     /*! Deallocates objects of type \p T.
@@ -135,7 +135,7 @@ public:
     __hydra_host__
     void deallocate(pointer p, size_type n)
     {
-        return mem_res->do_deallocate(p, n * sizeof(T), THRUST_ALIGNOF(T));
+        return mem_res->do_deallocate(p, n * sizeof(T), HYDRA_THRUST_ALIGNOF(T));
     }
 
     /*! Extracts the memory resource used by this allocator.
@@ -155,7 +155,7 @@ private:
 /*! Compares the allocators for equality by comparing the underlying memory resources. */
 template<typename T, typename MR>
 __hydra_host__ __hydra_device__
-bool operator==(const allocator<T, MR> & lhs, const allocator<T, MR> & rhs) THRUST_NOEXCEPT
+bool operator==(const allocator<T, MR> & lhs, const allocator<T, MR> & rhs) HYDRA_THRUST_NOEXCEPT
 {
     return *lhs.resource() == *rhs.resource();
 }
@@ -163,7 +163,7 @@ bool operator==(const allocator<T, MR> & lhs, const allocator<T, MR> & rhs) THRU
 /*! Compares the allocators for inequality by comparing the underlying memory resources. */
 template<typename T, typename MR>
 __hydra_host__ __hydra_device__
-bool operator!=(const allocator<T, MR> & lhs, const allocator<T, MR> & rhs) THRUST_NOEXCEPT
+bool operator!=(const allocator<T, MR> & lhs, const allocator<T, MR> & rhs) HYDRA_THRUST_NOEXCEPT
 {
     return !(lhs == rhs);
 }
@@ -195,12 +195,12 @@ public:
  *
  *  \tparam T the type that will be allocated by this allocator.
  *  \tparam Upstream the upstream memory resource to use for memory allocation. Must derive from
- *      \p thrust::mr::memory_resource and must be \p final (in C++11 and beyond).
+ *      \p HYDRA_EXTERNAL_NS::thrust::mr::memory_resource and must be \p final (in C++11 and beyond).
  */
 template<typename T, typename Upstream>
-class stateless_resource_allocator : public thrust::mr::allocator<T, Upstream>
+class stateless_resource_allocator : public HYDRA_EXTERNAL_NS::thrust::mr::allocator<T, Upstream>
 {
-    typedef thrust::mr::allocator<T, Upstream> base;
+    typedef HYDRA_EXTERNAL_NS::thrust::mr::allocator<T, Upstream> base;
 
 public:
     /*! The \p rebind metafunction provides the type of an \p stateless_resource_allocator instantiated with another type.

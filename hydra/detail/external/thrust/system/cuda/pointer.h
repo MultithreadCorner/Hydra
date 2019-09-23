@@ -37,7 +37,7 @@ class pointer;
 HYDRA_EXTERNAL_NAMESPACE_END
 
 
-// specialize thrust::iterator_traits to avoid problems with the name of
+// specialize HYDRA_EXTERNAL_NS::thrust::iterator_traits to avoid problems with the name of
 // pointer's constructor shadowing its nested pointer type
 // do this before pointer is defined so the specialization is correctly
 // used inside the definition
@@ -45,10 +45,10 @@ HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
 {
 
 template <typename Element>
-struct iterator_traits<thrust::cuda_cub::pointer<Element> >
+struct iterator_traits<HYDRA_EXTERNAL_NS::thrust::cuda_cub::pointer<Element> >
 {
 private:
-  typedef thrust::cuda_cub::pointer<Element> ptr;
+  typedef HYDRA_EXTERNAL_NS::thrust::cuda_cub::pointer<Element> ptr;
 
 public:
   typedef typename ptr::iterator_category iterator_category;
@@ -69,7 +69,7 @@ class reference;
 template <typename Element>
 struct reference_msvc_workaround
 {
-  typedef thrust::cuda_cub::reference<Element> type;
+  typedef HYDRA_EXTERNAL_NS::thrust::cuda_cub::reference<Element> type;
 };    // end reference_msvc_workaround
 
 
@@ -96,19 +96,19 @@ struct reference_msvc_workaround
  */
 template <typename T>
 class pointer
-    : public thrust::pointer<
+    : public HYDRA_EXTERNAL_NS::thrust::pointer<
           T,
-          thrust::cuda_cub::tag,
-          thrust::cuda_cub::reference<T>,
-          thrust::cuda_cub::pointer<T> >
+          HYDRA_EXTERNAL_NS::thrust::cuda_cub::tag,
+          HYDRA_EXTERNAL_NS::thrust::cuda_cub::reference<T>,
+          HYDRA_EXTERNAL_NS::thrust::cuda_cub::pointer<T> >
 {
 
 private:
-  typedef thrust::pointer<
+  typedef HYDRA_EXTERNAL_NS::thrust::pointer<
       T,
-      thrust::cuda_cub::tag,
+      HYDRA_EXTERNAL_NS::thrust::cuda_cub::tag,
       typename reference_msvc_workaround<T>::type,
-      thrust::cuda_cub::pointer<T> >
+      HYDRA_EXTERNAL_NS::thrust::cuda_cub::pointer<T> >
       super_t;
 
 public:
@@ -117,7 +117,7 @@ public:
   __hydra_host__ __hydra_device__
   pointer() : super_t() {}
 
-  #if THRUST_CPP_DIALECT >= 2011
+  #if HYDRA_THRUST_CPP_DIALECT >= 2011
   // NOTE: This is needed so that Thrust smart pointers can be used in
   // `std::unique_ptr`.
   __hydra_host__ __hydra_device__
@@ -139,12 +139,12 @@ public:
    *
    *  \param other The \p OtherPointer to copy.
    *  \tparam OtherPointer The system tag associated with \p OtherPointer shall be convertible
-   *          to \p thrust::system::cuda::tag and its element type shall be convertible to \p T.
+   *          to \p HYDRA_EXTERNAL_NS::thrust::system::cuda::tag and its element type shall be convertible to \p T.
    */
   template <typename OtherPointer>
   __hydra_host__ __hydra_device__
   pointer(const OtherPointer &other,
-          typename thrust::detail::enable_if_pointer_is_convertible<
+          typename HYDRA_EXTERNAL_NS::thrust::detail::enable_if_pointer_is_convertible<
               OtherPointer,
               pointer>::type * = 0) : super_t(other)
   {
@@ -154,13 +154,13 @@ public:
    *
    *  \param other The \p OtherPointer to copy.
    *  \tparam OtherPointer The system tag associated with \p OtherPointer shall be convertible
-   *          to \p thrust::system::cuda::tag and its element type shall be \p void.
+   *          to \p HYDRA_EXTERNAL_NS::thrust::system::cuda::tag and its element type shall be \p void.
    */
   template <typename OtherPointer>
   __hydra_host__ __hydra_device__
   explicit
   pointer(const OtherPointer &other,
-          typename thrust::detail::enable_if_void_pointer_is_system_convertible<
+          typename HYDRA_EXTERNAL_NS::thrust::detail::enable_if_void_pointer_is_system_convertible<
               OtherPointer,
               pointer>::type * = 0) : super_t(other)
   {
@@ -170,11 +170,11 @@ public:
    *
    *  \param other The other pointer-like object to assign from.
    *  \tparam OtherPointer The system tag associated with \p OtherPointer shall be convertible
-   *          to \p thrust::system::cuda::tag and its element type shall be convertible to \p T.
+   *          to \p HYDRA_EXTERNAL_NS::thrust::system::cuda::tag and its element type shall be convertible to \p T.
    */
   template <typename OtherPointer>
   __hydra_host__ __hydra_device__
-      typename thrust::detail::enable_if_pointer_is_convertible<
+      typename HYDRA_EXTERNAL_NS::thrust::detail::enable_if_pointer_is_convertible<
           OtherPointer,
           pointer,
           pointer &>::type
@@ -183,7 +183,7 @@ public:
     return super_t::operator=(other);
   }
 
-  #if THRUST_CPP_DIALECT >= 2011
+  #if HYDRA_THRUST_CPP_DIALECT >= 2011
   // NOTE: This is needed so that Thrust smart pointers can be used in
   // `std::unique_ptr`.
   __hydra_host__ __hydra_device__
@@ -202,17 +202,17 @@ public:
  */
 template <typename T>
 class reference
-    : public thrust::reference<
+    : public HYDRA_EXTERNAL_NS::thrust::reference<
           T,
-          thrust::cuda_cub::pointer<T>,
-          thrust::cuda_cub::reference<T> >
+          HYDRA_EXTERNAL_NS::thrust::cuda_cub::pointer<T>,
+          HYDRA_EXTERNAL_NS::thrust::cuda_cub::reference<T> >
 {
 
 private:
-  typedef thrust::reference<
+  typedef HYDRA_EXTERNAL_NS::thrust::reference<
       T,
-      thrust::cuda_cub::pointer<T>,
-      thrust::cuda_cub::reference<T> >
+      HYDRA_EXTERNAL_NS::thrust::cuda_cub::pointer<T>,
+      HYDRA_EXTERNAL_NS::thrust::cuda_cub::reference<T> >
       super_t;
 
 public:
@@ -248,7 +248,7 @@ public:
   template <typename OtherT>
   __hydra_host__ __hydra_device__
   reference(const reference<OtherT> &other,
-            typename thrust::detail::enable_if_convertible<
+            typename HYDRA_EXTERNAL_NS::thrust::detail::enable_if_convertible<
                 typename reference<OtherT>::pointer,
                 pointer>::type * = 0)
       : super_t(other)
@@ -293,18 +293,18 @@ namespace system {
  *  \{
  */
 
-/*! \HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust::system::cuda
- *  \brief \p thrust::system::cuda is the namespace containing functionality for allocating, manipulating,
+/*! \HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace HYDRA_EXTERNAL_NS::thrust::system::cuda
+ *  \brief \p HYDRA_EXTERNAL_NS::thrust::system::cuda is the namespace containing functionality for allocating, manipulating,
  *         and deallocating memory available to Thrust's CUDA backend system.
- *         The identifiers are provided in a separate namespace underneath <tt>thrust::system</tt>
- *         for import convenience but are also aliased in the top-level <tt>thrust::cuda</tt>
+ *         The identifiers are provided in a separate namespace underneath <tt>HYDRA_EXTERNAL_NS::thrust::system</tt>
+ *         for import convenience but are also aliased in the top-level <tt>HYDRA_EXTERNAL_NS::thrust::cuda</tt>
  *         namespace for easy access.
  *
  */
 
 namespace cuda {
-using thrust::cuda_cub::pointer;
-using thrust::cuda_cub::reference;
+using HYDRA_EXTERNAL_NS::thrust::cuda_cub::pointer;
+using HYDRA_EXTERNAL_NS::thrust::cuda_cub::reference;
 } // end cuda
 
 /*! \}
@@ -312,11 +312,11 @@ using thrust::cuda_cub::reference;
 
 } // end system
 
-/*! \HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust::cuda
- *  \brief \p thrust::cuda is a top-level alias for \p thrust::system::cuda. */
+/*! \HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace HYDRA_EXTERNAL_NS::thrust::cuda
+ *  \brief \p HYDRA_EXTERNAL_NS::thrust::cuda is a top-level alias for \p HYDRA_EXTERNAL_NS::thrust::system::cuda. */
 namespace cuda {
-using thrust::cuda_cub::pointer;
-using thrust::cuda_cub::reference;
+using HYDRA_EXTERNAL_NS::thrust::cuda_cub::pointer;
+using HYDRA_EXTERNAL_NS::thrust::cuda_cub::reference;
 } // end cuda
 
 } // end HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust

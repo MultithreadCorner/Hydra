@@ -38,25 +38,25 @@ template<typename DerivedPolicy,
          typename OutputIterator,
          typename UnaryFunction>
 __hydra_host__ __hydra_device__
-  OutputIterator transform(thrust::execution_policy<DerivedPolicy> &exec,
+  OutputIterator transform(HYDRA_EXTERNAL_NS::thrust::execution_policy<DerivedPolicy> &exec,
                            InputIterator first,
                            InputIterator last,
                            OutputIterator result,
                            UnaryFunction op)
 {
-  typedef thrust::detail::unary_transform_functor<UnaryFunction> UnaryTransformFunctor;
+  typedef HYDRA_EXTERNAL_NS::thrust::detail::unary_transform_functor<UnaryFunction> UnaryTransformFunctor;
 
   // make an iterator tuple
-  typedef thrust::tuple<InputIterator,OutputIterator> IteratorTuple;
-  typedef thrust::zip_iterator<IteratorTuple> ZipIterator;
+  typedef HYDRA_EXTERNAL_NS::thrust::tuple<InputIterator,OutputIterator> IteratorTuple;
+  typedef HYDRA_EXTERNAL_NS::thrust::zip_iterator<IteratorTuple> ZipIterator;
 
   ZipIterator zipped_result =
-    thrust::for_each(exec,
-                     thrust::make_zip_iterator(thrust::make_tuple(first,result)),
-                     thrust::make_zip_iterator(thrust::make_tuple(last,result)),
+    HYDRA_EXTERNAL_NS::thrust::for_each(exec,
+                     HYDRA_EXTERNAL_NS::thrust::make_zip_iterator(HYDRA_EXTERNAL_NS::thrust::make_tuple(first,result)),
+                     HYDRA_EXTERNAL_NS::thrust::make_zip_iterator(HYDRA_EXTERNAL_NS::thrust::make_tuple(last,result)),
                      UnaryTransformFunctor(op));
 
-  return thrust::get<1>(zipped_result.get_iterator_tuple());
+  return HYDRA_EXTERNAL_NS::thrust::get<1>(zipped_result.get_iterator_tuple());
 } // end transform()
 
 
@@ -66,7 +66,7 @@ template<typename DerivedPolicy,
          typename OutputIterator,
          typename BinaryFunction>
 __hydra_host__ __hydra_device__
-  OutputIterator transform(thrust::execution_policy<DerivedPolicy> &exec,
+  OutputIterator transform(HYDRA_EXTERNAL_NS::thrust::execution_policy<DerivedPolicy> &exec,
                            InputIterator1 first1,
                            InputIterator1 last1,
                            InputIterator2 first2,
@@ -74,19 +74,19 @@ __hydra_host__ __hydra_device__
                            BinaryFunction op)
 {
   // given the minimal system, determine the binary transform functor we need
-  typedef thrust::detail::binary_transform_functor<BinaryFunction> BinaryTransformFunctor;
+  typedef HYDRA_EXTERNAL_NS::thrust::detail::binary_transform_functor<BinaryFunction> BinaryTransformFunctor;
 
   // make an iterator tuple
-  typedef thrust::tuple<InputIterator1,InputIterator2,OutputIterator> IteratorTuple;
-  typedef thrust::zip_iterator<IteratorTuple> ZipIterator;
+  typedef HYDRA_EXTERNAL_NS::thrust::tuple<InputIterator1,InputIterator2,OutputIterator> IteratorTuple;
+  typedef HYDRA_EXTERNAL_NS::thrust::zip_iterator<IteratorTuple> ZipIterator;
 
   ZipIterator zipped_result =
-    thrust::for_each(exec,
-                     thrust::make_zip_iterator(thrust::make_tuple(first1,first2,result)),
-                     thrust::make_zip_iterator(thrust::make_tuple(last1,first2,result)),
+    HYDRA_EXTERNAL_NS::thrust::for_each(exec,
+                     HYDRA_EXTERNAL_NS::thrust::make_zip_iterator(HYDRA_EXTERNAL_NS::thrust::make_tuple(first1,first2,result)),
+                     HYDRA_EXTERNAL_NS::thrust::make_zip_iterator(HYDRA_EXTERNAL_NS::thrust::make_tuple(last1,first2,result)),
                      BinaryTransformFunctor(op));
 
-  return thrust::get<2>(zipped_result.get_iterator_tuple());
+  return HYDRA_EXTERNAL_NS::thrust::get<2>(zipped_result.get_iterator_tuple());
 } // end transform()
 
 
@@ -96,26 +96,26 @@ template<typename DerivedPolicy,
          typename UnaryFunction,
          typename Predicate>
 __hydra_host__ __hydra_device__
-  ForwardIterator transform_if(thrust::execution_policy<DerivedPolicy> &exec,
+  ForwardIterator transform_if(HYDRA_EXTERNAL_NS::thrust::execution_policy<DerivedPolicy> &exec,
                                InputIterator first,
                                InputIterator last,
                                ForwardIterator result,
                                UnaryFunction unary_op,
                                Predicate pred)
 {
-  typedef thrust::detail::unary_transform_if_functor<UnaryFunction,Predicate> UnaryTransformIfFunctor;
+  typedef HYDRA_EXTERNAL_NS::thrust::detail::unary_transform_if_functor<UnaryFunction,Predicate> UnaryTransformIfFunctor;
 
   // make an iterator tuple
-  typedef thrust::tuple<InputIterator,ForwardIterator> IteratorTuple;
-  typedef thrust::zip_iterator<IteratorTuple> ZipIterator;
+  typedef HYDRA_EXTERNAL_NS::thrust::tuple<InputIterator,ForwardIterator> IteratorTuple;
+  typedef HYDRA_EXTERNAL_NS::thrust::zip_iterator<IteratorTuple> ZipIterator;
 
   ZipIterator zipped_result =
-    thrust::for_each(exec,
-                     thrust::make_zip_iterator(thrust::make_tuple(first,result)),
-                     thrust::make_zip_iterator(thrust::make_tuple(last,result)),
+    HYDRA_EXTERNAL_NS::thrust::for_each(exec,
+                     HYDRA_EXTERNAL_NS::thrust::make_zip_iterator(HYDRA_EXTERNAL_NS::thrust::make_tuple(first,result)),
+                     HYDRA_EXTERNAL_NS::thrust::make_zip_iterator(HYDRA_EXTERNAL_NS::thrust::make_tuple(last,result)),
                      UnaryTransformIfFunctor(unary_op,pred));
 
-  return thrust::get<1>(zipped_result.get_iterator_tuple());
+  return HYDRA_EXTERNAL_NS::thrust::get<1>(zipped_result.get_iterator_tuple());
 } // end transform_if()
 
 
@@ -126,7 +126,7 @@ template<typename DerivedPolicy,
          typename UnaryFunction,
          typename Predicate>
 __hydra_host__ __hydra_device__
-  ForwardIterator transform_if(thrust::execution_policy<DerivedPolicy> &exec,
+  ForwardIterator transform_if(HYDRA_EXTERNAL_NS::thrust::execution_policy<DerivedPolicy> &exec,
                                InputIterator1 first,
                                InputIterator1 last,
                                InputIterator2 stencil,
@@ -134,19 +134,19 @@ __hydra_host__ __hydra_device__
                                UnaryFunction unary_op,
                                Predicate pred)
 {
-  typedef thrust::detail::unary_transform_if_with_stencil_functor<UnaryFunction,Predicate> UnaryTransformIfFunctor;
+  typedef HYDRA_EXTERNAL_NS::thrust::detail::unary_transform_if_with_stencil_functor<UnaryFunction,Predicate> UnaryTransformIfFunctor;
 
   // make an iterator tuple
-  typedef thrust::tuple<InputIterator1,InputIterator2,ForwardIterator> IteratorTuple;
-  typedef thrust::zip_iterator<IteratorTuple> ZipIterator;
+  typedef HYDRA_EXTERNAL_NS::thrust::tuple<InputIterator1,InputIterator2,ForwardIterator> IteratorTuple;
+  typedef HYDRA_EXTERNAL_NS::thrust::zip_iterator<IteratorTuple> ZipIterator;
 
   ZipIterator zipped_result =
-    thrust::for_each(exec,
-                     thrust::make_zip_iterator(thrust::make_tuple(first,stencil,result)),
-                     thrust::make_zip_iterator(thrust::make_tuple(last,stencil,result)),
+    HYDRA_EXTERNAL_NS::thrust::for_each(exec,
+                     HYDRA_EXTERNAL_NS::thrust::make_zip_iterator(HYDRA_EXTERNAL_NS::thrust::make_tuple(first,stencil,result)),
+                     HYDRA_EXTERNAL_NS::thrust::make_zip_iterator(HYDRA_EXTERNAL_NS::thrust::make_tuple(last,stencil,result)),
                      UnaryTransformIfFunctor(unary_op,pred));
 
-  return thrust::get<2>(zipped_result.get_iterator_tuple());
+  return HYDRA_EXTERNAL_NS::thrust::get<2>(zipped_result.get_iterator_tuple());
 } // end transform_if()
 
 
@@ -158,7 +158,7 @@ template<typename DerivedPolicy,
          typename BinaryFunction,
          typename Predicate>
 __hydra_host__ __hydra_device__
-  ForwardIterator transform_if(thrust::execution_policy<DerivedPolicy> &exec,
+  ForwardIterator transform_if(HYDRA_EXTERNAL_NS::thrust::execution_policy<DerivedPolicy> &exec,
                                InputIterator1 first1,
                                InputIterator1 last1,
                                InputIterator2 first2,
@@ -167,19 +167,19 @@ __hydra_host__ __hydra_device__
                                BinaryFunction binary_op,
                                Predicate pred)
 {
-  typedef thrust::detail::binary_transform_if_functor<BinaryFunction,Predicate> BinaryTransformIfFunctor;
+  typedef HYDRA_EXTERNAL_NS::thrust::detail::binary_transform_if_functor<BinaryFunction,Predicate> BinaryTransformIfFunctor;
 
   // make an iterator tuple
-  typedef thrust::tuple<InputIterator1,InputIterator2,InputIterator3,ForwardIterator> IteratorTuple;
-  typedef thrust::zip_iterator<IteratorTuple> ZipIterator;
+  typedef HYDRA_EXTERNAL_NS::thrust::tuple<InputIterator1,InputIterator2,InputIterator3,ForwardIterator> IteratorTuple;
+  typedef HYDRA_EXTERNAL_NS::thrust::zip_iterator<IteratorTuple> ZipIterator;
 
   ZipIterator zipped_result =
-    thrust::for_each(exec,
-                     thrust::make_zip_iterator(thrust::make_tuple(first1,first2,stencil,result)),
-                     thrust::make_zip_iterator(thrust::make_tuple(last1,first2,stencil,result)),
+    HYDRA_EXTERNAL_NS::thrust::for_each(exec,
+                     HYDRA_EXTERNAL_NS::thrust::make_zip_iterator(HYDRA_EXTERNAL_NS::thrust::make_tuple(first1,first2,stencil,result)),
+                     HYDRA_EXTERNAL_NS::thrust::make_zip_iterator(HYDRA_EXTERNAL_NS::thrust::make_tuple(last1,first2,stencil,result)),
                      BinaryTransformIfFunctor(binary_op,pred));
 
-  return thrust::get<3>(zipped_result.get_iterator_tuple());
+  return HYDRA_EXTERNAL_NS::thrust::get<3>(zipped_result.get_iterator_tuple());
 } // end transform_if()
 
 

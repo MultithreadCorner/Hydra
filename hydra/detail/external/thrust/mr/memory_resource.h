@@ -22,13 +22,13 @@
 #pragma once
 
 #include "detail/config.h"
-#ifdef THRUST_MR_STD_MR_HEADER
-#  include THRUST_MR_STD_MR_HEADER
+#ifdef HYDRA_THRUST_MR_STD_MR_HEADER
+#  include HYDRA_THRUST_MR_STD_MR_HEADER
 #endif
 
 HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
 {
-/*! \brief \p thrust::mr is the namespace containing system agnostic types and functions for \p memory_resource related functionalities.
+/*! \brief \p HYDRA_EXTERNAL_NS::thrust::mr is the namespace containing system agnostic types and functions for \p memory_resource related functionalities.
  */
 namespace mr
 {
@@ -54,17 +54,17 @@ public:
 
     /*! Virtual destructor, defaulted when possible.
      */
-    virtual ~memory_resource() THRUST_DEFAULT
+    virtual ~memory_resource() HYDRA_THRUST_DEFAULT
 
     /*! Allocates memory of size at least \p bytes and alignment at least \p alignment.
      *
      *  \param bytes size, in bytes, that is requested from this allocation
      *  \param alignment alignment that is requested from this allocation
-     *  \throws thrust::bad_alloc when no memory with requested size and alignment can be allocated.
+     *  \throws HYDRA_EXTERNAL_NS::thrust::bad_alloc when no memory with requested size and alignment can be allocated.
      *  \returns A pointer to void to the newly allocated memory.
      */
-    THRUST_NODISCARD
-    pointer allocate(std::size_t bytes, std::size_t alignment = THRUST_MR_DEFAULT_ALIGNMENT)
+    HYDRA_THRUST_NODISCARD
+    pointer allocate(std::size_t bytes, std::size_t alignment = HYDRA_THRUST_MR_DEFAULT_ALIGNMENT)
     {
         return do_allocate(bytes, alignment);
     }
@@ -77,7 +77,7 @@ public:
      *  \param alignment the alignment of the allocation. This must be equivalent to the value of \p alignment
      *      that was passed to the allocation function that returned \p p.
      */
-    void deallocate(pointer p, std::size_t bytes, std::size_t alignment = THRUST_MR_DEFAULT_ALIGNMENT)
+    void deallocate(pointer p, std::size_t bytes, std::size_t alignment = HYDRA_THRUST_MR_DEFAULT_ALIGNMENT)
     {
         do_deallocate(p, bytes, alignment);
     }
@@ -89,7 +89,7 @@ public:
      *  \returns whether the two resources are equivalent.
      */
     __hydra_host__ __hydra_device__
-    bool is_equal(const memory_resource & other) const THRUST_NOEXCEPT
+    bool is_equal(const memory_resource & other) const HYDRA_THRUST_NOEXCEPT
     {
         return do_is_equal(other);
     }
@@ -98,7 +98,7 @@ public:
      *
      *  \param bytes size, in bytes, that is requested from this allocation
      *  \param alignment alignment that is requested from this allocation
-     *  \throws thrust::bad_alloc when no memory with requested size and alignment can be allocated.
+     *  \throws HYDRA_EXTERNAL_NS::thrust::bad_alloc when no memory with requested size and alignment can be allocated.
      *  \returns A pointer to void to the newly allocated memory.
      */
     virtual pointer do_allocate(std::size_t bytes, std::size_t alignment) = 0;
@@ -120,7 +120,7 @@ public:
      *  \returns whether the two resources are equivalent.
      */
     __hydra_host__ __hydra_device__
-    virtual bool do_is_equal(const memory_resource & other) const THRUST_NOEXCEPT
+    virtual bool do_is_equal(const memory_resource & other) const HYDRA_THRUST_NOEXCEPT
     {
         return this == &other;
     }
@@ -128,28 +128,28 @@ public:
 
 template<>
 class memory_resource<void *>
-#ifdef THRUST_STD_MR_NS
-    : THRUST_STD_MR_NS::memory_resource
+#ifdef HYDRA_THRUST_STD_MR_NS
+    : HYDRA_THRUST_STD_MR_NS::memory_resource
 #endif
 {
 public:
     typedef void * pointer;
 
-    virtual ~memory_resource() THRUST_DEFAULT
+    virtual ~memory_resource() HYDRA_THRUST_DEFAULT
 
-    THRUST_NODISCARD
-    pointer allocate(std::size_t bytes, std::size_t alignment = THRUST_MR_DEFAULT_ALIGNMENT)
+    HYDRA_THRUST_NODISCARD
+    pointer allocate(std::size_t bytes, std::size_t alignment = HYDRA_THRUST_MR_DEFAULT_ALIGNMENT)
     {
         return do_allocate(bytes, alignment);
     }
 
-    void deallocate(pointer p, std::size_t bytes, std::size_t alignment = THRUST_MR_DEFAULT_ALIGNMENT)
+    void deallocate(pointer p, std::size_t bytes, std::size_t alignment = HYDRA_THRUST_MR_DEFAULT_ALIGNMENT)
     {
         do_deallocate(p, bytes, alignment);
     }
 
     __hydra_host__ __hydra_device__
-    bool is_equal(const memory_resource & other) const THRUST_NOEXCEPT
+    bool is_equal(const memory_resource & other) const HYDRA_THRUST_NOEXCEPT
     {
         return do_is_equal(other);
     }
@@ -157,18 +157,18 @@ public:
     virtual pointer do_allocate(std::size_t bytes, std::size_t alignment) = 0;
     virtual void do_deallocate(pointer p, std::size_t bytes, std::size_t alignment) = 0;
     __hydra_host__ __hydra_device__
-    virtual bool do_is_equal(const memory_resource & other) const THRUST_NOEXCEPT
+    virtual bool do_is_equal(const memory_resource & other) const HYDRA_THRUST_NOEXCEPT
     {
         return this == &other;
     }
 
-#ifdef THRUST_STD_MR_NS
+#ifdef HYDRA_THRUST_STD_MR_NS
     // the above do_is_equal is a different function than the one from the standard memory resource
     // can't implement this reasonably without RTTI though; it's reasonable to assume false otherwise
 
-    virtual bool do_is_equal(const THRUST_STD_MR_NS::memory_resource & other) const noexcept override
+    virtual bool do_is_equal(const HYDRA_THRUST_STD_MR_NS::memory_resource & other) const noexcept override
     {
-#  ifdef THRUST_HAS_DYNAMIC_CAST
+#  ifdef HYDRA_THRUST_HAS_DYNAMIC_CAST
         auto mr_resource = dynamic_cast<memory_resource<> *>(&other);
         return mr_resource && do_is_equal(*mr_resource);
 #  else
@@ -182,7 +182,7 @@ public:
  */
 template<typename Pointer>
 __hydra_host__ __hydra_device__
-bool operator==(const memory_resource<Pointer> & lhs, const memory_resource<Pointer> & rhs) THRUST_NOEXCEPT
+bool operator==(const memory_resource<Pointer> & lhs, const memory_resource<Pointer> & rhs) HYDRA_THRUST_NOEXCEPT
 {
     return &lhs == &rhs || rhs.is_equal(rhs);
 }
@@ -191,7 +191,7 @@ bool operator==(const memory_resource<Pointer> & lhs, const memory_resource<Poin
  */
 template<typename Pointer>
 __hydra_host__ __hydra_device__
-bool operator!=(const memory_resource<Pointer> & lhs, const memory_resource<Pointer> & rhs) THRUST_NOEXCEPT
+bool operator!=(const memory_resource<Pointer> & lhs, const memory_resource<Pointer> & rhs) HYDRA_THRUST_NOEXCEPT
 {
     return !(lhs == rhs);
 }

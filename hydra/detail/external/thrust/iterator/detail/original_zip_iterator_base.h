@@ -151,9 +151,9 @@ template<
   , typename StartType
 >
 struct tuple_meta_accumulate
-  : thrust::detail::eval_if<
-        thrust::detail::is_same<Tuple, thrust::null_type>::value
-      , thrust::detail::identity_<StartType>
+  : HYDRA_EXTERNAL_NS::thrust::detail::eval_if<
+        HYDRA_EXTERNAL_NS::thrust::detail::is_same<Tuple, HYDRA_EXTERNAL_NS::thrust::null_type>::value
+      , HYDRA_EXTERNAL_NS::thrust::detail::identity_<StartType>
       , tuple_meta_accumulate_impl<
             Tuple
           , BinaryMetaFun
@@ -186,7 +186,7 @@ struct tuple_meta_accumulate
 // for_each algorithm for tuples.
 template<typename Fun>
 inline __hydra_host__ __hydra_device__
-Fun tuple_for_each(thrust::null_type, Fun f)
+Fun tuple_for_each(HYDRA_EXTERNAL_NS::thrust::null_type, Fun f)
 {
   return f;
 } // end tuple_for_each()
@@ -207,7 +207,7 @@ Fun tuple_for_each(Tuple& t, Fun f)
 // going to go away with the next tuple implementation anyway.
 //
 __hydra_host__ __hydra_device__
-inline bool tuple_equal(thrust::null_type, thrust::null_type)
+inline bool tuple_equal(HYDRA_EXTERNAL_NS::thrust::null_type, HYDRA_EXTERNAL_NS::thrust::null_type)
 { return true; }
 
 
@@ -252,13 +252,13 @@ struct minimum_traversal_category_in_iterator_tuple
 {
   typedef typename tuple_meta_transform<
       IteratorTuple
-    , thrust::iterator_traversal
+    , HYDRA_EXTERNAL_NS::thrust::iterator_traversal
   >::type tuple_of_traversal_tags;
       
   typedef typename tuple_impl_specific::tuple_meta_accumulate<
       tuple_of_traversal_tags
     , minimum_category_lambda
-    , thrust::random_access_traversal_tag
+    , HYDRA_EXTERNAL_NS::thrust::random_access_traversal_tag
   >::type type;
 };
 
@@ -277,15 +277,15 @@ struct minimum_system_lambda
 template<typename IteratorTuple>
 struct minimum_system_in_iterator_tuple
 {
-  typedef typename thrust::detail::tuple_meta_transform<
+  typedef typename HYDRA_EXTERNAL_NS::thrust::detail::tuple_meta_transform<
     IteratorTuple,
-    thrust::iterator_system
+    HYDRA_EXTERNAL_NS::thrust::iterator_system
   >::type tuple_of_system_tags;
 
   typedef typename tuple_impl_specific::tuple_meta_accumulate<
     tuple_of_system_tags,
     minimum_system_lambda,
-    thrust::any_system_tag
+    HYDRA_EXTERNAL_NS::thrust::any_system_tag
   >::type type;
 };
 
@@ -298,7 +298,7 @@ template<int i, typename Tuple>
     : eval_if<
         (i < tuple_size<Tuple>::value),
         tuple_element<i,Tuple>,
-        identity_<thrust::null_type>
+        identity_<HYDRA_EXTERNAL_NS::thrust::null_type>
       >
 {};
 
@@ -322,7 +322,7 @@ template<typename Tuple>
 template<typename IteratorTuple>
   struct tuple_of_iterator_references
 {
-  // get a thrust::tuple of the iterators' references
+  // get a HYDRA_EXTERNAL_NS::thrust::tuple of the iterators' references
   typedef typename tuple_meta_transform<
     IteratorTuple,
     iterator_reference
@@ -331,8 +331,8 @@ template<typename IteratorTuple>
   // get at the individual tuple element types by name
   typedef tuple_elements<tuple_of_references> elements;
 
-  // map thrust::tuple<T...> to tuple_of_iterator_references<T...>
-  typedef thrust::detail::tuple_of_iterator_references<
+  // map HYDRA_EXTERNAL_NS::thrust::tuple<T...> to tuple_of_iterator_references<T...>
+  typedef HYDRA_EXTERNAL_NS::thrust::detail::tuple_of_iterator_references<
     typename elements::T0,
     typename elements::T1,
     typename elements::T2,
@@ -369,8 +369,8 @@ template<typename IteratorTuple>
     typedef typename tuple_of_value_types<IteratorTuple>::type value_type;
 
     // Difference type is the first iterator's difference type
-    typedef typename thrust::iterator_traits<
-      typename thrust::tuple_element<0, IteratorTuple>::type
+    typedef typename HYDRA_EXTERNAL_NS::thrust::iterator_traits<
+      typename HYDRA_EXTERNAL_NS::thrust::tuple_element<0, IteratorTuple>::type
     >::difference_type difference_type;
 
     // Iterator system is the minimum system tag in the
@@ -387,7 +387,7 @@ template<typename IteratorTuple>
   
     // The iterator facade type from which the zip iterator will
     // be derived.
-    typedef thrust::iterator_facade<
+    typedef HYDRA_EXTERNAL_NS::thrust::iterator_facade<
         zip_iterator<IteratorTuple>,
         value_type,  
         system,

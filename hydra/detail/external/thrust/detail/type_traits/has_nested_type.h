@@ -18,7 +18,7 @@
 
 #include <hydra/detail/external/thrust/detail/type_traits.h>
 
-#define __THRUST_DEFINE_HAS_NESTED_TYPE(trait_name, nested_type_name) \
+#define __HYDRA_THRUST_DEFINE_HAS_NESTED_TYPE(trait_name, nested_type_name) \
 template<typename T> \
   struct trait_name  \
 {                    \
@@ -27,6 +27,6 @@ template<typename T> \
   template<typename S> static yes_type test(typename S::nested_type_name *); \
   template<typename S> static no_type  test(...); \
   static bool const value = sizeof(test<T>(0)) == sizeof(yes_type);\
-  typedef thrust::detail::integral_constant<bool, value> type;\
+  typedef HYDRA_EXTERNAL_NS::thrust::detail::integral_constant<bool, value> type;\
 };
 

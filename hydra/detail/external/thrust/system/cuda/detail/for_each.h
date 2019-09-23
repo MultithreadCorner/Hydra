@@ -27,7 +27,7 @@
 #pragma once
 
 
-#if THRUST_DEVICE_COMPILER == THRUST_DEVICE_COMPILER_NVCC
+#if HYDRA_THRUST_DEVICE_COMPILER == HYDRA_THRUST_DEVICE_COMPILER_NVCC
 #include <iterator>
 #include <hydra/detail/external/thrust/system/cuda/config.h>
 
@@ -38,7 +38,7 @@
 
 HYDRA_EXTERNAL_NAMESPACE_BEGIN
 
-THRUST_BEGIN_NS
+HYDRA_THRUST_BEGIN_NS
 
 namespace cuda_cub {
 
@@ -49,12 +49,12 @@ namespace cuda_cub {
     Input input;
     UnaryOp op;
 
-    THRUST_FUNCTION
+    HYDRA_THRUST_FUNCTION
     for_each_f(Input input, UnaryOp op)
         : input(input), op(op) {}
 
     template <class Size>
-    THRUST_DEVICE_FUNCTION void operator()(Size idx)
+    HYDRA_THRUST_DEVICE_FUNCTION void operator()(Size idx)
     {
       op(raw_reference_cast(input[idx]));
     }
@@ -69,13 +69,13 @@ namespace cuda_cub {
             class Input,
             class Size,
             class UnaryOp>
-  Input THRUST_FUNCTION
+  Input HYDRA_THRUST_FUNCTION
   for_each_n(execution_policy<Derived> &policy,
              Input                      first,
              Size                       count,
              UnaryOp                    op)
   {
-    typedef thrust::detail::wrapped_function<UnaryOp, void> wrapped_t;
+    typedef HYDRA_EXTERNAL_NS::thrust::detail::wrapped_function<UnaryOp, void> wrapped_t;
     wrapped_t wrapped_op(op);
 
     cuda_cub::parallel_for(policy,
@@ -94,19 +94,19 @@ namespace cuda_cub {
   template <class Derived,
             class Input,
             class UnaryOp>
-  Input THRUST_FUNCTION
+  Input HYDRA_THRUST_FUNCTION
   for_each(execution_policy<Derived> &policy,
            Input                      first,
            Input                      last,
            UnaryOp                    op)
   {
     typedef typename iterator_traits<Input>::difference_type size_type;
-    size_type count = static_cast<size_type>(thrust::distance(first,last));
+    size_type count = static_cast<size_type>(HYDRA_EXTERNAL_NS::thrust::distance(first,last));
     return cuda_cub::for_each_n(policy, first,  count, op);
   }
 }    // namespace cuda_cub
 
-THRUST_END_NS
+HYDRA_THRUST_END_NS
 
 HYDRA_EXTERNAL_NAMESPACE_END
 #endif

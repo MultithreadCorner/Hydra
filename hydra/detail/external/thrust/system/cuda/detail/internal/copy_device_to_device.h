@@ -28,13 +28,13 @@
 #pragma once
 
 
-#if THRUST_DEVICE_COMPILER == THRUST_DEVICE_COMPILER_NVCC
+#if HYDRA_THRUST_DEVICE_COMPILER == HYDRA_THRUST_DEVICE_COMPILER_NVCC
 #include <hydra/detail/external/thrust/system/cuda/config.h>
 #include <hydra/detail/external/thrust/system/cuda/detail/execution_policy.h>
 #include <hydra/detail/external/thrust/system/cuda/detail/transform.h>
 #include <hydra/detail/external/thrust/functional.h>
 HYDRA_EXTERNAL_NAMESPACE_BEGIN
-THRUST_BEGIN_NS
+HYDRA_THRUST_BEGIN_NS
 namespace cuda_cub {
 
 namespace __copy {
@@ -48,17 +48,17 @@ namespace __copy {
                    InputIt                    last,
                    OutputIt                   result)
   {
-    typedef typename thrust::iterator_traits<InputIt>::value_type InputTy;
+    typedef typename HYDRA_EXTERNAL_NS::thrust::iterator_traits<InputIt>::value_type InputTy;
     return cuda_cub::transform(policy,
                             first,
                             last,
                             result,
-                            thrust::identity<InputTy>());
+                            HYDRA_EXTERNAL_NS::thrust::identity<InputTy>());
   }
 
 }    // namespace __copy
 
 }    // namespace cuda_cub
-THRUST_END_NS
+HYDRA_THRUST_END_NS
 HYDRA_EXTERNAL_NAMESPACE_END
 #endif

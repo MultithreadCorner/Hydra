@@ -34,13 +34,13 @@
 
 #include <hydra/detail/external/thrust/detail/allocator_aware_execution_policy.h>
 
-#if THRUST_CPP_DIALECT >= 2011
+#if HYDRA_THRUST_CPP_DIALECT >= 2011
   #include <hydra/detail/external/thrust/detail/dependencies_aware_execution_policy.h>
 #endif
 
 HYDRA_EXTERNAL_NAMESPACE_BEGIN
 
-THRUST_BEGIN_NS
+HYDRA_THRUST_BEGIN_NS
 
 namespace cuda_cub
 {
@@ -51,20 +51,20 @@ template <class>
 struct execution_policy;
 
 template <>
-struct execution_policy<tag> : thrust::execution_policy<tag>
+struct execution_policy<tag> : HYDRA_EXTERNAL_NS::thrust::execution_policy<tag>
 {
   typedef tag tag_type;
 };
 
 struct tag : execution_policy<tag>
-, thrust::detail::allocator_aware_execution_policy<cuda_cub::execution_policy>
-#if THRUST_CPP_DIALECT >= 2011
-, thrust::detail::dependencies_aware_execution_policy<cuda_cub::execution_policy>
+, HYDRA_EXTERNAL_NS::thrust::detail::allocator_aware_execution_policy<cuda_cub::execution_policy>
+#if HYDRA_THRUST_CPP_DIALECT >= 2011
+, HYDRA_EXTERNAL_NS::thrust::detail::dependencies_aware_execution_policy<cuda_cub::execution_policy>
 #endif
 {};
 
 template <class Derived>
-struct execution_policy : thrust::execution_policy<Derived>
+struct execution_policy : HYDRA_EXTERNAL_NS::thrust::execution_policy<Derived>
 {
   typedef tag tag_type; 
   operator tag() const { return tag(); }
@@ -75,27 +75,27 @@ struct execution_policy : thrust::execution_policy<Derived>
 namespace system { namespace cuda { namespace detail
 {
 
-using thrust::cuda_cub::tag;
-using thrust::cuda_cub::execution_policy;
+using HYDRA_EXTERNAL_NS::thrust::cuda_cub::tag;
+using HYDRA_EXTERNAL_NS::thrust::cuda_cub::execution_policy;
 
 }}} // namespace system::cuda::detail
 
 namespace system { namespace cuda
 {
 
-using thrust::cuda_cub::tag;
-using thrust::cuda_cub::execution_policy;
+using HYDRA_EXTERNAL_NS::thrust::cuda_cub::tag;
+using HYDRA_EXTERNAL_NS::thrust::cuda_cub::execution_policy;
 
 }} // namespace system::cuda
 
 namespace cuda
 {
 
-using thrust::cuda_cub::tag;
-using thrust::cuda_cub::execution_policy;
+using HYDRA_EXTERNAL_NS::thrust::cuda_cub::tag;
+using HYDRA_EXTERNAL_NS::thrust::cuda_cub::execution_policy;
 
 } // namespace cuda
 
-THRUST_END_NS
+HYDRA_THRUST_END_NS
 
 HYDRA_EXTERNAL_NAMESPACE_END

@@ -68,7 +68,7 @@ namespace dispatch
 template<typename DerivedPolicy,
          typename RandomAccessIterator1,
          typename RandomAccessIterator2>
-  RandomAccessIterator2 overlapped_copy(thrust::system::cpp::detail::execution_policy<DerivedPolicy> &,
+  RandomAccessIterator2 overlapped_copy(HYDRA_EXTERNAL_NS::thrust::system::cpp::detail::execution_policy<DerivedPolicy> &,
                                         RandomAccessIterator1 first,
                                         RandomAccessIterator1 last,
                                         RandomAccessIterator2 result)
@@ -77,14 +77,14 @@ template<typename DerivedPolicy,
   {
     // result lies in [first, last)
     // it's safe to use std::copy_backward here
-    thrust::detail::sequential_copy_backward(first, last, result + (last - first));
+    HYDRA_EXTERNAL_NS::thrust::detail::sequential_copy_backward(first, last, result + (last - first));
     result += (last - first);
   } // end if
   else
   {
     // result + (last - first) lies in [first, last)
     // it's safe to use sequential_copy here
-    result = thrust::detail::sequential_copy(first, last, result);
+    result = HYDRA_EXTERNAL_NS::thrust::detail::sequential_copy(first, last, result);
   } // end else
 
   return result;
@@ -94,16 +94,16 @@ template<typename DerivedPolicy,
 template<typename DerivedPolicy,
          typename RandomAccessIterator1,
          typename RandomAccessIterator2>
-  RandomAccessIterator2 overlapped_copy(thrust::execution_policy<DerivedPolicy> &exec,
+  RandomAccessIterator2 overlapped_copy(HYDRA_EXTERNAL_NS::thrust::execution_policy<DerivedPolicy> &exec,
                                         RandomAccessIterator1 first,
                                         RandomAccessIterator1 last,
                                         RandomAccessIterator2 result)
 {
-  typedef typename thrust::iterator_value<RandomAccessIterator1>::type value_type;
+  typedef typename HYDRA_EXTERNAL_NS::thrust::iterator_value<RandomAccessIterator1>::type value_type;
 
   // make a temporary copy of [first,last), and copy into it first
-  thrust::detail::temporary_array<value_type, DerivedPolicy> temp(exec, first, last);
-  return thrust::copy(exec, temp.begin(), temp.end(), result);
+  HYDRA_EXTERNAL_NS::thrust::detail::temporary_array<value_type, DerivedPolicy> temp(exec, first, last);
+  return HYDRA_EXTERNAL_NS::thrust::copy(exec, temp.begin(), temp.end(), result);
 } // end overlapped_copy()
 
 } // end dispatch
@@ -115,15 +115,15 @@ template<typename RandomAccessIterator1,
                                         RandomAccessIterator1 last,
                                         RandomAccessIterator2 result)
 {
-  typedef typename thrust::iterator_system<RandomAccessIterator2>::type System1;
-  typedef typename thrust::iterator_system<RandomAccessIterator2>::type System2;
+  typedef typename HYDRA_EXTERNAL_NS::thrust::iterator_system<RandomAccessIterator2>::type System1;
+  typedef typename HYDRA_EXTERNAL_NS::thrust::iterator_system<RandomAccessIterator2>::type System2;
 
-  typedef typename thrust::detail::minimum_system<System1, System2>::type System;
+  typedef typename HYDRA_EXTERNAL_NS::thrust::detail::minimum_system<System1, System2>::type System;
 
   // XXX presumes System is default constructible
   System system;
 
-  return thrust::detail::dispatch::overlapped_copy(system, first, last, result);
+  return HYDRA_EXTERNAL_NS::thrust::detail::dispatch::overlapped_copy(system, first, last, result);
 } // end overlapped_copy()
 
 } // end detail

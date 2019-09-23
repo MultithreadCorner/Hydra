@@ -21,14 +21,14 @@ HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
 //     pointer_raw_pointer for pointer by specializing it here
 //     note that we specialize it here, before the use of raw_pointer_cast
 //     below, which causes pointer_raw_pointer's instantiation
-#if (THRUST_HOST_COMPILER == THRUST_HOST_COMPILER_MSVC) && (_MSC_VER <= 1400)
+#if (HYDRA_THRUST_HOST_COMPILER == HYDRA_THRUST_HOST_COMPILER_MSVC) && (_MSC_VER <= 1400)
 namespace detail
 {
 
 template<typename T>
-  struct pointer_raw_pointer< thrust::cuda_cub::pointer<T> >
+  struct pointer_raw_pointer< HYDRA_EXTERNAL_NS::thrust::cuda_cub::pointer<T> >
 {
-  typedef typename thrust::cuda_cub::pointer<T>::raw_pointer type;
+  typedef typename HYDRA_EXTERNAL_NS::thrust::cuda_cub::pointer<T>::raw_pointer type;
 }; // end pointer_raw_pointer
 
 } // end detail

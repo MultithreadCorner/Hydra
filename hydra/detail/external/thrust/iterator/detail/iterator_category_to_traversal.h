@@ -33,7 +33,7 @@ template <typename> struct is_iterator_system;
 template <typename> struct is_iterator_traversal;
 
 // make type_traits easy to access
-using HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust::detail;
+using namespace HYDRA_EXTERNAL_NS::thrust::detail;
 
 template <typename Category>
   struct host_system_category_to_traversal
@@ -95,8 +95,8 @@ template<typename Category>
       // check for host system
     : eval_if<
         or_<
-          is_convertible<Category, thrust::input_host_iterator_tag>,
-          is_convertible<Category, thrust::output_host_iterator_tag>
+          is_convertible<Category, HYDRA_EXTERNAL_NS::thrust::input_host_iterator_tag>,
+          is_convertible<Category, HYDRA_EXTERNAL_NS::thrust::output_host_iterator_tag>
         >::value,
 
         host_system_category_to_traversal<Category>,
@@ -104,8 +104,8 @@ template<typename Category>
         // check for device system
         eval_if<
           or_<
-            is_convertible<Category, thrust::input_device_iterator_tag>,
-            is_convertible<Category, thrust::output_device_iterator_tag>
+            is_convertible<Category, HYDRA_EXTERNAL_NS::thrust::input_device_iterator_tag>,
+            is_convertible<Category, HYDRA_EXTERNAL_NS::thrust::output_device_iterator_tag>
           >::value,
 
           device_system_category_to_traversal<Category>,
@@ -134,4 +134,3 @@ template <typename CategoryOrTraversal>
 
 
 HYDRA_EXTERNAL_NAMESPACE_END
-

@@ -73,38 +73,38 @@ template<typename T, typename System>
     typedef typename super_t::size_type size_type;
 
     __hydra_host__ __hydra_device__
-    temporary_array(thrust::execution_policy<System> &system);
+    temporary_array(HYDRA_EXTERNAL_NS::thrust::execution_policy<System> &system);
 
     __hydra_host__ __hydra_device__
-    temporary_array(thrust::execution_policy<System> &system, size_type n);
+    temporary_array(HYDRA_EXTERNAL_NS::thrust::execution_policy<System> &system, size_type n);
 
     // provide a kill-switch to explicitly avoid initialization
     __hydra_host__ __hydra_device__
-    temporary_array(int uninit, thrust::execution_policy<System> &system, size_type n);
+    temporary_array(int uninit, HYDRA_EXTERNAL_NS::thrust::execution_policy<System> &system, size_type n);
 
     template<typename InputIterator>
     __hydra_host__ __hydra_device__
-    temporary_array(thrust::execution_policy<System> &system,
+    temporary_array(HYDRA_EXTERNAL_NS::thrust::execution_policy<System> &system,
                     InputIterator first,
                     size_type n);
 
     template<typename InputIterator, typename InputSystem>
     __hydra_host__ __hydra_device__
-    temporary_array(thrust::execution_policy<System> &system,
-                    thrust::execution_policy<InputSystem> &input_system,
+    temporary_array(HYDRA_EXTERNAL_NS::thrust::execution_policy<System> &system,
+                    HYDRA_EXTERNAL_NS::thrust::execution_policy<InputSystem> &input_system,
                     InputIterator first,
                     size_type n);
 
     template<typename InputIterator>
     __hydra_host__ __hydra_device__
-    temporary_array(thrust::execution_policy<System> &system,
+    temporary_array(HYDRA_EXTERNAL_NS::thrust::execution_policy<System> &system,
                     InputIterator first,
                     InputIterator last);
 
     template<typename InputSystem, typename InputIterator>
     __hydra_host__ __hydra_device__
-    temporary_array(thrust::execution_policy<System> &system,
-                    thrust::execution_policy<InputSystem> &input_system,
+    temporary_array(HYDRA_EXTERNAL_NS::thrust::execution_policy<System> &system,
+                    HYDRA_EXTERNAL_NS::thrust::execution_policy<InputSystem> &input_system,
                     InputIterator first,
                     InputIterator last);
 
@@ -118,7 +118,7 @@ template<typename Iterator, typename System>
   class tagged_iterator_range
 {
   public:
-    typedef thrust::detail::tagged_iterator<Iterator,System> iterator;
+    typedef HYDRA_EXTERNAL_NS::thrust::detail::tagged_iterator<Iterator,System> iterator;
 
     template<typename Ignored1, typename Ignored2>
     tagged_iterator_range(const Ignored1 &, const Ignored2 &, Iterator first, Iterator last)
@@ -149,7 +149,7 @@ template<typename Iterator, typename FromSystem, typename ToSystem>
         >,
         identity_<
           temporary_array<
-            typename thrust::iterator_value<Iterator>::type,
+            typename HYDRA_EXTERNAL_NS::thrust::iterator_value<Iterator>::type,
             ToSystem
           >
         >
@@ -168,8 +168,8 @@ template<typename Iterator, typename FromSystem, typename ToSystem>
   typedef typename move_to_system_base<Iterator,FromSystem,ToSystem>::type super_t;
 
   public:
-    move_to_system(thrust::execution_policy<FromSystem> &from_system,
-                   thrust::execution_policy<ToSystem> &to_system,
+    move_to_system(HYDRA_EXTERNAL_NS::thrust::execution_policy<FromSystem> &from_system,
+                   HYDRA_EXTERNAL_NS::thrust::execution_policy<ToSystem> &to_system,
                    Iterator first,
                    Iterator last)
       : super_t(to_system, from_system, first, last) {}

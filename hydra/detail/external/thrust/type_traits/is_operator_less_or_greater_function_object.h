@@ -27,7 +27,7 @@
 #include <hydra/detail/external/thrust/detail/type_traits.h>
 #include <hydra/detail/external/thrust/detail/type_traits/pointer_traits.h>
 HYDRA_EXTERNAL_NAMESPACE_BEGIN
-THRUST_BEGIN_NS
+HYDRA_THRUST_BEGIN_NS
 
 namespace detail
 {
@@ -43,18 +43,18 @@ struct is_operator_greater_function_object_impl;
 /// Unary metafunction returns \c true_type if \c FunctionObject is equivalent
 /// to \c operator<, and \c false_type otherwise.
 template <typename FunctionObject>
-#if THRUST_CPP_DIALECT >= 2011
+#if HYDRA_THRUST_CPP_DIALECT >= 2011
 using is_operator_less_function_object =
 #else
 struct is_operator_less_function_object :
 #endif
   detail::is_operator_less_function_object_impl<FunctionObject>
-#if THRUST_CPP_DIALECT < 2011
+#if HYDRA_THRUST_CPP_DIALECT < 2011
 {}
 #endif
 ;
 
-#if THRUST_CPP_DIALECT >= 2014
+#if HYDRA_THRUST_CPP_DIALECT >= 2014
 /// <code>constexpr bool</code> that is \c true if \c FunctionObject is
 /// equivalent to \c operator<, and \c false otherwise.
 template <typename FunctionObject>
@@ -65,18 +65,18 @@ constexpr bool is_operator_less_function_object_v
 /// Unary metafunction returns \c true_type if \c FunctionObject is equivalent
 /// to \c operator>, and \c false_type otherwise.
 template <typename FunctionObject>
-#if THRUST_CPP_DIALECT >= 2011
+#if HYDRA_THRUST_CPP_DIALECT >= 2011
 using is_operator_greater_function_object =
 #else
 struct is_operator_greater_function_object :
 #endif
   detail::is_operator_greater_function_object_impl<FunctionObject>
-#if THRUST_CPP_DIALECT < 2011
+#if HYDRA_THRUST_CPP_DIALECT < 2011
 {}
 #endif
 ;
 
-#if THRUST_CPP_DIALECT >= 2014
+#if HYDRA_THRUST_CPP_DIALECT >= 2014
 /// <code>constexpr bool</code> that is \c true if \c FunctionObject is
 /// equivalent to \c operator>, and \c false otherwise.
 template <typename FunctionObject>
@@ -87,7 +87,7 @@ constexpr bool is_operator_greater_function_object_v
 /// Unary metafunction returns \c true_type if \c FunctionObject is equivalent
 /// to either \c operator<, and \c false_type otherwise.
 template <typename FunctionObject>
-#if THRUST_CPP_DIALECT >= 2011
+#if HYDRA_THRUST_CPP_DIALECT >= 2011
 using is_operator_less_or_greater_function_object =
 #else
 struct is_operator_less_or_greater_function_object :
@@ -97,12 +97,12 @@ struct is_operator_less_or_greater_function_object :
   ,    detail::is_operator_less_function_object_impl<FunctionObject>::value
     || detail::is_operator_greater_function_object_impl<FunctionObject>::value
   >
-#if THRUST_CPP_DIALECT < 2011
+#if HYDRA_THRUST_CPP_DIALECT < 2011
 {}
 #endif
 ;
 
-#if THRUST_CPP_DIALECT >= 2014
+#if HYDRA_THRUST_CPP_DIALECT >= 2014
 /// <code>constexpr bool</code> that is \c true if \c FunctionObject is
 /// equivalent to either \c operator< or \c operator>, and \c false otherwise.
 template <typename FunctionObject>
@@ -118,18 +118,18 @@ namespace detail
 template <typename FunctionObject>
 struct is_operator_less_function_object_impl                   : false_type {};
 template <typename T>
-struct is_operator_less_function_object_impl<thrust::less<T> > : true_type {};
+struct is_operator_less_function_object_impl<HYDRA_EXTERNAL_NS::thrust::less<T> > : true_type {};
 template <typename T>
 struct is_operator_less_function_object_impl<std::less<T>    > : true_type {};
 
 template <typename FunctionObject>
 struct is_operator_greater_function_object_impl                      : false_type {};
 template <typename T>
-struct is_operator_greater_function_object_impl<thrust::greater<T> > : true_type {};
+struct is_operator_greater_function_object_impl<HYDRA_EXTERNAL_NS::thrust::greater<T> > : true_type {};
 template <typename T>
 struct is_operator_greater_function_object_impl<std::greater<T>    > : true_type {};
 
 } // namespace detail
 
-THRUST_END_NS
+HYDRA_THRUST_END_NS
 HYDRA_EXTERNAL_NAMESPACE_END

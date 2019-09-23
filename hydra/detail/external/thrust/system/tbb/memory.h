@@ -69,7 +69,7 @@ inline void free(pointer<void> ptr);
 
 // XXX upon c++11
 // template<typename T>
-// using allocator = thrust::mr::stateless_resource_allocator<T, memory_resource>;
+// using allocator = HYDRA_EXTERNAL_NS::thrust::mr::stateless_resource_allocator<T, memory_resource>;
 
 /*! \p tbb::allocator is the default allocator used by the \p tbb system's containers such as
  *  <tt>tbb::vector</tt> if no user-specified allocator is provided. \p tbb::allocator allocates
@@ -77,13 +77,13 @@ inline void free(pointer<void> ptr);
  */
 template<typename T>
   struct allocator
-    : thrust::mr::stateless_resource_allocator<
+    : HYDRA_EXTERNAL_NS::thrust::mr::stateless_resource_allocator<
         T,
         memory_resource
     >
 {
 private:
-    typedef thrust::mr::stateless_resource_allocator<
+    typedef HYDRA_EXTERNAL_NS::thrust::mr::stateless_resource_allocator<
         T,
         memory_resource
     > base;
@@ -131,15 +131,15 @@ public:
 
 } // end system
 
-/*! \HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust::tbb
- *  \brief \p thrust::tbb is a top-level alias for thrust::system::tbb.
+/*! \HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace HYDRA_EXTERNAL_NS::thrust::tbb
+ *  \brief \p HYDRA_EXTERNAL_NS::thrust::tbb is a top-level alias for HYDRA_EXTERNAL_NS::thrust::system::tbb.
  */
 namespace tbb
 {
 
-using thrust::system::tbb::malloc;
-using thrust::system::tbb::free;
-using thrust::system::tbb::allocator;
+using HYDRA_EXTERNAL_NS::thrust::system::tbb::malloc;
+using HYDRA_EXTERNAL_NS::thrust::system::tbb::free;
+using HYDRA_EXTERNAL_NS::thrust::system::tbb::allocator;
 
 } // end tbb
 

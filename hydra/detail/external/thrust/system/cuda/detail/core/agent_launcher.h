@@ -26,7 +26,7 @@
  ******************************************************************************/
 #pragma once
 
-#if THRUST_DEVICE_COMPILER == THRUST_DEVICE_COMPILER_NVCC
+#if HYDRA_THRUST_DEVICE_COMPILER == HYDRA_THRUST_DEVICE_COMPILER_NVCC
 #include <hydra/detail/external/thrust/detail/config.h>
 #include <hydra/detail/external/thrust/system/cuda/detail/guarded_cuda_runtime_api.h>
 #include <hydra/detail/external/thrust/system/cuda/detail/core/triple_chevron_launch.h>
@@ -34,15 +34,15 @@
 #include <cassert>
 
 #if 0
-#define __THRUST__TEMPLATE_DEBUG
+#define __HYDRA_THRUST__TEMPLATE_DEBUG
 #endif
 
-#if __THRUST__TEMPLATE_DEBUG
+#if __HYDRA_THRUST__TEMPLATE_DEBUG
 template<int...> class ID_impl;
 template<int... I> class Foo { ID_impl<I...> t;};
 #endif
 HYDRA_EXTERNAL_NAMESPACE_BEGIN
-THRUST_BEGIN_NS
+HYDRA_THRUST_BEGIN_NS
 namespace cuda_cub {
 namespace core {
 
@@ -475,7 +475,7 @@ namespace core {
     }
 
 #if 0
-    THRUST_RUNTIME_FUNCTION
+    HYDRA_THRUST_RUNTIME_FUNCTION
     AgentPlan static get_plan(cudaStream_t s, void* d_ptr = 0)
     {
       // in separable compilation mode, we have no choice
@@ -493,7 +493,7 @@ namespace core {
       return get_agent_plan<Agent>(ptx_version);
 #endif
     }
-    THRUST_RUNTIME_FUNCTION
+    HYDRA_THRUST_RUNTIME_FUNCTION
     AgentPlan static get_plan_default()
     {
       return get_agent_plan<Agent>(sm_arch<0>::type::ver);
@@ -503,12 +503,12 @@ namespace core {
     CUB_RUNTIME_FUNCTION
     typename core::get_plan<Agent>::type static get_plan(cudaStream_t , void* d_ptr = 0)
     {
-      THRUST_UNUSED_VAR(d_ptr);
+      HYDRA_THRUST_UNUSED_VAR(d_ptr);
       core::cuda_optional<int> ptx_version = core::get_ptx_version();
       return get_agent_plan<Agent>(ptx_version);
     }
     
-    THRUST_RUNTIME_FUNCTION
+    HYDRA_THRUST_RUNTIME_FUNCTION
     typename core::get_plan<Agent>::type static get_plan()
     {
       return get_agent_plan<Agent>(lowest_supported_sm_arch::ver);
@@ -527,7 +527,7 @@ namespace core {
     }
 
     template<class K>
-    static cuda_optional<int> THRUST_RUNTIME_FUNCTION
+    static cuda_optional<int> HYDRA_THRUST_RUNTIME_FUNCTION
     max_blocks_per_sm_impl(K k, int block_threads)
     {
       int occ;
@@ -536,7 +536,7 @@ namespace core {
     }
 
     template <class K>
-    cuda_optional<int> THRUST_RUNTIME_FUNCTION
+    cuda_optional<int> HYDRA_THRUST_RUNTIME_FUNCTION
     max_sm_occupancy(K k) const
     {
       return max_blocks_per_sm_impl(k, plan.block_threads);
@@ -545,7 +545,7 @@ namespace core {
 
     
     template<class K>
-    THRUST_RUNTIME_FUNCTION
+    HYDRA_THRUST_RUNTIME_FUNCTION
     void print_info(K k) const
     {
       if (debug_sync)
@@ -588,112 +588,112 @@ namespace core {
 
 #if 0
     template<class... Args>
-    static cuda_optional<int> THRUST_RUNTIME_FUNCTION
+    static cuda_optional<int> HYDRA_THRUST_RUNTIME_FUNCTION
     get_max_blocks_per_sm(AgentPlan plan)
     {
       return max_blocks_per_sm_impl(_kernel_agent<Agent, Args...>, plan.block_threads);
     }
 #else
     template<class _0>
-    static cuda_optional<int> THRUST_RUNTIME_FUNCTION
+    static cuda_optional<int> HYDRA_THRUST_RUNTIME_FUNCTION
     get_max_blocks_per_sm(AgentPlan plan)
     {
       void (*ptr)(_0) = _kernel_agent<Agent, _0>;
       return max_blocks_per_sm_impl(ptr, plan.block_threads);
     }
     template<class _0, class _1>
-    static cuda_optional<int> THRUST_RUNTIME_FUNCTION
+    static cuda_optional<int> HYDRA_THRUST_RUNTIME_FUNCTION
     get_max_blocks_per_sm(AgentPlan plan)
     {
       void (*ptr)(_0, _1) = _kernel_agent<Agent, _0, _1>;
       return max_blocks_per_sm_impl(ptr, plan.block_threads);
     }
     template<class _0, class _1, class _2>
-    static cuda_optional<int> THRUST_RUNTIME_FUNCTION
+    static cuda_optional<int> HYDRA_THRUST_RUNTIME_FUNCTION
     get_max_blocks_per_sm(AgentPlan plan)
     {
       void (*ptr)(_0,_1,_2) = _kernel_agent<Agent, _0, _1, _2>;
       return max_blocks_per_sm_impl(ptr, plan.block_threads);
     }
     template<class _0, class _1, class _2, class _3>
-    static cuda_optional<int> THRUST_RUNTIME_FUNCTION
+    static cuda_optional<int> HYDRA_THRUST_RUNTIME_FUNCTION
     get_max_blocks_per_sm(AgentPlan plan)
     {
       void (*ptr)(_0,_1,_2,_3) = _kernel_agent<Agent, _0, _1, _2,_3>;
       return max_blocks_per_sm_impl(ptr, plan.block_threads);
     }
     template<class _0, class _1, class _2, class _3, class _4>
-    static cuda_optional<int> THRUST_RUNTIME_FUNCTION
+    static cuda_optional<int> HYDRA_THRUST_RUNTIME_FUNCTION
     get_max_blocks_per_sm(AgentPlan plan)
     {
       void (*ptr)(_0,_1,_2,_3,_4) = _kernel_agent<Agent, _0, _1, _2,_3,_4>;
       return max_blocks_per_sm_impl(ptr, plan.block_threads);
     }
     template<class _0, class _1, class _2, class _3, class _4, class _5>
-    static cuda_optional<int> THRUST_RUNTIME_FUNCTION
+    static cuda_optional<int> HYDRA_THRUST_RUNTIME_FUNCTION
     get_max_blocks_per_sm(AgentPlan plan)
     {
       void (*ptr)(_0,_1,_2,_3,_4,_5) = _kernel_agent<Agent, _0, _1, _2,_3,_4,_5>;
       return max_blocks_per_sm_impl(ptr, plan.block_threads);
     }
     template<class _0, class _1, class _2, class _3, class _4, class _5, class _6>
-    static cuda_optional<int> THRUST_RUNTIME_FUNCTION
+    static cuda_optional<int> HYDRA_THRUST_RUNTIME_FUNCTION
     get_max_blocks_per_sm(AgentPlan plan)
     {
       void (*ptr)(_0,_1,_2,_3,_4,_5,_6) = _kernel_agent<Agent, _0, _1, _2,_3,_4,_5,_6>;
       return max_blocks_per_sm_impl(ptr, plan.block_threads);
     }
     template<class _0, class _1, class _2, class _3, class _4, class _5, class _6, class _7>
-    static cuda_optional<int> THRUST_RUNTIME_FUNCTION
+    static cuda_optional<int> HYDRA_THRUST_RUNTIME_FUNCTION
     get_max_blocks_per_sm(AgentPlan plan)
     {
       void (*ptr)(_0,_1,_2,_3,_4,_5,_6,_7) = _kernel_agent<Agent, _0, _1, _2,_3,_4,_5,_6,_7>;
       return max_blocks_per_sm_impl(ptr, plan.block_threads);
     }
     template<class _0, class _1, class _2, class _3, class _4, class _5, class _6, class _7, class _8>
-    static cuda_optional<int> THRUST_RUNTIME_FUNCTION
+    static cuda_optional<int> HYDRA_THRUST_RUNTIME_FUNCTION
     get_max_blocks_per_sm(AgentPlan plan)
     {
       void (*ptr)(_0,_1,_2,_3,_4,_5,_6,_7,_8) = _kernel_agent<Agent, _0, _1, _2,_3,_4,_5,_6,_7,_8>;
       return max_blocks_per_sm_impl(ptr, plan.block_threads);
     }
     template<class _0, class _1, class _2, class _3, class _4, class _5, class _6, class _7, class _8, class _9>
-    static cuda_optional<int> THRUST_RUNTIME_FUNCTION
+    static cuda_optional<int> HYDRA_THRUST_RUNTIME_FUNCTION
     get_max_blocks_per_sm(AgentPlan plan)
     {
       void (*ptr)(_0,_1,_2,_3,_4,_5,_6,_7,_8,_9) = _kernel_agent<Agent, _0, _1, _2,_3,_4,_5,_6,_7,_8,_9>;
       return max_blocks_per_sm_impl(ptr, plan.block_threads);
     }
     template<class _0, class _1, class _2, class _3, class _4, class _5, class _6, class _7, class _8, class _9, class _xA>
-    static cuda_optional<int> THRUST_RUNTIME_FUNCTION
+    static cuda_optional<int> HYDRA_THRUST_RUNTIME_FUNCTION
     get_max_blocks_per_sm(AgentPlan plan)
     {
       void (*ptr)(_0,_1,_2,_3,_4,_5,_6,_7,_8,_9,_xA) = _kernel_agent<Agent, _0, _1, _2,_3,_4,_5,_6,_7,_8,_9,_xA>;
       return max_blocks_per_sm_impl(ptr, plan.block_threads);
     }
     template<class _0, class _1, class _2, class _3, class _4, class _5, class _6, class _7, class _8, class _9, class _xA, class _xB>
-    static cuda_optional<int> THRUST_RUNTIME_FUNCTION
+    static cuda_optional<int> HYDRA_THRUST_RUNTIME_FUNCTION
     get_max_blocks_per_sm(AgentPlan plan)
     {
       void (*ptr)(_0,_1,_2,_3,_4,_5,_6,_7,_8,_9,_xA,_xB) = _kernel_agent<Agent, _0, _1, _2,_3,_4,_5,_6,_7,_8,_9,_xA,_xB>;
       return max_blocks_per_sm_impl(ptr, plan.block_threads);
     }
     template<class _0, class _1, class _2, class _3, class _4, class _5, class _6, class _7, class _8, class _9, class _xA, class _xB, class _xC>
-    static cuda_optional<int> THRUST_RUNTIME_FUNCTION
+    static cuda_optional<int> HYDRA_THRUST_RUNTIME_FUNCTION
     get_max_blocks_per_sm(AgentPlan plan)
     {
       void (*ptr)(_0,_1,_2,_3,_4,_5,_6,_7,_8,_9,_xA,_xB,_xC) = _kernel_agent<Agent, _0, _1, _2,_3,_4,_5,_6,_7,_8,_9,_xA,_xB,_xC>;
       return max_blocks_per_sm_impl(ptr, plan.block_threads);
     }
     template<class _0, class _1, class _2, class _3, class _4, class _5, class _6, class _7, class _8, class _9, class _xA, class _xB, class _xC, class _xD>
-    static cuda_optional<int> THRUST_RUNTIME_FUNCTION
+    static cuda_optional<int> HYDRA_THRUST_RUNTIME_FUNCTION
     get_max_blocks_per_sm(AgentPlan plan)
     {
       void (*ptr)(_0,_1,_2,_3,_4,_5,_6,_7,_8,_9,_xA,_xB,_xC,_xD) = _kernel_agent<Agent, _0, _1, _2,_3,_4,_5,_6,_7,_8,_9,_xA,_xB,_xC,_xD>;
       return max_blocks_per_sm_impl(ptr, plan.block_threads);
     }
     template<class _0, class _1, class _2, class _3, class _4, class _5, class _6, class _7, class _8, class _9, class _xA, class _xB, class _xC, class _xD, class _xE>
-    static cuda_optional<int> THRUST_RUNTIME_FUNCTION
+    static cuda_optional<int> HYDRA_THRUST_RUNTIME_FUNCTION
     get_max_blocks_per_sm(AgentPlan plan)
     {
       void (*ptr)(_0,_1,_2,_3,_4,_5,_6,_7,_8,_9,_xA,_xB,_xC,_xD,_xE) = _kernel_agent<Agent, _0, _1, _2,_3,_4,_5,_6,_7,_8,_9,_xA,_xB,_xC,_xD,_xE>;
@@ -710,7 +710,7 @@ namespace core {
     // and save on compilations
     template <class... Args>
     void CUB_RUNTIME_FUNCTION
-    launch_impl(thrust::detail::true_type, Args... args) const
+    launch_impl(HYDRA_EXTERNAL_NS::thrust::detail::true_type, Args... args) const
     {
       assert(has_shmem && vshmem == NULL);
       print_info(_kernel_agent<Agent, Args...>);
@@ -728,7 +728,7 @@ namespace core {
     // 
     template <class... Args>
     void CUB_RUNTIME_FUNCTION
-    launch_impl(thrust::detail::false_type, Args... args) const
+    launch_impl(HYDRA_EXTERNAL_NS::thrust::detail::false_type, Args... args) const
     {
       assert((has_shmem && vshmem == NULL) || (!has_shmem && vshmem != NULL && shmem_size == 0));
       print_info(_kernel_agent_vshmem<Agent, Args...>);
@@ -740,7 +740,7 @@ namespace core {
     void CUB_RUNTIME_FUNCTION
     launch(Args... args) const
     {
-#if __THRUST__TEMPLATE_DEBUG
+#if __HYDRA_THRUST__TEMPLATE_DEBUG
 #ifdef __CUDA_ARCH__
       typedef typename Foo<
         shm1::v1,
@@ -756,7 +756,7 @@ namespace core {
 #else
     template <class _0>
     void CUB_RUNTIME_FUNCTION
-    launch_impl(thrust::detail::false_type, _0 x0) const
+    launch_impl(HYDRA_EXTERNAL_NS::thrust::detail::false_type, _0 x0) const
     {
       assert((has_shmem && vshmem == NULL) || (!has_shmem && vshmem != NULL && shmem_size == 0));
       void (*ptr)(char*, _0) = _kernel_agent_vshmem<Agent, _0>;
@@ -766,7 +766,7 @@ namespace core {
     }
     template <class _0, class _1>
     void CUB_RUNTIME_FUNCTION
-    launch_impl(thrust::detail::false_type, _0 x0, _1 x1) const
+    launch_impl(HYDRA_EXTERNAL_NS::thrust::detail::false_type, _0 x0, _1 x1) const
     {
       assert((has_shmem && vshmem == NULL) || (!has_shmem && vshmem != NULL && shmem_size == 0));
       void (*ptr)(char*, _0, _1) = _kernel_agent_vshmem<Agent, _0, _1>;
@@ -776,7 +776,7 @@ namespace core {
     }
     template <class _0, class _1, class _2>
     void CUB_RUNTIME_FUNCTION
-    launch_impl(thrust::detail::false_type, _0 x0, _1 x1, _2 x2) const
+    launch_impl(HYDRA_EXTERNAL_NS::thrust::detail::false_type, _0 x0, _1 x1, _2 x2) const
     {
       assert((has_shmem && vshmem == NULL) || (!has_shmem && vshmem != NULL && shmem_size == 0));
       void (*ptr)(char*, _0, _1, _2) = _kernel_agent_vshmem<Agent, _0, _1, _2>;
@@ -786,7 +786,7 @@ namespace core {
     }
     template <class _0, class _1, class _2, class _3>
     void CUB_RUNTIME_FUNCTION
-    launch_impl(thrust::detail::false_type, _0 x0, _1 x1, _2 x2, _3 x3) const
+    launch_impl(HYDRA_EXTERNAL_NS::thrust::detail::false_type, _0 x0, _1 x1, _2 x2, _3 x3) const
     {
       assert((has_shmem && vshmem == NULL) || (!has_shmem && vshmem != NULL && shmem_size == 0));
       void (*ptr)(char*, _0, _1, _2, _3) = _kernel_agent_vshmem<Agent, _0, _1, _2, _3>;
@@ -796,7 +796,7 @@ namespace core {
     }
     template <class _0, class _1, class _2, class _3, class _4>
     void CUB_RUNTIME_FUNCTION
-    launch_impl(thrust::detail::false_type, _0 x0, _1 x1, _2 x2, _3 x3, _4 x4) const
+    launch_impl(HYDRA_EXTERNAL_NS::thrust::detail::false_type, _0 x0, _1 x1, _2 x2, _3 x3, _4 x4) const
     {
       assert((has_shmem && vshmem == NULL) || (!has_shmem && vshmem != NULL && shmem_size == 0));
       void (*ptr)(char*, _0, _1, _2, _3, _4) = _kernel_agent_vshmem<Agent, _0, _1, _2, _3, _4>;
@@ -806,7 +806,7 @@ namespace core {
     }
     template <class _0, class _1, class _2, class _3, class _4, class _5>
     void CUB_RUNTIME_FUNCTION
-    launch_impl(thrust::detail::false_type, _0 x0, _1 x1, _2 x2, _3 x3, _4 x4, _5 x5) const
+    launch_impl(HYDRA_EXTERNAL_NS::thrust::detail::false_type, _0 x0, _1 x1, _2 x2, _3 x3, _4 x4, _5 x5) const
     {
       assert((has_shmem && vshmem == NULL) || (!has_shmem && vshmem != NULL && shmem_size == 0));
       void (*ptr)(char*, _0, _1, _2, _3, _4, _5) = _kernel_agent_vshmem<Agent, _0, _1, _2, _3, _4, _5>;
@@ -816,7 +816,7 @@ namespace core {
     }
     template <class _0, class _1, class _2, class _3, class _4, class _5, class _6>
     void CUB_RUNTIME_FUNCTION
-    launch_impl(thrust::detail::false_type, _0 x0, _1 x1, _2 x2, _3 x3, _4 x4, _5 x5, _6 x6) const
+    launch_impl(HYDRA_EXTERNAL_NS::thrust::detail::false_type, _0 x0, _1 x1, _2 x2, _3 x3, _4 x4, _5 x5, _6 x6) const
     {
       assert((has_shmem && vshmem == NULL) || (!has_shmem && vshmem != NULL && shmem_size == 0));
       void (*ptr)(char*, _0, _1, _2, _3, _4, _5, _6) = _kernel_agent_vshmem<Agent, _0, _1, _2, _3, _4, _5, _6>;
@@ -826,7 +826,7 @@ namespace core {
     }
     template <class _0, class _1, class _2, class _3, class _4, class _5, class _6, class _7>
     void CUB_RUNTIME_FUNCTION
-    launch_impl(thrust::detail::false_type, _0 x0, _1 x1, _2 x2, _3 x3, _4 x4, _5 x5, _6 x6, _7 x7) const
+    launch_impl(HYDRA_EXTERNAL_NS::thrust::detail::false_type, _0 x0, _1 x1, _2 x2, _3 x3, _4 x4, _5 x5, _6 x6, _7 x7) const
     {
       assert((has_shmem && vshmem == NULL) || (!has_shmem && vshmem != NULL && shmem_size == 0));
       void (*ptr)(char*, _0, _1, _2, _3, _4, _5, _6, _7) = _kernel_agent_vshmem<Agent, _0, _1, _2, _3, _4, _5, _6, _7>;
@@ -836,7 +836,7 @@ namespace core {
     }
     template <class _0, class _1, class _2, class _3, class _4, class _5, class _6, class _7, class _8>
     void CUB_RUNTIME_FUNCTION
-    launch_impl(thrust::detail::false_type, _0 x0, _1 x1, _2 x2, _3 x3, _4 x4, _5 x5, _6 x6, _7 x7, _8 x8) const
+    launch_impl(HYDRA_EXTERNAL_NS::thrust::detail::false_type, _0 x0, _1 x1, _2 x2, _3 x3, _4 x4, _5 x5, _6 x6, _7 x7, _8 x8) const
     {
       assert((has_shmem && vshmem == NULL) || (!has_shmem && vshmem != NULL && shmem_size == 0));
       void (*ptr)(char*, _0, _1, _2, _3, _4, _5, _6, _7, _8) = _kernel_agent_vshmem<Agent, _0, _1, _2, _3, _4, _5, _6, _7, _8>;
@@ -845,7 +845,7 @@ namespace core {
     }
     template <class _0, class _1, class _2, class _3, class _4, class _5, class _6, class _7, class _8, class _9>
     void CUB_RUNTIME_FUNCTION
-    launch_impl(thrust::detail::false_type, _0 x0, _1 x1, _2 x2, _3 x3, _4 x4, _5 x5, _6 x6, _7 x7, _8 x8, _9 x9) const
+    launch_impl(HYDRA_EXTERNAL_NS::thrust::detail::false_type, _0 x0, _1 x1, _2 x2, _3 x3, _4 x4, _5 x5, _6 x6, _7 x7, _8 x8, _9 x9) const
     {
       assert((has_shmem && vshmem == NULL) || (!has_shmem && vshmem != NULL && shmem_size == 0));
       void (*ptr)(char*, _0, _1, _2, _3, _4, _5, _6, _7, _8, _9) = _kernel_agent_vshmem<Agent, _0, _1, _2, _3, _4, _5, _6, _7, _8, _9>;
@@ -855,7 +855,7 @@ namespace core {
     }
     template <class _0, class _1, class _2, class _3, class _4, class _5, class _6, class _7, class _8, class _9, class _xA>
     void CUB_RUNTIME_FUNCTION
-    launch_impl(thrust::detail::false_type, _0 x0, _1 x1, _2 x2, _3 x3, _4 x4, _5 x5, _6 x6, _7 x7, _8 x8, _9 x9,_xA xA) const
+    launch_impl(HYDRA_EXTERNAL_NS::thrust::detail::false_type, _0 x0, _1 x1, _2 x2, _3 x3, _4 x4, _5 x5, _6 x6, _7 x7, _8 x8, _9 x9,_xA xA) const
     {
       assert((has_shmem && vshmem == NULL) || (!has_shmem && vshmem != NULL && shmem_size == 0));
       void (*ptr)(char*, _0, _1, _2, _3, _4, _5, _6, _7, _8, _9, _xA) = _kernel_agent_vshmem<Agent, _0, _1, _2, _3, _4, _5, _6, _7, _8, _9, _xA>;
@@ -865,7 +865,7 @@ namespace core {
     }
     template <class _0, class _1, class _2, class _3, class _4, class _5, class _6, class _7, class _8, class _9, class _xA, class _xB>
     void CUB_RUNTIME_FUNCTION
-    launch_impl(thrust::detail::false_type, _0 x0, _1 x1, _2 x2, _3 x3, _4 x4, _5 x5, _6 x6, _7 x7, _8 x8, _9 x9,_xA xA,_xB xB) const
+    launch_impl(HYDRA_EXTERNAL_NS::thrust::detail::false_type, _0 x0, _1 x1, _2 x2, _3 x3, _4 x4, _5 x5, _6 x6, _7 x7, _8 x8, _9 x9,_xA xA,_xB xB) const
     {
       assert((has_shmem && vshmem == NULL) || (!has_shmem && vshmem != NULL && shmem_size == 0));
       void (*ptr)(char*, _0, _1, _2, _3, _4, _5, _6, _7, _8, _9, _xA, _xB) = _kernel_agent_vshmem<Agent, _0, _1, _2, _3, _4, _5, _6, _7, _8, _9, _xA, _xB>;
@@ -875,7 +875,7 @@ namespace core {
     }
     template <class _0, class _1, class _2, class _3, class _4, class _5, class _6, class _7, class _8, class _9, class _xA, class _xB, class _xC>
     void CUB_RUNTIME_FUNCTION
-    launch_impl(thrust::detail::false_type, _0 x0, _1 x1, _2 x2, _3 x3, _4 x4, _5 x5, _6 x6, _7 x7, _8 x8, _9 x9,_xA xA,_xB xB,_xC xC) const
+    launch_impl(HYDRA_EXTERNAL_NS::thrust::detail::false_type, _0 x0, _1 x1, _2 x2, _3 x3, _4 x4, _5 x5, _6 x6, _7 x7, _8 x8, _9 x9,_xA xA,_xB xB,_xC xC) const
     {
       assert((has_shmem && vshmem == NULL) || (!has_shmem && vshmem != NULL && shmem_size == 0));
       void (*ptr)(char*, _0, _1, _2, _3, _4, _5, _6, _7, _8, _9, _xA, _xB, _xC) = _kernel_agent_vshmem<Agent, _0, _1, _2, _3, _4, _5, _6, _7, _8, _9, _xA, _xB, _xC>;
@@ -885,7 +885,7 @@ namespace core {
     }
     template <class _0, class _1, class _2, class _3, class _4, class _5, class _6, class _7, class _8, class _9, class _xA, class _xB, class _xC, class _xD>
     void CUB_RUNTIME_FUNCTION
-    launch_impl(thrust::detail::false_type, _0 x0, _1 x1, _2 x2, _3 x3, _4 x4, _5 x5, _6 x6, _7 x7, _8 x8, _9 x9,_xA xA,_xB xB,_xC xC,_xD xD) const
+    launch_impl(HYDRA_EXTERNAL_NS::thrust::detail::false_type, _0 x0, _1 x1, _2 x2, _3 x3, _4 x4, _5 x5, _6 x6, _7 x7, _8 x8, _9 x9,_xA xA,_xB xB,_xC xC,_xD xD) const
     {
       assert((has_shmem && vshmem == NULL) || (!has_shmem && vshmem != NULL && shmem_size == 0));
       void (*ptr)(char*, _0, _1, _2, _3, _4, _5, _6, _7, _8, _9, _xA, _xB, _xC, _xD) = _kernel_agent_vshmem<Agent, _0, _1, _2, _3, _4, _5, _6, _7, _8, _9, _xA, _xB, _xC, _xD>;
@@ -895,7 +895,7 @@ namespace core {
     }
     template <class _0, class _1, class _2, class _3, class _4, class _5, class _6, class _7, class _8, class _9, class _xA, class _xB, class _xC, class _xD, class _xE>
     void CUB_RUNTIME_FUNCTION
-    launch_impl(thrust::detail::false_type, _0 x0, _1 x1, _2 x2, _3 x3, _4 x4, _5 x5, _6 x6, _7 x7, _8 x8, _9 x9,_xA xA,_xB xB,_xC xC,_xD xD,_xE xE) const
+    launch_impl(HYDRA_EXTERNAL_NS::thrust::detail::false_type, _0 x0, _1 x1, _2 x2, _3 x3, _4 x4, _5 x5, _6 x6, _7 x7, _8 x8, _9 x9,_xA xA,_xB xB,_xC xC,_xD xD,_xE xE) const
     {
       assert((has_shmem && vshmem == NULL) || (!has_shmem && vshmem != NULL && shmem_size == 0));
       void (*ptr)(char*, _0, _1, _2, _3, _4, _5, _6, _7, _8, _9, _xA, _xB, _xC, _xD, _xE) = _kernel_agent_vshmem<Agent, _0, _1, _2, _3, _4, _5, _6, _7, _8, _9, _xA, _xB, _xC, _xD, _xE>;
@@ -910,7 +910,7 @@ namespace core {
 
     template <class _0>
     void CUB_RUNTIME_FUNCTION
-    launch_impl(thrust::detail::true_type, _0 x0) const
+    launch_impl(HYDRA_EXTERNAL_NS::thrust::detail::true_type, _0 x0) const
     {
       assert(has_shmem && vshmem == NULL);
       void (*ptr)(_0) = _kernel_agent<Agent, _0>;
@@ -920,7 +920,7 @@ namespace core {
     }
     template <class _0, class _1>
     void CUB_RUNTIME_FUNCTION
-    launch_impl(thrust::detail::true_type, _0 x0, _1 x1) const
+    launch_impl(HYDRA_EXTERNAL_NS::thrust::detail::true_type, _0 x0, _1 x1) const
     {
       assert(has_shmem && vshmem == NULL);
       void (*ptr)(_0, _1) = _kernel_agent<Agent, _0, _1>;
@@ -930,7 +930,7 @@ namespace core {
     }
     template <class _0, class _1, class _2>
     void CUB_RUNTIME_FUNCTION
-    launch_impl(thrust::detail::true_type, _0 x0, _1 x1, _2 x2) const
+    launch_impl(HYDRA_EXTERNAL_NS::thrust::detail::true_type, _0 x0, _1 x1, _2 x2) const
     {
       assert(has_shmem && vshmem == NULL);
       void (*ptr)(_0,_1,_2) = _kernel_agent<Agent, _0, _1, _2>;
@@ -940,7 +940,7 @@ namespace core {
     }
     template <class _0, class _1, class _2, class _3>
     void CUB_RUNTIME_FUNCTION
-    launch_impl(thrust::detail::true_type, _0 x0, _1 x1, _2 x2, _3 x3) const
+    launch_impl(HYDRA_EXTERNAL_NS::thrust::detail::true_type, _0 x0, _1 x1, _2 x2, _3 x3) const
     {
       assert(has_shmem && vshmem == NULL);
       void (*ptr)(_0,_1,_2,_3) = _kernel_agent<Agent, _0, _1, _2,_3>;
@@ -950,7 +950,7 @@ namespace core {
     }
     template <class _0, class _1, class _2, class _3, class _4>
     void CUB_RUNTIME_FUNCTION
-    launch_impl(thrust::detail::true_type, _0 x0, _1 x1, _2 x2, _3 x3, _4 x4) const
+    launch_impl(HYDRA_EXTERNAL_NS::thrust::detail::true_type, _0 x0, _1 x1, _2 x2, _3 x3, _4 x4) const
     {
       assert(has_shmem && vshmem == NULL);
       void (*ptr)(_0,_1,_2,_3,_4) = _kernel_agent<Agent, _0, _1, _2,_3,_4>;
@@ -960,7 +960,7 @@ namespace core {
     }
     template <class _0, class _1, class _2, class _3, class _4, class _5>
     void CUB_RUNTIME_FUNCTION
-    launch_impl(thrust::detail::true_type, _0 x0, _1 x1, _2 x2, _3 x3, _4 x4, _5 x5) const
+    launch_impl(HYDRA_EXTERNAL_NS::thrust::detail::true_type, _0 x0, _1 x1, _2 x2, _3 x3, _4 x4, _5 x5) const
     {
       assert(has_shmem && vshmem == NULL);
       void (*ptr)(_0,_1,_2,_3,_4,_5) = _kernel_agent<Agent, _0, _1, _2,_3,_4,_5>;
@@ -970,7 +970,7 @@ namespace core {
     }
     template <class _0, class _1, class _2, class _3, class _4, class _5, class _6>
     void CUB_RUNTIME_FUNCTION
-    launch_impl(thrust::detail::true_type, _0 x0, _1 x1, _2 x2, _3 x3, _4 x4, _5 x5, _6 x6) const
+    launch_impl(HYDRA_EXTERNAL_NS::thrust::detail::true_type, _0 x0, _1 x1, _2 x2, _3 x3, _4 x4, _5 x5, _6 x6) const
     {
       assert(has_shmem && vshmem == NULL);
       void (*ptr)(_0,_1,_2,_3,_4,_5,_6) = _kernel_agent<Agent, _0, _1, _2,_3,_4,_5,_6>;
@@ -980,7 +980,7 @@ namespace core {
     }
     template <class _0, class _1, class _2, class _3, class _4, class _5, class _6, class _7>
     void CUB_RUNTIME_FUNCTION
-    launch_impl(thrust::detail::true_type, _0 x0, _1 x1, _2 x2, _3 x3, _4 x4, _5 x5, _6 x6, _7 x7) const
+    launch_impl(HYDRA_EXTERNAL_NS::thrust::detail::true_type, _0 x0, _1 x1, _2 x2, _3 x3, _4 x4, _5 x5, _6 x6, _7 x7) const
     {
       assert(has_shmem && vshmem == NULL);
       void (*ptr)(_0,_1,_2,_3,_4,_5,_6,_7) = _kernel_agent<Agent, _0, _1, _2,_3,_4,_5,_6,_7>;
@@ -990,7 +990,7 @@ namespace core {
     }
     template <class _0, class _1, class _2, class _3, class _4, class _5, class _6, class _7, class _8>
     void CUB_RUNTIME_FUNCTION
-    launch_impl(thrust::detail::true_type, _0 x0, _1 x1, _2 x2, _3 x3, _4 x4, _5 x5, _6 x6, _7 x7, _8 x8) const
+    launch_impl(HYDRA_EXTERNAL_NS::thrust::detail::true_type, _0 x0, _1 x1, _2 x2, _3 x3, _4 x4, _5 x5, _6 x6, _7 x7, _8 x8) const
     {
       assert(has_shmem && vshmem == NULL);
       void (*ptr)(_0,_1,_2,_3,_4,_5,_6,_7,_8) = _kernel_agent<Agent, _0, _1, _2,_3,_4,_5,_6,_7,_8>;
@@ -1000,7 +1000,7 @@ namespace core {
     }
     template <class _0, class _1, class _2, class _3, class _4, class _5, class _6, class _7, class _8, class _9>
     void CUB_RUNTIME_FUNCTION
-    launch_impl(thrust::detail::true_type, _0 x0, _1 x1, _2 x2, _3 x3, _4 x4, _5 x5, _6 x6, _7 x7, _8 x8, _9 x9) const
+    launch_impl(HYDRA_EXTERNAL_NS::thrust::detail::true_type, _0 x0, _1 x1, _2 x2, _3 x3, _4 x4, _5 x5, _6 x6, _7 x7, _8 x8, _9 x9) const
     {
       assert(has_shmem && vshmem == NULL);
       void (*ptr)(_0,_1,_2,_3,_4,_5,_6,_7,_8,_9) = _kernel_agent<Agent, _0, _1, _2,_3,_4,_5,_6,_7,_8,_9>;
@@ -1010,7 +1010,7 @@ namespace core {
     }
     template <class _0, class _1, class _2, class _3, class _4, class _5, class _6, class _7, class _8, class _9, class _xA>
     void CUB_RUNTIME_FUNCTION
-    launch_impl(thrust::detail::true_type, _0 x0, _1 x1, _2 x2, _3 x3, _4 x4, _5 x5, _6 x6, _7 x7, _8 x8, _9 x9, _xA xA) const
+    launch_impl(HYDRA_EXTERNAL_NS::thrust::detail::true_type, _0 x0, _1 x1, _2 x2, _3 x3, _4 x4, _5 x5, _6 x6, _7 x7, _8 x8, _9 x9, _xA xA) const
     {
       assert(has_shmem && vshmem == NULL);
       void (*ptr)(_0,_1,_2,_3,_4,_5,_6,_7,_8,_9,_xA) = _kernel_agent<Agent, _0, _1, _2,_3,_4,_5,_6,_7,_8,_9,_xA>;
@@ -1020,7 +1020,7 @@ namespace core {
     }
     template <class _0, class _1, class _2, class _3, class _4, class _5, class _6, class _7, class _8, class _9, class _xA, class _xB>
     void CUB_RUNTIME_FUNCTION
-    launch_impl(thrust::detail::true_type, _0 x0, _1 x1, _2 x2, _3 x3, _4 x4, _5 x5, _6 x6, _7 x7, _8 x8, _9 x9, _xA xA, _xB xB) const
+    launch_impl(HYDRA_EXTERNAL_NS::thrust::detail::true_type, _0 x0, _1 x1, _2 x2, _3 x3, _4 x4, _5 x5, _6 x6, _7 x7, _8 x8, _9 x9, _xA xA, _xB xB) const
     {
       assert(has_shmem && vshmem == NULL);
       void (*ptr)(_0,_1,_2,_3,_4,_5,_6,_7,_8,_9,_xA,_xB) = _kernel_agent<Agent, _0, _1, _2,_3,_4,_5,_6,_7,_8,_9,_xA,_xB>;
@@ -1030,7 +1030,7 @@ namespace core {
     }
     template <class _0, class _1, class _2, class _3, class _4, class _5, class _6, class _7, class _8, class _9, class _xA, class _xB, class _xC>
     void CUB_RUNTIME_FUNCTION
-    launch_impl(thrust::detail::true_type, _0 x0, _1 x1, _2 x2, _3 x3, _4 x4, _5 x5, _6 x6, _7 x7, _8 x8, _9 x9, _xA xA, _xB xB, _xC xC) const
+    launch_impl(HYDRA_EXTERNAL_NS::thrust::detail::true_type, _0 x0, _1 x1, _2 x2, _3 x3, _4 x4, _5 x5, _6 x6, _7 x7, _8 x8, _9 x9, _xA xA, _xB xB, _xC xC) const
     {
       assert(has_shmem && vshmem == NULL);
       void (*ptr)(_0,_1,_2,_3,_4,_5,_6,_7,_8,_9,_xA,_xB,_xC) = _kernel_agent<Agent, _0, _1, _2,_3,_4,_5,_6,_7,_8,_9,_xA,_xB,_xC>;
@@ -1040,7 +1040,7 @@ namespace core {
     }
     template <class _0, class _1, class _2, class _3, class _4, class _5, class _6, class _7, class _8, class _9, class _xA, class _xB, class _xC, class _xD>
     void CUB_RUNTIME_FUNCTION
-    launch_impl(thrust::detail::true_type, _0 x0, _1 x1, _2 x2, _3 x3, _4 x4, _5 x5, _6 x6, _7 x7, _8 x8, _9 x9, _xA xA, _xB xB, _xC xC, _xD xD) const
+    launch_impl(HYDRA_EXTERNAL_NS::thrust::detail::true_type, _0 x0, _1 x1, _2 x2, _3 x3, _4 x4, _5 x5, _6 x6, _7 x7, _8 x8, _9 x9, _xA xA, _xB xB, _xC xC, _xD xD) const
     {
       assert(has_shmem && vshmem == NULL);
       void (*ptr)(_0,_1,_2,_3,_4,_5,_6,_7,_8,_9,_xA,_xB,_xC,_xD) = _kernel_agent<Agent, _0, _1, _2,_3,_4,_5,_6,_7,_8,_9,_xA,_xB,_xC,_xD>;
@@ -1050,7 +1050,7 @@ namespace core {
     }
     template <class _0, class _1, class _2, class _3, class _4, class _5, class _6, class _7, class _8, class _9, class _xA, class _xB, class _xC, class _xD, class _xE>
     void CUB_RUNTIME_FUNCTION
-    launch_impl(thrust::detail::true_type, _0 x0, _1 x1, _2 x2, _3 x3, _4 x4, _5 x5, _6 x6, _7 x7, _8 x8, _9 x9, _xA xA, _xB xB, _xC xC, _xD xD, _xE xE) const
+    launch_impl(HYDRA_EXTERNAL_NS::thrust::detail::true_type, _0 x0, _1 x1, _2 x2, _3 x3, _4 x4, _5 x5, _6 x6, _7 x7, _8 x8, _9 x9, _xA xA, _xB xB, _xC xC, _xD xD, _xE xE) const
     {
       assert(has_shmem && vshmem == NULL);
       void (*ptr)(_0,_1,_2,_3,_4,_5,_6,_7,_8,_9,_xA,_xB,_xC,_xD,_xE) = _kernel_agent<Agent, _0, _1, _2,_3,_4,_5,_6,_7,_8,_9,_xA,_xB,_xC,_xD,_xE>;
@@ -1175,6 +1175,6 @@ namespace core {
 
 }    // namespace core
 }
-THRUST_END_NS
+HYDRA_THRUST_END_NS
 HYDRA_EXTERNAL_NAMESPACE_END
 #endif

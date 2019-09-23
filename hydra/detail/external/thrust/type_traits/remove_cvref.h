@@ -21,9 +21,9 @@
 
 HYDRA_EXTERNAL_NAMESPACE_BEGIN
 
-THRUST_BEGIN_NS
+HYDRA_THRUST_BEGIN_NS
 
-#if THRUST_CPP_DIALECT >= 2020
+#if HYDRA_THRUST_CPP_DIALECT >= 2020
 
 using std::remove_cvref;
 using std::remove_cvref_t;
@@ -38,12 +38,12 @@ struct remove_cvref
   >::type type;
 };
 
-#if THRUST_CPP_DIALECT >= 2011
+#if HYDRA_THRUST_CPP_DIALECT >= 2011
 template <typename T>
 using remove_cvref_t = typename remove_cvref<T>::type;
 #endif
 
-#endif // THRUST_CPP_DIALECT >= 2020
+#endif // HYDRA_THRUST_CPP_DIALECT >= 2020
 
-THRUST_END_NS
+HYDRA_THRUST_END_NS
 HYDRA_EXTERNAL_NAMESPACE_END

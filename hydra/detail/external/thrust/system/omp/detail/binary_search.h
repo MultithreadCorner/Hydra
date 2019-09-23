@@ -38,7 +38,7 @@ ForwardIterator lower_bound(execution_policy<DerivedPolicy> &exec,
                             StrictWeakOrdering comp)
 {
     // omp prefers generic::lower_bound to cpp::lower_bound
-    return thrust::system::detail::generic::lower_bound(exec, begin, end, value, comp);
+    return HYDRA_EXTERNAL_NS::thrust::system::detail::generic::lower_bound(exec, begin, end, value, comp);
 }
 
 
@@ -50,7 +50,7 @@ ForwardIterator upper_bound(execution_policy<DerivedPolicy> &exec,
                             StrictWeakOrdering comp)
 {
     // omp prefers generic::upper_bound to cpp::upper_bound
-    return thrust::system::detail::generic::upper_bound(exec, begin, end, value, comp);
+    return HYDRA_EXTERNAL_NS::thrust::system::detail::generic::upper_bound(exec, begin, end, value, comp);
 }
 
 
@@ -62,7 +62,7 @@ bool binary_search(execution_policy<DerivedPolicy> &exec,
                    StrictWeakOrdering comp)
 {
     // omp prefers generic::binary_search to cpp::binary_search
-    return thrust::system::detail::generic::binary_search(exec, begin, end, value, comp);
+    return HYDRA_EXTERNAL_NS::thrust::system::detail::generic::binary_search(exec, begin, end, value, comp);
 }
 
 

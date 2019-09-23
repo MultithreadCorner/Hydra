@@ -60,8 +60,8 @@ namespace random
  *  \note Inexperienced users should not use this class template directly.  Instead, use
  *  \p ranlux24_base or \p ranlux48_base, which are instances of \p subtract_with_carry_engine.
  *
- *  \see thrust::random::ranlux24_base
- *  \see thrust::random::ranlux48_base
+ *  \see HYDRA_EXTERNAL_NS::thrust::random::ranlux24_base
+ *  \see HYDRA_EXTERNAL_NS::thrust::random::ranlux48_base
  */
 template<typename UIntType, size_t w, size_t s, size_t r>
   class subtract_with_carry_engine
@@ -149,7 +149,7 @@ template<typename UIntType, size_t w, size_t s, size_t r>
     unsigned int m_k;
     int m_carry;
 
-    friend struct thrust::random::detail::random_core_access;
+    friend struct HYDRA_EXTERNAL_NS::thrust::random::detail::random_core_access;
 
     __hydra_host__ __hydra_device__
     bool equal(const subtract_with_carry_engine &rhs) const;
@@ -227,7 +227,7 @@ operator>>(std::basic_istream<CharT,Traits> &is,
  *  \note The 10000th consecutive invocation of a default-constructed object of type \p ranlux24_base
  *        shall produce the value \c 7937952 .
  */
-typedef subtract_with_carry_engine<thrust::detail::uint32_t, 24, 10, 24> ranlux24_base;
+typedef subtract_with_carry_engine<HYDRA_EXTERNAL_NS::thrust::detail::uint32_t, 24, 10, 24> ranlux24_base;
 
 
 // XXX N2111 uses uint_fast64_t here
@@ -238,14 +238,14 @@ typedef subtract_with_carry_engine<thrust::detail::uint32_t, 24, 10, 24> ranlux2
  *  \note The 10000th consecutive invocation of a default-constructed object of type \p ranlux48_base
  *        shall produce the value \c 192113843633948 .
  */
-typedef subtract_with_carry_engine<thrust::detail::uint64_t, 48,  5, 12> ranlux48_base;
+typedef subtract_with_carry_engine<HYDRA_EXTERNAL_NS::thrust::detail::uint64_t, 48,  5, 12> ranlux48_base;
 
 /*! \} // end predefined_random
  */
 
 } // end random
 
-// import names into thrust::
+// import names into HYDRA_EXTERNAL_NS::thrust::
 using random::subtract_with_carry_engine;
 using random::ranlux24_base;
 using random::ranlux48_base;

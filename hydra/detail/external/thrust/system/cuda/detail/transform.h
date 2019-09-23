@@ -27,8 +27,9 @@
 #pragma once
 
 
-#if THRUST_DEVICE_COMPILER == THRUST_DEVICE_COMPILER_NVCC
+#if HYDRA_THRUST_DEVICE_COMPILER == HYDRA_THRUST_DEVICE_COMPILER_NVCC
 #include <hydra/detail/external/thrust/system/cuda/config.h>
+#include <hydra/detail/external/thrust/detail/raw_reference_cast.h>
 
 #include <hydra/detail/external/thrust/system/cuda/detail/util.h>
 #include <hydra/detail/external/thrust/detail/type_traits/result_of_adaptable_function.h>
@@ -37,7 +38,7 @@
 
 HYDRA_EXTERNAL_NAMESPACE_BEGIN
 
-THRUST_BEGIN_NS
+HYDRA_THRUST_BEGIN_NS
 
 namespace cuda_cub {
 
@@ -51,7 +52,7 @@ namespace __transform {
   struct always_true_predicate
   {
     template <class T>
-    bool THRUST_DEVICE_FUNCTION operator()(T const &) const
+    bool HYDRA_THRUST_DEVICE_FUNCTION operator()(T const &) const
     {
       return true;
     }
@@ -70,7 +71,7 @@ namespace __transform {
     TransformOp op;
     Predicate   pred;
 
-    THRUST_FUNCTION
+    HYDRA_THRUST_FUNCTION
     unary_transform_f(InputIt     input_,
                       OutputIt    output_,
                       StencilIt   stencil_,
@@ -83,10 +84,10 @@ namespace __transform {
           pred(pred_) {}
 
     template<class Size>
-    void THRUST_DEVICE_FUNCTION operator()(Size idx)
+    void HYDRA_THRUST_DEVICE_FUNCTION operator()(Size idx)
     {
-      if (pred(raw_reference_cast(stencil[idx])))
-        output[idx] = op(raw_reference_cast(input[idx]));
+      if (pred(HYDRA_EXTERNAL_NS::thrust::raw_reference_cast(stencil[idx])))
+        output[idx] = op(HYDRA_EXTERNAL_NS::thrust::raw_reference_cast(input[idx]));
     }
   }; // struct unary_transform_stencil_f
 
@@ -105,7 +106,7 @@ namespace __transform {
     TransformOp op;
     Predicate   pred;
 
-    THRUST_FUNCTION
+    HYDRA_THRUST_FUNCTION
     unary_transform_f(InputIt        input_,
                       OutputIt       output_,
                       no_stencil_tag,
@@ -114,7 +115,7 @@ namespace __transform {
         : input(input_), output(output_), op(op_), pred(pred_) {}
 
     template<class Size>
-    void THRUST_DEVICE_FUNCTION operator()(Size idx)
+    void HYDRA_THRUST_DEVICE_FUNCTION operator()(Size idx)
     {
       if (pred(raw_reference_cast(input[idx])))
         output[idx] = op(raw_reference_cast(input[idx]));
@@ -136,7 +137,7 @@ namespace __transform {
     TransformOp op;
     Predicate   pred;
 
-    THRUST_FUNCTION
+    HYDRA_THRUST_FUNCTION
     binary_transform_f(InputIt1    input1_,
                        InputIt2    input2_,
                        OutputIt    output_,
@@ -151,7 +152,7 @@ namespace __transform {
           pred(pred_) {}
 
     template<class Size>
-    void THRUST_DEVICE_FUNCTION operator()(Size idx)
+    void HYDRA_THRUST_DEVICE_FUNCTION operator()(Size idx)
     {
       if (pred(raw_reference_cast(stencil[idx])))
         output[idx] = op(raw_reference_cast(input1[idx]),
@@ -177,7 +178,7 @@ namespace __transform {
     TransformOp op;
     Predicate   pred;
 
-    THRUST_FUNCTION
+    HYDRA_THRUST_FUNCTION
     binary_transform_f(InputIt1       input1_,
                        InputIt2       input2_,
                        OutputIt       output_,
@@ -191,11 +192,11 @@ namespace __transform {
           pred(pred_) {}
 
     template<class Size>
-    void THRUST_DEVICE_FUNCTION operator()(Size idx)
+    void HYDRA_THRUST_DEVICE_FUNCTION operator()(Size idx)
     {
-      if (pred(raw_reference_cast(input1[idx])))
-        output[idx] = op(raw_reference_cast(input1[idx]),
-                         raw_reference_cast(input2[idx]));
+      if (pred(HYDRA_EXTERNAL_NS::thrust::raw_reference_cast(input1[idx])))
+        output[idx] = op(HYDRA_EXTERNAL_NS::thrust::raw_reference_cast(input1[idx]),
+        		HYDRA_EXTERNAL_NS::thrust::raw_reference_cast(input2[idx]));
     }
   }; // struct binary_transform_f
 
@@ -206,7 +207,7 @@ namespace __transform {
             class StencilIt,
             class TransformOp,
             class Predicate>
-  OutputIt THRUST_FUNCTION
+  OutputIt HYDRA_THRUST_FUNCTION
   unary(Policy &     policy,
         InputIt      items,
         OutputIt     result,
@@ -249,7 +250,7 @@ namespace __transform {
             class StencilIt,
             class TransformOp,
             class Predicate>
-  OutputIt THRUST_FUNCTION
+  OutputIt HYDRA_THRUST_FUNCTION
   binary(Policy &    policy,
          InputIt1    items1,
          InputIt2    items2,
@@ -303,7 +304,7 @@ template <class Derived,
           class StencilInputIt,
           class TransformOp,
           class Predicate>
-OutputIt THRUST_FUNCTION
+OutputIt HYDRA_THRUST_FUNCTION
 transform_if(execution_policy<Derived> &policy,
              InputIt                    first,
              InputIt                    last,
@@ -313,7 +314,7 @@ transform_if(execution_policy<Derived> &policy,
              Predicate                  predicate)
 {
   typedef typename iterator_traits<InputIt>::difference_type size_type;
-  size_type num_items = static_cast<size_type>(thrust::distance(first, last));
+  size_type num_items = static_cast<size_type>(HYDRA_EXTERNAL_NS::thrust::distance(first, last));
   return __transform::unary(policy,
                             first,
                             result,
@@ -328,7 +329,7 @@ template <class Derived,
           class OutputIt,
           class TransformOp,
           class Predicate>
-OutputIt THRUST_FUNCTION
+OutputIt HYDRA_THRUST_FUNCTION
 transform_if(execution_policy<Derived> &policy,
              InputIt                    first,
              InputIt                    last,
@@ -349,7 +350,7 @@ template <class Derived,
           class InputIt,
           class OutputIt,
           class TransformOp>
-OutputIt THRUST_FUNCTION
+OutputIt HYDRA_THRUST_FUNCTION
 transform(execution_policy<Derived> &policy,
           InputIt                    first,
           InputIt                    last,
@@ -376,7 +377,7 @@ template <class Derived,
           class OutputIt,
           class TransformOp,
           class Predicate>
-OutputIt THRUST_FUNCTION
+OutputIt HYDRA_THRUST_FUNCTION
 transform_if(execution_policy<Derived> &policy,
              InputIt1                   first1,
              InputIt1                   last1,
@@ -387,7 +388,7 @@ transform_if(execution_policy<Derived> &policy,
              Predicate                  predicate)
 {
   typedef typename iterator_traits<InputIt1>::difference_type size_type;
-  size_type num_items = static_cast<size_type>(thrust::distance(first1, last1));
+  size_type num_items = static_cast<size_type>(HYDRA_EXTERNAL_NS::thrust::distance(first1, last1));
   return __transform::binary(policy,
                              first1,
                              first2,
@@ -403,7 +404,7 @@ template <class Derived,
           class InputIt2,
           class OutputIt,
           class TransformOp>
-OutputIt THRUST_FUNCTION
+OutputIt HYDRA_THRUST_FUNCTION
 transform(execution_policy<Derived> &policy,
           InputIt1                   first1,
           InputIt1                   last1,
@@ -423,7 +424,7 @@ transform(execution_policy<Derived> &policy,
 
 }    // namespace cuda_cub
 
-THRUST_END_NS
+HYDRA_THRUST_END_NS
 
 HYDRA_EXTERNAL_NAMESPACE_END
 

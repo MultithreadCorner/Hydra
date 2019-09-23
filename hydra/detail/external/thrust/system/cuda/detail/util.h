@@ -36,7 +36,7 @@
 
 HYDRA_EXTERNAL_NAMESPACE_BEGIN
 
-THRUST_BEGIN_NS
+HYDRA_THRUST_BEGIN_NS
 
 namespace cuda_cub {
 
@@ -87,7 +87,7 @@ trivial_copy_from_device(Policy &    policy,
 #endif
 
 template <class Type>
-THRUST_HOST_FUNCTION cudaError_t
+HYDRA_THRUST_HOST_FUNCTION cudaError_t
 trivial_copy_from_device(Type *       dst,
                          Type const * src,
                          size_t       count,
@@ -134,7 +134,7 @@ trivial_copy_to_device(Policy &    ,
 }
 #else
 template <class Type>
-THRUST_HOST_FUNCTION cudaError_t
+HYDRA_THRUST_HOST_FUNCTION cudaError_t
 trivial_copy_to_device(Type *       dst,
                        Type const * src,
                        size_t       count,
@@ -192,9 +192,9 @@ inline void throw_on_error(cudaError_t status)
   if (cudaSuccess != status)
   {
 #if !defined(__CUDA_ARCH__)
-    throw thrust::system_error(status, thrust::cuda_category());
+    throw HYDRA_EXTERNAL_NS::thrust::system_error(status, HYDRA_EXTERNAL_NS::thrust::cuda_category());
 #else
-#if __THRUST_HAS_CUDART__
+#if __HYDRA_THRUST_HAS_CUDART__
     printf("Thrust CUDA backend error: %s\n",
            cudaGetErrorString(status));
 #else
@@ -212,9 +212,9 @@ inline void throw_on_error(cudaError_t status, char const *msg)
   if (cudaSuccess != status)
   {
 #if !defined(__CUDA_ARCH__)
-    throw thrust::system_error(status, thrust::cuda_category(), msg);
+    throw HYDRA_EXTERNAL_NS::thrust::system_error(status, HYDRA_EXTERNAL_NS::thrust::cuda_category(), msg);
 #else
-#if __THRUST_HAS_CUDART__
+#if __HYDRA_THRUST_HAS_CUDART__
     printf("Thrust CUDA backend error: %s: %s\n",
            cudaGetErrorString(status),
            msg);
@@ -265,13 +265,13 @@ struct transform_input_iterator_t
   /// Indirection
   __hydra_host__ __hydra_device__ __forceinline__ reference operator*() const
   {
-    typename thrust::iterator_value<InputIt>::type x = *input;
+    typename HYDRA_EXTERNAL_NS::thrust::iterator_value<InputIt>::type x = *input;
     return op(x);
   }
   /// Indirection
   __hydra_host__ __hydra_device__ __forceinline__ reference operator*()
   {
-    typename thrust::iterator_value<InputIt>::type x = *input;
+    typename HYDRA_EXTERNAL_NS::thrust::iterator_value<InputIt>::type x = *input;
     return op(x);
   }
 
@@ -880,6 +880,6 @@ struct counting_iterator_t
 
 }    // cuda_
 
-THRUST_END_NS
+HYDRA_THRUST_END_NS
 
 HYDRA_EXTERNAL_NAMESPACE_END

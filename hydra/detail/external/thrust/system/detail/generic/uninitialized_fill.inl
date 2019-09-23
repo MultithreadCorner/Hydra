@@ -36,28 +36,28 @@ template<typename DerivedPolicy,
          typename ForwardIterator,
          typename T>
 __hydra_host__ __hydra_device__
-  void uninitialized_fill(thrust::execution_policy<DerivedPolicy> &exec,
+  void uninitialized_fill(HYDRA_EXTERNAL_NS::thrust::execution_policy<DerivedPolicy> &exec,
                           ForwardIterator first,
                           ForwardIterator last,
                           const T &x,
-                          thrust::detail::true_type) // has_trivial_copy_constructor
+                          HYDRA_EXTERNAL_NS::thrust::detail::true_type) // has_trivial_copy_constructor
 {
-  thrust::fill(exec, first, last, x);
+  HYDRA_EXTERNAL_NS::thrust::fill(exec, first, last, x);
 } // end uninitialized_fill()
 
 template<typename DerivedPolicy,
          typename ForwardIterator,
          typename T>
 __hydra_host__ __hydra_device__
-  void uninitialized_fill(thrust::execution_policy<DerivedPolicy> &exec,
+  void uninitialized_fill(HYDRA_EXTERNAL_NS::thrust::execution_policy<DerivedPolicy> &exec,
                           ForwardIterator first,
                           ForwardIterator last,
                           const T &x,
-                          thrust::detail::false_type) // has_trivial_copy_constructor
+                          HYDRA_EXTERNAL_NS::thrust::detail::false_type) // has_trivial_copy_constructor
 {
   typedef typename iterator_traits<ForwardIterator>::value_type ValueType;
 
-  thrust::for_each(exec, first, last, thrust::detail::uninitialized_fill_functor<ValueType>(x));
+  HYDRA_EXTERNAL_NS::thrust::for_each(exec, first, last, HYDRA_EXTERNAL_NS::thrust::detail::uninitialized_fill_functor<ValueType>(x));
 } // end uninitialized_fill()
 
 template<typename DerivedPolicy,
@@ -65,13 +65,13 @@ template<typename DerivedPolicy,
          typename Size,
          typename T>
 __hydra_host__ __hydra_device__
-  ForwardIterator uninitialized_fill_n(thrust::execution_policy<DerivedPolicy> &exec,
+  ForwardIterator uninitialized_fill_n(HYDRA_EXTERNAL_NS::thrust::execution_policy<DerivedPolicy> &exec,
                                        ForwardIterator first,
                                        Size n,
                                        const T &x,
-                                       thrust::detail::true_type) // has_trivial_copy_constructor
+                                       HYDRA_EXTERNAL_NS::thrust::detail::true_type) // has_trivial_copy_constructor
 {
-  return thrust::fill_n(exec, first, n, x);
+  return HYDRA_EXTERNAL_NS::thrust::fill_n(exec, first, n, x);
 } // end uninitialized_fill()
 
 template<typename DerivedPolicy,
@@ -79,15 +79,15 @@ template<typename DerivedPolicy,
          typename Size,
          typename T>
 __hydra_host__ __hydra_device__
-  ForwardIterator uninitialized_fill_n(thrust::execution_policy<DerivedPolicy> &exec,
+  ForwardIterator uninitialized_fill_n(HYDRA_EXTERNAL_NS::thrust::execution_policy<DerivedPolicy> &exec,
                                        ForwardIterator first,
                                        Size n,
                                        const T &x,
-                                       thrust::detail::false_type) // has_trivial_copy_constructor
+                                       HYDRA_EXTERNAL_NS::thrust::detail::false_type) // has_trivial_copy_constructor
 {
   typedef typename iterator_traits<ForwardIterator>::value_type ValueType;
 
-  return thrust::for_each_n(exec, first, n, thrust::detail::uninitialized_fill_functor<ValueType>(x));
+  return HYDRA_EXTERNAL_NS::thrust::for_each_n(exec, first, n, HYDRA_EXTERNAL_NS::thrust::detail::uninitialized_fill_functor<ValueType>(x));
 } // end uninitialized_fill()
 
 } // end detail
@@ -96,16 +96,16 @@ template<typename DerivedPolicy,
          typename ForwardIterator,
          typename T>
 __hydra_host__ __hydra_device__
-  void uninitialized_fill(thrust::execution_policy<DerivedPolicy> &exec,
+  void uninitialized_fill(HYDRA_EXTERNAL_NS::thrust::execution_policy<DerivedPolicy> &exec,
                           ForwardIterator first,
                           ForwardIterator last,
                           const T &x)
 {
   typedef typename iterator_traits<ForwardIterator>::value_type ValueType;
 
-  typedef thrust::detail::has_trivial_copy_constructor<ValueType> ValueTypeHasTrivialCopyConstructor;
+  typedef HYDRA_EXTERNAL_NS::thrust::detail::has_trivial_copy_constructor<ValueType> ValueTypeHasTrivialCopyConstructor;
 
-  thrust::system::detail::generic::detail::uninitialized_fill(exec, first, last, x,
+  HYDRA_EXTERNAL_NS::thrust::system::detail::generic::detail::uninitialized_fill(exec, first, last, x,
     ValueTypeHasTrivialCopyConstructor());
 } // end uninitialized_fill()
 
@@ -114,16 +114,16 @@ template<typename DerivedPolicy,
          typename Size,
          typename T>
 __hydra_host__ __hydra_device__
-  ForwardIterator uninitialized_fill_n(thrust::execution_policy<DerivedPolicy> &exec,
+  ForwardIterator uninitialized_fill_n(HYDRA_EXTERNAL_NS::thrust::execution_policy<DerivedPolicy> &exec,
                                        ForwardIterator first,
                                        Size n,
                                        const T &x)
 {
   typedef typename iterator_traits<ForwardIterator>::value_type ValueType;
 
-  typedef thrust::detail::has_trivial_copy_constructor<ValueType> ValueTypeHasTrivialCopyConstructor;
+  typedef HYDRA_EXTERNAL_NS::thrust::detail::has_trivial_copy_constructor<ValueType> ValueTypeHasTrivialCopyConstructor;
 
-  return thrust::system::detail::generic::detail::uninitialized_fill_n(exec, first, n, x,
+  return HYDRA_EXTERNAL_NS::thrust::system::detail::generic::detail::uninitialized_fill_n(exec, first, n, x,
     ValueTypeHasTrivialCopyConstructor());
 } // end uninitialized_fill()
 

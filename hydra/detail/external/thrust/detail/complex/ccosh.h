@@ -65,7 +65,7 @@ namespace complex{
  */
       
 __hydra_host__ __hydra_device__ inline
-thrust::complex<double> ccosh(const thrust::complex<double>& z){
+HYDRA_EXTERNAL_NS::thrust::complex<double> ccosh(const HYDRA_EXTERNAL_NS::thrust::complex<double>& z){
   
 
   const double huge = 8.98846567431157953864652595395e+307; // 0x1p1023
@@ -84,24 +84,24 @@ thrust::complex<double> ccosh(const thrust::complex<double>& z){
   /* Handle the nearly-non-exceptional cases where x and y are finite. */
   if (ix < 0x7ff00000 && iy < 0x7ff00000) {
     if ((iy | ly) == 0)
-      return (thrust::complex<double>(::cosh(x), x * y));
+      return (HYDRA_EXTERNAL_NS::thrust::complex<double>(::cosh(x), x * y));
     if (ix < 0x40360000)	/* small x: normal case */
-      return (thrust::complex<double>(::cosh(x) * ::cos(y), ::sinh(x) * ::sin(y)));
+      return (HYDRA_EXTERNAL_NS::thrust::complex<double>(::cosh(x) * ::cos(y), ::sinh(x) * ::sin(y)));
 
     /* |x| >= 22, so cosh(x) ~= exp(|x|) */
     if (ix < 0x40862e42) {
       /* x < 710: exp(|x|) won't overflow */
       h = ::exp(::fabs(x)) * 0.5;
-      return (thrust::complex<double>(h * cos(y), copysign(h, x) * sin(y)));
+      return (HYDRA_EXTERNAL_NS::thrust::complex<double>(h * cos(y), copysign(h, x) * sin(y)));
     } else if (ix < 0x4096bbaa) {
       /* x < 1455: scale to avoid overflow */
-      thrust::complex<double> z_;
-      z_ = ldexp_cexp(thrust::complex<double>(fabs(x), y), -1);
-      return (thrust::complex<double>(z_.real(), z_.imag() * copysign(1.0, x)));
+      HYDRA_EXTERNAL_NS::thrust::complex<double> z_;
+      z_ = ldexp_cexp(HYDRA_EXTERNAL_NS::thrust::complex<double>(fabs(x), y), -1);
+      return (HYDRA_EXTERNAL_NS::thrust::complex<double>(z_.real(), z_.imag() * copysign(1.0, x)));
     } else {
       /* x >= 1455: the result always overflows */
       h = huge * x;
-      return (thrust::complex<double>(h * h * cos(y), h * sin(y)));
+      return (HYDRA_EXTERNAL_NS::thrust::complex<double>(h * h * cos(y), h * sin(y)));
     }
   }
 
@@ -115,7 +115,7 @@ thrust::complex<double> ccosh(const thrust::complex<double>& z){
    * the same as d(NaN).
    */
   if ((ix | lx) == 0 && iy >= 0x7ff00000)
-    return (thrust::complex<double>(y - y, copysign(0.0, x * (y - y))));
+    return (HYDRA_EXTERNAL_NS::thrust::complex<double>(y - y, copysign(0.0, x * (y - y))));
 
   /*
    * cosh(+-Inf +- I 0) = +Inf + I (+-)(+-)0.
@@ -125,8 +125,8 @@ thrust::complex<double> ccosh(const thrust::complex<double>& z){
    */
   if ((iy | ly) == 0 && ix >= 0x7ff00000) {
     if (((hx & 0xfffff) | lx) == 0)
-      return (thrust::complex<double>(x * x, copysign(0.0, x) * y));
-    return (thrust::complex<double>(x * x, copysign(0.0, (x + x) * y)));
+      return (HYDRA_EXTERNAL_NS::thrust::complex<double>(x * x, copysign(0.0, x) * y));
+    return (HYDRA_EXTERNAL_NS::thrust::complex<double>(x * x, copysign(0.0, (x + x) * y)));
   }
 
   /*
@@ -138,7 +138,7 @@ thrust::complex<double> ccosh(const thrust::complex<double>& z){
    * nonzero x.  Choice = don't raise (except for signaling NaNs).
    */
   if (ix < 0x7ff00000 && iy >= 0x7ff00000)
-    return (thrust::complex<double>(y - y, x * (y - y)));
+    return (HYDRA_EXTERNAL_NS::thrust::complex<double>(y - y, x * (y - y)));
 
   /*
    * cosh(+-Inf + I NaN)  = +Inf + I d(NaN).
@@ -151,8 +151,8 @@ thrust::complex<double> ccosh(const thrust::complex<double>& z){
    */
   if (ix >= 0x7ff00000 && ((hx & 0xfffff) | lx) == 0) {
     if (iy >= 0x7ff00000)
-      return (thrust::complex<double>(x * x, x * (y - y)));
-    return (thrust::complex<double>((x * x) * cos(y), x * sin(y)));
+      return (HYDRA_EXTERNAL_NS::thrust::complex<double>(x * x, x * (y - y)));
+    return (HYDRA_EXTERNAL_NS::thrust::complex<double>((x * x) * cos(y), x * sin(y)));
   }
 
   /*
@@ -166,14 +166,14 @@ thrust::complex<double> ccosh(const thrust::complex<double>& z){
    * Optionally raises the invalid floating-point exception for finite
    * nonzero y.  Choice = don't raise (except for signaling NaNs).
    */
-  return (thrust::complex<double>((x * x) * (y - y), (x + x) * (y - y)));
+  return (HYDRA_EXTERNAL_NS::thrust::complex<double>((x * x) * (y - y), (x + x) * (y - y)));
 }
 
 
 __hydra_host__ __hydra_device__ inline
-thrust::complex<double> ccos(const thrust::complex<double>& z){	
+HYDRA_EXTERNAL_NS::thrust::complex<double> ccos(const HYDRA_EXTERNAL_NS::thrust::complex<double>& z){	
   /* ccos(z) = ccosh(I * z) */
-  return (ccosh(thrust::complex<double>(-z.imag(), z.real())));
+  return (ccosh(HYDRA_EXTERNAL_NS::thrust::complex<double>(-z.imag(), z.real())));
 }
 
 } // namespace complex
@@ -200,13 +200,13 @@ inline complex<ValueType> cosh(const complex<ValueType>& z){
 
 template <>
 __hydra_host__ __hydra_device__
-inline thrust::complex<double> cos(const thrust::complex<double>& z){
+inline HYDRA_EXTERNAL_NS::thrust::complex<double> cos(const HYDRA_EXTERNAL_NS::thrust::complex<double>& z){
   return detail::complex::ccos(z);
 }
 
 template <>
 __hydra_host__ __hydra_device__
-inline thrust::complex<double> cosh(const thrust::complex<double>& z){
+inline HYDRA_EXTERNAL_NS::thrust::complex<double> cosh(const HYDRA_EXTERNAL_NS::thrust::complex<double>& z){
   return detail::complex::ccosh(z);
 }
 

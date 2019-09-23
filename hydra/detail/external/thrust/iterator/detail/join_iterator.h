@@ -46,18 +46,18 @@ template<typename RandomAccessIterator1,
          typename Reference>
 struct join_iterator_base
 {
-  typedef typename thrust::detail::remove_reference<Reference>::type value_type;
+  typedef typename HYDRA_EXTERNAL_NS::thrust::detail::remove_reference<Reference>::type value_type;
 
-  typedef typename thrust::iterator_system<RandomAccessIterator1>::type  system1;
-  typedef typename thrust::iterator_system<RandomAccessIterator2>::type  system2;
-  typedef typename thrust::detail::minimum_system<system1,system2>::type system;
+  typedef typename HYDRA_EXTERNAL_NS::thrust::iterator_system<RandomAccessIterator1>::type  system1;
+  typedef typename HYDRA_EXTERNAL_NS::thrust::iterator_system<RandomAccessIterator2>::type  system2;
+  typedef typename HYDRA_EXTERNAL_NS::thrust::detail::minimum_system<system1,system2>::type system;
 
-  typedef thrust::iterator_adaptor<
+  typedef HYDRA_EXTERNAL_NS::thrust::iterator_adaptor<
     join_iterator<RandomAccessIterator1,RandomAccessIterator2,Difference,Reference>,
-    thrust::counting_iterator<Difference>,
+    HYDRA_EXTERNAL_NS::thrust::counting_iterator<Difference>,
     value_type,
     system,
-    thrust::random_access_traversal_tag,
+    HYDRA_EXTERNAL_NS::thrust::random_access_traversal_tag,
     Reference,
     Difference
   > type;
@@ -69,8 +69,8 @@ struct join_iterator_base
 
 template<typename RandomAccessIterator1,
          typename RandomAccessIterator2,
-         typename Difference = typename thrust::iterator_difference<RandomAccessIterator1>::type,
-         typename Reference  = typename thrust::iterator_value<RandomAccessIterator1>::type>
+         typename Difference = typename HYDRA_EXTERNAL_NS::thrust::iterator_difference<RandomAccessIterator1>::type,
+         typename Reference  = typename HYDRA_EXTERNAL_NS::thrust::iterator_value<RandomAccessIterator1>::type>
 class join_iterator
   : public join_iterator_detail::join_iterator_base<RandomAccessIterator1, RandomAccessIterator2, Difference, Reference>::type
 {
@@ -81,7 +81,7 @@ class join_iterator
   public:
     inline __hydra_host__ __hydra_device__
     join_iterator(RandomAccessIterator1 first1, size_type n, RandomAccessIterator2 first2)
-      : super_t(thrust::counting_iterator<size_type>(0)),
+      : super_t(HYDRA_EXTERNAL_NS::thrust::counting_iterator<size_type>(0)),
         m_n1(n),
         m_iter1(first1),
         m_iter2(first2 - m_n1)
@@ -98,12 +98,12 @@ class join_iterator
 
 
   private:
-    friend class thrust::iterator_core_access;
+    friend class HYDRA_EXTERNAL_NS::thrust::iterator_core_access;
 
     // MSVC 2013 and 2015 incorrectly warning about returning a reference to
     // a local/temporary here.
     // See goo.gl/LELTNp
-    THRUST_DISABLE_MSVC_WARNING_BEGIN(4172)
+    HYDRA_THRUST_DISABLE_MSVC_WARNING_BEGIN(4172)
 
     __hydra_host__ __hydra_device__
     typename super_t::reference dereference() const
@@ -112,7 +112,7 @@ class join_iterator
       return (i < m_n1) ? m_iter1[i] : static_cast<typename super_t::reference>(m_iter2[i]);
     } // end dereference()
 
-    THRUST_DISABLE_MSVC_WARNING_END(4172)
+    HYDRA_THRUST_DISABLE_MSVC_WARNING_END(4172)
 
 
     size_type m_n1;

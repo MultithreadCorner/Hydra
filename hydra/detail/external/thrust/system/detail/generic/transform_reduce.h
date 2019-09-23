@@ -36,7 +36,7 @@ template<typename ExecutionPolicy,
          typename OutputType,
          typename BinaryFunction>
 __hydra_host__ __hydra_device__
-  OutputType transform_reduce(thrust::execution_policy<ExecutionPolicy> &exec,
+  OutputType transform_reduce(HYDRA_EXTERNAL_NS::thrust::execution_policy<ExecutionPolicy> &exec,
                               InputIterator first,
                               InputIterator last,
                               UnaryFunction unary_op,
