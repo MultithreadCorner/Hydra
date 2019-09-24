@@ -50,18 +50,14 @@ namespace detail {
 template<size_t N>
 class GenzMalikBox;
 
+class GenzMalikBoxResult;
+
 
 struct AddResultGenzMalikBoxes
 {
 	__hydra_host__ __hydra_device__
 	hydra::pair<double, double> operator()( hydra::pair<double, double> const& r1,  hydra::pair<double, double> const& r2 ){
 		return hydra::make_pair(r1.first + r2.first, r1.second + r2.second);
-	}
-
-	template<size_t N>
-	__hydra_host__ __hydra_device__
-	hydra::pair<double, double>  operator()( detail::GenzMalikBox<N> const& box1,  detail::GenzMalikBox<N> const& box2 ){
-		return hydra::pair<double, double>{} ;
 	}
 
 };
@@ -74,6 +70,41 @@ struct CompareGenzMalikBoxes
 	bool operator()( detail::GenzMalikBox<N> const& box1,  detail::GenzMalikBox<N> const& box2 ){
 		return box1.GetError() < box2.GetError();
 	}
+};
+
+
+class GenzMalikBoxResult
+{
+
+public:
+
+	__hydra_host__ __hydra_device__
+	double GetError() const {
+		return fError;
+	}
+
+	__hydra_host__ __hydra_device__
+	void GetError(double error) {
+		fError = error;
+	}
+
+	__hydra_host__ __hydra_device__
+	double GetIntegral() const {
+		return fIntegral;
+	}
+
+	__hydra_host__ __hydra_device__
+	void GetIntegral(double integral) {
+		fIntegral = integral;
+	}
+
+
+
+private:
+
+	double fIntegral;
+	double fError;
+
 };
 
 template<size_t N>
