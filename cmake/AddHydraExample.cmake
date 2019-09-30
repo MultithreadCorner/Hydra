@@ -3,7 +3,7 @@ function(ADD_HYDRA_EXAMPLE target_name build_cuda build_tbb build_omp build_cpp 
         #+++++++++++++++++++++++++
         # CUDA TARGETS           |
         #+++++++++++++++++++++++++
-        if( build_cuda )
+        if(${${build_cuda}} )
                   message(STATUS "Adding target ${target_name} to CUDA backend. Executable file name: ${target_name}_cuda")
                   
                   cuda_add_executable("${target_name}_cuda"
@@ -15,12 +15,12 @@ function(ADD_HYDRA_EXAMPLE target_name build_cuda build_tbb build_omp build_cpp 
                  
                   add_dependencies(examples      "${target_name}_cuda")
                 
-        endif( build_cuda )
+        endif(${${build_cuda}})
     
         #+++++++++++++++++++++++++
         # TBB TARGETS            |
         #+++++++++++++++++++++++++
-        if( build_tbb )
+        if( ${${build_tbb}} )
                  message(STATUS "Adding target ${target_name} to TBB backend. Executable file name: ${target_name}_tbb")
                  add_executable("${target_name}_tbb"
                  # EXCLUDE_FROM_ALL
@@ -33,12 +33,12 @@ function(ADD_HYDRA_EXAMPLE target_name build_cuda build_tbb build_omp build_cpp 
                    
                  add_dependencies(examples "${target_name}_tbb")
                        
-         endif( build_tbb )
+         endif(${${build_tbb}})
          
         #+++++++++++++++++++++++++
         # CPP TARGETS            |
         #+++++++++++++++++++++++++
-        if( build_cpp )
+        if(${${build_cpp}})
                  message(STATUS "Adding target ${target_name} to CPP backend. Executable file name: ${target_name}_cpp")
                  add_executable("${target_name}_cpp"
                  # EXCLUDE_FROM_ALL 
@@ -51,13 +51,13 @@ function(ADD_HYDRA_EXAMPLE target_name build_cuda build_tbb build_omp build_cpp 
                    
                  add_dependencies(examples "${target_name}_cpp")
                        
-         endif( build_cpp )
+         endif(${${build_cpp}})
          
           
         #+++++++++++++++++++++++++
         # OMP TARGETS            |
         #+++++++++++++++++++++++++
-        if(build_omp)
+        if(${${build_omp}})
                  message(STATUS "Adding target ${target_name} to OMP backend. Executable file name: ${target_name}_omp")
                  add_executable("${target_name}_omp" 
                  #EXCLUDE_FROM_ALL
@@ -70,6 +70,6 @@ function(ADD_HYDRA_EXAMPLE target_name build_cuda build_tbb build_omp build_cpp 
                    
                  add_dependencies(examples "${target_name}_omp")
                        
-         endif(build_omp)
+         endif(${${build_omp}})
          
 endfunction(ADD_HYDRA_EXAMPLE)  
