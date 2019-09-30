@@ -278,7 +278,7 @@ struct RndTrial{
 
 	template<typename Tuple>
 	__hydra_host__ __hydra_device__
-	inline T operator()(size_t index, Tuple& t)
+	inline T operator()(size_t index, Tuple t)
 	{
 		T* x[N];
 		detail::set_ptrs_to_tuple(t, &x[0]);
@@ -322,7 +322,7 @@ struct RndTrial<T,GRND, FUNCTOR, 1>{
 
 
 	__hydra_host__ __hydra_device__
-	inline GReal_t operator()(size_t index, T& t)
+	inline GReal_t operator()(size_t index, T t)
 	{
 
 		GRND randEng(fSeed);

@@ -27,17 +27,17 @@ if ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang")
 
  MESSAGE(STATUS "Setting Clang flags")
  set(CMAKE_CXX_FLAGS " --std=c++11 -W -march=native -fPIC -O3 -ldl" CACHE STRING "compile flags" FORCE)
-  
+
 elseif ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU")
 
  MESSAGE(STATUS "Setting GCC flags")
  set(CMAKE_CXX_FLAGS " --std=c++11 -W -march=native -fPIC -O4 -ldl" CACHE STRING "compile flags" FORCE)
 
 elseif ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Intel")
- 
+
  MESSAGE(STATUS "Setting ICC flags")
  set(CMAKE_CXX_FLAGS " --std=c++11 -W -march=native -fPIC -O4 -ldl" CACHE STRING "compile flags" FORCE)
-  
+
 #elseif ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "MSVC")
  #MESSAGE(STATUS "===> Compiling with MSVC")
 endif()
@@ -83,7 +83,7 @@ endif(FFTW_FOUND)
 
 #-----------------------
 #get CUDA
-find_package(CUDA 8.0) 
+find_package(CUDA 8.0)
 if(CUDA_FOUND)
 link_directories( ${CUDA_TOOLKIT_ROOT_DIR}/lib64/)
 
@@ -109,7 +109,7 @@ INCLUDE(${CMAKE_CURRENT_SOURCE_DIR}/cmake/FindCudaArch.cmake)
 SELECT_NVCC_ARCH_FLAGS(NVCC_FLAGS_EXTRA)
 
 LIST(APPEND CUDA_NVCC_FLAGS ${NVCC_FLAGS_EXTRA})
-        
+
 endif(CUDA_FOUND)
 
 #-----------------------
@@ -135,28 +135,28 @@ option(BUILD_DOCUMENTATION "Create and install the HTML based API documentation 
 include_directories(${CMAKE_CURRENT_SOURCE_DIR})
 
 #always on
-SET(BUILD_CPP_TARGETS  ON)
+SET(BUILD_CPP_TARGETS  TRUE)
 
 #crucial for clang build, where openmp support is not embeded in the compiler
 if( OPENMP_CXX_FOUND OR OPENMP_FOUND)
 
-        SET(BUILD_OMP_TARGETS  ON)
+        SET(BUILD_OMP_TARGETS  TRUE)
 else()
-        SET(BUILD_OMP_TARGETS  OFF)
+        SET(BUILD_OMP_TARGETS  FALSE)
 endif()
 
-#not every computer has a GPU and/or cuda installed or 
+#not every computer has a GPU and/or cuda installed or
 if( CUDA_FOUND )
-	SET(BUILD_CUDA_TARGETS  ON)
+	SET(BUILD_CUDA_TARGETS  TRUE)
 else()
-	SET(BUILD_CUDA_TARGETS  OFF)
+	SET(BUILD_CUDA_TARGETS  FALSE)
 endif()
 
 # to enable tbb builds
 if(TBB_FOUND)
-    SET(BUILD_TBB_TARGETS  ON)
+    SET(BUILD_TBB_TARGETS  TRUE)
 else()
-    SET(BUILD_TBB_TARGETS  OFF)
+    SET(BUILD_TBB_TARGETS  FALSE)
 endif(TBB_FOUND)
 
 # messages
@@ -213,7 +213,7 @@ enable_testing()
 add_custom_target(tests)
 add_subdirectory(testing)
 
-#add_dependencies(tests 
+#add_dependencies(tests
 #Hydra_Test_Host_OMP_Device_CUDA
 #Hydra_Test_Host_CPP_Device_CUDA
 #Hydra_Test_Host_OMP_Device_OMP
@@ -242,7 +242,7 @@ if(BUILD_DOXYGEN_DOCUMENTATION)
         VERBATIM)
 
    install(DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/doc/html DESTINATION hydra/doc/doxygen)
-    
+
 endif(BUILD_DOXYGEN_DOCUMENTATION)
 
 #+++++++++++++++++++++++++++
@@ -257,24 +257,24 @@ install(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/hydra
 install(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/docs
   DESTINATION hydra/docs)
 
-#install examples executables  
+#install examples executables
 if(EXISTS "${CMAKE_CURRENT_BINARY_DIR}/examples/")
 install(DIRECTORY  ${CMAKE_CURRENT_BINARY_DIR}/examples
   DESTINATION hydra/bin/examples)
 endif(EXISTS "${CMAKE_CURRENT_BINARY_DIR}/examples/")
 
-#install performance executables  
+#install performance executables
 if(EXISTS "${CMAKE_CURRENT_BINARY_DIR}/performance/")
 install(DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/performance
   DESTINATION hydra/bin/performance)
 endif(EXISTS "${CMAKE_CURRENT_BINARY_DIR}/performance/")
 
-#install test executables  
+#install test executables
 if(EXISTS "${CMAKE_CURRENT_BINARY_DIR}/tests/")
 install(DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/tests
   DESTINATION hydra/bin/tests)
 endif(EXISTS "${CMAKE_CURRENT_BINARY_DIR}/tests/")
 
-#install source  
+#install source
 install(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
-  DESTINATION hydra/dist) 
+  DESTINATION hydra/dist)

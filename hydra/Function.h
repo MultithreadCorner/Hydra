@@ -232,10 +232,11 @@ private:
 	interface(T&& x)  const
 	{
 		//fNArgs=1;
-		typename HYDRA_EXTERNAL_NS::thrust::detail::remove_const<typename HYDRA_EXTERNAL_NS::thrust::detail::remove_reference<T>::type >::type _x;
+		typename HYDRA_EXTERNAL_NS::thrust::detail::remove_const<
+		    typename HYDRA_EXTERNAL_NS::thrust::detail::remove_reference<T>::type >::type _x=x;
 
-		_x=x;
-		return static_cast<const Functor*>(this)->Evaluate(1, &_x);
+
+		return static_cast<const Functor*>(this)->Evaluate((unsigned int)1, &_x);
 	}
 
 
@@ -270,7 +271,7 @@ private:
 
 		detail::tupleToArray(x, &Array[0] );
 		//fNArgs=N;
-		return static_cast<const Functor*>(this)->Evaluate(N, &Array[0]);
+		return static_cast<const Functor*>(this)->Evaluate((unsigned int)N, &Array[0]);
 
 
 	}

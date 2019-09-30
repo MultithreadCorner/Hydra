@@ -82,7 +82,7 @@ template<typename IteratorTuple>
     bool zip_iterator<IteratorTuple>
       ::equal(const zip_iterator<OtherIteratorTuple> &other) const
 {
-  return get<0>(get_iterator_tuple()) == get<0>(other.get_iterator_tuple());
+  return HYDRA_EXTERNAL_NS::thrust::get<0>(get_iterator_tuple()) == HYDRA_EXTERNAL_NS::thrust::get<0>(other.get_iterator_tuple());
 } // end zip_iterator::equal()
 
 
