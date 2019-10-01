@@ -48,7 +48,7 @@
 #include <array>
 #include <initializer_list>
 #include <memory>
-
+#include <type_traits>
 
 namespace hydra
 {
@@ -231,12 +231,9 @@ private:
 	        >::type >::value ) , return_type>::type
 	interface(T&& x)  const
 	{
-		//fNArgs=1;
-		typename HYDRA_EXTERNAL_NS::thrust::detail::remove_const<
-		    typename HYDRA_EXTERNAL_NS::thrust::detail::remove_reference<T>::type >::type _x=x;
 
-
-		return static_cast<const Functor*>(this)->Evaluate((unsigned int)1, &_x);
+		return static_cast<const Functor*>(this)->Evaluate((unsigned int)1,
+				&HYDRA_EXTERNAL_NS::thrust::raw_reference_cast(std::forward<T>(x)));
 	}
 
 

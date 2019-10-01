@@ -322,7 +322,7 @@ struct RndTrial<T,GRND, FUNCTOR, 1>{
 
 
 	__hydra_host__ __hydra_device__
-	inline GReal_t operator()(size_t index, T t)
+	inline GReal_t operator()(size_t index, T& t)
 	{
 
 		GRND randEng(fSeed);
