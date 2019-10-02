@@ -192,8 +192,8 @@ int main(int argv, char** argc)
 		std::cout << "-----------------------------------------"<< std::endl;
 
 		//print
-		for( size_t i=0; i<10; i++ )
-			std::cout << Events_d.GetDecay(i) << std::endl;
+		//for( size_t i=0; i<10; i++ )
+			//std::cout << Events_d.GetDecay(i) << std::endl;
 
 		auto dalitz_variables = Events_d.GetUnweightedDecays() | dalitz_calculator ;
 

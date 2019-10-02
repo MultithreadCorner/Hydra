@@ -124,9 +124,24 @@ class triple_chevron_launcher : protected triple_chevron_launcher_base<block_siz
         {
 #if __BULK_HAS_CUDART__
 #  ifndef __CUDA_ARCH__
+#if (CUDART_VERSION < 10000)
+
           cudaConfigureCall(dim3(num_blocks), dim3(block_size), num_dynamic_smem_bytes, stream);
+
           cudaSetupArgument(task, 0);
-          bulk::detail::throw_on_error(cudaLaunch(super_t::global_function_pointer()), "after cudaLaunch in triple_chevron_launcher::launch()");
+
+          bulk::detail::throw_on_error(cudaLaunch(super_t::global_function_pointer()),
+        		  "after cudaLaunch in triple_chevron_launcher::launch()");
+#else
+          // create an array of void*s which point to each argument
+          void* pointers_to_args[] = {reinterpret_cast<void*>(const_cast<task_type*>(&task))};
+
+          bulk::detail::throw_on_error(
+            cudaLaunchKernel(reinterpret_cast<void*>(super_t::global_function_pointer()), dim3(num_blocks), dim3(block_size), pointers_to_args, num_dynamic_smem_bytes, stream),
+            "after cudaLaunchKernel in triple_chevron_launcher::launch()"
+          );
+#endif
+
 #  else
           void *param_buffer = cudaGetParameterBuffer(alignment_of<task_type>::value, sizeof(task_type));
           std::memcpy(param_buffer, &task, sizeof(task_type));
@@ -177,9 +192,24 @@ class triple_chevron_launcher<block_size_,Function,false> : protected triple_che
 
 #if __BULK_HAS_CUDART__
 #  ifndef __CUDA_ARCH__
+#if (CUDART_VERSION < 10000)
+
           cudaConfigureCall(dim3(num_blocks), dim3(block_size), num_dynamic_smem_bytes, stream);
+
           cudaSetupArgument(static_cast<const task_type*>(parm.get()), 0);
-          bulk::detail::throw_on_error(cudaLaunch(super_t::global_function_pointer()), "after cudaLaunch in triple_chevron_launcher::launch()");
+
+          bulk::detail::throw_on_error(	cudaLaunch(super_t::global_function_pointer()),
+        	  "after cudaLaunch in triple_chevron_launcher::launch()");
+#else
+          // create an array of void*s which point to each argument
+          void* pointers_to_args[] = {reinterpret_cast<void*>(const_cast<task_type*>(parm.get()))};
+
+          bulk::detail::throw_on_error(
+            cudaLaunchKernel(reinterpret_cast<void*>(super_t::global_function_pointer()), dim3(num_blocks), dim3(block_size), pointers_to_args, num_dynamic_smem_bytes, stream),
+            "after cudaLaunchKernel in triple_chevron_launcher::launch()"
+          );
+#endif
+
 #  else
           void *param_buffer = cudaGetParameterBuffer(alignment_of<task_type>::value, sizeof(task_type));
           task_type *task_ptr = parm.get();
