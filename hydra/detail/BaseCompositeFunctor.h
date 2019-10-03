@@ -177,10 +177,11 @@ private:
 	interface(T&& x)  const
 	{
 		//fNArgs=1;
-		typename HYDRA_EXTERNAL_NS::thrust::detail::remove_const<typename HYDRA_EXTERNAL_NS::thrust::detail::remove_reference<T>::type >::type _x;
+		//typename HYDRA_EXTERNAL_NS::thrust::detail::remove_const<typename HYDRA_EXTERNAL_NS::thrust::detail::remove_reference<T>::type >::type _x;
 
 		_x=x;
-		return static_cast<const Composite*>(this)->Evaluate(1, &_x);
+		return static_cast<const Composite*>(this)->Evaluate(1,
+				&HYDRA_EXTERNAL_NS::thrust::raw_reference_cast(std::forward<T>(x)));
 	}
 
 
