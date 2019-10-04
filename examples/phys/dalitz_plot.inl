@@ -25,7 +25,6 @@
  *  Created on: 29/12/2017
  *      Author: Antonio Augusto Alves Junior
  */
-
 #ifndef DALITZ_PLOT_INL_
 #define DALITZ_PLOT_INL_
 
@@ -46,6 +45,7 @@
 #include <cstdlib>
 #include <iostream>
 #include <ctime>
+#include <type_traits>
 
 //command line
 #include <tclap/CmdLine.h>
@@ -61,21 +61,17 @@
 #include <hydra/Tuple.h>
 #include <hydra/Range.h>
 #include <hydra/Distance.h>
-
 #include <hydra/LogLikelihoodFCN.h>
 #include <hydra/Parameter.h>
 #include <hydra/UserParameters.h>
 #include <hydra/Pdf.h>
 #include <hydra/AddPdf.h>
-
 #include <hydra/Vector4R.h>
 #include <hydra/PhaseSpace.h>
 #include <hydra/PhaseSpaceIntegrator.h>
 #include <hydra/Decays.h>
-
 #include <hydra/DenseHistogram.h>
 #include <hydra/SparseHistogram.h>
-
 #include <hydra/functions/BreitWignerLineShape.h>
 #include <hydra/functions/CosHelicityAngle.h>
 #include <hydra/functions/ZemachFunctions.h>
@@ -109,43 +105,51 @@
 using namespace ROOT::Minuit2;
 using namespace hydra::placeholders;
 
-template<unsigned int CHANNEL, hydra::Wave L>
-class Resonance: public hydra::BaseFunctor<Resonance<CHANNEL,L>, hydra::complex<double>, 4>
+//compute the Wave parity in compile time
+template<hydra::Wave L, bool Flag=(L%2)>
+struct parity;
+//positive
+template<hydra::Wave L>
+struct parity<L, false>: std::integral_constant<int,1>{};
+//negative
+template<hydra::Wave L>
+struct parity<L, true>:  std::integral_constant<int,-1>{};
+
+//To save stack-size when dispatching to GPUs
+//each resonance contribution will be evaluated
+//in the channels 1 [ D+ ->  K- pi+ pi+ ] and 3 [ D+ ->  K- pi+ pi+ ]
+//                           ^--^                        ^------^
+//Obs.: GPUs have a formal parameter space of maximum 4kB
+template<hydra::Wave L>
+class Resonance: public hydra::BaseFunctor<Resonance<L>, hydra::complex<double>, 4>
 {
-	using hydra::BaseFunctor<Resonance<CHANNEL,L>, hydra::complex<double>, 4>::_par;
-
-	constexpr static unsigned int _I1 = CHANNEL-1;
-	constexpr static unsigned int _I2 = (CHANNEL!=3)*CHANNEL;
-	constexpr static unsigned int _I3 = 3-( (CHANNEL-1) + (CHANNEL!=3)*CHANNEL );
-
+	using hydra::BaseFunctor<Resonance<L>, hydra::complex<double>, 4>::_par;
 
 public:
 
 	Resonance() = delete;
 
 	Resonance(hydra::Parameter const& c_re, hydra::Parameter const& c_im,
-			hydra::Parameter const& mass, hydra::Parameter const& width,
-			double mother_mass,	double daugther1_mass,
-			double daugther2_mass, double daugther3_mass,
-			double radi):
-			hydra::BaseFunctor<Resonance<CHANNEL,L>, hydra::complex<double>, 4>{c_re, c_im, mass, width},
+			  hydra::Parameter const& mass, hydra::Parameter const& width,
+			  double mother_mass, double daugther1_mass, double daugther2_mass, double daugther3_mass, double radi):
+			hydra::BaseFunctor<Resonance<L>, hydra::complex<double>, 4>{c_re, c_im, mass, width},
 			fLineShape(mass, width, mother_mass, daugther1_mass, daugther2_mass, daugther3_mass, radi)
 	{}
 
 
     __hydra_dual__
-	Resonance( Resonance< CHANNEL,L> const& other):
-	hydra::BaseFunctor<Resonance<CHANNEL ,L>, hydra::complex<double>, 4>(other),
+	Resonance( Resonance<L> const& other):
+	hydra::BaseFunctor<Resonance<L>, hydra::complex<double>, 4>(other),
 	fLineShape(other.GetLineShape())
 	{}
 
     __hydra_dual__  inline
-	Resonance< CHANNEL ,L>&
-	operator=( Resonance< CHANNEL ,L> const& other)
+	Resonance<L>&
+	operator=( Resonance<L> const& other)
 	{
 		if(this==&other) return *this;
 
-		hydra::BaseFunctor<Resonance<CHANNEL ,L>, hydra::complex<double>, 4>::operator=(other);
+		hydra::BaseFunctor<Resonance<L>, hydra::complex<double>, 4>::operator=(other);
 		fLineShape=other.GetLineShape();
 
 		return *this;
@@ -158,17 +162,17 @@ public:
 	hydra::complex<double> Evaluate(unsigned int n, hydra::Vector4R* p)  const {
 
 
-		hydra::Vector4R p1 = p[_I1];
-		hydra::Vector4R p2 = p[_I2];
-		hydra::Vector4R p3 = p[_I3];
-
+		hydra::Vector4R p1 = p[0];
+		hydra::Vector4R p2 = p[1];
+		hydra::Vector4R p3 = p[2];
 
 		fLineShape.SetParameter(0, _par[2]);
 		fLineShape.SetParameter(1, _par[3]);
 
-		double theta = fCosDecayAngle( (p1+p2+p3), (p1+p2), p1 );
-		double angular = fAngularDist(theta);
-		auto r = hydra::complex<double>(_par[0], _par[1])*fLineShape((p1+p2).mass())*angular;
+		hydra::complex<double> contrib_12 = fLineShape((p1+p2).mass())*fAngularDist(fCosDecayAngle((p1+p2+p3), (p1+p2), p1));
+		hydra::complex<double> contrib_13 = fLineShape((p1+p3).mass())*fAngularDist(fCosDecayAngle((p1+p2+p3), (p1+p3), p3));
+
+		auto r = hydra::complex<double>(_par[0], _par[1])*(contrib_12 + double(parity<L>::value)*contrib_13 ) ;
 
 		return r;
 
@@ -310,13 +314,7 @@ int main(int argv, char** argc)
 	auto coef_re = hydra::Parameter::Create().Name("A_RE_K800" ).Value(K800_CRe).Error(0.001).Limits(K800_CRe*0.95,K800_CRe*1.05);
 	auto coef_im = hydra::Parameter::Create().Name("A_IM_K800" ).Value(K800_CIm).Error(0.001).Limits(K800_CIm*0.95,K800_CIm*1.05);
 
-	Resonance<1, hydra::SWave> K800_Resonance_12(coef_re, coef_im, mass, width,
-		    	D_MASS,	K_MASS, PI_MASS, PI_MASS , 5.0);
-
-	Resonance<3, hydra::SWave> K800_Resonance_13(coef_re, coef_im, mass, width,
-			    	D_MASS,	K_MASS, PI_MASS, PI_MASS , 5.0);
-
-	auto K800_Resonance = (K800_Resonance_12 + K800_Resonance_13);
+	Resonance<hydra::SWave> K800_Resonance(coef_re, coef_im, mass, width, D_MASS, K_MASS, PI_MASS, PI_MASS , 5.0);
 
 	//======================================================
 	//K*(892)
@@ -326,13 +324,8 @@ int main(int argv, char** argc)
 	coef_re = hydra::Parameter::Create().Name("A_RE_KST_892" ).Value(KST_892_CRe).Error(0.001).Limits(KST_892_CRe*0.95,KST_892_CRe*1.05).Fixed();
 	coef_im = hydra::Parameter::Create().Name("A_IM_KST_892" ).Value(KST_892_CIm).Error(0.001).Limits(KST_892_CIm*0.95,KST_892_CIm*1.05).Fixed();
 
-	Resonance<1, hydra::PWave> KST_892_Resonance_12(coef_re, coef_im, mass, width,
-		    	D_MASS,	K_MASS, PI_MASS, PI_MASS , 5.0);
+	Resonance<hydra::PWave> KST_892_Resonance(coef_re, coef_im, mass, width, D_MASS, K_MASS, PI_MASS, PI_MASS , 5.0);
 
-	Resonance<3, hydra::PWave> KST_892_Resonance_13(coef_re, coef_im, mass, width,
-			    	D_MASS,	K_MASS, PI_MASS, PI_MASS , 5.0);
-
-	auto KST_892_Resonance = (KST_892_Resonance_12 - KST_892_Resonance_13);
 
 	//======================================================
 	//K*0(1430)
@@ -342,13 +335,7 @@ int main(int argv, char** argc)
 	coef_re = hydra::Parameter::Create().Name("A_RE_KST0_1430" ).Value(KST0_1430_CRe).Error(0.001).Limits(KST0_1430_CRe*0.95,KST0_1430_CRe*1.05);
 	coef_im = hydra::Parameter::Create().Name("A_IM_KST0_1430" ).Value(KST0_1430_CIm).Error(0.001).Limits(KST0_1430_CIm*0.95,KST0_1430_CIm*1.05);
 
-	Resonance<1, hydra::SWave> KST0_1430_Resonance_12(coef_re, coef_im, mass, width,
-		    	D_MASS,	K_MASS, PI_MASS, PI_MASS , 5.0);
-
-	Resonance<3, hydra::SWave> KST0_1430_Resonance_13(coef_re, coef_im, mass, width,
-			    	D_MASS,	K_MASS, PI_MASS, PI_MASS , 5.0);
-
-	auto KST0_1430_Resonance = (KST0_1430_Resonance_12 + KST0_1430_Resonance_13);
+	Resonance<hydra::SWave> KST0_1430_Resonance(coef_re, coef_im, mass, width, D_MASS, K_MASS, PI_MASS, PI_MASS , 5.0);
 
 	//======================================================
 	//K*2(1430)
@@ -358,13 +345,7 @@ int main(int argv, char** argc)
 	coef_re = hydra::Parameter::Create().Name("A_RE_KST2_1430" ).Value(KST2_1430_CRe).Error(0.001).Limits(KST2_1430_CRe*0.95,KST2_1430_CRe*1.05);
 	coef_im = hydra::Parameter::Create().Name("A_IM_KST2_1430" ).Value(KST2_1430_CIm).Error(0.001).Limits(KST2_1430_CIm*0.95,KST2_1430_CIm*1.05);
 
-	Resonance<1, hydra::DWave> KST2_1430_Resonance_12(coef_re, coef_im, mass, width,
-		    	D_MASS,	K_MASS, PI_MASS, PI_MASS , 5.0);
-
-	Resonance<3, hydra::DWave> KST2_1430_Resonance_13(coef_re, coef_im, mass, width,
-			    	D_MASS,	K_MASS, PI_MASS, PI_MASS , 5.0);
-
-	auto KST2_1430_Resonance = (KST2_1430_Resonance_12 + KST2_1430_Resonance_13);
+	Resonance<hydra::DWave> KST2_1430_Resonance(coef_re, coef_im, mass, width, D_MASS, K_MASS, PI_MASS, PI_MASS , 5.0);
 
 	//======================================================
 	//K*(1680)
@@ -374,14 +355,7 @@ int main(int argv, char** argc)
 	coef_re = hydra::Parameter::Create().Name("A_RE_KST_1680" ).Value(KST_1680_CRe).Error(0.001).Limits(KST_1680_CRe*0.95,KST_1680_CRe*1.05);
 	coef_im = hydra::Parameter::Create().Name("A_IM_KST_1680" ).Value(KST_1680_CIm).Error(0.001).Limits(KST_1680_CIm*0.95,KST_1680_CIm*1.05);
 
-	Resonance<1, hydra::PWave> KST_1680_Resonance_12(coef_re, coef_im, mass, width,
-			D_MASS,	K_MASS, PI_MASS, PI_MASS , 5.0);
-
-	Resonance<3, hydra::PWave> KST_1680_Resonance_13(coef_re, coef_im, mass, width,
-			D_MASS,	K_MASS, PI_MASS, PI_MASS , 5.0);
-
-
-	auto KST_1680_Resonance = (KST_1680_Resonance_12 - KST_1680_Resonance_13);
+	Resonance<hydra::PWave> KST_1680_Resonance(coef_re, coef_im, mass, width, D_MASS, K_MASS, PI_MASS, PI_MASS , 5.0);
 
 	//======================================================
 	//NR
@@ -469,13 +443,10 @@ int main(int argv, char** argc)
 			200, 0.58, 0.64);
 
 
-	TH3D  KST800_12_HIST , KST800_13_HIST,  KST892_12_HIST,  KST892_13_HIST,
-	      KST1425_12_HIST, KST1425_13_HIST, KST1430_12_HIST, KST1430_13_HIST,
-	      KST1680_12_HIST, KST1680_13_HIST, NR_HIST ;
+	TH3D  KST800_HIST , KST892_HIST, KST1425_HIST, KST1430_HIST,
+	      KST1680_HIST, NR_HIST ;
 
-	double  KST800_12_FF,  KST800_13_FF,  KST892_12_FF,  KST892_13_FF,
-		    KST1425_12_FF, KST1425_13_FF, KST1430_12_FF, KST1430_13_FF,
-		    KST1680_12_FF, KST1680_13_FF, NR_FF;
+	double  KST800_FF, KST892_FF, KST1425_FF, KST1430_FF, KST1680_FF, NR_FF;
 
 #endif
 
@@ -719,70 +690,52 @@ int main(int argv, char** argc)
 		//==================================
 		auto Opt_Model = fcn.GetPDF().GetFunctor();
 
-		auto KST800_12 = fcn.GetPDF().GetFunctor().GetFunctor(_1).GetFunctor(_0);
-		auto KST800_13 = fcn.GetPDF().GetFunctor().GetFunctor(_1).GetFunctor(_1);
+		auto KST800  = fcn.GetPDF().GetFunctor().GetFunctor(_1);
 
-		auto KST892_12 = fcn.GetPDF().GetFunctor().GetFunctor(_2).GetFunctor(_0);
-		auto KST892_13 = fcn.GetPDF().GetFunctor().GetFunctor(_2).GetFunctor(_1);
+		auto KST892  = fcn.GetPDF().GetFunctor().GetFunctor(_2);
 
-		auto KST1425_12 = fcn.GetPDF().GetFunctor().GetFunctor(_3).GetFunctor(_0);
-		auto KST1425_13 = fcn.GetPDF().GetFunctor().GetFunctor(_3).GetFunctor(_1);
+		auto KST1425 = fcn.GetPDF().GetFunctor().GetFunctor(_3);
 
-		auto KST1430_12 = fcn.GetPDF().GetFunctor().GetFunctor(_4).GetFunctor(_0);
-		auto KST1430_13 = fcn.GetPDF().GetFunctor().GetFunctor(_4).GetFunctor(_1);
+		auto KST1430 = fcn.GetPDF().GetFunctor().GetFunctor(_4);
 
-		auto KST1680_12 = fcn.GetPDF().GetFunctor().GetFunctor(_5).GetFunctor(_0);
-		auto KST1680_13 = fcn.GetPDF().GetFunctor().GetFunctor(_5).GetFunctor(_1);
+		auto KST1680 = fcn.GetPDF().GetFunctor().GetFunctor(_5);
 
-		auto NR         = fcn.GetPDF().GetFunctor().GetFunctor(_6);
+		auto NR      = fcn.GetPDF().GetFunctor().GetFunctor(_6);
 
 		//==================================
 		// Draw components
 		//==================================
-		KST800_12_HIST  =	histogram_component(KST800_12 , {D_MASS, K_MASS, PI_MASS}, "KST800_12_HIST", nentries);
-		KST800_13_HIST  =	histogram_component(KST800_13 , {D_MASS, K_MASS, PI_MASS}, "KST800_13_HIST", nentries);
-		KST892_12_HIST  =	histogram_component(KST892_12 , {D_MASS, K_MASS, PI_MASS}, "KST892_12_HIST", nentries);
-		KST892_13_HIST  =	histogram_component(KST892_13 , {D_MASS, K_MASS, PI_MASS}, "KST892_13_HIST", nentries);
-		KST1425_12_HIST =	histogram_component(KST1425_12, {D_MASS, K_MASS, PI_MASS}, "KST1425_12_HIST", nentries);
-		KST1425_13_HIST =	histogram_component(KST1425_13, {D_MASS, K_MASS, PI_MASS}, "KST1425_13_HIST", nentries);
-		KST1430_12_HIST =	histogram_component(KST1430_12, {D_MASS, K_MASS, PI_MASS}, "KST1430_12_HIST", nentries);
-		KST1430_13_HIST =	histogram_component(KST1430_13, {D_MASS, K_MASS, PI_MASS}, "KST1430_13_HIST", nentries);
-		KST1680_12_HIST =	histogram_component(KST1680_12, {D_MASS, K_MASS, PI_MASS}, "KST1680_12_HIST", nentries);
-		KST1680_13_HIST =	histogram_component(KST1680_13, {D_MASS, K_MASS, PI_MASS}, "KST1680_13_HIST", nentries);
-		NR_HIST         =	histogram_component(NR, {D_MASS, K_MASS, PI_MASS}, "NR_HIST", nentries);
+		KST800_HIST  =	histogram_component(KST800,  {D_MASS, K_MASS, PI_MASS}, "KST800_HIST", nentries);
+		KST892_HIST  =	histogram_component(KST892,  {D_MASS, K_MASS, PI_MASS}, "KST892_HIST", nentries);
+		KST1425_HIST =	histogram_component(KST1425, {D_MASS, K_MASS, PI_MASS}, "KST1425_HIST", nentries);
+		KST1430_HIST =	histogram_component(KST1430, {D_MASS, K_MASS, PI_MASS}, "KST1430_HIST", nentries);
+		KST1680_HIST =	histogram_component(KST1680, {D_MASS, K_MASS, PI_MASS}, "KST1680_HIST", nentries);
+		NR_HIST      =	histogram_component(NR,      {D_MASS, K_MASS, PI_MASS}, "NR_HIST", nentries);
 
 		//==================================
 		// Fit fractions
 		//==================================
-		KST800_12_FF  =	fit_fraction(KST800_12 , Opt_Model, {D_MASS, K_MASS, PI_MASS},  nentries);
-		KST800_13_FF  =	fit_fraction(KST800_13 , Opt_Model, {D_MASS, K_MASS, PI_MASS},  nentries);
-		KST892_12_FF  =	fit_fraction(KST892_12 , Opt_Model, {D_MASS, K_MASS, PI_MASS},  nentries);
-		KST892_13_FF  =	fit_fraction(KST892_13 , Opt_Model, {D_MASS, K_MASS, PI_MASS},  nentries);
-		KST1425_12_FF =	fit_fraction(KST1425_12 , Opt_Model, {D_MASS, K_MASS, PI_MASS}, nentries);
-		KST1425_13_FF =	fit_fraction(KST1425_13 , Opt_Model, {D_MASS, K_MASS, PI_MASS}, nentries);
-		KST1430_12_FF =	fit_fraction(KST1430_12 , Opt_Model, {D_MASS, K_MASS, PI_MASS}, nentries);
-		KST1430_13_FF =	fit_fraction(KST1430_13 , Opt_Model, {D_MASS, K_MASS, PI_MASS}, nentries);
-		KST1680_12_FF =	fit_fraction(KST1680_12 , Opt_Model, {D_MASS, K_MASS, PI_MASS}, nentries);
-		KST1680_13_FF =	fit_fraction(KST1680_13 , Opt_Model, {D_MASS, K_MASS, PI_MASS}, nentries);
-		NR_FF         =	fit_fraction(NR , Opt_Model, {D_MASS, K_MASS, PI_MASS}, nentries);
+		KST800_FF  =	fit_fraction(KST800 , Opt_Model, {D_MASS, K_MASS, PI_MASS}, nentries);
+		KST892_FF  =	fit_fraction(KST892 , Opt_Model, {D_MASS, K_MASS, PI_MASS}, nentries);
+		KST1425_FF =	fit_fraction(KST1425, Opt_Model, {D_MASS, K_MASS, PI_MASS}, nentries);
+		KST1430_FF =	fit_fraction(KST1430, Opt_Model, {D_MASS, K_MASS, PI_MASS}, nentries);
+		KST1680_FF =	fit_fraction(KST1680, Opt_Model, {D_MASS, K_MASS, PI_MASS}, nentries);
+		NR_FF         =	fit_fraction(NR , Opt_Model,     {D_MASS, K_MASS, PI_MASS}, nentries);
 
 
-		std::cout << "KST800_12_FF :" << KST800_12_FF << std::endl;
-		std::cout << "KST800_13_FF :" << KST800_13_FF << std::endl;
-		std::cout << "KST892_12_FF :" << KST892_12_FF << std::endl;
-		std::cout << "KST892_13_FF :" << KST892_13_FF << std::endl;
-		std::cout << "KST1425_12_FF :" << KST1425_12_FF << std::endl;
-		std::cout << "KST1425_13_FF :" << KST1425_13_FF << std::endl;
-		std::cout << "KST1430_12_FF :" << KST1430_12_FF << std::endl;
-		std::cout << "KST1430_13_FF :" << KST1430_13_FF << std::endl;
-		std::cout << "KST1680_12_FF :" << KST1680_12_FF << std::endl;
-		std::cout << "KST1680_13_FF :" << KST1680_13_FF << std::endl;
-		std::cout << "NR_FF :" << NR_FF << std::endl;
+		std::cout << "KST800_FF :"  << KST800_FF  << std::endl;
+		std::cout << "KST892_FF :"  << KST892_FF  << std::endl;
+		std::cout << "KST1425_FF :" << KST1425_FF << std::endl;
+		std::cout << "KST1430_FF :" << KST1430_FF << std::endl;
+		std::cout << "KST1680_FF :" << KST1680_FF << std::endl;
+		std::cout << "NR_FF :"      << NR_FF      << std::endl;
 		std::cout << "Sum :"
-				  << KST800_12_FF  + KST800_13_FF  +
-				     KST892_12_FF  + KST892_13_FF  + KST1425_12_FF +
-				     KST1425_13_FF + KST1430_12_FF + KST1430_13_FF +
-				     KST1680_12_FF + KST1680_13_FF + NR_FF << std::endl;
+				  << KST800_FF  +
+				     KST892_FF  +
+				     KST1425_FF +
+				     KST1430_FF +
+				     KST1680_FF +
+				     NR_FF  << std::endl;
 
 #ifdef 	_ROOT_AVAILABLE_
 
@@ -859,20 +812,15 @@ int main(int argv, char** argc)
 
 	Dalitz_Fit.Scale(Dalitz_Resonances.Integral()/Dalitz_Fit.Integral() );
 
-	KST800_12_HIST.Scale( KST800_12_FF*Dalitz_Fit.Integral()/KST800_12_HIST.Integral() );
-	KST800_13_HIST.Scale( KST800_13_FF*Dalitz_Fit.Integral()/KST800_13_HIST.Integral() );
+	KST800_HIST.Scale(  KST800_FF*Dalitz_Fit.Integral()/KST800_HIST.Integral() );
 
-	KST892_12_HIST.Scale( KST892_12_FF*Dalitz_Fit.Integral()/KST892_12_HIST.Integral() );
-	KST892_13_HIST.Scale( KST892_13_FF*Dalitz_Fit.Integral()/KST892_13_HIST.Integral() );
+	KST892_HIST.Scale(  KST892_FF*Dalitz_Fit.Integral()/KST892_HIST.Integral() );
 
-	KST1425_12_HIST.Scale( KST1425_12_FF*Dalitz_Fit.Integral()/KST1425_12_HIST.Integral() );
-	KST1425_13_HIST.Scale( KST1425_13_FF*Dalitz_Fit.Integral()/KST1425_13_HIST.Integral() );
+	KST1425_HIST.Scale( KST1425_FF*Dalitz_Fit.Integral()/KST1425_HIST.Integral() );
 
-	KST1430_12_HIST.Scale( KST1430_12_FF*Dalitz_Fit.Integral()/KST1430_12_HIST.Integral() );
-	KST1430_13_HIST.Scale( KST1430_13_FF*Dalitz_Fit.Integral()/KST1430_13_HIST.Integral() );
+	KST1430_HIST.Scale( KST1430_FF*Dalitz_Fit.Integral()/KST1430_HIST.Integral() );
 
-	KST1680_12_HIST.Scale( KST1680_12_FF*Dalitz_Fit.Integral()/KST1680_12_HIST.Integral() );
-	KST1680_13_HIST.Scale( KST1680_13_FF*Dalitz_Fit.Integral()/KST1680_13_HIST.Integral() );
+	KST1680_HIST.Scale( KST1680_FF*Dalitz_Fit.Integral()/KST1680_HIST.Integral() );
 
 	NR_HIST.Scale( NR_FF*Dalitz_Fit.Integral()/NR_HIST.Integral() );
 
@@ -956,72 +904,30 @@ int main(int argv, char** argc)
 
 	legend_x.AddEntry(hist,"Data","lep");
 
-	hist = KST800_12_HIST.Project3D(axis)->DrawCopy("histCsame");
+	hist = KST800_HIST.Project3D(axis)->DrawCopy("histCsame");
 	hist->SetLineColor(KST800_Color);
 	hist->SetLineWidth(2);
+	legend_x.AddEntry(hist,"#kappa","l");
 
-	legend_x.AddEntry(hist,"{#kappa}_{12}","l");
-
-	hist = KST800_13_HIST.Project3D(axis)->DrawCopy("histCsame");
-	hist->SetLineStyle(2);
-	hist->SetLineColor(KST800_Color);
-	hist->SetLineWidth(2);
-
-	legend_x.AddEntry(hist,"{#kappa}_{13}","l");
-
-
-	hist = KST892_12_HIST.Project3D(axis)->DrawCopy("histCsame");
+	hist = KST892_HIST.Project3D(axis)->DrawCopy("histCsame");
 	hist->SetLineColor(KST892_Color);
 	hist->SetLineWidth(2);
+	legend_x.AddEntry(hist,"K*(892)","l");
 
-	legend_x.AddEntry(hist,"{K*(892)}_{12}","l");
-
-	hist = KST892_13_HIST.Project3D(axis)->DrawCopy("histCsame");
-	hist->SetLineStyle(2);
-	hist->SetLineColor(KST892_Color);
-	hist->SetLineWidth(2);
-
-	legend_x.AddEntry(hist,"{K*(892)}_{13}","l");
-
-
-	hist = KST1680_12_HIST.Project3D(axis)->DrawCopy("histCsame");
+	hist = KST1680_HIST.Project3D(axis)->DrawCopy("histCsame");
 	hist->SetLineColor(KST1680_Color);
 	hist->SetLineWidth(2);
+	legend_x.AddEntry(hist,"K_{1}(1680)","l");
 
-	legend_x.AddEntry(hist,"{K_{1}(1680)}_{12}","l");
-
-	hist = KST1680_13_HIST.Project3D(axis)->DrawCopy("histCsame");
-	hist->SetLineStyle(2);
-	hist->SetLineColor(KST1680_Color);
-	hist->SetLineWidth(2);
-
-	legend_x.AddEntry(hist,"{K_{1}(1680)}_{13}","l");
-
-	hist = KST1425_12_HIST.Project3D(axis)->DrawCopy("histCsame");
+	hist = KST1425_HIST.Project3D(axis)->DrawCopy("histCsame");
 	hist->SetLineColor(KST1425_Color);
 	hist->SetLineWidth(2);
+	legend_x.AddEntry(hist,"K*_{0}(1425)","l");
 
-	legend_x.AddEntry(hist,"{K*_{0}(1425)}_{12}","l");
-
-	hist = KST1425_13_HIST.Project3D(axis)->DrawCopy("histCsame");
-	hist->SetLineStyle(2);
-	hist->SetLineColor(KST1425_Color);
-	hist->SetLineWidth(2);
-
-	legend_x.AddEntry(hist,"{K*_{0}(1425)}_{13}","l");
-
-	hist = KST1430_12_HIST.Project3D(axis)->DrawCopy("histCsame");
+	hist = KST1430_HIST.Project3D(axis)->DrawCopy("histCsame");
 	hist->SetLineColor(KST1430_Color);
 	hist->SetLineWidth(2);
-
-	legend_x.AddEntry(hist,"{K*_{2}(1430)}_{12}","l");
-
-	hist = KST1430_13_HIST.Project3D(axis)->DrawCopy("histCsame");
-	hist->SetLineColor(KST1430_Color);
-	hist->SetLineStyle(2);
-	hist->SetLineWidth(2);
-
-	legend_x.AddEntry(hist,"{K*_{2}(1430)}_{13}","l");
+	legend_x.AddEntry(hist,"K*_{2}(1430)","l");
 
 	hist = NR_HIST.Project3D(axis)->DrawCopy("histCsame");
 	hist->SetLineColor(NR_Color);
@@ -1064,75 +970,36 @@ int main(int argv, char** argc)
 	hist->SetMarkerStyle(8);
 	hist->SetMarkerSize(0.6);
 	hist->SetStats(0);
-
 	legend_y.AddEntry(hist,"Data","lep");
 
-	hist = KST800_12_HIST.Project3D(axis)->DrawCopy("histCsame");
+	hist = KST800_HIST.Project3D(axis)->DrawCopy("histCsame");
 	hist->SetLineColor(KST800_Color);
 	hist->SetLineWidth(2);
-
-	legend_y.AddEntry(hist,"{#kappa}_{12}","l");
-
-	hist = KST800_13_HIST.Project3D(axis)->DrawCopy("histCsame");
-	hist->SetLineStyle(2);
-	hist->SetLineColor(KST800_Color);
-	hist->SetLineWidth(2);
-
-	legend_y.AddEntry(hist,"{#kappa}_{13}","l");
+	legend_y.AddEntry(hist,"#kappa","l");
 
 
-	hist = KST892_12_HIST.Project3D(axis)->DrawCopy("histCsame");
+	hist = KST892_HIST.Project3D(axis)->DrawCopy("histCsame");
 	hist->SetLineColor(KST892_Color);
 	hist->SetLineWidth(2);
-
-	legend_y.AddEntry(hist,"{K*(892)}_{12}","l");
-
-	hist = KST892_13_HIST.Project3D(axis)->DrawCopy("histCsame");
-	hist->SetLineStyle(2);
-	hist->SetLineColor(KST892_Color);
-	hist->SetLineWidth(2);
-
-	legend_y.AddEntry(hist,"{K*(892)}_{13}","l");
+	legend_y.AddEntry(hist,"K*(892)","l");
 
 
-	hist = KST1680_12_HIST.Project3D(axis)->DrawCopy("histCsame");
+	hist = KST1680_HIST.Project3D(axis)->DrawCopy("histCsame");
 	hist->SetLineColor(KST1680_Color);
 	hist->SetLineWidth(2);
+	legend_y.AddEntry(hist,"K_{1}(1680)","l");
 
-	legend_y.AddEntry(hist,"{K_{1}(1680)}_{12}","l");
 
-	hist = KST1680_13_HIST.Project3D(axis)->DrawCopy("histCsame");
-	hist->SetLineStyle(2);
-	hist->SetLineColor(KST1680_Color);
-	hist->SetLineWidth(2);
-
-	legend_y.AddEntry(hist,"{K_{1}(1680)}_{13}","l");
-
-	hist = KST1425_12_HIST.Project3D(axis)->DrawCopy("histCsame");
+	hist = KST1425_HIST.Project3D(axis)->DrawCopy("histCsame");
 	hist->SetLineColor(KST1425_Color);
 	hist->SetLineWidth(2);
+	legend_y.AddEntry(hist,"K*_{0}(1425)","l");
 
-	legend_y.AddEntry(hist,"{K*_{0}(1425)}_{12}","l");
-
-	hist = KST1425_13_HIST.Project3D(axis)->DrawCopy("histCsame");
-	hist->SetLineStyle(2);
-	hist->SetLineColor(KST1425_Color);
-	hist->SetLineWidth(2);
-
-	legend_y.AddEntry(hist,"{K*_{0}(1425)}_{13}","l");
-
-	hist = KST1430_12_HIST.Project3D(axis)->DrawCopy("histCsame");
+	hist = KST1430_HIST.Project3D(axis)->DrawCopy("histCsame");
 	hist->SetLineColor(KST1430_Color);
 	hist->SetLineWidth(2);
+	legend_y.AddEntry(hist,"K*_{2}(1430)","l");
 
-	legend_y.AddEntry(hist,"{K*_{2}(1430)}_{12}","l");
-
-	hist = KST1430_13_HIST.Project3D(axis)->DrawCopy("histCsame");
-	hist->SetLineColor(KST1430_Color);
-	hist->SetLineStyle(2);
-	hist->SetLineWidth(2);
-
-	legend_y.AddEntry(hist,"{K*_{2}(1430)}_{13}","l");
 
 	hist = NR_HIST.Project3D(axis)->DrawCopy("histCsame");
 	hist->SetLineColor(NR_Color);
@@ -1170,82 +1037,39 @@ int main(int argv, char** argc)
 	hist->SetMinimum(0.001);
 	hist->SetStats(0);
 	hist->SetTitle("");
-
 	legend_z.AddEntry(hist,"Fit","l");
 
 	hist= Dalitz_Resonances.Project3D(axis)->DrawCopy("e0same");
 	hist->SetMarkerStyle(8);
 	hist->SetMarkerSize(0.6);
 	hist->SetStats(0);
-
 	legend_z.AddEntry(hist,"Data","lep");
 
-	hist = KST800_12_HIST.Project3D(axis)->DrawCopy("histCsame");
+	hist = KST800_HIST.Project3D(axis)->DrawCopy("histCsame");
 	hist->SetLineColor(KST800_Color);
 	hist->SetLineWidth(2);
+	legend_z.AddEntry(hist,"#kappa","l");
 
-	legend_z.AddEntry(hist,"{#kappa}_{12}","l");
-
-	hist = KST800_13_HIST.Project3D(axis)->DrawCopy("histCsame");
-	hist->SetLineStyle(2);
-	hist->SetLineColor(KST800_Color);
-	hist->SetLineWidth(2);
-
-	legend_z.AddEntry(hist,"{#kappa}_{13}","l");
-
-
-	hist = KST892_12_HIST.Project3D(axis)->DrawCopy("histCsame");
+	hist = KST892_HIST.Project3D(axis)->DrawCopy("histCsame");
 	hist->SetLineColor(KST892_Color);
 	hist->SetLineWidth(2);
+	legend_z.AddEntry(hist,"K*(892)","l");
 
-	legend_z.AddEntry(hist,"{K*(892)}_{12}","l");
-
-	hist = KST892_13_HIST.Project3D(axis)->DrawCopy("histCsame");
-	hist->SetLineStyle(2);
-	hist->SetLineColor(KST892_Color);
-	hist->SetLineWidth(2);
-
-	legend_z.AddEntry(hist,"{K*(892)}_{13}","l");
-
-
-	hist = KST1680_12_HIST.Project3D(axis)->DrawCopy("histCsame");
+	hist = KST1680_HIST.Project3D(axis)->DrawCopy("histCsame");
 	hist->SetLineColor(KST1680_Color);
 	hist->SetLineWidth(2);
+	legend_z.AddEntry(hist,"K_{1}(1680)","l");
 
-	legend_z.AddEntry(hist,"{K_{1}(1680)}_{12}","l");
-
-	hist = KST1680_13_HIST.Project3D(axis)->DrawCopy("histCsame");
-	hist->SetLineStyle(2);
-	hist->SetLineColor(KST1680_Color);
-	hist->SetLineWidth(2);
-
-	legend_z.AddEntry(hist,"{K_{1}(1680)}_{13}","l");
-
-	hist = KST1425_12_HIST.Project3D(axis)->DrawCopy("histCsame");
+	hist = KST1425_HIST.Project3D(axis)->DrawCopy("histCsame");
 	hist->SetLineColor(KST1425_Color);
 	hist->SetLineWidth(2);
+	legend_z.AddEntry(hist,"K*_{0}(1425)","l");
 
-	legend_z.AddEntry(hist,"{K*_{0}(1425)}_{12}","l");
 
-	hist = KST1425_13_HIST.Project3D(axis)->DrawCopy("histCsame");
-	hist->SetLineStyle(2);
-	hist->SetLineColor(KST1425_Color);
-	hist->SetLineWidth(2);
-
-	legend_z.AddEntry(hist,"{K*_{0}(1425)}_{13}","l");
-
-	hist = KST1430_12_HIST.Project3D(axis)->DrawCopy("histCsame");
+	hist = KST1430_HIST.Project3D(axis)->DrawCopy("histCsame");
 	hist->SetLineColor(KST1430_Color);
 	hist->SetLineWidth(2);
-
-	legend_z.AddEntry(hist,"{K*_{2}(1430)}_{12}","l");
-
-	hist = KST1430_13_HIST.Project3D(axis)->DrawCopy("histCsame");
-	hist->SetLineColor(KST1430_Color);
-	hist->SetLineStyle(2);
-	hist->SetLineWidth(2);
-
-	legend_z.AddEntry(hist,"{K*_{2}(1430)}_{13}","l");
+	legend_z.AddEntry(hist,"K*_{2}(1430)","l");
 
 	hist = NR_HIST.Project3D(axis)->DrawCopy("histCsame");
 	hist->SetLineColor(NR_Color);
@@ -1292,7 +1116,7 @@ size_t generate_dataset(Backend const& system, Model const& model, std::array<do
 	//allocate memory to hold the final states particles
 	hydra::Decays<3, Backend > _data(bunch_size);
 
-	std::srand(7531594562);
+	std::srand(75315);
 
 	do {
 		phsp.SetSeed(std::rand());
