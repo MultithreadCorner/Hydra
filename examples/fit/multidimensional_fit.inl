@@ -169,7 +169,7 @@ int main(int argv, char** argc) {
 	//fit function
 
 	auto gaussian = hydra::wrap_lambda(
-		[=] __hydra_dual__ 	(unsigned int npar, const hydra::Parameter* params, unsigned int narg, double* x ){
+		[=] __hydra_dual__ 	(unsigned int npar, const hydra::Parameter* params, unsigned int narg,  const double* x ){
 
 		double g = 1.0;
 

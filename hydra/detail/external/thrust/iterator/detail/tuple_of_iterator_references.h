@@ -103,7 +103,14 @@ template<
     {}
 #endif
 };
-
+// this overload of swap() permits swapping tuple_of_iterator_references returned as temporaries from
+template< typename ...T, typename ...U>
+inline __hydra_host__ __hydra_device__
+void swap(tuple_of_iterator_references<T...> x,
+          tuple_of_iterator_references<U...> y)
+{
+  x.swap(y);
+}
 
 } // end detail
 

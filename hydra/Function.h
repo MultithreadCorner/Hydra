@@ -45,6 +45,8 @@
 #include <hydra/detail/external/thrust/iterator/zip_iterator.h>
 #include <hydra/detail/external/thrust/tuple.h>
 #include <hydra/detail/external/thrust/detail/type_traits.h>
+#include <hydra/detail/external/thrust/device_reference.h>
+#include <hydra/detail/external/thrust/detail/raw_reference_cast.h>
 #include <array>
 #include <initializer_list>
 #include <memory>
@@ -261,10 +263,12 @@ private:
 	interface(T&& x)  const
 	{
 		typedef  typename HYDRA_EXTERNAL_NS::thrust::detail::remove_const<typename HYDRA_EXTERNAL_NS::thrust::detail::remove_reference<T>::type>::type Tprime;
+
 		typedef typename HYDRA_EXTERNAL_NS::thrust::detail::remove_reference<typename HYDRA_EXTERNAL_NS::thrust::tuple_element<0, Tprime>::type>::type first_type;
+
 		constexpr size_t N = HYDRA_EXTERNAL_NS::thrust::tuple_size< Tprime >::value;
 
-		first_type Array[ N ];
+		typename	detail::is_device_reference<first_type>::type Array[ N ];
 
 		detail::tupleToArray(x, &Array[0] );
 		//fNArgs=N;

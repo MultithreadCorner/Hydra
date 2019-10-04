@@ -181,7 +181,7 @@ int main(int argv, char** argc)
 
 	// functor to calculate the 2-body masses
 	auto dalitz_calculator = hydra::wrap_lambda(
-			[] __hydra_dual__ (unsigned int n, hydra::Vector4R* p ){
+			[] __hydra_dual__ (unsigned int n, const hydra::Vector4R* p ){
 
 			double   MSq_12 = (p[0]+p[1]).mass2();
 			double   MSq_13 = (p[0]+p[2]).mass2();

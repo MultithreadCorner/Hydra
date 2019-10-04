@@ -74,13 +74,13 @@ struct AddResultGenzMalikBoxes
 {
 	template<typename Type>
 	__hydra_host__ __hydra_device__
-	GenzMalikBoxResult<Type> operator()(GenzMalikBoxResult<Type> const& left, GenzMalikBoxResult<Type> const& right  ){
+	GenzMalikBoxResult<Type> operator()(GenzMalikBoxResult<Type>  const& left, GenzMalikBoxResult<Type> const& right  ){
 		return left+right;
 	}
 
 	template<typename Type, size_t N>
 	__hydra_host__ __hydra_device__
-	GenzMalikBoxResult<Type> operator()(GenzMalikBoxResult<Type> const& left, GenzMalikBox<N> const& right  ){
+	GenzMalikBoxResult<Type> operator()(GenzMalikBoxResult<Type>  const& left, GenzMalikBox<N> const& right  ){
 			return left+right;
 	}
 
@@ -118,9 +118,16 @@ public:
 
 	template<size_t N>
 	__hydra_host__ __hydra_device__
-	GenzMalikBoxResult( GenzMalikBox<N> const& other):
+	GenzMalikBoxResult( GenzMalikBox<N>const&  other):
 	fIntegral(other.GetIntegral()),
 	fError(other.GetError())
+	{}
+
+	template<size_t N>
+	__hydra_host__ __hydra_device__
+	GenzMalikBoxResult( HYDRA_EXTERNAL_NS::thrust::device_reference<const hydra::detail::GenzMalikBox<N>> other):
+	fIntegral(HYDRA_EXTERNAL_NS::thrust::raw_reference_cast(other).GetIntegral()),
+	fError(HYDRA_EXTERNAL_NS::thrust::raw_reference_cast(other).GetError())
 	{}
 
 
@@ -148,11 +155,11 @@ public:
 
 	template< size_t N>
 	__hydra_host__ __hydra_device__
-	GenzMalikBoxResult<Type>& operator=( hydra::detail::external::thrust::device_reference<const GenzMalikBox<N>>& other){
+	GenzMalikBoxResult<Type>& operator=(  GenzMalikBox<N> other){
 
 
-			fIntegral=&other->GetIntegral();
-			fError=&other->GetError();
+			fIntegral=other.GetIntegral();
+			fError=other.GetError();
 
 			return *this;
 	}
