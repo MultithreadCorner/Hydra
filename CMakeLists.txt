@@ -128,7 +128,7 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${OpenMP_CXX_FLAGS}")
 endif(OPENMP_CXX_FOUND OR OPENMP_FOUND)
 
 #generate API documentation with Doxygen
-find_package(Doxygen)
+#find_package(Doxygen)
 option(BUILD_DOCUMENTATION "Create and install the HTML based API documentation (requires Doxygen)" NO)
 
 # examples etc
@@ -225,7 +225,7 @@ add_subdirectory(testing)
 #+++++++++++++++++++++++++++
 
 if(BUILD_DOXYGEN_DOCUMENTATION)
-
+find_package(Doxygen)
     if(NOT DOXYGEN_FOUND)
         message(FALTAL_ERROR "Doxygen documentation generation requested ( BUILD_DOXYGEN_DOCUMENTATION=ON) but Doxygen is not installed.")
     endif()
