@@ -91,15 +91,18 @@ public:
 	//container
 	typedef multiarray< double, DIM+3,
 			hydra::detail::BackendPolicy<BACKEND>>            abscissae_type;
+
 	typedef typename abscissae_type::value_type                abscissa_type;
+
 	typedef typename abscissae_type::iterator             abscissae_iterator;
+
 	typedef typename abscissae_type::const_iterator const_abscissae_iterator;
 
 	GenzMalikRule():
 		fLambda2( 0.358568583 ), //sqrt(9.0/70.0) ),
 		fLambda3( 0.948683298 ), //sqrt(9.0/10.0) ),
 		fLambda4( 0.948683298 ), //sqrt(9.0/10.0) ),
-		fLambda5( 0.688247202 ) //sqrt(9.0/19.0) )
+		fLambda5( 0.688247202 )  //sqrt(9.0/19.0) )
 	{
 
 		fRule7Weight1  = _factor*(12824.0 - 9120.0*_dimension + 400.0*_dimension*_dimension)/19683.0;
