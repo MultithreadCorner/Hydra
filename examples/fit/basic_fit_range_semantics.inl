@@ -135,6 +135,7 @@ int main(int argv, char** argc)
 
 #endif //_ROOT_AVAILABLE_
 
+
 	//begin raii scope
 	{
 

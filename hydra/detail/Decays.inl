@@ -132,7 +132,8 @@ size_t Decays<N, detail::BackendPolicy<BACKEND> >::Unweight(GUInt_t scale, size_
 
 template<size_t N, detail::Backend BACKEND>
 template<typename FUNCTOR>
-size_t Decays<N, detail::BackendPolicy<BACKEND> >::Unweight(
+hydra::Range<Decays<N, detail::BackendPolicy<BACKEND> >::iterator>
+Decays<N, detail::BackendPolicy<BACKEND> >::Unweight(
 		FUNCTOR const& functor, GUInt_t scale, size_t seed) {
 
 	using HYDRA_EXTERNAL_NS::thrust::system::detail::generic::select_system;
@@ -171,7 +172,8 @@ size_t Decays<N, detail::BackendPolicy<BACKEND> >::Unweight(
 
 	HYDRA_EXTERNAL_NS::thrust::return_temporary_buffer(system_t(), values.first);
 	//done!
-	return (size_t) HYDRA_EXTERNAL_NS::thrust::distance(begin(), middle);
+	//return (size_t) HYDRA_EXTERNAL_NS::thrust::distance(begin(), middle);
+	return hydra::make_range(begin(), middle);
 
 }
 

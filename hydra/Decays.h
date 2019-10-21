@@ -590,7 +590,7 @@ public:
 	 * particles.
 	 */
 	template<typename FUNCTOR>
-	size_t Unweight( FUNCTOR  const& functor, GUInt_t scale, size_t seed=159753654);
+	auto Unweight( FUNCTOR  const& functor, GUInt_t scale, size_t seed=159753654);
 
 	/**
 	 * Recalculates the events weights according with @functor;

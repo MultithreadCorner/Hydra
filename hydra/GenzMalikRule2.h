@@ -365,17 +365,6 @@ public:
 
 private:
 
-	template<size_t N=0>
-	inline   typename std::enable_if< (N==0), GULong64_t>::type twoN()
-	{
-		return 1;
-	}
-
-	template<size_t N=0>
-	inline typename std::enable_if< (N>0), GULong64_t>::type twoN()
-	{
-		return 2*twoN<N-1>();
-	}
 
 	inline void set_abscissas()
 	{
