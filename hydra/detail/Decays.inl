@@ -64,7 +64,8 @@ struct EvalOnDaugthers: public HYDRA_EXTERNAL_NS::thrust::unary_function<
 
 template<size_t N>
 struct FlagDaugthers: public HYDRA_EXTERNAL_NS::thrust::unary_function<size_t,
-		bool> {
+		bool>
+{
 
 	FlagDaugthers(GReal_t max, GReal_t* iterator) :
 			fVals(iterator), fMax(max), fSeed(159753654) {
@@ -83,9 +84,9 @@ struct FlagDaugthers: public HYDRA_EXTERNAL_NS::thrust::unary_function<size_t,
 		HYDRA_EXTERNAL_NS::thrust::default_random_engine randEng(fSeed);
 		randEng.discard(idx);
 		HYDRA_EXTERNAL_NS::thrust::uniform_real_distribution<GReal_t> uniDist(
-				0.0, 1.0);
+				0.0, fMax);
 
-		return fVals[idx] / fMax > uniDist(randEng);
+		return fVals[idx] > uniDist(randEng);
 
 	}
 

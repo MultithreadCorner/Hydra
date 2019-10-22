@@ -89,6 +89,7 @@
 #include <TColor.h>
 #include <TString.h>
 #include <TStyle.h>
+#include <TProfile2D.h>
 
 #endif //_ROOT_AVAILABLE_
 
@@ -139,6 +140,10 @@ int main(int argv, char** argc)
 			100, pow(Jpsi_mass + pi_mass,2), pow(B0_mass - K_mass,2),
 			100, pow(K_mass + pi_mass,2), pow(B0_mass - Jpsi_mass,2));
 
+	//
+	TProfile2D Weights_Profile("Weights_Profile", "Phase-Space Weights Profile",
+				    100, pow(Jpsi_mass + pi_mass,2), pow(B0_mass - K_mass,2),
+					100, pow(K_mass + pi_mass,2), pow(B0_mass - Jpsi_mass,2));
 #endif
 
 	hydra::Vector4R B0(B0_mass, 0.0, 0.0, 0.0);
@@ -210,6 +215,7 @@ int main(int argv, char** argc)
 			double M2_Kpi     = (K + pi).mass2();
 
 			Dalitz_d1.Fill( M2_Jpsi_pi, M2_Kpi, weight);
+			Weights_Profile.Fill( M2_Jpsi_pi, M2_Kpi, weight);
 		}
 
 #endif
@@ -259,6 +265,9 @@ int main(int argv, char** argc)
 
 	TCanvas canvas_d2("canvas_d2", "Phase-space Device", 500, 500);
 	Dalitz_d2.Draw("colz");
+
+	TCanvas canvas_d3("canvas_d3", "Phase-space weights profile", 500, 500);
+	Weights_Profile.Draw("colz");
 
 	m_app->Run();
 
