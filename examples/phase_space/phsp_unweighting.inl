@@ -198,18 +198,21 @@ int main(int argv, char** argc)
 
 #endif
 
-		auto last = Events_d.Unweight(3.0);
-		std::cout <<std::endl;
-		std::cout << "<======= Flat [Unweighted] =======>"<< std::endl;
-		for( size_t i=0; i<10; i++ )
-			std::cout << Events_d.begin()[i] << std::endl;
+		auto unweighted_events = Events_d.Unweight(1.0);
+		size_t j=0, max=10;
+
+				for( auto x: unweighted_events) {
+					if( j > max ) continue;
+					std::cout << j << " - " << x << std::endl;
+					++j;
+				}
 
 #ifdef 	_ROOT_AVAILABLE_
 
 		//bring events to CPU memory space
 		//hydra::Events<3, hydra::host::sys_t > Events_h(Events_d);
 
-		hydra::Decays<3, hydra::host::sys_t > Events_h1( Events_d.begin(), Events_d.begin()+last);
+		hydra::Decays<3, hydra::host::sys_t > Events_h1( unweighted_events);
 
 
 		for( auto event : Events_h1 ){

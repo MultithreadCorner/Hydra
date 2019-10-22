@@ -100,7 +100,8 @@ struct FlagDaugthers: public HYDRA_EXTERNAL_NS::thrust::unary_function<size_t,
 
 
 template<size_t N, detail::Backend BACKEND>
-size_t Decays<N, detail::BackendPolicy<BACKEND> >::Unweight(GUInt_t scale, size_t seed) {
+hydra::Range<typename Decays<N, detail::BackendPolicy<BACKEND> >::iterator>
+Decays<N, detail::BackendPolicy<BACKEND> >::Unweight(GUInt_t scale, size_t seed) {
 	using HYDRA_EXTERNAL_NS::thrust::system::detail::generic::select_system;
 	typedef typename HYDRA_EXTERNAL_NS::thrust::iterator_system<
 			typename Decays<N, detail::BackendPolicy<BACKEND> >::const_iterator>::type system_t;
@@ -110,7 +111,6 @@ size_t Decays<N, detail::BackendPolicy<BACKEND> >::Unweight(GUInt_t scale, size_
 
 	//create iterators
 	HYDRA_EXTERNAL_NS::thrust::counting_iterator < size_t > first(0);
-	HYDRA_EXTERNAL_NS::thrust::counting_iterator < size_t > last = first + ntrials;
 
 	//get the maximum value
 	GReal_t max_value = *(HYDRA_EXTERNAL_NS::thrust::max_element(fWeights.begin(), fWeights.end()));
@@ -126,13 +126,14 @@ size_t Decays<N, detail::BackendPolicy<BACKEND> >::Unweight(GUInt_t scale, size_
 			this->end(), first, predicate);
 
 	//done!
-	return HYDRA_EXTERNAL_NS::thrust::distance(begin(), middle);
+	//return (size_t) HYDRA_EXTERNAL_NS::thrust::distance(begin(), middle);
+	return hydra::make_range(begin(), middle);
 }
 
 
 template<size_t N, detail::Backend BACKEND>
 template<typename FUNCTOR>
-hydra::Range<Decays<N, detail::BackendPolicy<BACKEND> >::iterator>
+hydra::Range<typename Decays<N, detail::BackendPolicy<BACKEND> >::iterator>
 Decays<N, detail::BackendPolicy<BACKEND> >::Unweight(
 		FUNCTOR const& functor, GUInt_t scale, size_t seed) {
 

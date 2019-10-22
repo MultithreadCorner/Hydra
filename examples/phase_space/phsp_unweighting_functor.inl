@@ -214,16 +214,24 @@ int main(int argv, char** argc)
 
 #endif
 
-		auto last = Events_d.Unweight(breit_wigner, 1.0);
+		auto unweighted_events = Events_d.Unweight(breit_wigner, 1.0);
 
 		std::cout << "<======= Breit-Wigner [Unweighted] =======>"<< std::endl;
-		for( size_t i=0; i<10; i++ )
-			std::cout << Events_d.begin()[i] << std::endl;
+
+
+		size_t j=0, max=10;
+
+		for( auto x: unweighted_events) {
+			if( j > max ) continue;
+			std::cout << j << " - " << x << std::endl;
+			++j;
+		}
 
 #ifdef 	_ROOT_AVAILABLE_
 
 		//bring events to CPU memory space
-		hydra::Decays<3, hydra::host::sys_t > Events_h1( Events_d.begin(), Events_d.begin()+last);
+		hydra::Decays<3, hydra::host::sys_t > Events_h1( unweighted_events);
+
 
 		for( auto event : Events_h1 ){
 
@@ -237,7 +245,6 @@ int main(int argv, char** argc)
 
 			Dalitz_d2.Fill( M2_Jpsi_pi, M2_Kpi, 1.0);
 		}
-
 #endif
 
 	}
