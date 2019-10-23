@@ -480,6 +480,18 @@ unweight( hydra::detail::BackendPolicy<BACKEND> const& policy, Iterator begin, I
 }
 
 
+template<hydra::detail::Backend  BACKEND, typename Functor, typename Iterable>
+typename std::enable_if< detail::is_hydra_functor<Functor>::value &&
+                         detail::is_iterable<Iterable>::value , Range< decltype(std::decval<Iterable>().begin())>>::type
+unweight( hydra::detail::BackendPolicy<BACKEND> const& policy, Iterable&& iterable, Functor const& functor){
+
+	return hydra::unweight(policy, std::forward<Iterable>(iterable).begin(),
+			std::forward<Iterable>(iterable).end(), functor);
+
+}
+
+
+
 }//namespace hydra
 
 

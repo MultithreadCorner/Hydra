@@ -413,6 +413,11 @@ template<hydra::detail::Backend  BACKEND, typename Functor, typename Iterator>
 typename std::enable_if< hydra::detail::is_hydra_functor<Functor>::value, Range<Iterator>>::type
 unweight( hydra::detail::BackendPolicy<BACKEND> const& policy, Iterator begin, Iterator end, Functor const& functor);
 
+template<hydra::detail::Backend  BACKEND, typename Functor, typename Iterable>
+typename std::enable_if< detail::is_hydra_functor<Functor>::value &&
+                         detail::is_iterable<Iterable>::value , Range< decltype(std::decval<Iterable>().begin())>>::type
+unweight( hydra::detail::BackendPolicy<BACKEND> const& policy, Iterable&& iterable, Functor const& functor);
+
 
 
 
