@@ -127,10 +127,14 @@ int main(int argv, char** argc)
 
 
 	//
-		TH2D Dalitz_d2("Dalitz_d2", "Unweighted Sample [Device];M^{2}(J/psi #pi) [GeV^{2}/c^{4}]; M^{2}(K #pi) [GeV^{2}/c^{4}]",
+	TH2D Dalitz_d2("Dalitz_d2", "Unweighted Sample [Device];M^{2}(J/psi #pi) [GeV^{2}/c^{4}]; M^{2}(K #pi) [GeV^{2}/c^{4}]",
 				100, pow(Jpsi_mass + pi_mass,2), pow(B0_mass - K_mass,2),
 				100, pow(K_mass + pi_mass,2), pow(B0_mass - Jpsi_mass,2));
 
+	//
+	TProfile2D Weights_Profile("Weights_Profile", "Phase-Space Weights Profile",
+			    100, pow(Jpsi_mass + pi_mass,2), pow(B0_mass - K_mass,2),
+				100, pow(K_mass + pi_mass,2), pow(B0_mass - Jpsi_mass,2));
 #endif
 
 	hydra::Vector4R B0(B0_mass, 0.0, 0.0, 0.0);
@@ -186,22 +190,34 @@ int main(int argv, char** argc)
 			double M2_Kpi     = (K + pi).mass2();
 
 			Dalitz_d1.Fill( M2_Jpsi_pi, M2_Kpi, weight);
+			Weights_Profile.Fill( M2_Jpsi_pi, M2_Kpi, weight);
 		}
 
 #endif
 
-		auto last = Events_d.Unweight(3.0);
-		std::cout <<std::endl;
-		std::cout << "<======= Flat [Unweighted] =======>"<< std::endl;
-		for( size_t i=0; i<10; i++ )
-			std::cout << Events_d.begin()[i] << std::endl;
+		//get uweighted events
+		auto unweighted_events = Events_d.Unweight(1.0);
+		//copy the events to a new decay container
+		hydra::Decays<3, hydra::device::sys_t > Events(unweighted_events);
+		//overwrite the weights with a flat distribution between 0 and 5
+		auto  time = hydra::Random<>(456258).Uniform(0.0, 5.0, Events.GetWeights());
+        //re-unweight events according with the probability
+		// p = exp(-t)/sqrt(1+mass)
+		auto  functor = []__hydra_dual__( hydra::tuple<double, hydra::Vector4R, hydra::Vector4R, hydra::Vector4R> x){
+
+			auto mass = hydra::get<1>(x) + hydra::get<2>(x) + hydra::get<3>(x);
+
+			return exp(-hydra::get<0>(x))/sqrt(1+mass);
+		};
+
+		auto sample = hydra::uweight(Events ,functor);
 
 #ifdef 	_ROOT_AVAILABLE_
 
 		//bring events to CPU memory space
 		//hydra::Events<3, hydra::host::sys_t > Events_h(Events_d);
 
-		hydra::Decays<3, hydra::host::sys_t > Events_h1( Events_d.begin(), Events_d.begin()+last);
+		hydra::Decays<3, hydra::host::sys_t > Events_h1( unweighted_events);
 
 
 		for( auto event : Events_h1 ){
@@ -226,11 +242,14 @@ int main(int argv, char** argc)
 
 	TApplication *m_app=new TApplication("myapp",0,0);
 
-	TCanvas canvas_d1("canvas_d1", "Phase-space Device", 500, 500);
+	TCanvas canvas_d1("canvas_d1", "Phase-space weigted sample", 500, 500);
 	Dalitz_d1.Draw("colz");
 
-	TCanvas canvas_d2("canvas_d2", "Phase-space Device", 500, 500);
+	TCanvas canvas_d2("canvas_d2", "Phase-space unweigted sample", 500, 500);
 	Dalitz_d2.Draw("colz");
+
+	TCanvas canvas_d3("canvas_d3", "Phase-space weights profile", 500, 500);
+	Weights_Profile.Draw("colz");
 
 	m_app->Run();
 
@@ -238,7 +257,6 @@ int main(int argv, char** argc)
 
 	return 0;
 }
-
 
 
 #endif /* TIMEDEPENDENT_PHSP_BASIC_INL_ */
