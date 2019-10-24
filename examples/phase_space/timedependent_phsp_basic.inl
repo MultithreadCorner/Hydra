@@ -64,6 +64,9 @@
 #include <hydra/host/System.h>
 #include <hydra/device/System.h>
 #include <hydra/Decays.h>
+#include <hydra/Random.h>
+#include <hydra/Range.h>
+
 /*-------------------------------------
  * Include classes from ROOT to fill
  * and draw histograms and plots.
@@ -81,6 +84,7 @@
 #include <TColor.h>
 #include <TString.h>
 #include <TStyle.h>
+#include <TProfile2D.h>
 
 #endif //_ROOT_AVAILABLE_
 
@@ -190,7 +194,7 @@ int main(int argv, char** argc)
 			double M2_Kpi     = (K + pi).mass2();
 
 			Dalitz_d1.Fill( M2_Jpsi_pi, M2_Kpi, weight);
-			Weights_Profile.Fill( M2_Jpsi_pi, M2_Kpi, weight);
+
 		}
 
 #endif
@@ -200,24 +204,25 @@ int main(int argv, char** argc)
 		//copy the events to a new decay container
 		hydra::Decays<3, hydra::device::sys_t > Events(unweighted_events);
 		//overwrite the weights with a flat distribution between 0 and 5
-		auto  time = hydra::Random<>(456258).Uniform(0.0, 5.0, Events.GetWeights());
+		auto  time = hydra::Random<>(456258).Uniform(0.0, 10.0, Events.GetWeights());
         //re-unweight events according with the probability
 		// p = exp(-t)/sqrt(1+mass)
-		auto  functor = []__hydra_dual__( hydra::tuple<double, hydra::Vector4R, hydra::Vector4R, hydra::Vector4R> x){
+		auto  functor = hydra::wrap_lambda([]__hydra_dual__( hydra::tuple<double, hydra::Vector4R, hydra::Vector4R, hydra::Vector4R> x){
 
-			auto mass = hydra::get<1>(x) + hydra::get<2>(x) + hydra::get<3>(x);
+			auto mass12 = (hydra::get<1>(x) + hydra::get<2>(x)).mass2();
+			auto mass23 = (hydra::get<2>(x) + hydra::get<3>(x)).mass2();
 
-			return exp(-hydra::get<0>(x))/sqrt(1+mass);
-		};
+			return exp(-hydra::get<0>(x)*mass12*mass23);
+		});
 
-		auto sample = hydra::uweight(Events ,functor);
+		auto sample = hydra::unweight(hydra::device::sys, Events,functor);
 
 #ifdef 	_ROOT_AVAILABLE_
 
 		//bring events to CPU memory space
 		//hydra::Events<3, hydra::host::sys_t > Events_h(Events_d);
 
-		hydra::Decays<3, hydra::host::sys_t > Events_h1( unweighted_events);
+		hydra::Decays<3, hydra::host::sys_t > Events_h1(sample );
 
 
 		for( auto event : Events_h1 ){
@@ -231,6 +236,7 @@ int main(int argv, char** argc)
 			double M2_Kpi     = (K + pi).mass2();
 
 			Dalitz_d2.Fill( M2_Jpsi_pi, M2_Kpi, 1.0);
+			Weights_Profile.Fill( M2_Jpsi_pi, M2_Kpi, weight);
 		}
 
 #endif

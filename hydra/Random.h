@@ -383,7 +383,7 @@ private:
 /**
  * \ingroup random
  *
- * This functions reorder a dataset to put produce a unweighted sample according to the weights
+ * This functions reorder a dataset to produce a unweighted sample according to the weights
  * [wbegin, wend]. The length of the range [wbegin, wend] should be equal or greater than
  * the dataset size.
  *
@@ -394,14 +394,32 @@ private:
  * @return
  */
 template<hydra::detail::Backend  BACKEND, typename Iterator1, typename Iterator2>
-Range<Iterator2> unweight( hydra::detail::BackendPolicy<BACKEND> const& policy, Iterator1 wbegin, Iterator1 wend , Iterator2 begin);
+typename std::enable_if< !hydra::detail::is_hydra_functor<Iterator2>::value, Range<Iterator2>>::type
+unweight( hydra::detail::BackendPolicy<BACKEND> const& policy, Iterator1 wbegin, Iterator1 wend , Iterator2 begin);
+
+/**
+ * \ingroup random
+ *
+ * This functions reorder a dataset to produce a unweighted sample according to a weights.
+ * The length of the range @param weights should be equal or greater than
+ * the  @param data size.
+ *
+ * @param policy parallel backend to perform the unweighting
+ * @param weights the range of weights
+ * @param data the range corresponding dataset
+ * @return
+ */
+template<hydra::detail::Backend  BACKEND,  typename Iterable1,  typename Iterable2>
+typename std::enable_if<detail::is_iterable<Iterable1>::value && detail::is_iterable<Iterable2>::value,
+Range< decltype(std::declval<Iterable2>().begin())>>::type
+unweight( hydra::detail::BackendPolicy<BACKEND> const& policy, Iterable1 weights,  Iterable2 data);
 
 
 
 /**
  * \ingroup random
  *
- * This functions reorder a dataset to put produce a unweighted sample according to @param functor .
+ * This functions reorder a dataset to produce a unweighted sample according to @param functor .
  *
  * @param policy
  * @param begin
@@ -413,9 +431,19 @@ template<hydra::detail::Backend  BACKEND, typename Functor, typename Iterator>
 typename std::enable_if< hydra::detail::is_hydra_functor<Functor>::value, Range<Iterator>>::type
 unweight( hydra::detail::BackendPolicy<BACKEND> const& policy, Iterator begin, Iterator end, Functor const& functor);
 
+/**
+ * \ingroup random
+ *
+ * This functions reorder a dataset to produce a unweighted sample according to @param functor .
+ *
+ * @param policy
+ * @param iterable
+ * @param functor
+ * @return hydra::Range object pointing unweighted sample.
+ */
 template<hydra::detail::Backend  BACKEND, typename Functor, typename Iterable>
 typename std::enable_if< detail::is_hydra_functor<Functor>::value &&
-                         detail::is_iterable<Iterable>::value , Range< decltype(std::decval<Iterable>().begin())>>::type
+                         detail::is_iterable<Iterable>::value , Range< decltype(std::declval<Iterable>().begin())>>::type
 unweight( hydra::detail::BackendPolicy<BACKEND> const& policy, Iterable&& iterable, Functor const& functor);
 
 
