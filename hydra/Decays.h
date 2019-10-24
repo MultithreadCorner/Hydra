@@ -741,6 +741,15 @@ public:
 
 	}
 
+	template<typename Iterable>
+	typename std::enable_if<detail::is_iterable<Iterable>::value, void>::type
+	insert(iterator position, Iterable range){
+
+		insert(position, range.begin(), range.end());
+	}
+
+
+
 	reference front(){	return this->begin()[0];}
 
 	const_reference front() const  {return this->cbegin()[0];}

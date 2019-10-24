@@ -720,7 +720,7 @@ int main(int argv, char** argc)
 		KST1425_FF =	fit_fraction(KST1425, Opt_Model, {D_MASS, K_MASS, PI_MASS}, nentries);
 		KST1430_FF =	fit_fraction(KST1430, Opt_Model, {D_MASS, K_MASS, PI_MASS}, nentries);
 		KST1680_FF =	fit_fraction(KST1680, Opt_Model, {D_MASS, K_MASS, PI_MASS}, nentries);
-		NR_FF         =	fit_fraction(NR , Opt_Model,     {D_MASS, K_MASS, PI_MASS}, nentries);
+		NR_FF      =	fit_fraction(NR , Opt_Model,     {D_MASS, K_MASS, PI_MASS}, nentries);
 
 
 		std::cout << "KST800_FF :"  << KST800_FF  << std::endl;
@@ -1116,7 +1116,7 @@ size_t generate_dataset(Backend const& system, Model const& model, std::array<do
 	//allocate memory to hold the final states particles
 	hydra::Decays<3, Backend > _data(bunch_size);
 
-	std::srand(75315);
+	std::srand(753159);
 
 	do {
 		phsp.SetSeed(std::rand());
@@ -1124,10 +1124,9 @@ size_t generate_dataset(Backend const& system, Model const& model, std::array<do
 		//generate the final state particles
 		phsp.Generate(D, _data.begin(), _data.end());
 
-		auto last = _data.Unweight(model, 1.0);
+		auto sample = _data.Unweight(model, 1.0);
 
-		decays.insert(decays.size()==0? decays.begin():decays.end(),
-				_data.begin(), _data.begin()+last );
+		decays.insert(decays.end(), sample);
 
 	} while(decays.size()<nevents );
 
