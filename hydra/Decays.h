@@ -608,7 +608,7 @@ public:
 	 */
 	template<typename FUNCTOR>
 	hydra::Range<typename Decays<N, detail::BackendPolicy<BACKEND> >::iterator>
-	Unweight( FUNCTOR  const& functor, GUInt_t scale, size_t seed=159753654);
+	Unweight( FUNCTOR  const& functor, GUInt_t scale=1.0, size_t seed=159753654);
 
 	/**
 	 * Recalculates the events weights according with @functor;

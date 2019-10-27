@@ -183,11 +183,11 @@ int main(int argv, char** argc)
 
 	// functor to calculate the 2-body masses
 	auto dalitz_calculator = hydra::wrap_lambda(
-			[] __hydra_dual__ ( event_type event ){
+			[] __hydra_dual__ ( unsigned int n, hydra::Vector4R* particles ){
 
-            auto p1 = hydra::get<1>(event);
-            auto p2 = hydra::get<2>(event);
-            auto p3 = hydra::get<3>(event);
+            auto p1 = hydra::get<0>(particles);
+            auto p2 = hydra::get<1>(particles);
+            auto p3 = hydra::get<2>(particles);
 
 			double   MSq_12 = (p1+p2).mass2();
 			double   MSq_13 = (p1+p3).mass2();
@@ -207,14 +207,15 @@ int main(int argv, char** argc)
 
 	// fit functor (breit-wigner)
 	auto breit_wigner = hydra::wrap_lambda(
-			[] __hydra_dual__ (unsigned int npar, const hydra::Parameter* params, event_type event ){
+			[] __hydra_dual__ (unsigned int npar, const hydra::Parameter* params,
+					unsigned int n, hydra::Vector4R* particles ){
 
 		double mass  = params[0];
 		double width = params[1];
 
-		 auto p1 = hydra::get<1>(event);
-	     auto p2 = hydra::get<2>(event);
-		 auto p3 = hydra::get<3>(event);
+		auto p1 = hydra::get<0>(particles);
+		auto p2 = hydra::get<1>(particles);
+		auto p3 = hydra::get<2>(particles);
 
 		auto   m = (p2+p3).mass();
 
@@ -260,12 +261,13 @@ int main(int argv, char** argc)
 			std::cout << Events_d[i] << std::endl;
 
 
-		auto dalitz_variables = Events_d | dalitz_calculator ;
+		auto dalitz_variables = Events_d.GetUnweightedDecays() | dalitz_calculator ;
 		auto dalitz_weights   = Events_d.GetWeights();
 
 		std::cout << std::endl<< std::endl;
 
 		std::cout << "<======= Dataset w : ( MSq_12, MSq_13, MSq_23) =======>"<< std::endl;
+
 		for( size_t i=0; i<10; i++ )
 			std::cout << dalitz_weights[i] << " : "<< dalitz_variables[i] << std::endl;
 
@@ -324,7 +326,17 @@ int main(int argv, char** argc)
 		breit_wigner.SetParameter(1, 0.04730 );
 
 		//reorder the container match the shape breit-wigner shape
-		auto breit_wigner_sample = hydra::unweight(hydra::device::sys, Events_d, breit_wigner);
+		auto sample_size         = Events_d.Unweight( breit_wigner).size();
+		Events_d.erase(Events_d.begin() + sample_size, Events_d.end());
+
+		auto breit_wigner_sample = Events_d.GetUnweightedDecays()  ;
+
+		std::cout << std::endl<< std::endl;
+
+		std::cout << "<======= Dataset fit : ( MSq_12, MSq_13, MSq_23) =======>"<< std::endl;
+
+		for( size_t i=0; i<10; i++ )
+			std::cout << (breit_wigner_sample|dalitz_calculator)[i] << std::endl;
 
 		//breit-wigner weighted dalitz histogram
 		hydra::SparseHistogram<double, 3,  hydra::device::sys_t> Hist_BW_Dalitz{
@@ -333,7 +345,7 @@ int main(int argv, char** argc)
 			{pow(B0_mass - pi_mass,2), pow(B0_mass - K_mass ,2), pow(B0_mass - Jpsi_mass,2)}
 		};
 
-		Hist_BW_Dalitz.Fill(breit_wigner_sample | dalitz_calculator  );
+		Hist_BW_Dalitz.Fill( breit_wigner_sample | dalitz_calculator );
 
 #ifdef 	_ROOT_AVAILABLE_
 
@@ -409,7 +421,7 @@ int main(int argv, char** argc)
 		phsp.Generate(B0, DisplayEvents.begin(), DisplayEvents.end());
 		DisplayEvents.Reweight( fcn.GetPDF().GetFunctor() );
 
-		auto fitted_dalitz_variables = DisplayEvents | dalitz_calculator;
+		auto fitted_dalitz_variables = DisplayEvents.GetUnweightedDecays() | dalitz_calculator;
 		auto fitted_dalitz_weights   = DisplayEvents.GetWeights();
 
 		//fitted dalitz histogram

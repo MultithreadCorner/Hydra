@@ -293,8 +293,7 @@ struct AverageMother
 	__hydra_host__  __hydra_device__ inline
 	StatsPHSP operator()(I evt)
 	{
-		typedef typename hydra::detail::tuple_type<N,
-				Vector4R>::type Tuple_t;
+		typedef typename hydra::detail::tuple_type<N, Vector4R>::type Tuple_t;
 
 		Vector4R Particles[N];
 
