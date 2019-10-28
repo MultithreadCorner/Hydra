@@ -200,7 +200,7 @@ int main(int argv, char** argc)
 #endif
 
 		//get uweighted events
-		auto unweighted_events = Events_d.Unweight(1.0);
+		auto unweighted_events = Events_d.Unweight();
 		//copy the events to a new decay container
 		hydra::Decays<3, hydra::device::sys_t > Events(unweighted_events);
 		//overwrite the weights with a flat distribution between 0 and 5

@@ -326,7 +326,7 @@ int main(int argv, char** argc)
 		breit_wigner.SetParameter(1, 0.04730 );
 
 		//reorder the container match the shape breit-wigner shape
-		auto sample_size         = Events_d.Unweight( breit_wigner).size();
+		auto sample_size         = Events_d.Unweight( breit_wigner, 1.0).size();
 		Events_d.erase(Events_d.begin() + sample_size, Events_d.end());
 
 		auto breit_wigner_sample = Events_d.GetUnweightedDecays()  ;

@@ -374,7 +374,7 @@ TEST_CASE( "multivector","hydra::multivector" ) {
 
 			REQUIRE( table.empty() == true );
 			REQUIRE( table.size()  == 0 );
-			REQUIRE( table.capacity() >= 0 );
+			REQUIRE( table.capacity() == 0 );
 
 			for(size_t i =0; i< 10; i++ ){
 
@@ -406,7 +406,7 @@ TEST_CASE( "multivector","hydra::multivector" ) {
 
 			REQUIRE( table.empty() == true );
 			REQUIRE( table.size()  == 0 );
-			REQUIRE( table.capacity() >= 0 );
+			REQUIRE( table.capacity() == 0 );
 
 	}
 
