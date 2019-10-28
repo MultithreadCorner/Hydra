@@ -4,6 +4,7 @@ function(ADD_HYDRA_EXAMPLE target_name build_cuda build_tbb build_omp build_cpp 
         # CUDA TARGETS           |
         #+++++++++++++++++++++++++
         if( ${${build_cuda}} )
+
                   message(STATUS "Adding target ${target_name} to CUDA backend. Executable file name: ${target_name}_cuda")
 
                   cuda_add_executable("${target_name}_cuda"
@@ -14,9 +15,9 @@ function(ADD_HYDRA_EXAMPLE target_name build_cuda build_tbb build_omp build_cpp 
                   target_link_libraries("${target_name}_cuda" ${ROOT_LIBRARIES} ${TBB_LIBRARIES}  ${GSL_LIBRARIES}  ${CUDA_CUFFT_LIBRARIES} -lm)
 
                   add_dependencies(examples      "${target_name}_cuda")
-
+                  
         endif( ${${build_cuda}} )
-
+        
         #+++++++++++++++++++++++++
         # TBB TARGETS            |
         #+++++++++++++++++++++++++
@@ -39,6 +40,7 @@ function(ADD_HYDRA_EXAMPLE target_name build_cuda build_tbb build_omp build_cpp 
         # CPP TARGETS            |
         #+++++++++++++++++++++++++
         if( ${${build_cpp}} )
+
                  message(STATUS "Adding target ${target_name} to CPP backend. Executable file name: ${target_name}_cpp")
                  add_executable("${target_name}_cpp"
                  # EXCLUDE_FROM_ALL
@@ -52,8 +54,6 @@ function(ADD_HYDRA_EXAMPLE target_name build_cuda build_tbb build_omp build_cpp 
                  add_dependencies(examples "${target_name}_cpp")
 
          endif( ${${build_cpp}} )
-
-
         #+++++++++++++++++++++++++
         # OMP TARGETS            |
         #+++++++++++++++++++++++++
